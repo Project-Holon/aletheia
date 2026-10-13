@@ -1,5 +1,5 @@
 /*
- * function: func_02172BC0
+ * function: INTRUDE_COMM_Create
  * address:  0x02172BC0
  * packet:   pkt_ov011_02172BC0
  * region:   ov011
@@ -20,8 +20,8 @@
  *   str_02177000   0x02177000  data  ov011  a1
  *   func_02167518  0x02167518  thumb  ov010
  *   func_0217538C  0x0217538C  thumb  ov011
- *   func_0217576C  0x0217576C  thumb  ov011
- *   func_02173590  0x02173590  thumb  ov011
+ *   INTRUDE_COMM_InitSession  0x0217576C  thumb  ov011
+ *   INTRUDE_COMM_InitBeacon  0x02173590  thumb  ov011
  *   func_02161F54  0x02161F54  thumb  ov010
  *   func_020457B0  0x020457B0  arm
  *   func_02012B64  0x02012B64  thumb
@@ -72,8 +72,8 @@ extern int   func_02158590(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02167518(int a, void *b, u16 heap, int c);
 extern void func_0217538C(u8 *p, int a);
-extern void func_0217576C(u8 *p);
-extern void  func_02173590(void *a, void *b, u32 c);
+extern void INTRUDE_COMM_InitSession(u8 *p);
+extern void  INTRUDE_COMM_InitBeacon(void *a, void *b, u32 c);
 extern int func_02161F54(int a0);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02012B64(struct BigObj *p, u8 v);
@@ -82,7 +82,7 @@ extern void func_02012B4C(struct BigObj *p, u8 v);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern void  func_02008494(void *a, void *b);
 
-Work *func_02172BC0(void *unused, Param *p)
+Work *INTRUDE_COMM_Create(void *unused, Param *p)
 {
     void *sv;
     void *bag;
@@ -105,8 +105,8 @@ Work *func_02172BC0(void *unused, Param *p)
     w->field902 = 1;
     w->field901 = 1;
     func_0217538C((u8 *)w, 4);
-    func_0217576C((u8 *)w + 0x1ac);
-    func_02173590(sv, (u8 *)w + 0xc, mode);
+    INTRUDE_COMM_InitSession((u8 *)w + 0x1ac);
+    INTRUDE_COMM_InitBeacon(sv, (u8 *)w + 0xc, mode);
     func_02161F54((int)((u8 *)w + 0x35c));
     for (i = 0; i < 2; i++) {
         w->field928[i] = func_020457B0(8, 5);

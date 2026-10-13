@@ -17,133 +17,129 @@
  *   func_021D80BC 0x021D80BC thumb ov093
  *   func_021B902C  0x021B902C  thumb
  */
-#include "../../matched/include/G_B.h"
-#include "../../matched/include/Obj13452.h"
+#include "btl_calc_types.h"
+#include "unit_021D794C_types.h"
+#include "btl_main_types.h"
 
-typedef unsigned int u32;
+struct BtlPokeParam;
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-struct IdSet4 { u32 count; u8 val[4]; };
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-typedef struct { u32 n; u8 v[4]; } List4;
-
-struct Unk021D82D0 { u32 kind : 4; u32 sub : 3; u32 id : 16; u32 rest : 9; };
-
-struct Unk021D82FC { u32 kind : 4; u32 sub : 3; u32 id : 16; u32 pad : 3; u32 flag : 1; u32 rest : 5; };
-
-extern int func_021D80BC(void *, int, int, u16);
-extern int func_021B902C(int a, int b);
-int func_021D81F8(void *p, int a, int m, u16 move, struct B *b);
-void func_021D8230(u8 *p);
-void func_021D8244(struct IdSet4 *p, int n);
-u32 func_021D826C(u32 *p);
-int func_021D8270(List4 *l, u8 y, u32 k);
-void func_021D82D0(struct Unk021D82D0 *out, u32 id, u32 sub);
-void func_021D82FC(struct Unk021D82FC *p, int sub);
-void func_021D8318(struct Unk021D82FC *p);
-u32 func_021D832C(struct Unk021D82FC *p);
-extern struct B d_021F6368;
+extern int func_021D80BC(void *main, void *posTable, struct BtlPokeParam *attacker, u16 moveId);
+extern int func_021B902C(int clientId, int otherClientId);
+extern struct BtlCalcWork data_021F6360;
+int func_021D81F8(void *main, void *posTable, struct BtlPokeParam *attacker, u16 moveId, BtlRngState *savedRng);
+void func_021D8230(struct BtlClientSet *set);
+void func_021D8244(struct BtlClientSet *set, int clientId);
+u32 func_021D826C(struct BtlClientSet *set);
+int func_021D8270(struct BtlClientSet *set, u8 localClientId, u32 rule);
+void func_021D82D0(union BtlAction *action, u32 moveId, u32 targetPos);
+void func_021D82FC(union BtlAction *action, int targetPos);
+void func_021D8318(union BtlAction *action);
+u32 func_021D832C(union BtlAction *action);
 
 
-int func_021D81F8(void *p, int a, int m, u16 move, struct B *b)
+/*
+ * Picks a move's target like func_021D80BC, then puts the random number
+ * state back, so the pick does not advance the battle's random numbers.
+ * savedRng receives the state before the pick and is copied back afterwards.
+ */
+int func_021D81F8(void *main, void *posTable, struct BtlPokeParam *attacker, u16 moveId, BtlRngState *savedRng)
 {
-    int v;
+    int targetPos;
 
-    *b = d_021F6368;
-    v = func_021D80BC(p, a, m, move);
-    d_021F6368 = *b;
-    return v;
+    *savedRng = data_021F6360.rng;
+    targetPos = func_021D80BC(main, posTable, attacker, moveId);
+    data_021F6360.rng = *savedRng;
+    return targetPos;
 }
 
 
 
-void func_021D8230(u8 *p) { u32 i; for(i=0;i<4;i++) p[4+i]=4; ((struct Obj13452 *)p)->f0=0; }
+/* Empties a set of client ids. */
+void func_021D8230(struct BtlClientSet *set) { u32 index; for(index=0;index<4;index++) set->ids[index]=BTL_CLIENT_ID_NONE; set->count=0; }
 
 
 
-void func_021D8244(struct IdSet4 *p, int n) { u32 i; for(i=0;i<4;i++) { if(p->val[i]==n) return; if(p->val[i]==4) { p->val[i]=n; ++p->count; return; } } }
+/* Adds a client id to the set unless it is already there. */
+void func_021D8244(struct BtlClientSet *set, int clientId) { u32 index; for(index=0;index<4;index++) { if(set->ids[index]==clientId) return; if(set->ids[index]==BTL_CLIENT_ID_NONE) { set->ids[index]=clientId; ++set->count; return; } } }
 
 
 
 
 /* 021D826C  ldr r0,[r0] */
 /*
- * Reads the u32 field at offset 0 of the argument and returns it.
+ * Number of clients in the set (the u32 field at offset 0).
  */
-u32 func_021D826C(u32 *p) { return *p; }
+u32 func_021D826C(struct BtlClientSet *set) { return set->count; }
 
 
 
-int func_021D8270(List4 *l, u8 y, u32 k)
+/*
+ * Result code from the set of defeated clients, as seen by the local client:
+ * 3 when only its own team is in the set, 4 when only the other team is,
+ * and for a mix 3 in single and double battles, else 2.
+ */
+int func_021D8270(struct BtlClientSet *set, u8 localClientId, u32 rule)
 {
-    int miss = 0;
-    int hit = 0;
-    u32 i;
-    for (i = 0; i < l->n; i++) {
-        if (func_021B902C(l->v[i], y))
-            hit = 1;
+    int foeDefeated = 0;
+    int friendDefeated = 0;
+    u32 index;
+    for (index = 0; index < set->count; index++) {
+        if (func_021B902C(set->ids[index], localClientId))
+            friendDefeated = 1;
         else
-            miss = 1;
+            foeDefeated = 1;
     }
-    if (hit && miss) {
-        if (k <= 1)
+    if (friendDefeated && foeDefeated) {
+        if (rule <= 1)
             return 3;
         return 2;
     }
-    return hit ? 3 : 4;
+    return friendDefeated ? 3 : 4;
 }
 
 
 
 
-void func_021D82D0(struct Unk021D82D0 *out, u32 id, u32 sub)
+/* Makes a fight action: the move and the target position. */
+void func_021D82D0(union BtlAction *action, u32 moveId, u32 targetPos)
 {
-    struct Unk021D82D0 t = {0};
-    t.kind = 1;
-    t.sub = sub;
-    t.id = id;
-    *out = t;
+    union BtlAction built = {0};
+    built.fight.kind = 1;
+    built.fight.targetPos = targetPos;
+    built.fight.moveId = moveId;
+    *action = built;
 }
 
 
 
 
 /*
- * Three accessors on the kind-1 record of func_021D82D0 (kind:4, sub:3,
- * id:16): set the 3-bit sub (unless 6), set the flag at bit 26, read it.
+ * Three accessors on the fight action of func_021D82D0: set the target
+ * position (unless 6, no target), set the slot flag, read the slot flag.
  */
-void func_021D82FC(struct Unk021D82FC *p, int sub)
+void func_021D82FC(union BtlAction *action, int targetPos)
 {
-    if (p->kind == 1) {
-        if (sub != 6)
-            p->sub = sub;
+    if (action->head.kind == 1) {
+        if (targetPos != 6)
+            action->fight.targetPos = targetPos;
     }
 }
 
 
 
 
-void func_021D8318(struct Unk021D82FC *p)
+void func_021D8318(union BtlAction *action)
 {
-    if (p->kind == 1)
-        p->flag = 1;
+    if (action->head.kind == 1)
+        action->fight.slotFlag = 1;
 }
 
 
 
 
-u32 func_021D832C(struct Unk021D82FC *p)
+u32 func_021D832C(union BtlAction *action)
 {
-    if (p->kind == 1)
-        return p->flag;
+    if (action->head.kind == 1)
+        return action->fight.slotFlag;
     return 0;
 }

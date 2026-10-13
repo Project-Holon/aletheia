@@ -28,9 +28,9 @@
  *   func_021DA390 0x021DA390 thumb ov175
  *   func_021DBC04 0x021DBC04 thumb ov175
  *   func_021DBDAC 0x021DBDAC thumb ov175
- *   func_02156E30 0x02156E30 thumb ov009
- *   func_02156F50 0x02156F50 thumb ov009
- *   func_02156ED0 0x02156ED0 thumb ov009
+ *   DWC_RAPCOMMON_CreateSubHeap 0x02156E30 thumb ov009
+ *   DWC_RAPCOMMON_SetHeapTag 0x02156F50 thumb ov009
+ *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb ov009
  *   func_0203064C 0x0203064C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02012EBC 0x02012EBC thumb
@@ -63,9 +63,9 @@ extern void func_021D8BC4(int *a, int *state, char *ctx);
 extern void func_021D8CF0(u32 sys, int *state, char *p);
 extern void func_021D9064(void *obj, int unused, u8 *p);
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
-extern void func_02156E30(u32 a, u32 b, u32 c, u32 d);
-extern void func_02156F50(int);
-extern void func_02156ED0(void);
+extern void DWC_RAPCOMMON_CreateSubHeap(u32 a, u32 b, u32 c, u32 d);
+extern void DWC_RAPCOMMON_SetHeapTag(int);
+extern void DWC_RAPCOMMON_DestroySubHeap(void);
 extern void func_021DA5B0(char *,int,int,u32,u32 *,u32);
 extern int func_021DA6B8(char *p, u32 *out);
 extern u32 func_021DADAC(u8 *p);
@@ -90,8 +90,8 @@ void func_021D8904(u32 sys,int *state,char *p)
         else {
             ((struct Obj00477 *)p)->f100=0;
             func_0203064C(1,134,0x60000);
-            func_02156E30(9,0x60000,1000,134);
-            func_02156F50(134);*state=1;
+            DWC_RAPCOMMON_CreateSubHeap(9,0x60000,1000,134);
+            DWC_RAPCOMMON_SetHeapTag(134);*state=1;
         }break;
     case 1:func_021E8738((int *)(((struct Obj00477 *)p)->f2C),((struct Obj00477 *)p)->f14,70,2);
         *state=13;func_021E8AB4(sys,2);break;
@@ -109,10 +109,10 @@ void func_021D8904(u32 sys,int *state,char *p)
         if(((struct Obj00477 *)p)->fF8!=0) {
             switch(func_021D9F04(*(char * *)&((struct Obj00477 *)p)->f34,0,(void *)1)) {
             case 1:func_021DA36C(*(char * *)&((struct Obj00477 *)p)->f34);
-            case 2:case 4:func_021E8AA0((int *)sys,(int)func_021D9064);func_02156ED0();break;
+            case 2:case 4:func_021E8AA0((int *)sys,(int)func_021D9064);DWC_RAPCOMMON_DestroySubHeap();break;
             }
         }break;
-    case 4:func_02156ED0();
+    case 4:DWC_RAPCOMMON_DestroySubHeap();
         if(((struct Obj02512 *)q)->fC==2)func_021E8AA0((int *)sys,(int)func_021D8BC4);
         else *state=5;break;
     case 5:list=func_0200ED48(func_02012EBC(**(void ** *)&((struct Obj02512 *)q)->f8));

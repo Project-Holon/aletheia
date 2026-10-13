@@ -1,5 +1,5 @@
 /*
- * function: func_02024450
+ * function: PMSI_PARAM_IsEnabled
  * address: 0x02024450
  * packet: pkt_02024450
  * region: arm9
@@ -10,7 +10,7 @@
  */
 typedef unsigned short u16;
 
-int func_02024450(const u16 *p)
+int PMSI_PARAM_IsEnabled(const u16 *p)
 {
     if (*p != 0xFFFF) {
         return 1;

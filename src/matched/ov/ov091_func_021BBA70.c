@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02028618 0x02028618 thumb
+ *   APP_KEYCURSOR_DrawMark 0x02028618 thumb
  *   func_02045334 0x02045334 arm
  */
 #include "../include/Obj09931.h"
@@ -19,6 +19,6 @@ extern void *func_02045770(struct Descriptor *p);
 typedef unsigned int   u32;
 struct Bmp;
 struct Ctx;
-extern void func_02028618(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
+extern void APP_KEYCURSOR_DrawMark(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
 extern void func_02045334(struct Descriptor *d);
-void func_021BBA70(int a,int b) {func_02028618((struct Ctx *)(((struct Obj09931 *)b)->f14),(const struct Bmp *)((unsigned int)func_02045770((struct Descriptor *)((struct Obj09931 *)b)->f4)),15);func_02045334((struct Descriptor *)((struct Obj09931 *)b)->f4);}
+void func_021BBA70(int a,int b) {APP_KEYCURSOR_DrawMark((struct Ctx *)(((struct Obj09931 *)b)->f14),(const struct Bmp *)((unsigned int)func_02045770((struct Descriptor *)((struct Obj09931 *)b)->f4)),15);func_02045334((struct Descriptor *)((struct Obj09931 *)b)->f4);}

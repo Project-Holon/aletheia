@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BB368  0x021BB368  thumb  ov070
  *   func_021BB5A4  0x021BB5A4  thumb  ov070
- *   func_02012BF8  0x02012BF8  thumb
+ *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
  *   func_0204B878  0x0204B878  arm
  */
 #include "../include/Obj00002.h"
@@ -21,12 +21,12 @@ extern int func_021BB368(int);
 typedef unsigned short u16;
 struct Obj;
 extern void func_021BB5A4(char *p);
-extern int func_02012BF8(int, int);
+extern int GAME_DATA_CheckSaveFlag(int, int);
 extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021BB5DC(int p, int mode)
 {
-    int r = func_02012BF8(*(int *)&((struct Obj00002 *)p)->f0, func_021BB368(((struct Obj00002 *)p)->f80C));
+    int r = GAME_DATA_CheckSaveFlag(*(int *)&((struct Obj00002 *)p)->f0, func_021BB368(((struct Obj00002 *)p)->f80C));
 
     if (mode == 1) {
         func_021BB5A4((char *)p);

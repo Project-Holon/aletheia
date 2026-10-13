@@ -1,5 +1,5 @@
 /*
- * function: sub_02035428
+ * function: UI_SetBottomBackLight
  * address:  0x02035428
  * packet:   pkt_020353B0
  * region:   arm9
@@ -19,14 +19,14 @@
  * (docs/idioms/assign-the-loop-counter-before-the-loop-bound-or-zero-costs-a-pool-word.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02035428.c \n *       --func sub_02035428 --addr 0x02035428 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/UI_SetBottomBackLight.c \n *       --func UI_SetBottomBackLight --addr 0x02035428 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
 extern int PM_SetBackLight(u32 which, u32 status);
 
-void sub_02035428(u32 status)
+void UI_SetBottomBackLight(u32 status)
 {
     int i;
 

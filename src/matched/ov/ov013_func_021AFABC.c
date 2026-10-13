@@ -1,5 +1,5 @@
 /*
- * function: func_021AFABC
+ * function: VCT_ADPCM_Encode3Bit
  * address: 0x021AFABC
  * packet: pkt_ov013_021AFABC
  * region: ov013
@@ -8,7 +8,7 @@
  * lang: c99
  * isa: arm
  * status: EXACT
- * 3-bit ADPCM encoder (twin of the decoder func_021AF628): n/8 groups of eight
+ * 3-bit ADPCM encoder (twin of the decoder VCT_ADPCM_Decode3Bit): n/8 groups of eight
  * s16 samples to three bytes each, high bits first. Predictor and step index
  * are carried in *st.
  * pass 6 2026-10-06 P6L07: EXACT (was 352 B off; EXACT in --lang c99 and --lang c). Found with a
@@ -19,8 +19,8 @@
  * (3) one u8 accumulator reused for all three output bytes (the second and third live ranges become
  * new, late-numbered webs, so they take r6 as in the original).
  * symbols:
- *   d_021B3A04 0x021B3A04 data ov013 a1
- *   d_021B3A1C 0x021B3A1C data ov013 a2
+ *   gAdpcmIndexTable3 0x021B3A04 data ov013 a1
+ *   gAdpcmStepTable 0x021B3A1C data ov013 a2
  */
 typedef unsigned char u8;
 typedef signed char s8;
@@ -30,8 +30,8 @@ typedef struct AdpcmState {
     s16 pred;
     u8 index;
 } AdpcmState;
-extern const s8 d_021B3A04[8];
-extern const s16 d_021B3A1C[89];
+extern const s8 gAdpcmIndexTable3[8];
+extern const s16 gAdpcmStepTable[89];
 static inline u8 Adpcm3EncodeSample(AdpcmState *st, int sample)
 {
     int delta;
@@ -50,7 +50,7 @@ static inline u8 Adpcm3EncodeSample(AdpcmState *st, int sample)
     } else {
         code = 0;
     }
-    step = d_021B3A1C[idx];
+    step = gAdpcmStepTable[idx];
     if (diff >= step) {
         code |= 2;
         diff -= step;
@@ -65,7 +65,7 @@ static inline u8 Adpcm3EncodeSample(AdpcmState *st, int sample)
     np = pred + delta;
     if (np < -32768) np = -32768;
     if (np > 32767) np = 32767;
-    idx += d_021B3A04[code];
+    idx += gAdpcmIndexTable3[code];
     if (idx < 0) idx = 0;
     else if (idx > 88) idx = 88;
     st->pred = (s16)np;
@@ -73,7 +73,7 @@ static inline u8 Adpcm3EncodeSample(AdpcmState *st, int sample)
     return code;
 }
 
-void func_021AFABC(u8 *dst, s16 *src, u32 n, AdpcmState *st)
+void VCT_ADPCM_Encode3Bit(u8 *dst, s16 *src, u32 n, AdpcmState *st)
 {
     u32 i;
     u8 a;

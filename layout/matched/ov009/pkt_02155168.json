@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021551DC",
+   "name": "GFL_NET_DEVWIFI_UpdateDisconnect",
    "address": "0x021551DC",
    "kind": "game",
    "region": "ov009",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02155244",
+   "name": "GFL_NET_DEVWIFI_PollDisconnect",
    "address": "0x02155244",
    "kind": "game",
    "region": "ov009",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02155280",
+   "name": "GFL_NET_DEVWIFI_SetRecvCallback",
    "address": "0x02155280",
    "kind": "game",
    "region": "ov009",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02155294",
+   "name": "GFL_NET_DEVWIFI_IsConnected",
    "address": "0x02155294",
    "kind": "game",
    "region": "ov009",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021552DC",
+   "name": "GFL_NET_DEVWIFI_GetSignalLevel",
    "address": "0x021552DC",
    "kind": "game",
    "region": "ov009",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215536C",
+   "name": "GFL_NET_DEVWIFI_GetDeviceTable",
    "address": "0x0215536C",
    "kind": "game",
    "region": "ov009",
@@ -84,7 +84,7 @@
    }
   },
   {
-   "name": "func_02155374",
+   "name": "DWC_RAP_SetState",
    "address": "0x02155374",
    "kind": "game",
    "region": "ov009",
@@ -101,7 +101,7 @@
    }
   },
   {
-   "name": "func_02155388",
+   "name": "DWC_RAP_IsWorkAllocated",
    "address": "0x02155388",
    "kind": "sdk",
    "region": "ov009",
@@ -118,7 +118,7 @@
    }
   },
   {
-   "name": "func_02155904",
+   "name": "DWC_RAP_EndCancel",
    "address": "0x02155904",
    "kind": "game",
    "region": "ov009",
@@ -135,7 +135,7 @@
    }
   },
   {
-   "name": "func_02155B00",
+   "name": "DWC_RAP_SendAck",
    "address": "0x02155B00",
    "kind": "game",
    "region": "ov009",
@@ -147,7 +147,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02155C0C",
+   "name": "DWC_RAP_OnUpdateServers",
    "address": "0x02155C0C",
    "kind": "game",
    "region": "ov009",
@@ -159,7 +159,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02155C70",
+   "name": "DWC_RAP_ClearPeerCounters",
    "address": "0x02155C70",
    "kind": "game",
    "region": "ov009",
@@ -176,7 +176,7 @@
    }
   },
   {
-   "name": "func_02155D2C",
+   "name": "DWC_RAP_EnterConnected",
    "address": "0x02155D2C",
    "kind": "game",
    "region": "ov009",
@@ -188,7 +188,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021563C0",
+   "name": "DWC_RAP_StartVchatDefaultHeap",
    "address": "0x021563C0",
    "kind": "game",
    "region": "ov009",
@@ -200,7 +200,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021563D0",
+   "name": "DWC_RAP_StopVchat",
    "address": "0x021563D0",
    "kind": "game",
    "region": "ov009",
@@ -217,7 +217,7 @@
    }
   },
   {
-   "name": "func_02156874",
+   "name": "DWC_RAP_GetFriendStatus",
    "address": "0x02156874",
    "kind": "game",
    "region": "ov009",
@@ -234,7 +234,7 @@
    }
   },
   {
-   "name": "func_02156C60",
+   "name": "DWC_RAP_FreeRecvBuffers",
    "address": "0x02156C60",
    "kind": "game",
    "region": "ov009",
@@ -251,7 +251,7 @@
    }
   },
   {
-   "name": "func_02156C84",
+   "name": "DWC_RAP_IsUserDataChanged",
    "address": "0x02156C84",
    "kind": "game",
    "region": "ov009",
@@ -268,7 +268,7 @@
    }
   },
   {
-   "name": "func_02156E24",
+   "name": "DWC_RAPCOMMON_CreateSubHeapUnlimited",
    "address": "0x02156E24",
    "kind": "game",
    "region": "ov009",
@@ -661,7 +661,7 @@
    }
   },
   {
-   "name": "func_0215F638",
+   "name": "SOC_Shutdown",
    "address": "0x0215F638",
    "kind": "game",
    "region": "ov009",
@@ -678,7 +678,7 @@
    }
   },
   {
-   "name": "func_0215F644",
+   "name": "SOC_Close",
    "address": "0x0215F644",
    "kind": "game",
    "region": "ov009",
@@ -827,7 +827,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02165144",
+   "name": "WCM_SearchAsync",
    "address": "0x02165144",
    "kind": "sdk",
    "region": "ov009",
@@ -844,7 +844,7 @@
    }
   },
   {
-   "name": "func_021657C8",
+   "name": "WCMi_GetSystemWork",
    "address": "0x021657C8",
    "kind": "sdk",
    "region": "ov009",
@@ -861,7 +861,7 @@
    }
   },
   {
-   "name": "func_021658F8",
+   "name": "WcmInitOption",
    "address": "0x021658F8",
    "kind": "sdk",
    "region": "ov009",
@@ -878,7 +878,7 @@
    }
   },
   {
-   "name": "func_02165B68",
+   "name": "WCMi_GetDefaultDeviceId",
    "address": "0x02165B68",
    "kind": "sdk",
    "region": "ov009",
@@ -890,7 +890,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02166378",
+   "name": "WCMi_GetCpsifWork",
    "address": "0x02166378",
    "kind": "game",
    "region": "ov009",
@@ -965,7 +965,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02167E94",
+   "name": "DWCi_Np_GetConsoleIdPrefix",
    "address": "0x02167E94",
    "kind": "game",
    "region": "ov009",
@@ -1193,7 +1193,7 @@
    }
   },
   {
-   "name": "func_0216B634",
+   "name": "DWC_SetConnectionClosedCallback",
    "address": "0x0216B634",
    "kind": "sdk",
    "region": "ov009",
@@ -1210,7 +1210,7 @@
    }
   },
   {
-   "name": "func_0216B7E0",
+   "name": "DWC_CloseConnectionHardFromServer",
    "address": "0x0216B7E0",
    "kind": "sdk",
    "region": "ov009",
@@ -1222,7 +1222,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216B994",
+   "name": "DWC_GetState",
    "address": "0x0216B994",
    "kind": "sdk",
    "region": "ov009",
@@ -1239,7 +1239,7 @@
    }
   },
   {
-   "name": "func_0216BB54",
+   "name": "DWCi_GetConnectionAID",
    "address": "0x0216BB54",
    "kind": "sdk",
    "region": "ov009",
@@ -1251,7 +1251,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216BB6C",
+   "name": "DWCi_GT2GetConnectionListIdx",
    "address": "0x0216BB6C",
    "kind": "sdk",
    "region": "ov009",
@@ -1268,7 +1268,7 @@
    }
   },
   {
-   "name": "func_0216BBCC",
+   "name": "DWCi_GetGT2ConnectionByIdx",
    "address": "0x0216BBCC",
    "kind": "sdk",
    "region": "ov009",
@@ -1285,7 +1285,7 @@
    }
   },
   {
-   "name": "func_0216BC2C",
+   "name": "DWCi_GetConnectionInfoByIdx",
    "address": "0x0216BC2C",
    "kind": "sdk",
    "region": "ov009",
@@ -1302,7 +1302,7 @@
    }
   },
   {
-   "name": "func_0216BC84",
+   "name": "DWCi_SetState",
    "address": "0x0216BC84",
    "kind": "sdk",
    "region": "ov009",
@@ -1319,7 +1319,7 @@
    }
   },
   {
-   "name": "func_0216BCD0",
+   "name": "DWCi_GetAIDBitmapFromList",
    "address": "0x0216BCD0",
    "kind": "sdk",
    "region": "ov009",
@@ -1331,7 +1331,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216C7E0",
+   "name": "DWCi_CustomCommonInit",
    "address": "0x0216C7E0",
    "kind": "sdk",
    "region": "ov009",
@@ -1348,7 +1348,7 @@
    }
   },
   {
-   "name": "func_0216C82C",
+   "name": "DWCi_IsGetAIDValid",
    "address": "0x0216C82C",
    "kind": "sdk",
    "region": "ov009",
@@ -1377,7 +1377,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216F008",
+   "name": "DWCi_ProcessMatchSynPacketSub",
    "address": "0x0216F008",
    "kind": "game",
    "region": "ov009",
@@ -1425,7 +1425,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217478C",
+   "name": "DWCi_DebugPrintServerList",
    "address": "0x0217478C",
    "kind": "game",
    "region": "ov009",
@@ -1437,7 +1437,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02175760",
+   "name": "DWCi_GetNumConnectionHost",
    "address": "0x02175760",
    "kind": "game",
    "region": "ov009",
@@ -1651,7 +1651,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02176978",
+   "name": "DWCi_GetNodeInfoCount",
    "address": "0x02176978",
    "kind": "game",
    "region": "ov009",
@@ -1940,7 +1940,7 @@
    }
   },
   {
-   "name": "func_02178DA4",
+   "name": "DWCi_Auth_AbortAuthentication",
    "address": "0x02178DA4",
    "kind": "game",
    "region": "ov009",
@@ -2003,7 +2003,7 @@
    }
   },
   {
-   "name": "func_02178EF4",
+   "name": "DWCi_Auth_ShutdownAuthentication",
    "address": "0x02178EF4",
    "kind": "game",
    "region": "ov009",
@@ -2039,7 +2039,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217CA20",
+   "name": "gsiCoreGetManager",
    "address": "0x0217CA20",
    "kind": "game",
    "region": "ov009",
@@ -2273,7 +2273,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F108",
+   "name": "gsiEnterCriticalSection",
    "address": "0x0217F108",
    "kind": "game",
    "region": "ov009",
@@ -2285,7 +2285,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F114",
+   "name": "gsiLeaveCriticalSection",
    "address": "0x0217F114",
    "kind": "game",
    "region": "ov009",
@@ -2297,7 +2297,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F120",
+   "name": "gsiDeleteCriticalSection",
    "address": "0x0217F120",
    "kind": "game",
    "region": "ov009",
@@ -2321,7 +2321,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F25C",
+   "name": "SocketStartUp",
    "address": "0x0217F25C",
    "kind": "game",
    "region": "ov009",
@@ -2333,7 +2333,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F260",
+   "name": "SocketShutDown",
    "address": "0x0217F260",
    "kind": "game",
    "region": "ov009",
@@ -2345,7 +2345,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F2BC",
+   "name": "msleep",
    "address": "0x0217F2BC",
    "kind": "game",
    "region": "ov009",
@@ -2394,7 +2394,7 @@
    }
   },
   {
-   "name": "func_0217FC68",
+   "name": "B64InitEncodeStream",
    "address": "0x0217FC68",
    "kind": "game",
    "region": "ov009",
@@ -2406,7 +2406,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02180404",
+   "name": "gsUdpEngineContext",
    "address": "0x02180404",
    "kind": "game",
    "region": "ov009",
@@ -2519,7 +2519,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218583C",
+   "name": "GSMD5_memcpy",
    "address": "0x0218583C",
    "kind": "game",
    "region": "ov009",
@@ -2555,7 +2555,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02189644",
+   "name": "gpiSendOrBufferChar",
    "address": "0x02189644",
    "kind": "game",
    "region": "ov009",
@@ -2760,7 +2760,7 @@
    }
   },
   {
-   "name": "func_02193FE8",
+   "name": "PersistCanReceiveOnSocket",
    "address": "0x02193FE8",
    "kind": "game",
    "region": "ov009",
@@ -2832,7 +2832,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195B2C",
+   "name": "gt2Accept",
    "address": "0x02195B2C",
    "kind": "game",
    "region": "ov009",
@@ -2849,7 +2849,7 @@
    }
   },
   {
-   "name": "func_02195B38",
+   "name": "gt2Reject",
    "address": "0x02195B38",
    "kind": "game",
    "region": "ov009",
@@ -2913,7 +2913,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195E28",
+   "name": "gt2GetRemoteIP",
    "address": "0x02195E28",
    "kind": "game",
    "region": "ov009",
@@ -2925,7 +2925,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195E30",
+   "name": "gt2GetRemotePort",
    "address": "0x02195E30",
    "kind": "game",
    "region": "ov009",
@@ -2937,7 +2937,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195E38",
+   "name": "gt2GetLocalIP",
    "address": "0x02195E38",
    "kind": "game",
    "region": "ov009",
@@ -2949,7 +2949,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195E40",
+   "name": "gt2GetLocalPort",
    "address": "0x02195E40",
    "kind": "game",
    "region": "ov009",
@@ -2961,7 +2961,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195E48",
+   "name": "gt2GetOutgoingBufferSize",
    "address": "0x02195E48",
    "kind": "game",
    "region": "ov009",
@@ -2997,7 +2997,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195E68",
+   "name": "gt2SetUnrecognizedMessageCallback",
    "address": "0x02195E68",
    "kind": "game",
    "region": "ov009",
@@ -3021,7 +3021,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195E78",
+   "name": "gt2GetConnectionData",
    "address": "0x02195E78",
    "kind": "game",
    "region": "ov009",
@@ -3069,7 +3069,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02196C28",
+   "name": "gti2HandlePing",
    "address": "0x02196C28",
    "kind": "game",
    "region": "ov009",
@@ -3128,7 +3128,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02198E74",
+   "name": "NatifyThink",
    "address": "0x02198E74",
    "kind": "game",
    "region": "ov009",
@@ -3246,7 +3246,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219DC24",
+   "name": "ParseSingleICMPReply",
    "address": "0x0219DC24",
    "kind": "game",
    "region": "ov009",
@@ -3270,7 +3270,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E1EC",
+   "name": "SBServerGetPublicInetAddress",
    "address": "0x0219E1EC",
    "kind": "game",
    "region": "ov009",
@@ -3294,7 +3294,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E218",
+   "name": "SBServerGetPublicQueryPortNBO",
    "address": "0x0219E218",
    "kind": "game",
    "region": "ov009",
@@ -3318,7 +3318,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E238",
+   "name": "SBServerGetPrivateInetAddress",
    "address": "0x0219E238",
    "kind": "game",
    "region": "ov009",
@@ -3342,7 +3342,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E264",
+   "name": "SBServerSetNext",
    "address": "0x0219E264",
    "kind": "game",
    "region": "ov009",
@@ -3354,7 +3354,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E26C",
+   "name": "SBServerGetNext",
    "address": "0x0219E26C",
    "kind": "game",
    "region": "ov009",
@@ -3378,7 +3378,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E9AC",
+   "name": "SBServerSetFlags",
    "address": "0x0219E9AC",
    "kind": "game",
    "region": "ov009",
@@ -3402,7 +3402,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E9C0",
+   "name": "SBServerSetICMPIP",
    "address": "0x0219E9C0",
    "kind": "game",
    "region": "ov009",
@@ -3414,7 +3414,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E9C8",
+   "name": "SBServerSetState",
    "address": "0x0219E9C8",
    "kind": "game",
    "region": "ov009",
@@ -3426,7 +3426,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E9D0",
+   "name": "SBServerGetState",
    "address": "0x0219E9D0",
    "kind": "game",
    "region": "ov009",
@@ -3548,7 +3548,7 @@
    }
   },
   {
-   "name": "func_0219F0D8",
+   "name": "ServerBrowserGetMyPublicIPAddr",
    "address": "0x0219F0D8",
    "kind": "game",
    "region": "ov009",
@@ -3596,7 +3596,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A0A1C",
+   "name": "SBServerListSetLastError",
    "address": "0x021A0A1C",
    "kind": "game",
    "region": "ov009",

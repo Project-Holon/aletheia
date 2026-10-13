@@ -1,5 +1,5 @@
 /*
- * function: func_020387A0
+ * function: GFL_NET_SYSTEM_RecvChildData
  * address:  0x020387A0
  * packet:   pkt_020387A0
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The indexed twin of src/matched/func_02038924.c (the own-slot variant):
+ * The indexed twin of src/matched/GFL_NET_SYSTEM_RecvParentData.c (the own-slot variant):
  * same receive/validate/copy shape, but every global offset is scaled by
  * the slot index -- the 0x1B4 credit counter by i*4, the 0x54 accepted
  * flag and the 0x4C payload by i*16, the 0x1D7 sequence byte by i.  The
@@ -18,12 +18,12 @@
  *
  * symbols:
  *   lbl_021469D0   0x021469D0  data
- *   func_0203D6BC  0x0203D6BC  arm
+ *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
  *   func_0203F1FC  0x0203F1FC  arm
- *   func_02039548  0x02039548  arm
- *   func_0203CA98  0x0203CA98  arm
- *   func_0203C9AC  0x0203C9AC  arm
- *   func_02036428  0x02036428  arm
+ *   GFL_NET_SYSTEM_SetError  0x02039548  arm
+ *   GFL_NET_STATE_GetError  0x0203CA98  arm
+ *   GFL_NET_STATE_SetError  0x0203C9AC  arm
+ *   GFL_NET_RING_BUFF_Write  0x02036428  arm
  */
 #include "../include/Obj03449.h"
 
@@ -33,14 +33,14 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern u8 *lbl_021469D0;
-extern u32 func_0203D6BC(void);
+extern u32 GFL_NET_GetChildSendSize(void);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void func_02039548(void);
-extern u32 func_0203CA98(void);
-extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
-extern void func_02036428(u8 *dst, u8 *src, s32 len);
+extern void GFL_NET_SYSTEM_SetError(void);
+extern u32 GFL_NET_STATE_GetError(void);
+extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
+extern void GFL_NET_RING_BUFF_Write(u8 *dst, u8 *src, s32 len);
 
-int func_020387A0(u32 i, u8 *p, s32 n)
+int GFL_NET_SYSTEM_RecvChildData(u32 i, u8 *p, s32 n)
 {
     u8 *g;
     u8 *q;
@@ -48,7 +48,7 @@ int func_020387A0(u32 i, u8 *p, s32 n)
     s32 len;
     int r;
 
-    func_0203D6BC();
+    GFL_NET_GetChildSendSize();
     if (p == 0)
         return 0;
     g = lbl_021469D0;
@@ -64,19 +64,19 @@ int func_020387A0(u32 i, u8 *p, s32 n)
     }
     r = func_0203F1FC(p + 2, n - 2);
     if (p[0] != (u8)r || ((r & 0xff00) >> 8) != p[1]) {
-        func_02039548();
-        q = (u8 *)func_0203CA98();
+        GFL_NET_SYSTEM_SetError();
+        q = (u8 *)GFL_NET_STATE_GetError();
         if (((struct Obj03449 *)q)->fC == 0)
-            func_0203C9AC(((struct Obj03449 *)q)->f0, ((struct Obj03449 *)q)->f4, ((struct Obj03449 *)q)->f8, 0x3f2);
+            GFL_NET_STATE_SetError(((struct Obj03449 *)q)->f0, ((struct Obj03449 *)q)->f4, ((struct Obj03449 *)q)->f8, 0x3f2);
         return 0;
     }
     {
         u8 *s = lbl_021469D0 + 0xd7 + 0x100;
         if (s[i] != 0 && (u8)(p[5] - 1) != s[i]) {
-            func_02039548();
-            q = (u8 *)func_0203CA98();
+            GFL_NET_SYSTEM_SetError();
+            q = (u8 *)GFL_NET_STATE_GetError();
             if (((struct Obj03449 *)q)->fC == 0)
-                func_0203C9AC(((struct Obj03449 *)q)->f0, ((struct Obj03449 *)q)->f4, ((struct Obj03449 *)q)->f8, 0x3f3);
+                GFL_NET_STATE_SetError(((struct Obj03449 *)q)->f0, ((struct Obj03449 *)q)->f4, ((struct Obj03449 *)q)->f8, 0x3f3);
             return 0;
         }
         s[i] = p[5];
@@ -84,7 +84,7 @@ int func_020387A0(u32 i, u8 *p, s32 n)
     len = p[2];
     if (p[4] & 8)
         len += 0xff;
-    func_02036428(lbl_021469D0 + 0x4c + i * 16, p + 7, len);
+    GFL_NET_RING_BUFF_Write(lbl_021469D0 + 0x4c + i * 16, p + 7, len);
     *(u32 *)(lbl_021469D0 + i * 16 + 0x54) = 1;
     return 1;
 }

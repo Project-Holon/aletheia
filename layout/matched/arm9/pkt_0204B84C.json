@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204B864",
+   "name": "CLACT_GetActorBgPriority",
    "address": "0x0204B864",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204B878",
+   "name": "CLACT_SetActorAnimSeq",
    "address": "0x0204B878",
    "kind": "game",
    "region": "arm9",
@@ -54,8 +54,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204B92C",
-    "sub_0204B944"
+    "CLACT_SetActorAutoAnim",
+    "CLACT_GetActorAutoAnim"
+   ],
+   "addresses": [
+    "0x0204B92C",
+    "0x0204B944"
    ]
   }
  ]

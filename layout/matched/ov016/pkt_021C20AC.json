@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C20AC",
+   "name": "DWCi_SceneOptErase_procScene",
    "address": "0x021C20AC",
    "kind": "game",
    "region": "ov016",
@@ -25,7 +25,7 @@
    }
   },
   {
-   "name": "func_021C244C",
+   "name": "DWCi_SceneOptErase1_procScene",
    "address": "0x021C244C",
    "kind": "game",
    "region": "ov016",
@@ -43,7 +43,7 @@
    }
   },
   {
-   "name": "func_021C28E8",
+   "name": "DWCi_SceneOptInfo_procScene",
    "address": "0x021C28E8",
    "kind": "game",
    "region": "ov016",
@@ -61,7 +61,7 @@
    }
   },
   {
-   "name": "func_021C2D60",
+   "name": "DWCi_SceneOptMenu_procScene",
    "address": "0x021C2D60",
    "kind": "game",
    "region": "ov016",

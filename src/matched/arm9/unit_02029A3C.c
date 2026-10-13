@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02029A3C, func_02029A74
+ * function: FIELD_SOUND_SYSTEM_FadeOutAndPlayFixedBgmTask, func_02029A74
  *
  * Part of the (task body, task spawner) family that makes up the tail of
  * field_sound_system.c.  A one shot body: it issues both commands on the first tick and reports done
@@ -27,6 +27,9 @@
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02029A3C.c  *       --addr 0x02029A3C --thumb
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
  */
 
 typedef unsigned short u16;
@@ -47,15 +50,15 @@ struct Ctx;
 struct Desc;
 struct Obj;
 struct Sys;
-extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
+extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 
-u32 func_02029A3C(void *task, u32 *state, struct Work *work)
+u32 FIELD_SOUND_SYSTEM_FadeOutAndPlayFixedBgmTask(void *task, u32 *state, struct Work *work)
 {
     void *sys = work->unk04;
 
     if (*state == 0) {
-        func_020289F8(sys, 2, 0, work->unk0E, 0);
-        func_020289F8(sys, 7, 1001, 0, 0);
+        FIELD_SOUND_SYSTEM_PostRequest(sys, 2, 0, work->unk0E, 0);
+        FIELD_SOUND_SYSTEM_PostRequest(sys, 7, 1001, 0, 0);
         return 1;
     }
     return 0;
@@ -70,7 +73,7 @@ extern u32 func_02012A30(const struct BigObj *a);
 void *func_02029A74(void *a, u16 b)
 {
     void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029A3C, 0x10);
+    void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_FadeOutAndPlayFixedBgmTask, 0x10);
     struct Work *work = func_020124E8(task);
 
     work->unk04 = (void *)func_02012A30(x);

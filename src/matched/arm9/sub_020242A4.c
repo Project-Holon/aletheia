@@ -1,5 +1,5 @@
 /*
- * function: func_020242A4
+ * function: PMSI_PARAM_InitSentence
  * address:  0x020242A4
  * packet:   pkt_02023A50
  * region:   arm9
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The common slot initialiser shared by func_02024344 and the four arms of
- * func_020242D8 (src/matched/unit_020242D8.c): store the id, zero the
+ * The common slot initialiser shared by PMSI_PARAM_SetDefaultGreeting and the four arms of
+ * PMSI_PARAM_SetDefaultSentence (src/matched/unit_020242D8.c): store the id, zero the
  * flag halfword at +2, then a two-iteration loop seeds the trailing
  * halfwords at +4 and +6 with a shared 0xFFFF sentinel. The loop counter
  * is signed (the original's `blt`, not `blo`, on a literal trip count of
@@ -18,14 +18,14 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_020242A4.c \
- *       --func func_020242A4 --addr 0x020242A4 --cc 1.1p1 --thumb
+ *       --func PMSI_PARAM_InitSentence --addr 0x020242A4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int             s32;
 
-void func_020242A4(void *obj, u32 id)
+void PMSI_PARAM_InitSentence(void *obj, u32 id)
 {
     u16 *p = (u16 *)obj;
     s32 i;

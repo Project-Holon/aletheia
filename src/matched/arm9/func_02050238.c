@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Appends one {u16, u32} record (8 bytes, id in the low half) to the array
- * the caller's object keeps at +12, at the slot func_02033CA8 hands back for
+ * the caller's object keeps at +12, at the slot AREAMAN_Alloc hands back for
  * the pool at +20; the return is the slot narrowed to u16.
  *
  * The four bytes that cost three attempts are the first store's register
@@ -25,6 +25,9 @@
  *   python tools/match.py one --src src/matched/func_02050238.c \
  *       --func func_02050238 --addr 0x02050238 --cc 1.1p1 --arm
  *   EXACT, 64 bytes, 1 relocation site, resolved [label].
+ *
+ * symbols:
+ *   AREAMAN_Alloc  0x02033CA8  arm
  */
 #include "../include/Obj08867.h"
 
@@ -39,11 +42,11 @@ struct S8 {
 
 typedef signed int     s32;
 struct AreaMan;
-extern s32 func_02033CA8(struct AreaMan *p, u32 len);
+extern s32 AREAMAN_Alloc(struct AreaMan *p, u32 len);
 
 u32 func_02050238(void *p, u32 b, u32 c)
 {
-    int idx = func_02033CA8((struct AreaMan *)(((struct Obj08867 *)p)->f14), 1);
+    int idx = AREAMAN_Alloc((struct AreaMan *)(((struct Obj08867 *)p)->f14), 1);
 
     ((struct S8 *)((struct Obj08867 *)p)->fC)[idx].h = b;
     ((struct S8 *)((struct Obj08867 *)p)->fC)[idx].w = c;

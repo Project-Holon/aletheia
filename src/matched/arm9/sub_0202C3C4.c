@@ -1,5 +1,5 @@
 /*
- * function: func_0202C3C4
+ * function: ISS_SWITCH_SET_DeleteSwitches
  * address:  0x0202C3C4
  * packet:   pkt_0202C3C4
  * region:   arm9
@@ -27,7 +27,7 @@ struct Obj0202C360 {
 
 extern u32 sub_0202C548(void *p);
 
-void func_0202C3C4(struct Obj0202C360 *p)
+void ISS_SWITCH_SET_DeleteSwitches(struct Obj0202C360 *p)
 {
     int i;
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204913C",
+   "name": "ARC_TOOL_CreateHandleFromMemory",
    "address": "0x0204913C",
    "kind": "game",
    "region": "arm9",

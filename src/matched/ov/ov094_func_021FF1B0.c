@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02015C00   0x02015C00  thumb
+ *   MCSS_ResetOrthoMode   0x02015C00  thumb
  *   func_022019F4  0x022019F4  thumb  ov094
  *   func_022006B4  0x022006B4  thumb  ov094
  */
@@ -37,7 +37,7 @@ typedef struct {
     fx32 scaleOdd;          /* 0x53c */
 } Work;
 
-extern void sub_02015C00(void *obj);
+extern void MCSS_ResetOrthoMode(void *obj);
 extern int func_022019F4(char *p, int key);
 extern void func_022006B4(Work *w, int i);
 
@@ -46,7 +46,7 @@ void func_021FF1B0(Work *w)
     int i;
     int idx;
 
-    sub_02015C00(w->obj);
+    MCSS_ResetOrthoMode(w->obj);
     w->active = 0;
     for (i = 0; i < 14; i++) {
         idx = func_022019F4((char *)w, i);

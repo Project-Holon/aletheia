@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0202223C  0x0202223C  thumb
- *   func_02022230  0x02022230  thumb
+ *   WIPE_ResetBrightness  0x02022230  thumb
  *   func_021F26E0  0x021F26E0  thumb  ov029
  *   func_021F251C  0x021F251C  thumb  ov029
  *   func_021F2180  0x021F2180  thumb  ov029
@@ -19,7 +19,7 @@
 
 typedef unsigned int   u32;
 extern void func_0202223C(u32 a, u32 color);
-extern void func_02022230(u32 which);
+extern void WIPE_ResetBrightness(u32 which);
 typedef unsigned char  u8;
 extern void func_021F26E0(char *p);
 extern void func_021F251C(u8 *p, int a1, int a2, int a3, int e);
@@ -35,7 +35,7 @@ int func_021F2994(int *p)
         func_0202223C(1, 0);
         func_021F26E0((char *)p);
         func_021F251C((u8 *)p, a, b, c, 0);
-        func_02022230(1);
+        WIPE_ResetBrightness(1);
         return 1;
     }
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_020266E0
+ * function: GAME_BEACON_Create
  * address:  0x020266E0
  * packet:   pkt_020266E0
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Allocates the 0xbb4-byte beacon system block on the caller's heap and
- * publishes it through g_02146940, after releasing any previous one.
+ * publishes it through GAME_BEACON_Work, after releasing any previous one.
  *
  * The two spellings that decided it:
  *   - the third argument (1) is bound to a NAMED local `one`, which keeps
@@ -28,29 +28,29 @@
  * symbols:
  *   func_02034714  0x02034714  arm
  *   func_02030734  0x02030734  arm
- *   g_02146940     0x02146940  data
- *   g_020A74BC     0x020A74BC  data
- *   g_020A74C0     0x020A74C0  data
+ *   GAME_BEACON_Work     0x02146940  data
+ *   GAME_BEACON_AssertText     0x020A74BC  data
+ *   GAME_BEACON_FileName     0x020A74C0  data
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern char  *g_02146940;
-extern char   g_020A74BC[];
-extern char   g_020A74C0[];
+extern char  *GAME_BEACON_Work;
+extern char   GAME_BEACON_AssertText[];
+extern char   GAME_BEACON_FileName[];
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-void func_020266E0(u32 a0)
+void GAME_BEACON_Create(u32 a0)
 {
     u32 one = 1;
 
-    if (g_02146940 != 0) {
-        func_02034714(g_020A74BC, 0, g_020A74BC);
+    if (GAME_BEACON_Work != 0) {
+        func_02034714(GAME_BEACON_AssertText, 0, GAME_BEACON_AssertText);
     }
-    g_02146940 = func_02030734(a0, 0xbb4, one, g_020A74C0, 0x5a);
-    g_02146940[0xbb4 - 7] = (u8)(one - 2);
+    GAME_BEACON_Work = func_02030734(a0, 0xbb4, one, GAME_BEACON_FileName, 0x5a);
+    GAME_BEACON_Work[0xbb4 - 7] = (u8)(one - 2);
 }

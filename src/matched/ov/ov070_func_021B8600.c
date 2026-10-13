@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_021B97CC  0x021B97CC  thumb  ov070
- *   func_02021D50  0x02021D50  thumb
+ *   PALANM_TransferPalettes  0x02021D50  thumb
  *   func_0204A648  0x0204A648  arm
  */
 #include "../include/Obj07689.h"
 
 struct S02021D50;
 extern void func_021B97CC(void *p, int v);
-extern void func_02021D50(struct S02021D50 *p);
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void func_0204A648();
 
 void func_021B8600(int u, int p)
@@ -31,6 +31,6 @@ void func_021B8600(int u, int p)
         func_021B97CC((void *)p, 0);
         ((struct Obj07689 *)p)->f840 = 0;
     }
-    func_02021D50((struct S02021D50 *)(((struct Obj07689 *)p)->f854));
+    PALANM_TransferPalettes((struct S02021D50 *)(((struct Obj07689 *)p)->f854));
     func_0204A648();
 }

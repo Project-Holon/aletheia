@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02045838
+ * function: STRBUF_Copy
  *
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
@@ -20,7 +20,7 @@
  * copy carries along by starting two bytes before the entry array and
  * moving (used + 1) halfwords.
  *
- * See src/matched/sub_020457B0.c for the object layout. The trailing
+ * See src/matched/STRBUF_Create.c for the object layout. The trailing
  * `dst->used = src->used` re-reads the field rather than reusing the
  * cached value the guard and the length computation share: the two
  * objects are unrelated pointers, so the MI_CpuCopy8 call may alias
@@ -29,8 +29,8 @@
  * bytes with it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045838.c \
- *       --func sub_02045838 --addr 0x02045838 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/STRBUF_Copy.c \
+ *       --func STRBUF_Copy --addr 0x02045838 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -46,7 +46,7 @@ struct U16Vec {
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-void sub_02045838(struct U16Vec *dst, struct U16Vec *src)
+void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src)
 {
     u16 used;
 

@@ -9,14 +9,15 @@
  * isa:      thumb
  * status:   EXACT*
  * blocker:  matched - 0x02013C70's only call site image-wide is the one
- *           inside this function, and src/pending/func_02013C70.c is itself
- *           only MATCH (its pool word for tbl_0209E010 has no outside
+ *           inside this function, and src/pending/ZONEDATA_IsRailMap.c is itself
+ *           only MATCH (its pool word for _RailMapZoneTable has no outside
  *           witness), so no `matched` entry can attest the site.  Every
  *           concrete byte here is correct; --suggest-split reports no
  *           viable cut.
  * symbols:
- *   sub_02013B90   0x02013B90  thumb
- *   sub_02013B74   0x02013B74  thumb
+ *   ZONEDATA_GetStartRailPos   0x02013B90  thumb
+ *   ZONEDATA_GetStartPos   0x02013B74  thumb
+ *   ZONEDATA_IsRailMap  0x02013C70  thumb
  */
 
 typedef unsigned char u8;
@@ -40,9 +41,9 @@ struct t {
 struct v3 { u32 x, y, z; };
 
 extern void func_020140F8(int p0);
-extern int func_02013C70(u32 a);
-extern void sub_02013B90(u32 id, u32 *out);
-extern void sub_02013B74(u32 id, u32 *out);
+extern int ZONEDATA_IsRailMap(u32 a);
+extern void ZONEDATA_GetStartRailPos(u32 id, u32 *out);
+extern void ZONEDATA_GetStartPos(u32 id, u32 *out);
 
 void func_02014204(struct t *p, int id)
 {
@@ -54,15 +55,15 @@ void func_02014204(struct t *p, int id)
     p->c = -1;
     p->d = 2;
     p->e = 0;
-    if (func_02013C70(id) != 0) {
-        sub_02013B90(id, (u32 *)(&v));
+    if (ZONEDATA_IsRailMap(id) != 0) {
+        ZONEDATA_GetStartRailPos(id, (u32 *)(&v));
         p->f = 1;
         *((u8 *)p + 0x12) = 1;
         p->g = v.x;
         p->i = v.y;
         p->h = v.z;
     } else {
-        sub_02013B74(id, (u32 *)(&v));
+        ZONEDATA_GetStartPos(id, (u32 *)(&v));
         p->f = 0;
         *(struct v3 *)((u8 *)p + 0x10) = v;
     }

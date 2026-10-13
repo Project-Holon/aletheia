@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Three unlabelled PmsDraw setters between func_0202DD24 and
+ * Three unlabelled PmsDraw setters between PMS_DRAW_Copy and
  * unit_0202DE6C: +0x31 (u8, reached through `adds #0x31` past the ldrb
  * reach), +0x24 (u16) and +0x2c (u32).  None saves lr, so the integrator
  * should seed 0x0202DE5C, 0x0202DE64 and 0x0202DE68.

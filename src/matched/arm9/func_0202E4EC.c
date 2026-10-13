@@ -1,5 +1,5 @@
 /*
- * function: func_0202E4EC
+ * function: CODEIN_PARAM_Create
  * address:  0x0202E4EC
  * packet:   pkt_0202E4EC
  * region:   arm9
@@ -44,7 +44,7 @@ struct Param {
     u32 w20;       /* 0x20 */
 };
 
-struct Param *func_0202E4EC(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src)
+struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src)
 {
     int i;
     struct Param *p;

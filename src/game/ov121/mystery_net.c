@@ -21,14 +21,14 @@
  *   d_021DFBC0 0x021DFBC0 data ov121 a1
  *   func_0203CD98 0x0203CD98 arm
  *   func_0203D798 0x0203D798 arm
- *   func_020103E4 0x020103E4 thumb
+ *   WIH_DWC_Delete 0x020103E4 thumb
  *   func_0200FBA0 0x0200FBA0 thumb
  *   func_0200FB24 0x0200FB24 thumb
- *   func_0203CA98 0x0203CA98 arm
- *   func_0203CA04 0x0203CA04 arm
+ *   GFL_NET_STATE_GetError 0x0203CA98 arm
+ *   GFL_NET_STATE_SetWifiError 0x0203CA04 arm
  *   func_02059F18 0x02059F18 arm
  *   func_0200FBB0 0x0200FBB0 thumb
- *   func_0200F83C 0x0200F83C thumb
+ *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
  *   func_0200FA84 0x0200FA84 thumb
  *   func_0203CBAC 0x0203CBAC arm
  *   func_02043598 0x02043598 arm
@@ -49,7 +49,7 @@
  *   func_02157E8C 0x02157E8C thumb ov010
  *   func_02157E78 0x02157E78 thumb ov010
  *   func_02157E6C 0x02157E6C thumb ov010
- *   func_02156DE0 0x02156DE0 thumb ov009
+ *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   func_021C5928 0x021C5928 arm ov114
  *   func_021C5C04 0x021C5C04 arm ov114
  *   func_021C5C38 0x021C5C38 arm ov114
@@ -58,7 +58,7 @@
  *   func_021C5E14 0x021C5E14 arm ov114
  *   func_021C5DB4 0x021C5DB4 arm ov114
  *   func_0203F0A8 0x0203F0A8 arm
- *   func_0203C9AC 0x0203C9AC arm
+ *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   d_021DFBD8 0x021DFBD8 data a4
  *   d_021DFBD0 0x021DFBD0 data a4
  *   d_021DFBF8 0x021DFBF8 data a4
@@ -126,14 +126,14 @@ extern void func_02082BCC(void *,int,u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_0203CD98(void);
 extern char *func_0203D798(void);
-extern void func_020103E4(u8 *);
+extern void WIH_DWC_Delete(u8 *);
 extern void func_0200FBA0(void);
 extern u32 func_0200FB24(void);
-extern u32 func_0203CA98(void);
-extern void func_0203CA04(void);
+extern u32 GFL_NET_STATE_GetError(void);
+extern void GFL_NET_STATE_SetWifiError(void);
 extern void func_02059F18(void);
 extern u32 func_0200FBB0(void);
-extern void func_0200F83C(void);
+extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void func_0200FA84(void);
 extern void func_0203CBAC(struct Req *req, unsigned int a2, unsigned int a3);
 extern void func_02043598(u32 mask, u32 enable);
@@ -154,7 +154,7 @@ extern int func_02157E34(void *);
 extern int func_02157E8C(void *a0);
 extern void func_02157E78(u8 *p);
 extern unsigned char func_02157E6C(char *p);
-extern void func_02156DE0(int,int);
+extern void DWC_RAP_SetErrorHookCallback(int,int);
 extern int func_021C5928(void (*callback)(int, int), char *gamecd, char *passwd);
 extern int func_021C5C04(char *,char *,char *);
 extern int func_021C5C38(void *,u32,u32);
@@ -163,7 +163,7 @@ extern void func_021C5AB8(void);
 extern int func_021C5E14(u32 *,u32 *);
 extern int func_021C5DB4(void);
 extern u32 func_0203F0A8(void);
-extern void func_0203C9AC(int,u32,u32,u32);
+extern void GFL_NET_STATE_SetError(int,u32,u32,u32);
 extern int func_021C5B80(void);
 extern unsigned short func_02045A98(void);
 extern int func_021DEFAC(struct Rec *r, void *gs, u16 heap);
@@ -333,7 +333,7 @@ int func_021DE500(void *p)
 
 
 
-void func_021DE550(char *p) {if(*(u8 * *)&((struct Obj10422 *)p)->f10) {func_020103E4(*(u8 * *)&((struct Obj10422 *)p)->f10); *(int *)&((struct Obj10422 *)p)->f10=0;} func_021DE308(p,0); func_0200FBA0();}
+void func_021DE550(char *p) {if(*(u8 * *)&((struct Obj10422 *)p)->f10) {WIH_DWC_Delete(*(u8 * *)&((struct Obj10422 *)p)->f10); *(int *)&((struct Obj10422 *)p)->f10=0;} func_021DE308(p,0); func_0200FBA0();}
 
 
 
@@ -342,17 +342,17 @@ int func_021DE570(char *p)
 {
     int result=0;
     if (func_0200FB24()) {
-        switch (*(unsigned *)(func_0203CA98()+4)) {
+        switch (*(unsigned *)(GFL_NET_STATE_GetError()+4)) {
         case 1: case 2: case 3: case 4: case 5: case 6:
             if (((struct Obj22914 *)p)->f790==1) return result;
-            func_0203CA04();
+            GFL_NET_STATE_SetWifiError();
             func_02059F18();
             func_0200FBB0();
-            func_0200F83C();
+            GFL_NET_ERR_ShowSimpleScreen();
             func_0200FBA0();
             result=1; break;
         case 7:
-            func_0203CA04();
+            GFL_NET_STATE_SetWifiError();
             func_0200FA84();
             result=3; break;
         case 0: default: break;
@@ -363,11 +363,11 @@ int func_021DE570(char *p)
 
 
 
-int func_021DE5D8(void *a0) {int r=0; if(func_0200FB24()) {func_0200FBB0();func_0200F83C();func_0200FBA0();r=1;} return r;}
+int func_021DE5D8(void *a0) {int r=0; if(func_0200FB24()) {func_0200FBB0();GFL_NET_ERR_ShowSimpleScreen();func_0200FBA0();r=1;} return r;}
 
 
 
-int func_021DE5F8(void *a0) {int r=0; if(func_0200FB24()) {func_0200FBB0();func_0200F83C();func_0200FBA0();r=1;} return r;}
+int func_021DE5F8(void *a0) {int r=0; if(func_0200FB24()) {func_0200FBB0();GFL_NET_ERR_ShowSimpleScreen();func_0200FBA0();r=1;} return r;}
 
 
 
@@ -407,7 +407,7 @@ void func_021DE690(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_020103E4(((struct Obj08100 *)p)->f10);
+        WIH_DWC_Delete(((struct Obj08100 *)p)->f10);
         *(int *)&((struct Obj08100 *)p)->f10 = 0;
         *state = 1;
         break;
@@ -539,7 +539,7 @@ void func_021DE958(void *task,int *state,char *p)
     u32 rnd,t,ratio;
     switch(*state) {
     case 0:
-        func_02156DE0((int)func_021DEF54,(int)q);
+        DWC_RAP_SetErrorHookCallback((int)func_021DEF54,(int)q);
         func_02082BCC(q,0,0x734);
         Q(0x70c)=0;Q(0x710)=0;Q(0x724)=0;Q(0x728)=(u32)(p+0x7a4);
         W(0x17a4)=0;
@@ -593,7 +593,7 @@ void func_021DE958(void *task,int *state,char *p)
     case 6:
         func_021C5AB8();
         if(Q(0x72c)++>7200) {
-            func_0203C9AC(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38((u32)q,3,state,7,7);
+            GFL_NET_STATE_SetError(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38((u32)q,3,state,7,7);
         }
         if(!d_021DFC00[1]) {
             if(Q(0x70c)) {W(0x17a4)=2;func_021DEE38((u32)q,3,state,7,7);break;}
@@ -607,11 +607,11 @@ void func_021DE958(void *task,int *state,char *p)
         break;
     case 7:func_021C5DB4();*state=8;break;
     case 8:*state=9;break;
-    case 9:Q(0x730)=0;func_02156DE0(0,0);func_021DEEA4(task,func_021DEDC8);break;
+    case 9:Q(0x730)=0;DWC_RAP_SetErrorHookCallback(0,0);func_021DEEA4(task,func_021DEDC8);break;
     case 100:
         func_021C5AB8();
         if(Q(0x72c)++>7200) {
-            func_0203C9AC(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38((u32)q,3,state,9,9);
+            GFL_NET_STATE_SetError(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38((u32)q,3,state,9,9);
         }
         if(d_021DFC00[1]) {
             d_021DFC00[1]=0;
@@ -621,7 +621,7 @@ void func_021DE958(void *task,int *state,char *p)
         break;
     case 200:
         func_021C5AB8();
-        if(Q(0x72c)++>7200) {func_0203C9AC(0,0,0,0x3f5);*state=Q(0x708);}
+        if(Q(0x72c)++>7200) {GFL_NET_STATE_SetError(0,0,0,0x3f5);*state=Q(0x708);}
         if(d_021DFC00[0]) {d_021DFC00[0]=0;*state=Q(0x708);}
         else if(Q(0x70c)) Q(0x710)=1;
         break;

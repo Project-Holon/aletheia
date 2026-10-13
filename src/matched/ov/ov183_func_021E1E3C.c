@@ -11,7 +11,7 @@
  * lever: keep the copied u64 and quotient distinct; use the emitted _ull_mod runtime symbol.
  * symbols:
  *   func_02012EBC 0x02012EBC thumb
- *   func_0200B570 0x0200B570 thumb
+ *   BATTLE_REC_Load 0x0200B570 thumb
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021E1DF0 0x021E1DF0 thumb ov183
  *   func_021FF54C 0x021FF54C thumb ov186
@@ -53,7 +53,7 @@ typedef struct {u32 a,b;} Pair;
 struct Big;
 extern void *func_02012EBC(struct Big *p);
 typedef unsigned short u16;
-extern u32 func_0200B570(void *a, u16 heap, u32 *dp, u32 id);
+extern u32 BATTLE_REC_Load(void *a, u16 heap, u32 *dp, u32 id);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021E1DF0(int *a, int *state, char *p);
 typedef unsigned char  u8;
@@ -87,7 +87,7 @@ void func_021E1E3C(int *task,int *state,char *p) {
     int result;
     switch(*state) {
     case 0:
-        func_0200B570(func_02012EBC(((struct Obj24638 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f14),89,&out,0);
+        BATTLE_REC_Load(func_02012EBC(((struct Obj24638 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f14),89,&out,0);
         if(out==1)*state=1;else func_021FD73C((int *)task,(int)func_021E1DF0);break;
     case 1:
         ((struct Obj01275 *)p)->f1C=0;func_021FF54C(((struct Obj24639 *)(*(char * *)&((struct Obj01275 *)p)->f18))->f10,2,0);*state=2;break;

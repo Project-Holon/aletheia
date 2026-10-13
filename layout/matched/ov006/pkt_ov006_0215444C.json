@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0215444C",
-    "func_021544BC"
+    "EVENT_WIFICLUB_BuildBattleEntry",
+    "EVENT_WIFICLUB_SetBattleParty"
+   ],
+   "addresses": [
+    "0x0215444C",
+    "0x021544BC"
    ]
   }
  ]

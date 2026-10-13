@@ -1,5 +1,5 @@
 /*
- * function: func_02173DBC
+ * function: UNION_COMMAND_SendAppEntryAccepted
  * address:  0x02173DBC
  * packet:   pkt_ov012_02173DBC
  * region:   ov012
@@ -20,7 +20,7 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D4D0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
-int func_02173DBC(int a)
+int UNION_COMMAND_SendAppEntryAccepted(int a)
 {
     return func_0203D4D0((u32)func_020399A8(), a, 0x140C, 0, 0, 1, 0, 0);
 }

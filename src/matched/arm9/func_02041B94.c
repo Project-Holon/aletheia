@@ -11,7 +11,7 @@
  *
  * symbols:
  *   g_02146A44     0x02146A44  data
- *   func_0203D814  0x0203D814  arm
+ *   GFL_NET_SetIrcParams  0x0203D814  arm
  *   func_02051E74  0x02051E74  arm
  *   func_0207D59C  0x0207D59C  arm
  *
@@ -25,7 +25,7 @@
  * Layers 0, 1, 4 and 5 have only the plain path: pack scroll_x (+0x14) and
  * scroll_y (+0x18) into one word, low 9 bits and bits 16..24, and store it
  * to the layer's BGxOFS pair.  Layer 1 additionally tail-calls
- * func_0203D814 with that same scroll pair.
+ * GFL_NET_SetIrcParams with that same scroll pair.
  *
  * Layers 2, 3, 6 and 7 are affine-capable and first read the record's +0x1c
  * flag: zero takes the same plain path, non-zero builds a 16-byte matrix on
@@ -55,7 +55,7 @@
  *     two values are spilled to [sp] and [sp,#4], which is how the diff
  *     names it.
  *
- * func_0203D814's parameter list is also pinned here: it takes the scroll
+ * GFL_NET_SetIrcParams's parameter list is also pinned here: it takes the scroll
  * pair (two u32), which the image shows as the two loads of +0x40/+0x44
  * immediately before the `bl`.  A void declaration leaves those two loads
  * with no reason to exist and loses them.
@@ -96,7 +96,7 @@ struct BgSys { u8 raw[0x1d0]; };
 struct Mtx { u32 w[4]; };
 
 extern struct BgSys *g_02146A44;
-extern void func_0203D814(u32 x, u32 y);
+extern void GFL_NET_SetIrcParams(u32 x, u32 y);
 struct Mtx22;
 extern void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
@@ -115,7 +115,7 @@ void func_02041B94(void)
     if ((*(u16 *)((u8 *)g_02146A44 + 4)) & 0x02) {
         W(0x04000014) = (SLOT(1).scroll_x & m)
                       | (hm & (SLOT(1).scroll_y << 16));
-        func_0203D814(SLOT(1).scroll_x,
+        GFL_NET_SetIrcParams(SLOT(1).scroll_x,
                       SLOT(1).scroll_y);
     }
     if ((*(u16 *)((u8 *)g_02146A44 + 4)) & 0x04) {

@@ -13,7 +13,7 @@
  *   func_02017DBC  0x02017DBC  thumb
  *   func_02017DE4  0x02017DE4  thumb
  *   func_02017E88  0x02017E88  thumb
- *   func_02017EB4  0x02017EB4  thumb
+ *   POKE_TOOL_IsBoxShiny  0x02017EB4  thumb
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0202F498.c \
@@ -25,7 +25,7 @@ extern unsigned int func_02017DBC(struct Sav *p);
 extern unsigned int func_02017DE4(struct Sav *p, unsigned int f);
 typedef unsigned int   u32;
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern u32 func_02017EB4(void *p);
+extern u32 POKE_TOOL_IsBoxShiny(void *p);
 
 int func_0202F498(void *a0, int a1)
 {
@@ -33,7 +33,7 @@ int func_0202F498(void *a0, int a1)
     int x = func_02017E88(a0, 5, 0);
     int y = func_02017E88(a0, 0x96, 0);
     int z = func_02017E88(a0, 0x6d, 0);
-    int w = func_02017EB4(a0);
+    int w = POKE_TOOL_IsBoxShiny(a0);
     int flag = 0;
 
     if (func_02017E88(a0, 0x8f, flag) != 0

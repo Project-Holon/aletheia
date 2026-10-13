@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203D394
+ * function: GFL_NET_IsHandleReady
  * address:  0x0203D394
  * packet:   pkt_0203D1B4
  * region:   arm9
@@ -17,8 +17,8 @@
  * inlined inside func_020399B8.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D394.c \
- *       --func func_0203D394 --addr 0x0203D394 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_IsHandleReady.c \
+ *       --func GFL_NET_IsHandleReady --addr 0x0203D394 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -29,7 +29,7 @@ struct NetEntry {
     u8 state;
 };
 
-u32 func_0203D394(struct NetEntry *e)
+u32 GFL_NET_IsHandleReady(struct NetEntry *e)
 {
     return e->state == 5;
 }

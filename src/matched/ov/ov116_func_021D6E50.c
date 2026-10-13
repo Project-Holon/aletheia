@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021B9800 0x021B9800 thumb ov114
- *   func_02156DC4 0x02156DC4 thumb ov009
+ *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   func_021B98A0 0x021B98A0 thumb ov114
  *   func_021B98D8 0x021B98D8 thumb ov114
  *   func_021B98F8 0x021B98F8 thumb ov114
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Sub0200852CObj;
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern u8 *func_021B9800(int,int,int);
-extern void func_02156DC4(int a0, int a1);
+extern void DWC_RAP_SetErrorCallback(int a0, int a1);
 extern void func_021B98A0(u8 *,int,int,int);
 extern void func_021B98D8(u8 *p, int a, int n);
 extern int func_021B98F8(u8 *p);
@@ -33,7 +33,7 @@ extern void func_021D7258(u8 *);
 extern void func_021D6E3C(unsigned char *a);
 void func_021D6E50(u8 *p,u8 *q,int a,int b) {
     *(u8 * *)&((struct Obj04470 *)p)->f168=func_021B9800(b,func_0200853C(((struct Obj04470 *)p)->f218),a);
-    func_02156DC4((int)func_021D6E3C,(int)p);
+    DWC_RAP_SetErrorCallback((int)func_021D6E3C,(int)p);
     func_021B98A0(*(u8 * *)&((struct Obj04470 *)p)->f168,b,180,4);
     func_021B98D8(*(u8 * *)&((struct Obj04470 *)p)->f168,(int)(p+0x70),180);
     ((struct Obj04470 *)p)->f16C=3;

@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
  */
 
 typedef unsigned char u8;

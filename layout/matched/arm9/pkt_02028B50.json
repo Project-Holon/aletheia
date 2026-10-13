@@ -42,11 +42,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02028D2C"
+    "FIELD_SOUND_SYSTEM_DrainAndInit"
+   ],
+   "addresses": [
+    "0x02028D2C"
    ]
   },
   {
-   "name": "func_02028D7C",
+   "name": "FIELD_SOUND_SYSTEM_GetReadSlot",
    "address": "0x02028D7C",
    "kind": "game",
    "region": "arm9",
@@ -58,7 +61,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02028DB8",
+   "name": "FIELD_SOUND_SYSTEM_HasPendingRequest",
    "address": "0x02028DB8",
    "kind": "game",
    "region": "arm9",
@@ -81,11 +84,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02028F18"
+    "FIELD_SOUND_SYSTEM_SetMode1"
+   ],
+   "addresses": [
+    "0x02028F18"
    ]
   },
   {
-   "name": "func_02028FD0",
+   "name": "FIELD_SOUND_SYSTEM_IsKindAllowedInState",
    "address": "0x02028FD0",
    "kind": "game",
    "region": "arm9",

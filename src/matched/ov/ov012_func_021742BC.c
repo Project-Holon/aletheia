@@ -1,5 +1,5 @@
 /*
- * function: func_021742BC
+ * function: UNION_MAIN_StepPokemonTrade
  * address:  0x021742BC
  * packet:   pkt_ov012_021742BC
  * region:   ov012
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * Stage machine on *state (8 states). Pooled small words 0x77/0xC3 are
- * linker overlay ids (ov119/ov195) handed to func_020120B4 with a table in
+ * linker overlay ids (ov119/ov195) handed to GAMESYSTEM_CallProc with a table in
  * that overlay's window, as in ov001 func_021542C0.
  *
  * symbols:
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_020144DC  0x020144DC  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   func_0200FB24  0x0200FB24  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   ov119_id       0x00000077  data   a1
  *   ov195_id       0x000000C3  data   a1
- *   d_021E7608     0x021E7608  data   ov119  a4
+ *   gPokemonTradeProcData     0x021E7608  data   ov119  a4
  *   d_02208C40     0x02208C40  data   ov195  a4
  */
 
@@ -56,18 +56,18 @@ typedef struct Ctx {
 struct IcaAnime;
 extern int func_021BE8D4(void *a, int b, int sel, int d);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern int func_020144DC(int a0, int a1);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern u32 func_0200FB24(void);
-extern void *func_020145CC(void *a0);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 
 extern char ov119_id[];
 extern char ov195_id[];
-extern u8 d_021E7608[];
+extern u8 gPokemonTradeProcData[];
 extern u8 d_02208C40[];
 
-int func_021742BC(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void **out, u8 *state)
+int UNION_MAIN_StepPokemonTrade(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void **out, u8 *state)
 {
     Req *r;
 
@@ -77,15 +77,15 @@ int func_021742BC(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void **out, u8 *stat
         (*state)++;
         break;
     case 1:
-        *out = (void *)func_020144DC(a0, a2);
+        *out = (void *)FIELD_STATUS_CreateFieldCloseEvent(a0, a2);
         (*state)++;
         break;
     case 2:
-        func_020120B4((struct IcaAnime *)a0, (u32)ov119_id, d_021E7608, ctx);
+        GAMESYSTEM_CallProc((struct IcaAnime *)a0, (u32)ov119_id, gPokemonTradeProcData, ctx);
         (*state)++;
         break;
     case 3:
-        if (func_020120F0((const struct Ctx *)a0) != 0)
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)a0) != 0)
             break;
         if (ctx->f8 == 1)
             *state = 4;
@@ -102,11 +102,11 @@ int func_021742BC(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void **out, u8 *stat
         r->fC = 1;
         r->f10 = 0;
         ctx->f20 = r;
-        func_020120B4((struct IcaAnime *)a0, (u32)ov195_id, d_02208C40, r);
+        GAMESYSTEM_CallProc((struct IcaAnime *)a0, (u32)ov195_id, d_02208C40, r);
         (*state)++;
         break;
     case 5:
-        if (func_020120F0((const struct Ctx *)a0) != 0)
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)a0) != 0)
             break;
         if (func_0200FB24() != 0) {
             *state = 6;
@@ -116,7 +116,7 @@ int func_021742BC(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void **out, u8 *stat
         }
         break;
     case 6:
-        *out = func_020145CC((void *)a0);
+        *out = FIELD_STATUS_CreateFieldOpenEvent((void *)a0);
         *state = 7;
         break;
     case 7:

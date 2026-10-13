@@ -1,5 +1,5 @@
 /*
- * function: func_0203D864
+ * function: GFL_NET_ClearBeaconCallbacks
  * address:  0x0203D864
  * packet:   pkt_0203D7C8
  * region:   arm9
@@ -12,19 +12,22 @@
  * Clears the net context's +0x2c and +0x1c words.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D864.c \
- *       --func func_0203D864 --addr 0x0203D864 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_ClearBeaconCallbacks.c \
+ *       --func GFL_NET_ClearBeaconCallbacks --addr 0x0203D864 --arm --cc 1.1p1
+ *
+ * symbols:
+ *   GFL_NET_GetSession  0x0203D788  arm
  */
 #include "../include/Obj11380.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 
-void func_0203D864(void)
+void GFL_NET_ClearBeaconCallbacks(void)
 {
-    u8 *p = func_0203D788();
+    u8 *p = GFL_NET_GetSession();
 
     if (p != 0) {
         ((struct Obj11380 *)p)->f2C = 0;

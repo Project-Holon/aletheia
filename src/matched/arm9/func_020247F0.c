@@ -1,5 +1,5 @@
 /*
- * function: func_020247F0
+ * function: PMS_WORD_Delete
  * address:  0x020247F0
  * packet:   pkt_02024768
  * region:   arm9
@@ -14,7 +14,7 @@ struct Rec;
 extern unsigned int func_02045C04(struct Rec *rec);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_020247F0(char *p)
+void PMS_WORD_Delete(char *p)
 {
     int i;
     for (i = 0; i < 0xd; i++)

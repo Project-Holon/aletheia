@@ -1,5 +1,5 @@
 /*
- * function: func_02025318
+ * function: ACTOR_TOOL_Create
  * address:  0x02025318
  * packet:   pkt_020251FC
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char  g_020A7484[];
 
-u8 *func_02025318(u32 a0, u8 a1, u8 a2)
+u8 *ACTOR_TOOL_Create(u32 a0, u8 a1, u8 a2)
 {
     u8 *p = func_02030734(a0, 0x28, 1, g_020A7484, 0x51);
     int i, j;

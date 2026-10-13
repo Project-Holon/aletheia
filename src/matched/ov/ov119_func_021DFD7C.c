@@ -9,25 +9,25 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02005E9C  0x02005E9C  thumb
- *   func_02005DE4  0x02005DE4  thumb
- *   func_02005DF8  0x02005DF8  thumb
+ *   GFL_USE_PopBgm  0x02005E9C  thumb
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  */
 #include "../include/Obj22750.h"
 
 typedef unsigned char u8;
 
-extern int func_02005E9C(void);
+extern int GFL_USE_PopBgm(void);
 typedef unsigned int   u32;
-extern void func_02005DE4(void *p);
-extern void func_02005DF8(u32 a);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_FadeInBgmFull(u32 a);
 
 void func_021DFD7C(void *p)
 {
     u8 *b = p;
 
-    func_02005E9C();
+    GFL_USE_PopBgm();
     ((struct Obj22750 *)b)->f11F8 -= 1;
-    func_02005DE4(0);
-    func_02005DF8(0x18);
+    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_FadeInBgmFull(0x18);
 }

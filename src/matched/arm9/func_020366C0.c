@@ -1,5 +1,5 @@
 /*
- * function: func_020366C0
+ * function: GFL_NET_QUEUE_GetCount
  * address:  0x020366C0
  * packet:   pkt_020366C0
  * region:   arm9
@@ -27,15 +27,15 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020366C0.c \
- *       --func func_020366C0 --addr 0x020366C0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_QUEUE_GetCount.c \
+ *       --func GFL_NET_QUEUE_GetCount --addr 0x020366C0 --cc 1.1p1 --arm
  */
 #include "../include/Obj11347.h"
 #include "../include/Obj15903.h"
 
 typedef unsigned short u16;
 
-int func_020366C0(char *p)
+int GFL_NET_QUEUE_GetCount(char *p)
 {
     const char *e = *(char * *)&((struct Obj11347 *)p)->f18;
     int         i;

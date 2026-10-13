@@ -1,5 +1,5 @@
 /*
- * function: func_02024108
+ * function: PMSI_PARAM_SetSentence
  * address: 0x02024108
  * packet: pkt_02024108
  * region: arm9
@@ -10,7 +10,7 @@
  */
 typedef unsigned short u16;
 
-void func_02024108(u16 *dst, const u16 *src)
+void PMSI_PARAM_SetSentence(u16 *dst, const u16 *src)
 {
     dst[8] = src[0];
     dst[9] = src[1];

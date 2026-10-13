@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02014368",
+   "name": "ZONEDATA_ResetEventFlagRange",
    "address": "0x02014368",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02014388",
+   "name": "ZONEDATA_GetEventFlagAddress",
    "address": "0x02014388",
    "kind": "game",
    "region": "arm9",

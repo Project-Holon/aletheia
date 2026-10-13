@@ -15,8 +15,8 @@
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201ED04  0x0201ED04  thumb
  *   func_02017E1C  0x02017E1C  thumb
- *   func_02017F90  0x02017F90  thumb
- *   func_02018430  0x02018430  thumb
+ *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
+ *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   func_0202136C  0x0202136C  thumb
  *   func_0204B878  0x0204B878  arm
  *   func_0204B3DC  0x0204B3DC  arm
@@ -42,8 +42,8 @@ extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_02017F90(void *p);
-extern u32 func_02018430(void *p);
+extern u32 POKE_TOOL_GetStatusCondition(void *p);
+extern u32 POKE_TOOL_CalcLevel(void *p);
 extern u32 func_0202136C(u16 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
@@ -93,9 +93,9 @@ void func_021BAB04(u8 *a, u8 *s, int k)
         }
     }
     if (f == 0) {
-        if ((func_02017F90(*(void **)s) == 0 && *(u16 *)(s + 6) != 0) || W(0x1c) != 8) {
+        if ((POKE_TOOL_GetStatusCondition(*(void **)s) == 0 && *(u16 *)(s + 6) != 0) || W(0x1c) != 8) {
             ws2 = (u32)func_0201EC64(*(u16 *)a);
-            func_0201EFA4((struct WordSet *)ws2, 0, func_02018430(*(void **)s), 3, 0, 1);
+            func_0201EFA4((struct WordSet *)ws2, 0, POKE_TOOL_CalcLevel(*(void **)s), 3, 0, 1);
             if (k == 0) {
                 func_021B9D58(a, W(0x20), (void *)ws2, 2, 9, 0x23, 0x440);
             } else {
@@ -107,7 +107,7 @@ void func_021BAB04(u8 *a, u8 *s, int k)
             if (*(u16 *)(s + 6) == 0) {
                 func_0204B878((struct Obj *)W(0x40), 6);
             } else {
-                switch (func_02017F90(*(void **)s)) {
+                switch (POKE_TOOL_GetStatusCondition(*(void **)s)) {
                 case 1: func_0204B878((struct Obj *)W(0x40), 1); break;
                 case 2: func_0204B878((struct Obj *)W(0x40), 3); break;
                 case 3: func_0204B878((struct Obj *)W(0x40), 2); break;
@@ -187,7 +187,7 @@ void func_021BAB04(u8 *a, u8 *s, int k)
     r = 1;
     if (r6 == 3) {
         r = 0;
-    } else if (func_02017F90(*(void **)s) != 0) {
+    } else if (POKE_TOOL_GetStatusCondition(*(void **)s) != 0) {
         r = 5;
     } else if (r6 == 2) {
         r = 4;

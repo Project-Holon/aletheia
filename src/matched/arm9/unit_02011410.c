@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02011410
+ * function: TIMEZONE_IsNight
  * address:  0x02011410
  * packet:   pkt_020113F0
  * region:   arm9
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 
 extern u32 func_020113D8(u32 row);
 
-u32 func_02011410(u32 tz)
+u32 TIMEZONE_IsNight(u32 tz)
 {
     switch (func_020113D8(tz)) {
     case 3:

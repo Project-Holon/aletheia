@@ -13,14 +13,14 @@
  *           src/matched/func_0200F38C.c was filed (layout/matched/arm9/pkt_0200F38C.json).
  *           match.py one: EXACT, compiled 60 bytes, 3 of 3 relocations resolved.
  * symbols:
- *   func_0203D610  0x0203D610  arm
+ *   GFL_NET_GetFriendList  0x0203D610  arm
  *   func_0200F38C  0x0200F38C  thumb
  *   func_02082D44  0x02082D44  arm
  * blocker:  unresolved relocation(s): 0200F38C (thumb, from header)*/
 
 typedef unsigned int u32;
 
-extern u32 func_0203D610(void);
+extern u32 GFL_NET_GetFriendList(void);
 extern int func_0200F38C(void *a, int *out);
 extern void  func_02082D44(void *dst, const void *src, u32 n);
 
@@ -28,7 +28,7 @@ int func_0200F4E4(void *o)
 {
     u32 out;
     int r = 0;
-    void *base = (void *)func_0203D610();
+    void *base = (void *)GFL_NET_GetFriendList();
     int v = func_0200F38C(o, (int *)(&out));
 
     if (v == 0) {

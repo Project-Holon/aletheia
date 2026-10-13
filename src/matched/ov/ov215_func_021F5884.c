@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_020362DC 0x020362DC arm
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   func_0204E720 0x0204E720 arm
  *   func_0204E804 0x0204E804 arm
  *   func_021F5E68 0x021F5E68 thumb ov215
@@ -26,7 +26,7 @@
  *   func_02012944 0x02012944 thumb
  *   func_02012AC8 0x02012AC8 thumb
  *   func_02013E4C 0x02013E4C thumb
- *   func_02017B24 0x02017B24 thumb
+ *   POKE_TOOL_HatchEgg 0x02017B24 thumb
  *   func_0200CA1C 0x0200CA1C thumb
  *   func_0200CFA0 0x0200CFA0 thumb
  *   func_0200CDE0 0x0200CDE0 thumb
@@ -47,7 +47,7 @@
  *   func_0200C0F0 0x0200C0F0 thumb
  *   func_021F5CFC 0x021F5CFC thumb ov215
  *   func_0216C028 0x0216C028 thumb ov010
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   d_021F5580 0x021F5580 data ov194 a4
  *   abs_id_C2 0xC2 data
  *   func_0216C0E4 0x0216C0E4 thumb ov010
@@ -82,7 +82,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct S021F5E68; struct SaveBlock; struct Rec44; struct Blk37; struct Big;
 struct U16Vec; struct Sub02008C20Obj; struct PrintSys;
-extern u32 func_020362DC(void),func_02031330(void *);
+extern u32 func_020362DC(void),PROCSYS_Main(void *);
 extern void func_0204E720(u32,int,int,int);
 extern int func_0204E804(void);
 extern void func_021F5E68(int,struct S021F5E68 *);
@@ -95,7 +95,7 @@ extern void *func_020127A4(struct SaveBlock *);
 extern u8 *func_02012944(void *);
 extern u16 func_02012AC8(const struct Rec44 *);
 extern u32 func_02013E4C(u32);
-extern void func_02017B24(void *,u32,u32,u32);
+extern void POKE_TOOL_HatchEgg(void *,u32,u32,u32);
 extern void *func_0200CA1C(void *);
 extern void func_0200CFA0(struct Blk37 *,void *),func_0200CDE0(struct Blk37 *,void *);
 extern void func_021F6A48(char *p, int a);
@@ -107,7 +107,7 @@ extern void func_021F602C(void *,char *),func_020355D8(u8);
 extern void *func_02012EBC(struct Big *),*func_0200C0F0(void *);
 extern void func_021F5CFC(u32,char *);
 extern int *func_0216C028(u16,int,int,int,int);
-extern void func_02031348(void *,u32,u32,u32);
+extern void PROCSYS_Push(void *,u32,u32,u32);
 extern char d_021F5580,abs_id_C2;
 extern int func_0216C0E4(int *);
 extern struct U16Vec *func_020457B0(u32,u32);
@@ -130,7 +130,7 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
     int *child;
     struct U16Vec *vec;
     func_020362DC();
-    active=func_02031330((void *)p[34]);
+    active=PROCSYS_Main((void *)p[34]);
     if(active==1)return 0;
     switch(p[4]) {
     case 0:
@@ -145,7 +145,7 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
     case 6:
         p[4]=7;
         save=func_020127A4((struct SaveBlock *)a[0]);trainer=func_02012944((void *)a[0]);
-        func_02017B24((void *)a[1],(u32)trainer,func_02013E4C(func_02012AC8(save)),((struct Obj00186 *)p)->f0);
+        POKE_TOOL_HatchEgg((void *)a[1],(u32)trainer,func_02013E4C(func_02012AC8(save)),((struct Obj00186 *)p)->f0);
         dex=func_0200CA1C((void *)a[0]);func_0200CFA0(dex,(void *)a[1]);func_0200CDE0(dex,(void *)a[1]);
         func_021F6A48((char *)p[32],(int)((void *)a[1]));break;
     case 7:if(func_021F6A84((char *)p[32])){p[4]=8;func_021F6A98((char *)p[32]);}break;
@@ -163,7 +163,7 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
             block=func_0200C0F0(func_02012EBC((struct Big *)a[0]));
             func_021F5CFC((u32)a,(char *)p);p[4]=15;
             child=func_0216C028(((struct Obj00186 *)p)->f0,(int)a[1],10,0,(int)block);p[33]=(u32)child;
-            func_02031348((void *)p[34],(u32)&abs_id_C2,(u32)&d_021F5580,(u32)child);
+            PROCSYS_Push((void *)p[34],(u32)&abs_id_C2,(u32)&d_021F5580,(u32)child);
         }break;
     case 15:
         if(active!=1){

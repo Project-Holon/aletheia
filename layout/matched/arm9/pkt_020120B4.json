@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020120B4",
+   "name": "GAMESYSTEM_CallProc",
    "address": "0x020120B4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020120C0",
+   "name": "GAMESYSTEM_CallFieldProc",
    "address": "0x020120C0",
    "kind": "game",
    "region": "arm9",

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204CF74
+ * function: CLACT_GetSurfaceOrigin
  * address:  0x0204CF74
  * packet:   pkt_0204CA74
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0204B0C8  0x0204B0C8  arm
+ *   CLACT_GetSurfacePos  0x0204B0C8  arm
  *
  * Measure entry `id`, writing the two halfwords of the answer through
  * `out`.  The sentinel id 0xFFFF means "nothing", and zeroes both.
@@ -23,8 +23,8 @@
  * with no branch anywhere.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CF74.c \
- *       --func sub_0204CF74 --addr 0x0204CF74 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetSurfaceOrigin.c \
+ *       --func CLACT_GetSurfaceOrigin --addr 0x0204CF74 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -47,14 +47,14 @@ struct Obj {
     struct Inner *unk_08;
 };
 
-extern void sub_0204B0C8(struct Owner *src, u32 id, struct Pt *out);
+extern void CLACT_GetSurfacePos(struct Owner *src, u32 id, struct Pt *out);
 
-void sub_0204CF74(struct Obj *o, u32 id, u16 *out)
+void CLACT_GetSurfaceOrigin(struct Obj *o, u32 id, u16 *out)
 {
     if (id == 0xFFFF) {
         out[0] = 0;
         out[1] = 0;
         return;
     }
-    sub_0204B0C8((struct Owner *)o->unk_08->unk_08, id, (struct Pt *)out);
+    CLACT_GetSurfacePos((struct Owner *)o->unk_08->unk_08, id, (struct Pt *)out);
 }

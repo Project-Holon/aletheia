@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02015DD4",
+   "name": "MCSS_FlipMepachiFlag",
    "address": "0x02015DD4",
    "kind": "game",
    "region": "arm9",

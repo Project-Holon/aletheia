@@ -20,7 +20,7 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  *   _ll_mul 0x0209C054 arm
- *   func_02015C78 0x02015C78 thumb
+ *   MCSS_SetOfsPosition 0x02015C78 thumb
  */
 #include "../include/Obj02439.h"
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ typedef struct Vec { int x, y, z; } Vec;
 extern int func_022019F4(char *, int);
 extern void func_021F89BC(void *);
 extern const s16 d_020A1B38[];
-extern void func_02015C78(void *, u32 *);
+extern void MCSS_SetOfsPosition(void *, u32 *);
 #define FIX(x) ((int)(((x) > 0.0f) ? ((x) * 4096.0f + 0.5f) : ((x) * 4096.0f - 0.5f)))
 void func_022010D0(void *task, char *q)
 {
@@ -61,13 +61,13 @@ void func_022010D0(void *task, char *q)
     f = (int)(((s64)f * ((struct Obj02439 *)q)->f20 + 0x800) >> 12);
     if (((struct Obj02439 *)q)->f14 != 0) v.y = f;
     else v.x = f;
-    func_02015C78(*(void **)(e + off), (u32 *)&v);
+    MCSS_SetOfsPosition(*(void **)(e + off), (u32 *)&v);
     ((struct Obj02439 *)q)->f24 -= 1;
     if (((struct Obj02439 *)q)->f24 == 0) {
         v.x = 0;
         v.y = 0;
         v.z = 0;
-        func_02015C78(*(void **)(e + off), (u32 *)&v);
+        MCSS_SetOfsPosition(*(void **)(e + off), (u32 *)&v);
         func_021F89BC(task);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021751A8
+ * function: INTRUDE_COMM_GetRelativeSlot
  * address: 0x021751A8
  * packet: pkt_ov011_021751A8
  * region: ov011
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 struct BigObj;
 extern u32 func_02026478(void *obj);
 extern u8 func_02012B58(const struct BigObj *p);
-int func_021751A8(u8 *p, int index)
+int INTRUDE_COMM_GetRelativeSlot(u8 *p, int index)
 {
     int value;
     if (index >= p[0x902]) return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02014758
+ * function: FIELD_STATUS_SubProcCallbackEvent
  * address:  0x02014758
  * packet:   pkt_02014628
  * region:   arm9
@@ -23,8 +23,8 @@
  * exists and the extent is only the pad - no byte of it differs).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02014758.c \
- *       --func func_02014758 --addr 0x02014758 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FIELD_STATUS_SubProcCallbackEvent.c \
+ *       --func FIELD_STATUS_SubProcCallbackEvent --addr 0x02014758 --cc 1.1p1 --thumb
  */
 
 typedef struct {
@@ -43,7 +43,7 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-int func_02014758(int a0, int *a1, S *a2)
+int FIELD_STATUS_SubProcCallbackEvent(int a0, int *a1, S *a2)
 {
     switch (*a1) {
     case 0:

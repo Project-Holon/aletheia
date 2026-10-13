@@ -64,8 +64,7 @@
  *   func_0218F05C  0x0218F05C  thumb  ov021
  *   func_02048AC4  0x02048AC4  arm
  *   func_02011558  0x02011558  thumb
- *   func_02082BCC  0x02082BCC  arm
- *   func_02011608  0x02011608  thumb
+ *   ICA_ANIME_GetFrameNum  0x02011608  thumb
  *   func_020115EC  0x020115EC  thumb
  *   func_02011B8C  0x02011B8C  thumb
  *   func_02048B0C  0x02048B0C  arm
@@ -113,772 +112,579 @@
  *   func_02028B50  0x02028B50  thumb
  *   func_02047A60  0x02047A60  arm
  */
-#include "../../matched/include/Obj07668.h"
-#include "../../matched/include/Obj03166.h"
-#include "../../matched/include/Obj01680.h"
-#include "../../matched/include/Obj03652.h"
-#include "../../matched/include/Obj01881.h"
-#include "../../matched/include/Obj09852.h"
+#include "unit_021F36C0_types.h"
 
-struct Desc;
-struct Job;
-struct Obj;
-struct Work;
-struct Ctx;
-struct Obj00020;
-struct Node;
-struct IcaAnime;
-struct Obj11244;
-struct Sub0200852CObj;
-struct G3dOwner;
-struct G3dRec;
-struct AnmCtl;
-struct G3dSys;
-struct Rec;
-struct Tagged;
-struct Actor;
-struct SoundSys2;
-struct BigObj;
-typedef unsigned char  u8;
+extern struct G3dAnmObjHead *func_02047674(struct G3dAnime *anime);
+extern struct FieldSubproc *func_021BB990(int overlayId, struct FieldmapFunc *mapFunc, const struct FieldSubprocTemplate *tmpl);
+extern FkDemoDrawWork *func_021BBA6C(const struct FieldSubproc *proc);
+extern void func_021BBA1C(struct FieldSubproc *proc);
+extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, FkDemoEventFunc func, u32 workSize);
+extern FkDemoWork *func_020124E8(struct GameEvent *event);
+extern struct Tcb *func_020056A0(FkDemoTcbFunc callback, FkDemoWork *work, u32 priority);
+extern void func_02030EAC(struct Tcb *tcb);
+extern void func_0218F0A8(struct FieldCamera *camera);
+extern u32 func_0218F0E8(struct FieldCamera *camera);
+extern struct BuildModelNode *func_0218C7D8(struct BuildModelMan *man, int kind, const VecFx32 *pos);
+extern void func_0218C860(struct BuildModelNode *node);
+extern void func_0218C69C(struct BuildModelMan *man, struct BuildModelEntry *entry, int slot, int mode);
+extern void func_0218C88C(struct BuildModelNode *node, int slot, int mode);
+extern int func_0218C8B0(struct BuildModelNode *node, int slot);
+extern struct IcaAnime *func_02011510(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum);
+extern struct G3dCamera *func_0218EC2C(struct FieldCamera *camera);
+extern void func_02048B30(struct G3dCamera *g3dCamera, VecFx32 *out);
+extern void func_02048AE8(struct G3dCamera *g3dCamera, VecFx32 *out);
+extern void func_02048B0C(struct G3dCamera *g3dCamera, VecFx32 *out);
+extern struct G3dCamera *func_02048A24(int projType, s16 fovySin, s16 fovyCos, int aspect, int right, int nearClip, int farClip, int scaleW,
+                                       VecFx32 *position, VecFx32 *up, VecFx32 *target, int heapId);
+extern u32 func_0218E138(struct FieldCamera *camera);
+extern void func_0218E13C(struct FieldCamera *camera, u32 mode);
+extern u8 func_0218F1B4(struct FieldCamera *camera);
+extern void func_0218F1AC(struct FieldCamera *camera, u32 enabled);
+extern void func_0218EC54(struct FieldCamera *camera);
+extern void func_0218ECC4(struct FieldCamera *camera, VecFx32 *out);
+extern void func_0218ECD4(struct FieldCamera *camera, const VecFx32 *shift);
+extern void func_0218ED20(struct FieldCamera *camera, VecFx32 *out);
+extern void func_0218EC60(struct FieldCamera *camera);
+extern const VecFx32 *func_0218EC5C(struct FieldCamera *camera);
+extern void func_0218EC90(struct FieldCamera *camera, const VecFx32 *target);
+extern void func_0218ED14(struct FieldCamera *camera, const VecFx32 *up);
+extern void func_0218E17C(struct FieldCamera *camera, u32 settingId);
+extern void func_0218F05C(struct FieldCamera *camera);
+extern void func_0218ECF4(struct FieldCamera *camera, const VecFx32 *eye);
+extern void func_02048AC4(struct G3dCamera *g3dCamera);
+extern void func_02011B8C(struct G3dCamera *g3dCamera, struct IcaAnime *anime);
+extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern struct ArcFile *func_020490F4(u32 arcId, u32 heapId);
+extern struct Mmdl *func_021A3074(struct FieldPlayer *player);
+extern void func_0207ADC4(MtxFx33 *matrix);
+extern struct G3dResource *func_02046E24(struct ArcFile *arc, u32 memberId);
+extern int func_02047180(struct G3dResource *res);
+extern void func_02049238(struct ArcFile *arc);
+extern struct G3dRender *func_02047400(struct G3dResource *modelRes, u32 modelIndex, struct G3dResource *texRes);
+extern struct G3dAnime *func_02047564(struct G3dRender *render, const struct G3dResource *animeRes, int flags);
+extern struct G3dObject *func_0204767C(struct G3dRender *render, struct G3dAnime **animeTable, int animeCount);
+extern u32 func_0204784C(struct G3dObject *object, u16 animeIndex, s32 *frame);
+extern u32 func_020477A4(struct G3dObject *object, u32 animeIndex);
+extern void func_02047738(struct G3dObject *object);
+extern void func_0204762C(struct G3dAnime *anime);
+extern void func_02047504(struct G3dRender *render);
+extern int func_020470D0(struct G3dResource *res);
+extern void func_02046EFC(struct G3dResource *res);
+extern void func_0216DAC8(struct Mmdl *mmdl, u32 hidden);
+extern void func_0216E084(struct Mmdl *mmdl, unsigned int tileX, unsigned int tileY, unsigned int tileZ, u16 dir);
+extern int func_02164010(struct Mmdl *mmdl);
+extern void func_0216D88C(const struct Mmdl *mmdl, VecFx32 *out);
+extern void func_021A3044(struct FieldPlayer *player, const VecFx32 *pos);
+extern int func_0216DC18(struct Mmdl *mmdl, int value);
+extern u32 func_02047204(struct G3dResource *res);
+extern void func_02047A60(struct G3dObject *object, G3dObjectStatus *status);
+extern const s16 FX_SinCosTable_[];
 
-typedef unsigned int   u32;
+struct GameEvent *func_021F36C0(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 variant);
+u32 func_021F36C8(u32 variant);
+int func_021F36D4(struct G3dAnime *anime);
+void func_021F36E4(struct Tcb *tcb, FkDemoWork *work);
+struct GameEvent *func_021F36F0(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 variant);
+int func_021F3734(struct GameEvent *event, int *seq, FkDemoWork *work);
+void func_021F3890(FkBuildModelAnime *anime, struct BuildModelMan *man, int variant);
+void func_021F38D4(FkBuildModelAnime *anime);
+void func_021F3904(FkBuildModelAnime *anime);
+int func_021F3918(FkBuildModelAnime *anime);
+void func_021F392C(FkDemoCamera *demoCamera, struct FieldCamera *fieldCamera, int heapId, int variant);
+void func_021F3A14(FkDemoCamera *demoCamera);
+int func_021F3A78(FkDemoCamera *demoCamera);
+void func_021F3AB0(FkDemoCamera *demoCamera);
+void func_021F3B10(FkDemoModel *model, struct FieldPlayer *player, struct MyStatus *myStatus, int heapId, int variant);
+void func_021F3BF0(FkDemoModel *model);
+void func_021F3C4C(FkDemoModel *model);
+int func_021F3C84(FkDemoModel *model);
+void func_021F3CC4(FkDemoModel *model, int hide);
+void func_021F3D2C(FkDemoModel *model);
+void func_021F3D44(FkDemoModel *model);
+void func_021F3D54(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkDemoDrawWork *work);
+void func_021F3D60(FkSoundAnime **out, int variant, u16 heapId);
+void func_021F3D9C(FkSoundAnime **soundAnime);
+int func_021F3DB8(FkSoundAnime **soundAnime);
+void func_021F3DCC(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAnimeSoundWork *work);
+void func_021F3E38(struct FieldSubproc *proc, struct FieldMap *fieldMap);
+void func_021F3E54(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAnimeSoundWork *work);
 
-typedef unsigned short u16;
-
-typedef struct { char pad[4]; u16 f4; } Inner;
-
-typedef struct { char pad[8]; Inner *f8; } Outer;
-
-typedef struct Work {
-    int f0;
-    int f4;
-    int idx;
-    u8 cam[0x30];
-    u8 obj[0x80];
-    u8 f_bc[0xc];
-    u8 f_c8[4];
-    u32 task;
-    void *fd0;
-} Work;
-
-typedef struct { u32 a, b, c; } Ent;
-
-typedef short          s16_021F36C0;
-
-typedef int            fx32;
-
-typedef struct { fx32 x, y, z; } VecFx32_021F36C0;
-
-typedef struct Vec {
-    int x;
-    int y;
-    int z;
-} Vec;
-
-typedef struct Job {
-    void *f0;
-    void *cam;
-    int f8;
-    u16 hc;
-    u16 he;
-    VecFx32_021F36C0 f10;
-    VecFx32_021F36C0 f1c;
-    int f28;
-    u32 f2c;
-} Job;
-
-typedef signed int     s32;
-
-typedef struct Mtx33 {
-    int m[9];
-} Mtx33;
-
-typedef struct Obj {
-    void *res0;
-    void *res1;
-    void *res2;
-    int f0c;
-    u8 pad10[0x10];
-    Vec pos;
-    Vec scale;
-    Mtx33 rot;
-    int f5c;
-    int f60;
-    void *f64;
-    void *f68;
-    Vec f6c;
-    u16 f78;
-    u16 pad7a;
-    int f7c;
-} Obj;
-
-typedef signed short   s16_021F3B10;
-
-typedef struct VecFx32_021F3B10 { s32 x; s32 y; s32 z; } VecFx32_021F3B10;
-
-extern Outer *func_02047674(u32 a);
-extern u16 func_02188C84(u8 *p);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Job *p);
-extern void *func_020056A0(void (*cb)(void), void *ctx, int a);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_02188C58(void *p);
-extern u32 func_02188C98(u8 *p);
-extern u32 func_02188D24(u8 *p);
-extern void func_0218F0A8(u8 *a);
-extern u32 func_0218F0E8(u8 *a);
-extern u32 func_0218DC6C(u8 *p);
-extern int *func_021BB990(int a, int *d, const int *c);
-extern u32 func_021BBA6C(const void *p);
-extern void func_021BBA1C(int *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012944(void *p);
-extern void func_02030EAC(struct Node *n);
-extern int func_0218C7D8(void *p, int b, int c);
-extern int func_0218C654(int a, int b, int c);
-extern void func_0218C860(void *);
-extern void func_0218C69C(unsigned char *,int,int,int);
-extern void func_0218C88C(unsigned char *,int,int);
-extern int func_0218C8B0(void *,int);
-extern void *func_02011510(u32 heap, u32 a1, u32 a2, u32 a3);
-extern u32 func_0218EC2C(u8 *p);
-extern void func_02048B30(u32 cam, VecFx32_021F36C0 *out);
-extern void func_02048AE8(u32 cam, VecFx32_021F36C0 *out);
-extern void *func_02048A24(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32_021F36C0 *pos, VecFx32_021F36C0 *up, VecFx32_021F36C0 *tgt, int heap);
-extern u32 func_0218E138(u8 *p);
-extern void func_0218E13C(u8 *a, u32 s);
-extern u8 func_0218F1B4(u8 *p);
-extern void func_0218F1AC(u8 *p, u32 v);
-extern void func_0218EC54(u8 *p);
-extern void func_0218ECC4(int a, VecFx32_021F36C0 *v);
-extern void func_0218ECD4(int a, VecFx32_021F36C0 *v);
-extern void func_0218ED20(void *p, void *out);
-extern int func_0218EC60(u32 a);
-extern u32 func_0218EC5C(u8 *p);
-extern void func_0218EC90(u32 a, u32 b);
-extern void func_0218ED14(u8 *p, u32 q);
-extern void func_0218E17C(u32 *p, u32 v);
-extern void func_0218F05C(u8 *a);
-extern u32 func_02048AC4(void *ptr);
-extern void func_02011558(struct IcaAnime *p);
-extern void func_02082BCC(void *, unsigned, unsigned);
-extern u32 func_02011608(struct Obj11244 *p);
-extern void func_020115EC(struct IcaAnime *p, s32 v);
-extern void func_02011B8C(void *dst, void *ctx);
-extern void func_02048B0C(u32, s32 *);
-extern void func_0207C9D0(s32 *a, const Vec *b, s32 *c);
-extern void func_0218ECF4(u32 a, s32 *b);
-extern void *func_020490F4(u32 id, u32 heap);
-extern void *func_021A3074(unsigned char *p);
-extern void func_0207ADC4(Mtx33 *m);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void *func_02046E24(u32 a0, u32 a1);
-extern int func_02047180(u32 *p);
-extern void func_02049238(void *);
-extern void *func_02047400(void *a0, u32 n, void *a2);
-extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern void *func_0204767C(u32 a0, u32 *a1, int a2);
-extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
-extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
-extern void func_02047738(struct Rec *p);
-extern void func_0204762C(struct Rec *p);
-extern void func_02047504(struct Rec *p);
-extern int func_020470D0(u32 *p);
-extern void func_02046EFC(struct Tagged *p);
-extern void func_0216DAC8(unsigned int *p, unsigned int v);
-extern void func_0216E084(void *a, unsigned int x, unsigned int y, unsigned int z, u16 k);
-extern int func_02164010(int a);
-extern void func_0216D88C(const struct Actor *a, struct VecFx32_021F3B10 *out);
-extern void func_021A3044(u8 *p, void *v);
-extern int func_0216DC18(void *a0, int a1);
-extern u32 func_02047204(struct Tagged *p);
-extern u32 *func_021F4040(void *a, u32 b, u32 c, u32 d, u16 e);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void func_021F408C(struct IcaAnime **pp);
-extern int func_021F40A0(int *p);
-extern int func_0218C6F4(unsigned char *p, int b, int id);
-extern void *func_02188C80(void *p);
-extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02028A7C(struct SoundSys2 *s, u32 id);
-extern void func_02028B50(u8 *p, int a0);
-extern void func_02047A60(void *, void *);
-void *func_021F36C0(void *a, u8 *b, u32 c);
-u32 func_021F36C8(u32 idx);
-int func_021F36D4(u32 a);
-void func_021F36E4(u8 *a, u8 *b);
-void *func_021F36F0(void *a, u8 *b, u32 c);
-int func_021F3734(void *a0, int *state, Work *p);
-void func_021F3890(u32 *out, int a, int idx);
-void func_021F38D4(unsigned char *p);
-void func_021F3904(unsigned char **p);
-int func_021F3918(void **p);
-void func_021F392C(Job *o, int a1, int heap, int idx);
-void func_021F3A14(u8 *p);
-int func_021F3A78(u8 *p);
-void func_021F3AB0(u32 *p);
-void func_021F3B10(Obj *o, void *a1, int a2, int a3, int idx);
-void func_021F3BF0(u32 *p);
-void func_021F3C4C(u8 *p);
-int func_021F3C84(u32 *p);
-void func_021F3CC4(u8 *p, int flag);
-void func_021F3D2C(u8 *p);
-void func_021F3D44(char *a);
-void func_021F3D54(int a, int b, char **c);
-void func_021F3D60(void *o, int idx, u16 heap);
-void func_021F3D9C(void *o);
-int func_021F3DB8(int **pp);
-void func_021F3DCC(int unused, int b, u32 *c);
-void func_021F3E38(void *a0, void *a1);
-void func_021F3E54(int unused, int b, u32 *c);
-extern const u32 d_021F42B0[];
-extern const u8 d_021F42C0[];
-extern u32 d_021F4290[];
-extern Ent d_021F42D8[];
-extern const VecFx32_021F36C0 d_021F4338;
-extern const s16_021F36C0 FX_SinCosTable_[];
-extern const Vec d_021F426C;
-extern const Vec d_021F4308[];
-extern const u16 d_021F4264[];
-extern u32 d_021F42A0[];
-extern u8 d_021F43A4[];
-extern Ent d_021F4278;
-extern int d_021F4258[];
-
-
-
-
-
-
-
-
-void *func_021F36C0(void *a, u8 *b, u32 c)
+/* Entry of the script command that starts the demo of a variant; returns the event the script waits for. */
+struct GameEvent *func_021F36C0(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 variant)
 {
-    return func_021F36F0(a, b, c);
+    return func_021F36F0(gameSystem, fieldMap, variant);
 }
 
-
-
-
-
-
-
-
 /*
- * Word table lookup in d_021F42B0 ({0x1C, 0x1D, 0x1E, 0x1F}), the table ov056
- * func_021F392C also indexes. Region ov056: of the 33 overlays mapped at this
- * address it is the only one with a function entry here (the bytes before are
- * the tail-call thunk at 0x021F36C0 and its pool word); ov036..ov065 except
- * ov056 are mid-function at 0x021F36C8, ov107 is ARM. Its ov021 caller
- * func_021B5650 passes a 1-based slot minus one (wave A1 witness).
+ * Field camera setting (word table d_021F42B0, {0x1C, 0x1D, 0x1E, 0x1F}) of a
+ * variant, the table func_021F392C also indexes. Region ov056: of the 33
+ * overlays mapped at this address it is the only one with a function entry
+ * here (the bytes before are the tail-call thunk at 0x021F36C0 and its pool
+ * word); ov036..ov065 except ov056 are mid-function at 0x021F36C8, ov107 is
+ * ARM. Its ov021 caller func_021B5650 passes a 1-based slot minus one (wave A1
+ * witness).
  *
  * Addresses are Black-image addresses.
  */
-u32 func_021F36C8(u32 idx)
+u32 func_021F36C8(u32 variant)
 {
-    return d_021F42B0[idx];
+    return d_021F42B0[variant];
 }
 
-
-
-
-
-
-
-
-int func_021F36D4(u32 a)
+/* Length of a model animation in fx32 frames. */
+int func_021F36D4(struct G3dAnime *anime)
 {
-    return func_02047674(a)->f8->f4 << 12;
+    return func_02047674(anime)->res->frameCount << 12;
 }
-
-
-
-
-
-
-
 
 /*
- * Unlabelled tail-call leaf: forwards the second argument plus 0x3c.
+ * Per frame task: uploads the stand-in model once. Unlabelled tail-call leaf:
+ * forwards the work plus 0x3c (the model).
  */
-void func_021F36E4(u8 *a, u8 *b)
+void func_021F36E4(struct Tcb *tcb, FkDemoWork *work)
 {
-    func_021F3D2C(b + 0x3c);
+    func_021F3D2C(&work->model);
 }
 
-
-
-
-
-
-
-
-void *func_021F36F0(void *a, u8 *b, u32 c)
+/* Creates the demo event and the task that uploads the model. */
+struct GameEvent *func_021F36F0(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 variant)
 {
-    void *r;
-    u32 *t;
+    struct GameEvent *event;
+    FkDemoWork *work;
 
-    func_02188C84(b);
-    r = func_020122C0(a, 0, func_021F3734, 0xd4);
-    t = func_020124E8(r);
-    t[0] = (u32)b;
-    t[1] = (u32)a;
-    t[2] = c;
-    ((struct Obj07668 *)t)->fD0 = func_020056A0((void (*)(void))func_021F36E4, t, 0);
-    return r;
+    func_02188C84(fieldMap);
+    event = func_020122C0(gameSystem, 0, func_021F3734, sizeof(FkDemoWork));
+    work = func_020124E8(event);
+    work->fieldMap = fieldMap;
+    work->gameSystem = gameSystem;
+    work->variant = variant;
+    work->uploadTcb = func_020056A0(func_021F36E4, work, 0);
+    return event;
 }
 
-
-
-
-
-
-
-
-int func_021F3734(void *a0, int *state, Work *p)
+/*
+ * Event function of the demo.
+ *   0: set up the stand-in player model
+ *   1: tell the field camera to end its delay
+ *   2: wait for the delay, then set up camera, sound anime, building animation and the draw proc
+ *   3: run the animations until all of them end
+ *   4: put everything back
+ */
+int func_021F3734(struct GameEvent *event, int *seq, FkDemoWork *work)
 {
-    u16 heap;
-    int h;
-    int a;
-    int b;
-    int c;
+    u16 heapId;
+    struct FieldCamera *fieldCamera;
+    struct MyStatus *myStatus;
+    int cameraDone;
+    int buildAnimeDone;
+    int soundAnimeDone;
 
-    heap = func_02188C84((u8 *)p->f0);
-    switch (*state) {
+    heapId = func_02188C84(work->fieldMap);
+    switch (*seq) {
     case 0:
-        h = (int)func_02012944(func_020120F4((const struct Ctx *)p->f4));
-        func_021F3B10((struct Obj *)p->obj, func_02188CB4((void *)p->f0), h, heap, p->idx);
-        (*state)++;
+        myStatus = func_02012944(func_020120F4(work->gameSystem));
+        func_021F3B10(&work->model, func_02188CB4(work->fieldMap), myStatus, heapId, work->variant);
+        (*seq)++;
         break;
     case 1:
-        func_0218F0A8(func_02188C58((void *)p->f0));
-        (*state)++;
+        func_0218F0A8(func_02188C58(work->fieldMap));
+        (*seq)++;
         break;
     case 2:
-        h = (int)func_02188C58((void *)p->f0);
-        if (func_0218F0E8((u8 *)h) != 0) {
+        fieldCamera = func_02188C58(work->fieldMap);
+        if (func_0218F0E8(fieldCamera) != 0) {
             break;
         }
-        func_021F392C((Job *)p->cam, h, heap, p->idx);
-        func_021F3D60(p->f_c8, p->idx, heap);
-        func_021F3890((u32 *)p->f_bc, func_0218DC6C((u8 *)func_02188C98((u8 *)p->f0)), p->idx);
-        func_021F3BF0((u32 *)p->obj);
-        p->task = (u32)func_021BB990(-1, (int *)func_02188D24((u8 *)p->f0), (const int *)d_021F42C0);
-        *((void **)func_021BBA6C((const void *)p->task)) = p->obj;
-        func_021F3CC4(p->obj, 1);
-        func_021F3904((unsigned char **)p->f_bc);
-        (*state)++;
+        func_021F392C(&work->camera, fieldCamera, heapId, work->variant);
+        func_021F3D60(&work->soundAnime, work->variant, heapId);
+        func_021F3890(&work->buildAnime, func_0218DC6C(func_02188C98(work->fieldMap)), work->variant);
+        func_021F3BF0(&work->model);
+        work->drawProc = func_021BB990(-1, func_02188D24(work->fieldMap), &d_021F42C0);
+        func_021BBA6C(work->drawProc)->model = &work->model;
+        func_021F3CC4(&work->model, 1);
+        func_021F3904(&work->buildAnime);
+        (*seq)++;
         break;
     case 3:
-        a = func_021F3A78(p->cam);
-        func_021F3C84((u32 *)p->obj);
-        b = func_021F3DB8((int **)p->f_c8);
-        c = func_021F3918((void **)p->f_bc);
-        if (a && c && b) {
-            (*state)++;
+        cameraDone = func_021F3A78(&work->camera);
+        func_021F3C84(&work->model);
+        soundAnimeDone = func_021F3DB8(&work->soundAnime);
+        buildAnimeDone = func_021F3918(&work->buildAnime);
+        if (cameraDone && buildAnimeDone && soundAnimeDone) {
+            (*seq)++;
         }
         break;
     case 4:
-        func_021F3CC4(p->obj, 0);
-        func_021BBA1C((int *)p->task);
-        func_02030EAC(p->fd0);
-        func_021F3C4C(p->obj);
-        func_021F3D9C(p->f_c8);
-        func_021F3A14(p->cam);
-        func_021F38D4(p->f_bc);
+        func_021F3CC4(&work->model, 0);
+        func_021BBA1C(work->drawProc);
+        func_02030EAC(work->uploadTcb);
+        func_021F3C4C(&work->model);
+        func_021F3D9C(&work->soundAnime);
+        func_021F3A14(&work->camera);
+        func_021F38D4(&work->buildAnime);
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-void func_021F3890(u32 *out, int a, int idx)
+/* Finds the building model of the variant and creates its animation node; nothing for variants without one. */
+void func_021F3890(FkBuildModelAnime *anime, struct BuildModelMan *man, int variant)
 {
-    if (d_021F4290[idx] != 0) {
-        out[0] = func_0218C7D8((void *)a, 0, (int)(&d_021F42D8[idx]));
-        out[1] = func_0218C654(a, 0, (int)(&d_021F42D8[idx]));
-        out[2] = a;
+    if (d_021F4290[variant] != 0) {
+        anime->node = func_0218C7D8(man, 0, &d_021F42D8[variant]);
+        anime->entry = func_0218C654(man, 0, &d_021F42D8[variant]);
+        anime->man = man;
     } else {
-        out[0] = 0;
-        out[1] = 0;
+        anime->node = 0;
+        anime->entry = 0;
     }
 }
 
-
-
-
-
-
-
-void func_021F38D4(unsigned char *p) { if (((struct Obj03166 *)p)->f0) { func_0218C860(((struct Obj03166 *)p)->f0); func_0218C69C(*(unsigned char * *)&((struct Obj03166 *)p)->f8,((struct Obj03166 *)p)->f4,0,1); func_0218C69C(*(unsigned char * *)&((struct Obj03166 *)p)->f8,((struct Obj03166 *)p)->f4,0,3); *(int *)&((struct Obj03166 *)p)->f0=0; ((struct Obj03166 *)p)->f4=0; *(int *)&((struct Obj03166 *)p)->f8=0; } }
-
-
-
-
-
-
-
-void func_021F3904(unsigned char **p) { if (*p) func_0218C88C(*p,0,0); }
-
-
-
-
-
-
-int func_021F3918(void **p) { if (*p) return func_0218C8B0(*p,0); return 1; }
-
-
-
-
-
-
-
-void func_021F392C(Job *o, int a1, int heap, int idx)
+/* Stops both animations of the building model and deletes its node. */
+void func_021F38D4(FkBuildModelAnime *anime)
 {
-    VecFx32_021F36C0 tgt;
-    VecFx32_021F36C0 pos;
-    u8 zero[12];
-    VecFx32_021F36C0 up;
-    u32 cam;
-    VecFx32_021F36C0 *pz;
-
-    o->f28 = 0;
-    o->f0 = func_02011510(heap, 0x96, idx + 0x18, 10);
-    cam = func_0218EC2C((u8 *)a1);
-    func_02048B30(cam, &tgt);
-    func_02048AE8(cam, &pos);
-    up = d_021F4338;
-    o->cam = func_02048A24(0, FX_SinCosTable_[0x1C6], FX_SinCosTable_[0x1C7], 0x1555, 0, 0x1000, 0x400000, 0, &pos, &up, &tgt, heap);
-    o->f8 = a1;
-    o->hc = func_0218E138((u8 *)a1);
-    func_0218E13C((u8 *)o->f8, 2);
-    o->he = func_0218F1B4((u8 *)o->f8);
-    func_0218F1AC((u8 *)o->f8, 0);
-    func_0218EC54((u8 *)o->f8);
-    pz = (VecFx32_021F36C0 *)zero;
-    pz->x = 0;
-    pz->y = 0;
-    pz->z = 0;
-    func_0218ECC4(o->f8, &o->f10);
-    func_0218ECD4(o->f8, pz);
-    func_0218ED20((void *)o->f8, &o->f1c);
-    func_021F3AB0((u32 *)o);
-    o->f2c = d_021F42B0[idx];
+    if (anime->node) {
+        func_0218C860(anime->node);
+        func_0218C69C(anime->man, anime->entry, 0, 1);
+        func_0218C69C(anime->man, anime->entry, 0, 3);
+        anime->node = 0;
+        anime->entry = 0;
+        anime->man = 0;
+    }
 }
 
-
-
-
-
-
-void func_021F3A14(u8 *p)
+/* Starts the building animation (animation slot 0, mode 0). */
+void func_021F3904(FkBuildModelAnime *anime)
 {
-    func_0218EC60(*(u32 *)&((struct Obj01680 *)p)->f8);
-    func_0218EC90(*(u32 *)&((struct Obj01680 *)p)->f8, func_0218EC5C(*(u8 * *)&((struct Obj01680 *)p)->f8));
-    func_0218ECD4(*(u32 *)&((struct Obj01680 *)p)->f8, (VecFx32_021F36C0 *)((u32)(p + 0x10)));
-    func_0218E13C((u8 *)(*(u32 *)&((struct Obj01680 *)p)->f8), ((struct Obj01680 *)p)->fC);
-    func_0218F1AC(*(u8 * *)&((struct Obj01680 *)p)->f8, ((struct Obj01680 *)p)->fE);
-    func_0218ED14((u8 *)(*(u32 *)&((struct Obj01680 *)p)->f8), (u32)(p + 0x1c));
-    func_0218E17C(*(u32 * *)&((struct Obj01680 *)p)->f8, ((struct Obj01680 *)p)->f2C);
-    func_0218F05C(*(u8 * *)&((struct Obj01680 *)p)->f8);
-    func_02048AC4((void *)(((struct Obj01680 *)p)->f4));
-    func_02011558((struct IcaAnime *)(((struct Obj01680 *)p)->f0));
-    func_02082BCC(p, 0, 0x30);
+    if (anime->node) {
+        func_0218C88C(anime->node, 0, 0);
+    }
 }
 
-
-
-
-
+/* Returns 1 when the building animation ended or there is none. */
+int func_021F3918(FkBuildModelAnime *anime)
+{
+    if (anime->node) {
+        return func_0218C8B0(anime->node, 0);
+    }
+    return 1;
+}
 
 /*
+ * Saves the field camera, switches it to free mode without constraint areas
+ * and builds the demo camera. The demo camera is driven by the ICA animation
+ * of the variant.
+ */
+void func_021F392C(FkDemoCamera *demoCamera, struct FieldCamera *fieldCamera, int heapId, int variant)
+{
+    VecFx32 target;
+    VecFx32 eye;
+    s32 zeroShift[3]; /* stand-in: a VecFx32 local is addressed through sp, the original keeps a pointer register */
+    VecFx32 up;
+    struct G3dCamera *g3dCamera;
+    VecFx32 *zeroShiftPtr;
+
+    demoCamera->frame = 0;
+    demoCamera->anime = func_02011510(heapId, FK_DEMO_ARC_ID, variant + FK_DEMO_CAMERA_FILE, 10);
+    g3dCamera = func_0218EC2C(fieldCamera);
+    func_02048B30(g3dCamera, &target);
+    func_02048AE8(g3dCamera, &eye);
+    up = d_021F4338;
+    /* perspective, half field of view index 0x1C6, aspect 4:3, near 1.0, far 1024.0 */
+    demoCamera->g3dCamera = func_02048A24(0, FX_SinCosTable_[0x1C6], FX_SinCosTable_[0x1C7], 0x1555, 0, 0x1000, 0x400000, 0, &eye, &up, &target, heapId);
+    demoCamera->fieldCamera = fieldCamera;
+    demoCamera->savedMode = func_0218E138(demoCamera->fieldCamera);
+    func_0218E13C(demoCamera->fieldCamera, FK_CAMERA_MODE_FREE);
+    demoCamera->savedAreasEnabled = func_0218F1B4(demoCamera->fieldCamera);
+    func_0218F1AC(demoCamera->fieldCamera, 0);
+    func_0218EC54(demoCamera->fieldCamera);
+    zeroShiftPtr = (VecFx32 *)zeroShift;
+    zeroShiftPtr->x = 0;
+    zeroShiftPtr->y = 0;
+    zeroShiftPtr->z = 0;
+    func_0218ECC4(demoCamera->fieldCamera, &demoCamera->savedTargetShift);
+    func_0218ECD4(demoCamera->fieldCamera, zeroShiftPtr);
+    func_0218ED20(demoCamera->fieldCamera, &demoCamera->savedUp);
+    func_021F3AB0(demoCamera);
+    demoCamera->endSettingId = d_021F42B0[variant];
+}
+
+/* Gives the field camera back and deletes the demo camera. */
+void func_021F3A14(FkDemoCamera *demoCamera)
+{
+    func_0218EC60(demoCamera->fieldCamera);
+    func_0218EC90(demoCamera->fieldCamera, func_0218EC5C(demoCamera->fieldCamera));
+    func_0218ECD4(demoCamera->fieldCamera, &demoCamera->savedTargetShift);
+    func_0218E13C(demoCamera->fieldCamera, demoCamera->savedMode);
+    func_0218F1AC(demoCamera->fieldCamera, demoCamera->savedAreasEnabled);
+    func_0218ED14(demoCamera->fieldCamera, &demoCamera->savedUp);
+    func_0218E17C(demoCamera->fieldCamera, demoCamera->endSettingId);
+    func_0218F05C(demoCamera->fieldCamera);
+    func_02048AC4(demoCamera->g3dCamera);
+    func_02011558(demoCamera->anime);
+    MI_CpuFill8(demoCamera, 0, sizeof(FkDemoCamera));
+}
+
+/*
+ * Advances the camera animation by one frame; returns 1 on the last frame.
+ *
  * note:     twin of the head of func_021F40A0 (same clock read and clamp),
  *           with the frame counter at +0x28. EXACT* = 54 bytes of code plus
  *           2 bytes of alignment padding before matched func_021F3AB0.
  */
-int func_021F3A78(u8 *p)
+int func_021F3A78(FkDemoCamera *demoCamera)
 {
-    int flag;
-    s32 x = func_02011608((struct Obj11244 *)(*(struct IcaAnime **)(p + 0x0))) << 12;
-    s32 y = *(s32 *)(p + 0x28) + 0x1000;
+    int done;
+    s32 length = ICA_ANIME_GetFrameNum(demoCamera->anime) << 12;
+    s32 nextFrame = demoCamera->frame + 0x1000;
 
-    if (x <= y) {
-        flag = 1;
-        *(s32 *)(p + 0x28) = x - 0x1000;
+    if (length <= nextFrame) {
+        done = 1;
+        demoCamera->frame = length - 0x1000;
     } else {
-        flag = 0;
-        *(s32 *)(p + 0x28) = y;
+        done = 0;
+        demoCamera->frame = nextFrame;
     }
-    func_020115EC(*(struct IcaAnime **)(p + 0x0), *(s32 *)(p + 0x28));
-    func_021F3AB0((u32 *)p);
-    return flag;
+    func_020115EC(demoCamera->anime, demoCamera->frame);
+    func_021F3AB0(demoCamera);
+    return done;
 }
 
-
-
-
-void func_021F3AB0(u32 *p)
+/* Applies the ICA animation to the demo camera and copies its eye, target and up vector, moved by the demo origin, to the field camera. */
+void func_021F3AB0(FkDemoCamera *demoCamera)
 {
-    s32 v2[3];
-    s32 v1[3];
-    s32 v3[3];
+    VecFx32 target;
+    VecFx32 eye;
+    VecFx32 up;
 
-    func_02011B8C((void *)p[1], (void *)p[0]);
-    func_02048AE8(p[1], (VecFx32_021F36C0 *)v1);
-    func_02048B30(p[1], (VecFx32_021F36C0 *)v2);
-    func_02048B0C(p[1], v3);
-    func_0207C9D0(v1, &d_021F426C, v1);
-    func_0207C9D0(v2, &d_021F426C, v2);
-    func_0218ECF4(p[2], v1);
-    func_0218EC90(p[2], (u32)v2);
-    func_0218ED14((u8 *)p[2], (u32)v3);
+    func_02011B8C(demoCamera->g3dCamera, demoCamera->anime);
+    func_02048AE8(demoCamera->g3dCamera, &eye);
+    func_02048B30(demoCamera->g3dCamera, &target);
+    func_02048B0C(demoCamera->g3dCamera, &up);
+    func_0207C9D0(&eye, &d_021F426C, &eye);
+    func_0207C9D0(&target, &d_021F426C, &target);
+    func_0218ECF4(demoCamera->fieldCamera, &eye);
+    func_0218EC90(demoCamera->fieldCamera, &target);
+    func_0218ED14(demoCamera->fieldCamera, &up);
 }
-
-
-
-
-
-
-void func_021F3B10(Obj *o, void *a1, int a2, int a3, int idx)
-{
-    void *h;
-    int k;
-
-    idx = (u32)idx;
-    h = func_020490F4(0x96, (u16)((a3 & 0x7fff) | 0x8000));
-    o->f7c = 0;
-    o->f5c = 0;
-    o->f6c = d_021F4308[idx];
-    o->f60 = a2;
-    o->f78 = d_021F4264[idx];
-    o->f64 = a1;
-    o->f68 = func_021A3074(a1);
-    o->pos = d_021F426C;
-    o->scale.x = 0x1000;
-    o->scale.y = 0x1000;
-    o->scale.z = 0x1000;
-    func_0207ADC4(&o->rot);
-    if (func_02008550((const struct Sub0200852CObj *)a2) == 0) {
-        k = idx * 6;
-        o->res0 = func_02046E24((u32)h, k + 3);
-        o->res2 = func_02046E24((u32)h, k + 4);
-    } else {
-        k = idx * 6;
-        o->res0 = func_02046E24((u32)h, k + 1);
-        o->res2 = func_02046E24((u32)h, k + 2);
-    }
-    o->res1 = func_02046E24((u32)h, k + 5);
-    func_02047180(o->res0);
-    o->f0c = 1;
-    func_02049238(h);
-}
-
-
-
-
-
-
-void func_021F3BF0(u32 *p)
-{
-    int i;
-    int v;
-
-    i = 0;
-    p[4] = (u32)func_02047400((void *)p[0], 0, (void *)p[0]);
-    p[5] = (u32)func_02047564((struct G3dOwner *)p[4], (const struct G3dOwner *)p[1], 0);
-    p[6] = (u32)func_02047564((struct G3dOwner *)p[4], (const struct G3dOwner *)p[2], 0);
-    p[7] = (u32)func_0204767C(p[4], &p[5], 2);
-    v = 0;
-    for (; i < 2; i++) {
-        func_0204784C((struct AnmCtl *)p[7], (u16)i, &v);
-        func_020477A4((struct G3dSys *)p[7], (u16)i);
-    }
-}
-
-
-
-
-
-
-void func_021F3C4C(u8 *p)
-{
-    func_02047738((struct Rec *)(((struct Obj03652 *)p)->f1C));
-    func_0204762C((struct Rec *)(((struct Obj03652 *)p)->f14));
-    func_0204762C((struct Rec *)(((struct Obj03652 *)p)->f18));
-    func_02047504((struct Rec *)(((struct Obj03652 *)p)->f10));
-    func_020470D0((u32 *)(((struct Obj03652 *)p)->f0));
-    func_02046EFC((struct Tagged *)(((struct Obj03652 *)p)->f0));
-    func_02046EFC((struct Tagged *)(((struct Obj03652 *)p)->f4));
-    func_02046EFC((struct Tagged *)(((struct Obj03652 *)p)->f8));
-}
-
-
-
-
-
-
-int func_021F3C84(u32 *p)
-{
-    int r;
-    int lim;
-    int ret;
-
-    r = func_021F36D4(p[5]);
-    lim = p[31] + 0x1000;
-    if (r <= lim) {
-        ret = 1;
-        p[31] = r - 0x1000;
-    } else {
-        ret = 0;
-        p[31] = lim;
-    }
-    func_0204784C((struct AnmCtl *)p[7], 0, (int *)&p[31]);
-    func_0204784C((struct AnmCtl *)p[7], 1, (int *)&p[31]);
-    return ret;
-}
-
-
-
-
-
-
-void func_021F3CC4(u8 *p, int flag)
-{
-    VecFx32_021F3B10 v;
-
-    if (flag) {
-        ((struct Obj01881 *)p)->f5C = 1;
-        func_0216DAC8(((struct Obj01881 *)p)->f68, 1);
-        return;
-    }
-    ((struct Obj01881 *)p)->f5C = 0;
-    func_0216DAC8(((struct Obj01881 *)p)->f68, 0);
-    func_0216E084(((struct Obj01881 *)p)->f68, (s16_021F3B10)(((struct Obj01881 *)p)->f6C), (s16_021F3B10)(((struct Obj01881 *)p)->f70),
-                  (s16_021F3B10)(((struct Obj01881 *)p)->f74), ((struct Obj01881 *)p)->f78);
-    func_02164010((int)(((struct Obj01881 *)p)->f68));
-    func_0216D88C(((struct Obj01881 *)p)->f68, &v);
-    func_021A3044(((struct Obj01881 *)p)->f64, &v);
-    func_0216DC18(((struct Obj01881 *)p)->f68, 0);
-}
-
-
-
-
-void func_021F3D2C(u8 *p)
-{
-    if (((struct Obj09852 *)p)->fC != 0) {
-        func_02047204((struct Tagged *)(((struct Obj09852 *)p)->f0));
-        ((struct Obj09852 *)p)->fC = 0;
-    }
-}
-
-
-
 
 /*
+ * Loads the stand-in player model and its two animations of the variant
+ * from archive 0x96 (six files per variant, gender selects the model).
+ */
+void func_021F3B10(FkDemoModel *model, struct FieldPlayer *player, struct MyStatus *myStatus, int heapId, int variant)
+{
+    struct ArcFile *arc;
+    int fileBase;
+
+    variant = (u32)variant; /* stand-in: the plain unsigned parameter gives other registers (checked) */
+    arc = func_020490F4(FK_DEMO_ARC_ID, (u16)((heapId & 0x7fff) | 0x8000));
+    model->animeFrame = 0;
+    model->playerHidden = 0;
+    model->endTile = d_021F4308[variant];
+    model->myStatus = myStatus;
+    model->endDir = d_021F4264[variant];
+    model->player = player;
+    model->playerMmdl = func_021A3074(player);
+    model->status.trans = d_021F426C;
+    model->status.scale.x = 0x1000;
+    model->status.scale.y = 0x1000;
+    model->status.scale.z = 0x1000;
+    func_0207ADC4(&model->status.rotate);
+    if (func_02008550(myStatus) == 0) {
+        fileBase = variant * FK_DEMO_MODEL_FILE_STEP;
+        model->modelRes = func_02046E24(arc, fileBase + 3);
+        model->genderAnimeRes = func_02046E24(arc, fileBase + 4);
+    } else {
+        fileBase = variant * FK_DEMO_MODEL_FILE_STEP;
+        model->modelRes = func_02046E24(arc, fileBase + 1);
+        model->genderAnimeRes = func_02046E24(arc, fileBase + 2);
+    }
+    model->sharedAnimeRes = func_02046E24(arc, fileBase + 5);
+    func_02047180(model->modelRes);
+    model->uploadPending = 1;
+    func_02049238(arc);
+}
+
+/* Builds the render object and the two animations of the model and starts both at frame 0. */
+void func_021F3BF0(FkDemoModel *model)
+{
+    int i;
+    int frame;
+
+    i = 0;
+    model->render = func_02047400(model->modelRes, 0, model->modelRes);
+    model->anime[0] = func_02047564(model->render, model->sharedAnimeRes, 0);
+    model->anime[1] = func_02047564(model->render, model->genderAnimeRes, 0);
+    model->object = func_0204767C(model->render, model->anime, 2);
+    frame = 0;
+    for (; i < 2; i++) {
+        func_0204784C(model->object, (u16)i, &frame);
+        func_020477A4(model->object, (u16)i);
+    }
+}
+
+/* Deletes the render object, the animations and the resources of the model. */
+void func_021F3C4C(FkDemoModel *model)
+{
+    func_02047738(model->object);
+    func_0204762C(model->anime[0]);
+    func_0204762C(model->anime[1]);
+    func_02047504(model->render);
+    func_020470D0(model->modelRes);
+    func_02046EFC(model->modelRes);
+    func_02046EFC(model->sharedAnimeRes);
+    func_02046EFC(model->genderAnimeRes);
+}
+
+/* Advances both model animations by one frame; returns 1 on the last frame. */
+int func_021F3C84(FkDemoModel *model)
+{
+    int length;
+    int limit;
+    int done;
+
+    length = func_021F36D4(model->anime[0]);
+    limit = model->animeFrame + 0x1000;
+    if (length <= limit) {
+        done = 1;
+        model->animeFrame = length - 0x1000;
+    } else {
+        done = 0;
+        model->animeFrame = limit;
+    }
+    func_0204784C(model->object, 0, &model->animeFrame);
+    func_0204784C(model->object, 1, &model->animeFrame);
+    return done;
+}
+
+/*
+ * Hides the real player model while the demo runs. With hide 0 it shows it
+ * again at the end tile and facing of the variant and moves the player there.
+ */
+void func_021F3CC4(FkDemoModel *model, int hide)
+{
+    VecFx32 pos;
+
+    if (hide) {
+        model->playerHidden = 1;
+        func_0216DAC8(model->playerMmdl, 1);
+        return;
+    }
+    model->playerHidden = 0;
+    func_0216DAC8(model->playerMmdl, 0);
+    func_0216E084(model->playerMmdl, (s16)(model->endTile.x), (s16)(model->endTile.y),
+                  (s16)(model->endTile.z), model->endDir);
+    func_02164010(model->playerMmdl);
+    func_0216D88C(model->playerMmdl, &pos);
+    func_021A3044(model->player, &pos);
+    func_0216DC18(model->playerMmdl, 0);
+}
+
+/* Uploads the model resource once (called by the task every frame until then). */
+void func_021F3D2C(FkDemoModel *model)
+{
+    if (model->uploadPending != 0) {
+        func_02047204(model->modelRes);
+        model->uploadPending = 0;
+    }
+}
+
+/* Draws the stand-in model. */
+void func_021F3D44(FkDemoModel *model)
+{
+    func_02047A60(model->object, &model->status);
+}
+
+/*
+ * Draw callback of the draw proc (template d_021F42C0).
+ *
+ * Addresses are Black-image addresses.
+ */
+void func_021F3D54(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkDemoDrawWork *work)
+{
+    func_021F3D44(work->model);
+}
+
+/*
+ * Creates the sound anime of the variant, or clears the slot for a variant
+ * without one.
+ *
  * note:     heap is u16: the original passes r2 straight to the stack slot
  *           of func_021F4040's u16 parameter (an int heap adds lsls/lsrs).
  */
-void func_021F3D44(char *a)
+void func_021F3D60(FkSoundAnime **out, int variant, u16 heapId)
 {
-    func_02047A60(*(void **)(a + 0x1c), a + 0x20);
-}
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-void func_021F3D54(int a, int b, char **c)
-{
-    func_021F3D44(*c);
-}
-
-
-
-void func_021F3D60(void *o, int idx, u16 heap)
-{
-    if (d_021F42A0[idx] != 0) {
-        *(u32 **)o = func_021F4040(d_021F43A4 + idx * 0x12, 0x96, idx + 0x1c, 10, heap);
+    if (d_021F42A0[variant] != 0) {
+        *out = func_021F4040(d_021F43A4[variant], FK_DEMO_ARC_ID, variant + FK_SOUND_ANIME_FILE, 10, heapId);
         return;
     }
-    MI_CpuFill8(o, 0, 4);
+    MI_CpuFill8(out, 0, 4);
 }
 
-
-
-
-void func_021F3D9C(void *o)
+/* Deletes the sound anime and clears the slot. */
+void func_021F3D9C(FkSoundAnime **soundAnime)
 {
-    if (*(void **)o != 0) {
-        func_021F408C(*(void **)o);
+    if (*soundAnime != 0) {
+        func_021F408C(*soundAnime);
     }
-    func_02082BCC(o, 0, 4);
+    MI_CpuFill8(soundAnime, 0, 4);
 }
 
-
-
-
-int func_021F3DB8(int **pp)
+/* Steps the sound anime; returns 1 when it ended or there is none. */
+int func_021F3DB8(FkSoundAnime **soundAnime)
 {
-    int r = 1;
+    int done = 1;
 
-    if (*pp != 0) {
-        r = func_021F40A0(*pp);
+    if (*soundAnime != 0) {
+        done = func_021F40A0(*soundAnime);
     }
-    return r;
+    return done;
 }
 
-
-
-
-void func_021F3DCC(int unused, int b, u32 *c)
+/*
+ * Init of the proc that ties sounds to the animation of a building model
+ * (template d_021F4344): starts the loop sound and finds the first trigger
+ * frame that lies ahead.
+ */
+void func_021F3DCC(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAnimeSoundWork *work)
 {
-    int r7;
+    struct BuildModelMan *man;
     u32 i;
-    int r;
+    int frame;
 
-    r7 = func_0218DC6C((u8 *)func_02188C98((u8 *)b));
+    man = func_0218DC6C(func_02188C98(fieldMap));
     i = 0;
-    c[1] = func_0218C654(r7, 0, (int)(&d_021F4278));
-    c[0] = r7;
-    r = func_0218C6F4((unsigned char *)r7, c[1], 1);
-    c[2] = 0x6000;
-    c[3] = i;
+    work->entry = func_0218C654(man, 0, &d_021F4278);
+    work->man = man;
+    frame = func_0218C6F4(man, work->entry, 1);
+    work->triggerFrame = 0x6000;
+    work->triggerIndex = i;
     for (; i < 1; i++) {
-        if (r < d_021F4258[i]) {
-            c[2] = d_021F4258[i];
-            c[3] = i;
+        if (frame < d_021F4258[i]) {
+            work->triggerFrame = d_021F4258[i];
+            work->triggerIndex = i;
             break;
         }
     }
-    func_02028A7C((struct SoundSys2 *)func_02012A30((const struct BigObj *)func_020120F4(func_02188C80((void *)b))), 0x746);
+    func_02028A7C(func_02012A30(func_020120F4(func_02188C80(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
 }
 
-
-
-
-void func_021F3E38(void *a0, void *a1)
+/* Exit of that proc: stops the loop sound. */
+void func_021F3E38(struct FieldSubproc *proc, struct FieldMap *fieldMap)
 {
-    func_02028B50((u8 *)func_02012A30(func_020120F4(func_02188C80(a1))), 0x746);
+    func_02028B50(func_02012A30(func_020120F4(func_02188C80(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
 }
 
-
-
-
-void func_021F3E54(int unused, int b, u32 *c)
+/* Update of that proc: plays the hit sound when the building animation reaches the trigger frame. */
+void func_021F3E54(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAnimeSoundWork *work)
 {
-    int r;
+    struct FieldSoundSystem *soundSys;
 
-    if (c[2] == func_0218C6F4((unsigned char *)c[0], c[1], 1)) {
-        r = func_02012A30((const struct BigObj *)func_020120F4(func_02188C80((void *)b)));
-        c[3] = 0;
-        c[2] = d_021F4258[c[3]];
-        func_02028A7C((struct SoundSys2 *)r, 0x692);
+    if (work->triggerFrame == func_0218C6F4(work->man, work->entry, 1)) {
+        soundSys = func_02012A30(func_020120F4(func_02188C80(fieldMap)));
+        work->triggerIndex = 0;
+        work->triggerFrame = d_021F4258[work->triggerIndex];
+        func_02028A7C(soundSys, FK_SE_BUILD_ANIME_HIT);
     }
 }

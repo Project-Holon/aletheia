@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02010794",
+   "name": "WIH_DWC_CreateFilterBuffer",
    "address": "0x02010794",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020107CC",
+   "name": "WIH_DWC_ResetFilterState",
    "address": "0x020107CC",
    "kind": "game",
    "region": "arm9",
@@ -149,7 +149,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02010DB4",
+   "name": "GPOWER_Init",
    "address": "0x02010DB4",
    "kind": "game",
    "region": "arm9",
@@ -161,7 +161,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02010EC0",
+   "name": "GPOWER_GetMinutesLeftByType",
    "address": "0x02010EC0",
    "kind": "game",
    "region": "arm9",

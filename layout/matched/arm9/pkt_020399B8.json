@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02039A2C",
+   "name": "GFL_NET_HANDLE_RequestNegotiation",
    "address": "0x02039A2C",
    "kind": "game",
    "region": "arm9",
@@ -42,9 +42,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02039C68",
+    "GFL_NET_HANDLE_SetTimingSyncRange",
     "sub_02039CA0",
-    "sub_02039CB4"
+    "GFL_NET_HANDLE_IsTimingSyncRange"
+   ],
+   "addresses": [
+    "0x02039C68",
+    "0x02039CA0",
+    "0x02039CB4"
    ]
   }
  ]

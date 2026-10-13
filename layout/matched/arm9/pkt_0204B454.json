@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0204B454",
+   "name": "CLACT_GetActorSurfacePos",
    "address": "0x0204B454",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204B49C",
+   "name": "CLACT_SetActorSurfacePosAxis",
    "address": "0x0204B49C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204B4EC",
+   "name": "CLACT_GetActorSurfacePosAxis",
    "address": "0x0204B4EC",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204B528",
+   "name": "CLACT_SetActorPos",
    "address": "0x0204B528",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204B53C",
+   "name": "CLACT_GetActorPos",
    "address": "0x0204B53C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204B550",
+   "name": "CLACT_SetActorPosAxis",
    "address": "0x0204B550",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204B560",
+   "name": "CLACT_GetActorPosAxis",
    "address": "0x0204B560",
    "kind": "game",
    "region": "arm9",
@@ -102,7 +102,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204B570"
+    "CLACT_SetActorAffineMode"
+   ],
+   "addresses": [
+    "0x0204B570"
    ]
   },
   {
@@ -117,7 +120,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204B59C"
+    "CLACT_SetActorAffineOriginAxis"
+   ],
+   "addresses": [
+    "0x0204B59C"
    ]
   },
   {
@@ -132,8 +138,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204B6F4",
-    "sub_0204B714"
+    "CLACT_SetActorPaletteOffset",
+    "CLACT_GetActorPaletteOffset"
+   ],
+   "addresses": [
+    "0x0204B6F4",
+    "0x0204B714"
    ]
   },
   {
@@ -148,12 +158,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204B898",
-    "sub_0204B8A0"
+    "CLACT_GetActorAnimSeq",
+    "CLACT_ChangeActorAnimSeq"
+   ],
+   "addresses": [
+    "0x0204B898",
+    "0x0204B8A0"
    ]
   },
   {
-   "name": "sub_0204B8C4",
+   "name": "CLACT_SetActorAnimFrame",
    "address": "0x0204B8C4",
    "kind": "game",
    "region": "arm9",
@@ -165,7 +179,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204B8D4",
+   "name": "CLACT_AddActorAnimFrame",
    "address": "0x0204B8D4",
    "kind": "game",
    "region": "arm9",
@@ -177,7 +191,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204B8F4",
+   "name": "CLACT_GetActorAnimFrame",
    "address": "0x0204B8F4",
    "kind": "game",
    "region": "arm9",
@@ -189,7 +203,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204B918",
+   "name": "CLACT_GetActorAnimSeqCount",
    "address": "0x0204B918",
    "kind": "game",
    "region": "arm9",

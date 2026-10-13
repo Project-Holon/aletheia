@@ -1,5 +1,5 @@
 /*
- * function: func_02176048
+ * function: INTRUDE_COMM_ReceiveJoinRequest
  * address:  0x02176048
  * packet:   pkt_ov011_02176048
  * region:   ov011
@@ -11,10 +11,10 @@
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_02175B14  0x02175B14  thumb  ov011
- *   func_02175FB8  0x02175FB8  thumb  ov011
+ *   INTRUDE_COMM_IsJoinRequestValid  0x02175FB8  thumb  ov011
  *   func_020392B8  0x020392B8  arm
  *   func_0203D1B4  0x0203D1B4  arm
- *   func_02175920  0x02175920  thumb  ov011
+ *   INTRUDE_COMM_SetSessionRequestSendFlag  0x02175920  thumb  ov011
  *   func_0203F4FC  0x0203F4FC  arm
  */
 #include "../include/Obj12438.h"
@@ -69,13 +69,13 @@ typedef struct {
 
 extern void func_02082BCC(void *p, int v, int n);
 extern int func_02175B14(u8 *p);
-extern int func_02175FB8(void *p, Src *src);
+extern int INTRUDE_COMM_IsJoinRequestValid(void *p, Src *src);
 extern u32 func_020392B8(void);
 extern int func_0203D1B4(void);
-extern void func_02175920(void *p);
+extern void INTRUDE_COMM_SetSessionRequestSendFlag(void *p);
 extern u32 func_0203F4FC(void);
 
-int func_02176048(u8 *a0, Work *p, Src *src, int idx)
+int INTRUDE_COMM_ReceiveJoinRequest(u8 *a0, Work *p, Src *src, int idx)
 {
     Rec *tmp = &p->tmp;
 
@@ -84,7 +84,7 @@ int func_02176048(u8 *a0, Work *p, Src *src, int idx)
         p->entries[idx].state = 2;
         return 0;
     }
-    if (func_02175FB8(a0 + 0x1AC, src) == 0) {
+    if (INTRUDE_COMM_IsJoinRequestValid(a0 + 0x1AC, src) == 0) {
         p->entries[idx].state = 2;
         return 0;
     }
@@ -103,7 +103,7 @@ int func_02176048(u8 *a0, Work *p, Src *src, int idx)
     tmp->h32 = src->head.f0_22;
     p->entries[idx].rec = *tmp;
     p->entries[idx].state = 1;
-    func_02175920(p);
+    INTRUDE_COMM_SetSessionRequestSendFlag(p);
     ((struct Obj12438 *)p)->f190 = func_0203F4FC();
     *((u8 *)p + 0x19C) = 0;
     return 1;

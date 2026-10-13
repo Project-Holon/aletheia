@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0207AB08",
+   "name": "FSi_SeekDummyCallback",
    "address": "0x0207AB08",
    "kind": "game",
    "region": "arm9",

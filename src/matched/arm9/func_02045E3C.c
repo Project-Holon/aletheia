@@ -1,5 +1,5 @@
 /*
- * function: func_02045E3C
+ * function: MSGDATA_DecryptUnits
  * address:  0x02045E3C
  * packet:   pkt_02045C44
  * region:   arm9
@@ -32,8 +32,8 @@
  * by a kind word, an argument count and that many argument words).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02045E3C.c \
- *       --func func_02045E3C --addr 0x02045E3C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MSGDATA_DecryptUnits.c \
+ *       --func MSGDATA_DecryptUnits --addr 0x02045E3C --cc 1.1p1
  */
 
 typedef unsigned short u16;
@@ -41,7 +41,7 @@ typedef unsigned int   u32;
 
 extern u16 func_02045A98(void);
 
-u32 func_02045E3C(u16 *str, u32 count, u32 msgIndex)
+u32 MSGDATA_DecryptUnits(u16 *str, u32 count, u32 msgIndex)
 {
     u16 eos = func_02045A98();
     u16 key = (u16)((msgIndex + 3) * 0x2983);

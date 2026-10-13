@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200B400",
+    "BATTLE_REC_AllocWork",
     "func_0200B424",
-    "func_0200B438",
-    "func_0200B440"
+    "BATTLE_REC_Delete",
+    "BATTLE_REC_GetWorkSize"
+   ],
+   "addresses": [
+    "0x0200B400",
+    "0x0200B424",
+    "0x0200B438",
+    "0x0200B440"
    ]
   }
  ]

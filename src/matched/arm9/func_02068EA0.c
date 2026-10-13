@@ -30,7 +30,7 @@
  * both the glyph record and the metrics record to the context's draw hook.
  *
  * symbols:
- *   func_02067F9C    0x02067F9C  arm
+ *   NNS_G2dFontGetGlyphIndex    0x02067F9C  arm
  *   func_02067FE4    0x02067FE4  arm
  *
  * Verified with:
@@ -44,7 +44,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Obj;
-extern u32 func_02067F9C(struct Obj **a0, u32 key);
+extern u32 NNS_G2dFontGetGlyphIndex(struct Obj **a0, u32 key);
 struct NNSG2dCharWidths;
 struct NNSG2dFont;
 extern const struct NNSG2dCharWidths *func_02067FE4(const struct NNSG2dFont *pFont, u32 idx);
@@ -61,7 +61,7 @@ s8 func_02068EA0(struct Ctx *ctx, struct Fnt2 **font, int x, int y, int a6, u16 
     s8 *g;
     u8 k;
 
-    idx = func_02067F9C((struct Obj **)font, code);
+    idx = NNS_G2dFontGetGlyphIndex((struct Obj **)font, code);
     if (idx == 0xffff)
         idx = (*font)->dflt;
     out[0] = (s8 *)func_02067FE4((const struct NNSG2dFont *)font, idx);

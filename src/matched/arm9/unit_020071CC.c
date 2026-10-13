@@ -11,10 +11,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020071CC
+ * function: SAVE_CONTROL_GetBlock
  *
  * symbols:
- *   func_020319A4  0x020319A4  arm
+ *   BACKUP_SYSTEM_GetRecordWork  0x020319A4  arm
  *
  * One function, twelve bytes, and it is the block lookup every save accessor
  * in this region goes through: src/matched/unit_02007454.c, unit_02007664.c,
@@ -53,9 +53,9 @@ struct Sub020071CCCtrl {
     void *unk14[9];
 };
 
-extern u32 func_020319A4(u8 *p, u32 id);
+extern u32 BACKUP_SYSTEM_GetRecordWork(u8 *p, u32 id);
 
-void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id)
+void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id)
 {
-    return (void *)func_020319A4(ctrl->unk10, id);
+    return (void *)BACKUP_SYSTEM_GetRecordWork(ctrl->unk10, id);
 }

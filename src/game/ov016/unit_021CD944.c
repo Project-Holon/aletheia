@@ -18,8 +18,8 @@
  *   func_021C0EA0  0x021C0EA0  arm  ov016
  *   func_021D1208  0x021D1208  arm  ov016
  *   func_021C0E40  0x021C0E40  arm  ov016
- *   func_021CDA0C  0x021CDA0C  arm  ov016
- *   func_021CDA10  0x021CDA10  arm  ov016
+ *   DWCi_SceneSetTestConfNopA  0x021CDA0C  arm  ov016
+ *   DWCi_SceneSetTestConfNopB  0x021CDA10  arm  ov016
  *   func_021D1568  0x021D1568  arm  ov016
  *   func_021CFFAC  0x021CFFAC  arm  ov016
  *   func_021D1524  0x021D1524  arm  ov016
@@ -31,8 +31,8 @@ extern int func_021D5580(int lcd);
 extern void func_021C0EA0(unsigned int *a, unsigned int *b);
 extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
 extern void func_021C0E40(unsigned int v);
-extern void func_021CDA0C(void);
-extern void func_021CDA10(void);
+extern void DWCi_SceneSetTestConfNopA(void);
+extern void DWCi_SceneSetTestConfNopB(void);
 extern signed char func_021D1568(void);
 extern void func_021CFFAC(unsigned int v);
 extern void func_021D1524(void);
@@ -70,8 +70,8 @@ void func_021CD944(void)
  */
 void func_021CD9CC(void)
 {
-    func_021CDA0C();
-    func_021CDA10();
+    DWCi_SceneSetTestConfNopA();
+    DWCi_SceneSetTestConfNopB();
     if (func_021D1568())
         return;
     func_021CFFAC(6);

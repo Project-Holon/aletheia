@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204D70C",
+   "name": "CLACT_GetVramCellUserAttrTable",
    "address": "0x0204D70C",
    "kind": "game",
    "region": "arm9",

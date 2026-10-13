@@ -7,7 +7,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02031324 0x02031324 arm
+ *   PROCSYS_Create 0x02031324 arm
  *   func_021F9CA4 0x021F9CA4 thumb
  *   func_021F9BF4 0x021F9BF4 thumb
  *   d_02200D04 0x02200D04 data a1
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, unsigned);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 extern void func_021F9CA4(void *);
 extern void func_021F9BF4(unsigned *ctx, unsigned index);
 extern char d_02200D04[];
@@ -41,7 +41,7 @@ Context *func_021F99CC(unsigned fallback, void *base, unsigned count, unsigned a
     ctx->arg = arg;
     ctx->base = base;
     ctx->list = list;
-    ctx->object = (unsigned int)func_02031324(heap);
+    ctx->object = (unsigned int)PROCSYS_Create(heap);
     func_021F9CA4((char *)ctx + 0x2c);
     func_021F9CA4((char *)ctx + 0x3c);
     func_021F9CA4((char *)ctx + 0x1c);

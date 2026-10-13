@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02027060",
+   "name": "GAME_BEACON_CheckActionPriority",
    "address": "0x02027060",
    "kind": "game",
    "region": "arm9",

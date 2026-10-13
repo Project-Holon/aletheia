@@ -1,5 +1,5 @@
 /*
- * function: func_021B1404
+ * function: VCT_AUDIO_QueuePending
  * address:  0x021B1404
  * packet:   pkt_ov013_021B1404
  * region:   ov013
@@ -35,7 +35,7 @@ extern struct {
 } g_021B4B98;
 extern int g_021B4BA0[3];
 
-int func_021B1404(struct Node *n)
+int VCT_AUDIO_QueuePending(struct Node *n)
 {
     int s;
 

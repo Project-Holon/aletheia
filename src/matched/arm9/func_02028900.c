@@ -1,5 +1,5 @@
 /*
- * function: func_02028900
+ * function: FIELD_SOUND_SYSTEM_GetFinalValue
  * address:  0x02028900
  * packet:   pkt_02028900
  * region:   arm9
@@ -36,7 +36,7 @@ typedef struct {
 
 extern s32 _s32_div_f(s32 a, s32 b);
 
-void *func_02028900(Obj *p)
+void *FIELD_SOUND_SYSTEM_GetFinalValue(Obj *p)
 {
     void *cur;
     s32 n;

@@ -1,5 +1,5 @@
 /*
- * function: func_0200F7B8
+ * function: GFL_NET_ERR_ShowScreen
  * address:  0x0200F7B8
  * packet:   pkt_0200F734
  * region:   arm9
@@ -11,9 +11,9 @@
  * blocker:  unresolved relocation(s): 0200FC0C (thumb, from name)*/
 
 typedef unsigned int   u32;
-extern u32 func_0200FC0C(u32 a0);
+extern u32 GFL_NET_ERR_ProcScreen(u32 a0);
 
-u32 func_0200F7B8(u32 a0)
+u32 GFL_NET_ERR_ShowScreen(u32 a0)
 {
-    return func_0200FC0C(a0);
+    return GFL_NET_ERR_ProcScreen(a0);
 }

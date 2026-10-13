@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B82C4.c
  * unit:     yes
- * function: func_021B82C4, func_021B82C8, func_021B82D0, func_021B82DC
+ * function: AOSS_Setsockopt, AOSS_Socket, AOSS_Bind, AOSS_Close
  * address:  0x021B82C4
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -11,24 +11,27 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   SOC_Close  0x0215F644  arm  ov009
  */
-extern int func_0215F428(int unused, int type);
-extern void func_0215F454(unsigned int, unsigned char *, unsigned char);
-extern int func_0215F644(int s);
-void func_021B82C4(void);
-int func_021B82C8(int unused, int type);
-void func_021B82D0(unsigned int a, unsigned char *p, unsigned char c);
-int func_021B82DC(int s);
+extern int func_0215F428(int domain, int type);
+extern void func_0215F454(unsigned int fd, unsigned char *addr, unsigned char addrLen);
+extern int SOC_Close(int fd);
+void AOSS_Setsockopt(void);
+int AOSS_Socket(int domain, int type);
+void AOSS_Bind(unsigned int fd, unsigned char *addr, unsigned char addrLen);
+int AOSS_Close(int fd);
 
 /*
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021B82C4.c \
- *       --func func_021B82C4 --addr 0x021B82C4 --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/AOSS_Setsockopt.c \
+ *       --func AOSS_Setsockopt --addr 0x021B82C4 --region ov016 --cc dsi/1.1p1 --thumb
  */
-void func_021B82C4(void)
+void AOSS_Setsockopt(void)
 {
 }
 
@@ -38,31 +41,31 @@ void func_021B82C4(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021B82C8.c \
- *       --func func_021B82C8 --addr 0x021B82C8 --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/AOSS_Socket.c \
+ *       --func AOSS_Socket --addr 0x021B82C8 --region ov016 --cc dsi/1.1p1 --thumb
  */
-int func_021B82C8(int unused, int type)
+int AOSS_Socket(int domain, int type)
 {
-    return func_0215F428(unused, type);
+    return func_0215F428(domain, type);
 }
 
 
 /*
- * Store c through p, then tail-call func_0215F454 with the same arguments.
+ * Store the length byte at the start of the address, then tail-call func_0215F454 with the same arguments.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021B82D0.c \
- *       --func func_021B82D0 --addr 0x021B82D0 --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/AOSS_Bind.c \
+ *       --func AOSS_Bind --addr 0x021B82D0 --region ov016 --cc dsi/1.1p1 --thumb
  */
-void func_021B82D0(unsigned int a, unsigned char *p, unsigned char c)
+void AOSS_Bind(unsigned int fd, unsigned char *addr, unsigned char addrLen)
 {
-    *p = c;
-    func_0215F454(a, p, c);
+    *addr = addrLen;
+    func_0215F454(fd, addr, addrLen);
 }
 
 
-int func_021B82DC(int s)
+int AOSS_Close(int fd)
 {
-    return func_0215F644(s);
+    return SOC_Close(fd);
 }

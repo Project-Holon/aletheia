@@ -42,8 +42,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020113F0",
+    "TIMEZONE_GetTimeZoneOfHour",
     "func_02011400"
+   ],
+   "addresses": [
+    "0x020113F0",
+    "0x02011400"
    ],
    "evidence": {
     "sole-ref": [
@@ -64,11 +68,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02011410"
+    "TIMEZONE_IsNight"
+   ],
+   "addresses": [
+    "0x02011410"
    ]
   },
   {
-   "name": "func_020114D0",
+   "name": "ICA_ANIME_CreateFull",
    "address": "0x020114D0",
    "kind": "game",
    "region": "arm9",
@@ -123,11 +130,16 @@
    "functions": [
     "func_02011610",
     "func_02011638",
-    "func_02011660"
+    "ICA_ANIME_GetScale"
+   ],
+   "addresses": [
+    "0x02011610",
+    "0x02011638",
+    "0x02011660"
    ]
   },
   {
-   "name": "func_020116C0",
+   "name": "ICA_ANIME_Clear",
    "address": "0x020116C0",
    "kind": "game",
    "region": "arm9",

@@ -28,7 +28,7 @@
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B404  0x0204B404  arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B95C  0x0204B95C  arm
+ *   CLACT_StartActorAnim  0x0204B95C  arm
  *   func_021F1FB4  0x021F1FB4  thumb  ov194
  */
 
@@ -59,7 +59,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B95C(struct Actor *a);
+extern void CLACT_StartActorAnim(struct Actor *a);
 extern int func_021F1FB4(u8 *p);
 void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
 {
@@ -109,7 +109,7 @@ void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
     for (i = *(u16 *)(p + 0x22); i < 16; i++) {
         func_0204B3DC((struct Obj *)(*(int *)(p + i * 4 + 0x44)), 0);
     }
-    func_0204B95C((struct Actor *)(*(int *)(p + *(u16 *)(p + 0x1e) * 4 + 0x44)));
+    CLACT_StartActorAnim((struct Actor *)(*(int *)(p + *(u16 *)(p + 0x1e) * 4 + 0x44)));
     *(int *)(p + 0x28) = 1;
     func_021F1FB4(p);
 }

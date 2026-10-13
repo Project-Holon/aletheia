@@ -12,9 +12,9 @@
  * sdk:      WcmEditScanExParam (libwcm.TWL.HYB.a wmif.o)
  *
  * symbols:
- *   func_021657C8    0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork    0x021657C8  arm  ov009
  *   func_021656D0    0x021656D0  arm  ov009
- *   func_02165918    0x02165918  arm  ov009
+ *   WCMi_GetNextScanChannel    0x02165918  arm  ov009
  *   func_0208EFC4    0x0208EFC4  arm
  *   MI_CpuCopy8      0x02082D44  arm
  *   g_021A1988       0x021A1988  data  ov009
@@ -41,9 +41,9 @@ typedef struct WCMWork {
 
 extern unsigned char g_021A1988[];
 extern unsigned char g_021A1990[];
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 extern unsigned long func_021656D0(unsigned long option);
-extern unsigned short func_02165918(unsigned short channel);
+extern unsigned short WCMi_GetNextScanChannel(unsigned short channel);
 extern unsigned short func_0208EFC4(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 
@@ -54,11 +54,11 @@ void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long opt
     unsigned short t;
     unsigned char *src;
 
-    wcmw = (WCMWork *)func_021657C8();
+    wcmw = (WCMWork *)WCMi_GetSystemWork();
     func_021656D0(option);
     wcmw->scanBufPtr = wcmw->scanBuf;
     wcmw->scanBufSize = 0x400;
-    wcmw->channelList = (1 << func_02165918(0)) >> 1;
+    wcmw->channelList = (1 << WCMi_GetNextScanChannel(0)) >> 1;
     t = wcmw->maxScanTime;
     if (t == 0) {
         t = func_0208EFC4();

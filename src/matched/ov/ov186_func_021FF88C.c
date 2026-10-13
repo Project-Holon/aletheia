@@ -8,21 +8,21 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02157170 0x02157170 thumb ov009
- *   func_02006210 0x02006210 thumb
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
+ *   GFL_USE_StopAllSe 0x02006210 thumb
  *   func_0200F7DC 0x0200F7DC thumb
  */
 #include "../include/Obj24863.h"
-extern int func_02157170(int, int);
-extern void func_02006210(void);
+extern int DWC_RAPCOMMON_HandleNetError(int, int);
+extern void GFL_USE_StopAllSe(void);
 extern void func_0200F7DC(void);
 int func_021FF88C(char *p)
 {
     if (!p) return 0;
-    switch (func_02157170(1, 0)) {
-    case 1: func_02006210(); return 1;
-    case 2: func_02006210(); ((struct Obj24863 *)p)->f5DC = 1; return 2;
-    case 3: func_02006210(); func_0200F7DC(); break;
+    switch (DWC_RAPCOMMON_HandleNetError(1, 0)) {
+    case 1: GFL_USE_StopAllSe(); return 1;
+    case 2: GFL_USE_StopAllSe(); ((struct Obj24863 *)p)->f5DC = 1; return 2;
+    case 3: GFL_USE_StopAllSe(); func_0200F7DC(); break;
     }
     return 0;
 }

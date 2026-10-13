@@ -21,7 +21,7 @@
  *   func_02045334  0x02045334  arm
  *   func_0201DD78  0x0201DD78  thumb
  *   func_0201CCE4  0x0201CCE4  thumb
- *   func_0201CE0C  0x0201CE0C  thumb
+ *   PRINTSYS_PrintStreamStop  0x0201CE0C  thumb
  *   func_0201C7A4  0x0201C7A4  thumb
  */
 
@@ -40,7 +40,7 @@ extern void func_020409B4(u32);
 extern void func_02045334(struct Descriptor *);
 extern void func_0201DD78(u32, u32, u32);
 extern void *func_0201CCE4(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
-extern void func_0201CE0C(void *);
+extern void PRINTSYS_PrintStreamStop(void *);
 extern void func_0201C7A4(void *, short, short, void *, void *);
 
 void func_021B6B8C(char *a, int b)
@@ -49,7 +49,7 @@ void func_021B6B8C(char *a, int b)
     func_0201DD78(1, 9, 0xc);
     func_02040588(1, 1);
     if (b != 0) {
-        func_0201CE0C(*(void **)a = func_0201CCE4(*(u32 *)(a + 0x1c), 0, 0,
+        PRINTSYS_PrintStreamStop(*(void **)a = func_0201CCE4(*(u32 *)(a + 0x1c), 0, 0,
                                   *(int *)(a + 0x2c), *(int *)(a + 0x24),
                                   *(int *)(a + 0x34), *(int *)(a + 0x28), 0,
                                   *(u16 *)(a + 0x44), 0xc));

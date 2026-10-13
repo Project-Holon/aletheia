@@ -10,8 +10,8 @@
  * symbols:
  *   func_021BA8BC 0x021BA8BC thumb ov213
  *   func_02050C04 0x02050C04 arm
- *   func_02051758 0x02051758 arm
- *   func_02051648 0x02051648 arm
+ *   PARTICLE_ReleaseCamera 0x02051758 arm
+ *   PARTICLE_InitCamera 0x02051648 arm
  *   func_0205121C 0x0205121C arm
  *   func_02051B04 0x02051B04 arm
  *   func_020056BC 0x020056BC thumb
@@ -32,8 +32,8 @@ struct Dst648;
 extern int d_021BB324[],d_021BB330[],d_021BB360[];
 extern void func_021BA8BC(char *p, int object);
 extern int func_02050C04(int a,int b,int c,int d);
-extern int func_02051758(int a);
-extern void func_02051648(struct Dst648 *p,struct Src648 *src,u16 a2,int *a3,int *a4,int *a5,u32 heap);
+extern int PARTICLE_ReleaseCamera(int a);
+extern void PARTICLE_InitCamera(struct Dst648 *p,struct Src648 *src,u16 a2,int *a3,int *a4,int *a5,u32 heap);
 extern int func_0205121C(u32 a,u32 b,u32 c);
 extern u16 func_02051B04(void *res);
 extern u32 func_020056BC(void);
@@ -53,8 +53,8 @@ void func_021BA81C(u8 *p,unsigned code)
     config.f14=0x1000;
     config.f18=0x400000;
     config.f1c=0;
-    func_02051758(*(int *)&((struct Obj02925 *)p)->f10);
-    func_02051648(*(struct Dst648 * *)&((struct Obj02925 *)p)->f10,&config,0x2000,d_021BB330,d_021BB324,d_021BB360,((struct Obj02925 *)p)->f4);
+    PARTICLE_ReleaseCamera(*(int *)&((struct Obj02925 *)p)->f10);
+    PARTICLE_InitCamera(*(struct Dst648 * *)&((struct Obj02925 *)p)->f10,&config,0x2000,d_021BB330,d_021BB324,d_021BB360,((struct Obj02925 *)p)->f4);
     resource=func_0205121C(0xB5,code,((struct Obj02925 *)p)->f4);
     p[0x4814]=func_02051B04((void *)resource);
     context=func_020056BC();

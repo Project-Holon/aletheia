@@ -1,5 +1,5 @@
 /*
- * function: func_0204A7A0
+ * function: CLACT_RegisterEmptyCharacter
  * address:  0x0204A7A0
  * packet:   pkt_0204A6C8
  * region:   arm9
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A74     0x02146A74  data
- *   g_020A1430     0x020A1430  data
+ *   g_ClactSystem     0x02146A74  data
+ *   g_ClactEmptyCharTemplate     0x020A1430  data
  *   s_clact_c      0x020A7F74  data
  *   sub_02030734   0x02030734  arm
- *   sub_0204DACC   0x0204DACC  arm
+ *   CLACT_SetupCharacterVram   0x0204DACC  arm
  *   sub_020307B0   0x020307B0  arm
  *
  * Claims the first busy cell (bit 31 of +0x3c) of the singleton's table at
@@ -22,7 +22,7 @@
  * record: the 0x18-byte template at 0x020A1430 is copied to the stack, the
  * DISPCNT OBJ-mapping bits and the size patched in, and the sixth word
  * holds a scratch block from sub_02030734 (clact.c, line 0x3c8) that is
- * registered through sub_0204DACC and freed at the end.  Returns the cell
+ * registered through CLACT_SetupCharacterVram and freed at the end.  Returns the cell
  * index, or -1 when none is found.
  *
  * Shape notes:
@@ -38,7 +38,7 @@
  *    docs/idioms/an-inverted-guard-returns-the-compare-constant-register.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204A7A0.c  *       --func func_0204A7A0 --addr 0x0204A7A0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_RegisterEmptyCharacter.c  *       --func CLACT_RegisterEmptyCharacter --addr 0x0204A7A0 --cc 1.1p1 --arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -60,18 +60,18 @@ struct Sys { u8 pad_00[0x104]; struct Owner owner; };
 
 struct Templ { u32 w0, w1, w2, w3, w4; void *w5; };
 
-extern struct Sys *g_02146A74;
-extern const struct Templ g_020A1430;
+extern struct Sys *g_ClactSystem;
+extern const struct Templ g_ClactEmptyCharTemplate;
 extern char s_clact_c[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Ovr;
 struct Res;
 struct Sink;
-extern void sub_0204DACC(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr, u32 mode);
+extern void CLACT_SetupCharacterVram(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr, u32 mode);
 extern u32 sub_020307B0(void *p);
 
-s32 func_0204A7A0(u32 size, u32 a2, u16 heapId)
+s32 CLACT_RegisterEmptyCharacter(u32 size, u32 a2, u16 heapId)
 {
     struct Sys   *sys;
     struct Owner *owner;
@@ -79,7 +79,7 @@ s32 func_0204A7A0(u32 size, u32 a2, u16 heapId)
     u32 i;
     struct Templ t;
 
-    sys   = g_02146A74;
+    sys   = g_ClactSystem;
     owner = &sys->owner;
 
     for (i = 0; i < owner->count; i++) {
@@ -92,12 +92,12 @@ s32 func_0204A7A0(u32 size, u32 a2, u16 heapId)
 found:
     if (i != (u32)-1) {
         slot = &sys->owner.slots[i];
-        t = g_020A1430;
+        t = g_ClactEmptyCharTemplate;
         t.w2 = *(volatile u32 *)0x04000000 & 0x00300010;
         t.w4 = size;
         t.w5 = sub_02030734((u16)((heapId & 0x7fff) | 0x8000), size, 1, s_clact_c, 0x3c8);
 
-        sub_0204DACC((struct Res *)(&g_02146A74->owner), i, (struct Sink *)(&t), 0, a2);
+        CLACT_SetupCharacterVram((struct Res *)(&g_ClactSystem->owner), i, (struct Sink *)(&t), 0, a2);
 
         slot->unk_3c &= ~0x80000000;
         slot->unk_24 = 0;

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202CA0C  0x0202CA0C  thumb
+ *   BGWINFRM_Delete  0x0202CA0C  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00085.h"
@@ -22,9 +22,9 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
 struct WinMgr;
-extern void func_0202CA0C(struct WinMgr *mgr);
+extern void BGWINFRM_Delete(struct WinMgr *mgr);
 
 void func_021BCA78(u8 *p)
 {
-    func_0202CA0C(*(struct WinMgr * *)&((struct Obj00085 *)p)->f20);
+    BGWINFRM_Delete(*(struct WinMgr * *)&((struct Obj00085 *)p)->f20);
 }

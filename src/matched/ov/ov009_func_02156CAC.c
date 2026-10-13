@@ -1,5 +1,5 @@
 /*
- * function: func_02156CAC
+ * function: DWC_RAP_IsStateIdle
  * address: 0x02156CAC
  * packet: pkt_ov009_02156CAC
  * region: ov009
@@ -10,14 +10,14 @@
  * status: EXACT
  * Sole-blocker leaf for ov009_func_021552AC, root claim granted.
  * symbols:
- *   d_021A8264 0x021A8264 data ov009 a4
+ *   _pRapWork 0x021A8264 data ov009 a4
  */
 typedef unsigned char u8;
-extern u8 *d_021A8264;
-int func_02156CAC(void)
+extern u8 *_pRapWork;
+int DWC_RAP_IsStateIdle(void)
 {
-    if (d_021A8264) {
-        if (*(int *)(d_021A8264 + 0x754) == 6) return 1;
+    if (_pRapWork) {
+        if (*(int *)(_pRapWork + 0x754) == 6) return 1;
         return 0;
     }
     return 0;

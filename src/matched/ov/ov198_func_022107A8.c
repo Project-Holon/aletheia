@@ -10,23 +10,23 @@
  * status: EXACT
  * lever: write upper experience to the same field in both if/else arms;
  *   one common store or a switch removes the original two-byte branch.
- * 2026-10-04: filed src/matched/arm9/func_02018544.c (EXACT, 8 bytes); needs the label registered by the integrator, then this resolves.
- * blocker: +0146 THM_CALL func_02018544 has no witness outside
+ * 2026-10-04: filed src/matched/arm9/POKE_TOOL_GetLevelMinExp.c (EXACT, 8 bytes); needs the label registered by the integrator, then this resolves.
+ * blocker: +0146 THM_CALL POKE_TOOL_GetLevelMinExp has no witness outside
  *   022107A8..0221099C. integrator-owned ARM9 Thumb tail stub, verified EXACT
  *   (8 bytes, 1/1 relocation resolved) in B9/blocker18544.log:
  *   typedef unsigned int u32;
- *   extern u32 func_0201854C(void *);
- *   u32 func_02018544(void *p) {return func_0201854C(p);}
- *   symbols: func_0201854C 0x0201854C thumb
+ *   extern u32 POKE_TOOL_GetBoxLevelMinExp(void *);
+ *   u32 POKE_TOOL_GetLevelMinExp(void *p) {return POKE_TOOL_GetBoxLevelMinExp(p);}
+ *   symbols: POKE_TOOL_GetBoxLevelMinExp 0x0201854C thumb
  * symbols:
  *   func_02017E1C 0x02017E1C thumb
- *   func_02017F00 0x02017F00 thumb
+ *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   func_020276C4 0x020276C4 thumb
- *   func_02018544 0x02018544 thumb
+ *   POKE_TOOL_GetLevelMinExp 0x02018544 thumb
  *   func_02018584 0x02018584 thumb
- *   sub_0201C158 0x0201C158 thumb
+ *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   sub_0201BD28 0x0201BD28 thumb
- *   sub_0201C1F4 0x0201C1F4 thumb
+ *   WAZA_TOOL_IsAlwaysHit 0x0201C1F4 thumb
  * 020276C4's matched legacy C has unused a1/a2/a3 parameters; this caller
  * and the callee body use only a0, so its declaration here has one argument.
  */
@@ -45,13 +45,13 @@ struct Summary {
     struct Move moves[4];
 };
 extern u32 func_02017E1C(void *,u32,u32);
-extern u8 func_02017F00(void *);
+extern u8 POKE_TOOL_GetGender(void *);
 extern int func_020276C4(int a0);
-extern u32 func_02018544(void *);
+extern u32 POKE_TOOL_GetLevelMinExp(void *);
 extern u32 func_02018584(u16,u16,u16);
-extern u8 sub_0201C158(u16,u32);
+extern u8 WAZA_TOOL_GetMaxPP(u16,u32);
 extern u32 sub_0201BD28(u16,u32);
-extern u32 sub_0201C1F4(u16);
+extern u32 WAZA_TOOL_IsAlwaysHit(u16);
 void func_022107A8(void *unused,void *mon,struct Summary *p)
 {
     u32 exp;
@@ -77,14 +77,14 @@ void func_022107A8(void *unused,void *mon,struct Summary *p)
     p->level=(u8)func_02017E1C(p->mon,0x9e,0);
     if(func_02017E1C(p->mon,0xad,0)==1) p->egg=0;
     else p->egg=1;
-    p->gender=func_02017F00(p->mon);
+    p->gender=POKE_TOOL_GetGender(p->mon);
     p->nature=(u8)func_020276C4((int)p->mon);
     p->flag=(u8)func_02017E1C(p->mon,0x4c,0);
     p->item=func_02017E1C(p->mon,10,0);
     p->unknown=func_02017E1C(p->mon,6,0);
     p->personality=func_02017E1C(p->mon,0x6f,0);
     p->exp=func_02017E1C(p->mon,8,0);
-    exp=func_02018544(p->mon);
+    exp=POKE_TOOL_GetLevelMinExp(p->mon);
     p->lower=exp;
     if(p->level==100) p->upper=p->lower;
     else p->upper=func_02018584(p->species,(u16)p->personality,(u16)(p->level+1));
@@ -96,10 +96,10 @@ void func_022107A8(void *unused,void *mon,struct Summary *p)
         if(moves[i].id==0) continue;
         move->pp=func_02017E1C(p->mon,i+0x3a,0);
         move->up=func_02017E1C(p->mon,i+0x3e,0);
-        move->up=sub_0201C158(move->id,move->up);
+        move->up=WAZA_TOOL_GetMaxPP(move->id,move->up);
         move->kind=sub_0201BD28(move->id,0);
         move->power=sub_0201BD28(move->id,2);
-        if(sub_0201C1F4(move->id)==1) move->type=0;
+        if(WAZA_TOOL_IsAlwaysHit(move->id)==1) move->type=0;
         else move->type=sub_0201BD28(move->id,4);
         move->accuracy=sub_0201BD28(move->id,3);
     }

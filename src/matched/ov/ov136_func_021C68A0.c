@@ -12,8 +12,8 @@
  * symbols:
  *   func_0201C4E4            0x0201C4E4  thumb
  *   func_0201C6C4            0x0201C6C4  thumb
- *   func_0202CD94 0x0202CD94 thumb
- *   func_0202DBC4  0x0202DBC4  thumb
+ *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
+ *   PMS_DRAW_Main  0x0202DBC4  thumb
  *   func_020310C4            0x020310C4  arm
  *   func_02045334            0x02045334  arm
  *   func_02045770            0x02045770  arm
@@ -37,7 +37,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct WinMgr;
 extern int (*const d_021C7DA8[])(u8 *);
-extern void func_0202CD94(struct WinMgr *mgr);
+extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern void func_021C6594(u8 *);
 struct Descriptor;
 struct PrintSys;
@@ -47,7 +47,7 @@ extern void func_02045334(struct Descriptor *d);
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_020310C4(struct Tcbl *p);
-extern void func_0202DBC4(u8 *p);
+extern void PMS_DRAW_Main(u8 *p);
 int func_021C68A0(u8 *p, int *st)
 {
     int i;
@@ -57,7 +57,7 @@ int func_021C68A0(u8 *p, int *st)
         return 0;
     }
     if (*(u8 * *)&((struct Obj01752 *)p)->f8 != 0) {
-        func_0202CD94(**(struct WinMgr ** *)&((struct Obj01752 *)p)->f8);
+        BGWINFRM_UpdateMoves(**(struct WinMgr ** *)&((struct Obj01752 *)p)->f8);
         func_021C6594(*(u8 * *)&((struct Obj01752 *)p)->f8);
         if (((struct Obj23598 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1C4 != 0) {
             func_0201C4E4(((struct Obj23599 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1C4);
@@ -76,7 +76,7 @@ int func_021C68A0(u8 *p, int *st)
             func_020310C4(((struct Obj23602 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1CC);
         }
         if (((struct Obj23603 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f36C != 0) {
-            func_0202DBC4(((struct Obj23604 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f35C);
+            PMS_DRAW_Main(((struct Obj23604 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f35C);
             func_0201C4E4(((struct Obj23605 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f36C);
             for (j = 0x1B; j < 0x20; j++) {
                 void *g = ((struct Obj23606 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1C4;

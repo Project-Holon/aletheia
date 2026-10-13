@@ -1,7 +1,7 @@
 /*
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
  *
- * function: func_02043AAC
+ * function: BMP_BlitPaletteOffset
  * address:  0x02043AAC
  * packet:   pkt_0204384C
  * region:   arm9
@@ -12,7 +12,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204427C  0x0204427C  arm
+ *   BMP_Blit4bppTo8bpp  0x0204427C  arm
  *
  * bmp.c's ten-argument forwarder onto 0x0204427C.  The first four arguments
  * pass through in their registers; the six stacked ones are copied down to
@@ -33,8 +33,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02043AAC.c \
- *       --func func_02043AAC --addr 0x02043AAC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/BMP_BlitPaletteOffset.c \
+ *       --func BMP_BlitPaletteOffset --addr 0x02043AAC --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -49,10 +49,10 @@ struct Bmp {
 
 typedef signed int     s32;
 struct Surf;
-extern void func_0204427C(struct Surf *src, struct Surf *dst, s32 x, s32 y, s32 dx, s32 dy, u32 w, u32 h, u16 key, u8 pal);
+extern void BMP_Blit4bppTo8bpp(struct Surf *src, struct Surf *dst, s32 x, s32 y, s32 dx, s32 dy, u32 w, u32 h, u16 key, u8 pal);
 
-void func_02043AAC(struct Bmp *dst, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
+void BMP_BlitPaletteOffset(struct Bmp *dst, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
                    u32 a7, u32 a8, u16 a9, u16 a10)
 {
-    func_0204427C((struct Surf *)dst, (struct Surf *)a2, a3, a4, a5, a6, a7, a8, a9, a10);
+    BMP_Blit4bppTo8bpp((struct Surf *)dst, (struct Surf *)a2, a3, a4, a5, a6, a7, a8, a9, a10);
 }

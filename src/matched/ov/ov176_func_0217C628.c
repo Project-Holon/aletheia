@@ -32,11 +32,11 @@
  *   func_0217D388 0x0217D388 thumb ov176
  *   func_0217E1FC 0x0217E1FC thumb ov176
  *   func_0217E23C 0x0217E23C thumb ov176
- *   func_0201A918 0x0201A918 thumb
+ *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_0200B078 0x0200B078 thumb
  *   func_0200E994 0x0200E994 thumb
- *   func_02006210 0x02006210 thumb
+ *   GFL_USE_StopAllSe 0x02006210 thumb
  *   func_020399A8 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  *   func_02039CB4 0x02039CB4 arm
@@ -80,11 +80,11 @@ extern int func_0217E178(int *);
 extern void func_0217D388(int *,int *);
 extern int func_0217E1FC(int,int);
 extern int func_0217E23C(char *,void **);
-extern int func_0201A918(void);
+extern int POKE_REGULATION_GetDataSize(void);
 extern void func_02082D44(const void *,void *,u32);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern u32 func_0200E994(void *base, void *key);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -127,7 +127,7 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
     case 13:func_0217D388(*(int * *)&((struct Obj00241 *)p)->f1BC,(int *)p);if(func_0217E1FC(*(int *)&((struct Obj00241 *)p)->fC,*(int *)&((struct Obj00241 *)p)->f1BC))*state=14;break;
     case 14:{
         void *out;
-        if(func_0217E23C(*(char * *)&((struct Obj00241 *)p)->fC,&out)){func_02082D44(out,((struct Obj00241 *)p)->f1C0,func_0201A918()+0xd4);*state=15;}break;
+        if(func_0217E23C(*(char * *)&((struct Obj00241 *)p)->fC,&out)){func_02082D44(out,((struct Obj00241 *)p)->f1C0,POKE_REGULATION_GetDataSize()+0xd4);*state=15;}break;
     }
     case 15:
         if(((struct Obj24412 *)(*(u8 * *)&((struct Obj00241 *)p)->f1BC))->f40==((struct Obj24413 *)(*(u8 * *)&((struct Obj00241 *)p)->f1C0))->f40){
@@ -135,14 +135,14 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
             int b=func_0200E994(((struct Obj00241 *)p)->f34,*(u8 * *)&((struct Obj00241 *)p)->f1C0+0x20);
             ((struct Obj00241 *)p)->f1D4=(a!=0||(a==0&&b==0));
             *state=16;
-        }else{func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_02006210();*state=21;}
+        }else{func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);GFL_USE_StopAllSe();*state=21;}
         break;
     case 16:func_02039C68((struct Link *)func_020399A8(),0x48,0x1f);*state=17;break;
     case 17:if(func_02039CB4((struct Link *)func_020399A8(),0x48,0x1f))*state=18;break;
     case 18:if(func_0217E2C0((int)(((struct Obj00241 *)p)->fC),(int)((u32 *)(p+0x1d4))))*state=19;break;
     case 19:if(func_0217E2F8(((struct Obj00241 *)p)->fC,(u32 *)(p+0x1d8)))*state=20;break;
     case 20:
-        func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_02006210();
+        func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);GFL_USE_StopAllSe();
         if(((struct Obj00241 *)p)->f1D8&&((struct Obj00241 *)p)->f1D4){func_020061E4(0x63a);*state=27;}else *state=24;break;
     case 21:if(func_0217E1B8(*(int * *)&((struct Obj00241 *)p)->fC))*state=22;break;
     case 22:if(func_0217E1C0(*(int * *)&((struct Obj00241 *)p)->fC))*state=23;break;

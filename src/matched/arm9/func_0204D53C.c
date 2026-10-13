@@ -1,5 +1,5 @@
 /*
- * function: func_0204D53C
+ * function: CLACT_ResetMultiCellAnim
  * address:  0x0204D53C
  * packet:   pkt_0204D510
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 struct CellAnim;
 extern void func_020643A4(struct CellAnim *anim);
 
-void func_0204D53C(u8 *a0)
+void CLACT_ResetMultiCellAnim(u8 *a0)
 {
     func_020643A4((struct CellAnim *)(a0 + 0xc));
 }

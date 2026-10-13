@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02011F28",
+   "name": "GAMESYSTEM_Init",
    "address": "0x02011F28",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02011F90",
+   "name": "GAMESYSTEM_Exit",
    "address": "0x02011F90",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02011FB8",
+   "name": "GAMESYSTEM_Setup",
    "address": "0x02011FB8",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201205C",
+   "name": "GAMESYSTEM_UpdateAutoComm",
    "address": "0x0201205C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020120A4",
+   "name": "GAMESYSTEM_UpdateEventActiveFlag",
    "address": "0x020120A4",
    "kind": "game",
    "region": "arm9",

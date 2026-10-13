@@ -1,5 +1,5 @@
 /*
- * function: func_0201691C
+ * function: MCSS_TransPaletteTask
  * address:  0x0201691C
  * packet:   pkt_020163C4
  * region:   arm9
@@ -48,7 +48,7 @@ extern void func_02063E54(void *a, u32 b, int c, void *d);
 extern u32 sub_020307B0(void *p);
 extern void sub_02030EAC(struct Node *n);
 
-void func_0201691C(void *a0, struct Obj_0201691C *a1)
+void MCSS_TransPaletteTask(void *a0, struct Obj_0201691C *a1)
 {
     if (a1->f28 == 0) {
         u32 v = *(volatile u16 *)0x04000006;

@@ -29,7 +29,7 @@
  *   ov208_func_021BDBEC 0x021BDBEC thumb ov208
  *   ov208_func_021BDBA0 0x021BDBA0 thumb ov208
  *   ov208_func_021BDC2C 0x021BDC2C thumb ov208
- *   func_02012BE0 0x02012BE0 thumb
+ *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
  *   _u32_div_f 0x0209C2B0 arm
  */
 
@@ -57,7 +57,7 @@ extern void ov208_func_021C5F34(u16 *heap, u8 *p, int key, int mode);
 extern void ov208_func_021BDBEC(void *sys, int v);
 extern void ov208_func_021BDBA0(void *sys);
 extern int ov208_func_021BDC2C(void *sys);
-extern void func_02012BE0(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
@@ -214,7 +214,7 @@ void ov208_func_021C4298(void *proc, int *seq, u16 *heap, u8 *p, int key, int ev
         ov208_func_021BDBA0(sys);
         return;
     case 5:
-        func_02012BE0((void *)ov208_func_021BC3A4(key), 0x14, ov208_func_021BDC2C(sys));
+        GAME_DATA_SetSaveFlag((void *)ov208_func_021BC3A4(key), 0x14, ov208_func_021BDC2C(sys));
         ov208_func_021BDBA0(sys);
         return;
     case 22:

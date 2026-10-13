@@ -14,7 +14,7 @@
  *   func_021BAA08 0x021BAA08 thumb ov206
  *   func_021BA960 0x021BA960 thumb ov206
  *   func_021BAF7C 0x021BAF7C thumb ov206
- *   func_0201AF80 0x0201AF80 thumb
+ *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_0201EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
@@ -36,7 +36,7 @@ extern void func_021BA960(int heap, int window, void *printer, int font, int inp
 extern void func_021BAF7C(char *p);
 struct MsgBank;
 struct U16Vec;
-extern u16 *func_0201AF80(u32 heap, u16 *countOut);
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_020307B0(void *p);
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
@@ -76,7 +76,7 @@ void func_021BAA4C(char *p)
     }
     r7 = ((struct Obj00031 *)p)->fC;
     if (((struct Obj00031 *)p)->f4 == 0) {
-        u16 *tab = func_0201AF80(((struct Obj00031 *)p)->f0, 0);
+        u16 *tab = POKE_PERSONAL_LoadFormTable(((struct Obj00031 *)p)->f0, 0);
         r7 = tab[((struct Obj00031 *)p)->fC];
         func_020307B0(tab);
     }

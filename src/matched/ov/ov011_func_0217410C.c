@@ -1,5 +1,5 @@
 /*
- * function: func_0217410C
+ * function: INTRUDE_CMD_RecvResultRecord
  * address:  0x0217410C
  * packet:   pkt_ov011_0217410C
  * region:   ov011
@@ -26,9 +26,9 @@
  *   func_0203D1A4  0x0203D1A4  arm
  *   func_02175DA8  0x02175DA8  thumb  ov011
  *   func_021763D8  0x021763D8  thumb  ov011
- *   func_02175E30  0x02175E30  thumb  ov011
- *   func_02176424  0x02176424  thumb  ov011
- *   func_02175D7C  0x02175D7C  thumb  ov011
+ *   INTRUDE_COMM_RecordResultOutcome  0x02175E30  thumb  ov011
+ *   INTRUDE_COMM_CountOutcomes  0x02176424  thumb  ov011
+ *   INTRUDE_COMM_SetResultRecord  0x02175D7C  thumb  ov011
  *
  * Addresses are Black-image addresses.
  */
@@ -49,11 +49,11 @@ extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(struct Link *p);
 extern int func_02175DA8(u8 *);
 extern void func_021763D8(u8 *, u32);
-extern void func_02175E30(void *, u8 *, struct Rec *);
-extern int func_02176424(u8 *, u8 *, u8 *);
-extern void func_02175D7C(void *, u8 *, void *);
+extern void INTRUDE_COMM_RecordResultOutcome(void *, u8 *, struct Rec *);
+extern int INTRUDE_COMM_CountOutcomes(u8 *, u8 *, u8 *);
+extern void INTRUDE_COMM_SetResultRecord(void *, u8 *, void *);
 
-void func_0217410C(int a0, int a1, u8 *b, u8 *s)
+void INTRUDE_CMD_RecvResultRecord(int a0, int a1, u8 *b, u8 *s)
 {
     u8 *y;
     int flag;
@@ -80,10 +80,10 @@ void func_0217410C(int a0, int a1, u8 *b, u8 *s)
             func_021763D8(y, ((struct Rec *)b)->lo);
             s[0x907] = 1;
         } else {
-            func_02175E30(x, s, (struct Rec *)b);
+            INTRUDE_COMM_RecordResultOutcome(x, s, (struct Rec *)b);
             s[0x907] = 1;
         }
-        if (func_02176424(y, &buf[1], &buf[0]) == 1) {
+        if (INTRUDE_COMM_CountOutcomes(y, &buf[1], &buf[0]) == 1) {
             flag = 1;
             s[0x907] = 1;
         }
@@ -101,5 +101,5 @@ void func_0217410C(int a0, int a1, u8 *b, u8 *s)
         s[0x356] = 1;
         s[0x93e] = 1;
     }
-    func_02175D7C(s, s + 0x1ac, b);
+    INTRUDE_COMM_SetResultRecord(s, s + 0x1ac, b);
 }

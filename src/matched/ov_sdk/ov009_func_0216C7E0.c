@@ -1,5 +1,5 @@
 /*
- * function: func_0216C7E0
+ * function: DWCi_CustomCommonInit
  * address:  0x0216C7E0
  * packet:   pkt_02155168
  * region:   ov009
@@ -21,7 +21,7 @@
 
 extern struct DwcGlobal g_021AA878;
 
-void func_0216C7E0(unsigned char v)
+void DWCi_CustomCommonInit(unsigned char v)
 {
     char *p = *(char **)(((char *)&g_021AA878) + 4);
 

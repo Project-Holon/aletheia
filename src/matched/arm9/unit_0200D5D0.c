@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200D5D0
+ * function: GDS_PROFILE_Init
  *
  * 0x0200D5D0..0x0200D6D0, 256 bytes, one function.
  *
@@ -117,7 +117,7 @@ struct GdsProfile {
     u16 unk7E;
 };
 
-void func_0200D5D0(struct GdsProfile *p, void *sys)
+void GDS_PROFILE_Init(struct GdsProfile *p, void *sys)
 {
     struct OwnerInfo info;
     u32 a;

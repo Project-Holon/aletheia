@@ -1,5 +1,5 @@
 /*
- * function: func_0202939C
+ * function: FIELD_SOUND_SYSTEM_PushCurrentBgm
  * address:  0x0202939C
  * packet:   pkt_0202939C
  * region:   arm9
@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_PushBgm  0x02005E64  thumb
  */
 
 typedef unsigned char  u8;
@@ -24,10 +28,10 @@ struct T {
 };
 
 extern void func_02028BA0(u8 *o, u32 v);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
 
-void func_0202939C(struct T *p)
+void FIELD_SOUND_SYSTEM_PushCurrentBgm(struct T *p)
 {
     if (p->f08 == 0) {
         return;
@@ -38,8 +42,8 @@ void func_0202939C(struct T *p)
     if (p->f20 == 0) {
         func_02028BA0((u8 *)p, 1);
     }
-    func_02005DE4((void *)1);
-    func_02005E64();
+    GFL_USE_SetBgmPlayerParam((void *)1);
+    GFL_USE_PushBgm();
     *(u32 *)((char *)p + 0x24 + p->f20 * 4) = p->f08;
     p->f20 = p->f20 + 1;
     p->f08 = 0;

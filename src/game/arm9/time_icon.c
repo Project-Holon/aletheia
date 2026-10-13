@@ -1,7 +1,7 @@
 /*
  * file:     time_icon.c
  * unit:     yes
- * function: func_0202E770, func_0202E794, func_0202E79C, func_0202E7C4, func_0202E7DC, func_0202E7E0, func_0202E7E4, func_0202E80C, func_0202E818, func_0202E82C, func_0202E83C, func_0202E848, func_0202E888, func_0202E8A4, func_0202E8B8, func_0202E8CC, func_0202E8D8, func_0202E930, func_0202E938, func_0202E940, func_0202E9AC, func_0202EA20, func_0202EA40, func_0202EB04, func_0202EB0C, func_0202EB14, func_0202EB44, func_0202EB4C, func_0202EB60, func_0202EB7C, func_0202EB9C, func_0202EC24, func_0202EC44, func_0202EC7C, func_0202ECB0, func_0202ED00, func_0202ED60, func_0202ED90, func_0202EDE4, func_0202EE0C, func_0202EE30, func_0202EE8C, func_0202EECC, func_0202EF60, func_0202EF98, func_0202F038, sub_0202F098, sub_0202F0A4, func_0202F0B0, sub_0202F114, sub_0202F138, sub_0202F144, sub_0202F170, func_0202F190, func_0202F1B4, func_0202F27C, func_0202F2AC, func_0202F2F4, func_0202F30C, func_0202F358, func_0202F3AC, func_0202F41C, func_0202F464, func_0202F47C, func_0202F488, func_0202F498, func_0202F630, func_0202F640, func_0202F688, func_0202F6D8, func_0202F72C, func_0202F738, func_0202F768, func_0202F774, func_0202F788, func_0202F7C4, func_0202F870, func_0202F940, func_0202F9F4, func_0202F9F8
+ * function: COMM_PLAYER_SUPPORT_Create, func_0202E794, COMM_PLAYER_SUPPORT_Init, COMM_PLAYER_SUPPORT_SetModeAndCurrent, COMM_PLAYER_SUPPORT_GetCurrent, COMM_PLAYER_SUPPORT_GetMode, COMM_PLAYER_SUPPORT_SavePreviousAndSuspend, COMM_PLAYER_SUPPORT_StashMode, COMM_PLAYER_SUPPORT_HasSavedMode, func_0202E82C, func_0202E83C, func_0202E848, func_0202E888, func_0202E8A4, func_0202E8B8, func_0202E8CC, COMM_PLAYER_SUPPORT_FindPeerRecord, COMM_PLAYER_SUPPORT_GetRecordFieldPtr, COMM_PLAYER_SUPPORT_GetRecordField, BLINK_PALANM_Create, BLINK_PALANM_LoadPalettes, func_0202EA20, BLINK_PALANM_Update, BLINK_PALANM_ResetPhase, func_0202EB0C, func_0202EB14, func_0202EB44, func_0202EB4C, func_0202EB60, func_0202EB7C, func_0202EB9C, func_0202EC24, func_0202EC44, func_0202EC7C, func_0202ECB0, func_0202ED00, func_0202ED60, func_0202ED90, func_0202EDE4, func_0202EE0C, func_0202EE30, func_0202EE8C, TIME_ICON_Init, TIME_ICON_Alloc, TIME_ICON_Start, func_0202F038, TIME_ICON_TaskMain, TIME_ICON_NodeMain, TIME_ICON_Update, sub_0202F114, sub_0202F138, sub_0202F144, sub_0202F170, func_0202F190, func_0202F1B4, func_0202F27C, func_0202F2AC, func_0202F2F4, func_0202F30C, func_0202F358, func_0202F3AC, func_0202F41C, func_0202F464, func_0202F47C, func_0202F488, func_0202F498, func_0202F630, func_0202F640, func_0202F688, func_0202F6D8, func_0202F72C, func_0202F738, func_0202F768, func_0202F774, func_0202F788, func_0202F7C4, func_0202F870, func_0202F940, func_0202F9F4, func_0202F9F8
  * address:  0x0202E770
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -24,14 +24,14 @@
  *   func_02012138  0x02012138  thumb
  *   func_02158468  0x02158468  thumb
  *   func_0203F4E4  0x0203F4E4  arm
- *   func_0201298C  0x0201298C  thumb
+ *   GAME_DATA_SetSeason  0x0201298C  thumb
  *   func_020084F4  0x020084F4  thumb
  *   func_02008534  0x02008534  thumb
  *   blink_palanm_File    0x020A7804  data
  *   func_02049F78      0x02049F78  arm
  *   FX_SinCosTable_  0x020A1B38  data
  *   func_02061CA4  0x02061CA4  arm
- *   func_02085D3C  0x02085D3C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_02087E60  0x02087E60  arm
  *   func_02087DC4  0x02087DC4  arm
  *   func_02087DE0  0x02087DE0  arm
@@ -46,7 +46,7 @@
  *   time_icon_File     0x020A7814  data
  *   func_02030DA8  0x02030DA8  arm
  *   func_020311B8  0x020311B8  arm
- *   func_02031290  0x02031290  arm
+ *   TCBL_GetWork  0x02031290  arm
  *   func_020056EC   0x020056EC  thumb
  *   func_0204384C   0x0204384C  arm
  *   func_02045730   0x02045730  arm
@@ -54,7 +54,7 @@
  *   func_02045738   0x02045738  arm
  *   func_02045760   0x02045760  arm
  *   func_02045740   0x02045740  arm
- *   func_02045778   0x02045778  arm
+ *   BMP_WIN_GetPalette   0x02045778  arm
  *   func_020450F0   0x020450F0  arm
  *   func_02045374   0x02045374  arm
  *   func_02041B6C   0x02041B6C  arm
@@ -64,27 +64,27 @@
  *   func_02045334   0x02045334  arm
  *   func_020452E8   0x020452E8  arm
  *   func_02030EAC   0x02030EAC  arm
- *   func_02031194   0x02031194  arm
+ *   TCBL_DeleteTask   0x02031194  arm
  *   func_020439A0   0x020439A0  arm
  *   sItemGfxExtraTable      0x020A03C8  data
  *   func_020185F0   0x020185F0  thumb
  *   func_02017DBC  0x02017DBC  thumb
  *   func_02017DE4  0x02017DE4  thumb
- *   func_02018488  0x02018488  thumb
- *   func_02017E64   0x02017E64  thumb
+ *   POKE_TOOL_IsBoxOwnedByPlayer  0x02018488  thumb
+ *   POKE_TOOL_SetBoxValue   0x02017E64  thumb
  *   func_02017E88   0x02017E88  thumb
- *   func_02014034   0x02014034  thumb
- *   func_02017EB4  0x02017EB4  thumb
+ *   ZONEDATA_IsRawZoneGroup4CTo69   0x02014034  thumb
+ *   POKE_TOOL_IsBoxShiny  0x02017EB4  thumb
  *   func_020212E4  0x020212E4  thumb
  *   func_02007084  0x02007084  thumb
  *   func_0203CD98  0x0203CD98  arm
- *   func_0203CF04  0x0203CF04  arm
+ *   GFL_NET_ClearExitFlag  0x0203CF04  arm
  *   func_0203CEAC  0x0203CEAC  arm
- *   func_0203D0D0  0x0203D0D0  arm
- *   func_0203CF5C  0x0203CF5C  arm
+ *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
+ *   GFL_NET_Main  0x0203CF5C  arm
  *   func_0203CDBC  0x0203CDBC  arm
  *   func_020351A0  0x020351A0  arm
- *   func_020053EC  0x020053EC  thumb
+ *   GFL_USE_PollPowerExit  0x020053EC  thumb
  *   func_0207D534    0x0207D534  arm
  *   func_0207D3AC    0x0207D3AC  arm
  *   func_0207D3E4    0x0207D3E4  arm
@@ -103,7 +103,7 @@
  *   func_02062AD4    0x02062AD4  arm
  *   func_02062A98    0x02062A98  arm
  *   func_02082A48    0x02082A48  arm
- *   func_02043754    0x02043754  arm
+ *   BMP_CreateFromVram    0x02043754  arm
  *   func_0201D7EC    0x0201D7EC  thumb
  *   func_02045B38    0x02045B38  arm
  *   func_02045EC0    0x02045EC0  arm
@@ -117,7 +117,7 @@
  *   d_021BD574     0x021BD574  data
  *   sOverlayLaunchWork     0x02146948  data
  *   sOverlayLaunchWorkArg 0x02146948  data
- *   func_020312CC  0x020312CC  arm
+ *   PROCSYS_PushGlobal  0x020312CC  arm
  */
 #define REG32(a) (*(volatile u32 *)(a))
 #define REG16(a) (*(volatile u16 *)(a))
@@ -159,13 +159,13 @@ struct PlayerRecord {
 
 /*
  * COMM_PLAYER_SUPPORT state object (0x4c bytes, allocated by
- * func_0202E770): a mode word, the mode it replaced, a stashed mode, and
+ * COMM_PLAYER_SUPPORT_Create): a mode word, the mode it replaced, a stashed mode, and
  * two player records, the current one and the one saved before a switch.
  */
 struct CommPlayerSupport {
     u32 mode;                       /* 0x00 */
-    u32 prevMode;                   /* 0x04, set by func_0202E7E4 */
-    u32 stashedMode;                /* 0x08, set by func_0202E80C */
+    u32 prevMode;                   /* 0x04, set by COMM_PLAYER_SUPPORT_SavePreviousAndSuspend */
+    u32 stashedMode;                /* 0x08, set by COMM_PLAYER_SUPPORT_StashMode */
     struct PlayerRecord current;    /* 0x0c */
     struct PlayerRecord previous;   /* 0x2c */
 };
@@ -193,8 +193,8 @@ struct PeerBook {
  * source rows (srcColors, dstColors) into outColors and uploads the result.
  */
 struct BlinkPalAnm {
-    u16 *srcColors;     /* 0x00, allocated by func_0202E9AC */
-    u16 *dstColors;     /* 0x04, allocated by func_0202E9AC */
+    u16 *srcColors;     /* 0x00, allocated by BLINK_PALANM_LoadPalettes */
+    u16 *dstColors;     /* 0x04, allocated by BLINK_PALANM_LoadPalettes */
     u16 *outColors;     /* 0x08, colorCount entries, allocated at creation */
     u16 firstColor;     /* 0x0c, first palette color to overwrite */
     u16 colorCount;     /* 0x0e */
@@ -279,7 +279,7 @@ extern void func_020084A0(struct PlayerRecord *record);
 extern u32 func_02012138(const struct PlayerInfo *info);
 extern int func_02158468(int value);
 extern void func_0203F4E4(struct RtcDate *date);
-extern u8 func_0201298C(s32 handle, u8 value);
+extern u8 GAME_DATA_SetSeason(s32 handle, u8 value);
 extern int func_02012B70(struct PlayerInfo *info);
 extern int func_02012984(struct PlayerInfo *info);
 extern int func_02009D1C(struct PlayerLookup *lookup, const struct PlayerRecord *record, u32 *out);
@@ -287,7 +287,7 @@ extern u16 *func_020084F4(const struct PlayerRecord *record);
 extern u16 func_02008534(const struct PlayerRecord *record);
 extern struct ResourceFile *func_02049F78(void *archive, u32 fileId, u32 outData, u32 heapId);
 extern s32 func_02061CA4(u32 targetMask, u32 firstColor, u32 colors, s32 size);
-extern u32 func_02085D3C(void);
+extern u32 OS_IsRunOnTwl(void);
 extern struct DeviceInfo *func_02087E60(void);
 extern void func_02087DC4(void);
 extern int func_02087DE0(void);
@@ -300,7 +300,7 @@ extern void func_020095E8(struct HistoryOwner *owner);
 extern u32 _u32_div_f(u32 dividend, u32 divisor);
 extern struct Tcb *func_02030DA8(struct TcbList *list, void (*callback)(struct Tcb *, void *), void *work, u32 priority);
 extern struct TcblNode *func_020311B8(struct TcblList *list, void (*callback)(struct TcblNode *, void *), u32 size, u32 flags);
-extern void *func_02031290(struct TcblNode *node);
+extern void *TCBL_GetWork(struct TcblNode *node);
 extern u32 func_020056EC(u32 range);
 extern struct Bmp *func_0204384C(u32 arcId, u32 memberId, u32 compressed, u32 heapId);
 extern u8 func_02045730(struct BmpWin *win);
@@ -308,7 +308,7 @@ extern u8 func_02045758(struct BmpWin *win);
 extern u8 func_02045738(struct BmpWin *win);
 extern u8 func_02045760(struct BmpWin *win);
 extern u8 func_02045740(struct BmpWin *win);
-extern u8 func_02045778(struct BmpWin *win);
+extern u8 BMP_WIN_GetPalette(struct BmpWin *win);
 extern struct BmpWin *func_020450F0(u32 bgLayer, u32 posX, u32 posY, u32 width, u32 height, u32 palette, u32 allocDir);
 extern void func_02045374(struct BmpWin *win);
 extern void func_02041B6C(u32 bgLayer);
@@ -318,28 +318,28 @@ extern void func_02043B5C(struct Bmp *bmp, u8 value);
 extern void func_02045334(struct BmpWin *win);
 extern u32 func_020452E8(struct BmpWin *win);
 extern void func_02030EAC(struct Tcb *tcb);
-extern void func_02031194(struct TcblNode *node);
+extern void TCBL_DeleteTask(struct TcblNode *node);
 extern void func_020439A0(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 colorKey);
 extern struct SaveData *func_020185F0(void *gameData);
 extern u32 func_02017DBC(struct SaveData *save);
 extern u32 func_02017DE4(struct SaveData *save, u32 savedFlag);
-extern u32 func_02018488(struct SaveData *save, const struct PlayerRecord *record);
-extern void func_02017E64(struct SaveData *save, u32 varId, u32 value);
+extern u32 POKE_TOOL_IsBoxOwnedByPlayer(struct SaveData *save, const struct PlayerRecord *record);
+extern void POKE_TOOL_SetBoxValue(struct SaveData *save, u32 varId, u32 value);
 extern u32 func_02017E88(struct SaveData *save, u32 varId, u32 defaultValue);
-extern u32 func_02014034(u32 id);
+extern u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id);
 extern struct Strbuf *func_02008510(const struct PlayerRecord *record, u32 index);
 extern u32 func_02008550(const struct PlayerRecord *record);
-extern u32 func_02017EB4(struct SaveData *save);
+extern u32 POKE_TOOL_IsBoxShiny(struct SaveData *save);
 extern u32 func_020212E4(u16 value);
 extern void func_02007084(void);
 extern int func_0203CD98(void);
-extern void func_0203CF04(void);
+extern void GFL_NET_ClearExitFlag(void);
 extern int func_0203CEAC(int enable);
-extern void func_0203D0D0(void);
-extern u32 func_0203CF5C(void);
+extern void GFL_NET_IRC_WIRELESS_Exit(void);
+extern u32 GFL_NET_Main(void);
 extern int func_0203CDBC(void);
 extern int func_020351A0(u32 stage);
-extern void func_020053EC(void);
+extern void GFL_USE_PollPowerExit(void);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern long func_0207D3AC(int enable);
 extern long func_0207D3E4(int enable);
@@ -358,25 +358,25 @@ extern void *func_0207DFB4(void);
 extern s32 func_02062AD4(struct ArchiveRecord *file, void **out);
 extern s32 func_02062A98(struct ArchiveRecord *file, void **out);
 extern void func_02082A48(u32 value, u32 dest, u32 size);
-extern struct Bmp *func_02043754(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
+extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 extern struct GfFont *func_0201D7EC(int fontId, int spacingX, int spacingY, int colorMode, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C7D0(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *text, struct GfFont *font, u16 color);
 extern u32 func_02045C04(struct MsgBank *bank);
 extern u32 func_0201D83C(struct GfFont *font);
-extern void func_020312CC(u32 ovl, u32 proc, u32 arg);
+extern void PROCSYS_PushGlobal(u32 ovl, u32 proc, u32 arg);
 
 /* Prototypes of this file's functions. */
-struct CommPlayerSupport *func_0202E770(u32 heapId);
-void sub_0202E794(void *support);
-void func_0202E79C(struct CommPlayerSupport *support);
-void func_0202E7C4(struct CommPlayerSupport *support, u32 mode, const struct PlayerRecord *record);
-struct PlayerRecord *func_0202E7DC(struct CommPlayerSupport *support);
-u32 func_0202E7E0(struct CommPlayerSupport *support);
-void func_0202E7E4(struct CommPlayerSupport *support);
-void func_0202E80C(struct CommPlayerSupport *support);
-int func_0202E818(const struct CommPlayerSupport *support);
+struct CommPlayerSupport *COMM_PLAYER_SUPPORT_Create(u32 heapId);
+void COMM_PLAYER_SUPPORT_Delete(void *support);
+void COMM_PLAYER_SUPPORT_Init(struct CommPlayerSupport *support);
+void COMM_PLAYER_SUPPORT_SetModeAndCurrent(struct CommPlayerSupport *support, u32 mode, const struct PlayerRecord *record);
+struct PlayerRecord *COMM_PLAYER_SUPPORT_GetCurrent(struct CommPlayerSupport *support);
+u32 COMM_PLAYER_SUPPORT_GetMode(struct CommPlayerSupport *support);
+void COMM_PLAYER_SUPPORT_SavePreviousAndSuspend(struct CommPlayerSupport *support);
+void COMM_PLAYER_SUPPORT_StashMode(struct CommPlayerSupport *support);
+int COMM_PLAYER_SUPPORT_HasSavedMode(const struct CommPlayerSupport *support);
 struct PlayerRecord *func_0202E82C(struct CommPlayerSupport *support);
 int func_0202E83C(struct PlayerInfo *info);
 int func_0202E848(struct PlayerInfo *info, u16 *outStored, u16 *outCurrent);
@@ -384,14 +384,14 @@ u8 sub_0202E888(void);
 u8 sub_0202E8A4(u8 season);
 u8 sub_0202E8B8(s32 season);
 u8 sub_0202E8CC(s32 handle, s32 value);
-int func_0202E8D8(const struct PeerBook *book, struct PlayerLookup *lookup, const u8 *mac);
-u16 *func_0202E930(const struct PlayerRecord *record);
-u16 func_0202E938(const struct PlayerRecord *record);
-struct BlinkPalAnm *func_0202E940(u16 firstColor, u16 colorCount, u32 mode, u16 heapId);
-void func_0202E9AC(struct BlinkPalAnm *anm, void *archive, u32 fileId, u32 srcStart, u32 dstStart);
-u32 sub_0202EA20(struct BlinkPalAnm *anm);
-s32 func_0202EA40(struct BlinkPalAnm *anm);
-void func_0202EB04(struct BlinkPalAnm *anm);
+int COMM_PLAYER_SUPPORT_FindPeerRecord(const struct PeerBook *book, struct PlayerLookup *lookup, const u8 *mac);
+u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(const struct PlayerRecord *record);
+u16 COMM_PLAYER_SUPPORT_GetRecordField(const struct PlayerRecord *record);
+struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode, u16 heapId);
+void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileId, u32 srcStart, u32 dstStart);
+u32 BLINK_PALANM_Delete(struct BlinkPalAnm *anm);
+s32 BLINK_PALANM_Update(struct BlinkPalAnm *anm);
+void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *anm);
 u32 sub_0202EB0C(void);
 int func_0202EB14(void);
 void func_0202EB44(void);
@@ -410,13 +410,13 @@ u32 func_0202EDE4(u32 maxValue, u32 value, u32 rangeStart, u32 rangeEnd, u32 mar
 u32 func_0202EE0C(u32 total, u32 rate, u32 start, u32 end, u32 margin);
 struct TimeIcon *func_0202EE30(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, volatile u16 heapId);
 struct TimeIcon *func_0202EE8C(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
-void func_0202EECC(struct TimeIcon *icon, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
-struct TimeIcon *func_0202EF60(u32 heapId);
-void func_0202EF98(struct TimeIcon *icon, struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval);
+void TIME_ICON_Init(struct TimeIcon *icon, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
+struct TimeIcon *TIME_ICON_Alloc(u32 heapId);
+void TIME_ICON_Start(struct TimeIcon *icon, struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval);
 void func_0202F038(struct TimeIcon *icon);
-void sub_0202F098(struct Tcb *tcb, void *work);
-void sub_0202F0A4(struct TcblNode *node, void *work);
-void func_0202F0B0(struct TimeIcon *icon);
+void TIME_ICON_TaskMain(struct Tcb *tcb, void *work);
+void TIME_ICON_NodeMain(struct TcblNode *node, void *work);
+void TIME_ICON_Update(struct TimeIcon *icon);
 u32 sub_0202F114(const u8 *bits, u32 index);
 u16 sub_0202F138(u32 row);
 u32 sub_0202F144(u32 itemId);
@@ -461,11 +461,11 @@ extern u8 d_021BD574[];
 extern struct OverlayLaunchWork sOverlayLaunchWork;
 extern u8 sOverlayLaunchWorkArg[];
 
-struct CommPlayerSupport *func_0202E770(u32 heapId)
+struct CommPlayerSupport *COMM_PLAYER_SUPPORT_Create(u32 heapId)
 {
     struct CommPlayerSupport *support = func_02030734(heapId, 0x4c, 1, comm_player_support_File, 0x2c);
 
-    func_0202E79C(support);
+    COMM_PLAYER_SUPPORT_Init(support);
     return support;
 }
 
@@ -475,12 +475,12 @@ struct CommPlayerSupport *func_0202E770(u32 heapId)
  * prologue, no label in the listing. The destructor half of the
  * constructor at 0x0202E770, which allocates the same object.
  */
-void sub_0202E794(void *support)
+void COMM_PLAYER_SUPPORT_Delete(void *support)
 {
     func_020307B0(support);
 }
 
-void func_0202E79C(struct CommPlayerSupport *support)
+void COMM_PLAYER_SUPPORT_Init(struct CommPlayerSupport *support)
 {
     func_02082BCC(support, 0, 0x4c);
     support->mode = 0;
@@ -491,7 +491,7 @@ void func_0202E79C(struct CommPlayerSupport *support)
 }
 
 /* Sets the mode word and copies a 32-byte record into the current slot. */
-void func_0202E7C4(struct CommPlayerSupport *support, u32 mode, const struct PlayerRecord *record)
+void COMM_PLAYER_SUPPORT_SetModeAndCurrent(struct CommPlayerSupport *support, u32 mode, const struct PlayerRecord *record)
 {
     support->mode = mode;
     support->current = *record;
@@ -501,16 +501,16 @@ void func_0202E7C4(struct CommPlayerSupport *support, u32 mode, const struct Pla
  * Returns the current record.  Leaf accessor matched to give overlay call
  * sites a `matched` witness.
  */
-struct PlayerRecord *func_0202E7DC(struct CommPlayerSupport *support)
+struct PlayerRecord *COMM_PLAYER_SUPPORT_GetCurrent(struct CommPlayerSupport *support)
 {
     return &support->current;
 }
 
 /* Witness leaf for ov093 func_021C4744 (tiny arm9 leaf). */
-u32 func_0202E7E0(struct CommPlayerSupport *support) { return support->mode; }
+u32 COMM_PLAYER_SUPPORT_GetMode(struct CommPlayerSupport *support) { return support->mode; }
 
 /* Remembers the mode and the current record, then enters mode 3. */
-void func_0202E7E4(struct CommPlayerSupport *support)
+void COMM_PLAYER_SUPPORT_SavePreviousAndSuspend(struct CommPlayerSupport *support)
 {
     support->prevMode = support->mode;
     support->previous = support->current;
@@ -521,14 +521,14 @@ void func_0202E7E4(struct CommPlayerSupport *support)
  * Moves the mode into the stashed slot and clears it.  Witness for the call
  * in ov010 func_0216EB98.
  */
-void func_0202E80C(struct CommPlayerSupport *support)
+void COMM_PLAYER_SUPPORT_StashMode(struct CommPlayerSupport *support)
 {
     support->stashedMode = support->mode;
     support->mode = 0;
 }
 
 /* Nonzero if either the previous mode or the stashed mode is set. */
-int func_0202E818(const struct CommPlayerSupport *support)
+int COMM_PLAYER_SUPPORT_HasSavedMode(const struct CommPlayerSupport *support)
 {
     if (support->prevMode != 0 || support->stashedMode != 0)
         return 1;
@@ -620,7 +620,7 @@ u8 sub_0202E8B8(s32 season)
 
 u8 sub_0202E8CC(s32 handle, s32 value)
 {
-    return func_0201298C(handle, (u8)value);
+    return GAME_DATA_SetSeason(handle, (u8)value);
 }
 
 /*
@@ -639,7 +639,7 @@ u8 sub_0202E8CC(s32 handle, s32 value)
  * follower at 0x0202E930 is a two-halfword `ldr r3,[pc]; bx r3`
  * long-branch veneer with no label of its own.
  */
-int func_0202E8D8(const struct PeerBook *book, struct PlayerLookup *lookup, const u8 *mac)
+int COMM_PLAYER_SUPPORT_FindPeerRecord(const struct PeerBook *book, struct PlayerLookup *lookup, const u8 *mac)
 {
     unsigned char slot;
     unsigned char byte;
@@ -664,17 +664,17 @@ int func_0202E8D8(const struct PeerBook *book, struct PlayerLookup *lookup, cons
 }
 
 /*
- * A forwarding leaf after func_0202E8D8's pop: a pool-word tail call to
+ * A forwarding leaf after COMM_PLAYER_SUPPORT_FindPeerRecord's pop: a pool-word tail call to
  * func_020084F4 (the u16 pointer accessor), the caller's argument passed
  * through untouched ("ldr r3, [pc]; bx r3").  Called from the overlays only.
  */
-u16 *func_0202E930(const struct PlayerRecord *record)
+u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(const struct PlayerRecord *record)
 {
     return func_020084F4(record);
 }
 
 /* Forwarding leaf: pool-word tail call to func_02008534 (the u16 getter). */
-u16 func_0202E938(const struct PlayerRecord *record)
+u16 COMM_PLAYER_SUPPORT_GetRecordField(const struct PlayerRecord *record)
 {
     return func_02008534(record);
 }
@@ -687,7 +687,7 @@ u16 func_0202E938(const struct PlayerRecord *record)
  * above the `cmp` and saves the branch, and the tail comes out two bytes
  * short (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md).
  */
-struct BlinkPalAnm *func_0202E940(u16 firstColor, u16 colorCount, u32 mode, u16 heapId)
+struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode, u16 heapId)
 {
     struct BlinkPalAnm *anm;
 
@@ -716,7 +716,7 @@ struct BlinkPalAnm *func_0202E940(u16 firstColor, u16 colorCount, u32 mode, u16 
  * Loads the palette file and copies two rows of colorCount colors into the
  * source and target buffers.
  */
-void func_0202E9AC(struct BlinkPalAnm *anm, void *archive, u32 fileId, u32 srcStart, u32 dstStart)
+void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileId, u32 srcStart, u32 dstStart)
 {
     struct PaletteFile *file;
     struct ResourceFile *handle;
@@ -745,7 +745,7 @@ void func_0202E9AC(struct BlinkPalAnm *anm, void *archive, u32 fileId, u32 srcSt
  * reports EXACT* for a padding gap rather than for an unlabelled
  * follower; `tu` compares the section as laid out.
  */
-u32 sub_0202EA20(struct BlinkPalAnm *anm)
+u32 BLINK_PALANM_Delete(struct BlinkPalAnm *anm)
 {
     func_020307B0(anm->dstColors);
     func_020307B0(anm->srcColors);
@@ -770,7 +770,7 @@ u32 sub_0202EA20(struct BlinkPalAnm *anm)
  * EXACT* because the listing extent runs 8 bytes long: the unlabelled leaf
  * at 0x0202EB04 follows the pool word.
  */
-s32 func_0202EA40(struct BlinkPalAnm *anm)
+s32 BLINK_PALANM_Update(struct BlinkPalAnm *anm)
 {
     s32 scale;
     u32 i;
@@ -805,12 +805,12 @@ s32 func_0202EA40(struct BlinkPalAnm *anm)
 
 /*
  * blink_palanm.c: resets the fade phase word at +0x10 of the blink object
- * (the word func_0202EA40 advances by 0x400 per frame).  An unlabelled leaf
- * with no prologue sitting after func_0202EA40's pool word at 0x0202EB00, so
- * the listing folds it into func_0202EA40's extent (204 against the real
+ * (the word BLINK_PALANM_Update advances by 0x400 per frame).  An unlabelled leaf
+ * with no prologue sitting after BLINK_PALANM_Update's pool word at 0x0202EB00, so
+ * the listing folds it into BLINK_PALANM_Update's extent (204 against the real
  * 196).
  */
-void func_0202EB04(struct BlinkPalAnm *anm)
+void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *anm)
 {
     anm->phase = 0;
 }
@@ -823,7 +823,7 @@ void func_0202EB04(struct BlinkPalAnm *anm)
  */
 u32 sub_0202EB0C(void)
 {
-    return func_02085D3C();
+    return OS_IsRunOnTwl();
 }
 
 /* Nonzero when running on a DSi with both capability bits (0 and 5) set. */
@@ -1168,9 +1168,9 @@ u32 func_0202EE0C(u32 total, u32 rate, u32 start, u32 end, u32 margin)
 /*
  * Allocates and fills the 0x1c-byte time icon.  The heap id is the fifth
  * (stack) argument and is re-read from its slot for the second use (it is
- * also what func_0202EECC's u16 tail parameter receives), so it is spelled
+ * also what TIME_ICON_Init's u16 tail parameter receives), so it is spelled
  * `volatile u16`.  When the optional task list is non-null the icon is
- * registered as a task (callback sub_0202F098); otherwise `task` is zeroed.
+ * registered as a task (callback TIME_ICON_TaskMain); otherwise `task` is zeroed.
  *
  * Sibling of func_0202EE8C, which builds the same object through the
  * func_020311B8 allocator instead.
@@ -1180,9 +1180,9 @@ struct TimeIcon *func_0202EE30(struct TcbList *taskList, struct BmpWin *refWin, 
     struct TimeIcon *icon;
 
     icon = func_02030734(heapId, sizeof(struct TimeIcon), 0, time_icon_File, 0x49);
-    func_0202EECC(icon, refWin, fillColor, waitInterval, heapId);
+    TIME_ICON_Init(icon, refWin, fillColor, waitInterval, heapId);
     if (taskList != 0) {
-        icon->task = func_02030DA8(taskList, sub_0202F098, icon, 0);
+        icon->task = func_02030DA8(taskList, TIME_ICON_TaskMain, icon, 0);
     } else {
         icon->task = 0;
     }
@@ -1196,16 +1196,16 @@ struct TimeIcon *func_0202EE30(struct TcbList *taskList, struct BmpWin *refWin, 
  * func_020311B8 node allocator instead of func_02030734.  The node is
  * stashed at +4 and +0 is zeroed, the mirror image of func_0202EE30, which
  * registers a task into +0 and zeroes +4.  The node callback is
- * sub_0202F0A4.
+ * TIME_ICON_NodeMain.
  */
 struct TimeIcon *func_0202EE8C(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId)
 {
     struct TcblNode *node;
     struct TimeIcon *icon;
 
-    node = func_020311B8(nodeList, sub_0202F0A4, 0x1c, 0);
-    icon = func_02031290(node);
-    func_0202EECC(icon, refWin, fillColor, waitInterval, heapId);
+    node = func_020311B8(nodeList, TIME_ICON_NodeMain, 0x1c, 0);
+    icon = TCBL_GetWork(node);
+    TIME_ICON_Init(icon, refWin, fillColor, waitInterval, heapId);
     icon->node = node;
     icon->task = 0;
     icon->isActive = 1;
@@ -1218,7 +1218,7 @@ struct TimeIcon *func_0202EE8C(struct TcblList *nodeList, struct BmpWin *refWin,
  * reference window's six accessors (x and y are the sum of position and
  * size, minus two, truncated to a byte).
  */
-void func_0202EECC(struct TimeIcon *icon, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId)
+void TIME_ICON_Init(struct TimeIcon *icon, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId)
 {
     u32 bgLayer, posY, height;
     u32 posX, width;
@@ -1236,15 +1236,15 @@ void func_0202EECC(struct TimeIcon *icon, struct BmpWin *refWin, u8 fillColor, u
     width = func_02045738(refWin);
     posY = func_02045760(refWin);
     height = func_02045740(refWin);
-    palette = func_02045778(refWin);
+    palette = BMP_WIN_GetPalette(refWin);
 
     func_02045374(icon->win = func_020450F0(bgLayer, (u8)((posX + width) - 2),
                                    (u8)((posY + height) - 2), 2, 2, palette, 1));
     func_02041B6C(func_02045730(icon->win));
 }
 
-/* Allocates an idle TimeIcon: heap id and frame sheet only; func_0202EF98 finishes it. */
-struct TimeIcon *func_0202EF60(u32 heapId)
+/* Allocates an idle TimeIcon: heap id and frame sheet only; TIME_ICON_Start finishes it. */
+struct TimeIcon *TIME_ICON_Alloc(u32 heapId)
 {
     struct TimeIcon *icon = func_02030734(heapId, 0x1c, 0, time_icon_File, 0xa6);
 
@@ -1257,10 +1257,10 @@ struct TimeIcon *func_0202EF60(u32 heapId)
 }
 
 /*
- * func_0202EECC's twin for an icon from func_0202EF60: the window is built
+ * TIME_ICON_Init's twin for an icon from TIME_ICON_Alloc: the window is built
  * the same way, then the icon is registered as a task of the caller's list.
  */
-void func_0202EF98(struct TimeIcon *icon, struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval)
+void TIME_ICON_Start(struct TimeIcon *icon, struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval)
 {
     u32 bgLayer, posY, height;
     u32 posX, width;
@@ -1276,14 +1276,14 @@ void func_0202EF98(struct TimeIcon *icon, struct TcbList *taskList, struct BmpWi
     width = func_02045738(refWin);
     posY = func_02045760(refWin);
     height = func_02045740(refWin);
-    palette = func_02045778(refWin);
+    palette = BMP_WIN_GetPalette(refWin);
 
     func_02045374(icon->win = func_020450F0(bgLayer, (u8)((posX + width) - 2),
                                    (u8)((posY + height) - 2), 2, 2, palette, 1));
     func_02041B6C(func_02045730(icon->win));
 
     icon->node = 0;
-    icon->task = func_02030DA8(taskList, sub_0202F098, icon, 0);
+    icon->task = func_02030DA8(taskList, TIME_ICON_TaskMain, icon, 0);
     icon->isActive = 1;
 }
 
@@ -1313,19 +1313,19 @@ void func_0202F038(struct TimeIcon *icon)
     }
 
     if (icon->node != 0)
-        func_02031194(icon->node);
+        TCBL_DeleteTask(icon->node);
 }
 
 /* Task callback of an icon created with a task list. */
-void sub_0202F098(struct Tcb *tcb, void *work)
+void TIME_ICON_TaskMain(struct Tcb *tcb, void *work)
 {
-    func_0202F0B0(work);
+    TIME_ICON_Update(work);
 }
 
 /* Node callback of an icon created with a TCBL node. */
-void sub_0202F0A4(struct TcblNode *node, void *work)
+void TIME_ICON_NodeMain(struct TcblNode *node, void *work)
 {
-    func_0202F0B0(work);
+    TIME_ICON_Update(work);
 }
 
 /*
@@ -1333,7 +1333,7 @@ void sub_0202F0A4(struct TcblNode *node, void *work)
  * at zero it fills the window, copies the next 16x16 frame of the sheet
  * into it, commits the window and reloads the counter.  The frame wraps at 8.
  */
-void func_0202F0B0(struct TimeIcon *icon)
+void TIME_ICON_Update(struct TimeIcon *icon)
 {
     if (icon->isActive == 0)
         return;
@@ -1447,7 +1447,7 @@ void func_0202F1B4(struct SaveData *save, u32 mode, const struct PlayerRecord *r
         func_0202F47C(save);
         break;
     case 2:
-        if (func_02018488(save, record) == 1) {
+        if (POKE_TOOL_IsBoxOwnedByPlayer(save, record) == 1) {
             func_0202F30C(save, eventId, 1);
             func_0202F41C(save, record, index);
         } else {
@@ -1479,9 +1479,9 @@ void func_0202F27C(struct SaveData *save)
 
     func_0203F4E4(&date);
 
-    func_02017E64(save, 0x92, date.year);
-    func_02017E64(save, 0x93, date.month);
-    func_02017E64(save, 0x94, date.day);
+    POKE_TOOL_SetBoxValue(save, 0x92, date.year);
+    POKE_TOOL_SetBoxValue(save, 0x93, date.month);
+    POKE_TOOL_SetBoxValue(save, 0x94, date.day);
 }
 
 void func_0202F2AC(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day)
@@ -1491,7 +1491,7 @@ void func_0202F2AC(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 
     else
         func_0202F358(save, eventId, year, month, day, 1);
     func_0202F464(save);
-    func_02017E64(save, 0x6D, 1);
+    POKE_TOOL_SetBoxValue(save, 0x6D, 1);
 }
 
 void func_0202F2F4(struct SaveData *save, u32 variant)
@@ -1506,7 +1506,7 @@ void func_0202F30C(struct SaveData *save, u32 eventId, u32 variant)
 
     func_0203F4E4(&date);
 
-    if (func_02014034((u16)eventId) == 1)
+    if (ZONEDATA_IsRawZoneGroup4CTo69((u16)eventId) == 1)
         func_0202F358(save, 0x753E, date.year, date.month, date.day, variant);
     else
         func_0202F358(save, eventId, date.year, date.month, date.day, variant);
@@ -1521,11 +1521,11 @@ void func_0202F358(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 
 {
     u8 base = (variant == 1);
 
-    func_02017E64(save, base + 0x95, eventId);
+    POKE_TOOL_SetBoxValue(save, base + 0x95, eventId);
     base = (u8)(base * 3);
-    func_02017E64(save, base + 0x8F, year);
-    func_02017E64(save, base + 0x90, month);
-    func_02017E64(save, base + 0x91, day);
+    POKE_TOOL_SetBoxValue(save, base + 0x8F, year);
+    POKE_TOOL_SetBoxValue(save, base + 0x90, month);
+    POKE_TOOL_SetBoxValue(save, base + 0x91, day);
 }
 
 /*
@@ -1557,9 +1557,9 @@ void func_0202F41C(struct SaveData *save, const struct PlayerRecord *record, u32
     u32 kind = func_02008530(record);
     u32 key = func_02008550(record);
 
-    func_02017E64(save, 0x8d, (u32)name);
-    func_02017E64(save, 0x9a, key);
-    func_02017E64(save, 7, kind);
+    POKE_TOOL_SetBoxValue(save, 0x8d, (u32)name);
+    POKE_TOOL_SetBoxValue(save, 0x9a, key);
+    POKE_TOOL_SetBoxValue(save, 7, kind);
     func_02045808(name);
 }
 
@@ -1568,18 +1568,18 @@ void func_0202F464(struct SaveData *save)
 {
     u32 value = func_02017E88(save, 0x9e, 0);
 
-    func_02017E64(save, 0x99, value);
+    POKE_TOOL_SetBoxValue(save, 0x99, value);
 }
 
 /*
  * Unlabelled 12-byte Thumb leaf (a tail call through a pool word to
- * func_02017E64 with id 0x77, value 0x15) after func_0202F464; filed as the
+ * POKE_TOOL_SetBoxValue with id 0x77, value 0x15) after func_0202F464; filed as the
  * witness for func_0202F1B4's call at +0x58, the only branch to it
  * image-wide.
  */
 void func_0202F47C(struct SaveData *save)
 {
-    func_02017E64(save, 0x77, 0x15);
+    POKE_TOOL_SetBoxValue(save, 0x77, 0x15);
 }
 
 int func_0202F488(void *gameData, int stage)
@@ -1590,7 +1590,7 @@ int func_0202F488(void *gameData, int stage)
 /*
  * Nonzero when the save variables match the expected state of the given
  * stage (0 to 7): variable 5, the event id (0x96), the done flag (0x6d),
- * the count from func_02017EB4 and whether any of the date variables is set.
+ * the count from POKE_TOOL_IsBoxShiny and whether any of the date variables is set.
  */
 int func_0202F498(struct SaveData *save, int stage)
 {
@@ -1598,7 +1598,7 @@ int func_0202F498(struct SaveData *save, int stage)
     int variable5 = func_02017E88(save, 5, 0);
     int eventId = func_02017E88(save, 0x96, 0);
     int done = func_02017E88(save, 0x6d, 0);
-    int count = func_02017EB4(save);
+    int count = POKE_TOOL_IsBoxShiny(save);
     int anyDate = 0;
 
     if (func_02017E88(save, 0x8f, anyDate) != 0
@@ -1678,10 +1678,10 @@ void func_0202F640(struct SaveData *save, u32 stage)
     if (func_0202F498(save, stage) == 1) {
         switch (stage) {
         case 0:
-            func_02017E64(save, 0x96, 0x753B);
+            POKE_TOOL_SetBoxValue(save, 0x96, 0x753B);
             break;
         case 2:
-            func_02017E64(save, 0x96, 0x753D);
+            POKE_TOOL_SetBoxValue(save, 0x96, 0x753D);
             break;
         }
     }
@@ -1714,7 +1714,7 @@ unsigned int func_0202F6D8(unsigned int id) {
 
 /*
  * Twelve-byte tail forwarder (pool word and bx) to func_020212E4 with the
- * second argument; witness for ov131 func_021DB140 (bl at +0x13A), whose
+ * second argument; witness for ov131 P_STA_SKILL_HandleTouchForget (bl at +0x13A), whose
  * call supplies a pointer, a halfword and a second halfword.
  */
 u32 func_0202F72C(void *unused, u16 value, u16 unused2)
@@ -1738,7 +1738,7 @@ int func_0202F738(struct SaveData *save, int unused)
 /*
  * An unlabelled tail-call leaf (it saves nothing, so disasm.py prints it as
  * .word data): func_0202F788(0).  With func_0202F774 it is the callback pair
- * sub_0200545C (gfl_use.c boot) hands to func_020316C8(7, ...).  Filed apart
+ * GFL_USE_InitSystem (gfl_use.c boot) hands to BACKUP_SYSTEM_Init(7, ...).  Filed apart
  * from func_0202F774 on purpose: the only pool words naming 0x0202F789 that
  * are outside a two-function range are each other's, so as one unit neither
  * site has a witness
@@ -1750,8 +1750,8 @@ void func_0202F768(void)
 }
 
 /*
- * The second unlabelled tail-call leaf of the callback pair sub_0200545C
- * hands to func_020316C8: a flag mapped to mode 2 (clear) or 1 (set) for
+ * The second unlabelled tail-call leaf of the callback pair GFL_USE_InitSystem
+ * hands to BACKUP_SYSTEM_Init: a flag mapped to mode 2 (clear) or 1 (set) for
  * func_0202F788.  Filed apart from func_0202F768 so each pool word
  * witnesses the other.
  */
@@ -1770,23 +1770,23 @@ void func_0202F774(u32 on)
 /*
  * The power callback reached from func_0202F768 as func_0202F788(0) (and
  * registered through the pool word 0x0202F789 at 0x0202F784).  It never
- * returns: after the shutdown work it spins on func_020053EC.
+ * returns: after the shutdown work it spins on GFL_USE_PollPowerExit.
  */
 void func_0202F788(u32 mode)
 {
     func_02007084();
     func_0202F7C4(mode);
     if (func_0203CD98()) {
-        func_0203CF04();
+        GFL_NET_ClearExitFlag();
         func_0203CEAC(0);
-        func_0203D0D0();
+        GFL_NET_IRC_WIRELESS_Exit();
         do {
-            func_0203CF5C();
+            GFL_NET_Main();
         } while (!func_0203CDBC());
     }
     func_020351A0(2);
     for (;;)
-        func_020053EC();
+        GFL_USE_PollPowerExit();
 }
 
 /*
@@ -1918,7 +1918,7 @@ void func_0202F940(u32 messageId)
         }
     }
     func_02082A48(0x7777, (u32)func_0207E24C() + 0x400, 0x3C00);
-    bmp = func_02043754((void *)((u32)func_0207E24C() + 0x400), 0x1e, 0x10, 0x20, 7);
+    bmp = BMP_CreateFromVram((void *)((u32)func_0207E24C() + 0x400), 0x1e, 0x10, 0x20, 7);
     font = func_0201D7EC(0x17, 0, 0, 0, 7);
     msgBank = func_02045B38(0, 2, 2, 7);
     message = func_02045EC0(msgBank, messageId);
@@ -1959,7 +1959,7 @@ int func_0202F9F8(void *unused, u32 *state)
 {
     switch (*state) {
     case 0:
-        func_020312CC((u32)ov088_id, (u32)d_021BD8E8, (u32)&sOverlayLaunchWork.mode);
+        PROCSYS_PushGlobal((u32)ov088_id, (u32)d_021BD8E8, (u32)&sOverlayLaunchWork.mode);
         *state = 1;
         break;
     case 1:
@@ -1967,14 +1967,14 @@ int func_0202F9F8(void *unused, u32 *state)
         sOverlayLaunchWork.stage = 0;
         sOverlayLaunchWork.enabled = 1;
         sOverlayLaunchWork.aborted = 0;
-        func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)sOverlayLaunchWorkArg);
+        PROCSYS_PushGlobal((u32)ov179_id, (u32)d_021B68D8, (u32)sOverlayLaunchWorkArg);
         *state = 2;
         break;
     case 2:
         if (sOverlayLaunchWork.aborted == 0) {
             sOverlayLaunchWork.stage = 1;
             sOverlayLaunchWork.aborted = 0;
-            func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)sOverlayLaunchWorkArg);
+            PROCSYS_PushGlobal((u32)ov179_id, (u32)d_021B68D8, (u32)sOverlayLaunchWorkArg);
             *state = 3;
             break;
         }
@@ -1983,11 +1983,11 @@ int func_0202F9F8(void *unused, u32 *state)
     case 3:
         sOverlayLaunchWork.stage = 2;
         sOverlayLaunchWork.aborted = 0;
-        func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)sOverlayLaunchWorkArg);
+        PROCSYS_PushGlobal((u32)ov179_id, (u32)d_021B68D8, (u32)sOverlayLaunchWorkArg);
         *state = 4;
         break;
     case 4:
-        func_020312CC((u32)ov088_id, (u32)d_021BD574, 0);
+        PROCSYS_PushGlobal((u32)ov088_id, (u32)d_021BD574, 0);
         *state = 0;
         break;
     }

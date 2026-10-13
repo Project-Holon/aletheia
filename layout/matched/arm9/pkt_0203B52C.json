@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203B52C",
+   "name": "GFL_NET_STATE_ChangeoverParentConnectWait",
    "address": "0x0203B52C",
    "kind": "game",
    "region": "arm9",

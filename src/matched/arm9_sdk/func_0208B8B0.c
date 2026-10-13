@@ -11,7 +11,7 @@
  *
  * symbols:
  *   s_02153000               0x02153000  data
- *   func_02088498            0x02088498  arm
+ *   PXI_Init            0x02088498  arm
  *   PXI_IsCallbackReady      0x020885EC  arm
  *   PXI_SetFifoRecvCallback  0x020885A0  arm
  *   SVC_WaitByLoop           0x02004490  thumb
@@ -40,7 +40,7 @@ typedef unsigned int  u32; typedef volatile u32 vu32; typedef int BOOL;
 struct S { u16 f00; u8 pad_02[0x0a]; u32 f0c; u32 f10;
            u8 pad_14[0x1c]; u32 f30; u32 f34; };
 extern struct S s_02153000;
-extern void func_02088498(void);
+extern void PXI_Init(void);
 extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
 extern void SVC_WaitByLoop(int count);
@@ -53,7 +53,7 @@ void func_0208B8B0(void)
     s_02153000.f30 = 0;
     s_02153000.f34 = 0;
     *(vu32 *)0x02FFF684 = 0;
-    func_02088498();
+    PXI_Init();
     while (!PXI_IsCallbackReady(8, 1)) {
         SVC_WaitByLoop(100);
     }

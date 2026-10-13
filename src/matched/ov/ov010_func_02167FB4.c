@@ -21,9 +21,9 @@
  * symbols:
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
  *   func_02012374  0x02012374  thumb
- *   func_020144DC  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02014910  0x02014910  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   func_021BE92C  0x021BE92C  thumb  ov021
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_0201AA14  0x0201AA14  thumb
@@ -57,9 +57,9 @@ struct Evt;
 struct Party;
 struct PartyMon;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_020144DC(int a0, int a1);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void *func_02014910(char *a0, int a1, int a2, int a3);
-extern void *func_020145CC(void *a0);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 func_0201AA14(void *p);
@@ -80,7 +80,7 @@ int func_02167FB4(void *evt, u32 *seq, SeqWork *w)
         (*seq)++;
         break;
     case 1:
-        func_02012374(evt, (struct Evt **)func_020144DC(heap, (int)w->arg));
+        func_02012374(evt, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(heap, (int)w->arg));
         (*seq)++;
         break;
     case 2:
@@ -88,7 +88,7 @@ int func_02167FB4(void *evt, u32 *seq, SeqWork *w)
         (*seq)++;
         break;
     case 3:
-        func_02012374(evt, func_020145CC((void *)heap));
+        func_02012374(evt, FIELD_STATUS_CreateFieldOpenEvent((void *)heap));
         (*seq)++;
         break;
     case 4:

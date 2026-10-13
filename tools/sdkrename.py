@@ -75,6 +75,7 @@ import fnaddr  # noqa: E402  (unit member addresses, recorded before a rename)
 
 SYM_ROW = re.compile(r'^\s*\*\s+([A-Za-z_][A-Za-z0-9_]*)\s+(0[xX][0-9A-Fa-f]+)\s+(thumb|arm|data)\b(.*)$')
 SYMBOLS_OPEN = re.compile(r'^\s*\*?\s*symbols\s*:\s*$', re.I)
+REGION_TOK = re.compile(r'^(?:ov\d{3}|arm9\w*|twl\w*)$')
 HDR_FIELD = re.compile(r'^\s*\*\s*(function|address|region)\s*:\s*(.*?)\s*$')
 MASK = re.compile(r'/\*.*?\*/|//[^\n]*|"(?:\\.|[^"\\\n])*"|\'(?:\\.|[^\'\\\n])*\'', re.S)
 
@@ -93,13 +94,13 @@ def blank(m):
 
 def header_span(text):
     """(start, end) of the leading block comment, or None."""
-    m = re.match(r'\s*/\*.*?\*/', text, re.S)
+    m = re.match(r'(?:\xef\xbb\xbf|﻿)?\s*/\*.*?\*/', text, re.S)   # a UTF-8 BOM may open the file
     return (m.start(), m.end()) if m else None
 
 
 def parse_header(text):
     """{'function': [...], 'address': int|None, 'region': str, 'rows': {name: addr}}."""
-    out = {'function': [], 'address': None, 'region': '', 'rows': {}}
+    out = {'function': [], 'address': None, 'region': '', 'rows': {}, 'row_region': {}}
     hs = header_span(text)
     if not hs:
         return out
@@ -117,6 +118,8 @@ def parse_header(text):
         r = SYM_ROW.match(line)
         if r:
             out['rows'].setdefault(r.group(1), int(r.group(2), 16))
+            tokr = [t for t in r.group(4).split() if REGION_TOK.match(t)]
+            out['row_region'].setdefault(r.group(1), tokr[0] if tokr else '')
     return out
 
 
@@ -201,6 +204,20 @@ def build_twl(tsv, out):
     for s in skipped:
         cands = sorted({c.split(':')[-1] for c in s[3].split(';') if c})
         print('skipped %s %s %s: %s' % (s[0], s[1], s[2], ', '.join(cands[:8])))
+
+
+_WORDS = {}
+IDENT = re.compile(r'[A-Za-z_][A-Za-z0-9_]*')
+
+
+def words_of(p, text):
+    """Set of identifiers in a file's text (cached per path and text), so a large
+    map does not run one regex per row over every file."""
+    w = _WORDS.get(p)
+    if w is None or w[0] is not text:
+        w = (text, set(IDENT.findall(text)))
+        _WORDS[p] = w
+    return w[1]
 
 
 def word(name):
@@ -290,7 +307,12 @@ ADDR_NAME = re.compile(r'^(?:func|sub|unit)_([0-9A-Fa-f]{8})(?:_p\d+)?$')
 
 
 def is_scoped(r):
-    """True when the row renames a vendor-style name at one address only."""
+    """True when the row renames a vendor-style name at one address only.
+
+    A data row is not scoped this way: its extern declarations in headers carry no
+    symbols row, so region_scope binds it to the files of its region instead."""
+    if r.get('isa') == 'data':
+        return False
     m = ADDR_NAME.match(r['old'])
     return not (m and int(m.group(1), 16) == r['address'])
 
@@ -324,7 +346,7 @@ def scope_files(rows, files, texts):
         got = set()
         for p in files:
             t = texts[p]
-            if not w.search(t):
+            if r['old'] not in words_of(p, t):
                 continue
             h = hdrs[p]
             masked = MASK.sub(blank, t)
@@ -342,20 +364,80 @@ def scope_files(rows, files, texts):
     return out
 
 
+DATA_ADDR_NAME = re.compile(r'^(?:d|g|dat|data|tbl|unk|str|s|p)_([0-9A-Fa-f]{8})$')
+
+
+def region_scope(rows, files, texts, manifests, scopes):
+    """{row index: set of files} for rows an overlay address or data makes region-bound.
+
+    Overlay addresses collide across overlays, so a func_ name of one overlay may
+    mean another function in a file of another overlay.  A row of an overlay
+    region whose address another region also uses, and every data row
+    (isa data), applies only to the files of its region and to files whose
+    `symbols:` row gives `old` that region (for an arm9 data row with an
+    address-bearing name: every file)."""
+    used = collections.defaultdict(set)    # address -> regions with an entry there
+    src_reg = collections.defaultdict(set)  # manifest source path -> regions
+    for _p, d in manifests:
+        for e in d.get('functions', []):
+            if e.get('source'):
+                src_reg[str(e['source']).replace(os.sep, '/')].add(e.get('region') or d.get('region'))
+            reg_e = e.get('region') or d.get('region')
+            members = fnaddr._listed(e) if fnaddr.is_unit(e) else [(e.get('name'), fnaddr.entry_address(e))]
+            for _n, ma in members:      # unit members too: their addresses collide as well
+                if ma is not None:
+                    used[ma].add(reg_e)
+    hdrs = {}
+    out = {}
+    for i, r in enumerate(rows):
+        if i in scopes:
+            continue
+        reg = r['region']
+        data = r['isa'] == 'data'
+        dm = DATA_ADDR_NAME.match(r['old'])
+        if data and reg.startswith('arm9') and dm and int(dm.group(1), 16) == r['address']:
+            continue
+        if not data and (not reg.startswith('ov') or used.get(r['address'], set()) <= {reg}):
+            continue
+        w = word(r['old'])
+        got = set()
+        for p in files:
+            t = texts[p]
+            if r['old'] not in words_of(p, t):
+                continue
+            if p not in hdrs:
+                hdrs[p] = parse_header(t)
+            h = hdrs[p]
+            fr = file_region(p, h)
+            if not fr and len(src_reg.get(rel(p), ())) == 1:
+                fr = next(iter(src_reg[rel(p)]))     # a src/matched file: its entry's region
+            rr = h['row_region'].get(r['old'])
+            ra = h['rows'].get(r['old'])
+            if ra is not None and ra != r['address']:
+                continue
+            if fr == reg and rr in (None, '', reg):
+                got.add(p)
+            elif rr == reg:
+                got.add(p)
+        out[i] = got
+    return out
+
+
 def check_conflicts(rows, files, texts, manifests):
     """{index: [reasons]} for rows whose new name is taken."""
     man = manifest_names(manifests)
     sdk = sdk_names()
     news = {r['new'] for r in rows}
-    rx = re.compile(r'(?<![A-Za-z0-9_])(' + '|'.join(re.escape(n) for n in sorted(news, key=len, reverse=True)) + r')(?![A-Za-z0-9_])') if news else None
+    rx = bool(news)
     seen = collections.defaultdict(list)   # new -> [(file, header, masked)]
     if rx:
         for p in files:
             t = texts[p]
-            if rx.search(t):
+            hitn = news & words_of(p, t)
+            if hitn:
                 masked = MASK.sub(blank, t)
                 hdr = parse_header(t)
-                for n in set(m.group(1) for m in rx.finditer(t)):
+                for n in hitn:
                     seen[n].append((p, hdr, masked))
     bad = {}
     for i, r in enumerate(rows):
@@ -428,6 +510,8 @@ def main():
     ap.add_argument('--changed', help='write the list of changed files here')
     ap.add_argument('--no-scope', action='store_true',
                     help='apply every row to every file (no address scoping of vendor-style old names)')
+    ap.add_argument('--no-region-scope', action='store_true',
+                    help='do not bind overlay-address and data rows to the files of their region')
     ap.add_argument('--local-ok', action='store_true',
                     help='let rows noted bind:local through when the name only exists at other addresses, and make them static')
     a = ap.parse_args()
@@ -442,12 +526,15 @@ def main():
     manifests = load_manifests()
 
     scopes = {} if a.no_scope else scope_files(rows, files, texts)
+    if not a.no_region_scope:
+        scopes.update(region_scope(rows, files, texts, manifests, scopes))
     olds = collections.Counter(r['old'] for i, r in enumerate(rows) if i not in scopes)
-    olds_at = collections.Counter((r['old'], r['address']) for r in rows)
-    newc = collections.Counter(r['new'] for r in rows)
+    olds_at = collections.Counter((r['old'], r['address'], r['region']) for r in rows)
+    # two old names of one function (func_X and sub_X aliases) may share the new name
+    newc = collections.Counter(n for n, _a, _r in {(r['new'], r['address'], r['region']) for r in rows})
     bad = check_conflicts(rows, files, texts, manifests)
     for i, r in enumerate(rows):
-        if olds[r['old']] > 1 or olds_at[(r['old'], r['address'])] > 1:
+        if olds[r['old']] > 1 or olds_at[(r['old'], r['address'], r['region'])] > 1:
             bad.setdefault(i, []).append('old name twice in the map')
         if newc[r['new']] > 1:
             bad.setdefault(i, []).append('new name twice in the map')
@@ -469,13 +556,16 @@ def main():
     for i in good_i:
         for p in scopes.get(i, ()):
             in_scope[os.path.normpath(p)].append(rows[i])
+    glob_by_old = {r['old']: r for r in glob_rows}
+    glob_keys = set(glob_by_old)
     for p in files:
-        file_rows = glob_rows + in_scope.get(os.path.normpath(p), [])
-        if not file_rows:
-            continue
         t = texts[p]
-        rx = re.compile(r'(?<![A-Za-z0-9_])(' + '|'.join(re.escape(r['old']) for r in file_rows) + r')(?![A-Za-z0-9_])')
-        by_old = {r['old']: r for r in file_rows}
+        wset = words_of(p, t)
+        here_rows = [glob_by_old[o] for o in sorted(wset & glob_keys)] +             [r for r in in_scope.get(os.path.normpath(p), []) if r['old'] in wset]
+        if not here_rows:
+            continue
+        rx = re.compile(r'(?<![A-Za-z0-9_])(' + '|'.join(re.escape(r['old']) for r in here_rows) + r')(?![A-Za-z0-9_])')
+        by_old = {r['old']: r for r in here_rows}
         if not rx.search(t):
             continue
         hit = sorted(set(m.group(1) for m in rx.finditer(t)))
@@ -502,26 +592,27 @@ def main():
             if p in defs:
                 new_t = make_static(new_t, rows[i]['new'])
         for o in hit:
-            per_row[(o, by_old[o]['address'])] += 1
+            per_row[(o, by_old[o]['address'], by_old[o]['region'])] += 1
         if new_t != t:
             changed[p] = new_t
 
     # manifests
     man_changed = {}
-    at = {(r['old'], r['address']): r for r in good}
+    at = {(r['old'], r['address'], r['region']): r for r in good}
     glob_old = {r['old']: r for r in glob_rows}
     for p, d in manifests:
         ch = False
         for e in d.get('functions', []):
             try:
-                r = at.get((e.get('name'), int(str(e['address']), 16)))
+                r = at.get((e.get('name'), int(str(e['address']), 16), e.get('region') or d.get('region')))
             except (KeyError, ValueError):
                 r = None
             if r:
                 e['name'] = r['new']
                 ch = True
             if 'functions' in e:
-                unit_old = dict(glob_old)
+                ereg = e.get('region') or d.get('region')
+                unit_old = {o: x for o, x in glob_old.items() if not x['region'] or x['region'] == ereg}
                 for r in in_scope.get(os.path.normpath(os.path.join(ROOT, e.get('source', ''))), ()):
                     unit_old[r['old']] = r
                 fl = [unit_old[x]['new'] if x in unit_old else x for x in e['functions']]
@@ -543,7 +634,7 @@ def main():
         print('NOTE %s holds both %s and %s (now one name; check for a doubled declaration)' % (f, o, n))
     print('rows: %d applied, %d refused' % (len(good), len(bad)))
     print('files: %d source, %d manifest' % (len(changed), len(man_changed)))
-    unused = ['%s@%08X' % (r['old'], r['address']) for r in good if not per_row[(r['old'], r['address'])]]
+    unused = ['%s@%08X' % (r['old'], r['address']) for r in good if not per_row[(r['old'], r['address'], r['region'])]]
     if unused:
         print('rows with no occurrence: %s' % ', '.join(unused))
     if a.changed:

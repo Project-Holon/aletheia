@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020113C4  0x020113C4  thumb
+ *   VM_Return  0x020113C4  thumb
  */
 
 typedef unsigned char u8;
@@ -18,12 +18,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Ring;
-extern u32 func_020113C4(struct Ring *r);
+extern u32 VM_Return(struct Ring *r);
 
 int func_0215929C(struct Ring *a0)
 {
 
-    a0 = (struct Ring *)func_020113C4(a0);
+    a0 = (struct Ring *)VM_Return(a0);
 loc_021592A2:
 a0 = 0;
     return (int)a0;}

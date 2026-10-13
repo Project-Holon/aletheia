@@ -10,50 +10,52 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201AC2C, sub_0201AC44, sub_0201AC80, sub_0201ACC4,
- *           sub_0201ACDC, sub_0201AD0C, sub_0201AD18, sub_0201AD40,
- *           sub_0201AD58
+ * function: POKEPARTY_Copy, POKEPARTY_HasSpecies, POKEPARTY_GetAliveNonEggCount, POKEPARTY_GetSlotFlag,
+ *           POKEPARTY_SetSlotFlag, POKEPARTY_GetSaveData, POKEPARTY_IsBattleReady, POKEPARTY_IsNotEgg,
+ *           POKEPARTY_FindFirst
  *
  * symbols:
- *   sub_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *
  * Nine functions over a 0xDC-byte-record array container (the same array
- * sub_0201AB28, in unit_0201AB28.c, indexes), all going through
+ * POKEPARTY_GetMember, in unit_0201AB28.c, indexes), all going through
  * func_02017E1C, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
  * this file leaves as an unresolved extern because its own definition is
  * still open elsewhere in the image.
  *
- * sub_0201AC2C copies the whole 0x534-byte container by value; declaring the
+ * POKEPARTY_Copy copies the whole 0x534-byte container by value; declaring the
  * two pointers `(const struct Rec534 *src, struct Rec534 *dst)`, in that
  * argument order, is what gets the `ldm`/`stm` loop's read and write sides
  * right (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; the record
  * is declared as a `u32` array so it is four-aligned rather than one-aligned,
  * which is what selects the register loop over a byte loop).
  *
- * sub_0201AC44 and sub_0201AC80 both walk the record array with a signed
+ * POKEPARTY_HasSpecies and POKEPARTY_GetAliveNonEggCount both walk the record array with a signed
  * loop counter (the original's `blt`/`ble` fix that, not `blo`/`bls`), the
  * first hunting for one whose entry's id-5 getter matches a target and
  * returning whether the loop ran out, the second counting entries that pass
- * one predicate and fail a second.  sub_0201AC80's `s32 n, i, count` layout
+ * one predicate and fail a second.  POKEPARTY_GetAliveNonEggCount's `s32 n, i, count` layout
  * matters for register allocation, not just its value:
  * docs/idioms/declaration-order-decides-which-register-a-local-gets.md is
  * the general rule and it is `i` declared before `n` here, `count`
  * initialised to zero on the same line as `i`.
  *
- * sub_0201ACC4 is a plain bit test on a byte 0x530 into the object.
- * sub_0201ACDC sets or clears one bit of the same byte depending on a mode
+ * POKEPARTY_GetSlotFlag is a plain bit test on a byte 0x530 into the object.
+ * POKEPARTY_SetSlotFlag sets or clears one bit of the same byte depending on a mode
  * argument; writing the two branches as `x = x | mask` / `x = x & ~mask`
  * over a double array-indexed expression (not a named pointer hoisted above
  * the `if`) is what keeps the address computation inside each arm instead of
  * being shared ahead of the branch.
  *
- * sub_0201AD0C is a 12-byte pool-word-and-bx tail call
+ * POKEPARTY_GetSaveData is a 12-byte pool-word-and-bx tail call
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) forwarding into
- * sub_020071CC (declared and used the same way in
+ * SAVE_CONTROL_GetBlock (declared and used the same way in
  * src/matched/unit_0200E884.c) with a literal id of 0x1A.
  *
- * sub_0201AD18 and sub_0201AD40 are both single-guard wrappers around
- * func_02017E1C.  sub_0201AD18's `a != 1 && b != 0` failing to `return 0` is
+ * POKEPARTY_IsBattleReady and POKEPARTY_IsNotEgg are both single-guard wrappers around
+ * func_02017E1C.  POKEPARTY_IsBattleReady's `a != 1 && b != 0` failing to `return 0` is
  * the guard-chain-shares-one-exit-block shape
  * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md)
  * applied to a genuine conjunction rather than the more common early-return
@@ -65,9 +67,9 @@
  * the observed shape has both comparisons branching to one identical exit,
  * which only the `&&`-guards-the-good-path phrasing produces.
  *
- * sub_0201AD58 is a linear search over the record array taking a function
+ * POKEPARTY_FindFirst is a linear search over the record array taking a function
  * pointer predicate, returning the index of the first match or the count if
- * none matched; `s32 i` declared before `s32 n = sub_0201AA18(p)` is again
+ * none matched; `s32 i` declared before `s32 n = POKEPARTY_GetCount(p)` is again
  * the register-order tell.
  *
  * Verified with:
@@ -85,7 +87,7 @@ struct Rec534 {
     u32 unk000[0x14D];
 };
 
-void sub_0201AC2C(const struct Rec534 *src, struct Rec534 *dst)
+void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst)
 {
     *dst = *src;
 }
@@ -96,7 +98,7 @@ struct Rec {
     u8  unk08[1];
 };
 
-u32 sub_0201AC44(struct Rec *p, u32 target)
+u32 POKEPARTY_HasSpecies(struct Rec *p, u32 target)
 {
     s32 i;
 
@@ -113,16 +115,16 @@ u32 sub_0201AC44(struct Rec *p, u32 target)
     return 1;
 }
 
-extern u32   sub_0201AA18(void *p);
-extern void *sub_0201AB28(void *p, u32 idx);
+extern u32   POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 
-u32 sub_0201AC80(void *p)
+u32 POKEPARTY_GetAliveNonEggCount(void *p)
 {
-    s32 n = sub_0201AA18(p);
+    s32 n = POKEPARTY_GetCount(p);
     s32 i, count = 0;
 
     for (i = 0; i < n; i++) {
-        void *entry = sub_0201AB28(p, i);
+        void *entry = POKEPARTY_GetMember(p, i);
 
         if (func_02017E1C(entry, 0xA0, 0)) {
             if (!func_02017E1C(entry, 0x4C, 0)) {
@@ -133,7 +135,7 @@ u32 sub_0201AC80(void *p)
     return count;
 }
 
-int sub_0201ACC4(void *p, u32 pos)
+int POKEPARTY_GetSlotFlag(void *p, u32 pos)
 {
     u8 b = ((u8 *)p)[0x530];
 
@@ -143,7 +145,7 @@ int sub_0201ACC4(void *p, u32 pos)
     return 0;
 }
 
-void sub_0201ACDC(void *p, u32 pos, u32 mode)
+void POKEPARTY_SetSlotFlag(void *p, u32 pos, u32 mode)
 {
     if (mode == 1) {
         ((u8 *)p)[0x530] = ((u8 *)p)[0x530] | (1u << pos);
@@ -153,14 +155,14 @@ void sub_0201ACDC(void *p, u32 pos, u32 mode)
 }
 
 struct Sub020071CCCtrl;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 
-void *sub_0201AD0C(void *sys)
+void *POKEPARTY_GetSaveData(void *sys)
 {
-    return sub_020071CC(sys, 0x1A);
+    return SAVE_CONTROL_GetBlock(sys, 0x1A);
 }
 
-u32 sub_0201AD18(void *p)
+u32 POKEPARTY_IsBattleReady(void *p)
 {
     u32 a = func_02017E1C(p, 0x4C, 0);
     u32 b = func_02017E1C(p, 0xA0, 0);
@@ -171,7 +173,7 @@ u32 sub_0201AD18(void *p)
     return 0;
 }
 
-u32 sub_0201AD40(void *p)
+u32 POKEPARTY_IsNotEgg(void *p)
 {
     u32 r = 0;
 
@@ -183,13 +185,13 @@ u32 sub_0201AD40(void *p)
 
 typedef u32 (*Predicate)(void *entry);
 
-u32 sub_0201AD58(void *p, Predicate pred)
+u32 POKEPARTY_FindFirst(void *p, Predicate pred)
 {
     s32 i;
-    s32 n = sub_0201AA18(p);
+    s32 n = POKEPARTY_GetCount(p);
 
     for (i = 0; i < n; i++) {
-        void *entry = sub_0201AB28(p, i);
+        void *entry = POKEPARTY_GetMember(p, i);
 
         if (pred(entry)) {
             return i;

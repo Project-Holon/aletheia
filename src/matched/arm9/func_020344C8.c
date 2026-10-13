@@ -1,5 +1,5 @@
 /*
- * function: func_020344C8
+ * function: AREAMAN_TraceBitmap
  * address:  0x020344C8
  * packet:   pkt_020344C8
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020344C4  0x020344C4  arm
+ *   AREAMAN_TraceByte  0x020344C4  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_020344C4(u8);
+extern void AREAMAN_TraceByte(u8);
 
 struct Struct_020344C8 {
     u8 pad[2];
@@ -27,12 +27,12 @@ struct Struct_020344C8 {
     u8 data[];
 };
 
-void func_020344C8(struct Struct_020344C8 *param)
+void AREAMAN_TraceBitmap(struct Struct_020344C8 *param)
 {
     if (param->ptr != 0) {
         int i;
         for (i = 0; i < param->count; i++) {
-            func_020344C4(param->data[i]);
+            AREAMAN_TraceByte(param->data[i]);
         }
     }
 }

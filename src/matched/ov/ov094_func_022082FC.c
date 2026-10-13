@@ -11,7 +11,7 @@
  * lever: u8 count retains the result spill; enum VRAM base preserves add
  *   order and register home; zero the loop counter before assigning base.
  * symbols:
- *   func_0204B7C8 0x0204B7C8 arm
+ *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   func_02208034 0x02208034 thumb ov094
  *   func_0202D034 0x0202D034 thumb
  *   func_02082A60 0x02082A60 arm
@@ -39,7 +39,7 @@ typedef struct O {
     u32 lo:4, b4:1, hi:27;
 } O;
 struct Struct36;
-extern void func_0204B7C8(const char *src, struct Struct36 *dst);
+extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern u8 func_02208034(u32, int, int, u32 *, u8 *, u8);
 extern int func_0202D034(u32, u32);
 extern void func_02082A60(const void *, void *, int);
@@ -56,7 +56,7 @@ void func_022082FC(O *o, int idx, int k)
     switch (k) {
     case 0:
         if (o->b4 && !(idx & 1)) break;
-        func_0204B7C8(e->f8, (struct Struct36 *)(&buf));
+        CLACT_GetActorImageProxy(e->f8, (struct Struct36 *)(&buf));
         n = func_02208034(e->f4c, e->f48, e->f68, &e->f50, a, 6);
         val = e->f50;
         if (e->f4c < 48) val >>= 8;
@@ -74,7 +74,7 @@ void func_022082FC(O *o, int idx, int k)
         break;
     case 1:
         if (e->f10 == 0) break;
-        func_0204B7C8(e->f10, (struct Struct36 *)(&buf));
+        CLACT_GetActorImageProxy(e->f10, (struct Struct36 *)(&buf));
         func_02208034(e->f58, e->f54, e->f60, &e->f64, a, 10);
         if (e->f6c == 100) {
             for (i = 0; i < 10; i++) a[i] = 0;

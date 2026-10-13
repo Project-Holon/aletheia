@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * blocker: ARM9 0x0203D644; verified EXACT (12 bytes) in scratch blocker-r1.log.
- *   extern void func_020394F0(int);
- *   void func_0203D644(int value) { func_020394F0(value); }
+ *   extern void GFL_NET_SYSTEM_SetWaitMode(int);
+ *   void GFL_NET_SetWaitMode(int value) { GFL_NET_SYSTEM_SetWaitMode(value); }
  *   Its target stores its one word input at global +0x1ac; no extra input.
  * blocker: ov175 0x021DC5F8 callback leaf withheld while ARM9 also blocks.
  *   Leaf returns *(u32 *)(p+0x1458) for kind 3 or 6, otherwise 0.
@@ -25,9 +25,9 @@
  *   func_0203CD98 0x0203CD98 arm
  *   func_02034714 0x02034714 arm
  *   func_0203A574 0x0203A574 arm
- *   func_0203D644 0x0203D644 arm
- *   func_02156DC4 0x02156DC4 thumb ov009
- *   func_02156DE0 0x02156DE0 thumb ov009
+ *   GFL_NET_SetWaitMode 0x0203D644 arm
+ *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
+ *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   func_021DC5C8 0x021DC5C8 thumb ov175
  *   func_021DC5F8 0x021DC5F8 thumb ov175
  *   d_021E2EE0 0x021E2EE0 data a4
@@ -36,7 +36,7 @@
   *
  * note 2026-10-04 (lane 20, D2): leaf func_021DC5F8 is now filed EXACT as
  * src/matched/ov/ov175_func_021DC5F8.c (24 bytes). The tool still says "no witness" for it until
- * the integrator runs the manifest. The other blocker, ARM9 func_0203D644 (veneer-like 12-byte
+ * the integrator runs the manifest. The other blocker, ARM9 GFL_NET_SetWaitMode (veneer-like 12-byte
  * tail call), is the arm9 label lane's. Body is byte-correct; expect EXACT after manifest + label.
  */
 typedef unsigned short u16;
@@ -53,9 +53,9 @@ extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern int func_0203CD98(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_0203A574(u32, u32, u32, u32);
-extern void func_0203D644(int);
-extern void func_02156DC4(int, int);
-extern void func_02156DE0(int, int);
+extern void GFL_NET_SetWaitMode(int);
+extern void DWC_RAP_SetErrorCallback(int, int);
+extern void DWC_RAP_SetErrorHookCallback(int, int);
 extern void func_021DC5C8(void *, int, int);
 extern u32 func_021DC5F8(char *p, int a, int kind);
 extern const char d_021E2EE0[], d_021E2EF8[];
@@ -75,8 +75,8 @@ char *func_021D9DC8(u32 a, void *save, u32 b, u16 heap) {
     func_02082BCC(*(void **)(p + 0x190), 0, 0x260);
     if (!func_0203CD98()) func_02034714(d_021E2EF8, 0, d_021E2EF8);
     func_0203A574(0x2400, (u32)d_021E2C90, 6, (u32)p);
-    func_0203D644(0);
-    func_02156DC4((int)func_021DC5C8, (int)p);
-    func_02156DE0((int)func_021DC5F8, (int)p);
+    GFL_NET_SetWaitMode(0);
+    DWC_RAP_SetErrorCallback((int)func_021DC5C8, (int)p);
+    DWC_RAP_SetErrorHookCallback((int)func_021DC5F8, (int)p);
     return p;
 }

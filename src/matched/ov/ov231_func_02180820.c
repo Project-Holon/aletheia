@@ -26,7 +26,7 @@
  *   func_020870D0  0x020870D0  arm
  *   func_02075E9C  0x02075E9C  arm
  *   func_02084DF4  0x02084DF4  arm
- *   func_02084E2C  0x02084E2C  arm
+ *   OS_UnLockCard  0x02084E2C  arm
  *   func_02075EAC  0x02075EAC  arm
  *   func_02180904  0x02180904  thumb  ov231
  *   func_02180914  0x02180914  thumb  ov231
@@ -59,7 +59,7 @@ extern u16 d_02180A00;
 extern u64 func_020870D0(void);
 extern void func_02075E9C(u16 a);
 extern int func_02084DF4(unsigned short lockID);
-extern void func_02084E2C(u16 a);
+extern void OS_UnLockCard(u16 a);
 extern void func_02075EAC(u16 a);
 extern void func_02180904(void);
 extern void func_02180914(u16 v);
@@ -94,7 +94,7 @@ int func_02180820(void)
     func_02180914(2);
     func_02180984((u8 *)(&d_02180A20_b));
     func_02180904();
-    func_02084E2C(d_02180A00);
+    OS_UnLockCard(d_02180A00);
     func_02075EAC(d_02180A00);
     return result;
 }

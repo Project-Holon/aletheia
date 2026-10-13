@@ -22,13 +22,13 @@
  *   func_021BDC48  0x021BDC48  thumb
  *   func_021BDBAC  0x021BDBAC  thumb
  *   func_021C80AC  0x021C80AC  thumb
- *   func_02015C48  0x02015C48  thumb
+ *   MCSS_SetPosition  0x02015C48  thumb
  *   func_021BDAAC  0x021BDAAC  thumb
  *   func_021BDBEC  0x021BDBEC  thumb
  *   func_021BE82C  0x021BE82C  thumb
  *   func_021BDBA0  0x021BDBA0  thumb
  *   func_021C50F8  0x021C50F8  thumb
- *   func_02012BF8  0x02012BF8  thumb
+ *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
  *   func_021BDC14  0x021BDC14  thumb
  *   func_021C7534  0x021C7534  thumb
  *   func_021C4F30  0x021C4F30  thumb
@@ -56,13 +56,13 @@ extern void func_021C5200(int *p);
 extern void func_021BDC48(void *s, u32 on);
 extern void func_021BDBAC(void *s, int v);
 extern void func_021C80AC(int a, int b, int c);
-extern void func_02015C48(void *p, u32 *src);
+extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
 extern void func_021BDBEC(void *s, int v);
 extern void func_021BE82C(void *icon, int kind);
 extern void func_021BDBA0(void *s);
 extern void func_021C50F8(u32 obj, Vec *out);
-extern int func_02012BF8(int a0, int a1);
+extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void func_021BDC14(char *p, int b);
 extern void func_021C7534(void *a0, u8 *p, void *ctx);
 extern void func_021C4F30(void *a0, u8 *p, void *ctx);
@@ -124,19 +124,19 @@ void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
             if (H(0x548) >= 2) {
                 if (W(0xc) != 0) {
                     func_021C80AC((int)(p + 0xc), 1, (int)(&v));
-                    func_02015C48((void *)W(0xc), (u32 *)(&v));
+                    MCSS_SetPosition((void *)W(0xc), (u32 *)(&v));
                 }
                 if (W(0x50) != 0) {
                     func_021C80AC((int)(p + 0x50), 1, (int)(&v));
-                    func_02015C48((void *)W(0x50), (u32 *)(&v));
+                    MCSS_SetPosition((void *)W(0x50), (u32 *)(&v));
                 }
                 if (W(0x94) != 0) {
                     func_021C80AC((int)(p + 0x94), 2, (int)(&v));
-                    func_02015C48((void *)W(0x94), (u32 *)(&v));
+                    MCSS_SetPosition((void *)W(0x94), (u32 *)(&v));
                 }
                 if (W(0xd8) != 0) {
                     func_021C80AC((int)(p + 0xd8), 2, (int)(&v));
-                    func_02015C48((void *)W(0xd8), (u32 *)(&v));
+                    MCSS_SetPosition((void *)W(0xd8), (u32 *)(&v));
                 }
             }
             func_021BDAAC(scene, 2, 3, func_021BC3BC(ctx) > 1);
@@ -180,25 +180,25 @@ void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
             if (H(0x548) >= 2) {
                 if (W(0xc) != 0) {
                     func_021C80AC((int)(p + 0xc), 0, (int)(&v2));
-                    func_02015C48((void *)W(0xc), (u32 *)(&v2));
+                    MCSS_SetPosition((void *)W(0xc), (u32 *)(&v2));
                 }
                 if (W(0x50) != 0) {
                     func_021C80AC((int)(p + 0x50), 0, (int)(&v2));
-                    func_02015C48((void *)W(0x50), (u32 *)(&v2));
+                    MCSS_SetPosition((void *)W(0x50), (u32 *)(&v2));
                 }
                 idx = W(0x124) != 0 ? SIDE_0 : SIDE_1;
                 func_021C50F8(*(u32 *)(p + idx * 0x44 + 0xc), &v2);
                 if (W(0x94) != 0) {
                     func_021C80AC((int)(p + 0x94), 2, (int)(&v2));
-                    func_02015C48((void *)W(0x94), (u32 *)(&v2));
+                    MCSS_SetPosition((void *)W(0x94), (u32 *)(&v2));
                 }
                 if (W(0xd8) != 0) {
                     func_021C80AC((int)(p + 0xd8), 2, (int)(&v2));
-                    func_02015C48((void *)W(0xd8), (u32 *)(&v2));
+                    MCSS_SetPosition((void *)W(0xd8), (u32 *)(&v2));
                 }
             }
             func_021BDAAC(scene, 0, 3, func_021BC3BC(ctx) > 1);
-            func_021BDC14(scene, func_02012BF8(func_021BC3A4(ctx), 0x14));
+            func_021BDC14(scene, GAME_DATA_CheckSaveFlag(func_021BC3A4(ctx), 0x14));
             func_021BE82C(icon, 3);
             if (H(0x548) >= 2) {
                 W(0x6c8) = 1;

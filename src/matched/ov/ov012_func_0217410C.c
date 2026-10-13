@@ -1,5 +1,5 @@
 /*
- * function: func_0217410C
+ * function: UNION_COMMAND_SendAppNotice
  * address: 0x0217410C
  * packet: pkt_ov012_0217410C
  * region: ov012
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D4D0(u32, u32, u32, u32, u32, u32, u32, u32);
-void func_0217410C(u32 a, u8 b)
+void UNION_COMMAND_SendAppNotice(u32 a, u8 b)
 {
     func_0203D4D0((u32)func_020399A8(), a, 0x1414, 1, (u32)&b, 1, 0, 0);
 }

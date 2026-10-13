@@ -1,5 +1,5 @@
 /*
- * function: func_02155D80
+ * function: DWC_RAP_OnSendComplete
  * address:  0x02155D80
  * packet:   pkt_ov009_02155D80
  * region:   ov009
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * Unlabelled leaf (no lr save, so disasm.py prints it as .word data); its
- * address is taken as a callback by func_02156888 / func_0215568C.
+ * address is taken as a callback by DWC_RAP_StartFriendMatch / DWC_RAP_StartMatchWithKey.
  *
  * symbols:
- *   d_021A8264     0x021A8264  data  ov009  a4
+ *   _pRapWork     0x021A8264  data  ov009  a4
  */
 
 typedef unsigned char u8;
@@ -26,12 +26,12 @@ typedef struct {
     int cnt[2];         /* 0x784 */
 } G;
 
-extern G *d_021A8264;
+extern G *_pRapWork;
 
-void func_02155D80(int a, u32 i)
+void DWC_RAP_OnSendComplete(int a, u32 i)
 {
     if (i < 2) {
-        d_021A8264->f760 = 0;
-        d_021A8264->cnt[i] = 0;
+        _pRapWork->f760 = 0;
+        _pRapWork->cnt[i] = 0;
     }
 }

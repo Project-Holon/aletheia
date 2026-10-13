@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02023EF4
+ * function: BRIGHTNESS_ChangeRequest
  * address:  0x02023EF4
  * packet:   pkt_02023EF4
  * region:   arm9
@@ -10,11 +10,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Front end for func_02023E9C: given a record pointer and a two-bit engine
+ * Front end for BRIGHTNESS_ChangeInit: given a record pointer and a two-bit engine
  * mask, it arms the record once per selected engine. Each arm first sets
  * the hardware blend-brightness register for that engine to the starting
  * value through G2x_SetBlendBrightness_ (0x0207D658), then calls
- * func_02023E9C with the shared step/from/to triple and the two stack
+ * BRIGHTNESS_ChangeInit with the shared step/from/to triple and the two stack
  * arguments (the starting value, and the engine bit itself as the tag).
  *
  * The two pool words 0x04000050 and 0x04001050 are the main and sub
@@ -40,9 +40,9 @@
  * appears in any literal pool at another address. -- wrong on both counts,
  * see above.
  *
- * Both engines pass the same record pointer p to func_02023E9C; the first
+ * Both engines pass the same record pointer p to BRIGHTNESS_ChangeInit; the first
  * argument is the engine's own descriptor table, and the last argument is
- * the engine bit (1 or 2), which func_02023E9C stores to f04.
+ * the engine bit (1 or 2), which BRIGHTNESS_ChangeInit stores to f04.
  *
  * G2x_SetBlendBrightness_ takes three arguments (addr, plane, brightness)
  * and both arms pass all three. The first arm emits no `mov r2` because
@@ -53,7 +53,7 @@
  *
  * symbols:
  *   G2x_SetBlendBrightness_   0x0207D658  arm
- *   func_02023E9C             0x02023E9C  thumb
+ *   BRIGHTNESS_ChangeInit             0x02023E9C  thumb
  *   data_0214691C             0x0214691C  data
  *   data_021468FC             0x021468FC  data
  */
@@ -64,13 +64,13 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-extern void func_02023E9C(void *rec, void *p, u16 steps, s16 from,
+extern void BRIGHTNESS_ChangeInit(void *rec, void *p, u16 steps, s16 from,
                           u32 a4, u32 a5);
 
 extern char data_0214691C[];
 extern char data_021468FC[];
 
-void func_02023EF4(void *p, u16 steps, s16 from, s16 to, u32 mask)
+void BRIGHTNESS_ChangeRequest(void *p, u16 steps, s16 from, s16 to, u32 mask)
 {
     if (p == 0) {
         return;
@@ -78,11 +78,11 @@ void func_02023EF4(void *p, u16 steps, s16 from, s16 to, u32 mask)
 
     if (mask & 1) {
         G2x_SetBlendBrightness_(0x04000050, to, from);
-        func_02023E9C(data_0214691C, p, steps, from, (u32)to, 1);
+        BRIGHTNESS_ChangeInit(data_0214691C, p, steps, from, (u32)to, 1);
     }
 
     if (mask & 2) {
         G2x_SetBlendBrightness_(0x04001050, to, from);
-        func_02023E9C(data_021468FC, p, steps, from, (u32)to, 2);
+        BRIGHTNESS_ChangeInit(data_021468FC, p, steps, from, (u32)to, 2);
     }
 }

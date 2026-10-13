@@ -1,5 +1,5 @@
 /*
- * function: func_02090DEC
+ * function: WM_SetLifeTime
  * address:  0x02090DEC
  * packet:   pkt_02090DEC
  * region:   arm9
@@ -62,7 +62,7 @@ extern void DC_StoreRange(void *startAddr, u32 nBytes);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 
-WMErrCode func_02090DEC(WMCallbackFunc callback, u16 tableNumber, u16 camLifeTime, u16 frameLifeTime, u16 mpLifeTime)
+WMErrCode WM_SetLifeTime(WMCallbackFunc callback, u16 tableNumber, u16 camLifeTime, u16 frameLifeTime, u16 mpLifeTime)
 {
     WMErrCode result;
 

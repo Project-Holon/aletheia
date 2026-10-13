@@ -13,12 +13,12 @@
  *
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_0216B908  0x0216B908  arm  ov009
+ *   DWC_GetAIDBitmap  0x0216B908  arm  ov009
  *   func_021768EC  0x021768EC  arm  ov009
  */
 
 extern int func_02175F3C(void);
-extern int func_0216B908(void);
+extern int DWC_GetAIDBitmap(void);
 extern void func_021768EC(int result);
 
 void func_0217689C(void)
@@ -26,7 +26,7 @@ void func_0217689C(void)
     if (*(int *)(func_02175F3C() + 0x2c) == 0xff)
         return;
     if (*(int *)(func_02175F3C() + 0x2c) == 1)
-        *(unsigned int *)(func_02175F3C() + 0x1c) = func_0216B908();
+        *(unsigned int *)(func_02175F3C() + 0x1c) = DWC_GetAIDBitmap();
     else
         *(unsigned int *)(func_02175F3C() + 0x1c) = 0;
     func_021768EC(0);

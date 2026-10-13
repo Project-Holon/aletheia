@@ -14,7 +14,7 @@
  *           indexed loads hoist out of the loop past the stores through e.
  * symbols:
  *   func_020056EC  0x020056EC  thumb
- *   func_0204B908  0x0204B908  arm
+ *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   func_0204B404  0x0204B404  arm
  *   func_021A21B8  0x021A21B8  thumb  ov021
  *   func_021A21C8  0x021A21C8  thumb  ov021
@@ -34,7 +34,7 @@ typedef struct {
 } Pt;
 
 extern u32 func_020056EC(u32 v);
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -71,7 +71,7 @@ void func_021EEE04(int a, int n, u16 idx)
         e[0] = 0;
         e[1] = func_020056EC(3) + 9;
         m = func_020056EC(4);
-        func_0204B908(h, (u16)m);
+        CLACT_SetActorAnimIndex(h, (u16)m);
         e[4] = (m + 1) * d_021EF770[k];
         e[2] = d_021EF780[k] * (m + 1);
         e[3] = 0;

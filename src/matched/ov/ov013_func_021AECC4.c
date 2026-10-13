@@ -1,5 +1,5 @@
 /*
- * function: func_021AECC4
+ * function: VCT_MAIN_AcceptPendingPeer
  * address:  0x021AECC4
  * packet:   pkt_ov013_021AECC4
  * region:   ov013
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B2180  0x021B2180  arm  ov013
- *   func_021B0614  0x021B0614  arm  ov013
- *   d_021B3C80     0x021B3C80  data  ov013
+ *   VCT_SESSION_SendPeerReply  0x021B2180  arm  ov013
+ *   VCT_SESSION_AddMember  0x021B0614  arm  ov013
+ *   gVctWork     0x021B3C80  data  ov013
  */
 #include "../include/Obj19303.h"
 #include "../include/G_Work.h"
@@ -20,22 +20,22 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern struct Work *d_021B3C80;
+extern struct Work *gVctWork;
 
-extern int func_021B2180(int a, int b);
-extern int func_021B0614(void *p);
+extern int VCT_SESSION_SendPeerReply(int a, int b);
+extern int VCT_SESSION_AddMember(void *p);
 
-int func_021AECC4(int x)
+int VCT_MAIN_AcceptPendingPeer(int x)
 {
-    u8 *p = *(u8 **)(((u8 *)d_021B3C80) + 0x1A1C);
+    u8 *p = *(u8 **)(((u8 *)gVctWork) + 0x1A1C);
     int r;
 
     if (p != 0 && ((struct Obj19303 *)p)->fC == 4) {
         r = 0;
-        if (func_021B2180((int)p, 0) != 0) {
+        if (VCT_SESSION_SendPeerReply((int)p, 0) != 0) {
             return r;
         }
-        if (func_021B0614(*(void **)(((u8 *)d_021B3C80) + 0x1A1C)) != 0) {
+        if (VCT_SESSION_AddMember(*(void **)(((u8 *)gVctWork) + 0x1A1C)) != 0) {
             r = 1;
         }
         return r;

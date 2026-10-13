@@ -1,5 +1,5 @@
 /*
- * function: sub_02009800
+ * function: WIFILIST_Init
  * address:  0x02009800
  * packet:   pkt_02009800
  * region:   arm9
@@ -18,7 +18,7 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_02034AC4  0x02034AC4  arm
- *   func_02157138  0x02157138  thumb ov009
+ *   DWC_RAPCOMMON_InitUserData  0x02157138  thumb ov009
  *   ov_id_09       0x00000009  data
  *   ov_id_0A       0x0000000A  data
  *   ov_id_0B       0x0000000B  data
@@ -26,7 +26,7 @@
  *
  * The wifilist constructor, diagnosed in the header of
  * src/matched/unit_02009860.c under "NEAR MISS, 0x02009800".  The only
- * branch to func_02157138 (ov009) in the image is the call in this
+ * branch to DWC_RAPCOMMON_InitUserData (ov009) in the image is the call in this
  * function; since seed round 9 it resolves as `sole-ref` on the seeded
  * ov009 start.
  *
@@ -41,21 +41,21 @@
 extern void func_02082BCC(void *dst, int val, unsigned n);
 extern void func_02034A5C(int handle);
 extern int func_02034AC4(int id);
-extern void func_02157138(void *p);
+extern void DWC_RAPCOMMON_InitUserData(void *p);
 
 extern unsigned char ov_id_09[];
 extern unsigned char ov_id_0A[];
 extern unsigned char ov_id_0B[];
 extern unsigned char ov_id_0D[];
 
-void sub_02009800(void *p)
+void WIFILIST_Init(void *p)
 {
     func_02082BCC(p, 0, 0x7c4);
     func_02034A5C((int)ov_id_0A);
     func_02034A5C((int)ov_id_0B);
     func_02034AC4((int)ov_id_0D);
     func_02034AC4((int)ov_id_09);
-    func_02157138(p);
+    DWC_RAPCOMMON_InitUserData(p);
     func_02034A5C((int)ov_id_09);
     func_02034A5C((int)ov_id_0D);
     func_02034AC4((int)ov_id_0A);

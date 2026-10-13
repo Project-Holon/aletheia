@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0203499C",
+   "name": "GF_OVERLAY_Init",
    "address": "0x0203499C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02034A5C",
+   "name": "GF_OVERLAY_Unload",
    "address": "0x02034A5C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02034BB0",
+   "name": "GF_OVERLAY_CheckRangeFree",
    "address": "0x02034BB0",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02034CBC",
+   "name": "GF_OVERLAY_GetSlots",
    "address": "0x02034CBC",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02034D08",
+   "name": "GF_OVERLAY_GetSlotCount",
    "address": "0x02034D08",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02034D60",
+   "name": "GF_OVERLAY_GetArea",
    "address": "0x02034D60",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02034DC4",
+   "name": "GF_OVERLAY_GetRamRange",
    "address": "0x02034DC4",
    "kind": "game",
    "region": "arm9",

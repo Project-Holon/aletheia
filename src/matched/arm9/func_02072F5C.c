@@ -1,5 +1,5 @@
 /*
- * function: func_02072F5C
+ * function: NNS_SndHandleMoveVolume
  * address:  0x02072F5C
  * packet:   pkt_02072F5C
  * region:   arm9
@@ -31,7 +31,7 @@ typedef struct Obj02072F5C {
 struct Obj02075BAC;
 extern void func_02075BAC(struct Obj02075BAC *o, u32 a, u32 b);
 
-void func_02072F5C(Obj02072F5C *volatile *pp, u32 a, u32 b)
+void NNS_SndHandleMoveVolume(Obj02072F5C *volatile *pp, u32 a, u32 b)
 {
     Obj02072F5C *o;
 

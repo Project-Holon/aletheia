@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_0204B688
+ * function: CLACT_SetActorObjMode
  * address:  0x0204B688
  * packet:   pkt_0204B5D4
  * region:   arm9
@@ -54,7 +54,7 @@ struct Actor {
     u32 f_18 : 8;
 };
 
-void sub_0204B688(struct Actor *actor, u32 value)
+void CLACT_SetActorObjMode(struct Actor *actor, u32 value)
 {
     actor->f_16 = value;
 
@@ -68,7 +68,7 @@ void sub_0204B688(struct Actor *actor, u32 value)
     }
 }
 
-u32 sub_0204B6E4(const struct Actor *actor)
+u32 CLACT_GetActorObjMode(const struct Actor *actor)
 {
     return actor->f_16;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D93E4
+ * function: P_STA_RIBBON_GetOwnedIndex
  * address: 0x021D93E4
  * packet: pkt_ov131_021D93E4
  * region: ov131
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned int u32;
-u32 func_021D93E4(u8 *p, u32 target)
+u32 P_STA_RIBBON_GetOwnedIndex(u8 *p, u32 target)
 {
     u8 row;
     s8 delta;

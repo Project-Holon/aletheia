@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02173D88",
-    "func_02173DB0"
+    "UNION_COMMAND_SendAppEntryRefused",
+    "UNION_COMMAND_RecvAppEntryAccepted"
+   ],
+   "addresses": [
+    "0x02173D88",
+    "0x02173DB0"
    ]
   }
  ]

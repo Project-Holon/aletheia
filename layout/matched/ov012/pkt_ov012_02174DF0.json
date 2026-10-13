@@ -19,7 +19,11 @@
    "status": "EXACT",
    "functions": [
     "func_02174DF0",
-    "func_02174E08"
+    "COLOSSEUM_RecvReady"
+   ],
+   "addresses": [
+    "0x02174DF0",
+    "0x02174E08"
    ]
   }
  ]

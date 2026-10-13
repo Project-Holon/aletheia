@@ -1,5 +1,5 @@
 /*
- * function: func_02075BD4
+ * function: NNS_SndFaderGet
  * address:  0x02075BD4
  * packet:   pkt_02075BAC
  * region:   arm9
@@ -28,7 +28,7 @@ struct Obj {
     s32 f0c;
 };
 
-s32 func_02075BD4(struct Obj *o)
+s32 NNS_SndFaderGet(struct Obj *o)
 {
     if (o->f08 >= o->f0c)
         return o->f04;

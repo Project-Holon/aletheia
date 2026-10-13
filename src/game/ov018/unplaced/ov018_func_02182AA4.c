@@ -24,81 +24,72 @@
  *   func_0201235C  0x0201235C  thumb
  */
 
-typedef struct {
-    void *f00;
-    void *f04;
-    void *f08;
-    void *f0C;
-    void *f10;
-    void *f14;
-    void *f18;
-    void *f1C;
-    void *f20;
-    void *f24;
-    unsigned char f28;
-    unsigned char pad29[3];
-    void *f2C;
-} Ov018Obj;
-
-typedef struct {
-    unsigned char pad00[0x10];
-    Ov018Obj obj;
-    unsigned char pad40[0x5C];
-    unsigned short f9C;
-} Ov018Outer;
-
+typedef unsigned char u8;
 typedef unsigned short u16;
-struct Evt;
-struct Obj;
-struct Ctx;
-void *func_020124E4(struct Obj *p);
-unsigned int func_02012138(const struct Ctx *p);
-typedef unsigned int   u32;
-struct Desc;
-struct S0201235C;
-int func_02158344(int a0);
-void func_0217F3C4(Ov018Obj *p, int a);
-int func_0217F40C(Ov018Obj *p);
-void func_0217F318(Ov018Obj *p);
-struct Desc *func_02158768(int a0, int a1, int a2, int a3);
-int func_021589D0(int a0);
-int func_02159058(int a, int b, int c, int d, u16 e);
-void func_02012374(struct Evt *evt, struct Evt **out);
-void func_0217FE38(int v, Ov018Outer *c);
-int func_0217CA84(void *a, int b);
-void func_0201235C(struct S0201235C *o, u32 *out);
+typedef unsigned int u32;
+typedef signed char s8;
+typedef signed short s16;
+typedef signed int s32;
 
-int func_02182AA4(void *a, int *state, Ov018Outer *c)
+#include "../../ov011/intrude_comm_types.h"
+#include "../unit_021828B8_types.h"
+
+struct GameSystem;
+struct GameComm;
+struct ScriptEvent;
+
+extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameComm *func_02012138(struct GameSystem *gameSystem);
+extern IntrudeCommSys *func_02158344(struct GameComm *gameComm);
+void func_0217F3C4(EventCommMsgBox *msgBox, int msgId);
+int func_0217F40C(EventCommMsgBox *msgBox);
+void func_0217F318(EventCommMsgBox *msgBox);
+struct ScriptEvent *func_02158768(struct GameSystem *gameSystem, int scriptId, int targetId, int kind);
+void *func_021589D0(struct ScriptEvent *scriptEvent);
+int func_02159058(void *scriptWork, int var8000, int var8001, int var8002, u16 var8003);
+void func_02012374(struct GameEvent *event, struct ScriptEvent *callEvent);
+void func_0217FE38(IntrudeCommSys *sys, EventCommMsgWork *work);
+struct GameEvent *func_0217CA84(struct GameSystem *gameSystem, int a);
+void func_0201235C(struct GameEvent *event, struct GameEvent *nextEvent);
+
+/*
+ * Event callback of the script variant of the message event (work set by
+ * func_02182A08): print the message, wait for the print to end, run the
+ * script event 0xAFD with the work variables set, close the box and change
+ * to the event that func_0217CA84 returns.
+ */
+int func_02182AA4(struct GameEvent *event, int *seq, void *eventWork)
 {
-    void *sub;
-    int v;
-    void *w;
+    EventCommMsgWork *work = eventWork;
+    struct GameSystem *gameSystem;
+    IntrudeCommSys *sys;
+    struct ScriptEvent *scriptEvent;
 
-    sub = func_020124E4(a);
-    v = func_02158344((int)((void *)func_02012138(sub)));
-    switch (*state) {
+    gameSystem = func_020124E4(event);
+    sys = func_02158344(func_02012138(gameSystem));
+    switch (*seq) {
     case 0:
-        func_0217F3C4(&c->obj, c->f9C);
-        (*state)++;
+        func_0217F3C4(&work->msgBox, work->msgId);
+        (*seq)++;
         break;
     case 1:
-        if (func_0217F40C(&c->obj) == 1) {
-            (*state)++;
+        if (func_0217F40C(&work->msgBox) == 1) {
+            (*seq)++;
         }
         break;
     case 2:
-        func_0217F318(&c->obj);
-        w = func_02158768((int)sub, 0xAFD, 0, 4);
-        func_02159058(func_021589D0((int)w), 0x23F, 1, 0, 0);
-        func_02012374(a, w);
-        (*state)++;
+        func_0217F318(&work->msgBox);
+        scriptEvent = func_02158768(gameSystem, 0xAFD, 0, 4);
+        func_02159058(func_021589D0(scriptEvent), 0x23F, 1, 0, 0);
+        func_02012374(event, scriptEvent);
+        (*seq)++;
         break;
     case 3:
-        *state = 4;
+        *seq = 4;
         break;
     case 4:
-        func_0217FE38(v, c);
-        func_0201235C(a, (u32 *)func_0217CA84(sub, 0));
+        func_0217FE38(sys, work);
+        func_0201235C(event, func_0217CA84(gameSystem, 0));
         return 0;
     }
     return 0;

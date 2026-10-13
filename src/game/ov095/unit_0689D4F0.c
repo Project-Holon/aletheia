@@ -33,10 +33,10 @@ typedef struct {
 extern int func_021B86A0(void *, int);
 void func_0689D4F0(Rec *p, int i, int j);
 void func_0689D544(T *a, int b);
-u8 func_0689D558(u8 *a, int key, u8 *out);
+u8 func_0689D558(u8 *a, u8 key, u8 *out);
 int func_0689D588(u8 *p, u8 key);
 int func_0689D59C(u8 *p, void *q, u8 key);
-u8 func_0689D5C8(u8 *base, u8 key);
+u8 func_0689D5C8(u8 *base, int key);
 int func_0689D5F4(u8 *p, int i);
 
 
@@ -67,7 +67,7 @@ void func_0689D544(T *a, int b)
  * extent.  Collects the indices of the 3-byte records whose first byte is
  * non-zero, second byte equals `key` and third byte is 0x1f; returns the count.
  */
-u8 func_0689D558(u8 *a, int key, u8 *out)
+u8 func_0689D558(u8 *a, u8 key, u8 *out)
 {
     u32 n;
     u32 i;
@@ -105,7 +105,7 @@ int func_0689D59C(u8 *p, void *q, u8 key)
  * non-zero and whose third byte equals `key`; return its index (0..5), or 6.
  * Addresses are Black-image addresses.
  */
-u8 func_0689D5C8(u8 *base, u8 key)
+u8 func_0689D5C8(u8 *base, int key)
 {
     u32 i;
 

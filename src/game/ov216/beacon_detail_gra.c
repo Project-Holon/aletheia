@@ -30,7 +30,7 @@
  *   func_021B6448 0x021B6448 thumb ov067
  *   func_02165B10 0x02165B10 thumb ov010
  *   func_02012A54 0x02012A54 thumb
- *   func_020275A8 0x020275A8 thumb
+ *   BEACON_STATUS_GetLog 0x020275A8 thumb
  *   func_02165B04 0x02165B04 thumb ov010
  *   func_02165AC4 0x02165AC4 thumb ov010
  *   func_02165B5C 0x02165B5C thumb ov010
@@ -76,11 +76,11 @@
  *   func_0204ADA4  0x0204ADA4  arm
  *   configA 0x021BDB28 data a2
  *   configB 0x021BDB34 data a2
- *   func_0202DA04 0x0202DA04 thumb
+ *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
  *   func_02062A00 0x02062A00 arm
- *   func_0202DA48 0x0202DA48 thumb
- *   func_0202DA18 0x0202DA18 thumb
- *   func_0202DA6C 0x0202DA6C thumb
+ *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
+ *   POKEGRA_RegisterTrainerPalette 0x0202DA18 thumb
+ *   POKEGRA_RegisterTrainerCellAnim 0x0202DA6C thumb
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
@@ -91,21 +91,21 @@
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B3B4 0x0204B3B4 arm
- *   sub_020452E8  0x020452E8  arm
- *   func_0202DB0C 0x0202DB0C thumb
- *   func_0202DE5C 0x0202DE5C thumb
- *   func_0202DE64 0x0202DE64 thumb
- *   func_0202DE68 0x0202DE68 thumb
+ *   BMP_WIN_Delete  0x020452E8  arm
+ *   PMS_DRAW_Create 0x0202DB0C thumb
+ *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
+ *   PMS_DRAW_SetPrintColor 0x0202DE64 thumb
+ *   PMS_DRAW_SetFollowBgScroll 0x0202DE68 thumb
  *   func_0204B688 0x0204B688 arm
  *   func_020452E8 0x020452E8 arm
  *   sub_0202DBC4  0x0202DBC4  thumb
  *   func_02030734 0x02030734 arm
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
  *   d_021BDDC0 0x021BDDC0 data a1
  *   d_021BDBD8 0x021BDBD8 data a4
@@ -125,7 +125,7 @@
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
  *   func_0204B034 0x0204B034 arm
- *   func_0204B0F4 0x0204B0F4 arm
+ *   CLACT_SetRendererCulling 0x0204B0F4 arm
  *   func_0204B258 0x0204B258 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
@@ -163,16 +163,16 @@
  *   d_021BDD92 0x021BDD92 data a1
  *   d_021BDD8A 0x021BDD8A data a2
  *   func_02043AF4 0x02043AF4 arm
- *   sub_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   sub_0202DCC4 0x0202DCC4 thumb
- *   func_0202DCB0 0x0202DCB0 thumb
+ *   PMS_DRAW_SetVisible 0x0202DCB0 thumb
  *   sub_02040588 0x02040588 arm
  *   func_02040618 0x02040618 arm
  *   func_02165CC0 0x02165CC0 thumb ov010
  *   func_02021F64 0x02021F64 thumb
  *   func_02165C34 0x02165C34 thumb ov010
  *   func_02165C60 0x02165C60 thumb ov010
- *   func_0204581C 0x0204581C arm
+ *   STRBUF_Clear 0x0204581C arm
  *   func_0201F1C8 0x0201F1C8 thumb
  *   func_02165C78 0x02165C78 thumb ov010
  *   func_0201F198 0x0201F198 thumb
@@ -184,29 +184,30 @@
  *   func_0201F094 0x0201F094 thumb
  *   func_02165D40 0x02165D40 thumb ov010
  *   func_02165D48 0x02165D48 thumb ov010
- *   func_0202DCC4 0x0202DCC4 thumb
- *   func_0202DC9C 0x0202DC9C thumb
+ *   PMS_DRAW_IsActive 0x0202DCC4 thumb
+ *   PMS_DRAW_Clear 0x0202DC9C thumb
  *   func_02165C90 0x02165C90 thumb ov010
- *   func_0202DC48 0x0202DC48 thumb
+ *   PMS_DRAW_Print 0x0202DC48 thumb
  *   func_02165CE8 0x02165CE8 thumb ov010
  *   func_02025C88 0x02025C88 thumb
- *   func_0202DAA4 0x0202DAA4 thumb
+ *   POKEGRA_LoadTrainerGraphics 0x0202DAA4 thumb
  *   func_02165CB4 0x02165CB4 thumb ov010
  *   func_02165D34 0x02165D34 thumb ov010
  *   func_021BBB48 0x021BBB48 thumb ov072
  *   func_021BBB3C 0x021BBB3C thumb ov072
  *   sub_020311B8 0x020311B8 arm
- *   sub_02031290 0x02031290 arm
- *   func_02031194 0x02031194 arm
+ *   TCBL_GetWork 0x02031290 arm
+ *   TCBL_DeleteTask 0x02031194 arm
  *   func_021B64A8 0x021B64A8 thumb ov067
  *   func_02035C60 0x02035C60 arm
  *   func_020362DC 0x020362DC arm
- *   sub_02031194 0x02031194 arm
+ *   TCBL_DeleteTask 0x02031194 arm
  *   d_021BDD88 0x021BDD88 data a1
- *   sub_0201C724 0x0201C724 thumb
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   func_020311B8 0x020311B8 arm
- *   func_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   func_021BDAD8 0x021BDAD8 thumb ov216
+ *   PMS_DRAW_Delete  0x0202DC08  thumb  arm9
  */
 #include "../../matched/include/Obj00366.h"
 #include "../../matched/include/Obj01437.h"
@@ -375,7 +376,7 @@ extern int func_0204E804(void);
 extern int func_021B6448(unsigned char *);
 extern u8 *func_02165B10(u32);
 extern u32 func_02012A54(const struct BigObj *);
-extern u32 func_020275A8(u32 a);
+extern u32 BEACON_STATUS_GetLog(u32 a);
 extern u8 func_02165B04(u8 *);
 extern int func_02165AC4(struct Queue *,struct Rec *,u16 *,int);
 extern int func_02165B5C(struct Rec *);
@@ -418,11 +419,11 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_0204AFD8(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204ADA4(u32 i);
-extern int func_0202DA04(int a0);
+extern int POKEGRA_OpenTrainerHandle(int a0);
 extern int func_02062A00(struct NitroFileHeader *,void **);
-extern u32 func_0202DA48(u32,u32,u32,u32);
-extern s32 func_0202DA18(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern int func_0202DA6C(int a0, int a1, int a2, unsigned short a3);
+extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
+extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern int POKEGRA_RegisterTrainerCellAnim(int a0, int a1, int a2, unsigned short a3);
 extern unsigned func_020450F0(unsigned,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *,unsigned char);
@@ -433,22 +434,22 @@ extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned in
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B3B4(struct Obj *p);
-extern u32 sub_020452E8(struct Descriptor *d);
-extern struct PmsDraw *func_0202DB0C(u32,u32,u32,u32,u8,u8,u16);
-extern void func_0202DE5C(struct PmsDraw *,u8);
-extern void func_0202DE64(struct PmsDraw *,u16);
-extern void func_0202DE68(struct PmsDraw *,u32);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern struct PmsDraw *PMS_DRAW_Create(u32,u32,u32,u32,u8,u8,u16);
+extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *,u8);
+extern void PMS_DRAW_SetPrintColor(struct PmsDraw *,u16);
+extern void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *,u32);
 extern void func_0204B688(struct Actor *,u32);
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_0202DC08(struct Obj *p);
+extern void PMS_DRAW_Delete(struct Obj *p);
 extern int sub_0202DBC4(u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_0204335C(u32 keep);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void *func_020056A0(void (*)(void *,void *),void *,int);
 extern void func_02030EAC(struct Node *n);
@@ -465,7 +466,7 @@ extern void func_020419E4(void);
 extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
-extern void func_0204B0F4(struct Actor *a0, int a1);
+extern void CLACT_SetRendererCulling(struct Actor *a0, int a1);
 extern void func_0204B258(struct Bank *bank, void *p);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
@@ -504,16 +505,16 @@ extern void func_02045CAC(struct MsgBank*,u32,void*);
 extern void func_0201F250(struct WordSet*,void*,void*);
 extern void func_0204A9D0(int,struct Sub0204A9D0*);
 extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern void sub_0204B3DC(struct Obj *, u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
 extern u32 sub_0202DCC4(const struct Obj0202DCC4 *, u32);
-extern void func_0202DCB0(struct Obj0202DC98 *, int, u32);
+extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *, int, u32);
 extern void sub_02040588(unsigned char which, unsigned char enable);
 extern void func_02040618(u32,u32,u32);
 extern void func_02165CC0(int a0, int a1);
 extern void func_02021F64(u16 *,u16 *,u32,int,u16);
 extern void func_02165C34(struct Rec *,void *);
 extern int func_02165C60(int a0);
-extern void func_0204581C(struct U16Vec *);
+extern void STRBUF_Clear(struct U16Vec *);
 extern void func_0201F1C8(struct WordSet *,u32,u32);
 extern int func_02165C78(int a0);
 extern void func_0201F198(struct WordSet *,u32,u32);
@@ -525,26 +526,26 @@ extern u8 func_02165C5C(const u8 *p);
 extern void func_0201F094(struct WordSet *,u32,u32,u32);
 extern u32 func_02165D40(const struct S *p);
 extern u32 func_02165D48(const struct S *p);
-extern u32 func_0202DCC4(const struct Obj0202DCC4 *,u32);
-extern void func_0202DC9C(struct Obj0202DC98 *,int,u32);
+extern u32 PMS_DRAW_IsActive(const struct Obj0202DCC4 *,u32);
+extern void PMS_DRAW_Clear(struct Obj0202DC98 *,int,u32);
 extern void func_02165C90(const struct R *p, struct Quad *q);
-extern void func_0202DC48(u32,u32,u32,u32);
+extern void PMS_DRAW_Print(u32,u32,u32,u32);
 extern u8 func_02165CE8(struct S *);
 extern u32 func_02025C88(u32);
-extern void func_0202DAA4(void *set, u32 id, void *dstA, void *dstB, volatile u16 which);
+extern void POKEGRA_LoadTrainerGraphics(void *set, u32 id, void *dstA, void *dstB, volatile u16 which);
 extern u8 func_02165CB4(void *);
 extern unsigned short func_02165D34(const struct Bits *p);
 extern int func_021BBB48(int,int);
 extern u16 func_021BBB3C(char *,int,int);
 extern struct TcblNode *sub_020311B8(struct Tcbl *, void (*)(struct TcblNode *, void *), u32, u32);
-extern void *sub_02031290(struct S02030FB4 *);
-extern void func_02031194(struct TcblNode*);
+extern void *TCBL_GetWork(struct S02030FB4 *);
+extern void TCBL_DeleteTask(struct TcblNode*);
 extern void func_021B64A8(u8 *, u32);
 extern int func_02035C60(void);
-extern void sub_02031194(struct TcblNode *);
-extern void sub_0201C724(void *, u32, u32, u32, u32, u32, u16);
+extern void TCBL_DeleteTask(struct TcblNode *);
+extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern struct TcblNode *func_020311B8(struct Tcbl *,TcblFunc,u32,u32);
-extern void *func_02031290(struct S02030FB4 *);
+extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void func_021BDAD8(int,int **);
 int func_021BBD80(struct Obj0203159C *obj,int unused1,void *config);
 int func_021BBE18(struct S020315D4 *heap,int unused1,int unused2,char *p);
@@ -790,7 +791,7 @@ int func_021BBF98(char *p)
 
 /*
  * Verified EXACT Thumb C copied from parked ov032_func_021F27D4 header:
- * u32 func_020275A8(u32 a) { return a; }
+ * u32 BEACON_STATUS_GetLog(u32 a) { return a; }
  * Singleton TU --suggest-split leaves caller out; no viable partition.
  * Trailing 021BC0B2..021BC0B4 is zero alignment padding.
  * lever: array index uses p[47]++ so byte count advances before the store.
@@ -800,7 +801,7 @@ void func_021BBFEC(u8 *p)
     int i,count;
     *(u8 **)(p+40)=func_02165B10(*(u16 *)p);
     *(u32 *)(p+32)=func_02012A54(*(const struct BigObj **)(*(u8 **)(p+20)+4));
-    *(void **)(p+36)=(void *)func_020275A8((u32)(*(void **)(p+32)));
+    *(void **)(p+36)=(void *)BEACON_STATUS_GetLog((u32)(*(void **)(p+32)));
     count=func_02165B04(*(u8 **)(p+36));
     p[48]=255;
     for(i=0;i<count;i++){
@@ -983,7 +984,7 @@ void func_021BC454(char *p,u32 handle)
     Config_021BC454 a,b;
     struct ArcFile *arc;
     int i;
-    ((struct Obj01783 *)p)->f58=func_0202DA04(((struct Obj01783 *)p)->f0);
+    ((struct Obj01783 *)p)->f58=POKEGRA_OpenTrainerHandle(((struct Obj01783 *)p)->f0);
     a=configA;
     func_021BC3E4((u16 *)p, (int *)(p+92), (const Config_021BBD80 *)&a, (void *)handle);
     b=configB;
@@ -999,9 +1000,9 @@ void func_021BC454(char *p,u32 handle)
     func_02049238(arc);
     for(i=0;i<2;i++){
         char *q=p+i*12;
-        ((struct Obj10946 *)q)->f6C=func_0202DA48(((struct Obj01783 *)p)->f58,i+2,1,((struct Obj01783 *)p)->f0);
-        ((struct Obj10946 *)q)->f68=(u32)func_0202DA18(((struct Obj01783 *)p)->f58,i+2,1,(u16)((i+8)<<5),((struct Obj01783 *)p)->f0);
-        ((struct Obj10946 *)q)->f70=func_0202DA6C(i+2,0,1,((struct Obj01783 *)p)->f0);
+        ((struct Obj10946 *)q)->f6C=POKEGRA_RegisterTrainerCgr(((struct Obj01783 *)p)->f58,i+2,1,((struct Obj01783 *)p)->f0);
+        ((struct Obj10946 *)q)->f68=(u32)POKEGRA_RegisterTrainerPalette(((struct Obj01783 *)p)->f58,i+2,1,(u16)((i+8)<<5),((struct Obj01783 *)p)->f0);
+        ((struct Obj10946 *)q)->f70=POKEGRA_RegisterTrainerCellAnim(i+2,0,1,((struct Obj01783 *)p)->f0);
     }
 }
 
@@ -1078,13 +1079,13 @@ void func_021BC6D8(char *p){func_021BC5C4((Window_021BBD80 *)((Window_021BC6D8 *
 
 
 /*
- * Tail-call getter: loads p[0x52] and tail-calls sub_020452E8.
+ * Tail-call getter: loads p[0x52] and tail-calls BMP_WIN_Delete.
  *
  * Addresses are Black-image addresses.
  */
 u32 func_021BC6FC(u32 *p)
 {
-    return sub_020452E8((struct Descriptor *)p[0x52]);
+    return BMP_WIN_Delete((struct Descriptor *)p[0x52]);
 }
 
 
@@ -1096,10 +1097,10 @@ void func_021BC70C(char *p)
     int i,j,layer;
     char *q;
     manager=func_021BCA38(*(void **)(p+80));
-    *(struct PmsDraw **)(p+344)=func_0202DB0C((u32)manager,1,*(u32 *)(p+300),*(u32 *)(p+296),10,2,*(u16 *)p);
-    func_0202DE5C(*(struct PmsDraw **)(p+344),4);
-    func_0202DE64(*(struct PmsDraw **)(p+344),15812);
-    func_0202DE68(*(struct PmsDraw **)(p+344),1);
+    *(struct PmsDraw **)(p+344)=PMS_DRAW_Create((u32)manager,1,*(u32 *)(p+300),*(u32 *)(p+296),10,2,*(u16 *)p);
+    PMS_DRAW_SetNullColorPalette(*(struct PmsDraw **)(p+344),4);
+    PMS_DRAW_SetPrintColor(*(struct PmsDraw **)(p+344),15812);
+    PMS_DRAW_SetFollowBgScroll(*(struct PmsDraw **)(p+344),1);
     for(i=0;i<2;i++){
         layer=i+4;
         q=p+348+i*128;
@@ -1134,7 +1135,7 @@ void func_021BC8A8(char *p)
         for(j=0;j<4;j++) func_020452E8(*(void **)(q+j*16));
         func_020452E8(((struct Obj05553 *)q)->f70);
     }
-    func_0202DC08(((struct Obj01437 *)p)->f158);
+    PMS_DRAW_Delete(((struct Obj01437 *)p)->f158);
 }
 
 
@@ -1165,12 +1166,12 @@ void *func_021BC930(int a,int heap)
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)d_021BDBD8);
     func_0204363C(a);
     func_0204361C();
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     func_0201DD60();
     func_021BCA58(p,heap);
     func_021BCAFC((void **)(p+1),d_021BDBD8,heap);
@@ -1263,7 +1264,7 @@ void func_021BCAFC(void **p,void *a,int heap)
     p[0]=func_0204B100(128,0,heap);
     b=d_021BDC08;
     p[1]=func_0204B034((u8 *)(&b),2,heap);
-    func_0204B0F4(p[1],1);
+    CLACT_SetRendererCulling(p[1],1);
     func_0204B258(p[0],p[1]);
     func_020434DC(16,1);
     func_02043598(16,1);
@@ -1460,17 +1461,17 @@ void func_021BCE8C(void *a0, short a1, short a2, int a3)
  *     u8                    resident;
  * };
  *
- * extern char g_020A7E8C[];
+ * extern char MSGDATA_AllocSite[];
  * extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
  *                           u16 tag);
  * extern void func_020307B0(void *p);
- * extern void func_020495F4(void *stream, u32 size, void *dest);
+ * extern void ARC_TOOL_ReadHandle(void *stream, u32 size, void *dest);
  * extern void func_0204960C(void *stream, u32 pos);
- * extern void func_0204581C(void *dest);
- * extern void func_02045A00(void *dest, const void *src, u16 len);
+ * extern void STRBUF_Clear(void *dest);
+ * extern void STRBUF_SetChars(void *dest, const void *src, u16 len);
  * extern void func_02045E04(void *dest, u32 index);
  * extern u8 func_020461B8(const void *file);
- * extern void func_02046110(struct MsgBank *bank);
+ * extern void MSGDATA_LoadBank(struct MsgBank *bank);
  * extern void func_02046180(struct MsgBank *bank);
  *
  * void func_02045CAC(struct MsgBank *bank, u32 index, void *dest)
@@ -1479,7 +1480,7 @@ void func_021BCE8C(void *a0, short a1, short a2, int a3)
  *     struct MsgEntry *e;
  *
  *     if (index >= bank->file->count) {
- *         func_0204581C(dest);
+ *         STRBUF_Clear(dest);
  *         return;
  *     }
  *
@@ -1489,7 +1490,7 @@ void func_021BCE8C(void *a0, short a1, short a2, int a3)
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *
  *         func_0204960C(bank->stream, pos + (index * 8 + 4));
- *         func_020495F4(bank->stream, 8, &bank->cache);
+ *         ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache);
  *         e = &bank->cache;
  *     } else {
  *         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
@@ -1500,17 +1501,17 @@ void func_021BCE8C(void *a0, short a1, short a2, int a3)
  *
  *         size = e->len * 2;
  *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000), size,
- *                            0, g_020A7E8C, 0xd6);
+ *                            0, MSGDATA_AllocSite, 0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
- *             func_020495F4(bank->stream, size, buf);
- *             func_02045A00(dest, buf, e->len);
+ *             ARC_TOOL_ReadHandle(bank->stream, size, buf);
+ *             STRBUF_SetChars(dest, buf, e->len);
  *             func_020307B0(buf);
  *         }
  *     } else {
- *         func_02045A00(dest, (u8 *)bank->base + e->off, e->len);
+ *         STRBUF_SetChars(dest, (u8 *)bank->base + e->off, e->len);
  *     }
  *
  *     func_02045E04(dest, index);
@@ -1615,11 +1616,11 @@ void func_021BD0E4(char *p, u8 index, u32 enable)
 {
     char *entry;
     entry = p + 0x15c + index * 128;
-    sub_0204B3DC(*(struct Obj * *)&((struct Obj08428 *)entry)->f78, enable);
+    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj08428 *)entry)->f78, enable);
     if (((struct Obj08428 *)entry)->f7D != 0)
-        sub_0204B3DC(*(struct Obj * *)&((struct Obj08428 *)entry)->f74, enable);
+        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj08428 *)entry)->f74, enable);
     if (sub_0202DCC4(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158, index) != 0)
-        func_0202DCB0(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158, index, enable);
+        PMS_DRAW_SetVisible(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158, index, enable);
     sub_02040588(((struct Obj08428 *)entry)->f7E, (u8)enable);
 }
 
@@ -1650,11 +1651,11 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     func_02165C34(record,((struct Obj00051 *)p)->f13C);
     func_021BD07C((char *)p,(void **)q,*(int *)&((struct Obj00051 *)p)->f13C,6,48,13,2,0);
     subtype=func_02165C60((int)record);
-    if(subtype==255) func_0204581C(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
+    if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
     else {func_0201F1C8(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,5);}
     func_021BD07C((char *)p,(void **)(q+16),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
     subtype=func_02165C78((int)record);
-    if(subtype==255) func_0204581C(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
+    if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
     else {func_0201F198(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,4);}
     func_021BD07C((char *)p,(void **)(q+32),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,0);
     func_02165D10(record,&counts.b,&counts.a);
@@ -1671,12 +1672,12 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,func_02165D48(record),5,1,1);
     func_021BCEA4((u8 *)p,10);
     func_021BD07C((char *)p,(void **)(q+96),*(int *)&((struct Obj00051 *)p)->f140,21,0,6,4,0);
-    if(func_0202DCC4(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158,slot)!=0) func_0202DC9C(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158,slot,1);
+    if(PMS_DRAW_IsActive(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158,slot)!=0) PMS_DRAW_Clear(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158,slot,1);
     func_02165C90(record,&data);
-    func_0202DC48(*(u32 *)&((struct Obj00051 *)p)->f158,((struct Obj05555 *)q)->f70,(u32)&data,slot);
+    PMS_DRAW_Print(*(u32 *)&((struct Obj00051 *)p)->f158,((struct Obj05555 *)q)->f70,(u32)&data,slot);
     ((struct Obj05555 *)q)->f7C=func_02165CE8(record);
     index=slot*12;
-    func_0202DAA4(((struct Obj00051 *)p)->f58,func_02025C88(((struct Obj05555 *)q)->f7C),*(void **)((u32)p+0x6c+(u32)index),*(void **)((u32)p+0x68+(u32)index),((struct Obj00051 *)p)->f2);
+    POKEGRA_LoadTrainerGraphics(((struct Obj00051 *)p)->f58,func_02025C88(((struct Obj05555 *)q)->f7C),*(void **)((u32)p+0x6c+(u32)index),*(void **)((u32)p+0x68+(u32)index),((struct Obj00051 *)p)->f2);
     subtype=func_02165CB4(record);
     if(subtype==0) {func_0204B3DC(*(struct Obj * *)&((struct Obj05555 *)q)->f74,0);return;}
     func_021BCE7C(((struct Obj05555 *)q)->f74,(u8)(subtype+1));
@@ -1741,7 +1742,7 @@ void func_021BD448(char *p)
 void func_021BD668(char *owner, int direction, int *counter)
 {
     char *work;
-    work = sub_02031290((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj25779 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD6BC, 12, 0));
+    work = TCBL_GetWork((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj25779 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD6BC, 12, 0));
     MI_CpuFill8(work, 0, 12);
     ((struct Obj03943 *)work)->f0 = direction;
     if (((struct Obj03943 *)work)->f0 == 0) {
@@ -1759,7 +1760,7 @@ void func_021BD668(char *owner, int direction, int *counter)
 
 
 
-void func_021BD6BC(struct TcblNode*task,u8*p){u32 old=p[2]++;if(old<p[1]){((struct Obj04637 *)p)->f3=((struct Obj04637 *)p)->f3+((struct Obj04637 *)p)->f4;func_02040618(1,3,((struct Obj04637 *)p)->f3);}else{--**(u32* *)&((struct Obj04637 *)p)->f8;func_02031194(task);}}
+void func_021BD6BC(struct TcblNode*task,u8*p){u32 old=p[2]++;if(old<p[1]){((struct Obj04637 *)p)->f3=((struct Obj04637 *)p)->f3+((struct Obj04637 *)p)->f4;func_02040618(1,3,((struct Obj04637 *)p)->f3);}else{--**(u32* *)&((struct Obj04637 *)p)->f8;TCBL_DeleteTask(task);}}
 
 
 
@@ -1773,7 +1774,7 @@ void func_021BD6F0(char*p){func_021BD6FC(p,(int*)(p+12));}
 void func_021BD6FC(char *owner, int *counter)
 {
     char *work;
-    work = sub_02031290((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj14720 *)owner)->f18, func_021BD768, 16, 0));
+    work = TCBL_GetWork((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj14720 *)owner)->f18, func_021BD768, 16, 0));
     MI_CpuFill8(work, 0, 16);
     *(char * *)&((struct Obj10949 *)work)->f8 = owner;
     ((struct Obj10949 *)work)->f1 = 150;
@@ -1827,7 +1828,7 @@ void func_021BD768(struct TcblNode *task, void *data)
             break;
     default:
         --**(int * *)&((struct Obj03375 *)p)->fC;
-        sub_02031194(task);
+        TCBL_DeleteTask(task);
         break;
     }
 }
@@ -1840,7 +1841,7 @@ void func_021BD768(struct TcblNode *task, void *data)
 void func_021BD7D4(char *owner, u8 index, int position, u8 direction, int *counter)
 {
     char *work;
-    work = sub_02031290((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj00051 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD854, 24, 0));
+    work = TCBL_GetWork((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj00051 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD854, 24, 0));
     MI_CpuFill8(work, 0, 24);
     *(char * *)&((struct Obj02553 *)work)->fC = owner + 0x15c + index * 128;
     ((struct Obj02553 *)work)->f0 = index;
@@ -1873,7 +1874,7 @@ void func_021BD854(struct TcblNode *task, char *p)
     if (((struct Obj02927 *)p)->f4 != 0)
         func_021BD0E4(((struct Obj02927 *)p)->f10, ((struct Obj02927 *)p)->f0, 0);
     --**(int * *)&((struct Obj02927 *)p)->f14;
-    sub_02031194(task);
+    TCBL_DeleteTask(task);
 }
 
 
@@ -1885,7 +1886,7 @@ void func_021BD89C(char*p,int a){func_021BD8A8(p,a,(int*)(p+12));}
 void func_021BD8A8(char *owner, int direction, int *counter)
 {
     char *work;
-    work = sub_02031290((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj00051 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD948, 24, 0));
+    work = TCBL_GetWork((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj00051 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD948, 24, 0));
     MI_CpuFill8(work, 0, 24);
     ((struct Obj05556 *)work)->f4 = direction;
     if (direction == 0) {
@@ -1938,7 +1939,7 @@ void func_021BD948(struct TcblNode *task,char *work)
     case 3:
     default:
         --**(int * *)&((struct Obj00690 *)work)->f14;
-        func_02031194(task);
+        TCBL_DeleteTask(task);
         break;
     }
 }
@@ -1952,7 +1953,7 @@ void func_021BDA54(char *owner, char *record, u32 b, u16 c, u32 d, u16 f)
 {
     void *handle;
     handle = ((struct Obj14721 *)owner)->f12C;
-    sub_0201C724(handle, (u32)func_02045770((struct Descriptor *)((struct Obj08427 *)record)->f8), b, c, d, ((struct Obj14721 *)owner)->f128, f);
+    PRINTSYS_PrintQueColor(handle, (u32)func_02045770((struct Descriptor *)((struct Obj08427 *)record)->f8), b, c, d, ((struct Obj14721 *)owner)->f128, f);
     ((struct Obj08427 *)record)->fC = 1;
     func_021BDAA0((u8 *)owner, (int)record, (int *)(owner + 12));
 }
@@ -1962,7 +1963,7 @@ void func_021BDA54(char *owner, char *record, u32 b, u16 c, u32 d, u16 f)
 void func_021BDAA0(u8 *p,int arg,int *counter)
 {
     Work *work;
-    work=func_02031290((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj25797 *)p)->f18,(TcblFunc)func_021BDAD8,12,0));
+    work=TCBL_GetWork((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj25797 *)p)->f18,(TcblFunc)func_021BDAD8,12,0));
     func_02082BCC(work,0,12);
     work->owner=p;
     work->arg=arg;

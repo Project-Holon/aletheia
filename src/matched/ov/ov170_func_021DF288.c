@@ -11,11 +11,11 @@
  *   func_02030734 0x02030734 arm
  *   func_021DD2D0 0x021DD2D0 thumb ov170
  *   func_0201AA18 0x0201AA18 thumb
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   d_021F1400 0x021F1400 data a1
- *   d_021DC800 0x021DC800 data a4 ov131
+ *   gPokeStatusProcData 0x021DC800 data a4 ov131
  *   ov131_id 0x00000083 data a1
- * data: callback descriptor belongs to ov131 loaded by func_02031348.
+ * data: callback descriptor belongs to ov131 loaded by PROCSYS_Push.
  */
 #include "../include/Obj05437.h"
 typedef struct {
@@ -32,9 +32,9 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern unsigned func_0201AA18(void *p);
-extern void func_02031348(void *p, int a, const void *b, void *c);
+extern void PROCSYS_Push(void *p, int a, const void *b, void *c);
 extern const char d_021F1400[];
-extern const unsigned d_021DC800[];
+extern const unsigned gPokeStatusProcData[];
 extern const char ov131_id[];
 int func_021DF288(char *p)
 {
@@ -62,7 +62,7 @@ int func_021DF288(char *p)
     } else {
         r->mode = 0;
     }
-    func_02031348(((struct Obj05437 *)p)->f4, (int)ov131_id, d_021DC800, r);
+    PROCSYS_Push(((struct Obj05437 *)p)->f4, (int)ov131_id, gPokeStatusProcData, r);
     *(Request * *)&((struct Obj05437 *)p)->fC = r;
     return 0;
 }

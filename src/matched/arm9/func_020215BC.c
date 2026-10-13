@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020215BC
+ * function: PALANM_CopyToSlot
  * address:  0x020215BC
  * packet:   pkt_02021444
  * region:   arm9
@@ -24,8 +24,8 @@
  * EXACT*: the next function at 0x020215EC follows immediately with no label gap in the walk.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020215BC.c \
- *       --func func_020215BC --addr 0x020215BC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_CopyToSlot.c \
+ *       --func PALANM_CopyToSlot --addr 0x020215BC --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -41,7 +41,7 @@ struct PalAnmSlot {
 
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 
-void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx,
+void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx,
                    u32 off, u16 size)
 {
     MIi_CpuCopy16(src, slots[idx].unk_00 + off, size);

@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02017E1C 0x02017E1C thumb
- *   func_02017F00 0x02017F00 thumb
+ *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   func_02017EAC 0x02017EAC thumb
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
@@ -62,7 +62,7 @@
  *   func_0201C724 0x0201C724 thumb
  *   func_02045808 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201AF80 0x0201AF80 thumb
+ *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   func_0201EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201ED04 0x0201ED04 thumb
@@ -84,9 +84,9 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204AFD8 0x0204AFD8 arm
  *   func_0204B294 0x0204B294 arm
- *   func_0204B800 0x0204B800 arm
+ *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   func_0204B688 0x0204B688 arm
- *   func_0204B604 0x0204B604 arm
+ *   CLACT_SetActorFlip 0x0204B604 arm
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_020275E8 0x020275E8 thumb
@@ -100,7 +100,7 @@
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B404 0x0204B404 arm
  *   func_02049DF4 0x02049DF4 arm
- *   func_0204AA94 0x0204AA94 arm
+ *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   d_021BC128 0x021BC128 data a2
  *   d_021BC150 0x021BC150 data a1
  *   func_021BC0E4 0x021BC0E4 thumb ov206
@@ -418,7 +418,7 @@ typedef signed char s8;
 typedef signed short s16_021BC008;
 
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
-extern u8 func_02017F00(void *);
+extern u8 POKE_TOOL_GetGender(void *);
 extern unsigned func_02017EAC(void *);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, int v, int n);
@@ -464,7 +464,7 @@ extern u16 func_020437DC(const struct Bmp *bmp);
 extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u16 *func_0201AF80(u32 heap, u16 *countOut);
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0201ED04(struct WordSet *p);
@@ -483,9 +483,9 @@ extern void func_0204ADA4(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
 extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B604(struct Actor *actor, u32 which, u32 set);
+extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 extern void func_0204B3B4(struct Obj *p);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u32 func_020275E8(void);
@@ -499,7 +499,7 @@ extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B404(void *, Pos_021BB534 *, unsigned short);
 extern void *func_02049DF4(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned short a4);
-extern void func_0204AA94(int a, void *b, unsigned int c, int d, int e);
+extern void CLACT_TransferCharacterPart(int a, void *b, unsigned int c, int d, int e);
 extern u32 func_021BC0E4(u32 a, u32 b);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern u32 func_020275E4(void);
@@ -588,7 +588,7 @@ void *func_021B9DE0(u16 heap,void *mon,unsigned a2,unsigned a3,unsigned a4,unsig
     u8 gender;
     species=(u16)func_02017E1C(mon,5,0);
     form=(u16)func_02017E1C(mon,111,0);
-    gender=func_02017F00(mon);
+    gender=POKE_TOOL_GetGender(mon);
     move=(u16)func_02017EAC(mon);
     return func_021B9E68(heap,species,form,gender,move,func_02017E1C(mon,0,0),a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12);
 }
@@ -1216,7 +1216,7 @@ void func_021BAA4C(char *p)
     }
     r7 = ((struct Obj00031 *)p)->fC;
     if (((struct Obj00031 *)p)->f4 == 0) {
-        u16 *tab = func_0201AF80(((struct Obj00031 *)p)->f0, 0);
+        u16 *tab = POKE_PERSONAL_LoadFormTable(((struct Obj00031 *)p)->f0, 0);
         r7 = tab[((struct Obj00031 *)p)->fC];
         func_020307B0(tab);
     }
@@ -1282,7 +1282,7 @@ void func_021BACB0(char *p, int idx)
     }
     c = H(0xc);
     if (W(4) == 0) {
-        unsigned short *tab = func_0201AF80(H(0), 0);
+        unsigned short *tab = POKE_PERSONAL_LoadFormTable(H(0), 0);
         c = tab[H(0xc)];
         func_020307B0(tab);
     }
@@ -1505,9 +1505,9 @@ void func_021BB23C(char *p,int x,int y,int index)
     pos.x=x;
     pos.y=y;
     *(int *)(p+0xac+index*4)=(int)func_0204B294((void *)((struct Obj00790 *)p)->f24,*(int *)(p+0x94+index*4),*(int *)(p+0x9c+index*4),*(int *)(p+0xa4+index*4),&pos,flag,((struct Obj00790 *)p)->f0);
-    func_0204B800((struct Node *)(*(int *)(p+0xac+index*4)),0);
+    CLACT_SetActorDrawPriority((struct Node *)(*(int *)(p+0xac+index*4)),0);
     if(((struct Obj00790 *)p)->f18==2) func_0204B688((struct Actor *)(*(int *)(p+0xac+index*4)),1);
-    if(func_0201AE1C((const struct Personal *)(((struct Obj00790 *)p)->f26C),34)==0) func_0204B604((struct Actor *)(*(int *)(p+0xac+index*4)),1,1);
+    if(func_0201AE1C((const struct Personal *)(((struct Obj00790 *)p)->f26C),34)==0) CLACT_SetActorFlip((struct Actor *)(*(int *)(p+0xac+index*4)),1,1);
 }
 
 
@@ -1574,7 +1574,7 @@ void func_021BB304(Ent_021BB304 *p)
             p->a[i] = (void *)func_0204A6C8(arc, func_020275F8(i), 0, flag, p->f0);
             p->b[i] = func_0204B294(p->f24, (unsigned int)p->a[i], (unsigned int)p->fc8, (unsigned int)p->fcc, &r, sh, p->f0);
             func_0204B6F4(p->b[i], func_020275EC(i), 1);
-            func_0204B800(p->b[i], 2);
+            CLACT_SetActorDrawPriority(p->b[i], 2);
             func_0204B688(p->b[i], 1);
             func_0204B3DC(p->b[i], 0);
         }
@@ -1704,7 +1704,7 @@ void func_021BB534(Ent_021B9DE0 *p, unsigned x, unsigned y, int row)
             if (p->m[row][j] != -1) {
                 p->n[row][j] = func_0204B294(p->f24, p->m[row][j], (unsigned int)p->fc8, (unsigned int)p->fcc, &rr[j], (unsigned short)tern, p->f0);
                 func_0204B6F4(p->n[row][j], func_020275EC(sel[j]), 1);
-                func_0204B800(p->n[row][j], 2);
+                CLACT_SetActorDrawPriority(p->n[row][j], 2);
                 func_0204B688(p->n[row][j], 1);
             }
         }
@@ -1766,8 +1766,8 @@ void func_021BB79C(Ent_021BB79C *p, unsigned x, unsigned y, int z, int row)
             p->m[row][j] = (int)func_0204A6C8(arc, func_020275F8(id), 0, ifv, p->f0);
             ta = d_021BC150[id].b << 7;
             tb = d_021BC150[id].a << 11;
-            func_0204AA94((int)((void *)p->m[row][j]), (void *)(data + (tb + ta)), 0x80, 0, ifv);
-            func_0204AA94((int)((void *)p->m[row][j]), (void *)(data + ((tb + (1 << 10)) + ta)), 0x80, 0x80, ifv);
+            CLACT_TransferCharacterPart((int)((void *)p->m[row][j]), (void *)(data + (tb + ta)), 0x80, 0, ifv);
+            CLACT_TransferCharacterPart((int)((void *)p->m[row][j]), (void *)(data + ((tb + (1 << 10)) + ta)), 0x80, 0x80, ifv);
         }
     }
     func_020307B0(handle);
@@ -1775,7 +1775,7 @@ void func_021BB79C(Ent_021BB79C *p, unsigned x, unsigned y, int z, int row)
         if (p->m[row][j] != -1) {
             p->n[row][j] = func_0204B294(p->f24, (u32)p->m[row][j], (u32)p->fc8, (u32)p->fcc, &rr[j], (unsigned short)tern, p->f0);
             func_0204B6F4(p->n[row][j], func_020275EC(sel[j]), 1);
-            func_0204B800(p->n[row][j], 2);
+            CLACT_SetActorDrawPriority(p->n[row][j], 2);
             func_0204B688(p->n[row][j], 1);
         }
     }
@@ -1906,7 +1906,7 @@ void func_021BBAB0(S_021BBAB0 *p, u32 a, u32 b, u32 idx)
         p->a188[idx] = (u32)func_0204B294((void *)p->f24, p->a174[idx], p->f17c, p->f180, &pt, flag2, p->id);
     else
         p->a188[idx] = (u32)func_0204B294((void *)p->f24, p->a174[idx], p->f17c, p->f184, &pt, flag2, p->id);
-    func_0204B800((void *)p->a188[idx], 1);
+    CLACT_SetActorDrawPriority((void *)p->a188[idx], 1);
     func_0204B688((void *)p->a188[idx], 1);
     func_021BBC04((S_021BB79C *)p);
 }

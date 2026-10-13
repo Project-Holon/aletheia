@@ -23,7 +23,7 @@
  *   func_02084DF4  0x02084DF4  arm
  *   func_0217A674  0x0217A674  arm    ov015
  *   func_0217A718  0x0217A718  arm    ov015
- *   func_02084E2C  0x02084E2C  arm
+ *   OS_UnLockCard  0x02084E2C  arm
  *   func_02075EAC  0x02075EAC  arm
  *   g_0217ACA0     0x0217ACA0  data
  *   g_0217AC90b    0x0217AC90  data
@@ -41,7 +41,7 @@ unsigned char func_0217A674(struct IRCParam *p);
 void func_0217A718(struct IRCParam *p);
 extern void func_02075E9C(u16 id);
 extern long func_02084DF4(u16 id);
-extern void func_02084E2C();
+extern void OS_UnLockCard();
 extern void func_02075EAC(u16 id);
 /* * sdk: IRCi_WaitCommand (libirc.a irc_internal.o) */ void func_0217A5B4(void);
 /* * sdk: IRCi_Init (libirc.a irc_internal.o) */ void func_0217A60C(void);
@@ -241,7 +241,7 @@ int func_0217A7AC(u8 *buf)
     }
     while (*(volatile u16 *)0x040001A0 & 0x80)
         ;
-    func_02084E2C(g_0217AAB4);
+    OS_UnLockCard(g_0217AAB4);
     func_02075EAC(g_0217AAB4);
     return size;
 }

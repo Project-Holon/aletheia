@@ -20,6 +20,10 @@
    "functions": [
     "FS_EndOverlay",
     "FS_UnloadOverlayImage"
+   ],
+   "addresses": [
+    "0x02079164",
+    "0x02079254"
    ]
   },
   {

@@ -15,7 +15,7 @@
  * symbols:
  *   func_0204B878 0x0204B878 arm
  *   d_021D8B70 0x021D8B70 data a1
- *   func_0204B898 0x0204B898 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   func_0204B98C 0x0204B98C arm
  *   func_0204B294 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
@@ -52,7 +52,7 @@
  *   func_0204BA00 0x0204BA00 arm
  *   func_02043534 0x02043534 arm
  *   d_021D8AB0 0x021D8AB0 data a4
- *   func_0204B908 0x0204B908 arm
+ *   CLACT_SetActorAnimIndex 0x0204B908 arm
  *   func_02040588 0x02040588 arm
  *   func_02051C6C  0x02051C6C  arm
  *   s_021D8BEC 0x021D8BEC data a1
@@ -66,7 +66,7 @@
  *   func_020310C4 0x020310C4 arm
  *   func_0201C4E4 0x0201C4E4 thumb
  *   func_02028178 0x02028178 thumb
- *   func_0202DBC4 0x0202DBC4 thumb
+ *   PMS_DRAW_Main 0x0202DBC4 thumb
  *   func_0201DD68 0x0201DD68 thumb
  *   func_0201D83C 0x0201D83C thumb
  *   func_0201CE48 0x0201CE48 thumb
@@ -99,18 +99,23 @@
  *   d_021D8BD8 0x021D8BD8 data a2
  *   d_021D8BE0 0x021D8BE0 data a2
  *   d_021D8B04 0x021D8B04 data a4
- *   func_0204581C 0x0204581C arm
+ *   STRBUF_Clear 0x0204581C arm
  *   func_02045760 0x02045760 arm
- *   func_02045788 0x02045788 arm
+ *   BMP_WIN_SetPosY 0x02045788 arm
  *   func_02027858  0x02027858  thumb
  *   func_021D60FC 0x021D60FC thumb ov120
- *   func_0202DB0C 0x0202DB0C thumb
- *   func_0202DC08  0x0202DC08  thumb
+ *   PMS_DRAW_Create 0x0202DB0C thumb
+ *   PMS_DRAW_Delete  0x0202DC08  thumb
  *   d_021D8B20 0x021D8B20 data ov120 a4
  *   func_020355C4 0x020355C4 arm
  *   d_021D8AF0 0x021D8AF0 data a4
- *   func_0202822C  0x0202822C  thumb
- *   func_02028230 0x02028230 thumb
+ *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
+ *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
+ *   APP_TASKMENU_WIN_CreateEx  0x0202800C  thumb  arm9
+ *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb  arm9
+ *   PMS_DRAW_PrintOffset  0x0202DC60  thumb  arm9
+ *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb  arm9
+ *   PMS_DRAW_SetPrintColor  0x0202DE64  thumb  arm9
  */
 #include "ov120_types.h"
 #include "../../matched/include/Obj05353.h"
@@ -237,7 +242,7 @@ typedef short s16_021D8684;
 typedef signed short   s16_021D8784;
 
 extern void func_0204B878(struct Obj *p, u16 value);
-extern u16 func_0204B898(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern u32 func_0204B98C(struct Actor *a);
 extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
 extern void func_0204B92C(struct Obj *,u32);
@@ -265,7 +270,7 @@ extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern int _s32_div_f(int, int);
 extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
 extern void func_02043534(u32);
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02051C6C(void *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
@@ -284,7 +289,7 @@ extern void func_0201DD78(u32, u32, u32);
 extern void func_020310C4(struct Tcbl *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_02028178(u8 *p);
-extern void func_0202DBC4(u8 *p);
+extern void PMS_DRAW_Main(u8 *p);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_0201DD68(void);
 extern u32 func_02045C04(struct Rec *rec);
@@ -317,7 +322,7 @@ extern s32 func_02051C88(struct Ctx *c);
 extern u8 func_02045730(struct Descriptor *p);
 extern void *func_02051B84(u8 *a0, int a1, int a2, int a3);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern u32 *func_0202800C(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
+extern u32 *APP_TASKMENU_WIN_CreateEx(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern u8 func_02008564(const struct Sub0200852CObj *obj);
@@ -326,23 +331,23 @@ extern u32 func_02025C30(u32,u32,u32);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0204581C(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u8 func_02045760(struct Descriptor *p);
-extern void func_02045788(struct Descriptor *p, u8 v);
+extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
 extern void func_02027858(struct TaskMenu *m);
 extern u32 func_021D60FC(u8 *p);
-extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
-extern void func_0202DC08(struct Obj *p);
-extern void func_0202DE5C(struct PmsDraw *p, u8 v);
-extern void func_0202DE64(struct PmsDraw *p, u16 v);
-extern void func_0202DC60(struct Obj *p, u32 a, void *w, u32 i, u32 e);
+extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
+extern void PMS_DRAW_Delete(struct Obj *p);
+extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
+extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
+extern void PMS_DRAW_PrintOffset(struct Obj *p, u32 a, void *w, u32 i, u32 e);
 extern u8 func_020355C4(void);
-extern void func_02028218(struct Obj *obj, u32 a);
-extern void func_0202822C(char *p, int v);
-extern u32 func_02028230(u8 *p);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 int func_021D6A9C(struct GtsnegoMsgCtx *p,u32 n);
 int func_021D6AC0(struct GtsnegoMsgCtx *p);
 void func_021D6AF0(u8 *p,u16 x,u16 y,int flag);
@@ -445,7 +450,7 @@ extern const int d_021D8AF0[];
 
 int func_021D6A9C(struct GtsnegoMsgCtx *p,u32 n){void *obj=p->f134;if(!obj)return 0;func_0204B878(obj,d_021D8B70[n][3]);return 1;}
 
-int func_021D6AC0(struct GtsnegoMsgCtx *p){if(!p->f134)return 0;if((u32)func_0204B898(p->f134)>=29){if(func_0204B98C(p->f134)==0)return 1;return 0;}return 0;}
+int func_021D6AC0(struct GtsnegoMsgCtx *p){if(!p->f134)return 0;if((u32)CLACT_GetActorAnimSeq(p->f134)>=29){if(func_0204B98C(p->f134)==0)return 1;return 0;}return 0;}
 
 void func_021D6AF0(u8 *p,u16 x,u16 y,int flag) {
 PosRecord r;int i;
@@ -466,7 +471,7 @@ return;
  */
 void func_021D6B5C(u8 *p){int i;for(i=0;i<12;i++){if(*(void **)(p+i*4+0xc4)){func_0204B3B4(*(void **)(p+i*4+0xc4));*(int *)(p+i*4+0xc4)=0;}}}
 
-void func_021D6B84(u8 *p,u32 n){int got;int mode;got=func_0204B898(*(void **)(p+0xc4+n*4));mode=1;if(got>=2)mode=3;func_0204B878(*(void **)(p+0xc4+n*4),mode);func_0204B92C(*(void **)(p+0xc4+n*4),1);}
+void func_021D6B84(u8 *p,u32 n){int got;int mode;got=CLACT_GetActorAnimSeq(*(void **)(p+0xc4+n*4));mode=1;if(got>=2)mode=3;func_0204B878(*(void **)(p+0xc4+n*4),mode);func_0204B92C(*(void **)(p+0xc4+n*4),1);}
 
 void func_021D6BB0(u8 *p, int n)
 {
@@ -815,7 +820,7 @@ int func_021D7374(struct GtsnegoMsgCtx *p,int y,int count) { Pt pt; int result; 
 /*
  * extent: trailing 2-byte alignment padding only.
  */
-void func_021D73B0(char *p) { u16 next; next=func_0204B898(((struct GtsnegoMsgCtx *)p)->f130)+1; if(next>26) next=11; func_0204B878(((struct GtsnegoMsgCtx *)p)->f130,next); }
+void func_021D73B0(char *p) { u16 next; next=CLACT_GetActorAnimSeq(((struct GtsnegoMsgCtx *)p)->f130)+1; if(next>26) next=11; func_0204B878(((struct GtsnegoMsgCtx *)p)->f130,next); }
 
 void func_021D73D8(u8 *p)
 {
@@ -844,7 +849,7 @@ void func_021D74B0(struct GtsnegoMsgCtx *p,int n)
     func_02049238(t);
     func_0204B92C(p->f130,0);
     func_0204B878(p->f130,a.a[n]+11);
-    func_0204B908((int)(p->f130),4);
+    CLACT_SetActorAnimIndex((int)(p->f130),4);
     func_0204B878(p->f12C,28);
     func_02041B6C(0);
     p->f110=0;
@@ -940,7 +945,7 @@ void func_021D7858(struct GtsnegoMsgCtx *p)
     func_020310C4(p->fA0);
     func_0201C4E4(p->fA4);
     if (p->fC4) func_02028178(p->fC4);
-    if (p->fCC) func_0202DBC4(p->fCC);
+    if (p->fCC) PMS_DRAW_Main(p->fCC);
 }
 
 static inline u16 decode(u32 value)
@@ -1172,7 +1177,7 @@ void *func_021D7ECC(char *p,u16 n)
     ((struct GtsnegoMsgCtx *)p)->fAC=0x39e3;
     ((struct GtsnegoMsgCtx *)p)->fB0=0;
     width=((int)func_0201D304(((struct GtsnegoMsgCtx *)p)->fA8,(int)(*(int *)&((struct GtsnegoMsgCtx *)p)->f14),(int)0)+32)/16;
-    result=func_0202800C((u32)(((struct GtsnegoMsgCtx *)p)->fC0),(u32)(p+0xa8),(u8)(16-width),(u8)21,width*2,3,(int)0,(int)1,((struct GtsnegoMsgCtx *)p)->fC8);
+    result=APP_TASKMENU_WIN_CreateEx((u32)(((struct GtsnegoMsgCtx *)p)->fC0),(u32)(p+0xa8),(u8)(16-width),(u8)21,width*2,3,(int)0,(int)1,((struct GtsnegoMsgCtx *)p)->fC8);
     func_02045808(((struct GtsnegoMsgCtx *)p)->fA8);
     return result;
 }
@@ -1243,8 +1248,8 @@ int func_021D8118(char *p, void *r, int n)
     if(!t[n]) t[n]=(void *)func_020450F0((u8)6,(u8)6,(u8)(n*6+1),(u8)24,4,11,1);
     q=t[n];
     func_02043B5C(func_02045770(q),0);
-    func_0204581C(*(void **)(p+0x20));
-    func_0204581C(*(void **)(p+0x18));
+    STRBUF_Clear(*(void **)(p+0x20));
+    STRBUF_Clear(*(void **)(p+0x18));
     func_0201F02C(*(void **)(p+0x10),0,r);
     func_0201EFA4(*(void **)(p+0x10),1,func_02008534(r),5,2,1);
     func_0201F048(*(void **)(p+0x10),2,func_0200856C(r));
@@ -1280,7 +1285,7 @@ void func_021D824C(char *p)
     for(i=1;i<6;i++) {
         t=p+4*i;
         if(((struct GtsnegoMsgCtx *)t)->f6C) {
-            func_02045788(((struct GtsnegoMsgCtx *)t)->f6C,func_02045760(((struct GtsnegoMsgCtx *)t)->f6C)-6);
+            BMP_WIN_SetPosY(((struct GtsnegoMsgCtx *)t)->f6C,func_02045760(((struct GtsnegoMsgCtx *)t)->f6C)-6);
             func_02045374(((struct GtsnegoMsgCtx *)t)->f6C);
         }
     }
@@ -1308,7 +1313,7 @@ void func_021D82F8(char *p)
     for(i=0;i<6;i++) {
         t=p+4*i;
         if(((struct GtsnegoMsgCtx *)t)->f6C) {
-            func_02045788(((struct GtsnegoMsgCtx *)t)->f6C,func_02045760(((struct GtsnegoMsgCtx *)t)->f6C)+6);
+            BMP_WIN_SetPosY(((struct GtsnegoMsgCtx *)t)->f6C,func_02045760(((struct GtsnegoMsgCtx *)t)->f6C)+6);
             func_02045374(((struct GtsnegoMsgCtx *)t)->f6C);
         }
     }
@@ -1358,14 +1363,14 @@ void func_021D8418(int a)
 void func_021D8430(struct GtsnegoMsgCtx *p,void *q)
 {
     if(!p->fCC)
-        p->fCC=func_0202DB0C(func_021D60FC(q),0,(u32)(p->fA4),(u32)(p->f14),8,4,p->fC8);
+        p->fCC=PMS_DRAW_Create(func_021D60FC(q),0,(u32)(p->fA4),(u32)(p->f14),8,4,p->fC8);
 }
 
 
 void func_021D846C(u8 *p)
 {
     if (((struct GtsnegoMsgCtx *)p)->fCC) {
-        func_0202DC08(((struct GtsnegoMsgCtx *)p)->fCC);
+        PMS_DRAW_Delete(((struct GtsnegoMsgCtx *)p)->fCC);
         *(u32 *)&((struct GtsnegoMsgCtx *)p)->fCC = 0;
     }
 }
@@ -1378,9 +1383,9 @@ void func_021D8484(struct Obj05353 *p, void *n)
     q = p->f88;
     func_02043B5C(func_02045770(q), 0);
     func_0201DD78(15, 2, 0);
-    func_0202DE5C(p->fCC, 0);
-    func_0202DE64(p->fCC, 0x3c40);
-    func_0202DC60(p->fCC, (u32)q, n, 0, (u32)(&c));
+    PMS_DRAW_SetNullColorPalette(p->fCC, 0);
+    PMS_DRAW_SetPrintColor(p->fCC, 0x3c40);
+    PMS_DRAW_PrintOffset(p->fCC, (u32)q, n, 0, (u32)(&c));
     func_02045334(q);
     func_02045374(q);
     func_02041B6C(1);
@@ -1407,8 +1412,8 @@ void func_021D8590(u8 *p, int a, int b)
     func_02045CAC(((struct GtsnegoMsgCtx *)p)->fC, 15, q);
     ((struct GtsnegoMsgCtx *)p)->fAC = 0x39e3;
     ((struct GtsnegoMsgCtx *)p)->fB0 = 0;
-    ((struct GtsnegoMsgCtx *)p)->fC4 = func_0202800C((u32)(((struct GtsnegoMsgCtx *)p)->fC0), (u32)(p + 0xa8), 10, 21, 12, 3, 0, 1, ((struct GtsnegoMsgCtx *)p)->fC8);
-    if (!func_020355C4()) func_02028218(((struct GtsnegoMsgCtx *)p)->fC4, 1);
+    ((struct GtsnegoMsgCtx *)p)->fC4 = APP_TASKMENU_WIN_CreateEx((u32)(((struct GtsnegoMsgCtx *)p)->fC0), (u32)(p + 0xa8), 10, 21, 12, 3, 0, 1, ((struct GtsnegoMsgCtx *)p)->fC8);
+    if (!func_020355C4()) APP_TASKMENU_WIN_SetActive(((struct GtsnegoMsgCtx *)p)->fC4, 1);
     func_02045808(((struct GtsnegoMsgCtx *)p)->fA8);
     func_021D7710(p);
     ((struct GtsnegoMsgCtx *)p)->f8 = func_02051B84((u8 *)d_021D8AF0, a, b, ((struct GtsnegoMsgCtx *)p)->fC8);
@@ -1417,7 +1422,7 @@ void func_021D8590(u8 *p, int a, int b)
 
 void func_021D8638(struct GtsnegoMsgCtx *p)
 {
-    func_0202822C(p->fC4, 1);
+    APP_TASKMENU_WIN_SetDecide(p->fC4, 1);
 }
 
 
@@ -1430,7 +1435,7 @@ void func_021D8648(u8 *p)
 
 int func_021D8664(u8 *p)
 {
-    if(func_02028230(((struct GtsnegoMsgCtx *)p)->fC4)){
+    if(APP_TASKMENU_WIN_IsFinish(((struct GtsnegoMsgCtx *)p)->fC4)){
         func_021D8648((u8 *)((int)p));
         return 1;
     }

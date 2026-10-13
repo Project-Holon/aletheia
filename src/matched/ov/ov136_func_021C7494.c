@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02031348  0x02031348  arm
+ *   PROCSYS_Push  0x02031348  arm
  *   ov091_id 0x0000005B data
- *   d_021BED00 0x021BED00 data ov091 a4
+ *   gPartyListProcData 0x021BED00 data ov091 a4
  */
 #include "../include/Obj10610.h"
 #include "../include/Obj23650.h"
@@ -23,13 +23,13 @@ struct Bf7 {
     u8 v : 7;
     u8 w : 1;
 };
-extern const u8 d_021BED00[];
+extern const u8 gPartyListProcData[];
 extern u8 ov091_id[];
-extern void func_02031348(void *, u32, const void *, void *);
+extern void PROCSYS_Push(void *, u32, const void *, void *);
 int func_021C7494(u8 *p)
 {
     u32 v = ((struct Bf7 *)(p + 0x21))->v;
     ((struct Obj23650 *)(*(u8 * *)&((struct Obj10610 *)p)->f10))->f3C = v;
-    func_02031348(((struct Obj10610 *)p)->f30, (u32)ov091_id, d_021BED00, ((struct Obj10610 *)p)->f10);
+    PROCSYS_Push(((struct Obj10610 *)p)->f30, (u32)ov091_id, gPartyListProcData, ((struct Obj10610 *)p)->f10);
     return 0;
 }

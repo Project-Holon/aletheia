@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204C2C8",
+   "name": "CLACT_CullOam",
    "address": "0x0204C2C8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204C3CC",
+   "name": "CLACT_IsRectInView",
    "address": "0x0204C3CC",
    "kind": "game",
    "region": "arm9",

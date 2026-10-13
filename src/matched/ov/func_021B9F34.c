@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   sub_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *
  * Releases the two pointers at +0x14 and +0x18 through the same arm9 helper.
  */
@@ -24,7 +24,7 @@ typedef signed long    s32;
 typedef int BOOL;
 
 struct Obj;
-extern void sub_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 typedef struct {
     char pad[0x14];
@@ -34,6 +34,6 @@ typedef struct {
 
 void func_021B9F34(S *s)
 {
-    sub_0204B3B4(s->f14);
-    sub_0204B3B4(s->f18);
+    CLACT_DeleteActor(s->f14);
+    CLACT_DeleteActor(s->f18);
 }

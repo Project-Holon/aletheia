@@ -1,5 +1,5 @@
 /*
- * function: func_0215F644
+ * function: SOC_Close
  * address:  0x0215F644
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern int func_0215E84C(int s);
 
-int func_0215F644(int s)
+int SOC_Close(int s)
 {
     return func_0215E84C(s);
 }

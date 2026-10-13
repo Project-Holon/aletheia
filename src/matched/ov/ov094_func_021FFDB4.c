@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02015F50  0x02015F50  thumb
+ *   MCSS_SetPaletteFade  0x02015F50  thumb
  *   func_022019F4  0x022019F4  thumb  ov094
  */
 typedef unsigned char u8;
@@ -33,7 +33,7 @@ typedef struct {
 extern int func_022019F4(char *p, int key);
 typedef signed int     s32;
 struct McssFade;
-extern void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
+extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 
 void func_021FFDB4(Work *w, int key, u8 cur, u8 target, s8 step, u32 e)
 {
@@ -43,6 +43,6 @@ void func_021FFDB4(Work *w, int key, u8 cur, u8 target, s8 step, u32 e)
         return;
     if (w->e[idx].h == 0)
         return;
-    func_02015F50(w->e[idx].h, cur, target, step, e);
+    MCSS_SetPaletteFade(w->e[idx].h, cur, target, step, e);
     w->e[idx].flags |= 0x100;
 }

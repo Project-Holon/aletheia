@@ -16,7 +16,7 @@
  *   func_020307B0       0x020307B0  arm
  *   func_0204A1BC       0x0204A1BC  arm
  *   func_02062A4C       0x02062A4C  arm
- *   func_02043900       0x02043900  arm
+ *   BMP_InitFromCharData       0x02043900  arm
  *   OS_Terminate        0x02088234  arm
  *
  * bmp.c's "load a bitmap out of an archive" entry point,
@@ -73,7 +73,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-extern void func_02043900(struct Bmp *b, struct BmpInfo *info, u32 heap);
+extern void BMP_InitFromCharData(struct Bmp *b, struct BmpInfo *info, u32 heap);
 extern void  OS_Terminate(void);
 
 struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap)
@@ -88,7 +88,7 @@ struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap)
         OS_Terminate();
         return 0;
     }
-    func_02043900(b, info, heap);
+    BMP_InitFromCharData(b, info, heap);
     func_020307B0(handle);
     return b;
 }

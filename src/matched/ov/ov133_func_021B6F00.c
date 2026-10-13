@@ -27,16 +27,16 @@
  *   func_02046FF8 0x02046FF8 arm
  *   func_02047388 0x02047388 arm
  *   func_020473B8 0x020473B8 arm
- *   func_020473EC 0x020473EC arm
+ *   G3D_SYSTEM_GetPlttDataAddr 0x020473EC arm
  *   func_02046F48 0x02046F48 arm
  *   func_02047250 0x02047250 arm
- *   func_0206A124 0x0206A124 arm
- *   func_0206A12C 0x0206A12C arm
+ *   NNS_G3dPlttSetPlttKey 0x0206A124 arm
+ *   NNS_G3dPlttLoad 0x0206A12C arm
  *   func_020862F0 0x020862F0 arm
  *   func_0204EDD0 0x0204EDD0 arm
  *   func_0204F044 0x0204F044 arm
- *   func_0204EFC8 0x0204EFC8 arm
- *   func_0204F428 0x0204F428 arm
+ *   BILLBOARD_AddImageFromArchive 0x0204EFC8 arm
+ *   BILLBOARD_AddElem 0x0204F428 arm
  *   func_0204F720 0x0204F720 arm
  *   func_021B9028 0x021B9028 thumb ov133
  *   func_021BA0CC 0x021BA0CC thumb ov133
@@ -79,16 +79,16 @@ extern void func_021F4DE0(char *p, char *e, void *a2);
 extern int func_02046FF8(int *self);
 extern u32 func_02047388(struct Layer *layer);
 extern u32 func_020473B8(struct Layer *layer);
-extern int func_020473EC(int a0);
+extern int G3D_SYSTEM_GetPlttDataAddr(int a0);
 extern void *func_02046F48(struct Tagged *p);
 extern void *func_02047250(void *);
-extern void func_0206A124(int *p, int v);
-extern void func_0206A12C(void *, u32);
+extern void NNS_G3dPlttSetPlttKey(int *p, int v);
+extern void NNS_G3dPlttLoad(void *, u32);
 extern void func_020862F0(void *, u32);
 extern void func_0204EDD0(int, u16 *, u16 *);
 extern int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
-extern u32 func_0204EFC8(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
-extern s32 func_0204F428(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
+extern u32 BILLBOARD_AddImageFromArchive(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
+extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
 extern void func_0204F720(void *, u32, u32 *);
 extern void func_021B9028(u8 *, int, u16);
 extern u8 *func_021BA0CC(u16, int);
@@ -155,7 +155,7 @@ void func_021B6F00(u8 *p)
         flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + i * 0x14 + 0xac)));
         func_0204EDD0(flags, &sizes[1], &sizes[0]);
         *(u32 *)(p + i * 0x14 + 0xb0) = func_0204F044(*(void **)(p + 0x188c), w, hgt, 0, flags, sizes[1], sizes[0]);
-        pal = (u16 *)func_020473EC((int)h);
+        pal = (u16 *)G3D_SYSTEM_GetPlttDataAddr((int)h);
         n = sz >> 1;
         for (k = 0; k < n; k++) {
             u16 c = pal[k];
@@ -166,9 +166,9 @@ void func_021B6F00(u8 *p)
         }
         buf = func_02046F48(h);
         res = func_02047250(h);
-        func_0206A124(res, vram);
+        NNS_G3dPlttSetPlttKey(res, vram);
         func_020862F0(buf, *(u32 *)(buf + 8));
-        func_0206A12C(res, 1);
+        NNS_G3dPlttLoad(res, 1);
         *(u32 *)(p + i * 0x14 + 0xb4) = func_0204F044(*(void **)(p + 0x188c), w, vram, 0, flags, sizes[1], sizes[0]);
         func_021F4B4C(h);
     }
@@ -202,10 +202,10 @@ void func_021B6F00(u8 *p)
     func_021F4B4C(h);
     }
 
-    *(u32 *)(p + 0x58) = func_0204EFC8(*(void **)(p + 0x188c), 0x2e, 0x19, 2, 0x22, 0x20, 0x20);
+    *(u32 *)(p + 0x58) = BILLBOARD_AddImageFromArchive(*(void **)(p + 0x188c), 0x2e, 0x19, 2, 0x22, 0x20, 0x20);
     for (k = 0; k < 14; k++) {
         Vec v3 = {0, 0, 0};
-        n = func_0204F428(*(void **)(p + 0x188c), *(u32 *)(p + 0x58), 0x1000, 0x1000, (struct Vec3 *)(&v3), 0x1f, 0, 0);
+        n = BILLBOARD_AddElem(*(void **)(p + 0x188c), *(u32 *)(p + 0x58), 0x1000, 0x1000, (struct Vec3 *)(&v3), 0x1f, 0, 0);
         *(u32 *)(p + k * 4 + 0x5c) = n;
         func_0204F720(*(void **)(p + 0x188c), n, d_021BA3E0);
     }

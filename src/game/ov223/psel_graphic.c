@@ -109,16 +109,16 @@
  *   func_020434DC 0x020434DC arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  *   d_021BC960 0x021BC960 data a4
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
  *   d_021BCB08 0x021BCB08 data a1
  *   d_021BC980 0x021BC980 data a4
@@ -138,7 +138,7 @@
  *   func_020419E4 0x020419E4 arm
  *   func_0204A48C  0x0204A48C  arm
  *   func_0204B100  0x0204B100  arm
- *   func_0204B270  0x0204B270  arm
+ *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
  *   func_02043598  0x02043598  arm
  *   d_021BC944     0x021BC944  data  a4
  *   func_0204B1CC  0x0204B1CC  arm
@@ -318,15 +318,15 @@ extern u32 func_0201D83C(void *ptr);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0207DC44(int,int,int,int);
 extern void func_0207DD24(unsigned short,int,int,int,int);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(u32 a, u32 b);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
-extern void func_0204335C(u32 keep);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void func_0201DD68(void);
 extern unsigned func_021BC6F8(unsigned char *);
@@ -342,7 +342,7 @@ extern void func_0203F9B4(void);
 extern void func_020419E4(void);
 extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, unsigned int heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_02043598(u32 mask, u32 enable);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
@@ -1068,7 +1068,7 @@ void func_021BC34C(void)
     func_0207DC44(0,0,0,0);
     func_0207DD24(0,0,32767,63,0);
     *(volatile unsigned *)0x04000580=0xBFFF0000;
-    for(i=0;i<4;i++) func_02046A94((unsigned char)i,(const u16 *)(d_021BC960+i*8));
+    for(i=0;i<4;i++) G3D_SYSTEM_SetLight((unsigned char)i,(const u16 *)(d_021BC960+i*8));
     func_02046BE0(0,0);
 }
 
@@ -1083,12 +1083,12 @@ void *func_021BC3F0(int a,int heap)
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)d_021BC980);
     func_0204363C(a);
     func_0204361C();
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     func_0201DD60();
     func_021BC54C(p,heap);
     func_021BC5F0((int *)(p+1),(int)d_021BC980,heap);
@@ -1199,7 +1199,7 @@ void func_021BC5F0(int *out, int a, int b)
     func_02082BCC(out, 0, 4);
     func_0204A48C((const struct Cfg *)(&d_021BC944), a, b);
     *out = (int)func_0204B100(0x80, 0, b);
-    func_0204B270((void *)*out);
+    CLACT_SetUnitDefaultRenderer((void *)*out);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }

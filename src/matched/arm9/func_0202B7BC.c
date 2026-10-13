@@ -1,5 +1,5 @@
 /*
- * function: func_0202B7BC
+ * function: ISS_SYS_OnZoneChangeCity
  * address:  0x0202B7BC
  * packet:   pkt_0202B7BC
  * region:   arm9
@@ -18,7 +18,7 @@
  * produces the stub, so it can never be a manifest entry.  Permanent.
  *
  * symbols:
- *   func_0202AB5C  0x0202AB5C  thumb
+ *   ISS_CITY_SYS_NotifyZoneChange  0x0202AB5C  thumb
  */
 #include "../include/Obj15841.h"
 
@@ -27,9 +27,9 @@ typedef unsigned int u32;
 struct Obj;
 
 typedef unsigned char  u8;
-extern void func_0202AB5C(u8 *p, u32 a1);
+extern void ISS_CITY_SYS_NotifyZoneChange(u8 *p, u32 a1);
 
-void func_0202B7BC(struct Obj *o, u32 a1)
+void ISS_SYS_OnZoneChangeCity(struct Obj *o, u32 a1)
 {
-    func_0202AB5C((u8 *)(((struct Obj15841 *)o)->f10), a1);
+    ISS_CITY_SYS_NotifyZoneChange((u8 *)(((struct Obj15841 *)o)->f10), a1);
 }

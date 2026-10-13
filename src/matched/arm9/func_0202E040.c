@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202E040
+ * function: PMS_DRAW_PlaceDecoActor
  * address:  0x0202E040
  * packet:   pkt_0202DFEC
  * region:   arm9
@@ -45,7 +45,7 @@ extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void  func_0204B84C(void *h, u32 a);
 extern void func_0204B878(struct Obj *p, u16 value);
 
-void func_0202E040(void *h, struct Descriptor *cell, u32 b, u32 c,
+void PMS_DRAW_PlaceDecoActor(void *h, struct Descriptor *cell, u32 b, u32 c,
                    u32 n, const struct Pos *base)
 {
     struct Pos pos;

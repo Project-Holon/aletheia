@@ -25,12 +25,12 @@
  *   func_02006CAC  0x02006CAC  thumb
  *   func_02006984  0x02006984  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_02015C30  0x02015C30  thumb
+ *   MCSS_GetPosition  0x02015C30  thumb
  *   func_021DFD24  0x021DFD24  thumb  ov119
  *   func_021DFBB4  0x021DFBB4  thumb  ov119
  *   func_021E36C8  0x021E36C8  thumb  ov119
- *   func_02015E04  0x02015E04  thumb
- *   func_02015EA0  0x02015EA0  thumb
+ *   MCSS_SetAnmStopFlag  0x02015E04  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
  *   func_021D8E84  0x021D8E84  thumb  ov119
  *   func_021D48F0  0x021D48F0  thumb  ov118
  *   d_021D7D00     0x021D7D00  data
@@ -66,12 +66,12 @@ extern u32 func_02017E1C(void *, u32, u32);
 extern void func_02006CAC(void **out);
 extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern u32 func_020307B0(void *p);
-extern void func_02015C30(void *p, u32 *out);
+extern void MCSS_GetPosition(void *p, u32 *out);
 extern void func_021DFD24(u32 *p);
 extern void *func_021DFBB4(void *a0, void *a1, void *a2, void *a3, u16 heapId);
 extern void func_021E36C8(void *p, int a, int b, void *mon, int c);
-extern void func_02015E04(void *p);
-extern void func_02015EA0(void *p);
+extern void MCSS_SetAnmStopFlag(void *p);
+extern void MCSS_SetVanishFlag(void *p);
 extern void func_021D8E84(void *p, int next);
 extern void func_021D48F0(u8 *p);
 extern const u8 d_021D7D00[];
@@ -115,7 +115,7 @@ void func_021D4664(u8 *p)
             SLOT0 = 0;
         }
         if (((struct Obj05324 *)p)->f11ED == 0) {
-            func_02015C30((void *)OBJ(0), (u32 *)(&v1));
+            MCSS_GetPosition((void *)OBJ(0), (u32 *)(&v1));
             func_021DFD24((u32 *)SLOT0);
             if (((struct Obj05324 *)p)->f11EF != 0) {
                 SLOT0 = (u32)func_021DFBB4((void *)OBJ(0), (void *)0x14, &v1, d_021D86A0, HEAP);
@@ -123,10 +123,10 @@ void func_021D4664(u8 *p)
                 SLOT0 = (u32)func_021DFBB4((void *)OBJ(0), (void *)0x12, &v1, (void *)d_021D7D00, HEAP);
             }
             func_021E36C8(p, 2, 0, func_021D8FA4(p, func_021D8AA8(p)), 1);
-            func_02015E04((void *)OBJ(2));
-            func_02015EA0((void *)OBJ(2));
+            MCSS_SetAnmStopFlag((void *)OBJ(2));
+            MCSS_SetVanishFlag((void *)OBJ(2));
         } else {
-            func_02015C30((void *)OBJ(0), (u32 *)(&v2));
+            MCSS_GetPosition((void *)OBJ(0), (u32 *)(&v2));
             func_021DFD24((u32 *)SLOT0);
             if (((struct Obj05324 *)p)->f11EF != 0) {
                 SLOT0 = (u32)func_021DFBB4((void *)OBJ(0), (void *)0x14, &v2, d_021D86A0, HEAP);

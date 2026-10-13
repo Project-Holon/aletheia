@@ -1,5 +1,5 @@
 /*
- * function: func_02037C10
+ * function: GFL_NET_SYSTEM_Main
  * address:  0x02037C10
  * packet:   pkt_02037C10
  * region:   arm9
@@ -17,21 +17,21 @@
  *
  * symbols:
  *   lbl_021469D0   0x021469D0  data
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *   func_0203D798  0x0203D798  arm
- *   func_020370F4  0x020370F4  arm
- *   func_020393D0  0x020393D0  arm
- *   func_02037F48  0x02037F48  arm
- *   func_0203802C  0x0203802C  arm
- *   func_02038298  0x02038298  arm
- *   func_02038340  0x02038340  arm
- *   func_02039050  0x02039050  arm
+ *   GFL_NET_WM_ICON_EasySetLevel  0x020370F4  arm
+ *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
+ *   GFL_NET_SYSTEM_SendWireless  0x02037F48  arm
+ *   GFL_NET_SYSTEM_SendWifi  0x0203802C  arm
+ *   GFL_NET_SYSTEM_SendIrc  0x02038298  arm
+ *   GFL_NET_SYSTEM_SendMP  0x02038340  arm
+ *   GFL_NET_SYSTEM_ProcessParentRecv  0x02039050  arm
  *   func_02039338  0x02039338  arm
- *   func_02039160  0x02039160  arm
- *   func_020385C4  0x020385C4  arm
- *   func_020390BC  0x020390BC  arm
- *   func_0203ACAC  0x0203ACAC  arm
- *   func_02037BA4  0x02037BA4  arm
+ *   GFL_NET_SYSTEM_IsConnectMember  0x02039160  arm
+ *   GFL_NET_SYSTEM_UpdateMPParent  0x020385C4  arm
+ *   GFL_NET_SYSTEM_ProcessChildRecv  0x020390BC  arm
+ *   GFL_NET_COMMAND_Main  0x0203ACAC  arm
+ *   GFL_NET_SYSTEM_CheckAutoFree  0x02037BA4  arm
  */
 
 typedef unsigned char  u8;
@@ -55,25 +55,25 @@ struct Net {
 };
 
 extern struct Net *lbl_021469D0;
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 extern void *func_0203D798(void);
-extern u32  func_020370F4(u32 a);
-extern int  func_020393D0(void);
-extern void func_02037F48(void);
-extern void func_0203802C(void);
-extern void func_02038298(void);
-extern void func_02038340(void);
-extern void func_02039050(void);
+extern u32  GFL_NET_WM_ICON_EasySetLevel(u32 a);
+extern int  GFL_NET_SYSTEM_IsError(void);
+extern void GFL_NET_SYSTEM_SendWireless(void);
+extern void GFL_NET_SYSTEM_SendWifi(void);
+extern void GFL_NET_SYSTEM_SendIrc(void);
+extern void GFL_NET_SYSTEM_SendMP(void);
+extern void GFL_NET_SYSTEM_ProcessParentRecv(void);
 extern u16 func_02039338(void);
-extern int  func_02039160(u32 a);
-extern void func_020385C4(void);
-extern void func_020390BC(void);
-extern void func_0203ACAC(void);
-extern void func_02037BA4(void);
+extern int  GFL_NET_SYSTEM_IsConnectMember(u32 a);
+extern void GFL_NET_SYSTEM_UpdateMPParent(void);
+extern void GFL_NET_SYSTEM_ProcessChildRecv(void);
+extern void GFL_NET_COMMAND_Main(void);
+extern void GFL_NET_SYSTEM_CheckAutoFree(void);
 
-int func_02037C10(void)
+int GFL_NET_SYSTEM_Main(void)
 {
-    struct Ctx *c = func_0203D788();
+    struct Ctx *c = GFL_NET_GetSession();
     struct Oth *o = func_0203D798();
 
     if (lbl_021469D0 == 0) {
@@ -85,39 +85,39 @@ int func_02037C10(void)
     {
         u32 (*h)(void) = (u32 (*)(void))c->f340[0x84 / 4];
         if (h != 0) {
-            func_020370F4(h());
+            GFL_NET_WM_ICON_EasySetLevel(h());
         }
     }
 
     if (lbl_021469D0->f1EA != 0)
         goto bail;
-    if (func_020393D0() != 0)
+    if (GFL_NET_SYSTEM_IsError() != 0)
         goto bail;
 
     if (o->f64 == 0 && (o->f65 == 0 || o->f65 == 5)) {
-        func_02037F48();
+        GFL_NET_SYSTEM_SendWireless();
     } else if ((u8)(o->f65 + 0xfd) <= 1) {
-        func_0203802C();
+        GFL_NET_SYSTEM_SendWifi();
     } else if ((u8)(o->f65 + 0xff) <= 1) {
-        func_02038298();
+        GFL_NET_SYSTEM_SendIrc();
     } else {
-        func_02038340();
-        func_02039050();
+        GFL_NET_SYSTEM_SendMP();
+        GFL_NET_SYSTEM_ProcessParentRecv();
         if (func_02039338() == 0) {
-            if (func_02039160(0) != 0 && o->f64 != 0)
-                func_020385C4();
+            if (GFL_NET_SYSTEM_IsConnectMember(0) != 0 && o->f64 != 0)
+                GFL_NET_SYSTEM_UpdateMPParent();
         }
         if (func_02039338() != 0)
             goto skip;
     }
-    func_020390BC();
+    GFL_NET_SYSTEM_ProcessChildRecv();
 skip:
     if (o->f65 != 1 && o->f65 != 2) {
         ((void (*)(u16))c->f340[0xc / 4])(
             *(u16 *)((u8 *)lbl_021469D0 + 0x1e4));
     }
-    func_0203ACAC();
-    func_02037BA4();
+    GFL_NET_COMMAND_Main();
+    GFL_NET_SYSTEM_CheckAutoFree();
     goto done;
 
 bail:

@@ -1,5 +1,5 @@
 /*
- * function: func_0204D224
+ * function: CLACT_InitVramAnimCtl
  * address:  0x0204D224
  * packet:   pkt_0204D18C
  * region:   arm9
@@ -19,9 +19,9 @@
  *
  * Record constructor in clact.c.  Wave 15 (register-tie lane): EXACT* (the
  * listing extent runs over the unlabelled fill leaf 0x0204D2C8, filed as
- * src/matched/func_0204D2C8.c).  Two facts closed it:
+ * src/matched/CLACT_ExitCellAnimCtl.c).  Two facts closed it:
  *  - the older 2-byte "best source" in
- *    docs/notes/pkt_0204D18C.func_0204D224.c.txt stored a1->f14 into +0x04
+ *    docs/notes/pkt_0204D18C.CLACT_InitVramAnimCtl.c.txt stored a1->f14 into +0x04
  *    and a1->f0c into +0x70, which is NOT what the image does (image: +0x04
  *    gets f0c, +0x70 gets f14).  The honest residue with the image's
  *    pairing was 9 bytes.
@@ -31,8 +31,8 @@
  *    The `volatile` device on +0x04 is no longer needed.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D224.c \
- *       --func func_0204D224 --addr 0x0204D224 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_InitVramAnimCtl.c \
+ *       --func CLACT_InitVramAnimCtl --addr 0x0204D224 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -67,7 +67,7 @@ struct Obj0206469C;
 extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
 extern void func_0206469C(struct Obj0206469C *o, void *bank);
 
-void func_0204D224(struct P *p, const struct A *a1, u32 heap)
+void CLACT_InitVramAnimCtl(struct P *p, const struct A *a1, u32 heap)
 {
     p->f04 = a1->f0c;
     p->f08 = a1->f10;

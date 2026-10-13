@@ -1,5 +1,5 @@
 /*
- * function: func_021D6324
+ * function: P_STATUS_ProcInit
  * address: 0x021D6324
  * packet: pkt_ov131_021D6324
  * region: ov131
@@ -21,14 +21,14 @@
  *   func_02017E40 0x02017E40 thumb
  *   func_0201A98C 0x0201A98C thumb
  *   func_020307B0 0x020307B0 arm
- *   func_020173E8 0x020173E8 thumb
- *   func_02017550 0x02017550 thumb
+ *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
+ *   POKE_TOOL_ClearBoxParam 0x02017550 thumb
  *   func_02005728 0x02005728 thumb
- *   func_02017600 0x02017600 thumb
- *   func_02017E64 0x02017E64 thumb
- *   func_020124F4 0x020124F4 thumb
+ *   POKE_TOOL_SetupBoxParam 0x02017600 thumb
+ *   POKE_TOOL_SetBoxValue 0x02017E64 thumb
+ *   GAME_DATA_Create 0x020124F4 thumb
  *   func_020355D8 0x020355D8 arm
- *   func_021D4240 0x021D4240 thumb ov131
+ *   P_STATUS_InitWork 0x021D4240 thumb ov131
  *   d_021DC80C 0x021DC80C data a1
  *   d_021DC138 0x021DC138 data a2
  *   d_021DC144 0x021DC144 data a2
@@ -54,21 +54,21 @@ extern void *func_020173F0(u16,u16,u32,u32,u32);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
-extern u32 func_020173E8(void);
+extern u32 POKE_TOOL_GetBoxParamSize(void);
 struct Sav;
-extern void func_02017550(struct Sav *p);
+extern void POKE_TOOL_ClearBoxParam(struct Sav *p);
 extern u32 func_02005728(u32 range);
 typedef unsigned long long u64;
-extern void func_02017600(void *obj,u16 species,u16 level,u64 id);
-extern void func_02017E64(void *p, u32 id, u32 v);
-extern void *func_020124F4(u16);
+extern void POKE_TOOL_SetupBoxParam(void *obj,u16 species,u16 level,u64 id);
+extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
+extern void *GAME_DATA_Create(u16);
 extern void func_020355D8(u8 v);
-extern int func_021D4240(char *);
+extern int P_STATUS_InitWork(char *);
 extern const char d_021DC80C[];
 extern const Moves d_021DC138,d_021DC144;
 static inline void SetA(void *p, Moves m) { func_02017E40(p,0x8e,(u32)(&m)); }
-static inline void SetB(void *p, Moves m) { func_02017E64(p,0x8e,(u32)(&m)); }
-int func_021D6324(u32 heap,int *st,u8 *obj,char *d) {
+static inline void SetB(void *p, Moves m) { POKE_TOOL_SetBoxValue(p,0x8e,(u32)(&m)); }
+int P_STATUS_ProcInit(u32 heap,int *st,u8 *obj,char *d) {
     switch(*st) {
     case 0: {
         u8 *c=obj;
@@ -101,20 +101,20 @@ int func_021D6324(u32 heap,int *st,u8 *obj,char *d) {
                 int n;
                 u8 *base;
                 u32 off;
-                n=func_020173E8();
+                n=POKE_TOOL_GetBoxParamSize();
                 ((struct Obj00830 *)c)->f0=func_02030734(1,n*0x1e,1,d_021DC80C,0x81);
                 c[0xc]=2;
                 c[0xe]=0x1e;
                 c[0xf]=0xff;
                 for(i=0;i<c[0xe];i++) {
-                    n=func_020173E8();
+                    n=POKE_TOOL_GetBoxParamSize();
                     base=*(u8 * *)&((struct Obj00830 *)c)->f0;
                     off=i*n;
-                    func_02017550((struct Sav *)(base+off));
+                    POKE_TOOL_ClearBoxParam((struct Sav *)(base+off));
                     if(func_02005728(3)!=0) {
-                        func_02017600(base+off,i+1,0x32,(u64)-1);
+                        POKE_TOOL_SetupBoxParam(base+off,i+1,0x32,(u64)-1);
                         SetB(base+off,d_021DC144);
-                        func_02017E64(base+off,0x9a,0);
+                        POKE_TOOL_SetBoxValue(base+off,0x9a,0);
                         if(c[0xf]==0xff) c[0xf]=i;
                     }
                 }
@@ -124,7 +124,7 @@ int func_021D6324(u32 heap,int *st,u8 *obj,char *d) {
             c[0x10]=0;
             ((struct Obj00830 *)c)->f20=1;
             ((struct Obj00830 *)c)->f18=1;
-            ((struct Obj00830 *)c)->f8=func_020124F4(1);
+            ((struct Obj00830 *)c)->f8=GAME_DATA_Create(1);
             if(func_0203630C()&0x400) {
                 c[0xd]=2;
                 ((struct Obj00830 *)c)->f20=i;
@@ -141,7 +141,7 @@ int func_021D6324(u32 heap,int *st,u8 *obj,char *d) {
         break;
     }
     case 1:
-        if(func_021D4240(d)==1) return 1;
+        if(P_STATUS_InitWork(d)==1) return 1;
         break;
     }
     return 0;

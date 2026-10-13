@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  */
 #include "../include/Obj01726.h"
 
 typedef signed short s16;
 
 typedef unsigned int   u32;
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
 void func_021D8B54(void *p)
 {
     int o1, o2;
     int d;
 
-    if (func_02035CB8((u32 *)(&o1), (u32 *)(&o2)) == 0)
+    if (TOUCHPANEL_GetPointCont((u32 *)(&o1), (u32 *)(&o2)) == 0)
         return;
     if (((struct Obj01726 *)p)->fF60 == 0)
         ((struct Obj01726 *)p)->fF5C = 0;

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_0204B5D4
+ * function: CLACT_SetActorScaleAxis
  * address:  0x0204B5D4
  * packet:   pkt_0204B5D4
  * region:   arm9
@@ -15,7 +15,7 @@
  * is a seed for layout/function_starts.txt.
  *
  * Both bodies if-convert to a single predicated memory access, the same shape
- * as src/matched/sub_0204B550.c and src/matched/sub_0204B560.c have for the
+ * as src/matched/CLACT_SetActorPosAxis.c and src/matched/CLACT_GetActorPosAxis.c have for the
  * halfword pair at +0x0c.
  *
  * Verified with:
@@ -32,7 +32,7 @@ struct Actor {
     u32 unk_18;
 };
 
-void sub_0204B5D4(struct Actor *actor, u32 value, u32 which)
+void CLACT_SetActorScaleAxis(struct Actor *actor, u32 value, u32 which)
 {
     if (which == 0) {
         actor->unk_14 = value;
@@ -41,7 +41,7 @@ void sub_0204B5D4(struct Actor *actor, u32 value, u32 which)
     }
 }
 
-u32 sub_0204B5E4(const struct Actor *actor, u32 which)
+u32 CLACT_GetActorScaleAxis(const struct Actor *actor, u32 which)
 {
     if (which == 0) {
         return actor->unk_14;

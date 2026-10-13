@@ -22,7 +22,7 @@
  *   func_02013D74 0x02013D74 thumb
  *   func_02006148 0x02006148 thumb
  *   func_0200616C 0x0200616C thumb
- *   func_02006268 0x02006268 thumb
+ *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   func_02006224 0x02006224 thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_021EFF40 0x021EFF40 thumb ov033
@@ -118,7 +118,7 @@ extern int func_021EFEEC(char *p, int *q);
 extern int func_021EFF48(void *p, Rec *out, int mode);
 extern int func_02006148(u32 a0);
 extern void func_0200616C(void *arg, int i);
-extern void func_02006268(int i, u32 a, u32 b, u32 c);
+extern void GFL_USE_SetSeSlotParams(int i, u32 a, u32 b, u32 c);
 extern int func_02006224(u32 a0);
 extern void func_020061E4(u32 se);
 extern void func_021F0AC4(W *p);
@@ -292,7 +292,7 @@ void func_021F0174(W *p, int on)
         if (start) {
             p->f98 = func_02006148(0x760);
             func_0200616C((void *)0x760, p->f98);
-            func_02006268(p->f98, -1, 0x180, -1);
+            GFL_USE_SetSeSlotParams(p->f98, -1, 0x180, -1);
             p->hA0 = 6;
             p->fA4 = 1;
         }
@@ -334,7 +334,7 @@ void func_021F0174(W *p, int on)
             else if (pan > 127)
                 pan = 127;
             func_0200616C((void *)0x760, h);
-            func_02006268(h, -1, -1, pan);
+            GFL_USE_SetSeSlotParams(h, -1, -1, pan);
             snd = 0;
         }
     }

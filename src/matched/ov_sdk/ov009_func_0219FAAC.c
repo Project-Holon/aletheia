@@ -14,7 +14,7 @@
  * symbols:
  *   func_0209477C  0x0209477C  arm
  *   func_020949F4  0x020949F4  arm
- *   func_021A0A1C  0x021A0A1C  arm  ov009
+ *   SBServerListSetLastError  0x021A0A1C  arm  ov009
  *   func_021A02E0  0x021A02E0  arm  ov009
  *   g_021A821C  0x021A821C  data
  *   g_021AEB00  0x021AEB00  data
@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
 extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
-extern void func_021A0A1C(int *p, int v);
+extern void SBServerListSetLastError(int *p, int v);
 extern void func_021A02E0(struct SBL *slist);
 void func_0219FAAC(struct SBL *slist)
 {
@@ -45,7 +45,7 @@ void func_0219FAAC(struct SBL *slist)
 		char *e = g_021A821C;
 		char *s = slist->errstr;
 		if (func_020949F4((const u8 *)s, (const u8 *)e, (unsigned int)func_0209477C((const u8 *)e)) == 0) {
-			func_021A0A1C((int *)slist, (int)(s + (unsigned int)func_0209477C((const u8 *)q)));
+			SBServerListSetLastError((int *)slist, (int)(s + (unsigned int)func_0209477C((const u8 *)q)));
 			slist->cb(slist, 5, g_021AEB00, slist->ud);
 		}
 	}

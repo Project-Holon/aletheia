@@ -12,7 +12,7 @@
  * func_02082BCC 0x02082BCC arm
  * func_0204A48C 0x0204A48C arm
  * func_0204B100 0x0204B100 arm
- * func_0204B270 0x0204B270 arm
+ * CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  * func_020434DC 0x020434DC arm
  * func_02043598 0x02043598 arm
  * func_020490F4 0x020490F4 arm
@@ -35,7 +35,7 @@ extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 typedef unsigned char  u8;
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32,u32),func_02043598(u32,u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0204ABF0(void *,u32,u32,u32,u16);
@@ -54,7 +54,7 @@ void func_021B7AB4(struct State *p,const void *config,u16 heap)
     func_02082BCC(p,0,0x90);
     func_0204A48C((const struct Cfg *)d_020A1448,(u32)config,heap);
     p->bank=func_0204B100(128,0,heap);
-    func_0204B270(p->bank);
+    CLACT_SetUnitDefaultRenderer(p->bank);
     func_020434DC(16,1);
     func_02043598(16,1);
     arc=func_020490F4(94,heap);

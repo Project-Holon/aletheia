@@ -1,5 +1,5 @@
 /*
- * function: func_0217F120
+ * function: gsiDeleteCriticalSection
  * address:  0x0217F120
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,6 +12,6 @@
  * Empty stub; nothing but a return.
  */
 
-void func_0217F120(void *p)
+void gsiDeleteCriticalSection(void *p)
 {
 }

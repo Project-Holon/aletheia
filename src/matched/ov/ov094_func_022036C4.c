@@ -10,7 +10,7 @@
  * symbols:
  *   func_02206AF8 0x02206AF8 thumb ov094
  *   func_022043C0 0x022043C0 thumb ov094
- *   func_02021848 0x02021848 thumb
+ *   PALANM_RequestFadeOverwrite 0x02021848 thumb
  *   func_02040588 0x02040588 arm
  *   func_02206A14 0x02206A14 thumb ov094
  *   func_02205B80 0x02205B80 thumb ov094
@@ -81,7 +81,7 @@ typedef unsigned char u8;
 typedef signed short s16;
 extern void func_02206AF8(char *p);
 extern void func_022043C0(Main *, int, int, int, int);
-extern int func_02021848(void *, u16, u16, s16, u8, u8, u16, void *);
+extern int PALANM_RequestFadeOverwrite(void *, u16, u16, s16, u8, u8, u16, void *);
 extern void func_02040588(unsigned char which, unsigned char enable);
 void func_022036C4(void *task, Ctx *c)
 {
@@ -93,7 +93,7 @@ void func_022036C4(void *task, Ctx *c)
         func_02204960(c->main, 5, 0, 0, 0, 0, 2, 1);
         func_022043C0(c->main, 0x3000, 0x1000, -0x400, 0x98);
         func_020409B4(6);
-        func_02021848(c->main->pal, 2, 3, 1, 12, 0, 0x842, c->main->owner);
+        PALANM_RequestFadeOverwrite(c->main->pal, 2, 3, 1, 12, 0, 0x842, c->main->owner);
         c->state++;
         break;
     case 1:

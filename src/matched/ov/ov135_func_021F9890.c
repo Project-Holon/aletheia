@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_0202C9B4  0x0202C9B4  thumb
- *   func_0202CA3C  0x0202CA3C  thumb
+ *   BGWINFRM_Create  0x0202C9B4  thumb
+ *   BGWINFRM_AddFrame  0x0202CA3C  thumb
  *   func_021F4FF4  0x021F4FF4  thumb
  *   func_0204B878  0x0204B878  arm
  *   func_0204B92C  0x0204B92C  arm
@@ -81,8 +81,8 @@ typedef struct {
 } Menu;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
-extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
+extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -119,8 +119,8 @@ Menu *func_021F9890(Init *init, u32 a, u32 b)
     m->w44 = 0;
     m->b7a = 0;
     m->w48 = 0;
-    m->frm = func_0202C9B4(2, 1, 0x48);
-    func_0202CA3C(m->frm, 0, 2, 0x20, 0x14);
+    m->frm = BGWINFRM_Create(2, 1, 0x48);
+    BGWINFRM_AddFrame(m->frm, 0, 2, 0x20, 0x14);
     func_021F4FF4(m->obj, 0x90, 0x28);
     func_0204B878((struct Obj *)m->obj, 4);
     func_0204B92C((struct Obj *)m->obj, 1);

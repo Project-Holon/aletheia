@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *
  * Tail call onto the arm9 routine on the pointer at +0x28 with a zero selector.
  */
@@ -29,9 +29,9 @@ typedef struct {
 } S;
 
 struct Obj;
-extern void sub_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void func_021B9F84(S *s)
 {
-    sub_0204B3DC(s->f28, 0);
+    CLACT_SetActorDrawEnable(s->f28, 0);
 }

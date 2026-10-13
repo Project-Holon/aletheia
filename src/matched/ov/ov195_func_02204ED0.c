@@ -13,14 +13,14 @@
  * state word +0x30 == 0, play cue 0x3f2 and move it to state 2.
  *
  * symbols:
- *   func_02005D90  0x02005D90  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  */
-extern void func_02005D90(int, int);
+extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 
 void func_02204ED0(int a, int *p)
 {
     if (p[0xc] == 0) {
-        func_02005D90(0x3f2, 0xffff);
+        GFL_USE_CancelChangeAndPlayBgm(0x3f2, 0xffff);
         p[0xc] = 2;
     }
 }

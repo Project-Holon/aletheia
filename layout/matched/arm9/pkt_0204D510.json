@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204D52C",
+   "name": "CLACT_ResetCellAnim",
    "address": "0x0204D52C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0204D53C",
+   "name": "CLACT_ResetMultiCellAnim",
    "address": "0x0204D53C",
    "kind": "game",
    "region": "arm9",

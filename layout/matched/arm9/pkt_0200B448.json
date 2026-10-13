@@ -18,11 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200B448",
-    "func_0200B45C",
-    "func_0200B480",
-    "func_0200B490",
-    "func_0200B4B8"
+    "BATTLE_REC_Clear",
+    "BATTLE_REC_IsDataExist",
+    "BATTLE_REC_ClearWork",
+    "BATTLE_REC_DecodeWork",
+    "BATTLE_REC_EncodeWork"
+   ],
+   "addresses": [
+    "0x0200B448",
+    "0x0200B45C",
+    "0x0200B480",
+    "0x0200B490",
+    "0x0200B4B8"
    ]
   },
   {
@@ -37,9 +44,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200B4E0",
-    "func_0200B570",
-    "func_0200B5A4"
+    "BATTLE_REC_LoadToWork",
+    "BATTLE_REC_Load",
+    "BATTLE_REC_LoadAlloc"
+   ],
+   "addresses": [
+    "0x0200B4E0",
+    "0x0200B570",
+    "0x0200B5A4"
    ]
   },
   {
@@ -69,12 +81,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200B900",
-    "func_0200B908",
-    "func_0200B910",
-    "func_0200B91C",
-    "func_0200B928",
-    "func_0200B934"
+    "BATTLE_REC_Decode",
+    "BATTLE_REC_Encode",
+    "BATTLE_REC_GetWork",
+    "BATTLE_REC_GetBody",
+    "BATTLE_REC_GetHeader",
+    "BATTLE_REC_GetHeaderOf"
+   ],
+   "addresses": [
+    "0x0200B900",
+    "0x0200B908",
+    "0x0200B910",
+    "0x0200B91C",
+    "0x0200B928",
+    "0x0200B934"
    ]
   },
   {

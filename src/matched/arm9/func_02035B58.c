@@ -1,5 +1,5 @@
 /*
- * function: func_02035B58
+ * function: TOUCHPANEL_HitContSys
  * address:  0x02035B58
  * packet:   pkt_02035ADC
  * region:   arm9
@@ -9,35 +9,35 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02035750 0x02035750  arm
- *   func_020357A0 0x020357A0  arm
- *   func_02035760 0x02035760  arm
- *   func_02035780 0x02035780  arm
- *   func_02035ADC 0x02035ADC  arm
+ *   TOUCHPANEL_GetWork 0x02035750  arm
+ *   TOUCHPANEL_ReadCont 0x020357A0  arm
+ *   TOUCHPANEL_ReadPointX 0x02035760  arm
+ *   TOUCHPANEL_ReadPointY 0x02035780  arm
+ *   TOUCHPANEL_SearchHitTable 0x02035ADC  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int func_02035750(void);
+extern int TOUCHPANEL_GetWork(void);
 typedef unsigned short u16;
 struct Kind;
-extern int func_020357A0(struct Kind *p);
-extern u16 func_02035760(struct Kind *p);
-extern u16 func_02035780(struct Kind *p);
+extern int TOUCHPANEL_ReadCont(struct Kind *p);
+extern u16 TOUCHPANEL_ReadPointX(struct Kind *p);
+extern u16 TOUCHPANEL_ReadPointY(struct Kind *p);
 struct R;
-extern int func_02035ADC(struct R *p, u32 x, u32 y);
+extern int TOUCHPANEL_SearchHitTable(struct R *p, u32 x, u32 y);
 
-int func_02035B58(u32 a, u32 b)
+int TOUCHPANEL_HitContSys(u32 a, u32 b)
 {
     u32 x;
     u32 y;
 
-    func_02035750();
-    if (func_020357A0((struct Kind *)a) == 0) {
+    TOUCHPANEL_GetWork();
+    if (TOUCHPANEL_ReadCont((struct Kind *)a) == 0) {
         return -1;
     }
-    x = func_02035760((struct Kind *)a);
-    y = func_02035780((struct Kind *)a);
-    return func_02035ADC((struct R *)b, x, y);
+    x = TOUCHPANEL_ReadPointX((struct Kind *)a);
+    y = TOUCHPANEL_ReadPointY((struct Kind *)a);
+    return TOUCHPANEL_SearchHitTable((struct R *)b, x, y);
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02024598
+ * function: PMSI_PARAM_SetSentenceId
  * address:  0x02024598
  * packet:   pkt_02024584
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj05795.h"
 
-void func_02024598(void *p0, int p1, int p2){ ((struct Obj05795 *)p0)->f0 = (unsigned short)p1; ((struct Obj05795 *)p0)->f2 = (unsigned short)p2; }
+void PMSI_PARAM_SetSentenceId(void *p0, int p1, int p2){ ((struct Obj05795 *)p0)->f0 = (unsigned short)p1; ((struct Obj05795 *)p0)->f2 = (unsigned short)p2; }

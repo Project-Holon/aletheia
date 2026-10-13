@@ -18,21 +18,38 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02014444",
-    "sub_0201444C",
-    "sub_02014450",
-    "sub_02014454",
-    "sub_02014458",
-    "sub_0201445C",
-    "sub_02014460",
-    "sub_02014464",
-    "sub_02014468",
-    "sub_0201446C",
-    "sub_02014470",
-    "sub_02014474",
-    "sub_02014478",
-    "sub_0201447C",
-    "sub_02014484"
+    "FIELD_STATUS_Delete",
+    "FIELD_STATUS_GetMapMode",
+    "FIELD_STATUS_SetMapMode",
+    "FIELD_STATUS_SetFieldInitFlag",
+    "FIELD_STATUS_GetFieldInitFlag",
+    "FIELD_STATUS_SetContinueFlag",
+    "FIELD_STATUS_GetContinueFlag",
+    "FIELD_STATUS_SetFlashActive",
+    "FIELD_STATUS_IsFlashActive",
+    "FIELD_STATUS_SetMapEffectMask",
+    "FIELD_STATUS_GetMapEffectMask",
+    "FIELD_STATUS_SetProcAction",
+    "FIELD_STATUS_GetProcAction",
+    "FIELD_STATUS_SwapSeasonDispFlag",
+    "FIELD_STATUS_GetSeasonDispFlag"
+   ],
+   "addresses": [
+    "0x02014444",
+    "0x0201444C",
+    "0x02014450",
+    "0x02014454",
+    "0x02014458",
+    "0x0201445C",
+    "0x02014460",
+    "0x02014464",
+    "0x02014468",
+    "0x0201446C",
+    "0x02014470",
+    "0x02014474",
+    "0x02014478",
+    "0x0201447C",
+    "0x02014484"
    ]
   },
   {
@@ -47,12 +64,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02014CB8",
-    "sub_02014CD4"
+    "MCSS_OpenHandle",
+    "MCSS_CloseHandle"
+   ],
+   "addresses": [
+    "0x02014CB8",
+    "0x02014CD4"
    ]
   },
   {
-   "name": "sub_02014CF8",
+   "name": "MCSS_ReloadResource",
    "address": "0x02014CF8",
    "kind": "game",
    "region": "arm9",

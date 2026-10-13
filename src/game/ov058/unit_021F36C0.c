@@ -34,146 +34,141 @@
  *   func_02028A7C 0x02028A7C thumb
  *   func_021F391C  0x021F391C  thumb  ov058
  */
-#define W(p,k) (*(int *)((u8 *)(p)+(k)))
-#define H(p,k) (*(u16 *)((u8 *)(p)+(k)))
-struct Big;
-struct Ctx;
-struct BigObj;
-struct SoundSys2;
-struct Obj00020;
-typedef unsigned short u16;
+#include "../ov021/fld_exp_obj_types.h"
+#include "unit_021F36C0_types.h"
 
-typedef unsigned char  u8;
+extern struct GameSystem *func_02188C80(struct FieldMap *fieldMap);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GimmickWork *func_02012EC4(struct GameData *gameData);
+extern void *func_02189764(struct FieldMap *fieldMap, int id, int heapId, int size);
+extern Gimmick58Work *func_021897BC(struct FieldMap *fieldMap, int id);
+extern void func_021897A0(struct FieldMap *fieldMap, int id);
+extern void func_021BE760(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
+extern void func_021BE418(FldExpObjCnt *expObj, u16 unitIndex);
+extern struct FieldPlayer *func_02188CB4(struct FieldMap *fieldMap);
+extern void func_021A3038(struct FieldPlayer *player, VecFx32 *pos);
+extern void *func_02012A30(struct GameData *gameData);
+extern u32 func_020056EC(u32 range);
+extern int func_02006148(u32 seId);
+extern int func_02006224(int seSlot);
+extern void func_02028A7C(void *fieldSound, u32 seId);
+extern void func_021F391C(Gimmick58Work *work, struct FieldMap *fieldMap, int leadModel, int trailModel);
 
-typedef unsigned int u32;
+void func_021F36C0(struct FieldMap *fieldMap);
+void func_021F3714(struct FieldMap *fieldMap);
+void func_021F373C(struct FieldMap *fieldMap);
+void func_021F38F4(Gimmick58Work *work, struct FieldMap *fieldMap);
 
-struct VecFx32 { int x,y,z; };
+extern G3dUtilSetup d_021F3B60;
 
-extern u16 func_02188C84(u8 *p);
-extern int func_02188D2C(int *p);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern int *func_021897BC(char *p, int idx);
-extern void func_021BE760(int a, void *b, int c);
-extern void func_021BE418(u8 *p, u16 i);
-extern void func_021897A0(unsigned char *p, int id);
-extern int func_021BE480(char *p, unsigned i, int j);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021A3038(u8 *,struct VecFx32 *);
-extern u32 func_02012A30(const struct BigObj *);
-extern u32 func_020056EC(u32);
-extern int func_02006148(u32);
-extern int func_02006224(u32);
-extern void func_02028A7C(struct SoundSys2 *,u32);
-extern void func_021F391C(void *unused, void *a, int i, int j);
-void func_021F36C0(int a);
-void func_021F3714(void *a0);
-void func_021F373C(struct Obj00020 *p);
-void func_021F38F4(void *unused, void *a);
-extern char d_021F3B60[];
-
-
-void func_021F36C0(int a)
+/* Allocate the work, add the train models and put them at their start. */
+void func_021F36C0(struct FieldMap *fieldMap)
 {
-    int r4;
-    void *r6;
+    FldExpObjCnt *expObj;
+    Gimmick58Work *work;
 
-    func_02188C84((u8 *)a);
-    r4 = func_02188D2C((int *)a);
-    func_02012EC4(func_020120F4(func_02188C80((void *)a)));
-    func_02189764((unsigned char *)a, 1, func_02188C84((u8 *)a), 0x20);
-    r6 = func_021897BC((char *)a, 1);
-    func_021BE760(r4, d_021F3B60, 0);
-    func_021F38F4(r6, (void *)a);
+    func_02188C84(fieldMap);
+    expObj = func_02188D2C(fieldMap);
+    func_02012EC4(func_020120F4(func_02188C80(fieldMap)));
+    func_02189764(fieldMap, 1, func_02188C84(fieldMap), 0x20);
+    work = func_021897BC(fieldMap, 1);
+    func_021BE760(expObj, &d_021F3B60, 0);
+    func_021F38F4(work, fieldMap);
 }
 
-
-void func_021F3714(void *a0)
+void func_021F3714(struct FieldMap *fieldMap)
 {
-    func_02012EC4((struct Big *)func_020120F4(func_02188C80(a0)));
-    func_021BE418((u8 *)func_02188D2C((int *)a0), 0);
-    func_021897A0((unsigned char *)a0, 1);
+    func_02012EC4(func_020120F4(func_02188C80(fieldMap)));
+    func_021BE418(func_02188D2C(fieldMap), 0);
+    func_021897A0(fieldMap, 1);
 }
 
-void func_021F373C(struct Obj00020 *p)
+/* Per frame: move both trains, restart them after a run, play the pass sound. */
+void func_021F373C(struct FieldMap *fieldMap)
 {
-    struct VecFx32 pos;
-    int first;
-    int second;
-    void *big;
-    void *scene;
-    void *state;
-    u8 *part;
-    int i;
-    int *entry;
-    struct SoundSys2 *sound;
+    VecFx32 playerPos;
+    int eastLeadX;
+    int westLeadX;
+    struct GameData *gameData;
+    FldExpObjCnt *expObj;
+    Gimmick58Work *work;
+    Gimmick58Train *train;
+    int modelIndex;
+    G3dObjectStatus *model;
+    void *fieldSound;
     int delta;
-    big=func_020120F4(func_02188C80(p));
-    func_02012EC4(big);
-    scene=(void *)func_02188D2C((int *)p);
-    state=func_021897BC((char *)p,1);
-    part=(u8 *)state+8;
-    if(H(part,4)!=0) H(part,4)--;
-    else {
-        i=H(part,6)*4;
-        W(part,0)++;
-        entry=(int *)func_021BE480(scene,0,(u16)i);
-        *entry=(W(part,0)<<16)+0x1770000;
-        if(*entry>=0x1c60000) {
-            W(part,0)=0;
-            W(state,16)=0;
-            H(part,4)=func_020056EC(30)+30;
-            H(part,6)=func_020056EC(3);
+
+    gameData = func_020120F4(func_02188C80(fieldMap));
+    func_02012EC4(gameData);
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+
+    train = &work->eastbound;
+    if (train->waitFrames != 0) {
+        train->waitFrames--;
+    } else {
+        modelIndex = train->lane * GIMMICK58_MODELS_PER_LANE;
+        train->step++;
+        model = func_021BE480(expObj, 0, (u16)modelIndex);
+        model->trans.x = (train->step << 16) + GIMMICK58_TRACK_MIN_X;
+        if (model->trans.x >= GIMMICK58_TRACK_MAX_X) {
+            train->step = 0;
+            work->eastSoundPlayed = 0;
+            train->waitFrames = func_020056EC(30) + 30;
+            train->lane = func_020056EC(3);
         }
-        first=*entry;
-        entry=(int *)func_021BE480(scene,0,(u16)(i+1));
-        *entry=(W(part,0)<<16)+0x1710000;
-        if(*entry>=0x1c60000) W(part,0)=0;
+        eastLeadX = model->trans.x;
+        model = func_021BE480(expObj, 0, (u16)(modelIndex + 1));
+        model->trans.x = (train->step << 16) + (GIMMICK58_TRACK_MIN_X - GIMMICK58_TRAIL_GAP);
+        if (model->trans.x >= GIMMICK58_TRACK_MAX_X)
+            train->step = 0;
     }
-    part=(u8 *)state+20;
-    if(H(part,4)!=0) H(part,4)--;
-    else {
-        i=H(part,6)*4+2;
-        W(part,0)++;
-        entry=(int *)func_021BE480(scene,0,(u16)i);
-        *entry=0x1c60000-(W(part,0)<<16);
-        if(*entry<=0x1770000) {
-            W(part,0)=0;
-            W(state,28)=0;
-            H(part,4)=func_020056EC(30);
-            H(part,6)=func_020056EC(3);
+
+    train = &work->westbound;
+    if (train->waitFrames != 0) {
+        train->waitFrames--;
+    } else {
+        modelIndex = train->lane * GIMMICK58_MODELS_PER_LANE + 2;
+        train->step++;
+        model = func_021BE480(expObj, 0, (u16)modelIndex);
+        model->trans.x = GIMMICK58_TRACK_MAX_X - (train->step << 16);
+        if (model->trans.x <= GIMMICK58_TRACK_MIN_X) {
+            train->step = 0;
+            work->westSoundPlayed = 0;
+            train->waitFrames = func_020056EC(30);
+            train->lane = func_020056EC(3);
         }
-        second=*entry;
-        entry=(int *)func_021BE480(scene,0,(u16)(i+1));
-        *entry=0x1cc0000-(W(part,0)<<16);
-        if(*entry<=0x1770000) W(part,0)=0;
+        westLeadX = model->trans.x;
+        model = func_021BE480(expObj, 0, (u16)(modelIndex + 1));
+        model->trans.x = (GIMMICK58_TRACK_MAX_X + GIMMICK58_TRAIL_GAP) - (train->step << 16);
+        if (model->trans.x <= GIMMICK58_TRACK_MIN_X)
+            train->step = 0;
     }
-    func_021A3038(func_02188CB4(p),&pos);
-    if(pos.z>=0x2020000 && pos.z<=0x2140000) {
-        sound=(struct SoundSys2 *)func_02012A30(big);
-        delta=pos.x-first;
-        if(delta>=0 && delta<=0x40000 && W(state,16)==0) {
-            if(func_02006224(func_02006148(0x77e))==0) {
-                W(state,16)=1;
-                func_02028A7C(sound,0x77e);
+
+    func_021A3038(func_02188CB4(fieldMap), &playerPos);
+    if (playerPos.z >= GIMMICK58_HEAR_MIN_Z && playerPos.z <= GIMMICK58_HEAR_MAX_Z) {
+        fieldSound = func_02012A30(gameData);
+        delta = playerPos.x - eastLeadX;
+        if (delta >= 0 && delta <= GIMMICK58_HEAR_DISTANCE && work->eastSoundPlayed == 0) {
+            if (func_02006224(func_02006148(0x77e)) == 0) {
+                work->eastSoundPlayed = 1;
+                func_02028A7C(fieldSound, 0x77e);
             }
         }
-        delta=second-pos.x;
-        if(delta>=0 && delta<=0x40000 && W(state,28)==0) {
-            if(func_02006224(func_02006148(0x77f))==0) {
-                W(state,28)=1;
-                func_02028A7C(sound,0x77f);
+        delta = westLeadX - playerPos.x;
+        if (delta >= 0 && delta <= GIMMICK58_HEAR_DISTANCE && work->westSoundPlayed == 0) {
+            if (func_02006224(func_02006148(0x77f)) == 0) {
+                work->westSoundPlayed = 1;
+                func_02028A7C(fieldSound, 0x77f);
             }
         }
     }
 }
 
-
-void func_021F38F4(void *unused, void *a)
+/* Put the three sets of train models at their start. */
+void func_021F38F4(Gimmick58Work *work, struct FieldMap *fieldMap)
 {
-    func_021F391C(unused, a, 0, 1);
-    func_021F391C(unused, a, 4, 5);
-    func_021F391C(unused, a, 8, 9);
+    func_021F391C(work, fieldMap, 0, 1);
+    func_021F391C(work, fieldMap, 4, 5);
+    func_021F391C(work, fieldMap, 8, 9);
 }

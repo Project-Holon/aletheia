@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02016380  0x02016380  thumb
+ *   MCSS_RequestAnimeStopAtStart  0x02016380  thumb
  */
 
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ struct Ov208Turn {
     int done;
 };
 
-extern void func_02016380(void *o);
+extern void MCSS_RequestAnimeStopAtStart(void *o);
 
 void ov208_func_021C5248(struct Ov208Turn *t)
 {
@@ -33,5 +33,5 @@ void ov208_func_021C5248(struct Ov208Turn *t)
     t->count++;
     if (t->count >= 2)
         t->done = 1;
-    func_02016380((void *)(*(u32 *)(scene + t->side * 0x44 + 0xc)));
+    MCSS_RequestAnimeStopAtStart((void *)(*(u32 *)(scene + t->side * 0x44 + 0xc)));
 }

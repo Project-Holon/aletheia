@@ -47,7 +47,7 @@
  *   func_021BFC54                    0x021bfc54 arm  ov114
  *   func_021BFBD0                    0x021bfbd0 arm  ov114
  *   func_021C2A78                    0x021c2a78 arm  ov114
- *   func_0217F2BC                    0x0217f2bc arm  ov009
+ *   msleep                    0x0217f2bc arm  ov009
  */
 #include "../../matched/include/G_GHIThrottle.h"
 
@@ -84,7 +84,7 @@ extern int func_021C0D40(GHIConnection *connection);
 extern int func_021BFC54(int a, int *out, char *buf, int n);
 extern int func_021BFBD0(unsigned int a0, unsigned int *a1, int a2, int a3);
 extern int func_021C2A78(GHIConnection *connection);
-extern void func_0217F2BC(unsigned int msec);
+extern void msleep(unsigned int msec);
 void func_021C1D30(GHIConnection *connection);
 int func_021C1DEC(GHIConnection *connection);
 void func_021C1FF8(void);
@@ -306,7 +306,7 @@ int func_021C20A4(const char *URL, const char *headers, char *buffer, int buffer
 
     if (blocking) {
         while (!func_021C1DEC((GHIConnection *)connection))
-            func_0217F2BC(10);
+            msleep(10);
         return 0;
     }
 

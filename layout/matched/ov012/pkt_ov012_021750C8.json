@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021750C8",
+   "name": "COLOSSEUM_SetMyChoiceReply",
    "address": "0x021750C8",
    "kind": "game",
    "region": "ov012",

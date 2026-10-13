@@ -15,7 +15,7 @@
  * symbols:
  *   func_0206DDA4  0x0206DDA4  arm
  *   g_02148DB4     0x02148DB4  data
- *   g_02148B4C     0x02148B4C  data
+ *   g_renderState     0x02148B4C  data
  *   g_020A1954     0x020A1954  data
  */
 typedef unsigned char u8;
@@ -174,7 +174,7 @@ void func_0206B7D0(Obj0206B7D0 *p);
 void func_0206B94C(Obj0206B94C *p);
 void func_0206BA18(Obj0206BA18 *p, u32 kind, Src0206BA18 *src, u32 id);
 extern u32  g_02148DB4[];
-extern u32  g_02148B4C[];
+extern u32  g_renderState[];
 extern u32  g_020A1954[];
 
 
@@ -386,11 +386,11 @@ void func_0206BA18(Obj0206BA18 *p, u32 kind, Src0206BA18 *src, u32 id)
                 r->f00 |= 0x20;
             }
 
-            r->f04 = (g_02148B4C[0x25] & ~g_020A1954[(src->f1e >> 6) & 7])
+            r->f04 = (g_renderState[0x25] & ~g_020A1954[(src->f1e >> 6) & 7])
                    | (src->f04 & g_020A1954[(src->f1e >> 6) & 7]);
-            r->f08 = (g_02148B4C[0x26] & ~g_020A1954[(src->f1e >> 9) & 7])
+            r->f08 = (g_renderState[0x26] & ~g_020A1954[(src->f1e >> 9) & 7])
                    | (src->f08 & g_020A1954[(src->f1e >> 9) & 7]);
-            r->f0c = (g_02148B4C[0x27] & ~src->f10) | (src->f0c & src->f10);
+            r->f0c = (g_renderState[0x27] & ~src->f10) | (src->f0c & src->f10);
             r->f10 = src->f14;
             r->f14 = src->f1c;
 

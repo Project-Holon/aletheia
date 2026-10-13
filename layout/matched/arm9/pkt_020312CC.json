@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020312CC",
+   "name": "PROCSYS_PushGlobal",
    "address": "0x020312CC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020312F8",
+   "name": "PROCSYS_ReplaceGlobal",
    "address": "0x020312F8",
    "kind": "game",
    "region": "arm9",

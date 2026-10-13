@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02005D90  0x02005D90  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj23188.h"
 
-extern void func_02005D90(int, int);
+extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 
 void func_021F96B0(char *p, int a)
 {
     ((struct Obj23188 *)p)->f2C = 1;
-    func_02005D90(a, 0xffff);
+    GFL_USE_CancelChangeAndPlayBgm(a, 0xffff);
 }

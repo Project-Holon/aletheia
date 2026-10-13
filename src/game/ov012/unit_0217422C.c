@@ -1,7 +1,7 @@
 /*
  * file:     unit_0217422C.c
  * unit:     yes
- * function: func_0217422C, func_02174268, func_02174284, func_021742BC, func_021743A4, func_02174654, func_021746A8, func_021746FC, func_02174744, func_02174AD8, func_02174B08, func_02174B40
+ * function: func_0217422C, func_02174268, UNION_MAIN_StepStartOv111Proc, UNION_MAIN_StepPokemonTrade, UNION_MAIN_StepGroupActivity, UNION_MAIN_StepPlayEffectAtSeat, UNION_MAIN_StepPlayEffectAtSeatLow, UNION_MAIN_StepPlayEffectAtFixedSpot, UNION_MAIN_StepColosseumPartyEntry, UNION_MAIN_StepStartBattleSelect, UNION_MAIN_StepStartPmsInput, func_02174B40
  * address:  0x0217422C
  * region:   ov012
  * compiler: dsi/1.1p1
@@ -14,20 +14,20 @@
  *
  * symbols:
  *   func_02034714 0x02034714 arm
- *   d_02175628 0x02175628 data ov012 a1
+ *   gUnionMainEmptyString 0x02175628 data ov012 a1
  *   func_020146F8 0x020146F8 thumb
  *   ov111_id 0x0000006F data a1
- *   d_02172608 0x02172608 data a4
+ *   gOv111ProcData 0x02172608 data a4
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_020144DC  0x020144DC  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   func_0200FB24  0x0200FB24  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   ov119_id       0x00000077  data   a1
  *   ov195_id       0x000000C3  data   a1
- *   d_021E7608     0x021E7608  data   ov119  a4
+ *   gPokemonTradeProcData     0x021E7608  data   ov119  a4
  *   d_02208C40     0x02208C40  data   ov195  a4
  *   func_02183C3C  0x02183C3C  thumb  ov022
  *   func_02012374  0x02012374  thumb
@@ -38,28 +38,28 @@
  *   func_020399A8  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
- *   func_02173E1C  0x02173E1C  thumb  ov012
+ *   UNION_COMMAND_SendAppQuitRequest  0x02173E1C  thumb  ov012
  *   func_02183F84  0x02183F84  thumb  ov022
- *   func_02173EC8  0x02173EC8  thumb  ov012
+ *   UNION_COMMAND_SendAppQuitCancel  0x02173EC8  thumb  ov012
  *   func_0218401C  0x0218401C  thumb  ov022
  *   func_021841A0  0x021841A0  thumb  ov022
- *   func_02173F90  0x02173F90  thumb  ov012
+ *   UNION_COMMAND_SendAppJoinData  0x02173F90  thumb  ov012
  *   func_0218402C  0x0218402C  thumb  ov022
- *   func_02174084  0x02174084  thumb  ov012
+ *   UNION_COMMAND_SendAppLeaveData  0x02174084  thumb  ov012
  *   func_021840AC  0x021840AC  thumb  ov022
  *   func_021736E0  0x021736E0  thumb  ov012
  *   func_0203D1E8  0x0203D1E8  arm
  *   func_0203D7BC  0x0203D7BC  arm
  *   func_02012984  0x02012984  thumb
  *   func_02029DF4  0x02029DF4  thumb
- *   func_02005DA4  0x02005DA4  thumb
- *   func_02005E50  0x02005E50  thumb
+ *   GFL_USE_ChangeBgm  0x02005DA4  thumb
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb
  *   func_02183BE0  0x02183BE0  thumb  ov022
  *   ov022_id       0x00000016  data   a1
  *   ov023_id       0x00000017  data   a1
  *   ov137_id       0x00000089  data   a1
- *   d_02186B30     0x02186B30  data   ov023  a4
- *   d_021E1A2C     0x021E1A2C  data   ov137  a4
+ *   gOekakiProcData     0x02186B30  data   ov023  a4
+ *   gGuru2ProcData     0x021E1A2C  data   ov137  a4
  *   func_0203D1A4  0x0203D1A4  arm
  *   func_02184D38  0x02184D38  thumb  ov020
  *   func_021B6114  0x021B6114  thumb  ov090
@@ -71,15 +71,15 @@
  *   func_0200CA38  0x0200CA38  thumb
  *   func_0201A920  0x0201A920  thumb
  *   func_0201AC2C  0x0201AC2C  thumb
- *   func_0201A948  0x0201A948  thumb
+ *   POKEPARTY_Init  0x0201A948  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_0201A98C  0x0201A98C  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_02175240  0x02175240  thumb  ov012
  *   func_02174D98  0x02174D98  thumb  ov012
  *   func_02175214  0x02175214  thumb  ov012
- *   func_02175280  0x02175280  thumb  ov012
- *   func_0217534C  0x0217534C  thumb  ov012
+ *   COLOSSEUM_SetupBattleInfo  0x02175280  thumb  ov012
+ *   COLOSSEUM_ClearBattleInfo  0x0217534C  thumb  ov012
  *   func_02157450  0x02157450  thumb
  *   func_0201283C  0x0201283C  thumb
  *   func_0203D1B4  0x0203D1B4  arm
@@ -89,274 +89,210 @@
  *   ov090_id       0x0000005A  data   a1
  *   ov091_id       0x0000005B  data   a1
  *   ov131_id       0x00000083  data   a1
- *   d_021BED00     0x021BED00  data   ov091  a4
- *   d_021DC800     0x021DC800  data   ov131  a4
+ *   gPartyListProcData     0x021BED00  data   ov091  a4
+ *   gPokeStatusProcData     0x021DC800  data   ov131  a4
  *   ov110_id 0x0000006E data a1
- *   d_021C39D4 0x021C39D4 data ov110 a4
+ *   gPmsInputProcData 0x021C39D4 data ov110 a4
  *   func_0203A574 0x0203A574 arm
- *   d_02175588 0x02175588 data a4
+ *   gColosseumCommandTable 0x02175588 data a4
  */
-#include "../../matched/include/Obj00610.h"
+#include "../ov006/event_wificlub_types.h"
 
-struct IcaAnime;
-struct Evt;
-struct BigObj;
-struct Ctx;
-struct Rec20;
-struct Entry;
-struct Link;
-struct Blk37;
+typedef short s16;
+typedef signed int s32;
+typedef struct { s32 x, y, z; } VecFx32;
+#include "union_comm_types.h"
+
+struct GameSystem;
+struct GameData;
+struct GameEvent;
+struct FieldMap;
 struct Party;
-struct PartyMon;
-struct Rec534;
-struct Sub0200852CObj;
-struct Sub020097BCObj;
-struct Rec;
-typedef unsigned char u8;
+struct PokemonParam;
+struct WifiList;
+struct GfnetHandle;
 
-typedef unsigned int   u32;
+/* Bits of ColosseumWork.battlePosition. */
+#define BATTLE_POSITION_SIDE 1
+#define BATTLE_POSITION_TEAM 2
 
-typedef unsigned short u16;
+/* Parameter block of the group activity overlays (oekaki ov023, guru2 ov137). */
+typedef struct ActivityParam {
+    struct UnionAppWork *unionApp;
+    u8    pad04[0x10];
+    int   result;       /* 0x14 */
+} ActivityParam;
 
-typedef struct Req_021742BC {
-    u32 f0;
-    u32 f4;
-    u16 f8;
-    u8  fA;
-    u8  fB;
-    u32 fC;
-    u32 f10;
-} Req_021742BC;
-
-typedef struct Ctx {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    u32 fC;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1C;
-    Req_021742BC *f20;
-} Ctx;
-
-typedef struct Save {
-    u8  pad0[8];
-    u32 f8;
-} Save;
-
-typedef struct Req_021743A4 {
-    void *f0;
-    u8    pad4[0x10];
-    int   f14;
-} Req_021743A4;
-
-typedef struct Sub {
-    u8   pad0[8];
-    Req_021743A4 *f8;
-} Sub;
-
-typedef struct Local {
-    u8    f0;
-    u8    pad1[0x59];
-    u8    lo5A : 1;
-    u8    flag5A : 1;
-    u8    hi5A : 6;
-    u8    pad5B[5];
-} Local;
-
-typedef struct Self {
-    Save *f0;
-    u8    pad4[0x282c];
-    Local l;
-    u8    pad2890[0xc98];
-    void *f3528;
-    u8    pad352C[0x1c];
-    Sub   f3548;
-} Self;
-
-typedef struct {
-    int a;
-    int b;
-    int c;
-} P;
-
-typedef struct Rec2C {
-    u8 pad[0x2c];
-} Rec2C;
-
-typedef struct Trade {
-    u8    pad0[0x18];
-    Rec2C recs[4];
-    u8    pad[0x148 - 0x18 - 0xb0];
-    void *parties[5];
-    u8    flags[4];
-} Trade;
-
-typedef struct Out {
-    void *f0;
-    u8    pad4[0xc];
-    u16   f10;
-    u8    f12;
-    u8    pad13;
-    u32   f14;
-    u8    f18[0x40];
-    u32   f58;
-} Out;
-
-typedef struct Sub98 {
-    void *f0;
-    u32   f4;
-    void *f8;
-    u8    fc;
-    u8    fd;
-    u8    fe;
-    u8    ff;
-    u8    f10;
+/* Parameter block of the status overlay (ov131), only the fields used here. */
+typedef struct PokeStatusParam {
+    struct Party *party;
+    u32   options;
+    struct GameData *gameData;
+    u8    mode;             /* 0x0C */
+    u8    page;             /* 0x0D */
+    u8    partyCount;       /* 0x0E */
+    u8    cursor;           /* 0x0F */
+    u8    result;           /* 0x10 */
     u8    pad11[7];
-    u32   f18;
-} Sub98;
+    u32   trainerRecord;    /* 0x18 */
+} PokeStatusParam;
 
-typedef struct Work {
-    void *f0;
-    u8    pad4[8];
-    u32   fc;
-    u8    pad10[0x2c];
-    u32   f3c;
-    u32   f40;
+/* Parameter and result block of the colosseum battle selection, 0x5C bytes. */
+typedef struct BattleSelectParam {
+    struct Party *party;
+    u8    pad04[0xC];
+    u16   messageId;        /* 0x10 */
+    u8    battlePosition;   /* 0x12 */
+    u8    pad13;
+    struct Regulation *regulation;  /* 0x14 */
+    u8    battleInfo[0x40]; /* 0x18 */
+    u32   result;           /* 0x58 */
+} BattleSelectParam;
+
+/* Parameter block of the party list overlay (ov090/ov091). */
+typedef struct PartyListParam {
+    struct Party *party;
+    u8    pad04[8];
+    u32   options;          /* 0x0C */
+    u8    pad10[0x2C];
+    u32   cursor;           /* 0x3C */
+    u32   resultKind;       /* 0x40 */
     u8    pad44[5];
-    u8    f49[6];
+    u8    selectedOrder[6]; /* 0x49: 1 based party slots chosen by the player */
     u8    pad4F[0x49];
-    Sub98 f98;
-    u8    padB4[0xc];
-    Out  *fc0;
-} Work;
+    PokeStatusParam statusParam;    /* 0x98 */
+    u8    padB4[0xC];
+    BattleSelectParam *battleSelect;    /* 0xC0 */
+} PartyListParam;
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void *func_020146F8(char *, int, int, int, int);
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern int func_020144DC(int a0, int a1);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
+extern struct GameEvent *func_020146F8(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int overlayId, int procData, int procWork);
+extern struct GameEvent *func_021BE8D4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int sel, int arg);
+extern struct GameEvent *func_021BE92C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int sel, int arg, int flag, u8 flagA, u8 flagB);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *procWork);
+extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 extern u32 func_0200FB24(void);
-extern void *func_020145CC(void *a0);
-extern void func_02183C3C(u8 *s, u8 *c);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int   func_02034AC4(signed int id);
-extern void  func_02034A5C(int id);
-extern u8 *func_02012944(void *p);
-extern u8 *func_02183B60(u8 *a, int heap, int kind, struct Rec20 *src);
-extern struct Entry *func_020399A8(void);
-extern void func_02039C68(struct Link *a0, unsigned int a1, unsigned int a2);
-extern unsigned int func_02039CB4(struct Link *a0, unsigned int a1, unsigned int a2);
-extern u32 func_02173E1C(void);
-extern u8 func_02183F84(u8 *p);
-extern int   func_02173EC8(void);
-extern int func_0218401C(u8 *p);
-extern unsigned char func_021841A0(unsigned char *p);
-extern int   func_02173F90(u8 a, u32 b);
-extern int func_0218402C(u8 *p);
-extern int   func_02174084(u8 a, u32 b);
-extern void func_021840AC(u8 *s);
-extern void func_021736E0(unsigned int x);
-extern void func_0203D1E8(u32 unused, void *arg);
-extern void func_0203D7BC(u8 a0);
-extern u8 func_02012984(const struct BigObj *p);
-extern unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
-extern void func_02005DA4(unsigned int a, unsigned short b, int c, int d);
-extern int   func_02005E50(void);
-extern void  func_02183BE0(void *p);
-extern u32 func_0203D1A4(struct Link *p);
-extern void *func_02184D38(void *p, int unused, int a, const int *q, u16 s, int t);
-extern void func_021B6114(u8 *p);
-extern void func_021B6100(u8 *p);
-extern void func_021B6108(void *unused);
-extern void *func_020120F4(const struct Ctx *p);
-extern u32   func_0201AA18(void *p);
-extern void *func_0200CA1C(void *a);
-extern u32 func_0200CA38(struct Blk37 *p);
-extern struct Party *func_0201A920(u32 heap);
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
-extern void func_0201A948(struct Party *p);
-extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
+extern void func_02183C3C(struct UnionAppWork *app, UnionRoomWork *unionRoom);
+extern void func_02012374(struct GameEvent *parent, struct GameEvent *child);
+extern int   func_02034AC4(signed int overlayId);
+extern void  func_02034A5C(int overlayId);
+extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct UnionAppWork *func_02183B60(UnionRoomWork *unionRoom, int heapId, int kind, struct MyStatus *myStatus);
+extern struct GfnetHandle *func_020399A8(void);
+extern void func_02039C68(struct GfnetHandle *handle, unsigned int timingNo, unsigned int syncRange);
+extern unsigned int func_02039CB4(struct GfnetHandle *handle, unsigned int timingNo, unsigned int syncRange);
+extern u32 UNION_COMMAND_SendAppQuitRequest(void);
+extern u8 func_02183F84(struct UnionAppWork *app);
+extern int   UNION_COMMAND_SendAppQuitCancel(void);
+extern int func_0218401C(struct UnionAppWork *app);
+extern unsigned char func_021841A0(struct UnionAppWork *app);
+extern int   UNION_COMMAND_SendAppJoinData(u8 selection, struct MyStatus *myStatus);
+extern int func_0218402C(struct UnionAppWork *app);
+extern int   UNION_COMMAND_SendAppLeaveData(u8 selection, struct MyStatus *myStatus);
+extern void func_021840AC(struct UnionAppWork *app);
+extern void func_021736E0(unsigned int activity);
+extern void func_0203D1E8(struct GfnetHandle *handle, int enable);
+extern void func_0203D7BC(u8 option);
+extern u8 func_02012984(const struct GameData *gameData);
+extern unsigned int func_02029DF4(struct GameData *gameData, unsigned int zoneId, unsigned int season);
+extern void GFL_USE_ChangeBgm(unsigned int bgmNo, unsigned short fadeFrames, int arg3, int arg4);
+extern int   GFL_USE_IsBgmFading(void);
+extern void  func_02183BE0(struct UnionAppWork *app);
+extern u32 func_0203D1A4(struct GfnetHandle *handle);
+extern struct GameEvent *func_02184D38(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effectId, const VecFx32 *pos, u16 dir, int arg);
+extern void func_021B6114(PartyListParam *listParam);
+extern void func_021B6100(PartyListParam *listParam);
+extern void func_021B6108(PartyListParam *listParam);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern u32   func_0201AA18(struct Party *party);
+extern void *func_0200CA1C(struct GameData *gameData);
+extern u32 func_0200CA38(void *a);
+extern struct Party *func_0201A920(u32 heapId);
+extern void func_0201AC2C(const struct Party *src, struct Party *dst);
+extern void POKEPARTY_Init(struct Party *party);
+extern struct PokemonParam *func_0201AB28(struct Party *party, u32 index);
+extern u32 func_0201A98C(struct Party *party, const struct PokemonParam *pokemon);
 extern u32 func_020307B0(void *p);
-extern void func_02175240(u8 *a, int b);
-extern u32 func_02174D98(u32 p);
-extern int func_02175214(u8 *p);
-extern void func_02175280(u8 *a, void *b, u8 *out, int d);
-extern u32   func_02157450(u32 ctx, u32 a2, u8 v, Out *o);
-extern u32 func_0201283C(const struct BigObj *p);
+extern void func_02175240(ColosseumWork *colosseum, int arg);
+extern u32 func_02174D98(struct Party *party);
+extern int func_02175214(ColosseumWork *colosseum);
+extern void COLOSSEUM_SetupBattleInfo(ColosseumWork *colosseum, struct GameSystem *gameSystem, u8 *battleInfo, int heapId);
+extern struct GameEvent *func_02157450(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u8 activity, BattleSelectParam *param);
+extern struct WifiList *func_0201283C(const struct GameData *gameData);
 extern int   func_0203D1B4(void);
-extern int func_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32 *out);
-extern void func_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
-extern void func_02009B80(struct Sub020097BCObj *obj, int i);
-extern void  func_0217534C(void *p);
-extern void func_0203A574(u32,u32,u32,u32);
-void func_0217422C(u8 *p, int a, int b);
-int func_02174268(u8 *p);
-int func_02174284(char *a, u8 *p, int b, int c, int x, void **out, u8 *state);
-int func_021742BC(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void **out, u8 *state);
-int func_021743A4(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *state);
-int func_02174654(int a, int b, int c, int d, int e, int *out, u8 *cnt);
-int func_021746A8(int a, int b, int c, int d, int e, int *out, u8 *cnt);
-int func_021746FC(int a, int b, int c, int d, int e, int *out, u8 *cnt);
-int func_02174744(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *state);
-u32 func_02174AD8(void *a0, u8 *a1, void *a2, void *a3, u32 a4, void **out, u8 *state);
-int func_02174B08(char *a, u8 *p, int b, int c, int x, void **out, u8 *state);
-void func_02174B40(u32 p);
-extern u8 d_02175628[];
+extern int func_02009D1C(struct WifiList *wifiList, struct MyStatus *myStatus, u32 *outIndex);
+extern void func_02009BB8(struct WifiList *wifiList, int index, int a, int b, int c);
+extern void func_02009B80(struct WifiList *wifiList, int index);
+extern void  COLOSSEUM_ClearBattleInfo(u8 *battleInfo);
+extern void func_0203A574(u32 baseCommand, const u32 *table, u32 count, UnionRoomWork *work);
+void func_0217422C(UnionRoomWork *unionRoom, int sceneId, int sceneParam);
+int func_02174268(UnionRoomWork *unionRoom);
+int UNION_MAIN_StepStartOv111Proc(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int procWork, void *event, struct GameEvent **outEvent, u8 *step);
+int UNION_MAIN_StepPokemonTrade(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, ClubTradeParam *tradeParam, void *event, struct GameEvent **outEvent, u8 *step);
+int UNION_MAIN_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, struct GameEvent *event, struct GameEvent **outEvent, u8 *step);
+int UNION_MAIN_StepPlayEffectAtSeat(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, void *event, struct GameEvent **outEvent, u8 *step);
+int UNION_MAIN_StepPlayEffectAtSeatLow(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, void *event, struct GameEvent **outEvent, u8 *step);
+int UNION_MAIN_StepPlayEffectAtFixedSpot(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, void *event, struct GameEvent **outEvent, u8 *step);
+int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, PartyListParam *listParam, struct GameEvent *event, struct GameEvent **outEvent, u8 *step);
+u32 UNION_MAIN_StepStartBattleSelect(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, BattleSelectParam *selectParam, void *event, struct GameEvent **outEvent, u8 *step);
+int UNION_MAIN_StepStartPmsInput(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int procWork, void *event, struct GameEvent **outEvent, u8 *step);
+void func_02174B40(UnionRoomWork *unionRoom);
+extern const char gUnionMainEmptyString[];
 extern u8 ov111_id[];
-extern const int d_02172608[];
+extern const int gOv111ProcData[];
 extern char ov119_id[];
 extern char ov195_id[];
-extern u8 d_021E7608[];
+extern u8 gPokemonTradeProcData[];
 extern u8 d_02208C40[];
 extern char ov022_id[];
 extern char ov023_id[];
 extern char ov137_id[];
-extern u8 d_02186B30[];
-extern u8 d_021E1A2C[];
+extern u8 gOekakiProcData[];
+extern u8 gGuru2ProcData[];
 extern char ov090_id[];
 extern char ov091_id[];
 extern char ov131_id[];
-extern u8 d_021BED00[];
-extern u8 d_021DC800[];
+extern u8 gPartyListProcData[];
+extern u8 gPokeStatusProcData[];
 extern u8 ov110_id[];
-extern const int d_021C39D4[];
-extern u32 d_02175588[];
+extern const int gPmsInputProcData[];
+extern u32 gColosseumCommandTable[];
 
 
 
-void func_0217422C(u8 *p, int a, int b)
+/* Records the scene to run next and its parameter block; only one scene may be pending. */
+void func_0217422C(UnionRoomWork *unionRoom, int sceneId, int sceneParam)
 {
-    if (((struct Obj00610 *)p)->f354C != 0 || ((struct Obj00610 *)p)->f3548 != 0)
-        func_02034714((const char *)d_02175628, 0, (const char *)d_02175628);
-    ((struct Obj00610 *)p)->f354C = a;
-    ((struct Obj00610 *)p)->f3550 = b;
-    p[0x3554] = 0;
+    if (unionRoom->subEvent.id != 0 || unionRoom->subEvent.active != 0)
+        func_02034714(gUnionMainEmptyString, 0, gUnionMainEmptyString);
+    unionRoom->subEvent.id = sceneId;
+    unionRoom->subEvent.param = sceneParam;
+    unionRoom->subEvent.seq = 0;
 }
 
 
 
-int func_02174268(u8 *p)
+/* Returns 1 while a scene is requested or running. */
+int func_02174268(UnionRoomWork *unionRoom)
 {
-    if (((struct Obj00610 *)p)->f354C == 0 && ((struct Obj00610 *)p)->f3548 == 0)
+    if (unionRoom->subEvent.id == 0 && unionRoom->subEvent.active == 0)
         return 0;
     return 1;
 }
 
 
 
-int func_02174284(char *a, u8 *p, int b, int c, int x, void **out, u8 *state)
+/* Scene step: starts the ov111 sub process once, then reports done. */
+int UNION_MAIN_StepStartOv111Proc(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int procWork, void *event, struct GameEvent **outEvent, u8 *step)
 {
-    if (*state == 0) {
-        *out = func_020146F8(a, b, (int)ov111_id, (int)d_02172608, c);
+    if (*step == 0) {
+        *outEvent = func_020146F8(gameSystem, fieldMap, (int)ov111_id, (int)gOv111ProcData, procWork);
     } else {
         return 1;
     }
-    (*state)++;
+    (*step)++;
     return 0;
 }
 
@@ -364,65 +300,66 @@ int func_02174284(char *a, u8 *p, int b, int c, int x, void **out, u8 *state)
 
 
 /*
- * Stage machine on *state (8 states). Pooled small words 0x77/0xC3 are
- * linker overlay ids (ov119/ov195) handed to func_020120B4 with a table in
- * that overlay's window, as in ov001 func_021542C0.
+ * Scene step of the Pokemon trade (8 steps), then the evolution demo if the
+ * trade asks for one. Pooled small words 0x77/0xC3 are linker overlay ids
+ * (ov119 trade, ov195 evolution) handed to GAMESYSTEM_CallProc with a table in
+ * that overlay window, as in ov001 func_021542C0.
  */
-int func_021742BC(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void **out, u8 *state)
+int UNION_MAIN_StepPokemonTrade(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, ClubTradeParam *tradeParam, void *event, struct GameEvent **outEvent, u8 *step)
 {
-    Req_021742BC *r;
+    EvolutionRequest *request;
 
-    switch (*state) {
+    switch (*step) {
     case 0:
-        *out = (void *)func_021BE8D4((void *)a0, a2, 0, 0);
-        (*state)++;
+        *outEvent = func_021BE8D4(gameSystem, fieldMap, 0, 0);
+        (*step)++;
         break;
     case 1:
-        *out = (void *)func_020144DC(a0, a2);
-        (*state)++;
+        *outEvent = FIELD_STATUS_CreateFieldCloseEvent(gameSystem, fieldMap);
+        (*step)++;
         break;
     case 2:
-        func_020120B4((struct IcaAnime *)a0, (u32)ov119_id, d_021E7608, ctx);
-        (*state)++;
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov119_id, gPokemonTradeProcData, tradeParam);
+        (*step)++;
         break;
     case 3:
-        if (func_020120F0((const struct Ctx *)a0) != 0)
+        if (GAMESYSTEM_GetProcStatus(gameSystem) != 0)
             break;
-        if (ctx->f8 == 1)
-            *state = 4;
+        if (tradeParam->result == 1)
+            *step = 4;
         else
-            *state = 6;
+            *step = 6;
         break;
     case 4:
-        r = ctx->f20;
-        r->f0 = ctx->f14;
-        r->f4 = ctx->f1C;
-        r->f8 = ctx->fC;
-        r->fA = 0;
-        r->fB = ctx->f10;
-        r->fC = 1;
-        r->f10 = 0;
-        ctx->f20 = r;
-        func_020120B4((struct IcaAnime *)a0, (u32)ov195_id, d_02208C40, r);
-        (*state)++;
+        request = tradeParam->evolutionRequest;
+        request->gameData = tradeParam->gameData;
+        request->party = tradeParam->party;
+        request->partyIndex = tradeParam->partyIndex;
+        request->reserved = 0;
+        request->evolveCondition = tradeParam->evolveCondition;
+        request->fromTrade = 1;
+        request->reserved2 = 0;
+        tradeParam->evolutionRequest = request;
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov195_id, d_02208C40, request);
+        (*step)++;
         break;
     case 5:
-        if (func_020120F0((const struct Ctx *)a0) != 0)
+        if (GAMESYSTEM_GetProcStatus(gameSystem) != 0)
             break;
         if (func_0200FB24() != 0) {
-            *state = 6;
+            *step = 6;
         } else {
-            ctx->f8 = 1;
-            *state = 2;
+            tradeParam->result = 1;
+            *step = 2;
         }
         break;
     case 6:
-        *out = func_020145CC((void *)a0);
-        *state = 7;
+        *outEvent = FIELD_STATUS_CreateFieldOpenEvent(gameSystem);
+        *step = 7;
         break;
     case 7:
-        *out = (void *)func_021BE92C((void *)a0, a2, 0, 0, 1, 0, 0);
-        *state = 8;
+        *outEvent = func_021BE92C(gameSystem, fieldMap, 0, 0, 1, 0, 0);
+        *step = 8;
         break;
     default:
         return 1;
@@ -434,146 +371,147 @@ int func_021742BC(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void **out, u8 *stat
 
 
 /*
- * Stage machine on *state (20 states), same family as func_021742BC.
- * Pooled small words 0x16/0x17/0x89 are linker overlay ids
+ * Scene step of a group activity (20 steps): loads the union app overlay,
+ * syncs with the other players, then runs oekaki or guru2. Same family as
+ * UNION_MAIN_StepPokemonTrade. Pooled small words 0x16/0x17/0x89 are linker overlay ids
  * (ov022/ov023/ov137).
  *
  * evidence: 0x02029DF4 is an unlabelled ARM9 thunk ("ldr r3, =func_02029EB4;
  * bx r3"), seeded in layout/function_starts.txt from the bl sites in ov020
  * and ov021 (0x021AF018 and others), so +0x21E attests as `label`.
  * 0x02005DA4 is an 8-byte ARM9 wrapper ("push {r3, lr}; bl 0x02005F70;
- * pop {r3, pc}") between func_02005D90's pop and func_02005DAC; the bl at
+ * pop {r3, pc}") between GFL_USE_CancelChangeAndPlayBgm's pop and GFL_USE_PlayFanfare; the bl at
  * +0x22C is its only reference in the image, so it is seeded from that site;
- * the wrapper is matched EXACT (src/matched/arm9/func_02005DA4.c), so +0x22C
+ * the wrapper is matched EXACT (src/matched/arm9/GFL_USE_ChangeBgm.c), so +0x22C
  * attests as `matched`.
  */
-int func_021743A4(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *state)
+int UNION_MAIN_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, struct GameEvent *event, struct GameEvent **outEvent, u8 *step)
 {
-    Sub *sub = &self->f3548;
-    Local *l = &self->l;
-    Req_021743A4 *r;
-    int v;
+    UnionSubEvent *scene = &unionRoom->subEvent;
+    UnionMySituation *situation = &unionRoom->mySituation;
+    ActivityParam *activityParam;
+    int selection;
 
-    if (func_0200FB24() != 0 && *state > 2 && *state <= 13)
-        *state = 16;
-    if (self->f3528 != 0)
-        func_02183C3C(self->f3528, (u8 *)self);
+    if (func_0200FB24() != 0 && *step > 2 && *step <= 13)
+        *step = 16;
+    if (unionRoom->app != 0)
+        func_02183C3C(unionRoom->app, unionRoom);
 
-    switch (*state) {
+    switch (*step) {
     case 0:
-        func_02012374(obj, (void *)func_021BE8D4((void *)a0, a2, 0, 0));
-        (*state)++;
+        func_02012374(event, func_021BE8D4(gameSystem, fieldMap, 0, 0));
+        (*step)++;
         break;
     case 1:
-        func_02012374(obj, (void *)func_020144DC(a0, a2));
-        (*state)++;
+        func_02012374(event, FIELD_STATUS_CreateFieldCloseEvent(gameSystem, fieldMap));
+        (*step)++;
         break;
     case 2:
         func_02034AC4((u32)ov022_id);
-        self->f3528 = func_02183B60((u8 *)self, 3, 5, (struct Rec20 *)func_02012944((void *)self->f0->f8));
-        if (l->flag5A == 1)
-            *state = 5;
+        unionRoom->app = func_02183B60(unionRoom, 3, 5, func_02012944(unionRoom->parent->gameData));
+        if (situation->connect.serviceFlag == 1)
+            *step = 5;
         else
-            (*state)++;
+            (*step)++;
         break;
     case 3:
-        func_02039C68((struct Link *)func_020399A8(), 9, 0x14);
-        (*state)++;
+        func_02039C68(func_020399A8(), 9, 0x14);
+        (*step)++;
         break;
     case 4:
-        if (func_02039CB4((struct Link *)func_020399A8(), 9, 0x14) == 1)
-            *state = 7;
+        if (func_02039CB4(func_020399A8(), 9, 0x14) == 1)
+            *step = 7;
         break;
     case 5:
-        if (func_02173E1C() == 1)
-            (*state)++;
+        if (UNION_COMMAND_SendAppQuitRequest() == 1)
+            (*step)++;
         break;
     case 6:
-        if (func_02183F84(self->f3528) == 1)
-            *state = 7;
+        if (func_02183F84(unionRoom->app) == 1)
+            *step = 7;
         break;
     case 7:
-        if (func_02173EC8() == 1)
-            (*state)++;
+        if (UNION_COMMAND_SendAppQuitCancel() == 1)
+            (*step)++;
         break;
     case 8:
-        if (func_0218401C(self->f3528) == 1)
-            (*state)++;
+        if (func_0218401C(unionRoom->app) == 1)
+            (*step)++;
         break;
     case 9:
-        v = func_021841A0(self->f3528);
-        if (func_02173F90(v, (u32)func_02012944((void *)self->f0->f8)) == 1)
-            (*state)++;
+        selection = func_021841A0(unionRoom->app);
+        if (UNION_COMMAND_SendAppJoinData(selection, func_02012944(unionRoom->parent->gameData)) == 1)
+            (*step)++;
         break;
     case 10:
-        if (func_0218402C(self->f3528) == 1)
-            (*state)++;
+        if (func_0218402C(unionRoom->app) == 1)
+            (*step)++;
         break;
     case 11:
-        if (l->flag5A == 1) {
-            v = func_021841A0(self->f3528);
-            if (func_02174084(v, (u32)func_02012944((void *)self->f0->f8)) == 1) {
-                func_021840AC(self->f3528);
-                *state = 13;
+        if (situation->connect.serviceFlag == 1) {
+            selection = func_021841A0(unionRoom->app);
+            if (UNION_COMMAND_SendAppLeaveData(selection, func_02012944(unionRoom->parent->gameData)) == 1) {
+                func_021840AC(unionRoom->app);
+                *step = 13;
             }
         } else {
-            func_021736E0(l->f0);
-            func_02039C68((struct Link *)func_020399A8(), 10, 0x14);
-            *state = 12;
+            func_021736E0(situation->status);
+            func_02039C68(func_020399A8(), 10, 0x14);
+            *step = 12;
         }
         break;
     case 12:
-        if (func_02039CB4((struct Link *)func_020399A8(), 10, 0x14) == 1) {
-            func_0203D1E8((u32)func_020399A8(), (void *)1);
-            *state = 13;
+        if (func_02039CB4(func_020399A8(), 10, 0x14) == 1) {
+            func_0203D1E8(func_020399A8(), 1);
+            *step = 13;
         }
         break;
     case 13:
         func_0203D7BC(0);
-        if (l->f0 == 3) {
-            r = sub->f8;
-            r->f0 = self->f3528;
-            func_020120B4((struct IcaAnime *)a0, (u32)ov023_id, d_02186B30, r);
+        if (situation->status == 3) {
+            activityParam = (ActivityParam *)scene->param;
+            activityParam->unionApp = unionRoom->app;
+            GAMESYSTEM_CallProc(gameSystem, (u32)ov023_id, gOekakiProcData, activityParam);
         } else {
-            r = sub->f8;
-            r->f0 = self->f3528;
-            func_020120B4((struct IcaAnime *)a0, (u32)ov137_id, d_021E1A2C, r);
+            activityParam = (ActivityParam *)scene->param;
+            activityParam->unionApp = unionRoom->app;
+            GAMESYSTEM_CallProc(gameSystem, (u32)ov137_id, gGuru2ProcData, activityParam);
         }
-        (*state)++;
+        (*step)++;
         break;
     case 14:
-        if (func_020120F0((const struct Ctx *)a0) != 0)
+        if (GAMESYSTEM_GetProcStatus(gameSystem) != 0)
             break;
-        if (l->f0 == 0x19) {
-            if (sub->f8->f14 == 1) {
-                func_02005DA4((u16)func_02029DF4((void *)self->f0->f8, 0x1a6, func_02012984((const struct BigObj *)self->f0->f8)), (int)0xffff, 6, 0x3c);
-                *state = 15;
+        if (situation->status == 0x19) {
+            if (((ActivityParam *)scene->param)->result == 1) {
+                GFL_USE_ChangeBgm((u16)func_02029DF4(unionRoom->parent->gameData, 0x1a6, func_02012984(unionRoom->parent->gameData)), 0xffff, 6, 0x3c);
+                *step = 15;
             } else {
-                *state = 16;
+                *step = 16;
             }
         } else {
-            *state = 16;
+            *step = 16;
         }
         break;
     case 15:
-        if (func_02005E50() == 0)
-            *state = 16;
+        if (GFL_USE_IsBgmFading() == 0)
+            *step = 16;
         break;
     case 16:
-        if (self->f3528 != 0) {
-            func_02183BE0(self->f3528);
-            self->f3528 = 0;
+        if (unionRoom->app != 0) {
+            func_02183BE0(unionRoom->app);
+            unionRoom->app = 0;
             func_02034A5C((int)ov022_id);
         }
-        *state = 17;
+        *step = 17;
         break;
     case 17:
-        func_02012374(obj, func_020145CC((void *)a0));
-        (*state)++;
+        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        (*step)++;
         break;
     case 18:
-        func_02012374(obj, (void *)func_021BE92C((void *)a0, a2, 0, 0, 1, 0, 0));
-        (*state)++;
+        func_02012374(event, func_021BE92C(gameSystem, fieldMap, 0, 0, 1, 0, 0));
+        (*step)++;
         break;
     case 19:
     default:
@@ -585,250 +523,254 @@ int func_021743A4(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *sta
 
 
 
-int func_02174654(int a, int b, int c, int d, int e, int *out, u8 *cnt)
+/* Scene step: plays field effect 0x96 above the seat of the local player, then reports done. */
+int UNION_MAIN_StepPlayEffectAtSeat(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, void *event, struct GameEvent **outEvent, u8 *step)
 {
-    int v[3];
-    int z = 0;
+    VecFx32 pos;
+    int result = 0;
 
-    if (*cnt == 0) {
-        v[0] = (func_0203D1A4((struct Link *)((int)func_020399A8())) * 16 + 0x58) << 12;
-        v[1] = 0;
-        v[2] = 0x98000;
-        *out = (int)func_02184D38((void *)a, c, 0x96, v, 0, 0);
+    if (*step == 0) {
+        pos.x = (func_0203D1A4(func_020399A8()) * 16 + 0x58) << 12;
+        pos.y = 0;
+        pos.z = 0x98000;
+        *outEvent = func_02184D38(gameSystem, fieldMap, 0x96, &pos, 0, 0);
     } else {
         return 1;
     }
-    (*cnt)++;
-    return z;
+    (*step)++;
+    return result;
 }
 
 
 
 
-int func_021746A8(int a, int b, int c, int d, int e, int *out, u8 *cnt)
+/* Scene step: plays field effect 0x97 at the seat of the local player, then reports done. */
+int UNION_MAIN_StepPlayEffectAtSeatLow(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, void *event, struct GameEvent **outEvent, u8 *step)
 {
-    P s;
-    int z;
+    VecFx32 pos;
+    int zero;
 
-    if (*cnt == 0) {
-        s.a = (int)((func_0203D1A4((struct Link *)((u32)func_020399A8())) * 16 + 0x58) << 12);
-        z = 0;
-        s.b = z;
-        s.c = 0x26 << 14;
-        *out = (int)func_02184D38((void *)a, c, 0x97, (const int *)(&s), z, z);
+    if (*step == 0) {
+        pos.x = (func_0203D1A4(func_020399A8()) * 16 + 0x58) << 12;
+        zero = 0;
+        pos.y = zero;
+        pos.z = 0x26 << 14;
+        *outEvent = func_02184D38(gameSystem, fieldMap, 0x97, &pos, zero, zero);
     } else {
         return 1;
     }
-    *cnt = *cnt + 1;
-    return z;
+    *step = *step + 1;
+    return zero;
 }
 
 
 
 
-int func_021746FC(int a, int b, int c, int d, int e, int *out, u8 *cnt)
+/* Scene step: plays field effect 0x1A6 at a fixed spot, then reports done. */
+int UNION_MAIN_StepPlayEffectAtFixedSpot(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, void *event, struct GameEvent **outEvent, u8 *step)
 {
-    P s;
-    int z;
+    VecFx32 pos;
+    int zero;
 
-    if (*cnt == 0) {
-        s.a = 0x2e << 14;
-        z = 0;
-        s.b = z;
-        s.c = 0x3a << 14;
-        *out = (int)func_02184D38((void *)a, c, 0x1A6, (const int *)(&s), z, z);
+    if (*step == 0) {
+        pos.x = 0x2e << 14;
+        zero = 0;
+        pos.y = zero;
+        pos.z = 0x3a << 14;
+        *outEvent = func_02184D38(gameSystem, fieldMap, 0x1A6, &pos, zero, zero);
     } else {
         return 1;
     }
-    *cnt = *cnt + 1;
-    return z;
+    *step = *step + 1;
+    return zero;
 }
 
 
 
 
 /*
- * note (2026-10-04, wave D3 lane 05): every concrete byte matches. The one
- * wildcard is the bl at +0x350 to func_0217534C, an unlabelled Thumb leaf
- * (memset tail call, 0x58 bytes) filed this wave as
- * src/matched/ov/ov012_func_0217534C.c. Once its shard is verified
- * (manifest --verify --shard pkt_ov012_0217534C) this file should verify EXACT;
- * move it to src/matched/ov then. Levers that closed it: case 16 and default
- * share one `return 1` placed before case 17 so the tails cross-jump onto
- * case 15 and case 17; func_02157450 takes a2 (not self) in r1; the byte
- * argument goes through `u8 *q = self + 0x2830` declared at function top
- * (as in ov012_func_02174AD8), which loads the base before the pool offset.
+ * Levers that closed the match: case 16 and default share one `return 1`
+ * placed before case 17 so the tails cross-jump onto case 15 and case 17;
+ * func_02157450 takes fieldMap (not unionRoom) in r1; the byte argument goes
+ * through `u8 *activity` declared at function top (as in
+ * UNION_MAIN_StepStartBattleSelect), which loads the base before the pool
+ * offset.
+ *
+ * Scene step of the colosseum party entry (18 steps): the player picks the
+ * party members (ov090/ov091 party list, ov131 status), the party is sent to
+ * the other players, then the battle selection runs and the results are
+ * written to the Wi-Fi list.
  */
-int func_02174744(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *state)
+int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, PartyListParam *listParam, struct GameEvent *event, struct GameEvent **outEvent, u8 *step)
 {
-    u8 *q = self + 0x2830;
-    Trade *t = *(Trade **)(self + 0x355C);
-    Sub98 *s = &w->f98;
-    Out *o = w->fc0;
-    u32 me = func_0203D1A4((struct Link *)func_020399A8());
-    void *party;
-    void *tmp;
+    u8 *activity = &unionRoom->mySituation.status;
+    ColosseumWork *colosseum = unionRoom->colosseum;
+    PokeStatusParam *statusParam = &listParam->statusParam;
+    BattleSelectParam *selectParam = listParam->battleSelect;
+    u32 myNetId = func_0203D1A4(func_020399A8());
+    struct Party *party;
+    struct Party *tmpParty;
     int i;
-    u32 obj2;
-    int n;
-    u32 flag;
-    u32 id;
+    struct WifiList *wifiList;
+    int playerCount;
+    u32 side;
+    u32 friendIndex;
 
-    if (*state > 2 && *state < 7)
-        func_021B6114((u8 *)w);
+    if (*step > 2 && *step < 7)
+        func_021B6114(listParam);
 
-    switch (*state) {
+    switch (*step) {
     case 0:
-        func_02012374(obj, (void *)func_021BE8D4((void *)a0, a2, 0, 0));
-        (*state)++;
+        func_02012374(event, func_021BE8D4(gameSystem, fieldMap, 0, 0));
+        (*step)++;
         break;
     case 1:
-        func_02012374(obj, (void *)func_020144DC(a0, a2));
-        (*state)++;
+        func_02012374(event, FIELD_STATUS_CreateFieldCloseEvent(gameSystem, fieldMap));
+        (*step)++;
         break;
     case 2:
         func_02034AC4((int)ov090_id);
-        func_021B6100((u8 *)w);
-        (*state)++;
+        func_021B6100(listParam);
+        (*step)++;
         break;
     case 3:
-        func_020120B4((void *)a0, (u32)ov091_id, d_021BED00, w);
-        (*state)++;
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov091_id, gPartyListProcData, listParam);
+        (*step)++;
         break;
     case 4:
-        if (func_020120F0((const struct Ctx *)a0) != 0)
+        if (GAMESYSTEM_GetProcStatus(gameSystem) != 0)
             break;
-        if (w->f40 == 1)
-            *state = 5;
+        if (listParam->resultKind == 1)
+            *step = 5;
         else
-            *state = 7;
+            *step = 7;
         break;
     case 5:
-        s->f0 = w->f0;
-        s->f4 = w->fc;
-        s->f8 = func_020120F4((const struct Ctx *)a0);
-        s->fc = 1;
-        s->fe = func_0201AA18(w->f0);
-        s->fd = 0;
-        s->ff = w->f3c;
-        s->f10 = 0;
-        s->f18 = func_0200CA38(func_0200CA1C(s->f8));
-        func_020120B4((void *)a0, (u32)ov131_id, d_021DC800, s);
-        (*state)++;
+        statusParam->party = listParam->party;
+        statusParam->options = listParam->options;
+        statusParam->gameData = func_020120F4(gameSystem);
+        statusParam->mode = 1;
+        statusParam->partyCount = func_0201AA18(listParam->party);
+        statusParam->page = 0;
+        statusParam->cursor = listParam->cursor;
+        statusParam->result = 0;
+        statusParam->trainerRecord = func_0200CA38(func_0200CA1C(statusParam->gameData));
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov131_id, gPokeStatusProcData, statusParam);
+        (*step)++;
         break;
     case 6:
-        if (func_020120F0((const struct Ctx *)a0) != 0)
+        if (GAMESYSTEM_GetProcStatus(gameSystem) != 0)
             break;
-        w->f3c = s->ff;
-        *state = 3;
+        listParam->cursor = statusParam->cursor;
+        *step = 3;
         break;
     case 7:
-        func_021B6108(w);
+        func_021B6108(listParam);
         func_02034A5C((int)ov090_id);
-        *state = 8;
+        *step = 8;
         break;
     case 8:
         if (func_0200FB24() != 0) {
-            *state = 0x11;
+            *step = 0x11;
             break;
         }
-        if (w->f40 != 0)
-            func_02034714((const char *)d_02175628, 0, (const char *)d_02175628);
-        if (w->f3c != 6)
-            func_02034714((const char *)d_02175628, 0, (const char *)d_02175628);
-        party = t->parties[me];
-        tmp = func_0201A920(0x41);
-        func_0201AC2C(party, tmp);
-        func_0201A948(party);
+        if (listParam->resultKind != 0)
+            func_02034714(gUnionMainEmptyString, 0, gUnionMainEmptyString);
+        if (listParam->cursor != 6)
+            func_02034714(gUnionMainEmptyString, 0, gUnionMainEmptyString);
+        party = colosseum->party[myNetId];
+        tmpParty = func_0201A920(0x41);
+        func_0201AC2C(party, tmpParty);
+        POKEPARTY_Init(party);
         for (i = 0; i < 6; i++) {
-            if (w->f49[i] == 0)
+            if (listParam->selectedOrder[i] == 0)
                 break;
-            func_0201A98C(party, func_0201AB28(tmp, w->f49[i] - 1));
+            func_0201A98C(party, func_0201AB28(tmpParty, listParam->selectedOrder[i] - 1));
         }
-        func_020307B0(tmp);
-        func_02175240((u8 *)t, 1);
-        func_02039C68((struct Link *)func_020399A8(), 0x16, 0x14);
-        (*state)++;
+        func_020307B0(tmpParty);
+        func_02175240(colosseum, 1);
+        func_02039C68(func_020399A8(), 0x16, 0x14);
+        (*step)++;
         break;
     case 9:
         if (func_0200FB24() != 0) {
-            *state = 0x11;
+            *step = 0x11;
             break;
         }
-        if (func_02039CB4((struct Link *)func_020399A8(), 0x16, 0x14) == 1)
-            (*state)++;
+        if (func_02039CB4(func_020399A8(), 0x16, 0x14) == 1)
+            (*step)++;
         break;
     case 10:
         if (func_0200FB24() != 0) {
-            *state = 0x11;
+            *step = 0x11;
             break;
         }
-        if (func_02174D98((u32)t->parties[me]) == 1)
-            (*state)++;
+        if (func_02174D98(colosseum->party[myNetId]) == 1)
+            (*step)++;
         break;
     case 11:
         if (func_0200FB24() != 0) {
-            *state = 0x11;
+            *step = 0x11;
             break;
         }
-        if (func_02175214((u8 *)t) == 1)
-            (*state)++;
+        if (func_02175214(colosseum) == 1)
+            (*step)++;
         break;
     case 12:
-        o->f0 = t->parties[me];
-        o->f12 = t->flags[me];
-        o->f14 = *(u32 *)(self + 0x352C);
-        if (me == 0 || (t->flags[0] & 2) == (t->flags[me] & 2))
-            o->f10 = 0x48B;
+        selectParam->party = colosseum->party[myNetId];
+        selectParam->battlePosition = colosseum->battlePosition[myNetId];
+        selectParam->regulation = unionRoom->regulation;
+        if (myNetId == 0 || (colosseum->battlePosition[0] & BATTLE_POSITION_TEAM) == (colosseum->battlePosition[myNetId] & BATTLE_POSITION_TEAM))
+            selectParam->messageId = 0x48B;
         else
-            o->f10 = 0x48C;
-        func_02175280((u8 *)t, (void *)a0, o->f18, 0x41);
-        *res = func_02157450(a0, a2, q[0], o);
-        (*state)++;
+            selectParam->messageId = 0x48C;
+        COLOSSEUM_SetupBattleInfo(colosseum, gameSystem, selectParam->battleInfo, 0x41);
+        *outEvent = func_02157450(gameSystem, fieldMap, activity[0], selectParam);
+        (*step)++;
         break;
     case 13:
         if (func_0200FB24() == 0) {
-            obj2 = func_0201283C(func_020120F4((const struct Ctx *)a0));
-            n = func_0203D1B4();
-            flag = t->flags[me] & 1;
-            for (i = 0; i < n; i++) {
-                if (i == me)
+            wifiList = func_0201283C(func_020120F4(gameSystem));
+            playerCount = func_0203D1B4();
+            side = colosseum->battlePosition[myNetId] & BATTLE_POSITION_SIDE;
+            for (i = 0; i < playerCount; i++) {
+                if (i == myNetId)
                     continue;
-                if (func_02009D1C((struct Sub020097BCObj *)obj2, (struct Sub0200852CObj *)(&t->recs[i]), &id) != 1)
+                if (func_02009D1C(wifiList, (struct MyStatus *)colosseum->player[i].myStatus, &friendIndex) != 1)
                     continue;
-                if (flag == (t->flags[i] & 1)) {
-                    func_02009B80((struct Sub020097BCObj *)obj2, id);
+                if (side == (colosseum->battlePosition[i] & BATTLE_POSITION_SIDE)) {
+                    func_02009B80(wifiList, friendIndex);
                     continue;
                 }
-                switch (o->f58) {
+                switch (selectParam->result) {
                 case 0:
-                    func_02009BB8((struct Sub020097BCObj *)obj2, id, 1, 0, 0);
+                    func_02009BB8(wifiList, friendIndex, 1, 0, 0);
                     break;
                 case 1:
-                    func_02009BB8((struct Sub020097BCObj *)obj2, id, 0, 1, 0);
+                    func_02009BB8(wifiList, friendIndex, 0, 1, 0);
                     break;
                 case 2:
-                    func_02009B80((struct Sub020097BCObj *)obj2, id);
+                    func_02009B80(wifiList, friendIndex);
                     break;
                 }
             }
         }
-        func_0217534C(o->f18);
-        *state = 0x10;
+        COLOSSEUM_ClearBattleInfo(selectParam->battleInfo);
+        *step = 0x10;
         break;
     case 14:
-        func_02012374(obj, func_020145CC((void *)a0));
-        (*state)++;
+        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        (*step)++;
         break;
     case 15:
-        func_02012374(obj, (void *)func_021BE92C((void *)a0, a2, 0, 0, 1, 0, 0));
-        (*state)++;
+        func_02012374(event, func_021BE92C(gameSystem, fieldMap, 0, 0, 1, 0, 0));
+        (*step)++;
         break;
     case 16:
     default:
         return 1;
     case 17:
-        *state = 0xE;
+        *step = 0xE;
         break;
     }
     return 0;
@@ -836,32 +778,35 @@ int func_02174744(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *st
 
 
 
-u32 func_02174AD8(void *a0, u8 *a1, void *a2, void *a3, u32 a4, void **out, u8 *state)
+/* Scene step: starts the colosseum battle selection once, then reports done. */
+u32 UNION_MAIN_StepStartBattleSelect(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, BattleSelectParam *selectParam, void *event, struct GameEvent **outEvent, u8 *step)
 {
-    u8 *q = a1 + 0x2830;
-    if (*state == 0) {
-        *out = (void *)func_02157450((u32)a0, (u32)a2, q[0], (Out *)a3);
+    u8 *activity = &unionRoom->mySituation.status;
+    if (*step == 0) {
+        *outEvent = func_02157450(gameSystem, fieldMap, activity[0], selectParam);
     } else {
         return 1;
     }
-    (*state)++;
+    (*step)++;
     return 0;
 }
 
 
-int func_02174B08(char *a, u8 *p, int b, int c, int x, void **out, u8 *state)
+/* Scene step: starts the PMS word input overlay (ov110) once, then reports done. */
+int UNION_MAIN_StepStartPmsInput(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int procWork, void *event, struct GameEvent **outEvent, u8 *step)
 {
-    if (*state == 0) {
-        *out = func_020146F8(a, b, (int)ov110_id, (int)d_021C39D4, c);
+    if (*step == 0) {
+        *outEvent = func_020146F8(gameSystem, fieldMap, (int)ov110_id, (int)gPmsInputProcData, procWork);
     } else {
         return 1;
     }
-    (*state)++;
+    (*step)++;
     return 0;
 }
 
 
-void func_02174B40(u32 p)
+/* Registers the colosseum network commands (base id 0x1500, 14 entries). */
+void func_02174B40(UnionRoomWork *unionRoom)
 {
-    func_0203A574(0x1500, (u32)d_02175588, 14, p);
+    func_0203A574(0x1500, gColosseumCommandTable, 14, unionRoom);
 }

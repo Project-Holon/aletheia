@@ -1,5 +1,5 @@
 /*
- * function: sub_0200FB24
+ * function: GFL_NET_ERR_GetErrorLevel
  * address:  0x0200FB24
  * packet:   pkt_0200F83C
  * region:   arm9
@@ -24,13 +24,13 @@
  * the same class as the codegen near misses in docs/MATCHING.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200FB24.c \
- *       --func sub_0200FB24 --addr 0x0200FB24 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_ERR_GetErrorLevel.c \
+ *       --func GFL_NET_ERR_GetErrorLevel --addr 0x0200FB24 --cc 1.1p1
  */
 
 typedef unsigned int u32;
 
-u32 sub_0200FB24(void)
+u32 GFL_NET_ERR_GetErrorLevel(void)
 {
     u32 *obj = (u32 *)0x0214617C;
 

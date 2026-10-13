@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02035C48",
+   "name": "TOUCHPANEL_GetTrgSys",
    "address": "0x02035C48",
    "kind": "sdk",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02035C60",
+   "name": "TOUCHPANEL_GetTrg",
    "address": "0x02035C60",
    "kind": "game",
    "region": "arm9",
@@ -42,11 +42,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02035C70",
-    "sub_02035CB8",
-    "sub_02035CD8",
-    "sub_02035D20",
-    "sub_02035D40"
+    "TOUCHPANEL_GetPointContSys",
+    "TOUCHPANEL_GetPointCont",
+    "TOUCHPANEL_GetPointTrgSys",
+    "TOUCHPANEL_GetPointTrg",
+    "TOUCHPANEL_HitPoint"
+   ],
+   "addresses": [
+    "0x02035C70",
+    "0x02035CB8",
+    "0x02035CD8",
+    "0x02035D20",
+    "0x02035D40"
    ]
   },
   {
@@ -61,16 +68,24 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02035D5C",
-    "sub_02035D98",
-    "sub_02035DC8",
-    "sub_02035DD8",
-    "sub_02035E08",
-    "sub_02035E18"
+    "TOUCHPANEL_RequestAutoSamplingStop",
+    "TOUCHPANEL_AutoSamplingRestartSys",
+    "TOUCHPANEL_AutoSamplingRestart",
+    "TOUCHPANEL_AutoSamplingStopSys",
+    "TOUCHPANEL_AutoSamplingStop",
+    "TOUCHPANEL_RequestAutoSamplingStart"
+   ],
+   "addresses": [
+    "0x02035D5C",
+    "0x02035D98",
+    "0x02035DC8",
+    "0x02035DD8",
+    "0x02035E08",
+    "0x02035E18"
    ]
   },
   {
-   "name": "sub_02035E54",
+   "name": "TOUCHPANEL_ClearFrameRateWork",
    "address": "0x02035E54",
    "kind": "game",
    "region": "arm9",

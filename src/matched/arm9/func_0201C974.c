@@ -1,5 +1,5 @@
 /*
- * function: func_0201C974
+ * function: PRINTSYS_PrintStep
  * address:  0x0201C974
  * packet:   pkt_0201C974
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201CAC8  0x0201CAC8  thumb
- *   func_0201CC34  0x0201CC34  thumb
+ *   PRINTSYS_ProcGeneralTag  0x0201CAC8  thumb
+ *   PRINTSYS_ProcColorTag  0x0201CC34  thumb
  *
  * printsys.c: the glyph-run interpreter.  Walks the halfword string `p`
  * rendering one glyph per call to the renderer hook at PrintCtx+0x18 and
@@ -74,10 +74,10 @@ struct PrintCtx {
     void (*unk18)(void *a, s32 b, s32 c, void *d, u16 e, u8 *f);
 };
 
-extern u16 *func_0201CAC8(struct PrintCtx *c, u16 *p);
-extern u16 *func_0201CC34(u16 *a0, u16 *a1);
+extern u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *c, u16 *p);
+extern u16 *PRINTSYS_ProcColorTag(u16 *a0, u16 *a1);
 
-u16 *func_0201C974(struct PrintCtx *c, u16 *p, u32 f)
+u16 *PRINTSYS_PrintStep(struct PrintCtx *c, u16 *p, u32 f)
 {
     u8 pen[4];
     s16 *py = &c->unk02;
@@ -105,10 +105,10 @@ u16 *func_0201C974(struct PrintCtx *c, u16 *p, u32 f)
             }
             switch (k) {
             case 0xBD:
-                p = func_0201CAC8(c, p);
+                p = PRINTSYS_ProcGeneralTag(c, p);
                 break;
             case 0xFF:
-                p = func_0201CC34((u16 *)c, p);
+                p = PRINTSYS_ProcColorTag((u16 *)c, p);
                 break;
             case 0xBE:
                 if (f != 0) {

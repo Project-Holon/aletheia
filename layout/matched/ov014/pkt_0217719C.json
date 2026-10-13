@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217719C",
+   "name": "GFL_NET_DEVWIRELESS_SetEventCallback",
    "address": "0x0217719C",
    "kind": "game",
    "region": "ov014",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "NHTTPi_GetConnection",
+   "name": "ARC_TOOL_SeekHandle",
    "address": "0x0204960C",
    "kind": "sdk",
    "region": "arm9",

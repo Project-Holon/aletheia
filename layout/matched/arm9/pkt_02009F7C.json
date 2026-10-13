@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02009F7C",
+   "name": "MYSTERY_DATA_CloseCardGap",
    "address": "0x02009F7C",
    "kind": "game",
    "region": "arm9",

@@ -24,7 +24,7 @@
  *   func_021BE6CC  0x021BE6CC  thumb  ov021
  *   func_021BE6BC  0x021BE6BC  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_02006210  0x02006210  thumb
+ *   GFL_USE_StopAllSe  0x02006210  thumb
  */
 #include "../include/Obj03644.h"
 
@@ -51,7 +51,7 @@ extern void func_021BE6B0(u8 *p, int v);
 extern int func_021BE6BC(int *p);
 extern void func_021BE6CC(int a, int b, int c, int d, int e);
 extern void func_020061E4(u32 a);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 
 int func_021F3DE8(void *a, int *st)
 {
@@ -84,7 +84,7 @@ int func_021F3DE8(void *a, int *st)
         break;
     case 1:
         if (func_021BE6BC(func_021BE674((char *)t, 0, (u16)w[0], (u16)(((struct Obj03644 *)w)->fC)))) {
-            func_02006210();
+            GFL_USE_StopAllSe();
             if (((struct Obj03644 *)w)->f14 != -1)
                 func_020061E4(((struct Obj03644 *)w)->f14);
             return 1;

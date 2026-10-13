@@ -1,5 +1,5 @@
 /*
- * function: func_02005230
+ * function: GFL_USE_PostIrqUpdate
  * address:  0x02005230
  * packet:   pkt_0200520C
  * region:   arm9
@@ -9,12 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  * blocker:  0200567C
+ *
+ * symbols:
+ *   GFL_USE_PollTwlService  0x02005430  thumb
+ *   GFL_USE_RunMainTasks  0x0200567C  thumb
  */
 
-extern void func_02005430(void);
-extern void func_0200567C(void);
-void func_02005230(void)
+extern void GFL_USE_PollTwlService(void);
+extern void GFL_USE_RunMainTasks(void);
+void GFL_USE_PostIrqUpdate(void)
 {
-    func_02005430();
-    func_0200567C();
+    GFL_USE_PollTwlService();
+    GFL_USE_RunMainTasks();
 }

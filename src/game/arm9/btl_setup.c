@@ -1,7 +1,7 @@
 /*
  * file:     btl_setup.c
  * unit:     yes
- * function: func_02012914, func_02012924, func_0201292C, func_02012934, func_0201293C, func_02012944, func_02012950, func_0201295C, func_02012964, func_0201296C, func_02012974, func_0201297C, func_02012984, func_0201298C, func_02012994, func_020129A0, func_020129AC, func_020129B8, func_020129C4, func_020129D0, func_020129DC, func_020129F0, func_020129FC, func_02012A24, func_02012A30, func_02012A38, func_02012A44, func_02012A4C, func_02012A54, func_02012A60, func_02012A90, func_02012AA0, func_02012AA4, func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4, func_02012AC8, func_02012ACC, func_02012AD0, func_02012AD4, func_02012AE4, func_02012B28, func_02012B2C, func_02012B30, func_02012B34, func_02012B38, func_02012B40, func_02012B4C, func_02012B58, func_02012B64, func_02012B70, func_02012B78, func_02012B80, func_02012B8C, func_02012B98, func_02012BA4, func_02012BB0, func_02012BC8, func_02012BE0, func_02012BF8, func_02012C0C, func_02012C18, func_02012CE0, func_02012DAC, func_02012DD0, func_02012E08, func_02012E40, func_02012E4C, func_02012E7C, func_02012EBC, func_02012EC0, func_02012EC4, func_02012ED0, func_02012ED8, func_02012EE4, func_02012EF0, func_02012EFC, func_02012F08, func_02012F14, func_02012F20, func_02012F2C, func_02012F38, func_02012F44, func_02012F50, func_02012F5C, func_02012F68, func_02012F74, func_02012F80, func_02012F8C, func_02012F98, func_02012FA4, func_02012FB0, func_02012FBC, func_02012FCC, func_02012FD8, func_02012FE4, func_02012FF0, func_02012FFC, func_02013020, func_02013050, func_02013080, func_02013090, func_020130B4, func_020130C4, func_020130DC, func_02013128, func_0201313C, func_02013144, func_02013158, func_02013160, func_0201320C, func_02013220, func_02013234, func_02013270, func_02013284, func_0201333C, func_02013360, func_0201347C, func_020134F4, func_02013528, func_020135C0, func_02013610, func_02013644, func_02013678, func_020136AC, func_020136E0, func_02013734, func_02013790, func_020137C0, func_020137F0, func_02013810, func_02013864, func_02013894, func_020138C4, func_02013930, func_0201394C, func_02013980
+ * function: func_02012914, GAME_DATA_GetMapMatrix, func_0201292C, func_02012934, func_0201293C, func_02012944, func_02012950, GAME_DATA_GetBagCursor, func_02012964, func_0201296C, func_02012974, GAME_DATA_GetMusicalWork, func_02012984, GAME_DATA_SetSeason, func_02012994, GAME_DATA_SetSubscreenMode, func_020129AC, func_020129B8, func_020129C4, func_020129D0, func_020129DC, func_020129F0, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, func_02012A30, func_02012A38, func_02012A44, GAME_DATA_SetFieldMode, func_02012A54, GAME_DATA_InitPlayerWork, func_02012A90, func_02012AA0, func_02012AA4, func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4, func_02012AC8, func_02012ACC, func_02012AD0, func_02012AD4, func_02012AE4, func_02012B28, func_02012B2C, func_02012B30, func_02012B34, func_02012B38, GAME_DATA_GetEnterMode, func_02012B4C, func_02012B58, func_02012B64, func_02012B70, func_02012B78, func_02012B80, func_02012B8C, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag, GAME_DATA_IsConfigFlagSet, GAME_DATA_SetConfigFlag, GAME_DATA_SetSaveFlag, GAME_DATA_CheckSaveFlag, GAME_DATA_GetRtcWork, GAME_DATA_LoadFromSave, GAME_DATA_WriteToSave, func_02012DAC, func_02012DD0, GAME_DATA_SaveCancel, func_02012E40, func_02012E4C, func_02012E7C, func_02012EBC, GAME_DATA_GetSaveControlWork, func_02012EC4, func_02012ED0, func_02012ED8, func_02012EE4, GAME_DATA_GetSaveBlock3A, GAME_DATA_GetSaveBlock3B, func_02012F08, GAME_DATA_GetSaveBlock1F, func_02012F20, func_02012F2C, func_02012F38, GAME_DATA_GetSaveBlock2A, GAME_DATA_GetListCursor, GAME_DATA_GetSaveBlock21, GAME_DATA_GetSaveBlock42, GAME_DATA_SetExternalWork, GAME_DATA_GetExternalWork, func_02012F8C, func_02012F98, GAME_DATA_SetSymbolMapFlag, func_02012FB0, GAME_DATA_CheckPlayTime, func_02012FCC, func_02012FD8, GAME_DATA_GetEventWorkFromSave, func_02012FF0, func_02012FFC, func_02013020, func_02013050, func_02013080, func_02013090, func_020130B4, func_020130C4, BTL_SETUP_FreeSlots, BTL_SETUP_SetParty, BTL_SETUP_GetParty, func_02013144, BTL_SETUP_CheckStatusFlag, BTL_SETUP_ApplyRegulation, BTL_SETUP_InitCommFieldSituation, BTL_SETUP_InitFieldSituation, BTL_SETUP_CreateTrainerData, BTL_SETUP_DeleteTrainerData, BTL_SETUP_SetTrainer, BTL_SETUP_SetPlayerParty, BTL_SETUP_InitCommon, func_0201347C, BTL_SETUP_SetupTrainerBase, BTL_SETUP_SetupComm, BTL_SETUP_SetupDemo, func_02013610, func_02013644, func_02013678, func_020136AC, func_020136E0, func_02013734, BTL_SETUP_SetupCommSingle, BTL_SETUP_SetupCommDouble, BTL_SETUP_SetupCommMulti, BTL_SETUP_SetupCommAiMulti, BTL_SETUP_SetupCommTriple, BTL_SETUP_SetupCommRotation, BTL_SETUP_InitWithSlots, BTL_SETUP_ClearWithSlots, BTL_SETUP_ChangeToSubway, BTL_SETUP_AllocRecordBuffer
  * address:  0x02012914
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -15,9 +15,9 @@
  * symbols:
  *   func_02008850  0x02008850  thumb
  *   func_020127A4         0x020127A4  thumb
- *   data_0209DFA8  0x0209DFA8  data  a2
- *   func_02008448  0x02008448  thumb
- *   func_02008450  0x02008450  thumb
+ *   sPlayerDirectionAngles  0x0209DFA8  data  a2
+ *   CONFIG_GetBattleFlag  0x02008448  thumb
+ *   CONFIG_SetBattleFlag  0x02008450  thumb
  *   func_0200C40C  0x0200C40C  thumb
  *   func_0200C418  0x0200C418  thumb
  *   func_02012EBC  0x02012EBC  thumb
@@ -56,16 +56,16 @@
  *   func_020089C0  0x020089C0  thumb
  *   func_02009448  0x02009448  thumb
  *   func_02007B44  0x02007B44  thumb
- *   ptr_020A7298  0x020A7298  data
- *   data_0209DFB0 0x0209DFB0  data
+ *   sMsgSpeedSaveControl  0x020A7298  data
+ *   sMsgSpeedWaitTable 0x0209DFB0  data
  *   func_0200873C  0x0200873C  thumb
- *   func_02008374  0x02008374  thumb
- *   sZonedataFile  0x020A729C  data
+ *   CONFIG_GetTextSpeed  0x02008374  thumb
+ *   sBtlSetupFileName  0x020A729C  data
  *   func_0201AC2C  0x0201AC2C  thumb
  *   func_0200AE54   0x0200AE54  thumb
  *   func_0200B040   0x0200B040  thumb
  *   func_0201A2A8   0x0201A2A8  thumb
- *   func_0201A30C   0x0201A30C  thumb
+ *   POKE_REGULATION_ResetPartyNicknames   0x0201A30C  thumb
  *   func_0201A920   0x0201A920  thumb
  *   func_0202A3FC   0x0202A3FC  thumb
  *   func_0202A440   0x0202A440  thumb
@@ -82,490 +82,274 @@
  *   func_0201AA18   0x0201AA18  thumb
  *   func_0200846C   0x0200846C  thumb
  *   func_020307B0     0x020307B0  arm
- *   func_020130DC     0x020130DC  thumb
+ *   BTL_SETUP_FreeSlots     0x020130DC  thumb
  *   func_02030734  0x02030734  arm
+ *   SAVE_CONTROL_StartSave  0x02007150  thumb
+ *   SAVE_CONTROL_MainSave  0x02007168  thumb
+ *   SAVE_CONTROL_CancelSave  0x020071A8  thumb
+ *   SAVE_CONTROL_BeginExtraSaveWrite  0x02007374  thumb
+ *   SAVE_CONTROL_StepExtraSaveWrite  0x020073B0  thumb
+ *   CONFIG_Create  0x020082EC  thumb
+ *   CONFIG_Copy  0x02008314  thumb
+ *   WIH_DWC_PauseTimers  0x0201042C  thumb
+ *   WIH_DWC_ResumeTimers  0x02010444  thumb
+ *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  */
-#include "../../matched/include/Obj15629.h"
-#include "../../matched/include/Obj15630.h"
-#include "../../matched/include/Obj00054.h"
-#include "../../matched/include/Obj11252.h"
-#include "../../matched/include/Obj08745.h"
-#include "../../matched/include/Obj16727.h"
-#include "../../matched/include/Obj15637.h"
-#include "../../matched/include/Obj15639.h"
-#include "../../matched/include/Obj15640.h"
-#include "../../matched/include/Obj15642.h"
-#include "../../matched/include/Obj15643.h"
-#include "../../matched/include/Obj01199.h"
-#include "../../matched/include/Obj08746.h"
-#include "../../matched/include/Obj04040.h"
-#include "../../matched/include/Obj04041.h"
-#include "../../matched/include/Obj15644.h"
-#include "../../matched/include/Obj00155.h"
-#include "../../matched/include/Obj06858.h"
-#include "../../matched/include/Obj15647.h"
-
-struct Flags02008450;
-struct Big;
-struct PlayTime;
-struct Rec2Head;
-struct Rec94;
-struct SaveBlock;
-struct Sub020071E4Ctrl;
-struct Sub020087E8Arg;
-struct Sub02008828Obj;
-struct Sub02008860Buf;
-struct Sub020097BCObj;
-struct BigObj;
-struct Sub020071CCCtrl;
-struct BigObj_0201283C;
-struct Sub02007168;
-struct Sub020089A8Obj;
-struct Sub02009448Obj;
-struct Sub02007AC8Entry;
-struct Sub02008700Obj;
-struct Rec534;
-struct Reg;
-struct RegAC;
-struct U16Vec;
-struct Out;
-struct Party;
-struct Blk34;
-struct Link;
-struct ZoneData;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-struct Rec1C {
-    u32 v[7];
-};
-
-struct BigObj_0201283C {
-    u8  unk000[0x158];
-    u32 unk158;
-    u32 unk15C;
-    struct Rec1C *unk160;
-    struct Rec1C *unk164;
-    struct Rec1C *unk168;
-    struct Rec1C *unk16C;
-    struct Rec1C unk170;
-    u8  unk18C[0x14];
-    u32 unk1A0;
-};
-
-struct BigObj_02012914 {
-    u8  unk000[0x15C];
-    u32 unk15C;
-};
-
 typedef signed int     s32;
-
-struct Vec12 {
-    u32 x;
-    u32 y;
-    u32 z;
-};
-
-struct H4 {
-    u16 v[4];
-};
-
-union U10 {
-    struct H4 all;
-    struct {
-        u16 a;
-        u8  b;
-        u8  c;
-        u16 d;
-        u16 e;
-    } f;
-};
-
-struct Rec44_0 {
-    u16 unk00;
-    u16 unk02;
-    struct Vec12 unk04;
-    union U10 unk10;
-    u16 unk18;
-    u8  unk1A;
-    u8  unk1B;
-    u16 unk1C;
-    u8  unk1E[0x12];
-    u32 unk30;
-    u8  unk34[6];
-    u8  unk3A;
-    u8  unk3B;
-    u8  unk3C;
-    u8  unk3D;
-    u8  unk3E[2];
-    u32 unk40;
-};
-
-struct Sub24 {
-    u8 unk00[0x24];
-    struct Rec44_0 unk24[8];
-};
-
-struct BigObj {
-    u8  unk000[0x18C];
-    u32 unk18C;
-    void *unk190;
-    void *unk194;
-    u32 unk198;
-    u32 unk19C;
-    u32 unk1A0;
-    u32 unk1A4;
-    u32 unk1A8;
-    u32 unk1AC;
-    u32 unk1B0;
-    u32 unk1B4;
-    u32 unk1B8;
-    u32 unk1BC;
-    u8  unk1C0[4];
-    u8  unk1C4;
-    u8  unk1C5;
-    u8  unk1C6;
-    u8  unk1C7;
-    u8  unk1C8;
-    u8  unk1C9;
-    u8  unk1CA;
-    u8  unk1CB;
-    u8  unk1CC;
-    u8  unk1CD;
-    u8  unk1CE;
-    u8  unk1CF;
-    u8  unk1D0[0x414];
-    u32 unk5E4;
-    u8  unk5E8[0xA4];
-    u32 unk68C;
-    u32 unk690;
-};
-
-struct Rec44_1 {
-    u8  unk00[0x18];
-    u16 unk18;
-    u8  unk1A;
-    u8  unk1B;
-    u16 unk1C;
-    u8  unk1E[0x22];
-    u32 unk40;
-};
-
-struct BigObj_02012AE4 {
-    u8 unk000[0x198];
-    void * unk198;
-    u8 unk19C[0x1C];
-    void * unk1B8;
-    u8 unk1BC[0xC];
-    u8 unk1C8;
-    u8 unk1C9;
-    u8 unk1CA;
-    u8 unk1CB;
-    u8 unk1CC;
-    u8 unk1CD;
-    u8 unk1CE;
-    u8 unk1CF;
-    u8 unk1D0[0x414];
-    u8 pad_5E4[0xA4];
-    int f688;
-};
-
-struct BigObj_02012C0C {
-    u8 unk000[0x5E8];
-    u8 unk5E8[4];
-    u8 pad_5EC[0xBC];
-    void * f6A8;
-};
 
 typedef signed short s16;
 
 typedef signed char s8;
 
-struct Big {
-    void *unk_00;
-    u8   pad_04[0x5e8];
-    u8   unk_5ec;
-    u8   pad_5ed[0x93];
-    u8   unk_680;
-    u8   pad_681[7];
-    void *unk_688;
-};
+#include "btl_setup_types.h"
 
-struct Obj_02012914 {
-    u32  unk00;
-    u8   pad04[0x10];
-    void *unk14;
-    u8   pad18[0x18];
-};
+struct Situation;
+struct FieldState;
+struct UnionInfo;
+struct FieldSaveData;
+struct Regulation;
+struct StrBuf;
+struct NetHandle;
+struct MiscSave;
 
-struct Obj {
-    u8  pad00[0x22];
-    u8  f22;            /* +0x22 */
-};
-
-/* The 0xF0-byte object that func_02013090 allocates (zonedata.c). */
-struct Zone {
-    u8    pad00[0x23];
-    u8    b23;
-    void *a24[4];
-    void *a34[4];
-    u8    pad44[4];
-    void *a48[4];
-    int   f58;
-    u32   f5c;
-    u8    pad60[8];
-    int   f68;
-    u8    pad6c[0x28];
-    void *f94;
-};
-
-struct ZoneData_0201394C {
-    u32 f0;             /* +0x00 */
-    u8  pad04[0x14];
-    u16 f18;            /* +0x18 */
-    u16 f1a;            /* +0x1A */
-    u8  pad1c[0x30];
-    u8 *f4c;            /* +0x4C */
-};
-
-extern u16 *func_02008850(void *p);
-extern u8 *func_020127A4(void *p);
-extern unsigned int func_02008448(int a0);
-extern void func_02008450(struct Flags02008450 *flags, int on);
-extern void *func_0200C40C(void *p);
-extern void func_0200C418(u8 *a, u32 id, u32 on);
-extern void *func_02012EBC(struct Big *p);
-extern u8 func_020071E4(const struct Sub020071E4Ctrl *ctrl);
-extern void func_02008808(void *sys, struct Sub020087E8Arg *dest);
-extern void func_020088B8(void *sys, struct Sub02008860Buf *dest);
-extern void *func_020071CC(struct Sub020071CCCtrl *h, u32 id);
-extern void func_0200EEAC(void *ctx, void *list);
-extern void *func_020127B8(void *p);
-extern void func_0200BE6C(void *sys, u16 *dest);
-extern u8 *func_020127C4(void *p);
-extern void *func_0200A864(void *sys);
-extern void func_0200A884(const struct Rec2Head *src, struct Rec2Head *dest);
-extern void func_0200B3C8(void *sys, const struct Rec94 *src);
-extern void func_0200893C(const struct Sub02008828Obj *obj, void *dest);
-extern void func_02008954(const struct Sub02008828Obj *obj, u8 *out);
-extern struct Sub020097BCObj *func_02009D08(void *sys);
-extern void func_020097F0(const struct Sub020097BCObj *src, struct Sub020097BCObj *dest);
-extern void func_02008964(const struct Sub02008828Obj *obj, u8 *out);
-extern void func_0200E89C(void *sys, void *dest);
-extern struct PlayTime *func_02008748(void *sys);
+extern u16 *func_02008850(struct Situation *situation);
+extern struct PlayerWork *func_020127A4(struct GameData *gd);
+extern unsigned int CONFIG_GetBattleFlag(struct Config *config);
+extern void CONFIG_SetBattleFlag(struct Config *config, int on);
+extern void *func_0200C40C(struct SaveControl *save);
+extern void func_0200C418(void *flags, u32 id, u32 on);
+extern void *func_0200C404(struct SaveControl *save);
+extern void func_0200C44C(void *flags, u32 id);
+extern u8 func_020071E4(struct SaveControl *save);
+extern void func_02008808(struct SaveControl *save, struct PlayerWork *dest);
+extern void func_020088B8(struct SaveControl *save, struct PlayerWork *dest);
+extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern void func_0200EEAC(void *occupy, void *block);
+extern void *func_020127B8(struct GameData *gd);
+extern void func_0200BE6C(struct SaveControl *save, u16 *dest);
+extern struct UnionInfo *func_020127C4(struct GameData *gd);
+extern struct UnionInfo *func_0200A864(struct SaveControl *save);
+extern void func_0200A884(const struct UnionInfo *src, struct UnionInfo *dest);
+extern void func_0200B3C8(struct SaveControl *save, const struct FieldSaveData *src);
+extern void func_0200893C(const struct Situation *situation, void *dest);
+extern void func_02008954(const struct Situation *situation, u8 *out);
+extern struct FieldState *func_02009D08(struct SaveControl *save);
+extern void func_020097F0(const struct FieldState *src, struct FieldState *dest);
+extern void func_02008964(const struct Situation *situation, u8 *out);
+extern void func_0200E89C(struct SaveControl *save, void *dest);
+extern struct PlayTime *func_02008748(struct SaveControl *save);
 extern void func_0200863C(struct PlayTime *dest, const struct PlayTime *src);
-extern void func_020087E8(void *sys, const struct Sub020087E8Arg *src);
-extern void func_02008860(void *sys, const struct Sub02008860Buf *src);
-extern void func_0200EE64(u32 a0, u8 *a1);
-extern void func_0200BE54(void *sys, const u16 *src);
-extern void func_0200A870(struct Rec2Head *dest, const struct Rec2Head *src);
-extern void func_0200B3B0(struct Rec94 *dest, void *sys);
-extern void func_0200892C(struct Sub02008828Obj *obj, const void *src);
-extern void func_0200894C(struct Sub02008828Obj *obj, u8 value);
-extern void func_0200895C(struct Sub02008828Obj *obj, u8 value);
-extern void func_0200E884(void *sys, void *src);
-extern void func_02008658(struct PlayTime *p);
-extern void func_0201042C(void);
+extern void func_020087E8(struct SaveControl *save, const struct PlayerWork *src);
+extern void func_02008860(struct SaveControl *save, const struct PlayerWork *src);
+extern void func_0200EE64(void *occupy, void *block);
+extern void func_0200BE54(struct SaveControl *save, const u16 *src);
+extern void func_0200A870(struct UnionInfo *dest, const struct UnionInfo *src);
+extern void func_0200B3B0(struct FieldSaveData *dest, struct SaveControl *save);
+extern void func_0200892C(struct Situation *situation, const void *src);
+extern void func_0200894C(struct Situation *situation, u8 value);
+extern void func_0200895C(struct Situation *situation, u8 value);
+extern void func_0200E884(void *src, struct SaveControl *save);
+extern void func_02008658(struct PlayTime *playTime);
+extern void WIH_DWC_PauseTimers(void);
 extern void func_0203516C();
-extern int func_02007150(void *a0);
+extern int SAVE_CONTROL_StartSave(struct SaveControl *save);
 extern int  func_02005C64(void);
-extern u32 func_02007168(struct Sub02007168 *p);
+extern u32 SAVE_CONTROL_MainSave(struct SaveControl *save);
 extern int func_020351A0(u32 v);
-extern void func_02010444(void);
-extern int func_020071A8(int a0);
-extern int  func_02034FE8(u32 a);
-extern void func_02034FB8(u32 a);
-extern void func_02034F84(int v);
-extern void func_02007374(char *a0, u32 a1);
-extern int func_020073B0(char *a0, u32 a1);
-extern void *func_0200C0F0(void *sys);
-extern void *func_02009EC8(void *sys);
-extern struct Sub020089A8Obj *func_020089C0(void *sys);
-extern struct Sub02009448Obj *func_02009448(void *sys);
-extern struct Sub02007AC8Entry *func_02007B44(void *sys);
-extern u32 func_020085D4(u32 v, u32 x);
-extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern unsigned int func_02008374(int a0);
+extern void WIH_DWC_ResumeTimers(void);
+extern int SAVE_CONTROL_CancelSave(struct SaveControl *save);
+extern int  func_02034FE8(u32 soundId);
+extern void func_02034FB8(u32 soundId);
+extern void func_02034F84(int soundId);
+extern void SAVE_CONTROL_BeginExtraSaveWrite(struct SaveControl *save, u32 blockId);
+extern int SAVE_CONTROL_StepExtraSaveWrite(struct SaveControl *save, u32 blockId);
+extern void *func_0200C0F0(struct SaveControl *save);
+extern void *func_02009EC8(struct SaveControl *save);
+extern void *func_020089C0(struct SaveControl *save);
+extern void *func_02009448(struct SaveControl *save);
+extern void *func_02007B44(struct SaveControl *save);
+extern u32 func_020085D4(struct PlayTime *playTime, u32 limit);
+extern struct Config *func_0200873C(struct SaveControl *save);
+extern unsigned int CONFIG_GetTextSpeed(struct Config *config);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *dst, int c, u32 n);
 extern u32 func_020307B0(void *p);
-extern void func_02013270(struct Obj_02012914 *p);
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
-extern u32 func_0200AE54(struct Reg *p, u32 id);
-extern void func_0200B040(struct Reg *p, struct RegAC *out);
-extern void func_0201A2A8(void *a0, void *a1);
-extern void func_0201A30C(void *a0, void *a1, u32 c);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void  func_0202428C(void *p);
+extern void func_0201AC2C(const struct Party *src, struct Party *dst);
+extern u32 func_0200AE54(struct Regulation *reg, u32 id);
+extern void func_0200B040(struct Regulation *reg, u8 *rules);
+extern void func_0201A2A8(struct Regulation *reg, struct Party *party);
+extern void POKE_REGULATION_ResetPartyNicknames(struct Regulation *reg, struct Party *party, u32 level);
+extern struct StrBuf *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045808(struct StrBuf *str);
+extern void  PMSI_PARAM_ClearSentence(void *word);
 extern struct Party *func_0201A920(u16 heap);
-extern void func_0202A440(u32 id, struct Out *out, u16 heap);
-extern void func_0202A4B4(u32 a, u32 b, u16 c);
-extern void func_0216AAE4(u32 a, u32 b, u32 c);
-extern u8 func_0202A3FC(u32 key);
-extern void *func_0200C0E8(void *sys);
-extern u32 func_0200C258(struct Blk34 *p);
-extern void *func_0200CA1C(void *a);
-extern u32 func_020142E8(void *bitmap, s32 id);
+extern void func_0202A440(u32 trainerId, struct BattleTrainerData *tr, u16 heap);
+extern void func_0202A4B4(u32 trainerId, struct Party *party, u16 heap);
+extern void func_0216AAE4(struct GameData *gd, struct Party *party, u32 season);
+extern u8 func_0202A3FC(u32 trainerType);
+extern struct MiscSave *func_0200C0E8(struct SaveControl *save);
+extern u32 func_0200C258(struct MiscSave *misc);
+extern void *func_0200CA1C(struct GameData *gd);
+extern u32 func_020142E8(void *eventWork, s32 flagId);
 extern void func_02082D44(const void *src, void *dst, u32 n);
-extern u32  func_0201AA18(void *p);
-extern u32 func_0201AA14(void *p);
-extern int func_020076D0(void *save, int *pbox, int *pslot);
-u32 func_0201283C(const struct BigObj_0201283C *p);
-extern void *func_0200846C(u16 a0);
-extern u8 func_0203D1A4(struct Link *p);
-extern void *func_02013234(u16 heap);
-extern void *func_020082EC(u16 a0);
-extern void func_02008314(void *a0, void *a1);
-extern void func_02013980(struct Zone *o, u32 heap);
-extern void func_020130DC(struct Zone *p);
-u16 func_02012914(const struct BigObj_02012914 *p);
-u32 func_02012924(const struct BigObj *p);
-void *func_0201292C(const struct BigObj *p);
-void *func_02012934(const struct BigObj *p);
-u32 func_0201293C(const struct BigObj *p);
-u8 *func_02012944(void *p);
-struct Rec44_0 *func_02012950(struct Sub24 *p, u32 i);
-u32 func_0201295C(const struct BigObj *p);
-u32 func_02012964(const struct BigObj *p);
-u32 func_0201296C(const struct BigObj *p);
-u32 func_02012974(const struct BigObj *p);
-u32 func_0201297C(const struct BigObj *p);
-u8 func_02012984(const struct BigObj *p);
-void func_0201298C(struct BigObj *p, u8 v);
-u8 func_02012994(const struct BigObj *p);
-void func_020129A0(struct BigObj *p, u8 v);
-u8 func_020129AC(const struct BigObj *p);
-void func_020129B8(struct BigObj *p, u32 v);
-u8 func_020129C4(const struct BigObj *p);
-void func_020129D0(struct BigObj *p, u8 v);
-void func_020129DC(struct BigObj *p, u8 v);
-void func_020129F0(struct BigObj *p);
-u8 func_020129FC(struct BigObj *p);
-u8 func_02012A24(const struct BigObj *p);
-u32 func_02012A30(const struct BigObj *p);
-u32 func_02012A38(const struct BigObj *p);
-u32 func_02012A44(const struct BigObj *p);
-void func_02012A4C(struct BigObj *p, u32 v);
-u32 func_02012A54(const struct BigObj *p);
-void func_02012A60(struct Rec44_0 *p);
-void func_02012A90(struct Rec44_0 *p, const struct Vec12 *src);
-struct Vec12 *func_02012AA0(struct Rec44_0 *p);
-void func_02012AA4(struct Rec44_0 *p, const struct H4 *src);
-struct H4 *func_02012AB8(struct Rec44_0 *p);
-void func_02012ABC(struct Rec44_0 *p, u8 v);
-u8 func_02012AC0(const struct Rec44_0 *p);
-struct Rec44_0 *func_02012AC4(struct Rec44_0 *p, u16 v);
-u16 func_02012AC8(const struct Rec44_0 *p);
-void func_02012ACC(struct Rec44_0 *p, int v);
-u16 func_02012AD0(const struct Rec44_0 *p);
-void func_02012AD4(u8 *p, int i);
-u32 func_02012AE4(const struct Rec44_1 *p);
-u32 func_02012B28(const struct Rec44_1 *p);
-void func_02012B2C(struct Rec44_1 *p, u32 v);
-void func_02012B30(struct Rec44_1 *p, u16 v);
-u16 func_02012B34(const struct Rec44_1 *p);
-void *func_02012B38(const struct BigObj_02012AE4 *p);
-u8 func_02012B40(const struct BigObj_02012AE4 *p);
-void func_02012B4C(struct BigObj_02012AE4 *p, u8 v);
-u8 func_02012B58(const struct BigObj_02012AE4 *p);
-void func_02012B64(struct BigObj_02012AE4 *p, u8 v);
-int func_02012B70(const struct BigObj_02012AE4 *p);
-struct BigObj_02012AE4 *func_02012B78(struct BigObj_02012AE4 *p, u8 v);
-u8 func_02012B80(const struct BigObj_02012AE4 *p);
-void func_02012B8C(struct BigObj_02012AE4 *p, u32 v);
-u8 func_02012B98(const struct BigObj_02012AE4 *p, u32 i);
-void func_02012BA4(struct BigObj_02012AE4 *p, int i, u8 v);
-u32 func_02012BB0(const struct BigObj_02012AE4 *p);
-void func_02012BC8(u8 *p, int on);
-void func_02012BE0(void *p, u32 a, u32 b);
-void func_02012BF8(void *p, u32 a);
-extern void *func_0200C404(void *p);
-extern void func_0200C44C(void *p, u32 a);
-u8 *func_02012C0C(struct BigObj_02012C0C *p);
-void func_02012C18(u8 *p);
-void func_02012CE0(u8 *p);
-int func_02012DAC(u8 *p);
-int func_02012DD0(u8 *p);
-void func_02012E08(char *p);
-u8 func_02012E40(const u8 *o);
-void func_02012E4C(u8 *p, u32 id);
-int func_02012E7C(char *p, int a1);
-void *func_02012EBC(struct Big *p);
-void *func_02012EC0(struct Big *p);
-u8 *func_02012EC4(struct Big *p);
-u8 *func_02012ED0(struct Big *p);
-void *func_02012ED8(struct Big *p);
-char *func_02012EE4(char *base, int v);
-void *func_02012EF0(void **p);
-void *func_02012EFC(void **p);
-void *func_02012F08(int *p);
-void *func_02012F14(void **h);
-int func_02012F20(int p0);
-void *func_02012F2C(int *p);
-int func_02012F38(int base);
-void *func_02012F44(void *p);
-void *func_02012F50(void *base);
-void *func_02012F5C(void **h);
-void *func_02012F68(void **h);
-void func_02012F74(void *h, void *w);
-int func_02012F80(char *base);
-u32 func_02012F8C(u32 *p);
-struct Sub02007AC8Entry *func_02012F98(void *p);
-void func_02012FA4(char *p, unsigned char v);
-int func_02012FB0(unsigned char *base);
-u32 func_02012FBC(u8 *p, u32 x);
-int func_02012FCC(int p0);
-void *func_02012FD8(void **p);
-void *func_02012FE4(struct Sub020071CCCtrl *a0);
-void func_02012FF0(void *val);
+extern u32  func_0201AA18(struct Party *party);
+extern u32 func_0201AA14(struct Party *party);
+extern int func_020076D0(u32 boxManager, u32 *tray, u32 *pos);
+extern struct FieldState *func_0201283C(const struct GameData *gd);
+extern void *func_0200846C(u16 heap);
+extern u8 func_0203D1A4(struct NetHandle *net);
+extern struct Config *CONFIG_Create(u16 heap);
+extern void CONFIG_Copy(struct Config *src, struct Config *dest);
+
+extern const u16 sPlayerDirectionAngles[];
+extern struct SaveControl *sMsgSpeedSaveControl;
+extern const signed char sMsgSpeedWaitTable[];
+extern const char sBtlSetupFileName[];
+
+u16 func_02012914(const struct GameData *gd);
+u32 GAME_DATA_GetMapMatrix(const struct GameData *gd);
+void *func_0201292C(const struct GameData *gd);
+void *func_02012934(const struct GameData *gd);
+u32 func_0201293C(const struct GameData *gd);
+struct PlayerStatus *func_02012944(struct GameData *gd);
+struct PlayerStatus *func_02012950(struct GameData *gd, u32 playerId);
+u32 GAME_DATA_GetBagCursor(const struct GameData *gd);
+void *func_02012964(const struct GameData *gd);
+void *func_0201296C(const struct GameData *gd);
+u32 func_02012974(const struct GameData *gd);
+u32 GAME_DATA_GetMusicalWork(const struct GameData *gd);
+u8 func_02012984(const struct GameData *gd);
+void GAME_DATA_SetSeason(struct GameData *gd, u8 value);
+u8 func_02012994(const struct GameData *gd);
+void GAME_DATA_SetSubscreenMode(struct GameData *gd, u8 value);
+u8 func_020129AC(const struct GameData *gd);
+void func_020129B8(struct GameData *gd, u32 value);
+u8 func_020129C4(const struct GameData *gd);
+void func_020129D0(struct GameData *gd, u8 value);
+void func_020129DC(struct GameData *gd, u8 enable);
+void func_020129F0(struct GameData *gd);
+u8 GAME_DATA_IncWalkCount(struct GameData *gd);
+u8 GAME_DATA_IsWalkCountEnabled(const struct GameData *gd);
+u32 func_02012A30(const struct GameData *gd);
+u32 func_02012A38(const struct GameData *gd);
+u32 func_02012A44(const struct GameData *gd);
+void GAME_DATA_SetFieldMode(struct GameData *gd, u32 value);
+u32 func_02012A54(const struct GameData *gd);
+void GAME_DATA_InitPlayerWork(struct PlayerWork *player);
+void func_02012A90(struct PlayerWork *player, const struct PlayerPosition *pos);
+struct PlayerPosition *func_02012AA0(struct PlayerWork *player);
+void func_02012AA4(struct PlayerWork *player, const struct RailLocationWords *rail);
+struct RailLocationWords *func_02012AB8(struct PlayerWork *player);
+void func_02012ABC(struct PlayerWork *player, u8 form);
+u8 func_02012AC0(const struct PlayerWork *player);
+struct PlayerWork *func_02012AC4(struct PlayerWork *player, u16 zoneId);
+u16 func_02012AC8(const struct PlayerWork *player);
+void func_02012ACC(struct PlayerWork *player, int direction);
+u16 func_02012AD0(const struct PlayerWork *player);
+void func_02012AD4(struct PlayerWork *player, int dirId);
+u32 func_02012AE4(const struct PlayerWork *player);
+u32 func_02012B28(const struct PlayerWork *player);
+void func_02012B2C(struct PlayerWork *player, u32 code);
+void func_02012B30(struct PlayerWork *player, u16 zoneId);
+u16 func_02012B34(const struct PlayerWork *player);
+void *func_02012B38(const struct GameData *gd);
+u8 GAME_DATA_GetEnterMode(const struct GameData *gd);
+void func_02012B4C(struct GameData *gd, u8 value);
+u8 func_02012B58(const struct GameData *gd);
+void func_02012B64(struct GameData *gd, u8 value);
+int func_02012B70(const struct GameData *gd);
+struct GameData *func_02012B78(struct GameData *gd, u8 count);
+u8 func_02012B80(const struct GameData *gd);
+void func_02012B8C(struct GameData *gd, u32 value);
+u8 GAME_DATA_GetSlotFlag(const struct GameData *gd, u32 slot);
+void GAME_DATA_SetSlotFlag(struct GameData *gd, int slot, u8 value);
+u32 GAME_DATA_IsConfigFlagSet(const struct GameData *gd);
+void GAME_DATA_SetConfigFlag(struct GameData *gd, int on);
+void GAME_DATA_SetSaveFlag(struct GameData *gd, u32 id, u32 on);
+void GAME_DATA_CheckSaveFlag(struct GameData *gd, u32 id);
+u8 *GAME_DATA_GetRtcWork(struct GameData *gd);
+void GAME_DATA_LoadFromSave(struct GameData *gd);
+void GAME_DATA_WriteToSave(struct GameData *gd);
+int func_02012DAC(struct GameData *gd);
+int func_02012DD0(struct GameData *gd);
+void GAME_DATA_SaveCancel(struct GameData *gd);
+u8 func_02012E40(const struct GameData *gd);
+void func_02012E4C(struct GameData *gd, u32 blockId);
+int func_02012E7C(struct GameData *gd, int blockId);
+struct SaveControl *func_02012EBC(struct GameData *gd);
+struct SaveControl *GAME_DATA_GetSaveControlWork(struct GameData *gd);
+u8 *func_02012EC4(struct GameData *gd);
+u8 *func_02012ED0(struct GameData *gd);
+void *func_02012ED8(struct GameData *gd);
+struct GameData *func_02012EE4(struct GameData *gd, void *event);
+void *GAME_DATA_GetSaveBlock3A(struct GameData *gd);
+void *GAME_DATA_GetSaveBlock3B(struct GameData *gd);
+void *func_02012F08(struct GameData *gd);
+void *GAME_DATA_GetSaveBlock1F(struct GameData *gd);
+int func_02012F20(struct GameData *gd);
+void *func_02012F2C(struct GameData *gd);
+u8 *func_02012F38(struct GameData *gd);
+void *GAME_DATA_GetSaveBlock2A(struct GameData *gd);
+u32 *GAME_DATA_GetListCursor(struct GameData *gd);
+void *GAME_DATA_GetSaveBlock21(struct GameData *gd);
+void *GAME_DATA_GetSaveBlock42(struct GameData *gd);
+void GAME_DATA_SetExternalWork(struct GameData *gd, void *work);
+void *GAME_DATA_GetExternalWork(struct GameData *gd);
+void *func_02012F8C(struct GameData *gd);
+void *func_02012F98(struct GameData *gd);
+void GAME_DATA_SetSymbolMapFlag(struct GameData *gd, u8 flag);
+int func_02012FB0(struct GameData *gd);
+u32 GAME_DATA_CheckPlayTime(struct GameData *gd, u32 limit);
+struct PlayTime *func_02012FCC(struct GameData *gd);
+void *func_02012FD8(struct GameData *gd);
+void *GAME_DATA_GetEventWorkFromSave(struct SaveControl *save);
+void func_02012FF0(struct SaveControl *save);
 signed char func_02012FFC(void);
 signed char func_02013020(void);
 signed char func_02013050(void);
-signed char func_02013080(u32 idx);
-void *func_02013090(u32 heap);
-void func_020130B4(struct Zone *p);
-void func_020130C4(u8 *p);
-void func_020130DC(struct Zone *p);
-void func_02013128(void *p, void *src, int i);
-void *func_0201313C(void *p, int i);
-void func_02013144(char *p, int v);
-int func_02013158(char *base, int m);
-void func_02013160(u8 *o, void *a1, u32 a2);
-void func_0201320C(int p0);
-void func_02013220(char *p);
-void *func_02013234(u16 heap);
-void func_02013270(struct Obj_02012914 *p);
-extern void func_02045808(void *p);
-void func_02013284(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u16 h);
-void func_0201333C(u8 *o, void *a1, u16 a2);
-void func_02013360(u8 *o, void *a1, const void *a2);
-void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5);
-void func_020134F4(u8 *p, u32 a1, u32 a2, u32 a3, u16 h);
-void func_02013528(u8 *o, void *a1, u32 a2, u8 a3, u32 a4, u8 a5, u8 a6, u16 a7);
-void func_020135C0(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5);
-void func_02013610(u8 *p, u32 a, u32 b, u32 c, u16 d);
-void func_02013644(u8 *p, u32 a, u32 b, u32 c, u16 d);
-void func_02013678(u8 *p, u32 a, u32 b, u32 c, u16 d);
-void func_020136AC(u8 *p, u32 a, u32 b, u32 c, u16 d);
-void func_020136E0(struct Obj *o, u32 a1, u32 a2, u32 a3, u32 a4, u16 a5);
-void func_02013734(struct Obj *o, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-void func_02013790(u8 *p0, void *p1, u32 p2, u8 p3, u16 p4);
-void func_020137C0(u8 *p0, void *p1, u32 p2, u8 p3, u16 p4);
-void func_020137F0(u8 *p0, void *p1, u32 p2, u8 p3, u8 p4, u16 p5);
-void func_02013810(u8 *o, void *a1, u32 a2, u8 a3, u8 a4, u32 a5, u32 a6, u16 a7);
-void func_02013864(u8 *p0, void *p1, u32 p2, u8 p3, u16 p4);
-void func_02013894(u8 *p0, void *p1, u32 p2, u8 p3, u16 p4);
-void func_020138C4(struct Zone *p, int a1, u16 heap);
-void func_02013930(struct Zone *p);
-void func_0201394C(struct ZoneData_0201394C *o);
-void func_02013980(struct Zone *o, u32 heap);
-extern const u16 data_0209DFA8[];
-extern void *ptr_020A7298;
-extern const signed char data_0209DFB0[];
-extern u8    sZonedataFile;
+signed char func_02013080(u32 speed);
+struct BattleSetupParam *func_02013090(u32 heap);
+void func_020130B4(struct BattleSetupParam *param);
+void func_020130C4(struct BattleSetupParam *param);
+void BTL_SETUP_FreeSlots(struct BattleSetupParam *param);
+void BTL_SETUP_SetParty(struct BattleSetupParam *param, struct Party *src, int client);
+void *BTL_SETUP_GetParty(struct BattleSetupParam *param, int client);
+void func_02013144(struct BattleSetupParam *param, int flag);
+int BTL_SETUP_CheckStatusFlag(struct BattleSetupParam *param, int mask);
+void BTL_SETUP_ApplyRegulation(struct BattleSetupParam *param, struct Regulation *reg, u32 level);
+void BTL_SETUP_InitCommFieldSituation(struct FieldSituation *sit);
+void BTL_SETUP_InitFieldSituation(struct FieldSituation *sit);
+struct BattleTrainerData *BTL_SETUP_CreateTrainerData(u16 heap);
+void BTL_SETUP_DeleteTrainerData(struct BattleTrainerData *tr);
+void BTL_SETUP_SetTrainer(struct BattleSetupParam *param, struct GameData *gd, u32 client, struct Party **party, u32 trainerId, u16 heap);
+void BTL_SETUP_SetPlayerParty(struct BattleSetupParam *param, struct GameData *gd, u16 heap);
+void BTL_SETUP_InitCommon(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit);
+void func_0201347C(struct BattleSetupParam *param, struct GameData *gd, struct Party *wildParty, const struct FieldSituation *sit, u32 rule, u16 heap);
+void BTL_SETUP_SetupTrainerBase(struct BattleSetupParam *param, struct GameData *gd, u32 rule, const struct FieldSituation *sit, u16 heap);
+void BTL_SETUP_SetupComm(struct BattleSetupParam *param, struct GameData *gd, u32 rule, u8 multiMode, u32 netHandle, u8 commPos, u8 netId, u16 heap);
+void BTL_SETUP_SetupDemo(struct BattleSetupParam *param, struct GameData *gd, struct Party *enemyParty, struct Party *partnerParty, const struct FieldSituation *sit, u16 heap);
+void func_02013610(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
+void func_02013644(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
+void func_02013678(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
+void func_020136AC(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
+void func_020136E0(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId1, u32 trainerId2, u16 heap);
+void func_02013734(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 partnerId, u32 trainerId1, u32 trainerId2, u16 heap);
+void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
+void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
+void BTL_SETUP_SetupCommMulti(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u8 netId, u16 heap);
+void BTL_SETUP_SetupCommAiMulti(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u8 netId, u32 trainerId1, u32 trainerId2, u16 heap);
+void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
+void BTL_SETUP_SetupCommRotation(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
+void BTL_SETUP_InitWithSlots(struct BattleSetupParam *param, struct GameData *gd, u16 heap);
+void BTL_SETUP_ClearWithSlots(struct BattleSetupParam *param);
+void BTL_SETUP_ChangeToSubway(struct BattleSetupParam *param);
+void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *param, u32 heap);
 
 
 
@@ -581,21 +365,21 @@ extern u8    sZonedataFile;
  *   python tools/match.py tu --src src/matched/unit_02012914.c \
  *       --addr 0x02012914 --thumb
  */
-u16 func_02012914(const struct BigObj_02012914 *p)
+u16 func_02012914(const struct GameData *gd)
 {
-    return *func_02008850((void *)p->unk15C);
+    return *func_02008850((struct Situation *)gd->situation);
 }
 
 
 
 /*
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
+ *           func_02012944, func_02012950, GAME_DATA_GetBagCursor, func_02012964,
+ *           func_0201296C, func_02012974, GAME_DATA_GetMusicalWork, func_02012984,
+ *           GAME_DATA_SetSeason, func_02012994, GAME_DATA_SetSubscreenMode, func_020129AC,
  *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
+ *           func_020129F0, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, func_02012A30,
+ *           func_02012A38, func_02012A44, GAME_DATA_SetFieldMode, func_02012A54,
+ *           GAME_DATA_InitPlayerWork, func_02012A90, func_02012AA0, func_02012AA4,
  *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
  *           func_02012AC8, func_02012ACC, func_02012AD0
  *
@@ -606,21 +390,21 @@ u16 func_02012914(const struct BigObj_02012914 *p)
  *
  * Two objects are accessed here and they are not the same struct.
  *
- *  - BigObj is reached through a plain pointer argument and every field this
+ *  - GameData is reached through a plain pointer argument and every field this
  *    file touches is past +0x18C, so each access is a register offset built
  *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
  *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
  *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
+ *  - PlayerWork is the 0x44-byte record (five of them in GameData), and GAME_DATA_InitPlayerWork
+ *    onwards are its constructor and accessors.  GAME_DATA_InitPlayerWork is the
  *    constructor: its store order is the source's statement order, and the
  *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
  *    are what make +0x10 a union of a four-halfword view (the one
  *    func_02012AA4 copies whole) and a five-field view.
  *
- * func_020129FC is a post-increment and not an assignment:
- * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
- * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
+ * GAME_DATA_IncWalkCount is a post-increment and not an assignment:
+ * `return gd->walkCount++;` spends an extra `adds r1, r4, #0` copy that
+ * `n = gd->walkCount; gd->walkCount = n + 1; return n;` does not, and the two are
  * otherwise the same eighteen instructions.  See
  * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
  *
@@ -634,318 +418,318 @@ u16 func_02012914(const struct BigObj_02012914 *p)
  *   python tools/match.py tu --src src/matched/unit_02012924.c \
  *       --addr 0x02012924 --thumb
  */
-u32 func_02012924(const struct BigObj *p)
+u32 GAME_DATA_GetMapMatrix(const struct GameData *gd)
 {
-    return p->unk18C;
+    return gd->mapMatrix;
 }
 
 
 
-void *func_0201292C(const struct BigObj *p)
+void *func_0201292C(const struct GameData *gd)
 {
-    return p->unk190;
+    return gd->myItem;
 }
 
 
 
-void *func_02012934(const struct BigObj *p)
+void *func_02012934(const struct GameData *gd)
 {
-    return p->unk194;
+    return gd->myParty;
 }
 
 
 
-u32 func_0201293C(const struct BigObj *p)
+u32 func_0201293C(const struct GameData *gd)
 {
-    return p->unk19C;
+    return gd->boxManager;
 }
 
 
 
-u8 *func_02012944(void *p)
+struct PlayerStatus *func_02012944(struct GameData *gd)
 {
-    return func_020127A4(p) + 0x20;
+    return &func_020127A4(gd)->status;
 }
 
 
 
-struct Rec44_0 *func_02012950(struct Sub24 *p, u32 i)
+struct PlayerStatus *func_02012950(struct GameData *gd, u32 playerId)
 {
-    return &p->unk24[i];
+    return &gd->playerWork[playerId].status;
 }
 
 
 
-u32 func_0201295C(const struct BigObj *p)
+u32 GAME_DATA_GetBagCursor(const struct GameData *gd)
 {
-    return p->unk1A4;
+    return gd->bagCursor;
 }
 
 
 
-u32 func_02012964(const struct BigObj *p)
+void *func_02012964(const struct GameData *gd)
 {
-    return p->unk1A8;
+    return gd->occupyInfo;
 }
 
 
 
-u32 func_0201296C(const struct BigObj *p)
+void *func_0201296C(const struct GameData *gd)
 {
-    return p->unk1AC;
+    return gd->eventWork;
 }
 
 
 
-u32 func_02012974(const struct BigObj *p)
+u32 func_02012974(const struct GameData *gd)
 {
-    return p->unk1B0;
+    return gd->fieldWork;
 }
 
 
 
-u32 func_0201297C(const struct BigObj *p)
+u32 GAME_DATA_GetMusicalWork(const struct GameData *gd)
 {
-    return p->unk690;
+    return gd->musicalWork;
 }
 
 
 
-u8 func_02012984(const struct BigObj *p)
+u8 func_02012984(const struct GameData *gd)
 {
-    return p->unk1C4;
+    return gd->season;
 }
 
 
 
-void func_0201298C(struct BigObj *p, u8 v)
+void GAME_DATA_SetSeason(struct GameData *gd, u8 value)
 {
-    p->unk1C4 = v;
+    gd->season = value;
 }
 
 
 
-u8 func_02012994(const struct BigObj *p)
+u8 func_02012994(const struct GameData *gd)
 {
-    return p->unk1C5;
+    return gd->subscreenMode;
 }
 
 
 
-void func_020129A0(struct BigObj *p, u8 v)
+void GAME_DATA_SetSubscreenMode(struct GameData *gd, u8 value)
 {
-    p->unk1C5 = v;
+    gd->subscreenMode = value;
 }
 
 
 
-u8 func_020129AC(const struct BigObj *p)
+u8 func_020129AC(const struct GameData *gd)
 {
-    return p->unk1C6;
+    return gd->subscreenType;
 }
 
 
 
-void func_020129B8(struct BigObj *p, u32 v)
+void func_020129B8(struct GameData *gd, u32 value)
 {
-    p->unk1C6 = v;
+    gd->subscreenType = value;
 }
 
 
 
-u8 func_020129C4(const struct BigObj *p)
+u8 func_020129C4(const struct GameData *gd)
 {
-    return p->unk1C7;
+    return gd->frameRate;
 }
 
 
 
-void func_020129D0(struct BigObj *p, u8 v)
+void func_020129D0(struct GameData *gd, u8 value)
 {
-    p->unk1C7 = v;
+    gd->frameRate = value;
 }
 
 
 
-void func_020129DC(struct BigObj *p, u8 v)
+void func_020129DC(struct GameData *gd, u8 enable)
 {
-    p->unk1C9 = v;
-    if (v != 0) {
-        p->unk1C8 = 0;
+    gd->walkCountEnabled = enable;
+    if (enable != 0) {
+        gd->walkCount = 0;
     }
 }
 
 
 
-void func_020129F0(struct BigObj *p)
+void func_020129F0(struct GameData *gd)
 {
-    p->unk1C8 = 0;
+    gd->walkCount = 0;
 }
 
 
 
-u8 func_020129FC(struct BigObj *p)
+u8 GAME_DATA_IncWalkCount(struct GameData *gd)
 {
-    if (p->unk1C9 != 0) {
-        return p->unk1C8++;
+    if (gd->walkCountEnabled != 0) {
+        return gd->walkCount++;
     }
     return 0;
 }
 
 
 
-u8 func_02012A24(const struct BigObj *p)
+u8 GAME_DATA_IsWalkCountEnabled(const struct GameData *gd)
 {
-    return p->unk1C9;
+    return gd->walkCountEnabled;
 }
 
 
 
-u32 func_02012A30(const struct BigObj *p)
+u32 func_02012A30(const struct GameData *gd)
 {
-    return p->unk1B4;
+    return gd->bgmInfo;
 }
 
 
 
-u32 func_02012A38(const struct BigObj *p)
+u32 func_02012A38(const struct GameData *gd)
 {
-    return p->unk5E4;
+    return gd->fieldGimmick;
 }
 
 
 
-u32 func_02012A44(const struct BigObj *p)
+u32 func_02012A44(const struct GameData *gd)
 {
-    return p->unk1BC;
+    return gd->fieldMode;
 }
 
 
 
-void func_02012A4C(struct BigObj *p, u32 v)
+void GAME_DATA_SetFieldMode(struct GameData *gd, u32 value)
 {
-    p->unk1BC = v;
+    gd->fieldMode = value;
 }
 
 
 
-u32 func_02012A54(const struct BigObj *p)
+u32 func_02012A54(const struct GameData *gd)
 {
-    return p->unk68C;
+    return gd->itemUseWork;
 }
 
 
 
-void func_02012A60(struct Rec44_0 *p)
+void GAME_DATA_InitPlayerWork(struct PlayerWork *player)
 {
-    p->unk3D = 0;
-    p->unk3A = 0;
-    p->unk00 = 0;
-    p->unk04.x = 0;
-    p->unk04.y = 0;
-    p->unk04.z = 0;
-    p->unk18 = 0;
-    p->unk1B = 0;
-    p->unk30 = 0;
-    p->unk10.f.b = 0;
-    p->unk10.f.c = 0;
-    p->unk10.f.a = 0;
-    p->unk10.f.e = 0;
-    p->unk10.f.d = 0;
-    p->unk1C = 0xFFFF;
+    player->status.romCode = 0;
+    player->status.gender = 0;
+    player->zoneId = 0;
+    player->position.x = 0;
+    player->position.y = 0;
+    player->position.z = 0;
+    player->direction = 0;
+    player->moveForm = 0;
+    player->status.id = 0;
+    player->rail.part.type = 0;
+    player->rail.part.key = 0;
+    player->rail.part.lineIndex = 0;
+    player->rail.part.sideGrid = 0;
+    player->rail.part.frontGrid = 0;
+    player->palaceZoneId = 0xFFFF;
 }
 
 
 
-void func_02012A90(struct Rec44_0 *p, const struct Vec12 *src)
+void func_02012A90(struct PlayerWork *player, const struct PlayerPosition *pos)
 {
-    p->unk04 = *src;
+    player->position = *pos;
 }
 
 
 
-struct Vec12 *func_02012AA0(struct Rec44_0 *p)
+struct PlayerPosition *func_02012AA0(struct PlayerWork *player)
 {
-    return &p->unk04;
+    return &player->position;
 }
 
 
 
-void func_02012AA4(struct Rec44_0 *p, const struct H4 *src)
+void func_02012AA4(struct PlayerWork *player, const struct RailLocationWords *rail)
 {
-    p->unk10.all = *src;
+    player->rail.all = *rail;
 }
 
 
 
-struct H4 *func_02012AB8(struct Rec44_0 *p)
+struct RailLocationWords *func_02012AB8(struct PlayerWork *player)
 {
-    return &p->unk10.all;
+    return &player->rail.all;
 }
 
 
 
-void func_02012ABC(struct Rec44_0 *p, u8 v)
+void func_02012ABC(struct PlayerWork *player, u8 form)
 {
-    p->unk1B = v;
+    player->moveForm = form;
 }
 
 
 
-u8 func_02012AC0(const struct Rec44_0 *p)
+u8 func_02012AC0(const struct PlayerWork *player)
 {
-    return p->unk1B;
+    return player->moveForm;
 }
 
 
 
-struct Rec44_0 *func_02012AC4(struct Rec44_0 *p, u16 v)
+struct PlayerWork *func_02012AC4(struct PlayerWork *player, u16 zoneId)
 {
-    p->unk00 = v;
-    return p;
+    player->zoneId = zoneId;
+    return player;
 }
 
 
 
-u16 func_02012AC8(const struct Rec44_0 *p)
+u16 func_02012AC8(const struct PlayerWork *player)
 {
-    return p->unk00;
+    return player->zoneId;
 }
 
 
 
-void func_02012ACC(struct Rec44_0 *p, int v)
+void func_02012ACC(struct PlayerWork *player, int direction)
 {
-    p->unk18 = v;
+    player->direction = direction;
 }
 
 
 
-u16 func_02012AD0(const struct Rec44_0 *p)
+u16 func_02012AD0(const struct PlayerWork *player)
 {
-    return p->unk18;
+    return player->direction;
 }
 
 
 
-void func_02012AD4(u8 *p, int i)
+void func_02012AD4(struct PlayerWork *player, int dirId)
 {
-    ((struct Obj15629 *)p)->f18 = data_0209DFA8[i];
+    player->direction = sPlayerDirectionAngles[dirId];
 }
 
 
 
 /*
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
+ *           func_02012B34, func_02012B38, GAME_DATA_GetEnterMode, func_02012B4C,
  *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
+ *           func_02012B80, func_02012B8C, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag,
+ *           GAME_DATA_IsConfigFlagSet
  *
  * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
  * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
+ * PlayerWork for func_02012AE4 .. func_02012B34 and GameData from func_02012B38 on.
  *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
+ * func_02012AE4 buckets the PlayerWork direction at +0x18 into 0, 1, 2 or 3.  The
  * result local has to be declared **before** the field is read into its own
  * local, or the compiler puts the result in r0, keeps its scratch in r1 and
  * duplicates `bx lr` into every arm instead of branching to one
@@ -956,29 +740,29 @@ void func_02012AD4(u8 *p, int i)
  * Two near misses bracket this file, and neither is a codegen failure: both
  * reproduce every concrete byte and are held at MATCH by the honesty rule.
  *
- *  - 0x02012AD4, 16 bytes, `p->unk18 = Table[i];` over a u16 table at
+ *  - 0x02012AD4, 16 bytes, `player->direction = Table[i];` over a u16 table at
  *    0x0209DFA8.  That address appears in exactly one literal pool in the
  *    image, the one inside this function, so the `literal` class discards its
  *    only witness and no cut helps.  It is data, so no label will ever exist
  *    for it.  The source is
  *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
+ *        void func_02012AD4(struct PlayerWork *player, int dirId)
  *        {
- *            p->unk18 = func_02012AD4_Table[i];
+ *            player->direction = sPlayerDirectionAngles[dirId];
  *        }
  *
  *    with `func_02012AD4_Table 0x0209DFA8 data`.  Evidence class: literal, 0
  *    witnesses outside.
  *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
  *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
+ *    getter is the labelled CONFIG_GetBattleFlag four bytes earlier) but it opens
  *    with no register-saving prologue, so disasm.py never labelled it, and
  *    this pool word is the only reference to it anywhere in the image.  The
  *    source is
  *
- *        void func_02012BC8(struct BigObj *p, u32 v)
+ *        void GAME_DATA_SetConfigFlag(struct GameData *gd, int on)
  *        {
- *            func_02008450(p->unk198, v != 0);
+ *            CONFIG_SetBattleFlag(gd->config, on ? 1 : 0);
  *        }
  *
  *    0x02008450 goes into layout/function_starts.txt with a branch that
@@ -990,132 +774,131 @@ void func_02012AD4(u8 *p, int i)
  *   python tools/match.py tu --src src/matched/unit_02012AE4.c \
  *       --addr 0x02012AE4 --thumb
  */
-u32 func_02012AE4(const struct Rec44_1 *p)
+u32 func_02012AE4(const struct PlayerWork *player)
 {
-    u32 r = 0;
-    u16 v = p->unk18;
-
-    if (v > 0x2000 && v < 0x6000) {
-        r = 2;
-    } else if (v >= 0x6000 && v <= 0xA000) {
-        r = 1;
-    } else if (v > 0xA000 && v < 0xE000) {
-        r = 3;
+    u32 dirId = 0;
+    u16 angle = player->direction;
+    if (angle > 0x2000 && angle < 0x6000) {
+        dirId = 2;
+    } else if (angle >= 0x6000 && angle <= 0xA000) {
+        dirId = 1;
+    } else if (angle > 0xA000 && angle < 0xE000) {
+        dirId = 3;
     }
-    return r;
+    return dirId;
 }
 
 
 
-u32 func_02012B28(const struct Rec44_1 *p)
+u32 func_02012B28(const struct PlayerWork *player)
 {
-    return p->unk40;
+    return player->objectCode;
 }
 
 
 
-void func_02012B2C(struct Rec44_1 *p, u32 v)
+void func_02012B2C(struct PlayerWork *player, u32 code)
 {
-    p->unk40 = v;
+    player->objectCode = code;
 }
 
 
 
-void func_02012B30(struct Rec44_1 *p, u16 v)
+void func_02012B30(struct PlayerWork *player, u16 zoneId)
 {
-    p->unk1C = v;
+    player->palaceZoneId = zoneId;
 }
 
 
 
-u16 func_02012B34(const struct Rec44_1 *p)
+u16 func_02012B34(const struct PlayerWork *player)
 {
-    return p->unk1C;
+    return player->palaceZoneId;
 }
 
 
 
-void *func_02012B38(const struct BigObj_02012AE4 *p)
+void *func_02012B38(const struct GameData *gd)
 {
-    return p->unk1B8;
+    return gd->moveModelSys;
 }
 
 
 
-u8 func_02012B40(const struct BigObj_02012AE4 *p)
+u8 GAME_DATA_GetEnterMode(const struct GameData *gd)
 {
-    return p->unk1CA;
+    return gd->enterMode;
 }
 
 
 
-void func_02012B4C(struct BigObj_02012AE4 *p, u8 v)
+void func_02012B4C(struct GameData *gd, u8 value)
 {
-    p->unk1CA = v;
+    gd->enterMode = value;
 }
 
 
 
-u8 func_02012B58(const struct BigObj_02012AE4 *p)
+u8 func_02012B58(const struct GameData *gd)
 {
-    return p->unk1CB;
+    return gd->ownNetId;
 }
 
 
 
-void func_02012B64(struct BigObj_02012AE4 *p, u8 v)
+void func_02012B64(struct GameData *gd, u8 value)
 {
-    p->unk1CB = v;
+    gd->ownNetId = value;
 }
 
 
 
-int func_02012B70(const struct BigObj_02012AE4 *p)
+int func_02012B70(const struct GameData *gd)
 {
-    return p->unk1CC;
+    return gd->intrudeCount;
 }
 
 
 
-struct BigObj_02012AE4 *func_02012B78(struct BigObj_02012AE4 *p, u8 v)
+struct GameData *func_02012B78(struct GameData *gd, u8 count)
 {
-    p->unk1CC = v;
-    return p;
+    gd->intrudeCount = count;
+    return gd;
 }
 
 
 
-u8 func_02012B80(const struct BigObj_02012AE4 *p)
+u8 func_02012B80(const struct GameData *gd)
 {
-    return p->unk1CD;
+    return gd->intrudeId;
 }
 
 
 
-void func_02012B8C(struct BigObj_02012AE4 *p, u32 v)
+void func_02012B8C(struct GameData *gd, u32 value)
 {
-    p->unk1CD = v;
+    gd->intrudeId = value;
 }
 
 
 
-u8 func_02012B98(const struct BigObj_02012AE4 *p, u32 i)
+u8 GAME_DATA_GetSlotFlag(const struct GameData *gd, u32 slot)
 {
-    return p->unk1D0[i];
+    return gd->slotFlags[slot];
 }
 
 
 
-void func_02012BA4(struct BigObj_02012AE4 *p, int i, u8 v)
+void GAME_DATA_SetSlotFlag(struct GameData *gd, int slot, u8 value)
 {
-    p->unk1D0[i] = v;
+    gd->slotFlags[slot] = value;
 }
 
 
 
-u32 func_02012BB0(const struct BigObj_02012AE4 *p)
+u32 GAME_DATA_IsConfigFlagSet(const struct GameData *gd)
 {
-    if (func_02008448((int)p->unk198) == 1) {
+    if (CONFIG_GetBattleFlag(gd->config) == 1) {
         return 1;
     }
     return 0;
@@ -1124,17 +907,17 @@ u32 func_02012BB0(const struct BigObj_02012AE4 *p)
 
 
 /*
- * Forward a boolean-normalised flag to func_02008450 on the object held at
- * +0x198 of the game-data object (func_0200873C(handle) in func_020124F4).
+ * Forward a boolean-normalised flag to CONFIG_SetBattleFlag on the object held at
+ * +0x198 of the game-data object (func_0200873C(handle) in GAME_DATA_Create).
  *
  * The tail call's pool word names 0x02008450, an unlabelled Thumb leaf
- * (the bit-10 setter beside the labelled getter func_02008448); this
+ * (the bit-10 setter beside the labelled getter CONFIG_GetBattleFlag); this
  * pool word is its only reference in the image.  It is attested by the
- * compiled witness src/matched/func_02008450.c (class `matched`).
+ * compiled witness src/matched/CONFIG_SetBattleFlag.c (class `matched`).
  */
-void func_02012BC8(u8 *p, int on)
+void GAME_DATA_SetConfigFlag(struct GameData *gd, int on)
 {
-    func_02008450((struct Flags02008450 *)((struct Obj15630 *)p)->f198, on ? 1 : 0);
+    CONFIG_SetBattleFlag(gd->config, on ? 1 : 0);
 }
 
 
@@ -1146,13 +929,13 @@ void func_02012BC8(u8 *p, int on)
  * 0x02012BF8, 20 bytes, is the twin of this one and reproduces every concrete
  * byte:
  *
- *     void func_02012BF8(void *p, u32 a)
+ *     void GAME_DATA_CheckSaveFlag(void *p, u32 a)
  *     {
- *         func_0200C44C(func_0200C404(func_02012EC0(p)), a);
+ *         func_0200C44C(func_0200C404(GAME_DATA_GetSaveControlWork(p)), a);
  *     }
  *
  * with `func_0200C404 0x0200C404 thumb`, `func_0200C44C 0x0200C44C thumb` and
- * `func_02012EC0 0x02012EC0 thumb`.  It caps at MATCH because the `bl` at
+ * `GAME_DATA_GetSaveControlWork 0x02012EC0 thumb`.  It caps at MATCH because the `bl` at
  * 0x02012C06 is the only branch to func_0200C44C anywhere in the image, so the
  * `label` class has no witness outside the range and, this being the only
  * caller, no cut can create one.  Evidence class: label, 0 witnesses outside.
@@ -1164,22 +947,22 @@ void func_02012BC8(u8 *p, int on)
  *   python tools/match.py tu --src src/matched/unit_02012BE0.c \
  *       --addr 0x02012BE0 --thumb
  */
-void func_02012BE0(void *p, u32 a, u32 b)
+void GAME_DATA_SetSaveFlag(struct GameData *gd, u32 id, u32 on)
 {
-    func_0200C418(func_0200C40C(func_02012EBC(p)), a, b);
+    func_0200C418(func_0200C40C(func_02012EBC(gd)), id, on);
 }
 
 
 
-void func_02012BF8(void *p, u32 a)
+void GAME_DATA_CheckSaveFlag(struct GameData *gd, u32 id)
 {
-    func_0200C44C(func_0200C404(func_02012EC0(p)), a);
+    func_0200C44C(func_0200C404(GAME_DATA_GetSaveControlWork(gd)), id);
 }
 
 
 
 /*
- * Twelve bytes: the address of the BigObj sub-object at +0x5E8, reached
+ * Twelve bytes: the address of the GameData sub-object at +0x5E8 (rtcWork), reached
  * through a literal pool word holding the plain constant 0x5E8 rather than a
  * relocation.  It is a file of its own because the function in front of it,
  * 0x02012BF8, is a documented near miss; see the header of
@@ -1191,16 +974,16 @@ void func_02012BF8(void *p, u32 a)
  *   python tools/match.py tu --src src/matched/unit_02012C0C.c \
  *       --addr 0x02012C0C --thumb
  */
-u8 *func_02012C0C(struct BigObj_02012C0C *p)
+u8 *GAME_DATA_GetRtcWork(struct GameData *gd)
 {
-    return p->unk5E8;
+    return gd->rtcWork;
 }
 
 
 
 /*
  * 204 bytes, 0x02012C18..0x02012CDC (the listing extent 204 includes the
- * 0x5EC pool word at 0x02012CDC).  Sibling of func_02012CE0, same shape plus
+ * 0x5EC pool word at 0x02012CDC).  Sibling of GAME_DATA_WriteToSave, same shape plus
  * an opening guard `if (func_020071E4(*(u32 *)p) == 1) return;`.
  *
  * docs/notes/pkt_02012C18.c.txt recorded this as an unmovable register
@@ -1218,42 +1001,35 @@ u8 *func_02012C0C(struct BigObj_02012C0C *p)
  * generalised: the call-result operand order names which value gets the
  * named-local treatment.)
  */
-void func_02012C18(u8 *p)
+void GAME_DATA_LoadFromSave(struct GameData *gd)
 {
-    u32 v;
-    u32 h;
-
-    if (func_020071E4((const struct Sub020071E4Ctrl *)(*(u32 *)&((struct Obj00054 *)p)->f0)) == 1) {
+    struct PlayerWork *player;
+    void *occupy;
+    struct UnionInfo *unionInfo;
+    struct FieldState *fieldState;
+    struct PlayTime *savedTime;
+    u32 situation;
+    if (func_020071E4(gd->saveControl) == 1) {
         return;
     }
-
-    v = (u32)func_020127A4((struct SaveBlock *)p);
-    func_02008808((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (struct Sub020087E8Arg *)v);
-    func_020088B8((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (struct Sub02008860Buf *)v);
-
-    v = func_02012964((const struct BigObj *)p);
-    func_0200EEAC((void *)v, (void *)((u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x29)));
-
-    func_0200BE6C((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (u16 *)func_020127B8(p));
-
-    v = (u32)func_020127C4(p);
-    func_0200A884(func_0200A864((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)), (struct Rec2Head *)v);
-
-    func_0200B3C8((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const struct Rec94 *)(p + 0x5EC));
-
-    h = ((struct Obj00054 *)p)->f15C;
-    func_0200893C((const struct Sub02008828Obj *)h, (void *)(*(u32 *)&((struct Obj00054 *)p)->f1B8));
-    func_02008954((const struct Sub02008828Obj *)h, p + 0x1C4);
-
-    v = func_0201283C((const struct BigObj_0201283C *)p);
-    func_020097F0(func_02009D08((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)), (struct Sub020097BCObj *)v);
-
-    func_02008964((const struct Sub02008828Obj *)(((struct Obj00054 *)p)->f15C), p + 0x1C5);
-
-    func_0200E89C((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), p + 0x694);
-
-    v = (u32)func_02008748((void *)(*(u32 *)&((struct Obj00054 *)p)->f0));
-    func_0200863C((struct PlayTime *)(((struct Obj00054 *)p)->f6AC), (const struct PlayTime *)v);
+    player = func_020127A4(gd);
+    func_02008808(gd->saveControl, player);
+    func_020088B8(gd->saveControl, player);
+    occupy = func_02012964(gd);
+    func_0200EEAC(occupy, func_020071CC(gd->saveControl, 0x29));
+    func_0200BE6C(gd->saveControl, (u16 *)func_020127B8(gd));
+    unionInfo = func_020127C4(gd);
+    func_0200A884(func_0200A864(gd->saveControl), unionInfo);
+    func_0200B3C8(gd->saveControl, (const struct FieldSaveData *)gd->fieldSave);
+    situation = gd->situation;
+    func_0200893C((const struct Situation *)situation, gd->moveModelSys);
+    func_02008954((const struct Situation *)situation, &gd->season);
+    fieldState = func_0201283C(gd);
+    func_020097F0(func_02009D08(gd->saveControl), fieldState);
+    func_02008964((const struct Situation *)gd->situation, &gd->subscreenMode);
+    func_0200E89C(gd->saveControl, gd->saveSyncBlock);
+    savedTime = func_02008748(gd->saveControl);
+    func_0200863C(gd->playTime, savedTime);
 }
 
 
@@ -1268,54 +1044,49 @@ void func_02012C18(u8 *p)
  * does.  The third use (0x0200895C, after two more calls) re-reads it, which
  * is also what the original does.
  *
- * p is a byte pointer: the offsets 0x15C / 0x1B8 / 0x1C4 / 0x1C5 / 0x5EC /
- * 0x694 / 0x6AC are plain byte displacements, and mwcc materialises 0x5EC as
- * a pool word (it is not a single-instruction ARM immediate).
+ * The GameData fields at 0x15C / 0x1B8 / 0x1C4 / 0x1C5 / 0x5EC / 0x694 /
+ * 0x6AC compile to the same displacements as the byte-pointer spelling the
+ * function had first; mwcc materialises 0x5EC as a pool word (it is not a
+ * single-instruction Thumb immediate).
  */
-void func_02012CE0(u8 *p)
+void GAME_DATA_WriteToSave(struct GameData *gd)
 {
-    u32 v;
-    u32 h;
-
-    v = (u32)func_020127A4((struct SaveBlock *)p);
-    func_020087E8((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const struct Sub020087E8Arg *)v);
-    func_02008860((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const struct Sub02008860Buf *)v);
-
-    v = func_02012964((const struct BigObj *)p);
-    func_0200EE64(v, (u8 *)((u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x29)));
-
-    func_0200BE54((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const u16 *)func_020127B8(p));
-
-    v = (u32)func_020127C4(p);
-    func_0200A870(func_0200A864((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)), (const struct Rec2Head *)v);
-
-    func_0200B3B0((struct Rec94 *)(p + 0x5EC), (void *)(*(u32 *)&((struct Obj00054 *)p)->f0));
-
-    h = ((struct Obj00054 *)p)->f15C;
-    func_0200892C((struct Sub02008828Obj *)h, (const void *)(*(u32 *)&((struct Obj00054 *)p)->f1B8));
-    func_0200894C((struct Sub02008828Obj *)h, ((struct Obj00054 *)p)->f1C4);
-
-    v = func_0201283C((const struct BigObj_0201283C *)p);
-    func_020097F0((const struct Sub020097BCObj *)v, func_02009D08((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)));
-
-    func_0200895C((struct Sub02008828Obj *)(((struct Obj00054 *)p)->f15C), ((struct Obj00054 *)p)->f1C5);
-
-    func_0200E884(p + 0x694, (void *)(*(u32 *)&((struct Obj00054 *)p)->f0));
-
-    v = (u32)func_02008748((void *)(*(u32 *)&((struct Obj00054 *)p)->f0));
-    func_02008658((struct PlayTime *)(((struct Obj00054 *)p)->f6AC));
-    func_0200863C((struct PlayTime *)v, (const struct PlayTime *)(((struct Obj00054 *)p)->f6AC));
+    struct PlayerWork *player;
+    void *occupy;
+    struct UnionInfo *unionInfo;
+    struct FieldState *fieldState;
+    struct PlayTime *savedTime;
+    u32 situation;
+    player = func_020127A4(gd);
+    func_020087E8(gd->saveControl, player);
+    func_02008860(gd->saveControl, player);
+    occupy = func_02012964(gd);
+    func_0200EE64(occupy, func_020071CC(gd->saveControl, 0x29));
+    func_0200BE54(gd->saveControl, (const u16 *)func_020127B8(gd));
+    unionInfo = func_020127C4(gd);
+    func_0200A870(func_0200A864(gd->saveControl), unionInfo);
+    func_0200B3B0((struct FieldSaveData *)gd->fieldSave, gd->saveControl);
+    situation = gd->situation;
+    func_0200892C((struct Situation *)situation, gd->moveModelSys);
+    func_0200894C((struct Situation *)situation, gd->season);
+    fieldState = func_0201283C(gd);
+    func_020097F0(fieldState, func_02009D08(gd->saveControl));
+    func_0200895C((struct Situation *)gd->situation, gd->subscreenMode);
+    func_0200E884(gd->saveSyncBlock, gd->saveControl);
+    savedTime = func_02008748(gd->saveControl);
+    func_02008658(gd->playTime);
+    func_0200863C(savedTime, gd->playTime);
 }
 
 
 
-int func_02012DAC(u8 *p)
+int func_02012DAC(struct GameData *gd)
 {
-    func_02012CE0(p);
-    func_0201042C();
-    ((struct Obj00054 *)p)->f1CE = 1;
+    GAME_DATA_WriteToSave(gd);
+    WIH_DWC_PauseTimers();
+    gd->isSaving = 1;
     func_0203516C(2, 1);
-    return func_02007150(((struct Obj00054 *)p)->f0);
+    return SAVE_CONTROL_StartSave(gd->saveControl);
 }
 
 
@@ -1325,37 +1096,35 @@ int func_02012DAC(u8 *p)
  *   python tools/match.py one --src src/matched/func_02012DD0.c \
  *       --func func_02012DD0 --addr 0x02012DD0 --cc 1.1p1 --thumb
  */
-int func_02012DD0(u8 *p)
+int func_02012DD0(struct GameData *gd)
 {
-    int r;
-
+    int result;
     if (func_02005C64() == 1) {
         return 0;
     }
-    r = func_02007168((struct Sub02007168 *)(((struct Obj11252 *)p)->f0));
-    if ((u32)(r - 2) <= 1) {
+    result = SAVE_CONTROL_MainSave(gd->saveControl);
+    if ((u32)(result - 2) <= 1) {
         func_020351A0(2);
-        func_02010444();
-        ((struct Obj11252 *)p)->f1CE = 0;
+        WIH_DWC_ResumeTimers();
+        gd->isSaving = 0;
     }
-    return r;
+    return result;
 }
 
 
 
-void func_02012E08(char *p)
+void GAME_DATA_SaveCancel(struct GameData *gd)
 {
-    u32 x;
-
-    if (((struct Obj08745 *)p)->f1CE != 1)
+    u32 soundId;
+    if (gd->isSaving != 1)
         return;
     func_020351A0(2);
-    func_02010444();
-    ((struct Obj08745 *)p)->f1CE = 0;
-    func_020071A8(((struct Obj08745 *)p)->f0);
-    x = 0x80;
-    if (func_02034FE8(x) == 1)
-        func_02034FB8(x);
+    WIH_DWC_ResumeTimers();
+    gd->isSaving = 0;
+    SAVE_CONTROL_CancelSave(gd->saveControl);
+    soundId = 0x80;
+    if (func_02034FE8(soundId) == 1)
+        func_02034FB8(soundId);
 }
 
 
@@ -1372,9 +1141,9 @@ void func_02012E08(char *p)
  *   python tools/match.py one --src src/matched/func_02012E40.c \
  *       --func func_02012E40 --addr 0x02012E40 --cc 1.1p1 --thumb
  */
-u8 func_02012E40(const u8 *o)
+u8 func_02012E40(const struct GameData *gd)
 {
-    return *(const u8 *)&((struct Obj16727 *)o)->f1CE;
+    return gd->isSaving;
 }
 
 
@@ -1384,32 +1153,31 @@ u8 func_02012E40(const u8 *o)
  *   python tools/match.py one --src src/matched/func_02012E4C.c \
  *       --func func_02012E4C --addr 0x02012E4C --cc 1.1p1 --thumb
  */
-void func_02012E4C(u8 *p, u32 id)
+void func_02012E4C(struct GameData *gd, u32 blockId)
 {
     func_02034F84(0x80);
-    func_02012CE0(p);
-    func_0201042C();
-    ((struct Obj00054 *)p)->f1CE = 1;
+    GAME_DATA_WriteToSave(gd);
+    WIH_DWC_PauseTimers();
+    gd->isSaving = 1;
     func_0203516C(2);
-    func_02007374((char *)*(u32 *)&((struct Obj00054 *)p)->f0, id);
+    SAVE_CONTROL_BeginExtraSaveWrite(gd->saveControl, blockId);
 }
 
 
 
-int func_02012E7C(char *p, int a1)
+int func_02012E7C(struct GameData *gd, int blockId)
 {
-    int r;
-
+    int result;
     if (func_02005C64() == 1)
         return 0;
-    r = func_020073B0((char *)(*(u32 *)&((struct Obj00054 *)p)->f0), a1);
-    if (r == 2 || r == 3) {
+    result = SAVE_CONTROL_StepExtraSaveWrite(gd->saveControl, blockId);
+    if (result == 2 || result == 3) {
         func_020351A0(2);
-        func_02010444();
-        ((struct Obj00054 *)p)->f1CE = 0;
+        WIH_DWC_ResumeTimers();
+        gd->isSaving = 0;
         func_02034FB8(0x80);
     }
-    return r;
+    return result;
 }
 
 
@@ -1429,37 +1197,37 @@ int func_02012E7C(char *p, int a1)
  *   python tools/match.py tu --src src/matched/unit_02012EBC.c \
  *       --addr 0x02012EBC --thumb
  */
-void *func_02012EBC(struct Big *p)
+struct SaveControl *func_02012EBC(struct GameData *gd)
 {
-    return p->unk_00;
+    return gd->saveControl;
 }
 
 
 
-void *func_02012EC0(struct Big *p)
+struct SaveControl *GAME_DATA_GetSaveControlWork(struct GameData *gd)
 {
-    return p->unk_00;
+    return gd->saveControl;
 }
 
 
 
-u8 *func_02012EC4(struct Big *p)
+u8 *func_02012EC4(struct GameData *gd)
 {
-    return &p->unk_5ec;
+    return gd->fieldSave;
 }
 
 
 
-u8 *func_02012ED0(struct Big *p)
+u8 *func_02012ED0(struct GameData *gd)
 {
-    return &p->unk_680;
+    return (u8 *)&gd->eventState;
 }
 
 
 
-void *func_02012ED8(struct Big *p)
+void *func_02012ED8(struct GameData *gd)
 {
-    return p->unk_688;
+    return gd->currentEvent;
 }
 
 
@@ -1467,10 +1235,10 @@ void *func_02012ED8(struct Big *p)
 /*
  * Unlabelled leaf accessor: stores v at base + 0x688.
  */
-char *func_02012EE4(char *base, int v)
+struct GameData *func_02012EE4(struct GameData *gd, void *event)
 {
-    ((struct BigObj_02012AE4 *)base)->f688 = v;
-    return base;
+    gd->currentEvent = event;
+    return gd;
 }
 
 
@@ -1478,9 +1246,9 @@ char *func_02012EE4(char *base, int v)
 /*
  * Unlabelled Thumb tail-call thunk: func_020071CC(*p, 0x3a).
  */
-void *func_02012EF0(void **p)
+void *GAME_DATA_GetSaveBlock3A(struct GameData *gd)
 {
-    return func_020071CC(*p, 0x3a);
+    return func_020071CC(gd->saveControl, 0x3a);
 }
 
 
@@ -1488,16 +1256,16 @@ void *func_02012EF0(void **p)
 /*
  * Unlabelled Thumb tail-call thunk: func_020071CC(*p, 0x3b).
  */
-void *func_02012EFC(void **p)
+void *GAME_DATA_GetSaveBlock3B(struct GameData *gd)
 {
-    return func_020071CC(*p, 0x3b);
+    return func_020071CC(gd->saveControl, 0x3b);
 }
 
 
 
-void *func_02012F08(int *p)
+void *func_02012F08(struct GameData *gd)
 {
-    return func_0200C0F0((void *)(*p));
+    return func_0200C0F0(gd->saveControl);
 }
 
 
@@ -1509,20 +1277,23 @@ void *func_02012F08(int *p)
  *
  * Addresses are Black-image addresses.
  */
-void *func_02012F14(void **h)
+void *GAME_DATA_GetSaveBlock1F(struct GameData *gd)
 {
-    return func_02009EC8(*h);
+    return func_02009EC8(gd->saveControl);
 }
 
 
 
-int func_02012F20(int p0){ return *(int *)((p0 + (0x684 << 0))); }
-
-
-
-void *func_02012F2C(int *p)
+int func_02012F20(struct GameData *gd)
 {
-    return func_020071CC((struct Sub020071CCCtrl *)*p, 0x26);
+    return gd->pmsWork;
+}
+
+
+
+void *func_02012F2C(struct GameData *gd)
+{
+    return func_020071CC(gd->saveControl, 0x26);
 }
 
 
@@ -1530,9 +1301,9 @@ void *func_02012F2C(int *p)
 /*
  * Unlabelled leaf accessor: base + 0x694.
  */
-int func_02012F38(int base)
+u8 *func_02012F38(struct GameData *gd)
 {
-    return base + 0x694;
+    return gd->saveSyncBlock;
 }
 
 
@@ -1540,9 +1311,9 @@ int func_02012F38(int base)
 /*
  * Unlabelled leaf: tail-calls func_020071CC(*(void **)p, 0x2a).
  */
-void *func_02012F44(void *p)
+void *GAME_DATA_GetSaveBlock2A(struct GameData *gd)
 {
-    return func_020071CC(((struct Obj00054 *)p)->f0, 0x2a);
+    return func_020071CC(gd->saveControl, 0x2a);
 }
 
 
@@ -1552,9 +1323,9 @@ void *func_02012F44(void *p)
  * disasm.py never traced a func_ label here; matching it gives the overlay
  * call sites a `matched` witness.
  */
-void *func_02012F50(void *base)
+u32 *GAME_DATA_GetListCursor(struct GameData *gd)
 {
-    return (char *)base + 0x6A4;
+    return &gd->listCursor;
 }
 
 
@@ -1566,29 +1337,29 @@ void *func_02012F50(void *base)
  *
  * Addresses are Black-image addresses.
  */
-void *func_02012F5C(void **h)
+void *GAME_DATA_GetSaveBlock21(struct GameData *gd)
 {
-    return func_020089C0(*h);
+    return func_020089C0(gd->saveControl);
 }
 
 
 
 /*
- * Two leaves before func_02012F80 (the +0x6a8 getter): save-block getter
+ * Two leaves before GAME_DATA_GetExternalWork (the +0x6a8 getter): save-block getter
  * for block 0x42 through the handle's first word, and the +0x6a8 setter.
  * Seeded from ov048/ov171/ov205 (0x02012F68) and ov010 func_0215DDC8 and
  * func_0215DE0C (0x02012F74).
  */
-void *func_02012F68(void **h)
+void *GAME_DATA_GetSaveBlock42(struct GameData *gd)
 {
-    return func_020071CC(*h, 0x42);
+    return func_020071CC(gd->saveControl, 0x42);
 }
 
 
 
-void func_02012F74(void *h, void *w)
+void GAME_DATA_SetExternalWork(struct GameData *gd, void *work)
 {
-    ((struct BigObj_02012C0C *)h)->f6A8 = w;
+    gd->externalWork = work;
 }
 
 
@@ -1598,9 +1369,9 @@ void func_02012F74(void *h, void *w)
  * register-saving prologue, so disasm.py never traced a func_ label here;
  * matching it gives the overlay call sites a `matched` witness.
  */
-int func_02012F80(char *base)
+void *GAME_DATA_GetExternalWork(struct GameData *gd)
 {
-    return ((struct Obj15637 *)base)->f6A8;
+    return gd->externalWork;
 }
 
 
@@ -1609,9 +1380,9 @@ int func_02012F80(char *base)
  * Unlabelled leaf: tail-calls func_02009448(*p).  Filed as the witness for
  * ov021 func_021D1670, func_021D16D8 and func_021D179C.
  */
-u32 func_02012F8C(u32 *p)
+void *func_02012F8C(struct GameData *gd)
 {
-    return (u32)func_02009448((void *)(*p));
+    return func_02009448(gd->saveControl);
 }
 
 
@@ -1619,9 +1390,9 @@ u32 func_02012F8C(u32 *p)
 /*
  * Unlabelled leaf: tail-calls func_02007B44(*(void **)p).
  */
-struct Sub02007AC8Entry *func_02012F98(void *p)
+void *func_02012F98(struct GameData *gd)
 {
-    return func_02007B44(((struct Obj00054 *)p)->f0);
+    return func_02007B44(gd->saveControl);
 }
 
 
@@ -1629,9 +1400,9 @@ struct Sub02007AC8Entry *func_02012F98(void *p)
 /*
  * Unlabelled Thumb leaf: stores a byte at +0x1CF.
  */
-void func_02012FA4(char *p, unsigned char v)
+void GAME_DATA_SetSymbolMapFlag(struct GameData *gd, u8 flag)
 {
-    *(char *)(p + 0x1cf) = v;
+    gd->symbolMapFlag = flag;
 }
 
 
@@ -1639,39 +1410,42 @@ void func_02012FA4(char *p, unsigned char v)
 /*
  * Unlabelled leaf accessor: reads the byte at base + 0x1CF.
  */
-int func_02012FB0(unsigned char *base)
+int func_02012FB0(struct GameData *gd)
 {
-    return ((struct Obj15639 *)base)->f1CF;
+    return gd->symbolMapFlag;
 }
 
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012FBC.c \
- *       --func func_02012FBC --addr 0x02012FBC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_DATA_CheckPlayTime.c \
+ *       --func GAME_DATA_CheckPlayTime --addr 0x02012FBC --cc 1.1p1 --thumb
  */
-u32 func_02012FBC(u8 *p, u32 x)
+u32 GAME_DATA_CheckPlayTime(struct GameData *gd, u32 limit)
 {
-    return func_020085D4(((struct Obj15640 *)p)->f6AC, x);
+    return func_020085D4(gd->playTime, limit);
 }
 
 
 
-int func_02012FCC(int p0){ return *(int *)((p0 + (0x6AC << 0))); }
-
-
-
-void *func_02012FD8(void **p)
+struct PlayTime *func_02012FCC(struct GameData *gd)
 {
-    return func_020071CC(*p, 0x43);
+    return gd->playTime;
 }
 
 
 
-void *func_02012FE4(struct Sub020071CCCtrl *a0)
+void *func_02012FD8(struct GameData *gd)
 {
-    return func_020071CC(a0, 0x2d);
+    return func_020071CC(gd->saveControl, 0x43);
+}
+
+
+
+void *GAME_DATA_GetEventWorkFromSave(struct SaveControl *save)
+{
+    return func_020071CC(save, 0x2d);
 }
 
 
@@ -1679,26 +1453,28 @@ void *func_02012FE4(struct Sub020071CCCtrl *a0)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * Battle setup global pointer setter and clamped index lookup into data_0209DFB0.
+ * Message speed: the save control pointer setter and the clamped lookup of
+ * the wait for the configured speed in sMsgSpeedWaitTable. These look like
+ * a file of their own (see misplaced.tsv of the cleanup lane).
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02012FF0.c \
  *       --addr 0x02012FF0 --thumb
  */
-void func_02012FF0(void *val)
+void func_02012FF0(struct SaveControl *save)
 {
-    ptr_020A7298 = val;
+    sMsgSpeedSaveControl = save;
 }
 
 
 
 signed char func_02012FFC(void)
 {
-    u32 val = func_02008374((int)func_0200873C(ptr_020A7298));
-    if (val >= 5) {
-        val = 4;
+    u32 speed = CONFIG_GetTextSpeed(func_0200873C(sMsgSpeedSaveControl));
+    if (speed >= 5) {
+        speed = 4;
     }
-    return data_0209DFB0[val];
+    return sMsgSpeedWaitTable[speed];
 }
 
 
@@ -1706,7 +1482,8 @@ signed char func_02012FFC(void)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * Mode mapping helpers calling clamped lookup func_02013080.
+ * The slower and faster neighbours of the configured message speed, both
+ * through the clamped lookup func_02013080.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02013020.c \
@@ -1714,48 +1491,48 @@ signed char func_02012FFC(void)
  */
 signed char func_02013020(void)
 {
-    u32 val = func_02008374((int)func_0200873C(ptr_020A7298));
-    switch (val) {
+    u32 speed = CONFIG_GetTextSpeed(func_0200873C(sMsgSpeedSaveControl));
+    switch (speed) {
     case 0:
-        val = 1;
+        speed = 1;
         break;
     case 1:
-        val = 2;
+        speed = 2;
         break;
     case 2:
-        val = 3;
+        speed = 3;
         break;
     }
-    return func_02013080(val);
+    return func_02013080(speed);
 }
 
 
 
 signed char func_02013050(void)
 {
-    u32 val = func_02008374((int)func_0200873C(ptr_020A7298));
-    switch (val) {
+    u32 speed = CONFIG_GetTextSpeed(func_0200873C(sMsgSpeedSaveControl));
+    switch (speed) {
     case 0:
-        val = 4;
+        speed = 4;
         break;
     case 1:
-        val = 0;
+        speed = 0;
         break;
     case 2:
-        val = 1;
+        speed = 1;
         break;
     }
-    return func_02013080(val);
+    return func_02013080(speed);
 }
 
 
 
-signed char func_02013080(u32 idx)
+signed char func_02013080(u32 speed)
 {
-    if (idx >= 5) {
-        idx = 4;
+    if (speed >= 5) {
+        speed = 4;
     }
-    return data_0209DFB0[idx];
+    return sMsgSpeedWaitTable[speed];
 }
 
 
@@ -1765,21 +1542,20 @@ signed char func_02013080(u32 idx)
  *   python tools/match.py one --src src/matched/func_02013090.c \
  *       --func func_02013090 --addr 0x02013090 --cc 1.1p1 --thumb
  */
-void *func_02013090(u32 heap)
+struct BattleSetupParam *func_02013090(u32 heap)
 {
-    void *p;
-
-    p = func_02030734(heap, 0xf0, 0, (const char *)&sZonedataFile, 0x31);
-    func_020130C4(p);
-    return p;
+    struct BattleSetupParam *param;
+    param = func_02030734(heap, 0xf0, 0, sBtlSetupFileName, 0x31);
+    func_020130C4(param);
+    return param;
 }
 
 
 
-void func_020130B4(struct Zone *p)
+void func_020130B4(struct BattleSetupParam *param)
 {
-    func_020130DC(p);
-    func_020307B0(p);
+    BTL_SETUP_FreeSlots(param);
+    func_020307B0(param);
 }
 
 
@@ -1789,10 +1565,10 @@ void func_020130B4(struct Zone *p)
  *   python tools/match.py one --src src/matched/func_020130C4.c \
  *       --func func_020130C4 --addr 0x020130C4 --cc 1.1p1 --thumb
  */
-void func_020130C4(u8 *p)
+void func_020130C4(struct BattleSetupParam *param)
 {
-    func_02082BCC(p, 0, 0xf0);
-    func_02013220((char *)(p + 8));
+    func_02082BCC(param, 0, 0xf0);
+    BTL_SETUP_InitFieldSituation(&param->fieldSituation);
 }
 
 
@@ -1804,36 +1580,35 @@ void func_020130C4(u8 *p)
  * because it saves nothing -- report it for layout/function_starts.txt
  * rather than editing that file here.
  */
-void func_020130DC(struct Zone *p)
+void BTL_SETUP_FreeSlots(struct BattleSetupParam *param)
 {
     int i;
-
     for (i = 0; i < 4; i++) {
-        if (p->a24[i] != 0)
-            func_020307B0(p->a24[i]);
-        if (p->a48[i] != 0)
-            func_02013270(p->a48[i]);
-        if (i != 0 && p->a34[i] != 0)
-            func_020307B0(p->a34[i]);
+        if (param->party[i] != 0)
+            func_020307B0(param->party[i]);
+        if (param->trainerData[i] != 0)
+            BTL_SETUP_DeleteTrainerData(param->trainerData[i]);
+        if (i != 0 && param->playerStatus[i] != 0)
+            func_020307B0(param->playerStatus[i]);
     }
-    if (p->f94 != 0)
-        func_020307B0(p->f94);
-    func_02082BCC(p, 0, 0xf0);
+    if (param->recordBuffer != 0)
+        func_020307B0(param->recordBuffer);
+    func_02082BCC(param, 0, 0xf0);
 }
 
 
 
 /*
- * Unlabelled Thumb thunk in the ARM9 module (zonedata.c). Tail-calls
+ * Unlabelled Thumb thunk (btl_setup.c). Tail-calls
  * func_0201AC2C (the 0x534-byte container copy in unit_0201AC2C.c,
  * prototype (src, dst)) with the second argument as source and the i-th
  * pointer of the table at +0x24 as destination.
  *
  * Addresses are Black-image addresses.
  */
-void func_02013128(void *p, void *src, int i)
+void BTL_SETUP_SetParty(struct BattleSetupParam *param, struct Party *src, int client)
 {
-    func_0201AC2C(src, ((void **)((char *)p + 0x24))[i]);
+    func_0201AC2C(src, param->party[client]);
 }
 
 
@@ -1841,16 +1616,16 @@ void func_02013128(void *p, void *src, int i)
 /*
  * Unlabelled Thumb leaf: the i-th pointer of the table at +0x24.
  */
-void *func_0201313C(void *p, int i)
+void *BTL_SETUP_GetParty(struct BattleSetupParam *param, int client)
 {
-    return ((void **)((char *)p + 0x24))[i];
+    return param->party[client];
 }
 
 
 
-void func_02013144(char *p, int v)
+void func_02013144(struct BattleSetupParam *param, int flag)
 {
-    ((struct Obj15642 *)p)->f82 |= (unsigned short)v;
+    param->statusFlags |= (unsigned short)flag;
 }
 
 
@@ -1858,9 +1633,9 @@ void func_02013144(char *p, int v)
 /*
  * Unlabelled leaf accessor: returns m & *(u16 *)(base + 0x82).
  */
-int func_02013158(char *base, int m)
+int BTL_SETUP_CheckStatusFlag(struct BattleSetupParam *param, int mask)
 {
-    return ((struct Obj15643 *)base)->f82 & m;
+    return param->statusFlags & mask;
 }
 
 
@@ -1907,88 +1682,94 @@ int func_02013158(char *base, int m)
  *
  * EXACT*: all 170 code bytes reproduce (4 of 4 relocation sites resolved);
  * the inferred extent ran two bytes long only on the `movs r0, r0` alignment
- * pad at 0x0201320A before func_0201320C.  Never a byte difference.
+ * pad at 0x0201320A before BTL_SETUP_InitCommFieldSituation.  Never a byte difference.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013160.c \
- *       --func func_02013160 --addr 0x02013160 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_ApplyRegulation.c \
+ *       --func BTL_SETUP_ApplyRegulation --addr 0x02013160 --cc 1.1p1 --thumb
  */
-void func_02013160(u8 *o, void *a1, u32 a2)
+void BTL_SETUP_ApplyRegulation(struct BattleSetupParam *param, struct Regulation *reg, u32 level)
 {
     u32 bit = 0x10;
     u32 sec = 0x3c;
     int i;
-
-    ((struct Obj01199 *)o)->f76 = (u16)(sec * func_0200AE54(a1, 0x10));
-    ((struct Obj01199 *)o)->f74 = (u16)(sec * func_0200AE54(a1, 0xf));
-    func_0200B040(a1, (struct RegAC *)(o + 0x78));
-    switch (func_0200AE54(a1, 0x12)) {
+    param->limitTimeCommand = (u16)(sec * func_0200AE54(reg, 0x10));
+    param->limitTimeGame = (u16)(sec * func_0200AE54(reg, 0xf));
+    func_0200B040(reg, param->regulationRules);
+    switch (func_0200AE54(reg, 0x12)) {
     case 0:
         break;
     case 1:
-        ((struct Obj01199 *)o)->f82 |= (u16)(bit << 7);
+        param->statusFlags |= (u16)(bit << 7);
         break;
     case 2:
-        ((struct Obj01199 *)o)->f82 |= (u16)(bit << 6);
+        param->statusFlags |= (u16)(bit << 6);
         break;
     case 3:
-        ((struct Obj01199 *)o)->f82 |= (u16)(bit << 6);
-        ((struct Obj01199 *)o)->f82 |= (u16)(bit << 7);
+        param->statusFlags |= (u16)(bit << 6);
+        param->statusFlags |= (u16)(bit << 7);
         break;
     }
     for (i = 0; i < 4; i++) {
-        u8 *e = o + i * 4;
-        if (((struct Obj08746 *)e)->f24 != 0) {
-            func_0201A30C(a1, (void *)(((struct Obj08746 *)e)->f24), a2);
-            func_0201A2A8(a1, (void *)(((struct Obj08746 *)e)->f24));
+        if (param->party[i] != 0) {
+            POKE_REGULATION_ResetPartyNicknames(reg, param->party[i], level);
+            func_0201A2A8(reg, param->party[i]);
         }
     }
 }
 
 
 
-void func_0201320C(int p0){ ((struct Obj04040 *)p0)->f0 = (int)9; ((struct Obj04040 *)p0)->f4 = (int)0; ((struct Obj04040 *)p0)->f8 = (unsigned char)0; ((struct Obj04040 *)p0)->fA = (unsigned short)0; ((struct Obj04040 *)p0)->fC = (unsigned char)0; ((struct Obj04040 *)p0)->fD = (unsigned char)0; ((struct Obj04040 *)p0)->f9 = (unsigned char)0; }
-
-
-
-void func_02013220(char *p)
+void BTL_SETUP_InitCommFieldSituation(struct FieldSituation *sit)
 {
-    ((struct Obj04041 *)p)->f0 = 0;
-    ((struct Obj04041 *)p)->f4 = 0;
-    ((struct Obj04041 *)p)->f9 = 0;
-    ((struct Obj04041 *)p)->f8 = 0;
-    ((struct Obj04041 *)p)->fA = 0;
-    ((struct Obj04041 *)p)->fC = 0xa;
-    ((struct Obj04041 *)p)->fD = 0;
+    sit->bgType = 9;
+    sit->bgAttr = 0;
+    sit->weather = 0;
+    sit->zoneId = 0;
+    sit->hour = 0;
+    sit->minute = 0;
+    sit->season = 0;
+}
+
+
+
+void BTL_SETUP_InitFieldSituation(struct FieldSituation *sit)
+{
+    sit->bgType = 0;
+    sit->bgAttr = 0;
+    sit->season = 0;
+    sit->weather = 0;
+    sit->zoneId = 0;
+    sit->hour = 0xa;
+    sit->minute = 0;
 }
 
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013234.c \
- *       --func func_02013234 --addr 0x02013234 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_CreateTrainerData.c \
+ *       --func BTL_SETUP_CreateTrainerData --addr 0x02013234 --cc 1.1p1 --thumb
  */
-void *func_02013234(u16 heap)
+struct BattleTrainerData *BTL_SETUP_CreateTrainerData(u16 heap)
 {
-    struct Obj_02012914 *p;
-
-    p = func_02030734(heap, 0x28, 1, (const char *)&sZonedataFile, 0xef);
-    p->unk14 = func_020457B0(0x10, heap);
-    p->unk00 = 0;
-    func_0202428C(&p->pad18[0]);
-    func_0202428C(&p->pad18[8]);
-    return p;
+    struct BattleTrainerData *tr;
+    tr = func_02030734(heap, 0x28, 1, sBtlSetupFileName, 0xef);
+    tr->name = func_020457B0(0x10, heap);
+    tr->trainerId = 0;
+    PMSI_PARAM_ClearSentence(tr->winWord);
+    PMSI_PARAM_ClearSentence(tr->loseWord);
+    return tr;
 }
 
 
 
-void func_02013270(struct Obj_02012914 *p)
+void BTL_SETUP_DeleteTrainerData(struct BattleTrainerData *tr)
 {
-    func_02045808(p->unk14);
-    func_020307B0(p);
+    func_02045808(tr->name);
+    func_020307B0(tr);
 }
 
 
@@ -1996,7 +1777,7 @@ void func_02013270(struct Obj_02012914 *p)
 /*
  * btl_setup.c.  The sub-block filler, and the most-called function of the
  * family: every builder in the range (func_02013610, func_02013644,
- * func_02013678, func_020136AC, func_020136E0, func_02013734, func_02013810,
+ * func_02013678, func_020136AC, func_020136E0, func_02013734, BTL_SETUP_SetupCommAiMulti,
  * all EXACT) calls it once or three times.  It lazily fills two slots - the
  * caller's own out-pointer and the object's +0x48 array entry - then, only if
  * the value argument is non-zero, binds them together and picks the object's
@@ -2018,8 +1799,8 @@ void func_02013270(struct Obj_02012914 *p)
  * a single pointer, `slot = (u32 *)(o + 0x48 + n * 4)`, folds the two into
  * one value and the allocator then has one fewer value to colour, which is
  * what produced the r5/r6/r7 rotation the permuter reported.  Splitting it
- * into a `u8 *base` and a separate `u32 off`, and indexing as
- * `*(u32 *)(base + off)`, keeps both values live and gives the original
+ * into a `u8 *slots` (the trainerData array) and a separate `u32 off`, and indexing as
+ * `*(struct BattleTrainerData **)(slots + off)`, keeps both values live and gives the original
  * registers and the original `lsls` / `adds` order.  A `u32 *` base with a
  * divided index (`base[off / 4]`) does NOT work: the compiler folds the
  * scaling back out and the rotation returns.
@@ -2041,59 +1822,57 @@ void func_02013270(struct Obj_02012914 *p)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013284.c \
- *       --func func_02013284 --addr 0x02013284 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetTrainer.c \
+ *       --func BTL_SETUP_SetTrainer --addr 0x02013284 --cc 1.1p1 --thumb
  */
-void func_02013284(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u16 h)
+void BTL_SETUP_SetTrainer(struct BattleSetupParam *param, struct GameData *gd, u32 client, struct Party **party, u32 trainerId, u16 heap)
 {
-    u8 *base;
+    u8 *slots;
     u32 off;
-
-    if (*dst == 0) {
-        *dst = (u32)func_0201A920(h);
+    if (*party == 0) {
+        *party = func_0201A920(heap);
     }
-    off = n * 4;
-    base = o + 0x48;
-    if (*(u32 *)(base + off) == 0) {
-        *(u32 *)(base + off) = (u32)func_02013234(h);
+    off = client * 4;
+    slots = (u8 *)param->trainerData;
+    if (*(struct BattleTrainerData **)(slots + off) == 0) {
+        *(struct BattleTrainerData **)(slots + off) = BTL_SETUP_CreateTrainerData(heap);
     }
-    if (v == 0) {
+    if (trainerId == 0) {
         return;
     }
-    func_0202A440(v, (struct Out *)(*(u32 *)(base + off)), h);
-    func_0202A4B4(v, *dst, h);
-    func_0216AAE4((u32)a1, *dst, func_02012984((const struct BigObj *)((u32)a1)));
-    switch (func_0202A3FC(*(u32 *)(*(u32 *)(base + off) + 4))) {
+    func_0202A440(trainerId, *(struct BattleTrainerData **)(slots + off), heap);
+    func_0202A4B4(trainerId, *party, heap);
+    func_0216AAE4(gd, *party, func_02012984(gd));
+    switch (func_0202A3FC((*(struct BattleTrainerData **)(slots + off))->trainerType)) {
     case 2:
     case 3:
-        ((struct Obj00155 *)o)->f1A = 0x47e;
+        param->bgmWin = 0x47e;
         break;
     case 7:
     case 8:
-        ((struct Obj00155 *)o)->f1A = 0x47f;
+        param->bgmWin = 0x47f;
         break;
     case 4:
     case 11:
-        ((struct Obj00155 *)o)->f1A = 0x480;
+        param->bgmWin = 0x480;
         break;
     case 6:
     case 9:
-        ((struct Obj00155 *)o)->f1A = 0x491;
+        param->bgmWin = 0x491;
         break;
     default:
-        ((struct Obj00155 *)o)->f1A = 0x47d;
+        param->bgmWin = 0x47d;
         break;
     }
 }
 
 
 
-void func_0201333C(u8 *o, void *a1, u16 a2)
+void BTL_SETUP_SetPlayerParty(struct BattleSetupParam *param, struct GameData *gd, u16 heap)
 {
-    func_020127A4(a1);
-    ((struct Obj00155 *)o)->f24 = (u32)func_0201A920(a2);
-    func_0201AC2C((const struct Rec534 *)func_02012934((const struct BigObj *)a1),
-                  (struct Rec534 *)((struct Obj00155 *)o)->f24);
+    func_020127A4(gd);
+    param->party[0] = func_0201A920(heap);
+    func_0201AC2C(func_02012934(gd), param->party[0]);
 }
 
 
@@ -2119,52 +1898,51 @@ void func_0201333C(u8 *o, void *a1, u16 a2)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013360.c  *       --func func_02013360 --addr 0x02013360 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_InitCommon.c  *       --func BTL_SETUP_InitCommon --addr 0x02013360 --cc 1.1p1 --thumb
  */
-void func_02013360(u8 *o, void *a1, const void *a2)
+void BTL_SETUP_InitCommon(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit)
 {
     u32 i = 0;
     u32 j;
-    u32 t;
-    u32 u;
-
-    ((struct Obj00155 *)o)->f84 = 0xffff;
-    *(o + 0x20) = 0;
-    *(o + 0x21) = 0;
-    *(o + 0x22) = 0;
-    ((struct Obj00155 *)o)->f94 = 0;
-    *(o + 0x23) = 0;
-    *(o + 0xc1) = *(o + 0xc1) & ~1;
-    ((struct Obj00155 *)o)->f1C = 0;
-    *(o + 0xc1) = *(o + 0xc1) & ~2;
-    ((struct Obj00155 *)o)->f58 = (u32)a1;
+    struct SaveControl *save;
+    void *misc;
+    param->levelCap = 0xffff;
+    param->commPos = 0;
+    param->netId = 0;
+    param->multiMode = 0;
+    param->recordBuffer = 0;
+    param->ownsSlots = 0;
+    param->bitFlags = param->bitFlags & ~1;
+    param->netHandle = 0;
+    param->bitFlags = param->bitFlags & ~2;
+    param->gameData = gd;
     for (; i < 4; i++) {
-        *(u32 *)(o + i * 4 + 0x24) = 0;
-        *(u32 *)(o + i * 4 + 0x34) = 0;
+        param->party[i] = 0;
+        param->playerStatus[i] = 0;
     }
     for (j = 0; j < 6; j++) {
-        *(o + j + 0xc2) = 0;
+        param->resultFlags[j] = 0;
     }
-    *(o + 0x7f) = 1;
+    param->recordEnabled = 1;
     for (i = 0; i < 7; i++) {
-        *(o + i + 0x78) = 0;
+        param->regulationRules[i] = 0;
     }
-    ((struct Obj00155 *)o)->f34 = (u32)func_02012944(a1);
-    ((struct Obj00155 *)o)->f60 = func_0201292C(a1);
-    ((struct Obj00155 *)o)->f64 = func_02012924(a1);
-    ((struct Obj00155 *)o)->f68 = (u32)func_0200CA1C(a1);
-    ((struct Obj00155 *)o)->f70 = func_02012F20((int)a1);
-    ((struct Obj00155 *)o)->f6C = (u32)func_02012F2C(a1);
-    t = (u32)func_02012EBC(a1);
-    u = (u32)func_0200C0E8((void *)t);
-    ((struct Obj00155 *)o)->f5C = (u32)func_0200873C((void *)t);
-    *(o + 0x80) = (u8)func_0200C258((struct Blk34 *)u);
-    func_02082D44(a2, o + 8, 0x10);
-    ((struct Obj00155 *)o)->f18 = 0x468;
-    ((struct Obj00155 *)o)->f1A = 0x468 + 0x14;
-    ((struct Obj00155 *)o)->f8C = 1;
-    if (func_020142E8((void *)func_0201296C(a1), 0x96d) != 0) {
-        func_02013144((char *)o, 2);
+    param->playerStatus[0] = func_02012944(gd);
+    param->myItem = func_0201292C(gd);
+    param->mapMatrix = GAME_DATA_GetMapMatrix(gd);
+    param->zukanWork = func_0200CA1C(gd);
+    param->pmsWork = func_02012F20(gd);
+    param->trainerRecord = func_02012F2C(gd);
+    save = func_02012EBC(gd);
+    misc = func_0200C0E8(save);
+    param->config = func_0200873C(save);
+    param->badgeCount = (u8)func_0200C258(misc);
+    func_02082D44(sit, &param->fieldSituation, 0x10);
+    param->bgmBattle = 0x468;
+    param->bgmWin = 0x468 + 0x14;
+    param->moneyRate = 1;
+    if (func_020142E8(func_0201296C(gd), 0x96d) != 0) {
+        func_02013144(param, 2);
     }
 }
 
@@ -2172,7 +1950,7 @@ void func_02013360(u8 *o, void *a1, const void *a2)
 
 /*
  * btl_setup.c.  The link-battle variant of the setup builder: the same
- * three shared writers as func_020135C0, then the object is put in mode 0
+ * three shared writers as BTL_SETUP_SetupDemo, then the object is put in mode 0
  * and a consistency check on the +0x24 slot decides whether flag 0x40 is
  * set.
  *
@@ -2186,11 +1964,8 @@ void func_02013360(u8 *o, void *a1, const void *a2)
  * as a gratuitous register copy before the store.  It is not: r1 is the
  * second argument of the guarded func_0201AC2C call below, so the value has
  * to reach r1 anyway and the store then sources it from there.  The
- * declaration has to be variadic, `void func_0201AC2C(u32 a, ...)`, because
- * the other call site of this family (in func_020135C0, EXACT) passes two
- * registers while some pass one; a fixed two-parameter declaration emits a
- * spurious `movs r1, #0`.  This is the same finding
- * docs/notes/pkt_02013528.c.txt reached for func_020135C0.
+ * first drafts declared func_0201AC2C variadic; with every call written with
+ * both arguments, the plain (src, dst) prototype gives the same bytes.
  *
  * (2) func_020076D0 takes THREE arguments, and its first is the return
  * value of the func_0201293C call immediately above it.  The original sets
@@ -2208,7 +1983,7 @@ void func_02013360(u8 *o, void *a1, const void *a2)
  *
  * EXACT*: all 118 code bytes reproduce (10 of 10 relocation sites
  * resolved); the inferred extent ran two bytes long only on the
- * `movs r0, r0` alignment pad at 0x020134F2 before func_020134F4.  Never a
+ * `movs r0, r0` alignment pad at 0x020134F2 before BTL_SETUP_SetupTrainerBase.  Never a
  * byte difference.
  *
  * Addresses are Black-image addresses.
@@ -2217,33 +1992,32 @@ void func_02013360(u8 *o, void *a1, const void *a2)
  *   python tools/match.py one --src src/matched/func_0201347C.c \
  *       --func func_0201347C --addr 0x0201347C --cc 1.1p1 --thumb
  */
-void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
+void func_0201347C(struct BattleSetupParam *param, struct GameData *gd, struct Party *wildParty, const struct FieldSituation *sit, u32 rule, u16 heap)
 {
-    u32 x;
-    u32 y;
-    u32 r;
-    u32 t;
-    u32 u;
-
-    func_020130C4(a0);
-    func_02013360(a0, a1, (const void *)a3);
-    func_0201333C(a0, a1, a5);
-    r = (u32)func_0201A920(a5);
-    ((struct Obj00155 *)a0)->f28 = r;
-    if (a2 != 0) {
-        func_0201AC2C((const struct Rec534 *)a2, (struct Rec534 *)r);
+    u32 tray;
+    u32 pos;
+    struct Party *enemy;
+    u32 count;
+    u32 box;
+    func_020130C4(param);
+    BTL_SETUP_InitCommon(param, gd, sit);
+    BTL_SETUP_SetPlayerParty(param, gd, heap);
+    enemy = func_0201A920(heap);
+    param->party[1] = enemy;
+    if (wildParty != 0) {
+        func_0201AC2C(wildParty, enemy);
     }
-    ((struct Obj00155 *)a0)->f4 = a4;
-    ((struct Obj00155 *)a0)->f0 = 0;
-    t = func_0201AA18((void *)((struct Obj00155 *)a0)->f24);
-    if (t != func_0201AA14((void *)(((struct Obj00155 *)a0)->f24))) {
+    param->rule = rule;
+    param->competitor = 0;
+    count = func_0201AA18(param->party[0]);
+    if (count != func_0201AA14(param->party[0])) {
         return;
     }
-    u = func_0201293C(a1);
-    x = 0;
-    y = 0;
-    if (func_020076D0((void *)u, (int *)(&x), (int *)(&y)) == 0) {
-        func_02013144((char *)a0, 0x40);
+    box = func_0201293C(gd);
+    tray = 0;
+    pos = 0;
+    if (func_020076D0(box, &tray, &pos) == 0) {
+        func_02013144(param, 0x40);
     }
 }
 
@@ -2251,17 +2025,17 @@ void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020134F4.c \
- *       --func func_020134F4 --addr 0x020134F4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetupTrainerBase.c \
+ *       --func BTL_SETUP_SetupTrainerBase --addr 0x020134F4 --cc 1.1p1 --thumb
  */
-void func_020134F4(u8 *p, u32 a1, u32 a2, u32 a3, u16 h)
+void BTL_SETUP_SetupTrainerBase(struct BattleSetupParam *param, struct GameData *gd, u32 rule, const struct FieldSituation *sit, u16 heap)
 {
-    func_020130C4(p);
-    func_02013360(p, (void *)a1, (const void *)a3);
-    func_0201333C(p, (void *)a1, h);
-    ((struct Obj00155 *)p)->f0 = 1;
-    ((struct Obj00155 *)p)->f4 = a2;
-    ((struct Obj00155 *)p)->f1A = 0x47d;
+    func_020130C4(param);
+    BTL_SETUP_InitCommon(param, gd, sit);
+    BTL_SETUP_SetPlayerParty(param, gd, heap);
+    param->competitor = 1;
+    param->rule = rule;
+    param->bgmWin = 0x47d;
 }
 
 
@@ -2270,44 +2044,42 @@ void func_020134F4(u8 *p, u32 a1, u32 a2, u32 a3, u16 h)
 
 
 /*
- * btl_setup.c. The eight-argument setup builder (sibling of func_020135C0).
+ * btl_setup.c. The eight-argument setup builder (sibling of BTL_SETUP_SetupDemo).
  *
  * THE LEVER (wave 18, lane ties_b; it was DIFF 152/152, 6 bytes out for four
  * waves, docs/notes/pkt_02013528.c.txt): the eighth (stack) parameter is a
- * heap id and is u16, with u16 on the matching parameter of func_0201333C,
- * func_0200846C and func_0201A920 (func_020135C0 already declares the first
+ * heap id and is u16, with u16 on the matching parameter of BTL_SETUP_SetPlayerParty,
+ * func_0200846C and func_0201A920 (BTL_SETUP_SetupDemo already declares the first
  * and last that way). With u32 there, 1.1p1 schedules the r3 home store
  * `str r3, [sp]` after the three parameter copies; with u16 it comes first,
  * as in the image. docs/idioms/a-u16-stack-parameter-passed-to-a-u16-callee-
  * stays-behind-a-spill-store.md is the same lever.
  */
-void func_02013528(u8 *o, void *a1, u32 a2, u8 a3, u32 a4, u8 a5, u8 a6, u16 a7)
+void BTL_SETUP_SetupComm(struct BattleSetupParam *param, struct GameData *gd, u32 rule, u8 multiMode, u32 netHandle, u8 commPos, u8 netId, u16 heap)
 {
-    u32 sub[4];
+    struct FieldSituation sit;
     u32 i;
-
-    func_020130C4(o);
-    func_0201320C((int)sub);
-    sub[0] = 9;
-    sub[1] = 1;
-    func_02013360(o, a1, sub);
-    func_0201333C(o, a1, a7);
-    ((struct Obj00155 *)o)->f0 = 3;
-    ((struct Obj00155 *)o)->f4 = a2;
-    ((struct Obj00155 *)o)->f1C = a4;
-    *(o + 0x20) = a5;
-    *(o + 0x22) = a3;
-    *(o + 0x21) = a6;
-    ((struct Obj00155 *)o)->f84 = 0xff;
-    ((struct Obj00155 *)o)->f1A = 0x47d;
+    func_020130C4(param);
+    BTL_SETUP_InitCommFieldSituation(&sit);
+    sit.bgType = 9;
+    sit.bgAttr = 1;
+    BTL_SETUP_InitCommon(param, gd, &sit);
+    BTL_SETUP_SetPlayerParty(param, gd, heap);
+    param->competitor = 3;
+    param->rule = rule;
+    param->netHandle = netHandle;
+    param->commPos = commPos;
+    param->multiMode = multiMode;
+    param->netId = netId;
+    param->levelCap = 0xff;
+    param->bgmWin = 0x47d;
     i = 0;
     do {
         if (i != 0) {
-            u8 *e = o + i * 4;
-            if (((struct Obj06858 *)e)->f34 == 0)
-                ((struct Obj06858 *)e)->f34 = (u32)func_0200846C(a7);
-            if (((struct Obj06858 *)e)->f24 == 0)
-                ((struct Obj06858 *)e)->f24 = (u32)func_0201A920(a7);
+            if (param->playerStatus[i] == 0)
+                param->playerStatus[i] = func_0200846C(heap);
+            if (param->party[i] == 0)
+                param->party[i] = func_0201A920(heap);
         }
         i++;
     } while (i < 4);
@@ -2340,7 +2112,7 @@ void func_02013528(u8 *o, void *a1, u32 a2, u8 a3, u32 a4, u8 a5, u8 a6, u16 a7)
  * then reads it from there.  The "leftover" register really is a passed
  * argument, the same tell as
  * docs/idioms/a-loop-carried-value-in-a-callees-argument-register-names-the-arity.md.
- * The variadic declaration is what lets the two sites differ in arity.
+ * Both calls pass (src, dst), so the plain two-parameter prototype holds.
  *
  * Permuter note: tools/permuter.py hill (179 mutations tried) reached
  * 6 bytes out at the right size with copy(r->r_@6), but its mutation was
@@ -2352,26 +2124,25 @@ void func_02013528(u8 *o, void *a1, u32 a2, u8 a3, u32 a4, u8 a5, u8 a6, u16 a7)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020135C0.c \
- *       --func func_020135C0 --addr 0x020135C0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetupDemo.c \
+ *       --func BTL_SETUP_SetupDemo --addr 0x020135C0 --cc 1.1p1 --thumb
  */
-void func_020135C0(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
+void BTL_SETUP_SetupDemo(struct BattleSetupParam *param, struct GameData *gd, struct Party *enemyParty, struct Party *partnerParty, const struct FieldSituation *sit, u16 heap)
 {
-    u32 r;
-
-    func_020130C4(a0);
-    func_02013360(a0, a1, (const void *)a4);
-    func_0201333C(a0, a1, a5);
-    if (a2 != 0) {
-        func_0201AC2C((const struct Rec534 *)a2, (struct Rec534 *)(((struct Obj00155 *)a0)->f24));
+    struct Party *party;
+    func_020130C4(param);
+    BTL_SETUP_InitCommon(param, gd, sit);
+    BTL_SETUP_SetPlayerParty(param, gd, heap);
+    if (enemyParty != 0) {
+        func_0201AC2C(enemyParty, param->party[0]);
     }
-    r = (u32)func_0201A920(a5);
-    ((struct Obj00155 *)a0)->f28 = r;
-    if (a3 != 0) {
-        func_0201AC2C((const struct Rec534 *)a3, (struct Rec534 *)r);
+    party = func_0201A920(heap);
+    param->party[1] = party;
+    if (partnerParty != 0) {
+        func_0201AC2C(partnerParty, party);
     }
-    ((struct Obj00155 *)a0)->f0 = 4;
-    ((struct Obj00155 *)a0)->f4 = 0;
+    param->competitor = 4;
+    param->rule = 0;
 }
 
 
@@ -2381,7 +2152,7 @@ void func_020135C0(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
 
 /*
  * One of a family of four (0x02013610, 0x02013644, 0x02013678, 0x020136AC)
- * that differ only in the constant handed to func_020134F4 as its third
+ * that differ only in the constant handed to BTL_SETUP_SetupTrainerBase as its third
  * argument - 0, 1, 2 and 3 - so this is the id-0 member of a table of
  * builders.  The fifth argument arrives on the stack (the `add r2, sp, #0x20`
  * / `ldrh` pair), which is why the prologue pushes six registers and then
@@ -2394,10 +2165,10 @@ void func_020135C0(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
  *   python tools/match.py one --src src/matched/func_02013610.c \
  *       --func func_02013610 --addr 0x02013610 --cc 1.1p1 --thumb
  */
-void func_02013610(u8 *p, u32 a, u32 b, u32 c, u16 d)
+void func_02013610(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap)
 {
-    func_020134F4(p, a, 0, b, d);
-    func_02013284(p, (u32 *)a, 1, (u32 *)(p + 0x28), c, d);
+    BTL_SETUP_SetupTrainerBase(param, gd, 0, sit, heap);
+    BTL_SETUP_SetTrainer(param, gd, 1, &param->party[1], trainerId, heap);
 }
 
 
@@ -2408,17 +2179,17 @@ void func_02013610(u8 *p, u32 a, u32 b, u32 c, u16 d)
 /*
  * Member 1 of the four-member family at 0x02013610..0x020136E0 - the same
  * two calls with the same object, differing only in the id handed to
- * func_020134F4 (1 here, and 0, 1, 2, 3 across the family).  The fifth
+ * BTL_SETUP_SetupTrainerBase (1 here, and 0, 1, 2, 3 across the family).  The fifth
  * argument arrives on the stack.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02013644.c \
  *       --func func_02013644 --addr 0x02013644 --cc 1.1p1 --thumb
  */
-void func_02013644(u8 *p, u32 a, u32 b, u32 c, u16 d)
+void func_02013644(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap)
 {
-    func_020134F4(p, a, 1, b, d);
-    func_02013284(p, (u32 *)a, 1, (u32 *)(p + 0x28), c, d);
+    BTL_SETUP_SetupTrainerBase(param, gd, 1, sit, heap);
+    BTL_SETUP_SetTrainer(param, gd, 1, &param->party[1], trainerId, heap);
 }
 
 
@@ -2429,17 +2200,17 @@ void func_02013644(u8 *p, u32 a, u32 b, u32 c, u16 d)
 /*
  * Member 2 of the four-member family at 0x02013610..0x020136E0 - the same
  * two calls with the same object, differing only in the id handed to
- * func_020134F4 (2 here, and 0, 1, 2, 3 across the family).  The fifth
+ * BTL_SETUP_SetupTrainerBase (2 here, and 0, 1, 2, 3 across the family).  The fifth
  * argument arrives on the stack.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02013678.c \
  *       --func func_02013678 --addr 0x02013678 --cc 1.1p1 --thumb
  */
-void func_02013678(u8 *p, u32 a, u32 b, u32 c, u16 d)
+void func_02013678(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap)
 {
-    func_020134F4(p, a, 2, b, d);
-    func_02013284(p, (u32 *)a, 1, (u32 *)(p + 0x28), c, d);
+    BTL_SETUP_SetupTrainerBase(param, gd, 2, sit, heap);
+    BTL_SETUP_SetTrainer(param, gd, 1, &param->party[1], trainerId, heap);
 }
 
 
@@ -2448,17 +2219,17 @@ void func_02013678(u8 *p, u32 a, u32 b, u32 c, u16 d)
 /*
  * Member 3 of the four-member family at 0x02013610..0x020136E0 - the same
  * two calls with the same object, differing only in the id handed to
- * func_020134F4 (3 here, and 0, 1, 2, 3 across the family).  The fifth
+ * BTL_SETUP_SetupTrainerBase (3 here, and 0, 1, 2, 3 across the family).  The fifth
  * argument arrives on the stack.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020136AC.c \
  *       --func func_020136AC --addr 0x020136AC --cc 1.1p1 --thumb
  */
-void func_020136AC(u8 *p, u32 a, u32 b, u32 c, u16 d)
+void func_020136AC(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap)
 {
-    func_020134F4(p, a, 3, b, d);
-    func_02013284(p, (u32 *)a, 1, (u32 *)(p + 0x28), c, d);
+    BTL_SETUP_SetupTrainerBase(param, gd, 3, sit, heap);
+    BTL_SETUP_SetTrainer(param, gd, 1, &param->party[1], trainerId, heap);
 }
 
 
@@ -2466,7 +2237,7 @@ void func_020136AC(u8 *p, u32 a, u32 b, u32 c, u16 d)
 /*
  * The main variant of the three-slot setup (see func_02013734, the brief
  * one): the first call is the four-register form of the same writer with
- * count 1, then two calls into func_02013284 that each carry the source's
+ * count 1, then two calls into BTL_SETUP_SetTrainer that each carry the source's
  * own stack arguments - a word and the halfword at +4 of the argument
  * block - plus the two object sub-blocks at +0x28 and +0x30.  The last
  * store marks the object's +0x22 byte as the count of sub-blocks.
@@ -2477,13 +2248,13 @@ void func_020136AC(u8 *p, u32 a, u32 b, u32 c, u16 d)
  *   python tools/match.py one --src src/matched/func_020136E0.c \
  *       --func func_020136E0 --addr 0x020136E0 --cc 1.1p1 --thumb
  */
-void func_020136E0(struct Obj *o, u32 a1, u32 a2, u32 a3, u32 a4,
-                   u16 a5)
+void func_020136E0(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId1, u32 trainerId2,
+                   u16 heap)
 {
-    func_020134F4((u8 *)o, a1, 1, a2, a5);
-    func_02013284((u8 *)o, (u32 *)a1, 1, (u32 *)((u8 *)o + 0x28), a3, a5);
-    func_02013284((u8 *)o, (u32 *)a1, 3, (u32 *)((u8 *)o + 0x30), a4, a5);
-    *((u8 *)o + 0x22) = 4;
+    BTL_SETUP_SetupTrainerBase(param, gd, 1, sit, heap);
+    BTL_SETUP_SetTrainer(param, gd, 1, &param->party[1], trainerId1, heap);
+    BTL_SETUP_SetTrainer(param, gd, 3, &param->party[3], trainerId2, heap);
+    param->multiMode = 4;
 }
 
 
@@ -2501,51 +2272,49 @@ void func_020136E0(struct Obj *o, u32 a1, u32 a2, u32 a3, u32 a4,
  *   python tools/match.py one --src src/matched/func_02013734.c \
  *       --func func_02013734 --addr 0x02013734 --cc 1.1p1 --thumb
  */
-void func_02013734(struct Obj *o, u32 a1, u32 a2, u32 a3, u32 a4,
-                   u32 a5, u16 a6)
+void func_02013734(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 partnerId, u32 trainerId1,
+                   u32 trainerId2, u16 heap)
 {
-    func_020134F4((u8 *)o, a1, 1, a2, a6);
-    func_02013284((u8 *)o, (u32 *)a1, 2, (u32 *)((u8 *)o + 0x2c), a3, a6);
-    func_02013284((u8 *)o, (u32 *)a1, 1, (u32 *)((u8 *)o + 0x28), a4, a6);
-    func_02013284((u8 *)o, (u32 *)a1, 3, (u32 *)((u8 *)o + 0x30), a5, a6);
-    *((u8 *)o + 0x22) = 3;
+    BTL_SETUP_SetupTrainerBase(param, gd, 1, sit, heap);
+    BTL_SETUP_SetTrainer(param, gd, 2, &param->party[2], partnerId, heap);
+    BTL_SETUP_SetTrainer(param, gd, 1, &param->party[1], trainerId1, heap);
+    BTL_SETUP_SetTrainer(param, gd, 3, &param->party[3], trainerId2, heap);
+    param->multiMode = 3;
 }
 
 
 
 /*
  * The id-0 member of the second builder family in this packet: the fourth
- * argument of the shared 8-argument helper func_02013528 is 0, and the
+ * argument of the shared 8-argument helper BTL_SETUP_SetupComm is 0, and the
  * object's argument is first run through func_0203D1A4 (ARM) whose result
- * becomes the seventh argument.  func_02013528's last four parameters live
+ * becomes the seventh argument.  BTL_SETUP_SetupComm's last four parameters live
  * on the stack, which is the sixteen-byte frame.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013790.c \
- *       --func func_02013790 --addr 0x02013790 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetupCommSingle.c \
+ *       --func BTL_SETUP_SetupCommSingle --addr 0x02013790 --cc 1.1p1 --thumb
  */
-void func_02013790(u8 *p0, void *p1, u32 p2, u8 p3, u16 p4)
+void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap)
 {
-    u8 r = func_0203D1A4((struct Link *)p2);
-
-    func_02013528(p0, p1, 0, 0, p2, p3, r, p4);
+    u8 netId = func_0203D1A4((struct NetHandle *)netHandle);
+    BTL_SETUP_SetupComm(param, gd, 0, 0, netHandle, commPos, netId, heap);
 }
 
 
 
 /*
- * The id-1 member of the same family - byte for byte func_02013790 with a 1
- * where it has a 0 (the third argument of func_02013528).
+ * The id-1 member of the same family - byte for byte BTL_SETUP_SetupCommSingle with a 1
+ * where it has a 0 (the third argument of BTL_SETUP_SetupComm).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020137C0.c \
- *       --func func_020137C0 --addr 0x020137C0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetupCommDouble.c \
+ *       --func BTL_SETUP_SetupCommDouble --addr 0x020137C0 --cc 1.1p1 --thumb
  */
-void func_020137C0(u8 *p0, void *p1, u32 p2, u8 p3, u16 p4)
+void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap)
 {
-    u8 r = func_0203D1A4((struct Link *)p2);
-
-    func_02013528(p0, p1, 1, 0, p2, p3, r, p4);
+    u8 netId = func_0203D1A4((struct NetHandle *)netHandle);
+    BTL_SETUP_SetupComm(param, gd, 1, 0, netHandle, commPos, netId, heap);
 }
 
 
@@ -2557,12 +2326,12 @@ void func_020137C0(u8 *p0, void *p1, u32 p2, u8 p3, u16 p4)
  * caller's stack block) are forwarded as the seventh and eighth arguments.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020137F0.c \
- *       --func func_020137F0 --addr 0x020137F0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetupCommMulti.c \
+ *       --func BTL_SETUP_SetupCommMulti --addr 0x020137F0 --cc 1.1p1 --thumb
  */
-void func_020137F0(u8 *p0, void *p1, u32 p2, u8 p3, u8 p4, u16 p5)
+void BTL_SETUP_SetupCommMulti(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u8 netId, u16 heap)
 {
-    func_02013528(p0, p1, 1, 1, p2, p3, p4, p5);
+    BTL_SETUP_SetupComm(param, gd, 1, 1, netHandle, commPos, netId, heap);
 }
 
 
@@ -2571,15 +2340,15 @@ void func_020137F0(u8 *p0, void *p1, u32 p2, u8 p3, u8 p4, u16 p5)
 /*
  * btl_setup.c.  The three-slot builder on the eight-argument writer: the
  * same shape as func_020136E0 and func_02013734 (both EXACT), but the lead
- * call is func_02013528 rather than func_020134F4, so the object's mode is
+ * call is BTL_SETUP_SetupComm rather than BTL_SETUP_SetupTrainerBase, so the object's mode is
  * stored by this function (1) instead of by the writer.
  *
  * The documented near miss in docs/notes/pkt_02013810.c.txt compiled 56
- * bytes against 84 because it gave func_02013528 six parameters and
- * func_02013284 seven, and passed the object's +0x28 sub-block as a bare
+ * bytes against 84 because it gave BTL_SETUP_SetupComm six parameters and
+ * BTL_SETUP_SetTrainer seven, and passed the object's +0x28 sub-block as a bare
  * constant.  The arity is fixed by the matched members of both families:
- * func_02013528 takes eight (func_02013790, func_020137F0 et al) and
- * func_02013284 takes six (func_02013610, func_020136E0 et al).  With those
+ * BTL_SETUP_SetupComm takes eight (BTL_SETUP_SetupCommSingle, BTL_SETUP_SetupCommMulti et al) and
+ * BTL_SETUP_SetTrainer takes six (func_02013610, func_020136E0 et al).  With those
  * two prototypes and the shared halfword forwarded to all three calls, the
  * body is the ordinary family shape and matches first try.
  *
@@ -2591,80 +2360,77 @@ void func_020137F0(u8 *p0, void *p1, u32 p2, u8 p3, u8 p4, u16 p5)
  *
  * EXACT*: all 82 code bytes reproduce (3 of 3 relocation sites resolved);
  * the inferred extent ran two bytes long only on the `movs r0, r0` alignment
- * pad at 0x02013862 before func_02013864, which has a label.  Never a byte
+ * pad at 0x02013862 before BTL_SETUP_SetupCommTriple, which has a label.  Never a byte
  * difference.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013810.c \
- *       --func func_02013810 --addr 0x02013810 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetupCommAiMulti.c \
+ *       --func BTL_SETUP_SetupCommAiMulti --addr 0x02013810 --cc 1.1p1 --thumb
  */
-void func_02013810(u8 *o, void *a1, u32 a2, u8 a3, u8 a4, u32 a5, u32 a6, u16 a7)
+void BTL_SETUP_SetupCommAiMulti(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u8 netId, u32 trainerId1, u32 trainerId2, u16 heap)
 {
-    func_02013528(o, a1, 1, 2, a2, a3, a4, a7);
-    ((struct Obj00155 *)o)->f0 = 1;
-    func_02013284(o, (u32 *)a1, 1, (u32 *)(o + 0x28), a5, a7);
-    func_02013284(o, (u32 *)a1, 3, (u32 *)(o + 0x30), a6, a7);
+    BTL_SETUP_SetupComm(param, gd, 1, 2, netHandle, commPos, netId, heap);
+    param->competitor = 1;
+    BTL_SETUP_SetTrainer(param, gd, 1, &param->party[1], trainerId1, heap);
+    BTL_SETUP_SetTrainer(param, gd, 3, &param->party[3], trainerId2, heap);
 }
 
 
 
 /*
- * The id-2 member of the same family - byte for byte func_02013790 with a 2
- * where it has a 0 (the third argument of func_02013528).
+ * The id-2 member of the same family - byte for byte BTL_SETUP_SetupCommSingle with a 2
+ * where it has a 0 (the third argument of BTL_SETUP_SetupComm).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013864.c \
- *       --func func_02013864 --addr 0x02013864 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetupCommTriple.c \
+ *       --func BTL_SETUP_SetupCommTriple --addr 0x02013864 --cc 1.1p1 --thumb
  */
-void func_02013864(u8 *p0, void *p1, u32 p2, u8 p3, u16 p4)
+void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap)
 {
-    u8 r = func_0203D1A4((struct Link *)p2);
-
-    func_02013528(p0, p1, 2, 0, p2, p3, r, p4);
+    u8 netId = func_0203D1A4((struct NetHandle *)netHandle);
+    BTL_SETUP_SetupComm(param, gd, 2, 0, netHandle, commPos, netId, heap);
 }
 
 
 
 /*
- * The id-3 member of the same family - byte for byte func_02013790 with a 3
- * where it has a 0 (the third argument of func_02013528).
+ * The id-3 member of the same family - byte for byte BTL_SETUP_SetupCommSingle with a 3
+ * where it has a 0 (the third argument of BTL_SETUP_SetupComm).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013894.c \
- *       --func func_02013894 --addr 0x02013894 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetupCommRotation.c \
+ *       --func BTL_SETUP_SetupCommRotation --addr 0x02013894 --cc 1.1p1 --thumb
  */
-void func_02013894(u8 *p0, void *p1, u32 p2, u8 p3, u16 p4)
+void BTL_SETUP_SetupCommRotation(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap)
 {
-    u8 r = func_0203D1A4((struct Link *)p2);
-
-    func_02013528(p0, p1, 3, 0, p2, p3, r, p4);
+    u8 netId = func_0203D1A4((struct NetHandle *)netHandle);
+    BTL_SETUP_SetupComm(param, gd, 3, 0, netHandle, commPos, netId, heap);
 }
 
 
 
 
-void func_020138C4(struct Zone *p, int a1, u16 heap)
+void BTL_SETUP_InitWithSlots(struct BattleSetupParam *param, struct GameData *gd, u16 heap)
 {
     u32 i;
-    int t;
-    int v;
-
-    func_02082BCC(p, 0, 0xf0);
+    struct Config *config;
+    struct Config *copy;
+    func_02082BCC(param, 0, 0xf0);
     for (i = 0; i < 4; i++) {
-        p->a24[i] = (void *)func_0201A920(heap);
-        p->a34[i] = (void *)func_0200846C(heap);
-        p->a48[i] = (void *)func_02013234(heap);
+        param->party[i] = func_0201A920(heap);
+        param->playerStatus[i] = func_0200846C(heap);
+        param->trainerData[i] = BTL_SETUP_CreateTrainerData(heap);
     }
-    p->f58 = a1;
-    t = (int)func_0200873C(func_02012EBC((void *)a1));
-    v = (int)func_020082EC(heap);
-    p->f5c = v;
-    func_02008314((void *)t, (void *)v);
-    p->f68 = (int)func_0200CA1C((void *)a1);
-    p->b23 = 1;
-    func_02013980(p, heap);
+    param->gameData = gd;
+    config = func_0200873C(func_02012EBC(gd));
+    copy = CONFIG_Create(heap);
+    param->config = copy;
+    CONFIG_Copy(config, copy);
+    param->zukanWork = func_0200CA1C(gd);
+    param->ownsSlots = 1;
+    BTL_SETUP_AllocRecordBuffer(param, heap);
 }
 
 
@@ -2673,25 +2439,25 @@ void func_020138C4(struct Zone *p, int a1, u16 heap)
 /*
  * The subsystem destructor: the +0x5C buffer is released and its pointer
  * cleared (the store inside the guard, not after it), then the teardown is
- * handed to func_020130DC with the object left in r0.
+ * handed to BTL_SETUP_FreeSlots with the object left in r0.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013930.c  *       --func func_02013930 --addr 0x02013930 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_ClearWithSlots.c  *       --func BTL_SETUP_ClearWithSlots --addr 0x02013930 --cc 1.1p1 --thumb
  */
-void func_02013930(struct Zone *p)
+void BTL_SETUP_ClearWithSlots(struct BattleSetupParam *param)
 {
-    if (p->f5c != 0) {
-        func_020307B0((void *)p->f5c);
-        p->f5c = 0;
+    if (param->config != 0) {
+        func_020307B0(param->config);
+        param->config = 0;
     }
-    func_020130DC(p);
+    BTL_SETUP_FreeSlots(param);
 }
 
 
 
 
 /*
- * zonedata.c.  A one-shot state step: only while the state word is 1 does it
+ * btl_setup.c.  A one-shot state step: only while the state word is 1 does it
  * advance to 2 and choose a pair of halfword bounds, keyed off a value read
  * through the object's +0x4c pointer.  The 0x470/0x480 pair is built by
  * `movs`+`lsls` (Thumb has no wide immediate), the 0x46b/0x47d pair comes
@@ -2701,19 +2467,19 @@ void func_02013930(struct Zone *p)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201394C.c \
- *       --func func_0201394C --addr 0x0201394C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_ChangeToSubway.c \
+ *       --func BTL_SETUP_ChangeToSubway --addr 0x0201394C --cc 1.1p1 --thumb
  */
-void func_0201394C(struct ZoneData_0201394C *o)
+void BTL_SETUP_ChangeToSubway(struct BattleSetupParam *param)
 {
-    if (o->f0 == 1) {
-        o->f0 = 2;
-        if (func_0202A3FC(((struct Obj15647 *)(o->f4c))->f4) != 0xb) {
-            o->f18 = 0x46b;
-            o->f1a = 0x47d;
+    if (param->competitor == 1) {
+        param->competitor = 2;
+        if (func_0202A3FC(param->trainerData[1]->trainerType) != 0xb) {
+            param->bgmBattle = 0x46b;
+            param->bgmWin = 0x47d;
         } else {
-            o->f18 = 0x470;
-            o->f1a = 0x480;
+            param->bgmBattle = 0x470;
+            param->bgmWin = 0x480;
         }
     }
 }
@@ -2722,7 +2488,7 @@ void func_0201394C(struct ZoneData_0201394C *o)
 
 
 /*
- * zonedata.c.  A lazy 0xc00-byte zeroed allocation hung off the object at
+ * btl_setup.c.  A lazy 0xc00-byte zeroed allocation hung off the object at
  * +0x94: the allocator gets the caller's heap (its own r0 is overwritten by
  * the pointer arithmetic, so the heap is carried in r1 at entry), the class
  * id 3 << 10 and the file name/line pair.  The `str r0, [sp]` is the fifth
@@ -2731,12 +2497,12 @@ void func_0201394C(struct ZoneData_0201394C *o)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013980.c \
- *       --func func_02013980 --addr 0x02013980 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_AllocRecordBuffer.c \
+ *       --func BTL_SETUP_AllocRecordBuffer --addr 0x02013980 --cc 1.1p1 --thumb
  */
-void func_02013980(struct Zone *o, u32 heap)
+void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *param, u32 heap)
 {
-    if (o->f94 == 0) {
-        o->f94 = func_02030734(heap, 3 << 10, 0, (const char *)&sZonedataFile, 0x39a);
+    if (param->recordBuffer == 0) {
+        param->recordBuffer = func_02030734(heap, 3 << 10, 0, sBtlSetupFileName, 0x39a);
     }
 }

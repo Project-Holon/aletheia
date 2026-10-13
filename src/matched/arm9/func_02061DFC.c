@@ -1,5 +1,5 @@
 /*
- * function: func_02061DFC
+ * function: NNSi_GfdInitBlockPool
  * address:  0x02061DFC
  * packet:   pkt_02061DFC
  * region:   arm9
@@ -24,7 +24,7 @@ struct Node02061DFC {
     struct Node02061DFC *next; /* 0xc */
 };
 
-struct Node02061DFC *func_02061DFC(struct Node02061DFC *arr, u32 count)
+struct Node02061DFC *NNSi_GfdInitBlockPool(struct Node02061DFC *arr, u32 count)
 {
     u32 last = count - 1;
     u32 i = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6298
+ * function: ERROR_SCREEN_LoadBackground
  * address:  0x021B6298
  * packet:   pkt_ov017_021B6298
  * region:   ov017
@@ -72,7 +72,7 @@ static inline void Copy(void *src, void *dst, u32 size)
     func_02082A60(src, dst, size);
 }
 
-void func_021B6298(void)
+void ERROR_SCREEN_LoadBackground(void)
 {
     Chr *chr;
     Scr *scr;

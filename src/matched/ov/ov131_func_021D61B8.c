@@ -1,5 +1,5 @@
 /*
- * function: func_021D61B8
+ * function: P_STATUS_PrintWordSetMsg
  * address: 0x021D61B8
  * packet: pkt_ov131_021D61B8
  * region: ov131
@@ -23,7 +23,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
 typedef unsigned short u16;
 extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void func_021D61B8(unsigned char *p,int a,void *b,int c,short d,short e,unsigned short f) {
+void P_STATUS_PrintWordSetMsg(unsigned char *p,int a,void *b,int c,short d,short e,unsigned short f) {
  void *t=func_020457B0(16,((struct Obj08145 *)p)->f0);
  void *s=func_02045EC0(((struct Obj08145 *)p)->f7C,c);
  func_0201F250(b,t,s);

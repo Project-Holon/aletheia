@@ -10,20 +10,22 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02008828, sub_0200882C, sub_02008844, sub_02008848,
- *           sub_0200884C, sub_02008850, sub_02008854, sub_02008860,
- *           sub_020088B8, sub_0200890C, sub_0200892C, sub_0200893C,
- *           sub_0200894C, sub_02008954, sub_0200895C, sub_02008964,
- *           sub_0200896C, sub_02008970, sub_02008978, sub_02008980,
- *           sub_02008988, sub_02008990, sub_02008998, sub_020089A0
+ * function: PLAYER_LOCATION_GetSize, PLAYER_LOCATION_Init, PLAYER_LOCATION_Nop, PLAYER_LOCATION_GetLocationA,
+ *           PLAYER_LOCATION_GetLocationB, PLAYER_LOCATION_GetShortData, PLAYER_LOCATION_GetData, PLAYER_LOCATION_SetRecordFromBuffer,
+ *           PLAYER_LOCATION_CopyRecordToBuffer, PLAYER_LOCATION_CopyRecord, PLAYER_LOCATION_ReadStyleFrom, PLAYER_LOCATION_WriteStyleTo,
+ *           PLAYER_LOCATION_SetFlagA, PLAYER_LOCATION_GetFlagA, PLAYER_LOCATION_SetFlagB, PLAYER_LOCATION_GetFlagB,
+ *           PLAYER_LOCATION_SetCounter, PLAYER_LOCATION_GetCounter, PLAYER_LOCATION_GetValueA, PLAYER_LOCATION_SetValueA,
+ *           PLAYER_LOCATION_SetValueB, PLAYER_LOCATION_GetValueB, PLAYER_LOCATION_GetZoneId, PLAYER_LOCATION_SetZoneId
  *
  * symbols:
  *   MI_CpuFill8   0x02082BCC  arm
- *   sub_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
+ *   FIELD_STATUS_SetFlashActive  0x02014464  thumb
+ *   FIELD_STATUS_IsFlashActive  0x02014468  thumb
  *
  * alias: the save block with id 0x1C, 0x9C bytes, and its accessors.  The
  * range is closed the same way unit_02008700.c is: it opens with the four
- * bytes that return the block size (0x9C, which is what sub_0200882C clears)
+ * bytes that return the block size (0x9C, which is what PLAYER_LOCATION_Init clears)
  * and ends where the next such function returns 0x658, at 0x020089A8.  That is
  * the whole 384-byte, twenty-four function file.
  *
@@ -38,19 +40,19 @@
  * Layout, from the accessors:
  *
  *   +0x00  0x38     untouched here
- *   +0x38  0x1C     handed out by sub_02008848
- *   +0x54  0x1C     handed out by sub_0200884C
- *   +0x70  2        handed out by sub_02008850
+ *   +0x38  0x1C     handed out by PLAYER_LOCATION_GetLocationA
+ *   +0x54  0x1C     handed out by PLAYER_LOCATION_GetLocationB
+ *   +0x70  2        handed out by PLAYER_LOCATION_GetShortData
  *   +0x72  u8       written and read by the two unverifiable functions
  *   +0x73  u8
  *   +0x74  u8
- *   +0x76  u16      the only field sub_0200882C seeds, with 0x1AB
+ *   +0x76  u16      the only field PLAYER_LOCATION_Init seeds, with 0x1AB
  *   +0x78  u32
  *   +0x7C  u16
  *   +0x7E  u16
  *   +0x80  0x1C     a record, copied in and out field by field by
- *                   sub_02008860 and sub_020088B8 and copied whole by
- *                   sub_0200890C
+ *                   PLAYER_LOCATION_SetRecordFromBuffer and PLAYER_LOCATION_CopyRecordToBuffer and copied whole by
+ *                   PLAYER_LOCATION_CopyRecord
  *
  * Four of the ten carry no label in the generated listing: they are
  * two-instruction accessors with no register-saving prologue, so disasm.py's
@@ -59,7 +61,7 @@
  *
  * Three details pinned this one:
  *
- *  - the record at +0x80 and the buffer sub_02008860 fills it from are not the
+ *  - the record at +0x80 and the buffer PLAYER_LOCATION_SetRecordFromBuffer fills it from are not the
  *    same type, even though their first 0x1C bytes line up.  Two fields cross
  *    over: the record's +0x1A comes from the buffer's +0x1B, and the record's
  *    +0x1B comes from the buffer's +0x40, a word truncated to a byte.  Writing
@@ -68,11 +70,11 @@
  *  - the twelve bytes at +0x04 of the record are a nested struct, for the same
  *    reason as in unit_02008700.c: they move as one ldm/stm pair plus a
  *    trailing word while the halfwords around them move one at a time.
- *  - the record's +0x18 is signed and the buffer's is not.  sub_020088B8 reads
+ *  - the record's +0x18 is signed and the buffer's is not.  PLAYER_LOCATION_CopyRecordToBuffer reads
  *    it with `movs r0, #0x98; ldrsh r0, [r2, r0]` where every other read in the
  *    function is an immediate-offset ldrh; ldrsh has no immediate form, so the
  *    signedness of one field is what costs that instruction its extra
- *    register.  sub_02008860, going the other way, uses a plain ldrh.
+ *    register.  PLAYER_LOCATION_SetRecordFromBuffer, going the other way, uses a plain ldrh.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02008828.c \
@@ -87,7 +89,7 @@ typedef unsigned int   u32;
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 struct Sub020071CCCtrl;
 struct Sub02014444Obj;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 
 #define BLOCK_ID 0x1C
 
@@ -143,44 +145,44 @@ struct Sub02008828Obj {
     struct Sub02008828Rec unk80;
 };
 
-u32 sub_02008828(void)
+u32 PLAYER_LOCATION_GetSize(void)
 {
     return sizeof(struct Sub02008828Obj);
 }
 
-void sub_0200882C(struct Sub02008828Obj *obj)
+void PLAYER_LOCATION_Init(struct Sub02008828Obj *obj)
 {
     MI_CpuFill8(obj, 0, sizeof(struct Sub02008828Obj));
     obj->unk76 = 0x1AB;
 }
 
-void sub_02008844(void)
+void PLAYER_LOCATION_Nop(void)
 {
 }
 
-void *sub_02008848(struct Sub02008828Obj *obj)
+void *PLAYER_LOCATION_GetLocationA(struct Sub02008828Obj *obj)
 {
     return obj->unk38;
 }
 
-void *sub_0200884C(struct Sub02008828Obj *obj)
+void *PLAYER_LOCATION_GetLocationB(struct Sub02008828Obj *obj)
 {
     return obj->unk54;
 }
 
-void *sub_02008850(struct Sub02008828Obj *obj)
+void *PLAYER_LOCATION_GetShortData(struct Sub02008828Obj *obj)
 {
     return obj->unk70;
 }
 
-struct Sub02008828Obj *sub_02008854(void *sys)
+struct Sub02008828Obj *PLAYER_LOCATION_GetData(void *sys)
 {
-    return sub_020071CC(sys, BLOCK_ID);
+    return SAVE_CONTROL_GetBlock(sys, BLOCK_ID);
 }
 
-void sub_02008860(void *sys, const struct Sub02008860Buf *src)
+void PLAYER_LOCATION_SetRecordFromBuffer(void *sys, const struct Sub02008860Buf *src)
 {
-    struct Sub02008828Obj *obj = sub_02008854(sys);
+    struct Sub02008828Obj *obj = PLAYER_LOCATION_GetData(sys);
 
     obj->unk80.unk00 = src->unk00;
     obj->unk80.unk04 = src->unk04;
@@ -193,9 +195,9 @@ void sub_02008860(void *sys, const struct Sub02008860Buf *src)
     obj->unk80.unk1B = src->unk40;
 }
 
-void sub_020088B8(void *sys, struct Sub02008860Buf *dest)
+void PLAYER_LOCATION_CopyRecordToBuffer(void *sys, struct Sub02008860Buf *dest)
 {
-    struct Sub02008828Obj *obj = sub_02008854(sys);
+    struct Sub02008828Obj *obj = PLAYER_LOCATION_GetData(sys);
 
     dest->unk00 = obj->unk80.unk00;
     dest->unk04 = obj->unk80.unk04;
@@ -208,9 +210,9 @@ void sub_020088B8(void *sys, struct Sub02008860Buf *dest)
     dest->unk40 = obj->unk80.unk1B;
 }
 
-void sub_0200890C(void *sys, struct Sub02008828Rec *dest)
+void PLAYER_LOCATION_CopyRecord(void *sys, struct Sub02008828Rec *dest)
 {
-    struct Sub02008828Obj *obj = sub_02008854(sys);
+    struct Sub02008828Obj *obj = PLAYER_LOCATION_GetData(sys);
 
     *dest = obj->unk80;
 }
@@ -221,75 +223,75 @@ void sub_0200890C(void *sys, struct Sub02008828Rec *dest)
  * reachable from anything else in arm9_main, which is why these two functions
  * were the last unverifiable ones in this file.  See "The two near misses in
  * this run" in docs/MATCHING.md. */
-extern u8 sub_02014468(struct Sub02014444Obj *o);
-extern void sub_02014464(struct Sub02014444Obj *o, u8 v);
+extern u8 FIELD_STATUS_IsFlashActive(struct Sub02014444Obj *o);
+extern void FIELD_STATUS_SetFlashActive(struct Sub02014444Obj *o, u8 v);
 
-void sub_0200892C(struct Sub02008828Obj *obj, const void *src)
+void PLAYER_LOCATION_ReadStyleFrom(struct Sub02008828Obj *obj, const void *src)
 {
-    obj->unk72 = sub_02014468((struct Sub02014444Obj *)src);
+    obj->unk72 = FIELD_STATUS_IsFlashActive((struct Sub02014444Obj *)src);
 }
 
-void sub_0200893C(const struct Sub02008828Obj *obj, void *dest)
+void PLAYER_LOCATION_WriteStyleTo(const struct Sub02008828Obj *obj, void *dest)
 {
-    sub_02014464(dest, obj->unk72);
+    FIELD_STATUS_SetFlashActive(dest, obj->unk72);
 }
 
-void sub_0200894C(struct Sub02008828Obj *obj, u8 value)
+void PLAYER_LOCATION_SetFlagA(struct Sub02008828Obj *obj, u8 value)
 {
     obj->unk73 = value;
 }
 
-void sub_02008954(const struct Sub02008828Obj *obj, u8 *out)
+void PLAYER_LOCATION_GetFlagA(const struct Sub02008828Obj *obj, u8 *out)
 {
     *out = obj->unk73;
 }
 
-void sub_0200895C(struct Sub02008828Obj *obj, u8 value)
+void PLAYER_LOCATION_SetFlagB(struct Sub02008828Obj *obj, u8 value)
 {
     obj->unk74 = value;
 }
 
-void sub_02008964(const struct Sub02008828Obj *obj, u8 *out)
+void PLAYER_LOCATION_GetFlagB(const struct Sub02008828Obj *obj, u8 *out)
 {
     *out = obj->unk74;
 }
 
-void sub_0200896C(struct Sub02008828Obj *obj, u32 value)
+void PLAYER_LOCATION_SetCounter(struct Sub02008828Obj *obj, u32 value)
 {
     obj->unk78 = value;
 }
 
-void sub_02008970(const struct Sub02008828Obj *obj, u32 *out)
+void PLAYER_LOCATION_GetCounter(const struct Sub02008828Obj *obj, u32 *out)
 {
     *out = obj->unk78;
 }
 
-u16 sub_02008978(const struct Sub02008828Obj *obj)
+u16 PLAYER_LOCATION_GetValueA(const struct Sub02008828Obj *obj)
 {
     return obj->unk7C;
 }
 
-void sub_02008980(struct Sub02008828Obj *obj, u16 value)
+void PLAYER_LOCATION_SetValueA(struct Sub02008828Obj *obj, u16 value)
 {
     obj->unk7C = value;
 }
 
-void sub_02008988(struct Sub02008828Obj *obj, u16 value)
+void PLAYER_LOCATION_SetValueB(struct Sub02008828Obj *obj, u16 value)
 {
     obj->unk7E = value;
 }
 
-u16 sub_02008990(const struct Sub02008828Obj *obj)
+u16 PLAYER_LOCATION_GetValueB(const struct Sub02008828Obj *obj)
 {
     return obj->unk7E;
 }
 
-u16 sub_02008998(const struct Sub02008828Obj *obj)
+u16 PLAYER_LOCATION_GetZoneId(const struct Sub02008828Obj *obj)
 {
     return obj->unk76;
 }
 
-void sub_020089A0(struct Sub02008828Obj *obj, u16 value)
+void PLAYER_LOCATION_SetZoneId(struct Sub02008828Obj *obj, u16 value)
 {
     obj->unk76 = value;
 }

@@ -12,7 +12,7 @@
  * sdk:      DWCi_GPConnectCallback (libdwcmatch.TWL.HYB.a(dwc_login.o))
  *
  * symbols:
- *   func_02167E94  0x02167E94  arm  ov009
+ *   DWCi_Np_GetConsoleIdPrefix  0x02167E94  arm  ov009
  *   func_02167E88  0x02167E88  arm  ov009
  *   func_02084F80  0x02084F80  arm
  *   func_02185CB4  0x02185CB4  arm  ov009
@@ -21,7 +21,7 @@
  *   func_02059408  0x02059408  arm
  *   func_02167EA0  0x02167EA0  arm  ov009
  *   func_0216F20C  0x0216F20C  arm  ov009
- *   func_0216BA4C  0x0216BA4C  arm  ov009
+ *   DWCi_GT2Startup  0x0216BA4C  arm  ov009
  *   func_02176AA8  0x02176AA8  arm  ov009
  *   func_02176ABC  0x02176ABC  arm  ov009
  *   func_0216A3B8  0x0216A3B8  arm  ov009
@@ -62,7 +62,7 @@ typedef struct GPConnectResponseArg {
 
 extern DWCstLoginControl *g_021AA874;
 
-extern void *func_02167E94(void);
+extern void *DWCi_Np_GetConsoleIdPrefix(void);
 extern long long func_02167E88(void);
 extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
 extern int func_02185CB4(void **connection, int info, char *value);
@@ -71,7 +71,7 @@ extern u64 func_02178F00(void);
 extern void func_02059408(u64 num, int bitnum, char *result);
 extern char *func_02167EA0(void);
 extern int func_0216F20C(int matchType);
-extern int func_0216BA4C(void);
+extern int DWCi_GT2Startup(void);
 extern void func_02176AA8(int profileID);
 extern void func_02176ABC(void);
 extern void func_0216A3B8(int error, int errorCode);
@@ -87,7 +87,7 @@ static void func_0216A4D4(void **pconnection, GPConnectResponseArg *arg)
 
     g_021AA874->connectFlag = 0;
 
-    func_02084F80(firstname, sizeof(firstname), "%s:%016llu", func_02167E94(), func_02167E88());
+    func_02084F80(firstname, sizeof(firstname), "%s:%016llu", DWCi_Np_GetConsoleIdPrefix(), func_02167E88());
     gpResult = func_02185CB4(pconnection, 0x704, firstname);
     if (func_0216A460(gpResult))
         return;
@@ -109,7 +109,7 @@ static void func_0216A4D4(void **pconnection, GPConnectResponseArg *arg)
                 if (func_0216A460(gpResult))
                     return;
                 g_021AA874->callback(0, arg->profile, g_021AA874->param);
-                if (func_0216BA4C())
+                if (DWCi_GT2Startup())
                     return;
                 func_02176AA8(arg->profile);
                 func_02176ABC();

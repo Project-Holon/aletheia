@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02013A94  0x02013A94  thumb
+ *   ZONEDATA_GetChangedZoneId  0x02013A94  thumb
  *   func_02013D9C  0x02013D9C  thumb
  *
  * zonedata.c: true when the zone id is in 0x121..0x13C or func_02013D9C
@@ -21,12 +21,12 @@
 typedef unsigned int u32;
 
 typedef unsigned short u16;
-extern u16 func_02013A94(u32 key);
+extern u16 ZONEDATA_GetChangedZoneId(u32 key);
 extern u32 func_02013D9C(u32 id);
 
 int func_02013D74(u32 key)
 {
-    u32 v = func_02013A94(key);
+    u32 v = ZONEDATA_GetChangedZoneId(key);
 
     if ((v >= 0x121 && v <= 0x13c) || func_02013D9C(v) == 1)
         return 1;

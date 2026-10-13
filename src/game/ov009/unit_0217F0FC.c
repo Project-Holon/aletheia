@@ -1,7 +1,7 @@
 /*
  * file:     unit_0217F0FC.c
  * unit:     yes
- * function: func_0217F0FC, func_0217F108, func_0217F114, func_0217F120, func_0217F124
+ * function: func_0217F0FC, gsiEnterCriticalSection, gsiLeaveCriticalSection, gsiDeleteCriticalSection, gsiStringToInt64
  * address:  0x0217F0FC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -20,10 +20,10 @@ extern void func_02086028(void *criticalSection);
 extern void func_02086078(void *criticalSection);
 extern long long func_020964F4(unsigned int string);
 void func_0217F0FC(void *criticalSection);
-void func_0217F108(void *criticalSection);
-void func_0217F114(void *criticalSection);
-void func_0217F120(void *criticalSection);
-long long func_0217F124(unsigned int string);
+void gsiEnterCriticalSection(void *criticalSection);
+void gsiLeaveCriticalSection(void *criticalSection);
+void gsiDeleteCriticalSection(void *criticalSection);
+long long gsiStringToInt64(unsigned int string);
 
 
 void func_0217F0FC(void *criticalSection)
@@ -37,13 +37,13 @@ void func_0217F0FC(void *criticalSection)
  * target`, which this compiler emits for a tail call to a callee whose
  * address has to come from a pool.
  */
-void func_0217F108(void *criticalSection)
+void gsiEnterCriticalSection(void *criticalSection)
 {
     func_02086028(criticalSection);
 }
 
 
-void func_0217F114(void *criticalSection)
+void gsiLeaveCriticalSection(void *criticalSection)
 {
     func_02086078(criticalSection);
 }
@@ -51,7 +51,7 @@ void func_0217F114(void *criticalSection)
 /*
  * Empty stub; nothing but a return.
  */
-void func_0217F120(void *criticalSection)
+void gsiDeleteCriticalSection(void *criticalSection)
 {
 }
 
@@ -65,7 +65,7 @@ void func_0217F120(void *criticalSection)
  * EXACT arm9 shard entry (pkt_020964F4) reproducing the defaulting thunk, so
  * the ABS32 site resolves via `matched`.  Verified EXACT.
  */
-long long func_0217F124(unsigned int string)
+long long gsiStringToInt64(unsigned int string)
 {
     return func_020964F4(string);
 }

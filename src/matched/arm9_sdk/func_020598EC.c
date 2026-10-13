@@ -1,5 +1,5 @@
 /*
- * function: func_020598EC
+ * function: DWC_GetGsProfileId
  * address:  0x020598EC
  * packet:   pkt_020598EC
  * region:   arm9
@@ -28,7 +28,7 @@ extern unsigned long long DWCi_Acc_GetFriendKey(void *data);
 extern int DWC_Acc_FriendKeyToGsProfileId(unsigned long long friendkey, unsigned long gamecode);
 extern int DWCi_Acc_GetGsProfileId(void *data);
 
-int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata)
+int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata)
 {
     unsigned long long friend_key;
     unsigned long type;

@@ -1,6 +1,6 @@
 /*
  * file:     unit_0206A67C.c
- * function: func_0206A67C
+ * function: G3D_TEX_ClearDictDoneFlags
  * address:  0x0206A67C
  * packet:   pkt_0206A67C
  * region:   arm9
@@ -35,8 +35,8 @@
  *      folds to `andne r0, r0, #0xfe`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206A67C.c \
- *       --func func_0206A67C --addr 0x0206A67C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_TEX_ClearDictDoneFlags.c \
+ *       --func G3D_TEX_ClearDictDoneFlags --addr 0x0206A67C --cc 1.1p1 --arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -69,7 +69,7 @@ typedef struct {
     u16 ofsDict;
 } ResBlockPrefix;
 
-void func_0206A67C(char *pRes)
+void G3D_TEX_ClearDictDoneFlags(char *pRes)
 {
     char          *pBlock;
     ResDictHeader *pDict;

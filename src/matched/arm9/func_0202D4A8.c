@@ -1,5 +1,5 @@
 /*
- * function: func_0202D4A8
+ * function: POKEGRA_CalcArcIndex
  * address:  0x0202D4A8
  * packet:   pkt_0202D4A8
  * region:   arm9
@@ -18,7 +18,7 @@
  * narc for the gendered palette variant when mode 1 asks.
  *
  * The 4-byte residue that held through five lanes and 2320 permuter
- * compiles (docs/notes/func_0202D4A8.c.txt: the two spilled values got
+ * compiles (docs/notes/POKEGRA_CalcArcIndex.c.txt: the two spilled values got
  * sp+4/sp+8 the wrong way round) is a declaration: the 2-way shiny value
  * written to *out_pal is an enum, which changes where the frame allocator
  * puts its spill slot (docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md;
@@ -26,7 +26,7 @@
  * is written before `case 2`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202D4A8.c  *       --func func_0202D4A8 --addr 0x0202D4A8 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/POKEGRA_CalcArcIndex.c  *       --func POKEGRA_CalcArcIndex --addr 0x0202D4A8 --thumb --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -39,7 +39,7 @@ extern u32 func_020490A8(u32 a, u32 b);
 
 typedef enum { PAL_0 } Pal;
 
-void func_0202D4A8(void *narc, u32 species, s32 form, s32 mode,
+void POKEGRA_CalcArcIndex(void *narc, u32 species, s32 form, s32 mode,
                    u32 base, u32 shiny, u32 egg,
                    u32 *out_index, u32 *out_pal, u32 *out_mode, u32 *out_base,
                    u32 **out_ptr, u32 female)

@@ -1,5 +1,5 @@
 /*
- * function: func_021B641C
+ * function: ERROR_SCREEN_Teardown
  * address:  0x021B641C
  * packet:   pkt_ov017_021B641C
  * region:   ov017
@@ -30,7 +30,7 @@ extern void *func_0207DFB4(void);
 extern int func_020809A0(void);
 extern int func_020808F4(void);
 
-void func_021B641C(void)
+void ERROR_SCREEN_Teardown(void)
 {
     func_0207D534((volatile u16 *)0x0400006C, -16);
     func_0207D534((volatile u16 *)0x0400106C, -16);

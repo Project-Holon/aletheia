@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * field_sound_system.c.  EXACT: all seven relocations resolve.  The calls to
- * func_02027D44 and func_02027E3C carry on class sole-ref/code (each is the
+ * APP_TASKMENU_UpdateKey and APP_TASKMENU_UpdateTouch carry on class sole-ref/code (each is the
  * only branch anywhere in the image to its target, and each target is exactly
- * a traced Thumb function start); func_02027E3C was additionally filed EXACT
+ * a traced Thumb function start); APP_TASKMENU_UpdateTouch was additionally filed EXACT
  * in src/matched/ on 2026-09-21, which would carry that site on class matched
  * as well.
  * symbols:
- *   func_020278F4  0x020278F4  thumb
- *   func_02027D44  0x02027D44  thumb
- *   func_02027E3C  0x02027E3C  thumb
+ *   APP_TASKMENU_TransWinAfterPrint  0x020278F4  thumb
+ *   APP_TASKMENU_UpdateKey  0x02027D44  thumb
+ *   APP_TASKMENU_UpdateTouch  0x02027E3C  thumb
  *   _u32_div_f     0x0209C2B0  arm
- *   func_02027B30  0x02027B30  thumb
- *   func_02027B60  0x02027B60  thumb
+ *   APP_TASKMENU_SetWinActive  0x02027B30  thumb
+ *   APP_TASKMENU_UpdateCursorColor  0x02027B60  thumb
  */
 
 typedef unsigned char  u8;
@@ -45,33 +45,33 @@ typedef struct {
 } Obj;
 
 struct Menu;
-extern void func_020278F4(u8 *p);
-extern void func_02027D44(struct Menu *m);
-extern void func_02027E3C(u8 *m);
+extern void APP_TASKMENU_TransWinAfterPrint(u8 *p);
+extern void APP_TASKMENU_UpdateKey(struct Menu *m);
+extern void APP_TASKMENU_UpdateTouch(u8 *m);
 extern u32  _u32_div_f(u32 a, u32 b);
-extern void func_02027B30(u32 a, struct S *s, int mode);
-extern void func_02027B60(u16 *phase, u16 *out, u32 mode, u32 slot);
+extern void APP_TASKMENU_SetWinActive(u32 a, struct S *s, int mode);
+extern void APP_TASKMENU_UpdateCursorColor(u16 *phase, u16 *out, u32 mode, u32 slot);
 
 void func_02027974(Obj *p)
 {
     u32 step;
     u16 *q;
 
-    func_020278F4((u8 *)p);
+    APP_TASKMENU_TransWinAfterPrint((u8 *)p);
     if (p->f0c == 0) {
-        func_02027D44((struct Menu *)p);
+        APP_TASKMENU_UpdateKey((struct Menu *)p);
         if (p->f0c == 0) {
-            func_02027E3C((u8 *)p);
+            APP_TASKMENU_UpdateTouch((u8 *)p);
         }
     } else {
         step = _u32_div_f(4, p->f14);
         if ((u8)(_u32_div_f(p->f01, step) & 1) == 0) {
-            func_02027B30(p->f18[p->f00], p->f34, 1);
+            APP_TASKMENU_SetWinActive(p->f18[p->f00], p->f34, 1);
         } else {
-            func_02027B30(p->f18[p->f00], p->f34, 0);
+            APP_TASKMENU_SetWinActive(p->f18[p->f00], p->f34, 0);
         }
         p->f01 = (u8)(p->f01 + 1);
     }
     q = (u16 *)p->f34;
-    func_02027B60(&p->f02, &p->f04, (u8)q[0], (u8)q[1]);
+    APP_TASKMENU_UpdateCursorColor(&p->f02, &p->f04, (u8)q[0], (u8)q[1]);
 }

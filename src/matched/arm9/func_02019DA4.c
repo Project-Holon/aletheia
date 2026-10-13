@@ -1,5 +1,5 @@
 /*
- * function: func_02019DA4
+ * function: POKE_REGULATION_CheckPokemon
  * address:  0x02019DA4
  * packet:   pkt_02019D58
  * region:   arm9
@@ -21,8 +21,8 @@
  * two comparisons are signed, which is what `ble`/`bge` says.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02019DA4.c \
- *       --func func_02019DA4 --addr 0x02019DA4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_REGULATION_CheckPokemon.c \
+ *       --func POKE_REGULATION_CheckPokemon --addr 0x02019DA4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -34,7 +34,7 @@ struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u32 func_0200AFD4(struct Reg *p, u32 id, s32 n);
 
-int func_02019DA4(void *a0, void *a1)
+int POKE_REGULATION_CheckPokemon(void *a0, void *a1)
 {
     u16 v5 = (u16)func_02017E1C(a1, 5, 0);
     u16 v6 = (u16)func_02017E1C(a1, 6, 0);

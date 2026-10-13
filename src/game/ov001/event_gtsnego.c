@@ -1,7 +1,7 @@
 /*
  * file:     event_gtsnego.c
  * unit:     yes
- * function: func_021542C0, func_02154560, func_0215466C
+ * function: func_021542C0, EVENT_GTSNEGO_InitWork, func_0215466C
  * address:  0x021542C0
  * region:   ov001
  * compiler: dsi/1.1p1
@@ -15,32 +15,32 @@
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_0201210C  0x0201210C  thumb
- *   func_02005C44  0x02005C44  thumb
- *   func_02005E30  0x02005E30  thumb
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   func_02012138  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
- *   func_020144DC  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02012374  0x02012374  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   func_0203CD98  0x0203CD98  arm
  *   func_020399A8  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
- *   func_0203D7B0  0x0203D7B0  arm
+ *   GFL_NET_SetAutoExit  0x0203D7B0  arm
  *   func_0203D7BC  0x0203D7BC  arm
- *   func_0203C554  0x0203C554  arm
+ *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02005D90  0x02005D90  thumb
- *   func_02005DF8  0x02005DF8  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   ov115_id       0x00000073  data   a1
  *   ov120_id       0x00000078  data   a1
  *   ov119_id       0x00000077  data   a1
  *   ov195_id       0x000000C3  data   a1
- *   d_021D6338     0x021D6338  data   ov115  a4
- *   d_021D654C     0x021D654C  data   ov115  a4
+ *   gNetSaveMainProc     0x021D6338  data   ov115  a4
+ *   gNetSaveRetryProc     0x021D654C  data   ov115  a4
  *   d_021D890C     0x021D890C  data   ov120  a4
  *   d_021E759C     0x021E759C  data   ov119  a4
  *   d_02208C40     0x02208C40  data   ov195  a4
@@ -144,26 +144,26 @@ typedef struct GtsNegoEventWork {
 
 extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
 extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
-extern u16 func_02005C44(void);
-extern void func_02005E30(u32 frames);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_FadeOutBgm(u32 frames);
 extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
 extern u32 func_02026454(void *gameComm);
-extern int func_020144DC(int gameSystem, int fieldMap);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
 extern void func_02012374(struct GameEvent *event, struct GameEvent **newEvent);
-extern void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
-extern u32 func_020120F0(const struct GameSystem *gameSystem);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 extern int   func_0203CD98(void);
 extern struct NetHandle *func_020399A8(void);
 extern void  func_02039C68(struct NetHandle *handle, u32 rangeStart, u32 rangeEnd);
 extern u32   func_02039CB4(struct NetHandle *handle, u32 rangeStart, u32 rangeEnd);
-extern void func_0203D7B0(u8 enable);
+extern void GFL_NET_SetAutoExit(u8 enable);
 extern void func_0203D7BC(u8 option);
-extern void func_0203C554(u32 a);
+extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 extern u32 func_020307B0(void *p);
-extern void  func_02005D90(u32 bgmNo, u32 fadeTarget);
-extern void func_02005DF8(u32 frames);
-extern void *func_020145CC(void *gameSystem);
+extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
+extern void GFL_USE_FadeInBgmFull(u32 frames);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
 void *func_020124E8(struct GameEvent *event);
 void func_02026400(struct GameComm *gameComm);
 struct Party *func_0201A920(u32 heapId);
@@ -176,14 +176,14 @@ extern char ov115_id[];
 extern char ov120_id[];
 extern char ov119_id[];
 extern char ov195_id[];
-extern char d_021D6338[];
-extern char d_021D654C[];
+extern char gNetSaveMainProc[];
+extern char gNetSaveRetryProc[];
 extern char d_021D890C[];
 extern char d_021E759C[];
 extern char d_02208C40[];
 extern char d_021546A0[];
 u32 func_021542C0(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work);
-void *func_02154560(void *event, void *gameSystem, int a, int startMode);
+void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode);
 void *func_0215466C(void *gameSystem, int a);
 
 
@@ -196,24 +196,24 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work)
 
     switch (*seq) {
     case 0:
-        work->savedBgmNo = func_02005C44();
-        func_02005E30(6);
+        work->savedBgmNo = GFL_USE_GetBgmNo();
+        GFL_USE_FadeOutBgm(6);
         (*seq)++;
         break;
     case 1:
         if (func_02026454(func_02012138(gameSystem)) == 0) {
-            func_02012374(event, (struct GameEvent **)func_020144DC((int)gameSystem, (int)fieldMap));
+            func_02012374(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)fieldMap));
             (*seq)++;
         }
         break;
     case 2:
         work->login.saveData = work->loginSaveData;
         work->login.messageId = 0x33;
-        func_020120B4(gameSystem, (u32)ov115_id, d_021D6338, &work->login);
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov115_id, gNetSaveMainProc, &work->login);
         (*seq)++;
         break;
     case 3:
-        if (func_020120F0(gameSystem) == 0) {
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
             if (work->login.result == 0)
                 (*seq)++;
             else
@@ -222,11 +222,11 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work)
         break;
     case 4:
         work->dispParam.result = 0;
-        func_020120B4(gameSystem, (u32)ov120_id, d_021D890C, &work->dispParam);
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov120_id, d_021D890C, &work->dispParam);
         (*seq)++;
         break;
     case 5:
-        if (func_020120F0(gameSystem) == 0) {
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
             if (work->dispParam.result == 1) {
                 *seq = 12;
             } else if (work->dispParam.result == 0) {
@@ -242,11 +242,11 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work)
         work->tradeParam.gameData = gameData;
         work->tradeParam.dispParam = &work->dispParam;
         work->tradeParam.loginSaveData = work->loginSaveData;
-        func_020120B4(gameSystem, (u32)ov119_id, d_021E759C, &work->tradeParam);
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov119_id, d_021E759C, &work->tradeParam);
         (*seq)++;
         break;
     case 7:
-        if (func_020120F0(gameSystem) == 0) {
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
             if (func_0203CD98() == 0) {
                 work->login.useSaveData = 1;
                 *seq = 2;
@@ -256,7 +256,7 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work)
                 *seq = 10;
             } else {
                 func_02039C68(func_020399A8(), 1, 0xc);
-                func_0203D7B0(0);
+                GFL_NET_SetAutoExit(0);
                 func_0203D7BC(0);
                 work->timeoutFrames = 100;
                 *seq = 8;
@@ -271,7 +271,7 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work)
             *seq = 9;
         break;
     case 9:
-        func_0203C554(1);
+        GFL_NET_STATE_WifiDisconnect(1);
         *seq = 4;
         break;
     case 10:
@@ -284,11 +284,11 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work)
         request->fromTrade = 1;
         request->reserved2 = 0;
         work->tradeParam.evolutionRequest = request;
-        func_020120B4(gameSystem, (u32)ov195_id, d_02208C40, request);
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov195_id, d_02208C40, request);
         (*seq)++;
         break;
     case 11:
-        if (func_020120F0(gameSystem) == 0) {
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
             func_020307B0(work->tradeParam.evolutionRequest);
             if (func_0203CD98() == 0) {
                 work->login.useSaveData = 1;
@@ -300,20 +300,20 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work)
         }
         break;
     case 12:
-        func_020120B4(gameSystem, (u32)ov115_id, d_021D654C, &work->confirm);
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov115_id, gNetSaveRetryProc, &work->confirm);
         (*seq)++;
         break;
     case 13:
-        if (func_020120F0(gameSystem) == 0)
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0)
             (*seq)++;
         break;
     case 14:
         func_020307B0(work->dispParam.myStatusCopy);
         func_020307B0(work->dispParam.partnerStatusCopy);
         func_020307B0(work->tradedParty);
-        func_02005D90(work->savedBgmNo, 0xFFFF);
-        func_02005DF8(0x3C);
-        func_02012374(event, func_020145CC(gameSystem));
+        GFL_USE_CancelChangeAndPlayBgm(work->savedBgmNo, 0xFFFF);
+        GFL_USE_FadeInBgmFull(0x3C);
+        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         (*seq)++;
         break;
     case 15:
@@ -331,7 +331,7 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work)
  * Fills the event work: game system, party for traded Pokemon, status copies
  * for the negotiation screen and the two login parameter blocks.
  */
-void *func_02154560(void *event, void *gameSystem, int a, int startMode)
+void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode)
 {
     GtsNegoEventWork *work;
 
@@ -365,6 +365,6 @@ void *func_02154560(void *event, void *gameSystem, int a, int startMode)
 void *func_0215466C(void *gameSystem, int a)
 {
     void *event = func_020122C0(gameSystem, 0, func_021542C0, 0x3B4);
-    func_02154560(event, gameSystem, a, 0);
+    EVENT_GTSNEGO_InitWork(event, gameSystem, a, 0);
     return event;
 }

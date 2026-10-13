@@ -15,18 +15,18 @@
  * symbols:
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02031324 0x02031324 arm
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Create 0x02031324 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   d_021E1A50 0x021E1A50 data a4
  *   func_0203133C 0x0203133C arm
  *   func_020315D4 0x020315D4 arm
  *   func_02030734 0x02030734 arm
  *   d_021E2260 0x021E2260 data a4
  *   func_020307B0 0x020307B0 arm
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   d_021E1A38 0x021E1A38 data a4
  *   d_0000005B 0x0000005B data a1
- *   d_021BED00 0x021BED00 data ov091 a4
+ *   gPartyListProcData 0x021BED00 data ov091 a4
  *   func_0203A574 0x0203A574 arm
  *   d_021E1A68 0x021E1A68 data a4
  *   func_020399A8 0x020399A8 arm
@@ -44,8 +44,8 @@
  *   func_021E1694 0x021E1694 thumb ov137
  *   func_021E180C 0x021E180C thumb ov137
  *   func_021E1814 0x021E1814 thumb ov137
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0203064C 0x0203064C arm
  *   func_020490F4 0x020490F4 arm
  *   func_0203F8F4 0x0203F8F4 arm
@@ -76,7 +76,7 @@
  *   func_020221A4 0x020221A4 thumb
  *   func_0200FB24 0x0200FB24 thumb
  *   d_021E1C20 0x021E1C20 data a4
- *   func_0203115C 0x0203115C arm
+ *   TCBL_DeleteAllTasks 0x0203115C arm
  *   func_02031140 0x02031140 arm
  *   func_021DD570 0x021DD570 thumb ov137
  *   func_021DD760 0x021DD760 thumb ov137
@@ -96,10 +96,11 @@
  *   func_020310C4  0x020310C4  arm
  *   func_020433E0 0x020433E0 arm
  *   d_021E1B40 0x021E1B40 data a4
- *   d_021DC800 0x021DC800 data a4 ov131
+ *   gPokeStatusProcData 0x021DC800 data a4 ov131
  *   d_00000083 0x00000083 data a1
  *   d_021E1A44 0x021E1A44 data a4
  *   d_021E2268 0x021E2268 data a4
+ *   GFL_NET_SetAutoExit  0x0203D7B0  arm  arm9
  */
 #include "ov137_types.h"
 struct Guru2Ctx;
@@ -183,18 +184,18 @@ struct State { u32 enable; u32 index; int counter; u32 spare; u8 *object; };
 
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,u32);
-extern void *func_02031324(int a0);
-extern u32 func_02031330(void *);
+extern void *PROCSYS_Create(int a0);
+extern u32 PROCSYS_Main(void *);
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void *func_02030734(u16,u32,int,const char *,u16);
 extern u32 func_020307B0(void *p);
-extern void func_02031348(void *,int,const void *,void *);
+extern void PROCSYS_Push(void *,int,const void *,void *);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201292C(const struct BigObj *p);
 extern u32 func_0201AA18(void *);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void func_0203D7B0(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern u8 *func_02012944(void *p);
 extern void *func_0200CA1C(void *);
 extern u32 func_0200CA38(struct Blk37 *p);
@@ -214,7 +215,7 @@ extern void func_021E168C(int *p, int a);
 extern void func_021E1694(void *,void *);
 extern void func_021E1814(unsigned char *p, u16 *q);
 extern void func_021E180C(int *p, int a, int b);
-extern void func_020434CC(void),func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_0203F8F4(u16);
@@ -240,7 +241,7 @@ extern int func_021DE248(void *,int,u16,void *);
 extern void func_021DE5D0(u8 *p);
 extern int func_021DE738(void *,int);
 extern void func_0203A5E4(unsigned),func_0204A600(void);
-extern void func_0203115C(struct Tcbl *p);
+extern void TCBL_DeleteAllTasks(struct Tcbl *p);
 extern void func_02031140(struct S02031140 *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
@@ -311,9 +312,9 @@ void func_021DD1B4(u8 *p);
 void func_021DD1D0(void);
 extern const u8 d_021E2260[];
 extern const u8 d_021E1A38[];
-extern const unsigned char d_021BED00[];
+extern const unsigned char gPartyListProcData[];
 extern const unsigned char d_0000005B[];
-extern const u8 d_021E2260[],d_021DC800[],d_021E1A44[],d_00000083[];
+extern const u8 d_021E2260[],gPokeStatusProcData[],d_021E1A44[],d_00000083[];
 extern const unsigned char d_021E2268[];
 extern const u8 d_021E1A68[];
 extern const u8 d_021E1AEE[];
@@ -322,7 +323,7 @@ extern const u32 d_021E1B40[];
 
 
 
-int func_021DC860(void *obj,int a,struct Guru2Ctx *ctx) { u8 *p=func_0203159C(obj,36,4); func_02082BCC(p,0,36); *(unsigned int *)&((struct Guru2MainCtx *)p)->f10=ctx->f4; ((struct Guru2MainCtx *)p)->f8=ctx; ((struct Guru2MainCtx *)p)->f20=func_02031324(1); return 1; }
+int func_021DC860(void *obj,int a,struct Guru2Ctx *ctx) { u8 *p=func_0203159C(obj,36,4); func_02082BCC(p,0,36); *(unsigned int *)&((struct Guru2MainCtx *)p)->f10=ctx->f4; ((struct Guru2MainCtx *)p)->f8=ctx; ((struct Guru2MainCtx *)p)->f20=PROCSYS_Create(1); return 1; }
 
 
 
@@ -330,7 +331,7 @@ extern int (* const d_021E1A50[])(u8 *);
 
 
 
-int func_021DC888(void *obj,int a,int b,u8 *p) { switch(func_02031330(((struct Guru2Ctx *)p)->f20)) { case 0: if(d_021E1A50[*(u32 *)p](p)==1) return 1; break; case 1: break; case 2: break; } return 0; }
+int func_021DC888(void *obj,int a,int b,u8 *p) { switch(PROCSYS_Main(((struct Guru2Ctx *)p)->f20)) { case 0: if(d_021E1A50[*(u32 *)p](p)==1) return 1; break; case 1: break; case 2: break; } return 0; }
 
 
 
@@ -350,7 +351,7 @@ void *func_021DC924(struct Guru2Ctx *p) { return p->f10; }
 
 
 
-int func_021DC928(struct Guru2MainCtx *p) {void *v;v=func_021DC8D0(p->f8,4);*(unsigned int *)&p->f0=1;*(void * *)&p->fC=v;func_02031348(p->f20,-1,d_021E1A38,v);return 0;}
+int func_021DC928(struct Guru2MainCtx *p) {void *v;v=func_021DC8D0(p->f8,4);*(unsigned int *)&p->f0=1;*(void * *)&p->fC=v;PROCSYS_Push(p->f20,-1,d_021E1A38,v);return 0;}
 
 
 
@@ -377,9 +378,9 @@ struct DC950Obj *func_021DC950(struct DC950Src *p,int a,int b)
 /*
  * func_021DC924 0x021DC924 thumb ov137
  * func_021DC950 0x021DC950 thumb ov137
- * func_0203D7B0 0x0203D7B0 arm
- * func_02031348 0x02031348 arm
- * d_021BED00 0x021BED00 data ov091 a4
+ * GFL_NET_SetAutoExit 0x0203D7B0 arm
+ * PROCSYS_Push 0x02031348 arm
+ * gPartyListProcData 0x021BED00 data ov091 a4
  * d_0000005B 0x0000005B data a1
  */
 int func_021DC9AC(u32 *p)
@@ -387,10 +388,10 @@ int func_021DC9AC(u32 *p)
     void *v;
     if (!func_021DC924((void *)p[3])) p[0]=5;
     else {
-        func_0203D7B0(1);
+        GFL_NET_SetAutoExit(1);
         v=func_021DC950((struct DC950Src *)p,21,0);
         p[6]=(u32)v;
-        func_02031348((void *)p[8],(int)d_0000005B,d_021BED00,v);
+        PROCSYS_Push((void *)p[8],(int)d_0000005B,gPartyListProcData,v);
         *(u32 *)p[3]=1;
         p[0]=2;
     }
@@ -403,9 +404,9 @@ int func_021DC9AC(u32 *p)
  * func_020307B0 0x020307B0 arm
  * func_02030734 0x02030734 arm
  * func_02082BCC 0x02082BCC arm
- * func_02031348 0x02031348 arm
+ * PROCSYS_Push 0x02031348 arm
  * d_021E2260 0x021E2260 data a4
- * d_021DC800 0x021DC800 data a4 ov131
+ * gPokeStatusProcData 0x021DC800 data a4 ov131
  * d_021E1A44 0x021E1A44 data a4
  * d_00000083 0x00000083 data a1
  */
@@ -433,11 +434,11 @@ int func_021DC9F4(u32 *p)
         *(u32 *)(p[7]+24)=func_0200CA38(q);
         p[1]=sel;
         *(u8 *)(p[7]+15)=sel;
-        func_02031348((void *)p[8],(int)d_00000083,d_021DC800,(void *)p[7]);
+        PROCSYS_Push((void *)p[8],(int)d_00000083,gPokeStatusProcData,(void *)p[7]);
         p[0]=3;
     } else {
         *(u32 *)(p[3]+4)=sel;
-        func_02031348((void *)p[8],-1,d_021E1A44,(void *)p[3]);
+        PROCSYS_Push((void *)p[8],-1,d_021E1A44,(void *)p[3]);
         *(u32 *)p[3]=3;
         p[0]=4;
     }
@@ -446,7 +447,7 @@ int func_021DC9F4(u32 *p)
 
 
 
-int func_021DCAB4(u8 *p) {u8 a;void *v;a=(*(u8 * *)&((struct Guru2MainCtx *)p)->f1C)[15];func_020307B0(*(void * *)&((struct Guru2MainCtx *)p)->f1C);v=func_021DC950((struct DC950Src *)p,21,a);*(void * *)&((struct Guru2MainCtx *)p)->f18=v;func_02031348(((struct Guru2MainCtx *)p)->f20,(int)d_0000005B,d_021BED00,v);*(unsigned int *)&((struct Guru2MainCtx *)p)->f0=2;return 0;}
+int func_021DCAB4(u8 *p) {u8 a;void *v;a=(*(u8 * *)&((struct Guru2MainCtx *)p)->f1C)[15];func_020307B0(*(void * *)&((struct Guru2MainCtx *)p)->f1C);v=func_021DC950((struct DC950Src *)p,21,a);*(void * *)&((struct Guru2MainCtx *)p)->f18=v;PROCSYS_Push(((struct Guru2MainCtx *)p)->f20,(int)d_0000005B,gPartyListProcData,v);*(unsigned int *)&((struct Guru2MainCtx *)p)->f0=2;return 0;}
 
 
 
@@ -856,17 +857,17 @@ int func_021DCE00(struct Guru2MainCtx2 *p, int i)
 
 /*
  * nested functions. Verified wrapper is MATCH (16 bytes; 020434B4 unresolved).
- * extern void func_0204349C(void),func_020434B4(void);
- * void func_020434CC(void) { func_0204349C(); func_020434B4(); }
- * Blocker symbols: func_0204349C 0x0204349C arm; func_020434B4 0x020434B4 arm.
+ * extern void BG_SYS_ClearMainBgPlanes(void),BG_SYS_ClearMainObjPlane(void);
+ * void BG_SYS_ClearMainPlanes(void) { BG_SYS_ClearMainBgPlanes(); BG_SYS_ClearMainObjPlane(); }
+ * Blocker symbols: BG_SYS_ClearMainBgPlanes 0x0204349C arm; BG_SYS_ClearMainObjPlane 0x020434B4 arm.
  * Verified wrapper is EXACT (16 bytes), fixed compiler/flags ARM.
- * extern void func_02043558(void),func_02043570(void);
- * void func_02043588(void) { func_02043558(); func_02043570(); }
- * Blocker symbols: func_02043558 0x02043558 arm; func_02043570 0x02043570 arm.
+ * extern void BG_SYS_ClearSubBgPlanes(void),BG_SYS_ClearSubObjPlane(void);
+ * void BG_SYS_ClearSubPlanes(void) { BG_SYS_ClearSubBgPlanes(); BG_SYS_ClearSubObjPlane(); }
+ * Blocker symbols: BG_SYS_ClearSubBgPlanes 0x02043558 arm; BG_SYS_ClearSubObjPlane 0x02043570 arm.
  * volatile: hardware DISPCNT reads at 021DCE34 and 021DCE3E.
  * lever: func_0203159C leaves its allocator result in r0, used by the caller.
- * func_020434CC 0x020434CC arm
- * func_02043588 0x02043588 arm
+ * BG_SYS_ClearMainPlanes 0x020434CC arm
+ * BG_SYS_ClearSubPlanes 0x02043588 arm
  * func_0203064C 0x0203064C arm
  * func_020490F4 0x020490F4 arm
  * func_0203159C 0x0203159C arm
@@ -897,7 +898,7 @@ int func_021DCE10(void *a,u32 *state,u8 *ctx)
     void *arc;
     switch(*state) {
     case 0:
-        func_020434CC(); func_02043588();
+        BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
         *(volatile u32 *)0x04000000&=0xffffe0ff;
         *(volatile u32 *)0x04001000&=0xffffe0ff;
         func_0203064C((u32)((void *)1),114,0x80000);
@@ -1035,7 +1036,7 @@ int func_021DCF80(int a,int b,int c,u8 *p)
 
 /*
  * volatile: 021DD10A reads and 021DD110 writes hardware register 0x04000304
- * func_0203115C 0x0203115C arm
+ * TCBL_DeleteAllTasks 0x0203115C arm
  * func_02031140 0x02031140 arm
  * func_021DD570 0x021DD570 thumb ov137
  * func_021DD760 0x021DD760 thumb ov137
@@ -1050,7 +1051,7 @@ int func_021DCF80(int a,int b,int c,u8 *p)
  */
 int func_021DD0B8(void *a,int b,void *c,u8 *p)
 {
-    func_0203115C((struct Tcbl *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4)); func_02031140((struct S02031140 *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4));
+    TCBL_DeleteAllTasks((struct Tcbl *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4)); func_02031140((struct S02031140 *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4));
     func_0201C6EC((struct PrintSys *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fEC)); func_0201C4C0((struct PrintSys *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fEC));
     func_021DD570(p); func_021DD3B0(func_021DD760(p));
     func_02045C04((struct Rec *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f40)); func_0201ED04((struct WordSet *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f3C)); func_0201D83C((void *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f38));

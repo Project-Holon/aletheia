@@ -12,7 +12,7 @@
  * sdk:      DWCi_ProcessMatchClosing (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
  * symbols:
- *   func_0216B994                0x0216B994 arm   ov009
+ *   DWC_GetState                0x0216B994 arm   ov009
  *   func_02175F3C                0x02175F3C arm   ov009
  *   func_0216EB68                0x0216EB68 arm   ov009
  *   NNCancel                     0x02199FB4 arm   ov009
@@ -44,7 +44,7 @@ struct DWCstMatchControl {
     u64 f668;
 };
 
-extern int func_0216B994(void);
+extern int DWC_GetState(void);
 extern int func_02175F3C(void);
 extern void func_0216EB68(int error, int errorCode);
 extern void NNCancel(int cookie);
@@ -58,7 +58,7 @@ int func_0216F0A0(int error, int errorCode)
 {
     u64 tick;
 
-    if (func_0216B994() != 4)
+    if (DWC_GetState() != 4)
         return 0;
     if (((struct DWCstMatchControl *)func_02175F3C())->f14 == 2)
         return 1;

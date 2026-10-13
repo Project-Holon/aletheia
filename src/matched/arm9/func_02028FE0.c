@@ -1,5 +1,5 @@
 /*
- * function: func_02028FE0
+ * function: FIELD_SOUND_SYSTEM_HandleModeState0
  * address:  0x02028FE0
  * packet:   pkt_02028FD0
  * region:   arm9
@@ -8,6 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_SetState  0x02029344  thumb
+ *   FIELD_SOUND_SYSTEM_FinishRequest  0x02029364  thumb
+ *   FIELD_SOUND_SYSTEM_FadeInCurrentBgm  0x02029374  thumb
+ *   FIELD_SOUND_SYSTEM_PopBgm  0x020293D8  thumb
+ *   FIELD_SOUND_SYSTEM_PlayRequestedBgmNow  0x0202945C  thumb
  */
 
 typedef unsigned int u32;
@@ -17,14 +24,14 @@ struct T {
     u32 f1c;
 };
 
-extern void func_02029344(void *obj, u32 value);
+extern void FIELD_SOUND_SYSTEM_SetState(void *obj, u32 value);
 typedef unsigned char  u8;
-extern void func_02029364(u8 *p);
-extern void func_02029374(u8 *p);
-extern void func_020293D8(struct T *p);
-extern void func_0202945C(u8 *p);
+extern void FIELD_SOUND_SYSTEM_FinishRequest(u8 *p);
+extern void FIELD_SOUND_SYSTEM_FadeInCurrentBgm(u8 *p);
+extern void FIELD_SOUND_SYSTEM_PopBgm(struct T *p);
+extern void FIELD_SOUND_SYSTEM_PlayRequestedBgmNow(u8 *p);
 
-void func_02028FE0(struct T *p)
+void FIELD_SOUND_SYSTEM_HandleModeState0(struct T *p)
 {
     switch (p->f1c) {
     case 0:
@@ -33,20 +40,20 @@ void func_02028FE0(struct T *p)
     case 3:
         break;
     case 4:
-        func_020293D8(p);
-        func_02029374((u8 *)p);
-        func_02029344(p, 7);
+        FIELD_SOUND_SYSTEM_PopBgm(p);
+        FIELD_SOUND_SYSTEM_FadeInCurrentBgm((u8 *)p);
+        FIELD_SOUND_SYSTEM_SetState(p, 7);
         break;
     case 5:
-        func_02029344(p, 8);
+        FIELD_SOUND_SYSTEM_SetState(p, 8);
         break;
     case 6:
-        func_02029344(p, 0xd);
+        FIELD_SOUND_SYSTEM_SetState(p, 0xd);
         break;
     case 7:
-        func_0202945C((u8 *)p);
-        func_02029344(p, 1);
-        func_02029364((u8 *)p);
+        FIELD_SOUND_SYSTEM_PlayRequestedBgmNow((u8 *)p);
+        FIELD_SOUND_SYSTEM_SetState(p, 1);
+        FIELD_SOUND_SYSTEM_FinishRequest((u8 *)p);
         break;
     }
 }

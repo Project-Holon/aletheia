@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021F6148 0x021F6148 arm ov107
- *   func_0208F370 0x0208F370 arm
+ *   WM_Initialize 0x0208F370 arm
  *   func_0208EAC8 0x0208EAC8 arm
  *   func_021F4628 0x021F4628 arm ov107
  *   g_021F6F90 0x021F6F90 data
@@ -33,7 +33,7 @@ typedef struct {
 extern struct WmBase g_021F6F90;
 
 extern void func_021F6148(unsigned short time);
-extern int func_0208F370(void *wmSysBuf, void *callback, unsigned short dmaNo);
+extern int WM_Initialize(void *wmSysBuf, void *callback, unsigned short dmaNo);
 extern int func_0208EAC8(void *callback);
 extern void func_021F4628(void);
 
@@ -48,7 +48,7 @@ int func_021F5BE0(void)
     func_021F6148(0x1E);
     if (*(int *)(((unsigned char *)g_021F6F90.ext) + 0x1320) == 0) {
         do {
-            errcode = func_0208F370(g_021F6F90.wmSysBuf, *(void **)(g_021F6F90.work + 0x508), g_021F6F90.WM_DMA_NO);
+            errcode = WM_Initialize(g_021F6F90.wmSysBuf, *(void **)(g_021F6F90.work + 0x508), g_021F6F90.WM_DMA_NO);
         } while (errcode == 4);
         if (errcode != 2) {
             return 8;

@@ -1,7 +1,7 @@
 /*
  * file:     iss_3ds_sys.c
  * unit:     yes
- * function: func_0202B4BC, func_0202B4F0, func_0202B500, func_0202B544, func_0202B578, func_0202B57C, func_0202B584, func_0202B59C, func_0202B5D4, func_0202B5FC, func_0202B610, func_0202B624, func_0202B63C, func_0202B64C, func_0202B65C, func_0202B66C, func_0202B67C, func_0202B68C, func_0202B69C, func_0202B6AC, func_0202B6BC, func_0202B6CC, func_0202B6DC, func_0202B6EC, func_0202B6F8, func_0202B704, func_0202B710, func_0202B720, func_0202B72C, func_0202B738, func_0202B744, func_0202B758, func_0202B764, func_0202B770, func_0202B77C, func_0202B788, func_0202B794, func_0202B7A0, func_0202B7AC, func_0202B7B8, func_0202B7BC, func_0202B7C8, func_0202B7D4, func_0202B7E0, func_0202B7EC, func_0202B7F8, func_0202B804, func_0202B810, func_0202B818, func_0202B834, func_0202B84C, func_0202B894, func_0202B8E4, func_0202B8F4, func_0202B8FC, func_0202B904, func_0202B90C, func_0202B914, func_0202B920, func_0202B928, func_0202B934, func_0202B93C, func_0202B944, func_0202B958, func_0202B9C8, func_0202B9E0, func_0202B9F0, func_0202BA24, func_0202BA60, func_0202BA7C, func_0202BA9C, func_0202BABC, func_0202BAE8
+ * function: ISS_SYS_Create, ISS_SYS_Delete, ISS_SYS_Update, func_0202B544, func_0202B578, func_0202B57C, func_0202B584, ISS_SYS_Setup, ISS_SYS_DeleteSubsystems, ISS_SYS_CreateRoad, ISS_SYS_CreateCity, ISS_SYS_CreateDungeon, ISS_SYS_CreateZone, ISS_SYS_CreateSwitch, ISS_SYS_Create3ds, ISS_SYS_DeleteRoad, ISS_SYS_DeleteCity, ISS_SYS_DeleteDungeon, ISS_SYS_DeleteZone, ISS_SYS_DeleteSwitch, ISS_SYS_Delete3ds, ISS_SYS_UpdateRoad, ISS_SYS_UpdateCity, ISS_SYS_UpdateDungeon, ISS_SYS_UpdateZone, ISS_SYS_UpdateSwitch, ISS_SYS_Update3ds, ISS_SYS_EnterRoad, ISS_SYS_EnterCity, ISS_SYS_EnterDungeon, ISS_SYS_EnterZone, ISS_SYS_EnterSwitch, ISS_SYS_Enter3ds, ISS_SYS_LeaveRoad, ISS_SYS_LeaveCity, ISS_SYS_LeaveDungeon, ISS_SYS_LeaveZone, ISS_SYS_LeaveSwitch, ISS_SYS_Leave3ds, func_0202B7B8, ISS_SYS_OnZoneChangeCity, ISS_SYS_OnZoneChangeDungeon, ISS_SYS_OnZoneChangeZone, ISS_SYS_OnZoneChangeSwitch, ISS_SYS_OnZoneChange3ds, ISS_SYS_GetLocation, ISS_SYS_GetZoneId, ISS_SYS_GetCurrentBgmId, ISS_SYS_GetBgmMode, ISS_SYS_HasBgmChanged, ISS_SYS_SwitchMode, ISS_3DS_SYS_Create, ISS_3DS_SYS_Delete, ISS_3DS_SYS_Update, ISS_3DS_SYS_Enter, ISS_3DS_SYS_Leave, ISS_3DS_SYS_OnZoneChange, ISS_3DS_SYS_SetVolume, func_0202B920, func_0202B928, func_0202B934, ISS_3DS_SYS_SetCamera, func_0202B944, ISS_3DS_SYS_LoadTable, ISS_3DS_SYS_FreeTable, ISS_3DS_SYS_SetTableIndex, ISS_3DS_SYS_FindTableIndex, ISS_3DS_SYS_ResetSources, ISS_3DS_SYS_StartSourceImpl, ISS_3DS_SYS_SetSourcePosImpl, ISS_3DS_SYS_SetCameraImpl, ISS_3DS_SYS_EnterImpl, ISS_3DS_SYS_LeaveImpl
  * address:  0x0202B4BC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,1418 +13,760 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   str_020A772C  0x020A772C  data
- *   func_0202C070  0x0202C070  thumb
- *   func_0202B1F4  0x0202B1F4  thumb
- *   func_0202AB38  0x0202AB38  thumb
- *   func_0202C09C  0x0202C09C  thumb
- *   func_0202AB5C  0x0202AB5C  thumb
- *   func_0202AB4C  0x0202AB4C  thumb
- *   func_0202AB54  0x0202AB54  thumb
- *   func_0202B1FC  0x0202B1FC  thumb
- *   func_0202B204  0x0202B204  thumb
+ *   ISS_SYS_FileName  0x020A772C  data
+ *   ISS_3DS_SYS_FileName  0x020A7738  data
+ *   ISS_SWITCH_SYS_Create  0x0202C070  thumb
+ *   ISS_ROAD_SYS_Update  0x0202B1F4  thumb
+ *   ISS_CITY_SYS_Update  0x0202AB38  thumb
+ *   ISS_SWITCH_SYS_Main  0x0202C09C  thumb
+ *   ISS_CITY_SYS_NotifyZoneChange  0x0202AB5C  thumb
+ *   ISS_CITY_SYS_Start  0x0202AB4C  thumb
+ *   ISS_CITY_SYS_Stop  0x0202AB54  thumb
+ *   ISS_ROAD_SYS_Start  0x0202B1FC  thumb
+ *   ISS_ROAD_SYS_Stop  0x0202B204  thumb
  *   sub_0202B420  0x0202B420  thumb
- *   func_0202BECC  0x0202BECC  thumb
+ *   ISS_ZONE_SYS_SwitchZone  0x0202BECC  thumb
  *   sub_0202C0C8  0x0202C0C8  thumb
- *   sub_0202B90C  0x0202B90C  thumb
- *   Data_0209FF88  0x0209FF88  data
+ *   ISS_SYS_ModeTable  0x0209FF88  data
  *   func_0202BB40  0x0202BB40  thumb
  *   func_0202BB48  0x0202BB48  thumb
- *   func_0202B424  0x0202B424  thumb
- *   func_0202C0B8  0x0202C0B8  thumb
- *   func_0202BEE4  0x0202BEE4  thumb
- *   func_0202C0C0  0x0202C0C0  thumb
+ *   ISS_DUNGEON_SYS_Start  0x0202B424  thumb
+ *   ISS_SWITCH_SYS_On  0x0202C0B8  thumb
+ *   ISS_ZONE_SYS_Stop  0x0202BEE4  thumb
+ *   ISS_SWITCH_SYS_Off  0x0202C0C0  thumb
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb
+ *   GAME_DATA_GetBagCursor  0x0201295C  thumb
+ *   ISS_CITY_SYS_Create  0x0202AAF4  thumb
+ *   ISS_CITY_SYS_Delete  0x0202AB28  thumb
+ *   ISS_ROAD_SYS_Create  0x0202B1AC  thumb
+ *   ISS_ROAD_SYS_Delete  0x0202B1EC  thumb
+ *   ISS_DUNGEON_SYS_Create  0x0202B3A0  thumb
+ *   ISS_DUNGEON_SYS_Delete  0x0202B3EC  thumb
+ *   ISS_DUNGEON_SYS_Update  0x0202B404  thumb
+ *   ISS_DUNGEON_SYS_Stop  0x0202B42C  thumb
+ *   ISS_ZONE_SYS_Create  0x0202BE68  thumb
+ *   ISS_ZONE_SYS_Delete  0x0202BEA4  thumb
+ *   ISS_ZONE_SYS_Update  0x0202BEBC  thumb
+ *   ISS_ZONE_SYS_Start  0x0202BEDC  thumb
+ *   ISS_SWITCH_SYS_Delete  0x0202C08C  thumb
  */
-#include "../../matched/include/Obj02010.h"
-#include "../../matched/include/Obj17265.h"
-#include "../../matched/include/Obj17266.h"
-#include "../../matched/include/Obj00563.h"
-#include "../../matched/include/Obj02011.h"
-#include "../../matched/include/Obj15840.h"
-#include "../../matched/include/Obj15841.h"
-#include "../../matched/include/Obj08804.h"
-#include "../../matched/include/Obj15842.h"
-#include "../../matched/include/Obj17267.h"
-#include "../../matched/include/Obj15843.h"
-#include "../../matched/include/Obj15844.h"
-#include "../../matched/include/Obj01019.h"
-#include "../../matched/include/Obj15845.h"
-#include "../../matched/include/Obj02601.h"
 
-struct SaveBlock;
-struct Obj;
-struct Node;
-struct Rec44;
-struct BigObj;
-struct Sub02006E40Obj;
-struct ArcFile;
 typedef unsigned char u8;
-
-typedef unsigned int  u32;
-
 typedef unsigned short u16;
+typedef unsigned int u32;
 
-typedef signed char    s8;
+/* Opaque types owned by other files. */
+struct GameData;
+struct Location;
+struct BgmInfoTable;
+struct IssCitySys;
+struct IssRoadSys;
+struct IssDungeonSys;
+struct IssZoneSys;
+struct IssSwitchSys;
+
+typedef struct GameData GameData;
+typedef struct Location Location;
+typedef struct BgmInfoTable BgmInfoTable;
+typedef struct IssCitySys IssCitySys;
+typedef struct IssRoadSys IssRoadSys;
+typedef struct IssDungeonSys IssDungeonSys;
+typedef struct IssZoneSys IssZoneSys;
+typedef struct IssSwitchSys IssSwitchSys;
 
 typedef struct {
-    u8   id;
-    u8   pad[3];
-    void (*enter)(void *);
-    void (*leave)(void *);
-} Entry;
+    int x, y, z;
+} IssVec3;
 
-typedef struct { int x, y, z; } V3;
+/* One entry of the 3D sound table: the BGM that uses it and the sound it plays. */
+typedef struct {
+    u32 bgmId;
+    u32 soundId;
+} Iss3dsTableEntry;
 
-struct Item {
-    u32 id;
-    u32 unk;
+enum {
+    ISS_3DS_SLOT_COUNT = 16
 };
 
-struct Obj {
-    u8 pad[0x264];
-    const struct Item *items;
-    u8 count;
+/* The enum type keeps the slot counter out of constant folding (see
+ * docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md). */
+typedef enum {
+    ISS_3DS_SLOT_FIRST,
+    ISS_3DS_SLOT_LIMIT = ISS_3DS_SLOT_COUNT
+} Iss3dsSlotIndex;
+
+/* One positional sound source. */
+typedef struct {
+    u32 active;
+    IssVec3 pos;
+    int radius;
+    int amp;
+    u16 trackMask;
+    u16 reserved;
+} Iss3dsSlot;
+
+/* 3D sound subsystem, 0x26c bytes. */
+typedef struct {
+    u16 heapId;
+    u16 reserved02;
+    u32 entered;
+    u8 volume;
+    u8 maxVolume;
+    u8 fadeSpeed;
+    u8 reserved0B;
+    IssVec3 cameraPos;
+    IssVec3 cameraTarget;
+    Iss3dsSlot slots[ISS_3DS_SLOT_COUNT];
+    u32 slotLevelA[ISS_3DS_SLOT_COUNT];
+    u32 slotLevelB[ISS_3DS_SLOT_COUNT];
+    Iss3dsTableEntry *table;
+    u8 tableCount;
+    u8 tableIndex;
+} Iss3dsSys;
+
+/* Interactive sound system, 0x28 bytes: one object per subsystem. */
+typedef struct {
+    u16 heapId;
+    u16 reserved02;
+    GameData *gameData;
+    u32 lastBgmId;
+    u32 frameCount;
+    IssCitySys *city;
+    IssRoadSys *road;
+    IssDungeonSys *dungeon;
+    IssZoneSys *zone;
+    IssSwitchSys *sw;
+    Iss3dsSys *sound3d;
+} IssSys;
+
+/* Per-mode callbacks, selected by the mode the current BGM maps to. */
+typedef struct {
+    u8 mode;
+    u8 reserved[3];
+    void (*onEnter)(IssSys *);
+    void (*onLeave)(IssSys *);
+} IssModeHandler;
+
+enum {
+    ISS_MODE_COUNT = 9
 };
-
-typedef enum { SLOT_0, SLOT_MAX = 16 } Slot;
-
-typedef struct { int f0; V3 pos; int f10; int f14; int f18; } E;
-
-typedef struct { char pad[0x24]; E e[1]; } M;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void   func_0202B584(void *p);
 extern u32 func_020307B0(void *p);
-extern void func_0202B7B8(void);
-extern struct Node *func_0202B1AC(u32 a, u32 heapId);
-extern struct Node *func_0202AAF4(u32 a, void *heapId);
-extern struct Node *func_0202B3A0(u32 a, u32 b, u32 heapId);
-extern u8 *func_0202BE68(u32 heapId);
-extern u8 *func_0202C070(u32 heap);
-extern void func_0202B1EC(void *ptr);
-extern void func_0202AB28(void *p);
-extern void func_0202C08C(u8 *p);
-extern void func_0202B404(u8 *p);
-extern void func_0202BEBC(u8 *p);
-extern void func_0202C0C0(u32 *a0);
-extern void func_0202B3EC(u8 *p);
-extern void func_0202BEA4(u8 *p);
-extern void func_0202B1F4(u8 *a0);
-extern void func_0202AB38(u8 *p);
-extern void func_0202C09C(u8 *p);
-extern void func_0202B1FC(u8 *p);
-extern void func_0202AB4C(u8 *p);
-extern void func_0202B424(u8 *p);
-extern void func_0202C0B8(u8 *p);
-extern void func_0202B204(u8 *p);
-extern void func_0202AB54(u8 *p);
-extern void func_0202B42C(u8 *p);
-extern void func_0202BEE4(u8 *p);
-extern void func_0202BEDC(int a, int b);
-extern void func_0202AB5C(u8 *p, u32 a1);
-extern void sub_0202B420(u8 *p, u16 v);
-extern void func_0202BECC(u8 *p, u32 key);
-extern void sub_0202C0C8(void *p);
-extern void sub_0202B90C(u8 *a0);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
-extern u16 func_02005C44(void);
-extern u32 func_0201295C(const struct BigObj *p);
-extern u8 func_02006E7C(const struct Sub02006E40Obj *obj, u16 key);
-extern void func_0202B944(void *obj);
-extern void func_0202BAF4(u8 *o);
-extern void func_0202BB40(u8 *p);
-extern void *func_020490F4(u32 id, u32 heap);
-extern u16    func_0204961C(void *obj);
-extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
-extern void   func_02049238(void *h);
-extern int func_0202BB48(int a0);
-void *func_0202B4BC(struct SaveBlock *a, u32 b);
-void func_0202B4F0(u8 *p);
-void func_0202B500(u8 *p);
-void func_0202B544(u32 a, u16 b);
-u32 func_0202B578(u32 *p);
-u32 sub_0202B57C(void *obj);
-u32 sub_0202B580(void *obj);
-void sub_0202B584(void *obj);
-void func_0202B59C(u8 *p, struct SaveBlock *a, u32 b);
-void func_0202B5D4(u32 a);
-void func_0202B5FC(struct Obj *o);
-void func_0202B610(struct Obj *o);
-void func_0202B624(struct Obj *o);
-void func_0202B63C(struct Obj *o);
-void func_0202B64C(struct Obj *o);
-void func_0202B65C(struct Obj *o);
-void func_0202B66C(struct Obj *o);
-void func_0202B67C(u8 *p);
-void func_0202B68C(int a0);
-void func_0202B69C(int a0);
-void func_0202B6AC(u8 *p);
-void func_0202B6BC(int a0);
-void func_0202B6CC(u8 *o);
-void func_0202B6DC(u8 *o);
-void func_0202B6EC(u8 *p);
-void func_0202B6F8(u8 *p);
-void func_0202B704(u8 *p);
-void func_0202B710(u8 *o);
-void func_0202B720(u8 *p);
-void func_0202B72C(u8 *p);
-void func_0202B738(u8 *p);
-void func_0202B744(u8 *o);
-void func_0202B758(u8 *p);
-void func_0202B764(u8 *p);
-void func_0202B770(u8 *p);
-void func_0202B77C(u8 *p);
-void func_0202B788(u8 *p);
-void func_0202B794(u8 *p);
-void func_0202B7A0(u8 *p);
-void func_0202B7AC(u8 *p);
-void sub_0202B7B8(void);
-void func_0202B7BC(struct Obj *o, u32 a1);
-void func_0202B7C8(u8 *p, u16 v);
-void func_0202B7D4(u8 *p, u32 key);
-void func_0202B7E0(u8 *p, u32 b);
-void func_0202B7EC(u8 *p, u32 b);
-void *func_0202B7F8(struct Obj *o);
-u16 func_0202B804(struct Obj *o);
-u32 func_0202B810(void);
-u8 func_0202B818(struct Obj *o);
-u32 func_0202B834(struct Obj *o);
-void func_0202B84C(void *a);
-u8 *func_0202B894(u32 id);
-void func_0202B8E4(struct Obj *o);
-void func_0202B8F4(u8 *a0);
-void func_0202B8FC(u8 *p);
-void func_0202B904(u8 *p);
-void func_0202B90C(u8 *a0);
-void func_0202B914(struct Obj *o, u32 v);
-void func_0202B920(void *m, int i, int a, int b);
-int func_0202B928(int a, int b);
-void func_0202B934(void *m, int i, const V3 *v);
-void func_0202B93C(int a, void *b, void *c);
-void sub_0202B944(void *obj);
-void func_0202B958(u8 *p);
-void func_0202B9C8(struct Obj *o);
-int func_0202B9E0(int a0, int a1);
-u8 func_0202B9F0(const struct Obj *p, u32 key);
-void func_0202BA24(u8 *p);
-void func_0202BA60(M *m, int i, int a, int b);
-void func_0202BA7C(M *m, int i, const V3 *v);
-void func_0202BA9C(char *p, const int *a, const int *b);
-void func_0202BABC(u8 *o);
-void func_0202BAE8(u32 *p);
-extern const u8 str_020A772C[];
-extern const Entry Data_0209FF88[];
+extern IssRoadSys *ISS_ROAD_SYS_Create(const Location *loc, u32 heapId);
+extern IssCitySys *ISS_CITY_SYS_Create(const Location *loc, u32 heapId);
+extern IssDungeonSys *ISS_DUNGEON_SYS_Create(const GameData *gameData, const Location *loc, u32 heapId);
+extern IssZoneSys *ISS_ZONE_SYS_Create(u32 heapId);
+extern IssSwitchSys *ISS_SWITCH_SYS_Create(u32 heapId);
+extern void ISS_ROAD_SYS_Delete(IssRoadSys *road);
+extern void ISS_CITY_SYS_Delete(IssCitySys *city);
+extern void ISS_DUNGEON_SYS_Delete(IssDungeonSys *dungeon);
+extern void ISS_ZONE_SYS_Delete(IssZoneSys *zone);
+extern void ISS_SWITCH_SYS_Delete(IssSwitchSys *sw);
+extern void ISS_ROAD_SYS_Update(IssRoadSys *road);
+extern void ISS_CITY_SYS_Update(IssCitySys *city);
+extern void ISS_DUNGEON_SYS_Update(IssDungeonSys *dungeon);
+extern void ISS_ZONE_SYS_Update(IssZoneSys *zone);
+extern void ISS_SWITCH_SYS_Main(IssSwitchSys *sw);
+extern void ISS_ROAD_SYS_Start(IssRoadSys *road);
+extern void ISS_CITY_SYS_Start(IssCitySys *city);
+extern void ISS_DUNGEON_SYS_Start(IssDungeonSys *dungeon);
+extern void ISS_SWITCH_SYS_On(IssSwitchSys *sw);
+extern void ISS_ROAD_SYS_Stop(IssRoadSys *road);
+extern void ISS_CITY_SYS_Stop(IssCitySys *city);
+extern void ISS_DUNGEON_SYS_Stop(IssDungeonSys *dungeon);
+extern void ISS_ZONE_SYS_Stop(IssZoneSys *zone);
+extern void ISS_SWITCH_SYS_Off(IssSwitchSys *sw);
+extern void ISS_ZONE_SYS_Start(IssZoneSys *zone, int zoneId);
+extern void ISS_CITY_SYS_NotifyZoneChange(IssCitySys *city, u32 zoneId);
+extern void sub_0202B420(IssDungeonSys *dungeon, u16 zoneId);
+extern void ISS_ZONE_SYS_SwitchZone(IssZoneSys *zone, u32 zoneId);
+extern void sub_0202C0C8(IssSwitchSys *sw);
+extern const Location *func_020127A4(const GameData *gameData);
+extern u16 func_02012AC8(const Location *loc);
+extern u16 GFL_USE_GetBgmNo(void);
+extern const BgmInfoTable *GAME_DATA_GetBagCursor(const GameData *gameData);
+extern u8 func_02006E7C(const BgmInfoTable *table, u16 bgmId);
+extern void func_0202BAF4(Iss3dsSys *sys);
+extern void func_0202BB40(Iss3dsSys *sys);
+extern void *func_020490F4(u32 archiveId, u32 heapId);
+extern u16 func_0204961C(void *arc);
+extern void func_0204932C(void *arc, u32 member, void *dst);
+extern void func_02049238(void *arc);
+extern int func_0202BB48(Iss3dsSys *sys);
 
+IssSys *ISS_SYS_Create(GameData *gameData, u32 heapId);
+void ISS_SYS_Delete(IssSys *iss);
+void ISS_SYS_Update(IssSys *iss);
+void func_0202B544(IssSys *iss, u16 zoneId);
+IssSwitchSys *func_0202B578(IssSys *iss);
+Iss3dsSys *ISS_SYS_Get3dsSys(IssSys *iss);
+IssDungeonSys *ISS_SYS_GetDungeonSys(IssSys *iss);
+void ISS_SYS_ClearFields(IssSys *iss);
+void ISS_SYS_Setup(IssSys *iss, GameData *gameData, u32 heapId);
+void ISS_SYS_DeleteSubsystems(IssSys *iss);
+void ISS_SYS_CreateRoad(IssSys *iss);
+void ISS_SYS_CreateCity(IssSys *iss);
+void ISS_SYS_CreateDungeon(IssSys *iss);
+void ISS_SYS_CreateZone(IssSys *iss);
+void ISS_SYS_CreateSwitch(IssSys *iss);
+void ISS_SYS_Create3ds(IssSys *iss);
+void ISS_SYS_DeleteRoad(IssSys *iss);
+void ISS_SYS_DeleteCity(IssSys *iss);
+void ISS_SYS_DeleteDungeon(IssSys *iss);
+void ISS_SYS_DeleteZone(IssSys *iss);
+void ISS_SYS_DeleteSwitch(IssSys *iss);
+void ISS_SYS_Delete3ds(IssSys *iss);
+void ISS_SYS_UpdateRoad(IssSys *iss);
+void ISS_SYS_UpdateCity(IssSys *iss);
+void ISS_SYS_UpdateDungeon(IssSys *iss);
+void ISS_SYS_UpdateZone(IssSys *iss);
+void ISS_SYS_UpdateSwitch(IssSys *iss);
+void ISS_SYS_Update3ds(IssSys *iss);
+void ISS_SYS_EnterRoad(IssSys *iss);
+void ISS_SYS_EnterCity(IssSys *iss);
+void ISS_SYS_EnterDungeon(IssSys *iss);
+void ISS_SYS_EnterZone(IssSys *iss);
+void ISS_SYS_EnterSwitch(IssSys *iss);
+void ISS_SYS_Enter3ds(IssSys *iss);
+void ISS_SYS_LeaveRoad(IssSys *iss);
+void ISS_SYS_LeaveCity(IssSys *iss);
+void ISS_SYS_LeaveDungeon(IssSys *iss);
+void ISS_SYS_LeaveZone(IssSys *iss);
+void ISS_SYS_LeaveSwitch(IssSys *iss);
+void ISS_SYS_Leave3ds(IssSys *iss);
+void ISS_SYS_OnZoneChangeRoad(void);
+void ISS_SYS_OnZoneChangeCity(IssSys *iss, u32 zoneId);
+void ISS_SYS_OnZoneChangeDungeon(IssSys *iss, u16 zoneId);
+void ISS_SYS_OnZoneChangeZone(IssSys *iss, u32 zoneId);
+void ISS_SYS_OnZoneChangeSwitch(IssSys *iss, u32 zoneId);
+void ISS_SYS_OnZoneChange3ds(IssSys *iss, u32 zoneId);
+const Location *ISS_SYS_GetLocation(IssSys *iss);
+u16 ISS_SYS_GetZoneId(IssSys *iss);
+u32 ISS_SYS_GetCurrentBgmId(void);
+u8 ISS_SYS_GetBgmMode(IssSys *iss);
+u32 ISS_SYS_HasBgmChanged(IssSys *iss);
+void ISS_SYS_SwitchMode(IssSys *iss);
+Iss3dsSys *ISS_3DS_SYS_Create(u32 heapId);
+void ISS_3DS_SYS_Delete(Iss3dsSys *sys);
+void ISS_3DS_SYS_Update(Iss3dsSys *sys);
+void ISS_3DS_SYS_Enter(Iss3dsSys *sys);
+void ISS_3DS_SYS_Leave(Iss3dsSys *sys);
+void ISS_3DS_SYS_OnZoneChange(Iss3dsSys *sys);
+void ISS_3DS_SYS_SetVolume(Iss3dsSys *sys, u32 volume);
+void func_0202B920(Iss3dsSys *sys, int slot, int radius, int amp);
+int func_0202B928(Iss3dsSys *sys, int slot);
+void func_0202B934(Iss3dsSys *sys, int slot, const IssVec3 *pos);
+void ISS_3DS_SYS_SetCamera(Iss3dsSys *sys, const int *cameraPos, const int *cameraTarget);
+void ISS_3DS_SYS_ClearTable(Iss3dsSys *sys);
+void ISS_3DS_SYS_LoadTable(Iss3dsSys *sys);
+void ISS_3DS_SYS_FreeTable(Iss3dsSys *sys);
+Iss3dsSys *ISS_3DS_SYS_SetTableIndex(Iss3dsSys *sys, u32 index);
+u8 ISS_3DS_SYS_FindTableIndex(const Iss3dsSys *sys, u32 bgmId);
+void ISS_3DS_SYS_ResetSources(Iss3dsSys *sys);
+void ISS_3DS_SYS_StartSourceImpl(Iss3dsSys *sys, int slot, int radius, int amp);
+void ISS_3DS_SYS_SetSourcePosImpl(Iss3dsSys *sys, int slot, const IssVec3 *pos);
+void ISS_3DS_SYS_SetCameraImpl(Iss3dsSys *sys, const int *cameraPos, const int *cameraTarget);
+void ISS_3DS_SYS_EnterImpl(Iss3dsSys *sys);
+void ISS_3DS_SYS_LeaveImpl(Iss3dsSys *sys);
+extern const char ISS_SYS_FileName[];
+extern const char ISS_3DS_SYS_FileName[];
+extern const IssModeHandler ISS_SYS_ModeTable[];
 
-
-
-
-
-
-
-
-/*
- * Blocked: the THM_CALL at +0024 to func_0202B59C has no manifest entry yet;
- * it is the last of four sites (str_020A772C resolves on `string`).  Chain:
- * 0x0202B59C needs 0x0202B64C, which needs 0x0202C070, which needs 0x0202C148 -
- * and 0x0202C148 is a DIFF (see docs/notes/pkt_0202C148.c.txt), so this row is
- * capped for this pass.  Every concrete byte reproduces.
- */
-void *func_0202B4BC(struct SaveBlock *a, u32 b)
+static inline void ISS_3DS_SYS_SetVec3(IssVec3 *dst, int x, int y, int z)
 {
-    void *p = func_02030734(b, 0x28, 0, (void *)str_020A772C, 0xa3);
-
-    func_0202B584(p);
-    func_0202B59C(p, a, b);
-    return p;
+    dst->x = x;
+    dst->y = y;
+    dst->z = z;
 }
 
-
-
-
-
-
-
-
-
-/*
- * closed:   blocker func_0202B2CC.c is now a manifest entry (matched class)
- *
- * Release pair: tear the node down with func_0202B5D4, then free it.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0202B4F0.c \
- *       --func func_0202B4F0 --addr 0x0202B4F0 --thumb --cc 1.1p1
- */
-void func_0202B4F0(u8 *p)
+/* Allocates the ISS object, clears it and creates the six subsystems. */
+IssSys *ISS_SYS_Create(GameData *gameData, u32 heapId)
 {
-    func_0202B5D4((u32)p);
-    func_020307B0(p);
+    IssSys *iss = func_02030734(heapId, sizeof(IssSys), 0, ISS_SYS_FileName, 0xa3);
+
+    ISS_SYS_ClearFields(iss);
+    ISS_SYS_Setup(iss, gameData, heapId);
+    return iss;
 }
 
-
-
-
-
-
-
-
-
-/*
- * cap: label -- two call targets have no witness outside this range:
- *   0x0202B84C (func_0202B84C) and 0x0202B710 (func_0202B710).
- *   Both are still-open band_0_64 addresses; each is called exactly once
- *   image-wide and that call site is inside this function, so the `label`
- *   class refuses (every witness is in-range). No C change can fix this:
- *   the moment either callee has its own manifest entry the site attests
- *   and this file turns EXACT untouched.
- *   All 68 bytes concrete-identical; 7 of 9 relocation sites resolved.
- */
-void func_0202B500(u8 *p)
+/* Tears the subsystems down, then frees the object. */
+void ISS_SYS_Delete(IssSys *iss)
 {
-    if (func_0202B834((struct Obj *)p) == 1) {
-        func_0202B84C(p);
-        ((struct Obj02010 *)p)->f8 = func_0202B810();
+    ISS_SYS_DeleteSubsystems(iss);
+    func_020307B0(iss);
+}
+
+/* Per-frame update: when the BGM changed, switch the active mode; then step
+ * every subsystem (road, city and 3D sound only on even frames). */
+void ISS_SYS_Update(IssSys *iss)
+{
+    if (ISS_SYS_HasBgmChanged(iss) == 1) {
+        ISS_SYS_SwitchMode(iss);
+        iss->lastBgmId = ISS_SYS_GetCurrentBgmId();
     }
-    func_0202B6CC(p);
-    func_0202B6DC(p);
-    func_0202B6EC(p);
-    func_0202B6F8(p);
-    func_0202B704(p);
-    func_0202B710(p);
-    ((struct Obj02010 *)p)->fC = ((struct Obj02010 *)p)->fC + 1;
+    ISS_SYS_UpdateRoad(iss);
+    ISS_SYS_UpdateCity(iss);
+    ISS_SYS_UpdateDungeon(iss);
+    ISS_SYS_UpdateZone(iss);
+    ISS_SYS_UpdateSwitch(iss);
+    ISS_SYS_Update3ds(iss);
+    iss->frameCount = iss->frameCount + 1;
 }
 
-
-
-
-
-
-
-
-
-/*
- *           --suggest-split offers nothing (single function, both
- *           unresolved sites' only witness is inside this range).
- *
- * Parked: four of the six call sites resolve (0x0202B7B8, 0x0202B7C8,
- * 0x0202B7D4, 0x0202B7E0 are manifest entries).  The two that stay unresolved
- * are 0x0202B7BC and 0x0202B7EC, whose own single callees are the four-byte
- * Thumb linker veneers at 0x0202AB5C and 0x0202B90C - artifact class, no C
- * spelling produces them, so neither thunk can ever earn a manifest entry and
- * no cut of this file frees the site.  Every concrete byte reproduces.
- */
-void func_0202B544(u32 a, u16 b)
+/* Tells every subsystem that the player moved to another zone. */
+void func_0202B544(IssSys *iss, u16 zoneId)
 {
-    func_0202B7B8();
-    func_0202B7BC((struct Obj *)a, b);
-    func_0202B7C8((u8 *)a, b);
-    func_0202B7D4((u8 *)a, b);
-    func_0202B7E0((u8 *)a, b);
-    func_0202B7EC((u8 *)a, b);
+    ISS_SYS_OnZoneChangeRoad();
+    ISS_SYS_OnZoneChangeCity(iss, zoneId);
+    ISS_SYS_OnZoneChangeDungeon(iss, zoneId);
+    ISS_SYS_OnZoneChangeZone(iss, zoneId);
+    ISS_SYS_OnZoneChangeSwitch(iss, zoneId);
+    ISS_SYS_OnZoneChange3ds(iss, zoneId);
 }
 
-
-
-
-
-
-
-
-
-u32 func_0202B578(u32 *p)
+IssSwitchSys *func_0202B578(IssSys *iss)
 {
-    return p[8];
+    return iss->sw;
 }
 
-
-
-
-
-
-
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Two word getters, at offsets 0x24 and 0x18, packed into a single 8-byte
- * pair with no gap. Neither has a relocation.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202B57C.c \
- *       --addr 0x0202B57C --thumb
- */
-u32 sub_0202B57C(void *obj)
+Iss3dsSys *ISS_SYS_Get3dsSys(IssSys *iss)
 {
-    return ((struct Obj17265 *)obj)->f24;
+    return iss->sound3d;
 }
 
-
-
-
-
-
-
-
-
-u32 sub_0202B580(void *obj)
+IssDungeonSys *ISS_SYS_GetDungeonSys(IssSys *iss)
 {
-    return ((struct Obj17266 *)obj)->f18;
+    return iss->dungeon;
 }
 
-
-
-
-
-
-
-
-
-/*
- * A constructor-shaped clear on a small object: a leading halfword and ten
- * words, all zeroed in address order. No relocation.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202B584.c \
- *       --func sub_0202B584 --addr 0x0202B584 --cc 1.1p1 --thumb
- */
-void sub_0202B584(void *obj)
+/* Zeroes every field. */
+void ISS_SYS_ClearFields(IssSys *iss)
 {
-    ((struct Obj00563 *)obj)->f0 = 0;
-    ((struct Obj00563 *)obj)->f4 = 0;
-    ((struct Obj00563 *)obj)->f8 = 0;
-    ((struct Obj00563 *)obj)->fC = 0;
-    ((struct Obj00563 *)obj)->f10 = 0;
-    ((struct Obj00563 *)obj)->f14 = 0;
-    ((struct Obj00563 *)obj)->f18 = 0;
-    ((struct Obj00563 *)obj)->f1C = 0;
-    ((struct Obj00563 *)obj)->f20 = 0;
-    ((struct Obj00563 *)obj)->f24 = 0;
+    iss->heapId = 0;
+    iss->gameData = 0;
+    iss->lastBgmId = 0;
+    iss->frameCount = 0;
+    iss->city = 0;
+    iss->road = 0;
+    iss->dungeon = 0;
+    iss->zone = 0;
+    iss->sw = 0;
+    iss->sound3d = 0;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Parked: five of the six initialisers resolve as `matched` (0x0202B5FC,
- * 0x0202B610, 0x0202B624, 0x0202B63C, 0x0202B65C).  The one that does not is
- * 0x0202B64C at +002A, which is itself capped on 0x0202C070, which is capped
- * on 0x0202C148 (DIFF).  Every concrete byte reproduces; the C is final.
- *
- * Constructor hub: fills the four word/halfword members of a node and runs
- * its six initialisers in order.
- */
-void func_0202B59C(u8 *p, struct SaveBlock *a, u32 b)
+/* Fills the header fields and creates the subsystems. */
+void ISS_SYS_Setup(IssSys *iss, GameData *gameData, u32 heapId)
 {
-    ((struct Obj00563 *)p)->f4  = (u32)a;
-    ((struct Obj00563 *)p)->f8  = 0xffffffff;
-    ((struct Obj00563 *)p)->f0  = (u16)b;
-    ((struct Obj00563 *)p)->fC = 0;
+    iss->gameData = gameData;
+    iss->lastBgmId = 0xffffffff;
+    iss->heapId = (u16)heapId;
+    iss->frameCount = 0;
 
-    func_0202B5FC((struct Obj *)p);
-    func_0202B610((struct Obj *)p);
-    func_0202B624((struct Obj *)p);
-    func_0202B63C((struct Obj *)p);
-    func_0202B64C((struct Obj *)p);
-    func_0202B65C((struct Obj *)p);
+    ISS_SYS_CreateRoad(iss);
+    ISS_SYS_CreateCity(iss);
+    ISS_SYS_CreateDungeon(iss);
+    ISS_SYS_CreateZone(iss);
+    ISS_SYS_CreateSwitch(iss);
+    ISS_SYS_Create3ds(iss);
 }
 
-
-
-
-
-
-
-
-
-/*
- * Parked: every concrete byte is right; the only unresolved relocation site(s)
- * target 0202B6AC, which has no witness outside this range (no outside branch names it,
- * not a manifest entry, not in layout/runtime_arm9.txt).
- * closed:   blocker func_0202B6AC.c is now a manifest entry (matched class)
- */
-void func_0202B5D4(u32 a)
+/* Deletes the six subsystems. */
+void ISS_SYS_DeleteSubsystems(IssSys *iss)
 {
-    func_0202B66C((struct Obj *)a);
-    func_0202B67C((u8 *)a);
-    func_0202B68C(a);
-    func_0202B69C(a);
-    func_0202B6AC((u8 *)a);
-    func_0202B6BC(a);
+    ISS_SYS_DeleteRoad(iss);
+    ISS_SYS_DeleteCity(iss);
+    ISS_SYS_DeleteDungeon(iss);
+    ISS_SYS_DeleteZone(iss);
+    ISS_SYS_DeleteSwitch(iss);
+    ISS_SYS_Delete3ds(iss);
 }
 
-
-
-
-
-
-
-
-
-/*
- * Builds the +0x14 sub-object from the +4 field and the object's u16 id.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B5FC.c \
- *       --func func_0202B5FC --addr 0x0202B5FC --thumb --cc 1.1p1
- */
-void func_0202B5FC(struct Obj *o)
+void ISS_SYS_CreateRoad(IssSys *iss)
 {
-    ((struct Obj00563 *)o)->f14 = (u32)func_0202B1AC((u32)func_0202B7F8(o), ((struct Obj00563 *)o)->f0);
+    iss->road = ISS_ROAD_SYS_Create(ISS_SYS_GetLocation(iss), iss->heapId);
 }
 
-
-
-
-
-
-
-
-
-/*
- * closed:   blocker func_0202B6DC.c is now a manifest entry (matched class)
- *
- * Builds the +0x10 sub-object from the +4 field and the object's u16 id.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B610.c \
- *       --func func_0202B610 --addr 0x0202B610 --thumb --cc 1.1p1
- */
-void func_0202B610(struct Obj *o)
+void ISS_SYS_CreateCity(IssSys *iss)
 {
-    ((struct Obj00563 *)o)->f10 = (u32)func_0202AAF4((u32)func_0202B7F8(o), (void *)(((struct Obj00563 *)o)->f0));
+    iss->city = ISS_CITY_SYS_Create(ISS_SYS_GetLocation(iss), iss->heapId);
 }
 
-
-
-
-
-
-
-
-
-/*
- * closed:   blocker func_0202B3A0.c is now a manifest entry (matched class)
- *
- * Builds the +0x18 sub-object.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B624.c \
- *       --func func_0202B624 --addr 0x0202B624 --thumb --cc 1.1p1
- */
-void func_0202B624(struct Obj *o)
+void ISS_SYS_CreateDungeon(IssSys *iss)
 {
-    ((struct Obj00563 *)o)->f18 = (u32)func_0202B3A0(((struct Obj00563 *)o)->f4,
-                                             (u32)func_0202B7F8(o), ((struct Obj00563 *)o)->f0);
+    iss->dungeon = ISS_DUNGEON_SYS_Create(iss->gameData, ISS_SYS_GetLocation(iss), iss->heapId);
 }
 
-
-
-
-
-
-
-
-
-/*
- * Builds the +0x1c sub-object from the object's u16 id.
- *
- * Promoted out of src/pending: the callee func_0202BE68 acquired an EXACT
- * manifest entry, so the THM_CALL field now resolves through the `matched`
- * class.  Every byte is hard; the listing extent is two bytes longer than the
- * code because of the Thumb alignment pad the front end emits after `pop`.
- */
-void func_0202B63C(struct Obj *o)
+void ISS_SYS_CreateZone(IssSys *iss)
 {
-    ((struct Obj00563 *)o)->f1C = (u32)func_0202BE68(((struct Obj00563 *)o)->f0);
+    iss->zone = ISS_ZONE_SYS_Create(iss->heapId);
 }
 
-
-
-
-
-
-
-
-
-/*
- * Blocked: the only site, the THM_CALL at +0006 to func_0202C070, has no
- * manifest entry.  0x0202C070 is byte-correct but capped in turn on 0x0202C148,
- * which is a DIFF (docs/notes/pkt_0202C148.c.txt), so this row cannot close
- * this pass.  Every concrete byte reproduces.
- *
- * Builds the +0x20 sub-object from the object's u16 id.
- */
-void func_0202B64C(struct Obj *o)
+void ISS_SYS_CreateSwitch(IssSys *iss)
 {
-    ((struct Obj00563 *)o)->f20 = (u32)func_0202C070(((struct Obj00563 *)o)->f0);
+    iss->sw = ISS_SWITCH_SYS_Create(iss->heapId);
 }
 
-
-
-
-
-
-
-
-
-/*
- * closed:   blocker func_0202B59C.c is now a manifest entry (matched class)
- *
- * Builds the +0x24 sub-object from the object's u16 id.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B65C.c \
- *       --func func_0202B65C --addr 0x0202B65C --thumb --cc 1.1p1
- */
-void func_0202B65C(struct Obj *o)
+void ISS_SYS_Create3ds(IssSys *iss)
 {
-    ((struct Obj00563 *)o)->f24 = (u32)func_0202B894(((struct Obj00563 *)o)->f0);
+    iss->sound3d = ISS_3DS_SYS_Create(iss->heapId);
 }
 
-
-
-
-
-
-
-
-
-/*
- * Releases the +0x14 field through func_0202B1EC (the OS_FreeToHeap thunk)
- * and clears it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B66C.c \
- *       --func func_0202B66C --addr 0x0202B66C --thumb --cc 1.1p1
- */
-void func_0202B66C(struct Obj *o)
+void ISS_SYS_DeleteRoad(IssSys *iss)
 {
-    func_0202B1EC((void *)(((struct Obj02011 *)o)->f14));
-    ((struct Obj02011 *)o)->f14 = 0;
+    ISS_ROAD_SYS_Delete(iss->road);
+    iss->road = 0;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B67C.c \\
- *       --func func_0202B67C --addr 0x0202B67C --thumb --cc 1.1p1
- *
- * Closed: every byte reproduces and the site that held it open is now attested.
- */
-void func_0202B67C(u8 *p)
+void ISS_SYS_DeleteCity(IssSys *iss)
 {
-    func_0202AB28(*(u8 * *)&((struct Obj02011 *)p)->f10);
-    *(u32 *)&((struct Obj02011 *)p)->f10 = 0;
+    ISS_CITY_SYS_Delete(iss->city);
+    iss->city = 0;
 }
 
-
-
-
-
-
-
-
-void func_0202B68C(int a0)
+void ISS_SYS_DeleteDungeon(IssSys *iss)
 {
-    func_0202B3EC((u8 *)(((struct Obj02011 *)a0)->f18));
-    ((struct Obj02011 *)a0)->f18 = 0;
+    ISS_DUNGEON_SYS_Delete(iss->dungeon);
+    iss->dungeon = 0;
 }
 
-
-
-
-
-
-
-
-void func_0202B69C(int a0)
+void ISS_SYS_DeleteZone(IssSys *iss)
 {
-    func_0202BEA4((u8 *)(((struct Obj02011 *)a0)->f1C));
-    ((struct Obj02011 *)a0)->f1C = 0;
+    ISS_ZONE_SYS_Delete(iss->zone);
+    iss->zone = 0;
 }
 
-
-
-
-
-
-
-
-
-/*
- * closed:   blocker func_0202B6AC.c is now a manifest entry (matched class)
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B6AC.c \\
- *       --func func_0202B6AC --addr 0x0202B6AC --thumb --cc 1.1p1
- */
-void func_0202B6AC(u8 *p)
+void ISS_SYS_DeleteSwitch(IssSys *iss)
 {
-    func_0202C08C(*(u8 * *)&((struct Obj02011 *)p)->f20);
-    *(u32 *)&((struct Obj02011 *)p)->f20 = 0;
+    ISS_SWITCH_SYS_Delete(iss->sw);
+    iss->sw = 0;
 }
 
-
-
-
-
-
-
-
-void func_0202B6BC(int a0)
+void ISS_SYS_Delete3ds(IssSys *iss)
 {
-    func_0202B8E4((struct Obj *)(((struct Obj02011 *)a0)->f24));
-    ((struct Obj02011 *)a0)->f24 = 0;
+    ISS_3DS_SYS_Delete(iss->sound3d);
+    iss->sound3d = 0;
 }
 
-
-
-
-
-
-
-
-/*
- * Blocked: 0202B1F4 (thumb, from header) has no witness outside 0202B6CC..0202B6DC. Every concrete byte reproduces.
- *
- * Closed by the `matched` class: 0x0202B1F4 -> 0x0202B230 -> 0x0202B254, all filed this wave.
- */
-void func_0202B6CC(u8 *o)
+void ISS_SYS_UpdateRoad(IssSys *iss)
 {
-    if ((((struct Obj02010 *)o)->fC & 1) == 0) {
-        func_0202B1F4((u8 *)(((struct Obj02010 *)o)->f14));
+    if ((iss->frameCount & 1) == 0) {
+        ISS_ROAD_SYS_Update(iss->road);
     }
 }
 
-
-
-
-
-
-
-
-/*
- * Blocked: 0202AB38 (thumb, from header) has no witness outside 0202B6DC..0202B6EC. Every concrete byte reproduces.
- * closed:   blocker func_0202B6DC.c is now a manifest entry (matched class)
- */
-void func_0202B6DC(u8 *o)
+void ISS_SYS_UpdateCity(IssSys *iss)
 {
-    if ((((struct Obj02010 *)o)->fC & 1) == 0) {
-        func_0202AB38((u8 *)(((struct Obj02010 *)o)->f10));
+    if ((iss->frameCount & 1) == 0) {
+        ISS_CITY_SYS_Update(iss->city);
     }
 }
 
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B6EC.c \\
- *       --func func_0202B6EC --addr 0x0202B6EC --thumb --cc 1.1p1
- */
-void func_0202B6EC(u8 *p)
+void ISS_SYS_UpdateDungeon(IssSys *iss)
 {
-    func_0202B404(*(u8 * *)&((struct Obj02010 *)p)->f18);
+    ISS_DUNGEON_SYS_Update(iss->dungeon);
 }
 
-
-
-
-
-
-
-/*
- * Promoted out of src/pending: the tail call's pool word holds the Thumb entry
- * of func_0202BEBC, which acquired an EXACT manifest entry, so the `matched`
- * class now witnesses the ABS32 site.  Every byte is hard, including the
- * two-byte alignment pad the front end emits between the code and the pool.
- */
-void func_0202B6F8(u8 *p)
+void ISS_SYS_UpdateZone(IssSys *iss)
 {
-    func_0202BEBC(*(u8 * *)&((struct Obj02010 *)p)->f1C);
+    ISS_ZONE_SYS_Update(iss->zone);
 }
 
-
-
-
-
-
-
-/*
- * The callee is an unlabelled Thumb thunk, so its ISA has to be declared here;
- * without the `symbols:` line the name convention defaults it to ARM and the
- * `matched` class refuses the EXACT entry at 0x0202C0C0 on the ISA mismatch.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B704.c \\
- *       --func func_0202B704 --addr 0x0202B704 --thumb --cc 1.1p1
- *
- * Closed by the `matched` class: the pool word names 0x0202C09C, an existing EXACT entry (pkt_0202BE00).
- */
-void func_0202B704(u8 *p)
+void ISS_SYS_UpdateSwitch(IssSys *iss)
 {
-    func_0202C09C(*(u8 * *)&((struct Obj02010 *)p)->f20);
+    ISS_SWITCH_SYS_Main(iss->sw);
 }
 
-
-
-
-
-/*
- * Blocked: the THM_CALL at +000A targets 0x0202B8F4, a four-byte Thumb linker
- * veneer (`00 4b 18 47` + its target word, the head of the identical run
- * 0x0202B8F4/8FC/904/90C).  It is artifact class: no C spelling produces it,
- * so it can never be a manifest entry and `literal` has no outside pool word
- * either (permanent).  Every concrete byte reproduces.
- */
-void func_0202B710(u8 *o)
+void ISS_SYS_Update3ds(IssSys *iss)
 {
-    if ((((struct Obj02010 *)o)->fC & 1) == 0) {
-        func_0202B8F4((u8 *)(((struct Obj02010 *)o)->f24));
+    if ((iss->frameCount & 1) == 0) {
+        ISS_3DS_SYS_Update(iss->sound3d);
     }
 }
 
-
-
-
-void func_0202B720(u8 *p)
+void ISS_SYS_EnterRoad(IssSys *iss)
 {
-    func_0202B1FC((u8 *)((struct Obj02010 *)p)->f14);
+    ISS_ROAD_SYS_Start(iss->road);
 }
 
-
-
-
-void func_0202B72C(u8 *p)
+void ISS_SYS_EnterCity(IssSys *iss)
 {
-    func_0202AB4C((u8 *)((struct Obj02010 *)p)->f10);
+    ISS_CITY_SYS_Start(iss->city);
 }
 
-
-
-
-void func_0202B738(u8 *p)
+void ISS_SYS_EnterDungeon(IssSys *iss)
 {
-    func_0202B424((u8 *)((struct Obj02010 *)p)->f18);
+    ISS_DUNGEON_SYS_Start(iss->dungeon);
 }
 
-
-
-
-/*
- * Promoted out of src/pending: both callees, func_0202B804 and func_0202BEDC,
- * now have EXACT manifest entries, so the two THM_CALL fields resolve through
- * the `matched` class and every byte is hard.
- */
-void func_0202B744(u8 *o)
+void ISS_SYS_EnterZone(IssSys *iss)
 {
-    func_0202BEDC(((struct Obj15840 *)o)->f1C, func_0202B804((struct Obj *)o));
+    ISS_ZONE_SYS_Start(iss->zone, ISS_SYS_GetZoneId(iss));
 }
 
-
-
-
-void func_0202B758(u8 *p)
+void ISS_SYS_EnterSwitch(IssSys *iss)
 {
-    func_0202C0B8((u8 *)((struct Obj02010 *)p)->f20);
+    ISS_SWITCH_SYS_On(iss->sw);
 }
 
-
-
-
-void func_0202B764(u8 *p)
+void ISS_SYS_Enter3ds(IssSys *iss)
 {
-    func_0202B8FC((u8 *)((struct Obj02010 *)p)->f24);
+    ISS_3DS_SYS_Enter(iss->sound3d);
 }
 
-
-
-
-void func_0202B770(u8 *p)
+void ISS_SYS_LeaveRoad(IssSys *iss)
 {
-    func_0202B204((u8 *)((struct Obj02010 *)p)->f14);
+    ISS_ROAD_SYS_Stop(iss->road);
 }
 
-
-
-
-void func_0202B77C(u8 *p)
+void ISS_SYS_LeaveCity(IssSys *iss)
 {
-    func_0202AB54((u8 *)((struct Obj02010 *)p)->f10);
+    ISS_CITY_SYS_Stop(iss->city);
 }
 
-
-
-
-void func_0202B788(u8 *p)
+void ISS_SYS_LeaveDungeon(IssSys *iss)
 {
-    func_0202B42C((u8 *)((struct Obj02010 *)p)->f18);
+    ISS_DUNGEON_SYS_Stop(iss->dungeon);
 }
 
-
-
-
-void func_0202B794(u8 *p)
+void ISS_SYS_LeaveZone(IssSys *iss)
 {
-    func_0202BEE4((u8 *)((struct Obj02010 *)p)->f1C);
+    ISS_ZONE_SYS_Stop(iss->zone);
 }
 
-
-
-
-void func_0202B7A0(u8 *p)
+void ISS_SYS_LeaveSwitch(IssSys *iss)
 {
-    func_0202C0C0((u32 *)((u8 *)((struct Obj02010 *)p)->f20));
+    ISS_SWITCH_SYS_Off(iss->sw);
 }
 
-
-
-
-void func_0202B7AC(u8 *p)
+void ISS_SYS_Leave3ds(IssSys *iss)
 {
-    func_0202B904((u8 *)((struct Obj02010 *)p)->f24);
+    ISS_3DS_SYS_Leave(iss->sound3d);
 }
 
-
-
-
-
-
-/*
- * An empty function: `bx lr` and nothing else. Matched as a one-function
- * unit rather than with `one`, because disasm.py's 4-byte extent for this
- * address includes the linker's inter-section padding after the 2-byte
- * body, and `tu` lays the compiled object out on its own footprint instead
- * of against that extent (see src/matched/sub_0202AB64.c for the same
- * situation with a longer body).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/sub_0202B7B8.c \
- *       --addr 0x0202B7B8 --thumb
- */
-void sub_0202B7B8(void)
+/* The road subsystem has no zone-change handler. */
+void ISS_SYS_OnZoneChangeRoad(void)
 {
 }
 
-
-
-
-
-
-
-/*
- * Parked: the only site, the ABS32 at +0008, names 0x0202AB5C, which is a
- * four-byte Thumb linker veneer (`ldr r3, [pc, #0]; bx r3` followed by the word
- * 0x0202AC61 - measured at 0x0202AB5C..0x0202AB60) sitting in the word run
- * before 0x0202AB64.  veneer_at() admits only the two ARM encodings, so the
- * `veneer` class refuses a Thumb stub; `label` has no label (disasm.py prints
- * it as data), `literal` has no pool word outside this range, and no C spelling
- * produces the stub, so it can never be a manifest entry.  Permanent.
- */
-void func_0202B7BC(struct Obj *o, u32 a1)
+void ISS_SYS_OnZoneChangeCity(IssSys *iss, u32 zoneId)
 {
-    func_0202AB5C((u8 *)(((struct Obj15841 *)o)->f10), a1);
+    ISS_CITY_SYS_NotifyZoneChange(iss->city, zoneId);
 }
 
-
-
-
-
-
-
-/*
- * Parked: every concrete byte is right; the only unresolved relocation site(s)
- * target 0202B420, which has no witness outside this range (no outside branch names it,
- * not a manifest entry, not in layout/runtime_arm9.txt).
- *
- * The callee is an unlabelled Thumb leaf, so its ISA has to be declared here;
- * without the `symbols:` line the name convention defaults it to ARM and the
- * `matched` class refuses the EXACT entry at 0x0202B420 on the ISA mismatch.
- *
- * Closed by the `matched` class: 0x0202B420 was filed as an EXACT entry this wave (pkt_0202B1F4), and the callee had to be declared thumb here.
- */
-void func_0202B7C8(u8 *p, u16 v)
+void ISS_SYS_OnZoneChangeDungeon(IssSys *iss, u16 zoneId)
 {
-    sub_0202B420(((struct Obj08804 *)p)->f18, v);
+    sub_0202B420(iss->dungeon, zoneId);
 }
 
-
-
-
-
-
-
-/*
- * Tail-call thunk: the node's 0x1c word goes straight to func_0202BECC.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0202B7D4.c \
- *       --func func_0202B7D4 --addr 0x0202B7D4 --thumb --cc 1.1p1
- *
- * Closed by the `matched` class: 0x0202BECC -> 0x0202BF90, both filed this wave.
- */
-void func_0202B7D4(u8 *p, u32 key)
+void ISS_SYS_OnZoneChangeZone(IssSys *iss, u32 zoneId)
 {
-    func_0202BECC((u8 *)(((struct Obj15842 *)p)->f1C), key);
+    ISS_ZONE_SYS_SwitchZone(iss->zone, zoneId);
 }
 
-
-
-
-
-
-
-/*
- * Parked: every concrete byte is right; the only unresolved relocation site(s)
- * target 0202C0C8, which has no witness outside this range (no outside branch names it,
- * not a manifest entry, not in layout/runtime_arm9.txt).
- *
- * The callee is an unlabelled Thumb thunk, so its ISA has to be declared here;
- * without the `symbols:` line the name convention defaults it to ARM and the
- * `matched` class refuses the EXACT entry at 0x0202C0C8 on the ISA mismatch.
- *
- * Closed by the `matched` class: 0x0202C0C8 was filed as an EXACT entry this wave (pkt_0202C148).
- */
-void func_0202B7E0(u8 *p, u32 b)
+void ISS_SYS_OnZoneChangeSwitch(IssSys *iss, u32 zoneId)
 {
-    sub_0202C0C8(((struct Obj08804 *)p)->f20);
+    sub_0202C0C8(iss->sw);
 }
 
-
-
-
-
-
-
-/*
- * Parked: the only site, the ABS32 at +0008, names 0x0202B90C - the fourth
- * four-byte Thumb linker veneer of the run at 0x0202B8F4/8FC/904/90C
- * (`00 4b 18 47` + word 0x0202BB41).  Artifact class, hence permanent: no C
- * spelling produces it, and with the ARM-only `veneer` class it has no witness
- * of any other class either.  Every concrete byte reproduces.
- */
-void func_0202B7EC(u8 *p, u32 b)
+void ISS_SYS_OnZoneChange3ds(IssSys *iss, u32 zoneId)
 {
-    sub_0202B90C(((struct Obj08804 *)p)->f24);
+    ISS_3DS_SYS_OnZoneChange(iss->sound3d);
 }
 
-
-
-
-
-
-
-/*
- * The three iss_3ds_sys.c tail-call units that resolve without any further
- * work: func_0202B7F8 forwards the +4 field to func_020127A4,
- * func_0202B804 chains it into func_02012AC8, and func_0202B810 is a bare
- * thunk to func_02005C44.  All three are named in the `function:` field
- * above so that the `matched` class attests all three addresses: the 32
- * bytes laid out by `tu` cover all three entry points, and
- * src/pending/func_0202B744.c needs 0x0202B804 as a witness.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202B7F8.c \
- *       --addr 0x0202B7F8 --thumb --cc 1.1p1
- */
-void *func_0202B7F8(struct Obj *o)
+/* The player's current location, from the game data. */
+const Location *ISS_SYS_GetLocation(IssSys *iss)
 {
-    return func_020127A4((struct SaveBlock *)((struct Obj17267 *)o)->f4);
+    return func_020127A4(iss->gameData);
 }
 
-
-
-
-
-
-u16 func_0202B804(struct Obj *o)
+u16 ISS_SYS_GetZoneId(IssSys *iss)
 {
-    return func_02012AC8(func_0202B7F8(o));
+    return func_02012AC8(ISS_SYS_GetLocation(iss));
 }
 
-
-
-
-
-
-u32 func_0202B810(void)
+/* The BGM that is playing now. */
+u32 ISS_SYS_GetCurrentBgmId(void)
 {
-    return func_02005C44();
+    return GFL_USE_GetBgmNo();
 }
 
-
-
-
-
-
-
-/*
- * Reads the +4 field, and passes it and the low half of func_0202B810()'s
- * result to func_02006E7C.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B818.c \
- *       --func func_0202B818 --addr 0x0202B818 --thumb --cc 1.1p1
- */
-u8 func_0202B818(struct Obj *o)
+/* The ISS mode that the BGM now playing maps to. */
+u8 ISS_SYS_GetBgmMode(IssSys *iss)
 {
-    u32 r = func_0201295C((const struct BigObj *)(((struct Obj15843 *)o)->f4));
+    const BgmInfoTable *table = GAME_DATA_GetBagCursor(iss->gameData);
 
-    return func_02006E7C((const struct Sub02006E40Obj *)r, (u16)func_0202B810());
+    return func_02006E7C(table, (u16)ISS_SYS_GetCurrentBgmId());
 }
 
-
-
-
-
-
-
-/*
- * Compares the +8 field against func_0202B810() (the +4 field by way of
- * func_020127A4) and returns 1 when they differ, 0 when they match.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B834.c \
- *       --func func_0202B834 --addr 0x0202B834 --thumb --cc 1.1p1
- */
-u32 func_0202B834(struct Obj *o)
+/* 1 when the BGM differs from the one the last update saw, else 0. */
+u32 ISS_SYS_HasBgmChanged(IssSys *iss)
 {
-    if (((struct Obj15844 *)o)->f8 == func_0202B810()) {
+    if (iss->lastBgmId == ISS_SYS_GetCurrentBgmId()) {
         return 0;
     }
     return 1;
 }
 
-
-
-
-
-
-
-/*
- * note:     wave 16: promoted.  0x0209FF8C was never a second table: it is
- *           Data_0209FF88 + 4, the `enter` field of entry v, which the
- *           compiler reaches through its own pool word because a register
- *           offset load has no immediate (docs/idioms/
- *           pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md).
- *           One symbol, one struct with both callbacks; the +4 site then
- *           resolves against the attested 0x0209FF88.
- */
-void func_0202B84C(void *a)
+/* Leaves every mode except the new one, then enters the new one.
+ * ISS_SYS_ModeTable + 4 (the onEnter field) is reached through its own pool
+ * word because a register-offset load has no immediate (docs/idioms/
+ * pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md). */
+void ISS_SYS_SwitchMode(IssSys *iss)
 {
-    int v = func_0202B818(a);
+    int mode = ISS_SYS_GetBgmMode(iss);
     int i;
 
-    for (i = 0; i < 9; i++) {
-        if (v != Data_0209FF88[i].id && Data_0209FF88[i].leave != 0) {
-            Data_0209FF88[i].leave(a);
+    for (i = 0; i < ISS_MODE_COUNT; i++) {
+        if (mode != ISS_SYS_ModeTable[i].mode && ISS_SYS_ModeTable[i].onLeave != 0) {
+            ISS_SYS_ModeTable[i].onLeave(iss);
         }
     }
-    if (Data_0209FF88[v].enter != 0) {
-        Data_0209FF88[v].enter(a);
+    if (ISS_SYS_ModeTable[mode].onEnter != 0) {
+        ISS_SYS_ModeTable[mode].onEnter(iss);
     }
 }
 
-
-
-
-
-
-/*
- * closed:   blocker  is now a manifest entry (matched class)
- *
- * Allocates and clears a 0x26c-byte node, seeds its three scalar members and
- * runs its three initialisers.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0202B894.c \
- *       --func func_0202B894 --addr 0x0202B894 --thumb --cc 1.1p1
- */
-u8 *func_0202B894(u32 id)
+/* Allocates and clears the 3D sound subsystem, then loads its BGM table. */
+Iss3dsSys *ISS_3DS_SYS_Create(u32 heapId)
 {
-    u8 *p = (u8 *)func_02030734(id, 0x26c, 0, (const void *)0x020A7738, 0xa3);
+    Iss3dsSys *sys = func_02030734(heapId, sizeof(Iss3dsSys), 0, ISS_3DS_SYS_FileName, 0xa3);
 
-    ((struct Obj01019 *)p)->f0 = (u16)id;
-    ((struct Obj01019 *)p)->f4 = 0;
-    p[8] = 0x7f;
-    p[9] = 0x7f;
-    p[0xa] = 4;
-    ((struct Obj01019 *)p)->fC = 0;
-    ((struct Obj01019 *)p)->f10 = 0;
-    ((struct Obj01019 *)p)->f14 = 0;
-    ((struct Obj01019 *)p)->f18 = 0;
-    ((struct Obj01019 *)p)->f1C = 0;
-    ((struct Obj01019 *)p)->f20 = 0;
+    sys->heapId = (u16)heapId;
+    sys->entered = 0;
+    sys->volume = 0x7f;
+    sys->maxVolume = 0x7f;
+    sys->fadeSpeed = 4;
+    sys->cameraPos.x = 0;
+    sys->cameraPos.y = 0;
+    sys->cameraPos.z = 0;
+    sys->cameraTarget.x = 0;
+    sys->cameraTarget.y = 0;
+    sys->cameraTarget.z = 0;
 
-    func_0202BA24(p);
-    func_0202B944(p);
-    func_0202B958(p);
-    return p;
+    ISS_3DS_SYS_ResetSources(sys);
+    ISS_3DS_SYS_ClearTable(sys);
+    ISS_3DS_SYS_LoadTable(sys);
+    return sys;
 }
 
-
-
-
-
-
-/*
- * Tears the object down: func_0202B9C8 first, then the matched heap release
- * func_020307B0.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B8E4.c \
- *       --func func_0202B8E4 --addr 0x0202B8E4 --thumb --cc 1.1p1
- */
-void func_0202B8E4(struct Obj *o)
+/* Frees the BGM table, then the object. */
+void ISS_3DS_SYS_Delete(Iss3dsSys *sys)
 {
-    func_0202B9C8(o);
-    func_020307B0(o);
+    ISS_3DS_SYS_FreeTable(sys);
+    func_020307B0(sys);
 }
 
-
-
-
-/*
- * Artifact, not C: 0x0202B8F4 is a four-byte linker veneer
- * (`00 4b 18 47` = ldr r3, [pc, #0]; bx r3; .word 0x0202BAF5) sitting in a
- * run of identical veneers at 0x0202B8F4/0x0202B8FC/0x0202B904/0x0202B90C.
- * No C spelling produces this shape; reported in
- * docs/notes/pkt_0202B7BC.func_0202B8F4.c.txt and left parked.
- *
- * A bare tail-call thunk to func_0202BAF4.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B8F4.c \
- *       --func func_0202B8F4 --addr 0x0202B8F4 --thumb --cc 1.1p1
- */
-void func_0202B8F4(u8 *a0)
+/* The four thunks below are linker veneers into the 3D sound code:
+ * update, enter, leave and zone change. */
+void ISS_3DS_SYS_Update(Iss3dsSys *sys)
 {
-    func_0202BAF4(a0);
+    func_0202BAF4(sys);
 }
 
-
-
-void func_0202B8FC(u8 *p)
+void ISS_3DS_SYS_Enter(Iss3dsSys *sys)
 {
-    func_0202BABC(p);
+    ISS_3DS_SYS_EnterImpl(sys);
 }
 
-
-
-void func_0202B904(u8 *p)
+void ISS_3DS_SYS_Leave(Iss3dsSys *sys)
 {
-    func_0202BAE8((u32 *)p);
+    ISS_3DS_SYS_LeaveImpl(sys);
 }
 
-
-
-
-
-
-/*
- * A bare tail-call thunk, same shape as func_0202B8F4 (ldr r3, [pc, #0];
- * bx r3; .word 0x0202BB41).  0x0202BB40 is itself another thunk (to
- * func_0202BA24), filed as src/matched/func_0202BB40.c in the same shard;
- * that entry is the matched witness for this pool word.
- */
-void func_0202B90C(u8 *a0)
+void ISS_3DS_SYS_OnZoneChange(Iss3dsSys *sys)
 {
-    func_0202BB40(a0);
+    func_0202BB40(sys);
 }
 
-
-
-
-
-
-
-/*
- * Clamps the second argument to 0x7f and stores it in the +8 byte.  No
- * relocations; pure.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B914.c \
- *       --func func_0202B914 --addr 0x0202B914 --thumb --cc 1.1p1
- */
-void func_0202B914(struct Obj *o, u32 v)
+/* Stores the volume, clamped to 0x7f. */
+void ISS_3DS_SYS_SetVolume(Iss3dsSys *sys, u32 volume)
 {
-    if (v > 0x7f) {
-        v = 0x7f;
+    if (volume > 0x7f) {
+        volume = 0x7f;
     }
-    ((struct Obj15845 *)o)->f8 = (u8)v;
+    sys->volume = (u8)volume;
 }
 
-
-
-
-
-
-
-/*
- * Unlabelled arm9 leaf, filed as a relocation witness for ov021
- * func_021C4D14 (wave A1, lane 13).
- */
-void func_0202B920(void *m, int i, int a, int b)
+/* Starts a sound source in a free slot. */
+void func_0202B920(Iss3dsSys *sys, int slot, int radius, int amp)
 {
-    func_0202BA60(m, i, a, b);
+    ISS_3DS_SYS_StartSourceImpl(sys, slot, radius, amp);
 }
 
-
-
-
-
-
-int func_0202B928(int a, int b)
+/* Returns the active flag of a slot. */
+int func_0202B928(Iss3dsSys *sys, int slot)
 {
-    return *(int *)(a + b * 0x1c + 0x24);
+    return sys->slots[slot].active;
 }
 
-
-
-
-
-
-
-/*
- * Unlabelled arm9 leaf, filed as the relocation witness for ov021 func_021C4E34
- * (wave A1, lane 13).
- */
-void func_0202B934(void *m, int i, const V3 *v)
+void func_0202B934(Iss3dsSys *sys, int slot, const IssVec3 *pos)
 {
-    func_0202BA7C(m, i, v);
+    ISS_3DS_SYS_SetSourcePosImpl(sys, slot, pos);
 }
 
-
-
-
-
-
-
-void func_0202B93C(int a, void *b, void *c)
+void ISS_3DS_SYS_SetCamera(Iss3dsSys *sys, const int *cameraPos, const int *cameraTarget)
 {
-    func_0202BA9C((char *)a, b, c);
+    ISS_3DS_SYS_SetCameraImpl(sys, cameraPos, cameraTarget);
 }
 
-
-
-
-
-
-
-/*
- * A three-field initialiser on a far offset (0x264): a word cleared, a byte
- * cleared right after it, and a byte set to 0xff two past that. The offset
- * is past the Thumb ldr/str immediate reach, so the compiler computes the
- * base with a shift instead of an immediate, which is ordinary codegen for
- * a field this far out rather than anything hand written. No relocation.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202B944.c \
- *       --func sub_0202B944 --addr 0x0202B944 --cc 1.1p1 --thumb
- */
-void sub_0202B944(void *obj)
+/* Empties the BGM table. */
+void ISS_3DS_SYS_ClearTable(Iss3dsSys *sys)
 {
-    ((struct Obj01019 *)obj)->f264 = 0;
-    ((struct Obj01019 *)obj)->f268 = 0;
-    ((struct Obj01019 *)obj)->f269 = 0xff;
+    sys->table = 0;
+    sys->tableCount = 0;
+    sys->tableIndex = 0xff;
 }
 
-
-
-
-
-
-
-/*
- * closed:   blocker  is now a manifest entry (matched class)
- *
- * Same list dance as func_0202BEEC, on a node whose record table sits at
- * 0x264 and whose record count at 0x268; the node's own u16 id supplies the
- * selector.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0202B958.c \
- *       --func func_0202B958 --addr 0x0202B958 --thumb --cc 1.1p1
- */
-void func_0202B958(u8 *p)
+/* Loads the BGM table from archive 0xb9 into a heap block, one 8-byte entry
+ * per archive member. */
+void ISS_3DS_SYS_LoadTable(Iss3dsSys *sys)
 {
-    u32  id = ((struct Obj01019 *)p)->f0;
-    void *h = func_020490F4(0xb9, (u16)((id & 0x7fff) | 0x8000));
-    u8   n = (u8)func_0204961C(h);
-    u32  i;
+    u32 heapId = sys->heapId;
+    void *arc = func_020490F4(0xb9, (u16)((heapId & 0x7fff) | 0x8000));
+    u8 count = (u8)func_0204961C(arc);
+    u32 i;
 
-    p[0x268] = n;
-    ((struct Obj01019 *)p)->f264 = (u32)func_02030734(id, (u32)(n << 3), 0,
-                                             (const void *)0x020A7738, 0x178);
+    sys->tableCount = count;
+    sys->table = func_02030734(heapId, (u32)(count << 3), 0, ISS_3DS_SYS_FileName, 0x178);
 
-    for (i = 0; i < (u32)n; i++) {
-        func_0204932C(h, i, (void *)(((struct Obj01019 *)p)->f264 + (i << 3)));
+    for (i = 0; i < (u32)count; i++) {
+        func_0204932C(arc, i, sys->table + i);
     }
-    func_02049238(h);
+    func_02049238(arc);
 }
 
-
-
-
-
-
-/*
- * Releases the +0x264 field through the matched heap release func_020307B0,
- * then tears the object down through func_0202B944.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B9C8.c \
- *       --func func_0202B9C8 --addr 0x0202B9C8 --thumb --cc 1.1p1
- */
-void func_0202B9C8(struct Obj *o)
+/* Frees the BGM table and empties it. */
+void ISS_3DS_SYS_FreeTable(Iss3dsSys *sys)
 {
-    func_020307B0((void *)(((struct Obj01019 *)o)->f264));
-    func_0202B944(o);
+    func_020307B0(sys->table);
+    ISS_3DS_SYS_ClearTable(sys);
 }
 
-
-
-
-
-int func_0202B9E0(int a0, int a1){ if ((unsigned int)(*(unsigned char *)(((char *)(a0) + ((int)(0x269) << 0)))) != (unsigned int)(a1)) { *(unsigned char *)(((char *)(a0) + ((int)(0x269) << 0))) = (unsigned char)a1; } else {  return a0; } }
-
-
-
-
-
-
-u8 func_0202B9F0(const struct Obj *p, u32 key)
+/* Selects a table entry; leaves the table index alone when it is unchanged. */
+Iss3dsSys *ISS_3DS_SYS_SetTableIndex(Iss3dsSys *sys, u32 index)
 {
-    const struct Item *items = p->items;
+    if (sys->tableIndex != index) {
+        sys->tableIndex = (u8)index;
+    } else {
+        return sys;
+    }
+}
+
+/* Finds the table entry for a BGM; 0xff when there is none. */
+u8 ISS_3DS_SYS_FindTableIndex(const Iss3dsSys *sys, u32 bgmId)
+{
+    const Iss3dsTableEntry *table = sys->table;
     u8 count;
     u8 i;
 
-    if (items == 0) {
+    if (table == 0) {
         return 0xff;
     }
 
-    count = p->count;
+    count = sys->tableCount;
     for (i = 0; i < count; i++) {
-        if (items[i].id == key) {
+        if (table[i].bgmId == bgmId) {
             return i;
         }
     }
@@ -1432,120 +774,63 @@ u8 func_0202B9F0(const struct Obj *p, u32 key)
     return 0xff;
 }
 
-
-
-
-
-
-/*
- * iss_3ds_sys.c: resets the 0x10 entries (record +0x24 stride 0x1c) and the
- * two parallel word arrays at +0x1e4 and +0x224.  EXACT* (the listing extent
- * runs on into the unlabelled 28-byte follower at 0x0202BA60).
- *
- * Two facts closed it after thirteen loop spellings had failed
- * (docs/notes/pkt_0202B9F0.c.txt): the counter is an enum, which keeps the
- * unfolded `cmp r4, #0x10; bge` entry guard with a plain increment
- * (docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md), and the
- * three word stores write 0, not i: r3 is a copy of the counter taken once in
- * the preheader, when both are zero, and never incremented.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BA24.c \
- *       --func func_0202BA24 --addr 0x0202BA24 --thumb --cc 1.1p1
- */
-void func_0202BA24(u8 *p)
+/* Resets the slots (inactive, full amplitude, one track-mask bit each) and the
+ * two level arrays.  The loop keeps its zero-trip guard because the counter is
+ * an enum, and the level stores write 0 rather than the counter. */
+void ISS_3DS_SYS_ResetSources(Iss3dsSys *sys)
 {
-    Slot i;
-    for (i = 0; i < 0x10; i++) {
-        *(u32 *)(p + i * 0x1c + 0x24) = 0;
-        *(u32 *)(p + i * 0x1c + 0x38) = 0x7f;
-        *(u16 *)(p + i * 0x1c + 0x3c) = 1 << i;
-        *(u32 *)(p + i * 4 + 0x1e4) = 0;
-        *(u32 *)(p + i * 4 + 0x224) = 0;
+    Iss3dsSlotIndex i;
+
+    for (i = 0; i < ISS_3DS_SLOT_COUNT; i++) {
+        sys->slots[i].active = 0;
+        sys->slots[i].amp = 0x7f;
+        sys->slots[i].trackMask = 1 << i;
+        sys->slotLevelA[i] = 0;
+        sys->slotLevelB[i] = 0;
     }
 }
 
-
-
-
-void func_0202BA60(M *m, int i, int a, int b)
+void ISS_3DS_SYS_StartSourceImpl(Iss3dsSys *sys, int slot, int radius, int amp)
 {
-    E *e = &m->e[i];
-    if (e->f0 != 1) {
-        e->f0 = 1;
-        e->f10 = a;
-        e->f14 = b;
+    Iss3dsSlot *s = &sys->slots[slot];
+
+    if (s->active != 1) {
+        s->active = 1;
+        s->radius = radius;
+        s->amp = amp;
     }
 }
 
-
-
-
-static inline void V3_Set(V3 *d, int x, int y, int z)
+void ISS_3DS_SYS_SetSourcePosImpl(Iss3dsSys *sys, int slot, const IssVec3 *pos)
 {
-    d->x = x;
-    d->y = y;
-    d->z = z;
+    Iss3dsSlot *s = &sys->slots[slot];
+
+    if (s->active != 0) {
+        ISS_3DS_SYS_SetVec3(&s->pos, pos->x, pos->y, pos->z);
+    }
 }
 
-
-
-
-/*
- * Unlabelled arm9 leaf, filed as the relocation witness for arm9 func_0202B934 (ov021 func_021C4E34)
- * (wave A1, lane 13).
- */
-void func_0202BA7C(M *m, int i, const V3 *v)
+void ISS_3DS_SYS_SetCameraImpl(Iss3dsSys *sys, const int *cameraPos, const int *cameraTarget)
 {
-    E *e = &m->e[i];
-
-    if (e->f0 != 0)
-        V3_Set(&e->pos, v->x, v->y, v->z);
+    ISS_3DS_SYS_SetVec3(&sys->cameraPos, cameraPos[0], cameraPos[1], cameraPos[2]);
+    ISS_3DS_SYS_SetVec3(&sys->cameraTarget, cameraTarget[0], cameraTarget[1], cameraTarget[2]);
 }
 
-
-
-
-static inline void set3(int *d, int x, int y, int z)
+/* Enter: once per entry, pick the table entry for the BGM now playing. */
+void ISS_3DS_SYS_EnterImpl(Iss3dsSys *sys)
 {
-    d[0] = x;
-    d[1] = y;
-    d[2] = z;
-}
-
-
-
-
-
-void func_0202BA9C(char *p, const int *a, const int *b)
-{
-    set3((int *)(p + 0xC), a[0], a[1], a[2]);
-    set3((int *)(p + 0x18), b[0], b[1], b[2]);
-}
-
-
-
-
-
-/*
- * Closed by the `matched` class: 0x0202B9F0 became an EXACT shard entry
- * (pkt_0202B9F0) in this wave.  The listing extent runs to 0x0202BAF4
- * because the follower at 0x0202BAE6 is unlabelled, so the verdict is EXACT*.
- */
-void func_0202BABC(u8 *o)
-{
-    if (((struct Obj02601 *)o)->f4 != 0) {
+    if (sys->entered != 0) {
         return;
     }
-    ((struct Obj02601 *)o)->f4 = 1;
-    func_0202B9E0((int)o, func_0202B9F0((const struct Obj *)o, func_02005C44()));
-    func_0202BB48((int)o);
+    sys->entered = 1;
+    ISS_3DS_SYS_SetTableIndex(sys, ISS_3DS_SYS_FindTableIndex(sys, GFL_USE_GetBgmNo()));
+    func_0202BB48(sys);
 }
 
-
-void func_0202BAE8(u32 *p)
+/* Leave: clears the entered flag (the test is redundant but original). */
+void ISS_3DS_SYS_LeaveImpl(Iss3dsSys *sys)
 {
-    if (p[1] != 0) {
-        p[1] = 0;
+    if (sys->entered != 0) {
+        sys->entered = 0;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D881C
+ * function: P_STA_RIBBON_Delete
  * address:  0x021D881C
  * packet:   pkt_021D881C
  * region:   ov131
@@ -26,7 +26,7 @@ struct Rec;
 extern u32 func_02045C04(struct Rec *rec);
 extern u32 func_020307B0(void *p);
 
-void func_021D881C(void *a, u8 *p)
+void P_STA_RIBBON_Delete(void *a, u8 *p)
 {
     func_02045C04(((struct Obj23147 *)p)->f50);
     func_020307B0(p);

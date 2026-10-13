@@ -1,5 +1,5 @@
 /*
- * function: sub_02034AC4
+ * function: GF_OVERLAY_Load
  * address:  0x02034AC4
  * packet:   pkt_02034AC4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02034BB0         0x02034BB0  arm
+ *   GF_OVERLAY_CheckRangeFree         0x02034BB0  arm
  *   func_02034D60        0x02034D60  arm
  *   func_02034CBC        0x02034CBC  arm
  *   func_02034D08        0x02034D08  arm
@@ -32,7 +32,7 @@ struct Registration {
 extern const char s_FileName[];
 extern const char s_Expr0[];
 
-extern int sub_02034BB0(s32 handle);
+extern int GF_OVERLAY_CheckRangeFree(s32 handle);
 typedef unsigned char  u8;
 extern int func_02034D60(u32 id);
 extern void *func_02034CBC(int i);
@@ -41,7 +41,7 @@ extern void sub_02034714(const char *file, u32 line, const char *expr);
 extern int FS_SetDefaultDMA(int dma);
 extern int FS_LoadOverlay(int target, s32 handle);
 
-int sub_02034AC4(s32 handle)
+int GF_OVERLAY_Load(s32 handle)
 {
     int which;
     int oldDMA = -1;
@@ -55,7 +55,7 @@ int sub_02034AC4(s32 handle)
         return 1;
     }
 
-    if (sub_02034BB0(handle) == 0) {
+    if (GF_OVERLAY_CheckRangeFree(handle) == 0) {
         return 0;
     }
 

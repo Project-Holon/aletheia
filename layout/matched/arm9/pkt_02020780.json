@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02020780",
+   "name": "BMP_MENULIST_StepCursor",
    "address": "0x02020780",
    "kind": "game",
    "region": "arm9",

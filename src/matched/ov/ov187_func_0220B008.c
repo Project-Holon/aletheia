@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_02031324  0x02031324  arm
+ *   PROCSYS_Create  0x02031324  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,12 +27,12 @@ struct S {
 };
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 
 void func_0220B008(struct S *p, u32 a, u32 b, u32 c)
 {
     func_02082BCC(p, 0, 0x28);
-    p->f0 = func_02031324(c);
+    p->f0 = PROCSYS_Create(c);
     p->f14 = b;
     p->f18 = a;
     p->f10 = c;

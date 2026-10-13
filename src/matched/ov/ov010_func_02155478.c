@@ -23,14 +23,14 @@
  * Shape levers that closed it (they also settled the ctx/seq register
  * swap): case 18 writes the fe4 = 0 / (*seq)++ tail in both arms;
  * case 19 writes (*seq)++ in both arms; state 10 writes the
- * func_02005D90 call in each arm.
+ * GFL_USE_CancelChangeAndPlayBgm call in each arm.
  *
  * symbols:
  *   func_0201210C  0x0201210C  thumb
  *   func_02012374  0x02012374  thumb
- *   func_020144DC  0x020144DC  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
@@ -40,22 +40,22 @@
  *   func_02039CB4  0x02039CB4  arm
  *   func_0200FB24  0x0200FB24  thumb
  *   func_0200FBB0  0x0200FBB0  thumb
- *   func_0200F83C  0x0200F83C  thumb
+ *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb
  *   func_0200FA84  0x0200FA84  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
  *   func_02013090  0x02013090  thumb
  *   func_02012F2C  0x02012F2C  thumb
- *   func_02013790  0x02013790  thumb
- *   func_020137C0  0x020137C0  thumb
- *   func_02013864  0x02013864  thumb
- *   func_02013894  0x02013894  thumb
- *   func_020137F0  0x020137F0  thumb
+ *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
+ *   BTL_SETUP_SetupCommDouble  0x020137C0  thumb
+ *   BTL_SETUP_SetupCommTriple  0x02013864  thumb
+ *   BTL_SETUP_SetupCommRotation  0x02013894  thumb
+ *   BTL_SETUP_SetupCommMulti  0x020137F0  thumb
  *   func_0203D1A4  0x0203D1A4  arm
- *   func_02013128  0x02013128  thumb
- *   func_02013980  0x02013980  thumb
- *   func_02005C44  0x02005C44  thumb
- *   func_02005D28  0x02005D28  thumb
- *   func_02005D90  0x02005D90  thumb
+ *   BTL_SETUP_SetParty  0x02013128  thumb
+ *   BTL_SETUP_AllocRecordBuffer  0x02013980  thumb
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb
+ *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   func_020130B4  0x020130B4  thumb
  *   func_0203D378  0x0203D378  arm
  *   func_020124AC  0x020124AC  thumb
@@ -63,11 +63,11 @@
  *   func_020307B0  0x020307B0  arm
  *   func_0203CD98  0x0203CD98  arm
  *   func_0203CEAC  0x0203CEAC  arm
- *   func_020145CC  0x020145CC  thumb
- *   func_0203D0D0  0x0203D0D0  arm
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
+ *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_021550A0  0x021550A0  thumb  ov008
+ *   EVENT_BATTLE_REC_SAVE_Start  0x021550A0  thumb  ov008
  *   func_0215518C  0x0215518C  thumb  ov010
  *   func_02155224  0x02155224  thumb  ov010
  *   func_02155244  0x02155244  thumb  ov010
@@ -183,9 +183,9 @@ struct Link;
 struct ZoneData;
 extern void *func_0201210C(const struct Ctx *p);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_020144DC(int a0, int a1);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
@@ -195,22 +195,22 @@ extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
 extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
 extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
-extern void func_0200F83C(void);
+extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void func_0200FA84(void);
 extern void func_0200FBA0(void);
 extern void *func_02013090(u32 heap);
 extern void *func_02012F2C(int *p);
-extern void func_02013790(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_020137C0(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_02013864(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_02013894(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_020137F0(u32 p0, u32 p1, u32 p2, u32 p3, u8 p4, u16 p5);
+extern void BTL_SETUP_SetupCommSingle(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void BTL_SETUP_SetupCommDouble(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void BTL_SETUP_SetupCommTriple(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void BTL_SETUP_SetupCommRotation(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void BTL_SETUP_SetupCommMulti(u32 p0, u32 p1, u32 p2, u32 p3, u8 p4, u16 p5);
 extern u32 func_0203D1A4(struct Link *p);
-extern void func_02013128(void *p, void *src, int i);
-extern void func_02013980(struct ZoneData *o, u32 heap);
-extern u16 func_02005C44(void);
-extern void func_02005D28(void);
-extern void func_02005D90(u32 a, u16 b);
+extern void BTL_SETUP_SetParty(void *p, void *src, int i);
+extern void BTL_SETUP_AllocRecordBuffer(struct ZoneData *o, u32 heap);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u16 b);
 extern int func_020130B4(int a0);
 extern u32 func_0203D378(void);
 extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
@@ -218,11 +218,11 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern int func_0203CD98(void);
 extern int func_0203CEAC(int a0);
-extern void *func_020145CC(void *w);
-extern void func_0203D0D0(void);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *w);
+extern void GFL_NET_IRC_WIRELESS_Exit(void);
 extern int func_021BE8D4(void *a, int b, int sel, int d);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern void *func_021550A0(void *a, const int *p);
+extern void *EVENT_BATTLE_REC_SAVE_Start(void *a, const int *p);
 extern void func_0215518C(int mode, struct Ctx *ctx);
 extern void func_02155224(struct Ctx *ctx);
 extern void func_02155244(struct Ctx *ctx, void *party);
@@ -246,15 +246,15 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         (*seq)++;
         break;
     case 1:
-        func_02012374(proc, (struct Evt **)func_020144DC((int)w, (int)h));
+        func_02012374(proc, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)w, (int)h));
         *seq = 2;
         break;
     case 2:
-        func_020120B4(w, (u32)ov021_id, d_021D3FE8, ctx);
+        GAMESYSTEM_CallProc(w, (u32)ov021_id, d_021D3FE8, ctx);
         (*seq)++;
         break;
     case 3:
-        if (func_020120F0(w) == 0) {
+        if (GAMESYSTEM_GetProcStatus(w) == 0) {
             if (ctx->f50 == 8) {
                 *seq = 24;
             } else if (ctx->f50 == 12) {
@@ -276,11 +276,11 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         ctx->f68[2] = ctx->f3c[2];
         ctx->f68[3] = ctx->f3c[3];
         ctx->f7c = ctx->f50;
-        func_020120B4(w, (u32)ov100_id, d_021BB6A4, &ctx->f60);
+        GAMESYSTEM_CallProc(w, (u32)ov100_id, d_021BB6A4, &ctx->f60);
         (*seq)++;
         break;
     case 6:
-        if (func_020120F0(w) == 0) {
+        if (GAMESYSTEM_GetProcStatus(w) == 0) {
             ctx->f50 = ctx->f7c;
             switch (ctx->f50) {
             case 7:
@@ -313,7 +313,7 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
             (*seq)++;
         if (func_0200FB24()) {
             if (func_0200FBB0() == 1)
-                func_0200F83C();
+                GFL_NET_ERR_ShowSimpleScreen();
             else
                 func_0200FA84();
             func_02034A5C((u32)ov093_id);
@@ -330,38 +330,38 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         case 1:
             ctx->fd0 = 1;
             ctx->fd4 = 2;
-            func_02013790((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1, 4);
+            BTL_SETUP_SetupCommSingle((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1, 4);
             break;
         case 2:
             ctx->fd0 = 1;
             ctx->fd4 = 6;
-            func_020137C0((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1, 4);
+            BTL_SETUP_SetupCommDouble((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1, 4);
             break;
         case 3:
             ctx->fd0 = 1;
             ctx->fd4 = 10;
-            func_02013864((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1, 4);
+            BTL_SETUP_SetupCommTriple((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1, 4);
             break;
         case 4:
             ctx->fd0 = 1;
             ctx->fd4 = 14;
-            func_02013894((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1, 4);
+            BTL_SETUP_SetupCommRotation((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1, 4);
             break;
         case 5:
             tbl = d_0216FEE0;
             ctx->fd0 = 3;
             ctx->fd4 = 18;
-            func_020137F0((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1,
+            BTL_SETUP_SetupCommMulti((u32)ctx->f88, ctx->f04, (u32)func_020399A8(), 1,
                           tbl.v[ctx->b78[func_0203D1A4((struct Link *)func_020399A8())]], 4);
             ctx->f88->f22 = 1;
             ctx->f88->f04 = 1;
             func_02155224(ctx);
             break;
         }
-        func_02013128(ctx->f88, ctx->f38, 0);
-        func_02013980((struct ZoneData *)ctx->f88, 1);
-        ctx->f54 = func_02005C44();
-        func_02005D28();
+        BTL_SETUP_SetParty(ctx->f88, ctx->f38, 0);
+        BTL_SETUP_AllocRecordBuffer((struct ZoneData *)ctx->f88, 1);
+        ctx->f54 = GFL_USE_GetBgmNo();
+        GFL_USE_CancelChangeAndStopBgm();
         func_02039C68((struct Link *)func_020399A8(), 10, 12);
         (*seq)++;
         break;
@@ -370,16 +370,16 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
             func_020130B4((int)ctx->f88);
             ctx->f88 = 0;
             if (func_0200FBB0() == 1)
-                func_0200F83C();
+                GFL_NET_ERR_ShowSimpleScreen();
             else
                 func_0200FA84();
             func_02034A5C((u32)ov093_id);
             *seq = 20;
         } else if (func_02039CB4((struct Link *)func_020399A8(), 10, 12)) {
             if (func_0203D378())
-                func_02005D90(0x48B, 0xFFFF);
+                GFL_USE_CancelChangeAndPlayBgm(0x48B, 0xFFFF);
             else
-                func_02005D90(0x48C, 0xFFFF);
+                GFL_USE_CancelChangeAndPlayBgm(0x48C, 0xFFFF);
             (*seq)++;
         }
         break;
@@ -389,15 +389,15 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         arg.info = ctx->f88;
         arg.slots = ctx->slot;
         arg.flag = 1;
-        func_02012374(proc, (struct Evt **)func_020124AC(w, (u32)ov008_id, (void *)func_021550A0, (u32)(&arg)));
+        func_02012374(proc, (struct Evt **)func_020124AC(w, (u32)ov008_id, (void *)EVENT_BATTLE_REC_SAVE_Start, (u32)(&arg)));
         (*seq)++;
         break;
     case 12:
-        if (func_020120F0(w) == 0) {
+        if (GAMESYSTEM_GetProcStatus(w) == 0) {
             func_02155244(ctx, func_020120F4(w));
             func_020130B4((int)ctx->f88);
             ctx->f88 = 0;
-            func_02005D28();
+            GFL_USE_CancelChangeAndStopBgm();
             func_02155A6C(ctx);
             *seq = 17;
         }
@@ -405,11 +405,11 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
     case 13:
         ctx->f1c = ctx->f04;
         ctx->f24 = (u32)ctx->f38;
-        func_020120B4(w, (u32)ov119_id, d_021E75D8, &ctx->f08);
+        GAMESYSTEM_CallProc(w, (u32)ov119_id, d_021E75D8, &ctx->f08);
         (*seq)++;
         break;
     case 14:
-        if (func_020120F0(w) == 0) {
+        if (GAMESYSTEM_GetProcStatus(w) == 0) {
             if (ctx->f10 == 1)
                 *seq = 15;
             else
@@ -426,11 +426,11 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         req->f0c = 1;
         req->f10 = 0;
         ctx->f28 = req;
-        func_020120B4(w, (u32)ov195_id, d_02208C40, req);
+        GAMESYSTEM_CallProc(w, (u32)ov195_id, d_02208C40, req);
         (*seq)++;
         break;
     case 16:
-        if (func_020120F0(w) == 0) {
+        if (GAMESYSTEM_GetProcStatus(w) == 0) {
             func_020307B0(ctx->f28);
             ctx->f10 = 1;
             *seq = 13;
@@ -471,7 +471,7 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         break;
     case 21:
         func_02155A6C(ctx);
-        func_02012374(proc, func_020145CC(w));
+        func_02012374(proc, FIELD_STATUS_CreateFieldOpenEvent(w));
         (*seq)++;
         break;
     case 22:
@@ -479,7 +479,7 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         (*seq)++;
         break;
     case 23:
-        func_0203D0D0();
+        GFL_NET_IRC_WIRELESS_Exit();
         func_02155A4C(ctx);
         return 1;
     case 24:
@@ -490,11 +490,11 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         break;
     case 26:
         ctx->f5c = ctx->f00;
-        func_020120B4(w, (u32)ov101_id, d_021B74AC, &ctx->f5c);
+        GAMESYSTEM_CallProc(w, (u32)ov101_id, d_021B74AC, &ctx->f5c);
         (*seq)++;
         break;
     case 27:
-        if (func_020120F0(w) == 0) {
+        if (GAMESYSTEM_GetProcStatus(w) == 0) {
             *(vu16 *)0x04000304 |= 0x8000;
             *seq = 20;
         }

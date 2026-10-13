@@ -9,14 +9,14 @@
  * status: EXACT
  * symbols:
  *   d_021B8018 0x021B8018 data a4
- *   func_02005A98 0x02005A98 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_LoadWaveArcSet 0x02005A98 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  */
 #include "../include/Obj02515.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct Sub02005A98Hdr;
 extern const u32 d_021B8018[];
-extern struct Sub02005A98Hdr *func_02005A98(const u32 *,u32);
-extern void func_02005D90(u32,u32);
-void func_021B64AC(char *p) {*(struct Sub02005A98Hdr * *)&((struct Obj02515 *)p)->fC=func_02005A98(d_021B8018,1);func_02005D90(1015,65535);}
+extern struct Sub02005A98Hdr *GFL_USE_LoadWaveArcSet(const u32 *,u32);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32,u32);
+void func_021B64AC(char *p) {*(struct Sub02005A98Hdr * *)&((struct Obj02515 *)p)->fC=GFL_USE_LoadWaveArcSet(d_021B8018,1);GFL_USE_CancelChangeAndPlayBgm(1015,65535);}

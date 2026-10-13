@@ -29,6 +29,7 @@
  *   func_021D68C4 0x021D68C4 thumb ov120
  *   func_02041B6C 0x02041B6C arm
  *   func_021D588C 0x021D588C thumb ov120
+ *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb  arm9
  */
 #include "../include/Obj00495.h"
 typedef unsigned char u8;
@@ -45,7 +46,7 @@ struct S;
 extern void func_021D4474(int n, char *p);
 extern void func_020061E4(u32 a);
 extern int func_021D6A9C(u8 *p, u32 n);
-extern void func_0202822C(char *p, int v);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D4CC4(u8 *);
 extern int func_02035C08(const void *p);
@@ -86,7 +87,7 @@ void func_021D4D28(u8 *p)
             if (func_020362DC() == 1 && ((struct Obj00495 *)p)->f160 == 5) {
                 func_020061E4(0x54c);
                 func_021D6A9C(((struct Obj00495 *)p)->f3C, ((struct Obj00495 *)p)->f160);
-                func_0202822C(((struct Obj00495 *)p)->f34, 1);
+                APP_TASKMENU_WIN_SetDecide(((struct Obj00495 *)p)->f34, 1);
                 func_021D4244((int *)p, (int)func_021D4CC4, 0x4ca);
                 return;
             }
@@ -95,7 +96,7 @@ void func_021D4D28(u8 *p)
             if (func_02035C08(d_021D88D0) == 0) {
                 func_020355D8(1);
                 func_020061E4(0x54c);
-                func_0202822C(((struct Obj00495 *)p)->f34, 1);
+                APP_TASKMENU_WIN_SetDecide(((struct Obj00495 *)p)->f34, 1);
                 func_021D4244((int *)p, (int)func_021D4CC4, 0x4f2);
                 return;
             }

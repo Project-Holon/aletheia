@@ -1,5 +1,5 @@
 /*
- * function: sub_0201B2B0
+ * function: SHINKA_CHECK_CheckEvolution
  * address:  0x0201B2B0
  * packet:   pkt_0201B038
  * region:   arm9
@@ -24,28 +24,28 @@
  *   func_02020FE4   0x02020FE4  thumb
  *   func_02030734   0x02030734  arm
  *   func_020307B0   0x020307B0  arm
- *   sub_0201B764    0x0201B764  thumb
- *   sub_0201B774    0x0201B774  thumb
- *   sub_0201AC44    0x0201AC44  thumb
- *   func_02011410   0x02011410  thumb
+ *   SHINKA_CHECK_LoadData    0x0201B764  thumb
+ *   SHINKA_CHECK_KnowsMove    0x0201B774  thumb
+ *   POKEPARTY_HasSpecies    0x0201AC44  thumb
+ *   TIMEZONE_IsNight   0x02011410  thumb
  *   _s32_div_f      0x0209C0A4  arm
- *   s_shinka_check_c 0x020A7330 data  a1
- *   g_020A7320      0x020A7320  data  a2
- *   g_020A7322      0x020A7322  data  a2
- *   g_020A7324      0x020A7324  data  a2
- *   g_020A732A      0x020A732A  data  a2
+ *   shinka_check_File 0x020A7330 data  a1
+ *   _IceRockZones      0x020A7320  data  a2
+ *   _MossRockZones      0x020A7322  data  a2
+ *   _MagneticZones      0x020A7324  data  a2
+ *   _ExtraEvolutionZones      0x020A732A  data  a2
  *
  * shinka_check.c (the string at 0x020A7330), the evolution checker: the
  * egg/everstone gate, then the 0x2A-byte evolution record (seven six-byte
- * rows, sub_0201B764) walked under a switch on the context (0 level up,
+ * rows, SHINKA_CHECK_LoadData) walked under a switch on the context (0 level up,
  * 1 trade, 2 and 3 item use); the first row that fires gives the target
  * species and its method goes to *methodOut (method 15 writes 15 and gives
- * no species).  docs/notes/sub_0201B2B0.c.txt holds the method map and the
+ * no species).  docs/notes/SHINKA_CHECK_CheckEvolution.c.txt holds the method map and the
  * history.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201B2B0.c \
- *       --func sub_0201B2B0 --addr 0x0201B2B0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SHINKA_CHECK_CheckEvolution.c \
+ *       --func SHINKA_CHECK_CheckEvolution --addr 0x0201B2B0 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -64,18 +64,18 @@ extern u32   func_02020FE4(u32 id, u32 sel, u16 heap);
 extern void *func_02030734(u32 heap, u32 size, int c, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
 struct Rec;
-extern void sub_0201B764(u32 id, void *dest);
-extern u32   sub_0201B774(void *mon, u32 move);
-extern u32 sub_0201AC44(struct Rec *p, u32 target);
-extern u32   func_02011410(u32 tz);
+extern void SHINKA_CHECK_LoadData(u32 id, void *dest);
+extern u32   SHINKA_CHECK_KnowsMove(void *mon, u32 move);
+extern u32 POKEPARTY_HasSpecies(struct Rec *p, u32 target);
+extern u32   TIMEZONE_IsNight(u32 tz);
 
-extern u8 s_shinka_check_c[];
-extern const u16 g_020A7320[1];
-extern const u16 g_020A7322[1];
-extern const u16 g_020A7324[3];
-extern const u16 g_020A732A[3];
+extern u8 shinka_check_File[];
+extern const u16 _IceRockZones[1];
+extern const u16 _MossRockZones[1];
+extern const u16 _MagneticZones[3];
+extern const u16 _ExtraEvolutionZones[3];
 
-u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
+u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param,
                  u8 timezone, u32 *methodOut, u16 heap)
 {
     u32 dummy;
@@ -113,8 +113,8 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
         methodOut = &dummy;
     }
     i = 0;
-    table = func_02030734(heap, 0x2A, 0, (const char *)s_shinka_check_c, 0x6A);
-    sub_0201B764(species, table);
+    table = func_02030734(heap, 0x2A, 0, (const char *)shinka_check_File, 0x6A);
+    SHINKA_CHECK_LoadData(species, table);
 
     switch (context) {
     case 0:
@@ -129,12 +129,12 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
                 }
                 break;
             case 2:
-                if (func_02011410(timezone) == 0 && friendship >= 220) {
+                if (TIMEZONE_IsNight(timezone) == 0 && friendship >= 220) {
                     result = row->target;
                 }
                 break;
             case 3:
-                if (func_02011410(timezone) == 1 && friendship >= 220) {
+                if (TIMEZONE_IsNight(timezone) == 1 && friendship >= 220) {
                     result = row->target;
                 }
                 break;
@@ -191,22 +191,22 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
                 }
                 break;
             case 19:
-                if (func_02011410(timezone) == 0 && held == row->param) {
+                if (TIMEZONE_IsNight(timezone) == 0 && held == row->param) {
                     result = row->target;
                 }
                 break;
             case 20:
-                if (func_02011410(timezone) == 1 && held == row->param) {
+                if (TIMEZONE_IsNight(timezone) == 1 && held == row->param) {
                     result = row->target;
                 }
                 break;
             case 21:
-                if (sub_0201B774(mon, row->param) == 1) {
+                if (SHINKA_CHECK_KnowsMove(mon, row->param) == 1) {
                     result = row->target;
                 }
                 break;
             case 22:
-                if (party != 0 && sub_0201AC44(party, row->param) == 1) {
+                if (party != 0 && POKEPARTY_HasSpecies(party, row->param) == 1) {
                     result = row->target;
                 }
                 break;
@@ -222,7 +222,7 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
                 break;
             case 25:
                 for (j = 0; j < 3; j++) {
-                    if (param == g_020A7324[j]) {
+                    if (param == _MagneticZones[j]) {
                         result = row->target;
                         break;
                     }
@@ -230,7 +230,7 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
                 break;
             case 26:
                 for (j = 0; j < 1; j++) {
-                    if (param == g_020A7322[j]) {
+                    if (param == _MossRockZones[j]) {
                         result = row->target;
                         break;
                     }
@@ -238,7 +238,7 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
                 break;
             case 27:
                 for (j = 0; j < 1; j++) {
-                    if (param == g_020A7320[j]) {
+                    if (param == _IceRockZones[j]) {
                         result = row->target;
                         break;
                     }
@@ -246,7 +246,7 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
                 break;
             case 28:
                 for (j = 0; j < 3; j++) {
-                    if (param == g_020A732A[j]) {
+                    if (param == _ExtraEvolutionZones[j]) {
                         result = row->target;
                         break;
                     }

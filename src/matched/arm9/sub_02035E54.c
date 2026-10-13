@@ -1,5 +1,5 @@
 /*
- * function: sub_02035E54
+ * function: TOUCHPANEL_ClearFrameRateWork
  * address:  0x02035E54
  * packet:   pkt_02035C60
  * region:   arm9
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035750  0x02035750  arm
+ *   TOUCHPANEL_GetWork  0x02035750  arm
  *
  * Zeroes the eight-halfword counter block at +0x64 of the record
- * func_02035750 resolves its argument to.  One of the two follow-up passes
- * that src/pending/sub_02035660.c runs.
+ * TOUCHPANEL_GetWork resolves its argument to.  One of the two follow-up passes
+ * that src/pending/UI_ChangeFrameRate.c runs.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02035E54.c \
- *       --func sub_02035E54 --addr 0x02035E54 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TOUCHPANEL_ClearFrameRateWork.c \
+ *       --func TOUCHPANEL_ClearFrameRateWork --addr 0x02035E54 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -36,11 +36,11 @@ struct Sio {
     u16 unk72;
 };
 
-extern int func_02035750(void);
+extern int TOUCHPANEL_GetWork(void);
 
-void sub_02035E54(struct Sio *p)
+void TOUCHPANEL_ClearFrameRateWork(struct Sio *p)
 {
-    struct Sio *sio = (struct Sio *)func_02035750();
+    struct Sio *sio = (struct Sio *)TOUCHPANEL_GetWork();
 
     sio->unk64 = 0;
     sio->unk66 = 0;

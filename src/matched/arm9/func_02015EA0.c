@@ -1,5 +1,5 @@
 /*
- * function: func_02015EA0
+ * function: MCSS_SetVanishFlag
  * address:  0x02015EA0
  * packet:   pkt_02015EA0
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled Thumb leaf in the ARM9 module. Sets bit 11 (0x800) of the
- * 32-bit register at +0x140. Pairs with func_02015EB0, which clears it.
+ * 32-bit register at +0x140. Pairs with MCSS_ResetVanishFlag, which clears it.
  *
  * Addresses are Black-image addresses.
  */
@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-void func_02015EA0(void *p)
+void MCSS_SetVanishFlag(void *p)
 {
     *(volatile u32 *)&((struct Obj15663 *)p)->f140 |= 0x800u;
 }

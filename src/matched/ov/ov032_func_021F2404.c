@@ -14,20 +14,20 @@
  * (both EXACT, thumb, `one --thumb` with no --region):
  *   0x020275B8 (12 bytes incl. pool word 0x0B0E):
  *     typedef unsigned char u8;
- *     void func_020275B8(char *p, u8 v) { p[0xb0e] = v; }
+ *     void BEACON_STATUS_SetViewTop(char *p, u8 v) { p[0xb0e] = v; }
  *   0x020275D0 (12 bytes incl. pool word 0x0B0C):
- *     void *func_020275D0(char *p) { return p + 0xb0c; }
+ *     void *BEACON_STATUS_GetViewFlags(char *p) { return p + 0xb0c; }
  * 0x53 is ov083's id (func_021F5260/func_021F5368 are ov083 children).
  *
- * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/func_020275A8,
+ * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/BEACON_STATUS_GetLog,
  *   AC, B8, D0 EXACT); the tool still reports them unresolved, so the label seeding for
  *   0x020275A8/AC/B8/D0 (asm/layout, not this lane) is the only blocker.
  *
  * symbols:
  *   func_021F2404 0x021F2404 thumb
  *   func_02158614 0x02158614 thumb ov010
- *   func_020275B8 0x020275B8 thumb
- *   func_020275D0 0x020275D0 thumb
+ *   BEACON_STATUS_SetViewTop 0x020275B8 thumb
+ *   BEACON_STATUS_GetViewFlags 0x020275D0 thumb
  *   func_021945A4 0x021945A4 thumb ov021
  *   func_021F254C 0x021F254C thumb ov032
  *   func_021F2544 0x021F2544 thumb ov032
@@ -51,8 +51,8 @@ typedef struct {
 extern u8 ov083_id[];
 struct Desc;
 extern void func_02158614(void *p);
-extern void func_020275B8(char *p, int v);
-extern void *func_020275D0(char *p);
+extern void BEACON_STATUS_SetViewTop(char *p, int v);
+extern void *BEACON_STATUS_GetViewFlags(char *p);
 extern void *func_021945A4(void *a, u32 b, u32 c);
 extern void *func_021F254C(char *p, void *task, int a, u32 b);
 extern void func_021F2544(char *p);
@@ -74,7 +74,7 @@ void *func_021F2404(char *p, int go)
         func_02158614((void *)(*(int *)(p + 0x1c)));
     case 1:
     case 3:
-        func_020275B8(*(void **)(p + 0x34), 0);
+        BEACON_STATUS_SetViewTop(*(void **)(p + 0x34), 0);
         r = func_021F254C(p, func_021945A4(*(void **)p, (u32)(*(void **)(p + 8)), 0), 0, 3);
         break;
     case 4:
@@ -94,7 +94,7 @@ void *func_021F2404(char *p, int go)
         p[0x79] = 0;
         break;
     case 8:
-        r = func_021F254C(p, (void *)func_021CD2A4((u32)(*(void **)p), (u32)(*(void **)(p + 8)), 0, 7, (u32)func_020275D0((char *)(*(int *)(p + 0x34)))), 0, 1);
+        r = func_021F254C(p, (void *)func_021CD2A4((u32)(*(void **)p), (u32)(*(void **)(p + 8)), 0, 7, (u32)BEACON_STATUS_GetViewFlags((char *)(*(int *)(p + 0x34)))), 0, 1);
         break;
     default:
         return 0;

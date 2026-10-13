@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0203C3EC  0x0203C3EC  arm
+ *   GFL_NET_STATE_GetWifiState  0x0203C3EC  arm
  *
- * True when func_0203C3EC() reports 1: `push {r3, lr}; blx; cmp r0, #1; bne;
+ * True when GFL_NET_STATE_GetWifiState() reports 1: `push {r3, lr}; blx; cmp r0, #1; bne;
  * movs r0, #1; pop; movs r0, #0; pop`.
  *
- * Now EXACT*.  0x0203C3EC was matched in arm9 (src/matched/func_0203C3EC.c,
+ * Now EXACT*.  0x0203C3EC was matched in arm9 (src/matched/GFL_NET_STATE_GetWifiState.c,
  * shard pkt_0203C3EC), so `attest_matched` resolves the BLX field; all 18
  * compiled bytes agree.  The inferred extent ran to 20 because the next
  * function (0x021BF04E) has no func_ label.
@@ -28,11 +28,11 @@
 typedef unsigned long u32;
 typedef int BOOL;
 
-extern int func_0203C3EC(void);
+extern int GFL_NET_STATE_GetWifiState(void);
 
 BOOL func_021BF03C(char *a0)
 {
-    if (func_0203C3EC() == 1) {
+    if (GFL_NET_STATE_GetWifiState() == 1) {
         return 1;
     }
 

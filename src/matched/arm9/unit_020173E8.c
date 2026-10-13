@@ -8,12 +8,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_020173E8, func_020173EC
+ * function: POKE_TOOL_GetBoxParamSize, func_020173EC
  *
  * The two record sizes this region's files open with, `movs r0, #imm; bx lr`,
  * neither of them labelled in the generated listing because neither saves lr.
- * 0xDC is exactly what func_02017528 in src/matched/unit_02017528.c clears and
- * 0x88 exactly what func_02017550 clears, so the two constants and the struct
+ * 0xDC is exactly what POKE_TOOL_ClearPartyParam in src/matched/unit_02017528.c clears and
+ * 0x88 exactly what POKE_TOOL_ClearBoxParam clears, so the two constants and the struct
  * declaration check each other.  See
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
  *
@@ -21,7 +21,7 @@
  * src/pending/unit_020173B4.c.
  *
  * The original file name of the two constructors after them is recoverable
- * even though neither is matched yet: func_020173F0 and func_02017430 both
+ * even though neither is matched yet: func_020173F0 and POKE_TOOL_CreateEx both
  * pass 0x020A72E4 to the debug allocator at 0x02030734, and the bytes there
  * spell "poke_tool.c".  Its left neighbours in the packed string area are
  * "d_status.c" at 0x020A72C0 and "mcss.c" at 0x020A72CC, and between "mcss.c"
@@ -34,7 +34,7 @@
 
 typedef unsigned int u32;
 
-u32 func_020173E8(void)
+u32 POKE_TOOL_GetBoxParamSize(void)
 {
     return 0x88;
 }

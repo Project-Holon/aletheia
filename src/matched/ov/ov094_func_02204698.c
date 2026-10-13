@@ -17,6 +17,7 @@
  *   d_0220AEB0  0x0220AEB0  data  a4
  *   d_0220A53C  0x0220A53C  data  a4
  *   d_0220A85C  0x0220A85C  data  a4
+ *   CLACT_SetActorAffineMode  0x0204B570  arm  arm9
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -44,7 +45,7 @@ extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B570(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void *func_02030DA8(void *, void (*)(void *, Res *), void *, u32);
@@ -76,7 +77,7 @@ void func_02204698(Obj *p, int a, int b)
         } else {
             r->e[i] = func_0204B294(r->h, p->h104, p->h108, p->h10c, &quad, 1, p->heap);
             func_0204B404(r->e[i], (const struct Vec2 *)(&row->pos[i]), 1);
-            func_0204B570(r->e[i], 2);
+            CLACT_SetActorAffineMode(r->e[i], 2);
             func_0204B92C(r->e[i], 1);
             func_0204B878(r->e[i], v);
         }

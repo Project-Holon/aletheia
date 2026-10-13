@@ -1,5 +1,5 @@
 /*
- * function: func_02175060
+ * function: INTRUDE_COMM_UpdatePlayerObject
  * address:  0x02175060
  * packet:   pkt_ov011_02175060
  * region:   ov011
@@ -13,7 +13,7 @@
  *   func_02039338  0x02039338  arm
  *   func_02013D5C  0x02013D5C  thumb
  *   func_02013D9C  0x02013D9C  thumb
- *   func_02013E90  0x02013E90  thumb
+ *   ZONEDATA_IsSameMatrixGroup  0x02013E90  thumb
  *   func_021677E4  0x021677E4  thumb  ov010
  *   func_02026478  0x02026478  thumb
  *   func_021583EC  0x021583EC  thumb  ov010
@@ -47,7 +47,7 @@ typedef struct Entry {
 extern u16 func_02039338(void);
 extern u32 func_02013D5C(u32 id);
 extern u32 func_02013D9C(u32 id);
-extern u32 func_02013E90(u32 a, u32 b);
+extern u32 ZONEDATA_IsSameMatrixGroup(u32 a, u32 b);
 struct Work;
 extern int func_021677E4(void *p, int i);
 extern u32 func_02026478(void *obj);
@@ -76,7 +76,7 @@ static inline int func_02175060_check(Entry *e, Entry *me)
             }
             return 1;
         }
-        if (func_02013E90(me->f14, e->f14) == 1) {
+        if (ZONEDATA_IsSameMatrixGroup(me->f14, e->f14) == 1) {
             return 0;
         }
         return 1;
@@ -84,7 +84,7 @@ static inline int func_02175060_check(Entry *e, Entry *me)
     return 1;
 }
 
-void func_02175060(u8 *p, int idx)
+void INTRUDE_COMM_UpdatePlayerObject(u8 *p, int idx)
 {
     Entry *e;
     int r;

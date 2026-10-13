@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_02148B4C     0x02148B4C  data
+ *   g_renderState     0x02148B4C  data
  *   g_020A8370     0x020A8370  data
  *   func_0206DDA4  0x0206DDA4  arm
  *   func_0206DB80  0x0206DB80  arm
@@ -200,7 +200,7 @@ void func_0206D2E8(struct S0206D2E8 *s);
 void func_0206D3C4(struct Obj *o, u32 which);
 void func_0206D434(RS *rs, u32 opt);
 void func_0206D778(RS *rs, u32 opt);
-extern Glb g_02148B4C;
+extern Glb g_renderState;
 extern BBData g_020A8370;
 extern EvpCache g_0214A1B4[];
 extern TexImageCmd g_020A82B8;
@@ -290,13 +290,13 @@ void func_0206C82C(RS *rs, u32 opt)
             GXFIFO = 0;
             while (func_0207DC98(&m))
                 ;
-            if (g_02148B4C.flag & 1) {
+            if (g_renderState.flag & 1) {
                 MtxFx44 tmp;
                 func_0207B5C0((const MtxFx43 *)func_0206ADBC(), &tmp);
                 func_0207BE14(&m, &tmp, &m);
-            } else if (g_02148B4C.flag & 2) {
+            } else if (g_renderState.flag & 2) {
                 MtxFx44 tmp;
-                func_0207B5C0(&g_02148B4C.cameraMtx, &tmp);
+                func_0207B5C0(&g_renderState.cameraMtx, &tmp);
                 func_0207BE14(&m, &tmp, &m);
             }
             trans->x = m._30;
@@ -316,13 +316,13 @@ void func_0206C82C(RS *rs, u32 opt)
             func_0207CCA4((VecFx32 *)&mtx->_10, (VecFx32 *)&mtx->_10);
             func_0207CAE8((VecFx32 *)&mtx->_00, (VecFx32 *)&mtx->_10, (VecFx32 *)&mtx->_20);
 
-            if (g_02148B4C.flag & 1) {
+            if (g_renderState.flag & 1) {
                 GXFIFO = 0x00171012;
                 func_02082AA8(&g_020A8370.prm[0], &GXFIFO, 8);
                 func_02082AA8(func_0206ADF4(), &GXFIFO, 0x30);
                 GXFIFO = 0x1b19;
                 func_02082AA8(&g_020A8370.mtx, &GXFIFO, 0x3c);
-            } else if (g_02148B4C.flag & 2) {
+            } else if (g_renderState.flag & 2) {
                 GXFIFO = 0x00171012;
                 func_02082AA8(&g_020A8370.prm[0], &GXFIFO, 8);
                 func_02082AA8(func_0206AAD4(), &GXFIFO, 0x30);
@@ -681,12 +681,12 @@ void func_0206D434(RS *rs, u32 opt)
                 u32 arg = 3;
                 func_0206DDA4(0x10, &arg, 1);
             }
-            if (g_02148B4C.flag & 1) {
-                func_0206DDA4(0x1a, &g_02148B4C.cameraMtx, 9);
-                func_0206DDA4(0x1a, &g_02148B4C.unkBC, 9);
+            if (g_renderState.flag & 1) {
+                func_0206DDA4(0x1a, &g_renderState.cameraMtx, 9);
+                func_0206DDA4(0x1a, &g_renderState.unkBC, 9);
                 func_0206DDA4(0x1a, &n, 9);
-            } else if (g_02148B4C.flag & 2) {
-                func_0206DDA4(0x1a, &g_02148B4C.cameraMtx, 9);
+            } else if (g_renderState.flag & 2) {
+                func_0206DDA4(0x1a, &g_renderState.cameraMtx, 9);
                 func_0206DDA4(0x1a, &n, 9);
             } else {
                 func_0206DDA4(0x1a, &n, 9);
@@ -760,11 +760,11 @@ void func_0206D778(RS *rs, u32 opt)
         }
 
         if (!CallBackCheck_C(rs, 13, timing)) {
-            if (g_02148B4C.flag & 1) {
-                func_0206DDA4(0x1c, &g_02148B4C.unkE0, 3);
-                func_0206DDA4(0x1a, &g_02148B4C.unkBC, 9);
+            if (g_renderState.flag & 1) {
+                func_0206DDA4(0x1c, &g_renderState.unkE0, 3);
+                func_0206DDA4(0x1a, &g_renderState.unkBC, 9);
                 func_0206DDA4(0x19, &m, 12);
-            } else if (g_02148B4C.flag & 2) {
+            } else if (g_renderState.flag & 2) {
                 func_0206DDA4(0x19, &m, 12);
             } else {
                 func_0206DDA4(0x19, func_0206AAD4(), 12);

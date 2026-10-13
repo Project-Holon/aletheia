@@ -13,8 +13,8 @@
  *   func_021BF6CC 0x021BF6CC thumb ov110
  *   func_021B9BEC 0x021B9BEC thumb ov110
  *   func_021BAC0C 0x021BAC0C thumb ov110
- *   func_020245AC 0x020245AC thumb
- *   func_020241E0 0x020241E0 thumb
+ *   PMSI_PARAM_ClearUnusedWords 0x020245AC thumb
+ *   PMSI_PARAM_SetResult 0x020241E0 thumb
  *   func_021BD7A0 0x021BD7A0 thumb ov110
  *   func_021BF4C4 0x021BF4C4 thumb ov110
  *   func_021BF500 0x021BF500 thumb ov110
@@ -32,8 +32,8 @@ extern void func_021BF6CC(u8 *, u8, u8);
 extern void func_021B9BEC(u8 *, int);
 extern int func_021BAC0C(u8 *p);
 struct T;
-extern void func_020245AC(struct T *p, u32 a1);
-extern void func_020241E0(struct T *p, u16 *a1, u16 *a2);
+extern void PMSI_PARAM_ClearUnusedWords(struct T *p, u32 a1);
+extern void PMSI_PARAM_SetResult(struct T *p, u16 *a1, u16 *a2);
 extern void func_021BD7A0(u8 *, Handler);
 extern int func_021BF4C4(u8 *p, int *q);
 extern void func_021BF500(u8 *);
@@ -57,8 +57,8 @@ void func_021BF53C(u8 *p, u32 *q)
             *q = 3;
             break;
         case 1:
-            if (((struct Obj00012 *)p)->f4 == 2) func_020245AC((struct T *)(p + 8), 42);
-            func_020241E0((struct T *)(*(struct T241 * *)&((struct Obj00012 *)p)->f0), (u16 *)(p + 16), (u16 *)(p + 8));
+            if (((struct Obj00012 *)p)->f4 == 2) PMSI_PARAM_ClearUnusedWords((struct T *)(p + 8), 42);
+            PMSI_PARAM_SetResult((struct T *)(*(struct T241 * *)&((struct Obj00012 *)p)->f0), (u16 *)(p + 16), (u16 *)(p + 8));
             func_021BD7A0(p, (Handler)func_021BF4C4);
             *q = 3;
             break;

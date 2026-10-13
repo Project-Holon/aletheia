@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02005DF8 0x02005DF8 thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  */
 
 typedef unsigned int   u32;
-extern void func_02005DF8(u32 a);
+extern void GFL_USE_FadeInBgmFull(u32 a);
 
 int func_021BE3DC(int a, int b, int *p)
 {
-    func_02005DF8((unsigned short)*p);
+    GFL_USE_FadeInBgmFull((unsigned short)*p);
     return 1;
 }

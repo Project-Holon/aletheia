@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02014428",
+   "name": "FIELD_STATUS_Create",
    "address": "0x02014428",
    "kind": "game",
    "region": "arm9",

@@ -11,8 +11,8 @@
  * extent: 2 zero alignment bytes at 021BA1BE.
  * symbols:
  *   func_0204E804 0x0204E804 arm
- *   func_02024004 0x02024004 thumb
+ *   BRIGHTNESS_IsFinished 0x02024004 thumb
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef signed short s16;typedef unsigned int u32;
-extern int func_0204E804(void);extern int func_02024004(int);
-int func_021BA1A0(void){if(func_0204E804()==1 || func_02024004(1)==0)return 0;return 1;}
+extern int func_0204E804(void);extern int BRIGHTNESS_IsFinished(int);
+int func_021BA1A0(void){if(func_0204E804()==1 || BRIGHTNESS_IsFinished(1)==0)return 0;return 1;}

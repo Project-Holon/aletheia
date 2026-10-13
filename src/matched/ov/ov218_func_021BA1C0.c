@@ -13,7 +13,7 @@
  *   func_021B9924 0x021B9924 thumb ov218
  *   func_021B9B78 0x021B9B78 thumb ov218
  *   func_0204E804 0x0204E804 arm
- *   func_02024004 0x02024004 thumb
+ *   BRIGHTNESS_IsFinished 0x02024004 thumb
  */
 #include "../include/Obj26046.h"
 extern unsigned func_021B61FC(const unsigned char *);
@@ -22,7 +22,7 @@ extern int func_021B9924(void);
 typedef unsigned int   u32;
 extern void func_021B9B78(char *p, u32 id);
 extern int func_0204E804(void);
-extern int func_02024004(int);
+extern int BRIGHTNESS_IsFinished(int);
 int func_021BA1C0(unsigned char *task, char *ctx)
 {
     switch (func_021B61FC(task)) {
@@ -34,7 +34,7 @@ advance:
     case 1:
         if (func_0204E804() == 1)
             break;
-        if (func_02024004(1) == 0)
+        if (BRIGHTNESS_IsFinished(1) == 0)
             break;
         func_021B9B78(((struct Obj26046 *)ctx)->f28, 0xef);
         goto advance;

@@ -12,7 +12,7 @@
  *   func_0207D63C 0x0207D63C arm
  *   func_0204B688 0x0204B688 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B6E4 0x0204B6E4 arm
+ *   CLACT_GetActorObjMode 0x0204B6E4 arm
  */
 #include "../include/Obj14616.h"
 extern void func_0207D63C(volatile void *, int, int, int, int);
@@ -25,7 +25,7 @@ static inline void change_alpha(int a, int b)
 {
     *(volatile unsigned short *)0x04000052 = (unsigned short)(a | (b << 8));
 }
-extern u32 func_0204B6E4(const struct Actor *actor);
+extern u32 CLACT_GetActorObjMode(const struct Actor *actor);
 int func_021BEDB8(char *p, unsigned *state, unsigned *q)
 {
     unsigned i;
@@ -39,7 +39,7 @@ int func_021BEDB8(char *p, unsigned *state, unsigned *q)
     case 16:
         for (i = 0; i < 3; i++) {
             char *row = p + i * 4;
-            if (func_0204B6E4(((struct Obj14616 *)row)->f10A8) == 1)
+            if (CLACT_GetActorObjMode(((struct Obj14616 *)row)->f10A8) == 1)
                 func_0204B688(((struct Obj14616 *)row)->f10A8, 0);
         }
         *state = 0;

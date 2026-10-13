@@ -18,7 +18,7 @@
  *   func_02209C30  0x02209C30  thumb  ov094
  *   func_0204B324  0x0204B324  arm
  *   func_0204B878  0x0204B878  arm
- *   func_0204B8C4  0x0204B8C4  arm
+ *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204BA00  0x0204BA00  arm
@@ -65,7 +65,7 @@ struct Obj;
 extern struct Obj *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
@@ -85,7 +85,7 @@ int func_02209B60(P *p, u16 a, u16 b, u32 c, u32 e, u32 f)
     cfg.y = b;
     p->h = func_0204B324(p->f0, p->fc, p->f10, p->f14, (u32)(&cfg), 1, p->f2c);
     func_0204B878(p->h, 0);
-    func_0204B8C4(p->h, 0);
+    CLACT_SetActorAnimFrame(p->h, 0);
     func_0204B92C(p->h, 1);
     func_0204B3DC(p->h, 1);
     if (c != 0)

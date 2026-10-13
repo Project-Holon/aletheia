@@ -15,7 +15,7 @@
  *   SND_Init       0x02089848  arm
  *   PM_PrependPostSleepCallback  0x0208C808  arm
  *   PM_AppendPostSleepCallback   0x0208C828  arm
- *   func_02072A28  0x02072A28  arm
+ *   NNS_SndWaveOutInit  0x02072A28  arm
  *   func_02073D5C  0x02073D5C  arm
  *   func_0207312C  0x0207312C  arm
  *
@@ -75,7 +75,7 @@ extern void func_02072920(void *p);
 extern void SND_Init(void);
 extern void PM_PrependPostSleepCallback(struct SleepCb *cb);
 extern void PM_AppendPostSleepCallback(struct SleepCb *cb);
-extern void func_02072A28(void);
+extern void NNS_SndWaveOutInit(void);
 extern void func_02073D5C(void);
 extern void func_0207312C(void);
 
@@ -92,7 +92,7 @@ void func_020726D0(void)
     g_0214BAC0.cb20.arg = 0;
     PM_PrependPostSleepCallback(&g_0214BAC0.cb10);
     PM_AppendPostSleepCallback(&g_0214BAC0.cb20);
-    func_02072A28();
+    NNS_SndWaveOutInit();
     func_02073D5C();
     func_0207312C();
     g_0214BAC0.b00 = -1;

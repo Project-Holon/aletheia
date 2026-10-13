@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Read back gVisiblePlane[0], the engine-A software copy of the visible
- * plane set that sub_02043534 writes.  Twin of the third leaf in
+ * plane set that BG_SYS_SetMainVisiblePlanes writes.  Twin of the third leaf in
  * src/matched/unit_0204361C.c, which reads element 1.  Saves no lr, so
  * disasm.py does not label it.
  *

@@ -9,12 +9,12 @@
  * isa:      thumb
  * status: EXACT
  *
- * note:     2026-10-02 only unresolved witness func_02024450 (file exists in src/matched/arm9, no shard yet)
+ * note:     2026-10-02 only unresolved witness PMSI_PARAM_IsEnabled (file exists in src/matched/arm9, no shard yet)
  *
  * symbols:
  *   func_021C446C 0x021C446C thumb
- *   func_02024464 0x02024464 thumb
- *   func_02024450 0x02024450 thumb
+ *   PMSI_PARAM_IsComplete 0x02024464 thumb
+ *   PMSI_PARAM_IsEnabled 0x02024450 thumb
  *   d_021C77A0 0x021C77A0 data a1
  */
 #include "../include/Obj14184.h"
@@ -23,8 +23,8 @@ typedef unsigned short u16;
 extern const u8 d_021C77A0[][3];
 typedef unsigned int   u32;
 struct T;
-extern int func_02024464(struct T *p, u32 a1);
-extern int func_02024450(const u16 *p);
+extern int PMSI_PARAM_IsComplete(struct T *p, u32 a1);
+extern int PMSI_PARAM_IsEnabled(const u16 *p);
 int func_021C446C(void *a)
 {
     int t = 1;
@@ -39,9 +39,9 @@ int func_021C446C(void *a)
     for (i = 0; i < 3; i++) {
         u8 *x = *(u8 * *)&((struct Obj14184 *)a)->f1C;
         if (d_021C77A0[x[0xb]][i] != 0xFF) {
-            if (func_02024464((struct T *)(x + 0x16 + i * 8), 0x64)) c1++;
+            if (PMSI_PARAM_IsComplete((struct T *)(x + 0x16 + i * 8), 0x64)) c1++;
         } else {
-            if (func_02024450((u16 *)(x + 0x16 + i * 8))) c0++;
+            if (PMSI_PARAM_IsEnabled((u16 *)(x + 0x16 + i * 8))) c0++;
         }
     }
     if (c0 < t || c1 < n) return 1;

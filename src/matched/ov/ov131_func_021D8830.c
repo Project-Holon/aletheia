@@ -1,5 +1,5 @@
 /*
- * function: func_021D8830
+ * function: P_STA_RIBBON_Main
  * address: 0x021D8830
  * packet: pkt_ov131_021D8830
  * region: ov131
@@ -8,31 +8,31 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D8A2C 0x021D8A2C thumb ov131
+ *   P_STA_RIBBON_UpdateInput 0x021D8A2C thumb ov131
  *   func_0201C6B4 0x0201C6B4 thumb
- *   func_021D9670 0x021D9670 thumb ov131
- *   func_021D9568 0x021D9568 thumb ov131
- *   func_021D92B0 0x021D92B0 thumb ov131
+ *   P_STA_RIBBON_HideDetail 0x021D9670 thumb ov131
+ *   P_STA_RIBBON_ShowDetail 0x021D9568 thumb ov131
+ *   P_STA_RIBBON_UpdateRows 0x021D92B0 thumb ov131
  */
 #include "../include/Obj00091.h"
 #include "../include/Obj03816.h"
 
-extern void func_021D8A2C(unsigned char *, unsigned char *);
+extern void P_STA_RIBBON_UpdateInput(unsigned char *, unsigned char *);
 typedef unsigned int   u32;
 struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
-extern void func_021D9670(unsigned char *, unsigned char *);
-extern void func_021D9568(unsigned char *, unsigned char *);
-extern void func_021D92B0(unsigned char *, unsigned char *);
-void func_021D8830(unsigned char *a, unsigned char *p)
+extern void P_STA_RIBBON_HideDetail(unsigned char *, unsigned char *);
+extern void P_STA_RIBBON_ShowDetail(unsigned char *, unsigned char *);
+extern void P_STA_RIBBON_UpdateRows(unsigned char *, unsigned char *);
+void P_STA_RIBBON_Main(unsigned char *a, unsigned char *p)
 {
-    func_021D8A2C(a,p);
+    P_STA_RIBBON_UpdateInput(a,p);
     if (((struct Obj00091 *)p)->f8 == 1) {
         if (func_0201C6B4(((struct Obj03816 *)a)->f84) == 1) {
-            func_021D9670(a,p);
-            func_021D9568(a,p);
+            P_STA_RIBBON_HideDetail(a,p);
+            P_STA_RIBBON_ShowDetail(a,p);
             ((struct Obj00091 *)p)->f8=0;
         }
-    } else func_021D92B0(a,p);
+    } else P_STA_RIBBON_UpdateRows(a,p);
     if (p[0x60]) p[0x60]--;
 }

@@ -1,7 +1,7 @@
 /*
  * file:     unit_0219E9C0.c
  * unit:     yes
- * function: func_0219E9C0, func_0219E9C8, func_0219E9D0
+ * function: SBServerSetICMPIP, SBServerSetState, SBServerGetState
  * address:  0x0219E9C0
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -14,14 +14,14 @@
  */
 #include "unit_0219E1EC_types.h"
 
-void func_0219E9C0(SBServer *server, unsigned int icmpIp);
-void func_0219E9C8(SBServer *server, unsigned char state);
-unsigned char func_0219E9D0(const SBServer *server);
+void SBServerSetICMPIP(SBServer *server, unsigned int icmpIp);
+void SBServerSetState(SBServer *server, unsigned char state);
+unsigned char SBServerGetState(const SBServer *server);
 
 /*
  * Sets the address used for the ICMP ping of a server.
  */
-void func_0219E9C0(SBServer *server, unsigned int icmpIp)
+void SBServerSetICMPIP(SBServer *server, unsigned int icmpIp)
 {
     server->icmpip = icmpIp;
 }
@@ -29,7 +29,7 @@ void func_0219E9C0(SBServer *server, unsigned int icmpIp)
 /*
  * Sets the state bits of a server.
  */
-void func_0219E9C8(SBServer *server, unsigned char state)
+void SBServerSetState(SBServer *server, unsigned char state)
 {
     server->state = state;
 }
@@ -37,7 +37,7 @@ void func_0219E9C8(SBServer *server, unsigned char state)
 /*
  * State bits of a server.
  */
-unsigned char func_0219E9D0(const SBServer *server)
+unsigned char SBServerGetState(const SBServer *server)
 {
     return server->state;
 }

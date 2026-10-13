@@ -1,5 +1,5 @@
 /*
- * function: func_02038380
+ * function: GFL_NET_SYSTEM_SendMPParent
  * address:  0x02038380
  * packet:   pkt_02038380
  * region:   arm9
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *   func_0203D798  0x0203D798  arm
- *   func_0203D680  0x0203D680  arm
- *   func_0203D6BC  0x0203D6BC  arm
+ *   GFL_NET_GetMaxConnectNum  0x0203D680  arm
+ *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
  *   func_020392B8  0x020392B8  arm
- *   func_02037224  0x02037224  arm
- *   func_02037258  0x02037258  arm
- *   func_02038570  0x02038570  arm
- *   func_02038924  0x02038924  arm
- *   func_02038A90  0x02038A90  arm
+ *   GFL_NET_SYSTEM_SetDebugByte  0x02037224  arm
+ *   GFL_NET_SYSTEM_GetSendSize  0x02037258  arm
+ *   GFL_NET_SYSTEM_ClearChildRecv  0x02038570  arm
+ *   GFL_NET_SYSTEM_RecvParentData  0x02038924  arm
+ *   GFL_NET_SYSTEM_SendEndCallback  0x02038A90  arm
  *   g_020A7A20     0x020A7A20  data
- *   g_021469D0     0x021469D0  data
+ *   _pNetSys     0x021469D0  data
  *
  * net_system.c.  The per-frame step of the session state machine, driven by
- * the state byte at 0x020A7A20.  func_02037224 sets that byte and takes the
+ * the state byte at 0x020A7A20.  GFL_NET_SYSTEM_SetDebugByte sets that byte and takes the
  * caller's __LINE__ as its second argument; the four line numbers here are
  * 0x46a, 0x46e, 0x475 and 0x48d, and the front end materialises 0x46a once
  * and derives 0x46e from it with `add r1, r4, #4`
@@ -49,55 +49,55 @@ struct Oth {
     u8 f65;
 };
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 extern struct Oth *func_0203D798(void);
-extern u32  func_0203D680(void);
-extern u32  func_0203D6BC(void);
+extern u32  GFL_NET_GetMaxConnectNum(void);
+extern u32  GFL_NET_GetChildSendSize(void);
 extern int  func_020392B8(void);
-extern void func_02037224(u8 v, int b);
-extern u32  func_02037258(void);
-extern void func_02038570(void);
-extern void func_02038924(u32 a, u32 b, u16 c);
-extern int func_02038A90(u32 a);
+extern void GFL_NET_SYSTEM_SetDebugByte(u8 v, int b);
+extern u32  GFL_NET_SYSTEM_GetSendSize(void);
+extern void GFL_NET_SYSTEM_ClearChildRecv(void);
+extern void GFL_NET_SYSTEM_RecvParentData(u32 a, u32 b, u16 c);
+extern int GFL_NET_SYSTEM_SendEndCallback(u32 a);
 extern u8   g_020A7A20[];
-extern struct LinkState *g_021469D0;
+extern struct LinkState *_pNetSys;
 
-void func_02038380(void)
+void GFL_NET_SYSTEM_SendMPParent(void)
 {
-    struct Ctx *c = func_0203D788();
+    struct Ctx *c = GFL_NET_GetSession();
 
-    func_0203D680();
+    GFL_NET_GetMaxConnectNum();
     if (g_020A7A20[0] == 1) {
         if (func_020392B8() > 1) {
-            func_02037224(2, 0x46a);
+            GFL_NET_SYSTEM_SetDebugByte(2, 0x46a);
             if (((int (*)(void))c->f340[0x70 / 4])() != 0) {
-                u32 t = func_02037258();
+                u32 t = GFL_NET_SYSTEM_GetSendSize();
                 if (((int (*)(u32, u32, u32, u32))c->f340[0x64 / 4])(
-                        ((u32 *)g_021469D0)[2], t, 0, (u32)func_02038A90) != 0)
+                        ((u32 *)_pNetSys)[2], t, 0, (u32)GFL_NET_SYSTEM_SendEndCallback) != 0)
                     goto tail;
-                func_02037224(1, 0x46a + 4);
+                GFL_NET_SYSTEM_SetDebugByte(1, 0x46a + 4);
                 goto tail;
             }
             if (func_0203D798()->f65 != 3 && func_0203D798()->f65 != 4)
                 goto tail;
             if (((int (*)(void))c->f340[0xa0 / 4])() == 0) {
-                func_02037224(1, 0x475);
+                GFL_NET_SYSTEM_SetDebugByte(1, 0x475);
                 goto tail;
             }
-            if (*(u8 *)(((u32 *)g_021469D0)[2] + 2) == 0)
+            if (*(u8 *)(((u32 *)_pNetSys)[2] + 2) == 0)
                 return;
             {
-                u32 t = func_0203D6BC();
+                u32 t = GFL_NET_GetChildSendSize();
                 ((void (*)(u32, u32, u32, u32))c->f340[0x64 / 4])(
-                    ((u32 *)g_021469D0)[2], t, 0x64, 0);
+                    ((u32 *)_pNetSys)[2], t, 0x64, 0);
             }
         }
     }
 tail:
     if (g_020A7A20[0] == 2) {
-        func_02038570();
-        func_02038924(0, (u32)((u32 *)g_021469D0)[2], (u16)func_02037258());
-        func_02037224(3, 0x490 - 3);
+        GFL_NET_SYSTEM_ClearChildRecv();
+        GFL_NET_SYSTEM_RecvParentData(0, (u32)((u32 *)_pNetSys)[2], (u16)GFL_NET_SYSTEM_GetSendSize());
+        GFL_NET_SYSTEM_SetDebugByte(3, 0x490 - 3);
     }
     if (((int (*)(void))c->f340[0x70 / 4])() == 0)
         goto last;
@@ -106,5 +106,5 @@ tail:
     if (func_0203D798()->f65 != 4)
         return;
 last:
-    func_02037224(4, 0x492);
+    GFL_NET_SYSTEM_SetDebugByte(4, 0x492);
 }

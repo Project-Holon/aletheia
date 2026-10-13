@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DBCA4",
+   "name": "P_STA_OAM_SetBitmapActorsEnabled",
    "address": "0x021DBCA4",
    "kind": "game",
    "region": "ov131",

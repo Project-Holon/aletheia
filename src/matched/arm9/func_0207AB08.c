@@ -1,5 +1,5 @@
 /*
- * function: func_0207AB08
+ * function: FSi_SeekDummyCallback
  * address:  0x0207AB08
  * packet:   pkt_0207AB08
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_0207AB08(void)
+int FSi_SeekDummyCallback(void)
 {
     return 0;
 }

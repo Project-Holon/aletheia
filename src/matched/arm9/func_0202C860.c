@@ -35,8 +35,8 @@
  *   func_0215E6A8  0x0215E6A8  thumb ov010
  *   func_0215E6F8  0x0215E6F8  thumb ov010
  *   func_02012994  0x02012994  thumb
- *   func_020129A0  0x020129A0  thumb
- *   func_02013C10  0x02013C10  thumb
+ *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
+ *   ZONEDATA_GetWeatherId  0x02013C10  thumb
  */
 
 
@@ -49,8 +49,8 @@ extern int func_0215E6F8(int a0);
 struct BigObj;
 extern u8 func_02012994(const struct BigObj *p);
 struct BigObj;
-extern void func_020129A0(struct BigObj *p, u8 v);
-extern u32 func_02013C10(u32 id);
+extern void GAME_DATA_SetSubscreenMode(struct BigObj *p, u8 v);
+extern u32 ZONEDATA_GetWeatherId(u32 id);
 
 void func_0202C860(u8 *a0, int a1)
 {
@@ -60,7 +60,7 @@ void func_0202C860(u8 *a0, int a1)
     v = func_0215E6A8(a0, (u16)a1);
     r = (u16)(u32)func_02012994((const struct BigObj *)a0);
     if (v != 0xffff) {
-        func_020129A0((struct BigObj *)a0, (u8)v);
+        GAME_DATA_SetSubscreenMode((struct BigObj *)a0, (u8)v);
         return;
     }
     if ((u32)(r - 6) > 1) {
@@ -69,5 +69,5 @@ void func_0202C860(u8 *a0, int a1)
     if (func_0215E6F8((int)a0) != 1) {
         return;
     }
-    func_020129A0((struct BigObj *)a0, (u8)func_02013C10((u16)a1));
+    GAME_DATA_SetSubscreenMode((struct BigObj *)a0, (u8)ZONEDATA_GetWeatherId((u16)a1));
 }

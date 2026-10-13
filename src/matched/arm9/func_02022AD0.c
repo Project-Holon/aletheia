@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02022AD0
+ * function: WIPE_SUB_WindowRectHBlank
  * address:  0x02022AD0
  * packet:   pkt_02022AD0
  * region:   arm9
@@ -11,13 +11,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02022D88  0x02022D88  thumb
+ *   WIPE_SUB_GetLineBuffer  0x02022D88  thumb
  *
  * The four pool words at 0x02022CDC are 0x04000006, 0x04000004,
  * 0x04001040 and 0x04001042: I/O register addresses, written as cast
  * constants, not relocations.
  *
- * The 8-byte residue docs/notes/func_02022AD0.c.txt records at +0x00CC
+ * The 8-byte residue docs/notes/WIPE_SUB_WindowRectHBlank.c.txt records at +0x00CC
  * is closed by ONE statement order: block two must read ctl->sel BEFORE
  * its three array reads, exactly as blocks one and three do.  With
  * sel read last (the note's C) the 0x180 constant is hoisted one slot
@@ -45,14 +45,14 @@ struct sched {
 };
 
 struct Obj;
-extern void *func_02022D88(struct Obj *obj, u32 idx);
+extern void *WIPE_SUB_GetLineBuffer(struct Obj *obj, u32 idx);
 
 #define REG_VCOUNT  (*(volatile u16 *)0x04000006)
 #define REG_A       ((volatile u16 *)0x04000004)
 #define REG_B       ((volatile u16 *)0x04001040)
 #define REG_C       ((volatile u16 *)0x04001042)
 
-void func_02022AD0(struct ctl *ctl)
+void WIPE_SUB_WindowRectHBlank(struct ctl *ctl)
 {
     struct sched *p;
     s32 line;
@@ -72,7 +72,7 @@ void func_02022AD0(struct ctl *ctl)
     }
 
     if (ctl->mode == 1) {
-        p = func_02022D88((struct Obj *)ctl, 0);
+        p = WIPE_SUB_GetLineBuffer((struct Obj *)ctl, 0);
         sel = ctl->sel;
         y = p->y[next];
         x = p->x[next];
@@ -105,7 +105,7 @@ void func_02022AD0(struct ctl *ctl)
         return;
     }
 
-    p = func_02022D88((struct Obj *)ctl, 0);
+    p = WIPE_SUB_GetLineBuffer((struct Obj *)ctl, 0);
     sel = ctl->sel;
     y = p->y[next];
     x = p->x[next];
@@ -136,7 +136,7 @@ void func_02022AD0(struct ctl *ctl)
         }
     }
 
-    p = func_02022D88((struct Obj *)ctl, 1);
+    p = WIPE_SUB_GetLineBuffer((struct Obj *)ctl, 1);
     sel = ctl->sel;
     y = p->y[next];
     x = p->x[next];

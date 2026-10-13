@@ -1,5 +1,5 @@
 /*
- * function: func_0204BD7C
+ * function: CLACT_ResetOamManager
  * address:  0x0204BD7C
  * packet:   pkt_0204BCF4
  * region:   arm9
@@ -16,7 +16,7 @@
  * claimed by lane-C.
  *
  * Release one bound 0x20-byte OAM sub-record of a cell actor.  The "bound"
- * flag at +0x1c is the same one func_0204BD3C sets, and an unbound record is
+ * flag at +0x1c is the same one CLACT_InitOamManager sets, and an unbound record is
  * an early return predicated onto the compare (`popeq`).  The r1 read at the
  * call is a leftover, not an argument: 0x02063640 overwrites r1 at +0x1C with
  * `ldrh r1, [r5, #8]` before any use (docs/notes/func_02063640.c.txt).
@@ -36,7 +36,7 @@ struct Sub {
 struct NNSG2dOamManagerInstance;
 extern void func_02063640(struct NNSG2dOamManagerInstance *pMan);
 
-void func_0204BD7C(struct Sub *s)
+void CLACT_ResetOamManager(struct Sub *s)
 {
     if (s->bound == 0) {
         return;

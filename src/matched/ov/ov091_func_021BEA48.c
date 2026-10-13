@@ -14,12 +14,12 @@
  * docs/idioms/a-narrow-callee-parameter-truncates-at-the-call-site.md.
  *
  * symbols:
- *   func_0201B7B4  0x0201B7B4  thumb
+ *   NATSUKI_CalcUseItem  0x0201B7B4  thumb
  */
 
 typedef unsigned short u16;
 
-void func_0201B7B4(void *a0, int a1, u16 a2, u16 a3);
+void NATSUKI_CalcUseItem(void *a0, int a1, u16 a2, u16 a3);
 
 int func_021BEA48(int a0, int a1, int a2, int a3, u16 a4, int a5)
 {
@@ -27,6 +27,6 @@ int func_021BEA48(int a0, int a1, int a2, int a3, u16 a4, int a5)
         return 0;
     if (a1 == 0 && a2 < 0)
         return 0;
-    func_0201B7B4((void *)a0, a3, a4, a5);
+    NATSUKI_CalcUseItem((void *)a0, a3, a4, a5);
     return 1;
 }

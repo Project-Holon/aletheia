@@ -12,7 +12,7 @@
  * symbols:
  *   func_021B9280  0x021B9280  thumb
  *   func_020355C4  0x020355C4  arm
- *   func_0202EB04  0x0202EB04  thumb
+ *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
  */
 
 typedef unsigned char u8;
@@ -48,14 +48,14 @@ struct S {
 extern void func_021B9280(u8 *p, int a, u32 b);
 struct CodeIn;
 extern u8 func_020355C4(void);
-extern void func_0202EB04(struct CodeIn *p);
+extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 
 void func_021B92F0(struct S *p, u32 a1, u32 a2)
 {
     if (a2 < p->f5e)
         func_021B9280((u8 *)p, a2, (u16)(p->f40[p->f28[p->f62 + a2].a]->v >> 12));
     if (a1 < p->f5e && func_020355C4() == 0) {
-        func_0202EB04(p->f30);
+        BLINK_PALANM_ResetPhase(p->f30);
         func_021B9280((u8 *)p, a1, p->f11);
     }
 }

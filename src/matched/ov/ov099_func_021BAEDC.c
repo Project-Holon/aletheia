@@ -24,7 +24,7 @@
  *   func_021BDD48 0x021BDD48 thumb ov099
  *   func_021BDD54 0x021BDD54 thumb ov099
  *   func_021BB918 0x021BB918 thumb ov099
- *   func_02156A3C 0x02156A3C thumb ov009
+ *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   func_02009864 0x02009864 thumb
  *   func_020099E4 0x020099E4 thumb
  *   func_02045CAC 0x02045CAC arm
@@ -62,7 +62,7 @@ extern void func_02045808(struct U16Vec *);
 extern u8 func_021BDD48(int, struct S *);
 extern u8 func_021BDD54(int, struct S *);
 extern int func_021BB918(void *, u32, int *);
-extern int func_02156A3C(void);
+extern int DWC_RAP_GetTargetFriendIndex(void);
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern void func_020099E4(struct Sub020097BCObj *obj, int i, void *dest);
 extern void func_02045CAC(struct MsgBank *, u32, void *);
@@ -99,15 +99,15 @@ void func_021BAEDC(char *p)
     other = func_021BDD54((int)p, *(struct S **)(p + 8));
     n = func_021BB918((void *)kind, other, &unused);
     if (other == 4 && kind == 4) {
-        if (func_02156A3C() == -1) {
+        if (DWC_RAP_GetTargetFriendIndex() == -1) {
             func_02045CAC(*(struct MsgBank **)(p + 0xe0), n, *(void **)(p + 0xf0));
         } else {
-            v = func_02009864((const struct Sub020097BCObj *)(*(struct Friends **)(p + 4)), func_02156A3C(), 9);
+            v = func_02009864((const struct Sub020097BCObj *)(*(struct Friends **)(p + 4)), DWC_RAP_GetTargetFriendIndex(), 9);
             if (v == 0)
                 func_0201DD78(5, 6, 0);
             else if (v == 1)
                 func_0201DD78(3, 4, 0);
-            func_020099E4((struct Sub020097BCObj *)(*(struct Friends **)(p + 4)), func_02156A3C(), *(void **)(p + 0xf0));
+            func_020099E4((struct Sub020097BCObj *)(*(struct Friends **)(p + 4)), DWC_RAP_GetTargetFriendIndex(), *(void **)(p + 0xf0));
         }
     } else {
         func_02045CAC(*(struct MsgBank **)(p + 0xe0), n, *(void **)(p + 0xf0));

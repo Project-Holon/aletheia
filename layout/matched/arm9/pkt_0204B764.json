@@ -18,13 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0204B764",
-    "func_0204B784",
-    "func_0204B7C8"
+    "CLACT_GetActorPaletteProxy",
+    "CLACT_SetActorImageProxy",
+    "CLACT_GetActorImageProxy"
+   ],
+   "addresses": [
+    "0x0204B764",
+    "0x0204B784",
+    "0x0204B7C8"
    ]
   },
   {
-   "name": "func_0204B7F0",
+   "name": "CLACT_GetActorCharacterIndex",
    "address": "0x0204B7F0",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +41,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204B7F8",
+   "name": "CLACT_GetActorPaletteIndex",
    "address": "0x0204B7F8",
    "kind": "game",
    "region": "arm9",
@@ -48,7 +53,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204B800",
+   "name": "CLACT_SetActorDrawPriority",
    "address": "0x0204B800",
    "kind": "game",
    "region": "arm9",
@@ -60,7 +65,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204B838",
+   "name": "CLACT_GetActorDrawPriority",
    "address": "0x0204B838",
    "kind": "game",
    "region": "arm9",

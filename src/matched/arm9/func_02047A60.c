@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C      0x02146A5C  data
- *   g_02148B4C      0x02148B4C  data
- *   g_02148C08      0x02148C08  data
+ *   _G3dSystem      0x02146A5C  data
+ *   g_renderState      0x02148B4C  data
+ *   g_renderStateIdentityMtx      0x02148C08  data
  *   func_02047788   0x02047788  arm
  *   func_0204755C   0x0204755C  arm
- *   func_02047C8C   0x02047C8C  arm
- *   func_0206A9DC   0x0206A9DC  arm
- *   func_0206AA0C   0x0206AA0C  arm
+ *   G3D_SYSTEM_DrawRenderObj   0x02047C8C  arm
+ *   NNS_G3dGlbBaseTrans   0x0206A9DC  arm
+ *   NNS_G3dGlbBaseScale   0x0206AA0C  arm
  *   MI_Copy36B      0x02082B60  arm
  */
 
@@ -35,16 +35,16 @@ struct Arg {
 
 struct Ctx { u8 pad_00[0x88]; void (*f88)(void); };
 
-extern struct Ctx *g_02146A5C;
-extern u32 g_02148B4C[];
-extern u32 g_02148C08[];
+extern struct Ctx *_G3dSystem;
+extern u32 g_renderState[];
+extern u32 g_renderStateIdentityMtx[];
 
 extern int func_02047788(int *p);
 extern int func_0204755C(int *p);
 struct P02047C8C;
-extern void func_02047C8C(struct P02047C8C *p);
-extern void  func_0206A9DC(void *p);
-extern void  func_0206AA0C(VecFx32 *p);
+extern void G3D_SYSTEM_DrawRenderObj(struct P02047C8C *p);
+extern void  NNS_G3dGlbBaseTrans(void *p);
+extern void  NNS_G3dGlbBaseScale(VecFx32 *p);
 extern void  MI_Copy36B(const void *src, void *dst);
 
 void func_02047A60(void *a0, struct Arg *a1)
@@ -52,10 +52,10 @@ void func_02047A60(void *a0, struct Arg *a1)
     void *r;
 
     r = (void *)func_0204755C((int *)func_02047788(a0));
-    func_0206A9DC(a1);
-    MI_Copy36B(&a1->m18, g_02148C08);
-    g_02148B4C[63] = g_02148B4C[63] & ~0xa4u;
-    func_0206AA0C(&a1->v0c);
-    g_02146A5C->f88();
-    func_02047C8C(r);
+    NNS_G3dGlbBaseTrans(a1);
+    MI_Copy36B(&a1->m18, g_renderStateIdentityMtx);
+    g_renderState[63] = g_renderState[63] & ~0xa4u;
+    NNS_G3dGlbBaseScale(&a1->v0c);
+    _G3dSystem->f88();
+    G3D_SYSTEM_DrawRenderObj(r);
 }

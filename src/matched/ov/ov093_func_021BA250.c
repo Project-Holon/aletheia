@@ -14,7 +14,7 @@
  *   func_021B9940  0x021B9940  thumb  ov093
  *   func_021D5844  0x021D5844  thumb  ov093
  *   func_021B8714  0x021B8714  thumb  ov093
- *   func_0201B7B4  0x0201B7B4  thumb
+ *   NATSUKI_CalcUseItem  0x0201B7B4  thumb
  */
 #include "../include/Obj13284.h"
 #include "../include/Obj13285.h"
@@ -27,7 +27,7 @@ extern u8 func_021D5440(u8 *p);
 extern u8 *func_021B9940(char *, u8);
 extern void *func_021D5844(void *);
 extern char *func_021B8714(char **);
-extern void func_0201B7B4(void *, int, u16, u16);
+extern void NATSUKI_CalcUseItem(void *, int, u16, u16);
 
 void func_021BA250(char *p, u8 *a, int b)
 {
@@ -44,6 +44,6 @@ void func_021BA250(char *p, u8 *a, int b)
     xv = func_021D5844(x);
     yv = func_021D5844(y);
     q = func_021B8714((char **)p);
-    func_0201B7B4(xv, b, ((struct Obj13285 *)q)->fA, (((struct Obj13284 *)p)->f468 & 0x7fff) | 0x8000);
-    func_0201B7B4(yv, b, ((struct Obj13285 *)q)->fA, (((struct Obj13284 *)p)->f468 & 0x7fff) | 0x8000);
+    NATSUKI_CalcUseItem(xv, b, ((struct Obj13285 *)q)->fA, (((struct Obj13284 *)p)->f468 & 0x7fff) | 0x8000);
+    NATSUKI_CalcUseItem(yv, b, ((struct Obj13285 *)q)->fA, (((struct Obj13284 *)p)->f468 & 0x7fff) | 0x8000);
 }

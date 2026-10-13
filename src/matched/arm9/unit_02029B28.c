@@ -8,20 +8,23 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02029B28
+ * function: FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask
  *
  * Part of the (task body, task spawner) family that makes up the tail of
  * field_sound_system.c.  The spawner for the four state body at 0x020298E0, which sits far enough
  * away in the packet that the two cannot share a translation unit.
  *
- * What capped it: the ABS32 pool word naming func_020298E0 is the only
+ * What capped it: the ABS32 pool word naming FIELD_SOUND_SYSTEM_FadeOutAndResetTask is the only
  * reference to that address anywhere in the image, and a pool word is not a
  * branch, so the `label` class had no witness.  Wave 26 closed the chain
- * underneath it (func_02028D2C, func_02029F54, func_02029F60 ->
+ * underneath it (FIELD_SOUND_SYSTEM_DrainAndInit, RINGTONE_SYS_Start, RINGTONE_SYS_Stop ->
  * unit_02028A50 -> unit_020298E0), and the site now resolves `matched`.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02029B28.c  *       --addr 0x02029B28 --thumb
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_FadeOutAndResetTask  0x020298E0  thumb
  */
 
 typedef unsigned short u16;
@@ -37,7 +40,7 @@ struct Work {
 
 typedef u32 (*TaskFn)(void *task, u32 *state, struct Work *work);
 
-extern u32 func_020298E0(void *task, u32 *state, struct Work *work);
+extern u32 FIELD_SOUND_SYSTEM_FadeOutAndResetTask(void *task, u32 *state, struct Work *work);
 
 struct Ctx;
 struct Desc;
@@ -48,10 +51,10 @@ extern void *func_020124E8(struct Obj *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *a);
 
-void *func_02029B28(void *a, u16 b)
+void *FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask(void *a, u16 b)
 {
     void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_020298E0, 0x10);
+    void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_FadeOutAndResetTask, 0x10);
     struct Work *work = func_020124E8(task);
 
     work->unk00 = a;

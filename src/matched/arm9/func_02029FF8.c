@@ -1,5 +1,5 @@
 /*
- * function: func_02029FF8
+ * function: RINGTONE_SYS_StartRing
  * address:  0x02029FF8
  * packet:   pkt_02029F6C
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 extern int func_02006224(u32 a0);
 extern void func_0200616C(void *arg, int i);
 
-void func_02029FF8(u16 *p)
+void RINGTONE_SYS_StartRing(u16 *p)
 {
     if (func_02006224(4) == 0) {
         func_0200616C((void *)0x662, 4);

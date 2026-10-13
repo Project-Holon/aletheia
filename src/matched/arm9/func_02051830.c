@@ -1,5 +1,5 @@
 /*
- * function: func_02051830
+ * function: BUTTON_MAN_GetAlpha
  * address:  0x02051830
  * packet:   pkt_02051790
  * region:   arm9
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj16178.h"
 
-unsigned short func_02051830(char *p)
+unsigned short BUTTON_MAN_GetAlpha(char *p)
 {
     return ((struct Obj16178 *)p)->f70;
 }

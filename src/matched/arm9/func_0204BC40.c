@@ -1,5 +1,5 @@
 /*
- * function: func_0204BC40
+ * function: CLACT_UnlinkUnit
  * address:  0x0204BC40
  * packet:   pkt_0204B954
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A74   0x02146A74  data
+ *   g_ClactSystem   0x02146A74  data
  *
- * The inverse of src/matched/func_0204BBC8.c: unlink a cell-actor bank from
+ * The inverse of src/matched/CLACT_LinkUnit.c: unlink a cell-actor bank from
  * the singleton's ring at +0x100 and NULL both of its own links.  When the
  * bank being removed is the head, the head moves to its successor, or to
  * NULL when the bank was the only member.
@@ -28,8 +28,8 @@
  * twice and `bank->prev` twice.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BC40.c \
- *       --func func_0204BC40 --addr 0x0204BC40 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_UnlinkUnit.c \
+ *       --func CLACT_UnlinkUnit --addr 0x0204BC40 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Mgr.h"
@@ -42,15 +42,15 @@ struct Bank {
     struct Bank *prev;   /* 0x14 */
 };
 
-extern struct Mgr *g_02146A74;
+extern struct Mgr *g_ClactSystem;
 
-void func_0204BC40(struct Bank *bank)
+void CLACT_UnlinkUnit(struct Bank *bank)
 {
-    if (g_02146A74->head == bank) {
+    if (g_ClactSystem->head == bank) {
         if (bank->next == bank) {
-            g_02146A74->head = 0;
+            g_ClactSystem->head = 0;
         } else {
-            g_02146A74->head = bank->next;
+            g_ClactSystem->head = bank->next;
         }
     }
 

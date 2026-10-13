@@ -1,7 +1,7 @@
 /*
  * file:     unit_0217D3AC.c
  * unit:     yes
- * function: func_0217D3AC, func_0217D3F8, func_0217D448, func_0217D4D8, func_0217D508, func_0217D640, func_0217D750, func_0217D8E0, func_0217D904, func_0217DCA4, func_0217DE94, gsLargeIntPowerMod, func_0217E504, func_0217E7C4, func_0217E848, func_0217E934, func_0217E978, func_0217E9EC, func_0217EA58, func_0217EA64, func_0217EA70
+ * function: func_0217D3AC, gsiLargeIntTimerExit, gsiLargeIntCompare, gsiLargeIntStripLeadingZeroes, gsiLargeIntAdd, gsiLargeIntSub, gsiLargeIntMult, func_0217D8E0, func_0217D904, gsiLargeIntSubDivide, func_0217DE94, gsLargeIntPowerMod, func_0217E504, gsiLargeIntInverseMod, gsLargeIntSetFromHexString, func_0217E934, gsLargeIntAddToMD5, gsLargeIntGetByteLength, gsiMemoryMalloc, gsiMemoryFree, gsiMemoryRealloc
  * address:  0x0217D3AC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -17,7 +17,7 @@
  *   gTimers                          0x021ad064 data
  *   func_0217D3AC  0x0217D3AC  arm  ov009
  *   func_02092344  0x02092344  arm
- *   func_0217D3F8  0x0217D3F8  arm  ov009
+ *   gsiLargeIntTimerExit  0x0217D3F8  arm  ov009
  *   memcpy                         0x02092344  arm
  *   memset                         0x020923B0  arm
  *   _ll_udiv                       0x0209C00C  arm
@@ -62,7 +62,7 @@ typedef unsigned char  u8;
 
 extern unsigned int current_time_hires(void);
 extern void func_0217D3AC(int id);
-extern void func_0217D3F8(int id);
+extern void gsiLargeIntTimerExit(int id);
 extern void *func_02092344(void *dst, const void *src, u32 n);
 extern gsi_i32 gsiLargeIntCompare(const l_word *data1, l_word len1,
                                   const l_word *data2, l_word len2);
@@ -78,16 +78,16 @@ extern int func_0209477C(const u8 *s);
 extern int func_0208CF34(const char *src, const char *fmt, ...);
 extern int gsLargeIntReverseBytes(gsLargeInt_t * lint);
 extern void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int inputLen);
-int func_0217D448(const u32 *a, u32 n, const u32 *b, u32 m);
-int func_0217D508(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u32 *lenout, u32 maxlen);
-int func_0217D640(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u32 *lenout);
+int gsiLargeIntCompare(const u32 *a, u32 n, const u32 *b, u32 m);
+int gsiLargeIntAdd(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u32 *lenout, u32 maxlen);
+int gsiLargeIntSub(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u32 *lenout);
 gsi_bool func_0217D8E0(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder);
 int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLargeInt_t *dest, gsLargeInt_t *remainder);
 int func_0217DE94(const gsLargeInt_t *lint, gsLargeInt_t *mod, gsLargeInt_t *dest);
 int gsLargeIntPowerMod(gsLargeInt_t *b, gsLargeInt_t *p, gsLargeInt_t *m, gsLargeInt_t *dest);
 int func_0217E504(gsLargeInt_t *x, gsLargeInt_t *y, const gsLargeInt_t *m, unsigned int modPrime, gsLargeInt_t *dest);
-int func_0217E7C4(gsLargeInt_t *mod, unsigned int *dest);
-int func_0217E848(gsLargeInt_t *lint, char *hexstream);
+int gsiLargeIntInverseMod(gsLargeInt_t *mod, unsigned int *dest);
+int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream);
 int func_0217E934(char *p);
 void gsLargeIntAddToMD5(gsLargeInt_t * _lint, struct GSMD5_CTX * md5);
 unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint);
@@ -97,9 +97,9 @@ extern char g_021A3720[];
 extern void *func_020913D0(unsigned long heap);
 extern void func_020913E8(void *p);
 extern void *func_020913FC(unsigned long a0, unsigned long a1);
-void *func_0217EA58(unsigned long size);
-void func_0217EA64(void *p);
-void *func_0217EA70(unsigned long block, unsigned long size);
+void *gsiMemoryMalloc(unsigned long size);
+void gsiMemoryFree(void *p);
+void *gsiMemoryRealloc(unsigned long block, unsigned long size);
 
 
 
@@ -144,7 +144,7 @@ static void gsiLargeIntTimerExit(int id)
  * first, then the trimmed lengths decide, then the limbs are walked from the
  * top.  -1 / 1 / 0 as usual.
  */
-int func_0217D448(const u32 *a, u32 n, const u32 *b, u32 m)
+int gsiLargeIntCompare(const u32 *a, u32 n, const u32 *b, u32 m)
 {
     while (a[n - 1] == 0 && n != 0)
         n--;
@@ -186,7 +186,7 @@ static int gsiLargeIntStripLeadingZeroes(gsLargeInt_t * lint)
 /*
  * sdk:      gsiLargeIntAdd (libdwcgscommon.TWL.HYB.a(gslargeint.o))
  */
-int func_0217D508(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u32 *lenout, u32 maxlen)
+int gsiLargeIntAdd(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u32 *lenout, u32 maxlen)
 {
     u64 carry;
     u32 i;
@@ -234,7 +234,7 @@ int func_0217D508(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u
         i = longerLen;
     }
     *lenout = i;
-    func_0217D3F8(3);
+    gsiLargeIntTimerExit(3);
     return carry == 0;
 }
 
@@ -246,7 +246,7 @@ int func_0217D508(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u
 /*
  * sdk:      gsiLargeIntSub (libdwcgscommon.TWL.HYB.a(gslargeint.o))
  */
-int func_0217D640(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u32 *lenout)
+int gsiLargeIntSub(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u32 *lenout)
 {
     u64 borrow = 0;
     u32 i;
@@ -265,17 +265,17 @@ int func_0217D640(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u32
         borrow = (borrow >> 63);
     }
     if (borrow != 0) {
-        func_0217D3F8(4);
+        gsiLargeIntTimerExit(4);
         return 0;
     }
     for (; i < length1; i++) {
         if (src1[i] != 0) {
-            func_0217D3F8(4);
+            gsiLargeIntTimerExit(4);
             return 0;
         }
     }
     *lenout = length2;
-    func_0217D3F8(4);
+    gsiLargeIntTimerExit(4);
     return 1;
 }
 
@@ -286,7 +286,7 @@ int func_0217D640(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u32
 /*
  * sdk:      gsiLargeIntMult (gslargeint.o)
  */
-static int func_0217D750(unsigned int *data1, unsigned int length1,
+static int gsiLargeIntMult(unsigned int *data1, unsigned int length1,
                          unsigned int *data2, unsigned int length2,
                          unsigned int *dest, unsigned int *lenout,
                          unsigned int maxlen)
@@ -307,7 +307,7 @@ static int func_0217D750(unsigned int *data1, unsigned int length1,
             carry = (unsigned long long)data1[k] * data2[i];
             digit = i + k;
             if (digit >= maxlen) {
-                func_0217D3F8(0);
+                gsiLargeIntTimerExit(0);
                 return 0;
             }
             while (carry != 0) {
@@ -316,7 +316,7 @@ static int func_0217D750(unsigned int *data1, unsigned int length1,
                 carry >>= 32;
                 digit++;
                 if (digit > maxlen || (digit == maxlen && carry != 0)) {
-                    func_0217D3F8(0);
+                    gsiLargeIntTimerExit(0);
                     return 0;
                 }
             }
@@ -330,7 +330,7 @@ static int func_0217D750(unsigned int *data1, unsigned int length1,
 
     *lenout = temp.mLength;
     memcpy(dest, temp.mData, *lenout * 4);
-    func_0217D3F8(0);
+    gsiLargeIntTimerExit(0);
     return 1;
 }
 
@@ -392,21 +392,21 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
             remainder->mData[0] = 0;
             remainder->mLength = 0;
         }
-        func_0217D3F8(5);
+        gsiLargeIntTimerExit(5);
         if (divisorLen == 0)
             return 0;
         else
             return 1;
     }
 
-    if (func_0217D448(scopy, scopyLen, divisorData, divisorLen) == -1) {
+    if (gsiLargeIntCompare(scopy, scopyLen, divisorData, divisorLen) == -1) {
         if (dest) {
             dest->mLength = 0;
             dest->mData[0] = 0;
         }
         remainder->mLength = scopyLen;
         memcpy(remainder->mData, scopy, scopyLen * sizeof(unsigned int));
-        func_0217D3F8(5);
+        gsiLargeIntTimerExit(5);
         return 1;
     }
 
@@ -417,7 +417,7 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
         while ((w & (1 << divisorHighBit)) == 0 && divisorHighBit >= 0)
             divisorHighBit--;
         if (divisorHighBit == -1) {
-            func_0217D3F8(5);
+            gsiLargeIntTimerExit(5);
             return 0;
         }
         divisorHighBit += dlen * 32;
@@ -427,7 +427,7 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
     readLength = (int)divisorLen;
 
     do {
-        result = func_0217D448(&scopy[readIndex], (unsigned int)readLength, divisorData, divisorLen);
+        result = gsiLargeIntCompare(&scopy[readIndex], (unsigned int)readLength, divisorData, divisorLen);
         if (result == -1) {
             if (readIndex > 0) {
                 readIndex--;
@@ -446,8 +446,8 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
                 endLoop = 1;
         } else {
             unsigned int quotientTemp = 0;
-            if (func_0217DCA4(&scopy[readIndex], (unsigned int)readLength, (unsigned int *)divisorData, divisorLen, (unsigned int)divisorHighBit, &quotientTemp) == 0) {
-                func_0217D3F8(5);
+            if (gsiLargeIntSubDivide(&scopy[readIndex], (unsigned int)readLength, (unsigned int *)divisorData, divisorLen, (unsigned int)divisorHighBit, &quotientTemp) == 0) {
+                gsiLargeIntTimerExit(5);
                 return 0;
             }
             quotient.mData[readIndex] = (unsigned int)(quotient.mData[readIndex] + quotientTemp);
@@ -472,7 +472,7 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
         memcpy(dest->mData, quotient.mData, quotient.mLength * sizeof(unsigned int));
         dest->mLength = quotient.mLength;
     }
-    func_0217D3F8(5);
+    gsiLargeIntTimerExit(5);
     return 1;
 }
 
@@ -489,7 +489,7 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
  * quotientCopy is zeroed after the division, so it is declared in an inner
  * block (C99) after the division.
  */
-static int func_0217DCA4(unsigned int *src, unsigned int length,
+static int gsiLargeIntSubDivide(unsigned int *src, unsigned int length,
                          unsigned int *divisor, unsigned int dlen,
                          int divisorHighBit, unsigned int *quotient)
 {
@@ -516,22 +516,22 @@ static int func_0217DCA4(unsigned int *src, unsigned int length,
     }
     quotientCopy.mLength = 1;
 
-    if (!func_0217D750(divisor, dlen, quotientCopy.mData, quotientCopy.mLength,
+    if (!gsiLargeIntMult(divisor, dlen, quotientCopy.mData, quotientCopy.mLength,
                        temp.mData, &temp.mLength, 64)) {
-        func_0217D3F8(6);
+        gsiLargeIntTimerExit(6);
         return 0;
     }
-    while (func_0217D448(temp.mData, temp.mLength, src, length) == 1) {
+    while (gsiLargeIntCompare(temp.mData, temp.mLength, src, length) == 1) {
         quotientCopy.mData[0] >>= 1;
-        if (!func_0217D750(divisor, dlen, quotientCopy.mData, quotientCopy.mLength,
+        if (!gsiLargeIntMult(divisor, dlen, quotientCopy.mData, quotientCopy.mLength,
                            temp.mData, &temp.mLength, 64)) {
-            func_0217D3F8(6);
+            gsiLargeIntTimerExit(6);
             return 0;
         }
     }
-    func_0217D640(temp.mData, temp.mLength, src, length, src, &length);
+    gsiLargeIntSub(temp.mData, temp.mLength, src, length, src, &length);
     *quotient = quotientCopy.mData[0];
-    func_0217D3F8(6);
+    gsiLargeIntTimerExit(6);
     return 1;
     }
 }
@@ -590,9 +590,9 @@ int func_0217DE94(const gsLargeInt_t *lint, gsLargeInt_t *mod,
     }
 
     squareLen = (unsigned int)(len * 2);
-    func_0217D508(otherSums, squareLen, squareSums, squareLen, squareSums, &squareLen, 128);
+    gsiLargeIntAdd(otherSums, squareLen, squareSums, squareLen, squareSums, &squareLen, 128);
     result = func_0217D904(squareSums, squareLen, mod, 0, dest);
-    func_0217D3F8(7);
+    gsiLargeIntTimerExit(7);
     return result;
     }
 }
@@ -747,7 +747,7 @@ int func_0217E504(gsLargeInt_t *x, gsLargeInt_t *y,
     unsigned long long carry;
     unsigned int mi;
 
-    if (!func_0217D750(x->mData, x->mLength, y->mData, y->mLength, temp, &tempLen, 128))
+    if (!gsiLargeIntMult(x->mData, x->mLength, y->mData, y->mLength, temp, &tempLen, 128))
         return 0;
 
     lasttnptr = &temp[m->mLength - 1];
@@ -780,8 +780,8 @@ int func_0217E504(gsLargeInt_t *x, gsLargeInt_t *y,
     }
 
     tiptr = &temp[logB_r];
-    if (func_0217D448(tiptr, tempLen - logB_r, m->mData, m->mLength) != -1) {
-        if (!func_0217D640((u32 *)m->mData, m->mLength, (u32 *)tiptr, tempLen - logB_r, dest->mData, &dest->mLength)) {
+    if (gsiLargeIntCompare(tiptr, tempLen - logB_r, m->mData, m->mLength) != -1) {
+        if (!gsiLargeIntSub((u32 *)m->mData, m->mLength, (u32 *)tiptr, tempLen - logB_r, dest->mData, &dest->mLength)) {
             __builtin__clear(temp, sizeof(temp));
             memset(dest, 0, sizeof(gsLargeInt_t));
             return 0;
@@ -801,7 +801,7 @@ int func_0217E504(gsLargeInt_t *x, gsLargeInt_t *y,
 /*
  * sdk:      gsiLargeIntInverseMod (gslargeint.o)
  */
-int func_0217E7C4(gsLargeInt_t *mod, unsigned int *dest)
+int gsiLargeIntInverseMod(gsLargeInt_t *mod, unsigned int *dest)
 {
     unsigned long long x = 2;
     unsigned long long y = 1;
@@ -823,7 +823,7 @@ int func_0217E7C4(gsLargeInt_t *mod, unsigned int *dest)
 /*
  * sdk:      gsLargeIntSetFromHexString (gslargeint.o)
  */
-int func_0217E848(gsLargeInt_t *lint, char *hexstream)
+int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream)
 {
     unsigned int *writePos = lint->mData;
     unsigned int temp;
@@ -932,17 +932,17 @@ unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint)
     return byteSize;
 }
 
-void *func_0217EA58(unsigned long size)
+void *gsiMemoryMalloc(unsigned long size)
 {
     return func_020913D0(size);
 }
 
-void func_0217EA64(void *p)
+void gsiMemoryFree(void *p)
 {
     func_020913E8(p);
 }
 
-void *func_0217EA70(unsigned long block, unsigned long size)
+void *gsiMemoryRealloc(unsigned long block, unsigned long size)
 {
     return func_020913FC(block, size);
 }

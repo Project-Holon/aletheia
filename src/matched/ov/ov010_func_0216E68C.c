@@ -17,27 +17,27 @@
  * matched file: 0x0201313C (`return bs->party[side]`, 8 bytes) and
  * 0x0202E818 (16 bytes). Seeds for the arm9 lane.
  *
- * 2026-10-05: byte-identical; the two wildcards resolve once shards exist for arm9 func_0201313C (matched file exists, no shard) and func_0202E818 (new matched/arm9 file, EXACT, this lane).
+ * 2026-10-05: byte-identical; the two wildcards resolve once shards exist for arm9 BTL_SETUP_GetParty (matched file exists, no shard) and COMM_PLAYER_SUPPORT_HasSavedMode (new matched/arm9 file, EXACT, this lane).
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_0216F02C  0x0216F02C  thumb  ov010
- *   func_0201313C  0x0201313C  thumb
+ *   BTL_SETUP_GetParty  0x0201313C  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_0201210C  0x0201210C  thumb
  *   func_021CF5D8  0x021CF5D8  thumb
  *   func_02012374  0x02012374  thumb
  *   func_02012F20  0x02012F20  thumb
- *   func_0202E79C  0x0202E79C  thumb
+ *   COMM_PLAYER_SUPPORT_Init  0x0202E79C  thumb
  *   func_02012A44  0x02012A44  thumb
  *   func_0216EFA8  0x0216EFA8  thumb  ov010
  *   func_0215F6E8  0x0215F6E8  thumb  ov010
  *   func_0201235C  0x0201235C  thumb
  *   func_021BE92C  0x021BE92C  thumb
- *   func_0202E818  0x0202E818  thumb
+ *   COMM_PLAYER_SUPPORT_HasSavedMode  0x0202E818  thumb
  *   func_02181D8C  0x02181D8C  thumb
  *   func_0216EB98  0x0216EB98  thumb  ov010
  */
@@ -84,20 +84,20 @@ extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_0216F02C(void **p, void *a, void *b);
-extern void *func_0201313C(void *p, int i);
+extern void *BTL_SETUP_GetParty(void *p, int i);
 extern void *func_0201AB28(void *party, u32 i);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void *func_0201210C(const struct Ctx *p);
 extern void func_021CF5D8(u32 species, u32 a, u32 b, void *c, u32 *d, void *e);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_02012F20(int p0);
-extern void func_0202E79C(u8 *p);
+extern void COMM_PLAYER_SUPPORT_Init(u8 *p);
 extern u32 func_02012A44(const struct BigObj *p);
 extern int func_0216EFA8(int a, int b);
 extern void *func_0215F6E8(void *sys);
 extern void func_0201235C(struct S0201235C *o, u32 *out);
 extern void *func_021BE92C(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern int func_0202E818(int *p);
+extern int COMM_PLAYER_SUPPORT_HasSavedMode(int *p);
 extern void *func_02181D8C(void *sys, u32 v);
 extern int func_0216EB98(void *evt, u32 *state, struct Work *w);
 
@@ -117,7 +117,7 @@ int func_0216E68C(void *evt, u32 *state, Work *w)
         func_0216F02C((void **)t, sys, w->bs);
         flag = 1;
         t->f14 = 1;
-        species = func_02017E1C(func_0201AB28(func_0201313C(w->bs, 1), 0), 5, 0);
+        species = func_02017E1C(func_0201AB28(BTL_SETUP_GetParty(w->bs, 1), 0), 5, 0);
         {
             void *proc = func_0201210C(sys);
 
@@ -130,11 +130,11 @@ int func_0216E68C(void *evt, u32 *state, Work *w)
         break;
     case 1:
         if (w->f08 == 1) {
-            func_0202E79C((void *)func_02012F20((int)ctx));
+            COMM_PLAYER_SUPPORT_Init((void *)func_02012F20((int)ctx));
             return 1;
         }
         if (func_0216EFA8(func_02012A44(ctx), 0) == 1) {
-            func_0202E79C((void *)func_02012F20((int)ctx));
+            COMM_PLAYER_SUPPORT_Init((void *)func_02012F20((int)ctx));
             func_0201235C(evt, func_0215F6E8(sys));
         } else {
             func_02012374(evt, func_021BE92C(sys, func_0201210C(sys), 0, 0, 1, 0, 0));
@@ -142,12 +142,12 @@ int func_0216E68C(void *evt, u32 *state, Work *w)
         (*state)++;
         break;
     case 2:
-        if (func_0202E818((void *)func_02012F20((int)ctx)) == 1)
+        if (COMM_PLAYER_SUPPORT_HasSavedMode((void *)func_02012F20((int)ctx)) == 1)
             func_02012374(evt, func_02181D8C(sys, 4));
         (*state)++;
         break;
     case 3:
-        func_0202E79C((void *)func_02012F20((int)ctx));
+        COMM_PLAYER_SUPPORT_Init((void *)func_02012F20((int)ctx));
         return 1;
     }
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02165DCC
+ * function: WcmAllocApList
  * address:  0x02165DCC
  * packet:   pkt_ov009_02165DCC
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      WcmAllocApList (aplist.o)
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  */
 
 struct WCMApList {
@@ -38,9 +38,9 @@ struct WCMWork {
         unsigned long nbdmode;
     } config;
 };
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 
-struct WCMApList *func_02165DCC(void)
+struct WCMApList *WcmAllocApList(void)
 {
     unsigned long maxBlock;
     long i;
@@ -49,7 +49,7 @@ struct WCMApList *func_02165DCC(void)
     struct WCMApListHeader *pHeader;
     struct WCMWork *w;
 
-    w = (struct WCMWork *)func_021657C8();
+    w = (struct WCMWork *)WCMi_GetSystemWork();
     pHeader = (struct WCMApListHeader *)w->config.pbdbuffer;
     p = 0;
 

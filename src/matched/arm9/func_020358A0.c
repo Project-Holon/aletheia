@@ -1,5 +1,5 @@
 /*
- * function: func_020358A0
+ * function: TOUCHPANEL_MainSys
  * address:  0x020358A0
  * packet:   pkt_020358A0
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035750  0x02035750  arm
+ *   TOUCHPANEL_GetWork  0x02035750  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_0208AB1C  0x0208AB1C  arm
  *   func_0208ABB8  0x0208ABB8  arm
@@ -23,7 +23,7 @@
  * latch bookkeeping over the halfword block at +0x5c..+0x72.
  *
  * Bit 15 of the halfword at 0x02FFFFA8 is the lid-closed flag, the same
- * hardware address src/matched/sub_0203545C.c reads; it is a cast constant,
+ * hardware address src/matched/UI_ServiceLidSleep.c reads; it is a cast constant,
  * not a relocation (docs/idioms/volatile-reread-needs-two-locals.md).  When
  * it is set the whole 0x7c-byte object is cleared and the pass returns.
  *
@@ -42,7 +42,7 @@
  *     copied into `w`.  Initialising `w` from the call directly, or declaring
  *     `sio` before `w`, swaps r4 and r5 through the whole body; the extra
  *     copy is what splits the live range so that the loop counter keeps r4.
- *     The permuter found this as `temp(tmp=func_02035750(ctx))`.
+ *     The permuter found this as `temp(tmp=TOUCHPANEL_GetWork(ctx))`.
  *
  * The `% 2 == 0` tail test compiles to the lsr/rsb/adds triple at +0x168,
  * the signed-remainder-by-two idiom on a signed char field.
@@ -50,8 +50,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020358A0.c \
- *       --func func_020358A0 --addr 0x020358A0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TOUCHPANEL_MainSys.c \
+ *       --func TOUCHPANEL_MainSys --addr 0x020358A0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -88,7 +88,7 @@ struct Samp {
     u16 t;
 };
 
-extern int func_02035750(void);
+extern int TOUCHPANEL_GetWork(void);
 extern void func_02082BCC(void *dst, u32 val, u32 size);
 extern void func_0208AB1C(void);
 struct TPData;
@@ -96,14 +96,14 @@ extern u32 func_0208ABB8(struct TPData *result);
 extern void func_0208ADB4(struct TPData *result);
 extern void func_0208B104(struct TPData *disp, const struct TPData *raw);
 
-void func_020358A0(struct Tp *ctx)
+void TOUCHPANEL_MainSys(struct Tp *ctx)
 {
     struct Samp raw;
     struct Samp cal;
     struct Work *w;
     u32 done = 0;
     u32 n;
-    struct Work *sio = (struct Work *)func_02035750();
+    struct Work *sio = (struct Work *)TOUCHPANEL_GetWork();
 
     w = sio;
     if (w == 0) {

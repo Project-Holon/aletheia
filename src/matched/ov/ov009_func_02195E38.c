@@ -1,5 +1,5 @@
 /*
- * function: func_02195E38
+ * function: gt2GetLocalIP
  * address:  0x02195E38
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Word at +4.
  */
 
-int func_02195E38(const int *p)
+int gt2GetLocalIP(const int *p)
 {
     return p[1];
 }

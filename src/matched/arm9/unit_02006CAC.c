@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02006CAC
+ * function: PM_VOICE_GetPerapVoiceSave
  *
  * symbols:
  *   func_020070A4  0x020070A4  thumb
@@ -26,7 +26,7 @@
  * getter and never reads r0.  The incoming r0 here is only saved into r4 and
  * used as the destination of the store, so the call is nested rather than
  * sequenced, and the result of func_02007B44 is written through the argument.
- * func_02007B44 is `sub_020071CC(sys, 0x24)` in src/matched/unit_02007AC8.c,
+ * func_02007B44 is `SAVE_CONTROL_GetBlock(sys, 0x24)` in src/matched/unit_02007AC8.c,
  * the save block lookup, so what this writes is a pointer to save block 0x24.
  */
 
@@ -35,7 +35,7 @@ struct Sub02007AC8Entry;
 extern struct Sub02007084Ctrl *func_020070A4(void);
 extern struct Sub02007AC8Entry *func_02007B44(void *sys);
 
-void sub_02006CAC(void **out)
+void PM_VOICE_GetPerapVoiceSave(void **out)
 {
     *out = func_02007B44(func_020070A4());
 }

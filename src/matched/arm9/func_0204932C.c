@@ -14,8 +14,8 @@
  *   func_02034734      0x02034734  arm
  *   func_02078B44      0x02078B44  arm
  *   func_02078B70      0x02078B70  arm
- *   func_0204932C_File 0x020A7EE0  data
- *   func_0204932C_Msg  0x020A7F18  data
+ *   arc_tool_file 0x020A7EE0  data
+ *   arc_tool_msg_member_bounds  0x020A7F18  data
  *
  * Read one archive member straight into a caller-supplied buffer: the
  * allocating variant is func_02049250 one function above, and the FAT
@@ -40,8 +40,8 @@ struct ArcFile {
     u16 count;
 };
 
-extern const char func_0204932C_File[];
-extern const char func_0204932C_Msg[];
+extern const char arc_tool_file[];
+extern const char arc_tool_msg_member_bounds[];
 
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
 typedef signed int     s32;
@@ -54,7 +54,7 @@ void func_0204932C(struct ArcFile *arc, u32 member, void *dst)
     u32 range[2];
 
     if (arc->count <= member) {
-        func_02034734(func_0204932C_File, 642, func_0204932C_Msg,
+        func_02034734(arc_tool_file, 642, arc_tool_msg_member_bounds,
                       arc->count, member);
     }
 

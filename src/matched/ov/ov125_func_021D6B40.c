@@ -41,10 +41,10 @@
  *   func_021B99F4  0x021B99F4  thumb  ov114
  *   func_021B9A14  0x021B9A14  thumb  ov114
  *   func_0200853C  0x0200853C  thumb
- *   func_02045F5C  0x02045F5C  arm
- *   func_0200B784  0x0200B784  thumb
- *   func_0200B91C  0x0200B91C  thumb
- *   func_0200BA44  0x0200BA44  thumb
+ *   MSGDATA_ReadUnits  0x02045F5C  arm
+ *   BATTLE_REC_GetModeLayout  0x0200B784  thumb
+ *   BATTLE_REC_GetBody  0x0200B91C  thumb
+ *   BATTLE_REC_SetBodyCrc  0x0200BA44  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   d_021D8D28  0x021D8D28  data a4
@@ -90,12 +90,12 @@ extern u32 func_021B99F4(u32 p, u32 i);
 extern u8 *func_021B9A14(u8 *p, u32 i);
 extern void func_02082D44(const void *, void *, u32);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
-extern void func_0200B784(u16, int *, int *);
-extern u8 *func_0200B91C(void);
-extern void func_0200BA44(struct RecC4 *p);
+extern void BATTLE_REC_GetModeLayout(u16, int *, int *);
+extern u8 *BATTLE_REC_GetBody(void);
+extern void BATTLE_REC_SetBodyCrc(struct RecC4 *p);
 extern u8 *func_02012944(void *p);
 extern void *func_02012EBC(struct Big *p);
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
@@ -134,7 +134,7 @@ int func_021D6B40(u8 *p, int *done)
                 func_02034714(d_021D8D28, ret, d_021D8D28);
             OBJ = func_021B9800((u16)W(0x13c), func_0200853C((const struct Sub0200852CObj *)func_02012944((void *)W(0))), W(0x494));
             func_021B98A0(OBJ, (u16)W(0x13c), 0x540, 3);
-            func_0200B784(*(u16 *)(base + 0xa6), &n, &m);
+            BATTLE_REC_GetModeLayout(*(u16 *)(base + 0xa6), &n, &m);
             B(0x490) = 0;
             for (i = 0; i < n; i++) {
                 func_021B98D8(OBJ, (int)(base + 0xd00 + i * 0x2a4), *(u16 *)(base + i * 0x2a4 + 0xcfe) * 0x70);
@@ -175,7 +175,7 @@ int func_021D6B40(u8 *p, int *done)
                     base2 = func_021D7700();
                     if (B(0x403) == 1)
                         B(0x492) = 1;
-                    func_0200B784(*(u16 *)(base2 + 0xa6), &n2, &m2);
+                    BATTLE_REC_GetModeLayout(*(u16 *)(base2 + 0xa6), &n2, &m2);
                     for (i = 0; i < B(0x490); i++) {
                         W(0x48c) = func_021B99F4((u32)h, i);
                         if (W(0x48c) != 0 && B(0x403) == 0) {
@@ -183,13 +183,13 @@ int func_021D6B40(u8 *p, int *done)
                                 break;
                             {
                                 char *e = base2 + 0xd00 + idx * 0x2a4 + sub * 0x70;
-                                func_02045F5C(d_020A7370, *(u16 *)(e + 6), (u16 *)(e + 0x32), 11);
+                                MSGDATA_ReadUnits(d_020A7370, *(u16 *)(e + 6), (u16 *)(e + 0x32), 11);
                             }
                             W(0x5a0) = 1;
                         }
                     }
                     if (B(0x403) == 0) {
-                        func_0200BA44((struct RecC4 *)func_0200B91C());
+                        BATTLE_REC_SetBodyCrc((struct RecC4 *)BATTLE_REC_GetBody());
                         B(0x402) = 0;
                         B(0x403)++;
                     } else {

@@ -1,5 +1,5 @@
 /*
- * function: func_02026D88
+ * function: GAME_BEACON_BuildMyInfo
  * address:  0x02026D88
  * packet:   pkt_02026D88
  * region:   arm9
@@ -48,11 +48,11 @@
  *   func_0200E3A0    0x0200E3A0  thumb
  *   MI_CpuCopy8      0x02082D44  arm
  *   func_0200E6FC    0x0200E6FC  thumb
- *   func_020274B4    0x020274B4  thumb
+ *   GAME_BEACON_SetMyPms    0x020274B4  thumb
  *   func_02045A98    0x02045A98  arm
  *   func_020084F4    0x020084F4  thumb
  *   func_0200C1F4    0x0200C1F4  thumb
- *   func_0202744C    0x0202744C  thumb
+ *   GAME_BEACON_ResetDetails    0x0202744C  thumb
  */
 #include "../include/Obj15760.h"
 typedef signed short   s16;
@@ -138,13 +138,13 @@ extern void *func_0200E394(void *p);
 extern void *func_0200E3A0(void *p);
 extern void  MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-extern void func_020274B4(u32 a0);
+extern void GAME_BEACON_SetMyPms(u32 a0);
 extern u16   func_02045A98(void);
 extern u16  *func_020084F4(void *p);
 extern u16 *func_0200C1F4(struct Blk34 *p);
-extern void func_0202744C(void *dst);
+extern void GAME_BEACON_ResetDetails(void *dst);
 
-void func_02026D88(struct Rec *o, void *sys)
+void GAME_BEACON_BuildMyInfo(struct Rec *o, void *sys)
 {
     void *save;
     void *tbl;
@@ -190,7 +190,7 @@ void func_02026D88(struct Rec *o, void *sys)
     o->f0chi = func_02008650(st);
     MI_CpuCopy8(func_0200E3A0(func_0200E394(save)), o->f50, 10);
     func_0200E6FC(bag, 0, (struct Rec0200E6FC *)(&src));
-    func_020274B4((u32)(&src));
+    GAME_BEACON_SetMyPms((u32)(&src));
     v = func_02045A98();
     q = func_020084F4(prof);
     for (i = 0; i < 7; i++) {
@@ -204,6 +204,6 @@ void func_02026D88(struct Rec *o, void *sys)
         if (v == q[i])
             break;
     }
-    func_0202744C(o);
+    GAME_BEACON_ResetDetails(o);
     o->f30 = 0;
 }

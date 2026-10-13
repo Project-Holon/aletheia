@@ -13,7 +13,7 @@
  * poke_tool.c: "teach this move if there is room".  sub_02018094 unlocks the
  * record, walks the four move slots (ids 0x36 to 0x39 of the getter
  * func_02017E88), and writes the move into the first empty one through
- * func_020181FC (src/matched/unit_020181A0.c), locking again on the way out.
+ * POKE_TOOL_SetBoxMoveSlot (src/matched/unit_020181A0.c), locking again on the way out.
  * It answers with the move it wrote, 0xFFFE if the record already knows it,
  * and 0xFFFF if all four slots are full; sub_0201808C is a bare tail call to
  * it under a second name (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
@@ -32,6 +32,9 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201808C.c \
  *       --addr 0x0201808C --thumb
+ *
+ * symbols:
+ *   POKE_TOOL_SetBoxMoveSlot  0x020181FC  thumb
  */
 
 typedef unsigned char  u8;
@@ -43,7 +46,7 @@ struct Sav;
 extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
-extern void func_020181FC(void *p, u32 move, u8 slot);
+extern void POKE_TOOL_SetBoxMoveSlot(void *p, u32 move, u8 slot);
 
 u32 sub_02018094(void *p, u32 move);
 
@@ -62,7 +65,7 @@ u32 sub_02018094(void *p, u32 move)
         u16 cur = (u16)func_02017E88(p, (u32)(0x36 + i), 0);
 
         if (cur == 0) {
-            func_020181FC(p, move, (u8)i);
+            POKE_TOOL_SetBoxMoveSlot(p, move, (u8)i);
             r = move;
             break;
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_0203D060
+ * function: GFL_NET_StartChangeoverEx
  * address:  0x0203D060
  * packet:   pkt_0203CF5C
  * region:   arm9
@@ -22,13 +22,17 @@
  *            caller, address outside this packet)
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
+ *   _pNetState     0x021469DC  data
+ *   GFL_NET_STATE_StartChangeover  0x0203BA98  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_IRC_WIRELESS_IsActive  0x0203DA4C  arm
+ *   GFL_NET_IRC_WIRELESS_SetCallbacks  0x0203DA7C  arm
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D060.c \
- *       --func func_0203D060 --addr 0x0203D060 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_StartChangeoverEx.c \
+ *       --func GFL_NET_StartChangeoverEx --addr 0x0203D060 --cc 1.1p1 --arm
  */
 #include "../include/Obj15978.h"
 
@@ -37,18 +41,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern void *func_0203D788(void);
-extern int func_0203DA4C(void);
-extern void *func_0203DA7C(void *a0, void *a1, void *a2);
-extern void func_0203BA98(u16 a0, u32 a1, u8 a2);
+extern void *GFL_NET_GetSession(void);
+extern int GFL_NET_IRC_WIRELESS_IsActive(void);
+extern void *GFL_NET_IRC_WIRELESS_SetCallbacks(void *a0, void *a1, void *a2);
+extern void GFL_NET_STATE_StartChangeover(u16 a0, u32 a1, u8 a2);
 
-void func_0203D060(u32 a, u32 b, u32 c)
+void GFL_NET_StartChangeoverEx(u32 a, u32 b, u32 c)
 {
-    u8 *s = func_0203D788();
+    u8 *s = GFL_NET_GetSession();
     u32 v = a;
 
-    if (func_0203DA4C() == 1)
-        v = (u32)func_0203DA7C((void *)a, (void *)b, (void *)c);
+    if (GFL_NET_IRC_WIRELESS_IsActive() == 1)
+        v = (u32)GFL_NET_IRC_WIRELESS_SetCallbacks((void *)a, (void *)b, (void *)c);
 
-    func_0203BA98(((struct Obj15978 *)s)->f56, v, 1);
+    GFL_NET_STATE_StartChangeover(((struct Obj15978 *)s)->f56, v, 1);
 }

@@ -13,9 +13,9 @@
  * "Is the name in substruct C still the species' default name": it renders the
  * species name for substruct A's species id into the shared 0x20 halfword
  * buffer at 0x021462F0 and compares it with substruct C's own name, returning
- * 1 when they are equal.  func_02019388 (src/matched/sub_02019388.c) calls it
+ * 1 when they are equal.  POKE_TOOL_SetBoxValueRaw (src/matched/POKE_TOOL_SetBoxValueRaw.c) calls it
  * from ids 0x73 and 0x74 and stores the result in substruct B +0x10 bit 31,
- * which is the bit func_02018E34 reads back as id 0x75.  Those two calls are
+ * which is the bit POKE_TOOL_GetBoxValueRaw reads back as id 0x75.  Those two calls are
  * the only references to this address in the image.
  *
  * The result local is declared before the two substruct fetches, which is what
@@ -33,6 +33,7 @@
  * symbols:
  *   gMsgBank   0x020A7370  data
  *   gNameBuf   0x021462F0  data
+ *   MSGDATA_ReadUnits  0x02045F5C  arm
  */
 
 typedef unsigned short u16;
@@ -48,7 +49,7 @@ struct BlockA {
 
 extern void *func_02019C38(struct Mon *p, u32 pid, u32 n);
 struct MsgData;
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern u32 func_0201F448(const u16 *a, const u16 *b);
 
 extern void *gMsgBank;
@@ -60,7 +61,7 @@ u32 func_02019ABC(struct Mon *p)
     struct BlockA *a = (struct BlockA *)func_02019C38(p, p->unk00, 0);
     void *c = func_02019C38(p, p->unk00, 2);
 
-    func_02045F5C(gMsgBank, a->species, gNameBuf, 0x20);
+    MSGDATA_ReadUnits(gMsgBank, a->species, gNameBuf, 0x20);
     if (func_0201F448(gNameBuf, c) == 0) {
         r = 1;
     }

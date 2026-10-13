@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * note: 2026-10-05 recoup. The old draft had the save and tag spill slots swapped
- *   (4 bytes). Declaring the heap parameter of func_0200B570 as u16 and keeping the
+ *   (4 bytes). Declaring the heap parameter of BATTLE_REC_Load as u16 and keeping the
  *   tag as a plain u32 local `(heap & 0x7fff) | 0x8000` (no u16 cast) gives EXACT in
  *   c99 and c. Other forms tried: u16 or int tag, tag inline in the call, tag set
  *   before save, declaration order of tag and save, tag in the loop body, heap
@@ -18,13 +18,13 @@
  *   func_02012EBC 0x02012EBC thumb
  *   func_02045808 0x02045808 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0200B570 0x0200B570 thumb
- *   func_0200B910 0x0200B910 thumb
- *   func_0200D5D0 0x0200D5D0 thumb
- *   func_0200D6D0 0x0200D6D0 thumb
+ *   BATTLE_REC_Load 0x0200B570 thumb
+ *   BATTLE_REC_GetWork 0x0200B910 thumb
+ *   GDS_PROFILE_Init 0x0200D5D0 thumb
+ *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   func_0200D6EC 0x0200D6EC thumb
- *   func_0200B928 0x0200B928 thumb
- *   func_0200B98C 0x0200B98C thumb
+ *   BATTLE_REC_GetHeader 0x0200B928 thumb
+ *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   func_0200A5F8 0x0200A5F8 thumb
  *   func_0200A630 0x0200A630 thumb
  */
@@ -40,17 +40,17 @@ struct ObjC4;
 struct RecGet;
 struct U16Vec;
 extern void *func_02012EBC(struct Big *p);
-extern struct ObjC4 *func_0200B910(void);
-extern u8 *func_0200B928(void);
+extern struct ObjC4 *BATTLE_REC_GetWork(void);
+extern u8 *BATTLE_REC_GetHeader(void);
 extern void *func_0200A5F8(void *);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02082BCC(void *,int,unsigned);
-extern u32 func_0200B570(void *,u16,u32 *,u32);
-extern void func_0200D5D0(struct GdsProfile *p, void *sys);
-extern void *func_0200D6D0(const void *,u32);
+extern u32 BATTLE_REC_Load(void *,u16,u32 *,u32);
+extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
+extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 extern u32 func_0200D6EC(struct RecGet *p);
 extern u32 func_0200A630(struct Bits *p);
-extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
+extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 void func_021F98F8(char *p, int skip, void *sys, int heap)
 {
     int enabled=1;
@@ -73,14 +73,14 @@ void func_021F98F8(char *p, int skip, void *sys, int heap)
         func_02082BCC(p,0,0x58);
         tag=(heap&0x7fff)|0x8000;
         for(i=0;i<4;i++) {
-            func_0200B570((void *)save,tag,&result,i);
+            BATTLE_REC_Load((void *)save,tag,&result,i);
             if(result==1) {
-                profile=func_0200B910();
-                if(i==0) func_0200D5D0(profile,sys);
+                profile=BATTLE_REC_GetWork();
+                if(i==0) GDS_PROFILE_Init(profile,sys);
                 *(int *)((u32)p+(u32)i*4)=1;
-                *(void **)((u32)p+(u32)i*4+0x10)=func_0200D6D0(profile,0x59);
+                *(void **)((u32)p+(u32)i*4+0x10)=GDS_PROFILE_CreateNameStr(profile,0x59);
                 *(u32 *)((u32)p+(u32)i*4+0x20)=func_0200D6EC(profile);
-                *(u64 *)((u32)p+(u32)i*8+0x30)=func_0200B98C(func_0200B928(),4,0);
+                *(u64 *)((u32)p+(u32)i*8+0x30)=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
             }
         }
         *(u32 *)(p+0x50)=func_0200A630(func_0200A5F8(func_02012EBC(sys)));

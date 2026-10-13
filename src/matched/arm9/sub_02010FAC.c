@@ -1,5 +1,5 @@
 /*
- * function: sub_02010FAC
+ * function: GPOWER_NotifyTimerUpdate
  * address:  0x02010FAC
  * packet:   pkt_020107CC
  * region:   arm9
@@ -17,8 +17,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02010FAC.c \
- *       --func sub_02010FAC --addr 0x02010FAC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_NotifyTimerUpdate.c \
+ *       --func GPOWER_NotifyTimerUpdate --addr 0x02010FAC --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 
-void sub_02010FAC(void)
+void GPOWER_NotifyTimerUpdate(void)
 {
 }
 

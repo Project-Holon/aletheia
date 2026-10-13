@@ -1,5 +1,5 @@
 /*
- * function: func_0203A85C
+ * function: GFL_NET_COMMAND_RecvHugeData
  * address:  0x0203A85C
  * packet:   pkt_0203A85C
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020399A8  0x020399A8  arm
- *   func_0203A770  0x0203A770  arm
+ *   GFL_NET_COMMAND_CallCommand  0x0203A770  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   d_021469D8     0x021469D8  data
  *
@@ -22,12 +22,12 @@
  *
  * The fifth parameter is volatile: every use re-reads its incoming stack
  * slot (ldr r1,[sp,#0x20] after the tag call, ldr r0,[sp,#0x20] again for
- * func_0203A770) instead of living in a callee-saved register, which is what
+ * GFL_NET_COMMAND_CallCommand) instead of living in a callee-saved register, which is what
  * keeps the saved set at r4-r8 rather than adding sb.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A85C.c \
- *       --func func_0203A85C --addr 0x0203A85C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_COMMAND_RecvHugeData.c \
+ *       --func GFL_NET_COMMAND_RecvHugeData --addr 0x0203A85C --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -51,12 +51,12 @@ typedef struct {
 } Obj0203A85C;
 
 extern Obj0203A85C *d_021469D8;
-extern void func_0203A770(u32 a, u32 b, int c, u32 d, u32 e, u32 f);
+extern void GFL_NET_COMMAND_CallCommand(u32 a, u32 b, int c, u32 d, u32 e, u32 f);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 
-void func_0203A85C(int a0, u32 a1, void *a2, int a3, volatile int a4)
+void GFL_NET_COMMAND_RecvHugeData(int a0, u32 a1, void *a2, int a3, volatile int a4)
 {
     int idx = a0;
 
@@ -81,7 +81,7 @@ void func_0203A85C(int a0, u32 a1, void *a2, int a3, volatile int a4)
         return;
     }
     if (d_021469D8->ent[idx].unk04 != 0) {
-        func_0203A770(a0, d_021469D8->ent[idx].unk10,
+        GFL_NET_COMMAND_CallCommand(a0, d_021469D8->ent[idx].unk10,
                       d_021469D8->ent[idx].unk08, d_021469D8->ent[idx].unk00,
                       d_021469D8->ent[idx].unk04, a4);
     }

@@ -12,7 +12,9 @@
  * symbols:
  *   defaultPos 0x021C08F0 data ov204
  *   func_021BF7F0 0x021BF7F0 thumb ov204
- *   func_02015CAC 0x02015CAC thumb
+ *   MCSS_SetScale 0x02015CAC thumb
+ *   MCSS_Add  0x020159C8  thumb  arm9
+ *   MCSS_SetAnimCallback  0x02015F2C  thumb  arm9
  */
 #include "../include/Obj25390.h"
 
@@ -22,8 +24,8 @@ typedef unsigned int   u32;
 struct Obj;
 struct Rec;
 struct Sub150;
-extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
-extern void func_02015CAC(void *p, u32 *src);
+extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
+extern void MCSS_SetScale(void *p, u32 *src);
 typedef unsigned char  u8;
 extern void func_021BF7F0(u8 *p);
 extern void func_02015F2C(void *, void *, void (*)(void *, void *), int);
@@ -34,8 +36,8 @@ void func_021BF624(char *p, unsigned int a, unsigned int b, unsigned int c, void
     char *base = p + 8;
     unsigned int off = i * 12;
     enum { Zero } zero;
-    *(void **)(base + off) = func_020159C8(((struct Obj25390 *)p)->f4, a, b, c, d);
-    func_02015CAC(*(void **)(base + off), (u32 *)(&pos));
+    *(void **)(base + off) = MCSS_Add(((struct Obj25390 *)p)->f4, a, b, c, d);
+    MCSS_SetScale(*(void **)(base + off), (u32 *)(&pos));
     zero = Zero;
     *(unsigned int *)(p + off + 12) = zero;
     *(unsigned int *)(p + off + 16) = 1;

@@ -15,12 +15,12 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   d_021DFB8C 0x021DFB8C data a1
@@ -95,7 +95,7 @@
  *   func_0202020C 0x0202020C thumb
  *   func_0201F868 0x0201F868 thumb
  *   func_0201F7A8 0x0201F7A8 thumb
- *   func_02043994 0x02043994 arm
+ *   BMP_GetTileBytes 0x02043994 arm
  *   func_02043678 0x02043678 arm
  *   func_020437AC 0x020437AC arm
  *   func_02043814 0x02043814 arm
@@ -119,16 +119,16 @@
  *   func_02082A7C 0x02082A7C arm
  *   func_0203084C 0x0203084C arm
  *   func_02040618 0x02040618 arm
- *   func_021DE0AC 0x021DE0AC thumb ov121
+ *   MYSTERY_ALBUM_RequestSetup 0x021DE0AC thumb ov121
  *   d_021DFBB0 0x021DFBB0 data a4
  *   d_021DF8FC 0x021DF8FC data a4
  *   d_021DF890 0x021DF890 data a4
- *   func_021DD980 0x021DD980 thumb ov121
- *   func_0200A348 0x0200A348 thumb
+ *   MYSTERY_ALBUM_Delete 0x021DD980 thumb ov121
+ *   MYSTERY_DATA_GetCardSlotNum 0x0200A348 thumb
  *   func_020414EC 0x020414EC arm
- *   func_021DDF84 0x021DDF84 thumb ov121
- *   func_021DE0DC 0x021DE0DC thumb ov121
- *   func_021DD9CC 0x021DD9CC thumb ov121
+ *   MYSTERY_ALBUM_ResetIntro 0x021DDF84 thumb ov121
+ *   MYSTERY_ALBUM_HideScreen 0x021DE0DC thumb ov121
+ *   MYSTERY_ALBUM_StepIntro 0x021DD9CC thumb ov121
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
@@ -142,7 +142,7 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204B294 0x0204B294 arm
- *   func_0204B604 0x0204B604 arm
+ *   CLACT_SetActorFlip 0x0204B604 arm
  *   data_021DF86E 0x021DF86E data a1
  *   func_02040DA8 0x02040DA8 arm
  *   func_0204B3B4 0x0204B3B4 arm
@@ -155,10 +155,10 @@
  *   func_020413B0 0x020413B0 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B454 0x0204B454 arm
- *   func_0200A094  0x0200A094  thumb
+ *   MYSTERY_DATA_DeleteCard  0x0200A094  thumb
  *   func_0200A0E4  0x0200A0E4  thumb
  *   func_0200A000  0x0200A000  thumb
- *   func_0200A254  0x0200A254  thumb
+ *   MYSTERY_DATA_SwapCards  0x0200A254  thumb
  *   func_02020E60 0x02020E60 thumb
  *   func_0201BB5C 0x0201BB5C thumb
  *   func_0201BC40 0x0201BC40 thumb
@@ -166,14 +166,14 @@
  *   d_021DF838 0x021DF838 data a4
  *   d_021DF848 0x021DF848 data a4
  *   func_02035C60 0x02035C60 arm
- *   func_021DDF5C 0x021DDF5C thumb ov121
+ *   MYSTERY_ALBUM_StartIntro 0x021DDF5C thumb ov121
  *   func_020061E4 0x020061E4 thumb
- *   func_0200A170 0x0200A170 thumb
+ *   MYSTERY_DATA_HasAnyCard 0x0200A170 thumb
  *   func_0207D658 0x0207D658 arm
- *   func_021DE014 0x021DE014 thumb ov121
- *   func_0200A0C8 0x0200A0C8 thumb
- *   func_0200A2B8 0x0200A2B8 thumb
- *   func_0200A2D8 0x0200A2D8 thumb
+ *   MYSTERY_ALBUM_IsIntroIdle 0x021DE014 thumb ov121
+ *   MYSTERY_DATA_HasCardSpace 0x0200A0C8 thumb
+ *   MYSTERY_DATA_SaveStart 0x0200A2B8 thumb
+ *   MYSTERY_DATA_SaveMain 0x0200A2D8 thumb
  *   func_02049F78 0x02049F78 arm
  *   func_02082D44 0x02082D44 arm
  *   func_0204ABF0 0x0204ABF0 arm
@@ -182,7 +182,7 @@
  *   func_0202D7D8 0x0202D7D8 thumb
  *   func_0202D898 0x0202D898 thumb
  *   func_0202D81C 0x0202D81C thumb
- *   func_0204B570 0x0204B570 arm
+ *   CLACT_SetActorAffineMode 0x0204B570 arm
  *   d_021DF99C 0x021DF99C data a4
  *   func_02045994 0x02045994 arm
  *   func_0201EFA4 0x0201EFA4 thumb
@@ -195,7 +195,7 @@
  *   func_02017588 0x02017588 thumb
  *   func_02017E40 0x02017E40 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_02017FA8 0x02017FA8 thumb
+ *   POKE_TOOL_SetDefaultMoves 0x02017FA8 thumb
  *   func_0201808C 0x0201808C thumb
  *   func_020180F4 0x020180F4 thumb
  *   func_02018A00 0x02018A00 thumb
@@ -208,13 +208,14 @@
  *   func_0202D060 0x0202D060 thumb
  *   func_02017EAC 0x02017EAC thumb
  *   func_0202D0D4 0x0202D0D4 thumb
- *   func_020185F4 0x020185F4 thumb
- *   func_0202D6F4 0x0202D6F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
+ *   POKEGRA_LoadCharDataPP 0x0202D6F4 thumb
  *   d_021DFA14 0x021DFA14 data a4
  *   d_021DF8C0 0x021DF8C0 data a4
  *   g0209DF08 0x0209DF08 data a1
  *   g0209DF0C 0x0209DF0C data a1
  *   gMsgBank 0x020A7370 data
+ *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb  arm9
  */
 #include "../../matched/include/Obj13944.h"
 #include "../../matched/include/Obj22873.h"
@@ -595,12 +596,12 @@ struct Out_021DC030 {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const void *site, u16 tag);
 extern void func_02082BCC(void *, int, u32);
-extern void func_0204335C(u32 keep);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void func_020433E0(const void *c);
 extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void *func_020056A0(void (*)(void *,u8 *),void *,int);
 extern void func_02030EAC(void *n);
@@ -685,7 +686,7 @@ extern void func_0202020C(void *o, void *a, void *b);
 extern u32 func_0201F868(void *p);
 extern s32 func_020200CC(void *o);
 extern u32 func_02020350(void *obj, u32 what);
-extern u8 func_02043994(void *b);
+extern u8 BMP_GetTileBytes(void *b);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_020437AC(void *p);
 extern void func_02043814(void *dst, const void *src);
@@ -706,15 +707,15 @@ extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void func_02082A7C(int, void *,int);
 extern void *func_0203084C(u32 heapId);
 extern void func_02040618(u32,u32,u32);
-extern u32 func_0200A348(void *);
+extern u32 MYSTERY_DATA_GetCardSlotNum(void *);
 extern u32 func_0200A0E4(void *p, u32 a);
 extern int func_0200A000(void *p, int idx, void *buf);
-extern void func_021DE0AC(void *p, u32 b);
-extern void func_021DD980(void *);
+extern void MYSTERY_ALBUM_RequestSetup(void *p, u32 b);
+extern void MYSTERY_ALBUM_Delete(void *);
 extern void func_020414EC(u32);
-extern void func_021DDF84(void *);
-extern void func_021DE0DC(void *p);
-extern void func_021DD9CC(void *p);
+extern void MYSTERY_ALBUM_ResetIntro(void *);
+extern void MYSTERY_ALBUM_HideScreen(void *p);
+extern void MYSTERY_ALBUM_StepIntro(void *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern unsigned int func_02049658(void *, u32, u32, u32, u32, u32, u16);
@@ -728,7 +729,7 @@ extern s32 func_0204AC18(void *, u32, u32, u32, u16, u16, u16);
 extern s32 func_0204AF28(void *, u32, u32, u32);
 extern s32 func_0204A6C8(void *, u32, u32, u32, u16);
 extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
-extern void func_0204B604(void *actor, u32 which, u32 set);
+extern void CLACT_SetActorFlip(void *actor, u32 which, u32 set);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_0204B3B4(void *p);
 extern void func_0204A8D4(u32 i);
@@ -740,22 +741,22 @@ extern void func_02041300(u32,u16,u8,u8,u8,u8,u8);
 extern void func_020413B0(u32,u32,u32,u8,u8,u8);
 extern void func_0204B6F4(void *o, u32 v, u32 flag);
 extern void func_0204B454(void *actor, void *out, u16 space);
-extern void func_0200A094(void *list, u32 idx);
-extern void func_0200A254(void *, u32, u32);
+extern void MYSTERY_DATA_DeleteCard(void *list, u32 idx);
+extern void MYSTERY_DATA_SwapCards(void *, u32, u32);
 extern void func_0201C7A4(void *,s16,s16, void *, void *);
 extern u32 func_02020E60(u16,u32);
 extern u32 func_0201BB5C(u32,u32,u32,u32);
-extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
 extern int func_02035C60(void);
-extern void func_021DDF5C(void *p);
-extern int func_0200A170(void *p);
+extern void MYSTERY_ALBUM_StartIntro(void *p);
+extern int MYSTERY_DATA_HasAnyCard(void *p);
 extern void func_0207D658(u32,int,int);
-extern int func_021DE014(void *p);
-extern u32 func_0200A0C8(void *p);
-extern void func_0200A2B8(void *a0, int a1);
-extern int func_0200A2D8(void *a0, int a1);
+extern int MYSTERY_ALBUM_IsIntroIdle(void *p);
+extern u32 MYSTERY_DATA_HasCardSpace(void *p);
+extern void MYSTERY_DATA_SaveStart(void *a0, int a1);
+extern int MYSTERY_DATA_SaveMain(void *a0, int a1);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *, void *,int);
 extern s32_021DCFC8 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
@@ -764,7 +765,7 @@ extern int func_0202D7C8(int a0);
 extern int func_0202D7D8(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
 extern int func_0202D898(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int func_0202D81C(void *,u32,u32,u32,u32,u32,u32,u32,u32,u16);
-extern void func_0204B570(void *actor, u32 value);
+extern void CLACT_SetActorAffineMode(void *actor, u32 value);
 extern void func_02045994(void *o, const void *src, u32 len);
 extern u32 func_020056EC(u32 range);
 extern u8 *func_02012944(void *p);
@@ -774,7 +775,7 @@ extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern void func_02017588(void *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_02017FA8(void *p);
+extern u32 POKE_TOOL_SetDefaultMoves(void *p);
 extern u32 func_0201808C(void *p, u32 move);
 extern void func_020180F4(void *p, int move);
 extern void func_02018A00(void *p, u32 species, u32 arg);
@@ -787,8 +788,8 @@ extern void func_020185C4(void *p);
 extern int func_0202D060(void);
 extern u32 func_02017EAC(void *p);
 extern s32_021DD24C func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-extern void *func_020185F4(void *p);
-extern u32 func_0202D6F4(void *a0, void *mon, u32 a2, u32 a3);
+extern void *POKE_TOOL_GetBoxParam(void *p);
+extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
 u8 *func_021D9624(int arg,u16 heap);
 void func_021D96C4(u8 *p);
 void func_021D9718(u8 *p);
@@ -958,12 +959,12 @@ u8 *func_021D9624(int arg,u16 heap)
     *(volatile u16 *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &=0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &=0xFFFF1FFF;
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)d_021DF604);
     func_0204363C(arg);
     func_0204361C();
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     func_0201DD60();
     func_021D97C8(p,heap);
     func_021D986C((void **)(p+4),(u32)d_021DF604,heap);
@@ -1849,7 +1850,7 @@ void *func_021DA338(char *p,u16 heap)
         void *win=func_02045770(*(void **)(*(char **)(p+16+i*4)+12));
         u32 x=func_020437DC(win);
         u32 y=func_020437E4(win);
-        u32 type=func_02043994(win);
+        u32 type=BMP_GetTileBytes(win);
         *(void **)(out+i*4+8)=func_02043678(x/8,y/8,type,heap);
     }
     return out;
@@ -2374,7 +2375,7 @@ char *func_021DAC18(const Input *src,u16 heap)
     func_02082A7C(-1,out+0xb48,32);
     func_02082A7C(-1,out+0xb88,32);
     func_02082A7C(-1,out+0xb68,32);
-    for(i=0;i<func_0200A348(((struct Obj00910 *)out)->fC);i++) {
+    for(i=0;i<MYSTERY_DATA_GetCardSlotNum(((struct Obj00910 *)out)->fC);i++) {
         if(func_0200A0E4(((struct Obj00910 *)out)->fC,i)) {
             count++;
             func_0200A000(((struct Obj00910 *)out)->fC,i,&record);
@@ -2400,7 +2401,7 @@ char *func_021DAC18(const Input *src,u16 heap)
             if(func_021DBF04((int *)(out+40+j*0xdc)))
                 *(void **)(out+0xa7c+j*4)=func_021DD24C((Record_021DD24C *)func_021DC02C(out+40+j*0xdc),((struct Obj00910 *)out)->fAB0,(void *)src->w[8],heap);
         }
-        func_021DE0AC(((struct Obj00910 *)out)->fA7C,0);
+        MYSTERY_ALBUM_RequestSetup(((struct Obj00910 *)out)->fA7C,0);
         func_0203084C(29);
     }
     func_02040618(3,3,0);
@@ -2425,7 +2426,7 @@ void func_021DAE1C(Obj_021DAE1C *obj)
     u32 j;
     for(i=0;i<12;i++) {
         if(obj->slots[i]) {
-            func_021DD980(obj->slots[i]);
+            MYSTERY_ALBUM_Delete(obj->slots[i]);
             obj->slots[i]=0;
         }
     }
@@ -2441,7 +2442,7 @@ void func_021DAE1C(Obj_021DAE1C *obj)
     func_021DB528(p,1);
     func_021DB528(p,0);
     func_021DB3E8(p);
-    for(j=0;j<func_0200A348(((struct Obj01058 *)p)->fC);j++)
+    for(j=0;j<MYSTERY_DATA_GetCardSlotNum(((struct Obj01058 *)p)->fC);j++)
         func_021DBEE4((u32)(p+0x28+j*0xdc));
     func_020414EC(4);
     func_020414EC(6);
@@ -2468,14 +2469,14 @@ void func_021DAEF0(Obj_021DAEF0 *obj)
     if(((struct Obj01153 *)p)->fA78) {
         flag=0;
         if(*(char * *)&((struct Obj01153 *)p)->fAAC) {
-            func_021DDF84(*(char * *)&((struct Obj01153 *)p)->fAAC);
+            MYSTERY_ALBUM_ResetIntro(*(char * *)&((struct Obj01153 *)p)->fAAC);
             *(char * *)&((struct Obj01153 *)p)->fAAC=0;
         }
         if(obj->index<4 && func_021DBF04((int *)(&obj->items[obj->index+((struct Obj01153 *)p)->fAC8*4]))) {
             flag=1;
-            func_021DE0AC(*(void **)(p+0xa7c+(((struct Obj01153 *)p)->fACC+((struct Obj01153 *)p)->fAC8*4)*4),1);
+            MYSTERY_ALBUM_RequestSetup(*(void **)(p+0xa7c+(((struct Obj01153 *)p)->fACC+((struct Obj01153 *)p)->fAC8*4)*4),1);
         }
-        if(flag==0) func_021DE0DC(((struct Obj01153 *)p)->fAB0);
+        if(flag==0) MYSTERY_ALBUM_HideScreen(((struct Obj01153 *)p)->fAB0);
         ((struct Obj01153 *)p)->fA78=0;
     }
     old=((struct Obj01153 *)p)->fBAC;
@@ -2496,7 +2497,7 @@ void func_021DAEF0(Obj_021DAEF0 *obj)
 
 static inline void update(void *p)
 {
-    if(p) func_021DD9CC(p);
+    if(p) MYSTERY_ALBUM_StepIntro(p);
 }
 
 
@@ -2545,7 +2546,7 @@ int func_021DB008(char *p)
 
 
 /*
- * closed 2026-10-05 (recoup integrator): func_02049658 returns u32 (its matched definition tail-returns sub_0204968C); with the void declaration the later register zeros were copied from the pooled zero; with the real return type the
+ * closed 2026-10-05 (recoup integrator): func_02049658 returns u32 (its matched definition tail-returns ARC_UTIL_UploadBgChar); with the void declaration the later register zeros were copied from the pooled zero; with the real return type the
  *   bytes are EXACT in c99 and c.
  * note (2026-10-05, lane P10): full body written; size is exact (976 bytes), 110 bytes differ.
  *   Fixed: heap is u16 with the matched u16 callee prototypes (no lsls/lsrs pairs); 0xAB4, 0xBA8
@@ -2677,8 +2678,8 @@ void func_021DB018(u8 *p, u16 heap)
         *(struct Obj **)(q + 0xAB4 + 0x40) = o;
         func_0204B92C(*(struct Obj **)(q + 0xAB4 + 0x40), 1);
         func_0204B3DC(*(struct Obj **)(q + 0xAB4 + 0x40), k);
-        if (j == 0) func_0204B604((struct Actor *)(*(struct Obj **)(q + 0xAB4 + 0x40)), 1, 1);
-        else func_0204B604((struct Actor *)(*(struct Obj **)(q + 0xAB4 + 0x40)), 1, 0);
+        if (j == 0) CLACT_SetActorFlip((struct Actor *)(*(struct Obj **)(q + 0xAB4 + 0x40)), 1, 1);
+        else CLACT_SetActorFlip((struct Actor *)(*(struct Obj **)(q + 0xAB4 + 0x40)), 1, 0);
     }
     func_02040588(2, 1);
 }
@@ -3064,17 +3065,17 @@ void func_021DBC08(Obj_021DB938 *o, int idx)
     unsigned char buf[0xCC];
     u32 i;
 
-    func_0200A094(o->list, idx);
-    for (i = 0; i < func_0200A348((struct Obj_021DB938 *)o->list); i++)
+    MYSTERY_DATA_DeleteCard(o->list, idx);
+    for (i = 0; i < MYSTERY_DATA_GetCardSlotNum((struct Obj_021DB938 *)o->list); i++)
         func_021DBEE4((u32)(&o->items[i]));
-    for (i = 0; i < func_0200A348((struct Obj_021DB938 *)o->list); i++) {
+    for (i = 0; i < MYSTERY_DATA_GetCardSlotNum((struct Obj_021DB938 *)o->list); i++) {
         if (func_0200A0E4(o->list, i)) {
             func_0200A000(o->list, i, buf);
             func_021DBDF4((char *)(&o->items[i]), (const Record_021DB938 *)buf, (char *)((Obj_021DB938 *)o), o->f24);
         }
     }
     if (o->slots[idx] != 0) {
-        func_021DD980(o->slots[idx]);
+        MYSTERY_ALBUM_Delete(o->slots[idx]);
         o->slots[idx] = 0;
     }
     for (; idx < 11; idx++) {
@@ -3103,17 +3104,17 @@ void func_021DBCC8(Obj_021DBCC8 *o, u32 a, u32 b)
     unsigned char buf[0xCC];
     u32 i;
 
-    func_0200A254(o->list, a, b);
-    for (i = 0; i < func_0200A348((struct Obj_021DB938 *)o->list); i++)
+    MYSTERY_DATA_SwapCards(o->list, a, b);
+    for (i = 0; i < MYSTERY_DATA_GetCardSlotNum((struct Obj_021DB938 *)o->list); i++)
         func_021DBEE4((u32)(&o->items[i]));
-    for (i = 0; i < func_0200A348((struct Obj_021DB938 *)o->list); i++) {
+    for (i = 0; i < MYSTERY_DATA_GetCardSlotNum((struct Obj_021DB938 *)o->list); i++) {
         if (func_0200A0E4(o->list, i)) {
             func_0200A000(o->list, i, buf);
             func_021DBDF4((char *)(&o->items[i]), (const Record_021DB938 *)buf, (char *)((Obj_021DB938 *)o), o->f24);
         }
     }
-    func_021DD980(o->slots[a]);
-    func_021DD980(o->slots[b]);
+    MYSTERY_ALBUM_Delete(o->slots[a]);
+    MYSTERY_ALBUM_Delete(o->slots[b]);
     o->slots[a] = func_021DD24C((Record_021DD24C *)func_021DC02C(&o->items[a]), o->desc, o->ctx, o->f24);
     o->slots[b] = func_021DD24C((Record_021DD24C *)func_021DC02C(&o->items[b]), o->desc, o->ctx, o->f24);
     o->dirty = 1;
@@ -3134,9 +3135,9 @@ int func_021DBDB8(char *p) { return 3; }
 
 /*
  * lever: Declare the index before the count, but initialise count first; this places index in r4 and count in r5.
- * prototype: func_0200A348 returns the value used by the bound. Its forwarding target 0200A400 reads only r0, so legacy trailing arguments are omitted.
+ * prototype: MYSTERY_DATA_GetCardSlotNum returns the value used by the bound. Its forwarding target 0200A400 reads only r0, so legacy trailing arguments are omitted.
  */
-u32 func_021DBDBC(u32 p) { u32 i; u32 count=0; for (i=0;i<func_0200A348((struct Obj_021DB938 *)(((struct Obj22900 *)p)->fC));i++) { if (func_021DBF04((int *)(p+40+i*220))) count++; } return count; }
+u32 func_021DBDBC(u32 p) { u32 i; u32 count=0; for (i=0;i<MYSTERY_DATA_GetCardSlotNum((struct Obj_021DB938 *)(((struct Obj22900 *)p)->fC));i++) { if (func_021DBF04((int *)(p+40+i*220))) count++; } return count; }
 
 
 
@@ -3213,7 +3214,7 @@ int func_021DBF9C(void *p)
     switch(func_021DC024(p)) {
     case 1:
         q=func_021DC02C(p);
-        return func_0201BABC(((struct Obj06452 *)q)->f1A,((struct Obj06452 *)q)->f1C,((struct Obj06452 *)q)->f35,((struct Obj06452 *)q)->f5C);
+        return POKE_TOOL_CalcGraphicIndex(((struct Obj06452 *)q)->f1A,((struct Obj06452 *)q)->f1C,((struct Obj06452 *)q)->f35,((struct Obj06452 *)q)->f5C);
     case 2:
         q=func_021DC02C(p);
         return func_02020E60((u16)((struct Obj06452 *)q)->f0,1);
@@ -3277,7 +3278,7 @@ void func_021DC08C(void *task,u32 *state,char *p)
         changed=0;delta=0;
         if(func_02035C60()) {
             ((struct Obj00061 *)p)->fAAC=*(void **)((u32)p+0xa7c+(u16)(((struct Obj00061 *)p)->fACC+*(u32 *)&((struct Obj00061 *)p)->fAC8*4)*4);
-            if(((struct Obj00061 *)p)->fAAC) func_021DDF5C(((struct Obj00061 *)p)->fAAC);
+            if(((struct Obj00061 *)p)->fAAC) MYSTERY_ALBUM_StartIntro(((struct Obj00061 *)p)->fAAC);
         }
         if(repeat==512) delta=-1;
         else if(repeat==256) delta=1;
@@ -3567,7 +3568,7 @@ void func_021DC734(void *task,u32 *state,char *p)
         if(W(0xae8)++>30) {W(0xae8)=0;*state=7;}
         break;
     case 7:
-        if(!func_0200A170((char *)P(12))) func_021DA2F0(P(0xab8),1);
+        if(!MYSTERY_DATA_HasAnyCard((char *)P(12))) func_021DA2F0(P(0xab8),1);
         *(volatile u32 *)0x04000000 &= ~0xe000;
         *state=8;break;
     case 8:func_021D9F08(P(0xabc),W(28),121,1);*state=9;break;
@@ -3684,7 +3685,7 @@ void func_021DCCE4(void *arg,u32 *state,char *p)
         break;
     case 1:
         if (!((struct Obj00253 *)p)->f0) *state=5;
-        else if (func_0200A0C8(((struct Obj00253 *)p)->fC)) *state=5;
+        else if (MYSTERY_DATA_HasCardSpace(((struct Obj00253 *)p)->fC)) *state=5;
         else *state=2;
         break;
     case 2:
@@ -3742,14 +3743,14 @@ void func_021DCCE4(void *arg,u32 *state,char *p)
         break;
     case 8:
         ready=1;
-        if (((struct Obj00253 *)p)->fAAC && !func_021DE014(((struct Obj00253 *)p)->fAAC)) ready=0;
+        if (((struct Obj00253 *)p)->fAAC && !MYSTERY_ALBUM_IsIntroIdle(((struct Obj00253 *)p)->fAAC)) ready=0;
         if (ready) {
-            func_0200A2B8(((struct Obj00253 *)p)->fC,(int)(((struct Obj00253 *)p)->f20));
+            MYSTERY_DATA_SaveStart(((struct Obj00253 *)p)->fC,(int)(((struct Obj00253 *)p)->f20));
             *state=9;
         }
         break;
     case 9:
-        if (func_0200A2D8(((struct Obj00253 *)p)->fC,(int)(((struct Obj00253 *)p)->f20))==2) *state=10;
+        if (MYSTERY_DATA_SaveMain(((struct Obj00253 *)p)->fC,(int)(((struct Obj00253 *)p)->f20))==2) *state=10;
         break;
     case 10:
         if (((struct Obj00253 *)p)->fABC) {
@@ -3856,7 +3857,7 @@ void *func_021DCFC8(const Desc_021DCFC8 *p,u16 heap)
     ((struct Obj00237 *)out)->f8C=second.b;
     ((struct Obj00237 *)out)->f90=p->w[1]&3;
     ((struct Obj00237 *)out)->f20=func_0204B294((void *)p->w[6],((struct Obj00237 *)out)->f14,((struct Obj00237 *)out)->f10,((struct Obj00237 *)out)->f18,&second,((struct Obj00237 *)out)->f98,heap);
-    func_0204B570(((struct Obj00237 *)out)->f20,2);
+    CLACT_SetActorAffineMode(((struct Obj00237 *)out)->f20,2);
     func_0204B688(((struct Obj00237 *)out)->f20,1);
     func_0204B3DC(((struct Obj00237 *)out)->f20,0);
     return out;
@@ -4016,7 +4017,7 @@ struct Out_021DC030 *func_021DD24C(Record_021DD24C *a, struct CtxB *b, void *c, 
             }
             func_02017588(mon, r->species, level, id64, ivs, rnd);
             func_02017E40(mon, 6, r->f10);
-            func_02017FA8(mon);
+            POKE_TOOL_SetDefaultMoves(mon);
             for (i = 0; i < 4; i++) {
                 u16 m = mv[i];
                 if (m != 0 && m < 0x230) {
@@ -4122,7 +4123,7 @@ struct Out_021DC030 *func_021DD24C(Record_021DD24C *a, struct CtxB *b, void *c, 
             a3 = func_02017E1C(res, 0x6e, 0);
             idx = func_0202D0D4(a0, a1, a2, a3, func_02017EAC(res), 0, func_02017E1C(res, 0x4c, 0));
             out->f13C = func_02049F78(arc, idx, (u32)(&out->f140), out->heap);
-            out->f134 = (u32)func_0202D6F4(&out->f138, func_020185F4(res), 0, out->heap);
+            out->f134 = (u32)POKEGRA_LoadCharDataPP(&out->f138, POKE_TOOL_GetBoxParam(res), 0, out->heap);
             func_020307B0(res);
             func_02049238(arc);
         }

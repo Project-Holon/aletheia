@@ -11,18 +11,18 @@
  *
  * Byte-correct; blocked only by two unlabelled arm9 Thumb leaves (the integrator's,
  * no witness outside this range: label/literal/sole-ref all refuse):
- *   func_020275D0 (12 bytes, EXACT verified with `one --region arm9 --thumb`):
- *     u16 *func_020275D0(int p) { return (u16 *)(p + 0xB0C); }
+ *   BEACON_STATUS_GetViewFlags (12 bytes, EXACT verified with `one --region arm9 --thumb`):
+ *     u16 *BEACON_STATUS_GetViewFlags(int p) { return (u16 *)(p + 0xB0C); }
  *   func_020275C4 (12 bytes, EXACT verified likewise):
  *     int func_020275C4(int p) { return *(int *)(p + 0xB08); }
  *
- * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/func_020275A8,
+ * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/BEACON_STATUS_GetLog,
  *   AC, B8, D0 EXACT); the tool still reports them unresolved, so the label seeding for
  *   0x020275A8/AC/B8/D0 (asm/layout, not this lane) is the only blocker.
  *
  * symbols:
  *   func_021F00C8  0x021F00C8  thumb
- *   func_020275D0  0x020275D0  thumb
+ *   BEACON_STATUS_GetViewFlags  0x020275D0  thumb
  *   func_020275C4  0x020275C4  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_021F18C4  0x021F18C4  thumb  ov032
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void *func_020275D0(char *p);
+extern void *BEACON_STATUS_GetViewFlags(char *p);
 extern int func_020275C4(void *p);
 struct WordSet;
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
@@ -43,7 +43,7 @@ int func_021F00C8(char *p)
 {
     u16 *f;
 
-    f = func_020275D0((char *)(*(int *)(p + 0x34)));
+    f = BEACON_STATUS_GetViewFlags((char *)(*(int *)(p + 0x34)));
     if (*f == 0)
         return 0;
     *f = 0;

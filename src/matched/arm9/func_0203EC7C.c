@@ -1,5 +1,5 @@
 /*
- * function: func_0203EC7C
+ * function: GFL_NET_LOWER_DATA_GetPostEndAddress
  * address:  0x0203EC7C
  * packet:   pkt_0203EC7C
  * region:   arm9
@@ -16,7 +16,7 @@
  * net_lower_data.c: end offset (+0x00 base plus +0x0C length) of record
  * idx (0xFF meaning 0) in the table g_021469F4 points to, re-checked after
  * func_0203D798; 0 when the table or record is missing.  Same double guard
- * as the matched func_0203ECD8, but the FIRST guard is a wrapping positive
+ * as the matched GFL_NET_LOWER_DATA_RecvChunk, but the FIRST guard is a wrapping positive
  * test (`!= 0 && != 0`) whose failure falls through to the one trailing
  * return 0, which is the shared null-exit block the earlier note wanted.
  */
@@ -36,7 +36,7 @@ struct Tbl {
 extern struct Tbl *g_021469F4;
 extern void *func_0203D798(void);
 
-u32 func_0203EC7C(u32 idx)
+u32 GFL_NET_LOWER_DATA_GetPostEndAddress(u32 idx)
 {
     struct Rec *rec;
     if (idx == 0xff) {

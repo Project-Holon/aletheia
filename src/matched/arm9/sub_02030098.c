@@ -37,7 +37,7 @@
  * mapping heap id to record index, +8 the u16 heap count used as the
  * bound here, and +0xe a u16 result code written on every path (1 = id out
  * of range, 2 = no such heap, 3 = heap exhausted, 0 = success). The
- * per-heap record's +0xc halfword, read back by sub_0202FC20, is the live
+ * per-heap record's +0xc halfword, read back by GFL_HEAP_GetAllocCount, is the live
  * allocation count incremented here. The name is kept for consistency with
  * the existing EXACT file; renaming it to a heap-manager name is an
  * integrator-wide change, not a per-packet one.
@@ -64,7 +64,7 @@
  *
  * symbols:
  *   g_EnvModule           0x02146954  data
- *   sub_0202FBAC          0x0202FBAC  arm
+ *   GFL_HEAP_GetHeap          0x0202FBAC  arm
  *   sub_02060CA0          0x02060CA0  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
@@ -99,7 +99,7 @@ struct HeapBlock {
 
 extern struct EnvModule g_EnvModule;
 
-extern void *sub_0202FBAC(u32 idx);
+extern void *GFL_HEAP_GetHeap(u32 idx);
 struct ExpHeap;
 extern void *sub_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 extern u32 OS_DisableInterrupts(void);
@@ -122,7 +122,7 @@ void *sub_02030098(u32 heapId, u32 size)
         g_EnvModule.error = 1;
         goto fail;
     }
-    arena = sub_0202FBAC(heapId);
+    arena = GFL_HEAP_GetHeap(heapId);
     if (arena == 0) {
         g_EnvModule.error = 2;
         goto fail;

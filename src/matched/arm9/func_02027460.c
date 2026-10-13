@@ -1,5 +1,5 @@
 /*
- * function: func_02027460
+ * function: GAME_BEACON_WritePms
  * address:  0x02027460
  * packet:   pkt_02027460
  * region:   arm9
@@ -11,15 +11,15 @@
  *
  * Copies four halfwords into the console's own beacon record (+4 of the
  * block): two BITFIELDS of the u16 at rec+0x48 (bits 8..10 and 11..15,
- * masks 0xF8FF / 0x07FF, the low byte being the one func_0202744C sets),
- * then rec+0x4a and rec+0x4c.  The caller func_020274B4 passes &own in r0
+ * masks 0xF8FF / 0x07FF, the low byte being the one GAME_BEACON_ResetDetails sets),
+ * then rec+0x4a and rec+0x4c.  The caller GAME_BEACON_SetMyPms passes &own in r0
  * but this body ignores it and recomputes; the two-step `adds r,r0,#4;
  * adds r,#0x48` at every access is a pointer local `o = &g->own`, not a
  * held `g` (which folds to one `adds #0x4c`).
  * Unlabelled leaf (no lr save): the integrator should seed 0x02027460.
  *
  * symbols:
- *   g_GameBeacon  0x02146940  data
+ *   GAME_BEACON_Work  0x02146940  data
  */
 
 typedef unsigned char  u8;
@@ -38,11 +38,11 @@ struct Rec {
 struct Blk { u32 f00; struct Rec own; };
 struct Src { u16 a; u16 b; u16 c; u16 d; };
 
-extern struct Blk *g_GameBeacon;
+extern struct Blk *GAME_BEACON_Work;
 
-void func_02027460(void *p, const struct Src *s)
+void GAME_BEACON_WritePms(void *p, const struct Src *s)
 {
-    struct Rec *o = &g_GameBeacon->own;
+    struct Rec *o = &GAME_BEACON_Work->own;
 
     o->a = s->a;
     o->b = s->b;

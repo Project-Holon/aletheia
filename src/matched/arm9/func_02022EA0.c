@@ -1,5 +1,5 @@
 /*
- * function: func_02022EA0
+ * function: WIPE_SUB_InitLineMask
  * address:  0x02022EA0
  * packet:   pkt_02022EA0
  * region:   arm9
@@ -17,8 +17,8 @@
  * word at +0x304 is left alone and the two bytes sit at +0x308/+0x309.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022EA0.c \
- *       --func func_02022EA0 --addr 0x02022EA0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_InitLineMask.c \
+ *       --func WIPE_SUB_InitLineMask --addr 0x02022EA0 --cc 1.1p1 --thumb
  */
 #include "../include/Obj04050.h"
 
@@ -27,7 +27,7 @@ typedef unsigned int  u32;
 
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 
-void func_02022EA0(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4)
+void WIPE_SUB_InitLineMask(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4)
 {
     MI_CpuFill8(a0, 0, 0x30c);
     if (a2 == 1) {

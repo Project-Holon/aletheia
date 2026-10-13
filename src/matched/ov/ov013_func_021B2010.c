@@ -1,5 +1,5 @@
 /*
- * function: func_021B2010
+ * function: VCT_SESSION_BuildGroupCommand
  * address:  0x021B2010
  * packet:   pkt_ov013_021B2010
  * region:   ov013
@@ -11,21 +11,21 @@
  *
  * symbols:
  *   g_021B60D8  0x021B60D8  data  a4
- *   func_021B2848  0x021B2848  arm  ov013
- *   func_021B29A4  0x021B29A4  arm  ov013
- *   func_021B2958  0x021B2958  arm  ov013
+ *   VCT_SESSION_InitPacketHeader  0x021B2848  arm  ov013
+ *   VCT_SESSION_CheckCommandAllowed  0x021B29A4  arm  ov013
+ *   VCT_SESSION_HasNoOtherTalker  0x021B2958  arm  ov013
  */
 
 #include "../include/G_Sess.h"
 
 extern struct Sess g_021B60D8;
-extern void func_021B2848(void *a, void *b, unsigned int c);
+extern void VCT_SESSION_InitPacketHeader(void *a, void *b, unsigned int c);
 typedef unsigned char  u8;
-extern int func_021B29A4(int *obj, const u8 *q);
+extern int VCT_SESSION_CheckCommandAllowed(int *obj, const u8 *q);
 struct N;
-extern int func_021B2958(struct N *p);
+extern int VCT_SESSION_HasNoOtherTalker(struct N *p);
 
-int func_021B2010(void *a, unsigned int b, unsigned char *buf, unsigned int c)
+int VCT_SESSION_BuildGroupCommand(void *a, unsigned int b, unsigned char *buf, unsigned int c)
 {
     int r = 0xff;
 
@@ -38,11 +38,11 @@ int func_021B2010(void *a, unsigned int b, unsigned char *buf, unsigned int c)
     if (b >= 5)
         return -3;
     buf[4] = r;
-    func_021B2848(a, buf, b & 0xff);
-    if (func_021B29A4(a, buf) == 0)
+    VCT_SESSION_InitPacketHeader(a, buf, b & 0xff);
+    if (VCT_SESSION_CheckCommandAllowed(a, buf) == 0)
         return 0xfc - r;
     if (g_021B60D8.f10 == 1 && b == 0) {
-        if (func_021B2958(a) == 0)
+        if (VCT_SESSION_HasNoOtherTalker(a) == 0)
             return 0xfc - r;
     }
     return 0;

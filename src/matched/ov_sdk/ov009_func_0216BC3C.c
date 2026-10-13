@@ -1,5 +1,5 @@
 /*
- * function: func_0216BC3C
+ * function: DWCi_IsValidAID
  * address:  0x0216BC3C
  * packet:   pkt_ov009_0216BC3C
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      DWCi_IsValidAID (libdwcmatch.TWL.HYB.a(dwc_main.o))
  *
  * symbols:
- *   func_02195E78  0x02195E78  arm  ov009
+ *   gt2GetConnectionData  0x02195E78  arm  ov009
  *   g_021AA8A0  0x021AA8A0  data
  */
 
@@ -21,16 +21,16 @@ typedef struct ConnData {
 	unsigned char aid;
 } ConnData;
 
-extern int func_02195E78(const int *p);
+extern int gt2GetConnectionData(const int *p);
 extern void *g_021AA8A0[];
 
-int func_0216BC3C(unsigned char aid)
+int DWCi_IsValidAID(unsigned char aid)
 {
 	int i;
 
 	for (i = 0; i < 0x20; i++) {
 		if (g_021AA8A0[i] != 0) {
-			if (aid == ((ConnData *)func_02195E78(g_021AA8A0[i]))->aid)
+			if (aid == ((ConnData *)gt2GetConnectionData(g_021AA8A0[i]))->aid)
 				return 1;
 		}
 	}

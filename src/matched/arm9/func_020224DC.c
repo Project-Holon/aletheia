@@ -1,5 +1,5 @@
 /*
- * function: func_020224DC
+ * function: WIPE_ClearHBlankSlot
  * address:  0x020224DC
  * packet:   pkt_020224DC
  * region:   arm9
@@ -11,20 +11,20 @@
  *
  * symbols:
  *   g_021468A4     0x021468A4  data
- *   func_020225F0  0x020225F0  thumb
+ *   WIPE_DummyHBlank  0x020225F0  thumb
  *   func_02030EAC  0x02030EAC  arm
  *
- * Drops one entry of the two-slot callback block func_02022458 arms (the
+ * Drops one entry of the two-slot callback block WIPE_InitHBlankSlots arms (the
  * 0x18-byte object at +0x74 of the dual-screen cluster): three parallel
  * two-element arrays, ctx[] at +0x00, fn[] at +0x08 and arg[] at +0x10.
- * func_020221B8 calls it once per slot during shutdown.
+ * WIPE_SYS_ExeEnd calls it once per slot during shutdown.
  *
  * It clears this slot's user word FIRST, and only then checks whether both
  * user words have gone to zero; when they have and the vblank/task handle at
  * g_021468A4 +0x54 is still live, it releases that handle through
  * func_02030EAC and nulls it.  The slot's handler is then re-armed with the
- * do-nothing func_020225F0 rather than a null, the same convention
- * func_02022458 uses, and the context pointer cleared last.
+ * do-nothing WIPE_DummyHBlank rather than a null, the same convention
+ * WIPE_InitHBlankSlots uses, and the context pointer cleared last.
  *
  * Shape notes.  The zero written to arg[idx] and the zero written back to
  * +0x54 are one value kept in r6 across the call, which is what makes them
@@ -39,8 +39,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020224DC.c \
- *       --func func_020224DC --addr 0x020224DC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_ClearHBlankSlot.c \
+ *       --func WIPE_ClearHBlankSlot --addr 0x020224DC --cc 1.1p1 --thumb
  */
 
 #include "../include/G_G021468A4.h"
@@ -58,11 +58,11 @@ struct Slots {
 
 extern struct G021468A4 g_021468A4;
 
-extern void func_020225F0(void);
+extern void WIPE_DummyHBlank(void);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_020224DC(struct Slots *p, u32 idx)
+void WIPE_ClearHBlankSlot(struct Slots *p, u32 idx)
 {
     u32 zero = 0;
 
@@ -71,6 +71,6 @@ void func_020224DC(struct Slots *p, u32 idx)
         func_02030EAC(g_021468A4.f54);
         g_021468A4.f54 = (void *)zero;
     }
-    p->fn[idx] = func_020225F0;
+    p->fn[idx] = WIPE_DummyHBlank;
     p->ctx[idx] = 0;
 }

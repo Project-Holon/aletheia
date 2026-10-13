@@ -1,5 +1,5 @@
 /*
- * function: func_02015EE8
+ * function: MCSS_GetAnimCtrl
  * address:  0x02015EE8
  * packet:   pkt_02015EE8
  * region:   arm9
@@ -15,7 +15,7 @@
  * Addresses are Black-image addresses.
  */
 
-void *func_02015EE8(void *p)
+void *MCSS_GetAnimCtrl(void *p)
 {
     return (char *)p + 0x34;
 }

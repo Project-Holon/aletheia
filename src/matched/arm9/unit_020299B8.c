@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_020299B8, func_02029A04
+ * function: FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask, func_02029A04
  *
  * Part of the (task body, task spawner) family that makes up the tail of
  * field_sound_system.c.  The same shape as unit_02029938.c with the command 2's third argument taken
@@ -22,6 +22,9 @@
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_020299B8.c  *       --addr 0x020299B8 --thumb
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
  */
 
 typedef unsigned short u16;
@@ -42,17 +45,17 @@ struct Ctx;
 struct Desc;
 struct Obj;
 struct Sys;
-extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
+extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 extern u32 func_020289B8(struct Sys *s);
 
-u32 func_020299B8(void *task, u32 *state, struct Work *work)
+u32 FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask(void *task, u32 *state, struct Work *work)
 {
     void *sys = work->unk04;
 
     switch (*state) {
     case 0:
-        func_020289F8(sys, 2, 0, work->unk0E, 0);
-        func_020289F8(sys, 7, work->unk08, 0, 0);
+        FIELD_SOUND_SYSTEM_PostRequest(sys, 2, 0, work->unk0E, 0);
+        FIELD_SOUND_SYSTEM_PostRequest(sys, 7, work->unk08, 0, 0);
         (*state)++;
         break;
     case 1:
@@ -73,7 +76,7 @@ extern u32 func_02012A30(const struct BigObj *a);
 void *func_02029A04(void *a, u32 b, u16 c)
 {
     void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_020299B8, 0x10);
+    void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask, 0x10);
     struct Work *work = func_020124E8(task);
 
     work->unk04 = (void *)func_02012A30(x);

@@ -1,7 +1,7 @@
 /*
  * file:     unit_0208EAC8.c
  * unit:     yes
- * function: func_0208EAC8, WM_SetPortCallback, func_0208EBE4, func_0208EC34, func_0208ECA4, func_0208ED70, func_0208EE60, func_0208EE9C, func_0208EF30, func_0208EFC4, func_0208F05C, func_0208F1B4
+ * function: func_0208EAC8, WM_SetPortCallback, func_0208EBE4, func_0208EC34, func_0208ECA4, func_0208ED70, func_0208EE60, func_0208EE9C, WM_GetDispersionBeaconPeriod, func_0208EFC4, func_0208F05C, func_0208F1B4
  * address:  0x0208EAC8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -202,7 +202,7 @@ int func_0208ECA4(void);
 WMMpRecvData *func_0208ED70(const WMMpRecvHeader *header, u16 aid);
 u16 func_0208EE60(void);
 WMLinkLevel func_0208EE9C(void);
-u16 func_0208EF30(void);
+u16 WM_GetDispersionBeaconPeriod(void);
 u16 func_0208EFC4(void);
 WMOtherElements func_0208F05C(WMBssDesc *bssDesc);
 u16 func_0208F1B4(void);
@@ -474,7 +474,7 @@ WMLinkLevel func_0208EE9C(void)
  * sdk:      WM_GetDispersionBeaconPeriod (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-u16 func_0208EF30(void)
+u16 WM_GetDispersionBeaconPeriod(void)
 {
     u8 mac[6];
     u16 ret;

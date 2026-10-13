@@ -1,5 +1,5 @@
 /*
- * function: func_02174F54
+ * function: INTRUDE_COMM_StorePlayerRecord
  * address:  0x02174F54
  * packet:   pkt_ov011_02174F54
  * region:   ov011
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_02082D44  0x02082D44  arm
- *   func_020264B4  0x020264B4  thumb
+ *   GAME_COMM_UpdatePlayerStatus  0x020264B4  thumb
  *   func_02039338  0x02039338  arm
- *   func_021751D4  0x021751D4  thumb ov011
+ *   INTRUDE_COMM_AdjustRemotePosition  0x021751D4  thumb ov011
  */
 #include "../include/Obj00269.h"
 
@@ -38,11 +38,11 @@ typedef struct Cp {
 } Cp;
 
 void func_02082D44(const Ent *a, Ent *b, int c);
-void func_020264B4(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag);
+void GAME_COMM_UpdatePlayerStatus(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag);
 u16 func_02039338(void);
-void func_021751D4(u8 *p, u16 a, int b, struct Ent *c);
+void INTRUDE_COMM_AdjustRemotePosition(u8 *p, u16 a, int b, struct Ent *c);
 
-void func_02174F54(u8 *p, int idx, const Ent *src, int arg)
+void INTRUDE_COMM_StorePlayerRecord(u8 *p, int idx, const Ent *src, int arg)
 {
     Ent *e;
     u32 saved;
@@ -55,10 +55,10 @@ void func_02174F54(u8 *p, int idx, const Ent *src, int arg)
     if (src->f0 == 1) {
         e->f0 = 1;
     }
-    func_020264B4((void *)(((struct Obj00269 *)p)->f4), idx, e->f14, (u8)e->a, e->lo, arg);
+    GAME_COMM_UpdatePlayerStatus((void *)(((struct Obj00269 *)p)->f4), idx, e->f14, (u8)e->a, e->lo, arg);
     if (idx != func_02039338()) {
         *((Cp *)(p + 0xE0) + idx) = *(Cp *)e;
-        func_021751D4(p, ((struct Obj00269 *)p)->f84, ((struct Obj00269 *)p)->f74, e);
+        INTRUDE_COMM_AdjustRemotePosition(p, ((struct Obj00269 *)p)->f84, ((struct Obj00269 *)p)->f74, e);
     }
     p[0x927] |= (u8)(1 << idx);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02029408
+ * function: FIELD_SOUND_SYSTEM_StartLoadingRequestedBgm
  * address:  0x02029408
  * packet:   pkt_02029354
  * region:   arm9
@@ -10,8 +10,11 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02029408.c \\
- *       --func func_02029408 --addr 0x02029408 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/FIELD_SOUND_SYSTEM_StartLoadingRequestedBgm.c \\
+ *       --func FIELD_SOUND_SYSTEM_StartLoadingRequestedBgm --addr 0x02029408 --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   GFL_USE_StepBgmLoad  0x020063B4  thumb
  */
 #include "../include/Obj04741.h"
 
@@ -19,15 +22,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020063B4(u8 *a0, u32 *a1, u32 a2);
+extern u32 GFL_USE_StepBgmLoad(u8 *a0, u32 *a1, u32 a2);
 extern void func_0203D12C(int a);
 
-u32 func_02029408(u8 *p)
+u32 FIELD_SOUND_SYSTEM_StartLoadingRequestedBgm(u8 *p)
 {
     if (((struct Obj04741 *)p)->fC == 0) {
         return 0;
     }
-    func_020063B4((u8 *)(((struct Obj04741 *)p)->fC), (u32 *)((u32)(p + 0x14)), 1);
+    GFL_USE_StepBgmLoad((u8 *)(((struct Obj04741 *)p)->fC), (u32 *)((u32)(p + 0x14)), 1);
     ((struct Obj04741 *)p)->f10 = ((struct Obj04741 *)p)->fC;
     ((struct Obj04741 *)p)->fC = 0;
     ((struct Obj04741 *)p)->f8 = 0;

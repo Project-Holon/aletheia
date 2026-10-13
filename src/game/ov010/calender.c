@@ -39,7 +39,7 @@
  *   func_021A0F90 0x021A0F90 thumb ov021
  *   func_021A0F30 0x021A0F30 thumb ov021
  *   d_02171534     0x02171534  data
- *   func_0201440C  0x0201440C  thumb
+ *   ZONEDATA_PopTimeFlagsCleared  0x0201440C  thumb
  *   func_020056EC  0x020056EC  thumb
  *   func_0201433C  0x0201433C  thumb
  *   func_0215A5DC 0x0215A5DC thumb ov010
@@ -54,7 +54,7 @@
  *   func_02049238  0x02049238  arm
  *   func_021690D0 0x021690D0 thumb ov010
  *   func_021690E0 0x021690E0 thumb ov010
- *   func_02013C10  0x02013C10  thumb
+ *   ZONEDATA_GetWeatherId  0x02013C10  thumb
  *   func_0204944C  0x0204944C  arm
  *   d_02171C20  0x02171C20  data  ov010  a1
  *   func_0215A5F4  0x0215A5F4  thumb ov010
@@ -71,352 +71,336 @@
  *   func_021F5550  0x021F5550  thumb  ov082
  *   func_020120F4  0x020120F4  thumb
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_020144DC  0x020144DC  thumb
- *   func_020297AC  0x020297AC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
+ *   FIELD_SOUND_SYSTEM_StartPushAndChangeTask  0x020297AC  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
- *   func_02029690  0x02029690  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
+ *   FIELD_SOUND_SYSTEM_StartPopTask  0x02029690  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   func_021A0F40  0x021A0F40  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_02029CC0  0x02029CC0  thumb
+ *   FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask  0x02029CC0  thumb
  *   ov216_id       0x000000D8  data
  *   d_021BDB40     0x021BDB40  data  a1 ov216
  */
-#include "../../matched/include/Obj12359.h"
-#include "../../matched/include/Obj04133.h"
-#include "../../matched/include/Obj12049.h"
-#include "../../matched/include/Obj12360.h"
-#include "../../matched/include/Obj18978.h"
-#include "../../matched/include/Obj18979.h"
-
-struct Rec44;
-struct Ctx;
-struct Obj00020;
-struct Desc;
-struct Obj;
-struct ArcFile;
-struct Stream;
-struct Evt;
-struct IcaAnime;
-typedef unsigned int u32;
-
-typedef struct Entry {
-    int (*fn)(void *p, void *a);
-    u32 arg;
-} Entry;
 
 typedef unsigned char u8;
-
 typedef unsigned short u16;
+typedef unsigned int u32;
 
-typedef struct { void *p; u32 n; } Work;
+struct GameSystem;
+struct GameData;
+struct PlayerWork;
+struct EventWork;
+struct GameEvent;
+struct FieldMap;
+struct FieldPlayer;
+struct ArcFile;
+struct ScriptVm;
+struct ScriptSystem;
+struct ScrCmdWork;
 
-typedef struct { int x,y,z; } Vec;
+/* Overlay ids are linker symbols whose address is the id. */
+#define OVERLAY_ID_47 ((int)ov_id_47)
+#define OVERLAY_ID_52 ((int)ov_id_52)
+#define OVERLAY_ID_216 ((u32)ov216_id)
 
-typedef struct Rec10 {
-    unsigned short flag;
-    unsigned char b2;
-    unsigned char b3;
-    unsigned char rest[6];
-} Rec10;
+#define HIDDEN_ITEM_SCRIPT_FIRST 8000
+#define HIDDEN_ITEM_SCRIPT_LAST 8799
+#define HIDDEN_ITEM_FLAG_BASE 900
+#define HIDDEN_ITEM_COUNT 177
+#define HIDDEN_ITEM_RESPAWN_PERCENT 20
 
-typedef struct { u8 b[13]; } Days;
+#define CALENDER_ZONE_MAX 68
+#define CALENDER_ARC_ID 0x61
 
-typedef struct SubArgs {
-    void *sys;          /* 0x0C */
-    u32 f04;            /* 0x10 */
-    u8 f08;             /* 0x14 */
-    u8 flag;            /* 0x15 */
+typedef struct GameEvent *(*FieldLinkEventFn)(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
+
+/* One record of the field link event table at d_02171504. */
+typedef struct FieldLinkEventEntry {
+    FieldLinkEventFn create;
+    u32 id;
+} FieldLinkEventEntry;
+
+/* One record of the hidden item table at d_02171534. */
+typedef struct HiddenItemEntry {
+    u16 flagIndex;    /* the event flag is flagIndex + HIDDEN_ITEM_FLAG_BASE */
+    u8 isDowsable;
+    u8 respawns;      /* takes part in the daily respawn roll */
+    u16 zoneId;
+    u16 gridX;
+    u16 gridZ;
+} HiddenItemEntry;
+
+/* Days per month: index 0 is unused, February has 29 days. */
+typedef struct DaysPerMonth {
+    u8 days[13];
+} DaysPerMonth;
+
+typedef struct SubscreenToggleWork {
+    struct GameSystem *gameSystem;
+    struct FieldMap *fieldMap;
+} SubscreenToggleWork;
+
+typedef struct LinkEnterWork {
+    struct GameSystem *gameSystem;
+    u32 frameCount;
+} LinkEnterWork;
+
+typedef struct CalenderZoneEntry {
+    u16 zoneId;
+    u16 offset;       /* offset of the zone's 366 daily weather bytes in the archive */
+} CalenderZoneEntry;
+
+/* Weather calendar, 0x11C bytes. */
+typedef struct CalenderWork {
+    u16 heapId;
+    struct GameData *gameData;
+    struct ArcFile *arc;
+    CalenderZoneEntry zones[CALENDER_ZONE_MAX];
+} CalenderWork;
+
+typedef struct FaceUpEndWork {
+    struct GameSystem *gameSystem;
+} FaceUpEndWork;
+
+/* Argument block of the overlay 216 process. */
+typedef struct BeaconSearchProcArgs {
+    struct GameSystem *gameSystem;
+    struct GameData *gameData;
+    u8 mode;
+    u8 resultFlag;
     u8 pad[2];
-} SubArgs;
+} BeaconSearchProcArgs;
 
-typedef struct SeqWork2 {
-    void *sys;          /* 0x00 */
-    u32 f04;            /* 0x04 */
-    u32 f08;            /* 0x08 */
-    SubArgs sub;        /* 0x0C */
-    u8 f18;             /* 0x18 */
-} SeqWork2;
+/* Work of the beacon search event, 0x1C bytes. */
+typedef struct BeaconSearchEventWork {
+    struct GameSystem *gameSystem;
+    struct GameData *gameData;
+    void *saveControl;
+    BeaconSearchProcArgs procArgs;
+    u8 mode;
+} BeaconSearchEventWork;
 
-extern unsigned short func_02012AC8(const struct Rec44 *p);
-extern u32 func_02012B28(const struct Rec44 *p);
-extern void *func_02188CB4(unsigned char *p);
-extern int func_021A30C8();
-extern int func_021AB0F0();
-extern int func_021AB4B8();
-extern u32 func_02013C20(u32 id);
-extern u32 func_02013E04(u32 id);
-extern u32 func_02013C50(u32 id);
-extern int func_021C5C64(u32 unused, u32 a, u32 *out);
-extern u32 func_02013D20(u32 id);
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_0215870C(void *p, int b);
-extern void *func_02188C7C(u8 *p);
-extern u32 func_02188BF8(u8 *a);
-extern int   func_021A2F54(u8 *p);
-extern int   func_021A34F8(u8 *p);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Obj *p);
-extern void func_02185140(void *, int, const Vec *, int);
-extern u32 func_02188CCC(u8 *p);
-extern u32 func_021A0F90(u8 *p);
-extern int func_021A0F30(u32 a, u32 b);
-extern u8 func_0201440C(u8 *a);
+extern unsigned short func_02012AC8(const struct PlayerWork *player);
+extern u32 func_02012B28(const struct PlayerWork *player);
+extern struct FieldPlayer *func_02188CB4(struct FieldMap *fieldMap);
+extern void *func_021A30C8(struct FieldPlayer *fieldPlayer);
+extern void *func_021AB0F0(void *encountState);
+extern int func_021AB4B8(void *effect);
+extern u32 func_02013C20(u32 zoneId);
+extern u32 func_02013E04(u32 zoneId);
+extern u32 func_02013C50(u32 zoneId);
+extern int func_021C5C64(struct GameData *gameData, struct FieldMap *fieldMap, u32 *out);
+extern u32 func_02013D20(u32 zoneId);
+extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern void *func_02012138(const struct GameSystem *gameSystem);
+extern int func_0215870C(void *gameComm, int frames);
+extern void *func_02188C7C(struct FieldMap *fieldMap);
+extern u32 func_02188BF8(struct FieldMap *fieldMap);
+extern int func_021A2F54(struct FieldPlayer *fieldPlayer);
+extern int func_021A34F8(struct FieldPlayer *fieldPlayer);
+extern struct GameEvent *func_020122C0(void *gameSystem, void *parent, void *func, u32 size);
+extern void *func_020124E8(struct GameEvent *event);
+extern void func_02185140(struct GameSystem *gameSystem, int id, const void *position, int flags);
+extern void *func_02188CCC(struct FieldMap *fieldMap);
+extern u32 func_021A0F90(void *subscreen);
+extern int func_021A0F30(void *subscreen, u32 mode);
+extern u8 ZONEDATA_PopTimeFlagsCleared(struct EventWork *eventWork);
 extern u32 func_020056EC(u32 range);
-extern void func_0201433C(char *a0, int a1);
-extern void *func_0215A5DC(void *a0);
-extern int func_02034AC4(int);
-extern void func_021F3800(u32 a);
-extern void func_02034A5C(int);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_020307B0();
-extern void *func_020490F4(u32 id, u32 heap);
-extern void func_02049238(void *arc);
-extern int func_021690D0(int a0);
-extern int func_021690E0(int a0);
-extern u8   func_02013C10(u32 b);
-extern void func_0204944C(struct ArcFile *a, u32 b, u32 c, u32 d, void *e);
-extern void *func_0215A5F4(void *a);
-extern u16 func_02011330(struct Stream *s);
-extern void func_02159144(int a);
-extern void *func_021F5260(int a0, int a1, int a2, void *a3, int a4);
-extern void func_0215897C(void *vm, void *task);
-extern int func_021F558C();
-extern void func_021F5578(u8 *p);
-extern void func_02159168(int);
-extern void *func_020124E4(struct Obj *p);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_021F5550(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern int func_020144DC(int a0, int a1);
-extern void *func_020297AC(void *sys, u32 a, u32 b, u32 c);
+extern void func_0201433C(struct EventWork *eventWork, int flagId);
+extern struct GameSystem *func_0215A5DC(struct ScrCmdWork *work);
+extern int func_02034AC4(int overlayId);
+extern void func_021F3800(struct GameSystem *gameSystem);
+extern void func_02034A5C(int overlayId);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void func_020307B0(void *ptr);
+extern struct ArcFile *func_020490F4(u32 arcId, u32 heapId);
+extern void func_02049238(struct ArcFile *arc);
+extern int func_021690D0(struct GameData *gameData);
+extern int func_021690E0(struct GameData *gameData);
+extern u8 ZONEDATA_GetWeatherId(u32 zoneId);
+extern void func_0204944C(struct ArcFile *arc, u32 fileId, u32 offset, u32 size, void *dst);
+extern struct ScriptSystem *func_0215A5F4(struct ScrCmdWork *work);
+extern u16 func_02011330(struct ScriptVm *vm);
+extern void func_02159144(int waitState);
+extern void *func_021F5260(int type, int variant, int option, struct GameSystem *gameSystem, struct ScrCmdWork *work);
+extern void func_0215897C(struct ScriptSystem *scriptSystem, void *task);
+extern int func_021F558C(struct FieldMap *fieldMap);
+extern void func_021F5578(struct FieldMap *fieldMap);
+extern void func_02159168(int waitState);
+extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern void func_02012374(struct GameEvent *parent, struct GameEvent *child);
+extern struct GameEvent *func_021F5550(struct GameSystem *gameSystem);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GameEvent *func_021BE8D4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int subMode);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndChangeTask(struct GameSystem *gameSystem, u32 soundId, u32 mode, u32 flag);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
-extern void *func_02029690(void *sys, u32 a, u32 b);
-extern void *func_020145CC(void *sys);
-extern void func_021A0F40(u32 *p, u32 v);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern void *func_02029CC0(void *sys);
-int func_021644F4(int i, void *a, void *p);
-int func_02164508(int a0, int a1, int a2);
-int func_02164564(void *a, void *b, void *c);
-int func_0216458C(void *a, void *b, void *c);
-int func_0216459C(int a0, int a1, int a2);
-int func_021645C0(void *a0, void *a1, void *a2);
-int func_021645E0(void *unused, int *st, int *w);
-void *func_02164654(void *unused, void *a);
-void func_02164678(void *unused, void *a);
-int func_021646A0(void *a,void *b,void **p);
-void *func_021646C4(void *a,void *b);
-u16 func_021646E8(u32 n);
-u16 func_02164708(u16 id);
-void func_02164728(void *o);
-const Rec10 *func_0216476C(unsigned short *n);
-int func_02164778(void *a,void *b);
-u8 *func_021647A0(void *a,u32 b);
-int func_021647D8(int a0);
-u32 func_021647E8(void *arg, unsigned int b);
-int func_021647F0(int a0);
-void *func_021647FC(int a0);
-int func_0216480C(int a0);
-u8 func_0216481C(u8 *p,u32 b);
-u8 func_02164844(u8 *a, u32 b, u8 c, u8 d);
-void func_02164890(u8 *p);
-u32 func_021648A8(u8 *p,u32 n);
-u16 func_021648CC(int n, int k);
-int func_02164910(void *s, void *q);
-int func_02164978(int a0, int a1);
-int func_02164994(void *a,void *b);
-int func_021649C8(void **p);
-int func_021649E8(void *a, int *st);
-int func_02164A2C(void *evt, u32 *seq, SeqWork2 *w);
-extern Entry d_02171504[];
-extern const Rec10 d_02171534[];
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopTask(struct GameSystem *gameSystem, u32 mode, u32 frames);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
+extern void func_021A0F40(void *subscreen, u32 mode);
+extern struct GameEvent *func_021BE92C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int subMode, int enable, u8 optionA, u8 optionB);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(struct GameSystem *gameSystem);
+
+extern FieldLinkEventEntry d_02171504[];
+extern const HiddenItemEntry d_02171534[];
 extern u8 ov_id_47[];
 extern const char d_021729B0[];
-extern const Days d_02171C20;
+extern const DaysPerMonth d_02171C20;
 extern u8 ov_id_52[];
 extern u8 ov216_id[];
 extern const u8 d_021BDB40[];
 
-
-
-
+struct GameEvent *func_021644F4(int index, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+int func_02164508(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player);
+int func_02164564(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player);
+int func_0216458C(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player);
+int func_0216459C(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player);
+int func_021645C0(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player);
+int func_021645E0(struct GameEvent *event, int *seq, LinkEnterWork *work);
+struct GameEvent *func_02164654(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
+void func_02164678(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
+int func_021646A0(struct GameEvent *event, u32 *seq, SubscreenToggleWork *work);
+struct GameEvent *func_021646C4(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
+u16 func_021646E8(u32 scriptId);
+u16 func_02164708(u16 scriptId);
+void func_02164728(struct EventWork *eventWork);
+const HiddenItemEntry *func_0216476C(unsigned short *count);
+int func_02164778(struct ScriptVm *vm, struct ScrCmdWork *work);
+CalenderWork *func_021647A0(struct GameData *gameData, u32 heapId);
+void func_021647D8(CalenderWork *calender);
+u32 func_021647E8(CalenderWork *calender, unsigned int zoneId);
+void func_021647F0(CalenderWork *calender);
+struct ArcFile *func_021647FC(CalenderWork *calender);
+void func_0216480C(CalenderWork *calender);
+u8 func_0216481C(CalenderWork *calender, u32 zoneId);
+u8 func_02164844(CalenderWork *calender, u32 zoneId, u8 month, u8 day);
+void func_02164890(CalenderWork *calender);
+u32 func_021648A8(CalenderWork *calender, u32 zoneId);
+u16 func_021648CC(int month, int day);
+int func_02164910(struct ScriptVm *vm, struct ScrCmdWork *work);
+int func_02164978(struct ScriptVm *vm, struct ScrCmdWork *work);
+int func_02164994(struct ScriptVm *vm, struct ScrCmdWork *work);
+int func_021649C8(FaceUpEndWork *work);
+int func_021649E8(struct GameEvent *event, int *seq);
+int func_02164A2C(struct GameEvent *event, u32 *seq, BeaconSearchEventWork *work);
 
 /*
- * Dispatches through the eight-byte records at 0x02171504.
+ * Creates the event of entry index in the field link event table and
+ * returns it.
  */
-int func_021644F4(int i, void *a, void *p)
+struct GameEvent *func_021644F4(int index, struct GameSystem *gameSystem, struct FieldMap *fieldMap)
 {
-    return d_02171504[i].fn(p, a);
+    return d_02171504[index].create(fieldMap, gameSystem);
 }
 
-
-
-
-
-int func_02164508(int a0, int a1, int a2)
-{
-    int t4;
-    int t5;
-    int t6;
-    void *v0;
-
-t5 = a2 + 0;
-a0 = t5 + 0;
-t4 = a1 + 0;
-    a0 = func_02012AC8((const struct Rec44 *)a0);
-loc_02164514:
-t6 = a0 + 0;
-a0 = t5 + 0;
-    a0 = func_02012B28((const struct Rec44 *)a0);
-loc_0216451C:
-a0 = a0 << 0x18;
-t5 = (unsigned)a0 >> 0x18;
-a0 = t4 + 0;
-    v0 = func_02188CB4((void *)a0);
-loc_02164526:
-    a0 = func_021A30C8(v0);
-loc_0216452A:
-    a0 = func_021AB0F0(a0);
-loc_0216452E:
-    a0 = func_021AB4B8(a0);
-loc_02164532:
-t4 = a0 + 0;
-    if (t5 != 1) goto loc_02164542;
-loc_02164538:
-a0 = 1;
-    if (t4 == 0) goto loc_02164560;
-loc_0216453E:
-a0 = 0;
-    return a0;
-loc_02164542:
-a0 = t6 + 0;
-    a0 = func_02013C20(a0);
-loc_02164548:
-    if (a0 != 0) goto loc_02164550;
-loc_0216454C:
-a0 = 0;
-    return a0;
-loc_02164550:
-    if (t5 == 0) goto loc_02164558;
-loc_02164554:
-a0 = 0;
-    return a0;
-loc_02164558:
-a0 = 1;
-    if (t4 == 0) goto loc_02164560;
-loc_0216455E:
-a0 = 0;
-loc_02164560:
-    return a0;}
-
-
-
-
-int func_02164564(void *a, void *b, void *c) { u16 v=func_02012AC8(c); if (!func_02013E04(v)) return 0; if (func_02013C50(v)) return 1; return 0; }
-
-
-
-
 /*
- * extent: 2-byte zero alignment padding at 0x0216459A.
+ * Field skill check, slot 0: whether the bicycle can be used here. Only
+ * allowed while no encounter effect is active; getting on also needs a
+ * bicycle zone and the walking body.
  */
-int func_0216458C(void *a, void *b, void *c) { return func_02013E04(func_02012AC8(c)); }
-
-
-
-
-
-
-
-/*
- * unblocked: 0x021C5C64 is ov021's func_021C5C64 across the co-resident
- *   ov010/ov021 field-VM pair; the `ov021` token on the symbols line picks
- *   that overlay and the site resolves `label`.
- */
-int func_0216459C(int a0, int a1, int a2)
+int func_02164508(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player)
 {
-    int t4;
-    int t5;
+    u16 zoneId;
+    u8 objectCode;
+    int encountEffect;
 
-t5 = a0 + 0;
-a0 = a2 + 0;
-t4 = a1 + 0;
-    a0 = func_02012AC8((const struct Rec44 *)a0);
-loc_021645A8:
-    a0 = func_02013E04(a0);
-loc_021645AC:
-    if (a0 != 0) goto loc_021645B4;
-loc_021645B0:
-a0 = 0;
-    return a0;
-loc_021645B4:
-a0 = t5 + 0;
-a1 = t4 + 0;
-a2 = 0;
-    a0 = func_021C5C64(a0, a1, (u32 *)a2);
-loc_021645BE:
-    return a0;}
-
-
-
-
-
-
-
-/*
- * Size the third argument through the arm9 helper, bail when the arm9
- * status is set, otherwise copy it out.
- */
-int func_021645C0(void *a0, void *a1, void *a2)
-{
-    int r = func_02012AC8(a2);
-
-    if (func_02013D20(r) != 0)
+    zoneId = func_02012AC8(player);
+    objectCode = func_02012B28(player);
+    encountEffect = func_021AB4B8(func_021AB0F0(func_021A30C8(func_02188CB4(fieldMap))));
+    if (objectCode == 1) {
+        if (encountEffect == 0) {
+            return 1;
+        }
         return 0;
-
-    return func_02013E04(r);
+    }
+    if (func_02013C20(zoneId) == 0) {
+        return 0;
+    }
+    if (objectCode != 0) {
+        return 0;
+    }
+    if (encountEffect == 0) {
+        return 1;
+    }
+    return 0;
 }
 
+/* Field skill check: normal field zone that has weather. */
+int func_02164564(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player)
+{
+    u16 zoneId = func_02012AC8(player);
 
+    if (!func_02013E04(zoneId)) {
+        return 0;
+    }
+    if (func_02013C50(zoneId)) {
+        return 1;
+    }
+    return 0;
+}
 
-
-
-
+/* Field skill check: normal field zone (2-byte zero padding follows at 0x0216459A). */
+int func_0216458C(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player)
+{
+    return func_02013E04(func_02012AC8(player));
+}
 
 /*
- * Three-step wait state machine on *st; step 0 also counts frames in w[1].
- *
- * Addresses are Black-image addresses.
+ * Field skill check: normal field zone and the tile in front passes the
+ * check of func_021C5C64 (overlay 21, defined in the co-resident ov021).
  */
-int func_021645E0(void *unused, int *st, int *w)
+int func_0216459C(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player)
 {
-    int r;
-    u8 *h = func_0201210C((void *)w[0]);
-    func_02188C7C(h);
-    switch (*st) {
+    if (func_02013E04(func_02012AC8(player)) == 0) {
+        return 0;
+    }
+    return func_021C5C64(gameData, fieldMap, 0);
+}
+
+/* Field skill check: normal field zone, except the zone of func_02013D20. */
+int func_021645C0(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player)
+{
+    int zoneId = func_02012AC8(player);
+
+    if (func_02013D20(zoneId) != 0) {
+        return 0;
+    }
+    return func_02013E04(zoneId);
+}
+
+/*
+ * Event: waits up to 30 frames for the comm check, then runs two field
+ * player steps in turn.
+ */
+int func_021645E0(struct GameEvent *event, int *seq, LinkEnterWork *work)
+{
+    void *gameComm;
+    struct FieldMap *fieldMap;
+
+    fieldMap = func_0201210C(work->gameSystem);
+    func_02188C7C(fieldMap);
+    switch (*seq) {
     case 0:
-        r = func_02012138((const struct Ctx *)w[0]);
-        w[1]++;
-        if (func_0215870C((void *)r, w[1]) == 1 && (u32)w[1] < 0x1e) {
+        gameComm = func_02012138(work->gameSystem);
+        work->frameCount++;
+        if (func_0215870C(gameComm, work->frameCount) == 1 && work->frameCount < 30) {
             break;
         }
-        func_02188BF8(h);
-        (*st)++;
+        func_02188BF8(fieldMap);
+        (*seq)++;
         /* fall through */
     case 1:
-        if (func_021A2F54((u8 *)func_02188CB4((unsigned char *)((struct Obj00020 *)h))) == 1) {
-            (*st)++;
+        if (func_021A2F54(func_02188CB4(fieldMap)) == 1) {
+            (*seq)++;
         }
         break;
     case 2:
-        if (func_021A34F8((u8 *)func_02188CB4((unsigned char *)((struct Obj00020 *)h))) == 1) {
+        if (func_021A34F8(func_02188CB4(fieldMap)) == 1) {
             return 1;
         }
         break;
@@ -424,369 +408,373 @@ int func_021645E0(void *unused, int *st, int *w)
     return 0;
 }
 
-
-
-
-
-
-void *func_02164654(void *unused, void *a) { void *task; Work *w; int zero=0; task=func_020122C0(a,0,(void *)func_021645E0,8); w=func_020124E8(task); w->p=a; w->n=zero; return task; }
-
-
-
-
-
-
-/*
- * extent: 2-byte zero alignment padding at 0x0216469E.
- */
-void func_02164678(void *unused, void *a) { Vec v; v.x=0x200000; v.y=32; v.z=0x1E8000; func_02185140(a,279,&v,0); }
-
-
-
-
-
-
-int func_021646A0(void *a,void *b,void **p){void *v=(void *)func_02188CCC(p[1]); if(func_021A0F90(v)==6)func_021A0F30((u32)v,0);else func_021A0F30((u32)v,6);return 1;}
-
-
-
-
-
-
-void *func_021646C4(void *a,void *b){void *t=func_020122C0(b,0,(void *)func_021646A0,8);void **p=func_020124E8(t);p[0]=b;p[1]=a;return t;}
-
-
-
-
-
-
-u16 func_021646E8(u32 n){if(n<8000 || n>8799)return 0;return n-8000;}
-
-
-
-
-
-/*
- * Flag id of an entry: the first halfword of its 10-byte record in
- * d_02171534, offset by 900.
- */
-u16 func_02164708(u16 id)
+/* Creates the event of func_021645E0 (field link entry 0). */
+struct GameEvent *func_02164654(struct FieldMap *fieldMap, struct GameSystem *gameSystem)
 {
-    return d_02171534[func_021646E8(id)].flag + 900;
+    struct GameEvent *event;
+    LinkEnterWork *work;
+
+    event = func_020122C0(gameSystem, 0, (void *)func_021645E0, sizeof(LinkEnterWork));
+    work = func_020124E8(event);
+    work->gameSystem = gameSystem;
+    work->frameCount = 0;
+    return event;
 }
 
+/*
+ * Field link entry 1: adds the object 279 of overlay 20 at a fixed
+ * position (2-byte zero padding follows at 0x0216469E).
+ */
+void func_02164678(struct FieldMap *fieldMap, struct GameSystem *gameSystem)
+{
+    struct {
+        int x;
+        int y;
+        int z;
+    } position;
 
+    position.x = 0x200000;
+    position.y = 32;
+    position.z = 0x1E8000;
+    func_02185140(gameSystem, 279, &position, 0);
+}
+
+/* Event: switches the subscreen between mode 6 and mode 0. */
+int func_021646A0(struct GameEvent *event, u32 *seq, SubscreenToggleWork *work)
+{
+    void *subscreen = func_02188CCC(work->fieldMap);
+
+    if (func_021A0F90(subscreen) == 6) {
+        func_021A0F30(subscreen, 0);
+    } else {
+        func_021A0F30(subscreen, 6);
+    }
+    return 1;
+}
+
+/* Creates the event of func_021646A0 (field link entry 5). */
+struct GameEvent *func_021646C4(struct FieldMap *fieldMap, struct GameSystem *gameSystem)
+{
+    struct GameEvent *event = func_020122C0(gameSystem, 0, (void *)func_021646A0, sizeof(SubscreenToggleWork));
+    SubscreenToggleWork *work = func_020124E8(event);
+
+    work->gameSystem = gameSystem;
+    work->fieldMap = fieldMap;
+    return event;
+}
 
 /*
- * Walks a 177-entry, 10-byte-stride table; entries flagged at +3 pass a
- * 20% roll and are handed to func_0201433C as halfword +0 plus 900.
- *
- * Addresses are Black-image addresses.
+ * Hidden item index of a script id, or 0 when the id is outside the
+ * hidden item script range.
  */
-void func_02164728(void *o)
+u16 func_021646E8(u32 scriptId)
+{
+    if (scriptId < HIDDEN_ITEM_SCRIPT_FIRST || scriptId > HIDDEN_ITEM_SCRIPT_LAST) {
+        return 0;
+    }
+    return scriptId - HIDDEN_ITEM_SCRIPT_FIRST;
+}
+
+/* Event flag of the hidden item that a script id stands for. */
+u16 func_02164708(u16 scriptId)
+{
+    return d_02171534[func_021646E8(scriptId)].flagIndex + HIDDEN_ITEM_FLAG_BASE;
+}
+
+/*
+ * Daily hidden item respawn: when the time flags were cleared, every
+ * respawning entry has a 20% chance to reset its event flag.
+ */
+void func_02164728(struct EventWork *eventWork)
 {
     u32 i;
-    if (func_0201440C(o) != 0) {
-        for (i = 0; i < 0xb1; i++) {
-            const Rec10 *p = d_02171534 + i;
-            if (p->b3 != 0) {
-                if (func_020056EC(100) < 20) {
-                    func_0201433C(o, (u16)(p->flag + 900));
+
+    if (ZONEDATA_PopTimeFlagsCleared(eventWork) != 0) {
+        for (i = 0; i < HIDDEN_ITEM_COUNT; i++) {
+            const HiddenItemEntry *entry = d_02171534 + i;
+
+            if (entry->respawns != 0) {
+                if (func_020056EC(100) < HIDDEN_ITEM_RESPAWN_PERCENT) {
+                    func_0201433C(eventWork, (u16)(entry->flagIndex + HIDDEN_ITEM_FLAG_BASE));
                 }
             }
         }
     }
 }
 
-
-
-
-const Rec10 *func_0216476C(unsigned short *n)
+/* Returns the hidden item table and stores its entry count. */
+const HiddenItemEntry *func_0216476C(unsigned short *count)
 {
-    *n = 0xB1;
+    *count = HIDDEN_ITEM_COUNT;
     return d_02171534;
 }
 
-
-
-int func_02164778(void *a,void *b){void *v=func_0215A5DC(b);func_02034AC4((int)ov_id_47);func_021F3800((u32)v);func_02034A5C((int)ov_id_47);return 0;}
-
-
-
-u8 *func_021647A0(void *a,u32 b){u8 *p=func_02030734(b,0x11c,0,d_021729B0,0x53);func_021647F0((int)p);((struct Obj04133 *)p)->f0=b;((struct Obj04133 *)p)->f4=a;func_021647FC((int)p);func_02164890(p);return p;}
-
-
-
-
-int func_021647D8(int a0)
+/* Script command: loads overlay 47 and runs its entry on the game system. */
+int func_02164778(struct ScriptVm *vm, struct ScrCmdWork *work)
 {
-    int t4;
+    struct GameSystem *gameSystem = func_0215A5DC(work);
 
-t4 = a0 + 0;
-    a0 = func_0216480C(a0);
-loc_021647E0:
-a0 = t4 + 0;
-    a0 = func_020307B0(a0);
-loc_021647E6:
-    return a0;}
+    func_02034AC4(OVERLAY_ID_47);
+    func_021F3800(gameSystem);
+    func_02034A5C(OVERLAY_ID_47);
+    return 0;
+}
 
+/*
+ * Allocates the weather calendar and loads its archive and zone table.
+ * The file name and line (0x53) given to the allocator are those of the
+ * original call site.
+ */
+CalenderWork *func_021647A0(struct GameData *gameData, u32 heapId)
+{
+    CalenderWork *calender;
 
+    calender = func_02030734(heapId, sizeof(CalenderWork), 0, d_021729B0, 0x53);
+    func_021647F0(calender);
+    calender->heapId = heapId;
+    calender->gameData = gameData;
+    func_021647FC(calender);
+    func_02164890(calender);
+    return calender;
+}
 
+/* Closes the archive and frees the weather calendar. */
+void func_021647D8(CalenderWork *calender)
+{
+    func_0216480C(calender);
+    func_020307B0(calender);
+}
 
 /*
  * Tail call to func_0216481C through a pool word and `bx r3`
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  Unlabelled in the
+ * (docs/idioms/tail-call-is-a-pool-word-and-bx.md). Unlabelled in the
  * listing: no prologue, and its only caller is func_0202C794 in arm9.
  */
-u32 func_021647E8(void *arg, unsigned int b)
+u32 func_021647E8(CalenderWork *calender, unsigned int zoneId)
 {
-    return func_0216481C(arg, b);
+    return func_0216481C(calender, zoneId);
 }
 
-
-
-
-
-
-int func_021647F0(int a0)
+/* Clears the calendar fields that hold resources. */
+void func_021647F0(CalenderWork *calender)
 {
-    int a1;
 
-a1 = 0;
-((struct Obj04133 *)((char *)a0))->f0 = a1;
-*(int *)&((struct Obj04133 *)a0)->f4 = a1;
-*(int *)&((struct Obj04133 *)a0)->f8 = a1;
-    return a0;}
+    calender->heapId = 0;
+    calender->gameData = 0;
+    calender->arc = 0;
+}
 
-
-
-
-void *func_021647FC(int a0)
+/* Opens the calendar archive. */
+struct ArcFile *func_021647FC(CalenderWork *calender)
 {
-    int a1;
-    int t4;
-    void *rec;
+    struct ArcFile *arc;
 
-t4 = a0 + 0;
-a1 = ((struct Obj04133 *)((char *)t4))->f0;
-a0 = 0x61;
-    rec = func_020490F4(a0, a1);
-loc_02164808:
-((struct Obj04133 *)t4)->f8 = rec;
-    return rec;}
+    arc = func_020490F4(CALENDER_ARC_ID, calender->heapId);
+    calender->arc = arc;
+    return arc;
+}
 
-
-
-
-int func_0216480C(int a0)
+/* Closes the calendar archive. */
+void func_0216480C(CalenderWork *calender)
 {
-    int t4;
+    func_02049238(calender->arc);
+    calender->arc = 0;
+}
 
-t4 = a0 + 0;
-a0 = ((struct Obj12049 *)t4)->f8;
-    func_02049238((void *)a0);
-loc_02164816:
-a0 = 0;
-((struct Obj12049 *)t4)->f8 = a0;
-    return a0;}
+/* Weather of a zone on the current date. */
+u8 func_0216481C(CalenderWork *calender, u32 zoneId)
+{
+    int month = func_021690D0(calender->gameData);
+    int day = func_021690E0(calender->gameData);
 
-
-
-u8 func_0216481C(u8 *p,u32 b){int c=func_021690D0((int)(((struct Obj12360 *)p)->f4));int d=func_021690E0((int)(((struct Obj12360 *)p)->f4));return func_02164844(p,b,c,d);}
-
-
-
+    return func_02164844(calender, zoneId, month, day);
+}
 
 /*
- * Looks up a table entry; 0xFFFF means missing and forwards to
- * func_02013C10, otherwise reads one byte through func_0204944C.
- *
- * Addresses are Black-image addresses.
+ * Weather of a zone on a date: reads the byte at the zone's offset plus
+ * the day of the year. A zone without a calendar entry takes its default
+ * weather.
  */
-u8 func_02164844(u8 *a, u32 b, u8 c, u8 d)
+u8 func_02164844(CalenderWork *calender, u32 zoneId, u8 month, u8 day)
 {
-    u32 t = func_021648A8(a, b);
-    u8 out;
-    u16 s;
-    if (t == 0xffff) {
-        return func_02013C10(b);
+    u32 zoneOffset = func_021648A8(calender, zoneId);
+    u8 weather;
+    u16 position;
+
+    if (zoneOffset == 0xffff) {
+        return ZONEDATA_GetWeatherId(zoneId);
     }
-    s = t + func_021648CC(c, d);
-    func_0204944C((struct ArcFile *)((struct Obj18978 *)a)->f8, 0, s, 1, &out);
-    return out;
+    position = zoneOffset + func_021648CC(month, day);
+    func_0204944C(calender->arc, 0, position, 1, &weather);
+    return weather;
 }
 
-
-
-void func_02164890(u8 *p){func_0204944C((struct ArcFile *)((struct Obj18979 *)p)->f8,1,2,0x110,p+12);}
-
-
-
-u32 func_021648A8(u8 *p,u32 n){int i;u32 out=0xffff;for(i=0;i<68;i++){if(n==*(u16 *)(p+12+i*4)){out=*(u16 *)(p+14+i*4);break;}}return out;}
-
-
-
-
-/*
- * Sums the first n entries of a 13-byte days-per-month table, plus k - 1.
- *
- * Addresses are Black-image addresses.
- */
-u16 func_021648CC(int n, int k)
+/* Loads the zone offset table (archive file 1, from byte 2). */
+void func_02164890(CalenderWork *calender)
 {
-    Days t = d_02171C20;
+    func_0204944C(calender->arc, 1, 2, sizeof(calender->zones), calender->zones);
+}
+
+/* Archive offset of a zone's calendar, or 0xFFFF when the zone has none. */
+u32 func_021648A8(CalenderWork *calender, u32 zoneId)
+{
     int i;
-    u16 s = 0;
-    for (i = 0; i < n; i++) {
-        s = s + t.b[i];
+    u32 zoneOffset = 0xffff;
+
+    for (i = 0; i < CALENDER_ZONE_MAX; i++) {
+        if (zoneId == calender->zones[i].zoneId) {
+            zoneOffset = calender->zones[i].offset;
+            break;
+        }
     }
-    return s + (u16)(k - 1);
+    return zoneOffset;
 }
 
+/*
+ * Zero-based day of the year (leap year layout): the days of the months
+ * before `month`, plus day - 1. The month table is copied to the stack
+ * from the pool copy at d_02171C20.
+ */
+u16 func_021648CC(int month, int day)
+{
+    DaysPerMonth daysPerMonth = d_02171C20;
+    int i;
+    u16 sum = 0;
 
-
+    for (i = 0; i < month; i++) {
+        sum = sum + daysPerMonth.days[i];
+    }
+    return sum + (u16)(day - 1);
+}
 
 /*
- * Reads three values off a stream, loads overlay 82 and calls into it.
- *
- * Addresses are Black-image addresses.
+ * Script command: reads three values off the script, loads overlay 82 and
+ * starts the face-up scene; waits for it when a task was created.
  */
-int func_02164910(void *s, void *q)
+int func_02164910(struct ScriptVm *vm, struct ScrCmdWork *work)
 {
-    void *x = func_0215A5F4(q);
-    void *y = func_0215A5DC(q);
-    u8 a = func_02011330(s);
-    u8 b = func_02011330(s);
-    u32 c = func_02011330(s);
-    int r;
+    struct ScriptSystem *scriptSystem = func_0215A5F4(work);
+    struct GameSystem *gameSystem = func_0215A5DC(work);
+    u8 type = func_02011330(vm);
+    u8 variant = func_02011330(vm);
+    u32 option = func_02011330(vm);
+    void *task;
+
     func_02159144(7);
-    func_02034AC4((int)ov_id_52);
-    r = (int)func_021F5260(a, b, c, y, (int)q);
-    if (r == 0) {
+    func_02034AC4(OVERLAY_ID_52);
+    task = func_021F5260(type, variant, option, gameSystem, work);
+    if (task == 0) {
         return 1;
     }
-    func_0215897C(x, (void *)r);
+    func_0215897C(scriptSystem, task);
     return 1;
 }
 
-
-
-
-int func_02164978(int a0, int a1)
+/* Script command: finishes the face-up scene on the field map. */
+int func_02164978(struct ScriptVm *vm, struct ScrCmdWork *work)
 {
-    int t4;
-    void *v0;
-    void *v1;
-    void *v2;
+    struct GameSystem *gameSystem;
 
-t4 = a1 + 0;
-a0 = t4 + 0;
-    v0 = func_0215A5F4((void *)a0);
-loc_02164982:
-a0 = t4 + 0;
-    v1 = func_0215A5DC((void *)a0);
-loc_02164988:
-    v2 = func_0201210C(v1);
-loc_0216498C:
-    a0 = func_021F558C(v2);
-loc_02164990:
-a0 = 0;
-    return a0;}
+    func_0215A5F4(work);
+    gameSystem = func_0215A5DC(work);
+    func_021F558C(func_0201210C(gameSystem));
+    return 0;
+}
 
-
-
-int func_02164994(void *a,void *b){void *v=func_0215A5F4(b);void *t=func_020122C0(func_0215A5DC(b),0,(void *)func_021649E8,0);if(t==0)return 1;func_0215897C(v,t);return 1;}
-
-
-
-int func_021649C8(void **p){func_021F5578(func_0201210C(*p));func_02159168(7);func_02034A5C((int)ov_id_52);return 1;}
-
-
-
-
-/*
- * Two-step state machine on *st: step 0 starts a request, step 1 finishes.
- *
- * Addresses are Black-image addresses.
- */
-int func_021649E8(void *a, int *st)
+/* Script command: creates the face-up wait event and waits for it. */
+int func_02164994(struct ScriptVm *vm, struct ScrCmdWork *work)
 {
-    int r = (int)func_020124E4(a);
-    switch (*st) {
+    struct ScriptSystem *scriptSystem = func_0215A5F4(work);
+    struct GameEvent *event = func_020122C0(func_0215A5DC(work), 0, (void *)func_021649E8, 0);
+
+    if (event == 0) {
+        return 1;
+    }
+    func_0215897C(scriptSystem, event);
+    return 1;
+}
+
+/* Ends the face-up scene: releases the field map part, the script state and overlay 82. */
+int func_021649C8(FaceUpEndWork *work)
+{
+    func_021F5578(func_0201210C(work->gameSystem));
+    func_02159168(7);
+    func_02034A5C(OVERLAY_ID_52);
+    return 1;
+}
+
+/* Event: step 0 starts the face-up end request, step 1 releases it and the overlay. */
+int func_021649E8(struct GameEvent *event, int *seq)
+{
+    struct GameSystem *gameSystem = func_020124E4(event);
+
+    switch (*seq) {
     case 0:
-        func_02012374(a, func_021F5550((void *)r));
-        (*st)++;
+        func_02012374(event, func_021F5550(gameSystem));
+        (*seq)++;
         break;
     case 1:
         func_02159168(7);
-        func_02034A5C((int)ov_id_52);
+        func_02034A5C(OVERLAY_ID_52);
         return 1;
     }
     return 0;
 }
 
-
-
-
 /*
- * Sub-process sequence of the ov010 program: eight steps, each starting
- * one child process (two from ov021, the ov216 one through
- * func_020120B4 with a 12-byte hand-off), then done. Step 2 falls
- * through into step 3.
- *
- * MATCH, first draft (2026-09-28 tree_ov010_4): the one wildcard is the
- * pooled 0x021BDB40, the ov216 process template, which has no other
- * reference in the image (ov216_id itself resolves by the overlay_id
- * class).
- *
- * 2026-10-05 (D8 lane 15): the process template d_021BDB40 lives in ov216; the data line now carries the ov216 token and the relocation resolves.
+ * Beacon search event: eight steps, each starting one child event or
+ * process (the overlay 216 one through GAMESYSTEM_CallProc with a 12-byte
+ * argument block), then done. Step 2 falls through into step 3.
+ * d_021BDB40 is the process template and lives in overlay 216.
  */
-int func_02164A2C(void *evt, u32 *seq, SeqWork2 *w)
+int func_02164A2C(struct GameEvent *event, u32 *seq, BeaconSearchEventWork *work)
 {
-    void *sys;
-    void *p;
+    struct GameSystem *gameSystem;
+    struct FieldMap *fieldMap;
 
-    sys = w->sys;
-    func_020120F4(sys);
-    p = func_0201210C(sys);
+    gameSystem = work->gameSystem;
+    func_020120F4(gameSystem);
+    fieldMap = func_0201210C(gameSystem);
     switch (*seq) {
     case 0:
-        func_02012374(evt, (struct Evt **)func_021BE8D4(sys, (int)p, 0, 0));
+        func_02012374(event, func_021BE8D4(gameSystem, fieldMap, 0, 0));
         (*seq)++;
         break;
     case 1:
-        func_02012374(evt, (struct Evt **)func_020144DC((int)sys, (int)p));
+        func_02012374(event, FIELD_STATUS_CreateFieldCloseEvent(gameSystem, fieldMap));
         (*seq)++;
         break;
     case 2:
-        func_02012374(evt, func_020297AC(sys, 0x483, 6, 0));
+        func_02012374(event, FIELD_SOUND_SYSTEM_StartPushAndChangeTask(gameSystem, 0x483, 6, 0));
         (*seq)++;
+        /* fall through */
     case 3:
-        MI_CpuFill8(&w->sub, 0, sizeof(SubArgs));
-        w->sub.sys = w->sys;
-        w->sub.f04 = w->f04;
-        w->sub.f08 = w->f18;
-        func_020120B4(sys, (u32)ov216_id, (void *)d_021BDB40, &w->sub);
+        MI_CpuFill8(&work->procArgs, 0, sizeof(BeaconSearchProcArgs));
+        work->procArgs.gameSystem = work->gameSystem;
+        work->procArgs.gameData = work->gameData;
+        work->procArgs.mode = work->mode;
+        GAMESYSTEM_CallProc(gameSystem, OVERLAY_ID_216, (void *)d_021BDB40, &work->procArgs);
         (*seq)++;
         break;
     case 4:
-        if (func_020120F0(sys) == 0) {
-            func_02012374(evt, func_02029690(sys, 6, 0x3C));
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
+            func_02012374(event, FIELD_SOUND_SYSTEM_StartPopTask(gameSystem, 6, 0x3C));
             (*seq)++;
         }
         break;
     case 5:
-        func_02012374(evt, func_020145CC(sys));
+        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         (*seq)++;
         break;
     case 6:
-        if (w->sub.flag != 0)
-            func_021A0F40((u32 *)func_02188CCC(p), 0);
-        func_02012374(evt, (struct Evt **)func_021BE92C(sys, (int)p, 0, 0, 1, 0, 0));
+        if (work->procArgs.resultFlag != 0) {
+            func_021A0F40(func_02188CCC(fieldMap), 0);
+        }
+        func_02012374(event, func_021BE92C(gameSystem, fieldMap, 0, 0, 1, 0, 0));
         (*seq)++;
         break;
     case 7:
-        func_02012374(evt, func_02029CC0(sys));
+        func_02012374(event, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(gameSystem));
         (*seq)++;
         break;
     case 8:

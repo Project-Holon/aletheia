@@ -16,7 +16,7 @@
  *   func_0206428C  0x0206428C  arm
  *   func_02064178  0x02064178  arm
  *   func_02062F38  0x02062F38  arm
- *   func_02064140  0x02064140  arm
+ *   NNSi_G2dSrtcInitControl  0x02064140  arm
  *
  * Build a multi-cell animation's cell array (docs/families/cluster_020640DC.h,
  * section 3): kind == 1 is the flat 0x5c-stride array sized by
@@ -53,7 +53,7 @@ extern void func_0206428C(char *self, int a1, char *c);
 extern void func_02064178(char *o, u32 a);
 extern int func_02062F38(int a0);
 struct O02064140;
-extern void func_02064140(struct O02064140 *o, u32 a);
+extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 void func_02064754(char *o, char *buf, void *set, int a3, void *bank, int kind)
 {
   if (kind == 1)
@@ -95,11 +95,11 @@ void func_02064754(char *o, char *buf, void *set, int a3, void *bank, int kind)
     }
     func_02062F38((int)o);
     *((void **) (o + 0x44)) = bank;
-    func_02064140((struct O02064140 *)(o + 0x48), 1);
+    NNSi_G2dSrtcInitControl((struct O02064140 *)(o + 0x48), 1);
     *((u16 *) (o + 0x30)) = 0;
   }
   func_02062F38((int)o);
   *((void **) (o + 0x44)) = bank;
-  func_02064140((struct O02064140 *)(o + 0x48), 1);
+  NNSi_G2dSrtcInitControl((struct O02064140 *)(o + 0x48), 1);
   *((u16 *) (o + 0x30)) = 0;
 }

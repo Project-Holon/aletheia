@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0200545C",
+   "name": "GFL_USE_InitSystem",
    "address": "0x0200545C",
    "kind": "game",
    "region": "arm9",

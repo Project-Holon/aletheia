@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02027FEC 0x02027FEC thumb
+ *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   d_02185E40 0x02185E40 data ov219 a4
  */
 #include "../include/Obj14776.h"
 typedef unsigned char u8;typedef unsigned short u16;
 struct Entry {unsigned x,y,z;};
 extern const struct Entry d_02185E40[];
-extern unsigned func_02027FEC(unsigned,unsigned,unsigned,unsigned,u8,u16);
+extern unsigned APP_TASKMENU_WIN_Create(unsigned,unsigned,unsigned,unsigned,u8,u16);
 void func_02184C2C(char *p,int i)
 {
     if(*(unsigned *)(p+0xc05c+i*4)==0){
-        *(unsigned *)(p+0xc05c+i*4)=func_02027FEC(((struct Obj14776 *)p)->fC058,(unsigned)(p+0xc08c+i*12),(u8)d_02185E40[i].x,(u8)d_02185E40[i].y,(u8)d_02185E40[i].z,(u16)((struct Obj14776 *)p)->f0);
+        *(unsigned *)(p+0xc05c+i*4)=APP_TASKMENU_WIN_Create(((struct Obj14776 *)p)->fC058,(unsigned)(p+0xc08c+i*12),(u8)d_02185E40[i].x,(u8)d_02185E40[i].y,(u8)d_02185E40[i].z,(u16)((struct Obj14776 *)p)->f0);
     }
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_022019F4  0x022019F4  thumb  ov094
- *   func_02015F24  0x02015F24  thumb
+ *   MCSS_GetStopCellFlags  0x02015F24  thumb
  */
 
 typedef struct {
@@ -33,7 +33,7 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(char *p, int key);
-extern int func_02015F24(void *h);
+extern int MCSS_GetStopCellFlags(void *h);
 
 int func_021FFFAC(Work *w, int key)
 {
@@ -43,5 +43,5 @@ int func_021FFFAC(Work *w, int key)
         return 0;
     if (w->e[idx].h == 0)
         return 0;
-    return func_02015F24(w->e[idx].h);
+    return MCSS_GetStopCellFlags(w->e[idx].h);
 }

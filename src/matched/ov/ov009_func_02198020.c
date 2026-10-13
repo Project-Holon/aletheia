@@ -1,5 +1,5 @@
 /*
- * function: func_02198020
+ * function: gti2SetConnectAttemptCallback
  * address:  0x02198020
  * packet:   pkt_ov009_02198020
  * region:   ov009
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_02198020(int *p, int v)
+void gti2SetConnectAttemptCallback(int *p, int v)
 {
     p[8] = v;
 }

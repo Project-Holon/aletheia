@@ -1,5 +1,5 @@
 /*
- * function: func_020160C4
+ * function: MCSS_SetAnimeSpeed
  * address:  0x020160C4
  * packet:   pkt_020160C4
  * region:   arm9
@@ -13,11 +13,11 @@
  * witness.  Addresses are Black-image addresses.
  *
  * symbols:
- *   func_020160C4  0x020160C4  thumb
+ *   MCSS_SetAnimeSpeed  0x020160C4  thumb
  */
 #include "../include/Obj15672.h"
 
-void func_020160C4(char *p, int v)
+void MCSS_SetAnimeSpeed(char *p, int v)
 {
     ((struct Obj15672 *)p)->f174 = v;
 }

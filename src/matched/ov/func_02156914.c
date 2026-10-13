@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045C44  0x02045C44  arm
+ *   MSGDATA_CreateFromMemory  0x02045C44  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_02045C04  0x02045C04  arm
  */
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct MsgBank;
-extern struct MsgBank *func_02045C44(const void *file, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Rec;
 extern u32 func_02045C04(struct Rec *rec);
@@ -33,7 +33,7 @@ void *func_02156914(int a0, int a1)
 
 a0 = ((struct Obj12026 *)a0)->f24;
 a0 = ((struct Obj12026 *)a0)->f8;
-    t5 = func_02045C44((const void *)a0, a1);
+    t5 = MSGDATA_CreateFromMemory((const void *)a0, a1);
 loc_0215691E:
 a1 = 0;
     t4 = func_02045EC0(t5, a1);

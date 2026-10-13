@@ -9,11 +9,11 @@
  * status: EXACT
  * symbols:
  *   func_02018584 0x02018584 thumb
- *   func_02017D30 0x02017D30 thumb
+ *   POKE_TOOL_DecodePartyParam 0x02017D30 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_02017E40 0x02017E40 thumb
  *   func_020185C4 0x020185C4 thumb
- *   func_02017D70 0x02017D70 thumb
+ *   POKE_TOOL_EncodePartyParam 0x02017D70 thumb
  *   func_021D505C 0x021D505C thumb ov093
  *   func_02082BCC 0x02082BCC arm
  */
@@ -23,11 +23,11 @@ struct Obj {void *w; u32 f4,exp; u16 species,hp,total,item,f14,f16; u8 level,f19
 struct Result {u8 level,pad; u16 hp,a,b,c,d,e;};
 extern u32 func_02018584(u16,u16,u16);
 struct Sav;
-extern u32 func_02017D30(struct Sav *p);
+extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 func_02017E1C(void *,u32,u32);
 extern void func_02017E40(void *,u32,u32);
 extern void func_020185C4(void *);
-extern u32 func_02017D70(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 struct A;
 extern void func_021D505C(struct A *a);
 extern void func_02082BCC(void *,u8,u32);
@@ -43,7 +43,7 @@ int func_021D69B8(struct Obj *p, u32 *remaining, struct Result *r)
         if (total >= threshold) {
             delta = threshold - old;
             hp = p->hp;
-            saved = func_02017D30(p->w);
+            saved = POKE_TOOL_DecodePartyParam(p->w);
             a = func_02017E1C(p->w,0xa2,0);
             b = func_02017E1C(p->w,0xa3,0);
             c = func_02017E1C(p->w,0xa4,0);
@@ -77,7 +77,7 @@ int func_021D69B8(struct Obj *p, u32 *remaining, struct Result *r)
             p->total += hp;
             func_02017E40(p->w,0xa0,p->total);
             func_021D505C((struct A *)p);
-            func_02017D70(p->w,saved);
+            POKE_TOOL_EncodePartyParam(p->w,saved);
             *remaining -= delta;
             return 1;
         } else {

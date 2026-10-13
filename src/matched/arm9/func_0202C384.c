@@ -1,5 +1,5 @@
 /*
- * function: func_0202C384
+ * function: ISS_SWITCH_SET_Alloc
  * address:  0x0202C384
  * packet:   pkt_0202C384
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, unsigned short tag);
 extern const char g_020A776C[];
 
-void *func_0202C384(void *heap)
+void *ISS_SWITCH_SET_Alloc(void *heap)
 {
     return func_02030734((u32)heap, 0x3c, 0, g_020A776C, 0x12a);
 }

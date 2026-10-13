@@ -18,7 +18,7 @@
  *   data_020A822C    0x020A822C  data
  *   func_0206E62C  0x0206E62C  arm
  *   func_0207C768  0x0207C768  arm
- *   func_0206EA58  0x0206EA58  arm
+ *   NNSi_G3dTexPatAnmGetFrameValue  0x0206EA58  arm
  *   func_0206EA00  0x0206EA00  arm
  *   func_0206EA2C  0x0206EA2C  arm
  *   data_020A8220  0x020A8220  data
@@ -131,7 +131,7 @@ void MIi_CpuClear16(u16 value, void *dest, u32 size);
 s32_02070948 func_0206E7EC(void *name, void *ent);
 extern void *func_0206E62C(const ResDict *dict, const void *name);
 extern u32 func_0207C768(u32 a, u32 b);
-extern u16 *func_0206EA58(u16 *p, u32 arg, u32 v);
+extern u16 *NNSi_G3dTexPatAnmGetFrameValue(u16 *p, u32 arg, u32 v);
 extern const struct NNSG3dResName *func_0206EA00(const struct NNSG3dResTexPatAnm *pPatAnm, u8 texIdx);
 extern const struct NNSG3dResName *func_0206EA2C(const struct NNSG3dResTexPatAnm *pPatAnm, u8 plttIdx);
 void func_02070948(struct Ctx70948 *ctx, struct Src70948 *src, struct Arg70948 *arg);
@@ -287,7 +287,7 @@ void func_02070AFC(struct Obj70AFC *obj, void *name, struct Dst70AFC *dst)
  *
  * Blocked on evidence class `label`, on ALL FIVE PC24 sites at once: this
  * function is the ONLY branch anywhere in the image (arm9 and every overlay)
- * to each of func_0206EA58, func_0206EA00, func_0206EA2C, func_02070A24 and
+ * to each of NNSi_G3dTexPatAnmGetFrameValue, func_0206EA00, func_0206EA2C, func_02070A24 and
  * func_02070AFC, so every witness for every site lies inside the compared
  * range and `label` refuses all five.  `--suggest-split` cannot help: there is
  * only one function here to cut, and the report would name each site as
@@ -303,7 +303,7 @@ void func_02070AFC(struct Obj70AFC *obj, void *name, struct Dst70AFC *dst)
  * layout/function_starts.txt would drop the star.
  *
  * Two spelling notes that cost real time:
- *   - the two narrowings passed to func_0206EA58 are u32 shift pairs, NOT u16
+ *   - the two narrowings passed to NNSi_G3dTexPatAnmGetFrameValue are u32 shift pairs, NOT u16
  *     casts: `(t << 16) >> 16` and `(n->f0 << 4) >> 16` give the image's
  *     `lsl r1,#0x10 / lsl r2,r3,#4 / lsr r1,#0x10 / lsr r2,#0x10`, while
  *     declaring the parameters u16 and casting adds a second `lsl/lsr` pair on
@@ -318,7 +318,7 @@ void func_02070B64(void *ctx, struct N *n, u32 t)
     u8   *r;
 
     h = n->f8;
-    r = (u8 *)func_0206EA58(h, (t << 16) >> 16, (n->f0 << 4) >> 16);
+    r = (u8 *)NNSi_G3dTexPatAnmGetFrameValue(h, (t << 16) >> 16, (n->f0 << 4) >> 16);
     func_02070A24(n->f14, func_0206EA00(h, r[2]), ctx);
     if (r[3] == 0xff)
         return;

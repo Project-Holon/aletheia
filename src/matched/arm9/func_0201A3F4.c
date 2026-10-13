@@ -1,5 +1,5 @@
 /*
- * function: func_0201A3F4
+ * function: POKE_REGULATION_BuildLevelLine
  * address:  0x0201A3F4
  * packet:   pkt_0201A3F4
  * region:   arm9
@@ -15,7 +15,7 @@
  *   func_02045CAC   0x02045CAC  arm
  *   func_0201F250   0x0201F250  thumb
  *
- * poke_tool.c tail (wave 13), the twin of func_0201A374: pick the sprite
+ * poke_tool.c tail (wave 13), the twin of POKE_REGULATION_BuildPartySizeLine: pick the sprite
  * record's mode from the format byte at a0+5 (0 -> 6, 4 -> 0xb, 1 -> 0xd,
  * 2 -> 0xc, 3 -> 0xe, 5 -> 0xf, anything else 6; an if chain in that order,
  * the image tests it in source order), stamp the byte at a0+4 through
@@ -26,7 +26,7 @@
  * a0+4 loaded after the two outgoing stack stores instead of before): the
  * record parameter is `const u8 *`.  A load through a const pointer may move
  * above the stores to the outgoing-argument area; through a plain pointer it
- * may not.  Same lever as func_02050C30 and func_02051838 this wave.
+ * may not.  Same lever as PARTICLE_CreateSystem and BUTTON_MAN_SetEmitterPos this wave.
  *
  * EXACT* because the follower at 0x0201A468 (a leaf that scans 0x52 bytes
  * from +0xa and tail-calls 0x02045EC0) carries no label.
@@ -44,7 +44,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
-void *func_0201A3F4(const u8 *a0, u32 a1, u32 *a2, u32 a3, u16 a4)
+void *POKE_REGULATION_BuildLevelLine(const u8 *a0, u32 a1, u32 *a2, u32 a3, u16 a4)
 {
     u32 mode;
     void *p;

@@ -11,13 +11,13 @@
  *
  *
  * symbols:
- *   func_0202744C  0x0202744C  thumb
+ *   GAME_BEACON_ResetDetails  0x0202744C  thumb
 
  *
  * generated: lane O24 (ov010 leaf/wrapper sweep)
  *
  * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0202744C, the shape of the arm9 copy.
+ * thunk into GAME_BEACON_ResetDetails, the shape of the arm9 copy.
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
  *
  * Addresses are Black-image addresses.  --region ov010 is required: this
@@ -33,11 +33,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0202744C(void *);
+extern void GAME_BEACON_ResetDetails(void *);
 
 void func_021653B4(void *a0, unsigned a1)
 {
     ((struct Obj00121 *)a0)->f30 = 22;
     *(u32 *)((char *)a0 + 52) = a1;
-    func_0202744C(a0);
+    GAME_BEACON_ResetDetails(a0);
 }

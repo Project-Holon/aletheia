@@ -17,17 +17,18 @@
  *   func_02027FD8 0x02027FD8 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_021B73E8 0x021B73E8 thumb ov101
- *   func_0202824C  0x0202824C  thumb
+ *   APP_TASKMENU_WIN_IsTouch  0x0202824C  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_0202822C  0x0202822C  thumb
- *   func_02028230  0x02028230  thumb
- *   func_020282A4  0x020282A4  thumb
- *   func_02028218  0x02028218  thumb
+ *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
+ *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb
+ *   APP_TASKMENU_WIN_ResetDecide  0x020282A4  thumb
+ *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb
  *   func_02028178  0x02028178  thumb
  *   func_0204AFD8 0x0204AFD8 arm
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204ADA4 0x0204ADA4 arm
  *   d_021B7550 0x021B7550 data a1
+ *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb  arm9
  */
 #include "../../matched/include/Obj03227.h"
 #include "../../matched/include/Obj06364.h"
@@ -66,19 +67,19 @@ extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern u8 func_020416D4(u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
+extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_02045C04(struct Rec *rec);
 extern void func_02028148(unsigned char *);
 extern void func_02027FD8(struct TaskMenuState *);
 extern void func_020307B0(void *);
 extern void func_021B73E8(void *);
-extern unsigned int func_0202824C(void **p);
+extern unsigned int APP_TASKMENU_WIN_IsTouch(void **p);
 extern void func_020061E4(u32 a);
-extern void func_0202822C(char *p, int v);
-extern u32 func_02028230(u8 *p);
-extern void func_020282A4(struct Obj *obj);
-extern void func_02028218(struct Obj *obj, u32 a);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
+extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern void func_02028178(u8 *p);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
@@ -116,7 +117,7 @@ extern char d_021B7550[];
  * func_021B739C 0x021B739C thumb ov101
  * func_02045B38 0x02045B38 arm
  * func_02045EC0 0x02045EC0 arm
- * func_02027FEC 0x02027FEC thumb
+ * APP_TASKMENU_WIN_Create 0x02027FEC thumb
  * func_02045808 0x02045808 arm
  * func_02045C04 0x02045C04 arm
  * d_021B7550 0x021B7550 data a1
@@ -146,7 +147,7 @@ void *func_021B70DC(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u16 h
     desc.color=0x39e3;
     desc.str=func_02045EC0(bank,8);
     desc.flag=1;
-    ((struct Obj03227 *)p)->f0=func_02027FEC((u32)(((struct Obj03227 *)p)->f4),(u32)(&desc),19,21,13,heap);
+    ((struct Obj03227 *)p)->f0=APP_TASKMENU_WIN_Create((u32)(((struct Obj03227 *)p)->f4),(u32)(&desc),19,21,13,heap);
     func_02045808(desc.str);
     func_02045C04(bank);
     return p;
@@ -161,16 +162,16 @@ void func_021B71E4(int a)
         switch (((struct Obj02158 *)a)->f50) {
         case 0:
             ((struct Obj02158 *)a)->f44 = -1;
-            if (func_0202824C((void **)(((struct Obj02158 *)a)->f0))) {
+            if (APP_TASKMENU_WIN_IsTouch((void **)(((struct Obj02158 *)a)->f0))) {
                 func_020061E4(0x551);
-                func_0202822C((char *)(((struct Obj02158 *)a)->f0), 1);
+                APP_TASKMENU_WIN_SetDecide((char *)(((struct Obj02158 *)a)->f0), 1);
                 ((struct Obj02158 *)a)->f50 = 1;
             }
             break;
         case 1:
-            if (func_02028230((u8 *)(((struct Obj02158 *)a)->f0))) {
-                func_020282A4((struct Obj *)(((struct Obj02158 *)a)->f0));
-                func_02028218((struct Obj *)(((struct Obj02158 *)a)->f0), 0);
+            if (APP_TASKMENU_WIN_IsFinish((u8 *)(((struct Obj02158 *)a)->f0))) {
+                APP_TASKMENU_WIN_ResetDecide((struct Obj *)(((struct Obj02158 *)a)->f0));
+                APP_TASKMENU_WIN_SetActive((struct Obj *)(((struct Obj02158 *)a)->f0), 0);
                 ((struct Obj02158 *)a)->f50 = 2;
             }
             break;
@@ -190,12 +191,12 @@ int func_021B7250(int *p) { return p[17]; }
 int func_021B7254(int *p) { if(p[20]>0) return 1; return 0; }
 
 /*
- * func_020282A4 0x020282A4 thumb
- * func_02028218 0x02028218 thumb
+ * APP_TASKMENU_WIN_ResetDecide 0x020282A4 thumb
+ * APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  */
 void func_021B7264(int p) {
- func_020282A4((struct Obj *)(((struct Obj10232 *)p)->f0));
- func_02028218((struct Obj *)(((struct Obj10232 *)p)->f0),0);
+ APP_TASKMENU_WIN_ResetDecide((struct Obj *)(((struct Obj10232 *)p)->f0));
+ APP_TASKMENU_WIN_SetActive((struct Obj *)(((struct Obj10232 *)p)->f0),0);
  ((struct Obj10232 *)p)->f50=0;
 }
 
@@ -219,7 +220,7 @@ void func_021B72A0(int p,int b) {
  * func_02045B38 0x02045B38 arm
  * func_02082BCC 0x02082BCC arm
  * func_02045EC0 0x02045EC0 arm
- * func_02027FEC 0x02027FEC thumb
+ * APP_TASKMENU_WIN_Create 0x02027FEC thumb
  * func_02045808 0x02045808 arm
  * func_02045C04 0x02045C04 arm
  */
@@ -233,7 +234,7 @@ void func_021B72A8(unsigned *p,unsigned b) {
  t.tag=0x39e3;
  t.data=(unsigned int)func_02045EC0((struct MsgBank *)q,b+8);
  t.flag=1;
- p[0]=func_02027FEC(p[1],(u32)(&t),0x13,0x15,0xd,((struct Obj03228 *)p)->f58);
+ p[0]=APP_TASKMENU_WIN_Create(p[1],(u32)(&t),0x13,0x15,0xd,((struct Obj03228 *)p)->f58);
  func_02045808((struct U16Vec *)t.data);
  func_02045C04((struct Rec *)q);
  p[21]=b; p[20]=0; p[17]=-1;

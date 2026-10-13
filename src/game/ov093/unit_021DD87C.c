@@ -38,293 +38,199 @@
  *   d_021F16CC     0x021F16CC  data   ov093  a4
  *   d_021F175C     0x021F175C  data   ov093  a4
  */
-#include "../../matched/include/Obj12152.h"
-#include "../../matched/include/Obj07818.h"
-#include "../../matched/include/Obj13487.h"
+#include "unit_021DD588_types.h"
 
-struct QQ;
-struct UtilWork;
-struct S;
-struct Unk021D62A8;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-int func_021D775C(int a);
-void *func_021C7CF4(int *p, int i);
-int func_021D5BDC(struct UtilWork *p, u32 n);
-void *func_021C88A4(char *p, int a, int b);
-void func_021C88C8(void *a, void *b);
-void func_021C8838(void *p, int a, int b);
-void func_021C8860(struct S *p, unsigned int a);
-extern u16 func_021D70A8(struct QQ *p);
-extern u8 *func_021C8120(u8 *p, int b);
-extern int func_021D5D14(s8 *p, int i, int sign);
+extern int func_021D775C(int varId);
+extern struct BtlPokeParam *func_021C7CF4(void *server, int pokeId);
+extern int func_021D5BDC(struct BtlPokeParam *pokeParam, u32 contFlag);
+extern void *func_021C88A4(void *server, int cmdKind, int pokeId);
+extern void func_021C88C8(void *server, void *cmd);
+extern void func_021C8838(HandExStr *str, int strType, int strId);
+extern void func_021C8860(HandExStr *str, u32 arg);
+extern u16 func_021D70A8(struct BtlEventFactor *factor);
+extern u8 *func_021C8120(void *server, int size);
+extern int func_021D5D14(struct BtlPokeParam *pokeParam, int statId, int amount);
 extern u32 func_021D78AC(u32 range);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern void func_021DD044(void *a, void *b, int c);
-extern int func_021DCFF8(int a, int b);
-extern int func_021D7B74(u8 *p, u32 k);
-void func_021DD87C(int a, int b, int c);
-int *func_021DD88C(int *p);
-void func_021DD898(int a, int b, int c);
-int *func_021DD8A8(int *p);
-void func_021DD8B4(int a, int b, int c);
-int *func_021DD8C4(int *p);
-void func_021DD8D0(int a, int b, int c);
-int *func_021DD8E0(int *p);
-void func_021DD8EC(int a, int b, int c);
-int *func_021DD8FC(int *p);
-void func_021DD908(void *a, int b, int c);
-int *func_021DD980(int *p);
-void func_021DD98C(int x, void *a, u8 b);
-void func_021DD9E8(void *a, int b, int c, int d);
-int *func_021DDA1C(int *p);
-void func_021DDA28(u8 *a, u8 *b, int c);
-void func_021DDA6C(int a, u8 *b, int c);
-int *func_021DDAB8(int *p);
-/* 021DD898  shifted 3-arg wrapper -> func_021DD9E8(..., 0x2, 1) */
+extern int func_021D62C4(struct BtlPokeParam *pokeParam, int sickKind);
+extern void func_021DD044(struct BtlEventFactor *factor, void *server, int pokeId);
+extern int func_021DCFF8(struct BtlEventFactor *factor, int index);
+extern int func_021D7B74(struct BtlPokeParam *pokeParam, u32 divisor);
+
 extern int d_021F1CF4[];
-/* 021DD8B4  shifted 3-arg wrapper -> func_021DD9E8(..., 0x5, 1) */
 extern int d_021F1D1C[];
-/* 021DD8D0  shifted 3-arg wrapper -> func_021DD9E8(..., 0x3, 1) */
 extern int d_021F1D44[];
-/* 021DD8EC  shifted 3-arg wrapper -> func_021DD9E8(..., 0x4, 1) */
 extern int d_021F1D6C[];
 extern int d_021F1D94[];
-extern u8 d_021F1364[5];
+extern u8 d_021F1364[BTL_RANK_KIND_COUNT];
 extern int d_021F1DBC[];
 extern int d_021F16CC[];
 extern int d_021F175C[];
 
+void func_021DD87C(struct BtlEventFactor *factor, void *server, int pokeId);
+int *func_021DD88C(int *handlerCount);
+void func_021DD898(struct BtlEventFactor *factor, void *server, int pokeId);
+int *func_021DD8A8(int *handlerCount);
+void func_021DD8B4(struct BtlEventFactor *factor, void *server, int pokeId);
+int *func_021DD8C4(int *handlerCount);
+void func_021DD8D0(struct BtlEventFactor *factor, void *server, int pokeId);
+int *func_021DD8E0(int *handlerCount);
+void func_021DD8EC(struct BtlEventFactor *factor, void *server, int pokeId);
+int *func_021DD8FC(int *handlerCount);
+void func_021DD908(struct BtlEventFactor *factor, void *server, int pokeId);
+int *func_021DD980(int *handlerCount);
+void func_021DD98C(struct BtlEventFactor *factor, void *server, u8 pokeId);
+void func_021DD9E8(void *server, int pokeId, int statId, int amount);
+int *func_021DDA1C(int *handlerCount);
+void func_021DDA28(struct BtlEventFactor *factor, void *server, int pokeId);
+void func_021DDA6C(struct BtlEventFactor *factor, void *server, int pokeId);
+int *func_021DDAB8(int *handlerCount);
 
-
-
-
-
-
-/* 021DD87C  shifted 3-arg wrapper -> func_021DD9E8(..., 0x1, 1) */
-/*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; movs r2, #1; movs r3, #1; bl func_021DD9E8; pop {r3, pc}.
- */
-void func_021DD87C(int a, int b, int c)
+void func_021DD87C(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    func_021DD9E8((void *)b, c, 0x1, 1);
+    func_021DD9E8(server, pokeId, BTL_RANK_ATTACK, 1);
 }
 
-
-
-
-
-
-
-int *func_021DD88C(int *p)
+int *func_021DD88C(int *handlerCount)
 {
-    *p = 5;
+    *handlerCount = 5;
     return d_021F1CF4;
 }
 
-
-
-
-
-
-
-/*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; movs r2, #2; movs r3, #1; bl func_021DD9E8; pop {r3, pc}.
- */
-void func_021DD898(int a, int b, int c)
+void func_021DD898(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    func_021DD9E8((void *)b, c, 0x2, 1);
+    func_021DD9E8(server, pokeId, BTL_RANK_DEFENSE, 1);
 }
 
-
-
-
-
-
-int *func_021DD8A8(int *p)
+int *func_021DD8A8(int *handlerCount)
 {
-    *p = 5;
+    *handlerCount = 5;
     return d_021F1D1C;
 }
 
-
-
-
-
-
-/*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; movs r2, #5; movs r3, #1; bl func_021DD9E8; pop {r3, pc}.
- */
-void func_021DD8B4(int a, int b, int c)
+void func_021DD8B4(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    func_021DD9E8((void *)b, c, 0x5, 1);
+    func_021DD9E8(server, pokeId, BTL_RANK_SPEED, 1);
 }
 
-
-
-
-
-int *func_021DD8C4(int *p)
+int *func_021DD8C4(int *handlerCount)
 {
-    *p = 5;
+    *handlerCount = 5;
     return d_021F1D44;
 }
 
-
-
-
-
-void func_021DD8D0(int a, int b, int c)
+void func_021DD8D0(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    func_021DD9E8((void *)b, c, 0x3, 1);
+    func_021DD9E8(server, pokeId, BTL_RANK_SP_ATTACK, 1);
 }
 
-
-
-
-int *func_021DD8E0(int *p)
+int *func_021DD8E0(int *handlerCount)
 {
-    *p = 5;
+    *handlerCount = 5;
     return d_021F1D6C;
 }
 
-
-
-
-/*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; movs r2, #4; movs r3, #1; bl func_021DD9E8; pop {r3, pc}.
- */
-void func_021DD8EC(int a, int b, int c)
+void func_021DD8EC(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    func_021DD9E8((void *)b, c, 0x4, 1);
+    func_021DD9E8(server, pokeId, BTL_RANK_SP_DEFENSE, 1);
 }
 
-
-
-int *func_021DD8FC(int *p)
+int *func_021DD8FC(int *handlerCount)
 {
-    *p = 5;
+    *handlerCount = 5;
     return d_021F1D94;
 }
 
-
-
-void func_021DD908(void *a, int b, int c)
+void func_021DD908(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    void *p, *q;
+    HandExSetContFlag *flagCmd;
+    HandExMessage *messageCmd;
 
-    if (c != func_021D775C(2))
+    if (pokeId != func_021D775C(BTL_EVAR_POKE_ID))
         return;
-    if (func_021D5BDC(func_021C7CF4((int *)b, c), 9) != 0)
+    if (func_021D5BDC(func_021C7CF4(server, pokeId), BTL_CONT_FLAG_CRITICAL_UP) != 0)
         return;
-    p = func_021C88A4((char *)b, 0x17, c);
-    ((struct Obj12152 *)p)->f8 = c;
-    ((struct Obj12152 *)p)->f4 = 9;
-    func_021C88C8((void *)b, p);
-    q = func_021C88A4((char *)b, 4, c);
-    func_021C8838((u8 *)q + 4, 2, 0x3e9);
-    func_021C8860((struct S *)((u8 *)q + 4), c);
-    func_021C8860((struct S *)((u8 *)q + 4), func_021D70A8(a));
-    func_021C88C8((void *)b, q);
+    flagCmd = func_021C88A4(server, HANDEX_KIND_SET_CONT_FLAG, pokeId);
+    flagCmd->pokeId = pokeId;
+    flagCmd->flagId = BTL_CONT_FLAG_CRITICAL_UP;
+    func_021C88C8(server, flagCmd);
+    messageCmd = func_021C88A4(server, HANDEX_KIND_MESSAGE, pokeId);
+    func_021C8838(&messageCmd->str, HANDEX_STR_SET, 1001);
+    func_021C8860(&messageCmd->str, pokeId);
+    func_021C8860(&messageCmd->str, func_021D70A8(factor));
+    func_021C88C8(server, messageCmd);
 }
 
-
-
-/*
- * extent: two bytes of zero alignment padding after the return.
- */
-int *func_021DD980(int *p)
+int *func_021DD980(int *handlerCount)
 {
-    *p = 5;
+    *handlerCount = 5;
     return d_021F1DBC;
 }
 
-
-
-void func_021DD98C(int x, void *a, u8 b)
+void func_021DD98C(struct BtlEventFactor *factor, void *server, u8 pokeId)
 {
-    void *m = func_021C7CF4(a, b);
-    u8 *buf = func_021C8120(a, 5);
-    u32 n;
+    struct BtlPokeParam *pokeParam = func_021C7CF4(server, pokeId);
+    u8 *candidates = func_021C8120(server, BTL_RANK_KIND_COUNT);
+    u32 candidateCount;
     u32 i;
-    u8 e;
+    u8 statId;
 
     i = 0;
-    n = 0;
-    for (; i < 5; i++) {
-        e = d_021F1364[i];
-        if (func_021D5D14(m, e, 1) != 0)
-            buf[n++] = e;
+    candidateCount = 0;
+    for (; i < BTL_RANK_KIND_COUNT; i++) {
+        statId = d_021F1364[i];
+        if (func_021D5D14(pokeParam, statId, 1) != 0)
+            candidates[candidateCount++] = statId;
     }
-    if (n != 0)
-        func_021DD9E8(a, b, buf[func_021D78AC(n)], 2);
+    if (candidateCount != 0)
+        func_021DD9E8(server, pokeId, candidates[func_021D78AC(candidateCount)], 2);
 }
 
-
-
-
-void func_021DD9E8(void *a, int b, int c, int d)
+void func_021DD9E8(void *server, int pokeId, int statId, int amount)
 {
-    u8 *p;
-    if (b == func_021D775C(2)) {
-        p = func_021C88A4(a, 0xe, b);
-        ((struct Obj07818 *)p)->f4 = c;
-        p[0xc] = d;
-        p[0xf] = 1;
-        p[0x10] = b;
-        func_021C88C8(a, p);
+    HandExRankEffect *cmd;
+
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        cmd = func_021C88A4(server, HANDEX_KIND_RANK_EFFECT, pokeId);
+        cmd->rankKind = statId;
+        cmd->volume = amount;
+        cmd->pokeCount = 1;
+        cmd->pokeId = pokeId;
+        func_021C88C8(server, cmd);
     }
 }
 
-
-
-int *func_021DDA1C(int *p)
+int *func_021DDA1C(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F16CC;
 }
 
-
-
-void func_021DDA28(u8 *a, u8 *b, int c)
+void func_021DDA28(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    if (c == func_021D775C(4) && func_021D775C(0x46) == 0 && func_021D775C(0x38) > 3
-        && func_021D62C4(func_021C7CF4((int *)b, c), 0xf) == 0)
-        func_021DD044(a, b, c);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID) && func_021D775C(BTL_EVAR_HIT_SUBSTITUTE) == 0
+        && func_021D775C(BTL_EVAR_TYPE_AFFINITY) > BTL_AFFINITY_SUPER_EFFECTIVE_ABOVE
+        && func_021D62C4(func_021C7CF4(server, pokeId), BTL_SICK_ITEM_BLOCK) == 0)
+        func_021DD044(factor, server, pokeId);
 }
 
-
-
-
-void func_021DDA6C(int a, u8 *b, int c)
+void func_021DDA6C(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    void *m;
-    u8 *p;
-    u8 k;
-    if (c == func_021D775C(2)) {
-        m = func_021C7CF4((int *)b, c);
-        k = func_021DCFF8(a, 2);
-        p = func_021C88A4((char *)b, 5, c);
-        p[6] = c;
-        ((struct Obj13487 *)p)->f4 = func_021D7B74(m, k);
-        func_021C88C8(b, p);
+    struct BtlPokeParam *pokeParam;
+    HandExRecoverHp *cmd;
+    u8 divisor;
+
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        pokeParam = func_021C7CF4(server, pokeId);
+        divisor = func_021DCFF8(factor, 2);
+        cmd = func_021C88A4(server, HANDEX_KIND_RECOVER_HP, pokeId);
+        cmd->pokeId = pokeId;
+        cmd->amount = func_021D7B74(pokeParam, divisor);
+        func_021C88C8(server, cmd);
     }
 }
 
-
-
-int *func_021DDAB8(int *p)
+int *func_021DDAB8(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F175C;
 }

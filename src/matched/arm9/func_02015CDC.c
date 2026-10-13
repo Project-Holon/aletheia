@@ -1,5 +1,5 @@
 /*
- * function: func_02015CDC
+ * function: MCSS_SetShadowScale
  * address:  0x02015CDC
  * packet:   pkt_02015CDC
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled Thumb leaf in the ARM9 module. Copies three words into +0x128. Inverse of func_02015CC4.
+ * Unlabelled Thumb leaf in the ARM9 module. Copies three words into +0x128. Inverse of MCSS_GetShadowScale.
  * Filed as the witness for an ov094 caller.
  *
  * Addresses are Black-image addresses.
@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-void func_02015CDC(void *p, u32 *src)
+void MCSS_SetShadowScale(void *p, u32 *src)
 {
     ((struct Obj08759 *)p)->f128 = src[0];
     ((struct Obj08759 *)p)->f12C = src[1];

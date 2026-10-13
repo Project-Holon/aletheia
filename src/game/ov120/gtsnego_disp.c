@@ -23,7 +23,7 @@
  *   func_021D7E9C 0x021D7E9C thumb ov120
  *   func_021D7EB0 0x021D7EB0 thumb ov120
  *   func_021D6B84 0x021D6B84 thumb ov120
- *   func_02028218 0x02028218 thumb
+ *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  *   func_020221A4 0x020221A4 thumb
  *   func_0202208C 0x0202208C thumb
  *   d_021D8904 0x021D8904 data a2
@@ -45,14 +45,14 @@
  *   func_02039CB4 0x02039CB4 arm
  *   func_02008510 0x02008510 thumb
  *   func_02082BCC 0x02082BCC arm
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   func_020458F8 0x020458F8 arm
  *   func_02045A98 0x02045A98 arm
  *   func_0217BC44 0x0217BC44 arm ov009
  *   func_02039C68 0x02039C68 arm
  *   func_0203D3A8 0x0203D3A8 arm
  *   func_021D7AF4 0x021D7AF4 thumb ov120
- *   func_020399EC 0x020399EC arm
+ *   GFL_NET_HANDLE_GetNegotiationNum 0x020399EC arm
  *   func_02009EA8 0x02009EA8 thumb
  *   func_02039ACC 0x02039ACC arm
  *   func_021D7C10  0x021D7C10  thumb  ov120
@@ -60,9 +60,9 @@
  *   func_021D7B38  0x021D7B38  thumb  ov120
  *   func_021D8648  0x021D8648  thumb  ov120
  *   func_020362DC  0x020362DC  arm
- *   func_0203C554  0x0203C554  arm
- *   func_0203C3EC  0x0203C3EC  arm
- *   func_0203D7B0  0x0203D7B0  arm
+ *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
+ *   GFL_NET_STATE_GetWifiState  0x0203C3EC  arm
+ *   GFL_NET_SetAutoExit  0x0203D7B0  arm
  *   func_0203D7BC  0x0203D7BC  arm
  *   func_0216CB30 0x0216CB30 arm ov009
  *   func_02009EC8 0x02009EC8 thumb
@@ -70,17 +70,17 @@
  *   func_02012944 0x02012944 thumb
  *   func_02008530 0x02008530 thumb
  *   func_021D8590 0x021D8590 thumb ov120
- *   func_0203D644 0x0203D644 arm
+ *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   func_02009CA8 0x02009CA8 thumb
  *   func_0216C8DC 0x0216C8DC arm ov009
  *   func_0208D7E0 0x0208D7E0 arm
- *   func_0215580C 0x0215580C thumb ov009
- *   func_0203C35C 0x0203C35C arm
- *   func_02156BC4 0x02156BC4 thumb ov009
- *   func_0203C9AC 0x0203C9AC arm
+ *   DWC_RAP_StartMatchWithFilter 0x0215580C thumb ov009
+ *   GFL_NET_STATE_WifiEnterFriendMatch 0x0203C35C arm
+ *   DWC_RAP_SetVchatEnabled 0x02156BC4 thumb ov009
+ *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   d_021D8B40 0x021D8B40 data a2
  *   d_021D8B50 0x021D8B50 data a1
- *   func_02028230 0x02028230 thumb
+ *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   func_02028148 0x02028148 thumb
  *   func_02041B6C 0x02041B6C arm
  *   func_021D79F4 0x021D79F4 thumb ov120
@@ -99,7 +99,7 @@
  *   func_021D7D3C 0x021D7D3C thumb ov120
  *   func_021D7DC8 0x021D7DC8 thumb ov120
  *   func_021D7ECC 0x021D7ECC thumb ov120
- *   func_02012F14 0x02012F14 thumb
+ *   GAME_DATA_GetSaveBlock1F 0x02012F14 thumb
  *   func_02009E8C 0x02009E8C thumb
  *   func_02009E54 0x02009E54 thumb
  *   func_020435F4  0x020435F4  arm
@@ -128,10 +128,10 @@
  *   func_021D7020 0x021D7020 thumb ov120
  *   func_021D70C8 0x021D70C8 thumb ov120
  *   func_021D733C 0x021D733C thumb ov120
- *   func_0202822C 0x0202822C thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   func_021D6E70 0x021D6E70 thumb ov120
- *   func_02035BA4 0x02035BA4 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_HitCont 0x02035BA4 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021D7374 0x021D7374 thumb ov120
  *   func_021D82A8 0x021D82A8 thumb ov120
  *   func_021D72A0 0x021D72A0 thumb ov120
@@ -159,7 +159,7 @@
  *   func_02028178 0x02028178 thumb
  *   func_02027974 0x02027974 thumb
  *   func_021D7858 0x021D7858 thumb ov120
- *   func_02157170 0x02157170 thumb ov009
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   func_0202223C 0x0202223C thumb
  *   func_0200F7DC 0x0200F7DC thumb
  *   func_0200F7F4 0x0200F7F4 thumb
@@ -185,7 +185,7 @@
  *   d_021D8974 0x021D8974 data a4
  *   d_021D8B60 0x021D8B60 data a4
  *   func_0204A600 0x0204A600 arm
- *   func_0202EA40 0x0202EA40 thumb
+ *   BLINK_PALANM_Update 0x0202EA40 thumb
  *   func_021D75F4 0x021D75F4 thumb ov120
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_021D6ED8 0x021D6ED8 thumb ov120
@@ -238,8 +238,8 @@
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204AC18 0x0204AC18 arm
  *   func_0204AF28 0x0204AF28 arm
- *   func_0202E940 0x0202E940 thumb
- *   func_0202E9AC 0x0202E9AC thumb
+ *   BLINK_PALANM_Create 0x0202E940 thumb
+ *   BLINK_PALANM_LoadPalettes 0x0202E9AC thumb
  *   func_02049238 0x02049238 arm
  *   func_0207D63C 0x0207D63C arm
  *   func_021D6AF0 0x021D6AF0 thumb ov120
@@ -253,6 +253,7 @@
  *   d_021D8B70 0x021D8B70 data a1
  *   func_0204B404 0x0204B404 arm
  *   func_0204B878 0x0204B878 arm
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  */
 #include "ov120_types.h"
 struct GtsnegoDispCtx;
@@ -427,7 +428,7 @@ extern void func_021D7E88(char *p, int i);
 extern void func_021D7E9C(char *p, int i);
 extern void func_021D7EB0(char *p, int i);
 extern void func_021D6B84(u8 *p, u32 n);
-extern void func_02028218(struct Obj *,u32);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *,u32);
 extern u32 func_020221A4(void);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern int func_0203CD98(void);
@@ -455,25 +456,25 @@ extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
 extern void *func_02008510(void *, int);
 extern void func_02082BCC(void *, u8, u32);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 func_020458F8(struct U16Vec *vec);
 extern u16 func_02045A98(void);
 extern int func_0217BC44(u16 **, int, char *, int, char *, int *, int);
 extern void func_02039C68(struct Link *,u32,u32);
 extern int func_0203D3A8(void *,u16,u16,u32);
 extern int func_021D7AF4(char *p);
-extern int func_020399EC(void);
+extern int GFL_NET_HANDLE_GetNegotiationNum(void);
 extern void *func_0200E6E8(u32 a);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-extern void *func_02012F14(void **h);
+extern void *GAME_DATA_GetSaveBlock1F(void **h);
 extern u32 func_02009EA8(const struct Sub02009D9CObj *obj);
 extern int func_02039ACC(void);
 extern int func_021D7C10(char *p);
 extern u32 func_020362DC(void);
 extern void func_021D8638(unsigned char *p);
-extern void func_0203C554(u32 a);
-extern int func_0203C3EC(void);
-extern void func_0203D7B0(u8 a0);
+extern void GFL_NET_STATE_WifiDisconnect(u32 a);
+extern int GFL_NET_STATE_GetWifiState(void);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern void func_0203D7BC(u8 a0);
 extern void func_021D7B38(char *p);
 extern void func_021D8648(u8 *p);
@@ -481,15 +482,15 @@ extern int func_0216CB30(int, int, int);
 extern void *func_02009EC8(void *);
 extern u32 func_02009E74(struct Sub02009D9CObj *obj, u32 id);
 extern void func_021D8590(u8 *, int, int);
-extern void func_0203D644(int);
+extern void GFL_NET_SetWaitMode(int);
 extern void func_02009CA8(void *account, void *out);
 extern u8 func_0216C8DC(u8 keyID, char *keyString, int *valueSrc);
 extern int func_0208D7E0(char *, const char *, ...);
-extern int func_0215580C(int, int, int, int);
-extern u32 func_0203C35C(void);
-extern void func_02156BC4(int);
-extern void func_0203C9AC(int, u32, u32, u32);
-extern u32 func_02028230(u8 *p);
+extern int DWC_RAP_StartMatchWithFilter(int, int, int, int);
+extern u32 GFL_NET_STATE_WifiEnterFriendMatch(void);
+extern void DWC_RAP_SetVchatEnabled(int);
+extern void GFL_NET_STATE_SetError(int, u32, u32, u32);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void func_02028148(u8 *p);
 extern void func_02041B6C(u32 bit);
 extern void func_021D79F4(u8 *p, u16 n);
@@ -498,7 +499,7 @@ extern void func_021D8520(char *p, u16 n);
 extern int func_021B6498(u8 *);
 extern u8 func_020355C4(void);
 extern int func_021D6A9C(u8 *p, u32 n);
-extern void func_0202822C(char *p, int v);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern int func_02035C08(const void *p);
 extern void func_021B63D0(struct S *p);
 extern int func_021B6448(u8 *);
@@ -537,8 +538,8 @@ extern void func_021D7020(u8 *p);
 extern void func_021D70C8(u8 *p, int flag);
 extern void func_021D733C(u8 *p, int index, int count);
 extern void func_021D6E70(void *unused, int *p, int n);
-extern int func_02035BA4(const void *t);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern int TOUCHPANEL_HitCont(const void *t);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int func_021D7374(char *p, int y, int count);
 extern void func_021D82A8(char *p, void *q, int start);
 extern void func_021D72A0(u8 *p, void *list, int n);
@@ -560,14 +561,14 @@ extern void func_0202223C(u32, u32);
 extern void *func_02012EBC(struct Big *p);
 extern u32 func_0201283C(const struct BigObj *p);
 extern void func_0203A574(u32, u32, u32, u32);
-extern void func_02005D90(u32, u32);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern void func_0203D34C(u32, u32);
 extern void func_0200F7E8(u32 value);
 extern u32 func_0200FB24(void);
 extern void func_02028178(u8 *p);
 extern void func_02027974(void *);
 extern void func_021D7858(u8 *p);
-extern int func_02157170(int a0, int a1);
+extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
 extern void func_0200F7DC(void);
 extern void func_0200F7F4(void);
 extern void func_0203A5E4(unsigned int);
@@ -587,7 +588,7 @@ extern void func_020433E0(const struct DispVram *);
 extern void func_0203FC28(struct DispConfig *);
 extern void *func_020056A0(void (*)(void *,u8 *),void *,int);
 extern void func_0204A600(void);
-extern s32 func_0202EA40(struct Row *p);
+extern s32 BLINK_PALANM_Update(struct Row *p);
 extern void func_021D75F4(char *p);
 extern void func_0204B3B4(struct Obj *p);
 extern void func_021D6ED8(u8 *);
@@ -630,8 +631,8 @@ extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern struct CodeIn *func_0202E940(u16 a0, u16 a1, u32 a2, u16 heap);
-extern void func_0202E9AC(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
+extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
+extern void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
 extern void func_02049238(void *);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021D6AF0(u8 *, u16, u16, int);
@@ -846,7 +847,7 @@ int func_021D43BC(int n, char *p) {
 
 
 
-int func_021D444C(int n,char *p) { int result; if(*(struct Obj * *)&((struct GtsnegoDispCtx *)p)->f34) func_02028218(*(struct Obj * *)&((struct GtsnegoDispCtx *)p)->f34,0); result=func_021D43BC(n,p); if(result) ((struct GtsnegoDispCtx *)p)->f160=result; return 1; }
+int func_021D444C(int n,char *p) { int result; if(*(struct Obj * *)&((struct GtsnegoDispCtx *)p)->f34) APP_TASKMENU_WIN_SetActive(*(struct Obj * *)&((struct GtsnegoDispCtx *)p)->f34,0); result=func_021D43BC(n,p); if(result) ((struct GtsnegoDispCtx *)p)->f160=result; return 1; }
 
 
 void func_021D4474(int n,char *p) { int v; v=((struct GtsnegoDispCtx *)p)->f160-2; if(((struct GtsnegoDispCtx *)p)->f160>=2 || ((struct GtsnegoDispCtx *)p)->f160<=4) func_021D43BC(n+v*2,p); }
@@ -971,7 +972,7 @@ void func_021D46A4(u8 *p)
         str = func_02008510(value, 31);
         func_02082BCC(p + 0x188, 0, 40);
         ((struct GtsnegoDispCtx *)p)->f1AC = 31;
-        chars = func_02045A90(str);
+        chars = STRBUF_GetChars(str);
         for (i = 0; i < func_020458F8(str) + 1u; i++) {
             u16 c = chars[i];
             if (c == func_02045A98()) ((u16 *)(p + 0x188))[i] = 0;
@@ -1045,13 +1046,13 @@ void func_021D4864(u8 *p)
             ((struct GtsnegoDispCtx *)p)->f14 = ((struct GtsnegoDispCtx *)p)->f14 - 1;
             return;
         }
-        if (func_020399EC() == 2) {
+        if (GFL_NET_HANDLE_GetNegotiationNum() == 2) {
             q = *(u8 * *)&((struct GtsnegoDispCtx *)p)->f48;
             value = (int)func_0200E6E8(*(int *)&((struct GtsnegoDispCtx *)p)->f30);
             *(int *)&((struct GtsnegoMsgCtx *)q)->f4 = ((struct GtsnegoDispCtx *)p)->f144;
             *(int *)&((struct GtsnegoMsgCtx *)q)->f8 = ((struct GtsnegoDispCtx *)p)->f13C;
             func_0200E6FC((struct Rec0200E6FC *)value, 0, (struct Rec0200E6FC *)(p + 0x168));
-            ((struct GtsnegoDispCtx *)p)->f170 = func_02009EA8(func_02012F14((void **)(*(int *)&((struct GtsnegoDispCtx *)p)->f2C)));
+            ((struct GtsnegoDispCtx *)p)->f170 = func_02009EA8(GAME_DATA_GetSaveBlock1F((void **)(*(int *)&((struct GtsnegoDispCtx *)p)->f2C)));
             func_02039C68((struct Link *)func_020399A8(), 2, 0x22);
             func_021D4244(((int *)p), func_021D4808, 0x314);
         }
@@ -1071,7 +1072,7 @@ void func_021D48F0(int *a)
         func_021D4244(a, func_021D4864, 0x31d);
         return;
     }
-    if (func_020399EC() != 0 && func_02039ACC() != 0)
+    if (GFL_NET_HANDLE_GetNegotiationNum() != 0 && func_02039ACC() != 0)
         func_021D4244(a, func_021D4864, 0x322);
 }
 
@@ -1111,9 +1112,9 @@ void func_021D4930(struct GtsnegoDispCtx *a)
 
 
 /*
- * Blocker resolved: the call to func_0203C3EC (site +0050) was the only
+ * Blocker resolved: the call to GFL_NET_STATE_GetWifiState (site +0050) was the only
  *          unresolved relocation.  It is an unlabelled ARM leaf in the ARM9
- *          image; it was matched in arm9 (src/matched/func_0203C3EC.c, shard
+ *          image; it was matched in arm9 (src/matched/GFL_NET_STATE_GetWifiState.c, shard
  *          pkt_0203C3EC) so `attest_matched` now resolves the BL field.  All
  *          17 relocations and all 152 bytes agree.
  */
@@ -1123,7 +1124,7 @@ void func_021D4988(struct GtsnegoDispCtx *a)
     if (func_020362DC() == 2) {
         func_021D8638((unsigned char *)(*(int *)&a->f40));
         if (func_0203CD98() != 0)
-            func_0203C554(1);
+            GFL_NET_STATE_WifiDisconnect(1);
         func_020355D8(0);
         func_020061E4(0x551);
         func_021D4244(a, func_021D4FF4, 0x360);
@@ -1132,9 +1133,9 @@ void func_021D4988(struct GtsnegoDispCtx *a)
         if (func_020362DC() != 1)
             return;
     } else {
-        if (func_0203C3EC() != 1)
+        if (GFL_NET_STATE_GetWifiState() != 1)
             return;
-        func_0203D7B0(1);
+        GFL_NET_SetAutoExit(1);
         func_0203D7BC(1);
     }
     func_021D7B38((char *)(*(int *)&a->f40));
@@ -1222,7 +1223,7 @@ void func_021D4B48(u8 *p)
             func_021D4244(((int *)p), func_021D4988, 0x3ea);
             return;
         }
-        func_0203D644(0);
+        GFL_NET_SetWaitMode(0);
         func_02009CA8((void *)(((struct GtsnegoDispCtx *)p)->f44), values);
         values[0] = ((struct GtsnegoDispCtx *)p)->f14C;
         values[1] = *(unsigned int *)&((struct GtsnegoDispCtx *)p)->f138;
@@ -1248,14 +1249,14 @@ void func_021D4B48(u8 *p)
             r->kind = func_0216C8DC(r->kind, (char *)(&r->detail), (int *)r);
         }
         func_0208D7E0((char *)p + 0xb8, d_021D8B50, *(unsigned int *)&((struct GtsnegoDispCtx *)p)->f138, 1);
-        if (func_0215580C((int)p + 0xb8, 2, (int)func_021D4A20, (int)p)) {
-            func_0203C35C();
-            func_02156BC4(0);
+        if (DWC_RAP_StartMatchWithFilter((int)p + 0xb8, 2, (int)func_021D4A20, (int)p)) {
+            GFL_NET_STATE_WifiEnterFriendMatch();
+            DWC_RAP_SetVchatEnabled(0);
             func_021D8590(*(u8 * *)&((struct GtsnegoDispCtx *)p)->f40, (int)func_021D505C, (int)p);
             func_021D4244(((int *)p), func_021D4988, 0x41d);
             return;
         }
-        func_0203C9AC(0, 0, 0, 0x3f1);
+        GFL_NET_STATE_SetError(0, 0, 0, 0x3f1);
     }
 }
 
@@ -1275,7 +1276,7 @@ void func_021D4C98(void *p,int n,u8 *s) { if (n==0 && ((struct GtsnegoDispCtx *)
 
 void func_021D4CC4(struct GtsnegoDispCtx *p)
 {
-    if (func_02028230(p->f34)) {
+    if (APP_TASKMENU_WIN_IsFinish(p->f34)) {
         func_02028148(p->f34);
         *(int *)&p->f34 = 0;
         func_02041B6C(5);
@@ -1323,7 +1324,7 @@ void func_021D4D28(u8 *p)
             if (func_020362DC() == 1 && ((struct GtsnegoDispCtx *)p)->f160 == 5) {
                 func_020061E4(0x54c);
                 func_021D6A9C(((struct GtsnegoDispCtx *)p)->f3C, ((struct GtsnegoDispCtx *)p)->f160);
-                func_0202822C(((struct GtsnegoDispCtx *)p)->f34, 1);
+                APP_TASKMENU_WIN_SetDecide(((struct GtsnegoDispCtx *)p)->f34, 1);
                 func_021D4244(((int *)p), func_021D4CC4, 0x4ca);
                 return;
             }
@@ -1332,7 +1333,7 @@ void func_021D4D28(u8 *p)
             if (func_02035C08(d_021D88D0) == 0) {
                 func_020355D8(1);
                 func_020061E4(0x54c);
-                func_0202822C(((struct GtsnegoDispCtx *)p)->f34, 1);
+                APP_TASKMENU_WIN_SetDecide(((struct GtsnegoDispCtx *)p)->f34, 1);
                 func_021D4244(((int *)p), func_021D4CC4, 0x4f2);
                 return;
             }
@@ -1372,7 +1373,7 @@ void func_021D4EC0(u8 *p)
     if (func_020355C4() == 0) {
         func_021D69F4(((struct GtsnegoDispCtx *)p)->f3C, 0, ((struct GtsnegoDispCtx *)p)->f160);
         if (((struct GtsnegoDispCtx *)p)->f160 == 5)
-            func_02028218(((struct GtsnegoDispCtx *)p)->f34, 1);
+            APP_TASKMENU_WIN_SetActive(((struct GtsnegoDispCtx *)p)->f34, 1);
     } else {
         func_021D69F4(((struct GtsnegoDispCtx *)p)->f3C, 0, 9);
     }
@@ -1386,14 +1387,14 @@ void func_021D4EC0(u8 *p)
 
 
 
-void *func_021D4F70(void **p,int i) { int n; n=func_02009E8C(func_02012F14(p)); if (i>=n || i<0) return 0; return func_02009E54(func_02012F14(p),i); }
+void *func_021D4F70(void **p,int i) { int n; n=func_02009E8C(GAME_DATA_GetSaveBlock1F(p)); if (i>=n || i<0) return 0; return func_02009E54(GAME_DATA_GetSaveBlock1F(p),i); }
 
 
 
 
 
 
-void *func_021D4F98(void **p,int i) { int n; n=func_02009E8C(func_02012F14(p)); if (i<0) i=0; if (i>=n) i=n-1; return func_02009E54(func_02012F14(p),i); }
+void *func_021D4F98(void **p,int i) { int n; n=func_02009E8C(GAME_DATA_GetSaveBlock1F(p)); if (i<0) i=0; if (i>=n) i=n-1; return func_02009E54(GAME_DATA_GetSaveBlock1F(p),i); }
 
 
 
@@ -1459,7 +1460,7 @@ void func_021D505C(int a, int b, int *p)
 {
     if (b == 0 && *(void **)p == func_021D4988) {
         func_021D8638(*(u8 * *)&((struct GtsnegoDispCtx *)p)->f40);
-        func_0203C554(1);
+        GFL_NET_STATE_WifiDisconnect(1);
         func_020355D8(1);
         func_020061E4(0x551);
         func_021D4244(p, func_021D4FF4, 0x5f5);
@@ -1624,7 +1625,7 @@ int func_021D5284(u8 *p)
 
 void func_021D52D4(struct GtsnegoDispCtx *p)
 {
-    if (func_02028230(p->f34)) {
+    if (APP_TASKMENU_WIN_IsFinish(p->f34)) {
         func_02028148(p->f34);
         *(int *)&p->f34 = 0;
         p->f148 = -1;
@@ -1749,7 +1750,7 @@ void func_021D5334(Ctx *p)
     }
     if (func_020362DC() == 8) {
         func_020061E4(0x54C);
-        func_0202822C(p->f34, 1);
+        APP_TASKMENU_WIN_SetDecide(p->f34, 1);
         func_021D4244(((int *)p), func_021D52D4, 0x766);
         return;
     }
@@ -1757,7 +1758,7 @@ void func_021D5334(Ctx *p)
     switch (sel) {
     case 3:
         func_020061E4(0x54C);
-        func_0202822C(p->f34, 1);
+        APP_TASKMENU_WIN_SetDecide(p->f34, 1);
         func_021D4244(((int *)p), func_021D52D4, 0x770);
         return;
     case 2:
@@ -1779,9 +1780,9 @@ void func_021D5334(Ctx *p)
         func_021D4244(((int *)p), func_021D51D4, 0x78B);
         return;
     }
-    if (func_02035BA4(d_021D88C8) != 0)
+    if (TOUCHPANEL_HitCont(d_021D88C8) != 0)
         goto end;
-    if (func_02035CB8((u32 *)(&x), (u32 *)(&y)) == 1) {
+    if (TOUCHPANEL_GetPointCont((u32 *)(&x), (u32 *)(&y)) == 1) {
         r = func_021D7374((char *)p->f3C, y, p->f150);
         if (p->f158 != r) {
             p->f158 = r;
@@ -1835,7 +1836,7 @@ void func_021D5758(struct GtsnegoDispCtx *p)
 void func_021D57B0(struct GtsnegoDispCtx *p)
 {
     int flag = 1;
-    int n = func_02009E8C(func_02012F14(*(void ** *)&p->f2C));
+    int n = func_02009E8C(GAME_DATA_GetSaveBlock1F(*(void ** *)&p->f2C));
     p->f138 = flag;
     if (n == 0) {
         func_021D79F4(p->f40, 0x1d);
@@ -2064,7 +2065,7 @@ void func_021D5BEC(u8 *p)
 {
     if (((struct GtsnegoDispCtx_f48 *)((struct GtsnegoDispCtx *)p)->f48)->f1B0 != 1) {
         int zero = 0;
-        func_0203D7B0(0);
+        GFL_NET_SetAutoExit(0);
         func_0203D7BC(0);
         func_021D846C(*(u8 * *)&((struct GtsnegoDispCtx *)p)->f40);
         func_021D63F4(((struct GtsnegoDispCtx *)p)->f3C, 0, 0);
@@ -2118,7 +2119,7 @@ int func_021D5C60(void *a, int unused, u8 *q)
     if (func_0203CD98())
         func_0203A574(0x2200, (u32)d_021D88EC, 3, (u32)p);
     func_0202208C(0, 1, 1, 0, 6, 1, ((struct GtsnegoDispCtx *)p)->fC);
-    func_02005D90(0x486, 0xffff);
+    GFL_USE_CancelChangeAndPlayBgm(0x486, 0xffff);
     func_0203D34C(1, ((struct GtsnegoDispCtx *)p)->fC);
     func_0200F7E8(1);
     func_021D4244(p, func_021D588C, 0x96a);
@@ -2152,7 +2153,7 @@ int func_021D5D74(int a, int b, int c, u8 *p)
     func_021D7858(((struct GtsnegoDispCtx *)p)->f40);
     if (func_0203CD98()) {
         if (func_0200FB24()) {
-            switch (func_02157170(1, 1)) {
+            switch (DWC_RAPCOMMON_HandleNetError(1, 1)) {
             case 0: break;
             case 1:
             case 4:
@@ -2247,7 +2248,7 @@ u8 *func_021D5E88(u32 heap,void *arg)
 
 
 
-void func_021D5F98(struct GtsnegoMsgCtx *p){func_0204A600();if(p->fF8)func_0202EA40(p->fF8);if(p->fFC)func_0202EA40(p->fFC);func_021D75F4((char *)p);}
+void func_021D5F98(struct GtsnegoMsgCtx *p){func_0204A600();if(p->fF8)BLINK_PALANM_Update(p->fF8);if(p->fFC)BLINK_PALANM_Update(p->fFC);func_021D75F4((char *)p);}
 
 
 
@@ -2509,10 +2510,10 @@ void func_021D6568(u8 *p)
     ((struct GtsnegoMsgCtx *)p)->f2C=(void *)func_0204A6C8(t,7,0,0,((struct GtsnegoMsgCtx *)p)->fF4);
     ((struct GtsnegoMsgCtx *)p)->f1C=(void *)func_0204AC18(t,2,0,0,0,8,((struct GtsnegoMsgCtx *)p)->fF4);
     ((struct GtsnegoMsgCtx *)p)->f78=(void *)func_0204AF28(t,11,23,((struct GtsnegoMsgCtx *)p)->fF4);
-    ((struct GtsnegoMsgCtx *)p)->fF8=func_0202E940(0,16,0,((struct GtsnegoMsgCtx *)p)->fF4);
-    func_0202E9AC(((struct GtsnegoMsgCtx *)p)->fF8,t,1,0,16);
-    ((struct GtsnegoMsgCtx *)p)->fFC=func_0202E940(0,16,7,((struct GtsnegoMsgCtx *)p)->fF4);
-    func_0202E9AC(((struct GtsnegoMsgCtx *)p)->fFC,t,1,0,16);
+    ((struct GtsnegoMsgCtx *)p)->fF8=BLINK_PALANM_Create(0,16,0,((struct GtsnegoMsgCtx *)p)->fF4);
+    BLINK_PALANM_LoadPalettes(((struct GtsnegoMsgCtx *)p)->fF8,t,1,0,16);
+    ((struct GtsnegoMsgCtx *)p)->fFC=BLINK_PALANM_Create(0,16,7,((struct GtsnegoMsgCtx *)p)->fF4);
+    BLINK_PALANM_LoadPalettes(((struct GtsnegoMsgCtx *)p)->fFC,t,1,0,16);
     func_02049238(t);
     t=func_020490F4((u32)((void *)32),((struct GtsnegoMsgCtx *)p)->fF4);
     for(i=0;i<16;i++) {
@@ -2660,10 +2661,10 @@ void func_021D69F4(u8 *p, void *q, u32 n)
         return;
     case 5:
         func_0204B3DC(((struct GtsnegoMsgCtx *)p)->f134, 0);
-        if (q) func_02028218(q, 1);
+        if (q) APP_TASKMENU_WIN_SetActive(q, 1);
         return;
     case 2: case 3: case 4: case 6: case 7: case 8:
-        if (q) func_02028218(q, 0);
+        if (q) APP_TASKMENU_WIN_SetActive(q, 0);
         break;
     case 0: case 1: default: break;
     }

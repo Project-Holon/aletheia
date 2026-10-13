@@ -1,5 +1,5 @@
 /*
- * function: func_0215F638
+ * function: SOC_Shutdown
  * address:  0x0215F638
  * packet:   pkt_02155168
  * region:   ov009
@@ -22,7 +22,7 @@
 
 extern int func_0215E6B8(int s);
 
-int func_0215F638(int s, int how)
+int SOC_Shutdown(int s, int how)
 {
     return func_0215E6B8(s);
 }

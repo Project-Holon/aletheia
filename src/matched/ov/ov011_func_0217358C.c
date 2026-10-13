@@ -1,5 +1,5 @@
 /*
- * function: func_0217358C
+ * function: INTRUDE_COMM_GetBeacon
  * address: 0x0217358C
  * packet: pkt_ov011_0217358C
  * region: ov011
@@ -13,6 +13,6 @@
  */
 
 typedef unsigned char  u8;
-u8 *func_0217358C(u8 *p);
+u8 *INTRUDE_COMM_GetBeacon(u8 *p);
 
-u8 *func_0217358C(u8 *p) { return p + 12; }
+u8 *INTRUDE_COMM_GetBeacon(u8 *p) { return p + 12; }

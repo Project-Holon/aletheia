@@ -65,144 +65,208 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
-typedef signed short s16;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef long long s64;
-typedef struct {int x,y,z;} Vec;
-typedef struct {s16 x,y,z;} SmallVec;
-typedef struct {u16 a,b; s16 c; u16 d;} LocalCell;
-typedef struct {u32 state;int scene,entity;void *obj;int model,map,player;u32 pad1c;Vec start,end;SmallVec dir;u16 pad3e;int step,count;Vec oldpos,oldlook,delta,lookdelta;LocalCell cell;int f80;} S;
-extern int func_0219E764(u32 a, u32 b);
-extern void func_0207CDB8(SmallVec *,SmallVec *);
-extern void func_021B8028(int,Vec *);
-typedef unsigned char  u8;
-extern void *func_021BB480(void *p);
-extern int func_021B7A84(int,Vec *,Vec *,LocalCell *,Vec *);
-extern int func_021B7D50(int,LocalCell *);
-extern u32 func_021BB3C4(u8 *p, char *a1);
-extern u16 func_021AB0F8(u32 attr);
-extern void func_021B7D38(int,LocalCell *,Vec *);
-extern void func_0207CA00(const Vec *,const Vec *,Vec *);
-extern int func_0207CBD0(const Vec *);
-extern void func_0207CCA4(Vec *,Vec *);
-extern u32 func_0207C768(u32 a, u32 b);
-extern int func_0207D14C(int,int *);
-extern void func_0218F0A8(u8 *a);
-extern u32 func_0218F0E8(u8 *a);
-extern void func_0218EC54(u8 *p);
-extern void func_0218E13C(u8 *a, u32 s);
-extern void func_0218E124(u8 *a, u32 s);
-extern void func_0218ECE4(int,Vec *);
-extern void func_0218ECB4(int,Vec *);
-extern void func_021BB3D0(void **h, void *r);
-extern u32 func_0218EC5C(u8 *p);
-extern void func_0218EC90(int,Vec *);
-extern void func_0218ECF4(int,Vec *);
-extern void func_020061E4(u32);
-extern void *func_0216D568(void *p, u32 v);
-extern void func_021AC528(u32 a, u32 b);
-extern void func_021A3044(u8 *p, void *v);
-extern void func_0216D89C(int,Vec *);
-extern int func_02006148(u32);
-extern void func_020061F8(int);
-extern void func_021A36B0(u8 *p, void *r);
-extern void func_021A36D4(u8 *p, u32 v);
-extern void func_021BB260(int,int);
-extern int func_021BB388(void **h);
-extern void func_0219E2C0(void *a, void *r);
-extern char *func_0216D570(char *p, u32 v);
-extern int func_0216DB4C(void *a0, int a1);
-extern int func_0216DC98(void *a0, int a1);
-extern void func_0216DAE0(unsigned int *p, unsigned int v);
-extern char *func_0216DB04(void *a0);
-static inline int fxmul(int a,int b) {return (int)(((s64)a*b+2048)>>12);}
-static inline void vset16(SmallVec *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
-static inline void vset(Vec *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
-void func_021F377C(int unused,S *s)
-{
- int n,terrain,height,y,valid,i;
- u16 bound;
- int scale,top,z;
- Vec origin,delta,point,pos,look,finalpos;
- SmallVec dir;
- LocalCell cell;
- int length;
- switch(s->state) {
- case 0:
-  func_0219E764(s->model,(u32)(&dir));dir.y=0;func_0207CDB8(&dir,&dir);
-  func_021B8028(s->entity,&origin);
-  s->start.x=origin.x+fxmul(dir.x,0x10000);
-  s->start.y=origin.y+fxmul(dir.y,0x10000);
-  s->start.z=origin.z+fxmul(dir.z,0x10000);
-  top=s->start.y+0xa000;
-  s->end.y=-0xa000;
-  scale=fxmul(top,0x127b);
-  s->end.x=s->start.x+fxmul(dir.x,scale);s->end.z=s->start.z+fxmul(dir.z,scale);
-  terrain=(int)func_021BB480((void *)s->scene);
-  if(func_021B7A84(terrain,&s->start,&s->end,&s->cell,&s->end)==0) {s->state=9;return;}
-  cell=s->cell;
-  height=func_021B7D50(terrain,&s->cell);
-  valid=0;
-  if(!(func_021AB0F8(func_021BB3C4((u8 *)s->scene,(char *)(&cell)))&1)) valid=1;
-  cell.c+=2;if(cell.c>height) cell.c=height;
-  bound=height+cell.c;
-  for(i=0;i<bound;i++) {cell.c--;if(func_021AB0F8(func_021BB3C4((u8 *)s->scene,(char *)(&cell)))&1)break;s->cell=cell;valid=1;}
-  if(!valid) {s->state=9;return;}
-  func_021B7D38(terrain,&s->cell,&s->end);
-  func_0207CA00(&s->end,&s->start,&delta);length=func_0207CBD0(&delta);func_0207CCA4(&delta,&delta);
-  vset16(&s->dir,delta.x,delta.y,delta.z);
-  length=func_0207C768(length,0x8000);
-  if(func_0207D14C(length,&length)==0)s->count=length>>12;else s->count=(length>>12)+1;
-  s->step=0;
-  if(s->obj!=0) {func_0218F0A8((u8 *)s->player);s->state=1;}else s->state=4;
-  break;
- case 1:
-  if(func_0218F0E8((u8 *)s->player)!=0)break;
-  func_0218EC54((u8 *)s->player);func_0218E13C((u8 *)s->player,2);
-  func_0218ECE4(s->player,&s->oldpos);func_0218ECB4(s->player,&s->oldlook);func_021BB3D0((void **)s->scene,&s->cell);
-  if(func_0218EC5C((u8 *)s->player)!=0) {func_0218EC90(s->player,&s->end);func_0218EC54((u8 *)s->player);}
-  func_0218E13C((u8 *)s->player,2);func_0218ECE4(s->player,&s->delta);func_0218ECB4(s->player,&s->lookdelta);
-  func_0207CA00(&s->delta,&s->oldpos,&s->delta);func_0207CA00(&s->lookdelta,&s->oldlook,&s->lookdelta);
-  func_021BB260(s->scene,0);func_0218E124((u8 *)s->player,2);func_0218EC54((u8 *)s->player);
-  func_0218EC90(s->player,&s->oldlook);func_0218ECF4(s->player,&s->oldpos);
-  s->state=4;break;
- case 4:
-  func_020061E4(0x6ed);s->state=5;func_0216D568((void *)s->model,0x8000);
- case 5:
-  s->step++;
-  if((u32)s->step>=(u32)s->count) {vset(&point,s->end.x,s->end.y,s->end.z);s->state=8;}
-  else {
-   if(s->step>0) n=(int)(0.5f+(float)(s->step<<12));else n=(int)((float)(s->step<<12)-0.5f);
-   scale=fxmul(n,0x8000);
-   z=s->start.z+fxmul(s->dir.z,scale);y=s->start.y+fxmul(s->dir.y,scale);point.x=s->start.x+fxmul(s->dir.x,scale);point.y=y;point.z=z;
-   if(s->step%2==0)func_021AC528(s->model,s->map);
-  }
-  if(s->obj!=0)func_021A3044(s->obj,&point);else func_0216D89C(s->model,&point);
-  if(s->obj==0)break;
-  {
-  int y,z;
-  z=s->oldpos.z+func_0207C768(fxmul(s->delta.z,s->step<<12),s->count<<12);
-  y=s->oldpos.y+func_0207C768(fxmul(s->delta.y,s->step<<12),s->count<<12);
-  pos.x=s->oldpos.x+func_0207C768(fxmul(s->delta.x,s->step<<12),s->count<<12);
-  pos.y=y;pos.z=z;
-  }
-  {
-  int y,z;
-  z=s->oldlook.z+func_0207C768(fxmul(s->lookdelta.z,s->step<<12),s->count<<12);
-  y=s->oldlook.y+func_0207C768(fxmul(s->lookdelta.y,s->step<<12),s->count<<12);
-  look.x=s->oldlook.x+func_0207C768(fxmul(s->lookdelta.x,s->step<<12),s->count<<12);
-  look.y=y;look.z=z;
-  }
-  func_0218EC90(s->player,&look);func_0218ECF4(s->player,&pos);
-  break;
- case 8:
-  func_020061F8(func_02006148(0x6ed));
-  if(s->obj!=0) {func_021A36B0(s->obj,&s->cell);func_021A36D4(s->obj,(u32)(&finalpos));func_021A3044(s->obj,&finalpos);func_021BB260(s->scene,1);func_021BB388((void **)s->scene);}
-  else func_0219E2C0((void *)s->model,&s->cell);
-  func_0216D570((char *)s->model,0x8000);func_0216DB4C((void *)s->model,0);func_0216DC98((void *)s->model,0);func_0216DAE0((unsigned int *)s->model,1);func_0216DB04((void *)s->model);s->state=9;
-  break;
- case 2:case 3:case 6:case 7:case 9:break;
- }
-}
+#include "../../ov021/fldmmdl_rail_types.h"
+#include "../rail_slipdown_types.h"
 
+typedef long long s64;
+
+extern int func_0219E764(struct Mmdl *mmdl, SlipdownDir *out);
+extern void func_0207CDB8(SlipdownDir *in, SlipdownDir *out);
+extern void func_021B8028(struct RailWork *railWork, VecFx32 *outPos);
+extern struct RailManager *func_021BB480(struct FieldNogridMapper *mapper);
+extern int func_021B7A84(struct RailManager *railMan, const VecFx32 *start, const VecFx32 *end, RailLocation *outLocation, VecFx32 *outPos);
+extern int func_021B7D50(struct RailManager *railMan, RailLocation *location);
+extern u32 func_021BB3C4(struct FieldNogridMapper *mapper, RailLocation *location);
+extern u16 func_021AB0F8(u32 attr);
+extern void func_021B7D38(struct RailManager *railMan, RailLocation *location, VecFx32 *outPos);
+extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern int func_0207CBD0(const VecFx32 *v);
+extern void func_0207CCA4(VecFx32 *in, VecFx32 *out);
+extern u32 func_0207C768(u32 a, u32 b);
+extern int func_0207D14C(int value, int *out);
+extern void func_0218F0A8(struct FieldCamera *camera);
+extern u32 func_0218F0E8(struct FieldCamera *camera);
+extern void func_0218EC54(struct FieldCamera *camera);
+extern void func_0218E13C(struct FieldCamera *camera, u32 mode);
+extern void func_0218E124(struct FieldCamera *camera, u32 mode);
+extern void func_0218ECE4(struct FieldCamera *camera, VecFx32 *outEye);
+extern void func_0218ECB4(struct FieldCamera *camera, VecFx32 *outTarget);
+extern void func_021BB3D0(struct FieldNogridMapper *mapper, RailLocation *location);
+extern u32 func_0218EC5C(struct FieldCamera *camera);
+extern void func_0218EC90(struct FieldCamera *camera, VecFx32 *target);
+extern void func_0218ECF4(struct FieldCamera *camera, VecFx32 *eye);
+extern void func_020061E4(u32 seId);
+extern void *func_0216D568(struct Mmdl *mmdl, u32 bits);
+extern void func_021AC528(struct Mmdl *mmdl, struct FieldEffectSys *effectSys);
+extern void func_021A3044(struct FieldPlayer *player, VecFx32 *pos);
+extern void func_0216D89C(struct Mmdl *mmdl, VecFx32 *pos);
+extern int func_02006148(u32 seId);
+extern void func_020061F8(int seSlot);
+extern void func_021A36B0(struct FieldPlayer *player, RailLocation *outLocation);
+extern void func_021A36D4(struct FieldPlayer *player, VecFx32 *outPos);
+extern void func_021BB260(struct FieldNogridMapper *mapper, int active);
+extern int func_021BB388(struct FieldNogridMapper *mapper);
+extern void func_0219E2C0(struct Mmdl *mmdl, RailLocation *location);
+extern char *func_0216D570(struct Mmdl *mmdl, u32 bits);
+extern int func_0216DB4C(struct Mmdl *mmdl, int value);
+extern int func_0216DC98(struct Mmdl *mmdl, int value);
+extern void func_0216DAE0(struct Mmdl *mmdl, unsigned int value);
+extern char *func_0216DB04(struct Mmdl *mmdl);
+/* Fixed-point multiply with rounding (12 fraction bits). */
+static inline int fxmul(int a,int b) {return (int)(((s64)a*b+2048)>>12);}
+static inline void setDir16(SlipdownDir *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
+static inline void setVec(VecFx32 *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
+/*
+ * Task of RAIL_SLIPDOWN_Create. Finds the landing place below the model,
+ * then slides the model (and the camera with it) from start to end in steps.
+ */
+void func_021F377C(void *tcb, RailSlipdown *slipdown)
+{
+    int stepFixed;
+    struct RailManager *railMan;
+    int widthLimit, slideY, valid, i;
+    u16 bound;
+    int scale, top, slideZ;
+    VecFx32 origin, slope, point, eye, target, finalPos;
+    SlipdownDir facing;
+    RailLocation cell;
+    int length;
+    switch (slipdown->state) {
+    case SLIPDOWN_STATE_FIND_LANDING:
+        func_0219E764(slipdown->mmdl, &facing);
+        facing.y = 0;
+        func_0207CDB8(&facing, &facing);
+        func_021B8028(slipdown->railWork, &origin);
+        slipdown->start.x = origin.x + fxmul(facing.x, 0x10000);
+        slipdown->start.y = origin.y + fxmul(facing.y, 0x10000);
+        slipdown->start.z = origin.z + fxmul(facing.z, 0x10000);
+        top = slipdown->start.y + 0xa000;
+        slipdown->end.y = -0xa000;
+        scale = fxmul(top, 0x127b);
+        slipdown->end.x = slipdown->start.x + fxmul(facing.x, scale);
+        slipdown->end.z = slipdown->start.z + fxmul(facing.z, scale);
+        railMan = func_021BB480(slipdown->nogridMapper);
+        if (func_021B7A84(railMan, &slipdown->start, &slipdown->end, &slipdown->landing, &slipdown->end) == 0) {
+            slipdown->state = SLIPDOWN_STATE_DONE;
+            return;
+        }
+        cell = slipdown->landing;
+        widthLimit = func_021B7D50(railMan, &slipdown->landing);
+        valid = 0;
+        if (!(func_021AB0F8(func_021BB3C4(slipdown->nogridMapper, &cell)) & 1)) valid = 1;
+        cell.widthGrid += 2;
+        if (cell.widthGrid > widthLimit) cell.widthGrid = widthLimit;
+        bound = widthLimit + cell.widthGrid;
+        for (i = 0; i < bound; i++) {
+            cell.widthGrid--;
+            if (func_021AB0F8(func_021BB3C4(slipdown->nogridMapper, &cell)) & 1) break;
+            slipdown->landing = cell;
+            valid = 1;
+        }
+        if (!valid) {
+            slipdown->state = SLIPDOWN_STATE_DONE;
+            return;
+        }
+        func_021B7D38(railMan, &slipdown->landing, &slipdown->end);
+        func_0207CA00(&slipdown->end, &slipdown->start, &slope);
+        length = func_0207CBD0(&slope);
+        func_0207CCA4(&slope, &slope);
+        setDir16(&slipdown->dir, slope.x, slope.y, slope.z);
+        length = func_0207C768(length, 0x8000);
+        if (func_0207D14C(length, &length) == 0) slipdown->count = length>>12;
+        else slipdown->count = (length>>12) + 1;
+        slipdown->step = 0;
+        if (slipdown->player != 0) {
+            func_0218F0A8(slipdown->camera);
+            slipdown->state = SLIPDOWN_STATE_WAIT_CAMERA;
+        } else slipdown->state = SLIPDOWN_STATE_START_SLIDE;
+        break;
+    case SLIPDOWN_STATE_WAIT_CAMERA:
+        if (func_0218F0E8(slipdown->camera) != 0) break;
+        func_0218EC54(slipdown->camera);
+        func_0218E13C(slipdown->camera, 2);
+        func_0218ECE4(slipdown->camera, &slipdown->eyeStart);
+        func_0218ECB4(slipdown->camera, &slipdown->targetStart);
+        func_021BB3D0(slipdown->nogridMapper, &slipdown->landing);
+        if (func_0218EC5C(slipdown->camera) != 0) {
+            func_0218EC90(slipdown->camera, &slipdown->end);
+            func_0218EC54(slipdown->camera);
+        }
+        func_0218E13C(slipdown->camera, 2);
+        func_0218ECE4(slipdown->camera, &slipdown->eyeDelta);
+        func_0218ECB4(slipdown->camera, &slipdown->targetDelta);
+        func_0207CA00(&slipdown->eyeDelta, &slipdown->eyeStart, &slipdown->eyeDelta);
+        func_0207CA00(&slipdown->targetDelta, &slipdown->targetStart, &slipdown->targetDelta);
+        func_021BB260(slipdown->nogridMapper, 0);
+        func_0218E124(slipdown->camera, 2);
+        func_0218EC54(slipdown->camera);
+        func_0218EC90(slipdown->camera, &slipdown->targetStart);
+        func_0218ECF4(slipdown->camera, &slipdown->eyeStart);
+        slipdown->state = SLIPDOWN_STATE_START_SLIDE;
+        break;
+    case SLIPDOWN_STATE_START_SLIDE:
+        func_020061E4(0x6ed);
+        slipdown->state = SLIPDOWN_STATE_SLIDE;
+        func_0216D568(slipdown->mmdl, 0x8000);
+    case SLIPDOWN_STATE_SLIDE:
+        slipdown->step++;
+        if ((u32) slipdown->step >= (u32) slipdown->count) {
+            setVec(&point, slipdown->end.x, slipdown->end.y, slipdown->end.z);
+            slipdown->state = SLIPDOWN_STATE_FINISH;
+        } else {
+            if (slipdown->step>0) stepFixed = (int)(0.5f + (float)(slipdown->step<<12));
+            else stepFixed = (int)((float)(slipdown->step<<12)-0.5f);
+            scale = fxmul(stepFixed, 0x8000);
+            slideZ = slipdown->start.z + fxmul(slipdown->dir.z, scale);
+            slideY = slipdown->start.y + fxmul(slipdown->dir.y, scale);
+            point.x = slipdown->start.x + fxmul(slipdown->dir.x, scale);
+            point.y = slideY;
+            point.z = slideZ;
+            if (slipdown->step % 2 == 0) func_021AC528(slipdown->mmdl, slipdown->effectSys);
+        }
+        if (slipdown->player != 0) func_021A3044(slipdown->player, &point);
+        else func_0216D89C(slipdown->mmdl, &point);
+        if (slipdown->player == 0) break;
+        {
+            int y, z;
+            z = slipdown->eyeStart.z + func_0207C768(fxmul(slipdown->eyeDelta.z, slipdown->step<<12), slipdown->count<<12);
+            y = slipdown->eyeStart.y + func_0207C768(fxmul(slipdown->eyeDelta.y, slipdown->step<<12), slipdown->count<<12);
+            eye.x = slipdown->eyeStart.x + func_0207C768(fxmul(slipdown->eyeDelta.x, slipdown->step<<12), slipdown->count<<12);
+            eye.y = y;
+            eye.z = z;
+        }
+        {
+            int y, z;
+            z = slipdown->targetStart.z + func_0207C768(fxmul(slipdown->targetDelta.z, slipdown->step<<12), slipdown->count<<12);
+            y = slipdown->targetStart.y + func_0207C768(fxmul(slipdown->targetDelta.y, slipdown->step<<12), slipdown->count<<12);
+            target.x = slipdown->targetStart.x + func_0207C768(fxmul(slipdown->targetDelta.x, slipdown->step<<12), slipdown->count<<12);
+            target.y = y;
+            target.z = z;
+        }
+        func_0218EC90(slipdown->camera, &target);
+        func_0218ECF4(slipdown->camera, &eye);
+        break;
+    case SLIPDOWN_STATE_FINISH:
+        func_020061F8(func_02006148(0x6ed));
+        if (slipdown->player != 0) {
+            func_021A36B0(slipdown->player, &slipdown->landing);
+            func_021A36D4(slipdown->player, &finalPos);
+            func_021A3044(slipdown->player, &finalPos);
+            func_021BB260(slipdown->nogridMapper, 1);
+            func_021BB388(slipdown->nogridMapper);
+        } else func_0219E2C0(slipdown->mmdl, &slipdown->landing);
+        func_0216D570(slipdown->mmdl, 0x8000);
+        func_0216DB4C(slipdown->mmdl, 0);
+        func_0216DC98(slipdown->mmdl, 0);
+        func_0216DAE0(slipdown->mmdl, 1);
+        func_0216DB04(slipdown->mmdl);
+        slipdown->state = SLIPDOWN_STATE_DONE;
+        break;
+    case 2:
+    case 3:
+    case 6:
+    case 7:
+    case SLIPDOWN_STATE_DONE:
+        break;
+    }
+}

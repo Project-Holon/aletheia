@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202EF98",
+   "name": "TIME_ICON_Start",
    "address": "0x0202EF98",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_0202F098",
+   "name": "TIME_ICON_TaskMain",
    "address": "0x0202F098",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202F0A4",
+   "name": "TIME_ICON_NodeMain",
    "address": "0x0202F0A4",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202F0B0",
+   "name": "TIME_ICON_Update",
    "address": "0x0202F0B0",
    "kind": "game",
    "region": "arm9",

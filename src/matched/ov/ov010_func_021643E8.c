@@ -15,7 +15,7 @@
  * symbols:
  *   func_02012B38  0x02012B38  thumb
  *   func_02013F6C  0x02013F6C  thumb
- *   func_02014464  0x02014464  thumb
+ *   FIELD_STATUS_SetFlashActive  0x02014464  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200D418  0x0200D418  thumb
  *   func_0215E428  0x0215E428  thumb ov010
@@ -40,7 +40,7 @@ struct Sub02008828Obj;
 struct Sub02014444Obj;
 extern void *func_02012B38(const struct BigObj *p);
 extern u32 func_02013F6C(u32 id);
-extern void func_02014464(struct Sub02014444Obj *o, u8 v);
+extern void FIELD_STATUS_SetFlashActive(struct Sub02014444Obj *o, u8 v);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *a);
 extern void func_0215E428(int a0, int a1);
@@ -57,7 +57,7 @@ void func_021643E8(void *a, void *b)
     void *w = func_02012B38(a);
     void *c;
     if ((func_02013F6C((u32)b) & 3) == 0) {
-        func_02014464(w, 0);
+        FIELD_STATUS_SetFlashActive(w, 0);
     }
     func_0215E428((int)func_0200D418(func_02012EBC(a)), (int)b);
     func_0215E364(a);

@@ -11,11 +11,12 @@
  * blocker:  020362A4; 0209DD64
  * symbols:
  *   g_0209DD64      0x0209DD64  data
+ *   KEY_SetControlModeTable  0x020362A4  arm
  */
 
 extern char g_0209DD64[];
-extern void func_020362A4(const void *p);
+extern void KEY_SetControlModeTable(const void *p);
 void func_020082DC(void)
 {
-    func_020362A4(g_0209DD64);
+    KEY_SetControlModeTable(g_0209DD64);
 }

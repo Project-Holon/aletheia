@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201DADC  0x0201DADC  thumb
- *   func_0201D9C8  0x0201D9C8  thumb
+ *   GF_FONT_ExitFormat  0x0201DADC  thumb
+ *   GF_FONT_FreeBuffers  0x0201D9C8  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
 struct Font;
-extern void func_0201DADC(struct Font *f);
-extern void func_0201D9C8(struct Font *p);
+extern void GF_FONT_ExitFormat(struct Font *f);
+extern void GF_FONT_FreeBuffers(struct Font *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
 u32 func_0201D83C(void *ptr)
 {
-    func_0201DADC(ptr);
-    func_0201D9C8(ptr);
+    GF_FONT_ExitFormat(ptr);
+    GF_FONT_FreeBuffers(ptr);
     return func_020307B0(ptr);
 }

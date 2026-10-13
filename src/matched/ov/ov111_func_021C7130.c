@@ -14,13 +14,13 @@
  *   func_020490F4  0x020490F4  arm
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045A90  0x02045A90  arm
+ *   STRBUF_GetChars  0x02045A90  arm
  *   func_020457B0  0x020457B0  arm
  *   func_0201EC74  0x0201EC74  thumb
  *   func_020056A0  0x020056A0  thumb
  *   func_021C70EC  0x021C70EC  thumb
  *   func_021C80B4  0x021C80B4  thumb
- *   func_02012F5C  0x02012F5C  thumb
+ *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   func_021C8208  0x021C8208  thumb
  *
  * Addresses are Black-image addresses.
@@ -94,13 +94,13 @@ struct U16Vec;
 struct WordSet;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work *), Work *p, int pri);
 extern void func_021C70EC(void *unused, Work *p);
 extern void func_021C80B4(Work *p);
-extern void *func_02012F5C(void **h);
+extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern void func_021C8208(Work *p);
 
 void func_021C7130(Work *p, Parent *parent)
@@ -113,7 +113,7 @@ void func_021C7130(Work *p, Parent *parent)
     p->f20 = func_02045B38(0, 2, 0xBB, 0x27);
     for (i = 0; i < 7; i++) {
         p->f2C[i] = func_02045EC0(p->f20, i);
-        func_02045A90(p->f2C[i]);
+        STRBUF_GetChars(p->f2C[i]);
     }
     p->f28 = func_020457B0(0x68, 0x27);
     p->f24 = func_0201EC74(8, 0x40, 0x27);
@@ -121,6 +121,6 @@ void func_021C7130(Work *p, Parent *parent)
     p->f118 = 8;
     p->f144 = -1;
     func_021C80B4(p);
-    p->f184 = func_02012F5C(p->f108->f4);
+    p->f184 = GAME_DATA_GetSaveBlock21(p->f108->f4);
     func_021C8208(p);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02015EE8",
+   "name": "MCSS_GetAnimCtrl",
    "address": "0x02015EE8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02015F0C",
+   "name": "MCSS_GetSizeY",
    "address": "0x02015F0C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02015F14",
+   "name": "MCSS_GetOfsX",
    "address": "0x02015F14",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02015F1C",
+   "name": "MCSS_GetOfsY",
    "address": "0x02015F1C",
    "kind": "game",
    "region": "arm9",

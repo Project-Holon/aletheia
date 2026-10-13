@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02017E40  0x02017E40  thumb
- *   func_02017F9C  0x02017F9C  thumb
+ *   POKE_TOOL_SetStatusCondition  0x02017F9C  thumb
  *   func_020185C4  0x020185C4  thumb
  *   func_021D62A8  0x021D62A8  thumb  ov093
  *   func_021D505C  0x021D505C  thumb  ov093
@@ -32,7 +32,7 @@ typedef struct {
 } Obj;
 
 extern void func_02017E40(void *p, u32 id, u32 v);
-extern void func_02017F9C(void *p, u32 v);
+extern void POKE_TOOL_SetStatusCondition(void *p, u32 v);
 extern void func_020185C4(void *p);
 struct A;
 struct Unk021D62A8;
@@ -47,9 +47,9 @@ void func_021D6B84(Obj *p, int flag)
     func_02017E40(w, 8, p->f8);
     func_02017E40(w, 0xa0, p->f10);
     if (p->f10 != 0)
-        func_02017F9C(w, func_021D62A8((struct Unk021D62A8 *)p));
+        POKE_TOOL_SetStatusCondition(w, func_021D62A8((struct Unk021D62A8 *)p));
     else
-        func_02017F9C(w, 0);
+        POKE_TOOL_SetStatusCondition(w, 0);
     func_021D505C((struct A *)p);
     if (p->f1b_b5 || flag != 0)
         r = p->f1b_lo;

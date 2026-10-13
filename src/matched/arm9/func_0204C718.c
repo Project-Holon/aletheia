@@ -1,5 +1,5 @@
 /*
- * function: func_0204C718
+ * function: CLACT_AllocTransferEntries
  * address:  0x0204C718
  * packet:   pkt_0204BD64
  * region:   arm9
@@ -28,8 +28,8 @@
  * zero and the 0x10 are hoisted into callee-saved registers for the loop.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C718.c \
- *       --func func_0204C718 --addr 0x0204C718 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_AllocTransferEntries.c \
+ *       --func CLACT_AllocTransferEntries --addr 0x0204C718 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -52,7 +52,7 @@ extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void  func_02082BCC(void *dst, int fill, u32 size);
 
-void func_0204C718(struct Pool *p, u32 n, u32 heapId)
+void CLACT_AllocTransferEntries(struct Pool *p, u32 n, u32 heapId)
 {
     u32 i;
 

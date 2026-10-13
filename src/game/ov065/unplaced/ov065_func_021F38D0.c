@@ -18,19 +18,19 @@
  *   func_021897BC  0x021897BC  thumb
  */
 
-struct Ctx;
-struct Obj;
-extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int *func_021897BC(char *, int);
+#include "../unit_021F36C0_types.h"
 
-int func_021F38D0(void *task)
+extern void *func_020124E4(void *event);
+extern void *func_0201210C(void *gameSystem);
+extern Gimmick65Work *func_021897BC(void *fieldMap, int id);
+
+int func_021F38D0(void *event)
 {
-    void *a;
-    int r;
-    a = func_0201210C(func_020124E4(task));
-    r = 1;
-    if (*func_021897BC(a, 1) != 0)
-        r = 0;
-    return r;
+    void *fieldMap;
+    int isDone;
+    fieldMap = func_0201210C(func_020124E4(event));
+    isDone = 1;
+    if (func_021897BC(fieldMap, 1)->isPlaying != 0)
+        isDone = 0;
+    return isDone;
 }

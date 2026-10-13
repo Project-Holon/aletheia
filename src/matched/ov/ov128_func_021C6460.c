@@ -11,13 +11,13 @@
  * symbols:
  *   func_0201283C 0x0201283C thumb
  *   func_02009860 0x02009860 thumb
- *   func_0205994C 0x0205994C arm
+ *   DWC_CreateFriendKey 0x0205994C arm
  *   func_02009A1C 0x02009A1C thumb
  *   func_021CA014 0x021CA014 thumb ov128
  *   func_02059354 0x02059354 arm
  *   func_0200F43C 0x0200F43C thumb
  *   func_020099C8 0x020099C8 thumb
- *   func_02059980 0x02059980 arm
+ *   DWC_CreateFriendKeyToken 0x02059980 arm
  *   func_02009A00 0x02009A00 thumb
  *   func_02009918 0x02009918 thumb
  */
@@ -33,13 +33,13 @@ extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 struct DWCstAccUserData;
 struct Sub020097BCFriend;
 struct Sub020097BCObj;
-extern unsigned long long func_0205994C(struct DWCstAccUserData *userdata);
+extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 extern int func_02009A1C(struct Sub020097BCObj *obj, u32 i);
 extern u64 func_021CA014(void *,int *);
 extern int func_02059354(void *,u32,u32);
 extern int func_0200F43C(void *,u32,u32,int *);
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
-extern void func_02059980(void *,u32,u32);
+extern void DWC_CreateFriendKeyToken(void *,u32,u32);
 extern void func_02009A00(struct Sub020097BCObj *obj, int i, void *dest);
 extern void func_02009918(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value);
 int func_021C6460(char *p,void *q,u32 arg)
@@ -49,14 +49,14 @@ int func_021C6460(char *p,void *q,u32 arg)
     u64 old,id;
     int valid,result;
     v=(void *)func_0201283C(((struct Obj23065 *)p)->f4);
-    old=func_0205994C((struct DWCstAccUserData *)func_02009860(v));
+    old=DWC_CreateFriendKey((struct DWCstAccUserData *)func_02009860(v));
     for(i=0;i<32;i++) {
         if(func_02009A1C(v,i)==0) {
             id=func_021CA014(q,&valid);
             if(valid==1 && id!=old) {
             if(func_02059354(func_02009860(v),(u32)id,(u32)(id>>32))==0) return 1;
             if(func_0200F43C(v,(u32)id,(u32)(id>>32),&result)==0) return 2;
-            func_02059980(func_020099C8(v,i),(u32)id,(u32)(id>>32));
+            DWC_CreateFriendKeyToken(func_020099C8(v,i),(u32)id,(u32)(id>>32));
             func_02009A00(v,i,(void *)arg);
             func_02009918(v,i,9,2);
             return 0;

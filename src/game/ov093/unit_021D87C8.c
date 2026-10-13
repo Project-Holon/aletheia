@@ -20,7 +20,7 @@
  *   func_021D76BC  0x021D76BC  thumb  ov093
  *   d_021F0668 0x021F0668 data ov093 a4
  *   func_021D62C4 0x021D62C4 thumb ov093
- *   func_0201C1E8 0x0201C1E8 thumb
+ *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
  *   func_021D7B10  0x021D7B10  thumb  ov093
  *   d_021F0748     0x021F0748  data   ov093  a4
  *   func_021D84F0 0x021D84F0 thumb ov093
@@ -39,73 +39,53 @@
  *   func_021D7AD4 0x021D7AD4 thumb ov093
  *   d_021F09F0     0x021F09F0  data   ov093  a4
  */
-#include "../../matched/include/Obj21270.h"
-#include "../../matched/include/Obj04900.h"
+#include "unit_021D8434_types.h"
 
-struct Unk021D62A8;
-struct S;
-typedef unsigned char u8;
+/* Slow Start state kept in the factor work area. */
+typedef struct {
+    int started;
+    int turnCount;
+    int finished;
+    int active;
+} SlowStartWork;
 
-typedef unsigned short u16;
+#define SLOW_START_TURNS 5
+#define BTL_STR_TYPE_STD 2
+#define BTL_STR_SLOW_START_BEGIN 0x1F0
+#define BTL_STR_SLOW_START_END 0x1F3
 
-typedef unsigned int u32;
+int func_021C804C(struct BtlSvFlow *flow, int pokeId, BtlActionWord *outAction);
 
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-int func_021D775C(int a);
-void *func_021C7CF4(int *p, int i);
-int func_021D62A8(struct Unk021D62A8 *p);
-void func_021D7704(int a, int b);
-int func_021D76BC(int key, u32 val);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern int func_0201C1E8(int a);
-u32 func_021D7B10(u32 a, u32 b);
-extern unsigned int func_021D84F0(unsigned int,unsigned int);
-void *func_021C88A4(char *p, int a, int b);
-void func_021C8838(void *p, int a, int b);
-void func_021C8860(struct S *p, u32 a);
-void func_021C88C8(void *a, void *b);
-int func_021C804C(int a, int b, void *v);
-extern int func_021C8288(u8 *p);
-extern int func_021D7AD4(int);
-void func_021D87C8(void *a, int b, int c);
-int *func_021D87FC(int *p);
-void func_021D8808(int a,int b,int c);
-u8 *func_021D8838(u32 *p);
-void func_021D8844(int a, int b, int c);
-void func_021D8874(void *a, int b, int c);
-int *func_021D88AC(int *p);
-void func_021D88B8(int a, int b, int c);
-void *func_021D88D0(unsigned int *p);
-void func_021D88E8(int a, int b, int c, int *d);
-void func_021D890C(int a, int b, int c, int *d);
-void func_021D8940(void *a, int b, int c, int *d);
-void func_021D8964(void *a, int b, int c, int *d);
-void func_021D8974(void *a, int b, int c, int *d);
-void func_021D89B8(void *a, int b, int c, void *d);
-int *func_021D8A30(int *p);
-void func_021D8A3C(int a, int b, int c);
-void *func_021D8A58(int *p);
-void func_021D8A64(int a, int b, int c);
-void func_021D8A8C(int a, int b, int c, int d);
-int *func_021D8A9C(int *p);
-void func_021D8AA8(int a, int b, int c);
-void func_021D8AD0(int a, int b, int c, int d);
-int *func_021D8AE0(int *p);
-void func_021D8AEC(int a, int b, int c, int d, unsigned char e);
-void func_021D8B1C(int a, int b, int c);
-void *func_021D8B44(int *p);
+void func_021D87C8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+int *func_021D87FC(int *packedInfo);
+void func_021D8808(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+u8 *func_021D8838(u32 *packedInfo);
+void func_021D8844(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021D8874(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+int *func_021D88AC(int *packedInfo);
+void func_021D88B8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void *func_021D88D0(unsigned int *packedInfo);
+void func_021D88E8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, SlowStartWork *work);
+void func_021D890C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, SlowStartWork *work);
+void func_021D8940(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, SlowStartWork *work);
+void func_021D8964(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, SlowStartWork *work);
+void func_021D8974(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, SlowStartWork *work);
+void func_021D89B8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, SlowStartWork *work);
+int *func_021D8A30(int *packedInfo);
+void func_021D8A3C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void *func_021D8A58(int *packedInfo);
+void func_021D8A64(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021D8A8C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+int *func_021D8A9C(int *packedInfo);
+void func_021D8AA8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021D8AD0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+int *func_021D8AE0(int *packedInfo);
+void func_021D8AEC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work, unsigned char weather);
+void func_021D8B1C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void *func_021D8B44(int *packedInfo);
 extern u8 d_021F0668[];
 extern int d_021F0748[];
 extern unsigned char d_021F05A0[];
-/* 021D88B8  shape F1: gate on func_021D775C(2) */
-/*
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #2; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021D88CE; movs r0, #0x11; movs r1, #0; bl func_021D76BC; pop {r4, pc}.
- */
 extern int d_021F09C0[];
 extern unsigned char d_021F0650[];
 extern int d_021F0D6C[];
@@ -113,310 +93,232 @@ extern int d_021F09E0[];
 extern unsigned char d_021F0738[];
 extern int d_021F09F0[];
 
-
-
-
-
-
-void func_021D87C8(void *a, int b, int c)
+/* Quick Feet: a poke with a status condition gets 1.5 times speed and ignores the paralysis penalty. */
+void func_021D87C8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    void *r;
-    if (c == func_021D775C(2)) {
-        r = func_021C7CF4((int *)b, c);
-        if (func_021D62A8(r) != 0) {
-            func_021D7704(0x35, 6 << 10);
-            func_021D76BC(0x51, 0);
+    struct BtlPokeParam *bpp;
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        bpp = func_021C7CF4(flow, pokeId);
+        if (func_021D62A8(bpp) != 0) {
+            func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_1_5);
+            func_021D76BC(BTL_EVAR_SPEED_PENALTY_FLAG, 0);
         }
     }
 }
 
-
-
-
-
-
-int *func_021D87FC(int *p)
+/* Quick Feet: handler table. */
+int *func_021D87FC(int *packedInfo)
 {
-    *p = 1;
+    *packedInfo = 1;
     return d_021F0748;
 }
 
-
-
-
-
-
-/*
- * evidence: 021D881C loads r1=c and 021D8822 forwards the returned r0.
- * func_021C7CF4's legacy void signature is read as a pointer result;
- * its ldr r0,[r0,#8] tail forwards the full-word payload unchanged.
- */
-void func_021D8808(int a,int b,int c) { if (c==func_021D775C(4)) { if (func_021D62C4(func_021C7CF4((int *)b,c),6)) func_021D7704(53,2048); } }
-
-
-
-
-
-
-u8 *func_021D8838(u32 *p) { *p=1; return d_021F0668; }
-
-
-
-
-
-
-
-
-void func_021D8844(int a, int b, int c)
+/* Tangled Feet: halves the accuracy of moves against a confused owner. */
+void func_021D8808(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if(c==func_021D775C(3) && func_0201C1E8((unsigned short)func_021D775C(0x12))==1) func_021D7704(0x35,0xCCD);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID)) {
+        if (func_021D62C4(func_021C7CF4(flow, pokeId), BTL_SICK_CONFUSION))
+            func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_0_5);
+    }
 }
 
-
-
-
-
-
-
-
-void func_021D8874(void *a, int b, int c)
+/* Tangled Feet: handler table. */
+u8 *func_021D8838(u32 *packedInfo)
 {
-    if (c == func_021D775C(3)) {
-        if (func_0201C1E8((u16)func_021D775C(0x12)) == 1) {
-            func_021D76BC(0x33, func_021D7B10(func_021D775C(0x33), 3 << 11));
+    *packedInfo = 1;
+    return d_021F0668;
+}
+
+/* Hustle: physical moves of the owner lose accuracy. */
+void func_021D8844(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+{
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID) && WAZA_TOOL_GetDamageType((unsigned short)func_021D775C(BTL_EVAR_MOVE_ID)) == WAZA_DAMAGE_PHYSICAL)
+        func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_0_8);
+}
+
+/* Hustle: physical moves of the owner get 1.5 times power. */
+void func_021D8874(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+{
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID)) {
+        if (WAZA_TOOL_GetDamageType((u16)func_021D775C(BTL_EVAR_MOVE_ID)) == WAZA_DAMAGE_PHYSICAL) {
+            func_021D76BC(BTL_EVAR_POWER, func_021D7B10(func_021D775C(BTL_EVAR_POWER), BTL_RATIO_1_5));
         }
     }
 }
 
-
-
-
-
-int *func_021D88AC(int *p)
+/* Hustle: handler table. */
+int *func_021D88AC(int *packedInfo)
 {
-    *p = 2;
+    *packedInfo = 2;
     return d_021F09C0;
 }
 
-
-
-
-
-void func_021D88B8(int a, int b, int c)
+/* Stall: the owner moves last in its priority bracket. */
+void func_021D88B8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(2))
-        func_021D76BC(0x11, 0);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID))
+        func_021D76BC(BTL_EVAR_ACTION_ORDER, 0);
 }
 
-
-
-
-
-
-
-void *func_021D88D0(unsigned int *p)
+/* Stall: handler table, one handler at priority 7. */
+void *func_021D88D0(unsigned int *packedInfo)
 {
-    *p=func_021D84F0(7,1); return d_021F05A0;
+    *packedInfo = func_021D84F0(7, 1);
+    return d_021F05A0;
 }
 
-
-
-
-
-
-
-void func_021D88E8(int a, int b, int c, int *d)
+/* Slow Start: halves the speed while the effect is active. */
+void func_021D88E8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, SlowStartWork *work)
 {
-    int k=2; if(c==func_021D775C(k) && d[3]!=0) func_021D7704(0x35,k<<10);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID) && work->active != 0)
+        func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_0_5);
 }
 
-
-
-
-
-
-
-void func_021D890C(int a, int b, int c, int *d)
+/* Slow Start: halves the attack power of physical moves while the effect is active. */
+void func_021D890C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, SlowStartWork *work)
 {
-    if(c==func_021D775C(3) && d[3]!=0 && func_0201C1E8((unsigned short)func_021D775C(0x12))==1) func_021D7704(0x35,0x800);
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID) && work->active != 0 && WAZA_TOOL_GetDamageType((unsigned short)func_021D775C(BTL_EVAR_MOVE_ID)) == WAZA_DAMAGE_PHYSICAL)
+        func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_0_5);
 }
 
-
-
-
-
-
-
-void func_021D8940(void *a, int b, int c, int *d)
+/* Slow Start: starts the effect when the owner enters. */
+void func_021D8940(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, SlowStartWork *work)
 {
-    if(c==func_021D775C(2)) func_021D8974(a,b,c,d);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID))
+        func_021D8974(factor, flow, pokeId, work);
 }
 
-
-
-
-
-
-
-
-void func_021D8964(void *a, int b, int c, int *d)
+/* Slow Start: starts the effect once if it has not started. */
+void func_021D8964(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, SlowStartWork *work)
 {
-    if (d[0] == 0) func_021D8974(a,b,c,d);
+    if (work->started == 0)
+        func_021D8974(factor, flow, pokeId, work);
 }
 
-
-
-
-
-
-
-
-void func_021D8974(void *a, int b, int c, int *d)
+/* Slow Start: resets the work area and shows the start message. */
+void func_021D8974(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, SlowStartWork *work)
 {
-    u8 *p;
+    BtlMessageCmd *msg;
 
-    d[0] = 1;
-    d[1] = 0;
-    d[2] = 0;
-    d[3] = 1;
-    p = func_021C88A4((char *)b, 4, c);
-    ((struct Obj21270 *)p)->f0 |= 4 << 21;
-    func_021C8838(p + 4, 2, 0x1f0);
-    func_021C8860((struct S *)(p + 4), c);
-    func_021C88C8((void *)b, p);
+    work->started = 1;
+    work->turnCount = 0;
+    work->finished = 0;
+    work->active = 1;
+    msg = func_021C88A4(flow, 4, pokeId);
+    msg->header |= BTL_CMD_FLAG_FROM_ABILITY;
+    func_021C8838(msg->strParam, BTL_STR_TYPE_STD, BTL_STR_SLOW_START_BEGIN);
+    func_021C8860(msg->strParam, pokeId);
+    func_021C88C8(flow, msg);
 }
-
-
-
-
-
-
 
 /*
- * Gate on func_021D775C(2); the counter at +4 of d must reach 5 -- the
- * func_021C804C(b,c,&v) block bumps it once (rejecting a low nibble of 3) --
- * then record #4 is published as a two-string record and d's flag pair is set
- * to (0, 1).
+ * Slow Start: counts the turns on which the owner took an action other than
+ * a switch; after 5 it shows the end message and ends the effect.
  */
-void func_021D89B8(void *a, int b, int c, void *d)
+void func_021D89B8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, SlowStartWork *work)
 {
-    struct { unsigned int kind : 4; } v;
-    u8 *p;
+    BtlActionWord action;
+    BtlMessageCmd *msg;
 
-    if (c != func_021D775C(2))
+    if (pokeId != func_021D775C(BTL_EVAR_POKE_ID))
         return;
-    if (((struct Obj04900 *)d)->f8 != 0)
+    if (work->finished != 0)
         return;
-    if (((struct Obj04900 *)d)->f4 < 5) {
-        if (func_021C804C(b, c, &v) == 0)
+    if (work->turnCount < SLOW_START_TURNS) {
+        if (func_021C804C(flow, pokeId, &action) == 0)
             return;
-        if (v.kind == 3)
+        if (action.kind == BTL_ACTION_CHANGE)
             return;
-        ((struct Obj04900 *)d)->f4 += 1;
+        work->turnCount += 1;
     }
-    if (((struct Obj04900 *)d)->f4 < 5)
+    if (work->turnCount < SLOW_START_TURNS)
         return;
-    p = func_021C88A4((char *)b, 4, c);
-    func_021C8838(p + 4, 2, 0x1f3);
-    func_021C8860((struct S *)(p + 4), c);
-    func_021C88C8((void *)b, p);
-    ((struct Obj04900 *)d)->fC = 0;
-    ((struct Obj04900 *)d)->f8 = 1;
+    msg = func_021C88A4(flow, 4, pokeId);
+    func_021C8838(msg->strParam, BTL_STR_TYPE_STD, BTL_STR_SLOW_START_END);
+    func_021C8860(msg->strParam, pokeId);
+    func_021C88C8(flow, msg);
+    work->active = 0;
+    work->finished = 1;
 }
 
-
-
-
-int *func_021D8A30(int *p)
+/* Slow Start: handler table. */
+int *func_021D8A30(int *packedInfo)
 {
-    *p = 6;
+    *packedInfo = 6;
     return d_021F0D6C;
 }
 
-
-
-
-void func_021D8A3C(int a, int b, int c)
+/* Compound Eyes: multiplies the accuracy of the owner's moves by 1.3. */
+void func_021D8A3C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if(c==func_021D775C(3)) func_021D7704(0x35,0x14CD);
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID))
+        func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_1_3);
 }
 
-
-
-
-
-
-void *func_021D8A58(int *p)
+/* Compound Eyes: handler table. */
+void *func_021D8A58(int *packedInfo)
 {
-    *p = 1;
+    *packedInfo = 1;
     return d_021F0650;
 }
 
-
-
-
-
-
-void func_021D8A64(int a, int b, int c)
+/* Sand Veil: lowers the accuracy of moves against the owner in a sandstorm. */
+void func_021D8A64(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if(c==func_021D775C(4) && func_021C8288((u8 *)b)==4) func_021D7704(0x35,0xCCD);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID) && func_021C8288(flow) == BTL_WEATHER_SAND)
+        func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_0_8);
 }
 
-
-
-
-
-/* 021D8A8C  stack-arg wrapper: func_021D8AEC(a, b, c, d, 0x4) */
-/*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #4; str r4, [sp]; bl func_021D8AEC; add sp, #4; pop {r3, r4, pc}.
- */
-void func_021D8A8C(int a, int b, int c, int d) { func_021D8AEC(a, b, c, d, 0x4); }
-
-
-
-int *func_021D8A9C(int *p)
+/* Sand Veil: no damage from the sandstorm. */
+void func_021D8A8C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    *p = 2;
+    func_021D8AEC(factor, flow, pokeId, work, BTL_WEATHER_SAND);
+}
+
+/* Sand Veil: handler table. */
+int *func_021D8A9C(int *packedInfo)
+{
+    *packedInfo = 2;
     return d_021F09E0;
 }
 
-
-
-void func_021D8AA8(int a, int b, int c)
+/* Snow Cloak: lowers the accuracy of moves against the owner in hail. */
+void func_021D8AA8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if(c==func_021D775C(4) && func_021C8288((u8 *)b)==3) func_021D7704(0x35,0xCCD);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID) && func_021C8288(flow) == BTL_WEATHER_HAIL)
+        func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_0_8);
 }
 
-
-
-
-/* 021D8AD0  stack-arg wrapper: func_021D8AEC(a, b, c, d, 0x3) */
-void func_021D8AD0(int a, int b, int c, int d) { func_021D8AEC(a, b, c, d, 0x3); }
-
-
-int *func_021D8AE0(int *p)
+/* Snow Cloak: no damage from hail. */
+void func_021D8AD0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    *p = 2;
+    func_021D8AEC(factor, flow, pokeId, work, BTL_WEATHER_HAIL);
+}
+
+/* Snow Cloak: handler table. */
+int *func_021D8AE0(int *packedInfo)
+{
+    *packedInfo = 2;
     return d_021F09F0;
 }
 
-
-void func_021D8AEC(int a, int b, int c, int d, unsigned char e)
+/* Prevents the weather damage of the given weather for the owner. */
+void func_021D8AEC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work, unsigned char weather)
 {
-    if(c==func_021D775C(2) && func_021D775C(0x32)>0 && e==func_021D775C(0x39)) func_021D76BC(0x41,1);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID) && func_021D775C(BTL_EVAR_DAMAGE) > 0 && weather == func_021D775C(BTL_EVAR_WEATHER))
+        func_021D76BC(BTL_EVAR_PREVENT_FLAG, 1);
 }
 
-
-
-void func_021D8B1C(int a, int b, int c)
+/* Tinted Lens: doubles the damage of moves that are not very effective. */
+void func_021D8B1C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if(c==func_021D775C(3) && func_021D7AD4(func_021D775C(0x38))==3) func_021D7704(0x35,0x2000);
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID) && func_021D7AD4(func_021D775C(BTL_EVAR_TYPE_AFFINITY)) == BTL_AFFINITY_RESISTED)
+        func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_2_0);
 }
 
-
-
-void *func_021D8B44(int *p)
+/* Tinted Lens: handler table. */
+void *func_021D8B44(int *packedInfo)
 {
-    *p = 1;
+    *packedInfo = 1;
     return d_021F0738;
 }

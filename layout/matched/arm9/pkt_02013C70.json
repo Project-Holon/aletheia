@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02013C70",
+   "name": "ZONEDATA_IsRailMap",
    "address": "0x02013C70",
    "kind": "game",
    "region": "arm9",

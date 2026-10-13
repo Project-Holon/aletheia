@@ -1,5 +1,5 @@
 /*
- * function: func_021D9E30
+ * function: P_STA_SKILL_PrintStatsPage
  * address:  0x021D9E30
  * packet:   pkt_021D9E30
  * region:   ov131
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DA0B0  0x021DA0B0  thumb
- *   func_021DA3FC  0x021DA3FC  thumb
+ *   P_STA_SKILL_PrintStats  0x021DA0B0  thumb
+ *   P_STA_SKILL_DrawHpBar  0x021DA3FC  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021DA0B0(u8 *, u8 *);
-extern void func_021DA3FC(u8 *a, u8 *b);
+extern void P_STA_SKILL_PrintStats(u8 *, u8 *);
+extern void P_STA_SKILL_DrawHpBar(u8 *a, u8 *b);
 
-void func_021D9E30(void *a, int b)
+void P_STA_SKILL_PrintStatsPage(void *a, int b)
 {
-    func_021DA0B0(a, (u8 *)b);
-    func_021DA3FC(a, (u8 *)b);
+    P_STA_SKILL_PrintStats(a, (u8 *)b);
+    P_STA_SKILL_DrawHpBar(a, (u8 *)b);
 }

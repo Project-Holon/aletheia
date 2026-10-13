@@ -1,6 +1,6 @@
 /*
  * file:     unit_020834B8.c
- * function: func_020834B8
+ * function: MI_SwapWord
  * address:  0x020834B8
  * packet:   pkt_020834B8
  * region:   arm9
@@ -12,7 +12,7 @@
  */
 
 /* hand-written in the original: swp instruction */
-asm int func_020834B8(int data, int *dest)
+asm int MI_SwapWord(int data, int *dest)
 {
     swp r0, r0, [r1]
     bx lr

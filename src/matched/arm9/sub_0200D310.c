@@ -12,7 +12,7 @@
  * symbols:
  *   sub_0200C7A0   0x0200C7A0  thumb
  *   sub_0200CED4   0x0200CED4  thumb
- *   sub_0201AF80   0x0201AF80  thumb
+ *   POKE_PERSONAL_LoadFormTable   0x0201AF80  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -22,12 +22,12 @@ typedef unsigned int   u32;
 struct Blk37;
 extern u32 sub_0200CED4(struct Blk37 *p, u16 id);
 extern int sub_0200C7A0(u32 v);
-extern u16 *sub_0201AF80(u32 heap, u16 *countOut);
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_020307B0(void *p);
 
 int sub_0200D310(void *a0, int a1)
 {
-    u16 *t = sub_0201AF80(a1, 0);
+    u16 *t = POKE_PERSONAL_LoadFormTable(a1, 0);
     u16 i;
     u16 n = 0;
 

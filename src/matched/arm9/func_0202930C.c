@@ -1,5 +1,5 @@
 /*
- * function: func_0202930C
+ * function: FIELD_SOUND_SYSTEM_UpdateFadingOutToReplace
  * address:  0x0202930C
  * packet:   pkt_0202918C
  * region:   arm9
@@ -10,20 +10,24 @@
  * status:   EXACT*
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202930C.c \\
- *       --func func_0202930C --addr 0x0202930C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/FIELD_SOUND_SYSTEM_UpdateFadingOutToReplace.c \\
+ *       --func FIELD_SOUND_SYSTEM_UpdateFadingOutToReplace --addr 0x0202930C --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb
+ *   FIELD_SOUND_SYSTEM_SetState  0x02029344  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int func_02005E50(void);
-extern void func_02029344(void *obj, u32 value);
+extern int GFL_USE_IsBgmFading(void);
+extern void FIELD_SOUND_SYSTEM_SetState(void *obj, u32 value);
 
-void func_0202930C(u8 *p)
+void FIELD_SOUND_SYSTEM_UpdateFadingOutToReplace(u8 *p)
 {
-    if (func_02005E50() != 0) {
+    if (GFL_USE_IsBgmFading() != 0) {
         return;
     }
-    func_02029344(p, 0xe);
+    FIELD_SOUND_SYSTEM_SetState(p, 0xe);
 }

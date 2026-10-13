@@ -21,8 +21,8 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
- *   sub_02045374 0x02045374 arm
- *   sub_02045730 0x02045730 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   sub_02041B6C 0x02041B6C arm
  */
 #include "../../matched/include/Obj14539.h"
@@ -59,8 +59,8 @@ extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_0204B3B4(struct Obj *p);
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void sub_02045374(struct Cfg *);
-extern u8 sub_02045730(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void sub_02041B6C(u32);
 u8 *func_0220AF40(u16 v);
 void func_0220AF64(void *p);
@@ -136,7 +136,7 @@ void func_0220B000(int *p, u8 *q)
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
-void func_0220B07C(void **p) { sub_02045374((struct Cfg *)*p); sub_02041B6C(sub_02045730((struct Descriptor *)*p)); }
+void func_0220B07C(void **p) { BMP_WIN_MakeScreen((struct Cfg *)*p); sub_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)*p)); }
 
 
 void func_0220B094(char *p, unsigned char *q)

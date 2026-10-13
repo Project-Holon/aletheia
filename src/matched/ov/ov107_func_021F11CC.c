@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020173E8  0x020173E8  thumb
+ *   POKE_TOOL_GetBoxParamSize  0x020173E8  thumb
  */
 
 typedef struct {
@@ -18,9 +18,9 @@ typedef struct {
 } Ov107Ctx;
 
 typedef unsigned int   u32;
-u32 func_020173E8(void);
+u32 POKE_TOOL_GetBoxParamSize(void);
 
 void *func_021F11CC(Ov107Ctx *p, int i)
 {
-    return p->f10 + i * func_020173E8() + 4;
+    return p->f10 + i * POKE_TOOL_GetBoxParamSize() + 4;
 }

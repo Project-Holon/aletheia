@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02156CF4",
-    "func_02156D5C",
-    "func_02156D70"
+    "DWC_RAP_FlushDeletedFriends",
+    "DWC_RAP_GetResult",
+    "DWC_RAP_StoreAllowConnect"
+   ],
+   "addresses": [
+    "0x02156CF4",
+    "0x02156D5C",
+    "0x02156D70"
    ],
    "evidence": {
     "sole-ref": [

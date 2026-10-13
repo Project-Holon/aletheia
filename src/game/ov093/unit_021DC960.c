@@ -1,7 +1,7 @@
 /*
  * file:     unit_021DC960.c
  * unit:     yes
- * function: func_021DC960, func_021DC9BC, func_021DC9C8, func_021DCA68
+ * function: func_021DC960, func_021DC9BC, func_021DC9C8, func_021DCA68, func_021DCA8C
  * address:  0x021DC960
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -17,7 +17,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021C83D4  0x021C83D4  thumb  ov093
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
@@ -28,87 +28,73 @@
  *   func_021DA96C 0x021DA96C thumb ov093
  *   d_021F0678     0x021F0678  data   ov093  a4
  */
-#include "../../matched/include/Obj06263.h"
-#include "../../matched/include/Obj07815.h"
+#include "unit_021DC6EC_types.h"
 
-struct S;
-typedef unsigned char u8;
+extern BtlEventHandler d_021F05C8[];
+extern BtlEventHandler d_021F0678[];
 
-typedef unsigned short u16;
+void func_021DC960(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+BtlEventHandler *func_021DC9BC(u32 *handlerCount);
+void func_021DC9C8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+void func_021DCA68(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+BtlEventHandler *func_021DCA8C(u32 *handlerCount);
 
-typedef unsigned int u32;
-
-extern int func_021D775C(int key);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
-extern int func_021C83D4(u8 *p);
-extern u32 func_0201BEB8(u16 id, u32 bit);
-extern void *func_021C7CF4(int *p, int i);
-extern int func_021D59B4(u8 *p, int k);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 v);
-extern int func_021B9A24(unsigned int a, unsigned int b);
-extern int func_021DA8A8(int,int,int);
-extern void func_021DA96C(void *,int,unsigned int,int);
-void func_021DC960(int a, void *b, int c);
-int *func_021DC9BC(int *p);
-void func_021DC9C8(int a, void *b, int c);
-void func_021DCA68(int a, void *b, int c);
-void *func_021DCA8C(int *p);
-extern unsigned char d_021F05C8[];
-extern int d_021F0678[];
-
-
-void func_021DC960(int a, void *b, int c)
+/* Rattled: when a Bug, Ghost or Dark move hits the owner, it raises its Speed by one rank. */
+void func_021DC960(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
-    u8 *m;
-    u8 k;
+    BtlRankCmd *cmd;
+    u8 moveType;
 
-    if (c == func_021D775C(4) && func_021D775C(0x46) == 0) {
-        k = func_021D775C(0x16);
-        if (k == 0x10 || k == 6 || k == 7) {
-            m = (u8 *)func_021C88A4(b, 0xe, c);
-            ((struct Obj06263 *)m)->f0 |= 2 << 22;
-            m[0xf] = 1;
-            m[0x10] = c;
-            ((struct Obj06263 *)m)->f4 = 5;
-            m[0xc] = 1;
-            func_021C88C8(b, m);
+    if (ownerId == func_021D775C(BTL_EVAR_DEFENDER_ID) && func_021D775C(BTL_EVAR_HIT_SUBSTITUTE) == 0) {
+        moveType = func_021D775C(BTL_EVAR_MOVE_TYPE);
+        if (moveType == POKETYPE_DARK || moveType == POKETYPE_BUG || moveType == POKETYPE_GHOST) {
+            cmd = func_021C88A4(flow, BTL_CMD_KIND_RANK_CHANGE, ownerId);
+            cmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
+            cmd->targetCount = 1;
+            cmd->targets[0] = ownerId;
+            cmd->statId = BTL_RANK_STAT_SPEED;
+            cmd->amount = 1;
+            func_021C88C8(flow, cmd);
         }
     }
 }
 
-
-int *func_021DC9BC(int *p)
+BtlEventHandler *func_021DC9BC(u32 *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F0678;
 }
 
-
-void func_021DC9C8(int a, void *b, int c)
+/*
+ * Mummy: when a contact move hits the owner, the attacker's ability becomes
+ * Mummy, unless it already is Mummy or one side has no Pokemon left.
+ */
+void func_021DC9C8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
-    u8 *m;
-    u8 k;
+    BtlAbilityChangeCmd *cmd;
+    u8 attackerId;
 
-    if (c == func_021D775C(4) && func_021D775C(0x46) == 0 && func_021C83D4(b) == 0
-        && func_0201BEB8(func_021D775C(0x12), 0) != 0) {
-        k = func_021D775C(3);
-        if (func_021D59B4(func_021C7CF4(b, k), 0x10) != 0x98) {
-            m = (u8 *)func_021C88A4(b, 0x1f, c);
-            ((struct Obj07815 *)m)->f4 = 0x98;
-            m[6] = k;
-            func_021C8838(m + 0xc, 2, 0x1cf);
-            func_021C8860((struct S *)(m + 0xc), m[6]);
-            if (func_021B9A24(c, k) == 0)
-                ((struct Obj07815 *)m)->f0 |= 2 << 22;
-            func_021C88C8(b, m);
+    if (ownerId == func_021D775C(BTL_EVAR_DEFENDER_ID) && func_021D775C(BTL_EVAR_HIT_SUBSTITUTE) == 0 && func_021C83D4(flow) == 0
+        && WAZA_TOOL_GetFlag(func_021D775C(BTL_EVAR_MOVE_ID), WAZA_FLAG_CONTACT) != 0) {
+        attackerId = func_021D775C(BTL_EVAR_ATTACKER_ID);
+        if (func_021D59B4(func_021C7CF4(flow, attackerId), BTL_BPP_VALUE_ABILITY) != ABILITY_MUMMY) {
+            cmd = func_021C88A4(flow, BTL_CMD_KIND_ABILITY_CHANGE, ownerId);
+            cmd->abilityId = ABILITY_MUMMY;
+            cmd->pokeId = attackerId;
+            func_021C8838(&cmd->strParam, BTL_STR_TYPE_WITH_POKE_NAME, BTL_STR_MUMMY_SPREAD);
+            func_021C8860(&cmd->strParam, cmd->pokeId);
+            if (func_021B9A24(ownerId, attackerId) == 0)
+                cmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
+            func_021C88C8(flow, cmd);
         }
     }
 }
 
+/* Sap Sipper: a Grass move aimed at the owner is absorbed and raises its Attack by one rank. */
+void func_021DCA68(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+{
+    if (func_021DA8A8(flow, ownerId, POKETYPE_GRASS))
+        func_021DA96C(flow, ownerId, BTL_RANK_STAT_ATTACK, 1);
+}
 
-void func_021DCA68(int a, void *b, int c) { if (func_021DA8A8((int)b,c,11)) func_021DA96C(b,c,1,1); }
-
-
-void *func_021DCA8C(int *p) { *p = 1; return d_021F05C8; }
+BtlEventHandler *func_021DCA8C(u32 *handlerCount) { *handlerCount = 1; return d_021F05C8; }

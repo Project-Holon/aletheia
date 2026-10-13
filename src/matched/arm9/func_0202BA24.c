@@ -1,5 +1,5 @@
 /*
- * function: func_0202BA24
+ * function: ISS_3DS_SYS_ResetSources
  * address:  0x0202BA24
  * packet:   pkt_0202BA24
  * region:   arm9
@@ -21,8 +21,8 @@
  * the preheader, when both are zero, and never incremented.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BA24.c \
- *       --func func_0202BA24 --addr 0x0202BA24 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_3DS_SYS_ResetSources.c \
+ *       --func ISS_3DS_SYS_ResetSources --addr 0x0202BA24 --thumb --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 
 typedef enum { SLOT_0, SLOT_MAX = 16 } Slot;
 
-void func_0202BA24(u8 *p)
+void ISS_3DS_SYS_ResetSources(u8 *p)
 {
     Slot i;
     for (i = 0; i < 0x10; i++) {

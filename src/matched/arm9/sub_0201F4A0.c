@@ -14,6 +14,9 @@
  *
  * symbols:
  *   func_0201F4A0_Table  0x0209E864  data
+ *   STRBUF_GetChars  0x02045A90  arm
+ *   STRBUF_Append  0x02045AA8  arm
+ *   STRBUF_AppendChar  0x02045AFC  arm
  *
  * The nine-bit unpacker.  A string whose first character is 0xF100
  * (func_0201F47C, src/matched/unit_0201F47C.c) carries its text as a run of
@@ -58,9 +61,9 @@ typedef signed int     s32;
 extern const u16 func_0201F4A0_Table[];
 extern u32  func_0201F47C(void *s);
 struct U16Vec;
-extern u16 *func_02045A90(struct U16Vec *vec);
-extern void func_02045AA8(struct U16Vec *dst, struct U16Vec *src);
-extern void func_02045AFC(struct U16Vec *vec, u16 value);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
+extern void STRBUF_Append(struct U16Vec *dst, struct U16Vec *src);
+extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 
 struct Lim {
     u32 hi;
@@ -77,7 +80,7 @@ void func_0201F4A0(void *dest, void *src)
     u16 v;
 
     if (func_0201F47C(src) != 0) {
-        p = func_02045A90(src) + 1;
+        p = STRBUF_GetChars(src) + 1;
         lim.hi = mask;
         lim.hi -= 0xCD;
         lim.hi2 = mask;
@@ -103,9 +106,9 @@ void func_0201F4A0(void *dest, void *src)
             } else if (v >= lim.hi2) {
                 v = 0x3F;
             }
-            func_02045AFC(dest, v);
+            STRBUF_AppendChar(dest, v);
         }
     } else {
-        func_02045AA8(dest, src);
+        STRBUF_Append(dest, src);
     }
 }

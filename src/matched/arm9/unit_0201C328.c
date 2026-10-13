@@ -8,14 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201C328, sub_0201C3C0, sub_0201C408, sub_0201C41C
+ * function: WAZA_TOOL_CreateCache, WAZA_TOOL_DeleteCache, WAZA_TOOL_IsCacheCreated, PRINTSYS_Init
  *
  * waza_tool.c: the module's constructor, its destructor, its "is it up"
- * predicate, and (folded back in this run) sub_0201C41C, which resets
+ * predicate, and (folded back in this run) PRINTSYS_Init, which resets
  * something with 0xFFFF and hands func_02043678's result to the static at
- * 0x02146558.  sub_0201C41C used to be cut out into src/pending/sub_0201C41C.c
- * because its one call, to func_020457A0, had no witness anywhere in the
- * image; func_020457A0 is now EXACT in src/matched/sub_020457A0.c, giving the
+ * 0x02146558.  PRINTSYS_Init used to be cut out into src/pending/PRINTSYS_Init.c
+ * because its one call, to STRBUF_SetEosChar, had no witness anywhere in the
+ * image; STRBUF_SetEosChar is now EXACT in src/matched/STRBUF_SetEosChar.c, giving the
  * `matched` class a witness, so the range folds back into one unit.  The file
  * name is the image's own, 0x020A7340 spelling "waza_tool.c" between
  * "shinka_check.c" and "printsys.c".
@@ -30,16 +30,17 @@
  * (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md is the
  * case where it is the other way round).
  *
- * sub_0201C408 is an unlabelled follower: eight halfwords with no prologue
+ * WAZA_TOOL_IsCacheCreated is an unlabelled follower: eight halfwords with no prologue
  * sitting between two literal pools, which the listing prints as `.word` data
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Its `!= 0`
  * arm is the fall-through, so the source returns 1 first
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
  * symbols:
- *   gWazaTool          0x02146530  data
- *   sub_0201C328_File  0x020A7340  data
- *   g_02146558         0x02146558  data
+ *   _pWazaTool          0x02146530  data
+ *   waza_tool_File  0x020A7340  data
+ *   _pGlyphBmp         0x02146558  data
+ *   STRBUF_SetEosChar  0x020457A0  arm
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201C328.c \
@@ -58,59 +59,59 @@ struct WazaTool {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_020457A0(u16 stamp);
+extern void STRBUF_SetEosChar(u16 stamp);
 struct Bmp;
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 
-extern struct WazaTool *gWazaTool;
-extern const char sub_0201C328_File[];
-extern void *g_02146558;
+extern struct WazaTool *_pWazaTool;
+extern const char waza_tool_File[];
+extern void *_pGlyphBmp;
 
-void sub_0201C328(s32 n, u32 heap)
+void WAZA_TOOL_CreateCache(s32 n, u32 heap)
 {
     s32 i;
 
-    if (gWazaTool != 0) {
+    if (_pWazaTool != 0) {
         return;
     }
-    gWazaTool = (struct WazaTool *)func_02030734(heap, sizeof(struct WazaTool), 0,
-                                                sub_0201C328_File, 577);
-    gWazaTool->recs = (void **)func_02030734(heap, n * sizeof(void *), 0,
-                                             sub_0201C328_File, 578);
-    gWazaTool->vals = (u16 *)func_02030734(heap, n * sizeof(u16), 0,
-                                           sub_0201C328_File, 579);
-    gWazaTool->count = n;
+    _pWazaTool = (struct WazaTool *)func_02030734(heap, sizeof(struct WazaTool), 0,
+                                                waza_tool_File, 577);
+    _pWazaTool->recs = (void **)func_02030734(heap, n * sizeof(void *), 0,
+                                             waza_tool_File, 578);
+    _pWazaTool->vals = (u16 *)func_02030734(heap, n * sizeof(u16), 0,
+                                           waza_tool_File, 579);
+    _pWazaTool->count = n;
     for (i = 0; i < n; i++) {
-        gWazaTool->recs[i] = func_02030734(heap, 0x24, 0, sub_0201C328_File, 584);
-        gWazaTool->vals[i] = 0;
+        _pWazaTool->recs[i] = func_02030734(heap, 0x24, 0, waza_tool_File, 584);
+        _pWazaTool->vals[i] = 0;
     }
 }
 
-void sub_0201C3C0(void)
+void WAZA_TOOL_DeleteCache(void)
 {
     s32 i;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            func_020307B0(gWazaTool->recs[i]);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            func_020307B0(_pWazaTool->recs[i]);
         }
-        func_020307B0(gWazaTool->vals);
-        func_020307B0(gWazaTool->recs);
-        func_020307B0(gWazaTool);
-        gWazaTool = 0;
+        func_020307B0(_pWazaTool->vals);
+        func_020307B0(_pWazaTool->recs);
+        func_020307B0(_pWazaTool);
+        _pWazaTool = 0;
     }
 }
 
-u32 sub_0201C408(void)
+u32 WAZA_TOOL_IsCacheCreated(void)
 {
-    if (gWazaTool != 0) {
+    if (_pWazaTool != 0) {
         return 1;
     }
     return 0;
 }
 
-void sub_0201C41C(void *arg)
+void PRINTSYS_Init(void *arg)
 {
-    func_020457A0(0xFFFF);
-    g_02146558 = func_02043678(2, 2, 0x20, (u32)arg);
+    STRBUF_SetEosChar(0xFFFF);
+    _pGlyphBmp = func_02043678(2, 2, 0x20, (u32)arg);
 }

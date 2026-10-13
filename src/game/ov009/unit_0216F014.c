@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0216B908  0x0216B908  arm  ov009
- *   func_0216BEA4  0x0216BEA4  arm  ov009
- *   func_0216BA08  0x0216BA08  arm  ov009
+ *   DWC_GetAIDBitmap  0x0216B908  arm  ov009
+ *   DWCi_CloseConnectionHard  0x0216BEA4  arm  ov009
+ *   DWC_IsServerMyself  0x0216BA08  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_02176358  0x02176358  arm  ov009
- *   func_0216B994                0x0216B994 arm   ov009
+ *   DWC_GetState                0x0216B994 arm   ov009
  *   func_0216EB68                0x0216EB68 arm   ov009
  *   NNCancel                     0x02199FB4 arm   ov009
  *   func_0217603C                0x0217603C arm   ov009
@@ -93,7 +93,7 @@
  *   func_02174FE8  0x02174FE8  arm  ov009
  *   func_0216BBDC  0x0216BBDC  arm  ov009
  *   func_021763AC  0x021763AC  arm  ov009
- *   func_0216B838  0x0216B838  arm  ov009
+ *   DWC_GetMyAID  0x0216B838  arm  ov009
  *   func_02177848  0x02177848  arm  ov009
  *   func_021861A8  0x021861A8  arm  ov009
  *   DWC_Base64Encode  0x02059B40  arm
@@ -176,8 +176,8 @@
  *   DWCi_NodeInfoList_GetNodeInfoForAID  0x02176410 arm
  *   func_0217253C  0x0217253C  arm  ov009
  *   func_02173064                0x02173064 arm   ov009
- *   func_02176978  0x02176978  arm  ov009
- *   func_0216BB6C  0x0216BB6C  arm  ov009
+ *   DWCi_GetNodeInfoCount  0x02176978  arm  ov009
+ *   DWCi_GT2GetConnectionListIdx  0x0216BB6C  arm  ov009
  *   func_02199FB4  0x02199FB4  arm  ov009
  *   func_02169038  0x02169038  arm  ov009
  *   DWCi_FinishCancelMatch        0x02172A58  arm  ov009
@@ -299,11 +299,11 @@ typedef unsigned int   u32_02173AD8;
 
 enum E { E_OK, E_A, E_B, E_C, E_D, E_E, E_NET };
 
-extern int func_0216B908(void);
-extern int func_0216BEA4(unsigned char aid);
-extern int func_0216BA08(void);
+extern int DWC_GetAIDBitmap(void);
+extern int DWCi_CloseConnectionHard(unsigned char aid);
+extern int DWC_IsServerMyself(void);
 extern void *func_02176358(void);
-extern int func_0216B994(void);
+extern int DWC_GetState(void);
 extern void func_0216EB68(int error, int errorCode);
 extern void NNCancel(int cookie);
 extern int func_0217603C(void);
@@ -354,7 +354,7 @@ extern void func_02174FE4(void);
 extern void func_02174FE8(void);
 extern int *func_0216BBDC(int pid, int flag);
 extern char *func_021763AC();
-extern unsigned char func_0216B838(void);
+extern unsigned char DWC_GetMyAID(void);
 extern int func_02177848(unsigned char from, unsigned char to, const void *data, int size, int flag);
 extern int func_021861A8(void *conn, int pid);
 extern int DWC_Base64Encode(const void *src, int srclen, char *dst, int dstlen);
@@ -435,8 +435,8 @@ extern int DWCi_NodeInfoList_Append(DWCstNodeInfo *newNode);
 extern DWCstNodeInfo * DWCi_NodeInfoList_GetNodeInfoForAID(unsigned char aid);
 extern void func_0217253C(void);
 extern void func_02173064(u8 aid, u16 type);
-extern int func_02176978(void);
-extern int func_0216BB6C(void);
+extern int DWCi_GetNodeInfoCount(void);
+extern int DWCi_GT2GetConnectionListIdx(void);
 extern void func_02199FB4(int cookie);
 extern int func_02169038(int profileID);
 extern void DWCi_FinishCancelMatch(void);
@@ -598,7 +598,7 @@ extern char g_021A21B0[];
  */
 void func_0216F014(unsigned int bitmap)
 {
-    unsigned int cur = func_0216B908();
+    unsigned int cur = DWC_GetAIDBitmap();
     unsigned int diff = cur & (cur ^ bitmap);
     unsigned char i;
 
@@ -607,7 +607,7 @@ void func_0216F014(unsigned int bitmap)
     }
     for (i = 0; i < 0x20; i++) {
         if (diff & (1 << i)) {
-            func_0216BEA4(i);
+            DWCi_CloseConnectionHard(i);
         }
     }
 }
@@ -644,7 +644,7 @@ void func_0216F058(const Poll *p)
     int id = p->id;
     int *node;
 
-    if (func_0216BA08() != 0) {
+    if (DWC_IsServerMyself() != 0) {
         return;
     }
     if (id != *(int *)((char *)func_02175F3C() + 0x7c8)) {
@@ -689,7 +689,7 @@ int func_0216F0A0(int error, int errorCode)
 {
     u64 tick;
 
-    if (func_0216B994() != 4)
+    if (DWC_GetState() != 4)
         return 0;
     if (((DWCstMatchControl *)func_02175F3C())->qr2MatchType == 2)
         return 1;
@@ -1473,7 +1473,7 @@ int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned shor
     if (func_0216FEF0(command, pid) != 0) {
         node = (unsigned char *)func_021763AC(pid);
         func_021700C8((struct DWCstBinaryMessage *)(&ctrl), command, (long unsigned int *)data, len);
-        func_02177848(func_0216B838(), node[0x16], &ctrl, ctrl.len + 0x14, 0);
+        func_02177848(DWC_GetMyAID(), node[0x16], &ctrl, ctrl.len + 0x14, 0);
         result = 0;
     } else if (func_021861A8(*(void **)func_02175F3C(), pid) != 0) {
         n = 0;
@@ -3171,8 +3171,8 @@ int func_0217273C(void)
     result = 0;
     tmpNewNodeInfo = func_02175F3C()->tempNewNodeInfo;
     pNew = &tmpNewNodeInfo;
-    if (func_02175F3C()->linkProgress < func_02176978() - 1) {
-        linkProgress = func_02176978() - 1 - func_02175F3C()->linkProgress;
+    if (func_02175F3C()->linkProgress < DWCi_GetNodeInfoCount() - 1) {
+        linkProgress = DWCi_GetNodeInfoCount() - 1 - func_02175F3C()->linkProgress;
         func_02175F4C(0x10);
         pNodeInfo = (DWCstNodeInfo *)func_0217637C(linkProgress);
         senddata[0] = pNodeInfo->profileID;
@@ -3230,7 +3230,7 @@ static void func_021728B8(void)
         func_02172A58();
         return;
     }
-    if (func_0216BB6C())
+    if (DWCi_GT2GetConnectionListIdx())
         anyGT2ConnectionExist = 1;
     ((DWCstMatchControl *)func_02175F3C())->cancelState = 1;
 
@@ -3552,13 +3552,13 @@ static int func_02172EAC(u32 bitmap)
 
     ((DWCstMatchControl *)func_02175F3C())->closeState = 1;
     if (bShutdownNewNode) {
-        func_0216BEA4(((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo.aid);
+        DWCi_CloseConnectionHard(((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo.aid);
         func_0217653C();
     }
     for (i = 0; i < senddataLen; i++) {
         aid = func_02173C84(senddata[i], 0);
         if (aid != 0xff)
-            func_0216BEA4(aid);
+            DWCi_CloseConnectionHard(aid);
     }
     ((DWCstMatchControl *)func_02175F3C())->closeState = 0;
     return bRet;
@@ -4153,7 +4153,7 @@ int func_02173E30(int error)
         errorCode = -20;
         break;
     }
-    switch (func_0216B994()) {
+    switch (DWC_GetState()) {
     case 2:
         func_0216A3B8(dwcError, errorCode - 64000);
         break;

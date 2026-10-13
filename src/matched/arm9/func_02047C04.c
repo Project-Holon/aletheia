@@ -1,5 +1,5 @@
 /*
- * function: func_02047C04
+ * function: G3D_SYSTEM_BoxTest
  * address:  0x02047C04
  * packet:   pkt_020479D8
  * region:   arm9
@@ -29,7 +29,7 @@ extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern void func_0206DB80(void);
 extern int func_0207DEA4(s32 *in);
 
-int func_02047C04(void *obj)
+int G3D_SYSTEM_BoxTest(void *obj)
 {
     int done;
     int arg;

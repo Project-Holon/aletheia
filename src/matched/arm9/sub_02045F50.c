@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_02045F50
+ * function: MSGDATA_GetMessageCount
  * address:  0x02045F50
  * packet:   pkt_02045C44
  * region:   arm9
@@ -20,8 +20,8 @@
  * (docs/idioms/ldrsh-register-offset-is-signedness.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045F50.c \
- *       --func sub_02045F50 --addr 0x02045F50 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_GetMessageCount.c \
+ *       --func MSGDATA_GetMessageCount --addr 0x02045F50 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -36,7 +36,7 @@ struct Obj {
     struct Head *head;
 };
 
-u16 sub_02045F50(const struct Obj *o)
+u16 MSGDATA_GetMessageCount(const struct Obj *o)
 {
     return o->head->unk_02;
 }

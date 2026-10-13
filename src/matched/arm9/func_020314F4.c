@@ -1,5 +1,5 @@
 /*
- * function: func_020314F4
+ * function: PROCSYS_PushInternal
  * address:  0x020314F4
  * packet:   pkt_020314F4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02031538  0x02031538  arm
+ *   PROCSYS_NewProc  0x02031538  arm
  *
  * procsys.c: queue a call for the process at obj, or start it now.  When
  * the +8 node already exists the three parameters are parked at +0x14..
@@ -39,12 +39,12 @@ struct Obj020314F4 {
 };
 
 struct Obj02031538;
-extern struct Obj02031538 *func_02031538(u32 a0, u32 a1, u32 a2, u32 heap);
+extern struct Obj02031538 *PROCSYS_NewProc(u32 a0, u32 a1, u32 a2, u32 heap);
 
-void func_020314F4(struct Obj020314F4 *obj, u32 a1, u32 a2, u32 a3)
+void PROCSYS_PushInternal(struct Obj020314F4 *obj, u32 a1, u32 a2, u32 a3)
 {
     if (obj->buffer == 0) {
-        obj->buffer = func_02031538(a1, a2, a3, obj->f00);
+        obj->buffer = PROCSYS_NewProc(a1, a2, a3, obj->f00);
     } else {
         obj->f0c = 1;
         obj->f14 = a1;

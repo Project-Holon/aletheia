@@ -15,23 +15,31 @@
  *   func_0204E720  0x0204E720  arm
  *   func_0204E804  0x0204E804  arm
  */
-typedef unsigned int u32;
+#include "../../ov021/fieldmap_types.h"
 
-typedef signed int     s32;
-struct Ctx;
-struct Obj;
-extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+typedef unsigned int u32;
+typedef signed int s32;
+
+struct GameSystem;
+struct GameEvent;
+
+extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern void func_0204E720(u32 flags, s32 start, s32 end, s32 step);
 extern int func_0204E804(void);
 
-int func_021F5488(void *task, int *st)
+/*
+ * Event run when the name cut-in cannot start: fades both screens to black
+ * (flags 3) and ends when the fade is done. The field map lookup result is
+ * not used.
+ */
+int func_021F5488(struct GameEvent *event, int *state)
 {
-    func_0201210C(func_020124E4(task));
-    switch (*st) {
+    func_0201210C(func_020124E4(event));
+    switch (*state) {
     case 0:
         func_0204E720(3, 0, 0x10, 3);
-        *st = *st + 1;
+        *state = *state + 1;
         break;
     case 1:
         if (func_0204E804() == 0) {

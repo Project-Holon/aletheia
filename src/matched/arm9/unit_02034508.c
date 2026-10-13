@@ -1,5 +1,5 @@
 /*
- * function: sub_02034508
+ * function: AREAMAN_TraceAlloc
  * address:  0x02034508
  * packet:   pkt_020339D0
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020344C8  0x020344C8  arm
+ *   AREAMAN_TraceBitmap  0x020344C8  arm
  *
  * Guard-and-forward: calls the offset-8 field of `p` through
- * func_020344C8 only when that field is non-zero.
+ * AREAMAN_TraceBitmap only when that field is non-zero.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/unit_02034508.c \
- *       --func sub_02034508 --addr 0x02034508 --cc 1.1p1 --arm
+ *       --func AREAMAN_TraceAlloc --addr 0x02034508 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -28,11 +28,11 @@ struct Obj02034508 {
 };
 
 struct Struct_020344C8;
-extern void func_020344C8(struct Struct_020344C8 *param);
+extern void AREAMAN_TraceBitmap(struct Struct_020344C8 *param);
 
-void sub_02034508(struct Obj02034508 *p)
+void AREAMAN_TraceAlloc(struct Obj02034508 *p)
 {
     if (p->unk08 != 0) {
-        func_020344C8((struct Struct_020344C8 *)p);
+        AREAMAN_TraceBitmap((struct Struct_020344C8 *)p);
     }
 }

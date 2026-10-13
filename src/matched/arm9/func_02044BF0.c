@@ -1,5 +1,5 @@
 /*
- * function: func_02044BF0
+ * function: BMP_FillRect4bpp
  * address:  0x02044BF0
  * packet:   pkt_020445F4
  * region:   arm9
@@ -17,7 +17,7 @@
  * THE LEVERS (2026-09-22, wave 10), each measured:
  *   - the address is one integer sum over (u32)s->pixels, with only the
  *     tile-row mask lifted into a function-scope local (same lever as
- *     func_02044CE0);
+ *     BMP_FillRect8bpp);
  *   - the in-tile row is added to the POINTER afterwards (`p += ...`),
  *     which is what makes the load/store `[p, row]` rather than
  *     `[row, p]` (6 out when it is a fifth term of the sum);
@@ -36,7 +36,7 @@ typedef signed int     s32;
 
 struct Surf { u8 *pixels; u16 width; u16 height; };
 
-void func_02044BF0(struct Surf *s, s32 x, s32 y, s32 w, u16 h, u32 value)
+void BMP_FillRect4bpp(struct Surf *s, s32 x, s32 y, s32 w, u16 h, u32 value)
 {
     s32 i;
     s32 j;

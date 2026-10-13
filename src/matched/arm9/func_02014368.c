@@ -1,5 +1,5 @@
 /*
- * function: func_02014368
+ * function: ZONEDATA_ResetEventFlagRange
  * address:  0x02014368
  * packet:   pkt_02014314
  * region:   arm9
@@ -14,7 +14,7 @@ typedef unsigned short u16;
 
 extern void func_0201433C(char *a0, int a1);
 
-void func_02014368(char *a0, int a1, int a2)
+void ZONEDATA_ResetEventFlagRange(char *a0, int a1, int a2)
 {
     int i;
 

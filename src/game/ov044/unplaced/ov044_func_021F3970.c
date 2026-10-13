@@ -22,41 +22,39 @@
  *   func_021A3044  0x021A3044  thumb  ov021
  */
 
-typedef unsigned int u32;
+#include "../unit_021F36C0_types.h"
 
-struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-typedef unsigned char  u8;
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
-extern void *func_02188C58(void *p);
-extern u32 func_0218EC5C(u8 *p);
-extern void func_0218EC54(u8 *p);
-extern int func_021BE480(char *p, unsigned i, int j);
-struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-struct VecFx32;
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_021A3044(u8 *p, void *v);
+extern void *func_0201210C(void *gameSystem);
+extern void *func_02188D2C(void *fieldMap);
+extern void *func_021897BC(char *fieldMap, int id);
+extern void *func_02188C58(void *fieldMap);
+extern u32 func_0218EC5C(u8 *camera);
+extern void func_0218EC54(u8 *camera);
+extern VecFx32 *func_021BE480(void *expObj, unsigned unit, int model);
+extern void *func_02188CB4(void *fieldMap);
+extern void func_021A3038(unsigned char *player, VecFx32 *out);
+extern void func_021A3044(u8 *player, VecFx32 *pos);
 
-void func_021F3970(void *a)
+/* Puts the lift at its lower end without the ride: the model and the player
+ * are set to the bottom height and the camera is detached. */
+void func_021F3970(void *gameSystem)
 {
-    void *s;
-    void *r;
-    int *p;
-    u32 h;
-    void *c;
-    int v[3];
+    void *fieldMap;
+    void *expObj;
+    Gimmick44Work *work;
+    u8 *camera;
+    void *player;
+    VecFx32 pos;
 
-    s = func_0201210C((void *)a);
-    r = (void *)func_02188D2C(s);
-    p = func_021897BC(s, 1);
-    h = (u32)func_02188C58(s);
-    p[3] = func_0218EC5C((u8 *)h);
-    func_0218EC54((u8 *)h);
-    ((int *)func_021BE480(r, 0, 0))[1] = -0x50000;
-    c = func_02188CB4((void *)s);
-    func_021A3038(c, (struct VecFx32 *)v);
-    v[1] = -0x50000;
-    func_021A3044(c, v);
+    fieldMap = func_0201210C(gameSystem);
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    camera = func_02188C58(fieldMap);
+    work->savedCameraTarget = func_0218EC5C(camera);
+    func_0218EC54(camera);
+    func_021BE480(expObj, 0, 0)->y = -0x50000;
+    player = func_02188CB4(fieldMap);
+    func_021A3038(player, &pos);
+    pos.y = -0x50000;
+    func_021A3044(player, &pos);
 }

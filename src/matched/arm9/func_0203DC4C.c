@@ -1,5 +1,5 @@
 /*
- * function: func_0203DC4C
+ * function: GFL_NET_IRC_WIRELESS_OnConnectEnd
  * address:  0x0203DC4C
  * packet:   pkt_0203DAC4
  * region:   arm9
@@ -9,23 +9,23 @@
  * isa:      arm
  * status:   EXACT
  *
- * net_irc_wireless.c.  Callback installed at +0x2C by func_0203D8F0 and
- * by states 4 and 14 of func_0203DC70: flags +0x103 of the live context.
+ * net_irc_wireless.c.  Callback installed at +0x2C by GFL_NET_IRC_WIRELESS_Create and
+ * by states 4 and 14 of GFL_NET_IRC_WIRELESS_Main: flags +0x103 of the live context.
  * An unlabelled ARM leaf.
  *
  * symbols:
- *   g_021469F0     0x021469F0  data
+ *   gNetIrcWirelessLink     0x021469F0  data
  */
 
 #include "../include/G_Ctx.h"
 
 typedef unsigned char u8;
 
-extern struct Ctx *g_021469F0;
+extern struct Ctx *gNetIrcWirelessLink;
 
-void func_0203DC4C(void)
+void GFL_NET_IRC_WIRELESS_OnConnectEnd(void)
 {
-    struct Ctx *p = g_021469F0;
+    struct Ctx *p = gNetIrcWirelessLink;
 
     if (p != 0)
         p->f103 = 1;

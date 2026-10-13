@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02048120  0x02048120  arm
- *   func_02048330  0x02048330  arm
+ *   G3D_UTIL_LoadUnitResources  0x02048120  arm
+ *   G3D_UTIL_BuildUnitObjects  0x02048330  arm
  *
  * g3d_util.c (the __FILE__ word 0x020A7EB8 of this family).  The utility
  * object is 0x218 bytes: resource handle table and status bytes at +0x00 /
@@ -22,7 +22,7 @@
  *
  * Add one unit: take the first free record (resIdx == 0xffff), place its
  * resource and object runs right after the previous record's, then load the
- * resources (func_02048120) and build the objects (func_02048330).  The lever
+ * resources (G3D_UTIL_LoadUnitResources) and build the objects (G3D_UTIL_BuildUnitObjects).  The lever
  * that closed it is the prototypes: the unit index and heap id are u16
  * parameters of both callees, so each call site truncates `i` on its own
  * (the lsl/lsr pair appears twice plus once for the u16 return), which an
@@ -61,8 +61,8 @@ typedef struct {
     u16   objCount;
 } Setup;
 
-extern void func_02048120(Util *u, u16 idx, const Setup *s, u16 heapID);
-extern void func_02048330(Util *u, u16 idx, const Setup *s, u16 heapID);
+extern void G3D_UTIL_LoadUnitResources(Util *u, u16 idx, const Setup *s, u16 heapID);
+extern void G3D_UTIL_BuildUnitObjects(Util *u, u16 idx, const Setup *s, u16 heapID);
 
 u16 func_02047E88(Util *util, const Setup *setup)
 {
@@ -76,8 +76,8 @@ u16 func_02047E88(Util *util, const Setup *setup)
             util->unit[i].resCount = setup->resCount;
             util->unit[i].objIdx = objIdx;
             util->unit[i].objCount = setup->objCount;
-            func_02048120(util, i, setup, util->heapID);
-            func_02048330(util, i, setup, util->heapID);
+            G3D_UTIL_LoadUnitResources(util, i, setup, util->heapID);
+            G3D_UTIL_BuildUnitObjects(util, i, setup, util->heapID);
             return i;
         }
         resIdx = util->unit[i].resIdx + util->unit[i].resCount;

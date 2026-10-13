@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02037894",
+   "name": "GFL_NET_SYSTEM_StartParent",
    "address": "0x02037894",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02037928",
+   "name": "GFL_NET_SYSTEM_StartBeaconScan",
    "address": "0x02037928",
    "kind": "game",
    "region": "arm9",

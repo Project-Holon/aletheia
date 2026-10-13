@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202BEDC",
+   "name": "ISS_ZONE_SYS_Start",
    "address": "0x0202BEDC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202BEEC",
+   "name": "ISS_ZONE_SYS_LoadRecords",
    "address": "0x0202BEEC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202BF54",
+   "name": "ISS_ZONE_SYS_SelectRecord",
    "address": "0x0202BF54",
    "kind": "game",
    "region": "arm9",

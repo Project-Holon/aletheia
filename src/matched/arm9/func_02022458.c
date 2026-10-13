@@ -1,5 +1,5 @@
 /*
- * function: func_02022458
+ * function: WIPE_InitHBlankSlots
  * address:  0x02022458
  * packet:   pkt_02022174
  * region:   arm9
@@ -13,17 +13,17 @@
  * text object (the buffer func_0202208C hands to both screen builders):
  * three parallel two-element arrays, the context pointers at +0x00, the
  * handlers at +0x08 and the user words at +0x10.  Both handler slots are
- * armed with the do-nothing func_020225F0 rather than a null, so the
+ * armed with the do-nothing WIPE_DummyHBlank rather than a null, so the
  * dispatcher never has to test them.
  *
  * symbols:
- *   func_020225F0  0x020225F0  thumb
+ *   WIPE_DummyHBlank  0x020225F0  thumb
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022458.c \
- *       --func func_02022458 --addr 0x02022458 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_InitHBlankSlots.c \
+ *       --func WIPE_InitHBlankSlots --addr 0x02022458 --cc 1.1p1 --thumb
  */
 typedef unsigned int u32;
 
@@ -35,15 +35,15 @@ struct Slots {
     u32     arg[2];
 };
 
-extern void func_020225F0(void);
+extern void WIPE_DummyHBlank(void);
 
-void func_02022458(struct Slots *p)
+void WIPE_InitHBlankSlots(struct Slots *p)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
         p->ctx[i] = 0;
-        p->fn[i] = func_020225F0;
+        p->fn[i] = WIPE_DummyHBlank;
         p->arg[i] = 0;
     }
 }

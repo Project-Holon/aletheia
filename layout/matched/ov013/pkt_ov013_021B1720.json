@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B1720",
+   "name": "VCT_AUDIO_FlushReadyQueue",
    "address": "0x021B1720",
    "kind": "game",
    "region": "ov013",

@@ -1,5 +1,5 @@
 /*
- * function: func_02024498
+ * function: PMSI_PARAM_GetWordCount
  * address:  0x02024498
  * packet:   pkt_02024464
  * region:   arm9
@@ -28,7 +28,7 @@ extern void func_02045808(struct U16Vec *vec);
 
 extern u16 g_0209F724[];
 
-u32 func_02024498(u32 a0, u32 a1, u32 a2)
+u32 PMSI_PARAM_GetWordCount(u32 a0, u32 a1, u32 a2)
 {
     u32 x = (u32)func_02045B38(0, 2, g_0209F724[a0], a2);
     u32 y = (u32)func_02045EC0((struct MsgBank *)x, a1);

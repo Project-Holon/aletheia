@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02051758
+ * function: PARTICLE_ReleaseCamera
  * address:  0x02051758
  * packet:   pkt_02051648
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj01197.h"
 
-int func_02051758(int a0){ int t0; t0 = func_02048AC4((int)*(int *)&((struct Obj01197 *)((char *)(a0)))->f20); *(int *)&((struct Obj01197 *)((char *)(a0)))->f20 = (int)0; return 0; }
+int PARTICLE_ReleaseCamera(int a0){ int t0; t0 = func_02048AC4((int)*(int *)&((struct Obj01197 *)((char *)(a0)))->f20); *(int *)&((struct Obj01197 *)((char *)(a0)))->f20 = (int)0; return 0; }

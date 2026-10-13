@@ -16,7 +16,7 @@
  *   func_021BD7D4 0x021BD7D4 thumb ov216
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021BD448 0x021BD448 thumb ov216
- *   func_02031194 0x02031194 arm
+ *   TCBL_DeleteTask 0x02031194 arm
  *   d_021BDD88 0x021BDD88 data a1
  */
 #include "../include/Obj00690.h"
@@ -40,7 +40,7 @@ extern u32 func_0201C6B4(const struct PrintSys *);
 extern void func_021BD7D4(char *,u8,int,u8,int *);
 extern void func_0204B3DC(struct Obj *,u32);
 extern void func_021BD448(char *p);
-extern void func_02031194(struct TcblNode *);
+extern void TCBL_DeleteTask(struct TcblNode *);
 extern const u8 d_021BDD88[];
 void func_021BD948(struct TcblNode *task,char *work)
 {
@@ -72,7 +72,7 @@ void func_021BD948(struct TcblNode *task,char *work)
     case 3:
     default:
         --**(int * *)&((struct Obj00690 *)work)->f14;
-        func_02031194(task);
+        TCBL_DeleteTask(task);
         break;
     }
 }

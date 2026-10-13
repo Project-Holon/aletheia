@@ -12,6 +12,10 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02020234.c \
  *       --func func_02020234 --addr 0x02020234 --cc 1.1p1 --thumb
+ *
+ * symbols:
+ *   BMP_MENULIST_DrawItems  0x0202055C  thumb
+ *   BMP_MENULIST_DrawCursor  0x020206C0  thumb
  */
 #include "../include/Obj08776.h"
 
@@ -32,13 +36,13 @@ extern void *func_02045770(struct Descriptor *a);
 struct CharBuf;
 struct Obj;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0202055C(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag);
-extern void func_020206C0(struct Obj *obj);
+extern void BMP_MENULIST_DrawItems(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag);
+extern void BMP_MENULIST_DrawCursor(struct Obj *obj);
 
 void func_02020234(u8 *p)
 {
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj08776 *)p)->fC)),
                   ((struct Ctl *)p)->lo4);
-    func_0202055C((struct Obj *)p, ((struct Obj08776 *)p)->f40, 0, ((struct Obj08776 *)p)->f12, 1);
-    func_020206C0((struct Obj *)p);
+    BMP_MENULIST_DrawItems((struct Obj *)p, ((struct Obj08776 *)p)->f40, 0, ((struct Obj08776 *)p)->f12, 1);
+    BMP_MENULIST_DrawCursor((struct Obj *)p);
 }

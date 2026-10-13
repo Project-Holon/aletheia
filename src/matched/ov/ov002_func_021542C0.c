@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * Stage machine on *mode, same family as ov003 func_021542C0 and ov004
- * func_02154390.  The second argument to func_020120B4 is pooled 0xC7 (199),
+ * EVENT_WORLDTRADE_Main.  The second argument to GAMESYSTEM_CallProc is pooled 0xC7 (199),
  * a linker overlay id for ov199; the third, 0x02213C4C, lies in its window.
  *
  * symbols:
  *   func_02012138  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02005C44  0x02005C44  thumb
- *   func_02005E30  0x02005E30  thumb
- *   func_020144DC  0x020144DC  thumb
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02012374  0x02012374  thumb
  *   func_020120F4  0x020120F4  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
- *   func_02005D90  0x02005D90  thumb
- *   func_02005DF8  0x02005DF8  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
@@ -44,16 +44,16 @@ struct IcaAnime;
 extern u32 func_02026454(void *obj);
 typedef unsigned short u16;
 struct Evt;
-extern u16 func_02005C44(void);
-extern void func_02005E30(u32 a);
-extern int func_020144DC(int a0, int a1);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_FadeOutBgm(u32 a);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
-extern void  func_02005D90(u32 a0, u32 a1);
-extern void func_02005DF8(u32 a);
-extern void *func_020145CC(void *a0);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
+extern void  GFL_USE_CancelChangeAndPlayBgm(u32 a0, u32 a1);
+extern void GFL_USE_FadeInBgmFull(u32 a);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern int func_021BE8D4(void *a, int b, int sel, int d);
@@ -71,8 +71,8 @@ u32 func_021542C0(void *obj, u32 *mode, u32 *args)
     switch (*mode) {
     case 0:
         if (func_02026454((void *)func_02012138((const struct Ctx *)a0)) == 0) {
-            args[0] = func_02005C44();
-            func_02005E30(6);
+            args[0] = GFL_USE_GetBgmNo();
+            GFL_USE_FadeOutBgm(6);
             (*mode)++;
         }
         break;
@@ -82,7 +82,7 @@ u32 func_021542C0(void *obj, u32 *mode, u32 *args)
         (*mode)++;
         break;
     case 2:
-        func_02012374(obj, (struct Evt **)func_020144DC(a0, args[2]));
+        func_02012374(obj, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(a0, args[2]));
         (*mode)++;
         break;
     case 3:
@@ -92,11 +92,11 @@ u32 func_021542C0(void *obj, u32 *mode, u32 *args)
         p[0] = (u32)func_020120F4((const struct Ctx *)a0);
         p[1] = args[6];
         p[3] = args[5];
-        func_020120B4((struct IcaAnime *)a0, (u32)ov199_id, d_02213C4C, (void *)args[3]);
+        GAMESYSTEM_CallProc((struct IcaAnime *)a0, (u32)ov199_id, d_02213C4C, (void *)args[3]);
         (*mode)++;
         break;
     case 4:
-        if (func_020120F0((const struct Ctx *)a0) == 0) {
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)a0) == 0) {
             func_020307B0((void *)args[3]);
             (*mode)++;
         }
@@ -105,9 +105,9 @@ u32 func_021542C0(void *obj, u32 *mode, u32 *args)
         (*mode)++;
         break;
     case 6:
-        func_02012374(obj, func_020145CC((void *)a0));
-        func_02005D90(args[0], 0xFFFF);
-        func_02005DF8(0x3C);
+        func_02012374(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)a0));
+        GFL_USE_CancelChangeAndPlayBgm(args[0], 0xFFFF);
+        GFL_USE_FadeInBgmFull(0x3C);
         (*mode)++;
         break;
     case 7:

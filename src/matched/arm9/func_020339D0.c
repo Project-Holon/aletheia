@@ -1,5 +1,5 @@
 /*
- * function: func_020339D0
+ * function: SAVEDATA_InitBuffer
  * address:  0x020339D0
  * packet:   pkt_020339D0
  * region:   arm9
@@ -37,7 +37,7 @@ typedef struct {
     u32 fn;
 } PtrEnt;
 
-void func_020339D0(u32 a, T *sb)
+void SAVEDATA_InitBuffer(u32 a, T *sb)
 {
     PtrEnt *ptrs = (PtrEnt *)sb->f00;
     u32 n = sb->f04;

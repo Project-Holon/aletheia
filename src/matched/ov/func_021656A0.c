@@ -13,9 +13,9 @@
  * pointer.
  *
  * symbols:
- *   func_02027060   0x02027060  thumb
- *   func_02026FB8   0x02026FB8  thumb
- *   g_02146940      0x02146940  data
+ *   GAME_BEACON_CheckActionPriority   0x02027060  thumb
+ *   GAME_BEACON_RequestSend   0x02026FB8  thumb
+ *   GAME_BEACON_Work      0x02146940  data
  *   func_021656C4   0x021656C4  thumb  ov010
  */
 
@@ -23,16 +23,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02027060(u32 a);
-extern void func_02026FB8(void *);
-extern char *g_02146940;
+extern u32 GAME_BEACON_CheckActionPriority(u32 a);
+extern void GAME_BEACON_RequestSend(void *);
+extern char *GAME_BEACON_Work;
 extern void func_021656C4(void *);
 
 void func_021656A0(void)
 {
-    if (func_02027060(0x2B)) {
-        func_021656C4(g_02146940 + 4);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x2B)) {
+        func_021656C4(GAME_BEACON_Work + 4);
+        GAME_BEACON_RequestSend(GAME_BEACON_Work + 4);
     }
 }
 

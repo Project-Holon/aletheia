@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201854C, func_02018584
+ * function: POKE_TOOL_GetBoxLevelMinExp, func_02018584
  *
  * 0x0201854C..0x02018598, 76 bytes, two functions.
  *
@@ -18,11 +18,11 @@
  * cannot be made smaller than the one function that needs it.  The `matched`
  * class carries it: 0x02019BA4 is inside src/matched/unit_02019B58.c, an
  * EXACT entry whose byte comparison covered that address over a range this
- * file does not touch.  Keeping func_0201854C with func_02018584 costs
- * nothing, since func_0201854C is in turn the only caller of func_02018584.
+ * file does not touch.  Keeping POKE_TOOL_GetBoxLevelMinExp with func_02018584 costs
+ * nothing, since POKE_TOOL_GetBoxLevelMinExp is in turn the only caller of func_02018584.
  *
  * The three ids this reads, 5, 0x6F and 0x9E, are the same three
- * func_020188B4 and func_02019CA0 read, and all three values are truncated to
+ * POKE_TOOL_CheckBoxTmCompat and func_02019CA0 read, and all three values are truncated to
  * u16 at the call rather than at the assignment, which is what fixes
  * func_02018584's parameters as u16 and the accessor's return as a word.
  *
@@ -45,7 +45,7 @@ extern u32 func_02019C90(u16 a, u16 b, u32 k);
 
 u32 func_02018584(u16 a, u16 b, u16 c);
 
-u32 func_0201854C(void *p)
+u32 POKE_TOOL_GetBoxLevelMinExp(void *p)
 {
     u32 a = func_02017E88(p, 5, 0);
     u32 b = func_02017E88(p, 0x6F, 0);

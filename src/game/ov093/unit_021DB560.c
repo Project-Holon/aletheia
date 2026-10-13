@@ -23,95 +23,75 @@
  *   d_021F05F0     0x021F05F0  data   ov093  a4
  *   d_021F0920     0x021F0920  data   ov093  a4
  */
-#include "../../matched/include/Obj21328.h"
-#include "../../matched/include/Obj07814.h"
+#include "unit_021DB0E4_types.h"
 
-struct S;
-typedef unsigned char u8;
+/* Ability handlers: Suction Cups, Liquid Ooze. */
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-extern int func_021D775C(int key);
-extern int func_021D76BC(int key, u32 val);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 v);
-extern void func_021C88C8(void *a, void *b);
-void func_021DB560(void *a, void *p, int id);
-int *func_021DB5B4(int *p);
-void func_021DB5C0(void *a, void *p, int id);
-void func_021DB62C(int a, int b, int c);
-int *func_021DB644(int *p);
-extern int d_021F05F0[];
-extern int d_021F0920[];
+void func_021DB560(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DB5B4(int *handlerCount);
+void func_021DB5C0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DB62C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DB644(int *handlerCount);
+extern const BtlEventHandler d_021F05F0[];
+extern const BtlEventHandler d_021F0920[];
 
 
-void func_021DB560(void *a, void *p, int id)
+/* Suction Cups: when the holder is the target, prevent the forced switch and show the message. */
+void func_021DB560(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 *r;
+    HandExMessage *msg;
 
-    if (id == func_021D775C(4)) {
-        if (func_021D76BC(0x41, 1) != 0) {
-            r = (u8 *)func_021C88A4(p, 4, id);
-            ((struct Obj21328 *)r)->f0 |= 0x800000;
-            func_021C8838(r + 4, 2, 0x1c6);
-            func_021C8860((struct S *)(r + 4), id);
-            func_021C88C8(p, r);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID)) {
+        if (func_021D76BC(BTL_EVAR_PREVENT_FLAG, 1) != 0) {
+            msg = func_021C88A4(flow, HANDEX_MESSAGE, pokeId);
+            msg->header |= BTL_CMD_FLAG_FROM_ABILITY;
+            func_021C8838(&msg->str, 2, 0x1c6);
+            func_021C8860(&msg->str, pokeId);
+            func_021C88C8(flow, msg);
         }
     }
 }
 
 
-int *func_021DB5B4(int *p)
+const BtlEventHandler *func_021DB5B4(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F05F0;
 }
 
 
-void func_021DB5C0(void *a, void *p, int id)
+/* Liquid Ooze: when the holder is the target of a draining move, damage the attacker by the drained amount instead. */
+void func_021DB5C0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u16 v;
-    u8 *r;
+    u16 amount;
+    HandExDamage *cmd;
 
-    if (id == func_021D775C(4)) {
-        v = func_021D775C(0x20);
-        func_021D76BC(0x20, 0);
-        if (v != 0) {
-            r = (u8 *)func_021C88A4(p, 7, id);
-            ((struct Obj07814 *)r)->f0 |= 0x800000;
-            r[6] = func_021D775C(3);
-            ((struct Obj07814 *)r)->f4 = v;
-            func_021C8838(r + 0xc, 2, 0x1c9);
-            func_021C8860((struct S *)(r + 0xc), r[6]);
-            func_021C88C8(p, r);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID)) {
+        amount = func_021D775C(BTL_EVAR_VOLUME);
+        func_021D76BC(BTL_EVAR_VOLUME, 0);
+        if (amount != 0) {
+            cmd = func_021C88A4(flow, HANDEX_DAMAGE, pokeId);
+            cmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
+            cmd->pokeId = func_021D775C(BTL_EVAR_ATTACKER_ID);
+            cmd->amount = amount;
+            func_021C8838(&cmd->str, 2, 0x1c9);
+            func_021C8860(&cmd->str, cmd->pokeId);
+            func_021C88C8(flow, cmd);
         }
     }
 }
 
 
-
-/* 021DB62C  shape F3: gate on func_021D775C(2) then func_021D7090 */
-/*
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r3, r4, r5, lr}; adds r5, r0, #0; movs r0, #2; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021DB642; adds r0, r5, #0; bl func_021D7090; pop {r3, r4, r5, pc}.
- */
-void func_021DB62C(int a, int b, int c)
+/* Liquid Ooze: remove the factor of the holder when the event that names the holder arrives. */
+void func_021DB62C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(2))
-        func_021D7090(a);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID))
+        func_021D7090(factor);
 }
 
 
-int *func_021DB644(int *p)
+const BtlEventHandler *func_021DB644(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F0920;
 }

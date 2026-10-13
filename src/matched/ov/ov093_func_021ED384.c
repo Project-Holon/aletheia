@@ -14,7 +14,7 @@
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  *   func_021F80E4  0x021F80E4  thumb  ov094
  *   func_021F7F04  0x021F7F04  thumb  ov094
- *   func_02031194  0x02031194  arm
+ *   TCBL_DeleteTask  0x02031194  arm
  */
 #include "../include/Obj03709.h"
 
@@ -25,7 +25,7 @@ extern int func_021F7EB4(void);
 extern void func_021F80E4(u32 a);
 extern void func_021F7F04(int a);
 struct TcblNode;
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 
 void func_021ED384(u32 a, u8 *t)
 {
@@ -43,7 +43,7 @@ void func_021ED384(u32 a, u8 *t)
         break;
     case 2:
         (**(u8 * *)&((struct Obj03709 *)t)->fC)--;
-        func_02031194((struct TcblNode *)a);
+        TCBL_DeleteTask((struct TcblNode *)a);
         break;
     }
 }

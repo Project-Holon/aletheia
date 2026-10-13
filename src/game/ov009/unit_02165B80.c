@@ -1,7 +1,7 @@
 /*
  * file:     unit_02165B80.c
  * unit:     yes
- * function: func_02165B80, func_02165BD0, func_02165C28, func_02165CA0, WCM_PointApListEx, func_02165D04, func_02165DCC, WcmGetOldestApList, WcmSearchApList, WcmSearchIndexedApList, func_02165F88, func_02166040, func_021661F0
+ * function: WCM_ClearApList, WCM_CountApList, WCM_LockApList, WCM_PointApList, WCM_PointApListEx, WCMi_EntryApList, WcmAllocApList, WcmGetOldestApList, WcmSearchApList, WcmSearchIndexedApList, WcmAppendApList, WCMi_BssDescCopy, WCMi_GetGameInfo
  * address:  0x02165B80
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -18,7 +18,7 @@
  *   OS_RestoreInterrupts   0x0208799C  arm
  *   MI_CpuFill8            0x02082BCC  arm
  *   WCM_PointApListEx  0x02165CAC  arm  ov009
- *   func_02085D3C  0x02085D3C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   WCM_CompareBssID       0x021666B8  arm
  *   func_02082AC0  0x02082AC0  arm
  *   func_02082B0C  0x02082B0C  arm
@@ -58,13 +58,13 @@ extern NWMInfoElements *NWM_GetVenderInfoElements();
 void WCM_ClearApList(void);
 long WCM_CountApList(void);
 long WCM_LockApList(long lock);
-void *func_02165CA0(long index);
+void *WCM_PointApList(long index);
 WMBssDesc *WCM_PointApListEx(long index);
-void func_02165D04(WMBssDesc *bssDesc, unsigned short linkLevel);
-WCMApList *func_02165DCC(void);
-void func_02165F88(WCMApList *aplist);
-void func_02166040(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc);
-WMGameInfo *func_021661F0(WMBssDesc *bssDesc);
+void WCMi_EntryApList(WMBssDesc *bssDesc, unsigned short linkLevel);
+WCMApList *WcmAllocApList(void);
+void WcmAppendApList(WCMApList *aplist);
+void WCMi_BssDescCopy(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc);
+WMGameInfo *WCMi_GetGameInfo(WMBssDesc *bssDesc);
 
 
 
@@ -131,7 +131,7 @@ long WCM_LockApList(long lock)
 }
 
 
-void *func_02165CA0(long index)
+void *WCM_PointApList(long index)
 {
     return WCM_PointApListEx(index);
 }
@@ -171,7 +171,7 @@ WMBssDesc *WCM_PointApListEx(long index)
 /*
  * sdk:      WCMi_EntryApList (aplist.o)
  */
-void func_02165D04(WMBssDesc *bssDesc, unsigned short linkLevel)
+void WCMi_EntryApList(WMBssDesc *bssDesc, unsigned short linkLevel)
 {
     WCMApList *aplist;
     WCMWork *w;
@@ -182,7 +182,7 @@ void func_02165D04(WMBssDesc *bssDesc, unsigned short linkLevel)
     if (w->apListLock)
         return;
     if (OS_IsRunOnTwl() && w->deviceId == 2) {
-        if (func_021661F0(bssDesc))
+        if (WCMi_GetGameInfo(bssDesc))
             return;
     }
     if (w->deviceId == 1 && bssDesc->gameInfoLength != 0)
@@ -190,14 +190,14 @@ void func_02165D04(WMBssDesc *bssDesc, unsigned short linkLevel)
 
     aplist = WcmSearchApList(bssDesc->bssid);
     if (aplist == 0)
-        aplist = func_02165DCC();
+        aplist = WcmAllocApList();
     if (aplist == 0 && w->config.nbdmode == 1)
         aplist = WcmGetOldestApList();
     if (aplist == 0)
         return;
-    func_02166040(bssDesc, &aplist->bssDesc);
+    WCMi_BssDescCopy(bssDesc, &aplist->bssDesc);
     aplist->linkLevel = linkLevel;
-    func_02165F88(aplist);
+    WcmAppendApList(aplist);
 }
 
 
@@ -205,7 +205,7 @@ void func_02165D04(WMBssDesc *bssDesc, unsigned short linkLevel)
 /*
  * sdk:      WcmAllocApList (aplist.o)
  */
-WCMApList *func_02165DCC(void)
+WCMApList *WcmAllocApList(void)
 {
     unsigned long maxBlock;
     long i;
@@ -322,7 +322,7 @@ static WCMApList *WcmSearchIndexedApList(unsigned long index)
 /*
  * sdk:      WcmAppendApList (aplist.o)
  */
-void func_02165F88(WCMApList *aplist)
+void WcmAppendApList(WCMApList *aplist)
 {
     WCMWork *w = WCMi_GetSystemWork();
     WCMApListHeader *pHeader = w->config.pbdbuffer;
@@ -369,7 +369,7 @@ void func_02165F88(WCMApList *aplist)
  * compiler rejects a declaration after a statement. The TWL branch's final add
  * zero-extends ieLength through lsl/lsr, which (ieLength & 0xffff) reproduces.
  */
-void func_02166040(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc)
+void WCMi_BssDescCopy(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc)
 {
     WCMWork *w;
     u8 *pSrc;
@@ -426,7 +426,7 @@ void func_02166040(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc)
  *
  * Returns the WMGameInfo of a BSS descriptor: NWM vendor element path on TWL, validated inline gameInfo on DS. The tag initializer copies from the vendor template @12437 at 0x021A19B0 (template class, ov009 scope).
  */
-WMGameInfo *func_021661F0(WMBssDesc *bssDesc)
+WMGameInfo *WCMi_GetGameInfo(WMBssDesc *bssDesc)
 {
     WCMWork *w = WCMi_GetSystemWork();
     NWMInfoElements *elem;

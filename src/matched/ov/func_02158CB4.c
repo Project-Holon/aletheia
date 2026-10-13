@@ -13,7 +13,7 @@
  *   func_02011324  0x02011324  thumb
  *   func_0215A5A4  0x0215A5A4  thumb  ov010
  *   func_020307B0  0x020307B0  arm
- *   func_02011264  0x02011264  thumb
+ *   VM_Delete  0x02011264  thumb
  */
 #include "../include/Obj17627.h"
 
@@ -25,7 +25,7 @@ struct ScriptVm;
 extern void *func_02011324(struct ScriptVm *vm);
 extern int func_0215A5A4(int a0);
 extern int func_020307B0();
-extern int func_02011264();
+extern int VM_Delete();
 
 int func_02158CB4(int a0)
 {
@@ -41,6 +41,6 @@ a0 = ((struct Obj17627 *)t4)->f2C;
     a0 = func_020307B0(a0);
 loc_02158CC6:
 a0 = t4 + 0;
-    a0 = func_02011264(a0);
+    a0 = VM_Delete(a0);
 loc_02158CCC:
     return a0;}

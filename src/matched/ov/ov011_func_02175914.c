@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02175914, func_02175920, func_0217592C
+ * function: INTRUDE_COMM_SetSessionEntrySendFlag, INTRUDE_COMM_SetSessionRequestSendFlag, INTRUDE_COMM_SetSessionResultSendFlag
  * address:  0x02175914
  * packet:   pkt_02175914
  * region:   ov011
@@ -15,17 +15,17 @@
 #include "../include/Obj12430.h"
 #include "../include/Obj12431.h"
 
-void func_02175914(int a, int b)
+void INTRUDE_COMM_SetSessionEntrySendFlag(int a, int b)
 {
     *(unsigned char *)(a + b + 0x194) = 1;
 }
 
-void func_02175920(int a)
+void INTRUDE_COMM_SetSessionRequestSendFlag(int a)
 {
     ((struct Obj12430 *)a)->f19A = 1;
 }
 
-void func_0217592C(int a)
+void INTRUDE_COMM_SetSessionResultSendFlag(int a)
 {
     ((struct Obj12431 *)a)->f19B = 1;
 }

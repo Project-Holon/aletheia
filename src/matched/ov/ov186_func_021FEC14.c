@@ -14,7 +14,7 @@
  * symbols:
  *   func_0204E720 0x0204E720 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_0204E6E0 0x0204E6E0 arm
+ *   FADE_GetSpeed 0x0204E6E0 arm
  *   func_02043598 0x02043598 arm
  *   func_0204E804 0x0204E804 arm
  *   func_0209C0A4 0x0209C0A4 arm
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_0204E720(u32,int,int,int);
 extern void func_0207D63C(u32,int,int,int,int);
-extern int func_0204E6E0(void);
+extern int FADE_GetSpeed(void);
 extern void func_02043598(u32,u32);
 extern int func_0204E804(void);
 extern int func_0209C0A4(int,int);
@@ -43,7 +43,7 @@ int func_021FEC14(char *p,int *state)
         func_0207D63C(0x04001050,3,7,a,b);
         ((struct Obj01426 *)p)->f10=0;
         duration=((struct Obj01426 *)p)->f18;
-        if(duration==0)duration=func_0209C0A4(16,func_0204E6E0());
+        if(duration==0)duration=func_0209C0A4(16,FADE_GetSpeed());
         ((struct Obj01426 *)p)->f14=duration;
         *state=1;
         break;

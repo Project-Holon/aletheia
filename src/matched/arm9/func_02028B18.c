@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02028B18
+ * function: FIELD_SOUND_SYSTEM_TransferSlot
  * address:  0x02028B18
  * packet:   pkt_0202878C
  * region:   arm9
@@ -13,13 +13,13 @@
  * field_sound_system.c: hand an already claimed slot to a new owner
  *
  * The two slot tables at +0xAC and +0xB0 are two halfwords each; the loop in
- * func_02028B18 is what fixes the count at two.  Both are past the Thumb
+ * FIELD_SOUND_SYSTEM_TransferSlot is what fixes the count at two.  Both are past the Thumb
  * halfword immediate's reach of 62, so each access recomputes
  * `base + index*2` and then adds 0xAC or 0xB0
  * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).
  *
  * symbols:
- *   func_020062BC  0x020062BC  thumb
+ *   GFL_USE_SetSeSlotVolume  0x020062BC  thumb
  *   func_021D21C0  0x021D21C0  thumb ov021
  *
  * The overlay callee 0x021D21C0 is attested through the label class
@@ -27,7 +27,7 @@
  *
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/func_02028B18.c --addr 0x02028B18 --thumb
+ *   python tools/match.py tu --src src/matched/FIELD_SOUND_SYSTEM_TransferSlot.c --addr 0x02028B18 --thumb
  */
 
 typedef unsigned short u16;
@@ -46,16 +46,16 @@ extern u32 func_021D21E0(u32 id);
 extern int func_02006148(u32 a0);
 extern void func_020061E4(u32 id);
 extern void func_020061F0(u32 id, u32 who);
-extern void func_020062BC(int i, u32 level);
+extern void GFL_USE_SetSeSlotVolume(int i, u32 level);
 
-void func_02028B18(struct SoundSys2 *s, u32 id, u32 who)
+void FIELD_SOUND_SYSTEM_TransferSlot(struct SoundSys2 *s, u32 id, u32 who)
 {
     s32 i;
 
     if (func_021D21C0(id) != 0) {
         for (i = 0; i < 2; i++) {
             if (s->slot[i] == id) {
-                func_020062BC(i + 1, who);
+                GFL_USE_SetSeSlotVolume(i + 1, who);
                 s->owner[i] = who;
                 return;
             }

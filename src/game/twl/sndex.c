@@ -13,6 +13,8 @@
  *
  * symbols:
  *   PMi_InsertPostExitCallbackEx  0x0273156C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm  arm9
+ *   PXI_Init  0x02088498  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -50,14 +52,14 @@ typedef struct {
 
 extern u32 func_02087988(void);
 extern void func_0208799C(u32);
-extern void func_02088498(void);
+extern void PXI_Init(void);
 extern u32 func_020885EC(u32, u32);
 extern void func_02004490(u32);
 extern void func_020885A0(u32, void (*)(u32, u32, u32));
 
 extern void PMi_InsertPostExitCallbackEx(u32 *, u32);
 extern void func_0208C848(u32 *, u32);
-extern u32 func_02085D3C(void);
+extern u32 OS_IsRunOnTwl(void);
 extern u32 func_02087B20(void);
 extern void func_02087A04(u32);
 extern void func_02085D94(void *, void *, u32);
@@ -98,7 +100,7 @@ void SNDEXi_Init(void) {
     DAT_02734450.state = 1;
     func_0208799C(irq);
     SetSndexWork(0, 0, 0, 0);
-    func_02088498();
+    PXI_Init();
     while (func_020885EC(0x18, 1) == 0) {
         func_02004490(10);
     }
@@ -130,7 +132,7 @@ u32 SNDEXi_SetVolumeAsync(u32 a0, Cb a1, void *a2, u32 a3) {
 }
 
 u32 SNDEXi_SetVolumeExAsync(u32 a0, Cb a1, void *a2) {
-    if (func_02085D3C() == 0) {
+    if (OS_IsRunOnTwl() == 0) {
         return 4;
     }
     return SNDEXi_SetVolumeAsync(a0, a1, a2, 0);

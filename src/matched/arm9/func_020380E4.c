@@ -1,5 +1,5 @@
 /*
- * function: func_020380E4
+ * function: GFL_NET_SYSTEM_RecvData
  * address:  0x020380E4
  * packet:   pkt_02037F48
  * region:   arm9
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469D0     0x021469D0  data
+ *   _pNetSys     0x021469D0  data
  *   func_0203D798  0x0203D798  arm
- *   func_0203D6BC  0x0203D6BC  arm
+ *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
  *   func_0203F1FC  0x0203F1FC  arm
- *   func_02036428  0x02036428  arm
+ *   GFL_NET_RING_BUFF_Write  0x02036428  arm
  *
  * Validates one incoming record against the per-slot table reached through
  * 0x021469D0: the byte at +4 of the record is a presence/state tag (0xFF is
@@ -26,11 +26,11 @@
  *
  * The +8 bit of rec[4] biases the third argument by 0xFF; both the globals are
  * re-read from the pointer word after every call, which is why the C indexes
- * g_021469D0 directly instead of caching it in a local.
+ * _pNetSys directly instead of caching it in a local.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020380E4.c \
- *       --func func_020380E4 --addr 0x020380E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_RecvData.c \
+ *       --func GFL_NET_SYSTEM_RecvData --addr 0x020380E4 --cc 1.1p1 --arm
  */
 
 #include "../include/G_LinkState.h"
@@ -39,37 +39,37 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern struct LinkState *g_021469D0;
+extern struct LinkState *_pNetSys;
 extern void *func_0203D798(void);
-extern u32 func_0203D6BC(void);
+extern u32 GFL_NET_GetChildSendSize(void);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void func_02036428(u8 *p, u8 *q, u32 v);
+extern void GFL_NET_RING_BUFF_Write(u8 *p, u8 *q, u32 v);
 
-u32 func_020380E4(u32 a0, u8 *rec, u32 len)
+u32 GFL_NET_SYSTEM_RecvData(u32 a0, u8 *rec, u32 len)
 {
     int v;
     u32 n;
 
     func_0203D798();
-    func_0203D6BC();
+    GFL_NET_GetChildSendSize();
 
     if (rec[4] == 0xFF)
         return 0;
-    if (*(u32 *)(((u8 *)g_021469D0) + (a0 << 4) + 0x54) == 0 && (rec[4] & 2))
+    if (*(u32 *)(((u8 *)_pNetSys) + (a0 << 4) + 0x54) == 0 && (rec[4] & 2))
         return 0;
 
     v = func_0203F1FC(rec + 2, len - 2);
     if (rec[0] != (u8)v || ((v & 0xFF00) >> 8) != rec[1])
         return 0;
-    if (*(u8 *)(((u8 *)g_021469D0) + 0x1D7 + a0) != 0 &&
-        (u8)(rec[5] - 1) != *(u8 *)(((u8 *)g_021469D0) + 0x1D7 + a0))
+    if (*(u8 *)(((u8 *)_pNetSys) + 0x1D7 + a0) != 0 &&
+        (u8)(rec[5] - 1) != *(u8 *)(((u8 *)_pNetSys) + 0x1D7 + a0))
         return 0;
 
-    *(u8 *)(((u8 *)g_021469D0) + 0x1D7 + a0) = rec[5];
+    *(u8 *)(((u8 *)_pNetSys) + 0x1D7 + a0) = rec[5];
     n = rec[2];
     if (rec[4] & 8)
         n += 0xFF;
-    func_02036428(((u8 *)g_021469D0) + 0x4C + (a0 << 4), rec + 7, n);
-    *(u32 *)(((u8 *)g_021469D0) + (a0 << 4) + 0x54) = 1;
+    GFL_NET_RING_BUFF_Write(((u8 *)_pNetSys) + 0x4C + (a0 << 4), rec + 7, n);
+    *(u32 *)(((u8 *)_pNetSys) + (a0 << 4) + 0x54) = 1;
     return 1;
 }

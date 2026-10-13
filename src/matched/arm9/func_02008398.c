@@ -1,5 +1,5 @@
 /*
- * function: func_02008398
+ * function: CONFIG_SetSoundMode
  * address:  0x02008398
  * packet:   pkt_02008398
  * region:   arm9
@@ -12,7 +12,7 @@
  * Unlabelled leaf setter on a u16 bitfield word (witness for ov068 callers).
  *
  * symbols:
- *   func_02008398  0x02008398  thumb
+ *   CONFIG_SetSoundMode  0x02008398  thumb
  */
 
 typedef struct {
@@ -24,4 +24,4 @@ typedef struct {
     unsigned short f : 1;
 } BF;
 
-void func_02008398(BF *p, unsigned int v) { p->b = (unsigned short)v; }
+void CONFIG_SetSoundMode(BF *p, unsigned int v) { p->b = (unsigned short)v; }

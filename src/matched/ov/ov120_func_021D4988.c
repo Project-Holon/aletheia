@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Blocker resolved: the call to func_0203C3EC (site +0050) was the only
+ * Blocker resolved: the call to GFL_NET_STATE_GetWifiState (site +0050) was the only
  *          unresolved relocation.  It is an unlabelled ARM leaf in the ARM9
- *          image; it was matched in arm9 (src/matched/func_0203C3EC.c, shard
+ *          image; it was matched in arm9 (src/matched/GFL_NET_STATE_GetWifiState.c, shard
  *          pkt_0203C3EC) so `attest_matched` now resolves the BL field.  All
  *          17 relocations and all 152 bytes agree.
  * symbols:
@@ -23,10 +23,10 @@
  *   func_021D8648  0x021D8648  thumb  ov120
  *   func_020362DC  0x020362DC  arm
  *   func_0203CD98  0x0203CD98  arm
- *   func_0203C554  0x0203C554  arm
+ *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
  *   func_020355D8  0x020355D8  arm
- *   func_0203C3EC  0x0203C3EC  arm
- *   func_0203D7B0  0x0203D7B0  arm
+ *   GFL_NET_STATE_GetWifiState  0x0203C3EC  arm
+ *   GFL_NET_SetAutoExit  0x0203D7B0  arm
  *   func_0203D7BC  0x0203D7BC  arm
  *   func_020061E4  0x020061E4  thumb
  */
@@ -39,12 +39,12 @@ extern u32 func_020362DC(void);
 extern void func_021D8638(unsigned char *p);
 extern int func_0203CD98(void);
 typedef unsigned char  u8;
-extern void func_0203C554(u32 a);
+extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 a);
 extern void func_021D4244(int *p, int v, int a2);
-extern int func_0203C3EC(void);
-extern void func_0203D7B0(u8 a0);
+extern int GFL_NET_STATE_GetWifiState(void);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern void func_0203D7BC(u8 a0);
 extern void func_021D7B38(char *p);
 extern void func_021D7A74(u8 *p, int n);
@@ -56,7 +56,7 @@ void func_021D4988(int *a)
     if (func_020362DC() == 2) {
         func_021D8638((unsigned char *)(((struct Obj05343 *)a)->f40));
         if (func_0203CD98() != 0)
-            func_0203C554(1);
+            GFL_NET_STATE_WifiDisconnect(1);
         func_020355D8(0);
         func_020061E4(0x551);
         func_021D4244(a, 0x021D4FF5, 0x360);
@@ -65,9 +65,9 @@ void func_021D4988(int *a)
         if (func_020362DC() != 1)
             return;
     } else {
-        if (func_0203C3EC() != 1)
+        if (GFL_NET_STATE_GetWifiState() != 1)
             return;
-        func_0203D7B0(1);
+        GFL_NET_SetAutoExit(1);
         func_0203D7BC(1);
     }
     func_021D7B38((char *)(((struct Obj05343 *)a)->f40));

@@ -32,16 +32,16 @@
  *   func_021F3E04 0x021F3E04 thumb ov039
  *   func_021F3DE4 0x021F3DE4 thumb ov039
  *   func_021F48C0 0x021F48C0 thumb ov039
- *   func_02011428 0x02011428 thumb
+ *   ICA_ANIME_CreateWithFullBuffer 0x02011428 thumb
  *   func_02011558 0x02011558 thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_020061F8 0x020061F8 thumb
- *   func_02006138 0x02006138 thumb
- *   func_02006210 0x02006210 thumb
+ *   GFL_USE_GetSeHandle 0x02006138 thumb
+ *   GFL_USE_StopAllSe 0x02006210 thumb
  *   func_02028A7C 0x02028A7C thumb
- *   func_02028B18 0x02028B18 thumb
+ *   FIELD_SOUND_SYSTEM_TransferSlot 0x02028B18 thumb
  *   func_02028B50 0x02028B50 thumb
- *   func_02072F34 0x02072F34 arm
+ *   NNS_SndHandleSetSeqPriority 0x02072F34 arm
  *   func_0203630C 0x0203630C arm
  *   func_02047790 0x02047790 arm
  *   func_02047674 0x02047674 arm
@@ -117,16 +117,16 @@ extern int func_021BE748(u32 a);
 extern void func_021F3E04(void *p, u8 delta, u16 i, int frame);
 extern int func_021F3DE4(void *p, u16 delta, u16 i);
 extern void func_021F48C0(u8 *a, int idx, int x, int *out);
-extern void *func_02011428(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void *ICA_ANIME_CreateWithFullBuffer(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void func_02011558(struct IcaAnime *p);
 extern void func_020061E4(u32 a);
 extern void func_020061F8(int i);
-extern u32 *func_02006138(int i);
-extern void func_02006210(void);
+extern u32 *GFL_USE_GetSeHandle(int i);
+extern void GFL_USE_StopAllSe(void);
 extern void func_02028A7C(struct SoundSys2 *s, u32 id);
-extern void func_02028B18(struct SoundSys2 *s, u32 id, u32 who);
+extern void FIELD_SOUND_SYSTEM_TransferSlot(struct SoundSys2 *s, u32 id, u32 who);
 extern void func_02028B50(u8 *p, int a0);
-extern void func_02072F34(struct Obj *o, u8 v);
+extern void NNS_SndHandleSetSeqPriority(struct Obj *o, u8 v);
 extern unsigned int func_0203630C(void);
 extern int func_02047790(int *p, int i);
 extern int func_02047674(int p);
@@ -180,7 +180,7 @@ int func_021F41A8(void *a0, int *a1)
     func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
     switch (*a1) {
     case 0:
-        s->anim = (u32)func_02011428(0x8015, 0x6b, (u16)d_021F4C38[s->sel], (u32)s->f1c, 0x21C0);
+        s->anim = (u32)ICA_ANIME_CreateWithFullBuffer(0x8015, 0x6b, (u16)d_021F4C38[s->sel], (u32)s->f1c, 0x21C0);
         func_021F3E04((void *)h, j, 0, 0);
         func_021BE6B0(o, 0);
         func_020061E4(0x687);
@@ -211,8 +211,8 @@ int func_021F41A8(void *a0, int *a1)
         s->hold = -1;
         func_02028A7C((struct SoundSys2 *)w, 0x68A);
         func_020061E4(0x6DB);
-        func_02072F34((struct Obj *)func_02006138(snd), 0);
-        func_02028B18((struct SoundSys2 *)w, 0x68A, 0x7f);
+        NNS_SndHandleSetSeqPriority((struct Obj *)GFL_USE_GetSeHandle(snd), 0);
+        FIELD_SOUND_SYSTEM_TransferSlot((struct SoundSys2 *)w, 0x68A, 0x7f);
         s->active = 1;
         *a1 = *a1 + 1;
         break;
@@ -271,7 +271,7 @@ int func_021F41A8(void *a0, int *a1)
         s->hold = -1;
         s->sel = 0xff;
         func_02028A7C((struct SoundSys2 *)w, 0x68A);
-        func_02028B18((struct SoundSys2 *)w, 0x68A, 0);
+        FIELD_SOUND_SYSTEM_TransferSlot((struct SoundSys2 *)w, 0x68A, 0);
         func_020061F8(snd);
         return 1;
     }
@@ -281,11 +281,11 @@ int func_021F41A8(void *a0, int *a1)
         case 2:
             if (f == 0xBF000) {
                 func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
+                GFL_USE_StopAllSe();
                 func_020061E4(0x68B);
             } else if (f == 0xEB000) {
                 func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
+                GFL_USE_StopAllSe();
             } else if (f == 0xFF000) {
                 func_020061E4(0x68C);
             }
@@ -293,11 +293,11 @@ int func_021F41A8(void *a0, int *a1)
         case 3:
             if (f == 0x108000) {
                 func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
+                GFL_USE_StopAllSe();
                 func_020061E4(0x68B);
             } else if (f == 0x131000) {
                 func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
+                GFL_USE_StopAllSe();
             } else if (f == 0x148000) {
                 func_020061E4(0x68C);
             }
@@ -305,14 +305,14 @@ int func_021F41A8(void *a0, int *a1)
         case 4:
             if (f == 0xB1000) {
                 func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
+                GFL_USE_StopAllSe();
                 func_020061E4(0x6D2);
             }
             break;
         case 5:
             if (f == 0xB6000) {
                 func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
+                GFL_USE_StopAllSe();
                 func_020061E4(0x6D2);
             }
             break;
@@ -341,6 +341,6 @@ int func_021F41A8(void *a0, int *a1)
     } else if (d >= 0x8000) {
         vol = 0x1e;
     }
-    func_02072F34((struct Obj *)func_02006138(snd), vol);
+    NNS_SndHandleSetSeqPriority((struct Obj *)GFL_USE_GetSeHandle(snd), vol);
     return 0;
 }

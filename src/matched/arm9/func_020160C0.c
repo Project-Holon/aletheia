@@ -1,5 +1,5 @@
 /*
- * function: func_020160C0
+ * function: MCSS_SetGlobalScale
  * address: 0x020160C0
  * packet: pkt_020160C0
  * region: arm9
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 #include "../include/Obj15671.h"
-void func_020160C0(char *p, unsigned int v)
+void MCSS_SetGlobalScale(char *p, unsigned int v)
 {
     ((struct Obj15671 *)p)->f44 = v;
 }

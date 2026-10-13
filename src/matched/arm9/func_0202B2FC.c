@@ -1,5 +1,5 @@
 /*
- * function: func_0202B2FC
+ * function: ISS_DUNGEON_SYS_CreateTable
  * address:  0x0202B2FC
  * packet:   pkt_0202B2FC
  * region:   arm9
@@ -8,14 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * closed:   blocker func_0202B3A0.c is now a manifest entry (matched class)
+ * closed:   blocker ISS_DUNGEON_SYS_Create.c is now a manifest entry (matched class)
  *
  * Builds a table node: a count byte is fetched from func_02049030, then that
  * many 0x1c-byte records are allocated and each one formatted in place.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0202B2FC.c \
- *       --func func_0202B2FC --addr 0x0202B2FC --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/pending/ISS_DUNGEON_SYS_CreateTable.c \
+ *       --func ISS_DUNGEON_SYS_CreateTable --addr 0x0202B2FC --thumb --cc 1.1p1
  */
 #include "../include/Obj05726.h"
 
@@ -27,7 +27,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_02049030(u32 a);
 extern void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
 
-u8 *func_0202B2FC(u32 heapId)
+u8 *ISS_DUNGEON_SYS_CreateTable(u32 heapId)
 {
     u32 i;
     u8 *p = (u8 *)func_02030734(heapId, 8, 0, (const void *)0x020A7718, 0x77);

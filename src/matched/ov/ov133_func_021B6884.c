@@ -7,14 +7,14 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * note: 2026-10-04 (D2-13): filed src/matched/arm9/func_0204F32C.c and func_0204F2FC.c (both EXACT, 24 and 48 bytes). The two relocations stay unresolved until the integrator builds their shards; expect EXACT after that.
+ * note: 2026-10-04 (D2-13): filed src/matched/arm9/func_0204F32C.c and BILLBOARD_SetImageTexAddr.c (both EXACT, 24 and 48 bytes). The two relocations stay unresolved until the integrator builds their shards; expect EXACT after that.
  * blocker: ARM9 0204F32C and 0204F2FC have no outside witness; no overlay leaves filed.
  *   0204F32C verified EXACT by concurrent ov112_func_021F4DE0.c blocker (copy retained):
  *   typedef unsigned int u32;
  *   void func_0204F32C(char *p,u32 i,u32 *out) { *out = *(u32 *)(*(char **)(p+4)+i*40+36); }
  *   0204F2FC scratch one EXACT, 48 bytes, no relocations:
  *   typedef unsigned char u8;
- *   void func_0204F2FC(u8 *p,u32 i,u32 value) {
+ *   void BILLBOARD_SetImageTexAddr(u8 *p,u32 i,u32 value) {
  *       u32 off = i*40;
  *       *(u32 *)(*(u8 **)(p+4)+off+32) = value;
  *       *(u32 *)(*(u8 **)(p+4)+off+12) = (*(u32 *)(*(u8 **)(p+4)+off+32)<<16)>>13;
@@ -33,11 +33,11 @@
  *   func_021F4D74 0x021F4D74 thumb ov112
  *   func_021F4AA4 0x021F4AA4 thumb ov112
  *   func_0204F32C 0x0204F32C arm
- *   func_0204F2E4 0x0204F2E4 arm
- *   func_0204F2FC 0x0204F2FC arm
+ *   BILLBOARD_GetImageTexKey 0x0204F2E4 arm
+ *   BILLBOARD_SetImageTexAddr 0x0204F2FC arm
  *   func_0204EDD0 0x0204EDD0 arm
  *   func_0204F044 0x0204F044 arm
- *   func_0204F1A0 0x0204F1A0 arm
+ *   BILLBOARD_ReleaseImageVramIfUsed 0x0204F1A0 arm
  *   func_0204A648 0x0204A648 arm
  */
 typedef unsigned char u8;
@@ -58,11 +58,11 @@ extern int func_021F4F70(int *);
 extern void func_021F4D74(u8 *, u8 *, int, u16);
 extern void func_021F4AA4(void *);
 extern void func_0204F32C(int p0, int p1, int p2);
-extern void func_0204F2E4(u8 *, int, u32 *);
-extern void func_0204F2FC(u8 *p, int i, u32 value);
+extern void BILLBOARD_GetImageTexKey(u8 *, int, u32 *);
+extern void BILLBOARD_SetImageTexAddr(u8 *p, int i, u32 value);
 extern void func_0204EDD0(int, u16 *, u16 *);
 extern int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
-extern void func_0204F1A0(struct Obj0204F1A0 *a0, u32 a1);
+extern void BILLBOARD_ReleaseImageVramIfUsed(struct Obj0204F1A0 *a0, u32 a1);
 extern void func_0204A648(void);
 void func_021B6884(void *unused, u8 *p)
 {
@@ -92,13 +92,13 @@ void func_021B6884(void *unused, u8 *p)
             table = (u8 *)func_021F4F10(*(u8 **)(p + 0x1884));
             *(u16 *)(p + 0x50) = *(u16 *)q;
             func_0204F32C((int)(*(void **)(p + 0x188c)), *(int *)(p + 0x54), (int)(&height));
-            func_0204F2E4(*(u8 **)(p + 0x188c), *(int *)(q + 4), &width);
-            func_0204F2FC(*(void **)(p + 0x188c), *(int *)(p + 0x54), width);
+            BILLBOARD_GetImageTexKey(*(u8 **)(p + 0x188c), *(int *)(q + 4), &width);
+            BILLBOARD_SetImageTexAddr(*(void **)(p + 0x188c), *(int *)(p + 0x54), width);
             flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + 0x50)));
             func_0204EDD0(flags, &sizes[1], &sizes[0]);
             index = func_0204F044(*(void **)(p + 0x188c), width, height, 0, flags, sizes[1], sizes[0]);
             func_021F4D74(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), *(u16 *)(p + 0x50), index);
-            func_0204F1A0(*(void **)(p + 0x188c), *(u32 *)(p + 0x54));
+            BILLBOARD_ReleaseImageVramIfUsed(*(void **)(p + 0x188c), *(u32 *)(p + 0x54));
             *(u32 *)(p + 0x54) = index;
         }
     }

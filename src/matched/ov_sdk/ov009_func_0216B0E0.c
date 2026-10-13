@@ -1,5 +1,5 @@
 /*
- * function: func_0216B0E0
+ * function: DWC_LoginAsync
  * address:  0x0216B0E0
  * packet:   pkt_ov009_0216B0E0
  * region:   ov009
@@ -18,7 +18,7 @@
  *   MIi_CpuCopy16  0x02082A60  arm
  *   func_0205CA20  0x0205CA20  arm
  *   func_0216A3B8  0x0216A3B8  arm  ov009
- *   func_0216BC84  0x0216BC84  arm  ov009
+ *   DWCi_SetState  0x0216BC84  arm  ov009
  *   func_0217C750  0x0217C750  arm  ov009
  *   g_021AA878     0x021AA878  data
  */
@@ -48,10 +48,10 @@ extern int func_021686E0(unsigned short *p);
 extern void MIi_CpuCopy16(void *srcp, void *destp, u32 size);
 extern int func_0205CA20(void);
 extern void func_0216A3B8(int error, int errorCode);
-extern void func_0216BC84(int state);
+extern void DWCi_SetState(int state);
 extern void func_0217C750(char *gamename);
 
-int func_0216B0E0(u16 *ingamesn, int reserved, void (*callback)(int, int, void *), void *param)
+int DWC_LoginAsync(u16 *ingamesn, int reserved, void (*callback)(int, int, void *), void *param)
 {
     u32 len;
 
@@ -73,7 +73,7 @@ int func_0216B0E0(u16 *ingamesn, int reserved, void (*callback)(int, int, void *
         func_0216A3B8(2, -60010);
         return 0;
     }
-    func_0216BC84(1);
+    DWCi_SetState(1);
     func_0217C750(((Ctl *)g_021AA878.st)->gamename);
     return 1;
 }

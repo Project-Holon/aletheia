@@ -16,14 +16,14 @@
  *   func_021E8E38  0x021E8E38  thumb  ov093
  *   func_02034AC4  0x02034AC4  arm
  *   func_0208068C  0x0208068C  arm
- *   func_0203D29C  0x0203D29C  arm
+ *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
  */
 extern char ov094_id[], ov095_id[], ov096_id[];
 extern void func_021E8E38(unsigned short heap);
 extern int func_02034AC4(int id);
 extern void func_0208068C(unsigned int v);
 typedef unsigned int   u32;
-extern u32 func_0203D29C(void);
+extern u32 GFL_NET_IsNetTypeWifi(void);
 
 void func_021E8DC4(unsigned short heap)
 {
@@ -31,7 +31,7 @@ void func_021E8DC4(unsigned short heap)
     func_02034AC4((int)ov094_id);
     func_0208068C(0x80);
     func_02034AC4((int)ov095_id);
-    if (func_0203D29C() == 0) {
+    if (GFL_NET_IsNetTypeWifi() == 0) {
         func_02034AC4((int)ov096_id);
     }
 }

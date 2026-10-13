@@ -53,6 +53,11 @@
  *   DWCi_MOV_WH_StateInEndParentKeyShare 0x021D2F8C  arm
  *   dwc_mov_wh_str_14400             0x021DBF70  data
  *   dwc_mov_wh_str_14401             0x021DBF94  data
+ *   WM_Initialize  0x0208F370  arm  arm9
+ *   WM_End  0x0208F43C  arm  arm9
+ *   WM_SetParentParameter  0x0208F480  arm  arm9
+ *   WM_GetSharedDataAddress  0x02090B18  arm  arm9
+ *   WM_EndKeySharing  0x02090BB8  arm  arm9
  */
 #include "../../matched/include/G_DWC_MOV_WH_BSS.h"
 #include "../../matched/include/G_DWC_MOV_WH_BSS.h"
@@ -155,7 +160,7 @@ typedef struct {
 
 typedef struct { unsigned short apiid; unsigned short errcode; unsigned short state; } WMIndCallback;
 
-extern int func_0208F480(int, int);
+extern int WM_SetParentParameter(int, int);
 extern int func_021D29C8(int);
 extern void DWCi_MOV_WH_SetError(int code);
 extern int WM_SetWEPKey(void (*callback)(void *), unsigned short wepmode, unsigned short *wepkey);
@@ -167,7 +172,7 @@ extern int DWCi_MOV_WH_StateInStartParentKeyShare(void);
 extern int WM_StartDataSharing(void *dsInfo, unsigned short port, unsigned short aidBitmap,
                                unsigned short dataLength, int doubleMode);
 extern int func_02090B9C(int, int);
-extern int func_02090BB8(int);
+extern int WM_EndKeySharing(int);
 extern int WM_EndMP(void (*callback)(void *));
 extern int WM_EndParent(void (*callback)(void *));
 extern int WM_Reset(void (*callback)(void *));
@@ -177,16 +182,16 @@ extern int WM_MeasureChannel(void (*callback)(void *), unsigned short ccaMode, u
                              unsigned short channel, unsigned short measureTime);
 extern void OS_Terminate(void);
 extern int DWCi_MOV_WH_StateInInitialize(void);
-extern int func_0208F370(int, int, int);
+extern int WM_Initialize(int, int, int);
 extern int WM_SetIndCallback(void (*callback)(void *));
 extern unsigned short WM_GetDispersionBeaconPeriod(void);
 extern int DWCi_MOV_WH_StateInSetParentParam(void);
-extern void func_02090B18(void *, void *, int);
+extern void WM_GetSharedDataAddress(void *, void *, int);
 extern int WM_StepDataSharing(void *dsInfo, unsigned short *sendData, void *receiveData);
 extern int DWCi_MOV_WH_StateInEndChildKeyShare(void);
 extern int DWCi_MOV_WH_StateInEndParentKeyShare(void);
 extern void func_02088234(void);
-extern int func_0208F43C(int);
+extern int WM_End(int);
 void DWCi_MOV_WH_MemInit(void *mw);
 void func_021D2A44(unsigned int v);
 int func_021D2A64(void);
@@ -307,7 +312,7 @@ int func_021D2A64(void)
     int rs;
 
     func_021D29C8(3);
-    rs = func_0208F480((int)0x021D2AA8, g[1]);
+    rs = WM_SetParentParameter((int)0x021D2AA8, g[1]);
     if (rs == 2)
         return 1;
     func_021D2A44(rs);
@@ -585,7 +590,7 @@ int func_021D2F8C(void)
     int *g = (int *)0x021DE660;
     int rs;
 
-    rs = func_02090BB8(g[1] + 0x1e00);
+    rs = WM_EndKeySharing(g[1] + 0x1e00);
     if (rs == 2)
         return 1;
     func_021D2A44(rs);
@@ -721,7 +726,7 @@ int func_021D308C(void)
     if (*(int *)(g[1] + 0x40) != 6)
         return 0;
     func_021D29C8(3);
-    rs = func_02090BB8(g[1] + 0x1e00);
+    rs = WM_EndKeySharing(g[1] + 0x1e00);
     if (rs == 2)
         return 1;
     func_021D2A44(rs);
@@ -1270,7 +1275,7 @@ int func_021D36D0(void)
     int rs;
 
     func_021D29C8(3);
-    rs = func_0208F370(g[1] + 0x80, (int)0x021D371C, 2);
+    rs = WM_Initialize(g[1] + 0x80, (int)0x021D371C, 2);
     if (rs == 2)
         return 1;
     func_021D2A44(rs);
@@ -1358,7 +1363,7 @@ void func_021D38C8(unsigned int v)
 
 
 /*
- * Tail-call func_02090B18 with two views of the block behind 0x021DE660.
+ * Tail-call WM_GetSharedDataAddress with two views of the block behind 0x021DE660.
  * Addresses are Black-image addresses.
  */
 void func_021D38DC(int a)
@@ -1366,7 +1371,7 @@ void func_021D38DC(int a)
     int *g = (int *)0x021DE660;
     char *p = (char *)g[1];
 
-    func_02090B18(p + 0x13e0, p + 0x1c00, a);
+    WM_GetSharedDataAddress(p + 0x13e0, p + 0x1c00, a);
 }
 
 
@@ -1459,7 +1464,7 @@ int func_021D3AC8(void)
     if (*(int *)(g[1] + 0x40) != 1)
         func_02088234();
     func_021D29C8(3);
-    if (func_0208F43C((int)0x021D3200) == 2)
+    if (WM_End((int)0x021D3200) == 2)
         return 1;
     func_021D29C8(9);
     return 0;

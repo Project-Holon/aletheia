@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb  arm9
  */
 
 typedef unsigned char u8;
@@ -17,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_0201BEB8(int, int);
-void func_0218A384(int a, int b, int c) { func_0201BEB8(b, c); }
+extern void WAZA_TOOL_GetFlag(int, int);
+void func_0218A384(int a, int b, int c) { WAZA_TOOL_GetFlag(b, c); }

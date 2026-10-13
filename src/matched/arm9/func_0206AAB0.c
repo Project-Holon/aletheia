@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02148B4C       0x02148B4C  data
+ *   g_renderState       0x02148B4C  data
  *
  * The +0x98 twin of func_0206AA8C, same unlabelled-leaf shape in the same
  * gap, same packing (field, one-bit flag at bit 15, payload).
@@ -26,9 +26,9 @@
 
 typedef unsigned int u32;
 
-extern u32 g_02148B4C[];
+extern u32 g_renderState[];
 
 void func_0206AAB0(u32 v, u32 bits, u32 flag)
 {
-    g_02148B4C[0x26] = v | (bits << 16) | ((u32)(flag != 0) << 15);
+    g_renderState[0x26] = v | (bits << 16) | ((u32)(flag != 0) << 15);
 }

@@ -26,6 +26,9 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201D478.c \
  *       --addr 0x0201D478 --thumb
+ *
+ * symbols:
+ *   STRBUF_GetChars  0x02045A90  arm
  */
 
 typedef unsigned char  u8;
@@ -33,7 +36,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct U16Vec;
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u32  func_0201D5CC(const u16 *p);
 extern u16 *func_0201D688(u16 *p);
 
@@ -42,7 +45,7 @@ u32 func_0201D478(void *s)
     u16 *p;
     u16 n = 0;
 
-    p = func_02045A90(s);
+    p = STRBUF_GetChars(s);
 
     while (p[0] != 0xFFFF) {
         if (p[0] == 0xF000) {

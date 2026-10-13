@@ -17,16 +17,16 @@
  * src/matched/func_02035100.c) closes the site with no change here.
  *
  * symbols:
- *   g_021469BC     0x021469BC  data
+ *   gUiState     0x021469BC  data
  *   func_02035100  0x02035100  arm
  */
 
 typedef unsigned int u32;
 
-extern u32  g_021469BC;
+extern u32  gUiState;
 extern u32 func_02035100(u32 *p);
 
 u32 func_02035108(void)
 {
-    return func_02035100((u32 *)g_021469BC);
+    return func_02035100((u32 *)gUiState);
 }

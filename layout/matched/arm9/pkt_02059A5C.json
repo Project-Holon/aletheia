@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02059A5C",
+   "name": "DWC_IsEqualFriendData",
    "address": "0x02059A5C",
    "kind": "sdk",
    "region": "arm9",

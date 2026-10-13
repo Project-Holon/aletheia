@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020240FC",
+   "name": "PMSI_PARAM_Delete",
    "address": "0x020240FC",
    "kind": "game",
    "region": "arm9",

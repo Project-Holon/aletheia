@@ -1,5 +1,5 @@
 /*
- * function: func_02014428
+ * function: FIELD_STATUS_Create
  * address:  0x02014428
  * packet:   pkt_0201441C
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   sBtlSetupFile  0x020A72BC  data
+ *   sFieldStatusFile  0x020A72BC  data
  *   func_02030734  0x02030734  arm
  *
  * Heap-allocates a 0x14-byte block tagged with the file string at
@@ -26,11 +26,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u8    sBtlSetupFile;
+extern u8    sFieldStatusFile;
 
-void func_02014428(u32 heap)
+void FIELD_STATUS_Create(u32 heap)
 {
-    u8 *p = func_02030734(heap, 0x14, 1, (const char *)&sBtlSetupFile, 0x33);
+    u8 *p = func_02030734(heap, 0x14, 1, (const char *)&sFieldStatusFile, 0x33);
 
     ((struct Obj15653 *)p)->f12 = 0;
 }

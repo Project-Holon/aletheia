@@ -8,12 +8,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201AE14
+ * function: POKE_PERSONAL_Delete
  *
  * poke_personal.c's record destructor: four bytes of code and one pool word,
  * a tail call with no argument set-up at all
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  It abuts
- * src/matched/unit_0201ADD0.c on the left, whose sub_0201ADE4 carries the
+ * src/matched/unit_0201ADD0.c on the left, whose POKE_PERSONAL_Create carries the
  * "poke_personal.c" file string.
  *
  * This file used to hold the whole middle of poke_personal.c
@@ -23,7 +23,7 @@
  * personal record through, gets a manifest entry of its own instead of being
  * an interior function with no attestable address
  * (docs/idioms/a-unit-attests-only-its-own-start-address.md).  The other two
- * pieces are src/matched/sub_0201AE1C.c and src/matched/unit_0201AF6C.c; the
+ * pieces are src/matched/POKE_PERSONAL_GetParam.c and src/matched/unit_0201AF6C.c; the
  * C in all three is unchanged, only the file boundaries moved, and no
  * relocation crosses a new boundary.
  *
@@ -38,7 +38,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void sub_0201AE14(void *p)
+void POKE_PERSONAL_Delete(void *p)
 {
     func_020307B0(p);
 }

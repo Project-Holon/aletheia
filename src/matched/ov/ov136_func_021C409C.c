@@ -19,7 +19,7 @@
  *   func_02008FB8 0x02008FB8 thumb
  *   func_02008FC0 0x02008FC0 thumb
  *   func_02008FC8 0x02008FC8 thumb
- *   func_02024570 0x02024570 thumb
+ *   PMSI_PARAM_Copy 0x02024570 thumb
  *   d_021C7EEC 0x021C7EEC data a1
  */
 #include "../include/Obj03834.h"
@@ -42,7 +42,7 @@ extern u8 func_02008FB0(const struct Sub02008F80Obj *obj);
 extern u8 func_02008FB8(const struct Sub02008F80Obj *obj);
 extern u16 func_02008FC0(const struct Sub02008F80Obj *obj);
 extern struct Sub02008F80Entry *func_02008FC8(struct Sub02008F80Obj *obj, u32 i);
-extern void func_02024570(struct Rec8 *dst, const struct Rec8 *src);
+extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
 void *func_021C409C(void *a, unsigned heap)
 {
     u8 *p;
@@ -58,6 +58,6 @@ void *func_021C409C(void *a, unsigned heap)
     p[9] = func_02008FB0(a);
     p[0xA] = func_02008FB8(a);
     ((struct Obj03834 *)p)->f32 = func_02008FC0(a);
-    for (; i < 3; i++) func_02024570((struct Rec8 *)(p + 0x16 + i * 8), (const struct Rec8 *)func_02008FC8(a, (u8)i));
+    for (; i < 3; i++) PMSI_PARAM_Copy((struct Rec8 *)(p + 0x16 + i * 8), (const struct Rec8 *)func_02008FC8(a, (u8)i));
     return p;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02173368
+ * function: INTRUDE_COMM_ScanCallback
  * address:  0x02173368
  * packet:   pkt_ov011_02173368
  * region:   ov011
@@ -12,7 +12,7 @@
  * symbols:
  *   func_0203D1B4  0x0203D1B4  arm
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0217873C  0x0217873C  thumb  ov014
+ *   WIH_IsMatchingParent  0x0217873C  thumb  ov014
  *   func_02177494  0x02177494  thumb  ov014
  *   func_02177BFC  0x02177BFC  thumb  ov014
  *   func_02013D5C  0x02013D5C  thumb
@@ -59,7 +59,7 @@ typedef struct Obj {
 
 extern int func_0203D1B4(void);
 extern u32 func_0200FB24(void);
-extern int func_0217873C(u8 *p);
+extern int WIH_IsMatchingParent(u8 *p);
 extern int func_02177494(u8 *obj, u32 flags);
 extern Rec *func_02177BFC(void *, u8 *);
 extern u32 func_02013D5C(u32 id);
@@ -68,7 +68,7 @@ extern void func_02165C34(struct Rec *r, void *buf);
 extern u8 func_02165D08(struct Rec *r);
 extern u8 func_02165C50(u32 *);
 
-void func_02173368(void *a0, Obj *s)
+void INTRUDE_COMM_ScanCallback(void *a0, Obj *s)
 {
     u8 kind;
     Rec *rec;
@@ -86,7 +86,7 @@ void func_02173368(void *a0, Obj *s)
     if (func_0200FB24() != 0) {
         return;
     }
-    if (func_0217873C(a0) == 0) {
+    if (WIH_IsMatchingParent(a0) == 0) {
         return;
     }
     if (func_02177494(a0, ~0x10) == 0) {

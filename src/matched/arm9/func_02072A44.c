@@ -1,5 +1,5 @@
 /*
- * function: func_02072A44
+ * function: NNS_SndWaveOutAllocChannel
  * address:  0x02072A44
  * packet:   pkt_02072A44
  * region:   arm9
@@ -19,8 +19,8 @@
  * the stride-0x14 table and clears its +8 word; the slot address is returned.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02072A44.c \
- *       --func func_02072A44 --addr 0x02072A44 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_SndWaveOutAllocChannel.c \
+ *       --func NNS_SndWaveOutAllocChannel --addr 0x02072A44 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -36,7 +36,7 @@ typedef struct {
 extern int func_0207292C(int mask);
 extern Slot02072A44 g_0214DECC[];
 
-Slot02072A44 *func_02072A44(u32 idx)
+Slot02072A44 *NNS_SndWaveOutAllocChannel(u32 idx)
 {
     Slot02072A44 *s;
 

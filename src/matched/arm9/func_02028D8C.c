@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02028D8C
+ * function: FIELD_SOUND_SYSTEM_GetCurrentRequest
  * address:  0x02028D8C
  * packet:   pkt_02028D8C
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * field_sound_system.c: pick the command slot the caller should look at.
- * While func_02028DB8 says the ring is idle that is the read cursor at +0xA0;
+ * While FIELD_SOUND_SYSTEM_HasPendingRequest says the ring is idle that is the read cursor at +0xA0;
  * otherwise it is the slot just before the write cursor at +0xA1, which is
  * `(head + 9) % 10` rather than `head - 1` because the subtraction has to wrap
  * (the modulo is a real call to the runtime's signed divide helper, which
@@ -21,11 +21,11 @@
  * each arm and the `&s->queue[i]` is written once after the `if`.
  *
  * symbols:
- *   func_02028DB8  0x02028DB8  thumb
+ *   FIELD_SOUND_SYSTEM_HasPendingRequest  0x02028DB8  thumb
  *   _s32_div_f     0x0209C0A4  arm
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/func_02028D8C.c \
+ *   python tools/match.py tu --src src/matched/FIELD_SOUND_SYSTEM_GetCurrentRequest.c \
  *       --addr 0x02028D8C --thumb
  */
 
@@ -48,13 +48,13 @@ struct Sys {
     u8         head;        /* 0xa1 */
 };
 
-extern int func_02028DB8(void *obj);
+extern int FIELD_SOUND_SYSTEM_HasPendingRequest(void *obj);
 
-struct Cmd *func_02028D8C(struct Sys *s)
+struct Cmd *FIELD_SOUND_SYSTEM_GetCurrentRequest(struct Sys *s)
 {
     s32 i;
 
-    if (func_02028DB8(s) == 0) {
+    if (FIELD_SOUND_SYSTEM_HasPendingRequest(s) == 0) {
         i = s->tail;
     } else {
         i = (s->head + 9) % 10;

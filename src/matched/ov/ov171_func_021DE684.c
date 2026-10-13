@@ -10,7 +10,7 @@
  * symbols:
  *   func_021DE5F4 0x021DE5F4 thumb ov171
  *   func_021DE0E4 0x021DE0E4 thumb ov171
- *   func_0204B800 0x0204B800 arm
+ *   CLACT_SetActorDrawPriority 0x0204B800 arm
  */
 #include "../include/Obj10661.h"
 typedef unsigned char u8;
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern int func_021DE5F4(char *);
 extern void func_021DE0E4(u8 *,int,s16 *,s16 *);
 struct Node;
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 void func_021DE684(u8 *p)
 {
     u8 order[6];
@@ -39,6 +39,6 @@ void func_021DE684(u8 *p)
     }
     for(i=0;i<*(u16 *)(p+((struct Obj10661 *)p)->fC5E*0xbc+0xc4);i++) {
         r=*(void **)(p+order[i]*4+0xb74);
-        if(r) func_0204B800(r,i);
+        if(r) CLACT_SetActorDrawPriority(r,i);
     }
 }

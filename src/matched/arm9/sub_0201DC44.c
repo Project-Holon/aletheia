@@ -1,5 +1,5 @@
 /*
- * function: func_0201DC44
+ * function: GF_FONT_DecodeGlyph
  * address:  0x0201DC44
  * packet:   pkt_0201DB20
  * region:   arm9
@@ -23,7 +23,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201DC44.c \
- *       --func func_0201DC44 --addr 0x0201DC44 --cc 1.1p1 --thumb
+ *       --func GF_FONT_DecodeGlyph --addr 0x0201DC44 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -38,7 +38,7 @@ struct Font {
     u8    unk59;
 };
 
-void func_0201DC44(struct Font *f, const u8 *g, u32 w, void *d, u8 *out)
+void GF_FONT_DecodeGlyph(struct Font *f, const u8 *g, u32 w, void *d, u8 *out)
 {
     f->unk08(g + 3, (u16)w, d);
     out[0] = g[0];

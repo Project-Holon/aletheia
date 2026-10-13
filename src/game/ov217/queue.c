@@ -45,7 +45,7 @@
  *   func_02012138  0x02012138  thumb
  *   func_02026400  0x02026400  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02026498  0x02026498  thumb
+ *   GAME_COMM_SetNotifyFlag  0x02026498  thumb
  *   func_021BF734  0x021BF734  thumb  ov217
  *   func_020121CC  0x020121CC  thumb
  *   func_02082BCC  0x02082BCC  arm
@@ -212,7 +212,7 @@ extern void func_02030EAC(struct Node *n);
 extern u32 func_02012138(const struct Ctx *);
 extern void func_02026400(struct Comm *p);
 extern u32 func_02026454(void *obj);
-extern void func_02026498(void *obj, u32 flag);
+extern void GAME_COMM_SetNotifyFlag(void *obj, u32 flag);
 extern u32 func_021BF734(u8 *);
 extern u32 func_020121CC(struct IcaAnime *p);
 extern void func_02082BCC(void *dst, int val, u32 n);
@@ -647,7 +647,7 @@ u32 func_021C0900(s32 v)
 void func_021C0918(u8 *a0)
 {
     u32 v1 = func_02012138((const struct Ctx *)func_021BF734(a0));
-    func_02026498((void *)v1, 1);
+    GAME_COMM_SetNotifyFlag((void *)v1, 1);
     if (func_02026454((void *)v1) == 2) {
     func_02026400((struct Comm *)v1);
     }
@@ -682,7 +682,7 @@ int func_021C093C(u8 *a0)
 
 void func_021C0968(unsigned char *a0)
 {
-    func_02026498((void *)func_02012138((const struct Ctx *)func_021BF734(a0)), 0);
+    GAME_COMM_SetNotifyFlag((void *)func_02012138((const struct Ctx *)func_021BF734(a0)), 0);
 }
 
 

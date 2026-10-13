@@ -1,5 +1,5 @@
 /*
- * function: func_02037D78
+ * function: GFL_NET_SYSTEM_ResetAll
  * address:  0x02037D78
  * packet:   pkt_02037A6C
  * region:   arm9
@@ -10,32 +10,32 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02037478  0x02037478  arm
- *   g_021469D0     0x021469D0  data
+ *   GFL_NET_SYSTEM_ResetBuffers  0x02037478  arm
+ *   _pNetSys     0x021469D0  data
  *
- * Teardown hook for the same global src/matched/func_02037BE8.c guards: the
- * armed pointer goes to func_02037478, an unarmed one is a `popeq`.
+ * Teardown hook for the same global src/matched/GFL_NET_SYSTEM_ResetMachineBuffer.c guards: the
+ * armed pointer goes to GFL_NET_SYSTEM_ResetBuffers, an unarmed one is a `popeq`.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02037D78.c \
- *       --func func_02037D78 --addr 0x02037D78 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_ResetAll.c \
+ *       --func GFL_NET_SYSTEM_ResetAll --addr 0x02037D78 --cc 1.1p1 --arm
  */
 
 #include "../include/G_LinkState.h"
 
 typedef unsigned int u32;
 
-extern void func_02037478(void);
-extern struct LinkState *g_021469D0;
+extern void GFL_NET_SYSTEM_ResetBuffers(void);
+extern struct LinkState *_pNetSys;
 
-void func_02037D78(void)
+void GFL_NET_SYSTEM_ResetAll(void)
 {
     u32 v;
 
-    v = (*(u32 *)&g_021469D0);
+    v = (*(u32 *)&_pNetSys);
     if (v == 0)
         return;
-    func_02037478();
+    GFL_NET_SYSTEM_ResetBuffers();
 }

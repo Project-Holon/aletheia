@@ -22,7 +22,7 @@
  *   func_02177B2C  0x02177B2C  thumb  ov014
  *   func_02177BAC  0x02177BAC  thumb  ov014
  *   func_0203F1FC  0x0203F1FC  arm
- *   func_021780C4  0x021780C4  thumb  ov014
+ *   NET_WHPIPE_SelectEntry  0x021780C4  thumb  ov014
  *   func_02177BCC  0x02177BCC  thumb  ov014
  *   func_0203F328  0x0203F328  arm
  *   func_0203D010 0x0203D010 arm
@@ -89,7 +89,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern DeliveryBeaconSlot *func_02177B2C(int index);
 extern void func_02177BAC(u32 index);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void func_021780C4(u32 index);
+extern void NET_WHPIPE_SelectEntry(u32 index);
 extern void func_02177BCC(void);
 extern void func_0203F328(u16 *data, u32 size, u32 seed);
 extern void func_0203D010(void);
@@ -250,7 +250,7 @@ void func_02157760(DeliveryBeacon *work)
             } else {
                 if (work->lockedSender == DELIVERY_BEACON_NO_SENDER)
                     work->lockedSender = entry->senderId;
-                func_021780C4(i);
+                NET_WHPIPE_SelectEntry(i);
                 func_02082D44(entry, &work->slots[0][pieceIndex], sizeof(DeliveryBeaconSlot));
                 func_02177BCC();
             }

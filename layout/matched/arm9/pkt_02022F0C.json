@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02022F0C",
+   "name": "WIPE_SUB_RequestLineMaskHBlank",
    "address": "0x02022F0C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02022F24",
+   "name": "WIPE_SUB_RequestLineMaskHBlankEnd",
    "address": "0x02022F24",
    "kind": "game",
    "region": "arm9",

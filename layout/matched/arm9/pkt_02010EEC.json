@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02010EEC",
+   "name": "GPOWER_GetSelectedMinutesLeft",
    "address": "0x02010EEC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02010F50",
+   "name": "GPOWER_ClearType",
    "address": "0x02010F50",
    "kind": "game",
    "region": "arm9",

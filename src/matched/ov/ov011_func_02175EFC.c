@@ -1,5 +1,5 @@
 /*
- * function: func_02175EFC
+ * function: INTRUDE_COMM_FillMemberName
  * address: 0x02175EFC
  * packet: pkt_ov011_02175EFC
  * region: ov011
@@ -25,7 +25,7 @@ extern u32 func_02026478(void *);
 extern int func_021583EC(void *, int);
 extern u32 func_020084F8(void *, u32, u32);
 extern int func_02008550(const Sub0200852CObj *);
-void func_02175EFC(void *w, Ent *p, u8 index)
+void INTRUDE_COMM_FillMemberName(void *w, Ent *p, u8 index)
 {
     int rec;
     p->index = index;

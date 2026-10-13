@@ -1,5 +1,5 @@
 /*
- * function: func_02015DD4
+ * function: MCSS_FlipMepachiFlag
  * address:  0x02015DD4
  * packet:   pkt_02015DD4
  * region:   arm9
@@ -20,7 +20,7 @@ struct R {
     unsigned int f : 1;
 };
 
-void func_02015DD4(void *p)
+void MCSS_FlipMepachiFlag(void *p)
 {
     ((struct R *)((char *)p + 0x140))->f ^= 1;
 }

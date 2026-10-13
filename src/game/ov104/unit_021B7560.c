@@ -33,11 +33,11 @@
  *   func_0204E804 0x0204E804 arm
  *   func_021B71E4 0x021B71E4 thumb ov101
  *   func_021B63D0 0x021B63D0 thumb ov101
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   d_021B8F78 0x021B8F78 data a4
  *   func_0203F8F4 0x0203F8F4 arm
  *   func_02045088 0x02045088 arm
@@ -65,7 +65,7 @@
  *   d_020A1448 0x020A1448 data
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_0204ABF0 0x0204ABF0 arm
@@ -301,11 +301,11 @@ extern void func_0204E720(u32,int,int,int);
 extern int func_0204E804(void);
 extern void func_021B71E4(int);
 extern int func_021B63D0(struct Obj *p);
-extern void func_0204335C(u32 keep);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
+extern void BG_SYS_ClearMainPlanes(void);
 extern void func_0203F8F4(u16);
 extern void func_02045088(u16);
 extern void func_0203FC28(struct DispConfig *);
@@ -328,7 +328,7 @@ extern void func_0203F9B4(void);
 extern void func_020419E4(void);
 extern void func_0204A48C(const struct Cfg *,u32,u32);
 extern struct Bank *func_0204B100(int,u8,u32);
-extern void func_0204B270(struct Bank *);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
 extern void func_020434DC(u32,u32);
 extern void func_02043598(u32,u32);
 extern signed int func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
@@ -569,7 +569,7 @@ int func_021B77EC(void *a,u32 *state,void *b,u8 *p) {
 
 
 
-void func_021B78EC(u8 *p,u16 a) { func_02082BCC(p,0,0xbc); func_0204335C(0); func_020433E0((const struct DispVram *)d_021B8F78); func_0204363C(0); func_0204361C(); func_020434CC(); func_021B7B2C((u32 *)(p+4),d_021B8F78,a); func_021B7994(p,a); ((struct Obj22215 *)p)->fB8=func_020056A0((u32)((void (*)(void *))func_021B7980), (u32)p, 0); }
+void func_021B78EC(u8 *p,u16 a) { func_02082BCC(p,0,0xbc); BG_SYS_ClearGraphicsMemory(0); func_020433E0((const struct DispVram *)d_021B8F78); func_0204363C(0); func_0204361C(); BG_SYS_ClearMainPlanes(); func_021B7B2C((u32 *)(p+4),d_021B8F78,a); func_021B7994(p,a); ((struct Obj22215 *)p)->fB8=func_020056A0((u32)((void (*)(void *))func_021B7980), (u32)p, 0); }
 
 
 
@@ -669,7 +669,7 @@ void func_021B7B2C(u32 *p,const void *config,u16 heap) {
  func_02082BCC(p,0,0xb4);
  func_0204A48C(&d_020A1448,(u32)config,heap);
  p[0]=(u32)func_0204B100(0x80,0,heap);
- func_0204B270((struct Bank *)p[0]);
+ CLACT_SetUnitDefaultRenderer((struct Bank *)p[0]);
  func_020434DC(0x10,1);
  func_02043598(0x10,1);
  archive=func_020490F4(0x5e,heap);
@@ -1506,7 +1506,7 @@ static inline int convert(int v)
 
 /*
  * Evidence: 44-byte particle layout from ov104_func_021B8D20; float
- * runtime identities from matched func_0204CC6C; object callees from
+ * runtime identities from matched CLACT_ApplyActorTransform; object callees from
  * their own matched units. Unsigned shifts preserve 32-bit wrapping;
  * explicit runtime conversion retains all signed input values.
  */

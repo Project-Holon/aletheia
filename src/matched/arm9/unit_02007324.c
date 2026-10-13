@@ -11,18 +11,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02007324, sub_0200734C
+ * function: SAVE_CONTROL_CreateExtraSaveWithBuffer, SAVE_CONTROL_DeleteExtraSaveBuffered
  *
  * symbols:
  *   sub_02007324_Table  0x0209D950  data
  *   sub_0200734C_File   0x020A7064  data
- *   func_0203195C       0x0203195C  arm
- *   func_02031948       0x02031948  arm
+ *   BACKUP_SYSTEM_Delete       0x0203195C  arm
+ *   BACKUP_SYSTEM_CreateWithWork       0x02031948  arm
  *   func_02034714       0x02034714  arm
  *
  * The open-for-write that does not register the stream afterwards, and a
- * second copy of the close.  sub_02007324 passes zero where sub_020072CC
- * passes one as the fifth argument of func_02031948, and stores the result
+ * second copy of the close.  SAVE_CONTROL_CreateExtraSaveWithBuffer passes zero where sub_020072CC
+ * passes one as the fifth argument of BACKUP_SYSTEM_CreateWithWork, and stores the result
  * with a plain `str r0, [r1, #0x14]` rather than through the `+0x14` base
  * register the other accessors build, because the slot is written once and
  * never read back in this function.
@@ -31,7 +31,7 @@
  * stream id and passed by address.  Three pool words in this original file
  * name it, at 0x020072A0, 0x02007320 and 0x02007348, and the first two are
  * outside this range, which is what carries it under the `literal` class.
- * func_02031948 is likewise reached from exactly two places in the image,
+ * BACKUP_SYSTEM_CreateWithWork is likewise reached from exactly two places in the image,
  * 0x020072EE and 0x0200733C, so the cut at 0x02007324 is what leaves the one
  * inside this range a witness.
  */
@@ -59,22 +59,22 @@ struct Sub02007324Ctrl {
 extern struct Sub02007324Desc sub_02007324_Table[];
 extern const char sub_0200734C_File[];
 
-extern void *func_02031948(struct Sub02007324Desc *desc, u32 heap, u32 a,
+extern void *BACKUP_SYSTEM_CreateWithWork(struct Sub02007324Desc *desc, u32 heap, u32 a,
                            u32 b, u32 c);
-extern void func_0203195C(u8 *p);
+extern void BACKUP_SYSTEM_Delete(u8 *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-void sub_02007324(struct Sub02007324Ctrl *ctrl, u32 id, u32 heap, u32 a,
+void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct Sub02007324Ctrl *ctrl, u32 id, u32 heap, u32 a,
                   u32 b)
 {
-    ctrl->unk14[id] = func_02031948(&sub_02007324_Table[id], heap, a, b, 0);
+    ctrl->unk14[id] = BACKUP_SYSTEM_CreateWithWork(&sub_02007324_Table[id], heap, a, b, 0);
 }
 
-void sub_0200734C(struct Sub02007324Ctrl *ctrl, u32 id)
+void SAVE_CONTROL_DeleteExtraSaveBuffered(struct Sub02007324Ctrl *ctrl, u32 id)
 {
     if (ctrl->unk14[id] == 0) {
         func_02034714(sub_0200734C_File, 0, sub_0200734C_File);
     }
-    func_0203195C(ctrl->unk14[id]);
+    BACKUP_SYSTEM_Delete(ctrl->unk14[id]);
     ctrl->unk14[id] = 0;
 }

@@ -17,7 +17,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02012ED0  0x02012ED0  thumb
- *   func_0201213C  0x0201213C  thumb
+ *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
  *   func_0215F630  0x0215F630  thumb  ov010
  *   func_0215F64C  0x0215F64C  thumb  ov010
  *   func_021666A4  0x021666A4  thumb  ov010
@@ -36,7 +36,7 @@ struct Big;
 void *func_020120F4(const struct Ctx *p);
 u8 *func_02012944(void *p);
 u8 *func_02012ED0(struct Big *p);
-void func_0201213C(struct Ctx *p, u32 v);
+void GAMESYSTEM_SetCommBlocked(struct Ctx *p, u32 v);
 int func_0215F630(void *p);
 int func_0215F64C(int a0, int *st, int *a2);
 void func_021666A4(int a0);
@@ -51,6 +51,6 @@ void *func_0215F6E8(void *p)
     r6[1] = (int)func_0215F630((void *)r4);
     r6[2] = (int)func_02012944((void *)r4);
     func_021666A4((int)func_02012ED0((struct Big *)r4));
-    func_0201213C(p, 0);
+    GAMESYSTEM_SetCommBlocked(p, 0);
     return r7;
 }

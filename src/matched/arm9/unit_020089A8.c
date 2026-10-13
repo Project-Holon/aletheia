@@ -18,7 +18,7 @@
  *
  * symbols:
  *   MI_CpuFill8   0x02082BCC  arm
- *   sub_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *
  * alias: the save block with id 0x21, 0x658 bytes, and its accessors.  The
  * original file is closed the same way unit_02008828.c is: it opens with the
@@ -86,7 +86,7 @@ typedef unsigned long long u64;
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 struct Sub020071CCCtrl;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 
 #define BLOCK_ID 0x21
 
@@ -128,7 +128,7 @@ void sub_020089B0(struct Sub020089A8Obj *obj)
 
 struct Sub020089A8Obj *sub_020089C0(void *sys)
 {
-    return sub_020071CC(sys, BLOCK_ID);
+    return SAVE_CONTROL_GetBlock(sys, BLOCK_ID);
 }
 
 void sub_020089CC(void)

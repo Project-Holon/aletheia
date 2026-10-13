@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0204A6C8",
+   "name": "CLACT_RegisterCharacter",
    "address": "0x0204A6C8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204A7A0",
+   "name": "CLACT_RegisterEmptyCharacter",
    "address": "0x0204A7A0",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_02027100
+ * function: GAME_BEACON_SetQuestionnaire
  * address:  0x02027100
  * packet:   pkt_020266E0
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146940   0x02146940  data
+ *   GAME_BEACON_Work   0x02146940  data
  *   MI_CpuCopy8  0x02082D44  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *g_02146940;
+extern void *GAME_BEACON_Work;
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 struct Sub {
@@ -32,9 +32,9 @@ struct Struct_02027100 {
     struct Sub sub;
 };
 
-void func_02027100(const void *src)
+void GAME_BEACON_SetQuestionnaire(const void *src)
 {
-    struct Struct_02027100 *ptr = *(struct Struct_02027100 **)&g_02146940;
+    struct Struct_02027100 *ptr = *(struct Struct_02027100 **)&GAME_BEACON_Work;
     struct Sub *sub = &ptr->sub;
 
     MI_CpuCopy8(src, sub->field_50, 10);

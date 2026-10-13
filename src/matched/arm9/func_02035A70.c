@@ -1,5 +1,5 @@
 /*
- * function: func_02035A70
+ * function: TOUCHPANEL_HitCircle
  * address:  0x02035A70
  * packet:   pkt_02035760
  * region:   arm9
@@ -25,15 +25,15 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02035A70.c \
- *       --func func_02035A70 --addr 0x02035A70 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TOUCHPANEL_HitCircle.c \
+ *       --func TOUCHPANEL_HitCircle --addr 0x02035A70 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 typedef signed int    s32;
 typedef unsigned int  u32;
 
-u32 func_02035A70(u8 *p, s32 x, s32 y)
+u32 TOUCHPANEL_HitCircle(u8 *p, s32 x, s32 y)
 {
     s32 dx = p[1] - x;
     s32 dy = p[2] - y;

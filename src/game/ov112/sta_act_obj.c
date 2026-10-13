@@ -21,11 +21,11 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  *   func_0204F638 0x0204F638 arm
- *   func_0204F428 0x0204F428 arm
+ *   BILLBOARD_AddElem 0x0204F428 arm
  *   func_0204F720 0x0204F720 arm
  *   d_021F8328 0x021F8328 data a4
- *   func_0204F5A8 0x0204F5A8 arm
- *   func_0204F150 0x0204F150 arm
+ *   BILLBOARD_FreeElem 0x0204F5A8 arm
+ *   BILLBOARD_DeleteImage 0x0204F150 arm
  */
 #include "../../matched/include/Obj08023.h"
 
@@ -57,10 +57,10 @@ typedef struct { u16 heap,n; void *board; Entry_021F6B18 entries[5]; } Object_02
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *);
 extern void func_0204F638(u8 *a0, int i, struct Trip *src);
-extern s32 func_0204F428(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
+extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
 extern void func_0204F720(void *,u32,u32 *);
-extern void func_0204F5A8(void *, u32);
-extern void func_0204F150(u8 *a0, int i);
+extern void BILLBOARD_FreeElem(void *, u32);
+extern void BILLBOARD_DeleteImage(u8 *a0, int i);
 Object_021F69E4 *func_021F69E4(u16 heap, void *p);
 void func_021F6A24(char *p);
 void func_021F6A58(char *p);
@@ -125,15 +125,15 @@ Entry_021F6B18 *func_021F6B18(Object_021F6B18 *o)
     for(i=0;i<5;i++) if(o->entries[i].active==0) break;
     p=&o->entries[i];
     p->active=1; p->dirty=1; p->x=0; p->y=0; p->z=0;
-    p->index=func_0204F428(o->board,p->id,4096,4096,(struct Vec3 *)(&p->x),31,0,0);
+    p->index=BILLBOARD_AddElem(o->board,p->id,4096,4096,(struct Vec3 *)(&p->x),31,0,0);
     func_0204F720(o->board,p->index,&d_021F8328);
     return p;
 }
 
 void func_021F6B80(u32 *a, u32 *b)
 {
-    func_0204F5A8((void *)a[1], b[6]);
-    func_0204F150((void *)a[1], b[5]);
+    BILLBOARD_FreeElem((void *)a[1], b[6]);
+    BILLBOARD_DeleteImage((void *)a[1], b[5]);
     b[0]=0;
 }
 

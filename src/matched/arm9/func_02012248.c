@@ -1,5 +1,5 @@
 /*
- * function: func_02012248
+ * function: GAMESYSTEM_RegisterSleepCallback
  * address:  0x02012248
  * packet:   pkt_02012158
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012220  0x02012220  thumb
+ *   GAMESYSTEM_OnSleep  0x02012220  thumb
  *   func_02035138  0x02035138  arm
  *
- * Promoted from src/pending/func_02012248.c.  The C never changed; the ISA
+ * Promoted from src/pending/GAMESYSTEM_RegisterSleepCallback.c.  The C never changed; the ISA
  * on the second symbols line did.  The tail call goes through the pool word
  * 0x02035138, i.e. an ARM target with no Thumb bit - the parked copy
  * declared it `thumb`, so the word match.py looked for was 0x02035139 and
@@ -26,18 +26,18 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012248.c \
- *       --func func_02012248 --addr 0x02012248 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_RegisterSleepCallback.c \
+ *       --func GAMESYSTEM_RegisterSleepCallback --addr 0x02012248 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
 struct IcaAnime;
 
-extern void func_02012220(struct IcaAnime *p);
+extern void GAMESYSTEM_OnSleep(struct IcaAnime *p);
 extern void func_02035138(void *fn, u32 arg);
 
-void func_02012248(struct IcaAnime *p)
+void GAMESYSTEM_RegisterSleepCallback(struct IcaAnime *p)
 {
-    func_02035138((void *)func_02012220, (u32)p);
+    func_02035138((void *)GAMESYSTEM_OnSleep, (u32)p);
 }

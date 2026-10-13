@@ -38,19 +38,19 @@
  *   func_0201D83C 0x0201D83C thumb
  *   func_02045C04 0x02045C04 arm
  *   d_021B8018 0x021B8018 data a4
- *   func_02005A98 0x02005A98 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_LoadWaveArcSet 0x02005A98 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02005B04 0x02005B04 thumb
  *   func_0201AA18 0x0201AA18 thumb
  *   func_0201AB28 0x0201AB28 thumb
- *   func_02017D30 0x02017D30 thumb
+ *   POKE_TOOL_DecodePartyParam 0x02017D30 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_02017D70 0x02017D70 thumb
+ *   POKE_TOOL_EncodePartyParam 0x02017D70 thumb
  *   func_02006CAC 0x02006CAC thumb
- *   func_020069D4 0x020069D4 thumb
+ *   PM_VOICE_Prepare 0x020069D4 thumb
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  *   d_021B8040 0x021B8040 data a4
  *   func_02046440 0x02046440 arm
@@ -59,8 +59,8 @@
  *   func_02046788  0x02046788  arm
  *   func_02047964 0x02047964 arm
  *   func_020479D8 0x020479D8 arm
- *   func_02014C08 0x02014C08 thumb
- *   func_02014D2C 0x02014D2C thumb
+ *   MCSS_Main 0x02014C08 thumb
+ *   MCSS_Draw 0x02014D2C thumb
  *   func_02047970 0x02047970 arm
  *   func_0204EA38 0x0204EA38 arm
  *   func_02050BE8 0x02050BE8 arm
@@ -74,28 +74,28 @@
  *   func_02051230 0x02051230 arm
  *   d_021B8108 0x021B8108 data a4
  *   func_02050DB8  0x02050DB8  arm
- *   func_020515B4 0x020515B4 arm
+ *   PARTICLE_StartEffect 0x020515B4 arm
  *   d_021B80CC 0x021B80CC data a4
- *   func_02051758 0x02051758 arm
- *   func_02051648 0x02051648 arm
- *   func_02014B08 0x02014B08 thumb
- *   func_02016020 0x02016020 thumb
- *   func_02015BF0 0x02015BF0 thumb
+ *   PARTICLE_ReleaseCamera 0x02051758 arm
+ *   PARTICLE_InitCamera 0x02051648 arm
+ *   MCSS_Init 0x02014B08 thumb
+ *   MCSS_SetTextureTransAdrs 0x02016020 thumb
+ *   MCSS_SetOrthoMode 0x02015BF0 thumb
  *   func_02048A24 0x02048A24 arm
  *   func_02048AD0 0x02048AD0 arm
  *   d_021B8034 0x021B8034 data a4
  *   d_021B801C 0x021B801C data a4
  *   d_021B8028 0x021B8028 data a4
  *   func_02048AC4  0x02048AC4  arm
- *   func_02014BA8  0x02014BA8  thumb
+ *   MCSS_Exit  0x02014BA8  thumb
  *   d_021B80C0 0x021B80C0 data a4
- *   func_02017100 0x02017100 thumb
- *   func_020159C8 0x020159C8 thumb
- *   func_02015CAC 0x02015CAC thumb
- *   func_02015E04 0x02015E04 thumb
- *   func_02015BA4  0x02015BA4  thumb
- *   func_02015C30 0x02015C30 thumb
- *   func_02015C48 0x02015C48 thumb
+ *   MCSS_TOOL_MakeAddWorkFromPP 0x02017100 thumb
+ *   MCSS_Add 0x020159C8 thumb
+ *   MCSS_SetScale 0x02015CAC thumb
+ *   MCSS_SetAnmStopFlag 0x02015E04 thumb
+ *   MCSS_Del  0x02015BA4  thumb
+ *   MCSS_GetPosition 0x02015C30 thumb
+ *   MCSS_SetPosition 0x02015C48 thumb
  *   _fflt 0x0209BDBC arm
  *   _fmul 0x0209C95C arm
  *   _fdiv 0x0209CB8C arm
@@ -117,24 +117,24 @@
  *   func_021B6188 0x021B6188 thumb ov180
  *   func_021B7D44 0x021B7D44 thumb ov180
  *   func_020061E4 0x020061E4 thumb
- *   func_02006254 0x02006254 thumb
+ *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   func_021B78E0 0x021B78E0 thumb ov180
  *   func_021B7C08 0x021B7C08 thumb ov180
  *   func_021B7750 0x021B7750 thumb ov180
- *   func_02006A64 0x02006A64 thumb
+ *   PM_VOICE_Start 0x02006A64 thumb
  *   func_02006BD0 0x02006BD0 thumb
  *   func_0204363C 0x0204363C arm
  *   func_021B7D80 0x021B7D80 thumb ov180
  *   func_021B6170 0x021B6170 thumb ov180
  *   func_021B7F0C 0x021B7F0C thumb ov180
- *   func_02005E50 0x02005E50 thumb
- *   func_02005D28 0x02005D28 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_021B7C60 0x021B7C60 thumb ov180
- *   func_02015E4C 0x02015E4C thumb
+ *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
  *   func_021B7F38 0x021B7F38 thumb ov180
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_0202208C 0x0202208C thumb
  *   func_020056EC 0x020056EC thumb
  *   func_02041F28  0x02041F28  arm
@@ -147,13 +147,13 @@
  *   func_02025588 0x02025588 thumb
  *   func_0204B1CC 0x0204B1CC arm
  *   func_0204A5AC 0x0204A5AC arm
- *   func_0204B944 0x0204B944 arm
- *   func_0204B8D4 0x0204B8D4 arm
+ *   CLACT_GetActorAutoAnim 0x0204B944 arm
+ *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   func_0204A600 0x0204A600 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B454 0x0204B454 arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   func_0204B878 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B98C  0x0204B98C  arm
@@ -344,19 +344,19 @@ extern void func_02045808(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 func_0201D83C(void *ptr);
 extern u32 func_02045C04(struct Rec *rec);
-extern struct Sub02005A98Hdr *func_02005A98(const u32 *,u32);
-extern void func_02005D90(u32,u32);
+extern struct Sub02005A98Hdr *GFL_USE_LoadWaveArcSet(const u32 *,u32);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32,u32);
 extern void func_02005B04(const u32 *arg);
 extern unsigned func_0201AA18(void *);
 extern void *func_0201AB28(void *,unsigned);
-extern u32 func_02017D30(struct Sav *p);
+extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_02017D70(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern void func_02006CAC(void **out);
-extern int func_020069D4(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
+extern int PM_VOICE_Prepare(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
 extern void func_0207DC44(int,int,int,int);
 extern void func_0207DD24(u16,int,int,int,int);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(unsigned,unsigned);
 extern void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
 extern struct Util *func_02047CFC(u16,u16,u16);
@@ -364,8 +364,8 @@ extern void func_02047E54(struct Rec *p);
 extern void func_02046788(void);
 extern void func_02047964(void);
 extern void func_020479D8(void);
-extern void func_02014C08(char *);
-extern void func_02014D2C(struct McssSys *);
+extern void MCSS_Main(char *);
+extern void MCSS_Draw(struct McssSys *);
 extern void func_02047970(void);
 extern unsigned func_0204EA38(void);
 extern void func_02050BE8(void);
@@ -378,23 +378,23 @@ extern int func_02050C04(int a, int b, int c, int d);
 extern int func_0205121C(u32 a, u32 b, u32 c);
 extern void func_02051230(void *,void *,int,int);
 extern void func_02050DB8(u8 *p);
-extern int func_020515B4(void *p, int b, int c);
-extern int func_02051758(int a0);
-extern void func_02051648(void *,Desc *,unsigned short,void *,void *,void *,unsigned);
-extern void *func_02014B08(u32 id, void *heap);
-extern void func_02016020(void *,unsigned);
-extern void func_02015BF0(void *);
+extern int PARTICLE_StartEffect(void *p, int b, int c);
+extern int PARTICLE_ReleaseCamera(int a0);
+extern void PARTICLE_InitCamera(void *,Desc *,unsigned short,void *,void *,void *,unsigned);
+extern void *MCSS_Init(u32 id, void *heap);
+extern void MCSS_SetTextureTransAdrs(void *,unsigned);
+extern void MCSS_SetOrthoMode(void *);
 extern void *func_02048A24(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,void *,void *,void *,unsigned short);
 extern void func_02048AD0(struct Light *l);
 extern u32 func_02048AC4(void *ptr);
-extern void func_02014BA8(u8 *a0);
-extern void func_02017100(void *p, struct Stats *out, u32 lvl);
-extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
-extern void func_02015CAC(void *p, u32 *src);
-extern void func_02015E04(void *p);
-extern void func_02015BA4(void *sys, void *obj);
-extern void func_02015C30(void *p, u32 *out);
-extern void func_02015C48(void *p, u32 *src);
+extern void MCSS_Exit(u8 *a0);
+extern void MCSS_TOOL_MakeAddWorkFromPP(void *p, struct Stats *out, u32 lvl);
+extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
+extern void MCSS_SetScale(void *p, u32 *src);
+extern void MCSS_SetAnmStopFlag(void *p);
+extern void MCSS_Del(void *sys, void *obj);
+extern void MCSS_GetPosition(void *p, u32 *out);
+extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_02015F2C(int, void *, void *, int);
 extern void func_021B7D5C(void *p);
 extern void func_021B7F30(void *p);
@@ -411,8 +411,8 @@ extern void func_021B6158(int *);
 extern void func_021B6188(u8 *p);
 extern void func_021B7D44(int *);
 extern void func_020061E4(u32_021B6BAC);
-extern int func_02006254(u32_021B6BAC);
-extern int func_02006A64(u32_021B6BAC);
+extern int GFL_USE_IsSeqPlaying(u32_021B6BAC);
+extern int PM_VOICE_Start(u32_021B6BAC);
 extern u32_021B6BAC func_02006BD0(u32_021B6BAC i);
 extern void func_0204363C(u32_021B6F34 swap);
 extern void func_021B7D80(char *);
@@ -420,8 +420,8 @@ extern void func_021B6170(int *p);
 extern void func_021B7F0C(int *p);
 extern u32_021B6FAC func_020362DC(void);
 extern int func_02035C60(void);
-extern int func_02005E50(void);
-extern void func_02005D28(void),func_020061E4(u32_021B6FAC),func_02005E30(u32_021B6FAC),func_02015E4C(void *);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void),func_020061E4(u32_021B6FAC),GFL_USE_FadeOutBgm(u32_021B6FAC),MCSS_ResetAnmStopFlag(void *);
 extern void func_021B7C60(char *p, int index, unsigned value);
 extern void func_021B692C(char *),func_021B699C(char *,int),func_021B69F8(char *),func_021B6984(char *),func_021B7F38(char *);
 extern void func_0202208C(void *p1, u32_021B7210 p2, u32_021B7210 p3, u32_021B7210 p4, u32_021B7210 p5, u32_021B7210 p6, u32_021B7210 p7);
@@ -434,13 +434,13 @@ extern void *func_02025538(unsigned int a0, void *a1);
 extern void func_02025588(void *);
 extern u32_021B7390 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
-extern u32_021B73B0 func_0204B944(struct Obj *p);
-extern void func_0204B8D4(struct Obj *p, u32_021B73B0 arg);
+extern u32_021B73B0 CLACT_GetActorAutoAnim(struct Obj *p);
+extern void CLACT_AddActorAnimFrame(struct Obj *p, u32_021B73B0 arg);
 extern void func_0204A600(void);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32_021B73E4 which);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void func_0204B8C4(struct Obj *,u32_021B7488),func_0204B878(struct Obj *,u16),func_0204B92C(struct Obj *,u32_021B7488);
+extern void CLACT_SetActorAnimFrame(struct Obj *,u32_021B7488),func_0204B878(struct Obj *,u16),func_0204B92C(struct Obj *,u32_021B7488);
 extern u32_021B74B4 func_0204B98C(struct Actor *a);
 extern void func_0204A8D4(u32_021B7510);
 extern void func_0204ADA4(u32_021B7530);
@@ -611,7 +611,7 @@ void func_021B6474(char *p) {func_02045808(((struct Obj05469 *)p)->f9040);func_0
 
 
 
-void func_021B64AC(char *p) {*(struct Sub02005A98Hdr * *)&((struct Obj02515 *)p)->fC=func_02005A98(d_021B8018,1);func_02005D90(1015,65535);}
+void func_021B64AC(char *p) {*(struct Sub02005A98Hdr * *)&((struct Obj02515 *)p)->fC=GFL_USE_LoadWaveArcSet(d_021B8018,1);GFL_USE_CancelChangeAndPlayBgm(1015,65535);}
 
 
 
@@ -628,9 +628,9 @@ void func_021B64DC(unsigned char *p) {
  unsigned i; void *mon; unsigned saved;
  p[0x915E]=0;
  for(i=0;i<func_0201AA18(**(void ** *)&((struct Obj02515 *)p)->f0);i++) {
-  mon=func_0201AB28(**(void ** *)&((struct Obj02515 *)p)->f0,i); saved=func_02017D30(mon);
+  mon=func_0201AB28(**(void ** *)&((struct Obj02515 *)p)->f0,i); saved=POKE_TOOL_DecodePartyParam(mon);
   if(func_02017E1C(mon,76,0)==0) { *(void **)(p+(unsigned char)p[0x915E]*4+0x9140)=mon; p[0x915E]++; }
-  func_02017D70(mon,saved);
+  POKE_TOOL_EncodePartyParam(mon,saved);
  }
 }
 
@@ -641,11 +641,11 @@ void func_021B64DC(unsigned char *p) {
 void func_021B654C(char *p) {
  void *mon; unsigned saved;
  mon=*(void **)(p+(unsigned char)p[0x915D]*4+0x9140);
- saved=func_02017D30(mon);
+ saved=POKE_TOOL_DecodePartyParam(mon);
  ((struct Obj08297 *)p)->f9158=func_02017E1C(mon,5,0);
  ((struct Obj08297 *)p)->f915A=func_02017E1C(mon,174,0);
  p[0x915C]=func_02017E1C(mon,111,0);
- func_02017D70(mon,saved);
+ POKE_TOOL_EncodePartyParam(mon,saved);
 }
 
 
@@ -656,8 +656,8 @@ void func_021B65A0(char *p) {
  unsigned value;
  if(((struct Obj04568 *)p)->f9158==441) {
   func_02006CAC((void **)(&value));
-  ((struct Obj04568 *)p)->f9184=func_020069D4(((struct Obj04568 *)p)->f9158,(unsigned char)p[0x915C],64,0,0,0,0,(int)(&value));
- } else ((struct Obj04568 *)p)->f9184=func_020069D4(((struct Obj04568 *)p)->f9158,(unsigned char)p[0x915C],64,0,0,0,0,0);
+  ((struct Obj04568 *)p)->f9184=PM_VOICE_Prepare(((struct Obj04568 *)p)->f9158,(unsigned char)p[0x915C],64,0,0,0,0,(int)(&value));
+ } else ((struct Obj04568 *)p)->f9184=PM_VOICE_Prepare(((struct Obj04568 *)p)->f9158,(unsigned char)p[0x915C],64,0,0,0,0,0);
 }
 
 
@@ -678,7 +678,7 @@ void func_021B65FC(void) {
  REG(0x04000060)&=(u16)~0x3020;
  func_0207DC44(0,0,0,0); func_0207DD24(0,0,32767,63,0);
  *(volatile unsigned *)0x04000580=0xBFFF0000;
- for(i=0;i<4;i++) func_02046A94((unsigned char)i,(const u16 *)(d_021B8040+i*8));
+ for(i=0;i<4;i++) G3D_SYSTEM_SetLight((unsigned char)i,(const u16 *)(d_021B8040+i*8));
  func_02046BE0(1,0);
 }
 
@@ -703,7 +703,7 @@ void func_021B66D4(int *p)
 
 
 
-void func_021B66E4(char *p) {func_02047964();func_020479D8();func_02014C08(*(char * *)&((struct Obj14398 *)p)->f18);func_02014D2C(*(struct McssSys * *)&((struct Obj14398 *)p)->f18);func_02047970();}
+void func_021B66E4(char *p) {func_02047964();func_020479D8();MCSS_Main(*(char * *)&((struct Obj14398 *)p)->f18);MCSS_Draw(*(struct McssSys * *)&((struct Obj14398 *)p)->f18);func_02047970();}
 
 
 
@@ -754,7 +754,7 @@ void func_021B67B4(int *p)
 
 
 
-void func_021B67C4(char *p,int a){Triple v;v=d_021B80CC;func_020515B4(((struct Obj24485 *)p)->f28,a,(int)((int *)&v));}
+void func_021B67C4(char *p,int a){Triple v;v=d_021B80CC;PARTICLE_StartEffect(((struct Obj24485 *)p)->f28,a,(int)((int *)&v));}
 
 
 
@@ -779,7 +779,7 @@ void func_021B682C(int *p, int a)
 {
     int buf[3] = {0, 0, 0};
 
-    func_020515B4(((struct Obj24486 *)p)->f2C, a, (int)buf);
+    PARTICLE_StartEffect(((struct Obj24486 *)p)->f2C, a, (int)buf);
 }
 
 
@@ -791,8 +791,8 @@ void func_021B6844(char *p,void *q,int mode) {
   if(mode==1) { d.b=0x4000; d.c=-0x4000; } else { d.b=0xE000; d.c=0x6000; }
   d.d=-0x5548; d.e=0x5548; d.a=2; d.g=d.a<<21;
   d.f=0; d.h=0;
-  func_02051758((int)q);
-  func_02051648(q,&d,0x2000,0,0,0,141);
+  PARTICLE_ReleaseCamera((int)q);
+  PARTICLE_InitCamera(q,&d,0x2000,0,0,0,141);
  }
 }
 
@@ -800,7 +800,7 @@ void func_021B6844(char *p,void *q,int mode) {
 
 
 void func_021B68A8(char *p) {
- ((struct Obj00547 *)p)->f18=func_02014B08(1,(void *)141); func_02016020(((struct Obj00547 *)p)->f18,0); func_02015BF0(((struct Obj00547 *)p)->f18);
+ ((struct Obj00547 *)p)->f18=MCSS_Init(1,(void *)141); MCSS_SetTextureTransAdrs(((struct Obj00547 *)p)->f18,0); MCSS_SetOrthoMode(((struct Obj00547 *)p)->f18);
  ((struct Obj00547 *)p)->f20=func_02048A24(2,0x60000,0xFFFA0000,0xFFF80000,0x80000,0x1000,0x400000,0,d_021B8034,d_021B801C,d_021B8028,141);
  func_02048AD0(((struct Obj00547 *)p)->f20);
 }
@@ -813,7 +813,7 @@ void func_021B6914(int *p)
 {
     func_021B6984((char *)p);
     func_02048AC4((void *)(((struct Obj04569 *)p)->f20));
-    func_02014BA8((u8 *)(((struct Obj04569 *)p)->f18));
+    MCSS_Exit((u8 *)(((struct Obj04569 *)p)->f18));
 }
 
 
@@ -822,10 +822,10 @@ void func_021B6914(int *p)
 void func_021B692C(char *p) {
     Params params;
     Vec pos=d_021B80C0;
-    func_02017100((void *)(*(int *)(p+0x9140+((struct Obj06586 *)p)->f915D*4)),(struct Stats *)(&params),0);
-    ((struct Obj06586 *)p)->f1C=(int)func_020159C8((struct Obj *)(((struct Obj06586 *)p)->f18),0xb0000,-196608,0,(const struct Sub150 *)(&params));
-    func_02015CAC((void *)(((struct Obj06586 *)p)->f1C),(u32 *)(&pos));
-    func_02015E04((void *)(((struct Obj06586 *)p)->f1C));
+    MCSS_TOOL_MakeAddWorkFromPP((void *)(*(int *)(p+0x9140+((struct Obj06586 *)p)->f915D*4)),(struct Stats *)(&params),0);
+    ((struct Obj06586 *)p)->f1C=(int)MCSS_Add((struct Obj *)(((struct Obj06586 *)p)->f18),0xb0000,-196608,0,(const struct Sub150 *)(&params));
+    MCSS_SetScale((void *)(((struct Obj06586 *)p)->f1C),(u32 *)(&pos));
+    MCSS_SetAnmStopFlag((void *)(((struct Obj06586 *)p)->f1C));
 }
 
 
@@ -833,14 +833,14 @@ void func_021B692C(char *p) {
 
 
 /*
- * 2026-10-05: the callee func_02015BA4 takes a second argument (r1 = the field value tested); the caller passes it.
+ * 2026-10-05: the callee MCSS_Del takes a second argument (r1 = the field value tested); the caller passes it.
  */
 void func_021B6984(char *p)
 {
     int v = *(int *)(p + 0x1c);
 
     if (v != 0) {
-        func_02015BA4((void *)(*(int *)(p + 0x18)), (void *)v);
+        MCSS_Del((void *)(*(int *)(p + 0x18)), (void *)v);
         *(int *)(p + 0x1c) = 0;
     }
 }
@@ -851,11 +851,11 @@ void func_021B6984(char *p)
 void func_021B699C(char *p,int v) {
     Vec pos;
     float delta;
-    func_02015C30((void *)(((struct Obj14402 *)p)->f1C),(u32 *)(&pos));
+    MCSS_GetPosition((void *)(((struct Obj14402 *)p)->f1C),(u32 *)(&pos));
     if(v>0) delta=0.5f*(float)(v<<12);
     else delta=(float)(v<<12)/0.5f;
     pos.x=pos.x+(int)delta;
-    func_02015C48((void *)(((struct Obj14402 *)p)->f1C),(u32 *)(&pos));
+    MCSS_SetPosition((void *)(((struct Obj14402 *)p)->f1C),(u32 *)(&pos));
 }
 
 
@@ -863,7 +863,7 @@ void func_021B699C(char *p,int v) {
 
 
 /*
- *   func_02015E04 (0x02015E04) stays wildcarded because the target is an
+ *   MCSS_SetAnmStopFlag (0x02015E04) stays wildcarded because the target is an
  *   unlabelled leaf emitted inside a .word run -- no traced func_ start,
  *   no branch outside this range, no literal pool word elsewhere, so
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
@@ -871,7 +871,7 @@ void func_021B699C(char *p,int v) {
  */
 void func_021B69E8(int *p)
 {
-    func_02015E04((void *)(((struct Obj14403 *)p)->f1C));
+    MCSS_SetAnmStopFlag((void *)(((struct Obj14403 *)p)->f1C));
     ((struct Obj14403 *)p)->f24 = 1;
 }
 
@@ -955,7 +955,7 @@ int func_021B6BAC(char *p) {
     case 0: ++((struct Obj00299 *)p)->f9190;return func_021B7268(p,32);
     case 1: func_020061E4(0x79B);++((struct Obj00299 *)p)->f9190;break;
     case 2: if(++((struct Obj00299 *)p)->f9188==48){func_020061E4(0x79C);((struct Obj00299 *)p)->f9188=0;++((struct Obj00299 *)p)->f9190;}break;
-    case 3: if(func_02006254(0x79C)==0){
+    case 3: if(GFL_USE_IsSeqPlaying(0x79C)==0){
         func_020061E4(0x79A);func_021B654C(p);func_021B65A0(p);func_021B6778(p);func_021B67EC(p);func_021B761C(p);func_021B78E0(p);func_021B7C08(p);func_021B7750(p);
         ++((struct Obj00299 *)p)->f9190;return func_021B7210(p,5);
     }break;
@@ -978,7 +978,7 @@ int func_021B6BAC(char *p) {
         if(coords[7]!=48)func_021B7438((u8 *)p,0,16,0);
         else if(busy==0){func_020061E4(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[7];((struct Obj00299 *)p)->f9162=coords[6];++((struct Obj00299 *)p)->f9190;}
         func_021B7C08(p);break;
-    case 11: if(func_021B72B0(p,0)==0){func_02006A64(((struct Obj00299 *)p)->f9184);func_021B746C((int *)p,4,1);func_021B7488((u8 *)p,4,6);++((struct Obj00299 *)p)->f9190;return func_021B7268(p,128);}break;
+    case 11: if(func_021B72B0(p,0)==0){PM_VOICE_Start(((struct Obj00299 *)p)->f9184);func_021B746C((int *)p,4,1);func_021B7488((u8 *)p,4,6);++((struct Obj00299 *)p)->f9190;return func_021B7268(p,128);}break;
     case 12: if(func_02006BD0(((struct Obj00299 *)p)->f9184)==0 && func_021B74B4((int *)p,4)==0)++((struct Obj00299 *)p)->f9190;break;
     case 13: func_021B7408((u8 *)p,0,&coords[5],&coords[4]);if(coords[5]!=-48)func_021B7438((u8 *)p,0,-16,0);else ++((struct Obj00299 *)p)->f9190;break;
     case 14: func_021B7408((u8 *)p,3,&coords[3],&coords[2]);if(coords[3]!=264)func_021B7438((u8 *)p,3,16,0);else ++((struct Obj00299 *)p)->f9190;func_021B7C08(p);break;
@@ -1007,11 +1007,11 @@ int func_021B6F80(char *p){func_021B6188((u8 *)p);func_021B7F0C((int *)p);func_0
 
 
 /*
- * Caller evidence: 021B74B4 leaves its forwarded return in r0, read here; 02005E50 is the matched zero-argument sub_02005E50.
+ * Caller evidence: 021B74B4 leaves its forwarded return in r0, read here; 02005E50 is the matched zero-argument GFL_USE_IsBgmFading.
  */
 int func_021B6FAC(char *p) {
     int ready;
-    if(((struct Obj00242 *)p)->f9198==1 && func_020221A4()==1 && func_02005E50()==0) { func_02005D28();return 9; }
+    if(((struct Obj00242 *)p)->f9198==1 && func_020221A4()==1 && GFL_USE_IsBgmFading()==0) { GFL_USE_CancelChangeAndStopBgm();return 9; }
     switch(((struct Obj00242 *)p)->f9190) {
     case 0: ++((struct Obj00242 *)p)->f9190;return func_021B7268(p,32);
     case 1: func_020061E4(0x79D);++((struct Obj00242 *)p)->f9190;break;
@@ -1030,7 +1030,7 @@ int func_021B6FAC(char *p) {
         else {if(((struct Obj00242 *)p)->f9188==128)ready=1;}
         if(ready==1){func_021B692C(p);((struct Obj00242 *)p)->f9188=0;++((struct Obj00242 *)p)->f9190;}else ++((struct Obj00242 *)p)->f9188;break;
     case 9:
-        if(((struct Obj00242 *)p)->f9188!=20){func_021B699C(p,-8);++((struct Obj00242 *)p)->f9188;}else{func_02015E4C(((struct Obj00242 *)p)->f1C);((struct Obj00242 *)p)->f9188=0;++((struct Obj00242 *)p)->f9190;}break;
+        if(((struct Obj00242 *)p)->f9188!=20){func_021B699C(p,-8);++((struct Obj00242 *)p)->f9188;}else{MCSS_ResetAnmStopFlag(((struct Obj00242 *)p)->f1C);((struct Obj00242 *)p)->f9188=0;++((struct Obj00242 *)p)->f9190;}break;
     case 10: if(((struct Obj00242 *)p)->f9188!=128)++((struct Obj00242 *)p)->f9188;else{func_021B69F8(p);((struct Obj00242 *)p)->f9188=0;++((struct Obj00242 *)p)->f9190;}break;
     case 11:
         if(((struct Obj00242 *)p)->f24!=0){
@@ -1040,7 +1040,7 @@ int func_021B6FAC(char *p) {
     }
     if(((struct Obj00242 *)p)->f9190>=6)func_021B7F38(p);
     if(((struct Obj00242 *)p)->f9190>=8 && ((struct Obj00242 *)p)->f9198==0 && ((func_020362DC()&3)!=0 || func_02035C60()==1)){
-        ((struct Obj00242 *)p)->f9198=1;func_02005E30(220);func_021B723C(p,9,188);
+        ((struct Obj00242 *)p)->f9198=1;GFL_USE_FadeOutBgm(220);func_021B723C(p,9,188);
     }
     return 8;
 }
@@ -1115,7 +1115,7 @@ void func_021B7390(char *p){func_02025588(((struct Obj04569 *)p)->f911C);func_02
 
 
 
-void func_021B73B0(char *p){u32_021B73B0 i;char *q;for(i=0;i<33;i++){q=p+i*4;if(((struct Obj10720 *)q)->f9048&&func_0204B944(((struct Obj10720 *)q)->f9048)!=1)func_0204B8D4(((struct Obj10720 *)q)->f9048,4096);}func_0204A600();}
+void func_021B73B0(char *p){u32_021B73B0 i;char *q;for(i=0;i<33;i++){q=p+i*4;if(((struct Obj10720 *)q)->f9048&&CLACT_GetActorAutoAnim(((struct Obj10720 *)q)->f9048)!=1)CLACT_AddActorAnimFrame(((struct Obj10720 *)q)->f9048,4096);}func_0204A600();}
 
 
 
@@ -1142,7 +1142,7 @@ void func_021B746C(int *p, int i, int a)
 
 
 
-void func_021B7488(u8 *p,int n,int v) { func_0204B8C4(*(struct Obj **)(p+0x9048+n*4),0); func_0204B878(*(struct Obj **)(p+0x9048+n*4),v); func_0204B92C(*(struct Obj **)(p+0x9048+n*4),1); }
+void func_021B7488(u8 *p,int n,int v) { CLACT_SetActorAnimFrame(*(struct Obj **)(p+0x9048+n*4),0); func_0204B878(*(struct Obj **)(p+0x9048+n*4),v); func_0204B92C(*(struct Obj **)(p+0x9048+n*4),1); }
 
 
 

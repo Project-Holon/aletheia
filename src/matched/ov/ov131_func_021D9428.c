@@ -1,5 +1,5 @@
 /*
- * function: func_021D9428
+ * function: P_STA_RIBBON_GetRowOwnedIndex
  * address:  0x021D9428
  * packet:   pkt_021D9428
  * region:   ov131
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D93E4  0x021D93E4  thumb
+ *   P_STA_RIBBON_GetOwnedIndex  0x021D93E4  thumb
  *
  * Addresses are Black-image addresses.
  */
 
-extern unsigned int func_021D93E4(unsigned char *, unsigned int);
+extern unsigned int P_STA_RIBBON_GetOwnedIndex(unsigned char *, unsigned int);
 
-unsigned int func_021D9428(unsigned char *p, unsigned int target)
+unsigned int P_STA_RIBBON_GetRowOwnedIndex(unsigned char *p, unsigned int target)
 {
-    unsigned int r = func_021D93E4(p, target);
+    unsigned int r = P_STA_RIBBON_GetOwnedIndex(p, target);
 
     if (r < p[0x10])
         return r;

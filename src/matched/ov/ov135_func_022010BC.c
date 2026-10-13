@@ -24,14 +24,14 @@
  *   func_021B99F0  0x021B99F0  thumb  ov114
  *   func_021B99F4  0x021B99F4  thumb  ov114
  *   func_021B9A14  0x021B9A14  thumb  ov114
- *   func_0200FB4C  0x0200FB4C  thumb
- *   func_0200F7B8  0x0200F7B8  thumb
+ *   GFL_NET_ERR_RaiseFatal  0x0200FB4C  thumb
+ *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
  *   func_02082D44  0x02082D44  arm
  *   func_0220254C  0x0220254C  thumb
  *   func_0200FBB0  0x0200FBB0  thumb
- *   func_0203CA04  0x0203CA04  arm
+ *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
  *   func_0200FBA0  0x0200FBA0  thumb
- *   func_0203C968  0x0203C968  arm
+ *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
  */
 
 typedef signed char s8;
@@ -65,14 +65,14 @@ extern void func_021B9838(u8 *p);
 extern int func_021B99F0(u8 *p);
 extern u32 func_021B99F4(u32 p, u32 i);
 extern u8 *func_021B9A14(u8 *p, u32 i);
-extern void func_0200FB4C(u32 id);
-extern u32 func_0200F7B8(u32 a0);
+extern void GFL_NET_ERR_RaiseFatal(u32 id);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern void func_02082D44(const void *src, void *dst, u32 n);
 extern void func_0220254C(void *mon, u32 heap);
 extern u32 func_0200FBB0(void);
-extern void func_0203CA04(void);
+extern void GFL_NET_STATE_SetWifiError(void);
 extern void func_0200FBA0(void);
-extern void func_0203C968(void);
+extern void GFL_NET_STATE_ClearErrorMode(void);
 
 int func_022010BC(Work *p)
 {
@@ -86,32 +86,32 @@ int func_022010BC(Work *p)
         rec = func_021B97F4(p->wm);
         switch (st) {
         case 400:
-            func_0200FB4C(0x41);
-            func_0200F7B8(0);
+            GFL_NET_ERR_RaiseFatal(0x41);
+            GFL_NET_ERR_ShowScreen(0);
             func_021B9774(p->wm);
             func_021B99B8(p->wm);
             func_021B9838(p->wm);
             p->state = 0x2C;
             return 2;
         case 401:
-            func_0200FB4C(0x42);
-            func_0200F7B8(0);
+            GFL_NET_ERR_RaiseFatal(0x42);
+            GFL_NET_ERR_ShowScreen(0);
             func_021B9774(p->wm);
             func_021B99B8(p->wm);
             func_021B9838(p->wm);
             p->state = 0x2C;
             return 2;
         case 408:
-            func_0200FB4C(0x44);
-            func_0200F7B8(0);
+            GFL_NET_ERR_RaiseFatal(0x44);
+            GFL_NET_ERR_ShowScreen(0);
             func_021B9774(p->wm);
             func_021B99B8(p->wm);
             func_021B9838(p->wm);
             p->state = 0x2C;
             return 2;
         default:
-            func_0200FB4C(0x43);
-            func_0200F7B8(0);
+            GFL_NET_ERR_RaiseFatal(0x43);
+            GFL_NET_ERR_ShowScreen(0);
             func_021B9774(p->wm);
             func_021B99B8(p->wm);
             func_021B9838(p->wm);
@@ -150,9 +150,9 @@ int func_022010BC(Work *p)
         func_021B99B8(p->wm);
         func_021B9838(p->wm);
         func_0200FBB0();
-        func_0203CA04();
+        GFL_NET_STATE_SetWifiError();
         func_0200FBA0();
-        func_0203C968();
+        GFL_NET_STATE_ClearErrorMode();
     }
     return 2;
 }

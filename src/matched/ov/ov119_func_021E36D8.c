@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02015EA0  0x02015EA0  thumb
- *   func_02015BA4  0x02015BA4  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
+ *   MCSS_Del  0x02015BA4  thumb
  *
  * Teardown of one slot of the 0x844 vector: releases it through
- * func_02015EA0, hands (the shared 0x840 handle, the slot value) to
- * func_02015BA4, then clears the slot.
+ * MCSS_SetVanishFlag, hands (the shared 0x840 handle, the slot value) to
+ * MCSS_Del, then clears the slot.
  *
  * Addresses are Black-image addresses.
  */
@@ -23,16 +23,16 @@
 
 typedef unsigned int u32;
 
-extern void func_02015EA0(void *p);
-extern void func_02015BA4(void *sys, void *obj);
+extern void MCSS_SetVanishFlag(void *p);
+extern void MCSS_Del(void *sys, void *obj);
 
 void func_021E36D8(void *p, int idx)
 {
     u32 v = ((u32 *)((char *)p + 0x844))[idx];
 
     if (v != 0) {
-        func_02015EA0((void *)v);
-        func_02015BA4((void *)(*(u32 *)&((struct Obj00001 *)p)->f840), (void *)(((u32 *)((char *)p + 0x844))[idx]));
+        MCSS_SetVanishFlag((void *)v);
+        MCSS_Del((void *)(*(u32 *)&((struct Obj00001 *)p)->f840), (void *)(((u32 *)((char *)p + 0x844))[idx]));
         ((u32 *)((char *)p + 0x844))[idx] = 0;
     }
 }

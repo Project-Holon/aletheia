@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200560C, sub_02005610, sub_02005624, sub_02005640,
- *           sub_02005654, sub_0200566C
+ * function: GFL_USE_NoOpFrameHook, GFL_USE_RunHBlankTasks, GFL_USE_AddHBlankTask, GFL_USE_CallVBlankHook,
+ *           GFL_USE_SetVBlankHook, GFL_USE_ClearVBlankHook
  *
  * symbols:
  *   sub_02005610_Sys  0x020AA194  data
@@ -21,15 +21,15 @@
  *
  * Six functions on the one system record at 0x020AA194 that the whole of this
  * packet reaches its state through.  Three of the six carry no label, because
- * they save nothing: sub_0200560C is two bytes of `bx lr` padded to four, the
+ * they save nothing: GFL_USE_NoOpFrameHook is two bytes of `bx lr` padded to four, the
  * empty hook shape
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md records;
- * sub_02005610 is a tail call through a pool word; and sub_02005654 is a two
+ * GFL_USE_RunHBlankTasks is a tail call through a pool word; and GFL_USE_SetVBlankHook is a two
  * arm register-and-return.
  *
- * sub_02005640 calls the hook at +8 with the argument at +0 when the hook is
- * present, sub_02005654 installs the pair only when the slot is free, and
- * sub_0200566C clears both.  In all three the store to +8 comes before the
+ * GFL_USE_CallVBlankHook calls the hook at +8 with the argument at +0 when the hook is
+ * present, GFL_USE_SetVBlankHook installs the pair only when the slot is free, and
+ * GFL_USE_ClearVBlankHook clears both.  In all three the store to +8 comes before the
  * store to +0, which is the source order.
  *
  * The record's +0x10 is the object src/matched/unit_020056A0.c calls its
@@ -74,28 +74,28 @@ struct Node;
 extern void func_02030D28(struct Ctx *c);
 extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
 
-void sub_0200560C(void)
+void GFL_USE_NoOpFrameHook(void)
 {
 }
 
-void sub_02005610(void)
+void GFL_USE_RunHBlankTasks(void)
 {
     func_02030D28(sub_02005610_Sys.unk10->unk18);
 }
 
-void *sub_02005624(u32 a, u32 b, u32 c)
+void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c)
 {
     return func_02030DA8(sub_02005610_Sys.unk10->unk18, a, b, c);
 }
 
-void sub_02005640(void)
+void GFL_USE_CallVBlankHook(void)
 {
     if (sub_02005610_Sys.unk08 != 0) {
         sub_02005610_Sys.unk08(sub_02005610_Sys.unk00);
     }
 }
 
-u32 sub_02005654(void (*fn)(void *), void *arg)
+u32 GFL_USE_SetVBlankHook(void (*fn)(void *), void *arg)
 {
     if (sub_02005610_Sys.unk08 != 0) {
         return 0;
@@ -105,7 +105,7 @@ u32 sub_02005654(void (*fn)(void *), void *arg)
     return 1;
 }
 
-void sub_0200566C(void)
+void GFL_USE_ClearVBlankHook(void)
 {
     sub_02005610_Sys.unk08 = 0;
     sub_02005610_Sys.unk00 = 0;

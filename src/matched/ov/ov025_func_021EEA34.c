@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   func_020056EC  0x020056EC  thumb
- *   func_0204B908  0x0204B908  arm
+ *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   func_021A21B8  0x021A21B8  thumb  ov021
  *   func_021A21C8  0x021A21C8  thumb  ov021
  *   func_021A2630  0x021A2630  thumb  ov021
@@ -28,7 +28,7 @@ typedef struct {
 } Pt;
 
 extern u32 func_020056EC(u32 v);
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern int *func_021A21B8(int *p);
 extern void *func_021A21C8(void *p, int a1);
 extern unsigned char *func_021A2630(unsigned char *o);
@@ -52,7 +52,7 @@ void func_021EEA34(int a, int n, int idx)
         }
         e = (int *)func_021A2630((unsigned char *)obj);
         h = func_021A2638((unsigned char *)obj);
-        func_0204B908(h, (u16)func_020056EC(4));
+        CLACT_SetActorAnimIndex(h, (u16)func_020056EC(4));
         e[4] = 0;
         e[5] = 0;
         e[8] = 0;

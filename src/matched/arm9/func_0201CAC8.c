@@ -1,5 +1,5 @@
 /*
- * function: func_0201CAC8
+ * function: PRINTSYS_ProcGeneralTag
  * address:  0x0201CAC8
  * packet:   pkt_0201CAC8
  * region:   arm9
@@ -16,8 +16,8 @@
  *
  * printsys.c: applies one 0xF000 control block whose code byte is 0xBD -- the
  * "set colour / align line" family -- and steps the cursor past the block.
- * Called from exactly one place image-wide, 0x0201C9D0 inside func_0201C974,
- * which is why func_0201C974 resolved that call `sole-ref/code` until this
+ * Called from exactly one place image-wide, 0x0201C9D0 inside PRINTSYS_PrintStep,
+ * which is why PRINTSYS_PrintStep resolved that call `sole-ref/code` until this
  * file existed; it is `matched` now.
  *
  * The dispatch is a DENSE switch on a 7-entry PC-relative halfword table at
@@ -44,9 +44,9 @@
  *
  * Also corrected against docs/families/printsys.h as it stood: the measuring
  * arms (cases 2 and 3) hand func_020437DC the handle at PrintCtx+0x14, not
- * +0x18; +0x18 is the renderer hook func_0201C974 calls through.  And
+ * +0x18; +0x18 is the renderer hook PRINTSYS_PrintStep calls through.  And
  * PrintCtx+0x04 is a SIGNED 10-BIT BITFIELD (`lsls #0x16 / asrs #0x16`), not
- * a u32 flag word -- the same fact src/matched/func_0201C974.c records.
+ * a u32 flag word -- the same fact src/matched/PRINTSYS_PrintStep.c records.
  *
  * Case order in the source is 0, 1, 3, 2, 4, 5, 6: the table's displacements
  * put case 3's body (0x0201CB7E) before case 2's (0x0201CBB6), and this
@@ -78,7 +78,7 @@ struct Bmp;
 extern u32 func_0201D26C(u16 *p, void *font, u32 spacing, u16 **next);
 extern u16 func_020437DC(const struct Bmp *bmp);
 
-u16 *func_0201CAC8(struct PrintCtx *c, u16 *p)
+u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *c, u16 *p)
 {
     u32 arg;
     u16 v = *p;

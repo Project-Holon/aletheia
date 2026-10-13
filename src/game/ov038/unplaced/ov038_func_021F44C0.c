@@ -32,69 +32,75 @@
  *   func_021587B0 0x021587B0 thumb ov010
  *   d_021F465C 0x021F465C data a4
  */
+#include "../unit_021F36C0_types.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-typedef enum { ID_ZERO } Id;
-typedef struct { int x, y, z; } V3;
-struct Big;
-struct Ctx;
-struct Obj;
-extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int i);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-typedef signed int     s32;
-struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern void *func_021BE674(char *p, int i, unsigned int j, u16 k);
-extern void func_021BE6B0(u8 *p, int v);
-extern void func_021BE6CC(int p, int i, int j, u16 k, int v);
-extern V3 *func_021BE480(void *p, int i, u16 j);
-extern int func_021BE6BC(int *p);
-extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
-extern int func_021587B0(int a0, int a1, int a2, int a3);
-extern const V3 d_021F465C[];
+/* The enum type keeps the narrowing of the script event ids, see the note above. */
+typedef enum { SCRIPT_EVENT_ID_ZERO } ScriptEventId;
+struct GameSystem;
+struct GameData;
+struct GimmickWork;
+struct GameEvent;
+extern void *func_020124E4(struct GameEvent *event);
+extern void *func_0201210C(const struct GameSystem *gameSystem);
+extern int func_02188D2C(int *fieldMap);
+extern struct Gimmick38Runtime *func_021897BC(char *fieldMap, int idx);
+extern void *func_02188C80(void *fieldMap);
+extern void *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GimmickWork *func_02012EC4(struct GameData *gameData);
+extern void *func_0200B3A4(struct GimmickWork *gimmickSave, u32 gimmickId);
+extern void func_021BE700(void *expObj, int unitIdx, int modelIdx, int animeIdx, int enable);
+extern void *func_021BE674(char *expObj, int unitIdx, unsigned int modelIdx, u16 animeIdx);
+extern void func_021BE6B0(u8 *anime, int paused);
+extern void func_021BE6CC(int expObj, int unitIdx, int modelIdx, u16 animeIdx, int frame);
+extern VecFx32 *func_021BE480(void *expObj, int unitIdx, u16 modelIdx);
+extern int func_021BE6BC(int *anime);
+extern int func_02158780(void *gameSystem, u16 scriptId, int arg1, int arg2, u16 flags);
+extern int func_021587B0(int gameSystem, int scriptId, int arg1, int flags);
+extern const VecFx32 d_021F465C[];
 
-int func_021F44C0(void *a, int *state)
+/*
+ * Event: shows the effect model at the position of the variant, calls the
+ * first script event, waits for the effect animation and calls the second.
+ */
+int func_021F44C0(void *event, int *state)
 {
-    void *sys;
-    void *h;
-    u8 *s;
+    void *fieldMap;
+    void *expObj;
+    Gimmick38Runtime *runtime;
+    u8 *anime;
     int i;
-    Id id;
+    ScriptEventId scriptId;
 
-    sys = (void *)func_0201210C(func_020124E4(a));
-    h = (void *)func_02188D2C(sys);
-    s = (u8 *)func_021897BC(sys, 1);
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(sys))), 6);
+    fieldMap = (void *)func_0201210C(func_020124E4(event));
+    expObj = (void *)func_02188D2C(fieldMap);
+    runtime = func_021897BC(fieldMap, 1);
+    func_0200B3A4(func_02012EC4((struct GameData *)func_020120F4((void *)func_02188C80(fieldMap))), 6);
     switch (*state) {
     case 0:
         for (i = 0; i < 2; i++) {
-            func_021BE700(h, 0, 0x20, (u16)i, 1);
-            func_021BE6B0(func_021BE674(h, 0, 0x20, i), 0);
-            func_021BE6CC((int)h, 0, 0x20, i, 0);
+            func_021BE700(expObj, 0, 0x20, (u16)i, 1);
+            func_021BE6B0(func_021BE674(expObj, 0, 0x20, i), 0);
+            func_021BE6CC((int)expObj, 0, 0x20, i, 0);
         }
-        *func_021BE480(h, 0, 0x20) = d_021F465C[s[2]];
+        *func_021BE480(expObj, 0, 0x20) = d_021F465C[runtime->scriptVariant];
         *state = *state + 1;
         break;
     case 1:
-        id = 4;
-        if (s[2] == 0)
-            id = 3;
-        func_02158780(a, (u16)id, 0, 0, 0x8015);
+        scriptId = 4;
+        if (runtime->scriptVariant == 0)
+            scriptId = 3;
+        func_02158780(event, (u16)scriptId, 0, 0, 0x8015);
         *state = *state + 1;
         break;
     case 2:
-        if (func_021BE6BC(func_021BE674(h, 0, 0x20, 0))) {
-            id = 6;
-            if (s[2] == 0)
-                id = 5;
-            func_021587B0((int)a, (u16)id, 0, 0x8015);
+        if (func_021BE6BC(func_021BE674(expObj, 0, 0x20, 0))) {
+            scriptId = 6;
+            if (runtime->scriptVariant == 0)
+                scriptId = 5;
+            func_021587B0((int)event, (u16)scriptId, 0, 0x8015);
             *state = *state + 1;
         }
         break;

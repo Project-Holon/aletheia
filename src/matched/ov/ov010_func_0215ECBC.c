@@ -24,7 +24,7 @@
  *   func_02158780  0x02158780  thumb  ov010
  *   func_02159058  0x02159058  thumb  ov010
  *   func_02014468  0x02014468  thumb
- *   func_02014464  0x02014464  thumb
+ *   FIELD_STATUS_SetFlashActive  0x02014464  thumb
  *   func_02165534  0x02165534  thumb  ov010
  *   func_021C7E50  0x021C7E50  thumb  ov021
  *   func_02014470  0x02014470  thumb
@@ -56,7 +56,7 @@ extern u16 func_02188C84(u8 *p);
 extern void *func_02158780(void *a, u32 id, u32 b, u32 c, u32 d);
 extern int func_02159058(int a, int b, int c, int d, u16 e);
 extern u8 func_02014468(struct Sub02014444Obj *o);
-extern void func_02014464(struct Sub02014444Obj *o, u8 v);
+extern void FIELD_STATUS_SetFlashActive(struct Sub02014444Obj *o, u8 v);
 extern void func_02165534(void *a0);
 extern void func_021C7E50(u8 *p, u16 v);
 extern u16 func_02014470(struct Sub02014444Obj *o);
@@ -89,7 +89,7 @@ int func_0215ECBC(void *a0, int *state, Arg *arg)
     case 1:
         if (func_02014468(obj2) == 0) {
             o = func_02012B38(obj);
-            func_02014464(obj2, 1);
+            FIELD_STATUS_SetFlashActive(obj2, 1);
             func_02165534((void *)0x94);
             func_021C7E50(ctl, 1);
             func_0201446C(o, (func_02014470(o) & ~1) | 2);

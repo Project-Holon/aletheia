@@ -14,7 +14,7 @@
  *   func_0203159C  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
- *   func_0203D0D0  0x0203D0D0  arm
+ *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
  *   func_0207D63C  0x0207D63C  arm
  *   func_021BA780  0x021BA780  thumb  ov100
  */
@@ -28,7 +28,7 @@ struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(int, int, int);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void func_0203D0D0(void);
+extern void GFL_NET_IRC_WIRELESS_Exit(void);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_021BA780(char *p);
 
@@ -46,7 +46,7 @@ int func_021BB414(struct Obj0203159C *a, int b, int c)
     ((struct Obj00178 *)a)->fCB4 =
         (int)func_02030734(((struct Obj00178 *)a)->f278, 0x200, 0, (const char *)0x021BB8AC, 0xb07);
     func_021BA780((char *)a);
-    func_0203D0D0();
+    GFL_NET_IRC_WIRELESS_Exit();
     func_0207D63C(0x04000050, 0x10, 3, 9, 0xe);
     return 1;
 }

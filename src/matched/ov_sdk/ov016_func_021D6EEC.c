@@ -12,17 +12,17 @@
  * sdk:      DWCi_OBJlEnd (libdwcutil.TWL.HYB.a(obj.o))
  *
  * symbols:
- *   func_021D7744  0x021D7744  arm  ov016
+ *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
  *   func_021D6438  0x021D6438  arm  ov016
  *   g_021DE6A8  0x021DE6A8  data
  */
 
-extern void func_021D7744(unsigned int idx, void *r4);
+extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
 extern void func_021D6438(void **mem);
 extern char *g_021DE6A8;
 
 void func_021D6EEC(void)
 {
-	func_021D7744(1, *(void **)(g_021DE6A8 + 0x808));
+	DWCi_TSKlDeleteByIndex(1, *(void **)(g_021DE6A8 + 0x808));
 	func_021D6438((void *)0x021DE6A8);
 }

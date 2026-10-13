@@ -18,7 +18,7 @@
  *   func_02045808 0x02045808 arm
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
- *   func_0204581C 0x0204581C arm
+ *   STRBUF_Clear 0x0204581C arm
  *   func_0216C0D4 0x0216C0D4 thumb ov010
  *   func_0216C0E4 0x0216C0E4 thumb ov010
  *   func_021F46B4 0x021F46B4 thumb ov194
@@ -44,7 +44,7 @@ extern void func_0201CE48(struct Rec3 *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0204581C(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern signed char func_02012FFC(void);
 /* The caller consumes R0 returned by the legacy void forwarding wrapper. */
@@ -64,7 +64,7 @@ void func_021F3EF0(char *p,char *q,int *w,u32 heap)
     func_0201F164(set,1,w[4],w[5]);
     if(((struct Obj04591 *)p)->f0) func_0201CE48((struct Rec3 *)(((struct Obj04591 *)p)->f0));
     func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)&((struct Obj03900 *)q)->f14)),((struct Obj03900 *)q)->f20);
-    func_0204581C(((struct Obj03900 *)q)->f1C);
+    STRBUF_Clear(((struct Obj03900 *)q)->f1C);
     func_0201F250(set,((struct Obj03900 *)q)->f1C,(void *)w[3]);
     ((struct Obj04591 *)p)->f0=func_0201CCE4(((struct Obj03900 *)q)->f14,0,0,*(u32 *)&((struct Obj03900 *)q)->f1C,((struct Obj03900 *)q)->f4,func_02012FFC(),((struct Obj04591 *)p)->f4,2,heap,((struct Obj03900 *)q)->f20);
     ((struct Obj04591 *)p)->fE=0;

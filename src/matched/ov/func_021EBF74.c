@@ -10,6 +10,8 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_AddActorAnimFrame  0x0204B8D4  arm  arm9
+ *   CLACT_GetActorAutoAnim  0x0204B944  arm  arm9
  *
  * Sweep 0x2d slots of the 0x9E74 array, restarting each live one.
  *   The element address must be a named `int *row = (int *)(p + i*4)`
@@ -20,19 +22,19 @@
 
 typedef unsigned int   u32;
 struct Obj;
-extern u32 func_0204B944(struct Obj *p);
-extern void func_0204B8D4(struct Obj *p, u32 arg);
+extern u32 CLACT_GetActorAutoAnim(struct Obj *p);
+extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void func_0204A600(void);
-extern u32 func_0204B944(struct Obj *p);
-extern void func_0204B8D4(struct Obj *p, u32 arg);
+extern u32 CLACT_GetActorAutoAnim(struct Obj *p);
+extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void func_0204A600(void);
 void func_021EBF74(char *p)
 {
     unsigned i;
     for (i = 0; i < 0x2d; i++) {
         int *row = (int *)(p + i * 4);
-        if (row[0x279d] != 0 && func_0204B944((struct Obj *)row[0x279d]) != 1)
-            func_0204B8D4((struct Obj *)row[0x279d], 0x1000);
+        if (row[0x279d] != 0 && CLACT_GetActorAutoAnim((struct Obj *)row[0x279d]) != 1)
+            CLACT_AddActorAnimFrame((struct Obj *)row[0x279d], 0x1000);
     }
     func_0204A600();
 }

@@ -1,5 +1,5 @@
 /*
- * function: sub_020399A8
+ * function: GFL_NET_HANDLE_GetCurrentHandle
  * address:  0x020399A8
  * packet:   pkt_020398B4
  * region:   arm9
@@ -17,7 +17,7 @@
  * func_0203996C through r0, and that entry is returned.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020399A8.c  *       --func sub_020399A8 --addr 0x020399A8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_GetCurrentHandle.c  *       --func GFL_NET_HANDLE_GetCurrentHandle --addr 0x020399A8 --cc 1.1p1 --arm
  */
 
 struct Entry;
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 extern u16 func_02039338(void);
 extern struct Entry *func_0203996C(int idx);
 
-struct Entry *sub_020399A8(void)
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void)
 {
     return func_0203996C(func_02039338());
 }

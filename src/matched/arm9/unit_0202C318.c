@@ -15,7 +15,7 @@
  *           sub_0202C358
  *
  * symbols:
- *   func_0202C4C8  0x0202C4C8  thumb
+ *   ISS_SWITCH_SET_ReadBgmNo  0x0202C4C8  thumb
  *
  * Nine pool-word-and-bx tail calls back to back
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), each 4 bytes: one
@@ -64,7 +64,7 @@ extern u32 sub_0202C470(void *p);
 extern u32 sub_0202C48C(void *p, u32 idx);
 extern u32 sub_0202C498(void *p, u32 idx);
 extern u32 sub_0202C4A4(void *p);
-extern u32 func_0202C4C8(u32 *p);
+extern u32 ISS_SWITCH_SET_ReadBgmNo(u32 *p);
 extern u32 sub_0202C4D8(void *a, u32 b);
 extern u32 sub_0202C504(void *p, u32 idx);
 extern u32 sub_0202C518(void *p);
@@ -96,7 +96,7 @@ u32 sub_0202C338(void *p)
 
 u32 sub_0202C340(void *p)
 {
-    return func_0202C4C8(p);
+    return ISS_SWITCH_SET_ReadBgmNo(p);
 }
 
 u32 sub_0202C348(void *a, void *b)

@@ -70,8 +70,8 @@
  *   func_020061E4 0x020061E4 thumb
  *   func_02175B14 0x02175B14 thumb ov011
  *   func_02175B4C 0x02175B4C thumb ov011
- *   func_021761EC 0x021761EC thumb ov011
- *   func_02173E2C 0x02173E2C thumb ov011
+ *   INTRUDE_COMM_TakeJoinReply 0x021761EC thumb ov011
+ *   INTRUDE_CMD_SendJoinRequest 0x02173E2C thumb ov011
  *   func_021B6B98 0x021B6B98 thumb ov071
  *   func_021B6BEC 0x021B6BEC thumb ov071
  *   func_021B6C74 0x021B6C74 thumb ov071
@@ -109,8 +109,8 @@ extern void func_020355D8x(int);
 extern void func_020061E4(u32);
 extern int func_02175B14(u8 *);
 extern void func_02175B4C(u8 *,u8 *);
-extern u8 func_021761EC(char *p);
-extern int func_02173E2C(char *a, int b);
+extern u8 INTRUDE_COMM_TakeJoinReply(char *p);
+extern int INTRUDE_CMD_SendJoinRequest(char *a, int b);
 extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
 extern void func_021B6BEC(void *p, int *tbl, int n, int sel, int c);
 extern u8 func_021B6C74(void *,int);
@@ -188,11 +188,11 @@ int func_021B739C(int a,int *state,C *c,D *d)
   dst=d->text;
   src=(u16 *)((u8 *)c->f0+0x18);
   for(i=10;i!=0;i--) {*dst=*src;dst++;src++;}
-  if(r!=0 && func_02173E2C((char *)r,(int)(&d->rec))!=1) break;
+  if(r!=0 && INTRUDE_CMD_SendJoinRequest((char *)r,(int)(&d->rec))!=1) break;
   *state=6;break;
  case 6:
   if(r==0) {*state=3;break;}
-  t=func_021761EC((char *)(r+0x1ac));
+  t=INTRUDE_COMM_TakeJoinReply((char *)(r+0x1ac));
   if(t==1) {func_021B79A0((void **)d,(int *)c->f4,0x10);*state=7;}
   else if(t==2) {func_021B79A0((void **)d,(int *)c->f4,0x11);*state=8;}
   else if(t==3) {func_021B79A0((void **)d,(int *)c->f4,0x15);*state=8;}

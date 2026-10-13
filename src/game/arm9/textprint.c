@@ -1,7 +1,7 @@
 /*
  * file:     textprint.c
  * unit:     yes
- * function: func_0204E130, func_0204E180, func_0204E328, func_0204E388, func_0204E410, func_0204E4C0
+ * function: TEXTPRINT_Init, TEXTPRINT_PrintCodes, TEXTPRINT_PrintText, TEXTPRINT_SjisToGlyphCodes, TEXTPRINT_AsciiToGlyphCode, TEXTPRINT_SjisToGlyphCode
  * address:  0x0204E130
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,20 +13,20 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_02146A78     0x02146A78  data
- *   func_020461F4  0x020461F4  arm
+ *   g_TextPrintWork     0x02146A78  data
+ *   SYSTEMFONT_Load  0x020461F4  arm
  *   func_02030734  0x02030734  arm
- *   func_020463C0  0x020463C0  arm
- *   func_020463D8  0x020463D8  arm
- *   func_020463E0  0x020463E0  arm
+ *   SYSTEMFONT_GetGlyphHeight  0x020463C0  arm
+ *   SYSTEMFONT_GetGlyphWidth  0x020463D8  arm
+ *   SYSTEMFONT_SetColors  0x020463E0  arm
  *   func_020436FC  0x020436FC  arm
  *   func_02045A98  0x02045A98  arm
- *   func_02046300  0x02046300  arm
+ *   SYSTEMFONT_GetGlyph  0x02046300  arm
  *   func_020439A0  0x020439A0  arm
  *   func_020437AC  0x020437AC  arm
  *   s_textprint_c   0x020A7F80  data
- *   g_020A1480  0x020A1480  data
- *   g_020A1482  0x020A1482  data
+ *   g_TextPrintSymbolKeys  0x020A1480  data
+ *   g_TextPrintSymbolGlyphs  0x020A1482  data
  */
 struct Bmp;
 typedef unsigned char  u8;
@@ -57,39 +57,39 @@ typedef struct {
     u8  bgColor : 4;
 } TextParam;
 
-extern int func_020463C0(void);  /* glyph height */
-extern int func_020463D8(void);  /* full-width space width */
-extern void  func_020463E0(u32 fgColor, u32 bgColor);
+extern int SYSTEMFONT_GetGlyphHeight(void);  /* glyph height */
+extern int SYSTEMFONT_GetGlyphWidth(void);  /* full-width space width */
+extern void  SYSTEMFONT_SetColors(u32 fgColor, u32 bgColor);
 extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 extern u16   func_02045A98(void);  /* string terminator code */
-extern void func_02046300(int glyphIndex, u8 *glyphOut);
+extern void SYSTEMFONT_GetGlyph(int glyphIndex, u8 *glyphOut);
 extern void func_020439A0(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 colorKey);
 extern void func_020437AC(struct Bmp *bmp);
 extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
 extern u32 func_020307B0(void *block);
-void func_0204E130(u32 fontId);
-extern void func_020461F4(u32 fontId);
-void func_0204E180(const u16 *codes, TextParam *console);
-void func_0204E328(char *text, TextParam *console);
-void func_0204E388(char *text, u16 *out, int maxCodes);
-u16 func_0204E410(u8 asciiChar);
-u16 func_0204E4C0(u16 sjisChar);
-extern TextPrintWork *g_02146A78;  /* the printer singleton */
+void TEXTPRINT_Init(u32 fontId);
+extern void SYSTEMFONT_Load(u32 fontId);
+void TEXTPRINT_PrintCodes(const u16 *codes, TextParam *console);
+void TEXTPRINT_PrintText(char *text, TextParam *console);
+void TEXTPRINT_SjisToGlyphCodes(char *text, u16 *out, int maxCodes);
+u16 TEXTPRINT_AsciiToGlyphCode(u8 asciiChar);
+u16 TEXTPRINT_SjisToGlyphCode(u16 sjisChar);
+extern TextPrintWork *g_TextPrintWork;  /* the printer singleton */
 extern const char s_textprint_c[];
-extern u8 g_020A1480[];    /* symbol key table: 16 records, key byte */
-extern u16 g_020A1482[];   /* symbol key table: same records, glyph code at +2 */
+extern u8 g_TextPrintSymbolKeys[];    /* symbol key table: 16 records, key byte */
+extern u16 g_TextPrintSymbolGlyphs[];   /* symbol key table: same records, glyph code at +2 */
 
 
 
 /*
  * Idempotent one-time init of the singleton at 0x02146A78: if it is already
- * live, return; otherwise run func_020461F4 and allocate a 0x26-byte record
+ * live, return; otherwise run SYSTEMFONT_Load and allocate a 0x26-byte record
  * from heap 0 into the global.
  *
  * The guard's load landing in r1 rather than r0 is the arity tell: the
  * incoming parameter is still live in r0 because it is forwarded unchanged
- * to func_020461F4, so the global's load has to go somewhere else.  Written
- * `void func_0204E130(void)` with `func_020461F4()`, the load takes r0 and
+ * to SYSTEMFONT_Load, so the global's load has to go somewhere else.  Written
+ * `void TEXTPRINT_Init(void)` with `SYSTEMFONT_Load()`, the load takes r0 and
  * two bytes are wrong; an unused parameter does not do it either, since a
  * dead parameter frees its register immediately.  The caller at 0x020055BA
  * sets `movs r0, #0` before the `blx`, confirming the one argument.  The
@@ -100,7 +100,7 @@ extern u16 g_020A1482[];   /* symbol key table: same records, glyph code at +2 *
  * alignment argument is `mov r2, r0`, the heap id's zero re-used, so heap
  * and align must both be spelled 0 with heap first.
  *
- * Byte-correct, capped at MATCH: the PC24 at +0x1c (func_020461F4) has no
+ * Byte-correct, capped at MATCH: the PC24 at +0x1c (SYSTEMFONT_Load) has no
  * witness outside 0204E130..0204E180.  This function is 0x020461F4's only
  * caller image-wide, so the `label` class is unavailable, the two are far
  * apart so no unit can make the site `local`, and there is no EXACT entry
@@ -109,14 +109,14 @@ extern u16 g_020A1482[];   /* symbol key table: same records, glyph code at +2 *
  * in another packet, not reachable inside this run's territory).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204E130.c \
- *       --func func_0204E130 --addr 0x0204E130 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/TEXTPRINT_Init.c \
+ *       --func TEXTPRINT_Init --addr 0x0204E130 --cc 1.1p1 --arm
  */
-void func_0204E130(u32 fontId)
+void TEXTPRINT_Init(u32 fontId)
 {
-    if (g_02146A78 == 0) {
-        func_020461F4(fontId);
-        g_02146A78 = func_02030734(0, 0x26, 0, s_textprint_c, 51);
+    if (g_TextPrintWork == 0) {
+        SYSTEMFONT_Load(fontId);
+        g_TextPrintWork = func_02030734(0, 0x26, 0, s_textprint_c, 51);
     }
 }
 
@@ -126,7 +126,7 @@ void func_0204E130(u32 fontId)
  * console->charBitmap at the console cursor.  Control codes: 1 newline (x
  * back to the console's start column, y down by font height + advanceY),
  * 2 a full-width space (7), 3 a half space; every other code renders glyph
- * code - 4 into the 0x26-byte work record at g_02146A78 and blits it.  The
+ * code - 4 into the 0x26-byte work record at g_TextPrintWork and blits it.  The
  * cursor is written back to the console at the end.
  *
  * Shape facts: case 2 is `x = x + spaceWidth` (the compound form
@@ -134,7 +134,7 @@ void func_0204E130(u32 fontId)
  * operand order); locals declared endCode, glyphBmp, spaceWidth, glyphHeight so the callee-saved registers
  * land as in the image.
  */
-void func_0204E180(const u16 *codes, TextParam *console)
+void TEXTPRINT_PrintCodes(const u16 *codes, TextParam *console)
 {
     u16 endCode;
     struct Bmp *glyphBmp;
@@ -142,37 +142,37 @@ void func_0204E180(const u16 *codes, TextParam *console)
     u32 glyphHeight;
     u16 code;
 
-    glyphHeight = func_020463C0();
-    spaceWidth = func_020463D8();
-    g_02146A78->cursorX = console->cursorX;
-    g_02146A78->cursorY = console->cursorY;
-    func_020463E0(console->fgColor, console->bgColor);
-    glyphBmp = func_020436FC(g_02146A78, 1, 1, 0x20, 0);
+    glyphHeight = SYSTEMFONT_GetGlyphHeight();
+    spaceWidth = SYSTEMFONT_GetGlyphWidth();
+    g_TextPrintWork->cursorX = console->cursorX;
+    g_TextPrintWork->cursorY = console->cursorY;
+    SYSTEMFONT_SetColors(console->fgColor, console->bgColor);
+    glyphBmp = func_020436FC(g_TextPrintWork, 1, 1, 0x20, 0);
     endCode = func_02045A98();
     while (endCode != *codes) {
         code = *codes;
         codes++;
         switch (code) {
         case 1:
-            g_02146A78->cursorX = console->cursorX;
-            g_02146A78->cursorY += (u16)(glyphHeight + console->advanceY);
+            g_TextPrintWork->cursorX = console->cursorX;
+            g_TextPrintWork->cursorY += (u16)(glyphHeight + console->advanceY);
             break;
         case 2:
-            g_02146A78->cursorX = g_02146A78->cursorX + spaceWidth;
+            g_TextPrintWork->cursorX = g_TextPrintWork->cursorX + spaceWidth;
             break;
         case 3:
-            g_02146A78->cursorX += (u16)(spaceWidth / 2);
+            g_TextPrintWork->cursorX += (u16)(spaceWidth / 2);
             break;
         default:
-            func_02046300((u16)(code - 4), (u8 *)g_02146A78);
-            func_020439A0(glyphBmp, console->charBitmap, 0, 0, g_02146A78->cursorX, g_02146A78->cursorY,
-                          g_02146A78->glyphWidth, glyphHeight, 0);
-            g_02146A78->cursorX += (u16)(g_02146A78->glyphWidth + console->advanceX);
+            SYSTEMFONT_GetGlyph((u16)(code - 4), (u8 *)g_TextPrintWork);
+            func_020439A0(glyphBmp, console->charBitmap, 0, 0, g_TextPrintWork->cursorX, g_TextPrintWork->cursorY,
+                          g_TextPrintWork->glyphWidth, glyphHeight, 0);
+            g_TextPrintWork->cursorX += (u16)(g_TextPrintWork->glyphWidth + console->advanceX);
             break;
         }
     }
-    console->cursorX = g_02146A78->cursorX;
-    console->cursorY = g_02146A78->cursorY;
+    console->cursorX = g_TextPrintWork->cursorX;
+    console->cursorY = g_TextPrintWork->cursorY;
     func_020437AC(glyphBmp);
 }
 
@@ -195,15 +195,15 @@ void func_0204E180(const u16 *codes, TextParam *console)
  * addresses).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204E328.c \
- *       --func func_0204E328 --addr 0x0204E328 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/TEXTPRINT_PrintText.c \
+ *       --func TEXTPRINT_PrintText --addr 0x0204E328 --cc 1.1p1 --arm
  */
-void func_0204E328(char *text, TextParam *console)
+void TEXTPRINT_PrintText(char *text, TextParam *console)
 {
     void *codeBuf = func_02030734(0, 0x200, 0, s_textprint_c, 0xae);
 
-    func_0204E388(text, codeBuf, 0x100);
-    func_0204E180((const u16 *)codeBuf, console);
+    TEXTPRINT_SjisToGlyphCodes(text, codeBuf, 0x100);
+    TEXTPRINT_PrintCodes((const u16 *)codeBuf, console);
     func_020307B0(codeBuf);
 }
 
@@ -227,7 +227,7 @@ void func_0204E328(char *text, TextParam *console)
  * and a compare, and the two-byte value is spelled `(ch << 8) + *p`, not
  * `|`: the original shows `add r0,r1,r0,lsl #8` (one byte at +0x40).
  */
-void func_0204E388(char *text, u16 *out, int maxCodes)
+void TEXTPRINT_SjisToGlyphCodes(char *text, u16 *out, int maxCodes)
 {
     int count = 0;
     u16 glyphCode;
@@ -237,9 +237,9 @@ void func_0204E388(char *text, u16 *out, int maxCodes)
 
         text++;
         if ((ch >= 0x81 && ch <= 0x9f) || ch >= 0xe0)
-            glyphCode = func_0204E4C0((u16)((ch << 8) + (u8)*text++));
+            glyphCode = TEXTPRINT_SjisToGlyphCode((u16)((ch << 8) + (u8)*text++));
         else
-            glyphCode = func_0204E410(ch);
+            glyphCode = TEXTPRINT_AsciiToGlyphCode(ch);
         if (glyphCode != 0xfffe) {
             *out++ = glyphCode;
             count++;
@@ -255,9 +255,9 @@ void func_0204E388(char *text, u16 *out, int maxCodes)
  * `match.py one` prints MATCH only because the two pool words it needs are
  * attesting nothing outside this range:
  *
- *   +00A4 ABS32 g_020A1480 -> unresolved: 020A1480 (data) has no witness
+ *   +00A4 ABS32 g_TextPrintSymbolKeys -> unresolved: 020A1480 (data) has no witness
  *          outside 0204E410..0204E4C0
- *   +00A8 ABS32 g_020A1482 -> unresolved: 020A1482 (data) has no witness
+ *   +00A8 ABS32 g_TextPrintSymbolGlyphs -> unresolved: 020A1482 (data) has no witness
  *          outside 0204E410..0204E4C0
  *
  * Blocking class: literal (own-pool-only data).  0x020A1480 holds sixteen
@@ -272,7 +272,7 @@ void func_0204E388(char *text, u16 *out, int maxCodes)
  * local *inside* the loop body
  *
  *     u32 off = i << 2;
- *     if (c == g_020A1480[i * 4]) return *(u16 *)((u8 *)g_020A1482 + off);
+ *     if (c == g_TextPrintSymbolKeys[i * 4]) return *(u16 *)((u8 *)g_TextPrintSymbolGlyphs + off);
  *
  * With the offset written inline at both sites the loop counter is coloured
  * into r3, which forces the byte offset to be re-derived inside the equal
@@ -280,7 +280,7 @@ void func_0204E388(char *text, u16 *out, int maxCodes)
  * `lsl r3, ip, #2` above the compare, exactly as the image has it.  That
  * took the residue from 25 bytes to 0.
  */
-u16 func_0204E410(u8 asciiChar)
+u16 TEXTPRINT_AsciiToGlyphCode(u8 asciiChar)
 {
     u32 slot;
 
@@ -295,8 +295,8 @@ u16 func_0204E410(u8 asciiChar)
     for (slot = 0; slot < 0x10; slot++) {
         u32 byteOffset = slot << 2;
 
-        if (asciiChar == g_020A1480[slot * 4])
-            return *(u16 *)((u8 *)g_020A1482 + byteOffset);
+        if (asciiChar == g_TextPrintSymbolKeys[slot * 4])
+            return *(u16 *)((u8 *)g_TextPrintSymbolGlyphs + byteOffset);
     }
     return 0x101;
 }
@@ -322,10 +322,10 @@ u16 func_0204E410(u8 asciiChar)
  * single-code tests must be written against 0x8189, not as literals.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204E4C0.c \
- *       --func func_0204E4C0 --addr 0x0204E4C0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TEXTPRINT_SjisToGlyphCode.c \
+ *       --func TEXTPRINT_SjisToGlyphCode --addr 0x0204E4C0 --cc 1.1p1 --arm
  */
-u16 func_0204E4C0(u16 sjisChar)
+u16 TEXTPRINT_SjisToGlyphCode(u16 sjisChar)
 {
     if (sjisChar >= 0x829F && sjisChar <= 0x829F + 0x52)
         return sjisChar + (4 - 0x829F);

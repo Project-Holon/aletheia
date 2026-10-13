@@ -1,5 +1,5 @@
 /*
- * function: func_0217D508
+ * function: gsiLargeIntAdd
  * address:  0x0217D508
  * packet:   pkt_ov009_0217D508
  * region:   ov009
@@ -14,16 +14,16 @@
  * symbols:
  *   func_0217D3AC  0x0217D3AC  arm  ov009
  *   func_02092344  0x02092344  arm
- *   func_0217D3F8  0x0217D3F8  arm  ov009
+ *   gsiLargeIntTimerExit  0x0217D3F8  arm  ov009
  */
 
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern void func_0217D3AC(int id);
-extern void func_0217D3F8(int id);
+extern void gsiLargeIntTimerExit(int id);
 extern void *func_02092344(void *dst, const void *src, u32 n);
 
-int func_0217D508(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u32 *lenout, u32 maxlen)
+int gsiLargeIntAdd(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u32 *lenout, u32 maxlen)
 {
     u64 carry;
     u32 i;
@@ -71,6 +71,6 @@ int func_0217D508(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u
         i = longerLen;
     }
     *lenout = i;
-    func_0217D3F8(3);
+    gsiLargeIntTimerExit(3);
     return carry == 0;
 }

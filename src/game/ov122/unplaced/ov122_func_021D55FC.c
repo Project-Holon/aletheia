@@ -12,7 +12,7 @@
  * symbols:
  *   func_020221A4 0x020221A4 thumb
  *   func_0203CD98 0x0203CD98 arm
- *   func_02178118 0x02178118 thumb ov014
+ *   NET_WHPIPE_SetNotifyCallback 0x02178118 thumb ov014
  *   func_021D4AD4 0x021D4AD4 thumb ov122
  *   func_02031140 0x02031140 arm
  *   func_020403F4 0x020403F4 arm
@@ -40,7 +40,7 @@
 typedef unsigned int u32;
 extern u32 func_020221A4(void);
 extern int func_0203CD98(void);
-extern void func_02178118(u32, u32);
+extern void NET_WHPIPE_SetNotifyCallback(u32, u32);
 extern void func_021D4AD4(char *);
 struct Bank;
 struct Descriptor;
@@ -77,7 +77,7 @@ int func_021D55FC(void *a, void *b, char *out, char *p)
 {
     int i;
     if (!func_020221A4()) return 0;
-    if (func_0203CD98()) func_02178118(0, 0);
+    if (func_0203CD98()) NET_WHPIPE_SetNotifyCallback(0, 0);
     func_021D4AD4(p);
     ((struct Obj22936 *)out)->f20 = ((struct Obj00911 *)p)->f8;
     func_02031140(((struct Obj00911 *)p)->f31C);

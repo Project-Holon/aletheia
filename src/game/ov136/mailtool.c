@@ -27,15 +27,15 @@
  *   func_020307B0  0x020307B0  arm
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
- *   func_02031324 0x02031324 arm
- *   func_02031330 0x02031330 arm
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Create 0x02031324 arm
+ *   PROCSYS_Main 0x02031330 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_0202411C 0x0202411C thumb
- *   func_02024134 0x02024134 thumb
- *   func_02024124 0x02024124 thumb
- *   func_020240FC 0x020240FC thumb
+ *   PMSI_PARAM_CheckCanceled 0x0202411C thumb
+ *   PMSI_PARAM_GetSentence 0x02024134 thumb
+ *   PMSI_PARAM_GetWord 0x02024124 thumb
+ *   PMSI_PARAM_Delete 0x020240FC thumb
  *   func_02008C58 0x02008C58 thumb
  *   func_02008DF0 0x02008DF0 thumb
  *   ov136_id 0x0000006E data
@@ -45,13 +45,13 @@
  *   func_020315D4 0x020315D4 arm
  *   func_0203084C 0x0203084C arm
  *   func_020306F0 0x020306F0 arm
- *   func_0202428C 0x0202428C thumb
- *   func_02024044 0x02024044 thumb
- *   func_02024104 0x02024104 thumb
- *   func_02024570 0x02024570 thumb
- *   func_02024450 0x02024450 thumb
- *   func_020242A4 0x020242A4 thumb
- *   func_02024108 0x02024108 thumb
+ *   PMSI_PARAM_ClearSentence 0x0202428C thumb
+ *   PMSI_PARAM_Create 0x02024044 thumb
+ *   PMSI_PARAM_SetWord 0x02024104 thumb
+ *   PMSI_PARAM_Copy 0x02024570 thumb
+ *   PMSI_PARAM_IsEnabled 0x02024450 thumb
+ *   PMSI_PARAM_InitSentence 0x020242A4 thumb
+ *   PMSI_PARAM_SetSentence 0x02024108 thumb
  *   func_02008F80 0x02008F80 thumb
  *   func_020457B0 0x020457B0 arm
  *   func_02008F84 0x02008F84 thumb
@@ -65,7 +65,7 @@
  *   func_02045808  0x02045808  arm
  *   func_02008FD8 0x02008FD8 thumb
  *   func_02008FC4 0x02008FC4 thumb
- *   func_020242C0 0x020242C0 thumb
+ *   PMSI_PARAM_InitSentenceId 0x020242C0 thumb
  *   d_021C77A0 0x021C77A0 data a1
  *   func_02012FFC 0x02012FFC thumb
  *   func_0201D7EC 0x0201D7EC thumb
@@ -80,15 +80,15 @@
  *   func_021C4D14 0x021C4D14 thumb ov136
  *   data_021C7774 0x021C7774 data
  *   func_0202223C 0x0202223C thumb
- *   func_02022224 0x02022224 thumb
+ *   WIPE_ResetWndMask 0x02022224 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_020434DC 0x020434DC arm
- *   func_02022230 0x02022230 thumb
+ *   WIPE_ResetBrightness 0x02022230 thumb
  *   func_0207D63C 0x0207D63C arm
  *   func_020056BC 0x020056BC thumb
- *   func_0202173C 0x0202173C thumb
- *   func_02021ED8 0x02021ED8 thumb
- *   func_0202DBC4 0x0202DBC4 thumb
+ *   PALANM_RequestFade 0x0202173C thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
+ *   PMS_DRAW_Main 0x0202DBC4 thumb
  *   func_02028178 0x02028178 thumb
  *   func_02030EAC 0x02030EAC arm
  *   func_0204A600 0x0204A600 arm
@@ -152,28 +152,28 @@ extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_020307B0(void *p);
 extern void func_0203064C(unsigned, unsigned, unsigned);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void *func_02031324(int a0);
-extern u32 func_02031330(void *p);
-extern void func_02031348(void *h, u32 id, void *a, void *b);
+extern void *PROCSYS_Create(int a0);
+extern u32 PROCSYS_Main(void *p);
+extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
 extern int func_02034AC4(int handle);
 extern void func_02034A5C(int handle);
-extern int func_0202411C(unsigned char *p);
-extern void func_02024134(char *a, void *b);
-extern unsigned int func_02024124(unsigned short *p);
-extern void func_020240FC(void *a);
+extern int PMSI_PARAM_CheckCanceled(unsigned char *p);
+extern void PMSI_PARAM_GetSentence(char *a, void *b);
+extern unsigned int PMSI_PARAM_GetWord(unsigned short *p);
+extern void PMSI_PARAM_Delete(void *a);
 extern struct Sub02008C20Obj *func_02008C58(void *sys);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void func_0203133C(struct S020314B8 *v);
 extern void func_020315D4(struct S020315D4 *v);
 extern void func_0203084C(u16 v);
 extern void func_020306F0(u32 v);
-extern void func_0202428C(void *p);
-extern struct Obj *func_02024044(u32 kind, u32 a1, void *src, u32 flag, void *sys, u32 hh);
-extern void func_02024104(u16 *p, u16 v);
-extern void func_02024570(struct Rec8 *dst, const struct Rec8 *src);
-extern int func_02024450(const u16 *p);
-extern void func_020242A4(void *obj, u32 id);
-extern void func_02024108(u16 *dst, const u16 *src);
+extern void PMSI_PARAM_ClearSentence(void *p);
+extern struct Obj *PMSI_PARAM_Create(u32 kind, u32 a1, void *src, u32 flag, void *sys, u32 hh);
+extern void PMSI_PARAM_SetWord(u16 *p, u16 v);
+extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
+extern int PMSI_PARAM_IsEnabled(const u16 *p);
+extern void PMSI_PARAM_InitSentence(void *obj, u32 id);
+extern void PMSI_PARAM_SetSentence(u16 *dst, const u16 *src);
 extern u32 func_02008F80(const struct Sub02008F80Obj *obj);
 extern void *func_020457B0(unsigned, u16);
 extern u8 *func_02008F84(struct Sub02008F80Obj *obj);
@@ -186,7 +186,7 @@ extern struct Sub02008F80Entry *func_02008FC8(struct Sub02008F80Obj *obj, u32 i)
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02008FD8(struct Sub02008F80Obj *obj, void *arg, u32 i);
 extern void func_02008FC4(struct Sub02008F80Obj *obj, u16 value);
-extern void func_020242C0(void *a, void *b, void *c);
+extern void PMSI_PARAM_InitSentenceId(void *a, void *b, void *c);
 extern signed char func_02012FFC(void);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
@@ -199,15 +199,15 @@ extern int func_021C4BFC(u8 *p);
 extern void func_021C4B5C(void *a, u32 *p);
 extern int func_021C4D14(u8 *p);
 extern void func_0202223C(u32 a, u32 b);
-extern u32 func_02022224(void *win);
+extern u32 WIPE_ResetWndMask(void *win);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02022230(u32 a);
+extern void WIPE_ResetBrightness(u32 a);
 extern void func_0207D63C(void *reg, int a, int b, int c, int d);
 extern u32 func_020056BC(void);
-extern void func_0202173C(void *p, int a, int b, int c, int d, int e, int f, u32 g);
-extern u32 func_02021ED8(const char *ptr);
-extern void func_0202DBC4(u8 *p);
+extern void PALANM_RequestFade(void *p, int a, int b, int c, int d, int e, int f, u32 g);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
+extern void PMS_DRAW_Main(u8 *p);
 extern void func_02028178(u8 *p);
 extern void func_02030EAC(struct Node *n);
 extern void func_0204A600(void *p);
@@ -328,7 +328,7 @@ int func_021C3E3C(void *a, void *b, u8 *p)
     if (*(unsigned short *)&((struct MbSeqCtx *)p)->f0 == 1) (*(u8 **)(q + 0x10))[0xB] = p[0xF];
     if ((*(u8 **)(q + 0x10))[0xB] >= 0xC) (*(u8 **)(q + 0x10))[0xB] = 0;
     ((struct MailViewCtx_f10 *)((struct MailViewCtx *)q)->f10)->f0 = *(unsigned short *)&((struct MbSeqCtx *)p)->f0;
-    ((struct MailViewCtx *)q)->f1C = func_02031324(0x63);
+    ((struct MailViewCtx *)q)->f1C = PROCSYS_Create(0x63);
     return 1;
 }
 
@@ -339,11 +339,11 @@ int func_021C3E3C(void *a, void *b, u8 *p)
  */
 int func_021C3E9C(int unused, u32 *state, u16 *msg, u8 *ctx)
 {
-    u32 ret = func_02031330(*(void **)(ctx + 0x1C));
+    u32 ret = PROCSYS_Main(*(void **)(ctx + 0x1C));
     switch (*state) {
     case 0:
         **(u16 **)(ctx + 0x10) = *msg;
-        func_02031348(*(void **)(ctx + 0x1C), (u32)-1, D_021C7750, *(void **)(ctx + 0x10));
+        PROCSYS_Push(*(void **)(ctx + 0x1C), (u32)-1, D_021C7750, *(void **)(ctx + 0x10));
         *state = 1;
         break;
     case 1: {
@@ -381,21 +381,21 @@ int func_021C3E9C(int unused, u32 *state, u16 *msg, u8 *ctx)
     case 3:
         func_02034AC4((int)ov136_id);
         func_021C3FC8(ctx, (u8 *)msg);
-        func_02031348(*(void **)(ctx + 0x1C), (u32)-1, D_021C775C, *(void **)(ctx + 8));
+        PROCSYS_Push(*(void **)(ctx + 0x1C), (u32)-1, D_021C775C, *(void **)(ctx + 8));
         *state = 4;
         break;
     case 4:
         if (ret == 1)
             break;
-        if (func_0202411C(*(void **)(ctx + 8)) == 0) {
+        if (PMSI_PARAM_CheckCanceled(*(void **)(ctx + 8)) == 0) {
             u8 *q = *(u8 **)(ctx + 0x10);
             void *h = *(void **)(ctx + 8);
             if (q[2] < 3)
-                func_02024134(h, q + 0x16 + q[2] * 8);
+                PMSI_PARAM_GetSentence(h, q + 0x16 + q[2] * 8);
             else
-                *(u16 *)(*(u8 **)(ctx + 0x10) + 0x32) = func_02024124(*(u16 **)(ctx + 8));
+                *(u16 *)(*(u8 **)(ctx + 0x10) + 0x32) = PMSI_PARAM_GetWord(*(u16 **)(ctx + 8));
         }
-        func_020240FC(*(void **)(ctx + 8));
+        PMSI_PARAM_Delete(*(void **)(ctx + 8));
         func_02034A5C((int)ov136_id);
         *state = 0;
         break;
@@ -425,22 +425,22 @@ void func_021C3FC8(u8 *ctx, u8 *arg)
     u8 *p = *(u8 * *)&((struct MailToolCtx *)ctx)->f10;
     u32 k = p[2];
     if (k == 3) {
-        func_0202428C(ctx + 0x14);
+        PMSI_PARAM_ClearSentence(ctx + 0x14);
         ((struct MailToolCtx *)ctx)->f14 = 6;
         ((struct MailToolCtx *)ctx)->f16 = 0;
         ((struct MailToolCtx *)ctx)->f18 = ((struct MailViewCtx *)((struct MailToolCtx *)ctx)->f10)->f32;
-        ((struct MailToolCtx *)ctx)->f8 = func_02024044(0, 0, 0, 1, ((struct MailViewCtx *)arg)->f10, ((struct MailToolCtx *)ctx)->f0);
-        func_02024104(((struct MailToolCtx *)ctx)->f8, ((struct MailViewCtx *)((struct MailToolCtx *)ctx)->f10)->f32);
+        ((struct MailToolCtx *)ctx)->f8 = PMSI_PARAM_Create(0, 0, 0, 1, ((struct MailViewCtx *)arg)->f10, ((struct MailToolCtx *)ctx)->f0);
+        PMSI_PARAM_SetWord(((struct MailToolCtx *)ctx)->f8, ((struct MailViewCtx *)((struct MailToolCtx *)ctx)->f10)->f32);
     } else if (*(p + k + 0x2e) == 1) {
-        func_02024570((struct Rec8 *)(ctx + 0x14), (const struct Rec8 *)(p + 0x16 + k * 8));
-        ((struct MailToolCtx *)ctx)->f8 = func_02024044(2, 0, ctx + 0x14, 1, ((struct MailViewCtx *)arg)->f10, ((struct MailToolCtx *)ctx)->f0);
+        PMSI_PARAM_Copy((struct Rec8 *)(ctx + 0x14), (const struct Rec8 *)(p + 0x16 + k * 8));
+        ((struct MailToolCtx *)ctx)->f8 = PMSI_PARAM_Create(2, 0, ctx + 0x14, 1, ((struct MailViewCtx *)arg)->f10, ((struct MailToolCtx *)ctx)->f0);
     } else {
-        ((struct MailToolCtx *)ctx)->f8 = func_02024044(2, 0, 0, 1, ((struct MailViewCtx *)arg)->f10, ((struct MailToolCtx *)ctx)->f0);
-        if (func_02024450((u16 *)(*(u8 * *)&((struct MailToolCtx *)ctx)->f10 + 0x16 + (*(u8 * *)&((struct MailToolCtx *)ctx)->f10)[2] * 8)))
-            func_02024570((struct Rec8 *)(ctx + 0x14), (const struct Rec8 *)(*(u8 * *)&((struct MailToolCtx *)ctx)->f10 + 0x16 + (*(u8 * *)&((struct MailToolCtx *)ctx)->f10)[2] * 8));
+        ((struct MailToolCtx *)ctx)->f8 = PMSI_PARAM_Create(2, 0, 0, 1, ((struct MailViewCtx *)arg)->f10, ((struct MailToolCtx *)ctx)->f0);
+        if (PMSI_PARAM_IsEnabled((u16 *)(*(u8 * *)&((struct MailToolCtx *)ctx)->f10 + 0x16 + (*(u8 * *)&((struct MailToolCtx *)ctx)->f10)[2] * 8)))
+            PMSI_PARAM_Copy((struct Rec8 *)(ctx + 0x14), (const struct Rec8 *)(*(u8 * *)&((struct MailToolCtx *)ctx)->f10 + 0x16 + (*(u8 * *)&((struct MailToolCtx *)ctx)->f10)[2] * 8));
         else
-            func_020242A4(ctx + 0x14, 0);
-        func_02024108(((struct MailToolCtx *)ctx)->f8, (const u16 *)(ctx + 0x14));
+            PMSI_PARAM_InitSentence(ctx + 0x14, 0);
+        PMSI_PARAM_SetSentence(((struct MailToolCtx *)ctx)->f8, (const u16 *)(ctx + 0x14));
     }
 }
 
@@ -460,7 +460,7 @@ void *func_021C409C(void *a, unsigned heap)
     p[9] = func_02008FB0(a);
     p[0xA] = func_02008FB8(a);
     ((struct MailViewCtx_f1C *)p)->f32 = func_02008FC0(a);
-    for (; i < 3; i++) func_02024570((struct Rec8 *)(p + 0x16 + i * 8), (const struct Rec8 *)func_02008FC8(a, (u8)i));
+    for (; i < 3; i++) PMSI_PARAM_Copy((struct Rec8 *)(p + 0x16 + i * 8), (const struct Rec8 *)func_02008FC8(a, (u8)i));
     return p;
 }
 
@@ -484,14 +484,14 @@ void func_021C414C(void *a, u8 *p)
 
 
 /*
- *   int func_02024450(unsigned short *p) { return *p != 0xFFFF; }
+ *   int PMSI_PARAM_IsEnabled(unsigned short *p) { return *p != 0xFFFF; }
  */
 void func_021C4184(void *a, u8 *p)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        if (func_02024450((const u16 *)(p + 0x16 + i * 8)) == 0) {
-            if (d_021C77A0[p[0xB]][i] != 0xFF) func_020242C0(p + 0x16 + i * 8, (void *)5, (void *)d_021C77A0[p[0xB]][i]);
+        if (PMSI_PARAM_IsEnabled((const u16 *)(p + 0x16 + i * 8)) == 0) {
+            if (d_021C77A0[p[0xB]][i] != 0xFF) PMSI_PARAM_InitSentenceId(p + 0x16 + i * 8, (void *)5, (void *)d_021C77A0[p[0xB]][i]);
         }
         if (d_021C77A0[p[0xB]][i] == 0xFF) p[0x2E + i] = 0;
         else p[0x2E + i] = 1;
@@ -558,47 +558,47 @@ int func_021C42C8(u8 *p)
         func_021C4AF8();
         func_0202223C(0, 0);
         func_0202223C(1, 0);
-        func_02022224(0);
-        func_02022224((void *)1);
+        WIPE_ResetWndMask(0);
+        WIPE_ResetWndMask((void *)1);
         (((struct MailViewCtx *)p)->f4)++;
         break;
     case 1:
         if (func_021C4BFC(p)) {
             ((struct MailViewCtx *)p)->f104 = func_020056A0((void *)func_021C4B5C, p, 0x10);
             func_020434DC(0x10, 1);
-            func_02022230(0);
+            WIPE_ResetBrightness(0);
             func_0207D63C((void *)0x04000050, 4, 8, 0x1C, 4);
             t = func_020056BC();
-            func_0202173C(((struct MailViewCtx *)p)->f38, 5, 0xFFFF, -1, 0x10, 0, 0, t);
+            PALANM_RequestFade(((struct MailViewCtx *)p)->f38, 5, 0xFFFF, -1, 0x10, 0, 0, t);
             (((struct MailViewCtx *)p)->f4)++;
         }
         break;
     case 2:
-        if (!func_02021ED8(((struct MailViewCtx *)p)->f38))
+        if (!PALANM_GetFadeRequestBits(((struct MailViewCtx *)p)->f38))
             (((struct MailViewCtx *)p)->f4)++;
-        func_0202DBC4(((struct MailViewCtx *)p)->f148);
+        PMS_DRAW_Main(((struct MailViewCtx *)p)->f148);
         break;
     case 3:
         if (data_021C7774[p[0xB]](p) == 1) {
             (((struct MailViewCtx *)p)->f4)++;
             t = func_020056BC();
-            func_0202173C(((struct MailViewCtx *)p)->f38, 5, 0xFFFF, -1, 0, 0x10, 0, t);
+            PALANM_RequestFade(((struct MailViewCtx *)p)->f38, 5, 0xFFFF, -1, 0, 0x10, 0, t);
         }
-        func_0202DBC4(((struct MailViewCtx *)p)->f148);
+        PMS_DRAW_Main(((struct MailViewCtx *)p)->f148);
         if (((struct MailViewCtx *)p)->f128) {
             func_02028178(((struct MailViewCtx *)p)->f128);
             func_02028178(((struct MailViewCtx *)p)->f12C);
         }
         break;
     case 4:
-        if (!func_02021ED8(((struct MailViewCtx *)p)->f38)) {
+        if (!PALANM_GetFadeRequestBits(((struct MailViewCtx *)p)->f38)) {
             func_0202223C(0, 0);
             func_0202223C(1, 0);
             func_02030EAC(((struct MailViewCtx *)p)->f104);
             func_021C4AF8();
             (((struct MailViewCtx *)p)->f4)++;
         }
-        func_0202DBC4(((struct MailViewCtx *)p)->f148);
+        PMS_DRAW_Main(((struct MailViewCtx *)p)->f148);
         break;
     case 5:
         if (func_021C4D14(p))

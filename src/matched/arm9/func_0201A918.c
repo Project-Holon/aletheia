@@ -1,5 +1,5 @@
 /*
- * function: func_0201A918
+ * function: POKE_REGULATION_GetDataSize
  * address:  0x0201A918
  * packet:   pkt_0201A918
  * region:   arm9
@@ -13,10 +13,10 @@
  * witness.  Addresses are Black-image addresses.
  *
  * symbols:
- *   func_0201A918  0x0201A918  thumb
+ *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
  */
 
-int func_0201A918(void)
+int POKE_REGULATION_GetDataSize(void)
 {
     return 0x534;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DDCF8
+ * function: MYSTERY_ALBUM_LoadBgPalette
  * address: 0x021DDCF8
  * packet: pkt_ov121_021DDCF8
  * region: ov121
@@ -25,7 +25,7 @@ extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 extern void func_02049238(void *);
-void func_021DDCF8(unsigned *p,void *context,u16 heap)
+void MYSTERY_ALBUM_LoadBgPalette(unsigned *p,void *context,u16 heap)
 {
     int which=0;
     u16 id;

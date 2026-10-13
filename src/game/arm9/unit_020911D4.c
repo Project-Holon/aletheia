@@ -1,7 +1,7 @@
 /*
  * file:     unit_020911D4.c
  * unit:     yes
- * function: func_020911D4, func_020911D8, func_02091200, func_02091230, func_0209125C, func_0209128C, func_020912A8, func_02091374, func_0209138C, func_020913A4, func_020913BC, func_020913D0, func_020913E8, func_020913FC, func_0209146C, func_0209149C, func_02091524, func_02091588, func_02091594, func_02091598, func_0209159C, func_020915C4, func_02091650, func_020916D4, func_020917D4, func_02091AE8, func_02091B5C, func_02091C40, func_02091CBC, func_02091D38, func_02091E44, func_02092004, func_02092120, func_02092144, func_020921D8, func_020921F4, func_02092264, func_0209229C, func_020922B0, func_020922CC, func_02092344, func_02092364, func_020923B0, func_020923C4, func_020923F0, func_02092430, func_020924DC, func_020929E8, func_02092C38, func_02092F0C, func_020933B8, func_020934CC, func_02093BDC, func_02094488, func_020944CC, func_02094530, func_0209455C, func_02094694, func_020946C8, func_020946D8, func_02094750, func_02094778, func_0209477C, func_02094798, func_02094860, func_020948B0, func_020948E0, func_020949F4, func_02094A28, func_02094A60, func_02094B20, func_02094B8C, func_02095AA4, func_02095B2C, func_02095B3C, func_02095EAC, func_02095F40, func_02096004, func_020963F8, func_020964E0, func_020964F4, func_02096508, func_02096578, func_02096594, func_020965B4, func_02096620, func_02096670, func_020966B0, func_02096774, func_020968F4, func_02096990, func_02096D10, func_02096DF0, func_02096ED0, func_02097170, func_020972F0, func_0209739C, func_02097990, func_020979C0, func_02098B48, func_02099228
+ * function: func_020911D4, func_020911D8, func_02091200, func_02091230, func_0209125C, func_0209128C, func_020912A8, func_02091374, func_0209138C, func_020913A4, func_020913BC, func_020913D0, func_020913E8, func_020913FC, func_0209146C, func_0209149C, func_02091524, func_02091588, func_02091594, func_02091598, func_0209159C, func_020915C4, func_02091650, func_020916D4, func_020917D4, func_02091AE8, func_02091B5C, func_02091C40, func_02091CBC, func_02091D38, func_02091E44, func_02092004, func_02092120, func_02092144, func_020921D8, func_020921F4, func_02092264, func_0209229C, func_020922B0, func_020922CC, func_02092344, func_02092364, func_020923B0, func_020923C4, func_020923F0, func_02092430, func_020924DC, func_020929E8, func_02092C38, func_02092F0C, func_020933B8, func_020934CC, func_02093BDC, func_02094488, func_020944CC, func_02094530, func_0209455C, func_02094694, func_020946C8, func_020946D8, func_02094750, func_02094778, func_0209477C, func_02094798, func_02094860, func_020948B0, func_020948E0, func_020949F4, func_02094A28, func_02094A60, func_02094B20, func_02094B8C, func_02095AA4, func_02095B2C, func_02095B3C, func_02095EAC, func_02095F40, func_02096004, func_020963F8, func_020964E0, func_020964F4, func_02096508, func_02096578, func_02096594, func_020965B4, func_02096620, func_02096670, func_020966B0, func_02096774, func_020968F4, func_02096990, func_02096D10, func_02096DF0, func_02096ED0, func_02097170, func_020972F0, func_0209739C, func_02097990, func_020979BC, func_02098B44, func_02099224
  * address:  0x020911D4
  * region:   arm9
  * compiler: dsi/1.2
@@ -18,7 +18,7 @@
  *   func_02731760  0x02731760  thumb
  *   func_02731764  0x02731764  thumb
  *   func_02731920  0x02731920  arm
- *   func_02085D88    0x02085D88  arm
+ *   OSi_IsRunOnTwl    0x02085D88  arm
  *   func_02088234    0x02088234  arm
  *   g_02153B88  0x02153B88  data
  *   func_02086028  0x02086028  arm
@@ -487,14 +487,14 @@ typedef struct {
 } DB;
 
 /* Matched units compiled in this file, entered 4 bytes before their function:
- * unit_020979BC (0x020979BC) holds func_020979C0
- * unit_02098B44 (0x02098B44) holds func_02098B48
- * unit_02099224 (0x02099224) holds func_02099228
+ * unit_020979BC (0x020979BC) holds func_020979BC
+ * unit_02098B44 (0x02098B44) holds func_02098B44
+ * unit_02099224 (0x02099224) holds func_02099224
  */
 
 typedef int i32;
 
-extern int func_02085D88(void);
+extern int OSi_IsRunOnTwl(void);
 extern void func_02088234(void);
 extern void func_02086028(void *a0);
 extern int func_020860D0(void *a0);
@@ -620,9 +620,9 @@ void func_02097170(DB *r, double x);
 void func_020972F0(const decform *f, double x, decimal *p);
 double func_0209739C(const decimal2 *d);
 double func_02097990(double x, int n);
-double func_020979C0(double x, double y);
-int func_02098B48(double x, double *y);
-double func_02099228(double x, double y);
+double func_020979BC(double x, double y);
+int func_02098B44(double x, double *y);
+double func_02099224(double x, double y);
 extern u8 g_02153B88;
 extern struct H g_02150FEC;
 extern u32 g_02153B8C;
@@ -709,7 +709,7 @@ void func_020911D4(void)
  */
 void func_020911D8(u32 a)
 {
-    if (func_02085D88() == 0) {
+    if (OSi_IsRunOnTwl() == 0) {
         func_02088234();
     }
     func_02731754(a);
@@ -726,7 +726,7 @@ void func_020911D8(u32 a)
  */
 void func_02091200(u32 a, u32 b, u32 c)
 {
-    if (func_02085D88() == 0) {
+    if (OSi_IsRunOnTwl() == 0) {
         func_02088234();
     }
     func_02731760(a, b, c);
@@ -743,7 +743,7 @@ void func_02091200(u32 a, u32 b, u32 c)
  */
 void func_02091230(u32 a, u32 b)
 {
-    if (func_02085D88() == 0) {
+    if (OSi_IsRunOnTwl() == 0) {
         func_02088234();
     }
     func_02731764(a, b);
@@ -761,7 +761,7 @@ void func_02091230(u32 a, u32 b)
  */
 void func_0209125C(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
-    if (func_02085D88() == 0) {
+    if (OSi_IsRunOnTwl() == 0) {
         func_02088234();
     }
     func_02731920(a, b, c, d, e);
@@ -780,7 +780,7 @@ void func_0209125C(u32 a, u32 b, u32 c, u32 d, u32 e)
  * A two-term `&&` condition goes through the short-circuit if-conversion
  * path, which predicates both arms; the redundant second test is folded away
  * afterwards, leaving the single `cmp r0, #0`.  Same shape in 1.1p1 matched
- * code: src/matched/func_02037700.c (`if (a && b) flag = 1;`).
+ * code: src/matched/GFL_NET_SYSTEM_InitDevice.c (`if (a && b) flag = 1;`).
  */
 void func_0209128C(int x)
 {
@@ -5930,7 +5930,7 @@ ivln2_l  =  1.92596299112661746887e-08;
  * MSL __ieee754_pow(x, y): fdlibm e_pow.c with the MSL edits listed in
  * docs/notes/pkt_020979C0.c.txt.  fabs = func_0209A504, sqrt = func_0209C5E0.
  * The machine entry is 0x020979BC (push {r0-r3} home for the register-passed
- * doubles), four bytes before the disasm body label func_020979C0.
+ * doubles), four bytes before the disasm body label func_020979BC.
  *
  * Front end dsi/1.2 (1.2p2 identical): kept &bp base across its three uses
  * and the push {r3-fp,lr} / sub sp,#0x78 frame; 1.1p1 splits the loads and
@@ -5941,7 +5941,7 @@ ivln2_l  =  1.92596299112661746887e-08;
  * 0x0BC8..0x1170 (without it the three rotate, 25 bytes out).  Found by the
  * permuter (wave 18, seed 1902) and reduced by hand to this one line.
  */
-double func_020979C0(double x, double y)
+double func_020979BC(double x, double y)
 {
 	double z,ax,z_h,z_l,p_h,p_l;
 	double y1,t1,t2,r,s,t,u,v,w;
@@ -6142,7 +6142,7 @@ pio2_3t =  8.47842766036889956997e-32;
 /*
  * fdlibm __ieee754_rem_pio2(x, y), e_rem_pio2.c transcribed unchanged.  The
  * machine entry is 0x02098B44, four bytes before the disasm body label
- * func_02098B48: the compiler's push {r0-r3} spilling the register-passed
+ * func_02098B44: the compiler's push {r0-r3} spilling the register-passed
  * double, because HI(x) takes the address of x.  The body is MSL runtime
  * (layout/runtime_arm9.txt, _msl_double_fn_1); the unit exists so the 4-byte
  * worklist row at the stub is reproduced as part of its function.
@@ -6152,7 +6152,7 @@ pio2_3t =  8.47842766036889956997e-32;
  * 0x020979BC.  Fabs = func_0209A504, __kernel_rem_pio2 = func_0209953C;
  * npio2_hw and two_over_pi resolve through the sole-ref/data class.
  */
-int func_02098B48(double x, double *y)
+int func_02098B44(double x, double *y)
 {
     double z, w, t, r, fn;
     double tx[3];
@@ -6274,7 +6274,7 @@ int func_02098B48(double x, double *y)
 
 
 
-double func_02099228(double x, double y)
+double func_02099224(double x, double y)
 {
     static const double one = 1.00000000000000000000e+00;
     static const double C1 = 4.16666666666666019037e-02;

@@ -12,14 +12,15 @@
  * Calls the module setter on the value with the sentinel -1.
  *
  * symbols:
+ *   SOC_Shutdown  0x0215F638  arm
 
  */
 
-extern int func_0215F638(int s, int how);
+extern int SOC_Shutdown(int s, int how);
 extern int func_0217EB00(int a, int b);
 
 int func_0217EB9C(int sock, int how)
 {
-    return func_0217EB00(func_0215F638(sock, how), -1);
+    return func_0217EB00(SOC_Shutdown(sock, how), -1);
 }
 

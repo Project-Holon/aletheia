@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204F27C  0x0204F27C  arm
+ *   BILLBOARD_DeleteAllImages  0x0204F27C  arm
  *   func_020307B0  0x020307B0  arm
  *
  * Free an actor and its two sub-objects, in +8, +4, self order.
@@ -20,13 +20,13 @@
 typedef unsigned char u8;
 
 struct Actor;
-extern void func_0204F27C(struct Actor *p);
+extern void BILLBOARD_DeleteAllImages(struct Actor *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
 void func_0204ED24(void *p)
 {
-    func_0204F27C(p);
+    BILLBOARD_DeleteAllImages(p);
     func_020307B0(((struct Obj11443 *)p)->f8);
     func_020307B0(((struct Obj11443 *)p)->f4);
     func_020307B0(p);

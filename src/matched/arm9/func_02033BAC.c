@@ -1,5 +1,5 @@
 /*
- * function: func_02033BAC
+ * function: SAVEDATA_GetBlockSize
  * address:  0x02033BAC
  * packet:   pkt_020339D0
  * region:   arm9
@@ -22,7 +22,7 @@ extern const u8 str_020A78CC[];
 extern const u8 str_020A793C[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-u32 func_02033BAC(u8 *p, u32 i)
+u32 SAVEDATA_GetBlockSize(u8 *p, u32 i)
 {
     if (i >= ((struct Obj11331 *)p)->f4) {
         func_02034714((const char *)str_020A78CC, 0xd6, (const char *)str_020A793C);

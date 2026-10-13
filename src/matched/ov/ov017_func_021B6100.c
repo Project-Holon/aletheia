@@ -1,5 +1,5 @@
 /*
- * function: func_021B6100
+ * function: ERROR_SCREEN_ShowAndWait
  * address:  0x021B6100
  * packet:   pkt_ov017_021B6100
  * region:   ov017
@@ -15,20 +15,20 @@
  *
  * symbols:
  *   func_0202EB0C  0x0202EB0C  thumb
- *   func_021B61F8  0x021B61F8  thumb  ov017
- *   func_020053EC  0x020053EC  thumb
+ *   ERROR_SCREEN_Setup  0x021B61F8  thumb  ov017
+ *   GFL_USE_PollPowerExit  0x020053EC  thumb
  *   func_02034F5C  0x02034F5C  arm
- *   func_021B641C  0x021B641C  thumb  ov017
+ *   ERROR_SCREEN_Teardown  0x021B641C  thumb  ov017
  */
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern u32 func_0202EB0C(void);
-extern void func_021B61F8(int x);
-extern void func_020053EC(void);
+extern void ERROR_SCREEN_Setup(int x);
+extern void GFL_USE_PollPowerExit(void);
 extern void func_02034F5C(void);
-extern void func_021B641C(void);
+extern void ERROR_SCREEN_Teardown(void);
 
 static inline u16 ReadKeys(void)
 {
@@ -37,16 +37,16 @@ static inline u16 ReadKeys(void)
     return k;
 }
 
-void func_021B6100(void)
+void ERROR_SCREEN_ShowAndWait(void)
 {
-    func_021B61F8(func_0202EB0C() ? 0x2A : 0x10);
+    ERROR_SCREEN_Setup(func_0202EB0C() ? 0x2A : 0x10);
     while (ReadKeys() & 3) {
-        func_020053EC();
+        GFL_USE_PollPowerExit();
         func_02034F5C();
     }
     while (!(ReadKeys() & 3)) {
-        func_020053EC();
+        GFL_USE_PollPowerExit();
         func_02034F5C();
     }
-    func_021B641C();
+    ERROR_SCREEN_Teardown();
 }

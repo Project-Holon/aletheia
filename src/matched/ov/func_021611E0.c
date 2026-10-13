@@ -13,7 +13,7 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_02012A30  0x02012A30  thumb
  *   func_02012134  0x02012134  thumb
- *   func_02029DD8  0x02029DD8  thumb
+ *   FIELD_SOUND_SYSTEM_RestoreVolume  0x02029DD8  thumb
  */
 #include "../include/Obj00020.h"
 
@@ -27,7 +27,7 @@ extern void *func_020120F4(const struct Ctx *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
 extern int func_02012134();
-extern int func_02029DD8(int a0, int a1);
+extern int FIELD_SOUND_SYSTEM_RestoreVolume(int a0, int a1);
 
 int func_021611E0(int a0, int a1)
 {
@@ -51,7 +51,7 @@ a0 = ((struct Obj00020 *)((char *)a0))->f0;
 loc_021611FC:
 a1 = a0 + 0;
 a0 = t6 + 0;
-    a0 = func_02029DD8(a0, a1);
+    a0 = FIELD_SOUND_SYSTEM_RestoreVolume(a0, a1);
 loc_02161204:
 a0 = *(int *)&((struct Obj00020 *)t4)->f10;
     if (a0 != 1) goto loc_0216120E;

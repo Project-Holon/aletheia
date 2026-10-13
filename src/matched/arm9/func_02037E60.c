@@ -1,5 +1,5 @@
 /*
- * function: func_02037E60
+ * function: GFL_NET_SYSTEM_SendParentData
  * address:  0x02037E60
  * packet:   pkt_02037E60
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_0203D6BC  0x0203D6BC  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
  *   func_02039338  0x02039338  arm
- *   func_02039160  0x02039160  arm
- *   func_02038A48  0x02038A48  arm
- *   func_020387A0  0x020387A0  arm
+ *   GFL_NET_SYSTEM_IsConnectMember  0x02039160  arm
+ *   GFL_NET_SYSTEM_SendCallback  0x02038A48  arm
+ *   GFL_NET_SYSTEM_RecvChildData  0x020387A0  arm
  *   g_020A7A20     0x020A7A20  data
- *   g_021469D0     0x021469D0  data
+ *   _pNetSys     0x021469D0  data
  */
 
 typedef unsigned char  u8;
@@ -42,41 +42,41 @@ struct State {
     u32 f1b0;                            /* 0x1b0 */
 };
 
-extern void *func_0203D788(void);
-extern u32           func_0203D6BC(void);
+extern void *GFL_NET_GetSession(void);
+extern u32           GFL_NET_GetChildSendSize(void);
 extern u16 func_02039338(void);
-extern u32           func_02039160(u32 a);
-extern int func_02038A48(int a);
+extern u32           GFL_NET_SYSTEM_IsConnectMember(u32 a);
+extern int GFL_NET_SYSTEM_SendCallback(int a);
 typedef signed int     s32;
-extern int func_020387A0(u32 i, u8 *p, s32 n);
+extern int GFL_NET_SYSTEM_RecvChildData(u32 i, u8 *p, s32 n);
 extern u8            g_020A7A20[];
-extern struct State *g_021469D0;
+extern struct State *_pNetSys;
 
-void func_02037E60(void)
+void GFL_NET_SYSTEM_SendParentData(void)
 {
-    struct Ctx *c = func_0203D788();
-    u32 v = func_0203D6BC();
+    struct Ctx *c = GFL_NET_GetSession();
+    u32 v = GFL_NET_GetChildSendSize();
     u32 r;
 
     r = c->f340->f70();
     if (r == 0)
         return;
     r = func_02039338();
-    r = func_02039160(r);
+    r = GFL_NET_SYSTEM_IsConnectMember(r);
     if (r == 0)
         return;
     if (g_020A7A20[1] != 0)
         return;
     if (func_02039338() != 0) {
-        r = c->f340->f64(g_021469D0->f0, v, 0, func_02038A48);
+        r = c->f340->f64(_pNetSys->f0, v, 0, GFL_NET_SYSTEM_SendCallback);
         if (r == 0)
             return;
         g_020A7A20[1] = 2;
-        g_021469D0->f1b0 = g_021469D0->f1b0 + 1;
+        _pNetSys->f1b0 = _pNetSys->f1b0 + 1;
     } else {
         g_020A7A20[1] = 2;
-        func_02038A48(1);
-        func_020387A0(0, (u8 *)g_021469D0->f0, (u16)v);
-        g_021469D0->f1b0 = g_021469D0->f1b0 + 1;
+        GFL_NET_SYSTEM_SendCallback(1);
+        GFL_NET_SYSTEM_RecvChildData(0, (u8 *)_pNetSys->f0, (u16)v);
+        _pNetSys->f1b0 = _pNetSys->f1b0 + 1;
     }
 }

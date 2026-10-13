@@ -9,6 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
+ *   APP_TASKMENU_WIN_ClearScreen  0x0202843C  thumb  arm9
  */
 #include "../include/Obj00275.h"
 typedef unsigned char u8;
@@ -22,7 +23,7 @@ struct TaskMenuTmpl;
 extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 struct Chan02021FD8;
 extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
-extern void func_0202843C(u8 *p);
+extern void APP_TASKMENU_WIN_ClearScreen(u8 *p);
 void func_021C48FC(u8 *p)
 {
     Template t;
@@ -42,6 +43,6 @@ void func_021C48FC(u8 *p)
     t.h = 3;
     ((struct Obj00275 *)p)->f10C = func_02027778((struct TaskMenuTmpl *)(&t), ((struct Obj00275 *)p)->f108);
     func_02021FD8(((struct Obj00275 *)p)->f38, 0, 0, 48, 10, 0);
-    func_0202843C(((struct Obj00275 *)p)->f128);
-    func_0202843C(((struct Obj00275 *)p)->f12C);
+    APP_TASKMENU_WIN_ClearScreen(((struct Obj00275 *)p)->f128);
+    APP_TASKMENU_WIN_ClearScreen(((struct Obj00275 *)p)->f12C);
 }

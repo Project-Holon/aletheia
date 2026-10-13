@@ -1,5 +1,5 @@
 /*
- * function: func_021748CC
+ * function: INTRUDE_COMM_SendSymbolPage
  * address: 0x021748CC
  * packet: pkt_ov011_021748CC
  * region: ov011
@@ -9,18 +9,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021736D8 0x021736D8 thumb ov011
+ *   INTRUDE_COMM_IsLinked 0x021736D8 thumb ov011
  *   func_020399A8 0x020399A8 arm
  *   func_0203D3F8 0x0203D3F8 arm
  */
 typedef unsigned int u32;
-int func_021736D8(void);
+int INTRUDE_COMM_IsLinked(void);
 struct Entry;
 struct Entry *func_020399A8(void);
 u32 func_0203D3F8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-int func_021748CC(char *p, int a)
+int INTRUDE_COMM_SendSymbolPage(char *p, int a)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
     return func_0203D3F8((u32)func_020399A8(), a, 0x229, 0x54, (u32)(p + 0x880), 0, 0, 0);

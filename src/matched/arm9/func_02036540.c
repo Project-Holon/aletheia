@@ -1,5 +1,5 @@
 /*
- * function: func_02036540
+ * function: GFL_NET_RING_BUFF_ReadU16
  * address:  0x02036540
  * packet:   pkt_0203640C
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02036500  0x02036500  arm
+ *   GFL_NET_RING_BUFF_ReadByte  0x02036500  arm
  *
- * Packs two bytes read through src/matched/func_02036500.c into one halfword,
+ * Packs two bytes read through src/matched/GFL_NET_RING_BUFF_ReadByte.c into one halfword,
  * high byte first.  The same call is made twice with the same argument.
  *
  * The shape that reproduces the original is `hi = (u16)(call << 8);` - the
@@ -30,22 +30,22 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02036540.c \
- *       --func func_02036540 --addr 0x02036540 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_RING_BUFF_ReadU16.c \
+ *       --func GFL_NET_RING_BUFF_ReadU16 --addr 0x02036540 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02036500(u32 a);
+extern u32 GFL_NET_RING_BUFF_ReadByte(u32 a);
 
-u32 func_02036540(u32 a)
+u32 GFL_NET_RING_BUFF_ReadU16(u32 a)
 {
     u16 hi;
     u32 lo;
 
-    hi = (u16)(func_02036500(a) << 8);
-    lo = func_02036500(a);
+    hi = (u16)(GFL_NET_RING_BUFF_ReadByte(a) << 8);
+    lo = GFL_NET_RING_BUFF_ReadByte(a);
     return (u16)(hi | lo);
 }

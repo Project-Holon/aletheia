@@ -15,6 +15,8 @@
  * symbols:
  *   NWMi_ClearFifoRecvFlag  0x027026EC  arm
  *   NWMi_ReceiveFifo9  0x02702740  arm
+ *   PXI_Init  0x02088498  arm  arm9
+ *   WMi_CheckInitializedAfterMeasure  0x02090ECC  arm  arm9
  */
 typedef unsigned int u32;
 
@@ -38,9 +40,9 @@ typedef struct CamBuf {
 } CamBuf;
 
 extern u32 func_02087988(void);
-extern u32 func_02090ECC(void);
+extern u32 WMi_CheckInitializedAfterMeasure(void);
 extern void func_0208799C(u32);
-extern void func_02088498(void);
+extern void PXI_Init(void);
 extern u32 func_020885EC(u32, u32);
 extern void func_020862B8(void *, u32);
 extern void func_020821C0(u32, void *, u32, u32, u32);
@@ -71,7 +73,7 @@ u32 NWM_Init(CamBuf *buf, u32 size, u32 mode) {
 u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
     u32 irq = func_02087988();
     int i;
-    if (func_02090ECC() == 0) {
+    if (WMi_CheckInitializedAfterMeasure() == 0) {
         func_0208799C(irq);
         return 3;
     }
@@ -91,7 +93,7 @@ u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
         func_0208799C(irq);
         return 5;
     }
-    func_02088498();
+    PXI_Init();
     if (func_020885EC(0x16, 1) == 0) {
         func_0208799C(irq);
         return 4;

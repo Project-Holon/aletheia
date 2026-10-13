@@ -14,11 +14,11 @@
  *   func_020457B0 0x020457B0 arm
  *   func_0200785C 0x0200785C thumb
  *   func_0216BFD4 0x0216BFD4 thumb ov010
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   d_021F1400 0x021F1400 data a1
  *   d_021F5580 0x021F5580 data a4 ov194
  *   ov194_id 0x000000C2 data a1
- * data: callback descriptor belongs to ov194 loaded by func_02031348.
+ * data: callback descriptor belongs to ov194 loaded by PROCSYS_Push.
  */
 #include "../include/Obj10650.h"
 typedef struct { void *task; void *text; } Request;
@@ -32,7 +32,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0200785C(void *save, unsigned box, void *dest);
 extern int *func_0216BFD4(unsigned short a0, int a1, short a2, short a3, int s0, int s1, int s2);
-extern void func_02031348(void *p, int a, const void *b, void *c);
+extern void PROCSYS_Push(void *p, int a, const void *b, void *c);
 extern const char d_021F1400[];
 extern const unsigned d_021F5580[];
 extern const char ov194_id[];
@@ -45,7 +45,7 @@ int func_021DF38C(char *p)
     r->text = func_020457B0(20, 0x4B);
     func_0200785C((*(void ***)p)[1], ((struct Obj10650 *)p)->f14, r->text);
     r->task = func_0216BFD4(0x4B, 2, 0, 0, 8, (int)r->text, value);
-    func_02031348(((struct Obj10650 *)p)->f4, (int)ov194_id, d_021F5580, r->task);
+    PROCSYS_Push(((struct Obj10650 *)p)->f4, (int)ov194_id, d_021F5580, r->task);
     *(Request * *)&((struct Obj10650 *)p)->fC = r;
     return 0;
 }

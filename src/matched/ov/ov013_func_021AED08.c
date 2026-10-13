@@ -1,5 +1,5 @@
 /*
- * function: func_021AED08
+ * function: VCT_MAIN_OnEventGroup
  * address: 0x021AED08
  * packet: pkt_ov013_021AED08
  * region: ov013
@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021AEDEC 0x021AEDEC thumb ov013
- *   func_021B0614 0x021B0614 arm ov013
+ *   VCT_MAIN_ReleasePeer 0x021AEDEC thumb ov013
+ *   VCT_SESSION_AddMember 0x021B0614 arm ov013
  */
 struct Node;
-extern void func_021AEDEC(struct Node *p);
-extern int func_021B0614(void *);
-void func_021AED08(int unused,int code,void *p)
+extern void VCT_MAIN_ReleasePeer(struct Node *p);
+extern int VCT_SESSION_AddMember(void *);
+void VCT_MAIN_OnEventGroup(int unused,int code,void *p)
 {
     switch(code) {
-    case 9: func_021AEDEC(p); break;
-    case 7: func_021B0614(p); break;
-    case 12: func_021AEDEC(p); break;
+    case 9: VCT_MAIN_ReleasePeer(p); break;
+    case 7: VCT_SESSION_AddMember(p); break;
+    case 12: VCT_MAIN_ReleasePeer(p); break;
     }
 }

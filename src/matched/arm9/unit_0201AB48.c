@@ -8,12 +8,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201AB48, sub_0201AB8C
+ * function: POKEPARTY_SetMember, POKEPARTY_SwapMembers
  *
  * pokeparty.c: the store-at-index and swap-two-indices operations on the
  * party container, an array of 0xDC byte records eight bytes into the object
  * with a running count at +0x04.  The file name is the image's own: the debug
- * allocator call in sub_0201AB8C passes 0x020A7304, which spells
+ * allocator call in POKEPARTY_SwapMembers passes 0x020A7304, which spells
  * "pokeparty.c", and its neighbours in the string area are
  * "poke_regulation.c" and "poke_personal.c".
  *
@@ -25,13 +25,13 @@
  * one-aligned declaration gives a byte loop of 0xDC iterations, the same
  * shape with completely different bytes.
  *
- * sub_0201AB48 reads field 0xA9 (the "slot is occupied" derived id, see
- * src/pending/sub_02018E34.c) out of the destination slot before the copy and
+ * POKEPARTY_SetMember reads field 0xA9 (the "slot is occupied" derived id, see
+ * src/pending/POKE_TOOL_GetBoxValueRaw.c) out of the destination slot before the copy and
  * out of the source after it, and adds the difference to the count, so the
  * count stays right whether the write fills an empty slot or overwrites a
  * full one.
  *
- * Two spellings in sub_0201AB48 are load bearing and neither is obvious.  The
+ * Two spellings in POKEPARTY_SetMember are load bearing and neither is obvious.  The
  * destination of the copy is written as byte arithmetic,
  * `(u8 *)p + idx * sizeof(rec) + 8`, while the getter's argument is the
  * ordinary `&p->mon[idx]`: written the same way twice the compiler common
@@ -44,13 +44,15 @@
  * past the copy loop (the mirror of
  * docs/idioms/cmp-operand-order-names-the-temporary.md).
  *
- * sub_0201AB8C swaps two slots through a heap-allocated temporary of exactly
+ * POKEPARTY_SwapMembers swaps two slots through a heap-allocated temporary of exactly
  * one record, then swaps the two slots' 0x1B-keyed side values through
- * sub_0201ACC4 / sub_0201ACDC (src/matched/unit_0201AC2C.c).  It returns 0
+ * POKEPARTY_GetSlotFlag / POKEPARTY_SetSlotFlag (src/matched/unit_0201AC2C.c).  It returns 0
  * unconditionally.
  *
  * symbols:
- *   sub_0201AB8C_File  0x020A7304  data
+ *   pokeparty_File  0x020A7304  data
+ *   POKEPARTY_GetSlotFlag  0x0201ACC4  thumb
+ *   POKEPARTY_SetSlotFlag  0x0201ACDC  thumb
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201AB48.c \
@@ -74,12 +76,12 @@ extern u32  func_02017E1C(void *entry, u32 id, u32 v);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern int sub_0201ACC4(void *p, u32 pos);
-extern void sub_0201ACDC(void *p, u32 pos, u32 mode);
+extern int POKEPARTY_GetSlotFlag(void *p, u32 pos);
+extern void POKEPARTY_SetSlotFlag(void *p, u32 pos, u32 mode);
 
-extern const char sub_0201AB8C_File[];
+extern const char pokeparty_File[];
 
-void sub_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src)
+void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src)
 {
     u32 a = func_02017E1C(&p->mon[idx], 0xA9, 0);
     u32 d = a - func_02017E1C((void *)src, 0xA9, 0);
@@ -88,20 +90,20 @@ void sub_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src)
     p->count += d;
 }
 
-u32 sub_0201AB8C(struct Party *p, u32 i, u32 j, u32 heap)
+u32 POKEPARTY_SwapMembers(struct Party *p, u32 i, u32 j, u32 heap)
 {
     u32 a;
     u32 b;
     struct PartyMon *tmp = (struct PartyMon *)func_02030734(heap, sizeof(struct PartyMon), 0,
-                                                           sub_0201AB8C_File, 382);
+                                                           pokeparty_File, 382);
 
     *tmp = p->mon[i];
     p->mon[i] = p->mon[j];
     p->mon[j] = *tmp;
     func_020307B0(tmp);
-    a = sub_0201ACC4(p, i);
-    b = sub_0201ACC4(p, j);
-    sub_0201ACDC(p, i, b);
-    sub_0201ACDC(p, j, a);
+    a = POKEPARTY_GetSlotFlag(p, i);
+    b = POKEPARTY_GetSlotFlag(p, j);
+    POKEPARTY_SetSlotFlag(p, i, b);
+    POKEPARTY_SetSlotFlag(p, j, a);
     return 0;
 }

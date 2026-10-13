@@ -8,13 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   ZONEDATA_GetEventFlagAddress  0x02014388  thumb
  */
 
-extern unsigned char *func_02014388(char *a0, unsigned int a1);
+extern unsigned char *ZONEDATA_GetEventFlagAddress(char *a0, unsigned int a1);
 
 void func_0201433C(char *a0, int a1)
 {
-    unsigned char *p = func_02014388(a0, a1);
+    unsigned char *p = ZONEDATA_GetEventFlagAddress(a0, a1);
 
     if (p != 0)
         *p &= 0xff ^ (1 << (a1 % 8));

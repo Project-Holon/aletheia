@@ -1,5 +1,5 @@
 /*
- * function: func_021CDE6C
+ * function: DWCi_SceneSetUsbReadyUpdate
  * address:  0x021CDE6C
  * packet:   pkt_021CD3EC
  * region:   ov016
@@ -10,23 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CDE6C   0x021CDE6C  arm
+ *   DWCi_SceneSetUsbReadyUpdate   0x021CDE6C  arm
+ *   DWCi_SceneSetUsbReadyUpdateNop  0x021CDEBC  arm
  *
- * Call func_021CDE80, func_021CDEBC, func_021CDEC0.
+ * Call func_021CDE80, DWCi_SceneSetUsbReadyUpdateNop, func_021CDEC0.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CDE6C.c \
- *       --func func_021CDE6C --addr 0x021CDE6C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetUsbReadyUpdate.c \
+ *       --func DWCi_SceneSetUsbReadyUpdate --addr 0x021CDE6C --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern void func_021CDE80(void);
-extern void func_021CDEBC(void);
+extern void DWCi_SceneSetUsbReadyUpdateNop(void);
 extern void func_021CDEC0(void);
 
-void func_021CDE6C(void)
+void DWCi_SceneSetUsbReadyUpdate(void)
 {
     func_021CDE80();
-    func_021CDEBC();
+    DWCi_SceneSetUsbReadyUpdateNop();
     func_021CDEC0();
 }

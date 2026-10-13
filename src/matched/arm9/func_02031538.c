@@ -1,5 +1,5 @@
 /*
- * function: func_02031538
+ * function: PROCSYS_NewProc
  * address:  0x02031538
  * packet:   pkt_020314F4
  * region:   arm9
@@ -19,8 +19,8 @@
  * immediate so it costs its own pool word loaded early into ip.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02031538.c \
- *       --func func_02031538 --addr 0x02031538 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PROCSYS_NewProc.c \
+ *       --func PROCSYS_NewProc --addr 0x02031538 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -41,7 +41,7 @@ extern const char func_02031538_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-struct Obj02031538 *func_02031538(u32 a0, u32 a1, u32 a2, u32 heap)
+struct Obj02031538 *PROCSYS_NewProc(u32 a0, u32 a1, u32 a2, u32 heap)
 {
     struct Obj02031538 *obj;
 

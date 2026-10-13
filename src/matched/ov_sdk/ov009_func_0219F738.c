@@ -12,7 +12,7 @@
  * sdk:      AddServerToDeadlist (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:
- *   func_0219E264  0x0219E264  arm  ov009
+ *   SBServerSetNext  0x0219E264  arm  ov009
  */
 
 struct SBServer;
@@ -21,13 +21,13 @@ struct SBServerList {
     struct SBServer *deadlist;
 };
 
-extern void func_0219E264(int *p, int v);
+extern void SBServerSetNext(int *p, int v);
 
 void func_0219F738(struct SBServerList *slist, struct SBServer *server)
 {
     if (slist->deadlist == 0)
-        func_0219E264((int *)server, 0);
+        SBServerSetNext((int *)server, 0);
     else
-        func_0219E264((int *)server, (int)slist->deadlist);
+        SBServerSetNext((int *)server, (int)slist->deadlist);
     slist->deadlist = server;
 }

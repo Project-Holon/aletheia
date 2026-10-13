@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled Thumb tail-call stub after func_020180FC (ldr r3, =func_020181A0;
+ * Unlabelled Thumb tail-call stub after POKE_TOOL_PushBoxMove (ldr r3, =POKE_TOOL_RecoverBoxAllPP;
  * bx r3). Filed as the witness for ov021 func_021C4340.
  *
  * symbols:
- *   func_020181A0  0x020181A0  thumb
+ *   POKE_TOOL_RecoverBoxAllPP  0x020181A0  thumb
  */
 
-extern void func_020181A0(void *mon);
+extern void POKE_TOOL_RecoverBoxAllPP(void *mon);
 
 void func_02018198(void *mon)
 {
-    func_020181A0(mon);
+    POKE_TOOL_RecoverBoxAllPP(mon);
 }

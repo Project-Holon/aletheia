@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788   0x0203D788  arm
+ *   GFL_NET_GetSession   0x0203D788  arm
  */
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 
 int func_0203CDBC(void)
 {
-    return func_0203D788() == 0;
+    return GFL_NET_GetSession() == 0;
 }

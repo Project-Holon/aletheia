@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207430C  0x0207430C  arm
+ *   NNS_SndArcGetSeqParam  0x0207430C  arm
  *
  * Two `return 1`s cross-jump into one block, and the block lands between the
  * second test and the body - which is what makes the second branch `blo`
@@ -27,7 +27,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *func_0207430C(int index);
+extern u8 *NNS_SndArcGetSeqParam(int index);
 
 int func_02006148(u32 a0)
 {
@@ -40,5 +40,5 @@ int func_02006148(u32 a0)
 fail:
     return 1;
 ok:
-    return func_0207430C(a0)[5] - 1;
+    return NNS_SndArcGetSeqParam(a0)[5] - 1;
 }

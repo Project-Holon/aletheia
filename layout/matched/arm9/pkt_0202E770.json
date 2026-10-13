@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0202E794",
+   "name": "COMM_PLAYER_SUPPORT_Delete",
    "address": "0x0202E794",
    "kind": "game",
    "region": "arm9",
@@ -48,7 +48,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202EA20"
+    "BLINK_PALANM_Delete"
+   ],
+   "addresses": [
+    "0x0202EA20"
    ]
   },
   {

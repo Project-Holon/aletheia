@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02013BA8",
-    "sub_02013BBC",
-    "sub_02013BD0"
+    "ZONEDATA_GetMapChangeType",
+    "ZONEDATA_GetCameraId",
+    "ZONEDATA_GetCameraAreaId"
+   ],
+   "addresses": [
+    "0x02013BA8",
+    "0x02013BBC",
+    "0x02013BD0"
    ]
   },
   {
@@ -35,12 +40,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02013C10",
-    "sub_02013C20",
-    "sub_02013C30",
-    "sub_02013C40",
-    "sub_02013C50",
-    "sub_02013C60"
+    "ZONEDATA_GetWeatherId",
+    "ZONEDATA_IsBikeEnabled",
+    "ZONEDATA_IsRingtoneEnabled",
+    "ZONEDATA_IsFlyEnabled",
+    "ZONEDATA_IsWeatherEnabled",
+    "ZONEDATA_IsPalaceEnabled"
+   ],
+   "addresses": [
+    "0x02013C10",
+    "0x02013C20",
+    "0x02013C30",
+    "0x02013C40",
+    "0x02013C50",
+    "0x02013C60"
    ]
   },
   {
@@ -55,12 +68,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02013CC8",
-    "sub_02013CE0",
-    "sub_02013D00",
-    "sub_02013D20",
-    "sub_02013D34",
-    "sub_02013D5C"
+    "ZONEDATA_IsZone1A6",
+    "ZONEDATA_IsZone96Pair",
+    "ZONEDATA_IsZone4BPair",
+    "ZONEDATA_IsZone34",
+    "ZONEDATA_IsNoGameEventZone",
+    "ZONEDATA_IsZone117"
+   ],
+   "addresses": [
+    "0x02013CC8",
+    "0x02013CE0",
+    "0x02013D00",
+    "0x02013D20",
+    "0x02013D34",
+    "0x02013D5C"
    ]
   },
   {
@@ -75,8 +96,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02013D9C",
-    "sub_02013DB8"
+    "ZONEDATA_IsZoneGroup118To120",
+    "ZONEDATA_IsRawZoneGroup121To13C"
+   ],
+   "addresses": [
+    "0x02013D9C",
+    "0x02013DB8"
    ]
   },
   {
@@ -91,12 +116,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02013DF0",
-    "sub_02013E04",
-    "sub_02013E40",
-    "sub_02013E4C",
-    "sub_02013E6C",
-    "sub_02013E7C"
+    "ZONEDATA_IsZone4E",
+    "ZONEDATA_IsNormalFieldZone",
+    "ZONEDATA_GetParentZoneId",
+    "ZONEDATA_GetPlaceNameId",
+    "ZONEDATA_GetPlaceNameWindow",
+    "ZONEDATA_IsFieldMatrix"
+   ],
+   "addresses": [
+    "0x02013DF0",
+    "0x02013E04",
+    "0x02013E40",
+    "0x02013E4C",
+    "0x02013E6C",
+    "0x02013E7C"
    ]
   },
   {
@@ -111,8 +144,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02013EC0",
-    "sub_02013ECC"
+    "ZONEDATA_GetEncountId",
+    "ZONEDATA_GetEventDataId"
+   ],
+   "addresses": [
+    "0x02013EC0",
+    "0x02013ECC"
    ]
   }
  ]

@@ -28,7 +28,7 @@
  * The mask arm must be written condition-first (`if (f2c >= 0) m = 1u << f2c;
  * else m = 0;`) to give the image's `movge r0,#1` / `lslge r2,r0,r1` /
  * `movlt r2,#0`, the same lever docs/notes/pkt_02073BF0.c.txt records for
- * func_02073EE4; f2c is therefore signed.
+ * NNS_SndStartTimer; f2c is therefore signed.
  *
  * symbols:
  *   g_0214E9FC     0x0214E9FC  data

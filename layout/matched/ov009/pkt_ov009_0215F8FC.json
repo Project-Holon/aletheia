@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215F8FC",
+   "name": "SOC_Startup",
    "address": "0x0215F8FC",
    "kind": "sdk",
    "region": "ov009",
@@ -30,7 +30,7 @@
    }
   },
   {
-   "name": "func_0215FA90",
+   "name": "SOC_Cleanup",
    "address": "0x0215FA90",
    "kind": "sdk",
    "region": "ov009",

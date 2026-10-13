@@ -22,7 +22,7 @@
    ]
   },
   {
-   "name": "sub_0201C724",
+   "name": "PRINTSYS_PrintQueColor",
    "address": "0x0201C724",
    "kind": "game",
    "region": "arm9",

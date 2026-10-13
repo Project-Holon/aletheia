@@ -14,8 +14,8 @@
  *   d_021BA7D4     0x021BA7D4  data  a4
  *   func_0204A48C  0x0204A48C  arm
  *   func_0204B100  0x0204B100  arm
- *   func_0204B270  0x0204B270  arm
- *   func_02025318  0x02025318  thumb
+ *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
+ *   ACTOR_TOOL_Create  0x02025318  thumb
  *   func_02025538  0x02025538  thumb
  */
 
@@ -50,8 +50,8 @@ void func_021B6844(struct W6844 *p)
     struct S6844 s;
     void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
     struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-    void func_0204B270(struct Bank *bank);
-    u8 *func_02025318(u32 a0, u8 a1, u8 a2);
+    void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
+    u8 *ACTOR_TOOL_Create(u32 a0, u8 a1, u8 a2);
     void *func_02025538(unsigned int a0, void *a1);
 
     s = d_020A1448;
@@ -63,7 +63,7 @@ void func_021B6844(struct W6844 *p)
     s.h14 = 0x40;
     func_0204A48C((const struct Cfg *)(&s), (u32)(&d_021BA7D4), 0x61);
     p->unk_14 = func_0204B100(0x60, 0, 0x61);
-    func_0204B270(p->unk_14);
-    p->unk_04 = func_02025318(0x61, 0x10, 0x10);
+    CLACT_SetUnitDefaultRenderer(p->unk_14);
+    p->unk_04 = ACTOR_TOOL_Create(0x61, 0x10, 0x10);
     p->unk_2c = func_02025538(0x61, p->unk_14);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02012FE4
+ * function: GAME_DATA_GetEventWorkFromSave
  * address:  0x02012FE4
  * packet:   pkt_02012FE4
  * region:   arm9
@@ -12,7 +12,7 @@
 
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *a, unsigned int b);
-void *func_02012FE4(struct Sub020071CCCtrl *a0)
+void *GAME_DATA_GetEventWorkFromSave(struct Sub020071CCCtrl *a0)
 {
     return func_020071CC(a0, 0x2d);
 }

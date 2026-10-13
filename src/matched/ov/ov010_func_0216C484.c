@@ -12,9 +12,9 @@
  * symbols:
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
  *   func_02012374  0x02012374  thumb
- *   func_020144DC  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02014910  0x02014910  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   func_021BE92C  0x021BE92C  thumb  ov021
  *   func_02082D44  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
@@ -25,9 +25,9 @@ typedef unsigned char  u8;
 struct Evt;
 extern int func_021BE8D4(void *a, int b, int sel, int d);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_020144DC(int, int);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int, int);
 extern void *func_02014910(char *a0, int a1, int a2, int a3);
-extern void *func_020145CC(void *a0);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void func_02082D44(void *, void *, int);
 typedef unsigned int   u32;
@@ -42,7 +42,7 @@ int func_0216C484(int a, int *st, int *o)
         (*st)++;
         break;
     case 1:
-        func_02012374((struct Evt *)a, (struct Evt **)func_020144DC(x, o[1]));
+        func_02012374((struct Evt *)a, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(x, o[1]));
         (*st)++;
         break;
     case 2:
@@ -50,7 +50,7 @@ int func_0216C484(int a, int *st, int *o)
         (*st)++;
         break;
     case 3:
-        func_02012374((struct Evt *)a, func_020145CC((void *)x));
+        func_02012374((struct Evt *)a, FIELD_STATUS_CreateFieldOpenEvent((void *)x));
         (*st)++;
         break;
     case 4:

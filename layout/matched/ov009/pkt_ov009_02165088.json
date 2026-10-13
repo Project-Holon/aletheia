@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02165088",
+   "name": "WCM_CleanupAsync",
    "address": "0x02165088",
    "kind": "sdk",
    "region": "ov009",

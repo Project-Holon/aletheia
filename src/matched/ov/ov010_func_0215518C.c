@@ -25,7 +25,7 @@
  *   func_0200BAF4  0x0200BAF4  thumb
  *   func_0201AC2C  0x0201AC2C  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_0201BA34  0x0201BA34  thumb
+ *   POKE_TOOL_HealParty  0x0201BA34  thumb
  *   func_02155160  0x02155160  thumb  ov010
  */
 
@@ -55,7 +55,7 @@ extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void *func_0200BAF4(int a, int b);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern u32 func_020307B0(void *p);
-extern void func_0201BA34(void *p);
+extern void POKE_TOOL_HealParty(void *p);
 extern void func_02155160(void *list);
 
 void func_0215518C(int mode, struct Ctx *ctx)
@@ -78,6 +78,6 @@ void func_0215518C(int mode, struct Ctx *ctx)
         func_0201AC2C(h, ctx->f38);
         func_020307B0(h);
     }
-    func_0201BA34(ctx->f38);
+    POKE_TOOL_HealParty(ctx->f38);
     func_02155160(ctx->f38);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02155C6C
+ * function: DWC_RAP_OnBuddyFriendNop
  * address: 0x02155C6C
  * packet: pkt_ov009_02155C6C
  * region: ov009
@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * Unlabelled empty callback leaf for func_021554C8. Reads no arguments.
+ * Unlabelled empty callback leaf for DWC_RAP_StepLogin. Reads no arguments.
  */
-void func_02155C6C(void)
+void DWC_RAP_OnBuddyFriendNop(void)
 {
 }

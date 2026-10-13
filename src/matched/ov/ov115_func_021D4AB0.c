@@ -17,9 +17,9 @@
  *   func_021D5ED8  0x021D5ED8  thumb  ov115
  *   func_0203CD98  0x0203CD98  arm
  *   func_0200FBB0  0x0200FBB0  thumb
- *   func_0203CA04  0x0203CA04  arm
+ *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
  *   func_0200FBA0  0x0200FBA0  thumb
- *   func_0203C968  0x0203C968  arm
+ *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
  *   func_021D4B3C  0x021D4B3C  thumb  ov115
  *   func_021D460C  0x021D460C  thumb  ov115
  */
@@ -34,9 +34,9 @@ extern int func_0203CD98(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_0200FBB0(void);
-extern void func_0203CA04(void);
+extern void GFL_NET_STATE_SetWifiError(void);
 extern void func_0200FBA0(void);
-extern void func_0203C968(void);
+extern void GFL_NET_STATE_ClearErrorMode(void);
 extern void func_021D4B3C(u8 *p);
 extern void func_021D460C(u8 *p);
 
@@ -62,9 +62,9 @@ void func_021D4AB0(unsigned char *a)
             func_021D5C94((unsigned char *)(((struct Obj02825 *)a)->f38));
             if (func_0203CD98() != 0)
                 func_0200FBB0();
-            func_0203CA04();
+            GFL_NET_STATE_SetWifiError();
             func_0200FBA0();
-            func_0203C968();
+            GFL_NET_STATE_ClearErrorMode();
             func_021D5ED8((unsigned char *)(((struct Obj02825 *)a)->f38), 0x25);
             func_021D426C(a, (int)func_021D460C);
             break;

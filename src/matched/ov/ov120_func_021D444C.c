@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02028218 0x02028218 thumb
+ *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  *   func_021D43BC 0x021D43BC thumb ov120
  */
 #include "../include/Obj10385.h"
@@ -17,6 +17,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_02028218(struct Obj *,u32);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *,u32);
 extern int func_021D43BC(int,char *);
-int func_021D444C(int n,char *p) { int result; if(*(struct Obj * *)&((struct Obj10385 *)p)->f34) func_02028218(*(struct Obj * *)&((struct Obj10385 *)p)->f34,0); result=func_021D43BC(n,p); if(result) ((struct Obj10385 *)p)->f160=result; return 1; }
+int func_021D444C(int n,char *p) { int result; if(*(struct Obj * *)&((struct Obj10385 *)p)->f34) APP_TASKMENU_WIN_SetActive(*(struct Obj * *)&((struct Obj10385 *)p)->f34,0); result=func_021D43BC(n,p); if(result) ((struct Obj10385 *)p)->f160=result; return 1; }

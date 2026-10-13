@@ -8,14 +8,14 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020314DC
+ * function: PROCSYS_QueueReplace
  *
  * A four-field constructor: marks the object valid (+0x10 = 1) and stores
  * the three remaining arguments at +0x14, +0x18 and +0x1c. No relocations.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020314DC.c \
- *       --func sub_020314DC --addr 0x020314DC --cc 1.1p1
+ *   python tools/match.py one --src src/matched/PROCSYS_QueueReplace.c \
+ *       --func PROCSYS_QueueReplace --addr 0x020314DC --cc 1.1p1
  */
 
 typedef unsigned int u32;
@@ -28,7 +28,7 @@ struct S020314DC {
     u32  field1c;
 };
 
-void sub_020314DC(struct S020314DC *p, u32 a, u32 b, u32 c)
+void PROCSYS_QueueReplace(struct S020314DC *p, u32 a, u32 b, u32 c)
 {
     p->field10 = 1;
     p->field14 = a;

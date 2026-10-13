@@ -13,21 +13,21 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02005DF8 0x02005DF8 thumb
- *   func_02005E30 0x02005E30 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_020311B8 0x020311B8 arm
- *   func_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02005E50 0x02005E50 thumb
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005E64 0x02005E64 thumb
- *   func_02005D28 0x02005D28 thumb
- *   func_02005E9C 0x02005E9C thumb
- *   func_02031194 0x02031194 arm
- *   func_02023F60 0x02023F60 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_PushBgm 0x02005E64 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
+ *   TCBL_DeleteTask 0x02031194 arm
+ *   BRIGHTNESS_Set 0x02023F60 thumb
  *   sub_020311B8 0x020311B8 arm
- *   sub_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   sub_0207C768 0x0207C768 arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
@@ -35,14 +35,14 @@
  *   _ffix 0x0209C494 arm
  *   func_021BDF74 0x021BDF74 thumb ov203
  *   func_021BDF88 0x021BDF88 thumb ov203
- *   sub_02031194 0x02031194 arm
- *   sub_02045B38 0x02045B38 arm
- *   sub_02045EC0 0x02045EC0 arm
+ *   TCBL_DeleteTask 0x02031194 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   func_0201DD78 0x0201DD78 thumb
  *   func_0201CCE4 0x0201CCE4 thumb
- *   sub_02045334 0x02045334 arm
- *   sub_02045374 0x02045374 arm
- *   sub_02045730 0x02045730 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   sub_020409B4 0x020409B4 arm
  *   func_0201F79C 0x0201F79C thumb
  *   sub_02045C04 0x02045C04 arm
@@ -61,7 +61,7 @@
  *   func_0201F614 0x0201F614 thumb
  *   func_02040588 0x02040588 arm
  *   d_0209DF08 0x0209DF08 data a1
- *   sub_02049B68 0x02049B68 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   func_02049990 0x02049990 arm
  *   func_0207D63C 0x0207D63C arm
  *   func_02049658 0x02049658 arm
@@ -79,7 +79,7 @@
  *   func_0201D7EC 0x0201D7EC thumb
  *   func_020490F4 0x020490F4 arm
  *   func_02012FFC 0x02012FFC thumb
- *   func_0203115C 0x0203115C arm
+ *   TCBL_DeleteAllTasks 0x0203115C arm
  *   func_02049238 0x02049238 arm
  *   func_0201D83C 0x0201D83C thumb
  *   func_02031140 0x02031140 arm
@@ -154,32 +154,32 @@ typedef struct {unsigned short heap,alternate;int config;int ended;int done;int 
 
 typedef struct {int kind;unsigned time;int values[8];} Record;
 
-extern void func_02005DF8(u32 a);
-extern void func_02005E30(u32 a);
-extern void func_02005D90(int,int);
+extern void GFL_USE_FadeInBgmFull(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern struct TcblNode *func_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),unsigned,unsigned);
-extern void *func_02031290(struct S02030FB4 *);
+extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void func_02082BCC(void *,int,int);
-extern int func_02005E50(void);
-extern void func_02005DE4(void *);
-extern int func_02005E64(void),func_02005E9C(void);
-extern void func_02005D28(void);
-extern void func_02031194(struct TcblNode *);
-extern void func_02023F60(u32 a0, u32 a1, u32 mask);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_SetBgmPlayerParam(void *);
+extern int GFL_USE_PushBgm(void),GFL_USE_PopBgm(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
+extern void TCBL_DeleteTask(struct TcblNode *);
+extern void BRIGHTNESS_Set(u32 a0, u32 a1, u32 mask);
 extern struct TcblNode *sub_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
-extern void *sub_02031290(struct S02030FB4 *);
+extern void *TCBL_GetWork(struct S02030FB4 *);
 extern u32 sub_0207C768(u32,u32);
 extern void func_021BDF74(char *p, unsigned i, unsigned short val);
 extern void func_021BDF88(char *p, int a, int b);
-extern void sub_02031194(struct TcblNode *);
-extern struct MsgBank *sub_02045B38(u32,u32,u32,u32);
-extern void *sub_02045EC0(struct MsgBank *,u32);
+extern void TCBL_DeleteTask(struct TcblNode *);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
+extern void *MSGDATA_AllocString(struct MsgBank *,u32);
 extern void func_0201DD78(u32,u32,u32);
 /* The caller stores the live r0 result, although the matched wrapper was typed void. */
 extern u32 func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
-extern void sub_02045334(struct Descriptor *);
-extern void sub_02045374(struct Cfg *);
-extern u8 sub_02045730(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void sub_020409B4(u32);
 extern void func_0201F79C(void *,u32,u32,u32);
 extern u32 sub_02045C04(struct Rec *rec);
@@ -197,7 +197,7 @@ extern void func_0201F7A8(void *,unsigned);
 extern u32 func_020452E8(struct Descriptor *d);
 extern void func_0201F614(int a, u32 x);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void sub_02049B68(void *,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049990(void *,u32,u32,u32,u32,u32,u32,u16);
 extern void func_0207D63C(u32,int,int,int,int);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -214,7 +214,7 @@ extern struct Tcbl *func_0203101C(u16 heap, u16 tag, unsigned int count, unsigne
 extern struct GfFont *func_0201D7EC(int,int,int,int,unsigned);
 extern void *func_020490F4(u32 id, u32 heap);
 extern signed char func_02012FFC(void);
-extern void func_0203115C(struct Tcbl *p);
+extern void TCBL_DeleteAllTasks(struct Tcbl *p);
 extern void func_02049238(void *);
 extern u32 func_0201D83C(void *ptr);
 extern void func_02031140(struct S02031140 *p);
@@ -257,7 +257,7 @@ extern const char d_021C3D4C[];
 
 
 
-void func_021BEE1C(char *p,int unused,int *s) { int x;x=func_021BF7AC(p,s[1]);if(s[0]==0)func_02005DF8((u16)x);else func_02005E30((u16)x); }
+void func_021BEE1C(char *p,int unused,int *s) { int x;x=func_021BF7AC(p,s[1]);if(s[0]==0)GFL_USE_FadeInBgmFull((u16)x);else GFL_USE_FadeOutBgm((u16)x); }
 
 
 
@@ -267,7 +267,7 @@ void func_021BEE40(char *p,int unused,int *s)
 {
     int channel,a,b;
     channel=s[0];a=func_021BF7AC(p,s[1]);b=func_021BF7AC(p,s[2]);
-    if(s[3]==0){func_02005D90(channel,0xffff);func_02005DF8((unsigned short)b);}
+    if(s[3]==0){GFL_USE_CancelChangeAndPlayBgm(channel,0xffff);GFL_USE_FadeInBgmFull((unsigned short)b);}
     else {func_021BEE8C(p,channel,a,b,s[3]);}
 }
 
@@ -279,14 +279,14 @@ void func_021BEE8C(char *p,int channel,int start,int end,unsigned mode)
 {
     Task_021BEE1C *t;
     int flag=0;
-    t=func_02031290((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BEEF8,24,0));
+    t=TCBL_GetWork((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BEEF8,24,0));
     func_02082BCC(t,0,24);
     t->owner=p;t->mode=mode;
     if(mode==3)flag=1;
     t->a=flag;
     if(mode==4)t->b=1;else t->b=0;
     t->channel=channel;t->start=start;t->end=end;
-    if(start!=0)func_02005E30((unsigned short)start);else t->done=1;
+    if(start!=0)GFL_USE_FadeOutBgm((unsigned short)start);else t->done=1;
 }
 
 
@@ -297,19 +297,19 @@ void func_021BEEF8(struct TcblNode *node,Task_021BEE1C *t)
 {
     switch(t->done){
     case 0:
-        if(func_02005E50()!=0)return;
+        if(GFL_USE_IsBgmFading()!=0)return;
         ++t->done;
     case 1:
         if(t->a){
-            if((unsigned char)t->owner[25]==0){func_02005DE4((void *)1);func_02005E64();t->owner[25]=1;}
-        }else {func_02005D28();if(t->mode==1)break;}
+            if((unsigned char)t->owner[25]==0){GFL_USE_SetBgmPlayerParam((void *)1);GFL_USE_PushBgm();t->owner[25]=1;}
+        }else {GFL_USE_CancelChangeAndStopBgm();if(t->mode==1)break;}
         if(t->b){
-            if((unsigned char)t->owner[25]!=0){func_02005E9C();func_02005DE4(0);t->owner[25]=0;}
-        }else {func_02005D90(t->channel,0xffff);}
-        if(t->end!=0)func_02005DF8((unsigned short)t->end);
+            if((unsigned char)t->owner[25]!=0){GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);t->owner[25]=0;}
+        }else {GFL_USE_CancelChangeAndPlayBgm(t->channel,0xffff);}
+        if(t->end!=0)GFL_USE_FadeInBgmFull((unsigned short)t->end);
         break;
     }
-    func_02031194(node);
+    TCBL_DeleteTask(node);
 }
 
 
@@ -321,7 +321,7 @@ void func_021BEEF8(struct TcblNode *node,Task_021BEE1C *t)
  */
 void func_021BEF84(char *p,int unused,int *s)
 {
-    if(s[1]==0){func_02023F60((short)s[2],0x3f,s[0]);}
+    if(s[1]==0){BRIGHTNESS_Set((short)s[2],0x3f,s[0]);}
     else {func_021BEFC4((struct Owner *)p,s[0],0x3f,s[2],s[3],func_021BF7AC(p,s[1]),0);}
 }
 
@@ -334,7 +334,7 @@ void func_021BEFC4(struct Owner *owner,int mask,int kind,int start,int end,int d
     struct Work *work;
     float a,b,c;
     int final;
-    work=sub_02031290((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BF0B4,0x28,0));
+    work=TCBL_GetWork((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BF0B4,0x28,0));
     func_02082BCC(work,0,0x28);
     work->owner=owner;
     work->mask=mask;
@@ -353,7 +353,7 @@ void func_021BEFC4(struct Owner *owner,int mask,int kind,int start,int end,int d
     final=(int)c;
     work->step=sub_0207C768(final-work->current,(int)b);
     if(counter != 0) (*counter)++;
-    func_02023F60((short)work->start,work->kind,work->mask);
+    BRIGHTNESS_Set((short)work->start,work->kind,work->mask);
 }
 
 
@@ -363,12 +363,12 @@ void func_021BEFC4(struct Owner *owner,int mask,int kind,int start,int end,int d
 void func_021BF0B4(struct TcblNode *node,int *s)
 {
     if(*(int *)((char *)s[0]+12)!=0){
-        func_02023F60((short)s[6],s[3],s[2]);
+        BRIGHTNESS_Set((short)s[6],s[3],s[2]);
         if(s[9]!=0)--*(int *)s[9];
-        func_02031194(node);return;
+        TCBL_DeleteTask(node);return;
     }
-    if(s[4]-->0){func_02023F60((short)(s[7]>>12),s[3],s[2]);s[7]+=s[8];}
-    else {func_02023F60((short)s[6],s[3],s[2]);if(s[9]!=0)--*(int *)s[9];func_02031194(node);}
+    if(s[4]-->0){BRIGHTNESS_Set((short)(s[7]>>12),s[3],s[2]);s[7]+=s[8];}
+    else {BRIGHTNESS_Set((short)s[6],s[3],s[2]);if(s[9]!=0)--*(int *)s[9];TCBL_DeleteTask(node);}
 }
 
 
@@ -389,7 +389,7 @@ void func_021BF128(char *p,int unused,int *s)
 void func_021BF168(char *p,unsigned char index,signed char a,signed char b,signed char c,int start,int end)
 {
     Task_021BF168 *t;
-    t=func_02031290((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BF1CC,32,1));
+    t=TCBL_GetWork((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BF1CC,32,1));
     func_02082BCC(t,0,32);
     t->owner=p;t->a=a;t->b=b;t->c=c;t->index=index;t->mask=63;t->start=start;t->end=end;
     func_021BEFC4((struct Owner *)p,t->index,t->mask,a,b,start,&t->count);
@@ -402,8 +402,8 @@ void func_021BF168(char *p,unsigned char index,signed char a,signed char b,signe
 void func_021BF1CC(void *task,char *work)
 {
     if(((struct Obj25324 *)(*(char * *)&((struct Obj01291 *)work)->f0))->fC) {
-        func_02023F60(((struct Obj01291 *)work)->fB,((struct Obj01291 *)work)->f1C,((struct Obj01291 *)work)->f18);
-        func_02031194(task);return;
+        BRIGHTNESS_Set(((struct Obj01291 *)work)->fB,((struct Obj01291 *)work)->f1C,((struct Obj01291 *)work)->f18);
+        TCBL_DeleteTask(task);return;
     }
     switch(((struct Obj01291 *)work)->f8) {
     case 0:
@@ -416,8 +416,8 @@ void func_021BF1CC(void *task,char *work)
         if(((struct Obj01291 *)work)->f14) return;
         break;
     }
-    func_02023F60(((struct Obj01291 *)work)->fB,((struct Obj01291 *)work)->f1C,((struct Obj01291 *)work)->f18);
-    func_02031194(task);
+    BRIGHTNESS_Set(((struct Obj01291 *)work)->fB,((struct Obj01291 *)work)->f1C,((struct Obj01291 *)work)->f18);
+    TCBL_DeleteTask(task);
 }
 
 
@@ -458,7 +458,7 @@ void func_021BF290(int a, int b, int *s)
 
 void func_021BF2DC(char *p,int a,int b,int c,unsigned char d,unsigned char e,unsigned char f,unsigned char g)
 {
-    func_021BF404(p,func_02031290((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BF320,0x28,1)),a,b,c,d,e,f,g);
+    func_021BF404(p,TCBL_GetWork((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BF320,0x28,1)),a,b,c,d,e,f,g);
 }
 
 
@@ -472,20 +472,20 @@ void func_021BF320(struct TcblNode *task, struct Context_021BF290 *ctx)
     struct Config_021BF290 *cfg = ctx->cfg;
     if (cfg->ac != 0) {
         func_021BF470((char *)ctx);
-        sub_02031194(task);
+        TCBL_DeleteTask(task);
         return;
     }
     switch (ctx->state) {
     case 0: {
-        struct MsgBank *bank = sub_02045B38(0,2,(u16)ctx->file,cfg->a2);
+        struct MsgBank *bank = MSGDATA_CreateFromArchive(0,2,(u16)ctx->file,cfg->a2);
         void *desc;
-        ctx->text = sub_02045EC0(bank,ctx->index);
+        ctx->text = MSGDATA_AllocString(bank,ctx->index);
         func_0201DD78(1,2,15);
         ctx->printer = func_0201CCE4((u32)ctx->desc,0,0,(u32)ctx->text,cfg->a24,cfg->a18,cfg->a20,0,cfg->a0,15);
         desc = ctx->desc;
-        sub_02045334(desc);
-        sub_02045374(desc);
-        sub_020409B4(sub_02045730(desc));
+        BMP_WIN_TransferChars(desc);
+        BMP_WIN_MakeScreen(desc);
+        sub_020409B4(BMP_WIN_GetBgLayer(desc));
         func_0201F79C(ctx->desc,1,ctx->base,0);
         sub_02045C04((struct Rec *)bank);
         func_0204047C(1,0);
@@ -497,7 +497,7 @@ void func_021BF320(struct TcblNode *task, struct Context_021BF290 *ctx)
     case 1:
         if (ctx->count++ >= ctx->limit) {
             func_021BF470((char *)ctx);
-            sub_02031194(task);
+            TCBL_DeleteTask(task);
         }
         break;
     }
@@ -560,7 +560,7 @@ void func_021BF4C4(char *p,int unused,int *record)
 
 void func_021BF510(char *p,int a,int b,int c,int d,int e,int f)
 {
-    func_021BF710(p,func_02031290((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BF550,0x2C,1)),a,b,c,d,e,f);
+    func_021BF710(p,TCBL_GetWork((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BF550,0x2C,1)),a,b,c,d,e,f);
 }
 
 
@@ -578,12 +578,12 @@ void func_021BF550(struct TcblNode *task,struct Context_021BF470 *ctx)
     float a;
     if(cfg->stop != 0) {
         func_021BF758(ctx);
-        sub_02031194(task);
+        TCBL_DeleteTask(task);
         return;
     }
     switch(ctx->state) {
     case 0:
-        sub_02049B68(cfg->archive,ctx->first,0,0,0,cfg->heap);
+        ARC_UTIL_UploadPaletteFromHandleWhole(cfg->archive,ctx->first,0,0,0,cfg->heap);
         func_02049990(cfg->archive,ctx->second,1,0,0,0,1,cfg->heap);
         ctx->state++;
         break;
@@ -635,7 +635,7 @@ void func_021BF550(struct TcblNode *task,struct Context_021BF470 *ctx)
         break;
     default:
         func_021BF758(ctx);
-        sub_02031194(task);
+        TCBL_DeleteTask(task);
         break;
     }
 }
@@ -771,9 +771,9 @@ void func_021BF8E8(char *p){*(struct Tcbl * *)&((struct Obj01776 *)p)->f20=func_
 void func_021BF924(char *p)
 {
     if(((struct Obj02250 *)p)->f2C) func_021BE9E8(((struct Obj02250 *)p)->f2C);
-    func_0203115C(((struct Obj02250 *)p)->f20);
+    TCBL_DeleteAllTasks(((struct Obj02250 *)p)->f20);
     if(((struct Obj02250 *)p)->f19) {
-        func_02005E9C();func_02005DE4(0);func_02005DF8(60);
+        GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(60);
     }
     func_02049238(((struct Obj02250 *)p)->f28);func_0201D83C(((struct Obj02250 *)p)->f24);func_02031140(((struct Obj02250 *)p)->f20);
 }

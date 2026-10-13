@@ -1,5 +1,5 @@
 /*
- * function: func_020213F8
+ * function: PALANM_LookupPairedCode
  * address:  0x020213F8
  * packet:   pkt_020213F8
  * region:   arm9
@@ -8,22 +8,22 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * blocker:  +0030 ABS32 sub_0209E904_Tbl       : 0209E904 (data, from header) has no witness outside 020213F8..0202142C
+ * blocker:  +0030 ABS32 sPalAnmCodePairTable       : 0209E904 (data, from header) has no witness outside 020213F8..0202142C
  * symbols:
- *   sub_0209E904_Tbl  0x0209E904  data
+ *   sPalAnmCodePairTable  0x0209E904  data
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 sub_0209E904_Tbl[][2];
+extern u16 sPalAnmCodePairTable[][2];
 
-u16 func_020213F8(int a, int b)
+u16 PALANM_LookupPairedCode(int a, int b)
 {
     u32 i;
 
     for (i = 0; i < 0x19; i++)
-        if (sub_0209E904_Tbl[i][b] == a)
-            return sub_0209E904_Tbl[i][b ^ 1];
+        if (sPalAnmCodePairTable[i][b] == a)
+            return sPalAnmCodePairTable[i][b ^ 1];
     return 0;
 }

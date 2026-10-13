@@ -1,5 +1,5 @@
 /*
- * function: func_021D8288
+ * function: P_STA_INFO_DrawMemo
  * address: 0x021D8288
  * packet: pkt_ov131_021D8288
  * region: ov131
@@ -13,7 +13,7 @@
  *   copies, and the loop counter is zeroed before the row lookup.
  *   func_0201EC74 takes an int heap here (no u8 narrowing in the caller).
  * symbols:
- *   func_021D8784 0x021D8784 thumb
+ *   P_STA_INFO_GetPlaceName 0x021D8784 thumb
  *   _u32_div_f 0x0209C2B0 arm
  *   _s32_div_f 0x0209C0A4 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -22,6 +22,7 @@
  *   func_020457B0 0x020457B0 arm
  *   d_021DC24C 0x021DC24C data
  *   d_021DC264 0x021DC264 data
+ *   POKE_TOOL_IsBoxOwnedByPlayer  0x02018488  thumb  arm9
  */
 #include "../include/Obj00112.h"
 #include "../include/Obj01547.h"
@@ -39,7 +40,7 @@ struct U16Vec;
 struct WordSet;
 extern int func_0202F498(void *a0, int a1);
 extern u8 *func_02012944(void *p);
-extern u32 func_02018488(void *, void *);
+extern u32 POKE_TOOL_IsBoxOwnedByPlayer(void *, void *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045808(struct U16Vec *vec);
@@ -51,14 +52,14 @@ extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 sub_0201D2C8(struct StrObj *s);
-extern void *func_021D8784(void *, u8 *, u32);
+extern void *P_STA_INFO_GetPlaceName(void *, u8 *, u32);
 extern const u32 d_021DC24C[6];
 extern const u8 d_021DC264[6][6];
 
 struct Tbl6 { u32 v[6]; };
 struct Tbl36 { u8 v[6][6]; };
 
-void func_021D8288(u8 *a, u8 *p, void *mon)
+void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
 {
     void *s6c;
     void *s68;
@@ -112,7 +113,7 @@ void func_021D8288(u8 *a, u8 *p, void *mon)
     fl2 = func_0202F498(mon, 2);
     fl3 = func_0202F498(mon, 3);
     flags = fl0 | fl1 | fl2 | fl3;
-    known = func_02018488(mon, func_02012944(((struct Obj23146 *)(*(u8 * *)&((struct Obj00112 *)a)->f8))->f8));
+    known = POKE_TOOL_IsBoxOwnedByPlayer(mon, func_02012944(((struct Obj23146 *)(*(u8 * *)&((struct Obj00112 *)a)->f8))->f8));
 
     if (isEgg == 0) {
         t = func_02045EC0(((struct Obj01547 *)p)->f38, v5c);
@@ -195,8 +196,8 @@ void func_021D8288(u8 *a, u8 *p, void *mon)
             msg = 0x56;
         }
     }
-    s68 = func_021D8784(a, p, v20);
-    s6c = func_021D8784(a, p, f96);
+    s68 = P_STA_INFO_GetPlaceName(a, p, v20);
+    s6c = P_STA_INFO_GetPlaceName(a, p, f96);
     func_0201EFA4(ws, 0, v3c, 2, 2, 1);
     best = 0;
     func_0201EFA4(ws, 1, v38, 2, best, 1);

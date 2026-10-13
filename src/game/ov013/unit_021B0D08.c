@@ -14,12 +14,10 @@
  *   d_021B3C84                   0x021B3C84  data
 */
 
-#include "../../matched/include/G_021B3C84.h"
+#include "vct_types.h"
 
-extern struct G_021B3C84 d_021B3C84;
-
-void CTRDG_SetPulledOutCallback(void *cb)
+/* Switch the echo suppression stage of the voice chat on or off. */
+void CTRDG_SetPulledOutCallback(int enabled)
 {
-	*(void **)(((unsigned char *)&d_021B3C84) + 0x18) = cb;
+	d_021B3C84.echoSuppressEnabled = enabled;
 }
-

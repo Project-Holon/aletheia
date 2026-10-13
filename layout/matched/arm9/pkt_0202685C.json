@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202685C",
+   "name": "GAME_BEACON_AddLog",
    "address": "0x0202685C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02026A60",
+   "name": "GAME_BEACON_ReceiveInfo",
    "address": "0x02026A60",
    "kind": "game",
    "region": "arm9",
@@ -42,11 +42,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02026BFC"
+    "GAME_BEACON_GetLogFromWork"
+   ],
+   "addresses": [
+    "0x02026BFC"
    ]
   },
   {
-   "name": "func_02026CA0",
+   "name": "GAME_BEACON_GetNextNewLogIndex",
    "address": "0x02026CA0",
    "kind": "game",
    "region": "arm9",
@@ -58,7 +61,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02026FB8",
+   "name": "GAME_BEACON_RequestSend",
    "address": "0x02026FB8",
    "kind": "game",
    "region": "arm9",
@@ -70,7 +73,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202708C",
+   "name": "GAME_BEACON_IsSpecialPokemon",
    "address": "0x0202708C",
    "kind": "game",
    "region": "arm9",

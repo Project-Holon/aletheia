@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * note (2026-10-05, wD9r lane41): closed by the parameter width. x and y (a3, e) are s16, and
- *   func_0204B550 takes an s16 second argument as in the matched sibling ov168 02184780. With an s16
+ *   CLACT_SetActorPosAxis takes an s16 second argument as in the matched sibling ov168 02184780. With an s16
  *   stack parameter the y load stays with the entry parameter copies (ldr r5,[sp,#0x18] before the
  *   pool load); an int parameter sinks it to the end of the entry block.
  * symbols:
  *   func_02030DA8  0x02030DA8  arm
  *   func_02030EE8  0x02030EE8  arm
  *   func_0203F5FC  0x0203F5FC  arm
- *   func_0204B550  0x0204B550  arm
+ *   CLACT_SetActorPosAxis  0x0204B550  arm
  *   func_02184780  0x02184780  thumb  ov168
  *   _ll_mul        0x0209C054  arm
  *   _fflt          0x0209BDBC  arm
@@ -50,7 +50,7 @@ struct S02030EE8;
 extern u32 func_02030EE8(struct S02030EE8 *p);
 extern int func_0203F5FC(u32 x);
 struct Actor;
-extern void func_0204B550(struct Actor *actor, signed short value, u32 axis);
+extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 extern void func_02184780(void *task, int *p);
 
 #define FX_F32_TO_FX32(x) \
@@ -79,6 +79,6 @@ void func_02184680(int a0, u32 handle, int a2, s16 a3, s16 e, int f, u32 g, u32 
     o->w1 = 0;
     o->w2 = 0x6000;
     o->h = h;
-    func_0204B550((struct Actor *)o->handle, a3, 0);
-    func_0204B550((struct Actor *)o->handle, e, 1);
+    CLACT_SetActorPosAxis((struct Actor *)o->handle, a3, 0);
+    CLACT_SetActorPosAxis((struct Actor *)o->handle, e, 1);
 }

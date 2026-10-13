@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B2FB0.c
  * unit:     yes
- * function: func_021B2FB0, func_021B2FE4
+ * function: func_021B2FB0, VCT_POOL_FreeFrame
  * address:  0x021B2FB0
  * region:   ov013
  * compiler: dsi/1.1p1
@@ -13,38 +13,37 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021B4C24 0x021B4C24 data a4
+ *   d_021B4C24 0x021B4C24 data a4
  *   func_02087988 0x02087988 arm
  *   func_0208799C 0x0208799C arm
  */
-typedef struct Node Node;
-
-struct Node { Node *next; int f4,f8; };
+#include "vct_types.h"
 
 extern int func_02087988(void);
 extern void func_0208799C(int);
-Node *func_021B2FB0(void);
-void func_021B2FE4(Node *p);
-extern Node *g_021B4C24;
+VctRxPacket *func_021B2FB0(void);
+void VCT_POOL_FreeFrame(VctRxPacket *frame);
 
-Node *func_021B2FB0(void)
+/* Take a frame buffer from the free list, or return 0 when the pool is empty. */
+VctRxPacket *func_021B2FB0(void)
 {
-    Node *result=0;
+    VctRxPacket *result=0;
     int irq=func_02087988();
-    if(g_021B4C24 != 0) {
-        result=g_021B4C24;
-        g_021B4C24=g_021B4C24->next;
+    if(d_021B4C24.freeHead != 0) {
+        result=d_021B4C24.freeHead;
+        d_021B4C24.freeHead=d_021B4C24.freeHead->freeLink;
     }
     func_0208799C(irq);
     return result;
 }
 
-void func_021B2FE4(Node *p)
+/* Clear the list links of a frame buffer and put it back on the free list. */
+void VCT_POOL_FreeFrame(VctRxPacket *frame)
 {
     int irq=func_02087988();
-    p->next=g_021B4C24;
-    g_021B4C24=p;
-    p->f4=0;
-    p->f8=0;
+    frame->freeLink=d_021B4C24.freeHead;
+    d_021B4C24.freeHead=frame;
+    frame->prev=0;
+    frame->next=0;
     func_0208799C(irq);
 }

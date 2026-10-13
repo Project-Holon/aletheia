@@ -18,7 +18,7 @@
  *   func_02027778 0x02027778 thumb
  *   func_02045808 0x02045808 arm
  *   func_0207D658 0x0207D658 arm
- *   func_02027CFC 0x02027CFC thumb
+ *   APP_TASKMENU_SetCursorPos 0x02027CFC thumb
  *   func_021D5FE8 0x021D5FE8 thumb ov115
  */
 #include "../include/Obj01535.h"
@@ -42,7 +42,7 @@ struct TaskMenuTmpl;
 extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0207D658(u32, int, int);
-extern void func_02027CFC(u8 *, int);
+extern void APP_TASKMENU_SetCursorPos(u8 *, int);
 extern void *func_021D5FE8(u8 *, int, int);
 void *func_021D5D5C(u8 *p, int mode, int flag, int selected)
 {
@@ -70,7 +70,7 @@ void *func_021D5D5C(u8 *p, int mode, int flag, int selected)
         func_02045808(((struct Obj01535 *)q)->f4);
         func_02045808(((struct Obj01535 *)q)->f10);
         if (flag != 0) func_0207D658(0x04001050, 17, -8);
-        func_02027CFC(*(u8 * *)&((struct Obj01535 *)q)->f20, selected);
+        APP_TASKMENU_SetCursorPos(*(u8 * *)&((struct Obj01535 *)q)->f20, selected);
         break;
     case 1:
         ((struct Obj01535 *)q)->f24 = func_021D5FE8(p, mode, selected);

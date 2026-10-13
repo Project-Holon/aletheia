@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02061DFC",
+   "name": "NNSi_GfdInitBlockPool",
    "address": "0x02061DFC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061E48",
+   "name": "NNSi_GfdAddBlock",
    "address": "0x02061E48",
    "kind": "game",
    "region": "arm9",

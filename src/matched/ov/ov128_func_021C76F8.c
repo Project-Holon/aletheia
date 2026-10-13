@@ -44,8 +44,8 @@
  *   func_021C8880 0x021C8880 thumb ov128
  *   func_021C84E8 0x021C84E8 thumb ov128
  *   func_021CA084 0x021CA084 thumb ov128
- *   func_0202EA40 0x0202EA40 thumb
- *   func_0202EB04 0x0202EB04 thumb
+ *   BLINK_PALANM_Update 0x0202EA40 thumb
+ *   BLINK_PALANM_ResetPhase 0x0202EB04 thumb
  *   func_0202208C 0x0202208C thumb
  *   func_020221A4 0x020221A4 thumb
  *   func_0201283C 0x0201283C thumb
@@ -94,8 +94,8 @@ extern int func_021C84E8(u8 *,u8 *,u8 *,int);
 extern int func_021CA084(int *p);
 typedef signed int     s32;
 struct Row;
-extern s32 func_0202EA40(struct Row *p);
-extern void func_0202EB04(struct CodeIn *p);
+extern s32 BLINK_PALANM_Update(struct Row *p);
+extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern u32 func_020221A4(void);
 extern u32 func_0201283C(const struct BigObj *p);
@@ -121,21 +121,21 @@ int func_021C76F8(u8 *p,u8 *q,u8 *ctx,u16 heap)
         q[8]=2;
         break;
     case 2:
-        func_0202EA40(((struct Obj03809 *)ctx)->f184);
-        func_0202EA40(((struct Obj03809 *)ctx)->f188);
+        BLINK_PALANM_Update(((struct Obj03809 *)ctx)->f184);
+        BLINK_PALANM_Update(((struct Obj03809 *)ctx)->f188);
         switch(func_021C81C8((s16 *)p,q,ctx)) {
         case 0: break;
         case 1:
             func_021C8668(p,q,2);
             func_021CA40C((char *)p,((struct Obj00179 *)p)->f0);
-            func_0202EB04(((struct Obj03809 *)ctx)->f188);
-            func_0202EA40(((struct Obj03809 *)ctx)->f188);
+            BLINK_PALANM_ResetPhase(((struct Obj03809 *)ctx)->f188);
+            BLINK_PALANM_Update(((struct Obj03809 *)ctx)->f188);
             break;
         case 2:
             func_021C8668(p,q,3);
             func_021CA40C((char *)p,((struct Obj00179 *)p)->f0);
-            func_0202EB04(((struct Obj03809 *)ctx)->f188);
-            func_0202EA40(((struct Obj03809 *)ctx)->f188);
+            BLINK_PALANM_ResetPhase(((struct Obj03809 *)ctx)->f188);
+            BLINK_PALANM_Update(((struct Obj03809 *)ctx)->f188);
             break;
         case 3: q[8]=25; break;
         case 4: q[8]=26; break;

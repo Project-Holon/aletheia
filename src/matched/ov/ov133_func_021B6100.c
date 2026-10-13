@@ -24,7 +24,7 @@
  *   func_021B9028 0x021B9028 thumb ov133
  *   func_0200A828 0x0200A828 thumb
  *   func_0200A834 0x0200A834 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_0203D34C 0x0203D34C arm
  *   d_021BA600 0x021BA600 data a4
  */
@@ -47,7 +47,7 @@ extern void func_021B9028(u8 *,int,u16);
 struct Big;
 extern u32 func_0200A828(struct Big *p);
 extern void func_0200A834(struct Big *p, u8 value);
-extern void func_02005D90(int,int);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void func_0203D34C(u32,u32);
 u8 *func_021B6100(u8 *parent, int heap)
 {
@@ -108,7 +108,7 @@ u8 *func_021B6100(u8 *parent, int heap)
     } else {
         *(u32 *)(p + 0x1840) = 0;
     }
-    func_02005D90(0x454, 0xffff);
+    GFL_USE_CancelChangeAndPlayBgm(0x454, 0xffff);
     func_0203D34C(0, *(u16 *)p);
     return p;
 }

@@ -19,7 +19,11 @@
    "status": "EXACT",
    "functions": [
     "func_02175BE4",
-    "func_02175C04"
+    "INTRUDE_COMM_SetSessionReadyBit"
+   ],
+   "addresses": [
+    "0x02175BE4",
+    "0x02175C04"
    ]
   }
  ]

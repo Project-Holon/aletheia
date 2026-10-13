@@ -1,5 +1,5 @@
 /*
- * function: func_0219E9C8
+ * function: SBServerSetState
  * address:  0x0219E9C8
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Stores a byte at +0x14.
  */
 
-void func_0219E9C8(unsigned char *p, unsigned char v)
+void SBServerSetState(unsigned char *p, unsigned char v)
 {
     p[0x14] = v;
 }

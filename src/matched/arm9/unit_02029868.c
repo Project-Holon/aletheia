@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02029868, func_020298A0
+ * function: FIELD_SOUND_SYSTEM_ChangeTask, func_020298A0
  *
  * Part of the (task body, task spawner) family that makes up the tail of
  * field_sound_system.c.  The body issues one command 5 carrying all three stored parameters.
@@ -21,6 +21,9 @@
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02029868.c  *       --addr 0x02029868 --thumb
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
  */
 
 typedef unsigned short u16;
@@ -41,15 +44,15 @@ struct Ctx;
 struct Desc;
 struct Obj;
 struct Sys;
-extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
+extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 
-u32 func_02029868(void *task, u32 *state, struct Work *work)
+u32 FIELD_SOUND_SYSTEM_ChangeTask(void *task, u32 *state, struct Work *work)
 {
     void *sys = work->unk04;
 
     switch (*state) {
     case 0:
-        func_020289F8(sys, 5, work->unk08, work->unk0E, work->unk0C);
+        FIELD_SOUND_SYSTEM_PostRequest(sys, 5, work->unk08, work->unk0E, work->unk0C);
         (*state)++;
         break;
     case 1:
@@ -67,7 +70,7 @@ extern unsigned int func_02012A30(const struct BigObj *a);
 void *func_020298A0(void *a, u32 b, u32 c, u32 d)
 {
     void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029868, 0x10);
+    void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_ChangeTask, 0x10);
     struct Work *work = func_020124E8(task);
 
     work->unk04 = (void *)func_02012A30(x);

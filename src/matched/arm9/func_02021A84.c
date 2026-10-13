@@ -1,5 +1,5 @@
 /*
- * function: func_02021A84
+ * function: PALANM_FadeTask
  * address:  0x02021A84
  * packet:   pkt_02021984
  * region:   arm9
@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02021B2C   0x02021B2C  thumb
- *   func_02021B4C   0x02021B4C  thumb
+ *   PALANM_StepBgFades   0x02021B2C  thumb
+ *   PALANM_StepObjFades   0x02021B4C  thumb
  *   func_02030EAC   0x02030EAC  arm
  *
  * Per-frame tick on the slot header at p+0x118. Two halfword bitfields sit
- * there, each `lo:14, hi:2` (the +0x11A one is the field func_02021944
+ * there, each `lo:14, hi:2` (the +0x11A one is the field PALANM_SetTransBit
  * sets bits in), followed by a u8 latch at p+0x11C.
  *
  * If the latch is set, the tick is a teardown: clear the latch, clear both
  * lo fields and bit 14 of the +0x11A one, and call out through 0x02030EAC.
  * Otherwise, when the low two bits of the +0x118 field read 1 (the "running"
  * mode), copy that field's 14 bits over the +0x11A field, step all fourteen
- * channels (func_02021B2C for 0..3, func_02021B4C for 4..0xD), and when the
+ * channels (PALANM_StepBgFades for 0..3, PALANM_StepObjFades for 4..0xD), and when the
  * +0x118 field has drained to zero, clear bit 14 of +0x11A and call out.
  *
  * EXACT* only: the compiled function is 148 bytes and correct throughout;
@@ -45,12 +45,12 @@ struct S02021A84 {
     u8  latch;
 };
 
-extern void func_02021B2C(u8 *p);
-extern void func_02021B4C(u8 *p);
+extern void PALANM_StepBgFades(u8 *p);
+extern void PALANM_StepObjFades(u8 *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_02021A84(void *a, struct S02021A84 *p)
+void PALANM_FadeTask(void *a, struct S02021A84 *p)
 {
     if (p->latch == 1) {
         p->latch = 0;
@@ -66,8 +66,8 @@ void func_02021A84(void *a, struct S02021A84 *p)
     }
 
     p->b_lo = p->a_big;
-    func_02021B2C((u8 *)p);
-    func_02021B4C((u8 *)p);
+    PALANM_StepBgFades((u8 *)p);
+    PALANM_StepObjFades((u8 *)p);
     if (p->a_big == 0) {
         p->b_x = 0;
         func_02030EAC(a);

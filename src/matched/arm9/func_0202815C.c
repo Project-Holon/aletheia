@@ -1,5 +1,5 @@
 /*
- * function: func_0202815C
+ * function: APP_TASKMENU_WIN_DeleteNoClear
  * address:  0x0202815C
  * packet:   pkt_0202815C
  * region:   arm9
@@ -16,19 +16,19 @@
  * an existing manifest entry - and filed from the bytes.
  *
  * symbols:
- *   func_02028164  0x02028164  thumb
+ *   APP_TASKMENU_WIN_Free  0x02028164  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202815C.c \
- *       --func func_0202815C --addr 0x0202815C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/APP_TASKMENU_WIN_DeleteNoClear.c \
+ *       --func APP_TASKMENU_WIN_DeleteNoClear --addr 0x0202815C --thumb --cc 1.1p1
  */
 
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-extern void func_02028164(u8 *p);
+extern void APP_TASKMENU_WIN_Free(u8 *p);
 
-void func_0202815C(u8 *a0)
+void APP_TASKMENU_WIN_DeleteNoClear(u8 *a0)
 {
-    func_02028164(a0);
+    APP_TASKMENU_WIN_Free(a0);
 }

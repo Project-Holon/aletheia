@@ -19,23 +19,23 @@
  *           other site resolves and every concrete byte matches (520 of 520).
  *
  * symbols:
- *   g_021461E0     0x021461E0  data
+ *   gWihDwc     0x021461E0  data
  *   func_0203D798  0x0203D798  arm
  *   func_0203D1B4  0x0203D1B4  arm
  *   func_0203CF10  0x0203CF10  arm
  *   func_0205D01C  0x0205D01C  arm
- *   func_02178098  0x02178098  thumb  ov014
- *   sub_020107FC   0x020107FC  thumb
- *   sub_020104F8   0x020104F8  thumb
- *   func_0201054C  0x0201054C  thumb
- *   func_0201057C  0x0201057C  thumb
+ *   NET_WHPIPE_GetEntryKind  0x02178098  thumb  ov014
+ *   WIH_DWC_FindSlotByKey   0x020107FC  thumb
+ *   WIH_DWC_IsSsidInFilterList   0x020104F8  thumb
+ *   WIH_DWC_IsOpenTaggedBeacon  0x0201054C  thumb
+ *   WIH_DWC_IsPrivacyBeacon  0x0201057C  thumb
  *
  * wih_dwc.c per-frame status poll: returns a flag word (bit 1 always set)
- * built from the lookup in sub_020107FC, the connection state byte +0x67
+ * built from the lookup in WIH_DWC_FindSlotByKey, the connection state byte +0x67
  * and slot count +0x62 of the func_0203D798 context, the ov014 per-slot
  * state (0x14..0x1B, 9), then drains the 0xC0-byte record queue that
- * func_0201045C fills, arming the four countdowns at +0x318..+0x324 that
- * sub_02010498 decrements (600 or 400 frames), and finally derives bits
+ * WIH_DWC_AddBeacon fills, arming the four countdowns at +0x318..+0x324 that
+ * WIH_DWC_TickTimers decrements (600 or 400 frames), and finally derives bits
  * 0x40..0x200 from those countdowns.
  *
  * Two declaration facts close it: func_0205D01C's third argument is a
@@ -56,23 +56,23 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern struct WihCtx g_021461E0;
+extern struct WihCtx gWihDwc;
 
 extern void *func_0203D798(void);
 extern int  func_0203D1B4(void);
 extern u32 func_0203CF10(u32 a);
-extern u8   func_02178098(u8 i);
+extern u8   NET_WHPIPE_GetEntryKind(u8 i);
 struct WihInfo {
     int kind;          /* +0x00 */
     u8  rest[0x3C];    /* +0x04 */
 };
 
 extern int  func_0205D01C(u32 buf, u8 *rec, struct WihInfo *out);
-extern int  sub_020107FC(void *key);
-extern int  sub_020104F8(u8 *rec);
-extern int func_0201054C(const u8 *obj);
+extern int  WIH_DWC_FindSlotByKey(void *key);
+extern int  WIH_DWC_IsSsidInFilterList(u8 *rec);
+extern int WIH_DWC_IsOpenTaggedBeacon(const u8 *obj);
 struct Ctx;
-extern u32  func_0201057C(const struct Ctx *rec);
+extern u32  WIH_DWC_IsPrivacyBeacon(const struct Ctx *rec);
 
 u32 func_0201058C(void *key)
 {
@@ -84,17 +84,17 @@ u32 func_0201058C(void *key)
     struct WihInfo info;
     u8 s;
 
-    if ((*(u8 * *)&g_021461E0) == 0)
+    if ((*(u8 * *)&gWihDwc) == 0)
         return flags;
 
-    if (sub_020107FC(key) != -1)
+    if (WIH_DWC_FindSlotByKey(key) != -1)
         flags |= 8;
     if (st[0x67] == 2 && func_0203D1B4() > 1)
         flags |= 4;
 
     for (i = 0; i < st[0x62]; i++) {
         if (func_0203CF10(i) != 0) {
-            s = func_02178098(i);
+            s = NET_WHPIPE_GetEntryKind(i);
             if (s >= 0x14 && s <= 0x1B)
                 flags |= 0x10;
             else if (s == 9)
@@ -102,50 +102,50 @@ u32 func_0201058C(void *key)
         }
     }
 
-    for (j = 0; j < *(u16 *)((*(u8 * *)&g_021461E0) + 0x316); j++) {
-        rec = (*(u8 * *)&g_021461E0) + j * 0xC0;
-        if (sub_020104F8(rec)) {
-            *(int *)((*(u8 * *)&g_021461E0) + 0x318) = 600;
-        } else if (func_0201054C(rec)) {
-            *(int *)((*(u8 * *)&g_021461E0) + 0x31C) = 600;
-        } else if (func_0205D01C(*(u32 *)((*(u8 * *)&g_021461E0) + 0x300), rec, &info)) {
+    for (j = 0; j < *(u16 *)((*(u8 * *)&gWihDwc) + 0x316); j++) {
+        rec = (*(u8 * *)&gWihDwc) + j * 0xC0;
+        if (WIH_DWC_IsSsidInFilterList(rec)) {
+            *(int *)((*(u8 * *)&gWihDwc) + 0x318) = 600;
+        } else if (WIH_DWC_IsOpenTaggedBeacon(rec)) {
+            *(int *)((*(u8 * *)&gWihDwc) + 0x31C) = 600;
+        } else if (func_0205D01C(*(u32 *)((*(u8 * *)&gWihDwc) + 0x300), rec, &info)) {
             switch (info.kind) {
             case 0: case 1: case 2: case 3:
             case 10: case 11: case 12:
-                *(int *)((*(u8 * *)&g_021461E0) + 0x318) = 600;
+                *(int *)((*(u8 * *)&gWihDwc) + 0x318) = 600;
                 break;
             case 4: case 5: case 6: case 8:
-                *(int *)((*(u8 * *)&g_021461E0) + 0x31C) = 600;
+                *(int *)((*(u8 * *)&gWihDwc) + 0x31C) = 600;
                 break;
             case 7: case 9:
                 break;
             }
         } else if (((struct Obj03426 *)rec)->fA != 0) {
-            if (func_0201057C((const struct Ctx *)rec) == 0)
-                *(int *)((*(u8 * *)&g_021461E0) + 0x320) = 400;
+            if (WIH_DWC_IsPrivacyBeacon((const struct Ctx *)rec) == 0)
+                *(int *)((*(u8 * *)&gWihDwc) + 0x320) = 400;
             else
-                *(int *)((*(u8 * *)&g_021461E0) + 0x324) = 400;
+                *(int *)((*(u8 * *)&gWihDwc) + 0x324) = 400;
         }
     }
 
-    if (*(int *)((*(u8 * *)&g_021461E0) + 0x318) > 0)
+    if (*(int *)((*(u8 * *)&gWihDwc) + 0x318) > 0)
         flags |= 0x40;
-    if (*(int *)((*(u8 * *)&g_021461E0) + 0x31C) > 0)
+    if (*(int *)((*(u8 * *)&gWihDwc) + 0x31C) > 0)
         flags |= 0x80;
-    if (*(int *)((*(u8 * *)&g_021461E0) + 0x320) > 0)
+    if (*(int *)((*(u8 * *)&gWihDwc) + 0x320) > 0)
         flags |= 0x100;
-    if (*(int *)((*(u8 * *)&g_021461E0) + 0x324) > 0)
+    if (*(int *)((*(u8 * *)&gWihDwc) + 0x324) > 0)
         flags |= 0x200;
-    if (*(u16 *)((*(u8 * *)&g_021461E0) + 0x30E) != 0)
-        *(u16 *)((*(u8 * *)&g_021461E0) + 0x30E) = *(u16 *)((*(u8 * *)&g_021461E0) + 0x30E) - 1;
+    if (*(u16 *)((*(u8 * *)&gWihDwc) + 0x30E) != 0)
+        *(u16 *)((*(u8 * *)&gWihDwc) + 0x30E) = *(u16 *)((*(u8 * *)&gWihDwc) + 0x30E) - 1;
 
     if (flags == 0) {
-        *(u16 *)((*(u8 * *)&g_021461E0) + 0x312) = 0;
-    } else if (*(u16 *)((*(u8 * *)&g_021461E0) + 0x314) != 0 && *(u16 *)((*(u8 * *)&g_021461E0) + 0x30E) == 0) {
-        *(u16 *)((*(u8 * *)&g_021461E0) + 0x312) = *(u16 *)((*(u8 * *)&g_021461E0) + 0x314);
-        *(u16 *)((*(u8 * *)&g_021461E0) + 0x30E) = 400;
-        *(u16 *)((*(u8 * *)&g_021461E0) + 0x314) = 0;
+        *(u16 *)((*(u8 * *)&gWihDwc) + 0x312) = 0;
+    } else if (*(u16 *)((*(u8 * *)&gWihDwc) + 0x314) != 0 && *(u16 *)((*(u8 * *)&gWihDwc) + 0x30E) == 0) {
+        *(u16 *)((*(u8 * *)&gWihDwc) + 0x312) = *(u16 *)((*(u8 * *)&gWihDwc) + 0x314);
+        *(u16 *)((*(u8 * *)&gWihDwc) + 0x30E) = 400;
+        *(u16 *)((*(u8 * *)&gWihDwc) + 0x314) = 0;
     }
-    *(u16 *)((*(u8 * *)&g_021461E0) + 0x316) = 0;
+    *(u16 *)((*(u8 * *)&gWihDwc) + 0x316) = 0;
     return flags | 2;
 }

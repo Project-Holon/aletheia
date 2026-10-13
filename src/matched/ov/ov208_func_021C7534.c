@@ -11,7 +11,7 @@
  *
  * symbols:
  *   ov208_func_021C7FF8  0x021C7FF8  thumb
- *   func_02015C48        0x02015C48  thumb
+ *   MCSS_SetPosition        0x02015C48  thumb
  */
 #include "../include/Obj03369.h"
 
@@ -30,7 +30,7 @@ struct Ov208Mdl {
 };
 
 extern void ov208_func_021C7FF8(struct Ov208Mdl *m, int i, VecFx32 *out);
-extern void func_02015C48(void *p, u32 *src);
+extern void MCSS_SetPosition(void *p, u32 *src);
 
 void ov208_func_021C7534(void *unused, u8 *p)
 {
@@ -42,11 +42,11 @@ void ov208_func_021C7534(void *unused, u8 *p)
         v.z = 0;
         if (((struct Ov208Mdl *)(p + 0x94))->obj != 0) {
             ov208_func_021C7FF8((struct Ov208Mdl *)(p + 0x94), 1, &v);
-            func_02015C48((void *)(((struct Ov208Mdl *)(p + 0x94))->obj), (u32 *)(&v));
+            MCSS_SetPosition((void *)(((struct Ov208Mdl *)(p + 0x94))->obj), (u32 *)(&v));
         }
         if (((struct Ov208Mdl *)(p + 0xd8))->obj != 0) {
             ov208_func_021C7FF8((struct Ov208Mdl *)(p + 0xd8), 1, &v);
-            func_02015C48((void *)(((struct Ov208Mdl *)(p + 0xd8))->obj), (u32 *)(&v));
+            MCSS_SetPosition((void *)(((struct Ov208Mdl *)(p + 0xd8))->obj), (u32 *)(&v));
         }
     } else {
         v.x = 0x40000;
@@ -54,11 +54,11 @@ void ov208_func_021C7534(void *unused, u8 *p)
         v.z = 0;
         if (((struct Ov208Mdl *)(p + 0x94))->obj != 0) {
             ov208_func_021C7FF8((struct Ov208Mdl *)(p + 0x94), 2, &v);
-            func_02015C48((void *)(((struct Ov208Mdl *)(p + 0x94))->obj), (u32 *)(&v));
+            MCSS_SetPosition((void *)(((struct Ov208Mdl *)(p + 0x94))->obj), (u32 *)(&v));
         }
         if (((struct Ov208Mdl *)(p + 0xd8))->obj != 0) {
             ov208_func_021C7FF8((struct Ov208Mdl *)(p + 0xd8), 2, &v);
-            func_02015C48((void *)(((struct Ov208Mdl *)(p + 0xd8))->obj), (u32 *)(&v));
+            MCSS_SetPosition((void *)(((struct Ov208Mdl *)(p + 0xd8))->obj), (u32 *)(&v));
         }
     }
 }

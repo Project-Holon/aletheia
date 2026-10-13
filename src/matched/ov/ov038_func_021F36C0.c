@@ -24,7 +24,7 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_02012EC4  0x02012EC4  thumb
  *   func_0200B3A4  0x0200B3A4  thumb
- *   func_02030344  0x02030344  arm
+ *   GFL_HEAP_GetTotalFreeSize  0x02030344  arm
  *   func_02188C84  0x02188C84  thumb  ov021
  *   func_02189764  0x02189764  thumb  ov021
  *   func_021BE760  0x021BE760  thumb  ov021
@@ -65,7 +65,7 @@ typedef signed int     s32;
 struct Rec94;
 extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
 typedef unsigned char  u8;
-extern void *func_02030344(u32 heapId);
+extern void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
 extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void  func_021BE760(void *p, void *a, int b);
@@ -95,10 +95,10 @@ void func_021F36C0(void *a0)
 
     r5 = (void *)func_02188D2C(a0);
     q = func_0200B3A4((struct Rec94 *)func_02012EC4((struct Big *)func_020120F4(func_02188C80(a0))), 6);
-    func_02030344(0x15);
+    GFL_HEAP_GetTotalFreeSize(0x15);
     func_02189764(a0, 1, func_02188C84(a0), 0x24);
     func_021BE760(r5, &d_021F464C, 0);
-    func_02030344(0x15);
+    GFL_HEAP_GetTotalFreeSize(0x15);
     for (i = 0; i < 8; i++) {
         e = func_021BE480(r5, 0, i);
         *e = d_021F46E8[i];
@@ -161,5 +161,5 @@ void func_021F36C0(void *a0)
     }
     func_021BE4B4(r5, 0, 0x21, 1);
     func_021BE4B4(r5, 0, 0x22, 1);
-    func_02030344(0x15);
+    GFL_HEAP_GetTotalFreeSize(0x15);
 }

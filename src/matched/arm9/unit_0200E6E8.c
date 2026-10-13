@@ -13,10 +13,10 @@
  * function: sub_0200E6E8, sub_0200E6F0
  *
  * symbols:
- *   sub_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *
  * alias: a two-hop tail-call chain. sub_0200E6E8 is a pure forwarder to
- * sub_0200E6F0, which itself tail calls sub_020071CC with a fixed id of
+ * sub_0200E6F0, which itself tail calls SAVE_CONTROL_GetBlock with a fixed id of
  * 0x3e; both pass their argument through unchanged. Neither carries a
  * register-saving prologue, so disasm.py's sweep does not label
  * sub_0200E6F0 and it prints as data between the two literal pools; see
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 
 extern void *sub_0200E6F0(u32 a);
 struct Sub020071CCCtrl;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 
 void *sub_0200E6E8(u32 a)
 {
@@ -41,5 +41,5 @@ void *sub_0200E6E8(u32 a)
 
 void *sub_0200E6F0(u32 a)
 {
-    return sub_020071CC((struct Sub020071CCCtrl *)a, 0x3e);
+    return SAVE_CONTROL_GetBlock((struct Sub020071CCCtrl *)a, 0x3e);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201DB20",
+   "name": "GF_FONT_GetGlyphIndex",
    "address": "0x0201DB20",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0201DBBC",
+   "name": "GF_FONT_ReadPreloadedGlyph",
    "address": "0x0201DBBC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201DBF4",
+   "name": "GF_FONT_ReadStreamedGlyph",
    "address": "0x0201DBF4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0201DC44",
+   "name": "GF_FONT_DecodeGlyph",
    "address": "0x0201DC44",
    "kind": "game",
    "region": "arm9",

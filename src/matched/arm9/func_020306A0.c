@@ -1,5 +1,5 @@
 /*
- * function: func_020306A0
+ * function: GFL_HEAP_FatalError
  * address:  0x020306A0
  * packet:   pkt_020306A0
  * region:   arm9
@@ -14,7 +14,7 @@
 
 extern void func_02088234(void);
 
-void func_020306A0(int n)
+void GFL_HEAP_FatalError(int n)
 {
     switch (n) {
     case 0:

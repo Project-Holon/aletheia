@@ -11,13 +11,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02007084, sub_020070A4
+ * function: SAVE_CONTROL_Delete, SAVE_CONTROL_Get
  *
  * symbols:
  *   sub_02007084_Ptr    0x02146168  data
  *   sub_020070A4_File   0x020A7064  data
  *   func_020307B0       0x020307B0  arm
- *   func_0203195C       0x0203195C  arm
+ *   BACKUP_SYSTEM_Delete       0x0203195C  arm
  *   func_02034714       0x02034714  arm
  *
  * alias: this is "save_control.c".  The constructor of the object these two
@@ -27,14 +27,14 @@
  * see the header of src/matched/unit_020071E4.c for the census.
  *
  * The teardown and the checked getter for the one global the file keeps: a
- * pointer at 0x02146168 to the 0x38 byte control block.  sub_020070A4 loads
+ * pointer at 0x02146168 to the 0x38 byte control block.  SAVE_CONTROL_Get loads
  * that pointer twice out of one pool word, once for the assertion and once
  * for the result, which is what a global read either side of a call looks
  * like.
  *
  * The range stops at 0x020070C8 for an evidence reason.  sub_020070C8, 134
  * bytes, is the per-frame step of the same object and it calls
- * sub_020087C0, whose only branch anywhere in the 3.9 MB image is the `bl`
+ * SYSTEM_DATA_ClearMark, whose only branch anywhere in the 3.9 MB image is the `bl`
  * at 0x02007140 inside it: `label` has one witness and it is in the bytes
  * under test, `literal` sees no pool word naming the address at all, and no
  * cut can move the caller out of the range that contains it.  It closes the
@@ -69,19 +69,19 @@ extern struct Sub02007084Ctrl *sub_02007084_Ptr;
 extern const char sub_020070A4_File[];
 
 extern u32 func_020307B0(void *p);
-extern void func_0203195C(u8 *p);
+extern void BACKUP_SYSTEM_Delete(u8 *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-void sub_02007084(void)
+void SAVE_CONTROL_Delete(void)
 {
     if (sub_02007084_Ptr != 0) {
-        func_0203195C(sub_02007084_Ptr->unk10);
+        BACKUP_SYSTEM_Delete(sub_02007084_Ptr->unk10);
         func_020307B0(sub_02007084_Ptr);
         sub_02007084_Ptr = 0;
     }
 }
 
-struct Sub02007084Ctrl *sub_020070A4(void)
+struct Sub02007084Ctrl *SAVE_CONTROL_Get(void)
 {
     if (sub_02007084_Ptr == 0) {
         func_02034714(sub_020070A4_File, 0, sub_020070A4_File);

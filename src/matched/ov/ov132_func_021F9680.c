@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020064F4  0x020064F4  thumb
+ *   GFL_USE_StartSeq  0x020064F4  thumb
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj23185.h"
 
 typedef unsigned int   u32;
-extern void func_020064F4(u32 a);
+extern void GFL_USE_StartSeq(u32 a);
 
 void func_021F9680(char *p, int a)
 {
     ((struct Obj23185 *)p)->f28 = 1;
-    func_020064F4(a);
+    GFL_USE_StartSeq(a);
 }

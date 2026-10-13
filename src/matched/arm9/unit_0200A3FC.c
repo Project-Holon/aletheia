@@ -11,9 +11,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200A3FC, func_0200A400, func_0200A418, func_0200A41C,
- *           func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8,
- *           func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8,
+ * function: MYSTERY_DATA_GetSaveType, MYSTERY_DATA_GetCardMax, MYSTERY_DATA_GetBuffer, MYSTERY_DATA_GetEventFlags,
+ *           MYSTERY_DATA_GetCardSlot, MYSTERY_DATA_Encrypt, MYSTERY_DATA_Decrypt, MYSTERY_DATA_EncryptBuffer,
+ *           MYSTERY_DATA_DecryptBuffer, func_0200A53C, func_0200A544, func_0200A5F8,
  *           func_0200A604, func_0200A628, func_0200A630, func_0200A640,
  *           func_0200A644, func_0200A680, func_0200A6BC
  *
@@ -146,18 +146,18 @@ struct Big {
     u8  unk2A0[4];
 };
 
-void *func_0200A418(struct Obj *obj);
-void func_0200A4B8(void *base, u32 kind);
-void func_0200A50C(void *base, u32 kind);
+void *MYSTERY_DATA_GetBuffer(struct Obj *obj);
+void MYSTERY_DATA_EncryptBuffer(void *base, u32 kind);
+void MYSTERY_DATA_DecryptBuffer(void *base, u32 kind);
 void func_0200A604(struct Big *p);
 void func_0200A6BC(struct Big *p, u32 index);
 
-u32 func_0200A3FC(struct Obj *obj)
+u32 MYSTERY_DATA_GetSaveType(struct Obj *obj)
 {
     return obj->unk04;
 }
 
-u32 func_0200A400(struct Obj *obj)
+u32 MYSTERY_DATA_GetCardMax(struct Obj *obj)
 {
     switch (obj->unk04) {
     case 0:
@@ -168,45 +168,45 @@ u32 func_0200A400(struct Obj *obj)
     return 0;
 }
 
-void *func_0200A418(struct Obj *obj)
+void *MYSTERY_DATA_GetBuffer(struct Obj *obj)
 {
     return obj->unk00;
 }
 
-void *func_0200A41C(struct Obj *obj)
+void *MYSTERY_DATA_GetEventFlags(struct Obj *obj)
 {
     switch (obj->unk04) {
     case 0:
-        return func_0200A418(obj);
+        return MYSTERY_DATA_GetBuffer(obj);
     case 1:
-        return func_0200A418(obj);
+        return MYSTERY_DATA_GetBuffer(obj);
     }
     return 0;
 }
 
-void *func_0200A43C(struct Obj *obj, u32 index)
+void *MYSTERY_DATA_GetCardSlot(struct Obj *obj, u32 index)
 {
-    func_0200A400(obj);
+    MYSTERY_DATA_GetCardMax(obj);
     switch (obj->unk04) {
     case 0:
-        return (u8 *)func_0200A418(obj) + 0x100 + index * 0xCC;
+        return (u8 *)MYSTERY_DATA_GetBuffer(obj) + 0x100 + index * 0xCC;
     case 1:
-        return (u8 *)func_0200A418(obj) + 0x100 + index * 0xCC;
+        return (u8 *)MYSTERY_DATA_GetBuffer(obj) + 0x100 + index * 0xCC;
     }
     return 0;
 }
 
-void func_0200A480(struct Obj *obj)
+void MYSTERY_DATA_Encrypt(struct Obj *obj)
 {
-    func_0200A4B8(func_0200A418(obj), func_0200A3FC(obj));
+    MYSTERY_DATA_EncryptBuffer(MYSTERY_DATA_GetBuffer(obj), MYSTERY_DATA_GetSaveType(obj));
 }
 
-void func_0200A49C(struct Obj *obj)
+void MYSTERY_DATA_Decrypt(struct Obj *obj)
 {
-    func_0200A50C(func_0200A418(obj), func_0200A3FC(obj));
+    MYSTERY_DATA_DecryptBuffer(MYSTERY_DATA_GetBuffer(obj), MYSTERY_DATA_GetSaveType(obj));
 }
 
-void func_0200A4B8(void *base, u32 kind)
+void MYSTERY_DATA_EncryptBuffer(void *base, u32 kind)
 {
     u32 size;
     struct Hdr *h;
@@ -232,7 +232,7 @@ void func_0200A4B8(void *base, u32 kind)
     func_0203F328(base, size - 4, h->unk00 + (h->unk02 << 16));
 }
 
-void func_0200A50C(void *base, u32 kind)
+void MYSTERY_DATA_DecryptBuffer(void *base, u32 kind)
 {
     u32 size;
     struct Hdr *h;

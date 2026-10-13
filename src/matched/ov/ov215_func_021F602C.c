@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  */
 #include "../include/Obj25745.h"
 #include "../include/Obj25746.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_02005E30(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
 void func_021F602C(void *unused, char *p)
 {
-    func_02005E30(0x3c);
+    GFL_USE_FadeOutBgm(0x3c);
     ((struct Obj25745 *)p)->f18 = 7;
 }
 

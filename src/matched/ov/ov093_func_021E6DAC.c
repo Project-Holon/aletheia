@@ -17,7 +17,7 @@
  *   func_021C7F68  0x021C7F68  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D67A8  0x021D67A8  thumb  ov093
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   func_021D76BC  0x021D76BC  thumb  ov093
  */
 
@@ -33,7 +33,7 @@ extern u8 func_021C7F68(int *p, int b, u8 *out);
 extern void *func_021C7CF4(int *p, int i);
 struct QL;
 extern u16 func_021D67A8(struct QL *p);
-extern u32 func_0201BEB8(u16 id, u32 bit);
+extern u32 WAZA_TOOL_GetFlag(u16 id, u32 bit);
 extern int func_021D76BC(int key, u32 val);
 
 void func_021E6DAC(int x, int a, int c, u8 *d)
@@ -50,7 +50,7 @@ void func_021E6DAC(int x, int a, int c, u8 *d)
         }
         if (func_021C7F68((int *)a, k, d) != 0) {
             t = func_021D67A8(func_021C7CF4((int *)a, *d));
-            if (t == 0 || func_0201BEB8(t, 6) == 0) {
+            if (t == 0 || WAZA_TOOL_GetFlag(t, 6) == 0) {
                 func_021D76BC(0x41, 1);
                 return;
             }

@@ -1,5 +1,5 @@
 /*
- * function: func_0206A110
+ * function: NNS_G3dPlttGetRequiredSize
  * address:  0x0206A110
  * packet:   pkt_020694D8
  * region:   arm9
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj16538.h"
 
-int func_0206A110(int p)
+int NNS_G3dPlttGetRequiredSize(int p)
 {
     return p ? (((struct Obj16538 *)p)->f30 << 3) : 0;
 }

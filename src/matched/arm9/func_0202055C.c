@@ -1,5 +1,5 @@
 /*
- * function: func_0202055C
+ * function: BMP_MENULIST_DrawItems
  * address:  0x0202055C
  * packet:   pkt_02020408
  * region:   arm9
@@ -14,24 +14,24 @@
  *   func_02045738  0x02045738  arm
  *   func_02043AF4  0x02043AF4  arm
  *   func_020437DC  0x020437DC  arm
- *   func_02020408  0x02020408  thumb
- *   func_02020CA0  0x02020CA0  thumb
+ *   BMP_MENULIST_PrintItem  0x02020408  thumb
+ *   BMP_MENULIST_ShiftWindow  0x02020CA0  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202055C.c \
- *       --func func_0202055C --addr 0x0202055C --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENULIST_DrawItems.c \
+ *       --func BMP_MENULIST_DrawItems --addr 0x0202055C --thumb
  *
  * Redraw n + 1 rows of the menu list from item `row`, starting at window
  * row `col`.  When flag is set and row > 0 the window is first scrolled by
  * one row: the band is cleared with func_02043AF4, the item above is
- * redrawn and func_02020CA0 moves the pixels.  Every item goes through the
+ * redrawn and BMP_MENULIST_ShiftWindow moves the pixels.  Every item goes through the
  * optional per-item hook at +0x08 (obj, item value, y) and then
- * func_02020408 at x = f15, or f14 for a separator (value -3).
+ * BMP_MENULIST_PrintItem at x = f15, or f14 for a separator (value -3).
  *
- * Closed in wave 13 from the 2026-09-21 note (docs/notes/func_0202055C.c.txt,
+ * Closed in wave 13 from the 2026-09-21 note (docs/notes/BMP_MENULIST_DrawItems.c.txt,
  * 96 out).  That source misread three things, all fixed here from the image:
  * the hook's second argument inside the loop is the item's value word (still
- * live in r1 from the separator test), not 0; func_02020CA0's last argument
+ * live in r1 from the separator test), not 0; BMP_MENULIST_ShiftWindow's last argument
  * is (step*2/8) * (func_020437DC(bitmap) / 8), the bitmap's width in tiles,
  * not step >> 3; and the x colour is an int (no truncation after the
  * ternary).  Then the permuter's type:l(step:u8->int) (the value is still
@@ -83,10 +83,10 @@ struct Bmp;
 extern u8 func_02045738(struct Descriptor *p);
 extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern u16 func_020437DC(const struct Bmp *bmp);
-extern void func_02020408(struct Obj *obj, const void *text, u32 x, u32 y, u32 sel);
-extern void func_02020CA0(void *win, u32 a, u32 b, u32 c, u16 tile);
+extern void BMP_MENULIST_PrintItem(struct Obj *obj, const void *text, u32 x, u32 y, u32 sel);
+extern void BMP_MENULIST_ShiftWindow(void *win, u32 a, u32 b, u32 c, u16 tile);
 
-void func_0202055C(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag)
+void BMP_MENULIST_DrawItems(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag)
 {
     int step;
     int x;
@@ -107,9 +107,9 @@ void func_0202055C(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag)
         y = (u8)(obj->f17lo + col * step);
         if (obj->hook != 0)
             obj->hook(obj, obj->arr[row - 1].value, y);
-        func_02020408(obj, obj->arr[row - 1].text, x, y, 0);
+        BMP_MENULIST_PrintItem(obj, obj->arr[row - 1].text, x, y, 0);
         k = obj->f18lo;
-        func_02020CA0((void *)obj->unk0C, 0, step, (u8)((k << 4) | k),
+        BMP_MENULIST_ShiftWindow((void *)obj->unk0C, 0, step, (u8)((k << 4) | k),
                       (u16)((step * 2 / 8) * (func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)obj->unk0C))) / 8)));
     }
     lim = (u16)(n + 1);
@@ -118,7 +118,7 @@ void func_0202055C(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag)
         y = (u8)(obj->f17lo + (i + col) * step);
         if (obj->hook != 0)
             obj->hook(obj, obj->arr[row].value, y);
-        func_02020408(obj, obj->arr[row].text, x, y, 1);
+        BMP_MENULIST_PrintItem(obj, obj->arr[row].text, x, y, 1);
         row++;
         if (row >= obj->count)
             return;

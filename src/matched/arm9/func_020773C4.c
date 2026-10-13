@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020773C4
+ * function: CARD_WaitRomAsync
  * address:  0x020773C4
  * packet:   pkt_020773C4
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 
 extern void func_02076050(void);
-void func_020773C4(void){ func_02076050(); }
+void CARD_WaitRomAsync(void){ func_02076050(); }

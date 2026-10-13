@@ -13,7 +13,7 @@
  *   func_0215A5F4  0x0215A5F4  thumb  ov010
  *   func_0215A5DC  0x0215A5DC  thumb  ov010
  *   func_020120F4  0x020120F4  thumb
- *   func_02012F50  0x02012F50  thumb
+ *   GAME_DATA_GetListCursor  0x02012F50  thumb
  *   func_02159B10  0x02159B10  thumb  ov010
  *   func_021D0FE8  0x021D0FE8  thumb  ov021
  *   func_0215897C  0x0215897C  thumb  ov010
@@ -28,7 +28,7 @@ extern void *func_0215A5DC(void *a0);
 struct Ctx;
 
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012F50(void *base);
+extern void *GAME_DATA_GetListCursor(void *base);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_021D0FE8(void *a, int unused, int c);
 extern void func_0215897C(void *vm, void *task);
@@ -41,7 +41,7 @@ int func_0216A6EC(int a0, int a1)
 
     r7 = func_0215A5F4((void *)a1);
     l0 = func_0215A5DC((void *)a1);
-    r4 = (int *)func_02012F50(func_020120F4((const struct Ctx *)l0));
+    r4 = (int *)GAME_DATA_GetListCursor(func_020120F4((const struct Ctx *)l0));
     func_0215897C(r7, func_021D0FE8((void *)l0, *r4, func_02159B10((void *)a0, (void *)a1)));
     return 1;
 }

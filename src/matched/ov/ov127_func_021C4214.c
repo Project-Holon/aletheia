@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B800  0x0204B800  arm
+ *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Node;
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 
 void func_021C4214(u8 *p, u32 v)
 {
-    func_0204B800(((struct Obj23014 *)p)->f4, (u8)v);
+    CLACT_SetActorDrawPriority(((struct Obj23014 *)p)->f4, (u8)v);
 }

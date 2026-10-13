@@ -10,10 +10,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200857C, sub_020085A0, sub_020085D4, sub_0200863C,
- *           sub_0200864C, sub_02008650, sub_02008654, sub_02008658,
- *           sub_020086C8, sub_020086D0, sub_020086D8, sub_020086E0,
- *           sub_020086E8, sub_020086F0, sub_020086F8
+ * function: PLAYTIME_Create, PLAYTIME_Init, PLAYTIME_AddSeconds, PLAYTIME_Copy,
+ *           PLAYTIME_GetHours, PLAYTIME_GetMinutes, PLAYTIME_GetSeconds, PLAYTIME_SetStampNow,
+ *           PLAYTIME_GetStampYear, PLAYTIME_GetStampMonth, PLAYTIME_GetStampDay, PLAYTIME_GetStampHour,
+ *           PLAYTIME_GetStampMinute, PLAYTIME_GetStamp, PLAYTIME_SetStamp
  *
  * symbols:
  *   _u32_div_f          0x0209C2B0  arm
@@ -39,13 +39,13 @@
  *   +4  u32  a packed date/time: year:7, month:4, day:5, hour:5, minute:6,
  *            leaving the top five bits unused.  The five widths are readable
  *            three ways over and they agree: the AND masks 0xFFFFF87F,
- *            0xFFFF07FF, 0xFFE0FFFF and 0xF81FFFFF in sub_020085A0, the
+ *            0xFFFF07FF, 0xFFE0FFFF and 0xF81FFFFF in PLAYTIME_Init, the
  *            shift pairs in the five getters at 0x020086C8 and on, and the
- *            RTCDate / RTCTime fields sub_02008658 feeds them from.
+ *            RTCDate / RTCTime fields PLAYTIME_SetStampNow feeds them from.
  *
  * Two things in this unit were new for the project and are worth naming:
  *
- *  - the four unsigned divisions in sub_020085D4 compile to calls to the
+ *  - the four unsigned divisions in PLAYTIME_AddSeconds compile to calls to the
  *    compiler's own runtime helper, which mwccarm emits as an undefined
  *    reference named `_u32_div_f`.  The relocation carries that name, so it
  *    can be pinned in the symbols: block like any other extern even though no
@@ -56,7 +56,7 @@
  *    them up, which is why the original calls it twice in a row with identical
  *    arguments.
  *  - the packed field is a nested four-byte struct of bitfields, not five
- *    bitfields inlined into the outer object.  sub_020086F0 and sub_020086F8
+ *    bitfields inlined into the outer object.  PLAYTIME_GetStamp and PLAYTIME_SetStamp
  *    copy it whole with a single ldr/str pair, which is a struct assignment;
  *    with the bitfields flattened into PlayTime there is no lvalue of the
  *    right type to assign and the natural spellings all cost extra
@@ -119,18 +119,18 @@ struct PlayTime {
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char sub_0200857C_File[];
 
-void sub_020085A0(struct PlayTime *p);
+void PLAYTIME_Init(struct PlayTime *p);
 
 /* playtime.c's constructor, and the function that gives the file its name. */
-void *sub_0200857C(u32 heap)
+void *PLAYTIME_Create(u32 heap)
 {
     struct PlayTime *p = sub_02030734(heap, sizeof(struct PlayTime), 1,
                                       sub_0200857C_File, 32);
-    sub_020085A0(p);
+    PLAYTIME_Init(p);
     return p;
 }
 
-void sub_020085A0(struct PlayTime *p)
+void PLAYTIME_Init(struct PlayTime *p)
 {
     p->hours        = 0;
     p->minutes      = 0;
@@ -145,7 +145,7 @@ void sub_020085A0(struct PlayTime *p)
 /* Add `delta` seconds, carrying into minutes and hours and saturating at
  * 999:59:59.  The leading guard is the saturation test, and it returns
  * without touching the object once the counter is full. */
-void sub_020085D4(struct PlayTime *p, u32 delta)
+void PLAYTIME_AddSeconds(struct PlayTime *p, u32 delta)
 {
     u32 h, m, s;
 
@@ -173,28 +173,28 @@ void sub_020085D4(struct PlayTime *p, u32 delta)
     p->seconds = s;
 }
 
-void sub_0200863C(struct PlayTime *dest, const struct PlayTime *src)
+void PLAYTIME_Copy(struct PlayTime *dest, const struct PlayTime *src)
 {
     MI_CpuCopy8(src, dest, sizeof(struct PlayTime));
 }
 
-u16 sub_0200864C(const struct PlayTime *p)
+u16 PLAYTIME_GetHours(const struct PlayTime *p)
 {
     return p->hours;
 }
 
-u8 sub_02008650(const struct PlayTime *p)
+u8 PLAYTIME_GetMinutes(const struct PlayTime *p)
 {
     return p->minutes;
 }
 
-u8 sub_02008654(const struct PlayTime *p)
+u8 PLAYTIME_GetSeconds(const struct PlayTime *p)
 {
     return p->seconds;
 }
 
 /* Stamp the object with the wall clock. */
-void sub_02008658(struct PlayTime *p)
+void PLAYTIME_SetStampNow(struct PlayTime *p)
 {
     struct RTCDate date;
     struct RTCTime time;
@@ -209,37 +209,37 @@ void sub_02008658(struct PlayTime *p)
     p->stamp.minute = time.minute;
 }
 
-u32 sub_020086C8(const struct PlayTime *p)
+u32 PLAYTIME_GetStampYear(const struct PlayTime *p)
 {
     return p->stamp.year;
 }
 
-u32 sub_020086D0(const struct PlayTime *p)
+u32 PLAYTIME_GetStampMonth(const struct PlayTime *p)
 {
     return p->stamp.month;
 }
 
-u32 sub_020086D8(const struct PlayTime *p)
+u32 PLAYTIME_GetStampDay(const struct PlayTime *p)
 {
     return p->stamp.day;
 }
 
-u32 sub_020086E0(const struct PlayTime *p)
+u32 PLAYTIME_GetStampHour(const struct PlayTime *p)
 {
     return p->stamp.hour;
 }
 
-u32 sub_020086E8(const struct PlayTime *p)
+u32 PLAYTIME_GetStampMinute(const struct PlayTime *p)
 {
     return p->stamp.minute;
 }
 
-void sub_020086F0(const struct PlayTime *p, struct PlayTimeStamp *out)
+void PLAYTIME_GetStamp(const struct PlayTime *p, struct PlayTimeStamp *out)
 {
     *out = p->stamp;
 }
 
-void sub_020086F8(struct PlayTime *p, const struct PlayTimeStamp *in)
+void PLAYTIME_SetStamp(struct PlayTime *p, const struct PlayTimeStamp *in)
 {
     p->stamp = *in;
 }

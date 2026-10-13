@@ -12,7 +12,7 @@
  * symbols:
  *   func_02012B80  0x02012B80  thumb
  *   func_02012B58  0x02012B58  thumb
- *   func_02012B40  0x02012B40  thumb
+ *   GAME_DATA_GetEnterMode  0x02012B40  thumb
  *   func_020127B8  0x020127B8  thumb
  *   func_020127AC  0x020127AC  thumb
  *   func_0200BDF8  0x0200BDF8  thumb
@@ -34,7 +34,7 @@ typedef struct {
 struct BigObj;
 extern u8 func_02012B80(const struct BigObj *p);
 extern u8 func_02012B58(const struct BigObj *p);
-extern u8 func_02012B40(const struct BigObj *p);
+extern u8 GAME_DATA_GetEnterMode(const struct BigObj *p);
 extern void *func_020127B8(void *p);
 typedef unsigned int   u32;
 struct Rec1B0;
@@ -58,7 +58,7 @@ u8 func_021F3880(void *a, void *b, void *unused)
     r6 = func_02012B80(a);
     r4 = r6 - func_02012B58(a);
     if (r4 < 0) {
-        r4 += func_02012B40(a);
+        r4 += GAME_DATA_GetEnterMode(a);
     }
     if (r6 == func_02012B58(a)) {
         e = (int)func_020127B8(a);

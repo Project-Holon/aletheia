@@ -11,7 +11,8 @@
  *   func_021D9A14 0x021D9A14 thumb ov123
  *   func_021D9404 0x021D9404 thumb ov123
  *   func_021B9774 0x021B9774 thumb ov114
- *   func_02157170 0x02157170 thumb ov009
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
+ *   GAME_DATA_SaveCancel  0x02012E08  thumb  arm9
  */
 #include "../include/Obj03276.h"
 #include "../include/Obj22990.h"
@@ -23,9 +24,9 @@ extern void func_021D9A14(int);
 extern void func_021D9404(char *p);
 extern u32 func_020221A4(void);
 extern void func_021B9774(u8 *p);
-extern void func_02012E08(char *p);
+extern void GAME_DATA_SaveCancel(char *p);
 extern void func_0202223C(u32 a, u32 color);
-extern int func_02157170(int a0, int a1);
+extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
 int func_021DA54C(int a,int b,char *c,char *p)
 {
     void (*f)(char *);
@@ -43,13 +44,13 @@ int func_021DA54C(int a,int b,char *c,char *p)
         if (func_0200FB24()) {
             func_021B9774(((struct Obj03276 *)p)->f8);
             if (((struct Obj03276 *)p)->f6C) {
-                func_02012E08(((struct Obj03276 *)p)->f20);
+                GAME_DATA_SaveCancel(((struct Obj03276 *)p)->f20);
                 ((struct Obj03276 *)p)->f6C = 0;
             }
             func_0202223C(0,0);
             func_0202223C(1,0);
             r = 1;
-            func_02157170(1,0);
+            DWC_RAPCOMMON_HandleNetError(1,0);
             ((struct Obj22990 *)c)->f10 = 1;
         }
     } else if (func_0200FB24()) r = 1;

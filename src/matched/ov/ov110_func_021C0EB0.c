@@ -8,26 +8,26 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035CB8 0x02035CB8 arm
- *   func_0204B550 0x0204B550 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
+ *   CLACT_SetActorPosAxis 0x0204B550 arm
  *   func_021C0E3C 0x021C0E3C thumb ov110
  */
 #include "../include/Obj05301.h"
 typedef unsigned int   u32;
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 struct Actor;
-extern void func_0204B550(struct Actor *actor, signed short value, u32 axis);
+extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 extern void func_021C0E3C(unsigned y, int count, short *out, short *pos);
 int func_021C0EB0(char *p) {
     unsigned x,y;
     unsigned short index;
     short pos;
-    if(!func_02035CB8(&x,&y)) {
+    if(!TOUCHPANEL_GetPointCont(&x,&y)) {
         ((struct Obj05301 *)p)->f99=(((struct Obj05301 *)p)->f99&~1);
         return 0;
     }
     func_021C0E3C(y,((struct Obj05301 *)p)->f98,(short int *)(&index),&pos);
-    func_0204B550(((struct Obj05301 *)p)->f8,pos,1);
+    CLACT_SetActorPosAxis(((struct Obj05301 *)p)->f8,pos,1);
     if((unsigned short)index!=((struct Obj05301 *)p)->f96) {
         ((struct Obj05301 *)p)->f96=index;
         return 1;

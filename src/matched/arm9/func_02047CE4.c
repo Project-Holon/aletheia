@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C  0x02146A5C  data
+ *   _G3dSystem  0x02146A5C  data
  *
- * An unlabelled ARM leaf that follows func_02047C8C's pool word: it clears
+ * An unlabelled ARM leaf that follows G3D_SYSTEM_DrawRenderObj's pool word: it clears
  * the two counters at +4 and +8 of the global at 0x02146A5C (the same global
- * func_02046A94 indexes through, whose first word is the context pointer).
+ * G3D_SYSTEM_SetLight indexes through, whose first word is the context pointer).
  * One `mov r1, #0` feeds both stores.
  *
  * Addresses are Black-image addresses.
@@ -32,10 +32,10 @@ struct G02146A5C {
     u32   f8;           /* +0x08 */
 };
 
-extern struct G02146A5C g_02146A5C;
+extern struct G02146A5C _G3dSystem;
 
 void func_02047CE4(void)
 {
-    g_02146A5C.f4 = 0;
-    g_02146A5C.f8 = 0;
+    _G3dSystem.f4 = 0;
+    _G3dSystem.f8 = 0;
 }

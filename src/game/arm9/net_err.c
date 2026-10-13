@@ -1,7 +1,7 @@
 /*
  * file:     net_err.c
  * unit:     yes
- * function: func_0200F2D4, func_0200F300, func_0200F34C, func_0200F38C, func_0200F43C, func_0200F4E4, func_0200F520, func_0200F594, func_0200F5EC, func_0200F698, func_0200F6B8, func_0200F6D8, func_0200F734, func_0200F7B8, func_0200F7C0, func_0200F7DC, func_0200F7F4, func_0200F800, func_0200F824, func_0200F83C, func_0200FA84, func_0200FA94, func_0200FAAC, func_0200FB24, func_0200FB38, func_0200FB4C, func_0200FB6C, func_0200FBA0, func_0200FBB0, func_0200FC0C, sub_0200FD38, sub_0200FEBC, CTRDGi_IsTaskAvailable_02010054, sub_02010068
+ * function: func_0200F2D4, func_0200F300, func_0200F34C, func_0200F38C, func_0200F43C, func_0200F4E4, func_0200F520, func_0200F594, func_0200F5EC, func_0200F698, func_0200F6B8, func_0200F6D8, func_0200F734, GFL_NET_ERR_ShowScreen, func_0200F7C0, func_0200F7DC, func_0200F7F4, func_0200F800, func_0200F824, GFL_NET_ERR_ShowSimpleScreen, func_0200FA84, func_0200FA94, func_0200FAAC, func_0200FB24, func_0200FB38, GFL_NET_ERR_RaiseFatal, func_0200FB6C, func_0200FBA0, func_0200FBB0, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics
  * address:  0x0200F2D4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,78 +10,63 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Merged by tools/restructure.py from the src/matched files of these functions;
+ * names, struct views and comments cleaned by hand.
  *
  * symbols:
- *   func_0203D5D4  0x0203D5D4  arm
- *   func_02059A5C  0x02059A5C  arm
- *   func_020598EC  0x020598EC  arm
- *   func_0203D5EC   0x0203D5EC  arm
- *   func_0203D610   0x0203D610  arm
- *   func_0203D634   0x0203D634  arm
- *   func_020596D8   0x020596D8  arm
+ *   GFL_NET_GetGameKind  0x0203D5D4  arm
+ *   DWC_IsEqualFriendData  0x02059A5C  arm
+ *   GFL_NET_GetWifiUserData   0x0203D5EC  arm
+ *   GFL_NET_GetFriendList   0x0203D610  arm
+ *   GFL_NET_GetFriendListNum   0x0203D634  arm
  *   func_02009860           0x02009860  thumb
- *   sub_020099C8            0x020099C8  thumb
+ *   WIFILIST_GetDwcFriendData            0x020099C8  thumb
  *   func_02009A34           0x02009A34  thumb
  *   DWC_CheckFriendKey      0x02059354  arm
  *   DWC_CreateFriendKeyToken 0x02059980 arm
  *   DWC_GetGsProfileId      0x020598EC  arm
  *   DWC_IsValidFriendData   0x020596D8  arm
  *   func_02082D44  0x02082D44  arm
- *   sub_02008510   0x02008510  thumb
- *   sub_02008530   0x02008530  thumb
- *   sub_0200853C   0x0200853C  thumb
- *   sub_02008550   0x02008550  thumb
- *   sub_02008554   0x02008554  thumb
- *   sub_02009918   0x02009918  thumb
- *   sub_02009A00   0x02009A00  thumb
+ *   MYSTATUS_CreateNameStrbuf   0x02008510  thumb
+ *   MYSTATUS_GetId   0x02008530  thumb
+ *   MYSTATUS_GetProfileId   0x0200853C  thumb
+ *   MYSTATUS_GetOutfitVariant   0x02008550  thumb
+ *   MYSTATUS_GetOutfit   0x02008554  thumb
+ *   WIFILIST_SetFriendInfoField   0x02009918  thumb
+ *   WIFILIST_StoreFriendNameFromStrbuf   0x02009A00  thumb
  *   func_02045808  0x02045808  arm
  *   sub_0201283C   0x0201283C  thumb
- *   sub_02009A1C           0x02009A1C  thumb
- *   func_0203D29C  0x0203D29C  arm
- *   func_02156B70  0x02156B70  thumb  ov009
- *   func_02005F24  0x02005F24  thumb
- *   sub_0200F6B8_Obj  0x0214617C  data
+ *   WIFILIST_IsFriendDataValid           0x02009A1C  thumb
+ *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
+ *   DWC_RAP_GetVchatEnabled  0x02156B70  thumb  ov009
+ *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *   MI_CpuFill8       0x02082BCC  arm
  *   func_02030734  0x02030734  arm
  *   func_0203CD98  0x0203CD98  arm
- *   func_0203D880  0x0203D880  arm
- *   func_020393D0  0x020393D0  arm
- *   func_0203C990  0x0203C990  arm
- *   func_0203D864  0x0203D864  arm
- *   func_0200FAAC  0x0200FAAC  thumb
+ *   GFL_NET_CheckError  0x0203D880  arm
+ *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
+ *   GFL_NET_STATE_GetErrorMode  0x0203C990  arm
+ *   GFL_NET_ClearBeaconCallbacks  0x0203D864  arm
  *   func_0203D798  0x0203D798  arm
- *   func_0203CA98  0x0203CA98  arm
- *   func_02156460  0x02156460  thumb  ov009
- *   sub_0200F7B8       0x0200F7B8  thumb
- *   sub_0200F7C0_Obj   0x0214617C  data
- *   sub_0200F7C0_Flags 0x021461BC  data
- *   func_0207D534 0x0207D534  arm
- *   func_02010054        0x02010054  thumb
- *   func_02006210        0x02006210  thumb
+ *   GFL_NET_STATE_GetError  0x0203CA98  arm
+ *   DWC_RAP_GetErrorMessageClass  0x02156460  thumb  ov009
+ *   GFL_USE_StopAllSe        0x02006210  thumb
  *   GX_VBlankIntr        0x0207D3E4  arm
  *   func_02037174        0x02037174  arm
- *   func_02037200        0x02037200  arm
+ *   GFL_NET_WM_ICON_EasyGetEngine        0x02037200  arm
  *   func_0201034C        0x0201034C  thumb
  *   func_02037190        0x02037190  arm
  *   GXS_SetGraphicsMode  0x0207D518  arm
- *   g_0214617C           0x0214617C  data
- *   func_0200FD38  0x0200FD38  thumb
  *   func_020351A0  0x020351A0  arm
- *   func_020053EC  0x020053EC  thumb
+ *   GFL_USE_PollPowerExit  0x020053EC  thumb
  *   func_0203CDBC  0x0203CDBC  arm
- *   sub_02010054   0x02010054  thumb
- *   g0214617C      0x0214617C  data
- *   g_021461BC     0x021461BC  data  a4
  *   func_020307B0  0x020307B0  arm
  *   func_020306F0  0x020306F0  arm
- *   sub_0200FBA0_Obj  0x0214617C  data
- *   func_0203CF04  0x0203CF04  arm
+ *   GFL_NET_ClearExitFlag  0x0203CF04  arm
  *   func_0203CEAC  0x0203CEAC  arm
- *   func_0203D0D0  0x0203D0D0  arm
+ *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
  *   func_02178E4C  0x02178E4C  thumb
- *   func_0203CFA0  0x0203CFA0  arm
- *   func_0208459C  0x0208459C  arm
+ *   GFL_NET_RequestDisconnect  0x0203CFA0  arm
  *   GX_HBlankIntr  0x0207D3AC  arm
  *   func_020101D4  0x020101D4  thumb
  *   GXx_GetMasterBrightness_  0x0207D55C  arm
@@ -95,26 +80,21 @@
  *   MIi_CpuCopy16             0x02082A60  arm
  *   func_02043668             0x02043668  arm
  *   func_020435F4             0x020435F4  arm
- *   func_0203D828             0x0203D828  arm
+ *   GFL_NET_GetIrcParams             0x0203D828  arm
  *   GX_SetBankForSubBG        0x020806B0  arm
  *   OS_WaitIrq                0x0208459C  arm
- *   g0209DEA0      0x0209DEA0  data
- *   func_0207E24C  0x0207E24C  arm
  *   func_02082A7C  0x02082A7C  arm
  *   func_0204A1BC  0x0204A1BC  arm
  *   func_02062A4C  0x02062A4C  arm
  *   func_020862F0  0x020862F0  arm
- *   func_02082A60  0x02082A60  arm
  *   func_02062B30  0x02062B30  arm
- *   func_0207DFB4  0x0207DFB4  arm
  *   func_02062AD4  0x02062AD4  arm
  *   func_02062A98  0x02062A98  arm
+ *   gNetErrWork       0x0214617C  data
+ *   sNetErrScreenRes  0x0209DEA0  data
+ *   sWifiPollLatch    0x02146178  data
+ *   GFL_NET_Main  0x0203CF5C  arm
  */
-#include "../../matched/include/Obj11713.h"
-#include "../../matched/include/Obj03039.h"
-#include "../../matched/include/Obj05696.h"
-#include "../../matched/include/Obj01327.h"
-
 #define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
 #define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
 #define reg_G2_WINOUT       (*(volatile u16 *)0x0400004A)
@@ -127,13 +107,39 @@
 #define reg_G2_BG1OFS          (*(volatile u32 *)0x04000014)
 #define reg_G2_BLDCNT          (*(volatile u16 *)0x04000050)
 #define reg_G2S_DB_BLDCNT      (*(volatile u16 *)0x04001050)
+#define HW_BG_PLTT             0x05000000
+#define HW_DB_BG_PLTT          0x05000400
+
+/* net_err.c states (NetErrWork.state). */
+#define NET_ERR_STATE_IDLE      0   /* no error recorded */
+#define NET_ERR_STATE_RECORDED  1   /* error info captured, screen not requested yet */
+#define NET_ERR_STATE_SHOW      2   /* the error screen is to be shown */
+
+/* GFLNetInitializeStruct.bNetType values. */
+#define GFL_NET_TYPE_WIFI         1
+#define GFL_NET_TYPE_WIFI_LOBBY   2
+#define GFL_NET_TYPE_WIFI_GTS     6
+#define GFL_NET_TYPE_WIRELESS     0
+#define GFL_NET_TYPE_IRC          5
+
+/* NetErrWork.netType value when the VRAM backup was not taken (fatal error). */
+#define NET_ERR_NETTYPE_NO_BACKUP  0x60
+
+#define NET_ERR_HEAP_ID           8
+#define NET_ERR_HEAP_PARENT_ID    1
+#define NET_ERR_HEAP_SIZE         0x4920
+#define NET_ERR_BG1_CHAR_SIZE     0x4000
+#define NET_ERR_BG1_SCR_SIZE      0x800
+#define NET_ERR_PLTT_BACKUP_SIZE  0x20
+#define NET_ERR_BACKDROP_COLOR    0x7eea
+
 struct DWCstAccUserData;
-struct Sub020097BCObj;
-struct Sub020097BCFriend;
-struct Sub0200852CObj;
-struct U16Vec;
-struct BigObj;
-struct NitroFileHeader;
+struct WifiFriendSave;
+struct WifiFriendRecord;
+struct PlayerProfileSrc;
+struct U16String;
+struct SaveData;
+struct NitroResFile;
 typedef unsigned char u8;
 
 typedef unsigned int  u32;
@@ -144,19 +150,7 @@ typedef struct { u32 w[3]; } DWCFriendData;
 
 typedef signed short   s16;
 
-struct Su8Obj {
-    unsigned char pad[0x60];
-};
-
 typedef unsigned short u16;
-
-struct Sub0200F7C0Obj {
-    u8 pad[0x64];
-};
-
-struct Sub0200F7C0Flags {
-    u8 pad[0x1b];
-};
 
 typedef int            BOOL;
 
@@ -194,38 +188,51 @@ typedef union {
     };
 } GXBg01Control;
 
+/* The part of the net init parameters (func_0203D798) this file reads. */
 typedef struct {
-    u32 w[4];
-} NetErrBlk;
+    u8 pad_00[0x65];
+    u8 bNetType;
+} GFLNetInitializeStruct;
 
+/* The error record the net library keeps (GFL_NET_STATE_GetError returns it). */
 typedef struct {
-    void          *bg1Char;     /* +0x00 */
-    void          *bg1Scr;      /* +0x04 */
-    void          *pltt;        /* +0x08 */
-    GXDispCnt      dispCnt;     /* +0x0C */
-    GXBg01Control  bg1Cnt;      /* +0x10 */
+    u32 errorCode;
+    u32 errorType;
+    u32 errorParam;
+    u32 reasonCode;
+} NetErrInfo;
+
+/* The module's state at 0x0214617C (size 0x64): backup of the display state
+ * the error screen overwrites, plus the recorded error. */
+typedef struct {
+    void          *bg1CharBackup;       /* +0x00, NET_ERR_BG1_CHAR_SIZE bytes */
+    void          *bg1ScrBackup;        /* +0x04, NET_ERR_BG1_SCR_SIZE bytes */
+    void          *plttBackup;          /* +0x08, first NET_ERR_PLTT_BACKUP_SIZE bytes of the BG palette */
+    GXDispCnt      savedDispCnt;        /* +0x0C */
+    GXBg01Control  savedBg1Cnt;         /* +0x10 */
     u16            pad12;
-    int            bright;      /* +0x14 */
-    int            subBright;   /* +0x18 */
-    BOOL           hBlank;      /* +0x1C */
-    BOOL           vBlank;      /* +0x20 */
-    u32            bankBG;      /* +0x24 */
-    u32            bankSubBG;   /* +0x28 */
-    u32            state;       /* +0x2C */
-    u32            f30;         /* +0x30 */
-    u16            bldCnt;      /* +0x34 */
-    u16            subBldCnt;   /* +0x36 */
-    u32            f38;         /* +0x38 */
-    int            subWnd;      /* +0x3C */
-    u16            pltt0;       /* +0x40 */
+    int            savedBright;         /* +0x14 */
+    int            savedSubBright;      /* +0x18 */
+    BOOL           savedHBlankIntr;     /* +0x1C */
+    BOOL           savedVBlankIntr;     /* +0x20 */
+    u32            savedBankBG;         /* +0x24 */
+    u32            savedBankSubBG;      /* +0x28 */
+    u32            state;               /* +0x2C, NET_ERR_STATE_* */
+    u32            screenRequested;     /* +0x30, cleared when the screen was shown */
+    u16            savedBldCnt;         /* +0x34 */
+    u16            savedSubBldCnt;      /* +0x36 */
+    u32            savedVisiblePlane;   /* +0x38 */
+    int            savedSubVisibleWnd;  /* +0x3C */
+    u16            savedSubBackdrop;    /* +0x40 */
     u16            pad42;
-    u32            count;       /* +0x44 */
-    NetErrBlk      blk48;       /* +0x48 */
-    u8             f58;         /* +0x58 */
-    u8             f59;         /* +0x59 */
-    u8             pad5A[2];
-    u32            f5C;         /* +0x5C */
-    u32            f60;         /* +0x60 */
+    u32            keepDarkOnRestore;   /* +0x44 */
+    NetErrInfo     errorInfo;           /* +0x48 */
+    u8             netErrorFlag;        /* +0x58 */
+    u8             netType;             /* +0x59, bNetType at the time of the error */
+    u8             fatalRaised;         /* +0x5A */
+    u8             pad5B;
+    u32            errorLevel;          /* +0x5C, 1 or 2 */
+    u32            messageId;           /* +0x60 */
 } NetErrWork;
 
 typedef struct {
@@ -233,17 +240,6 @@ typedef struct {
     u8 effect:1;
     u8 _reserve:2;
 } GXWndPlane;
-
-struct Blk16_0200FAAC {
-    u32 w[4];
-};
-
-struct Sub0200FB6CObj {
-    void *unk00;
-    void *unk04;
-    void *unk08;
-};
-
 
 typedef enum { GX_BG_SCRSIZE_TEXT_256x256 = 0 } GXBGScrSizeText;
 
@@ -255,101 +251,95 @@ typedef enum { GX_BG_CHARBASE_0x00000 = 0 } GXBGCharBase;
 
 typedef enum { GX_BG_EXTPLTT_01 = 0 } GXBGExtPltt;
 
-struct ent {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
+/* One row of the error screen graphics table: the archive and the three files in it. */
+struct NetErrScreenRes {
+    u16 arcId;
+    u16 charFileId;
+    u16 scrnFileId;
+    u16 plttFileId;
 };
 
-struct res0 {
-    u8  pad[0x10];
-    u32 len;
-    void *ptr;
+/* The unpacked character, screen and palette data of a Nitro graphics file. */
+struct NitroCharData {
+    u8  header[0x10];
+    u32 size;
+    void *pixels;
 };
 
-struct res1 {
-    u32 pad0;
-    u32 pad4;
-    u32 len;
-    u8  buf[4];
+struct NitroScrnData {
+    u32 header0;
+    u32 header4;
+    u32 size;
+    u8  data[4];
 };
 
-struct res2 {
-    u8  pad[0xc];
-    void *ptr;
+struct NitroPlttData {
+    u8  header[0xc];
+    void *colors;
 };
 
 typedef signed int     s32;
 
-extern int func_0203D5D4(void);
-extern int func_02059A5C(void *b, void *c);
-extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
-extern u32 func_0203D5EC(void);
-extern u32 func_0203D610(void);
-extern u32 func_0203D634(void);
-extern int   func_020596D8(void *p);
-extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
-extern struct Sub020097BCFriend *sub_020099C8(struct Sub020097BCObj *obj, int i);
-extern u32 func_02009A34(struct Sub020097BCObj *obj);
-extern int  DWC_CheckFriendKey(void *p, u64 key);
-extern void DWC_CreateFriendKeyToken(DWCFriendData *tok, u64 key);
-extern int  DWC_GetGsProfileId(void *p, const DWCFriendData *rec);
-extern int  DWC_IsValidFriendData(const DWCFriendData *rec);
-extern void  func_02082D44(void *dst, const void *src, u32 n);
-extern void *sub_02008510(void *a, int b);
-extern u32 sub_02008530(const struct Sub0200852CObj *obj);
-extern u32 sub_0200853C(const struct Sub0200852CObj *obj);
-extern u8 sub_02008550(const struct Sub0200852CObj *obj);
-extern u8 sub_02008554(const struct Sub0200852CObj *obj);
-extern void sub_02009918(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value);
-extern void sub_02009A00(struct Sub020097BCObj *obj, int i, void *dest);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 sub_0201283C(const struct BigObj *p);
-extern int sub_02009A1C(struct Sub020097BCObj *obj, u32 i);
-extern u32  func_0203D29C(void);
-extern s16 func_02156B70(void);
-extern void func_02005F24(u32 a0, u32 a1);
-extern void func_0203064C(u32 a, u32 b, u32 c);
+extern int GFL_NET_GetGameKind(void);
+extern int DWC_IsEqualFriendData(void *friendA, void *friendB);
+extern int DWC_GetGsProfileId(void *userData, const void *friendData);
+extern u32 GFL_NET_GetWifiUserData(void);
+extern u32 GFL_NET_GetFriendList(void);
+extern u32 GFL_NET_GetFriendListNum(void);
+extern struct DWCstAccUserData *func_02009860(struct WifiFriendSave *save);
+extern struct WifiFriendRecord *WIFILIST_GetDwcFriendData(struct WifiFriendSave *save, int slot);
+extern u32 func_02009A34(struct WifiFriendSave *save);
+extern int  DWC_CheckFriendKey(void *userData, u64 friendKey);
+extern void DWC_CreateFriendKeyToken(DWCFriendData *token, u64 friendKey);
+extern int  DWC_IsValidFriendData(const void *friendData);
+extern void  func_02082D44(void *dst, const void *src, u32 size);
+extern struct U16String *MYSTATUS_CreateNameStrbuf(struct PlayerProfileSrc *profile, int heapId);
+extern u32 MYSTATUS_GetId(const struct PlayerProfileSrc *profile);
+extern u32 MYSTATUS_GetProfileId(const struct PlayerProfileSrc *profile);
+extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerProfileSrc *profile);
+extern u8 MYSTATUS_GetOutfit(const struct PlayerProfileSrc *profile);
+extern void WIFILIST_SetFriendInfoField(struct WifiFriendSave *save, u32 slot, u32 fieldId, u32 value);
+extern void WIFILIST_StoreFriendNameFromStrbuf(struct WifiFriendSave *save, int slot, void *name);
+extern void func_02045808(struct U16String *string);
+extern u32 sub_0201283C(const struct SaveData *saveData);
+extern int WIFILIST_IsFriendDataValid(struct WifiFriendSave *save, u32 slot);
+extern u32  GFL_NET_IsNetTypeWifi(void);
+extern s16 DWC_RAP_GetVchatEnabled(void);
+extern void GFL_USE_SetBgmTrackVolume(u32 eventMask, u32 eventValue);
+extern void func_0203064C(u32 parentHeapId, u32 heapId, u32 size);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-extern u32 func_02030734(u16 kind, u32 mask, u32 zero, const void *name, u8 tag);
+extern u32 func_02030734(u16 heapId, u32 size, u32 clearFlag, const void *file, u8 line);
 extern int func_0203CD98(void);
-extern u32  func_0203D880(void);
-extern int func_020393D0(void);
-extern u32  func_0203C990(void);
-extern void func_0203D864(void);
-extern void func_0200FAAC(void);
-extern void *func_0203D798(void);
-extern u32 func_0203CA98(void);
-extern int func_02156460(int err, int kind);
-extern u32 sub_0200F7B8(u32 a0);
-extern void func_0207D534(volatile u16 *reg, int brightness);
-extern u32 func_0203CF5C();
-extern void func_0208459C(int clear, u32 irqFlags);
-extern u32  func_02010054(void);
-extern void func_02006210(void);
+extern u32  GFL_NET_CheckError(void);
+extern int GFL_NET_SYSTEM_IsError(void);
+extern u32  GFL_NET_STATE_GetErrorMode(void);
+extern void GFL_NET_ClearBeaconCallbacks(void);
+extern GFLNetInitializeStruct *func_0203D798(void);
+extern NetErrInfo *GFL_NET_STATE_GetError(void);
+extern int DWC_RAP_GetErrorMessageClass(int errorCode, int errorType);
+extern u32 GFL_NET_Main();
+extern void OS_WaitIrq(int clear, u32 irqFlags);
+extern void GFL_USE_StopAllSe(void);
 extern BOOL GX_VBlankIntr(BOOL on);
 extern void func_02037174(void);
-extern u32 func_02037200(void);
+extern u32 GFL_NET_WM_ICON_EasyGetEngine(void);
 extern int func_0201034C(void);
 extern void func_02037190(void);
 extern void GXS_SetGraphicsMode(u32 bgMode);
-extern void func_0200FD38(u32 a, u32 b);
-extern int func_020351A0(u32 v);
-extern void func_020053EC(void);
-extern int   sub_02010054(void);
+extern int func_020351A0(u32 mode);
+extern void GFL_USE_PollPowerExit(void);
 extern int   func_0203CDBC(void);
-extern u32 func_020307B0(void *p);
-extern void func_020306F0(u32 id);
-extern void func_0203CF04(void);
-extern int func_0203CEAC(int a0);
-extern void func_0203D0D0(void);
+extern u32 func_020307B0(void *block);
+extern void func_020306F0(u32 heapId);
+extern void GFL_NET_ClearExitFlag(void);
+extern int func_0203CEAC(int arg);
+extern void GFL_NET_IRC_WIRELESS_Exit(void);
 extern u32  func_02178E4C(void);
-extern void func_0203CFA0(void);
+extern void GFL_NET_RequestDisconnect(void);
 extern u32  GX_HBlankIntr(BOOL on);
-extern void func_020101D4(u32 a, u32 b);
+extern void func_020101D4(u32 screenIndex, u32 isWifiLink);
 extern int  GXx_GetMasterBrightness_(volatile u16 *reg);
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int v);
+extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern int func_020808F4(void);
 extern int func_020809A0(void);
 extern void GX_SetBankForBG(u32 bank);
@@ -358,93 +348,91 @@ extern void *G2_GetBG1CharPtr(void);
 extern void *G2_GetBG1ScrPtr(void);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern u32  func_02043668(void);
-extern void func_020435F4(u32 a);
-extern void func_0203D828(u32 *a, u32 *b);
+extern void func_020435F4(u32 visiblePlane);
+extern void GFL_NET_GetIrcParams(u32 *x, u32 *y);
 extern void GX_SetBankForSubBG(u32 bank);
-extern u32  OS_WaitIrq(BOOL clear, u32 mask);
-extern void *func_0207E24C(void);
-extern void *func_0207DFB4(void);
-extern void func_02082A7C(u32 val, void *dst, u32 n);
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-extern void func_020862F0(void *p, u32 n);
-extern void func_02082A60(void *dst, const void *src, u32 n);
+extern void func_02082A7C(u32 value, void *dst, u32 size);
+extern int func_0204A1BC(int arcId, int fileId, int heapId, int flag);
+extern s32 func_02062A4C(struct NitroResFile *file, void **out);
+extern void func_020862F0(void *p, u32 size);
 extern int func_02062B30(void *file, void **out);
-extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
-extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
+extern s32 func_02062AD4(struct NitroResFile *file, void **out);
+extern s32 func_02062A98(struct NitroResFile *file, void **out);
 int func_0200F2D4(void);
 int sub_0200F300(void);
-int sub_0200F34C(void *a, void *b, void *c);
-int func_0200F38C(void *a, int *out);
-int func_0200F43C(void *obj, u64 key, int *out);
-int func_0200F4E4(void *o);
-void sub_0200F520(void *obj, void *src, int i, int sel, int flag);
-void sub_0200F594(void *a0, void *a1, void *a2, int a3, void *a4, int mode);
-int func_0200F5EC(void *a0, void *a1, void *a2, void *a3);
-void sub_0200F698(void *a, void *b);
-void sub_0200F6B8(void);
-void sub_0200F6D8(u32 kind);
-void sub_0200F734(void);
-u32 func_0200F7B8(u32 a0);
-void sub_0200F7C0(u32 value);
-void sub_0200F7DC(void);
-void sub_0200F7E8(u32 value);
-void sub_0200F7F4(void);
-void sub_0200F800(void);
-void sub_0200F824(void);
-void func_0200F83C(void);
-void sub_0200FA84(void);
-void sub_0200FA94(void);
-void sub_0200FAAC(void);
-u32 sub_0200FB24(void);
+int sub_0200F34C(void *candidate, void *userData, void *existing);
+int func_0200F38C(void *friendData, int *outSlot);
+int func_0200F43C(void *saveBlock, u64 friendKey, int *outSlot);
+int func_0200F4E4(void *friendData);
+void sub_0200F520(void *saveBlock, void *profile, int slot, int heapId, int copyName);
+void sub_0200F594(void *saveData, void *profile, void *friendData, int slot, void *heapId, int mode);
+int func_0200F5EC(void *saveData, void *profile, void *friendData, void *heapId);
+void sub_0200F698(void *eventMask, void *eventValue);
+void GFL_NET_ERR_CreateHeap(void);
+void GFL_NET_ERR_Init(u32 heapId);
+void GFL_NET_ERR_CheckNetError(void);
+u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
+void GFL_NET_ERR_HaltWithMessage(u32 messageId);
+void GFL_NET_ERR_Halt(void);
+void GFL_NET_ERR_SetKeepDark(u32 keepDark);
+void GFL_NET_ERR_ClearKeepDark(void);
+void GFL_NET_ERR_RestoreBrightness(void);
+void GFL_NET_ERR_UpdateNetwork(void);
+void GFL_NET_ERR_ShowSimpleScreen(void);
+void GFL_NET_ERR_HaltIfActive(void);
+void GFL_NET_ERR_DrawAndHang(void);
+void GFL_NET_ERR_RecordError(void);
+u32 GFL_NET_ERR_GetErrorLevel(void);
 void func_0200FB38(void);
-void func_0200FB4C(unsigned int x);
-void sub_0200FB6C(void);
-void sub_0200FBA0(void);
-u32 sub_0200FBB0(void);
-u32 func_0200FC0C(u32 a0);
-void sub_0200FD38(u32 a0, u32 a1);
-void sub_0200FEBC(BOOL keepDark);
-BOOL CTRDGi_IsTaskAvailable_02010054(void);
-void sub_02010068(u32 a0);
-extern struct Sub0200F7C0Flags sub_0200F7C0_Flags;
-extern NetErrWork g_0214617C;
-extern unsigned char g_021461BC[];
-extern struct ent g0209DEA0[];
+void GFL_NET_ERR_RaiseFatal(unsigned int messageId);
+void GFL_NET_ERR_ExitAndHalt(void);
+void GFL_NET_ERR_ResetState(void);
+u32 GFL_NET_ERR_WaitLinkClosed(void);
+u32 GFL_NET_ERR_ProcScreen(u32 isFatal);
+void GFL_NET_ERR_SaveDisplayAndDraw(u32 screenIndex, u32 isWifiLink);
+void GFL_NET_ERR_RestoreDisplay(BOOL keepDark);
+BOOL GFL_NET_ERR_IsActive(void);
+void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex);
+extern NetErrWork gNetErrWork;
+extern struct NetErrScreenRes sNetErrScreenRes[];
+extern unsigned char sWifiPollLatch;
 
+#define GFL_NET_ERR_IS_ACTIVE()  GFL_NET_ERR_IsActive()
 
+/* Wi-Fi state poll with a one-shot latch: state 2 toggles the latch (the first
+ * call passes it to GFL_NET_Main, the next one clears it). */
+int func_0200F2D4(void)
+{
+    int linkState;
+    int latched;
+    int result;
 
-
-
-int func_0200F2D4(void){ int t0, t1, t2; t0 = func_0203D5D4(); if ((unsigned int)(t0) == (unsigned int)(2)) { if ((unsigned int)(*(unsigned char *)((char *)(0x2146178))) == (unsigned int)(0)) { t1 = func_0203CF5C((int)*(unsigned char *)((char *)(0x2146178))); *(unsigned char *)((char *)(0x2146178)) = (unsigned char)t1; return t1; } else { *(unsigned char *)((char *)(0x2146178)) = (unsigned char)0; return 0; } } else { t2 = func_0203CF5C((int)t0); return t2; } }
-
-
-
-
+    linkState = GFL_NET_GetGameKind();
+    if ((unsigned int)linkState == (unsigned int)2) {
+        if ((unsigned int)sWifiPollLatch == (unsigned int)0) {
+            latched = GFL_NET_Main((int)sWifiPollLatch);
+            sWifiPollLatch = (unsigned char)latched;
+            return latched;
+        } else {
+            sWifiPollLatch = (unsigned char)0;
+            return 0;
+        }
+    } else {
+        result = GFL_NET_Main((int)linkState);
+        return result;
+    }
+}
 
 
 /*
- * A membership test on func_0203D5D4()'s result: true for a scattered set
- * of values (12-16, 28, 31, 37, 38, 48), false otherwise. The compiler
- * lowers the contiguous 12-16 run as a dense jump table (see
- * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md), all five
- * entries landing on the same "return 1", and the rest as compare chains.
- * func_0203D5D4 has to be declared returning a signed int: an unsigned
- * return type turns every one of the range tests into an unsigned
- * compare (bhi/bhs instead of bgt/bge), which is the only thing that
- * differed on the first attempt.
- *
- * EXACT* because the 74 compiled bytes fall two short of the disasm.py
- * extent: a "movs r0, r0" alignment filler before the next label, the
- * ordinary inter-function padding, not a byte difference.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F300.c \
- *       --func sub_0200F300 --addr 0x0200F300 --cc 1.1p1
+ * Membership test on GFL_NET_GetGameKind()'s result: true for a scattered set of
+ * values (12-16, 28, 31, 37, 38, 48), false otherwise. The 12-16 run is
+ * lowered as a dense jump table. GFL_NET_GetGameKind must return a signed int: an
+ * unsigned return type turns the range tests into unsigned compares.
  */
 int sub_0200F300(void)
 {
-    switch (func_0203D5D4()) {
+    switch (GFL_NET_GetGameKind()) {
     case 12:
     case 13:
     case 14:
@@ -462,33 +450,22 @@ int sub_0200F300(void)
 }
 
 
-
-
-
-
 /*
- * A three-way friend-key comparator: bails out (0) if func_02059A5C(a, c)
- * flags the pair invalid. Otherwise compares b against a with
- * func_020598EC; if that says "no difference" (<= 0) the function reports
- * "not newer" (2). Otherwise it re-derives the b-against-a comparison
- * (the call is issued twice) and compares it against a fresh b-against-c
- * comparison, reporting "newer" (1) only when they agree and "not newer"
- * (2) otherwise.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F34C.c \
- *       --func sub_0200F34C --addr 0x0200F34C --cc 1.1p1
+ * Three-way friend comparison: returns 0 when candidate and existing are the
+ * same friend (DWC_IsEqualFriendData), 1 when the candidate has a profile id and it
+ * matches the one the existing record resolves to, 2 otherwise. The profile id
+ * of the candidate is fetched twice, as in the original.
  */
-int sub_0200F34C(void *a, void *b, void *c)
+int sub_0200F34C(void *candidate, void *userData, void *existing)
 {
-    if (func_02059A5C(a, c) != 0) {
+    if (DWC_IsEqualFriendData(candidate, existing) != 0) {
         return 0;
     }
 
-    if (func_020598EC(b, a) > 0) {
-        int lhs = func_020598EC(b, a);
-        int rhs = func_020598EC(b, c);
-        if (lhs == rhs) {
+    if (DWC_GetGsProfileId(userData, candidate) > 0) {
+        int candidateProfileId = DWC_GetGsProfileId(userData, candidate);
+        int existingProfileId = DWC_GetGsProfileId(userData, existing);
+        if (candidateProfileId == existingProfileId) {
             return 1;
         }
     }
@@ -496,222 +473,173 @@ int sub_0200F34C(void *a, void *b, void *c)
 }
 
 
-
-
-
-
 /*
- * Search for a free friend slot: the out-parameter starts at -1 and the
- * function reports 3 when the object is not known at all (func_020596D8),
- * 0 for the first record whose tester (func_02059A5C) accepts it with that
- * slot index, 1 when the key (func_020598EC) of the object matches the
- * record's, and 2 when the scan finishes.  A slot that no key names and that
- * the tester still rejects is kept as a fallback in *out.
- *
- * This is the callee src/pending/sub_0200F4E4.c is capped on: its only
- * branch anywhere in the image is that one call site, so this entry is the
- * witness that turns it EXACT.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0200F38C.c \
- *       --func func_0200F38C --addr 0x0200F38C --cc 1.1p1 --thumb
+ * Search the friend list for a slot for friendData; outSlot starts at -1.
+ * Returns 3 when friendData is not valid, 0 when a record is the same friend
+ * (outSlot = that slot), 1 when a record has the same profile id (outSlot =
+ * that slot), 2 when the scan finishes. An invalid (free) record seen on the
+ * way is kept in outSlot as the fallback.
  */
-int func_0200F38C(void *a, int *out)
+int func_0200F38C(void *friendData, int *outSlot)
 {
     int   i;
-    void *key = (void *)func_0203D5EC();
-    u8   *tbl = (u8 *)func_0203D610();
-    int   n = func_0203D634();
+    void *userData = (void *)GFL_NET_GetWifiUserData();
+    u8   *friendList = (u8 *)GFL_NET_GetFriendList();
+    int   friendCount = GFL_NET_GetFriendListNum();
 
-    *out = -1;
-    if (func_020596D8(a) == 0)
+    *outSlot = -1;
+    if (DWC_IsValidFriendData(friendData) == 0)
         return 3;
-    for (i = 0; i < n; i++) {
-        int off = i * 12;
+    for (i = 0; i < friendCount; i++) {
+        int byteOffset = i * 12;
 
-        if (func_02059A5C(a, tbl + off) != 0) {
-            *out = i;
+        if (DWC_IsEqualFriendData(friendData, friendList + byteOffset) != 0) {
+            *outSlot = i;
             return 0;
         }
-        if (func_020598EC(key, a) > 0
-            && func_020598EC(key, a) == func_020598EC(key, tbl + off)) {
-            *out = i;
+        if (DWC_GetGsProfileId(userData, friendData) > 0
+            && DWC_GetGsProfileId(userData, friendData) == DWC_GetGsProfileId(userData, friendList + byteOffset)) {
+            *outSlot = i;
             return 1;
         }
-        if (*out < 0 && func_020596D8(tbl + off) == 0)
-            *out = i;
+        if (*outSlot < 0 && DWC_IsValidFriendData(friendList + byteOffset) == 0)
+            *outSlot = i;
     }
     return 2;
 }
 
 
-
-
-
-
 /*
- * The friend-list lookup: build a DWC friend-key token from the 64-bit
- * friend key, and compare its GS profile id against every entry of the
- * DWCFriendData (0xC-byte) array; report the matching slot through *out.
- * Returns 3 if the key is bad or the token has no profile id, 0 on a hit,
- * 2 if the list was walked without one; *out is left holding the first slot
- * whose record fails DWC_IsValidFriendData when there is no hit, -1 when
- * there is not even one of those.
- *
- * Closed in wave 12 by two declaration facts the earlier passes missed:
- *  - the key is ONE u64 (DWC_CheckFriendKey / DWC_CreateFriendKeyToken take
- *    a u64 friendKey), not two ints: that is why r1:r2 are homed together
- *    at sp+0/sp+4;
- *  - the array is typed as 12-byte records and indexed as arr[i], so the
- *    i*12 offset is computed once at the loop top into a callee-saved
- *    register ahead of both uses (a u8 pointer plus i * 0xC is recomputed
- *    and spilled per use, which is what pushed p into r7 and cost 2 bytes).
- * Both profile lookups stay inside the loop, as in the image.
- *
- * EXACT* only because the listing extent includes the two-byte
- * "movs r0, r0" alignment filler after the function.
+ * Friend-list lookup by friend key: build the key token and compare its
+ * profile id with every entry of the friend list. Returns 3 when the key or
+ * the token is bad, 0 on a hit (outSlot = slot), 2 when the list was walked
+ * without a hit; then outSlot holds the first invalid (free) slot, or -1.
+ * The key is one u64, and the list is typed as 12-byte records indexed as
+ * friends[i], which fixes the register allocation.
  */
-int func_0200F43C(void *obj, u64 key, int *out)
+int func_0200F43C(void *saveBlock, u64 friendKey, int *outSlot)
 {
-    void *p;
-    DWCFriendData *arr;
-    int n;
+    void *userData;
+    DWCFriendData *friends;
+    int friendCount;
     int i;
-    DWCFriendData tok;
+    DWCFriendData token;
 
-    p = func_02009860(obj);
+    userData = func_02009860(saveBlock);
     i = 0;
-    arr = (DWCFriendData *)sub_020099C8(obj, 0);
-    n = func_02009A34(obj);
+    friends = (DWCFriendData *)WIFILIST_GetDwcFriendData(saveBlock, 0);
+    friendCount = func_02009A34(saveBlock);
 
-    if (DWC_CheckFriendKey(p, key) == 0)
+    if (DWC_CheckFriendKey(userData, friendKey) == 0)
         return 3;
 
-    DWC_CreateFriendKeyToken(&tok, key);
-    if (DWC_GetGsProfileId(p, &tok) <= 0)
+    DWC_CreateFriendKeyToken(&token, friendKey);
+    if (DWC_GetGsProfileId(userData, &token) <= 0)
         return 3;
 
-    *out = i - 1;
-    for (; i < n; i++) {
-        if (DWC_GetGsProfileId(p, &tok) == DWC_GetGsProfileId(p, &arr[i])) {
-            *out = i;
+    *outSlot = i - 1;
+    for (; i < friendCount; i++) {
+        if (DWC_GetGsProfileId(userData, &token) == DWC_GetGsProfileId(userData, &friends[i])) {
+            *outSlot = i;
             return 0;
         }
-        if (*out < 0 && DWC_IsValidFriendData(&arr[i]) == 0)
-            *out = i;
+        if (*outSlot < 0 && DWC_IsValidFriendData(&friends[i]) == 0)
+            *outSlot = i;
     }
     return 2;
 }
 
 
-
-
-
-
 /*
- * note:     promoted from src/pending 2026-09-19 with NO C change: the only unresolved site was the
- *           call at +0x0012 to func_0200F38C, which became a `matched` witness when
- *           src/matched/func_0200F38C.c was filed (layout/matched/arm9/pkt_0200F38C.json).
- *           match.py one: EXACT, compiled 60 bytes, 3 of 3 relocations resolved.
+ * Look friendData up in the friend list (func_0200F38C). On a profile id match
+ * (1) overwrite friendData with the stored record; returns 1 when the list was
+ * walked without a hit (2), 0 otherwise.
  */
-int func_0200F4E4(void *o)
+int func_0200F4E4(void *friendData)
 {
-    u32 out;
-    int r = 0;
-    void *base = (void *)func_0203D610();
-    int v = func_0200F38C(o, (int *)(&out));
+    u32 slot;
+    int result = 0;
+    void *friendList = (void *)GFL_NET_GetFriendList();
+    int searchResult = func_0200F38C(friendData, (int *)(&slot));
 
-    if (v == 0) {
+    if (searchResult == 0) {
         /* nothing */
-    } else if (v == 1) {
-        func_02082D44(o, (unsigned char *)base + out * 0xc, 0xc);
-    } else if (v == 2) {
-        r = 1;
+    } else if (searchResult == 1) {
+        func_02082D44(friendData, (unsigned char *)friendList + slot * 0xc, 0xc);
+    } else if (searchResult == 2) {
+        result = 1;
     }
-    return r;
+    return result;
 }
 
 
-
-
-
-
-void sub_0200F520(void *obj, void *src, int i, int sel, int flag)
+/* Copy the profile fields (and, with copyName, the name) of profile into friend record slot. */
+void sub_0200F520(void *saveBlock, void *profile, int slot, int heapId, int copyName)
 {
-    if (flag != 0) {
-        void *data = sub_02008510(src, sel);
-        sub_02009A00(obj, i, data);
-        func_02045808(data);
+    if (copyName != 0) {
+        void *name = MYSTATUS_CreateNameStrbuf(profile, heapId);
+        WIFILIST_StoreFriendNameFromStrbuf(saveBlock, slot, name);
+        func_02045808(name);
     }
-    sub_02009918(obj, i, 9, sub_02008550(src));
-    sub_02009918(obj, i, 0, sub_02008530(src));
-    sub_02009918(obj, i, 1, sub_0200853C(src));
-    sub_02009918(obj, i, 8, sub_02008554(src));
+    WIFILIST_SetFriendInfoField(saveBlock, slot, 9, MYSTATUS_GetOutfitVariant(profile));
+    WIFILIST_SetFriendInfoField(saveBlock, slot, 0, MYSTATUS_GetId(profile));
+    WIFILIST_SetFriendInfoField(saveBlock, slot, 1, MYSTATUS_GetProfileId(profile));
+    WIFILIST_SetFriendInfoField(saveBlock, slot, 8, MYSTATUS_GetOutfit(profile));
 }
-
-
-
-
 
 
 /*
- * blocking: unresolved: 0200F520 (thumb, from header) has no witness outside 0200F594..0200F
+ * Store profile into friend record slot. mode 0: copy the old record out to
+ * friendData and write profile with its name; mode 1: same without the name;
+ * mode 2: keep friendData untouched and write only the last field.
  */
-void sub_0200F594(void *a0, void *a1, void *a2, int a3, void *a4, int mode)
+void sub_0200F594(void *saveData, void *profile, void *friendData, int slot, void *heapId, int mode)
 {
-    void *obj = (void *)sub_0201283C(a0);
-    void *src = sub_020099C8(obj, a3);
+    void *saveBlock = (void *)sub_0201283C(saveData);
+    void *record = WIFILIST_GetDwcFriendData(saveBlock, slot);
 
     if (mode != 2) {
-        func_02082D44(a2, src, 0xc);
+        func_02082D44(friendData, record, 0xc);
     }
     if (mode == 0) {
-        sub_0200F520(obj, a1, a3, (int)a4, 1);
+        sub_0200F520(saveBlock, profile, slot, (int)heapId, 1);
     } else if (mode == 1) {
-        sub_0200F520(obj, a1, a3, (int)a4, 0);
+        sub_0200F520(saveBlock, profile, slot, (int)heapId, 0);
     }
-    sub_02009918(obj, a3, 8, sub_02008554(a1));
+    WIFILIST_SetFriendInfoField(saveBlock, slot, 8, MYSTATUS_GetOutfit(profile));
 }
 
 
-
-
-
-
 /*
- * Insert one friend record into a 32-entry list and mirror it into the three
- * case slots.  sub_0200F594's last argument picks the slot: 0 for the
- * "not valid yet" arm, 2 when sub_0200F34C reports equality and 1 when it
- * reports "newer".  The first arm is the only one that returns 1.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0200F5EC.c \
- *       --func func_0200F5EC --addr 0x0200F5EC --cc 1.1p1 --thumb
+ * Insert one friend into the 32-entry friend list. The mode passed to
+ * sub_0200F594 is 0 for the first free slot, 2 when sub_0200F34C reports the
+ * same friend and 1 when it reports a matching profile id. Only the free-slot
+ * arm returns 1.
  */
-int func_0200F5EC(void *a0, void *a1, void *a2, void *a3)
+int func_0200F5EC(void *saveData, void *profile, void *friendData, void *heapId)
 {
-    void *obj = (void *)sub_0201283C(a0);
+    void *saveBlock = (void *)sub_0201283C(saveData);
     int i;
 
-    if (DWC_IsValidFriendData(a2) == 0) {
+    if (DWC_IsValidFriendData(friendData) == 0) {
         return 0;
     }
 
     for (i = 0; i < 0x20; i++) {
-        void *src = sub_020099C8(obj, i);
+        void *record = WIFILIST_GetDwcFriendData(saveBlock, i);
         int mode;
 
-        if (sub_02009A1C(obj, i) == 0) {
-            sub_0200F594(a0, a1, a2, i, a3, 0);
+        if (WIFILIST_IsFriendDataValid(saveBlock, i) == 0) {
+            sub_0200F594(saveData, profile, friendData, i, heapId, 0);
             return 1;
         }
-        mode = sub_0200F34C(a2, func_02009860(obj), src);
+        mode = sub_0200F34C(friendData, func_02009860(saveBlock), record);
         if (mode == 0) {
-            sub_0200F594(a0, a1, a2, i, a3, 2);
+            sub_0200F594(saveData, profile, friendData, i, heapId, 2);
             return 0;
         }
         if (mode == 1) {
-            sub_0200F594(a0, a1, a2, i, a3, 1);
+            sub_0200F594(saveData, profile, friendData, i, heapId, 1);
             return 0;
         }
     }
@@ -719,278 +647,148 @@ int func_0200F5EC(void *a0, void *a1, void *a2, void *a3)
 }
 
 
-
-
-
-
 /*
- * note:     wave 16: promoted.  0x02156B70 is the unlabelled ov009 leaf matched
- *           in src/matched/func_02156B70.c (ov009/pkt_02156B70); it attests as
- *           `matched, overlay` under the ov009 hint.
- *
- * Forwards its two arguments to func_02005F24 unless both func_0203D29C()
- * and func_02156B70() report nonzero; func_0203D29C is always called,
- * func_02156B70 only when the first call reports zero (a genuine
- * short-circuit, not an independent second check).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F698.c \
- *       --func sub_0200F698 --addr 0x0200F698 --cc 1.1p1
+ * Forwards its two arguments to GFL_USE_SetBgmTrackVolume unless both GFL_NET_IsNetTypeWifi()
+ * and DWC_RAP_GetVchatEnabled() report nonzero; DWC_RAP_GetVchatEnabled is only called when
+ * GFL_NET_IsNetTypeWifi reports zero.
  */
-void sub_0200F698(void *a, void *b)
+void sub_0200F698(void *eventMask, void *eventValue)
 {
-    if (func_0203D29C() == 0 || func_02156B70() == 0) {
-        func_02005F24((u32)a, (u32)b);
+    if (GFL_NET_IsNetTypeWifi() == 0 || DWC_RAP_GetVchatEnabled() == 0) {
+        GFL_USE_SetBgmTrackVolume((u32)eventMask, (u32)eventValue);
     }
 }
 
 
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F6B8.c \
- *       --func sub_0200F6B8 --addr 0x0200F6B8 --cc 1.1p1
- */
-void sub_0200F6B8(void)
+/* Create the module heap and clear the work. */
+void GFL_NET_ERR_CreateHeap(void)
 {
-    func_0203064C(1, 8, 0x4920);
-    MI_CpuFill8(&g_0214617C, 0, 0x64);
+    func_0203064C(NET_ERR_HEAP_PARENT_ID, NET_ERR_HEAP_ID, NET_ERR_HEAP_SIZE);
+    MI_CpuFill8(&gNetErrWork, 0, sizeof(NetErrWork));
 }
 
 
-
-
-
-
-/*
- * Zero-fills the module-wide object at 0x0214617C (see sub_0200F6B8.c and
- * sub_0200FBA0.c for the other users of the same global), then calls
- * func_02030734 three times with the same truncated kind value and the same
- * name pointer at 0x020A7234, each time with a different flag mask and a
- * different tag byte passed on the stack, storing each result into the
- * first three words of the object.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F6D8.c \
- *       --func sub_0200F6D8 --addr 0x0200F6D8 --cc 1.1p1
- */
-void sub_0200F6D8(u32 kind)
+/* Clear the work, then allocate the three backup buffers from heapId. */
+void GFL_NET_ERR_Init(u32 heapId)
 {
-    u32 *obj = (u32 *)0x0214617C;
-    const void *name = (const void *)0x020A7234;
+    NetErrWork *work = &gNetErrWork;
+    /* stand-in: a named extern for this string changes the literal pool layout */
+    const void *srcFile = (const void *)0x020A7234;
 
-    MI_CpuFill8(obj, 0, 0x64);
+    MI_CpuFill8(work, 0, sizeof(NetErrWork));
 
-    obj[0] = func_02030734((u16)kind, 1u << 14, 0, name, 0xbb);
-    obj[1] = func_02030734((u16)kind, (1u << 14) >> 3, 0, name, 0xbc);
-    obj[2] = func_02030734((u16)kind, 0x20, 0, name, 0xbd);
+    work->bg1CharBackup = (void *)func_02030734((u16)heapId, NET_ERR_BG1_CHAR_SIZE, 0, srcFile, 0xbb);
+    work->bg1ScrBackup = (void *)func_02030734((u16)heapId, NET_ERR_BG1_SCR_SIZE, 0, srcFile, 0xbc);
+    work->plttBackup = (void *)func_02030734((u16)heapId, NET_ERR_PLTT_BACKUP_SIZE, 0, srcFile, 0xbd);
 }
 
 
-
-
-
-
 /*
- *           func_02156460.  It is now a traced Thumb label in ov009 (ov010
- *           overlaps with non-code there, hence the ov009 hint below), but
- *           the call at 0x0200F7A8 is the only branch image-wide that
- *           reaches it, so the overlay `label` class refuses (no outside
- *           branch) and sole-ref/code does not cover overlay addresses.
- *           Needs a tool-side sole-ref/code rule for overlay labels, or a
- *           matched ov009 entry covering 0x02156460.  func_0203D864 now
- *           resolves.
- *
- * A gated status update: bails out early if the module-wide object at
- * 0x0214617C already has its +0x2c flag set, or if func_0203CD98 does not
- * report state 1, or if none of three link-state probes says yes. Once
- * past the gate it re-derives a status byte from func_0203D798's returned
- * object at offset +0x65 (only 1, 2 or 6 continue), then compares a field
- * of the object func_0203CA98 returns against two small windows and stores
- * a fixed error code into the global's +0x60 for either, falling through
- * to a real computation (func_02156460 on the object's first two words)
- * otherwise.
- *
- * Every concrete byte matches; func_0203D864 and func_02156460 are each
- * called from exactly this one site in the whole ROM, so both stay
- * unresolved relocations under the honesty rule.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F734.c \
- *       --func sub_0200F734 --addr 0x0200F734 --cc 1.1p1
- *
- * The `matched` class does not reach it: neither func_0203D864 nor
- * func_02156460 is matched, so no EXACT entry covers either address.  Both live
- * outside the matched region so far.
+ * Poll for a network error and record it: bails out when an error is already
+ * pending (state set), when func_0203CD98 does not report state 1, or when
+ * none of three error probes says yes. Otherwise it captures the error
+ * (func_0200FAAC), requires a Wi-Fi net type (1, 2 or 6), and picks the
+ * message id: fixed ids 0x28 and 0xe for two reason code windows, otherwise
+ * the mapping DWC_RAP_GetErrorMessageClass(errorCode, errorType).
  */
-void sub_0200F734(void)
+void GFL_NET_ERR_CheckNetError(void)
 {
-    u32 *g = (u32 *)0x0214617C;
+    /* stand-in: with &gNetErrWork the compiler materialises the pool word differently */
+    NetErrWork *work = (NetErrWork *)0x0214617C;
 
-    if (g[0x2c / 4] != 0) {
+    if (work->state != 0) {
         return;
     }
     if (func_0203CD98() != 1) {
         return;
     }
-    if (func_0203D880() == 0 && func_020393D0() == 0 && func_0203C990() == 0) {
+    if (GFL_NET_CheckError() == 0 && GFL_NET_SYSTEM_IsError() == 0 && GFL_NET_STATE_GetErrorMode() == 0) {
         return;
     }
 
-    func_0203D864();
-    func_0200FAAC();
+    GFL_NET_ClearBeaconCallbacks();
+    GFL_NET_ERR_RecordError();
 
     {
-        u8 *p = func_0203D798();
-        u8 v = p[0x65];
-        if (v != 1 && v != 2 && v != 6) {
+        GFLNetInitializeStruct *netInit = func_0203D798();
+        u8 netType = netInit->bNetType;
+        if (netType != GFL_NET_TYPE_WIFI && netType != GFL_NET_TYPE_WIFI_LOBBY && netType != GFL_NET_TYPE_WIFI_GTS) {
             return;
         }
     }
 
     {
-        u32 *obj = (u32 *)func_0203CA98();
-        u32 field = obj[0xc / 4];
+        NetErrInfo *errorInfo = GFL_NET_STATE_GetError();
+        u32 reasonCode = errorInfo->reasonCode;
 
-        if (field - 0x3f0 <= 1) {
-            g[0x60 / 4] = 0x28;
+        if (reasonCode - 0x3f0 <= 1) {
+            work->messageId = 0x28;
             return;
         }
-        if (field - 0x3f2 <= 4) {
-            g[0x60 / 4] = 0xe;
+        if (reasonCode - 0x3f2 <= 4) {
+            work->messageId = 0xe;
             return;
         }
 
-        g[0x60 / 4] = func_02156460(obj[0], obj[1]);
+        work->messageId = DWC_RAP_GetErrorMessageClass(errorInfo->errorCode, errorInfo->errorType);
     }
 }
 
 
-
-
-
-
-u32 func_0200F7B8(u32 a0)
+/* Tail call into the error screen; isFatal 1 halts. */
+u32 GFL_NET_ERR_ShowScreen(u32 isFatal)
 {
-    return func_0200FC0C(a0);
+    return GFL_NET_ERR_ProcScreen(isFatal);
 }
 
 
-
-
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Four functions with no register-saving prologue, printed by disasm.py as
- * a run of .word between two labelled neighbours (sub_0200F7B8 before,
- * func_0200F800 after); see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md. Recovered by
- * hand-decoding the .word run and confirmed against the section map of
- * `match.py tu`.
- *
- * sub_0200F7C0 and sub_0200F7DC both tail-call sub_0200F7B8 (itself a
- * four-byte tail call to func_0200FC0C, matched separately); neither
- * clears r0 first, so the argument each passes reaches func_0200FC0C
- * unchanged. sub_0200F7E8 is a plain setter on the module-wide object at
- * 0x0214617C, and sub_0200F7F4 tail-calls it with a fixed zero.
- *
- * sub_0200F7B8's only two callers in the whole ROM are sub_0200F7C0 and
- * sub_0200F7DC, both inside this same range; a third call site elsewhere
- * in the image gives match.py's label class a witness outside the range,
- * so the relocation resolves.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0200F7C0.c \
- *       --addr 0x0200F7C0 --thumb
- */
-void sub_0200F7C0(u32 value)
+/* Store messageId, mark a fatal error and show the error screen (halts). */
+void GFL_NET_ERR_HaltWithMessage(u32 messageId)
 {
-    g_0214617C.f60 = value;
-    *(u8 *)((u8 *)&sub_0200F7C0_Flags + 0x1a) = 1;
-    *(u8 *)((u8 *)&sub_0200F7C0_Flags + 0x19) = 1;
-    sub_0200F7B8(1);
+    gNetErrWork.messageId = messageId;
+    gNetErrWork.fatalRaised = 1;
+    gNetErrWork.netType = 1;
+    GFL_NET_ERR_ShowScreen(1);
 }
 
 
-
-
-
-
-void sub_0200F7DC(void)
+/* Show the error screen as fatal (halts). */
+void GFL_NET_ERR_Halt(void)
 {
-    sub_0200F7B8(1);
+    GFL_NET_ERR_ShowScreen(1);
 }
 
 
-
-
-
-
-void sub_0200F7E8(u32 value)
+/* Set keepDarkOnRestore: 1 leaves the screens dark after the error screen. */
+void GFL_NET_ERR_SetKeepDark(u32 keepDark)
 {
-    g_0214617C.count = value;
+    gNetErrWork.keepDarkOnRestore = keepDark;
 }
 
 
-
-
-
-
-void sub_0200F7F4(void)
+void GFL_NET_ERR_ClearKeepDark(void)
 {
-    sub_0200F7E8(0);
+    GFL_NET_ERR_SetKeepDark(0);
 }
 
 
-
-
-
-
-/*
- * Two writes of a fixed global struct's fields straight to hardware I/O
- * registers at 0x0400006C and 0x0400106C (main-engine and sub-engine
- * capture control, per the DS memory map); the global at 0x0214617C is
- * read at +0x14 and +0x18 for the values written to each. The addresses
- * are literal pool words, not symbol references, so nothing needed
- * relocation resolution here.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F800.c \
- *       --func sub_0200F800 --addr 0x0200F800 --cc 1.1p1
- */
-void sub_0200F800(void)
+/* Write the saved master brightness back to both engines. */
+void GFL_NET_ERR_RestoreBrightness(void)
 {
-    u32 *g = (u32 *)0x0214617C;
-    func_0207D534((volatile u16 *)0x0400006C, ((struct Obj11713 *)g)->f14);
-    func_0207D534((volatile u16 *)0x0400106C, ((struct Obj11713 *)g)->f18);
+    NetErrWork *work = &gNetErrWork;
+    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, work->savedBright);
+    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, work->savedSubBright);
 }
 
 
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F824.c \
- *       --func sub_0200F824 --addr 0x0200F824 --cc 1.1p1
- */
-void sub_0200F824(void)
+/* One network service step: when the link is up, run GFL_NET_Main and wait for the next V-blank. */
+void GFL_NET_ERR_UpdateNetwork(void)
 {
     if (func_0203CD98() == 1) {
-        func_0203CF5C();
-        func_0208459C(1, 1);
+        GFL_NET_Main();
+        OS_WaitIrq(1, 1);
     }
 }
-
-
-
-
 
 
 static inline GXDispCnt GXS_GetDispCnt(void)
@@ -999,18 +797,10 @@ static inline GXDispCnt GXS_GetDispCnt(void)
 }
 
 
-
-
-
-
 static inline GXWndPlane G2_GetWndOutsidePlane(void)
 {
     return *(volatile GXWndPlane *)&reg_G2_WINOUT;
 }
-
-
-
-
 
 
 static inline GXWndPlane G2_GetWndOBJInsidePlane(void)
@@ -1019,28 +809,16 @@ static inline GXWndPlane G2_GetWndOBJInsidePlane(void)
 }
 
 
-
-
-
-
 static inline GXWndPlane G2S_GetWndOutsidePlane(void)
 {
     return *(volatile GXWndPlane *)&reg_G2S_DB_WINOUT;
 }
 
 
-
-
-
-
 static inline GXWndPlane G2S_GetWndOBJInsidePlane(void)
 {
     return *(volatile GXWndPlane *)((u8 *)&reg_G2S_DB_WINOUT + 1);
 }
-
-
-
-
 
 
 static inline void G2_SetWndOutsidePlane(int wnd, BOOL effect)
@@ -1053,10 +831,6 @@ static inline void G2_SetWndOutsidePlane(int wnd, BOOL effect)
 }
 
 
-
-
-
-
 static inline void G2_SetWndOBJInsidePlane(int wnd, BOOL effect)
 {
     u32 tmp = (reg_G2_WINOUT & ~0x3F00) | (wnd << 8);
@@ -1065,10 +839,6 @@ static inline void G2_SetWndOBJInsidePlane(int wnd, BOOL effect)
     }
     reg_G2_WINOUT = (u16)tmp;
 }
-
-
-
-
 
 
 static inline void G2S_SetWndOutsidePlane(int wnd, BOOL effect)
@@ -1081,10 +851,6 @@ static inline void G2S_SetWndOutsidePlane(int wnd, BOOL effect)
 }
 
 
-
-
-
-
 static inline void G2S_SetWndOBJInsidePlane(int wnd, BOOL effect)
 {
     u32 tmp = (reg_G2S_DB_WINOUT & ~0x3F00) | (wnd << 8);
@@ -1095,18 +861,10 @@ static inline void G2S_SetWndOBJInsidePlane(int wnd, BOOL effect)
 }
 
 
-
-
-
-
 static inline void GX_SetVisiblePlane(int plane)
 {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1F00) | (plane << 8);
 }
-
-
-
-
 
 
 static inline void GX_SetVisibleWnd(int window)
@@ -1115,18 +873,10 @@ static inline void GX_SetVisibleWnd(int window)
 }
 
 
-
-
-
-
 static inline void GXS_SetVisiblePlane(int plane)
 {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1F00) | (plane << 8);
 }
-
-
-
-
 
 
 static inline void GXS_SetVisibleWnd(int window)
@@ -1135,18 +885,10 @@ static inline void GXS_SetVisibleWnd(int window)
 }
 
 
-
-
-
-
-static inline BOOL PAD_DetachedCover(void)
+static inline BOOL PAD_DetectFold(void)
 {
     return (BOOL)((HW_BUTTON_XY_BUF & 0x8000) >> 15);
 }
-
-
-
-
 
 
 static inline u16 PAD_Read(void)
@@ -1155,32 +897,22 @@ static inline u16 PAD_Read(void)
 }
 
 
-
-
-
-
-static inline u16 KeyFilter(u16 k)
+/* Drop one direction of each opposing D-pad pair (bits 5/6 and 4/7 shifted). */
+static inline u16 FilterOpposingDpad(u16 keys)
 {
-    return (u16)(k & ~((k & 0x40) << 1) & ~((k & 0x20) >> 1));
+    return (u16)(keys & ~((keys & 0x40) << 1) & ~((keys & 0x20) >> 1));
 }
 
 
-
-
-
-
 /*
- * net_err.c's fatal-error screen: snapshots the sub-engine DISPCNT and the
- * WINOUT outside / OBJ-window planes of both engines, blanks and redraws
- * through sub_0200FD38, narrows the chosen engine's windowing to BG1+OBJ,
- * waits for A/B to be released and pressed (PAD_DetachedCover / PAD_Read
- * inlines, polling func_0201034C and sub_0200F824 per frame), restores via
- * sub_0200FEBC and puts the snapshotted window state back on whichever
- * engine func_02037200 now names.  Written directly from NitroSDK's
- * gx.h / g2.h inline shapes (GXDispCnt, GXWndPlane, G2[S]_SetWnd*Plane,
- * GX[S]_SetVisible*); exact on the first compile.
+ * Simple error screen: snapshots the sub-engine DISPCNT and the WINOUT
+ * outside / OBJ-window planes of both engines, blanks and redraws through
+ * GFL_NET_ERR_SaveDisplayAndDraw, narrows the chosen engine's windowing to BG1+OBJ, waits for
+ * A/B to be released and pressed (polling func_0201034C and GFL_NET_ERR_UpdateNetwork per
+ * frame), restores through GFL_NET_ERR_RestoreDisplay and puts the snapshotted window
+ * state back on whichever engine GFL_NET_WM_ICON_EasyGetEngine now names.
  */
-void func_0200F83C(void)
+void GFL_NET_ERR_ShowSimpleScreen(void)
 {
     GXDispCnt dispCnt = GXS_GetDispCnt();
     GXWndPlane outMain = G2_GetWndOutsidePlane();
@@ -1188,14 +920,14 @@ void func_0200F83C(void)
     GXWndPlane objMain = G2_GetWndOBJInsidePlane();
     GXWndPlane objSub = G2S_GetWndOBJInsidePlane();
 
-    if (func_02010054() == 0) {
+    if (GFL_NET_ERR_IS_ACTIVE() == 0) {
         return;
     }
-    func_02006210();
-    sub_0200FD38(0, 0);
+    GFL_USE_StopAllSe();
+    GFL_NET_ERR_SaveDisplayAndDraw(0, 0);
     GX_VBlankIntr(1);
     func_02037174();
-    if (func_02037200() == 1) {
+    if (GFL_NET_WM_ICON_EasyGetEngine() == 1) {
         G2_SetWndOutsidePlane(2, 0);
         G2_SetWndOBJInsidePlane(0x10, 0);
         GX_SetVisibleWnd(4);
@@ -1206,17 +938,17 @@ void func_0200F83C(void)
         GXS_SetVisibleWnd(4);
         GXS_SetVisiblePlane(0x12);
     }
-    while (PAD_DetachedCover() == 1 || (KeyFilter(PAD_Read()) & 3) != 0) {
+    while (PAD_DetectFold() == 1 || (FilterOpposingDpad(PAD_Read()) & 3) != 0) {
         func_0201034C();
-        sub_0200F824();
+        GFL_NET_ERR_UpdateNetwork();
     }
-    while (PAD_DetachedCover() == 1 || (KeyFilter(PAD_Read()) & 3) == 0) {
+    while (PAD_DetectFold() == 1 || (FilterOpposingDpad(PAD_Read()) & 3) == 0) {
         func_0201034C();
-        sub_0200F824();
+        GFL_NET_ERR_UpdateNetwork();
     }
-    sub_0200FEBC(g_0214617C.count == 1);
+    GFL_NET_ERR_RestoreDisplay(gNetErrWork.keepDarkOnRestore == 1);
     func_02037190();
-    if (func_02037200() == 2) {
+    if (GFL_NET_WM_ICON_EasyGetEngine() == 2) {
         GXS_SetGraphicsMode(dispCnt.bgMode);
         GXS_SetVisiblePlane(dispCnt.visiblePlane);
         GXS_SetVisibleWnd(dispCnt.visibleWnd);
@@ -1229,256 +961,154 @@ void func_0200F83C(void)
 }
 
 
-
-
-
-
-/*
- * Guard: if func_02010054() reports nonzero, calls the abort path
- * sub_0200FA94.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200FA84.c \
- *       --func sub_0200FA84 --addr 0x0200FA84 --cc 1.1p1
- */
-void sub_0200FA84(void)
+/* When the module is active, draw the error screen and halt. */
+void GFL_NET_ERR_HaltIfActive(void)
 {
-    if (func_02010054() != 0) {
-        sub_0200FA94();
+    if (GFL_NET_ERR_IS_ACTIVE() != 0) {
+        GFL_NET_ERR_DrawAndHang();
     }
 }
 
 
-
-
-
-
-/*
- * An abort path: reports a fixed status, tears down with func_020351A0(2),
- * then spins forever calling func_020053EC(). The infinite loop is why
- * nothing after this in the same block is ever reached.
- *
- * EXACT* because the 22 compiled bytes fall two short of the disasm.py
- * extent: a "movs r0, r0" alignment filler before the next label, the
- * ordinary inter-function padding, not a byte difference.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200FA94.c \
- *       --func sub_0200FA94 --addr 0x0200FA94 --cc 1.1p1
- */
-void sub_0200FA94(void)
+/* Fatal path: draw the screen in its no-backup style, call func_020351A0(2), then spin forever. */
+void GFL_NET_ERR_DrawAndHang(void)
 {
-    func_0200FD38(1, 0);
+    GFL_NET_ERR_SaveDisplayAndDraw(1, 0);
     func_020351A0(2);
     for (;;) {
-        func_020053EC();
+        GFL_USE_PollPowerExit();
     }
 }
 
 
-
-
-
 /*
- * Wave 13: the parked MATCH named its global as 0x0202617C, a transcription
- * slip; the pool word at 0x0200FB20 reads 0x0214617C, the net_err.c module
- * object every sibling uses (literal x42), and the site resolves with it.
+ * Record the pending network error: if the module is active and idle, move to
+ * NET_ERR_STATE_RECORDED, then (when func_0203CDBC reports 0) copy the net
+ * type, the error record and the error flag into the work. Wi-Fi net types
+ * (1, 2, 6) get errorLevel 2 when errorType is 1 or 2 and 1 otherwise; other
+ * net types get 2.
  */
-void sub_0200FAAC(void)
+void GFL_NET_ERR_RecordError(void)
 {
-    NetErrWork *g = &g_0214617C;
-    u8 t;
+    NetErrWork *work = &gNetErrWork;
+    u8 netType;
 
-    if (sub_02010054() == 0) {
+    if (GFL_NET_ERR_IS_ACTIVE() == 0) {
         return;
     }
-    if (g->state != 0) {
+    if (work->state != NET_ERR_STATE_IDLE) {
         return;
     }
-    g->state = 1;
+    work->state = NET_ERR_STATE_RECORDED;
     if (func_0203CDBC() != 0) {
         return;
     }
-    g->f59 = ((u8 *)func_0203D798())[0x65];
-    g->blk48 = *(NetErrBlk *)func_0203CA98();
-    g->f58 = (u8)func_0203C990();
-    t = g->f59;
-    if (t == 1 || t == 2 || t == 6) {
-        if ((u32)(g->blk48.w[1] - 1) <= 1) {
-            g->f5C = 2;
+    work->netType = func_0203D798()->bNetType;
+    work->errorInfo = *GFL_NET_STATE_GetError();
+    work->netErrorFlag = (u8)GFL_NET_STATE_GetErrorMode();
+    netType = work->netType;
+    if (netType == GFL_NET_TYPE_WIFI || netType == GFL_NET_TYPE_WIFI_LOBBY || netType == GFL_NET_TYPE_WIFI_GTS) {
+        if ((u32)(work->errorInfo.errorType - 1) <= 1) {
+            work->errorLevel = 2;
         } else {
-            g->f5C = 1;
+            work->errorLevel = 1;
         }
         return;
     }
-    g->f5C = 2;
+    work->errorLevel = 2;
 }
 
 
-
-
-
-/*
- * A getter on the module-wide object at 0x0214617C (the same object
- * unit_0200F7C0.c names sub_0200F7C0_Obj): returns field +0x5c when field
- * +0x2c is set, 0 otherwise.
- *
- * EXACT* because the 20 compiled bytes fall 52 short of the disasm.py
- * extent: an unlabelled follower, sub_0200FB38, hides in the run of
- * literal-pool .word data right after this function (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * sub_0200FB38 itself (a conditional store: bump the object's +0x2c field
- * from 1 to 2) is a documented near miss: every write attempt reproduces
- * all twenty bytes but with r0 and r1 swapped throughout, a pure
- * register-numbering difference no source restructuring here changed, in
- * the same class as the codegen near misses in docs/MATCHING.md.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200FB24.c \
- *       --func sub_0200FB24 --addr 0x0200FB24 --cc 1.1p1
- */
-u32 sub_0200FB24(void)
+/* errorLevel of the recorded error; 0 when no error is recorded. */
+u32 GFL_NET_ERR_GetErrorLevel(void)
 {
-    u32 *obj = (u32 *)0x0214617C;
+    NetErrWork *work = &gNetErrWork;
 
-    if (obj[0x2c / 4] != 0) {
-        return obj[0x5c / 4];
+    if (work->state != 0) {
+        return work->errorLevel;
     }
     return 0;
 }
 
 
-
-
-
-/*
- * Unlabelled Thumb leaf accessor: if the u32 at +0x2c of the object at
- * g_0214617C is 1, set it to 2.
- */
+/* Request the error screen for a recorded error: RECORDED -> SHOW. */
 void func_0200FB38(void)
 {
-    if (g_0214617C.state == 1) {
-        g_0214617C.state = 2;
+    if (gNetErrWork.state == NET_ERR_STATE_RECORDED) {
+        gNetErrWork.state = NET_ERR_STATE_SHOW;
     }
 }
 
 
-
-
-
-/*
- * Unlabelled Thumb leaf: if the u32 at +0x2c of the object at g_0214617C is
- * not 2, store the argument at +0x60, set two flag bytes of the object at
- * g_021461BC, and set +0x2c to 2.
- */
-void func_0200FB4C(unsigned int x)
+/* Raise a fatal error with messageId (unless the screen is already requested) and request the screen. */
+void GFL_NET_ERR_RaiseFatal(unsigned int messageId)
 {
-    if (g_0214617C.state != 2) {
-        g_0214617C.f60 = x;
-        g_021461BC[0x1a] = 1;
-        g_021461BC[0x19] = 1;
-        g_0214617C.state = 2;
+    if (gNetErrWork.state != NET_ERR_STATE_SHOW) {
+        gNetErrWork.messageId = messageId;
+        gNetErrWork.fatalRaised = 1;
+        gNetErrWork.netType = 1;
+        gNetErrWork.state = NET_ERR_STATE_SHOW;
     }
 }
 
 
-
-
-
 /*
- * Teardown for the module object at 0x0214617C (same object as
- * sub_0200FB24.c and sub_0200FB38): frees its three owned pointers, frees
- * pool id 8, marks offset 0x19 of a second object at 0x021461BC (which is
- * numerically 0x0214617C + 0x40, but the original loads it through its
- * own fresh literal-pool word rather than as an offset off r4, so the two
- * are declared as separate objects here to keep the same register/pool
- * shape) and forwards flag 1 to func_0200F7B8.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/sub_0200FB6C.c \
- *       --func sub_0200FB6C --addr 0x0200FB6C --cc 1.1p1 --thumb
+ * Free the three backup buffers and the module heap, mark the netType as
+ * "no backup" and show the error screen as fatal.
  */
-void sub_0200FB6C(void)
+void GFL_NET_ERR_ExitAndHalt(void)
 {
-    struct Sub0200FB6CObj *obj = (struct Sub0200FB6CObj *)0x0214617C;
+    NetErrWork *work = &gNetErrWork;
 
-    func_020307B0(obj->unk00);
-    func_020307B0(obj->unk04);
-    func_020307B0(obj->unk08);
-    func_020306F0(8);
+    func_020307B0(work->bg1CharBackup);
+    func_020307B0(work->bg1ScrBackup);
+    func_020307B0(work->plttBackup);
+    func_020306F0(NET_ERR_HEAP_ID);
 
-    g_021461BC[0x19] = 0x60;
+    gNetErrWork.netType = NET_ERR_NETTYPE_NO_BACKUP;
 
-    func_0200F7B8(1);
+    GFL_NET_ERR_ShowScreen(1);
 }
 
 
-
-
-
-/*
- * Zeroes two word fields of the module-wide object at 0x0214617C.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200FBA0.c \
- *       --func sub_0200FBA0 --addr 0x0200FBA0 --cc 1.1p1
- */
-void sub_0200FBA0(void)
+/* Reset the error state: no error recorded, no level. */
+void GFL_NET_ERR_ResetState(void)
 {
-    g_0214617C.state = 0;
-    g_0214617C.f5C = 0;
+    gNetErrWork.state = NET_ERR_STATE_IDLE;
+    gNetErrWork.errorLevel = 0;
 }
 
 
-
-
-
 /*
- * A polling loop, gated on func_0203CD98(): returns 1 immediately if it is
- * zero. Otherwise fetches the same status object sub_0200F734 reads
- * (func_0203D798, offset +0x65), resets three link-state counters, then
- * polls func_0203CDBC() once per iteration, quitting the moment it stops
- * returning zero. Each iteration checks the status byte first: 0 or 5
- * means "ready to ask", and if func_02178E4C() then answers 0xa the
- * function returns 0 straight out of the loop.
- *
- * Every concrete byte matches; func_0203CFA0 is called from exactly this
- * one site in the whole ROM, so that relocation stays unresolved under
- * the honesty rule. The other nine calls all resolve.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/sub_0200FBB0.c \
- *       --func sub_0200FBB0 --addr 0x0200FBB0 --cc 1.1p1
- *
- * The `matched` class does not reach it: func_0203CFA0 is not matched, so
- * no EXACT entry covers that address. Closes to EXACT the day either
- * func_0203CFA0 gets a second caller elsewhere in the image, or is itself
- * matched.
+ * Wait for the link to close: returns 1 at once when func_0203CD98 reports 0.
+ * Otherwise it resets the link counters, then polls func_0203CDBC once per
+ * frame until it stops returning 0. For net type 0 or 5 each frame first asks
+ * func_02178E4C and returns 0 on answer 0xa.
  */
-u32 sub_0200FBB0(void)
+u32 GFL_NET_ERR_WaitLinkClosed(void)
 {
-    u8 *obj;
-    u32 flag;
+    GFLNetInitializeStruct *netInit;
+    u32 waiting;
 
     if (func_0203CD98() != 0) {
-        obj = func_0203D798();
-        func_0203CF04();
+        netInit = (GFLNetInitializeStruct *)func_0203D798();
+        GFL_NET_ClearExitFlag();
         func_0203CEAC(0);
-        func_0203D0D0();
-        flag = 1;
+        GFL_NET_IRC_WIRELESS_Exit();
+        waiting = 1;
 
         for (;;) {
-            if (obj != 0) {
-                u8 v = obj[0x65];
-                if (v == 0 || v == 5) {
+            if (netInit != 0) {
+                u8 netType = netInit->bNetType;
+                if (netType == GFL_NET_TYPE_WIRELESS || netType == GFL_NET_TYPE_IRC) {
                     if (func_02178E4C() == 0xa) {
                         return 0;
                     }
                 }
             }
-            func_0203CFA0();
+            GFL_NET_RequestDisconnect();
             func_0201034C();
-            func_0208459C(flag, flag);
+            OS_WaitIrq(waiting, waiting);
             if (func_0203CDBC() == 0) {
                 continue;
             }
@@ -1490,78 +1120,67 @@ u32 sub_0200FBB0(void)
 }
 
 
-
-
-
 /*
- * The net_err.c error screen's blocking entry: bail unless the module is
- * live (func_02010054), abort on a1 == 1, and only when the module object's
- * +0x2c state is 2 run the screen -- re-init graphics (sub_0200FD38) for a
- * link-mode error (+0x59 in 1, 2, 6), poll the link (sub_0200FBB0), draw
- * (func_020101D4 or sub_0200FD38), then wait for A/B to be released and
- * pressed again (the two PAD loops are NitroSDK's PAD_DetachedCover and
- * PAD_Read inlines plus a filter that drops the opposing D-pad bit), then
- * tear down.  Two lessons: the 0x2c test is a WRAPPING if, not an early
- * return (the shared 'return 0' sits after the body); and the object is a
- * named local 'u8 *g', which makes mwccarm rematerialise the pool word per
- * access and reach +0x59 with 'adds' -- the extern spelled directly folds
- * to a second pool word g+0x40 instead.
+ * Blocking error screen: returns 0 unless the module is active and the state
+ * is NET_ERR_STATE_SHOW. isFatal 1 halts at once. For a Wi-Fi net type it
+ * saves the display and draws (GFL_NET_ERR_SaveDisplayAndDraw), waits for the link to close
+ * (GFL_NET_ERR_WaitLinkClosed), then draws the message (func_020101D4); otherwise it draws
+ * with GFL_NET_ERR_SaveDisplayAndDraw only. It then waits for A/B to be released and pressed
+ * again, restores the display and resets the state. The test on the state is a
+ * wrapping if (the shared return 0 sits after the body), and the work is a
+ * named local so the compiler reloads the pool word per access.
  */
-u32 func_0200FC0C(u32 a0)
+u32 GFL_NET_ERR_ProcScreen(u32 isFatal)
 {
-    NetErrWork *g = &g_0214617C;
-    u32 mode;
+    NetErrWork *work = &gNetErrWork;
+    u32 isWifiLink;
 
-    if (func_02010054() == 0) {
+    if (GFL_NET_ERR_IS_ACTIVE() == 0) {
         return 0;
     }
-    if (a0 == 1) {
-        sub_0200FA94();
+    if (isFatal == 1) {
+        GFL_NET_ERR_DrawAndHang();
     }
-    if (g->state == 2) {
-        mode = 0;
+    if (work->state == NET_ERR_STATE_SHOW) {
+        isWifiLink = 0;
         {
-            u8 t = g->f59;
-            if (t == 1 || t == 2 || t == 6) {
-                mode = 1;
+            u8 netType = work->netType;
+            if (netType == GFL_NET_TYPE_WIFI || netType == GFL_NET_TYPE_WIFI_LOBBY || netType == GFL_NET_TYPE_WIFI_GTS) {
+                isWifiLink = 1;
             }
         }
-        if (mode == 1) {
-            sub_0200FD38(a0, 1);
+        if (isWifiLink == 1) {
+            GFL_NET_ERR_SaveDisplayAndDraw(isFatal, 1);
         }
-        if (sub_0200FBB0() == 0) {
-            sub_0200FA94();
+        if (GFL_NET_ERR_WaitLinkClosed() == 0) {
+            GFL_NET_ERR_DrawAndHang();
         }
-        if (mode == 1) {
-            g->hBlank = GX_HBlankIntr(0);
-            g->vBlank = GX_VBlankIntr(0);
-            func_020101D4(a0, 0);
+        if (isWifiLink == 1) {
+            work->savedHBlankIntr = GX_HBlankIntr(0);
+            work->savedVBlankIntr = GX_VBlankIntr(0);
+            func_020101D4(isFatal, 0);
         } else {
-            sub_0200FD38(a0, 0);
+            GFL_NET_ERR_SaveDisplayAndDraw(isFatal, 0);
         }
-        while (PAD_DetachedCover() == 1 || (KeyFilter(PAD_Read()) & 3) != 0) {
+        while (PAD_DetectFold() == 1 || (FilterOpposingDpad(PAD_Read()) & 3) != 0) {
             func_0201034C();
         }
-        while (PAD_DetachedCover() == 1 || (KeyFilter(PAD_Read()) & 3) == 0) {
+        while (PAD_DetectFold() == 1 || (FilterOpposingDpad(PAD_Read()) & 3) == 0) {
             func_0201034C();
         }
-        sub_0200FEBC(0);
-        sub_0200FBA0();
-        g->f30 = 0;
+        GFL_NET_ERR_RestoreDisplay(0);
+        GFL_NET_ERR_ResetState();
+        work->screenRequested = 0;
     return 1;
     }
     return 0;
 }
 
 
-
-
 static inline int GXS_GetVisibleWnd(void)
 {
     return (int)((reg_GXS_DB_DISPCNT & 0xE000) >> 13);
 }
-
-
 
 
 static inline GXBg01Control G2_GetBG1Control(void)
@@ -1579,8 +1198,6 @@ static inline void G2_SetBG1Control(GXBGScrSizeText screenSize, GXBGColorMode co
 }
 
 
-
-
 static inline void G2_BG1Mosaic(BOOL enable)
 {
     if (enable) {
@@ -1591,80 +1208,74 @@ static inline void G2_BG1Mosaic(BOOL enable)
 }
 
 
-
-
 /*
- * net_err.c's graphics save-and-blank: saves both master brightness levels,
- * the H/V-blank interrupt enables, two VRAM bank states, DISPCNT, the sub
- * window mask and BG1CNT into the module object at 0x0214617C, reprograms
- * BG1 as a 16-colour text layer, backs up BG1's character, screen and the
- * first palette block (unless +0x59 is 0x60), then draws the error screen
- * (sub_02010068 and func_020101D4).  The SDK inlines are NitroSDK's gx.h /
- * g2.h shapes (GX_SetVisiblePlane, G2_SetBG1Control with the saved control
- * word's bgExtPltt bit, G2_BG1Mosaic).  The lever that closed it (the
- * earlier note was 20 bytes short): the two backup copies read their buffer
- * pointer and call the pointer getter into NAMED LOCALS, dst first, which
- * loads the buffer before the call and raises the pressure that spills a0
- * to [sp] exactly as the image does.
+ * Save the display state into the work and blank the screens: both master
+ * brightness levels, the H/V-blank interrupt enables (unless isWifiLink),
+ * two VRAM bank states, DISPCNT, the sub window mask, BG1CNT, the blend
+ * registers, the visible plane and the sub backdrop color. BG1 is reprogrammed
+ * as a 16-colour text layer; its character data, screen data and the first
+ * palette block are backed up unless netType is NET_ERR_NETTYPE_NO_BACKUP.
+ * Then the error screen graphics are loaded (GFL_NET_ERR_LoadScreenGraphics) and the message
+ * is drawn (func_020101D4). The two backup copies read their buffer pointer
+ * and the BG1 pointer getter into named locals, destination first, which
+ * reproduces the original register pressure.
  */
-void sub_0200FD38(u32 a0, u32 a1)
+void GFL_NET_ERR_SaveDisplayAndDraw(u32 screenIndex, u32 isWifiLink)
 {
-    NetErrWork *g = &g_0214617C;
+    NetErrWork *work = &gNetErrWork;
 
-    if (func_02010054() == 0) {
+    if (GFL_NET_ERR_IS_ACTIVE() == 0) {
         return;
     }
-    g->bright = GXx_GetMasterBrightness_(&reg_GX_MASTER_BRIGHT);
-    g->subBright = GXx_GetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT);
+    work->savedBright = GXx_GetMasterBrightness_(&reg_GX_MASTER_BRIGHT);
+    work->savedSubBright = GXx_GetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT);
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, -16);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, -16);
-    if (a1 == 0) {
-        g->hBlank = GX_HBlankIntr(0);
-        g->vBlank = GX_VBlankIntr(0);
+    if (isWifiLink == 0) {
+        work->savedHBlankIntr = GX_HBlankIntr(0);
+        work->savedVBlankIntr = GX_VBlankIntr(0);
     }
-    g->bankBG = func_020808F4();
-    g->bankSubBG = func_020809A0();
+    work->savedBankBG = func_020808F4();
+    work->savedBankSubBG = func_020809A0();
     GX_SetBankForBG(4);
-    g->dispCnt.raw = reg_GX_DISPCNT;
+    work->savedDispCnt.raw = reg_GX_DISPCNT;
     GX_SetGraphicsMode(1, 0, 0);
     GX_SetVisiblePlane(2);
     GX_SetVisibleWnd(0);
-    g->subWnd = GXS_GetVisibleWnd();
+    work->savedSubVisibleWnd = GXS_GetVisibleWnd();
     GXS_SetVisibleWnd(0);
-    g->bg1Cnt = G2_GetBG1Control();
-    G2_SetBG1Control(0, 0, 0, 1, g->bg1Cnt.bgExtPltt);
+    work->savedBg1Cnt = G2_GetBG1Control();
+    G2_SetBG1Control(0, 0, 0, 1, work->savedBg1Cnt.bgExtPltt);
     G2_BG1Mosaic(0);
     reg_G2_BG1OFS = 0;
-    if (g->f59 != 0x60) {
+    if (work->netType != NET_ERR_NETTYPE_NO_BACKUP) {
         void *dst;
         void *src;
-        dst = g->bg1Char;
+        dst = work->bg1CharBackup;
         src = G2_GetBG1CharPtr();
-        MIi_CpuCopy16(src, dst, 0x4000);
-        dst = g->bg1Scr;
+        MIi_CpuCopy16(src, dst, NET_ERR_BG1_CHAR_SIZE);
+        dst = work->bg1ScrBackup;
         src = G2_GetBG1ScrPtr();
-        MIi_CpuCopy16(src, dst, 0x800);
-        MIi_CpuCopy16((void *)0x05000000, g->pltt, 0x20);
+        MIi_CpuCopy16(src, dst, NET_ERR_BG1_SCR_SIZE);
+        MIi_CpuCopy16((void *)HW_BG_PLTT, work->plttBackup, NET_ERR_PLTT_BACKUP_SIZE);
     }
-    g->bldCnt = reg_G2_BLDCNT;
-    g->bldCnt = reg_G2S_DB_BLDCNT; /* sic: stored over bldCnt again, as in the image */
+    work->savedBldCnt = reg_G2_BLDCNT;
+    work->savedBldCnt = reg_G2S_DB_BLDCNT; /* sic: stored over savedBldCnt again, as in the image */
     reg_G2_BLDCNT = 0;
     reg_G2S_DB_BLDCNT = 0;
-    g->f38 = func_02043668();
+    work->savedVisiblePlane = func_02043668();
     func_020435F4(0);
-    g->pltt0 = *(volatile u16 *)0x05000400;
-    *(volatile u16 *)0x05000400 = 0x7eea;
-    if (g_0214617C.f59 == 0x60) {
-        sub_02010068(1);
+    work->savedSubBackdrop = *(volatile u16 *)HW_DB_BG_PLTT;
+    *(volatile u16 *)HW_DB_BG_PLTT = NET_ERR_BACKDROP_COLOR;
+    if (gNetErrWork.netType == NET_ERR_NETTYPE_NO_BACKUP) {
+        GFL_NET_ERR_LoadScreenGraphics(1);
     } else {
-        sub_02010068(0);
-        func_020101D4(a0, a1);
+        GFL_NET_ERR_LoadScreenGraphics(0);
+        func_020101D4(screenIndex, isWifiLink);
     }
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0);
 }
-
-
 
 
 static inline void G2_SetBG1Offset(int hOffset, int vOffset)
@@ -1673,132 +1284,109 @@ static inline void G2_SetBG1Offset(int hOffset, int vOffset)
 }
 
 
-
-
 /*
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200FEBC.c  *       --func sub_0200FEBC --addr 0x0200FEBC --cc 1.1p1 --thumb
- *
- * net_err.c: restore the 2D state sub_0200FD38 saved (docs/families/
- * net_err.h).  Wave 14 closed the 43-byte bitfield-unpack schedule of
- * docs/notes/sub_0200FEBC.c.txt: G2_SetBG1Control's parameters are the
- * SDK's ENUM types (GXBGScrSizeText, GXBGColorMode, GXBGScrBase,
- * GXBGCharBase, GXBGExtPltt), not int.  With enum parameters mwcc
- * materialises each bitfield argument into a temporary, right to left,
- * before the inline body reads reg_G2_BG1CNT; with int parameters it
- * substitutes the extractions into the expression after the read.
+ * Restore the display state GFL_NET_ERR_SaveDisplayAndDraw saved. G2_SetBG1Control's
+ * parameters are the SDK's enum types (GXBGScrSizeText, GXBGColorMode,
+ * GXBGScrBase, GXBGCharBase, GXBGExtPltt), not int: with enums the compiler
+ * materialises each bitfield argument into a temporary before the inline
+ * body reads reg_G2_BG1CNT. keepDark leaves the master brightness at -16.
  */
-void sub_0200FEBC(BOOL keepDark)
+void GFL_NET_ERR_RestoreDisplay(BOOL keepDark)
 {
-    NetErrWork *w = &g_0214617C;
-    u32 x;
-    u32 y;
+    NetErrWork *work = &gNetErrWork;
+    u32 scrollX;
+    u32 scrollY;
 
-    if (func_02010054() == 0) {
+    if (GFL_NET_ERR_IS_ACTIVE() == 0) {
         return;
     }
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, -16);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, -16);
-    *(volatile u16 *)0x05000400 = w->pltt0;
-    func_020435F4(w->f38);
-    reg_G2_BLDCNT = w->bldCnt;
-    reg_G2S_DB_BLDCNT = w->subBldCnt;
-    MIi_CpuCopy16(w->bg1Char, G2_GetBG1CharPtr(), 0x4000);
-    MIi_CpuCopy16(w->bg1Scr, G2_GetBG1ScrPtr(), 0x800);
-    MIi_CpuCopy16(w->pltt, (void *)0x05000000, 0x20);
-    G2_SetBG1Control(w->bg1Cnt.screenSize, w->bg1Cnt.colorMode, w->bg1Cnt.screenBase,
-                     w->bg1Cnt.charBase, w->bg1Cnt.bgExtPltt);
-    G2_BG1Mosaic(w->bg1Cnt.mosaic);
-    func_0203D828(&x, &y);
-    G2_SetBG1Offset(x, y);
-    GX_SetGraphicsMode(w->dispCnt.dispMode, w->dispCnt.bgMode, w->dispCnt.bg0_2d3d);
-    GX_SetVisiblePlane(w->dispCnt.visiblePlane);
-    GX_SetVisibleWnd(w->dispCnt.visibleWnd);
-    GXS_SetVisibleWnd(w->subWnd);
+    *(volatile u16 *)HW_DB_BG_PLTT = work->savedSubBackdrop;
+    func_020435F4(work->savedVisiblePlane);
+    reg_G2_BLDCNT = work->savedBldCnt;
+    reg_G2S_DB_BLDCNT = work->savedSubBldCnt;
+    MIi_CpuCopy16(work->bg1CharBackup, G2_GetBG1CharPtr(), NET_ERR_BG1_CHAR_SIZE);
+    MIi_CpuCopy16(work->bg1ScrBackup, G2_GetBG1ScrPtr(), NET_ERR_BG1_SCR_SIZE);
+    MIi_CpuCopy16(work->plttBackup, (void *)HW_BG_PLTT, NET_ERR_PLTT_BACKUP_SIZE);
+    G2_SetBG1Control(work->savedBg1Cnt.screenSize, work->savedBg1Cnt.colorMode, work->savedBg1Cnt.screenBase,
+                     work->savedBg1Cnt.charBase, work->savedBg1Cnt.bgExtPltt);
+    G2_BG1Mosaic(work->savedBg1Cnt.mosaic);
+    GFL_NET_GetIrcParams(&scrollX, &scrollY);
+    G2_SetBG1Offset(scrollX, scrollY);
+    GX_SetGraphicsMode(work->savedDispCnt.dispMode, work->savedDispCnt.bgMode, work->savedDispCnt.bg0_2d3d);
+    GX_SetVisiblePlane(work->savedDispCnt.visiblePlane);
+    GX_SetVisibleWnd(work->savedDispCnt.visibleWnd);
+    GXS_SetVisibleWnd(work->savedSubVisibleWnd);
     func_020809A0();
     func_020808F4();
-    GX_SetBankForBG(w->bankBG);
-    GX_SetBankForSubBG(w->bankSubBG);
-    GX_HBlankIntr(w->hBlank);
-    GX_VBlankIntr(w->vBlank);
+    GX_SetBankForBG(work->savedBankBG);
+    GX_SetBankForSubBG(work->savedBankSubBG);
+    GX_HBlankIntr(work->savedHBlankIntr);
+    GX_VBlankIntr(work->savedVBlankIntr);
     OS_WaitIrq(1, 1);
     if (keepDark == 0) {
-        GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, w->bright);
-        GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, w->subBright);
+        GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, work->savedBright);
+        GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, work->savedSubBright);
     }
 }
 
 
-
-BOOL CTRDGi_IsTaskAvailable_02010054(void)
+/* 1 once the module has its backup buffers (bg1CharBackup set). */
+BOOL GFL_NET_ERR_IsActive(void)
 {
-    if (g_0214617C.bg1Char != 0) {
+    if (gNetErrWork.bg1CharBackup != 0) {
         return 1;
     }
     return 0;
 }
 
 
-
 /*
- * blocked: literal.  Every concrete byte matches; the only four unresolved
- * sites are the four ABS32 pool words for g0209DEA0 (base+0/+2/+4/+6, the
- * four u16 fields of an 8-byte-stride table indexed by a0).  The word
- * 0x0209DEA0 appears in exactly one literal pool image-wide, at 0x02010148,
- * which is inside this function's own extent, so no witness exists outside
- * the compared range and no cut can free it.  Needs a second referrer of
- * the table, or a matched neighbour that pools the same address.
- *   func_0207E24C  0x0207E24C  arm
- *   func_02082A7C  0x02082A7C  arm
- *   func_0204A1BC  0x0204A1BC  arm
- *   func_02062A4C  0x02062A4C  arm
- *   func_020862F0  0x020862F0  arm
- *   func_02082A60  0x02082A60  arm
- *   func_020307B0  0x020307B0  arm
- *   func_02062B30  0x02062B30  arm
- *   func_0207DFB4  0x0207DFB4  arm
- *   func_02062AD4  0x02062AD4  arm
- *   func_02062A98  0x02062A98  arm
+ * Load the error screen graphics of table row screenIndex: clear BG1's
+ * character area, then unpack the character, screen and palette files of the
+ * row, flush them and copy them to BG1's character data, screen data and the
+ * start of the BG palette.
  */
-void sub_02010068(u32 a0)
+void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
 {
-    void *h;
-    struct res0 *r0p;
-    struct res1 *r1p;
-    struct res2 *r2p;
-    u32 sp0;
-    u16 id;
+    void *file;
+    struct NitroCharData *charData;
+    struct NitroScrnData *scrnData;
+    struct NitroPlttData *plttData;
+    u32 unusedData;
+    u16 arcId;
 
-    func_02082A7C(0, func_0207E24C(), 0x4000);
+    func_02082A7C(0, G2_GetBG1CharPtr(), NET_ERR_BG1_CHAR_SIZE);
 
-    id = g0209DEA0[a0].f0;
-    h = (void *)func_0204A1BC(id, g0209DEA0[a0].f2, 0, 1);
-    if (func_02062A4C(h, (void **)(&r0p)) != 0) {
-        u32 n;
-        void *src;
-        func_020862F0(r0p->ptr, r0p->len);
-        n = r0p->len;
-        src = func_0207E24C();
-        func_02082A60(r0p->ptr, src, n);
+    arcId = sNetErrScreenRes[screenIndex].arcId;
+    file = (void *)func_0204A1BC(arcId, sNetErrScreenRes[screenIndex].charFileId, 0, 1);
+    if (func_02062A4C(file, (void **)(&charData)) != 0) {
+        u32 size;
+        void *dst;
+        func_020862F0(charData->pixels, charData->size);
+        size = charData->size;
+        dst = G2_GetBG1CharPtr();
+        MIi_CpuCopy16(charData->pixels, dst, size);
     }
-    func_020307B0(h);
+    func_020307B0(file);
 
-    h = (void *)func_0204A1BC(id, g0209DEA0[a0].f4, 0, 1);
-    if (func_02062B30(h, (void **)(&r1p)) != 0) {
-        u32 n;
-        void *src;
-        func_020862F0(r1p->buf, r1p->len);
-        n = r1p->len;
-        src = func_0207DFB4();
-        func_02082A60(r1p->buf, src, n);
+    file = (void *)func_0204A1BC(arcId, sNetErrScreenRes[screenIndex].scrnFileId, 0, 1);
+    if (func_02062B30(file, (void **)(&scrnData)) != 0) {
+        u32 size;
+        void *dst;
+        func_020862F0(scrnData->data, scrnData->size);
+        size = scrnData->size;
+        dst = G2_GetBG1ScrPtr();
+        MIi_CpuCopy16(scrnData->data, dst, size);
     }
-    func_020307B0(h);
+    func_020307B0(file);
 
-    h = (void *)func_0204A1BC(id, g0209DEA0[a0].f6, 0, 1);
-    func_02062AD4(h, (void **)(&sp0));
-    if (func_02062A98(h, (void **)(&r2p)) != 0) {
-        func_020862F0(r2p->ptr, 0x20);
-        func_02082A60(r2p->ptr, (void *)0x05000000, 0x20);
+    file = (void *)func_0204A1BC(arcId, sNetErrScreenRes[screenIndex].plttFileId, 0, 1);
+    func_02062AD4(file, (void **)(&unusedData));
+    if (func_02062A98(file, (void **)(&plttData)) != 0) {
+        func_020862F0(plttData->colors, NET_ERR_PLTT_BACKUP_SIZE);
+        MIi_CpuCopy16(plttData->colors, (void *)HW_BG_PLTT, NET_ERR_PLTT_BACKUP_SIZE);
     }
-    func_020307B0(h);
+    func_020307B0(file);
 }

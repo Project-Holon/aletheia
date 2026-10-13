@@ -8,26 +8,26 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_0203133C
+ * function: PROCSYS_Delete
  *
  * symbols:
- *   sub_020314B8  0x020314B8  arm
+ *   PROCSYS_DeleteInternal  0x020314B8  arm
  *
- * A four-instruction tail call to sub_020314B8
- * (src/matched/sub_020314B8.c, this same packet), attested by the
- * `matched` class: sub_020314B8's own EXACT entry pins its address, and
+ * A four-instruction tail call to PROCSYS_DeleteInternal
+ * (src/matched/PROCSYS_DeleteInternal.c, this same packet), attested by the
+ * `matched` class: PROCSYS_DeleteInternal's own EXACT entry pins its address, and
  * this call is the only branch to it found in the ROM.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203133C.c \
- *       --func sub_0203133C --addr 0x0203133C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/PROCSYS_Delete.c \
+ *       --func PROCSYS_Delete --addr 0x0203133C --cc 1.1p1
  */
 
 struct S020314B8;
 
-extern void sub_020314B8(struct S020314B8 *p);
+extern void PROCSYS_DeleteInternal(struct S020314B8 *p);
 
-void sub_0203133C(struct S020314B8 *p)
+void PROCSYS_Delete(struct S020314B8 *p)
 {
-    sub_020314B8(p);
+    PROCSYS_DeleteInternal(p);
 }

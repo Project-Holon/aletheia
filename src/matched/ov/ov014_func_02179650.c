@@ -1,5 +1,5 @@
 /*
- * function: func_02179650
+ * function: WIH_SetScanWaitFrames
  * address: 0x02179650
  * packet: pkt_ov014_02179650
  * region: ov014
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 extern u8 *g_021797A8;
 typedef unsigned short u16;
-void func_02179650(u16 v)
+void WIH_SetScanWaitFrames(u16 v)
 {
     *(u16 *)(g_021797A8 + 0x1ec2) = v;
 }

@@ -120,8 +120,8 @@ typedef struct {
     u8 state : 4;
     u8 kind : 4;       /* index into d_021D84E8 */
     s8 waitCount;
-    s8 homeLine;
-    u8 homeWidth;
+    s8 homeWidth;
+    u8 homeLine;
 } RailWanderWork;
 
 /* Shuttle move type (walk forward, turn around when blocked, come back). */
@@ -129,8 +129,8 @@ typedef struct {
     RailMoveWork base;
     u8 state;
     u8 returning;
-    s8 homeLine;
-    u8 homeWidth;
+    s8 homeWidth;
+    u8 homeLine;
 } RailShuttleWork;
 
 typedef struct {
@@ -268,7 +268,7 @@ int func_0219E930(Mmdl *mmdl);
 u32 func_0219E938(int dir);
 u32 func_0219E940(int key);
 RailMoveWork *func_0219E968(Mmdl *mmdl, u32 size);
-int func_0219E9A8(Mmdl *mmdl, int homeWidth, int homeLine, RailLocation *loc);
+int func_0219E9A8(Mmdl *mmdl, int homeLine, int homeWidth, RailLocation *loc);
 int func_0219E9F8(u32 *table, u32 terminator);
 int func_0219EA10(u32 *table, int terminator);
 u32 func_0219EA24(u32 kind, u32 terminator);
@@ -671,26 +671,26 @@ RailMoveWork *func_0219E968(Mmdl *mmdl, u32 size)
 }
 
 /* Is loc outside the area around the home cell the model may walk in? */
-int func_0219E9A8(Mmdl *mmdl, int homeWidth, int homeLine, RailLocation *loc)
+int func_0219E9A8(Mmdl *mmdl, int homeLine, int homeWidth, RailLocation *loc)
 {
-    int limitLine;
     int limitWidth;
+    int limitLine;
     int low;
     int high;
 
-    limitLine = func_0216D660(mmdl);
-    limitWidth = func_0216D66C(mmdl);
-    if (limitLine != -1) {
-        low = homeLine - limitLine;
-        high = homeLine + limitLine;
-        if (low > loc->lineGrid || high < loc->lineGrid) {
+    limitWidth = func_0216D660(mmdl);
+    limitLine = func_0216D66C(mmdl);
+    if (limitWidth != -1) {
+        low = homeWidth - limitWidth;
+        high = homeWidth + limitWidth;
+        if (low > loc->widthGrid || high < loc->widthGrid) {
             return 1;
         }
     }
-    if (limitWidth != -1) {
-        high = homeWidth + limitWidth;
-        low = homeWidth - limitWidth;
-        if (low > loc->widthGrid || high < loc->widthGrid) {
+    if (limitLine != -1) {
+        high = homeLine + limitLine;
+        low = homeLine - limitLine;
+        if (low > loc->lineGrid || high < loc->lineGrid) {
             return 1;
         }
     }
@@ -765,8 +765,8 @@ void func_0219EAB8(RailMoveWork *work, Mmdl *mmdl)
 }
 
 /*
- * The source pointer is const: that lets mwcc load loc->widthGrid above the
- * store of loc->lineGrid.
+ * The source pointer is const: that lets mwcc load loc->lineGrid above the
+ * store of loc->widthGrid.
  */
 void func_0219EAD8(RailMoveWork *work, const RailLocation *loc)
 {
@@ -825,8 +825,8 @@ void func_0219EBA0(Mmdl *mmdl, u32 kind)
     work->state = 0;
     work->waitCount = 0;
     work->kind = kind;
-    work->homeWidth = homeLoc.widthGrid;
     work->homeLine = homeLoc.lineGrid;
+    work->homeWidth = homeLoc.widthGrid;
     func_0216D674(mmdl, 0);
     func_0216DA50(mmdl);
 }
@@ -873,7 +873,7 @@ int func_0219EBF4(Mmdl *mmdl)
             work->state = _WANDER_START;
             break;
         }
-        if (func_0219E9A8(mmdl, work->homeWidth, work->homeLine, &nextLoc)) {
+        if (func_0219E9A8(mmdl, work->homeLine, work->homeWidth, &nextLoc)) {
             work->state = _WANDER_START;
             break;
         }
@@ -904,8 +904,8 @@ void func_0219ED8C(Mmdl *mmdl)
     func_0219E2F4(mmdl, &homeLoc);
     work->state = 0;
     work->returning = 0;
-    work->homeWidth = homeLoc.widthGrid;
     work->homeLine = homeLoc.lineGrid;
+    work->homeWidth = homeLoc.widthGrid;
     func_0216D674(mmdl, 0);
     func_0216DA50(mmdl);
 }
@@ -934,7 +934,7 @@ int func_0219EDC4(Mmdl *mmdl)
         work->state = _SHUTTLE_CHECK;
     case _SHUTTLE_CHECK:
         func_0219E2F4(mmdl, &nowLoc);
-        if (work->returning != 0 && work->homeWidth == nowLoc.widthGrid && work->homeLine == nowLoc.lineGrid) {
+        if (work->returning != 0 && work->homeLine == nowLoc.lineGrid && work->homeWidth == nowLoc.widthGrid) {
             func_0216D60C(mmdl, (u16)((u32)func_021642A4((u16)func_0216D608(mmdl))));
             work->returning = 0;
         }
@@ -942,7 +942,7 @@ int func_0219EDC4(Mmdl *mmdl)
         dir = func_0216D608(mmdl);
         hitBits = (u32)func_0219E418(mmdl, (u16)dir);
         func_0219E664(mmdl, (u16)dir, &nextLoc);
-        outOfArea = func_0219E9A8(mmdl, work->homeWidth, work->homeLine, &nextLoc);
+        outOfArea = func_0219E9A8(mmdl, work->homeLine, work->homeWidth, &nextLoc);
         if (nowLoc.railIndex != nextLoc.railIndex) {
             typeChanged = 1;
         }

@@ -12,7 +12,7 @@
  *   func_02040618 0x02040618 arm
  *   func_0204047C 0x0204047C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_021BDCF8 0x021BDCF8 thumb ov208
  *   func_021BD358 0x021BD358 thumb ov208
  *   func_021BDD48 0x021BDD48 thumb ov208
@@ -28,7 +28,7 @@ extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void func_02040618(unsigned,unsigned,unsigned);
 extern void func_0204047C(int,u16);
 extern struct Bank *func_0204B100(int,unsigned char,unsigned);
-extern void func_0204B270(struct Bank *);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
 extern void func_021BDCF8(struct Ov208Scene *);
 extern void func_021BD358(char *p, int v);
 extern void func_021BDD48(char *,short);
@@ -43,7 +43,7 @@ char *func_021BD8C0(u16 heap,unsigned arg)
     func_02040618(1,3,-24);func_0204047C(1,0);
     p[0x38]=0;((struct Obj01080 *)p)->f3C=0;
     *(struct Bank * *)&((struct Obj01080 *)p)->f28=func_0204B100(16,0,((struct Obj01080 *)p)->f0);
-    func_0204B270(*(struct Bank * *)&((struct Obj01080 *)p)->f28);
+    CLACT_SetUnitDefaultRenderer(*(struct Bank * *)&((struct Obj01080 *)p)->f28);
     *(unsigned *)&((struct Obj01080 *)p)->f30=0;func_021BDCF8((struct Ov208Scene *)p);
     func_021BD358(((struct Obj01080 *)p)->f30,0);
     ((struct Obj01080 *)p)->fB4=24;func_021BDD48(p,((struct Obj01080 *)p)->fB4);

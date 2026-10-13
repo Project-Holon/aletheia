@@ -1,5 +1,5 @@
 /*
- * function: func_0202414C
+ * function: PMSI_PARAM_GetWordSave
  * address:  0x0202414C
  * packet:   pkt_0202414C
  * region:   arm9
@@ -13,4 +13,4 @@
  *
  * symbols:
  */
-void *func_0202414C(char *p){return *(void **)(p+12);}
+void *PMSI_PARAM_GetWordSave(char *p){return *(void **)(p+12);}

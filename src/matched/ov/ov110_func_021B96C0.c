@@ -10,18 +10,18 @@
  * blocker: ARM9 0x02024150, unresolved Thumb code witness; the integrator owns.
  *   Verified EXACT in scratch b24150-r2.log:
  *   typedef struct {unsigned char pad[3];unsigned char flag:1;unsigned char rest:7;} Bits;
- *   int func_02024150(Bits *p){return p->flag;}
+ *   int PMSI_PARAM_GetEventFlag(Bits *p){return p->flag;}
  * symbols:
- *   func_02024150 0x02024150 thumb
+ *   PMSI_PARAM_GetEventFlag 0x02024150 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02024150(void *);
+extern int PMSI_PARAM_GetEventFlag(void *);
 u32 func_021B96C0(u8 *p,const u16 *ids,u32 count,u16 *out)
 {
     u32 i;
-    if(func_02024150(*(void **)p)){
+    if(PMSI_PARAM_GetEventFlag(*(void **)p)){
         for(i=0;i<count;i++){
             u32 id= *ids;
             p[0x1D6E + (id>>3)] |= (u8)(1<<(id&7));

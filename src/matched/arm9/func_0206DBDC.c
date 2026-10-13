@@ -12,7 +12,7 @@
  * symbols:
  *   g_0214BAB4   0x0214BAB4  data
  *
- * Spin on the word at +4 of the same global func_0206DB40/60 hold the head
+ * Spin on the word at +4 of the same global NNS_G3dGeSetBuffer/60 hold the head
  * pointer in.  The `volatile` is load-bearing: without it mwccarm proves the
  * word cannot change inside the empty loop and collapses the re-read into a
  * single load plus a self-branch (24 bytes against the original's 20, and the

@@ -22,7 +22,7 @@
  * plus a shift pair rather than an `ldrh`.
  *
  * Identical in shape to its neighbour src/matched/sub_0202CAE4.c, which
- * differs only in calling func_02049EB4 instead of func_02049EF4.
+ * differs only in calling ARC_UTIL_LoadPaletteDataFromArchive instead of func_02049EF4.
  * func_02049EF4 has a second caller at 0x02027652, so its relocation
  * resolves through the `label` class.
  *

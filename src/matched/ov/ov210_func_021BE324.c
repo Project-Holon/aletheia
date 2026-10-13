@@ -15,22 +15,22 @@
  *      through C40C/071CC with fixed r1=0x36. C44C reads r0/r1 only.
  *      Legacy trailing a2/a3 are omitted; all original visible inputs remain.
  * symbols:
- *   func_02012BF8 0x02012BF8 thumb
- *   func_02012BE0 0x02012BE0 thumb
+ *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
  *   func_021BEDB8 0x021BEDB8 thumb ov210
  */
 #include "../include/Obj10921.h"
 typedef unsigned char u8;
-extern int func_02012BF8(int a0, int a1);
-extern void func_02012BE0(void *, unsigned, unsigned);
+extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern void GAME_DATA_SetSaveFlag(void *, unsigned, unsigned);
 extern void func_021BEDB8(int p, int i, int v);
 void func_021BE324(u8 *p)
 {
-    if (func_02012BF8((int)(**(void ** *)&((struct Obj10921 *)p)->f0), 16) == 1) {
-        func_02012BE0(**(void ** *)&((struct Obj10921 *)p)->f0, 16, 0);
+    if (GAME_DATA_CheckSaveFlag((int)(**(void ** *)&((struct Obj10921 *)p)->f0), 16) == 1) {
+        GAME_DATA_SetSaveFlag(**(void ** *)&((struct Obj10921 *)p)->f0, 16, 0);
         func_021BEDB8((int)p, 4, 6);
     } else {
-        func_02012BE0(**(void ** *)&((struct Obj10921 *)p)->f0, 16, 1);
+        GAME_DATA_SetSaveFlag(**(void ** *)&((struct Obj10921 *)p)->f0, 16, 1);
         func_021BEDB8((int)p, 4, 7);
     }
 }

@@ -18,7 +18,7 @@
  *   func_020279E8  0x020279E8  thumb
  *   func_02027A04  0x02027A04  thumb
  *   func_021BB580  0x021BB580  thumb  ov070
- *   func_02027324  0x02027324  thumb
+ *   GAME_BEACON_SetItemUse  0x02027324  thumb
  *   func_021B6100  0x021B6100  thumb  ov070
  *   func_021B7640  0x021B7640  thumb  ov070
  *   func_02020FE4  0x02020FE4  thumb
@@ -67,7 +67,7 @@ struct TaskMenu;
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
 extern void func_021BB580(char *p, int v);
-extern void func_02027324(u16 id);
+extern void GAME_BEACON_SetItemUse(u16 id);
 extern void func_021B6100(char *p, int k);
 extern void func_021B7640(struct Obj *o);
 extern u32  func_02020FE4(u16 a, u32 sel, u32 id);
@@ -108,7 +108,7 @@ void func_021B6EF8(u8 *p)
         case 0:
             func_021BB580((char *)p, 0);
             if (*(u32 *)&((struct Obj00002 *)p)->f80C != 4)
-                func_02027324(((struct Obj00002 *)p)->f84C);
+                GAME_BEACON_SetItemUse(((struct Obj00002 *)p)->f84C);
             if (*(u32 *)&((struct Obj00002 *)p)->f80C == 2) {
                 func_021B6100((char *)p, (int)((void *)func_021B7640));
             } else if (func_02020FE4(((struct Obj00002 *)p)->f84C, 0x1D, ((struct Obj00002 *)p)->f544) == 1) {

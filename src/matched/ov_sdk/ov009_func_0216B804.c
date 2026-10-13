@@ -12,7 +12,7 @@
  * sdk:      DWC_GetNumConnectionHost (dwc_main.o)
  *
  * symbols:
- *   func_0216C82C  0x0216C82C  arm  ov009
+ *   DWCi_IsGetAIDValid  0x0216C82C  arm  ov009
  *   func_0217603C  0x0217603C  arm  ov009
  *   g_021AA878     0x021AA878  data
  */
@@ -20,14 +20,14 @@
 #include "../include/G_DwcGlobal.h"
 
 extern struct DwcGlobal g_021AA878;
-extern int func_0216C82C(void);
+extern int DWCi_IsGetAIDValid(void);
 extern int func_0217603C(void);
 
 int DWC_GetNumConnectionHost(void)
 {
     int num;
 
-    if (*(char **)(((char *)&g_021AA878) + 4) == 0 || func_0216C82C() == 0) {
+    if (*(char **)(((char *)&g_021AA878) + 4) == 0 || DWCi_IsGetAIDValid() == 0) {
         num = 0;
     } else {
         num = func_0217603C();

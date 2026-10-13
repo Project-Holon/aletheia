@@ -11,6 +11,8 @@
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   d_021E8DBC 0x021E8DBC data a1
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb  arm9
+ *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb  arm9
  *
  * The temporary heap id is formed twice: once through an inline that
  * rewrites its own parameter (the image copies heap before the and), held
@@ -66,7 +68,7 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern unsigned func_0201AA18(void *party);
 extern void *func_0201AB28(void *p, u32 idx);
 extern unsigned func_02017E1C(void *p, unsigned id, unsigned v);
-extern void *func_020185F4(void *);
+extern void *POKE_TOOL_GetBoxParam(void *);
 extern unsigned func_0201BA68(void *);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *);
@@ -77,7 +79,7 @@ extern u32 func_020276A0(u32 i);
 extern unsigned func_02027698(void);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern void *func_0204B294(void *, void *, void *, void *, const Request *, unsigned short, unsigned);
-extern int func_0201BBE8(void *a0);
+extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void *func_0201EC64(u16);
 extern void *func_020457B0(unsigned capacity, u16 heap);
@@ -132,7 +134,7 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
     for (i = 0; i < (int)func_0201AA18(party); i++) {
         mon = func_0201AB28(party, (int)i);
         if (func_02017E1C(mon, 0xA9, 0) != 0) {
-            work->chr[i] = (void *)func_0204A6C8(handle, func_0201BA68(func_020185F4(mon)), 0, 0, h);
+            work->chr[i] = (void *)func_0204A6C8(handle, func_0201BA68(POKE_TOOL_GetBoxParam(mon)), 0, 0, h);
         }
     }
     func_02049238(handle);
@@ -151,7 +153,7 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
         if (func_02017E1C(mon, 0xA9, 0) != 0) {
             req.x = i * 0x28 + 0x18;
             work->spr[i] = func_0204B294(owner, work->chr[i], work->pal, work->cell, &req, 0, heap);
-            func_0204B6F4(work->spr[i], func_0201BBE8(func_020185F4(mon)), 0);
+            func_0204B6F4(work->spr[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(mon)), 0);
             if (func_02017E1C(mon, 6, 0) != 0) {
                 req2 = req;
                 req2.x += 12;

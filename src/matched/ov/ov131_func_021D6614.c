@@ -1,5 +1,5 @@
 /*
- * function: func_021D6614
+ * function: P_STA_SUB_Main
  * address: 0x021D6614
  * packet: pkt_ov131_021D6614
  * region: ov131
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D7460 0x021D7460 thumb ov131
- *   func_021D6F54 0x021D6F54 thumb ov131
- *   func_021D79A8 0x021D79A8 thumb ov131
- *   func_02015EB0 0x02015EB0 thumb
- *   func_02015EA0 0x02015EA0 thumb
- *   func_02015C78 0x02015C78 thumb
- *   func_02015D30 0x02015D30 thumb
+ *   P_STA_SUB_UpdateTouch 0x021D7460 thumb ov131
+ *   P_STA_SUB_UpdatePet 0x021D6F54 thumb ov131
+ *   P_STA_SUB_SetPetOffset 0x021D79A8 thumb ov131
+ *   MCSS_ResetVanishFlag 0x02015EB0 thumb
+ *   MCSS_SetVanishFlag 0x02015EA0 thumb
+ *   MCSS_SetOfsPosition 0x02015C78 thumb
+ *   MCSS_SetOfsScale 0x02015D30 thumb
  *   func_02048AFC 0x02048AFC arm
  *   func_02048AD0 0x02048AD0 arm
  *   d_020A1B38 0x020A1B38 data a2
@@ -34,24 +34,24 @@ typedef unsigned int u32;
 typedef short s16;
 typedef struct {int x,y,z;} Vec;
 typedef struct {int v[2];} Pair;
-extern void func_021D7460(u8 *,u8 *);
-extern void func_021D6F54(u8 *,u8 *);
-extern void func_021D79A8(void *,u8 *,int);
-extern void func_02015EB0(void *);
-extern void func_02015EA0(void *);
-extern void func_02015C78(void *p, u32 *src);
-extern void func_02015D30(void *p, u32 *src);
+extern void P_STA_SUB_UpdateTouch(u8 *,u8 *);
+extern void P_STA_SUB_UpdatePet(u8 *,u8 *);
+extern void P_STA_SUB_SetPetOffset(void *,u8 *,int);
+extern void MCSS_ResetVanishFlag(void *);
+extern void MCSS_SetVanishFlag(void *);
+extern void MCSS_SetOfsPosition(void *p, u32 *src);
+extern void MCSS_SetOfsScale(void *p, u32 *src);
 extern void func_02048AFC(void *,const Vec *);
 struct Light;
 extern void func_02048AD0(struct Light *l);
 extern const s16 d_020A1B38[];
 extern const Vec d_021DC234,d_021DC228,d_021DC198,d_021DC210;
 extern const Pair d_021DC170,d_021DC178,d_021DC168;
-void func_021D6614(u8 *a,u8 *p) {
+void P_STA_SUB_Main(u8 *a,u8 *p) {
     u32 st=((struct Obj00200 *)p)->f8;
     if(st==0 || st==2) {
-        func_021D7460(a,p);
-        func_021D6F54(a,p);
+        P_STA_SUB_UpdateTouch(a,p);
+        P_STA_SUB_UpdatePet(a,p);
         return;
     }
     if(st==3) {
@@ -61,13 +61,13 @@ void func_021D6614(u8 *a,u8 *p) {
         u8 c;
         p[0x9b]=p[0x9b]+1;
         if(p[0x9b]>5 && ((struct Obj00200 *)p)->fC==0) {
-            func_02015EB0(((struct Obj00200 *)p)->f0);
-            func_02015EA0(((struct Obj00200 *)p)->f4);
+            MCSS_ResetVanishFlag(((struct Obj00200 *)p)->f0);
+            MCSS_SetVanishFlag(((struct Obj00200 *)p)->f4);
             ((struct Obj00200 *)p)->fC=1;
         }
         c=p[0x9b];
         if(c>=10) {
-            func_021D79A8(a,p,0);
+            P_STA_SUB_SetPetOffset(a,p,0);
             ((struct Obj00200 *)p)->f8=0;
         } else {
             u16 ang;
@@ -75,11 +75,11 @@ void func_021D6614(u8 *a,u8 *p) {
             ang=(p[0x9b]<<15)/10;
             v30.y=d_020A1B38[(ang>>4)*2]<<5;
             if(((struct Obj00200 *)p)->f10==1) v30.y=0;
-            func_021D79A8(a,p,v30.y);
+            P_STA_SUB_SetPetOffset(a,p,v30.y);
         }
-        func_02015C78(((struct Obj00200 *)p)->f0,(u32 *)(&v30));
-        func_02015C78(((struct Obj00200 *)p)->f4,(u32 *)(&v30));
-        func_02015D30(((struct Obj00200 *)p)->f0,(u32 *)(&v3c));
+        MCSS_SetOfsPosition(((struct Obj00200 *)p)->f0,(u32 *)(&v30));
+        MCSS_SetOfsPosition(((struct Obj00200 *)p)->f4,(u32 *)(&v30));
+        MCSS_SetOfsScale(((struct Obj00200 *)p)->f0,(u32 *)(&v3c));
         func_02048AFC(((struct Obj05385 *)a)->f70,&v48);
         func_02048AD0(((struct Obj05385 *)a)->f70);
     } else if(st==1) {
@@ -98,11 +98,11 @@ void func_021D6614(u8 *a,u8 *p) {
             v24.x=t3.v[k];
             func_02048AFC(((struct Obj05385 *)a)->f70,&v24);
             func_02048AD0(((struct Obj05385 *)a)->f70);
-            func_02015D30(((struct Obj00200 *)p)->f0,(u32 *)(&v18));
+            MCSS_SetOfsScale(((struct Obj00200 *)p)->f0,(u32 *)(&v18));
         } else {
-            func_02015EA0(((struct Obj00200 *)p)->f0);
-            func_02015EB0(((struct Obj00200 *)p)->f4);
-            func_02015D30(((struct Obj00200 *)p)->f4,(u32 *)(&v18));
+            MCSS_SetVanishFlag(((struct Obj00200 *)p)->f0);
+            MCSS_ResetVanishFlag(((struct Obj00200 *)p)->f4);
+            MCSS_SetOfsScale(((struct Obj00200 *)p)->f4,(u32 *)(&v18));
             func_02048AFC(((struct Obj05385 *)a)->f70,&v24);
             func_02048AD0(((struct Obj05385 *)a)->f70);
             ((struct Obj00200 *)p)->fC=0;

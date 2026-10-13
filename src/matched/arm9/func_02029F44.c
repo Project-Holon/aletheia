@@ -1,5 +1,5 @@
 /*
- * function: func_02029F44
+ * function: RINGTONE_SYS_Delete
  * address:  0x02029F44
  * packet:   pkt_02029D44
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02029F44(void *ptr)
+void RINGTONE_SYS_Delete(void *ptr)
 {
     func_020307B0(ptr);
 }

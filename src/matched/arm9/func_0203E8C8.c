@@ -1,5 +1,5 @@
 /*
- * function: func_0203E8C8
+ * function: GFL_NET_LOWER_DATA_DeletePostWork
  * address:  0x0203E8C8
  * packet:   pkt_0203E484
  * region:   arm9
@@ -26,7 +26,7 @@ extern char s_020A7E00[];
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_020307B0(void *p);
-void func_0203E8C8(int idx)
+void GFL_NET_LOWER_DATA_DeletePostWork(int idx)
 {
     int *p;
     if (g_021469F4 == 0)

@@ -12,7 +12,7 @@
  *   func_02082D44 0x02082D44 arm
  *   func_021E36C8 0x021E36C8 thumb ov119
  *   func_021D8AA8 0x021D8AA8 thumb ov119
- *   func_02015EA0 0x02015EA0 thumb
+ *   MCSS_SetVanishFlag 0x02015EA0 thumb
  *   func_0203D34C 0x0203D34C arm
  *   func_0204E720 0x0204E720 arm
  */
@@ -24,7 +24,7 @@ extern u32 func_020173EC(void);
 extern void func_02082D44(void *,const void *,int);
 extern void func_021E36C8(void *,int,int,void *,int);
 extern int func_021D8AA8(void *);
-extern void func_02015EA0(void *p);
+extern void MCSS_SetVanishFlag(void *p);
 extern void func_0203D34C(u32 a, u32 b);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 void func_021DCBA4(char *a, char *p)
@@ -33,7 +33,7 @@ void func_021DCBA4(char *a, char *p)
     func_02082D44(((struct Obj01728 *)a)->f38,((struct Obj03256 *)p)->f5E0,func_020173EC());
     func_021E36C8(p,0,1,((struct Obj01728 *)a)->f34,1);
     func_021E36C8(p,1,1,((struct Obj01728 *)a)->f38,1);
-    func_02015EA0((void *)(*(unsigned *)(p+(func_021D8AA8(p) == 0 ? 0x848 : 0x844))));
+    MCSS_SetVanishFlag((void *)(*(unsigned *)(p+(func_021D8AA8(p) == 0 ? 0x848 : 0x844))));
     ((struct Obj03256 *)p)->f830=((struct Obj01728 *)a)->f3C;
     ((struct Obj03256 *)p)->f834=((struct Obj01728 *)a)->f40;
     func_0203D34C(0,((struct Obj03256 *)p)->f5F4);

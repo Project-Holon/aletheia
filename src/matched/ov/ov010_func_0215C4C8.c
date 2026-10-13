@@ -13,7 +13,7 @@
  *   func_0201293C  0x0201293C  thumb
  *   func_02007984  0x02007984  thumb
  *   func_0215C40C  0x0215C40C  thumb  ov010
- *   func_020185F4  0x020185F4  thumb
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_020074D8  0x020074D8  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CDE0  0x0200CDE0  thumb
@@ -30,7 +30,7 @@ extern u32 func_0201293C(const struct BigObj *p);
 extern int func_02007984(void *a);
 struct Spec;
 extern void *func_0215C40C(void *a, struct Spec *s);
-extern void *func_020185F4(void *p);
+extern void *POKE_TOOL_GetBoxParam(void *p);
 extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 extern void *func_0200CA1C(void *a);
 struct Blk37;
@@ -46,7 +46,7 @@ int func_0215C4C8(void *a, void *b)
     if (func_02007984(r6) >= 0x2D0)
         return 0;
     r5 = func_0215C40C(a, b);
-    func_020074D8(r6, (const struct Sub02007454Entry *)((u32)func_020185F4(r5)));
+    func_020074D8(r6, (const struct Sub02007454Entry *)((u32)POKE_TOOL_GetBoxParam(r5)));
     func_0200CDE0(func_0200CA1C(a), r5);
     func_020307B0(r5);
     return 1;

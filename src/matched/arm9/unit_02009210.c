@@ -20,7 +20,7 @@
  *           sub_020093D8, sub_020093F0, sub_02009418, sub_02009428
  *
  * symbols:
- *   sub_020071CC   0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock   0x020071CC  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_020173EC  0x020173EC  thumb
  *   MI_CpuFill8    0x02082BCC  arm
@@ -28,7 +28,7 @@
  *
  * alias: the head of the save block with id 0x20, 0x1AC bytes.  The file opens
  * the way every block file in this region does: a twelve byte thunk that is
- * `sub_020071CC(sys, 0x20)`, a four byte function returning the block size, and
+ * `SAVE_CONTROL_GetBlock(sys, 0x20)`, a four byte function returning the block size, and
  * a constructor that clears exactly that size.  See
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md; only eight of
  * these twenty-eight functions carry a label.
@@ -77,7 +77,7 @@ typedef signed int     s32;
 
 struct Big;
 struct Sub020071CCCtrl;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void *func_02012EBC(struct Big *p);
 extern u32 func_020173EC(void);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
@@ -116,7 +116,7 @@ void sub_020093CC(struct Sub02009210Obj *obj, u32 value);
 
 struct Sub02009210Obj *sub_02009210(void *sys)
 {
-    return sub_020071CC(sys, BLOCK_ID);
+    return SAVE_CONTROL_GetBlock(sys, BLOCK_ID);
 }
 
 struct Sub02009210Obj *sub_0200921C(void *p)

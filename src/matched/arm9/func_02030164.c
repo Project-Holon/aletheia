@@ -1,5 +1,5 @@
 /*
- * function: func_02030164
+ * function: GFL_HEAP_FreeMemory
  * address:  0x02030164
  * packet:   pkt_02030164
  * region:   arm9
@@ -18,9 +18,9 @@
  *
  * The result code written to g_EnvModule.error (+0xe) numbers four failure
  * modes: 1 bad signature, 2 heap id out of range, 3 no such heap (the
- * sub_0202FBAC lookup, the arena handed to the release), 4 the heap's live
+ * GFL_HEAP_GetHeap lookup, the arena handed to the release), 4 the heap's live
  * allocation count is already zero (a double free; the count is the +0xc
- * halfword sub_0202FC20 returns). All four branches to the single
+ * halfword GFL_HEAP_GetAllocCount returns). All four branches to the single
  * `mov r0, #0` / pop epilogue need the explicit `goto fail`, otherwise the
  * compiler predicates each failure inline and the whole tail shifts.
  *
@@ -43,7 +43,7 @@
  *    guard already loaded 0x194E into, not as a second pool word, and the
  *    value it leaves in r2 is the dead third argument of func_02060E30
  *    (which is really the two-argument (arena, block) release that
- *    src/matched/sub_0202FF98.c declares).
+ *    src/matched/GFL_HEAP_Delete.c declares).
  *
  * The count decrement is `g_EnvModule.entries[g_EnvModule.ids[heapId]].field0c--;`
  * -- the same double-index expression sub_02030098 increments -- and its
@@ -51,15 +51,15 @@
  *
  * symbols:
  *   g_EnvModule           0x02146954  data
- *   sub_0202FBAC          0x0202FBAC  arm
- *   sub_0202FC20          0x0202FC20  arm
+ *   GFL_HEAP_GetHeap          0x0202FBAC  arm
+ *   GFL_HEAP_GetAllocCount          0x0202FC20  arm
  *   func_02060E30         0x02060E30  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02030164.c \
- *       --func func_02030164 --addr 0x02030164 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_FreeMemory.c \
+ *       --func GFL_HEAP_FreeMemory --addr 0x02030164 --cc 1.1p1 --arm
  */
 
 #include "../include/G_EnvModule.h"
@@ -85,14 +85,14 @@ struct HeapBlock {
 };
 
 extern struct EnvModule g_EnvModule;
-extern void *sub_0202FBAC(u32 idx);
+extern void *GFL_HEAP_GetHeap(u32 idx);
 struct ExpHeap;
-extern u16 sub_0202FC20(u32 idx);
+extern u16 GFL_HEAP_GetAllocCount(u32 idx);
 extern void func_02060E30(struct ExpHeap *heap, void *block);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
 
-u32 func_02030164(void *p)
+u32 GFL_HEAP_FreeMemory(void *p)
 {
     struct HeapBlock *hdr;
     void *arena;
@@ -109,12 +109,12 @@ u32 func_02030164(void *p)
         g_EnvModule.error = 2;
         goto fail;
     }
-    arena = sub_0202FBAC(heapId);
+    arena = GFL_HEAP_GetHeap(heapId);
     if (arena == 0) {
         g_EnvModule.error = 3;
         goto fail;
     }
-    if (sub_0202FC20(heapId) == 0) {
+    if (GFL_HEAP_GetAllocCount(heapId) == 0) {
         g_EnvModule.error = 4;
         goto fail;
     }

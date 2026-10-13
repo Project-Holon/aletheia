@@ -13,29 +13,37 @@
  * Addresses are Black-image addresses.
  */
 
-int func_021F5B24(int *o)
+#include "../../ov077/enceff_base_types.h"
+#include "../../ov077/enceff_grid_types.h"
+
+/*
+ * Cell callback of the block flip: the cell turns one full turn about its Y
+ * axis (phase 0), then half a turn more (phase 1) to show its back, then is
+ * done. Angles are 16 bit angles << 4.
+ */
+int func_021F5B24(EncEffGridCell *cell)
 {
-    int s = o[12];
+    int phase = cell->phase;
 
-    if (s < 1) {
-        int *p = o + 7;
-        int v = o[7] + 0x1000;
+    if (phase < 1) {
+        s32 *angle = &cell->angleY;  /* the pointer changes the code (kept as the original) */
+        int next = cell->angleY + 0x1000;
 
-        o[7] = v;
-        if (v >= 0x10000) {
-            *p = v - 0x10000;
-            o[12] = s + 1;
+        cell->angleY = next;
+        if (next >= 0x10000) {
+            *angle = next - 0x10000;
+            cell->phase = phase + 1;
         }
-    } else if (s == 1) {
-        int v = o[7] + 0x1000;
+    } else if (phase == 1) {
+        int next = cell->angleY + 0x1000;
 
-        o[7] = v;
-        if (v >= 0x8000) {
-            o[7] = 0x8000;
-            o[12] = s + 1;
+        cell->angleY = next;
+        if (next >= 0x8000) {
+            cell->angleY = 0x8000;
+            cell->phase = phase + 1;
         }
     } else {
-        o[14] = 1;
+        cell->finished = 1;
     }
-    return o[14];
+    return cell->finished;
 }

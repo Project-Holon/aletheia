@@ -15,7 +15,7 @@
  *   func_021C64B4 0x021C64B4 thumb ov093
  *   func_021CA7F4 0x021CA7F4 thumb ov093
  *   func_021D62C4 0x021D62C4 thumb ov093
- *   func_0201BEB8 0x0201BEB8 thumb
+ *   WAZA_TOOL_GetFlag 0x0201BEB8 thumb
  *   func_021C0520 0x021C0520 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   func_021E02DC 0x021E02DC thumb ov093
@@ -35,7 +35,7 @@ struct Unk021D62A8;
 extern void func_021C64B4(u8 *p, u16 q, u8 *a, struct Out64B4 *out);
 extern int func_021CA7F4(u8 *p, u8 *a, u16 b, const u8 *q, void *out);
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern u32 func_0201BEB8(u16, u32);
+extern u32 WAZA_TOOL_GetFlag(u16, u32);
 extern void func_021C0520(u8 *, u8 *, u16, u32);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021E02DC(u8 *, u16, u32);
@@ -52,7 +52,7 @@ void func_021BE550(u8 *p, u8 *b, u16 c, void *unused)
         func_021CC95C((u32 *)(p + 0x1d74), lock, 3722);
         func_021C64B4(p, c, a, ((struct Obj00003 *)p)->f1AB0);
         func_021CA7F4(p, a, (*(u8 **)(p + 0x4ac))[7], ((struct Obj00003 *)p)->f1AB0, ((struct Obj00003 *)p)->f864);
-        if (func_021D62C4((struct Unk021D62A8 *)a, 15) != 0 && func_0201BEB8(c, 12) != 0) {
+        if (func_021D62C4((struct Unk021D62A8 *)a, 15) != 0 && WAZA_TOOL_GetFlag(c, 12) != 0) {
             func_021C0520(p, a, c, 13);
             return;
         }

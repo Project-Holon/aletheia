@@ -1,5 +1,5 @@
 /*
- * function: func_021740AC
+ * function: INTRUDE_CMD_SendProposalReply
  * address:  0x021740AC
  * packet:   pkt_ov011_021740AC
  * region:   ov011
@@ -12,22 +12,22 @@
  * Handed as 0x021740AE; the function starts at the push {r0-r3} at 0x021740AC.
  *
  * symbols:
- *   func_021736D8  0x021736D8  thumb ov011
+ *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
  *   func_0203D1C0  0x0203D1C0  arm
  *   func_020399A8  0x020399A8  arm
  *   func_0203D3F8  0x0203D3F8  arm
  */
 
-int func_021736D8(void);
+int INTRUDE_COMM_IsLinked(void);
 typedef unsigned int   u32;
 u32 func_0203D1C0(u32 index);
 struct Entry;
 struct Entry *func_020399A8(void);
 int func_0203D3F8(int a, unsigned char b, int c, int d, void *e, int f, int g, int h);
 
-int func_021740AC(int a, int b, int c, ...)
+int INTRUDE_CMD_SendProposalReply(int a, int b, int c, ...)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
     if ((int)func_0203D1C0((unsigned char)c) == 0) {

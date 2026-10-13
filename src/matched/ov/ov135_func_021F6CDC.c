@@ -12,6 +12,7 @@
   *
  * symbols:
  *   func_021F6C80  0x021F6C80  thumb
+ *   POKE_TOOL_CalcBoxLevel  0x02018438  thumb  arm9
  */
 
 typedef signed char s8;
@@ -28,7 +29,7 @@ typedef struct {
 } MonTag;
 
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern u32 func_02018438(void *p);
+extern u32 POKE_TOOL_CalcBoxLevel(void *p);
 extern int func_021F6C80(void *pa, void *pb);
 
 int func_021F6CDC(void *mon, void *want)
@@ -37,6 +38,6 @@ int func_021F6CDC(void *mon, void *want)
 
     t.species = func_02017E88(mon, 5, 0);
     t.form = func_02017E88(mon, 0x6E, 0) + 1;
-    t.gender = func_02018438(mon);
+    t.gender = POKE_TOOL_CalcBoxLevel(mon);
     return func_021F6C80(&t, want);
 }

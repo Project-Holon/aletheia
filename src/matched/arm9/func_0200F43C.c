@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02009860           0x02009860  thumb
- *   sub_020099C8            0x020099C8  thumb
+ *   WIFILIST_GetDwcFriendData            0x020099C8  thumb
  *   func_02009A34           0x02009A34  thumb
  *   DWC_CheckFriendKey      0x02059354  arm
  *   DWC_CreateFriendKeyToken 0x02059980 arm
@@ -50,7 +50,7 @@ struct Sub020097BCObj;
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 struct Sub020097BCFriend;
 struct Sub020097BCObj;
-extern struct Sub020097BCFriend *sub_020099C8(struct Sub020097BCObj *obj, int i);
+extern struct Sub020097BCFriend *WIFILIST_GetDwcFriendData(struct Sub020097BCObj *obj, int i);
 struct Sub020097BCObj;
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 
@@ -69,7 +69,7 @@ int func_0200F43C(void *obj, u64 key, int *out)
 
     p = func_02009860(obj);
     i = 0;
-    arr = (DWCFriendData *)sub_020099C8(obj, 0);
+    arr = (DWCFriendData *)WIFILIST_GetDwcFriendData(obj, 0);
     n = func_02009A34(obj);
 
     if (DWC_CheckFriendKey(p, key) == 0)

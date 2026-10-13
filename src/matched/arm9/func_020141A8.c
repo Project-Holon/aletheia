@@ -12,7 +12,7 @@
  * The explicit-parameter initialiser of the 0x18-byte record that
  * func_02014204 fills from a table id: a = 1, b, c = -1, d, e = 0, f = 1,
  * the 0x12 byte = 1, then g/h/i from the three trailing parameters (two on
- * the stack) and the 0x13 byte from func_0201441C(func_02014274(d)).
+ * the stack) and the 0x13 byte from func_0201441C(ZONEDATA_ExitDirToDir(d)).
  *
  * What closed it (wave 17, from 47 out): nothing new in the source; the
  * s16 field written -1 is the image's `subs r0, r5, #2` off the constant 1
@@ -23,6 +23,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020141A8.c \
  *       --func func_020141A8 --addr 0x020141A8 --cc 1.1p1 --thumb
+ *
+ * symbols:
+ *   ZONEDATA_ExitDirToDir  0x02014274  thumb
  */
 
 typedef unsigned char u8;
@@ -44,7 +47,7 @@ struct t {
     u16 i;      /* 0x16 */
 };
 
-extern u32 func_02014274(u32 a);
+extern u32 ZONEDATA_ExitDirToDir(u32 a);
 extern u8 func_0201441C(int i);
 
 void func_020141A8(struct t *p, int b, int d, u16 g, u16 i, s16 h)
@@ -59,5 +62,5 @@ void func_020141A8(struct t *p, int b, int d, u16 g, u16 i, s16 h)
     p->g = g;
     p->i = i;
     p->h = h;
-    p->kind = func_0201441C(func_02014274(d));
+    p->kind = func_0201441C(ZONEDATA_ExitDirToDir(d));
 }

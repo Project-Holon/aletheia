@@ -31,12 +31,12 @@
  *   as src/matched/arm9/func_0200ED14.c; once its shard exists this file should verify EXACT.
  * symbols:
  *   func_020457B0 0x020457B0 arm
- *   func_02012F68 0x02012F68 thumb
+ *   GAME_DATA_GetSaveBlock42 0x02012F68 thumb
  *   func_0200EC14 0x0200EC14 thumb
  *   func_0200EC98 0x0200EC98 thumb
  *   func_0200EC2C 0x0200EC2C thumb
  *   func_02012EBC 0x02012EBC thumb
- *   func_0200725C 0x0200725C thumb
+ *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   func_020073D8 0x020073D8 thumb
  *   func_0200ECD0 0x0200ECD0 thumb
  *   func_0200ECC4 0x0200ECC4 thumb
@@ -54,12 +54,12 @@ struct Sub020072A4Ctrl;
 struct Sub020073D8Ctrl;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_02012F68(void **h);
+extern void *GAME_DATA_GetSaveBlock42(void **h);
 extern int func_0200EC14(char *p);
 extern void func_0200EC98(const u8 *o, struct Out0200EC98 *out);
 extern void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst);
 extern void *func_02012EBC(struct Big *p);
-extern u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
+extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern int func_0200ECD0(char *o, int idx);
 extern u32 func_0200ECC4(char *o, u32 n);
@@ -88,7 +88,7 @@ void func_021DCCC8(struct P *p)
     }
     s = p->s;
     if (s->f4 == 0) {
-        void *h = func_02012F68(s->f0);
+        void *h = GAME_DATA_GetSaveBlock42(s->f0);
         p->rows[0].cnt = func_0200EC14(h);
         func_0200EC98(h, (struct Out0200EC98 *)p->rows[0].hdr);
         for (k = 0; k < p->rows[0].cnt; k++)
@@ -98,7 +98,7 @@ void func_021DCCC8(struct P *p)
         u32 id;
         c = func_02012EBC(s->f0);
         id = 8;
-        if (func_0200725C(c, id, 0x8c) == 1) {
+        if (SAVE_CONTROL_LoadExtraSave(c, id, 0x8c) == 1) {
             o = func_020073D8(c, id, 0);
             if (o) {
                 for (j = 0; j < 15; j++) {

@@ -11,7 +11,7 @@
  *
  * Starts a child process from an overlay on behalf of a script command:
  * allocates the 12-byte hand-off record (work pointer and two words),
- * launches the process over the work with func_020120B4, parks the record in the
+ * launches the process over the work with GAMESYSTEM_CallProc, parks the record in the
  * script's slot and waits on func_0215C69C.
  *
  * symbols:
@@ -19,7 +19,7 @@
  *   func_0215A5F4  0x0215A5F4  thumb  ov010
  *   func_02158FB4  0x02158FB4  thumb  ov010
  *   func_02030734  0x02030734  arm
- *   func_020120B4  0x020120B4  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   func_020113D0  0x020113D0  thumb
  *   func_0215C69C  0x0215C69C  thumb  ov010
  *   d_021728F0     0x021728F0  data  a1
@@ -40,7 +40,7 @@ extern void *func_0215A5F4(void *vm);
 extern void *func_02158FB4(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct IcaAnime;
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern void func_020113D0(char *p, int val);
 extern int func_0215C69C(int a0, int a1);
 extern const char d_021728F0[];
@@ -57,7 +57,7 @@ void func_0215C63C(void *c, void *vm, u32 ovId, const void *proc, void *work, u3
     h->work = work;
     h->arg1 = arg1;
     h->arg0 = arg0;
-    func_020120B4(sys, ovId, (void *)proc, work);
+    GAMESYSTEM_CallProc(sys, ovId, (void *)proc, work);
     *slot = h;
     func_020113D0(c, (int)func_0215C69C);
 }

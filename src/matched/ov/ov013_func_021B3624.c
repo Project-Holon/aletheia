@@ -1,5 +1,5 @@
 /*
- * function: func_021B3624
+ * function: VCT_DSP_MixSaturated
  * address:  0x021B3624
  * packet:   pkt_ov013_021B3624
  * region:   ov013
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 
 #define CLAMP16(v) ((v) > 0x7fff ? 0x7fff : ((v) < -0x8000 ? -0x8000 : (v)))
 
-void func_021B3624(s16 *a, s16 *b, s16 *d, u32 len)
+void VCT_DSP_MixSaturated(s16 *a, s16 *b, s16 *d, u32 len)
 {
     u32 i;
     u32 n;

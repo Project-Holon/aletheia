@@ -1,5 +1,5 @@
 /*
- * function: func_0201A858
+ * function: POKE_REGULATION_NextOrder
  * address:  0x0201A858
  * packet:   pkt_0201A858
  * region:   arm9
@@ -19,13 +19,13 @@
  * "guard chain sharing one exit block" spelling, not a chain of ifs.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A858.c \
- *       --func func_0201A858 --addr 0x0201A858 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_REGULATION_NextOrder.c \
+ *       --func POKE_REGULATION_NextOrder --addr 0x0201A858 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
 
-int func_0201A858(u8 *a)
+int POKE_REGULATION_NextOrder(u8 *a)
 {
     a[5]++;
     while (a[0] <= 6) {

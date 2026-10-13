@@ -1,5 +1,5 @@
 /*
- * function: func_02013160
+ * function: BTL_SETUP_ApplyRegulation
  * address:  0x02013160
  * packet:   pkt_02013160
  * region:   arm9
@@ -13,7 +13,7 @@
  *   func_0200AE54   0x0200AE54  thumb
  *   func_0200B040   0x0200B040  thumb
  *   func_0201A2A8   0x0201A2A8  thumb
- *   func_0201A30C   0x0201A30C  thumb
+ *   POKE_REGULATION_ResetPartyNicknames   0x0201A30C  thumb
  *
  * btl_setup.c.  The per-battle settings copier: two timer fields in seconds,
  * a name block, a three-way flag decision, and a pass over the four +0x24
@@ -56,13 +56,13 @@
  *
  * EXACT*: all 170 code bytes reproduce (4 of 4 relocation sites resolved);
  * the inferred extent ran two bytes long only on the `movs r0, r0` alignment
- * pad at 0x0201320A before func_0201320C.  Never a byte difference.
+ * pad at 0x0201320A before BTL_SETUP_InitCommFieldSituation.  Never a byte difference.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013160.c \
- *       --func func_02013160 --addr 0x02013160 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_ApplyRegulation.c \
+ *       --func BTL_SETUP_ApplyRegulation --addr 0x02013160 --cc 1.1p1 --thumb
  */
 #include "../include/Obj01199.h"
 #include "../include/Obj08746.h"
@@ -76,9 +76,9 @@ extern u32 func_0200AE54(struct Reg *p, u32 id);
 struct RegAC;
 extern void func_0200B040(struct Reg *p, struct RegAC *out);
 extern void func_0201A2A8(void *a0, void *a1);
-extern void func_0201A30C(void *a0, void *a1, u32 c);
+extern void POKE_REGULATION_ResetPartyNicknames(void *a0, void *a1, u32 c);
 
-void func_02013160(u8 *o, void *a1, u32 a2)
+void BTL_SETUP_ApplyRegulation(u8 *o, void *a1, u32 a2)
 {
     u32 bit = 0x10;
     u32 sec = 0x3c;
@@ -104,7 +104,7 @@ void func_02013160(u8 *o, void *a1, u32 a2)
     for (i = 0; i < 4; i++) {
         u8 *e = o + i * 4;
         if (((struct Obj08746 *)e)->f24 != 0) {
-            func_0201A30C(a1, (void *)(((struct Obj08746 *)e)->f24), a2);
+            POKE_REGULATION_ResetPartyNicknames(a1, (void *)(((struct Obj08746 *)e)->f24), a2);
             func_0201A2A8(a1, (void *)(((struct Obj08746 *)e)->f24));
         }
     }

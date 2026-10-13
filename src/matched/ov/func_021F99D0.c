@@ -12,6 +12,7 @@
  * symbols:
  *   func_02202744  0x02202744  thumb  ov135
  *   func_022029D4  0x022029D4  thumb  ov135
+ *   BGWINFRM_Delete  0x0202CA0C  thumb  arm9
  *
 
  *
@@ -27,13 +28,13 @@ typedef signed short s16;
 struct WinMgr;
 extern void func_02202744(u8 *p);
 extern void func_022029D4(u8 *p);
-extern void func_0202CA0C(struct WinMgr *mgr);
+extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern u32 func_020307B0(void *p);
 
 void func_021F99D0(u8 *p)
 {
     func_02202744(p + 0x7c);
     func_022029D4(*(u8 * *)&((struct Obj12206 *)p)->f34);
-    func_0202CA0C(*(struct WinMgr * *)&((struct Obj12206 *)p)->f18);
+    BGWINFRM_Delete(*(struct WinMgr * *)&((struct Obj12206 *)p)->f18);
     func_020307B0((void *)((u32)p));
 }

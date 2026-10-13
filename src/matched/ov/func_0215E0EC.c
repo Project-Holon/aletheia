@@ -15,7 +15,7 @@
  *   func_0215A5DC  0x0215A5DC  thumb  ov010
  *   func_0215A5E4  0x0215A5E4  thumb  ov010
  *   func_02012138  0x02012138  thumb
- *   func_02012F80  0x02012F80  thumb
+ *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   func_02026454  0x02026454  thumb
  *   func_02026474  0x02026474  thumb
  */
@@ -30,7 +30,7 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
-extern int func_02012F80(char *base);
+extern int GAME_DATA_GetExternalWork(char *base);
 extern u32 func_02026454(void *obj);
 extern u32 func_02026474(void *obj);
 
@@ -55,7 +55,7 @@ loc_0215E104:
     a0 = func_02012138(v1);
 loc_0215E10C:
 t5 = a0 + 0;
-    a0 = func_02012F80(v2);
+    a0 = GAME_DATA_GetExternalWork(v2);
 loc_0215E114:
 t4 = a0 + 0;
 a0 = t5 + 0;

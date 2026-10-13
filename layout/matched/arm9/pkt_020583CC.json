@@ -30,7 +30,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -proc arm7tdmi -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0205841C"
+    "SPLRandom_VecFx32_XY"
+   ],
+   "addresses": [
+    "0x0205841C"
    ]
   }
  ]

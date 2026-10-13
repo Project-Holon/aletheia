@@ -17,7 +17,7 @@
  *   func_021EC000 0x021EC000 thumb
  *   func_021EBFEC 0x021EBFEC thumb
  *   func_021ED2F4 0x021ED2F4 thumb
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021DF1DC 0x021DF1DC thumb
  *   func_021DF228 0x021DF228 thumb
  *   func_021DDE80 0x021DDE80 thumb
@@ -49,7 +49,7 @@ extern void func_021EC000(char *w, int i, int v);
 typedef unsigned int   u32;
 extern u32 func_021EBFEC(char *p, int i);
 extern void func_021ED2F4(char *w);
-extern unsigned func_02035CB8(unsigned *outA, unsigned *outB);
+extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
 extern int func_021DF1DC(short x, int y);
 extern int func_021DF228(short x, short y, const unsigned char *r);
 extern const unsigned char d_021EF79C[];
@@ -90,7 +90,7 @@ int func_021E0FD8(unsigned char *p)
         b->state = 2;
         break;
     case 2:
-        if (func_02035CB8(&x, &y) == 0) {
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             unsigned first;
             unsigned r;
             int back;
@@ -143,7 +143,7 @@ int func_021E0FD8(unsigned char *p)
             b->timer = 0x10;
             b->state = 2;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021E0FB0(WORK(p), x, y);
         break;
     case 4:
@@ -151,7 +151,7 @@ int func_021E0FD8(unsigned char *p)
             b->timer = 0x10;
             b->state = 2;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021E0FB0(WORK(p), x, y);
         break;
     case 5:

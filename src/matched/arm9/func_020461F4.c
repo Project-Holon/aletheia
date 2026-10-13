@@ -1,5 +1,5 @@
 /*
- * function: func_020461F4
+ * function: SYSTEMFONT_Load
  * address:  0x020461F4
  * packet:   pkt_020461F4
  * region:   arm9
@@ -14,10 +14,10 @@
  *   g_020A08D0         0x020A08D0  data
  *   func_020461F4_File 0x020A7E98  data
  *   func_02030734      0x02030734  arm
- *   func_020463E0      0x020463E0  arm
+ *   SYSTEMFONT_SetColors      0x020463E0  arm
  *   func_020788AC      0x020788AC  arm
  *   func_02078C18      0x02078C18  arm
- *   func_02078C28      0x02078C28  arm
+ *   FS_GetLength      0x02078C28  arm
  *   func_02078B70      0x02078B70  arm
  *   func_02078A80      0x02078A80  arm
  *   OS_Terminate       0x02088234  arm
@@ -52,14 +52,14 @@
  * constant would make the file EXACT by reading the answer out of the
  * bytes under test, which is exactly what the honesty rule forbids.
  *
- * Consequence for the chain: src/pending/func_0204E130.c (fan-in 121) was
+ * Consequence for the chain: src/pending/TEXTPRINT_Init.c (fan-in 121) was
  * blocked only on 0x020461F4, and the `matched` class needs an EXACT entry
  * here, so it stays at MATCH too.  Both unstick together if a second
  * reference to 0x020A08D0 turns up, most likely in an overlay's pool.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020461F4.c \
- *       --func func_020461F4 --addr 0x020461F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/SYSTEMFONT_Load.c \
+ *       --func SYSTEMFONT_Load --addr 0x020461F4 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Rec02046300.h"
@@ -78,18 +78,18 @@ extern struct Rec02046300 *g_02146A58;
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_020463E0(u32 a, u32 b);
+extern void  SYSTEMFONT_SetColors(u32 a, u32 b);
 extern void  func_020788AC(struct File020461F4 *f);
 extern u32   func_02078C18(struct File020461F4 *f, u32 id);
 struct FSFile;
-extern u32 func_02078C28(struct FSFile *a0);
+extern u32 FS_GetLength(struct FSFile *a0);
 typedef signed int     s32;
 struct FSFile;
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 extern void  func_02078A80(struct File020461F4 *f);
 extern void  OS_Terminate(void);
 
-void func_020461F4(u32 id)
+void SYSTEMFONT_Load(u32 id)
 {
     struct File020461F4 file;
     u32 size;
@@ -103,7 +103,7 @@ void func_020461F4(u32 id)
     if (id != 0) {
         func_020788AC(&file);
         if (func_02078C18(&file, id) == 1) {
-            size = func_02078C28((struct FSFile *)(&file));
+            size = FS_GetLength((struct FSFile *)(&file));
             g_02146A58->data = func_02030734(0, size, 0, func_020461F4_File,
                                              77);
             func_02078B70((struct FSFile *)(&file), g_02146A58->data, size);
@@ -116,6 +116,6 @@ void func_020461F4(u32 id)
     } else {
         g_02146A58->data = (void *)g_020A08D0;
         g_02146A58->builtin = 1;
-        func_020463E0(1, 15);
+        SYSTEMFONT_SetColors(1, 15);
     }
 }

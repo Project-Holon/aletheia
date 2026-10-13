@@ -1,6 +1,6 @@
 /*
  * file:     unit_0219E218.c
- * function: func_0219E218
+ * function: SBServerGetPublicQueryPortNBO
  * address:  0x0219E218
  * packet:   pkt_02155168
  * region:   ov009
@@ -15,7 +15,7 @@
 
 #include "unit_0219E1EC_types.h"
 
-unsigned short func_0219E218(const SBServer *server)
+unsigned short SBServerGetPublicQueryPortNBO(const SBServer *server)
 {
     return server->publicport;
 }

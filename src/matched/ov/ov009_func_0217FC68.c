@@ -1,5 +1,5 @@
 /*
- * function: func_0217FC68
+ * function: B64InitEncodeStream
  * address:  0x0217FC68
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Stores the three argument words at the object.
  */
 
-void func_0217FC68(int *p, int a, int b, int c)
+void B64InitEncodeStream(int *p, int a, int b, int c)
 {
     p[0] = a;
     p[1] = b;

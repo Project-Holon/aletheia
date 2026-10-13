@@ -16,16 +16,16 @@
  * text in this header that asks for the double assignment is superseded.
  *
  * symbols:
- *   func_0201DE00  0x0201DE00  thumb
- *   func_0201DE18  0x0201DE18  thumb
+ *   GF_FONT_GetTextColor  0x0201DE00  thumb
+ *   GF_FONT_IsTextColorDifferent  0x0201DE18  thumb
  *   func_0201DD78  0x0201DD78  thumb
  *   func_020870D0  0x020870D0  arm
- *   func_0201C974  0x0201C974  thumb
+ *   PRINTSYS_PrintStep  0x0201C974  thumb
  *   func_0201D7C4  0x0201D7C4  thumb
  *
  * printsys.c: the per-frame print pump.  Bumps the frame counter at +6,
  * saves the current text colour, applies the head request's colour when its
- * 4-bit kind is 0 or 2, then runs glyphs through func_0201C974 until the
+ * 4-bit kind is 0 or 2, then runs glyphs through PRINTSYS_PrintStep until the
  * string ends or the tick budget at +8 (func_020870D0 is OS_GetTick) runs
  * out.  On string end it pops the request (func_0201D7C4) and moves the
  * glyph cursor to the next record's text in the byte ring at +0x18,
@@ -38,7 +38,7 @@
  * `off + 0x1C` in place and hoists the ring-size load between the two
  * shifts; the named-local spelling keeps the image's
  * `lsls r0, r7 / lsrs r1, r0 / ldrh r0, [r5, #4]` order.  History in
- * docs/notes/sub_0201C4E4.c.txt.
+ * docs/notes/PRINTSYS_QUE_Main.c.txt.
  */
 
 typedef unsigned char       u8;
@@ -70,12 +70,12 @@ struct PrintSys {
     u8  buf[4];
 };
 
-extern void  func_0201DE00(u8 *r, u8 *g, u8 *b);
-extern u32   func_0201DE18(u32 r, u32 g, u32 b);
+extern void  GF_FONT_GetTextColor(u8 *r, u8 *g, u8 *b);
+extern u32   GF_FONT_IsTextColorDifferent(u32 r, u32 g, u32 b);
 extern void  func_0201DD78(u32 r, u32 g, u32 b);
 extern u64   func_020870D0(void);
 struct PrintCtx;
-extern u16 *func_0201C974(struct PrintCtx *c, u16 *p, u32 f);
+extern u16 *PRINTSYS_PrintStep(struct PrintCtx *c, u16 *p, u32 f);
 extern void *func_0201D7C4(struct PrintSys *p, void *q);
 
 static inline u16 Wrap(struct PrintSys *ps, u16 o)
@@ -110,7 +110,7 @@ u32 func_0201C4E4(struct PrintSys *ps)
     if (ps->unk10 == 0) {
         return 1;
     }
-    func_0201DE00(&col[2], &col[1], &col[0]);
+    GF_FONT_GetTextColor(&col[2], &col[1], &col[0]);
     saved = (u16)(((col[2] & 0x1F) << 10) | ((col[1] & 0x1F) << 5) |
                   (col[0] & 0x1F));
     go = 0;
@@ -121,7 +121,7 @@ u32 func_0201C4E4(struct PrintSys *ps)
         go = 1;
     }
     if (go != 0) {
-        if (func_0201DE18(r, g, b) != 0) {
+        if (GF_FONT_IsTextColorDifferent(r, g, b) != 0) {
             func_0201DD78(r, g, b);
         }
     }
@@ -133,13 +133,13 @@ u32 func_0201C4E4(struct PrintSys *ps)
                 rr = (u8)((ps->unk10->unk0E >> 10) & 0x1F);
                 gg = (u8)((ps->unk10->unk0E >> 5) & 0x1F);
                 bb = (u8)(ps->unk10->unk0E & 0x1F);
-                if (func_0201DE18(rr, gg, bb) != 0) {
+                if (GF_FONT_IsTextColorDifferent(rr, gg, bb) != 0) {
                     func_0201DD78(rr, gg, bb);
                 }
                 ps->unk10->kind = 2;
             }
             while (ps->unk14[0] != 0xFFFF) {
-                ps->unk14 = func_0201C974((struct PrintCtx *)ps->unk10, ps->unk14, 1);
+                ps->unk14 = PRINTSYS_PrintStep((struct PrintCtx *)ps->unk10, ps->unk14, 1);
                 if (func_020870D0() - t0 > ps->unk08) {
                     stop = 1;
                     break;

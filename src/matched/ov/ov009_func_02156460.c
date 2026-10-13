@@ -1,5 +1,5 @@
 /*
- * function: func_02156460
+ * function: DWC_RAP_GetErrorMessageClass
  * address:  0x02156460
  * packet:   pkt_ov009_02156460
  * region:   ov009
@@ -22,7 +22,7 @@ extern char d_021A1C5C[];
 typedef unsigned int   u32;
 void func_02034714(const char *expr, u32 line, const char *file);
 
-int func_02156460(int err, int kind)
+int DWC_RAP_GetErrorMessageClass(int err, int kind)
 {
     int d100 = err / 100;
     int d1000 = err / 1000;

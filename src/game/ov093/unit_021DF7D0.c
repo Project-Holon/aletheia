@@ -21,71 +21,58 @@
  *   d_021F170C     0x021F170C  data   ov093  a4
  *   d_021F15AC     0x021F15AC  data    a4
  */
-typedef struct Word { unsigned int v; } Word;
+#include "unit_021DF3A4_types.h"
 
-typedef struct Rec {
-    int f00;
-    int f04;
-    Word f08;
-    unsigned char pad0c[3];
-    unsigned char id;
-} Rec;
+extern const BtlEventHandler d_021F170C[];
+extern const BtlEventHandler d_021F15AC[];
 
-void func_021DF93C(int, int, int, int);
-extern int func_021D775C(int key);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
-extern Word func_021D7D18(int x);
-void func_021DF7D0(int a, int b, int c);
-int *func_021DF7DC(int *p);
-void func_021DF7E8(int a, int b, int c);
-void func_021DF7F4(void *self, void *q, int id);
-int *func_021DF834(int *p);
-extern int d_021F170C[];
-extern int d_021F15AC[];
+void func_021DF7D0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF7DC(int *handlerCount);
+void func_021DF7E8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DF7F4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF834(int *handlerCount);
 
-
-void func_021DF7D0(int a, int b, int c)
+/* Sharp Beak. */
+void func_021DF7D0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 2);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_FLYING);
 }
 
-
-int *func_021DF7DC(int *p)
+/* Poison Barb: two entries. */
+const BtlEventHandler *func_021DF7DC(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F170C;
 }
 
-
-void func_021DF7E8(int a, int b, int c)
+/* Poison Barb. */
+void func_021DF7E8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 3);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_POISON);
 }
-
-
 
 /*
- * Twin of func_021DF548 with kind 5.
+ * Poison Barb, Fling: poison the target. Same shape as the Light Ball
+ * version, with the poison condition.
  */
-void func_021DF7F4(void *self, void *q, int id)
+void func_021DF7F4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    Rec *r;
-    unsigned char tag;
+    BtlAddSickCmd *cmd;
+    unsigned char flingerId;
 
-    if (id != func_021D775C(2))
+    if (pokeId != func_021D775C(BTL_EVAR_POKE_ID))
         return;
-    tag = func_021D775C(3);
-    r = (Rec *)func_021C88A4(q, 12, tag);
-    r->id = id;
-    r->f04 = 5;
-    r->f08 = func_021D7D18(5);
-    func_021C88C8(q, r);
+    flingerId = func_021D775C(BTL_EVAR_ATTACKER_ID);
+    cmd = (BtlAddSickCmd *)func_021C88A4(flow, BTL_CMD_KIND_ADD_SICK, flingerId);
+    cmd->pokeId = pokeId;
+    cmd->sickKind = TKS_SICK_POISON;
+    cmd->sickCont = func_021D7D18(TKS_SICK_POISON);
+    func_021C88C8(flow, cmd);
 }
 
-
-int *func_021DF834(int *p)
+/* Never-Melt Ice. */
+const BtlEventHandler *func_021DF834(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F15AC;
 }

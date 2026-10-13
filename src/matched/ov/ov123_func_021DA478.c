@@ -15,13 +15,14 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_0203CD98 0x0203CD98 arm
  *   func_021B9800 0x021B9800 thumb ov114
- *   func_02156DC4 0x02156DC4 thumb ov009
+ *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   func_021DA45C 0x021DA45C thumb ov123
  *   func_021D9958 0x021D9958 thumb ov123
  *   func_021D92CC 0x021D92CC thumb ov123
  *   func_021DA308 0x021DA308 thumb ov123
  *   func_021DA434 0x021DA434 thumb ov123
  *   func_021DA034 0x021DA034 thumb ov123
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  */
 #include "../include/Obj02478.h"
 #include "../include/Obj03275.h"
@@ -40,12 +41,12 @@ struct Sub0200852CObj;
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern int func_0203CD98(void);
 extern u8 *func_021B9800(int,int,int);
-extern void func_02156DC4(int,int);
+extern void DWC_RAP_SetErrorCallback(int,int);
 extern void func_021DA45C(char *);
 extern char *func_021D9958(int);
 extern u8 *func_021D92CC(u32,u32);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
-extern void func_02005D90(int,int);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void func_021DA308(char *);
 extern void func_021DA434(char *);
 extern void func_021DA034(char *,int,int);
@@ -61,12 +62,12 @@ int func_021DA478(void *a,int unused,char *q)
     ((struct Obj02478 *)p)->f28=func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct Obj03275 *)q)->f0));
     if(func_0203CD98()) {
         ((struct Obj02478 *)p)->f8=func_021B9800(((struct Obj03275 *)q)->f8,((struct Obj02478 *)p)->f28,((struct Obj03275 *)q)->f4);
-        func_02156DC4((int)func_021DA45C,(int)p);
+        DWC_RAP_SetErrorCallback((int)func_021DA45C,(int)p);
     }
     ((struct Obj02478 *)p)->fC=func_021D9958(((struct Obj02478 *)p)->f0);
     ((struct Obj02478 *)p)->f10=func_021D92CC(((struct Obj02478 *)p)->f0,87);
     func_0202208C(0,1,1,0,6,1,((struct Obj02478 *)p)->f0);
-    func_02005D90(0x483,0xffff);
+    GFL_USE_CancelChangeAndPlayBgm(0x483,0xffff);
     switch(((struct Obj03275 *)q)->fC) {
     case 0: func_021DA034(p,(int)func_021DA308,0x276); break;
     case 1: func_021DA034(p,(int)func_021DA434,0x279); break;

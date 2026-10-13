@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_02175D20, func_02175D2C
+ * function: INTRUDE_COMM_ClearJoinStatus, INTRUDE_COMM_SetJoinStatus
  * address: 0x02175D20
  * packet: pkt_ov011_02175D20
  * region: ov011
@@ -12,11 +12,11 @@
  * extent: store-return follower at 02175D2C, claimed by root for this unit.
  */
 typedef unsigned char u8;
-void func_02175D20(u8 *p)
+void INTRUDE_COMM_ClearJoinStatus(u8 *p)
 {
     p[0x1a4] = 0;
 }
-void func_02175D2C(u8 *p, u8 v)
+void INTRUDE_COMM_SetJoinStatus(u8 *p, u8 v)
 {
     p[0x1a4] = v;
 }

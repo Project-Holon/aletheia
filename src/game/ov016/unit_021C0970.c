@@ -18,7 +18,7 @@
  *   func_02177EC8  0x02177EC8  arm  ov009
  *   func_021C0B7C  0x021C0B7C  arm  ov016
  *   func_021CFEBC  0x021CFEBC  arm  ov016
- *   func_021D656C  0x021D656C  arm  ov016
+ *   DWCi_IPTlUpdate  0x021D656C  arm  ov016
  *   func_021D75D0  0x021D75D0  arm  ov016
  *   func_021D6BC8  0x021D6BC8  arm  ov016
  *   func_021D7448  0x021D7448  arm  ov016
@@ -31,7 +31,7 @@
  *   OS_Terminate   0x02088234  arm
  *   func_02087244  0x02087244  arm
  *   func_0207D3E4  0x0207D3E4  arm
- *   func_0207D148  0x0207D148  arm
+ *   FX_Init  0x0207D148  arm
  *   func_0207AD04  0x0207AD04  arm
  *   func_0208A924  0x0208A924  arm
  *   func_02088788  0x02088788  arm
@@ -119,7 +119,7 @@ extern char *func_02177ED8(void);
 extern void func_02177EC8(int v);
 extern void func_021C0B7C(void);
 extern void func_021CFEBC(void);
-extern void func_021D656C();
+extern void DWCi_IPTlUpdate();
 extern void func_021D75D0(int kind);
 extern void func_021D6BC8(void);
 extern void func_021D7448(void);
@@ -130,7 +130,7 @@ extern int func_02087058(void);
 extern void OS_Terminate(void);
 extern int func_02087244(void);
 extern long func_0207D3E4(int enable);
-extern void func_0207D148(void);
+extern void FX_Init(void);
 extern void func_0207AD04(unsigned long default_dma_no);
 extern void func_0208A924(void);
 extern void func_02088788(void);
@@ -213,7 +213,7 @@ int func_021C0970(void *work, int language, int param)
     func_021C0E40((unsigned int)func_021C16F4);
     result = 0;
     do {
-        func_021D656C();
+        DWCi_IPTlUpdate();
         g_021DE56C.scene();
         func_021D75D0(result);
         func_021D6BC8();
@@ -269,7 +269,7 @@ void func_021C0AA8(void)
         OS_Terminate();
     zero = 0;
     func_0207D3E4(zero);
-    func_0207D148();
+    FX_Init();
     func_0207AD04(zero - 1);
     func_0208A924();
     func_02088788();

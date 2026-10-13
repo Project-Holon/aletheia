@@ -14,7 +14,7 @@
  *   func_021ED814  0x021ED814  thumb  ov093
  *   func_021F7B2C  0x021F7B2C  thumb  ov094
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
- *   func_02006210  0x02006210  thumb
+ *   GFL_USE_StopAllSe  0x02006210  thumb
  */
 
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ extern void func_021ED798(struct S *s);
 extern int func_021ED814(struct S *s);
 extern void func_021F7B2C(u8 *);
 extern int func_021F7EB4(void);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 
 int func_021ED158(int *st, u8 *b)
 {
@@ -42,7 +42,7 @@ int func_021ED158(int *st, u8 *b)
         break;
     case 2:
         if (func_021F7EB4() == 0) {
-            func_02006210();
+            GFL_USE_StopAllSe();
             goto inc;
         }
         break;

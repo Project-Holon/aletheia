@@ -1,5 +1,5 @@
 /*
- * function: func_0204E6E0
+ * function: FADE_GetSpeed
  * address:  0x0204E6E0
  * packet:   pkt_0204E6E0
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern void g_02146A7C(void);
 
-asm void func_0204E6E0(void)
+asm void FADE_GetSpeed(void)
 {
     ldr r0, =g_02146A7C
     ldr	r0, [r0]

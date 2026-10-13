@@ -17,7 +17,7 @@
  *   func_02040588  0x02040588  arm
  *   func_02043598  0x02043598  arm
  *   func_02006984  0x02006984  thumb
- *   func_02005E30  0x02005E30  thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   func_021B9E7C  0x021B9E7C  thumb  ov088
  *   func_021B9A14  0x021B9A14  thumb  ov088
  */
@@ -34,7 +34,7 @@ extern void func_0204363C(u32 swap);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
-extern void func_02005E30(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
 extern void func_021B9E7C(int *p, int x);
 extern void  func_021B9A14(u16 *p, u16 a, u16 b);
 
@@ -58,7 +58,7 @@ void func_021B965C(char *p)
         func_02040588(6, 1);
         func_02043598(0x10, 0);
         func_0204E720(0xC, 0x10, 0, 3);
-        func_02005E30(4);
+        GFL_USE_FadeOutBgm(4);
         func_021B9A14((u16 *)(p + 8), 8, 8);
         return;
     }

@@ -11,7 +11,7 @@
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm
- *   sub_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
@@ -26,7 +26,7 @@ extern const Disp d_021F55A4;
 extern const Entry d_021F5600[];
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern void func_0203F8F4(unsigned short);
-extern void sub_02045088(unsigned short);
+extern void BMP_WIN_Init(unsigned short);
 typedef unsigned int   u32;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
@@ -40,7 +40,7 @@ void func_021F4C0C(void *p, unsigned short heap)
     const Entry *e;
     func_02082BCC(p, 0, 4);
     func_0203F8F4(heap);
-    sub_02045088(heap);
+    BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)(&d_021F55A4));
     for (; i < 8; i++) {
         id = d_021F5600[i].id;

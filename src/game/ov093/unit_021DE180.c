@@ -31,88 +31,84 @@
  *   d_021F1564 0x021F1564 data a4
  *   d_021F1E3C     0x021F1E3C  data   ov093  a4
  */
-#include "../../matched/include/Obj10068.h"
-#include "../../matched/include/Obj21385.h"
-#include "../../matched/include/Obj21387.h"
+#include "unit_021DDC44_types.h"
 
-struct QQ;
-struct S;
-struct Unk021D62A8;
-typedef unsigned char u8;
+#define STR_ID_JABOCA_ROWAP_HIT_BACK 0x407
+#define STR_ID_WHITE_HERB_RESTORED 0x3f2
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed char    s8;
-
-extern int func_021D775C(int key);
-extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5B68(void *p);
-extern int func_021DCFF8(int a, int b);
-extern void *func_021C88A4(char *p, int a, int b);
-extern int func_021D7B74(u8 *p, u32 k);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 v);
-extern u16 func_021D70A8(struct QQ *p);
-extern void func_021C88C8(void *a, void *b);
-extern int func_021D5D68(s8 *p);
-extern void func_021DD044(void *, void *, int);
-extern int func_021D7E10(struct Unk021D62A8 *);
-void func_021DD19C(void *a, u8 *b, int c, int d);
-void func_021DE180(int a, void *b, int c, int *d);
-int *func_021DE21C(int *p);
-void func_021DE228(int a, void *b, int c, int a3);
-void func_021DE24C(int a, void *b, int c, int d);
-void func_021DE270(int a, void *b, int c);
-void func_021DE2A0(void *a, void *b, int c, u8 *a3);
-void func_021DE300(void *a, void *b, int c, u8 *d);
-void *func_021DE310(int *p);
-void func_021DE31C(int a, void *b, int c);
-void func_021DE34C(int a, int b, int c, u8 *a3);
-void func_021DE358(int a, int b, int c, u8 *d);
-void *func_021DE368(int *p);
+extern int func_021D775C(int varId);
+extern struct BtlPokeParam *func_021C7CF4(struct BtlSvFlow *flow, int pokeId);
+extern int func_021D5B68(struct BtlPokeParam *poke);
+extern int func_021DCFF8(struct BtlEventFactor *factor, int paramIndex);
+extern void *func_021C88A4(struct BtlSvFlow *flow, int kind, int pokeId);
+extern int func_021D7B74(struct BtlPokeParam *poke, u32 divisor);
+extern void func_021C8838(HandExStr *str, int strType, int strId);
+extern void func_021C8860(HandExStr *str, u32 arg);
+extern u16 func_021D70A8(struct BtlEventFactor *factor);
+extern void func_021C88C8(struct BtlSvFlow *flow, void *record);
+extern int func_021D5D68(struct BtlPokeParam *poke);
+extern void func_021DD044(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+extern int func_021D7E10(struct BtlPokeParam *poke);
+void func_021DD19C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int sickKind);
+void func_021DE180(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+int *func_021DE21C(int *handlerCount);
+void func_021DE228(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int work);
+void func_021DE24C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int work);
+void func_021DE270(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DE2A0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void func_021DE300(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void *func_021DE310(int *handlerCount);
+void func_021DE31C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DE34C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void func_021DE358(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void *func_021DE368(int *handlerCount);
 extern u8 d_021F1A84[];
 extern u8 d_021F1564[];
 extern int d_021F1E3C[];
 
 
-void func_021DE180(int a, void *b, int c, int *d)
+/*
+ * Jaboca and Rowap Berry, use event: the work word holds the attacker id plus
+ * one. Damage the attacker for max HP / item divisor unless it has fainted.
+ */
+void func_021DE180(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    u8 *m;
-    void *mon;
-    u8 k;
-    u8 j;
+    HandExDamage *record;
+    struct BtlPokeParam *attacker;
+    u8 attackerId;
+    u8 divisor;
 
-    if (c == func_021D775C(2) && *d != 0) {
-        k = *d - 1;
-        mon = func_021C7CF4(b, k);
-        if (func_021D5B68(mon) == 0) {
-            j = func_021DCFF8(a, 2);
-            m = (u8 *)func_021C88A4(b, 7, c);
-            m[6] = k;
-            ((struct Obj10068 *)m)->f4 = func_021D7B74(mon, j);
-            func_021C8838(m + 0xc, 2, 0x407);
-            func_021C8860((struct S *)(m + 0xc), m[6]);
-            func_021C8860((struct S *)(m + 0xc), c);
-            func_021C8860((struct S *)(m + 0xc), func_021D70A8((void *)a));
-            func_021C88C8(b, m);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID) && *work != 0) {
+        attackerId = *work - 1;
+        attacker = func_021C7CF4(flow, attackerId);
+        if (func_021D5B68(attacker) == 0) {
+            divisor = func_021DCFF8(factor, BTL_ITEM_PARAM_VALUE);
+            record = func_021C88A4(flow, HANDEX_KIND_DAMAGE, pokeId);
+            record->pokeId = attackerId;
+            record->amount = func_021D7B74(attacker, divisor);
+            func_021C8838(&record->str, HANDEX_STR_SET, STR_ID_JABOCA_ROWAP_HIT_BACK);
+            func_021C8860(&record->str, record->pokeId);
+            func_021C8860(&record->str, pokeId);
+            func_021C8860(&record->str, func_021D70A8(factor));
+            func_021C88C8(flow, record);
         }
     }
 }
 
 
-int *func_021DE21C(int *p)
+/* Handler table getter of White Herb. */
+int *func_021DE21C(int *handlerCount)
 {
-    *p = 6;
+    *handlerCount = 6;
     return d_021F1E3C;
 }
 
 
 /*
- * interface: func_021C7CF4 leaves r0 live for the following call; r1 carries c.
+ * interface: func_021C7CF4 leaves r0 live for the following call; r1 carries pokeId.
  */
-void func_021DE228(int a, void *b, int c, int a3) { if (func_021D5D68(func_021C7CF4(b,c))) func_021DD044((void *)a,b,c); }
+/* White Herb: act when the holder has a lowered stat stage. */
+void func_021DE228(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int work) { if (func_021D5D68(func_021C7CF4(flow, pokeId))) func_021DD044(factor, flow, pokeId); }
 
 
 
@@ -121,40 +117,44 @@ void func_021DE228(int a, void *b, int c, int a3) { if (func_021D5D68(func_021C7
  * extent: two-byte alignment padding at 021DE26E.
  * interface: original restores r3 from r7 before calling 021DE228.
  */
-void func_021DE24C(int a, void *b, int c, int d) { if (func_021D775C(12) != 6) func_021DE228(a,b,c,d); }
+/* White Herb, after-action event: check unless the turn phase is 6. */
+void func_021DE24C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int work) { if (func_021D775C(BTL_EVAR_TURN_PHASE) != 6) func_021DE228(factor, flow, pokeId, work); }
 
 
 
 
 /*
  * extent: two-byte alignment padding at 021DE29E.
- * interface: func_021C7CF4 leaves r0 live for the following call; r1 carries c.
+ * interface: func_021C7CF4 leaves r0 live for the following call; r1 carries pokeId.
  */
-void func_021DE270(int a, void *b, int c) { if(c == func_021D775C(2)) { if(func_021D5D68(func_021C7CF4(b,c))) func_021DD044((void *)a,b,c); } }
+/* White Herb, stat change event: act when the holder has a lowered stat stage. */
+void func_021DE270(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId) { if(pokeId == func_021D775C(BTL_EVAR_POKE_ID)) { if(func_021D5D68(func_021C7CF4(flow, pokeId))) func_021DD044(factor, flow, pokeId); } }
 
 
 
 
-void func_021DE2A0(void *a, void *b, int c, u8 *a3)
+/* White Herb, use event: restores the lowered stat stages and shows the message. */
+void func_021DE2A0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    u8 *m;
-    u8 *n;
+    HandExRestoreRanks *restore;
+    HandExMessage *message;
 
-    if (c == func_021D775C(2)) {
-        m = (u8 *)func_021C88A4(b, 0x12, c);
-        m[4] = c;
-        func_021C88C8(b, m);
-        n = (u8 *)func_021C88A4(b, 4, c);
-        func_021C8838(n + 4, 2, 0x3f2);
-        func_021C8860((struct S *)(n + 4), c);
-        func_021C8860((struct S *)(n + 4), func_021D70A8(a));
-        func_021C88C8(b, n);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        restore = func_021C88A4(flow, HANDEX_KIND_RESTORE_RANKS, pokeId);
+        restore->pokeId = pokeId;
+        func_021C88C8(flow, restore);
+        message = func_021C88A4(flow, HANDEX_KIND_MESSAGE, pokeId);
+        func_021C8838(&message->str, HANDEX_STR_SET, STR_ID_WHITE_HERB_RESTORED);
+        func_021C8860(&message->str, pokeId);
+        func_021C8860(&message->str, func_021D70A8(factor));
+        func_021C88C8(flow, message);
     }
 }
 
 
 
-void func_021DE300(void *a, void *b, int c, u8 *d) { if (((struct Obj21385 *)d)->f18) func_021DE2A0(a,b,c,d); }
+/* White Herb, forced use event (Fling): acts only when the item was used from outside. */
+void func_021DE300(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work) { if (work[ITEM_WORK_FORCED_USE]) func_021DE2A0(factor, flow, pokeId, work); }
 
 
 
@@ -162,28 +162,33 @@ void func_021DE300(void *a, void *b, int c, u8 *d) { if (((struct Obj21385 *)d)-
  * interface: r3 is untouched before bl; forward its incoming fourth argument.
  * lever: fourth argument keeps r3 live; three arguments give ldr/cmp r3.
  */
-void *func_021DE310(int *p) { *p=4; return d_021F1A84; }
+/* Handler table getter of Mental Herb. */
+void *func_021DE310(int *handlerCount) { *handlerCount=4; return d_021F1A84; }
 
 
 
 /*
  * extent: two-byte alignment padding at 021DE34A.
- * interface: func_021C7CF4 leaves r0 live for the following call; r1 carries c.
+ * interface: func_021C7CF4 leaves r0 live for the following call; r1 carries pokeId.
  */
-void func_021DE31C(int a, void *b, int c) { if(c == func_021D775C(2)) { if(func_021D7E10(func_021C7CF4(b,c))) func_021DD044((void *)a,b,c); } }
+/* Mental Herb: act when the holder has one of the conditions it cures. */
+void func_021DE31C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId) { if(pokeId == func_021D775C(BTL_EVAR_POKE_ID)) { if(func_021D7E10(func_021C7CF4(flow, pokeId))) func_021DD044(factor, flow, pokeId); } }
 
 
 
 
-void func_021DE34C(int a, int b, int c, u8 *a3)
+/* Mental Herb, use event: cures the volatile conditions. */
+void func_021DE34C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    func_021DD19C((void *)a, (u8 *)b, c, 0x26);
+    func_021DD19C(factor, flow, pokeId, BTL_SICK_ANY_VOLATILE);
 }
 
 
 
-void func_021DE358(int a, int b, int c, u8 *d) { if (((struct Obj21387 *)d)->f18) func_021DE34C(a,b,c,d); }
+/* Mental Herb, forced use event (Fling): acts only when the item was used from outside. */
+void func_021DE358(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work) { if (work[ITEM_WORK_FORCED_USE]) func_021DE34C(factor, flow, pokeId, work); }
 
 
 
-void *func_021DE368(int *p) { *p=1; return d_021F1564; }
+/* Handler table getter of Bright Powder. */
+void *func_021DE368(int *handlerCount) { *handlerCount=1; return d_021F1564; }

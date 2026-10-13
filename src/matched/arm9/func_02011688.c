@@ -1,5 +1,5 @@
 /*
- * function: func_02011688
+ * function: ICA_ANIME_GetTranslateAt
  * address:  0x02011688
  * packet:   pkt_02011688
  * region:   arm9
@@ -33,8 +33,8 @@
  *    image's fall-through body and its two epilogues.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02011688.c \
- *       --func func_02011688 --addr 0x02011688 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ICA_ANIME_GetTranslateAt.c \
+ *       --func ICA_ANIME_GetTranslateAt --addr 0x02011688 --cc 1.1p1 --thumb
  */
 #include "../include/Obj11246.h"
 
@@ -53,7 +53,7 @@ struct IcaAnime {
     struct Rec12 *f1c;
 };
 
-u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx)
+u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *p, struct Rec12 *dst, u32 idx)
 {
     u32 n = p->f0c;
 

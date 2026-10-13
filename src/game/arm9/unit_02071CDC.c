@@ -1,7 +1,7 @@
 /*
  * file:     unit_02071CDC.c
  * unit:     yes
- * function: func_02071CDC, func_02071DD4, func_02071EAC
+ * function: NNSi_G3dTexMtxScaleRot, NNSi_G3dTexMtxRot, NNSi_G3dTexMtxScale
  * address:  0x02071CDC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -50,9 +50,9 @@ typedef struct {
 
 extern void func_0207C930(u32 numer, u32 denom);
 extern u32 func_0207C86C(void);
-void func_02071CDC(TexMtx *pTexMtx, MatAnmResult *pMatAnm);
-void func_02071DD4(TexMtx *pTexMtx, MatAnmResult *pMatAnm);
-void func_02071EAC(TexMtx *pTexMtx, MatAnmResult *pMatAnm);
+void NNSi_G3dTexMtxScaleRot(TexMtx *pTexMtx, MatAnmResult *pMatAnm);
+void NNSi_G3dTexMtxRot(TexMtx *pTexMtx, MatAnmResult *pMatAnm);
+void NNSi_G3dTexMtxScale(TexMtx *pTexMtx, MatAnmResult *pMatAnm);
 
 /*
  * The smull/FX constructor for 0x02071B2C's family. Every quartet is
@@ -69,7 +69,7 @@ void func_02071EAC(TexMtx *pTexMtx, MatAnmResult *pMatAnm);
  * into the multiply re-associates and loses both `rsb`s.
  */
 /* Texture matrix from scale and rotation (no translation). */
-void func_02071CDC(TexMtx *pTexMtx, MatAnmResult *pMatAnm)
+void NNSi_G3dTexMtxScaleRot(TexMtx *pTexMtx, MatAnmResult *pMatAnm)
 {
     s32 widthFx, heightFx;
     s32 scaleSCos, scaleSSin, scaleTCos, scaleTSin, divResult;
@@ -119,7 +119,7 @@ void func_02071CDC(TexMtx *pTexMtx, MatAnmResult *pMatAnm)
  * constant-binding spellings. See docs/notes/func_02071EFC.c.txt.
  */
 /* Texture matrix from rotation only (scale one, no translation). */
-void func_02071DD4(TexMtx *pTexMtx, MatAnmResult *pMatAnm)
+void NNSi_G3dTexMtxRot(TexMtx *pTexMtx, MatAnmResult *pMatAnm)
 {
     s32 widthFx, heightFx;
     s32 divResult;
@@ -145,7 +145,7 @@ void func_02071DD4(TexMtx *pTexMtx, MatAnmResult *pMatAnm)
 }
 
 /* Texture matrix from scale only (no rotation, no translation). */
-void func_02071EAC(TexMtx *pTexMtx, MatAnmResult *pMatAnm)
+void NNSi_G3dTexMtxScale(TexMtx *pTexMtx, MatAnmResult *pMatAnm)
 {
     s32 offsetS, offsetT;
 

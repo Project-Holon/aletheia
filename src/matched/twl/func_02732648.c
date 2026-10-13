@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  *   NWM_GetState  0x027028B0  arm  twl
- *   func_02165A4C  0x02165A4C  arm  ov009
+ *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   WcmNwmReset  0x02731F14  arm  twl
  *   func_021659B4  0x021659B4  arm  ov009
  */
@@ -57,31 +57,31 @@ typedef struct NetWork {
     u16 txFlag;
 } NetWork;
 
-extern NetWork *func_021657C8(void);
+extern NetWork *WCMi_GetSystemWork(void);
 extern u32 NWM_GetState(void);
-extern void func_02165A4C(unsigned char phase);
+extern void WCMi_SetPhase(unsigned char phase);
 extern void WcmNwmReset(void);
 extern void func_021659B4(u32 a, void *b, u32 c, u32 d);
 
 void WcmNwmcbConnect(u16 *arg)
 {
-    NetWork *w = func_021657C8();
+    NetWork *w = WCMi_GetSystemWork();
     u32 cur = NWM_GetState();
 
     switch (arg[1]) {
     case 0:
         if (cur == 4) {
             if (w->state == 12) {
-                func_02165A4C(8);
+                WCMi_SetPhase(8);
                 WcmNwmReset();
                 return;
             }
             w->rxFlag = arg[7];
-            func_02165A4C(9);
+            WCMi_SetPhase(9);
             func_021659B4(0, w->buf, 0, 1078);
             return;
         }
-        func_02165A4C(11);
+        WCMi_SetPhase(11);
         func_021659B4(7, w->buf, 0, 1084);
         return;
     case 1:
@@ -132,19 +132,19 @@ void WcmNwmcbConnect(u16 *arg)
             }
             return;
         default:
-            func_02165A4C(11);
+            WCMi_SetPhase(11);
             func_021659B4(7, w->buf, arg[8], 1153);
             return;
         }
     case 5:
-        func_02165A4C(8);
+        WCMi_SetPhase(8);
         WcmNwmReset();
         return;
     case 2:
     case 3:
     case 4:
     default:
-        func_02165A4C(11);
+        WCMi_SetPhase(11);
         func_021659B4(7, w->buf, 0, 1173);
         return;
     }

@@ -24,7 +24,7 @@
  *   func_02006148  0x02006148  thumb
  *   func_02006224  0x02006224  thumb
  *   func_020061F8  0x020061F8  thumb
- *   func_020062BC  0x020062BC  thumb
+ *   GFL_USE_SetSeSlotVolume  0x020062BC  thumb
  *   func_020061E4  0x020061E4  thumb
  *   func_0218ECE4  0x0218ECE4  thumb  ov021
  *   func_021A34EC  0x021A34EC  thumb  ov021
@@ -47,7 +47,7 @@ typedef struct Obj {
 extern int func_02006148(u32 a0);
 extern int func_02006224(u32 a0);
 extern void func_020061F8(int i);
-extern void func_020062BC(int i, u32 level);
+extern void GFL_USE_SetSeSlotVolume(int i, u32 level);
 extern void func_020061E4(u32 id);
 extern void func_0218ECE4(int, int *);
 typedef unsigned char  u8;
@@ -73,7 +73,7 @@ void func_021F3B40(Obj *o, int h, u8 *a2)
                 func_020061F8(func_02006148(o->se));
                 o->state = 0;
             } else {
-                func_020062BC(func_02006148(o->se), n);
+                GFL_USE_SetSeSlotVolume(func_02006148(o->se), n);
             }
         }
     }

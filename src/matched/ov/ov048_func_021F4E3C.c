@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020111E8  0x020111E8  thumb
+ *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
-extern u32 func_020111E8(void);
+extern u32 GPOWER_GetSpecialPowerId(void);
 
 int func_021F4E3C(int *p)
 {
     if (p[0] == 0)
         return 1;
-    if (p[0] == func_020111E8())
+    if (p[0] == GPOWER_GetSpecialPowerId())
         return 1;
     return 0;
 }

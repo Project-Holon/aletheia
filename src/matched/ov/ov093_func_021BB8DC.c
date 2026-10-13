@@ -11,7 +11,7 @@
  * symbols:
  *   func_021D5844 0x021D5844 thumb ov093
  *   func_02017E1C 0x02017E1C thumb
- *   func_020271DC 0x020271DC thumb
+ *   GAME_BEACON_SetPokeCapture 0x020271DC thumb
  *   func_021BA1B4 0x021BA1B4 thumb ov093
  * evidence: caller narrows func_02017E1C result to u16 before 020271DC.
  */
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_021D5844(void *);
 extern u32 func_02017E1C(void *, u32, u32);
-extern void func_020271DC(u16);
+extern void GAME_BEACON_SetPokeCapture(u16);
 extern void func_021BA1B4(char **p, int i);
 void func_021BB8DC(u8 *p, u32 *q) {
-    func_020271DC(func_02017E1C(func_021D5844(q),5,0));
+    GAME_BEACON_SetPokeCapture(func_02017E1C(func_021D5844(q),5,0));
     func_021BA1B4((char **)(*(u8 * *)&((struct Obj13295 *)p)->fC),7);
     func_021BA1B4((char **)(*(u8 * *)&((struct Obj13295 *)p)->fC),0x54);
 }

@@ -14,7 +14,7 @@
  *   func_02012138  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
  *   func_02026400  0x02026400  thumb
- *   func_0201213C  0x0201213C  thumb
+ *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
  *   func_02159144  0x02159144  thumb  ov010
  */
 
@@ -27,7 +27,7 @@ struct Comm;
 struct Ctx;
 extern u32 func_02026454(void *obj);
 extern void func_02026400(struct Comm *p);
-extern void func_0201213C(struct Ctx *p, u32 v);
+extern void GAMESYSTEM_SetCommBlocked(struct Ctx *p, u32 v);
 extern void func_02159144(int v);
 
 int func_0215F238(void *a, void *b)
@@ -48,7 +48,7 @@ int func_0215F238(void *a, void *b)
     case 4:
         break;
     }
-    func_0201213C(t, 1);
+    GAMESYSTEM_SetCommBlocked(t, 1);
     func_02159144(0xb);
     return 1;
 }

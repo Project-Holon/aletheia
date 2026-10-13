@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02084EB0",
+   "name": "OS_ReadOwnerOfLockWord",
    "address": "0x02084EB0",
    "kind": "game",
    "region": "arm9",

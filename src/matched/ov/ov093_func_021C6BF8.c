@@ -14,10 +14,10 @@
  *   docs/idioms/a-colour-swap-no-source-form-fixes-can-be-opt-lifetimes-off.md.
  *   Source is unchanged from the old draft. Plain literals already (11952, 0x2c).
  *   Callees: func_021D5F14 returns u8, func_021D7930 takes u8 (both matched);
- *   sub_0201BD28 and sub_0201C284 return u32 (matched arm9 units).
+ *   sub_0201BD28 and WAZA_TOOL_IsAlwaysCritical return u32 (matched arm9 units).
  * symbols:
  *   sub_0201BD28  0x0201BD28  thumb
- *   sub_0201C284  0x0201C284  thumb
+ *   WAZA_TOOL_IsAlwaysCritical  0x0201C284  thumb
  *   func_021D74F8  0x021D74F8  thumb  ov093
  *   func_021D5440  0x021D5440  thumb  ov093
  *   func_021D75EC  0x021D75EC  thumb  ov093
@@ -46,7 +46,7 @@ extern u8 func_021D5F14(struct UtilWork *p);
 extern int func_021D7930(int i);
 extern int func_021B911C(int a, int b);
 extern u32 sub_0201BD28(u16 id, u32 field);
-extern u32 sub_0201C284(u16 id);
+extern u32 WAZA_TOOL_IsAlwaysCritical(u16 id);
 
 #pragma opt_lifetimes off
 int func_021C6BF8(u8 *p, u8 *a, u8 *b, u16 q)
@@ -63,7 +63,7 @@ int func_021C6BF8(u8 *p, u8 *a, u8 *b, u16 q)
     func_021D7630(0x41, 0);
     func_021D70F0(p, 0x36);
     if (func_021D775C(0x41) == 0) {
-        if (sub_0201C284(q)) {
+        if (WAZA_TOOL_IsAlwaysCritical(q)) {
             r = 1;
         } else {
             n = func_021D775C(0x2c);

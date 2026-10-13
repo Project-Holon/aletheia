@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204968C
+ * function: ARC_UTIL_UploadBgChar
  * address:  0x0204968C
  * packet:   pkt_0204968C
  * region:   arm9
@@ -15,7 +15,7 @@
  *   func_02040B1C       0x02040B1C  arm
  *   ENV_SetResourceSet  0x020307B0  arm
  *
- * The write-into-an-existing-slot counterpart of src/matched/sub_0204979C.c:
+ * The write-into-an-existing-slot counterpart of src/matched/ARC_UTIL_RegisterObjChar.c:
  * the same func_02062A4C lookup and the same "size of zero means the object's
  * own size at +0x10" rule, but the result goes straight into func_02040B1C
  * instead of coming back as a packed handle, and the caller's handle is
@@ -27,8 +27,8 @@
  * mask written in the source.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204968C.c \
- *       --func sub_0204968C --addr 0x0204968C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_UTIL_UploadBgChar.c \
+ *       --func ARC_UTIL_UploadBgChar --addr 0x0204968C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -46,7 +46,7 @@ extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void ENV_SetResourceSet(void *p);
 
-u32 sub_0204968C(void *buf, u32 a1, u32 a2, u32 a3, u32 unused)
+u32 ARC_UTIL_UploadBgChar(void *buf, u32 a1, u32 a2, u32 a3, u32 unused)
 {
     struct Res *res;
 

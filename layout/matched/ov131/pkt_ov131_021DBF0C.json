@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DBF0C",
+   "name": "P_STA_OAM_FreeCellRes",
    "address": "0x021DBF0C",
    "kind": "game",
    "region": "ov131",

@@ -20,7 +20,7 @@
  *   func_0202C794  0x0202C794  thumb
  *   func_021A1BE4  0x021A1BE4  thumb  ov021
  *   func_021A1BDC  0x021A1BDC  thumb  ov021
- *   func_020129A0  0x020129A0  thumb
+ *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
  */
 
 typedef unsigned char u8;
@@ -39,7 +39,7 @@ extern u16 func_02188C9C(u8 *p);
 extern u8 func_0202C794(void *a0, u32 a1);
 extern void func_021A1BE4(int a, int b);
 extern void func_021A1BDC(int a, int b);
-extern void func_020129A0(struct BigObj *p, u8 v);
+extern void GAME_DATA_SetSubscreenMode(struct BigObj *p, u8 v);
 
 int func_02166F1C(void *a, void *b)
 {
@@ -62,6 +62,6 @@ int func_02166F1C(void *a, void *b)
         func_021A1BE4(r7, r4);
     else
         func_021A1BDC(r7, r4);
-    func_020129A0(s0, r4 & 0xff);
+    GAME_DATA_SetSubscreenMode(s0, r4 & 0xff);
     return 0;
 }

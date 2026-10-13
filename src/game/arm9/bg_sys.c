@@ -31,25 +31,25 @@
  *   tbl_020A08B6   0x020A08B6  data a2
  *   tbl_020A1B38   0x020A1B38  data
  *   func_020403F4  0x020403F4  arm
- *   func_02033C9C  0x02033C9C  arm
+ *   AREAMAN_Delete  0x02033C9C  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02033CC0  0x02033CC0  arm
  *   func_02033F64  0x02033F64  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   func_020341F0  0x020341F0  arm
  *   sub_020416B8   0x020416B8  arm
- *   func_0203422C  0x0203422C  arm
+ *   AREAMAN_Free  0x0203422C  arm
  *   func_0207D4B0  0x0207D4B0  arm
  *   func_0207D518  0x0207D518  arm
- *   func_0204349C  0x0204349C  arm
- *   func_02043558  0x02043558  arm
- *   func_020434CC  0x020434CC  arm
- *   func_02043588  0x02043588  arm
+ *   BG_SYS_ClearMainBgPlanes  0x0204349C  arm
+ *   BG_SYS_ClearSubBgPlanes  0x02043558  arm
+ *   BG_SYS_ClearMainPlanes  0x020434CC  arm
+ *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   sub_020307B0   0x020307B0  arm
  *   func_020434DC  0x020434DC  arm
  *   func_02043598  0x02043598  arm
  *   func_02042360  0x02042360  arm
- *   func_0203D814  0x0203D814  arm
+ *   GFL_NET_SetIrcParams  0x0203D814  arm
  *   g_BgConfig     0x02146A44  data
  *   func_02040860  0x02040860  arm
  *   func_0207D59C  0x0207D59C  arm
@@ -301,24 +301,24 @@ extern void VEC_Normalize(const struct VecFx32 *a, struct VecFx32 *out);
 extern fx32 VEC_DotProduct(const struct VecFx32 *a, const struct VecFx32 *b);
 extern u32 func_020307B0(void *p);
 extern struct AreaMan *func_02033C00(u32 size, u32 heap);
-extern u32 func_02033C9C(void *a);
+extern u32 AREAMAN_Delete(void *a);
 extern s32 func_02033CC0(struct AreaMan *p, u32 start, u32 limit, u32 len);
 extern u32 func_02033F64(u32 arena, u32 a, u32 b, u32 c);
 extern s32 func_020341F0(struct AreaMan *p, u32 start, u32 len);
-extern void func_0203422C(struct AreaMan *p, u32 start, s32 len);
+extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 extern u32 func_0207D4B0(u32 a, u32 b, u32 c);
 extern u32 func_0207D518(u32 a);
-extern void func_0204349C(void);
-extern void func_02043558(void);
-extern void func_020434CC(u32 handle);
-extern void func_02043588(u32 handle);
+extern void BG_SYS_ClearMainBgPlanes(void);
+extern void BG_SYS_ClearSubBgPlanes(void);
+extern void BG_SYS_ClearMainPlanes(u32 handle);
+extern void BG_SYS_ClearSubPlanes(u32 handle);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern void func_02040618(u32 bgId, u32 which, u32 value);
 extern void func_02042360(struct Bg *p, u32 op, u32 value);
 extern void func_02042FF8(u32 bgId, u32 offset, u32 size);
 extern void func_02082A48(u32 value, void *dest, u32 size);
-extern void func_0203D814(u32 x, u32 y);
+extern void GFL_NET_SetIrcParams(u32 x, u32 y);
 extern void func_02040860(u32 layer, struct Mtx22 *a, u32 b, u32 c);
 extern void func_0207D59C(void *reg, struct Mtx22 *a, u32 b, u32 c, u32 x, u32 y);
 extern void func_020834C0(void *dest, const void *src, u32 size);
@@ -1374,8 +1374,8 @@ void func_0203F9B4(void)
     for (i = 0; i < 8; i++) {
         func_020403F4(i);
     }
-    func_02033C9C(g_02146A44->unk_168);
-    func_02033C9C(g_02146A44->unk_16c);
+    AREAMAN_Delete(g_02146A44->unk_168);
+    AREAMAN_Delete(g_02146A44->unk_16c);
     func_020307B0(g_02146A44);
     g_02146A44 = 0;
 }
@@ -1466,14 +1466,14 @@ void func_0203FB44(u32 layer, u32 offset, u32 size)
     case 1:
     case 2:
     case 3:
-        func_0203422C(p->unk_168, offset,
+        AREAMAN_Free(p->unk_168, offset,
                       ((size % unit) ? 1 : 0) + size / unit);
         break;
     case 4:
     case 5:
     case 6:
     case 7:
-        func_0203422C(p->unk_16c, offset,
+        AREAMAN_Free(p->unk_16c, offset,
                       ((size % unit) ? 1 : 0) + size / unit);
         break;
     }
@@ -1502,8 +1502,8 @@ void func_0203FC28(struct DispConfig *cfg)
     func_0207D518(cfg->unk_08);
     REG_DISPCNT &= ~0x38000000;
     REG_DISPCNT &= ~0x07000000;
-    func_0204349C();
-    func_02043558();
+    BG_SYS_ClearMainBgPlanes();
+    BG_SYS_ClearSubBgPlanes();
 }
 
 
@@ -1526,9 +1526,9 @@ void func_0203FC28(struct DispConfig *cfg)
 void func_0203FC6C(const struct DispConfig *req, u32 which)
 {
     if (which == 0) {
-        func_020434CC(func_0207D4B0(req->unk_00, req->unk_04, req->unk_0c));
+        BG_SYS_ClearMainPlanes(func_0207D4B0(req->unk_00, req->unk_04, req->unk_0c));
     } else {
-        func_02043588(func_0207D518(req->unk_08));
+        BG_SYS_ClearSubPlanes(func_0207D518(req->unk_08));
     }
 }
 
@@ -2138,7 +2138,7 @@ void sub_02040588(unsigned char which, unsigned char enable)
 
 /*
  * The per-layer scroll register flush.  Closed in wave 11 by two facts:
- * func_0203D814 takes the layer's scroll pair (x, y) as its two arguments
+ * GFL_NET_SetIrcParams takes the layer's scroll pair (x, y) as its two arguments
  * (the case-1 arm keeps r0/r1 live across the register write for the call,
  * as in func_02041B94), and scrollX is read before scrollY.  The star is the
  * unlabelled follower sub_020407E8 (already EXACT in unit_020407E8.c); the
@@ -2161,7 +2161,7 @@ void sub_02040618(u32 layer, u32 a, u32 b)
         break;
     case 1:
         W(0x04000014) = (x & mask) | (hmask & (y << 16));
-        func_0203D814(x, y);
+        GFL_NET_SetIrcParams(x, y);
         break;
     case 2:
         if (g_02146A44->bgs[2].type == 0) {
@@ -2642,20 +2642,20 @@ void func_02040DA8(u32 idx, u32 count, u32 tile)
     case 0: case 1: case 2: case 3:
         unit = g_02146A44->bgs[idx].unk_17;
         if (unit == 0x20) {
-            func_0203422C(g_02146A44->unk_168,
+            AREAMAN_Free(g_02146A44->unk_168,
                           (g_02146A44->unk_170[idx] + tile * unit) >> 5, count);
         } else {
-            func_0203422C(g_02146A44->unk_168,
+            AREAMAN_Free(g_02146A44->unk_168,
                           (g_02146A44->unk_170[idx] + tile * unit) >> 5, count * 2);
         }
         break;
     case 4: case 5: case 6: case 7:
         unit = g_02146A44->bgs[idx].unk_17;
         if (unit == 0x20) {
-            func_0203422C(g_02146A44->unk_16c,
+            AREAMAN_Free(g_02146A44->unk_16c,
                           (g_02146A44->unk_170[idx] + tile * unit) >> 5, count);
         } else {
-            func_0203422C(g_02146A44->unk_16c,
+            AREAMAN_Free(g_02146A44->unk_16c,
                           (g_02146A44->unk_170[idx] + tile * unit) >> 5, count * 2);
         }
         break;
@@ -3402,7 +3402,7 @@ void sub_02041B6C(u32 bit)
  * Layers 0, 1, 4 and 5 have only the plain path: pack scroll_x (+0x14) and
  * scroll_y (+0x18) into one word, low 9 bits and bits 16..24, and store it
  * to the layer's BGxOFS pair.  Layer 1 additionally tail-calls
- * func_0203D814 with that same scroll pair.
+ * GFL_NET_SetIrcParams with that same scroll pair.
  *
  * Layers 2, 3, 6 and 7 are affine-capable and first read the record's +0x1c
  * flag: zero takes the same plain path, non-zero builds a 16-byte matrix on
@@ -3432,7 +3432,7 @@ void sub_02041B6C(u32 bit)
  *     two values are spilled to [sp] and [sp,#4], which is how the diff
  *     names it.
  *
- * func_0203D814's parameter list is also pinned here: it takes the scroll
+ * GFL_NET_SetIrcParams's parameter list is also pinned here: it takes the scroll
  * pair (two u32), which the image shows as the two loads of +0x40/+0x44
  * immediately before the `bl`.  A void declaration leaves those two loads
  * with no reason to exist and loses them.
@@ -3453,7 +3453,7 @@ void func_02041B94(void)
     if (g_02146A44->unk_04 & 0x02) {
         W(0x04000014) = (SLOT(1).scrollX & m)
                       | (hm & (SLOT(1).scrollY << 16));
-        func_0203D814(SLOT(1).scrollX,
+        GFL_NET_SetIrcParams(SLOT(1).scrollX,
                       SLOT(1).scrollY);
     }
     if (g_02146A44->unk_04 & 0x04) {
@@ -4388,7 +4388,7 @@ void sub_02042FB0(u32 idx, u32 x, u32 y, u16 value)
  * arena selection by slot index (0..3 at +0x168, 4..7 at +0x16c, anything
  * else a no-op), same bias by the per-slot base at +0x190 and the same
  * round-up of the byte length to 32-byte units, but handed to
- * func_020341F0 instead of func_0203422C.
+ * func_020341F0 instead of AREAMAN_Free.
  *
  * Codegen note: the round-up flag must be spelled as the ternary
  * `(size & 0x1f) ? 1 : 0`; see sub_02043094.c for why the relational form
@@ -4428,7 +4428,7 @@ void sub_02042FF8(u32 idx, u32 offset, u32 size)
  * off 0x02146A44, slots 4..7 to the one at +0x16c, and any other index is a
  * no-op.  The byte offset is biased by the per-slot base at +0x190 and the
  * byte length rounded up, both converted to 32-byte units before
- * func_0203422C sees them.  The index is not rebased for the second arena:
+ * AREAMAN_Free sees them.  The index is not rebased for the second arena:
  * both arms read unk_190[idx] with the raw index.
  *
  * Codegen note: the round-up flag has to be spelled as the ternary
@@ -4447,7 +4447,7 @@ void sub_02043094(u32 idx, u32 offset, u32 size)
     case 3:
         {
             u32 count = ((size & 0x1f) ? 1 : 0) + (size >> 5);
-            func_0203422C(g_02146A44->unk_168,
+            AREAMAN_Free(g_02146A44->unk_168,
                           (offset + g_02146A44->unk_190[idx]) >> 5, count);
         }
         break;
@@ -4457,7 +4457,7 @@ void sub_02043094(u32 idx, u32 offset, u32 size)
     case 7:
         {
             u32 count = ((size & 0x1f) ? 1 : 0) + (size >> 5);
-            func_0203422C(g_02146A44->unk_16c,
+            AREAMAN_Free(g_02146A44->unk_16c,
                           (offset + g_02146A44->unk_190[idx]) >> 5, count);
         }
         break;
@@ -4532,7 +4532,7 @@ void func_02043130(u16 flags, u8 *buf, u32 page)
 
 /*
  * The 16-bit member of the set / add / subtract family that sub_02043264
- * and sub_020432E4 cover for the 32-bit registers: opcodes 0..2 on the
+ * and BG_SYS_ApplyCenterOp cover for the 32-bit registers: opcodes 0..2 on the
  * halfword at +0x18.  Three comparisons rather than a table, because the
  * arms are too few to be worth one; the last arm is folded into predicated
  * `ldrheq`/`subeq`/`strheq` in the fall-through block and only the first
@@ -4565,7 +4565,7 @@ void sub_02043228(struct Bg *p, u32 op, u16 value)
  * slots hold a bare `bx lr` rather than a branch, same as the out-of-range
  * default.
  *
- * The companion sub_020432E4 handles opcodes 9..14 on the two registers
+ * The companion BG_SYS_ApplyCenterOp handles opcodes 9..14 on the two registers
  * at +0x24 and +0x28; nothing in this packet covers 15 and above.
  */
 void sub_02043264(struct Bg *p, u32 op, u32 value)

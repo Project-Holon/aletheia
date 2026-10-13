@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02046FF8  0x02046FF8  arm
- *   func_02046FCC  0x02046FCC  arm
+ *   G3D_SYSTEM_CutTexture  0x02046FCC  arm
  *
  * "Build, then trim": run the builder at 0x02046FF8 over the tagged object
  * and, only if it reports success, shrink the buffer with 0x02046FCC.  The
@@ -29,13 +29,13 @@ typedef unsigned int u32;
 
 struct Tagged;
 extern int func_02046FF8(int *self);
-extern void func_02046FCC(struct Tagged *p);
+extern void G3D_SYSTEM_CutTexture(struct Tagged *p);
 
 u32 func_020470A8(void *p)
 {
     if (func_02046FF8(p) == 0) {
         return 0;
     }
-    func_02046FCC(p);
+    G3D_SYSTEM_CutTexture(p);
     return 1;
 }

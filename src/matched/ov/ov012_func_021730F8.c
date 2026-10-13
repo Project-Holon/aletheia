@@ -1,5 +1,5 @@
 /*
- * function: func_021730F8
+ * function: UNION_COMM_StoreBeacon
  * address:  0x021730F8
  * packet:   pkt_ov012_021730F8
  * region:   ov012
@@ -11,7 +11,7 @@
  * symbols:
  *   memcmp            0x0203EFC8  arm
  *   MI_CpuCopy8       0x02082D44  arm
- *   func_021731E0     0x021731E0  thumb  ov012
+ *   UNION_COMM_IsNotGroupMember     0x021731E0  thumb  ov012
  */
 
 typedef unsigned char u8;
@@ -32,9 +32,9 @@ typedef struct Entry {
 
 extern int memcmp(const void *a, const void *b, int n);
 extern void MI_CpuCopy8(const void *src, void *dst, int n);
-extern int func_021731E0(u8 *self, Entry *info, const u8 *mac);
+extern int UNION_COMM_IsNotGroupMember(u8 *self, Entry *info, const u8 *mac);
 
-int func_021730F8(u8 *self, Entry *info, const u8 *mac)
+int UNION_COMM_StoreBeacon(u8 *self, Entry *info, const u8 *mac)
 {
     int i;
     Entry *tbl;
@@ -55,7 +55,7 @@ int func_021730F8(u8 *self, Entry *info, const u8 *mac)
         }
     }
 
-    if (func_021731E0(self, info, mac) == 0)
+    if (UNION_COMM_IsNotGroupMember(self, info, mac) == 0)
         return 0;
 
     for (i = 0; i < 10; i++) {

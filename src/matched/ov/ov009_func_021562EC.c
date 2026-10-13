@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021562EC, func_0215631C, func_02156330
+ * function: DWC_RAP_GetMyAidIfConnected, DWC_RAP_OnVchatStopped, DWC_RAP_EnableLocalVchat
  * address:  0x021562EC
  * packet:   pkt_ov009_021562EC
  * region:   ov009
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   g_021A8264  0x021A8264  data  ov009  a4
- *   func_0216B838  0x0216B838  arm  ov009
+ *   DWC_GetMyAID  0x0216B838  arm  ov009
  */
 #include "../include/Obj18650.h"
 
@@ -23,26 +23,26 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u8 *g_021A8264;
-extern unsigned char func_0216B838(void);
+extern unsigned char DWC_GetMyAID(void);
 
-int func_021562EC(void)
+int DWC_RAP_GetMyAidIfConnected(void)
 {
     u8 *g = g_021A8264;
     if (g != 0) {
         u32 s = ((struct Obj18650 *)g)->f754;
         if (s == 9 || s == 10 || s == 0x12) {
-            return func_0216B838();
+            return DWC_GetMyAID();
         }
     }
     return -1;
 }
 
-void func_0215631C(void)
+void DWC_RAP_OnVchatStopped(void)
 {
     *(u32 *)(g_021A8264 + 0x76c) = 0;
 }
 
-void func_02156330(void)
+void DWC_RAP_EnableLocalVchat(void)
 {
     *(u16 *)(g_021A8264 + 0x794) = 1;
 }

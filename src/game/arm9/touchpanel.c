@@ -1,7 +1,7 @@
 /*
  * file:     touchpanel.c
  * unit:     yes
- * function: func_02035750, func_02035760, func_02035780, func_020357A0, func_020357C0, func_020357E0, func_020358A0, func_02035A60, func_02035A70, func_02035AA4, func_02035ADC, func_02035B58, func_02035BA4, func_02035BBC, func_02035C08, func_02035C20, func_02035C38, func_02035C48, func_02035C60, func_02035C70, func_02035CB8, func_02035CD8, func_02035D20, func_02035D40, func_02035D5C, func_02035D98, func_02035DC8, func_02035DD8, func_02035E08, func_02035E18, func_02035E54, func_02035E84, func_02035EB0, func_02035ECC, func_02035EE8, func_02035F38, func_020360A8, func_020360B8, func_02036254, func_02036270, func_02036290, func_020362A4, func_020362BC, func_020362DC, func_020362EC, func_0203630C, func_0203631C, func_0203633C, func_0203634C, func_02036370, func_02036390, func_020363B8, func_020363D4, func_020363F0, func_0203640C, func_02036428, func_020364D4, func_02036500, func_02036540, func_02036568, func_020365E8, func_0203660C, func_02036624, func_02036640, func_0203666C, func_02036670, func_020366A8, func_020366C0, func_020366FC, func_02036738, func_0203675C, func_020367C4, func_020368C0, func_020369C8, func_020369F8, func_02036A50, func_02036AF4, func_02036B4C, func_02036B88, func_02036B98, func_02036BD4, func_02036CA8, func_02036D64, func_02036DC8, func_02036E74, func_02036E80, func_02036EC8, func_02036F04, func_02036F24, func_02036FD8, func_02037010, func_020370C8, func_020370F4, func_02037118, func_02037154, func_02037174, func_02037190, func_020371AC, func_020371D8, func_02037200
+ * function: TOUCHPANEL_GetWork, TOUCHPANEL_ReadPointX, TOUCHPANEL_ReadPointY, TOUCHPANEL_ReadCont, TOUCHPANEL_ReadTrg, TOUCHPANEL_Create, TOUCHPANEL_MainSys, TOUCHPANEL_Main, TOUCHPANEL_HitCircle, TOUCHPANEL_HitRect, TOUCHPANEL_SearchHitTable, TOUCHPANEL_HitContSys, TOUCHPANEL_HitCont, TOUCHPANEL_HitTrgSys, func_02035C08, TOUCHPANEL_GetContSys, func_02035C38, TOUCHPANEL_GetTrgSys, func_02035C60, TOUCHPANEL_GetPointContSys, TOUCHPANEL_GetPointCont, TOUCHPANEL_GetPointTrgSys, func_02035D20, TOUCHPANEL_HitPoint, TOUCHPANEL_RequestAutoSamplingStop, TOUCHPANEL_AutoSamplingRestartSys, TOUCHPANEL_AutoSamplingRestart, TOUCHPANEL_AutoSamplingStopSys, TOUCHPANEL_AutoSamplingStop, TOUCHPANEL_RequestAutoSamplingStart, TOUCHPANEL_ClearFrameRateWork, TOUCHPANEL_SetPoint, TOUCHPANEL_SetTrg, TOUCHPANEL_SetCont, KEY_Create, KEY_MainSys, KEY_Main, KEY_ApplyControlMode, KEY_SetRepeatSpeedSys, KEY_SetRepeatSpeed, KEY_SetControlModeTableSys, KEY_SetControlModeTable, KEY_GetTrgSys, func_020362DC, KEY_GetContSys, func_0203630C, KEY_GetRepeatSys, func_0203633C, KEY_GetRepeatSpeedSys, KEY_GetRepeatSpeed, KEY_ClearFrameRateWork, KEY_SetTrg, KEY_SetCont, KEY_SetRepeat, GFL_NET_RING_BUFF_Init, GFL_NET_RING_BUFF_Write, GFL_NET_RING_BUFF_Read, GFL_NET_RING_BUFF_ReadByte, GFL_NET_RING_BUFF_ReadU16, GFL_NET_RING_BUFF_Peek, GFL_NET_RING_BUFF_GetDataSize, GFL_NET_RING_BUFF_GetFreeSize, GFL_NET_RING_BUFF_WrapPos, GFL_NET_RING_BUFF_GetWritableSize, GFL_NET_RING_BUFF_EndChange, GFL_NET_QUEUE_GetFreeNode, GFL_NET_QUEUE_IsEmpty, GFL_NET_QUEUE_GetCount, GFL_NET_QUEUE_PopList, GFL_NET_QUEUE_PutByte, GFL_NET_QUEUE_WriteHeader, GFL_NET_QUEUE_WriteNode, GFL_NET_QUEUE_Put, GFL_NET_QUEUE_GetNext, GFL_NET_QUEUE_RemoveNext, GFL_NET_QUEUE_FillSendBuffer, GFL_NET_QUEUE_Init, GFL_NET_QUEUE_Reset, GFL_NET_QUEUE_Exit, GFL_NET_QUEUE_IsCommandQueued, GFL_NET_WM_ICON_Create, GFL_NET_WM_ICON_Draw, GFL_NET_WM_ICON_GetEngine, GFL_NET_WM_ICON_GetCharName, GFL_NET_WM_ICON_SetLevel, GFL_NET_WM_ICON_Delete, GFL_NET_WM_ICON_SetScreen, GFL_NET_WM_ICON_GetCharOffset, GFL_NET_WM_ICON_LoadGraphics, GFL_NET_WM_ICON_ClearOam, GFL_NET_WM_ICON_EasyStart, GFL_NET_WM_ICON_EasyEnd, GFL_NET_WM_ICON_EasySetLevel, GFL_NET_WM_ICON_EasySetScreen, GFL_NET_WM_ICON_EasyMain, func_02037174, func_02037190, func_020371AC, GFL_NET_WM_ICON_SetDefaultScreen, GFL_NET_WM_ICON_EasyGetEngine
  * address:  0x02035750
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -19,7 +19,7 @@
  *   func_02030734                    0x02030734  arm
  *   func_020307B0                    0x020307B0  arm
  *   func_02034714                    0x02034714  arm
- *   func_02039548                    0x02039548  arm
+ *   GFL_NET_SYSTEM_SetError                    0x02039548  arm
  *   MI_CpuFill8                      0x02082BCC  arm
  *   MI_CpuCopy8                      0x02082D44  arm
  *   TP_Init                          0x0208A924  arm
@@ -76,6 +76,8 @@ typedef signed int     s32;
 typedef int            BOOL;
 typedef volatile u16   vu16;
 typedef volatile u32   vu32;
+
+#include "net_types.h"
 
 #define HW_BUTTON_XY_BUF    0x02FFFFA8
 #define REG_KEYINPUT        0x04000130
@@ -195,48 +197,6 @@ typedef struct UiCtx {
     u8              frameCounter; /* 0x3E */
 } UiCtx;
 
-/* net_ring_buff.c ring buffer */
-typedef struct {
-    u8   *buf;
-    int   size;
-    u32   state;                 /* nothing in this file reads it */
-    short readPos;               /* 0x0C */
-    volatile short writePos;     /* 0x0E */
-} NetRingBuff;
-
-/* net_queue.c: one queued send (0x14 bytes) */
-typedef struct NetQueueNode {
-    const u8 *data;              /* 0 when the data went to the ring */
-    struct NetQueueNode *prev;
-    struct NetQueueNode *next;
-    u16 size;                    /* 0x0C: bytes still to send */
-    u16 command;                 /* 0x0E: 0 = free node */
-    u8  sendID;                  /* 0x10 */
-    u8  headerSent;              /* 0x11 */
-} NetQueueNode;
-
-typedef struct {
-    NetQueueNode *head;
-    NetQueueNode *tail;
-} NetQueueList;
-
-/* net_queue.c send queue, 0x28 bytes */
-typedef struct {
-    NetQueueList  fast;          /* 0x00 */
-    NetQueueList  slow;          /* 0x08 */
-    NetQueueNode *current;       /* 0x10: node cut by a full send buffer */
-    NetRingBuff  *ring;          /* 0x14 */
-    NetQueueNode *nodes;         /* 0x18 */
-    s32           nodeMax;       /* 0x1C */
-    u32           pad20[2];      /* nothing reads it */
-} NetQueue;
-
-/* net_queue.c: write window into a send buffer */
-typedef struct {
-    u8  *ptr;
-    u16  size;                   /* 0xffff: buffer full */
-} NetSendBuf;
-
 /* wm_icon.c: the wireless icon, 0x14 bytes */
 typedef struct {
     union {
@@ -278,7 +238,7 @@ extern KeyWork *sub_0203521C(UiCtx *ui);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
 extern void func_02034714(const char *file, u32 line, const char *expr);
-extern void func_02039548(void);
+extern void GFL_NET_SYSTEM_SetError(void);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void TP_Init(void);
@@ -304,110 +264,110 @@ extern void func_02049800(void *arc, u32 dataId, int engine, int offset, int a4,
 extern void func_02049238(void *arc);
 
 /* touchpanel.c */
-TouchPanelWork *func_02035750(void);
-u16 func_02035760(UiCtx *ui);
-u16 func_02035780(UiCtx *ui);
-int func_020357A0(UiCtx *ui);
-u16 func_020357C0(UiCtx *ui);
-TouchPanelWork *sub_020357E0(u32 heapId);
-void func_020358A0(UiCtx *ui);
-void func_02035A60(void);
-u32 func_02035A70(const TouchHitTable *hit, s32 x, s32 y);
-u32 func_02035AA4(const TouchHitTable *hit, u32 x, u32 y);
-int func_02035ADC(const TouchHitTable *tbl, u32 x, u32 y);
-int func_02035B58(UiCtx *ui, const TouchHitTable *tbl);
-int func_02035BA4(const TouchHitTable *tbl);
-int func_02035BBC(UiCtx *ui, const TouchHitTable *tbl);
+TouchPanelWork *TOUCHPANEL_GetWork(void);
+u16 TOUCHPANEL_ReadPointX(UiCtx *ui);
+u16 TOUCHPANEL_ReadPointY(UiCtx *ui);
+int TOUCHPANEL_ReadCont(UiCtx *ui);
+u16 TOUCHPANEL_ReadTrg(UiCtx *ui);
+TouchPanelWork *TOUCHPANEL_Create(u32 heapId);
+void TOUCHPANEL_MainSys(UiCtx *ui);
+void TOUCHPANEL_Main(void);
+u32 TOUCHPANEL_HitCircle(const TouchHitTable *hit, s32 x, s32 y);
+u32 TOUCHPANEL_HitRect(const TouchHitTable *hit, u32 x, u32 y);
+int TOUCHPANEL_SearchHitTable(const TouchHitTable *tbl, u32 x, u32 y);
+int TOUCHPANEL_HitContSys(UiCtx *ui, const TouchHitTable *tbl);
+int TOUCHPANEL_HitCont(const TouchHitTable *tbl);
+int TOUCHPANEL_HitTrgSys(UiCtx *ui, const TouchHitTable *tbl);
 int func_02035C08(const TouchHitTable *tbl);
-int func_02035C20(UiCtx *ui);
-int sub_02035C38(void);
-u16 func_02035C48(UiCtx *ui);
-int sub_02035C60(void);
-u32 sub_02035C70(UiCtx *ui, u32 *x, u32 *y);
-u32 sub_02035CB8(u32 *x, u32 *y);
-u32 sub_02035CD8(UiCtx *ui, u32 *x, u32 *y);
-u32 sub_02035D20(u32 *x, u32 *y);
-u32 sub_02035D40(const TouchHitTable *tbl, u32 x, u32 y);
-u32 sub_02035D5C(TouchPanelWork *tp);
-void sub_02035D98(UiCtx *ui);
-void sub_02035DC8(void);
-void sub_02035DD8(UiCtx *ui);
-void sub_02035E08(void);
-u32 sub_02035E18(TouchPanelWork *tp);
-void sub_02035E54(UiCtx *ui);
-void func_02035E84(UiCtx *ui, u16 x, u16 y, u16 x30, u16 y30);
-void func_02035EB0(UiCtx *ui, int trg, int trg30);
-void func_02035ECC(UiCtx *ui, int cont, int cont30);
+int TOUCHPANEL_GetContSys(UiCtx *ui);
+int TOUCHPANEL_GetCont(void);
+u16 TOUCHPANEL_GetTrgSys(UiCtx *ui);
+int TOUCHPANEL_GetTrg(void);
+u32 TOUCHPANEL_GetPointContSys(UiCtx *ui, u32 *x, u32 *y);
+u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
+u32 TOUCHPANEL_GetPointTrgSys(UiCtx *ui, u32 *x, u32 *y);
+u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
+u32 TOUCHPANEL_HitPoint(const TouchHitTable *tbl, u32 x, u32 y);
+u32 TOUCHPANEL_RequestAutoSamplingStop(TouchPanelWork *tp);
+void TOUCHPANEL_AutoSamplingRestartSys(UiCtx *ui);
+void TOUCHPANEL_AutoSamplingRestart(void);
+void TOUCHPANEL_AutoSamplingStopSys(UiCtx *ui);
+void TOUCHPANEL_AutoSamplingStop(void);
+u32 TOUCHPANEL_RequestAutoSamplingStart(TouchPanelWork *tp);
+void TOUCHPANEL_ClearFrameRateWork(UiCtx *ui);
+void TOUCHPANEL_SetPoint(UiCtx *ui, u16 x, u16 y, u16 x30, u16 y30);
+void TOUCHPANEL_SetTrg(UiCtx *ui, int trg, int trg30);
+void TOUCHPANEL_SetCont(UiCtx *ui, int cont, int cont30);
 /* key.c */
-KeyWork *func_02035EE8(u32 heapId);
-void func_02035F38(UiCtx *ui);
-void sub_020360A8(void);
-void func_020360B8(KeyWork *key);
-void func_02036254(UiCtx *ui, int speed, int wait);
-void func_02036270(int speed, int wait);
-void func_02036290(UiCtx *ui, const KeyConvEntry *table);
-void func_020362A4(const KeyConvEntry *table);
-u32 sub_020362BC(UiCtx *ui);
-u32 sub_020362DC(void);
-u32 sub_020362EC(UiCtx *ui);
-u32 sub_0203630C(void);
-u32 sub_0203631C(UiCtx *ui);
-u32 sub_0203633C(void);
-void sub_0203634C(UiCtx *ui, u32 *speed, u32 *wait);
-void sub_02036370(u32 *speed, u32 *wait);
-void sub_02036390(UiCtx *ui);
-void func_020363B8(UiCtx *ui, int trg, int trg30);
-void func_020363D4(UiCtx *ui, int cont, int cont30);
-void func_020363F0(UiCtx *ui, int repeat, int repeat30);
+KeyWork *KEY_Create(u32 heapId);
+void KEY_MainSys(UiCtx *ui);
+void KEY_Main(void);
+void KEY_ApplyControlMode(KeyWork *key);
+void KEY_SetRepeatSpeedSys(UiCtx *ui, int speed, int wait);
+void KEY_SetRepeatSpeed(int speed, int wait);
+void KEY_SetControlModeTableSys(UiCtx *ui, const KeyConvEntry *table);
+void KEY_SetControlModeTable(const KeyConvEntry *table);
+u32 KEY_GetTrgSys(UiCtx *ui);
+u32 KEY_GetTrg(void);
+u32 KEY_GetContSys(UiCtx *ui);
+u32 KEY_GetCont(void);
+u32 KEY_GetRepeatSys(UiCtx *ui);
+u32 KEY_GetRepeat(void);
+void KEY_GetRepeatSpeedSys(UiCtx *ui, u32 *speed, u32 *wait);
+void KEY_GetRepeatSpeed(u32 *speed, u32 *wait);
+void KEY_ClearFrameRateWork(UiCtx *ui);
+void KEY_SetTrg(UiCtx *ui, int trg, int trg30);
+void KEY_SetCont(UiCtx *ui, int cont, int cont30);
+void KEY_SetRepeat(UiCtx *ui, int repeat, int repeat30);
 /* net_ring_buff.c */
-void func_0203640C(NetRingBuff *ring, u8 *buf, int size);
-void func_02036428(NetRingBuff *ring, const u8 *pDataArea, int size);
-int func_020364D4(NetRingBuff *ring, u8 *dst, u32 size, u32 max);
-u32 func_02036500(NetRingBuff *ring);
-u32 func_02036540(NetRingBuff *ring);
-int func_02036568(const NetRingBuff *ring, u8 *dst, int size, int max);
-int func_020365E8(NetRingBuff *ring);
-int func_0203660C(NetRingBuff *ring);
-int func_02036624(const NetRingBuff *ring, int pos);
-int func_02036640(NetRingBuff *ring);
-void func_0203666C(NetRingBuff *ring);
+void GFL_NET_RING_BUFF_Init(NetRingBuff *ring, u8 *buf, int size);
+void GFL_NET_RING_BUFF_Write(NetRingBuff *ring, const u8 *pDataArea, int size);
+int GFL_NET_RING_BUFF_Read(NetRingBuff *ring, u8 *dst, u32 size, u32 max);
+u32 GFL_NET_RING_BUFF_ReadByte(NetRingBuff *ring);
+u32 GFL_NET_RING_BUFF_ReadU16(NetRingBuff *ring);
+int GFL_NET_RING_BUFF_Peek(const NetRingBuff *ring, u8 *dst, int size, int max);
+int GFL_NET_RING_BUFF_GetDataSize(NetRingBuff *ring);
+int GFL_NET_RING_BUFF_GetFreeSize(NetRingBuff *ring);
+int GFL_NET_RING_BUFF_WrapPos(const NetRingBuff *ring, int pos);
+int GFL_NET_RING_BUFF_GetWritableSize(NetRingBuff *ring);
+void GFL_NET_RING_BUFF_EndChange(NetRingBuff *ring);
 /* net_queue.c */
-NetQueueNode *func_02036670(NetQueue *queue);
-int func_020366A8(NetQueue *queue);
-int func_020366C0(NetQueue *queue);
-u32 func_020366FC(NetQueueList *list);
-void func_02036738(NetSendBuf *out, int byte);
-int func_0203675C(NetQueueNode *node, NetSendBuf *out);
-int func_020367C4(NetQueueNode *node, NetSendBuf *out, NetRingBuff *ring, BOOL needHeader);
-int func_020368C0(NetQueue *queue, u32 command, const u8 *pDataArea, u32 size, u32 isFast, u32 copyToRing, u32 sendID);
-NetQueueNode *func_020369C8(NetQueue *queue);
-void func_020369F8(NetQueue *queue);
-int func_02036A50(NetQueue *queue, NetSendBuf *out);
-void func_02036AF4(NetQueue *queue, u32 nodeMax, NetRingBuff *ring, u32 heapId);
-void func_02036B4C(NetQueue *queue);
-void func_02036B88(NetQueue *queue);
-int func_02036B98(NetQueue *queue, int command);
+NetQueueNode *GFL_NET_QUEUE_GetFreeNode(NetQueue *queue);
+int GFL_NET_QUEUE_IsEmpty(NetQueue *queue);
+int GFL_NET_QUEUE_GetCount(NetQueue *queue);
+u32 GFL_NET_QUEUE_PopList(NetQueueList *list);
+void GFL_NET_QUEUE_PutByte(NetSendBuf *out, int byte);
+int GFL_NET_QUEUE_WriteHeader(NetQueueNode *node, NetSendBuf *out);
+int GFL_NET_QUEUE_WriteNode(NetQueueNode *node, NetSendBuf *out, NetRingBuff *ring, BOOL needHeader);
+int GFL_NET_QUEUE_Put(NetQueue *queue, u32 command, const u8 *pDataArea, u32 size, u32 isFast, u32 copyToRing, u32 sendID);
+NetQueueNode *GFL_NET_QUEUE_GetNext(NetQueue *queue);
+void GFL_NET_QUEUE_RemoveNext(NetQueue *queue);
+int GFL_NET_QUEUE_FillSendBuffer(NetQueue *queue, NetSendBuf *out);
+void GFL_NET_QUEUE_Init(NetQueue *queue, u32 nodeMax, NetRingBuff *ring, u32 heapId);
+void GFL_NET_QUEUE_Reset(NetQueue *queue);
+void GFL_NET_QUEUE_Exit(NetQueue *queue);
+int GFL_NET_QUEUE_IsCommandQueued(NetQueue *queue, int command);
 /* wm_icon.c */
-WmIcon *func_02036BD4(u32 unused, u32 heapId, u32 x, u32 y, u32 iconVariant, WmIcon *icon, u32 screen, u32 screenChanged, u32 level);
-void func_02036CA8(WmIcon *icon);
-u32 func_02036D64(const WmIcon *icon);
-u32 func_02036DC8(u32 engine, u32 charNo);
-WmIcon *func_02036E74(WmIcon *icon, int level);
-void func_02036E80(WmIcon *icon);
-void func_02036EC8(WmIcon *icon, u32 isTop, u32 heapId);
-int func_02036F04(int engine);
-void func_02036F24(int engine, int iconVariant, int heapId);
-void func_02036FD8(void);
-void func_02037010(u32 x, u32 y, u32 iconVariant, u32 heapId);
-void func_020370C8(void);
-u32 func_020370F4(u32 level);
-void func_02037118(u32 isTop, u32 heapId);
-void func_02037154(void);
+WmIcon *GFL_NET_WM_ICON_Create(u32 unused, u32 heapId, u32 x, u32 y, u32 iconVariant, WmIcon *icon, u32 screen, u32 screenChanged, u32 level);
+void GFL_NET_WM_ICON_Draw(WmIcon *icon);
+u32 GFL_NET_WM_ICON_GetEngine(const WmIcon *icon);
+u32 GFL_NET_WM_ICON_GetCharName(u32 engine, u32 charNo);
+WmIcon *GFL_NET_WM_ICON_SetLevel(WmIcon *icon, int level);
+void GFL_NET_WM_ICON_Delete(WmIcon *icon);
+void GFL_NET_WM_ICON_SetScreen(WmIcon *icon, u32 isTop, u32 heapId);
+int GFL_NET_WM_ICON_GetCharOffset(int engine);
+void GFL_NET_WM_ICON_LoadGraphics(int engine, int iconVariant, int heapId);
+void GFL_NET_WM_ICON_ClearOam(void);
+void GFL_NET_WM_ICON_EasyStart(u32 x, u32 y, u32 iconVariant, u32 heapId);
+void GFL_NET_WM_ICON_EasyEnd(void);
+u32 GFL_NET_WM_ICON_EasySetLevel(u32 level);
+void GFL_NET_WM_ICON_EasySetScreen(u32 isTop, u32 heapId);
+void GFL_NET_WM_ICON_EasyMain(void);
 void func_02037174(void);
 void func_02037190(void);
 void func_020371AC(u16 x, u16 y);
-void func_020371D8(u32 screen);
-u32 func_02037200(void);
+void GFL_NET_WM_ICON_SetDefaultScreen(u32 screen);
+u32 GFL_NET_WM_ICON_EasyGetEngine(void);
 
 extern TouchPanelWork *_pTouchPanelWork;
 extern WmIconEasy _WmIconEasy;
@@ -428,7 +388,7 @@ extern const u32 wm_icon_HiddenOam[8];
  * touchpanel.c
  * ================================================================== */
 
-TouchPanelWork *func_02035750(void)
+TouchPanelWork *TOUCHPANEL_GetWork(void)
 {
     return _pTouchPanelWork;
 }
@@ -436,44 +396,44 @@ TouchPanelWork *func_02035750(void)
 /*
  * Point and button accessors: with the UI at 30 fps the values collected
  * over the frame pair are reported, otherwise the ones of this frame.
- * The work comes from func_02035750 and the frame rate from the argument,
+ * The work comes from TOUCHPANEL_GetWork and the frame rate from the argument,
  * which is why the argument is kept in r4 across the call.
  */
-u16 func_02035760(UiCtx *ui)
+u16 TOUCHPANEL_ReadPointX(UiCtx *ui)
 {
     TouchPanelWork *tp;
 
-    tp = func_02035750();
+    tp = TOUCHPANEL_GetWork();
     if (ui->frameRate == UI_FRAMERATE_30)
         return tp->x30;
     return tp->x;
 }
 
-u16 func_02035780(UiCtx *ui)
+u16 TOUCHPANEL_ReadPointY(UiCtx *ui)
 {
     TouchPanelWork *tp;
 
-    tp = func_02035750();
+    tp = TOUCHPANEL_GetWork();
     if (ui->frameRate == UI_FRAMERATE_30)
         return tp->y30;
     return tp->y;
 }
 
-int func_020357A0(UiCtx *ui)
+int TOUCHPANEL_ReadCont(UiCtx *ui)
 {
     TouchPanelWork *tp;
 
-    tp = func_02035750();
+    tp = TOUCHPANEL_GetWork();
     if (ui->frameRate == UI_FRAMERATE_30)
         return tp->cont30;
     return tp->cont;
 }
 
-u16 func_020357C0(UiCtx *ui)
+u16 TOUCHPANEL_ReadTrg(UiCtx *ui)
 {
     TouchPanelWork *tp;
 
-    tp = func_02035750();
+    tp = TOUCHPANEL_GetWork();
     if (ui->frameRate == UI_FRAMERATE_30)
         return tp->trg30;
     return tp->trg;
@@ -483,7 +443,7 @@ u16 func_020357C0(UiCtx *ui)
  * Allocates and clears the work, brings the touch panel up with the user
  * calibration (or a default one when none is stored).
  */
-TouchPanelWork *sub_020357E0(u32 heapId)
+TouchPanelWork *TOUCHPANEL_Create(u32 heapId)
 {
     u16 info[4];
     TouchPanelWork *tp = func_02030734(heapId, sizeof(TouchPanelWork), 0, touchpanel_File, 0x83);
@@ -519,14 +479,14 @@ TouchPanelWork *sub_020357E0(u32 heapId)
  * work pointer is first bound to `tpTmp`, declared last, then copied into
  * `tp`; that copy keeps the loop counter in r4.
  */
-void func_020358A0(UiCtx *ui)
+void TOUCHPANEL_MainSys(UiCtx *ui)
 {
     TPData raw;
     TPData cal;
     TouchPanelWork *tp;
     u32 done = 0;
     u32 n;
-    TouchPanelWork *tpTmp = func_02035750();
+    TouchPanelWork *tpTmp = TOUCHPANEL_GetWork();
 
     tp = tpTmp;
     if (tp == 0) {
@@ -592,13 +552,13 @@ void func_020358A0(UiCtx *ui)
     }
 }
 
-void func_02035A60(void)
+void TOUCHPANEL_Main(void)
 {
-    func_020358A0(sub_02035224());
+    TOUCHPANEL_MainSys(sub_02035224());
 }
 
 /* Inside a circle entry: strictly closer than the radius. */
-u32 func_02035A70(const TouchHitTable *hit, s32 x, s32 y)
+u32 TOUCHPANEL_HitCircle(const TouchHitTable *hit, s32 x, s32 y)
 {
     s32 dx = hit->circle.x - x;
     s32 dy = hit->circle.y - y;
@@ -608,7 +568,7 @@ u32 func_02035A70(const TouchHitTable *hit, s32 x, s32 y)
 }
 
 /* Inside a rectangle entry (unsigned range tests). */
-u32 func_02035AA4(const TouchHitTable *hit, u32 x, u32 y)
+u32 TOUCHPANEL_HitRect(const TouchHitTable *hit, u32 x, u32 y)
 {
     if (x - hit->rect.left <= (u32)(hit->rect.right - hit->rect.left)
         && y - hit->rect.top <= (u32)(hit->rect.bottom - hit->rect.top))
@@ -617,18 +577,18 @@ u32 func_02035AA4(const TouchHitTable *hit, u32 x, u32 y)
 }
 
 /* Index of the first table entry the point falls inside, or -1. */
-int func_02035ADC(const TouchHitTable *tbl, u32 x, u32 y)
+int TOUCHPANEL_SearchHitTable(const TouchHitTable *tbl, u32 x, u32 y)
 {
     int i = 0;
 
     while (tbl[i].circle.code != TOUCHPANEL_HIT_END) {
         if (tbl[i].circle.code != TOUCHPANEL_HIT_SKIP) {
             if (tbl[i].circle.code == TOUCHPANEL_HIT_CIRCLE) {
-                if (func_02035A70(&tbl[i], x, y) != 0) {
+                if (TOUCHPANEL_HitCircle(&tbl[i], x, y) != 0) {
                     return i;
                 }
             } else {
-                if (func_02035AA4(&tbl[i], x, y) != 0) {
+                if (TOUCHPANEL_HitRect(&tbl[i], x, y) != 0) {
                     return i;
                 }
             }
@@ -638,105 +598,105 @@ int func_02035ADC(const TouchHitTable *tbl, u32 x, u32 y)
     return -1;
 }
 
-int func_02035B58(UiCtx *ui, const TouchHitTable *tbl)
+int TOUCHPANEL_HitContSys(UiCtx *ui, const TouchHitTable *tbl)
 {
     u32 x;
     u32 y;
 
-    func_02035750();
-    if (func_020357A0(ui) == 0) {
+    TOUCHPANEL_GetWork();
+    if (TOUCHPANEL_ReadCont(ui) == 0) {
         return -1;
     }
-    x = func_02035760(ui);
-    y = func_02035780(ui);
-    return func_02035ADC(tbl, x, y);
+    x = TOUCHPANEL_ReadPointX(ui);
+    y = TOUCHPANEL_ReadPointY(ui);
+    return TOUCHPANEL_SearchHitTable(tbl, x, y);
 }
 
-int func_02035BA4(const TouchHitTable *tbl)
+int TOUCHPANEL_HitCont(const TouchHitTable *tbl)
 {
-    return func_02035B58(sub_02035224(), tbl);
+    return TOUCHPANEL_HitContSys(sub_02035224(), tbl);
 }
 
-int func_02035BBC(UiCtx *ui, const TouchHitTable *tbl)
+int TOUCHPANEL_HitTrgSys(UiCtx *ui, const TouchHitTable *tbl)
 {
     u32 x;
     u32 y;
 
-    func_02035750();
-    if (func_020357C0(ui) == 0) {
+    TOUCHPANEL_GetWork();
+    if (TOUCHPANEL_ReadTrg(ui) == 0) {
         return -1;
     }
-    x = func_02035760(ui);
-    y = func_02035780(ui);
-    return func_02035ADC(tbl, x, y);
+    x = TOUCHPANEL_ReadPointX(ui);
+    y = TOUCHPANEL_ReadPointY(ui);
+    return TOUCHPANEL_SearchHitTable(tbl, x, y);
 }
 
 int func_02035C08(const TouchHitTable *tbl)
 {
-    return func_02035BBC(sub_02035224(), tbl);
+    return TOUCHPANEL_HitTrgSys(sub_02035224(), tbl);
 }
 
-int func_02035C20(UiCtx *ui)
+int TOUCHPANEL_GetContSys(UiCtx *ui)
 {
-    func_02035750();
-    return func_020357A0(ui);
+    TOUCHPANEL_GetWork();
+    return TOUCHPANEL_ReadCont(ui);
 }
 
-int sub_02035C38(void)
+int TOUCHPANEL_GetCont(void)
 {
-    return func_02035C20(sub_02035224());
+    return TOUCHPANEL_GetContSys(sub_02035224());
 }
 
-u16 func_02035C48(UiCtx *ui)
+u16 TOUCHPANEL_GetTrgSys(UiCtx *ui)
 {
-    func_02035750();
-    return func_020357C0(ui);
+    TOUCHPANEL_GetWork();
+    return TOUCHPANEL_ReadTrg(ui);
 }
 
-int sub_02035C60(void)
+int TOUCHPANEL_GetTrg(void)
 {
-    return func_02035C48(sub_02035224());
+    return TOUCHPANEL_GetTrgSys(sub_02035224());
 }
 
-u32 sub_02035C70(UiCtx *ui, u32 *x, u32 *y)
+u32 TOUCHPANEL_GetPointContSys(UiCtx *ui, u32 *x, u32 *y)
 {
-    func_02035750();
-    if (func_020357A0(ui) == 0) {
+    TOUCHPANEL_GetWork();
+    if (TOUCHPANEL_ReadCont(ui) == 0) {
         return 0;
     }
-    *x = func_02035760(ui);
-    *y = func_02035780(ui);
+    *x = TOUCHPANEL_ReadPointX(ui);
+    *y = TOUCHPANEL_ReadPointY(ui);
     return 1;
 }
 
-u32 sub_02035CB8(u32 *x, u32 *y)
+u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y)
 {
-    return sub_02035C70(sub_02035224(), x, y);
+    return TOUCHPANEL_GetPointContSys(sub_02035224(), x, y);
 }
 
-u32 sub_02035CD8(UiCtx *ui, u32 *x, u32 *y)
+u32 TOUCHPANEL_GetPointTrgSys(UiCtx *ui, u32 *x, u32 *y)
 {
-    func_02035750();
-    if (func_020357C0(ui) == 0) {
+    TOUCHPANEL_GetWork();
+    if (TOUCHPANEL_ReadTrg(ui) == 0) {
         return 0;
     }
-    *x = func_02035760(ui);
-    *y = func_02035780(ui);
+    *x = TOUCHPANEL_ReadPointX(ui);
+    *y = TOUCHPANEL_ReadPointY(ui);
     return 1;
 }
 
-u32 sub_02035D20(u32 *x, u32 *y)
+u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y)
 {
-    return sub_02035CD8(sub_02035224(), x, y);
+    return TOUCHPANEL_GetPointTrgSys(sub_02035224(), x, y);
 }
 
-u32 sub_02035D40(const TouchHitTable *tbl, u32 x, u32 y)
+u32 TOUCHPANEL_HitPoint(const TouchHitTable *tbl, u32 x, u32 y)
 {
-    return (u32)func_02035ADC(tbl, (u16)x, (u16)y);
+    return (u32)TOUCHPANEL_SearchHitTable(tbl, (u16)x, (u16)y);
 }
 
 /* Stops auto sampling when it is used; 2 on a TP error, else 1. */
-u32 sub_02035D5C(TouchPanelWork *tp)
+u32 TOUCHPANEL_RequestAutoSamplingStop(TouchPanelWork *tp)
 {
     if (tp->autoSampleMode == 0) {
         return 1;
@@ -749,38 +709,38 @@ u32 sub_02035D5C(TouchPanelWork *tp)
     return 1;
 }
 
-void sub_02035D98(UiCtx *ui)
+void TOUCHPANEL_AutoSamplingRestartSys(UiCtx *ui)
 {
-    TouchPanelWork *tp = func_02035750();
+    TouchPanelWork *tp = TOUCHPANEL_GetWork();
 
     if (tp != 0 && tp->autoSampleStopped != 0 && tp->autoSampleMode != 0) {
-        sub_02035E18(tp);
+        TOUCHPANEL_RequestAutoSamplingStart(tp);
         tp->autoSampleStopped = 0;
     }
 }
 
-void sub_02035DC8(void)
+void TOUCHPANEL_AutoSamplingRestart(void)
 {
-    sub_02035D98(sub_02035224());
+    TOUCHPANEL_AutoSamplingRestartSys(sub_02035224());
 }
 
-void sub_02035DD8(UiCtx *ui)
+void TOUCHPANEL_AutoSamplingStopSys(UiCtx *ui)
 {
-    TouchPanelWork *tp = func_02035750();
+    TouchPanelWork *tp = TOUCHPANEL_GetWork();
 
     if (tp != 0 && tp->autoSampleStopped != 1 && tp->autoSampleMode != 0) {
-        sub_02035D5C(tp);
+        TOUCHPANEL_RequestAutoSamplingStop(tp);
         tp->autoSampleStopped = 1;
     }
 }
 
-void sub_02035E08(void)
+void TOUCHPANEL_AutoSamplingStop(void)
 {
-    sub_02035DD8(sub_02035224());
+    TOUCHPANEL_AutoSamplingStopSys(sub_02035224());
 }
 
 /* Starts auto sampling into the work buffer; 1 when it started, else 2. */
-u32 sub_02035E18(TouchPanelWork *tp)
+u32 TOUCHPANEL_RequestAutoSamplingStart(TouchPanelWork *tp)
 {
     u32 ret;
 
@@ -793,9 +753,9 @@ u32 sub_02035E18(TouchPanelWork *tp)
     return ret;
 }
 
-void sub_02035E54(UiCtx *ui)
+void TOUCHPANEL_ClearFrameRateWork(UiCtx *ui)
 {
-    TouchPanelWork *tp = func_02035750();
+    TouchPanelWork *tp = TOUCHPANEL_GetWork();
 
     tp->x30 = 0;
     tp->y30 = 0;
@@ -807,28 +767,28 @@ void sub_02035E54(UiCtx *ui)
     tp->pendCont = 0;
 }
 
-void func_02035E84(UiCtx *ui, u16 x, u16 y, u16 x30, u16 y30)
+void TOUCHPANEL_SetPoint(UiCtx *ui, u16 x, u16 y, u16 x30, u16 y30)
 {
     TouchPanelWork *tp;
 
-    tp = func_02035750();
+    tp = TOUCHPANEL_GetWork();
     tp->x30 = x30;
     tp->y30 = y30;
     tp->x = x;
     tp->y = y;
 }
 
-void func_02035EB0(UiCtx *ui, int trg, int trg30)
+void TOUCHPANEL_SetTrg(UiCtx *ui, int trg, int trg30)
 {
-    TouchPanelWork *tp = func_02035750();
+    TouchPanelWork *tp = TOUCHPANEL_GetWork();
 
     tp->trg30 = (u16)trg30;
     tp->trg = (u16)trg;
 }
 
-void func_02035ECC(UiCtx *ui, int cont, int cont30)
+void TOUCHPANEL_SetCont(UiCtx *ui, int cont, int cont30)
 {
-    TouchPanelWork *tp = func_02035750();
+    TouchPanelWork *tp = TOUCHPANEL_GetWork();
 
     tp->cont30 = (u16)cont30;
     tp->cont = (u16)cont;
@@ -840,7 +800,7 @@ void func_02035ECC(UiCtx *ui, int cont, int cont30)
 
 /* Allocates and clears the work; key repeat starts after 15 frames, then
  * every 8 frames. */
-KeyWork *func_02035EE8(u32 heapId)
+KeyWork *KEY_Create(u32 heapId)
 {
     KeyWork *key = func_02030734(heapId, sizeof(KeyWork), 0, key_File, 0x44);
 
@@ -867,7 +827,7 @@ static inline u16 KEY_PadRead(void)
  * mode table is applied, and every second frame the 30 fps values take
  * what was collected over the pair.
  */
-void func_02035F38(UiCtx *ui)
+void KEY_MainSys(UiCtx *ui)
 {
     KeyWork *key = sub_0203521C(ui);
     u16 pad;
@@ -897,7 +857,7 @@ void func_02035F38(UiCtx *ui)
     key->trg = key->rawTrg;
     key->cont = pad;
     key->repeat = key->rawRepeat;
-    func_020360B8(key);
+    KEY_ApplyControlMode(key);
     key->pendTrg |= key->trg;
     key->pendCont |= key->cont;
     key->pendRepeat |= key->repeat;
@@ -912,9 +872,9 @@ void func_02035F38(UiCtx *ui)
     key->pendRepeat = 0;
 }
 
-void sub_020360A8(void)
+void KEY_Main(void)
 {
-    func_02035F38(sub_02035224());
+    KEY_MainSys(sub_02035224());
 }
 
 /* KEY_CONV_SWAP: the two keys trade places. */
@@ -944,7 +904,7 @@ static inline void KEY_ConvMask(u32 *keys, const KeyConvEntry *conv)
 }
 
 /* Applies the entries of the current control mode to the converted words. */
-void func_020360B8(KeyWork *key)
+void KEY_ApplyControlMode(KeyWork *key)
 {
     const KeyConvEntry *conv;
 
@@ -975,7 +935,7 @@ void func_020360B8(KeyWork *key)
     }
 }
 
-void func_02036254(UiCtx *ui, int speed, int wait)
+void KEY_SetRepeatSpeedSys(UiCtx *ui, int speed, int wait)
 {
     KeyWork *key = sub_0203521C(ui);
 
@@ -983,24 +943,24 @@ void func_02036254(UiCtx *ui, int speed, int wait)
     key->repeatWait = wait;
 }
 
-void func_02036270(int speed, int wait)
+void KEY_SetRepeatSpeed(int speed, int wait)
 {
-    func_02036254(sub_02035224(), speed, wait);
+    KEY_SetRepeatSpeedSys(sub_02035224(), speed, wait);
 }
 
-void func_02036290(UiCtx *ui, const KeyConvEntry *table)
+void KEY_SetControlModeTableSys(UiCtx *ui, const KeyConvEntry *table)
 {
     KeyWork *key = sub_0203521C(ui);
 
     key->controlModeTable = table;
 }
 
-void func_020362A4(const KeyConvEntry *table)
+void KEY_SetControlModeTable(const KeyConvEntry *table)
 {
-    func_02036290(sub_02035224(), table);
+    KEY_SetControlModeTableSys(sub_02035224(), table);
 }
 
-u32 sub_020362BC(UiCtx *ui)
+u32 KEY_GetTrgSys(UiCtx *ui)
 {
     KeyWork *key = sub_0203521C(ui);
 
@@ -1010,12 +970,12 @@ u32 sub_020362BC(UiCtx *ui)
     return key->trg;
 }
 
-u32 sub_020362DC(void)
+u32 KEY_GetTrg(void)
 {
-    return sub_020362BC(sub_02035224());
+    return KEY_GetTrgSys(sub_02035224());
 }
 
-u32 sub_020362EC(UiCtx *ui)
+u32 KEY_GetContSys(UiCtx *ui)
 {
     KeyWork *key = sub_0203521C(ui);
 
@@ -1025,12 +985,12 @@ u32 sub_020362EC(UiCtx *ui)
     return key->cont;
 }
 
-u32 sub_0203630C(void)
+u32 KEY_GetCont(void)
 {
-    return sub_020362EC(sub_02035224());
+    return KEY_GetContSys(sub_02035224());
 }
 
-u32 sub_0203631C(UiCtx *ui)
+u32 KEY_GetRepeatSys(UiCtx *ui)
 {
     KeyWork *key = sub_0203521C(ui);
 
@@ -1040,12 +1000,12 @@ u32 sub_0203631C(UiCtx *ui)
     return key->repeat;
 }
 
-u32 sub_0203633C(void)
+u32 KEY_GetRepeat(void)
 {
-    return sub_0203631C(sub_02035224());
+    return KEY_GetRepeatSys(sub_02035224());
 }
 
-void sub_0203634C(UiCtx *ui, u32 *speed, u32 *wait)
+void KEY_GetRepeatSpeedSys(UiCtx *ui, u32 *speed, u32 *wait)
 {
     KeyWork *key = sub_0203521C(ui);
 
@@ -1053,12 +1013,12 @@ void sub_0203634C(UiCtx *ui, u32 *speed, u32 *wait)
     *wait = key->repeatWait;
 }
 
-void sub_02036370(u32 *speed, u32 *wait)
+void KEY_GetRepeatSpeed(u32 *speed, u32 *wait)
 {
-    sub_0203634C(sub_02035224(), speed, wait);
+    KEY_GetRepeatSpeedSys(sub_02035224(), speed, wait);
 }
 
-void sub_02036390(UiCtx *ui)
+void KEY_ClearFrameRateWork(UiCtx *ui)
 {
     KeyWork *key = sub_0203521C(ui);
 
@@ -1070,7 +1030,7 @@ void sub_02036390(UiCtx *ui)
     key->pendRepeat = 0;
 }
 
-void func_020363B8(UiCtx *ui, int trg, int trg30)
+void KEY_SetTrg(UiCtx *ui, int trg, int trg30)
 {
     KeyWork *key = sub_0203521C(ui);
 
@@ -1078,7 +1038,7 @@ void func_020363B8(UiCtx *ui, int trg, int trg30)
     key->trg = trg;
 }
 
-void func_020363D4(UiCtx *ui, int cont, int cont30)
+void KEY_SetCont(UiCtx *ui, int cont, int cont30)
 {
     KeyWork *key = sub_0203521C(ui);
 
@@ -1086,7 +1046,7 @@ void func_020363D4(UiCtx *ui, int cont, int cont30)
     key->cont = cont;
 }
 
-void func_020363F0(UiCtx *ui, int repeat, int repeat30)
+void KEY_SetRepeat(UiCtx *ui, int repeat, int repeat30)
 {
     KeyWork *key = sub_0203521C(ui);
 
@@ -1098,7 +1058,7 @@ void func_020363F0(UiCtx *ui, int repeat, int repeat30)
  * net_ring_buff.c
  * ================================================================== */
 
-void func_0203640C(NetRingBuff *ring, u8 *buf, int size)
+void GFL_NET_RING_BUFF_Init(NetRingBuff *ring, u8 *buf, int size)
 {
     ring->buf = buf;
     ring->size = (short)size;   /* the store sign-extends from 16 bits */
@@ -1107,13 +1067,13 @@ void func_0203640C(NetRingBuff *ring, u8 *buf, int size)
 }
 
 /* Copies size bytes in at the write position; a full ring is a net error. */
-void func_02036428(NetRingBuff *ring, const u8 *pDataArea, int size)
+void GFL_NET_RING_BUFF_Write(NetRingBuff *ring, const u8 *pDataArea, int size)
 {
     int i;
     int k;
 
-    if (func_02036640(ring) <= size) {
-        func_02039548();
+    if (GFL_NET_RING_BUFF_GetWritableSize(ring) <= size) {
+        GFL_NET_SYSTEM_SetError();
         return;
     }
     k = 0;
@@ -1121,61 +1081,61 @@ void func_02036428(NetRingBuff *ring, const u8 *pDataArea, int size)
         if (pDataArea == 0) {
             func_02034714(net_ring_buff_File, 0x44, net_ring_buff_AssertDataArea);
         }
-        ring->buf[func_02036624(ring, i)] = pDataArea[k];
+        ring->buf[GFL_NET_RING_BUFF_WrapPos(ring, i)] = pDataArea[k];
         k++;
     }
-    ring->writePos = (short)func_02036624(ring, i);
+    ring->writePos = (short)GFL_NET_RING_BUFF_WrapPos(ring, i);
 }
 
 /* Reads up to max bytes and moves the read position past them. */
-int func_020364D4(NetRingBuff *ring, u8 *dst, u32 size, u32 max)
+int GFL_NET_RING_BUFF_Read(NetRingBuff *ring, u8 *dst, u32 size, u32 max)
 {
-    int got = func_02036568(ring, dst, size, max);
+    int got = GFL_NET_RING_BUFF_Peek(ring, dst, size, max);
 
-    ring->readPos = (short)func_02036624(ring, ring->readPos + got);
+    ring->readPos = (short)GFL_NET_RING_BUFF_WrapPos(ring, ring->readPos + got);
     return got;
 }
 
-u32 func_02036500(NetRingBuff *ring)
+u32 GFL_NET_RING_BUFF_ReadByte(NetRingBuff *ring)
 {
     u8 byte;
 
-    if (func_020364D4(ring, &byte, 1, 1) == 1)
+    if (GFL_NET_RING_BUFF_Read(ring, &byte, 1, 1) == 1)
         return byte;
     func_02034714(net_ring_buff_File, 0x6C, net_ring_buff_AssertZero);
     return 0;
 }
 
 /* Big-endian halfword: the high byte comes first. */
-u32 func_02036540(NetRingBuff *ring)
+u32 GFL_NET_RING_BUFF_ReadU16(NetRingBuff *ring)
 {
     u16 hi;
     u32 lo;
 
-    hi = (u16)(func_02036500(ring) << 8);
-    lo = func_02036500(ring);
+    hi = (u16)(GFL_NET_RING_BUFF_ReadByte(ring) << 8);
+    lo = GFL_NET_RING_BUFF_ReadByte(ring);
     return (u16)(hi | lo);
 }
 
 /* Copies up to max bytes from the read position without consuming them. */
-int func_02036568(const NetRingBuff *ring, u8 *dst, int size, int max)
+int GFL_NET_RING_BUFF_Peek(const NetRingBuff *ring, u8 *dst, int size, int max)
 {
     int i;
     int n;
 
     n = 0;
     for (i = ring->readPos; i < ring->readPos + size; i++) {
-        if (ring->writePos == func_02036624(ring, i) || n == max) {
+        if (ring->writePos == GFL_NET_RING_BUFF_WrapPos(ring, i) || n == max) {
             return n;
         }
-        dst[n] = ring->buf[func_02036624(ring, i)];
+        dst[n] = ring->buf[GFL_NET_RING_BUFF_WrapPos(ring, i)];
         n++;
     }
     return n;
 }
 
 /* Bytes waiting to be read. */
-int func_020365E8(NetRingBuff *ring)
+int GFL_NET_RING_BUFF_GetDataSize(NetRingBuff *ring)
 {
     int readPos = ring->readPos;
 
@@ -1184,14 +1144,14 @@ int func_020365E8(NetRingBuff *ring)
     return ring->writePos - readPos;
 }
 
-int func_0203660C(NetRingBuff *ring)
+int GFL_NET_RING_BUFF_GetFreeSize(NetRingBuff *ring)
 {
-    int used = func_020365E8(ring);
+    int used = GFL_NET_RING_BUFF_GetDataSize(ring);
 
     return ring->size - used;
 }
 
-int func_02036624(const NetRingBuff *ring, int pos)
+int GFL_NET_RING_BUFF_WrapPos(const NetRingBuff *ring, int pos)
 {
     return pos % ring->size;
 }
@@ -1206,13 +1166,13 @@ static inline int GFL_NET_RING_BUFF_DataSize(NetRingBuff *ring)
 }
 
 /* Free space, with the data size computed inline. */
-int func_02036640(NetRingBuff *ring)
+int GFL_NET_RING_BUFF_GetWritableSize(NetRingBuff *ring)
 {
     return ring->size - GFL_NET_RING_BUFF_DataSize(ring);
 }
 
 /* Write commit hook; it does nothing in this version. */
-void func_0203666C(NetRingBuff *ring)
+void GFL_NET_RING_BUFF_EndChange(NetRingBuff *ring)
 {
 }
 
@@ -1221,7 +1181,7 @@ void func_0203666C(NetRingBuff *ring)
  * ================================================================== */
 
 /* First node with no command, or 0 when all are in use. */
-NetQueueNode *func_02036670(NetQueue *queue)
+NetQueueNode *GFL_NET_QUEUE_GetFreeNode(NetQueue *queue)
 {
     NetQueueNode *node;
     s32 i;
@@ -1237,13 +1197,13 @@ NetQueueNode *func_02036670(NetQueue *queue)
     return 0;
 }
 
-int func_020366A8(NetQueue *queue)
+int GFL_NET_QUEUE_IsEmpty(NetQueue *queue)
 {
-    return func_020366C0(queue) == 0;
+    return GFL_NET_QUEUE_GetCount(queue) == 0;
 }
 
 /* Nodes in use. */
-int func_020366C0(NetQueue *queue)
+int GFL_NET_QUEUE_GetCount(NetQueue *queue)
 {
     const NetQueueNode *node = queue->nodes;
     int i;
@@ -1258,7 +1218,7 @@ int func_020366C0(NetQueue *queue)
 }
 
 /* Unlinks the head node of a list; 0 when the list is empty. */
-u32 func_020366FC(NetQueueList *list)
+u32 GFL_NET_QUEUE_PopList(NetQueueList *list)
 {
     NetQueueNode *next;
 
@@ -1277,7 +1237,7 @@ u32 func_020366FC(NetQueueList *list)
     return 0;
 }
 
-void func_02036738(NetSendBuf *out, int byte)
+void GFL_NET_QUEUE_PutByte(NetSendBuf *out, int byte)
 {
     *out->ptr = (u8)byte;
     out->ptr = out->ptr + 1;
@@ -1285,13 +1245,13 @@ void func_02036738(NetSendBuf *out, int byte)
 }
 
 /* Five-byte header: command and size (high byte first), then sendID. */
-int func_0203675C(NetQueueNode *node, NetSendBuf *out)
+int GFL_NET_QUEUE_WriteHeader(NetQueueNode *node, NetSendBuf *out)
 {
-    func_02036738(out, (node->command >> 8) & 0xff);
-    func_02036738(out, node->command & 0xff);
-    func_02036738(out, (node->size >> 8) & 0xff);
-    func_02036738(out, node->size & 0xff);
-    func_02036738(out, node->sendID);
+    GFL_NET_QUEUE_PutByte(out, (node->command >> 8) & 0xff);
+    GFL_NET_QUEUE_PutByte(out, node->command & 0xff);
+    GFL_NET_QUEUE_PutByte(out, (node->size >> 8) & 0xff);
+    GFL_NET_QUEUE_PutByte(out, node->size & 0xff);
+    GFL_NET_QUEUE_PutByte(out, node->sendID);
     return 0;
 }
 
@@ -1301,17 +1261,17 @@ int func_0203675C(NetQueueNode *node, NetSendBuf *out)
  * data as fits.  When the data does not fit, the buffer is marked full
  * (0xffff) and the node keeps the rest.
  */
-int func_020367C4(NetQueueNode *node, NetSendBuf *out, NetRingBuff *ring, BOOL needHeader)
+int GFL_NET_QUEUE_WriteNode(NetQueueNode *node, NetSendBuf *out, NetRingBuff *ring, BOOL needHeader)
 {
     if (node->headerSent == 0) {
         if (needHeader != 0 && out->size < node->size + 5) {
             return 0;
         }
-        func_0203675C(node, out);
+        GFL_NET_QUEUE_WriteHeader(node, out);
     }
     if (out->size < node->size) {
         if (node->data == 0) {
-            func_020364D4(ring, out->ptr, out->size, out->size);
+            GFL_NET_RING_BUFF_Read(ring, out->ptr, out->size, out->size);
         } else {
             MI_CpuCopy8(node->data, out->ptr, out->size);
             node->data += out->size;
@@ -1322,7 +1282,7 @@ int func_020367C4(NetQueueNode *node, NetSendBuf *out, NetRingBuff *ring, BOOL n
         return 1;
     }
     if (node->data == 0) {
-        func_020364D4(ring, out->ptr, node->size, node->size);
+        GFL_NET_RING_BUFF_Read(ring, out->ptr, node->size, node->size);
     } else {
         MI_CpuCopy8(node->data, out->ptr, node->size);
     }
@@ -1336,9 +1296,9 @@ int func_020367C4(NetQueueNode *node, NetSendBuf *out, NetRingBuff *ring, BOOL n
  * else the node keeps the caller's pointer.  isFast is not used in this
  * version: every node goes on the fast list.
  */
-int func_020368C0(NetQueue *queue, u32 command, const u8 *pDataArea, u32 size, u32 isFast, u32 copyToRing, u32 sendID)
+int GFL_NET_QUEUE_Put(NetQueue *queue, u32 command, const u8 *pDataArea, u32 size, u32 isFast, u32 copyToRing, u32 sendID)
 {
-    NetQueueNode *node = func_02036670(queue);
+    NetQueueNode *node = GFL_NET_QUEUE_GetFreeNode(queue);
 
     if (node == 0) {
         func_02034714(net_queue_File, 0xdb, net_queue_AssertZero);
@@ -1348,12 +1308,12 @@ int func_020368C0(NetQueue *queue, u32 command, const u8 *pDataArea, u32 size, u
         func_02034714(net_queue_File, 0xdf, net_queue_AssertSize);
     }
     if (copyToRing != 0) {
-        if (!((int)(size + 5) < (int)func_0203660C(queue->ring))) {
+        if (!((int)(size + 5) < (int)GFL_NET_RING_BUFF_GetFreeSize(queue->ring))) {
             func_02034714(net_queue_File, 0xe3, net_queue_AssertZero);
             return 0;
         }
-        func_02036428(queue->ring, pDataArea, size);
-        func_0203666C(queue->ring);
+        GFL_NET_RING_BUFF_Write(queue->ring, pDataArea, size);
+        GFL_NET_RING_BUFF_EndChange(queue->ring);
         node->data = 0;
     } else {
         node->data = pDataArea;
@@ -1374,7 +1334,7 @@ int func_020368C0(NetQueue *queue, u32 command, const u8 *pDataArea, u32 size, u
 }
 
 /* Next node to send: the cut one first, then the fast list, then the slow. */
-NetQueueNode *func_020369C8(NetQueue *queue)
+NetQueueNode *GFL_NET_QUEUE_GetNext(NetQueue *queue)
 {
     if (queue->current != 0)
         return queue->current;
@@ -1385,17 +1345,17 @@ NetQueueNode *func_020369C8(NetQueue *queue)
     return 0;
 }
 
-/* Removes the node func_020369C8 picked. */
-void func_020369F8(NetQueue *queue)
+/* Removes the node GFL_NET_QUEUE_GetNext picked. */
+void GFL_NET_QUEUE_RemoveNext(NetQueue *queue)
 {
     if (queue->current != 0) {
         queue->current = 0;
         return;
     }
-    if (func_020366FC(&queue->fast) != 0) {
+    if (GFL_NET_QUEUE_PopList(&queue->fast) != 0) {
         return;
     }
-    if (func_020366FC(&queue->slow) != 0) {
+    if (GFL_NET_QUEUE_PopList(&queue->slow) != 0) {
         return;
     }
     func_02034714(net_queue_File, 0x12f, net_queue_AssertRet);
@@ -1405,19 +1365,19 @@ void func_020369F8(NetQueue *queue)
  * Fills the send buffer from the queue.  Returns 0 only when the buffer
  * filled up in the middle of a node after at least one node went in.
  */
-int func_02036A50(NetQueue *queue, NetSendBuf *out)
+int GFL_NET_QUEUE_FillSendBuffer(NetQueue *queue, NetSendBuf *out)
 {
     int needHeader = 0;
 
     if (out->size == 0)
         goto done;
     while (1) {
-        NetQueueNode *node = func_020369C8(queue);
+        NetQueueNode *node = GFL_NET_QUEUE_GetNext(queue);
 
         if (node == 0)
             goto done;
-        func_020369F8(queue);
-        if (func_020367C4(node, out, queue->ring, needHeader) == 0) {
+        GFL_NET_QUEUE_RemoveNext(queue);
+        if (GFL_NET_QUEUE_WriteNode(node, out, queue->ring, needHeader) == 0) {
             queue->current = node;
             goto done;
         }
@@ -1434,7 +1394,7 @@ done:
     return 1;
 }
 
-void func_02036AF4(NetQueue *queue, u32 nodeMax, NetRingBuff *ring, u32 heapId)
+void GFL_NET_QUEUE_Init(NetQueue *queue, u32 nodeMax, NetRingBuff *ring, u32 heapId)
 {
     MI_CpuFill8(queue, 0, sizeof(NetQueue));
     queue->nodes = func_02030734(heapId, nodeMax * sizeof(NetQueueNode), 1, net_queue_File, 0x173);
@@ -1442,7 +1402,7 @@ void func_02036AF4(NetQueue *queue, u32 nodeMax, NetRingBuff *ring, u32 heapId)
     queue->ring = ring;
 }
 
-void func_02036B4C(NetQueue *queue)
+void GFL_NET_QUEUE_Reset(NetQueue *queue)
 {
     MI_CpuFill8(queue->nodes, 0, queue->nodeMax * sizeof(NetQueueNode));
     queue->fast.head = 0;
@@ -1452,13 +1412,13 @@ void func_02036B4C(NetQueue *queue)
     queue->current = 0;
 }
 
-void func_02036B88(NetQueue *queue)
+void GFL_NET_QUEUE_Exit(NetQueue *queue)
 {
     func_020307B0(queue->nodes);
 }
 
 /* Is a node with this command queued? */
-int func_02036B98(NetQueue *queue, int command)
+int GFL_NET_QUEUE_IsCommandQueued(NetQueue *queue, int command)
 {
     int i;
     NetQueueNode *node = queue->nodes;
@@ -1479,7 +1439,7 @@ int func_02036B98(NetQueue *queue, int command)
  * Sets up an icon (allocating it when icon is 0) and loads its graphics.
  * A default position set with func_020371AC wins over x and y.
  */
-WmIcon *func_02036BD4(u32 unused, u32 heapId, u32 x, u32 y, u32 iconVariant,
+WmIcon *GFL_NET_WM_ICON_Create(u32 unused, u32 heapId, u32 x, u32 y, u32 iconVariant,
                       WmIcon *icon, u32 screen, u32 screenChanged, u32 level)
 {
     if (icon == 0)
@@ -1497,7 +1457,7 @@ WmIcon *func_02036BD4(u32 unused, u32 heapId, u32 x, u32 y, u32 iconVariant,
     icon->screen = screen;
     icon->objWindow = 0;
     icon->lastOam = (GXOamAttr *)HW_OAM;
-    func_02036F24(func_02036D64(icon), icon->iconVariant, (u16)heapId);
+    GFL_NET_WM_ICON_LoadGraphics(GFL_NET_WM_ICON_GetEngine(icon), icon->iconVariant, (u16)heapId);
     return icon;
 }
 
@@ -1521,14 +1481,14 @@ static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority,
  * when objWindow is set) into the OAM of its engine, and hides the pair
  * in the OAM of the last draw when the engine changed.
  */
-void func_02036CA8(WmIcon *icon)
+void GFL_NET_WM_ICON_Draw(WmIcon *icon)
 {
     u32 engine;
     u32 name;
     GXOamAttr *oam;
 
-    engine = func_02036D64(icon);
-    name = func_02036DC8(engine, icon->level);
+    engine = GFL_NET_WM_ICON_GetEngine(icon);
+    name = GFL_NET_WM_ICON_GetCharName(engine, icon->level);
     if (engine == 1) {
         oam = (GXOamAttr *)HW_OAM;
     } else {
@@ -1548,7 +1508,7 @@ void func_02036CA8(WmIcon *icon)
 }
 
 /* Engine of the icon's screen (1 main, 2 sub), from the LCD swap bit. */
-u32 func_02036D64(const WmIcon *icon)
+u32 GFL_NET_WM_ICON_GetEngine(const WmIcon *icon)
 {
     switch (icon->screen) {
     case 1:
@@ -1560,7 +1520,7 @@ u32 func_02036D64(const WmIcon *icon)
 }
 
 /* OBJ character name of charNo under the engine's OBJ mapping mode. */
-u32 func_02036DC8(u32 engine, u32 charNo)
+u32 GFL_NET_WM_ICON_GetCharName(u32 engine, u32 charNo)
 {
     int mapping;
 
@@ -1585,7 +1545,7 @@ u32 func_02036DC8(u32 engine, u32 charNo)
     }
 }
 
-WmIcon *func_02036E74(WmIcon *icon, int level)
+WmIcon *GFL_NET_WM_ICON_SetLevel(WmIcon *icon, int level)
 {
     if (level < 4)
         icon->level = level;
@@ -1594,7 +1554,7 @@ WmIcon *func_02036E74(WmIcon *icon, int level)
 
 /* Hides the icon's entries in main OAM (and in sub OAM when the icon may
  * have been drawn there) and frees it. */
-void func_02036E80(WmIcon *icon)
+void GFL_NET_WM_ICON_Delete(WmIcon *icon)
 {
     *(volatile u32 *)(HW_OAM + 0x0) = 0x40000200;
     *(volatile u16 *)(HW_OAM + 0x4) = 0;
@@ -1611,15 +1571,15 @@ void func_02036E80(WmIcon *icon)
     func_020307B0(icon);
 }
 
-void func_02036EC8(WmIcon *icon, u32 isTop, u32 heapId)
+void GFL_NET_WM_ICON_SetScreen(WmIcon *icon, u32 isTop, u32 heapId)
 {
     icon->screen = (isTop != 0) ? 1 : 2;
     icon->screenChanged = 1;
-    func_02036F24(func_02036D64(icon), icon->iconVariant, heapId);
+    GFL_NET_WM_ICON_LoadGraphics(GFL_NET_WM_ICON_GetEngine(icon), icon->iconVariant, heapId);
 }
 
 /* OBJ VRAM offset of the icon characters; always 0. */
-int func_02036F04(int engine)
+int GFL_NET_WM_ICON_GetCharOffset(int engine)
 {
     if ((u32)engine == 1) {
         GX_GetBankForOBJ();
@@ -1630,7 +1590,7 @@ int func_02036F04(int engine)
 }
 
 /* Loads the icon palette and characters for the engine. */
-void func_02036F24(int engine, int iconVariant, int heapId)
+void GFL_NET_WM_ICON_LoadGraphics(int engine, int iconVariant, int heapId)
 {
     WmIconArcData ids;
     int objEngine;
@@ -1650,13 +1610,13 @@ void func_02036F24(int engine, int iconVariant, int heapId)
     }
     func_02049B68(arc, ids.palette, palType, 0x1c0, 0x20, heapId);
     charIdx = (iconVariant == 0) ? 1 : 0;
-    charOffset = func_02036F04(engine);
+    charOffset = GFL_NET_WM_ICON_GetCharOffset(engine);
     func_02049800(arc, ids.charData[charIdx], objEngine, charOffset, 0, 0, heapId);
     func_02049238(arc);
 }
 
 /* Hides the first four OAM entries of both engines. */
-void func_02036FD8(void)
+void GFL_NET_WM_ICON_ClearOam(void)
 {
     GX_LoadOAM(wm_icon_HiddenOam, 0, sizeof(wm_icon_HiddenOam));
     GXS_LoadOAM(wm_icon_HiddenOam, 0, sizeof(wm_icon_HiddenOam));
@@ -1664,11 +1624,11 @@ void func_02036FD8(void)
 
 /* (Re)creates the easy icon at a position; a new icon takes the default
  * screen and level 3. */
-void func_02037010(u32 x, u32 y, u32 iconVariant, u32 heapId)
+void GFL_NET_WM_ICON_EasyStart(u32 x, u32 y, u32 iconVariant, u32 heapId)
 {
     WmIcon *icon;
 
-    func_02036FD8();
+    GFL_NET_WM_ICON_ClearOam();
     icon = _WmIconEasy.icon;
     if (icon != 0) {
         u8  screen;
@@ -1678,47 +1638,47 @@ void func_02037010(u32 x, u32 y, u32 iconVariant, u32 heapId)
         screenChanged = icon->screenChanged;
         screen = icon->screen;
         level = icon->level;
-        func_020370C8();
-        _WmIconEasy.icon = func_02036BD4(0, heapId, x, y, iconVariant,
+        GFL_NET_WM_ICON_EasyEnd();
+        _WmIconEasy.icon = GFL_NET_WM_ICON_Create(0, heapId, x, y, iconVariant,
                                          _WmIconEasy.icon,
                                          screen, screenChanged, level);
     } else {
-        _WmIconEasy.icon = func_02036BD4(0, heapId, x, y, iconVariant,
+        _WmIconEasy.icon = GFL_NET_WM_ICON_Create(0, heapId, x, y, iconVariant,
                                          icon, _WmIconEasy.screen, 0, 3);
     }
 }
 
-void func_020370C8(void)
+void GFL_NET_WM_ICON_EasyEnd(void)
 {
-    func_02036FD8();
+    GFL_NET_WM_ICON_ClearOam();
     if (_WmIconEasy.icon == 0)
         return;
-    func_02036E80(_WmIconEasy.icon);
+    GFL_NET_WM_ICON_Delete(_WmIconEasy.icon);
     _WmIconEasy.icon = 0;
 }
 
-u32 func_020370F4(u32 level)
+u32 GFL_NET_WM_ICON_EasySetLevel(u32 level)
 {
     WmIcon *icon;
 
     icon = _WmIconEasy.icon;
     if (icon == 0)
         return (u32)icon;
-    return (u32)func_02036E74(icon, level);
+    return (u32)GFL_NET_WM_ICON_SetLevel(icon, level);
 }
 
-void func_02037118(u32 isTop, u32 heapId)
+void GFL_NET_WM_ICON_EasySetScreen(u32 isTop, u32 heapId)
 {
-    func_020371D8(isTop != 0 ? 1 : 2);
+    GFL_NET_WM_ICON_SetDefaultScreen(isTop != 0 ? 1 : 2);
     if (_WmIconEasy.icon != 0)
-        func_02036EC8(_WmIconEasy.icon, isTop, heapId);
+        GFL_NET_WM_ICON_SetScreen(_WmIconEasy.icon, isTop, heapId);
 }
 
-void func_02037154(void)
+void GFL_NET_WM_ICON_EasyMain(void)
 {
     if (_WmIconEasy.icon == 0)
         return;
-    func_02036CA8(_WmIconEasy.icon);
+    GFL_NET_WM_ICON_Draw(_WmIconEasy.icon);
 }
 
 void func_02037174(void)
@@ -1745,15 +1705,15 @@ void func_020371AC(u16 x, u16 y)
     _WmIconEasy.defaultY = y;
 }
 
-void func_020371D8(u32 screen)
+void GFL_NET_WM_ICON_SetDefaultScreen(u32 screen)
 {
     _WmIconEasy.screen = (u16)screen;
 }
 
-u32 func_02037200(void)
+u32 GFL_NET_WM_ICON_EasyGetEngine(void)
 {
     if (_WmIconEasy.icon == 0) {
         return 1;
     }
-    return func_02036D64(_WmIconEasy.icon);
+    return GFL_NET_WM_ICON_GetEngine(_WmIconEasy.icon);
 }

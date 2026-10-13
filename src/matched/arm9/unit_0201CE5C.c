@@ -8,18 +8,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201CE5C, sub_0201CE8C, sub_0201CEB8, sub_0201CED4
+ * function: PRINTSYS_PrintStreamShortWait, PRINTSYS_PrintStreamSetSpeed, PRINTSYS_PrintStreamResetSpeed, PRINTSYS_PrintStreamIsOverrideSpeed
  *
  * Four more operations on the object src/matched/unit_0201CDF4.c works on,
  * continuing its run of single-bit edits of the flag byte at +0x22: this
  * range sets bit 4 and bit 3, clears bit 3, and reads bit 3 back.
  *
- * sub_0201CE5C lowers a level-like byte at +0x1E and, when the new value is
- * zero, replaces the pair at +0x1C/+0x1D through sub_0201CE8C with whatever
- * func_02013080(2) returns.  sub_0201CEB8 is the undo: it clears the bit and
+ * PRINTSYS_PrintStreamShortWait lowers a level-like byte at +0x1E and, when the new value is
+ * zero, replaces the pair at +0x1C/+0x1D through PRINTSYS_PrintStreamSetSpeed with whatever
+ * func_02013080(2) returns.  PRINTSYS_PrintStreamResetSpeed is the undo: it clears the bit and
  * restores the pair from the backup at +0x18/+0x19.
  *
- * sub_0201CED4 is an unlabelled follower, eight bytes with no prologue.  It
+ * PRINTSYS_PrintStreamIsOverrideSpeed is an unlabelled follower, eight bytes with no prologue.  It
  * reads bit 3 as a `lsls #0x1C` / `lsrs #0x1F` pair, which is the bitfield
  * extraction shape of
  * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md rather than
@@ -35,6 +35,9 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201CE5C.c \
  *       --addr 0x0201CE5C --thumb
+ *
+ * symbols:
+ *   PRINTSYS_SplitWait  0x0201CDF4  thumb
  */
 
 typedef unsigned char u8;
@@ -54,39 +57,39 @@ struct Rec {
 };
 
 extern signed char func_02013080(u32 idx);
-extern void sub_0201CDF4(s32 v, u8 *out);
+extern void PRINTSYS_SplitWait(s32 v, u8 *out);
 
-void sub_0201CE8C(struct Rec *p, s32 v);
+void PRINTSYS_PrintStreamSetSpeed(struct Rec *p, s32 v);
 
-void sub_0201CE5C(struct Rec *p, s32 v)
+void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v)
 {
     if (v < p->unk1E) {
         p->unk1E = (u8)v;
         if (v == 0) {
-            sub_0201CE8C(p, func_02013080(2));
+            PRINTSYS_PrintStreamSetSpeed(p, func_02013080(2));
             ((u8 *)p)[0x22] = 0x10u | ((u8 *)p)[0x22];
         }
     }
 }
 
-void sub_0201CE8C(struct Rec *p, s32 v)
+void PRINTSYS_PrintStreamSetSpeed(struct Rec *p, s32 v)
 {
     u8 tmp[2];
 
-    sub_0201CDF4(v, tmp);
+    PRINTSYS_SplitWait(v, tmp);
     p->unk1D = tmp[1];
     p->unk1C = tmp[0];
     ((u8 *)p)[0x22] = 8u | ((u8 *)p)[0x22];
 }
 
-void sub_0201CEB8(struct Rec *p)
+void PRINTSYS_PrintStreamResetSpeed(struct Rec *p)
 {
     ((u8 *)p)[0x22] = ((u8 *)p)[0x22] & ~8u;
     p->unk1D = p->unk19;
     p->unk1C = p->unk18;
 }
 
-u32 sub_0201CED4(struct Rec *p)
+u32 PRINTSYS_PrintStreamIsOverrideSpeed(struct Rec *p)
 {
     return ((u32)((u8 *)p)[0x22] << 28) >> 31;
 }

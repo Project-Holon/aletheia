@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6A3C",
+   "name": "IRC_COMPATIBLE_SetHandler",
    "address": "0x021B6A3C",
    "kind": "game",
    "region": "ov101",

@@ -1,5 +1,5 @@
 /*
- * function: func_020371D8
+ * function: GFL_NET_WM_ICON_SetDefaultScreen
  * address:  0x020371D8
  * packet:   pkt_020371AC
  * region:   arm9
@@ -22,8 +22,8 @@
  *   g_021469C8  0x021469C8  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020371D8.c \
- *       --func func_020371D8 --addr 0x020371D8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_WM_ICON_SetDefaultScreen.c \
+ *       --func GFL_NET_WM_ICON_SetDefaultScreen --addr 0x020371D8 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -38,7 +38,7 @@ struct Notifier {
 
 extern struct Notifier g_021469C8;
 
-void func_020371D8(u32 mode)
+void GFL_NET_WM_ICON_SetDefaultScreen(u32 mode)
 {
     g_021469C8.mode = (u16)mode;
 }

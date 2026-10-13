@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469BC    0x021469BC  data
+ *   gUiState    0x021469BC  data
  *
- * Stores a callback and its argument into the object g_021469BC points at
+ * Stores a callback and its argument into the object gUiState points at
  * (+0x24 and +0x34).  The pointer is reloaded for the second store because
- * the first store may alias it.  Called from func_020122A4 and
- * func_020122B4.
+ * the first store may alias it.  Called from GAMESYSTEM_RegisterSleepCheck and
+ * GAMESYSTEM_ReleaseSleepCheck.
  */
 
 typedef unsigned int u32;
@@ -27,10 +27,10 @@ struct Obj021469BC {
     u32           arg;
 };
 
-extern struct Obj021469BC *g_021469BC;
+extern struct Obj021469BC *gUiState;
 
 void func_02035064(const void *fn, u32 arg)
 {
-    g_021469BC->fn = fn;
-    g_021469BC->arg = arg;
+    gUiState->fn = fn;
+    gUiState->arg = arg;
 }

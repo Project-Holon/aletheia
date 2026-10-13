@@ -1,5 +1,5 @@
 /*
- * function: func_02015D30
+ * function: MCSS_SetOfsScale
  * address:  0x02015D30
  * packet:   pkt_02015D30
  * region:   arm9
@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-void func_02015D30(void *p, u32 *src)
+void MCSS_SetOfsScale(void *p, u32 *src)
 {
     ((struct Obj08765 *)p)->f104 = src[0];
     ((struct Obj08765 *)p)->f108 = src[1];

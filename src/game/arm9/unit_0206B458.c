@@ -226,7 +226,7 @@ void func_0206B63C(u32 *bitmap, Node0206B63C *n)
  *           --suggest-split offers nothing (single function, all five
  *           unresolved sites' only witnesses are inside this range).
  *
- * Promote-first callee of src/pending/func_02047C8C.c (parks lane 2).
+ * Promote-first callee of src/pending/G3D_SYSTEM_DrawRenderObj.c (parks lane 2).
  * Release the object's three eight-byte sub-blocks when the +0x10 flag is
  * up, then run the one-at-a-time teardown through the stash pointer at
  * 0x02148DB0, recording this frame's own work area in it while the call is
@@ -237,7 +237,7 @@ void func_0206B63C(u32 *bitmap, Node0206B63C *n)
  * witness outside 0x0206B6A4..0x0206B780 - the only branches in the image to
  * either address are these calls.  Filing 0x0206B63C (104 B) and 0x0206B4A0
  * (400 B) as EXACT entries promotes this file and then
- * src/pending/func_02047C8C.c with no change to the C.  (0x0206B63C's own
+ * src/pending/G3D_SYSTEM_DrawRenderObj.c with no change to the C.  (0x0206B63C's own
  * `cmp r1, #0 / popeq` prologue confirms the two-argument call below.)
  *
  * Shape notes, each measured:

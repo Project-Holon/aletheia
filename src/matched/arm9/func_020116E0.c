@@ -1,5 +1,5 @@
 /*
- * function: func_020116E0
+ * function: ICA_ANIME_LoadHeader
  * address:  0x020116E0
  * packet:   pkt_020116E0
  * region:   arm9
@@ -25,8 +25,8 @@
  * allocation exactly.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020116E0.c \
- *       --func func_020116E0 --addr 0x020116E0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ICA_ANIME_LoadHeader.c \
+ *       --func ICA_ANIME_LoadHeader --addr 0x020116E0 --cc 1.1p1 --thumb
  */
 #include "../include/Obj00064.h"
 
@@ -38,7 +38,7 @@ extern void *sub_020490F4(unsigned int id, unsigned int heap);
 struct ArcFile;
 extern void sub_0204944C(struct ArcFile *a, u32 b, u32 c, u32 d, void *e);
 
-void func_020116E0(u8 *p, u32 a1, u32 a2, u32 a3)
+void ICA_ANIME_LoadHeader(u8 *p, u32 a1, u32 a2, u32 a3)
 {
     u8 buf[4];
     u32 v;

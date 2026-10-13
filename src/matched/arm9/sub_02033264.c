@@ -1,5 +1,5 @@
 /*
- * function: sub_02033264
+ * function: BACKUP_SYSTEM_IncRecordCount
  * address:  0x02033264
  * packet:   pkt_020328E0
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02033B68  0x02033B68  arm
- *   func_02033BAC  0x02033BAC  arm
+ *   SAVEDATA_GetBlockOffset  0x02033B68  arm
+ *   SAVEDATA_GetBlockSize  0x02033BAC  arm
  *
  * savedata.c.  Bumps the halfword counter that sits at the head of one of
  * the records inside the staging buffer and answers the new value.  The
@@ -20,7 +20,7 @@
  * be two, so the compiler reads the store back rather than masking.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02033264.c \n *       --func sub_02033264 --addr 0x02033264 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_IncRecordCount.c \n *       --func BACKUP_SYSTEM_IncRecordCount --addr 0x02033264 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -36,17 +36,17 @@ struct SaveBackup {
     u32 unk140;
 };
 
-extern u32 func_02033B68(u8 *p, u32 i);
-extern u32 func_02033BAC(u8 *p, u32 i);
+extern u32 SAVEDATA_GetBlockOffset(u8 *p, u32 i);
+extern u32 SAVEDATA_GetBlockSize(u8 *p, u32 i);
 
-u16 sub_02033264(struct SaveBackup *p, u32 id)
+u16 BACKUP_SYSTEM_IncRecordCount(struct SaveBackup *p, u32 id)
 {
     u32 base;
     u32 off;
     u16 *q;
 
-    base = func_02033B68((u8 *)p->unk2C, id);
-    off = func_02033BAC((u8 *)p->unk2C, id);
+    base = SAVEDATA_GetBlockOffset((u8 *)p->unk2C, id);
+    off = SAVEDATA_GetBlockSize((u8 *)p->unk2C, id);
     q = (u16 *)(p->unk34 + (base + off));
     *q = *q + 1;
     return *q;

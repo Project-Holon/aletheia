@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012F44 0x02012F44 thumb
+ *   GAME_DATA_GetSaveBlock2A 0x02012F44 thumb
  *   func_020173EC 0x020173EC thumb
- *   func_020173E8 0x020173E8 thumb
+ *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   func_02008468 0x02008468 thumb
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
@@ -27,9 +27,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02012F44(void *);
+extern void *GAME_DATA_GetSaveBlock2A(void *);
 extern u32 func_020173EC(void);
-extern u32 func_020173E8(void);
+extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int func_02008468(void);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,u8,u32);
@@ -47,7 +47,7 @@ void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
  void *data;
  u32 size1,size2;
  u8 i,j;
- data=func_02012F44(P(p,0x58));
+ data=GAME_DATA_GetSaveBlock2A(P(p,0x58));
  ((struct Obj02195 *)p)->f0=heap;
  for(i=0;i<4;i++) {
   u8 *row;
@@ -59,10 +59,10 @@ void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   row[0x70]=10;row[0x71]=10;
   P(row,0x7C)=func_02030734(((struct Obj02195 *)p)->f0,func_020173EC()+0x7C,0,d_021FDE5C,0x20E);
   size1=func_02008468();
-  P(row,0x8C)=func_02030734(((struct Obj02195 *)p)->f0,(size1+4)+func_020173E8(),0,d_021FDE5C,0x20F);
+  P(row,0x8C)=func_02030734(((struct Obj02195 *)p)->f0,(size1+4)+POKE_TOOL_GetBoxParamSize(),0,d_021FDE5C,0x20F);
   clear8(P(row,0x7C),func_020173EC()+0x7C);
   size2=func_02008468();
-  clear8(P(row,0x8C),(size2+4)+func_020173E8());
+  clear8(P(row,0x8C),(size2+4)+POKE_TOOL_GetBoxParamSize());
   P(row,0x80)=P(row,0x8C);
   P(row,0x84)=P(row,0x8C)+4;
   P(row,0x88)=P(row,0x8C)+4+func_02008468();
@@ -73,7 +73,7 @@ void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
  W(p,0x138)=0;W(p,0x124)=0;
  P(p,0x128)=func_02030734(((struct Obj02195 *)p)->f0,(func_020173EC()+0x7C)*4,0,d_021FDE5C,0x221);
  size1=func_02008468();
- P(p,0x13C)=func_02030734(((struct Obj02195 *)p)->f0,((size1+4)+func_020173E8())*4,0,d_021FDE5C,0x222);
+ P(p,0x13C)=func_02030734(((struct Obj02195 *)p)->f0,((size1+4)+POKE_TOOL_GetBoxParamSize())*4,0,d_021FDE5C,0x222);
  p[0x1C]=0;W(p,0x14)=0;W(p,0x18)=0;
  p[0x14C]=0;W(p,0x150)=0;
  W(p,0x158)=0;W(p,0x15C)=0;W(p,0x160)=0;W(p,0x164)=0;

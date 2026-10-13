@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_022019F4  0x022019F4  thumb  ov094
- *   func_020160D4  0x020160D4  thumb
+ *   MCSS_CreatePaletteTransTask  0x020160D4  thumb
  */
 
 typedef struct {
@@ -33,7 +33,7 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(char *p, int key);
-extern void func_020160D4(void *obj, void *h, int a, int b);
+extern void MCSS_CreatePaletteTransTask(void *obj, void *h, int a, int b);
 
 void func_021FFDF8(Work *w, int key, int a, int b)
 {
@@ -43,5 +43,5 @@ void func_021FFDF8(Work *w, int key, int a, int b)
         return;
     if (w->e[idx].h == 0)
         return;
-    func_020160D4(w->obj, w->e[idx].h, a, b);
+    MCSS_CreatePaletteTransTask(w->obj, w->e[idx].h, a, b);
 }

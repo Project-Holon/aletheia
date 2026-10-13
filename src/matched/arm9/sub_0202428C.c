@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * A slot-clearing sibling of func_020242A4 (src/matched/sub_020242A4.c):
+ * A slot-clearing sibling of PMSI_PARAM_InitSentence (src/matched/sub_020242A4.c):
  * the same three-halfword sentinel fill, but the leading id field is
  * also set to the sentinel instead of taking a caller-supplied id, so
  * there is no second parameter. The loop counter is signed, the same

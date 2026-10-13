@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_02045AA8
+ * function: STRBUF_Append
  * address:  0x02045AA8
  * packet:   pkt_02045AA8
  * region:   arm9
@@ -15,15 +15,15 @@
  *   g_020A7E7C   0x020A7E7C  data
  *   MI_CpuCopy8  0x02082D44  arm
  *
- * The two mutators of the u16 vector sub_020457B0 allocates, folded into one
+ * The two mutators of the u16 vector STRBUF_Create allocates, folded into one
  * translation unit covering 0x02045AA8..0x02045B38 (both functions and the
- * single trailing pool word).  See src/matched/sub_02045AFC.c for the object
+ * single trailing pool word).  See src/matched/STRBUF_AppendChar.c for the object
  * layout this pair pins down, in particular why the entries begin at +0x8
  * and why one slot past `capacity` is reserved for a terminator.
  *
- * sub_02045AA8 concatenates one vector onto another, copying src->used + 1
+ * STRBUF_Append concatenates one vector onto another, copying src->used + 1
  * halfwords so that the source's terminator becomes the destination's.
- * sub_02045AFC pushes a single entry and re-plants the terminator behind it.
+ * STRBUF_AppendChar pushes a single entry and re-plants the terminator behind it.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02045AA8.c \
@@ -47,7 +47,7 @@ extern struct AllocStamp g_020A7E7C;
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-void sub_02045AA8(struct U16Vec *dst, struct U16Vec *src)
+void STRBUF_Append(struct U16Vec *dst, struct U16Vec *src)
 {
     u16 count = src->used;
 
@@ -58,7 +58,7 @@ void sub_02045AA8(struct U16Vec *dst, struct U16Vec *src)
     dst->used = dst->used + src->used;
 }
 
-void sub_02045AFC(struct U16Vec *vec, u16 value)
+void STRBUF_AppendChar(struct U16Vec *vec, u16 value)
 {
     if (vec->used + 1 >= vec->capacity)
         return;

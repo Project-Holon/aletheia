@@ -1,5 +1,5 @@
 /*
- * function: func_0204C040
+ * function: CLACT_SetOamManagerSubParam
  * address:  0x0204C040
  * packet:   pkt_0204BE84
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Same forward as func_0204C024 but aimed at the sub-block at +0x20.
+ * Same forward as CLACT_SetOamManagerMainParam but aimed at the sub-block at +0x20.
  *
  * Unlabelled in the current listings: the prologue saves nothing, so
  * disasm.py never auto-labelled it (see
@@ -17,7 +17,7 @@
  * function starts at the computed address and its body ends at 0x0204C060.
  *
  * symbols:
- *   g_02146A74     0x02146A74  data
+ *   g_ClactSystem     0x02146A74  data
  *   func_02063378  0x02063378  arm
  */
 
@@ -26,10 +26,10 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern struct Mgr *g_02146A74;
+extern struct Mgr *g_ClactSystem;
 extern void func_02063378(void *block, u32 arg);
 
-void func_0204C040(u32 arg)
+void CLACT_SetOamManagerSubParam(u32 arg)
 {
-    func_02063378((u8 *)g_02146A74 + 0x20, arg);
+    func_02063378((u8 *)g_ClactSystem + 0x20, arg);
 }

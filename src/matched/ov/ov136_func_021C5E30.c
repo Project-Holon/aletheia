@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021C5E30 0x021C5E30 thumb
- *   func_0202DC08 0x0202DC08 thumb
+ *   PMS_DRAW_Delete 0x0202DC08 thumb
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_0204B1CC 0x0204B1CC arm
  */
@@ -23,13 +23,13 @@ typedef unsigned char u8;
 struct Bank;
 struct Obj;
 struct PrintSys;
-extern void func_0202DC08(struct Obj *p);
+extern void PMS_DRAW_Delete(struct Obj *p);
 extern void func_0201C4C0(struct PrintSys *p);
 typedef unsigned int   u32;
 extern u32 func_0204B1CC(struct Bank *bank);
 void func_021C5E30(u8 *p)
 {
-    func_0202DC08(((struct Obj23539 *)(*(u8 * *)&((struct Obj10604 *)p)->f8))->f35C);
+    PMS_DRAW_Delete(((struct Obj23539 *)(*(u8 * *)&((struct Obj10604 *)p)->f8))->f35C);
     func_0201C4C0(((struct Obj23540 *)(*(u8 * *)&((struct Obj10604 *)p)->f8))->f36C);
     func_0204B1CC(((struct Obj23541 *)(*(u8 * *)&((struct Obj10604 *)p)->f8))->f368);
 }

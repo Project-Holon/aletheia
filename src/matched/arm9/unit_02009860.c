@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02009860, sub_02009864, sub_02009918, sub_020099C8,
- *           sub_020099D4, sub_020099E4, sub_02009A00, sub_02009A1C
+ * function: WIFILIST_GetWork, WIFILIST_GetFriendInfoField, WIFILIST_SetFriendInfoField, WIFILIST_GetDwcFriendData,
+ *           WIFILIST_GetFriendInfo, WIFILIST_CopyFriendNameToStrbuf, WIFILIST_StoreFriendNameFromStrbuf, WIFILIST_IsFriendDataValid
  *
  * symbols:
  *   DWC_IsValidFriendData 0x020596D8  arm
@@ -29,11 +29,11 @@
  *
  * NEAR MISS, 0x02009800, 72 bytes, skipped, and for two independent reasons.
  * It is the constructor: it clears the 0x7C4 bytes with MI_CpuFill8, brackets a
- * call to func_02157138 with four pairs of calls on the ids 9, 10, 11 and 13
+ * call to DWC_RAPCOMMON_InitUserData with four pairs of calls on the ids 9, 10, 11 and 13
  * (two of one function on the way in and two of the other on the way out, and
  * the reverse afterwards), and returns.
  *
- *  - func_02157138 lives in ov009, and the only branch to it anywhere in the
+ *  - DWC_RAPCOMMON_InitUserData lives in ov009, and the only branch to it anywhere in the
  *    image is this one.  The overlay-label rule needs a witness outside the
  *    compared range and there is none, so the site stays wildcarded whatever
  *    the C says, and no cut can help: shrinking the range to this one function
@@ -47,7 +47,7 @@
  *    allocation of the whole function.  A small constant that costs a pool
  *    word is not something the source has been made to say yet.
  *
- * sub_02009864 and sub_02009918 are the getter and the setter over the entry's
+ * WIFILIST_GetFriendInfoField and WIFILIST_SetFriendInfoField are the getter and the setter over the entry's
  * ten fields, both through a PC-relative halfword table.  The tables disagree
  * in the middle rather than at the bottom: the getter reads all ten, the
  * setter's entries 2, 3 and 4 point at its exit, and since entries 0 and 1 are
@@ -103,12 +103,12 @@ struct Sub020097BCObj {
     u8 unk7C0[4];
 };
 
-struct Sub020097BCObj *sub_02009860(struct Sub020097BCObj *obj)
+struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj)
 {
     return obj;
 }
 
-u32 sub_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field)
+u32 WIFILIST_GetFriendInfoField(const struct Sub020097BCObj *obj, u32 i, u32 field)
 {
     u32 value = 0;
 
@@ -147,7 +147,7 @@ u32 sub_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field)
     return value;
 }
 
-void sub_02009918(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value)
+void WIFILIST_SetFriendInfoField(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value)
 {
     switch (field) {
     case 0:
@@ -174,27 +174,27 @@ void sub_02009918(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value)
     }
 }
 
-struct Sub020097BCFriend *sub_020099C8(struct Sub020097BCObj *obj, int i)
+struct Sub020097BCFriend *WIFILIST_GetDwcFriendData(struct Sub020097BCObj *obj, int i)
 {
     return &obj->unk040[i];
 }
 
-struct Sub020097BCEnt *sub_020099D4(struct Sub020097BCObj *obj, int i)
+struct Sub020097BCEnt *WIFILIST_GetFriendInfo(struct Sub020097BCObj *obj, int i)
 {
     return &obj->unk1C0[i];
 }
 
-void sub_020099E4(struct Sub020097BCObj *obj, int i, void *dest)
+void WIFILIST_CopyFriendNameToStrbuf(struct Sub020097BCObj *obj, int i, void *dest)
 {
     func_02045994(dest, (const u16 *)&obj->unk1C0[i], 0x10);
 }
 
-void sub_02009A00(struct Sub020097BCObj *obj, int i, void *dest)
+void WIFILIST_StoreFriendNameFromStrbuf(struct Sub020097BCObj *obj, int i, void *dest)
 {
     func_02045A38(dest, (u16 *)(&obj->unk1C0[i]), 0x10);
 }
 
-int sub_02009A1C(struct Sub020097BCObj *obj, u32 i)
+int WIFILIST_IsFriendDataValid(struct Sub020097BCObj *obj, u32 i)
 {
     if (i >= 0x20) {
         return 0;

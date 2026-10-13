@@ -46,8 +46,8 @@
  *   func_02027778 0x02027778 thumb
  *   func_02027858 0x02027858 thumb
  *   func_02027974 0x02027974 thumb
- *   func_02023F98 0x02023F98 thumb
- *   func_02023EF4 0x02023EF4 thumb
+ *   BRIGHTNESS_ChangeReset 0x02023F98 thumb
+ *   BRIGHTNESS_ChangeRequest 0x02023EF4 thumb
  *   d_021BB088 0x021BB088 data ov218 a4
  *   func_02030734 0x02030734 arm
  *   func_02049B40 0x02049B40 arm
@@ -127,7 +127,7 @@
  *   func_021B6200 0x021B6200 thumb ov067
  *   func_021B9B78 0x021B9B78 thumb ov218
  *   func_021B9C00 0x021B9C00 thumb ov218
- *   func_02024004 0x02024004 thumb
+ *   BRIGHTNESS_IsFinished 0x02024004 thumb
  *   func_0201F048 0x0201F048 thumb
  *   func_020279E8 0x020279E8 thumb
  *   func_02027A04 0x02027A04 thumb
@@ -153,7 +153,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  *   d_021BAED8 0x021BAED8 data a2
  */
@@ -281,8 +281,8 @@ extern void func_02045808(struct U16Vec *);
 extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *, void *);
 extern void func_02027858(struct TaskMenu *);
 extern void func_02027974(Obj *);
-extern void func_02023F98(u32 mask);
-extern int func_02023EF4(int a, int b, int c, int d, int e);
+extern void BRIGHTNESS_ChangeReset(u32 mask);
+extern int BRIGHTNESS_ChangeRequest(int a, int b, int c, int d, int e);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
@@ -357,7 +357,7 @@ extern void func_021B61F8(unsigned char *,int);
 extern int func_021B6448(unsigned char *);
 extern unsigned func_021B61FC(const unsigned char *p);
 extern void func_021B6200(u8 *a);
-extern int func_02024004(int a);
+extern int BRIGHTNESS_IsFinished(int a);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern u32 func_020279E8(struct TaskMenu *m);
 extern unsigned char func_02027A04(const unsigned char *);
@@ -378,7 +378,7 @@ extern void func_0204B404(struct Obj *p, const struct PtS *delta, u32 which);
 extern void func_020434DC(unsigned, unsigned);
 extern void func_0207DC44(int, FogMode, FogSlope, int);
 extern void func_0207DD24(unsigned short, int, int, int, int);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(unsigned, unsigned);
 int func_021B95A0(void *owner,int *state,char *input,u8 *p);
 int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p);
@@ -670,8 +670,8 @@ void func_021B991C(Obj *p)
  */
 int func_021B9924(void)
 {
-    func_02023F98(1);
-    return func_02023EF4(8, -8, 0, 0x3c, 1);
+    BRIGHTNESS_ChangeReset(1);
+    return BRIGHTNESS_ChangeRequest(8, -8, 0, 0x3c, 1);
 }
 
 
@@ -679,8 +679,8 @@ int func_021B9924(void)
 
 void func_021B9944(void)
 {
-    func_02023F98(1);
-    func_02023EF4((int)((void *)8), 0, -8, 60, 1);
+    BRIGHTNESS_ChangeReset(1);
+    BRIGHTNESS_ChangeRequest((int)((void *)8), 0, -8, 60, 1);
 }
 
 
@@ -1067,7 +1067,7 @@ u32 func_021BA0B0(u8 *a, u8 *b)
         break;
     case 1:
         if (func_0204E804() == 1) break;
-        if (func_02024004(1) == 0) break;
+        if (BRIGHTNESS_IsFinished(1) == 0) break;
         func_0201F048((struct WordSet *)(*(u32 *)(*(u8 **)(b + 0x28) + 0x14)), 0, tbl_021BAC80[*(int *)(b + 0x30)]);
         func_021B9B78((char *)(*(u8 **)(b + 0x28)), 0xEA);
         goto tail;
@@ -1113,7 +1113,7 @@ int func_021BA138(unsigned char *task, char *ctx)
 
 
 
-int func_021BA1A0(void){if(func_0204E804()==1 || func_02024004(1)==0)return 0;return 1;}
+int func_021BA1A0(void){if(func_0204E804()==1 || BRIGHTNESS_IsFinished(1)==0)return 0;return 1;}
 
 
 
@@ -1130,7 +1130,7 @@ advance:
     case 1:
         if (func_0204E804() == 1)
             break;
-        if (func_02024004(1) == 0)
+        if (BRIGHTNESS_IsFinished(1) == 0)
             break;
         func_021B9B78(((struct Obj26046 *)ctx)->f28, 0xef);
         goto advance;
@@ -1486,6 +1486,6 @@ void func_021BA7A4(void)
     func_0207DD24(0, 0, 0x7fff, 63, 0);
     *(volatile unsigned *)0x04000580 = 0xbfff0000;
     for (i = 0; i < 4; i++)
-        func_02046A94((unsigned char)i, &d_021BAED8[i * 4]);
+        G3D_SYSTEM_SetLight((unsigned char)i, &d_021BAED8[i * 4]);
     func_02046BE0(0, 0);
 }

@@ -23,8 +23,8 @@
  *   func_02156914  0x02156914  thumb  ov010
  *   func_02156A3C  0x02156A3C  thumb  ov010
  *   func_02156AD4  0x02156AD4  thumb  ov010
- *   func_02012F44  0x02012F44  thumb
- *   func_02012F80  0x02012F80  thumb
+ *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
+ *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   func_0200A7A0  0x0200A7A0  thumb
  *   func_0200A7F8  0x0200A7F8  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
@@ -58,8 +58,8 @@ extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_02156914(int a0, int a1);
 extern void func_02156A3C(struct Work *w, u8 j, void *ws, u32 slot);
 extern void func_02156AD4(struct Work *w, u8 j, void *ws, u32 slot);
-extern void *func_02012F44(void *h);
-extern int func_02012F80(char *base);
+extern void *GAME_DATA_GetSaveBlock2A(void *h);
+extern int GAME_DATA_GetExternalWork(char *base);
 extern u8 func_0200A7A0(struct Big *p, u32 index);
 extern u8 *func_0200A7F8(struct Big *p);
 struct WordSet;
@@ -92,7 +92,7 @@ int func_0215D884(Ctx *c, void *vm)
 
     switch (op) {
     case 0: {
-        void *sv = func_02012F44(func_0215A5E4(vm));
+        void *sv = GAME_DATA_GetSaveBlock2A(func_0215A5E4(vm));
 
         str = func_020457B0(0x26, heap);
         func_02045994(str, (const u16 *)func_0200A7F8(sv), 0x26);
@@ -112,7 +112,7 @@ int func_0215D884(Ctx *c, void *vm)
         func_02045C04(bank);
         break;
     case 2:
-        str = func_02156914((int)(*((void **)func_02012F80(h))), heap);
+        str = func_02156914((int)(*((void **)GAME_DATA_GetExternalWork(h))), heap);
         func_0201EE0C(ws, slot, str, 0, 1, 2);
         func_02045808(str);
         break;
@@ -131,13 +131,13 @@ int func_0215D884(Ctx *c, void *vm)
         func_02045C04(bank);
         break;
     case 5:
-        func_02156A3C(*((void **)func_02012F80(h)), arg, ws, slot);
+        func_02156A3C(*((void **)GAME_DATA_GetExternalWork(h)), arg, ws, slot);
         break;
     case 6:
-        func_02156AD4(*((void **)func_02012F80(h)), arg, ws, slot);
+        func_02156AD4(*((void **)GAME_DATA_GetExternalWork(h)), arg, ws, slot);
         break;
     case 7: {
-        void *sv = func_02012F44(func_0215A5E4(vm));
+        void *sv = GAME_DATA_GetSaveBlock2A(func_0215A5E4(vm));
         u16 ids[3];
         u8 idx[4];
         u8 val[4];

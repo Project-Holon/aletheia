@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020282A4",
+   "name": "APP_TASKMENU_WIN_ResetDecide",
    "address": "0x020282A4",
    "kind": "game",
    "region": "arm9",

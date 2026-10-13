@@ -186,726 +186,608 @@
  *   func_020061E4  0x020061E4  thumb
  *   d_021836A0     0x021836A0  data  a1
  */
-#include "../../matched/include/Obj09386.h"
-#include "../../matched/include/Obj09388.h"
-#include "../../matched/include/Obj12483.h"
-#include "../../matched/include/Obj19353.h"
-#include "../../matched/include/Obj12484.h"
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+typedef signed char s8;
+typedef signed short s16;
+typedef signed int s32;
 
-struct Ctx;
-struct SaveBlock;
-struct Sub24;
-struct Rec44;
-struct Work_0217AE20;
-struct BigObj;
-struct Src;
-struct Desc;
-struct Obj_0217AE20;
-struct Rec_0217AE20;
+#include "../ov011/intrude_comm_types.h"
+#include "../ov010/fldmmdl_types.h"
+
+struct GameSystem;
+struct GameComm;
+struct GameData;
+struct GameEvent;
+struct PlayerWork;
+struct PlayerStatus;
+struct FieldMap;
+struct FieldPlayer;
+struct FieldMsgBg;
+struct MsgData;
+struct MsgWin;
+struct PromptWin;
+struct YesNoMenu;
 struct WordSet;
 struct U16Vec;
-struct MsgBank;
-struct VecFx32;
-struct Comm;
-struct Evt;
-struct Vec12;
-struct Fx;
-struct Obj2;
-struct Obj00020;
-struct Sub0200852CObj;
-struct Mon;
-struct Obj;
-typedef unsigned char u8;
+struct MapMatrix;
+struct TpokeData;
+struct Pokemon;
 
-typedef unsigned short u16;
+typedef struct VecFx32 {
+    s32 x;
+    s32 y;
+    s32 z;
+} VecFx32;
 
-typedef unsigned int u32;
+/* Appearance of the player chosen for the Entralink visit. */
+typedef struct PlayerLook {
+    u8 flag;
+    u8 kind;
+    u16 objCode;
+} PlayerLook;
 
-typedef struct {
-    int f0;
-    u8 pad4[0x12];
-    u16 lo : 9;
-    u16 mode : 6;
-    u16 hi : 1;
-    u16 f18;
-    u16 pad1a;
-} Rec_0217AE20;
+/* Work of the player spin that changes the appearance (0x18 bytes). */
+typedef struct PlayerSpinWork {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    struct FieldMap *fieldMap;      /* 0x04 */
+    s16 shownStep;                  /* 0x08 */
+    s16 stepFrames;                 /* 0x0A: counts down from 15, the turn gets faster */
+    u16 objCode;                    /* 0x0C: appearance to switch to */
+    u8 kind;                        /* 0x0E */
+    u8 flag;                        /* 0x0F */
+    u8 state;                       /* 0x10 */
+    u8 dirIndex;                    /* 0x11: index into the turn command list */
+    u8 switched;                    /* 0x12: set once the appearance changed */
+    u8 pad13;
+    int reserved14;
+} PlayerSpinWork;
 
-typedef struct {
-    u8 a : 2;
-    u8 state : 2;
-    u8 rest : 4;
-} Flags;
+/* Task that bounces the player off the edge of the map (0x18 bytes). */
+typedef struct EdgeBlockWork {
+    struct FieldMap *fieldMap;      /* 0x00 */
+    Mmdl *playerMmdl;               /* 0x04 */
+    struct MsgData *msgData;        /* 0x08 */
+    struct MsgWin *msgWin;          /* 0x0C */
+    int sessionBusy;                /* 0x10 */
+    u16 edgeDir;                    /* 0x14: 2 left edge, 3 right edge */
+    u16 moveDir;                    /* 0x16 */
+} EdgeBlockWork;
 
-typedef struct {
-    u8 pad0[8];
-    int f8;
-    u8 padc[0x78];
-    u16 f84;
-    u8 pad86[6];
-    Rec_0217AE20 recs[3];
-    u8 padE0[0x81B];
-    u8 f8fb;
-    u8 pad8fc;
-    u8 f8fd;
-    u8 pad8fe[6];
-    Flags f904;
-    u8 pad905[0xB];
-    u8 f910;
-} Obj_Hdr;
+/* Task that changes the area when the player crosses the edge (0x30 bytes). */
+typedef struct AreaChangeWork {
+    struct FieldMap *fieldMap;      /* 0x00 */
+    Mmdl *playerMmdl;               /* 0x04 */
+    struct MsgData *msgData;        /* 0x08 */
+    struct MsgWin *msgWin;          /* 0x0C */
+    struct WordSet *wordSet;        /* 0x10 */
+    u16 edgeDir;                    /* 0x14 */
+    u8 sessionBusy;                 /* 0x16 */
+    u8 pad17;
+    u8 transitionWork[0x18];        /* 0x18: set up by func_0217C758, stepped by func_0217C820 */
+} AreaChangeWork;
 
-typedef short s16_0217AE20;
+/* Event that asks whether to leave the Entralink (0x2C bytes). */
+typedef struct ExitConfirmWork {
+    struct MsgData *msgData;        /* 0x00 */
+    struct MsgWin *endMsgWin;       /* 0x04 */
+    struct PromptWin *promptWin;    /* 0x08 */
+    struct YesNoMenu *yesNoMenu;    /* 0x0C */
+    PlayerSpinWork spin;            /* 0x10 */
+    u16 waitFrames;                 /* 0x28 */
+    u16 pad2A;
+} ExitConfirmWork;
 
-typedef struct {
-    int f00;
-    void *f04;
-    int pad[2];
-    int f10;
-    u16 f14;
-    u16 f16;
-} Task;
+/* Event that shows a notice and spins the player (0x20 bytes). */
+typedef struct NoticeEventWork {
+    struct MsgData *msgData;        /* 0x00 */
+    struct PromptWin *promptWin;    /* 0x04 */
+    PlayerSpinWork spin;            /* 0x08 */
+} NoticeEventWork;
 
-typedef struct {
-    unsigned char *f0;
-    int f4;
-    int f8;
-    int fc;
-    int f10;
-    u16 f14;
-} Obj_0217B084;
+/* Parameter block of GAME_COMM_Start for the Entralink (0x10 bytes). */
+typedef struct IntrudeStartParam {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    struct GameComm *gameComm;      /* 0x04 */
+    int reserved08;
+    u16 reserved0C;
+    u8 startKind;                   /* 0x0E: 1 when started from the field */
+    u8 pad0F;
+} IntrudeStartParam;
 
-typedef struct {
-    unsigned char *f0;
-    int f4;
-    int f8;
-    int fc;
-    struct WordSet *f10;
-    u16 f14;
-    u8 f16;
-    u8 f17;
-    int f18;
-} Obj_0217AE20;
+/* One zone of the Entralink with the tile position of its anchor (0x0C bytes). */
+typedef struct IntrudeZonePos {
+    u32 zoneId : 10;
+    u32 rest : 22;
+    s16 tileX;
+    s16 tileY;
+    s16 tileZ;
+    u16 pad0A;
+} IntrudeZonePos;
 
-typedef struct {
-    u8 pad0[0x86];
-    u16 slot : 3;
-    u16 rest : 13;
-} Peer;
+/* Position that a visit offer waits at, per offer index. */
+typedef struct IntrudeTilePos {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 pad06;
+} IntrudeTilePos;
 
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u16 h2;
-} Tmp;
+/* Move parameters per appearance of a spawned partner Pokemon. */
+typedef struct IntrudeMmdlMoveParam {
+    u16 moveCode;
+    u8 moveLimitX;
+    u8 moveLimitZ;
+} IntrudeMmdlMoveParam;
 
-typedef struct { int x, y, z; } V12;
-
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    int fc;
-    u8 f10[0x18];
-    u16 f28;
-} Obj_0217B600;
-
-typedef struct {
-    int f0;
-    int f4;
-    u8 f8[1];
-} Work_0217AE20;
-
-typedef struct { int x, y, z; } Vec;
-
-typedef struct {
-    int f00;
-    int f04;
-    int pad;
-    u16 pad2;
-    u8 f0e;
-} Rec_0217B600;
-
-typedef struct { u16 f : 3; u16 g : 13; } Fh;
-
-typedef struct { u8 lo : 4; u8 b4 : 1; u8 hi : 3; } Fb;
-
-typedef struct { u32 f : 4; u32 g : 28; } Fw;
-
-typedef struct { s16_0217AE20 x, y, z; } Vec3s;
-
-typedef struct { s16_0217AE20 x, y, z, w; } Ent_0217B600;
-
-typedef struct { u32 x:10; u32 rest:22; u32 y, z; } Entry_0217AE20;
-
-typedef struct { u16 a, b; int c; } Sub;
-
-typedef struct {
-    u16 f00, f02;
-    u16 pad04[3];
-    u16 f0a;
-    u16 pad0c[8];
-    Sub s;
-} Buf;
-
-typedef enum { INDEX_ZERO, INDEX_ONE } Index;
-
-typedef struct { u16 f0, f2, f4, f6, f8; } Ent_0217BED4;
-
-typedef struct { u8 bit:1; u8 rest:7; } Bits_0217AE20;
-
-typedef struct {
-    u16 h0;
-    u16 h2;
-    int w4;
-} T;
-
-typedef struct {
-    int w[7];
-    T t;
-} S_0217C14C;
-
-typedef struct {
-    u16 h[14];
-    T t;
-} S_0217C1D0;
-
-typedef struct {
-    u32 x : 11;
-    u32 gap : 10;
-    u32 y : 2;
-    u32 z : 6;
-    u32 e : 3;
-} B;
-
-typedef struct {
-    u16 h0;
-    u8 b2;
-    u8 b3;
-} E;
-
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-} O;
-
-typedef unsigned long long u64;
-
-typedef struct {
+/* One entry of a symbol map page (IntrudeSymbolPage.entries): one Pokemon wandering on the symbol map. */
+typedef struct SymbolMonEntry {
     u32 species : 11;
     u32 move : 10;
-    u32 f21 : 2;
-    u32 f23 : 6;
-    u32 f29 : 3;
-} Entry_0217C2A0;
+    u32 sex : 2;
+    u32 form : 6;
+    u32 appearance : 3;
+} SymbolMonEntry;
 
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-} Ctx;
+/* Context of the Pokemon spawn on a symbol map. */
+typedef struct SymbolSpawnContext {
+    struct TpokeData *tpoke;        /* 0x00 */
+    struct FieldMap *fieldMap;      /* 0x04 */
+    int objIdBase;                  /* 0x08 */
+} SymbolSpawnContext;
 
-typedef struct {
-    int w[13];
-} B52;
-
-typedef struct {
-    u16 h0;
-    u16 pad2;
-    void *w4;
-    u8 pad8[0x30];
-    B52 b38;
-    u8 pad6c[0x18];
-    u8 b84;
-    u8 pad85[3];
-} Obj;
-
-typedef signed short s16_0217C2A0;
-
-typedef struct {
-    void *f0;
-    int f4;
-    s16_0217C2A0 f8;
-    s16_0217C2A0 fA;
-    u16 fC;
-    u8 fE;
-    u8 fF;
-    u8 f10;
-    u8 f11;
-    u8 f12;
-    u8 f13;
-    int f14;
-} Rec;
-
-typedef struct {
-    u32 lo : 4;
-    u32 mid : 14;
-    u32 hi : 11;
-    u32 top : 3;
-} Bits_0217C2A0;
-
-typedef struct {
-    u8 mask : 3;
+/* Low byte of IntrudeRequestHead.reserved08: bit per net ID. */
+typedef struct IntrudeNetIdMask {
+    u8 netIds : 3;
     u8 rest : 5;
-} Mask;
+} IntrudeNetIdMask;
 
-typedef struct {
-    int f00;
-    Bits_0217C2A0 f04;
-    Mask f08;
-    u8 pad09;
-    u16 f0A[3];
-    u8 f10[8];
-    u8 f18[0x1C];
-} Info;
+/* Placement of a model in MmdlHeader.pos: tile x and z, then the height. */
+typedef struct MmdlGridPos {
+    u16 x;
+    u16 z;
+    int y;
+} MmdlGridPos;
 
-typedef struct {
-    u16 f00;
-    int f04;
-    u8 f08[0x30];
-    Info f38;
-    Rec f6C;
-    u8 f84;
-} Work_0217C2A0;
+/* Grid position of a model (three tile coordinates). */
+typedef struct GridPos {
+    s16 x;
+    s16 y;
+    s16 z;
+} GridPos;
 
-typedef struct {
-    void *f0;
-    int f4;
-    s16_0217C2A0 f8, fA;
-    u16 fC;
-    u8 fE, fF, f10, f11, f12, f13;
-    int f14;
-} Rec_0217C658;
+/* Definition of one model placed on each area (five halfwords). */
+typedef struct IntrudeAreaMmdlDef {
+    u16 objCode;
+    u16 gridX;
+    u16 gridZ;
+    u16 eventId;
+    u16 objIdBase;
+} IntrudeAreaMmdlDef;
 
-typedef struct {
-    void *f0;
-    unsigned char *f4;
-    s16_0217C2A0 f8;
-    s16_0217C2A0 fA;
-    u16 fC;
-    u8 fE;
-    u8 fF;
-    u8 f10;
-    u8 f11;
-    u8 f12;
-    u8 f13;
-    int f14;
-} Rec_0217C688;
+typedef enum AreaMmdlIndex {
+    AREA_MMDL_FIRST,
+    AREA_MMDL_SECOND
+} AreaMmdlIndex;
 
-extern u32 func_02012138(const void *p);
-extern u32 func_02026474(void *obj);
-extern void *func_020120F4(const void *p);
-extern u8 func_02012E40(const void *o);
-extern u32 func_02026454(void *obj);
-extern void *func_020127A4(void *p);
-extern u16 func_02012AC8(const void *p);
-extern u32 func_02013D5C(u32 id);
+/* Work of the event that shows the offered request (0x88 bytes). */
+typedef struct OfferEventWork {
+    u16 senderNetId;                /* 0x00 */
+    u16 pad02;
+    struct FieldMap *fieldMap;      /* 0x04 */
+    u8 infoWindow[0x30];            /* 0x08: set up by func_0217F2B4 */
+    IntrudeMemberRecord record;     /* 0x38: copy of the active offer */
+    PlayerSpinWork spin;            /* 0x6C */
+    u8 showInfo;                    /* 0x84 */
+    u8 pad85[3];
+} OfferEventWork;
+
+/* GAMESYSTEM, GAME_DATA, GAME_COMM and GAME_EVENT access */
+extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
+extern void *func_02026474(struct GameComm *gameComm);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct PlayerWork *func_020120F8(const struct GameSystem *gameSystem);
+extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern u32 func_02012114(const struct GameSystem *gameSystem);
+extern u8 func_02012E40(const struct GameData *gameData);
+extern u32 func_02026454(struct GameComm *gameComm);
+extern struct PlayerWork *func_020127A4(struct GameData *gameData);
+extern u16 func_02012AC8(const struct PlayerWork *playerWork);
+extern u32 func_02012AE4(const struct PlayerWork *playerWork);
+extern u32 func_02013D5C(u32 zoneId);
+extern u32 func_02013D9C(u32 zoneId);
 extern u32 func_0200FB24(void);
-extern int func_02012B70(const void *p);
-extern u8 func_02012B58(const void *p);
-extern struct Rec44 *func_02012950(void *p, u32 i);
-extern void func_02175004(void *p);
-extern u16 func_02175598(void *o, u32 id);
-extern void func_02167590(void *a, void *w);
-extern int func_021677E4(void *p, int i);
-extern void func_021675D0(void *w, int idx, int a2, void *src);
-extern void func_02167848(void *a0, int a1, void *a2);
-extern int func_021679C4(void *w, int i);
-extern unsigned int func_021A3098(void *p);
-extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
-extern int func_021679A4(int, int, int, int, void *, void *);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(void *p);
-extern void MI_CpuFill8(void *p, int v, int n);
-extern void *func_021A3074(void *p);
-extern int func_0216D3CC(int a0);
-extern u16 func_0216D5F8(void *p);
-extern void func_0216D410(void *a0, u16 a1);
-extern int func_0216D454(int a0, u32 a1, u32 a2, u32 a3);
-extern int func_0216D480(void *p);
-extern void func_0216D9A0(void *map);
-extern u32 *func_0216D9E4(void *c);
-extern void *func_02188C7C(void *p);
-extern u32 func_02188C54(void *p);
-extern int func_021904B0(u32 a, u32 b);
-extern int func_021907A8();
-extern int func_0219077C(void *p);
-extern void func_02190788(void *p);
-extern int func_02190740(u32 a, u32 b, u32 c, u32 d);
-extern int func_02190728(void *a);
-extern u32 func_020362DC(void);
-extern u32 func_02045C04(void *rec);
-extern void func_02082BCC(void *, int, int);
-extern void *func_020124E4(void *p);
-extern u8 *func_02012944(void *p);
-extern struct WordSet *func_0201EC64(u32 heap);
-extern void func_0201F02C(void *p, u32 i, void *a);
-extern void func_0201F250(void *ws, void *dst, void *src);
-extern u32 func_0201ED04(void *p);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_02045EC0(void *bank, u32 index);
-extern void func_02045808(void *vec);
-extern int func_02158344(int a0);
-extern int func_021584A4();
-extern int func_02175BE4(void *a);
-extern void func_02175548();
-extern void func_0217C758();
-extern int func_0217C820();
-extern int func_02188D20();
-extern u16 func_02188C9C(void *p);
-extern void func_02190758();
-extern void func_021BC5A0();
-extern u8 *func_020120F8(const void *p);
-extern void func_021A3038(void *p, void *out);
-extern struct Desc *func_0216B340(int a0, int a1, void *a2, int a3, int a4);
-extern int func_0203D1B4();
-extern void *func_0201210C(const void *p);
-extern u8 *func_02012798(void *p, int i);
-extern void func_02012A90(void *p, const void *src);
-extern void func_02012374(void *evt, void *out);
-extern void func_02026400(void *p);
-extern int func_02185214();
-extern int func_02188BE8();
-extern void *func_02188CB4();
-extern void func_021909BC();
-extern int func_02190BE4();
-extern int func_02190C78();
-extern int func_02190E40();
-extern void func_02190E74();
-extern int func_02190EF0();
-extern int func_02190F64();
-extern int func_021A3238();
-extern u32 func_0202648C(void *obj);
-extern u32 func_02026460(void *obj);
+extern int func_02012B70(const struct GameData *gameData);
+extern u8 func_02012B58(const struct GameData *gameData);
+extern u8 func_02012B80(const struct GameData *gameData);
+extern struct PlayerStatus *func_02012950(struct GameData *gameData, u32 index);
+extern struct PlayerStatus *func_02012944(struct GameData *gameData);
+extern struct PlayerWork *func_02012798(struct GameData *gameData, int index);
+extern void func_02012A90(struct PlayerWork *playerWork, const VecFx32 *pos);
+extern u32 func_02012204(const struct GameSystem *gameSystem);
+extern int func_020120D8(struct GameSystem *gameSystem);
+extern u32 func_0202648C(struct GameComm *gameComm);
+extern u32 func_02026460(struct GameComm *gameComm);
+extern u32 func_0202647C(struct GameComm *gameComm);
+extern struct GameData *func_02026478(struct GameComm *gameComm);
+extern void func_02026400(struct GameComm *gameComm);
+extern void func_0202640C(struct GameComm *gameComm, u32 callback, u32 callbackArg);
+extern void func_020263D8(struct GameComm *gameComm, u32 kind, u32 param);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const void *file, u16 line);
 extern int func_02035390(void);
 extern int func_020353B0(void);
-extern u32 func_02012204(const void *p);
-extern int func_020120D8(void *p);
 extern int func_020392B8(void);
-extern void func_0202640C(void *p, u32 a, u32 b);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const void *site, u16 tag);
-extern void func_020263D8(void *p, u32 a1, u32 a2);
-extern unsigned int func_02012AE4(const void *p);
-extern int func_02175E90(void *p, void *q);
-extern void func_021A3044(void *p, void *v);
-extern void func_02175274(void *, int);
 extern u16 func_02039338(void);
-extern void func_02175710(void *o, u32 v);
-extern void func_02161FEC(void *p, u16 v);
-extern unsigned int func_02188C98(void *p);
-extern u16 *func_02159B48(int a);
-extern int func_02159B94(int a0, int a1, int a2, int a3);
-extern void func_02159BBC(int);
-extern void func_0218CD20(int, int, int);
-extern u32 func_02012114(const void *p);
-extern u8 func_02008550(const void *obj);
-extern void func_021A3220(void *p, u32 res);
-extern void func_0216D8C0(void *, void *);
-extern void func_021A322C(void *p);
-extern int func_02175B8C(void *);
-extern int func_02175BBC(void *);
-extern u8 *func_02175B34(void *);
-extern int func_02175CF4(void *p, void *q);
-extern void func_0216D828(void *, void *);
-extern int func_02182124(int, void *, void *);
-extern void func_0216CE60(int a, int b, int c);
-extern u32 func_02013D9C(u32 id);
-extern u32 func_0202647C(void *obj);
-extern int func_02176258(void *);
-extern unsigned int func_02026478(void *obj);
-extern u8 func_02012B80(const void *p);
-extern u32 func_0202A188(void *p, u32 a, u32 v2, u32 v3);
-extern int func_0216D63C(void *, int);
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern u32 func_020307B0(void *p);
-extern u32 func_02008530(const void *obj);
-extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
-extern void *func_020173F0(u16, u16, u64, int);
-extern void func_02017588(void *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern void func_02018A00(void *p, u32 a, u32 b);
-extern u32 func_02017988(void *p, u32 a);
-extern u16 func_0201808C(void *, u16);
-extern void func_020180F4(void *p, int move);
-extern int func_02166618(int);
-extern int func_02166640(int);
-extern u16 func_02188C84(void *p);
-extern int func_0216D83C(void *);
-extern int func_0216D86C(void *);
-extern int func_0202A128(int);
-extern void func_0202A170(int);
+extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, void *eventFunc, u32 workSize);
+extern void *func_020124E8(struct GameEvent *event);
+extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern void func_02012374(struct GameEvent *event, struct GameEvent *next);
+extern void MI_CpuFill8(void *dst, int value, int size);
+extern u32 func_020362DC(void);
 extern u32 func_02005728(u32 range);
-extern void func_0217F2B4();
-extern void func_02174E14(void *p, int a);
-extern void func_0217F528(void *, void *, int, int, int, int);
-extern void func_021762D8(void *, void *, int, u16);
-extern void func_0217F574(void *p, unsigned int index, int a, int b);
-extern void *func_02029830(void *a, u32 b);
+extern void func_020061E4(u32 seNo);
 extern int func_02005F38(void);
-extern void *func_02029620(void *a, u32 b, u32 c);
-extern void func_0217F58C(void *);
-extern int func_02173FC0(int a, void *b);
-extern int func_02175A24(void *);
-extern void func_0217F318(void *);
-extern void func_020061E4(u32 a);
-void func_0217AE20(u8 *a0, int a1, int a2);
-int func_0217AFC4(int *a, u8 *b, int *out);
-void *func_0217B044(void *a, int b, int c, u16 d, u16 e, int f);
-int func_0217B084(int a0, int *state, Obj_0217B084 *o, u32 a3);
-void *func_0217B1DC(void *a, int b, int c, unsigned short d);
-int func_0217B214(int a0, int *state, Obj_0217AE20 *o);
-int func_0217B410(int a0, int a1, int a2);
-void *func_0217B4D8(int a0, int a1, int a2, int *a3, u16 a4, u16 a5);
-void *func_0217B5DC(void *a, int b, int c);
-int func_0217B600(int a0, int *state, Obj_0217B600 *o);
-void *func_0217B810(void *a, u8 *pos);
-int func_0217B82C(int a0, int *state, Work_0217AE20 *w);
-int func_0217B930(int *p);
-int func_0217B94C(int *p);
-void func_0217B968(int a0, void *a1, void *a2, void *a3);
-void func_0217BA48(int a, int b);
-void func_0217BA54(void *a);
-void func_0217BAB4(int a0, void *a1, void *a2, u8 *p);
-void func_0217BBCC(int a, int b, char *p);
-void func_0217BBD8(u8 *a, int b, u8 *c);
-void func_0217BC94(int a, int n);
-void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag);
-int func_0217BDE0(int a, u8 *b, int c);
-Entry_0217AE20 *func_0217BEA8(u32 a);
-int func_0217BED4(int a, V12 *out);
-void func_0217BF1C(void *p);
-u8 func_0217BF28(u8 *p);
-void func_0217BF2C(int a, u16 b, u16 c, int d, u16 e, u16 f, u16 g);
-void func_0217BF84(int a);
-int func_0217BFD8(const struct Ctx *a, int b);
-int func_0217C070(u8 *p);
-void func_0217C094(unsigned char *p);
-u8 func_0217C0A8(void *a0);
-int func_0217C11C(u32 value);
-void func_0217C14C(int a0, u16 a1, u16 a2, int a3);
-void func_0217C194(int p);
-void func_0217C1D0(const O *o, const B *p, u16 a2, u16 a3, u16 xh0, int xw4);
-void func_0217C274(unsigned int *out, char *p);
-int func_0217C294(char *a0);
-void *func_0217C2A0(int heap, void *a1, const Entry_0217C2A0 *e);
-void func_0217C37C(int a0, int a1, Entry_0217C2A0 *list, int a3, int kind);
-struct Desc *func_0217C458(void *a0, void *a1, u8 *a2, int a3);
-int func_0217C4D0(void *task, int *state, Work_0217C2A0 *w);
-void func_0217C658(Rec_0217C658 *p, void *a, int b, u16 c, u8 d, u8 e);
-int func_0217C688(Rec_0217C688 *r, void *a1);
-extern const V12 d_02182B90;
+extern int func_0203D1B4(void);
+extern struct GameEvent *func_02029830(struct GameSystem *gameSystem, u32 bgmId);
+extern struct GameEvent *func_02029620(struct GameSystem *gameSystem, u32 a1, u32 a2);
+/* MyStatus, Pokemon and message helpers */
+extern u8 func_02008530(const struct PlayerStatus *status);
+extern u8 func_02008550(const struct PlayerStatus *status);
+extern struct WordSet *func_0201EC64(u32 heapId);
+extern void func_0201F02C(struct WordSet *wordSet, u32 index, struct PlayerStatus *status);
+extern void func_0201F250(struct WordSet *wordSet, struct STRBUF *dst, struct STRBUF *src);
+extern u32 func_0201ED04(struct WordSet *wordSet);
+extern struct STRBUF *func_020457B0(u32 capacity, u32 heapId);
+extern struct STRBUF *func_02045EC0(struct MsgData *msgData, u32 index);
+extern void func_02045808(struct STRBUF *strbuf);
+extern u32 func_02045C04(struct MsgData *msgData);
+extern u8 *func_0204A1BC(int arcId, int a1, int a2, int heapId);
+extern void func_020307B0(void *ptr);
+extern u32 func_020186C8(u32 trainerId, int species, int form, int sex, int a4, int a5);
+extern void *func_020173F0(u16 species, u16 level, u64 id, int heapId);
+extern void func_02017588(void *mon, u16 species, u16 level, unsigned long long id, u32 power, unsigned long long rnd);
+extern void func_02018A00(void *mon, u32 species, u32 form);
+extern u32 func_02017988(void *mon, u32 form);
+extern u16 func_0201808C(void *mon, u16 move);
+extern void func_020180F4(void *mon, int move);
+extern struct TpokeData *func_0202A128(int heapId);
+extern void func_0202A170(struct TpokeData *tpoke);
+extern u32 func_0202A188(struct TpokeData *tpoke, u32 species, u32 sex, u32 form);
+/* COMM_PLAYER, FLDMMDL and symbol map */
+extern void func_02167590(struct GameSystem *gameSystem, struct CommPlayerWork *commPlayer);
+extern int func_021677E4(struct CommPlayerWork *commPlayer, int index);
+extern void func_021675D0(struct CommPlayerWork *commPlayer, int index, int objCode, IntrudePlayerPackage *package);
+extern void func_02167848(struct CommPlayerWork *commPlayer, int index, IntrudePlayerPackage *package);
+extern int func_021679C4(struct CommPlayerWork *commPlayer, int index);
+extern int func_021679A4(struct CommPlayerWork *commPlayer, int gridX, int gridY, int gridZ, int *outIndex, int *outHit);
+extern int func_02166618(int cellKind);
+extern int func_02166640(int cellKind);
+extern void func_02161FEC(u8 *returnSlots, u16 linkId);
+extern struct GameEvent *func_0216B340(struct GameSystem *gameSystem, int a1, VecFx32 *pos, int a3, int a4);
+extern Mmdl *func_0216CE60(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
+extern int func_0216D3CC(Mmdl *mmdl);
+extern u16 func_0216D5F8(Mmdl *mmdl);
+extern void func_0216D410(Mmdl *mmdl, u16 acmd);
+extern int func_0216D454(Mmdl *mmdl, u32 *seq, void *work, u32 extra);
+extern int func_0216D480(Mmdl *mmdl);
+extern int func_0216D63C(Mmdl *mmdl, int paramIndex);
+extern void func_0216D828(Mmdl *mmdl, GridPos *pos);
+extern int func_0216D83C(Mmdl *mmdl);
+extern int func_0216D86C(Mmdl *mmdl);
+extern void func_0216D8C0(Mmdl *mmdl, const VecFx32 *offset);
+extern void func_0216D9A0(MmdlSys *mmdlSys);
+extern u32 *func_0216D9E4(MmdlSys *mmdlSys);
+/* INTRUDE_COMM */
+extern int func_02173FC0(IntrudeCommSys *work, IntrudeSession *session);
+extern void func_02174E14(IntrudeCommSys *work, int state);
+extern void func_02175004(IntrudeCommSys *work);
+extern void func_02175274(IntrudeCommSys *work, int posX);
+extern void func_02175548(struct PlayerStatus *status, u16 *objCode, u8 *kind, u8 *flag);
+extern u16 func_02175598(const IntrudePeer *peer, struct PlayerStatus *status);
+extern void func_02175710(IntrudeCommSys *work, u32 intrudeId);
+extern int func_02175A24(IntrudeSession *session);
+extern IntrudeMemberRecord *func_02175B34(IntrudeSession *session);
+extern int func_02175B8C(IntrudeSession *session);
+extern int func_02175BBC(IntrudeSession *session);
+extern int func_02175BE4(IntrudeSession *session);
+extern int func_02175CF4(IntrudeCommSys *work, IntrudeSession *session);
+extern int func_02175E90(IntrudeCommSys *work, IntrudeSession *session);
+extern int func_02176258(IntrudeCommSys *work);
+extern void func_021762D8(IntrudeMemberRecord *record, IntrudeMemberName *name, int wordSet, u16 netId);
+extern IntrudeCommSys *func_02158344(struct GameComm *gameComm);
+extern int func_021584A4(struct GameComm *gameComm, struct GameData *gameData, int a2);
+extern int func_02182124(struct GameSystem *gameSystem, IntrudeCommSys *work, IntrudeMemberRecord *offer);
+extern struct GameEvent *func_02185214(struct GameSystem *gameSystem);
+/* map matrix and field map */
+extern struct MapMatrix *func_02159B48(int heapId);
+extern int func_02159B94(struct MapMatrix *matrix, int a1, int a2, int a3);
+extern void func_02159BBC(struct MapMatrix *matrix);
+extern void func_0218CD20(struct FieldMap *fieldMap, int mapper, struct MapMatrix *matrix);
+extern u16 func_02188C84(struct FieldMap *fieldMap);
+extern int func_02188BE8(struct FieldMap *fieldMap);
+extern MmdlSys *func_02188C7C(struct FieldMap *fieldMap);
+extern struct FieldMsgBg *func_02188C54(struct FieldMap *fieldMap);
+extern unsigned int func_02188C98(struct FieldMap *fieldMap);
+extern u16 func_02188C9C(struct FieldMap *fieldMap);
+extern struct FieldPlayer *func_02188CB4(struct FieldMap *fieldMap);
+extern int func_02188D20(struct FieldMap *fieldMap);
+extern void func_021BC5A0(int a0, int a1);
+/* FIELD_MSGBG */
+extern struct MsgData *func_021904B0(struct FieldMsgBg *msgBg, u32 msgDataId);
+extern struct MsgWin *func_021907A8(struct FieldMsgBg *msgBg, struct MsgData *msgData);
+extern int func_02190740(struct MsgWin *msgWin, u32 a1, u32 a2, u32 msgId);
+extern void func_02190758(struct MsgWin *msgWin, u32 a1, u32 a2, struct STRBUF *strbuf);
+extern int func_0219077C(struct MsgWin *msgWin);
+extern void func_02190788(struct MsgWin *msgWin);
+extern int func_02190728(struct MsgWin *msgWin);
+extern struct PromptWin *func_02190F64(struct FieldMsgBg *msgBg, struct MsgData *msgData);
+extern void func_02190E74(struct PromptWin *promptWin, u32 a1, u32 a2, u32 msgId);
+extern int func_02190EF0(struct PromptWin *promptWin);
+extern void func_02190E40(struct PromptWin *promptWin);
+extern struct YesNoMenu *func_02190BE4(struct FieldMsgBg *msgBg, int a1);
+extern int func_02190C78(struct YesNoMenu *menu);
+extern void func_021909BC(struct YesNoMenu *menu);
+/* FIELD_PLAYER */
+extern void func_021A3038(struct FieldPlayer *player, VecFx32 *pos);
+extern void func_021A3044(struct FieldPlayer *player, const VecFx32 *pos);
+extern Mmdl *func_021A3074(struct FieldPlayer *player);
+extern unsigned int func_021A3098(struct FieldPlayer *player);
+extern void func_021A3220(struct FieldPlayer *player, u32 form);
+extern void func_021A322C(struct FieldPlayer *player);
+extern int func_021A3238(struct FieldPlayer *player);
+extern int func_021A3460(struct FieldPlayer *player, s16 *gridX, s16 *gridY, s16 *gridZ);
+/* next original file (sub display and transition steps) */
+extern void func_0217F2B4();
+extern void func_0217F318();
+extern void func_0217F528();
+extern void func_0217F574();
+extern void func_0217F58C();
+extern void func_0217C758();
+extern int func_0217C820();
+
+void func_0217AE20(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player);
+int func_0217AFC4(IntrudeCommSys *work, struct FieldPlayer *player, int *outIndex);
+struct GameEvent *func_0217B044(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, u16 moveDir, u16 edgeDir, int sessionBusy);
+int func_0217B084(struct GameEvent *event, u32 *seq, EdgeBlockWork *work, u32 eventArg3);
+struct GameEvent *func_0217B1DC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, u16 edgeDir);
+int func_0217B214(struct GameEvent *event, u32 *seq, AreaChangeWork *work);
+int func_0217B410(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player);
+struct GameEvent *func_0217B4D8(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, int *posX, u16 moveDir, u16 facingDir);
+struct GameEvent *func_0217B5DC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work);
+int func_0217B600(struct GameEvent *event, u32 *seq, ExitConfirmWork *work);
+struct GameEvent *func_0217B810(struct GameSystem *gameSystem, VecFx32 *pos);
+int func_0217B82C(struct GameEvent *event, u32 *seq, NoticeEventWork *work);
+int func_0217B930(const VecFx32 *pos);
+int func_0217B94C(const VecFx32 *pos);
+void func_0217B968(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct GameComm *gameComm, struct FieldPlayer *player);
+void func_0217BA48(struct GameSystem *gameSystem, int result);
+void func_0217BA54(struct GameSystem *gameSystem);
+void func_0217BAB4(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player, IntrudeCommSys *work);
+void func_0217BBCC(int unusedArg0, int unusedArg1, IntrudeCommSys *work);
+void func_0217BBD8(struct FieldMap *fieldMap, struct GameSystem *gameSystem, IntrudeCommSys *work);
+void func_0217BC94(struct FieldMap *fieldMap, int count);
+void func_0217BCDC(IntrudeCommSys *work, struct GameSystem *gameSystem, int objCode, u8 kind, u8 flag);
+int func_0217BDE0(struct GameSystem *gameSystem, IntrudeCommSys *work, struct FieldPlayer *player);
+IntrudeZonePos *func_0217BEA8(u32 zoneId);
+int func_0217BED4(int zoneId, VecFx32 *out);
+void func_0217BF1C(IntrudeStartParam *param);
+u8 func_0217BF28(IntrudeStartParam *param);
+void func_0217BF2C(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height, u16 objCode, u16 eventId, u16 objId);
+void func_0217BF84(struct FieldMap *fieldMap);
+int func_0217BFD8(struct GameSystem *gameSystem, int zoneId);
+int func_0217C070(IntrudeCommSys *work);
+void func_0217C094(IntrudeCommSys *work);
+u8 func_0217C0A8(struct GameComm *gameComm);
+int func_0217C11C(u32 zoneId);
+void func_0217C14C(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height);
+void func_0217C194(struct FieldMap *fieldMap);
+void func_0217C1D0(const SymbolSpawnContext *spawn, const SymbolMonEntry *entry, u16 objId, u16 gridX, u16 gridZ, int height);
+void func_0217C274(u32 *out, Mmdl *mmdl);
+int func_0217C294(Mmdl *mmdl);
+void *func_0217C2A0(int heapId, struct GameData *gameData, const SymbolMonEntry *entry);
+void func_0217C37C(struct FieldMap *fieldMap, int objIdBase, SymbolMonEntry *entries, int unused, int cellKind);
+struct GameEvent *func_0217C458(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work, u16 senderNetId);
+int func_0217C4D0(struct GameEvent *event, u32 *seq, OfferEventWork *work);
+void func_0217C658(PlayerSpinWork *spin, struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 objCode, u8 kind, u8 flag);
+int func_0217C688(PlayerSpinWork *spin, IntrudeCommSys *work);
+
+extern const VecFx32 d_02182B90;
 extern const char d_02183AE0[];
 extern u16 d_021DB810[];
-extern Ent_0217B600 d_021DB834[];
-extern Entry_0217AE20 d_02182B9C[];
-extern const V12 d_02182B60;
-extern const Buf d_02182B6C;
-extern const Ent_0217BED4 d_02182B54[];
+extern IntrudeTilePos d_021DB834[];
+extern IntrudeZonePos d_02182B9C[];
+extern const VecFx32 d_02182B60;
+extern const MmdlHeader d_02182B6C;
+extern const IntrudeAreaMmdlDef d_02182B54[];
 extern const u32 d_021700A4;
 extern const u16 d_02170128[];
-extern const S_0217C14C d_021835D4;
-extern const E d_0218360C[];
-extern const S_0217C1D0 d_0218362C;
+extern const MmdlHeader d_021835D4;
+extern const IntrudeMmdlMoveParam d_0218360C[];
+extern const MmdlHeader d_0218362C;
 extern const u8 d_02183678[20][2];
 extern const u8 d_021835F8[20][2];
 extern const u8 d_02183650[20][2];
 extern const u8 d_021836A0[4];
 
-
-
-
-
-
-void func_0217AE20(u8 *a0, int a1, int a2)
+void func_0217AE20(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player)
 {
-    int h;
-    Obj_Hdr *p;
-    void *ctx;
-    int skip;
+    int zoneId;
+    struct GameComm *gameComm;
+    IntrudeCommSys *work;
+    struct GameData *gameData;
+    int ownId;
     int i;
-    int r;
+    int objCode;
 
-    h = func_02012138((const struct Ctx *)a1);
-    p = (Obj_Hdr *)func_02026474((void *)h);
-    ctx = func_020120F4((const struct Ctx *)a1);
-    if (func_02012E40(ctx) == 1)
+    gameComm = func_02012138(gameSystem);
+    work = func_02026474(gameComm);
+    gameData = func_020120F4(gameSystem);
+    if (func_02012E40(gameData) == 1)
         return;
-    func_0217B968((int)a0, (void *)a1, (void *)h, (void *)a2);
-    if (func_02026454((void *)h) != 2 || p == 0)
+    func_0217B968(fieldMap, gameSystem, gameComm, player);
+    if (func_02026454(gameComm) != 2 || work == 0)
         return;
-    h = func_02012AC8(func_020127A4(ctx));
-    if (p->f910 == 0 && func_02013D5C(h) == 1)
-        p->f910 = 1;
-    func_0217BBD8(a0, a1, (u8 *)p);
-    if (p->f8fd != 7 || func_0200FB24() != 0)
+    zoneId = func_02012AC8(func_020127A4(gameData));
+    if (work->specialZoneEntered == 0 && func_02013D5C(zoneId) == 1)
+        work->specialZoneEntered = 1;
+    func_0217BBD8(fieldMap, gameSystem, work);
+    if (work->step != 7 || func_0200FB24() != 0)
         return;
-    if (func_02012B70(ctx) == 0) {
-        if (p->f904.state == 0) {
-            if (func_0217C11C(p->f84) == 1)
-                p->f904.state = 1;
+    if (func_02012B70(gameData) == 0) {
+        if (work->zoneCheck == 0) {
+            if (func_0217C11C(work->localPeer.zoneId) == 1)
+                work->zoneCheck = 1;
             else
-                p->f904.state = 2;
+                work->zoneCheck = 2;
         }
-        if (p->f904.state == 2)
+        if (work->zoneCheck == 2)
             return;
     }
-    skip = func_02012B58(ctx);
-    func_02175004((u8 *)p);
-    func_02167590((void *)a1, (struct Work_0217AE20 *)p->f8);
+    ownId = func_02012B58(gameData);
+    func_02175004(work);
+    func_02167590(gameSystem, work->commPlayer);
     for (i = 0; i < 3; i++) {
-        if (i == skip || !(p->f8fb & (1 << i)))
+        if (i == ownId || !(work->peerMask & (1 << i)))
             continue;
-        if (func_021677E4((void *)p->f8, i) == 0) {
-            func_02012950(ctx, i);
-            r = func_02175598((u8 *)(&p->recs[i]), (u32)func_02012950(ctx, i));
-            if (p->recs[i].f18 != 0 || func_02012B70(ctx) != 0)
-                func_021675D0((struct Work_0217AE20 *)p->f8, i, r, (struct Src *)(&p->recs[i]));
+        if (func_021677E4(work->commPlayer, i) == 0) {
+            func_02012950(gameData, i);
+            objCode = func_02175598(&work->peers[i], func_02012950(gameData, i));
+            if (work->peers[i].objCode != 0 || func_02012B70(gameData) != 0)
+                func_021675D0(work->commPlayer, i, objCode, &work->peers[i].package);
         } else {
-            func_02167848((char *)p->f8, i, (char *)(&p->recs[i]));
-            if (p->recs[i].f0 == 0) {
-                if ((u16)(p->recs[i].mode + 0xFFFE) <= 1)
-                    func_021679C4((struct Work_0217AE20 *)p->f8, i);
+            func_02167848(work->commPlayer, i, &work->peers[i].package);
+            if (work->peers[i].package.vanish == 0) {
+                if ((u16)(work->peers[i].state + 0xFFFE) <= 1)
+                    func_021679C4(work->commPlayer, i);
             }
         }
     }
-    func_0217BAB4((int)a0, (void *)a1, (void *)a2, (u8 *)p);
+    func_0217BAB4(fieldMap, gameSystem, player, work);
 }
 
-
-
-
-
-
-int func_0217AFC4(int *a, u8 *b, int *out)
+int func_0217AFC4(IntrudeCommSys *work, struct FieldPlayer *player, int *outIndex)
 {
-    int r;
-    int idx;
+    int moveState;
+    int peerIndex;
     int hit;
-    int ret;
-    s16_0217AE20 v[3];
+    int result;
+    s16 grid[3];
 
-    ret = 0;
-    hit = ret;
-    if (a == 0 || a[2] == 0)
+    result = 0;
+    hit = result;
+    if (work == 0 || work->commPlayer == 0)
         return 0;
-    r = func_021A3098(b);
-    if (r != 0 && r != 1)
-        return ret;
-    func_021A3460((u32)b, (u32)(v + 2), (u32)(v + 1), (u32)v);
+    moveState = func_021A3098(player);
+    if (moveState != 0 && moveState != 1)
+        return result;
+    func_021A3460(player, grid + 2, grid + 1, grid);
     for (;;) {
-        r = func_021679A4(a[2], v[2], v[1], v[0], &idx, &hit);
-        if (r != 1)
+        moveState = func_021679A4(work->commPlayer, grid[2], grid[1], grid[0], &peerIndex, &hit);
+        if (moveState != 1)
             break;
-        if (*(int *)((char *)a + idx * 28 + 0x8c) == 0) {
-            *out = idx;
+        if (work->peers[peerIndex].package.vanish == 0) {
+            *outIndex = peerIndex;
             return 1;
         }
     }
     return 0;
 }
 
-
-
-
-
-
-void *func_0217B044(void *a, int b, int c, u16 d, u16 e, int f)
+struct GameEvent *func_0217B044(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, u16 moveDir, u16 edgeDir, int sessionBusy)
 {
-    void *t;
-    Task *p;
+    struct GameEvent *event;
+    EdgeBlockWork *work;
 
-    t = func_020122C0(a, 0, func_0217B084, sizeof(Task));
-    p = func_020124E8(t);
-    MI_CpuFill8(p, 0, sizeof(Task));
-    p->f00 = b;
-    p->f04 = func_021A3074((void *)c);
-    p->f16 = d;
-    p->f14 = e;
-    p->f10 = f;
-    return t;
+    event = func_020122C0(gameSystem, 0, func_0217B084, sizeof(EdgeBlockWork));
+    work = func_020124E8(event);
+    MI_CpuFill8(work, 0, sizeof(EdgeBlockWork));
+    work->fieldMap = fieldMap;
+    work->playerMmdl = func_021A3074(player);
+    work->moveDir = moveDir;
+    work->edgeDir = edgeDir;
+    work->sessionBusy = sessionBusy;
+    return event;
 }
 
-
-
-
-
-
-int func_0217B084(int a0, int *state, Obj_0217B084 *o, u32 a3)
+int func_0217B084(struct GameEvent *event, u32 *seq, EdgeBlockWork *work, u32 eventArg3)
 {
-    u16 m;
-    int t;
-    int h;
+    u16 turnAcmd;
+    int acmd;
+    struct FieldMsgBg *msgBg;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        if (func_0216D3CC(o->f4) == 1) {
-            if (o->f14 == 3)
-                t = 3;
+        if (func_0216D3CC(work->playerMmdl) == 1) {
+            if (work->edgeDir == 3)
+                acmd = 3;
             else
-                t = 2;
-            m = t;
-            if (o->f14 != func_0216D5F8((void *)o->f4)) {
-                func_0216D410((void *)o->f4, m);
-                *state += 1;
+                acmd = 2;
+            turnAcmd = acmd;
+            if (work->edgeDir != func_0216D5F8(work->playerMmdl)) {
+                func_0216D410(work->playerMmdl, turnAcmd);
+                *seq += 1;
             } else {
-                *state = 2;
+                *seq = 2;
             }
         }
         break;
     case 1:
-        if (func_0216D454(o->f4, (u32)state, (u32)o, a3) == 1) {
-            func_0216D480((char *)o->f4);
-            *state += 1;
+        if (func_0216D454(work->playerMmdl, seq, work, eventArg3) == 1) {
+            func_0216D480(work->playerMmdl);
+            *seq += 1;
         }
         break;
     case 2:
-        func_0216D9A0(func_02188C7C(o->f0));
-        h = func_02188C54(o->f0);
-        o->f8 = func_021904B0(h, 0x2D);
-        o->fc = func_021907A8(h, o->f8);
-        func_02190740(o->fc, 0, 0, o->f10 == 0 ? 0x52 : 0x4F);
-        *state += 1;
+        func_0216D9A0(func_02188C7C(work->fieldMap));
+        msgBg = func_02188C54(work->fieldMap);
+        work->msgData = func_021904B0(msgBg, 0x2D);
+        work->msgWin = func_021907A8(msgBg, work->msgData);
+        func_02190740(work->msgWin, 0, 0, work->sessionBusy == 0 ? 0x52 : 0x4F);
+        *seq += 1;
         break;
     case 3:
-        if (func_0219077C((u8 *)o->fc) == 1)
-            *state += 1;
+        if (func_0219077C(work->msgWin) == 1)
+            *seq += 1;
         break;
     case 4:
-        if (o->f10 == 0) {
+        if (work->sessionBusy == 0) {
             if (func_020362DC() & 3)
-                *state += 1;
+                *seq += 1;
         } else {
             if (func_020362DC() & 0xF3)
-                *state = 8;
+                *seq = 8;
         }
         break;
     case 5:
-        func_02190788((u8 *)o->fc);
-        func_02190740(o->fc, 0, 0, 0x53);
-        *state += 1;
+        func_02190788(work->msgWin);
+        func_02190740(work->msgWin, 0, 0, 0x53);
+        *seq += 1;
         break;
     case 6:
-        if (func_0219077C((u8 *)o->fc) == 1)
-            *state += 1;
+        if (func_0219077C(work->msgWin) == 1)
+            *seq += 1;
         break;
     case 7:
         if (func_020362DC() & 0xF3)
-            *state += 1;
+            *seq += 1;
         break;
     case 8:
-        func_02190728((void *)o->fc);
-        func_02045C04((struct Rec_0217AE20 *)o->f8);
-        *state += 1;
+        func_02190728(work->msgWin);
+        func_02045C04(work->msgData);
+        *seq += 1;
         break;
     case 9:
-        if (func_0216D3CC(o->f4) == 1) {
-            func_0216D410((void *)o->f4, (u16)(o->f14 == 3 ? 10 : 11));
-            *state += 1;
+        if (func_0216D3CC(work->playerMmdl) == 1) {
+            func_0216D410(work->playerMmdl, (u16)(work->edgeDir == 3 ? 10 : 11));
+            *seq += 1;
         }
         break;
     case 10:
-        if (func_0216D454(o->f4, (u32)state, (u32)o, a3) == 1) {
-            func_0216D480((char *)o->f4);
-            func_0216D9E4(func_02188C7C(o->f0));
+        if (func_0216D454(work->playerMmdl, seq, work, eventArg3) == 1) {
+            func_0216D480(work->playerMmdl);
+            func_0216D9E4(func_02188C7C(work->fieldMap));
             return 1;
         }
         break;
@@ -913,214 +795,192 @@ int func_0217B084(int a0, int *state, Obj_0217B084 *o, u32 a3)
     return 0;
 }
 
+struct GameEvent *func_0217B1DC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, u16 edgeDir)
+{
+    struct GameEvent *event;
+    AreaChangeWork *work;
 
-
-
-
-void *func_0217B1DC(void *a, int b, int c, unsigned short d) {
-    void *t;
-    u8 *p;
-    t = func_020122C0(a, 0, func_0217B214, 0x30);
-    p = func_020124E8(t);
-    func_02082BCC(p, 0, 0x30);
-    ((struct Obj09386 *)p)->f0 = b;
-    ((struct Obj09386 *)p)->f4 = (int)func_021A3074((u8 *)c);
-    ((struct Obj09386 *)p)->f14 = d;
-    return t;
+    event = func_020122C0(gameSystem, 0, func_0217B214, sizeof(AreaChangeWork));
+    work = func_020124E8(event);
+    MI_CpuFill8(work, 0, sizeof(AreaChangeWork));
+    work->fieldMap = fieldMap;
+    work->playerMmdl = func_021A3074(player);
+    work->edgeDir = edgeDir;
+    return event;
 }
 
-
-
-
-
-
-int func_0217B214(int a0, int *state, Obj_0217AE20 *o)
+int func_0217B214(struct GameEvent *event, u32 *seq, AreaChangeWork *work)
 {
-    void *w;
-    int h;
-    void *ctx;
-    Peer *p;
-    int t;
-    struct U16Vec *a;
-    void *b;
-    Tmp tmp;
+    struct GameSystem *gameSystem;
+    struct GameComm *gameComm;
+    struct GameData *gameData;
+    IntrudeCommSys *intrudeWork;
+    struct FieldMsgBg *msgBg;
+    struct STRBUF *nameText;
+    struct STRBUF *template;
+    PlayerLook look;
 
-    w = func_020124E4((struct Obj_0217AE20 *)a0);
-    h = func_02012138(w);
-    ctx = func_020120F4(w);
-    p = (Peer *)func_02158344(h);
-    switch (*state) {
+    gameSystem = func_020124E4(event);
+    gameComm = func_02012138(gameSystem);
+    gameData = func_020120F4(gameSystem);
+    intrudeWork = func_02158344(gameComm);
+    switch (*seq) {
     case 0:
-        func_0216D9A0(func_02188C7C(o->f0));
-        *state += 1;
+        func_0216D9A0(func_02188C7C(work->fieldMap));
+        *seq += 1;
         break;
     case 1:
-        if (func_0216D3CC(o->f4) == 0)
+        if (func_0216D3CC(work->playerMmdl) == 0)
             break;
-        if (p == 0) {
-            *state = 6;
+        if (intrudeWork == 0) {
+            *seq = 6;
             break;
         }
-        if (func_02175BE4((u8 *)p + 0x1AC) == 1) {
-            o->f16 = 1;
-            func_0217C758(&o->f18, w, o->f0, p, 0, 0, 0, o->f14, 0);
-        } else if (func_021584A4(h, ctx, o->f14) == 1) {
-            func_0217C758(&o->f18, w, o->f0, p, 0, 0, 0, o->f14, 1);
+        if (func_02175BE4(&intrudeWork->session) == 1) {
+            work->sessionBusy = 1;
+            func_0217C758(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 0);
+        } else if (func_021584A4(gameComm, gameData, work->edgeDir) == 1) {
+            func_0217C758(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 1);
         } else {
-            func_02175548(func_02012944(ctx), &tmp.h2, &tmp.b1, &tmp.b0);
-            func_0217C758(&o->f18, w, o->f0, p, tmp.h2, tmp.b1, tmp.b0, o->f14, 1);
+            func_02175548(func_02012944(gameData), &look.objCode, &look.kind, &look.flag);
+            func_0217C758(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, look.objCode, look.kind, look.flag, work->edgeDir, 1);
         }
-        *state += 1;
+        *seq += 1;
         break;
     case 2:
-        if (func_0217C820(&o->f18, p) == 1)
-            *state += 1;
+        if (func_0217C820(work->transitionWork, intrudeWork) == 1)
+            *seq += 1;
         break;
     case 3:
-        if (p == 0) {
-            *state = 6;
+        if (intrudeWork == 0) {
+            *seq = 6;
             break;
         }
-        t = func_02188C54(o->f0);
-        o->f8 = func_021904B0(t, 0x2D);
-        o->fc = func_021907A8(t, o->f8);
-        o->f10 = func_0201EC64(4);
-        if (p->slot == func_02012B58(ctx)) {
-            if (o->f16 == 1)
-                func_02190740(o->fc, 0, 0, 0x4F);
+        msgBg = func_02188C54(work->fieldMap);
+        work->msgData = func_021904B0(msgBg, 0x2D);
+        work->msgWin = func_021907A8(msgBg, work->msgData);
+        work->wordSet = func_0201EC64(4);
+        if (intrudeWork->localPeer.intrudeId == func_02012B58(gameData)) {
+            if (work->sessionBusy == 1)
+                func_02190740(work->msgWin, 0, 0, 0x4F);
             else
-                func_02190740(o->fc, 0, 0, 0x4E);
+                func_02190740(work->msgWin, 0, 0, 0x4E);
         } else {
-            a = func_020457B0(0x100, 0x15);
-            func_0201F02C(o->f10, 0, func_02012950(ctx, p->slot));
-            if (o->f16 == 1)
-                b = func_02045EC0((struct MsgBank *)o->f8, 0x50);
+            nameText = func_020457B0(0x100, 0x15);
+            func_0201F02C(work->wordSet, 0, func_02012950(gameData, intrudeWork->localPeer.intrudeId));
+            if (work->sessionBusy == 1)
+                template = func_02045EC0(work->msgData, 0x50);
             else
-                b = func_02045EC0((struct MsgBank *)o->f8, 0x51);
-            func_0201F250(o->f10, a, b);
-            func_02190758(o->fc, 0, 0, a);
-            func_02045808(b);
-            func_02045808(a);
+                template = func_02045EC0(work->msgData, 0x51);
+            func_0201F250(work->wordSet, nameText, template);
+            func_02190758(work->msgWin, 0, 0, nameText);
+            func_02045808(template);
+            func_02045808(nameText);
         }
-        *state += 1;
+        *seq += 1;
         break;
     case 4:
-        if (func_0219077C((u8 *)o->fc) == 1) {
-            t = func_02188D20(o->f0);
-            func_021BC5A0(t, func_02188C9C(o->f0));
-            *state += 1;
+        if (func_0219077C(work->msgWin) == 1) {
+            msgBg = (struct FieldMsgBg *)func_02188D20(work->fieldMap);
+            func_021BC5A0((int)msgBg, func_02188C9C(work->fieldMap));
+            *seq += 1;
         }
         break;
     case 5:
         if (func_020362DC() & 0xF3)
-            *state += 1;
+            *seq += 1;
         break;
     case 6:
-        if (o->fc != 0) {
-            func_02190728((void *)o->fc);
-            func_02045C04((struct Rec_0217AE20 *)o->f8);
-            func_0201ED04(o->f10);
+        if (work->msgWin != 0) {
+            func_02190728(work->msgWin);
+            func_02045C04(work->msgData);
+            func_0201ED04(work->wordSet);
         }
-        func_0216D9E4(func_02188C7C(o->f0));
+        func_0216D9E4(func_02188C7C(work->fieldMap));
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-int func_0217B410(int a0, int a1, int a2)
+int func_0217B410(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player)
 {
-    int h;
-    int w;
+    int zoneId;
+    IntrudeCommSys *work;
     int i;
-    int base;
-    V12 pos;
-    V12 v;
+    int areaBaseX;
+    VecFx32 playerPos;
+    VecFx32 markerPos;
 
-    h = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)a1));
-    w = func_02158344(func_02012138((const struct Ctx *)a1));
-    if (func_02013D5C(h) == 0)
+    zoneId = func_02012AC8(func_020120F8(gameSystem));
+    work = func_02158344(func_02012138(gameSystem));
+    if (func_02013D5C(zoneId) == 0)
         return 0;
-    func_021A3038((unsigned char *)a2, (struct VecFx32 *)&pos);
+    func_021A3038(player, &playerPos);
     for (i = 0; i < 3; i++) {
-        if (pos.x >= (i << 22) + 0x1F8000 && pos.x <= (i << 22) + 0x1F8000 && pos.z >= 0x2C8000 && pos.z <= 0x2C8000)
-            return (int)func_0217B5DC((void *)a1, a0, (int)w);
+        if (playerPos.x >= (i << 22) + 0x1F8000 && playerPos.x <= (i << 22) + 0x1F8000 && playerPos.z >= 0x2C8000 && playerPos.z <= 0x2C8000)
+            return (int)func_0217B5DC(gameSystem, fieldMap, work);
     }
-    base = 0x1F8000;
+    areaBaseX = 0x1F8000;
     for (i = 0; i < 3; i++) {
-        if (pos.x >= base && pos.x < base + 0x20000 && pos.z == 0x158000) {
-            v = d_02182B90;
-            v.x += pos.x - base;
-            return (int)func_0216B340(a1, 1, &v, 0, 4); /* int-typed on purpose: function returns int */
+        if (playerPos.x >= areaBaseX && playerPos.x < areaBaseX + 0x20000 && playerPos.z == 0x158000) {
+            markerPos = d_02182B90;
+            markerPos.x += playerPos.x - areaBaseX;
+            return (int)func_0216B340(gameSystem, 1, &markerPos, 0, 4); /* int-typed on purpose: function returns int */
         }
-        base += 0x400000;
+        areaBaseX += 0x400000;
     }
     return 0;
 }
 
-
-
-
-
-
-void *func_0217B4D8(int a0, int a1, int a2, int *a3, u16 a4, u16 a5)
+struct GameEvent *func_0217B4D8(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, int *posX, u16 moveDir, u16 facingDir)
 {
-    u8 *p;
-    u16 r;
-    int col;
+    IntrudeCommSys *work;
+    u16 edgeDir;
+    int column;
     int x;
-    int n;
-    int sub;
+    int areaCount;
+    int offsetInArea;
 
-    p = (u8 *)func_02158344(func_02012138((const struct Ctx *)a0));
-    r = 9;
-    x = *a3;
-    n = 1;
-    if (p)
-        n = p[0x902];
+    work = func_02158344(func_02012138(gameSystem));
+    edgeDir = 9;
+    x = *posX;
+    areaCount = 1;
+    if (work)
+        areaCount = work->memberCount;
     if (x <= 0) {
-        x += n << 22;
-    } else if (x >= n << 22) {
-        x -= n << 22;
+        x += areaCount << 22;
+    } else if (x >= areaCount << 22) {
+        x -= areaCount << 22;
     }
-    col = ((x >> 12) / 16) % 64;
-    sub = x % 0x400000;
-    if (a5 == 2) {
-        if ((a4 != 3 || (a4 == 3 && sub <= 0x8000)) && col == 0)
-            r = 2;
-    } else if (a5 == 3) {
-        if ((a4 != 2 || (a4 == 2 && sub >= 0x3F8000)) && col == 0x3F)
-            r = 3;
+    column = ((x >> 12) / 16) % 64;
+    offsetInArea = x % 0x400000;
+    if (facingDir == 2) {
+        if ((moveDir != 3 || (moveDir == 3 && offsetInArea <= 0x8000)) && column == 0)
+            edgeDir = 2;
+    } else if (facingDir == 3) {
+        if ((moveDir != 2 || (moveDir == 2 && offsetInArea >= 0x3F8000)) && column == 0x3F)
+            edgeDir = 3;
     }
-    if (r != 9) {
-        if (p == 0 || func_0203D1B4() <= 1 || p[0x902] < 2)
-            return func_0217B044((void *)a0, a1, a2, a4, r, 0);
-        if (func_02175BE4(p + 0x1AC) == 1)
-            return func_0217B044((void *)a0, a1, a2, a4, r, 1);
-        return func_0217B1DC((void *)a0, a1, a2, r);
+    if (edgeDir != 9) {
+        if (work == 0 || func_0203D1B4() <= 1 || work->memberCount < 2)
+            return func_0217B044(gameSystem, fieldMap, player, moveDir, edgeDir, 0);
+        if (func_02175BE4(&work->session) == 1)
+            return func_0217B044(gameSystem, fieldMap, player, moveDir, edgeDir, 1);
+        return func_0217B1DC(gameSystem, fieldMap, player, edgeDir);
     }
     return 0;
 }
 
+struct GameEvent *func_0217B5DC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work)
+{
+    struct GameEvent *event;
+    ExitConfirmWork *eventWork;
 
-
-void *func_0217B5DC(void *a, int b, int c) {
-    void *t;
-    u8 *p;
-    t = func_020122C0(a, 0, func_0217B600, 0x2c);
-    p = func_020124E8(t);
-    func_02082BCC(p, 0, 0x2c);
-    return t;
+    event = func_020122C0(gameSystem, 0, func_0217B600, sizeof(ExitConfirmWork));
+    eventWork = func_020124E8(event);
+    MI_CpuFill8(eventWork, 0, sizeof(ExitConfirmWork));
+    return event;
 }
-
-
-
-
-
 
 /*
  * Byte-correct (528 of 528 bytes).  Sole blocker: the THM_CALL at +0x13C to
@@ -1131,197 +991,190 @@ void *func_0217B5DC(void *a, int b, int c) {
  *
  *     u8 *func_02012798(u8 *p, int i) { return p + 4 + i * 0x44; }
  *
- * It is the Rec44 indexer that belongs beside func_02012950 in
+ * It is the player work indexer that belongs beside func_02012950 in
  * src/matched/arm9/unit_02012924.c; once it is labelled or matched this file
  * should verify EXACT unchanged.  The 12-byte scratch is a cast u8 buffer
  * (docs/idioms/a-declared-struct-local-folds-to-sp-relative-a-cast-buffer-does-not.md):
  * the stores go through r7, which a declared struct folds to sp.
  */
-int func_0217B600(int a0, int *state, Obj_0217B600 *o)
+int func_0217B600(struct GameEvent *event, u32 *seq, ExitConfirmWork *work)
 {
-    int w;
-    int g;
-    int h;
-    int t;
-    int r;
-    int ctx;
+    struct GameSystem *gameSystem;
+    struct FieldMap *fieldMap;
+    struct GameComm *gameComm;
+    struct FieldMsgBg *msgBg;
+    int answer;
+    struct GameData *gameData;
     int i;
-    u8 v[12];
-    V12 *pv;
+    u8 zeroPos[12];
+    VecFx32 *zeroPosView;
+    Mmdl *playerMmdl;
 
-    w = (int)func_020124E4((struct Obj_0217B600 *)a0);
-    g = (int)func_0201210C((const struct Ctx *)w);
-    h = func_02012138((const struct Ctx *)w);
-    switch (*state) {
+    gameSystem = func_020124E4(event);
+    fieldMap = func_0201210C(gameSystem);
+    gameComm = func_02012138(gameSystem);
+    switch (*seq) {
     case 0:
-        func_0216D9A0(func_02188C7C((u8 *)g));
-        t = func_02188C54((u8 *)g);
-        o->f0 = func_021904B0(t, 0x2D);
-        o->f8 = func_02190F64(t, o->f0);
-        func_02190E74(o->f8, 0, 0, 0x54);
-        *state += 1;
+        func_0216D9A0(func_02188C7C(fieldMap));
+        msgBg = func_02188C54(fieldMap);
+        work->msgData = func_021904B0(msgBg, 0x2D);
+        work->promptWin = func_02190F64(msgBg, work->msgData);
+        func_02190E74(work->promptWin, 0, 0, 0x54);
+        *seq += 1;
         break;
     case 1:
-        if (func_02190EF0(o->f8) == 1) {
-            o->fc = func_02190BE4(func_02188C54((u8 *)g), 0);
-            *state += 1;
+        if (func_02190EF0(work->promptWin) == 1) {
+            work->yesNoMenu = func_02190BE4(func_02188C54(fieldMap), 0);
+            *seq += 1;
         }
         break;
     case 2:
-        r = func_02190C78(o->fc);
-        if (r != 2) {
-            func_021909BC(o->fc);
-            func_02190E40(o->f8);
-            o->fc = 0;
-            o->f8 = 0;
-            if (r == 0)
-                *state = 3;
+        answer = func_02190C78(work->yesNoMenu);
+        if (answer != 2) {
+            func_021909BC(work->yesNoMenu);
+            func_02190E40(work->promptWin);
+            work->yesNoMenu = 0;
+            work->promptWin = 0;
+            if (answer == 0)
+                *seq = 3;
             else
-                *state = 11;
+                *seq = 11;
         }
         break;
     case 3:
-        if (func_0200FB24() == 0 && func_02026454((void *)h) == 2) {
-            func_02026400((struct Comm *)h);
-            o->f4 = func_021907A8(func_02188C54((u8 *)g), o->f0);
-            func_02190740(o->f4, 0, 0, 0x14);
+        if (func_0200FB24() == 0 && func_02026454(gameComm) == 2) {
+            func_02026400(gameComm);
+            work->endMsgWin = func_021907A8(func_02188C54(fieldMap), work->msgData);
+            func_02190740(work->endMsgWin, 0, 0, 0x14);
         }
-        *state += 1;
+        *seq += 1;
         break;
     case 4:
-        if (o->f4 == 0 || func_0219077C((u8 *)o->f4) == 1)
-            *state += 1;
+        if (work->endMsgWin == 0 || func_0219077C(work->endMsgWin) == 1)
+            *seq += 1;
         break;
     case 5:
-        o->f28++;
-        if (o->f4 != 0 && o->f28 <= 0x3C)
+        work->waitFrames++;
+        if (work->endMsgWin != 0 && work->waitFrames <= 0x3C)
             break;
-        if (func_02026454((void *)h) == 2)
+        if (func_02026454(gameComm) == 2)
             break;
-        ctx = (int)func_020120F4((const struct Ctx *)w);
-        pv = (V12 *)v;
-        pv->x = 0;
-        pv->y = 0;
-        pv->z = 0;
+        gameData = func_020120F4(gameSystem);
+        zeroPosView = (VecFx32 *)zeroPos;
+        zeroPosView->x = 0;
+        zeroPosView->y = 0;
+        zeroPosView->z = 0;
         for (i = 0; i < 3; i++)
-            func_02012A90((struct Rec44 *)func_02012798((u8 *)ctx, i), (const struct Vec12 *)pv);
-        *state += 1;
+            func_02012A90(func_02012798(gameData, i), zeroPosView);
+        *seq += 1;
         break;
     case 6:
-        if (o->f4 != 0)
-            func_02190728((void *)o->f4);
-        func_02045C04((struct Rec_0217B600 *)o->f0);
-        *state += 1;
+        if (work->endMsgWin != 0)
+            func_02190728(work->endMsgWin);
+        func_02045C04(work->msgData);
+        *seq += 1;
         break;
     case 7:
-        g = (int)func_0201210C((const struct Ctx *)w);
-        if (func_02188BE8(g) != 1)
+        fieldMap = func_0201210C(gameSystem);
+        if (func_02188BE8(fieldMap) != 1)
             break;
-        if (func_021A3238(func_02188CB4(g)) == 0) {
-            func_0217C658((Rec_0217C658 *)o->f10, (void *)w, g, 0, 0, 0);
-            *state += 1;
+        if (func_021A3238(func_02188CB4(fieldMap)) == 0) {
+            func_0217C658(&work->spin, gameSystem, fieldMap, 0, 0, 0);
+            *seq += 1;
         } else {
-            *state = 9;
+            *seq = 9;
         }
         break;
     case 8:
-        if (func_0217C688((Rec_0217C688 *)o->f10, 0) == 1)
-            *state += 1;
+        if (func_0217C688(&work->spin, 0) == 1)
+            *seq += 1;
         break;
     case 9:
-        func_02012374((struct Evt *)a0, (struct Evt **)func_02185214(w));
-        *state += 1;
+        func_02012374(event, func_02185214(gameSystem));
+        *seq += 1;
         break;
     case 10:
-        *state = 14;
+        *seq = 14;
         break;
     case 11:
-        func_02045C04((struct Rec_0217B600 *)o->f0);
-        *state = 12;
+        func_02045C04(work->msgData);
+        *seq = 12;
         break;
     case 12:
-        t = (int)func_021A3074(func_02188CB4(g));
-        if (func_0216D3CC(t) == 1) {
-            func_0216D410((void *)t, 8);
-            *state += 1;
+        playerMmdl = func_021A3074(func_02188CB4(fieldMap));
+        if (func_0216D3CC(playerMmdl) == 1) {
+            func_0216D410(playerMmdl, 8);
+            *seq += 1;
         }
         break;
     case 13:
-        if (func_0216D480((char *)func_021A3074(func_02188CB4(g))) == 1)
-            *state = 14;
+        if (func_0216D480(func_021A3074(func_02188CB4(fieldMap))) == 1)
+            *seq = 14;
         break;
     case 14:
-        func_0216D9E4(func_02188C7C((u8 *)g));
+        func_0216D9E4(func_02188C7C(fieldMap));
         return 1;
     }
     return 0;
 }
 
+struct GameEvent *func_0217B810(struct GameSystem *gameSystem, VecFx32 *pos)
+{
+    struct GameEvent *event;
+    NoticeEventWork *work;
 
-
-
-
-void *func_0217B810(void *a, u8 *pos) {
-    void *t;
-    u8 *p;
-    t = func_020122C0(a, 0, func_0217B82C, 0x20);
-    p = func_020124E8(t);
-    return t;
+    event = func_020122C0(gameSystem, 0, func_0217B82C, sizeof(NoticeEventWork));
+    work = func_020124E8(event);
+    return event;
 }
 
-
-
-
-
-
-
-int func_0217B82C(int a0, int *state, Work_0217AE20 *w)
+int func_0217B82C(struct GameEvent *event, u32 *seq, NoticeEventWork *work)
 {
-    int sys;
-    void *obj;
-    int hnd;
+    struct GameSystem *gameSystem;
+    struct FieldMap *fieldMap;
+    struct FieldMsgBg *msgBg;
 
-    sys = (int)func_020124E4((struct Obj_0217B600 *)a0);
-    obj = func_0201210C((void *)sys);
-    func_02012138((const struct Ctx *)sys);
-    switch (*state) {
+    gameSystem = func_020124E4(event);
+    fieldMap = func_0201210C(gameSystem);
+    func_02012138(gameSystem);
+    switch (*seq) {
     case 0:
-        func_0216D9A0(func_02188C7C(obj));
-        hnd = func_02188C54(obj);
-        w->f0 = func_021904B0(hnd, 0x2D);
-        w->f4 = (int)(struct Obj2 *)func_02190F64((struct Fx *)hnd, w->f0);
-        func_02190E74((u32 *)w->f4, 0, 0, 0x60);
-        (*state)++;
+        func_0216D9A0(func_02188C7C(fieldMap));
+        msgBg = func_02188C54(fieldMap);
+        work->msgData = func_021904B0(msgBg, 0x2D);
+        work->promptWin = func_02190F64(msgBg, work->msgData);
+        func_02190E74(work->promptWin, 0, 0, 0x60);
+        (*seq)++;
         break;
     case 1:
-        if (func_02190EF0((u32 *)w->f4) == 1) {
-            func_02190E40(w->f4);
-            func_02045C04((struct Rec_0217B600 *)w->f0);
-            (*state)++;
+        if (func_02190EF0(work->promptWin) == 1) {
+            func_02190E40(work->promptWin);
+            func_02045C04(work->msgData);
+            (*seq)++;
         }
         break;
     case 2:
-        obj = func_0201210C((void *)sys);
-        if (func_02188BE8(obj) == 1) {
-            if (func_021A3238((void *)func_02188CB4((void *)obj)) == 0) {
-                func_0217C658((Rec_0217C658 *)w->f8, (void *)sys, (int)obj, 0, 0, 0);
-                (*state)++;
+        fieldMap = func_0201210C(gameSystem);
+        if (func_02188BE8(fieldMap) == 1) {
+            if (func_021A3238(func_02188CB4(fieldMap)) == 0) {
+                func_0217C658(&work->spin, gameSystem, fieldMap, 0, 0, 0);
+                (*seq)++;
             } else {
-                *state = 4;
+                *seq = 4;
             }
         }
         break;
     case 3:
-        if (func_0217C688((Rec_0217C688 *)w->f8, 0) == 1)
-            (*state)++;
+        if (func_0217C688(&work->spin, 0) == 1)
+            (*seq)++;
         break;
     case 4:
-        func_02012374((struct Evt *)a0, (struct Evt **)func_02185214(sys));
-        (*state)++;
+        func_02012374(event, func_02185214(gameSystem));
+        (*seq)++;
         break;
     case 5:
-        if (obj != 0 && func_02188BE8(obj) == 1) {
-            func_0216D9E4(func_02188C7C((void *)obj));
+        if (fieldMap != 0 && func_02188BE8(fieldMap) == 1) {
+            func_0216D9E4(func_02188C7C(fieldMap));
             return 1;
         }
         break;
@@ -1329,358 +1182,305 @@ int func_0217B82C(int a0, int *state, Work_0217AE20 *w)
     return 0;
 }
 
-
-
-
-
-
-int func_0217B930(int *p) { if (*p >= 0x348000 || *p <= 0xb8000) return 1; return 0; }
-
-
-
-
-
-
-int func_0217B94C(int *p) { if (*p > 0x308000 || *p < 0xe8000) return 1; return 0; }
-
-
-
-
-
-
-
-void func_0217B968(int a0, void *a1, void *a2, void *a3)
+int func_0217B930(const VecFx32 *pos)
 {
-    Vec v;
+    if (pos->x >= 0x348000 || pos->x <= 0xb8000)
+        return 1;
+    return 0;
+}
 
-    if (func_0202648C(a2) != 0)
+int func_0217B94C(const VecFx32 *pos)
+{
+    if (pos->x > 0x308000 || pos->x < 0xe8000)
+        return 1;
+    return 0;
+}
+
+void func_0217B968(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct GameComm *gameComm, struct FieldPlayer *player)
+{
+    VecFx32 playerPos;
+
+    if (func_0202648C(gameComm) != 0)
         return;
-    if (func_02026460(a2) == 1)
+    if (func_02026460(gameComm) == 1)
         return;
     if (func_0200FB24() != 0)
         return;
     if (func_02035390() == 1 && func_020353B0() == 1)
         return;
-    if (func_02012204(a1) == 1)
+    if (func_02012204(gameSystem) == 1)
         return;
-    if (func_020120D8(a1) == 1)
+    if (func_020120D8(gameSystem) == 1)
         return;
-    if (func_02013D5C(func_02012AC8((const struct Rec44 *)func_020127A4(func_020120F4(a1)))) == 0)
+    if (func_02013D5C(func_02012AC8(func_020127A4(func_020120F4(gameSystem)))) == 0)
         return;
-    func_021A3038(a3, (struct VecFx32 *)&v);
-    switch (func_02026454(a2)) {
+    func_021A3038(player, &playerPos);
+    switch (func_02026454(gameComm)) {
     case 0:
-        if (func_0217B930((int *)(&v)) == 1)
-            func_0217BA54(a1);
+        if (func_0217B930(&playerPos) == 1)
+            func_0217BA54(gameSystem);
         break;
     case 2:
-        if (func_0217B930((int *)(&v)) != 0)
+        if (func_0217B930(&playerPos) != 0)
             return;
         if (func_020392B8() > 1)
             return;
-        if (((u8 *)func_02026474(a2))[0x8FD] == 4)
+        if (((IntrudeCommSys *)func_02026474(gameComm))->step == 4)
             return;
-        func_02026400(a2);
+        func_02026400(gameComm);
         break;
     case 1:
-        if (func_0217B930((int *)(&v)) == 1)
-            func_0202640C(a2, (u32)func_0217BA48, (u32)a1);
+        if (func_0217B930(&playerPos) == 1)
+            func_0202640C(gameComm, (u32)func_0217BA48, (u32)gameSystem);
         break;
     }
 }
 
-
-
-
-
-
-
-void func_0217BA48(int a, int b)
+void func_0217BA48(struct GameSystem *gameSystem, int result)
 {
-    if (b == 0)
-        func_0217BA54((void *)a);
+    if (result == 0)
+        func_0217BA54(gameSystem);
 }
 
-
-
-
-
-
-
-void func_0217BA54(void *a)
+void func_0217BA54(struct GameSystem *gameSystem)
 {
-    int h;
-    Rec_0217B600 *r;
+    struct GameComm *gameComm;
+    IntrudeStartParam *param;
 
-    h = func_02012138(a);
+    gameComm = func_02012138(gameSystem);
     if (func_0200FB24() != 0)
         return;
-    if (func_02012204(a) == 1)
+    if (func_02012204(gameSystem) == 1)
         return;
     if (func_02035390() == 1 && func_020353B0() == 1)
         return;
-    r = func_02030734(0x8005, 0x10, 1, d_02183AE0, 0x528);
-    r->f0e = 1;
-    r->f00 = (int)a;
-    r->f04 = h;
-    func_020263D8((struct Comm *)h, 2, (u32)r);
+    param = func_02030734(0x8005, 0x10, 1, d_02183AE0, 0x528);
+    param->startKind = 1;
+    param->gameSystem = gameSystem;
+    param->gameComm = gameComm;
+    func_020263D8(gameComm, 2, (u32)param);
 }
 
-
-
-
-
-
-
-void func_0217BAB4(int a0, void *a1, void *a2, u8 *p)
+void func_0217BAB4(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player, IntrudeCommSys *work)
 {
     int x;
-    int idx;
-    Vec cur;
-    Vec tmp;
-    int flag;
-    int prev;
-    int limit;
-    int sys;
+    int areaIndex;
+    VecFx32 playerPos;
+    VecFx32 wrappedPos;
+    int wrapped;
+    int prevAreaId;
+    int areaSpan;
+    int zoneId;
+    struct PlayerWork *playerWork;
+    struct GameComm *gameComm;
 
-    x = (int)func_020120F8(a1);
-    sys = func_02012AC8((const struct Rec44 *)x);
-    func_02012AE4((const struct Rec44 *)x);
-    x = func_02012138(a1);
-    flag = 0;
-    func_020120F4(a1);
-    if ((int)func_02026454((void *)x) != 2)
+    playerWork = func_020120F8(gameSystem);
+    zoneId = func_02012AC8(playerWork);
+    func_02012AE4(playerWork);
+    gameComm = func_02012138(gameSystem);
+    wrapped = 0;
+    func_020120F4(gameSystem);
+    if ((int)func_02026454(gameComm) != 2)
         return;
-    if (p == 0)
+    if (work == 0)
         return;
-    if (func_02013D5C(sys) == 0)
+    if (func_02013D5C(zoneId) == 0)
         return;
-    if (p[0x902] < 2)
+    if (work->memberCount < 2)
         return;
-    if (func_02175E90(p, p + 0x1AC) == 1)
+    if (func_02175E90(work, &work->session) == 1)
         return;
-    func_021A3038(a2, (struct VecFx32 *)&cur);
-    tmp = cur;
-    x = cur.x;
-    prev = ((Fh *)(p + 0x86))->f;
-    limit = (p[0x901] + 1) << 22;
+    func_021A3038(player, &playerPos);
+    wrappedPos = playerPos;
+    x = playerPos.x;
+    prevAreaId = work->localPeer.intrudeId;
+    areaSpan = (work->lastAreaIndex + 1) << 22;
     if (x < 0) {
-        tmp.x = limit + x;
-        flag = 1;
-    } else if (x > limit) {
-        tmp.x = x - limit;
-        flag = 1;
+        wrappedPos.x = areaSpan + x;
+        wrapped = 1;
+    } else if (x > areaSpan) {
+        wrappedPos.x = x - areaSpan;
+        wrapped = 1;
     }
-    if (flag == 1) {
-        x = tmp.x;
-        if (func_020120D8(a1) == 1) {
-            tmp = cur;
-            flag = 0;
+    if (wrapped == 1) {
+        x = wrappedPos.x;
+        if (func_020120D8(gameSystem) == 1) {
+            wrappedPos = playerPos;
+            wrapped = 0;
         }
     }
-    idx = x / 0x400000;
-    if (flag == 1) {
-        func_021A3044(a2, &tmp);
-        func_02175274(p, tmp.x);
+    areaIndex = x / 0x400000;
+    if (wrapped == 1) {
+        func_021A3044(player, &wrappedPos);
+        func_02175274(work, wrappedPos.x);
     }
-    idx += func_02039338();
-    if (idx > p[0x901])
-        idx -= p[0x901] + 1;
-    if (prev == idx)
+    areaIndex += func_02039338();
+    if (areaIndex > work->lastAreaIndex)
+        areaIndex -= work->lastAreaIndex + 1;
+    if (prevAreaId == areaIndex)
         return;
-    func_02175710(p, idx);
-    p[0x900] = 1;
-    func_02161FEC((char *)(p + 0x35C), (u8)idx);
+    func_02175710(work, areaIndex);
+    work->peerStatusDirty = 1;
+    func_02161FEC(work->returnSlots, (u8)areaIndex);
 }
 
-
-
-
-
-
-void func_0217BBCC(int a, int b, char *p)
+void func_0217BBCC(int unusedArg0, int unusedArg1, IntrudeCommSys *work)
 {
-    p[0x901] = 0;
+    work->lastAreaIndex = 0;
 }
 
-
-
-
-
-
-
-void func_0217BBD8(u8 *a, int b, u8 *c)
+void func_0217BBD8(struct FieldMap *fieldMap, struct GameSystem *gameSystem, IntrudeCommSys *work)
 {
-    Vec v;
-    int n;
-    void *h;
-    int buf;
+    VecFx32 playerPos;
+    int areaLimit;
+    struct FieldPlayer *player;
+    struct MapMatrix *matrix;
 
-    if (c == 0 || a == 0)
+    if (work == 0 || fieldMap == 0)
         return;
-    if (func_02188C98(a) == 0)
+    if (func_02188C98(fieldMap) == 0)
         return;
-    if (func_02013D5C(func_02188C9C((u8 *)a)) == 0)
+    if (func_02013D5C(func_02188C9C(fieldMap)) == 0)
         return;
-    n = c[0x902] - 1;
-    if (n <= 0)
-        n = 1;
-    if (((unsigned)(c[0x8f8] << 26) >> 31) == 1)
-        n = 1;
-    if (c[0x901] >= n)
+    areaLimit = work->memberCount - 1;
+    if (areaLimit <= 0)
+        areaLimit = 1;
+    if (work->flagBit5 == 1)
+        areaLimit = 1;
+    if (work->lastAreaIndex >= areaLimit)
         return;
-    h = (void *)func_02188CB4((void *)a);
-    if (h == 0)
+    player = func_02188CB4(fieldMap);
+    if (player == 0)
         return;
-    func_021A3038(h, (struct VecFx32 *)&v);
-    v.x = v.x % 0x400000;
-    if (func_0217B94C((int *)(&v)) == 1)
+    func_021A3038(player, &playerPos);
+    playerPos.x = playerPos.x % 0x400000;
+    if (func_0217B94C(&playerPos) == 1)
         return;
-    buf = (int)func_02159B48(0x8015);
-    func_02159B94(buf, 0x76, 0x76 + 0xa1, 0x8015);
+    matrix = func_02159B48(0x8015);
+    func_02159B94(matrix, 0x76, 0x76 + 0xa1, 0x8015);
     do {
-        func_0218CD20((int)a, func_02188C98(a), buf);
-        c[0x901]++;
-    } while (c[0x901] < n);
-    func_02159BBC(buf);
+        func_0218CD20(fieldMap, func_02188C98(fieldMap), matrix);
+        work->lastAreaIndex++;
+    } while (work->lastAreaIndex < areaLimit);
+    func_02159BBC(matrix);
 }
 
-
-
-
-
-
-
-void func_0217BC94(int a, int n)
+void func_0217BC94(struct FieldMap *fieldMap, int count)
 {
-    int r;
+    struct MapMatrix *matrix;
 
-    if (n >= 3)
-        n = 2;
-    r = (int)func_02159B48(0x15);
-    func_02159B94(r, 0x76, 0x76 + 0xa1, 0x8015);
-    while (n > 0) {
-        func_0218CD20(a, func_02188C98((u8 *)a), r);
-        n--;
+    if (count >= 3)
+        count = 2;
+    matrix = func_02159B48(0x15);
+    func_02159B94(matrix, 0x76, 0x76 + 0xa1, 0x8015);
+    while (count > 0) {
+        func_0218CD20(fieldMap, func_02188C98(fieldMap), matrix);
+        count--;
     }
-    func_02159BBC(r);
+    func_02159BBC(matrix);
 }
 
-
-
-
-
-
-
-void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag)
+void func_0217BCDC(IntrudeCommSys *work, struct GameSystem *gameSystem, int objCode, u8 kind, u8 flag)
 {
-    int res;
-    void *obj;
-    int has;
-    int x;
-    int y = (int)func_020120F4(a1);
-    Vec v = { 0, 0, 0 };
+    int playerForm;
+    struct FieldPlayer *player;
+    int gender;
+    struct PlayerStatus *myStatus;
+    struct GameData *gameData = func_020120F4(gameSystem);
+    VecFx32 drawOffset = { 0, 0, 0 };
 
-    if (func_02012114(a1) == 0)
+    if (func_02012114(gameSystem) == 0)
         return;
-    x = (int)func_02012944(func_020120F4(a1));
-    has = func_02008550((const struct Sub0200852CObj *)x);
-    if (p != 0) {
-        if (id == 0xFFFF) {
-            if (((Fh *)(p + 0x86))->f == func_02012B58((const struct BigObj *)y))
-                id = 0;
+    myStatus = func_02012944(func_020120F4(gameSystem));
+    gender = func_02008550(myStatus);
+    if (work != 0) {
+        if (objCode == 0xFFFF) {
+            if (work->localPeer.intrudeId == func_02012B58(gameData))
+                objCode = 0;
         }
-        if (id == 0) {
-            kind = has == 0 ? 3 : 4;
-            flag = has;
+        if (objCode == 0) {
+            kind = gender == 0 ? 3 : 4;
+            flag = gender;
         }
-        if (((struct Obj09388 *)p)->f88 == id)
+        if (work->localPeer.objCode == objCode)
             return;
-        ((struct Obj09388 *)p)->f88 = id;
-        ((Fb *)(p + 0x8A))->lo = kind;
-        ((Fb *)(p + 0x8A))->b4 = flag;
-        p[0x900] = 1;
-        res = func_02175598(p + 0x70, x);
+        work->localPeer.objCode = objCode;
+        work->localPeer.lookKind = kind;
+        work->localPeer.lookFlag = flag;
+        work->peerStatusDirty = 1;
+        playerForm = func_02175598(&work->localPeer, myStatus);
     } else {
-        id = 0;
-        res = 1;
-        if (has)
-            res = 4;
+        objCode = 0;
+        playerForm = 1;
+        if (gender)
+            playerForm = 4;
     }
-    obj = (void *)func_02188CB4(func_0201210C(a1));
-    func_021A3220(obj, (u16)res);
-    func_0216D8C0((void *)func_021A3074(obj), &v);
-    if (id == 0)
-        func_021A322C(obj);
+    player = func_02188CB4(func_0201210C(gameSystem));
+    func_021A3220(player, (u16)playerForm);
+    func_0216D8C0(func_021A3074(player), &drawOffset);
+    if (objCode == 0)
+        func_021A322C(player);
 }
 
-
-
-
-
-
-
-int func_0217BDE0(int a, u8 *b, int c)
+int func_0217BDE0(struct GameSystem *gameSystem, IntrudeCommSys *work, struct FieldPlayer *player)
 {
-    u8 *e;
-    int n;
-    int idx;
-    Vec3s v;
+    IntrudeMemberRecord *offer;
+    int zoneId;
+    int offerIndex;
+    GridPos playerGrid;
 
-    if (func_02175B8C(b + 0x1AC) != 1)
+    if (func_02175B8C(&work->session) != 1)
         goto fail;
-    if (func_02175BBC(b + 0x1AC) != 0)
+    if (func_02175BBC(&work->session) != 0)
         goto fail;
-    e = func_02175B34(b + 0x1AC);
-    if (e == 0)
+    offer = func_02175B34(&work->session);
+    if (offer == 0)
         goto fail;
-    if (((Fw *)(e + 4))->f != 4)
+    if (offer->head.kind != 4)
         goto fail;
-    if (((Fh *)(b + 0x86))->f != e[0x28])
+    if (work->localPeer.intrudeId != offer->name.netId)
         goto fail;
-    if (func_02175CF4((char *)b, b + 0x1AC) != 0)
+    if (func_02175CF4(work, &work->session) != 0)
         goto fail;
-    n = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)a));
-    func_0216D828((void *)func_021A3074((void *)c), &v);
-    idx = ((struct Obj12483 *)e)->f14;
-    if (n != d_021DB810[idx])
+    zoneId = func_02012AC8(func_020120F8(gameSystem));
+    func_0216D828(func_021A3074(player), &playerGrid);
+    offerIndex = offer->head.param.x;
+    if (zoneId != d_021DB810[offerIndex])
         goto fail;
-    if (v.x != d_021DB834[idx].x)
+    if (playerGrid.x != d_021DB834[offerIndex].x)
         goto fail;
-    if (v.y != d_021DB834[idx].y)
+    if (playerGrid.y != d_021DB834[offerIndex].y)
         goto fail;
-    if (v.z != d_021DB834[idx].z)
+    if (playerGrid.z != d_021DB834[offerIndex].z)
         goto fail;
-    return func_02182124(a, b, e);
+    return func_02182124(gameSystem, work, offer);
 fail:
     return 0;
 }
 
-
-
-
-
-
-Entry_0217AE20 *func_0217BEA8(u32 a) { u32 i; for (i=0; i<218; i++) { if (d_02182B9C[i].x == a) return &d_02182B9C[i]; } return 0; }
-
-
-
-
-
-
-
-int func_0217BED4(int a, V12 *out)
+IntrudeZonePos *func_0217BEA8(u32 zoneId)
 {
-    short *p;
+    u32 i;
+
+    for (i = 0; i < 218; i++) {
+        if (d_02182B9C[i].zoneId == zoneId)
+            return &d_02182B9C[i];
+    }
+    return 0;
+}
+
+int func_0217BED4(int zoneId, VecFx32 *out)
+{
+    IntrudeZonePos *entry;
     int x, y, z;
 
-    if (func_02013D5C(a) != 1) {
-        p = (short *)func_0217BEA8(a);
-        if (p == 0)
+    if (func_02013D5C(zoneId) != 1) {
+        entry = func_0217BEA8(zoneId);
+        if (entry == 0)
             return 0;
-        z = p[4] << 16;
-        y = p[3] << 16;
-        x = p[2] << 16;
+        z = entry->tileZ << 16;
+        y = entry->tileY << 16;
+        x = entry->tileX << 16;
         out->x = x;
         out->y = y;
         out->z = z;
@@ -1690,278 +1490,210 @@ int func_0217BED4(int a, V12 *out)
     return 1;
 }
 
-
-
-
-
-
-
-void func_0217BF1C(void *p)
+void func_0217BF1C(IntrudeStartParam *param)
 {
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(param, 0, 0x10);
 }
 
-
-
-
-
-
-
-u8 func_0217BF28(u8 *p)
+u8 func_0217BF28(IntrudeStartParam *param)
 {
-    return p[0xE];
+    return param->startKind;
 }
 
-
-
-
-
-
-
-void func_0217BF2C(int a, u16 b, u16 c, int d, u16 e, u16 f, u16 g)
+void func_0217BF2C(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height, u16 objCode, u16 eventId, u16 objId)
 {
-    Buf buf;
-    void *h;
-    int k;
-    Sub *q;
+    MmdlHeader header;
+    MmdlGridPos *gridPos;
+    MmdlSys *mmdlSys;
+    int zoneId;
 
-    h = func_02188C7C((void *)a);
-    k = func_02188C9C((u8 *)a);
-    buf = d_02182B6C;
-    buf.f00 = g;
-    buf.f02 = e;
-    buf.f0a = f;
-    q = &buf.s;
-    q->a = b;
-    q->b = c;
-    q->c = d;
-    func_0216CE60((int)h, (int)(&buf), k);
+    mmdlSys = func_02188C7C(fieldMap);
+    zoneId = func_02188C9C(fieldMap);
+    header = d_02182B6C;
+    header.objId = objId;
+    header.objCode = objCode;
+    header.eventId = eventId;
+    gridPos = (MmdlGridPos *)header.pos;
+    gridPos->x = gridX;
+    gridPos->z = gridZ;
+    gridPos->y = height;
+    func_0216CE60(mmdlSys, &header, zoneId);
 }
-
-
-
-
-
 
 /*
  * lever: enum inner counter preserves the one-iteration loop; unsigned comparison;
  *   named column load fixes the Thumb add operands.
  */
-void func_0217BF84(int a)
+void func_0217BF84(struct FieldMap *fieldMap)
 {
-    Index i;
-    int j;
-    unsigned int column;
-    j = 1;
+    AreaMmdlIndex defIndex;
+    int areaIndex;
+    unsigned int gridX;
+
+    areaIndex = 1;
     do {
-        i = INDEX_ZERO;
+        defIndex = AREA_MMDL_FIRST;
         do {
-            column = d_02182B54[i].f2;
-            func_0217BF2C(a, column + (j << 6), d_02182B54[i].f4, 0x2001F, d_02182B54[i].f0, d_02182B54[i].f6, j + d_02182B54[i].f8 - 1);
-            i++;
-        } while ((unsigned int)i < 1);
-        j++;
-    } while (j < 3);
+            gridX = d_02182B54[defIndex].gridX;
+            func_0217BF2C(fieldMap, gridX + (areaIndex << 6), d_02182B54[defIndex].gridZ, 0x2001F, d_02182B54[defIndex].objCode, d_02182B54[defIndex].eventId, areaIndex + d_02182B54[defIndex].objIdBase - 1);
+            defIndex++;
+        } while ((unsigned int)defIndex < 1);
+        areaIndex++;
+    } while (areaIndex < 3);
 }
 
-
-
-
-
-
-
-int func_0217BFD8(const struct Ctx *a, int b)
+int func_0217BFD8(struct GameSystem *gameSystem, int zoneId)
 {
-    int h;
-    int t;
-    int w;
+    struct GameData *gameData;
+    struct GameComm *gameComm;
+    IntrudeCommSys *work;
 
-    h = (int)func_020120F4((const struct Ctx *)a);
-    t = func_02012138((const struct Ctx *)a);
-    w = func_02158344(t);
-    if (func_02012B70((const struct BigObj *)h) == 0)
+    gameData = func_020120F4(gameSystem);
+    gameComm = func_02012138(gameSystem);
+    work = func_02158344(gameComm);
+    if (func_02012B70(gameData) == 0)
         return 0;
-    if (w != 0)
+    if (work != 0)
         return 0;
-    if (func_02012204(a) == 1)
+    if (func_02012204(gameSystem) == 1)
         return 1;
-    if (func_02013D5C(b) == 1) {
-        if (func_0202648C((void *)t) != 0)
+    if (func_02013D5C(zoneId) == 1) {
+        if (func_0202648C(gameComm) != 0)
             return 1;
         return 0;
     }
-    if (func_02013D9C(b) == 1) {
-        if (func_02026454((void *)t) == 2 || (func_02026454((void *)t) == 0 && func_0202647C((void *)t) == 2 && func_0202648C((void *)t) != 0))
+    if (func_02013D9C(zoneId) == 1) {
+        if (func_02026454(gameComm) == 2 || (func_02026454(gameComm) == 0 && func_0202647C(gameComm) == 2 && func_0202648C(gameComm) != 0))
             return 1;
         return 0;
     }
     return 1;
 }
 
-
-
-
-
-
-int func_0217C070(u8 *p)
+int func_0217C070(IntrudeCommSys *work)
 {
-    if (((Bits_0217AE20 *)(p + 0x93f))->bit == 1 || func_02176258(p) == 1)
+    if (work->startFlag == 1 || func_02176258(work) == 1)
         return 1;
     return 0;
 }
 
-
-
-
-
-
-void func_0217C094(unsigned char *p)
+void func_0217C094(IntrudeCommSys *work)
 {
-    if (p != 0) {
-        p[0x8F8] |= 0x20;
+    if (work != 0) {
+        work->flagBit5 = 1;
     }
 }
 
-
-
-
-
-
-
-u8 func_0217C0A8(void *a0)
+u8 func_0217C0A8(struct GameComm *gameComm)
 {
-    int h;
-    u8 *q;
-    u8 *obj;
+    struct GameData *gameData;
+    IntrudeCommSys *hostWork;
+    struct PlayerStatus *status;
 
-    h = func_02026478(a0);
-    if (func_02012B70((const struct BigObj *)h) == 0) {
-        obj = func_02012944((void *)h);
-    } else if (func_02012B80((const struct BigObj *)h) == func_02012B58((const struct BigObj *)h)) {
-        obj = func_02012944((void *)h);
+    gameData = func_02026478(gameComm);
+    if (func_02012B70(gameData) == 0) {
+        status = func_02012944(gameData);
+    } else if (func_02012B80(gameData) == func_02012B58(gameData)) {
+        status = func_02012944(gameData);
     } else {
-        q = 0;
-        if (func_02026454(a0) == 2 && func_02026474(a0) != 0)
-            q = (u8 *)func_02026474(a0);
-        if (q == 0) {
-            obj = func_02012944((void *)h);
-        } else if (func_02013D5C(((struct Obj19353 *)q)->f84) == 1) {
-            obj = func_02012944((void *)h);
+        hostWork = 0;
+        if (func_02026454(gameComm) == 2 && func_02026474(gameComm) != 0)
+            hostWork = func_02026474(gameComm);
+        if (hostWork == 0) {
+            status = func_02012944(gameData);
+        } else if (func_02013D5C(hostWork->localPeer.zoneId) == 1) {
+            status = func_02012944(gameData);
         } else {
-            obj = (u8 *)func_02012950((struct Sub24 *)h, func_02012B80((const struct BigObj *)h));
+            status = func_02012950(gameData, func_02012B80(gameData));
         }
     }
-    return func_02008550((const struct Sub0200852CObj *)obj);
+    return func_02008550(status);
 }
-
-
-
-
 
 /*
  * lever: index declared before count preserves r3/r4 allocation.
  */
-int func_0217C11C(u32 value)
+int func_0217C11C(u32 zoneId)
 {
     u32 i;
     u32 count;
+
     count = d_021700A4;
     for (i = 0; i < count; ++i) {
-        if (value == d_02170128[i])
+        if (zoneId == d_02170128[i])
             return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-void func_0217C14C(int a0, u16 a1, u16 a2, int a3)
+void func_0217C14C(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height)
 {
-    void *v;
-    int c;
-    S_0217C14C s;
-    T *t;
+    MmdlSys *mmdlSys;
+    int zoneId;
+    MmdlHeader header;
+    MmdlGridPos *gridPos;
 
-    v = func_02188C7C((void *)a0);
-    c = func_02188C9C((u8 *)a0);
-    s = d_021835D4;
-    t = &s.t;
-    t->h0 = a1;
-    t->h2 = a2;
-    t->w4 = a3;
-    func_0216CE60((int)v, (int)(&s), c);
+    mmdlSys = func_02188C7C(fieldMap);
+    zoneId = func_02188C9C(fieldMap);
+    header = d_021835D4;
+    gridPos = (MmdlGridPos *)header.pos;
+    gridPos->x = gridX;
+    gridPos->z = gridZ;
+    gridPos->y = height;
+    func_0216CE60(mmdlSys, &header, zoneId);
 }
-
-
-
-
 
 /*
  * extent: two alignment bytes at 0x0217C1CE.
  */
-void func_0217C194(int p)
+void func_0217C194(struct FieldMap *fieldMap)
 {
     int i;
-    if (func_02013D5C(func_02188C9C((u8 *)p)) != 0) {
+
+    if (func_02013D5C(func_02188C9C(fieldMap)) != 0) {
         for (i = 0; i < 3; ++i)
-            func_0217C14C(p, (((i << 22) + 0x1f8000) >> 12) / 16, 29, 32);
+            func_0217C14C(fieldMap, (((i << 22) + 0x1f8000) >> 12) / 16, 29, 32);
     }
 }
-
-
-
-
-
 
 /*
  * lever: const pointer parameters, u16 argument homes and u16 c/result
  * preserve the original spill and field-load scheduling together.
  */
-void func_0217C1D0(const O *o, const B *p, u16 a2, u16 a3, u16 xh0, int xw4)
+void func_0217C1D0(const SymbolSpawnContext *spawn, const SymbolMonEntry *entry, u16 objId, u16 gridX, u16 gridZ, int height)
 {
-    const E *e;
-    int v;
-    u16 c;
-    S_0217C1D0 s;
-    T *t;
+    const IntrudeMmdlMoveParam *moveParam;
+    int mmdlSys;
+    u16 zoneId;
+    MmdlHeader header;
+    MmdlGridPos *gridPos;
 
-    e = &d_0218360C[p->e];
-    v = (int)func_02188C7C((u8 *)o->f4);
-    c = func_02188C9C((u8 *)o->f4);
-    s = d_0218362C;
-    s.h[0] = a2;
-    s.h[1] = func_0202A188((u8 *)o->f0, (u16)p->x, (u16)p->y, (u16)p->z);
-    s.h[2] = e->h0;
-    s.h[10] = e->b2;
-    s.h[11] = e->b3;
-    s.h[7] = o->f8 + a2;
-    s.h[8] = ((struct Obj12484 *)p)->f0;
-    s.h[9] = ((struct Obj12484 *)p)->f0 >> 16;
-    t = &s.t;
-    t->h0 = a3;
-    t->h2 = xh0;
-    t->w4 = xw4;
-    func_0216CE60(v, (int)(&s), c);
+    moveParam = &d_0218360C[entry->appearance];
+    mmdlSys = (int)func_02188C7C(spawn->fieldMap);
+    zoneId = func_02188C9C(spawn->fieldMap);
+    header = d_0218362C;
+    header.objId = objId;
+    header.objCode = func_0202A188(spawn->tpoke, (u16)entry->species, (u16)entry->sex, (u16)entry->form);
+    header.moveCode = moveParam->moveCode;
+    header.moveLimitX = moveParam->moveLimitX;
+    header.moveLimitZ = moveParam->moveLimitZ;
+    header.param0 = spawn->objIdBase + objId;
+    header.param1 = *(const u32 *)entry;
+    header.param2 = *(const u32 *)entry >> 16;
+    gridPos = (MmdlGridPos *)header.pos;
+    gridPos->x = gridX;
+    gridPos->z = gridZ;
+    gridPos->y = height;
+    func_0216CE60((MmdlSys *)mmdlSys, &header, zoneId);
 }
 
-
-
-
-
-void func_0217C274(unsigned int *out, char *p)
+void func_0217C274(u32 *out, Mmdl *mmdl)
 {
-    int lo;
-    lo = func_0216D63C(p, 1);
-    *out = lo | (func_0216D63C(p, 2) << 16);
+    int low;
+
+    low = func_0216D63C(mmdl, 1);
+    *out = low | (func_0216D63C(mmdl, 2) << 16);
 }
-
-
-
-
-
 
 /*
  * Recursive MATCH unblocker: callee of func_0216AC90 (ov010) +0026 and
@@ -1969,255 +1701,235 @@ void func_0217C274(unsigned int *out, char *p)
  * address is coherent Thumb only in ov018 (mid-instruction in ov019/ov176,
  * ARM in ov009), so the ov018 shard makes both sites attest as `matched`.
  */
-int func_0217C294(char *a0)
+int func_0217C294(Mmdl *mmdl)
 {
-    return func_0216D63C(a0, 0);
+    return func_0216D63C(mmdl, 0);
 }
-
-
-
-
 
 /*
  * The const on the entry pointer is what lets the bitfield loads be
  * scheduled above the outgoing stack-argument stores (48 bytes otherwise).
  */
-void *func_0217C2A0(int heap, void *a1, const Entry_0217C2A0 *e)
+void *func_0217C2A0(int heapId, struct GameData *gameData, const SymbolMonEntry *entry)
 {
-    u8 *tbl;
-    u8 lvl;
-    u32 id;
-    u32 pid;
+    u8 *levelTable;
+    u8 level;
+    u32 trainerId;
+    u32 personality;
     void *mon;
 
-    tbl = (u8 *)func_0204A1BC(0xE3, 0, 0, heap);
-    lvl = tbl[e->species];
-    func_020307B0(tbl);
-    id = func_02008530((const struct Sub0200852CObj *)func_02012944(a1));
-    pid = func_020186C8(id, (u16)e->species, (u16)e->f23, e->f21, 0, 0);
-    mon = func_020173F0(e->species, lvl, -1, heap);
-    func_02017588(mon, e->species, lvl, id, -1, pid);
-    func_02018A00(mon, e->species, e->f23);
-    func_02017988(mon, (u16)e->f23);
-    if (e->move != 0) {
-        if (func_0201808C(mon, e->move) == 0xFFFF)
-            func_020180F4(mon, (u16)e->move);
+    levelTable = func_0204A1BC(0xE3, 0, 0, heapId);
+    level = levelTable[entry->species];
+    func_020307B0(levelTable);
+    trainerId = func_02008530(func_02012944(gameData));
+    personality = func_020186C8(trainerId, (u16)entry->species, (u16)entry->form, entry->sex, 0, 0);
+    mon = func_020173F0(entry->species, level, -1, heapId);
+    func_02017588(mon, entry->species, level, trainerId, -1, personality);
+    func_02018A00(mon, entry->species, entry->form);
+    func_02017988(mon, (u16)entry->form);
+    if (entry->move != 0) {
+        if (func_0201808C(mon, entry->move) == 0xFFFF)
+            func_020180F4(mon, (u16)entry->move);
     }
     return mon;
 }
 
-
-
-
-
-void func_0217C37C(int a0, int a1, Entry_0217C2A0 *list, int a3, int kind)
+void func_0217C37C(struct FieldMap *fieldMap, int objIdBase, SymbolMonEntry *entries, int unused, int cellKind)
 {
-    const u8 (*tbl)[2];
-    Ctx ctx;
-    void *obj;
-    u16 cx;
-    u16 cy;
+    const u8 (*offsets)[2];
+    SymbolSpawnContext spawn;
+    Mmdl *playerMmdl;
+    u16 playerGridX;
+    u16 playerGridZ;
     int i;
-    int dx;
-    int dy;
+    int jitterX;
+    int jitterZ;
     int x;
-    int y;
+    int z;
 
-    if (func_02166618(kind))
-        tbl = d_02183678;
-    else if (func_02166640(kind))
-        tbl = d_021835F8;
+    if (func_02166618(cellKind))
+        offsets = d_02183678;
+    else if (func_02166640(cellKind))
+        offsets = d_021835F8;
     else
-        tbl = d_02183650;
+        offsets = d_02183650;
 
-    ctx.f0 = func_0202A128(func_02188C84((u8 *)a0));
-    ctx.f4 = a0;
-    ctx.f8 = a1;
-    obj = func_021A3074(func_02188CB4((void *)a0));
-    cx = func_0216D83C(obj);
-    cy = func_0216D86C(obj);
+    spawn.tpoke = func_0202A128(func_02188C84(fieldMap));
+    spawn.fieldMap = fieldMap;
+    spawn.objIdBase = objIdBase;
+    playerMmdl = func_021A3074(func_02188CB4(fieldMap));
+    playerGridX = func_0216D83C(playerMmdl);
+    playerGridZ = func_0216D86C(playerMmdl);
 
     for (i = 0; i < 20; i++) {
-        if (list[i].species != 0) {
-            dx = func_02005728(2) - 1;
-            dy = func_02005728(2) - 1;
-            x = dx + tbl[i][0];
-            y = dy + tbl[i][1];
-            if (cx == x && cy == y) {
-                if (dx != 0)
-                    x -= dx;
-                else if (dy != 0)
-                    y -= dy;
+        if (entries[i].species != 0) {
+            jitterX = func_02005728(2) - 1;
+            jitterZ = func_02005728(2) - 1;
+            x = jitterX + offsets[i][0];
+            z = jitterZ + offsets[i][1];
+            if (playerGridX == x && playerGridZ == z) {
+                if (jitterX != 0)
+                    x -= jitterX;
+                else if (jitterZ != 0)
+                    z -= jitterZ;
                 else
                     x++;
             }
-            func_0217C1D0((const O *)&ctx, (const B *)&list[i], i, x, y, 0);
+            func_0217C1D0(&spawn, &entries[i], i, x, z, 0);
         }
     }
-    func_0202A170(ctx.f0);
+    func_0202A170(spawn.tpoke);
 }
 
-
-
-
-
-struct Desc *func_0217C458(void *a0, void *a1, u8 *a2, int a3)
+struct GameEvent *func_0217C458(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work, u16 senderNetId)
 {
-    B52 *src;
-    Obj *o;
-    struct Desc *x;
+    IntrudeMemberRecord *offer;
+    OfferEventWork *eventWork;
+    struct GameEvent *event;
 
-    src = (B52 *)func_02175B34(a2 + 0x1AC);
-    func_020120F4(a0);
-    x = func_020122C0(a0, 0, func_0217C4D0, 0x88);
-    o = func_020124E8((struct Obj *)x);
-    func_02082BCC(o, 0, 0x88);
-    o->h0 = a3;
-    o->w4 = a1;
-    o->b38 = *src;
-    o->b84 = 1;
-    func_0217F2B4((u8 *)o + 8, a0);
-    func_02174E14(a2, 5);
-    return x;
+    offer = func_02175B34(&work->session);
+    func_020120F4(gameSystem);
+    event = func_020122C0(gameSystem, 0, func_0217C4D0, sizeof(OfferEventWork));
+    eventWork = func_020124E8(event);
+    MI_CpuFill8(eventWork, 0, sizeof(OfferEventWork));
+    eventWork->senderNetId = senderNetId;
+    eventWork->fieldMap = fieldMap;
+    eventWork->record = *offer;
+    eventWork->showInfo = 1;
+    func_0217F2B4(eventWork->infoWindow, gameSystem);
+    func_02174E14(work, 5);
+    return event;
 }
-
-
-
 
 /*
  * Task callback registered by func_0217C458 (0x88-byte work, state word
  * in the second argument).
  */
-int func_0217C4D0(void *task, int *state, Work_0217C2A0 *w)
+int func_0217C4D0(struct GameEvent *event, u32 *seq, OfferEventWork *work)
 {
-    void *sys;
-    u8 *peer;
-    u16 hi;
-    u8 t;
+    struct GameSystem *gameSystem;
+    IntrudeCommSys *intrudeWork;
+    u16 pointIndex;
+    u8 ownId;
 
-    sys = func_020124E4(task);
-    peer = (u8 *)func_02158344((int)((void *)func_02012138(sys)));
-    if (peer == 0 && *state == 0)
-        *state = 8;
+    gameSystem = func_020124E4(event);
+    intrudeWork = func_02158344(func_02012138(gameSystem));
+    if (intrudeWork == 0 && *seq == 0)
+        *seq = 8;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        if (w->f84 == 0) {
-            *state = 4;
+        if (work->showInfo == 0) {
+            *seq = 4;
             break;
         }
-        func_0217F528(w->f08, sys, 1, 1, 0x1E, 0x10);
-        func_021762D8(&w->f38, w->f38.f18, *(int *)w->f08, w->f00);
-        hi = w->f38.f04.hi;
-        func_0217F574((void **)w->f08, (u16)w->f38.f04.lo, 8, 0);
-        func_0217F574((void **)w->f08, (u16)hi, 8, 0x10);
-        (*state)++;
+        func_0217F528(work->infoWindow, gameSystem, 1, 1, 0x1E, 0x10);
+        func_021762D8(&work->record, &work->record.name, *(int *)work->infoWindow, work->senderNetId);
+        pointIndex = work->record.head.pointIndex;
+        func_0217F574(work->infoWindow, (u16)work->record.head.kind, 8, 0);
+        func_0217F574(work->infoWindow, (u16)pointIndex, 8, 0x10);
+        (*seq)++;
         break;
     case 1:
-        func_02012374(task, func_02029830(sys, 0x52B));
-        (*state)++;
+        func_02012374(event, func_02029830(gameSystem, 0x52B));
+        (*seq)++;
         break;
     case 2:
         if (func_02005F38() == 0) {
-            func_02012374(task, func_02029620(sys, 0, 6));
-            (*state)++;
+            func_02012374(event, func_02029620(gameSystem, 0, 6));
+            (*seq)++;
         }
         break;
     case 3:
-        func_0217F58C(w->f08);
-        (*state)++;
+        func_0217F58C(work->infoWindow);
+        (*seq)++;
         break;
     case 4:
-        t = (int)func_02012B58(func_020120F4(sys));
-        func_0217C658((Rec_0217C658 *)(&w->f6C), sys, w->f04, w->f38.f0A[t], w->f38.f10[t], w->f38.f08.mask & (1 << t));
-        (*state)++;
+        ownId = (int)func_02012B58(func_020120F4(gameSystem));
+        func_0217C658(&work->spin, gameSystem, work->fieldMap, work->record.head.ids[ownId], work->record.head.grades[ownId], ((IntrudeNetIdMask *)&work->record.head.reserved08)->netIds & (1 << ownId));
+        (*seq)++;
         break;
     case 5:
-        if (func_0217C688((Rec_0217C688 *)(&w->f6C), peer) == 1)
-            (*state)++;
+        if (func_0217C688(&work->spin, intrudeWork) == 1)
+            (*seq)++;
         break;
     case 6:
-        if (peer != 0) {
-            if (func_02173FC0((int)peer, peer + 0x1AC) == 1)
-                (*state)++;
+        if (intrudeWork != 0) {
+            if (func_02173FC0(intrudeWork, &intrudeWork->session) == 1)
+                (*seq)++;
         } else {
-            (*state)++;
+            (*seq)++;
         }
         break;
     case 7:
-        if (peer != 0) {
-            if (func_02175A24(peer + 0x1AC) == 1)
-                (*state)++;
+        if (intrudeWork != 0) {
+            if (func_02175A24(&intrudeWork->session) == 1)
+                (*seq)++;
         } else {
-            (*state)++;
+            (*seq)++;
         }
         break;
     case 8:
-        func_0217F318(w->f08);
-        if (peer != 0)
-            func_02174E14(peer, 0);
+        func_0217F318(work->infoWindow);
+        if (intrudeWork != 0)
+            func_02174E14(intrudeWork, 0);
         return 1;
     }
     return 0;
 }
 
-
-
 /*
  * extent: two alignment bytes at 0x0217C686.
  */
-void func_0217C658(Rec_0217C658 *p, void *a, int b, u16 c, u8 d, u8 e)
+void func_0217C658(PlayerSpinWork *spin, struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 objCode, u8 kind, u8 flag)
 {
-    func_02082BCC(p, 0, sizeof(Rec_0217C658));
-    p->f0 = a;
-    p->f4 = b;
-    p->fC = c;
-    p->fE = d;
-    p->fF = e;
-    p->fA = 15;
-    p->f8 = p->fA;
+    MI_CpuFill8(spin, 0, sizeof(PlayerSpinWork));
+    spin->gameSystem = gameSystem;
+    spin->fieldMap = fieldMap;
+    spin->objCode = objCode;
+    spin->kind = kind;
+    spin->flag = flag;
+    spin->stepFrames = 15;
+    spin->shownStep = spin->stepFrames;
 }
 
-
-
-
 /*
- * Per-frame step of the 0x18-byte record func_0217C758 initialises.
+ * Per-frame step of the 0x18-byte record func_0217C658 initialises.
  */
-int func_0217C688(Rec_0217C688 *r, void *a1)
+int func_0217C688(PlayerSpinWork *spin, IntrudeCommSys *work)
 {
-    void *obj;
-    s16_0217C2A0 v;
+    Mmdl *playerMmdl;
+    s16 frames;
 
-    switch (r->f10) {
+    switch (spin->state) {
     case 0:
-        r->fA = 15;
-        r->f8 = r->fA;
+        spin->stepFrames = 15;
+        spin->shownStep = spin->stepFrames;
         func_020061E4(0x738);
-        r->f10++;
+        spin->state++;
         break;
     case 1:
-        if (func_02188BE8(r->f4) == 1) {
-            obj = func_021A3074(func_02188CB4((struct Obj00020 *)r->f4));
-            if (func_0216D3CC((int)obj) == 1) {
-                if (r->fA >= 15 && r->f12 != 0 && d_021836A0[r->f11] == 1) {
-                    r->f10++;
+        if (func_02188BE8(spin->fieldMap) == 1) {
+            playerMmdl = func_021A3074(func_02188CB4(spin->fieldMap));
+            if (func_0216D3CC(playerMmdl) == 1) {
+                if (spin->stepFrames >= 15 && spin->switched != 0 && d_021836A0[spin->dirIndex] == 1) {
+                    spin->state++;
                     break;
                 }
-                r->f11 = (r->f11 + 1) & 3;
-                v = r->fA;
-                r->f8 = v;
-                if (r->f12 == 0) {
-                    r->fA--;
-                    if (r->fA <= 1) {
-                        func_020120F4(r->f0);
-                        func_0217BCDC(a1, r->f0, r->fC, r->fE, r->fF);
-                        r->f12++;
+                spin->dirIndex = (spin->dirIndex + 1) & 3;
+                frames = spin->stepFrames;
+                spin->shownStep = frames;
+                if (spin->switched == 0) {
+                    spin->stepFrames--;
+                    if (spin->stepFrames <= 1) {
+                        func_020120F4(spin->gameSystem);
+                        func_0217BCDC(work, spin->gameSystem, spin->objCode, spin->kind, spin->flag);
+                        spin->switched++;
                     }
-                } else if (v < 15) {
-                    r->fA++;
+                } else if (frames < 15) {
+                    spin->stepFrames++;
                 }
-                func_0216D410(obj, d_021836A0[r->f11]);
+                func_0216D410(playerMmdl, d_021836A0[spin->dirIndex]);
             }
         }
         break;

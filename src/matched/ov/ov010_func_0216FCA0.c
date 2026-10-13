@@ -26,9 +26,9 @@
  * in loop (127 B), total as loop bound (124 B), w/h/t as plain /8 (166 B: the
  * original keeps the lsls 13 / lsrs 16 pair), pragmas scheduling,
  * opt_propagation, opt_lifetimes off (24, 27, 24 B).
- * Callee types checked: func_020437DC/E4 u16, func_02043994 u8 (sub_02043994.c),
+ * Callee types checked: func_020437DC/E4 u16, BMP_GetTileBytes u8 (BMP_GetTileBytes.c),
  * func_020437D4 returns a pointer (ov208 callers); all as declared here.
- * No tile-order twin (grep func_02043994, func_020437E4+func_020437DC in src/matched/ov).
+ * No tile-order twin (grep BMP_GetTileBytes, func_020437E4+func_020437DC in src/matched/ov).
  * Idioms read: div-and-mod-are-two-calls, a-self-recompute-pins-an-operand-before-the-other-side-calls,
  * a-field-captured-before-a-named-divider-stays-live-across-the-call,
  * binding-a-modulo-result-to-a-local-moves-the-add-destination,
@@ -55,7 +55,7 @@
  * symbols:
  *   func_020437DC  0x020437DC  arm
  *   func_020437E4  0x020437E4  arm
- *   func_02043994  0x02043994  arm
+ *   BMP_GetTileBytes  0x02043994  arm
  *   func_020437D4  0x020437D4  arm
  *   _s32_div_f     0x0209C0A4  arm
  *
@@ -71,7 +71,7 @@ struct Bmp;
 extern u16 func_020437DC(const struct Bmp *bmp);
 struct Bmp;
 extern u16 func_020437E4(const struct Bmp *bmp);
-extern u8 func_02043994(struct Bmp *b);
+extern u8 BMP_GetTileBytes(struct Bmp *b);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern int _s32_div_f(int a, int b);
 void func_0216FCA0(void *a, void *b)
@@ -87,7 +87,7 @@ void func_0216FCA0(void *a, void *b)
   int q;
   w = func_020437DC(a) / 8;
   h = func_020437E4(a) / 8;
-  d = func_02043994(a);
+  d = BMP_GetTileBytes(a);
   t = d / 8;
   src = func_020437D4(a);
   dst = func_020437D4(b);

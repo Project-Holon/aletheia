@@ -1,5 +1,5 @@
 /*
- * function: func_02022F34
+ * function: WIPE_SUB_FlipLineMaskTask
  * address:  0x02022F34
  * packet:   pkt_02022EA0
  * region:   arm9
@@ -27,7 +27,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_02022F34(void *p, struct WipeSubElem *elems)
+void WIPE_SUB_FlipLineMaskTask(void *p, struct WipeSubElem *elems)
 {
     int i;
 

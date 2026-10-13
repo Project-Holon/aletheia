@@ -29,7 +29,7 @@
  *   func_02183E50  0x02183E50  arm  ov009
  *   memcpy  0x02092344  arm
  *   func_02184938  0x02184938  arm  ov009
- *   func_0217E978  0x0217E978  arm  ov009
+ *   gsLargeIntAddToMD5  0x0217E978  arm  ov009
  *   func_02184A34  0x02184A34  arm  ov009
  *   func_021E26BC  0x021E26BC  arm  ov175
  *   func_0217EAE0  0x0217EAE0  arm  ov009
@@ -125,7 +125,7 @@ extern int func_021E2A5C(GSLoginCertificate *cert, void *reader);
 extern int func_02183560(void *stream);
 extern int func_02183E50(void *stream, char *matchtag, gsLargeInt_t *valueOut);
 extern void func_02184938(GSMD5_CTX *context);
-extern void func_0217E978(gsLargeInt_t *lint, GSMD5_CTX *md5);
+extern void gsLargeIntAddToMD5(gsLargeInt_t *lint, GSMD5_CTX *md5);
 extern void func_02184A34(unsigned char *digest, GSMD5_CTX *context);
 extern int func_021E26BC(GSLoginCertificate *cert);
 extern void func_0217EAE0(void *ptr);
@@ -230,7 +230,7 @@ void func_021E2354(int theResult, void *theRequestXml, void *theResponseXml, voi
         else {
             memcpy(&response.mPrivateData.mPeerPrivateKey.modulus, &cert->mPeerPublicKey.modulus, sizeof(gsLargeInt_t));
             func_02184938(&md5);
-            func_0217E978(&response.mPrivateData.mPeerPrivateKey.exponent, &md5);
+            gsLargeIntAddToMD5(&response.mPrivateData.mPeerPrivateKey.exponent, &md5);
             func_02184A34((unsigned char *)response.mPrivateData.mKeyHash, &md5);
             cert->mIsValid = func_021E26BC(cert);
             if (!cert->mIsValid)

@@ -1,5 +1,5 @@
 /*
- * function: func_0218583C
+ * function: GSMD5_memcpy
  * address:  0x0218583C
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 
-void *func_0218583C(void *dest, const void *src, unsigned int n)
+void *GSMD5_memcpy(void *dest, const void *src, unsigned int n)
 {
     return func_02092344(dest, src, n);
 }

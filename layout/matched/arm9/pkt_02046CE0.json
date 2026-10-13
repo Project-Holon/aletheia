@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02046E90",
+   "name": "G3D_SYSTEM_CreateResourcePath",
    "address": "0x02046E90",
    "kind": "game",
    "region": "arm9",

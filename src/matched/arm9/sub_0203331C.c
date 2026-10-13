@@ -1,5 +1,5 @@
 /*
- * function: sub_0203331C
+ * function: BACKUP_SYSTEM_SetBlockArea
  * address:  0x0203331C
  * packet:   pkt_0203331C
  * region:   arm9
@@ -41,8 +41,8 @@
  *    the residue to the same 10 bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203331C.c \
- *       --func sub_0203331C --addr 0x0203331C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_SetBlockArea.c \
+ *       --func BACKUP_SYSTEM_SetBlockArea --addr 0x0203331C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -52,7 +52,7 @@ struct Obj020332FC {
     u32 *slots;
 };
 
-void sub_0203331C(struct Obj020332FC *p, u32 idx, u32 val)
+void BACKUP_SYSTEM_SetBlockArea(struct Obj020332FC *p, u32 idx, u32 val)
 {
     u32 sh = (idx & 0xf) * 2;
     u32 tmp;

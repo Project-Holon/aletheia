@@ -10,7 +10,7 @@
  * volatile: 0x021B787A and 0x021B7884 read display registers for update.
  * symbols:
  * func_02082BCC 0x02082BCC arm
- * func_0204335C 0x0204335C arm
+ * BG_SYS_ClearGraphicsMemory 0x0204335C arm
  * func_0204363C 0x0204363C arm
  * func_0204361C 0x0204361C arm
  * func_020433E0 0x020433E0 arm
@@ -21,7 +21,7 @@
  */
 #include "../include/Obj22140.h"
 extern void func_02082BCC(void *,int,unsigned);
-extern void func_0204335C(unsigned);
+extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void func_0204363C(unsigned);
 extern void func_0204361C(void);
 struct DispVram;
@@ -36,7 +36,7 @@ void func_021B7860(char *p,unsigned b) {
  *(volatile unsigned short *)0x04001050=0;
  *(volatile unsigned *)0x04000000 &= ~0xe000;
  *(volatile unsigned *)0x04001000 &= ~0xe000;
- func_0204335C(0);
+ BG_SYS_ClearGraphicsMemory(0);
  func_0204363C(0);
  func_0204361C();
  func_020433E0((const struct DispVram *)d_021B8B2C);

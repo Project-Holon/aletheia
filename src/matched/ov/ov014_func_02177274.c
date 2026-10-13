@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov014/net_whpipe.c and filed here.
  *
  * symbols:
- *   func_021780E4 0x021780E4 thumb ov014
+ *   NET_WHPIPE_StartJoinLock 0x021780E4 thumb ov014
  */
 
-extern void func_021780E4(int a);
+extern void NET_WHPIPE_StartJoinLock(int a);
 void func_02177274(int a);
 
 void func_02177274(int a)
 {
-    func_021780E4(a);
+    NET_WHPIPE_StartJoinLock(a);
 }

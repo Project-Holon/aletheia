@@ -1,5 +1,5 @@
 /*
- * function: func_0203D8AC
+ * function: GFL_NET_RestartNoTimeout
  * address:  0x0203D8AC
  * packet:   pkt_0203D7C8
  * region:   arm9
@@ -9,18 +9,21 @@
  * isa:      arm
  * status:   EXACT
  *
- * Runs func_020371AC(0, 0) and func_0203D2CC.
+ * Runs func_020371AC(0, 0) and GFL_NET_RestartByNetType.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D8AC.c \
- *       --func func_0203D8AC --addr 0x0203D8AC --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_RestartNoTimeout.c \
+ *       --func GFL_NET_RestartNoTimeout --addr 0x0203D8AC --arm --cc 1.1p1
+ *
+ * symbols:
+ *   GFL_NET_RestartByNetType  0x0203D2CC  arm
  */
 
 extern void func_020371AC(unsigned short a, unsigned int b);
-extern void func_0203D2CC(void);
+extern void GFL_NET_RestartByNetType(void);
 
-void func_0203D8AC(void)
+void GFL_NET_RestartNoTimeout(void)
 {
     func_020371AC(0, 0);
-    func_0203D2CC();
+    GFL_NET_RestartByNetType();
 }

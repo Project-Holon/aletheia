@@ -10,20 +10,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02013C10, sub_02013C20, sub_02013C30, sub_02013C40,
- *           sub_02013C50, sub_02013C60
+ * function: ZONEDATA_GetWeatherId, ZONEDATA_IsBikeEnabled, ZONEDATA_IsRingtoneEnabled, ZONEDATA_IsFlyEnabled,
+ *           ZONEDATA_IsWeatherEnabled, ZONEDATA_IsPalaceEnabled
  *
  * symbols:
- *   sub_02013AD0        0x02013AD0  thumb
+ *   ZONEDATA_GetHeader        0x02013AD0  thumb
  *
- * alias: continues the run of leaf accessors on the record sub_02013AD0()
+ * alias: continues the run of leaf accessors on the record ZONEDATA_GetHeader()
  * returns for a given id.  sub_02013BDC, the dense-switch dispatcher
  * immediately before this range, is a documented near miss and is not in
  * this file; see its header note for why.
  *
  * The record's halfword at +0x1c holds the same three-way bitfield as
  * unit_02013BA8.c (bits[0:5] here, bits[6:8] and bits[9:15] there);
- * sub_02013C10 is the low six bits and needs no narrowing return, unlike its
+ * ZONEDATA_GetWeatherId is the low six bits and needs no narrowing return, unlike its
  * two neighbours there, which return u8 and pick up an extra truncation pair
  * for it.  The halfword at +0x1e is five single-bit flags at bits 10, 12,
  * 13, 14 and 15 (bit 11 has no accessor in this range).
@@ -52,7 +52,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *sub_02013AD0(u32 id);
+extern void *ZONEDATA_GetHeader(u32 id);
 
 struct Sub02013AD0Rec {
     u8 pad00[0x1c];
@@ -72,38 +72,38 @@ struct Sub02013AD0Rec {
     } unk1e;
 };
 
-u32 sub_02013C10(u32 id)
+u32 ZONEDATA_GetWeatherId(u32 id)
 {
-    struct Sub02013AD0Rec *r = sub_02013AD0(id);
+    struct Sub02013AD0Rec *r = ZONEDATA_GetHeader(id);
     return r->unk1c.lo6;
 }
 
-u32 sub_02013C20(u32 id)
+u32 ZONEDATA_IsBikeEnabled(u32 id)
 {
-    struct Sub02013AD0Rec *r = sub_02013AD0(id);
+    struct Sub02013AD0Rec *r = ZONEDATA_GetHeader(id);
     return r->unk1e.flag10;
 }
 
-u32 sub_02013C30(u32 id)
+u32 ZONEDATA_IsRingtoneEnabled(u32 id)
 {
-    struct Sub02013AD0Rec *r = sub_02013AD0(id);
+    struct Sub02013AD0Rec *r = ZONEDATA_GetHeader(id);
     return r->unk1e.flag14;
 }
 
-u32 sub_02013C40(u32 id)
+u32 ZONEDATA_IsFlyEnabled(u32 id)
 {
-    struct Sub02013AD0Rec *r = sub_02013AD0(id);
+    struct Sub02013AD0Rec *r = ZONEDATA_GetHeader(id);
     return r->unk1e.flag13;
 }
 
-u32 sub_02013C50(u32 id)
+u32 ZONEDATA_IsWeatherEnabled(u32 id)
 {
-    struct Sub02013AD0Rec *r = sub_02013AD0(id);
+    struct Sub02013AD0Rec *r = ZONEDATA_GetHeader(id);
     return r->unk1e.flag12;
 }
 
-u32 sub_02013C60(u32 id)
+u32 ZONEDATA_IsPalaceEnabled(u32 id)
 {
-    struct Sub02013AD0Rec *r = sub_02013AD0(id);
+    struct Sub02013AD0Rec *r = ZONEDATA_GetHeader(id);
     return r->unk1e.flag15;
 }

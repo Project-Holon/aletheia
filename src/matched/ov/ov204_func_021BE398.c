@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02024004 0x02024004 thumb
+ *   BRIGHTNESS_IsFinished 0x02024004 thumb
  */
-extern int func_02024004(int a);
-int func_021BE398(void) {func_02024004(1);return 1;}
+extern int BRIGHTNESS_IsFinished(int a);
+int func_021BE398(void) {BRIGHTNESS_IsFinished(1);return 1;}

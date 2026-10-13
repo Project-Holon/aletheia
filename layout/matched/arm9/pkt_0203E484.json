@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203E484",
+   "name": "GFL_NET_IRC_WIRELESS_AddMacList",
    "address": "0x0203E484",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_0203E4E8",
+   "name": "GFL_NET_IRC_WIRELESS_RetryStep",
    "address": "0x0203E4E8",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203E538",
+   "name": "GFL_NET_IRC_WIRELESS_RequestRetry",
    "address": "0x0203E538",
    "kind": "game",
    "region": "arm9",
@@ -48,7 +48,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203E5AC",
+   "name": "GFL_NET_IRC_WIRELESS_SetGameKindOverride",
    "address": "0x0203E5AC",
    "kind": "game",
    "region": "arm9",
@@ -60,7 +60,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203E5F8",
+   "name": "GFL_NET_LOWER_DATA_Init",
    "address": "0x0203E5F8",
    "kind": "game",
    "region": "arm9",
@@ -72,7 +72,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203E6C0",
+   "name": "GFL_NET_LOWER_DATA_Exit",
    "address": "0x0203E6C0",
    "kind": "game",
    "region": "arm9",
@@ -84,7 +84,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203E758",
+   "name": "GFL_NET_LOWER_DATA_SetSendData",
    "address": "0x0203E758",
    "kind": "game",
    "region": "arm9",
@@ -96,7 +96,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203E808",
+   "name": "GFL_NET_LOWER_DATA_CreatePostWork",
    "address": "0x0203E808",
    "kind": "game",
    "region": "arm9",
@@ -108,7 +108,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203E8C8",
+   "name": "GFL_NET_LOWER_DATA_DeletePostWork",
    "address": "0x0203E8C8",
    "kind": "game",
    "region": "arm9",
@@ -120,7 +120,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203E96C",
+   "name": "GFL_NET_LOWER_DATA_GetPostBuffer",
    "address": "0x0203E96C",
    "kind": "game",
    "region": "arm9",
@@ -132,7 +132,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203E9DC",
+   "name": "GFL_NET_LOWER_DATA_GetPostRecvSize",
    "address": "0x0203E9DC",
    "kind": "game",
    "region": "arm9",

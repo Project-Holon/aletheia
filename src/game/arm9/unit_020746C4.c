@@ -26,17 +26,17 @@
  *   func_02089D40  0x02089D40  arm
  *   func_02089B38  0x02089B38  arm
  *   func_02089CD4  0x02089CD4  arm
- *   func_02074518  0x02074518  arm
- *   func_02074324  0x02074324  arm
- *   func_0207466C  0x0207466C  arm
- *   func_020743EC  0x020743EC  arm
- *   func_02074450  0x02074450  arm
+ *   NNS_SndArcGetGroupInfo  0x02074518  arm
+ *   NNS_SndArcGetSeqInfo  0x02074324  arm
+ *   NNS_SndArcGetFileAddress  0x0207466C  arm
+ *   NNS_SndArcGetBankInfo  0x020743EC  arm
+ *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
  *   func_0208A2BC  0x0208A2BC  arm
- *   func_0207457C  0x0207457C  arm
- *   func_020745A4  0x020745A4  arm
+ *   NNS_SndArcGetFileSize  0x0207457C  arm
+ *   NNS_SndArcReadFile  0x020745A4  arm
  *   DC_StoreRange  0x020862D4  arm
- *   func_020742FC  0x020742FC  arm
- *   func_02074694  0x02074694  arm
+ *   NNS_SndArcGetCurrent  0x020742FC  arm
+ *   NNS_SndArcSetFileAddress  0x02074694  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   d_0214EA54     0x0214EA54  data  a4
@@ -44,15 +44,17 @@
  *   func_020896AC    0x020896AC  arm
  *   func_020896CC    0x020896CC  arm
  *   func_0208A38C    0x0208A38C  arm
- *   func_0208A638  0x0208A638  arm
+ *   SNDi_GetBankWaveArcTable  0x0208A638  arm
  *   func_0208A640  0x0208A640  arm
  *   func_0208A674  0x0208A674  arm
  *   func_0208A46C  0x0208A46C  arm
  *   func_0208A48C  0x0208A48C  arm
- *   func_020744B4  0x020744B4  arm
- *   func_02072DB0  0x02072DB0  arm
- *   func_02072DD0  0x02072DD0  arm
+ *   NNS_SndArcGetPlayerInfo  0x020744B4  arm
+ *   NNS_SndPlayerSetPlayableSeqCount  0x02072DB0  arm
+ *   NNS_SndPlayerSetAllocatableChannel  0x02072DD0  arm
  *   func_02072DE8  0x02072DE8  arm
+ *   NNS_SndArcSetCurrent  0x020742E4  arm
+ *   NNS_SndArcGetSeqArcInfo  0x02074388  arm
  */
 #include "../../matched/include/Obj07066.h"
 #include "../../matched/include/Obj08948.h"
@@ -150,23 +152,23 @@ extern void func_02060468(int p0, int p1);
 extern u32 func_02089D40(void);
 extern void func_02089B38(u32 a0);
 extern void func_02089CD4(u32 tag);
-extern void *func_02074518(int index);
-extern void *func_02074324(int index);
-extern u32  func_0207466C(u32 a);
-extern void *func_02074388(int index);
-extern void *func_020743EC(int index);
-extern void *func_02074450(int index);
+extern void *NNS_SndArcGetGroupInfo(int index);
+extern void *NNS_SndArcGetSeqInfo(int index);
+extern u32  NNS_SndArcGetFileAddress(u32 a);
+extern void *NNS_SndArcGetSeqArcInfo(int index);
+extern void *NNS_SndArcGetBankInfo(int index);
+extern void *NNS_SndArcGetWaveArcInfo(int index);
 extern void  func_0208A2BC(u32 bank, u32 i, u32 waveArc);
-extern u32   func_0207457C(u32 a);
-extern int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset);
+extern u32   NNS_SndArcGetFileSize(u32 a);
+extern int NNS_SndArcReadFile(u32 idx, void *dst_buf, int total_len, u32 offset);
 extern void  DC_StoreRange(void *addr, u32 size);
-extern struct Global *func_020742FC(void);
-extern void func_02074694(u32, u32);
+extern struct Global *NNS_SndArcGetCurrent(void);
+extern void NNS_SndArcSetFileAddress(u32, u32);
 extern void  MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 extern u32 func_02087988(void);
 extern void func_0208799C(u32);
-extern struct Global *func_020742E4(struct Global *val);
+extern struct Global *NNS_SndArcSetCurrent(struct Global *val);
 extern void func_020896AC(const void *start, const void *end);
 extern void func_020896CC(const void *start, const void *end);
 extern void func_0208A38C(struct SNDBankData *bank);
@@ -174,12 +176,12 @@ extern void func_020896EC(const void *start, const void *end);
 extern void func_0208A424(struct SNDWaveArc *waveArc);
 extern u32 func_0208A674(u32, u32);
 extern void func_0208A640(u32, u32, u32);
-extern void *func_0208A638(char *p);
+extern void *SNDi_GetBankWaveArcTable(char *p);
 extern void func_0208A46C(Iter *it, u32 a, u32 b, u32 c);
 extern u32  func_0208A48C(u32 seq, Rec *r, Iter *it);
-extern void *func_020744B4(int index);
-extern void  func_02072DB0(int idx, int v);
-extern void func_02072DD0(u32 idx, u32 val);
+extern void *NNS_SndArcGetPlayerInfo(int index);
+extern void  NNS_SndPlayerSetPlayableSeqCount(int idx, int v);
+extern void NNS_SndPlayerSetAllocatableChannel(u32 idx, u32 val);
 extern u32   func_02072DE8(int idx, u32 a, void *src);
 void func_020746C4(void *payload, u32 size, struct Arc *c);
 void func_020746D0(void *payload, u32 size, struct Arc *c);
@@ -753,7 +755,7 @@ int func_02074AE8(u32 index, u32 arg)
     struct Entry *e;
     u32 r;
 
-    t = func_02074518(index);
+    t = NNS_SndArcGetGroupInfo(index);
     if (t == 0) {
         return 1;
     }
@@ -803,7 +805,7 @@ int func_02074AE8(u32 index, u32 arg)
 
 u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out)
 {
-    u8 *p = func_02074324(a);
+    u8 *p = NNS_SndArcGetSeqInfo(a);
     u32 r;
 
     if (p == 0) return 2;
@@ -813,7 +815,7 @@ u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out)
         r = func_02074F3C(((struct Obj08948 *)p)->f0, c, d);
         if (r == 0) return 6;
     } else {
-        r = func_0207466C(((struct Obj08948 *)p)->f0);
+        r = NNS_SndArcGetFileAddress(((struct Obj08948 *)p)->f0);
     }
     if (out != 0) *out = r;
     return 0;
@@ -826,14 +828,14 @@ u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out)
 
 
 u32 func_02074C70(u32 a, u32 b, u32 c, u32 d, u32 *out) {
-    void *p = func_02074388(a);
+    void *p = NNS_SndArcGetSeqArcInfo(a);
     u32 r;
     if (p == 0) return 3;
     if (b & 8) {
         r = func_02074FA8(((struct Obj11687 *)p)->f0, c, d);
         if (r == 0) return 7;
     } else {
-        r = func_0207466C(((struct Obj11687 *)p)->f0);
+        r = NNS_SndArcGetFileAddress(((struct Obj11687 *)p)->f0);
     }
     if (out != 0) *out = r;
     return 0;
@@ -860,7 +862,7 @@ u32 func_02074C70(u32 a, u32 b, u32 c, u32 d, u32 *out) {
  * shape.  The image's `ldrne r2, [sp, #4]` at 0x02074DD0 was never a
  * scratch register choice: it loads `sub` straight into the third argument
  * register for the call, and the `cmpne r2, #0` guard reads it from there.
- * Every other lever (the union header, one-argument func_02074450, the
+ * Every other lever (the union header, one-argument NNS_SndArcGetWaveArcInfo, the
  * func_02074E10 result returned as is, the int counter, the ../2.0/sp2 pin)
  * is documented in docs/notes/pkt_02074CD0.c.txt.
  *
@@ -879,20 +881,20 @@ u32 func_02074CD0(u32 a, u32 flags, u32 c, u32 d, u32 *out)
     u32 sub;
     u32 r;
 
-    g = func_020743EC(a);
+    g = NNS_SndArcGetBankInfo(a);
     if (g == 0) return 4;
 
     if (flags & 2) {
         bank = func_02075014(g->f0, c, d);
         if (bank == 0) return 8;
     } else {
-        bank = func_0207466C(g->f0);
+        bank = NNS_SndArcGetFileAddress(g->f0);
     }
 
     want = flags & 4;
     for (i = 0; i < 4; i++) {
         if (g->slot[i] != 0xffff) {
-            o = func_02074450(g->slot[i]);
+            o = NNS_SndArcGetWaveArcInfo(g->slot[i]);
             if (o == 0) return 5;
             r = func_02074E10(g->slot[i], flags, c, d, &sub);
             if (r != 0) return r;
@@ -915,11 +917,11 @@ u32 func_02074CD0(u32 a, u32 flags, u32 c, u32 d, u32 *out)
 
 /*
  * The 0x02074BEC/0x02074C70 sibling for the third handler slot: resolve the
- * object (func_02074450), read its 32-bit header word, and dispatch on the
+ * object (NNS_SndArcGetWaveArcInfo), read its 32-bit header word, and dispatch on the
  * caller's flag bits.  With flag bit 2 set the 24-bit low field of the header
  * is handed to one of two loaders chosen by header bit 24, and a zero result
  * is the error code 9; without it the field goes to the plain lookup
- * func_0207466C and no error check applies (the image's `bl 0x207466c` at
+ * NNS_SndArcGetFileAddress and no error check applies (the image's `bl 0x207466c` at
  * 0x02074E84 lands at 0x02074E88, PAST the `cmp r0,#0` / `mov r0,#9`).
  *
  * TWO LEVERS, both required and both previously measured against the wrong
@@ -959,14 +961,14 @@ u32 func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out)
     union Hdr *o;
     u32 r;
 
-    o = func_02074450(a);
+    o = NNS_SndArcGetWaveArcInfo(a);
     if (o == 0) return 5;
     if (b & 4) {
         if ((o->w >> 24) & 1) r = func_020750EC(o->b.v, (u32 *)c, d);
         else                  r = func_02075080(o->b.v, c, d);
         if (r == 0) return 9;
     } else {
-        r = func_0207466C(o->b.v);
+        r = NNS_SndArcGetFileAddress(o->b.v);
     }
     if (out != 0) *out = r;
     return 0;
@@ -981,7 +983,7 @@ u32 func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out)
  * The generic "load this resource whole" worker, funnelled into by the four
  * sibling loaders func_02074F3C / func_02074FA8 / func_02075014 / func_02075080,
  * each of which passes its own teardown callback as the second argument.
- * Five steps, each answering 0 on failure: size the entry (func_0207457C),
+ * Five steps, each answering 0 on failure: size the entry (NNS_SndArcGetFileSize),
  * refuse a null output cell, allocate size+0x20 through func_0207482C with the
  * callback / cookie / heap triple, read the whole entry into it, and flush the
  * range with DC_StoreRange before returning the buffer.
@@ -1008,12 +1010,12 @@ void *func_02074E9C(u32 a, u32 b, u32 c, u32 d, u32 *out)
     u32 len;
     void *p;
 
-    len = func_0207457C(a);
+    len = NNS_SndArcGetFileSize(a);
     if (len == 0) return 0;
     if (out == 0) return 0;
     p = (void *)func_0207482C(out, len + 0x20, b, c, d);
     if (p == 0) return 0;
-    if (func_020745A4(a, p, len, 0) != len) return 0;
+    if (NNS_SndArcReadFile(a, p, len, 0) != len) return 0;
     DC_StoreRange(p, len);
     return p;
 }
@@ -1023,12 +1025,12 @@ void *func_02074E9C(u32 a, u32 b, u32 c, u32 d, u32 *out)
 
 u32 func_02074F3C(u32 a, u32 b, u32 c) {
     u32 sz;
-    u32 r = func_0207466C(a);
+    u32 r = NNS_SndArcGetFileAddress(a);
     if (r == 0) {
         if (c == 0) sz = 0;
-        else sz = (u32)func_020742FC();
+        else sz = (u32)NNS_SndArcGetCurrent();
         r = (u32)func_02074E9C(a, (u32)func_0207524C, sz, a, (u32 *)b);
-        if (c != 0 && r != 0) func_02074694(a, r);
+        if (c != 0 && r != 0) NNS_SndArcSetFileAddress(a, r);
     }
     return r;
 }
@@ -1039,12 +1041,12 @@ u32 func_02074F3C(u32 a, u32 b, u32 c) {
 
 u32 func_02074FA8(u32 a, u32 b, u32 c) {
     u32 sz;
-    u32 r = func_0207466C(a);
+    u32 r = NNS_SndArcGetFileAddress(a);
     if (r == 0) {
         if (c == 0) sz = 0;
-        else sz = (u32)func_020742FC();
+        else sz = (u32)NNS_SndArcGetCurrent();
         r = (u32)func_02074E9C(a, (u32)func_0207524C, sz, a, (u32 *)b);
-        if (c != 0 && r != 0) func_02074694(a, r);
+        if (c != 0 && r != 0) NNS_SndArcSetFileAddress(a, r);
     }
     return r;
 }
@@ -1059,12 +1061,12 @@ u32 func_02074FA8(u32 a, u32 b, u32 c) {
  */
 u32 func_02075014(u32 a, u32 b, u32 c) {
     u32 sz;
-    u32 r = func_0207466C(a);
+    u32 r = NNS_SndArcGetFileAddress(a);
     if (r == 0) {
         if (c == 0) sz = 0;
-        else sz = (u32)func_020742FC();
+        else sz = (u32)NNS_SndArcGetCurrent();
         r = (u32)func_02074E9C(a, (u32)func_02075274, sz, a, (u32 *)b);
-        if (c != 0 && r != 0) func_02074694(a, r);
+        if (c != 0 && r != 0) NNS_SndArcSetFileAddress(a, r);
     }
     return r;
 }
@@ -1074,12 +1076,12 @@ u32 func_02075014(u32 a, u32 b, u32 c) {
 
 u32 func_02075080(u32 a, u32 b, u32 c) {
     u32 sz;
-    u32 r = func_0207466C(a);
+    u32 r = NNS_SndArcGetFileAddress(a);
     if (r == 0) {
         if (c == 0) sz = 0;
-        else sz = (u32)func_020742FC();
+        else sz = (u32)NNS_SndArcGetCurrent();
         r = (u32)func_02074E9C(a, (u32)func_020752A4, sz, a, (u32 *)b);
-        if (c != 0 && r != 0) func_02074694(a, r);
+        if (c != 0 && r != 0) NNS_SndArcSetFileAddress(a, r);
     }
     return r;
 }
@@ -1096,29 +1098,29 @@ u32 func_020750EC(u32 idx, u32 *heap, int flag)
     struct ArcHdr *p;
     u32 sz;
 
-    r = func_0207466C(idx);
+    r = NNS_SndArcGetFileAddress(idx);
     if (r == 0) {
-        if (func_020745A4(idx, &d_0214EA54, 0x3c, 0) != 0x3c)
+        if (NNS_SndArcReadFile(idx, &d_0214EA54, 0x3c, 0) != 0x3c)
             return 0;
         sz = d_0214EA54_hdr.count * 4;
         total = sz * 2;
         if (heap == 0)
             return 0;
         if (flag != 0)
-            cookie = (u32)func_020742FC();
+            cookie = (u32)NNS_SndArcGetCurrent();
         else
             cookie = 0;
         p = (struct ArcHdr *)func_0207482C(heap, total + 0x5c, (u32)func_020752D4, cookie, idx);
         if (p == 0)
             return 0;
-        n = func_020745A4(idx, p, sz + 0x3c, 0);
+        n = NNS_SndArcReadFile(idx, p, sz + 0x3c, 0);
         if (n != sz + 0x3c)
             return 0;
         MI_CpuCopy8(p->off, &p->off[p->count], sz);
         MI_CpuFill8(p->off, 0, sz);
         DC_StoreRange(p, total + 0x3c);
         if (flag != 0)
-            func_02074694(idx, (u32)p);
+            NNS_SndArcSetFileAddress(idx, (u32)p);
         r = (u32)p;
     }
     return r;
@@ -1131,9 +1133,9 @@ void func_020751F4(u32 a, u32 b, u32 c) {
     u32 t, s;
     if (b == 0) return;
     s = func_02087988();
-    t = (u32)func_020742E4((struct Global *)b);
-    if (func_0207466C(c) == a) func_02074694(c, 0);
-    func_020742E4((struct Global *)t);
+    t = (u32)NNS_SndArcSetCurrent((struct Global *)b);
+    if (NNS_SndArcGetFileAddress(c) == a) NNS_SndArcSetFileAddress(c, 0);
+    NNS_SndArcSetCurrent((struct Global *)t);
     func_0208799C(s);
 }
 
@@ -1222,7 +1224,7 @@ void func_020752F4(u32 a, u32 n, u32 x, u32 y) {
  * Bank-entry loader.  Skip the work if the entry is already resident
  * (func_0208A674), otherwise take the entry's byte range from the object's
  * offset table and stream it in: allocate range+0x20 through func_0207482C
- * with func_020752F4 as the teardown callback, read it with func_020745A4,
+ * with func_020752F4 as the teardown callback, read it with NNS_SndArcReadFile,
  * flush it with DC_StoreRange and publish it with func_0208A640.  Returns 1
  * for "resident on exit" (already-resident and success both), 0 for failure.
  *
@@ -1244,7 +1246,7 @@ void func_020752F4(u32 a, u32 n, u32 x, u32 y) {
  * out.  The assignment is an extra definition point for the address value,
  * which is what makes the allocator number it before the four parameters --
  * the mechanism docs/notes/permuter.md describes for the `temp` mutation.
- * Likewise `n = func_0208A638(o); n = n - 1;` must be TWO statements; folded
+ * Likewise `n = SNDi_GetBankWaveArcTable(o); n = n - 1;` must be TWO statements; folded
  * into one the subtract is scheduled after the compare.  Both levers were
  * found by tools/permuter.py (`--mode hill --budget 800 --jobs 8 --types`,
  * closing at compile 573 with `split-assign(n) ; temp(tmp=e[0]) ; expand(e x2)`
@@ -1270,7 +1272,7 @@ u32 func_0207533C(Bank *o, u32 i, u32 h, u32 *heap)
   u32 tmp;
   if (func_0208A674((u32)o, i) != 0)
     return 1;
-  n = (u32)func_0208A638((char *)o);
+  n = (u32)SNDi_GetBankWaveArcTable((char *)o);
   n = n - 1;
   e = &o->f3c[o->f38 + i];
   tmp = (&o->f3c[o->f38 + i])[0];
@@ -1285,7 +1287,7 @@ u32 func_0207533C(Bank *o, u32 i, u32 h, u32 *heap)
   p = (void *)func_0207482C(heap, len + 0x20, (u32) func_020752F4, (u32) o, i);
   if (p == 0)
     return 0;
-  if (func_020745A4(h, p, len, off) != len)
+  if (NNS_SndArcReadFile(h, p, len, off) != len)
     return 0;
   DC_StoreRange(p, len);
   func_0208A640((u32)o, i, (u32)p);
@@ -1349,9 +1351,9 @@ u32 func_02075404(u32 o, u32 seq, u32 want, u32 h, u32 *heap)
 
 
 /*
- * Walk the 32 slots of the current archive (func_020742FC is called for its
- * side effect only): for every slot record func_020744B4 hands back, apply
- * its count byte and +2 halfword (func_02072DB0 / func_02072DD0), and when
+ * Walk the 32 slots of the current archive (NNS_SndArcGetCurrent is called for its
+ * side effect only): for every slot record NNS_SndArcGetPlayerInfo hands back, apply
+ * its count byte and +2 halfword (NNS_SndPlayerSetPlayableSeqCount / NNS_SndPlayerSetAllocatableChannel), and when
  * both the record's +4 payload and the argument are non-null, register the
  * payload count times with func_02072DE8, failing out on the first refusal.
  *
@@ -1374,13 +1376,13 @@ u32 func_020754C4(u32 a)
     Ent *e;
     int j;
 
-    func_020742FC();
+    NNS_SndArcGetCurrent();
     for (i = 0; i < 32; i++) {
-        e = func_020744B4(i);
+        e = NNS_SndArcGetPlayerInfo(i);
         if (e == 0)
             continue;
-        func_02072DB0(i, e->count);
-        func_02072DD0(i, e->h2);
+        NNS_SndPlayerSetPlayableSeqCount(i, e->count);
+        NNS_SndPlayerSetAllocatableChannel(i, e->h2);
         if (e->data != 0 && a != 0) {
             for (j = 0; j < e->count; j++) {
                 if (func_02072DE8(i, a, e->data) == 0)

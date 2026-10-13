@@ -1,6 +1,6 @@
 /*
  * file:     unit_02084EB0.c
- * function: func_02084EB0
+ * function: OS_ReadOwnerOfLockWord
  * address:  0x02084EB0
  * packet:   pkt_02084EB0
  * region:   arm9
@@ -12,7 +12,7 @@
  */
 #include "../../matched/include/Obj16691.h"
 
-unsigned short func_02084EB0(char *lock)
+unsigned short OS_ReadOwnerOfLockWord(char *lock)
 {
     return ((struct Obj16691 *)lock)->f4;
 }

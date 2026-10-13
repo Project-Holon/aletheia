@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_0209DE90  0x0209DE90  data
+ *   sSymbolBandRanges  0x0209DE90  data
  *
  * Wave 17 lane untried_small. Three levers together: the range table read as
  * `struct Rec { u16 a; u16 b; }` (two pool words, tbl and tbl + 2, as in
@@ -32,13 +32,13 @@ typedef struct Slot {
     u32 rest : 21;
 } Slot;
 
-extern const Rec g_0209DE90[];
+extern const Rec sSymbolBandRanges[];
 
 u32 func_0200E0E8(const Slot *obj, int idx)
 {
     u32 r = 0xffff;
-    u32 i = g_0209DE90[idx].a;
-    u32 hi = g_0209DE90[idx].b;
+    u32 i = sSymbolBandRanges[idx].a;
+    u32 hi = sSymbolBandRanges[idx].b;
     const Slot *p = &obj[i];
 
     while (i < hi) {

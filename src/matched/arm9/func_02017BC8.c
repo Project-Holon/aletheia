@@ -1,5 +1,5 @@
 /*
- * function: func_02017BC8
+ * function: POKE_TOOL_DeleteMoveSlot
  * address:  0x02017BC8
  * packet:   pkt_020179B8
  * region:   arm9
@@ -21,7 +21,7 @@
  *
  * The u16/u8 shift pairs are the destination widths of the three temporaries
  * (`lsls #16 / lsrs #16` versus `lsls #24 / lsrs #24` for a u8), which is
- * what fixes the return type of sub_02017E1C as wider than both.  The first
+ * what fixes the return type of POKE_TOOL_GetPartyValue as wider than both.  The first
  * temporary is live across the other two reads and spills to the `push`
  * home area (`str r0, [sp]` / `ldr r2, [sp]`), which is why r3 is in the
  * push list without being read anywhere.
@@ -30,29 +30,33 @@
  * 0x02017C50 saves no lr and carries no label.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02017BC8.c \
- *       --func func_02017BC8 --addr 0x02017BC8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_TOOL_DeleteMoveSlot.c \
+ *       --func POKE_TOOL_DeleteMoveSlot --addr 0x02017BC8 --cc 1.1p1 --thumb
+ *
+ * symbols:
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 sub_02017E1C(void *p, u32 id, u32 v);
-extern void sub_02017E40(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 
-void func_02017BC8(u8 *p, u32 i)
+void POKE_TOOL_DeleteMoveSlot(u8 *p, u32 i)
 {
     for (; i < 3; i++) {
-        u16 a = sub_02017E1C(p, i + 0x37, 0);
-        u8  b = sub_02017E1C(p, i + 0x3b, 0);
-        u8  c = sub_02017E1C(p, i + 0x3f, 0);
+        u16 a = POKE_TOOL_GetPartyValue(p, i + 0x37, 0);
+        u8  b = POKE_TOOL_GetPartyValue(p, i + 0x3b, 0);
+        u8  c = POKE_TOOL_GetPartyValue(p, i + 0x3f, 0);
 
-        sub_02017E40(p, i + 0x36, a);
-        sub_02017E40(p, i + 0x3a, b);
-        sub_02017E40(p, i + 0x3e, c);
+        POKE_TOOL_SetPartyValue(p, i + 0x36, a);
+        POKE_TOOL_SetPartyValue(p, i + 0x3a, b);
+        POKE_TOOL_SetPartyValue(p, i + 0x3e, c);
     }
-    sub_02017E40(p, 0x39, 0);
-    sub_02017E40(p, 0x3d, 0);
-    sub_02017E40(p, 0x41, 0);
+    POKE_TOOL_SetPartyValue(p, 0x39, 0);
+    POKE_TOOL_SetPartyValue(p, 0x3d, 0);
+    POKE_TOOL_SetPartyValue(p, 0x41, 0);
 }

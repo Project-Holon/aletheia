@@ -12,8 +12,8 @@
  *           wildcarded because their targets are unlabelled arm9 leaves with no
  *           caller outside this range (the integrator's, inside arm9). Each was verified
  *           EXACT with `one --thumb` and no --region:
- *             0x020275A8  u32 func_020275A8(u32 a) { return a; }
- *             0x020275AC  u8 func_020275AC(u8 *p) { return p[0xb0e]; }
+ *             0x020275A8  u32 BEACON_STATUS_GetLog(u32 a) { return a; }
+ *             0x020275AC  u8 BEACON_STATUS_GetViewTop(u8 *p) { return p[0xb0e]; }
  *             0x02010F7C  u32 func_02010F7C(u32 heap)
  *                         { return func_02048F60(0x26, 0, heap); }
  *                         (func_02048F60 0x02048F60 arm, a tail call)
@@ -21,16 +21,16 @@
  *           The min of p[0x7b] and 4 must be an if/else of two stores: the
  *           ternary inverts the branch (blo for bhs; b).
  *
- * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/func_020275A8,
+ * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/BEACON_STATUS_GetLog,
  *   AC, B8, D0 EXACT); the tool still reports them unresolved, so the label seeding for
  *   0x020275A8/AC/B8/D0 (asm/layout, not this lane) is the only blocker.
  *
  * symbols:
  *   func_021F27D4  0x021F27D4  thumb
  *   func_02012A54  0x02012A54  thumb
- *   func_020275A8  0x020275A8  thumb
+ *   BEACON_STATUS_GetLog  0x020275A8  thumb
  *   func_02165B04  0x02165B04  thumb  ov010
- *   func_020275AC  0x020275AC  thumb
+ *   BEACON_STATUS_GetViewTop  0x020275AC  thumb
  *   func_02012FFC  0x02012FFC  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
@@ -61,9 +61,9 @@ struct Ctx;
 struct Rec1B0;
 struct Sub0200852CObj;
 extern u32 func_02012A54(const struct BigObj *p);
-extern u32 func_020275A8(u32 a);
+extern u32 BEACON_STATUS_GetLog(u32 a);
 extern u8 func_02165B04(u8 *q);
-extern u8 func_020275AC(u8 *p);
+extern u8 BEACON_STATUS_GetViewTop(u8 *p);
 extern signed char func_02012FFC(void);
 extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
@@ -88,9 +88,9 @@ void func_021F27D4(u8 *p)
     u32 s2;
 
     *(u32 *)(p + 0x34) = func_02012A54((const struct BigObj *)(*(u32 *)(p + 4)));
-    *(u32 *)(p + 0x3c) = func_020275A8(*(u32 *)(p + 0x34));
+    *(u32 *)(p + 0x3c) = BEACON_STATUS_GetLog(*(u32 *)(p + 0x34));
     p[0x7b] = func_02165B04((u8 *)(*(u32 *)(p + 0x3c)));
-    p[0x7c] = func_020275AC((u8 *)(*(u32 *)(p + 0x34)));
+    p[0x7c] = BEACON_STATUS_GetViewTop((u8 *)(*(u32 *)(p + 0x34)));
     if (p[0x7b] < 4)
         p[0x7d] = p[0x7b];
     else

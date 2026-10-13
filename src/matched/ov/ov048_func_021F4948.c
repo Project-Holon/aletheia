@@ -22,7 +22,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_0201D304  0x0201D304  thumb
  *   func_02047788  0x02047788  arm
- *   func_02047554  0x02047554  arm
+ *   G3D_SYSTEM_GetRenderTexRes  0x02047554  arm
  *   func_021875F4  0x021875F4  thumb  ov020
  *   func_02045C04  0x02045C04  arm
  *   func_02047790  0x02047790  arm
@@ -101,7 +101,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_020307B0(void *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern int func_02047788(int *p);
-extern int func_02047554(int *p);
+extern int G3D_SYSTEM_GetRenderTexRes(int *p);
 extern int func_021875F4(int a0, int a1, int a2, u32 a3, u16 e0, u16 e1, u16 e2);
 extern u32 func_02045C04(struct Rec *rec);
 extern int func_02047790(int *p, int i);
@@ -134,7 +134,7 @@ R *func_021F4948(P *p, const Q *q, int c)
         str = (u32)func_02045EC0((struct MsgBank *)arc, q->f14);
     }
     width = func_0201D304((struct StrObj *)str, p->f14, 1);
-    r->fC = func_021875F4(func_02047554((int *)func_02047788((int *)p->f10)), q->f4, q->f8, str, p->b4 * 14, 1, p->h0);
+    r->fC = func_021875F4(G3D_SYSTEM_GetRenderTexRes((int *)func_02047788((int *)p->f10)), q->f4, q->f8, str, p->b4 * 14, 1, p->h0);
     func_020307B0((void *)str);
     func_02045C04((struct Rec *)arc);
     w = func_02047674(func_02047790((int *)p->f10, q->h0))->f8->h4 << 12;

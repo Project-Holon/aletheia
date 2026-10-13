@@ -15,7 +15,7 @@
  *   func_02159AE8  0x02159AE8  thumb  ov010
  *   func_020142E8  0x020142E8  thumb
  *   func_02012EBC  0x02012EBC  thumb
- *   func_0200725C  0x0200725C  thumb
+ *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   func_020073D8  0x020073D8  thumb
  *   func_0200ECB4  0x0200ECB4  thumb
  *   func_020072A4  0x020072A4  thumb
@@ -37,7 +37,7 @@ typedef signed int     s32;
 extern u32 func_020142E8(void *bitmap, s32 id);
 struct Big;
 extern void *func_02012EBC(struct Big *p);
-extern u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
+extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern u32 func_0200ECB4(char *o);
 extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
@@ -50,7 +50,7 @@ int func_0215B190(int a0, int a1)
     int r;
     if (func_020142E8((void *)q, 0x97B) != 0) {
         t = func_02012EBC((struct Big *)p);
-        r = func_0200725C(t, 8, 4);
+        r = SAVE_CONTROL_LoadExtraSave(t, 8, 4);
         switch (r) {
         case 0:
             *out = 0;

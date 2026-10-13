@@ -15,7 +15,7 @@
  *   func_0204B404 0x0204B404 arm
  *   func_0204B878 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   d_021F0DC8 0x021F0DC8 data ov033 a4
  */
 #include "../include/Obj00323.h"
@@ -46,7 +46,7 @@ struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 
 void func_021F05A4(char *p, int flag)
 {
@@ -70,7 +70,7 @@ void func_021F05A4(char *p, int flag)
     if (((struct Obj00323 *)p)->f68 == 8 && ((struct Obj00323 *)p)->fA4 != 0) {
         func_0204B878(((struct Obj00323 *)p)->f5C, 0);
         func_0204B92C(((struct Obj00323 *)p)->f5C, 1);
-        func_0204B8C4(((struct Obj00323 *)p)->f5C, 0);
+        CLACT_SetActorAnimFrame(((struct Obj00323 *)p)->f5C, 0);
         ((struct Obj00323 *)p)->fA4 = 0;
     }
 }

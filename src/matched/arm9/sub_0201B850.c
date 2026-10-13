@@ -1,5 +1,5 @@
 /*
- * function: sub_0201B850
+ * function: NATSUKI_Apply
  * address:  0x0201B850
  * packet:   pkt_0201B850
  * region:   arm9
@@ -29,16 +29,16 @@
  * kind and is content numbering too.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/sub_0201B850.c \
- *       --func sub_0201B850 --addr 0x0201B850 --cc 1.1p1 --thumb
- *   python tools/match.py tu --src src/matched/sub_0201B850.c \
+ *   python tools/match.py one --src src/matched/NATSUKI_Apply.c \
+ *       --func NATSUKI_Apply --addr 0x0201B850 --cc 1.1p1 --thumb
+ *   python tools/match.py tu --src src/matched/NATSUKI_Apply.c \
  *       --addr 0x0201B850 --thumb
  * symbols:
  *   func_02013E4C   0x02013E4C  thumb
  *   func_02017E1C   0x02017E1C  thumb
  *   func_02017E40   0x02017E40  thumb
  *   func_02020FE4   0x02020FE4  thumb
- *   func_02011014   0x02011014  thumb
+ *   GPOWER_ApplyFriendshipBonus   0x02011014  thumb
  *   _s32_div_f      0x0209C0A4  arm
  */
 
@@ -51,9 +51,9 @@ extern u32 func_02013E4C(u32 id);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02020FE4(void *a, u32 sel, u32 id);
-extern int func_02011014(int a0);
+extern int GPOWER_ApplyFriendshipBonus(int a0);
 
-void sub_0201B850(void *mon, const s8 *tbl, int a2, u32 a3)
+void NATSUKI_Apply(void *mon, const s8 *tbl, int a2, u32 a3)
 {
     int t;
     u32 species;
@@ -91,7 +91,7 @@ void sub_0201B850(void *mon, const s8 *tbl, int a2, u32 a3)
     if (n > 0 && kind == 0x35) {
         n = n * 150 / 100;
     }
-    cur = cur + func_02011014(n);
+    cur = cur + GPOWER_ApplyFriendshipBonus(n);
     if (cur < 0) {
         cur = 0;
     }

@@ -1,7 +1,7 @@
 /*
  * file:     unit_02076B80.c
  * unit:     yes
- * function: func_02076B80, func_02076B8C
+ * function: CARD_WaitBackupAsync, CARD_TryWaitBackupAsync
  * address:  0x02076B80
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -19,10 +19,10 @@ typedef unsigned int u32;
 
 extern void func_02076050(void);
 extern int func_02076070(void);
-void func_02076B80(void);
-u32 func_02076B8C(void);
+void CARD_WaitBackupAsync(void);
+u32 CARD_TryWaitBackupAsync(void);
 
-void func_02076B80(void){ func_02076050(); }
+void CARD_WaitBackupAsync(void){ func_02076050(); }
 
 
 /*
@@ -33,7 +33,7 @@ void func_02076B80(void){ func_02076050(); }
  * shard (bottom-up: it was filed as src/matched/func_02076070.c first, and
  * the site then resolves through the `matched` class).
  */
-u32 func_02076B8C(void)
+u32 CARD_TryWaitBackupAsync(void)
 {
     return func_02076070();
 }

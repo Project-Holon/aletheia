@@ -14,7 +14,7 @@
  *   func_021F4F70 0x021F4F70 thumb ov112
  *   func_021F4AC8 0x021F4AC8 thumb ov112
  *   func_021F4C94 0x021F4C94 thumb ov112
- *   func_0204EF58 0x0204EF58 arm
+ *   BILLBOARD_AddImage 0x0204EF58 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,7 +30,7 @@ extern int func_021F4F70(int *);
 extern void func_021F4AC8(u8 *p, u8 *a, u8 *b);
 extern Entry *func_021F4C94(Object *,u16,int *,s16,s16);
 struct Desc;
-extern u32 func_0204EF58(struct Desc *desc, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern u32 BILLBOARD_AddImage(struct Desc *desc, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 Entry *func_021F4B88(Object *p,int type,u32 id,int *v)
 {
     int index;
@@ -41,7 +41,7 @@ Entry *func_021F4B88(Object *p,int type,u32 id,int *v)
     p->entries[index].data=func_021F4F54(p->table,type);
     data=func_021F4F70((int *)p->entries[index].data);
     func_021F4AC8((u8 *)(&p->entries[index]),&pair.y,&pair.x);
-    p->entries[index].id=func_0204EF58(p->board,id,0,data,pair.y<<5,pair.x<<5);
+    p->entries[index].id=BILLBOARD_AddImage(p->board,id,0,data,pair.y<<5,pair.x<<5);
     p->entries[index].flags |= 16;
     func_021F4C94(p,index,v,pair.y,pair.x);
     return &p->entries[index];

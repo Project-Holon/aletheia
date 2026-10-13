@@ -26,6 +26,7 @@
  *   data_021D5850 0x021D5850 data a4
  *   data_021D5860 0x021D5860 data a4
  *   data_021D5710 0x021D5710 data a4
+ *   GAME_BEACON_GetNextNewLogIndex  0x02026CA0  thumb  arm9
  */
 #include "../include/Obj00265.h"
 typedef unsigned char u8;
@@ -39,7 +40,7 @@ struct Obj;
 struct WordSet;
 extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158630(int);
-extern int func_02026CA0(int *);
+extern int GAME_BEACON_GetNextNewLogIndex(int *);
 extern void func_021D4CD8(int, int, int, int, void *);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_021D4590(u32 i, u32 p);
@@ -60,7 +61,7 @@ void func_021D4D98(char *p)
     mode = func_02158630(object);
     if (!((struct Obj00265 *)p)->f374) {
         scratch = 0;
-        if (func_02026CA0(&scratch) != 30) ((struct Obj00265 *)p)->f374 = 1;
+        if (GAME_BEACON_GetNextNewLogIndex(&scratch) != 30) ((struct Obj00265 *)p)->f374 = 1;
     }
     if (((struct Obj00265 *)p)->f36C != ((struct Obj00265 *)p)->f370) force = 1;
     if (((struct Obj00265 *)p)->f368 != ((struct Obj00265 *)p)->f364) force = 1;

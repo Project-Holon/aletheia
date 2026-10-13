@@ -12,7 +12,7 @@
  * sdk:      WCM_CalcLinkLevel (libwcm.TWL.HYB.a util.o)
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  *
  * Maps an RSSI value to a link level, with per-device thresholds.
  */
@@ -29,13 +29,13 @@ typedef struct WCMWork {
     unsigned char deviceId;
 } WCMWork;
 
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 
 WMLinkLevel func_02166710(unsigned char rssi)
 {
     WCMWork *w;
 
-    w = (WCMWork *)func_021657C8();
+    w = (WCMWork *)WCMi_GetSystemWork();
     switch (w->deviceId) {
     case 1:
     default:

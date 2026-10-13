@@ -1,7 +1,7 @@
 /*
  * file:     unit_02064140.c
  * unit:     yes
- * function: func_02064140, func_02064150
+ * function: NNSi_G2dSrtcInitControl, NNSi_G2dSrtcResetSrtData
  * address:  0x02064140
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -28,17 +28,17 @@ struct NNSG2dSRTControl {
 };
 
 extern void func_02082A48(u32 data, void *dest, u32 size);
-int func_02064150(struct NNSG2dSRTControl *pSrtCtrl);
+int NNSi_G2dSrtcResetSrtData(struct NNSG2dSRTControl *pSrtCtrl);
 
 
-void func_02064140(struct NNSG2dSRTControl *pSrtCtrl, u32 mode)
+void NNSi_G2dSrtcInitControl(struct NNSG2dSRTControl *pSrtCtrl, u32 mode)
 {
     pSrtCtrl->mode = mode;
-    func_02064150(pSrtCtrl);
+    NNSi_G2dSrtcResetSrtData(pSrtCtrl);
 }
 
 
-int func_02064150(struct NNSG2dSRTControl *pSrtCtrl)
+int NNSi_G2dSrtcResetSrtData(struct NNSG2dSRTControl *pSrtCtrl)
 {
     func_02082A48(0, &pSrtCtrl->scaleX, 0x18);
     pSrtCtrl->scaleX = 0x1000;

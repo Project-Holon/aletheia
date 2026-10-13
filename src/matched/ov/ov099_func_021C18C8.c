@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021C282C 0x021C282C thumb ov099
- *   func_02156A3C 0x02156A3C thumb ov009
+ *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   func_02009B80 0x02009B80 thumb
  *   func_021C1908 0x021C1908 thumb ov099
  *   func_021BE6E4 0x021BE6E4 thumb ov099
@@ -17,7 +17,7 @@
 #include "../include/Obj00008.h"
 typedef unsigned char u8;
 extern int func_021C282C(u8 *);
-extern int func_02156A3C(void);
+extern int DWC_RAP_GetTargetFriendIndex(void);
 struct Sub020097BCObj;
 extern void func_02009B80(struct Sub020097BCObj *obj, int i);
 extern void func_021C1908(char *, int, int);
@@ -26,7 +26,7 @@ void func_021C18C8(char *p, int kind, int value)
 {
     if (*(u8 * *)&((struct Obj00008 *)p)->f8 != 0) {
         if (kind == 1 && value == 2) func_021C282C(*(u8 * *)&((struct Obj00008 *)p)->f8);
-        if (kind == 4 && value < 3) func_02009B80(((struct Obj00008 *)p)->f4, func_02156A3C());
+        if (kind == 4 && value < 3) func_02009B80(((struct Obj00008 *)p)->f4, DWC_RAP_GetTargetFriendIndex());
         func_021C1908(p, kind, value);
         func_021BE6E4(p);
     }

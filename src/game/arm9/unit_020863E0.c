@@ -20,7 +20,7 @@
  *   OS_IsRunOnTwl             0x02085D3C  arm
  *   OS_SetProtectionRegionEx  0x02086DB0  arm
  *   OSi_InitArenaEx_ltdmain   0x027312B4  arm
- *   func_02085D3C 0x02085D3C arm
+ *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_02085CBC 0x02085CBC arm
  *   SDK_SYS_STACKSIZE             0x00001800  data
  *   SDK_IRQ_STACKSIZE             0x00000800  data
@@ -103,7 +103,7 @@ extern void OS_SetArenaLo(OSArenaId id, void *newLo);
 extern BOOL OS_IsRunOnTwl(void);
 extern void OS_SetProtectionRegionEx(int regionNo, u32_020864FC address, u32_020864FC sizeDef);
 extern void OSi_InitArenaEx_ltdmain(void);
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern u32_4 func_02085CBC(void);
 void func_020863E0(void);
 void func_020864FC(void);
@@ -208,7 +208,7 @@ void *OS_GetInitArenaHi(int id)
 {
     switch (id) {
     case OS_ARENA_MAIN:
-        return func_02085D3C() ? (void *)0x02F80000 : (void *)0x023E0000;
+        return OS_IsRunOnTwl() ? (void *)0x02F80000 : (void *)0x023E0000;
     case OS_ARENA_MAINEX:
         {
             void *arena;
@@ -218,7 +218,7 @@ void *OS_GetInitArenaHi(int id)
                 return 0;
             }
             type = func_02085CBC() & 0xF;
-            if (func_02085D3C()) {
+            if (OS_IsRunOnTwl()) {
                 arena = 0;
                 if (type != 4) {
                     arena = (void *)0x0DF00000;
@@ -267,7 +267,7 @@ void *OS_GetInitArenaLo(int id)
 {
     switch (id) {
     case OS_ARENA_MAIN:
-        return func_02085D3C() ? (void *)SDK_LTDMAIN_ARENA_LO : (void *)SDK_MAIN_ARENA_LO;
+        return OS_IsRunOnTwl() ? (void *)SDK_LTDMAIN_ARENA_LO : (void *)SDK_MAIN_ARENA_LO;
     case OS_ARENA_MAINEX:
         {
             void *arena;
@@ -277,7 +277,7 @@ void *OS_GetInitArenaLo(int id)
                 return 0;
             }
             type = func_02085CBC() & 0xF;
-            if (func_02085D3C()) {
+            if (OS_IsRunOnTwl()) {
                 arena = 0;
                 if (type != 4) {
                     arena = (void *)SDK_LTDMAIN_EX_ARENA_LO;

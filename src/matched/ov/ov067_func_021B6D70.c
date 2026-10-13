@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020458F8  0x020458F8  arm
- *   func_02045A90  0x02045A90  arm
+ *   STRBUF_GetChars  0x02045A90  arm
  */
 
 typedef unsigned short u16;
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 struct U16Vec;
 extern u16 func_020458F8(struct U16Vec *vec);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 
 int func_021B6D70(u32 a, u32 b, u32 n)
 {
@@ -33,8 +33,8 @@ int func_021B6D70(u32 a, u32 b, u32 n)
     if (func_020458F8((struct U16Vec *)b) < n) {
         return 0;
     }
-    pa = func_02045A90((struct U16Vec *)a);
-    pb = func_02045A90((struct U16Vec *)b);
+    pa = STRBUF_GetChars((struct U16Vec *)a);
+    pb = STRBUF_GetChars((struct U16Vec *)b);
     for (i = 0; i < n; i++) {
         if (*pa++ != *pb++) {
             return 0;

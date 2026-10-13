@@ -31,14 +31,14 @@
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045C04 0x02045C04 arm
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   func_02045808 0x02045808 arm
  *   func_020307B0 0x020307B0 arm
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DF0B8 0x021DF0B8 thumb ov119
  *   func_021DEEA8 0x021DEEA8 thumb ov119
- *   func_02156ED0 0x02156ED0 thumb ov009
- *   func_02156DC4 0x02156DC4 thumb ov009
+ *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb ov009
+ *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  */
 #include "../include/Obj01927.h"
 typedef unsigned char u8;
@@ -66,14 +66,14 @@ extern void func_02019B58(void *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_02045C04(struct Rec *rec);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
 extern void func_021D8E84(void *,int);
 extern void func_021DF0B8(char *p);
 extern void func_021DEEA8(void *);
-extern void func_02156ED0(void);
-extern void func_02156DC4(int a0, int a1);
+extern void DWC_RAPCOMMON_DestroySubHeap(void);
+extern void DWC_RAP_SetErrorCallback(int a0, int a1);
 void func_021DEF1C(u8 *p)
 {
     int status, result, i, off1, off2;
@@ -107,12 +107,12 @@ void func_021DEF1C(u8 *p)
                             if(func_0202136C(value)) {
                                 name=func_02008F08(*heap);
                                 func_02017E1C(mon,167,(u32)name);
-                                func_02008F88(name,func_02045A90(text));
+                                func_02008F88(name,STRBUF_GetChars(text));
                                 func_02017E40(mon,167,(u32)name);
                                 func_020307B0(name);
                             }
                             func_02019B58(mon);
-                            func_02017E40(mon,142,(u32)func_02045A90(text));
+                            func_02017E40(mon,142,(u32)STRBUF_GetChars(text));
                             func_02045808(text);
                         }
                         n++;
@@ -146,7 +146,7 @@ cleanup:
         func_021B99B8(*(u8 * *)&((struct Obj01927 *)p)->f0);
         func_021B9838(*(u8 * *)&((struct Obj01927 *)p)->f0);
         *(u8 * *)&((struct Obj01927 *)p)->f0=0;
-        func_02156ED0();
-        func_02156DC4(0,0);
+        DWC_RAPCOMMON_DestroySubHeap();
+        DWC_RAP_SetErrorCallback(0,0);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02165CA0
+ * function: WCM_PointApList
  * address:  0x02165CA0
  * packet:   pkt_ov009_02165C28
  * region:   ov009
@@ -15,7 +15,7 @@
 
 extern void *func_02165CAC(long index);
 
-void *func_02165CA0(long index)
+void *WCM_PointApList(long index)
 {
     return func_02165CAC(index);
 }

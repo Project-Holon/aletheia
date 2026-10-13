@@ -1,5 +1,5 @@
 /*
- * function: func_021C291C
+ * function: DWCi_SceneOptInfo_draw
  * address:  0x021C291C
  * packet:   pkt_021C1CF8
  * region:   ov016
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C291C   0x021C291C  arm
+ *   DWCi_SceneOptInfo_draw   0x021C291C  arm
  *
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C291C.c \
- *       --func func_021C291C --addr 0x021C291C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneOptInfo_draw.c \
+ *       --func DWCi_SceneOptInfo_draw --addr 0x021C291C --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void func_021C291C(void)
+void DWCi_SceneOptInfo_draw(void)
 {
 }

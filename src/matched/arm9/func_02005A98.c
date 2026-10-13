@@ -1,5 +1,5 @@
 /*
- * function: func_02005A98
+ * function: GFL_USE_LoadWaveArcSet
  * address:  0x02005A98
  * packet:   pkt_02005A98
  * region:   arm9
@@ -16,10 +16,10 @@
  *           every other site are right.
  *
  * symbols:
- *   sub_02005A98_Cur    0x020AA1AC  data
- *   sub_02005A98_Table  0x020AA1B8  data
- *   sub_02005858        0x02005858  thumb
- *   sub_02005834        0x02005834  thumb
+ *   _SndStack    0x020AA1AC  data
+ *   _SndSlots  0x020AA1B8  data
+ *   GFL_USE_EndSndSlot        0x02005858  thumb
+ *   GFL_USE_BeginSndSlot        0x02005834  thumb
  *   func_0207482C       0x0207482C  arm
  *   func_02074A6C       0x02074A6C  arm
  *   func_02074894       0x02074894  arm
@@ -33,8 +33,8 @@
  * skid test is `bls`.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02005A98.c \
- *       --func func_02005A98 --addr 0x02005A98 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GFL_USE_LoadWaveArcSet.c \
+ *       --func GFL_USE_LoadWaveArcSet --addr 0x02005A98 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -63,33 +63,33 @@ struct Sub02005A98Hdr {
     u32 status;
 };
 
-extern struct Sub02005A98Cur  sub_02005A98_Cur;
-extern struct Sub02005A98Slot sub_02005A98_Table[];
+extern struct Sub02005A98Cur  _SndStack;
+extern struct Sub02005A98Slot _SndSlots[];
 
-extern void  sub_02005858(void);
-extern void  sub_02005834(u32 v);
+extern void  GFL_USE_EndSndSlot(void);
+extern void  GFL_USE_BeginSndSlot(u32 v);
 extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
 extern u32   func_02074A6C(u32 a, u32 b);
 struct S;
 extern int   func_02074894(struct S *a);
 
-struct Sub02005A98Hdr *func_02005A98(const u32 *a0, u32 a1)
+struct Sub02005A98Hdr *GFL_USE_LoadWaveArcSet(const u32 *a0, u32 a1)
 {
     struct Sub02005A98Slot *slot;
     struct Sub02005A98Hdr *p;
     u32 saved;
     u32 i;
 
-    slot = &sub_02005A98_Table[sub_02005A98_Cur.index];
+    slot = &_SndSlots[_SndStack.index];
     saved = slot->unk0C;
-    sub_02005858();
+    GFL_USE_EndSndSlot();
     i = 0;
-    p = (struct Sub02005A98Hdr *)func_0207482C(*sub_02005A98_Cur.unk08, 8, 0, 0, 0);
+    p = (struct Sub02005A98Hdr *)func_0207482C(*_SndStack.unk08, 8, 0, 0, 0);
     for (i = 0; i < a1; i++) {
-        func_02074A6C(a0[i], (u32)*sub_02005A98_Cur.unk08);
+        func_02074A6C(a0[i], (u32)*_SndStack.unk08);
     }
     p->n = a1;
     p->status = saved;
-    sub_02005834(func_02074894((struct S *)*sub_02005A98_Cur.unk08));
+    GFL_USE_BeginSndSlot(func_02074894((struct S *)*_SndStack.unk08));
     return p;
 }

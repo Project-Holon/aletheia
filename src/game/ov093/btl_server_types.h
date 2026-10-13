@@ -181,4 +181,91 @@ typedef struct {
     u8 cnt[4];        /* 0xe4 */
 } Obj_td;
 
+
+/* ---- BtlServer: the battle server object (lane L189a) ---- */
+
+/*
+ * Random number generator state: the same 24 bytes as BtlRngState in
+ * btl_calc_types.h, as plain words so that files which do not include that
+ * header still build.
+ */
+typedef struct {
+    s32 word[6];
+} BtlServerRngState;
+
+struct BtlMain;
+struct BtlServer;
+typedef struct BtlServer BtlServer;
+
+/* One step of the server state machine; step counts the calls of the current handler. */
+typedef int (*BtlServerHandler)(BtlServer *server, int *step);
+
+/* One network client slot of the server: up to four per battle. */
+typedef struct {
+    void *adapter;          /* 0x0: command link to the client */
+    void *party;            /* 0x4 */
+    u8 partyCount;          /* 0x8 */
+    u8 battleSlots;         /* 0x9 */
+    u8 adapterBorrowed;     /* 0xA: the adapter belongs to the caller, not to the server */
+    u8 clientId;            /* 0xB: 0xFF when the slot is unused */
+} BtlServerClient;
+
+/* One reply word; the copy loops need the struct wrapper to match. */
+typedef struct {
+    u32 value;
+} BtlServerWord;
+
+/* Reply words of one client. */
+typedef struct {
+    BtlServerWord word[3];
+} BtlServerReply;
+
+/* Result message sent to the clients at the end of the battle. */
+typedef struct {
+    u16 playerClientId;
+    u16 result;
+} BtlServerResult;
+
+typedef struct {
+    u32 first;
+    u32 second;
+} BtlWordPair;
+
+struct BtlServer {
+    BtlServerHandler handler;       /* 0x0 */
+    int step;                       /* 0x4 */
+    u32 pad08;                      /* 0x8 */
+    struct BtlMain *main;           /* 0xC */
+    void *partyTable;               /* 0x10 */
+    BtlServerClient clients[4];     /* 0x14 */
+    void *flow;                     /* 0x44 */
+    int flowResult;                 /* 0x48 */
+    int flowParam;                  /* 0x4C */
+    BtlServerRngState rngState;     /* 0x50 */
+    u8 recorder[0x40];              /* 0x68 */
+    BtlServerResult result;         /* 0xA8 */
+    void *nameBuf;                  /* 0xAC */
+    BtlWordPair *finalData;           /* 0xB0 */
+    BtlServerReply reply[4];        /* 0xB4 */
+    u8 replyCount[4];               /* 0xE4 */
+    u8 padE8[4];                    /* 0xE8 */
+    u8 shiftPromptMon;              /* 0xEC */
+    u8 quitState;                   /* 0xED */
+    u8 padEE[2];                    /* 0xEE */
+    u8 sendBufStorage[0xBC0];       /* 0xF0 */
+    void *sendBuf;                  /* 0xCB0 */
+    u8 changeClients[6];            /* 0xCB4 */
+    u8 changeCount;                 /* 0xCBA */
+    u8 padCBB[4];                   /* 0xCBB */
+    u8 changeLock;                  /* 0xCBF */
+    u16 heapId;                     /* 0xCC0 */
+    u8 padCC2[2];                   /* 0xCC2 */
+};
+
+/* Four action words per client followed by one byte per client; the home of this table is unknown. */
+typedef struct {
+    Action action[4][3];            /* 0x0 */
+    u8 value[4];                    /* 0x30 */
+} BtlServerActionTable;
+
 #endif

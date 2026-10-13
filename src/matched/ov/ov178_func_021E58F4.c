@@ -13,7 +13,7 @@
  *   ov114_id 0x00000072 data a1
  *   ov175_id 0x000000AF data a1
  *   func_0203CD98 0x0203CD98 arm
- *   func_02157170 0x02157170 thumb
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb
  *   func_020399A8 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  *   func_02039CB4 0x02039CB4 arm
@@ -27,7 +27,7 @@
 #include "../include/Obj02890.h"
 typedef unsigned short u16;
 typedef unsigned long u32;
-extern int func_0203CD98(void),func_02157170(void *,void *);
+extern int func_0203CD98(void),DWC_RAPCOMMON_HandleNetError(void *,void *);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -43,7 +43,7 @@ extern unsigned char ov067_id[],ov114_id[],ov175_id[];
 int func_021E58F4(char **out,u32 *ctx,u32 *state)
 {
     if(func_0203CD98()) {
-        switch(func_02157170((void *)1,(void *)1)) {
+        switch(DWC_RAPCOMMON_HandleNetError((void *)1,(void *)1)) {
         case 0:break;
         case 1:case 4:ctx[2]=3;return 1;
         case 2:case 3:default:ctx[2]=1;return 1;

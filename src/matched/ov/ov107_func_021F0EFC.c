@@ -14,7 +14,7 @@
  * symbols:
  *   request_021F6C94 0x021F6C94 data a4
  *   func_0203CBAC 0x0203CBAC arm
- *   func_0203E5F8 0x0203E5F8 arm
+ *   GFL_NET_LOWER_DATA_Init 0x0203E5F8 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,7 +35,7 @@ typedef struct {
 extern const Request request_021F6C94;
 struct Req;
 extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
-extern void func_0203E5F8(int,int);
+extern void GFL_NET_LOWER_DATA_Init(int,int);
 void func_021F0EFC(State *p)
 {
     Request q=request_021F6C94;
@@ -64,5 +64,5 @@ void func_021F0EFC(State *p)
     p->f1a.b04=0;
     p->f1a.b05=0;
     p->f20=0;
-    func_0203E5F8(p->heap,0);
+    GFL_NET_LOWER_DATA_Init(p->heap,0);
 }

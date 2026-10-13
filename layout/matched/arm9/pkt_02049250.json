@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020494F4",
+   "name": "ARC_TOOL_GetHandleMemberOffsetOut",
    "address": "0x020494F4",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02049578",
+   "name": "ARC_TOOL_GetHandleMemberOffset",
    "address": "0x02049578",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020495F4",
+   "name": "ARC_TOOL_ReadHandle",
    "address": "0x020495F4",
    "kind": "game",
    "region": "arm9",

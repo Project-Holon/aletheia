@@ -1,5 +1,5 @@
 /*
- * function: sub_0204ADEC
+ * function: CLACT_TransferPalette
  * address:  0x0204ADEC
  * packet:   pkt_0204ADEC
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A74     0x02146A74  data
+ *   g_ClactSystem     0x02146A74  data
  *   func_0206380C  0x0206380C  arm
  *   func_02063800  0x02063800  arm
  *   func_020862F0  0x020862F0  arm
@@ -54,7 +54,7 @@ struct Dest {
     void *unk_0c;
 };
 
-extern struct Mgr *g_02146A74;
+extern struct Mgr *g_ClactSystem;
 
 extern int func_0206380C(char *p, int i);
 extern int func_02063800(char *p, int i);
@@ -62,7 +62,7 @@ extern void func_020862F0(void *dest, u32 size);
 extern void func_0207E51C(void *dest, void *src, u32 size);
 extern void func_0207E5D0(void *dest, void *src, u32 size);
 
-void sub_0204ADEC(u32 idx, struct Dest *dest, u32 count, u32 size)
+void CLACT_TransferPalette(u32 idx, struct Dest *dest, u32 count, u32 size)
 {
     size = count << 5;
 
@@ -70,15 +70,15 @@ void sub_0204ADEC(u32 idx, struct Dest *dest, u32 count, u32 size)
         size = dest->unk_08;
     }
 
-    if (func_0206380C((char *)(&((struct Slot *)g_02146A74->owner_slots2)[idx]), 1) != 0) {
-        void *src = (void *)func_02063800((char *)(&((struct Slot *)g_02146A74->owner_slots2)[idx]), 1);
+    if (func_0206380C((char *)(&((struct Slot *)g_ClactSystem->owner_slots2)[idx]), 1) != 0) {
+        void *src = (void *)func_02063800((char *)(&((struct Slot *)g_ClactSystem->owner_slots2)[idx]), 1);
 
         func_020862F0(dest->unk_0c, size);
         func_0207E51C(dest->unk_0c, src, size);
     }
 
-    if (func_0206380C((char *)(&((struct Slot *)g_02146A74->owner_slots2)[idx]), 2) != 0) {
-        void *src = (void *)func_02063800((char *)(&((struct Slot *)g_02146A74->owner_slots2)[idx]), 2);
+    if (func_0206380C((char *)(&((struct Slot *)g_ClactSystem->owner_slots2)[idx]), 2) != 0) {
+        void *src = (void *)func_02063800((char *)(&((struct Slot *)g_ClactSystem->owner_slots2)[idx]), 2);
 
         func_020862F0(dest->unk_0c, size);
         func_0207E5D0(dest->unk_0c, src, size);

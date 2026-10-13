@@ -1,5 +1,5 @@
 /*
- * function: func_021D708C
+ * function: P_STA_SUB_PetWiggle
  * address: 0x021D708C
  * packet: pkt_ov131_021D708C
  * region: ov131
@@ -23,9 +23,9 @@
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_021D79A8 0x021D79A8 thumb ov131
- *   func_02015C48 0x02015C48 thumb
- *   func_02015C78 0x02015C78 thumb
+ *   P_STA_SUB_SetPetOffset 0x021D79A8 thumb ov131
+ *   MCSS_SetPosition 0x02015C48 thumb
+ *   MCSS_SetOfsPosition 0x02015C78 thumb
  */
 #include "../include/Obj02188.h"
 #include "../include/Obj14068.h"
@@ -35,11 +35,11 @@ typedef unsigned int u32;
 typedef struct {int x,y,z;} Vec;
 extern const Vec d_021DC1D4;
 extern const short d_020A1B38[];
-extern void func_021D79A8(void *p, unsigned char *q, int radius);
-extern void func_02015C48(void *,u32 *);
-extern void func_02015C78(void *p, u32 *src);
+extern void P_STA_SUB_SetPetOffset(void *p, unsigned char *q, int radius);
+extern void MCSS_SetPosition(void *,u32 *);
+extern void MCSS_SetOfsPosition(void *p, u32 *src);
 extern int _ffix(float);
-int func_021D708C(u8 *p,u8 *q)
+int P_STA_SUB_PetWiggle(u8 *p,u8 *q)
 {
     Vec base=d_021DC1D4;
     Vec v={0,0,0};
@@ -55,10 +55,10 @@ int func_021D708C(u8 *p,u8 *q)
         else f=(float)(n<<12)-0.5f;
         radius=(u32)(sample*16)+(u32)_ffix(f);
         v.y=radius;
-        func_021D79A8(p,q,radius);
+        P_STA_SUB_SetPetOffset(p,q,radius);
     } else {
         v.y=radius;
-        func_021D79A8(p,q,radius);
+        P_STA_SUB_SetPetOffset(p,q,radius);
     }
     speed=(u8)((((struct Obj14068 *)p)->f3C>>6)+16);
     t=(((struct Obj02188 *)q)->f62*speed)/15;
@@ -86,8 +86,8 @@ int func_021D708C(u8 *p,u8 *q)
         base.x-=(u32)_ffix(f);
         break;
     }
-    func_02015C48(((struct Obj02188 *)q)->f0,(u32 *)&base.x);
-    func_02015C78(((struct Obj02188 *)q)->f0,(u32 *)(&v));
+    MCSS_SetPosition(((struct Obj02188 *)q)->f0,(u32 *)&base.x);
+    MCSS_SetOfsPosition(((struct Obj02188 *)q)->f0,(u32 *)(&v));
     ++((struct Obj02188 *)q)->f62;
     if(((struct Obj02188 *)q)->f62>15) {
         ((struct Obj02188 *)q)->f62=0;

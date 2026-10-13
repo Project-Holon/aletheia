@@ -26,7 +26,7 @@
  *   func_0207E100  0x0207E100  arm
  *   func_021BE078  0x021BE078  thumb  ov172
  *   func_020061E4  0x020061E4  thumb
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  */
 #include "../include/Obj00024.h"
 #include "../include/Obj01757.h"
@@ -52,7 +52,7 @@ extern void *func_0207E008(void);
 extern u32 func_0207E100(void);
 extern u32 func_021BE078(void *p);
 extern void func_020061E4(u32 id);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
 void func_021BB288(void *ctx, u8 *p)
 {
@@ -143,7 +143,7 @@ void func_021BB288(void *ctx, u8 *p)
         }
     }
     if ((((struct Obj00024 *)p)->f28 == 0 || ((struct Obj00024 *)p)->f28 == 2) && ((struct Obj00024 *)p)->fC == 1) {
-        func_02035CB8(&x2, &y2);
+        TOUCHPANEL_GetPointCont(&x2, &y2);
         if (((struct Obj00024 *)p)->fC == 1) {
             if (((struct Obj00024 *)p)->f2C != 0xffff && ((struct Obj00024 *)p)->f30 != 0xffff) {
                 mode = func_021BE054(ctx);

@@ -1,5 +1,5 @@
 /*
- * function: func_02174B80
+ * function: COLOSSEUM_RecvPlayerEntry
  * address: 0x02174B80
  * packet: pkt_ov012_02174B80
  * region: ov012
@@ -22,7 +22,7 @@ extern struct Entry *func_020399A8(void);
 struct Link;
 extern u32 func_0203D1A4(struct Link *p);
 extern void func_02082D44(void *,void *,u32);
-void func_02174B80(u32 a, u32 b, void *c, u8 *d)
+void COLOSSEUM_RecvPlayerEntry(u32 a, u32 b, void *c, u8 *d)
 {
     u8 *w = *(u8 * *)&((struct Obj19276 *)d)->f355C;
     if (a == func_0203D1A4((struct Link *)((u32)func_020399A8()))) return;

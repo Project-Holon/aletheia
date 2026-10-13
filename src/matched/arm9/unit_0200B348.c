@@ -15,6 +15,7 @@
  *
  * symbols:
  *   func_0200B3DC_File  0x020A71C4  data
+ *   BATTLE_REC_Clear  0x0200B448  thumb
  *
  * 52 bytes, 0x0200B348..0x0200B37C, 4 functions, none of which carries a
  * label in the generated listing.
@@ -53,7 +54,7 @@ struct Struct_0200B37C;
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_0200B448(struct BattleRec *p);
+extern void BATTLE_REC_Clear(struct BattleRec *p);
 extern const char func_0200B3DC_File[];
 
 struct Rec2FC {

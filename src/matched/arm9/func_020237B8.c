@@ -1,5 +1,5 @@
 /*
- * function: func_020237B8
+ * function: WIPE_SUB_CalcCircleSpan
  * address:  0x020237B8
  * packet:   pkt_0202363C
  * region:   arm9
@@ -39,7 +39,7 @@ typedef signed long long s64;
 
 extern s32 FX_Sqrt(s32 x);
 
-void func_020237B8(s32 a0, s32 a1, s32 a2, s32 a3, s32 *out0, s32 *out1)
+void WIPE_SUB_CalcCircleSpan(s32 a0, s32 a1, s32 a2, s32 a3, s32 *out0, s32 *out1)
 {
     s32 limit = a0 / 128;
     s32 dist = a3 - a2;

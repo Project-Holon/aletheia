@@ -1,5 +1,5 @@
 /*
- * function: func_02024888
+ * function: PMS_WORD_MakeWordId
  * address:  0x02024888
  * packet:   pkt_02024838
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 extern u16 g_tbl0[];
 extern u16 g_tbl1[];
 
-u16 func_02024888(u32 idx, u16 add)
+u16 PMS_WORD_MakeWordId(u32 idx, u16 add)
 {
     u32 i;
     u16 sum;

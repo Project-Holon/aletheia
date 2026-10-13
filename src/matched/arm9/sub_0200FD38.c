@@ -1,5 +1,5 @@
 /*
- * function: sub_0200FD38
+ * function: GFL_NET_ERR_SaveDisplayAndDraw
  * address:  0x0200FD38
  * packet:   pkt_0200FC0C
  * region:   arm9
@@ -24,16 +24,16 @@
  *   MIi_CpuCopy16             0x02082A60  arm
  *   func_02043668             0x02043668  arm
  *   func_020435F4             0x020435F4  arm
- *   sub_02010068              0x02010068  thumb
+ *   GFL_NET_ERR_LoadScreenGraphics              0x02010068  thumb
  *   func_020101D4             0x020101D4  thumb
- *   g_0214617C                0x0214617C  data
+ *   gNetErrWork                0x0214617C  data
  *
  * net_err.c's graphics save-and-blank: saves both master brightness levels,
  * the H/V-blank interrupt enables, two VRAM bank states, DISPCNT, the sub
  * window mask and BG1CNT into the module object at 0x0214617C, reprograms
  * BG1 as a 16-colour text layer, backs up BG1's character, screen and the
  * first palette block (unless +0x59 is 0x60), then draws the error screen
- * (sub_02010068 and func_020101D4).  The SDK inlines are NitroSDK's gx.h /
+ * (GFL_NET_ERR_LoadScreenGraphics and func_020101D4).  The SDK inlines are NitroSDK's gx.h /
  * g2.h shapes (GX_SetVisiblePlane, G2_SetBG1Control with the saved control
  * word's bgExtPltt bit, G2_BG1Mosaic).  The lever that closed it (the
  * earlier note was 20 bytes short): the two backup copies read their buffer
@@ -75,9 +75,9 @@ extern void *G2_GetBG1ScrPtr(void);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern u32  func_02043668(void);
 extern void func_020435F4(u32 a);
-extern void sub_02010068(u32 a);
+extern void GFL_NET_ERR_LoadScreenGraphics(u32 a);
 extern void func_020101D4(u32 a, u32 b);
-extern u8   g_0214617C[];
+extern u8   gNetErrWork[];
 
 #define reg_GX_MASTER_BRIGHT   (*(volatile u16 *)0x0400006C)
 #define reg_GXS_DB_MASTER_BRIGHT (*(volatile u16 *)0x0400106C)
@@ -130,9 +130,9 @@ static inline void G2_BG1Mosaic(BOOL enable)
     }
 }
 
-void sub_0200FD38(u32 a0, u32 a1)
+void GFL_NET_ERR_SaveDisplayAndDraw(u32 a0, u32 a1)
 {
-    u8 *g = g_0214617C;
+    u8 *g = gNetErrWork;
 
     if (func_02010054() == 0) {
         return;
@@ -177,10 +177,10 @@ void sub_0200FD38(u32 a0, u32 a1)
     func_020435F4(0);
     ((struct Obj01327 *)g)->f40 = *(volatile u16 *)0x05000400;
     *(volatile u16 *)0x05000400 = 0x7eea;
-    if (g_0214617C[0x59] == 0x60) {
-        sub_02010068(1);
+    if (gNetErrWork[0x59] == 0x60) {
+        GFL_NET_ERR_LoadScreenGraphics(1);
     } else {
-        sub_02010068(0);
+        GFL_NET_ERR_LoadScreenGraphics(0);
         func_020101D4(a0, a1);
     }
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0);

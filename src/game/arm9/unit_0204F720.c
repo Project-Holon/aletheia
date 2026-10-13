@@ -1,7 +1,7 @@
 /*
  * file:     unit_0204F720.c
  * unit:     yes
- * function: func_0204F720, func_0204F748, func_0204F764, func_0204F794, func_0204F7C4, func_0204F7DC
+ * function: func_0204F720, func_0204F748, func_0204F764, func_0204F794, BILLBOARD_SetElemRotZ, BILLBOARD_Draw
  * address:  0x0204F720
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -25,8 +25,8 @@
  *   VEC_Normalize      0x0207CCA4  arm
  *   MTX_Identity33_    0x0207ADC4  arm
  *   MTX_RotY33_        0x0207AF1C  thumb
- *   func_02048C80      0x02048C80  arm
- *   func_02048CCC      0x02048CCC  arm
+ *   G3D_LIGHT_GetSlotColor      0x02048C80  arm
+ *   G3D_LIGHT_GetSlotFlags      0x02048CCC  arm
  *   FX_Div             0x0207C768  arm
  *   G3_MultTransMtx33  0x0207D950  arm
  *   G3_RotZ            0x0207D888  arm
@@ -62,13 +62,13 @@ extern void G3_RotZ(fx32 s, fx32 c);
 extern void func_02048AE8(struct Camera *cam, VecFx32 *out);
 extern void func_02048B0C(struct Camera *cam, VecFx32 *out);
 extern void func_02048B30(struct Camera *cam, VecFx32 *out);
-extern void func_02048C80(struct LightSlot *lights, u8 lightIndex, VecFx16 *outVector);
-extern void func_02048CCC(struct LightSlot *lights, u8 lightIndex, u16 *outColor);
+extern void G3D_LIGHT_GetSlotColor(struct LightSlot *lights, u8 lightIndex, VecFx16 *outVector);
+extern void G3D_LIGHT_GetSlotFlags(struct LightSlot *lights, u8 lightIndex, u16 *outColor);
 void func_0204F720(struct BbBoard *board, u32 elemIndex, u32 *visible);
 u32 func_0204F748(struct BbBoard *board, int elemIndex);
 void func_0204F764(struct BbBoard *board, u32 elemIndex, u32 *flipS);
 void func_0204F794(struct BbBoard *board, u32 elemIndex, u32 *flipT);
-void func_0204F7C4(struct BbBoard *board, int elemIndex, u16 *rotZ);
+void BILLBOARD_SetElemRotZ(struct BbBoard *board, int elemIndex, u16 *rotZ);
 extern const fx16 FX_SinCosTable_[];
 extern const struct Quad gBillboardQuad[];
 
@@ -150,7 +150,7 @@ void func_0204F794(struct BbBoard *board, u32 elemIndex, u32 *flipT)
  * 0x0204F7C4 in layout/function_starts.txt turns that EXACT* into EXACT; that
  * file is the integrator's, not this packet's.
  */
-void func_0204F7C4(struct BbBoard *board, int elemIndex, u16 *rotZ)
+void BILLBOARD_SetElemRotZ(struct BbBoard *board, int elemIndex, u16 *rotZ)
 {
     struct BbElem *elem = &board->elems[elemIndex];
 
@@ -298,9 +298,9 @@ static inline void MTX_RotY33(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal) { MTX_Rot
  * swaps the mul/ldrsh destinations); a SEPARATE counter j for the light
  * loop (sharing i puts i in the lowest spill slot); declaration order
  * scale, s1/s0/t1/t0, i, j, nx/ny/nz fixes the remaining spill slots.
- * func_02048C80/CCC take a u8 index here (`and r1, r8, #0xff`).
+ * G3D_LIGHT_GetSlotColor/CCC take a u8 index here (`and r1, r8, #0xff`).
  */
-void func_0204F7DC(struct BbBoard *board, struct Camera *camera, struct LightSlot *lights)
+void BILLBOARD_Draw(struct BbBoard *board, struct Camera *camera, struct LightSlot *lights)
 {
     MtxFx33 facing[4];
     VecFx32 cameraPos;
@@ -356,8 +356,8 @@ void func_0204F7DC(struct BbBoard *board, struct Camera *camera, struct LightSlo
 
     if (lights != 0) {
         for (lightIndex = 0; lightIndex < 4; lightIndex++) {
-            func_02048C80(lights, lightIndex, &lightVec);
-            func_02048CCC(lights, lightIndex, &lightColor);
+            G3D_LIGHT_GetSlotColor(lights, lightIndex, &lightVec);
+            G3D_LIGHT_GetSlotFlags(lights, lightIndex, &lightColor);
             G3_LightVector(lightIndex, lightVec.x, lightVec.y, lightVec.z);
             G3_LightColor(lightIndex, lightColor);
         }

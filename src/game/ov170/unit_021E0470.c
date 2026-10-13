@@ -17,7 +17,7 @@
  *   func_021EF400 0x021EF400 thumb
  *   func_02035C38 0x02035C38 arm
  *   func_021EF57C 0x021EF57C thumb
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021EF45C 0x021EF45C thumb
  *   func_021DF228 0x021DF228 thumb
  *   d_021EF79C 0x021EF79C data a1
@@ -93,7 +93,7 @@ extern int func_021EF5C4(struct WinMgr *mgr);
 extern int func_021EF400(unsigned char *p);
 extern int func_02035C38(void);
 extern void func_021EF57C(struct WinMgr *mgr);
-extern unsigned func_02035CB8(unsigned *outA, unsigned *outB);
+extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
 extern int func_021EF45C(struct WinMgr *mgr);
 extern int func_021DF228(short x, short y, const unsigned char *r);
 extern void func_021DE530(unsigned char *p, int a, int b);
@@ -157,7 +157,7 @@ int func_021E0470(unsigned char *p)
         b->state = 1;
         break;
     case 1:
-        if (func_02035CB8(&x, &y) == 0) {
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             int r = 0xFF;
             if (func_021EF45C(MGR(p)) == 1)
                 r = func_021DF228(*(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184), d_021EF79C);

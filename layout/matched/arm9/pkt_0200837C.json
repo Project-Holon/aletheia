@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200837C",
+   "name": "CONFIG_SetTextSpeed",
    "address": "0x0200837C",
    "kind": "game",
    "region": "arm9",

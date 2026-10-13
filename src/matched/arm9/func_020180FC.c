@@ -1,5 +1,5 @@
 /*
- * function: func_020180FC
+ * function: POKE_TOOL_PushBoxMove
  * address:  0x020180FC
  * packet:   pkt_020180FC
  * region:   arm9
@@ -18,7 +18,7 @@
  *   func_02017DBC  0x02017DBC  thumb
  *   func_02017E88  0x02017E88  thumb
  *   func_0201BD28  0x0201BD28  thumb
- *   func_02017E64  0x02017E64  thumb
+ *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   func_02017DE4  0x02017DE4  thumb
  */
 
@@ -30,7 +30,7 @@ struct Sav;
 extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 k, u32 x);
 extern u32 func_0201BD28(u16 id, u32 field);
-extern void func_02017E64(void *p, u32 k, u32 v);
+extern void POKE_TOOL_SetBoxValue(void *p, u32 k, u32 v);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 
 /* Three parallel 4-entry channel tables.  They are three separate locals, NOT
@@ -41,7 +41,7 @@ extern u32 func_02017DE4(struct Sav *p, u32 f);
  * a, b, c (later declarator at the lower stack address) is what puts them at
  * sp+0x10 / sp+0xc / sp+8.  The fourth entry of each table is filled from a
  * different source: a[3] the parameter, b[3] a lookup, c[3] zero. */
-void func_020180FC(void *p, u16 v)
+void POKE_TOOL_PushBoxMove(void *p, u16 v)
 {
     u16 a[4];
     u8  b[4];
@@ -63,9 +63,9 @@ void func_020180FC(void *p, u16 v)
     c[3] = 0;
 
     for (j = 0; j < 4; j++) {
-        func_02017E64(p, j + 0x36, a[j]);
-        func_02017E64(p, j + 0x3a, b[j]);
-        func_02017E64(p, j + 0x3e, c[j]);
+        POKE_TOOL_SetBoxValue(p, j + 0x36, a[j]);
+        POKE_TOOL_SetBoxValue(p, j + 0x3a, b[j]);
+        POKE_TOOL_SetBoxValue(p, j + 0x3e, c[j]);
     }
 
     func_02017DE4(p, h);

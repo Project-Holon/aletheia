@@ -1,5 +1,5 @@
 /*
- * function: func_02016068
+ * function: MCSS_GetMosaic
  * address:  0x02016068
  * packet:   pkt_02016068
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct {
     unsigned int value : 4;
 } Data;
 
-u8 func_02016068(Data *p)
+u8 MCSS_GetMosaic(Data *p)
 {
     return p->value;
 }

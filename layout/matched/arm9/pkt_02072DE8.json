@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02072E9C",
+   "name": "NNS_SndHandleInit",
    "address": "0x02072E9C",
    "kind": "sdk",
    "region": "arm9",

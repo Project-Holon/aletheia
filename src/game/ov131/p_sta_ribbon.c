@@ -1,0 +1,961 @@
+/*
+ * file:     p_sta_ribbon.c
+ * unit:     yes
+ * function: P_STA_RIBBON_Create, P_STA_RIBBON_Delete, P_STA_RIBBON_Main, P_STA_RIBBON_LoadArcGraphics, P_STA_RIBBON_FreeArcGraphics, P_STA_RIBBON_CreateObjects, P_STA_RIBBON_DeleteObjects, P_STA_RIBBON_UpdateInput, P_STA_RIBBON_UpdateKeys, P_STA_RIBBON_UpdateTouch, P_STA_RIBBON_GetTouchedRow, P_STA_RIBBON_SnapCursorToScroll, P_STA_RIBBON_SelectRow, P_STA_RIBBON_Scroll, P_STA_RIBBON_Init, P_STA_RIBBON_Show, P_STA_RIBBON_Deactivate, P_STA_RIBBON_Hide, P_STA_RIBBON_CollectOwned, P_STA_RIBBON_Noop, P_STA_RIBBON_DrawRow, P_STA_RIBBON_UpdateRows, P_STA_RIBBON_GetOwnedIndex, P_STA_RIBBON_GetRowOwnedIndex, P_STA_RIBBON_GetRowY, P_STA_RIBBON_PrintDetail, P_STA_RIBBON_ShowDetail, P_STA_RIBBON_FreeDetailWindows, P_STA_RIBBON_HideDetail
+ * address:  0x021D87E0
+ * region:   ov131
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Split from p_sta_oam.c: 0x021D87E0-0x021D96B0. Cuts at the __FILE__ anchor functions (layout/file_anchors.txt);
+ * the functions in this range use PStaRibbonWork (PStatusWork.ribbonWork).
+ *
+ * symbols:
+ *   func_020307B0 0x020307B0 arm
+ *   func_0204B878 0x0204B878 arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_020490F4 0x020490F4 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_02049238 0x02049238 arm
+ *   func_0204A8D4 0x0204A8D4 arm
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_0204B3B4 0x0204B3B4 arm
+ *   func_02045B38 0x02045B38 arm
+ *   func_02045C04 0x02045C04 arm
+ *   func_02035C08 0x02035C08 arm
+ *   func_0201C6B4 0x0201C6B4 thumb
+ *   func_0203633C 0x0203633C arm
+ *   func_020362DC 0x020362DC arm
+ *   func_020061E4 0x020061E4 thumb
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02045808 0x02045808 arm
+ *   func_02045770 0x02045770 arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_02017E88 0x02017E88 thumb
+ *   func_02030734 0x02030734 arm
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02045730 0x02045730 arm
+ *   func_02041B6C 0x02041B6C arm
+ *   func_020452E8 0x020452E8 arm
+ *   func_02035C60 0x02035C60 arm
+ *   func_02035C38 0x02035C38 arm
+ *   func_02049EF4 0x02049EF4 arm
+ *   func_020410D0 0x020410D0 arm
+ *   func_02040AE0 0x02040AE0 arm
+ *   func_0204B6F4 0x0204B6F4 arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_02041300 0x02041300 arm
+ *   func_02041570 0x02041570 arm
+ *   func_0201EC64 0x0201EC64 thumb
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201ED04 0x0201ED04 thumb
+ *   func_0201C724 0x0201C724 thumb
+ *   P_STA_RIBBON_FileName 0x021DC834 data a1
+ *   func_02049E74 0x02049E74 arm
+ *   BMP_CreateFromVram 0x02043754 arm
+ *   func_020437AC 0x020437AC arm
+ *   P_STA_RIBBON_KindCountInit 0x021DC2B0 data a1
+ *   func_020437D4 0x020437D4 arm
+ *   func_02082D44 0x02082D44 arm
+ *   func_0201F250 0x0201F250 thumb
+ *   func_0201DD78 0x0201DD78 thumb
+ *   func_0201C7A4 0x0201C7A4 thumb
+ *   func_0201DD68 0x0201DD68 thumb
+ *   func_0201C6C4 0x0201C6C4 thumb
+ *   func_0200616C 0x0200616C thumb
+ *   P_STA_RIBBON_GetRibbonDescMsg 0x021DBF94 thumb ov131
+ *   P_STA_RIBBON_InfoTable 0x021DC2F8 data a4
+ *   P_STATUS_SetInputEnable 0x021D5A9C thumb ov131
+ *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
+ *   P_STA_OAM_CreateManager 0x021DBA90 thumb ov131
+ *   P_STA_OAM_DeleteManager 0x021DBAC0 thumb ov131
+ *   P_STA_OAM_CreateBitmapActors 0x021DBAD0 thumb ov131
+ *   P_STA_OAM_DeleteBitmapActors 0x021DBC3C thumb ov131
+ *   P_STA_OAM_SetBitmapActorsEnabled 0x021DBCA4 thumb ov131
+ *   P_STA_OAM_TransferBitmap 0x021DBCF4 thumb ov131
+ *   P_STA_OAM_SetBitmapActorsPos 0x021DBE2C thumb ov131
+ *   P_STA_RIBBON_GetRibbonInfo 0x021DBF2C thumb ov131
+ */
+
+#include "p_status_types.h"
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed char s8;
+typedef signed short s16;
+
+struct Actor;
+struct Bmp;
+struct BmpWin;
+struct MsgBank;
+struct Strbuf;
+struct WordSet;
+
+enum {
+    STA_RIBBON_ROW_COUNT = 10,          /* rows on screen, used as a ring buffer while scrolling */
+    STA_RIBBON_ROW_HEIGHT = 24,         /* pixels */
+    STA_RIBBON_VISIBLE_ROWS = 6,
+    STA_RIBBON_MAX = 80                 /* entries of the ribbon table */
+};
+
+/* Keys read by the page (trigger and repeat masks). */
+enum {
+    STA_RIBBON_KEY_A = 0x01,
+    STA_RIBBON_KEY_B = 0x02,
+    STA_RIBBON_KEY_UP = 0x40,
+    STA_RIBBON_KEY_DOWN = 0x80
+};
+
+/* PStatusWork.inputType */
+enum {
+    STA_RIBBON_INPUT_KEYS,
+    STA_RIBBON_INPUT_TOUCH
+};
+
+/* Sound effects. */
+enum {
+    STA_RIBBON_SE_CURSOR = 0x548,
+    STA_RIBBON_SE_SELECT = 0x54C,
+    STA_RIBBON_SE_CANCEL = 0x551,
+    STA_RIBBON_SE_SCROLL = 0x645
+};
+
+/* PStatusWork.buttonActor indices used here. */
+enum {
+    STA_RIBBON_BUTTON_PAGE_TAB = 2,
+    STA_RIBBON_BUTTON_B = 7
+};
+
+/* PStatusWork.objRes indices used here (the last character data, palette and cell resources are the ribbon ones). */
+enum {
+    STA_RIBBON_RES_DETAIL_PLTT = 7,
+    STA_RIBBON_RES_ROW_PLTT = 8,
+    STA_RIBBON_RES_DETAIL_CELL = 36
+};
+
+/* Character resource (a different file layout than StaGraphicsFile): pixels start at pixels. */
+typedef struct StaRibbonCharData {
+    u8 pad_0[0x14];
+    u8 *pixels;                         /* 0x14 */
+} StaRibbonCharData;
+
+/* One of the ten list rows (0x14 bytes). */
+typedef struct StaRibbonRow {
+    u16 ownedIdx;                       /* 0x00: index into owned[] shown in this row, 0xFFFF = empty */
+    u8 pad_2[6];
+    u32 printPending;                   /* 0x08: 1 = a text print is running for the row */
+    struct Bmp *bmp;                    /* 0x0C: name text, drawn into OBJ VRAM */
+    StaOamBitmapActors *actors;  /* 0x10: actors that show the bitmap */
+} StaRibbonRow;
+
+/* One ribbon the Pokemon has (8 bytes). */
+typedef struct StaRibbonOwned {
+    u32 isOwned;                        /* 0x00 */
+    u8 ribbonNo;                        /* 0x04: row of the ribbon table */
+    u8 category;                        /* 0x05: ribbon kind, 0..4; gives the kind name message */
+    u8 number;                          /* 0x06: how many ribbons of this kind came before, plus the kind start */
+    u8 pad_7;
+} StaRibbonOwned;
+
+/* Ribbon page work (page 2, PStatusWork.ribbonWork, 0x3B8 bytes). */
+struct PStaRibbonWork {
+    int isActive;                       /* 0x000: list reacts to input */
+    int isDetailShown;                  /* 0x004: ribbon detail objects exist */
+    int isTextPending;                  /* 0x008: waiting for the detail text print to end */
+    u32 redrawReq;                      /* 0x00C: 1 = refresh the rows */
+    u8 ownedCount;                      /* 0x010 */
+    u8 pad_11[3];
+    u32 scrollPos;                      /* 0x014: pixels */
+    u32 detailChrRes;                   /* 0x018: character resource of the picked ribbon */
+    struct Actor *detailObj;            /* 0x01C: big picture of the picked ribbon */
+    struct BmpWin *titleWin;            /* 0x020: ribbon name */
+    struct BmpWin *descWin;             /* 0x024: ribbon description */
+    StaGraphicsFile *listScrn;        /* 0x028 */
+    void *listScrnMem;                  /* 0x02C */
+    StaGraphicsFile *listPal;          /* 0x030: palette of the list */
+    void *listPalMem;                   /* 0x034 */
+    StaGraphicsFile *detailPal;        /* 0x038: palette while a detail is shown */
+    void *detailPalMem;                 /* 0x03C */
+    StaGraphicsFile *titleScrn;       /* 0x040: map of the title bar */
+    void *titleScrnMem;                 /* 0x044 */
+    StaRibbonCharData *iconChr;         /* 0x048: row picture tiles */
+    void *iconChrMem;                   /* 0x04C */
+    struct MsgBank *msgBank;            /* 0x050 */
+    struct Actor *cursorObj;            /* 0x054 */
+    u8 selectedRow;                     /* 0x058: row of the cursor, 255 = none */
+    u8 selectedOwned;                   /* 0x059: owned[] index of the cursor, 255 = none */
+    u8 prevSelectedRow;                 /* 0x05A */
+    u8 pad_5B;
+    int scrollSpeed;                    /* 0x05C: kinetic scroll after a touch drag */
+    u8 seCooldown;                      /* 0x060: frames before the scroll sound may play again */
+    u8 pad_61[3];
+    u32 isDragging;                     /* 0x064 */
+    u32 selectionChanged;               /* 0x068 */
+    StaOamManager *oamMgr;       /* 0x06C */
+    StaRibbonRow rows[STA_RIBBON_ROW_COUNT];    /* 0x070 */
+    StaRibbonOwned owned[STA_RIBBON_MAX];       /* 0x138 */
+};
+
+/* stand-in: a row reached from the start of the work (offset 0x70 + 0x14 * row); the compiler only keeps the original
+ * code shape when the row fields are read at their offsets from the work pointer, not through the rows array. */
+typedef struct StaRibbonRowAt {
+    u8 pad_0[0x70];
+    u16 ownedIdx;                       /* 0x70 */
+    u8 pad_72[6];
+    u32 printPending;                   /* 0x78 */
+    struct Bmp *bmp;                    /* 0x7C */
+    StaOamBitmapActors *actors;  /* 0x80 */
+} StaRibbonRowAt;
+
+#define STA_RIBBON_ROW_AT(work, i) ((StaRibbonRowAt *)((u8 *)(work) + (i) * 20))
+
+/* Touch hit rectangles; a row of 0xFF at top ends the table. */
+
+/* Ribbons found so far per kind. */
+typedef struct StaRibbonKindCount {
+    u8 count[5];
+} StaRibbonKindCount;
+
+/* Parts of the OBJ VRAM address of the row bitmaps, kept in enum variables so the shift is not folded. */
+enum StaRibbonVramPart {
+    STA_RIBBON_VRAM_ZERO
+};
+
+extern u32 func_020307B0(void *mem);
+extern void func_0204B878(struct Actor *actor, u16 animSeq);
+extern void func_020409B4(u32 bgId);
+extern void *func_020490F4(u32 arcId, u32 heapId);
+extern int func_0204A6C8(void *arc, u32 fileId, u32 a, u32 screen, u16 heapId);
+extern void func_02049238(void *arc);
+extern void func_0204A8D4(u32 charRes);
+extern struct Actor *func_0204B294(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
+extern void func_0204B3DC(struct Actor *actor, u32 enable);
+extern void func_0204B3B4(struct Actor *actor);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern unsigned int func_02045C04(struct MsgBank *bank);
+extern int func_02035C08(const void *hitTable);
+extern u32 func_0201C6B4(const void *printQue);
+extern unsigned int func_0203633C(void);
+extern u32 func_020362DC(void);
+extern void func_020061E4(u32 seId);
+extern u32 func_02017E88(void *pp, int paramId, void *buf);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct Strbuf *str);
+extern void func_0201C724(void *printQue, struct Bmp *bmp, u32 x, u32 y, void *str, void *font, u16 colors);
+extern struct Bmp *func_02045770(struct BmpWin *win);
+extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern struct BmpWin *func_020450F0(u32 bgId, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
+extern void func_02045334(struct BmpWin *win);
+extern void func_02045374(struct BmpWin *win);
+extern u8 func_02045730(struct BmpWin *win);
+extern void func_02041B6C(u32 bgId);
+extern u32 func_020452E8(struct BmpWin *win);
+extern struct WordSet *func_0201EC64(u32 heapId);
+extern u32 func_0201ED04(struct WordSet *ws);
+extern void func_0201EFA4(struct WordSet *ws, u32 index, u32 number, u32 digits, u32 dispType, u32 zeroPad);
+extern int func_02035C60(void);
+extern int func_02035C38(void);
+extern void *func_02049EF4(void *arc, unsigned int fileId, unsigned int a, void **outData, unsigned short heapId);
+extern void func_020410D0(u32 bgId, u32 a, u32 b, u32 width, u8 height, u32 src, u8 c, u8 d, u8 e, u8 f);
+extern void func_02040AE0(u32 palIndex, const void *src, u32 size);
+extern void func_0204B6F4(struct Actor *actor, u32 animSeq, u32 flag);
+extern void func_0204B404(struct Actor *actor, const StaOamPoint *delta, u32 space);
+extern void func_02041300(unsigned int bgId, int a, int b, int c, unsigned char d, unsigned char e, unsigned char f);
+extern void func_02041570(int bgId, u16 value);
+extern void *func_02049E74(void *arc, u32 fileId, u32 a, void **outData, u16 heapId);
+extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
+extern void func_020437AC(struct Bmp *bmp);
+extern void *func_020437D4(const struct Bmp *bmp);
+extern void func_02082D44(const void *src, void *dst, u32 size);
+extern void func_0201DD78(u32 a, u32 b, u32 c);
+extern void func_0201C7A4(struct Bmp *bmp, s16 x, s16 y, void *str, void *font);
+extern void func_0201DD68(void);
+extern u32 func_0201C6C4(void *printQue, struct Bmp *bmp);
+extern void func_0200616C(u32 seId, int flag);
+extern unsigned int P_STA_RIBBON_GetRibbonDescMsg(int ribbonNo);
+void P_STATUS_SetInputEnable(PStatusWork *wk, int enable);
+void *P_STATUS_GetPokePara(PStatusWork *wk);
+void *P_STA_RIBBON_Create(PStatusWork *wk);
+void P_STA_RIBBON_Delete(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_Main(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_LoadArcGraphics(PStatusWork *wk, PStaRibbonWork *work, void *arc);
+void P_STA_RIBBON_FreeArcGraphics(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_CreateObjects(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_DeleteObjects(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_UpdateInput(PStatusWork *wk, PStaRibbonWork *work);
+int P_STA_RIBBON_UpdateKeys(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_UpdateTouch(PStatusWork *wk, PStaRibbonWork *work);
+int P_STA_RIBBON_GetTouchedRow(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_SnapCursorToScroll(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_SelectRow(PStatusWork *wk, PStaRibbonWork *work, u8 row);
+void P_STA_RIBBON_Scroll(PStatusWork *wk, PStaRibbonWork *work, int delta);
+void P_STA_RIBBON_Init(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_Show(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_Deactivate(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_Hide(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_CollectOwned(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_Noop(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_DrawRow(PStatusWork *wk, PStaRibbonWork *work, StaRibbonRow *row);
+void P_STA_RIBBON_UpdateRows(PStatusWork *wk, PStaRibbonWork *work);
+u32 P_STA_RIBBON_GetOwnedIndex(PStaRibbonWork *work, u32 target);
+unsigned int P_STA_RIBBON_GetRowOwnedIndex(PStaRibbonWork *work, unsigned int target);
+s16 P_STA_RIBBON_GetRowY(PStaRibbonWork *work, u32 target);
+void P_STA_RIBBON_PrintDetail(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_FreeDetailWindows(PStatusWork *wk, PStaRibbonWork *work);
+void P_STA_RIBBON_HideDetail(PStatusWork *wk, PStaRibbonWork *work);
+StaOamManager *P_STA_OAM_CreateManager(u32 heapId, u32 clunit);
+void P_STA_OAM_DeleteManager(StaOamManager *mgr);
+StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(StaOamManager *mgr, const StaOamBitmapDesc *desc);
+void P_STA_OAM_DeleteBitmapActors(StaOamBitmapActors *actors);
+void P_STA_OAM_SetBitmapActorsEnabled(StaOamBitmapActors *actors, int enable);
+void P_STA_OAM_TransferBitmap(StaOamBitmapActors *actors);
+void P_STA_OAM_SetBitmapActorsPos(StaOamBitmapActors *actors, s16 x, s16 y);
+u32 P_STA_RIBBON_GetRibbonInfo(u32 ribbonNo, u32 field);
+extern const char P_STA_RIBBON_FileName[];
+extern const StaRibbonKindCount P_STA_RIBBON_KindCountInit;
+
+void *P_STA_RIBBON_Create(PStatusWork *wk) {
+ PStaRibbonWork *work = func_02030734(wk->heapId, 0x3b8, 0, P_STA_RIBBON_FileName, 0xaf);
+ work->isActive = 0;
+ work->seCooldown = 0;
+ work->msgBank = func_02045B38(0, 2, 0xaa, wk->heapId);
+ return work;
+}
+
+void P_STA_RIBBON_Delete(PStatusWork *wk, PStaRibbonWork *work)
+{
+    func_02045C04(work->msgBank);
+    func_020307B0(work);
+}
+
+void P_STA_RIBBON_Main(PStatusWork *wk, PStaRibbonWork *work)
+{
+    P_STA_RIBBON_UpdateInput(wk,work);
+    if (work->isTextPending == 1) {
+        if (func_0201C6B4(wk->printQue) == 1) {
+            P_STA_RIBBON_HideDetail(wk,work);
+            P_STA_RIBBON_ShowDetail(wk,work);
+            work->isTextPending=0;
+        }
+    } else P_STA_RIBBON_UpdateRows(wk,work);
+    if (work->seCooldown) work->seCooldown--;
+}
+
+void P_STA_RIBBON_LoadArcGraphics(PStatusWork *wk, PStaRibbonWork *work, void *arc)
+{
+    work->listScrnMem = func_02049EF4(arc, 66, 0, (void **)&work->listScrn, wk->heapId);
+    work->listPalMem = func_02049EF4(arc, 67, 0, (void **)&work->listPal, wk->heapId);
+    work->detailPalMem = func_02049EF4(arc, 68, 0, (void **)&work->detailPal, wk->heapId);
+    work->titleScrnMem = func_02049EF4(arc, 69, 0, (void **)&work->titleScrn, wk->heapId);
+    work->iconChrMem = func_02049E74(arc, 12, 0, (void **)&work->iconChr, wk->heapId);
+    work->oamMgr = P_STA_OAM_CreateManager(wk->heapId, (u32)(wk->clunit));
+}
+
+void P_STA_RIBBON_FreeArcGraphics(PStatusWork *wk, PStaRibbonWork *work) {
+ if (work->isActive == 1) P_STA_RIBBON_Deactivate(wk, work);
+ P_STA_OAM_DeleteManager(work->oamMgr);
+ func_020307B0(work->iconChrMem);
+ func_020307B0(work->listScrnMem);
+ func_020307B0(work->listPalMem);
+ func_020307B0(work->detailPalMem);
+ func_020307B0(work->titleScrnMem);
+}
+
+/*
+ * note (2026-10-02): the P_STA_RIBBON_GetRowY call is inside the loop (its arg is i), so &desc/&pos is recomputed
+ *   per group; vramHi/vramLo are enum locals so (0x19<<22)+(2<<16) is not folded.
+ */
+void P_STA_RIBBON_CreateObjects(PStatusWork *wk, PStaRibbonWork *work)
+{
+    StaOamActorPos pos;
+    StaOamBitmapDesc desc;
+    enum StaRibbonVramPart vramHi, vramLo;
+    u32 vramBase;
+    u8 i;
+    pos.x=0;pos.y=0;pos.drawPriority=10;pos.bgPriority=0;pos.animSeq=0;
+    work->cursorObj=func_0204B294((void *)(u32)wk->clunit,wk->objRes[PSTATUS_RES_CHR_END],wk->objRes[PSTATUS_RES_PLTT_END],wk->objRes[PSTATUS_RES_CELL_END],&pos,0,wk->heapId);
+    func_0204B3DC(work->cursorObj,0);
+    desc.x=8;
+    desc.plttRes=(u32)((void *)wk->objRes[STA_RIBBON_RES_ROW_PLTT]);
+    desc.animSeq=0;
+    desc.drawPriority=0;
+    vramHi=0x19;
+    vramLo=2;
+    desc.bgPriority=vramLo;
+    desc.space=0;
+    desc.screen=0;
+    vramBase=(vramHi<<22)+(vramLo<<16);
+    for(i=0;i<STA_RIBBON_ROW_COUNT;i++){
+        StaRibbonRowAt *row;
+        desc.y=P_STA_RIBBON_GetRowY(work,i);
+        row=(StaRibbonRowAt *)((u8 *)work+i*0x14);
+        desc.bmp=row->bmp=BMP_CreateFromVram((void *)(vramBase-(i+1)*0x660),0x11,3,0x20,wk->heapId);
+        row->actors=P_STA_OAM_CreateBitmapActors(work->oamMgr,&desc);
+        P_STA_OAM_SetBitmapActorsEnabled(row->actors,0);
+    }
+}
+
+void P_STA_RIBBON_DeleteObjects(PStatusWork *wk, PStaRibbonWork *work) {
+ unsigned char i;
+ func_0204B3B4(work->cursorObj);
+ for (i = 0; i < STA_RIBBON_ROW_COUNT; i++) {
+  StaRibbonRowAt *row = (StaRibbonRowAt *)((u8 *)work + i * 20);
+  P_STA_OAM_DeleteBitmapActors(row->actors);
+  func_020437AC(row->bmp);
+ }
+}
+
+/*
+ * note (2026-10-02): the isDragging store precedes the selectedRow store; with source order the
+ *   allocator hoists constant 0 into r7 instead.
+ */
+void P_STA_RIBBON_UpdateInput(PStatusWork *wk, PStaRibbonWork *work)
+{
+    int index;
+    if((u32)wk->isInputEnabled==1) {
+        if(work->ownedCount==0) return;
+        index=P_STA_RIBBON_GetTouchedRow(wk,work);
+        if(func_020362DC()!=1 && index==-1) return;
+        work->scrollSpeed=0;
+        P_STATUS_SetInputEnable(wk,0);
+        if(func_020362DC()==1) {
+            P_STA_RIBBON_SnapCursorToScroll(wk,work);
+            wk->inputType=STA_RIBBON_INPUT_KEYS;
+        } else {
+            work->isDragging=1;
+            work->selectedRow=(u8)index;
+            work->selectionChanged=1;
+            work->selectedOwned=P_STA_RIBBON_GetRowOwnedIndex(work,(u8)index);
+            P_STATUS_SetInputEnable(wk,0);
+            wk->inputType=STA_RIBBON_INPUT_TOUCH;
+        }
+        func_020061E4(STA_RIBBON_SE_SELECT);
+        P_STA_RIBBON_FreeDetailWindows(wk,work);
+        P_STA_RIBBON_PrintDetail(wk,work);
+    } else {
+        if((u32)work->isTextPending==0 && P_STA_RIBBON_UpdateKeys(wk,work)==0) P_STA_RIBBON_UpdateTouch(wk,work);
+    }
+}
+
+int P_STA_RIBBON_UpdateKeys(PStatusWork *wk, PStaRibbonWork *work)
+{
+    u8 i,index,narrowDelta;
+    s16 shortDelta;
+    int position;
+    if(func_020362DC()==STA_RIBBON_KEY_B) {
+        P_STATUS_SetInputEnable(wk,1);
+        func_0204B878(wk->buttonActor[STA_RIBBON_BUTTON_B],9);
+        func_0204B3DC(work->cursorObj,0);
+        work->selectedRow=255;
+        work->selectedOwned=255;
+        work->selectionChanged=1;
+        P_STA_RIBBON_FreeDetailWindows(wk,work);
+        P_STA_RIBBON_HideDetail(wk,work);
+        wk->inputType=STA_RIBBON_INPUT_KEYS;
+        func_020061E4(STA_RIBBON_SE_CANCEL);
+        return 1;
+    }
+    if(wk->inputType==STA_RIBBON_INPUT_TOUCH) {
+        if(func_020362DC()==STA_RIBBON_KEY_A || func_020362DC()==STA_RIBBON_KEY_DOWN || func_020362DC()==STA_RIBBON_KEY_UP) {
+            position=-16;
+            work->scrollSpeed=0;
+            work->isDragging=0;
+            for(i=0;i<STA_RIBBON_ROW_COUNT;i++) {
+                if(work->selectedOwned==work->rows[i].ownedIdx) position=P_STA_RIBBON_GetRowY(work,i);
+            }
+            if(position < -4 || position >144) P_STA_RIBBON_SnapCursorToScroll(wk,work);
+            P_STA_RIBBON_FreeDetailWindows(wk,work);
+            P_STA_RIBBON_PrintDetail(wk,work);
+            func_020061E4(STA_RIBBON_SE_CURSOR);
+            wk->inputType=STA_RIBBON_INPUT_KEYS;
+            return 1;
+        }
+    } else if(func_0203633C()==STA_RIBBON_KEY_DOWN) {
+        index=work->selectedRow+1;
+        if(index>=STA_RIBBON_ROW_COUNT) index-=STA_RIBBON_ROW_COUNT;
+        if(work->rows[index].ownedIdx!=0xffff) {
+            work->selectedRow=index;
+            work->selectionChanged=1;
+            if(P_STA_RIBBON_GetRowY(work,work->selectedRow)>128) {
+                narrowDelta=P_STA_RIBBON_GetRowY(work,work->selectedRow)-128;
+                P_STA_RIBBON_Scroll(wk,work,narrowDelta);
+            }
+            P_STA_RIBBON_SelectRow(wk,work,work->selectedRow);
+            P_STA_RIBBON_FreeDetailWindows(wk,work);
+            P_STA_RIBBON_PrintDetail(wk,work);
+            func_020061E4(STA_RIBBON_SE_CURSOR);
+        }
+        return 1;
+    } else if(func_0203633C()==STA_RIBBON_KEY_UP) {
+        index=work->selectedRow;
+        if(index==0) index=STA_RIBBON_ROW_COUNT-1;
+        else index-=1;
+        if(work->rows[index].ownedIdx!=0xffff) {
+            work->selectedRow=index;
+            work->selectionChanged=1;
+            if(P_STA_RIBBON_GetRowY(work,work->selectedRow)<8) {
+                shortDelta=P_STA_RIBBON_GetRowY(work,work->selectedRow)-8;
+                P_STA_RIBBON_Scroll(wk,work,shortDelta);
+            }
+            P_STA_RIBBON_SelectRow(wk,work,work->selectedRow);
+            P_STA_RIBBON_FreeDetailWindows(wk,work);
+            P_STA_RIBBON_PrintDetail(wk,work);
+            func_020061E4(STA_RIBBON_SE_CURSOR);
+        }
+        return 1;
+    }
+    return 0;
+}
+
+/*
+ * proof: The delta subtract at 021D8D9C is full-word modulo arithmetic,
+ *   then sign-extends its low halfword. Twice that s16 is -65536..65534,
+ *   spelled multiply, permitting negative input. Velocity sums wrap as
+ *   u32 before conversion to signed int and truncating division by 2.
+ *   Negative velocity +1 and positive velocity -1 cannot overflow int;
+ *   their halved outgoing values are explicitly narrowed to s16.
+ * interface: 02035C60's result is read by the original despite its matched
+ *   void forwarding declaration. 021D9428 forwards target in live r1 to
+ *   021D93E4; the original explicitly narrows target to u8 before the call.
+ */
+void P_STA_RIBBON_UpdateTouch(PStatusWork *wk, PStaRibbonWork *work)
+{
+    int index, delta, velocity;
+    if((u32)wk->tpHit==7) {
+        P_STATUS_SetInputEnable(wk,1);
+        func_0204B878(wk->buttonActor[STA_RIBBON_BUTTON_B],9);
+        func_0204B3DC(work->cursorObj,0);
+        work->selectedRow=255;
+        work->selectedOwned=255;
+        work->selectionChanged=1;
+        wk->inputType=STA_RIBBON_INPUT_TOUCH;
+        P_STA_RIBBON_FreeDetailWindows(wk,work);
+        P_STA_RIBBON_HideDetail(wk,work);
+        func_020061E4(STA_RIBBON_SE_CANCEL);
+        return;
+    }
+    if(func_02035C60()==1 && wk->tpX>8 && wk->tpX<144) {
+        index=P_STA_RIBBON_GetTouchedRow(wk,work);
+        if(index!=-1) {
+            work->selectedRow=(u8)index;
+            work->selectionChanged=1;
+            work->selectedOwned=P_STA_RIBBON_GetRowOwnedIndex(work,(u8)index);
+            work->isDragging=1;
+            work->scrollSpeed=0;
+            func_0204B3DC(work->cursorObj,0);
+            P_STA_RIBBON_FreeDetailWindows(wk,work);
+            P_STA_RIBBON_PrintDetail(wk,work);
+        }
+        wk->inputType=STA_RIBBON_INPUT_TOUCH;
+        return;
+    }
+    if(func_02035C38()==1 && work->isDragging==1 && wk->tpX>8 && wk->tpX<144) {
+        delta=(s16)(wk->prevTpY-wk->tpY);
+        velocity=delta*2;
+        P_STA_RIBBON_Scroll(wk,work,delta);
+        if(velocity>=0 && work->scrollSpeed>0 && velocity<work->scrollSpeed) {
+            work->scrollSpeed=(int)((u32)work->scrollSpeed+(u32)velocity)/2;
+            return;
+        }
+        if(velocity<=0 && work->scrollSpeed<0 && velocity>work->scrollSpeed) {
+            work->scrollSpeed=(int)((u32)work->scrollSpeed+(u32)velocity)/2;
+            return;
+        }
+        work->scrollSpeed=velocity;
+        return;
+    }
+    work->isDragging=0;
+    if(work->scrollSpeed<0) {
+        work->scrollSpeed+=1;
+        P_STA_RIBBON_Scroll(wk,work,(s16)(work->scrollSpeed/2));
+    }
+    if(work->scrollSpeed>0) {
+        work->scrollSpeed-=1;
+        P_STA_RIBBON_Scroll(wk,work,(s16)(work->scrollSpeed/2));
+    }
+}
+
+int P_STA_RIBBON_GetTouchedRow(PStatusWork *wk, PStaRibbonWork *work)
+{
+    StaTouchRect hitTable[STA_RIBBON_ROW_COUNT + 1];
+    u8 i;
+    int y;
+
+    for (i = 0; i < STA_RIBBON_ROW_COUNT; i++) {
+        y = P_STA_RIBBON_GetRowY(work, i);
+        hitTable[i].left = 8;
+        hitTable[i].right = 0x90;
+        if (y < 0)
+            hitTable[i].top = 0;
+        else if (y > 0xa8)
+            hitTable[i].top = 0xa8;
+        else
+            hitTable[i].top = y;
+        if (y + 0x18 < 0)
+            hitTable[i].bottom = 0;
+        else if (y + 0x18 > 0xa8)
+            hitTable[i].bottom = 0xa8;
+        else
+            hitTable[i].bottom = y + 0x18;
+        if (hitTable[i].top == 0 && hitTable[i].bottom == 0)
+            hitTable[i].top = 0xfd;
+        if (P_STA_RIBBON_GetRowOwnedIndex(work, i) == 0xffff)
+            hitTable[i].top = 0xfd;
+    }
+    hitTable[STA_RIBBON_ROW_COUNT].top = 0xff;
+    return func_02035C08(hitTable);
+}
+
+void P_STA_RIBBON_SnapCursorToScroll(PStatusWork *wk, PStaRibbonWork *work)
+{
+    P_STA_RIBBON_SelectRow(wk,work,(u8)(((work->scrollPos+23)/STA_RIBBON_ROW_HEIGHT)%STA_RIBBON_ROW_COUNT));
+}
+
+void P_STA_RIBBON_SelectRow(PStatusWork *wk, PStaRibbonWork *work, u8 row)
+{
+    StaOamPoint pt;
+    pt.x=8;
+    pt.y=P_STA_RIBBON_GetRowY(work,row);
+    func_0204B404(work->cursorObj,&pt,0);
+    work->selectedRow=row;
+    work->selectionChanged=1;
+    work->selectedOwned=P_STA_RIBBON_GetRowOwnedIndex(work,row);
+}
+
+void P_STA_RIBBON_Scroll(PStatusWork *wk, PStaRibbonWork *work, int delta)
+{
+    int maxScroll = (work->ownedCount - STA_RIBBON_VISIBLE_ROWS) * STA_RIBBON_ROW_HEIGHT;
+    unsigned int old;
+    if (maxScroll < 0) maxScroll = 0;
+    if (delta > 24) delta = 24;
+    if (delta < -24) delta = -24;
+    old = work->scrollPos;
+    if ((short)old + delta < 0) work->scrollPos = 0;
+    else if (old + delta > (unsigned int)maxScroll) work->scrollPos = maxScroll;
+    else work->scrollPos = old + delta;
+    if (delta != 0) work->redrawReq = 1;
+}
+
+void P_STA_RIBBON_Init(PStatusWork *wk, PStaRibbonWork *work)
+{
+    unsigned char i;
+    work->selectedRow=255;
+    work->selectedOwned=255;
+    work->prevSelectedRow=255;
+    work->scrollPos=0;
+    work->isActive=1;
+    work->isDetailShown=0;
+    work->isTextPending=0;
+    work->redrawReq=1;
+    work->titleWin = (void *)0;
+    work->descWin = (void *)0;
+    for(i=0;i<STA_RIBBON_ROW_COUNT;i++) {
+        work->rows[i].ownedIdx=P_STA_RIBBON_GetRowOwnedIndex(work,i);
+        P_STA_RIBBON_DrawRow(wk,work,&work->rows[i]);
+    }
+}
+
+/*
+ * lever: The image's 20-byte records are subscripted per field, avoiding
+ *   the pointer-arithmetic spelling's cached object-field base and spill.
+ * proof: i is initialized u8 and bounded by 10; i*20 fits int.
+ *   Loaded address payloads use u32 +12 for full-word modulo arithmetic.
+ */
+void P_STA_RIBBON_Show(PStatusWork *wk, PStaRibbonWork *work)
+{
+    u8 i;
+    u16 ownedIdx;
+    func_020410D0(2,0,0,32,24,(u32)work->listScrn->data,0,0,32,32);
+    func_02041B6C(2);
+    func_02040AE0(6,work->listPal->data,work->listPal->dataSize);
+    func_02041B6C(6);
+    func_020410D0(5,0,0,32,3,(u32)work->titleScrn->data,0,0,32,32);
+    func_02041B6C(5);
+    for(i=0;i<STA_RIBBON_ROW_COUNT;i++) {
+        ownedIdx=work->rows[i].ownedIdx;
+        P_STA_OAM_SetBitmapActorsPos(work->rows[i].actors,8,P_STA_RIBBON_GetRowY(work,i));
+        if(ownedIdx!=0xffff) {
+            P_STA_OAM_SetBitmapActorsEnabled(work->rows[i].actors,1);
+            P_STA_OAM_TransferBitmap(work->rows[i].actors);
+        } else P_STA_OAM_SetBitmapActorsEnabled(work->rows[i].actors,0);
+    }
+    work->scrollPos=0;
+    work->selectedRow=255;
+    work->selectedOwned=255;
+    work->prevSelectedRow=255;
+    work->isActive=1;
+    work->redrawReq=1;
+    func_0204B878(wk->buttonActor[STA_RIBBON_BUTTON_PAGE_TAB],5);
+}
+
+void P_STA_RIBBON_Deactivate(PStatusWork *wk, PStaRibbonWork *work)
+{
+    work->isActive=0;
+    if(work->titleWin!=0) {
+        func_020452E8(work->titleWin);
+        work->titleWin=0;
+    }
+    if(work->descWin!=0) {
+        func_020452E8(work->descWin);
+        work->descWin=0;
+    }
+}
+
+void P_STA_RIBBON_Hide(PStatusWork *wk, PStaRibbonWork *work)
+{
+    unsigned char i;
+    for(i=0;i<STA_RIBBON_ROW_COUNT;i++) P_STA_OAM_SetBitmapActorsEnabled(work->rows[i].actors,0);
+    func_02041300(1,0,0,0,19,21,16);
+    func_020409B4(1);
+    work->isActive=0;
+    func_0204B878(wk->buttonActor[STA_RIBBON_BUTTON_PAGE_TAB],2);
+}
+
+/*
+ * lever: Initialize the count after the clear loop so its zero shares the
+ *   clear-store value without a redundant live zero register.
+ * proof: Loop indices are initialized u8 values bounded by 80 or 10.
+ *   P_STA_RIBBON_GetRibbonInfo field 5 reads byte +12 of immutable P_STA_RIBBON_InfoTable;
+ *   all 80 original records have selector 0..4 (B8/table-proof.log).
+ *   count begins with five ROM bytes 1,1,1,1,1 and never exceeds 81.
+ *   All scaling and count increments fit int; stores preserve u8 narrowing.
+ * interface: P_STA_RIBBON_GetRowOwnedIndex forwards live r1 to P_STA_RIBBON_GetOwnedIndex, whose
+ *   own matched body consumes target; caller sets r1 despite stale one-arg
+ *   declaration in P_STA_RIBBON_GetRowOwnedIndex's source.
+ */
+void P_STA_RIBBON_CollectOwned(PStatusWork *wk, PStaRibbonWork *work)
+{
+    StaRibbonKindCount kindCount = P_STA_RIBBON_KindCountInit;
+    void *pp;
+    u8 i, n, category;
+    pp=P_STATUS_GetPokePara(wk);
+    for(i=0;i<STA_RIBBON_MAX;i++) work->owned[i].isOwned=0;
+    n=0;
+    for(i=0;i<STA_RIBBON_MAX;i++) {
+        if(func_02017E88(pp,P_STA_RIBBON_GetRibbonInfo(i,0),0)==1) {
+            category=P_STA_RIBBON_GetRibbonInfo(i,5);
+            work->owned[n].isOwned=1;
+            work->owned[n].ribbonNo=i;
+            work->owned[n].category=category;
+            work->owned[n].number=kindCount.count[category];
+            kindCount.count[category]++;
+            n++;
+        }
+    }
+    work->ownedCount=n;
+    for(i=0;i<STA_RIBBON_ROW_COUNT;i++) work->rows[i].ownedIdx=P_STA_RIBBON_GetRowOwnedIndex(work,i);
+}
+
+void P_STA_RIBBON_Noop(PStatusWork *wk, PStaRibbonWork *work)
+{
+}
+
+void P_STA_RIBBON_DrawRow(PStatusWork *wk, PStaRibbonWork *work, StaRibbonRow *row)
+{
+    StaRibbonOwned *owned;
+    u8 *pixels;
+    void *text;
+    void *buffer;
+    struct WordSet *wordSet;
+    void *source;
+    owned=&work->owned[row->ownedIdx];
+    if (owned->isOwned!=1) return;
+    pixels=work->iconChr->pixels;
+    source=func_020437D4(row->bmp);
+    if (row->ownedIdx==work->selectedOwned) pixels+=0x660;
+    func_02082D44(pixels,source,0x660);
+    text=func_02045EC0(work->msgBank,owned->category+160);
+    buffer=func_020457B0(32,wk->heapId);
+    wordSet=func_0201EC64(wk->heapId);
+    func_0201EFA4(wordSet,0,owned->number,2,2,1);
+    func_0201F250(wordSet,buffer,text);
+    func_0201DD78(1,2,0);
+    func_0201C7A4(row->bmp,10,6,buffer,wk->font);
+    func_0201DD68();
+    func_02045808(text);
+    func_02045808(buffer);
+    func_0201ED04(wordSet);
+    P_STA_OAM_TransferBitmap(row->actors);
+}
+
+/*
+ * proof: loop i starts at zero and tests i<10 after each byte increment;
+ * i*20 <=180. Each other byte index is guarded <10 before *20.
+ * prototype: 021D92EA loads r1 for 021D9428 despite its legacy one-input
+ * source. Preserve this observed full-word argument in the caller extern.
+ */
+void P_STA_RIBBON_UpdateRows(PStatusWork *wk, PStaRibbonWork *work)
+{
+    int changed;
+    u8 *entries;
+    u8 i;
+    u32 ownedIdx;
+    StaRibbonRowAt *row;
+    s16 y;
+    changed=0;
+    entries=(u8 *)work;
+    entries+=0x70;
+    for(i=0;i<STA_RIBBON_ROW_COUNT;i++) {
+        if(work->redrawReq==1) {
+            y=P_STA_RIBBON_GetRowY(work,i);
+            P_STA_OAM_SetBitmapActorsPos(STA_RIBBON_ROW_AT(work,i)->actors,8,y);
+            ownedIdx=P_STA_RIBBON_GetRowOwnedIndex(work,i);
+            if(ownedIdx==65535) {
+                STA_RIBBON_ROW_AT(work,i)->ownedIdx=ownedIdx;
+                P_STA_OAM_SetBitmapActorsEnabled(STA_RIBBON_ROW_AT(work,i)->actors,0);
+            } else if(ownedIdx!=STA_RIBBON_ROW_AT(work,i)->ownedIdx) {
+                changed=1;
+                STA_RIBBON_ROW_AT(work,i)->ownedIdx=ownedIdx;
+                P_STA_RIBBON_DrawRow(wk,work,(StaRibbonRow *)(entries+i*20));
+                P_STA_OAM_SetBitmapActorsEnabled(STA_RIBBON_ROW_AT(work,i)->actors,1);
+            }
+        }
+        row=STA_RIBBON_ROW_AT(work,i);
+        if(row->printPending==1 && func_0201C6C4(wk->printQue,row->bmp)==0) {
+            row->printPending=0;
+            P_STA_OAM_TransferBitmap(row->actors);
+        }
+    }
+    if(changed==1 && work->seCooldown==0) {
+        func_0200616C(STA_RIBBON_SE_SCROLL,1);
+        work->seCooldown=3;
+    }
+    if(work->selectionChanged==1) {
+        if(work->selectedRow<STA_RIBBON_ROW_COUNT) P_STA_RIBBON_DrawRow(wk,work,(StaRibbonRow *)(entries+work->selectedRow*20));
+        if(work->prevSelectedRow<STA_RIBBON_ROW_COUNT) P_STA_RIBBON_DrawRow(wk,work,(StaRibbonRow *)(entries+work->prevSelectedRow*20));
+        work->prevSelectedRow=work->selectedRow;
+        work->selectionChanged=0;
+    }
+    work->redrawReq=0;
+}
+
+/* Owned index (not range checked) that row slot target shows at the current scroll position. */
+u32 P_STA_RIBBON_GetOwnedIndex(PStaRibbonWork *work, u32 target)
+{
+    u8 topRow;
+    s8 delta;
+    topRow = work->scrollPos / (u32)STA_RIBBON_ROW_HEIGHT;
+    delta = target - (u8)(topRow % STA_RIBBON_ROW_COUNT);
+    if (delta < -2) delta += STA_RIBBON_ROW_COUNT;
+    if (delta > 8) delta -= STA_RIBBON_ROW_COUNT;
+    return (u8)(topRow + delta);
+}
+
+unsigned int P_STA_RIBBON_GetRowOwnedIndex(PStaRibbonWork *work, unsigned int target)
+{
+    unsigned int ownedIdx = P_STA_RIBBON_GetOwnedIndex(work, target);
+
+    if (ownedIdx < work->ownedCount)
+        return ownedIdx;
+    return 0xffff;
+}
+
+s16 P_STA_RIBBON_GetRowY(PStaRibbonWork *work, u32 target)
+{
+    u32 position;
+    u8 topRow, remainder;
+    s8 delta;
+    position = work->scrollPos;
+    topRow = position / (u32)STA_RIBBON_ROW_HEIGHT;
+    remainder = position % (u32)STA_RIBBON_ROW_HEIGHT;
+    delta = target - (u8)(topRow % STA_RIBBON_ROW_COUNT);
+    if (delta < -2) delta += STA_RIBBON_ROW_COUNT;
+    if (delta > 8 && topRow > 6) delta -= STA_RIBBON_ROW_COUNT;
+    return delta * STA_RIBBON_ROW_HEIGHT + 8 - remainder;
+}
+
+/*
+ * extent: two zero alignment bytes at 021D9566 follow the 202-byte body.
+ * proof: ribbonNo is ldrb at 021D94DA, hence 0..255; index*8+316
+ * is at most 2356 and has no signed overflow. No selector bound assumed.
+ */
+void P_STA_RIBBON_PrintDetail(PStatusWork *wk, PStaRibbonWork *work)
+{
+    u8 ribbonNo;
+    void *text;
+    work->titleWin=func_020450F0(4,5,7,22,2,14,1);
+    work->descWin=func_020450F0(4,1,16,30,4,14,1);
+    ribbonNo=work->owned[work->selectedOwned].ribbonNo;
+    text=func_02045EC0(work->msgBank,P_STA_RIBBON_GetRibbonInfo(ribbonNo,3));
+    func_0201C724(wk->printQue,func_02045770(work->titleWin),1,1,text,wk->font,1088);
+    func_02045808(text);
+    text=func_02045EC0(work->msgBank,P_STA_RIBBON_GetRibbonDescMsg(ribbonNo));
+    func_0201C724(wk->printQue,func_02045770(work->descWin),1,1,text,wk->font,1088);
+    func_02045808(text);
+    work->isTextPending=1;
+}
+
+/*
+ * extent: two zero alignment bytes at 021D964A follow the 226-byte body.
+ * proof: selector is a byte; selector*8+316 <=2356. Position stores
+ * initialize every byte of the eight-byte descriptor before passing it.
+ * prototype: 0204B294 leaves 0204CFDC's pointer return live at 0204B318;
+ * 021D960E stores it. Keep the own body's u32,u32,u32,u32,u32,u16,u16
+ * inputs, and expose the observed r0 result despite its legacy void return.
+ */
+void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work)
+{
+    struct BmpWin *win;
+    void *archive;
+    u8 ribbonNo;
+    StaOamActorPos pos;
+    ribbonNo=work->owned[work->selectedOwned].ribbonNo;
+    win=work->titleWin;
+    func_02045334(win);
+    func_02045374(win);
+    func_02041B6C(func_02045730(win));
+    win=work->descWin;
+    func_02045334(win);
+    func_02045374(win);
+    func_02041B6C(func_02045730(win));
+    archive=func_020490F4(78,wk->heapId);
+    work->detailChrRes=func_0204A6C8(archive,P_STA_RIBBON_GetRibbonInfo(ribbonNo,1),0,1,wk->heapId);
+    func_02049238(archive);
+    pos.x=128;
+    pos.y=100;
+    pos.drawPriority=10;
+    pos.bgPriority=0;
+    pos.animSeq=0;
+    work->detailObj=func_0204B294((void *)(u32)wk->clunit,work->detailChrRes,wk->objRes[STA_RIBBON_RES_DETAIL_PLTT],wk->objRes[STA_RIBBON_RES_DETAIL_CELL],&pos,1,wk->heapId);
+    func_0204B6F4(work->detailObj,(u8)P_STA_RIBBON_GetRibbonInfo(ribbonNo,2),1);
+    func_0204B3DC(work->detailObj,1);
+    func_02040AE0(6,work->detailPal->data,work->detailPal->dataSize);
+    func_02041B6C(6);
+    work->isDetailShown=1;
+}
+
+void P_STA_RIBBON_FreeDetailWindows(PStatusWork *wk, PStaRibbonWork *work)
+{
+    if(work->titleWin!=0) {
+        func_020452E8(work->titleWin);
+        work->titleWin=0;
+    }
+    if(work->descWin!=0) {
+        func_020452E8(work->descWin);
+        work->descWin=0;
+    }
+}
+
+void P_STA_RIBBON_HideDetail(PStatusWork *wk, PStaRibbonWork *work)
+{
+    if(work->isDetailShown==1) {
+        func_0204A8D4(work->detailChrRes);
+        func_0204B3B4(work->detailObj);
+        func_02041570(4,0);
+        func_02041B6C(4);
+        work->isDetailShown=0;
+        func_02040AE0(6,work->listPal->data,work->listPal->dataSize);
+        func_02041B6C(6);
+    }
+}

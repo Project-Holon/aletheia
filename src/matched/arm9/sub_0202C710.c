@@ -12,14 +12,14 @@
  *
  * symbols:
  *   sub_0202C6C4   0x0202C6C4  thumb
- *   func_02005F24  0x02005F24  thumb
+ *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *   _s32_div_f     0x0209C0A4  arm
  *
  * The last of the four open trampoline targets of
  * src/pending/unit_0202C548.c (reached through sub_0202C588's
  * pool-word-and-bx tail call). It scales its second argument by the
  * 0..0x7F fraction sub_0202C6C4 computes and hands the result to
- * func_02005F24 together with the object's u16 at offset 8.
+ * GFL_USE_SetBgmTrackVolume together with the object's u16 at offset 8.
  *
  * What closed it: sub_0202C6C4 is called from exactly one place in the
  * image, the `bl` at 0x0202C716 inside this function, so no cut can give
@@ -52,9 +52,9 @@ struct Obj0202C710 {
 };
 
 extern s32 sub_0202C6C4(struct Obj0202C710 *p);
-extern void func_02005F24(u32 a0, u32 a1);
+extern void GFL_USE_SetBgmTrackVolume(u32 a0, u32 a1);
 
 void sub_0202C710(struct Obj0202C710 *p, s32 n)
 {
-    func_02005F24(p->unk08, n * sub_0202C6C4(p) / 0x7F);
+    GFL_USE_SetBgmTrackVolume(p->unk08, n * sub_0202C6C4(p) / 0x7F);
 }

@@ -13,25 +13,25 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02074388  0x02074388  arm
- *   func_0207466C  0x0207466C  arm
+ *   NNS_SndArcGetSeqArcInfo  0x02074388  arm
+ *   NNS_SndArcGetFileAddress  0x0207466C  arm
  *   func_02073344  0x02073344  arm
  *   func_020734AC  0x020734AC  arm
  *   func_02074CD0  0x02074CD0  arm
  *   func_02074BEC  0x02074BEC  arm
  *   func_020733DC  0x020733DC  arm
  *   func_020733E8  0x020733E8  arm
- *   func_02072F48  0x02072F48  arm
- *   func_02072F88  0x02072F88  arm
+ *   NNS_SndHandleSetPlayerPriority  0x02072F48  arm
+ *   NNS_SndHandlePause  0x02072F88  arm
  *   func_020730B8  0x020730B8  arm
- *   func_020730DC  0x020730DC  arm
+ *   NNS_SndHandleSetSweep  0x020730DC  arm
  *   data_0214EAC0  0x0214EAC0  data
  *   data_020A5D08  0x020A5D08  data
  *   func_02073A60  0x02073A60  arm
  *   func_02073AD0  0x02073AD0  arm
- *   func_02075BD4  0x02075BD4  arm
- *   func_02075C08  0x02075C08  arm
- *   func_02075C20  0x02075C20  arm
+ *   NNS_SndFaderGet  0x02075BD4  arm
+ *   NNS_SndFaderUpdate  0x02075C08  arm
+ *   NNS_SndFaderIsFinished  0x02075C20  arm
  *   g_02150178  0x02150178  data
  *   g_0214EA90  0x0214EA90  data
  *   g_02150190  0x02150190  data
@@ -41,6 +41,7 @@
  *   func_02060614 0x02060614  arm
  *   func_020605B4 0x020605B4  arm
  *   func_020604AC 0x020604AC  arm
+ *   NNS_SndArcGetSeqInfo  0x02074324  arm
  */
 
 struct Entry;
@@ -116,24 +117,24 @@ struct Entry {   /* 0xC bytes each */
 
 struct Table { u8 pad00[0x1c]; u32 count; struct Entry arr[]; };
 
-extern void *func_02074324(int index);
-extern void *func_02074388(int index);
-extern u32   func_0207466C(u32 a);
+extern void *NNS_SndArcGetSeqInfo(int index);
+extern void *NNS_SndArcGetSeqArcInfo(int index);
+extern u32   NNS_SndArcGetFileAddress(u32 a);
 extern struct Node *func_02073344(struct SndTrack *o, s32 idx, s32 pri);
 extern void *func_020734AC(s32 idx, void *owner);
 extern u32   func_02074CD0(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern void  func_020733DC(void *h);
 extern void func_020733E8(struct SndTrack *o, const void *seqBase, u32 seqOffset, const void *bankData);
-extern void func_02072F48(struct SndTrack *o, u8 v);
-extern void func_02072F88(struct SndTrack *o, u32 v);
+extern void NNS_SndHandleSetPlayerPriority(struct SndTrack *o, u8 v);
+extern void NNS_SndHandlePause(struct SndTrack *o, u32 v);
 extern void  func_020730B8(u32 a, u32 b);
-extern void func_020730DC(struct SndTrack *o, u32 a, u32 b);
+extern void NNS_SndHandleSetSweep(struct SndTrack *o, u32 a, u32 b);
 extern void func_02073A60(struct SndTrack *a);
 extern void func_02073AD0(struct SndTrack *, s32);
-extern s32 func_02075BD4(struct LerpObj *o);
-extern void func_02075C08(struct LerpObj *obj);
-extern int func_02075C20(struct LerpObj *obj);
+extern s32 NNS_SndFaderGet(struct LerpObj *o);
+extern void NNS_SndFaderUpdate(struct LerpObj *obj);
+extern int NNS_SndFaderIsFinished(struct LerpObj *obj);
 extern void func_02086028(void *p);
 extern void func_02086078(void *p);
 extern void func_02073AB4(struct SndTrack *o);
@@ -168,7 +169,7 @@ extern u8  g_02150190[];
 
 u32 func_02075560(u32 a, u32 b)
 {
-    struct Entry *p = func_02074324(b);
+    struct Entry *p = NNS_SndArcGetSeqInfo(b);
 
     if (p == 0) return 0;
     return func_02075698(a, (p)->f9, (p)->f4, (p)->f8,
@@ -180,7 +181,7 @@ u32 func_02075560(u32 a, u32 b)
 
 u32 func_020755A8(u32 a, int b, int c, int d, u32 e)
 {
-    struct Entry *p = func_02074324(e);
+    struct Entry *p = NNS_SndArcGetSeqInfo(e);
 
     if (p == 0) return 0;
     if (d < 0) d = p->f8;
@@ -194,8 +195,8 @@ u32 func_020755A8(u32 a, int b, int c, int d, u32 e)
 
 /*
  * Four-step open path, each step gated on its predecessor's result and each
- * early exit answering 0: resolve the media handle (func_02074388), take the
- * object the handle points at and look up its record (func_0207466C), bind the
+ * early exit answering 0: resolve the media handle (NNS_SndArcGetSeqArcInfo), take the
+ * object the handle points at and look up its record (NNS_SndArcGetFileAddress), bind the
  * record to the caller's key (func_02075B54), then hand seven values to
  * func_02075794 - the caller's first argument, three fields of the record
  * (bytes at +9 and +8, the halfword at +4) and four words parked on the stack
@@ -219,12 +220,12 @@ u32 func_02075618(u32 a, u32 b, u32 c)
     u32 q;
     struct Entry *st;
 
-    r = func_02074388(b);
+    r = NNS_SndArcGetSeqArcInfo(b);
     if (r == 0) {
         return 0;
     }
 
-    q = func_0207466C(r->f0);
+    q = NNS_SndArcGetFileAddress(r->f0);
     if (q == 0) {
         return 0;
     }
@@ -278,8 +279,8 @@ u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, u32 s1)
         return 0;
     }
     func_020733E8(h, (u32 *)((u8 *)blk + blk->f18), 0, (const void *)slot);
-    func_02072F48((struct SndTrack *)a0, s0->f6);
-    func_02072F88((struct SndTrack *)a0, s0->f7);
+    NNS_SndHandleSetPlayerPriority((struct SndTrack *)a0, s0->f6);
+    NNS_SndHandlePause((struct SndTrack *)a0, s0->f7);
     func_020730B8(a0, s1);
     return 1;
 }
@@ -342,9 +343,9 @@ u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, struct SndBl
     }
 
     func_020733E8(h, (u32 *)((u8 *)s1 + s1->f18), s0->f0, (const void *)slot);
-    func_02072F48((struct SndTrack *)a0, s0->f6);
-    func_02072F88((struct SndTrack *)a0, s0->f7);
-    func_020730DC((struct SndTrack *)a0, s2, s3);
+    NNS_SndHandleSetPlayerPriority((struct SndTrack *)a0, s0->f6);
+    NNS_SndHandlePause((struct SndTrack *)a0, s0->f7);
+    NNS_SndHandleSetSweep((struct SndTrack *)a0, s2, s3);
     return 1;
 }
 
@@ -400,9 +401,9 @@ void func_02075858(void)
                     s->b2 = 0;
                 }
                 if (s->b1) {
-                    func_02075C08(&s->lerp);
+                    NNS_SndFaderUpdate(&s->lerp);
                     a = data_020A5D08[s->f15c];
-                    b = func_02075BD4(&s->lerp) >> 8;
+                    b = NNS_SndFaderGet(&s->lerp) >> 8;
                     c = s->f160;
                     d = data_020A5D08[b];
                     v = data_020A5D08[c] + (d + a);
@@ -412,7 +413,7 @@ void func_02075858(void)
                         s->f164 = v;
                     }
                     if (s->b3) {
-                        if (func_02075C20(&s->lerp) != 0) {
+                        if (NNS_SndFaderIsFinished(&s->lerp) != 0) {
                             func_02075994(s);
                         }
                     }

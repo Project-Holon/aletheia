@@ -1,5 +1,5 @@
 /*
- * function: func_02036F24
+ * function: GFL_NET_WM_ICON_LoadGraphics
  * address:  0x02036F24
  * packet:   pkt_02036F24
  * region:   arm9
@@ -13,7 +13,7 @@
  *   func_0200F16C   0x0200F16C  thumb
  *   func_020490F4   0x020490F4  arm
  *   func_02049B68   0x02049B68  arm
- *   func_02036F04   0x02036F04  arm
+ *   GFL_NET_WM_ICON_GetCharOffset   0x02036F04  arm
  *   func_02049800   0x02049800  arm
  *   func_02049238   0x02049238  arm
  */
@@ -27,11 +27,11 @@ struct Sub0200F16CHdr;
 extern void func_0200F16C(struct Sub0200F16CHdr *hdr);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a0, u32 a1, void *a2, int a3, int a4, int a5);
-extern int func_02036F04(int a0);
+extern int GFL_NET_WM_ICON_GetCharOffset(int a0);
 extern void func_02049800(void *a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
 extern void func_02049238(void *a0);
 
-void func_02036F24(int a0, int b, int c)
+void GFL_NET_WM_ICON_LoadGraphics(int a0, int b, int c)
 {
     u32 t[3];
     int q;
@@ -51,7 +51,7 @@ void func_02036F24(int a0, int b, int c)
     }
     func_02049B68(v, t[2], (void *)p, 0x1c0, 0x20, c);
     idx = (b == 0) ? 1 : 0;
-    t2 = func_02036F04(a0);
+    t2 = GFL_NET_WM_ICON_GetCharOffset(a0);
     func_02049800(v, t[idx], q, t2, 0, 0, c);
     func_02049238(v);
 }

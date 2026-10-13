@@ -1,5 +1,5 @@
 /*
- * function: func_02031FE0
+ * function: BACKUP_SYSTEM_LoadDoubleCopy
  * address:  0x02031FE0
  * packet:   pkt_02031FE0
  * region:   arm9
@@ -10,35 +10,35 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146994     0x02146994  data
+ *   svsys     0x02146994  data
  *   str_020A7848   0x020A7848  data
- *   func_020333F8  0x020333F8  arm
+ *   BACKUP_SYSTEM_ClearBlockAreas  0x020333F8  arm
  *   func_02030734  0x02030734  arm
- *   func_02031EAC  0x02031EAC  arm
- *   func_020335E8  0x020335E8  arm
- *   func_02033410  0x02033410  arm
+ *   BACKUP_SYSTEM_GetAreaAddr  0x02031EAC  arm
+ *   FLASH_ACCESS_Read  0x020335E8  arm
+ *   BACKUP_SYSTEM_FillBlockAreas  0x02033410  arm
  *   func_02082A7C  0x02082A7C  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02082A60  0x02082A60  arm
- *   func_02031F9C  0x02031F9C  arm
+ *   BACKUP_SYSTEM_GetFooterInfo  0x02031F9C  arm
  *   func_02033BF0  0x02033BF0  arm
- *   func_0203331C  0x0203331C  arm
- *   func_02033B68  0x02033B68  arm
- *   func_02033BAC  0x02033BAC  arm
+ *   BACKUP_SYSTEM_SetBlockArea  0x0203331C  arm
+ *   SAVEDATA_GetBlockOffset  0x02033B68  arm
+ *   SAVEDATA_GetBlockSize  0x02033BAC  arm
  *   func_02081B8C  0x02081B8C  arm
- *   func_020332FC  0x020332FC  arm
- *   func_02031F94  0x02031F94  arm
+ *   BACKUP_SYSTEM_GetBlockArea  0x020332FC  arm
+ *   BACKUP_SYSTEM_SetSaveCount  0x02031F94  arm
  *
  * backup_system.c.  The two-copy load: read both copies of the save area
- * (func_020335E8 at func_02031EAC(self, 1) into the staging buffer self->f34
+ * (FLASH_ACCESS_Read at BACKUP_SYSTEM_GetAreaAddr(self, 1) into the staging buffer self->f34
  * and at (self, 2) into a heap block from func_02030734, line 0x429), repair
  * one copy from the other when only one read failed, check both footers
- * (func_02031F9C, the mode == 1 generation test), cross-copy the footer block
+ * (BACKUP_SYSTEM_GetFooterInfo, the mode == 1 generation test), cross-copy the footer block
  * when exactly one is bad, pick the newer good copy, then walk every record
  * checking its CRC against both copies, marking each record 0/1/2 through
- * func_0203331C and retrying with the other copy if the walk breaks.  A
+ * BACKUP_SYSTEM_SetBlockArea and retrying with the other copy if the walk breaks.  A
  * completed walk copies the marked records back and commits the generation
- * (func_02031F94).  The two-copy twin of func_02032688
+ * (BACKUP_SYSTEM_SetSaveCount).  The two-copy twin of BACKUP_SYSTEM_LoadSingleCopy
  * (docs/notes/pkt_02031FE0.c.txt holds the history from wave 11).
  *
  * Closed wave 19 by `unsigned long AB` together with the declaration order
@@ -46,12 +46,12 @@
  * locals (image: AB r4, B r8, A r7).  Either change alone is 13 or 22 bytes
  * out; the earlier 9-byte residue was this one register swap.  The inline
  * cnt16 on the two record-counter compares and the one-argument
- * func_020333F8 are load-bearing (wave 12); func_02030734 uses its real
+ * BACKUP_SYSTEM_ClearBlockAreas are load-bearing (wave 12); func_02030734 uses its real
  * prototype with an explicit (u16) heap.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02031FE0.c \
- *       --func func_02031FE0 --addr 0x02031FE0 --arm
+ *   python3 tools/match.py one --src src/matched/BACKUP_SYSTEM_LoadDoubleCopy.c \
+ *       --func BACKUP_SYSTEM_LoadDoubleCopy --addr 0x02031FE0 --arm
  */
 #include "../include/Obj08817.h"
 #include "../include/Obj08818.h"
@@ -72,32 +72,32 @@ struct Save {
     u32  f140;
 };
 
-extern struct SaveMain *g_02146994;
+extern struct SaveMain *svsys;
 extern const char str_020A7848[];
 
-extern void  func_020333F8(Save *self);
+extern void  BACKUP_SYSTEM_ClearBlockAreas(Save *self);
 static inline u16 cnt16(u8 *p){ return ((struct Obj15881 *)p)->f0; }
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 struct MATHCRC16Table;
 struct Obj020332FC;
 struct Obj02033410;
 struct Obj02033BF0;
-extern u32 func_02031EAC(u32 *p, u32 sel);
-extern int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void));
-extern void func_02033410(struct Obj02033410 *p, u32 val);
+extern u32 BACKUP_SYSTEM_GetAreaAddr(u32 *p, u32 sel);
+extern int FLASH_ACCESS_Read(u32 a0, u32 a1, u32 a2, void (*a3)(void));
+extern void BACKUP_SYSTEM_FillBlockAreas(struct Obj02033410 *p, u32 val);
 extern void  func_02082A7C(u32 v, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
 extern void  func_02082A60(const void *src, void *dst, u32 size);
-extern void func_02031F9C(u32 *out, void *p, void *buf, u32 sel);
+extern void BACKUP_SYSTEM_GetFooterInfo(u32 *out, void *p, void *buf, u32 sel);
 extern u32 func_02033BF0(struct Obj02033BF0 *p);
-extern void func_0203331C(struct Obj020332FC *p, u32 idx, u32 val);
-extern u32   func_02033B68(u8 *tbl, u32 idx);
-extern u32   func_02033BAC(u8 *tbl, u32 idx);
+extern void BACKUP_SYSTEM_SetBlockArea(struct Obj020332FC *p, u32 idx, u32 val);
+extern u32   SAVEDATA_GetBlockOffset(u8 *tbl, u32 idx);
+extern u32   SAVEDATA_GetBlockSize(u8 *tbl, u32 idx);
 extern u16 func_02081B8C(struct MATHCRC16Table *table, void *data, u32 dataLength);
-extern u32 func_020332FC(struct Obj020332FC *p, u32 idx);
-extern void func_02031F94(int *p, int v);
+extern u32 BACKUP_SYSTEM_GetBlockArea(struct Obj020332FC *p, u32 idx);
+extern void BACKUP_SYSTEM_SetSaveCount(int *p, int v);
 
-int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
+int BACKUP_SYSTEM_LoadDoubleCopy(Save *self, u32 heap, u32 mode, u32 gen)
 {
     u32 pairB[2];
     u32 pairA[2];
@@ -119,27 +119,27 @@ int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
     u32 B;
     u32 off;
 
-    func_020333F8(self);
+    BACKUP_SYSTEM_ClearBlockAreas(self);
     h = self->f34;
     buf = func_02030734((u16)heap, self->f30, 0, str_020A7848, 0x429);
-    okA = func_020335E8(func_02031EAC((u32 *)self, 1), (u32)h, self->f30, (void (*)(void))g_02146994->unk204);
-    okB = func_020335E8(func_02031EAC((u32 *)self, 2), (u32)buf, self->f30, (void (*)(void))g_02146994->unk204);
+    okA = FLASH_ACCESS_Read(BACKUP_SYSTEM_GetAreaAddr((u32 *)self, 1), (u32)h, self->f30, (void (*)(void))svsys->unk204);
+    okB = FLASH_ACCESS_Read(BACKUP_SYSTEM_GetAreaAddr((u32 *)self, 2), (u32)buf, self->f30, (void (*)(void))svsys->unk204);
     if (okA == 0 && okB == 0) {
-        func_02033410((struct Obj02033410 *)self, 1);
+        BACKUP_SYSTEM_FillBlockAreas((struct Obj02033410 *)self, 1);
         func_02082A7C(0, h, self->f30);
         func_020307B0(buf);
         return 0;
     }
     if (okA == 1 && okB == 0) {
-        func_02033410((struct Obj02033410 *)self, 2);
+        BACKUP_SYSTEM_FillBlockAreas((struct Obj02033410 *)self, 2);
         func_02082A60(h, buf, self->f30);
     } else if (okA == 0 && okB == 1) {
-        func_02033410((struct Obj02033410 *)self, 1);
+        BACKUP_SYSTEM_FillBlockAreas((struct Obj02033410 *)self, 1);
         func_02082A60(buf, h, self->f30);
     }
 
-    func_02031F9C(pairA, self, h, 0);
-    func_02031F9C(pairB, self, buf, 1);
+    BACKUP_SYSTEM_GetFooterInfo(pairA, self, h, 0);
+    BACKUP_SYSTEM_GetFooterInfo(pairB, self, buf, 1);
     if (mode == 1) {
         if (pairA[1] != gen)
             pairA[0] = 2;
@@ -149,25 +149,25 @@ int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
 
     if (pairA[0] == 0) {
         if (pairB[0] != 0) {
-        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), 2);
-        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, 2);
+        BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), 2);
+        BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, 2);
         off = self->f30 - 0x10 - self->f140;
         func_02082A60(h + off, buf + off, self->f140 + 0x10);
         }
     } else if (pairB[0] == 0) {
         if (pairA[0] != 0) {
-        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), 1);
-        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, 1);
+        BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), 1);
+        BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, 1);
         off = self->f30 - 0x10 - self->f140;
         func_02082A60(buf + off, h + off, self->f140 + 0x10);
         }
     } else {
         if (pairA[0] == 1 || pairB[0] == 1) {
-            func_02033410((struct Obj02033410 *)self, 1);
+            BACKUP_SYSTEM_FillBlockAreas((struct Obj02033410 *)self, 1);
             func_020307B0(buf);
             return 3;
         }
-        func_02033410((struct Obj02033410 *)self, 1);
+        BACKUP_SYSTEM_FillBlockAreas((struct Obj02033410 *)self, 1);
         func_020307B0(buf);
         return 0;
     }
@@ -195,52 +195,52 @@ int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
         cur = bufs[k];
         tbl = (u16 *)(bufs[k] + off);
         for (i = 0; i < func_02033BF0((struct Obj02033BF0 *)self->f2c); i++) {
-            A = func_02033B68(self->f2c, i);
-            B = func_02033BAC(self->f2c, i);
+            A = SAVEDATA_GetBlockOffset(self->f2c, i);
+            B = SAVEDATA_GetBlockSize(self->f2c, i);
             AB = A + B;
             pa = h + AB;
             pb = buf + AB;
-            func_0203331C((struct Obj020332FC *)self, i, 0);
+            BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, i, 0);
             if (((struct Obj08817 *)pa)->f2 != tbl[i]
                 && ((struct Obj08818 *)pb)->f2 != tbl[i])
                 break;
             if (((struct Obj08817 *)pa)->f2 == tbl[i]) {
-                if (((struct Obj08817 *)pa)->f2 != func_02081B8C((struct MATHCRC16Table *)((u8 *)g_02146994 + 4), h + A, B))
-                    func_0203331C((struct Obj020332FC *)self, i, 1);
+                if (((struct Obj08817 *)pa)->f2 != func_02081B8C((struct MATHCRC16Table *)((u8 *)svsys + 4), h + A, B))
+                    BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, i, 1);
             } else {
-                func_0203331C((struct Obj020332FC *)self, i, 1);
+                BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, i, 1);
             }
             if (((struct Obj08818 *)pb)->f2 == tbl[i]) {
-                if (((struct Obj08818 *)pb)->f2 != func_02081B8C((struct MATHCRC16Table *)((u8 *)g_02146994 + 4), buf + A, B)) {
-                    if (func_020332FC((struct Obj020332FC *)self, i) == 1)
+                if (((struct Obj08818 *)pb)->f2 != func_02081B8C((struct MATHCRC16Table *)((u8 *)svsys + 4), buf + A, B)) {
+                    if (BACKUP_SYSTEM_GetBlockArea((struct Obj020332FC *)self, i) == 1)
                         break;
-                    func_0203331C((struct Obj020332FC *)self, i, 2);
+                    BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, i, 2);
                 }
             } else {
-                if (func_020332FC((struct Obj020332FC *)self, i) == 1)
+                if (BACKUP_SYSTEM_GetBlockArea((struct Obj020332FC *)self, i) == 1)
                     break;
-                func_0203331C((struct Obj020332FC *)self, i, 2);
+                BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, i, 2);
             }
-            if (func_020332FC((struct Obj020332FC *)self, i) == 0) {
+            if (BACKUP_SYSTEM_GetBlockArea((struct Obj020332FC *)self, i) == 0) {
                 if (cnt16(pa) != *(u16 *)(bufs[k] + AB))
-                    func_0203331C((struct Obj020332FC *)self, i, 1);
+                    BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, i, 1);
                 if (cnt16(pb) != *(u16 *)(bufs[k] + AB)) {
-                    if (func_020332FC((struct Obj020332FC *)self, i) == 1)
+                    if (BACKUP_SYSTEM_GetBlockArea((struct Obj020332FC *)self, i) == 1)
                         break;
-                    func_0203331C((struct Obj020332FC *)self, i, 2);
+                    BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, i, 2);
                 }
             }
         }
         if (i >= func_02033BF0((struct Obj02033BF0 *)self->f2c)) {
             u32 id = ids[k ^ 1];
 
-            func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, id);
-            func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), id);
+            BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, id);
+            BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), id);
             break;
         }
     }
     if (k >= 2) {
-        func_02033410((struct Obj02033410 *)self, 1);
+        BACKUP_SYSTEM_FillBlockAreas((struct Obj02033410 *)self, 1);
         func_020307B0(buf);
         return 3;
     }
@@ -248,15 +248,15 @@ int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
     off = self->f30 - 0x10 - self->f140;
     func_02082A60(bufs[k] + off, h + off, self->f140 + 0x10);
     for (i = 0; i < func_02033BF0((struct Obj02033BF0 *)self->f2c); i++) {
-        if (func_020332FC((struct Obj020332FC *)self, i) == 1) {
-            A = func_02033B68(self->f2c, i);
-            B = func_02033BAC(self->f2c, i);
+        if (BACKUP_SYSTEM_GetBlockArea((struct Obj020332FC *)self, i) == 1) {
+            A = SAVEDATA_GetBlockOffset(self->f2c, i);
+            B = SAVEDATA_GetBlockSize(self->f2c, i);
             func_02082A60(buf + A, h + A, B + 4);
         }
     }
-    func_02031F94((int *)self, gens[k]);
+    BACKUP_SYSTEM_SetSaveCount((int *)self, gens[k]);
     func_020307B0(buf);
     for (i = 0; i < func_02033BF0((struct Obj02033BF0 *)self->f2c); i++)
-        func_020332FC((struct Obj020332FC *)self, i);
+        BACKUP_SYSTEM_GetBlockArea((struct Obj020332FC *)self, i);
     return 1;
 }

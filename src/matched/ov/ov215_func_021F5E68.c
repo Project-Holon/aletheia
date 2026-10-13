@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B908 0x0204B908 arm
+ *   CLACT_SetActorAnimIndex 0x0204B908 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B98C 0x0204B98C arm
  */
@@ -22,7 +22,7 @@ struct S021F5E68
     void *slots[6];
 };
 
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 typedef unsigned int   u32;
 struct Actor;
 struct Obj;
@@ -34,7 +34,7 @@ void func_021F5E68(int unused, struct S021F5E68 *p)
     unsigned char i;
     for (i = 0; i < 6; i++)
     {
-        func_0204B908((int)p->slots[i], 0);
+        CLACT_SetActorAnimIndex((int)p->slots[i], 0);
         func_0204B92C(p->slots[i], 1);
     }
 }

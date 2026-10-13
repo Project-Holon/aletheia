@@ -14,7 +14,7 @@
  *   func_021D5440  0x021D5440  thumb  ov093
  *   func_021B8D8C  0x021B8D8C  thumb  ov093
  *   sub_0201BD28   0x0201BD28  thumb
- *   sub_0201BEB8   0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag   0x0201BEB8  thumb
  *   func_021D80A8  0x021D80A8  thumb  ov093
  *   func_021B8C50  0x021B8C50  thumb  ov093
  *   func_021B8D38  0x021B8D38  thumb  ov093
@@ -30,7 +30,7 @@ extern u32 func_021B8588(void **p);
 extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *p, void *a, u32 b);
 extern u32 sub_0201BD28(u16 id, u32 field);
-extern u32 sub_0201BEB8(u16 id, u32 bit);
+extern u32 WAZA_TOOL_GetFlag(u16 id, u32 bit);
 extern int func_021D80A8(void *p);
 extern u8 func_021B8C50(char **p, u32 v, int k);
 extern u8 func_021B8D38(void *p, int a, int k, u8 *out);
@@ -69,7 +69,7 @@ int func_021D80BC(void *p, int a, int m, u16 move)
     }
 
     b = 0;
-    if (mode == 2) b = sub_0201BEB8(move, 0xB);
+    if (mode == 2) b = WAZA_TOOL_GetFlag(move, 0xB);
 
     switch (kind) {
     case 0:

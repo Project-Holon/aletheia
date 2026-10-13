@@ -1,7 +1,7 @@
 /*
  * file:     unit_021743B4.c
  * unit:     yes
- * function: func_021743B4, func_021743E4, func_0217440C, func_0217443C, func_0217446C, func_0217449C, func_021744D0, func_02174514, func_0217456C, func_021745B0, func_021745F8, func_02174630, func_02174660, func_02174690, func_021746AC, func_021746EC, func_02174734, func_02174798, func_021747A8, func_021747E0, func_021747F4, func_0217482C, func_02174854, func_02174898, func_021748CC, func_02174908, func_02174954, func_02174978, func_02174AE0, func_02174B2C, func_02174B7C, func_02174BC4, func_02174C38, func_02174CCC, func_02174D5C, func_02174DF4, func_02174E14, func_02174E3C, func_02174EAC, func_02174F54, func_02175004, func_02175060, func_02175144, func_02175184, func_021751A8, func_021751D4, func_02175274, func_021752DC, func_02175368, func_0217537C, func_0217538C, func_021753B8, func_021753D0, func_0217544C, func_0217545C, func_0217546C, func_021754B4, func_021754E8, func_02175508, func_02175514, func_0217553C, func_02175548, func_02175598, func_02175628, func_02175648, func_021756A4, func_021756B0, func_021756D0, func_021756F0, func_02175710, func_0217574C, func_0217576C, func_021757A8, func_021757C4, func_02175894, func_021758B4, func_021758C8, func_02175914, func_02175920, func_0217592C, func_02175938, func_02175954, func_021759B0, func_021759C0, func_021759F8, func_02175A24, func_02175A34, func_02175AE8, func_02175B14, func_02175B34, func_02175B4C, func_02175B8C, func_02175BAC, func_02175BBC, func_02175BCC, func_02175BE4
+ * function: INTRUDE_COMM_SendTally, INTRUDE_COMM_RecvBusyBegin, INTRUDE_COMM_SendBusyBegin, INTRUDE_COMM_RecvBusyEnd, INTRUDE_COMM_SendBusyEnd, INTRUDE_COMM_RecvPeerFlags, func_021744D0, INTRUDE_COMM_RecvSupportMode, func_0217456C, INTRUDE_COMM_RecvProfile, func_021745F8, INTRUDE_COMM_RecvPairMessage, INTRUDE_COMM_SendPairMessage, INTRUDE_COMM_RecvUnionInfoRequest, func_021746AC, INTRUDE_COMM_RecvUnionInfo, INTRUDE_COMM_SendUnionInfo, INTRUDE_COMM_RecvReturnResult, INTRUDE_COMM_SendReturnResult, INTRUDE_COMM_RecvReturnPending, INTRUDE_COMM_SendReturnPending, INTRUDE_COMM_RecvPageRequest, INTRUDE_COMM_SendPageRequest, INTRUDE_COMM_RecvSymbolPage, INTRUDE_COMM_SendSymbolPage, INTRUDE_COMM_RecvAreaNotice, INTRUDE_COMM_SendAreaNotice, func_02174978, INTRUDE_COMM_UpdateSeasonState, INTRUDE_COMM_UpdateMemberJoin, INTRUDE_COMM_UpdateMemberLeave, INTRUDE_COMM_UpdatePendingNotices, INTRUDE_COMM_UpdateUnionInfoAndReturnSlots, INTRUDE_COMM_UpdatePageRequests, INTRUDE_COMM_BuildSymbolPage, INTRUDE_COMM_UpdateQueuedRequest, func_02174E14, INTRUDE_COMM_RefreshSelfRecord, INTRUDE_COMM_ApplyPlayerBeacon, INTRUDE_COMM_StorePlayerRecord, func_02175004, INTRUDE_COMM_UpdatePlayerObject, INTRUDE_COMM_LookupZonePair, INTRUDE_COMM_CompareZonePair, INTRUDE_COMM_GetRelativeSlot, INTRUDE_COMM_AdjustRemotePosition, func_02175274, INTRUDE_COMM_UpdateSelfRecord, func_02175368, func_0217537C, func_0217538C, func_021753B8, INTRUDE_COMM_TryStartRequest, INTRUDE_COMM_SetRequestOpen, func_0217545C, INTRUDE_COMM_UpdateRequest, func_021754B4, INTRUDE_COMM_SetRequestResult, INTRUDE_COMM_SetRequestResultAccepted, func_02175514, func_0217553C, func_02175548, func_02175598, INTRUDE_COMM_HasConnectedPeers, INTRUDE_COMM_BuildLocalProfile, func_021756A4, INTRUDE_COMM_IsValidObjCode, func_021756D0, func_021756F0, func_02175710, func_0217574C, INTRUDE_COMM_InitSession, func_021757A8, INTRUDE_COMM_UpdateSession, INTRUDE_COMM_GetSessionElapsed, INTRUDE_COMM_GetSessionWaitRemaining, func_021758C8, INTRUDE_COMM_SetSessionEntrySendFlag, INTRUDE_COMM_SetSessionRequestSendFlag, INTRUDE_COMM_SetSessionResultSendFlag, INTRUDE_COMM_StoreSessionEntry, INTRUDE_COMM_StoreSessionRequest, INTRUDE_COMM_ClearSessionTicks, INTRUDE_COMM_AddSessionMember, INTRUDE_COMM_StartSessionTimer, func_02175A24, INTRUDE_COMM_UpdateSessionSends, INTRUDE_COMM_UpdateSessionResult, func_02175B14, func_02175B34, func_02175B4C, func_02175B8C, INTRUDE_COMM_SetSessionFinished, func_02175BBC, func_02175BCC, func_02175BE4
  * address:  0x021743B4
  * region:   ov011
  * compiler: dsi/1.1p1
@@ -14,26 +14,26 @@
  *
  * symbols:
  *   func_02026478 0x02026478 thumb
- *   func_021736D8 0x021736D8 thumb ov011
+ *   INTRUDE_COMM_IsLinked 0x021736D8 thumb ov011
  *   func_020399A8 0x020399A8 arm
  *   func_0203D3A8 0x0203D3A8 arm
  *   func_0203D1E8 0x0203D1E8 arm
- *   func_021780FC 0x021780FC thumb ov014
+ *   NET_WHPIPE_SetBeaconStatus 0x021780FC thumb ov014
  *   func_0203D3F8 0x0203D3F8 arm
  *   func_0203D1A4 0x0203D1A4 arm
  *   func_02012F20  0x02012F20  thumb
  *   func_02012B38  0x02012B38  thumb
- *   func_02014484  0x02014484  thumb
- *   func_0202E7E0  0x0202E7E0  thumb
+ *   FIELD_STATUS_GetSeasonDispFlag  0x02014484  thumb
+ *   COMM_PLAYER_SUPPORT_GetMode  0x0202E7E0  thumb
  *   func_02012950  0x02012950  thumb
- *   func_0202E7C4  0x0202E7C4  thumb
+ *   COMM_PLAYER_SUPPORT_SetModeAndCurrent  0x0202E7C4  thumb
  *   func_02082D44  0x02082D44  arm
- *   func_020266AC 0x020266AC thumb
+ *   GAME_COMM_PushPairMessage 0x020266AC thumb
  *   func_020127D0  0x020127D0  thumb
  *   func_021583EC  0x021583EC  thumb ov010
  *   func_021861F4  0x021861F4  thumb ov020
- *   func_02012800  0x02012800  thumb
- *   func_0203D578  0x0203D578  arm
+ *   GAME_DATA_TakeUnionInfo  0x02012800  thumb
+ *   GFL_NET_IsSendQueueEntryOfHandle  0x0203D578  arm
  *   func_0203D4D0  0x0203D4D0  arm
  *   func_02161FF0  0x02161FF0  thumb ov010
  *   func_02162008  0x02162008  thumb ov010
@@ -43,19 +43,19 @@
  *   func_0203D378  0x0203D378  arm
  *   func_0203D1B4  0x0203D1B4  arm
  *   func_02012B4C  0x02012B4C  thumb
- *   func_02173758  0x02173758  thumb  ov011
- *   func_02173828  0x02173828  thumb  ov011
- *   func_02174374  0x02174374  thumb  ov011
- *   func_02173984  0x02173984  thumb  ov011
+ *   INTRUDE_COMM_SendMemberCount  0x02173758  thumb  ov011
+ *   INTRUDE_COMM_SendStatusRecord  0x02173828  thumb  ov011
+ *   INTRUDE_CMD_SendProfile  0x02174374  thumb  ov011
+ *   INTRUDE_COMM_SendPeerStatus  0x02173984  thumb  ov011
  *   func_02012E40  0x02012E40  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
  *   func_0200BE84  0x0200BE84  thumb
  *   func_0203D1C0  0x0203D1C0  arm
- *   func_021737A8  0x021737A8  thumb ov011
- *   func_021738E4  0x021738E4  thumb ov011
+ *   INTRUDE_COMM_SendRecordRequest  0x021737A8  thumb ov011
+ *   INTRUDE_COMM_SendPeerLeft  0x021738E4  thumb ov011
  *   func_02173AE0  0x02173AE0  thumb ov011
- *   func_02173B44  0x02173B44  thumb ov011
+ *   INTRUDE_COMM_SendNotice  0x02173B44  thumb ov011
  *   func_020127C4 0x020127C4 thumb
  *   func_02162024 0x02162024 thumb ov010
  *   func_02162038 0x02162038 thumb ov010
@@ -66,18 +66,18 @@
  *   func_021673C4  0x021673C4  thumb ov010
  *   func_021673A8  0x021673A8  thumb ov010
  *   func_02039338  0x02039338  arm
- *   func_02173CB0 0x02173CB0 thumb ov011
+ *   INTRUDE_CMD_SendSaveSummary 0x02173CB0 thumb ov011
  *   func_02012944  0x02012944  thumb
  *   func_02008468  0x02008468  thumb
  *   func_020127B8  0x020127B8  thumb
  *   func_02008530  0x02008530  thumb
  *   func_02008494  0x02008494  thumb
  *   func_020127AC  0x020127AC  thumb
- *   func_02012BA4  0x02012BA4  thumb
- *   func_020266D4  0x020266D4  thumb
- *   func_020264B4  0x020264B4  thumb
+ *   GAME_DATA_SetSlotFlag  0x02012BA4  thumb
+ *   GAME_COMM_PushPlayerMessage  0x020266D4  thumb
+ *   GAME_COMM_UpdatePlayerStatus  0x020264B4  thumb
  *   func_02013D5C  0x02013D5C  thumb
- *   func_02013E90  0x02013E90  thumb
+ *   ZONEDATA_IsSameMatrixGroup  0x02013E90  thumb
  *   func_021677E4  0x021677E4  thumb  ov010
  *   func_02167810  0x02167810  thumb  ov010
  *   func_02167658  0x02167658  thumb  ov010
@@ -90,8 +90,8 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020120D8  0x020120D8  thumb
  *   func_02008550  0x02008550  thumb
- *   tbl_02176A90   0x02176A90  data  ov011  a2
- *   tbl_02176A98   0x02176A98  data  ov011  a2
+ *   gIntrudeCommObjCodesMale   0x02176A90  data  ov011  a2
+ *   gIntrudeCommObjCodesFemale   0x02176A98  data  ov011  a2
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0200BF70  0x0200BF70  thumb
  *   func_02012B70  0x02012B70  thumb
@@ -99,298 +99,92 @@
  *   func_0200BFA4  0x0200BFA4  thumb
  *   func_0200BF94  0x0200BF94  thumb
  *   func_0200BF54  0x0200BF54  thumb
- *   d_02176B08 0x02176B08 data ov011 a2
- *   tbl_02176AD0 0x02176AD0 data ov011 a2
+ *   gIntrudeCommValidObjCodes 0x02176B08 data ov011 a2
+ *   gIntrudeCommValidProfileCodes 0x02176AD0 data ov011 a2
  *   func_020120F4  0x020120F4  thumb
  *   func_02012B8C  0x02012B8C  thumb
  *   func_02161FEC  0x02161FEC  thumb  ov010
- *   func_02175EE8 0x02175EE8 thumb ov011
- *   func_02175D34  0x02175D34  thumb  ov011
- *   func_02176158  0x02176158  thumb  ov011
- *   func_02176194  0x02176194  thumb  ov011
+ *   INTRUDE_COMM_ResetMemberName 0x02175EE8 thumb ov011
+ *   INTRUDE_COMM_PromoteRequestToResult  0x02175D34  thumb  ov011
+ *   INTRUDE_COMM_SendProposalReplies  0x02176158  thumb  ov011
+ *   INTRUDE_COMM_SendPendingReplies  0x02176194  thumb  ov011
  *   func_0203F4FC 0x0203F4FC arm
- *   func_02173DA0  0x02173DA0  thumb  ov011
- *   func_02173EEC  0x02173EEC  thumb  ov011
- *   func_021741E8  0x021741E8  thumb  ov011
- *   func_02173F74  0x02173F74  thumb  ov011
- *   func_021742EC  0x021742EC  thumb  ov011
- *   func_021742A8  0x021742A8  thumb  ov011
- *   func_02173FF4 0x02173FF4 thumb ov011
+ *   INTRUDE_CMD_SendMemberEntry  0x02173DA0  thumb  ov011
+ *   INTRUDE_CMD_SendGroupRecord  0x02173EEC  thumb  ov011
+ *   INTRUDE_CMD_SendResultRecord  0x021741E8  thumb  ov011
+ *   INTRUDE_CMD_SendRecordEcho  0x02173F74  thumb  ov011
+ *   INTRUDE_CMD_SendEndNotice  0x021742EC  thumb  ov011
+ *   INTRUDE_CMD_SendStartNotice  0x021742A8  thumb  ov011
+ *   INTRUDE_CMD_SendMemberValue 0x02173FF4 thumb ov011
  *   func_02175DA8 0x02175DA8 thumb ov011
  */
-#include "../../matched/include/Obj12421.h"
-#include "../../matched/include/Obj09346.h"
-#include "../../matched/include/Obj00269.h"
-#include "../../matched/include/Obj09347.h"
-#include "../../matched/include/Obj07329.h"
-#include "../../matched/include/Obj04951.h"
-#include "../../matched/include/Obj09349.h"
-#include "../../matched/include/Obj01838.h"
-#include "../../matched/include/Obj05913.h"
-#include "../../matched/include/Obj02670.h"
-#include "../../matched/include/Obj07330.h"
-#include "../../matched/include/Obj12425.h"
-#include "../../matched/include/Obj19182.h"
-#include "../../matched/include/Obj03548.h"
-#include "../../matched/include/Obj00566.h"
-#include "../../matched/include/Obj07331.h"
-#include "../../matched/include/Obj07332.h"
-#include "../../matched/include/Obj19190.h"
-#include "../../matched/include/Obj19191.h"
-#include "../../matched/include/Obj00567.h"
-#include "../../matched/include/Obj12430.h"
-#include "../../matched/include/Obj12431.h"
-#include "../../matched/include/Obj19193.h"
-#include "../../matched/include/Obj09352.h"
 
-struct Entry;
-struct Link;
 struct BigObj;
 struct Rec44;
 struct Sub02014444Obj;
 struct Sub24;
 struct SaveBlock;
 struct Big;
-struct Entry32;
 struct Sub0200852CObj;
-struct Ent;
-struct Work;
-struct Src;
-struct Report;
 struct Rec1B0;
-struct Ctx;
 typedef unsigned int u32;
 
 typedef unsigned short u16;
 
 typedef unsigned char  u8;
+typedef signed char s8;
+typedef signed short s16;
+typedef signed int s32;
 
-typedef struct { u8 low : 4; u8 flags : 2; u8 high : 2; } F93F;
-
-typedef struct F_021743B4 {
-    unsigned char f0 : 1;
-    unsigned char f1 : 7;
-} F_021743B4;
-
-typedef struct { unsigned char a : 1; unsigned char b : 1; unsigned char c : 1; } F8;
-
-typedef struct { int d[21]; } B54;
-
-typedef struct { u8 pad[0x8f8]; u8 f0 : 1; u8 f1 : 1; u8 f2 : 1; u8 f3 : 5; } F_02174854;
-
-typedef struct {
-    u8 b0 : 1;
-    u8 b1 : 1;
-    u8 rest : 6;
-} Bits;
-
-typedef struct Blk {
-    u8 pad[0x50];
-    u32 a : 6;
-    u32 b : 4;
-    u32 c : 4;
-    u32 d : 4;
-    u32 e : 6;
-} Blk;
-
-typedef struct {
-    u16 low : 9;
-    u16 state : 6;
-    u16 high : 1;
-} F86_02174E14;
-
-typedef struct Ent_021748CC {
-    int w[7];
-} Ent_021748CC;
-
-typedef struct F86_02174E3C {
-    u16 x : 3;
-    u16 rest : 13;
-} F86_02174E3C;
-
-typedef struct Q {
-    u8 lo : 6;
-    u8 hi : 2;
-} Q;
-
-typedef struct Ent_02174F54 {
-    u32 f0;
-    int f4;
-    u8 pad8[0xc];
-    u16 f14;
-    u16 a : 3;
-    u16 rest : 13;
-    u8 pad18[3];
-    u8 lo : 6;
-    u8 mid : 1;
-    u8 hi : 1;
-} Ent_02174F54;
-
-typedef struct Cp {
-    int w[5];
-} Cp;
-
-typedef struct Fl_02174F54 {
-    u8 b0 : 1;
-    u8 b1 : 1;
-    u8 rest : 6;
-} Fl_02174F54;
-
-typedef struct Entry {
-    u32 f0;
-    u8 pad4[0xe];
-    u8 f12;
-    u8 pad13;
-    u16 f14;
-    u16 a : 3;
-    u16 b : 6;
-    u16 f18;
-    u8 pad1a;
-    u8 pad1b : 7;
-    u8 hi : 1;
-} Entry;
-
-typedef struct Ent_021743B4 {
-    u16 a;
-    u16 b;
-    u16 c;
-} Ent_021743B4;
-
-typedef struct C12 {
-    int w[3];
-} C12;
-
-typedef struct Hd {
-    u8 pad[0x14];
-    u16 f14;
-    u16 lo : 3;
-    u16 x : 6;
-    u16 mid : 6;
-    u16 top : 1;
-} Hd;
-
-typedef struct F86 {
-    u16 lo : 9;
-    u16 x : 6;
-    u16 hi : 1;
-} F86;
-
-typedef struct { u8 low : 4; u8 flag : 1; u8 high : 3; } Flags_0217545C;
-
-typedef struct { u8 low : 4; u8 flag : 1; u8 high : 3; } Flags_021754B4;
+#include "../arm9/net_types.h"
+#include "intrude_comm_types.h"
 
 typedef unsigned long long u64;
 
-typedef struct Out {
-    u32 f00;
-    u64 f04;
-    u8  f0c[2];
-    u8  f0e;
-} Out;
+/* Two zones that are one place in two worlds. */
+typedef struct IntrudeZonePair {
+    u16 zoneA;
+    u16 zoneB;
+    u16 spare;
+} IntrudeZonePair;
 
-typedef struct Flags_021756F0 {
-    u8 lo : 6;
-    u8 f  : 1;
-    u8 hi : 1;
-} Flags_021756F0;
+/* Where a zone stands in the zone pair table. */
+typedef struct IntrudeZonePairInfo {
+    u16 zoneId;
+    u8 side;        /* 0 zoneA, 1 zoneB */
+    u8 pairIndex;   /* 0xFF when the zone is in no pair */
+} IntrudeZonePairInfo;
 
-typedef struct Lo3 {
-    u16 v  : 3;
-    u16 hi : 13;
-} Lo3;
-
-typedef struct Flags_02175710 {
-    u8 a  : 1;
-    u8 f  : 1;
-    u8 hi : 6;
-} Flags_02175710;
-
-typedef struct {
-    u8 pad0[0xA8];
-    u16 hA8;
-    u16 hAA;
-    u8 padAC[0xD8 - 0xAC];
-    u8 bD8;
-    u8 padD9[0xE3 - 0xD9];
-    u8 bE3;
-    u8 padE4[0x19C - 0xE4];
-    u8 b19C;
-    u8 pad19D[0x1A5 - 0x19D];
-    u8 f0 : 1;
-    u8 f1 : 1;
-    u8 f2 : 1;
-    u8 f3 : 1;
-    u8 f4 : 1;
-    u8 f5 : 3;
-} Work;
-
-typedef struct {
-    u32 w0;
-    u32 w4;
-} Ctx;
-
-typedef struct Flags_021758C8 {
-    u8 a  : 1;
-    u8 f  : 1;
-    u8 hi : 6;
-} Flags_021758C8;
-
-typedef struct Rec {
-    u32 lo : 15;
-    u32 a  : 7;
-    u32 b  : 10;
-    u8  pad04[0x28];
-    u8  f2c;
-    u8  pad2d[7];
-} Rec;
-
-typedef struct {
-    u8 pad0[0x190];
-    u32 stamp;
-    u8 pad194[9];
-    u8 active;
-    u8 pending;
-} State;
-
-typedef struct {
-    u8 b0 : 1;
-    u8 b1 : 1;
-    u8 rest : 6;
-} Flags_02175A24;
-
-typedef struct Fl_02175184 {
-    u8 lo : 2;
-    u8 x  : 1;
-    u8 y  : 1;
-    u8 hi : 4;
-} Fl_02175184;
-
-typedef struct { u8 a:2; u8 bit:1; u8 rest:5; } Flags_02175B8C;
-
-typedef struct { u8 a : 3; u8 b : 1; u8 c : 4; } Fb;
+/* Profile data of this player (0x10 bytes), built for command 0x222. */
+typedef struct IntrudeProfileData {
+    u32 kind;
+    u64 value;
+    u8  extra[2];
+    u8  valid;
+} IntrudeProfileData;
 
 u32 func_02026478(void *obj);
-int func_021736D8(void);
-struct Entry *func_020399A8(void);
-int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
-void func_0203D1E8(u32 unused, void *arg);
-void func_021780FC(u8 value);
-u32 func_0203D3F8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-u32 func_0203D1A4(struct Link *p);
+int INTRUDE_COMM_IsLinked(void);
+GFLNetHandle *func_020399A8(void);
+int func_0203D3A8(GFLNetHandle *handle, u32 command, u32 size, const void *data);
+void func_0203D1E8(GFLNetHandle *handle, u32 enable);
+void NET_WHPIPE_SetBeaconStatus(u8 value);
+u32 func_0203D3F8(GFLNetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
+u32 func_0203D1A4(GFLNetHandle *handle);
 int func_02012F20(int a);
 void *func_02012B38(const struct BigObj *p);
-u8 func_02014484(struct Sub02014444Obj *o);
-int func_0202E7E0(int a);
+u8 FIELD_STATUS_GetSeasonDispFlag(struct Sub02014444Obj *o);
+int COMM_PLAYER_SUPPORT_GetMode(int a);
 struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
-void func_0202E7C4(int a, int b, int c);
+void COMM_PLAYER_SUPPORT_SetModeAndCurrent(int a, int b, int c);
 void func_02082D44(const void *s, void *d, int n);
-void func_020266AC(u32 a, u32 b, u32 c);
+void GAME_COMM_PushPairMessage(u32 a, u32 b, u32 c);
 u8 *func_020127D0(u8 *o, u32 idx);
 int func_021583EC(void *a0, int a1);
 void func_021861F4(u16 *p, int x);
-void func_02012800(u8 *obj, void *dst);
-int func_0203D578(int a, int b);
-u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+void GAME_DATA_TakeUnionInfo(u8 *obj, void *dst);
+int GFL_NET_IsSendQueueEntryOfHandle(GFLNetHandle *handle, int command);
+u32 func_0203D4D0(GFLNetHandle *handle, u32 sendMask, u32 command, u32 size, const void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
 void func_02161FF0(u8 *p, int v);
 void func_02162008(u8 *p, u16 v);
 void *func_020127A4(struct SaveBlock *p);
@@ -399,51 +193,51 @@ unsigned int func_02013D9C(unsigned int id);
 extern u32 func_0203D378(void);
 extern int func_0203D1B4(void);
 extern void func_02012B4C(struct BigObj *p, u8 v);
-extern int func_02173758(int a, int b, ...);
-extern int func_02173828(char *p);
-extern int func_02174374(int *a);
-extern int func_02173984(char *p, int b);
+extern int INTRUDE_COMM_SendMemberCount(IntrudeCommSys *work, int count, ...);
+extern int INTRUDE_COMM_SendStatusRecord(IntrudeCommSys *work);
+extern int INTRUDE_CMD_SendProfile(IntrudeCommSys *work);
+extern int INTRUDE_COMM_SendPeerStatus(IntrudeCommSys *work, int peer);
 extern u8 func_02012E40(const u8 *o);
 extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
 extern void func_0200BE84(void *, u8 *);
 u32 func_0203D1C0(u32 index);
-int func_021737A8(void);
-int func_021738E4(void *a, int b);
-int func_02173AE0(int a, int b, int c, int d);
-int func_02173B44(void *p, int i, int v);
+int INTRUDE_COMM_SendRecordRequest(void);
+int INTRUDE_COMM_SendPeerLeft(IntrudeCommSys *work, int netId);
+int func_02173AE0(IntrudeCommSys *work, int netId, int result, int seq);
+int INTRUDE_COMM_SendNotice(IntrudeCommSys *work, int netId, int seq);
 unsigned char *func_020127C4(void *p);
-int func_02162024(char *p, int index, void *out);
-void func_02162038(char *p, int index);
-int func_0216202C(char *p, void *out, u8 *index);
-void func_02162040(char *p);
+int func_02162024(u8 *slots, int index, void *out);
+void func_02162038(u8 *slots, int index);
+int func_0216202C(u8 *slots, void *out, u8 *index);
+void func_02162040(u8 *slots);
 void *func_0200E0B0(void *p);
-unsigned short func_0216749C(struct Entry32 *list, struct Entry32 *out, u32 cap, int page, u8 *n);
-u8 func_021673C4(u8 *p);
-u8 func_021673A8(u8 *p);
+unsigned short func_0216749C(void *symbolMap, u32 *out, u32 cap, int page, u8 *count);
+u8 func_021673C4(void *symbolMap);
+u8 func_021673A8(void *symbolMap);
 u16 func_02039338(void);
-int func_02173CB0(int *a, int b);
+int INTRUDE_CMD_SendSaveSummary(IntrudeCommSys *work, int netMask);
 u8 *func_02012944(void *p);
 int func_02008468(void);
 void *func_020127B8(void *p);
 unsigned int func_02008530(const struct Sub0200852CObj *obj);
-void func_02008494(void *src, void *dst);
+void func_02008494(const void *src, void *dst);
 void *func_020127AC(struct SaveBlock *p, unsigned int idx);
-void func_02012BA4(struct BigObj *p, int i, u8 v);
-void func_020266D4(u32 a, u32 b);
-void func_020264B4(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag);
+void GAME_DATA_SetSlotFlag(struct BigObj *p, int i, u8 v);
+void GAME_COMM_PushPlayerMessage(u32 a, u32 b);
+void GAME_COMM_UpdatePlayerStatus(struct GameComm *gameComm, int netId, u16 zoneId, u8 intrudeId, u32 statusCode, int flag);
 extern u32 func_02013D5C(u32 id);
-extern u32 func_02013E90(u32 a, u32 b);
-extern int func_021677E4(void *p, int i);
-extern u16 func_02167810(struct Work *w, int i);
-extern void func_02167658(int, int);
-extern void func_021675D0(struct Work *w, int idx, int a2, struct Src *src);
+extern u32 ZONEDATA_IsSameMatrixGroup(u32 a, u32 b);
+extern int func_021677E4(struct CommPlayerWork *commPlayer, int netId);
+extern u16 func_02167810(struct CommPlayerWork *commPlayer, int netId);
+extern void func_02167658(struct CommPlayerWork *commPlayer, int netId);
+extern void func_021675D0(struct CommPlayerWork *commPlayer, int netId, int objCode, IntrudePeer *peer);
 extern u8 func_02012B58(const struct BigObj *p);
-int func_0216786C(struct Work *w, struct Report *out);
+int func_0216786C(struct CommPlayerWork *commPlayer, IntrudePeer *peer);
 u8 func_02012FB0(int a);
 extern void sub_02082BCC(void *p, int c, unsigned int n);
 extern void MI_CpuFill8(void *, u8, u32);
-int func_020120D8(char *a);
+int func_020120D8(struct GameSystem *gameSystem);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_0200FB24(void);
 extern u32 func_0200BF70(struct Rec1B0 *p);
@@ -452,181 +246,181 @@ extern int func_02012FCC(int p0);
 extern unsigned long long func_0200BFA4(u8 *p, void *q, u32 mode);
 extern unsigned long long func_0200BF94(struct Rec1B0 *p);
 extern void func_0200BF54(struct Rec1B0 *p, u8 *dest, u32 n);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *func_020120F4(const struct GameSystem *gameSystem);
 extern void func_02012B8C(struct BigObj *p, u32 v);
-extern void func_02161FEC(char *p, u16 v);
-extern void func_02175EE8(u8 *);
-extern void func_02175D34(Ctx *c, Work *w, int a);
-extern void func_02176158(int a, u8 *p);
-extern void func_02176194(Ctx *c, Work *w);
+extern void func_02161FEC(u8 *slots, u16 intrudeId);
+extern void INTRUDE_COMM_ResetMemberName(IntrudeMemberName *name);
+extern void INTRUDE_COMM_PromoteRequestToResult(IntrudeCommSys *work, IntrudeSession *session, int netId);
+extern void INTRUDE_COMM_SendProposalReplies(IntrudeCommSys *work, IntrudeSession *session);
+extern void INTRUDE_COMM_SendPendingReplies(IntrudeCommSys *work, IntrudeSession *session);
 extern u32 func_0203F4FC(void);
-extern int func_02173DA0(int a, int b, int c);
-extern int func_02173EEC(char *a, char *b);
-extern int func_021741E8(char *a, char *b);
-extern int func_02173F74(int a, u8 *b);
-extern u32 func_021742EC(u32 a);
-extern int func_021742A8(int a);
-extern int func_02173FF4(int a, int b, int c);
-extern int func_02175DA8(u8 *p);
-int func_021743B4(char *p);
-void func_021743E4(int a, int b, void *c, signed char *p);
-u32 func_0217440C(void);
-void func_0217443C(int a, int b, void *c, signed char *p);
-u32 func_0217446C(void);
-void func_0217449C(int a, int b, u8 *c, u8 *p);
-int func_021744D0(int a, int b, int c, ...);
-void func_02174514(int a, int b, int *c, char *d);
-int func_0217456C(int a, int b, int c, ...);
-void func_021745B0(int a, int b, void *c, char *d);
-int func_021745F8(u32 a, u32 b);
-void func_02174630(int a, int b, u8 *c, u8 *p);
-int func_02174660(int a, ...);
-void func_02174690(int n, int b, int c, u8 *p);
-int func_021746AC(char *a, int b);
-void func_021746EC(int a, int b, void *c, char *d);
-int func_02174734(char *p, int b, void *c);
-void func_02174798(int a, int b, int c, u8 *p);
-int func_021747A8(void *a, int b);
-void func_021747E0(int a, int b, int c, u8 *p);
-int func_021747F4(int a, int b);
-void func_0217482C(int a, int b, const u8 *c, u8 *p);
-int func_02174854(unsigned char *p, int b, int c);
-void func_02174898(int a, int b, B54 *c, u8 *p);
-int func_021748CC(char *p, int a);
-void func_02174908(int a, int b, int c, unsigned char *d);
-u32 func_02174954(u32 p);
-void func_02174978(u8 *s);
-void func_02174AE0(unsigned char *p);
-void func_02174B2C(unsigned char *p);
-void func_02174B7C(unsigned char *p);
-void func_02174BC4(unsigned char *p);
-void func_02174C38(unsigned char *p);
-void func_02174CCC(unsigned char *p);
-void func_02174D5C(int *p, const u8 *q);
-void func_02174DF4(u8 *p);
-void func_02174E14(u8 *p, int a);
-void func_02174E3C(u8 *p);
-void func_02174EAC(u8 *p, int idx, u8 *q);
-void func_02174F54(u8 *p, int idx, const Ent_02174F54 *src, int arg);
-void func_02175004(u8 *p);
-void func_02175060(u8 *p, int idx);
-int func_02175144(u16 v, u8 *out);
-int func_02175184(u8 *a, u8 *b);
-int func_021751A8(u8 *p, int index);
-void func_021751D4(u8 *p, u16 a, int b, Ent_02174F54 *c);
-void func_02175274(u8 *p, int arg);
-int func_021752DC(u8 *p);
-void func_02175368(char *p);
-unsigned char *func_0217537C(unsigned char *p);
-void func_0217538C(u8 *p, int a);
-void func_021753B8(u8 *p);
-int func_021753D0(u8 *p, int i, u8 v);
-void func_0217544C(u8 *p);
-void func_0217545C(u8 *p);
-void func_0217546C(u8 *p);
-int func_021754B4(u8 *p, int *out);
-void func_021754E8(u8 *p, int a, int b, int c);
-void func_02175508(int a, int b, int c);
-int func_02175514(u8 *p);
-void func_0217553C(u8 *p);
-void func_02175548(u32 a, u16 *p1, u8 *p2, u8 *p3);
-u16 func_02175598(u8 *o, u32 id);
-int func_02175628(void);
-void func_02175648(void *sv, Out *o);
-u8 func_021756A4(char *p);
-int func_021756B0(int value);
-int func_021756D0(u32 x);
-void func_021756F0(u8 *o, u32 v);
-void func_02175710(u8 *o, u32 v);
-void func_0217574C(u8 *o, u32 v);
-void func_0217576C(u8 *p);
-void func_021757A8(u8 *p);
-void func_021757C4(Ctx *c, Work *w);
-int func_02175894(u8 *p);
-int func_021758B4(u8 *p);
-int func_021758C8(u8 *o);
-void func_02175914(int a, int b);
-void func_02175920(int a);
-void func_0217592C(int a);
-void func_02175938(u8 *p, const u16 *src, int index);
-int func_02175954(void *unused, u8 *o, Rec *src);
-void func_021759B0(u8 *p);
-void func_021759C0(State *p, u8 index);
-void func_021759F8(u8 *p, int n);
-int func_02175A24(u8 *p);
-void func_02175A34(void *a, u8 *b);
-void func_02175AE8(int ctx, u8 *p);
-int func_02175B14(u8 *p);
-u8 *func_02175B34(u8 *p);
-void func_02175B4C(u8 *a, u8 *b);
-int func_02175B8C(u8 *p);
-void func_02175BAC(u8 *p);
-int func_02175BBC(u8 *p);
-u8 *func_02175BCC(u8 *p);
-int func_02175BE4(void *a);
-void func_02175C04(u8 *o, u32 bit);
-extern Ent_021743B4 d_02176AA0[8];
-extern u16 tbl_02176A90[];
-extern u16 tbl_02176A98[];
-extern const u16 d_02176B08[];
-extern u16 tbl_02176AD0[];
+extern int INTRUDE_CMD_SendMemberEntry(IntrudeCommSys *work, IntrudeSession *session, int index);
+extern int INTRUDE_CMD_SendGroupRecord(IntrudeCommSys *work, IntrudeSession *session);
+extern int INTRUDE_CMD_SendResultRecord(IntrudeCommSys *work, IntrudeSession *session);
+extern int INTRUDE_CMD_SendRecordEcho(IntrudeCommSys *work, IntrudeSession *session);
+extern u32 INTRUDE_CMD_SendEndNotice(u32 a);
+extern int INTRUDE_CMD_SendStartNotice(int a);
+extern int INTRUDE_CMD_SendMemberValue(IntrudeCommSys *work, int remaining, int mask);
+extern int func_02175DA8(IntrudeSession *session);
+int INTRUDE_COMM_SendTally(IntrudeCommSys *work);
+void INTRUDE_COMM_RecvBusyBegin(int netId, int size, void *data, IntrudeCommSys *work);
+u32 INTRUDE_COMM_SendBusyBegin(void);
+void INTRUDE_COMM_RecvBusyEnd(int netId, int size, void *data, IntrudeCommSys *work);
+u32 INTRUDE_COMM_SendBusyEnd(void);
+void INTRUDE_COMM_RecvPeerFlags(int netId, int size, u8 *flags, IntrudeCommSys *work);
+int func_021744D0(int unused, int netId, int flags, ...);
+void INTRUDE_COMM_RecvSupportMode(int netId, int size, int *mode, IntrudeCommSys *work);
+int func_0217456C(int unused, int netId, int mode, ...);
+void INTRUDE_COMM_RecvProfile(int netId, int size, void *profile, IntrudeCommSys *work);
+int func_021745F8(u32 netId, const void *profile);
+void INTRUDE_COMM_RecvPairMessage(int netId, int size, u8 *message, IntrudeCommSys *work);
+int INTRUDE_COMM_SendPairMessage(int message, ...);
+void INTRUDE_COMM_RecvUnionInfoRequest(int netId, int size, int data, IntrudeCommSys *work);
+int func_021746AC(IntrudeCommSys *work, int netId);
+void INTRUDE_COMM_RecvUnionInfo(int netId, int size, void *info, IntrudeCommSys *work);
+int INTRUDE_COMM_SendUnionInfo(IntrudeCommSys *work, int netMask, void *info);
+void INTRUDE_COMM_RecvReturnResult(int netId, int size, int result, IntrudeCommSys *work);
+int INTRUDE_COMM_SendReturnResult(void *result, int netId);
+void INTRUDE_COMM_RecvReturnPending(int netId, int size, int data, IntrudeCommSys *work);
+int INTRUDE_COMM_SendReturnPending(const void *pending, int netId);
+void INTRUDE_COMM_RecvPageRequest(int netId, int size, const IntrudePageRequest *request, IntrudeCommSys *work);
+int INTRUDE_COMM_SendPageRequest(IntrudeCommSys *work, int netId, const void *request);
+void INTRUDE_COMM_RecvSymbolPage(int netId, int size, IntrudeSymbolPage *page, IntrudeCommSys *work);
+int INTRUDE_COMM_SendSymbolPage(IntrudeCommSys *work, int netId);
+void INTRUDE_COMM_RecvAreaNotice(int netId, int size, int data, IntrudeCommSys *work);
+u32 INTRUDE_COMM_SendAreaNotice(const void *notice);
+void func_02174978(IntrudeCommSys *work);
+void INTRUDE_COMM_UpdateSeasonState(IntrudeCommSys *work);
+void INTRUDE_COMM_UpdateMemberJoin(IntrudeCommSys *work);
+void INTRUDE_COMM_UpdateMemberLeave(IntrudeCommSys *work);
+void INTRUDE_COMM_UpdatePendingNotices(IntrudeCommSys *work);
+void INTRUDE_COMM_UpdateUnionInfoAndReturnSlots(IntrudeCommSys *work);
+void INTRUDE_COMM_UpdatePageRequests(IntrudeCommSys *work);
+void INTRUDE_COMM_BuildSymbolPage(IntrudeCommSys *work, const IntrudePageRequest *request);
+void INTRUDE_COMM_UpdateQueuedRequest(IntrudeCommSys *work);
+void func_02174E14(IntrudeCommSys *work, int state);
+void INTRUDE_COMM_RefreshSelfRecord(IntrudeCommSys *work);
+void INTRUDE_COMM_ApplyPlayerBeacon(IntrudeCommSys *work, int netId, IntrudeStatusRecord *record);
+void INTRUDE_COMM_StorePlayerRecord(IntrudeCommSys *work, int netId, const IntrudePeer *src, int arg);
+void func_02175004(IntrudeCommSys *work);
+void INTRUDE_COMM_UpdatePlayerObject(IntrudeCommSys *work, int netId);
+int INTRUDE_COMM_LookupZonePair(u16 zoneId, IntrudeZonePairInfo *out);
+int INTRUDE_COMM_CompareZonePair(IntrudeZonePairInfo *a, IntrudeZonePairInfo *b);
+int INTRUDE_COMM_GetRelativeSlot(IntrudeCommSys *work, int netId);
+void INTRUDE_COMM_AdjustRemotePosition(IntrudeCommSys *work, u16 zoneId, int selfX, IntrudePeer *peer);
+void func_02175274(IntrudeCommSys *work, int selfX);
+int INTRUDE_COMM_UpdateSelfRecord(IntrudeCommSys *work);
+void func_02175368(IntrudeCommSys *work);
+unsigned char *func_0217537C(IntrudeCommSys *work);
+void func_0217538C(IntrudeCommSys *work, int target);
+void func_021753B8(IntrudeCommSys *work);
+int INTRUDE_COMM_TryStartRequest(IntrudeCommSys *work, int netId, u8 seq);
+void INTRUDE_COMM_SetRequestOpen(IntrudeCommSys *work);
+void func_0217545C(IntrudeCommSys *work);
+void INTRUDE_COMM_UpdateRequest(IntrudeCommSys *work);
+int func_021754B4(IntrudeCommSys *work, int *target);
+void INTRUDE_COMM_SetRequestResult(IntrudeCommSys *work, int netId, int result, int seq);
+void INTRUDE_COMM_SetRequestResultAccepted(IntrudeCommSys *work, int netId, int seq);
+int func_02175514(IntrudeCommSys *work);
+void func_0217553C(IntrudeCommSys *work);
+void func_02175548(u32 myStatus, u16 *objCode, u8 *form, u8 *sex);
+u16 func_02175598(IntrudePeer *peer, u32 myStatus);
+int INTRUDE_COMM_HasConnectedPeers(void);
+void INTRUDE_COMM_BuildLocalProfile(void *saveData, IntrudeProfileData *profile);
+u8 func_021756A4(IntrudeCommSys *work);
+int INTRUDE_COMM_IsValidObjCode(int objCode);
+int func_021756D0(u32 code);
+void func_021756F0(IntrudeCommSys *work, u32 value);
+void func_02175710(IntrudeCommSys *work, u32 intrudeId);
+void func_0217574C(IntrudeCommSys *work, u32 value);
+void INTRUDE_COMM_InitSession(IntrudeSession *session);
+void func_021757A8(IntrudeSession *session);
+void INTRUDE_COMM_UpdateSession(IntrudeCommSys *work, IntrudeSession *session);
+int INTRUDE_COMM_GetSessionElapsed(IntrudeSession *session);
+int INTRUDE_COMM_GetSessionWaitRemaining(IntrudeSession *session);
+int func_021758C8(IntrudeSession *session);
+void INTRUDE_COMM_SetSessionEntrySendFlag(IntrudeSession *session, int index);
+void INTRUDE_COMM_SetSessionRequestSendFlag(IntrudeSession *session);
+void INTRUDE_COMM_SetSessionResultSendFlag(IntrudeSession *session);
+void INTRUDE_COMM_StoreSessionEntry(IntrudeSession *session, const u16 *src, int index);
+int INTRUDE_COMM_StoreSessionRequest(void *unused, IntrudeSession *session, IntrudeMemberRecord *src);
+void INTRUDE_COMM_ClearSessionTicks(IntrudeSession *session);
+void INTRUDE_COMM_AddSessionMember(IntrudeSession *session, u8 netId);
+void INTRUDE_COMM_StartSessionTimer(IntrudeSession *session, int seconds);
+int func_02175A24(IntrudeSession *session);
+void INTRUDE_COMM_UpdateSessionSends(IntrudeCommSys *work, IntrudeSession *session);
+void INTRUDE_COMM_UpdateSessionResult(IntrudeCommSys *work, IntrudeSession *session);
+int func_02175B14(IntrudeSession *session);
+IntrudeMemberRecord *func_02175B34(IntrudeSession *session);
+void func_02175B4C(IntrudeCommSys *work, IntrudeSession *session);
+int func_02175B8C(IntrudeSession *session);
+void INTRUDE_COMM_SetSessionFinished(IntrudeSession *session);
+int func_02175BBC(IntrudeSession *session);
+IntrudeResultRecord *func_02175BCC(IntrudeSession *session);
+int func_02175BE4(IntrudeSession *session);
+void INTRUDE_COMM_SetSessionReadyBit(IntrudeSession *session, u32 netId);
+extern IntrudeZonePair d_02176AA0[8];
+extern u16 gIntrudeCommObjCodesMale[];
+extern u16 gIntrudeCommObjCodesFemale[];
+extern const u16 gIntrudeCommValidObjCodes[];
+extern u16 gIntrudeCommValidProfileCodes[];
 
 
 
 
-int func_021743B4(char *p)
+int INTRUDE_COMM_SendTally(IntrudeCommSys *work)
 {
-    func_02026478((void *)(((int *)p)[1]));
-    if (func_021736D8() == 0) {
+    func_02026478(work->gameComm);
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
-    return func_0203D3A8((struct Entry *)((u32)func_020399A8()), 0x21d, 4, (u32)(p + 0x354));
+    return func_0203D3A8(func_020399A8(), 0x21d, 4, &work->ownTally);
 }
 
 
 
 
-void func_021743E4(int a, int b, void *c, signed char *p)
+void INTRUDE_COMM_RecvBusyBegin(int netId, int size, void *data, IntrudeCommSys *work)
 {
-    p[0x93d]++;
-    if (p[0x93c] == 0) {
-        func_0203D1E8((u32)func_020399A8(), 0);
-        func_021780FC(1);
+    work->busyCount++;
+    if (work->busyLock == 0) {
+        func_0203D1E8(func_020399A8(), 0);
+        NET_WHPIPE_SetBeaconStatus(1);
     }
 }
 
 
 
 
-u32 func_0217440C(void)
+u32 INTRUDE_COMM_SendBusyBegin(void)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
-    return func_0203D3F8((u32)func_020399A8(), 0, 0x21e, 0, 0, 0, 0, 0);
+    return func_0203D3F8(func_020399A8(), 0, 0x21e, 0, 0, 0, 0, 0);
 }
 
 
 
 
-void func_0217443C(int a, int b, void *c, signed char *p)
+void INTRUDE_COMM_RecvBusyEnd(int netId, int size, void *data, IntrudeCommSys *work)
 {
-    p[0x93d]--;
-    if (p[0x93d] == 0 && p[0x93c] == 0) {
-        func_0203D1E8((u32)func_020399A8(), (void *)1);
-        func_021780FC(0);
+    work->busyCount--;
+    if (work->busyCount == 0 && work->busyLock == 0) {
+        func_0203D1E8(func_020399A8(), 1);
+        NET_WHPIPE_SetBeaconStatus(0);
     }
 }
 
 
 
 
-u32 func_0217446C(void)
+u32 INTRUDE_COMM_SendBusyEnd(void)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
-    return func_0203D3F8((u32)func_020399A8(), 0, 0x21f, 0, 0, 0, 0, 0);
+    return func_0203D3F8(func_020399A8(), 0, 0x21f, 0, 0, 0, 0, 0);
 }
 
 
@@ -635,13 +429,12 @@ u32 func_0217446C(void)
 /*
  * extent: existing follower ov011_func_021744D0.c stays separate.
  */
-void func_0217449C(int a, int b, u8 *c, u8 *p)
+void INTRUDE_COMM_RecvPeerFlags(int netId, int size, u8 *flags, IntrudeCommSys *work)
 {
-    if (a != func_0203D1A4((struct Link *)((u32)func_020399A8()))) {
-        ((F93F *)(p + 0x93f))->flags |= *c;
+    if (netId != func_0203D1A4(func_020399A8())) {
+        work->peerFlags |= *flags;
     }
 }
-
 
 
 
@@ -649,39 +442,29 @@ void func_0217449C(int a, int b, u8 *c, u8 *p)
 /*
  * Handed as 0x021744D2; the function starts at the push {r0-r3} at 0x021744D0.
  */
-int func_021744D0(int a, int b, int c, ...)
+int func_021744D0(int unused, int netId, int flags, ...)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }
-    return func_0203D3F8((int)func_020399A8(), b, 0x220, 1, (u32)(&c), 0, 0, 0);
+    return func_0203D3F8(func_020399A8(), netId, 0x220, 1, &flags, 0, 0, 0);
 }
 
 
 
 
-
-/*
- * 2026-10-05 (D8 lane19): re-verified, MATCH; only unresolved relocations are arm9 leaves 0x0202E7E0 and 0x0202E7C4 (no witness outside range). Needs labels seeded. Source is byte-correct; no C change possible.
- *
- * Blocked: MATCH*, two unlabelled arm9 leaves have no witness outside the range (the integrator's):
- *   0x0202E7E0 thumb `int f(int *p) { return *p; }` (ldr r0,[r0]; bx lr)
- *   0x0202E7C4 thumb leaf, ldm/stm struct copy of 0x18 bytes (words at 0202E7C4..0202E7DC)
- * Everything else in the file compiles byte-correct (88 of 90 B listed, tail is pad).
- */
-void func_02174514(int a, int b, int *c, char *d)
+void INTRUDE_COMM_RecvSupportMode(int netId, int size, int *mode, IntrudeCommSys *work)
 {
-    int p;
-    int q;
-    int t;
-
-    p = func_02026478((void *)(((int *)d)[1]));
-    q = func_02012F20(p);
-    if ((unsigned char)d[0x8fb] & (1 << a)) {
-        if (func_02014484(func_02012B38((const struct BigObj *)p)) == 1) {
-            t = func_0202E7E0(q);
-            if (t == 0 || t == 3) {
-                func_0202E7C4(q, *c, (int)func_02012950((struct Sub24 *)p, a));
+    int gameData;
+    int support;
+    int supportState;
+    gameData = func_02026478(work->gameComm);
+    support = func_02012F20(gameData);
+    if (work->peerMask & (1 << netId)) {
+        if (FIELD_STATUS_GetSeasonDispFlag(func_02012B38((const struct BigObj *)gameData)) == 1) {
+            supportState = COMM_PLAYER_SUPPORT_GetMode(support);
+            if (supportState == 0 || supportState == 3) {
+                COMM_PLAYER_SUPPORT_SetModeAndCurrent(support, *mode, (int)func_02012950((struct Sub24 *)gameData, netId));
             }
         }
     }
@@ -690,40 +473,38 @@ void func_02174514(int a, int b, int *c, char *d)
 
 
 
-
 /*
  * Handed as 0x0217456E; the function starts at the push {r0-r3} at 0x0217456C.
  */
-int func_0217456C(int a, int b, int c, ...)
+int func_0217456C(int unused, int netId, int mode, ...)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }
-    return func_0203D3F8((int)func_020399A8(), b, 0x221, 4, (u32)(&c), 0, 0, 0);
+    return func_0203D3F8(func_020399A8(), netId, 0x221, 4, &mode, 0, 0, 0);
 }
 
 
 
 
-
-void func_021745B0(int a, int b, void *c, char *d)
+void INTRUDE_COMM_RecvProfile(int netId, int size, void *profile, IntrudeCommSys *work)
 {
-    func_02026478((void *)(((int *)d)[1]));
-    if (((unsigned char)d[0x8fb] & (1 << a)) && ((F_021743B4 *)(d + 0x8f8))->f0 == 0) {
-        func_02082D44(c, d + 0x8e4, 0x14);
-        ((F_021743B4 *)(d + 0x8f8))->f0 = 1;
+    func_02026478(work->gameComm);
+    if ((work->peerMask & (1 << netId)) && work->profilePending == 0) {
+        func_02082D44(profile, &work->profile, 0x14);
+        work->profilePending = 1;
     }
 }
 
 
 
 
-int func_021745F8(u32 a, u32 b)
+int func_021745F8(u32 netId, const void *profile)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
-    return func_0203D3F8((u32)func_020399A8(), a, 0x222, 0x14, b, 0, 0, 0);
+    return func_0203D3F8(func_020399A8(), netId, 0x222, 0x14, profile, 0, 0, 0);
 }
 
 
@@ -732,13 +513,12 @@ int func_021745F8(u32 a, u32 b)
 /*
  * extent: existing follower ov011_func_02174660.c stays separate.
  */
-void func_02174630(int a, int b, u8 *c, u8 *p)
+void INTRUDE_COMM_RecvPairMessage(int netId, int size, u8 *message, IntrudeCommSys *work)
 {
-    if (a != func_0203D1A4((struct Link *)((u32)func_020399A8())) && (p[0x8fb] & (1 << a))) {
-        func_020266AC(((u32 *)p)[1], a, *c);
+    if (netId != func_0203D1A4(func_020399A8()) && (work->peerMask & (1 << netId))) {
+        GAME_COMM_PushPairMessage((u32)work->gameComm, netId, *message);
     }
 }
-
 
 
 
@@ -746,159 +526,161 @@ void func_02174630(int a, int b, u8 *c, u8 *p)
 /*
  * Handed as 0x02174662; the function starts at the push {r0-r3} at 0x02174660.
  */
-int func_02174660(int a, ...)
+int INTRUDE_COMM_SendPairMessage(int message, ...)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
-    return func_0203D3A8(func_020399A8(), 0x223, 1, (u32)(&a));
+    return func_0203D3A8(func_020399A8(), 0x223, 1, &message);
 }
 
 
 
-void func_02174690(int n, int b, int c, u8 *p) { p[0x908] |= (u8)(1 << n); }
 
-
-
-
-int func_021746AC(char *a, int b)
+void INTRUDE_COMM_RecvUnionInfoRequest(int netId, int size, int data, IntrudeCommSys *work)
 {
-    int r;
+    work->unionInfoRequestMask |= (u8)(1 << netId);
+}
 
-    if (func_021736D8() == 0) {
+
+
+
+int func_021746AC(IntrudeCommSys *work, int netId)
+{
+    int sent;
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }
-    r = func_0203D3F8((u32)func_020399A8(), b, 0x224, 0, 0, 0, 0, 0);
-    if (r == 1) {
-        a[0x90c] = 0;
+    sent = func_0203D3F8(func_020399A8(), netId, 0x224, 0, 0, 0, 0, 0);
+    if (sent == 1) {
+        work->unionInfoReceived = 0;
     }
-    return r;
+    return sent;
 }
 
 
 
 
-void func_021746EC(int a, int b, void *c, char *d)
+void INTRUDE_COMM_RecvUnionInfo(int netId, int size, void *info, IntrudeCommSys *work)
 {
-    int h;
-    int s;
-
-    h = func_02026478((void *)(((struct Obj12421 *)d)->f4));
-    s = (int)func_020127D0((u8 *)h, 0);
-    func_021861F4(c, func_021583EC((void *)h, a));
-    func_02082D44(c, (void *)s, 0x1E8);
-    func_02012800((u8 *)h, c);
-    d[0x90C] = 1;
+    int gameData;
+    int unionInfo;
+    gameData = func_02026478(work->gameComm);
+    unionInfo = (int)func_020127D0((u8 *)gameData, 0);
+    func_021861F4(info, func_021583EC((void *)gameData, netId));
+    func_02082D44(info, (void *)unionInfo, 0x1E8);
+    GAME_DATA_TakeUnionInfo((u8 *)gameData, info);
+    work->unionInfoReceived = 1;
 }
 
 
 
 
-int func_02174734(char *p, int b, void *c)
+int INTRUDE_COMM_SendUnionInfo(IntrudeCommSys *work, int netMask, void *info)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }
-    if (func_0203D578((int)func_020399A8(), 0x225) == 1) {
+    if (GFL_NET_IsSendQueueEntryOfHandle(func_020399A8(), 0x225) == 1) {
         return 0;
     }
-    func_02082D44(c, p + 0x460, 0x1E8);
-    return func_0203D4D0((int)func_020399A8(), b & 0xFF, 0x225, 0x1E8, (u32)c, 0, 0, 1);
+    func_02082D44(info, work->unionInfoBuffer, 0x1E8);
+    return func_0203D4D0(func_020399A8(), netMask & 0xFF, 0x225, 0x1E8, info, 0, 0, 1);
 }
 
 
 
-void func_02174798(int a, int b, int c, u8 *p)
+
+void INTRUDE_COMM_RecvReturnResult(int netId, int size, int result, IntrudeCommSys *work)
 {
-    func_02161FF0(p + 0x35c, c);
+    func_02161FF0(work->returnSlots, result);
 }
 
 
 
-int func_021747A8(void *a, int b)
+
+int INTRUDE_COMM_SendReturnResult(void *result, int netId)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
-    return func_0203D3F8((u32)func_020399A8(), b, 0x226, 8, (u32)a, 0, 0, 0);
+    return func_0203D3F8(func_020399A8(), netId, 0x226, 8, result, 0, 0, 0);
 }
 
 
 
-void func_021747E0(int a, int b, int c, u8 *p)
+
+void INTRUDE_COMM_RecvReturnPending(int netId, int size, int data, IntrudeCommSys *work)
 {
-    func_02162008(p + 0x35c, (u16)a);
+    func_02162008(work->returnSlots, (u16)netId);
 }
 
 
 
-int func_021747F4(int a, int b)
+
+int INTRUDE_COMM_SendReturnPending(const void *pending, int netId)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
-    return func_0203D3F8((u32)func_020399A8(), b, 0x227, 8, a, 0, 0, 0);
+    return func_0203D3F8(func_020399A8(), netId, 0x227, 8, pending, 0, 0, 0);
 }
+
 
 
 
 /*
- * Hidden function (round 5): copies the four bytes at c to the 4-byte record
- * number a at offset 0x8d4 of p. The const source lets both byte pairs load
- * before their stores.
+ * Stores the page request of the sender (a 4-byte struct copy: both byte
+ * pairs load before their stores).
  */
-void func_0217482C(int a, int b, const u8 *c, u8 *p)
+void INTRUDE_COMM_RecvPageRequest(int netId, int size, const IntrudePageRequest *request, IntrudeCommSys *work)
 {
-    u8 *q = p + a * 4;
-    q[0x8d4] = c[0];
-    q[0x8d5] = c[1];
-    q[0x8d6] = c[2];
-    q[0x8d7] = c[3];
+    work->pageRequests[netId] = *request;
 }
 
 
 
-int func_02174854(unsigned char *p, int b, int c)
+
+int INTRUDE_COMM_SendPageRequest(IntrudeCommSys *work, int netId, const void *request)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }
-    ((F8 *)(p + 0x8F8))->b = 0;
-    return func_0203D3F8((u32)func_020399A8(), b, 0x228, 4, c, 0, 0, 0);
-}
-
-
-
-void func_02174898(int a, int b, B54 *c, u8 *p)
-{
-    *(B54 *)(p + 0x82c) = *c;
-    ((F_02174854 *)p)->f1 = 1;
-    ((F_02174854 *)p)->f2 = 0;
+    work->pageReceived = 0;
+    return func_0203D3F8(func_020399A8(), netId, 0x228, 4, request, 0, 0, 0);
 }
 
 
 
 
-int func_021748CC(char *p, int a)
+void INTRUDE_COMM_RecvSymbolPage(int netId, int size, IntrudeSymbolPage *page, IntrudeCommSys *work)
 {
-    if (func_021736D8() == 0) {
+    work->peerSymbolPage = *page;
+    work->pageReceived = 1;
+    work->areaNoticeSeen = 0;
+}
+
+
+
+
+int INTRUDE_COMM_SendSymbolPage(IntrudeCommSys *work, int netId)
+{
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
-    return func_0203D3F8((u32)func_020399A8(), a, 0x229, 0x54, (u32)(p + 0x880), 0, 0, 0);
+    return func_0203D3F8(func_020399A8(), netId, 0x229, 0x54, &work->ownSymbolPage, 0, 0, 0);
 }
 
 
 
 
-
-void func_02174908(int a, int b, int c, unsigned char *d)
+void INTRUDE_COMM_RecvAreaNotice(int netId, int size, int data, IntrudeCommSys *work)
 {
-    int h;
-
-    h = func_02026478((void *)(((struct Obj09346 *)d)->f4));
-    if (a != func_0203D1A4((struct Link *)func_020399A8()) && ((unsigned)(((struct Obj09346 *)d)->f86 << 29) >> 29) == a) {
-        if (func_02013D9C(func_02012AC8(func_020127A4((struct SaveBlock *)h))) != 0) {
-            d[0x8F8] |= 4;
+    int gameData;
+    gameData = func_02026478(work->gameComm);
+    if (netId != func_0203D1A4(func_020399A8()) && work->localPeer.intrudeId == netId) {
+        if (func_02013D9C(func_02012AC8(func_020127A4((struct SaveBlock *)gameData))) != 0) {
+            work->areaNoticeSeen = 1;
         }
     }
 }
@@ -909,14 +691,13 @@ void func_02174908(int a, int b, int c, unsigned char *d)
 /*
  * lever: caller consumes the live r0 result of legacy void forwarders.
  */
-u32 func_02174954(u32 p)
+u32 INTRUDE_COMM_SendAreaNotice(const void *notice)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
-    return func_0203D3A8((struct Entry *)((u32)func_020399A8()), 0x22a, 4, p);
+    return func_0203D3A8(func_020399A8(), 0x22a, 4, notice);
 }
-
 
 
 
@@ -924,77 +705,74 @@ u32 func_02174954(u32 p)
 /*
  * Addresses are Black-image addresses.
  */
-void func_02174978(u8 *s)
+void func_02174978(IntrudeCommSys *work)
 {
-    int h;
-    int n;
-    void *w;
-
-    h = func_02026478((void *)(((struct Obj00269 *)s)->f4));
+    int gameData;
+    int connected;
+    void *profileSys;
+    gameData = func_02026478(work->gameComm);
     if (func_0203D378() == 1) {
-        n = func_0203D1B4();
-        if (n > s[0x902]) {
-            s[0x902] = n;
-            s[0x903] = 1;
-            func_02012B4C((struct BigObj *)h, s[0x902]);
+        connected = func_0203D1B4();
+        if (connected > work->memberCount) {
+            work->memberCount = connected;
+            work->memberCountDirty = 1;
+            func_02012B4C((struct BigObj *)gameData, work->memberCount);
         }
     }
-    if (s[0x903] == 1 && func_02173758((int)s, s[0x902]) == 1) {
-        s[0x903] = 0;
+    if (work->memberCountDirty == 1 && INTRUDE_COMM_SendMemberCount(work, work->memberCount) == 1) {
+        work->memberCountDirty = 0;
     }
-    func_02174AE0(s);
-    func_0217546C(s);
-    if (s[0x8fe] == 1) {
-        func_02174E3C(s);
-        func_02173828((char *)s);
+    INTRUDE_COMM_UpdateSeasonState(work);
+    INTRUDE_COMM_UpdateRequest(work);
+    if (work->resendRequested == 1) {
+        INTRUDE_COMM_RefreshSelfRecord(work);
+        INTRUDE_COMM_SendStatusRecord(work);
     }
-    func_02174B2C(s);
-    func_02174B7C(s);
-    func_02174BC4(s);
-    if (s[0x93e] == 1 && func_021743B4((char *)s) == 1) {
-        s[0x93e] = 0;
+    INTRUDE_COMM_UpdateMemberJoin(work);
+    INTRUDE_COMM_UpdateMemberLeave(work);
+    INTRUDE_COMM_UpdatePendingNotices(work);
+    if (work->tallyPending == 1 && INTRUDE_COMM_SendTally(work) == 1) {
+        work->tallyPending = 0;
     }
-    func_021757C4((Ctx *)s, (Work *)(s + 0x1ac));
-    if (s[0x907] == 1 && func_02174374((int *)s) == 1) {
-        s[0x907] = 0;
+    INTRUDE_COMM_UpdateSession(work, &work->session);
+    if (work->resultUpdated == 1 && INTRUDE_CMD_SendProfile(work) == 1) {
+        work->resultUpdated = 0;
     }
-    func_02174C38(s);
-    func_02174CCC(s);
-    func_02174DF4(s);
-    if (func_021752DC(s) == 1) {
-        s[0x900] = 1;
+    INTRUDE_COMM_UpdateUnionInfoAndReturnSlots(work);
+    INTRUDE_COMM_UpdatePageRequests(work);
+    INTRUDE_COMM_UpdateQueuedRequest(work);
+    if (INTRUDE_COMM_UpdateSelfRecord(work) == 1) {
+        work->peerStatusDirty = 1;
     }
-    if (s[0x900] == 1 && ((Bits *)(s + 0x904))->b1 == 0 && func_02173984((char *)s, (int)(s + 0x70)) == 1) {
-        s[0x900] = 0;
+    if (work->peerStatusDirty == 1 && work->suspended == 0 && INTRUDE_COMM_SendPeerStatus(work, (int)&work->localPeer) == 1) {
+        work->peerStatusDirty = 0;
     }
-    if (func_02012E40((const u8 *)h) == 0 && ((Bits *)(s + 0x8f8))->b0 == 1) {
-        w = func_0200BE48(func_02012EBC((struct Big *)h));
-        if (func_021756D0(((struct Obj00269 *)s)->f8F4) == 0) {
-            ((struct Obj00269 *)s)->f8F4 = 0x11;
+    if (func_02012E40((const u8 *)gameData) == 0 && work->profilePending == 1) {
+        profileSys = func_0200BE48(func_02012EBC((struct Big *)gameData));
+        if (func_021756D0(work->profile.code) == 0) {
+            work->profile.code = 0x11;
         }
-        func_0200BE84(w, s + 0x8e4);
-        ((Bits *)(s + 0x8f8))->b0 = 0;
+        func_0200BE84(profileSys, (u8 *)&work->profile);
+        work->profilePending = 0;
     }
 }
 
 
 
 
-
-void func_02174AE0(unsigned char *p)
+void INTRUDE_COMM_UpdateSeasonState(IntrudeCommSys *work)
 {
-    int r;
-
-    r = func_02014484((struct Sub02014444Obj *)func_02012B38((const struct BigObj *)func_02026478((void *)(((struct Obj09347 *)p)->f4))));
-    switch (r) {
+    int mode;
+    mode = FIELD_STATUS_GetSeasonDispFlag((struct Sub02014444Obj *)func_02012B38((const struct BigObj *)func_02026478(work->gameComm)));
+    switch (mode) {
     case 0:
-        if (((unsigned)(((struct Obj09347 *)p)->f86 << 17) >> 26) == 2) {
-            func_02174E14(p, 0);
+        if (work->localPeer.state == 2) {
+            func_02174E14(work, 0);
         }
         break;
     case 1:
-        if (((unsigned)(((struct Obj09347 *)p)->f86 << 17) >> 26) == 0) {
-            func_02174E14(p, 2);
+        if (work->localPeer.state == 0) {
+            func_02174E14(work, 2);
         }
         break;
     }
@@ -1003,19 +781,17 @@ void func_02174AE0(unsigned char *p)
 
 
 
-
-void func_02174B2C(unsigned char *p)
+void INTRUDE_COMM_UpdateMemberJoin(IntrudeCommSys *work)
 {
     int i;
-
-    if (p[0x8FF] != 0) {
-        p[0x8FF]--;
+    if (work->joinRetryWait != 0) {
+        work->joinRetryWait--;
         return;
     }
-    for (i = 0; i < p[0x902]; i++) {
-        if ((int)func_0203D1C0((unsigned char)i) == 1 && !(p[0x8FB] & (1 << i))) {
-            func_021737A8();
-            p[0x8FF] = 30;
+    for (i = 0; i < work->memberCount; i++) {
+        if ((int)func_0203D1C0((unsigned char)i) == 1 && !(work->peerMask & (1 << i))) {
+            INTRUDE_COMM_SendRecordRequest();
+            work->joinRetryWait = 30;
             return;
         }
     }
@@ -1024,15 +800,13 @@ void func_02174B2C(unsigned char *p)
 
 
 
-
-void func_02174B7C(unsigned char *p)
+void INTRUDE_COMM_UpdateMemberLeave(IntrudeCommSys *work)
 {
     int i;
-
     if (func_0203D378() != 0) {
-        for (i = 0; i < p[0x902]; i++) {
-            if ((int)func_0203D1C0((unsigned char)i) == 0 && (p[0x8FB] & (1 << i))) {
-                func_021738E4(p, i);
+        for (i = 0; i < work->memberCount; i++) {
+            if ((int)func_0203D1C0((unsigned char)i) == 0 && (work->peerMask & (1 << i))) {
+                INTRUDE_COMM_SendPeerLeft(work, i);
             }
         }
     }
@@ -1041,30 +815,28 @@ void func_02174B7C(unsigned char *p)
 
 
 
-
-void func_02174BC4(unsigned char *p)
+void INTRUDE_COMM_UpdatePendingNotices(IntrudeCommSys *work)
 {
     int i;
-
     for (i = 0; i < 3; i++) {
-        if (p[i + 0x945] != 0) {
+        if (work->busyReplies[i] != 0) {
             if ((int)func_0203D1C0((unsigned char)i) == 1) {
-                if (func_02173AE0((int)p, i, 2, p[i + 0x945]) == 1) {
-                    p[i + 0x945] = 0;
+                if (func_02173AE0(work, i, 2, work->busyReplies[i]) == 1) {
+                    work->busyReplies[i] = 0;
                 }
             } else {
-                p[i + 0x945] = 0;
+                work->busyReplies[i] = 0;
             }
         }
     }
     for (i = 0; i < 3; i++) {
-        if (p[i + 0x948] != 0) {
+        if (work->pendingReplies[i] != 0) {
             if ((int)func_0203D1C0((unsigned char)i) == 1) {
-                if (func_02173B44(p, i, p[i + 0x948]) == 1) {
-                    p[i + 0x948] = 0;
+                if (INTRUDE_COMM_SendNotice(work, i, work->pendingReplies[i]) == 1) {
+                    work->pendingReplies[i] = 0;
                 }
             } else {
-                p[i + 0x948] = 0;
+                work->pendingReplies[i] = 0;
             }
         }
     }
@@ -1076,32 +848,31 @@ void func_02174BC4(unsigned char *p)
 /*
  * func_02026478 returns the argument consumed by func_020127C4.
  */
-void func_02174C38(unsigned char *p)
+void INTRUDE_COMM_UpdateUnionInfoAndReturnSlots(IntrudeCommSys *work)
 {
-    int b1[2];
-    int b2[2];
+    int result[2];
+    int pending[2];
     unsigned char i;
-    int h;
-    h = func_02026478((void *)(((struct Obj07329 *)p)->f4));
-    if (p[0x908] != 0) {
-        if (func_02174734((char *)p, p[0x908], (void *)func_020127C4((void *)h)) == 1) {
-            p[0x908] = 0;
+    int gameData;
+    gameData = func_02026478(work->gameComm);
+    if (work->unionInfoRequestMask != 0) {
+        if (INTRUDE_COMM_SendUnionInfo(work, work->unionInfoRequestMask, (void *)func_020127C4((void *)gameData)) == 1) {
+            work->unionInfoRequestMask = 0;
         }
     }
     for (i = 0; i < 3; i++) {
-        if (func_02162024((char *)(p + 0x35C), i, b1) == 1) {
-            if (func_021747A8(b1, i) == 1) {
-                func_02162038((char *)(p + 0x35C), i);
+        if (func_02162024(work->returnSlots, i, result) == 1) {
+            if (INTRUDE_COMM_SendReturnResult(result, i) == 1) {
+                func_02162038(work->returnSlots, i);
             }
         }
     }
-    if (func_0216202C((char *)(p + 0x35C), b2, &i) == 1) {
-        if (func_021747F4((int)b2, i) == 1) {
-            func_02162040((char *)(p + 0x35C));
+    if (func_0216202C(work->returnSlots, pending, &i) == 1) {
+        if (INTRUDE_COMM_SendReturnPending(pending, i) == 1) {
+            func_02162040(work->returnSlots);
         }
     }
 }
-
 
 
 
@@ -1110,32 +881,29 @@ void func_02174C38(unsigned char *p)
  * The guard's ldrb lands in r1 because func_02026478's result is live in r0:
  * it is func_020127C4's argument (the r0 at that call is never re-set).
  */
-void func_02174CCC(unsigned char *p)
+void INTRUDE_COMM_UpdatePageRequests(IntrudeCommSys *work)
 {
     unsigned char i;
-    unsigned char *e;
-    unsigned char *q;
-    int h;
-
-    h = func_02026478((void *)(((struct Obj04951 *)p)->f4));
-    if (p[0x908] != 0) {
-        if (func_02174734((char *)p, p[0x908], (void *)func_020127C4((void *)h)) == 1) {
-            p[0x908] = 0;
+    IntrudePageRequest *requests;
+    int gameData;
+    gameData = func_02026478(work->gameComm);
+    if (work->unionInfoRequestMask != 0) {
+        if (INTRUDE_COMM_SendUnionInfo(work, work->unionInfoRequestMask, (void *)func_020127C4((void *)gameData)) == 1) {
+            work->unionInfoRequestMask = 0;
         }
     }
-    e = p + 0x8D4;
+    requests = work->pageRequests;
     for (i = 0; i < 3; i++) {
-        q = p + i * 4;
-        if (q[0x8D5] == 1) {
-            func_02174D5C((int *)p, e + i * 4);
-            if (func_021748CC((char *)p, i) == 1) {
-                q[0x8D5] = 0;
+        if (work->pageRequests[i].pending == 1) {
+            INTRUDE_COMM_BuildSymbolPage(work, &requests[i]);
+            if (INTRUDE_COMM_SendSymbolPage(work, i) == 1) {
+                work->pageRequests[i].pending = 0;
             }
         }
     }
-    if (p[0x8E1] == 1) {
-        if (func_02174954((u32)(p + 0x8E0)) == 1) {
-            p[0x8E1] = 0;
+    if (work->areaNoticePending == 1) {
+        if (INTRUDE_COMM_SendAreaNotice(&work->areaNoticeValue) == 1) {
+            work->areaNoticePending = 0;
         }
     }
 }
@@ -1143,33 +911,31 @@ void func_02174CCC(unsigned char *p)
 
 
 
-
-void func_02174D5C(int *p, const u8 *q)
+void INTRUDE_COMM_BuildSymbolPage(IntrudeCommSys *work, const IntrudePageRequest *request)
 {
-    Blk *b;
-    void *x;
-    int t;
-    u8 buf[4];
-
-    b = (Blk *)((u8 *)p + 0x880);
-    x = func_0200E0B0(func_02012EBC((struct Big *)func_02026478((void *)p[1])));
-    func_0216749C(x, (struct Entry32 *)b, 0x14, q[0], buf);
-    b->a = buf[0];
-    b->b = func_021673C4(x);
-    b->c = func_021673A8(x);
-    t = func_02039338();
-    b->d = t;
-    b->e = q[0];
+    IntrudeSymbolPage *page;
+    void *symbolMap;
+    int netId;
+    u8 count[4];
+    page = &work->ownSymbolPage;
+    symbolMap = func_0200E0B0(func_02012EBC((struct Big *)func_02026478(work->gameComm)));
+    func_0216749C(symbolMap, page->entries, 0x14, request->page, count);
+    page->count = count[0];
+    page->levelSmall = func_021673C4(symbolMap);
+    page->levelLarge = func_021673A8(symbolMap);
+    netId = func_02039338();
+    page->netId = netId;
+    page->page = request->page;
 }
 
 
 
 
-void func_02174DF4(u8 *p)
+void INTRUDE_COMM_UpdateQueuedRequest(IntrudeCommSys *work)
 {
-    if (p[0x924] != 0) {
-        if (func_02173CB0((int *)p, p[0x924]) == 1) {
-            p[0x924] = 0;
+    if (work->readyMask != 0) {
+        if (INTRUDE_CMD_SendSaveSummary(work, work->readyMask) == 1) {
+            work->readyMask = 0;
         }
     }
 }
@@ -1177,107 +943,101 @@ void func_02174DF4(u8 *p)
 
 
 
-void func_02174E14(u8 *p, int a)
+void func_02174E14(IntrudeCommSys *work, int state)
 {
-    ((F86_02174E14 *)(p + 0x86))->state = (u16)a;
-    p[0x900] = 1;
+    work->localPeer.state = (u16)state;
+    work->peerStatusDirty = 1;
 }
 
-
-
-
-
-void func_02174E3C(u8 *p)
-{
-    int v;
-
-    v = func_02026478((void *)(((struct Obj09349 *)p)->f4));
-    func_02082D44(func_02012944((void *)v), p + 0x160, func_02008468());
-    func_02082D44(func_020127B8((void *)v), p + 0x180, 0x10);
-    func_021752DC(p);
-    if (((F86_02174E3C *)(p + 0x86))->x == 0x80) {
-        func_02175710(p, func_02039338());
-    }
-    *(Ent_021748CC *)(p + 0x190) = *(Ent_021748CC *)(p + 0x70);
-}
 
 
 
 /*
- * (ldr r3,=target; movs r2,#0x20; bx r3), no witness outside the range.
- * Verified C for the leaf: void func_02008494(u8 *a, int b) style thunk;
- * needs the integrator's arm9 leaf filed to promote this to EXACT.
+ * Compares the 3-bit intrudeId with 0x80, which is never true: kept as in
+ * the original.
  */
-void func_02174EAC(u8 *p, int idx, u8 *q)
+void INTRUDE_COMM_RefreshSelfRecord(IntrudeCommSys *work)
 {
-    int x;
-    int ctx;
-    int a;
-    int flag;
+    int gameData;
+    gameData = func_02026478(work->gameComm);
+    func_02082D44(func_02012944((void *)gameData), work->ownMyStatus, func_02008468());
+    func_02082D44(func_020127B8((void *)gameData), work->lastBattleRecSlot, 0x10);
+    INTRUDE_COMM_UpdateSelfRecord(work);
+    if (work->localPeer.intrudeId == 0x80) {
+        func_02175710(work, func_02039338());
+    }
+    work->selfSnapshot = work->localPeer;
+}
 
-    ctx = func_02026478((void *)(((struct Obj00269 *)p)->f4));
-    flag = 0;
-    a = (int)func_02012950((struct Sub24 *)ctx, idx);
-    if (p[0x8FB] & (1 << idx)) {
-        x = func_02008530((const struct Sub0200852CObj *)a);
-        if (x == func_02008530((const struct Sub0200852CObj *)q)) {
+
+
+
+void INTRUDE_COMM_ApplyPlayerBeacon(IntrudeCommSys *work, int netId, IntrudeStatusRecord *record)
+{
+    int myStatus;
+    int gameData;
+    int status;
+    int changed;
+    gameData = func_02026478(work->gameComm);
+    changed = 0;
+    status = (int)func_02012950((struct Sub24 *)gameData, netId);
+    if (work->peerMask & (1 << netId)) {
+        myStatus = func_02008530((const struct Sub0200852CObj *)status);
+        if (myStatus == func_02008530((const struct Sub0200852CObj *)record->myStatus)) {
             goto skip;
         }
     }
-    flag = 1;
+    changed = 1;
 skip:
-    func_02008494(q, (void *)a);
-    func_02082D44(q + 0x20, func_020127AC((struct SaveBlock *)ctx, idx), 0x10);
-    func_02012BA4((struct BigObj *)ctx, idx, ((Q *)(q + 0x4A))->hi);
-    func_02174F54(p, idx, (const Ent_02174F54 *)(q + 0x30), 1);
-    p[0x8FB] |= (u8)(1 << idx);
-    if (flag == 1 && idx != func_02039338()) {
-        func_020266D4(((struct Obj00269 *)p)->f4, idx);
+    func_02008494(record->myStatus, (void *)status);
+    func_02082D44(record->battleRecSlot, func_020127AC((struct SaveBlock *)gameData, netId), 0x10);
+    GAME_DATA_SetSlotFlag((struct BigObj *)gameData, netId, record->peer.season);
+    INTRUDE_COMM_StorePlayerRecord(work, netId, &record->peer, 1);
+    work->peerMask |= (u8)(1 << netId);
+    if (changed == 1 && netId != func_02039338()) {
+        GAME_COMM_PushPlayerMessage((u32)work->gameComm, netId);
     }
 }
 
 
 
 
-void func_02174F54(u8 *p, int idx, const Ent_02174F54 *src, int arg)
+void INTRUDE_COMM_StorePlayerRecord(IntrudeCommSys *work, int netId, const IntrudePeer *src, int arg)
 {
-    Ent_02174F54 *e;
-    u32 saved;
-
-    e = (Ent_02174F54 *)(p + 0x8C) + idx;
-    saved = e->f0;
-    func_02082D44(src, e, 0x1C);
-    e->f0 = saved;
-    e->hi = (u8)src->f0;
-    if (src->f0 == 1) {
-        e->f0 = 1;
+    IntrudePeer *peer;
+    u32 vanish;
+    peer = &work->peers[netId];
+    vanish = peer->package.vanish;
+    func_02082D44(src, peer, 0x1C);
+    peer->package.vanish = vanish;
+    peer->remoteVanish = (u8)src->package.vanish;
+    if (src->package.vanish == 1) {
+        peer->package.vanish = 1;
     }
-    func_020264B4((void *)(((struct Obj00269 *)p)->f4), idx, e->f14, (u8)e->a, e->lo, arg);
-    if (idx != func_02039338()) {
-        *((Cp *)(p + 0xE0) + idx) = *(Cp *)e;
-        func_021751D4(p, ((struct Obj00269 *)p)->f84, ((struct Obj00269 *)p)->f74, e);
+    GAME_COMM_UpdatePlayerStatus(work->gameComm, netId, peer->zoneId, (u8)peer->intrudeId, peer->statusCode, arg);
+    if (netId != func_02039338()) {
+        work->packages[netId] = peer->package;
+        INTRUDE_COMM_AdjustRemotePosition(work, work->localPeer.zoneId, work->localPeer.package.pos.x, peer);
     }
-    p[0x927] |= (u8)(1 << idx);
+    work->dirtyPeerMask |= (u8)(1 << netId);
 }
 
 
 
 
-
-void func_02175004(u8 *p)
+void func_02175004(IntrudeCommSys *work)
 {
     u8 i;
-
-    if (func_02012E40((const u8 *)func_02026478((void *)(((struct Obj01838 *)p)->f4))) == 1) {
+    if (func_02012E40((const u8 *)func_02026478(work->gameComm)) == 1) {
         return;
     }
-    if (((Fl_02174F54 *)(p + 0x904))->b1 == 1) {
+    if (work->suspended == 1) {
         return;
     }
     for (i = 0; i < 3; i++) {
-        if (p[0x927] & (1 << i)) {
-            func_02175060(p, i);
-            p[0x927] ^= (u8)(1 << i);
+        if (work->dirtyPeerMask & (1 << i)) {
+            INTRUDE_COMM_UpdatePlayerObject(work, i);
+            work->dirtyPeerMask ^= (u8)(1 << i);
         }
     }
 }
@@ -1285,26 +1045,26 @@ void func_02175004(u8 *p)
 
 
 
-
-static inline int func_02175060_check(Entry *e, Entry *me)
+/* Returns 1 when the peer has to be hidden from this player's field. */
+static inline int ShouldHidePeer(IntrudePeer *peer, IntrudePeer *self)
 {
-    if (e->hi == 1) {
+    if (peer->remoteVanish == 1) {
         return 1;
     }
-    if (e->f12 != 0 && e->f12 != 1) {
+    if (peer->package.dir != 0 && peer->package.dir != 1) {
         return 1;
     }
-    if (func_02013D5C(e->f14) == 1 && func_02013D5C(me->f14) == 1) {
+    if (func_02013D5C(peer->zoneId) == 1 && func_02013D5C(self->zoneId) == 1) {
         return 0;
     }
-    if (e->a == me->a) {
-        if (func_02013D9C(e->f14) == 1 && func_02013D9C(me->f14) == 1) {
-            if (e->b == me->b) {
+    if (peer->intrudeId == self->intrudeId) {
+        if (func_02013D9C(peer->zoneId) == 1 && func_02013D9C(self->zoneId) == 1) {
+            if (peer->symbolMapFlag == self->symbolMapFlag) {
                 return 0;
             }
             return 1;
         }
-        if (func_02013E90(me->f14, e->f14) == 1) {
+        if (ZONEDATA_IsSameMatrixGroup(self->zoneId, peer->zoneId) == 1) {
             return 0;
         }
         return 1;
@@ -1315,23 +1075,21 @@ static inline int func_02175060_check(Entry *e, Entry *me)
 
 
 
-
-void func_02175060(u8 *p, int idx)
+void INTRUDE_COMM_UpdatePlayerObject(IntrudeCommSys *work, int netId)
 {
-    Entry *e;
-    int r;
-
-    e = (Entry *)(p + 0x8c) + idx;
-    if (idx != func_02039338()) {
-        Entry *me = (Entry *)(p + 0x70);
-        e->f0 = func_02175060_check(e, me);
+    IntrudePeer *peer;
+    int objCode;
+    peer = &work->peers[netId];
+    if (netId != func_02039338()) {
+        IntrudePeer *self = &work->localPeer;
+        peer->package.vanish = ShouldHidePeer(peer, self);
     }
-    if (func_021677E4((void *)(((struct Obj05913 *)p)->f8), idx) == 1) {
-        r = func_02175598((u8 *)e, func_021583EC((void *)func_02026478((void *)(((struct Obj05913 *)p)->f4)), idx));
-        if (r != func_02167810((struct Work *)(((struct Obj05913 *)p)->f8), idx)) {
-            func_02167658(((struct Obj05913 *)p)->f8, idx);
-            if (e->f18 != 0) {
-                func_021675D0((struct Work *)(((struct Obj05913 *)p)->f8), idx, r, (struct Src *)e);
+    if (func_021677E4(work->commPlayer, netId) == 1) {
+        objCode = func_02175598(peer, func_021583EC((void *)func_02026478(work->gameComm), netId));
+        if (objCode != func_02167810(work->commPlayer, netId)) {
+            func_02167658(work->commPlayer, netId);
+            if (peer->objCode != 0) {
+                func_021675D0(work->commPlayer, netId, objCode, peer);
             }
         }
     }
@@ -1340,83 +1098,79 @@ void func_02175060(u8 *p, int idx)
 
 
 
-
-int func_02175144(u16 v, u8 *out)
+int INTRUDE_COMM_LookupZonePair(u16 zoneId, IntrudeZonePairInfo *out)
 {
     int i;
-    u8 k;
-
-    ((struct Obj02670 *)out)->f0 = v;
+    u8 side;
+    out->zoneId = zoneId;
     for (i = 0; i < 8; i++) {
-        if (v == d_02176AA0[i].a) {
-            k = 0;
-        } else if (v == d_02176AA0[i].b) {
-            k = 1;
+        if (zoneId == d_02176AA0[i].zoneA) {
+            side = 0;
+        } else if (zoneId == d_02176AA0[i].zoneB) {
+            side = 1;
         } else {
             continue;
         }
-        out[2] = k;
-        out[3] = i;
+        out->side = side;
+        out->pairIndex = i;
         return 1;
     }
-    out[3] = 0xff;
+    out->pairIndex = 0xff;
     return 0;
 }
 
 
 
 
-int func_02175184(u8 *a, u8 *b)
+int INTRUDE_COMM_CompareZonePair(IntrudeZonePairInfo *a, IntrudeZonePairInfo *b)
 {
-    if (((struct Obj02670 *)a)->f0 == ((struct Obj02670 *)b)->f0) return 0;
-    if (a[2] != b[2] && a[3] == b[3]) return 1;
+    if (a->zoneId == b->zoneId) return 0;
+    if (a->side != b->side && a->pairIndex == b->pairIndex) return 1;
     return 2;
 }
 
 
 
 
-int func_021751A8(u8 *p, int index)
+int INTRUDE_COMM_GetRelativeSlot(IntrudeCommSys *work, int netId)
 {
-    int value;
-    if (index >= p[0x902]) return 0;
-    value = index - func_02012B58((const struct BigObj *)func_02026478((void *)(((struct Obj07330 *)p)->f4)));
-    if (value < 0) value += p[0x902];
-    return value;
+    int slot;
+    if (netId >= work->memberCount) return 0;
+    slot = netId - func_02012B58((const struct BigObj *)func_02026478(work->gameComm));
+    if (slot < 0) slot += work->memberCount;
+    return slot;
 }
 
 
 
 
-
-void func_021751D4(u8 *p, u16 a, int b, Ent_02174F54 *c)
+void INTRUDE_COMM_AdjustRemotePosition(IntrudeCommSys *work, u16 zoneId, int selfX, IntrudePeer *peer)
 {
-    u8 x[4];
-    u8 y[4];
-    int r;
-    int w;
-    int k;
-    int n;
-
-    func_02175144(a, x);
-    func_02175144(c->f14, y);
-    r = func_02175184(x, y);
-    switch (r) {
+    IntrudeZonePairInfo selfPair;
+    IntrudeZonePairInfo peerPair;
+    int relation;
+    int x;
+    int slot;
+    int count;
+    INTRUDE_COMM_LookupZonePair(zoneId, &selfPair);
+    INTRUDE_COMM_LookupZonePair(peer->zoneId, &peerPair);
+    relation = INTRUDE_COMM_CompareZonePair(&selfPair, &peerPair);
+    switch (relation) {
     case 1:
         break;
     case 2:
         break;
     case 0:
-        if (func_02013D5C(a) != 0) {
-            w = c->f4 % 0x400000;
-            k = func_021751A8(p, c->a);
-            n = p[0x902];
-            if (k == n - 1 && w > 0x200000 && b < 0x200000) {
-                c->f4 = w - 0x400000;
-            } else if (k == 0 && w < 0x200000 && b > (n << 22) - 0x200000) {
-                c->f4 = w + (n << 22);
+        if (func_02013D5C(zoneId) != 0) {
+            x = peer->package.pos.x % 0x400000;
+            slot = INTRUDE_COMM_GetRelativeSlot(work, peer->intrudeId);
+            count = work->memberCount;
+            if (slot == count - 1 && x > 0x200000 && selfX < 0x200000) {
+                peer->package.pos.x = x - 0x400000;
+            } else if (slot == 0 && x < 0x200000 && selfX > (count << 22) - 0x200000) {
+                peer->package.pos.x = x + (count << 22);
             } else {
-                c->f4 = w + (k << 22);
+                peer->package.pos.x = x + (slot << 22);
             }
         }
         break;
@@ -1426,24 +1180,22 @@ void func_021751D4(u8 *p, u16 a, int b, Ent_02174F54 *c)
 
 
 
-
-void func_02175274(u8 *p, int arg)
+void func_02175274(IntrudeCommSys *work, int selfX)
 {
-    u8 *arr;
-    u8 *h;
-    int n;
+    IntrudePeer *peers;
+    IntrudePeer *self;
+    int ownNetId;
     int i;
-    u8 *e;
-
-    n = func_02012B58((const struct BigObj *)func_02026478((void *)(((struct Obj12425 *)p)->f4)));
-    h = p + 0x70;
+    IntrudePeer *peer;
+    ownNetId = func_02012B58((const struct BigObj *)func_02026478(work->gameComm));
+    self = &work->localPeer;
     i = 0;
-    arr = p + 0x8C;
+    peers = work->peers;
     for (; i < 3; i++) {
-        if ((p[0x8FB] & (1 << i)) && i != n) {
-            e = arr + i * 0x1C;
-            *(C12 *)(e + 4) = *(C12 *)(p + 0xE4 + i * 0x14);
-            func_021751D4(p, ((struct Obj19182 *)h)->f14, arg, (struct Ent_02174F54 *)e);
+        if ((work->peerMask & (1 << i)) && i != ownNetId) {
+            peer = &peers[i];
+            peer->package.pos = work->packages[i].pos;
+            INTRUDE_COMM_AdjustRemotePosition(work, self->zoneId, selfX, peer);
         }
     }
 }
@@ -1451,64 +1203,57 @@ void func_02175274(u8 *p, int arg)
 
 
 
-
-int func_021752DC(u8 *p)
+int INTRUDE_COMM_UpdateSelfRecord(IntrudeCommSys *work)
 {
-    int ctx;
-    int v;
-    int r;
-    int k;
-    Hd *h;
-
-    ctx = func_02026478((void *)(((struct Obj09349 *)p)->f4));
-    v = func_02012AC8(func_020127A4((struct SaveBlock *)ctx));
-    h = (Hd *)(p + 0x70);
-    r = func_0216786C((struct Work *)(((struct Obj09349 *)p)->f8), (struct Report *)h);
-    if (h->f14 != v) {
-        h->f14 = v;
-        r = 1;
+    int gameData;
+    int zoneId;
+    int changed;
+    int lidClosed;
+    IntrudePeer *self;
+    gameData = func_02026478(work->gameComm);
+    zoneId = func_02012AC8(func_020127A4((struct SaveBlock *)gameData));
+    self = &work->localPeer;
+    changed = func_0216786C(work->commPlayer, self);
+    if (self->zoneId != zoneId) {
+        self->zoneId = zoneId;
+        changed = 1;
     }
-    if (h->x != func_02012FB0(ctx)) {
-        h->x = func_02012FB0(ctx);
-        r = 1;
+    if (self->symbolMapFlag != func_02012FB0(gameData)) {
+        self->symbolMapFlag = func_02012FB0(gameData);
+        changed = 1;
     }
-    k = (*(volatile u16 *)0x02FFFFA8 & 0x8000) >> 15;
-    if (h->top != k) {
-        h->top = k;
-        r = 1;
+    lidClosed = (*(volatile u16 *)0x02FFFFA8 & 0x8000) >> 15;
+    if (self->lidClosed != lidClosed) {
+        self->lidClosed = lidClosed;
+        changed = 1;
     }
-    return r;
+    return changed;
 }
-
 
 
 
 
 /*
  * Unlabelled Thumb leaf, seeded so that ov018 func_0217FE38 has a witness:
- * clears the four bytes at +0x15C through sub_02082BCC (fill, n bytes).
- *
- * Addresses are Black-image addresses.
+ * clears the notice bytes.
  */
-void func_02175368(char *p)
+void func_02175368(IntrudeCommSys *work)
 {
-    sub_02082BCC(p + 0x15C, 0, 4);
+    sub_02082BCC(&work->notice, 0, 4);
 }
 
 
 
 
 /*
- * Unlabelled Thumb leaf, the follower of func_02175368 (same +0x15C field):
- * returns the field's address when its first byte is 1, else null.
- * Labelled so that func_02175368's extent ends at its own pool.
- *
- * Addresses are Black-image addresses.
+ * Unlabelled Thumb leaf, the follower of func_02175368: returns the notice
+ * bytes when the first one is 1, else null. Labelled so that
+ * func_02175368's extent ends at its own pool.
  */
-unsigned char *func_0217537C(unsigned char *p)
+unsigned char *func_0217537C(IntrudeCommSys *work)
 {
-    if (p[0x15C] == 1) {
-        return p + 0x15C;
+    if (work->notice.value[0] == 1) {
+        return work->notice.value;
     }
     return 0;
 }
@@ -1519,46 +1264,45 @@ unsigned char *func_0217537C(unsigned char *p)
 /*
  * extent: two zero alignment bytes at 0x021753B6 precede the owned 021753B8 function.
  */
-void func_0217538C(u8 *p, int a)
+void func_0217538C(IntrudeCommSys *work, int target)
 {
-    MI_CpuFill8(p + 0x154, 0, 8);
-    p[0x154] = a;
-    p[0x155] = 4;
-    p[0x158] = 0;
-    func_021753B8(p);
+    MI_CpuFill8(&work->requestTarget, 0, 8);
+    work->requestTarget = target;
+    work->replyFrom = 4;
+    work->sentRequestSeq = 0;
+    func_021753B8(work);
 }
 
 
 
 
-void func_021753B8(u8 *p)
+void func_021753B8(IntrudeCommSys *work)
 {
-    p[0x944]++;
-    p[0x159] = p[0x944];
+    work->nextRequestSeq++;
+    work->expectedReplySeq = work->nextRequestSeq;
 }
 
 
 
 
-
-int func_021753D0(u8 *p, int i, u8 v)
+int INTRUDE_COMM_TryStartRequest(IntrudeCommSys *work, int netId, u8 seq)
 {
-    if (!(p[0x8FB] & (1 << i))) {
-        (p + i)[0x945] = v;
+    if (!(work->peerMask & (1 << netId))) {
+        work->busyReplies[netId] = seq;
         return 0;
     }
-    if (((F86 *)(p + 0x86))->x == 0) {
-        if (p[0x154] == 4 && p[0x158] == 0 && func_020120D8((char *)((struct Obj03548 *)p)->f0) == 0) {
-            p[0x154] = i;
-            p[0x156] = 1;
-            p[0x158] = v;
-            p[0x159] = v;
-            func_0217544C(p);
+    if (work->localPeer.state == 0) {
+        if (work->requestTarget == 4 && work->sentRequestSeq == 0 && func_020120D8(work->gameSystem) == 0) {
+            work->requestTarget = netId;
+            work->requestActive = 1;
+            work->sentRequestSeq = seq;
+            work->expectedReplySeq = seq;
+            INTRUDE_COMM_SetRequestOpen(work);
             return 1;
         }
-        (p + i)[0x945] = v;
+        work->busyReplies[netId] = seq;
     } else {
-        (p + i)[0x945] = v;
+        work->busyReplies[netId] = seq;
     }
     return 0;
 }
@@ -1566,7 +1310,10 @@ int func_021753D0(u8 *p, int i, u8 v)
 
 
 
-void func_0217544C(u8 *p) { p[0x8F8] |= 0x10; }
+void INTRUDE_COMM_SetRequestOpen(IntrudeCommSys *work)
+{
+    work->requestOpen = 1;
+}
 
 
 
@@ -1574,39 +1321,40 @@ void func_0217544C(u8 *p) { p[0x8F8] |= 0x10; }
 /*
  * lever: bitfield clear emits bics; byte mask emits ands with 0xEF.
  */
-void func_0217545C(u8 *p) { ((Flags_0217545C *)(p + 0x8F8))->flag = 0; }
-
-
-
-
-
-void func_0217546C(u8 *p)
+void func_0217545C(IntrudeCommSys *work)
 {
-    u8 buf[4];
-    u8 *q;
-    int i;
+    work->requestOpen = 0;
+}
 
-    if (func_021754B4(p, (int *)buf) == 1 && func_020120D8((char *)((struct Obj00566 *)p)->f0) == 1) {
-        q = p + 0x945;
-        i = p[0x154];
-        if (q[i] == 0) {
-            q[i] = p[0x158];
+
+
+
+void INTRUDE_COMM_UpdateRequest(IntrudeCommSys *work)
+{
+    u8 target[4];
+    u8 *replies;
+    int netId;
+    if (func_021754B4(work, (int *)target) == 1 && func_020120D8(work->gameSystem) == 1) {
+        replies = work->busyReplies;
+        netId = work->requestTarget;
+        if (replies[netId] == 0) {
+            replies[netId] = work->sentRequestSeq;
         }
-        func_0217538C(p, 4);
-        func_0217545C(p);
+        func_0217538C(work, 4);
+        func_0217545C(work);
     }
 }
 
 
 
 
-int func_021754B4(u8 *p, int *out)
+int func_021754B4(IntrudeCommSys *work, int *target)
 {
-    int value;
-    if (p == 0 || ((struct Obj07331 *)p)->f8 == 0) return 0;
-    value = p[0x154];
-    if (value != 4 && ((Flags_021754B4 *)(p + 0x8F8))->flag == 1) {
-        *out = value;
+    int netId;
+    if (work == 0 || work->commPlayer == 0) return 0;
+    netId = work->requestTarget;
+    if (netId != 4 && work->requestOpen == 1) {
+        *target = netId;
         return 1;
     }
     return 0;
@@ -1615,23 +1363,21 @@ int func_021754B4(u8 *p, int *out)
 
 
 
-void func_021754E8(u8 *p, int a, int b, int c)
+void INTRUDE_COMM_SetRequestResult(IntrudeCommSys *work, int netId, int result, int seq)
 {
-    if (p[0x154] == a && p[0x158] == c) {
-        p[0x155] = a;
-        p[0x157] = b;
+    if (work->requestTarget == netId && work->sentRequestSeq == seq) {
+        work->replyFrom = netId;
+        work->replyResult = result;
     }
 }
 
 
 
 
-
-void func_02175508(int a, int b, int c)
+void INTRUDE_COMM_SetRequestResultAccepted(IntrudeCommSys *work, int netId, int seq)
 {
-    func_021754E8((u8 *)a, b, 3, c);
+    INTRUDE_COMM_SetRequestResult(work, netId, 3, seq);
 }
-
 
 
 
@@ -1641,15 +1387,14 @@ void func_02175508(int a, int b, int c)
  *           func_02181584 in ov018. Its follower 0x0217553C is also an
  *           unlabelled leaf.
  */
-int func_02175514(u8 *p)
+int func_02175514(IntrudeCommSys *work)
 {
-    int r;
-
-    if (p[0x155] != 4) {
-        r = p[0x157];
-        if (r != 0) {
-            p[0x157] = 0;
-            return r;
+    int result;
+    if (work->replyFrom != 4) {
+        result = work->replyResult;
+        if (result != 0) {
+            work->replyResult = 0;
+            return result;
         }
     }
     return 0;
@@ -1658,67 +1403,62 @@ int func_02175514(u8 *p)
 
 
 
-
 /*
- * Unlabelled leaf (no lr save): clears the byte at +0x157.
+ * Unlabelled leaf (no lr save): clears the reply result.
  */
-void func_0217553C(u8 *p)
+void func_0217553C(IntrudeCommSys *work)
 {
-    p[0x157] = 0;
+    work->replyResult = 0;
 }
 
 
 
 
-
-void func_02175548(u32 a, u16 *p1, u8 *p2, u8 *p3)
+void func_02175548(u32 myStatus, u16 *objCode, u8 *form, u8 *sex)
 {
-    u32 x;
-    u32 i;
-    int r;
-
-    x = func_02008530((const struct Sub0200852CObj *)a);
-    r = func_02008550((const struct Sub0200852CObj *)a);
-    i = ((x >> 16) + (u16)x) & 3;
-    if (r == 0) {
-        *p1 = tbl_02176A90[i];
-        *p2 = 3;
-        *p3 = 0;
+    u32 trainerId;
+    u32 index;
+    int female;
+    trainerId = func_02008530((const struct Sub0200852CObj *)myStatus);
+    female = func_02008550((const struct Sub0200852CObj *)myStatus);
+    index = ((trainerId >> 16) + (u16)trainerId) & 3;
+    if (female == 0) {
+        *objCode = gIntrudeCommObjCodesMale[index];
+        *form = 3;
+        *sex = 0;
     } else {
-        *p1 = tbl_02176A98[i];
-        *p2 = 4;
-        *p3 = 1;
+        *objCode = gIntrudeCommObjCodesFemale[index];
+        *form = 4;
+        *sex = 1;
     }
 }
 
 
 
 
-
-u16 func_02175598(u8 *o, u32 id)
+u16 func_02175598(IntrudePeer *peer, u32 myStatus)
 {
-    struct { u8 x; u8 y; u16 c; } s;
-    u16 h;
-
-    h = ((struct Obj07332 *)o)->f18;
-    if (h == 0) {
-        if (o[0x12] == 1) {
-            s.c = (func_02008550((const struct Sub0200852CObj *)id) == 0) ? 2 : 5;
+    struct { u8 sex; u8 form; u16 objCode; } pick;
+    u16 objCode;
+    objCode = peer->objCode;
+    if (objCode == 0) {
+        if (peer->package.dir == 1) {
+            pick.objCode = (func_02008550((const struct Sub0200852CObj *)myStatus) == 0) ? 2 : 5;
         } else {
-            s.c = (func_02008550((const struct Sub0200852CObj *)id) == 0) ? 1 : 4;
+            pick.objCode = (func_02008550((const struct Sub0200852CObj *)myStatus) == 0) ? 1 : 4;
         }
-    } else if (h == 0xFFFF) {
-        func_02175548(id, &s.c, &s.y, &s.x);
+    } else if (objCode == 0xFFFF) {
+        func_02175548(myStatus, &pick.objCode, &pick.form, &pick.sex);
     } else {
-        s.c = h;
-        if (func_021756B0(s.c) == 0) {
-            s.c = (func_02008550((const struct Sub0200852CObj *)id) == 0) ? 10 : 14;
+        pick.objCode = objCode;
+        if (INTRUDE_COMM_IsValidObjCode(pick.objCode) == 0) {
+            pick.objCode = (func_02008550((const struct Sub0200852CObj *)myStatus) == 0) ? 10 : 14;
         }
     }
-    if ((s.c >= 0xdf && s.c < 0x1000) || s.c >= 0x1236) {
-        s.c = 10;
+    if ((pick.objCode >= 0xdf && pick.objCode < 0x1000) || pick.objCode >= 0x1236) {
+        pick.objCode = 10;
     }
-    return s.c;
+    return pick.objCode;
 }
 
 
@@ -1727,7 +1467,7 @@ u16 func_02175598(u8 *o, u32 id)
 /*
  * extent: two zero alignment bytes at 0x02175646 precede existing 02175648 code.
  */
-int func_02175628(void)
+int INTRUDE_COMM_HasConnectedPeers(void)
 {
     if (func_0200FB24() != 0) return 0;
     if (func_0203D1B4() > 1) return 1;
@@ -1737,30 +1477,27 @@ int func_02175628(void)
 
 
 
-
-void func_02175648(void *sv, Out *o)
+void INTRUDE_COMM_BuildLocalProfile(void *saveData, IntrudeProfileData *profile)
 {
-    void *q;
-
-    q = func_0200BE48(func_02012EBC(sv));
-    MI_CpuFill8(o, 0, 0x10);
-    o->f00 = func_0200BF70(q);
-    if (func_02012B70(sv) == 1) {
-        o->f04 = func_0200BFA4(q, (void *)func_02012FCC((int)sv), 2);
+    void *profileSys;
+    profileSys = func_0200BE48(func_02012EBC(saveData));
+    MI_CpuFill8(profile, 0, 0x10);
+    profile->kind = func_0200BF70(profileSys);
+    if (func_02012B70(saveData) == 1) {
+        profile->value = func_0200BFA4(profileSys, (void *)func_02012FCC((int)saveData), 2);
     } else {
-        o->f04 = func_0200BF94(q);
+        profile->value = func_0200BF94(profileSys);
     }
-    func_0200BF54(q, o->f0c, 2);
-    o->f0e = 1;
+    func_0200BF54(profileSys, profile->extra, 2);
+    profile->valid = 1;
 }
 
 
 
 
-
-u8 func_021756A4(char *p)
+u8 func_021756A4(IntrudeCommSys *work)
 {
-    return p[0x35a];
+    return work->partnerTally.valid;
 }
 
 
@@ -1769,10 +1506,10 @@ u8 func_021756A4(char *p)
 /*
  * A ternary loop condition keeps the unrotated entry branch.
  */
-int func_021756B0(int value)
+int INTRUDE_COMM_IsValidObjCode(int objCode)
 {
     unsigned int i;
-    for (i = 0; (i < 162) ? 1 : 0; i++) if (value == d_02176B08[i]) return 1;
+    for (i = 0; (i < 162) ? 1 : 0; i++) if (objCode == gIntrudeCommValidObjCodes[i]) return 1;
     return 0;
 }
 
@@ -1783,11 +1520,11 @@ int func_021756B0(int value)
  * The 32-byte follower at 021756F0 already has its own matched shard.
  * A ternary loop condition preserves the branch to the bottom test.
  */
-int func_021756D0(u32 x)
+int func_021756D0(u32 code)
 {
     u32 i;
     for (i = 0; (i < 0x1c) ? 1 : 0; i++) {
-        if (x == tbl_02176AD0[i]) {
+        if (code == gIntrudeCommValidProfileCodes[i]) {
             return 1;
         }
     }
@@ -1797,53 +1534,49 @@ int func_021756D0(u32 x)
 
 
 
-
 /*
- * Unlabelled leaf: sets bit 6 of the byte at +0x93f from the low bit of v.
+ * Unlabelled leaf: sets the lock bit from the low bit of value.
  */
-void func_021756F0(u8 *o, u32 v)
+void func_021756F0(IntrudeCommSys *work, u32 value)
 {
-    ((Flags_021756F0 *)(o + 0x93f))->f = (u8)v;
+    work->lock = (u8)value;
 }
-
 
 
 
 
 /*
- * func_0217574C is an unlabelled leaf (bit 1 of the byte at +0x904).
+ * func_0217574C is an unlabelled leaf (the suspended bit).
  */
-void func_02175710(u8 *o, u32 v)
+void func_02175710(IntrudeCommSys *work, u32 intrudeId)
 {
-    void *p;
-
-    p = func_020120F4(((struct Obj00269 *)o)->f0);
-    ((Lo3 *)(o + 0x86))->v = v;
-    func_02012B8C(p, v);
-    func_02161FEC((char *)(o + 0x35c), (u8)v);
+    void *gameData;
+    gameData = func_020120F4(work->gameSystem);
+    work->localPeer.intrudeId = intrudeId;
+    func_02012B8C(gameData, intrudeId);
+    func_02161FEC(work->returnSlots, (u8)intrudeId);
 }
 
 
 
 
-
-void func_0217574C(u8 *o, u32 v)
+void func_0217574C(IntrudeCommSys *work, u32 value)
 {
-    ((Flags_02175710 *)(o + 0x904))->f = (u8)v;
+    work->suspended = (u8)value;
 }
 
 
 
 
-void func_0217576C(u8 *p)
+void INTRUDE_COMM_InitSession(IntrudeSession *session)
 {
     int i;
-    MI_CpuFill8(p, 0, 0x1A8);
-    p[0xA4] = 4;
-    func_02175EE8(p + 0x90);
-    p[0xD8] = 4;
-    for (i = 0; i < 3; i++) p[0xE0 + i] = 4;
-    func_021757A8(p);
+    MI_CpuFill8(session, 0, 0x1A8);
+    session->request.netId = 4;
+    INTRUDE_COMM_ResetMemberName(&session->request.name);
+    session->result.record.netId = 4;
+    for (i = 0; i < 3; i++) session->result.partnerIds[i] = 4;
+    func_021757A8(session);
 }
 
 
@@ -1852,84 +1585,82 @@ void func_0217576C(u8 *p)
 /*
  * extent: two zero alignment bytes at 0x021757C2 precede existing 021757C4 code.
  */
-void func_021757A8(u8 *p)
+void func_021757A8(IntrudeSession *session)
 {
     int i;
-    for (i = 0; i < 3; i++) p[i * 0x28 + 0x10] = 0;
+    for (i = 0; i < 3; i++) session->members[i].filled = 0;
 }
 
 
 
 
-
-void func_021757C4(Ctx *c, Work *w)
+void INTRUDE_COMM_UpdateSession(IntrudeCommSys *work, IntrudeSession *session)
 {
-    int x;
+    int gameData;
 
-    if (func_0203D378() == 1 && func_02175B14((u8 *)w) == 1) {
-        if (w->bD8 == 4) {
-            if (w->hA8 != 0) {
-                if (w->b19C == 0 && func_02175894((u8 *)w) > w->hA8) {
-                    w->b19C = 1;
+    if (func_0203D378() == 1 && func_02175B14(session) == 1) {
+        if (session->result.record.netId == 4) {
+            if (session->request.ticksLeft != 0) {
+                if (session->resultReported == 0 && INTRUDE_COMM_GetSessionElapsed(session) > session->request.ticksLeft) {
+                    session->resultReported = 1;
                 }
-            } else if (w->f1 == 1 && func_02175894((u8 *)w) > w->hAA) {
-                x = func_02026478((void *)c->w4);
-                if (w->bE3 == 0) {
-                    func_02175D34(c, w, func_02012B58((const struct BigObj *)x));
+            } else if (session->timeLimitSet == 1 && INTRUDE_COMM_GetSessionElapsed(session) > session->request.amount) {
+                gameData = func_02026478(work->gameComm);
+                if (session->result.confirmed == 0) {
+                    INTRUDE_COMM_PromoteRequestToResult(work, session, func_02012B58((const struct BigObj *)gameData));
                 }
             }
-        } else if (w->f1 == 1 && func_02175894((u8 *)w) > w->hAA) {
-            w->f4 = 1;
+        } else if (session->timeLimitSet == 1 && INTRUDE_COMM_GetSessionElapsed(session) > session->request.amount) {
+            session->leaveFlag = 1;
         }
     }
-    func_02176158((int)c, (u8 *)w);
-    func_02176194(c, w);
-    func_02175A34(c, (u8 *)w);
-    func_02175AE8((int)c, (u8 *)w);
+    INTRUDE_COMM_SendProposalReplies(work, session);
+    INTRUDE_COMM_SendPendingReplies(work, session);
+    INTRUDE_COMM_UpdateSessionSends(work, session);
+    INTRUDE_COMM_UpdateSessionResult(work, session);
 }
 
 
 
 
-int func_02175894(u8 *p)
+int INTRUDE_COMM_GetSessionElapsed(IntrudeSession *session)
 {
     u32 now = func_0203F4FC();
-    u32 stamp = ((struct Obj19190 *)p)->f190;
-    if (now < stamp) now += 86400;
-    return now - stamp;
+    u32 start = session->startTick;
+    if (now < start) now += 86400;
+    return now - start;
 }
 
 
 
 
-int func_021758B4(u8 *p)
+int INTRUDE_COMM_GetSessionWaitRemaining(IntrudeSession *session)
 {
-    int limit = ((struct Obj19191 *)p)->fAA;
-    int n = limit - func_02175894(p);
-    if (n < 0) n = 0;
-    return n;
+    int limit = session->request.amount;
+    int remaining = limit - INTRUDE_COMM_GetSessionElapsed(session);
+    if (remaining < 0) remaining = 0;
+    return remaining;
 }
 
 
 
 
-
-int func_021758C8(u8 *o)
+int func_021758C8(IntrudeSession *session)
 {
-    int h;
-    int v;
+    int ticks;
+    int remaining;
 
-    if (func_02175B14(o) == 1 && o[0xd8] == 4) {
-        h = ((struct Obj00567 *)o)->fA8;
-        if (h != 0 || ((Flags_021758C8 *)(o + 0x1a5))->f == 0) {
-            v = h - func_02175894(o);
+    if (func_02175B14(session) == 1 && session->result.record.netId == 4) {
+        ticks = session->request.ticksLeft;
+        if (ticks != 0 || session->timeLimitSet == 0) {
+            remaining = ticks - INTRUDE_COMM_GetSessionElapsed(session);
         } else {
-            v = func_021758B4(o);
+            remaining = INTRUDE_COMM_GetSessionWaitRemaining(session);
         }
-        if (v < 0) {
+        if (remaining < 0) {
             return 0;
         }
-        return v;
+        return remaining;
     }
     return 0;
 }
@@ -1937,41 +1668,39 @@ int func_021758C8(u8 *o)
 
 
 
-
 /*
- * Three one-byte flag setters at fixed offsets.
+ * Three one-byte flag setters.
  */
-void func_02175914(int a, int b)
+void INTRUDE_COMM_SetSessionEntrySendFlag(IntrudeSession *session, int index)
 {
-    *(unsigned char *)(a + b + 0x194) = 1;
+    session->entrySendPending[index] = 1;
 }
 
 
 
 
-
-void func_02175920(int a)
+void INTRUDE_COMM_SetSessionRequestSendFlag(IntrudeSession *session)
 {
-    ((struct Obj12430 *)a)->f19A = 1;
+    session->requestSendPending = 1;
 }
 
 
 
 
-
-void func_0217592C(int a)
+void INTRUDE_COMM_SetSessionResultSendFlag(IntrudeSession *session)
 {
-    ((struct Obj12431 *)a)->f19B = 1;
+    session->resultChanged = 1;
 }
 
 
 
 
-void func_02175938(u8 *p, const u16 *src, int index)
+/* Copies a received member entry (as 20 halfwords) into a free slot. */
+void INTRUDE_COMM_StoreSessionEntry(IntrudeSession *session, const u16 *src, int index)
 {
-    u16 *dst = (u16 *)(p + index * 40);
+    u16 *dst = session->members[index].name.chars;
     unsigned n;
-    if (*((u8 *)dst + 16) != 1) {
+    if (session->members[index].filled != 1) {
         n = 20;
         do { *dst++ = *src++; } while (--n);
     }
@@ -1980,57 +1709,56 @@ void func_02175938(u8 *p, const u16 *src, int index)
 
 
 
-
-int func_02175954(void *unused, u8 *o, Rec *src)
+int INTRUDE_COMM_StoreSessionRequest(void *unused, IntrudeSession *session, IntrudeMemberRecord *src)
 {
-    Rec *dst;
-    int r;
+    IntrudeMemberRecord *dst;
+    int received;
 
-    dst = (Rec *)(o + 0x78);
-    r = 0;
-    if (src->a > 0x14 || src->b > 0xb4) {
+    dst = &session->request;
+    received = 0;
+    if (src->head.count > 0x14 || src->head.amount > 0xb4) {
         return 0;
     }
-    if (o[0x1a1] == 0 && src->f2c != 4) {
-        r = 1;
-        o[0x1a1] = r;
+    if (session->requestReceived == 0 && src->netId != 4) {
+        received = 1;
+        session->requestReceived = received;
     }
-    if (dst->f2c != 4) {
-        return r;
+    if (dst->netId != 4) {
+        return received;
     }
     *dst = *src;
-    return r;
+    return received;
 }
 
 
 
 
-void func_021759B0(u8 *p)
+void INTRUDE_COMM_ClearSessionTicks(IntrudeSession *session)
 {
-    u8 *q = func_02175B34(p);
-    if (q != 0) ((struct Obj19193 *)q)->f30 = 0;
+    IntrudeMemberRecord *request = func_02175B34(session);
+    if (request != 0) request->ticksLeft = 0;
 }
 
 
 
 
-static inline void SetBits(State *p, u8 bit)
+static inline void MarkJoined(IntrudeSession *session, u8 bit)
 {
-    p->active |= bit;
-    p->pending |= bit;
+    session->joinedMask |= bit;
+    session->joinNoticeMask |= bit;
 }
 
 
 
 
 /*
- * lever: u8 mask conversion through SetBits inline preserves the original
+ * lever: u8 mask conversion through MarkJoined inline preserves the original
  * field load before the truncation finishes; open-coded byte locals differ.
  */
-void func_021759C0(State *p, u8 index)
+void INTRUDE_COMM_AddSessionMember(IntrudeSession *session, u8 netId)
 {
-    if (p->active == 0) p->stamp = func_0203F4FC();
-    SetBits(p, 1 << index);
+    if (session->joinedMask == 0) session->startTick = func_0203F4FC();
+    MarkJoined(session, 1 << netId);
 }
 
 
@@ -2039,53 +1767,49 @@ void func_021759C0(State *p, u8 index)
 /*
  * extent: follower 0x02175A24 already filed separately.
  */
-void func_021759F8(u8 *p, int n)
+void INTRUDE_COMM_StartSessionTimer(IntrudeSession *session, int seconds)
 {
-    p[0x1A5] |= 2;
-    ((struct Obj09352 *)p)->fAA = n;
-    if (func_0203D378() == 0) ((struct Obj09352 *)p)->f190 = func_0203F4FC();
+    session->timeLimitSet = 1;
+    session->request.amount = seconds;
+    if (func_0203D378() == 0) session->startTick = func_0203F4FC();
 }
-
 
 
 
 
 /*
- * Unlabelled leaf (sole blocker of ov018 func_0217C4D0): bit 1 of the
- * flag byte at +0x1A5.
+ * Unlabelled leaf (sole blocker of ov018 func_0217C4D0).
  */
-int func_02175A24(u8 *p)
+int func_02175A24(IntrudeSession *session)
 {
-    return ((Flags_02175A24 *)(p + 0x1A5))->b1;
+    return session->timeLimitSet;
 }
 
 
 
 
-
-void func_02175A34(void *a, u8 *b)
+void INTRUDE_COMM_UpdateSessionSends(IntrudeCommSys *work, IntrudeSession *session)
 {
     int i;
-
     for (i = 0; i < 3; i++) {
-        if (b[0x194 + i] == 1 && func_02173DA0((int)a, (int)b, i) == 1) {
-            b[0x194 + i] = 0;
+        if (session->entrySendPending[i] == 1 && INTRUDE_CMD_SendMemberEntry(work, session, i) == 1) {
+            session->entrySendPending[i] = 0;
         }
     }
-    if (b[0x19a] == 1 && func_02173EEC(a, (char *)b) == 1) {
-        b[0x19a] = 0;
+    if (session->requestSendPending == 1 && INTRUDE_CMD_SendGroupRecord(work, session) == 1) {
+        session->requestSendPending = 0;
     }
-    if (b[0x19b] == 1 && func_021741E8(a, (char *)b) == 1) {
-        b[0x19b] = 0;
+    if (session->resultChanged == 1 && INTRUDE_CMD_SendResultRecord(work, session) == 1) {
+        session->resultChanged = 0;
     }
-    if (b[0x19c] == 1 && func_02173F74((int)a, b) == 1) {
-        b[0x19c] = 2;
+    if (session->resultReported == 1 && INTRUDE_CMD_SendRecordEcho(work, session) == 1) {
+        session->resultReported = 2;
     }
-    if (b[0x19f] != 0 && func_021742EC(b[0x19f]) == 1) {
-        b[0x19f] = 0;
+    if (session->readyBits[0] != 0 && INTRUDE_CMD_SendEndNotice(session->readyBits[0]) == 1) {
+        session->readyBits[0] = 0;
     }
-    if (b[0x1a0] != 0 && func_021742A8(b[0x1a0]) == 1) {
-        b[0x1a0] = 0;
+    if (session->readyBits[1] != 0 && INTRUDE_CMD_SendStartNotice(session->readyBits[1]) == 1) {
+        session->readyBits[1] = 0;
     }
 }
 
@@ -2093,23 +1817,23 @@ void func_02175A34(void *a, u8 *b)
 
 
 /*
- * prototype: func_02173FF4 trailing input omitted: full matched body neither
+ * prototype: INTRUDE_CMD_SendMemberValue trailing input omitted: full matched body neither
  * reads nor forwards d; original caller supplies no r3 value.
  */
-void func_02175AE8(int ctx, u8 *p)
+void INTRUDE_COMM_UpdateSessionResult(IntrudeCommSys *work, IntrudeSession *session)
 {
-    u8 mask = p[0x19E];
+    u8 mask = session->joinNoticeMask;
     if (mask != 0) {
-        if (func_02173FF4(ctx, func_021758B4(p), mask) == 1) p[0x19E] = 0;
+        if (INTRUDE_CMD_SendMemberValue(work, INTRUDE_COMM_GetSessionWaitRemaining(session), mask) == 1) session->joinNoticeMask = 0;
     }
 }
 
 
 
 
-int func_02175B14(u8 *p)
+int func_02175B14(IntrudeSession *session)
 {
-    if (p[0xA4] == 4 || p[0x1A1] == 0) return 0;
+    if (session->request.netId == 4 || session->requestReceived == 0) return 0;
     return 1;
 }
 
@@ -2119,33 +1843,33 @@ int func_02175B14(u8 *p)
 /*
  * extent: two zero alignment bytes follow the compiled return.
  */
-u8 *func_02175B34(u8 *p)
+IntrudeMemberRecord *func_02175B34(IntrudeSession *session)
 {
-    if (func_02175B14(p) == 0) p = 0;
-    else p += 0x78;
-    return p;
+    IntrudeMemberRecord *request;
+    if (func_02175B14(session) == 0) request = 0;
+    else request = &session->request;
+    return request;
 }
 
 
 
 
-
-void func_02175B4C(u8 *a, u8 *b)
+void func_02175B4C(IntrudeCommSys *work, IntrudeSession *session)
 {
-    if (func_02175B14(b) == 1) {
-        ((Fl_02175184 *)(b + 0x1a5))->x = 1;
-        ((Fl_02175184 *)(b + 0x1a5))->y = 0;
-        a[0x8a] |= 0x20;
-        a[0x900] = 1;
+    if (func_02175B14(session) == 1) {
+        session->accepted = 1;
+        session->finished = 0;
+        work->localPeer.eventJoined = 1;
+        work->peerStatusDirty = 1;
     }
 }
 
 
 
 
-int func_02175B8C(u8 *p)
+int func_02175B8C(IntrudeSession *session)
 {
-    if (func_02175B14(p) == 1) return ((Flags_02175B8C *)(p + 0x1A5))->bit;
+    if (func_02175B14(session) == 1) return session->accepted;
     return 0;
 }
 
@@ -2155,45 +1879,43 @@ int func_02175B8C(u8 *p)
 /*
  * extent: follower 0x02175BBC already filed separately.
  */
-void func_02175BAC(u8 *p)
+void INTRUDE_COMM_SetSessionFinished(IntrudeSession *session)
 {
-    p[0x1A5] |= 8;
+    session->finished = 1;
 }
-
 
 
 
 
 /*
  * Unlabelled leaf (no lr save, prints as .word data in the listing),
- * filed as the sole blocker of ov018 func_0217BDE0: bit 3 of the byte
- * at +0x1A5.
+ * filed as the sole blocker of ov018 func_0217BDE0.
  */
-int func_02175BBC(u8 *p)
+int func_02175BBC(IntrudeSession *session)
 {
-    return ((Fb *)(p + 0x1A5))->b;
+    return session->finished;
 }
 
 
 
 
-u8 *func_02175BCC(u8 *p)
+IntrudeResultRecord *func_02175BCC(IntrudeSession *session)
 {
-    if (func_02175DA8(p) == 0) p = 0;
-    else p += 0xAC;
-    return p;
+    IntrudeResultRecord *result;
+    if (func_02175DA8(session) == 0) result = 0;
+    else result = &session->result;
+    return result;
 }
-
 
 
 
 
 /*
- * func_02175C04 is an unlabelled leaf (sets one bit in a byte at +0x19f or +0x1a0).
+ * INTRUDE_COMM_SetSessionReadyBit is an unlabelled leaf (sets one ready bit).
  */
-int func_02175BE4(void *a)
+int func_02175BE4(IntrudeSession *session)
 {
-    if (func_02175B8C(a) == 1 || func_02175BCC(a) != 0) {
+    if (func_02175B8C(session) == 1 || func_02175BCC(session) != 0) {
         return 1;
     }
     return 0;
@@ -2202,12 +1924,11 @@ int func_02175BE4(void *a)
 
 
 
-
-void func_02175C04(u8 *o, u32 bit)
+void INTRUDE_COMM_SetSessionReadyBit(IntrudeSession *session, u32 netId)
 {
-    if (o[0xe0] == 4) {
-        o[0x19f] |= (u8)(1 << bit);
+    if (session->result.partnerIds[0] == 4) {
+        session->readyBits[0] |= (u8)(1 << netId);
     } else {
-        o[0x1a0] |= (u8)(1 << bit);
+        session->readyBits[1] |= (u8)(1 << netId);
     }
 }

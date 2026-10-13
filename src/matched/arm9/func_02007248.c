@@ -1,5 +1,5 @@
 /*
- * function: func_02007248
+ * function: SAVE_CONTROL_ReadRecordFromFlash
  * address:  0x02007248
  * packet:   pkt_02007248
  * region:   arm9
@@ -13,7 +13,7 @@
  * blocker:  020334E8 (arm) reached only by the `blx` inside this function; also EXACT* -> the follower at 0x0200725A has no label
  *
  * symbols:
- *   func_020334E8  0x020334E8  arm
+ *   BACKUP_SYSTEM_ReadRecordFromFlash  0x020334E8  arm
  *
  * A five-argument forwarder: the fifth parameter is copied out of the
  * caller's frame into this function's own outgoing slot, so the small
@@ -23,8 +23,8 @@
  * for the sibling shape).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02007248.c \
- *       --func func_02007248 --addr 0x02007248 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SAVE_CONTROL_ReadRecordFromFlash.c \
+ *       --func SAVE_CONTROL_ReadRecordFromFlash --addr 0x02007248 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -38,9 +38,9 @@ struct Sub02007248 {
     u32 unk10;
 };
 
-extern int func_020334E8(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern int BACKUP_SYSTEM_ReadRecordFromFlash(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 
-int func_02007248(struct Sub02007248 *p, u32 a1, u32 a2, u32 a3, u32 a4)
+int SAVE_CONTROL_ReadRecordFromFlash(struct Sub02007248 *p, u32 a1, u32 a2, u32 a3, u32 a4)
 {
-    return func_020334E8((u8 *)p->unk10, a1, a2, a3, a4);
+    return BACKUP_SYSTEM_ReadRecordFromFlash((u8 *)p->unk10, a1, a2, a3, a4);
 }

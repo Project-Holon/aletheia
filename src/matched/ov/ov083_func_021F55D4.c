@@ -20,7 +20,7 @@
  *   func_02190844  0x02190844  thumb  ov021
  *   func_021F556C  0x021F556C  thumb  ov083
  *   func_02010EB4  0x02010EB4  thumb
- *   func_02010EC0  0x02010EC0  thumb
+ *   GPOWER_GetMinutesLeftByType  0x02010EC0  thumb
  */
 #include "../include/Obj00815.h"
 
@@ -39,7 +39,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02190844(struct Slot **p, int x, int y, u32 z);
 extern void  func_021F556C(char *p, u32 a1, u32 a2, int a3, u8 a4);
 extern u8 func_02010EB4(int k);
-extern u32 func_02010EC0(u32 i);
+extern u32 GPOWER_GetMinutesLeftByType(u32 i);
 
 void func_021F55D4(char *p)
 {
@@ -69,7 +69,7 @@ void func_021F55D4(char *p)
         order[i] = i;
         c = (int)func_02010EB4((u8)i);
         if (c != 0x30) {
-            keys[n] = func_02010EC0(i);
+            keys[n] = GPOWER_GetMinutesLeftByType(i);
             vals[n] = c;
             n++;
         }

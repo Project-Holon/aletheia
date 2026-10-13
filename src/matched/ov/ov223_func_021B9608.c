@@ -13,8 +13,8 @@
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0204E6E0 0x0204E6E0 arm
- *   func_0204E6F4 0x0204E6F4 arm
+ *   FADE_GetSpeed 0x0204E6E0 arm
+ *   FADE_SetSpeed 0x0204E6F4 arm
  *   func_020355C4 0x020355C4 arm
  * 3159C's r0 return is consumed despite its legacy void declaration.
  * 3064C preserves all three visibly loaded original arguments.
@@ -28,8 +28,8 @@ extern void func_0203064C(u32,u32,u32);
 struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,u32,u32);
-extern u32 func_0204E6E0(void);
-extern void func_0204E6F4(int);
+extern u32 FADE_GetSpeed(void);
+extern void FADE_SetSpeed(int);
 extern u8 func_020355C4(void);
 int func_021B9608(void *a,int unused,void *c)
 {
@@ -40,8 +40,8 @@ int func_021B9608(void *a,int unused,void *c)
     func_02082BCC(p,0,2168);
     ((struct Obj03961 *)p)->f0=135;
     ((struct Obj03961 *)p)->f4=c;
-    ((struct Obj03961 *)p)->f874=func_0204E6E0();
-    func_0204E6F4(1);
+    ((struct Obj03961 *)p)->f874=FADE_GetSpeed();
+    FADE_SetSpeed(1);
     ((struct Obj03961 *)p)->f8=func_020355C4();
     ((struct Obj03961 *)p)->f228=4;
     ((struct Obj03961 *)p)->f22C=4;

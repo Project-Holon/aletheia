@@ -1,5 +1,5 @@
 /*
- * function: func_02050984
+ * function: BILLBOARD_ACT_GetControlHandler
  * address:  0x02050984
  * packet:   pkt_02050984
  * region:   arm9
@@ -9,12 +9,12 @@
  * isa:      arm
  * status:   EXACT
  *
- * PROMOTED from src/pending/func_02050984.c 2026-09-21 (wave 4, billboard_act).
+ * PROMOTED from src/pending/BILLBOARD_ACT_GetControlHandler.c 2026-09-21 (wave 4, billboard_act).
  * The C is UNCHANGED: it was parked at MATCH* because three of its four ABS32
  * pool words -- 0x020509E0, 0x02050A00 and 0x02050A58 -- each had exactly one
  * mention image wide, the pool word inside this very function, so neither
  * `label` nor `literal` reached them.  All three handlers are now filed EXACT
- * (src/matched/func_020509E0.c, func_02050A00.c, func_02050A58.c, shard
+ * (src/matched/BILLBOARD_ACT_CmdEnd.c, BILLBOARD_ACT_CmdLoop.c, BILLBOARD_ACT_CmdJump.c, shard
  * arm9/pkt_02050984.json), so every site resolves by the `matched` class and
  * this file verifies EXACT* with no edit to the body.
  *
@@ -39,14 +39,14 @@
  * Addresses are Black-image addresses.
  *
  * symbols:
- *   func_02050A58  0x02050A58  arm
- *   func_02050A00  0x02050A00  arm
- *   func_020509E8  0x020509E8  arm
- *   func_020509E0  0x020509E0  arm
+ *   BILLBOARD_ACT_CmdJump  0x02050A58  arm
+ *   BILLBOARD_ACT_CmdLoop  0x02050A00  arm
+ *   BILLBOARD_ACT_CmdSetList  0x020509E8  arm
+ *   BILLBOARD_ACT_CmdEnd  0x020509E0  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050984.c \
- *       --func func_02050984 --addr 0x02050984 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_GetControlHandler.c \
+ *       --func BILLBOARD_ACT_GetControlHandler --addr 0x02050984 --cc 1.1p1 --arm
  */
 
 typedef void (*Fn)(void);
@@ -54,18 +54,18 @@ typedef unsigned int u32;
 
 struct Cmd;
 struct Ent;
-extern int func_02050A58(struct Ent *e, struct Cmd *c);
-extern int func_02050A00(struct Ent *e, struct Cmd *c);
-extern int func_020509E8(void *p, void *q);
-extern int func_020509E0(void);
+extern int BILLBOARD_ACT_CmdJump(struct Ent *e, struct Cmd *c);
+extern int BILLBOARD_ACT_CmdLoop(struct Ent *e, struct Cmd *c);
+extern int BILLBOARD_ACT_CmdSetList(void *p, void *q);
+extern int BILLBOARD_ACT_CmdEnd(void);
 
-Fn func_02050984(u32 id)
+Fn BILLBOARD_ACT_GetControlHandler(u32 id)
 {
     switch (id) {
-    case 0x3FFF: return (Fn)func_020509E0;
-    case 0x3FFE: return (Fn)func_020509E8;
-    case 0x3FFD: return (Fn)func_02050A00;
-    case 0x3FFC: return (Fn)func_02050A58;
+    case 0x3FFF: return (Fn)BILLBOARD_ACT_CmdEnd;
+    case 0x3FFE: return (Fn)BILLBOARD_ACT_CmdSetList;
+    case 0x3FFD: return (Fn)BILLBOARD_ACT_CmdLoop;
+    case 0x3FFC: return (Fn)BILLBOARD_ACT_CmdJump;
     }
     return 0;
 }

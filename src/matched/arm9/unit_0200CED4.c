@@ -12,6 +12,9 @@
  * isa:      thumb
  * status:   EXACT
  * function: func_0200CED4, func_0200CF08, func_0200CF28, func_0200CF54
+ *
+ * symbols:
+ *   POKE_PERSONAL_LoadFormTable  0x0201AF80  thumb
  */
 
 typedef unsigned char  u8;
@@ -36,7 +39,7 @@ struct Blk37 {
 
 extern u32 func_0200C720(u32 v);
 extern u32   func_0200CA38(struct Blk37 *p);
-extern u16 *func_0201AF80(u32 heap, u16 *countOut);
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_020307B0(void *p);
 
 u32 func_0200CED4(struct Blk37 *p, u16 id);
@@ -88,7 +91,7 @@ u16 func_0200CF54(struct Blk37 *p, u32 heap)
     u16 *t;
 
     n = 0;
-    t = func_0201AF80(heap, 0);
+    t = POKE_PERSONAL_LoadFormTable(heap, 0);
     for (i = 1; i <= 0x289; i++) {
         if (func_0200CED4(p, i) == 1 && t[i] != 0x3E7) {
             n = (u16)(n + 1);

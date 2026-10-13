@@ -11,7 +11,7 @@
  *   func_02007A18 0x02007A18 thumb
  *   func_0201AA18 0x0201AA18 thumb
  *   func_0201AB28 0x0201AB28 thumb
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  */
 #include "../include/Obj00001.h"
 
@@ -20,7 +20,7 @@ extern struct Sub020079BCEntry *func_02007A18(void **save, unsigned int box, uns
 extern unsigned int func_0201AA18(void *m);
 typedef unsigned int   u32;
 extern void *func_0201AB28(void *p, u32 idx);
-extern void *func_020185F4(void *a);
+extern void *POKE_TOOL_GetBoxParam(void *a);
 
 void *func_021D8DD0(void *a, int b, int c, char *p)
 {
@@ -35,7 +35,7 @@ void *func_021D8DD0(void *a, int b, int c, char *p)
             return func_02007A18(a, b, c);
         m = ((struct Obj00001 *)p)->f838;
         if (c < (int)func_0201AA18(m) && c != -1)
-            return func_020185F4(func_0201AB28(m, c));
+            return POKE_TOOL_GetBoxParam(func_0201AB28(m, c));
     }
     return 0;
 }

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201C1F4",
-    "sub_0201C284"
+    "WAZA_TOOL_IsAlwaysHit",
+    "WAZA_TOOL_IsAlwaysCritical"
+   ],
+   "addresses": [
+    "0x0201C1F4",
+    "0x0201C284"
    ]
   }
  ]

@@ -11,10 +11,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200530C
+ * function: GFL_USE_ApplySoundModeFromConfig
  *
  * symbols:
- *   sub_02005C28  0x02005C28  thumb
+ *   GFL_USE_SetStereoOutput  0x02005C28  thumb
  *   sub_02008390  0x02008390  thumb
  *
  * One function of the boot path, 26 bytes: a test on a two-bit field of the
@@ -41,13 +41,13 @@
 typedef unsigned int u32;
 
 extern unsigned int sub_02008390(char *a0);
-extern void sub_02005C28(u32 on);
+extern void GFL_USE_SetStereoOutput(u32 on);
 
-void sub_0200530C(void *obj)
+void GFL_USE_ApplySoundModeFromConfig(void *obj)
 {
     if (sub_02008390(obj) == 0) {
-        sub_02005C28(1);
+        GFL_USE_SetStereoOutput(1);
     } else {
-        sub_02005C28(0);
+        GFL_USE_SetStereoOutput(0);
     }
 }

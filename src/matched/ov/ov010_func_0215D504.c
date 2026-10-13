@@ -33,8 +33,8 @@
  *   func_0215699C  0x0215699C  thumb  ov010
  *   func_021569A4  0x021569A4  thumb  ov010
  *   func_021569EC  0x021569EC  thumb  ov010
- *   func_02012F44  0x02012F44  thumb
- *   func_02012F80  0x02012F80  thumb
+ *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
+ *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   func_02012934  0x02012934  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
@@ -87,9 +87,9 @@ extern u8 func_02156908(struct Work *w);
 extern u8 func_0215699C(struct Work *w, u8 i);
 extern u8 func_021569A4(struct Work *w, u8 idx);
 extern u8 func_021569EC(struct Work *w, u8 j);
-extern void *func_02012F44(void *h);
+extern void *GAME_DATA_GetSaveBlock2A(void *h);
 struct Big;
-extern int func_02012F80(char *base);
+extern int GAME_DATA_GetExternalWork(char *base);
 extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA18(void *list);
 extern void *func_0201AB28(void *p, u32 idx);
@@ -129,10 +129,10 @@ int func_0215D504(Ctx *c, void *vm)
     arg = func_02159B10(c, vm);
     dst = func_02159AE8(c, vm);
     h = func_0215A5E4(vm);
-    sv = func_02012F44(h);
+    sv = GAME_DATA_GetSaveBlock2A(h);
     w = 0;
     if (op >= 30) {
-        void **pw = (void **)func_02012F80(h);
+        void **pw = (void **)GAME_DATA_GetExternalWork(h);
 
         if (pw == 0) {
             *dst = 0;

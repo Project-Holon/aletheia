@@ -1,5 +1,5 @@
 /*
- * function: func_02051630
+ * function: PARTICLE_KillEffect
  * address:  0x02051630
  * packet:   pkt_02051630
  * region:   arm9
@@ -19,7 +19,7 @@
 
 extern void func_0205250C(char *p, char *q);
 
-void func_02051630(void **p, void *q)
+void PARTICLE_KillEffect(void **p, void *q)
 {
     func_0205250C(*p, q);
 }

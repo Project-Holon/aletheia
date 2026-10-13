@@ -8,21 +8,21 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02022888
+ * function: WIPE_SUB_PatternCircleIn
  *
  * symbols:
- *   func_020222A8  0x020222A8  thumb
- *   func_020235F0  0x020235F0  thumb
- *   func_0202363C  0x0202363C  thumb
+ *   WIPE_SetBackColor  0x020222A8  thumb
+ *   WIPE_SUB_CircleStart  0x020235F0  thumb
+ *   WIPE_SUB_CircleMain  0x0202363C  thumb
  *
- * Same shape as src/matched/func_0202285C.c; kept in its own file for the
+ * Same shape as src/matched/WIPE_SUB_PatternCircleOut.c; kept in its own file for the
  * same reason (the sibling calls to the shared helpers have to stay
  * outside the compared range to attest them).  Sets the flag pair to
  * (0, 0) instead of (1, 0), and stashes the constant 0x0209F6C4.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022888.c \
- *       --func func_02022888 --addr 0x02022888 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_PatternCircleIn.c \
+ *       --func WIPE_SUB_PatternCircleIn --addr 0x02022888 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -39,20 +39,20 @@ struct Obj {
     u32 unk2C;
 };
 
-extern void func_020222A8(u32 a);
+extern void WIPE_SetBackColor(u32 a);
 struct S;
-extern void func_020235F0(struct S *p, u32 a1);
+extern void WIPE_SUB_CircleStart(struct S *p, u32 a1);
 struct Rec;
-extern u32 func_0202363C(struct Rec *r);
+extern u32 WIPE_SUB_CircleMain(struct Rec *r);
 
-void func_02022888(struct Obj *p)
+void WIPE_SUB_PatternCircleIn(struct Obj *p)
 {
     if (p->unk0C == 0) {
-        func_020222A8(p->unk24);
-        func_020235F0((struct S *)p, 0x0209F6C4);
+        WIPE_SetBackColor(p->unk24);
+        WIPE_SUB_CircleStart((struct S *)p, 0x0209F6C4);
         p->unk28 = 0;
         p->unk2C = 0;
         return;
     }
-    func_0202363C((struct Rec *)p);
+    WIPE_SUB_CircleMain((struct Rec *)p);
 }

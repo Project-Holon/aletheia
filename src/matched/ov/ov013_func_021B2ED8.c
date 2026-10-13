@@ -1,5 +1,5 @@
 /*
- * function: func_021B2ED8
+ * function: VCT_POOL_InitFrames
  * address: 0x021B2ED8
  * packet: pkt_ov013_021B2ED8
  * region: ov013
@@ -19,7 +19,7 @@ typedef struct E { struct E *next; u8 pad[0x474]; } E;
 typedef struct { E *cur; E *buf; } G;
 extern G d_021B4C24;
 extern void func_02082AC0(int, void *, u32);
-int func_021B2ED8(E *a, u32 b)
+int VCT_POOL_InitFrames(E *a, u32 b)
 {
     u32 i;
     u32 n;

@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02005CBC  0x02005CBC  thumb
- *   func_02006734  0x02006734  thumb
+ *   GFL_USE_SetPlayerVolumes  0x02005CBC  thumb
+ *   PM_VOICE_SetMasterVolume  0x02006734  thumb
  */
 typedef unsigned char u8;
 
@@ -24,8 +24,8 @@ typedef struct {
 } Work;
 
 typedef unsigned int   u32;
-extern void func_02005CBC(u32 value, u32 mask);
-extern void func_02006734(int v);
+extern void GFL_USE_SetPlayerVolumes(u32 value, u32 mask);
+extern void PM_VOICE_SetMasterVolume(int v);
 
 void func_021C24A4(Work *w, int v)
 {
@@ -33,7 +33,7 @@ void func_021C24A4(Work *w, int v)
         w->f1341 = w->f1340;
         w->f1343 = 6;
         w->f1342 = v;
-        func_02005CBC(v, 0x3f);
-        func_02006734(v);
+        GFL_USE_SetPlayerVolumes(v, 0x3f);
+        PM_VOICE_SetMasterVolume(v);
     }
 }

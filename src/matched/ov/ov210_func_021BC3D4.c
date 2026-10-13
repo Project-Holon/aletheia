@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204335C  0x0204335C  arm
+ *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   func_020433E0  0x020433E0  arm
  *   d_021C0754  0x021C0754  data  a4
  * Addresses are Black-image addresses.
@@ -23,12 +23,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
 extern u8 d_021C0754[];
-extern void func_0204335C(u32 a);
+extern void BG_SYS_ClearGraphicsMemory(u32 a);
 struct DispVram;
 extern void func_020433E0(const struct DispVram *c);
 
 void func_021BC3D4(void)
 {
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)d_021C0754);
 }

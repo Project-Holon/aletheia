@@ -1,5 +1,5 @@
 /*
- * function: func_021B6A3C
+ * function: IRC_COMPATIBLE_SetHandler
  * address:  0x021B6A3C
  * packet:   pkt_ov101_021B6A3C
  * region:   ov101
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021B6A3C(u8 *p, u32 v) { ((struct Obj13718 *)p)->f14 = v; ((struct Obj13718 *)p)->f18 = 0; }
+void IRC_COMPATIBLE_SetHandler(u8 *p, u32 v) { ((struct Obj13718 *)p)->f14 = v; ((struct Obj13718 *)p)->f18 = 0; }

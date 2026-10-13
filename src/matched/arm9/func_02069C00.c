@@ -1,5 +1,5 @@
 /*
- * function: func_02069C00
+ * function: NNSi_G2dReadCharUTF16
  * address:  0x02069C00
  * packet:   pkt_02069BA0
  * region:   arm9
@@ -25,7 +25,7 @@ typedef struct Bits {
     unsigned char acc;
 } Bits;
 
-u16 func_02069C00(Bits *b)
+u16 NNSi_G2dReadCharUTF16(Bits *b)
 {
     u16 *p = (u16 *)b->cur;
     u16 v = *p++;

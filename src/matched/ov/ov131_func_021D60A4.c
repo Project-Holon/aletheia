@@ -1,5 +1,5 @@
 /*
- * function: func_021D60A4
+ * function: P_STATUS_GetPokeParaSource
  * address: 0x021D60A4
  * packet: pkt_ov131_021D60A4
  * region: ov131
@@ -15,7 +15,7 @@ typedef unsigned int u32;
 
 extern void *func_0201AB28(void *p, u32 idx);
 struct Src { int v; int pad[2]; unsigned char kind; };
-int func_021D60A4(char *p)
+int P_STATUS_GetPokeParaSource(char *p)
 {
     struct Src *s = *(struct Src * *)&((struct Obj00112 *)p)->f8;
     switch (s->kind) {

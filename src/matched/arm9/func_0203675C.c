@@ -1,5 +1,5 @@
 /*
- * function: func_0203675C
+ * function: GFL_NET_QUEUE_WriteHeader
  * address:  0x0203675C
  * packet:   pkt_0203675C
  * region:   arm9
@@ -8,7 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   GFL_NET_QUEUE_PutByte  0x02036738  arm
  */
 #include "../include/Obj04748.h"
 
-int func_0203675C(int a0, int a1){ int t0, t1, t2, t3, t4; t0 = func_02036738((int)a1, (int)((((struct Obj04748 *)((char *)(a0)))->fE >> 8) & 0xff), (int)((struct Obj04748 *)((char *)(a0)))->fE); t1 = func_02036738((int)a1, (int)(((struct Obj04748 *)((char *)(a0)))->fE & 0xff)); t2 = func_02036738((int)a1, (int)((((struct Obj04748 *)((char *)(a0)))->fC >> 8) & 0xff)); t3 = func_02036738((int)a1, (int)(((struct Obj04748 *)((char *)(a0)))->fC & 0xff)); t4 = func_02036738((int)a1, (int)((struct Obj04748 *)((char *)(a0)))->f10); return 0; }
+int GFL_NET_QUEUE_WriteHeader(int a0, int a1){ int t0, t1, t2, t3, t4; t0 = GFL_NET_QUEUE_PutByte((int)a1, (int)((((struct Obj04748 *)((char *)(a0)))->fE >> 8) & 0xff), (int)((struct Obj04748 *)((char *)(a0)))->fE); t1 = GFL_NET_QUEUE_PutByte((int)a1, (int)(((struct Obj04748 *)((char *)(a0)))->fE & 0xff)); t2 = GFL_NET_QUEUE_PutByte((int)a1, (int)((((struct Obj04748 *)((char *)(a0)))->fC >> 8) & 0xff)); t3 = GFL_NET_QUEUE_PutByte((int)a1, (int)(((struct Obj04748 *)((char *)(a0)))->fC & 0xff)); t4 = GFL_NET_QUEUE_PutByte((int)a1, (int)((struct Obj04748 *)((char *)(a0)))->f10); return 0; }

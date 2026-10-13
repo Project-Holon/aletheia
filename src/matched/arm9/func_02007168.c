@@ -1,5 +1,5 @@
 /*
- * function: func_02007168
+ * function: SAVE_CONTROL_MainSave
  * address:  0x02007168
  * packet:   pkt_02007168
  * region:   arm9
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_02007428  0x02007428  thumb
- *   func_02031BB4  0x02031BB4  arm
+ *   BACKUP_SYSTEM_MainSave  0x02031BB4  arm
  *   func_02008754  0x02008754  thumb
  *
  * Two byte flags at +4 and +5 are one `||` (the first arms the early return,
@@ -22,8 +22,8 @@
  * duplicated into a third register.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02007168.c \
- *       --func func_02007168 --addr 0x02007168 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SAVE_CONTROL_MainSave.c \
+ *       --func SAVE_CONTROL_MainSave --addr 0x02007168 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -44,10 +44,10 @@ struct Sub02007168 {
 };
 
 extern void func_02007428(void);
-extern int func_02031BB4(u32 a0);
+extern int BACKUP_SYSTEM_MainSave(u32 a0);
 extern u8 func_02008754(void *sys);
 
-u32 func_02007168(struct Sub02007168 *p)
+u32 SAVE_CONTROL_MainSave(struct Sub02007168 *p)
 {
     u32 r;
 
@@ -57,7 +57,7 @@ u32 func_02007168(struct Sub02007168 *p)
         p->unk05 = 0;
         return 0;
     }
-    r = func_02031BB4(p->unk10);
+    r = BACKUP_SYSTEM_MainSave(p->unk10);
     if (r == 2 && func_02008754(p) == 0) {
         p->unk00 = 0;
         p->unk01 = 1;

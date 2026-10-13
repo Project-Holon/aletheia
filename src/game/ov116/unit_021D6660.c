@@ -18,8 +18,8 @@
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02012EFC 0x02012EFC thumb
- *   func_02012EF0 0x02012EF0 thumb
+ *   GAME_DATA_GetSaveBlock3B 0x02012EFC thumb
+ *   GAME_DATA_GetSaveBlock3A 0x02012EF0 thumb
  *   func_02008B08 0x02008B08 thumb
  *   func_021D737C 0x021D737C thumb ov116
  *   func_021D73D4 0x021D73D4 thumb ov116
@@ -54,13 +54,13 @@
  *   func_02025C88 0x02025C88 thumb
  *   func_02167ED8 0x02167ED8 arm ov009
  *   func_0200DD28 0x0200DD28 thumb
- *   func_0200DF10 0x0200DF10 thumb
+ *   BSUBWAY_SAVEDATA_SetHistory 0x0200DF10 thumb
  *   func_0200846C 0x0200846C thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02012944 0x02012944 thumb
  *   func_02008494 0x02008494 thumb
  *   func_02008510 0x02008510 thumb
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   func_020458F8 0x020458F8 arm
  *   func_02045A98 0x02045A98 arm
  *   func_0217BC44 0x0217BC44 arm ov009
@@ -89,7 +89,7 @@
  *   func_0200DC74 0x0200DC74 thumb
  *   func_021B9774 0x021B9774 thumb ov114
  *   func_021B9800 0x021B9800 thumb ov114
- *   func_02156DC4 0x02156DC4 thumb ov009
+ *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   func_021B98A0 0x021B98A0 thumb ov114
  *   func_021B98D8 0x021B98D8 thumb ov114
  *   func_021B98F8 0x021B98F8 thumb ov114
@@ -103,21 +103,29 @@
  *   func_021B9A14 0x021B9A14 thumb ov114
  *   func_021B99F4 0x021B99F4 thumb ov114
  *   D_020A7370 0x020A7370 data a4
- *   func_02045F5C 0x02045F5C arm
+ *   MSGDATA_ReadUnits 0x02045F5C arm
  *   func_021C9530 0x021C9530 arm ov114
  *   func_0200DE94 0x0200DE94 thumb
- *   func_0200DEA0 0x0200DEA0 thumb
+ *   BSUBWAY_SAVEDATA_GetTrainersTagB 0x0200DEA0 thumb
  *   func_021C93D0 0x021C93D0 arm ov114
  *   func_021C940C 0x021C940C arm ov114
  *   func_021C9634 0x021C9634 arm ov114
- *   func_0200F7B8 0x0200F7B8 thumb
- *   func_0200FB4C 0x0200FB4C thumb
- *   func_0202E4EC 0x0202E4EC thumb
- *   func_020120B4 0x020120B4 thumb
+ *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
+ *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
+ *   CODEIN_PARAM_Create 0x0202E4EC thumb
+ *   GAMESYSTEM_CallProc 0x020120B4 thumb
  *   d_021D8560 0x021D8560 data ov116 a4
  *   d_021D8568 0x021D8568 data ov116 a4
  *   d_021DA62C 0x021DA62C data ov129 a4
  *   ov129_id 0x81 data
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb  arm9
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb  arm9
+ *   GFL_USE_PushBgm  0x02005E64  thumb  arm9
+ *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
+ *   BSUBWAY_SAVEDATA_SetTrainers  0x0200DE6C  thumb  arm9
  */
 #include "../../matched/include/Obj00671.h"
 #include "../../matched/include/Obj22612.h"
@@ -207,15 +215,15 @@ extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008AECObj *func_02008B08(void *sys);
 extern u32 func_0201283C(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
-extern void *func_02012EFC(void **p);
-extern void *func_02012EF0(void **p);
+extern void *GAME_DATA_GetSaveBlock3B(void **p);
+extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern u32 func_0200FB24(void);
-extern int func_02005E50(void);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
-extern void func_02005D90(int,int);
-extern void func_02005DF8(unsigned);
-extern void func_02005E30(u32 a);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
+extern void GFL_USE_FadeInBgmFull(unsigned);
+extern void GFL_USE_FadeOutBgm(u32 a);
 extern void func_021D737C(u8 *);
 extern void func_021D7B70(u8 *,u32);
 extern void func_0204E720(u32 a, s32_021D6710 b, s32_021D6710 c, s32_021D6710 d);
@@ -225,7 +233,7 @@ extern void func_021D8010(void *,u32);
 extern void func_021D8190(u8 *p);
 extern int func_021D6C50(u8 *,unsigned),func_021D6D18(u8 *,u8 *),func_021D7424(u8 *,int),func_021D7AC8(u8 *);
 extern void func_021D6CBC(u8 *,void *,u8 *),func_021D7AA8(u8 *),func_021D7C58(u8 *),func_021D73E0(u8 *);
-extern u32 func_0200F7B8(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern int func_021D7B00(u8 *);
 extern int func_021D7B64(u8 *);
 extern void func_021D7038(u8 *),func_021C8FA8(void),func_021D7CF4(u8 *);
@@ -236,7 +244,7 @@ extern void func_021D7C58(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
 extern void func_02034A5C(int handle);
-extern int func_02005E9C(void);
+extern int GFL_USE_PopBgm(void);
 extern int func_0204E804(void);
 extern void func_021C941C(unsigned x);
 extern void func_021C94A0(unsigned x, unsigned y, unsigned z);
@@ -245,14 +253,14 @@ extern u32 func_02025C30(u32,u32,u32);
 extern u32 func_02025CB0(u32);
 extern u32 func_02025C88(u32);
 extern int func_02167ED8(void *, void *);
-extern void func_0200DE6C(struct RecSlot *p, const void *src, u8 a, u8 b);
+extern void BSUBWAY_SAVEDATA_SetTrainers(struct RecSlot *p, const void *src, u8 a, u8 b);
 extern void func_0200DD28(u8 *p, u8 a, u8 b, u32 *q);
-extern void func_0200DF10(struct RecSlot *p, const void *src, u8 a, u8 b);
+extern void BSUBWAY_SAVEDATA_SetHistory(struct RecSlot *p, const void *src, u8 a, u8 b);
 extern void *func_0200846C(int);
 extern u32 func_020307B0(void *p);
 extern void func_02008494(void *, void *);
 extern void *func_02008510(void *, int);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 func_020458F8(struct U16Vec *vec);
 extern u16 func_02045A98(void);
 extern int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
@@ -279,7 +287,7 @@ extern void func_0200DC74(struct Blk1AC *p, u32 which, void *dest);
 extern void func_021B9774(unsigned char *);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern u8 *func_021B9800(int,int,int);
-extern void func_02156DC4(int a0, int a1);
+extern void DWC_RAP_SetErrorCallback(int a0, int a1);
 extern void func_021B98A0(u8 *,int,int,int);
 extern void func_021B98D8(u8 *p, int a, int n);
 extern int func_021B98F8(u8 *p);
@@ -292,17 +300,17 @@ extern u8 *func_021B97F4(u8 *);
 extern int func_021B99F0(u8 *p);
 extern u8 *func_021B9A14(u8 *p, u32 i);
 extern u32 func_021B99F4(u32 p, u32 i);
-extern void func_02045F5C(struct MsgData *,unsigned int,unsigned short *,unsigned int);
+extern void MSGDATA_ReadUnits(struct MsgData *,unsigned int,unsigned short *,unsigned int);
 extern u8 func_0200DE94(struct RecSlot *p);
-extern u8 func_0200DEA0(struct RecSlot *p);
+extern u8 BSUBWAY_SAVEDATA_GetTrainersTagB(struct RecSlot *p);
 extern u8 func_0200DCFC(struct Blk1AC *p);
 extern void func_021C9530(u32 a, u32 b, u32 c, const void *p, const void *q, u32 v);
 extern int func_021C93D0(void);
 extern int func_021C940C(void);
 extern void func_021C9634(void);
-extern void func_0200FB4C(unsigned int x);
-extern struct Param *func_0202E4EC(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
+extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 int func_021D6660(void *ctx,int unused,u8 *q);
 int func_021D6710(void *a,int *state,int b,u8 *p);
 int func_021D6918(void *p, int a, int b, u8 *q);
@@ -365,8 +373,8 @@ int func_021D6660(void *ctx,int unused,u8 *q) {
     *(int *)(p+0x1848)=(int)func_02008B08(q);
     *(int *)(p+0x184c)=func_0201283C(save);
     *(int *)(p+0x1850)=(int)func_02012944(save);
-    *(int *)(p+0x1854)=(int)func_02012EFC(save);
-    *(int *)(p+0x1858)=(int)func_02012EF0(save);
+    *(int *)(p+0x1854)=(int)GAME_DATA_GetSaveBlock3B(save);
+    *(int *)(p+0x1858)=(int)GAME_DATA_GetSaveBlock3A(save);
     func_021D6998(p+0xb74);
     func_021D6B50(p+0x1610,125);
     func_021D70D8(p+0x182c);
@@ -380,8 +388,8 @@ int func_021D6710(void *a,int *state,int b,u8 *p)
         if(func_021D7158(p+0x182c)!=0 || func_0200FB24()!=0) *state=20;
     }
     switch(*state) {
-    case 0: func_02005E30(6); ++*state; break;
-    case 1: if(func_02005E50()==0) { func_02005DE4((void *)1); func_02005E64(); func_02005D90(1153,65535); func_02005DF8(6); ++*state; } break;
+    case 0: GFL_USE_FadeOutBgm(6); ++*state; break;
+    case 1: if(GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPlayerParam((void *)1); GFL_USE_PushBgm(); GFL_USE_CancelChangeAndPlayBgm(1153,65535); GFL_USE_FadeInBgmFull(6); ++*state; } break;
     case 2: func_021D737C(p); ++*state; break;
     case 3: if(func_021D73D4(p)==0) ++*state; else { ((struct Obj22612 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=2; *state=17; } break;
     case 4: func_021D7B70(p+4,125); func_0204E720(3,16,0,1); ++*state; break;
@@ -396,9 +404,9 @@ int func_021D6710(void *a,int *state,int b,u8 *p)
     case 13: v=func_021D7424(p,125); if(v==1) { ((struct Obj22613 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=0; ++*state; } else if(v==2) { ((struct Obj22614 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=2; ++*state; } break;
     case 14: func_021D7AA8(p); func_0204E720(3,0,16,1); ++*state; break;
     case 15: if(func_021D7AC8(p)!=0 && func_0204E804()==0) { func_021D7C58(p+4); ++*state; } break;
-    case 16: if(func_0200F7B8(0)==0) func_021D73E0(p); ++*state; break;
-    case 17: func_02005E30(6); ++*state; break;
-    case 18: if(func_02005E50()==0) ++*state; break;
+    case 16: if(GFL_NET_ERR_ShowScreen(0)==0) func_021D73E0(p); ++*state; break;
+    case 17: GFL_USE_FadeOutBgm(6); ++*state; break;
+    case 18: if(GFL_USE_IsBgmFading()==0) ++*state; break;
     case 19: return 1;
     case 20: if(func_021D7B00(p)!=0) *state=21; else *state=14; func_021D7038(p+0x1610); break;
     case 21: if(func_021D7B64(p)!=0) *state=14; break;
@@ -417,9 +425,9 @@ int func_021D6918(void *p, int a, int b, u8 *q) {
     func_020315D4(p);
     func_020306F0(125);
     func_02034A5C((int)ov_id);
-    func_02005E9C();
-    func_02005DE4(0);
-    func_02005DF8(60);
+    GFL_USE_PopBgm();
+    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_FadeInBgmFull(60);
     return 1;
 }
 
@@ -481,11 +489,11 @@ void func_021D6AF0(u8 *p, void *q) {
     u32 time[3];
     u32 date[4];
     func_02167ED8(date, time);
-    func_0200DE6C(q, p + 14, *(u16 *)(p + 8), *(u16 *)(p + 10));
+    BSUBWAY_SAVEDATA_SetTrainers(q, p + 14, *(u16 *)(p + 8), *(u16 *)(p + 10));
     func_0200DD28(q, *(u16 *)(p + 8), *(u16 *)(p + 10), date);
 }
 
-void func_021D6B30(unsigned char *a,void *b) { func_0200DF10(b,a+0x69e,((struct Obj13861 *)a)->f8,((struct Obj13861 *)a)->fA); }
+void func_021D6B30(unsigned char *a,void *b) { BSUBWAY_SAVEDATA_SetHistory(b,a+0x69e,((struct Obj13861 *)a)->f8,((struct Obj13861 *)a)->fA); }
 
 void func_021D6B50(unsigned char *a,int b) { func_02082BCC(a,0,0x21c); ((struct Obj22619 *)a)->f218=func_0200846C(b); }
 
@@ -505,7 +513,7 @@ void func_021D6B88(u8 *p, void *save, int id)
     str = func_02008510(((struct Obj04469 *)p)->f218, id);
     func_02082BCC(p + 0x1f0, 0, 40);
     ((struct Obj04469 *)p)->f214 = id;
-    chars = func_02045A90(str);
+    chars = STRBUF_GetChars(str);
     for (i = 0; i < func_020458F8(str) + 1u; i++) {
         u16 c = chars[i];
         if (c == func_02045A98()) ((u16 *)(p + 0x1f0))[i] = 0;
@@ -536,15 +544,15 @@ int func_021D6C50(u8 *p,unsigned heap) {
 
 /*
  *   extern int func_020071CC(void *,int);
- *   int func_02012EF0(void **p) { return func_020071CC(*p,58); }
+ *   int GAME_DATA_GetSaveBlock3A(void **p) { return func_020071CC(*p,58); }
  *   extern int func_020071CC(void *,int);
- *   int func_02012EFC(void **p) { return func_020071CC(*p,59); }
+ *   int GAME_DATA_GetSaveBlock3B(void **p) { return func_020071CC(*p,59); }
  */
 void func_021D6CBC(u8 *p,void *q,u8 *r) {
     int a,b,c;
     func_02012EBC(q);
-    a = (int)func_02012EFC(q);
-    b = (int)func_02012EF0(q);
+    a = (int)GAME_DATA_GetSaveBlock3B(q);
+    b = (int)GAME_DATA_GetSaveBlock3A(q);
     c = *(int *)(p+0x218);
     func_021B9B00(p+4,c);
     func_021C9744(p+4,(unsigned int)(p+0x68));
@@ -560,7 +568,7 @@ int func_021D6D18(unsigned char *a,unsigned char *b) { int result; if(func_021D7
  * singleton tu --suggest-split returns MATCH252, no viable partition.
  * fixed dsi/1.1p1 -O4,p Thumb; copied prior 6CBC blocker, owner the integrator.
  *   extern int func_020071CC(void *, int);
- *   int func_02012EF0(void **p) { return func_020071CC(*p, 58); }
+ *   int GAME_DATA_GetSaveBlock3A(void **p) { return func_020071CC(*p, 58); }
  * evidence: 084F4 is bx lr and preserves its incoming pointer in r0;
  * caller consumes it despite the matched callee's void signature.
  * evidence: 08550's matched body returns zero-extended byte +1d;
@@ -578,7 +586,7 @@ void func_021D6D40(u8 *p, void *save, void *idx)
     profile = func_02012EBC(save);
     func_02009470(profile);
     func_0201283C(save);
-    n = func_02012EF0(save);
+    n = GAME_DATA_GetSaveBlock3A(save);
     object = func_0200E6F0((u32)profile);
     func_02082BCC(p, 0, 240);
     func_02082D44(func_020084F4(idx), p + 0xb4, 16);
@@ -600,7 +608,7 @@ void func_021D6E3C(unsigned char *a) { if(((struct Obj13863 *)a)->f168) func_021
 
 void func_021D6E50(u8 *p,u8 *q,int a,int b) {
     *(u8 * *)&((struct Obj04470 *)p)->f168=func_021B9800(b,func_0200853C(((struct Obj04470 *)p)->f218),a);
-    func_02156DC4((int)func_021D6E3C,(int)p);
+    DWC_RAP_SetErrorCallback((int)func_021D6E3C,(int)p);
     func_021B98A0(*(u8 * *)&((struct Obj04470 *)p)->f168,b,180,4);
     func_021B98D8(*(u8 * *)&((struct Obj04470 *)p)->f168,(int)(p+0x70),180);
     ((struct Obj04470 *)p)->f16C=3;
@@ -628,7 +636,7 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
         func_021B99B8(*(u8 * *)&((struct Obj01925 *)p)->f168);
         func_021B9838(*(u8 * *)&((struct Obj01925 *)p)->f168);
         *(u8 * *)&((struct Obj01925 *)p)->f168 = 0;
-        func_02156DC4(0, 0);
+        DWC_RAP_SetErrorCallback(0, 0);
         return 2;
     }
     if (status != 0) {
@@ -657,17 +665,17 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
         func_021B99B8(*(u8 * *)&((struct Obj01925 *)p)->f168);
         func_021B9838(*(u8 * *)&((struct Obj01925 *)p)->f168);
         *(u8 * *)&((struct Obj01925 *)p)->f168 = 0;
-        func_02156DC4(0, 0);
+        DWC_RAP_SetErrorCallback(0, 0);
     }
     return result;
 }
 
-void func_021D7010(unsigned int a,unsigned int b) { unsigned int p; p=a+0x70+b*0x3c; func_02045F5C(D_020A7370,((struct Record *)p)->id,(unsigned short *)(p+0x22),11); }
+void func_021D7010(unsigned int a,unsigned int b) { unsigned int p; p=a+0x70+b*0x3c; MSGDATA_ReadUnits(D_020A7370,((struct Record *)p)->id,(unsigned short *)(p+0x22),11); }
 
 void func_021D7038(u8 *p)
 {
     if (*(u8 * *)&((struct Obj08046 *)p)->f168) {
-        func_02156DC4(0, 0);
+        DWC_RAP_SetErrorCallback(0, 0);
         func_021B99B8(*(u8 * *)&((struct Obj08046 *)p)->f168);
         func_021B9838(*(u8 * *)&((struct Obj08046 *)p)->f168);
         *(u8 * *)&((struct Obj08046 *)p)->f168 = 0;
@@ -677,7 +685,7 @@ void func_021D7038(u8 *p)
 void func_021D7060(u8 *p, u8 *q) {
     int a, b, c;
     a = func_0200DE94(((struct Obj10339 *)p)->f160);
-    b = func_0200DEA0(((struct Obj10339 *)p)->f160);
+    b = BSUBWAY_SAVEDATA_GetTrainersTagB(((struct Obj10339 *)p)->f160);
     c = func_0200DCFC(((struct Obj10339 *)p)->f164);
     func_021C9530((u8)a,(u8)b,(u8)c,p+0x70,p+0x16e,(int)0x80);
     func_021D70E4(q);
@@ -718,10 +726,10 @@ int func_021D70EC(u8 *p,int *q) {
         switch(result) {
         case -7: case -6: case -4: case -3: case -2: case -1:
             *(int *)p=result; break;
-        case -5: func_0200F7B8(1); break;
+        case -5: GFL_NET_ERR_ShowScreen(1); break;
         default:
             if(result>=0) *q=result;
-            else func_0200F7B8(1);
+            else GFL_NET_ERR_ShowScreen(1);
             break;
         }
     }
@@ -774,7 +782,7 @@ int func_021D7200(int *p) {
         case 408: v=68; break;
         default: v=67; break;
         }
-        func_0200FB4C(v);
+        GFL_NET_ERR_RaiseFatal(v);
         return 1;
     }
     return 0;
@@ -798,7 +806,7 @@ void func_021D7260(u8 *p)
 void func_021D7278(u8 *p,int a) {
     void *obj;
     d_021D8560[2]=(u32)func_021D6A4C(p+0xb74);
-    obj=func_0202E4EC(a,1,func_021D6A48(p+0xb74),3,d_021D8568);
+    obj=CODEIN_PARAM_Create(a,1,func_021D6A48(p+0xb74),3,d_021D8568);
     ((struct Obj13866 *)p)->f1840=obj;
-    func_020120B4(((struct Obj22623 *)(*(u8 * *)&((struct Obj13866 *)p)->f0))->f4,(u32)ov129_id,d_021DA62C,obj);
+    GAMESYSTEM_CallProc(((struct Obj22623 *)(*(u8 * *)&((struct Obj13866 *)p)->f0))->f4,(u32)ov129_id,d_021DA62C,obj);
 }

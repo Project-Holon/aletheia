@@ -13,7 +13,7 @@
  * inc (wrapping at 0x10000), take f = (table[phase >> 4 pair, second entry]
  * + 0x1000) / 2 as an s16 from the table at 0x020A1B38, blend each channel
  * of c0 toward c1 by f >> 12, store to *out and hand it to func_02061CA4.
- * Twin: arm9 func_0202EA40 (blink_palanm.c).  What closed it: all six
+ * Twin: arm9 BLINK_PALANM_Update (blink_palanm.c).  What closed it: all six
  * channels as u8 locals extracted in mask-then-shift form, the blended
  * channels as s32 with a u8 cast, and the pack `(b << 10) | (r | (g << 5))`
  * (the channel ORed last is evaluated first: blue, red, green).  Shift-then-

@@ -1,5 +1,5 @@
 /*
- * function: func_021C8154
+ * function: DWCi_SceneSetError_procScene
  * address:  0x021C8154
  * packet:   pkt_021C8154
  * region:   ov016
@@ -10,23 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C8154   0x021C8154  arm
+ *   DWCi_SceneSetError_procScene   0x021C8154  arm
+ *   DWCi_SceneSetError_draw  0x021C8188  arm
  *
- * Call func_021C8168, func_021C8188, func_021C818C.
+ * Call func_021C8168, DWCi_SceneSetError_draw, func_021C818C.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C8154.c \
- *       --func func_021C8154 --addr 0x021C8154 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetError_procScene.c \
+ *       --func DWCi_SceneSetError_procScene --addr 0x021C8154 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern void func_021C8168(void);
-extern void func_021C8188(void);
+extern void DWCi_SceneSetError_draw(void);
 extern void func_021C818C(void);
 
-void func_021C8154(void)
+void DWCi_SceneSetError_procScene(void)
 {
     func_021C8168();
-    func_021C8188();
+    DWCi_SceneSetError_draw();
     func_021C818C();
 }

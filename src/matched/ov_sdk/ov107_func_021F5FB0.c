@@ -12,7 +12,7 @@
  * sdk:      MB_DisconnectChild (libmb.TWL.HYB.a(mb_wm_base.o))
  *
  * symbols:
- *   func_0208F938  0x0208F938  arm
+ *   WM_Disconnect  0x0208F938  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_021F6850  0x021F6850  arm  ov107
  *   func_021F46C8  0x021F46C8  arm  ov107
@@ -66,7 +66,7 @@ typedef struct MBiFileSlot {
 } MBiFileSlot;
 #define FILEINFO(id)     (((MBiFileSlot *)((u8 *)((MBiParam *)g_021F6F90.ext) + (id) * sizeof(MBiFileInfo)))->fi)
 
-extern int func_0208F938(void (*callback)(void *), u16 aid);
+extern int WM_Disconnect(void (*callback)(void *), u16 aid);
 extern void func_02082BCC(void *dstp, u8 data, u32 size);
 extern void func_021F6850(u16 child_aid);
 extern void func_021F46C8(void *arg);
@@ -75,7 +75,7 @@ extern struct WmBase g_021F6F90;
 void func_021F5FB0(u16 aid)
 {
 
-    func_0208F938(func_021F46C8, aid);
+    WM_Disconnect(func_021F46C8, aid);
     if (aid == 0 || aid >= 16)
         return;
     ((MBiParam *)g_021F6F90.ext)->childversion[aid - 1] = 0;

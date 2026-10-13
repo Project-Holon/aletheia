@@ -19,8 +19,8 @@
  * Matching that thunk (ARM9 territory) or seeding its start closes this file.
  *
  * symbols:
- *   func_02012EF0  0x02012EF0  thumb
- *   func_02012F44  0x02012F44  thumb
+ *   GAME_DATA_GetSaveBlock3A  0x02012EF0  thumb
+ *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   func_020127B8  0x020127B8  thumb
  *   func_0201296C  0x0201296C  thumb
  *   func_020142E8  0x020142E8  thumb
@@ -39,8 +39,8 @@ typedef signed int     s32;
 struct Big;
 struct Blk1AC;
 struct Rec1B0;
-extern void *func_02012EF0(void **p);
-extern void *func_02012F44(void *save);
+extern void *GAME_DATA_GetSaveBlock3A(void **p);
+extern void *GAME_DATA_GetSaveBlock2A(void *save);
 extern void *func_020127B8(void *save);
 struct BigObj;
 extern u32 func_0201296C(const struct BigObj *p);
@@ -60,8 +60,8 @@ int func_0216F830(void *save)
     void *c;
 
     n = 0;
-    a = func_02012EF0(save);
-    b = func_02012F44(save);
+    a = GAME_DATA_GetSaveBlock3A(save);
+    b = GAME_DATA_GetSaveBlock2A(save);
     c = func_020127B8(save);
     if (func_020142E8((void *)func_0201296C(save), 0x960))
         n++;

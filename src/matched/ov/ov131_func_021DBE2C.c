@@ -1,5 +1,5 @@
 /*
- * function: func_021DBE2C
+ * function: P_STA_OAM_SetBitmapActorsPos
  * address: 0x021DBE2C
  * packet: pkt_ov131_021DBE2C
  * region: ov131
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021DBE2C(u8 *p, s16 x, s16 y)
+void P_STA_OAM_SetBitmapActorsPos(u8 *p, s16 x, s16 y)
 {
     struct Point pt;
     int i, j;

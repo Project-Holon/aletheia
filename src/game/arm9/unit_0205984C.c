@@ -1,6 +1,6 @@
 /*
  * file:     unit_0205984C.c
- * function: func_0205984C
+ * function: DWC_CheckDirtyFlag
  * address:  0x0205984C
  * packet:   pkt_0205984C
  * region:   arm9
@@ -18,7 +18,7 @@
 
 extern int DWCi_Acc_IsDirty(void *userdata);
 
-int func_0205984C(void *userdata)
+int DWC_CheckDirtyFlag(void *userdata)
 {
     return DWCi_Acc_IsDirty(userdata);
 }

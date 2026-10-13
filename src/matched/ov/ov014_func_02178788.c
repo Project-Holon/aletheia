@@ -1,5 +1,5 @@
 /*
- * function: func_02178788
+ * function: DWCi_MOV_WH_StateOutStartScan
  * address:  0x02178788
  * packet:   pkt_ov014_02178788
  * region:   ov014
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The WM_StartScanEx callback that func_0217863C installs (the DWC copy of
+ * The WM_StartScanEx callback that DWCi_MOV_WH_StateInStartScan installs (the DWC copy of
  * the NitroSDK demo wh.c's scan callback).  arg is a WMStartScanExCallback:
  * errcode +2, state +8, bssDescCount +0xE, bssDesc[] +0x10, linkLevel[]
  * +0x50.  Each found BSS is copied to +0xF40 of the work block behind
@@ -17,13 +17,13 @@
  *
  * symbols:
  *   g_021797A8          0x021797A8  data   ov014  a4
- *   d_0217979C          0x0217979C  data   a1
+ *   sWihAssertText          0x0217979C  data   a1
  *   func_0217814C       0x0217814C  thumb  ov014
  *   func_02178138       0x02178138  thumb  ov014
  *   func_02178964       0x02178964  thumb  ov014
- *   func_0217873C       0x0217873C  thumb  ov014
- *   func_02010864       0x02010864  thumb
- *   func_02010884       0x02010884  thumb
+ *   WIH_IsMatchingParent       0x0217873C  thumb  ov014
+ *   WIH_DWC_RequestAlertLevel       0x02010864  thumb
+ *   WIH_DWC_Dummy       0x02010884  thumb
  *   DC_InvalidateRange  0x020862B8  arm
  *   MI_CpuCopy8         0x02082D44  arm
  *   func_0203D650       0x0203D650  arm
@@ -35,14 +35,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 *g_021797A8;
-extern char d_0217979C[];
+extern char sWihAssertText[];
 
 extern void func_0217814C(int err);
 extern void func_02178138(int state);
 extern int func_02178964(void);
-extern int func_0217873C(u8 *p);
-extern void func_02010864(u32 v);
-extern void func_02010884(void);
+extern int WIH_IsMatchingParent(u8 *p);
+extern void WIH_DWC_RequestAlertLevel(u32 v);
+extern void WIH_DWC_Dummy(void);
 extern void DC_InvalidateRange(void *p, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 func_0203D650(void);
@@ -64,7 +64,7 @@ typedef struct ScanExCb {
 typedef void (*FoundFn)(void *desc, u32 a, u16 level);
 typedef int (*FilterFn)(void *desc);
 
-void func_02178788(void *arg)
+void DWCi_MOV_WH_StateOutStartScan(void *arg)
 {
     ScanExCb *cb = arg;
     u16 state = cb->state;
@@ -90,7 +90,7 @@ void func_02178788(void *arg)
 
     switch (state) {
     case 4:
-        func_02010884();
+        WIH_DWC_Dummy();
         return;
     case 5:
         if (cb->bssDescCount != 0)
@@ -99,13 +99,13 @@ void func_02178788(void *arg)
         for (i = 0; i < cb->bssDescCount; i++) {
             w = g_021797A8;
             MI_CpuCopy8(cb->bssDesc[i], w + 0xF40, 0xC0);
-            func_02010864((u8)cb->linkLevel[i]);
+            WIH_DWC_RequestAlertLevel((u8)cb->linkLevel[i]);
             if (*(FoundFn *)(g_021797A8 + 0x1E88) != 0)
                 (*(FoundFn *)(g_021797A8 + 0x1E88))(w + 0xF40, func_0203D650(),
                                                     cb->linkLevel[i]);
-            if (func_0217873C(w + 0xF40) != 0) {
+            if (WIH_IsMatchingParent(w + 0xF40) != 0) {
                 if (*(FilterFn *)(g_021797A8 + 0x1E94) == 0)
-                    func_02034714(d_0217979C, 0, d_0217979C);
+                    func_02034714(sWihAssertText, 0, sWihAssertText);
                 if ((*(FilterFn *)(g_021797A8 + 0x1E94))(w + 0xF40) != 0)
                     found = 1;
             }

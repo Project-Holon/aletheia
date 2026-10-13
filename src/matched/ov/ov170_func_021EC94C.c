@@ -9,30 +9,30 @@
  * status: EXACT
  * symbols:
  *   _ffix 0x0209C494 arm
- *   func_0204B570 0x0204B570 arm
- *   func_0204B5AC 0x0204B5AC arm
- *   func_0204B588 0x0204B588 arm
+ *   CLACT_SetActorAffineMode 0x0204B570 arm
+ *   CLACT_SetActorScale 0x0204B5AC arm
+ *   CLACT_SetActorAffineOrigin 0x0204B588 arm
  */
 #include "../include/Obj04546.h"
 typedef unsigned int   u32;
 struct Actor;
-extern void func_0204B570(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 struct Obj;
 struct Pair;
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 struct Pt;
-extern void func_0204B588(struct Actor *actor, const struct Pt *src);
+extern void CLACT_SetActorAffineOrigin(struct Actor *actor, const struct Pt *src);
 void func_021EC94C(char *p)
 {
     int pair[2];
     unsigned short shape[2];
     *(float *)(p + 8) = 4096.0f;
     p[7] = 0;
-    func_0204B570(((struct Obj04546 *)p)->f0, 1);
+    CLACT_SetActorAffineMode(((struct Obj04546 *)p)->f0, 1);
     pair[0] = (int)*(float *)(p + 8);
     pair[1] = (int)*(float *)(p + 8);
-    func_0204B5AC(((struct Obj04546 *)p)->f0, (struct Pair *)pair);
+    CLACT_SetActorScale(((struct Obj04546 *)p)->f0, (struct Pair *)pair);
     shape[0] = 0;
     shape[1] = 8;
-    func_0204B588(((struct Obj04546 *)p)->f0, (const struct Pt *)shape);
+    CLACT_SetActorAffineOrigin(((struct Obj04546 *)p)->f0, (const struct Pt *)shape);
 }

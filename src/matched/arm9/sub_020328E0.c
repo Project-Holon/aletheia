@@ -5,7 +5,7 @@
  * and no split can make one.  It closes the day a second caller turns up or
  * 0x02031F54 itself is matched.
  *
- * function: sub_020328E0
+ * function: BACKUP_SYSTEM_WriteFooterBody
  * address:  0x020328E0
  * packet:   pkt_020328E0
  * region:   arm9
@@ -16,9 +16,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02031EAC  0x02031EAC  arm
- *   func_02031F54  0x02031F54  arm
- *   func_020336B8  0x020336B8  arm
+ *   BACKUP_SYSTEM_GetAreaAddr  0x02031EAC  arm
+ *   BACKUP_SYSTEM_SetFooter  0x02031F54  arm
+ *   FLASH_ACCESS_StartWrite  0x020336B8  arm
  *   unk_02146994   0x02146994  data
  *
  * savedata.c.  Writes the sixteen byte footer of a backup record: the
@@ -29,7 +29,7 @@
  * 0x02031F54 in between is made for its effect only; its result is dropped.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_020328E0.c  *       --func sub_020328E0 --addr 0x020328E0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/BACKUP_SYSTEM_WriteFooterBody.c  *       --func BACKUP_SYSTEM_WriteFooterBody --addr 0x020328E0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -61,19 +61,19 @@ struct SaveMain {
 
 extern struct SaveMain *unk_02146994;
 
-extern u32 func_02031EAC(u32 *p, u32 sel);
-extern void func_02031F54(const struct SaveBackup *p, u8 *buf);
-extern int func_020336B8(u32 a0, u32 a1, u32 a2, void *a3);
+extern u32 BACKUP_SYSTEM_GetAreaAddr(u32 *p, u32 sel);
+extern void BACKUP_SYSTEM_SetFooter(const struct SaveBackup *p, u8 *buf);
+extern int FLASH_ACCESS_StartWrite(u32 a0, u32 a1, u32 a2, void *a3);
 
-int sub_020328E0(struct SaveBackup *p, u32 sel)
+int BACKUP_SYSTEM_WriteFooterBody(struct SaveBackup *p, u32 sel)
 {
     u32 dst;
     u32 area;
     u32 buf;
 
     area = p->unk30;
-    dst = area + func_02031EAC((u32 *)p, sel) - 0x10;
+    dst = area + BACKUP_SYSTEM_GetAreaAddr((u32 *)p, sel) - 0x10;
     buf = p->unk34;
-    func_02031F54(p, (u8 *)buf);
-    return func_020336B8(dst, buf + (area - 0x10), 0xF, (void *)unk_02146994->unk208);
+    BACKUP_SYSTEM_SetFooter(p, (u8 *)buf);
+    return FLASH_ACCESS_StartWrite(dst, buf + (area - 0x10), 0xF, (void *)unk_02146994->unk208);
 }

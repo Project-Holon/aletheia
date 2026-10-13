@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02014B08",
+   "name": "MCSS_Init",
    "address": "0x02014B08",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02014BA8",
+   "name": "MCSS_Exit",
    "address": "0x02014BA8",
    "kind": "game",
    "region": "arm9",

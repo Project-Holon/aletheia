@@ -106,7 +106,7 @@ void func_02076050(void) { func_02076230((struct CARDiCommon *)((u32)&g_02150200
  * Unlabelled leaf: disasm.py only labels a prologue that saves lr, and this
  * one saves nothing, so it never appears in the worklist.  It sits inside
  * pkt_02075FCC's range (0x02075FCC..0x0207608C) after the 0x02075FCC extent
- * and its pool.  It is the sole caller-side witness for func_02076B8C's
+ * and its pool.  It is the sole caller-side witness for CARD_TryWaitBackupAsync's
  * one-word veneer, so filing it and then re-running that wrapper is the
  * bottom-up promotion for this pair.
  */

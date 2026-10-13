@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02039160  0x02039160  arm
+ *   GFL_NET_SYSTEM_IsConnectMember  0x02039160  arm
  *
  * Counts the eight slots whose test function answers non-zero.  The slot
  * number goes in as a `u16` - the `lsl #16` / `lsr #16` pair in the loop is
@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef signed int     s32;
 typedef unsigned int   u32;
 
-extern u32 func_02039160(u16 slot);
+extern u32 GFL_NET_SYSTEM_IsConnectMember(u16 slot);
 
 u32 func_020392B8(void)
 {
@@ -38,7 +38,7 @@ u32 func_020392B8(void)
 
     count = 0;
     for (i = 0; i < 8; i++) {
-        if (func_02039160((u16)i) != 0)
+        if (GFL_NET_SYSTEM_IsConnectMember((u16)i) != 0)
             count++;
     }
     return count;

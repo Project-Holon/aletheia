@@ -1,7 +1,7 @@
 /*
  * file:     unit_021CDBA8.c
  * unit:     yes
- * function: func_021CDBA8, func_021CDBB8
+ * function: DWCi_SceneSetUsbCompleteCallback, DWCi_SceneSetUsbCompleteNop
  * address:  0x021CDBA8
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -13,22 +13,22 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
 extern void func_021CDC78(void);
-void func_021CDBA8(void);
-void func_021CDBB8(void);
+void DWCi_SceneSetUsbCompleteCallback(void);
+void DWCi_SceneSetUsbCompleteNop(void);
 
 
 /*
- * Call func_021CDC78, func_021CDBB8.
+ * Call func_021CDC78, DWCi_SceneSetUsbCompleteNop.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CDBA8.c \
- *       --func func_021CDBA8 --addr 0x021CDBA8 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetUsbCompleteCallback.c \
+ *       --func DWCi_SceneSetUsbCompleteCallback --addr 0x021CDBA8 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021CDBA8(void)
+void DWCi_SceneSetUsbCompleteCallback(void)
 {
     func_021CDC78();
-    func_021CDBB8();
+    DWCi_SceneSetUsbCompleteNop();
 }
 
 /*
@@ -36,9 +36,9 @@ void func_021CDBA8(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CDBB8.c \
- *       --func func_021CDBB8 --addr 0x021CDBB8 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetUsbCompleteNop.c \
+ *       --func DWCi_SceneSetUsbCompleteNop --addr 0x021CDBB8 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021CDBB8(void)
+void DWCi_SceneSetUsbCompleteNop(void)
 {
 }

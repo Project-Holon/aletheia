@@ -13,6 +13,7 @@
  *   func_021D6FF0 0x021D6FF0 thumb ov123
  *   func_021D7798 0x021D7798 thumb ov123
  *   func_0203F1FC 0x0203F1FC arm
+ *   MUSICAL_DIST_SAVE_CreateFromData  0x0200C5C8  thumb  arm9
  */
 #include "../include/Obj02837.h"
 typedef unsigned char u8;
@@ -21,7 +22,7 @@ extern int func_021D5BA0(char *p);
 typedef unsigned int   u32;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 struct MusicalDist;
-extern struct MusicalDist *func_0200C5C8(void *sys, const void *src, u32 size, u32 heap);
+extern struct MusicalDist *MUSICAL_DIST_SAVE_CreateFromData(void *sys, const void *src, u32 size, u32 heap);
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D6FF0(char *p);
 extern void func_021D7798(u8 *p);
@@ -45,6 +46,6 @@ void func_021D77C4(int a,int n)
         return;
     }
     ((struct Obj02837 *)a)->fAE=1;
-    ((struct Obj02837 *)a)->f30=(int)func_0200C5C8((void *)(((struct Obj02837 *)a)->f2C),p,n,((struct Obj02837 *)a)->f0);
+    ((struct Obj02837 *)a)->f30=(int)MUSICAL_DIST_SAVE_CreateFromData((void *)(((struct Obj02837 *)a)->f2C),p,n,((struct Obj02837 *)a)->f0);
     func_021D6EE0((u8 *)a,(int)func_021D7798,0x3a9);
 }

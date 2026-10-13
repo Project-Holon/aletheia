@@ -1,5 +1,5 @@
 /*
- * function: func_021AF494
+ * function: VCT_ADPCM_Encode4Bit
  * address:  0x021AF494
  * packet:   pkt_ov013_021AF494
  * region:   ov013
@@ -12,7 +12,7 @@
  * IMA ADPCM encoder: n s16 samples to n/2 bytes, first sample in the low
  * nibble, predictor and step index carried in *st. Index table (s8[16])
  * at 0x021B3A0C, step table (s16[89]) at 0x021B3A1C. Same tables and
- * state struct as the decoders func_021AF340 and func_021AF628.
+ * state struct as the decoders VCT_ADPCM_Decode4Bit and VCT_ADPCM_Decode3Bit.
  *
  * pass 6 2026-10-06 P6L06: closed with the register colouring capture
  * (scratchpad tools6/regalloc_trace.py). The colouring is round 1 (round 0
@@ -25,8 +25,8 @@
  * step1/sample1 after it.
  *
  * symbols:
- *   d_021B3A0C     0x021B3A0C  data  ov013  a1
- *   d_021B3A1C     0x021B3A1C  data  ov013  a2
+ *   gAdpcmIndexTable4     0x021B3A0C  data  ov013  a1
+ *   gAdpcmStepTable     0x021B3A1C  data  ov013  a2
  */
 
 typedef unsigned char u8;
@@ -39,13 +39,13 @@ typedef struct AdpcmState {
     u8 index;
 } AdpcmState;
 
-extern const s8 d_021B3A0C[16];
-extern const s16 d_021B3A1C[89];
+extern const s8 gAdpcmIndexTable4[16];
+extern const s16 gAdpcmStepTable[89];
 
 #define ADPCM_ENCODE(code, step, p, idx, diff, vp, np, sample) \
     idx = st->index;                                           \
     p = st->pred;                                              \
-    step = d_021B3A1C[idx];                                    \
+    step = gAdpcmStepTable[idx];                                    \
     diff = (sample) - p;                                       \
     if (diff < 0) {                                            \
         code = 8;                                              \
@@ -84,7 +84,7 @@ extern const s16 d_021B3A1C[89];
     if (np > 32767) {                                          \
         np = 32767;                                            \
     }                                                          \
-    idx += d_021B3A0C[code];                                   \
+    idx += gAdpcmIndexTable4[code];                                   \
     if (idx < 0) {                                             \
         idx = 0;                                               \
     } else if (idx > 88) {                                     \
@@ -93,7 +93,7 @@ extern const s16 d_021B3A1C[89];
     st->pred = (s16)np;                                        \
     st->index = idx
 
-void func_021AF494(u8 *dst, s16 *src, u32 n, AdpcmState *st)
+void VCT_ADPCM_Encode4Bit(u8 *dst, s16 *src, u32 n, AdpcmState *st)
 {
     u32 i;
     u8 lo;

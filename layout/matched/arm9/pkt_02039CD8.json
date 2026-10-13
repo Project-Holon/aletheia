@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02039CD8",
+   "name": "GFL_NET_HANDLE_CheckTimingSyncAll",
    "address": "0x02039CD8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203A424",
+   "name": "GFL_NET_HANDLE_SetUserInfo",
    "address": "0x0203A424",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203A53C",
+   "name": "GFL_NET_COMMAND_Exit",
    "address": "0x0203A53C",
    "kind": "game",
    "region": "arm9",

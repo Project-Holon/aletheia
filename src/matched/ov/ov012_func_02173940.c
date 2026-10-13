@@ -1,5 +1,5 @@
 /*
- * function: func_02173940
+ * function: UNION_MAIN_GetAppealNo
  * address:  0x02173940
  * packet:   pkt_ov012_02173940
  * region:   ov012
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 
-u8 func_02173940(u8 *p)
+u8 UNION_MAIN_GetAppealNo(u8 *p)
 {
     return p[0x2832];
 }

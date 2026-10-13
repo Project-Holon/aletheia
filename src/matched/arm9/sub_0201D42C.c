@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02045A90  0x02045A90  arm
- *   sub_0201DC80  0x0201DC80  thumb
+ *   STRBUF_GetChars  0x02045A90  arm
+ *   GF_FONT_GetLineHeight  0x0201DC80  thumb
  *
  * printsys.c: the pixel height of a string object, i.e. its line count times
- * the font's line height (sub_0201DC80).  The line counter is a u16, so the
+ * the font's line height (GF_FONT_GetLineHeight).  The line counter is a u16, so the
  * increment carries the halfword truncation pair.
  *
  * Verified with:
@@ -33,9 +33,9 @@ struct StrObj {
 };
 
 struct U16Vec;
-extern u16 *sub_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 struct Font;
-extern u32 sub_0201DC80(struct Font *p);
+extern u32 GF_FONT_GetLineHeight(struct Font *p);
 
 u32 sub_0201D42C(struct StrObj *s, void *font)
 {
@@ -43,7 +43,7 @@ u32 sub_0201D42C(struct StrObj *s, void *font)
     u16 c;
     u16 n;
 
-    p = sub_02045A90((struct U16Vec *)s);
+    p = STRBUF_GetChars((struct U16Vec *)s);
     c = *p;
     n = 0;
     while (c != 0xFFFF) {
@@ -59,5 +59,5 @@ u32 sub_0201D42C(struct StrObj *s, void *font)
         }
         c = *p;
     }
-    return (n + 1) * sub_0201DC80(font);
+    return (n + 1) * GF_FONT_GetLineHeight(font);
 }

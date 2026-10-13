@@ -7,15 +7,16 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * lever: ov115 data hint is witnessed by this function loading ov115 via func_02031348; no hint remains MATCH.
+ * lever: ov115 data hint is witnessed by this function loading ov115 via PROCSYS_Push; no hint remains MATCH.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   func_021F8E88 0x021F8E88 thumb ov135
  *   str_02203C34 0x02203C34 data a1
- *   d_021D6338 0x021D6338 data ov115 a4
+ *   gNetSaveMainProc 0x021D6338 data ov115 a4
  *   ov115_id 0x00000073 data
+ *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb  arm9
  */
 #include "../include/Obj03294.h"
 #include "../include/Obj23401.h"
@@ -30,15 +31,15 @@ typedef struct {
     void *user;
 } State;
 extern const char str_02203C34[], ov115_id[];
-extern const u32 d_021D6338[];
+extern const u32 gNetSaveMainProc[];
 extern int func_021F8E88(void *dialog, u8 *p);
 typedef unsigned short u16;
 struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, u32 value, u32 size);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_02031348(void *h, u32 id, const void *a, void *b);
-extern u32 func_0200F7B8(u32 a0);
+extern void PROCSYS_Push(void *h, u32 id, const void *a, void *b);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 int func_021F8D10(u8 *p)
 {
     State *s;
@@ -55,8 +56,8 @@ int func_021F8D10(u8 *p)
     ((struct Obj03294 *)p)->f12EC = 0;
     if (((struct Obj03294 *)p)->f20 == 21) s->f14 = 1;
     else s->f14 = 0;
-    func_02031348(((struct Obj03294 *)p)->f12F0, (u32)ov115_id, d_021D6338, *(State **)(p + 0x10DC));
-    func_0200F7B8(0);
+    PROCSYS_Push(((struct Obj03294 *)p)->f12F0, (u32)ov115_id, gNetSaveMainProc, *(State **)(p + 0x10DC));
+    GFL_NET_ERR_ShowScreen(0);
     ((struct Obj03294 *)p)->f28 = 3;
     return 2;
 }

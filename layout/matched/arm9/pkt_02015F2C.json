@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_02016028",
+   "name": "MCSS_SetAnimeIndex",
    "address": "0x02016028",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_02016078",
+   "name": "MCSS_SetMosaic",
    "address": "0x02016078",
    "kind": "game",
    "region": "arm9",
@@ -54,7 +54,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02016374"
+    "MCSS_RestartAnime"
+   ],
+   "addresses": [
+    "0x02016374"
    ]
   },
   {
@@ -69,7 +72,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020169D4"
+    "MCSS_InitEdgeColor"
+   ],
+   "addresses": [
+    "0x020169D4"
    ]
   },
   {
@@ -84,8 +90,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02016BA0",
-    "sub_02016C0C"
+    "MCSS_FreeResource",
+    "MCSS_DeleteTextureTask"
+   ],
+   "addresses": [
+    "0x02016BA0",
+    "0x02016C0C"
    ]
   }
  ]

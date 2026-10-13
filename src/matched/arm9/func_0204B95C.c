@@ -1,5 +1,5 @@
 /*
- * function: func_0204B95C
+ * function: CLACT_StartActorAnim
  * address:  0x0204B95C
  * packet:   pkt_0204B954
  * region:   arm9
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204D410  0x0204D410  arm
+ *   CLACT_GetAnimCtrl  0x0204D410  arm
  *
- * Set the flag at +0x0c of the animation record func_0204D410 selects out of
- * the cell actor's +0x68 sub-object.  func_0204B974 next door is the same
+ * Set the flag at +0x0c of the animation record CLACT_GetAnimCtrl selects out of
+ * the cell actor's +0x68 sub-object.  CLACT_StopActorAnim next door is the same
  * function storing 0 instead of 1.
  *
  * The store goes through the callee's return value, not through the actor, so
  * the actor pointer is dead after the call and nothing is saved across it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204B95C.c \
- *       --func func_0204B95C --addr 0x0204B95C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_StartActorAnim.c \
+ *       --func CLACT_StartActorAnim --addr 0x0204B95C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -41,9 +41,9 @@ struct Actor {
     struct Ctl ctl;   /* 0x68 */
 };
 
-extern struct Anim *func_0204D410(struct Ctl *c);
+extern struct Anim *CLACT_GetAnimCtrl(struct Ctl *c);
 
-void func_0204B95C(struct Actor *a)
+void CLACT_StartActorAnim(struct Actor *a)
 {
-    func_0204D410(&a->ctl)->flag = 1;
+    CLACT_GetAnimCtrl(&a->ctl)->flag = 1;
 }

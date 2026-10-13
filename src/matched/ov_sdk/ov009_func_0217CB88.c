@@ -12,16 +12,16 @@
  * sdk:      gsCoreTaskThink (libdwcgscommon.TWL.HYB.a(gscore.o))
  *
  * symbols:
- *   func_0217CA20  0x0217CA20  arm  ov009
+ *   gsiCoreGetManager  0x0217CA20  arm  ov009
  *   func_0217F264  0x0217F264  arm  ov009
  *   func_0217CECC  0x0217CECC  arm  ov009
  *   func_0217CB5C  0x0217CB5C  arm  ov009
- *   func_0217F108  0x0217F108  arm  ov009
+ *   gsiEnterCriticalSection  0x0217F108  arm  ov009
  *   func_02184200  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   func_02184324  0x02184324  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
- *   func_0217F114  0x0217F114  arm  ov009
+ *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
  */
 
 typedef unsigned char u8;
@@ -53,20 +53,20 @@ typedef struct GSTask {
     int (*mThinkFunc)(void *);
 } GSTask;
 
-extern void *func_0217CA20(void);
+extern void *gsiCoreGetManager(void);
 extern unsigned int func_0217F264(void);
 extern void func_0217CECC(GSTask *theTask);
 extern void func_0217CB5C(GSTask *theTask, int theResult);
-extern void func_0217F108(void *mutex);
+extern void gsiEnterCriticalSection(void *mutex);
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern void func_02184324(void *array, int n);
 extern void func_0217EAE0(void *ptr);
-extern void func_0217F114(void *mutex);
+extern void gsiLeaveCriticalSection(void *mutex);
 
 int func_0217CB88(GSTask *theTask)
 {
-    GSCoreMgr *aCore = func_0217CA20();
+    GSCoreMgr *aCore = gsiCoreGetManager();
     int aResult = 0;
     int i;
     int removeTask;
@@ -92,7 +92,7 @@ int func_0217CB88(GSTask *theTask)
         if (theTask->mCleanupFunc)
             removeTask = theTask->mCleanupFunc(theTask->mTaskData);
         if (removeTask) {
-            func_0217F108(aCore->mQueueCrit);
+            gsiEnterCriticalSection(aCore->mQueueCrit);
             len = func_02184200(aCore->mTaskArray);
             for (i = 0; i < len; i++) {
                 if (*(GSTask **)func_02184208(aCore->mTaskArray, i) == theTask) {
@@ -101,7 +101,7 @@ int func_0217CB88(GSTask *theTask)
                     break;
                 }
             }
-            func_0217F114(aCore->mQueueCrit);
+            gsiLeaveCriticalSection(aCore->mQueueCrit);
             return 4;
         }
     }

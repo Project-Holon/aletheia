@@ -1,5 +1,5 @@
 /*
- * function: func_02047C8C
+ * function: G3D_SYSTEM_DrawRenderObj
  * address:  0x02047C8C
  * packet:   pkt_020479D8
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C   0x02146A5C  data
+ *   _G3dSystem   0x02146A5C  data
  *   func_0206B6A4 0x0206B6A4  arm
  *
  * Add two halfwords of the object's +4 pointer into the global's two
@@ -23,8 +23,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02047C8C.c \
- *       --func func_02047C8C --addr 0x02047C8C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_DrawRenderObj.c \
+ *       --func G3D_SYSTEM_DrawRenderObj --addr 0x02047C8C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -54,15 +54,15 @@ struct Ov {
     u16 h26;            /* +0x26 */
 };
 
-extern struct G02146A5C g_02146A5C;
+extern struct G02146A5C _G3dSystem;
 struct Obj0206B6A4;
 extern void func_0206B6A4(struct Obj0206B6A4 *p);
 
-void func_02047C8C(struct P02047C8C *p)
+void G3D_SYSTEM_DrawRenderObj(struct P02047C8C *p)
 {
-    g_02146A5C.f4 += p->f4->h26;
-    g_02146A5C.f8 += p->f4->h24;
-    if (g_02146A5C.obj->f98 != 0)
-        g_02146A5C.obj->f98(p, g_02146A5C.obj->f9c);
+    _G3dSystem.f4 += p->f4->h26;
+    _G3dSystem.f8 += p->f4->h24;
+    if (_G3dSystem.obj->f98 != 0)
+        _G3dSystem.obj->f98(p, _G3dSystem.obj->f9c);
     func_0206B6A4((struct Obj0206B6A4 *)p);
 }

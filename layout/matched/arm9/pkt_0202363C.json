@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202363C",
+   "name": "WIPE_SUB_CircleMain",
    "address": "0x0202363C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020237B8",
+   "name": "WIPE_SUB_CalcCircleSpan",
    "address": "0x020237B8",
    "kind": "game",
    "region": "arm9",

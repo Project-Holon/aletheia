@@ -10,13 +10,13 @@
  * blocker: ARM9 020434CC is in unit_0204349C.c but omitted from function:;
  *   one MATCH (020434B4 unwitnessed), enclosing 0204349C TU EXACT:
  *   extern unsigned d_02146A48[];
- *   void func_0204349C(void) { d_02146A48[1]&=16; }
- *   void func_020434B4(void) { d_02146A48[1]&=15; }
- *   void func_020434CC(void) { func_0204349C(); func_020434B4(); }
+ *   void BG_SYS_ClearMainBgPlanes(void) { d_02146A48[1]&=16; }
+ *   void BG_SYS_ClearMainObjPlane(void) { d_02146A48[1]&=15; }
+ *   void BG_SYS_ClearMainPlanes(void) { BG_SYS_ClearMainBgPlanes(); BG_SYS_ClearMainObjPlane(); }
  * blocker: ARM9 02043588 is in unit_02043570.c but omitted from function:;
  *   one EXACT, fixed compiler/flags ARM:
- *   extern void func_02043558(void),func_02043570(void);
- *   void func_02043588(void) { func_02043558(); func_02043570(); }
+ *   extern void BG_SYS_ClearSubBgPlanes(void),BG_SYS_ClearSubObjPlane(void);
+ *   void BG_SYS_ClearSubPlanes(void) { BG_SYS_ClearSubBgPlanes(); BG_SYS_ClearSubObjPlane(); }
  * note: local allocated pointer, separate from entry object, fixes r4/r5 coloring.
  * note: 0203159C own void prototype widened because caller consumes returned r0.
  * volatile: GX registers read at 021D8642/021D864C and written at 021D864A/021D8650.
@@ -24,16 +24,16 @@
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0202E4EC 0x0202E4EC thumb
+ *   CODEIN_PARAM_Create 0x0202E4EC thumb
  *   func_020307B0 0x020307B0 arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_020490F4 0x020490F4 arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   func_02045088 0x02045088 arm
  *   func_02021518 0x02021518 thumb
  *   func_0201D7EC 0x0201D7EC thumb
- *   func_02021EE4 0x02021EE4 thumb
+ *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   func_0202155C 0x0202155C thumb
  *   func_021D8804 0x021D8804 thumb ov129
  *   func_021D9838 0x021D9838 thumb ov129
@@ -57,14 +57,14 @@ extern void func_0203064C(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,u32);
-extern struct Param *func_0202E4EC(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
+extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
 extern u32 func_020307B0(void *p);
-extern void func_020434CC(void),func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_0203F8F4(u16),func_02045088(u16);
 extern void * func_02021518(u32);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void func_021D8804(void);
 extern void func_021D9838(char *p, unsigned a);
@@ -87,17 +87,17 @@ int func_021D85C0(void *obj,void *unused,const Param *cfg)
     func_02082BCC(p,0,0x34C);
     if(cfg==0) {
         sizes[0]=4; sizes[1]=4; sizes[2]=4;
-        q=(Param *)func_0202E4EC(50,0,0,12,sizes);
+        q=(Param *)CODEIN_PARAM_Create(50,0,0,12,sizes);
         *(Param *)(p+0x328)=*q;
         func_020307B0(q);
     } else *(Param *)(p+0x328)=*cfg;
-    func_020434CC(); func_02043588();
+    BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     GX_SetVisiblePlane(0); GXS_SetVisiblePlane(0);
     *(void **)(p+0x258)=func_020490F4(59,50);
     func_0203F8F4(50); func_02045088(50);
     *(void **)(p+0x290)=func_02021518(50);
     *(void **)(p+0x314)=func_0201D7EC(23,0,0,0,50);
-    func_02021EE4(*(void **)(p+0x290),1);
+    PALANM_SetAutoTransfer(*(void **)(p+0x290),1);
     func_0202155C(*(void **)(p+0x290),0,512,50);
     func_021D8804();
     func_021D9838((char *)p,(unsigned int)d_021DA800); func_021D89C4((char *)p); func_021D9490((char *)p);

@@ -18,24 +18,24 @@
  * setters, `p->f = (unsigned short)v`). Needs the integrator to seed their
  * shards; then this goes EXACT.
  * symbols:
- *   func_0200837C 0x0200837C thumb
- *   func_020083B4 0x020083B4 thumb
- *   func_020083D0 0x020083D0 thumb
- *   func_02008398 0x02008398 thumb
- *   func_02008430 0x02008430 thumb
+ *   CONFIG_SetTextSpeed 0x0200837C thumb
+ *   CONFIG_SetBattleScene 0x020083B4 thumb
+ *   CONFIG_SetBattleStyle 0x020083D0 thumb
+ *   CONFIG_SetSoundMode 0x02008398 thumb
+ *   CONFIG_SetButtonMode 0x02008430 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0200837C(u16 *, unsigned int);
-extern void func_020083B4(u16 *, unsigned int);
-extern void func_020083D0(u16 *, unsigned int);
-extern void func_02008398(u16 *, unsigned int);
-extern void func_02008430(u16 *, unsigned int);
+extern void CONFIG_SetTextSpeed(u16 *, unsigned int);
+extern void CONFIG_SetBattleScene(u16 *, unsigned int);
+extern void CONFIG_SetBattleStyle(u16 *, unsigned int);
+extern void CONFIG_SetSoundMode(u16 *, unsigned int);
+extern void CONFIG_SetButtonMode(u16 *, unsigned int);
 void func_021BAFA8(u8 *p)
 {
-    func_0200837C(*(u16 **)(p + 8), p[0]);
-    func_020083B4(*(u16 **)(p + 8), p[1]);
-    func_020083D0(*(u16 **)(p + 8), p[2]);
-    func_02008398(*(u16 **)(p + 8), p[3]);
-    func_02008430(*(u16 **)(p + 8), p[4]);
+    CONFIG_SetTextSpeed(*(u16 **)(p + 8), p[0]);
+    CONFIG_SetBattleScene(*(u16 **)(p + 8), p[1]);
+    CONFIG_SetBattleStyle(*(u16 **)(p + 8), p[2]);
+    CONFIG_SetSoundMode(*(u16 **)(p + 8), p[3]);
+    CONFIG_SetButtonMode(*(u16 **)(p + 8), p[4]);
 }

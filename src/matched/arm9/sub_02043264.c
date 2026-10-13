@@ -19,7 +19,7 @@
  * slots hold a bare `bx lr` rather than a branch, same as the out-of-range
  * default.
  *
- * The companion sub_020432E4 handles opcodes 9..14 on the two registers
+ * The companion BG_SYS_ApplyCenterOp handles opcodes 9..14 on the two registers
  * at +0x24 and +0x28; nothing in this packet covers 15 and above.
  */
 

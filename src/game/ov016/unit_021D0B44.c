@@ -28,8 +28,8 @@
  *   func_0208F698  0x0208F698  arm
  *   func_0208EBE4  0x0208EBE4  arm
  *   func_0208F400  0x0208F400  arm
- *   func_0208F43C  0x0208F43C  arm
- *   func_021D7744  0x021D7744  arm  ov016
+ *   WM_End  0x0208F43C  arm
+ *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
  *   g_021DE654_b   0x021DE654  data
  *   func_02088234  0x02088234  arm
  *   DC_InvalidateRange  0x020862B8  arm
@@ -131,8 +131,8 @@ extern void func_021D6438(void **mem);
 extern int func_0208F698();
 extern int func_0208EBE4(struct WMStatus *statusBuf);
 extern enum WMErrCode func_0208F400(void (*)(void *));
-extern enum WMErrCode func_0208F43C(void (*)(void *));
-extern void func_021D7744(unsigned int idx, void *r4);
+extern enum WMErrCode WM_End(void (*)(void *));
+extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
 extern void func_02088234(void);
 extern void DC_InvalidateRange(void *ptr, unsigned long nBytes);
 extern void func_021D7724(int kind, void *task);
@@ -227,12 +227,12 @@ int func_021D0CB8(void)
 /*
  * note:     wave8 (2026-09-30): EXACT, 220 bytes, 9/9 relocs.  The old
  *           +0094/+0098 residue (`ldr r1,[r0,#0xb90]` vs `ldr r0,[r0,#0xb90]`)
- *           was not an allocator tie: `func_021D7744` is a 12-byte veneer to
+ *           was not an allocator tie: `DWCi_TSKlDeleteByIndex` is a 12-byte veneer to
  *           0x021D7750, whose body opens `mov r4, r1` then `ldrb r1,[r4,#0x11]`
  *           and passes r4 on -- it takes the task pointer as a *second*
  *           argument.  The image keeps `g->task` in r1 across the guard
  *           because the guarded call passes that same value again:
- *           `func_021D7744(0, g_021DE654->task)`.  The one-argument spelling
+ *           `DWCi_TSKlDeleteByIndex(0, g_021DE654->task)`.  The one-argument spelling
  *           lets the dying base coalesce into the load destination, which is
  *           the 2-byte residue.  The general lever is
  *           docs/idioms/a-guard-value-still-in-r1-at-the-call-is-the-callees-second-argument.md.
@@ -287,11 +287,11 @@ int func_021D0CEC(void)
             func_0208EBE4((struct WMStatus *)(&g_021DE654->status.state));
         } while (g_021DE654->status.state != WM_ERRCODE_OPERATING);
     }
-    rs = func_0208F43C(func_021D0DE0);
+    rs = WM_End(func_021D0DE0);
     if (rs != WM_ERRCODE_OPERATING)
         return 0;
     if (g_021DE654->task != 0)
-        func_021D7744(0, g_021DE654->task);
+        DWCi_TSKlDeleteByIndex(0, g_021DE654->task);
     while (g_021DE654->end != 2)
         ;
     func_021D6438((void **)(&g_021DE654_b));

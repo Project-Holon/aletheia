@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203A150
+ * function: GFL_NET_HANDLE_RecvNegotiationReturn
  * address:  0x0203A150
  * packet:   pkt_0203A150
  * region:   arm9
@@ -12,11 +12,11 @@
  *
  * symbols:
  *   func_0203D798  0x0203D798  arm
- *   func_020395EC  0x020395EC  arm
- *   func_0203A118  0x0203A118  arm
+ *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
+ *   GFL_NET_HANDLE_SetNegotiationEnd  0x0203A118  arm
  *   func_0203EFC8  0x0203EFC8  arm
  *   func_0203996C  0x0203996C  arm
- *   func_0203DAC4  0x0203DAC4  arm
+ *   GFL_NET_IRC_WIRELESS_AddMacAddress  0x0203DAC4  arm
  *   OS_GetMacAddress  0x02087C6C  arm
  */
 
@@ -53,21 +53,21 @@ struct Glob
 typedef signed int     s32;
 extern void *func_0203D798(void);
 struct Entry;
-extern int func_020395EC(struct Entry *a);
-extern void func_0203A118(u8 *p);
+extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
+extern void GFL_NET_HANDLE_SetNegotiationEnd(u8 *p);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern struct Peer *func_0203996C(u32);
-extern void func_0203DAC4(const u8 *mac);
+extern void GFL_NET_IRC_WIRELESS_AddMacAddress(const u8 *mac);
 extern void OS_GetMacAddress(u8 *);
 
-void func_0203A150(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer)
+void GFL_NET_HANDLE_RecvNegotiationReturn(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer)
 {
     struct Glob *g;
     u8 mac[8];
     u32 id;
 
     g = func_0203D798();
-    id = func_020395EC((struct Entry *)peer);
+    id = GFL_NET_HANDLE_GetNetHandleID((struct Entry *)peer);
     if (id == 0xff)
     {
         peer->f4a = 5;
@@ -77,23 +77,23 @@ void func_0203A150(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer)
     if (g->f6e != 0)
     {
         if (g->f6e != msg->f0f)
-            func_0203A118((u8 *)peer);
+            GFL_NET_HANDLE_SetNegotiationEnd((u8 *)peer);
         if (g->f6e != msg->f0e)
-            func_0203A118((u8 *)peer);
+            GFL_NET_HANDLE_SetNegotiationEnd((u8 *)peer);
     }
     else
     {
         if (g->f67 != msg->f0f)
-            func_0203A118((u8 *)peer);
+            GFL_NET_HANDLE_SetNegotiationEnd((u8 *)peer);
         if (g->f67 != msg->f0e)
-            func_0203A118((u8 *)peer);
+            GFL_NET_HANDLE_SetNegotiationEnd((u8 *)peer);
     }
 
     OS_GetMacAddress(mac);
     if (func_0203EFC8(msg->mac, mac, 6) == 0)
     {
-        if (msg->f0c != func_020395EC((struct Entry *)peer))
-            func_0203A118((u8 *)peer);
+        if (msg->f0c != GFL_NET_HANDLE_GetNetHandleID((struct Entry *)peer))
+            GFL_NET_HANDLE_SetNegotiationEnd((u8 *)peer);
     }
 
     if (peer->f4a == 7)
@@ -104,6 +104,6 @@ void func_0203A150(int a0, int a1, struct Msg *msg, int a3, struct Peer *peer)
     if (g->f0c != 0)
         g->f0c(a3, msg->f0c);
 
-    func_0203DAC4(msg->mac);
-    func_0203DAC4((const u8 *)msg);
+    GFL_NET_IRC_WIRELESS_AddMacAddress(msg->mac);
+    GFL_NET_IRC_WIRELESS_AddMacAddress((const u8 *)msg);
 }

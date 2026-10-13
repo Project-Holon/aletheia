@@ -1,5 +1,5 @@
 /*
- * function: func_0203D88C
+ * function: GFL_NET_RestartWithTimeout
  * address:  0x0203D88C
  * packet:   pkt_0203D7C8
  * region:   arm9
@@ -10,21 +10,24 @@
  * status:   EXACT
  *
  * Truncates both arguments to 16 bits, then runs the pair through
- * func_020371AC and func_0203D2CC.
+ * func_020371AC and GFL_NET_RestartByNetType.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D88C.c \
- *       --func func_0203D88C --addr 0x0203D88C --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_RestartWithTimeout.c \
+ *       --func GFL_NET_RestartWithTimeout --addr 0x0203D88C --arm --cc 1.1p1
+ *
+ * symbols:
+ *   GFL_NET_RestartByNetType  0x0203D2CC  arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_020371AC(unsigned short a, unsigned int b);
-extern void func_0203D2CC(void);
+extern void GFL_NET_RestartByNetType(void);
 
-void func_0203D88C(u32 a, u32 b)
+void GFL_NET_RestartWithTimeout(u32 a, u32 b)
 {
     func_020371AC((u16)a, (u16)b);
-    func_0203D2CC();
+    GFL_NET_RestartByNetType();
 }

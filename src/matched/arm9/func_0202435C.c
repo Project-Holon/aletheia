@@ -1,5 +1,5 @@
 /*
- * function: func_0202435C
+ * function: PMSI_PARAM_ToString
  * address:  0x0202435C
  * packet:   pkt_0202435C
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *sub_02024368(u16 *slots, u32 heap, int count);
 
-void *func_0202435C(void *slots, unsigned int heap)
+void *PMSI_PARAM_ToString(void *slots, unsigned int heap)
 {
     return sub_02024368(slots, heap, 2);
 }

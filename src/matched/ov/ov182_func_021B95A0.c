@@ -20,7 +20,7 @@
  *   func_020056A0 0x020056A0 thumb
  *   func_021B9784 0x021B9784 thumb ov182
  *   func_021B9788 0x021B9788 thumb ov182
- *   func_020111E8 0x020111E8 thumb
+ *   GPOWER_GetSpecialPowerId 0x020111E8 thumb
  *   func_0207E468 0x0207E468 arm
  *   func_021B9814 0x021B9814 thumb ov182
  */
@@ -40,7 +40,7 @@ extern void func_0204047C(int idx, unsigned short val);
 extern void *func_020056A0(void (*)(void), void *, int);
 extern void func_021B9784(void);
 extern void func_021B9788(u16 *);
-extern unsigned func_020111E8(void);
+extern unsigned GPOWER_GetSpecialPowerId(void);
 extern void func_0207E468(void *, int, int);
 extern void func_021B9814(void *, void *, void *);
 int func_021B95A0(void *task, int b, int c)
@@ -62,7 +62,7 @@ int func_021B95A0(void *task, int b, int c)
     func_0204047C(2, 0);
     ((struct Obj03328 *)p)->f14 = func_020056A0(func_021B9784, p, 1);
     func_021B9788((u16 *)p);
-    if (func_020111E8() == 0x14)
+    if (GPOWER_GetSpecialPowerId() == 0x14)
         func_0207E468(vp, 0, 2);
     func_021B9814((void *)0x10, 0, 0);
     return 1;

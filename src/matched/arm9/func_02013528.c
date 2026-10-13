@@ -1,5 +1,5 @@
 /*
- * function: func_02013528
+ * function: BTL_SETUP_SetupComm
  * address:  0x02013528
  * packet:   pkt_02013528
  * region:   arm9
@@ -11,18 +11,18 @@
  *
  * symbols:
  *   func_020130C4   0x020130C4  thumb
- *   func_0201333C   0x0201333C  thumb
- *   func_02013360   0x02013360  thumb
+ *   BTL_SETUP_SetPlayerParty   0x0201333C  thumb
+ *   BTL_SETUP_InitCommon   0x02013360  thumb
  *   func_0201A920   0x0201A920  thumb
  *   func_0200846C   0x0200846C  thumb
- *   func_0201320C   0x0201320C  thumb
+ *   BTL_SETUP_InitCommFieldSituation   0x0201320C  thumb
  *
- * btl_setup.c. The eight-argument setup builder (sibling of func_020135C0).
+ * btl_setup.c. The eight-argument setup builder (sibling of BTL_SETUP_SetupDemo).
  *
  * THE LEVER (wave 18, lane ties_b; it was DIFF 152/152, 6 bytes out for four
  * waves, docs/notes/pkt_02013528.c.txt): the eighth (stack) parameter is a
- * heap id and is u16, with u16 on the matching parameter of func_0201333C,
- * func_0200846C and func_0201A920 (func_020135C0 already declares the first
+ * heap id and is u16, with u16 on the matching parameter of BTL_SETUP_SetPlayerParty,
+ * func_0200846C and func_0201A920 (BTL_SETUP_SetupDemo already declares the first
  * and last that way). With u32 there, 1.1p1 schedules the r3 home store
  * `str r3, [sp]` after the three parameter copies; with u16 it comes first,
  * as in the image. docs/idioms/a-u16-stack-parameter-passed-to-a-u16-callee-
@@ -35,23 +35,23 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_020130C4(u8 *p);
-extern void func_0201320C(int p0);
-extern void func_02013360(u8 *o, void *a1, const void *a2);
-extern int func_0201333C(int a0, int a1, int a2);
+extern void BTL_SETUP_InitCommFieldSituation(int p0);
+extern void BTL_SETUP_InitCommon(u8 *o, void *a1, const void *a2);
+extern int BTL_SETUP_SetPlayerParty(int a0, int a1, int a2);
 extern void *func_0200846C(int a0);
 extern u32  func_0201A920(u16 a);
 
-void func_02013528(u8 *o, void *a1, u32 a2, u8 a3, u32 a4, u8 a5, u8 a6, u16 a7)
+void BTL_SETUP_SetupComm(u8 *o, void *a1, u32 a2, u8 a3, u32 a4, u8 a5, u8 a6, u16 a7)
 {
     u32 sub[4];
     u32 i;
 
     func_020130C4(o);
-    func_0201320C((int)sub);
+    BTL_SETUP_InitCommFieldSituation((int)sub);
     sub[0] = 9;
     sub[1] = 1;
-    func_02013360(o, a1, sub);
-    func_0201333C((int)o, (int)a1, a7);
+    BTL_SETUP_InitCommon(o, a1, sub);
+    BTL_SETUP_SetPlayerParty((int)o, (int)a1, a7);
     ((struct Obj00155 *)o)->f0 = 3;
     ((struct Obj00155 *)o)->f4 = a2;
     ((struct Obj00155 *)o)->f1C = a4;

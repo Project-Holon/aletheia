@@ -1,5 +1,5 @@
 /*
- * function: sub_02016078
+ * function: MCSS_SetMosaic
  * address:  0x02016078
  * packet:   pkt_02015F2C
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02016BA0  0x02016BA0  thumb
- *   func_020163C4  0x020163C4  thumb
+ *   MCSS_FreeResource  0x02016BA0  thumb
+ *   MCSS_LoadResource  0x020163C4  thumb
  *
  * Updates a packed 4-bit mode field at b+0x140 (bits 24-27 of that word;
  * see docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md) if
  * the caller's requested mode (clamped to 15) differs from the current
- * one, then reinitialises through func_02016BA0 and forwards a nested
- * word and struct pointer into func_020163C4. The bitfield pointer is
+ * one, then reinitialises through MCSS_FreeResource and forwards a nested
+ * word and struct pointer into MCSS_LoadResource. The bitfield pointer is
  * recomputed fresh for the store rather than kept in a local across the
  * clamp branch: the original re-issues the same "5 << 6" multiply instead
  * of reusing the register from the read, the same shape as
@@ -28,8 +28,8 @@
  * not a byte difference.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02016078.c \
- *       --func sub_02016078 --addr 0x02016078 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MCSS_SetMosaic.c \
+ *       --func MCSS_SetMosaic --addr 0x02016078 --cc 1.1p1
  */
 #include "../include/Obj16729.h"
 
@@ -42,12 +42,12 @@ struct Sub02016078Word {
     u32 hi4   : 4;
 };
 
-extern void func_02016BA0(void *b);
+extern void MCSS_FreeResource(void *b);
 struct Ctx;
 struct Src;
-extern void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2);
+extern void MCSS_LoadResource(struct Ctx *a0, u32 idx, const struct Src *a2);
 
-void sub_02016078(void *a, void *b, int mode)
+void MCSS_SetMosaic(void *a, void *b, int mode)
 {
     u8 *pb = (u8 *)b;
 
@@ -57,7 +57,7 @@ void sub_02016078(void *a, void *b, int mode)
         }
         ((struct Sub02016078Word *)(pb + 0x140))->mode = mode;
 
-        func_02016BA0(b);
-        func_020163C4(a, ((struct Obj16729 *)pb)->f148, (const struct Src *)(pb + 0x150));
+        MCSS_FreeResource(b);
+        MCSS_LoadResource(a, ((struct Obj16729 *)pb)->f148, (const struct Src *)(pb + 0x150));
     }
 }

@@ -28,6 +28,10 @@
  *   str_02203AF8  0x02203AF8  data  a1
  *   ov114_id  0x00000072  data
  *   ov067_id  0x00000043  data
+ *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   PROCSYS_Create  0x02031324  arm  arm9
+ *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm  arm9
  */
 
 typedef signed char s8;
@@ -68,7 +72,7 @@ struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void *func_02202608(u32 heap);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 extern u32 func_02030CB0(u32 n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
@@ -76,10 +80,10 @@ extern void func_022026D8(void *ctx, u32 arg);
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_021F489C(Work *p, Args *args);
-extern void func_0204335C(u32 keep);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void func_021F5074(Work *p);
-extern void func_02005DE4(void *p);
-extern void func_02005D28(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 
 extern Work *g_02203F80;
 extern const char str_02203AF8[];
@@ -95,7 +99,7 @@ int func_021F4580(void *proc, int *seq, Args *args)
     func_02082BCC(p, 0, sizeof(Work));
     g_02203F80 = p;
     p->mon = func_02202608(0x48);
-    p->save = func_02031324(0x48);
+    p->save = PROCSYS_Create(0x48);
     p->recMem = func_02030734(0x48, func_02030CB0(8), 0, str_02203AF8, 0xA1);
     p->rec = func_02030CBC(8, p->recMem);
     func_022026D8(p->ctx, args->x20);
@@ -106,9 +110,9 @@ int func_021F4580(void *proc, int *seq, Args *args)
     p->msg[1] = func_02045B38(0, 2, 0x46, 0x48);
     p->msg[4] = func_02045B38(0, 2, 0xE7, 0x48);
     func_021F489C(p, args);
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_021F5074(p);
-    func_02005DE4(0);
-    func_02005D28();
+    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_CancelChangeAndStopBgm();
     return 1;
 }

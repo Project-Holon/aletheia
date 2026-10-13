@@ -85,361 +85,325 @@
  *   d_021D9B0C     0x021D9B0C  data  a2
  *   d_021D9AE8     0x021D9AE8  data  a4
  */
-#include "../../matched/include/Obj18172.h"
-#include "../../matched/include/G_Glb.h"
-#include "../../matched/include/Obj18174.h"
-#include "../../matched/include/Obj18175.h"
-#include "../../matched/include/Obj07223.h"
-#include "../../matched/include/Obj07224.h"
-#include "../../matched/include/Obj06051.h"
-#include "../../matched/include/Obj20098.h"
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef signed char    s8;
+typedef signed int     s32;
+
+#include "../ov010/fldmmdl_types.h"
+typedef int fx32;
+typedef struct VecFx32 {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+} VecFx32;
+#include "../ov012/union_comm_types.h"
 
 #define FX_MUL(a, b) ((fx32)(((fx64)(a) * (b) + 0x800) >> 12))
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? \
                                   ((x) * (1 << 12) + 0.5f) : \
                                   ((x) * (1 << 12) - 0.5f)))
-struct Actor;
-struct VecFx32;
-struct Vec;
-struct Arg_021BB60C;
-struct Ctx;
-struct Node;
-struct Big;
-struct BigObj;
-struct L0200EDC4;
-struct Sub0200852CObj;
-struct BbActRec;
-struct BbActSys;
-struct X;
-typedef unsigned int   u32;
 
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef signed short   s16;
-
-typedef signed char    s8;
-
-typedef struct {
-    int w[7];
-} Blk;
-
-typedef struct {
-    Blk b;
-    char pad[0x10];
-    int f2C;
-} Out;
-
-typedef struct { u32 f0, f4, f8, fC; u16 f10[10]; u32 f24; } X;
-
-typedef int fx32;
+/*
+ * This file holds the end of fldeff_gyoe.c (021BB578..021BB808), the field
+ * sub-program manager (021BB890..021BBA6C), the union chat log
+ * (021BBA70..021BBC58) and the start of fldeff_footmark.c (021BBCBC..).
+ */
 
 typedef long long fx64;
 
 typedef struct { fx32 m[4][4]; } MtxFx44;
+typedef struct { fx32 m[3][3]; } MtxFx33;
 
-typedef struct { fx32 x, y, z; } V3;
 
-typedef struct Node {
-    V3 pos;
-    V3 scale;
-    u8 mtx[0x24];
-} Node;
+struct FieldSubproc;
 
-typedef struct {
-    u8 pad[0x7C];
-    u32 flag;
-} Glb;
+/* ---- fldeff_gyoe.c (exclamation mark effect) ---- */
 
-typedef struct {
-    u8 pad0[0x24];
-    u32 f24[4];
-    u16 f34;
-} Info;
+/* Position, scale and rotation of a drawn G3D object (0x48 bytes). */
+typedef struct G3dObjectTransform {
+    VecFx32 pos;
+    VecFx32 scale;
+    MtxFx33 rotation;
+} G3dObjectTransform;
 
-typedef struct {
-    u32 f0;
-    u32 f4;
-    Info *f8;
-} Arg_021BB60C;
+/* Same layout as FldeffGyoe in fldeff_gyoe.c. */
+typedef struct FldeffGyoe {
+    void *fieldEffectCtrl;   /* 0x00 */
+    void *resource[4];       /* 0x04 */
+    void *renderObj[4];      /* 0x14 */
+    void *object[4];         /* 0x24 */
+    u16 resourceCount;       /* 0x34 */
+} FldeffGyoe;
 
-typedef struct Vec {
-    int x;
-    int y;
-    int z;
-} Vec;
+/* Same layout as FldeffGyoeTaskParam in fldeff_gyoe.c. */
+typedef struct FldeffGyoeTaskParam {
+    u32 type;                  /* 0x00 which mark */
+    u32 sePlay;                /* 0x04 */
+    FldeffGyoe *gyoe;          /* 0x08 */
+    Mmdl *mmdl;                /* 0x0C */
+    MmdlCheckInfo mmdlInfo;    /* 0x10 */
+    void *fieldMap;            /* 0x18 */
+} FldeffGyoeTaskParam;
 
-typedef struct {
-    char b[0x18];
-} E18;
+/* Work of one mark task (0x30 bytes). */
+typedef struct FldeffGyoeTaskWork {
+    FldeffGyoeTaskParam param; /* 0x00 */
+    int state;                 /* 0x1C 0 hop, 1 wait, 2 shown */
+    int timer;                 /* 0x20 frames spent waiting */
+    int finished;              /* 0x24 set to 1 when the mark is done */
+    fx32 yOffset;              /* 0x28 height above the model's head */
+    fx32 yVelocity;            /* 0x2C */
+} FldeffGyoeTaskWork;
 
-typedef struct {
-    int f0;
-    int f4;
-    int n;
-    E18 *arr;
-    void *f10;
-    void *f14;
-} Obj;
+/* State registers of the geometry engine (only the dirty bits are used). */
+typedef struct GxState {
+    u8 pad0[0x7C];
+    u32 matrixDirtyFlags;      /* 0x7C */
+} GxState;
 
-typedef signed int     s32;
+/* ---- field sub-program manager ---- */
 
-typedef struct Entry {
-    u8 id[8];      /* 0x00 */
-    u8 pad8[8];
-    u16 v[4];      /* 0x10 */
-    u16 h;         /* 0x18 */
-    u8 key[6];     /* 0x1a */
-    u8 flag;       /* 0x20 */
-    u8 kind;       /* 0x21 */
-    u8 rel;        /* 0x22 */
+struct TcbList;
+struct Tcb;
+typedef void (*TcbFunc)(struct Tcb *tcb, void *work);
+typedef void (*FieldSubprocFunc)(struct FieldSubproc *proc, void *fieldSys, void *work);
+
+/* What a sub-program is made of (0x18 bytes). */
+typedef struct FieldSubprocTemplate {
+    int priority;              /* 0x00 of both task lists */
+    u16 workSize;              /* 0x04 zero: no work block */
+    u16 pad06;
+    FieldSubprocFunc init;     /* 0x08 */
+    FieldSubprocFunc exit;     /* 0x0C */
+    FieldSubprocFunc update;   /* 0x10 */
+    FieldSubprocFunc draw;     /* 0x14 */
+} FieldSubprocTemplate;
+
+typedef struct FieldSubprocMgr {
+    void *fieldSys;                       /* 0x00 */
+    int heapId;                           /* 0x04 */
+    int capacity;                         /* 0x08 */
+    struct FieldSubproc *procs;           /* 0x0C */
+    struct TcbList *updateList;           /* 0x10 */
+    struct TcbList *drawList;             /* 0x14 */
+} FieldSubprocMgr;
+
+/* One running sub-program (0x18 bytes); updateTcb zero means the slot is free. */
+typedef struct FieldSubproc {
+    FieldSubprocMgr *mgr;                 /* 0x00 */
+    struct Tcb *updateTcb;                /* 0x04 */
+    struct Tcb *drawTcb;                  /* 0x08 */
+    const FieldSubprocTemplate *tmpl;     /* 0x0C */
+    void *work;                           /* 0x10 */
+    int overlayId;                        /* 0x14 -1 none */
+} FieldSubproc;
+
+/* ---- union chat log (union_comm_types.h UnionChatLog, ring part) ---- */
+
+/* One line of the chat log (0x24 bytes), see UnionChatEntry. */
+typedef struct UnionChatLine {
+    u16 name[8];               /* 0x00 sender name */
+    u16 chatPms[4];            /* 0x10 easy chat sentence */
+    u16 chatCount;             /* 0x18 */
+    u8 senderMac[6];           /* 0x1A */
+    u8 sex;                    /* 0x20 */
+    u8 chatType;               /* 0x21 */
+    u8 relation;               /* 0x22 0 stranger, 1 wifi friend, 2 known trainer */
     u8 pad23;
-} Entry;
+} UnionChatLine;
 
-typedef struct Ring {
-    Entry e[30];
-    u8 head;
-    u8 tail;
-    u8 pad2[2];
-    int count;
-    int mark;
-} Ring;
+/* UnionChatLog with the two slot counters kept in pad438. */
+typedef struct UnionChatRing {
+    UnionChatLine line[UNION_CHAT_LOG_MAX]; /* 0x000 */
+    u8 startSlot;              /* 0x438 slot of the oldest line */
+    u8 endSlot;                /* 0x439 slot the next line goes to */
+    u8 pad43A[2];
+    int newestIndex;           /* 0x43C absolute index of the newest line, -1 empty */
+    int oldestIndex;           /* 0x440 absolute index of the oldest kept line */
+} UnionChatRing;
 
-typedef struct Src {
-    u8 pad0[7];
-    u8 kind : 3;   /* 0x07 */
-    u8 flag : 1;
-    u8 pad8[4];
-    u8 id[8];      /* 0x0c */
-    u8 pad14[8];
-    u16 v[4];      /* 0x1c */
-    u16 h;         /* 0x24 */
-    u8 pad26[0x36];
-    int x5c;       /* 0x5c */
-    u8 pad60[4];
-    u8 key[6];     /* 0x64 */
-} Src;
+/* ---- fldeff_footmark.c ---- */
 
-typedef struct Sys {
-    int a;
-    u8 pad4[8];
-    int c;
-} Sys;
+/* Same layout as FootmarkEffectWork in fldeff_footmark.c. */
+typedef struct FootmarkEffectWork {
+    void *fieldEffectCtrl;     /* 0x00 */
+    void *bbActSys;            /* 0x04 */
+    u16 resIdx[26];            /* 0x08 billboard slot per footmark picture */
+    int snowHeightOffset;      /* 0x3C */
+} FootmarkEffectWork;
 
-typedef struct Ctx {
-    Sys *sys;
-    u8 pad[0x30E0 - 4];
-    Ring ring;
-} Ctx;
+/* Billboard slot record handed to the slot allocator (0x0C bytes). */
+typedef struct FootmarkSlotRecord {
+    void *resource;            /* 0x00 */
+    u8 kind;                   /* 0x04 */
+    u8 flags;                  /* 0x05 */
+    u8 width;                  /* 0x06 */
+    u8 height;                 /* 0x07 */
+    u32 count;                 /* 0x08 */
+} FootmarkSlotRecord;
 
-typedef struct ActTbl {
-    void *owner;
-    void *res;
-    u16 h8[0x1A];
-    int f3c;
-} ActTbl;
+typedef struct FootmarkDirRow { u8 slot[4]; } FootmarkDirRow;
 
-typedef struct Arg_021BBC58 { u32 a; u8 b4, b5, b6, b7; u32 c; } Arg_021BBC58;
+/* ---- externs ---- */
 
-typedef struct Row { u8 b[4]; } Row;
-
-int func_021ABEA0(u32 a, u32 b);
-int func_0216E1A4(int a0, int a1);
-u32 func_021ABE14(u8 *p);
-void func_021ABFA8(int a, void *b, int c, int d, void *e, int f);
-extern int func_021AC1E0(u32 a);
-extern Blk *func_021AC1AC(int a);
-extern void func_021AC178(int a);
-extern int func_0216E1C4(int a0, int a1);
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
-extern void func_021AC1CC(int a, int *b);
-void func_021AC154(int a);
+int func_021ABEA0(void *fieldEffectCtrl, u32 effectId);
+void func_0216E1A4(Mmdl *mmdl, MmdlCheckInfo *info);
+void *func_021ABE14(void *fieldEffectCtrl);
+void *func_021ABFA8(void *fieldEffectCtrl, const void *taskHeader, int a2, int a3, FldeffGyoeTaskParam *param, int a5);
+extern void *func_021AC1E0(void *task);
+extern FldeffGyoeTaskParam *func_021AC1AC(void *task);
+extern void func_021AC178(void *task);
+extern int func_0216E1C4(Mmdl *mmdl, MmdlCheckInfo *info);
+extern void func_0216D88C(Mmdl *mmdl, VecFx32 *out);
+extern void func_021AC1CC(void *task, VecFx32 *pos);
+void func_021AC154(void *task);
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
 extern void func_0206A854(void);
 extern void func_0206DB80(void);
-extern void func_0207ADC4(void *mtx);
-extern void func_021AC1B8(u32 a, Node *n);
-extern int func_02047AC8(void *a0, struct Arg_021BB60C *a1);
-void func_020061E4(u32 a);
-void func_02048AE8(int a, int *out);
-void func_02048B0C(int a, int *out);
-void func_02048B30(int a, int *out);
-void func_0207BCA0(int *a, int *b, int *c, int *d);
-void func_02082B60(int *a, int *b);
-void func_0207B0A4(int *a, int *b);
-void func_0207B51C(int a, int *b, int c);
-void *func_02188C58(void *p);
-u32 func_0218EC2C(u8 *p);
-void func_0207C9D0(Vec *a, Vec *b, Vec *c);
-void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
-u32 func_02030CB0(u32 idx);
-struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
+extern void func_0207ADC4(MtxFx33 *mtx);
+extern void func_021AC1B8(void *task, G3dObjectTransform *transform);
+extern int func_02047AC8(void *object, G3dObjectTransform *transform);
+void func_020061E4(u32 seId);
+void func_02048AE8(void *g3dCamera, VecFx32 *out);
+void func_02048B0C(void *g3dCamera, VecFx32 *out);
+void func_02048B30(void *g3dCamera, VecFx32 *out);
+void func_0207BCA0(VecFx32 *eye, VecFx32 *target, VecFx32 *up, int *outMtx43);
+void func_02082B60(int *mtx43, int *outMtx33);
+void func_0207B0A4(int *mtx33, int *outMtx33);
+void func_0207B51C(VecFx32 *src, int *mtx33, VecFx32 *dst);
+void *func_02188C58(void *fieldMap);
+void *func_0218EC2C(void *fieldCamera);
+void func_0207C9D0(VecFx32 *a, VecFx32 *b, VecFx32 *dst);
+void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *file, unsigned short line);
+u32 func_02030CB0(u32 capacity);
+struct TcbList *func_02030CBC(u32 capacity, struct TcbList *buf);
 extern u32 func_020307B0(void *p);
-extern void func_02030D28(struct Ctx *c);
-int func_02034AC4(s32 handle);
-int func_02030DA8(int a, void *fn, int *b, int c);
-void func_02030EAC(struct Node *n);
-void func_02034A5C(int a);
+extern void func_02030D28(struct TcbList *list);
+int func_02034AC4(s32 overlayId);
+struct Tcb *func_02030DA8(struct TcbList *list, TcbFunc fn, void *work, int priority);
+void func_02030EAC(struct Tcb *tcb);
+void func_02034A5C(int overlayId);
 void func_02082BCC(void *p, int v, int n);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-u32 func_020084F8(void *dst, u32 value, u32 size);
-u8 func_02008550(const struct Sub0200852CObj *obj);
+u32 func_020084F8(void *myStatus, u16 *dst, u32 size);
+u8 func_02008550(void *myStatus);
 void func_0201F41C(const u16 *src, u16 *dst, u32 n);
-void func_02087C6C(void *p);
+void func_02087C6C(u8 *outMac);
 void func_02082D44(const void *src, void *dst, int n);
-void *func_020120F4(const struct Ctx *p);
-u32 func_0201283C(const struct BigObj *p);
-void *func_02012EBC(struct Big *p);
-void *func_0200ED48(void *p);
-int func_0217F894(void *p, char *q);
-int func_0200EDC4(struct L0200EDC4 *l, u32 val);
+void *func_020120F4(void *gameSystem);
+void *func_0201283C(void *gameData);
+void *func_02012EBC(void *gameData);
+void *func_0200ED48(void *saveControl);
+int func_0217F894(void *wifiList, UnionBeacon *beacon);
+int func_0200EDC4(void *list, u32 trainerId);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern u32 func_02188C88(u8 *p);
-extern u32 func_021ABE24(u8 *p);
-extern void *func_02046E24(u32 a0, u32 a1);
-extern void func_021AC1F0(struct X *x, void *b);
-extern u16 func_020500F0(struct BbActSys *o, const struct BbActRec *recs, u32 n);
-extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
-void func_021BB578(int a, int b, int c, int d);
-int func_021BB5C8(u32 a);
-void func_021BB5DC(int a, Out *out);
+extern void *func_02188C88(void *fieldMap);
+extern void *func_021ABE24(void *fieldEffectCtrl);
+extern void *func_02046E24(void *g3dHeap, u32 resId);
+extern void func_021AC1F0(void *fieldEffectCtrl, void *resource);
+extern u16 func_020500F0(void *bbActSys, const FootmarkSlotRecord *recs, u32 n);
+extern void func_02050278(void *bbActSys, u32 first, u32 count);
+void func_021BB578(void *fieldEffectCtrl, Mmdl *mmdl, int type, int sePlay);
+int func_021BB5C8(void *task);
+void func_021BB5DC(void *task, FldeffGyoeTaskWork *work);
 void func_021BB608(void);
-void func_021BB60C(u32 a, X *x);
-void func_021BB648(int a, int *b);
-void func_021BB68C(u32 a, Arg_021BB60C *b);
-void func_021BB778(int n);
-void func_021BB7B4(int a, int b, int c);
-void func_021BB808(int *o, Vec *out);
-int *func_021BB890(int a, int b, int n);
-void func_021BB90C(Obj *p);
-void func_021BB948(u8 *p);
-void func_021BB954(u8 *p);
-void func_021BB960(u32 a, u32 b, u32 c, u32 d);
-void func_021BB978(u32 a, u32 b, u32 c, u32 d);
-int *func_021BB990(int a, int *d, const int *c);
-void func_021BBA1C(int *p);
-u32 func_021BBA6C(const void *p);
-void func_021BBA70(Ctx *ctx, Src *src, u16 *v, u8 kind);
-Entry *func_021BBBD8(Ring *r);
-Entry *func_021BBC2C(Ring *r, u32 i);
-int func_021BBC58(Ring *r, const void *b, u16 c);
-ActTbl *func_021BBCBC(void *owner, u32 heap);
-void func_021BBCF8(u32 a, ActTbl *p);
-void func_021BBD0C(ActTbl *p);
-void func_021BBD64(ActTbl *p);
-int func_021BBD84(int a, int n, int x, int y);
+void func_021BB60C(void *task, FldeffGyoeTaskWork *work);
+void func_021BB648(void *task, FldeffGyoeTaskWork *work);
+void func_021BB68C(void *task, FldeffGyoeTaskWork *work);
+void func_021BB778(int type);
+void func_021BB7B4(void *g3dCamera, VecFx32 *src, VecFx32 *dst);
+void func_021BB808(FldeffGyoeTaskWork *work, VecFx32 *out);
+FieldSubprocMgr *func_021BB890(void *fieldSys, int heapId, int capacity);
+void func_021BB90C(FieldSubprocMgr *mgr);
+void func_021BB948(FieldSubprocMgr *mgr);
+void func_021BB954(FieldSubprocMgr *mgr);
+void func_021BB960(struct Tcb *tcb, FieldSubproc *proc);
+void func_021BB978(struct Tcb *tcb, FieldSubproc *proc);
+FieldSubproc *func_021BB990(int overlayId, FieldSubprocMgr *mgr, const FieldSubprocTemplate *tmpl);
+void func_021BBA1C(FieldSubproc *proc);
+void *func_021BBA6C(const FieldSubproc *proc);
+void func_021BBA70(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatPms, u8 chatType);
+UnionChatLine *func_021BBBD8(UnionChatRing *ring);
+UnionChatLine *func_021BBC2C(UnionChatRing *ring, u32 index);
+int func_021BBC58(UnionChatRing *ring, const void *mac, u16 chatCount);
+FootmarkEffectWork *func_021BBCBC(void *fieldEffectCtrl, u32 heapId);
+void func_021BBCF8(u32 unused, FootmarkEffectWork *effWork);
+void func_021BBD0C(FootmarkEffectWork *effWork);
+void func_021BBD64(FootmarkEffectWork *effWork);
+int func_021BBD84(FootmarkEffectWork *effWork, int type, int dir, int oldDir);
 extern int d_021D9A90;
-extern const Node d_021D9AA4;
+extern const G3dObjectTransform d_021D9AA4;
 extern MtxFx44 g_02148B54;
-extern struct Glb g_02148BCC;
+extern GxState g_02148BCC;
 extern int d_021DE2F8;
 extern char d_021D9AE0[];
 extern const char d_021DE30C[];
 extern u16 d_021D9B0C[];
-extern Row d_021D9AE8[];
+extern FootmarkDirRow d_021D9AE8[];
 
-
-
-
-void func_021BB578(int a, int b, int c, int d)
+/* Starts a mark that stays until its owner reads the finished flag. */
+void func_021BB578(void *fieldEffectCtrl, Mmdl *mmdl, int type, int sePlay)
 {
-    int s[7];
+    FldeffGyoeTaskParam param;
 
-    s[0] = c;
-    s[1] = d;
-    s[2] = func_021ABEA0(a, 4);
-    s[3] = b;
-    func_0216E1A4(b, (int)(&s[4]));
-    s[6] = func_021ABE14((u8 *)a);
-    if (d == 1) {
-        func_021BB778(c);
+    param.type = type;
+    param.sePlay = sePlay;
+    param.gyoe = (FldeffGyoe *)func_021ABEA0(fieldEffectCtrl, 4);
+    param.mmdl = mmdl;
+    func_0216E1A4(mmdl, &param.mmdlInfo);
+    param.fieldMap = func_021ABE14(fieldEffectCtrl);
+    if (sePlay == 1) {
+        func_021BB778(type);
     }
-    func_021ABFA8(a, &d_021D9A90, 0, 0, s, 0);
+    func_021ABFA8(fieldEffectCtrl, &d_021D9A90, 0, 0, &param, 0);
 }
 
-
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_021BB5C8(u32 a)
+/* Returns 1 when the task is gone or its mark is finished. */
+int func_021BB5C8(void *task)
 {
-if (a != 0) {
-    return ((struct Obj18172 *)((u8 *)(func_021AC1E0(a))))->f24;
+    if (task != 0) {
+        return ((FldeffGyoeTaskWork *)func_021AC1E0(task))->finished;
+    }
+    return 1;
 }
-return 1;
-}
 
-
-
-
-void func_021BB5DC(int a, Out *out)
+void func_021BB5DC(void *task, FldeffGyoeTaskWork *work)
 {
-    out->b = *func_021AC1AC(a);
-    out->f2C = 0x6000;
-    func_021AC178(a);
+    work->param = *func_021AC1AC(task);
+    work->yVelocity = 0x6000;
+    func_021AC178(task);
 }
 
-
-/*
- * Lays out the up-to-eight menu rows listed at +0x120 (8 terminates),
- * stacking them by the heights in d_021BD5EC and positioning the row
- * sprites.  Row order is filled in by ov088_func_021BB4B4.c.
- */
 void func_021BB608(void) {}
 
-
-
-
-
-void func_021BB60C(u32 a, X *x)
+void func_021BB60C(void *task, FldeffGyoeTaskWork *work)
 {
-    int v[3];
-    if (func_0216E1C4(x->fC, (int)x->f10) == 0) {
-        x->f24 = 1;
+    VecFx32 pos;
+
+    if (func_0216E1C4(work->param.mmdl, &work->param.mmdlInfo) == 0) {
+        work->finished = 1;
         return;
     }
-    func_0216D88C((const struct Actor *)x->fC, (struct VecFx32 *)v);
-    func_021BB808((int *)x, (struct Vec *)v);
-    func_021AC1CC(a, v);
+    func_0216D88C(work->param.mmdl, &pos);
+    func_021BB808(work, &pos);
+    func_021AC1CC(task, &pos);
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_021BB648(int a, int *b)
+void func_021BB648(void *task, FldeffGyoeTaskWork *work)
 {
-    int v[3];
+    VecFx32 pos;
 
-    if (b[9] == 1 || func_0216E1C4(b[3], (int)(b + 4)) == 0) {
-        func_021AC154(a);
+    if (work->finished == 1 || func_0216E1C4(work->param.mmdl, &work->param.mmdlInfo) == 0) {
+        func_021AC154(task);
         return;
     }
-    func_0216D88C((const struct Actor *)b[3], (struct VecFx32 *)v);
-    func_021BB808(b, (struct Vec *)v);
-    func_021AC1CC(a, v);
+    func_0216D88C(work->param.mmdl, &pos);
+    func_021BB808(work, &pos);
+    func_021AC1CC(task, &pos);
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Twin of ov021_func_02189810 (save/modify/restore of the projection matrix
@@ -447,537 +411,388 @@ void func_021BB648(int a, int *b)
  * at its declaration, which is what loads its address before the soft-float
  * conversion; `saved = g_02148B54` loads it after (22 bytes off with the
  * pointer declared first, r4/r5 swapped with it declared last).
- *
- * Addresses are Black-image addresses.
  */
-void func_021BB68C(u32 a, Arg_021BB60C *b)
+void func_021BB68C(void *task, FldeffGyoeTaskWork *work)
 {
-    Node n = d_021D9AA4;
-    MtxFx44 *g = &g_02148B54;
+    G3dObjectTransform transform = d_021D9AA4;
+    MtxFx44 *projection = &g_02148B54;
     MtxFx44 saved;
-    MtxFx44 m;
-    fx32 z;
+    MtxFx44 shifted;
+    fx32 zBias;
 
-    z = FX_F32_TO_FX32(b->f8->f34);
-    saved = *g;
-    m = saved;
-    m.m[3][2] += FX_MUL(m.m[2][2], z);
-    MIi_CpuCopyFast(&m, &g_02148B54, 0x40);
-    g_02148BCC.flag &= ~0x50;
+    zBias = FX_F32_TO_FX32(work->param.gyoe->resourceCount);
+    saved = *projection;
+    shifted = saved;
+    shifted.m[3][2] += FX_MUL(shifted.m[2][2], zBias);
+    MIi_CpuCopyFast(&shifted, &g_02148B54, 0x40);
+    g_02148BCC.matrixDirtyFlags &= ~0x50;
     func_0206A854();
     func_0206DB80();
-    func_0207ADC4(n.mtx);
-    func_021AC1B8(a, &n);
-    func_02047AC8((void *)b->f8->f24[b->f0], (struct Arg_021BB60C *)(&n));
+    func_0207ADC4(&transform.rotation);
+    func_021AC1B8(task, &transform);
+    func_02047AC8(work->param.gyoe->object[work->param.type], &transform);
     MIi_CpuCopyFast(&saved, &g_02148B54, 0x40);
-    g_02148BCC.flag &= ~0x50;
+    g_02148BCC.matrixDirtyFlags &= ~0x50;
     func_0206A854();
     func_0206DB80();
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_021BB778(int n)
+void func_021BB778(int type)
 {
-    int id = 0;
+    int seId = 0;
 
-    switch (n) {
+    switch (type) {
     case 0:
-        id = 0x678;
+        seId = 0x678;
         break;
     case 1:
-        id = 0x730;
+        seId = 0x730;
         break;
     case 2:
-        id = 0x731;
+        seId = 0x731;
         break;
     case 3:
         return;
     }
-    func_020061E4(id);
+    func_020061E4(seId);
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_021BB7B4(int a, int b, int c)
+/* Rotates src by the inverse of the camera's orientation. */
+void func_021BB7B4(void *g3dCamera, VecFx32 *src, VecFx32 *dst)
 {
-    int v6c[3];
-    int v60[3];
-    int v54[3];
-    int m24[12];
-    int m0[9];
+    VecFx32 eye;
+    VecFx32 target;
+    VecFx32 up;
+    int lookAt[12];
+    int inverse[9];
 
-    func_02048AE8(a, v6c);
-    func_02048B0C(a, v60);
-    func_02048B30(a, v54);
-    func_0207BCA0(v6c, v60, v54, m24);
-    func_02082B60(m24, m0);
-    func_0207B0A4(m0, m0);
-    func_0207B51C(b, m0, c);
+    func_02048AE8(g3dCamera, &eye);
+    func_02048B0C(g3dCamera, &target);
+    func_02048B30(g3dCamera, &up);
+    func_0207BCA0(&eye, &target, &up, lookAt);
+    func_02082B60(lookAt, inverse);
+    func_0207B0A4(inverse, inverse);
+    func_0207B51C(src, inverse, dst);
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_021BB808(int *o, Vec *out)
+/* Steps the hop and wait animation and returns the mark position in out. */
+void func_021BB808(FldeffGyoeTaskWork *work, VecFx32 *out)
 {
-    int r3;
-    Vec w;
+    void *g3dCamera;
+    VecFx32 offset;
 
-    switch (o[7]) {
+    switch (work->state) {
     case 0:
-        o[10] += o[11];
-        if (o[10] != 0) {
-            o[11] = o[11] - 0x2000;
+        work->yOffset += work->yVelocity;
+        if (work->yOffset != 0) {
+            work->yVelocity = work->yVelocity - 0x2000;
         } else {
-            o[11] = 0;
-            o[7] = o[7] + 1;
+            work->yVelocity = 0;
+            work->state = work->state + 1;
         }
         break;
     case 1:
-        o[8] = o[8] + 1;
-        if (o[8] >= 30) {
-            o[7] = o[7] + 1;
-            o[9] = 1;
+        work->timer = work->timer + 1;
+        if (work->timer >= 30) {
+            work->state = work->state + 1;
+            work->finished = 1;
         }
         break;
     }
-    r3 = func_0218EC2C(func_02188C58((void *)o[6]));
+    g3dCamera = func_0218EC2C(func_02188C58(work->param.fieldMap));
     {
-        Vec v = {0, 0, 0};
+        VecFx32 above = {0, 0, 0};
 
-        v.y = o[10] + 0x16000;
-        w = v;
+        above.y = work->yOffset + 0x16000;
+        offset = above;
     }
-    func_021BB7B4(r3, (int)(&w), (int)(&w));
-    func_0207C9D0(&w, out, out);
+    func_021BB7B4(g3dCamera, &offset, &offset);
+    func_0207C9D0(&offset, out, out);
 }
 
-
-
-
-
-
-
-
-
-
-
-int *func_021BB890(int a, int b, int n)
+FieldSubprocMgr *func_021BB890(void *fieldSys, int heapId, int capacity)
 {
-    int *p = func_02030734(b, 0x18, 1, (const char *)&d_021DE2F8, 0x46);
-    int sz;
+    FieldSubprocMgr *mgr = func_02030734(heapId, 0x18, 1, (const char *)&d_021DE2F8, 0x46);
+    int listSize;
 
-    p[0] = a;
-    p[1] = b;
-    p[2] = n;
-    p[3] = (int)func_02030734(b, 0x18 * n, 1, (const char *)&d_021DE2F8, 0x4a);
-    sz = func_02030CB0(n);
-    p[5] = (int)func_02030734(b, sz, 1, (const char *)&d_021DE2F8, 0x56);
-    p[5] = (int)func_02030CBC(n, (struct Ctx *)p[5]);
-    p[4] = (int)func_02030734(b, sz, 1, (const char *)&d_021DE2F8, 0x59);
-    p[4] = (int)func_02030CBC(n, (struct Ctx *)p[4]);
-    return p;
+    mgr->fieldSys = fieldSys;
+    mgr->heapId = heapId;
+    mgr->capacity = capacity;
+    mgr->procs = func_02030734(heapId, 0x18 * capacity, 1, (const char *)&d_021DE2F8, 0x4a);
+    listSize = func_02030CB0(capacity);
+    mgr->drawList = func_02030734(heapId, listSize, 1, (const char *)&d_021DE2F8, 0x56);
+    mgr->drawList = func_02030CBC(capacity, mgr->drawList);
+    mgr->updateList = func_02030734(heapId, listSize, 1, (const char *)&d_021DE2F8, 0x59);
+    mgr->updateList = func_02030CBC(capacity, mgr->updateList);
+    return mgr;
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_021BB90C(Obj *p)
+void func_021BB90C(FieldSubprocMgr *mgr)
 {
     int i;
 
-    for (i = 0; i < p->n; i++) {
-        func_021BBA1C((int *)(&p->arr[i]));
+    for (i = 0; i < mgr->capacity; i++) {
+        func_021BBA1C(&mgr->procs[i]);
     }
-    func_020307B0(p->arr);
-    func_020307B0(p->f10);
-    func_020307B0(p->f14);
-    func_020307B0(p);
+    func_020307B0(mgr->procs);
+    func_020307B0(mgr->updateList);
+    func_020307B0(mgr->drawList);
+    func_020307B0(mgr);
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_021BB948(u8 *p)
+void func_021BB948(FieldSubprocMgr *mgr)
 {
-    func_02030D28((struct Ctx *)(((struct Obj18174 *)p)->f10));
+    func_02030D28(mgr->updateList);
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_021BB954(u8 *p)
+void func_021BB954(FieldSubprocMgr *mgr)
 {
-    func_02030D28((struct Ctx *)(((struct Obj18175 *)p)->f14));
+    func_02030D28(mgr->drawList);
 }
 
-
-
-
-
-
-
-
-
-
-void func_021BB960(u32 a, u32 b, u32 c, u32 d)
+void func_021BB960(struct Tcb *tcb, FieldSubproc *proc)
 {
-if (*(u32 *)((u8 *)(((struct Obj07223 *)((u8 *)(b)))->fC) + 16) != 0) {
-    ((void (*)(u32, u32, u32, u32))*(u32 *)((u8 *)(*(u32 *)((u8 *)(b) + 12)) + 16))(b, *(u32 *)((u8 *)(((struct Obj07223 *)((u8 *)(b)))->f0)), ((struct Obj07223 *)((u8 *)(b)))->f10, *(u32 *)((u8 *)(((struct Obj07223 *)((u8 *)(b)))->fC) + 16));
+    if (proc->tmpl->update != 0) {
+        proc->tmpl->update(proc, proc->mgr->fieldSys, proc->work);
+    }
 }
-}
 
-
-
-
-
-
-
-
-
-
-void func_021BB978(u32 a, u32 b, u32 c, u32 d)
+void func_021BB978(struct Tcb *tcb, FieldSubproc *proc)
 {
-if (*(u32 *)((u8 *)(((struct Obj07224 *)((u8 *)(b)))->fC) + 20) != 0) {
-    ((void (*)(u32, u32, u32, u32))*(u32 *)((u8 *)(*(u32 *)((u8 *)(b) + 12)) + 20))(b, *(u32 *)((u8 *)(((struct Obj07224 *)((u8 *)(b)))->f0)), ((struct Obj07224 *)((u8 *)(b)))->f10, *(u32 *)((u8 *)(((struct Obj07224 *)((u8 *)(b)))->fC) + 20));
+    if (proc->tmpl->draw != 0) {
+        proc->tmpl->draw(proc, proc->mgr->fieldSys, proc->work);
+    }
 }
-}
 
-
-
-
-
-
-
-
-
-
-int *func_021BB990(int a, int *d, const int *c)
+FieldSubproc *func_021BB990(int overlayId, FieldSubprocMgr *mgr, const FieldSubprocTemplate *tmpl)
 {
-    int *p = (int *)d[3];
+    FieldSubproc *proc = mgr->procs;
     int i;
 
-    for (i = 0; i < d[2]; i++, p += 6) {
-        if (p[1] != 0) {
+    for (i = 0; i < mgr->capacity; i++, proc++) {
+        if (proc->updateTcb != 0) {
             continue;
         }
-        if (a != -1) {
-            func_02034AC4(a);
+        if (overlayId != -1) {
+            func_02034AC4(overlayId);
         }
-        p[5] = a;
-        p[1] = func_02030DA8(d[4], func_021BB960, p, c[0]);
-        p[2] = func_02030DA8(d[5], func_021BB978, p, c[0]);
-        p[0] = (int)d;
-        p[3] = (int)c;
-        if (((struct Obj06051 *)c)->f4 != 0) {
-            p[4] = (int)func_02030734((u16)d[1], ((struct Obj06051 *)c)->f4, 1, (const char *)&d_021DE2F8, 0xc3);
+        proc->overlayId = overlayId;
+        proc->updateTcb = func_02030DA8(mgr->updateList, (TcbFunc)func_021BB960, proc, tmpl->priority);
+        proc->drawTcb = func_02030DA8(mgr->drawList, (TcbFunc)func_021BB978, proc, tmpl->priority);
+        proc->mgr = mgr;
+        proc->tmpl = tmpl;
+        if (tmpl->workSize != 0) {
+            proc->work = func_02030734((u16)mgr->heapId, tmpl->workSize, 1, (const char *)&d_021DE2F8, 0xc3);
         }
-        if (c[2] != 0) {
-            ((void (*)(int *, int, int))c[2])(p, d[0], p[4]);
+        if (tmpl->init != 0) {
+            tmpl->init(proc, mgr->fieldSys, proc->work);
         }
-        return p;
+        return proc;
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-void func_021BBA1C(int *p)
+void func_021BBA1C(FieldSubproc *proc)
 {
-    int *c;
+    const FieldSubprocTemplate *tmpl;
 
-    if (p[1] == 0) {
+    if (proc->updateTcb == 0) {
         return;
     }
-    c = (int *)p[3];
-    if (c[3] != 0) {
-        ((void (*)(int *, int, int))c[3])(p, *(int *)p[0], p[4]);
+    tmpl = proc->tmpl;
+    if (tmpl->exit != 0) {
+        tmpl->exit(proc, proc->mgr->fieldSys, proc->work);
     }
-    if (*(u16 *)((char *)p[3] + 4) != 0) {
-        func_020307B0((void *)p[4]);
+    if (proc->tmpl->workSize != 0) {
+        func_020307B0(proc->work);
     }
-    func_02030EAC((struct Node *)p[1]);
-    func_02030EAC((struct Node *)p[2]);
-    if (p[5] != -1) {
-        func_02034A5C(p[5]);
+    func_02030EAC(proc->updateTcb);
+    func_02030EAC(proc->drawTcb);
+    if (proc->overlayId != -1) {
+        func_02034A5C(proc->overlayId);
     }
-    func_02082BCC(p, 0, 0x18);
+    func_02082BCC(proc, 0, 0x18);
 }
 
-
-
-
-
-
-
-
-
-u32 func_021BBA6C(const void *p)
+void *func_021BBA6C(const FieldSubproc *proc)
 {
-    return ((struct Obj20098 *)p)->f10;
+    return proc->work;
 }
 
-
-
-
-
-
-
-void func_021BBA70(Ctx *ctx, Src *src, u16 *v, u8 kind)
+/*
+ * Adds one line to the chat log: from a received beacon, or (beaconPc zero)
+ * from the own player with the sentence in chatPms.
+ */
+void func_021BBA70(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatPms, u8 chatType)
 {
-    Ring *ring = &ctx->ring;
-    Entry *e;
-    int a;
-    int t;
-    int s;
-    int r;
+    UnionChatRing *ring = (UnionChatRing *)&work->chatLog;
+    UnionChatLine *line;
+    void *myStatus;
+    void *wifiList;
+    void *saveControl;
+    int relation;
 
-    if (src == 0 && v == 0) {
-        func_02034714((void *)0x021DE308, 0, (void *)0x021DE308);
+    if (beaconPc == 0 && chatPms == 0) {
+        func_02034714((const char *)0x021DE308, 0, (const char *)0x021DE308);
     }
-    if (src != 0 && func_021BBC58(ring, src->key, src->h) == 0) {
+    if (beaconPc != 0 && func_021BBC58(ring, beaconPc->mac, beaconPc->beacon.chatCount) == 0) {
         return;
     }
-    e = func_021BBBD8(ring);
-    if (src == 0) {
-        a = ctx->sys->a;
-        func_020084F8((void *)a, (u32)e->id, 8);
-        /* the re-test of v inside the v == 0 arm is the dead second bne */
-        if (v == 0) {
-            if (v != 0 || kind == 0) {
-                func_02034714((void *)0x021DE308, 0, (void *)0x021DE308);
+    line = func_021BBBD8(ring);
+    if (beaconPc == 0) {
+        myStatus = work->parent->myStatus;
+        func_020084F8(myStatus, line->name, 8);
+        /* the re-test of chatPms inside the chatPms == 0 arm is the dead second bne */
+        if (chatPms == 0) {
+            if (chatPms != 0 || chatType == 0) {
+                func_02034714((const char *)0x021DE308, 0, (const char *)0x021DE308);
             }
         }
-        e->v[0] = v[0];
-        e->v[1] = v[1];
-        e->v[2] = v[2];
-        e->v[3] = v[3];
-        e->kind = kind;
-        e->h = 0;
-        func_02087C6C(e->key);
-        e->flag = func_02008550((const struct Sub0200852CObj *)a);
-        e->rel = 0;
+        line->chatPms[0] = chatPms[0];
+        line->chatPms[1] = chatPms[1];
+        line->chatPms[2] = chatPms[2];
+        line->chatPms[3] = chatPms[3];
+        line->chatType = chatType;
+        line->chatCount = 0;
+        func_02087C6C(line->senderMac);
+        line->sex = func_02008550(myStatus);
+        line->relation = 0;
     } else {
-        func_0201F41C((const u16 *)src->id, (u16 *)e->id, 8);
-        e->v[0] = src->v[0];
-        e->v[1] = src->v[1];
-        e->v[2] = src->v[2];
-        e->v[3] = src->v[3];
-        e->kind = src->kind;
-        e->h = src->h;
-        func_02082D44(src->key, e->key, 6);
-        e->flag = src->flag;
-        t = (int)func_020120F4((const struct Ctx *)ctx->sys->c);
-        s = func_0201283C((const struct BigObj *)t);
-        t = (int)func_0200ED48(func_02012EBC((struct Big *)t));
-        if (func_0217F894((void *)s, (char *)src) == 1) {
-            r = 1;
-        } else if (func_0200EDC4((struct L0200EDC4 *)t, src->x5c) == 1) {
-            r = 2;
+        func_0201F41C(beaconPc->beacon.name, line->name, 8);
+        line->chatPms[0] = beaconPc->beacon.chatPms.word[0];
+        line->chatPms[1] = beaconPc->beacon.chatPms.word[1];
+        line->chatPms[2] = beaconPc->beacon.chatPms.word[2];
+        line->chatPms[3] = beaconPc->beacon.chatPms.word[3];
+        line->chatType = beaconPc->beacon.chatType;
+        line->chatCount = beaconPc->beacon.chatCount;
+        func_02082D44(beaconPc->mac, line->senderMac, 6);
+        line->sex = beaconPc->beacon.sex;
+        saveControl = func_020120F4(work->parent->gameSystem);
+        wifiList = func_0201283C(saveControl);
+        saveControl = func_0200ED48(func_02012EBC(saveControl));
+        if (func_0217F894(wifiList, &beaconPc->beacon) == 1) {
+            relation = 1;
+        } else if (func_0200EDC4(saveControl, beaconPc->beacon.trainerId) == 1) {
+            relation = 2;
         } else {
-            r = 0;
+            relation = 0;
         }
-        e->rel = r;
+        line->relation = relation;
     }
-    if (ring->count == ring->mark) {
-        ring->mark++;
+    if (ring->newestIndex == ring->oldestIndex) {
+        ring->oldestIndex++;
     }
-    ring->count++;
-    if (ring->count - ring->mark >= 30) {
-        ring->mark = ring->count - 29;
+    ring->newestIndex++;
+    if (ring->newestIndex - ring->oldestIndex >= 30) {
+        ring->oldestIndex = ring->newestIndex - 29;
     }
 }
 
-
-
-
-
-
-Entry *func_021BBBD8(Ring *r)
+/* Takes the slot for the next line, dropping the oldest line when full. */
+UnionChatLine *func_021BBBD8(UnionChatRing *ring)
 {
-    int t;
-    Entry *ret;
-    if (r->count > 0) {
-        t = r->tail;
-        if (t == r->head) {
-            r->head += 1;
-            if (r->head >= 30) r->head = 0;
+    int slot;
+    UnionChatLine *line;
+    if (ring->newestIndex > 0) {
+        slot = ring->endSlot;
+        if (slot == ring->startSlot) {
+            ring->startSlot += 1;
+            if (ring->startSlot >= 30) ring->startSlot = 0;
         }
     }
-    ret = &r->e[r->tail];
-    r->tail += 1;
-    if (r->tail >= 30) r->tail = 0;
-    return ret;
+    line = &ring->line[ring->endSlot];
+    ring->endSlot += 1;
+    if (ring->endSlot >= 30) ring->endSlot = 0;
+    return line;
 }
 
-
-
-
-
-
-Entry *func_021BBC2C(Ring *r, u32 i)
+/* Returns the line with the given absolute index, or zero when it is empty. */
+UnionChatLine *func_021BBC2C(UnionChatRing *ring, u32 index)
 {
-    Entry *e = &r->e[i % 30];
+    UnionChatLine *line = &ring->line[index % 30];
 
-    if (func_0203EFC8(e->key, (const u8 *)d_021D9AE0, 6) == 0) {
-        e = 0;
+    if (func_0203EFC8(line->senderMac, (const u8 *)d_021D9AE0, 6) == 0) {
+        line = 0;
     }
-    return e;
+    return line;
 }
 
-
-
-
-
-
-/* A u16 `c` (not int/u32) is what stores c's spill before b's. */
-int func_021BBC58(Ring *r, const void *b, u16 c)
+/*
+ * Returns 0 when a kept line from this sender has this chat count already.
+ * A u16 chatCount (not int/u32) is what stores its spill before mac's.
+ */
+int func_021BBC58(UnionChatRing *ring, const void *mac, u16 chatCount)
 {
     int i;
-    Entry *p;
+    UnionChatLine *line;
 
-    for (i = r->count; i > r->count - 30; i--) {
+    for (i = ring->newestIndex; i > ring->newestIndex - 30; i--) {
         if (i < 0) return 1;
-        p = func_021BBC2C(r, i);
-        if (p != 0 && func_0203EFC8(p->key, b, 6) == 0) {
-            if (p->h != c) return 1;
+        line = func_021BBC2C(ring, i);
+        if (line != 0 && func_0203EFC8(line->senderMac, mac, 6) == 0) {
+            if (line->chatCount != chatCount) return 1;
             return 0;
         }
     }
     return 1;
 }
 
-
-
-
-
-
-ActTbl *func_021BBCBC(void *owner, u32 heap)
+FootmarkEffectWork *func_021BBCBC(void *fieldEffectCtrl, u32 heapId)
 {
-    ActTbl *o;
+    FootmarkEffectWork *effWork;
 
-    o = func_02030734(heap, 0x40, 1, d_021DE30C, 0x9d);
-    o->owner = owner;
-    o->res = (void *)func_02188C88((u8 *)func_021ABE14(owner));
-    func_021BBD0C(o);
-    o->f3c = 0x2000;
-    return o;
+    effWork = func_02030734(heapId, 0x40, 1, d_021DE30C, 0x9d);
+    effWork->fieldEffectCtrl = fieldEffectCtrl;
+    effWork->bbActSys = func_02188C88(func_021ABE14(fieldEffectCtrl));
+    func_021BBD0C(effWork);
+    effWork->snowHeightOffset = 0x2000;
+    return effWork;
 }
 
-
-
-
-
-
-/*
- * Pattern-generated from the ov021 family.
- *
- * Addresses are Black-image addresses.
- */
-void func_021BBCF8(u32 a, ActTbl *p)
+void func_021BBCF8(u32 unused, FootmarkEffectWork *effWork)
 {
-    func_021BBD64(p);
-    func_020307B0(p);
+    func_021BBD64(effWork);
+    func_020307B0(effWork);
 }
 
-
-
-
-
-
-void func_021BBD0C(ActTbl *p)
+void func_021BBD0C(FootmarkEffectWork *effWork)
 {
-    Arg_021BBC58 s;
+    FootmarkSlotRecord record;
     int i;
-    const u16 *t = d_021D9B0C;
-    u32 r7 = func_021ABE24((u8 *)p->owner);
-    s.b4 = 2;
-    s.b5 = 0x11;
-    s.b6 = 0x10;
-    s.b7 = 0x10;
-    s.c = 1;
-    for (i = 0; i < 0x1a; i++, t++) {
-        s.a = (u32)func_02046E24(r7, *t);
-        func_021AC1F0((struct X *)p->owner, (void *)s.a);
-        p->h8[i] = func_020500F0((struct BbActSys *)p->res, (const struct BbActRec *)(&s), 1);
+    const u16 *resId = d_021D9B0C;
+    void *g3dHeap = func_021ABE24(effWork->fieldEffectCtrl);
+
+    record.kind = 2;
+    record.flags = 0x11;
+    record.width = 0x10;
+    record.height = 0x10;
+    record.count = 1;
+    for (i = 0; i < 0x1a; i++, resId++) {
+        record.resource = func_02046E24(g3dHeap, *resId);
+        func_021AC1F0(effWork->fieldEffectCtrl, record.resource);
+        effWork->resIdx[i] = func_020500F0(effWork->bbActSys, &record, 1);
     }
 }
 
-
-
-
-void func_021BBD64(ActTbl *p)
+void func_021BBD64(FootmarkEffectWork *effWork)
 {
     int i;
 
     for (i = 0; i < 0x1A; i++) {
-        func_02050278((struct BbActSys *)p->res, p->h8[i], 1);
+        func_02050278(effWork->bbActSys, effWork->resIdx[i], 1);
     }
 }
 
-
-
-
-int func_021BBD84(int a, int n, int x, int y)
+/* Picks the billboard slot of a footmark picture (oldDir selects the turn row). */
+int func_021BBD84(FootmarkEffectWork *effWork, int type, int dir, int oldDir)
 {
-    int r = 0;
-    switch (n) {
-    case 0: r = x; break;
-    case 1: r = d_021D9AE8[y].b[x]; break;
-    case 2: r = x + 10; break;
-    case 3: r = d_021D9AE8[y].b[x] - 4; r += 14; break;
-    case 4: r = d_021D9AE8[y].b[x] - 4; r += 20; break;
+    int slot = 0;
+    switch (type) {
+    case 0: slot = dir; break;
+    case 1: slot = d_021D9AE8[oldDir].slot[dir]; break;
+    case 2: slot = dir + 10; break;
+    case 3: slot = d_021D9AE8[oldDir].slot[dir] - 4; slot += 14; break;
+    case 4: slot = d_021D9AE8[oldDir].slot[dir] - 4; slot += 20; break;
     }
-    return r;
+    return slot;
 }

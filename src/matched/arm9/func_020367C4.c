@@ -1,5 +1,5 @@
 /*
- * function: func_020367C4
+ * function: GFL_NET_QUEUE_WriteNode
  * address:  0x020367C4
  * packet:   pkt_020367C4
  * region:   arm9
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203675C  0x0203675C  arm
- *   func_020364D4  0x020364D4  arm
+ *   GFL_NET_QUEUE_WriteHeader  0x0203675C  arm
+ *   GFL_NET_RING_BUFF_Read  0x020364D4  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *
  * Moves one queued send item into an output window: on first touch writes
- * the item's five-byte header (func_0203675C, refused with 0 when a header
+ * the item's five-byte header (GFL_NET_QUEUE_WriteHeader, refused with 0 when a header
  * is required and the window cannot hold rest + 5), then copies as much of
  * the payload as fits -- from the item's own source pointer with
- * MI_CpuCopy8, or out of the ring with func_020364D4 when it has none.  A
+ * MI_CpuCopy8, or out of the ring with GFL_NET_RING_BUFF_Read when it has none.  A
  * partial copy leaves the window marked full (0xFFFF) and the item's
  * header flag set; a complete one advances the window.  Exact on the first
  * compile from the image's field widths.
@@ -44,21 +44,21 @@ typedef struct {
     u16  len;       /* +0x04 */
 } NetOutBuf;
 
-extern int func_0203675C(int a0, int a1);
-extern int func_020364D4(char *p, unsigned char *dst, int len, int max);
+extern int GFL_NET_QUEUE_WriteHeader(int a0, int a1);
+extern int GFL_NET_RING_BUFF_Read(char *p, unsigned char *dst, int len, int max);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-int func_020367C4(NetSendItem *item, NetOutBuf *out, void *ring, BOOL needHeader)
+int GFL_NET_QUEUE_WriteNode(NetSendItem *item, NetOutBuf *out, void *ring, BOOL needHeader)
 {
     if (item->headerDone == 0) {
         if (needHeader != 0 && out->len < item->rest + 5) {
             return 0;
         }
-        func_0203675C((int)item, (int)out);
+        GFL_NET_QUEUE_WriteHeader((int)item, (int)out);
     }
     if (out->len < item->rest) {
         if (item->src == 0) {
-            func_020364D4(ring, out->ptr, out->len, out->len);
+            GFL_NET_RING_BUFF_Read(ring, out->ptr, out->len, out->len);
         } else {
             MI_CpuCopy8(item->src, out->ptr, out->len);
             item->src += out->len;
@@ -69,7 +69,7 @@ int func_020367C4(NetSendItem *item, NetOutBuf *out, void *ring, BOOL needHeader
         return 1;
     }
     if (item->src == 0) {
-        func_020364D4(ring, out->ptr, item->rest, item->rest);
+        GFL_NET_RING_BUFF_Read(ring, out->ptr, item->rest, item->rest);
     } else {
         MI_CpuCopy8(item->src, out->ptr, item->rest);
     }

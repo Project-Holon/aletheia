@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *
  * TU: net.c.
  *
@@ -38,11 +38,11 @@ struct NetSys {
     struct NetVtbl *vtbl;
 };
 
-extern struct NetSys *func_0203D788(void);
+extern struct NetSys *GFL_NET_GetSession(void);
 
 void func_0203D1E8(u32 unused, void *arg)
 {
-    void (*fn)(void *) = func_0203D788()->vtbl->unk_b8;
+    void (*fn)(void *) = GFL_NET_GetSession()->vtbl->unk_b8;
 
     if (fn == 0) {
         return;

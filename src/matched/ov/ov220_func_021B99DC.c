@@ -25,7 +25,7 @@
  * func_0204B92C 0x0204B92C arm
  * func_0204B6F4 0x0204B6F4 arm
  * func_0201BC3C 0x0201BC3C thumb
- * func_0201BABC 0x0201BABC thumb
+ * POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  * func_0201BC40 0x0201BC40 thumb
  * func_0201BCB4 0x0201BCB4 thumb
  * func_0201BB5C 0x0201BB5C thumb
@@ -59,7 +59,7 @@ extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern int func_0201BC3C(void);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
-extern u32 func_0201BABC(u32, u32, u32, u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
 extern u32 func_0201BB5C(u32, u32, u32, u32);
 void func_021B99DC(char *p)
 {
@@ -101,7 +101,7 @@ void func_021B99DC(char *p)
       if (i == 0)
         *((u32 *) (p + i * 12 + 0x20)) = func_0204ACEC(owner, func_0201BC3C(), 0, 32, *((u16 *) p));
       res = p + i * 12;
-      *((u32 *) (res + 0x1C)) = func_0204A6C8(owner, func_0201BABC(species, form, gender, 0), 0, 0, *((u16 *) p));
+      *((u32 *) (res + 0x1C)) = func_0204A6C8(owner, POKE_TOOL_CalcGraphicIndex(species, form, gender, 0), 0, 0, *((u16 *) p));
       *((u32 *) (res + 0x24)) = func_0204AF28(owner, func_0201BC40(), func_0201BCB4(), *((u16 *) p));
       func_02082BCC(&param, 0, 8);
       param.x = *((const s16 *) (coords + i * 4));

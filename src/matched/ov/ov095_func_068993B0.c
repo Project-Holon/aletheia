@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * note: recoup 2026-10-05: callee return types from matched definitions closed it. func_06899428 (func_021B9A40) returns u8, func_06899448 (sub_0201BD28) and func_06899458 (sub_0201C314) return u32, x is u32, h is u16. Earlier DIFF was a v/h colour swap caused by int declarations.
+ * note: recoup 2026-10-05: callee return types from matched definitions closed it. func_06899428 (func_021B9A40) returns u8, func_06899448 (sub_0201BD28) and func_06899458 (WAZA_TOOL_IsDamaging) return u32, x is u32, h is u16. Earlier DIFF was a v/h colour swap caused by int declarations.
  * symbols:
  *   func_06899418  0x06899418  thumb
  *   func_06899428  0x06899428  thumb

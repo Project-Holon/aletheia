@@ -1,5 +1,5 @@
 /*
- * function: func_0202B1F4
+ * function: ISS_ROAD_SYS_Update
  * address:  0x0202B1F4
  * packet:   pkt_0202B1F4
  * region:   arm9
@@ -9,15 +9,18 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * A bare tail-call thunk to func_0202B230.
+ * A bare tail-call thunk to ISS_ROAD_SYS_UpdateVolume.
 
  * Closed by the `matched` class: 0x0202B230 was filed as an EXACT entry in this wave.
+ *
+ * symbols:
+ *   ISS_ROAD_SYS_UpdateVolume  0x0202B230  thumb
  */
 
 typedef unsigned char  u8;
-extern void func_0202B230(u8 *p);
+extern void ISS_ROAD_SYS_UpdateVolume(u8 *p);
 
-void func_0202B1F4(u8 *a0)
+void ISS_ROAD_SYS_Update(u8 *a0)
 {
-    func_0202B230(a0);
+    ISS_ROAD_SYS_UpdateVolume(a0);
 }

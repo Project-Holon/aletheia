@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02061D0C  0x02061D0C  arm
+ *   NNSi_GfdMergeAdjacentFreeBlocks  0x02061D0C  arm
  */
 #include "../include/Obj03022.h"
 
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 struct Node;
 struct Range;
-extern u32 func_02061D0C(struct Node **head1, struct Node **head2, struct Range *range);
+extern u32 NNSi_GfdMergeAdjacentFreeBlocks(struct Node **head1, struct Node **head2, struct Range *range);
 
 typedef struct Node02061FF8 {
     u32 f00;
@@ -36,7 +36,7 @@ void func_02061FF8(void *pp, int arg)
         u32 buf[2];
         buf[0] = n->f00;
         buf[1] = n->f00 + n->f04;
-        if (func_02061D0C(pp, (struct Node **)arg, (struct Range *)buf) != 0) {
+        if (NNSi_GfdMergeAdjacentFreeBlocks(pp, (struct Node **)arg, (struct Range *)buf) != 0) {
             n->f00 = buf[0];
             n->f04 = buf[1] - buf[0];
             n = *(Node02061FF8 * *)&((struct Obj03022 *)pp)->f0;

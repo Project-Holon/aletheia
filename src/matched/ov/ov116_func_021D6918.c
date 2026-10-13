@@ -17,6 +17,9 @@
  *   func_020306F0 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000072 data
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
+ *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
  */
 typedef unsigned char u8;
 struct S020315D4;
@@ -28,9 +31,9 @@ extern void func_021D7C58(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
 extern void func_02034A5C(int handle);
-extern int func_02005E9C(void);
-extern void func_02005DE4(void *);
-extern void func_02005DF8(unsigned);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_SetBgmPlayerParam(void *);
+extern void GFL_USE_FadeInBgmFull(unsigned);
 extern u8 ov_id[];
 int func_021D6918(void *p, int a, int b, u8 *q) {
     func_021D730C(q);
@@ -41,8 +44,8 @@ int func_021D6918(void *p, int a, int b, u8 *q) {
     func_020315D4(p);
     func_020306F0(125);
     func_02034A5C((int)ov_id);
-    func_02005E9C();
-    func_02005DE4(0);
-    func_02005DF8(60);
+    GFL_USE_PopBgm();
+    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_FadeInBgmFull(60);
     return 1;
 }

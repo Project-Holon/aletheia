@@ -22,6 +22,7 @@
  *   func_021E62D4 0x021E62D4 thumb ov119
  *   d_021E7D70 0x021E7D70 data a4
  *   d_021E7DA0 0x021E7DA0 data a4
+ *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb  arm9
  */
 #include "../include/Obj00001.h"
 typedef unsigned short u16;
@@ -39,7 +40,7 @@ struct Obj;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern int func_0201BBE8(void *);
+extern int POKE_TOOL_GetIconPalette(void *);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
@@ -60,7 +61,7 @@ void func_021E6334(char *p,int i,int j,void *mon,int selected,u32 visible)
     c.z=1; c.a=16; c.b=1;
     *(int *)(p+0x1020+i*12+j*4) = func_0204A6C8((void *)((u32)h),func_0201BA68(q),0,n,((struct Obj00001 *)p)->f5F4);
     *(int *)(p+0x1008+i*12+j*4) = (int)func_0204B294((void *)((struct Obj00001 *)p)->f9C4,*(int *)(p+0x1020+i*12+j*4),*(int *)&((struct Obj00001 *)p)->f890,*(int *)&((struct Obj00001 *)p)->f8C0,&c,n,((struct Obj00001 *)p)->f5F4);
-    func_0204B6F4((struct Obj *)(*(int *)(p+0x1008+i*12+j*4)),func_0201BBE8(q),1);
+    func_0204B6F4((struct Obj *)(*(int *)(p+0x1008+i*12+j*4)),POKE_TOOL_GetIconPalette(q),1);
     func_0204B92C((struct Obj *)*(int *)(p+0x1008+i*12+j*4),0);
     func_0204B3DC((struct Obj *)*(int *)(p+0x1008+i*12+j*4),visible);
     func_02049238((int)h);

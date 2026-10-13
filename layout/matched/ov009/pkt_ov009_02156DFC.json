@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02156DFC",
+   "name": "DWC_RAPCOMMON_InitDwcWithNotice",
    "address": "0x02156DFC",
    "kind": "game",
    "region": "ov009",

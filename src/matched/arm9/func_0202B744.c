@@ -1,5 +1,5 @@
 /*
- * function: func_0202B744
+ * function: ISS_SYS_EnterZone
  * address:  0x0202B744
  * packet:   pkt_0202B6F8
  * region:   arm9
@@ -9,9 +9,13 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Promoted out of src/pending: both callees, func_0202B804 and func_0202BEDC,
+ * Promoted out of src/pending: both callees, ISS_SYS_GetZoneId and ISS_ZONE_SYS_Start,
  * now have EXACT manifest entries, so the two THM_CALL fields resolve through
  * the `matched` class and every byte is hard.
+ *
+ * symbols:
+ *   ISS_SYS_GetZoneId  0x0202B804  thumb
+ *   ISS_ZONE_SYS_Start  0x0202BEDC  thumb
  */
 #include "../include/Obj15840.h"
 
@@ -19,10 +23,10 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct Obj;
-extern unsigned short func_0202B804(struct Obj *o);
-extern void func_0202BEDC(int a, int b);
+extern unsigned short ISS_SYS_GetZoneId(struct Obj *o);
+extern void ISS_ZONE_SYS_Start(int a, int b);
 
-void func_0202B744(u8 *o)
+void ISS_SYS_EnterZone(u8 *o)
 {
-    func_0202BEDC(((struct Obj15840 *)o)->f1C, func_0202B804((struct Obj *)o));
+    ISS_ZONE_SYS_Start(((struct Obj15840 *)o)->f1C, ISS_SYS_GetZoneId((struct Obj *)o));
 }

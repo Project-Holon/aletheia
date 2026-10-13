@@ -1,5 +1,5 @@
 /*
- * function: func_02024160
+ * function: PMSI_PARAM_GetOptionFlag
  * address:  0x02024160
  * packet:   pkt_02024160
  * region:   arm9
@@ -14,4 +14,4 @@
  * symbols:
  */
 typedef struct {unsigned char pad[3];unsigned char rest:3;unsigned char flag:1;unsigned char last:4;} Bits;
-int func_02024160(Bits *p){return p->flag;}
+int PMSI_PARAM_GetOptionFlag(Bits *p){return p->flag;}

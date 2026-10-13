@@ -15,7 +15,7 @@
  *           sub_02008CD4
  *
  * symbols:
- *   sub_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   sub_0203F2FC  0x0203F2FC  arm
  *   sub_0203F328  0x0203F328  arm
  *   sub_0203F37C  0x0203F37C  arm
@@ -86,7 +86,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Sub020071CCCtrl;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 
 /* The checksum pair over a byte range: sub_0203F2FC computes it, sub_0203F328
  * writes it back into the range's own trailer. */
@@ -108,7 +108,7 @@ u32  sub_02008CB4(const struct Sub02008C20Obj *obj, int i);
 
 struct Sub02008C20Obj *sub_02008C58(void *sys)
 {
-    return sub_020071CC(sys, BLOCK_ID);
+    return SAVE_CONTROL_GetBlock(sys, BLOCK_ID);
 }
 
 void sub_02008C64(struct Sub02008C20Obj *obj, int commit)

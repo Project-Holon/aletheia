@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02031FE0",
+   "name": "BACKUP_SYSTEM_LoadDoubleCopy",
    "address": "0x02031FE0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02032688",
+   "name": "BACKUP_SYSTEM_LoadSingleCopy",
    "address": "0x02032688",
    "kind": "game",
    "region": "arm9",

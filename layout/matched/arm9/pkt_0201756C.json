@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201756C",
+   "name": "POKE_TOOL_SetupPartyParam",
    "address": "0x0201756C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02017600",
+   "name": "POKE_TOOL_SetupBoxParam",
    "address": "0x02017600",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201761C",
+   "name": "POKE_TOOL_SetupBoxParamEx",
    "address": "0x0201761C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020178D8",
+   "name": "POKE_TOOL_ChangeSpecies",
    "address": "0x020178D8",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02017900",
+   "name": "POKE_TOOL_ChangeBoxSpecies",
    "address": "0x02017900",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02017B24",
+   "name": "POKE_TOOL_HatchEgg",
    "address": "0x02017B24",
    "kind": "game",
    "region": "arm9",

@@ -21,9 +21,9 @@
  * ov009_func_0217ECA4 (sendto) and gsUdpConnAttemptCB (0x02180C94).
  *
  * symbols:
- *   func_02180404                  0x02180404  arm ov009
- *   func_02195E28                  0x02195E28  arm ov009
- *   func_02195E30                  0x02195E30  arm ov009
+ *   gsUdpEngineContext                  0x02180404  arm ov009
+ *   gt2GetRemoteIP                  0x02195E28  arm ov009
+ *   gt2GetRemotePort                  0x02195E30  arm ov009
  *   func_02198620                  0x02198620  arm ov009
  *   func_0217D254                  0x0217D254  arm ov009
  *   func_021843E8                  0x021843E8  arm ov009
@@ -72,9 +72,9 @@ typedef struct GSUdpEngineObject {
     unsigned short mLocalPort;
 } GSUdpEngineObject;
 
-extern GSUdpEngineObject *func_02180404(void);
-extern unsigned int func_02195E28(void *connection);
-extern unsigned short func_02195E30(void *connection);
+extern GSUdpEngineObject *gsUdpEngineContext(void);
+extern unsigned int gt2GetRemoteIP(void *connection);
+extern unsigned short gt2GetRemotePort(void *connection);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
 extern void *func_02184208(void *array, int n);
@@ -92,9 +92,9 @@ void func_02180A64(void *theConnection, unsigned char *theMessage, int theMessag
     char anAddr[22];
     GSUdpMsgHandler *aHandlerFound;
 
-    aUdp = func_02180404();
+    aUdp = gsUdpEngineContext();
     func_0217D254(12, 0, 16, g_021A3A30,
-        func_02198620(func_02195E28(theConnection), func_02195E30(theConnection), anAddr));
+        func_02198620(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
 
     if (theMessageLen >= 16) {
         memcpy(&aHandler.mHeader, theMessage, sizeof(aHandler.mHeader));
@@ -103,7 +103,7 @@ void func_02180A64(void *theConnection, unsigned char *theMessage, int theMessag
             aHandlerFound = (GSUdpMsgHandler *)func_02184208(aUdp->mMsgHandlers, index);
             if (aHandlerFound->mReceived) {
                 func_0217D254(12, 0, 16, g_021A39EC);
-                aHandlerFound->mReceived(func_02195E28(theConnection), func_02195E30(theConnection),
+                aHandlerFound->mReceived(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection),
                     theMessage + 16, theMessageLen - 16, reliable, aHandlerFound->mUserData);
                 return;
             }
@@ -112,7 +112,7 @@ void func_02180A64(void *theConnection, unsigned char *theMessage, int theMessag
 
     if (aUdp->mAppRecvData) {
         func_0217D254(12, 0, 16, g_021A3A14);
-        aUdp->mAppRecvData(func_02195E28(theConnection), func_02195E30(theConnection),
+        aUdp->mAppRecvData(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection),
             theMessage, theMessageLen, reliable, aUdp->mAppUserData);
     }
 }

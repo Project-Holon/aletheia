@@ -26,7 +26,7 @@
  *   func_02012934  0x02012934  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
- *   func_0201897C  0x0201897C  thumb
+ *   POKE_TOOL_HasRibbonData  0x0201897C  thumb
  *   d_02172978     0x02172978  data
  */
 
@@ -90,7 +90,7 @@ extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *party, u32 i);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_0201897C(struct Hdr *p);
+extern u32 POKE_TOOL_HasRibbonData(struct Hdr *p);
 extern const char d_02172978[];
 
 Setup *func_02160E08(Work *w, int kind, int mode, Src *src)
@@ -153,7 +153,7 @@ Setup *func_02160E08(Work *w, int kind, int mode, Src *src)
                 party = func_02012934(sys);
                 for (i = 0; i < (int)func_0201AA18(party); i++) {
                     mon = func_0201AB28(party, i);
-                    if (func_02017E1C(mon, 0xA9, 0) && func_0201897C(mon) && func_02017E1C(mon, 0x4C, 0) == 0) {
+                    if (func_02017E1C(mon, 0xA9, 0) && POKE_TOOL_HasRibbonData(mon) && func_02017E1C(mon, 0x4C, 0) == 0) {
                         s->slot = i;
                         break;
                     }

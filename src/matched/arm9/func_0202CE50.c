@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202CE50
+ * function: BGWINFRM_ChangePalette
  * address:  0x0202CE50
  * packet:   pkt_0202CDD4
  * region:   arm9
@@ -39,7 +39,7 @@ struct WinMgr {
     struct Win *wins;
 };
 
-void func_0202CE50(struct WinMgr *mgr, u32 idx, s32 x, s32 y,
+void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, s32 x, s32 y,
                    u8 w, u8 h, u8 pal)
 {
     u16 *tiles = mgr->wins[idx].tiles;

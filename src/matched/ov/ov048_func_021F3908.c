@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012EC0 0x02012EC0 thumb
+ *   GAME_DATA_GetSaveControlWork 0x02012EC0 thumb
  *   func_0200C0E8 0x0200C0E8 thumb
  *   func_0200C3B0 0x0200C3B0 thumb
  */
@@ -17,7 +17,7 @@
 typedef unsigned short u16;
 struct Big;
 struct Blk34;
-extern void *func_02012EC0(struct Big *p);
+extern void *GAME_DATA_GetSaveControlWork(struct Big *p);
 extern void *func_0200C0E8(void *p);
 extern u16 func_0200C3B0(struct Blk34 *p);
-void func_021F3908(int *p) { if(p[4]==0) { ((struct Obj00377 *)p)->f64=func_0200C3B0(func_0200C0E8(func_02012EC0((void *)p[2]))); p[4]=1; } }
+void func_021F3908(int *p) { if(p[4]==0) { ((struct Obj00377 *)p)->f64=func_0200C3B0(func_0200C0E8(GAME_DATA_GetSaveControlWork((void *)p[2]))); p[4]=1; } }

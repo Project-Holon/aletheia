@@ -14,7 +14,7 @@
  *   func_0218A378's second parameter is int (no truncation before the bl).
  * symbols:
  *   func_0201134C  0x0201134C  thumb
- *   func_020113B0  0x020113B0  thumb
+ *   VM_Jump  0x020113B0  thumb
  *   func_0218A378  0x0218A378  thumb  ov096
  *   func_021D5448  0x021D5448  thumb  ov093
  *   func_021D54C0  0x021D54C0  thumb  ov093
@@ -36,7 +36,7 @@ struct Cursor;
 extern u32 func_0201134C(struct Cursor *p);
 struct Cur;
 struct QG;
-extern void func_020113B0(struct Cur *c, u32 v);
+extern void VM_Jump(struct Cur *c, u32 v);
 extern int func_0218A378(Conn *, int, int);
 extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D54C0(u8 *p, int i);
@@ -52,6 +52,6 @@ int func_02188BB0(struct Cursor *a, Conn *b)
             break;
     }
     if (i < func_021D5448((struct QG *)b->fbc))
-        func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
+        VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
     return b->fc4;
 }

@@ -15,10 +15,10 @@
  *   func_0219F888  0x0219F888  arm  ov009
  *   func_0219DF64  0x0219DF64  arm  ov009
  *   func_021803BC  0x021803BC  arm  ov009
- *   func_021A0A1C  0x021A0A1C  arm  ov009
+ *   SBServerListSetLastError  0x021A0A1C  arm  ov009
  *   func_0217F264  0x0217F264  arm  ov009
  *   func_020946C8  0x020946C8  arm
- *   func_0217F25C  0x0217F25C  arm  ov009
+ *   SocketStartUp  0x0217F25C  arm  ov009
  *   g_021ACEF8  0x021ACEF8  data
  *   g_021A8230  0x021A8230  data
  */
@@ -65,10 +65,10 @@ typedef struct SBServerList {
 extern void func_0219F888(SBServerList *slist);
 extern void *func_0219DF64(SBServerList *slist);
 extern int func_021803BC(char *dst, const char *src, unsigned int n);
-extern void func_021A0A1C(int *p, int v);
+extern void SBServerListSetLastError(int *p, int v);
 extern unsigned int func_0217F264(void);
 extern void func_020946C8(unsigned int seed);
-extern void func_0217F25C(void);
+extern void SocketStartUp(void);
 extern int g_021ACEF8;
 extern volatile unsigned char g_021A8230[];
 
@@ -99,9 +99,9 @@ void func_0219F9A8(SBServerList *slist, char *queryForGamename, char *queryFromG
     slist->fromgamever = queryFromVersion;
     slist->currsortinfo.sortkey[0] = g_021A8230[0];
     slist->prevsortinfo.sortkey[0] = g_021A8230[0];
-    func_021A0A1C((int *)slist, (int)((char *)(unsigned char *)g_021A8230));
+    SBServerListSetLastError((int *)slist, (int)((char *)(unsigned char *)g_021A8230));
     slist->mLanAdapterOverride = 0;
     slist->backendgameflags = 0x80;
     func_020946C8(func_0217F264());
-    func_0217F25C();
+    SocketStartUp();
 }

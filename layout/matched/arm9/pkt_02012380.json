@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02012380",
+   "name": "GAME_EVENT_Control",
    "address": "0x02012380",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020123C4",
+   "name": "GAME_EVENT_IsRunning",
    "address": "0x020123C4",
    "kind": "game",
    "region": "arm9",

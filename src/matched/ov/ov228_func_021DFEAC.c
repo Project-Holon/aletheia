@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf in ov228: the address of the sub-object at +0xC of the
- * work object.  Caller: arm9 sub_0200A358 (mystery_data.c), which passes the
+ * work object.  Caller: arm9 MYSTERY_DATA_Load (mystery_data.c), which passes the
  * value func_021DFC20 returned, still live in r0.  Integrator: seed ov228
  * 0x021DFEAC.
  */

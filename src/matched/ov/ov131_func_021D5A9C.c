@@ -1,5 +1,5 @@
 /*
- * function: func_021D5A9C
+ * function: P_STATUS_SetInputEnable
  * address: 0x021D5A9C
  * packet: pkt_ov131_021D5A9C
  * region: ov131
@@ -9,14 +9,14 @@
  * status: EXACT
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
- *   func_021D62E4 0x021D62E4 thumb ov131
+ *   P_STATUS_CanUseButtons 0x021D62E4 thumb ov131
  */
 #include "../include/Obj00136.h"
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern int func_021D62E4(char *p);
-void func_021D5A9C(char *p,int a)
+extern int P_STATUS_CanUseButtons(char *p);
+void P_STATUS_SetInputEnable(char *p,int a)
 {
     *(int *)&((struct Obj00136 *)p)->f44=a;
     if(a==0){
@@ -33,7 +33,7 @@ void func_021D5A9C(char *p,int a)
         if(((struct Obj00136 *)p)->f40==1) func_0204B3DC(((struct Obj00136 *)p)->f180,1);
         func_0204B3DC(((struct Obj00136 *)p)->f188,1);
         func_0204B3DC(((struct Obj00136 *)p)->f18C,1);
-        if(func_021D62E4(p)==1){
+        if(P_STATUS_CanUseButtons(p)==1){
             func_0204B3DC(((struct Obj00136 *)p)->f184,1);
             func_0204B3DC(((struct Obj00136 *)p)->f190,1);
         }

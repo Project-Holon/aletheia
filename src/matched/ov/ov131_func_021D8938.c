@@ -1,5 +1,5 @@
 /*
- * function: func_021D8938
+ * function: P_STA_RIBBON_CreateObjects
  * address: 0x021D8938
  * packet: pkt_ov131_021D8938
  * region: ov131
@@ -7,15 +7,15 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * note (2026-10-02): the func_021D9440 call is inside the loop (its arg is i), so &d/&g is recomputed
+ * note (2026-10-02): the P_STA_RIBBON_GetRowY call is inside the loop (its arg is i), so &d/&g is recomputed
  *   per group; hi/lo are enum locals so (0x19<<22)+(2<<16) is not folded.
  * symbols:
  *   func_0204B294 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_021D9440 0x021D9440 thumb ov131
- *   func_02043754 0x02043754 arm
- *   func_021DBAD0 0x021DBAD0 thumb ov131
- *   func_021DBCA4 0x021DBCA4 thumb ov131
+ *   P_STA_RIBBON_GetRowY 0x021D9440 thumb ov131
+ *   BMP_CreateFromVram 0x02043754 arm
+ *   P_STA_OAM_CreateBitmapActors 0x021DBAD0 thumb ov131
+ *   P_STA_OAM_SetBitmapActorsEnabled 0x021DBCA4 thumb ov131
  */
 #include "../include/Obj04509.h"
 #include "../include/Obj10514.h"
@@ -30,12 +30,12 @@ struct Grid {void *f0;u16 f4;s16 f6;u32 f8;u32 f12;u8 f16;u8 f17;u16 f18;u32 f20
 struct Obj;
 extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern s16 func_021D9440(u8 *,u32);
+extern s16 P_STA_RIBBON_GetRowY(u8 *,u32);
 struct Bmp;
-extern struct Bmp *func_02043754(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
-extern u8 *func_021DBAD0(u8 *a, const u8 *b);
-extern void func_021DBCA4(u8 *p, int v);
-void func_021D8938(u8 *a,u8 *p)
+extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+extern u8 *P_STA_OAM_CreateBitmapActors(u8 *a, const u8 *b);
+extern void P_STA_OAM_SetBitmapActorsEnabled(u8 *p, int v);
+void P_STA_RIBBON_CreateObjects(u8 *a,u8 *p)
 {
     struct Desc d;
     struct Grid g;
@@ -57,10 +57,10 @@ void func_021D8938(u8 *a,u8 *p)
     base=(hi<<22)+(lo<<16);
     for(i=0;i<10;i++){
         u8 *e;
-        g.f6=func_021D9440(p,i);
+        g.f6=P_STA_RIBBON_GetRowY(p,i);
         e=p+i*0x14;
-        g.f0=((struct Obj10515 *)e)->f7C=func_02043754((void *)(base-(i+1)*0x660),0x11,3,0x20,((struct Obj04509 *)a)->f0);
-        ((struct Obj10515 *)e)->f80=func_021DBAD0(((struct Obj10514 *)p)->f6C,(const u8 *)(&g));
-        func_021DBCA4(((struct Obj10515 *)e)->f80,0);
+        g.f0=((struct Obj10515 *)e)->f7C=BMP_CreateFromVram((void *)(base-(i+1)*0x660),0x11,3,0x20,((struct Obj04509 *)a)->f0);
+        ((struct Obj10515 *)e)->f80=P_STA_OAM_CreateBitmapActors(((struct Obj10514 *)p)->f6C,(const u8 *)(&g));
+        P_STA_OAM_SetBitmapActorsEnabled(((struct Obj10515 *)e)->f80,0);
     }
 }

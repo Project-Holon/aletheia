@@ -14,9 +14,9 @@
  *   func_021D54E8 0x021D54E8 thumb ov175
  *   func_021D61A4 0x021D61A4 thumb ov175
  *   func_0203064C 0x0203064C arm
- *   func_02156E30 0x02156E30 thumb
- *   func_02156F50 0x02156F50 thumb
- *   func_02156ED0 0x02156ED0 thumb
+ *   DWC_RAPCOMMON_CreateSubHeap 0x02156E30 thumb
+ *   DWC_RAPCOMMON_SetHeapTag 0x02156F50 thumb
+ *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb
  *   func_021E8738 0x021E8738 thumb ov177
  *   func_021E8AB4 0x021E8AB4 thumb ov177
  *   func_021E8844 0x021E8844 thumb ov177
@@ -51,9 +51,9 @@ struct Sub0200852CObj;
 extern void func_021D54E8(unsigned sys, int *state, int *p);
 extern void func_021D61A4(void *obj, int unused, u8 *p);
 extern void func_0203064C(u32, u32, u32);
-extern void func_02156E30(int, int, int, int);
-extern void func_02156F50(int);
-extern void func_02156ED0(void);
+extern void DWC_RAPCOMMON_CreateSubHeap(int, int, int, int);
+extern void DWC_RAPCOMMON_SetHeapTag(int);
+extern void DWC_RAPCOMMON_DestroySubHeap(void);
 extern void func_021E8738(int *, int, int, int);
 extern void func_021E8AB4(unsigned, unsigned);
 extern int func_021E8844(const int *);
@@ -93,8 +93,8 @@ void func_021D51BC(unsigned sys, int *state, char *p)
         }
         P(0xf8) = 0;
         func_0203064C(1, 0x86, 0x60000);
-        func_02156E30(9, 0x60000, 1000, 0x86);
-        func_02156F50(0x86);
+        DWC_RAPCOMMON_CreateSubHeap(9, 0x60000, 1000, 0x86);
+        DWC_RAPCOMMON_SetHeapTag(0x86);
         *state = 1;
         break;
     case 1:
@@ -122,14 +122,14 @@ void func_021D51BC(unsigned sys, int *state, char *p)
             switch (func_021D9F04((char *)P(0x30), 0, (void *)1)) {
             case 1: func_021DA36C(P(0x30));
             case 2: case 4:
-                func_02156ED0();
+                DWC_RAPCOMMON_DestroySubHeap();
                 func_021E8AA0((int *)sys, (int)func_021D61A4);
                 break;
             }
         }
         break;
     case 4:
-        func_02156ED0();
+        DWC_RAPCOMMON_DestroySubHeap();
         if (Q(12) == 2) func_021E8AA0((int *)sys, (int)func_021D54E8);
         else *state = 5;
         break;

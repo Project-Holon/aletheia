@@ -23,6 +23,7 @@
  *   func_0203D34C 0x0203D34C arm
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D588C 0x021D588C thumb ov120
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  */
 #include "../include/Obj01401.h"
 #include "../include/Obj06435.h"
@@ -48,7 +49,7 @@ extern int func_0203CD98(void);
 extern void func_0203A574(u32, u32, u32, u32);
 extern const u32 d_021D88EC[];
 extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
-extern void func_02005D90(u32, u32);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern void func_0203D34C(u32, u32);
 extern void func_0200F7E8(u32 value);
 extern void func_021D4244(int *p, int v, int a2);
@@ -79,7 +80,7 @@ int func_021D5C60(void *a, int unused, u8 *q)
     if (func_0203CD98())
         func_0203A574(0x2200, (u32)d_021D88EC, 3, (u32)p);
     func_0202208C(0, 1, 1, 0, 6, 1, ((struct Obj01401 *)p)->fC);
-    func_02005D90(0x486, 0xffff);
+    GFL_USE_CancelChangeAndPlayBgm(0x486, 0xffff);
     func_0203D34C(1, ((struct Obj01401 *)p)->fC);
     func_0200F7E8(1);
     func_021D4244((int *)p, (int)func_021D588C, 0x96a);

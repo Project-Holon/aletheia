@@ -1,5 +1,5 @@
 /*
- * function: func_02015C60
+ * function: MCSS_GetOfsPosition
  * address:  0x02015C60
  * packet:   pkt_02015C60
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled Thumb leaf in the ARM9 module. Copies three words out of +0x11C. Twin of func_02015C78.
+ * Unlabelled Thumb leaf in the ARM9 module. Copies three words out of +0x11C. Twin of MCSS_SetOfsPosition.
  * Filed as the witness for an ov094 caller.
  *
  * Addresses are Black-image addresses.
@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-void func_02015C60(void *p, u32 *out)
+void MCSS_GetOfsPosition(void *p, u32 *out)
 {
     out[0] = ((struct Obj08752 *)p)->f11C;
     out[1] = ((struct Obj08752 *)p)->f120;

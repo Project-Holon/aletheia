@@ -1,5 +1,5 @@
 /*
- * function: func_02026CE0
+ * function: GAME_BEACON_ClearNewFlag
  * address:  0x02026CE0
  * packet:   pkt_02026CE0
  * region:   arm9
@@ -11,11 +11,11 @@
  *
  * Clears bit `n` of the ring live mask at +0xba4 of the game beacon block.
  * The earlier MATCH park read the pool word as 0x02021440; the word at
- * 0x02026CFC is 0x02146940, g_GameBeacon, attested by 77 other pools.
+ * 0x02026CFC is 0x02146940, GAME_BEACON_Work, attested by 77 other pools.
  * EXACT* because the follower at 0x02026D04 is an unlabelled leaf.
  *
  * symbols:
- *   g_GameBeacon  0x02146940  data
+ *   GAME_BEACON_Work  0x02146940  data
  */
 
 typedef unsigned char  u8;
@@ -26,9 +26,9 @@ struct Ctx {
     u32 flags;
 };
 
-extern struct Ctx *g_GameBeacon;
+extern struct Ctx *GAME_BEACON_Work;
 
-void func_02026CE0(u32 n)
+void GAME_BEACON_ClearNewFlag(u32 n)
 {
-    g_GameBeacon->flags = ((1 << n) ^ 0xffffffff) & g_GameBeacon->flags;
+    GAME_BEACON_Work->flags = ((1 << n) ^ 0xffffffff) & GAME_BEACON_Work->flags;
 }

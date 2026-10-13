@@ -1,5 +1,5 @@
 /*
- * function: sub_020340D0
+ * function: AREAMAN_AllocLongDown
  * address:  0x020340D0
  * packet:   pkt_02033CA8
  * region:   arm9
@@ -12,17 +12,17 @@
  * symbols:
  *   g_RunLenTail   0x020A05A0  data
  *   g_RunLenHead   0x020A04A0  data
- *   func_020343C0  0x020343C0  arm
+ *   AREAMAN_MarkUsed  0x020343C0  arm
  *
  * areaman.c.  The downward word-at-a-time run scanner: the long-run arm of
- * sub_02033F64's dispatch (see src/pending/sub_02033F64.c), the mirror of
- * sub_02033E30 walking towards lower addresses.  The anchor is the leading
+ * AREAMAN_AllocDown's dispatch (see src/pending/AREAMAN_AllocDown.c), the mirror of
+ * AREAMAN_AllocLongUp walking towards lower addresses.  The anchor is the leading
  * free run of byte `i`, whole zero bytes are skipped downwards, and the
  * trailing free run of the byte the remainder lands in closes the request.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020340D0.c \
- *       --func sub_020340D0 --addr 0x020340D0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/AREAMAN_AllocLongDown.c \
+ *       --func AREAMAN_AllocLongDown --addr 0x020340D0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -41,9 +41,9 @@ struct AreaMan {
 extern const u8 g_RunLenTail[256];
 extern const u8 g_RunLenHead[256];
 
-extern s32 func_020343C0(struct AreaMan *p, s32 start, u32 len);
+extern s32 AREAMAN_MarkUsed(struct AreaMan *p, s32 start, u32 len);
 
-s32 sub_020340D0(struct AreaMan *p, u32 start, u32 limit, u32 len)
+s32 AREAMAN_AllocLongDown(struct AreaMan *p, u32 start, u32 limit, u32 len)
 {
     s32 i;
     u32 last;
@@ -87,7 +87,7 @@ s32 sub_020340D0(struct AreaMan *p, u32 start, u32 limit, u32 len)
                     found = (8 - r) + j * 8;
                 }
                 if (found != -1 && found >= last) {
-                    if (func_020343C0(p, found, len) == 0) {
+                    if (AREAMAN_MarkUsed(p, found, len) == 0) {
                         found = -1;
                     }
                     return found;

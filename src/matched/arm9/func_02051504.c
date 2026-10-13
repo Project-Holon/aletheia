@@ -1,5 +1,5 @@
 /*
- * function: func_02051504
+ * function: PARTICLE_CountSystems
  * address:  0x02051504
  * packet:   pkt_02051504
  * region:   arm9
@@ -10,28 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A88   0x02146A88  data
+ *   g_pParticleMan   0x02146A88  data
  *
- * Counts the non-NULL entries of the 16-slot pointer table g_02146A88.
+ * Counts the non-NULL entries of the 16-slot pointer table g_pParticleMan.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051504.c \
- *       --func func_02051504 --addr 0x02051504 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_CountSystems.c \
+ *       --func PARTICLE_CountSystems --addr 0x02051504 --cc 1.1p1 --arm
  */
 
 #include "../include/G_02146A88.h"
 
 typedef unsigned int u32;
 
-extern struct G_02146A88 *g_02146A88;
+extern struct G_02146A88 *g_pParticleMan;
 
-int func_02051504(void)
+int PARTICLE_CountSystems(void)
 {
     int n = 0;
     int i;
 
     for (i = 0; i < 16; i++) {
-        if (((u32 *)g_02146A88)[i] != 0)
+        if (((u32 *)g_pParticleMan)[i] != 0)
             n++;
     }
     return n;

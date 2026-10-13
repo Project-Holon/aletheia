@@ -13,10 +13,10 @@
  *
  * symbols:
  *   func_021C4BDC  0x021C4BDC  arm  ov016
- *   func_021C4C14  0x021C4C14  arm  ov016
+ *   DWCi_SceneSetAossButton_draw  0x021C4C14  arm  ov016
  *   func_021C4C18  0x021C4C18  arm  ov016
  *   func_021C0900  0x021C0900  arm  ov016
- *   func_021D7744  0x021D7744  arm  ov016
+ *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
  *   func_021C0E40  0x021C0E40  arm  ov016
  *   func_021D0014  0x021D0014  arm  ov016
  *   func_021D1208  0x021D1208  arm  ov016
@@ -35,10 +35,10 @@ typedef struct Choose {
 } Choose;
 
 extern void func_021C4BDC();
-extern void func_021C4C14();
+extern void DWCi_SceneSetAossButton_draw();
 extern void func_021C4C18();
 extern int func_021C0900();
-extern void func_021D7744(unsigned int idx, void *r4);
+extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
 extern void func_021C0E40(unsigned int v);
 extern void func_021D0014();
 extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
@@ -51,7 +51,7 @@ extern struct SCENESETAOSSBUTT_BSS g_021DE5CC;
 void func_021C4AF8(void)
 {
     func_021C4BDC();
-    func_021C4C14();
+    DWCi_SceneSetAossButton_draw();
     func_021C4C18();
     switch (func_021C0900()) {
     case 0:
@@ -60,7 +60,7 @@ void func_021C4AF8(void)
         if (g_021DE5CC.Task == 0)
             return;
         g_021DE5CC.Choose = 1;
-        func_021D7744(1, g_021DE5CC.Task);
+        DWCi_TSKlDeleteByIndex(1, g_021DE5CC.Task);
         g_021DE5CC.Task = 0;
         func_021C0E40((unsigned int)func_021C4E4C);
         return;
@@ -71,7 +71,7 @@ void func_021C4AF8(void)
         func_021D1208(0xC, 1, 1, -1, 0);
         func_021CFFAC(9);
         func_021BCB9C();
-        func_021D7744(1, g_021DE5CC.Task);
+        DWCi_TSKlDeleteByIndex(1, g_021DE5CC.Task);
         g_021DE5CC.Task = 0;
         func_021C0E40((unsigned int)func_021C4E00);
         return;

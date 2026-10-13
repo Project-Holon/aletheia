@@ -1,5 +1,5 @@
 /*
- * function: func_0201B818
+ * function: NATSUKI_CalcParty
  * address:  0x0201B818
  * packet:   pkt_0201B7A0
  * region:   arm9
@@ -14,12 +14,12 @@
  *           `sole-ref` instead, so the entry is EXACT and not MATCH.
  *
  * symbols:
- *   g_0209E462     0x0209E462  data
+ *   _NatsukiPartyDeltas     0x0209E462  data
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_0201B850  0x0201B850  thumb
+ *   NATSUKI_Apply  0x0201B850  thumb
  *
- * for (i = 0; i < count(a0); i++) func_0201B850(entry(a0, i), &g_0209E462,
+ * for (i = 0; i < count(a0); i++) NATSUKI_Apply(entry(a0, i), &_NatsukiPartyDeltas,
  * a1, a2); - the entry pointer the loop computes is what feeds the second
  * call's first argument, which is why no `r0 = a0` copy appears in front of
  * it (the returned r0 is already the argument), and the bound is
@@ -28,23 +28,23 @@
  * 0x0201B84C, behind the C0 46 alignment filler at 0x0201B84A.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201B818.c \
- *       --func func_0201B818 --addr 0x0201B818 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/NATSUKI_CalcParty.c \
+ *       --func NATSUKI_CalcParty --addr 0x0201B818 --cc 1.1p1 --thumb
  */
 
 typedef signed char s8;
 typedef unsigned int u32;
 
-extern const s8 g_0209E462[];
+extern const s8 _NatsukiPartyDeltas[];
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void func_0201B850(void *mon, const s8 *tbl, int a2, u32 a3);
+extern void NATSUKI_Apply(void *mon, const s8 *tbl, int a2, u32 a3);
 
-void func_0201B818(void *a0, int a1, int a2)
+void NATSUKI_CalcParty(void *a0, int a1, int a2)
 {
     int i;
 
     for (i = 0; i < (int)func_0201AA18(a0); i++) {
-        func_0201B850(func_0201AB28(a0, i), g_0209E462, a1, a2);
+        NATSUKI_Apply(func_0201AB28(a0, i), _NatsukiPartyDeltas, a1, a2);
     }
 }

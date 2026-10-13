@@ -1,5 +1,5 @@
 /*
- * function: func_02173934
+ * function: UNION_MAIN_SetAppealNo
  * address:  0x02173934
  * packet:   pkt_ov012_02173934
  * region:   ov012
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 
-void func_02173934(u8 *p, int v)
+void UNION_MAIN_SetAppealNo(u8 *p, int v)
 {
     p[0x2832] = v;
 }

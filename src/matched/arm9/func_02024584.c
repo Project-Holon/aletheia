@@ -1,5 +1,5 @@
 /*
- * function: func_02024584
+ * function: PMSI_PARAM_GetSentenceCount
  * address:  0x02024584
  * packet:   pkt_02024584
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 
 extern u8 g_0209F71C[];
 
-u8 func_02024584(u32 i)
+u8 PMSI_PARAM_GetSentenceCount(u32 i)
 {
     if (i < 7) {
         return g_0209F71C[i];

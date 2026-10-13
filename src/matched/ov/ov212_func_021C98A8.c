@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201AF80  0x0201AF80  thumb
+ *   POKE_PERSONAL_LoadFormTable  0x0201AF80  thumb
  *   func_0204A39C  0x0204A39C  arm
  *
  * Addresses are Black-image addresses.
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 *func_0201AF80(u32 heap, u16 *countOut);
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 
 void func_021C98A8(u32 a0, u32 a1, u16 *a2, u32 *a3,
@@ -27,7 +27,7 @@ void func_021C98A8(u32 a0, u32 a1, u16 *a2, u32 *a3,
 {
     u32 buf;
 
-    *a3 = (u32)func_0201AF80(a1, 0);
+    *a3 = (u32)POKE_PERSONAL_LoadFormTable(a1, 0);
     *a2 = 0x28A;
     *a5 = (u32)func_0204A39C((void *)a0, 1, 0, a1, &buf);
     *a4 = buf;

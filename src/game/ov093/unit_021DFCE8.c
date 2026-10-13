@@ -50,7 +50,7 @@
  *   d_021F1A0C     0x021F1A0C  data   ov093  a4
  *   d_021F188C     0x021F188C  data   ov093  a4
  *   d_021F19F4     0x021F19F4  data   ov093  a4
- *   func_0201C314  0x0201C314  thumb
+ *   WAZA_TOOL_IsDamaging  0x0201C314  thumb
  *   func_021D7098  0x021D7098  thumb  ov093
  *   func_021C7EC4  0x021C7EC4  thumb  ov093
  *   func_021D7090  0x021D7090  thumb  ov093
@@ -101,7 +101,7 @@ extern int func_021C7F24(u8 *p, int i);
 extern int func_021C7F4C(struct Flag *p);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(struct S *p, unsigned int v);
-extern int func_0201C314(u16 id);
+extern int WAZA_TOOL_IsDamaging(u16 id);
 extern int func_0689C8EC(u16 id);
 extern int func_021D7098(u8 *p);
 extern u32 func_021C7EC4(u8 *p);
@@ -608,7 +608,7 @@ void func_021E01D4(void *a, void *b, int c, int *d, u8 e)
 
     if (c == func_021D775C(3) && e == func_021D775C(0x16)) {
         t = func_021D775C(0x12);
-        if (func_0201C314(t) != 0 && func_0689C8EC(t) == 0 && func_021D7098(a) == 0
+        if (WAZA_TOOL_IsDamaging(t) != 0 && func_0689C8EC(t) == 0 && func_021D7098(a) == 0
             && func_021C7EC4(b) == 0) {
             func_021D7090(a);
             p = func_021C88A4(b, 0x23, c);

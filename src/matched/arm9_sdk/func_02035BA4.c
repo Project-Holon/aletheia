@@ -1,5 +1,5 @@
 /*
- * function: func_02035BA4
+ * function: TOUCHPANEL_HitCont
  * address:  0x02035BA4
  * packet:   pkt_02035BA4
  * region:   arm9
@@ -11,15 +11,15 @@
  *
  * symbols:
  *   func_02035224   0x02035224  arm
- *   func_02035B58   0x02035B58  arm
+ *   TOUCHPANEL_HitContSys   0x02035B58  arm
  */
 
 typedef unsigned int   u32;
 struct UiCtx;
 extern struct UiCtx *func_02035224(void);
-extern int func_02035B58(u32 a, u32 b);
+extern int TOUCHPANEL_HitContSys(u32 a, u32 b);
 
-int func_02035BA4(const void *p)
+int TOUCHPANEL_HitCont(const void *p)
 {
-    return func_02035B58((u32)func_02035224(), (u32)p);
+    return TOUCHPANEL_HitContSys((u32)func_02035224(), (u32)p);
 }

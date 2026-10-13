@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A7EC4     0x020A7EC4  data
+ *   g3d_camera_file     0x020A7EC4  data
  *   func_02030734  0x02030734  arm
  *
  * Constructor for a 0x44-byte record: eight words straight from the
@@ -38,13 +38,13 @@ typedef struct {
     u32 z;
 } Vec3;
 
-extern char  g_020A7EC4[];
+extern char  g3d_camera_file[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 u32 *func_02048A24(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
                    Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap)
 {
-    u32 *p = (u32 *)func_02030734(heap, 0x44, 0, g_020A7EC4, 0x38);
+    u32 *p = (u32 *)func_02030734(heap, 0x44, 0, g3d_camera_file, 0x38);
 
     p[0] = a1;
     p[1] = a2;

@@ -11,12 +11,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200902C, sub_0200903C
+ * function: MAIL_ClearSlot, MAIL_SetSlot
  *
  * symbols:
- *   sub_02008EAC  0x02008EAC  thumb
- *   sub_02008F3C  0x02008F3C  thumb
- *   sub_020090A0  0x020090A0  thumb
+ *   MAIL_Init  0x02008EAC  thumb
+ *   MAIL_Copy  0x02008F3C  thumb
+ *   MAIL_GetSlot  0x020090A0  thumb
+ *   MAIL_IsDesignValid  0x02008EF8  thumb
+ *   MAIL_FindEmptySlotInRange  0x02009074  thumb
  *
  * alias: the table of twenty of the 0x38-byte objects described in
  * src/matched/unit_02008F80.c, and the operations over it.  The original file
@@ -32,7 +34,7 @@
  *   src/matched/unit_0200902C.c   0x0200902C..0x02009050
  *   src/matched/unit_02009050.c   0x02009050..0x020090B0
  *
- * sub_0200903C and sub_02009050 are the only two callers of sub_02008F3C
+ * MAIL_SetSlot and MAIL_CreateSlotCopy are the only two callers of MAIL_Copy
  * anywhere in the ROM, so matched in one range they attest each other's call
  * site out of existence and the whole file caps at MATCH with every concrete
  * byte right.  Split so that the two sit in different ranges, each is the
@@ -40,12 +42,12 @@
  * "The honesty rule" in docs/MATCHING.md.
  *
  * NEAR MISS, 0x02009020, 12 bytes, every concrete byte right, skipped.  It is
- * a three-instruction tail call to sub_02009074 through a pool word, and that
+ * a three-instruction tail call to MAIL_FindEmptySlotInRange through a pool word, and that
  * pool word is the only reference to 0x02009074 in the image: nothing branches
  * to it, so the `label` class has nothing to offer and the `literal` class's
  * only witness is the word under test.  Inside a range that also defines
- * sub_02009074 the reference is `local` and needs no evidence, but such a
- * range spans both sub_0200903C and sub_02009050 and so gives the sub_02008F3C
+ * MAIL_FindEmptySlotInRange the reference is `local` and needs no evidence, but such a
+ * range spans both MAIL_SetSlot and MAIL_CreateSlotCopy and so gives the MAIL_Copy
  * problem back.  The two constraints cannot both be met, so this is the one
  * function of the file left out.
  *
@@ -54,7 +56,7 @@
  * is the tell that the array is of a struct and not of words: an array of
  * anything 1, 2, 4 or 8 bytes wide would have been a shift.
  *
- * sub_020090A0 is the bounds-checked element lookup the three functions before
+ * MAIL_GetSlot is the bounds-checked element lookup the three functions before
  * it go through, and it ignores its second argument entirely: the parameter is
  * in `r1`, `r1` is dead from the first instruction, and the callers pass their
  * own second argument straight through.  That is not an artefact of the
@@ -75,34 +77,34 @@ struct Sub02008F80Obj {
 };
 
 struct Sub02008EACObj;
-extern void sub_02008EAC(struct Sub02008EACObj *obj);
-extern int   sub_02008EF8(const struct Sub02008F80Obj *obj);
+extern void MAIL_Init(struct Sub02008EACObj *obj);
+extern int   MAIL_IsDesignValid(const struct Sub02008F80Obj *obj);
 extern void *sub_02008F08(int a0);
-extern void  sub_02008F3C(const struct Sub02008F80Obj *src,
+extern void  MAIL_Copy(const struct Sub02008F80Obj *src,
                           struct Sub02008F80Obj *dest);
 
 #define ENTRY_COUNT 0x14
 
-struct Sub02008F80Obj *sub_020090A0(struct Sub02008F80Obj *arr, u32 unused,
+struct Sub02008F80Obj *MAIL_GetSlot(struct Sub02008F80Obj *arr, u32 unused,
                                     int i);
-int sub_02009074(struct Sub02008F80Obj *arr, int n);
+int MAIL_FindEmptySlotInRange(struct Sub02008F80Obj *arr, int n);
 
-void sub_0200902C(struct Sub02008F80Obj *arr, u32 unused, int i)
+void MAIL_ClearSlot(struct Sub02008F80Obj *arr, u32 unused, int i)
 {
-    struct Sub02008F80Obj *obj = sub_020090A0(arr, unused, i);
+    struct Sub02008F80Obj *obj = MAIL_GetSlot(arr, unused, i);
 
     if (obj != 0) {
-        sub_02008EAC((struct Sub02008EACObj *)obj);
+        MAIL_Init((struct Sub02008EACObj *)obj);
     }
 }
 
-void sub_0200903C(struct Sub02008F80Obj *arr, u32 unused, int i,
+void MAIL_SetSlot(struct Sub02008F80Obj *arr, u32 unused, int i,
                   const struct Sub02008F80Obj *src)
 {
-    struct Sub02008F80Obj *obj = sub_020090A0(arr, unused, i);
+    struct Sub02008F80Obj *obj = MAIL_GetSlot(arr, unused, i);
 
     if (obj != 0) {
-        sub_02008F3C(src, obj);
+        MAIL_Copy(src, obj);
     }
 }
 

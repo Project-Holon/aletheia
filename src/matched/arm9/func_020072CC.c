@@ -13,27 +13,27 @@
  *   func_020072CC_Table  0x0209D950  data
  *   func_02008784        0x02008784  thumb
  *   func_020087D4        0x020087D4  thumb
- *   func_02031948        0x02031948  arm
- *   func_02031DC0        0x02031DC0  arm
+ *   BACKUP_SYSTEM_CreateWithWork        0x02031948  arm
+ *   BACKUP_SYSTEM_LoadLinked        0x02031DC0  arm
  *
  * One of nine save-stream slots the save_control block tracks at +0x14.
  * The slot is opened through the backup-system stream constructor, the open
  * is checked by func_02008784, and on success the record is committed by
- * func_02031DC0.
+ * BACKUP_SYSTEM_LoadLinked.
  *
  * Two findings closed this function and its sibling (the other of the pair
  * is noted in each file):
  *
- * 1. func_02031DC0's second and third arguments are (heap, buf), NOT
+ * 1. BACKUP_SYSTEM_LoadLinked's second and third arguments are (heap, buf), NOT
  *    (buf, heap).  The image names the order directly: heap is loaded into
  *    r1 from its stack home and the func_020087D4 result is dereferenced
  *    into r2.  Every statement reordering, temporary and pointer/type
  *    variation leaves a flat 5-byte residue at exactly those two loads --
  *    tools/permuter.py could not move it at all in 74 (0x0200725C) and 90
  *    (0x020072CC) mutations -- because the residue is in the DECLARATION,
- *    not the body.  Compare src/matched/func_02031DC0.c, whose own
+ *    not the body.  Compare src/matched/BACKUP_SYSTEM_LoadLinked.c, whose own
  *    parameters are (Obj *, u32 a1, u32 a2) with a1 passed straight to
- *    func_02031FE0/func_02032688; this file fixes which of the two is heap.
+ *    BACKUP_SYSTEM_LoadDoubleCopy/BACKUP_SYSTEM_LoadSingleCopy; this file fixes which of the two is heap.
  *
  * 2. The heap parameter is u8, not u32.  With u32 the constant set-up sinks
  *    past the incoming spill (`str r2, [sp]` moves four halfwords later),
@@ -69,18 +69,18 @@ struct Ctrl {
 
 extern struct Desc func_020072CC_Table[];
 
-extern void *func_02031948(struct Desc *desc, u32 heap, void *buf, u32 size,
+extern void *BACKUP_SYSTEM_CreateWithWork(struct Desc *desc, u32 heap, void *buf, u32 size,
                            u32 c);
 struct Obj02031DC0;
 extern int func_02008784(void *sys, u32 index);
 extern u32 *func_020087D4(void *sys, u32 index);
-extern int func_02031DC0(struct Obj02031DC0 *a0, u32 a1, u32 a2);
+extern int BACKUP_SYSTEM_LoadLinked(struct Obj02031DC0 *a0, u32 a1, u32 a2);
 
 u32 func_020072CC(struct Ctrl *ctrl, u32 id, u8 heap, void *buf, u32 size)
 {
-    ctrl->unk14[id] = func_02031948(&func_020072CC_Table[id], heap, buf, size, 1);
+    ctrl->unk14[id] = BACKUP_SYSTEM_CreateWithWork(&func_020072CC_Table[id], heap, buf, size, 1);
     if (func_02008784(ctrl, id) == 0) {
         return 0;
     }
-    return (u32)func_02031DC0(ctrl->unk14[id], heap, *func_020087D4(ctrl, id));
+    return (u32)BACKUP_SYSTEM_LoadLinked(ctrl->unk14[id], heap, *func_020087D4(ctrl, id));
 }

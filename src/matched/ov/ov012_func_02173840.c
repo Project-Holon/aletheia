@@ -1,5 +1,5 @@
 /*
- * function: func_02173840
+ * function: UNION_MAIN_IsFieldReady
  * address: 0x02173840
  * packet: pkt_ov012_02173840
  * region: ov012
@@ -22,4 +22,4 @@ struct Ctx;
 extern u32 func_02012114(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188BE8(void *a);
-int func_02173840(u8 *p) { if(p[0x282a]==1 && func_02012114(*(const struct Ctx * *)&((struct Obj19235 *)(*(u8 * *)&((struct Obj09361 *)p)->f0))->fC)==1 && func_02188BE8(func_0201210C(*(const struct Ctx * *)&((struct Obj19236 *)(*(u8 * *)&((struct Obj09361 *)p)->f0))->fC))==1) return 1; return 0; }
+int UNION_MAIN_IsFieldReady(u8 *p) { if(p[0x282a]==1 && func_02012114(*(const struct Ctx * *)&((struct Obj19235 *)(*(u8 * *)&((struct Obj09361 *)p)->f0))->fC)==1 && func_02188BE8(func_0201210C(*(const struct Ctx * *)&((struct Obj19236 *)(*(u8 * *)&((struct Obj09361 *)p)->f0))->fC))==1) return 1; return 0; }

@@ -12,6 +12,7 @@
  * symbols:
  *   g_02150D20  0x02150D20  data
  *   func_0209125C  0x0209125C  thumb
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *
  * DRAFT: compiles the whole 252-byte range; verdict pending.
  */
@@ -29,7 +30,7 @@ extern struct S78F30 g_02150D20;
 
 extern void func_02082BCC(void *, int, u32);
 extern void func_02082D44(u32, void *, u32);
-extern u32  func_02085D3C(void);
+extern u32  OS_IsRunOnTwl(void);
 extern void func_0209125C(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern u32  func_0208139C(u32);
 extern void func_020816FC(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
@@ -45,7 +46,7 @@ int func_02078F30(u8 *a0, u32 a1, u32 a2, int a3)
     func_02082BCC(buf, 0, 0x14);
     func_02082D44(g_02150D20.f18, tmp, g_02150D20.f1c);
 
-    if (a3 == 0 && func_02085D3C() != 0) {
+    if (a3 == 0 && OS_IsRunOnTwl() != 0) {
         v = g_02150D20.f1c;
         func_0209125C((u32)buf, a1, a2, (u32)tmp, v);
     } else {

@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020395EC  0x020395EC  arm
+ *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
  *
- * Forward to func_020395EC and mask the result to a byte.  func_020395EC is
- * called from func_0203D578 (outside this range), which is what attests the
+ * Forward to GFL_NET_HANDLE_GetNetHandleID and mask the result to a byte.  GFL_NET_HANDLE_GetNetHandleID is
+ * called from GFL_NET_IsSendQueueEntryOfHandle (outside this range), which is what attests the
  * `bl` here as a real function rather than a wildcarded relocation.
  *
  * Verified with:
@@ -26,9 +26,9 @@ typedef unsigned int u32;
 struct Link;
 
 struct Entry;
-extern int func_020395EC(struct Entry *a);
+extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
 
 u32 func_0203D1A4(struct Link *p)
 {
-    return func_020395EC((struct Entry *)p) & 0xff;
+    return GFL_NET_HANDLE_GetNetHandleID((struct Entry *)p) & 0xff;
 }

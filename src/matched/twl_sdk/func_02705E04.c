@@ -28,6 +28,7 @@
  *   DSP_InitPipe  0x02706CD4  arm
  *   MI_FreeWram  0x02730B04  arm
  *   PMi_InsertPostExitCallbackEx  0x0273156C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm  arm9
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -68,7 +69,7 @@ extern void DSP_SetProcessHook(DSPProc *p, u32 a, u32 b, u32 c);
 extern u32 DSP_MapAndLoadProcessImage(DSPProc *p, u32 a, u32 b, u32 c);
 extern u32 func_02087988(void);
 extern void func_0208799C(u32 v);
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern void PMi_InsertPostExitCallbackEx(void *p, u32 v);
 extern void func_0208C848(void *p, u32 v);
 extern void func_0208C86C(void *p);
@@ -89,10 +90,10 @@ void DSP_QuitProcess(DSPProc *p)
     DSPProc **pp;
     DSP_StopDSPComponent();
     irq = func_02087988();
-    if (func_02085D3C() == 1) {
+    if (OS_IsRunOnTwl() == 1) {
         DSP_ResetOnCore();
     }
-    if (func_02085D3C() == 1) {
+    if (OS_IsRunOnTwl() == 1) {
         DSP_PowerOffCore();
     }
     func_02084998(0x1000000);

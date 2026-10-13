@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201183C     0x0201183C  thumb
+ *   ICA_ANIME_LoadFrames     0x0201183C  thumb
  *
  * ica_anime.c, 0x02011590..0x02011610: the frame-clock advance and its two
  * neighbours, plus the two four-byte getters that sit between them (they
@@ -21,14 +21,14 @@
  *   func_02011590   advance the clock, reset it if the frame count is
  *                   reached, and poke the animation when the new frame falls
  *                   outside [f14, f14 + f18)
- *   func_020115C0   the same advance but returning "already finished" when
+ *   ICA_ANIME_IncFrameNoLoop   the same advance but returning "already finished" when
  *                   the frame at entry is past the count
  *   func_020115EC   set the clock outright
  *   (0x02011608)    getter: +0x0C
  *   (0x0201160C)    getter: +0x10
  *
  * The range check is one disjunction in every case: the original reaches the
- * single `bl func_0201183C` from both compares.
+ * single `bl ICA_ANIME_LoadFrames` from both compares.
  *
  * Signedness: the frame is `f10 >> 12` with an arithmetic shift (asrs), but
  * the compare against f0c is unsigned (bhi/bhs), so f0c is a u32 field while
@@ -53,7 +53,7 @@ struct IcaAnime {
     s32 f18;        /* +0x18 */
 };
 
-extern void func_0201183C(struct IcaAnime *p, s32 v);
+extern void ICA_ANIME_LoadFrames(struct IcaAnime *p, s32 v);
 
 u32 func_02011590(struct IcaAnime *p, s32 v)
 {
@@ -68,11 +68,11 @@ u32 func_02011590(struct IcaAnime *p, s32 v)
         r = 1;
     }
     if (f < p->f14 || (p->f14 + p->f18) <= f)
-        func_0201183C(p, p->f10);
+        ICA_ANIME_LoadFrames(p, p->f10);
     return r;
 }
 
-u32 func_020115C0(struct IcaAnime *p, s32 v)
+u32 ICA_ANIME_IncFrameNoLoop(struct IcaAnime *p, s32 v)
 {
     s32 f = p->f10 >> 12;
 
@@ -80,7 +80,7 @@ u32 func_020115C0(struct IcaAnime *p, s32 v)
         p->f10 = p->f10 + v;
         f = p->f10 >> 12;
         if (f < p->f14 || (p->f14 + p->f18) <= f)
-            func_0201183C(p, p->f10);
+            ICA_ANIME_LoadFrames(p, p->f10);
         return 0;
     }
     return 1;
@@ -92,10 +92,10 @@ void func_020115EC(struct IcaAnime *p, s32 v)
 
     p->f10 = v;
     if (f < p->f14 || (p->f14 + p->f18) <= f)
-        func_0201183C(p, v);
+        ICA_ANIME_LoadFrames(p, v);
 }
 
-u32 func_02011608(struct IcaAnime *p)
+u32 ICA_ANIME_GetFrameNum(struct IcaAnime *p)
 {
     return p->f0c;
 }

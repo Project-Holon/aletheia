@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045790 0x02045790 arm
+ *   BMP_WIN_SetDispHeight 0x02045790 arm
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_0201F7A8 0x0201F7A8 thumb
@@ -32,7 +32,7 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045790(struct Descriptor *p, u8 v);
+extern void BMP_WIN_SetDispHeight(struct Descriptor *p, u8 v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -47,7 +47,7 @@ void func_021F0298(char *p, int a1, int a2, int a3)
 {
     int r7 = (int)func_02045EC0((struct MsgBank *)(((struct Obj09808 *)p)->f38), a2);
 
-    func_02045790((struct Descriptor *)a1, a3);
+    BMP_WIN_SetDispHeight((struct Descriptor *)a1, a3);
     func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)a1)), 15);
     func_0201F7A8((void *)a1, 2);
     func_02045374((struct Cfg *)a1);

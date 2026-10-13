@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_0203CBAC  0x0203CBAC  arm
- *   func_0203D844  0x0203D844  arm
- *   func_02085D3C  0x02085D3C  arm
+ *   GFL_NET_CopyInitParam  0x0203D844  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   d_021C3B9C     0x021C3B9C  data
  */
 typedef struct {
@@ -21,20 +21,20 @@ typedef struct {
 } Snd;
 
 extern Snd d_021C3B9C;
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 typedef unsigned int   u32;
 struct Req;
 extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
-extern void func_0203D844(void *dst);
+extern void GFL_NET_CopyInitParam(void *dst);
 
 void func_021BDD0C(void *p, int on)
 {
-    if (func_02085D3C())
+    if (OS_IsRunOnTwl())
         d_021C3B9C.f48 = 0x79000;
     else
         d_021C3B9C.f48 = 0x5e400;
     if (on)
         func_0203CBAC((struct Req *)(&d_021C3B9C), 0, (u32)p);
     else
-        func_0203D844(&d_021C3B9C);
+        GFL_NET_CopyInitParam(&d_021C3B9C);
 }

@@ -29,11 +29,11 @@
  *   func_0204E804 0x0204E804 arm
  *   func_021B63D0 0x021B63D0 thumb ov101
  *   func_021B71E4 0x021B71E4 thumb ov101
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   func_020056A0 0x020056A0 thumb
  *   d_021B92D4 0x021B92D4 data ov103 a4
  *   func_02030EAC 0x02030EAC arm
@@ -62,7 +62,7 @@
  *   func_0203F9B4 0x0203F9B4 arm
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_0204ABF0 0x0204ABF0 arm
@@ -94,7 +94,7 @@
  *   func_020479D8 0x020479D8 arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  *   d_021B92B4 0x021B92B4 data a4
  *   func_02046E24 0x02046E24 arm
@@ -105,7 +105,7 @@
  *   func_02047564 0x02047564 arm
  *   func_0204767C 0x0204767C arm
  *   func_020477A4 0x020477A4 arm
- *   func_0206E5EC 0x0206E5EC arm
+ *   NNS_G3dMdlSetMdlPolygonIDAll 0x0206E5EC arm
  *   func_0207ADC4 0x0207ADC4 arm
  *   func_02047738 0x02047738 arm
  *   func_0204762C 0x0204762C arm
@@ -148,7 +148,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_021B7250 0x021B7250 thumb ov101
  *   func_021B727C 0x021B727C thumb ov101
- *   func_02006210 0x02006210 thumb
+ *   GFL_USE_StopAllSe 0x02006210 thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_021B6480 0x021B6480 thumb ov101
  *   d_021B925C 0x021B925C data a4
@@ -172,7 +172,7 @@
  *   func_0207CCA4 0x0207CCA4 arm
  *   func_0207CEE4 0x0207CEE4 arm
  *   func_02035D20 0x02035D20 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   func_02041300 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
@@ -327,11 +327,11 @@ extern void func_0204E720(u32, int, int, int);
 extern int func_0204E804(void);
 extern int func_021B63D0(struct Obj *p);
 extern void func_021B71E4(int);
-extern void func_0204335C(int);
+extern void BG_SYS_ClearGraphicsMemory(int);
 extern void func_020433E0(void *);
 extern int func_0204363C(int);
 extern int func_0204361C(int);
-extern void func_020434CC(int);
+extern void BG_SYS_ClearMainPlanes(int);
 extern int func_020056A0(void *,void *,int);
 extern void func_02030EAC(struct Node *n);
 extern void func_0203F8F4(u16);
@@ -356,7 +356,7 @@ extern void func_0203F9B4(void);
 extern void func_020419E4(void);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32,u32);
 extern void func_02043598(u32,u32);
 extern signed int func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
@@ -385,7 +385,7 @@ extern void func_020479D8(void);
 extern void func_02047970(void);
 extern void func_0207DC44(int,int,int,int);
 extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(u32 a, u32 b);
 extern void *func_02046E24(int,u16);
 extern int func_02046F50(void *,int);
@@ -395,7 +395,7 @@ extern int *func_0204755C(void *);
 extern void *func_02047564(void *,const void *,int);
 extern void *func_0204767C(void *,void *,int);
 extern void func_020477A4(void *,u16);
-extern void func_0206E5EC(int,int);
+extern void NNS_G3dMdlSetMdlPolygonIDAll(int,int);
 extern void func_0207ADC4(void *);
 extern void func_02047738(struct Rec *p);
 extern void func_0204762C(int);
@@ -439,7 +439,7 @@ extern int func_02045EC0(int,int);
 extern void func_0201F250(int,int,int);
 extern int func_021B7250(int *);
 extern int func_021B727C(int);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern void func_020061E4(u32);
 extern int func_021B6480(int *);
 extern int func_021B630C(int *,int);
@@ -461,7 +461,7 @@ extern void func_0207CA00(Vec *,Vec *,Vec *);
 extern void func_0207CCA4(Vec *,Vec *);
 extern void func_0207CEE4(int,Vec *,Vec *,Vec *);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
 extern int func_02062B30(void *file, void **out);
 extern u8 func_0204169C(int channel);
@@ -680,7 +680,7 @@ int func_021B77B0(void *unused, u32 *state, int unused2, char *p)
 /*
  * note: Verified against the ov103 Thumb image.
  */
-void func_021B787C(u8 *p,u16 x) {func_02082BCC(p,0,0x174); func_0204335C(0); func_020433E0(d_021B92D4); func_020434CC(func_0204361C(func_0204363C(0))); func_021B7B3C((struct State *)(p+0xcc),d_021B92D4,x); func_021B7970((u32 *)p,x); func_021B7C68(p+4,x); func_021B8C14((u8 **)(p+0x160),p+4,x); ((struct Obj22176 *)p)->f170=func_020056A0(func_021B795C,p,0); }
+void func_021B787C(u8 *p,u16 x) {func_02082BCC(p,0,0x174); BG_SYS_ClearGraphicsMemory(0); func_020433E0(d_021B92D4); BG_SYS_ClearMainPlanes(func_0204361C(func_0204363C(0))); func_021B7B3C((struct State *)(p+0xcc),d_021B92D4,x); func_021B7970((u32 *)p,x); func_021B7C68(p+4,x); func_021B8C14((u8 **)(p+0x160),p+4,x); ((struct Obj22176 *)p)->f170=func_020056A0(func_021B795C,p,0); }
 
 
 
@@ -797,7 +797,7 @@ void func_021B7B3C(struct State *p,const void *config,u16 heap)
     func_02082BCC(p,0,0x94);
     func_0204A48C((const struct Cfg *)d_020A1448,(u32)config,heap);
     p->bank=func_0204B100(128,0,heap);
-    func_0204B270(p->bank);
+    CLACT_SetUnitDefaultRenderer(p->bank);
     func_020434DC(16,1);
     func_02043598(16,1);
     arc=func_020490F4(94,heap);
@@ -987,7 +987,7 @@ void func_021B7D58(void) {
  func_0207DC44(0,0,0,0);
  func_0207DD24(0,0,0x7fff,63,0);
  *(volatile unsigned *)0x04000580=0xbfff0000;
- for(i=0;i<4;i++)func_02046A94((u8)i,(void *)(d_021B92B4+i*8));
+ for(i=0;i<4;i++)G3D_SYSTEM_SetLight((u8)i,(void *)(d_021B92B4+i*8));
  func_02046BE0(1,0);
 }
 
@@ -1001,7 +1001,7 @@ void func_021B7D58(void) {
 
 
 
-void func_021B7DFC(u8 *p, int a, const u16 *t, int c, int a4) {int i,j; void *d=0; int *q; u8 *e; func_02082BCC(p,0,0x60); ((struct Obj01708 *)p)->f0=func_02046E24(a,t[0]); if(func_02046F50(((struct Obj01708 *)p)->f0,2)){d=((struct Obj01708 *)p)->f0; func_02046FF8(d);} if(func_02046F50(((struct Obj01708 *)p)->f0,1)) { i=0; ((struct Obj01708 *)p)->fC=func_02047400(((struct Obj01708 *)p)->f0,0,d); q=func_0204755C(((struct Obj01708 *)p)->fC); for(;i<2;i++) {e=p+i*4; ((struct Obj10241 *)e)->f4=func_02046E24(a,t[i+1]); ((struct Obj10241 *)e)->f14=func_02047564(((struct Obj01708 *)p)->fC,((struct Obj10241 *)e)->f4,0);} ((struct Obj01708 *)p)->f10=func_0204767C(((struct Obj01708 *)p)->fC,p+20,2); for(j=0;j<2;j++)func_020477A4(((struct Obj01708 *)p)->f10,j); func_0206E5EC(q[1],c); } func_0207ADC4(p+0x34); ((struct Obj01708 *)p)->f28=4096; ((struct Obj01708 *)p)->f2C=4096; ((struct Obj01708 *)p)->f30=4096; }
+void func_021B7DFC(u8 *p, int a, const u16 *t, int c, int a4) {int i,j; void *d=0; int *q; u8 *e; func_02082BCC(p,0,0x60); ((struct Obj01708 *)p)->f0=func_02046E24(a,t[0]); if(func_02046F50(((struct Obj01708 *)p)->f0,2)){d=((struct Obj01708 *)p)->f0; func_02046FF8(d);} if(func_02046F50(((struct Obj01708 *)p)->f0,1)) { i=0; ((struct Obj01708 *)p)->fC=func_02047400(((struct Obj01708 *)p)->f0,0,d); q=func_0204755C(((struct Obj01708 *)p)->fC); for(;i<2;i++) {e=p+i*4; ((struct Obj10241 *)e)->f4=func_02046E24(a,t[i+1]); ((struct Obj10241 *)e)->f14=func_02047564(((struct Obj01708 *)p)->fC,((struct Obj10241 *)e)->f4,0);} ((struct Obj01708 *)p)->f10=func_0204767C(((struct Obj01708 *)p)->fC,p+20,2); for(j=0;j<2;j++)func_020477A4(((struct Obj01708 *)p)->f10,j); NNS_G3dMdlSetMdlPolygonIDAll(q[1],c); } func_0207ADC4(p+0x34); ((struct Obj01708 *)p)->f28=4096; ((struct Obj01708 *)p)->f2C=4096; ((struct Obj01708 *)p)->f30=4096; }
 
 
 
@@ -1367,7 +1367,7 @@ void func_021B8364(u8 *p,u16 *state)
             else func_021B8138(p+0x184,p+0x174,0,0,0);
             q=func_021B7954(p);
             for(i=0;i<2;i++) func_021B8CA0((u8 **)q,i,0);
-            func_02006210();
+            GFL_USE_StopAllSe();
             func_021B9060(1,55);
             ((struct Obj01388 *)p)->f740=0;
             *state=1;
@@ -1723,7 +1723,7 @@ int func_021B8D54(u32 *p,u32 *out) {
 
 int func_021B8D9C(u32 *p,u32 *out) {
  u32 x,y;
- if(func_02035CB8(&x,&y)) {
+ if(TOUCHPANEL_GetPointCont(&x,&y)) {
   if(x-p[0]<p[2]-p[0] && y-p[1]<p[3]-p[1]) {
    if(out) {out[0]=x;out[1]=y;}
    return 1;

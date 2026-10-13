@@ -39,7 +39,7 @@
  *   func_02051C6C  0x02051C6C  arm
  *   func_020450C8  0x020450C8  arm
  *   func_0203F9B4  0x0203F9B4  arm
- *   func_02036270  0x02036270  arm
+ *   KEY_SetRepeatSpeed  0x02036270  arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  */
@@ -126,7 +126,7 @@ extern void func_021B8B6C(char *p);
 extern void func_02051C6C(void *p);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
-extern int func_02036270(int a0, int a1);
+extern int KEY_SetRepeatSpeed(int a0, int a1);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *a);
 extern void func_020306F0(unsigned int a);
@@ -166,7 +166,7 @@ int func_021B8990(void *proc, int b, Parent *par, Obj *o)
     func_0203F9B4();
     par->f34 = o->f844;
     par->f38 = o->f84C;
-    func_02036270(o->f86C, o->f870);
+    KEY_SetRepeatSpeed(o->f86C, o->f870);
     func_020315D4(proc);
     func_020306F0(0xE);
     return 1;

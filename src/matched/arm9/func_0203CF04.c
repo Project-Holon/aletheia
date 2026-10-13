@@ -1,5 +1,5 @@
 /*
- * function: func_0203CF04
+ * function: GFL_NET_ClearExitFlag
  * address:  0x0203CF04
  * packet:   pkt_0203CF04
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203BFF0  0x0203BFF0  arm
+ *   GFL_NET_STATE_ClearExitFlag  0x0203BFF0  arm
  */
 
-extern void func_0203BFF0(void);
+extern void GFL_NET_STATE_ClearExitFlag(void);
 
-void func_0203CF04(void)
+void GFL_NET_ClearExitFlag(void)
 {
-    func_0203BFF0();
+    GFL_NET_STATE_ClearExitFlag();
 }

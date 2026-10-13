@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02028DCC",
+   "name": "FIELD_SOUND_SYSTEM_CountRequestsOfKind",
    "address": "0x02028DCC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02028E0C",
+   "name": "FIELD_SOUND_SYSTEM_EnqueueRequest",
    "address": "0x02028E0C",
    "kind": "game",
    "region": "arm9",
@@ -42,7 +42,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02028E48"
+    "FIELD_SOUND_SYSTEM_IsRequestKindAccepted"
+   ],
+   "addresses": [
+    "0x02028E48"
    ],
    "evidence": {
     "sole-ref": [
@@ -51,7 +54,7 @@
    }
   },
   {
-   "name": "func_02028E80",
+   "name": "FIELD_SOUND_SYSTEM_DequeueRequest",
    "address": "0x02028E80",
    "kind": "game",
    "region": "arm9",
@@ -63,7 +66,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02028EAC",
+   "name": "FIELD_SOUND_SYSTEM_ExecuteRequest",
    "address": "0x02028EAC",
    "kind": "game",
    "region": "arm9",

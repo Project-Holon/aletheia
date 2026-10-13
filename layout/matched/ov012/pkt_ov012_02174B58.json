@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02174B58",
-    "func_02174B7C"
+    "COLOSSEUM_GetRecvBuffer",
+    "COLOSSEUM_NoOp"
+   ],
+   "addresses": [
+    "0x02174B58",
+    "0x02174B7C"
    ],
    "evidence": {
     "sole-ref": [

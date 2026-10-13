@@ -15,7 +15,7 @@
  *   func_021EC338 0x021EC338 thumb
  *   MIi_CpuCopy32 0x02082A90 arm
  *   func_020307B0 0x020307B0 arm
- *   func_0201BBE8 0x0201BBE8 thumb
+ *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  */
 #include "../include/Obj24001.h"
 #include "../include/Obj24002.h"
@@ -26,7 +26,7 @@ extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern void *func_021EC338(char *p, void *b, void *c);
 extern void MIi_CpuCopy32(const void *src, void *dst, unsigned size);
 extern u32 func_020307B0(void *p);
-extern int func_0201BBE8(void *a0);
+extern int POKE_TOOL_GetIconPalette(void *a0);
 
 void func_021EC35C(char **p, int box)
 {
@@ -45,7 +45,7 @@ void func_021EC35C(char **p, int box)
             r = func_021EC338(p[11], m, &buf);
             MIi_CpuCopy32(((struct Obj24002 *)buf)->f14, p[11] + 0x1B4 + i * 0x200, 0x200);
             func_020307B0(r);
-            *(unsigned char *)(p[11] + i + 0x3DB4) = func_0201BBE8(m);
+            *(unsigned char *)(p[11] + i + 0x3DB4) = POKE_TOOL_GetIconPalette(m);
             *(int *)(p[11] + i * 4 + 0x3DF8) = 1;
         }
     }

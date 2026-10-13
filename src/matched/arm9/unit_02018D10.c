@@ -8,14 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02018D10, func_02018D34, func_02018D6C, func_02018D8C
+ * function: POKE_TOOL_DecodeCalcBlock, POKE_TOOL_DecodeBoxBlock, POKE_TOOL_EncodeCalcBlock, POKE_TOOL_EncodeBoxBlock
  *
  * The four lock/unlock helpers every accessor wrapper in this region opens and
  * closes with.  The object is the same record as src/matched/unit_02017D30.c:
  * a seed word at +0x00, three flag bits at +0x04, a halfword checksum at
  * +0x06, an 0x80 byte area at +0x08 and a 0x54 byte area at +0x88, each
  * area XOR masked in place by func_02019A50.  Bit 2 of +0x04 is the sticky
- * "checksum did not match" flag func_02018D34 sets.
+ * "checksum did not match" flag POKE_TOOL_DecodeBoxBlock sets.
  *
  * The three flag tests are `lsls`/`lsrs` pairs of width one, which is the
  * bitfield shape of docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md;
@@ -44,21 +44,21 @@ struct Sav {
     u8  unk88[0x54];
 };
 
-u32 func_02018D34(struct Sav *p);
-void func_02018D8C(struct Sav *p);
+u32 POKE_TOOL_DecodeBoxBlock(struct Sav *p);
+void POKE_TOOL_EncodeBoxBlock(struct Sav *p);
 
-u32 func_02018D10(struct Sav *p)
+u32 POKE_TOOL_DecodeCalcBlock(struct Sav *p)
 {
     u32 r = 1;
 
     if (p->b0 == 0) {
         func_02019A50((u16 *)p->unk88, 0x54, p->unk00);
-        r = func_02018D34(p);
+        r = POKE_TOOL_DecodeBoxBlock(p);
     }
     return r;
 }
 
-u32 func_02018D34(struct Sav *p)
+u32 POKE_TOOL_DecodeBoxBlock(struct Sav *p)
 {
     u32 r = 1;
     u16 sum;
@@ -74,15 +74,15 @@ u32 func_02018D34(struct Sav *p)
     return r;
 }
 
-void func_02018D6C(struct Sav *p)
+void POKE_TOOL_EncodeCalcBlock(struct Sav *p)
 {
     if (p->b0 == 0) {
         func_02019A50((u16 *)p->unk88, 0x54, p->unk00);
-        func_02018D8C(p);
+        POKE_TOOL_EncodeBoxBlock(p);
     }
 }
 
-void func_02018D8C(struct Sav *p)
+void POKE_TOOL_EncodeBoxBlock(struct Sav *p)
 {
     if (p->b1 == 0) {
         p->unk06 = func_02019A9C((const u16 *)p->unk08, 0x80);

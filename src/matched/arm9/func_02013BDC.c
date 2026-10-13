@@ -1,5 +1,5 @@
 /*
- * function: func_02013BDC
+ * function: ZONEDATA_GetBgmId
  * address:  0x02013BDC
  * packet:   pkt_02013BDC
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02013AD0  0x02013AD0  thumb
+ *   ZONEDATA_GetHeader  0x02013AD0  thumb
  *
  * The only indexed accessor on the zone record: four u16 lanes at record
  * +0x0c, +0x0e, +0x10 and +0x12 selected by a second argument bounded to
@@ -23,7 +23,7 @@
  * displacements in the table at 0x02013BF8 are exactly the four `ldrh r4`
  * encodings, so all four case labels existed and none of them is empty.
  *
- * The zero default is initialised before the call to sub_02013AD0, not in a
+ * The zero default is initialised before the call to ZONEDATA_GetHeader, not in a
  * default arm: `movs r4, #0` sits at +0x04, ahead of the `bl`, which is what
  * lets every arm share one `adds r0, r4, #0` exit instead of carrying its own
  * return (docs/idioms/initialise-the-result-before-the-input-or-every-arm-
@@ -32,8 +32,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013BDC.c \
- *       --func func_02013BDC --addr 0x02013BDC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ZONEDATA_GetBgmId.c \
+ *       --func ZONEDATA_GetBgmId --addr 0x02013BDC --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -48,12 +48,12 @@ struct ZoneRec {
     u16 conn12;
 };
 
-extern void *sub_02013AD0(u32 id);
+extern void *ZONEDATA_GetHeader(u32 id);
 
-u32 func_02013BDC(u32 id, u32 which)
+u32 ZONEDATA_GetBgmId(u32 id, u32 which)
 {
     u16 v = 0;
-    struct ZoneRec *r = sub_02013AD0(id);
+    struct ZoneRec *r = ZONEDATA_GetHeader(id);
 
     switch (which) {
     case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_02039D94
+ * function: GFL_NET_HANDLE_Main
  * address:  0x02039D94
  * packet:   pkt_02039D94
  * region:   arm9
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469D4     0x021469D4  data
+ *   _pBaseWork     0x021469D4  data
  *   file_020A7A68  0x020A7A68  data
  *   msg_020A7A94   0x020A7A94  data
- *   func_020395E0  0x020395E0  arm
- *   func_020395EC  0x020395EC  arm
+ *   GFL_NET_SYSTEM_ClampNetId  0x020395E0  arm
+ *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
  *   func_0203996C  0x0203996C  arm
- *   func_02039160  0x02039160  arm
+ *   GFL_NET_SYSTEM_IsConnectMember  0x02039160  arm
  *   func_020399B8  0x020399B8  arm
- *   func_02039A5C  0x02039A5C  arm
+ *   GFL_NET_HANDLE_SendNegotiation  0x02039A5C  arm
  *   func_02039338  0x02039338  arm
  *   func_020399A8  0x020399A8  arm
- *   func_02039CD8  0x02039CD8  arm
- *   func_0203A2F0  0x0203A2F0  arm
- *   func_0203A28C  0x0203A28C  arm
+ *   GFL_NET_HANDLE_CheckTimingSyncAll  0x02039CD8  arm
+ *   GFL_NET_HANDLE_IsBitSet  0x0203A2F0  arm
+ *   GFL_NET_HANDLE_SetBitMask  0x0203A28C  arm
  *   func_0203D378  0x0203D378  arm
- *   func_0203D394  0x0203D394  arm
+ *   GFL_NET_IsHandleReady  0x0203D394  arm
  *   func_0203D4D0  0x0203D4D0  arm
  *   func_0203D3A8  0x0203D3A8  arm
  *   func_0203D650  0x0203D650  arm
@@ -53,72 +53,72 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_020395E0(int slot);
+extern int GFL_NET_SYSTEM_ClampNetId(int slot);
 typedef signed int     s32;
 struct Entry;
 struct NetEntry;
 struct Obj;
-extern int func_020395EC(struct Entry *a);
+extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
 extern struct Entry *func_0203996C(s32 idx);
-extern u32 func_02039160(u16 mode);
+extern u32 GFL_NET_SYSTEM_IsConnectMember(u16 mode);
 extern u32 func_020399B8(u8 *e);
-extern void func_02039A5C(void);
+extern void GFL_NET_HANDLE_SendNegotiation(void);
 extern u16 func_02039338(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_02039CD8(struct Obj *p);
-extern u32 func_0203A2F0(u32 a0, u32 a1);
-extern u16 func_0203A28C(u16 mask, u32 idx, u32 set);
+extern int GFL_NET_HANDLE_CheckTimingSyncAll(struct Obj *p);
+extern u32 GFL_NET_HANDLE_IsBitSet(u32 a0, u32 a1);
+extern u16 GFL_NET_HANDLE_SetBitMask(u16 mask, u32 idx, u32 set);
 extern u32 func_0203D378(void);
-extern u32 func_0203D394(struct NetEntry *e);
+extern u32 GFL_NET_IsHandleReady(struct NetEntry *e);
 extern u32 func_0203D4D0(u8 *e, u32 a, u32 b, u32 c, void *d, u32 e2, u32 f, u32 g2);
 extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern u32 func_0203D650(void);
 extern void *func_0203D798(void);
 extern void func_02034714(const char *file, u32 line, const char *msg);
 
-extern struct Votes *g_021469D4;
+extern struct Votes *_pBaseWork;
 extern const char file_020A7A68[];
 extern const char msg_020A7A94[];
 
-void func_02039D94(void)
+void GFL_NET_HANDLE_Main(void)
 {
     u8 *e;
     u8 *g;
     int i;
 
     for (i = 0; i < 8; i++) {
-        u32 s = func_020395E0(i);
+        u32 s = GFL_NET_SYSTEM_ClampNetId(i);
         e = (u8 *)func_0203996C(s);
-        if (func_02039160((u16)s) == 0)
+        if (GFL_NET_SYSTEM_IsConnectMember((u16)s) == 0)
             func_020399B8(e);
     }
 
-    func_02039A5C();
+    GFL_NET_HANDLE_SendNegotiation();
 
     if (func_0203D378() != 0) {
         e = (u8 *)func_0203996C(0xff);
         for (i = 0; i < 9; i++) {
-            u8 *r = ((u8 *)g_021469D4) + i;
+            u8 *r = ((u8 *)_pBaseWork) + i;
             if (r[0x18] != 1)
                 continue;
             if (func_0203D4D0(e, r[0x10], 8, 2,
-                              ((u8 *)g_021469D4) + i * 2, 0, 0, 0) == 0)
+                              ((u8 *)_pBaseWork) + i * 2, 0, 0, 0) == 0)
                 continue;
-            if ((((u8 *)g_021469D4) + i)[0x10] == 0)
+            if ((((u8 *)_pBaseWork) + i)[0x10] == 0)
                 func_02034714(file_020A7A68, 0x29a, msg_020A7A94);
-            (((u8 *)g_021469D4) + i)[0x18] = 0;
+            (((u8 *)_pBaseWork) + i)[0x18] = 0;
         }
     }
 
     for (i = 0; i < 9; i++) {
         u8 *p;
-        p = (u8 *)func_0203996C(func_020395E0(i));
-        if (func_0203D394((struct NetEntry *)p) == 0)
+        p = (u8 *)func_0203996C(GFL_NET_SYSTEM_ClampNetId(i));
+        if (GFL_NET_IsHandleReady((struct NetEntry *)p) == 0)
             continue;
         if (p[0x49] == 0)
             continue;
-        if (func_020395EC((struct Entry *)p) == 0xff)
+        if (GFL_NET_HANDLE_GetNetHandleID((struct Entry *)p) == 0xff)
             continue;
         if (func_0203D3A8((struct Entry *)p, (u16)7, (u16)4, (u32)(p + 0x46)) != 0)
             p[0x49] = 0;
@@ -131,11 +131,11 @@ void func_02039D94(void)
                 u8 *s = *(u8 **)(e + i * 4 + 8);
                 if (s == 0 || s[0xd] == 0)
                     continue;
-                if (func_0203A2F0(((struct Obj04750 *)e)->f40, i) != 0)
+                if (GFL_NET_HANDLE_IsBitSet(((struct Obj04750 *)e)->f40, i) != 0)
                     continue;
-                if (func_02039CD8((struct Obj *)e) != 0)
+                if (GFL_NET_HANDLE_CheckTimingSyncAll((struct Obj *)e) != 0)
                     ((struct Obj04750 *)e)->f40 =
-                        func_0203A28C(((struct Obj04750 *)e)->f40, i, 1);
+                        GFL_NET_HANDLE_SetBitMask(((struct Obj04750 *)e)->f40, i, 1);
             }
         }
     }

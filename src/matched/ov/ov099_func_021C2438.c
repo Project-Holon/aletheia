@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02005F24 0x02005F24 thumb
+ *   GFL_USE_SetBgmTrackVolume 0x02005F24 thumb
  */
 #include "../include/Obj00825.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern void func_02005F24(u32 a0, u32 a1);
+extern void GFL_USE_SetBgmTrackVolume(u32 a0, u32 a1);
 int func_021C2438(char *p)
 {
     int remaining;
@@ -27,11 +27,11 @@ int func_021C2438(char *p)
             delta = start - ((struct Obj00825 *)p)->f1341;
             if (delta < 0) ((struct Obj00825 *)p)->f1340 = start + (-delta / 6) * remaining;
             else ((struct Obj00825 *)p)->f1340 = start - (delta / 6) * remaining;
-            func_02005F24(0xffff, ((struct Obj00825 *)p)->f1340);
+            GFL_USE_SetBgmTrackVolume(0xffff, ((struct Obj00825 *)p)->f1340);
             return 0;
         }
         ((struct Obj00825 *)p)->f1340 = ((struct Obj00825 *)p)->f1342;
-        func_02005F24(0xffff, ((struct Obj00825 *)p)->f1342);
+        GFL_USE_SetBgmTrackVolume(0xffff, ((struct Obj00825 *)p)->f1342);
     }
     return 1;
 }

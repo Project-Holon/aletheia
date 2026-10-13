@@ -11,12 +11,12 @@
  *
  * symbols:
  *   func_021EC0B0 0x021EC0B0 thumb
- *   func_0204B838 0x0204B838 arm
- *   func_0204B864 0x0204B864 arm
+ *   CLACT_GetActorDrawPriority 0x0204B838 arm
+ *   CLACT_GetActorBgPriority 0x0204B864 arm
  *   func_021EBEE0 0x021EBEE0 thumb
  *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B7C8 0x0204B7C8 arm
- *   func_0204B784 0x0204B784 arm
+ *   CLACT_GetActorImageProxy 0x0204B7C8 arm
+ *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   func_021EC08C 0x021EC08C thumb
  *   func_021EC048 0x021EC048 thumb
  *   func_021EC030 0x021EC030 thumb
@@ -46,16 +46,16 @@ typedef struct {
 } Struct36;
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern int func_0204B838(int a0);
+extern int CLACT_GetActorDrawPriority(int a0);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;
-extern u32 func_0204B864(u8 *a0);
+extern u32 CLACT_GetActorBgPriority(u8 *a0);
 extern void *func_021EBEE0(char *w, const Desc *s);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 struct Struct36;
-extern void func_0204B7C8(const char *src, struct Struct36 *dst);
-extern void func_0204B784(char *dst, const struct Struct36 *src);
+extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
+extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EC048(char *p, int i, int c);
 extern void func_021EC030(char *p, int i, int c);
@@ -66,8 +66,8 @@ extern const signed char d_021EFCC8[];
 
 static inline void setup(Desc *dp, void **res)
 {
-    dp->b6 = func_0204B838((int)(*res)) + 1;
-    dp->b7 = func_0204B864(*res);
+    dp->b6 = CLACT_GetActorDrawPriority((int)(*res)) + 1;
+    dp->b7 = CLACT_GetActorBgPriority(*res);
 }
 
 void func_021ED594(char *p, unsigned i)
@@ -99,11 +99,11 @@ void func_021ED594(char *p, unsigned i)
     } else {
         int n6;
         int n7;
-        func_0204B7C8(((void **)(w + 0x9E74))[c], (struct Struct36 *)(&buf));
-        n6 = func_0204B838((int)(((void **)(w + 0x9E74))[c]));
-        n7 = func_0204B864(((void **)(w + 0x9E74))[c]);
+        CLACT_GetActorImageProxy(((void **)(w + 0x9E74))[c], (struct Struct36 *)(&buf));
+        n6 = CLACT_GetActorDrawPriority((int)(((void **)(w + 0x9E74))[c]));
+        n7 = CLACT_GetActorBgPriority(((void **)(w + 0x9E74))[c]);
         for (; j < 8; j++) {
-            func_0204B784(*(void **)(w + j * 4 + 0x9FD4), (const struct Struct36 *)(&buf));
+            CLACT_SetActorImageProxy(*(void **)(w + j * 4 + 0x9FD4), (const struct Struct36 *)(&buf));
             func_021EC08C(w, j + 0x58, (short)(xy[1] + d_021EFCD0[j]), (short)(xy[0] + d_021EFCC8[j]), (short)0);
             func_021EC048(w, j + 0x58, n6 + 1);
             func_021EC030(w, j + 0x58, n7);

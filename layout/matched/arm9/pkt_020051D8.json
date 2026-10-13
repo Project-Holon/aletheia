@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020051D8",
-    "func_02005204"
+    "GFL_USE_IsNetQuiet",
+    "GFL_USE_HBlankHandler"
+   ],
+   "addresses": [
+    "0x020051D8",
+    "0x02005204"
    ]
   },
   {
@@ -34,7 +38,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200530C"
+    "GFL_USE_ApplySoundModeFromConfig"
+   ],
+   "addresses": [
+    "0x0200530C"
    ]
   },
   {
@@ -49,7 +56,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02005430"
+    "GFL_USE_PollTwlService"
+   ],
+   "addresses": [
+    "0x02005430"
    ]
   },
   {
@@ -64,12 +74,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200560C",
-    "sub_02005610",
-    "sub_02005624",
-    "sub_02005640",
-    "sub_02005654",
-    "sub_0200566C"
+    "GFL_USE_NoOpFrameHook",
+    "GFL_USE_RunHBlankTasks",
+    "GFL_USE_AddHBlankTask",
+    "GFL_USE_CallVBlankHook",
+    "GFL_USE_SetVBlankHook",
+    "GFL_USE_ClearVBlankHook"
+   ],
+   "addresses": [
+    "0x0200560C",
+    "0x02005610",
+    "0x02005624",
+    "0x02005640",
+    "0x02005654",
+    "0x0200566C"
    ]
   },
   {
@@ -84,12 +102,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020056A0",
+    "GFL_USE_AddMainTask",
     "sub_020056BC",
-    "sub_020056C8",
-    "sub_020056D0",
-    "sub_020056EC",
-    "sub_02005728"
+    "GFL_USE_InitRandomState",
+    "GFL_USE_InitRandom",
+    "GFL_USE_GetRandom",
+    "GFL_USE_GetRandomBelow"
+   ],
+   "addresses": [
+    "0x020056A0",
+    "0x020056BC",
+    "0x020056C8",
+    "0x020056D0",
+    "0x020056EC",
+    "0x02005728"
    ]
   }
  ]

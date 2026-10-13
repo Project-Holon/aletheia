@@ -1,5 +1,5 @@
 /*
- * function: func_02015F14
+ * function: MCSS_GetOfsX
  * address:  0x02015F14
  * packet:   pkt_02015EE8
  * region:   arm9
@@ -18,7 +18,7 @@
 
 typedef signed short s16;
 
-s16 func_02015F14(void *p)
+s16 MCSS_GetOfsX(void *p)
 {
     return (*(s16 **)((char *)p + 0x2C))[4];
 }

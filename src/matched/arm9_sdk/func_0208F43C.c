@@ -1,5 +1,5 @@
 /*
- * function: func_0208F43C
+ * function: WM_End
  * address:  0x0208F43C
  * packet:   pkt_0208F43C
  * region:   arm9
@@ -61,7 +61,7 @@ extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 
-WMErrCode func_0208F43C(WMCallbackFunc callback)
+WMErrCode WM_End(WMCallbackFunc callback)
 {
     WMErrCode result;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02028CD4
+ * function: FIELD_SOUND_SYSTEM_Init
  * address:  0x02028CD4
  * packet:   pkt_02028BDC
  * region:   arm9
@@ -15,7 +15,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02028CD4(u8 *p, u32 v)
+void FIELD_SOUND_SYSTEM_Init(u8 *p, u32 v)
 {
     int i;
 

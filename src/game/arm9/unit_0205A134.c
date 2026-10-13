@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0205A12C    0x0205A12C  arm
+ *   DWCi_GetAllocateHeader    0x0205A12C  arm
  *   s_mem  0x02146AB4  data  a4
  */
 typedef struct {
@@ -30,7 +30,7 @@ typedef struct { DWCiMemFree free; DWCiMemAlloc alloc; } DWCiMemFunc;
 
 typedef void *(*DWCiMemAlloc_0205A1B0)(int, unsigned long);
 
-extern void *func_0205A12C(char *p);
+extern void *DWCi_GetAllocateHeader(char *p);
 extern void *DWC_AllocEx(int name, unsigned long size, int tag);
 extern unsigned long DWCi_GetAllocateSize(void *ptr);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);
@@ -64,7 +64,7 @@ void *DWCi_SetAllocateHeader(void *ptr, unsigned long size)
 
 unsigned long func_0205A148(char *ptr)
 {
-    _tagDWCiAllocHeader *header = func_0205A12C(ptr);
+    _tagDWCiAllocHeader *header = DWCi_GetAllocateHeader(ptr);
     return header->size;
 }
 
@@ -112,7 +112,7 @@ void DWC_Free(int name, void *ptr, unsigned long size)
     _tagDWCiAllocHeader *header;
     if (ptr == 0)
         return;
-    header = func_0205A12C(ptr);
+    header = DWCi_GetAllocateHeader(ptr);
     s_mem.free(name, header, header->size + 32);
 }
 

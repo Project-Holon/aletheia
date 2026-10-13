@@ -1,5 +1,5 @@
 /*
- * function: func_020063B4
+ * function: GFL_USE_StepBgmLoad
  * address:  0x020063B4
  * packet:   pkt_020063B4
  * region:   arm9
@@ -31,61 +31,70 @@
  * `z - 1` in the state-2 arm is two `-1` arguments; the compiler keeps the
  * zero in r6 and derives both from `subs r2, r6, #1` instead of loading
  * each `movs r0, #1 / rsbs`, and the second argument to sub_020755A8 is
- * the leftover result of sub_0200590C, which takes none (see
+ * the leftover result of GFL_USE_GetCurrentSndHandle, which takes none (see
  * docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
  *
  * EXACT*: the listing extent runs to 148 bytes because the follower saves
  * no lr and carries no label.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020063B4.c \
- *       --func func_020063B4 --addr 0x020063B4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_USE_StepBgmLoad.c \
+ *       --func GFL_USE_StepBgmLoad --addr 0x020063B4 --cc 1.1p1 --thumb
+ *
+ * symbols:
+ *   GFL_USE_GetCurrentSndHandle  0x0200590C  thumb
+ *   GFL_USE_SaveSeqBankState  0x0200597C  thumb
+ *   GFL_USE_FinishBgmLoad  0x020059A0  thumb
+ *   GFL_USE_StopBgm  0x02005D14  thumb
+ *   GFL_USE_StartLoaderThread  0x02006300  thumb
+ *   GFL_USE_StopLoaderThread  0x02006368  thumb
+ *   GFL_USE_IsLoaderDone  0x02006394  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef signed int    s32;
 
-extern void sub_02005D14(void);
-extern void sub_02006368(void);
+extern void GFL_USE_StopBgm(void);
+extern void GFL_USE_StopLoaderThread(void);
 extern void sub_020746B0(int p0);
-extern void sub_02006300(u32 a, int mode);
-extern int sub_02006394(void);
-extern void sub_0200597C(void);
+extern void GFL_USE_StartLoaderThread(u32 a, int mode);
+extern int GFL_USE_IsLoaderDone(void);
+extern void GFL_USE_SaveSeqBankState(void);
 extern void sub_02085A38(u32 v);
-extern int sub_020059A0(u32 a);
-extern u32 *sub_0200590C(void);
+extern int GFL_USE_FinishBgmLoad(u32 a);
+extern u32 *GFL_USE_GetCurrentSndHandle(void);
 extern u32 sub_020755A8(u32 a, int b, int c, int d, u32 e);
 
-u32 func_020063B4(u8 *a0, u32 *a1, u32 a2)
+u32 GFL_USE_StepBgmLoad(u8 *a0, u32 *a1, u32 a2)
 {
     if (a2 == 1) {
-        sub_02005D14();
-        sub_02006368();
+        GFL_USE_StopBgm();
+        GFL_USE_StopLoaderThread();
         *a1 = 0;
     } else {
         switch (*a1) {
         case 0:
             sub_020746B0(0x1300);
-            sub_02006300((u32)a0, 0);
+            GFL_USE_StartLoaderThread((u32)a0, 0);
             (*a1)++;
             break;
         case 1:
-            if (sub_02006394() == 1) {
-                sub_0200597C();
-                sub_02006300((u32)a0, 1);
+            if (GFL_USE_IsLoaderDone() == 1) {
+                GFL_USE_SaveSeqBankState();
+                GFL_USE_StartLoaderThread((u32)a0, 1);
                 (*a1)++;
             } else {
                 sub_02085A38(2);
             }
             break;
         case 2:
-            if (sub_02006394() == 1) {
+            if (GFL_USE_IsLoaderDone() == 1) {
                 s32 z = 0;
 
                 sub_020746B0(0);
-                sub_020059A0((u32)a0);
-                sub_020755A8((u32)sub_0200590C(), 0, z - 1, z - 1, (u32)a0);
+                GFL_USE_FinishBgmLoad((u32)a0);
+                sub_020755A8((u32)GFL_USE_GetCurrentSndHandle(), 0, z - 1, z - 1, (u32)a0);
                 (*a1)++;
                 return 1;
             }

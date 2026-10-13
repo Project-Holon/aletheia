@@ -16,7 +16,7 @@
  * symbols:
  *   func_021F1758  0x021F1758  thumb  ov029
  *   func_020355D8  0x020355D8  arm
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_021F020C  0x021F020C  thumb  ov029
  *   func_021F0D80  0x021F0D80  thumb  ov029
  *   func_021EFEC0  0x021EFEC0  thumb  ov029
@@ -38,7 +38,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_020355D8(u8 v);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int func_021F020C(const void *p, int a, int b, int *c, int *d);
 extern int func_021F0D80(void *p, int k);
 extern int func_021EFEC0(int a, int b);
@@ -70,7 +70,7 @@ void func_021F1758(u8 *p, int key)
     func_020355D8(1);
     switch (key) {
     case 0:
-        (int)func_02035CB8((u32 *)(&x), (u32 *)(&y));
+        (int)TOUCHPANEL_GetPointCont((u32 *)(&x), (u32 *)(&y));
         r = func_021F020C(p, x, y, &c, &d);
         if (p[0x457] != 0) {
             ((struct Obj00042 *)p)->f2CC = x;

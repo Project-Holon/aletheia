@@ -13,12 +13,12 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B92C 0x0204B92C arm
- *   func_020185F4 0x020185F4 thumb
- *   func_0201BBE8 0x0201BBE8 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
+ *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_02017E1C 0x02017E1C thumb
  *   func_0202136C 0x0202136C thumb
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   func_0204B878 0x0204B878 arm
  *   func_021F72DC 0x021F72DC thumb ov097
  *   d_021F76C8 0x021F76C8 data a4
@@ -43,12 +43,12 @@ extern struct Bank *func_0204B100(int, u8, u32);
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *, u32);
 extern void func_0204B92C(struct Obj *, u32);
-extern void *func_020185F4(void *);
-extern int func_0201BBE8(void *);
+extern void *POKE_TOOL_GetBoxParam(void *);
+extern int POKE_TOOL_GetIconPalette(void *);
 extern void func_0204B6F4(struct Obj *, u32, u32);
 extern u32 func_02017E1C(void *, u32, u32);
 extern u32 func_0202136C(u16);
-extern void func_0204B8C4(struct Obj *, u32);
+extern void CLACT_SetActorAnimFrame(struct Obj *, u32);
 extern void func_0204B878(struct Obj *, u16);
 extern void func_021F72DC(unsigned p, unsigned i, int dx);
 void func_021F714C(struct P *p)
@@ -69,14 +69,14 @@ void func_021F714C(struct P *p)
             func_0204B3DC(p->actors.set.d[i], 0);
         } else {
             func_0204B92C(p->actors.set.a[i], 1);
-            func_0204B6F4(p->actors.set.a[i], func_0201BBE8(func_020185F4(p->mons[i])), 1);
+            func_0204B6F4(p->actors.set.a[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(p->mons[i])), 1);
             species = func_02017E1C(p->mons[i], 6, 0);
             if (species == 0) func_0204B3DC(p->actors.set.b[i], 0);
             else if (func_0202136C(species) == 1) {
-                func_0204B8C4(p->actors.set.b[i], 0);
+                CLACT_SetActorAnimFrame(p->actors.set.b[i], 0);
                 func_0204B878(p->actors.set.b[i], 1);
             } else {
-                func_0204B8C4(p->actors.set.b[i], 0);
+                CLACT_SetActorAnimFrame(p->actors.set.b[i], 0);
                 func_0204B878(p->actors.set.b[i], 0);
             }
         }

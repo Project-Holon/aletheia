@@ -1,5 +1,5 @@
 /*
- * function: func_0202271C
+ * function: WIPE_SUB_PatternShutterDownOut
  * address:  0x0202271C
  * packet:   pkt_0202271C
  * region:   arm9
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020222A8  0x020222A8  thumb
- *   func_020238B4  0x020238B4  thumb
- *   func_0202390C  0x0202390C  thumb
+ *   WIPE_SetBackColor  0x020222A8  thumb
+ *   WIPE_SUB_ShutterStart  0x020238B4  thumb
+ *   WIPE_SUB_ShutterMain  0x0202390C  thumb
  *   d_0209F570     0x0209F570  data
  *   g_020A73D0     0x020A73D0  data
  *   g_wipe_slot0   0x020A73D0  data
  *
  * wipe.c (docs/families/wipe.h): the slot-0 member of the four setup steps
- * 0x0202271C/0x02022758/0x02022790/0x020227CC (template: func_02022758).
+ * 0x0202271C/0x02022758/0x02022790/0x020227CC (template: WIPE_SUB_PatternShutterDownIn).
  *
  * THE LEVER (wave 18, lane ties_b; it was DIFF 9 out under 1.1p1 and 1 out
  * under every 2.0 build, docs/notes/pkt_0202271C.c.txt): the pool carries
@@ -26,7 +26,7 @@
  * g_020A73D0 and the argument is a second extern, g_wipe_slot0, at the same
  * address. With one name 1.1p1 CSEs both uses into r5 (push {r3, r4, r5,
  * lr}); with two it reloads each from its own pool word under push {r4, lr}.
- * Same finding as src/matched/func_02023F98.c in the same module, whose
+ * Same finding as src/matched/BRIGHTNESS_ChangeReset.c in the same module, whose
  * header explains why the bytes fix the number of names but not whether the
  * original had one object or two declarations of it. For the other three
  * slots the two uses differ by the slot offset, so one name suffices there.
@@ -48,23 +48,23 @@ struct T {
     u32 f2c;
 };
 
-extern void func_020222A8(u32 v);
+extern void WIPE_SetBackColor(u32 v);
 struct Task;
-extern void func_020238B4(struct Task *t, u32 a1);
-extern u32 func_0202390C(struct Task *t);
+extern void WIPE_SUB_ShutterStart(struct Task *t, u32 a1);
+extern u32 WIPE_SUB_ShutterMain(struct Task *t);
 extern const u32 d_0209F570[];
 extern struct G_020A73D0 g_020A73D0;
 extern struct G_020A73D0 g_wipe_slot0;
 
-void func_0202271C(struct T *p)
+void WIPE_SUB_PatternShutterDownOut(struct T *p)
 {
     if (p->f0c == 0) {
         g_020A73D0.f00 = (u32)d_0209F570;
-        func_020222A8(p->f24);
-        func_020238B4((struct Task *)p, (u32)(&g_wipe_slot0));
+        WIPE_SetBackColor(p->f24);
+        WIPE_SUB_ShutterStart((struct Task *)p, (u32)(&g_wipe_slot0));
         p->f28 = 1;
         p->f2c = 0;
     } else {
-        func_0202390C((struct Task *)p);
+        WIPE_SUB_ShutterMain((struct Task *)p);
     }
 }

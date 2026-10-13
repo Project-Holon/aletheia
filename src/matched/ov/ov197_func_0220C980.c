@@ -12,7 +12,7 @@
  * symbols:
  *   d_04001050 0x04001050 data a2
  *   func_0207D534 0x0207D534 arm
- *   sub_0203101C 0x0203101C arm
+ *   TCBL_Create 0x0203101C arm
  *   func_0220AF40 0x0220AF40 thumb ov196
  *   func_0220D5C0 0x0220D5C0 thumb ov197
  *   func_0220D6DC 0x0220D6DC thumb ov197
@@ -31,7 +31,7 @@
  *   func_0203D34C 0x0203D34C arm
  *   func_020216D4 0x020216D4 thumb
  *   func_021F86D4 0x021F86D4 thumb ov094
- *   func_0202173C 0x0202173C thumb
+ *   PALANM_RequestFade 0x0202173C thumb
  *   func_0220D7F0 0x0220D7F0 thumb ov197
  */
 #include "../include/Obj00736.h"
@@ -49,7 +49,7 @@ typedef unsigned int   u32;
 struct PalAnmSlot;
 struct Tcbl;
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern struct Tcbl *sub_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u8 *func_0220AF40(u16 v);
 extern void func_0220D5C0(char *),func_0220D6DC(char *),func_0220D798(char *);
 extern void func_0220BB78(char *);
@@ -62,13 +62,13 @@ extern void func_0220AFDC(char *,void *);
 extern void func_0220D8C4(u8 *,unsigned,unsigned),func_0203D34C(unsigned,unsigned);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void *func_021F86D4(void);
-extern int func_0202173C(void *,u16,u16,short,u8,u8,u16,void *);
+extern int PALANM_RequestFade(void *,u16,u16,short,u8,u8,u16,void *);
 extern void func_0220D7F0(void *,int);
 int func_0220C980(char *p)
 {
     d_04001050[0]=0;
     func_0207D534((u16 *)((unsigned)d_04001050+0x1c),-16);
-    ((struct Obj00736 *)p)->f4=sub_0203101C(((struct Obj25051 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC,((struct Obj25052 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC,1,4);
+    ((struct Obj00736 *)p)->f4=TCBL_Create(((struct Obj25051 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC,((struct Obj25052 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC,1,4);
     ((struct Obj00736 *)p)->f148=func_0220AF40(((struct Obj25053 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC);
     func_0220D5C0(p);
     func_0220D6DC(p);
@@ -89,7 +89,7 @@ int func_0220C980(char *p)
     else func_0220D8C4((u8 *)p,((struct Obj00736 *)p)->f532,0);
     func_0203D34C(0,((struct Obj25057 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC);
     func_020216D4(((struct Obj00736 *)p)->f8,3,224,32);
-    func_0202173C(((struct Obj00736 *)p)->f8,10,65535,0,16,0,0,func_021F86D4());
+    PALANM_RequestFade(((struct Obj00736 *)p)->f8,10,65535,0,16,0,0,func_021F86D4());
     if(((struct Obj25058 *)(*(char * *)&((struct Obj00736 *)p)->f0))->f8==3) func_0220D7F0(p,((struct Obj00736 *)p)->f532);
     ((struct Obj00736 *)p)->f5A0=1;
     return 2;

@@ -19,7 +19,7 @@
  *   func_0201210C  0x0201210C  thumb
  *   func_020124AC  0x020124AC  thumb
  *   func_0215897C  0x0215897C  thumb  ov010
- *   func_021543BC  0x021543BC  thumb  ov003
+ *   EVENT_MENUPROC_Entry  0x021543BC  thumb  ov003
  *   ov003_id       0x00000003  data
  */
 
@@ -35,7 +35,7 @@ extern void *func_0201210C(const struct Ctx *p);
 struct Desc;
 extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern void func_0215897C(void *, void *);
-extern void func_021543BC(void);
+extern void EVENT_MENUPROC_Entry(void);
 extern char ov003_id[];
 
 int func_0215CCE8(void *a, void *b)
@@ -46,6 +46,6 @@ int func_0215CCE8(void *a, void *b)
     u32 k = !func_02159B10(a, b) ? 1 : 2;
     arg.a = (u32)func_0201210C(h);
     arg.b = k;
-    func_0215897C(t, func_020124AC(h, (u32)ov003_id, (void *)func_021543BC, (u32)(&arg)));
+    func_0215897C(t, func_020124AC(h, (u32)ov003_id, (void *)EVENT_MENUPROC_Entry, (u32)(&arg)));
     return 1;
 }

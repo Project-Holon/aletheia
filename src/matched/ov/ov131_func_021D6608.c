@@ -1,5 +1,5 @@
 /*
- * function: func_021D6608
+ * function: P_STA_SUB_Delete
  * address: 0x021D6608
  * packet: pkt_ov131_021D6608
  * region: ov131
@@ -12,6 +12,6 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021D6608(void *a,void *b) {
+void P_STA_SUB_Delete(void *a,void *b) {
  func_020307B0(b);
 }

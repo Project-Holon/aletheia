@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0208B7B0  0x0208B7B0  arm twl
+ *   MICEXi_GetLimitedSamplingCallback  0x0208B7B0  arm twl
  *   func_02087988  0x02087988  arm twl
  *   func_0208799C  0x0208799C  arm twl
  *   MicexStartLimitedSampling  0x02703F7C  arm twl
@@ -38,13 +38,13 @@ typedef struct {
     u32 val14;
 } Func_02703CDC_State;
 
-extern Func_02703CDC_State *func_0208B7B0(void);
+extern Func_02703CDC_State *MICEXi_GetLimitedSamplingCallback(void);
 extern u32 func_02087988(void);
 extern void func_0208799C(u32);
 extern u32 MicexStartLimitedSampling(u32 a0, u32 a1, u32 a2, u32 a3);
 
 u32 MICEXi_StartLimitedSamplingAsync(const Func_02703CDC_Req *a0, u32 a1, u32 a2) {
-    Func_02703CDC_State *st = func_0208B7B0();
+    Func_02703CDC_State *st = MICEXi_GetLimitedSamplingCallback();
     u8 flags;
     u8 tmp;
     u32 mode;

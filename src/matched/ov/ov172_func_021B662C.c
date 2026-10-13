@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02085D3C 0x02085D3C arm
+ *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_021B6698 0x021B6698 arm ov172
  *   func_021B66A0 0x021B66A0 arm ov172
  *   func_021B66A8 0x021B66A8 arm ov172
@@ -18,7 +18,7 @@
  */
 #include "../include/Obj03311.h"
 typedef unsigned int u32;
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern int func_021B6698(u32);
 extern void func_021B66A0(void);
 extern void func_021B66A8(void);
@@ -33,15 +33,15 @@ void func_021B662C(void)
         if (((struct Obj03311 *)p)->f28 <= 30) ++((struct Obj03311 *)p)->f28;
         if (((struct Obj03311 *)p)->f20 != 0) {
             v = ((struct Obj03311 *)p)->f2C;
-            if ((func_02085D3C() == 1 ? func_021B6698(v) : 7) == 7)
+            if ((OS_IsRunOnTwl() == 1 ? func_021B6698(v) : 7) == 7)
                 func_02088234();
             ((struct Obj03311 *)p)->f28 = 0;
             ((struct Obj03311 *)p)->f20 = 0;
         }
         if (((struct Obj03311 *)p)->f1C != 0) {
             func_021B644C(p);
-            if (func_02085D3C() == 1) func_021B66A0();
-            if (func_02085D3C() == 1) func_021B66A8();
+            if (OS_IsRunOnTwl() == 1) func_021B66A0();
+            if (OS_IsRunOnTwl() == 1) func_021B66A8();
             ((struct Obj03311 *)p)->f1C = 0;
         }
     }

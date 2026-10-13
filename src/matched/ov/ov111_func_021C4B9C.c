@@ -12,8 +12,8 @@
  *
  * symbols:
  *   func_020061E4  0x020061E4  thumb
- *   func_0202DCD4  0x0202DCD4  thumb
- *   func_0202DCB0  0x0202DCB0  thumb
+ *   PMS_DRAW_SetDecoVisible  0x0202DCD4  thumb
+ *   PMS_DRAW_SetVisible  0x0202DCB0  thumb
  *   func_021C479C  0x021C479C  thumb  ov111
  *   func_021C4B74  0x021C4B74  thumb  ov111
  *   func_021C58E0  0x021C58E0  thumb  ov111
@@ -58,8 +58,8 @@ extern s16 FX_SinCosTable_[];
 struct Obj0202DC98;
 struct Obj0202DCC4;
 extern void func_020061E4(u32 a);
-extern void func_0202DCD4(struct Obj0202DCC4 *p, u32 i, u32 val);
-extern void func_0202DCB0(struct Obj0202DC98 *o, int i, u32 a1);
+extern void PMS_DRAW_SetDecoVisible(struct Obj0202DCC4 *p, u32 i, u32 val);
+extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *o, int i, u32 a1);
 extern void func_021C479C(Work *p);
 extern void func_021C4B74(Work *p, int flag);
 extern void func_021C58E0(Work *p);
@@ -82,7 +82,7 @@ int func_021C4B9C(Work *p)
         p->scaleY = 0x103D;
         func_020061E4(0x65A);
         if (p->f3034 == 0) {
-            func_0202DCD4(p->f32B0, 0, 0);
+            PMS_DRAW_SetDecoVisible(p->f32B0, 0, 0);
         }
         p->state++;
         break;
@@ -129,8 +129,8 @@ int func_021C4B9C(Work *p)
             p->scaleY = 0x1000;
             done = 1;
             if (p->f3034 == 0) {
-                func_0202DCB0(p->f32B0, 0, 1);
-                func_0202DCD4(p->f32B0, 0, 1);
+                PMS_DRAW_SetVisible(p->f32B0, 0, 1);
+                PMS_DRAW_SetDecoVisible(p->f32B0, 0, 1);
             }
         }
         break;

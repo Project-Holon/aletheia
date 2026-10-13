@@ -17,7 +17,7 @@
  *   func_021C4524  0x021C4524  thumb  ov111
  *   func_021C4530  0x021C4530  thumb  ov111
  *   func_02049DB4  0x02049DB4  arm
- *   func_02049EB4  0x02049EB4  arm
+ *   ARC_UTIL_LoadPaletteDataFromArchive  0x02049EB4  arm
  *   func_02049624  0x02049624  arm
  *   func_0204989C  0x0204989C  arm
  *   func_02049B40  0x02049B40  arm
@@ -72,7 +72,7 @@ extern void func_021C5958(const u8 *src, u8 *dst);
 extern int func_021C4524(int x);
 extern int func_021C4530(int x);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -89,13 +89,13 @@ void func_021C453C(Work *p)
     if (p->info->f4_7 == 0) {
         p->f302C = func_02049DB4(0x28, 0x1F, 0, (u32)(&p->f3030), p->heap);
         if (p->info->f4_1 == 0) {
-            p->f31D8 = func_02049EB4(0x28, 0x2B, 0, (u32)(&p->f31DC), p->heap);
+            p->f31D8 = ARC_UTIL_LoadPaletteDataFromArchive(0x28, 0x2B, 0, (u32)(&p->f31DC), p->heap);
         } else {
-            p->f31D8 = func_02049EB4(0x28, 0x2C, 0, (u32)(&p->f31DC), p->heap);
+            p->f31D8 = ARC_UTIL_LoadPaletteDataFromArchive(0x28, 0x2C, 0, (u32)(&p->f31DC), p->heap);
         }
     } else {
         p->f302C = func_02049DB4(0x29, d_021C86E8[p->info->b6][0], 0, (u32)(&p->f3030), p->heap);
-        p->f31D8 = func_02049EB4(0x29, 0x20, 0, (u32)(&p->f31DC), p->heap);
+        p->f31D8 = ARC_UTIL_LoadPaletteDataFromArchive(0x29, 0x20, 0, (u32)(&p->f31DC), p->heap);
         func_021C43C4(p, p->info->b6);
     }
     func_021C58E0(p);

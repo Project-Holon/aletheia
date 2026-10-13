@@ -11,18 +11,18 @@
  *
  * Unblocked (2026-09-26 recursive MATCH unblocker, arm9 0x0200..0x0202):
  *   both wildcarded relocations are now `matched`.
- *   - func_02011608: EXACT, src/matched/func_02011608.c (pkt_02011608).
- *   - func_02011660: already an EXACT member of the game_unit
+ *   - ICA_ANIME_GetFrameNum: EXACT, src/matched/ICA_ANIME_GetFrameNum.c (pkt_02011608).
+ *   - ICA_ANIME_GetScale: already an EXACT member of the game_unit
  *     src/matched/unit_02011610.c (pkt_020113F0); that unit's `function:`
  *     header now lists all three copies, so the manifest covers 0x02011660.
  *   All 23 relocations resolve; EXACT* because the extent runs to the next
  *   unlabelled follower.
  *
  * symbols:
- *   func_02011608  0x02011608  thumb
+ *   ICA_ANIME_GetFrameNum  0x02011608  thumb
  *   func_020115EC  0x020115EC  thumb
  *   func_02011610  0x02011610  thumb
- *   func_02011660  0x02011660  thumb
+ *   ICA_ANIME_GetScale  0x02011660  thumb
  *   func_02011638  0x02011638  thumb
  *   func_021F4224  0x021F4224  thumb  ov056
  *   func_021F423C  0x021F423C  thumb  ov056
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Obj11244;
-extern u32 func_02011608(struct Obj11244 *p);
+extern u32 ICA_ANIME_GetFrameNum(struct Obj11244 *p);
 typedef signed int     s32;
 struct IcaAnime;
 struct Rec12;
@@ -41,7 +41,7 @@ extern void func_020115EC(struct IcaAnime *p, s32 v);
 struct IcaAnime;
 struct Rec12;
 extern u32 func_02011610(struct IcaAnime *p, struct Rec12 *dst);
-extern u32 func_02011660(struct IcaAnime *p, struct Rec12 *dst);
+extern u32 ICA_ANIME_GetScale(struct IcaAnime *p, struct Rec12 *dst);
 extern u32 func_02011638(struct IcaAnime *p, struct Rec12 *dst);
 extern void func_021F4224(u8 *p, u32 idx);
 extern void func_021F423C(u8 *p, u32 idx);
@@ -50,7 +50,7 @@ int func_021F40A0(int *p)
 {
     int flag;
     int a[3], b[3], c[3];
-    int x = func_02011608((struct Obj11244 *)p[0]) << 12;
+    int x = ICA_ANIME_GetFrameNum((struct Obj11244 *)p[0]) << 12;
 
     if (x <= p[1]) {
         flag = 1;
@@ -60,7 +60,7 @@ int func_021F40A0(int *p)
     }
     func_020115EC((struct IcaAnime *)p[0], p[1]);
     func_02011610((struct IcaAnime *)p[0], (struct Rec12 *)a);
-    func_02011660((struct IcaAnime *)p[0], (struct Rec12 *)b);
+    ICA_ANIME_GetScale((struct IcaAnime *)p[0], (struct Rec12 *)b);
     func_02011638((struct IcaAnime *)p[0], (struct Rec12 *)c);
     if (a[0] == 0x1000) func_021F4224((u8 *)p, 0); else if (a[0] == 0x2000) func_021F423C((u8 *)p, 0);
     if (a[1] == 0x1000) func_021F4224((u8 *)p, 1); else if (a[1] == 0x2000) func_021F423C((u8 *)p, 1);

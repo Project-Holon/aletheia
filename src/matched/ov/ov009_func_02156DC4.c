@@ -1,5 +1,5 @@
 /*
- * function: func_02156DC4
+ * function: DWC_RAP_SetErrorCallback
  * address:  0x02156DC4
  * packet:   pkt_02156DC4
  * region:   ov009
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern int *g_021A8264;
 
-void func_02156DC4(int a0, int a1)
+void DWC_RAP_SetErrorCallback(int a0, int a1)
 {
     *(int *)((char *)g_021A8264 + 0x28C) = a0;
     *(int *)((char *)g_021A8264 + 0x290) = a1;

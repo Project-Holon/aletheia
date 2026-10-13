@@ -1,5 +1,5 @@
 /*
- * function: func_02175EE8
+ * function: INTRUDE_COMM_ResetMemberName
  * address: 0x02175EE8
  * packet: pkt_ov011_02175EE8
  * region: ov011
@@ -14,7 +14,7 @@
  */
 typedef unsigned char u8;
 extern void func_02082BCC(void *, int, int);
-void func_02175EE8(u8 *p)
+void INTRUDE_COMM_ResetMemberName(u8 *p)
 {
     func_02082BCC(p, 0, 0x14);
     p[0x10] = 4;

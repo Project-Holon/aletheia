@@ -13,8 +13,8 @@
  * through the arm9 setter.
  *
  * symbols:
- *   func_02011398   0x02011398  thumb
- *   func_0201137C   0x0201137C  thumb
+ *   VM_PopStack   0x02011398  thumb
+ *   VM_PushStack   0x0201137C  thumb
  */
 
 typedef unsigned char u8;
@@ -22,15 +22,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Ring;
-extern u32 func_02011398(struct Ring *r);
-extern void func_0201137C(struct Ring *r, u32 v);
+extern u32 VM_PopStack(struct Ring *r);
+extern void VM_PushStack(struct Ring *r, u32 v);
 
 int func_0215946C(void *a0)
 {
-    int v = func_02011398(a0);
-    int w = func_02011398(a0);
+    int v = VM_PopStack(a0);
+    int w = VM_PopStack(a0);
 
-    func_0201137C(a0, w * v);
+    VM_PushStack(a0, w * v);
 
     return 0;
 }

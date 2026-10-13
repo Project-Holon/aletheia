@@ -20,30 +20,30 @@
  *   func_020221A4 0x020221A4 thumb
  *   func_021D426C 0x021D426C thumb ov115
  *   func_021D4240 0x021D4240 thumb ov115
- *   func_0203C600 0x0203C600 arm
+ *   GFL_NET_STATE_IsWifiLoginState 0x0203C600 arm
  *   func_0202EB0C 0x0202EB0C thumb
- *   func_02156C84 0x02156C84 thumb ov009
+ *   DWC_RAP_IsUserDataChanged 0x02156C84 thumb ov009
  *   func_02012DD0 0x02012DD0 thumb
- *   func_02156C98 0x02156C98 thumb ov009
+ *   DWC_RAP_ClearUserDataChanged 0x02156C98 thumb ov009
  *   func_02012944 0x02012944 thumb
  *   func_02009CC0 0x02009CC0 thumb
  *   func_02008540 0x02008540 thumb
  *   func_02012DAC 0x02012DAC thumb
- *   func_02085D3C 0x02085D3C arm
+ *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_0203CBAC 0x0203CBAC arm
- *   func_0203C8A8 0x0203C8A8 arm
+ *   GFL_NET_STATE_WifiStartMatch 0x0203C8A8 arm
  *   func_0203D34C 0x0203D34C arm
  *   d_021D6560 0x021D6560 data a4
  *   d_021D65C0 0x021D65C0 data a4
  *   d_021D6640 0x021D6640 data a4
  *   func_0200FB24 0x0200FB24 thumb
- *   func_0203CA98 0x0203CA98 arm
- *   func_0200F83C 0x0200F83C thumb
+ *   GFL_NET_STATE_GetError 0x0203CA98 arm
+ *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
  *   func_0203CD98 0x0203CD98 arm
  *   func_0200FBB0 0x0200FBB0 thumb
- *   func_0203CA04 0x0203CA04 arm
+ *   GFL_NET_STATE_SetWifiError 0x0203CA04 arm
  *   func_0200FBA0 0x0200FBA0 thumb
- *   func_0203C968 0x0203C968 arm
+ *   GFL_NET_STATE_ClearErrorMode 0x0203C968 arm
  *   func_0200FA84 0x0200FA84 thumb
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_0200B358 0x0200B358 thumb
@@ -58,7 +58,7 @@
  *   func_020597C8 0x020597C8 arm
  *   func_02059760 0x02059760 arm
  *   func_0202208C 0x0202208C thumb
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_02167FA8 0x02167FA8 arm ov009
  *   d_021D65D0 0x021D65D0 data a4
  *   func_02168040 0x02168040 arm ov009
@@ -66,7 +66,7 @@
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_020403F4 0x020403F4 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
@@ -122,18 +122,18 @@
  *   func_0207E468 0x0207E468 arm
  *   func_02040618 0x02040618 arm
  *   sub_020490F4 0x020490F4 arm
- *   sub_02049B68 0x02049B68 arm
- *   sub_02049740 0x02049740 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
+ *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   func_02049990 0x02049990 arm
- *   sub_0204A6C8 0x0204A6C8 arm
- *   sub_0204AC18 0x0204AC18 arm
- *   sub_0204AF28 0x0204AF28 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   sub_02049238 0x02049238 arm
- *   sub_0204B294 0x0204B294 arm
- *   sub_0204B92C 0x0204B92C arm
- *   sub_0204B3DC 0x0204B3DC arm
- *   sub_02005624 0x02005624 thumb
- *   func_02024230 0x02024230 thumb
+ *   CLACT_CreateActor 0x0204B294 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   GFL_USE_AddHBlankTask 0x02005624 thumb
+ *   PMSI_PARAM_MakeSineTable 0x02024230 thumb
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
  *   d_020A1448 0x020A1448 data a4
@@ -146,17 +146,17 @@
  *   func_0204A5AC 0x0204A5AC arm
  *   func_0204A648 0x0204A648 arm
  *   sub_02030734 0x02030734 arm
- *   sub_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0201DD60 0x0201DD60 thumb
- *   sub_0203101C 0x0203101C arm
- *   sub_0201C440 0x0201C440 thumb
- *   sub_020457B0 0x020457B0 arm
+ *   TCBL_Create 0x0203101C arm
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
+ *   STRBUF_Create 0x020457B0 arm
  *   func_0201D7EC 0x0201D7EC thumb
- *   sub_02045B38 0x02045B38 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   func_0201EC64 0x0201EC64 thumb
  *   func_02027F60 0x02027F60 thumb
  *   func_0201F5DC 0x0201F5DC thumb
- *   sub_02049B40 0x02049B40 arm
+ *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   d_021D6628 0x021D6628 data a4
  *   func_020310C4 0x020310C4 arm
  *   func_0201C4E4 0x0201C4E4 thumb
@@ -195,7 +195,7 @@
  *   func_020457B0 0x020457B0 arm
  *   func_02027778 0x02027778 thumb
  *   func_0207D658 0x0207D658 arm
- *   func_02027CFC 0x02027CFC thumb
+ *   APP_TASKMENU_SetCursorPos 0x02027CFC thumb
  *   func_02027858 0x02027858 thumb
  *   func_02027974 0x02027974 thumb
  *   func_0201FEBC 0x0201FEBC thumb
@@ -207,8 +207,8 @@
  *   func_0201C7A4 0x0201C7A4 thumb
  *   d_021D6544 0x021D6544 data a2
  *   func_0201FDA0 0x0201FDA0 thumb
- *   func_0203CF04 0x0203CF04 arm
- *   func_0203D0D0 0x0203D0D0 arm
+ *   GFL_NET_ClearExitFlag 0x0203CF04 arm
+ *   GFL_NET_IRC_WIRELESS_Exit 0x0203D0D0 arm
  *   func_0203CDBC 0x0203CDBC arm
  *   func_0203CEAC 0x0203CEAC arm
  *   func_021D6328 0x021D6328 thumb ov115
@@ -378,27 +378,27 @@ extern void func_02009C24(struct Sub020097BCObj *obj, int src, int dest);
 extern u32 func_020221A4(void);
 extern void func_021D426C(u8 *,u32);
 extern int func_021D4240(u8 *);
-extern int func_0203C600(void);
+extern int GFL_NET_STATE_IsWifiLoginState(void);
 extern u32 func_0202EB0C(void);
-extern unsigned char func_02156C84(void);
+extern unsigned char DWC_RAP_IsUserDataChanged(void);
 extern int func_02012DD0(u8 *);
-extern void func_02156C98(int);
+extern void DWC_RAP_ClearUserDataChanged(int);
 extern u8 *func_02012944(void *);
 extern void *func_02009CC0(void *);
 extern void func_02008540(void *,void *);
 extern void func_02012DAC(u8 *);
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
-extern void func_0203C8A8(void);
+extern void GFL_NET_STATE_WifiStartMatch(void);
 extern void func_0203D34C(u32 a, u32 b);
 extern u32 func_0200FB24(void);
-extern u32 func_0203CA98(void);
-extern void func_0200F83C(void);
+extern u32 GFL_NET_STATE_GetError(void);
+extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern int func_0203CD98(void);
 extern u32 func_0200FBB0(void);
-extern void func_0203CA04(void);
+extern void GFL_NET_STATE_SetWifiError(void);
 extern void func_0200FBA0(void);
-extern void func_0203C968(void);
+extern void GFL_NET_STATE_ClearErrorMode(void);
 extern void func_0200FA84(void);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern void *func_0200B358(void *);
@@ -413,14 +413,14 @@ extern u32 func_0202EB4C(void);
 extern int func_020597C8(struct DWCstAccUserData *userdata);
 extern int func_02059760(struct DWCstAccUserData *userdata);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern void func_02005E30(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
 extern int func_02167FA8(char *svl, void *result);
 extern int func_02168040(void);
 extern void func_02034714(const char *,u32,const char *);
 extern void func_0203064C(u32,u32,u32);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,unsigned);
-extern void func_02005D90(int,int);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void func_020403F4(u32 i);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
@@ -457,18 +457,18 @@ extern void func_0207E3D0(void *, int, int);
 extern void func_0207E468(void *, int, int);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void *sub_020490F4(u32 id, u32 heap);
-extern void sub_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 sub_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern s32_021D4FA4 sub_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32_021D4FA4 sub_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32_021D4FA4 sub_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32_021D4FA4 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32_021D4FA4 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32_021D4FA4 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void sub_02049238(void *);
-extern struct Obj *sub_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
-extern void sub_0204B92C(struct Obj *,u32);
-extern void sub_0204B3DC(struct Obj *,u32);
-extern void *sub_02005624(u32,u32,u32);
-extern void func_02024230(s16_021D5598 *,u32,u16,int);
+extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
+extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
+extern void *GFL_USE_AddHBlankTask(u32,u32,u32);
+extern void PMSI_PARAM_MakeSineTable(s16_021D5598 *,u32,u16,int);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_0204A600(void);
@@ -480,17 +480,17 @@ extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_0204A648(void);
 extern void *sub_02030734(u32,u32,int,const char *,u16);
-extern void sub_02045088(u16);
+extern void BMP_WIN_Init(u16);
 extern void func_0201DD60(void);
-extern struct Tcbl *sub_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 sub_0201C440(void *);
-extern struct U16Vec *sub_020457B0(u32,u32);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern u32 PRINTSYS_QUE_Create(void *);
+extern struct U16Vec *STRBUF_Create(u32,u32);
 extern struct GfFont *func_0201D7EC(int,int,int,int,u32);
-extern struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32);
 extern struct R *func_02027F60(u16,u16,u32,u32,u16);
 extern void *func_0201F5DC(void *,u32,u32,u32);
-extern void sub_02049B40(u32,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern void func_020310C4(struct Tcbl *p);
 extern u32 func_0201C4E4(struct PrintSys *);
 extern void func_0202F038(u8 *p);
@@ -528,7 +528,7 @@ extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_0207D658(u32, int, int);
-extern void func_02027CFC(u8 *, int);
+extern void APP_TASKMENU_SetCursorPos(u8 *, int);
 extern void func_02027858(struct TaskMenu *);
 extern void func_02027974(struct Obj *);
 extern u32 func_0201FEBC(u8 *);
@@ -538,8 +538,8 @@ extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
 extern void *func_0201FDA0(const Record *, u16, u8, u8, u16);
-extern void func_0203CF04(void);
-extern void func_0203D0D0(void);
+extern void GFL_NET_ClearExitFlag(void);
+extern void GFL_NET_IRC_WIRELESS_Exit(void);
 extern int func_0203CDBC(void);
 extern int func_0203CEAC(int a0);
 extern void func_021D6328(u8 *p);
@@ -745,7 +745,7 @@ void func_021D4310(u8 *p)
 
 
 void func_021D4360(u8 *p) {
- if(func_0203C600()) { if(W(0x20)) { func_021D5D3C((u8 *)W(0x38)); func_021D5C94((u8 *)W(0x38)); if(func_0202EB0C()) func_021D5ED8((u8 *)W(0x38),44); else func_021D5ED8((u8 *)W(0x38),19); func_021D426C(p,(u32)func_021D4310); } else if(*(int *)(P(0x40)+0x10)) { func_021D426C(p,(u32)func_021D4BB4); } else { func_021D426C(p,(u32)func_021D4AB0); } } else func_021D4644(p);
+ if(GFL_NET_STATE_IsWifiLoginState()) { if(W(0x20)) { func_021D5D3C((u8 *)W(0x38)); func_021D5C94((u8 *)W(0x38)); if(func_0202EB0C()) func_021D5ED8((u8 *)W(0x38),44); else func_021D5ED8((u8 *)W(0x38),19); func_021D426C(p,(u32)func_021D4310); } else if(*(int *)(P(0x40)+0x10)) { func_021D426C(p,(u32)func_021D4BB4); } else { func_021D426C(p,(u32)func_021D4AB0); } } else func_021D4644(p);
 }
 
 
@@ -760,7 +760,7 @@ void func_021D4360(u8 *p) {
 
 
 
-void func_021D43CC(u8 *p) { int r; if(func_02156C84()) { r=func_02012DD0(*(u8 * *)&((struct Obj22588 *)p)->f44); switch(r) { case 0: case 1: return; default: func_02156C98(r); break; } } func_021D4360(p); }
+void func_021D43CC(u8 *p) { int r; if(DWC_RAP_IsUserDataChanged()) { r=func_02012DD0(*(u8 * *)&((struct Obj22588 *)p)->f44); switch(r) { case 0: case 1: return; default: DWC_RAP_ClearUserDataChanged(r); break; } } func_021D4360(p); }
 
 
 
@@ -785,7 +785,7 @@ void func_021D43F4(u8 *p) { void *a; if(func_021D5C70((u8 *)(((struct Obj06413 *
 
 
 void func_021D4430(u8 *p) {
- if(func_021D5C70((u8 *)((int)((u8 *)W(0x38))))) { if(func_02156C84() && !W(0x24) && *(int *)(P(0x40)+0x14)!=2) { func_021D5C24((void *)W(0x38),30); func_021D426C(p,(u32)func_021D43F4); } else { func_021D4360(p); } }
+ if(func_021D5C70((u8 *)((int)((u8 *)W(0x38))))) { if(DWC_RAP_IsUserDataChanged() && !W(0x24) && *(int *)(P(0x40)+0x14)!=2) { func_021D5C24((void *)W(0x38),30); func_021D426C(p,(u32)func_021D43F4); } else { func_021D4360(p); } }
 }
 
 
@@ -799,7 +799,7 @@ void func_021D4430(u8 *p) {
 
 
 void func_021D4474(u8 *p) {
- int z; if(func_02085D3C()) *(u32 *)(d_021D6560+0x48)=0x79000; else *(u32 *)(d_021D6560+0x48)=0x5e400; if(*(int *)(P(0x40)+0xc)==44) *(u32 *)(d_021D6560+0x48)=0x50000; else if(*(int *)(P(0x40)+0xc)==36) *(u32 *)(d_021D6560+0x48)=0x6e000; if(*(int *)(P(0x40)+0xc)!=10) *(u32 *)(d_021D6560+0x40)=0; z=0; d_021D65C0[7]=*(int *)(P(0x40)+0xc); *(u32 *)d_021D6640=*(int *)(P(0x40)+0xc); func_0203CBAC((struct Req *)d_021D6560,z,(u32)p); func_0203C8A8(); if(!*(int *)(P(0x40)+8)) func_0203D34C(z,((struct Obj13849 *)p)->fC); else func_0203D34C(1,((struct Obj13849 *)p)->fC); func_021D5C24((void *)W(0x38),23); func_021D592C(P(0x34)); func_021D426C(p,(u32)func_021D4430);
+ int z; if(OS_IsRunOnTwl()) *(u32 *)(d_021D6560+0x48)=0x79000; else *(u32 *)(d_021D6560+0x48)=0x5e400; if(*(int *)(P(0x40)+0xc)==44) *(u32 *)(d_021D6560+0x48)=0x50000; else if(*(int *)(P(0x40)+0xc)==36) *(u32 *)(d_021D6560+0x48)=0x6e000; if(*(int *)(P(0x40)+0xc)!=10) *(u32 *)(d_021D6560+0x40)=0; z=0; d_021D65C0[7]=*(int *)(P(0x40)+0xc); *(u32 *)d_021D6640=*(int *)(P(0x40)+0xc); func_0203CBAC((struct Req *)d_021D6560,z,(u32)p); GFL_NET_STATE_WifiStartMatch(); if(!*(int *)(P(0x40)+8)) func_0203D34C(z,((struct Obj13849 *)p)->fC); else func_0203D34C(1,((struct Obj13849 *)p)->fC); func_021D5C24((void *)W(0x38),23); func_021D592C(P(0x34)); func_021D426C(p,(u32)func_021D4430);
 }
 
 
@@ -866,7 +866,7 @@ void func_021D460C(u8 *p) { if(func_020221A4()) { func_021D5D3C((u8 *)(*(int *)&
 
 
 int func_021D4644(u8 *p) {
- if(func_0200FB24()) { switch(*(u32 *)(func_0203CA98()+4)) { case 1: case 2: case 3: case 4: case 5: case 6: func_021D5F7C((u8 *)W(0x38)); func_021D5D3C((u8 *)((int)((u8 *)W(0x38)))); func_021D5C94((u8 *)W(0x38)); func_0200F83C(); func_021D5938((u8 *)W(0x34)); if(func_0203CD98()) func_0200FBB0(); func_0203CA04(); func_0200FBA0(); func_0203C968(); func_021D5ED8((u8 *)W(0x38),37); func_021D426C(p,(u32)func_021D460C); return 1; case 7: func_0200FA84(); break; case 0: default: break; } } return 0;
+ if(func_0200FB24()) { switch(*(u32 *)(GFL_NET_STATE_GetError()+4)) { case 1: case 2: case 3: case 4: case 5: case 6: func_021D5F7C((u8 *)W(0x38)); func_021D5D3C((u8 *)((int)((u8 *)W(0x38)))); func_021D5C94((u8 *)W(0x38)); GFL_NET_ERR_ShowSimpleScreen(); func_021D5938((u8 *)W(0x34)); if(func_0203CD98()) func_0200FBB0(); GFL_NET_STATE_SetWifiError(); func_0200FBA0(); GFL_NET_STATE_ClearErrorMode(); func_021D5ED8((u8 *)W(0x38),37); func_021D426C(p,(u32)func_021D460C); return 1; case 7: func_0200FA84(); break; case 0: default: break; } } return 0;
 }
 
 
@@ -1092,9 +1092,9 @@ void func_021D4AB0(unsigned char *a)
             func_021D5C94((unsigned char *)(((struct Obj02825 *)a)->f38));
             if (func_0203CD98() != 0)
                 func_0200FBB0();
-            func_0203CA04();
+            GFL_NET_STATE_SetWifiError();
             func_0200FBA0();
-            func_0203C968();
+            GFL_NET_STATE_ClearErrorMode();
             func_021D5ED8((unsigned char *)(((struct Obj02825 *)a)->f38), 0x25);
             func_021D426C(a, (int)func_021D460C);
             break;
@@ -1113,7 +1113,7 @@ void func_021D4AB0(unsigned char *a)
 
 
 void func_021D4B3C(u8 *p) {
- func_0202208C(0,0,0,0,6,1,((struct Obj22595 *)p)->fC); if(!*(int *)(P(0x40)+4) && !*(int *)(P(0x40)+0x18)) func_02005E30(8); func_021D426C(p,(u32)func_021D4A98);
+ func_0202208C(0,0,0,0,6,1,((struct Obj22595 *)p)->fC); if(!*(int *)(P(0x40)+4) && !*(int *)(P(0x40)+0x18)) GFL_USE_FadeOutBgm(8); func_021D426C(p,(u32)func_021D4A98);
 }
 
 
@@ -1177,17 +1177,17 @@ int func_021D4BFC(void *ctx,int unused,u8 *q)
     func_0202208C(0,1,1,0,6,1,((struct Obj01719 *)p)->fC);
     *(u8 * *)&((struct Obj01719 *)p)->f40=q;
     if(func_0203CD98()) {
-        func_0203CA04();
-        func_0203C968();
+        GFL_NET_STATE_SetWifiError();
+        GFL_NET_STATE_ClearErrorMode();
         func_0200FBB0();
         func_0200FBA0();
     }
     func_021D426C(p,(u32)func_021D497C);
     if(((struct Obj22596 *)(*(u8 * *)&((struct Obj01719 *)p)->f40))->f4==0) {
         func_021D5CCC(*(u8 * *)&((struct Obj01719 *)p)->f38,35);
-        if(((struct Obj22597 *)(*(u8 * *)&((struct Obj01719 *)p)->f40))->f18==0) func_02005D90(1153,65535);
+        if(((struct Obj22597 *)(*(u8 * *)&((struct Obj01719 *)p)->f40))->f18==0) GFL_USE_CancelChangeAndPlayBgm(1153,65535);
     } else {
-        if(((struct Obj22598 *)(*(u8 * *)&((struct Obj01719 *)p)->f40))->f18==0) func_02005D90(1155,65535);
+        if(((struct Obj22598 *)(*(u8 * *)&((struct Obj01719 *)p)->f40))->f18==0) GFL_USE_CancelChangeAndPlayBgm(1155,65535);
     }
     return 1;
 }
@@ -1573,32 +1573,32 @@ void func_021D5598(u8 *p)
     struct Rect a,b;
     res = (u32)sub_020490F4((u32)((void *)143), ((struct Obj00198 *)p)->fC);
     zero=Zero;
-    sub_02049B68((void *)((u32)res),0,4,zero,0,((struct Obj00198 *)p)->fC);
-    ((struct Obj00198 *)p)->f0 = sub_02049740((void *)((u32)res),7,4,zero,0,((struct Obj00198 *)p)->fC);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)((u32)res),0,4,zero,0,((struct Obj00198 *)p)->fC);
+    ((struct Obj00198 *)p)->f0 = ARC_UTIL_RegisterObjCharFromHandle((void *)((u32)res),7,4,zero,0,((struct Obj00198 *)p)->fC);
     func_02049990((void *)((u32)res),18,4,0,(u16)(((struct Obj00198 *)p)->f0),zero,0,((struct Obj00198 *)p)->fC);
     func_02049990((void *)((u32)res),19,6,0,(u16)(((struct Obj00198 *)p)->f0),zero,0,((struct Obj00198 *)p)->fC);
     func_02049990((void *)((u32)res),20,7,0,(u16)(((struct Obj00198 *)p)->f0),zero,0,((struct Obj00198 *)p)->fC);
-    sub_02049B68((void *)((u32)res),0,0,zero,0,((struct Obj00198 *)p)->fC);
-    ((struct Obj00198 *)p)->f4 = sub_02049740((void *)((u32)res),6,0,zero,0,((struct Obj00198 *)p)->fC);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)((u32)res),0,0,zero,0,((struct Obj00198 *)p)->fC);
+    ((struct Obj00198 *)p)->f4 = ARC_UTIL_RegisterObjCharFromHandle((void *)((u32)res),6,0,zero,0,((struct Obj00198 *)p)->fC);
     func_02049990((void *)((u32)res),15,0,0,(u16)(((struct Obj00198 *)p)->f4),zero,0,((struct Obj00198 *)p)->fC);
     func_02049990((void *)((u32)res),16,1,0,(u16)(((struct Obj00198 *)p)->f4),zero,0,((struct Obj00198 *)p)->fC);
     func_02049990((void *)((u32)res),17,2,0,(u16)(((struct Obj00198 *)p)->f4),zero,0,((struct Obj00198 *)p)->fC);
-    *(int *)&((struct Obj00198 *)p)->f990 = sub_0204A6C8((void *)((u32)res),9,0,1,((struct Obj00198 *)p)->fC);
-    *(int *)&((struct Obj00198 *)p)->f98C = sub_0204AC18((void *)((u32)res),3,1,0,0,3,((struct Obj00198 *)p)->fC);
-    *(int *)&((struct Obj00198 *)p)->f994 = sub_0204AF28((void *)((u32)res),12,25,((struct Obj00198 *)p)->fC);
+    *(int *)&((struct Obj00198 *)p)->f990 = CLACT_RegisterCharacter((void *)((u32)res),9,0,1,((struct Obj00198 *)p)->fC);
+    *(int *)&((struct Obj00198 *)p)->f98C = CLACT_RegisterPaletteEx((void *)((u32)res),3,1,0,0,3,((struct Obj00198 *)p)->fC);
+    *(int *)&((struct Obj00198 *)p)->f994 = CLACT_RegisterCellAnim((void *)((u32)res),12,25,((struct Obj00198 *)p)->fC);
     sub_02049238((void *)res);
     a.x=128; a.y=96; a.z=10; a.kind=0; a.mode=2;
-    *(struct Obj * *)&((struct Obj00198 *)p)->f99C = sub_0204B294((void *)((struct Obj00198 *)p)->f980,((struct Obj00198 *)p)->f990,((struct Obj00198 *)p)->f98C,((struct Obj00198 *)p)->f994,&a,1,((struct Obj00198 *)p)->fC);
-    sub_0204B92C(*(struct Obj * *)&((struct Obj00198 *)p)->f99C,1);
-    sub_0204B3DC(*(struct Obj * *)&((struct Obj00198 *)p)->f99C,1);
+    *(struct Obj * *)&((struct Obj00198 *)p)->f99C = CLACT_CreateActor((void *)((struct Obj00198 *)p)->f980,((struct Obj00198 *)p)->f990,((struct Obj00198 *)p)->f98C,((struct Obj00198 *)p)->f994,&a,1,((struct Obj00198 *)p)->fC);
+    CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct Obj00198 *)p)->f99C,1);
+    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00198 *)p)->f99C,1);
     b.x=128; b.y=96; b.z=11; b.kind=1; b.mode=2;
-    *(struct Obj * *)&((struct Obj00198 *)p)->f9A0 = sub_0204B294((void *)((struct Obj00198 *)p)->f980,((struct Obj00198 *)p)->f990,((struct Obj00198 *)p)->f98C,((struct Obj00198 *)p)->f994,&b,1,((struct Obj00198 *)p)->fC);
-    sub_0204B92C(*(struct Obj * *)&((struct Obj00198 *)p)->f9A0,1);
-    sub_0204B3DC(*(struct Obj * *)&((struct Obj00198 *)p)->f9A0,1);
+    *(struct Obj * *)&((struct Obj00198 *)p)->f9A0 = CLACT_CreateActor((void *)((struct Obj00198 *)p)->f980,((struct Obj00198 *)p)->f990,((struct Obj00198 *)p)->f98C,((struct Obj00198 *)p)->f994,&b,1,((struct Obj00198 *)p)->fC);
+    CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct Obj00198 *)p)->f9A0,1);
+    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00198 *)p)->f9A0,1);
     func_0207D63C((void *)0x04000050,4,3,6,16);
     func_0207D63C((void *)0x04001050,8,21,6,16);
-    ((struct Obj00198 *)p)->f988 = sub_02005624((u32)func_021D58B4,(u32)p,0);
-    func_02024230((s16_021D5598 *)(p+0x9ca),192,1456,6144);
+    ((struct Obj00198 *)p)->f988 = GFL_USE_AddHBlankTask((u32)func_021D58B4,(u32)p,0);
+    PMSI_PARAM_MakeSineTable((s16_021D5598 *)(p+0x9ca),192,1456,6144);
     ((struct Obj00198 *)p)->fB4A = 10;
 }
 
@@ -1740,20 +1740,20 @@ u8 *func_021D5984(u32 heap, u32 bank, u32 mode)
     p = sub_02030734(heap, 132, 1, d_021D6628, 135);
     ((struct Obj00531 *)p)->f4C = heap;
     ((struct Obj00531 *)p)->f50 = mode;
-    sub_02045088(((struct Obj00531 *)p)->f4C);
+    BMP_WIN_Init(((struct Obj00531 *)p)->f4C);
     func_0201DD60();
-    *(struct Tcbl * *)&((struct Obj00531 *)p)->f44 = sub_0203101C(((struct Obj00531 *)p)->f4C, ((struct Obj00531 *)p)->f4C, 1, 0);
-    ((struct Obj00531 *)p)->f48 = sub_0201C440((void *)((struct Obj00531 *)p)->f4C);
-    *(struct U16Vec * *)&((struct Obj00531 *)p)->f28 = sub_020457B0(400, ((struct Obj00531 *)p)->f4C);
+    *(struct Tcbl * *)&((struct Obj00531 *)p)->f44 = TCBL_Create(((struct Obj00531 *)p)->f4C, ((struct Obj00531 *)p)->f4C, 1, 0);
+    ((struct Obj00531 *)p)->f48 = PRINTSYS_QUE_Create((void *)((struct Obj00531 *)p)->f4C);
+    *(struct U16Vec * *)&((struct Obj00531 *)p)->f28 = STRBUF_Create(400, ((struct Obj00531 *)p)->f4C);
     *(struct GfFont * *)&((struct Obj00531 *)p)->f24 = func_0201D7EC(23, 0, 0, 0, ((struct Obj00531 *)p)->f4C);
-    *(struct MsgBank * *)&((struct Obj00531 *)p)->f1C = sub_02045B38(0, 2, (u16)bank, ((struct Obj00531 *)p)->f4C);
+    *(struct MsgBank * *)&((struct Obj00531 *)p)->f1C = MSGDATA_CreateFromArchive(0, 2, (u16)bank, ((struct Obj00531 *)p)->f4C);
     *(struct WordSet * *)&((struct Obj00531 *)p)->f20 = func_0201EC64(((struct Obj00531 *)p)->f4C);
     *(struct R * *)&((struct Obj00531 *)p)->f70 = func_02027F60(5, 9, *(u32 *)&((struct Obj00531 *)p)->f24, ((struct Obj00531 *)p)->f48, ((struct Obj00531 *)p)->f4C);
     ((struct Obj00531 *)p)->f0 = func_0201F5DC((void *)func_021D5FA0(((struct Obj00531 *)p)->f50), 12, 0, ((struct Obj00531 *)p)->f4C);
     ((struct Obj00531 *)p)->f4 = func_0201F5DC((void *)func_021D5FC4(((struct Obj00531 *)p)->f50), 12, 0, ((struct Obj00531 *)p)->f4C);
     sel = 0;
     if (((struct Obj00531 *)p)->f50 == 0) sel = 4;
-    sub_02049B40(23, 5, sel, 352, 32, ((struct Obj00531 *)p)->f4C);
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, sel, 352, 32, ((struct Obj00531 *)p)->f4C);
     return p;
 }
 
@@ -1963,7 +1963,7 @@ void *func_021D5D5C(u8 *p, int mode, int flag, int selected)
         func_02045808(((struct Obj01535 *)q)->f4);
         func_02045808(((struct Obj01535 *)q)->f10);
         if (flag != 0) func_0207D658(0x04001050, 17, -8);
-        func_02027CFC(*(u8 * *)&((struct Obj01535 *)q)->f20, selected);
+        APP_TASKMENU_SetCursorPos(*(u8 * *)&((struct Obj01535 *)q)->f20, selected);
         break;
     case 1:
         ((struct Obj01535 *)q)->f24 = func_021D5FE8(p, mode, selected);
@@ -2102,7 +2102,7 @@ int func_021D603C(void *ctx,int unused,u8 *q) {
     func_021D6134(p,func_021D6150,173);
     if(((struct Obj03767 *)q)->f4==0) {
         func_021D5CCC(((struct Obj03766 *)p)->f8,36);
-        if(((struct Obj03767 *)q)->fC==0) func_02005D90(1153,65535);
+        if(((struct Obj03767 *)q)->fC==0) GFL_USE_CancelChangeAndPlayBgm(1153,65535);
     }
     if(*(u32 *)&((struct Obj03767 *)q)->f8==0) flag=FALSE; else flag=TRUE;
     func_0203D34C(flag,((struct Obj03766 *)p)->f14);
@@ -2201,7 +2201,7 @@ void func_021D61D8(u8 *p) { if(func_021D5C70(((struct Obj22607 *)p)->f8))func_02
 
 void func_021D61FC(u8 *p) {
     if (func_0200FB24()) {
-        func_0203CF04(); func_0203D0D0(); func_0203C968(); func_0203CA04(); func_0200FBA0();
+        GFL_NET_ClearExitFlag(); GFL_NET_IRC_WIRELESS_Exit(); GFL_NET_STATE_ClearErrorMode(); GFL_NET_STATE_SetWifiError(); func_0200FBA0();
     }
     if (func_0203CDBC()) {
         func_021D6134(p,func_021D6274,0x1bf);
@@ -2229,7 +2229,7 @@ void func_021D62B4(u8 *p) {
     u8 *q = *(u8 * *)&((struct Obj13856 *)p)->f10;
     if (((struct Obj13857 *)q)->f10 & 16) color = 0x7fff;
     else color = 0;
-    if (((struct Obj13857 *)q)->fC == 0) func_02005E30(6);
+    if (((struct Obj13857 *)q)->fC == 0) GFL_USE_FadeOutBgm(6);
     func_0202208C(0, 0, 0, (u16)color, 6, 1, ((struct Obj13856 *)p)->f14);
     func_021D6134(p, func_021D630C, 0x213);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0217592C
+ * function: INTRUDE_COMM_SetSessionResultSendFlag
  * address:  0x0217592C
  * packet:   pkt_0217592C
  * region:   ov011
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj12431.h"
 
-void func_0217592C(void *p)
+void INTRUDE_COMM_SetSessionResultSendFlag(void *p)
 {
     *(char *)&((struct Obj12431 *)p)->f19B = 1;
 }

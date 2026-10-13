@@ -28,7 +28,7 @@
  *   func_021BE6B0  0x021BE6B0  thumb  ov021
  *   func_021BE6BC  0x021BE6BC  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_02006210  0x02006210  thumb
+ *   GFL_USE_StopAllSe  0x02006210  thumb
  *   func_021F3938  0x021F3938  thumb  ov045
  */
 
@@ -54,7 +54,7 @@ extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(u8 *p, int v);
 extern int func_021BE6BC(int *p);
 extern void func_020061E4(u32 a);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern void func_021F3938(void *a0, int a1, int a2, int a3);
 
 int func_021F3A68(void *a, int *st)
@@ -84,7 +84,7 @@ int func_021F3A68(void *a, int *st)
         i = *q;
         k = func_021F39A8(w, i);
         if (func_021BE6BC(func_021BE674((char *)t, 0, (u8)i, (u8)k))) {
-            func_02006210();
+            GFL_USE_StopAllSe();
             func_020061E4(0x6f0);
             if (w[*q] != 0)
                 f = 0;

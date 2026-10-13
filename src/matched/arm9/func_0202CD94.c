@@ -1,5 +1,5 @@
 /*
- * function: func_0202CD94
+ * function: BGWINFRM_UpdateMoves
  * address:  0x0202CD94
  * packet:   pkt_0202CC70
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0202CDD4  0x0202CDD4  thumb
+ *   BGWINFRM_UpdateMove  0x0202CDD4  thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -22,15 +22,15 @@ struct WinMgr {
     u16 flag : 1;
 };
 
-extern u32 func_0202CDD4(struct WinMgr *mgr, u32 idx);
+extern u32 BGWINFRM_UpdateMove(struct WinMgr *mgr, u32 idx);
 
-void func_0202CD94(struct WinMgr *mgr)
+void BGWINFRM_UpdateMoves(struct WinMgr *mgr)
 {
     u32 i;
 
     if (!mgr->flag) return;
     mgr->flag = 0;
     for (i = 0; i < mgr->unk04; i++) {
-        if (func_0202CDD4(mgr, i) == 1) mgr->flag = 1;
+        if (BGWINFRM_UpdateMove(mgr, i) == 1) mgr->flag = 1;
     }
 }

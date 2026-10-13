@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_020345F8",
+   "name": "VMAN_GetUnitSize",
    "address": "0x020345F8",
    "kind": "game",
    "region": "arm9",
@@ -36,12 +36,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02034630",
-    "sub_02034640"
+    "VMAN_InvalidateHandle",
+    "VMAN_IsHandleInvalid"
+   ],
+   "addresses": [
+    "0x02034630",
+    "0x02034640"
    ]
   },
   {
-   "name": "sub_020346D8",
+   "name": "VMAN_GetOffset",
    "address": "0x020346D8",
    "kind": "game",
    "region": "arm9",

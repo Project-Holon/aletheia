@@ -13,7 +13,7 @@
  * symbols:
  *   func_0215A5DC  0x0215A5DC  thumb  ov010
  *   func_020120F4  0x020120F4  thumb
- *   func_02012F50  0x02012F50  thumb
+ *   GAME_DATA_GetListCursor  0x02012F50  thumb
  *   func_021D096C  0x021D096C  thumb
  */
 #include "../include/Obj12054.h"
@@ -26,7 +26,7 @@ struct Ctx;
 
 extern void *func_0215A5DC(void *a0);
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012F50(void *base);
+extern void *GAME_DATA_GetListCursor(void *base);
 extern void *func_021D096C(void *a);
 
 int func_0216A3F8(int a0, int a1)
@@ -39,7 +39,7 @@ a0 = a1 + 0;
 loc_0216A400:
     p = func_020120F4((const struct Ctx *)v0);
 loc_0216A406:
-    v1 = func_02012F50(p);
+    v1 = GAME_DATA_GetListCursor(p);
 loc_0216A40A:
 a0 = *(int *)&((struct Obj12054 *)((char *)v1))->f0;
     if (a0 != 0) goto loc_0216A41A;

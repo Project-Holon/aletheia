@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035BA4 0x02035BA4 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_HitCont 0x02035BA4 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   d_021F0024 0x021F0024 data a1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02035BA4(const void*);
-extern unsigned func_02035CB8(unsigned*,unsigned*);
+extern int TOUCHPANEL_HitCont(const void*);
+extern unsigned TOUCHPANEL_GetPointCont(unsigned*,unsigned*);
 extern const u8 d_021F0024[];
-int func_021EF1FC(unsigned*a,unsigned*b){if(func_02035BA4(d_021F0024)!=-1){func_02035CB8(a,b);return 1;}return 0;}
+int func_021EF1FC(unsigned*a,unsigned*b){if(TOUCHPANEL_HitCont(d_021F0024)!=-1){TOUCHPANEL_GetPointCont(a,b);return 1;}return 0;}

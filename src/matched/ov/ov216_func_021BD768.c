@@ -10,14 +10,14 @@
  * symbols:
  *   func_021BD668 0x021BD668 thumb ov216
  *   func_021BD73C 0x021BD73C thumb ov216
- *   sub_02031194 0x02031194 arm
+ *   TCBL_DeleteTask 0x02031194 arm
  */
 #include "../include/Obj03375.h"
 typedef unsigned char u8;
 struct TcblNode;
 extern void func_021BD668(char *owner, int direction, int *counter);
 extern int func_021BD73C(char *);
-extern void sub_02031194(struct TcblNode *);
+extern void TCBL_DeleteTask(struct TcblNode *);
 void func_021BD768(struct TcblNode *task, void *data)
 {
     char *p = data;
@@ -41,7 +41,7 @@ void func_021BD768(struct TcblNode *task, void *data)
             break;
     default:
         --**(int * *)&((struct Obj03375 *)p)->fC;
-        sub_02031194(task);
+        TCBL_DeleteTask(task);
         break;
     }
 }

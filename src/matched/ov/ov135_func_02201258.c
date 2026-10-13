@@ -11,7 +11,7 @@
  * symbols:
  *   func_020457B0 0x020457B0 arm
  *   func_02045994 0x02045994 arm
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   func_020458F8 0x020458F8 arm
  *   func_02045A98 0x02045A98 arm
  *   func_02045808 0x02045808 arm
@@ -26,7 +26,7 @@ struct U16Vec;
 struct Strbuf;
 extern struct U16Vec *func_020457B0(u32, u32);
 extern void func_02045994(struct Strbuf *,const u16 *,u32);
-extern u16 *func_02045A90(struct U16Vec *);
+extern u16 *STRBUF_GetChars(struct U16Vec *);
 extern u16 func_020458F8(struct U16Vec *);
 extern u16 func_02045A98(void);
 extern void func_02045808(struct U16Vec *);
@@ -42,7 +42,7 @@ int func_02201258(u8 *p)
     func_02045994((struct Strbuf *)s,(u16 *)(p+0x1F4),8);
     func_02082BCC(p+0x1300,0,0x28);
     ((struct Obj06520 *)p)->f1324=0x48;
-    text=func_02045A90(s);
+    text=STRBUF_GetChars(s);
     for(i=0;i<func_020458F8(s)+1;i++) {
         c=*(u16 *)((u32)text+i*2);
         if(c==func_02045A98()) *(u16 *)((u32)p+i*2+0x1300)=0;

@@ -24,15 +24,15 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_0201210C  0x0201210C  thumb
  *   func_02012374  0x02012374  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   func_02012444  0x02012444  thumb
  *   func_020129B8  0x020129B8  thumb
- *   func_020144DC  0x020144DC  thumb
- *   func_020145CC  0x020145CC  thumb
- *   func_02005C44  0x02005C44  thumb
- *   func_02005D90  0x02005D90  thumb
- *   func_02005DF8  0x02005DF8  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  *   func_02026400  0x02026400  thumb
  *   func_02026454  0x02026454  thumb
  *   func_02026460  0x02026460  thumb
@@ -73,16 +73,16 @@ extern u32 func_02012138(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 struct BigObj;
 extern void func_020129B8(struct BigObj *p, u32 v);
-extern int func_020144DC(int a0, int a1);
-extern void *func_020145CC(void *sys);
-extern u16 func_02005C44(void);
-extern void func_02005D90(u32 h, u32 v);
-extern void func_02005DF8(u32 v);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *sys);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 h, u32 v);
+extern void GFL_USE_FadeInBgmFull(u32 v);
 extern void func_02026400(struct Comm *p);
 extern u32 func_02026454(void *obj);
 extern u32 func_02026460(void *obj);
@@ -110,17 +110,17 @@ int func_0215FA54(void *evt, u32 *state, Work *w)
         (*state)++;
         break;
     case 1:
-        func_02012374(evt, (struct Evt **)func_020144DC((int)sys, (int)proc));
+        func_02012374(evt, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)sys, (int)proc));
         *state = 2;
         break;
     case 2:
         (*state)++;
     case 3:
-        func_020120B4(sys, (u32)ov122_id, d_021D5764, w);
+        GAMESYSTEM_CallProc(sys, (u32)ov122_id, d_021D5764, w);
         (*state)++;
         break;
     case 4:
-        if (func_020120F0(sys) != 0)
+        if (GAMESYSTEM_GetProcStatus(sys) != 0)
             break;
         switch (w->f20) {
         case 0:
@@ -129,7 +129,7 @@ int func_0215FA54(void *evt, u32 *state, Work *w)
             *state = 6;
             break;
         case 1:
-            w->f24 = func_02005C44();
+            w->f24 = GFL_USE_GetBgmNo();
             func_02012444(evt, (u32)ov172_id, (u32)d_021C7240, (u32)w->f0c);
             *state = 5;
             break;
@@ -139,10 +139,10 @@ int func_0215FA54(void *evt, u32 *state, Work *w)
         }
         break;
     case 5:
-        if (func_020120F0(sys) != 0)
+        if (GAMESYSTEM_GetProcStatus(sys) != 0)
             break;
-        func_02005D90(w->f24, 0xFFFF);
-        func_02005DF8(60);
+        GFL_USE_CancelChangeAndPlayBgm(w->f24, 0xFFFF);
+        GFL_USE_FadeInBgmFull(60);
         *state = 6;
         break;
     case 6:
@@ -150,7 +150,7 @@ int func_0215FA54(void *evt, u32 *state, Work *w)
         (*state)++;
         break;
     case 7:
-        func_02012374(evt, func_020145CC(sys));
+        func_02012374(evt, FIELD_STATUS_CreateFieldOpenEvent(sys));
         (*state)++;
         break;
     case 8:

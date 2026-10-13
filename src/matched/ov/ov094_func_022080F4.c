@@ -14,12 +14,12 @@
  *   func_02043678 0x02043678 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_02017E1C 0x02017E1C thumb
- *   func_0201DE00 0x0201DE00 thumb
+ *   GF_FONT_GetTextColor 0x0201DE00 thumb
  *   func_0201DD78 0x0201DD78 thumb
  *   func_0201D304 0x0201D304 thumb
  *   func_0201C7A4 0x0201C7A4 thumb
  *   func_020437D4 0x020437D4 arm
- *   func_0204B7C8 0x0204B7C8 arm
+ *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   func_02082A60 0x02082A60 arm
  *   func_02045808 0x02045808 arm
  *   func_020437AC 0x020437AC arm
@@ -43,12 +43,12 @@ struct Obj020437AC;
 struct U16Vec;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u32 func_02017E1C(void *, u32, u32);
-extern void func_0201DE00(u8 *, u8 *, u8 *);
+extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern void *func_020437D4(const struct Bmp *bmp);
-extern void func_0204B7C8(const char *src, struct Struct36 *dst);
+extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_020437AC(struct Obj020437AC *p);
@@ -63,7 +63,7 @@ void func_022080F4(char *o, E *e, void *data)
     bmp = func_02043678(8, 2, 32, (u16)((((struct Obj01911 *)o)->f448 & 0x7fff) | 0x8000));
     func_02043B5C(bmp, 0);
     func_02017E1C(data, 0x73, (u32)v);
-    func_0201DE00(&c[2], &c[1], &c[0]);
+    GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     func_0201DD78(1, 4, 0);
     if ((int)func_0201D304(v, (u32)(((struct Obj01911 *)o)->f8), (int)0) > 48)
         func_0201C7A4(bmp, 2, 5, v, ((struct Obj01911 *)o)->f8);
@@ -71,7 +71,7 @@ void func_022080F4(char *o, E *e, void *data)
         func_0201C7A4(bmp, 8, 5, v, ((struct Obj01911 *)o)->f8);
     func_0201DD78(c[2], c[1], c[0]);
     pixels = func_020437D4(bmp);
-    func_0204B7C8(e->f0, (struct Struct36 *)(&buf));
+    CLACT_GetActorImageProxy(e->f0, (struct Struct36 *)(&buf));
     if (e->f44 != 0) {
         vram = VRAM_BASE;
         func_02082A60(pixels, (void *)(vram + 0x40 + buf.w[1]), 0xc0);

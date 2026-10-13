@@ -1,5 +1,5 @@
 /*
- * function: func_02012C18
+ * function: GAME_DATA_LoadFromSave
  * address:  0x02012C18
  * packet:   pkt_02012C18
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * 204 bytes, 0x02012C18..0x02012CDC (the listing extent 204 includes the
- * 0x5EC pool word at 0x02012CDC).  Sibling of func_02012CE0, same shape plus
+ * 0x5EC pool word at 0x02012CDC).  Sibling of GAME_DATA_WriteToSave, same shape plus
  * an opening guard `if (func_020071E4(*(u32 *)p) == 1) return;`.
  *
  * docs/notes/pkt_02012C18.c.txt recorded this as an unmovable register
@@ -92,7 +92,7 @@ extern void func_0200E89C(void *sys, void *dest);
 extern struct PlayTime *func_02008748(void *sys);
 extern void func_0200863C(struct PlayTime *dest, const struct PlayTime *src);
 
-void func_02012C18(u8 *p)
+void GAME_DATA_LoadFromSave(u8 *p)
 {
     u32 v;
     u32 h;

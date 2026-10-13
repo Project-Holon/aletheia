@@ -13,6 +13,7 @@
  *
  * symbols:
  *   func_021C2250  0x021C2250  thumb  ov217
+ *   CLACT_StopActorAnim  0x0204B974  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -25,9 +26,9 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Actor;
-extern void func_0204B974(struct Actor *a);
+extern void CLACT_StopActorAnim(struct Actor *a);
 void func_021C2250(u32 a0, u32 a1)
 {
-    func_0204B974((struct Actor *)(*(u32*)(((u8*)a0 + a1 * 24) + 60)));
+    CLACT_StopActorAnim((struct Actor *)(*(u32*)(((u8*)a0 + a1 * 24) + 60)));
 }
 

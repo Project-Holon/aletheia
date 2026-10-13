@@ -1,5 +1,5 @@
 /*
- * function: func_020313EC
+ * function: PROCSYS_MainInternal
  * address:  0x020313EC
  * packet:   pkt_020313EC
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020313A0  0x020313A0  arm
- *   func_020315F0  0x020315F0  arm
- *   func_02031590  0x02031590  arm
- *   func_02031538  0x02031538  arm
+ *   PROCSYS_PushQueued  0x020313A0  arm
+ *   PROCSYS_StepProc  0x020315F0  arm
+ *   PROCSYS_FreeProc  0x02031590  arm
+ *   PROCSYS_NewProc  0x02031538  arm
  *
  * procsys.c: advance the process chain one frame.  A pending call at +0xC
- * is pushed first (func_020313A0); then the current process at +8 runs one
- * step (func_020315F0) and, when it finishes, is freed and replaced either
+ * is pushed first (PROCSYS_PushQueued); then the current process at +8 runs one
+ * step (PROCSYS_StepProc) and, when it finishes, is freed and replaced either
  * by a freshly built process from the parked parameters at +0x14..+0x1C
  * (+0x10 set) or by its parent.
  *
@@ -51,13 +51,13 @@ typedef struct {
     u32 f1c;
 } Obj;
 
-extern int func_020313A0(int a0);
-extern u32   func_020315F0(Node *n);
-extern void func_02031590(void *ptr);
+extern int PROCSYS_PushQueued(int a0);
+extern u32   PROCSYS_StepProc(Node *n);
+extern void PROCSYS_FreeProc(void *ptr);
 struct Obj02031538;
-extern struct Obj02031538 *func_02031538(u32 a0, u32 a1, u32 a2, u32 heap);
+extern struct Obj02031538 *PROCSYS_NewProc(u32 a0, u32 a1, u32 a2, u32 heap);
 
-u32 func_020313EC(Obj *p)
+u32 PROCSYS_MainInternal(Obj *p)
 {
     u32 r;
     Node *prev;
@@ -66,14 +66,14 @@ u32 func_020313EC(Obj *p)
         return 0;
     }
     if (p->f0c != 0) {
-        func_020313A0((int)p);
+        PROCSYS_PushQueued((int)p);
     }
-    r = func_020315F0(p->node);
+    r = PROCSYS_StepProc(p->node);
     if (r == 1) {
         if (p->f10 != 0) {
             prev = p->node->prev;
-            func_02031590(p->node);
-            p->node = (Node *)func_02031538(p->f14, p->f18, p->f1c, p->heap);
+            PROCSYS_FreeProc(p->node);
+            p->node = (Node *)PROCSYS_NewProc(p->f14, p->f18, p->f1c, p->heap);
             if (prev != 0) {
                 prev->next = p->node;
             }
@@ -84,7 +84,7 @@ u32 func_020313EC(Obj *p)
             p->f1c = 0;
         } else {
             prev = p->node->prev;
-            func_02031590(p->node);
+            PROCSYS_FreeProc(p->node);
             p->node = prev;
             if (prev != 0) {
                 prev->next = 0;

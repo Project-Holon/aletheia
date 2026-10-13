@@ -1,5 +1,5 @@
 /*
- * function: func_02012304
+ * function: GAME_EVENT_RunFunc
  * address:  0x02012304
  * packet:   pkt_02012304
  * region:   arm9
@@ -15,8 +15,8 @@
  * and the file is EXACT up to the two bytes of section padding after the pop.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012304.c \
- *       --func func_02012304 --addr 0x02012304 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_EVENT_RunFunc.c \
+ *       --func GAME_EVENT_RunFunc --addr 0x02012304 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -30,7 +30,7 @@ struct S02012304 {
     u32 f0c;
 };
 
-int func_02012304(struct S02012304 *o)
+int GAME_EVENT_RunFunc(struct S02012304 *o)
 {
     return o->f04(o, (unsigned char *)o + 8, o->f0c);
 }

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201D9C8
+ * function: GF_FONT_FreeBuffers
  *
  * gf_font.c's buffer release: frees the three heap blocks the constructor hung
  * off the object at +0x90, +0x84 and +0x88 and closes the resource handle at
@@ -62,7 +62,7 @@ struct Font {
 extern u32 func_020307B0(void *p);
 extern void func_02049238(void *p);
 
-void func_0201D9C8(struct Font *p)
+void GF_FONT_FreeBuffers(struct Font *p)
 {
     if (p->unk90 != 0) {
         func_020307B0(p->unk90);

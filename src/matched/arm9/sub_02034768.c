@@ -14,9 +14,9 @@
  *   func_0207FDCC  0x0207FDCC  arm
  *   func_0207D4B0  0x0207D4B0  arm
  *   func_0207D534  0x0207D534  arm
- *   func_0204E130  0x0204E130  arm
+ *   TEXTPRINT_Init  0x0204E130  arm
  *   func_02043678  0x02043678  arm
- *   sub_02043B5C   0x02043B5C  arm
+ *   BMP_Clear   0x02043B5C  arm
  *   unk_021469AC   0x021469AC  data
  *
  * Bring up the panic screen.  The assert path (sub_02034734 forwards here)
@@ -99,9 +99,9 @@ struct Bmp;
 struct CharBuf;
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void  func_0204E130(u32 a);
+extern void  TEXTPRINT_Init(u32 a);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-extern void sub_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
 void sub_02034768(void)
 {
@@ -133,7 +133,7 @@ void sub_02034768(void)
     BG_PLTT_1 = 0x7fff;
     BG_PLTT_2 = 0x60e1;
 
-    func_0204E130(0);
+    TEXTPRINT_Init(0);
 
     chars = func_02043678(0x20, 8, 0x20, 0);
     unk_021469AC.chars = chars;
@@ -145,5 +145,5 @@ void sub_02034768(void)
     unk_021469AC.bg = 2;
     unk_021469AC.unkB = 0;
 
-    sub_02043B5C(chars, 2);
+    BMP_Clear(chars, 2);
 }

@@ -9,19 +9,19 @@
  * status: EXACT
  * blocker: ARM9 020434CC, unit_0204349C.c omits function: entries for its
  * nested functions. Verified wrapper is MATCH (16 bytes; 020434B4 unresolved).
- * extern void func_0204349C(void),func_020434B4(void);
- * void func_020434CC(void) { func_0204349C(); func_020434B4(); }
- * Blocker symbols: func_0204349C 0x0204349C arm; func_020434B4 0x020434B4 arm.
+ * extern void BG_SYS_ClearMainBgPlanes(void),BG_SYS_ClearMainObjPlane(void);
+ * void BG_SYS_ClearMainPlanes(void) { BG_SYS_ClearMainBgPlanes(); BG_SYS_ClearMainObjPlane(); }
+ * Blocker symbols: BG_SYS_ClearMainBgPlanes 0x0204349C arm; BG_SYS_ClearMainObjPlane 0x020434B4 arm.
  * blocker: ARM9 02043588, unit_02043570.c omits function: entry.
  * Verified wrapper is EXACT (16 bytes), fixed compiler/flags ARM.
- * extern void func_02043558(void),func_02043570(void);
- * void func_02043588(void) { func_02043558(); func_02043570(); }
- * Blocker symbols: func_02043558 0x02043558 arm; func_02043570 0x02043570 arm.
+ * extern void BG_SYS_ClearSubBgPlanes(void),BG_SYS_ClearSubObjPlane(void);
+ * void BG_SYS_ClearSubPlanes(void) { BG_SYS_ClearSubBgPlanes(); BG_SYS_ClearSubObjPlane(); }
+ * Blocker symbols: BG_SYS_ClearSubBgPlanes 0x02043558 arm; BG_SYS_ClearSubObjPlane 0x02043570 arm.
  * volatile: hardware DISPCNT reads at 021DCE34 and 021DCE3E.
  * lever: func_0203159C leaves its allocator result in r0, used by the caller.
  * symbols:
- * func_020434CC 0x020434CC arm
- * func_02043588 0x02043588 arm
+ * BG_SYS_ClearMainPlanes 0x020434CC arm
+ * BG_SYS_ClearSubPlanes 0x02043588 arm
  * func_0203064C 0x0203064C arm
  * func_020490F4 0x020490F4 arm
  * func_0203159C 0x0203159C arm
@@ -49,7 +49,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020434CC(void),func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern void *func_020490F4(u32 id, u32 heap);
 struct Obj0203159C;
@@ -80,7 +80,7 @@ int func_021DCE10(void *a,u32 *state,u8 *ctx)
     void *arc;
     switch(*state) {
     case 0:
-        func_020434CC(); func_02043588();
+        BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
         *(volatile u32 *)0x04000000&=0xffffe0ff;
         *(volatile u32 *)0x04001000&=0xffffe0ff;
         func_0203064C((u32)((void *)1),114,0x80000);

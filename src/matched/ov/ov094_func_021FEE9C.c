@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02014D2C  0x02014D2C  thumb
+ *   MCSS_Draw  0x02014D2C  thumb
  */
 
 struct McssSys;
-void func_02014D2C(struct McssSys *sys);
+void MCSS_Draw(struct McssSys *sys);
 
 void func_021FEE9C(int *p)
 {
-    func_02014D2C((struct McssSys *)p[1]);
+    MCSS_Draw((struct McssSys *)p[1]);
 }

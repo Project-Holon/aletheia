@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02154CA0",
+   "name": "EVENT_BATTLE_REC_SAVE_ProcInit",
    "address": "0x02154CA0",
    "kind": "game",
    "region": "ov008",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02154CC8",
+   "name": "EVENT_BATTLE_REC_SAVE_ProcExit",
    "address": "0x02154CC8",
    "kind": "game",
    "region": "ov008",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021550B0",
+   "name": "EVENT_BATTLE_REC_SAVE_CreateEvent",
    "address": "0x021550B0",
    "kind": "game",
    "region": "ov008",

@@ -1,5 +1,5 @@
 /*
- * function: func_021C4FD0
+ * function: DWCi_SceneSetAossComplete_procScene
  * address:  0x021C4FD0
  * packet:   pkt_021C4660
  * region:   ov016
@@ -10,21 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4FD0   0x021C4FD0  arm
+ *   DWCi_SceneSetAossComplete_procScene   0x021C4FD0  arm
+ *   DWCi_SceneSetAossComplete_draw  0x021C4FE0  arm
  *
- * Call func_021C50A0, func_021C4FE0.
+ * Call func_021C50A0, DWCi_SceneSetAossComplete_draw.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C4FD0.c \
- *       --func func_021C4FD0 --addr 0x021C4FD0 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetAossComplete_procScene.c \
+ *       --func DWCi_SceneSetAossComplete_procScene --addr 0x021C4FD0 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern void func_021C50A0(void);
-extern void func_021C4FE0(void);
+extern void DWCi_SceneSetAossComplete_draw(void);
 
-void func_021C4FD0(void)
+void DWCi_SceneSetAossComplete_procScene(void)
 {
     func_021C50A0();
-    func_021C4FE0();
+    DWCi_SceneSetAossComplete_draw();
 }

@@ -11,18 +11,18 @@
  * blocker: 0x0203CB00 ARM verified MATCH, 52 bytes; copied from
  *   ov099_func_021BEB68.c (leaf-cb00-r1.log).
  *   extern char *d_021469DC;
- *   extern void func_0203CADC(void);
- *   int func_0203CB00(void) {
+ *   extern void GFL_NET_STATE_FatalError(void);
+ *   int GFL_NET_STATE_IsFatalError(void) {
  *       if (d_021469DC != 0) {
- *           if (*(void **)(d_021469DC + 8) == (void *)func_0203CADC) return 1;
+ *           if (*(void **)(d_021469DC + 8) == (void *)GFL_NET_STATE_FatalError) return 1;
  *       }
  *       return 0;
  *   }
- *   symbols: d_021469DC 0x021469DC data; func_0203CADC 0x0203CADC arm.
+ *   symbols: d_021469DC 0x021469DC data; GFL_NET_STATE_FatalError 0x0203CADC arm.
  * symbols:
- *   func_0203CB00 0x0203CB00 arm
+ *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
  *   func_021BE900 0x021BE900 thumb ov099
- *   func_02156A3C 0x02156A3C thumb ov009
+ *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  *   func_021BA928 0x021BA928 thumb ov099
  *   func_020362DC 0x020362DC arm
@@ -33,9 +33,9 @@
  *   func_021BFB90 0x021BFB90 thumb ov099
  */
 typedef unsigned char u8;
-extern int func_0203CB00(void);
+extern int GFL_NET_STATE_IsFatalError(void);
 extern void func_021BE900(char *);
-extern int func_02156A3C(void);
+extern int DWC_RAP_GetTargetFriendIndex(void);
 extern void func_021BAAB8(char *, int, int);
 extern int func_021BA928(char *);
 typedef unsigned int   u32;
@@ -47,11 +47,11 @@ extern void func_021C24A4(char *, int);
 extern int func_021BFB90(char *, int);
 int func_021BFB04(char *p, int ret)
 {
-    if (func_0203CB00()) {
+    if (GFL_NET_STATE_IsFatalError()) {
         func_021BE900(p);
         return ret;
     }
-    if (func_02156A3C() < 0) {
+    if (DWC_RAP_GetTargetFriendIndex() < 0) {
         func_021BAAB8(p, 0x10, 0);
         *(int *)(p + 0x1cc) = 0x13;
         return ret;

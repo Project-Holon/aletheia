@@ -1,5 +1,5 @@
 /*
- * function: func_02173AB4
+ * function: INTRUDE_COMM_RecvReply
  * address: 0x02173AB4
  * packet: pkt_ov011_02173AB4
  * region: ov011
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021754E8 0x021754E8 thumb ov011
+ *   INTRUDE_COMM_SetRequestResult 0x021754E8 thumb ov011
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021754E8(u8 *p, int a, int b, int c);
+void INTRUDE_COMM_SetRequestResult(u8 *p, int a, int b, int c);
 
-void func_02173AB4(int a, int b, u8 *c, u8 *d)
+void INTRUDE_COMM_RecvReply(int a, int b, u8 *c, u8 *d)
 {
     u8 v;
     v = c[1];
-    if (v == d[0x159]) func_021754E8((u8 *)((int)d), a, c[0], v);
+    if (v == d[0x159]) INTRUDE_COMM_SetRequestResult((u8 *)((int)d), a, c[0], v);
     else (d + a)[0x948] = v;
 }

@@ -21,7 +21,7 @@
  *   g_02146970      0x02146970  data
  *   g_0214697C      0x0214697C  data
  *   str_system_name 0x020A7824  data
- *   func_020304C0   0x020304C0  arm
+ *   GFL_HEAP_GetBlockName   0x020304C0  arm
  *   func_02060F90   0x02060F90  arm
  *   func_020308B8   0x020308B8  arm
  *   func_0203F004   0x0203F004  arm
@@ -85,7 +85,7 @@ extern struct AllocInfo g_02146970;
 extern char g_0214697C[0x13];
 extern const char str_system_name[];
 
-extern void *func_020304C0(void *p);
+extern void *GFL_HEAP_GetBlockName(void *p);
 extern int func_02060F90(char *p);
 extern int func_020308B8(u8 *dst, const char *src);
 extern u32 func_0203F004(const u8 *s);
@@ -95,7 +95,7 @@ void func_02030A7C(void *heap)
 {
     u8 buf[0x14];
     u8 *p = (u8 *)heap + 0x1c;
-    void *h = func_020304C0(p);
+    void *h = GFL_HEAP_GetBlockName(p);
     u16 v;
     s32 n;
     s32 k;

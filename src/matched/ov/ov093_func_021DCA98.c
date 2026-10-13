@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021D775C  0x021D775C  thumb  ov093
- *   func_0201C1E8  0x0201C1E8  thumb
+ *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
  *   func_021D76BC  0x021D76BC  thumb  ov093
  */
 
@@ -20,14 +20,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern int func_0201C1E8(int a);
+extern int WAZA_TOOL_GetDamageType(int a);
 extern int func_021D76BC(int key, u32 val);
 
 void func_021DCA98(int a, int b, int c)
 {
     u8 v;
 
-    if (c == func_021D775C(3) && func_0201C1E8((u16)func_021D775C(0x12)) == 0) {
+    if (c == func_021D775C(3) && WAZA_TOOL_GetDamageType((u16)func_021D775C(0x12)) == 0) {
         v = func_021D775C(0x18);
         func_021D76BC(0x18, v + 1);
     }

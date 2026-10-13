@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201E4C8",
+   "name": "GF_FONT_InitBitReader",
    "address": "0x0201E4C8",
    "kind": "game",
    "region": "arm9",

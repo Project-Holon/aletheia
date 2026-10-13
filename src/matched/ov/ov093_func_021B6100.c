@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * note 2026-10-05: the arm9 witnesses src/matched/arm9/func_020083AC.c and func_020083C8.c now exist as EXACT files; the only wildcards left are those two bl targets, so this should lift to EXACT once the integrator regenerates the manifest/labels.
+ * note 2026-10-05: the arm9 witnesses src/matched/arm9/CONFIG_GetBattleScene.c and CONFIG_GetBattleStyle.c now exist as EXACT files; the only wildcards left are those two bl targets, so this should lift to EXACT once the integrator regenerates the manifest/labels.
  * lever: the readiness result is held in its own local and the flag
  *   default is written after the call (ready = f(...); flag = 0; if (ready)
  *   flag = 1;); flag = 0 before the call keeps it in r5 (4 bytes), and
@@ -33,11 +33,11 @@
  *   func_02082A7C 0x02082A7C arm
  *   func_021E8DC4 0x021E8DC4 thumb ov093
  *   func_021E88CC 0x021E88CC thumb ov093
- *   func_020057C4 0x020057C4 thumb
- *   func_020057AC 0x020057AC thumb
- *   func_02008374 0x02008374 thumb
- *   func_020083AC 0x020083AC thumb
- *   func_020083C8 0x020083C8 thumb
+ *   GFL_USE_IsMuteHookActive 0x020057C4 thumb
+ *   GFL_USE_SetSleepVolumeHooks 0x020057AC thumb
+ *   CONFIG_GetTextSpeed 0x02008374 thumb
+ *   CONFIG_GetBattleScene 0x020083AC thumb
+ *   CONFIG_GetBattleStyle 0x020083C8 thumb
  *   func_021EF958 0x021EF958 thumb ov093
  *   func_021B93E0 0x021B93E0 thumb ov093
  *   func_021BA82C 0x021BA82C thumb ov093
@@ -106,11 +106,11 @@ extern void func_02082A7C(u32, void *, u32);
 struct S;
 extern void func_021E8DC4(unsigned short heap);
 extern void func_021E88CC(void);
-extern int func_020057C4(void);
-extern void func_020057AC(void);
-extern u32 func_02008374(int);
-extern u32 func_020083AC(void *);
-extern u32 func_020083C8(void *);
+extern int GFL_USE_IsMuteHookActive(void);
+extern void GFL_USE_SetSleepVolumeHooks(void);
+extern u32 CONFIG_GetTextSpeed(int);
+extern u32 CONFIG_GetBattleScene(void *);
+extern u32 CONFIG_GetBattleStyle(void *);
 extern void *func_021EF958(u32);
 extern void func_021B93E0(char *, u32, u32);
 extern void func_021BA82C(char *);
@@ -144,9 +144,9 @@ int func_021B6100(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
       func_02082A7C(0, p, 0x474);
       func_021E8DC4(0x13);
       func_021E88CC();
-      if (!func_020057C4())
+      if (!GFL_USE_IsMuteHookActive())
       {
-        func_020057AC();
+        GFL_USE_SetSleepVolumeHooks();
         p[0x473] |= 0x80;
       }
       *((u16 *) (p + 0x468)) = 0x12;
@@ -166,8 +166,8 @@ int func_021B6100(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
       flag = 0;
       *((u32 *) (p + 4)) = 0;
       *((u32 *) (p + 0x444)) = 7;
-      *((u32 *) (p + 0x43c)) = func_02008374(*((int *) ((*((u8 **) p)) + 0x5c)));
-      if (func_020083AC(*((void **) (q + 0x5c))) == 0)
+      *((u32 *) (p + 0x43c)) = CONFIG_GetTextSpeed(*((int *) ((*((u8 **) p)) + 0x5c)));
+      if (CONFIG_GetBattleScene(*((void **) (q + 0x5c))) == 0)
         flag = 1;
       ((struct FlagByte *) (p + 0x473))->a2 = (u8) flag;
       *((void **) (p + 0x2bc)) = func_021EF958(*((u16 *) (p + 0x468)));
@@ -191,7 +191,7 @@ int func_021B6100(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
           (*((u8 **) p))[0x44 + i] = 0;
       }
       func_021D8230(p + 0x448);
-      ready = func_020083C8(*((void **) (q + 0x5c)));
+      ready = CONFIG_GetBattleStyle(*((void **) (q + 0x5c)));
       flag = 0;
       if (ready != 0)
         flag = 1;

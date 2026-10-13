@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CB1C4",
+   "name": "DWCi_SceneSetRakuComplete_procScene",
    "address": "0x021CB1C4",
    "kind": "game",
    "region": "ov016",
@@ -43,7 +43,7 @@
    }
   },
   {
-   "name": "func_021CBFD8",
+   "name": "DWCi_SceneSetSelectAp_procScene",
    "address": "0x021CBFD8",
    "kind": "game",
    "region": "ov016",

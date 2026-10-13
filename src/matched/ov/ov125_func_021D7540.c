@@ -11,6 +11,8 @@
  * symbols:
  *   d_0214616C 0x0214616C data a4
  *   func_0203F1FC 0x0203F1FC arm
+ *   BATTLE_REC_SaveSeq  0x0200B67C  thumb  arm9
+ *   BATTLE_REC_Encode  0x0200B908  thumb  arm9
  */
 
 #include "../include/G_BattleRec.h"
@@ -20,9 +22,9 @@ extern struct BattleRec *d_0214616C;
 typedef unsigned char  u8;
 extern u16 func_0203F1FC(const u8 *src, unsigned int len);
 typedef unsigned int   u32;
-extern void func_0200B908(void *a, u32 b, u32 c);
+extern void BATTLE_REC_Encode(void *a, u32 b, u32 c);
 struct BattleRec;
-extern u32 func_0200B67C(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e);
+extern u32 BATTLE_REC_SaveSeq(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e);
 int func_021D7540(void *a, int x, int mode, u16 *state, u16 *b, u16 c)
 {
     unsigned int value;
@@ -34,11 +36,11 @@ int func_021D7540(void *a, int x, int mode, u16 *state, u16 *b, u16 c)
             *(u16 *)(((char *)d_0214616C) + 0xc0) = func_0203F1FC((const u8 *)(((char *)d_0214616C) + 0x80), 56);
         }
         value = *(u16 *)(((char *)d_0214616C) + 0x18a0);
-        func_0200B908(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
+        BATTLE_REC_Encode(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
         ++*state;
         break;
     case 1:
-        return func_0200B67C(a, (struct BattleRec *)((char *)d_0214616C), x, b, c);
+        return BATTLE_REC_SaveSeq(a, (struct BattleRec *)((char *)d_0214616C), x, b, c);
     }
     return 0;
 }
@@ -46,5 +48,5 @@ void func_021D75C0(void)
 {
     unsigned int value;
     value = *(u16 *)(((char *)d_0214616C) + 0x18a0);
-    func_0200B908(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
+    BATTLE_REC_Encode(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
 }

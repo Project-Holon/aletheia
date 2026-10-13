@@ -1,5 +1,5 @@
 /*
- * function: func_020399EC
+ * function: GFL_NET_HANDLE_GetNegotiationNum
  * address:  0x020399EC
  * packet:   pkt_020399EC
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Count how many of the eight slots answer non-zero to the probe: when
- * func_0203D788() is null the count is zero, otherwise every slot is asked
+ * GFL_NET_GetSession() is null the count is zero, otherwise every slot is asked
  * through func_0203996C(i) and func_020399B8(), and each non-zero answer bumps
  * the counter (the `addne r5, r5, #1` after the loop's `add r4, r4, #1`).
  *
@@ -25,29 +25,29 @@
  * Addresses are Black-image addresses.
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *   func_0203996C  0x0203996C  arm
  *   func_020399B8  0x020399B8  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020399EC.c \
- *       --func func_020399EC --addr 0x020399EC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_GetNegotiationNum.c \
+ *       --func GFL_NET_HANDLE_GetNegotiationNum --addr 0x020399EC --cc 1.1p1 --arm
  */
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 typedef signed int     s32;
 struct Entry;
 extern struct Entry *func_0203996C(s32 idx);
 extern u32 func_020399B8(u8 *p);
 
-int func_020399EC(void)
+int GFL_NET_HANDLE_GetNegotiationNum(void)
 {
     int i;
     int c;
 
-    if (func_0203D788() != 0) {
+    if (GFL_NET_GetSession() != 0) {
         c = 0;
         for (i = 0; i < 8; i++) {
             if (func_020399B8((u8 *)func_0203996C(i)) != 0)

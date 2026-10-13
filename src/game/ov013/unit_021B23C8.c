@@ -10,16 +10,15 @@
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      OS_InitIrqTable (libos.TWL.HYB.a(os_interrupt.o))
- *
  * symbols:
- *   OSi_IrqThreadQueue 0x021b4be0 data
+ *   gVctPeerPool 0x021B4BE0 data
  */
 
-extern int OSi_IrqThreadQueue;
+#include "vct_types.h"
 
+/* Empty the free and active peer lists of the peer pool. */
 void OS_InitIrqTable(void)
 {
-    ((int *)&OSi_IrqThreadQueue)[1] = 0;
-    ((int *)&OSi_IrqThreadQueue)[0] = 0;
+    gVctPeerPool.activeHead = 0;
+    gVctPeerPool.freePeers = 0;
 }

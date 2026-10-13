@@ -156,7 +156,7 @@ void func_02062F78(struct AnimState *state);
  * a leaf with no relocation sites at all -- the only address it ever adds is
  * its own argument.
  *
- * Neighbour of src/matched/func_02062B64.c, which is the block-chain lookup
+ * Neighbour of src/matched/NNS_G2dFindBinaryBlock.c, which is the block-chain lookup
  * for the same NITRO file format; this is what the caller runs over the block
  * that lookup returns.
  *
@@ -551,7 +551,7 @@ int func_02062F00(void *s, u32 i)
  * the shifts being logical is the evidence that the subtraction is done in
  * u32, not as a signed ptrdiff.
  *
- * This is the missing witness for src/pending/sub_0204B918.c, the only
+ * This is the missing witness for src/pending/CLACT_GetActorAnimSeqCount.c, the only
  * other reference to this address in the image.
  *
  * Verified with:

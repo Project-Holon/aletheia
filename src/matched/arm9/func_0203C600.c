@@ -1,5 +1,5 @@
 /*
- * function: func_0203C600
+ * function: GFL_NET_STATE_IsWifiLoginState
  * address:  0x0203C600
  * packet:   pkt_0203C600
  * region:   arm9
@@ -9,19 +9,19 @@
  * isa:      arm
  * status:   EXACT
  *
- * Unlabelled ARM predicate: the callback at +8 of the card task object is func_0203C0F4.
+ * Unlabelled ARM predicate: the callback at +8 of the card task object is GFL_NET_STATE_WifiLoginMain.
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
- *   func_0203C0F4  0x0203C0F4  arm
+ *   _pNetState     0x021469DC  data
+ *   GFL_NET_STATE_WifiLoginMain  0x0203C0F4  arm
  */
 
 #include "../include/G_Sys.h"
 
-extern struct Sys *g_021469DC;
-extern void func_0203C0F4(void *p);
+extern struct Sys *_pNetState;
+extern void GFL_NET_STATE_WifiLoginMain(void *p);
 
-int func_0203C600(void)
+int GFL_NET_STATE_IsWifiLoginState(void)
 {
-    return g_021469DC->cb == (void *)func_0203C0F4;
+    return _pNetState->cb == (void *)GFL_NET_STATE_WifiLoginMain;
 }

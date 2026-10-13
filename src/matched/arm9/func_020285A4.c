@@ -1,5 +1,5 @@
 /*
- * function: func_020285A4
+ * function: APP_KEYCURSOR_Create
  * address:  0x020285A4
  * packet:   pkt_02028590
  * region:   arm9
@@ -37,7 +37,7 @@ struct KeyCursor {
     u16  id;      /* 0x08 */
 };
 
-struct KeyCursor *func_020285A4(u16 id, u32 live, u32 flip, u16 heap,
+struct KeyCursor *APP_KEYCURSOR_Create(u16 id, u32 live, u32 flip, u16 heap,
                                 void *pixels)
 {
     struct KeyCursor *k;

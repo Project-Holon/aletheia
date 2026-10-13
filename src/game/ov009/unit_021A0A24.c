@@ -16,7 +16,7 @@
  *   func_021A0378  0x021A0378  arm  ov009
  *   func_0219D478  0x0219D478  arm  ov009
  *   func_0219F978  0x0219F978  arm  ov009
- *   func_021A0A1C  0x021A0A1C  arm  ov009
+ *   SBServerListSetLastError  0x021A0A1C  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   func_02184200  0x02184200  arm  ov009
  *   func_0219F8B0  0x0219F8B0  arm  ov009
@@ -41,7 +41,7 @@
  *   func_0219FFD4  0x0219FFD4  arm  ov009
  *   func_0219FF30  0x0219FF30  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
- *   func_0219E9AC  0x0219E9AC  arm  ov009
+ *   SBServerSetFlags  0x0219E9AC  arm  ov009
  *   func_0217F264  0x0217F264  arm  ov009
  *   func_0217EB2C  0x0217EB2C  arm  ov009
  */
@@ -184,7 +184,7 @@ typedef struct {
 extern void func_021A0378(SBServerList *slist, char *key, int keylen);
 extern void func_0219D478(void *state, unsigned char *bp, int len);
 extern int func_0219F978(char *buf, int len);
-extern void func_021A0A1C(SBServerList *slist, char *theError);
+extern void SBServerListSetLastError(SBServerList *slist, char *theError);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern int func_02184200(void *array);
 extern char *func_0219F8B0(SBServerList *slist, char *str);
@@ -208,7 +208,7 @@ extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern int func_0219FFD4(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
 extern int func_0219FF30(SBServerList *slist, char *data, int len);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
-extern void func_0219E9AC(unsigned char *p, unsigned char v);
+extern void SBServerSetFlags(unsigned char *p, unsigned char v);
 extern unsigned int func_0217F264(void);
 extern int func_0217EB2C(int sock);
 SBError func_021A0A24(SBServerList *slist);
@@ -277,7 +277,7 @@ SBError func_021A0A24(SBServerList *slist)
             int keylen = func_0219F978(inbuf + 6, inlen - 6);
             if (keylen == -1)
                 break;
-            func_021A0A1C(slist, inbuf + 6);
+            SBServerListSetLastError(slist, inbuf + 6);
             slist->ListCallback(slist, 5, g_021AEB00, slist->instance);
             if (slist->inbuffer == NULL)
                 break;
@@ -798,7 +798,7 @@ int func_021A1804(SBServerList *slist)
         server = func_0219E900((int)slist, saddr.addr, saddr.port);
         if (func_0219E9D8((int)server))
             return 5;
-        func_0219E9AC((unsigned char *)server, 0x11);
+        SBServerSetFlags((unsigned char *)server, 0x11);
         func_0219F638(slist, server);
     }
     if (func_0217F264() - slist->lanstarttime > 2000) {

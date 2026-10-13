@@ -1,7 +1,7 @@
 /*
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
  *
- * function: func_0201DA00
+ * function: GF_FONT_SetFormat
  * address:  0x0201DA00
  * packet:   pkt_0201DA00
  * region:   arm9
@@ -17,7 +17,7 @@
  * gf_font.c's format selector: it records the requested glyph format in the
  * object's first word and dispatches on it through a four-entry table of
  * initialisers, handing each the cell width and height the constructor left at
- * +0x7E and +0x7F.  func_0201DADC, src/pending/sub_0201DADC.c, is the matching
+ * +0x7E and +0x7F.  GF_FONT_ExitFormat, src/pending/sub_0201DADC.c, is the matching
  * teardown and dispatches on the same word through the neighbouring table.
  *
  * Every concrete byte is reproduced.  The one unresolved relocation is the
@@ -36,7 +36,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/sub_0201DA00.c \
- *       --func func_0201DA00 --addr 0x0201DA00 --cc 1.1p1 --thumb
+ *       --func GF_FONT_SetFormat --addr 0x0201DA00 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -53,7 +53,7 @@ typedef void (*FontInit)(struct Font *f, u32 w, u32 h, u32 heap);
 
 extern FontInit g_0209E73C[];
 
-void func_0201DA00(struct Font *f, u32 fmt, u32 heap)
+void GF_FONT_SetFormat(struct Font *f, u32 fmt, u32 heap)
 {
     f->unk00 = fmt;
     g_0209E73C[fmt](f, f->unk7E, f->unk7F, heap);

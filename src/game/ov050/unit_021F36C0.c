@@ -30,126 +30,148 @@
  *   d_021F38A4     0x021F38A4  data  a4
  *   d_021F38B4     0x021F38B4  data  a4
  */
-#include "../../matched/include/Obj20550.h"
+#include "../ov021/fld_exp_obj_types.h"
+#include "unit_021F36C0_types.h"
 
-typedef unsigned int   u32;
+void func_021F36C0(struct FieldMap *fieldMap);
+void func_021F36EC(struct FieldMap *fieldMap);
+void func_021F3708(struct FieldMap *fieldMap);
+void func_021F3714(struct FieldMap *fieldMap);
+void func_021F3744(struct FieldMap *fieldMap);
+int func_021F3758(struct FieldMap *fieldMap);
+void func_021F3788(struct FieldMap *fieldMap);
+void func_021F37B8(struct FieldMap *fieldMap);
+int func_021F3808(struct FieldMap *fieldMap);
+void func_021F383C(Gimmick50Work *work, struct FieldMap *fieldMap);
+void func_021F3890(Gimmick50Work *work, struct FieldMap *fieldMap);
+extern void func_021F3894(Gimmick50Work *work, struct FieldMap *fieldMap);
 
-typedef struct { int a; int b; int c; } T12;
+extern const G3dUtilSetup d_021F38A4;
+extern const VecFx32 d_021F38B4[GIMMICK50_MODEL_COUNT];
 
-extern unsigned short func_02188C84(unsigned char *);
-extern void *func_02189764(unsigned char *, int, int, int);
-extern int *func_021897BC(char *, int);
-extern void func_021F3894(int *, char *);
-extern void func_021897A0(unsigned char *, int);
-extern void *func_02188D2C(void *p);
-extern void func_021BE580(void *p);
-extern void func_021BE700(void *p, int i, unsigned short j, unsigned short k, int flag);
-extern void *func_021BE674(void *p, int i, unsigned short j, unsigned short k);
-extern void func_021BE6B8(unsigned char *,int);
-extern int func_021BE6BC(int *);
-extern void func_021BE4B4(char *,int,int,int);
-extern void func_021BE760(int a, void *b, int c);
-extern T12 *func_021BE480(int a, int b, unsigned short c);
-void func_021F36C0(unsigned char *p);
-void func_021F36EC(char *p);
-void func_021F3708(void *p);
-void func_021F3714(int *p);
-void func_021F3744(int *p);
-int func_021F3758(int *p);
-void func_021F3788(int *p);
-void func_021F37B8(int *a);
-int func_021F3808(int *p);
-void func_021F383C(void *unused, int *b);
-void func_021F3890(void *q, unsigned char *p);
-extern int d_021F38A4;
-extern const T12 d_021F38B4[];
-
-
-
-
-void func_021F36C0(unsigned char *p) { unsigned short h; void *q; h=func_02188C84(p); q=func_02189764(p,1,h,2); ((struct Obj20550 *)q)->f0=h; func_021F383C(q,(int *)p); func_021F3890(q,p); }
-
-
-
-
-void func_021F36EC(char *p) { func_021F3894(func_021897BC(p,1),p); func_021897A0((unsigned char *)p,1); }
-
-
-void func_021F3708(void *p)
+/* Gimmick setup: allocate the common work, then place the models. */
+void func_021F36C0(struct FieldMap *fieldMap)
 {
-    func_021BE580(func_02188D2C(p));
+    u16 heapId;
+    Gimmick50Work *work;
+
+    heapId = func_02188C84(fieldMap);
+    work = func_02189764(fieldMap, 1, heapId, 2);
+    work->heapId = heapId;
+    func_021F383C(work, fieldMap);
+    func_021F3890(work, fieldMap);
 }
 
-
-
-
-
-void func_021F3714(int *p) { char *q=(char *)func_02188D2C(p); func_021BE700(q,0,0,0,1); func_021BE6B8(func_021BE674(q,0,0,0),0); }
-
-
-
-
-
-void func_021F3744(int *p) { func_021BE700((void *)func_02188D2C(p), 0, 0, 0, 0); }
-
-
-
-
-int func_021F3758(int *p) { int i; char *q; q=(char *)func_02188D2C(p); for(i=0;i<1;i++) { if(func_021BE6BC(func_021BE674(q,0,0,(unsigned short)i))==0) return 0; } return 1; }
-
-
-
-void func_021F3788(int *p) { int i; char *q; q=(char *)func_02188D2C(p); func_021BE4B4(q,0,1,1); for(i=0;i<2;i++) func_021BE700(q,0,1,(unsigned short)i,0); }
-
-
-
-
-void func_021F37B8(int *a)
+/* Gimmick exit: release the common work. */
+void func_021F36EC(struct FieldMap *fieldMap)
 {
-    char *r6;
+    func_021F3894(func_021897BC(fieldMap, 1), fieldMap);
+    func_021897A0(fieldMap, 1);
+}
+
+/* Gimmick update: advance the animations. */
+void func_021F3708(struct FieldMap *fieldMap)
+{
+    func_021BE580(func_02188D2C(fieldMap));
+}
+
+/* Script command: start the animation of model 0 and let it stop at the last frame. */
+void func_021F3714(struct FieldMap *fieldMap)
+{
+    FldExpObjCnt *expObj = func_02188D2C(fieldMap);
+
+    func_021BE700(expObj, 0, 0, 0, 1);
+    func_021BE6B8(func_021BE674(expObj, 0, 0, 0), 0);
+}
+
+/* Switch the animation of model 0 off. */
+void func_021F3744(struct FieldMap *fieldMap)
+{
+    func_021BE700(func_02188D2C(fieldMap), 0, 0, 0, 0);
+}
+
+/* Script command: 1 when the animation of model 0 has stopped. */
+int func_021F3758(struct FieldMap *fieldMap)
+{
+    int i;
+    FldExpObjCnt *expObj;
+
+    expObj = func_02188D2C(fieldMap);
+    for (i = 0; i < 1; i++) {
+        if (func_021BE6BC(func_021BE674(expObj, 0, 0, i)) == 0)
+            return 0;
+    }
+    return 1;
+}
+
+/* Hide model 1 and switch both of its animations off. */
+void func_021F3788(struct FieldMap *fieldMap)
+{
+    int i;
+    FldExpObjCnt *expObj;
+
+    expObj = func_02188D2C(fieldMap);
+    func_021BE4B4(expObj, 0, 1, 1);
+    for (i = 0; i < 2; i++)
+        func_021BE700(expObj, 0, 1, i, 0);
+}
+
+/* Script command: show model 1 and play both of its animations once. */
+void func_021F37B8(struct FieldMap *fieldMap)
+{
+    FldExpObjCnt *expObj;
     int i;
     int j;
 
-    r6 = (char *)(int)func_02188D2C(a);
-    func_021BE4B4(r6, 0, 1, 0);
+    expObj = func_02188D2C(fieldMap);
+    func_021BE4B4(expObj, 0, 1, 0);
     for (i = 0; i < 2; i++)
-        func_021BE700(r6, 0, 1, i, 1);
+        func_021BE700(expObj, 0, 1, i, 1);
     for (j = 0; j < 2; j++)
-        func_021BE6B8(func_021BE674(r6, 0, 1, j), 0);
+        func_021BE6B8(func_021BE674(expObj, 0, 1, j), 0);
 }
-
-
 
 /*
- * note: two-byte alignment padding at 0x021F383A; index declared before pointer restores r4/r5; u16 fourth parameter matches call-site truncation.
+ * Script command: 1 when both animations of model 1 have stopped.
+ * note: two-byte alignment padding at 0x021F383A; index declared before pointer restores r4/r5.
  */
-int func_021F3808(int *p) { int i; char *q; q=(char *)(int)func_02188D2C(p); for(i=0;i<2;i++) { if(func_021BE6BC((int *)func_021BE674(q, 0, 1, i))==0) return 0; } return 1; }
-
-
-
-
-void func_021F383C(void *unused, int *b)
+int func_021F3808(struct FieldMap *fieldMap)
 {
-    int r4;
     int i;
-    T12 *p;
-    const T12 *s;
+    FldExpObjCnt *expObj;
 
-    r4 = (int)func_02188D2C(b);
-    func_021BE760(r4, &d_021F38A4, 0);
+    expObj = func_02188D2C(fieldMap);
     for (i = 0; i < 2; i++) {
-        p = func_021BE480(r4, 0, i);
-        s = &d_021F38B4[i];
-        p->a = s->a;
-        p->b = s->b;
-        p->c = s->c;
+        if (func_021BE6BC(func_021BE674(expObj, 0, 1, i)) == 0)
+            return 0;
     }
-    func_021F3744(b);
-    func_021F3788(b);
+    return 1;
 }
 
+/* Load the unit, place the two models, then switch off model 0 and hide model 1. */
+void func_021F383C(Gimmick50Work *work, struct FieldMap *fieldMap)
+{
+    FldExpObjCnt *expObj;
+    int i;
+    G3dObjectStatus *status;
+    const VecFx32 *pos;
 
+    expObj = func_02188D2C(fieldMap);
+    func_021BE760(expObj, &d_021F38A4, 0);
+    for (i = 0; i < GIMMICK50_MODEL_COUNT; i++) {
+        status = func_021BE480(expObj, 0, i);
+        pos = &d_021F38B4[i];
+        status->trans.x = pos->x;
+        status->trans.y = pos->y;
+        status->trans.z = pos->z;
+    }
+    func_021F3744(fieldMap);
+    func_021F3788(fieldMap);
+}
 
-void func_021F3890(void *q, unsigned char *p)
+/*
+ * Empty function.
+ */
+void func_021F3890(Gimmick50Work *work, struct FieldMap *fieldMap)
 {
 }

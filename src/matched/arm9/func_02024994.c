@@ -1,5 +1,5 @@
 /*
- * function: func_02024994
+ * function: PMS_WORD_CheckFlag
  * address:  0x02024994
  * packet:   pkt_02024994
  * region:   arm9
@@ -14,4 +14,4 @@
  * symbols:
  */
 typedef unsigned int u32;
-int func_02024994(const u32 *p, u32 idx){return (*p >> idx) & 1;}
+int PMS_WORD_CheckFlag(const u32 *p, u32 idx){return (*p >> idx) & 1;}

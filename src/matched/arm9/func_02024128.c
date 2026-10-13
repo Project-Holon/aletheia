@@ -1,5 +1,5 @@
 /*
- * function: func_02024128
+ * function: PMSI_PARAM_GetWords
  * address:  0x02024128
  * packet:   pkt_02024128
  * region:   arm9
@@ -21,7 +21,7 @@ struct Src02024128 {
     unsigned short b;
 };
 
-void func_02024128(struct Src02024128 *p, unsigned short *__restrict out)
+void PMSI_PARAM_GetWords(struct Src02024128 *p, unsigned short *__restrict out)
 {
     out[0] = p->a;
     out[1] = p->b;

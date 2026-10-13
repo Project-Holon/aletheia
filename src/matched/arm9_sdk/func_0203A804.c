@@ -1,5 +1,5 @@
 /*
- * function: func_0203A804
+ * function: GFL_NET_COMMAND_IsHugeCommand
  * address:  0x0203A804
  * packet:   pkt_0203A804
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203A748   0x0203A748  arm
+ *   GFL_NET_COMMAND_GetSizeFunc   0x0203A748  arm
  */
 
-extern int func_0203A748(unsigned int idx);
+extern int GFL_NET_COMMAND_GetSizeFunc(unsigned int idx);
 
-int func_0203A804(unsigned int idx)
+int GFL_NET_COMMAND_IsHugeCommand(unsigned int idx)
 {
-    return func_0203A748(idx) != 0;
+    return GFL_NET_COMMAND_GetSizeFunc(idx) != 0;
 }

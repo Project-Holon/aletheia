@@ -8,20 +8,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02017E64, func_02017E88, func_02017EAC, func_02017EB4,
- *           func_02017ED8, func_02017F00, func_02017F08, func_02017F50,
- *           func_02017F90, func_02017F9C, func_02017FA8
+ * function: POKE_TOOL_SetBoxValue, func_02017E88, func_02017EAC, POKE_TOOL_IsBoxShiny,
+ *           func_02017ED8, POKE_TOOL_GetGender, POKE_TOOL_GetBoxGender, POKE_TOOL_CalcGender,
+ *           POKE_TOOL_GetStatusCondition, POKE_TOOL_SetStatusCondition, POKE_TOOL_SetDefaultMoves
  *
  * symbols:
  *   func_02017DBC  0x02017DBC  thumb
  *   func_02017DE4  0x02017DE4  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02017E40  0x02017E40  thumb
- *   func_02017FB0  0x02017FB0  thumb
- *   func_02018D34  0x02018D34  thumb
- *   func_02018D8C  0x02018D8C  thumb
- *   func_02018E34  0x02018E34  thumb
- *   func_02019388  0x02019388  thumb
+ *   POKE_TOOL_SetBoxDefaultMoves  0x02017FB0  thumb
+ *   POKE_TOOL_DecodeBoxBlock  0x02018D34  thumb
+ *   POKE_TOOL_EncodeBoxBlock  0x02018D8C  thumb
+ *   POKE_TOOL_GetBoxValueRaw  0x02018E34  thumb
+ *   POKE_TOOL_SetBoxValueRaw  0x02019388  thumb
  *   func_02019C54  0x02019C54  thumb
  *   func_0201AE1C  0x0201AE1C  thumb
  *
@@ -29,15 +29,15 @@
  * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
  * 0x02017FA8, and the two twelve byte argument-setting thunks at 0x02017F90
  * and 0x02017F9C, all of them
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, func_02017F00
- * and func_02017FA8 each tail call the function immediately after them, which
+ * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, POKE_TOOL_GetGender
+ * and POKE_TOOL_SetDefaultMoves each tail call the function immediately after them, which
  * makes two of the three sites the `local` class.
  *
  * func_02017ED8 folds two words to sixteen bits and its four XOR operands have
  * exactly one source order, which is not the order the `eors` appear in; see
  * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
  *
- * func_02017F50 dispatches 0, 0xFE and 0xFF out of a byte and falls through to
+ * POKE_TOOL_CalcGender dispatches 0, 0xFE and 0xFF out of a byte and falls through to
  * a comparison for everything else.  The three tests are one `switch`: written
  * as a chain of `if (n == k) return v;` statements each return gets its own
  * epilogue, while the switch puts the three bodies after the compare chain and
@@ -58,43 +58,43 @@ extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32  func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32  func_02017FB0(void *p);
-extern u32 func_02018D34(struct Sav *p);
-extern void func_02018D8C(struct Sav *p);
-extern u32 func_02018E34(struct Mon *p, u32 id, u32 v);
-extern void func_02019388(struct Mon *p, u32 id, u32 v);
+extern u32  POKE_TOOL_SetBoxDefaultMoves(void *p);
+extern u32 POKE_TOOL_DecodeBoxBlock(struct Sav *p);
+extern void POKE_TOOL_EncodeBoxBlock(struct Sav *p);
+extern u32 POKE_TOOL_GetBoxValueRaw(struct Mon *p, u32 id, u32 v);
+extern void POKE_TOOL_SetBoxValueRaw(struct Mon *p, u32 id, u32 v);
 extern void *func_02019C54(u32 a, u32 b);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 
-u32 func_02017EB4(void *p);
+u32 POKE_TOOL_IsBoxShiny(void *p);
 u32 func_02017ED8(u32 a, u32 b);
-u8 func_02017F08(void *p);
-u8 func_02017F50(u32 a, u16 b, u32 c);
+u8 POKE_TOOL_GetBoxGender(void *p);
+u8 POKE_TOOL_CalcGender(u32 a, u16 b, u32 c);
 
-void func_02017E64(void *p, u32 id, u32 v)
+void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v)
 {
-    if (func_02018D34(p) == 1) {
-        func_02019388(p, id, v);
+    if (POKE_TOOL_DecodeBoxBlock(p) == 1) {
+        POKE_TOOL_SetBoxValueRaw(p, id, v);
     }
-    func_02018D8C(p);
+    POKE_TOOL_EncodeBoxBlock(p);
 }
 
 u32 func_02017E88(void *p, u32 id, u32 v)
 {
     u32 r;
 
-    func_02018D34(p);
-    r = func_02018E34(p, id, v);
-    func_02018D8C(p);
+    POKE_TOOL_DecodeBoxBlock(p);
+    r = POKE_TOOL_GetBoxValueRaw(p, id, v);
+    POKE_TOOL_EncodeBoxBlock(p);
     return r;
 }
 
 u32 func_02017EAC(void *p)
 {
-    return func_02017EB4(p);
+    return POKE_TOOL_IsBoxShiny(p);
 }
 
-u32 func_02017EB4(void *p)
+u32 POKE_TOOL_IsBoxShiny(void *p)
 {
     u32 a = func_02017E88(p, 7, 0);
 
@@ -111,12 +111,12 @@ u32 func_02017ED8(u32 a, u32 b)
     return 0;
 }
 
-u8 func_02017F00(void *p)
+u8 POKE_TOOL_GetGender(void *p)
 {
-    return func_02017F08(p);
+    return POKE_TOOL_GetBoxGender(p);
 }
 
-u8 func_02017F08(void *p)
+u8 POKE_TOOL_GetBoxGender(void *p)
 {
     u32 t = func_02017DBC(p);
     u16 a = (u16)func_02017E88(p, 5, 0);
@@ -124,10 +124,10 @@ u8 func_02017F08(void *p)
     u32 c = func_02017E88(p, 0, 0);
 
     func_02017DE4(p, t);
-    return func_02017F50(a, (u16)b, c);
+    return POKE_TOOL_CalcGender(a, (u16)b, c);
 }
 
-u8 func_02017F50(u32 a, u16 b, u32 c)
+u8 POKE_TOOL_CalcGender(u32 a, u16 b, u32 c)
 {
     u8 n = func_0201AE1C(func_02019C54(a, b), 0x14);
     u8 r;
@@ -148,17 +148,17 @@ u8 func_02017F50(u32 a, u16 b, u32 c)
     return r;
 }
 
-u32 func_02017F90(void *p)
+u32 POKE_TOOL_GetStatusCondition(void *p)
 {
     return func_02017E1C(p, 0x9D, 0);
 }
 
-void func_02017F9C(void *p, u32 v)
+void POKE_TOOL_SetStatusCondition(void *p, u32 v)
 {
     func_02017E40(p, 0x9D, v);
 }
 
-u32 func_02017FA8(void *p)
+u32 POKE_TOOL_SetDefaultMoves(void *p)
 {
-    return func_02017FB0(p);
+    return POKE_TOOL_SetBoxDefaultMoves(p);
 }

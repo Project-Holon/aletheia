@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02202940  0x02202940  thumb  ov135
- *   sub_020452E8   0x020452E8  arm
- *   sub_020456F8   0x020456F8  arm
+ *   BMP_WIN_Delete   0x020452E8  arm
+ *   BMP_WIN_ClearScreen   0x020456F8  arm
  *   unit_02045730  0x02045730  arm
  *   sub_020409B4   0x020409B4  arm
  *
@@ -30,8 +30,8 @@ typedef signed int s32;
 struct Obj;
 extern void func_02202940(struct Obj *p);
 struct Descriptor;
-extern u32 sub_020452E8(struct Descriptor *d);
-extern void sub_020456F8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 unit_02045730(u32 a);
 extern void sub_020409B4(u32 index);
 
@@ -41,21 +41,21 @@ void func_021FD1E0(u8 *p)
     s32 i;
 
     func_02202940((struct Obj *)(p + 0xfa0));
-    sub_020452E8((struct Descriptor *)(((struct Obj03069 *)p)->fD40));
+    BMP_WIN_Delete((struct Descriptor *)(((struct Obj03069 *)p)->fD40));
     if (((struct Obj03069 *)p)->f12FC == 0) {
         h = ((struct Obj03069 *)p)->fD54;
-        sub_020456F8((struct Descriptor *)h);
+        BMP_WIN_ClearScreen((struct Descriptor *)h);
         sub_020409B4(unit_02045730(h));
         h = ((struct Obj03069 *)p)->fD50;
-        sub_020456F8((struct Descriptor *)h);
+        BMP_WIN_ClearScreen((struct Descriptor *)h);
         sub_020409B4(unit_02045730(h));
-        sub_020452E8((struct Descriptor *)(((struct Obj03069 *)p)->fD54));
-        sub_020452E8((struct Descriptor *)(((struct Obj03069 *)p)->fD50));
+        BMP_WIN_Delete((struct Descriptor *)(((struct Obj03069 *)p)->fD54));
+        BMP_WIN_Delete((struct Descriptor *)(((struct Obj03069 *)p)->fD50));
     }
     for (i = 0; i < 0x10; i++) {
         h = *(u32 *)(p + i * 4 + 0xd90);
-        sub_020456F8((struct Descriptor *)h);
+        BMP_WIN_ClearScreen((struct Descriptor *)h);
         sub_020409B4(unit_02045730(h));
-        sub_020452E8((struct Descriptor *)(*(u32 *)(p + i * 4 + 0xd90)));
+        BMP_WIN_Delete((struct Descriptor *)(*(u32 *)(p + i * 4 + 0xd90)));
     }
 }

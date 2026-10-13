@@ -11,15 +11,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02005C4C, sub_02005C64, sub_02005C8C
+ * function: GFL_USE_GetTargetBgmNo, GFL_USE_IsLoaderBusy, GFL_USE_IsCardIrqEnabled
  *
  * symbols:
  *   sub_02005C4C_State  0x020AA260  data
  *   sub_02005C64_Obj    0x020AA354  data
- *   sub_020058D0        0x020058D0  thumb
+ *   GFL_USE_GetCurrentBgmId        0x020058D0  thumb
  *   func_0208574C       0x0208574C  arm
  *
- * Three predicates.  sub_02005C8C carries no label, because it saves
+ * Three predicates.  GFL_USE_IsCardIrqEnabled carries no label, because it saves
  * nothing: it reads the DS interrupt enable register at 0x04000210 and
  * reports one bit of it.  0x04000210 reaches the literal pool as a plain
  * constant with no relocation, while the mask 0x80000 does not reach the
@@ -49,18 +49,18 @@ struct Sub02005C4CState {
 extern struct Sub02005C4CState sub_02005C4C_State;
 extern u8 sub_02005C64_Obj[];
 
-extern u16 sub_020058D0(void);
+extern u16 GFL_USE_GetCurrentBgmId(void);
 extern int func_0208574C(u8 *obj);
 
-u32 sub_02005C4C(void)
+u32 GFL_USE_GetTargetBgmNo(void)
 {
     if (sub_02005C4C_State.unk1C == 0) {
-        return sub_020058D0();
+        return GFL_USE_GetCurrentBgmId();
     }
     return sub_02005C4C_State.unk28;
 }
 
-int sub_02005C64(void)
+int GFL_USE_IsLoaderBusy(void)
 {
     if (sub_02005C4C_State.unk14 == 0) {
         return 0;
@@ -71,7 +71,7 @@ int sub_02005C64(void)
     return 1;
 }
 
-int sub_02005C8C(void)
+int GFL_USE_IsCardIrqEnabled(void)
 {
     if (*(volatile u32 *)0x04000210 & 0x80000) {
         return 1;

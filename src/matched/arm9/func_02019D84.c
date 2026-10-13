@@ -1,5 +1,5 @@
 /*
- * function: func_02019D84
+ * function: POKE_REGULATION_IsInSpeciesTable
  * address:  0x02019D84
  * packet:   pkt_02019D84
  * region:   arm9
@@ -16,7 +16,7 @@
 
 extern const unsigned short d_0209E42C[];
 
-int func_02019D84(unsigned short value)
+int POKE_REGULATION_IsInSpeciesTable(unsigned short value)
 {
     unsigned i;
     for (i = 0; i < 12; i++) {

@@ -17,7 +17,7 @@
  * The kept `cmp r4, #0x10; bge` zero-trip guard (the four bytes that were
  * the whole residue in docs/notes/func_0202BAF4.c.txt) is an enum-typed
  * counter (docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md),
- * the same lever as its sibling func_0202BA24.
+ * the same lever as its sibling ISS_3DS_SYS_ResetSources.
  *
  * symbols:
  *   sub_0202BE24   0x0202BE24  thumb

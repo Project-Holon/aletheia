@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_0204AEC0
+ * function: CLACT_GetPaletteProxy
  * address:  0x0204AEC0
  * packet:   pkt_0204ADEC
  * region:   arm9
@@ -11,19 +11,19 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A74     0x02146A74  data
+ *   g_ClactSystem     0x02146A74  data
  *   func_02063800  0x02063800  arm
  *
- * A getter and its one caller.  sub_0204AEC0 copies the 0x14-byte record
+ * A getter and its one caller.  CLACT_GetPaletteProxy copies the 0x14-byte record
  * out of slot `idx` of the 0x18-byte-stride table at +0x110 of the
  * singleton behind 0x02146A74; the copy is an inlined `ldm`/`stm` pair plus
  * a trailing word, which is what a whole-struct assignment of this size
  * compiles to (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- * sub_0204AEF4 takes that copy on its own stack and submits it to
+ * CLACT_GetPaletteVramAddress takes that copy on its own stack and submits it to
  * func_02063800 under selector 1 or 2.
  *
- * Kept as one unit so the `bl` at sub_0204AEF4+0x1c is `local`:
- * sub_0204AEF4 is sub_0204AEC0's only caller image-wide, so split into two
+ * Kept as one unit so the `bl` at CLACT_GetPaletteVramAddress+0x1c is `local`:
+ * CLACT_GetPaletteVramAddress is CLACT_GetPaletteProxy's only caller image-wide, so split into two
  * files the site would have no witness of any class.
  */
 
@@ -45,16 +45,16 @@ struct Slot {
     u32           unk_14;
 };
 
-extern struct Mgr *g_02146A74;
+extern struct Mgr *g_ClactSystem;
 
 extern int func_02063800(char *p, int i);
 
-void sub_0204AEC0(u32 idx, struct Record *dest)
+void CLACT_GetPaletteProxy(u32 idx, struct Record *dest)
 {
-    *dest = ((struct Slot *)g_02146A74->owner_slots2)[idx].record;
+    *dest = ((struct Slot *)g_ClactSystem->owner_slots2)[idx].record;
 }
 
-int sub_0204AEF4(u32 idx, u32 alternate)
+int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate)
 {
     struct Record record;
     u32 selector;
@@ -64,6 +64,6 @@ int sub_0204AEF4(u32 idx, u32 alternate)
         selector = 2;
     }
 
-    sub_0204AEC0(idx, &record);
+    CLACT_GetPaletteProxy(idx, &record);
     return func_02063800((char *)(&record), selector);
 }

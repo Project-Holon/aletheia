@@ -9,17 +9,17 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02074450  0x02074450  arm
- *   func_0207466C  0x0207466C  arm
+ *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
+ *   NNS_SndArcGetFileAddress  0x0207466C  arm
  *   func_02075080  0x02075080  arm
  *   func_020750EC  0x020750EC  arm
  *
  * The 0x02074BEC/0x02074C70 sibling for the third handler slot: resolve the
- * object (func_02074450), read its 32-bit header word, and dispatch on the
+ * object (NNS_SndArcGetWaveArcInfo), read its 32-bit header word, and dispatch on the
  * caller's flag bits.  With flag bit 2 set the 24-bit low field of the header
  * is handed to one of two loaders chosen by header bit 24, and a zero result
  * is the error code 9; without it the field goes to the plain lookup
- * func_0207466C and no error check applies (the image's `bl 0x207466c` at
+ * NNS_SndArcGetFileAddress and no error check applies (the image's `bl 0x207466c` at
  * 0x02074E84 lands at 0x02074E88, PAST the `cmp r0,#0` / `mov r0,#9`).
  *
  * TWO LEVERS, both required and both previously measured against the wrong
@@ -62,8 +62,8 @@ union Hdr {
     struct { unsigned v : 24; unsigned flag : 1; unsigned rest : 7; } b;
 };
 
-extern void *func_02074450(int index);
-extern u32 func_0207466C(u32 a);
+extern void *NNS_SndArcGetWaveArcInfo(int index);
+extern u32 NNS_SndArcGetFileAddress(u32 a);
 extern u32 func_02075080(u32 a, u32 b, u32 c);
 extern u32 func_020750EC(u32 idx, u32 *heap, int flag);
 
@@ -72,14 +72,14 @@ u32 func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out)
     union Hdr *o;
     u32 r;
 
-    o = func_02074450(a);
+    o = NNS_SndArcGetWaveArcInfo(a);
     if (o == 0) return 5;
     if (b & 4) {
         if ((o->w >> 24) & 1) r = func_020750EC(o->b.v, (u32 *)c, d);
         else                  r = func_02075080(o->b.v, c, d);
         if (r == 0) return 9;
     } else {
-        r = func_0207466C(o->b.v);
+        r = NNS_SndArcGetFileAddress(o->b.v);
     }
     if (out != 0) *out = r;
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: sub_020432E4
+ * function: BG_SYS_ApplyCenterOp
  * address:  0x020432E4
  * packet:   pkt_02042B24
  * region:   arm9
@@ -24,7 +24,7 @@ struct Obj {
     u32 unk_28;
 };
 
-void sub_020432E4(struct Obj *p, u32 op, u32 value)
+void BG_SYS_ApplyCenterOp(struct Obj *p, u32 op, u32 value)
 {
     switch (op) {
     case 9:

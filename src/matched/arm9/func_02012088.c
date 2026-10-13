@@ -1,5 +1,5 @@
 /*
- * function: func_02012088
+ * function: GAMESYSTEM_Delete
  * address:  0x02012088
  * packet:   pkt_02012088
  * region:   arm9
@@ -11,18 +11,18 @@
  *
  * symbols:
  *   func_0203133C  0x0203133C  arm
- *   func_02011F90  0x02011F90  thumb
- *   python tools/match.py one --src src/matched/func_02012088.c \
- *   --func func_02012088 --addr 0x02012088 --cc 1.1p1 --thumb
+ *   GAMESYSTEM_Exit  0x02011F90  thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_Delete.c \
+ *   --func GAMESYSTEM_Delete --addr 0x02012088 --cc 1.1p1 --thumb
  *
  * The tail of the packet's small table walkers: two loads off the
  * g_02146228 pair and one store, 18 bytes, every relocation a label outside
- * the range.  It re-verified EXACT after func_02010F50 and func_02010EEC were
+ * the range.  It re-verified EXACT after GPOWER_ClearType and GPOWER_GetSelectedMinutesLeft were
  * filed in pkt_02010EEC (the same two tables), so the entry is a chain payoff.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012088.c \
- *       --func func_02012088 --addr 0x02012088 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_Delete.c \
+ *       --func GAMESYSTEM_Delete --addr 0x02012088 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -35,10 +35,10 @@ struct IcaAnime {
 
 struct S020314B8;
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_02011F90(u32 *p);
+extern void GAMESYSTEM_Exit(u32 *p);
 
-void func_02012088(struct IcaAnime *p)
+void GAMESYSTEM_Delete(struct IcaAnime *p)
 {
     func_0203133C((struct S020314B8 *)p->f08);
-    func_02011F90((u32 *)p);
+    GAMESYSTEM_Exit((u32 *)p);
 }

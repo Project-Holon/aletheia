@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02062B64  0x02062B64  arm
+ *   NNS_G2dFindBinaryBlock  0x02062B64  arm
  *   func_02088234  0x02088234  arm
  */
 struct NitroFileHeader;
@@ -46,7 +46,7 @@ typedef struct {
     u32 unk18;
 } Section;
 
-extern void *func_02062B64(struct NitroFileHeader *file, u32 signature);
+extern void *NNS_G2dFindBinaryBlock(struct NitroFileHeader *file, u32 signature);
 extern void func_02088234(void);
 u32 func_020698F8(Res *res, void **out);
 void func_02069AC4(Res *base);
@@ -106,7 +106,7 @@ u32 func_020698F8(Res *res, void **out)
         legacy = 1;
     }
     func_02069AC4(res);
-    finf = func_02062B64((struct NitroFileHeader *)res, 0x46494e46u);
+    finf = NNS_G2dFindBinaryBlock((struct NitroFileHeader *)res, 0x46494e46u);
     if (finf == 0) {
         *out = 0;
         return 0;

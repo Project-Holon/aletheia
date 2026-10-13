@@ -14,7 +14,7 @@
  *   func_02049238 0x02049238 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B878 0x0204B878 arm
- *   func_0204B908 0x0204B908 arm
+ *   CLACT_SetActorAnimIndex 0x0204B908 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj03259.h"
@@ -29,7 +29,7 @@ extern void func_02049238(void *);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern void func_02041B6C(u32);
 void func_021D74B0(u8 *p,int n)
 {
@@ -39,7 +39,7 @@ void func_021D74B0(u8 *p,int n)
     func_02049238(t);
     func_0204B92C(((struct Obj03259 *)p)->f130,0);
     func_0204B878(((struct Obj03259 *)p)->f130,a.a[n]+11);
-    func_0204B908((int)(((struct Obj03259 *)p)->f130),4);
+    CLACT_SetActorAnimIndex((int)(((struct Obj03259 *)p)->f130),4);
     func_0204B878(((struct Obj03259 *)p)->f12C,28);
     func_02041B6C(0);
     ((struct Obj03259 *)p)->f110=0;

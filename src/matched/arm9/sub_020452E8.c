@@ -8,17 +8,17 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020452E8
+ * function: BMP_WIN_Delete
  *
  * symbols:
  *   sub_0203FB44  0x0203FB44  arm
- *   sub_020437AC  0x020437AC  arm
+ *   BMP_Delete  0x020437AC  arm
  *   sub_020307B0  0x020307B0  arm
  *
  * The descriptor family's destructor: release the payload through
- * sub_0203FB44, release the heap handle through sub_020437AC, then free
+ * sub_0203FB44, release the heap handle through BMP_Delete, then free
  * the descriptor itself with the generic free at 0x020307B0 (the same
- * free sub_02045808 tail-calls).
+ * free STRBUF_Delete tail-calls).
  *
  * The payload size is (d->unk5 * d->unk6) * 32, doubled when the top bit
  * of the halfword at +0 is set. That bit is a 1-wide bitfield, not a
@@ -45,8 +45,8 @@
  * naturally (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020452E8.c \
- *       --func sub_020452E8 --addr 0x020452E8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_WIN_Delete.c \
+ *       --func BMP_WIN_Delete --addr 0x020452E8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -70,10 +70,10 @@ struct Descriptor {
 
 struct Obj020437AC;
 extern void sub_0203FB44(u32 layer, u32 offset, u32 size);
-extern void sub_020437AC(struct Obj020437AC *p);
+extern void BMP_Delete(struct Obj020437AC *p);
 extern u32 sub_020307B0(void *p);
 
-u32 sub_020452E8(struct Descriptor *d)
+u32 BMP_WIN_Delete(struct Descriptor *d)
 {
     u32 size;
 
@@ -83,6 +83,6 @@ u32 sub_020452E8(struct Descriptor *d)
         size = (d->unk5 * d->unk6) * 2;
     }
     sub_0203FB44(d->unk2, d->unkA, size * 32);
-    sub_020437AC(d->heap);
+    BMP_Delete(d->heap);
     return sub_020307B0(d);
 }

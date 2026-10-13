@@ -1,5 +1,5 @@
 /*
- * function: func_0204D75C
+ * function: CLACT_GetVramCellBankCount
  * address: 0x0204D75C
  * packet: pkt_arm9_0204D75C
  * region: arm9
@@ -43,9 +43,9 @@ typedef struct {
     ClactInner *f74;
 } ClactObj;
 
-u16 func_0204D75C(ClactObj *o);
+u16 CLACT_GetVramCellBankCount(ClactObj *o);
 
-u16 func_0204D75C(ClactObj *o)
+u16 CLACT_GetVramCellBankCount(ClactObj *o)
 {
     return *(u16 *)o->f74;
 }

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02174E9C",
-    "func_02174EC4"
+    "COLOSSEUM_SendCancelAck",
+    "COLOSSEUM_RecvAllReady"
+   ],
+   "addresses": [
+    "0x02174E9C",
+    "0x02174EC4"
    ]
   }
  ]

@@ -15,7 +15,7 @@
  * symbols:
  *   func_02159B10   0x02159B10  thumb  ov010
  *   func_0215A5E4   0x0215A5E4  thumb  ov010
- *   func_02012F44   0x02012F44  thumb
+ *   GAME_DATA_GetSaveBlock2A   0x02012F44  thumb
  *   func_0200A6BC   0x0200A6BC  thumb
  */
 
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
-extern void *func_02012F44(void *p);
+extern void *GAME_DATA_GetSaveBlock2A(void *p);
 struct Big;
 extern void func_0200A6BC(struct Big *p, u32 index);
 
@@ -33,7 +33,7 @@ int func_0215D864(void *a0, void *a1)
 {
     int v = func_02159B10(a0, a1);
 
-    func_0200A6BC((struct Big *)func_02012F44(func_0215A5E4(a1)), (u8)v);
+    func_0200A6BC((struct Big *)GAME_DATA_GetSaveBlock2A(func_0215A5E4(a1)), (u8)v);
 
     return 0;
 }

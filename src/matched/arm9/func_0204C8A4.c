@@ -1,5 +1,5 @@
 /*
- * function: func_0204C8A4
+ * function: CLACT_SetTransferEntry
  * address:  0x0204C8A4
  * packet:   pkt_0204BD64
  * region:   arm9
@@ -18,8 +18,8 @@
  * address order would fuse three of them instead and change the encoding.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C8A4.c \
- *       --func func_0204C8A4 --addr 0x0204C8A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetTransferEntry.c \
+ *       --func CLACT_SetTransferEntry --addr 0x0204C8A4 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -31,7 +31,7 @@ struct Entry {
     u32 unk_0c;   /* 0x0c */
 };
 
-void func_0204C8A4(struct Entry *e, u32 sel, u32 a, u32 b, u32 c)
+void CLACT_SetTransferEntry(struct Entry *e, u32 sel, u32 a, u32 b, u32 c)
 {
     e->unk_0c = sel;
     e->unk_00 = b;

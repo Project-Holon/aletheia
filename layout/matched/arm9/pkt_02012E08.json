@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02012E08",
+   "name": "GAME_DATA_SaveCancel",
    "address": "0x02012E08",
    "kind": "game",
    "region": "arm9",

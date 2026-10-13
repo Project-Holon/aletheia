@@ -1,6 +1,6 @@
 /*
  * file:     unit_02070C24.c
- * function: func_02070C24
+ * function: NNSi_G3dAnmCalcNsBva
  * address:  0x02070C24
  * packet:   pkt_0207010C
  * region:   arm9
@@ -28,7 +28,7 @@ struct VisAnm { u8 unused00[6]; u16 numNode; };
 struct AnmObj { int frame; u32 ratio; struct VisAnm *pResAnm; };
 
 /* NNSi_G3dAnmCalcNsBva shape: read the visibility bit of node nodeIdx at the current frame. */
-void func_02070C24(u32 *pResult, struct AnmObj *pAnmObj, int nodeIdx)
+void NNSi_G3dAnmCalcNsBva(u32 *pResult, struct AnmObj *pAnmObj, int nodeIdx)
 {
     struct VisAnm *pResAnm = pAnmObj->pResAnm;
     u32 bitIdx = (pAnmObj->frame >> 12) * pResAnm->numNode + nodeIdx;

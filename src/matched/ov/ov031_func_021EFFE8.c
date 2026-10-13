@@ -12,7 +12,7 @@
  * symbols:
  *   func_02012138  0x02012138  thumb
  *   func_02026474  0x02026474  thumb
- *   func_0202DC08  0x0202DC08  thumb
+ *   PMS_DRAW_Delete  0x0202DC08  thumb
  *   func_021F0420  0x021F0420  thumb  ov031
  *   func_021F056C  0x021F056C  thumb  ov031
  *   func_021F04D4  0x021F04D4  thumb  ov031
@@ -31,7 +31,7 @@ struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_02026474(void *obj);
 struct Obj;
-extern void func_0202DC08(struct Obj *p);
+extern void PMS_DRAW_Delete(struct Obj *p);
 extern void func_021F0420(char *p);
 extern void func_021F056C(char *p);
 extern void func_021F04D4(char *p);
@@ -51,7 +51,7 @@ void func_021EFFE8(u32 *p)
     q = (u8 *)func_02026474((void *)func_02012138((const struct Ctx *)p[0]));
     if (q != 0)
         q[0x282E] = 0;
-    func_0202DC08((void *)p[0x1F]);
+    PMS_DRAW_Delete((void *)p[0x1F]);
     func_021F0420((char *)p);
     func_021F056C((char *)p);
     func_021F04D4((char *)p);

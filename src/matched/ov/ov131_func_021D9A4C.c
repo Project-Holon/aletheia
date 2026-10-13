@@ -1,5 +1,5 @@
 /*
- * function: func_021D9A4C
+ * function: P_STA_SKILL_CreateObjects
  * address: 0x021D9A4C
  * packet: pkt_ov131_021D9A4C
  * region: ov131
@@ -16,7 +16,7 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B92C 0x0204B92C arm
- *   func_021DB700 0x021DB700 thumb ov131
+ *   P_STA_SKILL_CreateSlotObjects 0x021DB700 thumb ov131
  */
 #include "../include/Obj00344.h"
 #include "../include/Obj01939.h"
@@ -28,8 +28,8 @@ struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_021DB700(u8 *,void *,u8 *,u8);
-void func_021D9A4C(u8 *a,u8 *p)
+extern void P_STA_SKILL_CreateSlotObjects(u8 *,void *,u8 *,u8);
+void P_STA_SKILL_CreateObjects(u8 *a,u8 *p)
 {
     ObjPos pos;
     u8 i;
@@ -59,5 +59,5 @@ void func_021D9A4C(u8 *a,u8 *p)
     *(u32 *)&((struct Obj01939 *)p)->fA0=(u32)func_0204B294((void *)*(u32 *)&((struct Obj00344 *)a)->f174,((struct Obj00344 *)a)->fEC,((struct Obj00344 *)a)->fC4,((struct Obj00344 *)a)->f11C,&pos,0,((struct Obj00344 *)a)->f0);
     func_0204B3DC(((struct Obj01939 *)p)->fA0,0);
     func_0204B92C(((struct Obj01939 *)p)->fA0,1);
-    for(;i<p[0x2b];i++) func_021DB700(a,p,(p+0xb0)+i*24,i);
+    for(;i<p[0x2b];i++) P_STA_SKILL_CreateSlotObjects(a,p,(p+0xb0)+i*24,i);
 }

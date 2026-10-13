@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D6F54",
-    "func_021D703C"
+    "P_STA_SUB_UpdatePet",
+    "P_STA_SUB_StartPetReaction"
+   ],
+   "addresses": [
+    "0x021D6F54",
+    "0x021D703C"
    ]
   }
  ]

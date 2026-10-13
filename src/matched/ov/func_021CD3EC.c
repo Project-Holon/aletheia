@@ -1,5 +1,5 @@
 /*
- * function: func_021CD3EC
+ * function: DWCi_SceneSetTest_procScene
  * address:  0x021CD3EC
  * packet:   pkt_021CD3EC
  * region:   ov016
@@ -10,23 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CD3EC   0x021CD3EC  arm
+ *   DWCi_SceneSetTest_procScene   0x021CD3EC  arm
+ *   DWCi_SceneSetTest_input  0x021CD400  arm
+ *   DWCi_SceneSetTest_draw  0x021CD404  arm
+ *   DWCi_SceneSetTest_button  0x021CD408  arm
  *
- * Call func_021CD400, func_021CD404, func_021CD408.
+ * Call DWCi_SceneSetTest_input, DWCi_SceneSetTest_draw, DWCi_SceneSetTest_button.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CD3EC.c \
- *       --func func_021CD3EC --addr 0x021CD3EC --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetTest_procScene.c \
+ *       --func DWCi_SceneSetTest_procScene --addr 0x021CD3EC --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_021CD400(void);
-extern void func_021CD404(void);
-extern void func_021CD408(void);
+extern void DWCi_SceneSetTest_input(void);
+extern void DWCi_SceneSetTest_draw(void);
+extern void DWCi_SceneSetTest_button(void);
 
-void func_021CD3EC(void)
+void DWCi_SceneSetTest_procScene(void)
 {
-    func_021CD400();
-    func_021CD404();
-    func_021CD408();
+    DWCi_SceneSetTest_input();
+    DWCi_SceneSetTest_draw();
+    DWCi_SceneSetTest_button();
 }

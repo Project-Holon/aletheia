@@ -23,7 +23,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   d_02212540 0x02212540 data a4
  *   func_02210B00 0x02210B00 thumb ov198
- *   func_020215BC 0x020215BC thumb
+ *   PALANM_CopyToSlot 0x020215BC thumb
  *   func_02211128 0x02211128 thumb ov198
  *   func_020450F0 0x020450F0 arm
  *   func_0220BC70 0x0220BC70 thumb ov198
@@ -66,7 +66,7 @@ extern u32 func_020307B0(void *p);
 extern void func_02041090(u32,u32,u32,u32,u8,u8);
 extern void func_02041B6C(u32);
 extern int func_02210B00(u8 *p, int i);
-extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern int func_02211128(u8 *,u8 *,u8 *,int);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0220BC70(u8 *, unsigned int);
@@ -340,7 +340,7 @@ void func_0220B848(u8 *p,u32 mode)
 
 void func_0220BB94(unsigned char *p, u32 a1)
 {
-    func_020215BC((struct PalAnmSlot *)(((struct Obj25127 *)p)->f1D8), p + 0x1e78, 1, 0xc0, 0x20);
+    PALANM_CopyToSlot((struct PalAnmSlot *)(((struct Obj25127 *)p)->f1D8), p + 0x1e78, 1, 0xc0, 0x20);
 }
 
 /*

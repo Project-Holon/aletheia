@@ -1,7 +1,7 @@
 /*
  * file:     unit_02067EB0.c
  * unit:     yes
- * function: func_02067EB0, func_02067F78, func_02067F9C
+ * function: NNSi_G2dFontGetGlyphIndexFromCMap, NNS_G2dFontInitUTF16, NNS_G2dFontGetGlyphIndex
  * address:  0x02067EB0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,8 +14,8 @@
  *
  * symbols:
  *   func_020698F8    0x020698F8  arm
- *   func_02069C00    0x02069C00  arm
- *   func_02067EB0  0x02067EB0  arm
+ *   NNSi_G2dReadCharUTF16    0x02069C00  arm
+ *   NNSi_G2dFontGetGlyphIndexFromCMap  0x02067EB0  arm
  */
 typedef unsigned char u8;
 
@@ -56,12 +56,12 @@ struct FontGlyphMap {
 };
 
 extern void func_020698F8(u32 pResource, void *pFont);
-extern u32 func_02067EB0(struct FontCMap *tbl, u32 charCode);
-void func_02067F78(void *pFont, u32 pResource);
-extern u8 func_02069C00[];
+extern u32 NNSi_G2dFontGetGlyphIndexFromCMap(struct FontCMap *tbl, u32 charCode);
+void NNS_G2dFontInitUTF16(void *pFont, u32 pResource);
+extern u8 NNSi_G2dReadCharUTF16[];
 
 
-u32 func_02067EB0(struct FontCMap *tbl, u32 charCode)
+u32 NNSi_G2dFontGetGlyphIndexFromCMap(struct FontCMap *tbl, u32 charCode)
 {
     u32 ret = 0xFFFF;
     u16 type = tbl->type;
@@ -108,17 +108,17 @@ u32 func_02067EB0(struct FontCMap *tbl, u32 charCode)
  * 0x02069C00 as a value (+0x20) is the only reference to that address anywhere, so
  * neither `label` nor `literal` has a witness outside this file's 32 bytes.
  */
-void func_02067F78(void *pFont, u32 pResource)
+void NNS_G2dFontInitUTF16(void *pFont, u32 pResource)
 {
     func_020698F8(pResource, pFont);
-    ((u32 *)pFont)[1] = (u32)func_02069C00;
+    ((u32 *)pFont)[1] = (u32)NNSi_G2dReadCharUTF16;
 }
 
 
 /*
  * Range lookup over a singly linked list of key records: walk the chain hung
  * off (*a0)->f10 and hand the first record whose [lo, hi] halfword pair
- * contains `key` to func_02067EB0, which returns the mapped word.  No record
+ * contains `key` to NNSi_G2dFontGetGlyphIndexFromCMap, which returns the mapped word.  No record
  * holds the key: return the pooled 0xFFFF sentinel.  The record's link is at
  * +0x04 (used by the twin at 0x02067FE4) while the chain head here is the
  * +0x10 field of the object the caller's pointer points at.
@@ -127,13 +127,13 @@ void func_02067F78(void *pFont, u32 pResource)
  * original's `ldrhls`/`cmpls` pair is the second comparison issued
  * conditionally on the first, which is a `&&`, not two nested guards.
  */
-u32 func_02067F9C(struct FontGlyphMap **ppMap, u32 charCode)
+u32 NNS_G2dFontGetGlyphIndex(struct FontGlyphMap **ppMap, u32 charCode)
 {
     struct FontCMapRange *range = (*ppMap)->chain;
 
     while (range != 0) {
         if (range->firstCode <= charCode && charCode <= range->lastCode) {
-            return func_02067EB0((struct FontCMap *)range, charCode);
+            return NNSi_G2dFontGetGlyphIndexFromCMap((struct FontCMap *)range, charCode);
         }
         range = range->next;
     }

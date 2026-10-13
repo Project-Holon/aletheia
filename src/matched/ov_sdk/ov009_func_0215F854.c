@@ -1,5 +1,5 @@
 /*
- * function: func_0215F854
+ * function: SOC_Fcntl
  * address:  0x0215F854
  * packet:   pkt_ov009_0215F854
  * region:   ov009
@@ -20,7 +20,7 @@ typedef struct {
 	signed char flag;
 } Sock;
 
-int func_0215F854(Sock *s, int cmd, int mode)
+int SOC_Fcntl(Sock *s, int cmd, int mode)
 {
 	if (s == 0) {
 		return -1;

@@ -15,7 +15,8 @@
  *           sub_02009524, sub_0200952C, sub_02009584
  *
  * symbols:
- *   sub_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
+ *   MYSTATUS_SetLanguageAndVersion  0x02008574  thumb
  *
  * alias: the save block with id 0x1D.  Its bulk is a 0xFF0-byte array of
  * two-bit fields at +0x348, sixteen bytes (sixty-four fields) per row, and
@@ -47,7 +48,7 @@
  *       u8 v = sub_02009584(obj);
  *
  *       if (flag == 0) {
- *           u8 t = sub_0200856C(p);
+ *           u8 t = MYSTATUS_GetLanguage(p);
  *
  *           if (t == 0) {
  *               v = 0;
@@ -86,8 +87,8 @@ typedef unsigned int  u32;
 struct Sub0200852CObj;
 
 struct Sub020071CCCtrl;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void sub_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void MYSTATUS_SetLanguageAndVersion(struct Sub0200852CObj *obj, u8 a, u8 b);
 
 struct Sub02009470Obj {
     u8 unk000[0x344];
@@ -102,13 +103,13 @@ u8   sub_02009584(const struct Sub02009470Obj *obj);
 
 struct Sub02009470Obj *sub_02009470(void *sys)
 {
-    return sub_020071CC(sys, 0x1D);
+    return SAVE_CONTROL_GetBlock(sys, 0x1D);
 }
 
 void sub_0200947C(struct Sub02009470Obj *obj, struct Sub0200852CObj *p,
                   u8 row, u8 col)
 {
-    sub_02008574(p, row, col);
+    MYSTATUS_SetLanguageAndVersion(p, row, col);
     sub_020094D8(obj, row, col, 3);
 }
 

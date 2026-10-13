@@ -39,9 +39,9 @@
  *   func_02049990 0x02049990 arm
  *   func_020355C4 0x020355C4 arm
  *   func_021D8FA4 0x021D8FA4 thumb ov119
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_0201BA68 0x0201BA68 thumb
- *   func_0201BBE8 0x0201BBE8 thumb
+ *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3B4  0x0204B3B4  arm
@@ -76,7 +76,7 @@
  *   func_02027754 0x02027754 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_02017EAC 0x02017EAC thumb
- *   func_0201B280 0x0201B280 thumb
+ *   POKERUS_IsCured 0x0201B280 thumb
  *   func_020275E4 0x020275E4 thumb
  *   d_021E7EC4 0x021E7EC4 data a4
  *   d_021E7F84 0x021E7F84 data a4
@@ -97,6 +97,7 @@
  *   func_02049740 0x02049740 arm
  *   func_020435F4 0x020435F4 arm
  *   d_021E7E44 0x021E7E44 data a4
+ *   POKERUS_IsInfected  0x0201B25C  thumb  arm9
  */
 #include "pokemontrade_types.h"
 #include "../../matched/include/Obj06428.h"
@@ -202,9 +203,9 @@ extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern u8 func_020355C4(void);
 extern void *func_021D8FA4(void *p, int a);
-extern void *func_020185F4(void *a);
+extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32 func_0201BA68(void *mon);
-extern int func_0201BBE8(void *);
+extern int POKE_TOOL_GetIconPalette(void *);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3B4(struct Obj *p);
@@ -232,12 +233,12 @@ extern u32 func_020276A0(u32);
 extern void func_021B6208(void *,In_021E5680 *,int,u16);
 extern int func_021B629C(void *,int,u8,u8,u8,u16);
 extern void func_021B6284(unsigned int *p);
-extern u32 func_0201B25C(void *);
+extern u32 POKERUS_IsInfected(void *);
 extern u32 func_020276B4(void);
 extern u32 func_020276B8(void);
 extern u32 func_020276BC(u32);
 extern u32 func_020276C0(u32);
-extern unsigned int func_0201B280(void *a);
+extern unsigned int POKERUS_IsCured(void *a);
 extern int func_02027748(void);
 extern int func_0202774C(int);
 extern int func_02027750(int);
@@ -456,8 +457,8 @@ void func_021E5998(char *p)
     }
     arc = func_020490F4(7, ((TradeWork *)p)->f5F4);
     z = 0;
-    a = func_020185F4(func_021D8FA4(p, 0));
-    b = func_020185F4(func_021D8FA4(p, 1));
+    a = POKE_TOOL_GetBoxParam(func_021D8FA4(p, 0));
+    b = POKE_TOOL_GetBoxParam(func_021D8FA4(p, 1));
     (*(void * *)&((TradeWork *)p)->f89C) = (void *)func_0204A6C8(arc, func_0201BA68(a), z, 1, ((TradeWork *)p)->f5F4);
     (*(void * *)&((TradeWork *)p)->f8A0) = (void *)func_0204A6C8(arc, func_0201BA68(b), z, 1, ((TradeWork *)p)->f5F4);
     t.x = 0x60;
@@ -469,13 +470,13 @@ void func_021E5998(char *p)
         (unsigned int)((TradeWork *)p)->f8AC, &t, 1, ((TradeWork *)p)->f5F4);
     func_0204B92C((*(void * *)&((TradeWork *)p)->fF10), 0);
     func_0204B3DC((*(void * *)&((TradeWork *)p)->fF10), 1);
-    func_0204B6F4((*(void * *)&((TradeWork *)p)->fF10), func_0201BBE8(a), 1);
+    func_0204B6F4((*(void * *)&((TradeWork *)p)->fF10), POKE_TOOL_GetIconPalette(a), 1);
     t.x = 0xa0;
     (*(void * *)&((TradeWork *)p)->fF14) = func_0204B294((*(void * *)&((TradeWork *)p)->f9C4), (unsigned int)(*(void * *)&((TradeWork *)p)->f8A0), (unsigned int)((TradeWork *)p)->f87C,
         (unsigned int)((TradeWork *)p)->f8AC, &t, 1, ((TradeWork *)p)->f5F4);
     func_0204B92C((*(void * *)&((TradeWork *)p)->fF14), 0);
     func_0204B3DC((*(void * *)&((TradeWork *)p)->fF14), 1);
-    func_0204B6F4((*(void * *)&((TradeWork *)p)->fF14), func_0201BBE8(b), 1);
+    func_0204B6F4((*(void * *)&((TradeWork *)p)->fF14), POKE_TOOL_GetIconPalette(b), 1);
     func_02049238(arc);
 }
 
@@ -677,7 +678,7 @@ void func_021E5F14(char *p, int side, int flag, void *mon)
 {
     char *q = p + 0x964;
     In_021E5680 in;
-    u32 a = func_0201B25C(mon);
+    u32 a = POKERUS_IsInfected(mon);
     if (((struct Obj06429 *)q)->f10) {
         if (!a) func_0204B3DC((struct Obj *)((struct Obj06429 *)q)->f10,0);
         else func_0204B3DC((struct Obj *)((struct Obj06429 *)q)->f10,1);
@@ -712,7 +713,7 @@ void func_021E6008(char *p, int b, void *c)
 {
     char *q = p + 0x978;
     In_021E6008 in;
-    int a = func_0201B280(c);
+    int a = POKERUS_IsCured(c);
     if (a == 0) return;
     if (((struct Obj08074 *)q)->f10) {
         if (a == 0) func_0204B3DC((struct Obj *)((struct Obj08074 *)q)->f10, 0);
@@ -766,7 +767,7 @@ void func_021E60BC(char *p,void *mon,int flag)
     in.f18=func_02027754(2);
     in.b1c=13; in.b1d=0; in.b1e=1;
     if (!flag && func_02017EAC(mon)) bits|=64;
-    if (func_0201B280(mon)) bits|=128;
+    if (POKERUS_IsCured(mon)) bits|=128;
     if (!((TradeWork *)p)->f99C) {
         func_021B6208((void *)(p+0x98c), (In_021E5680 *)&in, ((TradeWork *)p)->f9C4, ((TradeWork *)p)->f5F4);
         ((TradeWork *)p)->f99C=1;
@@ -869,7 +870,7 @@ void func_021E6334(char *p,int i,int j,void *mon,int selected,u32 visible)
     c.z=1; c.a=16; c.b=1;
     *(int *)(p+0x1020+i*12+j*4) = func_0204A6C8((void *)((u32)h),func_0201BA68(q),0,n,((TradeWork *)p)->f5F4);
     *(int *)(p+0x1008+i*12+j*4) = (int)func_0204B294((void *)((TradeWork *)p)->f9C4,*(int *)(p+0x1020+i*12+j*4),*(int *)&((TradeWork *)p)->f890,*(int *)&((TradeWork *)p)->f8C0,&c,n,((TradeWork *)p)->f5F4);
-    func_0204B6F4((struct Obj *)(*(int *)(p+0x1008+i*12+j*4)),func_0201BBE8(q),1);
+    func_0204B6F4((struct Obj *)(*(int *)(p+0x1008+i*12+j*4)),POKE_TOOL_GetIconPalette(q),1);
     func_0204B92C((struct Obj *)*(int *)(p+0x1008+i*12+j*4),0);
     func_0204B3DC((struct Obj *)*(int *)(p+0x1008+i*12+j*4),visible);
     func_02049238((void *)((int)h));
@@ -909,7 +910,7 @@ void func_021E64DC(int p, int i, int j, int x, int y, void *q) {
     Create c;
     c.x=x; c.y=y; c.z=1; c.a=0; c.b=0;
     ((TradeWork *)p)->fF20=(int)func_0204B294((void *)((TradeWork *)p)->f9C4,*(int *)(p+i*20+j*4+0x9cc),(*(int *)&((TradeWork *)p)->f87C),(*(int *)&((TradeWork *)p)->f8AC),&c,1,((TradeWork *)p)->f5F4);
-    func_0204B6F4((struct Obj *)(((TradeWork *)p)->fF20),func_0201BBE8(q),1);
+    func_0204B6F4((struct Obj *)(((TradeWork *)p)->fF20),POKE_TOOL_GetIconPalette(q),1);
 }
 
 

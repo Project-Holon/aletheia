@@ -13,45 +13,37 @@
  * symbols:
  *   func_0201134C  0x0201134C  thumb
  */
-#include "../../matched/include/Obj09154.h"
-#include "../../matched/include/Obj17643.h"
-
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0201134C();
+/* Script VM context: program counter and the local variable array. */
+#include "../arm9/script_vm_types.h"
 
-int func_021592F0(int a0, int a1, int a2)
+extern u32 func_0201134C(ScriptVm *vm);
+
+static inline u8 ScriptVm_ReadU8(ScriptVm *vm)
 {
-    int t4;
-    int t5;
-
-t5 = a0 + 0;
-a1 = ((struct Obj09154 *)t5)->f14;
-t4 = ((struct Obj17643 *)((char *)a1))->f0;
-a1 = a1 + 1;
-((struct Obj09154 *)t5)->f14 = a1;
-    a0 = func_0201134C(a0, a1);
-loc_02159300:
-a2 = ((struct Obj09154 *)t5)->f1C;
-a1 = t4 << 2;
-*(int *)((char *)a2 + a1) = a0;
-a0 = 0;
-    return a0;}
-
-
-typedef struct { u8 pad00[0x14]; u8 *pc; u8 pad18[4]; u32 *vars; } Ctx_0215930C;
-static inline u8 rd8_0215930C(Ctx_0215930C *c)
-{
-    u8 v = *c->pc;
-    c->pc++;
-    return v;
+    u8 value = *vm->pc;
+    vm->pc++;
+    return value;
 }
-int func_0215930C(Ctx_0215930C *c)
+
+/* Script command: ring[index byte] = 32-bit immediate. */
+int func_021592F0(ScriptVm *vm, void *user)
 {
-    u8 a = rd8_0215930C(c);
-    u8 b = rd8_0215930C(c);
-    c->vars[a] = c->vars[b];
+    u8 index = ScriptVm_ReadU8(vm);
+    u32 value = func_0201134C(vm);
+    vm->ring[index] = value;
+    return 0;
+}
+
+
+/* Script command: ring[dest byte] = ring[source byte]. */
+int func_0215930C(ScriptVm *vm)
+{
+    u8 dest = ScriptVm_ReadU8(vm);
+    u8 source = ScriptVm_ReadU8(vm);
+    vm->ring[dest] = vm->ring[source];
     return 0;
 }

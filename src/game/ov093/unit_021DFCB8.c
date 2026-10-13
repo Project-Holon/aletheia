@@ -16,25 +16,20 @@
  *   func_021D76BC  0x021D76BC  thumb  ov093
  *   func_021C7EC4  0x021C7EC4  thumb  ov093
  */
+#include "unit_021DF974_types.h"
 
-extern int func_021D775C(int key);
-typedef unsigned int   u32;
-typedef unsigned char  u8;
-extern int func_021D76BC(int key, u32 val);
-extern u32 func_021C7EC4(u8 *p);
+extern BtlEventHandler d_021F1524[];
 
-void func_021DFCB8(int a, void *b, int c)
+/* Ring Target: the holder as defender loses its type immunities. */
+void func_021DFCB8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (func_021C7EC4(b) == 0 && c == func_021D775C(4))
-        func_021D76BC(75, 1);
+    if (func_021C7EC4(flow) == 0 && pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID))
+        func_021D76BC(BTL_EVAR_IMMUNITY_OVERRIDE_FLAG, 1);
 }
 
-
-extern int d_021F1524[];
-int *func_021DFCDC(int *p);
-
-int *func_021DFCDC(int *p)
+/* Binding Band handler table. */
+BtlEventHandler *func_021DFCDC(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F1524;
 }

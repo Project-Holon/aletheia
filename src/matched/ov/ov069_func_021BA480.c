@@ -14,7 +14,7 @@
  *   func_021BA470  0x021BA470  thumb  ov069
  *   func_02045994  0x02045994  arm
  *   func_021BA520  0x021BA520  thumb  ov069
- *   func_0202CC70  0x0202CC70  thumb
+ *   BGWINFRM_HideFrame  0x0202CC70  thumb
  *   func_02045808  0x02045808  arm
  */
 
@@ -45,7 +45,7 @@ extern int func_021BA470(int a, int b, int c);
 struct Strbuf;
 extern void func_02045994(struct Strbuf *dst, const u16 *src, u32 n);
 extern void func_021BA520(u8 *a0, int a1, void *a2, int a3);
-extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 extern void func_02045808(struct U16Vec *vec);
 
 void func_021BA480(Obj *o)
@@ -65,6 +65,6 @@ void func_021BA480(Obj *o)
         } while (i < n);
     }
     for (; i < 10; i++)
-        func_0202CC70(o->f4, i);
+        BGWINFRM_HideFrame(o->f4, i);
     func_02045808(buf);
 }

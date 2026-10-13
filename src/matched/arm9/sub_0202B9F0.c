@@ -1,5 +1,5 @@
 /*
- * function: func_0202B9F0
+ * function: ISS_3DS_SYS_FindTableIndex
  * address:  0x0202B9F0
  * packet:   pkt_0202B9F0
  * region:   arm9
@@ -24,7 +24,7 @@ struct Obj {
     u8 count;
 };
 
-u8 func_0202B9F0(const struct Obj *p, u32 key)
+u8 ISS_3DS_SYS_FindTableIndex(const struct Obj *p, u32 key)
 {
     const struct Item *items = p->items;
     u8 count;

@@ -16,7 +16,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
- *   func_02006740 0x02006740 thumb
+ *   PM_VOICE_ResetMasterVolume 0x02006740 thumb
  *   func_021EF980 0x021EF980 thumb ov093
  *   func_021D4D5C 0x021D4D5C thumb ov093
  *   func_021D7894 0x021D7894 thumb ov093
@@ -28,6 +28,11 @@
  *   func_021D8058 0x021D8058 thumb ov093
  *   func_021E8DF8 0x021E8DF8 thumb ov093
  *   func_021E88F8 0x021E88F8 thumb ov093
+ *   GFL_USE_SetPlayersAudible  0x02005CA4  thumb  arm9
+ *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb  arm9
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb  arm9
+ *   RINGTONE_SYS_RegisterSleepCallbacks  0x02029F6C  thumb  arm9
  */
 #include "../include/Obj01370.h"
 typedef unsigned char u8;
@@ -38,9 +43,9 @@ typedef struct { int (*first)(u32 *, void *); int (*second)(u32 *, void *); void
 typedef struct { u8 pad[0x460]; volatile int fade; } Fade;
 struct S;
 struct S020315D4;
-extern void func_02005E30(u32);
-extern int func_02005E50(void);
-extern void func_02005D28(void);
+extern void GFL_USE_FadeOutBgm(u32);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern int func_0207D55C(volatile u16 *);
 extern void func_0207D534(volatile u16 *, int);
 extern void func_021EF980(void *);
@@ -54,9 +59,9 @@ extern void func_021EEA54(void);
 extern void func_021D4254(void);
 extern void func_021D8058(void);
 extern void func_021E8DF8(void);
-extern void func_02005CA4(int, u32);
-extern void func_02006740(void);
-extern void func_02029F6C(void);
+extern void GFL_USE_SetPlayersAudible(int, u32);
+extern void PM_VOICE_ResetMasterVolume(void);
+extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int);
 extern void func_021E88F8(void);
@@ -79,7 +84,7 @@ int func_021B6500(int handle, u32 *state, int unused, u8 *p)
 {
     switch (*state) {
     case 0:
-        if (!((Flags *)p)->flag5) func_02005E30(30);
+        if (!((Flags *)p)->flag5) GFL_USE_FadeOutBgm(30);
         ((Fade *)p)->fade = 0;
         if (func_0207D55C((volatile u16 *)0x0400006c) != 0) {
             ((Fade *)p)->fade = -16;
@@ -102,7 +107,7 @@ int func_021B6500(int handle, u32 *state, int unused, u8 *p)
     }
     case 2:
         if (!((Flags *)p)->flag5) {
-            if (func_02005E50() == 0) { func_02005D28(); *state += 1; }
+            if (GFL_USE_IsBgmFading() == 0) { GFL_USE_CancelChangeAndStopBgm(); *state += 1; }
         } else *state += 1;
         break;
     case 3:
@@ -123,9 +128,9 @@ int func_021B6500(int handle, u32 *state, int unused, u8 *p)
         break;
     case 5:
         func_021E8DF8();
-        func_02005CA4(1, 62);
-        func_02006740();
-        if (((Flags *)p)->flag7) { func_02029F6C(); ((Flags *)p)->flag7 = 0; }
+        GFL_USE_SetPlayersAudible(1, 62);
+        PM_VOICE_ResetMasterVolume();
+        if (((Flags *)p)->flag7) { RINGTONE_SYS_RegisterSleepCallbacks(); ((Flags *)p)->flag7 = 0; }
         func_020315D4((struct S020315D4 *)handle);
         func_020306F0(19);
         func_020306F0(20);

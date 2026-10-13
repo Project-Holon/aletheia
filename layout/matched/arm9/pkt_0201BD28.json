@@ -19,7 +19,11 @@
    "status": "EXACT",
    "functions": [
     "sub_0201BD28",
-    "sub_0201BDB4"
+    "WAZA_TOOL_GetDataParam"
+   ],
+   "addresses": [
+    "0x0201BD28",
+    "0x0201BDB4"
    ]
   },
   {
@@ -34,9 +38,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201BEB8",
-    "sub_0201BF44",
-    "sub_0201BF58"
+    "WAZA_TOOL_GetFlag",
+    "WAZA_TOOL_GetDataFlag",
+    "WAZA_TOOL_GetSickCont"
+   ],
+   "addresses": [
+    "0x0201BEB8",
+    "0x0201BF44",
+    "0x0201BF58"
    ]
   },
   {
@@ -51,8 +60,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201C020",
-    "sub_0201C0BC"
+    "WAZA_TOOL_GetRankEffectCount",
+    "WAZA_TOOL_GetRankEffect"
+   ],
+   "addresses": [
+    "0x0201C020",
+    "0x0201C0BC"
    ]
   },
   {
@@ -67,9 +80,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201C158",
-    "sub_0201C184",
-    "sub_0201C1BC"
+    "WAZA_TOOL_GetMaxPP",
+    "WAZA_TOOL_GetWeather",
+    "WAZA_TOOL_GetCategory"
+   ],
+   "addresses": [
+    "0x0201C158",
+    "0x0201C184",
+    "0x0201C1BC"
    ]
   },
   {
@@ -84,8 +102,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201C1C8",
-    "sub_0201C1D8"
+    "WAZA_TOOL_GetType",
+    "WAZA_TOOL_GetPower"
+   ],
+   "addresses": [
+    "0x0201C1C8",
+    "0x0201C1D8"
    ]
   },
   {
@@ -100,7 +122,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201C314"
+    "WAZA_TOOL_IsDamaging"
+   ],
+   "addresses": [
+    "0x0201C314"
    ]
   },
   {
@@ -115,7 +140,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201C440"
+    "PRINTSYS_QUE_Create"
+   ],
+   "addresses": [
+    "0x0201C440"
    ]
   },
   {
@@ -130,7 +158,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201C8A4"
+    "PRINTSYS_SetJobColor"
+   ],
+   "addresses": [
+    "0x0201C8A4"
    ]
   }
  ]

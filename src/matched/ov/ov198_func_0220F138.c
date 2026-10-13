@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B898 0x0204B898 arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   func_0204B878 0x0204B878 arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Obj;
-extern u16 func_0204B898(struct Obj *p);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_0204B878(void *, int);
 
 void func_0220F138(void *a, int b)
 {
-    if (b != func_0204B898(a))
+    if (b != CLACT_GetActorAnimSeq(a))
     {
-        func_0204B8C4(a, 0);
+        CLACT_SetActorAnimFrame(a, 0);
         func_0204B878(a, b);
     }
 }

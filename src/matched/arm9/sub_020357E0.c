@@ -1,5 +1,5 @@
 /*
- * function: sub_020357E0
+ * function: TOUCHPANEL_Create
  * address:  0x020357E0
  * packet:   pkt_020357E0
  * region:   arm9
@@ -44,7 +44,7 @@ extern void  TP_Init(void);
 extern int   TP_GetUserInfo(u16 *info);
 extern void  TP_SetCalibrateParam(u16 *info);
 
-void *sub_020357E0(u32 id)
+void *TOUCHPANEL_Create(u32 id)
 {
     u16 info[4];
     void *p = func_02030734(id, 0x7c, 0, str_020A798C, 0x83);

@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_02035224   0x02035224  arm
- *   func_02035BBC   0x02035BBC  arm
+ *   TOUCHPANEL_HitTrgSys   0x02035BBC  arm
  */
 
 struct UiCtx;
 extern struct UiCtx *func_02035224(void);
-extern int func_02035BBC(void *ctx, void *param);
+extern int TOUCHPANEL_HitTrgSys(void *ctx, void *param);
 
 int func_02035C08(const void *p)
 {
-    return func_02035BBC((void *)((int)func_02035224()), (void *)p);
+    return TOUCHPANEL_HitTrgSys((void *)((int)func_02035224()), (void *)p);
 }

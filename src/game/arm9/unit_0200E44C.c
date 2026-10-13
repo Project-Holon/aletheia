@@ -26,11 +26,11 @@
  *   OS_WaitIrq     0x0208459C  arm
  *   func_0200734C  0x0200734C  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_02024344  0x02024344  thumb
- *   func_020242D8  0x020242D8  thumb
- *   sub_020071CC  0x020071CC  thumb
+ *   PMSI_PARAM_SetDefaultGreeting  0x02024344  thumb
+ *   PMSI_PARAM_SetDefaultSentence  0x020242D8  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   func_02017E1C   0x02017E1C  thumb
- *   func_02045F5C   0x02045F5C  arm
+ *   MSGDATA_ReadUnits   0x02045F5C  arm
  *   func_0201F41C   0x0201F41C  thumb
  *   g_020A7370      0x020A7370  data
  *   func_02082A90 0x02082A90  arm
@@ -43,13 +43,14 @@
  *   func_0201AA18  0x0201AA18  thumb
  *   func_020457B0  0x020457B0  arm
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017D30  0x02017D30  thumb
+ *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   func_02045A38  0x02045A38  arm
  *   func_02045A98  0x02045A98  arm
- *   func_02017D70  0x02017D70  thumb
+ *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   func_02045808  0x02045808  arm
  *   func_02045994  0x02045994  arm
  *   sub_0200EC14   0x0200EC14  thumb
+ *   BSUBWAY_SAVEDATA_InitStats  0x0200DFCC  thumb
  */
 #include "../../matched/include/Obj11237.h"
 #include "../../matched/include/Obj15607.h"
@@ -200,11 +201,11 @@ extern int func_02012E7C(char *p, int a1);
 extern void OS_WaitIrq(int clear, u32 mask);
 extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
 extern u32 func_020307B0(void *p);
-extern void func_02024344(void *obj);
-extern void func_020242D8(void *slot, u32 idx);
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void PMSI_PARAM_SetDefaultGreeting(void *obj);
+extern void PMSI_PARAM_SetDefaultSentence(void *slot, u32 idx);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 extern u32  func_02017E1C(void *mon, u32 id, u32 buf);
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 extern void  func_02082A90(void *dest, const void *src, u32 size);
 extern void  func_02087C6C(void *obj);
@@ -213,15 +214,15 @@ extern u8 func_0200E918(const u8 *base, u32 idx);
 extern void func_0200E938(u8 *obj, u32 id, void *dest);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_0200E904(void *p);
-extern void func_0200DFCC(void *p);
+extern void BSUBWAY_SAVEDATA_InitStats(void *p);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern u32 func_0201AA18(void *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017D30(struct Sav *p);
+extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
 extern u16   func_02045A98(void);
-extern u32 func_02017D70(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 extern int sub_0200EC14(char *o);
@@ -757,8 +758,8 @@ u32 sub_0200E6B0(void)
  * because each is called from exactly this one place in the whole ROM,
  * the case the honesty rule's cut remedy cannot reach (docs/MATCHING.md,
  * "the limit of the remedy"). Both are now EXACT entries in their own
- * right (src/matched/sub_020242A4.c's func_02024344, and
- * src/matched/unit_020242D8.c's func_020242D8), so the `matched` class
+ * right (src/matched/sub_020242A4.c's PMSI_PARAM_SetDefaultGreeting, and
+ * src/matched/unit_020242D8.c's PMSI_PARAM_SetDefaultSentence), so the `matched` class
  * attests both calls without a second caller, and this file closes to
  * EXACT.
  *
@@ -771,12 +772,12 @@ u32 sub_0200E6B0(void)
  */
 void sub_0200E6B4(void *obj)
 {
-    func_02024344(obj);
-    func_020242D8((u8 *)obj + 8, 0);
-    func_020242D8((u8 *)obj + 0x10, 1);
-    func_020242D8((u8 *)obj + 0x18, 2);
+    PMSI_PARAM_SetDefaultGreeting(obj);
+    PMSI_PARAM_SetDefaultSentence((u8 *)obj + 8, 0);
+    PMSI_PARAM_SetDefaultSentence((u8 *)obj + 0x10, 1);
+    PMSI_PARAM_SetDefaultSentence((u8 *)obj + 0x18, 2);
     obj = (u8 *)obj + 0x20;
-    func_020242D8(obj, 3);
+    PMSI_PARAM_SetDefaultSentence(obj, 3);
 }
 
 
@@ -792,7 +793,7 @@ void sub_0200E6B4(void *obj)
  * A whole translation unit, matched as one byte range.
  *
  * alias: a two-hop tail-call chain. sub_0200E6E8 is a pure forwarder to
- * sub_0200E6F0, which itself tail calls sub_020071CC with a fixed id of
+ * sub_0200E6F0, which itself tail calls SAVE_CONTROL_GetBlock with a fixed id of
  * 0x3e; both pass their argument through unchanged. Neither carries a
  * register-saving prologue, so disasm.py's sweep does not label
  * sub_0200E6F0 and it prints as data between the two literal pools; see
@@ -819,7 +820,7 @@ void *sub_0200E6E8(u32 a)
 
 void *sub_0200E6F0(u32 a)
 {
-    return sub_020071CC((struct Sub020071CCCtrl *)a, 0x3e);
+    return SAVE_CONTROL_GetBlock((struct Sub020071CCCtrl *)a, 0x3e);
 }
 
 
@@ -1058,7 +1059,7 @@ void func_0200E7BC(struct Rec0200E7BC *o, int idx, void *mon)
     } else {
         u16 buf[12];
 
-        func_02045F5C(g_020A7370, func_02017E1C(mon, 5, 0), buf, 0xb);
+        MSGDATA_ReadUnits(g_020A7370, func_02017E1C(mon, 5, 0), buf, 0xb);
         func_0201F41C(buf, o[idx].name, 0xb);
     }
     o[idx].bits.flag = 1;
@@ -1113,7 +1114,7 @@ void sub_0200E878(void *dst)
  * alias: twelve functions on the same big object as unit_0200E938.c, all
  * working the same field at +0x6200/+0x6204.  sub_0200E884 and sub_0200E89C
  * are a copy-in/copy-out pair around a 0x10-byte scratch object obtained
- * from sub_020071CC(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
+ * from SAVE_CONTROL_GetBlock(id 0x40); sub_0200E8B0 hands back the constant 0x6204,
  * which sub_0200E8B8 uses as the zero-fill size for the whole object;
  * sub_0200E8CC is an empty hook; sub_0200E8D0 hands out the address 0x6000
  * bytes into the object; sub_0200E8D8/sub_0200E8E0 are a plain word
@@ -1121,7 +1122,7 @@ void sub_0200E878(void *dst)
  * 0x5c, which sub_0200E8EC's tail call to MI_CpuFill8 also uses directly
  * (the same 0x5c constant this compiler would otherwise route through
  * sub_0200E8E8, but the tail call inlines it); sub_0200E8F8 tail calls
- * sub_020071CC(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
+ * SAVE_CONTROL_GetBlock(sys, 0x41); sub_0200E904 zero-fills a separate 0x5a-byte
  * scratch object and hands it to func_02087C6C.
  *
  * Four of the twelve carry no label in the generated listing: they are
@@ -1142,7 +1143,7 @@ void sub_0200E878(void *dst)
  */
 void sub_0200E884(void *sys, void *src)
 {
-    void *obj = sub_020071CC(src, 0x40);
+    void *obj = SAVE_CONTROL_GetBlock(src, 0x40);
     func_02082A90(sys, obj, 0x10);
 }
 
@@ -1155,7 +1156,7 @@ void sub_0200E884(void *sys, void *src)
 
 void sub_0200E89C(void *sys, void *dest)
 {
-    void *obj = sub_020071CC(sys, 0x40);
+    void *obj = SAVE_CONTROL_GetBlock(sys, 0x40);
     func_02082A90(obj, dest, 0x10);
 }
 
@@ -1263,7 +1264,7 @@ void sub_0200E8EC(void *dest)
 
 void *sub_0200E8F8(void *sys)
 {
-    return sub_020071CC(sys, 0x41);
+    return SAVE_CONTROL_GetBlock(sys, 0x41);
 }
 
 
@@ -1454,7 +1455,7 @@ unsigned int sub_0200E9DC(void)
 void func_0200E9E0(void *a0)
 {
     func_0200E904(a0);
-    func_0200DFCC((u8 *)a0 + 0x5a);
+    BSUBWAY_SAVEDATA_InitStats((u8 *)a0 + 0x5a);
 }
 
 
@@ -1573,7 +1574,7 @@ void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
     n = 0;
     for (; i < count; i++) {
         void *mon = func_0201AB28(party, i);
-        u32 saved = func_02017D30(mon);
+        u32 saved = POKE_TOOL_DecodePartyParam(mon);
         if (func_02017E1C(mon, 0x4c, 0) == 0) {
             struct Entry *e = &rec->e[n];
             rec->e[n].species = func_02017E1C(mon, 5, 0);
@@ -1597,7 +1598,7 @@ void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
             }
             n++;
         }
-        func_02017D70(mon, saved);
+        POKE_TOOL_EncodePartyParam(mon, saved);
     }
     rec->year = date->year;
     rec->month = date->month;

@@ -1,5 +1,5 @@
 /*
- * function: func_02020DC8
+ * function: BMP_CURSOR_SetTileBitmap
  * address:  0x02020DC8
  * packet:   pkt_02020D5C
  * region:   arm9
@@ -22,7 +22,7 @@ struct Bmp;
 extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 extern u8 sub_0209E8CC_Obj[];
 
-void func_02020DC8(char *p, int a)
+void BMP_CURSOR_SetTileBitmap(char *p, int a)
 {
     ((struct Obj15729 *)p)->f8 = (u32)func_020436FC((void *)((int)sub_0209E8CC_Obj), 1, 1, 0x20, a);
 }

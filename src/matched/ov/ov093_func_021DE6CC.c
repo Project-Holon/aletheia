@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_021D775C  0x021D775C  thumb  ov093
- *   func_0201C1E8  0x0201C1E8  thumb
+ *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
  *   func_021DD008  0x021DD008  thumb  ov093
  *   func_021D7704  0x021D7704  thumb  ov093
  *   d_021F148C     0x021F148C  data   ov093  a4
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021D775C(int k);
-extern int func_0201C1E8(int a);
+extern int WAZA_TOOL_GetDamageType(int a);
 extern int func_021DD008(int a);
 extern void func_021D7704(int key, int m);
 extern int d_021F148C;
@@ -31,7 +31,7 @@ extern int d_021F148C;
 void func_021DE6CC(int a, int b, int c)
 {
     if (c == func_021D775C(3)) {
-        if (func_0201C1E8((u16)func_021D775C(0x12)) == 1)
+        if (WAZA_TOOL_GetDamageType((u16)func_021D775C(0x12)) == 1)
             func_021D7704(0x31, func_021DD008(a));
     }
 }

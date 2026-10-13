@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204ADA4",
+   "name": "CLACT_ReleasePalette",
    "address": "0x0204ADA4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204AFD8",
+   "name": "CLACT_ReleaseCellAnim",
    "address": "0x0204AFD8",
    "kind": "game",
    "region": "arm9",

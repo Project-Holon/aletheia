@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C      0x02146A5C  data
- *   func_0206E358   0x0206E358  arm
+ *   _G3dSystem      0x02146A5C  data
+ *   NNS_G3dFreeRenderObj   0x0206E358  arm
  *   func_020307B0   0x020307B0  arm
  *
  * Release one tagged record: nothing at all for a null pointer, and nothing
  * for a record whose halfword tag at +0 is not 0x7A14.  Otherwise hand the
- * pointer's +4 field to func_0206E358, drop the tag to one below its own
+ * pointer's +4 field to NNS_G3dFreeRenderObj, drop the tag to one below its own
  * value and free the record.
  *
  * The tag is pooled once (0x7A14 is past a `mov` immediate) and reused for
@@ -38,9 +38,9 @@ struct Rec {
     u32 unk_04;
 };
 
-extern u32 g_02146A5C;
+extern u32 _G3dSystem;
 struct Obj02061330;
-extern void func_0206E358(struct Obj02061330 *ctx, int field);
+extern void NNS_G3dFreeRenderObj(struct Obj02061330 *ctx, int field);
 extern u32 func_020307B0(void *p);
 
 void func_02047504(struct Rec *p)
@@ -50,7 +50,7 @@ void func_02047504(struct Rec *p)
     if (p->tag != 0x7A14)
         return;
 
-    func_0206E358((struct Obj02061330 *)g_02146A5C, p->unk_04);
+    NNS_G3dFreeRenderObj((struct Obj02061330 *)_G3dSystem, p->unk_04);
     p->tag = 0x7A14 - 1;
     func_020307B0(p);
 }

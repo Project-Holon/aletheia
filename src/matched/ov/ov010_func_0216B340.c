@@ -15,7 +15,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   func_02082BCC  0x02082BCC  arm
  *   func_02012138  0x02012138  thumb
- *   func_021767A0  0x021767A0  thumb  ov011
+ *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   func_0216B3EC  0x0216B3EC  thumb  ov010
  */
 #include "../include/Obj05904.h"
@@ -35,7 +35,7 @@ struct Work;
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC();
 extern unsigned int func_02012138(const struct Ctx *p);
-extern u8 func_021767A0(void *a, void *b);
+extern u8 INTRUDE_COMM_GetPartnerSlot(void *a, void *b);
 extern int func_0216B3EC(void *evt, u32 *state, struct Work *w);
 
 struct Desc *func_0216B340(int a0, int a1, V12 *a2, int a3, int a4)
@@ -53,7 +53,7 @@ struct Desc *func_0216B340(int a0, int a1, V12 *a2, int a3, int a4)
     ((struct Obj05904 *)p)->f0 = 0;
     p[0x16] = a4;
     ((struct Obj05904 *)p)->f1C = a1;
-    if (func_021767A0((void *)((int)func_02012138((const struct Ctx *)a0)), h) == 4)
+    if (INTRUDE_COMM_GetPartnerSlot((void *)((int)func_02012138((const struct Ctx *)a0)), h) == 4)
         ((struct Obj05904 *)p)->f20 = 1;
     return r;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6154
+ * function: DWC_RAPUTIL_Init
  * address: 0x021B6154
  * packet: pkt_ov016_021B6154
  * region: ov016
@@ -19,4 +19,4 @@ extern void func_0203064C(u32, u32, u32);
 extern int func_0200F17C(u32);
 extern int func_02034AC4(int);
 extern char ov107_id[];
-int func_021B6154(void) { func_0203064C(1, 15, 0x40100); func_0200F17C(1); func_02034AC4((int)ov107_id); return 1; }
+int DWC_RAPUTIL_Init(void) { func_0203064C(1, 15, 0x40100); func_0200F17C(1); func_02034AC4((int)ov107_id); return 1; }

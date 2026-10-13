@@ -1,5 +1,5 @@
 /*
- * function: func_02174690
+ * function: INTRUDE_COMM_RecvUnionInfoRequest
  * address: 0x02174690
  * packet: pkt_ov011_02174690
  * region: ov011
@@ -13,6 +13,6 @@
  */
 
 typedef unsigned char  u8;
-void func_02174690(int n, int b, int c, u8 *p);
+void INTRUDE_COMM_RecvUnionInfoRequest(int n, int b, int c, u8 *p);
 
-void func_02174690(int n, int b, int c, u8 *p) { p[0x908] |= (u8)(1 << n); }
+void INTRUDE_COMM_RecvUnionInfoRequest(int n, int b, int c, u8 *p) { p[0x908] |= (u8)(1 << n); }

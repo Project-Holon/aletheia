@@ -10,7 +10,7 @@
  * trailing: two-byte zero alignment padding at 0x021EB95A.
  * symbols:
  *   func_021EB6D8 0x021EB6D8 thumb ov170
- *   func_0202CE50 0x0202CE50 thumb
+ *   BGWINFRM_ChangePalette 0x0202CE50 thumb
  */
 #include "../include/Obj01558.h"
 #include "../include/Obj23984.h"
@@ -20,11 +20,11 @@ typedef unsigned int u32;
 typedef signed int s32;
 struct WinMgr;
 extern void func_021EB6D8(int a, int b, int c, int d);
-extern void func_0202CE50(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
+extern void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
 void func_021EB90C(char *p)
 {
     func_021EB6D8((int)p, 20, 84, 0);
     func_021EB6D8((int)p, 21, 85, 1);
-    func_0202CE50(*(struct WinMgr * *)&((struct Obj23984 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f74, 7, 0, 9, 11, 3, 12);
-    func_0202CE50(*(struct WinMgr * *)&((struct Obj23985 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f74, 7, 0, 12, 11, 3, 12);
+    BGWINFRM_ChangePalette(*(struct WinMgr * *)&((struct Obj23984 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f74, 7, 0, 9, 11, 3, 12);
+    BGWINFRM_ChangePalette(*(struct WinMgr * *)&((struct Obj23985 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f74, 7, 0, 12, 11, 3, 12);
 }

@@ -10,7 +10,7 @@
  * symbols:
  *   func_02045874 0x02045874 arm
  *   func_021F2328 0x021F2328 thumb ov194
- *   func_0204589C 0x0204589C arm
+ *   STRBUF_IsEqual 0x0204589C arm
  *   func_021F253C 0x021F253C thumb ov194
  *   func_02045838 0x02045838 arm
  *   func_02045808 0x02045808 arm
@@ -34,7 +34,7 @@ struct U16Vec;
 extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
 struct Strbuf;
 extern void func_021F2328(char *,struct Strbuf *);
-extern int func_0204589C(struct Buf *a, struct Buf *b);
+extern int STRBUF_IsEqual(struct Buf *a, struct Buf *b);
 extern int func_021F253C(u8 *p);
 extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 extern void func_02045808(struct U16Vec *vec);
@@ -45,7 +45,7 @@ void func_021F4524(char *p) {
     ((struct Obj24911 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f1C=0;
     text=(int)func_02045874((struct U16Vec *)(((struct Obj24912 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f20),30);
     func_021F2328(p+0x68,(struct Strbuf *)((struct Obj24913 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f20);
-    if (func_0204589C((struct Buf *)text,(struct Buf *)(((struct Obj24914 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f20)))
+    if (STRBUF_IsEqual((struct Buf *)text,(struct Buf *)(((struct Obj24914 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f20)))
         ((struct Obj24915 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f1C=1;
     if (!func_021F253C((u8 *)((int)(p+0x68)))) {
         func_02045838((struct U16Vec *)(((struct Obj24916 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f20),(struct U16Vec *)text);

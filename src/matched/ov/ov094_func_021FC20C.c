@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_0201134C 0x0201134C thumb
- *   func_020113B4 0x020113B4 thumb
+ *   VM_Call 0x020113B4 thumb
  *   func_02048F60 0x02048F60 arm
  */
 typedef unsigned short u16;
@@ -35,7 +35,7 @@ typedef struct {
 struct Cursor;
 extern unsigned int func_0201134C(struct Cursor *p);
 struct Ring;
-extern void func_020113B4(struct Ring *r, unsigned int v);
+extern void VM_Call(struct Ring *r, unsigned int v);
 typedef unsigned int   u32;
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 
@@ -55,7 +55,7 @@ int func_021FC20C(struct Ring *a, State *s)
     s->f4 = 0;
     p = func_02048F60(0x43, n - 0x231, (u16)((s->h238 & 0x7fff) | 0x8000));
     s->f1e8 = p;
-    func_020113B4(a, (unsigned int)((char *)p + p[1]));
+    VM_Call(a, (unsigned int)((char *)p + p[1]));
     s->f260++;
     return s->f23c;
 }

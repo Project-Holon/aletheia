@@ -11,12 +11,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02005B04
+ * function: GFL_USE_ReleaseWaveArcSet
  *
  * symbols:
- *   sub_02005B04_Cur  0x020AA1AC  data
- *   sub_02005834      0x02005834  thumb
- *   sub_02005858      0x02005858  thumb
+ *   _SndStack  0x020AA1AC  data
+ *   GFL_USE_BeginSndSlot      0x02005834  thumb
+ *   GFL_USE_EndSndSlot      0x02005858  thumb
  *   func_020748E0     0x020748E0  arm
  *
  * Close the current connection slot with a status word taken from the
@@ -35,17 +35,17 @@ struct Sub02005B04Cur {
     u32 **unk08;
 };
 
-extern struct Sub02005B04Cur sub_02005B04_Cur;
+extern struct Sub02005B04Cur _SndStack;
 
-extern void sub_02005834(u32 v);
-extern void sub_02005858(void);
+extern void GFL_USE_BeginSndSlot(u32 v);
+extern void GFL_USE_EndSndSlot(void);
 extern void func_020748E0(u32 *a, u32 b);
 
-void sub_02005B04(const u32 *arg)
+void GFL_USE_ReleaseWaveArcSet(const u32 *arg)
 {
     u32 v = arg[1];
 
-    sub_02005858();
-    func_020748E0(*sub_02005B04_Cur.unk08, v);
-    sub_02005834(v);
+    GFL_USE_EndSndSlot();
+    func_020748E0(*_SndStack.unk08, v);
+    GFL_USE_BeginSndSlot(v);
 }

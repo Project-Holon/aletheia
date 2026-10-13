@@ -1,5 +1,5 @@
 /*
- * function: func_02084D98
+ * function: OS_UnLockCartridge
  * address:  0x02084D98
  * packet:   pkt_02084D98
  * region:   arm9
@@ -19,7 +19,7 @@ typedef signed int     s32;
 typedef unsigned short u16;
 extern s32 func_02084D78(u16 lockID);
 
-asm void func_02084D98(int a)
+asm void OS_UnLockCartridge(int a)
 {
     ldr r1, =func_02084D78
     bx r1

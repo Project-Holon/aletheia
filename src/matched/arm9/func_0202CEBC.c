@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202CEBC
+ * function: BGWINFRM_PutBmpWin
  * address:  0x0202CEBC
  * packet:   pkt_0202CDD4
  * region:   arm9
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_02045768  0x02045768  arm
- *   func_02045778  0x02045778  arm
+ *   BMP_WIN_GetPalette  0x02045778  arm
  *   func_02045738  0x02045738  arm
  *   func_02045740  0x02045740  arm
  *   func_02045758  0x02045758  arm
@@ -49,13 +49,13 @@ struct WinMgr {
 
 struct Descriptor;
 extern u16 func_02045768(struct Descriptor *p);
-extern u8 func_02045778(struct Descriptor *p);
+extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
 extern u8 func_02045738(struct Descriptor *p);
 extern u8 func_02045740(struct Descriptor *p);
 extern u8 func_02045758(struct Descriptor *p);
 extern u8 func_02045760(struct Descriptor *p);
 
-void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a)
+void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a)
 {
     u16 *tiles = mgr->wins[idx].tiles;
     u32 stride = mgr->wins[idx].w;
@@ -69,7 +69,7 @@ void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a)
     s32 cw;
 
     base = func_02045768(a);
-    bits = ((u32)func_02045778(a) << 0x1c) >> 0x10;
+    bits = ((u32)BMP_WIN_GetPalette(a) << 0x1c) >> 0x10;
     cw = func_02045738(a);
     ch = func_02045740(a);
     ox = func_02045758(a);

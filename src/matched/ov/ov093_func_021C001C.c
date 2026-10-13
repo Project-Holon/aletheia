@@ -10,8 +10,8 @@
  * lever: Naming the one-word union result before passing it restores the original frame.
  * Symbol hints retain the Thumb ISA of the two already-matched ARM9 callees.
  * symbols:
- *   func_0201BEB8 0x0201BEB8 thumb
- *   func_0201C314 0x0201C314 thumb
+ *   WAZA_TOOL_GetFlag 0x0201BEB8 thumb
+ *   WAZA_TOOL_IsDamaging 0x0201C314 thumb
  *   func_021C03D8 0x021C03D8 thumb ov093
  *   func_021D62A8 0x021D62A8 thumb ov093
  *   func_021C0274 0x021C0274 thumb ov093
@@ -60,11 +60,11 @@ extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern union Slot func_021D6314(void *, int);
 extern u16 func_021E8B80(union Slot);
-extern u32 func_0201BEB8(u16, u32);
+extern u32 WAZA_TOOL_GetFlag(u16, u32);
 extern int func_021EF948(int);
 extern u16 func_021D67B8(u8 *);
 extern u16 func_021D67A8(struct QL *p);
-extern u32 func_0201C314(void *p);
+extern u32 WAZA_TOOL_IsDamaging(void *p);
 extern int func_021EF91C(void *, u8 *, u16);
 extern int func_021C031C(u8 *, u8 *);
 extern int func_021D7AF0(u32);
@@ -104,15 +104,15 @@ int func_021C001C(u8 *p, u8 *a, u16 c, u16 d)
         move = func_021D6314(a, 13);
         if (c == func_021E8B80(move)) { reason = 9; goto done; }
     }
-    if (func_021D62C4((struct Unk021D62A8 *)a, 15) && func_0201BEB8(c, 12)) { reason = 13; goto done; }
-    if (func_021EF948(2) && func_0201BEB8(c, 9)) { reason = 20; goto done; }
+    if (func_021D62C4((struct Unk021D62A8 *)a, 15) && WAZA_TOOL_GetFlag(c, 12)) { reason = 13; goto done; }
+    if (func_021EF948(2) && WAZA_TOOL_GetFlag(c, 9)) { reason = 20; goto done; }
     if (c != 165) {
         if (func_021D62C4((struct Unk021D62A8 *)a, 23)) {
             u16 id = func_021D67B8(a);
             if (id != 165 && id != c) { reason = 17; goto done; }
         }
         if (func_021D62C4((struct Unk021D62A8 *)a, 25) && c != func_021D67A8((struct QL *)a)) { reason = 17; goto done; }
-        if (func_021D62C4((struct Unk021D62A8 *)a, 11) && func_0201C314((void *)c) == 0) { reason = 10; goto done; }
+        if (func_021D62C4((struct Unk021D62A8 *)a, 11) && WAZA_TOOL_IsDamaging((void *)c) == 0) { reason = 10; goto done; }
         if (func_021EF948(3) && func_021EF91C(((struct Obj04359 *)p)->f8, a, c)) { reason = 12; goto done; }
     }
     if (func_021C031C(p, a)) { reason = 5; goto done; }

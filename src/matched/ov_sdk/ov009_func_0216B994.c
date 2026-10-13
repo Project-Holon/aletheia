@@ -1,5 +1,5 @@
 /*
- * function: func_0216B994
+ * function: DWC_GetState
  * address:  0x0216B994
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern struct DwcGlobal g_021AA878;
 
-int func_0216B994(void)
+int DWC_GetState(void)
 {
     int *p = *(int **)(((char *)&g_021AA878) + 4);
 

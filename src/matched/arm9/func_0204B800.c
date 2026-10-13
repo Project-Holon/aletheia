@@ -1,5 +1,5 @@
 /*
- * function: func_0204B800
+ * function: CLACT_SetActorDrawPriority
  * address:  0x0204B800
  * packet:   pkt_0204B764
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204CA30  0x0204CA30  arm
- *   func_0204C98C  0x0204C98C  arm
+ *   CLACT_UnlinkActor  0x0204CA30  arm
+ *   CLACT_LinkActor  0x0204C98C  arm
  *
  * Field at +0x60 is an 8-bit bitfield in a whole word: the original is a
  * word load, and/bic/orr, word store, never a ldrb/strb.
@@ -28,12 +28,12 @@ struct Node {
 };
 
 struct Mgr;
-extern void func_0204CA30(struct Mgr *m, struct Node *l);
-extern void func_0204C98C(void *p, struct Node *node);
+extern void CLACT_UnlinkActor(struct Mgr *m, struct Node *l);
+extern void CLACT_LinkActor(void *p, struct Node *node);
 
-void func_0204B800(struct Node *node, u32 val)
+void CLACT_SetActorDrawPriority(struct Node *node, u32 val)
 {
     node->unk_060 = val;
-    func_0204CA30(node->unk_008, node);
-    func_0204C98C(node->unk_008, node);
+    CLACT_UnlinkActor(node->unk_008, node);
+    CLACT_LinkActor(node->unk_008, node);
 }

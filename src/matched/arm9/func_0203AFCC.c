@@ -1,5 +1,5 @@
 /*
- * function: func_0203AFCC
+ * function: GFL_NET_STATE_DeviceInitialize
  * address:  0x0203AFCC
  * packet:   pkt_0203AF40
  * region:   arm9
@@ -8,23 +8,25 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * blocker:  +0018 PC24 func_0203AD8C -- `label`: the only branch to 0x0203AD8C
+ * blocker:  +0018 PC24 GFL_NET_STATE_InitWork -- `label`: the only branch to 0x0203AD8C
  *           anywhere in the image is this call, so the site has no witness
  *           outside 0203AFCC..0203B018 and stays wildcarded.
- *           +0044 ABS32 func_0203AF40 -- the word is the previous function's
+ *           +0044 ABS32 GFL_NET_STATE_DeviceInitialized -- the word is the previous function's
  *           address; its only two occurrences in the image are the pool words
  *           inside this very range (0x0203B010 here and 0x0203AFC0 in
- *           func_0203AF40), so `label` (no branch reaches it) and `literal`
- *           (self-witness) both refuse.  Filing func_0203AF40 as an EXACT
+ *           GFL_NET_STATE_DeviceInitialized), so `label` (no branch reaches it) and `literal`
+ *           (self-witness) both refuse.  Filing GFL_NET_STATE_DeviceInitialized as an EXACT
  *           manifest entry converts this site to `matched` and leaves
- *           func_0203AD8C as the only cap.
+ *           GFL_NET_STATE_InitWork as the only cap.
  *           Every concrete byte of the body and of the pool words reproduces
  *           (76 of 76; dsi/1.1p1).
  *
  * symbols:
  *   func_02034F84  0x02034F84  arm
- *   func_0203AD80  0x0203AD80  arm
- *   g_021469DC     0x021469DC  data
+ *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
+ *   _pNetState     0x021469DC  data
+ *   GFL_NET_STATE_InitWork  0x0203AD8C  arm
+ *   GFL_NET_STATE_DeviceInitialized  0x0203AF40  arm
  */
 
 #include "../include/G_Sys.h"
@@ -32,18 +34,18 @@
 typedef unsigned int u32;
 
 extern void func_02034F84(u32 a);
-extern void func_0203AD8C(u32 a0);
+extern void GFL_NET_STATE_InitWork(u32 a0);
 typedef unsigned short u16;
 struct NetState;
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
 struct Rec;
-extern void func_0203AF40(struct Rec *p);
-extern struct Sys *g_021469DC;
+extern void GFL_NET_STATE_DeviceInitialized(struct Rec *p);
+extern struct Sys *_pNetState;
 
-void func_0203AFCC(void *a, u32 b)
+void GFL_NET_STATE_DeviceInitialize(void *a, u32 b)
 {
     func_02034F84(4);
-    func_0203AD8C((u32)a);
-    ((u32 *)g_021469DC)[0xb] = b;
-    func_0203AD80((struct NetState *)((u32 *)g_021469DC), (void *)func_0203AF40, 0, 0x13F);
+    GFL_NET_STATE_InitWork((u32)a);
+    ((u32 *)_pNetState)[0xb] = b;
+    GFL_NET_STATE_ChangeStateDebug((struct NetState *)((u32 *)_pNetState), (void *)GFL_NET_STATE_DeviceInitialized, 0, 0x13F);
 }

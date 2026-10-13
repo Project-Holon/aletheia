@@ -1,5 +1,5 @@
 /*
- * function: func_0204EE0C
+ * function: BILLBOARD_FindFreeImage
  * address:  0x0204EE0C
  * packet:   pkt_0204EE0C
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204EE0C.c \
- *       --func func_0204EE0C --addr 0x0204EE0C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_FindFreeImage.c \
+ *       --func BILLBOARD_FindFreeImage --addr 0x0204EE0C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -32,7 +32,7 @@ struct Struct_0204EE0C {
     u16 count;
 };
 
-int func_0204EE0C(struct Struct_0204EE0C *p, int *out_index)
+int BILLBOARD_FindFreeImage(struct Struct_0204EE0C *p, int *out_index)
 {
     int i;
     u16 count = p->count;

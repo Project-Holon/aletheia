@@ -1,5 +1,5 @@
 /*
- * function: func_02173874
+ * function: UNION_MAIN_FieldCreateCallback
  * address:  0x02173874
  * packet:   pkt_ov012_02173874
  * region:   ov012
@@ -40,7 +40,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void func_0217B440(char *base, int x, void *y);
 extern void func_021676E4(struct Work *w);
 
-void func_02173874(int a, u8 *p, void *q)
+void UNION_MAIN_FieldCreateCallback(int a, u8 *p, void *q)
 {
     S *r4;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02154670
+ * function: EVENT_GSYNC_Create
  * address:  0x02154670
  * packet:   pkt_02154670
  * region:   ov000
@@ -34,7 +34,7 @@ void *func_020120F4(const struct Ctx *p);
 void *func_02012EBC(struct Big *p);
 u32 func_021542C0(void *obj, u32 *mode, char *args);
 
-void *func_02154670(void *p)
+void *EVENT_GSYNC_Create(void *p)
 {
     void *r7;
     char *r4;

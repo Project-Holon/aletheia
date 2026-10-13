@@ -17,12 +17,12 @@
  *   word, not a relocation, and needs no witness.
  *
  * symbols:
- *   func_020889F8  0x020889F8  arm twl a2
+ *   RTCEXi_GetCommonCallback  0x020889F8  arm twl a2
  */
 
 typedef unsigned int u32;
 
-extern void *func_020889F8(void);
+extern void *RTCEXi_GetCommonCallback(void);
 
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -37,7 +37,7 @@ typedef struct {
 
 u32 RTCEXi_CommonCallback(void)
 {
-    Req02700000 *req = (Req02700000 *)func_020889F8();
+    Req02700000 *req = (Req02700000 *)RTCEXi_GetCommonCallback();
     u32 ret = 0;
 
     switch (req->kind) {

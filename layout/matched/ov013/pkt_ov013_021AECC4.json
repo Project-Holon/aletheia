@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AECC4",
+   "name": "VCT_MAIN_AcceptPendingPeer",
    "address": "0x021AECC4",
    "kind": "game",
    "region": "ov013",

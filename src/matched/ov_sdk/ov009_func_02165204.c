@@ -1,5 +1,5 @@
 /*
- * function: func_02165204
+ * function: WCM_EndSearchAsync
  * address:  0x02165204
  * packet:   pkt_ov009_02165204
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_02165A4C  0x02165A4C  arm  ov009
+ *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   g_021AA7D4  0x021AA7D4  data ov009
  *
  * Ends an AP search: only valid in the search phases, moves to the search-ending phase and reports pending.
@@ -34,9 +34,9 @@ typedef struct WCMState WCMState;
 extern struct WCMState g_021AA7D4;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void func_02165A4C(unsigned char phase);
+extern void WCMi_SetPhase(unsigned char phase);
 
-long func_02165204(int a, int b)
+long WCM_EndSearchAsync(int a, int b)
 {
     unsigned long e;
 
@@ -47,7 +47,7 @@ long func_02165204(int a, int b)
     }
     switch (((WCMWork *)g_021AA7D4.work)->phase) {
     case 6:
-        func_02165A4C(7);
+        WCMi_SetPhase(7);
         ((WCMWork *)g_021AA7D4.work)->notify = 4;
         break;
     case 7:

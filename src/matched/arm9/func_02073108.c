@@ -1,5 +1,5 @@
 /*
- * function: func_02073108
+ * function: NNS_SndHandleReadTrackInfo
  * address:  0x2073108
  * packet:   pkt_02072EA8
  * region:   arm9
@@ -24,7 +24,7 @@ struct Obj { struct Sub * volatile p; };
 struct SNDTrackInfo;
 extern int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
 
-int func_02073108(struct Obj *o, int trackNo, struct SNDTrackInfo *trackInfo)
+int NNS_SndHandleReadTrackInfo(struct Obj *o, int trackNo, struct SNDTrackInfo *trackInfo)
 {
     if (o->p == 0) return 0;
     return func_02072894(o->p->b3c, trackNo, trackInfo);

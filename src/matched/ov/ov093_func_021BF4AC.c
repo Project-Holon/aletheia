@@ -31,6 +31,7 @@
  *   func_021C6668 0x021C6668 thumb ov093
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021CD64C 0x021CD64C thumb ov093
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb  arm9
  */
 #include "../include/Obj04358.h"
 #include "../include/Obj13316.h"
@@ -55,7 +56,7 @@ extern void func_021BF6C8(void *, u8 *);
 extern u8 *func_021BF6D8(void *);
 extern int func_021BF324(u8 *, u8 *, u8 *);
 extern int func_021BF6E8(u8 *, u8 *, u8 *, u8 *, void *, int);
-extern u32 func_0201BEB8(u16, u32);
+extern u32 WAZA_TOOL_GetFlag(u16, u32);
 struct UtilWork;
 extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern int func_021C6668(u8 *, u8 *, u8 *, u16);
@@ -77,7 +78,7 @@ void func_021BF4AC(u8 *p, u8 *b, u8 *a, void *d, void *e)
         if (func_021BF6E8(p, b, a, q, e, 44)) func_021BF648(d, q);
         q = func_021BF658(d);
     }
-    if (func_0201BEB8(((struct Obj04358 *)b)->f0, 3)) {
+    if (WAZA_TOOL_GetFlag(((struct Obj04358 *)b)->f0, 3)) {
         func_021BF668(d);
         q = func_021BF678(d);
         while (q) {

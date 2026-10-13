@@ -1,5 +1,5 @@
 /*
- * function: func_0202AEBC
+ * function: ISS_CITY_SYS_ApplyVolume
  * address:  0x0202AEBC
  * packet:   pkt_0202AEBC
  * region:   arm9
@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
+ *   ISS_CITY_SYS_CalcOutputVolume  0x0202AED0  thumb
  */
 
-int func_0202AEBC(int a0){ int t0, t1; t0 = func_0202AED0(a0); t1 = func_02005F24((int)(3 << 8), (int)(t0 + 0)); return t1; }
+int ISS_CITY_SYS_ApplyVolume(int a0){ int t0, t1; t0 = ISS_CITY_SYS_CalcOutputVolume(a0); t1 = GFL_USE_SetBgmTrackVolume((int)(3 << 8), (int)(t0 + 0)); return t1; }

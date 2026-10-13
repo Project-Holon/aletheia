@@ -16,14 +16,14 @@
  *           0x0000EFFF, not ~0x1000).
  *
  * symbols:
- *   func_020252A8       0x020252A8  thumb
- *   func_0203568C       0x0203568C  arm
+ *   INFOWIN_UpdateClock       0x020252A8  thumb
+ *   UI_GetPowerState       0x0203568C  arm
  *   func_0203CD98       0x0203CD98  arm
  *   func_0203D798       0x0203D798  arm
  *   func_0203D1B4       0x0203D1B4  arm
- *   func_0203D29C       0x0203D29C  arm
+ *   GFL_NET_IsNetTypeWifi       0x0203D29C  arm
  *   func_0201058C       0x0201058C  thumb
- *   func_02026CA0       0x02026CA0  thumb
+ *   GAME_BEACON_GetNextNewLogIndex       0x02026CA0  thumb
  *   gInfoWin            0x0214693C  data
  */
 
@@ -60,14 +60,14 @@ struct Link {
 
 extern struct InfoWin *gInfoWin;
 
-extern void  func_020252A8(void);
-extern int   func_0203568C(void);
+extern void  INFOWIN_UpdateClock(void);
+extern int   UI_GetPowerState(void);
 extern int   func_0203CD98(void);
 extern void *func_0203D798(void);
 extern int   func_0203D1B4(void);
-extern u32 func_0203D29C(void);
+extern u32 GFL_NET_IsNetTypeWifi(void);
 extern u32 func_0201058C(void *key);
-extern int   func_02026CA0(int *p);
+extern int   GAME_BEACON_GetNextNewLogIndex(int *p);
 
 void func_02024ABC(void)
 {
@@ -80,10 +80,10 @@ void func_02024ABC(void)
     if (gInfoWin == 0)
         return;
 
-    func_020252A8();
+    INFOWIN_UpdateClock();
     gInfoWin->f1E++;
     if (gInfoWin->f1E > 60) {
-        u8 v = func_0203568C();
+        u8 v = UI_GetPowerState();
         if (gInfoWin->f1F != v) {
             gInfoWin->f1F = v;
             gInfoWin->f04 = (u16)(gInfoWin->f04 | 0x20);
@@ -94,14 +94,14 @@ void func_02024ABC(void)
     if (func_0203CD98() == 1) {
         link = func_0203D798();
         n = func_0203D1B4();
-        if (func_0203D29C() == 1)
+        if (GFL_NET_IsNetTypeWifi() == 1)
             flag = 1;
     }
 
     if (n < 2 && flag == 0) {
         bits = func_0201058C((void *)gInfoWin->f0C);
         idx = 0;
-        if (gInfoWin->f10 == 1 && func_02026CA0(&idx) != 0x1E) {
+        if (gInfoWin->f10 == 1 && GAME_BEACON_GetNextNewLogIndex(&idx) != 0x1E) {
             gInfoWin->f04 = (u16)(gInfoWin->f04 | 0x10);
             gInfoWin->f04 = (u16)(gInfoWin->f04 | 0x1000);
         } else {

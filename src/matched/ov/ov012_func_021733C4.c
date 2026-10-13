@@ -1,5 +1,5 @@
 /*
- * function: func_021733C4
+ * function: UNION_COMM_GetBeaconSize
  * address: 0x021733C4
  * packet: pkt_ov012_021733C4
  * region: ov012
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov012/union_comm.c and filed here.
  */
 
-int func_021733C4(void);
+int UNION_COMM_GetBeaconSize(void);
 
-int func_021733C4(void) { return 100; }
+int UNION_COMM_GetBeaconSize(void) { return 100; }

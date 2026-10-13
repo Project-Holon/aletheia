@@ -1,5 +1,5 @@
 /*
- * function: func_0202C308
+ * function: ISS_SWITCH_SET_Delete
  * address:  0x0202C308
  * packet:   pkt_0202C2EC
  * region:   arm9
@@ -8,16 +8,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   ISS_SWITCH_SET_Free  0x0202C3A0  thumb
+ *   ISS_SWITCH_SET_DeleteSwitches  0x0202C3C4  thumb
  */
 
 typedef unsigned int u32;
 
 struct Obj0202C360;
-extern void func_0202C3C4(struct Obj0202C360 *p);
-extern u32 func_0202C3A0(void *p);
+extern void ISS_SWITCH_SET_DeleteSwitches(struct Obj0202C360 *p);
+extern u32 ISS_SWITCH_SET_Free(void *p);
 
-void func_0202C308(void *p)
+void ISS_SWITCH_SET_Delete(void *p)
 {
-    func_0202C3C4(p);
-    func_0202C3A0(p);
+    ISS_SWITCH_SET_DeleteSwitches(p);
+    ISS_SWITCH_SET_Free(p);
 }

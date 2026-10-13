@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206B780",
+   "name": "G3D_SBC_RunCountedCallback",
    "address": "0x0206B780",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206B7A8",
+   "name": "G3D_SBC_RunCallbackSetDone",
    "address": "0x0206B7A8",
    "kind": "game",
    "region": "arm9",

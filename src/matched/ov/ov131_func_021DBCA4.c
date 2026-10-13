@@ -1,5 +1,5 @@
 /*
- * function: func_021DBCA4
+ * function: P_STA_OAM_SetBitmapActorsEnabled
  * address: 0x021DBCA4
  * packet: pkt_ov131_021DBCA4
  * region: ov131
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-void func_021DBCA4(u8 *p, int v)
+void P_STA_OAM_SetBitmapActorsEnabled(u8 *p, int v)
 {
     u8 i, j;
     for (i = 0; i < p[0x23]; i++) {

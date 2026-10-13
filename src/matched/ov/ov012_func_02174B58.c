@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_02174B58, func_02174B7C
+ * function: COLOSSEUM_GetRecvBuffer, COLOSSEUM_NoOp
  * address: 0x02174B58
  * packet: pkt_ov012_02174B58
  * region: ov012
@@ -11,18 +11,18 @@
  * status: EXACT
  * symbols:
  *   func_02034714 0x02034714 arm
- *   d_0217562C 0x0217562C data a4
+ *   gColosseumAssertText1 0x0217562C data a4
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02034714(const char *,u32,const char *);
-extern const char d_0217562C[];
-u8 *func_02174B58(int a, u8 *b, int c)
+extern const char gColosseumAssertText1[];
+u8 *COLOSSEUM_GetRecvBuffer(int a, u8 *b, int c)
 {
-    if (c > 0x800) func_02034714(d_0217562C, 0, d_0217562C);
+    if (c > 0x800) func_02034714(gColosseumAssertText1, 0, gColosseumAssertText1);
     return b + 4 + (a << 11);
 }
 
-void func_02174B7C(void)
+void COLOSSEUM_NoOp(void)
 {
 }

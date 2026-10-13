@@ -12,9 +12,9 @@
  *   func_021D580C 0x021D580C thumb ov123
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D70BC 0x021D70BC thumb ov123
- *   func_02005E9C 0x02005E9C thumb
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005DF8 0x02005DF8 thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
  */
@@ -23,9 +23,9 @@ typedef unsigned int u32;
 extern int func_021D580C(char *);
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D70BC(char *);
-extern int func_02005E9C(void);
-extern void func_02005DE4(void *p);
-extern void func_02005DF8(u32 v);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_FadeInBgmFull(u32 v);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 void func_021D7130(char *p)
@@ -35,9 +35,9 @@ void func_021D7130(char *p)
         *(int *)(p + 0x78) = n;
         if (n <= 0) {
             if (n == 0) {
-                func_02005E9C();
-                func_02005DE4(0);
-                func_02005DF8(6);
+                GFL_USE_PopBgm();
+                GFL_USE_SetBgmPlayerParam(0);
+                GFL_USE_FadeInBgmFull(6);
             }
             if (func_020362DC() != 0 || func_02035C60() != 0) {
                 func_021D6EE0((u8 *)p, (int)func_021D70BC, 0x20B);

@@ -13,12 +13,13 @@
  *   d_0220A392  0x0220A392  data  ov094  a2
  *   func_02204C98  0x02204C98  thumb  ov094
  *   func_0201EC64  0x0201EC64  thumb
- *   func_0201DE00  0x0201DE00  thumb
+ *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   func_0201DD78  0x0201DD78  thumb
  *   func_0201EF34  0x0201EF34  thumb
  *   func_0201F250  0x0201F250  thumb
  *   func_0201C7A4  0x0201C7A4  thumb
  *   func_0201ED04  0x0201ED04  thumb
+ *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
  */
 #include "../include/Obj01384.h"
 
@@ -48,7 +49,7 @@ struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201DE00(u8 *, u8 *, u8 *);
+extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -56,7 +57,7 @@ struct StrObj;
 extern void func_02204C98(struct StrObj *a, int b, int *outn, int *outq);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern void *func_020437D4(const struct Bmp *bmp);
-extern void func_0204B7C8(const char *src, struct Struct36 *dst);
+extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
@@ -88,7 +89,7 @@ void func_02205F88(char *p)
     font = (int)func_0201EC64(((struct Obj01384 *)p)->f240);
     bmp = func_02043678(0xe, 4, 0x20, ((struct Obj01384 *)p)->f240);
     func_02043B5C(bmp, 0);
-    func_0201DE00(&c[2], &c[1], &c[0]);
+    GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     func_0201DD78(0xe, 0xa, 0);
     func_0201EF34((struct WordSet *)font, 0, 0xa5);
     func_0201F250((struct WordSet *)font, str, msg);
@@ -96,7 +97,7 @@ void func_02205F88(char *p)
     func_0201C7A4(bmp, 0x38 - w / 2, 8, str, ((struct Obj01384 *)p)->f224);
     func_0201DD78(c[2], c[1], c[0]);
     pixels = func_020437D4(bmp);
-    func_0204B7C8(((struct Obj01384 *)p)->f21C, (struct Struct36 *)(&buf));
+    CLACT_GetActorImageProxy(((struct Obj01384 *)p)->f21C, (struct Struct36 *)(&buf));
     vram = VRAM_BASE;
     for (i = 0; i < 4; i++) {
         func_02082A60(pixels + i * 0x1c0, (void *)(vram + (i * 8 + 0xcd) * 32 + buf.w[2]), 0x100);

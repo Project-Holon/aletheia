@@ -1,5 +1,5 @@
 /*
- * function: func_0201DBBC
+ * function: GF_FONT_ReadPreloadedGlyph
  * address:  0x0201DBBC
  * packet:   pkt_0201DB20
  * region:   arm9
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0201DC44  0x0201DC44  thumb
+ *   GF_FONT_DecodeGlyph  0x0201DC44  thumb
  *
  * gf_font.c's glyph fetch for a preloaded font: copy glyph record i
  * (mapSize bytes) out of the resident body into the scratch buffer, then
- * hand it to func_0201DC44 with the last-tile column count.
+ * hand it to GF_FONT_DecodeGlyph with the last-tile column count.
  *
  * The lever (wave 16) is `const` on the font parameter, which is only read
  * here.  With a plain pointer the outgoing stack argument `out` was stored
@@ -26,7 +26,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201DBBC.c \
- *       --func func_0201DBBC --addr 0x0201DBBC --cc 1.1p1 --thumb
+ *       --func GF_FONT_ReadPreloadedGlyph --addr 0x0201DBBC --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -54,10 +54,10 @@ struct Font {
 };
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void func_0201DC44(struct Font *f, const u8 *g, u32 w, void *d, u8 *out);
+extern void GF_FONT_DecodeGlyph(struct Font *f, const u8 *g, u32 w, void *d, u8 *out);
 
-void func_0201DBBC(const struct Font *f, u32 i, void *d, u8 *out)
+void GF_FONT_ReadPreloadedGlyph(const struct Font *f, u32 i, void *d, u8 *out)
 {
     MI_CpuCopy8(f->body + i * f->mapSize, f->scratch, f->mapSize);
-    func_0201DC44((struct Font *)f, f->scratch, f->lastCols, d, out);
+    GF_FONT_DecodeGlyph((struct Font *)f, f->scratch, f->lastCols, d, out);
 }

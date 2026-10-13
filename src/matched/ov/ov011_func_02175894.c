@@ -1,5 +1,5 @@
 /*
- * function: func_02175894
+ * function: INTRUDE_COMM_GetSessionElapsed
  * address: 0x02175894
  * packet: pkt_ov011_02175894
  * region: ov011
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_0203F4FC(void);
-int func_02175894(u8 *p)
+int INTRUDE_COMM_GetSessionElapsed(u8 *p)
 {
     u32 now = func_0203F4FC();
     u32 stamp = ((struct Obj19190 *)p)->f190;

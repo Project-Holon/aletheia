@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *
  * Read the link driver's current mask through the indirect getter at +0x7c
  * of the object hanging off +0x340, truncate it to sixteen bits and drop
@@ -39,12 +39,12 @@ struct LinkRoot {
     struct LinkDriver *driver;
 };
 
-extern struct LinkRoot *func_0203D788(void);
+extern struct LinkRoot *GFL_NET_GetSession(void);
 
 int sub_020393A8(void)
 {
     u16 mask;
 
-    mask = func_0203D788()->driver->get_mask();
+    mask = GFL_NET_GetSession()->driver->get_mask();
     return mask & 0xFFFE;
 }

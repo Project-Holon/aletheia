@@ -1,5 +1,5 @@
 /*
- * function: func_0204D18C
+ * function: CLACT_InitMultiCellAnimCtl
  * address:  0x0204D18C
  * packet:   pkt_0204D18C
  * region:   arm9
@@ -20,12 +20,12 @@
  * close with `const struct A *a`.  The read-only source pointer lets the
  * parameter copy of p be scheduled before the loads, freeing r0 for the
  * stmib pair {r0, r1}.  The rest is the 2026-09-22 source from
- * docs/notes/pkt_0204D18C.func_0204D224.c.txt: the nested t1/t0 block
+ * docs/notes/pkt_0204D18C.CLACT_InitVramAnimCtl.c.txt: the nested t1/t0 block
  * (descending loads) for the stmib, and `two - 3` for the -1 argument.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D18C.c \
- *       --func func_0204D18C --addr 0x0204D18C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_InitMultiCellAnimCtl.c \
+ *       --func CLACT_InitMultiCellAnimCtl --addr 0x0204D18C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -62,7 +62,7 @@ extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
 extern int func_020637B4(int *p, int i);
 extern void func_020642C8(char *self, int a1, char *c, int d, int e, int f, int g, int h, int i, int j);
 
-void func_0204D18C(struct P *p, const struct A *a)
+void CLACT_InitMultiCellAnimCtl(struct P *p, const struct A *a)
 {
     u32 zero = 0;
     u32 two;

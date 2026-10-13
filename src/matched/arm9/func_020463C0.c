@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020463C0
+ * function: SYSTEMFONT_GetGlyphHeight
  * address:  0x020463C0
  * packet:   pkt_020461F4
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_020463C0(void){ return *(unsigned char *)((*(int *)(*(int *)(0x2146A58)) + 13)); }
+int SYSTEMFONT_GetGlyphHeight(void){ return *(unsigned char *)((*(int *)(*(int *)(0x2146A58)) + 13)); }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02024DFC",
+   "name": "INFOWIN_DrawTask",
    "address": "0x02024DFC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    }
   },
   {
-   "name": "func_02025154",
+   "name": "INFOWIN_WriteScreen",
    "address": "0x02025154",
    "kind": "game",
    "region": "arm9",

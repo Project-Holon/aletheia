@@ -1,5 +1,5 @@
 /*
- * function: FSi_ConvertStringSjisToUnicode
+ * function: BACKUP_SYSTEM_CreateWithWork
  * address:  0x02031948
  * packet:   pkt_02031948
  * region:   arm9
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203174C 0x0203174C arm
+ *   BACKUP_SYSTEM_CreateCore 0x0203174C arm
  */
 
 typedef unsigned int   u32;
 struct Blk;
 struct In;
-extern struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e);
+extern struct Blk *BACKUP_SYSTEM_CreateCore(const struct In *in, u32 heap, u32 c, u32 d, u32 e);
 
-struct Blk *FSi_ConvertStringSjisToUnicode(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
+struct Blk *BACKUP_SYSTEM_CreateWithWork(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
 {
-    return func_0203174C(in, heap, c, d, e);
+    return BACKUP_SYSTEM_CreateCore(in, heap, c, d, e);
 }

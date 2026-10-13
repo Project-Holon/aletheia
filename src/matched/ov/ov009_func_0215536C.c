@@ -1,5 +1,5 @@
 /*
- * function: func_0215536C
+ * function: GFL_NET_DEVWIFI_GetDeviceTable
  * address:  0x0215536C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,13 +12,13 @@
  * Address of the module state object.
  *
  * symbols:
- *   g_021A1B80  0x021A1B80  data
+ *   _wifiDeviceTable  0x021A1B80  data
  */
 
-extern char g_021A1B80[];
+extern char _wifiDeviceTable[];
 
-void *func_0215536C(void)
+void *GFL_NET_DEVWIFI_GetDeviceTable(void)
 {
-    return g_021A1B80;
+    return _wifiDeviceTable;
 }
 

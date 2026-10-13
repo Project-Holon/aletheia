@@ -10,14 +10,14 @@
  * volatile: 0x04000060 reread at 021E2C9C, 021E2CAA, 021E2CB6, 021E2CC0, 021E2CC8; 0x04000580 hardware store at 021E2CEC.
  * symbols:
  *   func_0207ADC4 0x0207ADC4 arm
- *   func_02011CF0 0x02011CF0 thumb
- *   func_02011D0C 0x02011D0C thumb
+ *   ICA_ANIME_SetCameraPos 0x02011CF0 thumb
+ *   ICA_ANIME_SetCameraTarget 0x02011D0C thumb
  *   func_02048AD0 0x02048AD0 arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02011610 0x02011610 thumb
- *   func_02051838 0x02051838 arm
+ *   BUTTON_MAN_SetEmitterPos 0x02051838 arm
  *   d_021E79C8 0x021E79C8 data a4
  */
 typedef unsigned short u16;
@@ -46,17 +46,17 @@ typedef struct {
 } Work;
 typedef enum { SHADING_TOON, SHADING_HIGHLIGHT } Shading;
 extern void func_0207ADC4(MtxFx33 *m);
-extern void func_02011CF0(void *a0, void *a1);
-extern void func_02011D0C(void *a0, void *a1);
+extern void ICA_ANIME_SetCameraPos(void *a0, void *a1);
+extern void ICA_ANIME_SetCameraTarget(void *a0, void *a1);
 struct Light;
 extern void func_02048AD0(struct Light *l);
 extern void func_0207DC44(int, int, int, int);
 extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 struct IcaAnime;
 struct Rec12;
 extern u32 func_02011610(struct IcaAnime *t, struct Rec12 *out);
-extern void func_02051838(void *obj, VecFx32 *v);
+extern void BUTTON_MAN_SetEmitterPos(void *obj, VecFx32 *v);
 extern char d_021E79C8[];
 static inline void shading(Shading s) { *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3002) | (s << 1)); }
 static inline void antialias(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 0x10); else *(volatile u16 *)0x04000060 &= (u16)~0x3010; }
@@ -76,23 +76,23 @@ void func_021E2C3C(Work *w, Transform *t)
     t->scale.z = 0x1000;
     func_0207ADC4(&t->rot);
     if (w->sub != 0) {
-        if (w->sub->objA8 == 0) func_02011CF0(w->x83c, (void *)w->sub->anim90);
-        if (w->sub->objAC == 0) func_02011D0C(w->x83c, (void *)w->sub->anim94);
+        if (w->sub->objA8 == 0) ICA_ANIME_SetCameraPos(w->x83c, (void *)w->sub->anim90);
+        if (w->sub->objAC == 0) ICA_ANIME_SetCameraTarget(w->x83c, (void *)w->sub->anim94);
     }
     func_02048AD0(w->x83c);
     shading(SHADING_HIGHLIGHT); antialias(1); alphatest(0); blend(0); edge(0);
     func_0207DC44(1, 0, 0, 0);
     func_0207DD24(0, 0, 0x7fff, 0x3f, 0);
     *(volatile unsigned *)0x04000580 = 0xbfff0000;
-    for (i = 0; i < 4; i++) func_02046A94((u8)i, (const u16 *)(d_021E79C8 + i * 8));
+    for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((u8)i, (const u16 *)(d_021E79C8 + i * 8));
     if (w->sub != 0) {
         if (w->sub->objA0 != 0) {
             func_02011610((struct IcaAnime *)w->sub->anim98, (struct Rec12 *)&v1);
-            func_02051838(w->sub->objA0, &v1);
+            BUTTON_MAN_SetEmitterPos(w->sub->objA0, &v1);
         }
         if (w->sub->objA4 != 0) {
             func_02011610((struct IcaAnime *)w->sub->anim9c, (struct Rec12 *)&v2);
-            func_02051838(w->sub->objA4, &v2);
+            BUTTON_MAN_SetEmitterPos(w->sub->objA4, &v2);
         }
     }
 }

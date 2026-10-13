@@ -11,14 +11,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200785C, sub_02007898, sub_020078C4, sub_0200791C,
- *           sub_02007984, sub_020079A0
+ * function: BOX_SAVEDATA_GetBoxName, BOX_SAVEDATA_SetBoxName, BOX_SAVEDATA_CountPokemonInBox, BOX_SAVEDATA_CountNonEggPokemonInBox,
+ *           BOX_SAVEDATA_CountPokemon, BOX_SAVEDATA_CountNonEggPokemon
  *
  * symbols:
  *   sub_0200785C_File  0x020A7068  data
- *   sub_020074CC       0x020074CC  thumb
- *   sub_02007AF4       0x02007AF4  thumb
- *   sub_02017E88       0x02017E88  thumb
+ *   BOX_SAVEDATA_GetHeader       0x020074CC  thumb
+ *   BOX_SAVEDATA_GetBoxPokemon       0x02007AF4  thumb
+ *   POKE_TOOL_GetBoxValue       0x02017E88  thumb
  *   func_02034714      0x02034714  arm
  *   func_02045924      0x02045924  arm
  *   func_02045A38      0x02045A38  arm
@@ -26,9 +26,9 @@
  * The box name getter and setter, two per box counts, and the whole-storage
  * totals that sum each of them over all 24 boxes.
  *
- * The range has to be exactly these six functions.  sub_020078C4 is called
- * from one place in the image and sub_0200791C from one place, and those two
- * places are sub_02007984 and sub_020079A0 respectively, so a file that
+ * The range has to be exactly these six functions.  BOX_SAVEDATA_CountPokemonInBox is called
+ * from one place in the image and BOX_SAVEDATA_CountNonEggPokemonInBox from one place, and those two
+ * places are BOX_SAVEDATA_CountPokemon and BOX_SAVEDATA_CountNonEggPokemon respectively, so a file that
  * stopped before the summing loops would leave both counts with no witness
  * outside the compared range and cap at MATCH.  Inside one range they are
  * `local` and cost no image evidence at all.  It cuts the other way too: the
@@ -42,9 +42,9 @@
  * the file reads begins.
  *
  * Two of the six needed their locals reordering before they matched, and the
- * evidence is only ever which register a value lands in.  sub_0200791C
+ * evidence is only ever which register a value lands in.  BOX_SAVEDATA_CountNonEggPokemonInBox
  * declares its slot counter before the entry base, the reverse of
- * sub_020078C4 immediately above it, and that one line is the whole
+ * BOX_SAVEDATA_CountPokemonInBox immediately above it, and that one line is the whole
  * difference between r4/r5 and r5/r4 throughout its loop.  The two summing
  * loops initialise the box index before the running total, which is why
  * they are written `for (box = 0, n = 0; ...)` rather than initialising the
@@ -77,21 +77,21 @@ typedef unsigned short u16;
 struct Strbuf;
 struct Sub02007454Header;
 struct Sub02007AC8Entry;
-extern struct Sub02007454Header *sub_020074CC(void **save);
-extern struct Sub02007AC8Entry *sub_02007AF4(void **save, u32 box);
-extern u32 sub_02017E88(void *p, u32 id, u32 v);
+extern struct Sub02007454Header *BOX_SAVEDATA_GetHeader(void **save);
+extern struct Sub02007AC8Entry *BOX_SAVEDATA_GetBoxPokemon(void **save, u32 box);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
 struct U16Vec;
 extern void func_02045A38(struct U16Vec *src, unsigned short *dest,
                           u32 n);
 
-int sub_020078C4(void *save, u32 box);
-int sub_0200791C(void *save, u32 box);
+int BOX_SAVEDATA_CountPokemonInBox(void *save, u32 box);
+int BOX_SAVEDATA_CountNonEggPokemonInBox(void *save, u32 box);
 
-void sub_0200785C(void *save, u32 box, void *dest)
+void BOX_SAVEDATA_GetBoxName(void *save, u32 box, void *dest)
 {
-    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
+    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)BOX_SAVEDATA_GetHeader(save);
 
     if (box == -1) {
         box = h->unk00;
@@ -103,9 +103,9 @@ void sub_0200785C(void *save, u32 box, void *dest)
     func_02034714(sub_0200785C_File, 0, sub_0200785C_File);
 }
 
-void sub_02007898(void *save, u32 box, const void *src)
+void BOX_SAVEDATA_SetBoxName(void *save, u32 box, const void *src)
 {
-    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
+    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)BOX_SAVEDATA_GetHeader(save);
 
     if (box == -1) {
         box = h->unk00;
@@ -115,9 +115,9 @@ void sub_02007898(void *save, u32 box, const void *src)
     }
 }
 
-int sub_020078C4(void *save, u32 box)
+int BOX_SAVEDATA_CountPokemonInBox(void *save, u32 box)
 {
-    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
+    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)BOX_SAVEDATA_GetHeader(save);
     struct Sub0200785CEntry *base;
     int slot;
     int n;
@@ -127,9 +127,9 @@ int sub_020078C4(void *save, u32 box)
     }
     if (box < 0x18) {
         n = 0;
-        base = (struct Sub0200785CEntry *)sub_02007AF4(save, box);
+        base = (struct Sub0200785CEntry *)BOX_SAVEDATA_GetBoxPokemon(save, box);
         for (slot = 0; slot < 30; slot++) {
-            if (sub_02017E88(&base[slot], 0xA9, 0) != 0) {
+            if (POKE_TOOL_GetBoxValue(&base[slot], 0xA9, 0) != 0) {
                 n++;
             }
         }
@@ -139,9 +139,9 @@ int sub_020078C4(void *save, u32 box)
     return 0;
 }
 
-int sub_0200791C(void *save, u32 box)
+int BOX_SAVEDATA_CountNonEggPokemonInBox(void *save, u32 box)
 {
-    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
+    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)BOX_SAVEDATA_GetHeader(save);
     int slot;
     struct Sub0200785CEntry *base;
     int n;
@@ -151,10 +151,10 @@ int sub_0200791C(void *save, u32 box)
     }
     if (box < 0x18) {
         n = 0;
-        base = (struct Sub0200785CEntry *)sub_02007AF4(save, box);
+        base = (struct Sub0200785CEntry *)BOX_SAVEDATA_GetBoxPokemon(save, box);
         for (slot = 0; slot < 30; slot++) {
-            if (sub_02017E88(&base[slot], 0xA9, 0) != 0 &&
-                sub_02017E88(&base[slot], 0x4C, 0) == 0) {
+            if (POKE_TOOL_GetBoxValue(&base[slot], 0xA9, 0) != 0 &&
+                POKE_TOOL_GetBoxValue(&base[slot], 0x4C, 0) == 0) {
                 n++;
             }
         }
@@ -164,24 +164,24 @@ int sub_0200791C(void *save, u32 box)
     return 0;
 }
 
-int sub_02007984(void *save)
+int BOX_SAVEDATA_CountPokemon(void *save)
 {
     int n;
     u32 box;
 
     for (box = 0, n = 0; box < 0x18; box++) {
-        n += sub_020078C4(save, box);
+        n += BOX_SAVEDATA_CountPokemonInBox(save, box);
     }
     return n;
 }
 
-int sub_020079A0(void *save)
+int BOX_SAVEDATA_CountNonEggPokemon(void *save)
 {
     int n;
     u32 box;
 
     for (box = 0, n = 0; box < 0x18; box++) {
-        n += sub_0200791C(save, box);
+        n += BOX_SAVEDATA_CountNonEggPokemonInBox(save, box);
     }
     return n;
 }

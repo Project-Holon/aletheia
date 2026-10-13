@@ -1,5 +1,5 @@
 /*
- * function: func_0217409C
+ * function: INTRUDE_CMD_RecvProposalReply
  * address: 0x0217409C
  * packet: pkt_ov011_0217409C
  * region: ov011
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov011/unit_02173CB0.c and filed here.
  *
  * symbols:
- *   func_02175D2C 0x02175D2C thumb ov011
+ *   INTRUDE_COMM_SetJoinStatus 0x02175D2C thumb ov011
  */
 
 typedef unsigned char u8;
-void func_02175D2C(u8 *p, int v);
-void func_0217409C(int a, int b, int *c, u8 *p);
+void INTRUDE_COMM_SetJoinStatus(u8 *p, int v);
+void INTRUDE_CMD_RecvProposalReply(int a, int b, int *c, u8 *p);
 
-void func_0217409C(int a, int b, int *c, u8 *p)
+void INTRUDE_CMD_RecvProposalReply(int a, int b, int *c, u8 *p)
 {
-    func_02175D2C(p + 0x1ac, *c);
+    INTRUDE_COMM_SetJoinStatus(p + 0x1ac, *c);
 }

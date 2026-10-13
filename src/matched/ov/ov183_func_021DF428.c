@@ -23,7 +23,7 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021DF838 0x021DF838 thumb ov183
- *   func_0201BABC 0x0201BABC thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204B294 0x0204B294 arm
  *   func_0201BB5C 0x0201BB5C thumb
@@ -49,7 +49,7 @@ extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02082BCC(void *,u32,u32);
 extern void func_021DF838(int p, char *out);
-extern u32 func_0201BABC(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
@@ -80,7 +80,7 @@ void func_021DF428(struct State *p,u32 mgr,u16 heap)
         for(j=0;j<6;j++) {
             species=e.species[j];
             if(species==0) species=1;
-            p->indices[i][j]=func_0204A6C8(archive,func_0201BABC(species,e.form[j],e.gender[j],0),0,0,heap);
+            p->indices[i][j]=func_0204A6C8(archive,POKE_TOOL_CalcGraphicIndex(species,e.form[j],e.gender[j],0),0,0,heap);
             pos.x=j*0x18+0x6e;
             pos.y=i*0x18+0x48;
             pos.a=6-j;

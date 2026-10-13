@@ -12,11 +12,11 @@
  * sdk:      gsiCoreExecuteTask (gscore.o)
  *
  * symbols:
- *   func_0217CA20                  0x0217CA20  arm ov009
+ *   gsiCoreGetManager                  0x0217CA20  arm ov009
  *   func_0217F264                  0x0217F264  arm ov009
- *   func_0217F108                  0x0217F108  arm ov009
+ *   gsiEnterCriticalSection                  0x0217F108  arm ov009
  *   func_02184234                  0x02184234  arm ov009
- *   func_0217F114                  0x0217F114  arm ov009
+ *   gsiLeaveCriticalSection                  0x0217F114  arm ov009
  */
 
 typedef struct GSCoreMgr {
@@ -38,15 +38,15 @@ typedef struct GSTask {
     void (*cb24)(void *);
 } GSTask;
 
-extern void *func_0217CA20(void);
+extern void *gsiCoreGetManager(void);
 extern unsigned int func_0217F264(void);
-extern void func_0217F108(void *cs);
+extern void gsiEnterCriticalSection(void *cs);
 extern void func_02184234(void *array, void *elem);
-extern void func_0217F114(void *cs);
+extern void gsiLeaveCriticalSection(void *cs);
 
 void func_0217CE48(GSTask *theTask, unsigned int theTimeoutMs)
 {
-    GSCoreMgr *aCore = func_0217CA20();
+    GSCoreMgr *aCore = gsiCoreGetManager();
     theTask->f1c = 1;
     theTask->f10 = 1;
     theTask->f14 = 1;
@@ -54,7 +54,7 @@ void func_0217CE48(GSTask *theTask, unsigned int theTimeoutMs)
     theTask->startTime = func_0217F264();
     if (theTask->cb24 != 0)
         theTask->cb24(theTask->obj20);
-    func_0217F108(&aCore->cs);
+    gsiEnterCriticalSection(&aCore->cs);
     func_02184234(aCore->tasks, &theTask);
-    func_0217F114(&aCore->cs);
+    gsiLeaveCriticalSection(&aCore->cs);
 }

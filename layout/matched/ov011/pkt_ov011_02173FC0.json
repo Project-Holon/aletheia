@@ -19,7 +19,11 @@
    "status": "EXACT",
    "functions": [
     "func_02173FC0",
-    "func_02173FE4"
+    "INTRUDE_CMD_RecvMemberValue"
+   ],
+   "addresses": [
+    "0x02173FC0",
+    "0x02173FE4"
    ]
   }
  ]

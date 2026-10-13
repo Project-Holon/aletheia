@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02039764",
+   "name": "GFL_NET_HANDLE_CreateHandle",
    "address": "0x02039764",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02039834",
+   "name": "GFL_NET_HANDLE_InitWork",
    "address": "0x02039834",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    }
   },
   {
-   "name": "func_020398B4",
+   "name": "GFL_NET_HANDLE_ExitWork",
    "address": "0x020398B4",
    "kind": "game",
    "region": "arm9",

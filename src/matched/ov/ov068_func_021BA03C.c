@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02035D20  0x02035D20  arm
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_020362DC  0x020362DC  arm
  *   func_0203630C  0x0203630C  arm
  *   func_020355C4  0x020355C4  arm
@@ -24,7 +24,7 @@
 typedef unsigned int u32;
 
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32  func_020362DC(void);
 extern unsigned int func_0203630C(void);
 typedef unsigned char  u8;
@@ -48,7 +48,7 @@ void func_021BA03C(int *p)
         p[5] = x;
         p[6] = y;
         p[7] = 1;
-    } else if (func_02035CB8((u32 *)(&x), (u32 *)(&y)) && p[7] != 0) {
+    } else if (TOUCHPANEL_GetPointCont((u32 *)(&x), (u32 *)(&y)) && p[7] != 0) {
         d = y - p[2];
         if (d < 0)
             d = -d;

@@ -17,10 +17,10 @@
  *   func_021EAF50 0x021EAF50 thumb ov093
  *   func_021D5B40 0x021D5B40 thumb ov093
  *   func_021D5440 0x021D5440 thumb ov093
- *   func_0201C314 0x0201C314 thumb
+ *   WAZA_TOOL_IsDamaging 0x0201C314 thumb
  *   func_021D67B8 0x021D67B8 thumb ov093
  *   func_021D62D8 0x021D62D8 thumb ov093
- *   func_0201BEB8 0x0201BEB8 thumb
+ *   WAZA_TOOL_GetFlag 0x0201BEB8 thumb
  *   func_021EFCE4 0x021EFCE4 thumb ov093
  *   func_021EFC1C 0x021EFC1C thumb ov093
  */
@@ -42,10 +42,10 @@ extern void func_021EAF18(struct L *p, int kind, int id);
 extern void func_021EAF50(struct L *p, u32 val);
 extern u16 func_021D5B40(struct QI *p);
 extern u8 func_021D5440(u8 *p);
-extern u32 func_0201C314(void *p);
+extern u32 WAZA_TOOL_IsDamaging(void *p);
 extern u16 func_021D67B8(u8 *p);
 extern u16 func_021D62D8(struct UtilSlots *p, int i);
-extern int func_0201BEB8(u32, int);
+extern int WAZA_TOOL_GetFlag(u32, int);
 extern void *func_021EFCE4(char *arg0, int arg1);
 extern int func_021EFC1C(int, int, void *, u32);
 int func_021CF5B0(u8 *g, void *m, u32 move, void *out)
@@ -77,7 +77,7 @@ int func_021CF5B0(u8 *g, void *m, u32 move, void *out)
             return 1;
         }
     }
-    if (func_021D62C4(m, 0xb) && func_0201C314((void *)move) == 0) {
+    if (func_021D62C4(m, 0xb) && WAZA_TOOL_IsDamaging((void *)move) == 0) {
         if (out) {
             func_021EAF18(out, 2, 0x23b);
             func_021EAF50(out, func_021D5440(m));
@@ -101,7 +101,7 @@ int func_021CF5B0(u8 *g, void *m, u32 move, void *out)
         }
         return 1;
     }
-    if (func_021D62C4(m, 0xf) && func_0201BEB8(move, 0xc)) {
+    if (func_021D62C4(m, 0xf) && WAZA_TOOL_GetFlag(move, 0xc)) {
         if (out) {
             func_021EAF18(out, 2, 0x37a);
             func_021EAF50(out, func_021D5440(m));
@@ -117,7 +117,7 @@ int func_021CF5B0(u8 *g, void *m, u32 move, void *out)
         }
         return 1;
     }
-    if (func_021EFCE4((char *)(*(int *)&((struct Obj01894 *)g)->f34), 2) && func_0201BEB8(move, 9)) {
+    if (func_021EFCE4((char *)(*(int *)&((struct Obj01894 *)g)->f34), 2) && WAZA_TOOL_GetFlag(move, 9)) {
         if (out) {
             func_021EAF18(out, 2, 0x43e);
             func_021EAF50(out, func_021D5440(m));

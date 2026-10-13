@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C     0x02146A5C  data
+ *   _G3dSystem     0x02146A5C  data
  *   NNS_G3dGlb     0x02148B4C  data
  *   MTX_LookAt     0x0207BCA0  arm
  *
@@ -101,10 +101,10 @@ struct G3dCtx {
     void (*f88)(void);
 };
 
-extern struct G3dCtx *g_02146A5C;
+extern struct G3dCtx *_G3dSystem;
 
 void func_020479D8(void)
 {
-    NNS_G3dGlbLookAt(&g_02146A5C->view0, &g_02146A5C->view1, &g_02146A5C->view2);
-    g_02146A5C->f88();
+    NNS_G3dGlbLookAt(&_G3dSystem->view0, &_G3dSystem->view1, &_G3dSystem->view2);
+    _G3dSystem->f88();
 }

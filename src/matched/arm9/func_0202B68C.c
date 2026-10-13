@@ -1,5 +1,5 @@
 /*
- * function: func_0202B68C
+ * function: ISS_SYS_DeleteDungeon
  * address:  0x0202B68C
  * packet:   pkt_0202B67C
  * region:   arm9
@@ -8,13 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   ISS_DUNGEON_SYS_Delete  0x0202B3EC  thumb
  */
 #include "../include/Obj02011.h"
 
 typedef unsigned char  u8;
-extern void func_0202B3EC(u8 *p);
-void func_0202B68C(int a0)
+extern void ISS_DUNGEON_SYS_Delete(u8 *p);
+void ISS_SYS_DeleteDungeon(int a0)
 {
-    func_0202B3EC((u8 *)(((struct Obj02011 *)a0)->f18));
+    ISS_DUNGEON_SYS_Delete((u8 *)(((struct Obj02011 *)a0)->f18));
     ((struct Obj02011 *)a0)->f18 = 0;
 }

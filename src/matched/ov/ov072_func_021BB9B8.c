@@ -13,7 +13,7 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_0204A48C  0x0204A48C  arm
  *   func_0204B100  0x0204B100  arm
- *   func_0204B270  0x0204B270  arm
+ *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
  *   func_020434DC  0x020434DC  arm
  *   func_02043598  0x02043598  arm
  *   func_020490F4  0x020490F4  arm
@@ -56,7 +56,7 @@ extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
 struct Obj;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 typedef signed int     s32;
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
@@ -83,7 +83,7 @@ void func_021BB9B8(Gfx *o, u32 mode, u32 heap)
     t = d_021BBC0C;
     func_0204A48C((const struct Cfg *)(&t), mode, heap);
     o->res = (u32)func_0204B100(0x80, 0, heap);
-    func_0204B270((struct Bank *)o->res);
+    CLACT_SetUnitDefaultRenderer((struct Bank *)o->res);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
     h = func_020490F4(0x55, heap);

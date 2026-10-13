@@ -1,5 +1,5 @@
 /*
- * function: sub_02033C00
+ * function: AREAMAN_Create
  * address:  0x02033C00
  * packet:   pkt_02033C00
  * region:   arm9
@@ -29,8 +29,8 @@
  * re-reads to catch an overrun.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02033C00.c \
- *       --func sub_02033C00 --addr 0x02033C00 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/AREAMAN_Create.c \
+ *       --func AREAMAN_Create --addr 0x02033C00 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -50,7 +50,7 @@ extern const char sub_02033C00_File[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
-struct AreaMan *sub_02033C00(u32 size, u32 heap)
+struct AreaMan *AREAMAN_Create(u32 size, u32 heap)
 {
     struct AreaMan *p;
     u32 n;

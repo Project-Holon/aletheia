@@ -13,8 +13,8 @@
  *   g_02146BB0      0x02146BB0  data
  *   g_02146BB4      0x02146BB4  data
  *   func_02061DF0   0x02061DF0  arm
- *   func_02061DFC   0x02061DFC  arm
- *   func_02061E48   0x02061E48  arm
+ *   NNSi_GfdInitBlockPool   0x02061DFC  arm
+ *   NNSi_GfdAddBlock   0x02061E48  arm
  *   func_02061FF8   0x02061FF8  arm
  *
  * The layer-3 (8-byte granule) INITIALISER of docs/families/
@@ -45,15 +45,15 @@ extern struct Hdr02062474 g_02146BB0;
 extern u32 g_02146BB4;
 extern void func_02061DF0(u32 *head);
 struct Node02061DFC;
-extern struct Node02061DFC *func_02061DFC(struct Node02061DFC *arr, u32 count);
+extern struct Node02061DFC *NNSi_GfdInitBlockPool(struct Node02061DFC *arr, u32 count);
 struct List02061E48;
 struct Pool02061E48;
-extern u32 func_02061E48(struct List02061E48 *list, struct Pool02061E48 *pool, u32 d0, u32 d1);
+extern u32 NNSi_GfdAddBlock(struct List02061E48 *list, struct Pool02061E48 *pool, u32 d0, u32 d1);
 extern void func_02061FF8(void *pp, int arg);
 void func_020625D8(void)
 {
-    g_02146BB0_blk.pool = (u32)func_02061DFC((struct Node02061DFC *)g_02146BB0_blk.f0c, g_02146BB0_blk.f10 >> 4);
+    g_02146BB0_blk.pool = (u32)NNSi_GfdInitBlockPool((struct Node02061DFC *)g_02146BB0_blk.f0c, g_02146BB0_blk.f10 >> 4);
     func_02061DF0(&(*(u32 *)&g_02146BB0));
-    func_02061E48((struct List02061E48 *)(&(*(u32 *)&g_02146BB0)), (struct Pool02061E48 *)(&g_02146BB4), 0, g_02146BB0_blk.f08);
+    NNSi_GfdAddBlock((struct List02061E48 *)(&(*(u32 *)&g_02146BB0)), (struct Pool02061E48 *)(&g_02146BB4), 0, g_02146BB0_blk.f08);
     func_02061FF8(&(*(u32 *)&g_02146BB0), (int)(&g_02146BB4));
 }

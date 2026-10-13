@@ -1,5 +1,5 @@
 /*
- * function: func_02036640
+ * function: GFL_NET_RING_BUFF_GetWritableSize
  * address:  0x02036640
  * packet:   pkt_02036640
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Free space of a net_ring_buff.c ring: capacity (+4) minus the used count.
- * The used count is the body of the matched sibling func_020365E8 inlined
+ * The used count is the body of the matched sibling GFL_NET_RING_BUFF_GetDataSize inlined
  * verbatim (its two volatile re-reads of the +0xE cursor are what keep the
  * per-arm reloads the earlier DIFF note could not reproduce).
  */
@@ -27,7 +27,7 @@ static inline int RingUsed(char *p)
     return *(volatile short *)&((struct Obj05731 *)p)->fE - a;
 }
 
-int func_02036640(char *p)
+int GFL_NET_RING_BUFF_GetWritableSize(char *p)
 {
     return ((struct Obj15901 *)p)->f4 - RingUsed(p);
 }

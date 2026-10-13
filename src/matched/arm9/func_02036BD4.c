@@ -1,5 +1,5 @@
 /*
- * function: func_02036BD4
+ * function: GFL_NET_WM_ICON_Create
  * address:  0x02036BD4
  * packet:   pkt_020366C0
  * region:   arm9
@@ -23,14 +23,14 @@
  *
  * symbols:
  *   func_02030734   0x02030734  arm
- *   func_02036D64   0x02036D64  arm
- *   func_02036F24   0x02036F24  arm
+ *   GFL_NET_WM_ICON_GetEngine   0x02036D64  arm
+ *   GFL_NET_WM_ICON_LoadGraphics   0x02036F24  arm
  *   wm_icon_File    0x020A79F0  data
  *   g_021469C8      0x021469C8  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02036BD4.c \
- *       --func func_02036BD4 --addr 0x02036BD4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_WM_ICON_Create.c \
+ *       --func GFL_NET_WM_ICON_Create --addr 0x02036BD4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -60,10 +60,10 @@ extern struct Notifier g_021469C8;
 extern const char wm_icon_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_02036D64(u8 *p);
-extern void func_02036F24(int a0, int b, int c);
+extern u32 GFL_NET_WM_ICON_GetEngine(u8 *p);
+extern void GFL_NET_WM_ICON_LoadGraphics(int a0, int b, int c);
 
-struct Handler *func_02036BD4(u32 unused, u32 b, u32 c, u32 d, u32 e,
+struct Handler *GFL_NET_WM_ICON_Create(u32 unused, u32 b, u32 c, u32 d, u32 e,
                               struct Handler *h, u32 kind, u32 busy,
                               u32 unk00)
 {
@@ -86,6 +86,6 @@ struct Handler *func_02036BD4(u32 unused, u32 b, u32 c, u32 d, u32 e,
     h->unk0f = 0;
     h->unk10 = 0x7000000;
 
-    func_02036F24(func_02036D64((u8 *)h), h->unk0c, (u16)b);
+    GFL_NET_WM_ICON_LoadGraphics(GFL_NET_WM_ICON_GetEngine((u8 *)h), h->unk0c, (u16)b);
     return h;
 }

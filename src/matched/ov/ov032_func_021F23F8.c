@@ -26,12 +26,12 @@ u32 func_021F23F8(char *p);
  * (both EXACT, thumb, `one --thumb` with no --region):
  *   0x020275B8 (12 bytes incl. pool word 0x0B0E):
  *     typedef unsigned char u8;
- *     void func_020275B8(char *p, u8 v) { p[0xb0e] = v; }
+ *     void BEACON_STATUS_SetViewTop(char *p, u8 v) { p[0xb0e] = v; }
  *   0x020275D0 (12 bytes incl. pool word 0x0B0C):
- *     void *func_020275D0(char *p) { return p + 0xb0c; }
+ *     void *BEACON_STATUS_GetViewFlags(char *p) { return p + 0xb0c; }
  * 0x53 is ov083's id (func_021F5260/func_021F5368 are ov083 children).
  *
- * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/func_020275A8,
+ * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/BEACON_STATUS_GetLog,
  *   AC, B8, D0 EXACT); the tool still reports them unresolved, so the label seeding for
  *   0x020275A8/AC/B8/D0 (asm/layout, not this lane) is the only blocker.
  */

@@ -3,7 +3,7 @@
  * asm/arm9/src/001_02007664.s.  Not an SDK symbol: it is absent from
  * layout/symbols_sdk.txt.
  *
- * function: sub_02008F3C
+ * function: MAIL_Copy
  * address:  0x02008F3C
  * packet:   pkt_02008A34
  * region:   arm9
@@ -38,7 +38,7 @@ struct Sub02008F80Obj {
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-void sub_02008F3C(const struct Sub02008F80Obj *src, struct Sub02008F80Obj *dest)
+void MAIL_Copy(const struct Sub02008F80Obj *src, struct Sub02008F80Obj *dest)
 {
     MI_CpuCopy8(src, dest, sizeof(struct Sub02008F80Obj));
 }

@@ -30,13 +30,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020434DC",
-    "sub_02043534",
-    "sub_02043558"
+    "BG_SYS_SetMainPlaneVisible",
+    "BG_SYS_SetMainVisiblePlanes",
+    "BG_SYS_ClearSubBgPlanes"
+   ],
+   "addresses": [
+    "0x020434DC",
+    "0x02043534",
+    "0x02043558"
    ]
   },
   {
-   "name": "sub_02043598",
+   "name": "BG_SYS_SetSubPlaneVisible",
    "address": "0x02043598",
    "kind": "game",
    "region": "arm9",
@@ -48,7 +53,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020435F4",
+   "name": "BG_SYS_SetSubVisiblePlanes",
    "address": "0x020435F4",
    "kind": "game",
    "region": "arm9",

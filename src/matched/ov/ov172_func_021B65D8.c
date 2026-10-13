@@ -12,7 +12,7 @@
  * Runs the two ARM9 state probes and sets the +0x24/+0x1c flags on the global object.
  *
  * symbols:
- *   func_02085D3C  0x02085D3C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_021B6608  0x021B6608  arm    ov172
  *   func_021B6610  0x021B6610  arm    ov172
  *   func_021B6618  0x021B6618  arm    ov172
@@ -27,7 +27,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_02085D3C(void *p);
+extern int OS_IsRunOnTwl(void *p);
 extern void func_021B6608(void);
 extern u32 func_021B6610(u32 a);
 extern void func_021B6618(void);
@@ -37,9 +37,9 @@ void func_021B65D8(void)
 {
     u32 *p = (u32 *)g_021C88E0;
 
-    if (func_02085D3C(&g_021C88E0) == 1)
+    if (OS_IsRunOnTwl(&g_021C88E0) == 1)
         func_021B6608();
-    if (func_02085D3C((void *)func_021B6610(1)) == 1)
+    if (OS_IsRunOnTwl((void *)func_021B6610(1)) == 1)
         func_021B6618();
     ((struct Obj14292 *)p)->f24 = 1;
     ((struct Obj14292 *)p)->f1C = 1;

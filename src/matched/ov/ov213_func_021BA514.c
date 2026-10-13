@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203D5D4 0x0203D5D4 arm
+ *   GFL_NET_GetGameKind 0x0203D5D4 arm
  *   func_021BA4BC 0x021BA4BC thumb ov213
  * prototype: caller loads r0 net object before D5D4; retained visible input despite callee's void parameter list.
  */
@@ -19,12 +19,12 @@
 #include "../include/Obj25707.h"
 #include "../include/Obj25708.h"
 typedef unsigned int   u32;
-extern u32 func_0203D5D4(void);
+extern u32 GFL_NET_GetGameKind(void);
 extern void func_021BA4BC(void *,int,int);
 void func_021BA514(char *p)
 {
     if(((struct Obj25704 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54) {
-        switch((int)func_0203D5D4()) {
+        switch((int)GFL_NET_GetGameKind()) {
         case 37:case 12:case 31:func_021BA4BC(((struct Obj25706 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,37,((struct Obj03939 *)p)->f49CC);break;
         case 10:func_021BA4BC(((struct Obj25707 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,17,((struct Obj03939 *)p)->f49CC);break;
         case 20:case 21:case 23:case 24:case 25:case 26:

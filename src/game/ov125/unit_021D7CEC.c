@@ -19,7 +19,7 @@
  *   func_021D7874  0x021D7874  arm  ov125
  *   d_021DA0B4 0x021DA0B4 data a4
  *   d_021D9640 0x021D9640 data a4
- *   func_0215F650 0x0215F650 arm ov009
+ *   SOC_GetHostByName 0x0215F650 arm ov009
  *   func_0215FA9C 0x0215FA9C arm ov009
  *   d_021D9F80 0x021D9F80 data a4
  *   d_021DA258 0x021DA258 data a4
@@ -27,8 +27,8 @@
  *   func_0215C910 0x0215C910 arm ov009
  *   func_0215FC80 0x0215FC80 arm ov009
  *   func_021D8C5C 0x021D8C5C arm ov125
- *   func_0215F638 0x0215F638 arm ov009
- *   func_0215F644 0x0215F644 arm ov009
+ *   SOC_Shutdown 0x0215F638 arm ov009
+ *   SOC_Close 0x0215F644 arm ov009
  *   d_021DA040 0x021DA040 data a4
  *   OS_GetTick 0x020870D0 arm
  *   _ll_udiv 0x0209C00C arm
@@ -121,14 +121,14 @@ extern void func_02086FE8(void);
 extern void func_021D7874(void);
 extern void func_020853C0(void *, void (*)(void *), int, void *, int, unsigned);
 extern void func_02085868(void *);
-extern void *func_0215F650(const char *);
+extern void *SOC_GetHostByName(const char *);
 extern char *func_0215FA9C(unsigned);
 extern char *func_02094798(char *dst, const char *src);
 extern int func_0215F428(int, int, int);
 extern unsigned long func_0215C910(char *name);
 extern int func_0215FC80(int s, void *con);
-extern int func_0215F638(int s, int how);
-extern int func_0215F644(int s);
+extern int SOC_Shutdown(int s, int how);
+extern int SOC_Close(int s);
 extern void func_021D8C5C(void *);
 extern u64 OS_GetTick(void);
 extern int func_0215F480(int, const Address *);
@@ -279,7 +279,7 @@ int func_021D7D88(const char *s) {
 int func_021D7E20(const char *s, char *out) {
  void *p;
  if (!func_021D7D88(s)) {
-  p=func_0215F650(s);
+  p=SOC_GetHostByName(s);
   if (p) {
    func_02094798(out, func_0215FA9C(***(unsigned ** *)&((struct Obj23010 *)p)->fC));
   } else return 0;
@@ -327,8 +327,8 @@ int func_021D7E80(void)
 
 void func_021D7F60(void) {
  if (((u32 *)d_021D9E40)[0x26c/4] == -1u) return;
- func_0215F638(((u32 *)d_021D9E40)[0x26c/4], 2);
- func_0215F644(((u32 *)d_021D9E40)[0x26c/4]);
+ SOC_Shutdown(((u32 *)d_021D9E40)[0x26c/4], 2);
+ SOC_Close(((u32 *)d_021D9E40)[0x26c/4]);
  ((u32 *)d_021D9E40)[0x26c/4] = -1u;
  func_021D8C5C(d_021DA258);
 }
@@ -506,7 +506,7 @@ int func_021D824C(void)
 
 
 /*
- * ARM tail call: ldr ip, =target; bx ip (the form mwcc emits, as in ov009 func_0216F008.c).
+ * ARM tail call: ldr ip, =target; bx ip (the form mwcc emits, as in ov009 DWCi_ProcessMatchSynPacketSub.c).
  */
 void func_021D8438(int msec)
 {

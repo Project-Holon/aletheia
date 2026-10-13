@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D60D4",
+   "name": "P_STATUS_SetFastMode",
    "address": "0x021D60D4",
    "kind": "game",
    "region": "ov131",

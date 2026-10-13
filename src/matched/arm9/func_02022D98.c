@@ -1,5 +1,5 @@
 /*
- * function: func_02022D98
+ * function: WIPE_SUB_FlipLineBuffersTask
  * address:  0x02022D98
  * packet:   pkt_02022D98
  * region:   arm9
@@ -30,7 +30,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_02022D98(void *p, struct Container *c)
+void WIPE_SUB_FlipLineBuffersTask(void *p, struct Container *c)
 {
     s32 i;
 

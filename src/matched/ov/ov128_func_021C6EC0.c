@@ -41,7 +41,7 @@
  *   func_021CA19C 0x021CA19C thumb ov128
  *   func_0202208C 0x0202208C thumb
  *   func_020221A4 0x020221A4 thumb
- *   func_0202EA40 0x0202EA40 thumb
+ *   BLINK_PALANM_Update 0x0202EA40 thumb
  *   func_0204B98C 0x0204B98C arm
  *   func_0200846C 0x0200846C thumb
  *   func_020084E4 0x020084E4 thumb
@@ -80,7 +80,7 @@ extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern u32 func_020221A4(void);
 typedef signed int     s32;
 struct Row;
-extern s32 func_0202EA40(struct Row *p);
+extern s32 BLINK_PALANM_Update(struct Row *p);
 extern u32 func_0204B98C(struct Actor *a);
 extern void *func_0200846C(int);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
@@ -110,7 +110,7 @@ int func_021C6EC0(u8 *p, u8 *q, u8 *ctx, int heap)
         q[8]=3;
         break;
     case 3:
-        func_0202EA40(*(void **)(ctx+0x184));
+        BLINK_PALANM_Update(*(void **)(ctx+0x184));
         result=func_021C74C4((int *)p,(int *)q,ctx);
         if(result!=0) {
             if(*(u32 *)p==3) func_021CA3A0((char *)ctx);

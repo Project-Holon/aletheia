@@ -1,5 +1,5 @@
 /*
- * function: func_0204F5A8
+ * function: BILLBOARD_FreeElem
  * address:  0x0204F5A8
  * packet:   pkt_0204F344
  * region:   arm9
@@ -28,7 +28,7 @@ struct Rec {
     u16 hi : 2;
 };
 
-void func_0204F5A8(void *p, u32 idx)
+void BILLBOARD_FreeElem(void *p, u32 idx)
 {
     struct Rec *r = (struct Rec *)(*(u8 * *)&((struct Obj16135 *)p)->f8 + idx * 0x1c);
 

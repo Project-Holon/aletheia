@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204B550
+ * function: CLACT_SetActorPosAxis
  * address:  0x0204B550
  * packet:   pkt_0204B454
  * region:   arm9
@@ -16,8 +16,8 @@
  * branch at all.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B550.c \
- *       --func sub_0204B550 --addr 0x0204B550 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorPosAxis.c \
+ *       --func CLACT_SetActorPosAxis --addr 0x0204B550 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -34,7 +34,7 @@ struct Actor {
     struct Pt pos;
 };
 
-void sub_0204B550(struct Actor *actor, signed short value, u32 axis)
+void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis)
 {
     if (axis == 0) {
         actor->pos.x = value;

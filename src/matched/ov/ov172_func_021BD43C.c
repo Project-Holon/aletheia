@@ -30,6 +30,7 @@
  *   func_021BDCB8  0x021BDCB8  thumb  ov172
  *   func_02061CA4  0x02061CA4  arm
  *   g_020A1B38     0x020A1B38  data
+ *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -57,7 +58,7 @@ extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_020310C4(struct Tcbl *p);
 extern u32  func_02005728(u32 v);
 extern void sub_02040618(u32 layer, u32 a, u32 b);
-extern s32 sub_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern s16 g_020A1B38[];
 
 #define F(o) (*(u32 *)(ctx + (o)))
@@ -112,7 +113,7 @@ int func_021BD43C(char *ctx)
     }
     if (pal != H(0x3a)) {
         H(0x3a) = pal;
-        sub_02061CA4((void *)0x1f, 0x40, (u32)(ctx + 0x3c + pal * 32), 0x20);
+        NNS_GfdRegisterNewVramTransferTask((void *)0x1f, 0x40, (u32)(ctx + 0x3c + pal * 32), 0x20);
     }
     func_020310C4((struct Tcbl *)F(0x1d8));
     sub_02040618(1, 0, func_02005728(0x100));

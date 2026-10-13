@@ -18,7 +18,7 @@
  *   func_021BDBA0  0x021BDBA0  thumb  ov208
  *   func_021BC3A4  0x021BC3A4  thumb  ov208
  *   func_021BDC2C  0x021BDC2C  thumb  ov208
- *   func_02012BE0  0x02012BE0  thumb
+ *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  */
 
 typedef unsigned char  u8;
@@ -42,7 +42,7 @@ extern void func_021BF1D0(void *first, char *q, void *third);
 extern void func_021BDBA0(int p);
 extern int func_021BC3A4(int *p);
 extern int func_021BDC2C(char *p);
-extern void func_02012BE0(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
 void func_021BEE70(void *a0, void *a1, void *heap, struct S *st, int *obj, int key)
 {
@@ -101,7 +101,7 @@ void func_021BEE70(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
         func_021BDBA0(sc);
         return;
     case 5:
-        func_02012BE0((void *)func_021BC3A4(obj), 0x11, func_021BDC2C((char *)sc));
+        GAME_DATA_SetSaveFlag((void *)func_021BC3A4(obj), 0x11, func_021BDC2C((char *)sc));
         func_021BDBA0(sc);
         return;
     default:

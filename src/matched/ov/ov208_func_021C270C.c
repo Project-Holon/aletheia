@@ -58,7 +58,7 @@
  *   func_020414AC 0x020414AC arm
  *   func_0204047C 0x0204047C arm
  *   func_0204B688 0x0204B688 arm
- *   func_02012BF8 0x02012BF8 thumb
+ *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -72,7 +72,7 @@ extern void func_02040618(u32,u32,u32);
 extern void func_020414AC(u8);
 extern void func_0204047C(int,u16);
 extern void func_0204B688(struct Actor *,u32);
-extern int func_02012BF8(int,int);
+extern int GAME_DATA_CheckSaveFlag(int,int);
 struct S;
 extern void func_021C2C44(u16 *heap, struct S *st, int a2);
 extern void func_021C2E6C(u16 *,u8 *,int,u32);
@@ -169,7 +169,7 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
             func_021BDAD4(scene,0);
         }else func_021BDBB8(scene,2);
         func_021BDC48(scene,0);
-        func_021BDC14(scene,func_02012BF8(func_021BC3A4((int *)key),0x13));
+        func_021BDC14(scene,GAME_DATA_CheckSaveFlag(func_021BC3A4((int *)key),0x13));
         if(func_021BE840(icon)!=2){
             func_021BE82C(icon,2);
             func_021BE844(icon);

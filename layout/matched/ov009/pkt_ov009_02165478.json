@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02165478",
+   "name": "WCM_DisconnectAsync",
    "address": "0x02165478",
    "kind": "sdk",
    "region": "ov009",

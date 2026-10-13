@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0204D324
+ * function: CLACT_SetAnimSeq
  * address:  0x0204D324
  * packet:   pkt_0204CA74
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   gUnk_020A1394  0x020A1394  data
+ *   g_ClactAnimFuncTable  0x020A1394  data
  *
  * Dispatch on the object's kind word, passing the object and one forwarded
  * argument.
@@ -32,9 +32,9 @@
  *   row 0  0x020A1394   pooled at 0x0204D490
  *   row 1  0x020A13A0   pooled at 0x0204D45C
  *   row 3  0x020A13B8   pooled here
- *   row 5  0x020A13D0   pooled at 0x0204D130  (sub_0204D104)
+ *   row 5  0x020A13D0   pooled at 0x0204D130  (CLACT_ExitAnimCtl)
  *   row 6  0x020A13DC   pooled at 0x0204D100
- *   row 7  0x020A13E8   pooled at 0x0204D428  (sub_0204D410)
+ *   row 7  0x020A13E8   pooled at 0x0204D428  (CLACT_GetAnimCtrl)
  *   row 10 0x020A140C   pooled at 0x0204D3C4  (unit_0204D3C4.c)
  *
  * Declared that way the relocation names the array's base, 0x020A1394, and
@@ -44,8 +44,8 @@
  * See docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D324.c \
- *       --func func_0204D324 --addr 0x0204D324 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetAnimSeq.c \
+ *       --func CLACT_SetAnimSeq --addr 0x0204D324 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -54,9 +54,9 @@ struct Obj0204D324 {
     u32 kind;
 };
 
-extern void (*const gUnk_020A1394[][3])(struct Obj0204D324 *obj, u32 arg);
+extern void (*const g_ClactAnimFuncTable[][3])(struct Obj0204D324 *obj, u32 arg);
 
-void func_0204D324(struct Obj0204D324 *obj, u32 arg)
+void CLACT_SetAnimSeq(struct Obj0204D324 *obj, u32 arg)
 {
-    gUnk_020A1394[3][obj->kind](obj, arg);
+    g_ClactAnimFuncTable[3][obj->kind](obj, arg);
 }

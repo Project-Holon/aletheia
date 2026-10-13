@@ -21,7 +21,7 @@
  *   func_0204AF28  0x0204AF28  arm
  *   func_0204ABF0  0x0204ABF0  arm
  *   func_021F86E0  0x021F86E0  thumb  ov094
- *   func_0204AEF4  0x0204AEF4  arm
+ *   CLACT_GetPaletteVramAddress  0x0204AEF4  arm
  *   func_020216D4  0x020216D4  thumb
  *   func_02049238  0x02049238  arm
  */
@@ -51,7 +51,7 @@ extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_021F86E0(void);
-extern int func_0204AEF4(u32 idx, u32 alternate);
+extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void func_02049238(void * h);
 
@@ -70,7 +70,7 @@ W *func_02209224(u16 heap)
     w->h44 = func_0204AF28(a, 0x7b, 0x7c, w->heap);
     w->h48 = func_0204ABF0(a, 0xa2, 0, 0xe0, w->heap);
     s = (void *)func_021F86E0();
-    func_020216D4(s, 2, (u16)(func_0204AEF4(w->h48, 0) >> 1), 0x20);
+    func_020216D4(s, 2, (u16)(CLACT_GetPaletteVramAddress(w->h48, 0) >> 1), 0x20);
     func_02049238(a);
     return w;
 }

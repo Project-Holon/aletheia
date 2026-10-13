@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02005438",
+   "name": "GFL_USE_CtrdgDummyInit",
    "address": "0x02005438",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02005440",
+   "name": "GFL_USE_OnPreExit",
    "address": "0x02005440",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020055F8",
+   "name": "GFL_USE_PollFrameInput",
    "address": "0x020055F8",
    "kind": "game",
    "region": "arm9",

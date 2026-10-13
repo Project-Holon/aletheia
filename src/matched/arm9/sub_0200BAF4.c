@@ -13,7 +13,7 @@
  * Closed 2026-09-22 by tools/permuter.py (--mode anneal, 823 compiles).
  * The lever: the (a1 & 0x7fff) | 0x8000 mask is NOT a loop-invariant local
  * hoisted above the loop.  It is recomputed inside the loop body, after the
- * sub_02017E88 test result is bound to its own local.  Hoisting it (the
+ * POKE_TOOL_GetBoxValue test result is bound to its own local.  Hoisting it (the
  * shape every earlier pass wrote) swaps r6 and r7 across the whole body:
  * five instructions, 5 concrete bytes out, which --explain reports as
  * r6->r7 x3 / r7->r6 x2.  Recomputing it inside gives the mask value the
@@ -25,10 +25,10 @@
  *
  * symbols:
  *   sub_0201747C   0x0201747C  thumb
- *   sub_02017E88   0x02017E88  thumb
- *   sub_0201A920   0x0201A920  thumb
- *   sub_0201A954   0x0201A954  thumb
- *   sub_0201A98C   0x0201A98C  thumb
+ *   POKE_TOOL_GetBoxValue   0x02017E88  thumb
+ *   POKEPARTY_Create   0x0201A920  thumb
+ *   POKEPARTY_InitEx   0x0201A954  thumb
+ *   POKEPARTY_Add   0x0201A98C  thumb
  *   sub_0200BBEC   0x0200BBEC  thumb
  *   func_020307B0  0x020307B0  arm
  */
@@ -40,10 +40,10 @@ typedef signed int     s32;
 struct Mon;
 struct Party;
 struct PartyMon;
-extern struct Party *sub_0201A920(u32 heap);
-extern void sub_0201A954(struct Party *p, s32 capacity);
-extern u32 sub_0201A98C(struct Party *p, const struct PartyMon *src);
-extern u32 sub_02017E88(void *p, u32 id, u32 v);
+extern struct Party *POKEPARTY_Create(u32 heap);
+extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void *sub_0201747C(struct Mon *p, u32 heap);
 extern void *sub_0200BBEC(void *base, u32 i, u32 j);
 extern u32 func_020307B0(void *p);
@@ -53,18 +53,18 @@ void *sub_0200BAF4(int a0, int a1)
     void *h;
     u32 i;
 
-    h = sub_0201A920(a1);
-    sub_0201A954(h, 6);
+    h = POKEPARTY_Create(a1);
+    POKEPARTY_InitEx(h, 6);
     for (i = 0; i < 6; i++) {
         void *p = sub_0200BBEC((void *)a0, 0, i);
-        int ok = sub_02017E88(p, 0xa9, 0);
+        int ok = POKE_TOOL_GetBoxValue(p, 0xa9, 0);
         int v  = (a1 & 0x7fff) | 0x8000;
 
         if (ok == 0) {
             break;
         }
         p = sub_0201747C(p, (u16)v);
-        sub_0201A98C(h, p);
+        POKEPARTY_Add(h, p);
         func_020307B0(p);
     }
     return h;

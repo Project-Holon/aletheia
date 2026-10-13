@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200B67C",
+    "BATTLE_REC_SaveSeq",
     "func_0200B6E0"
+   ],
+   "addresses": [
+    "0x0200B67C",
+    "0x0200B6E0"
    ]
   },
   {
@@ -34,7 +38,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200B784"
+    "BATTLE_REC_GetModeLayout"
+   ],
+   "addresses": [
+    "0x0200B784"
    ]
   },
   {
@@ -49,7 +56,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200B7D8"
+    "BATTLE_REC_MakeHeader"
+   ],
+   "addresses": [
+    "0x0200B7D8"
    ]
   },
   {
@@ -64,8 +74,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200B888",
-    "func_0200B8AC"
+    "BATTLE_REC_IsMagicBroken",
+    "BATTLE_REC_IsValid"
+   ],
+   "addresses": [
+    "0x0200B888",
+    "0x0200B8AC"
    ]
   }
  ]

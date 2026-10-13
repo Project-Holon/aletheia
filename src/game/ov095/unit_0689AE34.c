@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02017F00  0x02017F00  thumb
+ *   POKE_TOOL_GetGender  0x02017F00  thumb
  *   func_0201BD28  0x0201BD28  thumb
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   func_02082A48  0x02082A48  arm
  *   func_021B8D8C  0x021B8D8C  thumb
  *   func_021B8E70  0x021B8E70  thumb
@@ -50,12 +50,12 @@ extern int func_021B8D8C(void *, void *, u32);
 extern u8 func_021B8E70(void *, u32);
 extern u32 func_0201BD28(u16, u32);
 extern int func_021D80A8(void *);
-extern u32 func_0201BEB8(u16, u32);
+extern u32 WAZA_TOOL_GetFlag(u16, u32);
 extern void *func_021B98AC(char *const *, u8);
 extern int func_021D5864(void *);
 extern int func_021D59B4(void *, int);
 extern u16 func_021D5444(void *);
-extern u32 func_02017F00(void *);
+extern u32 POKE_TOOL_GetGender(void *);
 extern int func_021D62A8(void *);
 extern void func_0220270C(char *, int, int);
 void func_0689AE34(u8 *list, u8 n, int unused, u8 *s);
@@ -74,7 +74,7 @@ void func_0689AE34(u8 *list, u8 n, int unused, u8 *s)
     desc.mode = func_021B8E70(((struct Obj03219 *)s)->fA0, func_021B8D8C(((struct Obj03219 *)s)->fA0, ((struct Obj03219 *)s)->fA4, func_021D5440(((struct Obj03219 *)s)->f6C)));
     desc.type = func_0201BD28(key, 0x1b);
     if (key == 0xae) desc.type = func_021D80A8(((struct Obj03219 *)s)->f6C);
-    if (desc.type == 0 && func_0201BEB8(key, 0xb)) desc.type = 14;
+    if (desc.type == 0 && WAZA_TOOL_GetFlag(key, 0xb)) desc.type = 14;
     while (n-- != 0) {
         mon = func_021B98AC(*(char *const * *)&((struct Obj03219 *)s)->fA4, *list);
         word = func_021D5864(mon);
@@ -87,7 +87,7 @@ void func_0689AE34(u8 *list, u8 n, int unused, u8 *s)
             r->word = word;
             r->max = func_021D59B4(mon, 0xe);
             if (status == 32 || status == 29) r->flags = (r->flags & ~3) | 2;
-            else r->flags = (r->flags & ~3) | (func_02017F00((void *)func_021D5864(mon)) & 3);
+            else r->flags = (r->flags & ~3) | (POKE_TOOL_GetGender((void *)func_021D5864(mon)) & 3);
             if (func_021D62A8(mon)) r->state = 3;
             else r->state = 1;
         } else r->state = 2;

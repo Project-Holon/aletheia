@@ -1,5 +1,5 @@
 /*
- * function: func_021731E0
+ * function: UNION_COMM_IsNotGroupMember
  * address:  0x021731E0
  * packet:   pkt_ov012_021731E0
  * region:   ov012
@@ -39,7 +39,7 @@ typedef struct Entry {
 
 extern int memcmp(const void *a, const void *b, int n);
 
-int func_021731E0(u8 *self, Entry *info, const u8 *mac)
+int UNION_COMM_IsNotGroupMember(u8 *self, Entry *info, const u8 *mac)
 {
     int i;
     Entry *e;

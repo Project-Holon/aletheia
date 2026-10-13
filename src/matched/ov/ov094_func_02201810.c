@@ -11,19 +11,19 @@
  *
  * symbols:
  *   func_021F8694  0x021F8694  thumb  ov094
- *   func_02015EF4  0x02015EF4  thumb
- *   func_02015EFC  0x02015EFC  thumb
+ *   MCSS_GetStopCellNum  0x02015EF4  thumb
+ *   MCSS_GetStopCellIndex  0x02015EFC  thumb
  *
  * blocker (cleared 2026-10-01, arm9 leaf filed): two unlabelled arm9 Thumb leaves (the integrator's; no witness outside this range).
  *   Every concrete byte matches; only the two bl relocation sites stay wildcarded.
  *   Verified C (match.py one --arm9 no --region, --thumb, dsi/1.1p1 -O4,p), both EXACT:
  *
  *     typedef unsigned char u8;
- *     u8 func_02015EF4(char *p)              // 0x02015EF4, 6 bytes
+ *     u8 MCSS_GetStopCellNum(char *p)              // 0x02015EF4, 6 bytes
  *     {
  *         return **(u8 **)(p + 0x30);
  *     }
- *     u8 func_02015EFC(char *p, int i)       // 0x02015EFC, 8 bytes
+ *     u8 MCSS_GetStopCellIndex(char *p, int i)       // 0x02015EFC, 8 bytes
  *     {
  *         return (*(u8 **)(p + 0x30) + i)[2];  // `[i + 2]` is 5 bytes out
  *     }
@@ -44,8 +44,8 @@ typedef struct {
 } Row;
 
 extern int func_021F8694(void);
-extern u8 func_02015EF4(char *p);
-extern u8 func_02015EFC(char *p, u8 i);
+extern u8 MCSS_GetStopCellNum(char *p);
+extern u8 MCSS_GetStopCellIndex(char *p, u8 i);
 
 int func_02201810(u32 flags, int a, int *out, int key)
 {
@@ -62,11 +62,11 @@ int func_02201810(u32 flags, int a, int *out, int key)
         return 0;
     if (flags & 0x80000000) {
         found = 0;
-        n = func_02015EF4(base[idx].h);
+        n = MCSS_GetStopCellNum(base[idx].h);
         for (i = 0; i < n; i++) {
             Row *e = &base[idx];
 
-            if (key == func_02015EFC(e->h, i))
+            if (key == MCSS_GetStopCellIndex(e->h, i))
                 found = 1;
         }
         if (found == 0)

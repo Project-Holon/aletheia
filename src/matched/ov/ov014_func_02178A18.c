@@ -1,5 +1,5 @@
 /*
- * function: func_02178A18
+ * function: DWCi_MOV_WH_StateOutStartChild
  * address:  0x02178A18
  * packet:   pkt_ov014_02178A18
  * region:   ov014
@@ -12,7 +12,7 @@
  *   g_021797A8     0x021797A8  data  a4
  *   func_02178138  0x02178138  thumb  ov014
  *   func_0217814C  0x0217814C  thumb  ov014
- *   func_02178AB8  0x02178AB8  thumb  ov014
+ *   DWCi_MOV_WH_StateInStartChildMP  0x02178AB8  thumb  ov014
  */
 #include "../include/Obj04957.h"
 #include "../include/G_S.h"
@@ -24,9 +24,9 @@ typedef unsigned char u8;
 extern struct S *g_021797A8;
 void func_02178138(int a);
 void func_0217814C(int a);
-int func_02178AB8(void);
+int DWCi_MOV_WH_StateInStartChildMP(void);
 
-void func_02178A18(u8 *m)
+void DWCi_MOV_WH_StateOutStartChild(u8 *m)
 {
     u32 v;
     void (*cb)(int);
@@ -54,7 +54,7 @@ void func_02178A18(u8 *m)
         return;
     if (v == 7) {
         func_02178138(4);
-        if (func_02178AB8() == 0) {
+        if (DWCi_MOV_WH_StateInStartChildMP() == 0) {
             func_02178138(3);
             return;
         }

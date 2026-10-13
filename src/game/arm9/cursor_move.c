@@ -16,7 +16,7 @@
  *   d_0209FB18  0x0209FB18  data
  *   sub_02030734  0x02030734  arm
  *   str_020A74A0  0x020A74A0  data
- *   func_02030164  0x02030164  arm
+ *   GFL_HEAP_FreeMemory  0x02030164  arm
  *   func_02025EA4  0x02025EA4  thumb
  *   func_02025FC8  0x02025FC8  thumb
  *   func_02025F60  0x02025F60  thumb
@@ -27,16 +27,16 @@
  *   func_02035C08  0x02035C08  arm
  *   func_020261C4  0x020261C4  thumb
  *   g_0209FB58  0x0209FB58  data
- *   sub_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  *   func_02030734   0x02030734  arm
  *   func_02012944   0x02012944  thumb
  *   func_020457B0   0x020457B0  arm
  *   func_02008500   0x02008500  thumb
  *   g_020A74B0      0x020A74B0  data
- *   sub_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   sub_020307B0  0x020307B0  arm
- *   g_0209FB5C     0x0209FB5C  data
- *   func_02026490  0x02026490  thumb
+ *   GAME_COMM_KindTable     0x0209FB5C  data
+ *   GAME_COMM_SetSeqState  0x02026490  thumb
  */
 typedef unsigned char u8;
 
@@ -136,8 +136,8 @@ struct Rec
 typedef enum { Z0 } E;
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_02030164(void *p);
-extern void sub_020355D8(u8 v);
+extern u32 GFL_HEAP_FreeMemory(void *p);
+extern void UI_SetInputMode(u8 v);
 extern u32 func_020362DC(void);
 extern void func_020355D8(u8 v);
 extern unsigned int func_0203633C(void);
@@ -145,14 +145,14 @@ extern int func_02035C08(const void *key);
 extern u8 *func_02012944(void *a0);
 extern struct U16Vec *func_020457B0(u32 a0, u32 a1);
 extern void func_02008500(void *a0, void *a1);
-extern void sub_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 sub_020307B0(void *p);
-extern void func_02026490(void *obj, u32 value);
+extern void GAME_COMM_SetSeqState(void *obj, u32 value);
 extern struct CursorRow d_0209FB18[];
 extern const char str_020A74A0[];
 extern const u8 g_0209FB58[4];
 extern u32 g_020A74B0[];
-extern struct Rec g_0209FB5C[];
+extern struct Rec GAME_COMM_KindTable[];
 
 u32 func_02025C74(u32 x);
 u32 func_02025C88(u32 x);
@@ -262,13 +262,13 @@ struct Cursor *func_02025CD0(struct CursorEntry *entries, struct CursorVtbl *vt,
 
 
 /*
- * Unlabelled Thumb leaf: a bare tail call to func_02030164 with no arguments.
+ * Unlabelled Thumb leaf: a bare tail call to GFL_HEAP_FreeMemory with no arguments.
  * `ldr r3,[pc,#0]; bx r3` (the pool word names 0x02030164).  Disasm.py did
  * not label it because it has no prologue; the live bytes decode as Thumb.
  */
 u32 func_02025D14(void *a0)
 {
-    return func_02030164(a0);
+    return GFL_HEAP_FreeMemory(a0);
 }
 
 
@@ -495,7 +495,7 @@ int func_02025FA4(struct Cursor *obj)
 {
     int one = 1;
 
-    sub_020355D8(0);
+    UI_SetInputMode(0);
     obj->state = one;
     obj->prev = 0xff;
     obj->saved = 0xff;
@@ -750,8 +750,8 @@ void func_02026250(struct VecSet *obj)
     int i;
 
     for (i = 0; i < 6; i++) {
-        sub_02045808(items[i].vec1);
-        sub_02045808(items[i].vec2);
+        STRBUF_Delete(items[i].vec1);
+        STRBUF_Delete(items[i].vec2);
     }
     sub_020307B0(obj);
 }
@@ -782,7 +782,7 @@ void func_0202627C(struct Comm *p)
   if ((p == 0) || (p->kind == 0))
     return;
   sub = &p->sub;
-  rec = &g_0209FB5C[p->kind];
+  rec = &GAME_COMM_KindTable[p->kind];
   if (sub->changed == 1)
   {
     sub->f00 = 0;
@@ -795,19 +795,19 @@ void func_0202627C(struct Comm *p)
       p->f18 = rec->start(sub, p->f14);
       p->f06 = p->kind;
       p->f08 = 0;
-      func_02026490(sub, 1);
+      GAME_COMM_SetSeqState(sub, 1);
       break;
 
     case 1:
       if ((rec->wait == 0) || (rec->wait(sub, p->f14, p->f18) == 1))
-      func_02026490(sub, 2);
+      GAME_COMM_SetSeqState(sub, 2);
       break;
 
     case 2:
       if (p->b0 == 1)
     {
       p->b0 = 0;
-      func_02026490(&p->sub, 3);
+      GAME_COMM_SetSeqState(&p->sub, 3);
       break;
     }
       rec->run(sub, p->f14, p->f18);
@@ -817,18 +817,18 @@ void func_0202627C(struct Comm *p)
       if (rec->stop != 0)
     {
       if (rec->stop(sub, p->f14, p->f18) == 1)
-        func_02026490(sub, 4);
+        GAME_COMM_SetSeqState(sub, 4);
     }
     else
     {
-      func_02026490(sub, 4);
+      GAME_COMM_SetSeqState(sub, 4);
     }
       break;
 
     case 4:
       if ((rec->end != 0) && (rec->end(sub, p->f14, p->f18) != 1))
       break;
-      func_02026490(sub, 5);
+      GAME_COMM_SetSeqState(sub, 5);
 
     case 5:
     {

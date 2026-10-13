@@ -10,12 +10,12 @@
  * status: EXACT*
  * extent: followed by existing ov029_func_021F1000.c.
  * symbols:
- *   func_02021B18 0x02021B18 thumb
+ *   PALANM_ForceStopFade 0x02021B18 thumb
  */
 #include "../include/Obj20390.h"
 struct Obj02021B18;
-extern void func_02021B18(struct Obj02021B18 *o);
+extern void PALANM_ForceStopFade(struct Obj02021B18 *o);
 void func_021F0FF0(char *p)
 {
-    func_02021B18(((struct Obj20390 *)p)->f210);
+    PALANM_ForceStopFade(((struct Obj20390 *)p)->f210);
 }

@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02015F0C 0x02015F0C thumb
- *   func_02015F1C 0x02015F1C thumb
- *   func_02015F14 0x02015F14 thumb
- *   func_02015C78 0x02015C78 thumb
+ *   MCSS_GetSizeY 0x02015F0C thumb
+ *   MCSS_GetOfsY 0x02015F1C thumb
+ *   MCSS_GetOfsX 0x02015F14 thumb
+ *   MCSS_SetOfsPosition 0x02015C78 thumb
  *   _ffltu 0x0209BE04 arm
  *   _fflt 0x0209BDBC arm
  *   _fdiv 0x0209CE10 arm
@@ -49,10 +49,10 @@ typedef struct Owner {
     ((fx32)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
 typedef signed short   s16;
-extern u16 func_02015F0C(void *p);
-extern s16 func_02015F1C(void *p);
-extern s16 func_02015F14(void *p);
-extern void func_02015C78(void *p, u32 *src);
+extern u16 MCSS_GetSizeY(void *p);
+extern s16 MCSS_GetOfsY(void *p);
+extern s16 MCSS_GetOfsX(void *p);
+extern void MCSS_SetOfsPosition(void *p, u32 *src);
 
 void func_02206274(Owner *o)
 {
@@ -63,9 +63,9 @@ void func_02206274(Owner *o)
 
     for (i = 0; i < 2; i++) {
         if (o->obj[i] != 0) {
-            w = func_02015F0C(o->obj[i]);
-            h = func_02015F1C(o->obj[i]);
-            d = func_02015F14(o->obj[i]);
+            w = MCSS_GetSizeY(o->obj[i]);
+            h = MCSS_GetOfsY(o->obj[i]);
+            d = MCSS_GetOfsX(o->obj[i]);
             w = w * (o->scale / 16.0f);
             if (w > 96.0f)
                 w = 96.0f;
@@ -76,7 +76,7 @@ void func_02206274(Owner *o)
             pos.x = FX_F32_TO_FX32(y);
             pos.y = FX_F32_TO_FX32(x);
             pos.z = 0;
-            func_02015C78(o->obj[i], (u32 *)(&pos));
+            MCSS_SetOfsPosition(o->obj[i], (u32 *)(&pos));
         }
     }
 }

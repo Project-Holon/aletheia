@@ -14,12 +14,12 @@
  *   func_02012138     0x02012138  thumb
  *   func_0203CD98     0x0203CD98  arm
  *   func_02026454     0x02026454  thumb
- *   func_02012164     0x02012164  thumb
+ *   GAMESYSTEM_CanStartAutoComm     0x02012164  thumb
  *   func_020263D8     0x020263D8  thumb
  *
  * Three tests, one epilogue: the handle returned by func_02012138(p) is
  * checked with two externals (both called with it - r0 is not reloaded), then
- * the object is driven through func_02012164 and only a result of exactly 1
+ * the object is driven through GAMESYSTEM_CanStartAutoComm and only a result of exactly 1
  * reaches func_020263D8(handle, 1, p).  The nested ifs are what give all
  * three the same `return 0` at the end.
  *
@@ -41,7 +41,7 @@ extern u32 func_02012138(const struct Ctx *p);
 extern int func_0203CD98(void);
 struct Comm;
 extern u32 func_02026454(void *obj);
-extern u32 func_02012164(struct IcaAnime *p);
+extern u32 GAMESYSTEM_CanStartAutoComm(struct IcaAnime *p);
 extern void func_020263D8(struct Comm *p, u32 a1, u32 a2);
 
 u32 func_020121CC(struct IcaAnime *p)
@@ -50,7 +50,7 @@ u32 func_020121CC(struct IcaAnime *p)
 
     if (func_0203CD98() == 0) {
         if (func_02026454((void *)h) == 0) {
-            if (func_02012164(p) == 1) {
+            if (GAMESYSTEM_CanStartAutoComm(p) == 1) {
                 func_020263D8((struct Comm *)h, 1, (u32)p);
                 return 1;
             }

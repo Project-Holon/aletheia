@@ -13,7 +13,7 @@
  *   func_02074048  0x02074048  arm
  *
  * The archive open path.  The second parameter is the archive's path string
- * (the only caller, func_02005B24, loads 0x020A7010 into r1) and it is
+ * (the only caller, GFL_USE_InitSound, loads 0x020A7010 into r1) and it is
  * forwarded untouched to func_020788D8(&c->f7c, path), which moves r1 into r0
  * for its own lookup.  Keeping r1 live across the four zero stores is what
  * parks the zero in ip; the earlier DIFF (docs/notes/pkt_02073F3C.c.txt) had

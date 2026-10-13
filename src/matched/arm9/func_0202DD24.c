@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202DD24
+ * function: PMS_DRAW_Copy
  * address:  0x0202DD24
  * packet:   pkt_0202DD24
  * region:   arm9
@@ -37,7 +37,7 @@
  *   func_02041B6C  0x02041B6C  arm
  *   func_0204B454  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
- *   func_0204B898  0x0204B898  arm
+ *   CLACT_GetActorAnimSeq  0x0204B898  arm
  *   func_0204B878  0x0204B878  arm
  *   func_0204B3DC  0x0204B3DC  arm
  */
@@ -80,11 +80,11 @@ struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern u16 func_0204B898(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 
-void func_0202DD24(struct PmsDraw *p, u32 i, u32 j)
+void PMS_DRAW_Copy(struct PmsDraw *p, u32 i, u32 j)
 {
     int k;
     struct PmsElem *src;
@@ -111,7 +111,7 @@ void func_0202DD24(struct PmsDraw *p, u32 i, u32 j)
         pt.x += dx * 8;
         pt.y += dy * 8;
         func_0204B404(dst->actor[k], (const struct Vec2 *)(&pt), (u16)v);
-        func_0204B878(dst->actor[k], func_0204B898(src->actor[k]));
+        func_0204B878(dst->actor[k], CLACT_GetActorAnimSeq(src->actor[k]));
         func_0204B3DC(dst->actor[k], src->enabled[k]);
     }
     dst->live = src->live;

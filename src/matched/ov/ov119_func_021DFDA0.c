@@ -18,9 +18,9 @@
  *   func_021D8E84  0x021D8E84  thumb  ov119
  *   func_021D9434  0x021D9434  thumb  ov119
  *   func_021E10D8  0x021E10D8  thumb  ov119
- *   func_02005DE4  0x02005DE4  thumb
- *   func_02005E64  0x02005E64  thumb
- *   func_02005E30  0x02005E30  thumb
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_PushBgm  0x02005E64  thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   func_021DFE48  0x021DFE48  thumb  ov119
  *
  * Slot-state teardown/rebuild, dispatched on *(p+0x118c): 5 and 6 run the
@@ -47,9 +47,9 @@ extern void func_021DFD3C(void *);
 extern void func_021D8E84(void *, int);
 extern void func_021D9434(void *p);
 extern void func_021E10D8(char *p);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
-extern void func_02005E30(u32 a);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_FadeOutBgm(u32 a);
 extern void func_021DFE48(char *p);
 
 void func_021DFDA0(void *p)
@@ -72,10 +72,10 @@ void func_021DFDA0(void *p)
         func_021D8E84(p, 0);
     } else {
         func_021E10D8(p);
-        func_02005DE4((void *)1);
-        func_02005E64();
+        GFL_USE_SetBgmPlayerParam((void *)1);
+        GFL_USE_PushBgm();
         (((struct Obj00906 *)b)->f11F8)++;
-        func_02005E30(6);
+        GFL_USE_FadeOutBgm(6);
         ((struct Obj00906 *)b)->fF2C = 0;
         func_021D8E84(p, (int)func_021DFE48);
     }

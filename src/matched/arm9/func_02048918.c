@@ -1,5 +1,5 @@
 /*
- * function: func_02048918
+ * function: G3D_UTIL_FreeUnitObjects
  * address:  0x02048918
  * packet:   pkt_02048330
  * region:   arm9
@@ -14,10 +14,10 @@
  *   func_0204779C  0x0204779C  arm
  *   func_02047790  0x02047790  arm
  *   func_0204762C  0x0204762C  arm
- *   func_02047554  0x02047554  arm
+ *   G3D_SYSTEM_GetRenderTexRes  0x02047554  arm
  *   func_020470D0  0x020470D0  arm
  *   func_02046EFC  0x02046EFC  arm
- *   func_0204754C  0x0204754C  arm
+ *   G3D_SYSTEM_GetRenderMdlRes  0x0204754C  arm
  *   func_02047504  0x02047504  arm
  *   func_02047738  0x02047738  arm
  *
@@ -38,7 +38,7 @@
  * with the library shape plus `rnd` declared before `obj`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02048918.c --func func_02048918 --addr 0x02048918 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_FreeUnitObjects.c --func G3D_UTIL_FreeUnitObjects --addr 0x02048918 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -77,14 +77,14 @@ extern int func_02047790(int *p, int i);
 struct Rec;
 struct Tagged;
 extern void func_0204762C(struct Rec *p);
-extern int func_02047554(int *p);
+extern int G3D_SYSTEM_GetRenderTexRes(int *p);
 extern int func_020470D0(u32 *p);
 extern void func_02046EFC(struct Tagged *p);
-extern int func_0204754C(int *p);
+extern int G3D_SYSTEM_GetRenderMdlRes(int *p);
 extern void func_02047504(struct Rec *p);
 extern void func_02047738(struct Rec *p);
 
-void func_02048918(Util *util, u16 unitIdx)
+void G3D_UTIL_FreeUnitObjects(Util *util, u16 unitIdx)
 {
     u16 objIdx = util->unit[unitIdx].objIdx;
     u16 objCount = util->unit[unitIdx].objCount;
@@ -100,12 +100,12 @@ void func_02048918(Util *util, u16 unitIdx)
         for (j = 0; j < anmCount; j++)
             func_0204762C((struct Rec *)func_02047790(obj, (u16)j));
         if (util->objStat[objIdx + i] & 0xfd) {
-            void *tex = (void *)func_02047554(rnd);
+            void *tex = (void *)G3D_SYSTEM_GetRenderTexRes(rnd);
             func_020470D0(tex);
             func_02046EFC(tex);
         }
         if (util->objStat[objIdx + i] & 0xfe)
-            func_02046EFC((struct Tagged *)func_0204754C(rnd));
+            func_02046EFC((struct Tagged *)G3D_SYSTEM_GetRenderMdlRes(rnd));
         func_02047504(rnd);
         func_02047738(obj);
     }

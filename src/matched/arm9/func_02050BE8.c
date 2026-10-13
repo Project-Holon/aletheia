@@ -12,16 +12,21 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02050BE8.c \
  *       --func func_02050BE8 --addr 0x02050BE8 --cc 1.1p1 --arm
+ *
+ * symbols:
+ *   PARTICLE_CountSystems  0x02051504  arm
+ *   PARTICLE_DrawAllSystems  0x02051534  arm
+ *   PARTICLE_UpdateAllSystems  0x02051574  arm
  */
 
-extern int func_02051504(void);
-extern int func_02051534(void);
-extern int func_02051574(void);
+extern int PARTICLE_CountSystems(void);
+extern int PARTICLE_DrawAllSystems(void);
+extern int PARTICLE_UpdateAllSystems(void);
 
 void func_02050BE8(void)
 {
-    if (func_02051504() == 0)
+    if (PARTICLE_CountSystems() == 0)
         return;
-    func_02051534();
-    func_02051574();
+    PARTICLE_DrawAllSystems();
+    PARTICLE_UpdateAllSystems();
 }

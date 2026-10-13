@@ -1,5 +1,5 @@
 /*
- * function: sub_020331A4
+ * function: BACKUP_SYSTEM_EndSave
  * address:  0x020331A4
  * packet:   pkt_020328E0
  * region:   arm9
@@ -21,7 +21,7 @@
  * statements.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020331A4.c  *       --func sub_020331A4 --addr 0x020331A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_EndSave.c  *       --func BACKUP_SYSTEM_EndSave --addr 0x020331A4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -48,7 +48,7 @@ struct SaveBackup {
 
 extern void func_02034FB8(u32 bit);
 
-void sub_020331A4(struct SaveBackup *p, u32 result, u32 flag)
+void BACKUP_SYSTEM_EndSave(struct SaveBackup *p, u32 result, u32 flag)
 {
     if (result == 3) {
         p->unk28 = p->unk10;

@@ -1,5 +1,5 @@
 /*
- * function: func_02022390
+ * function: WIPE_SYS_MainPanel
  * address:  0x02022390
  * packet:   pkt_02022390
  * region:   arm9
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_020223AC  0x020223AC  thumb
+ *   WIPE_SYS_CallPattern  0x020223AC  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 func_020223AC(void *p);
+extern u32 WIPE_SYS_CallPattern(void *p);
 
-void func_02022390(u32 *obj, void *arg)
+void WIPE_SYS_MainPanel(u32 *obj, void *arg)
 {
     if (*obj != 0) {
-        if (func_020223AC(arg) == 1) {
+        if (WIPE_SYS_CallPattern(arg) == 1) {
             *obj = 0;
         }
     }

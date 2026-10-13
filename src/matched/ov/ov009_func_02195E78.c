@@ -1,5 +1,5 @@
 /*
- * function: func_02195E78
+ * function: gt2GetConnectionData
  * address:  0x02195E78
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Word at +0x40.
  */
 
-int func_02195E78(const int *p)
+int gt2GetConnectionData(const int *p)
 {
     return p[0x10];
 }

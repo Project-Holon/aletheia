@@ -13,7 +13,7 @@
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D6740  0x021D6740  thumb  ov093
- *   func_020213C0  0x020213C0  thumb
+ *   PALANM_IsColorCodeKnown  0x020213C0  thumb
  *   func_021D5B40  0x021D5B40  thumb  ov093
  *   func_021C8288  0x021C8288  thumb  ov093
  *   func_021D85C0  0x021D85C0  thumb  ov093
@@ -33,7 +33,7 @@ struct QI;
 struct QK;
 extern void *func_021C7CF4(int *p, int i);
 extern u16 func_021D6740(struct QK *p);
-extern int func_020213C0(u32 a);
+extern int PALANM_IsColorCodeKnown(u32 a);
 extern u16 func_021D5B40(struct QI *p);
 extern int func_021C8288(u8 *p);
 extern int func_021D85C0(int a, u32 b);
@@ -52,7 +52,7 @@ void func_021DCB38(int a, void *b, int c)
     if (c == func_021D775C(2)) {
         mon = func_021C7CF4(b, c);
         n = func_021D6740(mon);
-        if (n != 0 && func_020213C0(n) != 0 && func_021D5B40(mon) == 0
+        if (n != 0 && PALANM_IsColorCodeKnown(n) != 0 && func_021D5B40(mon) == 0
             && (func_021C8288(b) == 1 || func_021D85C0((int)b, 0x32) != 0)) {
             m = (u8 *)func_021C88A4(b, 0x20, c);
             ((struct Obj07816 *)m)->f0 |= 0x20 << 18;

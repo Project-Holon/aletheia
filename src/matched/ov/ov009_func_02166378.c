@@ -1,5 +1,5 @@
 /*
- * function: func_02166378
+ * function: WCMi_GetCpsifWork
  * address:  0x02166378
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern struct WCMCpsifWork g_021AA7DC;
 
-void *func_02166378(void)
+void *WCMi_GetCpsifWork(void)
 {
     return ((char *)&g_021AA7DC);
 }

@@ -18,7 +18,7 @@
  *   func_021B9774 0x021B9774 thumb ov114
  *   func_021B99B8 0x021B99B8 thumb ov114
  *   func_021B9838 0x021B9838 thumb ov114
- *   func_02156DC4 0x02156DC4 thumb ov009
+ *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   func_021D7260 0x021D7260 thumb ov116
  *   func_021B97F4 0x021B97F4 thumb ov114
  *   func_021B99F0 0x021B99F0 thumb ov114
@@ -38,7 +38,7 @@ extern void func_021D7250(u8 *, u32);
 extern void func_021B9774(u8 *);
 extern void func_021B99B8(u8 *);
 extern void func_021B9838(u8 *);
-extern void func_02156DC4(int, int);
+extern void DWC_RAP_SetErrorCallback(int, int);
 extern void func_021D7260(u8 *);
 extern u8 *func_021B97F4(u8 *);
 extern int func_021B99F0(u8 *p);
@@ -60,7 +60,7 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
         func_021B99B8(*(u8 * *)&((struct Obj01925 *)p)->f168);
         func_021B9838(*(u8 * *)&((struct Obj01925 *)p)->f168);
         *(u8 * *)&((struct Obj01925 *)p)->f168 = 0;
-        func_02156DC4(0, 0);
+        DWC_RAP_SetErrorCallback(0, 0);
         return 2;
     }
     if (status != 0) {
@@ -89,7 +89,7 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
         func_021B99B8(*(u8 * *)&((struct Obj01925 *)p)->f168);
         func_021B9838(*(u8 * *)&((struct Obj01925 *)p)->f168);
         *(u8 * *)&((struct Obj01925 *)p)->f168 = 0;
-        func_02156DC4(0, 0);
+        DWC_RAP_SetErrorCallback(0, 0);
     }
     return result;
 }

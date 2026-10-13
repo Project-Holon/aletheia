@@ -12,10 +12,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02043B98  0x02043B98  arm
- *   func_02043F4C  0x02043F4C  arm
- *   func_020445F4  0x020445F4  arm
- *   func_02044954  0x02044954  arm
+ *   BMP_Blit4bpp  0x02043B98  arm
+ *   BMP_Blit8bpp  0x02043F4C  arm
+ *   BMP_Blit4bppToVram  0x020445F4  arm
+ *   BMP_Blit8bppToVram  0x02044954  arm
  *
  * bmp.c's nine-argument blit dispatcher.  Source and destination must agree
  * on the halfword at +8; after that the halfword at +0xA of the source picks
@@ -45,7 +45,7 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020439A0.c \
+ *   python tools/match.py one --src src/matched/BMP_Blit.c \
  *       --func func_020439A0 --addr 0x020439A0 --cc 1.1p1 --arm
  */
 
@@ -60,13 +60,13 @@ struct Bmp {
     u16 unk0A;
 };
 
-extern void func_02043B98(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
+extern void BMP_Blit4bpp(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
                           int sx, int sy, u32 w, u32 h, u32 key);
-extern void func_02043F4C(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
+extern void BMP_Blit8bpp(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
                           int sx, int sy, u32 w, u32 h, u32 key);
-extern void func_020445F4(struct Bmp *dst, struct Bmp *src, u16 x, u16 y,
+extern void BMP_Blit4bppToVram(struct Bmp *dst, struct Bmp *src, u16 x, u16 y,
                           s16 sx, s16 sy, u16 w, u16 h, u32 key);
-extern void func_02044954(struct Bmp *dst, struct Bmp *src, u16 x, u16 y,
+extern void BMP_Blit8bppToVram(struct Bmp *dst, struct Bmp *src, u16 x, u16 y,
                           s16 sx, s16 sy, u16 w, u16 h, u32 key);
 
 void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
@@ -77,15 +77,15 @@ void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
     }
     if (src->unk0A != 2) {
         if (dst->unk08 == 0x20) {
-            func_02043B98(dst, src, x, y, sx, sy, w, h, key);
+            BMP_Blit4bpp(dst, src, x, y, sx, sy, w, h, key);
         } else {
-            func_02043F4C(dst, src, x, y, sx, sy, w, h, key);
+            BMP_Blit8bpp(dst, src, x, y, sx, sy, w, h, key);
         }
     } else {
         if (dst->unk08 == 0x20) {
-            func_020445F4(dst, src, x, y, sx, sy, w, h, key);
+            BMP_Blit4bppToVram(dst, src, x, y, sx, sy, w, h, key);
         } else {
-            func_02044954(dst, src, x, y, sx, sy, w, h, key);
+            BMP_Blit8bppToVram(dst, src, x, y, sx, sy, w, h, key);
         }
     }
 }

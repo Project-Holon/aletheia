@@ -65,7 +65,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02075C08",
+   "name": "NNS_SndFaderUpdate",
    "address": "0x02075C08",
    "kind": "game",
    "region": "arm9",
@@ -77,7 +77,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02075C20",
+   "name": "NNS_SndFaderIsFinished",
    "address": "0x02075C20",
    "kind": "game",
    "region": "arm9",

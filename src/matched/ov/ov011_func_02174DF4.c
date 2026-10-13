@@ -1,5 +1,5 @@
 /*
- * function: func_02174DF4
+ * function: INTRUDE_COMM_UpdateQueuedRequest
  * address: 0x02174DF4
  * packet: pkt_ov011_02174DF4
  * region: ov011
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02173CB0 0x02173CB0 thumb ov011
+ *   INTRUDE_CMD_SendSaveSummary 0x02173CB0 thumb ov011
  */
 typedef unsigned char u8;
-int func_02173CB0(int *a, int b);
-void func_02174DF4(u8 *p)
+int INTRUDE_CMD_SendSaveSummary(int *a, int b);
+void INTRUDE_COMM_UpdateQueuedRequest(u8 *p)
 {
     if (p[0x924] != 0) {
-        if (func_02173CB0((int *)p, p[0x924]) == 1) {
+        if (INTRUDE_CMD_SendSaveSummary((int *)p, p[0x924]) == 1) {
             p[0x924] = 0;
         }
     }

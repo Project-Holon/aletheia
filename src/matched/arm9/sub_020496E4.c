@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_020496E4
+ * function: ARC_UTIL_RegisterObjCharFromArchive
  * address:  0x020496E4
  * packet:   pkt_0204968C
  * region:   arm9
@@ -26,14 +26,14 @@
  * `(flags & 0x7FFF) | 0x8000` into an `and`/`orr` pair followed by a
  * `lsl #16`/`lsr #16` truncation rather than a single `orr`.
  *
- * The twin of src/matched/sub_02049740.c, differing only in which loader it
+ * The twin of src/matched/ARC_UTIL_RegisterObjCharFromHandle.c, differing only in which loader it
  * calls. func_0204A1BC has thirteen further callers image-wide and
  * func_0204979C its second caller at 0x02049780, so both resolve through the
  * `label` class.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020496E4.c \
- *       --func sub_020496E4 --addr 0x020496E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_UTIL_RegisterObjCharFromArchive.c \
+ *       --func ARC_UTIL_RegisterObjCharFromArchive --addr 0x020496E4 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -43,7 +43,7 @@ extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern u32 func_0204979C(void *buf, u32 a1, u32 a2);
 extern void ENV_SetResourceSet(void *p);
 
-u32 sub_020496E4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
+u32 ARC_UTIL_RegisterObjCharFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
 {
     void *buf;
     u32 res;

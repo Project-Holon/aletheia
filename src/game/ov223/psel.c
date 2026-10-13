@@ -22,8 +22,8 @@
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0204E6E0 0x0204E6E0 arm
- *   func_0204E6F4 0x0204E6F4 arm
+ *   FADE_GetSpeed 0x0204E6E0 arm
+ *   FADE_SetSpeed 0x0204E6F4 arm
  *   func_020355C4 0x020355C4 arm
  *   func_020355D8 0x020355D8 arm
  *   func_020315D4 0x020315D4 arm
@@ -61,7 +61,7 @@
  *   d_021BC792 0x021BC792 data a2
  *   func_020477D4 0x020477D4 arm
  *   func_0204784C 0x0204784C arm
- *   func_0204B908 0x0204B908 arm
+ *   CLACT_SetActorAnimIndex 0x0204B908 arm
  *   ids 0x021BC710 data a2
  *   banks 0x021BC6FC data a1
  *   motion 0x021BC7F0 data a1
@@ -87,9 +87,9 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204ADA4 0x0204ADA4 arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B5AC 0x0204B5AC arm
+ *   CLACT_SetActorScale 0x0204B5AC arm
  *   func_0204B454 0x0204B454 arm
- *   func_0204B800 0x0204B800 arm
+ *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   func_0204B84C 0x0204B84C arm
  *   d_021BC7F0 0x021BC7F0 data
  *   d_021BC8C0 0x021BC8C0 data ov223
@@ -153,12 +153,12 @@
  *   d_021BC710 0x021BC710 data a2
  *   func_02027F60 0x02027F60 thumb
  *   func_02027FD8  0x02027FD8  thumb
- *   func_02027FEC 0x02027FEC thumb
+ *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   func_02028148 0x02028148 thumb
  *   func_02028178 0x02028178 thumb
- *   func_02028218 0x02028218 thumb
- *   func_0202822C 0x0202822C thumb
- *   func_02028230 0x02028230 thumb
+ *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
+ *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  */
 #include "../../matched/include/Obj03961.h"
 #include "../../matched/include/Obj03962.h"
@@ -284,8 +284,8 @@ extern void func_0204E720(u32,int,int,int);
 extern void func_0203064C(u32,u32,u32);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,u32,u32);
-extern u32 func_0204E6E0(void);
-extern void func_0204E6F4(int);
+extern u32 FADE_GetSpeed(void);
+extern void FADE_SetSpeed(int);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u32 v);
 extern void func_020315D4(struct S020315D4 *p);
@@ -313,7 +313,7 @@ extern void func_020480E4(struct Ctx *,u32);
 extern int func_020477D4(struct Owner *owner, u32 index);
 extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 /* B908 reads only r0, forwarding its live r1 to D478; legacy r2/r3 unused. */
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern int func_0202D7C8(int a0);
 extern u32 func_0202D81C(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern u32 func_0202D7D8(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
@@ -331,9 +331,9 @@ extern void func_0204AFD8(unsigned);
 extern void func_0204A8D4(unsigned);
 extern void func_0204ADA4(unsigned);
 extern void func_0204B404(struct Obj *, const Vec2 *, u32);
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_0204B84C(struct Obj *, u32);
 extern void func_021BB974(unsigned char *p, unsigned index, int cmd);
 extern void func_0204B688(struct Actor *actor, u32 value);
@@ -393,12 +393,12 @@ extern u32 func_0201ED04(struct WordSet *p);
 extern void func_0201C724(void *, unsigned, unsigned, unsigned, unsigned, unsigned, u16);
 extern struct R *func_02027F60(u16,u16,u32,u32,u16);
 extern u32 func_02027FD8(struct TaskMenuState *s);
-extern unsigned func_02027FEC(unsigned, unsigned, unsigned, unsigned, u8, u16);
+extern unsigned APP_TASKMENU_WIN_Create(unsigned, unsigned, unsigned, unsigned, u8, u16);
 extern void func_02028148(u8 *);
 extern void func_02028178(u8 *);
-extern void func_02028218(struct Obj *,u32);
-extern void func_0202822C(char *,int);
-extern u32 func_02028230(u8 *);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *,u32);
+extern void APP_TASKMENU_WIN_SetDecide(char *,int);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *);
 int func_021B95A0(int a0, int a1);
 struct Record *func_021B95B0(u32 heap,u32 count);
 void func_021B9600(void *p);
@@ -531,8 +531,8 @@ int func_021B9608(void *a,int unused,void *c)
     func_02082BCC(p,0,2168);
     ((struct Obj03961 *)p)->f0=135;
     ((struct Obj03961 *)p)->f4=c;
-    ((struct Obj03961 *)p)->f874=func_0204E6E0();
-    func_0204E6F4(1);
+    ((struct Obj03961 *)p)->f874=FADE_GetSpeed();
+    FADE_SetSpeed(1);
     ((struct Obj03961 *)p)->f8=func_020355C4();
     ((struct Obj03961 *)p)->f228=4;
     ((struct Obj03961 *)p)->f22C=4;
@@ -550,7 +550,7 @@ int func_021B9674(void *a, int unused1, int unused2, u8 *ctx)
     u16 v;
     func_0204E720(0xC, 0x10, 0x10, 0);
     func_020355D8(*(u32 *)(ctx + 8));
-    func_0204E6F4(*(u32 *)(ctx + 0x874));
+    FADE_SetSpeed(*(u32 *)(ctx + 0x874));
     switch (*(u32 *)(ctx + 0x228)) {
     case 0:
         ***(u16 ***)(ctx + 4) = 0;
@@ -874,7 +874,7 @@ void func_021B9C90(char *p,unsigned next)
             func_020477A4(object,i);
             func_0204784C(object,i,&frame);
         }
-        func_0204B908((int)(((struct Obj02938 *)p)->f224),0);
+        CLACT_SetActorAnimIndex((int)(((struct Obj02938 *)p)->f224),0);
     }
     ((struct Obj02938 *)p)->f22C=next;
 }
@@ -1050,14 +1050,14 @@ void func_021BA2B4(Main *p)
                 n1 = t[6];
                 s1.x = s1.y = FIX((float)n1 / 16.0f);
                 func_0204B404(e->f1C, &v1, 1);
-                func_0204B5AC(e->f1C, (struct Pair *)(&s1));
+                CLACT_SetActorScale(e->f1C, (struct Pair *)(&s1));
             } else {
                 Vec2 a1;
                 FxPair b1;
                 res[i] = func_021BA0AC((s16 *)(&a1), (int *)(&b1), t[0], t[1], t[2], t[3], t[6], t[7], t[10], t[12], e->f84);
                 flags[i] = 1;
                 func_0204B404(e->f1C, &a1, 1);
-                func_0204B5AC(e->f1C, (struct Pair *)(&b1));
+                CLACT_SetActorScale(e->f1C, (struct Pair *)(&b1));
             }
             if (e->f84 == 0 && d < 0) {
                 func_0204B3DC(e->f18, 1);
@@ -1083,7 +1083,7 @@ void func_021BA2B4(Main *p)
             n2 = t[7];
             s2.x = s2.y = FIX((float)n2 / 16.0f);
             func_0204B404(e->f1C, &v2, 1);
-            func_0204B5AC(e->f1C, (struct Pair *)(&s2));
+            CLACT_SetActorScale(e->f1C, (struct Pair *)(&s2));
             if (e->f84 == 0 && d < 0) {
                 e->f84 = t[10] - 1;
                 e->f88 = 1;
@@ -1108,14 +1108,14 @@ void func_021BA2B4(Main *p)
                 n3 = t[7];
                 s3.x = s3.y = FIX((float)n3 / 16.0f);
                 func_0204B404(e->f1C, &v3, 1);
-                func_0204B5AC(e->f1C, (struct Pair *)(&s3));
+                CLACT_SetActorScale(e->f1C, (struct Pair *)(&s3));
             } else {
                 Vec2 a3;
                 FxPair b3;
                 res[i] = func_021BA0AC((s16 *)(&a3), (int *)(&b3), t[2], t[3], t[4], t[5], t[7], t[8], t[11], t[13], e->f84);
                 flags[i] = 1;
                 func_0204B404(e->f1C, &a3, 1);
-                func_0204B5AC(e->f1C, (struct Pair *)(&b3));
+                CLACT_SetActorScale(e->f1C, (struct Pair *)(&b3));
             }
             if (e->f84 == 0 && d < 0) {
                 e->f84 = t[9] - 1;
@@ -1139,7 +1139,7 @@ void func_021BA2B4(Main *p)
             n4 = t[8];
             s4.x = s4.y = FIX((float)n4 / 16.0f);
             func_0204B404(e->f1C, &v4, 1);
-            func_0204B5AC(e->f1C, (struct Pair *)(&s4));
+            CLACT_SetActorScale(e->f1C, (struct Pair *)(&s4));
             if (d < 0) {
                 func_0204B84C(e->f1C, 3);
                 e->f84 = t[11] - 1;
@@ -1192,7 +1192,7 @@ void func_021BA2B4(Main *p)
             if (order[1] != i)
                 pr = 2;
         }
-        func_0204B800((struct Node *)p->ents[i].f1C, pr);
+        CLACT_SetActorDrawPriority((struct Node *)p->ents[i].f1C, pr);
     }
     }
 }
@@ -1718,7 +1718,7 @@ void func_021BB3BC(char *p)
     item.text = func_02045EC0(*(struct MsgBank * *)&((struct Obj00084 *)p)->f234, 21);
     item.color = 0x39E3;
     item.value = 0;
-    *(unsigned *)&((struct Obj00084 *)p)->f260 = func_02027FEC(*(unsigned *)&((struct Obj00084 *)p)->f25C, (unsigned)&item, 9, 21, 14, ((struct Obj00084 *)p)->f0);
+    *(unsigned *)&((struct Obj00084 *)p)->f260 = APP_TASKMENU_WIN_Create(*(unsigned *)&((struct Obj00084 *)p)->f25C, (unsigned)&item, 9, 21, 14, ((struct Obj00084 *)p)->f0);
     func_02045808(item.text);
 }
 
@@ -1738,8 +1738,8 @@ void func_021BB414(char *p)
 
 
 
-void func_021BB424(char *p) {u32 off;off=0x260;func_02028218(*(struct Obj **)(p+off),1);func_0202822C(*(char **)(p+off),1);}
+void func_021BB424(char *p) {u32 off;off=0x260;APP_TASKMENU_WIN_SetActive(*(struct Obj **)(p+off),1);APP_TASKMENU_WIN_SetDecide(*(char **)(p+off),1);}
 
 
 
-u32 func_021BB440(char *p) {return func_02028230(*(u8 * *)&((struct Obj00084 *)p)->f260);}
+u32 func_021BB440(char *p) {return APP_TASKMENU_WIN_IsFinish(*(u8 * *)&((struct Obj00084 *)p)->f260);}

@@ -15,22 +15,22 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_0201F184 0x0201F184 thumb
- *   func_02005E30 0x02005E30 thumb
- *   func_02005E50 0x02005E50 thumb
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005E64 0x02005E64 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_PushBgm 0x02005E64 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02005F38 0x02005F38 thumb
- *   func_02005E9C 0x02005E9C thumb
- *   func_02005DF8 0x02005DF8 thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   func_020120F4 0x020120F4 thumb
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200BE48 0x0200BE48 thumb
  *   func_0200BF08 0x0200BF08 thumb
  *   func_02012B58 0x02012B58 thumb
- *   func_020266AC 0x020266AC thumb
+ *   GAME_COMM_PushPairMessage 0x020266AC thumb
  *   func_02158344 0x02158344 thumb ov010
- *   func_02174660 0x02174660 thumb ov011
+ *   INTRUDE_COMM_SendPairMessage 0x02174660 thumb ov011
  *   func_021B6C7C 0x021B6C7C thumb ov071
  *   func_021B9BD8 0x021B9BD8 thumb ov071
  *   func_021B9BAC 0x021B9BAC thumb ov071
@@ -114,23 +114,23 @@ extern void func_021B71FC(void *p);
 extern void func_021B6C30(int *p, int flag, int index);
 extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
 extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
-extern int func_02174660(int,...);
+extern int INTRUDE_COMM_SendPairMessage(int,...);
 extern void func_021B9818(char *a, char *b, u32 c);
-extern void func_02005E30(u32 a);
-extern int func_02005E50(void);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
-extern void func_02005D90(int,int);
+extern void GFL_USE_FadeOutBgm(u32 a);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern int func_02005F38(void);
-extern int func_02005E9C(void);
-extern void func_02005DF8(u32 a);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
 struct Rec1B0;
 extern void func_0200BF08(struct Rec1B0 *p, u32 v);
 extern u8 func_02012B58(const struct BigObj *p);
-extern void func_020266AC(u32,u32,u32);
+extern void GAME_COMM_PushPairMessage(u32,u32,u32);
 extern int func_021B7114(void *);
 extern void func_021B9C30(u8 *);
 extern const u32 d_021BAAFC[];
@@ -212,29 +212,29 @@ selected:
         } break;
     case 9:
         if (initial==0) goto write10;
-        if (func_02174660(CP(0)[0x3c])==1) { *state=10; break; }
+        if (INTRUDE_COMM_SendPairMessage(CP(0)[0x3c])==1) { *state=10; break; }
         break;
 write10:
         *state=10;
         break;
     case 10:
-        if (func_021B98B4(CP(4),o)==1) { func_02005E30(6); ++*state; }
+        if (func_021B98B4(CP(4),o)==1) { GFL_USE_FadeOutBgm(6); ++*state; }
         break;
     case 11:
-        if (func_02005E50()==0) { func_02005DE4((void *)1); func_02005E64(); ++*state; }
+        if (GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPlayerParam((void *)1); GFL_USE_PushBgm(); ++*state; }
         break;
-    case 12: func_02005D90(0x531,0xffff); ++*state; break;
+    case 12: GFL_USE_CancelChangeAndPlayBgm(0x531,0xffff); ++*state; break;
     case 13:
-        if (func_02005F38()==0) { func_02005E9C(); func_02005DE4(0); func_02005DF8(6); ++*state; }
+        if (func_02005F38()==0) { GFL_USE_PopBgm(); GFL_USE_SetBgmPlayerParam(0); GFL_USE_FadeInBgmFull(6); ++*state; }
         break;
-    case 14: if (func_02005E50()==0) *state=15; break;
+    case 14: if (GFL_USE_IsBgmFading()==0) *state=15; break;
     case 15:
         if (func_02035C60()!=0 || (func_020362DC()&3)) {
             func_021B98C4((char *)o);
             func_0200BF08((struct Rec1B0 *)func_0200BE48(func_02012EBC(func_020120F4((const struct Ctx *)(*(u32 *)CP(0))))),*(u32 *)(o+(W(0x300)<<2)+0xec));
             save=func_02012138((const struct Ctx *)*(u32 *)CP(0));
             handle=C(0);
-            func_020266AC(save,func_02012B58(func_020120F4((const struct Ctx *)(((struct Obj13181 *)handle)->f0))),((struct Obj13181 *)handle)->f3C);
+            GAME_COMM_PushPairMessage(save,func_02012B58(func_020120F4((const struct Ctx *)(((struct Obj13181 *)handle)->f0))),((struct Obj13181 *)handle)->f3C);
             W(0x300)=0xffff; func_021B6C30((int *)c,1,1); func_021B6B98(c,(int *)(o+8),1,0xff,3);
             if (func_02035C60()!=0) *state=16;
             else *state=17;

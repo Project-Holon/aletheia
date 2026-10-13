@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02018430, func_02018438
+ * function: POKE_TOOL_CalcLevel, POKE_TOOL_CalcBoxLevel
  *
  * The record's level accessor: it unlocks the block area, reads ids 5, 0x6F
  * and 8 out of it (species, form and experience), locks it again and hands the
  * three to func_0201850C (src/matched/unit_0201850C.c), which is the same
- * computation id 0x9E of func_02018E34 performs directly on the substructs.
- * func_02018430 in front of it is an eight byte
+ * computation id 0x9E of POKE_TOOL_GetBoxValueRaw performs directly on the substructs.
+ * POKE_TOOL_CalcLevel in front of it is an eight byte
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md thunk with no prologue, and
  * its pool word is `local` because its target is the next function in the same
  * unit.
@@ -26,8 +26,8 @@
  * shape appears in src/matched/unit_02017E64.c and src/matched/unit_0201854C.c.
  *
  * The range stops at 0x02018480, where another eight byte thunk forwards to
- * func_02018488; that thunk's pool word is the only reference to func_02018488
- * in the image, and func_02018488 in turn is the only caller of 0x020084F8, so
+ * POKE_TOOL_IsBoxOwnedByPlayer; that thunk's pool word is the only reference to POKE_TOOL_IsBoxOwnedByPlayer
+ * in the image, and POKE_TOOL_IsBoxOwnedByPlayer in turn is the only caller of 0x020084F8, so
  * neither can be attested and both are left out.
  *
  * Nothing here is version specific: 5, 0x6F and 8 are field selectors.
@@ -46,14 +46,14 @@ extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_0201850C(u16 species, u16 form, u32 exp);
 
-u32 func_02018438(void *p);
+u32 POKE_TOOL_CalcBoxLevel(void *p);
 
-u32 func_02018430(void *p)
+u32 POKE_TOOL_CalcLevel(void *p)
 {
-    return func_02018438(p);
+    return POKE_TOOL_CalcBoxLevel(p);
 }
 
-u32 func_02018438(void *p)
+u32 POKE_TOOL_CalcBoxLevel(void *p)
 {
     u32 t = func_02017DBC(p);
     u32 species = func_02017E88(p, 5, 0);

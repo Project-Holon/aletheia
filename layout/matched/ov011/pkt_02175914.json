@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02175914",
-    "func_02175920",
-    "func_0217592C"
+    "INTRUDE_COMM_SetSessionEntrySendFlag",
+    "INTRUDE_COMM_SetSessionRequestSendFlag",
+    "INTRUDE_COMM_SetSessionResultSendFlag"
+   ],
+   "addresses": [
+    "0x02175914",
+    "0x02175920",
+    "0x0217592C"
    ]
   }
  ]

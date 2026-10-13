@@ -1,5 +1,5 @@
 /*
- * function: func_02035EE8
+ * function: KEY_Create
  * address:  0x02035EE8
  * packet:   pkt_02035EE8
  * region:   arm9
@@ -27,7 +27,7 @@ extern u8 g_020A799C[];
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void func_02082BCC(void *dst, u32 val, u32 size);
 
-T *func_02035EE8(u32 a)
+T *KEY_Create(u32 a)
 {
     T *p = (T *)func_02030734(a, 0x4c, 0, (const char *)g_020A799C, 0x44);
 

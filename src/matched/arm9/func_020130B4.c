@@ -9,6 +9,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BTL_SETUP_FreeSlots  0x020130DC  thumb
  */
 
-int func_020130B4(int a0){ int t0 = func_020130DC(a0); int t1 = func_020307B0((int)((a0 + 0) + 0)); return t1; }
+int func_020130B4(int a0){ int t0 = BTL_SETUP_FreeSlots(a0); int t1 = func_020307B0((int)((a0 + 0) + 0)); return t1; }

@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203568C 0x0203568C arm
+ *   UI_GetPowerState 0x0203568C arm
  *   d_021F3520 0x021F3520 data a1
  */
 typedef unsigned char u8;
-extern int func_0203568C(void);
+extern int UI_GetPowerState(void);
 extern const u8 d_021F3520[];
 u8 func_021F1F70(void)
 {
-    return d_021F3520[func_0203568C()];
+    return d_021F3520[UI_GetPowerState()];
 }

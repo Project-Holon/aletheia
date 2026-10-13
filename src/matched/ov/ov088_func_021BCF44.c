@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204335C  0x0204335C  arm
+ *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   func_020433E0  0x020433E0  arm
  *   d_021BD9B0     0x021BD9B0  data  a4
  */
@@ -23,7 +23,7 @@ typedef struct Banks {
 
 extern Banks d_021BD9B0;
 
-extern void func_0204335C(u32 keep);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 struct DispVram;
 extern void func_020433E0(const struct DispVram *c);
 
@@ -31,6 +31,6 @@ void func_021BCF44(void)
 {
     Banks b = d_021BD9B0;
 
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)(&b));
 }

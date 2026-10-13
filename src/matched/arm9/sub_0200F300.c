@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0203D5D4  0x0203D5D4  arm
+ *   GFL_NET_GetGameKind  0x0203D5D4  arm
  *
- * A membership test on func_0203D5D4()'s result: true for a scattered set
+ * A membership test on GFL_NET_GetGameKind()'s result: true for a scattered set
  * of values (12-16, 28, 31, 37, 38, 48), false otherwise. The compiler
  * lowers the contiguous 12-16 run as a dense jump table (see
  * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md), all five
  * entries landing on the same "return 1", and the rest as compare chains.
- * func_0203D5D4 has to be declared returning a signed int: an unsigned
+ * GFL_NET_GetGameKind has to be declared returning a signed int: an unsigned
  * return type turns every one of the range tests into an unsigned
  * compare (bhi/bhs instead of bgt/bge), which is the only thing that
  * differed on the first attempt.
@@ -31,11 +31,11 @@
  *       --func sub_0200F300 --addr 0x0200F300 --cc 1.1p1
  */
 
-extern int func_0203D5D4(void);
+extern int GFL_NET_GetGameKind(void);
 
 int sub_0200F300(void)
 {
-    switch (func_0203D5D4()) {
+    switch (GFL_NET_GetGameKind()) {
     case 12:
     case 13:
     case 14:

@@ -1,5 +1,5 @@
 /*
- * function: func_021D9440
+ * function: P_STA_RIBBON_GetRowY
  * address: 0x021D9440
  * packet: pkt_ov131_021D9440
  * region: ov131
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef signed char s8;
 typedef signed short s16;
 typedef unsigned int u32;
-s16 func_021D9440(u8 *p, u32 target)
+s16 P_STA_RIBBON_GetRowY(u8 *p, u32 target)
 {
     u32 position;
     u8 row, remainder;

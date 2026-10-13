@@ -1,5 +1,5 @@
 /*
- * function: func_0202C0B8
+ * function: ISS_SWITCH_SYS_On
  * address:  0x0202C0B8
  * packet:   pkt_0202C0B8
  * region:   arm9
@@ -16,19 +16,19 @@
  * an existing manifest entry - and filed from the bytes.
  *
  * symbols:
- *   func_0202C1D4  0x0202C1D4  thumb
+ *   ISS_SWITCH_SYS_TurnOn  0x0202C1D4  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C0B8.c \
- *       --func func_0202C0B8 --addr 0x0202C0B8 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_On.c \
+ *       --func ISS_SWITCH_SYS_On --addr 0x0202C0B8 --thumb --cc 1.1p1
  */
 
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-extern void func_0202C1D4(u8 *p);
+extern void ISS_SWITCH_SYS_TurnOn(u8 *p);
 
-void func_0202C0B8(u8 *a0)
+void ISS_SWITCH_SYS_On(u8 *a0)
 {
-    func_0202C1D4(a0);
+    ISS_SWITCH_SYS_TurnOn(a0);
 }

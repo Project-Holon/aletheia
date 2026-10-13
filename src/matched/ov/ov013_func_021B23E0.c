@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B60D8  0x021B60D8  data  ov013  a4
- *   d_021B4BD0  0x021B4BD0  data  ov013  a4
- *   d_021B3C48  0x021B3C48  data  ov013  a4
- *   d_021B4BE0  0x021B4BE0  data  a4
+ *   gVctSession  0x021B60D8  data  ov013  a4
+ *   gVctGroup  0x021B4BD0  data  ov013  a4
+ *   gVctAnnounceTimeout  0x021B3C48  data  ov013  a4
+ *   gVctPeerPool  0x021B4BE0  data  a4
  *   d_021B4C0C  0x021B4C0C  data  ov013  a4
  *   func_020870D0  0x020870D0  arm
- *   func_021B26DC  0x021B26DC  arm  ov013
+ *   VCT_SESSION_BroadcastState  0x021B26DC  arm  ov013
  */
 
 #include "../include/G_Pool.h"
@@ -37,30 +37,30 @@ typedef struct Stat {
     u64 t;
 } Stat;
 
-extern Ctx d_021B60D8;
-extern Stat d_021B4BD0;
-extern u64 d_021B3C48;
-extern struct Pool d_021B4BE0;
+extern Ctx gVctSession;
+extern Stat gVctGroup;
+extern u64 gVctAnnounceTimeout;
+extern struct Pool gVctPeerPool;
 extern char d_021B4C0C;
 extern u64 func_020870D0(void);
-extern void func_021B26DC(int);
+extern void VCT_SESSION_BroadcastState(int);
 
 void func_021B23E0(void)
 {
     u64 now;
 
     now = func_020870D0();
-    if (d_021B60D8.state != 2)
+    if (gVctSession.state != 2)
         return;
-    if (d_021B60D8.fC == 0)
+    if (gVctSession.fC == 0)
         return;
-    if (d_021B4BD0.t == 0)
+    if (gVctGroup.t == 0)
         return;
-    if (now - d_021B4BD0.t <= d_021B3C48)
+    if (now - gVctGroup.t <= gVctAnnounceTimeout)
         return;
-    d_021B4BD0.t = 0;
-    d_021B4BE0.active_state = 0;
-    d_021B4BE0.active_fc = 0;
-    func_021B26DC(0);
-    d_021B60D8.cb(*((unsigned char *)&d_021B4BE0 + 0x30), 9, (int)&d_021B4C0C, d_021B60D8.arg);
+    gVctGroup.t = 0;
+    gVctPeerPool.active_state = 0;
+    gVctPeerPool.active_fc = 0;
+    VCT_SESSION_BroadcastState(0);
+    gVctSession.cb(*((unsigned char *)&gVctPeerPool + 0x30), 9, (int)&d_021B4C0C, gVctSession.arg);
 }

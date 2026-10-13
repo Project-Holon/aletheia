@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   func_021B8588  0x021B8588  thumb
  *   func_021B8D8C  0x021B8D8C  thumb
  *   func_021B8E70  0x021B8E70  thumb
@@ -33,7 +33,7 @@ extern u8 func_021D5440(void *);
 extern int func_021B8D8C(void *, void *, u32);
 extern u8 func_021B8E70(void *, u32);
 extern u32 func_021B8588(void *);
-extern u32 func_0201BEB8(u16, u32);
+extern u32 WAZA_TOOL_GetFlag(u16, u32);
 extern int func_02202DC4(char *, const char *, int);
 extern int func_0689ADDC(St *, int, u32, u8 *);
 extern void func_021D82D0(Q *, u16, u8);
@@ -51,7 +51,7 @@ int func_0689B1E4(int *state, u8 *s)
         r = d_0689E560[row][i];
         stop = 4;
     } else {
-        if (i == 0 && func_0201BEB8((*(Q * *)&((struct Obj01913 *)s)->f70)->id, 0xb)) i = 14;
+        if (i == 0 && WAZA_TOOL_GetFlag((*(Q * *)&((struct Obj01913 *)s)->f70)->id, 0xb)) i = 14;
         q = d_0689E650[row][i];
         r = d_0689E704[row][i];
         stop = 6;

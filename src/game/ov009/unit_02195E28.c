@@ -1,7 +1,7 @@
 /*
  * file:     unit_02195E28.c
  * unit:     yes
- * function: func_02195E28, func_02195E30, func_02195E38, func_02195E40, func_02195E48
+ * function: gt2GetRemoteIP, gt2GetRemotePort, gt2GetLocalIP, gt2GetLocalPort, gt2GetOutgoingBufferSize
  * address:  0x02195E28
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -14,16 +14,16 @@
  */
 #include "unit_02195B20_types.h"
 
-unsigned int func_02195E28(const GTI2Connection *connection);
-unsigned short func_02195E30(const GTI2Connection *connection);
-unsigned int func_02195E38(const GTI2Socket *socket);
-unsigned short func_02195E40(const GTI2Socket *socket);
-int func_02195E48(const GTI2Connection *connection);
+unsigned int gt2GetRemoteIP(const GTI2Connection *connection);
+unsigned short gt2GetRemotePort(const GTI2Connection *connection);
+unsigned int gt2GetLocalIP(const GTI2Socket *socket);
+unsigned short gt2GetLocalPort(const GTI2Socket *socket);
+int gt2GetOutgoingBufferSize(const GTI2Connection *connection);
 
 /*
  * Remote address of a connection.
  */
-unsigned int func_02195E28(const GTI2Connection *connection)
+unsigned int gt2GetRemoteIP(const GTI2Connection *connection)
 {
     return connection->ip;
 }
@@ -31,7 +31,7 @@ unsigned int func_02195E28(const GTI2Connection *connection)
 /*
  * Remote port of a connection.
  */
-unsigned short func_02195E30(const GTI2Connection *connection)
+unsigned short gt2GetRemotePort(const GTI2Connection *connection)
 {
     return connection->port;
 }
@@ -39,7 +39,7 @@ unsigned short func_02195E30(const GTI2Connection *connection)
 /*
  * Local address of a socket.
  */
-unsigned int func_02195E38(const GTI2Socket *socket)
+unsigned int gt2GetLocalIP(const GTI2Socket *socket)
 {
     return socket->ip;
 }
@@ -47,7 +47,7 @@ unsigned int func_02195E38(const GTI2Socket *socket)
 /*
  * Local port of a socket.
  */
-unsigned short func_02195E40(const GTI2Socket *socket)
+unsigned short gt2GetLocalPort(const GTI2Socket *socket)
 {
     return socket->port;
 }
@@ -55,7 +55,7 @@ unsigned short func_02195E40(const GTI2Socket *socket)
 /*
  * Size of the outgoing buffer of a connection.
  */
-int func_02195E48(const GTI2Connection *connection)
+int gt2GetOutgoingBufferSize(const GTI2Connection *connection)
 {
     return connection->outgoingBuffer.size;
 }

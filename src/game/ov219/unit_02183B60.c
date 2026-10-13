@@ -32,13 +32,13 @@
  *   func_02043598 0x02043598 arm
  *   func_020310C4 0x020310C4 arm
  *   func_0201C4E4 0x0201C4E4 thumb
- *   func_02028218 0x02028218 thumb
- *   func_0202822C 0x0202822C thumb
+ *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   func_02028178 0x02028178 thumb
  *   func_020362DC 0x020362DC arm
  *   func_0203630C 0x0203630C arm
- *   func_02035BA4 0x02035BA4 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_HitCont 0x02035BA4 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_02035C60 0x02035C60 arm
  *   func_02035D20 0x02035D20 arm
  *   func_02045B38 0x02045B38 arm
@@ -60,8 +60,8 @@
  *   func_02025C44 0x02025C44 thumb
  *   func_02025B94 0x02025B94 thumb
  *   func_0200947C 0x0200947C thumb
- *   func_02027120 0x02027120 thumb
- *   func_02028230 0x02028230 thumb
+ *   GAME_BEACON_SetNationArea 0x02027120 thumb
+ *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_02185CF4 0x02185CF4 thumb ov219
  *   d_02185DE6 0x02185DE6 data a1
@@ -104,12 +104,12 @@
  *   func_02025B3C 0x02025B3C thumb
  *   d_02185E00 0x02185E00 data a4
  *   func_02035C08 0x02035C08 arm
- *   sub_020450F0 0x020450F0 arm
- *   sub_02045770 0x02045770 arm
- *   sub_02043B5C 0x02043B5C arm
- *   sub_02045374 0x02045374 arm
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_0201D7EC 0x0201D7EC thumb
- *   func_0201DE00 0x0201DE00 thumb
+ *   GF_FONT_GetTextColor 0x0201DE00 thumb
  *   func_0201DD78 0x0201DD78 thumb
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414EC 0x020414EC arm
@@ -126,7 +126,7 @@
  *   d_02185DBD 0x02185DBD data a1
  *   func_02045EC0 0x02045EC0 arm
  *   func_02027F60 0x02027F60 thumb
- *   func_02027FEC 0x02027FEC thumb
+ *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   d_02185E40 0x02185E40 data ov219 a4
  *   func_02028148 0x02028148 thumb
  *   sub_02041B6C 0x02041B6C arm
@@ -152,7 +152,7 @@
  *   func_02020CF8 0x02020CF8 thumb
  *   d_02185F7C 0x02185F7C data a4
  *   func_0201F7A8 0x0201F7A8 thumb
- *   sub_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_0202020C 0x0202020C thumb
  *   func_0201F868 0x0201F868 thumb
  *   func_0201F048 0x0201F048 thumb
@@ -343,13 +343,13 @@ extern void func_0203D34C(u32 a, u32 b);
 extern void func_02043598(u32,u32);
 extern void func_020310C4(struct Tcbl *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_02028218(struct Obj*,u32);
-extern void func_0202822C(char*,int);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj*,u32);
+extern void APP_TASKMENU_WIN_SetDecide(char*,int);
 extern void func_02028178(u8*);
 extern u32 func_020362DC(void);
 extern u32 func_0203630C(void);
-extern int func_02035BA4(const void *a);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern int TOUCHPANEL_HitCont(const void *a);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u16 fileId, u16 heapId);
@@ -371,8 +371,8 @@ extern int func_02025BE8(void);
 extern int func_02025C44(u32 a0, u32 *a1, u32 *a2);
 extern u32 func_02025B94(u32 a);
 extern void func_0200947C(u32 a, u32 b, u32 c, u32 d);
-extern void func_02027120(u8 a, u8 b);
-extern u32 func_02028230(u8 *p);
+extern void GAME_BEACON_SetNationArea(u8 a, u8 b);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void func_020061E4(u32 a);
 extern int func_02185CF4(int i);
 extern void func_0201C6EC(struct PrintSys *),func_0201C4C0(struct PrintSys *);
@@ -395,12 +395,12 @@ extern u32 func_02025BD0(u32),func_02025BB8(u32);
 extern u32 func_0200949C(const struct Sub02009470Obj *obj, int row, int col);
 extern u32 func_02025B3C(u32);
 extern int func_02035C08(const void *);
-extern u32 sub_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern void *sub_02045770(struct Descriptor*);
-extern void sub_02043B5C(struct CharBuf*,u8);
-extern void sub_02045374(struct Cfg*);
+extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
+extern void *BMP_WIN_GetBmp(struct Descriptor*);
+extern void BMP_Clear(struct CharBuf*,u8);
+extern void BMP_WIN_MakeScreen(struct Cfg*);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern void func_0201DE00(u8 *,u8 *,u8 *),func_0201DD78(u32,u32,u32);
+extern void GF_FONT_GetTextColor(u8 *,u8 *,u8 *),func_0201DD78(u32,u32,u32);
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32),func_020414EC(u32);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
@@ -411,7 +411,7 @@ extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02040EBC(u32,u32);
 extern void *func_02045EC0(struct MsgBank *,unsigned);
 extern struct R *func_02027F60(u16,u16,unsigned,unsigned,u16);
-extern unsigned func_02027FEC(unsigned,unsigned,unsigned,unsigned,u8,u16);
+extern unsigned APP_TASKMENU_WIN_Create(unsigned,unsigned,unsigned,unsigned,u8,u16);
 extern void func_02028148(u8*);
 extern void sub_02041B6C(u32);
 extern u32 func_02027FD8(struct TaskMenuState *s);
@@ -436,7 +436,7 @@ extern struct Obj *func_0201FF30(struct Src_02183B60 *src, u16 a, u16 b, u32 hea
 extern void func_02020CF8(struct Obj *,int);
 extern void func_0201F73C(void *,int,int,int);
 extern void func_0201F7A8(void*,u32);
-extern u32 sub_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_0202020C(struct Obj*,u16*,u16*);
 extern u32 func_0201F868(void *p);
 extern void func_0201F048(struct WordSet *,unsigned,unsigned),func_0201F094(struct WordSet *,unsigned,unsigned,unsigned);
@@ -626,7 +626,7 @@ int func_02183C78(void *unused, char *state, int unused2, char *ctx)
 
 
 
-void func_02183CBC(u8 *p,u32 i){if(*(void**)(p+i*4+0xc05c)){if(i==0){func_02028218(*(struct Obj* *)&((struct Obj14775 *)p)->fC05C,1);return;}if(i==1)func_0202822C(*(char* *)&((struct Obj14775 *)p)->fC060,1);}}
+void func_02183CBC(u8 *p,u32 i){if(*(void**)(p+i*4+0xc05c)){if(i==0){APP_TASKMENU_WIN_SetActive(*(struct Obj* *)&((struct Obj14775 *)p)->fC05C,1);return;}if(i==1)APP_TASKMENU_WIN_SetDecide(*(char* *)&((struct Obj14775 *)p)->fC060,1);}}
 
 
 
@@ -711,9 +711,9 @@ static inline void close_win(u8 *p, int d, int f)
  *           a `call:` label on `func_020061E4(m)`; the case 9 0x551 path does `m = 0x551; goto call;`;
  *           case 17 writes `if (W(0xC350) != 1) break; goto se54c;`. The 0x648/0x649 calls then
  *           merge into case 12's call by themselves. d_02185DE6 hint token dropped (contested).
- *           Remaining: three callees with no witness: arm9 func_02025BE8 and func_02027120 and ov219
+ *           Remaining: three callees with no witness: arm9 func_02025BE8 and GAME_BEACON_SetNationArea and ov219
  *           func_021856CC. This lane filed all three EXACT (src/matched/arm9/func_02025BE8.c,
- *           src/matched/arm9/func_02027120.c, src/matched/ov/ov219_func_021856CC.c); after the
+ *           src/matched/arm9/GAME_BEACON_SetNationArea.c, src/matched/ov/ov219_func_021856CC.c); after the
  *           manifest picks them up this should verify EXACT.
  */
 int func_02183D14(u8 *p, int *state)
@@ -732,8 +732,8 @@ int func_02183D14(u8 *p, int *state)
 
     W(0xC354) = func_020362DC();
     W(0xC358) = func_0203630C();
-    if (func_02035BA4(d_02185DE6) != -1) {
-        W(0xC360) = (int)func_02035CB8((u32 *)(p + 0xC364), (u32 *)(p + 0xC368));
+    if (TOUCHPANEL_HitCont(d_02185DE6) != -1) {
+        W(0xC360) = (int)TOUCHPANEL_GetPointCont((u32 *)(p + 0xC364), (u32 *)(p + 0xC368));
     } else {
         W(0xC360) = 0;
     }
@@ -911,7 +911,7 @@ int func_02183D14(u8 *p, int *state)
         case 0:
             func_02185310((char *)p);
             func_0200947C(W(0x10), W(0xC), W(0xC344), W(0xC348));
-            func_02027120(W(0xC344), W(0xC348));
+            GAME_BEACON_SetNationArea(W(0xC344), W(0xC348));
             W(0xC33C) = W(0xC344);
             W(0xC340) = W(0xC348);
             *state = 0x10;
@@ -991,7 +991,7 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 19:
-        if ((int)func_02028230(*(void **)(p + 0xC060)) == 0) {
+        if ((int)APP_TASKMENU_WIN_IsFinish(*(void **)(p + 0xC060)) == 0) {
             break;
         }
         if (W(0xC33C) == 0) {
@@ -1323,7 +1323,7 @@ void func_021848F4(const char *p,int x,int y,int *xflag,int *xdistance,int *yfla
 
 
 
-u32 func_02184968(const u8 *p,int flag){u32 q;q=sub_020450F0(p[0],p[1],p[2],p[3],p[4],p[5],1);sub_02043B5C((struct CharBuf*)sub_02045770((struct Descriptor*)q),15);if(flag==1)sub_02045374((struct Cfg*)q);return q;}
+u32 func_02184968(const u8 *p,int flag){u32 q;q=BMP_WIN_Create(p[0],p[1],p[2],p[3],p[4],p[5],1);BMP_Clear((struct CharBuf*)BMP_WIN_GetBmp((struct Descriptor*)q),15);if(flag==1)BMP_WIN_MakeScreen((struct Cfg*)q);return q;}
 
 
 
@@ -1338,7 +1338,7 @@ u32 func_02184968(const u8 *p,int flag){u32 q;q=sub_020450F0(p[0],p[1],p[2],p[3]
 void func_021849A4(char *p,void *arc)
 {
     ((struct Obj01012 *)p)->fC06C=func_0201D7EC(0x17,0,0,0,(u16)(((struct Obj01012 *)p)->f0));
-    func_0201DE00((u8 *)p+0xc084,(u8 *)p+0xc085,(u8 *)p+0xc086);
+    GF_FONT_GetTextColor((u8 *)p+0xc084,(u8 *)p+0xc085,(u8 *)p+0xc086);
     func_0201DD78(1,2,0xf);
     func_0203FCA0(6,&d_02185E58,0);
     func_020414EC(6);
@@ -1396,7 +1396,7 @@ void func_02184BAC(char *p)
 void func_02184C2C(char *p,int i)
 {
     if(*(unsigned *)(p+0xc05c+i*4)==0){
-        *(unsigned *)(p+0xc05c+i*4)=func_02027FEC(((struct Obj14776 *)p)->fC058,(unsigned)(p+0xc08c+i*12),(u8)d_02185E40[i].x,(u8)d_02185E40[i].y,(u8)d_02185E40[i].z,(u16)((struct Obj14776 *)p)->f0);
+        *(unsigned *)(p+0xc05c+i*4)=APP_TASKMENU_WIN_Create(((struct Obj14776 *)p)->fC058,(unsigned)(p+0xc08c+i*12),(u8)d_02185E40[i].x,(u8)d_02185E40[i].y,(u8)d_02185E40[i].z,(u16)((struct Obj14776 *)p)->f0);
     }
 }
 
@@ -1467,13 +1467,13 @@ void func_02184D30(char *p,struct Record *out,struct Descriptor *d,void *text,u8
  *     u8 langIndex;
  *     u8 resident;
  * };
- * extern char g_020A7E8C[];
+ * extern char MSGDATA_AllocSite[];
  * extern void *sub_02030734(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
- * extern void func_020495F4(void *,u32,void *);
+ * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
- * extern void func_0204581C(void *);
- * extern void func_02045A00(void *,const void *,u16);
+ * extern void STRBUF_Clear(void *);
+ * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
  * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
@@ -1481,14 +1481,14 @@ void func_02184D30(char *p,struct Record *out,struct Descriptor *d,void *text,u8
  *     u32 size;
  *     struct MsgEntry *e;
  *     if (index >= bank->file->count) {
- *         func_0204581C(dest);
+ *         STRBUF_Clear(dest);
  *         return;
  *     }
  *     func_02046180(bank);
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *         func_0204960C(bank->stream,pos + (index * 8 + 4));
- *         func_020495F4(bank->stream,8,&bank->cache);
+ *         ARC_TOOL_ReadHandle(bank->stream,8,&bank->cache);
  *         e = &bank->cache;
  *     } else {
  *         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
@@ -1497,17 +1497,17 @@ void func_02184D30(char *p,struct Record *out,struct Descriptor *d,void *text,u8
  *         void *buf;
  *         size = e->len * 2;
  *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
- *                            0,g_020A7E8C,0xd6);
+ *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
- *             func_020495F4(bank->stream,size,buf);
- *             func_02045A00(dest,buf,e->len);
+ *             ARC_TOOL_ReadHandle(bank->stream,size,buf);
+ *             STRBUF_SetChars(dest,buf,e->len);
  *             func_020307B0(buf);
  *         }
  *     } else {
- *         func_02045A00(dest,(u8 *)bank->base + e->off,e->len);
+ *         STRBUF_SetChars(dest,(u8 *)bank->base + e->off,e->len);
  *     }
  *     func_02045E04(dest,index);
  * }
@@ -1775,7 +1775,7 @@ void func_021850EC(char *p,const unsigned char *descriptor,const struct Src_0218
 
 
 
-void func_0218516C(u8*p){func_0201F7A8(*(void* *)&((struct Obj08451 *)p)->fC018,0);sub_020452E8(*(struct Descriptor* *)&((struct Obj08451 *)p)->fC018);func_0202020C(*(struct Obj* *)&((struct Obj08451 *)p)->fC04C,0,0);func_0201F868(*(void* *)&((struct Obj08451 *)p)->fC050);}
+void func_0218516C(u8*p){func_0201F7A8(*(void* *)&((struct Obj08451 *)p)->fC018,0);BMP_WIN_Delete(*(struct Descriptor* *)&((struct Obj08451 *)p)->fC018);func_0202020C(*(struct Obj* *)&((struct Obj08451 *)p)->fC04C,0,0);func_0201F868(*(void* *)&((struct Obj08451 *)p)->fC050);}
 
 
 
@@ -1954,13 +1954,13 @@ int func_0218532C(char *p, u32 *out)
  *     u8 langIndex;
  *     u8 resident;
  * };
- * extern char g_020A7E8C[];
+ * extern char MSGDATA_AllocSite[];
  * extern void *sub_02030734(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
- * extern void func_020495F4(void *,u32,void *);
+ * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
- * extern void func_0204581C(void *);
- * extern void func_02045A00(void *,const void *,u16);
+ * extern void STRBUF_Clear(void *);
+ * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
  * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
@@ -1968,14 +1968,14 @@ int func_0218532C(char *p, u32 *out)
  *     u32 size;
  *     struct MsgEntry *e;
  *     if (index >= bank->file->count) {
- *         func_0204581C(dest);
+ *         STRBUF_Clear(dest);
  *         return;
  *     }
  *     func_02046180(bank);
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *         func_0204960C(bank->stream,pos + (index * 8 + 4));
- *         func_020495F4(bank->stream,8,&bank->cache);
+ *         ARC_TOOL_ReadHandle(bank->stream,8,&bank->cache);
  *         e = &bank->cache;
  *     } else {
  *         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
@@ -1984,17 +1984,17 @@ int func_0218532C(char *p, u32 *out)
  *         void *buf;
  *         size = e->len * 2;
  *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
- *                            0,g_020A7E8C,0xd6);
+ *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
- *             func_020495F4(bank->stream,size,buf);
- *             func_02045A00(dest,buf,e->len);
+ *             ARC_TOOL_ReadHandle(bank->stream,size,buf);
+ *             STRBUF_SetChars(dest,buf,e->len);
  *             func_020307B0(buf);
  *         }
  *     } else {
- *         func_02045A00(dest,(u8 *)bank->base + e->off,e->len);
+ *         STRBUF_SetChars(dest,(u8 *)bank->base + e->off,e->len);
  *     }
  *     func_02045E04(dest,index);
  * }

@@ -13,15 +13,15 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0202E4EC 0x0202E4EC thumb
- *   func_020120B4 0x020120B4 thumb
+ *   CODEIN_PARAM_Create 0x0202E4EC thumb
+ *   GAMESYSTEM_CallProc 0x020120B4 thumb
  *   d_021D8574 0x021D8574 data a4
  *   d_021DA62C 0x021DA62C data ov129 a4
  *   func_0202E54C 0x0202E54C thumb
  *   func_02045A98 0x02045A98 arm
- *   func_02045A90 0x02045A90 arm
- *   d_021D6338 0x021D6338 data ov115 a4
- *   d_021D654C 0x021D654C data ov115 a4
+ *   STRBUF_GetChars 0x02045A90 arm
+ *   gNetSaveMainProc 0x021D6338 data ov115 a4
+ *   gNetSaveRetryProc 0x021D654C data ov115 a4
  *   d_021D8580 0x021D8580 data a4
  *   func_021D6EC4 0x021D6EC4 thumb ov116
  *   func_021D6E50 0x021D6E50 thumb ov116
@@ -47,7 +47,7 @@
  *   func_02009CC0 0x02009CC0 thumb
  *   func_02008540 0x02008540 thumb
  *   func_0200853C 0x0200853C thumb
- *   func_0205994C 0x0205994C arm
+ *   DWC_CreateFriendKey 0x0205994C arm
  *   func_021C8F2C 0x021C8F2C arm ov114
  *   func_021C96CC 0x021C96CC arm ov114
  *   func_021D70E4 0x021D70E4 thumb ov116
@@ -55,9 +55,9 @@
  *   func_021C93D0 0x021C93D0 arm ov114
  *   func_021C9634 0x021C9634 arm ov114
  *   func_021C93BC 0x021C93BC arm ov114
- *   func_02157170 0x02157170 thumb ov009
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   func_0200FB24 0x0200FB24 thumb
- *   func_0203CA98 0x0203CA98 arm
+ *   GFL_NET_STATE_GetError 0x0203CA98 arm
  *   func_021D7158 0x021D7158 thumb ov116
  *   func_021D7200 0x021D7200 thumb ov116
  *   func_021D7184 0x021D7184 thumb ov116
@@ -79,7 +79,7 @@
  *   func_0201CE48 0x0201CE48 thumb
  *   func_0201ED04 0x0201ED04 thumb
  *   func_0201D83C 0x0201D83C thumb
- *   func_0201FEF4 0x0201FEF4 thumb
+ *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  *   func_0201DD68 0x0201DD68 thumb
  *   func_02031140 0x02031140 arm
  *   func_02045C04 0x02045C04 arm
@@ -127,12 +127,12 @@
  *   func_02012DAC 0x02012DAC thumb
  *   func_02012DD0 0x02012DD0 thumb
  *   func_02030734 0x02030734 arm
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
  *   d_021D858C 0x021D858C data a1
  *   d_021D83C0 0x021D83C0 data a4
@@ -271,11 +271,11 @@ typedef unsigned int   u32_021D8304;
 
 typedef unsigned int u32_021D8364;
 
-extern struct Param *func_0202E4EC(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern void func_0202E54C(struct Obj0202E54C *p);
 extern u16 func_02045A98(void);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern int func_021D6EC4(u8 *,u8 *,int);
 extern void func_021D6E50(u8 *,u8 *,int,int);
 extern void func_021D7060(u8 *,u8 *);
@@ -303,7 +303,7 @@ extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 extern int func_02009CC0(void *a0);
 extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
-extern unsigned long long func_0205994C(struct DWCstAccUserData *userdata);
+extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 extern void func_021C8F2C(unsigned a, unsigned b, unsigned c, unsigned mode);
 extern void func_021C96CC(void);
 extern void func_021D70E4(u8 *p);
@@ -311,9 +311,9 @@ extern int func_021D70EC(u8 *, int *);
 extern int func_021C93D0(void);
 extern void func_021C9634(void);
 extern void func_021C93BC(void);
-extern int func_02157170(int,int);
+extern int DWC_RAPCOMMON_HandleNetError(int,int);
 extern u32 func_0200FB24(void);
-extern u32 func_0203CA98(void);
+extern u32 GFL_NET_STATE_GetError(void);
 extern int func_021D7158(u8 *p);
 extern int func_021D7200(int *p);
 extern int func_021D7184(int *p);
@@ -338,7 +338,7 @@ extern unsigned int func_02045C04(struct Rec *rec);
 extern unsigned int func_0201ED04(struct WordSet *p);
 extern u32_021D7C58 func_0201D83C(void *ptr);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201FEF4(u8 *o);
+extern void BMP_MENU_DeleteYesNo(u8 *o);
 extern u32_021D7C58 func_020452E8(struct Descriptor *d);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *,int,int);
@@ -381,12 +381,12 @@ extern void func_0202F038(u8 *);
 extern int func_02012DAC(int);
 extern int func_02012DD0(u8 *);
 extern void *func_02030734(u32_021D821C heapId, u32_021D821C size, int clear, const char *site, u16 tag);
-extern void func_0204335C(unsigned);
+extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32_021D821C swap);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void func_021D839C(void *);
 extern void func_0203F8F4(unsigned);
@@ -439,9 +439,9 @@ void func_021D8364(void *a0);
 extern u32 d_021D8574[];
 extern u32 d_021DA62C[];
 extern u8 ov129_id[];
-extern u32 d_021D6338[];
+extern u32 gNetSaveMainProc[];
 extern u8 ov115_id[];
-extern u32 d_021D654C[];
+extern u32 gNetSaveRetryProc[];
 extern const Tbl d_021D8580;
 extern u8 d_021D8560[];
 extern u8 d_021D8560_menu[];
@@ -455,9 +455,9 @@ extern u8 g_021D83F0[];
 void func_021D72D0(u8 *p, u32 heap)
 {
     void *obj;
-    obj = func_0202E4EC(heap, 2, 10, 2, d_021D8574);
+    obj = CODEIN_PARAM_Create(heap, 2, 10, 2, d_021D8574);
     ((struct Obj13867 *)p)->f1840 = obj;
-    func_020120B4(((struct Obj22624 *)(*(u8 * *)&((struct Obj13867 *)p)->f0))->f4, (u32)ov129_id, d_021DA62C, obj);
+    GAMESYSTEM_CallProc(((struct Obj22624 *)(*(u8 * *)&((struct Obj13867 *)p)->f0))->f4, (u32)ov129_id, d_021DA62C, obj);
 }
 
 
@@ -472,7 +472,7 @@ void func_021D730C(u8 *p)
 
 u32 func_021D7324(u8 *p) {
     u16 end=func_02045A98();
-    u16 *s=func_02045A90(((struct Obj22626 *)(*(u8 * *)&((struct Obj22625 *)p)->f1840))->f20);
+    u16 *s=STRBUF_GetChars(((struct Obj22626 *)(*(u8 * *)&((struct Obj22625 *)p)->f1840))->f20);
     u32 value=0;
     u16 i=0;
     while(s[i]!=end) {
@@ -493,7 +493,7 @@ void func_021D737C(u8 *p) {
     ((struct Obj00671 *)p)->f9B8=1;
     ((struct Obj00671 *)p)->f9BC=44;
     ((struct Obj00671 *)p)->f9C0=p+0x9f4;
-    func_020120B4(((struct Obj22627 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f4,(u32)ov115_id,d_021D6338,p+0x9b0);
+    GAMESYSTEM_CallProc(((struct Obj22627 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f4,(u32)ov115_id,gNetSaveMainProc,p+0x9b0);
 }
 
 
@@ -511,7 +511,7 @@ void func_021D73E0(u8 *p) {
     ((struct Obj00671 *)p)->f9DC=0;
     ((struct Obj00671 *)p)->f9E0=1;
     ((struct Obj00671 *)p)->f9E4=1;
-    func_020120B4(((struct Obj22629 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f4,(u32)ov115_id,d_021D654C,p+0x9d8);
+    GAMESYSTEM_CallProc(((struct Obj22629 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f4,(u32)ov115_id,gNetSaveRetryProc,p+0x9d8);
 }
 
 
@@ -658,7 +658,7 @@ void func_021D7A3C(u8 *p) {
     u64 value;
     func_02008540(((struct Obj00671 *)p)->f1850,(u32)func_02009CC0(((struct Obj00671 *)p)->f184C));
     b=(void *)func_0200853C(((struct Obj00671 *)p)->f1850);
-    value=func_0205994C(a);
+    value=DWC_CreateFriendKey(a);
     func_021C8F2C((unsigned int)b,(u32)value,(u32)(value>>32),0);
     func_021C96CC();
     func_021D70E4(p+0x182c);
@@ -703,9 +703,9 @@ int func_021D7AC8(u8 *p)
 int func_021D7B00(u8 *p) {
     int yes=1;
     int no=0;
-    if(func_02157170(1,0)!=0) return no;
+    if(DWC_RAPCOMMON_HandleNetError(1,0)!=0) return no;
     if(func_0200FB24()!=0) {
-        func_0203CA98();
+        GFL_NET_STATE_GetError();
         return no;
     }
     if(func_021D7158(p+0x182c)!=0) {
@@ -764,7 +764,7 @@ void func_021D7C58(u8 *p) {
         func_021D7FC4(p);
         func_021D81B4(p);
         if(((struct Obj01721 *)p)->f980) {
-            func_0201FEF4(((struct Obj01721 *)p)->f980);
+            BMP_MENU_DeleteYesNo(((struct Obj01721 *)p)->f980);
             ((struct Obj01721 *)p)->f980=0;
         }
         func_020452E8(((struct Obj01721 *)p)->f97C);
@@ -941,8 +941,8 @@ void *func_021D821C(int a,unsigned heap) {
  *(volatile unsigned *)0x04000000 &= 0xffff1fff;
  *(volatile unsigned *)0x04001000 &= 0xffff1fff;
 
- func_0204335C(0); func_020433E0((const struct DispVram *)d_021D83C0); func_0204363C(a);
- func_0204361C(); func_020434CC(); func_02043588(); func_0201DD60();
+ BG_SYS_ClearGraphicsMemory(0); func_020433E0((const struct DispVram *)d_021D83C0); func_0204363C(a);
+ func_0204361C(); BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes(); func_0201DD60();
  func_021D8304(p,heap);
  ((struct Obj22632 *)p)->fC=func_020056A0((void *)func_021D82F8,p,0);
  return p;

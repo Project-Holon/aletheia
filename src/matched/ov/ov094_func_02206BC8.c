@@ -14,7 +14,7 @@
  *   func_0204B100 0x0204B100 arm
  *   func_0204ABF0 0x0204ABF0 arm
  *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_0204AEF4 0x0204AEF4 arm
+ *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   func_020216D4 0x020216D4 thumb
  *   func_020275E4 0x020275E4 thumb
  *   func_020276B8 0x020276B8 thumb
@@ -23,10 +23,10 @@
  *   func_020276C0 0x020276C0 thumb
  *   func_0204AF28 0x0204AF28 arm
  *   func_020276B4 0x020276B4 thumb
- *   func_02022004 0x02022004 thumb
+ *   PALANM_BlendChannelMask 0x02022004 thumb
  *   func_02049238 0x02049238 arm
  *   func_02049E74 0x02049E74 arm
- *   func_02005C44 0x02005C44 thumb
+ *   GFL_USE_GetBgmNo 0x02005C44 thumb
  *   func_021F86D4 0x021F86D4 thumb ov094
  *   func_02030DA8 0x02030DA8 arm
  *   func_021F8710 0x021F8710 thumb ov094
@@ -81,7 +81,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_021F86E0(void);
-extern int func_0204AEF4(u32 idx, u32 alternate);
+extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern u32 func_020275E4(void);
 extern u32 func_020276B8(void);
@@ -90,10 +90,10 @@ extern u32 func_020276BC(u32 i);
 extern u32 func_020276C0(u32 i);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_020276B4(void);
-extern void func_02022004(unsigned, unsigned, u16, unsigned, unsigned);
+extern void PALANM_BlendChannelMask(unsigned, unsigned, u16, unsigned, unsigned);
 extern void func_02049238(void *);
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern u16 func_02005C44(void);
+extern u16 GFL_USE_GetBgmNo(void);
 extern void *func_021F86D4(void);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
 extern int func_021F8710(void);
@@ -118,21 +118,21 @@ Obj *func_02206BC8(int a, u16 heap)
     s->f00 = func_0204B100(0x28, 0, s->heap);
     for (i = 0; i < 6; i++) {
         s->f18[i] = func_0204ABF0(s->h04, 0xa2, 0, (u16)(i * 0x20), s->heap);
-        func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(func_0204AEF4(s->f18[i], 0) >> 1), 0x20);
+        func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(s->f18[i], 0) >> 1), 0x20);
     }
     arc = func_020490F4(func_020275E4(), (u16)((s->heap & 0x7fff) | 0x8000));
     s->f30 = func_0204A6C8(arc, func_020276B8(), 0, 0, s->heap);
     s->f34 = func_0204AF28(arc, func_020276BC(1), func_020276C0(1), s->heap);
     s->f38 = func_0204ABF0(arc, func_020276B4(), 0, 0x100, s->heap);
     s->f3c = func_0204ABF0(arc, func_020276B4(), 0, 0x120, s->heap);
-    func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(func_0204AEF4(s->f38, 0) >> 1), 0x20);
-    func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(func_0204AEF4(s->f3c, 0) >> 1), 0x20);
-    func_02022004((unsigned)func_021F86E0(), 2, 0x200, 8, 0);
+    func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(s->f38, 0) >> 1), 0x20);
+    func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(s->f3c, 0) >> 1), 0x20);
+    PALANM_BlendChannelMask((unsigned)func_021F86E0(), 2, 0x200, 8, 0);
     func_02049238(arc);
     s->f10 = func_02049E74((void *)s->h04, 0xa4, 0, (u32)(&hdr), s->heap);
     s->f14 = ((struct Obj21804 *)hdr)->f14;
     s->f08 = a;
-    s->f444 = func_02005C44();
+    s->f444 = GFL_USE_GetBgmNo();
     t = func_02030734(heap, sizeof(Task), 1, d_0220AEC0, 0x185);
     t->obj = s;
     s->f0c = func_02030DA8(func_021F86D4(), func_02208BFC, t, 0);

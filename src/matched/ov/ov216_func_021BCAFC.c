@@ -12,7 +12,7 @@
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
  *   func_0204B034 0x0204B034 arm
- *   func_0204B0F4 0x0204B0F4 arm
+ *   CLACT_SetRendererCulling 0x0204B0F4 arm
  *   func_0204B258 0x0204B258 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
@@ -32,7 +32,7 @@ extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 struct Obj;
 extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
 struct Actor;
-extern void func_0204B0F4(struct Actor *a0, int a1);
+extern void CLACT_SetRendererCulling(struct Actor *a0, int a1);
 extern void func_0204B258(struct Bank *bank, void *p);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
@@ -44,7 +44,7 @@ void func_021BCAFC(void **p,void *a,int heap)
     p[0]=func_0204B100(128,0,heap);
     b=d_021BDC08;
     p[1]=func_0204B034((u8 *)(&b),2,heap);
-    func_0204B0F4(p[1],1);
+    CLACT_SetRendererCulling(p[1],1);
     func_0204B258(p[0],p[1]);
     func_020434DC(16,1);
     func_02043598(16,1);

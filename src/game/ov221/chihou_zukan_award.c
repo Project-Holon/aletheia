@@ -22,9 +22,9 @@
  *   func_0204047C 0x0204047C arm
  *   func_020056A0 0x020056A0 thumb
  *   func_02012944 0x02012944 thumb
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0207D518 0x0207D518 arm
- *   func_02043558 0x02043558 arm
+ *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
@@ -56,15 +56,15 @@
  *   func_020409B4 0x020409B4 arm
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200873C 0x0200873C thumb
- *   func_020083E4 0x020083E4 thumb
+ *   CONFIG_GetAppliedFlag 0x020083E4 thumb
  *   func_02049B90 0x02049B90 arm
  *   func_02045B38 0x02045B38 arm
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_02045334 0x02045334 arm
- *   func_02045780 0x02045780 arm
- *   func_02045788 0x02045788 arm
+ *   BMP_WIN_SetPosX 0x02045780 arm
+ *   BMP_WIN_SetPosY 0x02045788 arm
  *   func_0201EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   func_020457B0 0x020457B0 arm
@@ -108,9 +108,16 @@
  *   func_020434DC 0x020434DC arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  *   d_021BA200 0x021BA200 data a2
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb  arm9
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb  arm9
+ *   GFL_USE_PushBgm  0x02005E64  thumb  arm9
+ *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
  */
 #include "../../matched/include/Obj02557.h"
 #include "../../matched/include/Obj02558.h"
@@ -182,7 +189,7 @@ extern u32 func_0201C440(void*);
 extern void func_0204047C(int,u16);
 extern void *func_020056A0(u32,void*,u32);
 extern char *func_02012944(void*);
-extern void func_02043588(void),func_02043558(void),func_0207D518(BGMode);
+extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D518(BGMode);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
@@ -192,7 +199,7 @@ extern void func_02049B68(void*,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void*,u32,u32,u32,u32,u32,u16);
 extern void func_02049238(void*);
-extern void func_0204E720(u32,int,int,int),func_020409B4(u32),func_0203D34C(u32,u32),func_02005E30(u32);
+extern void func_0204E720(u32,int,int,int),func_020409B4(u32),func_0203D34C(u32,u32),GFL_USE_FadeOutBgm(u32);
 extern void func_020403F4(u32 i);
 extern void func_02030EAC(struct Node *);
 extern void func_0201C6EC(struct PrintSys *);
@@ -202,13 +209,13 @@ extern void func_021B9F20(char *);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int);
 extern void func_021B9F7C(char *p);
-extern int func_02005E50(void);
-extern void func_02005DE4(void*);
-extern int func_02005E64(void);
-extern void func_02005D90(u32,unsigned short);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_SetBgmPlayerParam(void*);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32,unsigned short);
 extern int func_02005F38(void);
-extern int func_02005E9C(void);
-extern void func_02005DF8(u32);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_FadeInBgmFull(u32);
 extern void func_0204E720(u32,int,int,int);
 extern int func_0204E804(void);
 extern u32 func_020362DC(void);
@@ -260,7 +267,7 @@ extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_020434DC(unsigned, unsigned);
 extern void func_0207DC44(BOOL,int,int,int);
 extern void func_0207DD24(unsigned short,int,int,int,BOOL);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(unsigned,unsigned);
 int func_021B95A0(void *owner,void *unused,void *input);
 int func_021B9748(void *owner,void *unused1,void *unused2,char *p);
@@ -315,7 +322,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  *(volatile u16*)0x04001050=i;
  *(volatile u32*)0x04001000 &= ~0xe000u;
  *(volatile u32*)0x04001000 |= 0x10000;
- func_02043588();func_0207D518(i);func_02043558();
+ BG_SYS_ClearSubPlanes();func_0207D518(i);BG_SYS_ClearSubBgPlanes();
  do {
   row=&tbl_021BA148[i];id=row->id;
   func_0203FCA0((u8)id,(const struct BgTemplate *)row->cfg,(u8)row->type);func_020414AC(id);func_02040588(id,row->enable);
@@ -331,7 +338,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  func_020498F4(h,tbl_021BA2C0[selected].c,4,zero,zero,zero,heap);
  func_02049238(h);func_020409B4(4);func_021B9CEC((char *)p);
  func_0204E720(3,16,16,0);func_0203D34C(0,*(u16*)p);
- if(*(int*)(*(char**)(p+4)+4)==0) func_02005E30(6);
+ if(*(int*)(*(char**)(p+4)+4)==0) GFL_USE_FadeOutBgm(6);
  return 1;
 }
 
@@ -372,8 +379,8 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
   ready=1;
   if(func_021B9B64(p)==0) ready=0;
   if(ready && ((struct Obj26065 *)(*(char* *)&((struct Obj02558 *)p)->f4))->f4==0) {
-   if(func_02005E50()) ready=0;
-   else {func_02005DE4((void*)1);func_02005E64();func_02005D90(0x524,0xffff);}
+   if(GFL_USE_IsBgmFading()) ready=0;
+   else {GFL_USE_SetBgmPlayerParam((void*)1);GFL_USE_PushBgm();GFL_USE_CancelChangeAndPlayBgm(0x524,0xffff);}
   }
   if(ready) {func_0204E720(3,16,0,0);*state=1;}
   break;
@@ -382,7 +389,7 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
   break;
  case 2: if(func_021B9DAC((char *)p)) *state=3; break;
  case 3:
-  if(!func_02005F38()) {func_02005E9C();func_02005DE4(0);func_02005DF8(6);*state=4;}
+  if(!func_02005F38()) {GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(6);*state=4;}
   break;
  case 4:
   ready=0;
@@ -643,6 +650,6 @@ void func_021B9DD4(void)
     func_0207DC44(0,0,0,0);
     func_0207DD24(0,0,0x7FFF,63,0);
     *(volatile unsigned *)0x04000580=0xBFFF0000;
-    for(i=0;i<4;i++) func_02046A94((unsigned char)i,d_021BA200[i]);
+    for(i=0;i<4;i++) G3D_SYSTEM_SetLight((unsigned char)i,d_021BA200[i]);
     func_02046BE0(0,0);
 }

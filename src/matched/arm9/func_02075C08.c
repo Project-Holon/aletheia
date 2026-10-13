@@ -1,5 +1,5 @@
 /*
- * function: func_02075C08
+ * function: NNS_SndFaderUpdate
  * address:  0x02075C08
  * packet:   pkt_02075794
  * region:   arm9
@@ -17,7 +17,7 @@ struct LerpObj {
     int duration;
 };
 
-void func_02075C08(struct LerpObj *obj)
+void NNS_SndFaderUpdate(struct LerpObj *obj)
 {
     if (obj->step < obj->duration) {
         obj->step++;

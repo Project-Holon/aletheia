@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  * note:     wave 16: promoted.  0x02156B70 is the unlabelled ov009 leaf matched
- *           in src/matched/func_02156B70.c (ov009/pkt_02156B70); it attests as
+ *           in src/matched/DWC_RAP_GetVchatEnabled.c (ov009/pkt_02156B70); it attests as
  *           `matched, overlay` under the ov009 hint.
  *
  * symbols:
- *   func_0203D29C  0x0203D29C  arm
- *   func_02156B70  0x02156B70  thumb  ov009
- *   func_02005F24  0x02005F24  thumb
+ *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
+ *   DWC_RAP_GetVchatEnabled  0x02156B70  thumb  ov009
+ *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *
- * Forwards its two arguments to func_02005F24 unless both func_0203D29C()
- * and func_02156B70() report nonzero; func_0203D29C is always called,
- * func_02156B70 only when the first call reports zero (a genuine
+ * Forwards its two arguments to GFL_USE_SetBgmTrackVolume unless both GFL_NET_IsNetTypeWifi()
+ * and DWC_RAP_GetVchatEnabled() report nonzero; GFL_NET_IsNetTypeWifi is always called,
+ * DWC_RAP_GetVchatEnabled only when the first call reports zero (a genuine
  * short-circuit, not an independent second check).
  *
  * Verified with:
@@ -29,14 +29,14 @@
 
 typedef unsigned int u32;
 
-extern u32  func_0203D29C(void);
+extern u32  GFL_NET_IsNetTypeWifi(void);
 typedef signed short   s16;
-extern s16 func_02156B70(void);
-extern void func_02005F24(u32 a0, u32 a1);
+extern s16 DWC_RAP_GetVchatEnabled(void);
+extern void GFL_USE_SetBgmTrackVolume(u32 a0, u32 a1);
 
 void sub_0200F698(void *a, void *b)
 {
-    if (func_0203D29C() == 0 || func_02156B70() == 0) {
-        func_02005F24((u32)a, (u32)b);
+    if (GFL_NET_IsNetTypeWifi() == 0 || DWC_RAP_GetVchatEnabled() == 0) {
+        GFL_USE_SetBgmTrackVolume((u32)a, (u32)b);
     }
 }

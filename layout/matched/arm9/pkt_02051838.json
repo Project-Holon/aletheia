@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02051838",
+   "name": "BUTTON_MAN_SetEmitterPos",
    "address": "0x02051838",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02051880",
+   "name": "BUTTON_MAN_SetRot",
    "address": "0x02051880",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0205189C",
+   "name": "BUTTON_MAN_SetAngle",
    "address": "0x0205189C",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020518A4",
+   "name": "BUTTON_MAN_SetAlpha",
    "address": "0x020518A4",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020518AC",
+   "name": "BUTTON_MAN_FindRowData",
    "address": "0x020518AC",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020519C4",
+   "name": "BUTTON_MAN_SetRow2",
    "address": "0x020519C4",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020519E4",
+   "name": "BUTTON_MAN_SetRow3Half",
    "address": "0x020519E4",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02051A04",
+   "name": "BUTTON_MAN_SetRow5",
    "address": "0x02051A04",
    "kind": "game",
    "region": "arm9",

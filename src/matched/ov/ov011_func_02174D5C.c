@@ -1,5 +1,5 @@
 /*
- * function: func_02174D5C
+ * function: INTRUDE_COMM_BuildSymbolPage
  * address:  0x02174D5C
  * packet:   pkt_ov011_02174D5C
  * region:   ov011
@@ -42,7 +42,7 @@ u8 func_021673C4(u8 *p);
 u8 func_021673A8(u8 *p);
 u16 func_02039338(void);
 
-void func_02174D5C(int *p, const u8 *q)
+void INTRUDE_COMM_BuildSymbolPage(int *p, const u8 *q)
 {
     Blk *b;
     void *x;

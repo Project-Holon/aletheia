@@ -1,5 +1,5 @@
 /*
- * function: func_0204AA94
+ * function: CLACT_TransferCharacterPart
  * address:  0x0204AA94
  * packet:   pkt_0204A9D0
  * region:   arm9
@@ -32,7 +32,7 @@ extern void func_020862F0(void *a, u32 b);
 extern void func_0207E780(void *a, void *b, u32 c);
 extern void func_0207E804(void *a, void *b, u32 c);
 
-void func_0204AA94(int a, void *b, u32 c, int d, int e)
+void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e)
 {
     if (e == 0 || e == 2) {
         if (func_020637BC((const u32 *)(lbl_02146A74->f10C + (a << 6)), 1) != 0) {

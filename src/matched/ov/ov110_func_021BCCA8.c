@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021BF6E4 0x021BF6E4 thumb ov110
- *   func_0204B898 0x0204B898 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   func_021BD470 0x021BD470 thumb ov110
  *   func_021BD0F8 0x021BD0F8 thumb ov110
  *   func_021BD448 0x021BD448 thumb ov110
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef struct { u8 pad[0x70]; void *items[8]; } Object;
 extern int func_021BF6E4(u8 *p);
 struct Obj;
-extern u16 func_0204B898(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void func_021BD470(u8 *p, int i);
 extern void func_021BD0F8(u8 *p, int i, int flag);
 extern void func_021BD448(u8 *p, int i);
@@ -35,7 +35,7 @@ void func_021BCCA8(Object *p) {
     old=-1; new=-1;
     selected=func_021BF6E4(((struct Obj13784 *)p)->f4);
     for(i=1;i<=5;i++) {
-        state=func_0204B898(p->items[i]);
+        state=CLACT_GetActorAnimSeq(p->items[i]);
         if(state==d_021C38DF[i*2+1]) { old=i; break; }
     }
     for(i=0;i<5;i++) {

@@ -13,7 +13,7 @@
  *   func_02039CB4 0x02039CB4 arm
  *   func_021C14EC 0x021C14EC thumb ov099
  *   func_021BA8EC 0x021BA8EC thumb ov099
- *   func_02156A3C 0x02156A3C thumb ov009
+ *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   func_021C23B8 0x021C23B8 thumb ov099
  *   func_021BDD48 0x021BDD48 thumb ov099
  *   func_021BDD54 0x021BDD54 thumb ov099
@@ -35,7 +35,7 @@ struct Sub020097BCObj;
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
 extern int func_0200F4E4(void *o);
 extern void func_021BA8EC(char *);
-extern int func_02156A3C(void);
+extern int DWC_RAP_GetTargetFriendIndex(void);
 extern int func_021C23B8(int i);
 extern u8 func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
@@ -49,7 +49,7 @@ int func_021C1510(char *p, int ret)
             if (func_021C14EC(p) == 1) {
                 func_0200F4E4(func_020099C8((struct Sub020097BCObj *)func_0201283C(((struct Obj10211 *)p)->fC4), 0));
                 func_021BA8EC(p);
-                s = (void *)func_021C23B8(func_02156A3C());
+                s = (void *)func_021C23B8(DWC_RAP_GetTargetFriendIndex());
                 func_021BDD48(p, s);
                 count = func_021BDD54(p, s);
                 if (count == 3) {

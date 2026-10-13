@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204AA94",
+   "name": "CLACT_TransferCharacterPart",
    "address": "0x0204AA94",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204AB84",
+   "name": "CLACT_GetCharacterProxy",
    "address": "0x0204AB84",
    "kind": "game",
    "region": "arm9",

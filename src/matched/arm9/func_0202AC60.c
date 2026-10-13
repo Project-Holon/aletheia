@@ -1,5 +1,5 @@
 /*
- * function: func_0202AC60
+ * function: ISS_CITY_SYS_HandleZoneChange
  * address:  0x0202AC60
  * packet:   pkt_0202AC60
  * region:   arm9
@@ -10,43 +10,43 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0202ABFC 0x0202ABFC  thumb
- *   func_0202AC4C 0x0202AC4C  thumb
- *   func_0202ACC8 0x0202ACC8  thumb
- *   func_0202AD8C 0x0202AD8C  thumb
- *   func_0202ADA0 0x0202ADA0  thumb
- *   func_0202ADB4 0x0202ADB4  thumb
- *   func_0202AE60 0x0202AE60  thumb
+ *   ISS_CITY_SYS_SetMode 0x0202ABFC  thumb
+ *   ISS_CITY_SYS_Disable 0x0202AC4C  thumb
+ *   ISS_CITY_SYS_IsEnabled 0x0202ACC8  thumb
+ *   ISS_CITY_SYS_HasCurrentUnit 0x0202AD8C  thumb
+ *   ISS_CITY_SYS_HasUnitForZone 0x0202ADA0  thumb
+ *   ISS_CITY_SYS_SelectUnitForZone 0x0202ADB4  thumb
+ *   ISS_CITY_SYS_SetFadeLevel 0x0202AE60  thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0202ACC8(void *obj);
-extern int func_0202AD8C(int a0);
-extern int func_0202ADA0(int a0, int a1);
-extern int func_0202AC4C(int a0);
-extern int func_0202ADB4(int a0, int a1);
-extern void func_0202AE60(void *obj, u32 value);
-extern void func_0202ABFC(void *obj, u32 value);
+extern u32 ISS_CITY_SYS_IsEnabled(void *obj);
+extern int ISS_CITY_SYS_HasCurrentUnit(int a0);
+extern int ISS_CITY_SYS_HasUnitForZone(int a0, int a1);
+extern int ISS_CITY_SYS_Disable(int a0);
+extern int ISS_CITY_SYS_SelectUnitForZone(int a0, int a1);
+extern void ISS_CITY_SYS_SetFadeLevel(void *obj, u32 value);
+extern void ISS_CITY_SYS_SetMode(void *obj, u32 value);
 
-void func_0202AC60(u8 *p, u32 a1)
+void ISS_CITY_SYS_HandleZoneChange(u8 *p, u32 a1)
 {
-    if (func_0202ACC8(p) == 0) {
+    if (ISS_CITY_SYS_IsEnabled(p) == 0) {
         return;
     }
-    if (func_0202AD8C((int)p) == 1) {
-        if (func_0202ADA0((int)p, a1) == 1) {
-            func_0202AC4C((int)p);
+    if (ISS_CITY_SYS_HasCurrentUnit((int)p) == 1) {
+        if (ISS_CITY_SYS_HasUnitForZone((int)p, a1) == 1) {
+            ISS_CITY_SYS_Disable((int)p);
             return;
         }
     }
-    func_0202ADB4((int)p, a1);
-    if (func_0202AD8C((int)p) == 1) {
-        func_0202AE60(p, 0);
-        func_0202ABFC(p, 1);
+    ISS_CITY_SYS_SelectUnitForZone((int)p, a1);
+    if (ISS_CITY_SYS_HasCurrentUnit((int)p) == 1) {
+        ISS_CITY_SYS_SetFadeLevel(p, 0);
+        ISS_CITY_SYS_SetMode(p, 1);
         return;
     }
-    func_0202ABFC(p, 2);
+    ISS_CITY_SYS_SetMode(p, 2);
 }

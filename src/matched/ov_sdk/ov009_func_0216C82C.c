@@ -1,5 +1,5 @@
 /*
- * function: func_0216C82C
+ * function: DWCi_IsGetAIDValid
  * address:  0x0216C82C
  * packet:   pkt_02155168
  * region:   ov009
@@ -21,7 +21,7 @@
 
 extern struct DwcGlobal g_021AA878;
 
-int func_0216C82C(void)
+int DWCi_IsGetAIDValid(void)
 {
     int r = 1;
     char *p = *(char **)(((char *)&g_021AA878) + 4);

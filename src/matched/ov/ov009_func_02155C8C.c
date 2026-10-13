@@ -1,5 +1,5 @@
 /*
- * function: func_02155C8C
+ * function: DWC_RAP_SetupRecvTimeouts
  * address:  0x02155C8C
  * packet:   pkt_ov009_02155C8C
  * region:   ov009
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021A8264     0x021A8264  data  ov009  a4
+ *   _pRapWork     0x021A8264  data  ov009  a4
  *   d_021A1C5C     0x021A1C5C  data  ov009  a1
  *   func_02177270  0x02177270  arm
- *   func_0216B838  0x0216B838  arm
- *   func_0216B908  0x0216B908  arm
+ *   DWC_GetMyAID  0x0216B838  arm
+ *   DWC_GetAIDBitmap  0x0216B908  arm
  *   func_02034714  0x02034714  arm
- *   func_02155C70  0x02155C70  thumb  ov009
+ *   DWC_RAP_ClearPeerCounters  0x02155C70  thumb  ov009
  */
 
 typedef unsigned char u8;
@@ -28,24 +28,24 @@ typedef struct {
     u8 flag;
 } G;
 
-extern G *d_021A8264;
+extern G *_pRapWork;
 extern char d_021A1C5C[];
 int func_02177270(u8 a, int b);
 typedef unsigned int   u32;
-unsigned char func_0216B838(void);
-int func_0216B908(void);
+unsigned char DWC_GetMyAID(void);
+int DWC_GetAIDBitmap(void);
 void func_02034714(const char *expr, u32 line, const char *file);
-void func_02155C70(void);
+void DWC_RAP_ClearPeerCounters(void);
 
-void func_02155C8C(void)
+void DWC_RAP_SetupRecvTimeouts(void)
 {
     int i, j;
 
     for (i = 0; i < 2; i++)
         func_02177270(i, 0);
-    if (func_0216B838() == 0) {
-        for (j = 0; j < d_021A8264->n; j++) {
-            if (j != func_0216B838() && (func_0216B908() & (1 << j)) != 0) {
+    if (DWC_GetMyAID() == 0) {
+        for (j = 0; j < _pRapWork->n; j++) {
+            if (j != DWC_GetMyAID() && (DWC_GetAIDBitmap() & (1 << j)) != 0) {
                 if (func_02177270(j, 10000) == 0)
                     func_02034714(d_021A1C5C, 0, d_021A1C5C);
             }
@@ -54,6 +54,6 @@ void func_02155C8C(void)
         if (func_02177270(0, 10000) == 0)
             func_02034714(d_021A1C5C, 0, d_021A1C5C);
     }
-    d_021A8264->flag = 1;
-    func_02155C70();
+    _pRapWork->flag = 1;
+    DWC_RAP_ClearPeerCounters();
 }

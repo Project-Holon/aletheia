@@ -1,5 +1,5 @@
 /*
- * function: func_020773D0
+ * function: CARDi_GetRomCacheBuffer
  * address:  0x020773D0
  * packet:   pkt_020773D0
  * region:   arm9
@@ -18,7 +18,7 @@
 
 extern char g_0215086C[];
 
-void *func_020773D0(void)
+void *CARDi_GetRomCacheBuffer(void)
 {
     return g_0215086C;
 }

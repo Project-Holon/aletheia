@@ -28,7 +28,7 @@
  * EXACT). sub_0202C550 does not: it is one of the nine pool-word-and-bx
  * trampolines; closed when sub_0202C550 was split into its own EXACT file, so a
  * manifest entry covers the address 0x0202C550 even though its own target
- * (func_0202C5C4, EXACT) does. The relocation stays unresolved under the
+ * (ISS_SWITCH_SetParam, EXACT) does. The relocation stays unresolved under the
  * honesty rule until unit_0202C548.c's own sub_0202C550 is split into its
  * own EXACT entry the way sub_0202C4D8.c and sub_0202C510.c were split out
  * of their siblings, or the image acquires a second, non-trampoline caller.

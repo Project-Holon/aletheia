@@ -1,5 +1,5 @@
 /*
- * function: func_02028D7C
+ * function: FIELD_SOUND_SYSTEM_GetReadSlot
  * address:  0x02028D7C
  * packet:   pkt_02028B50
  * region:   arm9
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-void *func_02028D7C(void *obj)
+void *FIELD_SOUND_SYSTEM_GetReadSlot(void *obj)
 {
     u8 idx = *((u8 *)obj + 0xa0);
     return (u8 *)obj + 0x28 + idx * 12;

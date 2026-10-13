@@ -1,7 +1,7 @@
 /*
  * file:     field_task.c
  * unit:     yes
- * function: func_021C6C70, func_021C6CA8, func_021C6CBC, func_021C6CC4, func_021C6CCC, func_021C6CD0, func_021C6CE0, func_021C6CE4, func_021C6CEC, func_021C6CF4, func_021C6D10, func_021C6D5C, func_021C6D90, func_021C6DE0, func_021C6E20
+ * function: func_021C6C70, func_021C6CA8, func_021C6CBC, func_021C6CC4, func_021C6CCC, func_021C6CD0, func_021C6CE0, func_021C6CE4, func_021C6CEC, func_021C6CF4, func_021C6D10, func_021C6D5C, func_021C6D90, func_021C6DE0, func_021C6E20, func_021C6E48
  * address:  0x021C6C70
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -11,6 +11,7 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Takes FIELD_TASK_MANAGER_IsEmpty (021C6E48) from unit_021C6E48.c (lane FXC3: contiguous, same FieldTaskManager).
  *
  * symbols:
  *   d_021DE4D4  0x021DE4D4  data  ov021  a4
@@ -23,257 +24,184 @@
  *   func_021C6EA8  0x021C6EA8  thumb  ov021
  *   func_021C6EDC  0x021C6EDC  thumb  ov021
  *   func_021C6E5C  0x021C6E5C  thumb  ov021
+ *   func_021C6E20  0x021C6E20  thumb  ov021
  */
-#include "../../matched/include/Obj18314.h"
-#include "../../matched/include/Obj18315.h"
-#include "../../matched/include/Obj18316.h"
-#include "../../matched/include/Obj18318.h"
-#include "../../matched/include/Obj09696.h"
-#include "../../matched/include/Obj12957.h"
+#include "field_task_types.h"
 
-struct Node;
-typedef unsigned char u8;
+enum {
+    FIELD_TASK_STATE_CREATED = 0,
+    FIELD_TASK_STATE_RUNNING = 1,
+    FIELD_TASK_STATE_FINISHED = 2,
+};
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef struct {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    u16 fC;
-    u16 fE;
-    u16 f10[8];
-    u8 f20;
-} D;
-
-typedef struct Q {
-    u32 state;
-    u32 *arg;
-    int (*check)(u32 *);
-} Q;
-
-typedef signed short   s16;
-
-typedef signed char    s8;
-
-typedef struct { u8 n; u8 pad[3]; void *f4; void *f8; } R_021C6D5C;
-
-
-typedef struct { u8 n; u8 pad[3]; Q **f4; u32 *f8; } R_021C6E20;
-
-extern u32 func_020307B0(void *p);
-extern void func_02030EAC(struct Node *n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021C6E74(R_021C6D5C *r, u8 i);
-extern void func_021C6E94(u8 *p, u8 i);
-extern void func_021C6EA8(u8 *p, u8 i);
-extern void func_021C6EDC(u8 *p, u8 i);
-extern void func_021C6E5C(u8 *p, u8 i, u32 a, u32 b);
-Q *func_021C6C70(u32 heap, u32 size, int (*check)(u32 *));
-void func_021C6CA8(Q *q);
-void func_021C6CBC(Q *q);
-void func_021C6CC4(u32 *a0);
-u32 func_021C6CCC(u8 *p);
-int func_021C6CD0(u32 a);
-u32 func_021C6CE0(u8 *p);
-void func_021C6CE4(u32 *p);
-int func_021C6CEC(u32 a);
-void func_021C6CF4(Q *q);
-u8 *func_021C6D10(int n, int heap);
-void func_021C6D5C(R_021C6D5C *r);
-void func_021C6D90(u8 *p);
-void func_021C6DE0(u8 *p, u32 *a, u32 b);
-u8 func_021C6E20(R_021C6E20 *r);
+extern u32 func_020307B0(void *p);
+extern void func_021C6E5C(FieldTaskManager *manager, u8 slot, FieldTask *task, FieldTask *prerequisite);
+extern void func_021C6E74(FieldTaskManager *manager, u8 slot);
+extern void func_021C6E94(FieldTaskManager *manager, u8 slot);
+extern void func_021C6EA8(FieldTaskManager *manager, u8 slot);
+extern void func_021C6EDC(FieldTaskManager *manager, u8 slot);
 extern char d_021DE4D4[];
 extern int d_021DE4E4;
 
+FieldTask *func_021C6C70(u32 heapId, u32 workSize, FieldTaskCheckFunc check);
+void func_021C6CA8(FieldTask *task);
+void func_021C6CBC(FieldTask *task);
+void func_021C6CC4(FieldTask *task);
+u32 func_021C6CCC(FieldTask *task);
+int func_021C6CD0(FieldTask *task);
+u32 func_021C6CE0(FieldTask *task);
+void func_021C6CE4(FieldTask *task);
+int func_021C6CEC(FieldTask *task);
+void func_021C6CF4(FieldTask *task);
+FieldTaskManager *func_021C6D10(int count, int heapId);
+void func_021C6D5C(FieldTaskManager *manager);
+void func_021C6D90(FieldTaskManager *manager);
+void func_021C6DE0(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite);
+u8 func_021C6E20(FieldTaskManager *manager);
+int func_021C6E48(FieldTaskManager *manager);
 
-
-Q *func_021C6C70(u32 heap, u32 size, int (*check)(u32 *))
+/* Allocates a task and its work block. */
+FieldTask *func_021C6C70(u32 heapId, u32 workSize, FieldTaskCheckFunc check)
 {
-    Q *q = func_02030734(heap, 0xc, 0, d_021DE4D4, 0x3b);
-    q->state = 0;
-    q->arg = func_02030734(heap, size, 1, d_021DE4D4, 0x3d);
-    q->check = check;
-    return q;
+    FieldTask *task = func_02030734(heapId, 0xc, 0, d_021DE4D4, 0x3b);
+    task->state = FIELD_TASK_STATE_CREATED;
+    task->work = func_02030734(heapId, workSize, 1, d_021DE4D4, 0x3d);
+    task->check = check;
+    return task;
 }
 
-
-
-void func_021C6CA8(Q *q)
+/* Frees the work block and the task. */
+void func_021C6CA8(FieldTask *task)
 {
-    func_020307B0(q->arg);
-    func_020307B0(q);
+    func_020307B0(task->work);
+    func_020307B0(task);
 }
 
-
-
-
-/*
- * Tail-call thunk: forwards to func_021C6CF4 with no argument change.
- *
- * Addresses are Black-image addresses.
- */
-void func_021C6CBC(Q *q)
+/* Runs the check callback once. */
+void func_021C6CBC(FieldTask *task)
 {
-    func_021C6CF4(q);
+    func_021C6CF4(task);
 }
 
-
-
-
-/*
- * Tail-call thunk: forwards to func_021C6CE4 with no argument change.
- *
- * Addresses are Black-image addresses.
- */
-void func_021C6CC4(u32 *a0)
+/* Starts the task. */
+void func_021C6CC4(FieldTask *task)
 {
-    func_021C6CE4(a0);
+    func_021C6CE4(task);
 }
 
-
-
-
-/*
- * Loads the 32-bit word at byte +0x4 of the object.
- */
-u32 func_021C6CCC(u8 *p)
+/* Returns the work block. */
+u32 func_021C6CCC(FieldTask *task)
 {
-    return ((struct Obj18314 *)p)->f4;
+    return (u32)task->work;
 }
 
-
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_021C6CD0(u32 a)
+/* Returns 1 when the task has finished. */
+int func_021C6CD0(FieldTask *task)
 {
-if (((struct Obj18315 *)((u8 *)(a)))->f0 == 2) {
-    return 1;
-}
-return 0;
+    if (task->state == FIELD_TASK_STATE_FINISHED) {
+        return 1;
+    }
+    return 0;
 }
 
-
-
-
-/*
- * Field getter at +0x0.
- *
- * Addresses are Black-image addresses.
- */
-u32 func_021C6CE0(u8 *p)
+/* Returns the task state. */
+u32 func_021C6CE0(FieldTask *task)
 {
-    return ((struct Obj18316 *)p)->f0;
+    return task->state;
 }
 
-
-
-
-
-
-/*
- * Unlabelled leaf setter; callee of the thunk at 0x021C6CC4.
- *
- * Addresses are Black-image addresses.
- */
-void func_021C6CE4(u32 *p)
+/* Sets the state to running. */
+void func_021C6CE4(FieldTask *task)
 {
-    *p = 1;
+    task->state = FIELD_TASK_STATE_RUNNING;
 }
 
-
-
-
-int func_021C6CEC(u32 a)
+/* Sets the state to finished. */
+int func_021C6CEC(FieldTask *task)
 {
-((struct Obj18318 *)((u8 *)(a)))->f0 = 2;
-return a;
+    task->state = FIELD_TASK_STATE_FINISHED;
+    return (int)task;
 }
 
-
-
-void func_021C6CF4(Q *q)
+/* While running, calls the check callback and finishes the task when it returns 1. */
+void func_021C6CF4(FieldTask *task)
 {
-    if (q->state == 1) {
-        if (q->check(q->arg) == 1)
-            func_021C6CEC((u32)q);
+    if (task->state == FIELD_TASK_STATE_RUNNING) {
+        if (task->check(task->work) == 1)
+            func_021C6CEC(task);
     }
 }
 
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-u8 *func_021C6D10(int n, int heap)
+/* Allocates a manager with count slots. */
+FieldTaskManager *func_021C6D10(int count, int heapId)
 {
-    u8 *p = (u8 *)func_02030734(heap, 12, 0, (const char *)&d_021DE4E4, 0x34);
+    FieldTaskManager *manager = func_02030734(heapId, 12, 0, (const char *)&d_021DE4E4, 0x34);
 
-    p[0] = n;
-    ((struct Obj09696 *)p)->f4 = func_02030734(heap, n * 4, 1, (const char *)&d_021DE4E4, 0x36);
-    ((struct Obj09696 *)p)->f8 = func_02030734(heap, n * 4, 1, (const char *)&d_021DE4E4, 0x37);
-    return p;
+    manager->count = count;
+    manager->tasks = func_02030734(heapId, count * 4, 1, (const char *)&d_021DE4E4, 0x36);
+    manager->prerequisites = func_02030734(heapId, count * 4, 1, (const char *)&d_021DE4E4, 0x37);
+    return manager;
 }
 
-
-void func_021C6D5C(R_021C6D5C *r)
+/* Frees every task, both slot tables and the manager. */
+void func_021C6D5C(FieldTaskManager *manager)
 {
-    int i;
-    for (i = 0; i < r->n; i++)
-        func_021C6E74(r, i);
-    func_020307B0(r->f4);
-    func_020307B0(r->f8);
-    func_020307B0(r);
+    int slot;
+    for (slot = 0; slot < manager->count; slot++)
+        func_021C6E74(manager, slot);
+    func_020307B0(manager->tasks);
+    func_020307B0(manager->prerequisites);
+    func_020307B0(manager);
 }
 
-
-
-void func_021C6D90(u8 *p)
+/* Per frame: run the running tasks, start tasks whose prerequisite finished, free finished tasks. */
+void func_021C6D90(FieldTaskManager *manager)
 {
-    int i;
+    int slot;
 
-    for (i = 0; i < p[0]; i++)
-        func_021C6E94(p, i);
-    for (i = 0; i < p[0]; i++)
-        func_021C6EA8(p, i);
-    for (i = 0; i < p[0]; i++)
-        func_021C6EDC(p, i);
+    for (slot = 0; slot < manager->count; slot++)
+        func_021C6E94(manager, slot);
+    for (slot = 0; slot < manager->count; slot++)
+        func_021C6EA8(manager, slot);
+    for (slot = 0; slot < manager->count; slot++)
+        func_021C6EDC(manager, slot);
 }
 
-
-
-void func_021C6DE0(u8 *p, u32 *a, u32 b)
+/* Puts a task in the first free slot; starts it now unless it has a prerequisite.
+ * With no free slot the task is freed. */
+void func_021C6DE0(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite)
 {
-    int i;
+    int slot;
 
-    for (i = 0; i < p[0]; i++) {
-        if (((u32 *)((struct Obj12957 *)p)->f4)[i] == 0) {
-            func_021C6E5C(p, i, (u32)a, b);
-            if (b == 0)
-                func_021C6CC4(a);
+    for (slot = 0; slot < manager->count; slot++) {
+        if (manager->tasks[slot] == 0) {
+            func_021C6E5C(manager, slot, task, prerequisite);
+            if (prerequisite == 0)
+                func_021C6CC4(task);
             return;
         }
     }
-    func_021C6CA8((Q *)a);
+    func_021C6CA8(task);
 }
 
-
-u8 func_021C6E20(R_021C6E20 *r)
+/* Returns the number of used slots. */
+u8 func_021C6E20(FieldTaskManager *manager)
 {
-    int i;
-    u8 c = 0;
-    for (i = 0; i < r->n; i++) {
-        if (r->f4[i] != 0)
-            c++;
+    int slot;
+    u8 used = 0;
+    for (slot = 0; slot < manager->count; slot++) {
+        if (manager->tasks[slot] != 0)
+            used++;
     }
-    return c;
+    return used;
+}
+
+/* TRUE when the manager has no task queued. */
+int func_021C6E48(FieldTaskManager *manager)
+{
+    if (func_021C6E20(manager) == 0) {
+        return 1;
+    }
+    return 0;
 }

@@ -12,7 +12,7 @@
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0203D668 0x0203D668 arm
+ *   GFL_NET_SetUserArg 0x0203D668 arm
  *   func_021BCB8C 0x021BCB8C thumb ov099
  *   func_02012934 0x02012934 thumb
  *   func_0201283C 0x0201283C thumb
@@ -36,7 +36,7 @@ extern void func_0203064C(u32, u32, u32);
 struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *, int, int);
-extern void func_0203D668(u32);
+extern void GFL_NET_SetUserArg(u32);
 extern int func_021BCB8C(void *);
 extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201283C(const struct BigObj *);
@@ -57,7 +57,7 @@ int func_021C24F0(void *obj, int unused, char *args)
     func_0203064C(1, 0x8021, 0xa4000);
     p = func_0203159C(obj, 0x1360, 0x21);
     func_02082BCC(p, 0, 0x1360);
-    func_0203D668((u32)p);
+    GFL_NET_SetUserArg((u32)p);
     ((struct Obj01386 *)p)->f8 = ((struct Obj02804 *)args)->f0;
     ((struct Obj01386 *)p)->fC0 = ((struct Obj02804 *)args)->f8;
     *(u32 *)&((struct Obj01386 *)p)->fC4 = ((struct Obj02804 *)args)->f4;

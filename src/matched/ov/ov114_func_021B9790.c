@@ -12,7 +12,7 @@
  * func_021BF4B0 0x021BF4B0 arm ov114
  * func_021BE838 0x021BE838 arm ov114
  * func_021B9774 0x021B9774 thumb ov114
- * func_0203C9AC 0x0203C9AC arm
+ * GFL_NET_STATE_SetError 0x0203C9AC arm
  */
 #include "../include/Obj03763.h"
 typedef unsigned char u8;
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern int func_021BF488(int a);
 extern int func_021BF4B0(u32, int *, int *);
 extern int func_021BE838(void *handle, char **value_pp);
-extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
+extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 extern void func_021B9774(u8 *);
 int func_021B9790(u8 *p)
 {
@@ -34,7 +34,7 @@ int func_021B9790(u8 *p)
     } else {
         int x = func_021BF488(((struct Obj03763 *)p)->fC);
         if (x == 0) func_021BE838((void *)(((struct Obj03763 *)p)->fC), (char **)(&c));
-        else func_0203C9AC(x, 2, x, 0x3f6);
+        else GFL_NET_STATE_SetError(x, 2, x, 0x3f6);
         func_021B9774(p);
         return result;
     }

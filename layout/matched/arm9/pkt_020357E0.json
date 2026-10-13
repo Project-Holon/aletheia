@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_020357E0",
+   "name": "TOUCHPANEL_Create",
    "address": "0x020357E0",
    "kind": "game",
    "region": "arm9",

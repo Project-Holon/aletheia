@@ -1,5 +1,5 @@
 /*
- * function: func_0204C98C
+ * function: CLACT_LinkActor
  * address:  0x0204C98C
  * packet:   pkt_0204C944
  * region:   arm9
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B838  0x0204B838  arm
- *   func_0204CA74  0x0204CA74  arm
- *   func_0204CAAC  0x0204CAAC  arm
+ *   CLACT_GetActorDrawPriority  0x0204B838  arm
+ *   CLACT_FindActorBefore  0x0204CA74  arm
+ *   CLACT_FindActorAfter  0x0204CAAC  arm
  *
  * Sorted insert into a circular doubly-linked list whose head pointer sits
  * at a0+4 and whose links are {next @0, prev @4}.  The empty list seeds a
  * self-loop; a first key below the head's key goes in front of the tail;
  * otherwise the average of the head and tail keys picks the half to search
- * and func_0204CA74/func_0204CAAC return the node to insert after.
+ * and CLACT_FindActorBefore/CLACT_FindActorAfter return the node to insert after.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C98C.c \
- *       --func func_0204C98C --addr 0x0204C98C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/CLACT_LinkActor.c \
+ *       --func CLACT_LinkActor --addr 0x0204C98C --cc 1.1p1
  */
 
 typedef unsigned char u8;
@@ -40,12 +40,12 @@ typedef struct {
     Node0204C98C  *head;
 } List0204C98C;
 
-extern int func_0204B838(int a0);
+extern int CLACT_GetActorDrawPriority(int a0);
 struct Node;
-extern void *func_0204CA74(struct Node *head, u32 key);
-extern struct Node *func_0204CAAC(struct Node *head, u32 key);
+extern void *CLACT_FindActorBefore(struct Node *head, u32 key);
+extern struct Node *CLACT_FindActorAfter(struct Node *head, u32 key);
 
-void func_0204C98C(List0204C98C *a0, Node0204C98C *a1)
+void CLACT_LinkActor(List0204C98C *a0, Node0204C98C *a1)
 {
     Node0204C98C *pos;
 
@@ -56,8 +56,8 @@ void func_0204C98C(List0204C98C *a0, Node0204C98C *a1)
         return;
     }
     {
-        u32 key = func_0204B838((int)a1);
-        u32 headkey = func_0204B838((int)a0->head);
+        u32 key = CLACT_GetActorDrawPriority((int)a1);
+        u32 headkey = CLACT_GetActorDrawPriority((int)a0->head);
         u32 tailkey;
         u8  avg;
 
@@ -65,12 +65,12 @@ void func_0204C98C(List0204C98C *a0, Node0204C98C *a1)
             pos = a0->head->prev;
             a0->head = a1;
         } else {
-            tailkey = func_0204B838((int)a0->head->prev);
+            tailkey = CLACT_GetActorDrawPriority((int)a0->head->prev);
             avg = (u8)((int)(headkey + tailkey) / 2);
             if (avg >= key) {
-                pos = func_0204CA74((struct Node *)a0->head, key);
+                pos = CLACT_FindActorBefore((struct Node *)a0->head, key);
             } else {
-                pos = (Node0204C98C *)func_0204CAAC((struct Node *)a0->head->prev, key);
+                pos = (Node0204C98C *)CLACT_FindActorAfter((struct Node *)a0->head->prev, key);
             }
         }
     }

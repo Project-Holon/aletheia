@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020434CC  0x020434CC  arm
- *   func_02043588  0x02043588  arm
+ *   BG_SYS_ClearMainPlanes  0x020434CC  arm
+ *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   func_0203064C  0x0203064C  arm
  *   func_0203159C  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
@@ -51,8 +51,8 @@ typedef struct W {
     void *f14;
 } W;
 
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0203064C(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
@@ -89,8 +89,8 @@ int func_0218456C(void *task, int *state, u32 arg)
 
     switch (*state) {
     case 0:
-        func_020434CC();
-        func_02043588();
+        BG_SYS_ClearMainPlanes();
+        BG_SYS_ClearSubPlanes();
         func_0203064C(1, 0x28, 0x50000);
         w = func_0203159C(task, 0x9e84, 0x28);
         func_02082BCC(w, 0, 0x9e84);

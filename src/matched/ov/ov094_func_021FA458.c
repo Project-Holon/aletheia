@@ -12,7 +12,7 @@
  *   func_0201134C 0x0201134C thumb
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02051648 0x02051648 arm
+ *   PARTICLE_InitCamera 0x02051648 arm
  *   func_02051788 0x02051788 arm
  *   func_021FE38C 0x021FE38C thumb ov094
  *   func_021FD1A8 0x021FD1A8 thumb ov094
@@ -34,7 +34,7 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_020307B0(void *p);
 struct Dst648;
 struct Src648;
-extern void func_02051648(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
+extern void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
 extern int func_02051788(char *p);
 extern unsigned int func_021FE38C(char *, unsigned int);
 extern int func_021FD1A8(char *p, int v);
@@ -82,7 +82,7 @@ int func_021FA458(void *a, char *s)
         desc.v[6] = 0x200000;
         desc.v[7] = 0x1000;
         if (func_02051788(*(void **)(s + 12 + slot * 4)) == 0)
-            func_02051648(*(void **)(s + 12 + slot * 4), (struct Src648 *)(&desc), 0x2000, (int *)(&zero), (int *)(&v1), (int *)(&v2), (u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000));
+            PARTICLE_InitCamera(*(void **)(s + 12 + slot * 4), (struct Src648 *)(&desc), 0x2000, (int *)(&zero), (int *)(&v1), (int *)(&v2), (u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000));
         func_021FDD60(s, p, slot, arg);
     }
     func_020307B0(p);

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02148B48       0x02148B48  data
+ *   sOamSoftEmuContext       0x02148B48  data
  */
 
 typedef unsigned char u8;
@@ -23,11 +23,11 @@ struct S02067B28 {
     u32 unk2c;
 };
 
-extern struct S02067B28 *g_02148B48;
+extern struct S02067B28 *sOamSoftEmuContext;
 
 void func_02067B28(u32 a, u32 b)
 {
-    struct S02067B28 *p = g_02148B48;
+    struct S02067B28 *p = sOamSoftEmuContext;
 
     p->unk2c = a;
     p->unk28 = b;

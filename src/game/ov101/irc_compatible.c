@@ -1,7 +1,7 @@
 /*
  * file:     irc_compatible.c
  * unit:     yes
- * function: func_021B6938, func_021B69C4, func_021B69F8, func_021B6A3C, func_021B6A44, func_021B6A4C, func_021B6A60, func_021B6A7C, func_021B6AD8, func_021B6BA8, func_021B6BE4, func_021B6BFC, func_021B6C08, func_021B6C20, func_021B6CA0, func_021B6D04, func_021B6D5C, func_021B6D90, func_021B6DAC, func_021B6E84, func_021B6E8C, func_021B6EBC, func_021B6ECC, func_021B6F9C, func_021B7090, func_021B70A8
+ * function: IRC_COMPATIBLE_ProcInit, IRC_COMPATIBLE_ProcExit, IRC_COMPATIBLE_ProcMain, IRC_COMPATIBLE_SetHandler, IRC_COMPATIBLE_SetFinished, IRC_COMPATIBLE_HandleEntry, IRC_COMPATIBLE_HandleQuit, IRC_COMPATIBLE_HandleMenu, IRC_COMPATIBLE_HandleTests, IRC_COMPATIBLE_HandleHelp, IRC_COMPATIBLE_StepRunnerInit, IRC_COMPATIBLE_StepRunnerIsBusy, IRC_COMPATIBLE_StepRunnerExit, IRC_COMPATIBLE_StepRunnerRun, IRC_COMPATIBLE_MenuStepCreateArgs, IRC_COMPATIBLE_SecondTestCreateArgs, IRC_COMPATIBLE_FirstTestCreateArgs, IRC_COMPATIBLE_FirstTestDestroyArgs, IRC_COMPATIBLE_ResultStepCreateArgs, IRC_COMPATIBLE_ResultStepDestroyArgs, IRC_COMPATIBLE_HelpStepCreateArgs, IRC_COMPATIBLE_HelpStepDestroyArgs, IRC_COMPATIBLE_CalcCompatibility, IRC_COMPATIBLE_CalcNameSimilarity, IRC_COMPATIBLE_FindHighestSetBit, IRC_COMPATIBLE_CalcBirthdayScore
  * address:  0x021B6938
  * region:   ov101
  * compiler: dsi/1.1p1
@@ -21,17 +21,17 @@
  *   func_020307B0 0x020307B0 arm
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005E64 0x02005E64 thumb
- *   d_021B753C 0x021B753C data a1
- *   func_02005E9C 0x02005E9C thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_PushBgm 0x02005E64 thumb
+ *   IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
+ *   GFL_USE_PopBgm 0x02005E9C thumb
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
- *   func_02005E50 0x02005E50 thumb
- *   func_02031324 0x02031324 arm
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   PROCSYS_Create 0x02031324 arm
  *   func_0203133C 0x0203133C arm
- *   d_021B74B8 0x021B74B8 data a4
- *   func_02031348 0x02031348 arm
+ *   IRC_COMPATIBLE_StepTable 0x021B74B8 data a4
+ *   PROCSYS_Push 0x02031348 arm
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200A8A0 0x0200A8A0 thumb
  *   func_02008530 0x02008530 thumb
@@ -42,6 +42,7 @@
  *   func_021B6100 0x021B6100 thumb ov101
  *   func_021B6148 0x021B6148 thumb ov101
  *   func_021B658C 0x021B658C thumb ov101
+ *   PROCSYS_Main  0x02031330  arm  arm9
  */
 struct Proc;
 struct GameSystem;
@@ -54,7 +55,7 @@ typedef unsigned char u8;
 
 #define IRC_COMPATIBLE_HEAP_ID 58
 
-/* Index of each screen step in the step table d_021B74B8. */
+/* Index of each screen step in the step table IRC_COMPATIBLE_StepTable. */
 enum {
     IRC_STEP_MENU = 0,
     IRC_STEP_SECOND_TEST = 1,
@@ -170,16 +171,16 @@ extern u32 func_0203D378(void);
 extern void *func_020120F4(const struct GameSystem *gameSystem);
 extern void func_0203064C(u32,u32,u32);
 extern void *func_0203159C(struct Proc *proc, u32 size, u32 heapId);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
-extern int func_02005E9C(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
+extern int GFL_USE_PopBgm(void);
 extern void func_020315D4(struct Proc *proc);
 extern void func_020306F0(u32 heapId);
-extern int func_02005E50(void);
-extern void *func_02031324(int heapId);
-extern unsigned int func_02031330(void *queue);
+extern int GFL_USE_IsBgmFading(void);
+extern void *PROCSYS_Create(int heapId);
+extern unsigned int PROCSYS_Main(void *queue);
 extern void func_0203133C(void *queue);
-extern void func_02031348(void *queue, int taskProc, int priority, void *args);
+extern void PROCSYS_Push(void *queue, int taskProc, int priority, void *args);
 extern void *func_02012EBC(void *gameData);
 extern void *func_0200A8A0(void *saveBlock);
 extern u32 func_02008530(const u8 *myStatus);
@@ -190,36 +191,36 @@ extern unsigned char func_0200AA00(unsigned month, unsigned day, struct DateByte
 void *func_021B6100(int a,int b,int c,int d);
 void func_021B6148(void *view);
 void func_021B658C(void *gameSystem, IrcCompatibleProfile *out);
-int func_021B6938(struct Proc *proc, int seq, IrcCompatibleParam *param);
-int func_021B69C4(struct Proc *proc, int seq, int pwk, IrcCompatibleWork *work);
-int func_021B69F8(void *proc, u32 *seq, void *pwk, IrcCompatibleWork *work);
-void func_021B6A3C(IrcCompatibleWork *work, IrcHandler handler);
-void func_021B6A44(IrcCompatibleWork *work);
-void func_021B6A4C(IrcCompatibleWork *work, u16 *state);
-void func_021B6A60(IrcCompatibleWork *work, u16 *state);
-void func_021B6A7C(IrcCompatibleWork *work, u16 *state);
-void func_021B6AD8(IrcCompatibleWork *work, u16 *state);
-void func_021B6BA8(IrcCompatibleWork *work, u16 *state);
-void func_021B6BE4(IrcStepRunner *runner, int heapId);
-unsigned int func_021B6BFC(IrcStepRunner *runner);
-void func_021B6C08(IrcStepRunner *runner);
-int func_021B6C20(IrcStepRunner *runner, int stepIndex, int heapId, IrcCompatibleWork *work);
-void *func_021B6CA0(u32 heapId, IrcCompatibleWork *work);
-void func_021B6CF8(void *args, IrcCompatibleWork *work);
-void *func_021B6D04(u32 heapId, IrcCompatibleWork *work);
-void func_021B6D3C(void *args, IrcCompatibleWork *work);
-void *func_021B6D5C(u32 heapId, IrcCompatibleWork *work);
-void func_021B6D90(void *args, IrcCompatibleWork *work);
-void *func_021B6DAC(u32 heapId, IrcCompatibleWork *work);
-void func_021B6E84(void *args, IrcCompatibleWork *work);
-void *func_021B6E8C(u32 heapId, IrcCompatibleWork *work);
-void func_021B6EBC(void *args, IrcCompatibleWork *work);
-int func_021B6ECC(u32 firstScore, u32 secondScore, int firstPenalty, int secondPenalty, IrcCompatibleProfile *ownProfile, IrcCompatibleProfile *partnerProfile, int hasBonus, u32 packedDate, int heapId);
-u32 func_021B6F9C(u16 *nameA, u16 *nameB);
-unsigned func_021B7090(unsigned bits, unsigned width);
-unsigned char func_021B70A8(IrcCompatibleProfile *profile, unsigned packedDate);
-extern const char d_021B753C[];
-extern const IrcStepEntry d_021B74B8[];
+int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *param);
+int IRC_COMPATIBLE_ProcExit(struct Proc *proc, int seq, int pwk, IrcCompatibleWork *work);
+int IRC_COMPATIBLE_ProcMain(void *proc, u32 *seq, void *pwk, IrcCompatibleWork *work);
+void IRC_COMPATIBLE_SetHandler(IrcCompatibleWork *work, IrcHandler handler);
+void IRC_COMPATIBLE_SetFinished(IrcCompatibleWork *work);
+void IRC_COMPATIBLE_HandleEntry(IrcCompatibleWork *work, u16 *state);
+void IRC_COMPATIBLE_HandleQuit(IrcCompatibleWork *work, u16 *state);
+void IRC_COMPATIBLE_HandleMenu(IrcCompatibleWork *work, u16 *state);
+void IRC_COMPATIBLE_HandleTests(IrcCompatibleWork *work, u16 *state);
+void IRC_COMPATIBLE_HandleHelp(IrcCompatibleWork *work, u16 *state);
+void IRC_COMPATIBLE_StepRunnerInit(IrcStepRunner *runner, int heapId);
+unsigned int IRC_COMPATIBLE_StepRunnerIsBusy(IrcStepRunner *runner);
+void IRC_COMPATIBLE_StepRunnerExit(IrcStepRunner *runner);
+int IRC_COMPATIBLE_StepRunnerRun(IrcStepRunner *runner, int stepIndex, int heapId, IrcCompatibleWork *work);
+void *IRC_COMPATIBLE_MenuStepCreateArgs(u32 heapId, IrcCompatibleWork *work);
+void IRC_COMPATIBLE_MenuStepDestroyArgs(void *args, IrcCompatibleWork *work);
+void *IRC_COMPATIBLE_SecondTestCreateArgs(u32 heapId, IrcCompatibleWork *work);
+void IRC_COMPATIBLE_SecondTestDestroyArgs(void *args, IrcCompatibleWork *work);
+void *IRC_COMPATIBLE_FirstTestCreateArgs(u32 heapId, IrcCompatibleWork *work);
+void IRC_COMPATIBLE_FirstTestDestroyArgs(void *args, IrcCompatibleWork *work);
+void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heapId, IrcCompatibleWork *work);
+void IRC_COMPATIBLE_ResultStepDestroyArgs(void *args, IrcCompatibleWork *work);
+void *IRC_COMPATIBLE_HelpStepCreateArgs(u32 heapId, IrcCompatibleWork *work);
+void IRC_COMPATIBLE_HelpStepDestroyArgs(void *args, IrcCompatibleWork *work);
+int IRC_COMPATIBLE_CalcCompatibility(u32 firstScore, u32 secondScore, int firstPenalty, int secondPenalty, IrcCompatibleProfile *ownProfile, IrcCompatibleProfile *partnerProfile, int hasBonus, u32 packedDate, int heapId);
+u32 IRC_COMPATIBLE_CalcNameSimilarity(u16 *nameA, u16 *nameB);
+unsigned IRC_COMPATIBLE_FindHighestSetBit(unsigned bits, unsigned width);
+unsigned char IRC_COMPATIBLE_CalcBirthdayScore(IrcCompatibleProfile *profile, unsigned packedDate);
+extern const char IRC_COMPATIBLE_SourceFileName[];
+extern const IrcStepEntry IRC_COMPATIBLE_StepTable[];
 
 
 
@@ -229,7 +230,7 @@ extern const IrcStepEntry d_021B74B8[];
 
 
 
-int func_021B6938(struct Proc *proc, int seq, IrcCompatibleParam *param)
+int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *param)
 {
     IrcCompatibleWork *work;
     int gameData;
@@ -238,15 +239,15 @@ int func_021B6938(struct Proc *proc, int seq, IrcCompatibleParam *param)
     func_02082BCC(work, 0, 64);
     gameData = 0;
     work->param = param;
-    work->partnerProfile = func_02030734(IRC_COMPATIBLE_HEAP_ID, 44, 0, d_021B753C, 0x119);
+    work->partnerProfile = func_02030734(IRC_COMPATIBLE_HEAP_ID, 44, 0, IRC_COMPATIBLE_SourceFileName, 0x119);
     func_02082BCC(work->partnerProfile, 0, 44);
-    func_021B6BE4(&work->runner, IRC_COMPATIBLE_HEAP_ID);
+    IRC_COMPATIBLE_StepRunnerInit(&work->runner, IRC_COMPATIBLE_HEAP_ID);
     if (work->param->gameSystem) gameData = (int)func_020120F4(work->param->gameSystem);
     work->view = func_021B6100(-1, gameData, IRC_COMPATIBLE_HEAP_ID, 0);
     work->isFirstRun = 1;
-    func_021B6A3C(work, func_021B6A4C);
-    func_02005DE4((void *)1);
-    func_02005E64();
+    IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleEntry);
+    GFL_USE_SetBgmPlayerParam((void *)1);
+    GFL_USE_PushBgm();
     return 1;
 }
 
@@ -258,8 +259,8 @@ int func_021B6938(struct Proc *proc, int seq, IrcCompatibleParam *param)
 
 
 
-int func_021B69C4(struct Proc *proc, int seq, int pwk, IrcCompatibleWork *work) {
- func_02005E9C(); func_02005DE4(0); func_021B6148(work->view); func_021B6C08(&work->runner); func_020307B0(work->partnerProfile); func_020315D4(proc); func_020306F0(IRC_COMPATIBLE_HEAP_ID); return 1;
+int IRC_COMPATIBLE_ProcExit(struct Proc *proc, int seq, int pwk, IrcCompatibleWork *work) {
+ GFL_USE_PopBgm(); GFL_USE_SetBgmPlayerParam(0); func_021B6148(work->view); IRC_COMPATIBLE_StepRunnerExit(&work->runner); func_020307B0(work->partnerProfile); func_020315D4(proc); func_020306F0(IRC_COMPATIBLE_HEAP_ID); return 1;
 }
 
 
@@ -270,13 +271,13 @@ int func_021B69C4(struct Proc *proc, int seq, int pwk, IrcCompatibleWork *work) 
 
 
 
-int func_021B69F8(void *proc, u32 *seq, void *pwk, IrcCompatibleWork *work) {
+int IRC_COMPATIBLE_ProcMain(void *proc, u32 *seq, void *pwk, IrcCompatibleWork *work) {
     switch (*seq) {
     case 0:
-        if (!func_02005E50()) *seq += 1;
+        if (!GFL_USE_IsBgmFading()) *seq += 1;
         break;
     case 1:
-        if (func_021B6BFC(&work->runner) == 0)
+        if (IRC_COMPATIBLE_StepRunnerIsBusy(&work->runner) == 0)
             work->handler(work, &work->handlerState);
         if (work->isFinished) return 1;
         break;
@@ -293,7 +294,7 @@ int func_021B69F8(void *proc, u32 *seq, void *pwk, IrcCompatibleWork *work) {
 
 
 
-void func_021B6A3C(IrcCompatibleWork *work, IrcHandler handler) { work->handler = handler; work->handlerState = 0; }
+void IRC_COMPATIBLE_SetHandler(IrcCompatibleWork *work, IrcHandler handler) { work->handler = handler; work->handlerState = 0; }
 
 
 
@@ -304,7 +305,7 @@ void func_021B6A3C(IrcCompatibleWork *work, IrcHandler handler) { work->handler 
 
 
 
-void func_021B6A44(IrcCompatibleWork *work) { work->isFinished = 1; }
+void IRC_COMPATIBLE_SetFinished(IrcCompatibleWork *work) { work->isFinished = 1; }
 
 
 
@@ -314,7 +315,7 @@ void func_021B6A44(IrcCompatibleWork *work) { work->isFinished = 1; }
 
 
 
-void func_021B6A4C(IrcCompatibleWork *work, u16 *state) { if(*state==0) func_021B6A3C(work, func_021B6A7C); }
+void IRC_COMPATIBLE_HandleEntry(IrcCompatibleWork *work, u16 *state) { if(*state==0) IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleMenu); }
 
 
 
@@ -324,7 +325,7 @@ void func_021B6A4C(IrcCompatibleWork *work, u16 *state) { if(*state==0) func_021
 
 
 
-void func_021B6A60(IrcCompatibleWork *work, u16 *state) { switch(*state) { case 0: *state=1; break; case 1: func_021B6A44(work); break; } }
+void IRC_COMPATIBLE_HandleQuit(IrcCompatibleWork *work, u16 *state) { switch(*state) { case 0: *state=1; break; case 1: IRC_COMPATIBLE_SetFinished(work); break; } }
 
 
 
@@ -334,17 +335,17 @@ void func_021B6A60(IrcCompatibleWork *work, u16 *state) { switch(*state) { case 
 
 
 
-void func_021B6A7C(IrcCompatibleWork *work, u16 *state)
+void IRC_COMPATIBLE_HandleMenu(IrcCompatibleWork *work, u16 *state)
 {
     switch(*state) {
     case 0:
-        if(func_021B6C20(&work->runner, IRC_STEP_MENU, IRC_COMPATIBLE_HEAP_ID, work)) *state=1;
+        if(IRC_COMPATIBLE_StepRunnerRun(&work->runner, IRC_STEP_MENU, IRC_COMPATIBLE_HEAP_ID, work)) *state=1;
         break;
     case 1:
         switch(work->menuChoice) {
-        case 0: func_021B6A3C(work, func_021B6AD8); break;
-        case 1: func_021B6A3C(work, func_021B6BA8); break;
-        case 2: func_021B6A3C(work, func_021B6A60); break;
+        case 0: IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleTests); break;
+        case 1: IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleHelp); break;
+        case 2: IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleQuit); break;
         }
         break;
     }
@@ -357,7 +358,7 @@ void func_021B6A7C(IrcCompatibleWork *work, u16 *state)
 
 
 
-void func_021B6AD8(IrcCompatibleWork *work, u16 *state)
+void IRC_COMPATIBLE_HandleTests(IrcCompatibleWork *work, u16 *state)
 {
     switch(*state) {
     case 0:
@@ -366,7 +367,7 @@ void func_021B6AD8(IrcCompatibleWork *work, u16 *state)
         *state=1;
         break;
     case 1:
-        if(func_021B6C20(&work->runner, IRC_STEP_FIRST_TEST, IRC_COMPATIBLE_HEAP_ID, work)) *state=2;
+        if(IRC_COMPATIBLE_StepRunnerRun(&work->runner, IRC_STEP_FIRST_TEST, IRC_COMPATIBLE_HEAP_ID, work)) *state=2;
         break;
     case 2:
         if(work->firstTestResult==0) *state=3;
@@ -377,7 +378,7 @@ void func_021B6AD8(IrcCompatibleWork *work, u16 *state)
         } else *state=6;
         break;
     case 3:
-        if(func_021B6C20(&work->runner, IRC_STEP_SECOND_TEST, IRC_COMPATIBLE_HEAP_ID, work)) *state=4;
+        if(IRC_COMPATIBLE_StepRunnerRun(&work->runner, IRC_STEP_SECOND_TEST, IRC_COMPATIBLE_HEAP_ID, work)) *state=4;
         break;
     case 4:
         if(work->secondTestResult==0) *state=5;
@@ -388,10 +389,10 @@ void func_021B6AD8(IrcCompatibleWork *work, u16 *state)
         } else *state=6;
         break;
     case 5:
-        if(func_021B6C20(&work->runner, IRC_STEP_RESULT, IRC_COMPATIBLE_HEAP_ID, work)) *state=6;
+        if(IRC_COMPATIBLE_StepRunnerRun(&work->runner, IRC_STEP_RESULT, IRC_COMPATIBLE_HEAP_ID, work)) *state=6;
         break;
     case 6:
-        func_021B6A3C(work, func_021B6A7C);
+        IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleMenu);
         break;
     }
 }
@@ -403,7 +404,7 @@ void func_021B6AD8(IrcCompatibleWork *work, u16 *state)
 
 
 
-void func_021B6BA8(IrcCompatibleWork *work, u16 *state) { switch(*state) { case 0: *state=1; break; case 1: if(func_021B6C20(&work->runner, IRC_STEP_HELP, IRC_COMPATIBLE_HEAP_ID, work)) *state=2; break; case 2: func_021B6A3C(work, func_021B6A7C); break; } }
+void IRC_COMPATIBLE_HandleHelp(IrcCompatibleWork *work, u16 *state) { switch(*state) { case 0: *state=1; break; case 1: if(IRC_COMPATIBLE_StepRunnerRun(&work->runner, IRC_STEP_HELP, IRC_COMPATIBLE_HEAP_ID, work)) *state=2; break; case 2: IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleMenu); break; } }
 
 
 
@@ -412,7 +413,7 @@ void func_021B6BA8(IrcCompatibleWork *work, u16 *state) { switch(*state) { case 
 
 
 
-void func_021B6BE4(IrcStepRunner *runner, int heapId) { func_02082BCC(runner, 0, 12); runner->queue=func_02031324(heapId); }
+void IRC_COMPATIBLE_StepRunnerInit(IrcStepRunner *runner, int heapId) { func_02082BCC(runner, 0, 12); runner->queue=PROCSYS_Create(heapId); }
 
 
 
@@ -421,7 +422,7 @@ void func_021B6BE4(IrcStepRunner *runner, int heapId) { func_02082BCC(runner, 0,
 
 
 
-unsigned int func_021B6BFC(IrcStepRunner *runner) { return func_02031330(runner->queue); }
+unsigned int IRC_COMPATIBLE_StepRunnerIsBusy(IrcStepRunner *runner) { return PROCSYS_Main(runner->queue); }
 
 
 
@@ -429,7 +430,7 @@ unsigned int func_021B6BFC(IrcStepRunner *runner) { return func_02031330(runner-
 
 
 
-void func_021B6C08(IrcStepRunner *runner) { func_0203133C(runner->queue); func_02082BCC(runner, 0, 12); }
+void IRC_COMPATIBLE_StepRunnerExit(IrcStepRunner *runner) { func_0203133C(runner->queue); func_02082BCC(runner, 0, 12); }
 
 
 
@@ -437,22 +438,22 @@ void func_021B6C08(IrcStepRunner *runner) { func_0203133C(runner->queue); func_0
 
 
 
-int func_021B6C20(IrcStepRunner *runner, int stepIndex, int heapId, IrcCompatibleWork *work)
+int IRC_COMPATIBLE_StepRunnerRun(IrcStepRunner *runner, int stepIndex, int heapId, IrcCompatibleWork *work)
 {
     void *result;
     switch(runner->phase) {
     case 0:
-        if(d_021B74B8[stepIndex].createArgs) result=d_021B74B8[stepIndex].createArgs(heapId, work);
+        if(IRC_COMPATIBLE_StepTable[stepIndex].createArgs) result=IRC_COMPATIBLE_StepTable[stepIndex].createArgs(heapId, work);
         else result=0;
         runner->stepArgs=result;
         runner->phase=1;
         break;
     case 1:
-        func_02031348(runner->queue,d_021B74B8[stepIndex].taskProc,d_021B74B8[stepIndex].priority,runner->stepArgs);
+        PROCSYS_Push(runner->queue,IRC_COMPATIBLE_StepTable[stepIndex].taskProc,IRC_COMPATIBLE_StepTable[stepIndex].priority,runner->stepArgs);
         runner->phase=2;
         break;
     case 2:
-        if(d_021B74B8[stepIndex].destroyArgs) d_021B74B8[stepIndex].destroyArgs(runner->stepArgs,work);
+        if(IRC_COMPATIBLE_StepTable[stepIndex].destroyArgs) IRC_COMPATIBLE_StepTable[stepIndex].destroyArgs(runner->stepArgs,work);
         runner->phase=3;
         break;
     case 3:
@@ -471,11 +472,11 @@ int func_021B6C20(IrcStepRunner *runner, int stepIndex, int heapId, IrcCompatibl
  * func_02030734 0x02030734 arm
  * func_020307B0 0x020307B0 arm
  * func_02082BCC 0x02082BCC arm
- * d_021B753C 0x021B753C data a1
+ * IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
  */
-void *func_021B6CA0(u32 heapId, IrcCompatibleWork *work) {
+void *IRC_COMPATIBLE_MenuStepCreateArgs(u32 heapId, IrcCompatibleWork *work) {
  IrcMenuArgs *args;
- args=func_02030734(heapId,0x14,0,d_021B753C,0x36e);
+ args=func_02030734(heapId,0x14,0,IRC_COMPATIBLE_SourceFileName,0x36e);
  func_02082BCC(args,0,0x14);
  args->gameSystem=work->param->gameSystem;
  args->view=work->view;
@@ -497,7 +498,7 @@ void *func_021B6CA0(u32 heapId, IrcCompatibleWork *work) {
 
 
 
-void func_021B6CF8(void *args, IrcCompatibleWork *work) {
+void IRC_COMPATIBLE_MenuStepDestroyArgs(void *args, IrcCompatibleWork *work) {
  work->menuChoice=((IrcMenuArgs *)args)->choice;
  func_020307B0(args);
 }
@@ -507,9 +508,9 @@ void func_021B6CF8(void *args, IrcCompatibleWork *work) {
 
 
 
-void *func_021B6D04(u32 heapId, IrcCompatibleWork *work) {
+void *IRC_COMPATIBLE_SecondTestCreateArgs(u32 heapId, IrcCompatibleWork *work) {
  IrcSecondTestArgs *args;
- args=func_02030734(heapId,0x14,0,d_021B753C,0x3af);
+ args=func_02030734(heapId,0x14,0,IRC_COMPATIBLE_SourceFileName,0x3af);
  func_02082BCC(args,0,0x14);
  args->gameSystem=work->param->gameSystem;
  args->view=work->view;
@@ -522,7 +523,7 @@ void *func_021B6D04(u32 heapId, IrcCompatibleWork *work) {
 
 
 
-void func_021B6D3C(void *args, IrcCompatibleWork *work) {
+void IRC_COMPATIBLE_SecondTestDestroyArgs(void *args, IrcCompatibleWork *work) {
  work->secondTestResult=((IrcSecondTestArgs *)args)->result;
  work->secondTestScore=((IrcSecondTestArgs *)args)->score;
  work->secondTestPenalty=((IrcSecondTestArgs *)args)->penalty;
@@ -533,9 +534,9 @@ void func_021B6D3C(void *args, IrcCompatibleWork *work) {
 
 
 
-void *func_021B6D5C(u32 heapId, IrcCompatibleWork *work) {
+void *IRC_COMPATIBLE_FirstTestCreateArgs(u32 heapId, IrcCompatibleWork *work) {
  IrcFirstTestArgs *args;
- args=func_02030734(heapId,0x18,0,d_021B753C,0x3e4);
+ args=func_02030734(heapId,0x18,0,IRC_COMPATIBLE_SourceFileName,0x3e4);
  func_02082BCC(args,0,0x18);
  args->gameSystem=work->param->gameSystem;
  args->view=work->view;
@@ -546,7 +547,7 @@ void *func_021B6D5C(u32 heapId, IrcCompatibleWork *work) {
 
 
 
-void func_021B6D90(void *args, IrcCompatibleWork *work) {
+void IRC_COMPATIBLE_FirstTestDestroyArgs(void *args, IrcCompatibleWork *work) {
  work->firstTestResult=((IrcFirstTestArgs *)args)->result;
  work->firstTestScore=((IrcFirstTestArgs *)args)->score;
  work->firstTestPenalty=((IrcFirstTestArgs *)args)->penalty;
@@ -568,10 +569,10 @@ void func_021B6D90(void *args, IrcCompatibleWork *work) {
  * func_0200A9D4 0x0200A9D4 thumb
  * func_021B658C 0x021B658C thumb ov101
  * func_0203D378 0x0203D378 arm
- * func_021B6ECC 0x021B6ECC thumb ov101
- * d_021B753C 0x021B753C data a1
+ * IRC_COMPATIBLE_CalcCompatibility 0x021B6ECC thumb ov101
+ * IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
  */
-void *func_021B6DAC(u32 heapId, IrcCompatibleWork *work)
+void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heapId, IrcCompatibleWork *work)
 {
     IrcCompatibleProfile ownProfile;
     void *saveBlock;
@@ -579,7 +580,7 @@ void *func_021B6DAC(u32 heapId, IrcCompatibleWork *work)
     u8 *partnerName;
     int useBonus,isNewPartner=0;
     u32 packedDate;
-    args=func_02030734(heapId,16,0,d_021B753C,0x418);
+    args=func_02030734(heapId,16,0,IRC_COMPATIBLE_SourceFileName,0x418);
     func_02082BCC(args,0,16);
     args->gameSystem=work->param->gameSystem;
     args->view=work->view;
@@ -595,39 +596,39 @@ void *func_021B6DAC(u32 heapId, IrcCompatibleWork *work)
         func_021B658C(work->param->gameSystem,&ownProfile);
         if(func_0203D378()) packedDate=ownProfile.packedDate;
         else packedDate=work->partnerProfile->packedDate;
-        args->compatibility=func_021B6ECC(work->firstTestScore,work->secondTestScore,work->firstTestPenalty,work->secondTestPenalty,&ownProfile,work->partnerProfile,useBonus,packedDate,IRC_COMPATIBLE_HEAP_ID);
+        args->compatibility=IRC_COMPATIBLE_CalcCompatibility(work->firstTestScore,work->secondTestScore,work->firstTestPenalty,work->secondTestPenalty,&ownProfile,work->partnerProfile,useBonus,packedDate,IRC_COMPATIBLE_HEAP_ID);
     }
     return args;
 }
 
 
-void func_021B6E84(void *args, IrcCompatibleWork *work)
+void IRC_COMPATIBLE_ResultStepDestroyArgs(void *args, IrcCompatibleWork *work)
 {
     func_020307B0(args);
 }
 
 
 
-void *func_021B6E8C(u32 heapId, IrcCompatibleWork *work) { IrcHelpArgs *args; args=func_02030734(heapId,4,0,d_021B753C,0x49b); func_02082BCC(args,0,4); args->gameSystem=work->param->gameSystem; return args; }
+void *IRC_COMPATIBLE_HelpStepCreateArgs(u32 heapId, IrcCompatibleWork *work) { IrcHelpArgs *args; args=func_02030734(heapId,4,0,IRC_COMPATIBLE_SourceFileName,0x49b); func_02082BCC(args,0,4); args->gameSystem=work->param->gameSystem; return args; }
 
 
 
-void func_021B6EBC(void *args, IrcCompatibleWork *work) { func_020307B0(args); work->hasReturnedFromHelp=1; }
+void IRC_COMPATIBLE_HelpStepDestroyArgs(void *args, IrcCompatibleWork *work) { func_020307B0(args); work->hasReturnedFromHelp=1; }
 
 
 
-int func_021B6ECC(u32 firstScore, u32 secondScore, int firstPenalty, int secondPenalty, IrcCompatibleProfile *ownProfile, IrcCompatibleProfile *partnerProfile, int hasBonus, u32 packedDate, int heapId)
+int IRC_COMPATIBLE_CalcCompatibility(u32 firstScore, u32 secondScore, int firstPenalty, int secondPenalty, IrcCompatibleProfile *ownProfile, IrcCompatibleProfile *partnerProfile, int hasBonus, u32 packedDate, int heapId)
 {
     int baseScore, nameRate, compatibility;
     u32 nameSimilarity;
     u16 *ownName;
     float rateFixed;
-    baseScore = ((((u32)func_021B70A8(ownProfile, packedDate) + (u32)func_021B70A8(partnerProfile, packedDate)) >> 1) * 10) / 100;
+    baseScore = ((((u32)IRC_COMPATIBLE_CalcBirthdayScore(ownProfile, packedDate) + (u32)IRC_COMPATIBLE_CalcBirthdayScore(partnerProfile, packedDate)) >> 1) * 10) / 100;
     firstScore = firstScore * 50 / 100;
     secondScore = secondScore * 40 / 100;
     baseScore += firstScore + secondScore;
     ownName = func_020084F4(ownProfile->myStatus);
-    nameSimilarity = func_021B6F9C(ownName, func_020084F4(partnerProfile->myStatus));
+    nameSimilarity = IRC_COMPATIBLE_CalcNameSimilarity(ownName, func_020084F4(partnerProfile->myStatus));
     if (nameSimilarity) rateFixed = 0.5f + (float)(nameSimilarity << 12);
     else rateFixed = (float)(nameSimilarity << 12) - 0.5f;
     nameRate = (int)rateFixed / 150;
@@ -653,7 +654,7 @@ int func_021B6ECC(u32 firstScore, u32 secondScore, int firstPenalty, int secondP
  * output bytes do not change. Older text in this header that asks for the
  * double assignment is superseded.
  */
-u32 func_021B6F9C(u16 *nameA, u16 *nameB)
+u32 IRC_COMPATIBLE_CalcNameSimilarity(u16 *nameA, u16 *nameB)
 {
     u32 charA, charB, bitIndexA, bitIndexB;
     u32 equalBits, totalBits, katakanaStartA, katakanaStartB;
@@ -661,8 +662,8 @@ u32 func_021B6F9C(u16 *nameA, u16 *nameB)
     charB = *nameB;
     if (charA >= 0x30a1 && charA <= 0x30f4) charA -= 0x60;
     if (charB >= 0x30a1 && charB <= 0x30f4) charB -= 0x60;
-    bitIndexA = func_021B7090(charA, 8);
-    bitIndexB = func_021B7090(charB, 8);
+    bitIndexA = IRC_COMPATIBLE_FindHighestSetBit(charA, 8);
+    bitIndexB = IRC_COMPATIBLE_FindHighestSetBit(charB, 8);
     totalBits = 0;
     equalBits = 0;
     katakanaStartA = 0x30a1;
@@ -672,13 +673,13 @@ u32 func_021B6F9C(u16 *nameA, u16 *nameB)
             charA = *++nameA;
             if (charA == func_02045A98()) break;
             if (charA >= katakanaStartA && charA <= 0x30f4) charA -= 0x60;
-            bitIndexA = func_021B7090(charA, 8);
+            bitIndexA = IRC_COMPATIBLE_FindHighestSetBit(charA, 8);
         }
         if (bitIndexB == 0) {
             charB = *++nameB;
             if (charB == func_02045A98()) break;
             if (charB >= katakanaStartB && charB <= 0x30f4) charB -= 0x60;
-            bitIndexB = func_021B7090(charB, 8);
+            bitIndexB = IRC_COMPATIBLE_FindHighestSetBit(charB, 8);
         }
         if (bitIndexA == 0 || bitIndexB == 0) continue;
         if (((charA >> bitIndexA) & 1) == ((charB >> bitIndexB) & 1)) ++equalBits;
@@ -691,8 +692,8 @@ u32 func_021B6F9C(u16 *nameA, u16 *nameB)
 
 
 
-unsigned func_021B7090(unsigned bits, unsigned width) { unsigned bitIndex = width - 1; while (bitIndex) { if ((bits >> bitIndex) & 1) break; bitIndex--; } return bitIndex; }
+unsigned IRC_COMPATIBLE_FindHighestSetBit(unsigned bits, unsigned width) { unsigned bitIndex = width - 1; while (bitIndex) { if ((bits >> bitIndex) & 1) break; bitIndex--; } return bitIndex; }
 
 
 
-unsigned char func_021B70A8(IrcCompatibleProfile *profile, unsigned packedDate) { struct DateBytes date; date.year=(unsigned char)(packedDate>>24); date.month=(unsigned char)(packedDate>>16); date.day=(unsigned char)(packedDate>>8); date.weekday=(unsigned char)packedDate; return func_0200AA00(profile->birthMonth,profile->birthDay,&date); }
+unsigned char IRC_COMPATIBLE_CalcBirthdayScore(IrcCompatibleProfile *profile, unsigned packedDate) { struct DateBytes date; date.year=(unsigned char)(packedDate>>24); date.month=(unsigned char)(packedDate>>16); date.day=(unsigned char)(packedDate>>8); date.weekday=(unsigned char)packedDate; return func_0200AA00(profile->birthMonth,profile->birthDay,&date); }

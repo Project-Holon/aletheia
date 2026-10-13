@@ -20,7 +20,7 @@
  *   func_021F4280 0x021F4280 thumb ov112
  *   func_02047964 0x02047964 arm
  *   func_020479D8 0x020479D8 arm
- *   func_0204F7DC 0x0204F7DC arm
+ *   BILLBOARD_Draw 0x0204F7DC arm
  *   func_02047970 0x02047970 arm
  */
 #include "../include/Obj02823.h"
@@ -40,7 +40,7 @@ extern void func_021F6F8C(u8 *p);
 extern void func_021F4280(u8 *);
 extern void func_02047964(void);
 extern void func_020479D8(void);
-extern void func_0204F7DC(struct Board *b, struct Camera *cam, struct Lights *lights);
+extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
 extern void func_02047970(void);
 void func_021F3C50(u8 *p)
 {
@@ -54,7 +54,7 @@ void func_021F3C50(u8 *p)
     func_021F51F4((void **)(*(u32 *)&((struct Obj02823 *)p)->f20));
     func_021F718C((char *)(((struct Obj02823 *)p)->f2C));
     func_021F6F8C((u8 *)(((struct Obj02823 *)p)->f28));
-    func_0204F7DC((struct Board *)(((struct Obj02823 *)p)->f1C),(struct Camera *)(((struct Obj02823 *)p)->f18),0);
+    BILLBOARD_Draw((struct Board *)(((struct Obj02823 *)p)->f1C),(struct Camera *)(((struct Obj02823 *)p)->f18),0);
     func_021F4280(p);
     func_02047970();
 }

@@ -12,7 +12,7 @@
  * symbols:
  *   func_020362DC  0x020362DC  arm
  *   func_02035C60  0x02035C60  arm
- *   func_02012E08  0x02012E08  thumb
+ *   GAME_DATA_SaveCancel  0x02012E08  thumb
  *   func_021D8F58  0x021D8F58  thumb  ov123
  *   func_021D5D58  0x021D5D58  thumb  ov123
  *   func_021D6EE0  0x021D6EE0  thumb  ov123
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
-extern void func_02012E08(char *p);
+extern void GAME_DATA_SaveCancel(char *p);
 extern void func_021D8F58(char *p);
 extern int func_021D5D58(char *p);
 extern void func_021D6EE0(unsigned char *p, u32 v, int unused);
@@ -38,7 +38,7 @@ void func_021D6F70(unsigned char *a)
     if (func_020362DC() == 0 && func_02035C60() == 0)
         return;
     if (((struct Obj05363 *)a)->fAD != 0) {
-        func_02012E08((char *)(((struct Obj05363 *)a)->f2C));
+        GAME_DATA_SaveCancel((char *)(((struct Obj05363 *)a)->f2C));
         ((struct Obj05363 *)a)->fAD = 0;
     }
     func_021D8F58((char *)a);

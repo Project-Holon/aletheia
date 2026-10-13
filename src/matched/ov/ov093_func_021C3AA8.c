@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C184  0x0201C184  thumb
+ *   WAZA_TOOL_GetWeather  0x0201C184  thumb
  *   func_021C3C10  0x021C3C10  thumb  ov093
  *   func_021C3B68  0x021C3B68  thumb  ov093
  *   func_021C5718  0x021C5718  thumb  ov093
@@ -25,7 +25,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 typedef struct { u8 pad[5]; u8 f : 1; } Q;
 
-extern u32 func_0201C184(int id);
+extern u32 WAZA_TOOL_GetWeather(int id);
 extern u8 func_021C3C10(u8 *p, int k, u8 *a);
 extern int func_021C3B68(u8 *p, int k, u8 v);
 extern void func_021C5718(u8 *p, u8 *b, int c);
@@ -36,7 +36,7 @@ extern void func_021CC95C(u32 *p, u32 v, int line);
 
 void func_021C3AA8(u8 *p, u16 *a, u8 *b)
 {
-    u8 k = func_0201C184(*a);
+    u8 k = WAZA_TOOL_GetWeather(*a);
     if (k) {
         int x = func_021C3C10(p, k, b);
         if (func_021C3B68(p, k, (u8)(x + 5))) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021DBA78
+ * function: P_STA_SKILL_SetSlotAnim
  * address:  0x021DBA78
  * packet:   pkt_021DBA78
  * region:   ov131
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 
-void func_021DBA78(u8 *p, int i)
+void P_STA_SKILL_SetSlotAnim(u8 *p, int i)
 {
     func_0204B878(((struct Obj14080 *)p)->f8, (u16)(p[0] + i * 5));
 }

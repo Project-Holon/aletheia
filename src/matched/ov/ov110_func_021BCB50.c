@@ -18,8 +18,8 @@
  * symbols:
  *   func_021BCAD8 0x021BCAD8 thumb ov110
  *   func_02045EC0 0x02045EC0 arm
- *   func_02027FEC 0x02027FEC thumb
- *   func_020282AC 0x020282AC thumb
+ *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
+ *   APP_TASKMENU_WIN_ChangePalette 0x020282AC thumb
  *   func_021BCD44 0x021BCD44 thumb ov110
  *   func_020409B4 0x020409B4 arm
  *   func_021BF7C4 0x021BF7C4 thumb ov110
@@ -47,8 +47,8 @@ typedef struct Object {
 } Object;
 extern void func_021BCAD8(Object *);
 extern void *func_02045EC0(struct MsgBank *,u32);
-extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
-extern void func_020282AC(struct T *,u16 *,u32,u32,u16);
+extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
+extern void APP_TASKMENU_WIN_ChangePalette(struct T *,u16 *,u32,u32,u16);
 extern void func_021BCD44(u8 *p);
 extern void func_020409B4(u32);
 extern u32 func_021BF7C4(u8 *);
@@ -66,8 +66,8 @@ void func_021BCB50(Object *p)
         p->records[i].s=func_02045EC0(p->bank,i+14);
         p->records[i].x=0x39e3;
         p->records[i].flag=(i==1);
-        p->menus[i]=(struct T *)func_02027FEC((u32)p->windows[i],(u32)&records[i],23,(u8)(i*3+18),9,42);
-        func_020282AC(p->menus[i],p->windows[i],8,0x3545,0x7b2c);
+        p->menus[i]=(struct T *)APP_TASKMENU_WIN_Create((u32)p->windows[i],(u32)&records[i],23,(u8)(i*3+18),9,42);
+        APP_TASKMENU_WIN_ChangePalette(p->menus[i],p->windows[i],8,0x3545,0x7b2c);
     }
     func_021BCD44((u8 *)p);
     func_020409B4(0);

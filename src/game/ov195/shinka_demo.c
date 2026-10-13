@@ -16,23 +16,23 @@
  *   sub_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   sub_0201AB28 0x0201AB28 thumb
- *   sub_020457B0 0x020457B0 arm
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02017E1C 0x02017E1C thumb
  *   sub_02030734 0x02030734 arm
  *   func_0204E720 0x0204E720 arm
- *   sub_020056A0 0x020056A0 thumb
- *   func_02031324 0x02031324 arm
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   PROCSYS_Create 0x02031324 arm
  *   func_0203D34C 0x0203D34C arm
  *   d_02208F40 0x02208F40 data a4
- *   sub_0203133C 0x0203133C arm
+ *   PROCSYS_Delete 0x0203133C arm
  *   sub_02030EAC 0x02030EAC arm
  *   sub_020307B0 0x020307B0 arm
- *   sub_02045808 0x02045808 arm
- *   sub_020315D4 0x020315D4 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
- *   func_02031330 0x02031330 arm
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Main 0x02031330 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_0200873C 0x0200873C thumb
  *   func_02008DF0 0x02008DF0 thumb
@@ -41,17 +41,17 @@
  *   func_0200CDE0 0x0200CDE0 thumb
  *   func_02012EBC 0x02012EBC thumb
  *   func_02012F2C 0x02012F2C thumb
- *   func_020178D8 0x020178D8 thumb
+ *   POKE_TOOL_ChangeSpecies 0x020178D8 thumb
  *   func_020181F4 0x020181F4 thumb
- *   func_02018328 0x02018328 thumb
+ *   POKE_TOOL_GetLevelUpMove 0x02018328 thumb
  *   func_0201AA18 0x0201AA18 thumb
  *   func_0201C4E4 0x0201C4E4 thumb
  *   func_02021518 0x02021518 thumb
  *   func_02021540 0x02021540 thumb
  *   func_0202155C 0x0202155C thumb
  *   func_020215A0 0x020215A0 thumb
- *   func_02021EE4 0x02021EE4 thumb
- *   func_020272A4 0x020272A4 thumb
+ *   PALANM_SetAutoTransfer 0x02021EE4 thumb
+ *   GAME_BEACON_SetPokeEvolution 0x020272A4 thumb
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02030CB0 0x02030CB0 arm
@@ -70,7 +70,7 @@
  *   func_021B72DC 0x021B72DC thumb ov067
  *   func_021B7378 0x021B7378 thumb ov067
  *   func_021B76B0 0x021B76B0 thumb ov067
- *   d_021DC800 0x021DC800 data a4 ov131
+ *   gPokeStatusProcData 0x021DC800 data a4 ov131
  *   ov131_id 0x00000083 data a1
  *   ov196_id 0x000000C4 data a1
  *   ov198_id 0x000000C6 data a1
@@ -117,16 +117,16 @@
  *   func_0201C4C0  0x0201C4C0  thumb
  *   func_0201D83C  0x0201D83C  thumb
  *   func_022059A0  0x022059A0  thumb
- *   func_02005E50 0x02005E50 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   func_02005F38 0x02005F38 thumb
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005E64 0x02005E64 thumb
- *   func_02005D28 0x02005D28 thumb
- *   func_020063B4 0x020063B4 thumb
- *   func_02005E9C 0x02005E9C thumb
- *   func_02005DF8 0x02005DF8 thumb
- *   func_02005D90  0x02005D90  thumb
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_PushBgm 0x02005E64 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
+ *   GFL_USE_StepBgmLoad 0x020063B4 thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
@@ -143,9 +143,9 @@
  *   func_0204AFD8 0x0204AFD8 arm
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204B908  0x0204B908  arm
+ *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   func_0204B98C  0x0204B98C  arm
- *   func_02021D50 0x02021D50 thumb
+ *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_02049B40 0x02049B40 arm
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
@@ -198,7 +198,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  */
 #include "../../matched/include/Obj00734.h"
@@ -323,23 +323,23 @@ typedef struct {
 extern void sub_0203064C(u32 src, u32 dst, u32 size);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,u32,u32);
-extern void *sub_0201AB28(void *,u32);
-extern struct U16Vec *sub_020457B0(u32,u32);
+extern void *POKEPARTY_GetMember(void *,u32);
+extern struct U16Vec *STRBUF_Create(u32,u32);
 extern u32 func_02017E1C(void *,u32,u32);
 extern void *sub_02030734(u32,u32,int,const char *,u16);
 extern void func_0204E720(u32,int,int,int);
-extern void *sub_020056A0(u32,u32,u32);
-extern void *func_02031324(int a0);
+extern void *GFL_USE_AddMainTask(u32,u32,u32);
+extern void *PROCSYS_Create(int a0);
 extern void func_0203D34C(u32,u32);
-extern void sub_0203133C(struct S020314B8 *);
+extern void PROCSYS_Delete(struct S020314B8 *);
 extern void sub_02030EAC(struct Node *);
 extern u32 sub_020307B0(void *p);
-extern void sub_02045808(struct U16Vec *);
-extern void sub_020315D4(struct S020315D4 *);
+extern void STRBUF_Delete(struct U16Vec *);
+extern void PROCSYS_FreeProcWork(struct S020315D4 *);
 extern void func_020306F0(unsigned int heap);
-extern u32 func_02031330(void *);
+extern u32 PROCSYS_Main(void *);
 /* Original explicitly prepares all four registers, despite the current forwarding own source. */
-extern void func_02031348(void *,int,void *,void *);
+extern void PROCSYS_Push(void *,int,void *,void *);
 extern void func_020061E4(u32);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
@@ -348,18 +348,18 @@ extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_02012F2C(int *p);
-extern void func_020178D8(void *,u32);
+extern void POKE_TOOL_ChangeSpecies(void *,u32);
 extern void func_020181F4(void *,u16,u32);
-extern u16 func_02018328(void *,u32 *,u32);
+extern u16 POKE_TOOL_GetLevelUpMove(void *,u32 *,u32);
 extern u32 func_0201AA18(void *);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void *func_02021518(u32);
 extern u32 func_02021540(void *a0);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 /* Caller narrows only r0; r1 retains the full word, copied to the callee's u16 store. */
-extern void func_020272A4(u16,u32);
+extern void GAME_BEACON_SetPokeEvolution(u16,u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern u32 func_020307B0(void *p);
 extern u32 func_02030CB0(u32);
@@ -420,16 +420,16 @@ extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern u32 func_0201D83C(void *ptr);
 extern void func_022059A0(char *p);
-extern void func_02005E30(u32);
-extern int func_02005E50(void);
+extern void GFL_USE_FadeOutBgm(u32);
+extern int GFL_USE_IsBgmFading(void);
 extern int func_02005F38(void);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
-extern void func_02005D28(void);
-extern u32 func_020063B4(u8 *a0, u32 *a1, u32 a2);
-extern int func_02005E9C(void);
-extern void func_02005DF8(u32 a);
-extern void func_02005D90(int, int);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
+extern u32 GFL_USE_StepBgmLoad(u8 *a0, u32 *a1, u32 a2);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_FadeInBgmFull(u32 a);
+extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -445,9 +445,9 @@ extern void func_0204B3B4(struct Obj *p);
 extern void func_0204AFD8(u32);
 extern void func_0204A8D4(u32);
 extern void func_0204ADA4(u32);
-extern void func_0204B908(int, int);
+extern void CLACT_SetActorAnimIndex(int, int);
 extern u32 func_0204B98C(struct Actor *a);
-extern void func_02021D50(struct S02021D50 *p);
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *);
@@ -501,7 +501,7 @@ extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0207DC44(int, int, int, int);
 extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(u32 a, u32 b);
 int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app);
 int func_02204098(struct S020315D4 *a, int unused, int b, int *p);
@@ -549,7 +549,7 @@ void func_022056E8(u32 *a, char *b);
 void func_02205844(int a, char *b);
 void func_02205854(void);
 extern const char d_02208F40[];
-extern u8 d_021DC800[];
+extern u8 gPokeStatusProcData[];
 extern const char ov131_id[];
 extern const char ov196_id[];
 extern const char ov198_id[];
@@ -575,8 +575,8 @@ int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
     ((struct Obj00734 *)p)->f28=0;
     ((struct Obj00734 *)p)->f2C=5;
     ((struct Obj00734 *)p)->f30=0;
-    ((struct Obj00734 *)p)->f10=sub_0201AB28(((struct Obj05515 *)app)->f4,app[0xa]);
-    *(struct U16Vec * *)&((struct Obj00734 *)p)->f14=sub_020457B0(0x100,((struct Obj00734 *)p)->f0);
+    ((struct Obj00734 *)p)->f10=POKEPARTY_GetMember(((struct Obj05515 *)app)->f4,app[0xa]);
+    *(struct U16Vec * *)&((struct Obj00734 *)p)->f14=STRBUF_Create(0x100,((struct Obj00734 *)p)->f0);
     func_02017E1C(((struct Obj00734 *)p)->f10,0x73,*(u32 *)&((struct Obj00734 *)p)->f14);
     ((struct Obj00734 *)p)->f24=0;
     ((struct Obj00734 *)p)->fA0=0;
@@ -586,12 +586,12 @@ int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
     ((struct Obj00734 *)p)->f100=sub_02030734(((struct Obj00734 *)p)->f0,0x28,1,d_02208F40,0x242);
     func_0204E720(3,16,16,-16);
     func_02204DC4(app,(u8 *)p);
-    ((struct Obj00734 *)p)->f38=sub_020056A0((u32)func_022051A8,(u32)p,1);
+    ((struct Obj00734 *)p)->f38=GFL_USE_AddMainTask((u32)func_022051A8,(u32)p,1);
     ((struct Obj00734 *)p)->f10C=0;
     ((struct Obj00734 *)p)->f110=0;
     ((struct Obj00734 *)p)->f114=0;
     ((struct Obj00734 *)p)->f118=0;
-    ((struct Obj00734 *)p)->f11C=(unsigned int)func_02031324(((struct Obj00734 *)p)->f0);
+    ((struct Obj00734 *)p)->f11C=(unsigned int)PROCSYS_Create(((struct Obj00734 *)p)->f0);
     func_02204C24((App *)((struct App *)app), (Scene *)((struct Scene *)p));
     func_0203D34C(0,((struct Obj00734 *)p)->f0);
     return 1;
@@ -606,12 +606,12 @@ int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
 int func_02204098(struct S020315D4 *a, int unused, int b, int *p)
 {
     func_02204D5C(b, p);
-    sub_0203133C(*(struct S020314B8 * *)&((struct Obj08345 *)p)->f11C);
+    PROCSYS_Delete(*(struct S020314B8 * *)&((struct Obj08345 *)p)->f11C);
     sub_02030EAC(*(struct Node * *)&((struct Obj08345 *)p)->f38);
     func_02204DDC(b, p);
     sub_020307B0(((struct Obj08345 *)p)->f100);
-    sub_02045808(*(struct U16Vec * *)&((struct Obj08345 *)p)->f14);
-    sub_020315D4(a);
+    STRBUF_Delete(*(struct U16Vec * *)&((struct Obj08345 *)p)->f14);
+    PROCSYS_FreeProcWork(a);
     func_020306F0(0x94);
     return 1;
 }
@@ -628,7 +628,7 @@ int func_022040E0(int unused0,int unused1,char *a,char *s)
     u32 tick,keys,result;
     u8 *q;
     void *v;
-    tick=func_02031330(P(0x11c));if(tick==1)return 0;
+    tick=PROCSYS_Main(P(0x11c));if(tick==1)return 0;
     switch(W(0x28)){
     case 0:if(W(0x2c)==0){W(0x28)=1;func_0204E720(3,16,0,-16);}else W(0x2c)--;break;
     case 1:if(!func_0204E804()){W(0x28)=2;func_02205138((int)a,(int *)s);}break;
@@ -654,19 +654,19 @@ int func_022040E0(int unused0,int unused1,char *a,char *s)
         }
         if(A(0x10)&&func_02204F68((int)a,(int *)s)&&!W(0x24)&&(keys&2)&&func_02206078(P(0x104))){W(0x24)=1;func_020355D8(0);func_02208814(P(0x108));}break;
     case 9:
-        func_020178D8(P(0x10),AH(8));
+        POKE_TOOL_ChangeSpecies(P(0x10),AH(8));
         if(A(0)){v=func_0200CA1C((void *)A(0));func_0200CFA0(v,P(0x10));func_0200CDE0(v,P(0x10));}
         func_02204FA0((int)a,(int *)s);if(W(0x8c))W(0x28)=11;else{func_022054E8((int)a,(int *)s,1);W(0x28)=10;}break;
     case 10:W(0x88)=1;W(0x28)=11;break;
     case 11:func_02205384(s,W(0x78),2,0,0,W(0x14),1,W(0x10));W(0x28)=12;break;
-    case 12:if(func_022053E8(s)&&!func_02204FC4((int)a,(int *)s)&&func_0220546C(s)){func_020272A4((u16)func_02017E1C(P(0x10),5,0),W(0x14));v=func_02012F2C((void *)A(0));func_02008DF0(v,10);func_02008DF0(v,88);W(0x28)=17;}break;
+    case 12:if(func_022053E8(s)&&!func_02204FC4((int)a,(int *)s)&&func_0220546C(s)){GAME_BEACON_SetPokeEvolution((u16)func_02017E1C(P(0x10),5,0),W(0x14));v=func_02012F2C((void *)A(0));func_02008DF0(v,10);func_02008DF0(v,88);W(0x28)=17;}break;
     case 13:if(W(0x24))func_02204FF8((int)a,s);else func_02204F40((int)a,(int *)s);if(W(0x8c))W(0x28)=15;else{func_022054E8((int)a,(int *)s,1);W(0x28)=14;}break;
     case 14:W(0x88)=1;W(0x28)=15;break;
     case 15:func_02205384(s,W(0x78),1,0,2,W(0x10),4,0);W(0x28)=16;break;
     case 16:if(func_022053E8(s)&&func_0220546C(s))W(0x28)=42;break;
     case 17:switch(AB(11)){case 14:func_022056E8((u32 *)a,s);break;case 6:case 19:case 20:func_02205844((int)a,s);break;}W(0x28)=18;W(0x20)=0;break;
     case 18:
-        H(0x1c)=func_02018328(P(0x10),(u32 *)(s+0x20),H(0));
+        H(0x1c)=POKE_TOOL_GetLevelUpMove(P(0x10),(u32 *)(s+0x20),H(0));
         if(!H(0x1c))W(0x28)=42;else if(H(0x1c)!=0xfffe){if(H(0x1c)&0x8000){H(0x1c)&=0x7fff;W(0x28)=20;}else{W(0x28)=19;func_02205384(s,W(0x7c),3,0,2,W(0x10),3,(u32)(s+0x1c));func_02204FD4((int)a,(int *)s);}}break;
     case 19:if(func_022053E8(s)&&func_0220546C(s))W(0x28)=18;break;
     case 20:W(0x28)=21;func_02205384(s,W(0x7c),4,0,2,W(0x10),3,(u32)(s+0x1c));break;
@@ -683,7 +683,7 @@ int func_022040E0(int unused0,int unused1,char *a,char *s)
         ((u8 *)P(0x100))[0xc]=1;*(u32 *)((char *)P(0x100)+8)=A(0);*(u32 *)((char *)P(0x100)+0x24)=0;*(u32 *)P(0x100)=A(4);
         *(void **)((char *)P(0x100)+4)=func_0200873C(v);((u8 *)P(0x100))[0xe]=func_0201AA18((void *)A(4));((u8 *)P(0x100))[0xf]=AB(0xa);*(u16 *)((char *)P(0x100)+0x14)=H(0x1c);
         ((u8 *)P(0x100))[0xd]=2;((u8 *)P(0x100))[0x10]=1;*(u32 *)((char *)P(0x100)+0x20)=0;
-        func_02034AC4((int)ov131_id);func_02031348(P(0x11c),-1,d_021DC800,P(0x100));break;
+        func_02034AC4((int)ov131_id);PROCSYS_Push(P(0x11c),-1,gPokeStatusProcData,P(0x100));break;
     case 24:if(tick!=1)W(0x28)=25;else return 0;break;
     case 25:func_02034A5C((int)ov131_id);W(0x28)=26;func_02204C24((App *)((struct App *)a), (Scene *)((struct Scene *)s));func_0203D34C(0,H(0));func_0204E720(3,16,0,0);break;
     case 26:
@@ -692,7 +692,7 @@ int func_022040E0(int unused0,int unused1,char *a,char *s)
         if(func_0204E804())break;
         W(0x28)=28;func_021B709C(P(0x9c));W(0x9c)=0;func_02205A84((int)P(4));B(0xac)=func_020355C4()==0;
         P(0xa4)=func_02030734(H(0),func_02030CB0(8),0,(char *)d_02208F40,0x548);
-        func_02082BCC(P(0xa4),0,func_02030CB0(8));P(0xa0)=func_02030CBC(8,P(0xa4));P(0xa8)=func_02021518(H(0));func_02021EE4(P(0xa8),1);
+        func_02082BCC(P(0xa4),0,func_02030CB0(8));P(0xa0)=func_02030CBC(8,P(0xa4));P(0xa8)=func_02021518(H(0));PALANM_SetAutoTransfer(P(0xa8),1);
         func_0202155C(P(0xa8),1,0x1e0,H(0));func_0202155C(P(0xa8),3,0x1e0,H(0));
         W(0xb0)=A(0);W(0xb4)=A(4);W(0xbc)=W(8);H(0xc0)=H(0);B(0xcf)=4;B(0xfc)=0;B(0xd0)=AB(0xa);H(0xd6)=H(0x1c);W(0xc4)=0;P(0xf4)=s+0xac;W(0xd8)=W(0xa0);W(0xdc)=W(0xa8);W(0xf0)=1;
         func_02034AC4((int)ov196_id);func_02034AC4((int)ov198_id);func_0220F3E8((u8 *)(s+0xb0));func_0204E720(2,16,0,0);break;
@@ -828,7 +828,7 @@ void func_02204D5C(int a, int *p)
 void func_02204DC4(u8 *p, u8 *q)
 {
     if (((struct Obj24942 *)p)->fC != 0) {
-        func_02005E30(0x1e);
+        GFL_USE_FadeOutBgm(0x1e);
     }
     ((struct Obj24943 *)q)->f30 = 1;
 }
@@ -854,10 +854,10 @@ void func_02204DE0(char *a, char *b)
     case 0:
         break;
     case 1:
-        if (func_02005E50() == 0) {
+        if (GFL_USE_IsBgmFading() == 0) {
             if (((struct Obj24944 *)a)->fC != 0) {
-                func_02005DE4((void *)1);
-                func_02005E64();
+                GFL_USE_SetBgmPlayerParam((void *)1);
+                GFL_USE_PushBgm();
             }
             ((struct Obj03902 *)b)->f30 = 0;
         }
@@ -867,20 +867,20 @@ void func_02204DE0(char *a, char *b)
             ((struct Obj03902 *)b)->f30 = 0;
         break;
     case 3:
-        if (func_020063B4((u8 *)0x3f3, (u32 *)(b + 0x34), 0) != 0)
+        if (GFL_USE_StepBgmLoad((u8 *)0x3f3, (u32 *)(b + 0x34), 0) != 0)
             ((struct Obj03902 *)b)->f30 = 4;
         break;
     case 4:
     case 5:
         break;
     case 6:
-        if (func_02005E50() == 0) {
-            func_02005D28();
+        if (GFL_USE_IsBgmFading() == 0) {
+            GFL_USE_CancelChangeAndStopBgm();
             ((struct Obj03902 *)b)->f30 = 0;
         }
         break;
     case 7:
-        if (func_020063B4((u8 *)0x519, (u32 *)(b + 0x34), 0) != 0)
+        if (GFL_USE_StepBgmLoad((u8 *)0x519, (u32 *)(b + 0x34), 0) != 0)
             ((struct Obj03902 *)b)->f30 = 8;
         break;
     case 8:
@@ -920,9 +920,9 @@ int func_02204EA0(int a, int *p)
 void func_02204EB0(char *a, char *b)
 {
     if (((struct Obj24946 *)b)->f30 == 0 && ((struct Obj14523 *)a)->fC != 0) {
-        func_02005E9C();
-        func_02005DE4(0);
-        func_02005DF8(0x3c);
+        GFL_USE_PopBgm();
+        GFL_USE_SetBgmPlayerParam(0);
+        GFL_USE_FadeInBgmFull(0x3c);
     }
 }
 
@@ -940,7 +940,7 @@ void func_02204EB0(char *a, char *b)
 void func_02204ED0(int a, int *p)
 {
     if (p[0xc] == 0) {
-        func_02005D90(0x3f2, 0xffff);
+        GFL_USE_CancelChangeAndPlayBgm(0x3f2, 0xffff);
         p[0xc] = 2;
     }
 }
@@ -971,7 +971,7 @@ void func_02204F00(int unused, char *p)
     if (((struct Obj10816 *)p)->f30 == 0)
     {
         ((struct Obj10816 *)p)->f34 = 0;
-        func_020063B4((void *)0x3f3, (u32 *)(p + 0x34), 1);
+        GFL_USE_StepBgmLoad((void *)0x3f3, (u32 *)(p + 0x34), 1);
         ((struct Obj10816 *)p)->f30 = 3;
     }
 }
@@ -985,8 +985,8 @@ void func_02204F00(int unused, char *p)
 void func_02204F24(int a, int *b)
 {
     if (((struct Obj08346 *)b)->f30 == 4) {
-        func_02005DE4((void *)1);
-        func_02005E64();
+        GFL_USE_SetBgmPlayerParam((void *)1);
+        GFL_USE_PushBgm();
         ((struct Obj08346 *)b)->f30 = 5;
     }
 }
@@ -1006,9 +1006,9 @@ void func_02204F40(int a, int *p)
     int s = p[0xc];
 
     if (s == 5 || (unsigned)(s - 8) <= 1) {
-        func_02005E9C();
-        func_02005DE4(0);
-        func_02005DF8(6);
+        GFL_USE_PopBgm();
+        GFL_USE_SetBgmPlayerParam(0);
+        GFL_USE_FadeInBgmFull(6);
         p[0xc] = 4;
     }
 }
@@ -1037,7 +1037,7 @@ int func_02204F68(int a, int *p)
 void func_02204F78(int a, char *b)
 {
     if (((struct Obj14525 *)b)->f30 == 4) {
-        func_02005E30(0x3c);
+        GFL_USE_FadeOutBgm(0x3c);
         ((struct Obj14525 *)b)->f30 = 6;
     }
 }
@@ -1070,7 +1070,7 @@ void func_02204FA0(int a, int *p)
 {
     if (p[0xc] == 5) {
         p[0xd] = 0;
-        func_020063B4((unsigned char *)0x519, (u32 *)(&p[0xd]), 1);
+        GFL_USE_StepBgmLoad((unsigned char *)0x519, (u32 *)(&p[0xd]), 1);
         p[0xc] = 7;
     }
 }
@@ -1104,7 +1104,7 @@ void func_02204FD4(int a, int *p)
 {
     if (p[0xc] == 4) {
         func_02204F24(a, p);
-        func_02005D90(0x515, 0xffff);
+        GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
         p[0xc] = 9;
     }
 }
@@ -1118,8 +1118,8 @@ void func_02204FD4(int a, int *p)
 void func_02204FF8(int a, char *b)
 {
     if (((struct Obj14527 *)b)->f30 == 5) {
-        func_02005E9C();
-        func_02005D28();
+        GFL_USE_PopBgm();
+        GFL_USE_CancelChangeAndStopBgm();
         ((struct Obj14527 *)b)->f30 = 0;
     }
 }
@@ -1194,7 +1194,7 @@ void func_02205138(int a, int *p)
     if (p[0x18] == 0)
         return;
     for (i = 0; i < 6; i++) {
-        func_0204B908(p[0x12 + i], 0);
+        CLACT_SetActorAnimIndex(p[0x12 + i], 0);
         func_0204B92C((struct Obj *)p[0x12 + i], 1);
     }
 }
@@ -1251,7 +1251,7 @@ void func_022051A8(int task, char *p)
         break;
     }
     if (((struct Obj04594 *)p)->fA8)
-        func_02021D50(((struct Obj04594 *)p)->fA8);
+        PALANM_TransferPalettes(((struct Obj04594 *)p)->fA8);
 }
 
 
@@ -1543,7 +1543,7 @@ void func_022056E8(u32 *a, char *b)
         return;
     p = (u32)func_02030734(((struct Obj06644 *)b)->f0, func_020173EC(), 1, (const char *)d_02208F40, 0xaf5);
     func_02019CE0((const struct RecDC *)(((struct Obj06644 *)b)->f10), (struct RecDC *)p);
-    func_020178D8((void *)p, 0x124);
+    POKE_TOOL_ChangeSpecies((void *)p, 0x124);
     func_02017E40((void *)p, 0x98, 4);
     func_02017E40((void *)p, 6, 0);
     func_02017E40((void *)p, 0xb, 0);
@@ -1599,6 +1599,6 @@ void func_02205854(void)
     func_0207DD24(0, 0, 0x7fff, 0x3f, i);
     REG_VIEWPORT = 0xbfff0000;
     for (; i < 4; i++)
-        func_02046A94((u8)i, (const u16 *)(d_02208CCC + i * 8));
+        G3D_SYSTEM_SetLight((u8)i, (const u16 *)(d_02208CCC + i * 8));
     func_02046BE0(1, 0);
 }

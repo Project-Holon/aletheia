@@ -29,7 +29,7 @@
  *   ov021_id 0x00000015 data
  *   func_02194798 0x02194798 thumb ov021
  *   func_02027858 0x02027858 thumb
- *   func_0201FEF4 0x0201FEF4 thumb
+ *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  *   func_0202F038 0x0202F038 thumb
  *   func_02028604 0x02028604 thumb
  *   func_02027FD8 0x02027FD8 thumb
@@ -298,7 +298,7 @@ extern int func_02034AC4(int);
 extern void *func_02194670(u16 *a);
 extern void func_02194798(unsigned char *a);
 extern void func_02027858(struct TaskMenu *m);
-extern void func_0201FEF4(u8 *o);
+extern void BMP_MENU_DeleteYesNo(u8 *o);
 extern void func_0202F038(u8 *p);
 extern int func_02028604(int a0);
 extern unsigned int func_02027FD8(struct TaskMenuState *s);
@@ -432,7 +432,7 @@ void func_021F1520(char *p)
 {
     if(P(0x54))func_02194798(P(0x54));
     if(P(0x3C))func_02027858(P(0x3C));
-    if(P(0x50))func_0201FEF4(P(0x50));
+    if(P(0x50))BMP_MENU_DeleteYesNo(P(0x50));
     if(P(0x5C)){func_0202F038(P(0x5C));P(0x5C)=0;}
     func_02028604((int)P(0x44));func_02027FD8(P(0x40));func_0201C4C0(P(0x30));
     if(P(0x18))func_0201CE48(P(0x18));

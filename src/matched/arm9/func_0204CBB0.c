@@ -1,5 +1,5 @@
 /*
- * function: func_0204CBB0
+ * function: CLACT_SetupActorDraw
  * address:  0x0204CBB0
  * packet:   pkt_0204CB44
  * region:   arm9
@@ -23,16 +23,16 @@
  * docs/idioms/a-cast-between-two-complements-is-what-keeps-both-mvns.md.
  *
  * Decompiled so that it becomes a `matched` witness for the call at
- * 0x0204CB44+0x3c (src/pending/func_0204CB44.c).
+ * 0x0204CB44+0x3c (src/pending/CLACT_DrawActor.c).
  *
  * symbols:
  *   func_02067AB8  0x02067AB8  arm
- *   func_0204B658  0x0204B658  arm
+ *   CLACT_GetActorFlip  0x0204B658  arm
  *   func_02067B78  0x02067B78  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204CBB0.c \
- *       --func func_0204CBB0 --addr 0x0204CBB0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetupActorDraw.c \
+ *       --func CLACT_SetupActorDraw --addr 0x0204CBB0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -64,10 +64,10 @@ struct Rec {
 struct Actor;
 struct G2dOamState;
 extern void func_02067AB8(struct G2dOamState *p, u32 mode);
-extern u32 func_0204B658(const struct Actor *actor, u32 which);
+extern u32 CLACT_GetActorFlip(const struct Actor *actor, u32 which);
 extern void func_02067B78(struct G2dOamState *p, u32 h, u32 v);
 
-void func_0204CBB0(struct Elem *e, struct Rec *r)
+void CLACT_SetupActorDraw(struct Elem *e, struct Rec *r)
 {
     u32 a, b, v;
     int n;
@@ -76,8 +76,8 @@ void func_0204CBB0(struct Elem *e, struct Rec *r)
     func_02067AB8((struct G2dOamState *)r, e->f_12);
 
     if (e->f_12 == 0) {
-        a = func_0204B658((const struct Actor *)e, 0);
-        b = func_0204B658((const struct Actor *)e, 1);
+        a = CLACT_GetActorFlip((const struct Actor *)e, 0);
+        b = CLACT_GetActorFlip((const struct Actor *)e, 1);
         func_02067B78((struct G2dOamState *)r, b, a);
     }
 

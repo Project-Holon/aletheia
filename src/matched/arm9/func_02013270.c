@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02013270
+ * function: BTL_SETUP_DeleteTrainerData
  * address:  0x02013270
  * packet:   pkt_02013220
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj15644.h"
 
-int func_02013270(int a0){ int t0 = func_02045808((int)((struct Obj15644 *)((char *)((a0 + 0))))->f14); int t1 = func_020307B0((int)((a0 + 0) + 0)); return t1; }
+int BTL_SETUP_DeleteTrainerData(int a0){ int t0 = func_02045808((int)((struct Obj15644 *)((char *)((a0 + 0))))->f14); int t1 = func_020307B0((int)((a0 + 0) + 0)); return t1; }

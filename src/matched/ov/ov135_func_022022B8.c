@@ -14,7 +14,7 @@
  *   func_0200CDE0  0x0200CDE0  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_02017E40  0x02017E40  thumb
- *   func_02017F50  0x02017F50  thumb
+ *   POKE_TOOL_CalcGender  0x02017F50  thumb
  *   func_0220246C  0x0220246C  thumb
  *   func_0201A98C  0x0201A98C  thumb
  *   func_020076D0  0x020076D0  thumb
@@ -52,7 +52,7 @@ struct Rec0200AD94;
 extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern u32 func_0201AA18(void *p);
 extern void func_02017E40(void *mon, u32 id, u32 v);
-extern u8 func_02017F50(u32 species, u16 form, u32 pid);
+extern u8 POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
 extern void func_0220246C(void *p, int which);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
@@ -78,7 +78,7 @@ void func_022022B8(Work *p, void *mon, u32 box, int hatch)
         func_02017E40(mon, 9, 0x46);
         species = func_02017E1C(mon, 5, 0);
         form = func_02017E1C(mon, 0x6F, 0);
-        func_02017E40(mon, 0x6E, func_02017F50((u16)species, form, func_02017E1C(mon, 0, 0)));
+        func_02017E40(mon, 0x6E, POKE_TOOL_CalcGender((u16)species, form, func_02017E1C(mon, 0, 0)));
         func_0220246C(p->ctx->sys, 0);
     }
     if (box == 0xFF) {

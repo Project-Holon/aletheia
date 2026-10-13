@@ -14,9 +14,9 @@
  * symbols:
  *   func_020061E4 0x020061E4 thumb
  *   func_020260E4 0x020260E4 thumb
- *   func_0202CE40 0x0202CE40 thumb
+ *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   func_02035C38 0x02035C38 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021DD16C 0x021DD16C thumb
  *   func_021DD210 0x021DD210 thumb
  *   func_021DD930 0x021DD930 thumb
@@ -60,12 +60,12 @@ typedef struct {
 
 typedef unsigned int u32;
 struct WinMgr;
-extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
+extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
 extern int func_021E01B0(unsigned char *p);
 extern int func_021EF5C4(struct WinMgr *mgr);
 extern int func_02035C38(void);
 extern void func_021EF57C(struct WinMgr *mgr);
-extern unsigned func_02035CB8(unsigned *outA, unsigned *outB);
+extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
 extern int func_021EF770(struct WinMgr *mgr);
 extern int func_021DE158(unsigned char *p, unsigned a, unsigned b);
 extern void func_020061E4(unsigned se);
@@ -111,7 +111,7 @@ int func_021E1B1C(unsigned char *p)
     unsigned r;
     unsigned x;
     unsigned y;
-    if (func_0202CE40(MGR(p), 8) == 1)
+    if (BGWINFRM_IsMoving(MGR(p), 8) == 1)
         busy = func_021E01B0(p);
     else
         busy = 0;
@@ -123,7 +123,7 @@ int func_021E1B1C(unsigned char *p)
         b->state = 1;
         break;
     case 1:
-        if (func_02035CB8(&x, &y) == 0) {
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             r = 0xFF;
             if (func_021EF45C(MGR(p)) == 1)
                 r = func_021DF228(*(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184), d_021EF79C);
@@ -206,7 +206,7 @@ int func_021E1B1C(unsigned char *p)
             b->timer = 0x10;
             b->state = 1;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 7:
@@ -214,7 +214,7 @@ int func_021E1B1C(unsigned char *p)
             b->timer = 0x10;
             b->state = 1;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 16:

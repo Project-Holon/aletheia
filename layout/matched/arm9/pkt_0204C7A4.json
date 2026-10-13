@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204C7A4",
+   "name": "CLACT_ExecuteTransfers",
    "address": "0x0204C7A4",
    "kind": "game",
    "region": "arm9",

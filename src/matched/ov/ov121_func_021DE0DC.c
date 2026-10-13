@@ -1,5 +1,5 @@
 /*
- * function: func_021DE0DC
+ * function: MYSTERY_ALBUM_HideScreen
  * address: 0x021DE0DC
  * packet: pkt_ov121_021DE0DC
  * region: ov121
@@ -25,7 +25,7 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(void *,const Point *,u16);
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021DE0DC(char *p)
+void MYSTERY_ALBUM_HideScreen(char *p)
 {
     Point pt;
     func_020414EC(4);

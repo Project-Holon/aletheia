@@ -1,5 +1,5 @@
 /*
- * function: func_021DA8BC
+ * function: P_STA_SKILL_HideMovesPage
  * address: 0x021DA8BC
  * packet: pkt_ov131_021DA8BC
  * region: ov131
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DB9FC 0x021DB9FC thumb ov131
+ *   P_STA_SKILL_HideSlot 0x021DB9FC thumb ov131
  *   func_02041300 0x02041300 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02041570 0x02041570 arm
@@ -19,7 +19,7 @@
 #include "../include/Obj10521.h"
 #include "../include/Obj10522.h"
 typedef unsigned char u8;
-extern void func_021DB9FC(void *,void *,u8 *);
+extern void P_STA_SKILL_HideSlot(void *,void *,u8 *);
 extern void func_02041300(unsigned,int,int,int,u8,u8,u8);
 extern void func_020409B4(unsigned);
 typedef unsigned short u16;
@@ -29,9 +29,9 @@ extern void func_02041570(int channel, u16 val);
 extern void func_02041B6C(unsigned);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
-void func_021DA8BC(u8 *a,u8 *b) {
+void P_STA_SKILL_HideMovesPage(u8 *a,u8 *b) {
     u8 i;
-    for(i=0;i<b[43];i++) func_021DB9FC(a,b,b+176+i*24);
+    for(i=0;i<b[43];i++) P_STA_SKILL_HideSlot(a,b,b+176+i*24);
     func_02041300(1,0,0,0,19,21,16);
     func_020409B4(1);
     func_02041570(4,0);

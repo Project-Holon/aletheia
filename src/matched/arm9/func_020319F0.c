@@ -1,5 +1,5 @@
 /*
- * function: func_020319F0
+ * function: BACKUP_SYSTEM_Erase
  * address:  0x020319F0
  * packet:   pkt_020319F0
  * region:   arm9
@@ -11,14 +11,14 @@
  *
  * symbols:
  *   str_020A7848   0x020A7848  data
- *   g_02146994     0x02146994  data
+ *   svsys     0x02146994  data
  *   func_02030734  0x02030734  arm
  *   func_02034F84  0x02034F84  arm
- *   func_02033200  0x02033200  arm
+ *   BACKUP_SYSTEM_EraseFooter  0x02033200  arm
  *   func_02082A7C  0x02082A7C  arm
- *   func_020335AC  0x020335AC  arm
+ *   FLASH_ACCESS_Write  0x020335AC  arm
  *   func_020307B0  0x020307B0  arm
- *   func_020319C0  0x020319C0  arm
+ *   BACKUP_SYSTEM_ClearWork  0x020319C0  arm
  *   func_02034FB8  0x02034FB8  arm
  *
  * Erase the whole backup device in 0x1000-byte pages.  A 0x1000-byte scratch
@@ -30,7 +30,7 @@
  * behind the global at 0x02146994, re-read once per page along with the base.
  *
  * The literal 1 is materialised ONCE into r4 and reused as the second
- * argument of the first func_02033200 call
+ * argument of the first BACKUP_SYSTEM_EraseFooter call
  * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md);
  * the second call's 2 is its own `mov`.  The 0x1000 page size is materialised
  * twice, once for the allocation and once into callee-saved r8 for the loop,
@@ -38,7 +38,7 @@
  *
  * The lengths compare unsigned (`bls`/`blo`), so a zero-length device skips
  * the loop entirely; the +4 word is a second length whose inequality with
- * +0 triggers an extra func_02033200(obj, 2) pass before the fill.
+ * +0 triggers an extra BACKUP_SYSTEM_EraseFooter(obj, 2) pass before the fill.
  *
  * Declaration order is one/off/page, which is what shares r4 between the
  * literal 1 and the loop cursor and leaves r5 for the scratch page
@@ -51,8 +51,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020319F0.c \
- *       --func func_020319F0 --addr 0x020319F0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_Erase.c \
+ *       --func BACKUP_SYSTEM_Erase --addr 0x020319F0 --cc 1.1p1 --arm
  */
 
 #include "../include/G_SaveMain.h"
@@ -70,19 +70,19 @@ struct Job {
 };
 
 extern const char str_020A7848[];
-extern struct SaveMain *g_02146994;
+extern struct SaveMain *svsys;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_02034F84(u32 a);
 struct SaveBackup;
-extern u32 func_02033200(struct SaveBackup *p, u32 id);
+extern u32 BACKUP_SYSTEM_EraseFooter(struct SaveBackup *p, u32 id);
 extern void  func_02082A7C(u32 v, void *p, u32 n);
-extern u32 func_020335AC(u32 a, u32 b, u32 c, u32 d);
+extern u32 FLASH_ACCESS_Write(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_020307B0(void *p);
-extern void func_020319C0(u8 *p);
+extern void BACKUP_SYSTEM_ClearWork(u8 *p);
 extern void func_02034FB8(u32 v);
 
-int func_020319F0(struct Job *job, u32 heap)
+int BACKUP_SYSTEM_Erase(struct Job *job, u32 heap)
 {
     u32 one;
     u32 off;
@@ -92,17 +92,17 @@ int func_020319F0(struct Job *job, u32 heap)
 
     one = 1;
     func_02034F84(one);
-    func_02033200((struct SaveBackup *)job, one);
+    BACKUP_SYSTEM_EraseFooter((struct SaveBackup *)job, one);
     if (job->f00 != job->f04)
-        func_02033200((struct SaveBackup *)job, 2);
+        BACKUP_SYSTEM_EraseFooter((struct SaveBackup *)job, 2);
 
     func_02082A7C(0xFFFFFFFF, page, 0x1000);
 
     for (off = 0; off < job->f08; off += 0x1000)
-        func_020335AC(off + job->f00, (u32)page, 0x1000, g_02146994->unk208);
+        FLASH_ACCESS_Write(off + job->f00, (u32)page, 0x1000, svsys->unk208);
 
     func_020307B0(page);
-    func_020319C0((u8 *)job);
+    BACKUP_SYSTEM_ClearWork((u8 *)job);
     job->f1c = 0;
     func_02034FB8(1);
     return 1;

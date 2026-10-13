@@ -11,21 +11,21 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020073D8
+ * function: SAVE_CONTROL_GetExtraSaveRecord
  *
  * symbols:
  *   sub_020073D8_File  0x020A7064  data
- *   func_020319A4      0x020319A4  arm
+ *   BACKUP_SYSTEM_GetRecordWork      0x020319A4  arm
  *   func_02034714      0x02034714  arm
  *
  * One checked forwarder on the stream slot array: the slot is asserted
  * non-null with the empty string at 0x020A7064 and then handed to the ARM
- * func_020319A4 with the caller's value.
+ * BACKUP_SYSTEM_GetRecordWork with the caller's value.
  *
  * The function immediately after it, sub_02007400 at 0x02007400, is the same
- * twenty instructions against func_020319F0 and is left out.  Its callee is
+ * twenty instructions against BACKUP_SYSTEM_Erase and is left out.  Its callee is
  * named twice in the whole image: by the `blx` at 0x0200741E inside it, and
- * by the pool word at 0x02007238 in sub_02007230.  A pool word only counts
+ * by the pool word at 0x02007238 in SAVE_CONTROL_EraseMainSave.  A pool word only counts
  * under the `literal` class, which requires the word to sit at an address
  * disasm.py classified as a literal pool, and 0x02007238 is inside an
  * unlabelled tail-call function rather than a pool, so it is not admitted.
@@ -67,13 +67,13 @@ struct Sub020073D8Ctrl {
 
 extern const char sub_020073D8_File[];
 
-extern u32 func_020319A4(u8 *p, u32 id);
+extern u32 BACKUP_SYSTEM_GetRecordWork(u8 *p, u32 id);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-void *sub_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v)
+void *SAVE_CONTROL_GetExtraSaveRecord(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v)
 {
     if (ctrl->unk14[id] == 0) {
         func_02034714(sub_020073D8_File, 0, sub_020073D8_File);
     }
-    return (void *)func_020319A4(ctrl->unk14[id], v);
+    return (void *)BACKUP_SYSTEM_GetRecordWork(ctrl->unk14[id], v);
 }

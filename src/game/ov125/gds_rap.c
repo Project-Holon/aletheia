@@ -33,7 +33,7 @@
  *   func_02045C04 0x02045C04 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_0200B910 0x0200B910 thumb
+ *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   d_021D8C80 0x021D8C80 data a2
  *   func_021D85C0 0x021D85C0 arm ov125
  *   func_021D860C  0x021D860C  arm  ov125
@@ -58,26 +58,26 @@
  *   func_021B99F4  0x021B99F4  thumb  ov114
  *   func_021B9A14  0x021B9A14  thumb  ov114
  *   func_0200853C  0x0200853C  thumb
- *   func_02045F5C  0x02045F5C  arm
- *   func_0200B784  0x0200B784  thumb
- *   func_0200B91C  0x0200B91C  thumb
- *   func_0200BA44  0x0200BA44  thumb
+ *   MSGDATA_ReadUnits  0x02045F5C  arm
+ *   BATTLE_REC_GetModeLayout  0x0200B784  thumb
+ *   BATTLE_REC_GetBody  0x0200B91C  thumb
+ *   BATTLE_REC_SetBodyCrc  0x0200BA44  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   d_020A7370  0x020A7370  data
  *   func_021D85DC 0x021D85DC arm ov125
  *   func_021D85E8 0x021D85E8 arm ov125
- *   func_0200B490 0x0200B490 thumb
- *   func_0200B4B8 0x0200B4B8 thumb
+ *   BATTLE_REC_DecodeWork 0x0200B490 thumb
+ *   BATTLE_REC_EncodeWork 0x0200B4B8 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_021D85F4 0x021D85F4 arm ov125
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F1FC 0x0203F1FC arm
  *   d_021D8D2C 0x021D8D2C data a4
  *   d_0214616C 0x0214616C data a4
- *   func_0200725C 0x0200725C thumb
+ *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   func_020073D8 0x020073D8 thumb
- *   func_0200B448 0x0200B448 thumb
+ *   BATTLE_REC_Clear 0x0200B448 thumb
  *   func_02012E4C 0x02012E4C thumb
  *   func_02012E7C 0x02012E7C thumb
  *   func_020072A4 0x020072A4 thumb
@@ -106,6 +106,8 @@
  *   func_0205A1B0 0x0205A1B0 arm
  *   func_02086028  0x02086028  arm
  *   d_021DA174     0x021DA174  data  a4
+ *   BATTLE_REC_SaveSeq  0x0200B67C  thumb  arm9
+ *   BATTLE_REC_Encode  0x0200B908  thumb  arm9
  */
 
 #include "../../matched/include/Obj03805.h"
@@ -182,8 +184,8 @@ extern unsigned int func_0201ED04(struct WordSet *p);
 extern unsigned int func_02045C04(struct Rec *rec);
 extern u32 func_020307B0(void *p);
 extern void func_02034A5C(int);
-extern void func_0200B784(u16, int *, int *);
-extern struct ObjC4 *func_0200B910(void);
+extern void BATTLE_REC_GetModeLayout(u16, int *, int *);
+extern struct ObjC4 *BATTLE_REC_GetWork(void);
 extern void func_02082D44(const void *, void *, unsigned int);
 extern unsigned func_021D85C0(void);
 extern int func_021D860C(void *, u32);
@@ -208,23 +210,23 @@ extern int func_021B99F0(u8 *);
 extern u32 func_021B99F4(u32 p, u32 i);
 extern u8 *func_021B9A14(u8 *p, u32 i);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
-extern u8 *func_0200B91C(void);
-extern void func_0200BA44(struct RecC4 *p);
+extern u8 *BATTLE_REC_GetBody(void);
+extern void BATTLE_REC_SetBodyCrc(struct RecC4 *p);
 extern u8 *func_02012944(void *p);
 extern void *func_02012EBC(struct Big *p);
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern int func_021D85DC(void);
-extern void func_0200B490(void);
-extern void func_0200B4B8(void);
+extern void BATTLE_REC_DecodeWork(void);
+extern void BATTLE_REC_EncodeWork(void);
 extern char *func_021D85E8(void);
 extern int func_021D85F4(void);
 extern void MI_CpuFill8(void *, int, unsigned int);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void func_0200B908(void *a, u32 b, u32 c);
-extern u32 func_0200B67C(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e);
-extern unsigned int func_0200725C(struct Ctrl *,unsigned int,unsigned char);
+extern void BATTLE_REC_Encode(void *a, u32 b, u32 c);
+extern u32 BATTLE_REC_SaveSeq(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e);
+extern unsigned int SAVE_CONTROL_LoadExtraSave(struct Ctrl *,unsigned int,unsigned char);
 extern void *func_020073D8(void *,unsigned int,unsigned int);
-extern void func_0200B448(void *);
+extern void BATTLE_REC_Clear(void *);
 extern void func_02012E4C(unsigned char *,unsigned int);
 extern int func_02012E7C(char *,int);
 extern void func_020072A4(struct Sub020072A4Ctrl *,unsigned int);
@@ -347,7 +349,7 @@ int func_021D683C(char *p, void *src)
     int i;
     r = func_021D7700();
     if (!func_021D730C(p)) return 0;
-    func_0200B784(((struct Obj22996 *)r)->fA6, &n, &m);
+    BATTLE_REC_GetModeLayout(((struct Obj22996 *)r)->fA6, &n, &m);
     base = r + 0xd00;
     out = p + 0x498;
     for (i = 0; i < 12; i++) {
@@ -357,7 +359,7 @@ int func_021D683C(char *p, void *src)
     ((struct Obj06472 *)p)->f5A0 = 0;
     p[0x403] = 0;
     *(char * *)&((struct Obj06472 *)p)->f174 = r;
-    func_02082D44(src, func_0200B910(), 128);
+    func_02082D44(src, BATTLE_REC_GetWork(), 128);
     p[0x401] = 60;
     ((struct Obj06472 *)p)->f3D8 = 0x55f0;
     return 1;
@@ -481,7 +483,7 @@ int func_021D6B40(u8 *p, int *done)
                 func_02034714(d_021D8D28, ret, d_021D8D28);
             OBJ = func_021B9800((u16)W(0x13c), func_0200853C((const struct Sub0200852CObj *)func_02012944((void *)W(0))), W(0x494));
             func_021B98A0(OBJ, (u16)W(0x13c), 0x540, 3);
-            func_0200B784(*(u16 *)(base + 0xa6), &n, &m);
+            BATTLE_REC_GetModeLayout(*(u16 *)(base + 0xa6), &n, &m);
             B(0x490) = 0;
             for (i = 0; i < n; i++) {
                 func_021B98D8(OBJ, (int)(base + 0xd00 + i * 0x2a4), *(u16 *)(base + i * 0x2a4 + 0xcfe) * 0x70);
@@ -522,7 +524,7 @@ int func_021D6B40(u8 *p, int *done)
                     base2 = func_021D7700();
                     if (B(0x403) == 1)
                         B(0x492) = 1;
-                    func_0200B784(*(u16 *)(base2 + 0xa6), &n2, &m2);
+                    BATTLE_REC_GetModeLayout(*(u16 *)(base2 + 0xa6), &n2, &m2);
                     for (i = 0; i < B(0x490); i++) {
                         W(0x48c) = func_021B99F4((u32)h, i);
                         if (W(0x48c) != 0 && B(0x403) == 0) {
@@ -530,13 +532,13 @@ int func_021D6B40(u8 *p, int *done)
                                 break;
                             {
                                 char *e = base2 + 0xd00 + idx * 0x2a4 + sub * 0x70;
-                                func_02045F5C(d_020A7370, *(u16 *)(e + 6), (u16 *)(e + 0x32), 11);
+                                MSGDATA_ReadUnits(d_020A7370, *(u16 *)(e + 6), (u16 *)(e + 0x32), 11);
                             }
                             W(0x5a0) = 1;
                         }
                     }
                     if (B(0x403) == 0) {
-                        func_0200BA44((struct RecC4 *)func_0200B91C());
+                        BATTLE_REC_SetBodyCrc((struct RecC4 *)BATTLE_REC_GetBody());
                         B(0x402) = 0;
                         B(0x403)++;
                     } else {
@@ -656,8 +658,8 @@ int func_021D7064(char *p, const u16 *s)
     int result;
     if (s[2] == 0 && ((struct Obj10460 *)p)->f5A0 != 0) {
         r = func_021D7700();
-        func_0200B490();
-        func_0200B784(((struct Obj22998 *)r)->fA6, &n, &m);
+        BATTLE_REC_DecodeWork();
+        BATTLE_REC_GetModeLayout(((struct Obj22998 *)r)->fA6, &n, &m);
         i = 0;
         out = p + 0x498;
         base = r + 0xd00;
@@ -665,8 +667,8 @@ int func_021D7064(char *p, const u16 *s)
             if (!func_021D7154((int)p, i, &outer, &inner)) break;
             func_021D71CC(out + i * 22, base + outer * 676 + inner * 112 + 50, 11);
         }
-        func_0200BA44((struct RecC4 *)func_0200B91C());
-        func_0200B4B8();
+        BATTLE_REC_SetBodyCrc((struct RecC4 *)BATTLE_REC_GetBody());
+        BATTLE_REC_EncodeWork();
     }
     obj = (int *)func_021D85E8();
     result = func_021D75E8(((struct Obj10460 *)p)->f0, obj[1], obj[2], (u16 *)(s + 2), (int)(s + 3), (u16)((struct Obj10460 *)p)->f13C);
@@ -700,7 +702,7 @@ int func_021D7154(int a, int index, int *outer, int *inner)
     int i;
     i = 0;
     p = func_021D7700();
-    func_0200B784(((struct Obj22999 *)p)->fA6, &n, &other);
+    BATTLE_REC_GetModeLayout(((struct Obj22999 *)p)->fA6, &n, &other);
     for (*outer = 0; *outer < n; ++*outer) {
         for (*inner = 0; *inner < *(u16 *)(p + *outer * 676 + 0xcfe); ++*inner) {
             if (i == index) return 1;
@@ -889,11 +891,11 @@ int func_021D7540(void *a, int x, int mode, u16 *state, u16 *b, u16 c)
             *(u16 *)(((char *)d_0214616C) + 0xc0) = func_0203F1FC((const u8 *)(((char *)d_0214616C) + 0x80), 56);
         }
         value = *(u16 *)(((char *)d_0214616C) + 0x18a0);
-        func_0200B908(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
+        BATTLE_REC_Encode(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
         ++*state;
         break;
     case 1:
-        return func_0200B67C(a, (struct BattleRec *)((char *)d_0214616C), x, b, c);
+        return BATTLE_REC_SaveSeq(a, (struct BattleRec *)((char *)d_0214616C), x, b, c);
     }
     return 0;
 }
@@ -904,7 +906,7 @@ void func_021D75C0(void)
 {
     unsigned int value;
     value = *(u16 *)(((char *)d_0214616C) + 0x18a0);
-    func_0200B908(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
+    BATTLE_REC_Encode(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
 }
 
 
@@ -920,7 +922,7 @@ int func_021D75E8(int a, int x, int y, u16 *state, int b, u16 c)
         ++*state;
         break;
     case 1:
-        return func_0200B67C((void *)a, (struct BattleRec *)((char *)d_0214616C), 0, (u16 *)b, c);
+        return BATTLE_REC_SaveSeq((void *)a, (struct BattleRec *)((char *)d_0214616C), 0, (u16 *)b, c);
     }
     return 0;
 }
@@ -936,18 +938,18 @@ int func_021D7630(void *a, int x, u16 *state, u16 *b, u16 c)
         *(u16 *)(((char *)d_0214616C) + 0xa8) = 57985;
         *(u16 *)(((char *)d_0214616C) + 0xc0) = func_0203F1FC((const u8 *)(((char *)d_0214616C) + 0x80), 56);
         value = *(u16 *)(((char *)d_0214616C) + 0x18a0);
-        func_0200B908(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
+        BATTLE_REC_Encode(((char *)d_0214616C) + 0xc4, 0x17dc, value + ((value ^ 0xffff) << 16));
         ++*state;
         break;
     case 1:
-        return func_0200B67C(a, (struct BattleRec *)((char *)d_0214616C), x, b, c);
+        return BATTLE_REC_SaveSeq(a, (struct BattleRec *)((char *)d_0214616C), x, b, c);
     }
     return 0;
 }
 
 
 
-void func_021D76A8(unsigned char *p,unsigned char heap,unsigned int id) {void *s=func_02012EBC((struct Big *)p); func_0200725C(s,id,heap); func_0200B448(func_020073D8(s,id,0)); func_02012E4C(p,id);}
+void func_021D76A8(unsigned char *p,unsigned char heap,unsigned int id) {void *s=func_02012EBC((struct Big *)p); SAVE_CONTROL_LoadExtraSave(s,id,heap); BATTLE_REC_Clear(func_020073D8(s,id,0)); func_02012E4C(p,id);}
 
 
 

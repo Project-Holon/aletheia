@@ -1,5 +1,5 @@
 /*
- * function: func_02031E68
+ * function: BACKUP_SYSTEM_GetWrittenSize
  * address:  0x02031E68
  * packet:   pkt_02031E68
  * region:   arm9
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj15878.h"
 
-int func_02031E68(const char *ptr)
+int BACKUP_SYSTEM_GetWrittenSize(const char *ptr)
 {
     return *(const int *)&((struct Obj15878 *)ptr)->f144;
 }

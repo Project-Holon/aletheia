@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200D5D0"
+    "GDS_PROFILE_Init"
+   ],
+   "addresses": [
+    "0x0200D5D0"
    ]
   }
  ]

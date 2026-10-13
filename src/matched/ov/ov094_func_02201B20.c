@@ -14,8 +14,8 @@
  *   func_0204ACEC 0x0204ACEC arm
  *   func_0204AF28 0x0204AF28 arm
  *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_0204AEF4 0x0204AEF4 arm
- *   func_02021640 0x02021640 thumb
+ *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
+ *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   func_0204B294 0x0204B294 arm
  *   func_0204B324 0x0204B324 arm
  *   func_0204B92C 0x0204B92C arm
@@ -34,8 +34,8 @@ extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern int func_021F86E0(void);
-extern int func_0204AEF4(u32 idx, u32 alternate);
-extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
+extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern struct Obj *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
@@ -56,8 +56,8 @@ int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16
     *(int *)(p + 16 + off) = func_0204ACEC(archive, b, 0, (u16)(i * 32 + 0x140), ((struct Obj03216 *)p)->f80);
     *(int *)(p + 20 + off) = func_0204AF28(archive, c, d, ((struct Obj03216 *)p)->f80);
     slots = (void *)func_021F86E0();
-    pal = func_0204AEF4(*(int *)(p + 16 + off), 0);
-    func_02021640(slots, archiveId, b, ((struct Obj03216 *)p)->f80, 2, 32, (pal & 0x3ff) >> 1);
+    pal = CLACT_GetPaletteVramAddress(*(int *)(p + 16 + off), 0);
+    PALANM_LoadArcPaletteToSlot(slots, archiveId, b, ((struct Obj03216 *)p)->f80, 2, 32, (pal & 0x3ff) >> 1);
     cfg.x = x;
     cfg.y = y;
     if (e == 0 && f == 0) {

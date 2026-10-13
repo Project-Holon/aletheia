@@ -1,5 +1,5 @@
 /*
- * function: func_0204CA30
+ * function: CLACT_UnlinkActor
  * address:  0x0204CA30
  * packet:   pkt_0204C944
  * region:   arm9
@@ -31,7 +31,7 @@ struct Mgr {
     struct Node *head;
 };
 
-void func_0204CA30(struct Mgr *m, struct Node *l)
+void CLACT_UnlinkActor(struct Mgr *m, struct Node *l)
 {
     if (m->head == l) {
         if (l->f0 == l) {

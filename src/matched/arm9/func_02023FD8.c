@@ -1,5 +1,5 @@
 /*
- * function: func_02023FD8
+ * function: BRIGHTNESS_ChangeMain
  * address:  0x02023FD8
  * packet:   pkt_02023F98
  * region:   arm9
@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * blocker:  +000C THM_CALL func_02023E0C : 02023E0C (thumb) has no witness
+ * blocker:  +000C THM_CALL BRIGHTNESS_ChangeStep : 02023E0C (thumb) has no witness
  *           outside 02023FD8..02024004; the only two branches to it in the
  *           image are these two
  *
@@ -21,7 +21,7 @@
  * the `*` of a listing-extent mismatch.  The worklist size is 32 code bytes.
  *
  * Two guards on a global struct: the word at +0x3C first, then the word at
- * +0x1C, each calling func_02023E0C with a global address when it is set.
+ * +0x1C, each calling BRIGHTNESS_ChangeStep with a global address when it is set.
  *
  * The pool is THREE words and the first and third hold the same address
  * 0x021468FC.  mwccarm emits a pool word per source symbol, so a source that
@@ -34,22 +34,22 @@
  * between DIFF and MATCH here; both declarations are the same claim and both
  * are attested `literal` from outside (x6 from 0x02023F5C and friends).
  *
- * It cannot reach EXACT while func_02023E0C is unfiled: 0x02023E0C is
+ * It cannot reach EXACT while BRIGHTNESS_ChangeStep is unfiled: 0x02023E0C is
  * labelled in the listings but every branch to it image-wide is one of these
  * two, so the `label` class has no witness outside the compared range.  It
  * closes the day 0x02023E0C gets a manifest entry (a large function outside
  * the 0-64 byte band, so not this lane's work), and that also releases
- * src/pending/func_020052EC.c, whose first site names this address.
+ * src/pending/GFL_USE_UpdateFrameSubsystems.c, whose first site names this address.
  *
  * symbols:
  *   g_021468FC    0x021468FC  data
  *   g2_021468FC   0x021468FC  data
  *   g_0214691C    0x0214691C  data
- *   func_02023E0C 0x02023E0C  thumb
+ *   BRIGHTNESS_ChangeStep 0x02023E0C  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02023FD8.c \
- *       --func func_02023FD8 --addr 0x02023FD8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/BRIGHTNESS_ChangeMain.c \
+ *       --func BRIGHTNESS_ChangeMain --addr 0x02023FD8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -61,14 +61,14 @@ extern u8 g2_021468FC[];
 extern u8 g_0214691C[];
 
 struct Anim;
-extern void func_02023E0C(struct Anim *p);
+extern void BRIGHTNESS_ChangeStep(struct Anim *p);
 
-void func_02023FD8(void)
+void BRIGHTNESS_ChangeMain(void)
 {
     if (*(u32 *)(g_021468FC + 0x3c) != 0) {
-        func_02023E0C((struct Anim *)g_0214691C);
+        BRIGHTNESS_ChangeStep((struct Anim *)g_0214691C);
     }
     if (*(u32 *)(g_021468FC + 0x1c) != 0) {
-        func_02023E0C((struct Anim *)g2_021468FC);
+        BRIGHTNESS_ChangeStep((struct Anim *)g2_021468FC);
     }
 }

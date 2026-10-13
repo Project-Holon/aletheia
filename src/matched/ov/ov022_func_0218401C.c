@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Unlabelled leaf (a .word run in asm/overlays/ov022.s); blocker of ov012
- * func_021743A4.
+ * UNION_MAIN_StepGroupActivity.
  */
 
 typedef unsigned char u8;

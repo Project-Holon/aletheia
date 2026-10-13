@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201045C",
+   "name": "WIH_DWC_AddBeacon",
    "address": "0x0201045C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02010498",
+   "name": "WIH_DWC_TickTimers",
    "address": "0x02010498",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020104F8",
+   "name": "WIH_DWC_IsSsidInFilterList",
    "address": "0x020104F8",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201054C",
+   "name": "WIH_DWC_IsOpenTaggedBeacon",
    "address": "0x0201054C",
    "kind": "game",
    "region": "arm9",

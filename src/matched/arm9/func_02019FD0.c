@@ -1,5 +1,5 @@
 /*
- * function: func_02019FD0
+ * function: POKE_REGULATION_CheckPokemonFlags
  * address:  0x02019FD0
  * packet:   pkt_02019D58
  * region:   arm9
@@ -17,7 +17,7 @@
  *   func_0200AE54   0x0200AE54  thumb
  *   func_0200AFD4   0x0200AFD4  thumb
  *
- * The same stat comparison as func_02019DA4, but it reports into the third
+ * The same stat comparison as POKE_REGULATION_CheckPokemon, but it reports into the third
  * argument's word with or-bits instead of returning a code: bit 1 for a
  * selector 5 record above the threshold or a selector 6 one below it, bit 2
  * for the range check, bit 6 for the second one, and the return value stays 1
@@ -25,8 +25,8 @@
  * arms and the compiler cross-jumps them.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02019FD0.c \
- *       --func func_02019FD0 --addr 0x02019FD0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_REGULATION_CheckPokemonFlags.c \
+ *       --func POKE_REGULATION_CheckPokemonFlags --addr 0x02019FD0 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -38,7 +38,7 @@ struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u32 func_0200AFD4(struct Reg *p, u32 id, s32 n);
 
-int func_02019FD0(void *a0, void *a1, u32 *a2)
+int POKE_REGULATION_CheckPokemonFlags(void *a0, void *a1, u32 *a2)
 {
     u16 v5 = (u16)func_02017E1C(a1, 5, 0);
     u16 v6 = (u16)func_02017E1C(a1, 6, 0);

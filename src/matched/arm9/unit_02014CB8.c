@@ -10,16 +10,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02014CB8, sub_02014CD4
+ * function: MCSS_OpenHandle, MCSS_CloseHandle
  *
  * symbols:
  *   func_020490F4         0x020490F4  arm
  *   ENV_SetResourceSet_2  0x02049238  arm
  *
- * alias: an acquire/release pair on the same object. sub_02014CB8 only
+ * alias: an acquire/release pair on the same object. MCSS_OpenHandle only
  * acts the first time (its own field at +0 is the guard); it records the
  * argument at +4 and installs whatever func_020490F4 returns at +0.
- * sub_02014CD4 is the release: if +0 is set it tears it down and clears
+ * MCSS_CloseHandle is the release: if +0 is set it tears it down and clears
  * both fields.
  *
  * ENV_SetResourceSet_2 is not the same call site as
@@ -57,7 +57,7 @@ struct Sub02014CB8Obj {
     u32   f40;
 };
 
-void sub_02014CB8(struct Sub02014CB8Obj *o, u32 x)
+void MCSS_OpenHandle(struct Sub02014CB8Obj *o, u32 x)
 {
     if (o->f00 == 0) {
         o->f04 = x;
@@ -65,7 +65,7 @@ void sub_02014CB8(struct Sub02014CB8Obj *o, u32 x)
     }
 }
 
-void sub_02014CD4(struct Sub02014CB8Obj *o)
+void MCSS_CloseHandle(struct Sub02014CB8Obj *o)
 {
     if (o->f00 != 0) {
         ENV_SetResourceSet_2(o->f00);

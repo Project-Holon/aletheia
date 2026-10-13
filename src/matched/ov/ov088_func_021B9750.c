@@ -25,11 +25,11 @@
  *   func_021B99EC  0x021B99EC  thumb  ov088
  *   func_0204E720  0x0204E720  arm
  *   func_0204E804  0x0204E804  arm
- *   func_02005DAC  0x02005DAC  thumb
+ *   GFL_USE_PlayFanfare  0x02005DAC  thumb
  *   func_02006BD0  0x02006BD0  thumb
- *   func_02005E30  0x02005E30  thumb
- *   func_02005E50  0x02005E50  thumb
- *   func_02005D28  0x02005D28  thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb
+ *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb
  */
 #include "../include/Obj00462.h"
 
@@ -52,11 +52,11 @@ extern void func_021B9C08(int *p);
 extern void func_021B99EC(int *p);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int  func_0204E804(void);
-extern void func_02005DAC(void *arg);
+extern void GFL_USE_PlayFanfare(void *arg);
 extern u32  func_02006BD0(u32 a);
-extern void func_02005E30(u32 a);
-extern int  func_02005E50(void);
-extern void func_02005D28(void);
+extern void GFL_USE_FadeOutBgm(u32 a);
+extern int  GFL_USE_IsBgmFading(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 
 int func_021B9750(int a0, int a1, int a2, char *p)
 {
@@ -74,7 +74,7 @@ int func_021B9750(int a0, int a1, int a2, char *p)
         func_0204E720(3, 0x10, 0, 2);
         ((struct Obj00462 *)p)->f8C = 0;
         ((struct Obj00462 *)p)->f0 = 2;
-        func_02005DAC((void *)0x3EF);
+        GFL_USE_PlayFanfare((void *)0x3EF);
         break;
     case 2:
         if (func_0204E804() == 0) {
@@ -97,11 +97,11 @@ int func_021B9750(int a0, int a1, int a2, char *p)
         func_0204E720(3, 0, 0x10, 2);
         ((struct Obj00462 *)p)->f0 = 6;
         func_021B9928((unsigned char *)p);
-        func_02005E30(0x10);
+        GFL_USE_FadeOutBgm(0x10);
         break;
     case 6:
-        if (func_0204E804() == 0 && func_02005E50() == 0) {
-            func_02005D28();
+        if (func_0204E804() == 0 && GFL_USE_IsBgmFading() == 0) {
+            GFL_USE_CancelChangeAndStopBgm();
             ((struct Obj00462 *)p)->f0 = 7;
         }
         func_021B9928((unsigned char *)p);

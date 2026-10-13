@@ -31,7 +31,7 @@
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045C04 0x02045C04 arm
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   func_020458F8 0x020458F8 arm
  *   func_02045A98 0x02045A98 arm
  *   func_02045808 0x02045808 arm
@@ -64,7 +64,7 @@ struct U16Vec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_02045C04(struct Rec *rec);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 func_020458F8(struct U16Vec *vec);
 extern u16 func_02045A98(void);
 extern void func_02045808(struct U16Vec *vec);
@@ -110,7 +110,7 @@ int func_021B7968(u8 *p,u32 *state)
                         bank = func_02045B38(0,2,0x51,*(u16 *)(p + 0x468));
                         str = func_02045EC0(bank,15);
                         func_02045C04(bank);
-                        src = func_02045A90(str);
+                        src = STRBUF_GetChars(str);
                         for (j = START; j < END && (u32)j < func_020458F8(str); ++j) buf[j] = src[j];
                         dst = buf;
                         dst[j] = func_02045A98();

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02021ED8  0x02021ED8  thumb
+ *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   func_020362DC  0x020362DC  arm
  *   func_021F8168  0x021F8168  thumb  ov094
  *   func_02035C08  0x02035C08  arm
@@ -67,7 +67,7 @@ typedef struct {
     int f280;           /* 0x280 */
 } Obj;
 
-extern u32 func_02021ED8(const char *ptr);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern u32 func_020362DC(void);
 extern void func_021F8168(void);
 extern int func_02035C08(const void *p);
@@ -97,7 +97,7 @@ int func_02202DC4(Obj *o, Cmd *c, int x)
     Ent *e;
     int mode;
 
-    if (o->busy || func_02021ED8((const char *)o->f64) != 0 || o->lock)
+    if (o->busy || PALANM_GetFadeRequestBits((const char *)o->f64) != 0 || o->lock)
         return -1;
     ret = o->pending;
     if (ret != -1) {

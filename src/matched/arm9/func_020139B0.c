@@ -1,5 +1,5 @@
 /*
- * function: func_020139B0
+ * function: ZONEDATA_Init
  * address:  0x020139B0
  * packet:   pkt_02013528
  * region:   arm9
@@ -14,13 +14,13 @@
  * +0x90 naming "zonedata.c" at 0x020A72B0, and no pool anywhere else in the
  * image holds that word.  The string class cannot rescue it either: the six
  * bytes immediately before 0x020A72B0 are the { u16 key; u16 value }
- * substitution table func_02013A94 reads (0x0000 -> 0x01a8, 0x0126 -> 0x0127),
+ * substitution table ZONEDATA_GetChangedZoneId reads (0x0000 -> 0x01a8, 0x0126 -> 0x0127),
  * not a preceding string's terminator, so attest_string's condition (5) fails.
  * See docs/idioms/a-string-after-a-data-table-has-no-witness.md.  Nothing in
  * the C can change this; it is evidence-starved, not mistranslated.
  *
  * symbols:
- *   g_sub02013AD0Obj  0x02146264  data
+ *   g_ZoneDataMgr  0x02146264  data
  *   sZonedataFile     0x020A72B0  data
  *   func_02030734     0x02030734  arm
  *   func_020490F4     0x020490F4  arm
@@ -29,15 +29,15 @@
  * The constructor of the zone-header subsystem, and the function that names
  * the original source file: it passes "zonedata.c" (0x020A72B0) and line 0x60
  * to the allocator, so the 0x4c byte object it builds at 0x02146264 is the
- * ZoneData manager, and every accessor built on sub_02013AD0 reads through it.
+ * ZoneData manager, and every accessor built on ZONEDATA_GetHeader reads through it.
  *
  * Three things this function pins down about the on-disk zone data.
  *
  * +0x00 is a persistent archive handle opened by func_020490F4(0x0c, heap).
- * func_02048DDC, which func_020490F4 calls to bind the handle, indexes a 235
- * entry char* table at 0x020A6C58 (installed by func_02048CEC from
+ * ARC_TOOL_OpenArchive, which func_020490F4 calls to bind the handle, indexes a 235
+ * entry char* table at 0x020A6C58 (installed by ARC_TOOL_SetTable from
  * 0x020055FA with count 0xeb) by that same id, and entry 0x0c of that table
- * is the string "a/0/1/2".  sub_02013AD0 then reads records out of that
+ * is the string "a/0/1/2".  ZONEDATA_GetHeader then reads records out of that
  * handle at 0x30 * id for 0x30 bytes, so the zone header table is sub-file 0
  * of a/0/1/2 with a 48-byte stride.
  *
@@ -63,8 +63,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020139B0.c \
- *       --func func_020139B0 --addr 0x020139B0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/ZONEDATA_Init.c \
+ *       --func ZONEDATA_Init --addr 0x020139B0 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -85,32 +85,32 @@ struct ZoneDataMgr {
     u8    subst_on[0x4c - 0x48];
 };
 
-extern struct ZoneDataMgr *g_sub02013AD0Obj;
+extern struct ZoneDataMgr *g_ZoneDataMgr;
 extern const char sZonedataFile[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
 
-void func_020139B0(u32 heap)
+void ZONEDATA_Init(u32 heap)
 {
     u32 size;
     u32 size2;
 
-    if (g_sub02013AD0Obj != 0)
+    if (g_ZoneDataMgr != 0)
         return;
 
-    g_sub02013AD0Obj = func_02030734(heap, 0x4c, 1, sZonedataFile, 0x60);
-    g_sub02013AD0Obj->archive = func_020490F4(0x0c, heap);
+    g_ZoneDataMgr = func_02030734(heap, 0x4c, 1, sZonedataFile, 0x60);
+    g_ZoneDataMgr->archive = func_020490F4(0x0c, heap);
 
-    g_sub02013AD0Obj->table38 = (void *)func_0204A298(0x51, 13, 0, heap, &size);
-    g_sub02013AD0Obj->count40 = size >> 2;
+    g_ZoneDataMgr->table38 = (void *)func_0204A298(0x51, 13, 0, heap, &size);
+    g_ZoneDataMgr->count40 = size >> 2;
 
-    g_sub02013AD0Obj->table3c = (void *)func_0204A298(0x52, 1, 0, heap, &size);
-    g_sub02013AD0Obj->count42 = size >> 2;
+    g_ZoneDataMgr->table3c = (void *)func_0204A298(0x52, 1, 0, heap, &size);
+    g_ZoneDataMgr->count42 = size >> 2;
 
-    g_sub02013AD0Obj->table44 = (void *)func_0204A298(0x95, 0, 0, heap, &size2);
-    g_sub02013AD0Obj->count43 = size2 >> 2;
+    g_ZoneDataMgr->table44 = (void *)func_0204A298(0x95, 0, 0, heap, &size2);
+    g_ZoneDataMgr->count43 = size2 >> 2;
 
-    g_sub02013AD0Obj->cached_id = 0x1ab;
+    g_ZoneDataMgr->cached_id = 0x1ab;
 }

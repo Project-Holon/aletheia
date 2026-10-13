@@ -1,5 +1,5 @@
 /*
- * function: func_02015F50
+ * function: MCSS_SetPaletteFade
  * address:  0x02015F50
  * packet:   pkt_02015F50
  * region:   arm9
@@ -42,7 +42,7 @@ struct McssFade {
     u32 f140;       /* +0x140  flag word     */
 };
 
-void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e)
+void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e)
 {
     w->f140 |= 0x1000;
     w->f134 = cur;

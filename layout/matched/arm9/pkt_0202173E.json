@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02021930",
+   "name": "PALANM_CheckBit",
    "address": "0x02021930",
    "kind": "game",
    "region": "arm9",

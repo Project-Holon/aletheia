@@ -12,8 +12,8 @@
  * symbols:
  *   func_020061E4 0x020061E4 thumb
  *   func_020221A4 0x020221A4 thumb
- *   func_02005E50 0x02005E50 thumb
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_0202208C 0x0202208C thumb
  *   func_021B9818 0x021B9818 thumb ov133
  *   func_021B8A30 0x021B8A30 thumb ov133
@@ -35,7 +35,7 @@
  *   func_02047964 0x02047964 arm
  *   func_020479D8 0x020479D8 arm
  *   func_02047970 0x02047970 arm
- *   func_0204F7DC 0x0204F7DC arm
+ *   BILLBOARD_Draw 0x0204F7DC arm
  *   func_02041EE4 0x02041EE4 arm
  *   func_0204152C 0x0204152C arm
  *   func_020450F0 0x020450F0 arm
@@ -67,8 +67,8 @@ typedef struct { u8 prefix[0x18c1]; u8 counter; u16 timer,pad18c4; u8 brightness
 #define P(k) (*(u8 **)((u8 *)p+(k)))
 extern void func_020061E4(u32);
 extern u32 func_020221A4(void);
-extern int func_02005E50(void);
-extern void func_02005E30(u32);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_FadeOutBgm(u32);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021B9818(u8 *),func_021B8A30(u8 *),func_021B98A0(u8 *),func_021B75E0(u8 *);
 extern void func_021B9C08(u8 *,u32,void *),func_021B918C(u8 *),func_021B9784(u8 *);
@@ -89,7 +89,7 @@ extern void func_021F51E8(u8 *);
 extern void func_021F51F4(void **p);
 extern void func_021F4990(void *);
 extern void func_0204A600(void),func_02047964(void),func_020479D8(void),func_02047970(void);
-extern void func_0204F7DC(struct Board *b, struct Camera *cam, struct Lights *lights);
+extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
 extern void func_02041EE4(u32,u32,u32);
 extern void func_0204152C(int,u16);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
@@ -127,7 +127,7 @@ int func_021B63BC(Context *p)
         if(W(0x98)==1) func_021B8A30((u8 *)p);
         break;
     case 9:
-        if(func_020221A4()==1 && func_02005E50()==0) return 2;
+        if(func_020221A4()==1 && GFL_USE_IsBgmFading()==0) return 2;
         break;
     case 0: func_021B98A0((u8 *)p); break;
     case 1: func_021B75E0((u8 *)p); break;
@@ -149,7 +149,7 @@ int func_021B63BC(Context *p)
         B(0x18c0)++; func_021B9784((u8 *)p);
         if(B(0x18c0)>60) {
             if(*(u32 *)P(4)==0) {
-                func_0202208C(0,0,0,0x7fff,18,1,H(0)); func_02005E30(60); W(0x0c)=9; p->mode=1;
+                func_0202208C(0,0,0,0x7fff,18,1,H(0)); GFL_USE_FadeOutBgm(60); W(0x0c)=9; p->mode=1;
             } else {
                 func_021B9C08((u8 *)p,2,0); func_021FCDEC(*(int *)P(4),69); W(0x0c)=4;
             }
@@ -160,13 +160,13 @@ int func_021B63BC(Context *p)
         break;
     case 5:
         if(func_021FD6A4(*(void **)P(4))==1) {
-            func_0202208C(0,0,0,0x7fff,18,1,H(0)); func_02005E30(60); W(0x0c)=9; p->mode=1;
+            func_0202208C(0,0,0,0x7fff,18,1,H(0)); GFL_USE_FadeOutBgm(60); W(0x0c)=9; p->mode=1;
         }
         break;
     }
     func_021B9F5C((u8 *)p); func_021B8C6C((struct O *)p); func_021F51E8(P(0x187c));
     func_021F4990(P(0x1884)); func_0204A600(); func_02047964(); func_020479D8();
-    func_021F51F4((void **)P(0x187c)); func_0204F7DC((struct Board *)P(0x188c),(struct Camera *)P(0x1888),0); func_02047970();
+    func_021F51F4((void **)P(0x187c)); BILLBOARD_Draw((struct Board *)P(0x188c),(struct Camera *)P(0x1888),0); func_02047970();
     p->counter++;
     if(p->counter>1) {
         p->counter=0;
@@ -209,7 +209,7 @@ int func_021B63BC(Context *p)
     if(*(u32 *)P(4)!=0 && W(0x0c)!=7 && W(0x0c)!=8 && W(0x0c)!=9) {
         func_021BA0C8((u8 *)p,32);
         if(func_0200FB24()!=0) {
-            func_021BA0C8((u8 *)p,34); func_0202208C(0,0,0,0x7fff,18,1,H(0)); func_02005E30(60);
+            func_021BA0C8((u8 *)p,34); func_0202208C(0,0,0,0x7fff,18,1,H(0)); GFL_USE_FadeOutBgm(60);
             func_021BA0C8((u8 *)p,36); W(0x0c)=9; func_021BA0C8((u8 *)p,38);
         } else func_021BA0C8((u8 *)p,64);
     }

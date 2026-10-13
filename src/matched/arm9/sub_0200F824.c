@@ -1,5 +1,5 @@
 /*
- * function: sub_0200F824
+ * function: GFL_NET_ERR_UpdateNetwork
  * address:  0x0200F824
  * packet:   pkt_0200F168
  * region:   arm9
@@ -10,20 +10,23 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F824.c \
- *       --func sub_0200F824 --addr 0x0200F824 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_ERR_UpdateNetwork.c \
+ *       --func GFL_NET_ERR_UpdateNetwork --addr 0x0200F824 --cc 1.1p1
+ *
+ * symbols:
+ *   GFL_NET_Main  0x0203CF5C  arm
  */
 
 typedef unsigned int u32;
 
 extern int func_0203CD98(void);
-extern u32 func_0203CF5C(void);
+extern u32 GFL_NET_Main(void);
 extern void func_0208459C(int clear, u32 irqFlags);
 
-void sub_0200F824(void)
+void GFL_NET_ERR_UpdateNetwork(void)
 {
     if (func_0203CD98() == 1) {
-        func_0203CF5C();
+        GFL_NET_Main();
         func_0208459C(1, 1);
     }
 }

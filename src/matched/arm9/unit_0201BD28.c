@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201BD28, sub_0201BDB4
+ * function: sub_0201BD28, WAZA_TOOL_GetDataParam
  *
  * waza_tool.c: the cached single-field read of a move record, and the 32 case
  * getter it ends in.
@@ -18,10 +18,10 @@
  * slot it picks is empty or is holding a different move, and falls back to
  * the single record buffer at 0x02146534 when the cache has not been built.
  * The slot search, the "cache full, reuse the last slot" fixup and the load
- * are the same three blocks sub_0201C1F4 and sub_0201C020 repeat for their
+ * are the same three blocks WAZA_TOOL_IsAlwaysHit and WAZA_TOOL_GetRankEffectCount repeat for their
  * own records.
  *
- * sub_0201BDB4 has to stay in this file.  The `bl` at 0x0201BDA6 is the only
+ * WAZA_TOOL_GetDataParam has to stay in this file.  The `bl` at 0x0201BDA6 is the only
  * branch to it anywhere in the image, so split off it would have no witness
  * at all; kept here the site is the `local` class and needs none
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, read the
@@ -51,8 +51,8 @@
  * value in the ordinary path rather than assigning a result variable.
  *
  * symbols:
- *   gWazaTool   0x02146530  data
- *   g_02146534  0x02146534  data
+ *   _pWazaTool   0x02146530  data
+ *   _WazaTempData  0x02146534  data
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201BD28.c \
@@ -93,43 +93,43 @@ struct Waza {
     u8  unk1B[3];
 };
 
-extern struct WazaTool *gWazaTool;
-extern struct Waza g_02146534;
+extern struct WazaTool *_pWazaTool;
+extern struct Waza _WazaTempData;
 
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 
-u32 sub_0201BDB4(const struct Waza *p, u32 id);
+u32 WAZA_TOOL_GetDataParam(const struct Waza *p, u32 id);
 
 u32 sub_0201BD28(u16 id, u32 field)
 {
     struct Waza *rec;
     s32 i;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (((u16 *)gWazaTool->vals)[i] == 0) {
-                ((u16 *)gWazaTool->vals)[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            if (((u16 *)_pWazaTool->vals)[i] == 0) {
+                ((u16 *)_pWazaTool->vals)[i] = id;
+                func_02048F4C(_pWazaTool->recs[i], 0x15, id);
                 break;
             }
-            if (id == ((u16 *)gWazaTool->vals)[i]) {
+            if (id == ((u16 *)_pWazaTool->vals)[i]) {
                 break;
             }
         }
-        if (i == gWazaTool->count) {
+        if (i == _pWazaTool->count) {
             i--;
-            ((u16 *)gWazaTool->vals)[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+            ((u16 *)_pWazaTool->vals)[i] = id;
+            func_02048F4C(_pWazaTool->recs[i], 0x15, id);
         }
-        rec = gWazaTool->recs[i];
+        rec = _pWazaTool->recs[i];
     } else {
-        rec = &g_02146534;
+        rec = &_WazaTempData;
         func_02048F4C(rec, 0x15, id);
     }
-    return sub_0201BDB4(rec, field);
+    return WAZA_TOOL_GetDataParam(rec, field);
 }
 
-u32 sub_0201BDB4(const struct Waza *p, u32 id)
+u32 WAZA_TOOL_GetDataParam(const struct Waza *p, u32 id)
 {
     u32 v;
 

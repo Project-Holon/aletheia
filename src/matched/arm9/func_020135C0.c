@@ -1,5 +1,5 @@
 /*
- * function: func_020135C0
+ * function: BTL_SETUP_SetupDemo
  * address:  0x020135C0
  * packet:   pkt_02013528
  * region:   arm9
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_020130C4   0x020130C4  thumb
- *   func_0201333C   0x0201333C  thumb
- *   func_02013360   0x02013360  thumb
+ *   BTL_SETUP_SetPlayerParty   0x0201333C  thumb
+ *   BTL_SETUP_InitCommon   0x02013360  thumb
  *   func_0201A920   0x0201A920  thumb
  *   func_0201AC2C   0x0201AC2C  thumb
  *
@@ -49,8 +49,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020135C0.c \
- *       --func func_020135C0 --addr 0x020135C0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetupDemo.c \
+ *       --func BTL_SETUP_SetupDemo --addr 0x020135C0 --cc 1.1p1 --thumb
  */
 #include "../include/Obj00155.h"
 
@@ -61,18 +61,18 @@ typedef unsigned int   u32;
 extern void func_020130C4(u8 *p);
 struct Party;
 struct Rec534;
-extern void func_02013360(u8 *o, void *a1, const void *a2);
-extern int func_0201333C(int a0, int a1, int a2);
+extern void BTL_SETUP_InitCommon(u8 *o, void *a1, const void *a2);
+extern int BTL_SETUP_SetPlayerParty(int a0, int a1, int a2);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 
-void func_020135C0(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
+void BTL_SETUP_SetupDemo(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
 {
     u32 r;
 
     func_020130C4(a0);
-    func_02013360(a0, a1, (const void *)a4);
-    func_0201333C((int)a0, (int)a1, a5);
+    BTL_SETUP_InitCommon(a0, a1, (const void *)a4);
+    BTL_SETUP_SetPlayerParty((int)a0, (int)a1, a5);
     if (a2 != 0) {
         func_0201AC2C((const struct Rec534 *)a2, (struct Rec534 *)(((struct Obj00155 *)a0)->f24));
     }

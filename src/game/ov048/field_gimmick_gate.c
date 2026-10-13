@@ -19,7 +19,7 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
- *   func_020083E4  0x020083E4  thumb
+ *   CONFIG_GetAppliedFlag  0x020083E4  thumb
  *   func_021F3D78  0x021F3D78  thumb  ov048
  *   d_021F4E94     0x021F4E94  data  a4
  *   func_021897BC 0x021897BC thumb ov021
@@ -39,13 +39,13 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_021F4698  0x021F4698  thumb  ov048
  *   func_021897A0 0x021897A0 thumb ov021
- *   func_02012EC0 0x02012EC0 thumb
+ *   GAME_DATA_GetSaveControlWork 0x02012EC0 thumb
  *   func_0200C0E8 0x0200C0E8 thumb
  *   func_0200C3B0 0x0200C3B0 thumb
  *   func_02188C9C  0x02188C9C  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   func_02049030  0x02049030  arm
- *   func_020111E8  0x020111E8  thumb
+ *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   func_021F4C10  0x021F4C10  thumb  ov048
  *   d_021F5224     0x021F5224  data  ov048  a1
  *   func_020307B0 0x020307B0 arm
@@ -54,7 +54,7 @@
  *   func_021BE480  0x021BE480  thumb  ov021
  *   func_020520FC  0x020520FC  arm
  *   func_020142E8 0x020142E8 thumb
- *   func_0200725C  0x0200725C  thumb
+ *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   func_020073D8  0x020073D8  thumb
  *   func_0200ECB4  0x0200ECB4  thumb
  *   func_0200ECD0  0x0200ECD0  thumb
@@ -62,384 +62,298 @@
  *   func_020072A4  0x020072A4  thumb
  *   func_020457B0  0x020457B0  arm
  *   func_02045808  0x02045808  arm
- *   func_02012F68  0x02012F68  thumb
+ *   GAME_DATA_GetSaveBlock42  0x02012F68  thumb
  *   func_0200EC14  0x0200EC14  thumb
  *   func_0200EC2C  0x0200EC2C  thumb
  *   func_021F4DE4  0x021F4DE4  thumb  ov048
  *   func_021F4DF4  0x021F4DF4  thumb  ov048
  *   func_021F4E3C  0x021F4E3C  thumb  ov048
  */
-#include "../../matched/include/Obj05133.h"
-#include "../../matched/include/G_T.h"
-#include "../../matched/include/Obj09833.h"
-#include "../../matched/include/Obj00377.h"
-#include "../../matched/include/Obj09834.h"
-#include "../../matched/include/Obj20528.h"
-#include "../../matched/include/Obj20529.h"
-#include "../../matched/include/Obj20530.h"
-#include "../../matched/include/Obj20531.h"
-#include "../../matched/include/Obj20532.h"
-#include "../../matched/include/Obj03645.h"
-#include "../../matched/include/Obj03646.h"
-#include "../../matched/include/Obj03647.h"
+#include "field_gimmick_gate_types.h"
 
-struct Big;
-struct Ctx;
-struct Sub02008700Obj;
-struct Obj_021F36C0;
-struct Rec94;
-struct Blk34;
-struct BigObj;
-struct M;
-struct Mtx33;
-struct Sub020072A4Ctrl;
-struct Sub020073D8Ctrl;
-struct U16Vec;
-struct Src0200EC2C;
-struct Dst0200EC2C;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed int     s32;
-
-typedef struct { u32 w[15]; } Copy60;
-
-typedef struct Obj_021F36C0 {
-    u16 f00;
-    int f04;
-    int f08;
-    int f0C;
-    int f10;
-    int f14;
-} Obj_021F36C0;
-
-typedef struct Cfg {
-    u16 a;
-    u8 b;
-    u8 c;
-    u8 d;
-    int w;
-} Cfg;
-
-typedef struct Rec {
-    u32 a;
-    u32 b;
-    u32 pad[29];
-} Rec;
-
-typedef struct Obj_021F392C {
-    u16 f00;
-    u32 f04;
-    u32 pad08[5];
-    Rec *f1c;
-} Obj_021F392C;
-
-typedef struct Ent {
-    int pad[2];
-    int x;
-    int y;
-    int z;
-    int mode;
-} Ent;
-
-typedef struct St {
-    void *p0;
-    void *p1;
-    int a;
-    int b;
-    u16 c;
-    u8 pad[10];
-} St;
-
-extern int func_02188D2C(int *p);
-extern void *func_02188C80(void *p);
-extern void func_021BE760(int a, void *b, int c);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
-extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern int func_020083E4(unsigned short *p);
-extern void func_021F3D78(void *p);
-extern int *func_021897BC(char *,int);
-extern void func_021F474C(unsigned char *p);
-extern void func_021F4784(unsigned char *p, int c);
-extern void func_021BE580(void *);
-extern u8 *func_02012EC4(struct Big *p);
-extern s32 func_0200B3AC(struct Rec94 *p);
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern int func_021F47B0(void *);
-extern void *func_0200C0F0(void *p);
-extern void func_0200C3B8(struct Blk34 *p, u16 v);
-extern unsigned int func_0201296C(const struct BigObj *p);
-extern void func_02014314(char *a0, int a1);
-extern void func_021F47BC(struct M *p, int v);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void *func_021BE4C4(int a, int b, int c);
-extern void func_02082BCC(void *p, int v, int n);
-extern void *func_021F4698(unsigned char *p);
-extern void func_021897A0(unsigned char *p, int id);
-extern void *func_02012EC0(struct Big *p);
-extern void *func_0200C0E8(void *p);
-extern u16 func_0200C3B0(struct Blk34 *p);
-extern u16 func_02188C9C(u8 *p);
+/* The functions of overlay 21 and arm9 that the gimmick uses. */
+extern FldExpObjCnt *func_02188D2C(FieldMap *fieldMap);
+extern struct GameSystem *func_02188C80(FieldMap *fieldMap);
+extern u16 func_02188C84(FieldMap *fieldMap);
+extern u16 func_02188C9C(FieldMap *fieldMap);
+extern void *func_02189764(FieldMap *fieldMap, int id, int heapId, int size);
+extern void func_021897A0(FieldMap *fieldMap, int id);
+extern void *func_021897BC(FieldMap *fieldMap, int id);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControlWork(struct GameData *gameData);
+extern struct GimmickWork *func_02012EC4(struct GameData *gameData);
+extern struct EventWork *func_0201296C(struct GameData *gameData);
+extern void *GAME_DATA_GetSaveBlock42(struct GameData *gameData);
+extern void *func_0200B3A4(struct GimmickWork *gimmickWork, u32 gimmickId);
+extern s32 func_0200B3AC(struct GimmickWork *gimmickWork);
+extern struct ConfigSave *func_0200873C(struct SaveControl *saveControl);
+extern int CONFIG_GetAppliedFlag(struct ConfigSave *config);
+extern void *func_0200C0E8(struct SaveControl *saveControl);
+extern u16 func_0200C3B0(struct MiscSave *miscSave);
+extern struct MiscSave *func_0200C0F0(struct SaveControl *saveControl);
+extern void func_0200C3B8(struct MiscSave *miscSave, u16 value);
+extern u32 func_020142E8(struct EventWork *eventWork, s32 flagId);
+extern void func_02014314(struct EventWork *eventWork, int flagId);
+extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 id, u32 heapId);
+extern struct ExtraSaveRecord *func_020073D8(struct SaveControl *saveControl, u32 id, u32 value);
+extern void func_020072A4(struct SaveControl *saveControl, u32 id);
+extern u32 func_0200ECB4(struct ExtraSaveRecord *record);
+extern int func_0200ECD0(struct ExtraSaveRecord *record, int index);
+extern void func_0200ECF0(struct ExtraSaveRecord *record, u32 type, u32 index, GateListEntry *entry);
+extern int func_0200EC14(void *saveBlock);
+extern void func_0200EC2C(void *saveBlock, int index, GateListEntry *entry);
+extern struct StrBuf *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045808(struct StrBuf *str);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_02049030(u32 id);
-extern u32 func_020111E8(void);
-extern int func_021F4C10(int a, int b, int c);
-extern u32 func_020307B0(void *p);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern int func_021BE480(char *p, unsigned i, int j);
-extern void func_020520FC(int a, int b, int c, struct Mtx33 *d);
-extern u32 func_020142E8(void *bitmap, s32 id);
-extern u32 func_0200725C(void *s, u32 id, u32 heap);
-extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
-extern u32 func_0200ECB4(char *o);
-extern int func_0200ECD0(char *o, int idx);
-extern void func_0200ECF0(void *a0, u32 a1, void *a2, void *a3);
-extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045808(struct U16Vec *vec);
-extern void *func_02012F68(void **h);
-extern int func_0200EC14(char *p);
-extern void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst);
-extern int func_021F4DE4(int a, int b, int c);
-extern int func_021F4DF4(int *p, int v);
-extern int func_021F4E3C(int *p);
-void func_021F36C0(int a);
-void func_021F374C(char *a);
-void func_021F376C(char *a);
-u8 func_021F3790(char *p);
-u8 *func_021F37A4(u32 a);
-void func_021F37C4(u8 *p);
-void func_021F37FC(int *p);
-void func_021F3818(int *p);
-void func_021F3830(int *p);
-void func_021F3870(int *p);
-Obj_021F36C0 *func_021F3880(int a);
-void func_021F38EC(int *p);
-void func_021F3908(int *p);
-void func_021F392C(Obj_021F392C *o);
-void func_021F39A8(void **p);
-void func_021F39BC(int *p);
-void func_021F39E4(int *p);
-void func_021F3A50(char *p,int a,int b);
-int func_021F3A70(u8 *p);
-int func_021F3A98(void *p);
-int func_021F3AB4(void *p);
-void func_021F3AD4(const u16 *p, u32 *out, int *cnt);
-void func_021F3B64(u16 *p, u32 *out, int *cnt);
-void func_021F3BC0(u8 *p);
-void func_021F3C14(char *p);
-u8 *func_021F3C2C(u8 *o);
-int *func_021F3CB0(int *p);
-extern u8 d_021F4E94[];
-extern struct T d_021F50C0;
-extern const char d_021F5224[];
-extern const u16 d_021F50D2[];
+extern u32 func_020307B0(void *memory);
+extern u32 func_02049030(u32 archiveId);
+extern u32 GPOWER_GetSpecialPowerId(void);
+extern void func_02082BCC(void *dst, int value, int size);
+extern void func_020520FC(int angleX, int angleY, int angleZ, MtxFx33 *dst);
+extern void func_021BE760(FldExpObjCnt *expObj, const G3dUtilSetup *setup, int unitIndex);
+extern G3dObject *func_021BE4C4(FldExpObjCnt *expObj, u32 unitIndex, int modelIndex);
+extern G3dObjectStatus *func_021BE480(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
+extern void func_021BE580(FldExpObjCnt *expObj);
+extern void func_021BE700(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int enable);
 
+/* The board object (gimmick_obj_elboard.c). */
+extern struct GimmickObjElboard *func_021F4698(GateElboardSetup *setup);
+extern void func_021F474C(struct GimmickObjElboard *board);
+extern void func_021F4784(struct GimmickObjElboard *board, int scrollStep);
+extern int func_021F47B0(struct GimmickObjElboard *board);
+extern void func_021F47BC(struct GimmickObjElboard *board, int scrollPos);
+extern void func_021F3D78(GateWork *work);
+extern int func_021F4C10(GateBoardRecord *dst, int archiveId, int index);
+extern int func_021F4DE4(GateNewsEntry *dst, int archiveId, int index);
+extern int func_021F4DF4(GateNewsEntry *entry, int zoneId);
+extern int func_021F4E3C(GateNewsEntry *entry);
 
+void func_021F36C0(FieldMap *fieldMap);
+void func_021F374C(FieldMap *fieldMap);
+void func_021F376C(FieldMap *fieldMap);
+u8 func_021F3790(FieldMap *fieldMap);
+GateSave *func_021F37A4(FieldMap *fieldMap);
+void func_021F37C4(GateWork *work);
+void func_021F37FC(GateWork *work);
+void func_021F3818(GateWork *work);
+void func_021F3830(GateWork *work);
+void func_021F3870(GateWork *work);
+GateWork *func_021F3880(FieldMap *fieldMap);
+void func_021F38EC(GateWork *work);
+void func_021F3908(GateWork *work);
+void func_021F392C(GateWork *work);
+void func_021F39A8(GateWork *work);
+void func_021F39BC(GateWork *work);
+void func_021F39E4(GateWork *work);
+void func_021F3A50(GateWork *work, int messageType, int flagId);
+int func_021F3A70(GateWork *work);
+int func_021F3A98(GateWork *work);
+int func_021F3AB4(GateWork *work);
+void func_021F3AD4(const GateWork *work, u32 *values, int *count);
+void func_021F3B64(GateWork *work, u32 *values, int *count);
+void func_021F3BC0(GateWork *work);
+void func_021F3C14(GateWork *work);
+GateNewsEntry *func_021F3C2C(GateWork *work);
+GateNewsEntry *func_021F3CB0(GateWork *work);
 
+/* The two sets of board resources (one per text mode), and the board data shared with gimmick_obj_elboard.c. */
+extern G3dUtilSetup d_021F4E94[];
+extern int d_021F50C0[];            /* element 0: scroll step per frame */
+extern const u16 d_021F50D2[];      /* animation index by GateBoardRecord.animeKind */
+extern const char d_021F5224[];     /* file name passed to the heap allocations below */
 
-
-
-
-
-
-void func_021F36C0(int a)
+/* Gimmick start: loads the board resources and model, restores the saved state and places the board. */
+void func_021F36C0(FieldMap *fieldMap)
 {
-    int r6;
-    int r4;
-    int *p;
-    int v;
+    FldExpObjCnt *expObj;
+    int setupIndex;
+    GateWork *work;
+    int textMode;
 
-    r6 = func_02188D2C((int *)a);
-    v = func_020083E4((short unsigned int *)func_0200873C(func_02012EBC(func_020120F4(func_02188C80((void *)a)))));
-    if (v != 0) {
-        if (v == 1) {
-            r4 = 0;
+    expObj = func_02188D2C(fieldMap);
+    textMode = CONFIG_GetAppliedFlag(func_0200873C(func_02012EBC(func_020120F4(func_02188C80(fieldMap)))));
+    if (textMode != 0) {
+        if (textMode == 1) {
+            setupIndex = 0;
         }
     } else {
-        r4 = 1;
+        setupIndex = 1;
     }
-    func_021BE760(r6, d_021F4E94 + r4 * 16, 1);
-    p = (int *)(struct Obj *)func_021F3880(a);
-    func_021F392C((Obj_021F392C *)((struct Obj_021F36C0 *)p));
-    func_021F3BC0((u8 *)p);
-    func_021F37FC(p);
-    if (p[4] == 0) {
-        func_021F3908(p);
+    func_021BE760(expObj, &d_021F4E94[setupIndex], GATE_EXP_OBJ_UNIT_INDEX);
+    work = func_021F3880(fieldMap);
+    func_021F392C(work);
+    func_021F3BC0(work);
+    func_021F37FC(work);
+    if (work->initialized == 0) {
+        func_021F3908(work);
     } else {
-        func_021F3818(p);
-        func_021F3830(p);
+        func_021F3818(work);
+        func_021F3830(work);
     }
-    func_021F3D78(p);
-    func_021F3870(p);
-    func_021F39E4(p);
-    func_021F39BC(p);
+    func_021F3D78(work);
+    func_021F3870(work);
+    func_021F39E4(work);
+    func_021F39BC(work);
 }
 
-
-
-
-
-
-
-
-void func_021F374C(char *a) { u8 *p; p=(u8 *)func_021897BC(a,0); func_021F37C4(p); if(((struct Obj05133 *)p)->f14)func_021F474C(((struct Obj05133 *)p)->f14); func_021F38EC((int *)p); }
-
-
-
-
-
-
-
-
-void func_021F376C(char *a) { int *p; p=func_021897BC(a,0); func_021F4784((void *)p[5],(*(int *)&d_021F50C0)); func_021BE580((void *)func_02188D2C((int *)((u32)a))); }
-
-
-
-
-
-
-
-
-u8 func_021F3790(char *p) { return (u8)(*(int **)((char *)func_021897BC(p,0)+0x1c))[5]; }
-
-
-
-
-
-
-
-
-u8 *func_021F37A4(u32 a) { u32 p; p=(u32)func_02012EC4(func_020120F4(func_02188C80((void *)a))); return (u8 *)func_0200B3A4((struct Rec94 *)p,func_0200B3AC((struct Rec94 *)p)); }
-
-
-
-
-
-
-
-
-void func_021F37C4(u8 *p) { u8 *q; q=func_021F37A4(((struct Obj05133 *)p)->f4); ((struct Obj09833 *)q)->f0=((struct Obj05133 *)p)->f10; ((struct Obj09833 *)q)->f4=func_021F47B0(((struct Obj05133 *)p)->f14)>>12; ((struct Obj09833 *)q)->f8=((struct Obj05133 *)p)->f64; *(Copy60 *)(q+0xc)=*(Copy60 *)(p+0x28); }
-
-
-
-
-
-
-
-void func_021F37FC(int *p) { char *q; q=(char *)func_021F37A4(p[1]); p[4]=((struct Obj09834 *)q)->f0; p[6]=((struct Obj09834 *)q)->f4; ((struct Obj00377 *)p)->f64=((struct Obj09834 *)q)->f8; }
-
-
-
-
-
-
-
-void func_021F3818(int *p) { func_0200C3B8(func_0200C0F0(func_02012EBC(((struct Obj00377 *)p)->f8)), ((struct Obj00377 *)p)->f64); }
-
-
-
-
-
-
-
-
-void func_021F3830(int *p)
+/* Gimmick end: saves the state, deletes the board and frees the work. */
+void func_021F374C(FieldMap *fieldMap)
 {
-    int r6;
+    GateWork *work;
+
+    work = func_021897BC(fieldMap, GATE_WORK_ID);
+    func_021F37C4(work);
+    if (work->board) {
+        func_021F474C(work->board);
+    }
+    func_021F38EC(work);
+}
+
+/* Gimmick update, once per frame: scrolls the board and advances the model animations. */
+void func_021F376C(FieldMap *fieldMap)
+{
+    GateWork *work;
+
+    work = func_021897BC(fieldMap, GATE_WORK_ID);
+    func_021F4784(work->board, d_021F50C0[0]);
+    func_021BE580(func_02188D2C(fieldMap));
+}
+
+/* The facing of the board of the zone (GateFacing), used by the camera of the board view. */
+u8 func_021F3790(FieldMap *fieldMap)
+{
+    GateWork *work = func_021897BC(fieldMap, GATE_WORK_ID);
+
+    return (u8)work->record->facing;
+}
+
+/* The save area of the active gimmick. */
+GateSave *func_021F37A4(FieldMap *fieldMap)
+{
+    struct GimmickWork *gimmickWork;
+
+    gimmickWork = func_02012EC4(func_020120F4(func_02188C80(fieldMap)));
+    return func_0200B3A4(gimmickWork, func_0200B3AC(gimmickWork));
+}
+
+/* Copies the board state (scroll, misc value, message log) into the save area. */
+void func_021F37C4(GateWork *work)
+{
+    GateSave *save;
+
+    save = func_021F37A4(work->fieldMap);
+    save->initialized = work->initialized;
+    save->scrollPos = func_021F47B0(work->board) >> 12;
+    save->miscSaveValue = work->miscSaveValue;
+    save->messageLog = work->messageLog;
+}
+
+/* Reads the board state back from the save area. */
+void func_021F37FC(GateWork *work)
+{
+    GateSave *save;
+
+    save = func_021F37A4(work->fieldMap);
+    work->initialized = save->initialized;
+    work->scrollPos = save->scrollPos;
+    work->miscSaveValue = save->miscSaveValue;
+}
+
+/* Writes the work's misc value to the misc save. */
+void func_021F3818(GateWork *work)
+{
+    func_0200C3B8(func_0200C0F0(func_02012EBC(work->gameData)), work->miscSaveValue);
+}
+
+/* Sets the event flag of every news message that was logged as shown. */
+void func_021F3830(GateWork *work)
+{
+    struct EventWork *eventWork;
     int i;
-    u8 *q;
+    GateMessageLog *log;
 
-    r6 = (int)func_0201296C((const struct BigObj *)p[2]);
-    q = func_021F37A4(p[1]) + 0xc;
-    for (i = 0; i < q[0]; i++) {
-        if (*(int *)(q + i * 4 + 4) == 8) {
-            func_02014314((char *)r6, (u16)(*(int *)(q + i * 4 + 0x20)));
+    eventWork = func_0201296C(work->gameData);
+    log = &func_021F37A4(work->fieldMap)->messageLog;
+    for (i = 0; i < log->count; i++) {
+        if (log->messageType[i] == GATE_MESSAGE_TYPE_NEWS) {
+            func_02014314(eventWork, (u16)log->flagId[i]);
         }
     }
 }
 
-
-
-
-
-
-void func_021F3870(int *p) { func_021F47BC((void *)p[5], p[6] << 12); }
-
-
-
-
-
-
-
-Obj_021F36C0 *func_021F3880(int a)
+/* Moves the board to the saved scroll position. */
+void func_021F3870(GateWork *work)
 {
-    u16 r5;
-    int r7;
-    Obj_021F36C0 *o;
-    int v;
-    Cfg c;
-
-    r5 = func_02188C84((u8 *)a);
-    r7 = func_02188D2C((int *)a);
-    o = func_02189764((unsigned char *)a, 0, r5, 0x68);
-    func_02082BCC(o, 0, 0x68);
-    o->f00 = r5;
-    o->f04 = a;
-    v = (int)func_02188C80((void *)a);
-    o->f0C = v;
-    o->f08 = (int)func_020120F4((const struct Ctx *)v);
-    o->f10 = 0;
-    c.a = r5;
-    c.b = 7;
-    c.c = 8;
-    c.d = 3;
-    c.w = (int)func_021BE4C4(r7, 1, 0);
-    o->f14 = (int)func_021F4698((unsigned char *)(&c));
-    return o;
+    func_021F47BC(work->board, work->scrollPos << 12);
 }
 
+/* Allocates and clears the work, and creates the board object on the board model. */
+GateWork *func_021F3880(FieldMap *fieldMap)
+{
+    u16 heapId;
+    FldExpObjCnt *expObj;
+    GateWork *work;
+    struct GameSystem *gameSystem;
+    GateElboardSetup setup;
 
+    heapId = func_02188C84(fieldMap);
+    expObj = func_02188D2C(fieldMap);
+    work = func_02189764(fieldMap, GATE_WORK_ID, heapId, sizeof(GateWork));
+    func_02082BCC(work, 0, sizeof(GateWork));
+    work->heapId = heapId;
+    work->fieldMap = fieldMap;
+    gameSystem = func_02188C80(fieldMap);
+    work->gameSystem = gameSystem;
+    work->gameData = func_020120F4(gameSystem);
+    work->initialized = 0;
+    setup.heapId = heapId;
+    setup.maxMessages = 7;
+    setup.bitmapWidthCells = 8;
+    setup.bitmapHeightCells = 3;
+    setup.model = func_021BE4C4(expObj, GATE_EXP_OBJ_UNIT_INDEX, GATE_EXP_OBJ_MODEL_BOARD);
+    work->board = func_021F4698(&setup);
+    return work;
+}
 
+/* Frees the board record and the news list, then the work. */
+void func_021F38EC(GateWork *work)
+{
+    if (work) {
+        func_021F39A8(work);
+        func_021F3C14(work);
+        func_021897A0(work->fieldMap, GATE_WORK_ID);
+    }
+}
 
+/* First visit: takes the misc value from the misc save. */
+void func_021F3908(GateWork *work)
+{
+    if (work->initialized == 0) {
+        work->miscSaveValue = func_0200C3B0(func_0200C0E8(GAME_DATA_GetSaveControlWork(work->gameData)));
+        work->initialized = 1;
+    }
+}
 
-
-void func_021F38EC(int *p) { if(p) {func_021F39A8((void **)p);func_021F3C14((char *)p);func_021897A0((unsigned char *)p[1],0);} }
-
-
-
-
-
-
-void func_021F3908(int *p) { if(p[4]==0) { ((struct Obj00377 *)p)->f64=func_0200C3B0(func_0200C0E8(func_02012EC0((void *)p[2]))); p[4]=1; } }
-
-
-
-
-
-
-void func_021F392C(Obj_021F392C *o)
+/* Loads the board record of the current zone (and of the active Entralink power) from the archive. */
+void func_021F392C(GateWork *work)
 {
     u32 i;
-    u32 n;
-    u32 r5;
-    Rec buf;
+    u32 recordCount;
+    u32 zoneId;
+    GateBoardRecord record;
 
-    if (o->f1c == 0) {
-        r5 = func_02188C9C((u8 *)o->f04);
+    if (work->record == 0) {
+        zoneId = func_02188C9C(work->fieldMap);
         i = 0;
-        o->f1c = func_02030734(o->f00, 0x7c, 0, d_021F5224, 0x387);
-        n = func_02049030(0xae);
-        for (; i < n; i++) {
-            func_021F4C10((int)(&buf), 0xae, i);
-            if (buf.a == r5) {
-                if (buf.b == 0 || buf.b == func_020111E8()) {
-                    *o->f1c = buf;
+        /* 0x387: line of the allocation in the original source file */
+        work->record = func_02030734(work->heapId, sizeof(GateBoardRecord), 0, d_021F5224, 0x387);
+        recordCount = func_02049030(GATE_BOARD_ARCHIVE_ID);
+        for (; i < recordCount; i++) {
+            func_021F4C10(&record, GATE_BOARD_ARCHIVE_ID, i);
+            if (record.zoneId == zoneId) {
+                if (record.specialPowerId == 0 || record.specialPowerId == GPOWER_GetSpecialPowerId()) {
+                    *work->record = record;
                     return;
                 }
             }
@@ -447,210 +361,208 @@ void func_021F392C(Obj_021F392C *o)
     }
 }
 
-
-
-
-
-void func_021F39A8(void **p) { if (p[7]) { func_020307B0(p[7]); p[7] = 0; } }
-
-
-
-
-
-void func_021F39BC(int *p) { func_021BE700((void *)func_02188D2C((int *)p[1]),1,0,d_021F50D2[((int *)p[7])[0x1d]],1); }
-
-
-
-
-
-
-void func_021F39E4(int *p)
+/* Frees the board record. */
+void func_021F39A8(GateWork *work)
 {
-    int *r3;
-    Ent *e;
-    int r4;
-
-    r4 = 0;
-    r3 = (int *)func_021BE480((char *)func_02188D2C((int *)p[1]), 1, 0);
-    e = (Ent *)p[7];
-    r3[0] = e->x << 12;
-    r3[1] = e->y << 12;
-    r3[2] = e->z << 12;
-    switch (e->mode) {
-    case 1:
-        r4 = 0;
-        break;
-    case 3:
-        r4 = 90;
-        break;
-    case 0:
-        r4 = 180;
-        break;
-    case 2:
-        r4 = 270;
-        break;
-    default:
-        r4 = 0;
-        break;
+    if (work->record) {
+        func_020307B0(work->record);
+        work->record = 0;
     }
-    func_020520FC(0, (u16)(r4 * 0xb6), 0, (struct Mtx33 *)(r3 + 6));
 }
 
-
-
-
-
-void func_021F3A50(char *p,int a,int b) { char *q; int i; q=p+0x28; i=((struct Obj20528 *)p)->f28; if(i<7) { *(int *)(q+i*4+4)=a; *(int *)(q+i*4+0x20)=b; ((struct Obj20529 *)q)->f0=i+1; } }
-
-
-
-
-
-
-int func_021F3A70(u8 *p)
+/* Switches on the animation of the board model that the record names. */
+void func_021F39BC(GateWork *work)
 {
-    if (func_021F3A98(p) == 1 || func_021F3AB4(p) == 1) {
-        if (((struct Obj20530 *)p)->f64 != 0) {
+    func_021BE700(func_02188D2C(work->fieldMap), GATE_EXP_OBJ_UNIT_INDEX, GATE_EXP_OBJ_MODEL_BOARD,
+                  d_021F50D2[work->record->animeKind], 1);
+}
+
+/* Puts the board model at the record's position and turns it to face the record's direction. */
+void func_021F39E4(GateWork *work)
+{
+    G3dObjectStatus *status;
+    GateBoardRecord *record;
+    int angle;
+
+    angle = 0;
+    status = func_021BE480(func_02188D2C(work->fieldMap), GATE_EXP_OBJ_UNIT_INDEX, GATE_EXP_OBJ_MODEL_BOARD);
+    record = work->record;
+    status->trans.x = record->x << 12;
+    status->trans.y = record->y << 12;
+    status->trans.z = record->z << 12;
+    switch (record->facing) {
+    case GATE_FACING_DOWN:
+        angle = 0;
+        break;
+    case GATE_FACING_RIGHT:
+        angle = 90;
+        break;
+    case GATE_FACING_UP:
+        angle = 180;
+        break;
+    case GATE_FACING_LEFT:
+        angle = 270;
+        break;
+    default:
+        angle = 0;
+        break;
+    }
+    func_020520FC(0, (u16)(angle * 0xb6), 0, &status->rotate);
+}
+
+/* Logs a message that the board shows (until the log is full). */
+void func_021F3A50(GateWork *work, int messageType, int flagId)
+{
+    GateMessageLog *log;
+    int i;
+
+    log = &work->messageLog;
+    i = log->count;
+    if (i < GATE_MESSAGE_LOG_MAX) {
+        log->messageType[i] = messageType;
+        log->flagId[i] = flagId;
+        log->count = i + 1;
+    }
+}
+
+/* The board has messages to show: a list mode flag is set and the misc value is not zero. */
+int func_021F3A70(GateWork *work)
+{
+    if (func_021F3A98(work) == 1 || func_021F3AB4(work) == 1) {
+        if (work->miscSaveValue != 0) {
             return 1;
         }
     }
     return 0;
 }
 
-
-
-
-
-int func_021F3A98(void *p) {return func_020142E8((void *)func_0201296C((const struct BigObj *)(((struct Obj20531 *)p)->f8)),0x960)==1;}
-
-
-
-
-
-int func_021F3AB4(void *p)
+/* The board lists the values of the save block. */
+int func_021F3A98(GateWork *work)
 {
-    return func_020142E8((void *)func_0201296C((const struct BigObj *)(((struct Obj20532 *)p)->f8)), 0x97b) == 1;
+    return func_020142E8(func_0201296C(work->gameData), GATE_FLAG_SAVE_BLOCK_LIST) == 1;
 }
 
+/* The board lists the values of the extra save. */
+int func_021F3AB4(GateWork *work)
+{
+    return func_020142E8(func_0201296C(work->gameData), GATE_FLAG_EXTRA_SAVE_LIST) == 1;
+}
 
-
-
-
-void func_021F3AD4(const u16 *p, u32 *out, int *cnt)
+/* Reads the values of the extra save list (count and one value per entry). */
+void func_021F3AD4(const GateWork *work, u32 *values, int *count)
 {
     int i;
-    void *s;
-    void *t;
-    St st;
+    struct SaveControl *saveControl;
+    struct ExtraSaveRecord *record;
+    GateListEntry entry;
 
     i = 0;
-    *cnt = 0;
-    s = func_02012EBC((struct Big *)(((int *)p)[2]));
-    if (func_0200725C(s, 8, p[0]) - 1 <= 1) {
-        t = func_020073D8(s, 8, i);
-        if (func_0200ECB4(t) != 0) {
-            *cnt = func_0200ECD0(t, i);
-            for (; i < *cnt; i++) {
-                st.p0 = func_020457B0(0x40, p[0]);
-                st.p1 = func_020457B0(0x40, p[0]);
-                func_0200ECF0(t, 0, (void *)i, &st);
-                out[i] = st.c;
-                func_02045808(st.p0);
-                func_02045808(st.p1);
+    *count = 0;
+    saveControl = func_02012EBC(work->gameData);
+    if (SAVE_CONTROL_LoadExtraSave(saveControl, GATE_EXTRA_SAVE_ID, work->heapId) - 1 <= 1) {
+        record = func_020073D8(saveControl, GATE_EXTRA_SAVE_ID, i);
+        if (func_0200ECB4(record) != 0) {
+            *count = func_0200ECD0(record, i);
+            for (; i < *count; i++) {
+                entry.nameStr = func_020457B0(0x40, work->heapId);
+                entry.placeStr = func_020457B0(0x40, work->heapId);
+                func_0200ECF0(record, 0, i, &entry);
+                values[i] = entry.entryId;
+                func_02045808(entry.nameStr);
+                func_02045808(entry.placeStr);
             }
         }
     }
-    func_020072A4(s, 8);
+    func_020072A4(saveControl, GATE_EXTRA_SAVE_ID);
 }
 
-
-
-
-
-void func_021F3B64(u16 *p, u32 *out, int *cnt)
+/* Reads the values of the save block list (count and one value per entry). */
+void func_021F3B64(GateWork *work, u32 *values, int *count)
 {
-    void *s;
+    void *saveBlock;
     int i;
-    St st;
+    GateListEntry entry;
 
-    s = func_02012F68((void **)(((int *)p)[2]));
-    *cnt = func_0200EC14(s);
-    for (i = 0; i < *cnt; i++) {
-        st.p0 = func_020457B0(0x40, p[0]);
-        st.p1 = func_020457B0(0x40, p[0]);
-        func_0200EC2C(s, i, (struct Dst0200EC2C *)&st);
-        out[i] = st.c;
-        func_02045808(st.p0);
-        func_02045808(st.p1);
+    saveBlock = GAME_DATA_GetSaveBlock42(work->gameData);
+    *count = func_0200EC14(saveBlock);
+    for (i = 0; i < *count; i++) {
+        entry.nameStr = func_020457B0(0x40, work->heapId);
+        entry.placeStr = func_020457B0(0x40, work->heapId);
+        func_0200EC2C(saveBlock, i, &entry);
+        values[i] = entry.entryId;
+        func_02045808(entry.nameStr);
+        func_02045808(entry.placeStr);
     }
 }
 
-
-
-
-void func_021F3BC0(u8 *p)
+/* Loads the news list from the archive. */
+void func_021F3BC0(GateWork *work)
 {
-    int n;
+    int count;
     int i;
 
-    if (*(u8 * *)&((struct Obj00377 *)p)->f20 == 0) {
-        n = func_02049030(0xa6);
-        ((struct Obj00377 *)p)->f20 = func_02030734(((struct Obj00377 *)p)->f0, n * 0x24, 0, d_021F5224, 0x4cb);
-        for (i = 0; i < n; i++) {
-            func_021F4DE4((int)(*(u8 * *)&((struct Obj00377 *)p)->f20 + i * 0x24), 0xa6, i);
+    if (work->newsList == 0) {
+        count = func_02049030(GATE_NEWS_ARCHIVE_ID);
+        /* 0x4cb: line of the allocation in the original source file */
+        work->newsList = func_02030734(work->heapId, count * sizeof(GateNewsEntry), 0, d_021F5224, 0x4cb);
+        for (i = 0; i < count; i++) {
+            func_021F4DE4(&work->newsList[i], GATE_NEWS_ARCHIVE_ID, i);
         }
-        p[0x24] = n;
+        work->newsCount = count;
     }
 }
 
-
-
-void func_021F3C14(char *p) { if (((struct Obj03645 *)p)->f20) { func_020307B0(((struct Obj03645 *)p)->f20); ((struct Obj03645 *)p)->f20=0; p[0x24]=0; } }
-
-
-
-u8 *func_021F3C2C(u8 *o)
+/* Frees the news list. */
+void func_021F3C14(GateWork *work)
 {
-    int a;
-    void *b;
-    int i;
-    int off;
-    int c;
-    int d;
+    if (work->newsList) {
+        func_020307B0(work->newsList);
+        work->newsList = 0;
+        work->newsCount = 0;
+    }
+}
 
-    a = func_02188C9C((u8 *)(((struct Obj03646 *)o)->f4));
-    b = (void *)func_0201296C((const struct BigObj *)(((struct Obj03646 *)o)->f8));
-    if (*(u8 * *)&((struct Obj03646 *)o)->f20 == 0) {
+/* The first news entry that fits the zone and the Entralink power and whose event flag is set, or 0. */
+GateNewsEntry *func_021F3C2C(GateWork *work)
+{
+    int zoneId;
+    struct EventWork *eventWork;
+    int i;
+    int flagSet;
+    int zoneMatches;
+
+    zoneId = func_02188C9C(work->fieldMap);
+    eventWork = func_0201296C(work->gameData);
+    if (work->newsList == 0) {
         return 0;
     }
-    for (i = 0; i < ((struct Obj03646 *)o)->f24; i++) {
-        off = i * 0x24;
-        c = (int)func_020142E8(b, (u16)*(u32 *)(*(u8 * *)&((struct Obj03646 *)o)->f20 + off + 4));
-        d = func_021F4DF4((int *)(*(u8 * *)&((struct Obj03646 *)o)->f20 + off), a);
-        if (func_021F4E3C((int *)(*(u8 * *)&((struct Obj03646 *)o)->f20 + off)) && c && d) {
-            return *(u8 * *)&((struct Obj03646 *)o)->f20 + off;
+    for (i = 0; i < work->newsCount; i++) {
+        flagSet = func_020142E8(eventWork, (u16)work->newsList[i].eventFlag);
+        zoneMatches = func_021F4DF4(&work->newsList[i], zoneId);
+        if (func_021F4E3C(&work->newsList[i]) && flagSet && zoneMatches) {
+            return &work->newsList[i];
         }
     }
     return 0;
 }
 
-
-
-int *func_021F3CB0(int *p)
+/* The first list kind news entry that fits the zone and whose event flag is set, or 0. */
+GateNewsEntry *func_021F3CB0(GateWork *work)
 {
-    int a = func_02188C9C((u8 *)p[1]);
-    int b = func_0201296C((const struct BigObj *)p[2]);
+    int zoneId = func_02188C9C(work->fieldMap);
+    struct EventWork *eventWork = func_0201296C(work->gameData);
     int i;
 
-    if (p[8] == 0)
+    if (work->newsList == 0) {
         return 0;
-    for (i = 0; i < ((struct Obj03647 *)p)->f24; i++) {
-        int off = i * 0x24;
-        int t = func_020142E8((void *)b, (u16)((int *)(p[8] + off))[1]);
-        int r = func_021F4DF4((int *)(p[8] + off), a);
+    }
+    for (i = 0; i < work->newsCount; i++) {
+        int flagSet = func_020142E8(eventWork, (u16)work->newsList[i].eventFlag);
+        int zoneMatches = func_021F4DF4(&work->newsList[i], zoneId);
 
-        if (t != 0 && r != 0 && ((int *)(p[8] + off))[4] == 2)
-            return (int *)(p[8] + off);
+        if (flagSet != 0 && zoneMatches != 0 && work->newsList[i].kind == GATE_NEWS_KIND_LIST) {
+            return &work->newsList[i];
+        }
     }
     return 0;
 }

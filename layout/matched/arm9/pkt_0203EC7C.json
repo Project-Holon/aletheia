@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203EC7C",
+   "name": "GFL_NET_LOWER_DATA_GetPostEndAddress",
    "address": "0x0203EC7C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203ECD8",
+   "name": "GFL_NET_LOWER_DATA_RecvChunk",
    "address": "0x0203ECD8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203ED84",
+   "name": "GFL_NET_LOWER_DATA_SendControl",
    "address": "0x0203ED84",
    "kind": "game",
    "region": "arm9",

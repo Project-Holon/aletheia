@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  *
- * witness: arm9 func_0201C1E8 filed as src/matched/arm9/func_0201C1E8.c.
+ * witness: arm9 WAZA_TOOL_GetDamageType filed as src/matched/arm9/WAZA_TOOL_GetDamageType.c.
  *
  * symbols:
  *   sub_02030734   0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
- *   func_0201C1E8  0x0201C1E8  thumb
+ *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
  *   d_0220AF20     0x0220AF20  data   ov094
  *   d_0220AC90     0x0220AC90  data   ov094  a1
  *   func_021FF348  0x021FF348  thumb  ov094
@@ -51,7 +51,7 @@ extern const char d_0220AC90[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
-extern int func_0201C1E8(int);
+extern int WAZA_TOOL_GetDamageType(int);
 extern int func_021FF348(void *h, int a);
 extern int func_021F935C(int a);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
@@ -68,7 +68,7 @@ void func_021F7C2C(int a, int b)
     o->f8 = 3;
     o->fc = 0;
     o->f14 = func_021FF348(d_0220AF20->h190, a);
-    if (func_0201C1E8(b) == 1)
+    if (WAZA_TOOL_GetDamageType(b) == 1)
         o->f10 = 0x842;
     else
         o->f10 = 0x6318;

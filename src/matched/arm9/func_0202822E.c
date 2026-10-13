@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202822E
+ * function: APP_TASKMENU_WIN_SetDecideReturn
  * address:  0x0202822E
  * packet:   pkt_02028178
  * region:   arm9
@@ -13,6 +13,6 @@
  * A bare `bx lr`: an empty function, compiled from an empty body.
  */
 
-void func_0202822E(void)
+void APP_TASKMENU_WIN_SetDecideReturn(void)
 {
 }

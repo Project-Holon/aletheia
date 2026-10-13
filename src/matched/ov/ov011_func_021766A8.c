@@ -1,5 +1,5 @@
 /*
- * function: func_021766A8
+ * function: INTRUDE_LINK_ProcExit
  * address: 0x021766A8
  * packet: pkt_ov011_021766A8
  * region: ov011
@@ -22,7 +22,7 @@ extern void func_0203133C(struct S020314B8 *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *p);
-int func_021766A8(void *p, int b, int c, u8 *q)
+int INTRUDE_LINK_ProcExit(void *p, int b, int c, u8 *q)
 {
     func_0203133C(((struct Obj12441 *)q)->fF4);
     func_020307B0(((struct Obj12441 *)q)->fF8);

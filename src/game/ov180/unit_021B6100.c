@@ -23,6 +23,7 @@
  *   d_021B80D8 0x021B80D8 data a4
  *   func_0203FC28 0x0203FC28 arm
  *   func_02040EBC 0x02040EBC arm
+ *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm  arm9
  */
 #include "../../matched/include/Obj24479.h"
 #include "../../matched/include/Obj24480.h"
@@ -51,7 +52,7 @@ extern void func_02030EAC(struct Node *);
 extern void func_0204A648(void);
 extern void func_0204EA64(void);
 extern void func_020419E4(void);
-extern void func_0204335C(u32);
+extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void func_020433E0(const struct DispVram *);
 extern void func_0203F8F4(u16);
 extern void func_0203F9B4(void);
@@ -140,7 +141,7 @@ void func_021B61B4(void)
 
 void func_021B61D4(int flag)
 {
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     if (flag == 0)
         func_020433E0(&d_021B8060);
     else

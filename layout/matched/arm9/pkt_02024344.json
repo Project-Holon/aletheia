@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202473C",
+   "name": "PMSI_PARAM_ValidateDecoValue",
    "address": "0x0202473C",
    "kind": "game",
    "region": "arm9",

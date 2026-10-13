@@ -1,5 +1,5 @@
 /*
- * function: func_02022CEC
+ * function: WIPE_SUB_CreateLineBuffers
  * address:  0x02022CEC
  * packet:   pkt_02022DCC
  * region:   arm9
@@ -19,8 +19,8 @@
  * zeroes +0x600 at a 0x604 stride.  a1 outside 0..2 does nothing.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022CEC.c \
- *       --func func_02022CEC --addr 0x02022CEC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_CreateLineBuffers.c \
+ *       --func WIPE_SUB_CreateLineBuffers --addr 0x02022CEC --cc 1.1p1 --thumb
  */
 #include "../include/Obj15738.h"
 
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 
 extern void *func_02030734(u32 a0, u32 a1, int a2, const char *a3, u16 a4);
 
-void func_02022CEC(u32 *a0, u32 a1, u32 a2, u32 a3)
+void WIPE_SUB_CreateLineBuffers(u32 *a0, u32 a1, u32 a2, u32 a3)
 {
     int i;
     u8 *p;

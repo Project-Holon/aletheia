@@ -73,7 +73,7 @@
  * temp(tmp1 = cur + len) -- which is why `tmp1` names `cur + len` and the
  * return is written high-half-first.
  *
- * Filing this entry also unblocks src/pending/func_02051AA0.c in pkt_02051A54,
+ * Filing this entry also unblocks src/pending/BUTTON_MAN_Func1AA0.c in pkt_02051A54,
  * whose `bl` at +0x08 was capped at MATCH for want of a manifest entry here.
  *
  * Addresses are Black-image addresses.

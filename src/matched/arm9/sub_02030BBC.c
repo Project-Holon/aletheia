@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020305C4  0x020305C4  arm
+ *   GFL_HEAP_AllocSystem  0x020305C4  arm
  *
  * A four-instruction tail call: `ldr ip, [pc]; bx ip; .word target`. The
  * target, 0x020305C4, is not itself a labelled function: it is the second
@@ -25,7 +25,7 @@
  * witness under the honesty rule: the only reference to 0x020305C4
  * anywhere is this call, inside the range under test, and the address
  * carried no func_ label. It closed when 0x020305C4 was seeded into
- * layout/function_starts.txt and written as src/matched/func_020305C4.c,
+ * layout/function_starts.txt and written as src/matched/GFL_HEAP_AllocSystem.c,
  * which makes the site `matched`.
  *
  * Verified with:
@@ -34,9 +34,9 @@
  */
 
 typedef unsigned int   u32;
-extern void *func_020305C4(u32 size);
+extern void *GFL_HEAP_AllocSystem(u32 size);
 
 void *sub_02030BBC(u32 a0)
 {
-    return func_020305C4(a0);
+    return GFL_HEAP_AllocSystem(a0);
 }

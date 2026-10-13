@@ -39,7 +39,7 @@
  *   mask-first operand order `0x3e0 & c0` with and without col (94/77, no change).
  *
  * 2026-10-05 (wave D9r lane37): EXACT. Closed with the form of the matched twin ov068 func_021B9D68
- *   (arm9 twin func_0202EA40, blink_palanm.c): f as an s16 local, all six channels as u8 locals extracted
+ *   (arm9 twin BLINK_PALANM_Update, blink_palanm.c): f as an s16 local, all six channels as u8 locals extracted
  *   mask-then-shift, the blends as s32 locals with a u8 cast, and the pack (b << 10) | (r | (g << 5)).
  *
  * symbols:

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_020310C4
+ * function: TCBL_Main
  * address:  0x020310C4
  * packet:   pkt_02030FC8
  * region:   arm9
@@ -11,15 +11,15 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030F70  0x02030F70  arm
- *   sub_02030FB4  0x02030FB4  arm
+ *   TCBL_FreeTask  0x02030F70  arm
+ *   TCBL_GetTaskWork  0x02030FB4  arm
  *
  * Run one pass over the task-callback list: for every node still linked to
  * the sentinel at +0x18, clear the manager's "current node was destroyed"
  * flag at +0x10, invoke the node's callback at +0x14 with the node and its
- * work area (sub_02030FB4, the "owned or embedded" accessor), then advance.
+ * work area (TCBL_GetTaskWork, the "owned or embedded" accessor), then advance.
  * If the callback set the flag, the node is unlinked and returned to the
- * free list by sub_02030F70, so its successor has to be read out before the
+ * free list by TCBL_FreeTask, so its successor has to be read out before the
  * call.
  *
  * The walk cursor lives in the manager at +0x30 rather than in a local, so
@@ -35,8 +35,8 @@
  * docs/idioms/a-loop-carried-local-beside-a-re-read-field-keeps-both-loads.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020310C4.c \
- *       --func sub_020310C4 --addr 0x020310C4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCBL_Main.c \
+ *       --func TCBL_Main --addr 0x020310C4 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -68,11 +68,11 @@ struct Tcbl {
     struct TcblNode *freeHead;
 };
 
-extern void sub_02030F70(struct TcblNode *node);
+extern void TCBL_FreeTask(struct TcblNode *node);
 struct S02030FB4;
-extern void *sub_02030FB4(struct S02030FB4 *p);
+extern void *TCBL_GetTaskWork(struct S02030FB4 *p);
 
-void sub_020310C4(struct Tcbl *p)
+void TCBL_Main(struct Tcbl *p)
 {
     struct TcblNode *s = &p->sentinel;
     struct TcblNode *cur;
@@ -82,12 +82,12 @@ void sub_020310C4(struct Tcbl *p)
     while (cur != s) {
         struct TcblNode *n = p->cursor;
         p->destroyed = 0;
-        n->func(n, sub_02030FB4((struct S02030FB4 *)n));
+        n->func(n, TCBL_GetTaskWork((struct S02030FB4 *)n));
         if (p->destroyed == 0) {
             p->cursor = p->cursor->next;
         } else {
             struct TcblNode *next = p->cursor->next;
-            sub_02030F70(p->cursor);
+            TCBL_FreeTask(p->cursor);
             p->cursor = next;
         }
         cur = p->cursor;

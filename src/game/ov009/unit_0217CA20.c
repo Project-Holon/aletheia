@@ -1,6 +1,6 @@
 /*
  * file:     unit_0217CA20.c
- * function: func_0217CA20
+ * function: gsiCoreGetManager
  * address:  0x0217CA20
  * packet:   pkt_02155168
  * region:   ov009
@@ -18,7 +18,7 @@
 
 extern char g_021ACFD4[];
 
-void *func_0217CA20(void)
+void *gsiCoreGetManager(void)
 {
     return g_021ACFD4;
 }

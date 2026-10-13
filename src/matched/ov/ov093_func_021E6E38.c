@@ -21,7 +21,7 @@
  *   func_021C814C 0x021C814C thumb ov093
  *   func_021C8374 0x021C8374 thumb ov093
  *   func_021D8340 0x021D8340 thumb ov093
- *   func_0201C314 0x0201C314 thumb
+ *   WAZA_TOOL_IsDamaging 0x0201C314 thumb
  *   func_021E6F04 0x021E6F04 thumb ov093
  *   func_021D76BC 0x021D76BC thumb ov093
  */
@@ -40,7 +40,7 @@ extern int func_021C804C(void *, u8, u32 *);
 extern int func_021C814C(u8 *p, int v);
 extern int func_021C8374(u8 *p, int i);
 extern u32 func_021D8340(u32 *);
-extern u32 func_0201C314(void *p);
+extern u32 WAZA_TOOL_IsDamaging(void *p);
 extern int func_021E6F04(u32);
 extern int func_021D76BC(int, u32);
 void func_021E6E38(void *x, void *a, int c, u8 *d)
@@ -67,7 +67,7 @@ void func_021E6E38(void *x, void *a, int c, u8 *d)
                     if (func_021C814C(a, v) != 0) {
                         if (func_021C8374(a, v) == 0) {
                             id = func_021D8340(&desc);
-                            if (id != 0 && func_0201C314((void *)id) != 0 && func_021E6F04(id) == 0)
+                            if (id != 0 && WAZA_TOOL_IsDamaging((void *)id) != 0 && func_021E6F04(id) == 0)
                                 ok = 1;
                         }
                     }

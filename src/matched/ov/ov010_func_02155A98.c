@@ -33,7 +33,7 @@
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02045808  0x02045808  arm
- *   func_02012F44  0x02012F44  thumb
+ *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   func_0200A7C8  0x0200A7C8  thumb
  *   func_02012944  0x02012944  thumb
  *   func_020185F0  0x020185F0  thumb
@@ -99,7 +99,7 @@ extern void *func_0201AB28(void *list, u32 i);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_0216576C(void *p);
 extern void func_02045808(struct U16Vec *vec);
-extern void *func_02012F44(void *h);
+extern void *GAME_DATA_GetSaveBlock2A(void *h);
 extern void *func_021F685C(u32 heap);
 extern int func_021FD904(int *p);
 extern u8 func_0200A7C8(struct Big *p);
@@ -139,7 +139,7 @@ void *func_02155A98(void *a, void *b, u8 c, u32 d, struct Link *link)
     s->f2c = 0;
     s->f30 = 0;
     s->f34 = 0;
-    s->f40 = func_02012F44(b);
+    s->f40 = GAME_DATA_GetSaveBlock2A(b);
     s->f24 = func_021F685C(4);
     if (s->f14 == 0 || func_021FD904(s->link->sess) == 1)
         func_021F68BC(s->f24, (u32)s->f1c, s->f04, func_0200A7C8(s->f40), 0x2C);

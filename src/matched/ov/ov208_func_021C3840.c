@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02006B5C 0x02006B5C thumb
- *   func_02006B94 0x02006B94 thumb
- *   func_02006B3C 0x02006B3C thumb
- *   func_02006B78 0x02006B78 thumb
+ *   PM_VOICE_GetData 0x02006B5C thumb
+ *   PM_VOICE_GetSampleRate 0x02006B94 thumb
+ *   PM_VOICE_GetFrequency 0x02006B3C thumb
+ *   PM_VOICE_GetDataSize 0x02006B78 thumb
  *   func_02006B20 0x02006B20 thumb
  *   func_02043B5C 0x02043B5C arm
  *   func_02043AF4 0x02043AF4 arm
@@ -33,10 +33,10 @@ typedef unsigned int   u32;
 
 struct Bmp;
 
-extern u32 func_02006B5C(u32 i);
-extern u32 func_02006B94(u32 i);
-extern u32 func_02006B3C(u32 i);
-extern u32 func_02006B78(u32 i);
+extern u32 PM_VOICE_GetData(u32 i);
+extern u32 PM_VOICE_GetSampleRate(u32 i);
+extern u32 PM_VOICE_GetFrequency(u32 i);
+extern u32 PM_VOICE_GetDataSize(u32 i);
 extern s8 func_02006B20(u32 i);
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -54,26 +54,26 @@ void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 a, u16 b)
     int v;
     s16 w;
     int t;
-    *(s8 * *)&((struct Obj01010 *)p)->f34 = (s8 *)func_02006B5C(((struct Obj01010 *)p)->f64);
+    *(s8 * *)&((struct Obj01010 *)p)->f34 = (s8 *)PM_VOICE_GetData(((struct Obj01010 *)p)->f64);
     ((struct Obj01010 *)p)->f32 = 0;
     if (a == ((struct Obj01010 *)p)->f26 && b == ((struct Obj01010 *)p)->f28)
         return;
     ((struct Obj01010 *)p)->f26 = a;
     ((struct Obj01010 *)p)->f28 = b;
-    ca = func_02006B94(((struct Obj01010 *)p)->f64);
-    cb = func_02006B3C(((struct Obj01010 *)p)->f64);
-    ((struct Obj01010 *)p)->f38 = (u32)(1000.0f * (32768.0f * (float)func_02006B78(((struct Obj01010 *)p)->f64)
+    ca = PM_VOICE_GetSampleRate(((struct Obj01010 *)p)->f64);
+    cb = PM_VOICE_GetFrequency(((struct Obj01010 *)p)->f64);
+    ((struct Obj01010 *)p)->f38 = (u32)(1000.0f * (32768.0f * (float)PM_VOICE_GetDataSize(((struct Obj01010 *)p)->f64)
                                            / (float)(int)ca
                                            / (float)(int)cb) + 0.5f);
     func_02043B5C((struct CharBuf *)(*(struct Bmp * *)&((struct Obj01010 *)p)->f2C), 0);
     k = 0;
     i = 0;
-    while (i < func_02006B78(((struct Obj01010 *)p)->f64)) {
-        cb = func_02006B3C(((struct Obj01010 *)p)->f64);
-        ca = func_02006B94(((struct Obj01010 *)p)->f64);
+    while (i < PM_VOICE_GetDataSize(((struct Obj01010 *)p)->f64)) {
+        cb = PM_VOICE_GetFrequency(((struct Obj01010 *)p)->f64);
+        ca = PM_VOICE_GetSampleRate(((struct Obj01010 *)p)->f64);
         end = (u32)((float)(k + 1) * ((float)(int)ca * (float)(int)cb / 32768.0f / 60.0f / 2.0f));
-        if (end > func_02006B78(((struct Obj01010 *)p)->f64))
-            end = func_02006B78(((struct Obj01010 *)p)->f64);
+        if (end > PM_VOICE_GetDataSize(((struct Obj01010 *)p)->f64))
+            end = PM_VOICE_GetDataSize(((struct Obj01010 *)p)->f64);
         if (k < 0x3c0) {
             lo = 500;
             hi = -500;

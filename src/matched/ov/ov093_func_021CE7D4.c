@@ -17,9 +17,9 @@
  *   func_021D7F38 0x021D7F38 thumb ov093
  *   func_021F87EC 0x021F87EC thumb ov094
  *   func_021F8774 0x021F8774 thumb ov094
- *   func_02005E30 0x02005E30 thumb
- *   func_02005E50 0x02005E50 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_021F7EB4 0x021F7EB4 thumb ov094
  *   func_021EA710 0x021EA710 thumb ov093
  *   func_021CE150 0x021CE150 thumb ov093
@@ -39,9 +39,9 @@ extern int func_021EA6B0(char *, u16, u16);
 extern int func_021D7F38(u32 n);
 extern void func_021F87EC(u32);
 extern int func_021F8774(void);
-extern void func_02005E30(u32);
-extern int func_02005E50(void);
-extern void func_02005D90(u16, u16);
+extern void GFL_USE_FadeOutBgm(u32);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(u16, u16);
 extern int func_021F7EB4(void);
 extern int func_021EA710(u32 *p);
 extern void func_021CE150(u8 *p, void *q);
@@ -64,7 +64,7 @@ u32 func_021CE7D4(u8 *p, int *st)
             func_021D7F38(func_021BA020(((struct Obj02785 *)p)->f0, i)) && !((Flags *)(p + 0x1b2))->flag) {
             func_021F87EC(0x47b);
             if (!func_021F8774()) {
-                func_02005E30(8);
+                GFL_USE_FadeOutBgm(8);
                 *st = 1;
                 break;
             }
@@ -72,8 +72,8 @@ u32 func_021CE7D4(u8 *p, int *st)
         *st = 2;
         break;
     case 1:
-        if (!func_02005E50()) {
-            func_02005D90(0x47b, 0xffff);
+        if (!GFL_USE_IsBgmFading()) {
+            GFL_USE_CancelChangeAndPlayBgm(0x47b, 0xffff);
             p[0x1b2] = (p[0x1b2] & ~1) | 1;
             ++*st;
         }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020278F4",
+   "name": "APP_TASKMENU_TransWinAfterPrint",
    "address": "0x020278F4",
    "kind": "game",
    "region": "arm9",

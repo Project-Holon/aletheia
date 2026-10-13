@@ -9,25 +9,25 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Tears down the owner's work: func_021F97E4, free, then func_02011264.
+ * Tears down the owner's work: func_021F97E4, free, then VM_Delete.
  *
  * symbols:
  *   func_02011324 0x02011324 thumb
  *   func_021F97E4 0x021F97E4 thumb ov094
  *   func_020307B0 0x020307B0 arm
- *   func_02011264 0x02011264 thumb
+ *   VM_Delete 0x02011264 thumb
  */
 struct ScriptVm;
 extern void *func_02011324(struct ScriptVm *vm);
 extern void func_021F97E4(void *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_02011264(void *);
+extern void VM_Delete(void *);
 
 void func_021F94D8(void *a)
 {
     void *s = func_02011324(a);
     func_021F97E4(a);
     func_020307B0(s);
-    func_02011264(a);
+    VM_Delete(a);
 }

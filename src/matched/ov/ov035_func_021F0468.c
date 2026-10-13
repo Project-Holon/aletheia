@@ -21,7 +21,7 @@
  *   func_02012204 0x02012204 thumb
  *   func_02026454 0x02026454 thumb
  *   func_02026400 0x02026400 thumb
- *   func_02012158 0x02012158 thumb
+ *   GAMESYSTEM_SetAlwaysNetFlag 0x02012158 thumb
  */
 #include "../include/Obj01362.h"
 
@@ -41,7 +41,7 @@ struct Ctx;
 extern u32 func_02012204(const struct Ctx *p);
 extern u32 func_02026454(void *h);
 extern void func_02026400(struct Comm *p);
-extern void func_02012158(char *p, unsigned int v);
+extern void GAMESYSTEM_SetAlwaysNetFlag(char *p, unsigned int v);
 
 int func_021F0468(char *p)
 {
@@ -76,7 +76,7 @@ int func_021F0468(char *p)
         if (((struct Obj01362 *)p)->f4C != 0) {
             if (func_02026454(((struct Obj01362 *)p)->f8) != 0)
                 break;
-            func_02012158(((struct Obj01362 *)p)->f4, 0);
+            GAMESYSTEM_SetAlwaysNetFlag(((struct Obj01362 *)p)->f4, 0);
         }
         (((struct Obj01362 *)p)->f4A)++;
         break;

@@ -1,5 +1,5 @@
 /*
- * function: func_0203E590
+ * function: GFL_NET_IRC_WIRELESS_GetRetryCountValue
  * address:  0x0203E590
  * packet:   pkt_0203E590
  * region:   arm9
@@ -17,7 +17,7 @@
 #include "../include/G_Ctx.h"
 
 extern struct Ctx *d_021469F0;
-int func_0203E590(void)
+int GFL_NET_IRC_WIRELESS_GetRetryCountValue(void)
 {
     unsigned char *p = ((unsigned char *)d_021469F0);
     if (p == 0) return 0;

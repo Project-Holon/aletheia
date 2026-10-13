@@ -1,5 +1,5 @@
 /*
- * function: func_020394C0
+ * function: GFL_NET_SYSTEM_IsSendQueueEmpty
  * address:  0x020394C0
  * packet:   pkt_020394C0
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469D0     0x021469D0  data
- *   func_020366A8  0x020366A8  arm
+ *   _pNetSys     0x021469D0  data
+ *   GFL_NET_QUEUE_IsEmpty  0x020366A8  arm
  *
- * Leaf that saves no lr: tail-calls func_020366A8 on the 0xCC queue of the
+ * Leaf that saves no lr: tail-calls GFL_NET_QUEUE_IsEmpty on the 0xCC queue of the
  * net_system record (docs/families/net_system.h, fCC).  Reached only through
  * the long-branch veneer at 0x0203D56C.
  */
@@ -23,10 +23,10 @@
 typedef unsigned char u8;
 
 struct Conn;
-extern int func_020366A8(struct Conn *p);
-extern struct LinkState *g_021469D0;
+extern int GFL_NET_QUEUE_IsEmpty(struct Conn *p);
+extern struct LinkState *_pNetSys;
 
-int func_020394C0(void)
+int GFL_NET_SYSTEM_IsSendQueueEmpty(void)
 {
-    return func_020366A8((struct Conn *)(((u8 *)g_021469D0) + 0xCC));
+    return GFL_NET_QUEUE_IsEmpty((struct Conn *)(((u8 *)_pNetSys) + 0xCC));
 }

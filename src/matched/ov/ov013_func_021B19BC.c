@@ -1,5 +1,5 @@
 /*
- * function: func_021B19BC
+ * function: VCT_AUDIO_InitReceiveSource
  * address:  0x021B19BC
  * packet:   pkt_ov013_021B19BC
  * region:   ov013
@@ -16,7 +16,7 @@
 
 extern void func_02082BCC(void *p, int v, int n);
 
-void func_021B19BC(char *p, int a1, int a2)
+void VCT_AUDIO_InitReceiveSource(char *p, int a1, int a2)
 {
     func_02082BCC(p, 0, 0x28);
     ((struct Obj00751 *)p)->f4 = 0x134DF;

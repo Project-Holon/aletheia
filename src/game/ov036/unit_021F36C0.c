@@ -38,227 +38,242 @@ typedef struct {
     u32 week;
 } RTCDate;
 
-typedef struct {
-    u8 slot[15];
-    u8 order[15];
-    u8 count;
-    u8 max;
-    u8 a[7];
-    u8 b[2];
-    u8 c[10];
-} Deck;
+/*
+ * Cell deal: pool of the 15 cells not dealt yet (poolLast is the index of the
+ * last valid pool entry), the order in which cells were dealt, and the picks
+ * made for the three entry categories.
+ */
+typedef struct CellDeck {
+    u8 pool[15];
+    u8 dealt[15];
+    u8 dealtCount;
+    u8 poolLast;
+    u8 mainPick[7];
+    u8 bonusPick[2];
+    u8 fillerPick[10];
+} CellDeck;
 
-typedef struct {
-    int id;
-    int sub;
-    int a;
-    int type;
-    int c;
-    int d;
-    int e;
-} Ent;
+typedef struct DailyLayoutEntry {
+    int slotId;
+    int subId;
+    int valueA;
+    int category;       /* 0 main, 1 filler, 2 bonus */
+    int valueC;
+    int valueD;
+    int unusedE;
+} DailyLayoutEntry;
 
-typedef struct {
-    u8 pad0[6];
-    u16 f6;
-    u8 pad8[4];
-    Ent ent[15];
-    u8 c0;
-    u8 c1;
-    u8 c2;
-    u8 c3;
-} W;
+/* The 15 cells of the daily layout, filled by func_021F36C0. */
+typedef struct DailyLayoutWork {
+    u8 reserved0[6];
+    u16 mainCount;
+    u8 reserved8[4];
+    DailyLayoutEntry entry[15];
+    u8 flagAZeroCount;
+    u8 flagAOneCount;
+    u8 flagBZeroCount;
+    u8 flagBOneCount;
+} DailyLayoutWork;
 
-typedef struct {
-    int a;
-    int b;
-} P8;
+typedef struct CellFlags {
+    int flagA;
+    int flagB;
+} CellFlags;
 
-typedef struct {
-    int a;
-    int b;
-    int c;
-    int d;
-} P16;
+typedef struct MainEntryDef {
+    int valueA;
+    int subId;
+    int valueC;
+    int valueD;
+} MainEntryDef;
 
-typedef struct {
-    int a;
-    int b;
-    int c;
-} P12;
+typedef struct ExtraEntryDef {
+    int valueA;
+    int valueC;
+    int valueD;
+} ExtraEntryDef;
 
 extern void func_0203F4E4(struct RtcDate *date);
-extern int func_021F3980(u8 *p);
+extern int func_021F3980(CellDeck *deck);
 extern u32 func_020056EC(u32 range);
-void func_021F36C0(W *w);
-void func_021F38AC(int n, int m, unsigned char *buf, unsigned char *out);
-void func_021F38F4(unsigned char *p);
-int func_021F3934(u8 *p, int v);
-int func_021F394C(u8 *p, int i);
-int func_021F395C(unsigned char *p, int idx);
-extern const P8 d_021F3AD4[];
-extern const P16 d_021F3B4C[];
-extern const P12 d_021F3A98[];
-extern const P12 d_021F3BEC[];
+void func_021F36C0(DailyLayoutWork *work);
+void func_021F38AC(int poolSize, int pickCount, unsigned char *scratch, unsigned char *picks);
+void func_021F38F4(CellDeck *deck);
+int func_021F3934(CellDeck *deck, int cell);
+int func_021F394C(CellDeck *deck, int poolIdx);
+int func_021F395C(CellDeck *deck, int poolIdx);
+extern const CellFlags d_021F3AD4[];
+extern const MainEntryDef d_021F3B4C[];
+extern const ExtraEntryDef d_021F3A98[];
+extern const ExtraEntryDef d_021F3BEC[];
 
 
-void func_021F36C0(W *w)
+/*
+ * Builds the daily layout: the number of main entries depends on the weekday,
+ * then cells are dealt and each category gets its entries on its cells.
+ */
+void func_021F36C0(DailyLayoutWork *work)
 {
     RTCDate date;
-    Deck d;
-    u8 ta[10];
-    u8 tc[15];
-    u8 tb[5];
-    int v;
+    CellDeck deck;
+    u8 mainScratch[10];
+    u8 fillerScratch[15];
+    u8 bonusScratch[5];
+    int mainCount;
     u8 i;
-    int n;
-    int cnt;
-    u8 s;
-    u8 x;
-    u8 y;
+    int dealtIdx;
+    int fillerCount;
+    u8 cell;
+    u8 pick;
+    u8 entryCell;
 
     func_0203F4E4((struct RtcDate *)(&date));
     switch (date.week) {
     case 1:
-        v = 4;
+        mainCount = 4;
         break;
     case 2:
-        v = 3;
+        mainCount = 3;
         break;
     case 3:
-        v = 4;
+        mainCount = 4;
         break;
     case 4:
-        v = 5;
+        mainCount = 5;
         break;
     case 5:
-        v = 4;
+        mainCount = 4;
         break;
     case 6:
-        v = 6;
+        mainCount = 6;
         break;
     case 0:
-        v = 7;
+        mainCount = 7;
         break;
     default:
-        v = 0;
+        mainCount = 0;
         break;
     }
-    w->f6 = v;
-    func_021F38F4((unsigned char *)(&d));
-    if (func_021F3980((u8 *)(&d)) == 0)
-        func_021F38F4((unsigned char *)(&d));
-    func_021F38AC(10, v, ta, d.a);
-    func_021F38AC(5, 2, tb, d.b);
-    func_021F38AC(15, 15 - (v + 2), tc, d.c);
-    for (i = 0; i < v; i++) {
-        s = d.order[i];
-        if (d_021F3AD4[s].a == 0)
-            w->c0++;
+    work->mainCount = mainCount;
+    func_021F38F4(&deck);
+    if (func_021F3980(&deck) == 0)
+        func_021F38F4(&deck);
+    func_021F38AC(10, mainCount, mainScratch, deck.mainPick);
+    func_021F38AC(5, 2, bonusScratch, deck.bonusPick);
+    func_021F38AC(15, 15 - (mainCount + 2), fillerScratch, deck.fillerPick);
+    for (i = 0; i < mainCount; i++) {
+        cell = deck.dealt[i];
+        if (d_021F3AD4[cell].flagA == 0)
+            work->flagAZeroCount++;
         else
-            w->c1++;
-        if (d_021F3AD4[s].b == 0)
-            w->c2++;
+            work->flagAOneCount++;
+        if (d_021F3AD4[cell].flagB == 0)
+            work->flagBZeroCount++;
         else
-            w->c3++;
+            work->flagBOneCount++;
     }
-    n = 0;
-    for (i = 0; i < v; i++) {
-        y = d.order[n];
-        x = d.a[i];
-        w->ent[y].id = x;
-        w->ent[y].sub = d_021F3B4C[x].b;
-        w->ent[y].a = d_021F3B4C[x].a;
-        w->ent[y].type = 0;
-        w->ent[y].c = d_021F3B4C[x].c;
-        w->ent[y].d = d_021F3B4C[x].d;
-        n++;
+    dealtIdx = 0;
+    for (i = 0; i < mainCount; i++) {
+        entryCell = deck.dealt[dealtIdx];
+        pick = deck.mainPick[i];
+        work->entry[entryCell].slotId = pick;
+        work->entry[entryCell].subId = d_021F3B4C[pick].subId;
+        work->entry[entryCell].valueA = d_021F3B4C[pick].valueA;
+        work->entry[entryCell].category = 0;
+        work->entry[entryCell].valueC = d_021F3B4C[pick].valueC;
+        work->entry[entryCell].valueD = d_021F3B4C[pick].valueD;
+        dealtIdx++;
     }
     for (i = 0; i < 2; i++) {
-        y = d.order[n];
-        x = d.b[i];
-        w->ent[y].id = i;
-        w->ent[y].sub = 0;
-        w->ent[y].a = d_021F3A98[x].a;
-        w->ent[y].type = 2;
-        w->ent[y].c = d_021F3A98[x].b;
-        w->ent[y].d = d_021F3A98[x].c;
-        n++;
+        entryCell = deck.dealt[dealtIdx];
+        pick = deck.bonusPick[i];
+        work->entry[entryCell].slotId = i;
+        work->entry[entryCell].subId = 0;
+        work->entry[entryCell].valueA = d_021F3A98[pick].valueA;
+        work->entry[entryCell].category = 2;
+        work->entry[entryCell].valueC = d_021F3A98[pick].valueC;
+        work->entry[entryCell].valueD = d_021F3A98[pick].valueD;
+        dealtIdx++;
     }
-    cnt = 15u - (v + 2);
-    for (i = 0; i < cnt; i++) {
-        y = d.order[n];
-        x = d.c[i];
-        w->ent[y].id = i;
-        w->ent[y].sub = 0;
-        w->ent[y].a = d_021F3BEC[x].a;
-        w->ent[y].type = 1;
-        w->ent[y].c = d_021F3BEC[x].b;
-        w->ent[y].d = d_021F3BEC[x].c;
-        n++;
+    fillerCount = 15u - (mainCount + 2);
+    for (i = 0; i < fillerCount; i++) {
+        entryCell = deck.dealt[dealtIdx];
+        pick = deck.fillerPick[i];
+        work->entry[entryCell].slotId = i;
+        work->entry[entryCell].subId = 0;
+        work->entry[entryCell].valueA = d_021F3BEC[pick].valueA;
+        work->entry[entryCell].category = 1;
+        work->entry[entryCell].valueC = d_021F3BEC[pick].valueC;
+        work->entry[entryCell].valueD = d_021F3BEC[pick].valueD;
+        dealtIdx++;
     }
 }
 
 
-void func_021F38AC(int n, int m, unsigned char *buf, unsigned char *out)
+/* Picks pickCount distinct values out of 0..poolSize-1 into picks, without repeats. */
+void func_021F38AC(int poolSize, int pickCount, unsigned char *scratch, unsigned char *picks)
 {
     unsigned char i;
-    unsigned char j;
-    unsigned char k;
+    unsigned char pickIdx;
+    unsigned char rolled;
 
-    for (i = 0; i < n; i++)
-        buf[i] = i;
-    for (j = 0; j < m; j++) {
-        k = func_020056EC(n);
-        out[j] = buf[k];
-        buf[k] = buf[n - 1];
-        n--;
+    for (i = 0; i < poolSize; i++)
+        scratch[i] = i;
+    for (pickIdx = 0; pickIdx < pickCount; pickIdx++) {
+        rolled = func_020056EC(poolSize);
+        picks[pickIdx] = scratch[rolled];
+        scratch[rolled] = scratch[poolSize - 1];
+        poolSize--;
     }
 }
 
-void func_021F38F4(unsigned char *p)
+/* Resets the deck: all 15 cells in the pool, nothing dealt, identity picks. */
+void func_021F38F4(CellDeck *deck)
 {
     int i;
     int j;
 
-    p[0x1f] = 14;
-    p[0x1e] = 0;
+    deck->poolLast = 14;
+    deck->dealtCount = 0;
     for (i = 0; i < 15; i++) {
-        p[i] = i;
-        p[i + 0xf] = 0;
+        deck->pool[i] = i;
+        deck->dealt[i] = 0;
     }
     for (j = 0; j < 7; j++)
-        p[0x20 + j] = j;
+        deck->mainPick[j] = j;
     for (i = 0; i < 2; i++)
-        p[0x27 + i] = i;
+        deck->bonusPick[i] = i;
     for (i = 0; i < 10; i++)
-        p[0x29 + i] = i;
+        deck->fillerPick[i] = i;
 }
 
-int func_021F3934(u8 *p, int v)
+/* Index of the cell in the pool, or -1. */
+int func_021F3934(CellDeck *deck, int cell)
 {
     int i;
     for (i = 0; i < 15; i++) {
-        if (p[i] == v) return i;
+        if (deck->pool[i] == cell) return i;
     }
     return -1;
 }
 
-int func_021F394C(u8 *p, int i)
+/* Cell at the pool index, or -1 past the end. */
+int func_021F394C(CellDeck *deck, int poolIdx)
 {
-    if (i > p[0x1f]) return -1;
-    return p[i];
+    if (poolIdx > deck->poolLast) return -1;
+    return deck->pool[poolIdx];
 }
 
-int func_021F395C(unsigned char *p, int idx)
+/* Removes the pool entry by moving the last one into its place. */
+int func_021F395C(CellDeck *deck, int poolIdx)
 {
-    if (idx > p[0x1f])
+    if (poolIdx > deck->poolLast)
         return 0;
-    if (idx < 0)
+    if (poolIdx < 0)
         return 0;
-    p[idx] = p[p[0x1f]];
-    if (p[0x1f] != 0)
-        p[0x1f] = p[0x1f] - 1;
+    deck->pool[poolIdx] = deck->pool[deck->poolLast];
+    if (deck->poolLast != 0)
+        deck->poolLast = deck->poolLast - 1;
     return 1;
 }
 
@@ -268,53 +283,57 @@ extern u8 d_021F3A7C[];
 extern u8 d_021F3A82[];
 extern u8 d_021F3A90[];
 
-int func_021F3980(u8 *p)
+/*
+ * Deals all 15 cells: one anchor cell first, then one companion cell for the
+ * half the anchor does not cover, then the rest in random order.  Returns 0
+ * when a pool operation fails.
+ */
+int func_021F3980(CellDeck *deck)
 {
-    int a;
-    int b;
-    int idx;
-    int v;
-    int cnt;
-    KType_021F3980 n;
+    int hasFlagA;
+    int hasFlagB;
+    int anchorIdx;
+    int cell;
+    int remaining;
+    KType_021F3980 poolSize;
     int i;
-    int r;
-    int x;
+    int rolled;
+    int picked;
 
-    a = 0;
-    b = 0;
-    idx = func_020056EC(6);
-    v = d_021F3A7C[idx];
-    if (func_021F395C(p, func_021F3934(p, v)) == 0)
-        return a;
-    (p + 0xf)[p[0x1e]] = v;
-    p[0x1e]++;
-    n = 15;
-    cnt = n - 1;
-    if (d_021F3AD4[idx].a == 0)
-        a = 1;
+    hasFlagA = 0;
+    hasFlagB = 0;
+    anchorIdx = func_020056EC(6);
+    cell = d_021F3A7C[anchorIdx];
+    if (func_021F395C(deck, func_021F3934(deck, cell)) == 0)
+        return hasFlagA;
+    (deck->dealt)[deck->dealtCount] = cell;
+    deck->dealtCount++;
+    poolSize = 15;
+    remaining = poolSize - 1;
+    if (d_021F3AD4[anchorIdx].flagA == 0)
+        hasFlagA = 1;
     else
-        b = 1;
-    if (b == 0 || a == 0) {
-        if (b == 0)
-            v = d_021F3A82[func_020056EC(7)];
+        hasFlagB = 1;
+    if (hasFlagB == 0 || hasFlagA == 0) {
+        if (hasFlagB == 0)
+            cell = d_021F3A82[func_020056EC(7)];
         else
-            v = d_021F3A90[func_020056EC(8)];
-        if (func_021F395C(p, func_021F3934(p, v)) == 0)
+            cell = d_021F3A90[func_020056EC(8)];
+        if (func_021F395C(deck, func_021F3934(deck, cell)) == 0)
             return 0;
-        cnt--;
-        (p + 0xf)[p[0x1e]] = v;
-        p[0x1e]++;
+        remaining--;
+        (deck->dealt)[deck->dealtCount] = cell;
+        deck->dealtCount++;
     }
-    for (i = 0; i < cnt; i++) {
-        r = func_020056EC(cnt - i);
-        x = func_021F394C(p, r);
-        if (x < 0)
+    for (i = 0; i < remaining; i++) {
+        rolled = func_020056EC(remaining - i);
+        picked = func_021F394C(deck, rolled);
+        if (picked < 0)
             return 0;
-        if (func_021F395C(p, r) == 0)
+        if (func_021F395C(deck, rolled) == 0)
             return 0;
-        (p + 0xf)[p[0x1e]] = x;
-        p[0x1e]++;
+        (deck->dealt)[deck->dealtCount] = picked;
+        deck->dealtCount++;
     }
     return 1;
 }
-

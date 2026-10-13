@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200B888, func_0200B8AC
+ * function: BATTLE_REC_IsMagicBroken, BATTLE_REC_IsValid
  *
  * 120 bytes, 0x0200B888..0x0200B900, 2 functions, both of which carry a label
  * in the generated listing.
@@ -21,15 +21,15 @@
  * those two are separate files.
  *
  * 0xE281 is the record's magic, stamped into both halves by func_0200B6E0 and
- * into the 0x44-byte header's +0x28 by func_0200B938.  func_0200B888 answers
- * "this record is NOT stamped", so its result is 1 on failure; func_0200B8AC
+ * into the 0x44-byte header's +0x28 by BATTLE_REC_SetData.  BATTLE_REC_IsMagicBroken answers
+ * "this record is NOT stamped", so its result is 1 on failure; BATTLE_REC_IsValid
  * answers "this record is whole", checking the magic in both halves and then
  * both checksums.
  *
- * Both take a first parameter they never read.  func_0200B888 reaches the
+ * Both take a first parameter they never read.  BATTLE_REC_IsMagicBroken reaches the
  * 0x17D8 field of the second half as one folded offset 0x189C off the record
  * pointer, because the source names the field through the record rather than
- * through a local, while func_0200B8AC needs a local for the sub-record and so
+ * through a local, while BATTLE_REC_IsValid needs a local for the sub-record and so
  * carries 0x17D8 in a register instead; the difference is two instructions and
  * is a statement about the source rather than about the value.
  *
@@ -76,7 +76,7 @@ struct BattleRec {
     struct RecC4 unkC4;
 };
 
-u32 func_0200B888(void *a, struct BattleRec *b)
+u32 BATTLE_REC_IsMagicBroken(void *a, struct BattleRec *b)
 {
     struct QRec *q = &b->unk80;
 
@@ -86,7 +86,7 @@ u32 func_0200B888(void *a, struct BattleRec *b)
     return 0;
 }
 
-u32 func_0200B8AC(void *a, struct BattleRec *b)
+u32 BATTLE_REC_IsValid(void *a, struct BattleRec *b)
 {
     struct RecC4 *r = &b->unkC4;
     struct QRec *q = &b->unk80;

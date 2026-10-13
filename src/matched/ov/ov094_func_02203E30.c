@@ -12,7 +12,7 @@
  *   func_02206AF8 0x02206AF8 thumb ov094
  *   func_02204960 0x02204960 thumb ov094
  *   func_022043C0 0x022043C0 thumb ov094
- *   func_02021848 0x02021848 thumb
+ *   PALANM_RequestFadeOverwrite 0x02021848 thumb
  *   func_02045374 0x02045374 arm
  *   func_02045334 0x02045334 arm
  *   func_020409B4 0x020409B4 arm
@@ -50,7 +50,7 @@ struct Obj;
 extern void func_02206AF8(char *p);
 extern void func_02204960(Main *, int, int, int, int, int, int, int);
 extern void func_022043C0(Main *, int, int, int, int);
-extern int func_02021848(void *, u16, u16, s16, u8, u8, u16, void *);
+extern int PALANM_RequestFadeOverwrite(void *, u16, u16, s16, u8, u8, u16, void *);
 struct Bank;
 struct Cfg;
 struct Descriptor;
@@ -73,7 +73,7 @@ void func_02203E30(void *h, Ctx *c)
         func_02204960(c->main, 5, 0, 0, 0, 0, 2, 1);
         func_022043C0(c->main, 0x3000, 0x1000, -0x400, 0x98);
         func_020409B4(6);
-        func_02021848(c->main->pal64, 2, 3, 1, 0xc, 0, 0x842, c->main->owner);
+        PALANM_RequestFadeOverwrite(c->main->pal64, 2, 3, 1, 0xc, 0, 0x842, c->main->owner);
         c->state++;
         break;
     case 1:

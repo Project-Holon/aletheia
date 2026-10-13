@@ -10,7 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A7390     0x020A7390  data  a1
+ *   BMP_MENULIST_FILE_NAME     0x020A7390  data  a1
+ *   BMP_MENULIST_DrawItems  0x0202055C  thumb
+ *   BMP_MENULIST_DrawCursor  0x020206C0  thumb
+ *   BMP_MENULIST_NotifyCursor  0x02020A34  thumb
+ *   BMP_CURSOR_Create  0x02020D18  thumb
  */
 #include "../include/Obj11266.h"
 
@@ -65,16 +69,16 @@ struct Src {
     u32 w[13];
 };
 
-extern char g_020A7390[];
+extern char BMP_MENULIST_FILE_NAME[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct CharBuf;
-extern void *func_02020D18(u32 heap);
+extern void *BMP_CURSOR_Create(u32 heap);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0202055C(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag);
-extern void func_020206C0(struct Obj *o);
-extern void func_02020A34(struct Obj *obj, void *arg1);
+extern void BMP_MENULIST_DrawItems(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag);
+extern void BMP_MENULIST_DrawCursor(struct Obj *o);
+extern void BMP_MENULIST_NotifyCursor(struct Obj *obj, void *arg1);
 
 struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
 {
@@ -83,9 +87,9 @@ struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
     u32 *d;
     u32 *s;
 
-    obj = (struct Obj *)func_02030734(heap, 0x50, 1, g_020A7390, 0x69);
+    obj = (struct Obj *)func_02030734(heap, 0x50, 1, BMP_MENULIST_FILE_NAME, 0x69);
     *(struct Src *)obj = *src;
-    obj->f3C = (u32)func_02020D18(heap);
+    obj->f3C = (u32)BMP_CURSOR_Create(heap);
     obj->f40 = a;
     obj->f42 = b;
     obj->f44 = 0;
@@ -111,8 +115,8 @@ struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
         q[4] = 0;
     }
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)obj->unk0C)), obj->f18lo);
-    func_0202055C(obj, obj->f40, 0, obj->rows, 1);
-    func_020206C0(obj);
-    func_02020A34(obj, (void *)1);
+    BMP_MENULIST_DrawItems(obj, obj->f40, 0, obj->rows, 1);
+    BMP_MENULIST_DrawCursor(obj);
+    BMP_MENULIST_NotifyCursor(obj, (void *)1);
     return obj;
 }

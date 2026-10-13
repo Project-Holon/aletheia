@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202368C",
+   "name": "WIPE_SUB_CircleInit",
    "address": "0x0202368C",
    "kind": "game",
    "region": "arm9",

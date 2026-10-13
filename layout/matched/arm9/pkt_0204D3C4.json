@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204D3C4"
+    "CLACT_AddAnimFrame"
+   ],
+   "addresses": [
+    "0x0204D3C4"
    ]
   },
   {
@@ -33,11 +36,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204D4C4"
+    "CLACT_UpdateAnim"
+   ],
+   "addresses": [
+    "0x0204D4C4"
    ]
   },
   {
-   "name": "sub_0204D500",
+   "name": "CLACT_UpdateVramAnim",
    "address": "0x0204D500",
    "kind": "game",
    "region": "arm9",

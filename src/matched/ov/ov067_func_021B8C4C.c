@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0201C6B4  0x0201C6B4  thumb
- *   func_02035BA4  0x02035BA4  arm
+ *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   func_021B8EA0  0x021B8EA0  thumb  ov067
  *   func_021B8DF0  0x021B8DF0  thumb  ov067
  */
@@ -54,7 +54,7 @@ struct S {
 
 struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
-extern int func_02035BA4(const void *p);
+extern int TOUCHPANEL_HitCont(const void *p);
 extern int func_021B8EA0(struct S *s);
 extern int func_021B8DF0(struct S *s, int a1);
 
@@ -64,7 +64,7 @@ int func_021B8C4C(struct S *s)
 
     if (func_0201C6B4((const struct PrintSys *)s->f34) == 0)
         return 1;
-    r = func_02035BA4(s->f2c);
+    r = TOUCHPANEL_HitCont(s->f2c);
     switch (s->f84) {
     case 0:
         if (r == -1) {

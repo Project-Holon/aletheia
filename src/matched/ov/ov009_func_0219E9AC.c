@@ -1,5 +1,5 @@
 /*
- * function: func_0219E9AC
+ * function: SBServerSetFlags
  * address:  0x0219E9AC
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Stores a byte at +0x15.
  */
 
-void func_0219E9AC(unsigned char *p, unsigned char v)
+void SBServerSetFlags(unsigned char *p, unsigned char v)
 {
     p[0x15] = v;
 }

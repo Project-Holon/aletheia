@@ -21,7 +21,7 @@
  *   func_020276AC  0x020276AC  thumb
  *   func_020276B0  0x020276B0  thumb
  *   func_0201BC3C  0x0201BC3C  thumb
- *   func_0201BABC  0x0201BABC  thumb
+ *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   func_0201BC40  0x0201BC40  thumb
  *   func_0201BCB4  0x0201BCB4  thumb
  *   func_0201BB5C  0x0201BB5C  thumb
@@ -64,7 +64,7 @@ struct Obj;
 struct Param;
 struct Sys;
 extern int func_0201BC3C(void);
-extern u32  func_0201BABC(u32 a, u32 b, u32 c, u32 d);
+extern u32  POKE_TOOL_CalcGraphicIndex(u32 a, u32 b, u32 c, u32 d);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
 extern u32  func_0201BB5C(u32 a, u32 b, u32 c, u32 d);
@@ -132,7 +132,7 @@ void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         }
         v40 = 7;
         v3c = func_0201BC3C();
-        v38 = func_0201BABC(a2, (u8)a3, v1c, 0);
+        v38 = POKE_TOOL_CalcGraphicIndex(a2, (u8)a3, v1c, 0);
         v34 = func_0201BC40();
         v30 = func_0201BCB4();
         w24 = 0x1e;

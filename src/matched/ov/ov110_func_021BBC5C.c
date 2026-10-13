@@ -13,8 +13,8 @@
  *   func_021BF6D4 0x021BF6D4 thumb ov110
  *   func_020457B0 0x020457B0 arm
  *   func_02045B38 0x02045B38 arm
- *   func_02020D18 0x02020D18 thumb
- *   func_0202C9B4 0x0202C9B4 thumb
+ *   BMP_CURSOR_Create 0x02020D18 thumb
+ *   BGWINFRM_Create 0x0202C9B4 thumb
  */
 #include "../include/Obj01392.h"
 typedef unsigned char u8;
@@ -28,8 +28,8 @@ struct MsgBank;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_02020D18(unsigned);
-extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
+extern void *BMP_CURSOR_Create(unsigned);
+extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 u8 *func_021BBC5C(void *a, u8 *b, void *c)
 {
     u8 *p;
@@ -43,12 +43,12 @@ u8 *func_021BBC5C(void *a, u8 *b, void *c)
     ((struct Obj01392 *)p)->f1A4 = 0;
     ((struct Obj01392 *)p)->f30 = func_020457B0(128, 42);
     ((struct Obj01392 *)p)->f2C = func_02045B38(0, 2, 146, 42);
-    ((struct Obj01392 *)p)->f34 = func_02020D18(42);
+    ((struct Obj01392 *)p)->f34 = BMP_CURSOR_Create(42);
     ((struct Obj01392 *)p)->f198 = 0;
     ((struct Obj01392 *)p)->f19A = 0;
     ((struct Obj01392 *)p)->f1A8 = 0;
     ((struct Obj01392 *)p)->f1AC = 0;
     ((struct Obj01392 *)p)->f1B0 = 0;
-    ((struct Obj01392 *)p)->f1B4 = func_0202C9B4(1, 1, 42);
+    ((struct Obj01392 *)p)->f1B4 = BGWINFRM_Create(1, 1, 42);
     return p;
 }

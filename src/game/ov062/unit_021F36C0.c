@@ -27,55 +27,44 @@
  *   d_021F3790     0x021F3790  data  a4
  *   func_021BE418  0x021BE418  thumb  ov021
  */
-struct Big;
-struct Ctx;
-struct Rec94;
-typedef struct {
-    int a;
-    int b;
-    int c;
-} V3;
+#include "unit_021F36C0_types.h"
 
-typedef unsigned char  u8;
+struct GameSystem;
+struct GameData;
+struct GimmickWork;
 
-typedef signed int     s32;
+extern struct GameSystem *func_02188C80(void *fieldMap);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GimmickWork *func_02012EC4(struct GameData *gameData);
+extern s32 *func_0200B3A4(struct GimmickWork *gimmickWork, u32 slot);
+extern void *func_02188D2C(void *fieldMap);
+extern void func_021BE760(void *expObj, void *unitDesc, int b);
+extern VecFx32 *func_021BE480(void *expObj, unsigned unit, int model);
+extern void func_021BE4A4(void *expObj, int unit, int model, int visible);
+extern void func_021BE700(void *expObj, int unit, int model, int animeIdx, int enabled);
+extern void func_021BE4B4(void *expObj, int unit, int model, int hidden);
+extern void func_021BE418(void *expObj, unsigned short unit);
+void func_021F36C0(void *fieldMap);
+void func_021F3738(void *fieldMap);
+extern VecFx32 d_021F3768;
+extern VecFx32 d_021F3790;
 
-typedef unsigned int   u32;
-
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern int func_02188D2C(int *p);
-extern void func_021BE760(int a, void *b, int c);
-extern int func_021BE480(char *p, unsigned i, int j);
-extern void func_021BE4A4(char *p, int i, int j, int v);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern void func_021BE4B4(char *p, int i, int j, int v);
-extern void func_021BE418(unsigned char *p, unsigned short i);
-void func_021F36C0(int a);
-void func_021F3738(void *p);
-extern V3 d_021F3768;
-extern V3 d_021F3790;
-
-
-void func_021F36C0(int a)
+void func_021F36C0(void *fieldMap)
 {
-    int *q;
-    int s;
+    s32 *hideFlag;
+    void *expObj;
 
-    q = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 0x34);
-    s = func_02188D2C((int *)a);
-    func_021BE760(s, &d_021F3768, 0);
-    *(V3 *)func_021BE480((char *)s, 0, 0) = d_021F3790;
-    func_021BE4A4((char *)s, 0, 0, 1);
-    func_021BE700((void *)s, 0, 0, 0, 1);
-    if (*q != 0)
-        func_021BE4B4((char *)s, 0, 0, 1);
+    hideFlag = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK62_WORK_SLOT);
+    expObj = func_02188D2C(fieldMap);
+    func_021BE760(expObj, &d_021F3768, 0);
+    *func_021BE480(expObj, 0, 0) = d_021F3790;
+    func_021BE4A4(expObj, 0, 0, 1);
+    func_021BE700(expObj, 0, 0, 0, 1);
+    if (*hideFlag != 0)
+        func_021BE4B4(expObj, 0, 0, 1);
 }
 
-
-void func_021F3738(void *p)
+void func_021F3738(void *fieldMap)
 {
-    func_021BE418((unsigned char *)func_02188D2C(p), 0);
+    func_021BE418(func_02188D2C(fieldMap), 0);
 }

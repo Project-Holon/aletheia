@@ -1,5 +1,5 @@
 /*
- * function: func_021D949C
+ * function: P_STA_RIBBON_PrintDetail
  * address: 0x021D949C
  * packet: pkt_ov131_021D949C
  * region: ov131
@@ -16,8 +16,8 @@
  *   func_02045770 0x02045770 arm
  *   func_0201C724 0x0201C724 thumb
  *   func_02045808 0x02045808 arm
- *   func_021DBF2C 0x021DBF2C thumb ov131
- *   func_021DBF94 0x021DBF94 thumb ov131
+ *   P_STA_RIBBON_GetRibbonInfo 0x021DBF2C thumb ov131
+ *   P_STA_RIBBON_GetRibbonDescMsg 0x021DBF94 thumb ov131
  */
 #include "../include/Obj00136.h"
 #include "../include/Obj03815.h"
@@ -32,19 +32,19 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02045808(struct U16Vec *vec);
-extern u32 func_021DBF2C(u32,u32);
-extern unsigned int func_021DBF94(int i);
-void func_021D949C(u8 *a,u8 *p)
+extern u32 P_STA_RIBBON_GetRibbonInfo(u32,u32);
+extern unsigned int P_STA_RIBBON_GetRibbonDescMsg(int i);
+void P_STA_RIBBON_PrintDetail(u8 *a,u8 *p)
 {
     u8 index;
     void *text;
     *(u32 *)&((struct Obj03815 *)p)->f20=func_020450F0(4,5,7,22,2,14,1);
     *(u32 *)&((struct Obj03815 *)p)->f24=func_020450F0(4,1,16,30,4,14,1);
     index=(p+p[0x59]*8)[0x13c];
-    text=func_02045EC0(((struct Obj03815 *)p)->f50,func_021DBF2C(index,3));
+    text=func_02045EC0(((struct Obj03815 *)p)->f50,P_STA_RIBBON_GetRibbonInfo(index,3));
     func_0201C724(((struct Obj00136 *)a)->f84,(u32)func_02045770(((struct Obj03815 *)p)->f20),1,1,(u32)text,((struct Obj00136 *)a)->f80,1088);
     func_02045808(text);
-    text=func_02045EC0(((struct Obj03815 *)p)->f50,func_021DBF94(index));
+    text=func_02045EC0(((struct Obj03815 *)p)->f50,P_STA_RIBBON_GetRibbonDescMsg(index));
     func_0201C724(((struct Obj00136 *)a)->f84,(u32)func_02045770(((struct Obj03815 *)p)->f24),1,1,(u32)text,((struct Obj00136 *)a)->f80,1088);
     func_02045808(text);
     ((struct Obj03815 *)p)->f8=1;

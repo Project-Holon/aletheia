@@ -1,5 +1,5 @@
 /*
- * function: func_02174320
+ * function: INTRUDE_CMD_RecvProfile
  * address:  0x02174320
  * packet:   pkt_ov011_02174320
  * region:   ov011
@@ -31,7 +31,7 @@ u32 func_0203D1A4(struct Link *p);
 void *func_020127AC(struct SaveBlock *p, u32 idx);
 void func_02082D44(void *d, int s, int n);
 
-void func_02174320(int a, int b, void *c, char *d)
+void INTRUDE_CMD_RecvProfile(int a, int b, void *c, char *d)
 {
     int p;
 

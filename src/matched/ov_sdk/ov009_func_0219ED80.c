@@ -17,7 +17,7 @@
  *   OS_SPrintf  0x02084F40  arm
  *   func_0219DEE8  0x0219DEE8  arm  ov009
  *   func_0219FFD4  0x0219FFD4  arm  ov009
- *   func_0217F2BC  0x0217F2BC  arm  ov009
+ *   msleep  0x0217F2BC  arm  ov009
  *   func_0219EFD0  0x0219EFD0  arm  ov009
  *   g_021A81DC  0x021A81DC  data
  *   g_021A7C90  0x021A7C90  data
@@ -41,7 +41,7 @@ extern int OS_SPrintf(char *dst, const char *fmt, ...);
 struct SBServerList;
 extern void func_0219DEE8(char *p, int v);
 extern int func_0219FFD4(struct SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
-extern void func_0217F2BC(unsigned int msec);
+extern void msleep(unsigned int msec);
 extern int func_0219EFD0(char *p);
 extern char g_021A81DC[];
 extern char *g_021A7C90[];
@@ -75,7 +75,7 @@ int func_0219ED80(ServerBrowser *sb, int async, int disconnectOnComplete, unsign
     if (err != 0 || async)
         return err;
     while (sb->liststate == 3 || (sb->numpending > 0 && err == 0)) {
-        func_0217F2BC(10);
+        msleep(10);
         err = func_0219EFD0((char *)sb);
     }
     return err;

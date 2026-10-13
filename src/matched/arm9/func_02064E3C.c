@@ -1,5 +1,5 @@
 /*
- * function: func_02064E3C
+ * function: NNSi_G2dRendererResetMtxSlot
  * address:  0x02064E3C
  * packet:   pkt_020648E0
  * region:   arm9
@@ -25,8 +25,8 @@
  * entry in the u32 table at 0x02147B98 is cleared either way.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02064E3C.c \
- *       --func func_02064E3C --addr 0x02064E3C --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_G2dRendererResetMtxSlot.c \
+ *       --func NNSi_G2dRendererResetMtxSlot --addr 0x02064E3C --arm --cc 1.1p1
  */
 
 #include "../include/G_Mtx.h"
@@ -58,7 +58,7 @@ extern u8 g_02147D28[];
 extern u8 g_02147D2C[];
 extern struct G_02148018 g_02148018[];
 
-void func_02064E3C(void)
+void NNSi_G2dRendererResetMtxSlot(void)
 {
     u32 i = g_02147B88.unk_0c;
 

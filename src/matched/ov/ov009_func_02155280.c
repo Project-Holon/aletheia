@@ -1,5 +1,5 @@
 /*
- * function: func_02155280
+ * function: GFL_NET_DEVWIFI_SetRecvCallback
  * address:  0x02155280
  * packet:   pkt_02155168
  * region:   ov009
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Calls func_02155648 on the argument twice and returns 1.
+ * Calls DWC_RAP_SetRecvCallbacks on the argument twice and returns 1.
  *
  * symbols:
- *   func_02155648  0x02155648  thumb  ov009
+ *   DWC_RAP_SetRecvCallbacks  0x02155648  thumb  ov009
  */
 
-extern void func_02155648(int a, int b);
+extern void DWC_RAP_SetRecvCallbacks(int a, int b);
 
-int func_02155280(int a)
+int GFL_NET_DEVWIFI_SetRecvCallback(int a)
 {
-    func_02155648(a, a);
+    DWC_RAP_SetRecvCallbacks(a, a);
 
     return 1;
 }

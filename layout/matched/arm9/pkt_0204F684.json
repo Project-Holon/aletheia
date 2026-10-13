@@ -32,7 +32,12 @@
    "functions": [
     "func_0204F6B4",
     "func_0204F6DC",
-    "func_0204F704"
+    "BILLBOARD_GetElemVisible"
+   ],
+   "addresses": [
+    "0x0204F6B4",
+    "0x0204F6DC",
+    "0x0204F704"
    ]
   },
   {
@@ -84,7 +89,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204F7C4",
+   "name": "BILLBOARD_SetElemRotZ",
    "address": "0x0204F7C4",
    "kind": "game",
    "region": "arm9",

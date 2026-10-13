@@ -9,6 +9,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   GFL_USE_PollPowerExit  0x020053EC  thumb
+ *   GFL_USE_UpdateSound  0x02005BC0  thumb
+ *   PM_VOICE_StopFinished  0x020065FC  thumb
  */
 
-int func_0201034C(void){ int t0 = func_020053EC(); int t1 = func_02034F5C((int)t0); int t2 = func_02005BC0((int)t1); int t3 = func_020065FC((int)t2); return t3; }
+int func_0201034C(void){ int t0 = GFL_USE_PollPowerExit(); int t1 = func_02034F5C((int)t0); int t2 = GFL_USE_UpdateSound((int)t1); int t3 = PM_VOICE_StopFinished((int)t2); return t3; }

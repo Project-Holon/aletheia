@@ -1,5 +1,5 @@
 /*
- * function: func_02072CC4
+ * function: NNS_SndWaveOutIsPlaying
  * address:  0x02072CC4
  * packet:   pkt_02072C40
  * region:   arm9
@@ -27,7 +27,7 @@ struct O {
 extern int func_02089D6C(u32 tag);
 extern u32 func_0208A07C(void);
 
-int func_02072CC4(struct O *o)
+int NNS_SndWaveOutIsPlaying(struct O *o)
 {
     u32 r;
 

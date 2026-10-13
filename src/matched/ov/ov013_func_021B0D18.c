@@ -1,5 +1,5 @@
 /*
- * function: func_021B0D18
+ * function: VCT_AUDIO_EncodeSendFrame
  * address: 0x021B0D18
  * packet: pkt_ov013_021B0D18
  * region: ov013
@@ -43,7 +43,7 @@
  *   the ctx and the 42C0 frames/counters, with `Ctx42C0 *w = &big.w` for the 42C0 side, puts both reset blocks in
  *   original order (frame and ctx in one object: unknown frame offset vs ctx+8 is a same-object alias), but the
  *   backend then drops the first `f8CC = f4` store and swaps str f8D4/cmp (72 B). Keeping that store needs the id
- *   load to alias (id inside the struct: 12 B, but d_021B60D8 is used by many other TUs and TU B's bss ends at
+ *   load to alias (id inside the struct: 12 B, but gVctSession is used by many other TUs and TU B's bss ends at
  *   4B98, so not plausible). (2) volatile flags, opt_pointer_analysis off (on segfaults the compiler),
  *   c99_alias_by_type, opt_scalarize/decomposeaggregates, scheduling off, static/defined globals, `f = 0` init,
  *   inline helpers under opt_propagation off, named `u32 *req`, 0F38 Frame layout: all 10 B or worse.
@@ -59,13 +59,13 @@
  *   d_021B3C84  0x021B3C84  data  ov013  a4
  *   d_021B3C24  0x021B3C24  data  ov013  a4
  *   d_021B3C94  0x021B3C94  data  ov013  a4
- *   d_021B60D8  0x021B60D8  data  ov013  a1
- *   func_021B3278  0x021B3278  arm  ov013
- *   func_021B3604  0x021B3604  arm  ov013
- *   func_021B3084  0x021B3084  arm  ov013
- *   func_021B04A8  0x021B04A8  arm  ov013
- *   func_021B1588  0x021B1588  arm  ov013
- *   func_021B1688  0x021B1688  arm  ov013
+ *   gVctSession  0x021B60D8  data  ov013  a1
+ *   VCT_DSP_HighPassFilter  0x021B3278  arm  ov013
+ *   VCT_DSP_SuppressEchoWithReference  0x021B3604  arm  ov013
+ *   VCT_DSP_UpdateVoiceGate  0x021B3084  arm  ov013
+ *   VCT_ADPCM_EncodePacket  0x021B04A8  arm  ov013
+ *   VCT_AUDIO_EncodeMuLaw  0x021B1588  arm  ov013
+ *   VCT_AUDIO_ConvertPcm16ToPcm8  0x021B1688  arm  ov013
  *   func_02080D24  0x02080D24  arm
 
  */
@@ -119,19 +119,19 @@ extern struct Ctx42C0 d_021B42C0;
 extern Ctx3C84 d_021B3C84;
 extern u32 d_021B3C24;
 extern u8 d_021B3C94[];
-extern u8 d_021B60D8;
+extern u8 gVctSession;
 
 typedef struct AdpcmHdr { short pred; u8 index; u8 zero; } AdpcmHdr;
 typedef struct AdpcmState { short pred; u8 index; } AdpcmState;
-extern int func_021B3278(short *p, u32 n);
-extern void func_021B3604(short *p, u32 n, u32 sq);
-extern int func_021B3084(u32 x, u32 sq, u8 *z);
-extern void func_021B04A8(AdpcmHdr *a, void *b, int n, AdpcmState *c, int mode);
-extern void func_021B1588(unsigned char *dst, const short *src, unsigned int n);
-extern void func_021B1688(u8 *dst, short *src, u32 n);
+extern int VCT_DSP_HighPassFilter(short *p, u32 n);
+extern void VCT_DSP_SuppressEchoWithReference(short *p, u32 n, u32 sq);
+extern int VCT_DSP_UpdateVoiceGate(u32 x, u32 sq, u8 *z);
+extern void VCT_ADPCM_EncodePacket(AdpcmHdr *a, void *b, int n, AdpcmState *c, int mode);
+extern void VCT_AUDIO_EncodeMuLaw(unsigned char *dst, const short *src, unsigned int n);
+extern void VCT_AUDIO_ConvertPcm16ToPcm8(u8 *dst, short *src, u32 n);
 extern u8 func_02080D24(u32 x);
 
-Frame *func_021B0D18(void)
+Frame *VCT_AUDIO_EncodeSendFrame(void)
 {
     u8 *p;
     Frame *f;
@@ -154,7 +154,7 @@ Frame *func_021B0D18(void)
     if (mode >= 2)
         p += 4;
 
-    x = func_021B3278((short *)p, d_021B3C84.f24);
+    x = VCT_DSP_HighPassFilter((short *)p, d_021B3C84.f24);
     reg_SQRTCNT = 0;
     reg_SQRT_PARAM = x;
     while (reg_SQRTCNT & 0x8000)
@@ -162,11 +162,11 @@ Frame *func_021B0D18(void)
     sq = reg_SQRT_RESULT;
 
     if (d_021B3C84.f18 != 0)
-        func_021B3604((short *)p, d_021B3C84.f24, sq);
+        VCT_DSP_SuppressEchoWithReference((short *)p, d_021B3C84.f24, sq);
 
     f->f5 = mode;
     if (d_021B3C24 != 0) {
-        switch (d_021B3C84.f28 = func_021B3084(x, sq, 0)) {
+        switch (d_021B3C84.f28 = VCT_DSP_UpdateVoiceGate(x, sq, 0)) {
         case 0:
             d_021B42C0.f8C0++;
             return 0;
@@ -192,15 +192,15 @@ Frame *func_021B0D18(void)
             d_021B3C84.f10 = 0;
             d_021B3C84.f12 = 0;
         }
-        func_021B04A8((AdpcmHdr *)(p - 4), p, d_021B3C84.f24 >> 1, (AdpcmState *)d_021B3C94, mode);
+        VCT_ADPCM_EncodePacket((AdpcmHdr *)(p - 4), p, d_021B3C84.f24 >> 1, (AdpcmState *)d_021B3C94, mode);
     } else if (mode == 1) {
-        func_021B1588(p, (short *)p, d_021B3C84.f24 >> 1);
+        VCT_AUDIO_EncodeMuLaw(p, (short *)p, d_021B3C84.f24 >> 1);
     } else if (mode == 0) {
-        func_021B1688(p, (short *)p, d_021B3C84.f24 >> 1);
+        VCT_AUDIO_ConvertPcm16ToPcm8(p, (short *)p, d_021B3C84.f24 >> 1);
     }
 
     d_021B42C0.f8CC = d_021B3C84.f4;
-    d_021B42C0.f8CC = d_021B3C84.f4 & ~(1 << d_021B60D8);
+    d_021B42C0.f8CC = d_021B3C84.f4 & ~(1 << gVctSession);
     d_021B42C0.f8D4 = func_02080D24(d_021B42C0.f8CC) - 1;
     if (d_021B42C0.f8D4 > 7)
         return 0;

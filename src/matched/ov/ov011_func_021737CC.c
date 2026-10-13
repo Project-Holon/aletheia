@@ -1,5 +1,5 @@
 /*
- * function: func_021737CC
+ * function: INTRUDE_COMM_RecvStatusRecord
  * address:  0x021737CC
  * packet:   pkt_ov011_021737CC
  * region:   ov011
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_02174EAC  0x02174EAC  thumb  ov011
+ *   INTRUDE_COMM_ApplyPlayerBeacon  0x02174EAC  thumb  ov011
  *   func_02012B58  0x02012B58  thumb
  *   func_0203D378  0x0203D378  arm
  */
@@ -34,19 +34,19 @@ typedef struct {
 } C;
 
 extern unsigned int func_02026478(void *obj);
-extern void func_02174EAC(u8 *p, int idx, u8 *q);
+extern void INTRUDE_COMM_ApplyPlayerBeacon(u8 *p, int idx, u8 *q);
 struct BigObj;
 extern u8 func_02012B58(const struct BigObj *p);
 typedef unsigned int   u32;
 extern u32 func_0203D378(void);
 
-void func_021737CC(int a, int b, C *c, D *d)
+void INTRUDE_COMM_RecvStatusRecord(int a, int b, C *c, D *d)
 {
     int h;
 
     h = func_02026478((void *)d->f4);
     if (a < d->n) {
-        func_02174EAC((u8 *)d, a, (u8 *)c);
+        INTRUDE_COMM_ApplyPlayerBeacon((u8 *)d, a, (u8 *)c);
         if (a != func_02012B58((const struct BigObj *)h) && func_0203D378() == 0 && a == 0 && c->hit == 1)
             d->flag = 1;
     }

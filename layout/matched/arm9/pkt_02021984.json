@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02021984",
+   "name": "PALANM_MaskColorBits",
    "address": "0x02021984",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020219C4",
+   "name": "PALANM_SetFadeParam",
    "address": "0x020219C4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02021A84",
+   "name": "PALANM_FadeTask",
    "address": "0x02021A84",
    "kind": "game",
    "region": "arm9",

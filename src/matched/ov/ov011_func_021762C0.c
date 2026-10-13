@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02176280 0x02176280 thumb ov011
+ *   INTRUDE_COMM_SetWordSetPlayerName 0x02176280 thumb ov011
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 bit : 1; } Flag;
-extern void func_02176280(void *win, u32 slot, void *src, u32 size, u16 heap, u32 a);
+extern void INTRUDE_COMM_SetWordSetPlayerName(void *win, u32 slot, void *src, u32 size, u16 heap, u32 a);
 void func_021762C0(void *win, u32 slot, u8 *src, u16 heap)
 {
-    func_02176280(win, slot, src, 8, heap, ((Flag *)(src + 0x11))->bit);
+    INTRUDE_COMM_SetWordSetPlayerName(win, slot, src, 8, heap, ((Flag *)(src + 0x11))->bit);
 }

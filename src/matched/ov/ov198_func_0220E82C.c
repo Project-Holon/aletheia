@@ -10,9 +10,9 @@
  * blocker: ARM9 0x020275EC has no witness outside caller; the integrator owns it.
  * Verified scratch one: EXACT 12 bytes, Thumb, dsi/1.1p1 -O4,p.
  * typedef unsigned char u8;
- * extern const u8 d_0209FCF8[];
- * unsigned func_020275EC(u8 index){return d_0209FCF8[index];}
- * symbols: d_0209FCF8 0x0209FCF8 data a1
+ * extern const u8 _PokeTypePltOffset[];
+ * unsigned func_020275EC(u8 index){return _PokeTypePltOffset[index];}
+ * symbols: _PokeTypePltOffset 0x0209FCF8 data a1
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_020275F8 0x020275F8 thumb

@@ -26,14 +26,14 @@
  *   func_02045B38  0x02045B38  arm
  *   func_02045CAC  0x02045CAC  arm
  *   func_02045C04  0x02045C04  arm
- *   func_0204581C  0x0204581C  arm
+ *   STRBUF_Clear  0x0204581C  arm
  *   func_02048F4C  0x02048F4C  arm
  *   Data_0209FF1C  0x0209FF1C  data
  *   Table_0209FEE4  0x0209FEE4  data
  *   func_0202A3D8   0x0202A3D8  thumb
  *   func_0202A3AC  0x0202A3AC  thumb
  *   func_02082A60  0x02082A60  arm
- *   func_0202428C  0x0202428C  thumb
+ *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  */
 #include "../../matched/include/Obj15808.h"
 #include "../../matched/include/Obj15810.h"
@@ -110,7 +110,7 @@ u32 func_0202A298(u32 key, u32 want, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_02045C04(struct Rec *rec);
-extern void func_0204581C(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 void func_0202A310(int key, int want, void *dest, u32 heap);
 void func_0202A3AC(void *a0, void *a1);
@@ -120,7 +120,7 @@ u8 func_0202A3D8(u32 key);
 u8 func_0202A3FC(u32 key);
 u32 func_0202A420(u32 key);
 extern void  func_02082A60(const void *src, void *dest, u32 size);
-extern void  func_0202428C(void *p);
+extern void  PMSI_PARAM_ClearSentence(void *p);
 Tpoke *func_0202A128(int heap);
 void gsXmlFreeReader(XmlReader *reader);
 u32 func_0202A188(u8 *p, u32 a, u32 v2, u32 v3);
@@ -357,7 +357,7 @@ void func_0202A310(int key, int want, void *dest, u32 heap)
     func_02045C04(bank);
 
     if (rec[0] == end) {
-        func_0204581C(dest);
+        STRBUF_Clear(dest);
     }
 }
 

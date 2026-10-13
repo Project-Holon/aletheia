@@ -12,7 +12,7 @@
  * blocker:  +001A THM_CALL func_02091220       -> unresolved: 02091220 (thumb, from header) has no witness outside 02091200..02091220
  *
  * symbols:
- *   func_02085D88    0x02085D88  arm
+ *   OSi_IsRunOnTwl    0x02085D88  arm
  *   func_02088234    0x02088234  arm
  *   func_02091220    0x02091220  thumb
  *
@@ -25,13 +25,13 @@
 
 typedef unsigned int u32;
 
-extern int func_02085D88(void);
+extern int OSi_IsRunOnTwl(void);
 extern void func_02088234(void);
 extern void func_02091220(u32 a, u32 b, u32 c);
 
 void func_02091200(u32 a, u32 b, u32 c)
 {
-    if (func_02085D88() == 0) {
+    if (OSi_IsRunOnTwl() == 0) {
         func_02088234();
     }
     func_02091220(a, b, c);

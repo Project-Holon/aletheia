@@ -26,15 +26,15 @@
  *   ov208_func_021C52F0  0x021C52F0  thumb  ov208
  *   ov208_func_021C580C  0x021C580C  thumb  ov208
  *   func_0204B688  0x0204B688  arm
- *   func_02015EA0  0x02015EA0  thumb
- *   func_02015F50  0x02015F50  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
+ *   MCSS_SetPaletteFade  0x02015F50  thumb
  *   ov208_func_021BC9BC  0x021BC9BC  thumb  ov208
  *   ov208_func_021BC844  0x021BC844  thumb  ov208
  *   ov208_func_021BC758  0x021BC758  thumb  ov208
  *   ov208_func_021BC718  0x021BC718  thumb  ov208
  *   ov208_func_021BC4F4  0x021BC4F4  thumb  ov208
  *   ov208_func_021C7E74  0x021C7E74  thumb  ov208
- *   func_0201600C  0x0201600C  thumb
+ *   MCSS_CheckPaletteFade  0x0201600C  thumb
  *   ov208_func_021BC6D8  0x021BC6D8  thumb  ov208
  *   ov208_func_021BDAD0  0x021BDAD0  thumb  ov208
  *   ov208_func_021BC3BC  0x021BC3BC  thumb  ov208
@@ -43,12 +43,12 @@
  *   ov208_func_021BDBB8  0x021BDBB8  thumb  ov208
  *   ov208_func_021BDC48  0x021BDC48  thumb  ov208
  *   ov208_func_021BC3A4  0x021BC3A4  thumb  ov208
- *   func_02012BF8  0x02012BF8  thumb
+ *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
  *   ov208_func_021BDC14  0x021BDC14  thumb  ov208
  *   ov208_func_021BE840  0x021BE840  thumb  ov208
  *   ov208_func_021BE82C  0x021BE82C  thumb  ov208
  *   ov208_func_021BE844  0x021BE844  thumb  ov208
- *   func_02015EB0  0x02015EB0  thumb
+ *   MCSS_ResetVanishFlag  0x02015EB0  thumb
  *   ov208_func_021BC6C8  0x021BC6C8  thumb  ov208
  *   ov208_func_021BDBA0  0x021BDBA0  thumb  ov208
  *   ov208_func_021C5D64  0x021C5D64  thumb  ov208
@@ -61,7 +61,7 @@
  *   ov208_func_021C4FDC  0x021C4FDC  thumb  ov208
  *   ov208_func_021BCF6C  0x021BCF6C  thumb  ov208
  *   func_02030D28  0x02030D28  arm
- *   func_02014C08  0x02014C08  thumb
+ *   MCSS_Main  0x02014C08  thumb
  *   ov208_func_021C5214  0x021C5214  thumb  ov208
  *   ov208_func_021C692C  0x021C692C  thumb  ov208
  *   ov208_func_021C6E98  0x021C6E98  thumb  ov208
@@ -98,8 +98,8 @@ struct Actor;
 struct Ctx;
 struct McssFade;
 extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_02015EA0(void *p);
-extern void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
+extern void MCSS_SetVanishFlag(void *p);
+extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 extern u32  ov208_func_021BC9BC(int skip, u16 heap, u8 layer, u8 count, u8 pal, u8 palOfs,
                                 u32 arc, u32 chr, u32 scr, u32 cell, u32 chrOfs);
 extern u32  ov208_func_021BC844(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal);
@@ -107,7 +107,7 @@ extern void ov208_func_021BC758(u32 fade);
 extern void ov208_func_021BC718(u32 fade);
 extern void ov208_func_021BC4F4(int sub, u32 blend);
 extern void ov208_func_021C7E74(u16 *heap, u8 *p, int key);
-extern int func_0201600C(void *p);
+extern int MCSS_CheckPaletteFade(void *p);
 extern void ov208_func_021BC6D8(u32 fade);
 extern int  ov208_func_021BDAD0(void *s);
 extern u16  ov208_func_021BC3BC(char *p);
@@ -116,12 +116,12 @@ extern void ov208_func_021BDAD4(void *s, int v);
 extern void ov208_func_021BDBB8(void *s, u32 kind);
 extern void ov208_func_021BDC48(void *s, u32 on);
 extern int  ov208_func_021BC3A4(int key);
-extern int func_02012BF8(int a0, int a1);
+extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void ov208_func_021BDC14(void *s, int b);
 extern int  ov208_func_021BE840(void *icon);
 extern void ov208_func_021BE82C(void *icon, int kind);
 extern void ov208_func_021BE844(void *icon);
-extern void func_02015EB0(void *p);
+extern void MCSS_ResetVanishFlag(void *p);
 extern int  ov208_func_021BC6C8(u32 fade);
 extern void ov208_func_021BDBA0(void *s);
 extern void ov208_func_021C5D64(u16 *heap, u8 *p, int key);
@@ -134,7 +134,7 @@ extern void ov208_func_021C51A0(u8 *mdl, u32 sys);
 extern void ov208_func_021C4FDC(u16 *heap, u8 *p, int key);
 extern void ov208_func_021BCF6C(void *s);
 extern void func_02030D28(struct Ctx *c);
-extern void func_02014C08(char *self);
+extern void MCSS_Main(char *self);
 extern void ov208_func_021C5214(u8 *mdl);
 extern void ov208_func_021C692C(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C6E98(u16 *heap, u8 *p, int key);
@@ -189,11 +189,11 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
         ov208_func_021C52F0(heap, p, key);
         ov208_func_021C580C(heap, p, key);
         func_0204B688((struct Actor *)(*(u32 *)(p + W(0x144) * 4 + 0x13c)), 1);
-        func_02015EA0((void *)W(0xc));
-        func_02015F50((struct McssFade *)W(0xc), 16, 16, 0, 0);
+        MCSS_SetVanishFlag((void *)W(0xc));
+        MCSS_SetPaletteFade((struct McssFade *)W(0xc), 16, 16, 0, 0);
         if (W(0x94) != 0) {
-            func_02015EA0((void *)W(0x94));
-            func_02015F50((struct McssFade *)W(0x94), 16, 16, 0, 0);
+            MCSS_SetVanishFlag((void *)W(0x94));
+            MCSS_SetPaletteFade((struct McssFade *)W(0x94), 16, 16, 0, 0);
         }
         W(0x5b4) = ov208_func_021BC9BC(0, *heap, 7, 1, 1, 0, 0x9f, 2, 12, 0x23, 0);
         W(0x5b8) = ov208_func_021BC844(*heap, 3, 3, 1, 2);
@@ -212,9 +212,9 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
         break;
     case 3:
         done = 1;
-        if (func_0201600C((void *)W(0xc)) != 0)
+        if (MCSS_CheckPaletteFade((void *)W(0xc)) != 0)
             done = 0;
-        if (W(0x94) != 0 && func_0201600C((void *)W(0x94)) != 0)
+        if (W(0x94) != 0 && MCSS_CheckPaletteFade((void *)W(0x94)) != 0)
             done = 0;
         if (done) {
             *seq = 4;
@@ -226,24 +226,24 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
                 ov208_func_021BDBB8(scene, 3);
             }
             ov208_func_021BDC48(scene, 0);
-            ov208_func_021BDC14(scene, func_02012BF8(ov208_func_021BC3A4(key), 20));
+            ov208_func_021BDC14(scene, GAME_DATA_CheckSaveFlag(ov208_func_021BC3A4(key), 20));
             if (ov208_func_021BE840(icon) != 2) {
                 ov208_func_021BE82C(icon, 3);
                 ov208_func_021BE844(icon);
             }
-            func_02015EB0((void *)W(0xc));
-            func_02015F50((struct McssFade *)W(0xc), 16, 0, -2, 0);
+            MCSS_ResetVanishFlag((void *)W(0xc));
+            MCSS_SetPaletteFade((struct McssFade *)W(0xc), 16, 0, -2, 0);
             if (W(0x94) != 0) {
-                func_02015EB0((void *)W(0x94));
-                func_02015F50((struct McssFade *)W(0x94), 16, 0, -2, 0);
+                MCSS_ResetVanishFlag((void *)W(0x94));
+                MCSS_SetPaletteFade((struct McssFade *)W(0x94), 16, 0, -2, 0);
             }
         }
         break;
     case 4:
         done = 1;
-        if (func_0201600C((void *)W(0xc)) != 0)
+        if (MCSS_CheckPaletteFade((void *)W(0xc)) != 0)
             done = 0;
-        if (W(0x94) != 0 && func_0201600C((void *)W(0x94)) != 0)
+        if (W(0x94) != 0 && MCSS_CheckPaletteFade((void *)W(0x94)) != 0)
             done = 0;
         if (ov208_func_021BC6C8(W(0x6ac)) == 0 && ov208_func_021BDAD0(scene) == 2
             && ov208_func_021BE840(icon) == 2 && done) {
@@ -257,7 +257,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
             *seq = 6;
             for (i = 0; i < 4; i++) {
                 if (OBJ(i) != 0)
-                    func_02015F50((struct McssFade *)OBJ(i), 0, 0, 0, 0);
+                    MCSS_SetPaletteFade((struct McssFade *)OBJ(i), 0, 0, 0, 0);
             }
         } else {
             ov208_func_021C5D64(heap, p, key);
@@ -266,7 +266,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
     case 6:
         settled = 1;
         for (i = 0; i < 4; i++) {
-            if (OBJ(i) != 0 && func_0201600C((void *)OBJ(i)) != 0) {
+            if (OBJ(i) != 0 && MCSS_CheckPaletteFade((void *)OBJ(i)) != 0) {
                 settled = 0;
                 break;
             }
@@ -279,7 +279,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
                 ov208_func_021BDAE8(scene, 0);
             for (i = 0; i < 4; i++) {
                 if (OBJ(i) != 0)
-                    func_02015F50((struct McssFade *)OBJ(i), 0, 16, -2, 0);
+                    MCSS_SetPaletteFade((struct McssFade *)OBJ(i), 0, 16, -2, 0);
             }
         }
         break;
@@ -287,7 +287,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
         ready = 0;
         idle = 1;
         for (i = 0; i < 4; i++) {
-            if (OBJ(i) != 0 && func_0201600C((void *)OBJ(i)) != 0) {
+            if (OBJ(i) != 0 && MCSS_CheckPaletteFade((void *)OBJ(i)) != 0) {
                 idle = 0;
                 break;
             }
@@ -319,7 +319,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
     }
     if (W(8) != 0) {
         func_02030D28((struct Ctx *)W(0x120));
-        func_02014C08((char *)W(8));
+        MCSS_Main((char *)W(8));
         for (i = 0; i < 4; i++)
             ov208_func_021C5214(p + 0xc + i * 0x44);
     }

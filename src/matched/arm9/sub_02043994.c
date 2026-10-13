@@ -1,5 +1,5 @@
 /*
- * function: func_02043994
+ * function: BMP_GetTileBytes
  * address:  0x02043994
  * packet:   pkt_0204384C
  * region:   arm9
@@ -18,8 +18,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02043994.c \
- *       --func func_02043994 --addr 0x02043994 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_GetTileBytes.c \
+ *       --func BMP_GetTileBytes --addr 0x02043994 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -31,7 +31,7 @@ struct Bmp {
     u16 unk0A;
 };
 
-u8 func_02043994(struct Bmp *b)
+u8 BMP_GetTileBytes(struct Bmp *b)
 {
     return b->unk08;
 }

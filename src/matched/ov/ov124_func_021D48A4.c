@@ -11,7 +11,7 @@
  *   d_021D4BE4 0x021D4BE4 data a1
  *   func_02035C08 0x02035C08 arm
  *   func_021D4940 0x021D4940 thumb ov124
- *   func_0202822C 0x0202822C thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   func_02012204 0x02012204 thumb
  */
 #include "../include/Obj00122.h"
@@ -23,7 +23,7 @@ extern int func_02035C08(const void *p);
 extern void func_021D4940(char *,int);
 typedef unsigned int   u32;
 struct Ctx;
-extern void func_0202822C(char *p, int v);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void func_020061E4(u32 a);
 extern u32 func_02012204(const struct Ctx *p);
 void func_021D48A4(char *p)
@@ -35,7 +35,7 @@ void func_021D48A4(char *p)
         if (((struct Obj00122 *)p)->f18 != 0) {
             (((struct Obj00122 *)p)->f18)--;
             func_021D4940(p,((struct Obj00122 *)p)->f18);
-            func_0202822C(((struct Obj00122 *)p)->f38,1);
+            APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f38,1);
             func_020061E4(0x54c);
         }
         break;
@@ -43,18 +43,18 @@ void func_021D48A4(char *p)
         if (((struct Obj00122 *)p)->f18 < 11) {
             (((struct Obj00122 *)p)->f18)++;
             func_021D4940(p,((struct Obj00122 *)p)->f18);
-            func_0202822C(((struct Obj00122 *)p)->f3C,1);
+            APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f3C,1);
             func_020061E4(0x54c);
         }
         break;
     case 2:
-        func_0202822C(((struct Obj00122 *)p)->f40,1);
+        APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f40,1);
         *(int *)&((struct Obj00122 *)p)->f10 = 2;
         func_020061E4(0x551);
         break;
     }
     if (func_02012204(((struct Obj22992 *)(*(char * *)&((struct Obj00122 *)p)->f4))->f4) == 1) {
-        func_0202822C(((struct Obj00122 *)p)->f40,1);
+        APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f40,1);
         *(int *)&((struct Obj00122 *)p)->f10 = 2;
     }
 }

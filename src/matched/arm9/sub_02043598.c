@@ -1,5 +1,5 @@
 /*
- * function: sub_02043598
+ * function: BG_SYS_SetSubPlaneVisible
  * address:  0x02043598
  * packet:   pkt_020428E8
  * region:   arm9
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 
 extern u32 gVisiblePlane[2];
 
-void sub_02043598(u32 mask, u32 enable)
+void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable)
 {
     if (enable == 1) {
         if (gVisiblePlane[0] & mask) {

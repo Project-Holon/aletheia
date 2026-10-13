@@ -1,5 +1,5 @@
 /*
- * function: func_0204E01C
+ * function: CLACT_AllocCellAnimTable
  * address:  0x0204E01C
  * packet:   pkt_0204D768
  * region:   arm9
@@ -25,8 +25,8 @@
  * never as a literal __FILE__.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204E01C.c \
- *       --func func_0204E01C --addr 0x0204E01C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_AllocCellAnimTable.c \
+ *       --func CLACT_AllocCellAnimTable --addr 0x0204E01C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -42,7 +42,7 @@ extern const char func_0204E01C_File[];
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-struct Entry *func_0204E01C(u32 heap, u32 count)
+struct Entry *CLACT_AllocCellAnimTable(u32 heap, u32 count)
 {
     struct Entry *entries;
     u32 i;

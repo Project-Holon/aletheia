@@ -1,5 +1,5 @@
 /*
- * function: func_0203B1D8
+ * function: GFL_NET_STATE_Main
  * address:  0x0203B1D8
  * packet:   pkt_0203B1D8
  * region:   arm9
@@ -25,9 +25,9 @@
  * argument, so the function pointer must load into r1, and the three bytes
  * fall out together.
  *
- * This is the same family idiom that closed src/matched/func_0203AF40.c in
+ * This is the same family idiom that closed src/matched/GFL_NET_STATE_DeviceInitialized.c in
  * the same wave (there the argument is func_0203D650()'s return value) and
- * that src/pending/func_0203B52C.c already documented in prose.  Across
+ * that src/pending/GFL_NET_STATE_ChangeoverParentConnectWait.c already documented in prose.  Across
  * net_state.c, a `ldr rN,[base,#off] / cmp rN,#0 / blx rN` where N is not r0
  * means the callback is being PASSED something, and the thing passed is
  * whatever r0 already holds.  A void-arity guess is what produces the r0
@@ -42,8 +42,8 @@
  * signature), so no search over this body could have reached it.
  *
  * symbols:
- *   func_0203C934  0x0203C934  arm
- *   g_021469DC     0x021469DC  data
+ *   GFL_NET_STATE_NoProc  0x0203C934  arm
+ *   _pNetState     0x021469DC  data
  */
 
 #include "../include/G_Sys.h"
@@ -51,20 +51,20 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void func_0203C934(void);
+extern void GFL_NET_STATE_NoProc(void);
 
-extern struct Sys *g_021469DC;
+extern struct Sys *_pNetState;
 
-u32 func_0203B1D8(void)
+u32 GFL_NET_STATE_Main(void)
 {
-    struct Sys *s = g_021469DC;
+    struct Sys *s = _pNetState;
 
     if (s == 0)
         return 1;
     if (s->cb != 0)
         s->cb((u32)s);
-    if (g_021469DC == 0)
+    if (_pNetState == 0)
         return 1;
-    func_0203C934();
+    GFL_NET_STATE_NoProc();
     return 0;
 }

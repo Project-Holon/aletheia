@@ -1,5 +1,5 @@
 /*
- * function: func_021736A4
+ * function: INTRUDE_COMM_GetStatusArea
  * address: 0x021736A4
  * packet: pkt_ov011_021736A4
  * region: ov011
@@ -13,6 +13,6 @@
  */
 
 typedef unsigned char u8;
-u8 *func_021736A4(int a, u8 *p);
+u8 *INTRUDE_COMM_GetStatusArea(int a, u8 *p);
 
-u8 *func_021736A4(int a, u8 *p) { return p + 0x648; }
+u8 *INTRUDE_COMM_GetStatusArea(int a, u8 *p) { return p + 0x648; }

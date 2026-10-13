@@ -1,5 +1,5 @@
 /*
- * function: func_021D6A38
+ * function: P_STA_SUB_Refresh
  * address: 0x021D6A38
  * packet: pkt_ov131_021D6A38
  * region: ov131
@@ -21,10 +21,10 @@
  * arithmetic: local u8 i=0..5 and mask truncates modulo256; all vectors
  *   assigned from three-word ROM templates or all three explicit zeros.
  * symbols:
- *   func_021D6064 0x021D6064 thumb ov131
- *   func_021D60A4 0x021D60A4 thumb ov131
- *   func_021D785C 0x021D785C thumb ov131
- *   func_021D7A1C 0x021D7A1C thumb ov131
+ *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
+ *   P_STATUS_GetPokeParaSource 0x021D60A4 thumb ov131
+ *   P_STA_SUB_CreateMcss 0x021D785C thumb ov131
+ *   P_STA_SUB_ApplyMcssOffset 0x021D7A1C thumb ov131
  *   func_02045334 0x02045334 arm
  *   func_02045374 0x02045374 arm
  *   func_02045730 0x02045730 arm
@@ -44,6 +44,12 @@
  *   d_021DC1A4 0x021DC1A4 data a4
  *   d_021DC18C 0x021DC18C data a4
  *   d_021DC1BC 0x021DC1BC data a4
+ *   MCSS_SetOfsPosition  0x02015C78  thumb  arm9
+ *   MCSS_SetOfsScale  0x02015D30  thumb  arm9
+ *   POKE_TOOL_IsBoxShiny  0x02017EB4  thumb  arm9
+ *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb  arm9
+ *   POKERUS_IsBoxInfected  0x0201B268  thumb  arm9
+ *   POKERUS_IsBoxCured  0x0201B28C  thumb  arm9
  */
 #include "../include/Obj00112.h"
 #include "../include/Obj00472.h"
@@ -52,15 +58,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u32 x,y,z;} Vec;
 extern const Vec d_021DC204,d_021DC21C,d_021DC1B0,d_021DC1A4,d_021DC18C,d_021DC1BC;
-extern void *func_021D6064(u8 *);
-extern int func_021D60A4(char *p);
+extern void *P_STATUS_GetPokePara(u8 *);
+extern int P_STATUS_GetPokeParaSource(char *p);
 struct Cfg;
 struct Descriptor;
 struct Light;
 struct Obj;
 struct Sub0204A9D0;
-extern void func_021D785C(u8 *p, u8 *q, void *mon);
-extern void func_021D7A1C(void *,void *,Vec *);
+extern void P_STA_SUB_CreateMcss(u8 *p, u8 *q, void *mon);
+extern void P_STA_SUB_ApplyMcssOffset(void *,void *,Vec *);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
@@ -76,24 +82,24 @@ extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
 extern u32 func_020307B0(void *p);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern u32 func_0201B28C(void *);
-extern u32 func_02017EB4(void *);
-extern u32 func_02017F90(void *);
+extern u32 POKERUS_IsBoxCured(void *);
+extern u32 POKE_TOOL_IsBoxShiny(void *);
+extern u32 POKE_TOOL_GetStatusCondition(void *);
 extern int func_020276C4(int a0);
-extern u32 func_0201B268(void *);
-extern void func_02015C78(void *,u32 *);
-extern void func_02015D30(void *,u32 *);
+extern u32 POKERUS_IsBoxInfected(void *);
+extern void MCSS_SetOfsPosition(void *,u32 *);
+extern void MCSS_SetOfsScale(void *,u32 *);
 extern void func_02048AFC(void *,const Vec *);
 extern void func_02048AD0(struct Light *l);
-void func_021D6A38(u8 *p,u8 *q)
+void P_STA_SUB_Refresh(u8 *p,u8 *q)
 {
     void *pal,*chr;
     void *mon,*other,*window,*loaded;
     u32 form,archive,status;
     u8 i,mask;
-    mon=func_021D6064(p);
-    other=(void *)func_021D60A4((char *)p);
-    func_021D785C(p,q,mon);
+    mon=P_STATUS_GetPokePara(p);
+    other=(void *)P_STATUS_GetPokeParaSource((char *)p);
+    P_STA_SUB_CreateMcss(p,q,mon);
     window=((struct Obj00472 *)q)->f18;
     func_02045334(window);
     func_02045374(window);
@@ -117,9 +123,9 @@ void func_021D6A38(u8 *p,u8 *q)
         if(status & mask) func_0204B878(*(void **)(q+0x24+i*4),i*2+1);
         else func_0204B878(*(void **)(q+0x24+i*4),i*2);
     }
-    if(func_0201B28C(mon)==1) func_0204B3DC(((struct Obj00472 *)q)->f40,1);
+    if(POKERUS_IsBoxCured(mon)==1) func_0204B3DC(((struct Obj00472 *)q)->f40,1);
     else func_0204B3DC(((struct Obj00472 *)q)->f40,0);
-    if(func_02017EB4(mon)==1 && ((struct Obj00112 *)p)->f38==0)
+    if(POKE_TOOL_IsBoxShiny(mon)==1 && ((struct Obj00112 *)p)->f38==0)
         func_0204B3DC(((struct Obj00472 *)q)->f3C,1);
     else func_0204B3DC(((struct Obj00472 *)q)->f3C,0);
     if(((struct Obj00472 *)q)->fC==1) {
@@ -127,9 +133,9 @@ void func_021D6A38(u8 *p,u8 *q)
         Vec b=d_021DC21C;
         Vec c={0,0,0};
         Vec d=d_021DC1B0;
-        func_02015C78(((struct Obj00472 *)q)->f0,&c.x);
-        func_021D7A1C(p,q,&d);
-        func_02015D30(((struct Obj00472 *)q)->f0,&b.x);
+        MCSS_SetOfsPosition(((struct Obj00472 *)q)->f0,&c.x);
+        P_STA_SUB_ApplyMcssOffset(p,q,&d);
+        MCSS_SetOfsScale(((struct Obj00472 *)q)->f0,&b.x);
         func_02048AFC(((struct Obj00112 *)p)->f70,&a);
         func_02048AD0(((struct Obj00112 *)p)->f70);
         ((struct Obj00472 *)q)->f8=0;
@@ -138,26 +144,26 @@ void func_021D6A38(u8 *p,u8 *q)
         Vec f=d_021DC18C;
         Vec g={0,0,0};
         Vec h=d_021DC1BC;
-        func_02015C78(((struct Obj00472 *)q)->f0,&g.x);
-        func_021D7A1C(p,q,&h);
-        func_02015D30(((struct Obj00472 *)q)->f4,&f.x);
+        MCSS_SetOfsPosition(((struct Obj00472 *)q)->f0,&g.x);
+        P_STA_SUB_ApplyMcssOffset(p,q,&h);
+        MCSS_SetOfsScale(((struct Obj00472 *)q)->f4,&f.x);
         func_02048AFC(((struct Obj00112 *)p)->f70,&e);
         func_02048AD0(((struct Obj00112 *)p)->f70);
         ((struct Obj00472 *)q)->f8=2;
     }
-    if((u8)func_02017F90(other)!=0) {
+    if((u8)POKE_TOOL_GetStatusCondition(other)!=0) {
         func_0204B878(((struct Obj00472 *)q)->f48,func_020276C4((int)other));
         func_0204B3DC(((struct Obj00472 *)q)->f48,1);
         func_0204B3DC(((struct Obj00472 *)q)->f44,0);
     } else {
         func_0204B3DC(((struct Obj00472 *)q)->f48,0);
-        if(func_0201B268(mon)==1) func_0204B3DC(((struct Obj00472 *)q)->f44,1);
+        if(POKERUS_IsBoxInfected(mon)==1) func_0204B3DC(((struct Obj00472 *)q)->f44,1);
         else func_0204B3DC(((struct Obj00472 *)q)->f44,0);
     }
     {
     Vec zero={0,0,0};
-    func_02015C78(((struct Obj00472 *)q)->f0,&zero.x);
-    func_02015C78(((struct Obj00472 *)q)->f4,&zero.x);
+    MCSS_SetOfsPosition(((struct Obj00472 *)q)->f0,&zero.x);
+    MCSS_SetOfsPosition(((struct Obj00472 *)q)->f4,&zero.x);
     q[0x78]=0;q[0x79]=0;q[0x80]=0;q[0x81]=0;
     ((struct Obj00472 *)q)->f6C=0;((struct Obj00472 *)q)->f5C=0;
     q[0x88]=0;q[0x89]=0;

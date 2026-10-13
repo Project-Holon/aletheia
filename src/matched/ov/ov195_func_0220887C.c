@@ -22,9 +22,9 @@
  *   FX_SinCosTable_ 0x020A1B38 data
  *   func_02030734 0x02030734 arm
  *   func_02050B80 0x02050B80 arm
- *   func_02050C30 0x02050C30 arm
- *   func_02051758 0x02051758 arm
- *   func_02051648 0x02051648 arm
+ *   PARTICLE_CreateSystem 0x02050C30 arm
+ *   PARTICLE_ReleaseCamera 0x02051758 arm
+ *   PARTICLE_InitCamera 0x02051648 arm
  *   func_0205121C 0x0205121C arm
  *   func_02051B04 0x02051B04 arm
  *   func_02051230 0x02051230 arm
@@ -75,9 +75,9 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02050B80(u32 heap);
 struct Dst648;
 struct Src648;
-extern void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
-extern int func_02051758(int a0);
-extern void func_02051648(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
+extern void *PARTICLE_CreateSystem(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
+extern int PARTICLE_ReleaseCamera(int a0);
+extern void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
 extern int func_0205121C(u32 a, u32 b, u32 c);
 extern u16 func_02051B04(void *res);
 extern void func_02051230(void *spl, u32 res, u32 a2, u32 a3);
@@ -108,9 +108,9 @@ Ptc *func_0220887C(u16 heap, u16 a, void *b)
     p->f4814 = 0;
     p->f4818 = -1;
     func_02050B80(heap);
-    p->spl = func_02050C30((u32)p->work, sizeof(p->work), 1, 5, 6, 0x3b, heap);
-    func_02051758((int)p->spl);
-    func_02051648(p->spl, (struct Src648 *)(&prm), 0x2000, (int *)(&v1), (int *)(&v2), (int *)(&v3), heap);
+    p->spl = PARTICLE_CreateSystem((u32)p->work, sizeof(p->work), 1, 5, 6, 0x3b, heap);
+    PARTICLE_ReleaseCamera((int)p->spl);
+    PARTICLE_InitCamera(p->spl, (struct Src648 *)(&prm), 0x2000, (int *)(&v1), (int *)(&v2), (int *)(&v3), heap);
     res = func_0205121C(d_02208E9C[0], d_02208E9C[1], heap);
     p->f4810 = func_02051B04((void *)res);
     func_02051230(p->spl, res, 1, 0);

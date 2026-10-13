@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021788FC",
+   "name": "DWCi_MOV_WH_EndScan",
    "address": "0x021788FC",
    "kind": "game",
    "region": "ov014",

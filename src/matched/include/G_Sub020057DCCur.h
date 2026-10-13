@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_SUB020057DCCUR_H
 #define ALETHEIA_G_SUB020057DCCUR_H
-/* sub_020057DC_Cur (arm9) */
+/* _SndStack (arm9) */
 struct Sub020057DCCur {
     unsigned short unk00;
     unsigned short unk02;

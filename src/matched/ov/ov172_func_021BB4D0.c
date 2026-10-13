@@ -10,7 +10,7 @@
  * lever: s16 array scratch with direct subscript keeps base in r7; struct field access hoists address of y.
  * symbols:
  *   func_0204B98C 0x0204B98C arm
- *   func_0204B898 0x0204B898 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   func_02041EE4 0x02041EE4 arm
  *   func_0204B454 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
@@ -25,7 +25,7 @@ struct Actor;
 struct Obj;
 struct PtS { s16 x, y; };
 extern u32 func_0204B98C(struct Actor *);
-extern u16 func_0204B898(struct Obj *);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *);
 extern void func_02041EE4(u32, u32, u32);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Vec2;
@@ -36,7 +36,7 @@ void func_021BB4D0(void *unused, u8 *q)
     u8 i;
     int changed = 0;
     if (func_0204B98C(*(struct Actor * *)&((struct Obj02880 *)q)->f6C) == 0 ||
-        func_0204B898(*(struct Obj * *)&((struct Obj02880 *)q)->f6C) == 1) {
+        CLACT_GetActorAnimSeq(*(struct Obj * *)&((struct Obj02880 *)q)->f6C) == 1) {
         if ((u8)q[4] < (u8)q[5]) { q[5] -= 24; changed = 1; }
         else if ((u8)q[4] > (u8)q[5]) { q[5] += 24; changed = 1; }
     }

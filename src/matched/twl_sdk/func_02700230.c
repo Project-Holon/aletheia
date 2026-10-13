@@ -12,7 +12,7 @@
  * symbols:
  *   data_02732FC8 0x02732FC8 data twl a2
  *   data_02733FC8 0x02733FC8 data twl a2
- *   func_02085D3C 0x02085D3C arm twl a2
+ *   OS_IsRunOnTwl 0x02085D3C arm twl a2
  *   CAMERA_GetWhiteBalanceFromPhotoMode 0x02700128  arm twl a2
  *   CAMERA_GetSharpnessFromPhotoMode 0x02700168  arm twl a2
  *   CAMERA_GetExposureFromPhotoMode 0x027001B8  arm twl a2
@@ -54,6 +54,7 @@
  *   CameraStandbyCallback  0x02702070  arm
  *   PMi_InsertPostExitCallbackEx  0x0273156C  arm
  *   PM_DeletePostExitCallback  0x02731590  arm
+ *   PXI_Init  0x02088498  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -72,7 +73,7 @@ typedef struct TwlShared {
     vu32 flags;
 } TwlShared;
 
-extern u32 func_02085D3C(void);
+extern u32 OS_IsRunOnTwl(void);
 extern s32 CAMERA_GetErrorStatusCore(void);
 extern u64 func_020870D0(void);
 extern void func_02085DBC(u32*, u32, u32);
@@ -97,7 +98,7 @@ extern void func_02085A38(u32);
 extern u32 func_02085E50(u32*, u32*, u32);
 extern void func_02087974(void);
 extern void CAMERA_ResetCore(void);
-extern void func_02088498(void);
+extern void PXI_Init(void);
 extern u32 func_020885EC(u32, u32);
 extern void func_020885A0(u32, void (*)(int, u32, int));
 extern void CAMERA_StopCaptureCore(void);
@@ -352,7 +353,7 @@ void CAMERA_Reboot(u32 a0, u32 a1) {
     case 27:
         t = data_02733FC8.f15C;
         if (t != 1) {
-            if (func_02085D3C() == 1) {
+            if (OS_IsRunOnTwl() == 1) {
                 CAMERA_I2CContextSwitchAsyncCore(1, t, CAMERA_Reboot, 0x1C);
             }
             return;
@@ -360,7 +361,7 @@ void CAMERA_Reboot(u32 a0, u32 a1) {
     case 28:
         t = data_02733FC8.f198;
         if (t != 1) {
-            if (func_02085D3C() == 1) {
+            if (OS_IsRunOnTwl() == 1) {
                 CAMERA_I2CContextSwitchAsyncCore(2, t, CAMERA_Reboot, 0x1D);
             }
             return;
@@ -372,7 +373,7 @@ void CAMERA_Reboot(u32 a0, u32 a1) {
         }
     case 30:
         if (data_02733FC8.f124 == 2 && data_02733FC8.f19C == 1) {
-            if (func_02085D3C() == 1) {
+            if (OS_IsRunOnTwl() == 1) {
                 CAMERA_SetLEDAsyncCore(1, CAMERA_Reboot, 0x1F);
             }
             return;

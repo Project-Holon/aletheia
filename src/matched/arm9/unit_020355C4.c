@@ -2,8 +2,8 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: sub_020355C4, sub_020355D8, sub_020355EC, sub_020355F8,
- *           sub_0203560C, sub_02035614, sub_02035630, sub_02035648
+ * function: UI_GetInputMode, UI_SetInputMode, UI_ClearPendingInputFlagOf, UI_SetFrameRateOf,
+ *           UI_GetFrameRateOf, UI_SetFrameRate, UI_GetFrameRate, UI_ClearPendingInputFlag
  * address:  0x020355C4
  * packet:   pkt_020353B0
  * region:   arm9
@@ -14,7 +14,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469BC     0x021469BC  data
+ *   gUiState     0x021469BC  data
  *
  * The accessor block of the singleton reached through the pointer at
  * 0x021469BC.  None of these eight functions saves lr, so disasm.py
@@ -24,22 +24,22 @@
  * The block is written as instance accessors plus global wrappers that
  * fetch the singleton and forward:
  *
- *   sub_020355C4  read the u8 at +0x3c of the singleton.
- *   sub_020355D8  write it.
- *   sub_020355EC  clear the u8 at +0x3e of a caller-supplied instance.
- *   sub_020355F8  write the u8 at +0x3d.  Takes an instance pointer for
- *                 symmetry with sub_0203560C but ignores it and goes
+ *   UI_GetInputMode  read the u8 at +0x3c of the singleton.
+ *   UI_SetInputMode  write it.
+ *   UI_ClearPendingInputFlagOf  clear the u8 at +0x3e of a caller-supplied instance.
+ *   UI_SetFrameRateOf  write the u8 at +0x3d.  Takes an instance pointer for
+ *                 symmetry with UI_GetFrameRateOf but ignores it and goes
  *                 through the singleton anyway; the reload of the global
  *                 over r0 is the whole tell.
- *   sub_0203560C  read the u8 at +0x3d of a caller-supplied instance.
- *   sub_02035614  global wrapper over sub_020355F8.
- *   sub_02035630  global wrapper over sub_0203560C.
- *   sub_02035648  global wrapper over sub_020355EC.
+ *   UI_GetFrameRateOf  read the u8 at +0x3d of a caller-supplied instance.
+ *   UI_SetFrameRate  global wrapper over UI_SetFrameRateOf.
+ *   UI_GetFrameRate  global wrapper over UI_GetFrameRateOf.
+ *   UI_ClearPendingInputFlag  global wrapper over UI_ClearPendingInputFlagOf.
  *
- * The range deliberately stops before sub_02035660, the one labelled
+ * The range deliberately stops before UI_ChangeFrameRate, the one labelled
  * function of this file: its calls to 0x02036390 and 0x02035E54 have no
  * witness outside the file, so including it caps the whole unit at MATCH.
- * It is parked in src/pending/sub_02035660.c.
+ * It is parked in src/pending/UI_ChangeFrameRate.c.
  *
  * Every wrapper is a pool word and a `bx ip`, never a displacement
  * branch, because each function is its own section
@@ -59,44 +59,44 @@ struct Sys {
     u8 unk_3e;
 };
 
-extern struct Sys *g_021469BC;
+extern struct Sys *gUiState;
 
-u8 sub_020355C4(void)
+u8 UI_GetInputMode(void)
 {
-    return g_021469BC->unk_3c;
+    return gUiState->unk_3c;
 }
 
-void sub_020355D8(u8 v)
+void UI_SetInputMode(u8 v)
 {
-    g_021469BC->unk_3c = v;
+    gUiState->unk_3c = v;
 }
 
-void sub_020355EC(struct Sys *p)
+void UI_ClearPendingInputFlagOf(struct Sys *p)
 {
     p->unk_3e = 0;
 }
 
-void sub_020355F8(struct Sys *unused, u8 v)
+void UI_SetFrameRateOf(struct Sys *unused, u8 v)
 {
-    g_021469BC->unk_3d = v;
+    gUiState->unk_3d = v;
 }
 
-u8 sub_0203560C(struct Sys *p)
+u8 UI_GetFrameRateOf(struct Sys *p)
 {
     return p->unk_3d;
 }
 
-void sub_02035614(u8 v)
+void UI_SetFrameRate(u8 v)
 {
-    sub_020355F8(g_021469BC, v);
+    UI_SetFrameRateOf(gUiState, v);
 }
 
-u8 sub_02035630(void)
+u8 UI_GetFrameRate(void)
 {
-    return sub_0203560C(g_021469BC);
+    return UI_GetFrameRateOf(gUiState);
 }
 
-void sub_02035648(void)
+void UI_ClearPendingInputFlag(void)
 {
-    sub_020355EC(g_021469BC);
+    UI_ClearPendingInputFlagOf(gUiState);
 }

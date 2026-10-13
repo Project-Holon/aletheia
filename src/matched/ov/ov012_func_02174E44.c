@@ -1,5 +1,5 @@
 /*
- * function: func_02174E44
+ * function: COLOSSEUM_RecvReadyCancel
  * address: 0x02174E44
  * packet: pkt_ov012_02174E44
  * region: ov012
@@ -13,9 +13,9 @@
  */
 
 typedef unsigned char u8;
-void func_02174E44(int n, int b, int c, u8 *p);
+void COLOSSEUM_RecvReadyCancel(int n, int b, int c, u8 *p);
 
-void func_02174E44(int n, int b, int c, u8 *p)
+void COLOSSEUM_RecvReadyCancel(int n, int b, int c, u8 *p)
 {
     u8 *w = *(u8 **)(p + 0x355c);
     if (w != 0) {

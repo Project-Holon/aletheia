@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020097BC
+ * function: WIFILIST_GetWorkSize
  *
  * alias: wifilist.c.  The original file name is in the image: the allocator at
  * 0x020097C4 passes 0x020A7198 to the debug allocator at 0x02030734 and those
@@ -26,7 +26,7 @@
  *   {
  *       struct WifiList *p = sub_02030734((u16)heap, 0x7C4, 1,
  *                                         sub_020097C4_File, 57);
- *       sub_02009800(p);
+ *       WIFILIST_Init(p);
  *       return p;
  *   }
  *
@@ -48,7 +48,7 @@ struct Sub020097BCObj {
     u8 unk000[0x7C4];
 };
 
-u32 sub_020097BC(void)
+u32 WIFILIST_GetWorkSize(void)
 {
     return sizeof(struct Sub020097BCObj);
 }

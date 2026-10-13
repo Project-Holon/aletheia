@@ -17,7 +17,7 @@
  * symbols:
  *   g_021797A8     0x021797A8  data   ov014  a4
  *   func_0217814C  0x0217814C  thumb  ov014
- *   func_020902D8  0x020902D8  arm
+ *   WM_StepDataSharing  0x020902D8  arm
  */
 
 typedef unsigned char u8;
@@ -29,13 +29,13 @@ extern void func_0217814C(int err);
 typedef unsigned short u16;
 struct WMDataSet;
 struct WMDataSharingInfo;
-extern int func_020902D8(struct WMDataSharingInfo *dsInfo, const u16 *sendData, struct WMDataSet *receiveData);
+extern int WM_StepDataSharing(struct WMDataSharingInfo *dsInfo, const u16 *sendData, struct WMDataSet *receiveData);
 
 BOOL func_021793B8(int arg)
 {
     int r;
 
-    r = func_020902D8((struct WMDataSharingInfo *)(g_021797A8 + 0x1444), (const u16 *)arg, (struct WMDataSet *)(g_021797A8 + 0x1C64));
+    r = WM_StepDataSharing((struct WMDataSharingInfo *)(g_021797A8 + 0x1444), (const u16 *)arg, (struct WMDataSet *)(g_021797A8 + 0x1C64));
     if (r == 7)
         return 0;
     if (r == 5)

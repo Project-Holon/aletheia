@@ -25,7 +25,7 @@
  *   func_020070A4 0x020070A4 thumb
  *   func_0200A8A0 0x0200A8A0 thumb
  *   func_021B70DC 0x021B70DC thumb ov101
- *   func_02005D28 0x02005D28 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_021B63CC 0x021B63CC thumb ov101
  *   d_021B8AD4 0x021B8AD4 data a4
  *   func_021B71C0 0x021B71C0 thumb ov101
@@ -34,8 +34,8 @@
  *   func_0204E720 0x0204E720 arm
  *   func_0204E804 0x0204E804 arm
  *   func_0204B92C 0x0204B92C arm
- *   func_02005D90 0x02005D90 thumb
- *   func_0204335C 0x0204335C arm
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
  *   func_020433E0 0x020433E0 arm
@@ -107,7 +107,7 @@
  *   func_0204B404  0x0204B404  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_02005728  0x02005728  thumb
- *   func_0204B8C4  0x0204B8C4  arm
+ *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   _u32_div_f 0x0209C2B0 arm
  *   func_0200A8AC  0x0200A8AC  thumb
  *   func_0200A8F8  0x0200A8F8  thumb
@@ -124,7 +124,7 @@
  *   d_021B8AEC 0x021B8AEC data a4
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_020490F4 0x020490F4 arm
@@ -281,7 +281,7 @@ extern void *func_02012EBC(struct Big *p);
 extern struct Sub02007084Ctrl *func_020070A4(void);
 extern void *func_0200A8A0(void *);
 extern void *func_021B70DC(u32,u32,u16,u16,u8,u32,u32,u32,u16);
-extern void func_02005D28(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void func_021B63CC(int *,int);
 extern void func_021B71C0(void *p);
 extern void func_020315D4(struct S020315D4 *);
@@ -289,8 +289,8 @@ extern void func_020306F0(unsigned);
 extern void func_0204E720(u32, int, int, int);
 extern int func_0204E804(void);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_02005D90(u32, u16);
-extern void func_0204335C(unsigned);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32, u16);
+extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void func_0204363C(unsigned);
 extern void func_0204361C(void);
 extern void func_020433E0(const struct DispVram *c);
@@ -317,7 +317,7 @@ extern void func_0203F9B4(void);
 extern void func_020419E4(void);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32,u32);
 extern void func_02043598(u32,u32);
 extern int func_0204ABF0(void *,u32,u32,u32,u16);
@@ -405,7 +405,7 @@ extern int func_021B8A90(struct Struct021B8A90 *p);
 extern void func_0204B878(int p, int a);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32 func_02005728(u32 range);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern s32_021B8934 func_0200A8AC(struct Rec *r);
 extern u32 func_0200A8F8(struct Rec *r, u32 index);
 int func_021B7560(void *owner,int unused,void *arg);
@@ -516,7 +516,7 @@ int func_021B7560(void *owner,int unused,void *arg)
     case 1: func_021B7F08((unsigned int)p,(unsigned int)func_021B8320); break;
     case 2: func_021B7F08((unsigned int)p,(unsigned int)func_021B81B0); break;
     }
-    func_02005D28();
+    GFL_USE_CancelChangeAndStopBgm();
     func_021B63CC(*(int * *)&((struct Obj22137 *)(*(u8 * *)&((struct Obj03229 *)p)->f48C))->f4,0);
     return 1;
 }
@@ -569,7 +569,7 @@ int func_021B7798(void *unused, u32 *state, int unused2, char *p)
         if (func_0204E804() == 0) {
             func_0204B92C((void *)func_021B78EC(p, 31), 1);
             func_021B87FC((int *)(p + 0xfc));
-            func_02005D90(0x52a, 0xffff);
+            GFL_USE_CancelChangeAndPlayBgm(0x52a, 0xffff);
             *state = 3;
         }
         break;
@@ -598,7 +598,7 @@ int func_021B7798(void *unused, u32 *state, int unused2, char *p)
 /*
  * volatile: 0x021B787A and 0x021B7884 read display registers for update.
  * func_02082BCC 0x02082BCC arm
- * func_0204335C 0x0204335C arm
+ * BG_SYS_ClearGraphicsMemory 0x0204335C arm
  * func_0204363C 0x0204363C arm
  * func_0204361C 0x0204361C arm
  * func_020433E0 0x020433E0 arm
@@ -613,7 +613,7 @@ void func_021B7860(char *p,u16 b) {
  *(volatile unsigned short *)0x04001050=0;
  *(volatile unsigned *)0x04000000 &= ~0xe000;
  *(volatile unsigned *)0x04001000 &= ~0xe000;
- func_0204335C(0);
+ BG_SYS_ClearGraphicsMemory(0);
  func_0204363C(0);
  func_0204361C();
  func_020433E0((const struct DispVram *)d_021B8B2C);
@@ -754,7 +754,7 @@ void func_021B7AB4(struct State *p,const void *config,u16 heap)
     func_02082BCC(p,0,0x90);
     func_0204A48C((const struct Cfg *)d_020A1448,(u32)config,heap);
     p->bank=func_0204B100(128,0,heap);
-    func_0204B270(p->bank);
+    CLACT_SetUnitDefaultRenderer(p->bank);
     func_020434DC(16,1);
     func_02043598(16,1);
     arc=func_020490F4(94,heap);
@@ -1534,7 +1534,7 @@ void func_021B8810(int a0, int b, int c, int a3)
     tmp[1] = (u16)((struct Obj04424 *)a0)->fC;
     func_0204B404((struct Obj *)(((struct Obj04424 *)a0)->f18), (const struct Vec2 *)tmp, 1);
     func_0204B3DC((struct Obj *)((struct Obj04424 *)a0)->f18, 1);
-    func_0204B8C4((struct Obj *)(((struct Obj04424 *)a0)->f18), func_02005728(0x2000));
+    CLACT_SetActorAnimFrame((struct Obj *)(((struct Obj04424 *)a0)->f18), func_02005728(0x2000));
 }
 
 

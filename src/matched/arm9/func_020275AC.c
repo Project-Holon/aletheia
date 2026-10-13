@@ -1,5 +1,5 @@
 /*
- * function: func_020275AC
+ * function: BEACON_STATUS_GetViewTop
  * address:  0x020275AC
  * packet:   pkt_020275AC
  * region:   arm9
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u8 func_020275AC(u8 *p) { return p[0xb0e]; }
+u8 BEACON_STATUS_GetViewTop(u8 *p) { return p[0xb0e]; }

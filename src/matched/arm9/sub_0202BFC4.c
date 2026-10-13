@@ -1,5 +1,5 @@
 /*
- * function: func_0202BFC4
+ * function: ISS_ZONE_SYS_FindRecord
  * address:  0x0202BFC4
  * packet:   pkt_0202BEBC
  * region:   arm9
@@ -26,7 +26,7 @@ struct Container {
     const struct Item *items;
 };
 
-u32 func_0202BFC4(const struct Container *c, u32 key)
+u32 ISS_ZONE_SYS_FindRecord(const struct Container *c, u32 key)
 {
     u8 i;
 

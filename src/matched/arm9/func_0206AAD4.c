@@ -33,7 +33,7 @@
  *       --func func_0206AAD4 --addr 0x0206AAD4 --cc ../2.0/sp2 --arm
  *
  * symbols:
- *   g_02148B4C   0x02148B4C  data
+ *   g_renderState   0x02148B4C  data
  *   g_02148B98   0x02148B98  data
  *   g_02148C4C   0x02148C4C  data
  *   func_0207B67C  0x0207B67C  arm
@@ -41,16 +41,16 @@
 
 typedef unsigned int u32;
 
-extern u32 g_02148B4C[];
+extern u32 g_renderState[];
 extern u32 g_02148B98[];
 extern u32 g_02148C4C[];
 extern void func_0207B67C(u32 *a, u32 *b);
 
 u32 *func_0206AAD4(void)
 {
-    if ((g_02148B4C[0x3f] & 8) == 0) {
+    if ((g_renderState[0x3f] & 8) == 0) {
         func_0207B67C(g_02148B98, g_02148C4C);
-        g_02148B4C[0x3f] |= 8;
+        g_renderState[0x3f] |= 8;
     }
     return g_02148C4C;
 }

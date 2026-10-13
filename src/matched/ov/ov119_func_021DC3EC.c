@@ -9,19 +9,19 @@
  * status: EXACT
  * symbols:
  *   func_021E55BC 0x021E55BC thumb ov119
- *   func_02014B08 0x02014B08 thumb
- *   func_02016020 0x02016020 thumb
- *   func_02015BF0 0x02015BF0 thumb
+ *   MCSS_Init 0x02014B08 thumb
+ *   MCSS_SetTextureTransAdrs 0x02016020 thumb
+ *   MCSS_SetOrthoMode 0x02015BF0 thumb
  */
 #include "../include/Obj08058.h"
 extern void func_021E55BC(char *p);
-extern void *func_02014B08(int, unsigned short);
-extern void func_02016020(void *, unsigned int);
-extern void func_02015BF0(void *);
+extern void *MCSS_Init(int, unsigned short);
+extern void MCSS_SetTextureTransAdrs(void *, unsigned int);
+extern void MCSS_SetOrthoMode(void *);
 void func_021DC3EC(char *p)
 {
     func_021E55BC(p);
-    ((struct Obj08058 *)p)->f840 = func_02014B08(4, (((struct Obj08058 *)p)->f5F4 & 0x7FFF) | 0x8000);
-    func_02016020(((struct Obj08058 *)p)->f840, 3 << 16);
-    func_02015BF0(((struct Obj08058 *)p)->f840);
+    ((struct Obj08058 *)p)->f840 = MCSS_Init(4, (((struct Obj08058 *)p)->f5F4 & 0x7FFF) | 0x8000);
+    MCSS_SetTextureTransAdrs(((struct Obj08058 *)p)->f840, 3 << 16);
+    MCSS_SetOrthoMode(((struct Obj08058 *)p)->f840);
 }

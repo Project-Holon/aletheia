@@ -18,7 +18,7 @@
  *   func_0201C724 0x0201C724 thumb
  *   func_0201C6FC 0x0201C6FC thumb
  *   func_02045334 0x02045334 arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   func_0204B878 0x0204B878 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021F22E8 0x021F22E8 thumb ov194
@@ -42,7 +42,7 @@ struct PrintSys;
 extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void func_02045334(struct Descriptor *d);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_0204B878(struct Obj *p, u16 value);
 struct Obj;
 extern void func_0204B3DC(struct Obj *,unsigned int);
@@ -73,12 +73,12 @@ int func_021F1FB4(u8 *p)
    func_02045334(((struct Obj00418 *)p)->f40);
   }
   for(i=0;i<((struct Obj00418 *)p)->f22;i++){
-   func_0204B8C4(*(void **)(p+i*4+0x44),0);
+   CLACT_SetActorAnimFrame(*(void **)(p+i*4+0x44),0);
    func_0204B878(*(void **)(p+i*4+0x44),1);
    func_0204B3DC(*(void **)(p+i*4+0x44),1);
   }
   for(;i<16;i++){
-   func_0204B8C4(*(void **)(p+i*4+0x44),0);
+   CLACT_SetActorAnimFrame(*(void **)(p+i*4+0x44),0);
    func_0204B878(*(void **)(p+i*4+0x44),1);
    func_0204B3DC(*(void **)(p+i*4+0x44),0);
   }

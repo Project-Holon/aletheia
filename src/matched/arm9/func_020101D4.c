@@ -11,11 +11,11 @@
  *
  * symbols:
  *   sub_02010158      0x02010158  thumb
- *   g_0214617C        0x0214617C  data
+ *   gNetErrWork        0x0214617C  data
  *   G2_GetBG1ScrPtr   0x0207DFB4  arm
  *   G2_GetBG1CharPtr  0x0207E24C  arm
  *   MIi_CpuClear16    0x02082A48  arm
- *   func_02043754     0x02043754  arm
+ *   BMP_CreateFromVram     0x02043754  arm
  *   func_0201EC64     0x0201EC64  thumb
  *   func_0201D7EC     0x0201D7EC  thumb
  *   func_02045B38     0x02045B38  arm
@@ -50,7 +50,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u8   g_0214617C[];
+extern u8   gNetErrWork[];
 
 extern u16 *G2_GetBG1ScrPtr(void);
 extern u8  *G2_GetBG1CharPtr(void);
@@ -63,7 +63,7 @@ struct Obj020437AC;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern struct Bmp *func_02043754(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -81,7 +81,7 @@ extern u32 sub_02010158(u8 *obj, u32 a);
 
 void func_020101D4(u32 a0, u32 a1)
 {
-    u8 *g = g_0214617C;
+    u8 *g = gNetErrWork;
     u16 *scr;
     void *surf;
     void *obj;
@@ -105,7 +105,7 @@ void func_020101D4(u32 a0, u32 a1)
         }
     }
     MIi_CpuClear16(0x7777, G2_GetBG1CharPtr() + 0x400, 0x3c00);
-    surf = func_02043754(G2_GetBG1CharPtr() + 0x400, 0x1e, 0x10, 0x20, 1);
+    surf = BMP_CreateFromVram(G2_GetBG1CharPtr() + 0x400, 0x1e, 0x10, 0x20, 1);
     obj = func_0201EC64(1);
     pal = func_0201D7EC(0x17, 0, 0, 0, 1);
 

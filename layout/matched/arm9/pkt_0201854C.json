@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201854C",
+    "POKE_TOOL_GetBoxLevelMinExp",
     "func_02018584"
+   ],
+   "addresses": [
+    "0x0201854C",
+    "0x02018584"
    ]
   },
   {
@@ -35,8 +39,13 @@
    "status": "EXACT",
    "functions": [
     "func_02018598",
-    "func_020185A0",
-    "func_020185B0"
+    "POKE_TOOL_GetBoxNature",
+    "POKE_TOOL_SetNature"
+   ],
+   "addresses": [
+    "0x02018598",
+    "0x020185A0",
+    "0x020185B0"
    ]
   },
   {
@@ -52,8 +61,13 @@
    "status": "EXACT",
    "functions": [
     "func_020185F0",
-    "func_020185F4",
-    "func_020185F8"
+    "POKE_TOOL_GetBoxParam",
+    "POKE_TOOL_GetGenderRatioClass"
+   ],
+   "addresses": [
+    "0x020185F0",
+    "0x020185F4",
+    "0x020185F8"
    ]
   },
   {
@@ -68,11 +82,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020188B4",
-    "func_020188E0",
+    "POKE_TOOL_CheckBoxTmCompat",
+    "POKE_TOOL_CheckSpeciesTmCompat",
     "func_0201891C",
-    "func_02018948",
-    "func_0201897C"
+    "POKE_TOOL_CheckSpeciesTutorCompat",
+    "POKE_TOOL_HasRibbonData"
+   ],
+   "addresses": [
+    "0x020188B4",
+    "0x020188E0",
+    "0x0201891C",
+    "0x02018948",
+    "0x0201897C"
    ]
   },
   {
@@ -88,7 +109,11 @@
    "status": "EXACT",
    "functions": [
     "func_02018A00",
-    "func_02018A08"
+    "POKE_TOOL_SetBoxAbility"
+   ],
+   "addresses": [
+    "0x02018A00",
+    "0x02018A08"
    ]
   },
   {
@@ -103,10 +128,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02018D10",
-    "func_02018D34",
-    "func_02018D6C",
-    "func_02018D8C"
+    "POKE_TOOL_DecodeCalcBlock",
+    "POKE_TOOL_DecodeBoxBlock",
+    "POKE_TOOL_EncodeCalcBlock",
+    "POKE_TOOL_EncodeBoxBlock"
+   ],
+   "addresses": [
+    "0x02018D10",
+    "0x02018D34",
+    "0x02018D6C",
+    "0x02018D8C"
    ]
   }
  ]

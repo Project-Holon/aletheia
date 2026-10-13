@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020385C4",
+   "name": "GFL_NET_SYSTEM_UpdateMPParent",
    "address": "0x020385C4",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02038924",
+   "name": "GFL_NET_SYSTEM_RecvParentData",
    "address": "0x02038924",
    "kind": "game",
    "region": "arm9",

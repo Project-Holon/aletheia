@@ -14,7 +14,7 @@
  *   func_0204047C  0x0204047C  arm
  *   func_02049624  0x02049624  arm
  *   func_0204989C  0x0204989C  arm
- *   func_020215EC  0x020215EC  thumb
+ *   PALANM_LoadArcPaletteToSlotAt  0x020215EC  thumb
  *   func_020407E8  0x020407E8  arm
  *   func_02040804  0x02040804  arm
  *   func_021F86E0  0x021F86E0  thumb  ov094
@@ -31,7 +31,7 @@ extern void func_0204047C(int idx, unsigned short val);
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 struct PalAnmSlot;
-extern void func_020215EC(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
+extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 extern u32 func_020407E8(u32 layer);
 extern u32 func_02040804(u32 layer);
 extern int func_021F86E0(void);
@@ -46,7 +46,7 @@ int func_021FB3DC(struct Cursor *a, char *b)
     func_0204047C(3, 1);
     func_02049624((void *)0x5f, (void *)(t + 1), (void *)3, 0, 0, 0, (((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000);
     func_0204989C(0x5f, t, 3, 0, 0, 0, (((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000);
-    func_020215EC((struct PalAnmSlot *)func_021F86E0(), (int)0x5f, (int)(t + 2), (u16)((((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000), (int)0, (int)0, (int)0x80, (int)0);
+    PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)func_021F86E0(), (int)0x5f, (int)(t + 2), (u16)((((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000), (int)0, (int)0, (int)0x80, (int)0);
     ((struct Obj04398 *)b)->f264 = func_020407E8(3);
     ((struct Obj04398 *)b)->f268 = func_02040804(3);
     func_02209784(func_021F8700(), 0, 0);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FSi_ConvertStringSjisToUnicode",
+   "name": "BACKUP_SYSTEM_CreateWithWork",
    "address": "0x02031948",
    "kind": "sdk",
    "region": "arm9",

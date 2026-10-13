@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: sub_020434DC, sub_02043534, sub_02043558
+ * function: BG_SYS_SetMainPlaneVisible, BG_SYS_SetMainVisiblePlanes, BG_SYS_ClearSubBgPlanes
  * address:  0x020434DC
  * packet:   pkt_020428E8
  * region:   arm9
@@ -30,7 +30,7 @@ typedef unsigned int u32;
 
 extern u32 gVisiblePlane[2];
 
-void sub_020434DC(u32 mask, u32 enable)
+void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable)
 {
     if (enable == 1) {
         if (gVisiblePlane[1] & mask) {
@@ -45,14 +45,14 @@ void sub_020434DC(u32 mask, u32 enable)
         (*(volatile u32 *)0x04000000 & ~0x1f00) | (gVisiblePlane[1] << 8);
 }
 
-void sub_02043534(u32 planes)
+void BG_SYS_SetMainVisiblePlanes(u32 planes)
 {
     gVisiblePlane[1] = planes;
     *(volatile u32 *)0x04000000 =
         (*(volatile u32 *)0x04000000 & ~0x1f00) | (planes << 8);
 }
 
-void sub_02043558(void)
+void BG_SYS_ClearSubBgPlanes(void)
 {
     gVisiblePlane[0] &= 0x10;
 }

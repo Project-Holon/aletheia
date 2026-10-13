@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02030534
+ * function: GFL_HEAP_InitSystemHeap
  *
  * BLOCKED on one relocation site: all 144 concrete bytes are correct, but
  * the call to OS_CreateHeap at +0068 has no witness. 0x02086AF8 is called
@@ -18,16 +18,16 @@
  * caller of OS_CreateHeap turns up, or when the SDK library block around
  * 0x02086AF8 is itself matched.
  *
- * Heap-4 bring-up: this is what carves the heap that func_020305C4
+ * Heap-4 bring-up: this is what carves the heap that GFL_HEAP_AllocSystem
  * (0x020305C4, this packet, EXACT) allocates from.
  *
- *   BOOL sub_02030534(u32 size)
+ *   BOOL GFL_HEAP_InitSystemHeap(u32 size)
  *
  * Take the current arena low mark, pin the arena high mark at 0x02FE3000,
  * hand OS_InitAlloc a single heap of `size` bytes off the low mark, push
  * the low mark past whatever the allocator claimed, then create the heap
  * over the same span. The handle lands in g_EnvHeapModule (0x02146964),
- * the second module-like global whose id table src/matched/sub_020305E4.c
+ * the second module-like global whose id table src/matched/GFL_HEAP_FreeSystem.c
  * frees; the +4 slot is an OSHeapHandle, which is why the failure test is
  * against -1.
  *
@@ -66,7 +66,7 @@
  *   OS_CreateHeap                0x02086AF8  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02030534.c  *       --func sub_02030534 --addr 0x02030534 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GFL_HEAP_InitSystemHeap.c  *       --func GFL_HEAP_InitSystemHeap --addr 0x02030534 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -88,7 +88,7 @@ extern void OS_SetArenaLo(u32 id, void *lo);
 extern void *OS_InitAlloc(u32 id, void *lo, void *hi, s32 heapCount);
 extern s32 OS_CreateHeap(u32 id, void *start, void *end);
 
-BOOL sub_02030534(u32 size)
+BOOL GFL_HEAP_InitSystemHeap(u32 size)
 {
     void *arenaLo;
     void *start;

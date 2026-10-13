@@ -20,16 +20,17 @@
  *   func_020076A4 0x020076A4 thumb
  *   func_020078C4 0x020078C4 thumb
  *   func_020076B4 0x020076B4 thumb
- *   func_02031324 0x02031324 arm
+ *   PROCSYS_Create 0x02031324 arm
  *   func_021E1E34  0x021E1E34  thumb  ov170
  *   func_02030EAC  0x02030EAC  arm  arm9
  *   func_021EAB04  0x021EAB04  thumb  ov170
  *   func_020419E4  0x020419E4  arm
  *   func_0204A648  0x0204A648  arm
- *   func_02021D50  0x02021D50  thumb
+ *   PALANM_TransferPalettes  0x02021D50  thumb
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
- *   func_0204335C  0x0204335C  arm  arm9
+ *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm  arm9
  *   func_020433E0  0x020433E0  arm  arm9
+ *   PROCSYS_Main  0x02031330  arm  arm9
  */
 #include "box2_types.h"
 #include "../../matched/include/Obj09220.h"
@@ -58,8 +59,8 @@ extern unsigned func_02007698(void *);
 extern u8 func_020076A4(void *);
 extern int func_020078C4(void *save, u32 box);
 extern u8 func_020076B4(void *);
-extern void *func_02031324(int a0);
-extern unsigned int func_02031330(void *);
+extern void *PROCSYS_Create(int a0);
+extern unsigned int PROCSYS_Main(void *);
 extern int func_021E1E34(char *p, int *state);
 extern void func_0200780C(void *save, u32 box);
 extern void func_0203133C(struct S020314B8 *p);
@@ -70,8 +71,8 @@ extern void func_02030EAC(struct Node *n);
 extern void func_021EAB04(unsigned char *w);
 extern void func_020419E4(void);
 extern void func_0204A648(void);
-extern void func_02021D50(struct S02021D50 *p);
-extern void func_0204335C(u32 keep);
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void func_020433E0(const struct DispVram *c);
 int func_021DC860(void *manager, int unused, void **context);
 int func_021DC900(int a, int b, int c, int *d);
@@ -110,7 +111,7 @@ int func_021DC860(void *manager, int unused, void **context)
     p[0x20] = 0;
     p[0x1f] = 0;
     p[0x21] = 1;
-    ((BoxTask *)p)->f4 = func_02031324(75);
+    ((BoxTask *)p)->f4 = PROCSYS_Create(75);
     return 1;
 }
 
@@ -119,7 +120,7 @@ int func_021DC860(void *manager, int unused, void **context)
  */
 int func_021DC900(int a, int b, int c, int *d)
 {
-    d[2] = func_02031330((void *)d[1]);
+    d[2] = PROCSYS_Main((void *)d[1]);
     if (func_021E1E34((char *)d, (int *)b) == 0)
         return 1;
     return 0;
@@ -157,7 +158,7 @@ void func_021DC970(u32 a, char *p)
     func_021EAB04((unsigned char *)(((struct Obj12145 *)p)->f2C));
     func_020419E4();
     func_0204A648();
-    func_02021D50((struct S02021D50 *)(*(u32 *)(((struct Obj12145 *)p)->f2C + 0x6c)));
+    PALANM_TransferPalettes((struct S02021D50 *)(*(u32 *)(((struct Obj12145 *)p)->f2C + 0x6c)));
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3ff8) |= 1;
 }
 
@@ -198,7 +199,7 @@ void func_021DC9B8(char *p)
  */
 void func_021DC9C4(void)
 {
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((void *)0x021EF7CC);
 }
 

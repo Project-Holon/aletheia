@@ -13,16 +13,16 @@
  * forwarded unchanged, preventing the erroneous three-argument tail call.
  *
  * symbols:
- *   func_020064B8  0x020064B8  thumb
+ *   GFL_USE_ReplaceWaveData  0x020064B8  thumb
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj23187.h"
 
 typedef unsigned int u32;
-extern int func_020064B8(u32, u32, u32, u32);
+extern int GFL_USE_ReplaceWaveData(u32, u32, u32, u32);
 
 int func_021F969C(char *p, u32 a, u32 b, u32 d)
 {
-    return func_020064B8(a, b, ((struct Obj23187 *)p)->f1E4, d);
+    return GFL_USE_ReplaceWaveData(a, b, ((struct Obj23187 *)p)->f1E4, d);
 }

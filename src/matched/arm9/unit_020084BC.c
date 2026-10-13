@@ -14,11 +14,11 @@
  *
  * symbols:
  *   sub_0201F41C        0x0201F41C  thumb
- *   sub_02045924        0x02045924  arm
- *   sub_02045A38        0x02045A38  arm
- *   sub_020457B0        0x020457B0  arm
- * function: sub_020084BC, sub_020084D4, sub_020084E4, sub_020084F4,
- *           sub_020084F8, sub_02008500, sub_02008510
+ *   STRBUF_SetString        0x02045924  arm
+ *   STRBUF_ToChars        0x02045A38  arm
+ *   STRBUF_Create        0x020457B0  arm
+ * function: MYSTATUS_IsNameEmpty, MYSTATUS_CopyName, MYSTATUS_NameFromStrbuf, MYSTATUS_GetName,
+ *           MYSTATUS_CopyNameChars, MYSTATUS_NameToStrbuf, MYSTATUS_CreateNameStrbuf
  *
  * 0x020084BC..0x0200852C, 112 bytes, seven functions.  Three of the seven had
  * no label in the generated listing because they have no register-saving
@@ -49,7 +49,7 @@
  * functions the listings label and other code calls directly, the blx is a
  * THM_CALL the compiler emitted as a plain bl (it cannot see that
  * func_020457B0 is ARM) and match.py rewrites to BLX exactly as the linker
- * would, and the bl to sub_02008500 is internal to this unit and follows
+ * would, and the bl to MYSTATUS_NameToStrbuf is internal to this unit and follows
  * from where the unit is placed.  So the verdict is EXACT.
  *
  * Verified with:
@@ -63,14 +63,14 @@ typedef unsigned int   u32;
 extern u32   sub_0201F41C(void *dst, u32 value, u32 size);
 struct Strbuf;
 struct U16Vec;
-extern void sub_02045A38(struct U16Vec *vec, u16 *out, u32 n);
-extern void sub_02045924(struct Strbuf *o, const u16 *src);
-extern struct U16Vec *sub_020457B0(u32 capacity, u32 heapId);
+extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
 /* "Are all eight halfwords zero".  blt rather than blo makes the counter a
  * signed int, and the early return inside the loop is what puts the
  * `movs r0, #0; bx lr` pair in the middle of the body rather than after it. */
-int sub_020084BC(const u16 *values)
+int MYSTATUS_IsNameEmpty(const u16 *values)
 {
     int i;
     for (i = 0; i < 8; i++) {
@@ -85,22 +85,22 @@ int sub_020084BC(const u16 *values)
  * -interworking produces for a tail call to an extern whose instruction set
  * the compiler cannot see; 0x0201F41C is Thumb (the pool word is odd) and
  * 0x02045A38 is ARM (it is even), and the same code covers both. */
-u32 sub_020084D4(u32 value, void *dst)
+u32 MYSTATUS_CopyName(u32 value, void *dst)
 {
     return sub_0201F41C(dst, value, 8);
 }
 
-void sub_020084E4(u16 *out, struct U16Vec *vec)
+void MYSTATUS_NameFromStrbuf(u16 *out, struct U16Vec *vec)
 {
-    sub_02045A38(vec, out, 8);
+    STRBUF_ToChars(vec, out, 8);
 }
 
-const void *sub_020084F4(const void *p)
+const void *MYSTATUS_GetName(const void *p)
 {
     return p;
 }
 
-u32 sub_020084F8(void *dst, u32 value, u32 size)
+u32 MYSTATUS_CopyNameChars(void *dst, u32 value, u32 size)
 {
     return sub_0201F41C(dst, value, size);
 }
@@ -108,17 +108,17 @@ u32 sub_020084F8(void *dst, u32 value, u32 size)
 /* The argument swap survives into a tail call here too, but this one is 16
  * bytes rather than 12: the extra `adds` is the third scratch register the
  * swap needs when only two arguments are live. */
-void sub_02008500(void *a, void *b)
+void MYSTATUS_NameToStrbuf(void *a, void *b)
 {
-    sub_02045924(b, a);
+    STRBUF_SetString(b, a);
 }
 
 /* Allocate an eight-byte object and hand it to the pair above.  The
  * `lsls #16` / `lsrs #16` on the incoming tag is the conversion to u16 at the
  * call, not a u16 parameter: a u16 parameter is truncated by the caller. */
-void *sub_02008510(void *a, int tag)
+void *MYSTATUS_CreateNameStrbuf(void *a, int tag)
 {
-    void *p = sub_020457B0(8, (u16)tag);
-    sub_02008500(a, p);
+    void *p = STRBUF_Create(8, (u16)tag);
+    MYSTATUS_NameToStrbuf(a, p);
     return p;
 }

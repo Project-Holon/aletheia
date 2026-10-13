@@ -11,20 +11,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020064F4, sub_02006504, sub_02006518
+ * function: GFL_USE_StartSeq, GFL_USE_StopSeqAndUnload, GFL_USE_ClearPreloadedBgmBuffers
  *
  * symbols:
- *   sub_0200590C   0x0200590C  thumb
- *   sub_020059C8   0x020059C8  thumb
+ *   GFL_USE_GetCurrentSndHandle   0x0200590C  thumb
+ *   GFL_USE_UnloadBgmData   0x020059C8  thumb
  *   func_02072E7C  0x02072E7C  arm
- *   func_02074324  0x02074324  arm
- *   func_020743EC  0x020743EC  arm
- *   func_02074694  0x02074694  arm
+ *   NNS_SndArcGetSeqInfo  0x02074324  arm
+ *   NNS_SndArcGetBankInfo  0x020743EC  arm
+ *   NNS_SndArcSetFileAddress  0x02074694  arm
  *   func_02075560  0x02075560  arm
  *
  * Three short entry points that take the current connection slot's payload
- * from sub_0200590C, which is the last function of
- * src/matched/unit_020057DC.c, and hand it to the library.  sub_02006518 is
+ * from GFL_USE_GetCurrentSndHandle, which is the last function of
+ * src/matched/unit_020057DC.c, and hand it to the library.  GFL_USE_ClearPreloadedBgmBuffers is
  * the odd one: it does not use the slot at all but looks the same object up
  * twice, through two different library entry points, with the same constant
  * 0x3F2, and shuts both results down.  0x3F2 is past the range of a Thumb
@@ -34,30 +34,30 @@
 
 typedef unsigned int u32;
 
-extern u32 *sub_0200590C(void);
-extern void sub_020059C8(void);
+extern u32 *GFL_USE_GetCurrentSndHandle(void);
+extern void GFL_USE_UnloadBgmData(void);
 extern void func_02072E7C(void **r0, int fadeFrame);
-extern u32 *func_02074324(u32 a);
-extern u32 *func_020743EC(u32 a);
-extern void func_02074694(u32 a, u32 b);
+extern u32 *NNS_SndArcGetSeqInfo(u32 a);
+extern u32 *NNS_SndArcGetBankInfo(u32 a);
+extern void NNS_SndArcSetFileAddress(u32 a, u32 b);
 extern u32 func_02075560(u32 a, u32 b);
 
-void sub_020064F4(u32 a)
+void GFL_USE_StartSeq(u32 a)
 {
-    func_02075560((u32)sub_0200590C(), a);
+    func_02075560((u32)GFL_USE_GetCurrentSndHandle(), a);
 }
 
-void sub_02006504(void)
+void GFL_USE_StopSeqAndUnload(void)
 {
-    func_02072E7C((void **)sub_0200590C(), 0);
-    sub_020059C8();
+    func_02072E7C((void **)GFL_USE_GetCurrentSndHandle(), 0);
+    GFL_USE_UnloadBgmData();
 }
 
-void sub_02006518(void)
+void GFL_USE_ClearPreloadedBgmBuffers(void)
 {
-    u32 a = *func_020743EC(0x3F2);
-    u32 b = *func_02074324(0x3F2);
+    u32 a = *NNS_SndArcGetBankInfo(0x3F2);
+    u32 b = *NNS_SndArcGetSeqInfo(0x3F2);
 
-    func_02074694(a, 0);
-    func_02074694(b, 0);
+    NNS_SndArcSetFileAddress(a, 0);
+    NNS_SndArcSetFileAddress(b, 0);
 }

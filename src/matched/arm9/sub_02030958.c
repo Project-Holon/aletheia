@@ -26,7 +26,7 @@
  * Body: sub_02030428 maps the public heap id to the heap's arena handle
  * (it masks the id, range-checks it against the count at +8 of the heap
  * table, records an error code at +0xe on failure and otherwise tail-calls
- * sub_0202FBAC), that handle is then walked by sub_02060E6C and dumped by
+ * GFL_HEAP_GetHeap), that handle is then walked by sub_02060E6C and dumped by
  * sub_02060E94 with a mode of 4, and sub_02030B50 is passed the original
  * public id. The handle value is live across two calls, so it costs r4,
  * and the id costs r5.

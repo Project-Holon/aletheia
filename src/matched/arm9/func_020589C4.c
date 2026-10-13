@@ -1,5 +1,5 @@
 /*
- * function: func_020589C4
+ * function: DWCi_BACKUPlGetWifi
  * address:  0x020589C4
  * packet:   pkt_020589C4
  * region:   arm9
@@ -18,7 +18,7 @@
 
 extern char g_02146A94[];
 
-void *func_020589C4(void)
+void *DWCi_BACKUPlGetWifi(void)
 {
     return g_02146A94;
 }

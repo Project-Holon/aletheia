@@ -1,5 +1,5 @@
 /*
- * function: func_0202BA9C
+ * function: ISS_3DS_SYS_SetCameraImpl
  * address:  0x0202BA9C
  * packet:   pkt_0202BA9C
  * region:   arm9
@@ -19,7 +19,7 @@ static inline void set3(int *d, int x, int y, int z)
     d[2] = z;
 }
 
-void func_0202BA9C(char *p, const int *a, const int *b)
+void ISS_3DS_SYS_SetCameraImpl(char *p, const int *a, const int *b)
 {
     set3((int *)(p + 0xC), a[0], a[1], a[2]);
     set3((int *)(p + 0x18), b[0], b[1], b[2]);

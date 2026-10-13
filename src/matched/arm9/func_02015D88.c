@@ -1,5 +1,5 @@
 /*
- * function: func_02015D88
+ * function: MCSS_SetShadowRotateZ
  * address:  0x02015D88
  * packet:   pkt_02015D88
  * region:   arm9
@@ -18,7 +18,7 @@
 
 typedef unsigned short u16;
 
-void func_02015D88(char *p, u16 value)
+void MCSS_SetShadowRotateZ(char *p, u16 value)
 {
     ((struct Obj15660 *)p)->f17A = value;
 }

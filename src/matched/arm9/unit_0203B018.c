@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0203B018, func_0203B01C
+ * function: GFL_NET_STATE_ConnectMacDone, GFL_NET_STATE_ExtendConnectTimer
  * address:  0x0203B018
  * packet:   pkt_0203B018
  * region:   arm9
@@ -11,17 +11,17 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469DC  0x021469DC  data
+ *   _pNetState  0x021469DC  data
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0203B018.c \
  *       --addr 0x0203B018 --arm
  *
- * net_state.c.  func_0203B018 is the 4-byte `bx lr` no-op that
- * func_0203B038 hands to func_02037A6C as its completion callback (the
- * pool word at 0x0203B080 is its only referrer).  func_0203B01C is the
+ * net_state.c.  GFL_NET_STATE_ConnectMacDone is the 4-byte `bx lr` no-op that
+ * GFL_NET_STATE_ConnectMac hands to GFL_NET_SYSTEM_ConnectToParent as its completion callback (the
+ * pool word at 0x0203B080 is its only referrer).  GFL_NET_STATE_ExtendConnectTimer is the
  * unlabelled leaf that bumps the state record's +0x46 countdown by 0x3C;
- * func_0203B390 names it through a pool word.  Filing both here gives the
+ * GFL_NET_STATE_ChangeoverConnect names it through a pool word.  Filing both here gives the
  * `matched` class a witness for each (docs/families/net_state.h, THE REPORT
  * TAG RULE, "the two genuine exceptions").
  *
@@ -32,13 +32,13 @@
 
 typedef unsigned short u16;
 
-extern struct Sys *g_021469DC;
+extern struct Sys *_pNetState;
 
-void func_0203B018(void)
+void GFL_NET_STATE_ConnectMacDone(void)
 {
 }
 
-void func_0203B01C(void)
+void GFL_NET_STATE_ExtendConnectTimer(void)
 {
-    g_021469DC->f46 += 0x3c;
+    _pNetState->f46 += 0x3c;
 }

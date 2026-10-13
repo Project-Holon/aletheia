@@ -14,7 +14,7 @@
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_02172A58  0x02172A58  arm  ov009
- *   func_0216BB6C  0x0216BB6C  arm  ov009
+ *   DWCi_GT2GetConnectionListIdx  0x0216BB6C  arm  ov009
  *   func_02199FB4  0x02199FB4  arm  ov009
  *   func_02195DE4  0x02195DE4  arm  ov009
  *   func_02171F68  0x02171F68  arm  ov009
@@ -46,7 +46,7 @@ typedef struct DWCstMatchControl {
 
 extern int func_02175F3C(void);
 extern void func_02172A58(void);
-extern int func_0216BB6C(void);
+extern int DWCi_GT2GetConnectionListIdx(void);
 extern void func_02199FB4(int cookie);
 extern void func_02195DE4(int *p);
 extern int func_02171F68(int arg);
@@ -64,7 +64,7 @@ static void func_021728B8(void)
         func_02172A58();
         return;
     }
-    if (func_0216BB6C())
+    if (DWCi_GT2GetConnectionListIdx())
         anyGT2ConnectionExist = 1;
     ((DWCstMatchControl *)func_02175F3C())->cancelState = 1;
 

@@ -10,12 +10,12 @@
  * status: EXACT
  * symbols:
  *   d_021F3B88 0x021F3B88 data ov093 a4
- *   func_0201A918 0x0201A918 thumb
+ *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_0203D3F8 0x0203D3F8 arm
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
 extern u32 *d_021F3B88;
-extern int func_0201A918(void);
+extern int POKE_REGULATION_GetDataSize(void);
 extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
-u8 func_021D4438(u32 a) { u32 r; r=func_0201A918(); return func_0203D3F8(*d_021F3B88,255,0x102,r,a,0,1,1); }
+u8 func_021D4438(u32 a) { u32 r; r=POKE_REGULATION_GetDataSize(); return func_0203D3F8(*d_021F3B88,255,0x102,r,a,0,1,1); }

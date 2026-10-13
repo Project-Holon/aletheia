@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_02045E04
+ * function: MSGDATA_DecryptStrbuf
  * address:  0x02045E04
  * packet:   pkt_02045C44
  * region:   arm9
@@ -11,22 +11,22 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020458F8  0x020458F8  arm
- *   sub_02045A90  0x02045A90  arm
+ *   STRBUF_GetLength  0x020458F8  arm
+ *   STRBUF_GetChars  0x02045A90  arm
  *   sub_02045E3C  0x02045E3C  arm
- *   sub_02045900  0x02045900  arm
+ *   STRBUF_Truncate  0x02045900  arm
  *
- * Advance the object by one: read its current index (sub_020458F8), ask
- * sub_02045E3C for the entry one past it in the list sub_02045A90 returns,
- * and install the answer with sub_02045900.
+ * Advance the object by one: read its current index (STRBUF_GetLength), ask
+ * sub_02045E3C for the entry one past it in the list STRBUF_GetChars returns,
+ * and install the answer with STRBUF_Truncate.
  *
  * Three of the four calls need the object pointer, so it is pinned in r6
  * for the whole body; the incoming second argument survives in r5 across
  * two calls before reaching sub_02045E3C's r2.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045E04.c \
- *       --func sub_02045E04 --addr 0x02045E04 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_DecryptStrbuf.c \
+ *       --func MSGDATA_DecryptStrbuf --addr 0x02045E04 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -38,16 +38,16 @@ struct Obj {
 };
 
 struct U16Vec;
-extern unsigned short sub_020458F8(struct U16Vec *vec);
-extern unsigned short *sub_02045A90(struct U16Vec *vec);
+extern unsigned short STRBUF_GetLength(struct U16Vec *vec);
+extern unsigned short *STRBUF_GetChars(struct U16Vec *vec);
 typedef unsigned short u16;
 extern u32 sub_02045E3C(u16 *str, u32 count, u32 msgIndex);
 struct U16Vec;
-extern void sub_02045900(struct U16Vec *vec, u32 index);
+extern void STRBUF_Truncate(struct U16Vec *vec, u32 index);
 
-void sub_02045E04(struct Obj *o, u32 mode)
+void MSGDATA_DecryptStrbuf(struct Obj *o, u32 mode)
 {
-    s32 index = sub_020458F8((struct U16Vec *)o);
+    s32 index = STRBUF_GetLength((struct U16Vec *)o);
 
-    sub_02045900((struct U16Vec *)o, sub_02045E3C(sub_02045A90((struct U16Vec *)o), index + 1, mode));
+    STRBUF_Truncate((struct U16Vec *)o, sub_02045E3C(STRBUF_GetChars((struct U16Vec *)o), index + 1, mode));
 }

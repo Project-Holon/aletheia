@@ -10,14 +10,14 @@
  * status: EXACT*
  * symbols:
  *   func_021BF470 0x021BF470 thumb
- *   sub_02031194 0x02031194 arm
- *   sub_02045B38 0x02045B38 arm
- *   sub_02045EC0 0x02045EC0 arm
+ *   TCBL_DeleteTask 0x02031194 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   MSGDATA_AllocString 0x02045EC0 arm
  *   func_0201DD78 0x0201DD78 thumb
  *   func_0201CCE4 0x0201CCE4 thumb
- *   sub_02045334 0x02045334 arm
- *   sub_02045374 0x02045374 arm
- *   sub_02045730 0x02045730 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   sub_020409B4 0x020409B4 arm
  *   func_0201F79C 0x0201F79C thumb
  *   sub_02045C04 0x02045C04 arm
@@ -36,15 +36,15 @@ struct Config { u16 a0,a2; u32 a4,a8,ac,a10,a14; s8 a18; u8 pad[7]; u32 a20,a24;
 struct Context { struct Config *cfg; int state,count,limit; u32 file,index,base; void *desc; u32 printer; void *text; };
 struct Rec;
 extern void func_021BF470(char *p);
-extern void sub_02031194(struct TcblNode *);
-extern struct MsgBank *sub_02045B38(u32,u32,u32,u32);
-extern void *sub_02045EC0(struct MsgBank *,u32);
+extern void TCBL_DeleteTask(struct TcblNode *);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
+extern void *MSGDATA_AllocString(struct MsgBank *,u32);
 extern void func_0201DD78(u32,u32,u32);
 /* The caller stores the live r0 result, although the matched wrapper was typed void. */
 extern u32 func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
-extern void sub_02045334(struct Descriptor *);
-extern void sub_02045374(struct Cfg *);
-extern u8 sub_02045730(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void sub_020409B4(u32);
 extern void func_0201F79C(void *,u32,u32,u32);
 extern u32 sub_02045C04(struct Rec *rec);
@@ -55,20 +55,20 @@ void func_021BF320(struct TcblNode *task, struct Context *ctx)
     struct Config *cfg = ctx->cfg;
     if (cfg->ac != 0) {
         func_021BF470((char *)ctx);
-        sub_02031194(task);
+        TCBL_DeleteTask(task);
         return;
     }
     switch (ctx->state) {
     case 0: {
-        struct MsgBank *bank = sub_02045B38(0,2,(u16)ctx->file,cfg->a2);
+        struct MsgBank *bank = MSGDATA_CreateFromArchive(0,2,(u16)ctx->file,cfg->a2);
         void *desc;
-        ctx->text = sub_02045EC0(bank,ctx->index);
+        ctx->text = MSGDATA_AllocString(bank,ctx->index);
         func_0201DD78(1,2,15);
         ctx->printer = func_0201CCE4((u32)ctx->desc,0,0,(u32)ctx->text,cfg->a24,cfg->a18,cfg->a20,0,cfg->a0,15);
         desc = ctx->desc;
-        sub_02045334(desc);
-        sub_02045374(desc);
-        sub_020409B4(sub_02045730(desc));
+        BMP_WIN_TransferChars(desc);
+        BMP_WIN_MakeScreen(desc);
+        sub_020409B4(BMP_WIN_GetBgLayer(desc));
         func_0201F79C(ctx->desc,1,ctx->base,0);
         sub_02045C04((struct Rec *)bank);
         func_0204047C(1,0);
@@ -80,7 +80,7 @@ void func_021BF320(struct TcblNode *task, struct Context *ctx)
     case 1:
         if (ctx->count++ >= ctx->limit) {
             func_021BF470((char *)ctx);
-            sub_02031194(task);
+            TCBL_DeleteTask(task);
         }
         break;
     }

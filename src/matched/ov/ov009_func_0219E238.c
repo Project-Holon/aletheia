@@ -1,5 +1,5 @@
 /*
- * function: func_0219E238
+ * function: SBServerGetPrivateInetAddress
  * address:  0x0219E238
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Word at +8.
  */
 
-int func_0219E238(const int *p)
+int SBServerGetPrivateInetAddress(const int *p)
 {
     return p[2];
 }

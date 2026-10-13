@@ -1,5 +1,5 @@
 /*
- * function: func_021D7A44
+ * function: P_STA_SUB_GetSpeciesAdjust
  * address: 0x021D7A44
  * packet: pkt_ov131_021D7A44
  * region: ov131
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D6064 0x021D6064 thumb ov131
+ *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  */
 typedef unsigned int   u32;
-extern void *func_021D6064(unsigned char *p);
+extern void *P_STATUS_GetPokePara(unsigned char *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-void func_021D7A44(void *p,int unused,int *a,int *b) {
- int n=func_02017E88(func_021D6064(p),5,0);
+void P_STA_SUB_GetSpeciesAdjust(void *p,int unused,int *a,int *b) {
+ int n=func_02017E88(P_STATUS_GetPokePara(p),5,0);
  if(n==5) {b[1]=0x299a;a[1]=0xf4cd;return;}
  if(n==37) {a[1]=0xfb33;return;}
  if(n==86) {a[0]=0x10666;a[1]=0x10666;return;}

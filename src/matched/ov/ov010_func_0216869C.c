@@ -15,16 +15,16 @@
  * src->nick directly keeps the strbuf in a register and swaps r5/r6).
  *
  * symbols:
- *   func_02017528  0x02017528  thumb
+ *   POKE_TOOL_ClearPartyParam  0x02017528  thumb
  *   func_02017588  0x02017588  thumb
  *   func_02017E40  0x02017E40  thumb
  *   func_02017E1C  0x02017E1C  thumb
- *   func_020185B0  0x020185B0  thumb
+ *   POKE_TOOL_SetNature  0x020185B0  thumb
  *   func_020457B0  0x020457B0  arm
  *   func_02045A98  0x02045A98  arm
  *   func_02045924  0x02045924  arm
  *   func_02045808  0x02045808  arm
- *   func_02018430  0x02018430  thumb
+ *   POKE_TOOL_CalcLevel  0x02018430  thumb
  */
 
 typedef unsigned char u8;
@@ -53,16 +53,16 @@ struct Mon;
 struct Sav;
 struct Strbuf;
 struct U16Vec;
-extern void func_02017528(struct Sav *p);
+extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
 extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_020185B0(void *p, u32 v);
+extern void POKE_TOOL_SetNature(void *p, u32 v);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u16 func_02045A98(void);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02018430(void *p);
+extern u32 POKE_TOOL_CalcLevel(void *p);
 
 void func_0216869C(const BattleMon *src, void *mon)
 {
@@ -73,7 +73,7 @@ void func_0216869C(const BattleMon *src, void *mon)
     u8 pp;
     const u16 *n;
 
-    func_02017528(mon);
+    POKE_TOOL_ClearPartyParam(mon);
     func_02017588(mon, src->species, 50, (u64)-1, src->ivs & 0x3FFFFFFF, src->pid);
     func_02017E40(mon, 0x6F, (u8)src->form);
     func_02017E40(mon, 6, src->item);
@@ -92,7 +92,7 @@ void func_0216869C(const BattleMon *src, void *mon)
     func_02017E40(mon, 0x12, src->ev[5]);
     func_02017E40(mon, 0xA, src->f20);
     func_02017E40(mon, 9, src->f21);
-    func_020185B0(mon, src->f38);
+    POKE_TOOL_SetNature(mon, src->f38);
     buf = func_020457B0(11, 4);
     eos = func_02045A98();
     n = src->nick;
@@ -103,5 +103,5 @@ void func_0216869C(const BattleMon *src, void *mon)
     func_02017E40(mon, 0x73, (u32)buf);
     func_02045808(buf);
     func_02017E40(mon, 0xC, src->lang);
-    func_02017E40(mon, 0x9E, func_02018430(mon));
+    func_02017E40(mon, 0x9E, POKE_TOOL_CalcLevel(mon));
 }

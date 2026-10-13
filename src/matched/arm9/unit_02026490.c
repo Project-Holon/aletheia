@@ -10,14 +10,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02026490, sub_02026498, sub_020264AC
+ * function: GAME_COMM_SetSeqState, GAME_COMM_SetNotifyFlag, GAME_COMM_GetNotifyFlag
  *
- * The labelled sub_02026490 (8 bytes) is followed immediately by two more
+ * The labelled GAME_COMM_SetSeqState (8 bytes) is followed immediately by two more
  * unlabelled leaves reaching to the next real label at 0x020264B4, the
  * same shape as src/matched/unit_02026454.c just above it in the image.
  *
- * sub_02026490 sets byte field +4 to its argument and unconditionally
- * sets byte field +5 to 1. sub_02026498 and sub_020264AC are a
+ * GAME_COMM_SetSeqState sets byte field +4 to its argument and unconditionally
+ * sets byte field +5 to 1. GAME_COMM_SetNotifyFlag and GAME_COMM_GetNotifyFlag are a
  * setter/getter pair on bit 2 of field +4: the setter narrows its 32-bit
  * argument to a byte before taking bit 0 of it
  * (`u8 f = (u8)flag;` is what produces the `lsls #0x18`/`lsrs #0x18`
@@ -35,13 +35,13 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void sub_02026490(void *obj, u32 value)
+void GAME_COMM_SetSeqState(void *obj, u32 value)
 {
     *((u8 *)obj + 4) = value;
     *((u8 *)obj + 5) = 1;
 }
 
-void sub_02026498(void *obj, u32 flag)
+void GAME_COMM_SetNotifyFlag(void *obj, u32 flag)
 {
     u8 f = (u8)flag;
     u8 v = *((u8 *)obj + 4);
@@ -56,7 +56,7 @@ struct Field4 {
     u8 hi : 5;
 };
 
-u32 sub_020264AC(void *obj)
+u32 GAME_COMM_GetNotifyFlag(void *obj)
 {
     return ((struct Field4 *)((u8 *)obj + 4))->bit2;
 }

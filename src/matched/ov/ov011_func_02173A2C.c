@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021736D8  0x021736D8  thumb ov011
+ *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
  *   func_02082BCC  0x02082BCC  arm
  *   func_020399A8  0x020399A8  arm
  *   func_0203D3F8  0x0203D3F8  arm
  */
 
-int func_021736D8(void);
+int INTRUDE_COMM_IsLinked(void);
 void func_02082BCC(void *p, int v, int n);
 struct Entry;
 struct Entry *func_020399A8(void);
@@ -39,7 +39,7 @@ int func_02173A2C(unsigned char *p, int b, T *c, int d)
     B buf;
     int r;
 
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }
     if (p[0x944] == 0) {

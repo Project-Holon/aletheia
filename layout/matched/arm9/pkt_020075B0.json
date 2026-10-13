@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020075B0",
-    "sub_02007610"
+    "BOX_SAVEDATA_SetPokemon",
+    "BOX_SAVEDATA_SwapPokemon"
+   ],
+   "addresses": [
+    "0x020075B0",
+    "0x02007610"
    ]
   },
   {
@@ -34,10 +38,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02007664",
-    "sub_02007698",
-    "sub_020076A4",
-    "sub_020076B4"
+    "BOX_SAVEDATA_ClearPokemon",
+    "BOX_SAVEDATA_GetCurrentBox",
+    "BOX_SAVEDATA_GetUsableBoxCount",
+    "BOX_SAVEDATA_UnlockBoxes"
+   ],
+   "addresses": [
+    "0x02007664",
+    "0x02007698",
+    "0x020076A4",
+    "0x020076B4"
    ]
   },
   {
@@ -52,11 +62,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02007774",
-    "sub_020077B8",
-    "sub_0200780C",
-    "sub_0200781C",
-    "sub_02007838"
+    "BOX_SAVEDATA_CountFreeSlots",
+    "BOX_SAVEDATA_CountFreeSlotsInBox",
+    "BOX_SAVEDATA_SetCurrentBox",
+    "BOX_SAVEDATA_GetWallpaper",
+    "BOX_SAVEDATA_SetWallpaper"
+   ],
+   "addresses": [
+    "0x02007774",
+    "0x020077B8",
+    "0x0200780C",
+    "0x0200781C",
+    "0x02007838"
    ]
   },
   {
@@ -71,12 +88,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200785C",
-    "sub_02007898",
-    "sub_020078C4",
-    "sub_0200791C",
-    "sub_02007984",
-    "sub_020079A0"
+    "BOX_SAVEDATA_GetBoxName",
+    "BOX_SAVEDATA_SetBoxName",
+    "BOX_SAVEDATA_CountPokemonInBox",
+    "BOX_SAVEDATA_CountNonEggPokemonInBox",
+    "BOX_SAVEDATA_CountPokemon",
+    "BOX_SAVEDATA_CountNonEggPokemon"
+   ],
+   "addresses": [
+    "0x0200785C",
+    "0x02007898",
+    "0x020078C4",
+    "0x0200791C",
+    "0x02007984",
+    "0x020079A0"
    ]
   },
   {
@@ -91,12 +116,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020079BC",
-    "sub_02007A18",
-    "sub_02007A68",
-    "sub_02007A80",
-    "sub_02007A9C",
-    "sub_02007AA4"
+    "BOX_SAVEDATA_GetPokemonValue",
+    "BOX_SAVEDATA_GetPokemon",
+    "BOX_SAVEDATA_SetFlags",
+    "BOX_SAVEDATA_CheckFlags",
+    "BOX_SAVEDATA_GetBoxPageSize",
+    "BOX_SAVEDATA_CreateWordHolder"
+   ],
+   "addresses": [
+    "0x020079BC",
+    "0x02007A18",
+    "0x02007A68",
+    "0x02007A80",
+    "0x02007A9C",
+    "0x02007AA4"
    ]
   },
   {
@@ -111,15 +144,26 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02007AC8",
-    "sub_02007AD0",
-    "sub_02007AEC",
-    "sub_02007AF4",
-    "sub_02007B00",
-    "sub_02007B08",
-    "sub_02007B20",
-    "sub_02007B44",
-    "sub_02007B50"
+    "BOX_SAVEDATA_Delete",
+    "BOX_SAVEDATA_ClearBoxPage",
+    "BOX_SAVEDATA_GetBoxDataSize",
+    "BOX_SAVEDATA_GetBoxPokemon",
+    "PERAPVOICE_GetSize",
+    "PERAPVOICE_Init",
+    "PERAPVOICE_Create",
+    "PERAPVOICE_GetFromSave",
+    "PERAPVOICE_IsRecorded"
+   ],
+   "addresses": [
+    "0x02007AC8",
+    "0x02007AD0",
+    "0x02007AEC",
+    "0x02007AF4",
+    "0x02007B00",
+    "0x02007B08",
+    "0x02007B20",
+    "0x02007B44",
+    "0x02007B50"
    ]
   }
  ]

@@ -13,11 +13,11 @@
  *   func_020457B0  0x020457B0  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017D30  0x02017D30  thumb
+ *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02045A38  0x02045A38  arm
  *   func_02045A98  0x02045A98  arm
- *   func_02017D70  0x02017D70  thumb
+ *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   func_02045808  0x02045808  arm
  *
  * Snapshot of a party into a 0x16c-byte ring record (func_0200EBD0's slot):
@@ -73,11 +73,11 @@ extern u32 func_0201AA18(void *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void  MI_CpuFill8(void *dst, u8 v, u32 size);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017D30(struct Sav *p);
+extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32   func_02017E1C(void *mon, u32 id, u32 buf);
 extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
 extern u16   func_02045A98(void);
-extern u32 func_02017D70(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern void func_02045808(struct U16Vec *vec);
 
 void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
@@ -92,7 +92,7 @@ void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
     n = 0;
     for (; i < count; i++) {
         void *mon = func_0201AB28(party, i);
-        u32 saved = func_02017D30(mon);
+        u32 saved = POKE_TOOL_DecodePartyParam(mon);
         if (func_02017E1C(mon, 0x4c, 0) == 0) {
             struct Entry *e = &rec->e[n];
             rec->e[n].species = func_02017E1C(mon, 5, 0);
@@ -116,7 +116,7 @@ void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
             }
             n++;
         }
-        func_02017D70(mon, saved);
+        POKE_TOOL_EncodePartyParam(mon, saved);
     }
     rec->year = date->year;
     rec->month = date->month;

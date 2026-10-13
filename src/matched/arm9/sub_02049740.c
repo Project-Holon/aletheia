@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_02049740
+ * function: ARC_UTIL_RegisterObjCharFromHandle
  * address:  0x02049740
  * packet:   pkt_0204968C
  * region:   arm9
@@ -31,8 +31,8 @@
  * outside witness being the second caller at 0x02049724.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02049740.c \
- *       --func sub_02049740 --addr 0x02049740 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_UTIL_RegisterObjCharFromHandle.c \
+ *       --func ARC_UTIL_RegisterObjCharFromHandle --addr 0x02049740 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -42,7 +42,7 @@ extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
 extern u32 func_0204979C(void *buf, u32 a1, u32 a2);
 extern void ENV_SetResourceSet(void *p);
 
-u32 sub_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
+u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
 {
     void *buf;
     u32 res;

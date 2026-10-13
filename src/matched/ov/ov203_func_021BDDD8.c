@@ -12,12 +12,12 @@
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021BE938 0x021BE938 thumb ov203
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
  *   func_021BDFC0 0x021BDFC0 thumb ov203
  *   func_021BE084 0x021BE084 thumb ov203
@@ -33,13 +33,13 @@ extern const unsigned char d_021BFBC4[][48];
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern int func_021BE938(void *);
-extern void func_0204335C(unsigned);
+extern void BG_SYS_ClearGraphicsMemory(unsigned);
 struct DispVram;
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(unsigned);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void func_021BDFC0(void *, unsigned);
 extern void func_021BE084(unsigned char *, int, int);
@@ -57,12 +57,12 @@ void *func_021BDDD8(unsigned swap, void *config, unsigned heap)
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;
     *(volatile unsigned *)0x04001000 &= 0xffff1fff;
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)d_021BFBC4[((struct Obj08374 *)ctx)->f14]);
     func_0204363C(swap);
     func_0204361C();
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     func_0201DD60();
     if (((struct Obj08374 *)ctx)->f14 == 0) {
         func_021BDFC0(ctx, heap);

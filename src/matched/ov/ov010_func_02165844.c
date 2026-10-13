@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02027060 0x02027060 thumb
- *   func_02026FB8 0x02026FB8 thumb
- *   g_02146940 0x02146940 data
+ *   GAME_BEACON_CheckActionPriority 0x02027060 thumb
+ *   GAME_BEACON_RequestSend 0x02026FB8 thumb
+ *   GAME_BEACON_Work 0x02146940 data
  *   func_0216586C 0x0216586C thumb ov010
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02027060(u32 a);
-extern void func_02026FB8(void *);
-extern char *g_02146940;
+extern u32 GAME_BEACON_CheckActionPriority(u32 a);
+extern void GAME_BEACON_RequestSend(void *);
+extern char *GAME_BEACON_Work;
 extern int func_0216586C(int a0, int a1);
-void func_02165844(void *v) { if(func_02027060(0x31)) { func_0216586C((int)(g_02146940+4),(int)v); func_02026FB8(g_02146940+4); } }
+void func_02165844(void *v) { if(GAME_BEACON_CheckActionPriority(0x31)) { func_0216586C((int)(GAME_BEACON_Work+4),(int)v); GAME_BEACON_RequestSend(GAME_BEACON_Work+4); } }

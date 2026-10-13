@@ -26,10 +26,10 @@
  *   func_021BC06C 0x021BC06C thumb ov217
  *   func_021BB91C 0x021BB91C thumb ov217
  *   func_021BBA30 0x021BBA30 thumb ov217
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  */
 struct S { char pad0[0x34]; int f34; char pad38[0x14]; int f4c; };
-extern unsigned int func_02035CB8(unsigned int *outA, unsigned int *outB);
+extern unsigned int TOUCHPANEL_GetPointCont(unsigned int *outA, unsigned int *outB);
 typedef unsigned int   u32;
 extern u32 func_021BB98C(void *p);
 extern void func_021BC280(struct S *p);
@@ -53,7 +53,7 @@ void func_021BB200(struct S *p)
 {
     int a;
     int b;
-    int r = func_02035CB8((unsigned int *)(&a), (unsigned int *)(&b));
+    int r = TOUCHPANEL_GetPointCont((unsigned int *)(&a), (unsigned int *)(&b));
     int m = func_021BB98C(p);
     switch (m) {
     case 0:

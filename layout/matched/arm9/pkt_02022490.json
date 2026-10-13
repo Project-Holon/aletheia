@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02022490",
+   "name": "WIPE_SetHBlankSlot",
    "address": "0x02022490",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02022518",
+   "name": "WIPE_RequestSetHBlankSlot",
    "address": "0x02022518",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02022568",
+   "name": "WIPE_RequestClearHBlankSlot",
    "address": "0x02022568",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020225B4",
+   "name": "WIPE_SetHBlankSlotTask",
    "address": "0x020225B4",
    "kind": "game",
    "region": "arm9",

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201BB5C",
-    "sub_0201BBE8"
+    "POKE_TOOL_CalcIconPalette",
+    "POKE_TOOL_GetIconPalette"
+   ],
+   "addresses": [
+    "0x0201BB5C",
+    "0x0201BBE8"
    ],
    "evidence": {
     "sole-ref": [
@@ -28,7 +32,7 @@
    }
   },
   {
-   "name": "func_0201BBE8",
+   "name": "POKE_TOOL_GetIconPalette",
    "address": "0x0201BBE8",
    "kind": "game",
    "region": "arm9",

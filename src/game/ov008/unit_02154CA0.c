@@ -1,7 +1,7 @@
 /*
  * file:     unit_02154CA0.c
  * unit:     yes
- * function: func_02154CA0, func_02154CC8, func_02154CF8, func_021550A0, func_021550B0
+ * function: EVENT_BATTLE_REC_SAVE_ProcInit, EVENT_BATTLE_REC_SAVE_ProcExit, EVENT_BATTLE_REC_SAVE_ProcMain, EVENT_BATTLE_REC_SAVE_Start, EVENT_BATTLE_REC_SAVE_CreateEvent
  * address:  0x02154CA0
  * region:   ov008
  * compiler: dsi/1.1p1
@@ -15,23 +15,23 @@
  * symbols:
  *   func_0203064C  0x0203064C  arm
  *   func_0203159C  0x0203159C  arm
- *   func_02031324  0x02031324  arm
+ *   PROCSYS_Create  0x02031324  arm
  *   func_0200FB24  0x0200FB24  thumb
  *   func_0200FB38  0x0200FB38  thumb
  *   func_0203133C  0x0203133C  arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
- *   func_02031330  0x02031330  arm
- *   func_02031348  0x02031348  arm
+ *   PROCSYS_Main  0x02031330  arm
+ *   PROCSYS_Push  0x02031348  arm
  *   func_0203A5E4  0x0203A5E4  arm
  *   func_0203A574  0x0203A574  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_02034AC4  0x02034AC4  arm
  *   func_0200B424  0x0200B424  thumb
- *   func_0200B400  0x0200B400  thumb
+ *   BATTLE_REC_AllocWork  0x0200B400  thumb
  *   func_020399A8  0x020399A8  arm
- *   func_0203D594  0x0203D594  arm
- *   func_0203D5A0  0x0203D5A0  arm
+ *   GFL_NET_StartTimingSync  0x0203D594  arm
+ *   GFL_NET_CheckTimingSync  0x0203D5A0  arm
  *   func_0200BA58  0x0200BA58  thumb
  *   func_0200BA68  0x0200BA68  thumb
  *   func_0200BA38  0x0200BA38  thumb
@@ -47,7 +47,7 @@
  *   d_021BB474     0x021BB474  data   ov214  a4
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021550DC  0x021550DC  thumb  ov008
+ *   EVENT_BATTLE_REC_SAVE_EventMain  0x021550DC  thumb  ov008
  */
 #include "../../matched/include/Obj18644.h"
 #include "../../matched/include/Obj18645.h"
@@ -117,35 +117,35 @@ typedef signed int     s32;
 
 extern void  func_0203064C(unsigned int a, unsigned int b, unsigned int c);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 extern u32 func_0200FB24(void);
 extern void func_0200FB38(void);
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
-extern unsigned int func_02031330(void *p);
-extern void func_02031348(int h, u32 id, void *a, void *b);
+extern unsigned int PROCSYS_Main(void *p);
+extern void PROCSYS_Push(int h, u32 id, void *a, void *b);
 extern void func_0203A5E4(u32 key);
 extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern void func_02034A5C(s32 handle);
 extern int func_02034AC4(s32 handle);
 extern void func_0200B424(void);
-extern void func_0200B400(u32 heap);
+extern void BATTLE_REC_AllocWork(u32 heap);
 extern struct Entry *func_020399A8(void);
-extern void func_0203D594(int a, int b);
-extern int  func_0203D5A0(int a, int b);
+extern void GFL_NET_StartTimingSync(int a, int b);
+extern int  GFL_NET_CheckTimingSync(int a, int b);
 extern void func_0200BA58(void);
 extern void func_0200BA68(void);
 extern u32 func_0200BA38(u32 v);
 extern void func_021EEE78(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern int func_021550DC(int unused, int *stage, int *work);
-int func_02154CA0(void *procsysOwner);
-int func_02154CC8(void *procWork, int unused, char *taskWork, int *procsys);
-u32 func_02154CF8(void *event, int *stage, BattleRecordWork *work, BattleRecordCtx *ctx);
-void *func_021550A0(void *gameSystem, const int *args);
-void *func_021550B0(void *gameSystem, int info, int slots, int flag);
+extern int EVENT_BATTLE_REC_SAVE_EventMain(int unused, int *stage, int *work);
+int EVENT_BATTLE_REC_SAVE_ProcInit(void *procsysOwner);
+int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, int *procsys);
+u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *work, BattleRecordCtx *ctx);
+void *EVENT_BATTLE_REC_SAVE_Start(void *gameSystem, const int *args);
+void *EVENT_BATTLE_REC_SAVE_CreateEvent(void *gameSystem, int info, int slots, int flag);
 extern char ov093_id[];
 extern char ov097_id[];
 extern char ov213_id[];
@@ -157,18 +157,18 @@ extern char d_021EFDAC[];
 extern char d_021BB474[];
 
 
-int func_02154CA0(void *procsysOwner)
+int EVENT_BATTLE_REC_SAVE_ProcInit(void *procsysOwner)
 {
     u8 *procWork;
 
     func_0203064C(1, 0x76, 0x4000);
     procWork = func_0203159C(procsysOwner, 0x1c, 0x76);
-    ((struct Obj18644 *)procWork)->f0 = (unsigned int)func_02031324(0x76);
+    ((struct Obj18644 *)procWork)->f0 = (unsigned int)PROCSYS_Create(0x76);
     return 1;
 }
 
 
-int func_02154CC8(void *procWork, int unused, char *taskWork, int *procsys)
+int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, int *procsys)
 {
     if (((struct Obj18645 *)taskWork)->f14 == 1) {
         if (func_0200FB24() != 0)
@@ -187,14 +187,14 @@ int func_02154CC8(void *procWork, int unused, char *taskWork, int *procsys)
  * same zero). Closes the 121-byte DIFF; the mid-function pool island follows.
  * BA38 returns u32.
  *
- * 18-stage task on *stage.  func_02031348's second/third arguments are an
+ * 18-stage task on *stage.  PROCSYS_Push's second/third arguments are an
  * overlay id and an address in that overlay (0xD5/ov213, 0x61/ov097,
  * 0xD6/ov214; the -1 one points into ov093, which stage 6 loads by id 0x5D
  * and stage 12 unloads).
  */
-u32 func_02154CF8(void *event, int *stage, BattleRecordWork *work, BattleRecordCtx *ctx)
+u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *work, BattleRecordCtx *ctx)
 {
-    int procsysBusy = func_02031330((void *)ctx->procsys);
+    int procsysBusy = PROCSYS_Main((void *)ctx->procsys);
     int lastPlayer, firstTeamBase, secondTeamBase, i, j, playerIndexBit, nameRow;
     u32 versionOk;
 
@@ -214,7 +214,7 @@ u32 func_02154CF8(void *event, int *stage, BattleRecordWork *work, BattleRecordC
             work->slots->modeId = 1;
         else
             work->slots->modeId = 3;
-        func_02031348(ctx->procsys, (u32)ov213_id, d_021BB0B0, work->slots);
+        PROCSYS_Push(ctx->procsys, (u32)ov213_id, d_021BB0B0, work->slots);
         *stage = 1;
         break;
     case 1:
@@ -226,11 +226,11 @@ u32 func_02154CF8(void *event, int *stage, BattleRecordWork *work, BattleRecordC
             *stage = 2;
         break;
     case 2:
-        func_0203D594((int)func_020399A8(), 0xC9);
+        GFL_NET_StartTimingSync((int)func_020399A8(), 0xC9);
         *stage = 3;
         break;
     case 3:
-        if (func_0203D5A0((int)func_020399A8(), 0xC9) == 0)
+        if (GFL_NET_CheckTimingSync((int)func_020399A8(), 0xC9) == 0)
             break;
         *stage = 4;
         break;
@@ -244,7 +244,7 @@ u32 func_02154CF8(void *event, int *stage, BattleRecordWork *work, BattleRecordC
             ctx->playerIdFirst = work->slots->slot[1].trainerId;
             ctx->playerIdSecond = work->slots->slot[0].trainerId;
         }
-        func_02031348(ctx->procsys, (u32)ov097_id, d_021F75EC, &ctx->playerIdFirst);
+        PROCSYS_Push(ctx->procsys, (u32)ov097_id, d_021F75EC, &ctx->playerIdFirst);
         *stage = 5;
         break;
     case 5:
@@ -257,18 +257,18 @@ u32 func_02154CF8(void *event, int *stage, BattleRecordWork *work, BattleRecordC
         func_02034AC4((u32)ov093_id);
         ctx->cmdTableAdded = 1;
         func_0203A574(0x100, (u32)d_021F03C4, 9, 0);
-        func_0203D594((int)func_020399A8(), 0xC8);
+        GFL_NET_StartTimingSync((int)func_020399A8(), 0xC8);
         *stage = 7;
         break;
     case 7:
-        if (func_0203D5A0((int)func_020399A8(), 0xC8) == 0)
+        if (GFL_NET_CheckTimingSync((int)func_020399A8(), 0xC8) == 0)
             break;
         *stage = 8;
         break;
     case 8:
         ctx->recordWorkAllocated = 1;
-        func_0200B400(0x76);
-        func_02031348(ctx->procsys, -1, d_021EFDAC, work->info);
+        BATTLE_REC_AllocWork(0x76);
+        PROCSYS_Push(ctx->procsys, -1, d_021EFDAC, work->info);
         *stage = 9;
         break;
     case 9:
@@ -280,11 +280,11 @@ u32 func_02154CF8(void *event, int *stage, BattleRecordWork *work, BattleRecordC
         *stage = 11;
         break;
     case 11:
-        func_0203D594((int)func_020399A8(), 0xCA);
+        GFL_NET_StartTimingSync((int)func_020399A8(), 0xCA);
         *stage = 12;
         break;
     case 12:
-        if (func_0203D5A0((int)func_020399A8(), 0xCA) == 0)
+        if (GFL_NET_CheckTimingSync((int)func_020399A8(), 0xCA) == 0)
             break;
         func_0203A5E4(0x100);
         ctx->cmdTableAdded = 0;
@@ -349,7 +349,7 @@ u32 func_02154CF8(void *event, int *stage, BattleRecordWork *work, BattleRecordC
             *stage = 16;
             break;
         }
-        func_02031348(ctx->procsys, (u32)ov213_id, d_021BB0B0, work->slots);
+        PROCSYS_Push(ctx->procsys, (u32)ov213_id, d_021BB0B0, work->slots);
         *stage = 14;
         break;
     case 14:
@@ -365,7 +365,7 @@ u32 func_02154CF8(void *event, int *stage, BattleRecordWork *work, BattleRecordC
         work->saveEnabled = 1;
         work->resultFlag = work->flag;
         work->resultExtraFlag = work->extraFlag;
-        func_02031348(ctx->procsys, (u32)ov214_id, d_021BB474, &work->resultGameSystem);
+        PROCSYS_Push(ctx->procsys, (u32)ov214_id, d_021BB474, &work->resultGameSystem);
         *stage = 16;
         break;
     case 16:
@@ -381,15 +381,15 @@ u32 func_02154CF8(void *event, int *stage, BattleRecordWork *work, BattleRecordC
     return 0;
 }
 
-void *func_021550A0(void *gameSystem, const int *args)
+void *EVENT_BATTLE_REC_SAVE_Start(void *gameSystem, const int *args)
 {
-    return func_021550B0(gameSystem, args[0], args[1], args[2]);
+    return EVENT_BATTLE_REC_SAVE_CreateEvent(gameSystem, args[0], args[1], args[2]);
 }
 
 
-void *func_021550B0(void *gameSystem, int info, int slots, int flag)
+void *EVENT_BATTLE_REC_SAVE_CreateEvent(void *gameSystem, int info, int slots, int flag)
 {
-    void *event = func_020122C0(gameSystem, 0, (void *)((int)func_021550DC), 0x40);
+    void *event = func_020122C0(gameSystem, 0, (void *)((int)EVENT_BATTLE_REC_SAVE_EventMain), 0x40);
     u32 *work = func_020124E8(event);
 
     work[0] = (u32)gameSystem;

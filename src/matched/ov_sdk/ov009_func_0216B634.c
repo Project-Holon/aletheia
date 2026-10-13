@@ -1,5 +1,5 @@
 /*
- * function: func_0216B634
+ * function: DWC_SetConnectionClosedCallback
  * address:  0x0216B634
  * packet:   pkt_02155168
  * region:   ov009
@@ -21,7 +21,7 @@
 
 extern struct DwcGlobal g_021AA878;
 
-int func_0216B634(int a, int b)
+int DWC_SetConnectionClosedCallback(int a, int b)
 {
     char *p = *(char **)(((char *)&g_021AA878) + 4);
 

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02028988
+ * function: FIELD_SOUND_SYSTEM_IsStateActive
  * address:  0x02028988
  * packet:   pkt_0202878C
  * region:   arm9
@@ -17,7 +17,7 @@
  * which is not sorted.
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/func_02028988.c  *       --addr 0x02028988 --thumb
+ *   python tools/match.py tu --src src/matched/FIELD_SOUND_SYSTEM_IsStateActive.c  *       --addr 0x02028988 --thumb
  */
 
 typedef unsigned char  u8;
@@ -33,7 +33,7 @@ struct Sys {
     u32 unk20;
 };
 
-u32 func_02028988(struct Sys *s)
+u32 FIELD_SOUND_SYSTEM_IsStateActive(struct Sys *s)
 {
     u32 v = s->unk04;
 

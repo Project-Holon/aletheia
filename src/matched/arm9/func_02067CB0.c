@@ -1,5 +1,5 @@
 /*
- * function: func_02067CB0
+ * function: NNSi_G2dOamSoftEmuEnd
  * address:  0x02067CB0
  * packet:   pkt_02067BA4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02148B48  0x02148B48  data
+ *   sOamSoftEmuContext  0x02148B48  data
  */
 
 typedef unsigned char u8;
@@ -31,11 +31,11 @@ struct Struct02067CB0 {
     u32 unk2c;                            /* 0x2c */
 };
 
-extern struct Struct02067CB0 *g_02148B48;
+extern struct Struct02067CB0 *sOamSoftEmuContext;
 
-void func_02067CB0(void)
+void NNSi_G2dOamSoftEmuEnd(void)
 {
-    struct Struct02067CB0 *p = g_02148B48;
+    struct Struct02067CB0 *p = sOamSoftEmuContext;
 
     if (p->inner->unk14 == 0) {
         volatile u32 *reg = (volatile u32 *)0x04000440;
@@ -44,8 +44,8 @@ void func_02067CB0(void)
         reg[0] = 1;
     } else {
         p->unk10 = 0;
-        g_02148B48->unk2c = 0;
-        g_02148B48->unk28 = 0;
+        sOamSoftEmuContext->unk2c = 0;
+        sOamSoftEmuContext->unk28 = 0;
     }
-    g_02148B48 = 0;
+    sOamSoftEmuContext = 0;
 }

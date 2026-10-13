@@ -21,7 +21,7 @@
  *   func_021EF5C4 0x021EF5C4 thumb ov170
  *   func_021EF400 0x021EF400 thumb
  *   func_021EF534 0x021EF534 thumb
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021EF45C 0x021EF45C thumb
  *   func_021DF1DC 0x021DF1DC thumb
  *   func_021DF228 0x021DF228 thumb
@@ -56,7 +56,7 @@
  *   func_021EDF5C 0x021EDF5C thumb
  *   func_021EDD38 0x021EDD38 thumb
  *   func_020260E4 0x020260E4 thumb
- *   func_0202CE40 0x0202CE40 thumb
+ *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   func_02035C38 0x02035C38 arm
  *   func_021DD930 0x021DD930 thumb
  *   func_021DE158 0x021DE158 thumb
@@ -76,8 +76,8 @@
  *   func_0203064C 0x0203064C arm
  *   func_02030734 0x02030734 arm
  *   func_020490F4 0x020490F4 arm
- *   func_02036370 0x02036370 arm
- *   func_02036270 0x02036270 arm
+ *   KEY_GetRepeatSpeed 0x02036370 arm
+ *   KEY_SetRepeatSpeed 0x02036270 arm
  *   func_021DC9C4 0x021DC9C4 thumb ov170
  *   func_021DC9E0 0x021DC9E0 thumb ov170
  *   func_021DCDB8 0x021DCDB8 thumb ov170
@@ -105,7 +105,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_020306F0  0x020306F0  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_02021ED8   0x02021ED8  thumb
+ *   PALANM_GetFadeRequestBits   0x02021ED8  thumb
  *   func_02035C60 0x02035C60 arm
  *   func_020362DC 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
@@ -207,7 +207,7 @@
  *   d_021EF9F8 0x021EF9F8 data
  *   func_020216D4 0x020216D4 thumb
  *   func_020056BC 0x020056BC thumb
- *   func_0202173C 0x0202173C thumb
+ *   PALANM_RequestFade 0x0202173C thumb
  *   func_021DED58 0x021DED58 thumb ov170
  *   func_02007838 0x02007838 thumb
  *   func_021DC9A0  0x021DC9A0  thumb  ov170
@@ -218,7 +218,7 @@
  *   func_021DE728 0x021DE728 thumb ov170
  *   func_021DE898  0x021DE898  thumb  ov170
  *   func_021DD090  0x021DD090  thumb  ov170
- *   func_0202CF8C 0x0202CF8C thumb
+ *   BGWINFRM_GetBgFrame 0x0202CF8C thumb
  *   data_021EFA10 0x021EFA10 data a1
  *   func_021EF4E4 0x021EF4E4 thumb
  *   func_02007F1C 0x02007F1C thumb
@@ -272,15 +272,15 @@
  *   func_020437AC 0x020437AC arm
  *   func_020275E4 0x020275E4 thumb
  *   func_021B6AE4 0x021B6AE4 thumb ov067
- *   func_0202CA3C 0x0202CA3C thumb
- *   func_0202CEBC 0x0202CEBC thumb
+ *   BGWINFRM_AddFrame 0x0202CA3C thumb
+ *   BGWINFRM_PutBmpWin 0x0202CEBC thumb
  *   func_020457B0 0x020457B0 arm
  *   func_0200785C 0x0200785C thumb
  *   func_0201C7D0 0x0201C7D0 thumb
  *   func_020257D0 0x020257D0 thumb
  *   func_020078C4 0x020078C4 thumb
- *   func_0202CE50 0x0202CE50 thumb
- *   func_0202CFC0 0x0202CFC0 thumb
+ *   BGWINFRM_ChangePalette 0x0202CE50 thumb
+ *   BGWINFRM_GetSize 0x0202CFC0 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   func_0201F7A8  0x0201F7A8  thumb  ov170
  *   func_021EE0FC 0x021EE0FC thumb
@@ -317,15 +317,15 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   func_020079BC 0x020079BC thumb
  *   MIi_CpuCopy32 0x02082A90 arm
- *   func_0201BBE8 0x0201BBE8 thumb
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   d_021EFD4C 0x021EFD4C data a2
- *   func_0202CF98 0x0202CF98 thumb
+ *   BGWINFRM_GetPos 0x0202CF98 thumb
  *   d_021EFCE0 0x021EFCE0 data a1
  *   _ffix 0x0209C494 arm
- *   func_0204B570 0x0204B570 arm
- *   func_0204B5AC 0x0204B5AC arm
- *   func_0204B588 0x0204B588 arm
+ *   CLACT_SetActorAffineMode 0x0204B570 arm
+ *   CLACT_SetActorScale 0x0204B5AC arm
+ *   CLACT_SetActorAffineOrigin 0x0204B588 arm
  *   _fsub 0x0209CB8C arm
  *   _fadd 0x0209C95C arm
  *   func_0204B3B4 0x0204B3B4 arm
@@ -354,18 +354,23 @@
  *   func_02020E60 0x02020E60 thumb
  *   func_02020F08 0x02020F08 thumb
  *   func_02049E34 0x02049E34 arm
- *   func_0204B7F0 0x0204B7F0 arm
+ *   CLACT_GetActorCharacterIndex 0x0204B7F0 arm
  *   func_0204A9D0 0x0204A9D0 arm
  *   func_02049F34 0x02049F34 arm
- *   func_0204B7F8 0x0204B7F8 arm
+ *   CLACT_GetActorPaletteIndex 0x0204B7F8 arm
  *   func_0204ADEC 0x0204ADEC arm
- *   func_0204B838 0x0204B838 arm
- *   func_0204B864 0x0204B864 arm
+ *   CLACT_GetActorDrawPriority 0x0204B838 arm
+ *   CLACT_GetActorBgPriority 0x0204B864 arm
  *   d_021EFE70 0x021EFE70 data a1
  *   d_021EFCD0 0x021EFCD0 data a1
  *   d_021EFCC8 0x021EFCC8 data a1
- *   func_0204B7C8 0x0204B7C8 arm
- *   func_0204B784 0x0204B784 arm
+ *   CLACT_GetActorImageProxy 0x0204B7C8 arm
+ *   CLACT_SetActorImageProxy 0x0204B784 arm
+ *   CLACT_TransferCharacterPart  0x0204AA94  arm  arm9
+ *   CLACT_SetActorDrawPriority  0x0204B800  arm  arm9
+ *   CLACT_SetActorAnimFrame  0x0204B8C4  arm  arm9
+ *   CLACT_AddActorAnimFrame  0x0204B8D4  arm  arm9
+ *   CLACT_GetActorAutoAnim  0x0204B944  arm  arm9
  */
 #include "box2_types.h"
 #include "../../matched/include/Obj23878.h"
@@ -814,7 +819,7 @@ extern int func_021E066C(char *p);
 extern int func_021EF5C4(struct WinMgr *mgr);
 extern int func_021EF400(unsigned char *p);
 extern void func_021EF534(struct WinMgr *mgr);
-extern unsigned func_02035CB8(unsigned *outA, unsigned *outB);
+extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
 extern int func_021EF45C(struct WinMgr *mgr);
 extern int func_021DF1DC(short x, int y);
 extern int func_021DF228(short x, short y, const unsigned char *r);
@@ -846,7 +851,7 @@ extern u8 func_020260E0(struct Sound *obj);
 extern void func_021EE008(char *p, int a, int b);
 extern void func_021EDF5C(unsigned char *p);
 extern void func_021EDD38(char *p, int d);
-extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
+extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
 extern int func_021E01B0(unsigned char *p);
 extern int func_02035C38(void);
 extern void func_021EF57C(struct WinMgr *mgr);
@@ -866,8 +871,8 @@ extern void func_0204363C(unsigned);
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_02036370(u32 *outA, u32 *outB);
-extern int func_02036270(int a0, int a1);
+extern void KEY_GetRepeatSpeed(u32 *outA, u32 *outB);
+extern int KEY_SetRepeatSpeed(int a0, int a1);
 extern void func_021DC9C4(void);
 extern void func_021DC9E0(u8 *);
 extern void func_021DCDB8(char *p);
@@ -894,7 +899,7 @@ extern u32 func_020307B0(void *p);
 extern void func_020306F0(unsigned int a);
 extern void func_02034A5C(int a);
 extern u32 func_020221A4(void);
-extern u32 func_02021ED8(const char *ptr);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern int func_02035C60(void);
 extern u32 func_020362DC(void);
 extern void func_020355D8(u8 v);
@@ -978,7 +983,7 @@ extern int func_021E002C(unsigned char *p);
 extern int func_02007A80(void *save, unsigned bits);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern u32 func_020056BC(void);
-extern int func_0202173C(void *, u16, u16, s16_021E65E4, u8, u8, u16, void *);
+extern int PALANM_RequestFade(void *, u16, u16, s16_021E65E4, u8, u8, u16, void *);
 extern void func_021DED58(char *, int);
 extern void func_02007838(void *save, u32 box, u8 v);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
@@ -990,7 +995,7 @@ extern void func_021DEFF8(char *p, unsigned b);
 extern void func_021DE728(unsigned char *p);
 extern void func_021DE898(int *q);
 extern void func_021DD090(char *, int);
-extern u8 func_0202CF8C(struct WinMgr *mgr, u32 idx);
+extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
 extern void func_021EF4E4(struct WinMgr *mgr);
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 extern void func_021DD1E8(char *p);
@@ -1040,15 +1045,15 @@ extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx
 extern void func_020437AC(struct Obj020437AC *p);
 extern unsigned func_020275E4(void);
 extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-extern void func_0202CA3C(void *,unsigned,unsigned,unsigned,unsigned);
-extern void func_0202CEBC(void *,unsigned,void *);
+extern void BGWINFRM_AddFrame(void *,unsigned,unsigned,unsigned,unsigned);
+extern void BGWINFRM_PutBmpWin(void *,unsigned,void *);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0200785C(void *save, unsigned box, void *dest);
 extern void func_0201C7D0(void *x, short y, short z, void *s, void *w, unsigned short v);
 extern void func_020257D0(struct Obj *o);
 extern int func_020078C4(void *save, u32 box);
-extern void func_0202CE50(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
-extern void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
+extern void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
+extern void BGWINFRM_GetSize(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_0201F7A8(void *, int);
 extern void func_021EE0FC(char *p);
@@ -1068,17 +1073,17 @@ extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned in
 extern void func_0204BA20(struct Actor *a, u32 v);
 extern void func_0204B3B4(struct Obj *p);
 extern u32 func_0204B1CC(struct Bank *bank);
-extern u32 func_0204B944(struct Obj *p);
-extern void func_0204B8D4(struct Obj *p, u32 arg);
+extern u32 CLACT_GetActorAutoAnim(struct Obj *p);
+extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void func_0204A600(void);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *, unsigned int);
 extern u32 func_0204B98C(struct Actor *a);
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern u32 func_0204B3F4(struct Obj *p);
 extern void func_0204B84C(int, int);
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
@@ -1097,15 +1102,15 @@ extern u32 func_0201BA68(void *mon);
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
 extern void MIi_CpuCopy32(const void *src, void *dst, unsigned size);
-extern int func_0201BBE8(void *a0);
-extern u16 func_0204B7F0(u8 *p);
-extern void func_0204AA94(int a, void *b, u32 c, int d, int e);
+extern int POKE_TOOL_GetIconPalette(void *a0);
+extern u16 CLACT_GetActorCharacterIndex(u8 *p);
+extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void *func_020185F4(void *);
-extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern void func_0204B570(struct Actor *actor, u32 value);
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
-extern void func_0204B588(struct Actor *actor, const struct Pt *src);
+extern void *POKE_TOOL_GetBoxParam(void *);
+extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorAffineOrigin(struct Actor *actor, const struct Pt *src);
 extern int func_0202D7C8(int);
 extern u32 func_02017DBC(struct Sav *p);
 extern int func_0202D934(int,void *,int,int,u16);
@@ -1130,12 +1135,12 @@ extern unsigned func_02020F08(void);
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
-extern u16 func_0204B7F8(u8 *p);
+extern u16 CLACT_GetActorPaletteIndex(u8 *p);
 extern void func_0204ADEC(void *dst, void *src, unsigned flag);
-extern int func_0204B838(int a0);
-extern u32 func_0204B864(u8 *a0);
-extern void func_0204B7C8(const char *src, struct Struct36 *dst);
-extern void func_0204B784(char *dst, const struct Struct36 *src);
+extern int CLACT_GetActorDrawPriority(int a0);
+extern u32 CLACT_GetActorBgPriority(u8 *a0);
+extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
+extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 int func_021E09E0(char *p);
 int func_021E0A40(char *p);
 int func_021E0ABC(unsigned char *p);
@@ -1635,7 +1640,7 @@ int func_021E0ABC(unsigned char *p)
         func_021ED2F4(WORK(p));
         b->state = 2;
     case 2:
-        if (func_02035CB8(&x, &y) == 0) {
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             unsigned first;
             int flag;
             unsigned r;
@@ -1714,7 +1719,7 @@ int func_021E0ABC(unsigned char *p)
             b->timer = 0x10;
             b->state = 2;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021E0FB0(WORK(p), x, y);
         break;
     case 4:
@@ -1722,7 +1727,7 @@ int func_021E0ABC(unsigned char *p)
             b->timer = 0x10;
             b->state = 2;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021E0FB0(WORK(p), x, y);
         break;
     case 5:
@@ -1924,7 +1929,7 @@ int func_021E0FD8(unsigned char *p)
         b->state = 2;
         break;
     case 2:
-        if (func_02035CB8(&x, &y) == 0) {
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             unsigned first;
             unsigned r;
             int back;
@@ -1977,7 +1982,7 @@ int func_021E0FD8(unsigned char *p)
             b->timer = 0x10;
             b->state = 2;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021E0FB0(WORK(p), x, y);
         break;
     case 4:
@@ -1985,7 +1990,7 @@ int func_021E0FD8(unsigned char *p)
             b->timer = 0x10;
             b->state = 2;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021E0FB0(WORK(p), x, y);
         break;
     case 5:
@@ -2303,7 +2308,7 @@ int func_021E1628(unsigned char *p)
     case 2:
         if (func_021EF45C(MGR(p)) == 1)
             func_021ED888(WORK(p), 1);
-        if (func_02035CB8(&x, &y) == 0) {
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             unsigned first;
             int flag;
             unsigned r;
@@ -2369,7 +2374,7 @@ int func_021E1628(unsigned char *p)
             b->timer = 0x10;
             b->state = 2;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021E0FB0(WORK(p), x, y);
         break;
     case 4:
@@ -2377,7 +2382,7 @@ int func_021E1628(unsigned char *p)
             b->timer = 0x10;
             b->state = 2;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021E0FB0(WORK(p), x, y);
         break;
     case 7:
@@ -2575,7 +2580,7 @@ int func_021E1B1C(unsigned char *p)
     unsigned r;
     unsigned x;
     unsigned y;
-    if (func_0202CE40(MGR(p), 8) == 1)
+    if (BGWINFRM_IsMoving(MGR(p), 8) == 1)
         busy = func_021E01B0(p);
     else
         busy = 0;
@@ -2587,7 +2592,7 @@ int func_021E1B1C(unsigned char *p)
         b->state = 1;
         break;
     case 1:
-        if (func_02035CB8(&x, &y) == 0) {
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             r = 0xFF;
             if (func_021EF45C(MGR(p)) == 1)
                 r = func_021DF228(*(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184), d_021EF79C);
@@ -2670,7 +2675,7 @@ int func_021E1B1C(unsigned char *p)
             b->timer = 0x10;
             b->state = 1;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 7:
@@ -2678,7 +2683,7 @@ int func_021E1B1C(unsigned char *p)
             b->timer = 0x10;
             b->state = 1;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 16:
@@ -2799,8 +2804,8 @@ int func_021E1E80(u8 *p)
     func_0203064C(1,0x4C,0x80000);
     W(p)=func_02030734(0x4C,0xA19C,1,str_021F140C,0x2B5);
     *(void **)(W(p)+0x1B0)=func_020490F4(7,0x4C);
-    func_02036370((u32 *)(W(p)+0x4C),(u32 *)(W(p)+0x50));
-    func_02036270(6,6);
+    KEY_GetRepeatSpeed((u32 *)(W(p)+0x4C),(u32 *)(W(p)+0x50));
+    KEY_SetRepeatSpeed(6,6);
     func_021DC9C4();
     func_021DC9E0(p);
     func_021DCDB8((char *)p);
@@ -2844,7 +2849,7 @@ int func_021E1F90(u8 *p)
     func_021DCE80((char *)p);
     func_021DCDD8((int *)p);
     func_021DCB48(p);
-    func_02036270(*(u32 *)(*(u32 *)&((BoxTask *)p)->f2C + 0x4c), *(u32 *)(*(u32 *)&((BoxTask *)p)->f2C + 0x50));
+    KEY_SetRepeatSpeed(*(u32 *)(*(u32 *)&((BoxTask *)p)->f2C + 0x4c), *(u32 *)(*(u32 *)&((BoxTask *)p)->f2C + 0x50));
     func_02049238((void *)*(u32 *)(*(u32 *)&((BoxTask *)p)->f2C + 0x1b0));
     func_020307B0(((BoxTask *)p)->f2C);
     func_020306F0(0x4c);
@@ -2881,7 +2886,7 @@ int func_021E2020(char *p)
 
 int func_021E203C(void *p)
 {
-    if (func_02021ED8((const char *)(*(int *)(((struct Obj12157 *)p)->f2C + 0x6c))) == 0)
+    if (PALANM_GetFadeRequestBits((const char *)(*(int *)(((struct Obj12157 *)p)->f2C + 0x6c))) == 0)
         return ((BoxTask *)p)->f28;
     return 3;
 }
@@ -3042,7 +3047,7 @@ int func_021E20D4(char *p)
     if (func_020279E8(*(void **)(W(p) + 0x1A0)) == 1) {
         int r = func_02027A04(*(void **)(W(p) + 0x1A0));
         func_02027858(*(void **)(W(p) + 0x1A0));
-        func_02036270(6, 6);
+        KEY_SetRepeatSpeed(6, 6);
         if (r == 0)
             return d_021EFA4C[*(unsigned short *)(W(p) + 0x1A4)].a(p);
         else
@@ -10765,7 +10770,7 @@ int func_021E8E24(char *p)
     case 0:
         func_021ED55C((char **)p, 0);
         func_020216D4(*(void **)(W + 0x6c), 0, 0, 0x200);
-        func_0202173C(*(void **)(W + 0x6c), 1, 0xc000, 0, 0, 16, 0x7fff, (void *)func_020056BC());
+        PALANM_RequestFade(*(void **)(W + 0x6c), 1, 0xc000, 0, 0, 16, 0x7fff, (void *)func_020056BC());
         ((BoxTask *)p)->f28 = 0x66;
         S++;
         return 3;
@@ -10776,7 +10781,7 @@ int func_021E8E24(char *p)
         S++;
         break;
     case 2:
-        func_0202173C(*(void **)(W + 0x6c), 1, 0xc000, 0, 16, 0, 0x7fff, (void *)func_020056BC());
+        PALANM_RequestFade(*(void **)(W + 0x6c), 1, 0xc000, 0, 16, 0, 0x7fff, (void *)func_020056BC());
         ((BoxTask *)p)->f28 = 0x66;
         S++;
         return 3;
@@ -10963,7 +10968,7 @@ int func_021E8FE8(unsigned char *p, int sel)
         func_021DCF58(p, 1);
     else
         func_021DCF58(p, 0);
-    func_02036270(*(unsigned *)(WORK(p) + 0x4C), *(unsigned *)(WORK(p) + 0x50));
+    KEY_SetRepeatSpeed(*(unsigned *)(WORK(p) + 0x4C), *(unsigned *)(WORK(p) + 0x50));
     return 7;
 }
 
@@ -11540,7 +11545,7 @@ int func_021E949C(char *p, int a, int b)
 
 int func_021E94AC(BoxObj *p,int a,int b) {
  ((BoxWorkView *)p->work)->flag=1;
- ((BoxWorkView *)p->work)->id=func_0202CF8C(*(struct WinMgr * *)&((struct Obj23947 *)((char *)p->work))->f74,7);
+ ((BoxWorkView *)p->work)->id=BGWINFRM_GetBgFrame(*(struct WinMgr * *)&((struct Obj23947 *)((char *)p->work))->f74,7);
  ((BoxWorkView *)p->work)->lo=13;
  ((BoxWorkView *)p->work)->hi=12;
  ((BoxWorkView *)p->work)->state=0;
@@ -14688,7 +14693,7 @@ void func_021EB6F0(int a, int b, int c)
 
 
 
-void func_021EB708(void *m,unsigned i,void *d){unsigned bg=func_02045730(d);unsigned w=func_02045738(d);unsigned h=func_02045740(d);func_0202CA3C(m,i,bg,w,h);func_0202CEBC(m,i,d);}
+void func_021EB708(void *m,unsigned i,void *d){unsigned bg=func_02045730(d);unsigned w=func_02045738(d);unsigned h=func_02045740(d);BGWINFRM_AddFrame(m,i,bg,w,h);BGWINFRM_PutBmpWin(m,i,d);}
 
 
 
@@ -14967,8 +14972,8 @@ void func_021EB90C(char *p)
 {
     func_021EB6D8((int)p, 20, 84, 0);
     func_021EB6D8((int)p, 21, 85, 1);
-    func_0202CE50(*(struct WinMgr * *)&((struct Obj23984 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 7, 0, 9, 11, 3, 12);
-    func_0202CE50(*(struct WinMgr * *)&((struct Obj23985 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 7, 0, 12, 11, 3, 12);
+    BGWINFRM_ChangePalette(*(struct WinMgr * *)&((struct Obj23984 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 7, 0, 9, 11, 3, 12);
+    BGWINFRM_ChangePalette(*(struct WinMgr * *)&((struct Obj23985 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 7, 0, 12, 11, 3, 12);
 }
 
 
@@ -14981,7 +14986,7 @@ void func_021EB90C(char *p)
 
 
 
-void func_021EB95C(char *p){func_0202CEBC((struct WinMgr *)(((struct Obj23986 *)(*(char * *)&((BoxTask *)p)->f2C))->f74),7,(void *)(((struct Obj23987 *)(*(char * *)&((BoxTask *)p)->f2C))->f134));func_0202CEBC((struct WinMgr *)(((struct Obj23988 *)(*(char * *)&((BoxTask *)p)->f2C))->f74),7,(void *)(((struct Obj23989 *)(*(char * *)&((BoxTask *)p)->f2C))->f13C));func_021EB90C(p);}
+void func_021EB95C(char *p){BGWINFRM_PutBmpWin((struct WinMgr *)(((struct Obj23986 *)(*(char * *)&((BoxTask *)p)->f2C))->f74),7,(void *)(((struct Obj23987 *)(*(char * *)&((BoxTask *)p)->f2C))->f134));BGWINFRM_PutBmpWin((struct WinMgr *)(((struct Obj23988 *)(*(char * *)&((BoxTask *)p)->f2C))->f74),7,(void *)(((struct Obj23989 *)(*(char * *)&((BoxTask *)p)->f2C))->f13C));func_021EB90C(p);}
 
 
 
@@ -14999,14 +15004,14 @@ void func_021EB988(unsigned char *p, const void *e, unsigned n)
     unsigned short w;
     unsigned short h;
     unsigned i = 0;
-    func_0202CFC0(MGR(p), 0, &w, &h);
+    BGWINFRM_GetSize(MGR(p), 0, &w, &h);
     for (i = 0; i < n; i++) {
         const Ent *x = &((const Ent *)e)[n - 1 - i];
         if (x->b == 0)
             func_021EB6D8((int)p, 0x13 - i, x->a, 0);
         else
             func_021EB6D8((int)p, 0x13 - i, x->a, 1);
-        func_0202CE50(MGR(p), 5 - i, 0, 0, w, h, 0xC);
+        BGWINFRM_ChangePalette(MGR(p), 5 - i, 0, 0, w, h, 0xC);
     }
     for (; n < 6; n++) {
         unsigned k = 0x13 - n;
@@ -15698,8 +15703,8 @@ void func_021EBF74(char *p)
     unsigned i;
     for (i = 0; i < 0x2d; i++) {
         int *row = (int *)(p + i * 4);
-        if (row[0x279d] != 0 && func_0204B944((struct Obj *)row[0x279d]) != 1)
-            func_0204B8D4((struct Obj *)row[0x279d], 0x1000);
+        if (row[0x279d] != 0 && CLACT_GetActorAutoAnim((struct Obj *)row[0x279d]) != 1)
+            CLACT_AddActorAnimFrame((struct Obj *)row[0x279d], 0x1000);
     }
     func_0204A600();
 }
@@ -15720,7 +15725,7 @@ void func_021EBF74(char *p)
  */
 void func_021EBFA8(char *p, int i, int v)
 {
-    func_0204B8C4((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), 0);
+    CLACT_SetActorAnimFrame((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), 0);
     func_0204B878((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), (unsigned short)v);
 }
 
@@ -15866,7 +15871,7 @@ void func_021EC030(char *p, int i, int c)
 
 void func_021EC048(char *p, int i, int c)
 {
-    func_0204B800((struct Node *)(*(int *)(p + i * 4 + 0x9E74)), (unsigned char)c);
+    CLACT_SetActorDrawPriority((struct Node *)(*(int *)(p + i * 4 + 0x9E74)), (unsigned char)c);
 }
 
 
@@ -16044,7 +16049,7 @@ void func_021EC35C(char **p, int box)
             r = func_021EC338(p[11], m, &buf);
             MIi_CpuCopy32(((struct Obj24002 *)buf)->f14, p[11] + 0x1B4 + i * 0x200, 0x200);
             func_020307B0(r);
-            *(unsigned char *)(p[11] + i + 0x3DB4) = func_0201BBE8(m);
+            *(unsigned char *)(p[11] + i + 0x3DB4) = POKE_TOOL_GetIconPalette(m);
             *(int *)(p[11] + i * 4 + 0x3DF8) = 1;
         }
     }
@@ -16067,8 +16072,8 @@ void func_021EC35C(char **p, int box)
  */
 void func_021EC428(char *p, int a, int i, int b)
 {
-    int v = func_0204B7F0((u8 *)(*(int *)(p + 0x9E74 + i * 4)));
-    func_0204AA94(v, (void *)a, 0x200, 0, 0);
+    int v = CLACT_GetActorCharacterIndex((u8 *)(*(int *)(p + 0x9E74 + i * 4)));
+    CLACT_TransferCharacterPart(v, (void *)a, 0x200, 0, 0);
     func_0204B6F4((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), (unsigned char)b, 1);
 }
 
@@ -16088,7 +16093,7 @@ void func_021EC45C(unsigned char *p, void *a, int i)
 {
     void *d;
     void *res = func_021EC338(WORK(p), a, &d);
-    func_021EC428(WORK(p), ((struct Obj24003 *)d)->f14, i, func_0201BBE8(a));
+    func_021EC428(WORK(p), ((struct Obj24003 *)d)->f14, i, POKE_TOOL_GetIconPalette(a));
     func_020307B0(res);
 }
 
@@ -16148,7 +16153,7 @@ void func_021EC4FC(unsigned char *p)
     unsigned n = func_0201AA18(((struct Obj24004 *)(*(char * *)&((BoxTask *)p)->f0))->f8);
     unsigned i;
     for (i = 0; i < n; i++) {
-        func_021EC45C(p, func_020185F4(func_0201AB28(((struct Obj24005 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i)),
+        func_021EC45C(p, POKE_TOOL_GetBoxParam(func_0201AB28(((struct Obj24005 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i)),
                        *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + i + 0x3DF0));
         func_021EC000(*(char * *)&((BoxTask *)p)->f2C, *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + i + 0x3DF0), 0);
     }
@@ -16409,7 +16414,7 @@ void func_021EC8E4(char *p)
     signed char buf[2];
     unsigned short i;
     short x, y;
-    func_0202CF98(*(struct WinMgr * *)&((struct Obj24016 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 8, &buf[1], &buf[0]);
+    BGWINFRM_GetPos(*(struct WinMgr * *)&((struct Obj24016 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 8, &buf[1], &buf[0]);
     x = buf[0] * 8;
     y = buf[1] * 8;
     for (i = 0; i < 6; i++)
@@ -16430,13 +16435,13 @@ void func_021EC94C(char *p)
     unsigned short shape[2];
     *(float *)(p + 8) = 4096.0f;
     p[7] = 0;
-    func_0204B570(((BoxTask *)p)->f0, 1);
+    CLACT_SetActorAffineMode(((BoxTask *)p)->f0, 1);
     pair[0] = (int)*(float *)(p + 8);
     pair[1] = (int)*(float *)(p + 8);
-    func_0204B5AC(((BoxTask *)p)->f0, (struct Pair *)pair);
+    CLACT_SetActorScale(((BoxTask *)p)->f0, (struct Pair *)pair);
     shape[0] = 0;
     shape[1] = 8;
-    func_0204B588(((BoxTask *)p)->f0, (const struct Pt *)shape);
+    CLACT_SetActorAffineOrigin(((BoxTask *)p)->f0, (const struct Pt *)shape);
 }
 
 
@@ -16455,7 +16460,7 @@ int func_021EC994(char *p)
         return 0;
     pair[0] = (int)*(float *)(p + 8);
     pair[1] = (int)*(float *)(p + 8);
-    func_0204B5AC(((BoxTask *)p)->f0, (struct Pair *)pair);
+    CLACT_SetActorScale(((BoxTask *)p)->f0, (struct Pair *)pair);
     return 1;
 }
 
@@ -16476,7 +16481,7 @@ int func_021EC9D8(char *p)
         return 0;
     pair[0] = (int)*(float *)(p + 8);
     pair[1] = (int)*(float *)(p + 8);
-    func_0204B5AC(((BoxTask *)p)->f0, (struct Pair *)pair);
+    CLACT_SetActorScale(((BoxTask *)p)->f0, (struct Pair *)pair);
     return 1;
 }
 
@@ -16507,7 +16512,7 @@ void func_021ECA24(int *p)
  * Program the two 0x1000 spans of the frame handle and zero its head.
  *
  * Blocker resolved: 0x0204B5AC was matched in arm9 (src/matched/
- * func_0204B5AC.c, shard pkt_0204B5AC), so the call at +0022 attests as
+ * CLACT_SetActorScale.c, shard pkt_0204B5AC), so the call at +0022 attests as
  * `matched`.  Every concrete byte matches; the extent ran long because the
  * follower has no func_ label.
  */
@@ -16516,11 +16521,11 @@ void func_021ECA38(int *p)
     struct { unsigned short a[2]; int b[2]; } s;
     s.a[0] = 0;
     s.a[1] = 0;
-    func_0204B588((struct Actor *)(*p), (const struct Pt *)s.a);
+    CLACT_SetActorAffineOrigin((struct Actor *)(*p), (const struct Pt *)s.a);
     s.b[0] = 0x1000;
     s.b[1] = 0x1000;
-    func_0204B5AC((struct Obj *)(*p), (struct Pair *)s.b);
-    func_0204B570((struct Actor *)(*p), 0);
+    CLACT_SetActorScale((struct Obj *)(*p), (struct Pair *)s.b);
+    CLACT_SetActorAffineMode((struct Actor *)(*p), 0);
 }
 
 
@@ -16797,9 +16802,9 @@ void func_021ECDF4(char *w)
 
 /*
  * Verified scratch-only with one --thumb, no --region: EXACT, 12 bytes.
- * symbols for blocker: d_0209FCF8 0x0209FCF8 data a1
- * extern const unsigned char d_0209FCF8[];
- * unsigned func_020275EC(unsigned char i) { return d_0209FCF8[i]; }
+ * symbols for blocker: _PokeTypePltOffset 0x0209FCF8 data a1
+ * extern const unsigned char _PokeTypePltOffset[];
+ * unsigned func_020275EC(unsigned char i) { return _PokeTypePltOffset[i]; }
  */
 void func_021ECF78(char *p)
 {
@@ -16854,10 +16859,10 @@ void func_021ED094(char *w, unsigned item)
     void *b;
     void *q;
     q = func_02049E34(func_02020F08(), func_02020E60(item, 1), 0, (u32)(&a), 0x4C);
-    func_0204A9D0(func_0204B7F0(((struct Obj14276 *)w)->f9E9C), a);
+    func_0204A9D0(CLACT_GetActorCharacterIndex(((struct Obj14276 *)w)->f9E9C), a);
     func_020307B0(q);
     q = func_02049F34(func_02020F08(), func_02020E60(item, 2), (u32)(&b), 0x4C);
-    func_0204ADEC((void *)func_0204B7F8(((struct Obj14276 *)w)->f9E9C), b, 1);
+    func_0204ADEC((void *)CLACT_GetActorPaletteIndex(((struct Obj14276 *)w)->f9E9C), b, 1);
     func_020307B0(q);
 }
 
@@ -16868,15 +16873,15 @@ void func_021ED108(char *p, int on)
 {
     unsigned short s[2];
     if (on == 1) {
-        func_0204B570((struct Actor *)HND(p), 1);
+        CLACT_SetActorAffineMode((struct Actor *)HND(p), 1);
         s[0] = 0xC;
         s[1] = 0xC;
-        func_0204B588((struct Actor *)HND(p), (const struct Pt *)s);
+        CLACT_SetActorAffineOrigin((struct Actor *)HND(p), (const struct Pt *)s);
     } else {
         s[0] = 0;
         s[1] = 0;
-        func_0204B588((struct Actor *)HND(p), (const struct Pt *)s);
-        func_0204B570((struct Actor *)HND(p), 0);
+        CLACT_SetActorAffineOrigin((struct Actor *)HND(p), (const struct Pt *)s);
+        CLACT_SetActorAffineMode((struct Actor *)HND(p), 0);
     }
 }
 
@@ -16920,8 +16925,8 @@ void func_021ED198(char *p, int a, int c)
 
 static inline void setup(Desc *dp, void **res)
 {
-    dp->b6 = func_0204B838((int)(*res)) + 1;
-    dp->b7 = func_0204B864(*res);
+    dp->b6 = CLACT_GetActorDrawPriority((int)(*res)) + 1;
+    dp->b7 = CLACT_GetActorBgPriority(*res);
 }
 
 
@@ -16955,8 +16960,8 @@ void func_021ED1C8(char *w)
             func_021EC000(w, j + 0x58, 0);
         }
     } else {
-        int n6 = func_0204B838((int)(((struct Obj08247 *)w)->f9E9C));
-        int n7 = func_0204B864(((struct Obj08247 *)w)->f9E9C);
+        int n6 = CLACT_GetActorDrawPriority((int)(((struct Obj08247 *)w)->f9E9C));
+        int n7 = CLACT_GetActorBgPriority(((struct Obj08247 *)w)->f9E9C);
         for (; j < 8u; j++) {
             func_021EC08C(w, j + 0x58, (short)(xy[1] + d_021EFCD0[j]), (short)(xy[0] + d_021EFCC8[j]), (short)0);
             func_021EC048(w, j + 0x58, n6 + 1);
@@ -17119,11 +17124,11 @@ void func_021ED594(char *p, unsigned i)
     } else {
         int n6;
         int n7;
-        func_0204B7C8(((void **)(w + 0x9E74))[c], (struct Struct36 *)(&buf));
-        n6 = func_0204B838((int)(((void **)(w + 0x9E74))[c]));
-        n7 = func_0204B864(((void **)(w + 0x9E74))[c]);
+        CLACT_GetActorImageProxy(((void **)(w + 0x9E74))[c], (struct Struct36 *)(&buf));
+        n6 = CLACT_GetActorDrawPriority((int)(((void **)(w + 0x9E74))[c]));
+        n7 = CLACT_GetActorBgPriority(((void **)(w + 0x9E74))[c]);
         for (; j < 8; j++) {
-            func_0204B784(*(void **)(w + j * 4 + 0x9FD4), (const struct Struct36 *)(&buf));
+            CLACT_SetActorImageProxy(*(void **)(w + j * 4 + 0x9FD4), (const struct Struct36 *)(&buf));
             func_021EC08C(w, j + 0x58, (short)(xy[1] + d_021EFCD0[j]), (short)(xy[0] + d_021EFCC8[j]), (short)0);
             func_021EC048(w, j + 0x58, n6 + 1);
             func_021EC030(w, j + 0x58, n7);
@@ -17143,8 +17148,8 @@ void func_021ED6E4(char **p, int v)
             func_021EC000(p[11], j + 0x58, v);
             if (v == 1 && ((unsigned char *)p)[0x16] != 0xFF) {
                 unsigned char k = *(unsigned char *)(p[11] + ((unsigned char *)p)[0x16] + 0x3DD2);
-                func_021EC048(p[11], j + 0x58, func_0204B838(*(int *)(p[11] + k * 4 + 0x9E74)) + 1);
-                func_021EC030(p[11], j + 0x58, func_0204B864((u8 *)(*(int *)(p[11] + k * 4 + 0x9E74))));
+                func_021EC048(p[11], j + 0x58, CLACT_GetActorDrawPriority(*(int *)(p[11] + k * 4 + 0x9E74)) + 1);
+                func_021EC030(p[11], j + 0x58, CLACT_GetActorBgPriority((u8 *)(*(int *)(p[11] + k * 4 + 0x9E74))));
             }
         }
     }
@@ -17156,8 +17161,8 @@ void func_021ED6E4(char **p, int v)
 void func_021ED75C(char **p, int i)
 {
     unsigned char k = *(unsigned char *)(p[11] + i + 0x3DD2);
-    int a = func_0204B838(*(int *)(p[11] + k * 4 + 0x9E74));
-    int b = func_0204B864((u8 *)(*(int *)(p[11] + k * 4 + 0x9E74)));
+    int a = CLACT_GetActorDrawPriority(*(int *)(p[11] + k * 4 + 0x9E74));
+    int b = CLACT_GetActorBgPriority((u8 *)(*(int *)(p[11] + k * 4 + 0x9E74)));
     int j;
     for (j = 0; j < 8u; j++) {
         if (*(int *)(p[11] + j * 4 + 0x9FD4) != 0 && ((unsigned char *)p)[0x16] != 0xFF) {

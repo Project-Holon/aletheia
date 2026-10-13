@@ -1,5 +1,5 @@
 /*
- * function: func_021B043C
+ * function: VCT_ADPCM_DecodePacket
  * address:  0x021B043C
  * packet:   pkt_ov013_021B043C
  * region:   ov013
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AFFE4  0x021AFFE4  arm  ov013
- *   func_021AF628  0x021AF628  arm  ov013
- *   func_021AF340  0x021AF340  arm  ov013
+ *   VCT_ADPCM_Decode2Bit  0x021AFFE4  arm  ov013
+ *   VCT_ADPCM_Decode3Bit  0x021AF628  arm  ov013
+ *   VCT_ADPCM_Decode4Bit  0x021AF340  arm  ov013
  */
 
 typedef unsigned char u8;
@@ -24,11 +24,11 @@ typedef struct AdpcmState {
 } AdpcmState;
 
 typedef unsigned int   u32;
-extern void func_021AFFE4(const u8 *src, s16 *dst, u32 n, struct AdpcmState *st);
-extern void func_021AF628(const u8 *src, s16 *dst, u32 n, struct AdpcmState *st);
-extern void func_021AF340(const u8 *src, s16 *dst, u32 n, struct AdpcmState *st);
+extern void VCT_ADPCM_Decode2Bit(const u8 *src, s16 *dst, u32 n, struct AdpcmState *st);
+extern void VCT_ADPCM_Decode3Bit(const u8 *src, s16 *dst, u32 n, struct AdpcmState *st);
+extern void VCT_ADPCM_Decode4Bit(const u8 *src, s16 *dst, u32 n, struct AdpcmState *st);
 
-void func_021B043C(AdpcmState *hdr, void *dst, int n, int mode)
+void VCT_ADPCM_DecodePacket(AdpcmState *hdr, void *dst, int n, int mode)
 {
     AdpcmState st;
 
@@ -36,13 +36,13 @@ void func_021B043C(AdpcmState *hdr, void *dst, int n, int mode)
     st.index = hdr->index;
     switch (mode) {
     case 2:
-        func_021AFFE4((u8 *)hdr + 4, dst, n - 4, &st);
+        VCT_ADPCM_Decode2Bit((u8 *)hdr + 4, dst, n - 4, &st);
         break;
     case 3:
-        func_021AF628((u8 *)hdr + 4, dst, n - 4, &st);
+        VCT_ADPCM_Decode3Bit((u8 *)hdr + 4, dst, n - 4, &st);
         break;
     case 4:
-        func_021AF340((u8 *)hdr + 4, dst, n - 4, &st);
+        VCT_ADPCM_Decode4Bit((u8 *)hdr + 4, dst, n - 4, &st);
         break;
     }
 }

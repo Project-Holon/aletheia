@@ -26,20 +26,20 @@
  *   func_021F3DE4 0x021F3DE4 thumb ov039
  *   func_021F47D8 0x021F47D8 thumb ov039
  *   func_02011558 0x02011558 thumb
- *   func_02011428 0x02011428 thumb
+ *   ICA_ANIME_CreateWithFullBuffer 0x02011428 thumb
  *   func_021BE674 0x021BE674 thumb ov021
  *   func_021BE6B0 0x021BE6B0 thumb ov021
  *   func_02028A7C 0x02028A7C thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_02006148 0x02006148 thumb
- *   func_02028B18 0x02028B18 thumb
- *   func_02006138 0x02006138 thumb
- *   func_02072F34 0x02072F34 arm
+ *   FIELD_SOUND_SYSTEM_TransferSlot 0x02028B18 thumb
+ *   GFL_USE_GetSeHandle 0x02006138 thumb
+ *   NNS_SndHandleSetSeqPriority 0x02072F34 arm
  *   func_021BE6E8 0x021BE6E8 thumb ov021
  *   func_021F4864 0x021F4864 thumb ov039
  *   func_02028B50 0x02028B50 thumb
- *   func_02006210 0x02006210 thumb
- *   func_02011688 0x02011688 thumb
+ *   GFL_USE_StopAllSe 0x02006210 thumb
+ *   ICA_ANIME_GetTranslateAt 0x02011688 thumb
  *   func_02188CB4 0x02188CB4 thumb ov021
  *   func_021A3044 0x021A3044 thumb ov021
  *   func_021F4A18 0x021F4A18 thumb ov039
@@ -96,23 +96,23 @@ extern u32 func_02012A30(const struct BigObj *a);
 extern int func_021F3DE4(void *p, u16 delta, u16 i);
 extern void func_021F47D8(void *a, int f, int i);
 extern void func_02011558(struct IcaAnime *p);
-extern u32 func_02011428(u32 heap, u32 a1, u16 a2, void *a3, u32 a4);
+extern u32 ICA_ANIME_CreateWithFullBuffer(u32 heap, u32 a1, u16 a2, void *a3, u32 a4);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern void func_02028A7C(struct SoundSys2 *s, u32 id);
 extern void func_020061E4(u32 a);
 extern int func_02006148(u32 a);
-extern void func_02028B18(struct SoundSys2 *s, u32 id, u32 who);
-extern u32 *func_02006138(int i);
+extern void FIELD_SOUND_SYSTEM_TransferSlot(struct SoundSys2 *s, u32 id, u32 who);
+extern u32 *GFL_USE_GetSeHandle(int i);
 struct Obj;
 struct Rec;
 struct Rec12;
-extern void func_02072F34(struct Obj *o, u8 v);
+extern void NNS_SndHandleSetSeqPriority(struct Obj *o, u8 v);
 extern int func_021BE6E8(int p, int i, u8 j, u8 k);
 extern int func_021F4864(u32 a, u32 b, u8 *out);
 extern void func_02028B50(u8 *p, int a0);
-extern void func_02006210(void);
-extern u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx);
+extern void GFL_USE_StopAllSe(void);
+extern u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *p, struct Rec12 *dst, u32 idx);
 struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
 extern void func_021A3044(u8 *p, void *v);
@@ -164,7 +164,7 @@ void func_021F3A34(int a0, void *a1)
                 if (s->sel != 0xff && ((u32)s->sel >> 1) == j && s->sel != s->cur[j]) {
                     s->sel = s->cur[j];
                     func_02011558((struct IcaAnime *)s->anim);
-                    s->anim = func_02011428(0x8015, 0x6b, d_021F4C38[s->sel], s->f1c, 0x21C0);
+                    s->anim = ICA_ANIME_CreateWithFullBuffer(0x8015, 0x6b, d_021F4C38[s->sel], s->f1c, 0x21C0);
                 }
                 s->req[j] = 0;
             }
@@ -184,8 +184,8 @@ void func_021F3A34(int a0, void *a1)
                     func_02028A7C((struct SoundSys2 *)w, 0x68A);
                     func_020061E4(0x6DB);
                     snd = func_02006148(0x6DB);
-                    func_02028B18((struct SoundSys2 *)w, 0x68A, 0x7f);
-                    func_02072F34((struct Obj *)func_02006138(snd), 0);
+                    FIELD_SOUND_SYSTEM_TransferSlot((struct SoundSys2 *)w, 0x68A, 0x7f);
+                    NNS_SndHandleSetSeqPriority((struct Obj *)GFL_USE_GetSeHandle(snd), 0);
                 }
                 sr[0x21F0] = -1;
             }
@@ -193,7 +193,7 @@ void func_021F3A34(int a0, void *a1)
             func_021BE6B0(o, 1);
             if (s->sel != 0xff && j == ((u32)s->sel >> 1)) {
                 func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
+                GFL_USE_StopAllSe();
             }
             s->timer[j] = 0x5a;
             sr[0x21F0] = d_021F4C28[v][buf[0]];
@@ -202,7 +202,7 @@ void func_021F3A34(int a0, void *a1)
     if (s->active != 0) {
         pos = d_021F4D54;
         k = s->sel >> 1;
-        if (func_02011688((struct IcaAnime *)s->anim, (struct Rec12 *)(&pos), func_021BE6E8(h, 0, k, s->sel + 1) / 4096)) {
+        if (ICA_ANIME_GetTranslateAt((struct IcaAnime *)s->anim, (struct Rec12 *)(&pos), func_021BE6E8(h, 0, k, s->sel + 1) / 4096)) {
             pos.x += d_021F4CA0[k].x;
             pos.y += d_021F4CA0[k].y;
             pos.z += d_021F4CA0[k].z;

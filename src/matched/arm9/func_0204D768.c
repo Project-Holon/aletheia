@@ -1,5 +1,5 @@
 /*
- * function: func_0204D768
+ * function: CLACT_ApplyAnimCommand
  * address:  0x0204D768
  * packet:   pkt_0204D768
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204D410  0x0204D410  arm
+ *   CLACT_GetAnimCtrl  0x0204D410  arm
  *   func_02063000  0x02063000  arm
  *   func_02063018  0x02063018  arm
  *
@@ -34,8 +34,8 @@
  * and four.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D768.c \
- *       --func func_0204D768 --addr 0x0204D768 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ApplyAnimCommand.c \
+ *       --func CLACT_ApplyAnimCommand --addr 0x0204D768 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -55,14 +55,14 @@ struct Cmd {
 
 struct Obj;
 struct Rec;
-extern struct Rec *func_0204D410(struct Obj *o);
+extern struct Rec *CLACT_GetAnimCtrl(struct Obj *o);
 extern void func_02063000(int p0, int p1, int p2, int p3);
 struct CellAnim;
 extern void func_02063018(struct CellAnim *anim, u32 a, u32 b, u16 tag);
 
-void func_0204D768(struct Ctl *c, const struct Cmd *cmd)
+void CLACT_ApplyAnimCommand(struct Ctl *c, const struct Cmd *cmd)
 {
-    void *h = func_0204D410((struct Obj *)c);
+    void *h = CLACT_GetAnimCtrl((struct Obj *)c);
 
     switch (cmd->op) {
     case 0:

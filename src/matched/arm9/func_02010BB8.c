@@ -15,7 +15,7 @@
  *   func_0203064C  0x0203064C  arm
  *   func_0203159C  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
- *   func_02031324  0x02031324  arm
+ *   PROCSYS_Create  0x02031324  arm
  *
  * The save-screen constructor of the net_save.c family (see
  * docs/families/net_save.h section 3).  It blanks both display engines'
@@ -23,7 +23,7 @@
  * words, masked first with ~0x1F00 and then with ~0xE000, and 0x04000050 /
  * 0x04001050 are the two BLDCNT halfwords zeroed -- then allocates a
  * 0x1A8-byte record at heap 0x5b, zeroes it, stores its third argument at
- * +0x00 and the heap's own handle (func_02031324(0x5b)) at +0x08.
+ * +0x00 and the heap's own handle (PROCSYS_Create(0x5b)) at +0x08.
  *
  * The four masked read-modify-writes are written as four separate compound
  * assignments in source order: the compiler reuses the two pooled addresses
@@ -48,7 +48,7 @@ extern void  func_0203064C(u32 a, u32 heap, u32 size);
 struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 
 int func_02010BB8(void *ctx, int a1, int a2)
 {
@@ -66,6 +66,6 @@ int func_02010BB8(void *ctx, int a1, int a2)
     p = func_0203159C(ctx, 0x1a8, 0x5b);
     func_02082BCC(p, 0, 0x1a8);
     ((struct Obj11242 *)p)->f0 = (u32)a2;
-    ((struct Obj11242 *)p)->f8 = (unsigned int)func_02031324(0x5b);
+    ((struct Obj11242 *)p)->f8 = (unsigned int)PROCSYS_Create(0x5b);
     return 1;
 }

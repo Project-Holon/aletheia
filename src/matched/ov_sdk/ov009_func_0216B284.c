@@ -1,5 +1,5 @@
 /*
- * function: func_0216B284
+ * function: DWC_ConnectToAnybodyAsync
  * address:  0x0216B284
  * packet:   pkt_ov009_0216B284
  * region:   ov009
@@ -13,11 +13,11 @@
  *
  * symbols:
  *   func_02059F38  0x02059F38  arm
- *   func_0216BB98  0x0216BB98  arm  ov009
- *   func_0216BC84  0x0216BC84  arm  ov009
- *   func_0216C7E0  0x0216C7E0  arm  ov009
+ *   DWCi_ClearGT2ConnectionList  0x0216BB98  arm  ov009
+ *   DWCi_SetState  0x0216BC84  arm  ov009
+ *   DWCi_CustomCommonInit  0x0216C7E0  arm  ov009
  *   func_0216CF1C  0x0216CF1C  arm  ov009
- *   func_0216BFB8  0x0216BFB8  arm  ov009
+ *   DWCi_MatchedCallback  0x0216BFB8  arm  ov009
  *   g_021AA878  0x021AA878  data
  */
 
@@ -49,21 +49,21 @@ typedef struct DwcGlobal DwcGlobal;
 extern struct DwcGlobal g_021AA878;
 
 extern int func_02059F38(void);
-extern void func_0216BB98(void);
-extern void func_0216BC84(int state);
-extern void func_0216C7E0(unsigned char matchType);
+extern void DWCi_ClearGT2ConnectionList(void);
+extern void DWCi_SetState(int state);
+extern void DWCi_CustomCommonInit(unsigned char matchType);
 extern void func_0216CF1C(int topology, unsigned char numEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
-extern void func_0216BFB8(int error, int cancel, int self, int isServer, int index);
+extern void DWCi_MatchedCallback(int error, int cancel, int self, int isServer, int index);
 
-int func_0216B284(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam)
+int DWC_ConnectToAnybodyAsync(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam)
 {
 	if (func_02059F38() || ((DwcState *)g_021AA878.st)->state != 3)
 		return 0;
-	func_0216BB98();
+	DWCi_ClearGT2ConnectionList();
 	((DwcState *)g_021AA878.st)->matchedCallback = matchedCallback;
 	((DwcState *)g_021AA878.st)->matchedParam = matchedParam;
-	func_0216BC84(4);
-	func_0216C7E0(0);
-	func_0216CF1C(topology, maxEntry - 1, addFilter, func_0216BFB8, 0, newClientCallback, newClientParam, evalCallback, evalParam, attemptCallback, connectionUserData, attemptParam);
+	DWCi_SetState(4);
+	DWCi_CustomCommonInit(0);
+	func_0216CF1C(topology, maxEntry - 1, addFilter, DWCi_MatchedCallback, 0, newClientCallback, newClientParam, evalCallback, evalParam, attemptCallback, connectionUserData, attemptParam);
 	return 1;
 }

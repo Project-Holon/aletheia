@@ -1,5 +1,5 @@
 /*
- * function: func_021754E8
+ * function: INTRUDE_COMM_SetRequestResult
  * address: 0x021754E8
  * packet: pkt_ov011_021754E8
  * region: ov011
@@ -10,7 +10,7 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-void func_021754E8(u8 *p, int a, int b, int c)
+void INTRUDE_COMM_SetRequestResult(u8 *p, int a, int b, int c)
 {
     if (p[0x154] == a && p[0x158] == c) {
         p[0x155] = a;

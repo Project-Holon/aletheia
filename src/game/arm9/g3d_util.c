@@ -1,7 +1,7 @@
 /*
  * file:     g3d_util.c
  * unit:     yes
- * function: func_02047CFC, func_02047E54, func_02047E88, func_02047F4C, func_02048010, func_020480E4, func_02048120, func_02048258, func_020482B4, func_02048330, func_02048744, func_02048918, sub_020489F4, sub_02048A00, sub_02048A0C, sub_02048A18, func_02048A24, func_02048AC4, func_02048AD0, func_02048AE8, func_02048AFC, func_02048B0C, func_02048B20, func_02048B30, func_02048B44, func_02048B54, func_02048B60, func_02048B6C, func_02048B78, func_02048B80, func_02048B88, func_02048B94, func_02048B9C, func_02048BA8, func_02048BB0, func_02048BBC, func_02048BC4, func_02048C4C, func_02048C58, func_02048C80, func_02048CA4, func_02048CCC, func_02048CDC, func_02048CEC, func_02048D00, func_02048D54, func_02048DDC, func_02048E34, func_02048F4C, func_02048F60, func_02048F74, func_02048F88, func_02048F9C, func_02049030, func_020490A8, sub_020490F4, func_0204913C, func_0204919C, func_02049238, func_02049250, func_0204932C, func_020493D4, func_0204944C, func_020494F4, func_02049578, func_020495F4, NHTTPi_GetConnection, func_0204961C, func_02049624, sub_02049658, sub_0204968C, sub_020496E4, sub_02049740, sub_0204979C, sub_02049800, sub_0204982C, sub_0204989C, sub_020498F4, func_0204994C, func_02049990, func_020499D4, func_02049A18, sub_02049B40, sub_02049B68, func_02049B90, func_02049BDC, func_02049C28, func_02049DB4, func_02049DF4, func_02049E34, func_02049E74, func_02049EB4, func_02049EF4, func_02049F34, func_02049F78, func_02049FBC, func_02049FFC, func_0204A03C, func_0204A07C, func_0204A0BC, func_0204A0FC, func_0204A13C, func_0204A17C, func_0204A1BC, func_0204A298, func_0204A380, func_0204A39C
+ * function: func_02047CFC, func_02047E54, func_02047E88, func_02047F4C, func_02048010, func_020480E4, G3D_UTIL_LoadUnitResources, G3D_UTIL_LoadUnitResourcesFromArchive, G3D_UTIL_FreeUnitResources, G3D_UTIL_BuildUnitObjects, G3D_UTIL_BuildUnitObjectsLoaded, G3D_UTIL_FreeUnitObjects, G3D_UTIL_GetUnitObjIdx, G3D_UTIL_GetUnitObjCount, G3D_UTIL_GetResource, G3D_UTIL_GetObject, func_02048A24, func_02048AC4, func_02048AD0, func_02048AE8, func_02048AFC, func_02048B0C, func_02048B20, func_02048B30, func_02048B44, func_02048B54, func_02048B60, func_02048B6C, func_02048B78, func_02048B80, func_02048B88, func_02048B94, G3D_CAMERA_GetNearClipAlt, G3D_CAMERA_SetNearClipAlt, G3D_CAMERA_GetFarClipAlt, G3D_CAMERA_SetFarClipAlt, func_02048BC4, func_02048C4C, func_02048C58, G3D_LIGHT_GetSlotColor, func_02048CA4, G3D_LIGHT_GetSlotFlags, func_02048CDC, ARC_TOOL_SetTable, ARC_TOOL_ReadMemberRangeImpl, ARC_TOOL_LoadMemberRangeImpl, ARC_TOOL_OpenArchive, ARC_TOOL_SeekMember, func_02048F4C, func_02048F60, func_02048F74, func_02048F88, ARC_TOOL_LoadMemberFromPath, func_02049030, func_020490A8, sub_020490F4, ARC_TOOL_CreateHandleFromMemory, ARC_TOOL_ReadHandleHeader, func_02049238, func_02049250, func_0204932C, func_020493D4, func_0204944C, ARC_TOOL_GetHandleMemberOffsetOut, ARC_TOOL_GetHandleMemberOffset, ARC_TOOL_ReadHandle, ARC_TOOL_SeekHandle, func_0204961C, func_02049624, ARC_UTIL_UploadBgCharFromHandle, ARC_UTIL_UploadBgChar, ARC_UTIL_RegisterObjCharFromArchive, ARC_UTIL_RegisterObjCharFromHandle, ARC_UTIL_RegisterObjChar, ARC_UTIL_UploadScreenFromHandle, ARC_UTIL_UploadScreen, ARC_UTIL_UploadBgPaletteFromArchive, ARC_UTIL_UploadBgPaletteFromHandle, ARC_UTIL_UploadBgPaletteAddFromArchive, func_02049990, ARC_UTIL_UploadBgPaletteAddFromHandleExt, ARC_UTIL_UploadBgPalette, ARC_UTIL_UploadPaletteFromArchiveWhole, ARC_UTIL_UploadPaletteFromHandleWhole, func_02049B90, func_02049BDC, ARC_UTIL_UploadPalette, func_02049DB4, func_02049DF4, func_02049E34, func_02049E74, ARC_UTIL_LoadPaletteDataFromArchive, func_02049EF4, func_02049F34, func_02049F78, ARC_UTIL_LoadCellBankFromArchive, ARC_UTIL_LoadCellBankFromHandle, ARC_UTIL_LoadMultiCellBankFromArchive, ARC_UTIL_LoadMultiCellBankFromHandle, ARC_UTIL_LoadAnimBankFromArchive, ARC_UTIL_LoadAnimBankFromHandle, ARC_UTIL_LoadMultiAnimBankFromArchive, ARC_UTIL_LoadMultiAnimBankFromHandle, func_0204A1BC, func_0204A298, func_0204A380, func_0204A39C
  * address:  0x02047CFC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -19,36 +19,36 @@
  *   func_020862F0  0x020862F0  arm
  *   DC_FlushRange  0x020862F0  arm
  *   g3d_util_file  0x020A7EB8  data
- *   g_020A7EC4     0x020A7EC4  data
- *   func_02048BC4_File  0x020A7ED4  data
- *   g_02146A68     0x02146A68  data
+ *   g3d_camera_file     0x020A7EC4  data
+ *   g3d_light_file  0x020A7ED4  data
+ *   ARC_TOOL_gArchiveTable     0x02146A68  data
  *   func_02078A80  0x02078A80  arm
  *   func_02078B70  0x02078B70  arm
- *   func_02048D54_File  0x020A7EE0  data
+ *   arc_tool_file  0x020A7EE0  data
  *   FS_InitFile             0x020788AC  arm
  *   FS_OpenFile     0x02078C18  arm
  *   FS_CreateFileFromMemory 0x0207A940  arm
  *   FS_SeekFile             0x02078B44  arm
  *   FS_ReadFile             0x02078B70  arm
  *   func_02034734           0x02034734  arm
- *   func_02048DDC_File      0x020A7EE0  data
- *   func_02048DDC_Msg       0x020A7EEC  data
- *   func_02048F9C_File 0x020A7EE0  data
+ *   arc_tool_file      0x020A7EE0  data
+ *   arc_tool_msg_member_range       0x020A7EEC  data
+ *   arc_tool_file 0x020A7EE0  data
  *   func_02078B44  0x02078B44  arm
- *   sub_020490F4_File  0x020A7EE0  data
- *   func_0204913C_File      0x020A7EE0  data
- *   func_02049250_File 0x020A7EE0  data
- *   func_02049250_Msg  0x020A7F18  data
- *   func_0204932C_File 0x020A7EE0  data
- *   func_0204932C_Msg  0x020A7F18  data
- *   func_020493D4_File 0x020A7EE0  data
- *   func_020493D4_Msg  0x020A7F18  data
- *   func_0204944C_File 0x020A7EE0  data
- *   func_0204944C_Msg  0x020A7F18  data
- *   func_020494F4_File 0x020A7EE0  data
- *   func_020494F4_Msg  0x020A7F18  data
- *   func_02049578_File 0x020A7EE0  data
- *   func_02049578_Msg  0x020A7F18  data
+ *   arc_tool_file  0x020A7EE0  data
+ *   arc_tool_file      0x020A7EE0  data
+ *   arc_tool_file 0x020A7EE0  data
+ *   arc_tool_msg_member_bounds  0x020A7F18  data
+ *   arc_tool_file 0x020A7EE0  data
+ *   arc_tool_msg_member_bounds  0x020A7F18  data
+ *   arc_tool_file 0x020A7EE0  data
+ *   arc_tool_msg_member_bounds  0x020A7F18  data
+ *   arc_tool_file 0x020A7EE0  data
+ *   arc_tool_msg_member_bounds  0x020A7F18  data
+ *   arc_tool_file 0x020A7EE0  data
+ *   arc_tool_msg_member_bounds  0x020A7F18  data
+ *   arc_tool_file 0x020A7EE0  data
+ *   arc_tool_msg_member_bounds  0x020A7F18  data
  *   func_0204968C  0x0204968C  arm
  *   sub_0204A380   0x0204A380  arm
  *   func_02062A4C       0x02062A4C  arm
@@ -58,7 +58,7 @@
  *   func_02040B58  0x02040B58  arm
  *   func_0204982C  0x0204982C  arm
  *   func_02062A00       0x02062A00  arm
- *   g_020A135C          0x020A135C  data
+ *   ARC_UTIL_gScreenLoadFns          0x020A135C  data
  *   sub_02049A18   0x02049A18  arm
  *   func_02062B30  0x02062B30  arm
  *   func_0204169C  0x0204169C  arm
@@ -69,7 +69,7 @@
  *   func_02041B6C  0x02041B6C  arm
  *   sub_02049B90   0x02049B90  arm
  *   sub_02049BDC   0x02049BDC  arm
- *   g_020A1364     0x020A1364  data
+ *   ARC_UTIL_gPaletteLoadFns     0x020A1364  data
  *   func_02062AD4  0x02062AD4  arm
  *   func_02062A98  0x02062A98  arm
  *   func_0207F308  0x0207F308  arm
@@ -85,26 +85,26 @@
  *   func_02062920  0x02062920  arm
  *   func_0206267C  0x0206267C  arm
  *   func_020834C0  0x020834C0  arm
- *   sArcUtil3730   0x020A7F30  data
+ *   arc_util_file   0x020A7F30  data
  *   MI_UncompressLZ8 0x020834C0 arm
- *   lbl_020A7F30     0x020A7F30 data
- *   func_02046858 0x02046858 arm
- *   func_02046A94 0x02046A94 arm
- *   func_02046B40 0x02046B40 arm
+ *   arc_util_file     0x020A7F30 data
+ *   G3D_SYSTEM_SetProjection 0x02046858 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
+ *   G3D_SYSTEM_SetLookAt 0x02046B40 arm
  *   func_02046C94 0x02046C94 arm
  *   func_02046CE0 0x02046CE0 arm
  *   func_02046DB8 0x02046DB8 arm
  *   func_02046E24 0x02046E24 arm
- *   func_02046E90 0x02046E90 arm
+ *   G3D_SYSTEM_CreateResourcePath 0x02046E90 arm
  *   func_02046EFC 0x02046EFC arm
  *   func_02046F50 0x02046F50 arm
  *   func_02046FF8 0x02046FF8 arm
  *   func_020470D0 0x020470D0 arm
- *   func_02047348 0x02047348 arm
+ *   G3D_SYSTEM_IsTextureInVram 0x02047348 arm
  *   func_02047400 0x02047400 arm
  *   func_02047504 0x02047504 arm
- *   func_0204754C 0x0204754C arm
- *   func_02047554 0x02047554 arm
+ *   G3D_SYSTEM_GetRenderMdlRes 0x0204754C arm
+ *   G3D_SYSTEM_GetRenderTexRes 0x02047554 arm
  *   func_02047564 0x02047564 arm
  *   func_0204762C 0x0204762C arm
  *   func_0204767C 0x0204767C arm
@@ -398,23 +398,23 @@ extern int func_02062920(u32 a, u32 *out);
 extern int   func_0206267C(void *ptr, u32 val);
 extern int         func_020834C0(int a0, int a1);
 extern void MI_UncompressLZ8(const void *src, void *dest);
-void func_02046858(const u32 *src);
-void func_02046A94(u32 idx, const u16 *src);
-void func_02046B40(u8 *a0);
+void G3D_SYSTEM_SetProjection(const u32 *src);
+void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+void G3D_SYSTEM_SetLookAt(u8 *a0);
 int func_02046C94(void);
 void func_02046CE0(struct G3dNodeInit *out, u32 *tag);
 void *func_02046DB8(u32 a0, u32 a1);
 void *func_02046E24(struct ArcHandle *a0, u32 a1);
-void *func_02046E90(u32 a0, u32 a1);
+void *G3D_SYSTEM_CreateResourcePath(u32 a0, u32 a1);
 void func_02046EFC(struct G3dResourceRef *p);
 u32 func_02046F50(struct G3dResourceRef *p, u32 sel);
 int func_02046FF8(int *self);
 int func_020470D0(u32 *p);
-int func_02047348(struct G3dModelRef *layer);
+int G3D_SYSTEM_IsTextureInVram(struct G3dModelRef *layer);
 void *func_02047400(void *a0, u32 n, void *a2);
 void func_02047504(struct G3dNode *p);
-int func_0204754C(int *p);
-int func_02047554(int *p);
+int G3D_SYSTEM_GetRenderMdlRes(int *p);
+int G3D_SYSTEM_GetRenderTexRes(int *p);
 struct G3dAnim *func_02047564(struct G3dRenderObj *a0, const struct G3dRenderObj *a1, int a2);
 void func_0204762C(struct G3dNode *p);
 void *func_0204767C(u32 a0, u32 *a1, int a2);
@@ -428,16 +428,16 @@ u16 func_02047E88(Util *util, const Setup *setup);
 u16 func_02047F4C(Util *util, const Setup *setup);
 u16 func_02048010(Util *util, const Setup *setup, struct ArcHandle *extra);
 void func_020480E4(Util *util, u32 i);
-void func_02048120(Util *util, u16 index, const Setup *setup, u16 heapID);
-void func_02048258(Util *util, u16 index, const Setup *setup, u32 heapID, struct ArcHandle *arc);
-void func_020482B4(Util *util, u32 index);
-void func_02048330(Util *util, u16 unitIdx, const Setup *setup, u16 heapID);
-void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID);
-void func_02048918(Util *util, u32 unitIdx);
-u32 sub_020489F4(Util *util, int i);
-u32 sub_02048A00(Util *util, int i);
-u32 sub_02048A0C(Util *util, int i);
-u32 sub_02048A18(Util *util, int i);
+void G3D_UTIL_LoadUnitResources(Util *util, u16 index, const Setup *setup, u16 heapID);
+void G3D_UTIL_LoadUnitResourcesFromArchive(Util *util, u16 index, const Setup *setup, u32 heapID, struct ArcHandle *arc);
+void G3D_UTIL_FreeUnitResources(Util *util, u32 index);
+void G3D_UTIL_BuildUnitObjects(Util *util, u16 unitIdx, const Setup *setup, u16 heapID);
+void G3D_UTIL_BuildUnitObjectsLoaded(Util *util, u16 unitIdx, const Setup *setup, u16 heapID);
+void G3D_UTIL_FreeUnitObjects(Util *util, u32 unitIdx);
+u32 G3D_UTIL_GetUnitObjIdx(Util *util, int i);
+u32 G3D_UTIL_GetUnitObjCount(Util *util, int i);
+u32 G3D_UTIL_GetResource(Util *util, int i);
+u32 G3D_UTIL_GetObject(Util *util, int i);
 u32 *func_02048A24(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8, Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap);
 u32 func_02048AC4(void *ptr);
 void func_02048AD0(struct G3dCamera *l);
@@ -454,106 +454,106 @@ int func_02048B78(struct G3dCamera *l);
 void func_02048B80(struct G3dCamera *l, u32 v);
 void func_02048B88(struct G3dCamera *l, u32 *out);
 void func_02048B94(struct G3dCamera *l, u32 v);
-void func_02048B9C(struct G3dCamera *l, u32 *out);
-void func_02048BA8(struct G3dCamera *l, u32 v);
-void func_02048BB0(struct G3dCamera *l, u32 *out);
-void func_02048BBC(struct G3dCamera *l, u32 v);
+void G3D_CAMERA_GetNearClipAlt(struct G3dCamera *l, u32 *out);
+void G3D_CAMERA_SetNearClipAlt(struct G3dCamera *l, u32 v);
+void G3D_CAMERA_GetFarClipAlt(struct G3dCamera *l, u32 *out);
+void G3D_CAMERA_SetFarClipAlt(struct G3dCamera *l, u32 v);
 struct LightSlotValue *func_02048BC4(const struct LightSetDesc *s, u16 heap);
 u32 func_02048C4C(void *p);
 void func_02048C58(struct LightSlot *slots);
-void func_02048C80(struct LightSlot *slots, u8 i, struct Rgb555 *out);
+void G3D_LIGHT_GetSlotColor(struct LightSlot *slots, u8 i, struct Rgb555 *out);
 void func_02048CA4(struct LightSlot *slots, u32 i, struct Rgb555 *in);
-void func_02048CCC(struct LightSlot *slots, u8 i, u16 *out);
+void G3D_LIGHT_GetSlotFlags(struct LightSlot *slots, u8 i, u16 *out);
 void func_02048CDC(struct LightSlot *slots, u32 i, u16 *in);
-void func_02048CEC(u32 a, u32 b);
-void func_02048D00(void *dst, u32 archive_id, u32 member, u32 offset, u32 size);
-void *func_02048D54(u32 archive_id, u32 member, u16 heap, u32 offset, u32 size);
-void func_02048DDC(struct ArcFile *arc, u32 id);
-u32 func_02048E34(struct ArcHandle *arc, u32 member, u32 base, u32 size);
+void ARC_TOOL_SetTable(u32 a, u32 b);
+void ARC_TOOL_ReadMemberRangeImpl(void *dst, u32 archive_id, u32 member, u32 offset, u32 size);
+void *ARC_TOOL_LoadMemberRangeImpl(u32 archive_id, u32 member, u16 heap, u32 offset, u32 size);
+void ARC_TOOL_OpenArchive(struct ArcFile *arc, u32 id);
+u32 ARC_TOOL_SeekMember(struct ArcHandle *arc, u32 member, u32 base, u32 size);
 void func_02048F4C(void *dst, u32 archive_id, u32 member);
 void *func_02048F60(u32 archive_id, u32 member, u16 heap);
 void func_02048F74(void *dst, u32 archive_id, u32 member, u32 offset, u32 size);
 void *func_02048F88(u32 archive_id, u32 member, u16 heap, u32 offset, u32 size);
-void *func_02048F9C(const char *path, u32 a, u16 heap);
+void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 a, u16 heap);
 u32 func_02049030(u32 a);
 u32 func_020490A8(u32 a, u32 b);
 void *sub_020490F4(u32 id, u16 heap);
-void *func_0204913C(void *a0, u32 a1, u16 heap);
-void func_0204919C(struct ArcHandle *arc);
+void *ARC_TOOL_CreateHandleFromMemory(void *a0, u32 a1, u16 heap);
+void ARC_TOOL_ReadHandleHeader(struct ArcHandle *arc);
 void func_02049238(void *arc);
 void *func_02049250(struct ArcHandle *arc, u32 member, u16 heap);
 void func_0204932C(struct ArcHandle *arc, u32 member, void *dst);
 u32 func_020493D4(struct ArcHandle *arc, u32 member);
 void func_0204944C(struct ArcHandle *arc, u32 member, u32 offset, u32 size, void *dst);
-void func_020494F4(struct ArcHandle *arc, u32 member, u32 *out);
-u32 func_02049578(struct ArcHandle *arc, u32 member);
-void func_020495F4(struct ArcHandleRaw *arc, u32 size, void *dst);
-int NHTTPi_GetConnection(struct FSFile *file, long offset);
+void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcHandle *arc, u32 member, u32 *out);
+u32 ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 member);
+void ARC_TOOL_ReadHandle(struct ArcHandleRaw *arc, u32 size, void *dst);
+int ARC_TOOL_SeekHandle(struct FSFile *file, long offset);
 u16 func_0204961C(void *obj);
 u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
-u32 sub_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-u32 sub_0204968C(void *buf, u32 a1, u32 a2, u32 a3, u32 unused);
-u32 sub_020496E4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-u32 sub_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-u32 sub_0204979C(void *buf, u32 a1, u32 a2);
-u32 sub_02049800(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-u32 sub_0204982C(void *buf, u32 kind, u32 a2, u32 size);
-void sub_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
-void sub_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-u32 func_0204994C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+u32 ARC_UTIL_UploadBgChar(void *buf, u32 a1, u32 a2, u32 a3, u32 unused);
+u32 ARC_UTIL_RegisterObjCharFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+u32 ARC_UTIL_RegisterObjChar(void *buf, u32 a1, u32 a2);
+u32 ARC_UTIL_UploadScreenFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 a2, u32 size);
+void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+u32 ARC_UTIL_UploadBgPaletteAddFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-u32 func_020499D4(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-u32 func_02049A18(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag);
-void sub_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void sub_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag);
+void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-void func_02049C28(void *file, u32 kind, u32 offset, u32 dest, u32 size);
+void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size);
 void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 void *func_02049EF4(void *a0, u32 a1, u32 a2, void **out, u16 a4);
 void *func_02049F34(u32 a0, u32 a1, u32 a2, u16 a3);
 void *func_02049F78(void *a0, u32 a1, u32 a2, u16 a3);
-void *func_02049FBC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-void *func_02049FFC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-void *func_0204A03C(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-void *func_0204A07C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-void *func_0204A0BC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-void *func_0204A0FC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-void *func_0204A13C(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-void *func_0204A17C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadMultiCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadAnimBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 int func_0204A1BC(int a0, int a1, int a2, u16 a3);
 int func_0204A298(int a0, int a1, int a2, u16 a3, u32 *out);
 void *func_0204A380(void *a0, u32 a1, u32 a2, u16 a3);
 void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern const char g3d_util_file[];
-extern char  g_020A7EC4[];
-extern const char func_02048BC4_File[];
-extern struct ArcTableInfo g_02146A68;
-extern const char func_02048D54_File[];
-extern const char func_02048DDC_File[];
-extern const char func_02048DDC_Msg[];
-extern const char func_02048F9C_File[];
-extern const char sub_020490F4_File[];
-extern const char func_0204913C_File[];
-extern const char func_02049250_File[];
-extern const char func_02049250_Msg[];
-extern const char func_0204932C_File[];
-extern const char func_0204932C_Msg[];
-extern const char func_020493D4_File[];
-extern const char func_020493D4_Msg[];
-extern const char func_0204944C_File[];
-extern const char func_0204944C_Msg[];
-extern const char func_020494F4_File[];
-extern const char func_020494F4_Msg[];
-extern const char func_02049578_File[];
-extern const char func_02049578_Msg[];
-extern const GfxLoadFn g_020A1364[];
-extern const char  sArcUtil3730[];
-extern const char lbl_020A7F30[];
+extern char  g3d_camera_file[];
+extern const char g3d_light_file[];
+extern struct ArcTableInfo ARC_TOOL_gArchiveTable;
+extern const char arc_tool_file[];
+extern const char arc_tool_file[];
+extern const char arc_tool_msg_member_range[];
+extern const char arc_tool_file[];
+extern const char arc_tool_file[];
+extern const char arc_tool_file[];
+extern const char arc_tool_file[];
+extern const char arc_tool_msg_member_bounds[];
+extern const char arc_tool_file[];
+extern const char arc_tool_msg_member_bounds[];
+extern const char arc_tool_file[];
+extern const char arc_tool_msg_member_bounds[];
+extern const char arc_tool_file[];
+extern const char arc_tool_msg_member_bounds[];
+extern const char arc_tool_file[];
+extern const char arc_tool_msg_member_bounds[];
+extern const char arc_tool_file[];
+extern const char arc_tool_msg_member_bounds[];
+extern const GfxLoadFn ARC_UTIL_gPaletteLoadFns[];
+extern const char  arc_util_file[];
+extern const char arc_util_file[];
 
 
 
@@ -657,7 +657,7 @@ void func_02047E54(Util *util)
  *
  * Add one unit: take the first free record (resIdx == 0xffff), place its
  * resource and object runs right after the previous record's, then load the
- * resources (func_02048120) and build the objects (func_02048330).  The lever
+ * resources (G3D_UTIL_LoadUnitResources) and build the objects (G3D_UTIL_BuildUnitObjects).  The lever
  * that closed it is the prototypes: the unit index and heap id are u16
  * parameters of both callees, so each call site truncates `i` on its own
  * (the lsl/lsr pair appears twice plus once for the u16 return), which an
@@ -678,8 +678,8 @@ u16 func_02047E88(Util *util, const Setup *setup)
             util->unit[i].resCount = setup->resCount;
             util->unit[i].objIdx = objIdx;
             util->unit[i].objCount = setup->objCount;
-            func_02048120(util, i, setup, util->heapID);
-            func_02048330(util, i, setup, util->heapID);
+            G3D_UTIL_LoadUnitResources(util, i, setup, util->heapID);
+            G3D_UTIL_BuildUnitObjects(util, i, setup, util->heapID);
             return i;
         }
         resIdx = util->unit[i].resIdx + util->unit[i].resCount;
@@ -705,7 +705,7 @@ u16 func_02047E88(Util *util, const Setup *setup)
  * {resIdx, resCount, objIdx, objCount}, and the u16 heap id at +0x216.  See
  * docs/families/g3d_util.h.
  *
- * Twin of func_02047E88 with the second callee func_02048744 (the object
+ * Twin of func_02047E88 with the second callee G3D_UTIL_BuildUnitObjectsLoaded (the object
  * builder that binds textures itself); same u16 prototype lever.
  *
  * Verified with:
@@ -723,8 +723,8 @@ u16 func_02047F4C(Util *util, const Setup *setup)
             util->unit[i].resCount = setup->resCount;
             util->unit[i].objIdx = objIdx;
             util->unit[i].objCount = setup->objCount;
-            func_02048120(util, i, setup, util->heapID);
-            func_02048744(util, i, setup, util->heapID);
+            G3D_UTIL_LoadUnitResources(util, i, setup, util->heapID);
+            G3D_UTIL_BuildUnitObjectsLoaded(util, i, setup, util->heapID);
             return i;
         }
         resIdx = util->unit[i].resIdx + util->unit[i].resCount;
@@ -749,7 +749,7 @@ u16 func_02047F4C(Util *util, const Setup *setup)
  * {resIdx, resCount, objIdx, objCount}, and the u16 heap id at +0x216.  See
  * docs/families/g3d_util.h.
  *
- * Third twin: the resource loader is func_02048258, which takes a fifth
+ * Third twin: the resource loader is G3D_UTIL_LoadUnitResourcesFromArchive, which takes a fifth
  * argument forwarded from this function's third parameter.
  *
  * Verified with:
@@ -767,8 +767,8 @@ u16 func_02048010(Util *util, const Setup *setup, struct ArcHandle *archive)
             util->unit[i].resCount = setup->resCount;
             util->unit[i].objIdx = objIdx;
             util->unit[i].objCount = setup->objCount;
-            func_02048258(util, i, setup, util->heapID, archive);
-            func_02048744(util, i, setup, util->heapID);
+            G3D_UTIL_LoadUnitResourcesFromArchive(util, i, setup, util->heapID, archive);
+            G3D_UTIL_BuildUnitObjectsLoaded(util, i, setup, util->heapID);
             return i;
         }
         resIdx = util->unit[i].resIdx + util->unit[i].resCount;
@@ -793,7 +793,7 @@ u16 func_02048010(Util *util, const Setup *setup, struct ArcHandle *archive)
  * unsticks the moment 0x02048918 (220 bytes, packet pkt_02048330) is itself
  * EXACT -- the `matched` class then resolves it with no change to this C.
  * The sibling site, the call to 0x020482B4 at +0x0018, resolves today
- * (`matched`, src/matched/func_020482B4.c).
+ * (`matched`, src/matched/G3D_UTIL_FreeUnitResources.c).
  *
  * Seed one OAM slot of a cell actor and stamp four -1 halfwords into the
  * 8-byte record the actor keeps for it: the two calls initialise the slot and
@@ -808,8 +808,8 @@ u16 func_02048010(Util *util, const Setup *setup, struct ArcHandle *archive)
  */
 void func_020480E4(Util *util, u32 unitIdx)
 {
-    func_02048918(util, unitIdx);
-    func_020482B4(util, unitIdx);
+    G3D_UTIL_FreeUnitObjects(util, unitIdx);
+    G3D_UTIL_FreeUnitResources(util, unitIdx);
     util->unit[unitIdx].resIdx = -1;
     util->unit[unitIdx].resCount = -1;
     util->unit[unitIdx].objIdx = -1;
@@ -841,7 +841,7 @@ void func_020480E4(Util *util, u32 unitIdx)
  * source:
  *
  *   0  a plain archive member by id            (func_02046DB8)
- *   1  the same id through the second table    (func_02046E90)
+ *   1  the same id through the second table    (G3D_SYSTEM_CreateResourcePath)
  *   2  a heap-allocated node wrapping a member read by archive id
  *   3  the same, with the member read by path
  *
@@ -865,10 +865,10 @@ void func_020480E4(Util *util, u32 unitIdx)
  * 340 bytes, 290 out -- not a pinned file, the fix is the C.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02048120.c \
- *       --func func_02048120 --addr 0x02048120 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_LoadUnitResources.c \
+ *       --func G3D_UTIL_LoadUnitResources --addr 0x02048120 --cc 1.1p1 --arm
  */
-void func_02048120(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
+void G3D_UTIL_LoadUnitResources(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
 {
     int count = util->unit[unitIdx].resCount;
     u32 base = util->unit[unitIdx].resIdx;
@@ -888,7 +888,7 @@ void func_02048120(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
             out[slotno] = (u32)func_02046DB8(rec->arc, rec->dat);
             break;
         case 1:
-            out[slotno] = (u32)func_02046E90(rec->arc, rec->dat);
+            out[slotno] = (u32)G3D_SYSTEM_CreateResourcePath(rec->arc, rec->dat);
             break;
         case 2:
             node = func_02030734(util->heapID, func_02046C94(), 0,
@@ -902,7 +902,7 @@ void func_02048120(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
             node = func_02030734(util->heapID, func_02046C94(), 0,
                                  g3d_util_file, 355);
             func_02046CE0(node,
-                          (u32 *)((u32)func_02048F9C((const char *)rec->arc, rec->dat,
+                          (u32 *)((u32)ARC_TOOL_LoadMemberFromPath((const char *)rec->arc, rec->dat,
                                              util->heapID)));
             out[slotno] = (u32)node;
             break;
@@ -931,10 +931,10 @@ void func_02048120(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
  * store it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02048258.c \
- *       --func func_02048258 --addr 0x02048258 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_LoadUnitResourcesFromArchive.c \
+ *       --func G3D_UTIL_LoadUnitResourcesFromArchive --addr 0x02048258 --cc 1.1p1 --arm
  */
-void func_02048258(Util *util, u16 unitIdx, const Setup *setup, u32 heapID,
+void G3D_UTIL_LoadUnitResourcesFromArchive(Util *util, u16 unitIdx, const Setup *setup, u32 heapID,
                    struct ArcHandle *arc)
 {
     u16 count = util->unit[unitIdx].resCount;
@@ -961,14 +961,14 @@ void func_02048258(Util *util, u16 unitIdx, const Setup *setup, u32 heapID,
  * func_02046F50 with mode 2 and, only when it answers exactly one,
  * func_020470D0, and finally func_02046EFC on the element either way.
  *
- * The same signed count and `blt` back edge as func_02048258, and the same
+ * The same signed count and `blt` back edge as G3D_UTIL_LoadUnitResourcesFromArchive, and the same
  * re-read of the owner's element pointer per iteration.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020482B4.c \
- *       --func func_020482B4 --addr 0x020482B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_FreeUnitResources.c \
+ *       --func G3D_UTIL_FreeUnitResources --addr 0x020482B4 --cc 1.1p1 --arm
  */
-void func_020482B4(Util *util, u32 unitIdx)
+void G3D_UTIL_FreeUnitResources(Util *util, u32 unitIdx)
 {
     u16 count = util->unit[unitIdx].resCount;
     u16 base = util->unit[unitIdx].resIdx;
@@ -1002,7 +1002,7 @@ static inline void createRes(Util *util, const ResSetup *rs, void **out)
         *out = func_02046DB8(rs->arc, rs->dat);
         break;
     case 1:
-        *out = func_02046E90(rs->arc, rs->dat);
+        *out = G3D_SYSTEM_CreateResourcePath(rs->arc, rs->dat);
         break;
     case 2:
         *out = func_02030734(util->heapID, func_02046C94(), 0, g3d_util_file, 342);
@@ -1010,7 +1010,7 @@ static inline void createRes(Util *util, const ResSetup *rs, void **out)
         break;
     case 3:
         *out = func_02030734(util->heapID, func_02046C94(), 0, g3d_util_file, 355);
-        func_02046CE0(*out, func_02048F9C((const char *)rs->arc, rs->dat, util->heapID));
+        func_02046CE0(*out, ARC_TOOL_LoadMemberFromPath((const char *)rs->arc, rs->dat, util->heapID));
         break;
     }
 }
@@ -1064,13 +1064,13 @@ static inline int getRes(Util *util, u16 resIdx, u16 idx, const Setup *setup, vo
  * is what keeps the model handle in its stack home [sp,#0x14] and the
  * texture handle in fp without a copy.  With a helper that returns the
  * handle the compiler adds a register copy after each inlined switch
- * (1048 bytes).  The switch is the one func_02048120 carries, __LINE__ 342
+ * (1048 bytes).  The switch is the one G3D_UTIL_LoadUnitResources carries, __LINE__ 342
  * and 355 (the second copy derives 355 from the live constant 1 with rsb).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02048330.c --func func_02048330 --addr 0x02048330 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_BuildUnitObjects.c --func G3D_UTIL_BuildUnitObjects --addr 0x02048330 --cc 1.1p1 --arm
  */
-void func_02048330(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
+void G3D_UTIL_BuildUnitObjects(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
 {
     u16 resIdx = util->unit[unitIdx].resIdx;
     u16 objIdx = util->unit[unitIdx].objIdx;
@@ -1099,7 +1099,7 @@ void func_02048330(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
             }
         } else {
             texture = model;
-            if (func_02047348(model) == 0)
+            if (G3D_SYSTEM_IsTextureInVram(model) == 0)
                 func_02046FF8(model);
         }
         renderObj = func_02047400(model, objSetup->mdlDatIdx, texture);
@@ -1148,12 +1148,12 @@ static inline void *useRes(Util *util, u16 resIdx, u16 idx)
 
 
 /*
- * g3d_util.c, same utility object as func_02048330 (see that file and
+ * g3d_util.c, same utility object as G3D_UTIL_BuildUnitObjects (see that file and
  * docs/families/g3d_util.h).  Build the render objects of one unit whose
  * resources are already loaded: per object, mark the model resource used,
  * resolve the texture resource (mark it used when func_02046F50 reports type
  * 1, else release it through func_02046FF8; a shared model/texture resource is
- * released when func_02047348 reports 0), create the render object, allocate
+ * released when G3D_SYSTEM_IsTextureInVram reports 0), create the render object, allocate
  * and fill its animation array (0xff = no animation), bind them into the
  * object slot, and free the array.
  *
@@ -1167,7 +1167,7 @@ static inline void *useRes(Util *util, u16 resIdx, u16 idx)
  * EXACT; `(int)((char *)i + 1)`, `(int)((u8 *)0 + (i + 1))` and
  * `(int)&((u8 *)0)[i + 1]` stay at 18 (wave 21, lane D4).
  */
-void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
+void G3D_UTIL_BuildUnitObjectsLoaded(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
 {
     u16 resIdx = util->unit[unitIdx].resIdx;
     u16 objIdx = util->unit[unitIdx].objIdx;
@@ -1192,7 +1192,7 @@ void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
             }
         } else {
             texture = model;
-            if (func_02047348(model) == 0)
+            if (G3D_SYSTEM_IsTextureInVram(model) == 0)
                 func_02046FF8(model);
         }
         renderObj = func_02047400(model, objSetup->mdlDatIdx, texture);
@@ -1235,9 +1235,9 @@ void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
  * with the library shape plus `rnd` declared before `obj`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02048918.c --func func_02048918 --addr 0x02048918 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_FreeUnitObjects.c --func G3D_UTIL_FreeUnitObjects --addr 0x02048918 --cc 1.1p1 --arm
  */
-void func_02048918(Util *util, u32 unitIdx)
+void G3D_UTIL_FreeUnitObjects(Util *util, u32 unitIdx)
 {
     u16 objIdx = util->unit[unitIdx].objIdx;
     u16 objCount = util->unit[unitIdx].objCount;
@@ -1253,12 +1253,12 @@ void func_02048918(Util *util, u32 unitIdx)
         for (j = 0; j < anmCount; j++)
             func_0204762C((struct G3dNode *)func_02047790(object, (u16)j));
         if (util->objStat[objIdx + i] & 0xfd) {
-            void *texture = (void *)func_02047554(renderObj);
+            void *texture = (void *)G3D_SYSTEM_GetRenderTexRes(renderObj);
             func_020470D0(texture);
             func_02046EFC(texture);
         }
         if (util->objStat[objIdx + i] & 0xfe)
-            func_02046EFC((struct G3dResourceRef *)func_0204754C(renderObj));
+            func_02046EFC((struct G3dResourceRef *)G3D_SYSTEM_GetRenderMdlRes(renderObj));
         func_02047504(renderObj);
         func_02047738(object);
     }
@@ -1270,7 +1270,7 @@ void func_02048918(Util *util, u32 unitIdx)
 
 
 /*
- * Four twelve-byte accessors on the 8-byte record array that func_02048918
+ * Four twelve-byte accessors on the 8-byte record array that G3D_UTIL_FreeUnitObjects
  * walks: two halfword getters at +0x1a and +0x1c of record `i`, and two word
  * getters through the pointers at +0 and +0xc of a different object.
  *
@@ -1280,14 +1280,14 @@ void func_02048918(Util *util, u32 unitIdx)
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  They were
  * read out of the bytes.  The worklist's own function list for pkt_02048330
  * stops at the labelled bodies, so these four are the 48-byte hole between
- * func_02048918 and func_02048A24 - the range is contiguous and this unit
+ * G3D_UTIL_FreeUnitObjects and func_02048A24 - the range is contiguous and this unit
  * reproduces all of it.
  *
  * Three of the four instructions in the first pair are the same in both:
  * `add r0, r0, r1, lsl #3` is the record stride of 8 folded into the add, and
  * the halfword offset rides in the load.
  */
-u32 sub_020489F4(Util *util, int unitIdx)
+u32 G3D_UTIL_GetUnitObjIdx(Util *util, int unitIdx)
 {
     return util->unit[unitIdx].objIdx;
 }
@@ -1297,7 +1297,7 @@ u32 sub_020489F4(Util *util, int unitIdx)
 
 
 
-u32 sub_02048A00(Util *util, int unitIdx)
+u32 G3D_UTIL_GetUnitObjCount(Util *util, int unitIdx)
 {
     return util->unit[unitIdx].objCount;
 }
@@ -1307,7 +1307,7 @@ u32 sub_02048A00(Util *util, int unitIdx)
 
 
 
-u32 sub_02048A0C(Util *util, int resIdx)
+u32 G3D_UTIL_GetResource(Util *util, int resIdx)
 {
     return *(u32 *)((u8 *)util->res + resIdx * 4);
 }
@@ -1317,7 +1317,7 @@ u32 sub_02048A0C(Util *util, int resIdx)
 
 
 
-u32 sub_02048A18(Util *util, int objIdx)
+u32 G3D_UTIL_GetObject(Util *util, int objIdx)
 {
     return *(u32 *)((u8 *)util->obj + objIdx * 4);
 }
@@ -1345,7 +1345,7 @@ u32 sub_02048A18(Util *util, int objIdx)
 u32 *func_02048A24(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags,
                    Vec3 *eye, Vec3 *target, Vec3 *up, u16 heapID)
 {
-    u32 *p = (u32 *)func_02030734(heapID, 0x44, 0, g_020A7EC4, 0x38);
+    u32 *p = (u32 *)func_02030734(heapID, 0x44, 0, g3d_camera_file, 0x38);
 
     p[0] = mode;
     p[1] = nearClip;
@@ -1416,8 +1416,8 @@ u32 func_02048AC4(void *camera)
  */
 void func_02048AD0(struct G3dCamera *camera)
 {
-    func_02046858((const u32 *)camera);
-    func_02046B40((u8 *)(&camera->eye));
+    G3D_SYSTEM_SetProjection((const u32 *)camera);
+    G3D_SYSTEM_SetLookAt((u8 *)(&camera->eye));
 }
 
 
@@ -1541,7 +1541,7 @@ void func_02048B94(struct G3dCamera *camera, u32 v)
 
 
 
-void func_02048B9C(struct G3dCamera *camera, u32 *out)
+void G3D_CAMERA_GetNearClipAlt(struct G3dCamera *camera, u32 *out)
 {
     *out = camera->nearClip;
 }
@@ -1550,7 +1550,7 @@ void func_02048B9C(struct G3dCamera *camera, u32 *out)
 
 
 
-void func_02048BA8(struct G3dCamera *camera, u32 v)
+void G3D_CAMERA_SetNearClipAlt(struct G3dCamera *camera, u32 v)
 {
     camera->nearClip = v;
 }
@@ -1559,7 +1559,7 @@ void func_02048BA8(struct G3dCamera *camera, u32 v)
 
 
 
-void func_02048BB0(struct G3dCamera *camera, u32 *out)
+void G3D_CAMERA_GetFarClipAlt(struct G3dCamera *camera, u32 *out)
 {
     *out = camera->farClip;
 }
@@ -1568,7 +1568,7 @@ void func_02048BB0(struct G3dCamera *camera, u32 *out)
 
 
 
-void func_02048BBC(struct G3dCamera *camera, u32 v)
+void G3D_CAMERA_SetFarClipAlt(struct G3dCamera *camera, u32 v)
 {
     camera->farClip = v;
 }
@@ -1615,7 +1615,7 @@ struct LightSlotValue *func_02048BC4(const struct LightSetDesc *set, u16 heapID)
     int i;
 
     slots = (struct LightSlotValue *)func_02030734(heapID, 0x20, 1,
-                                            func_02048BC4_File, 43);
+                                            g3d_light_file, 43);
     for (i = 0; i < set->count; i++) {
         struct LightSlotDesc *desc = &set->recs[i];
         u32 slot = desc->slot;
@@ -1680,7 +1680,7 @@ void func_02048C58(struct LightSlot *slots)
     int i;
 
     for (i = 0; i < 4; i++) {
-        func_02046A94((u8)i, (const u16 *)(&slots[i]));
+        G3D_SYSTEM_SetLight((u8)i, (const u16 *)(&slots[i]));
     }
 }
 
@@ -1692,7 +1692,7 @@ void func_02048C58(struct LightSlot *slots)
 
 
 
-void func_02048C80(struct LightSlot *slots, u8 i, struct Rgb555 *out)
+void G3D_LIGHT_GetSlotColor(struct LightSlot *slots, u8 i, struct Rgb555 *out)
 {
     *out = slots[i].col;
 }
@@ -1718,7 +1718,7 @@ void func_02048CA4(struct LightSlot *slots, u32 i, struct Rgb555 *in)
 
 
 
-void func_02048CCC(struct LightSlot *slots, u8 i, u16 *out)
+void G3D_LIGHT_GetSlotFlags(struct LightSlot *slots, u8 i, u16 *out)
 {
     *out = slots[i].flags;
 }
@@ -1744,11 +1744,11 @@ void func_02048CDC(struct LightSlot *slots, u32 i, u16 *in)
 
 
 
-void func_02048CEC(u32 entries, u32 count)
+void ARC_TOOL_SetTable(u32 entries, u32 count)
 {
-    g_02146A68.entries = (u32 *)entries;
-    g_02146A68.count = count;
-    g_02146A68.useRecords = 0;
+    ARC_TOOL_gArchiveTable.entries = (u32 *)entries;
+    ARC_TOOL_gArchiveTable.count = count;
+    ARC_TOOL_gArchiveTable.useRecords = 0;
 }
 
 
@@ -1762,9 +1762,9 @@ void func_02048CEC(u32 entries, u32 count)
 
 /*
  * Read one sub-file of one archive into a buffer the caller owns.  The whole
- * archive handle is a 0x48 byte stack local: func_02048DDC binds it to the
+ * archive handle is a 0x48 byte stack local: ARC_TOOL_OpenArchive binds it to the
  * archive named by `archive_id` (it indexes the 235-entry a/x/y/z name table
- * at 0x020A6C58), func_02048E34 seeks the member and returns its byte size,
+ * at 0x020A6C58), ARC_TOOL_SeekMember seeks the member and returns its byte size,
  * func_02078B70 is the read and func_02078A80 closes the handle again.
  *
  * Nothing survives the call, so this is the one-shot form: a caller that wants
@@ -1773,16 +1773,16 @@ void func_02048CEC(u32 entries, u32 count)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02048D00.c \
- *       --func func_02048D00 --addr 0x02048D00 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_ReadMemberRangeImpl.c \
+ *       --func ARC_TOOL_ReadMemberRangeImpl --addr 0x02048D00 --cc 1.1p1 --arm
  */
-void func_02048D00(void *dst, u32 archiveID, u32 memberIdx, u32 offset,
+void ARC_TOOL_ReadMemberRangeImpl(void *dst, u32 archiveID, u32 memberIdx, u32 offset,
                    u32 size)
 {
     struct ArcFile h;
 
-    func_02048DDC(&h, archiveID);
-    func_02078B70((struct FSFile *)(&h), dst, func_02048E34((struct ArcHandle *)&h, memberIdx, offset, size));
+    ARC_TOOL_OpenArchive(&h, archiveID);
+    func_02078B70((struct FSFile *)(&h), dst, ARC_TOOL_SeekMember((struct ArcHandle *)&h, memberIdx, offset, size));
     func_02078A80(&h);
 }
 
@@ -1796,33 +1796,33 @@ void func_02048D00(void *dst, u32 archiveID, u32 memberIdx, u32 offset,
 
 
 /*
- * The allocating twin of func_02048D00: bind a temporary 0x48-byte archive
+ * The allocating twin of ARC_TOOL_ReadMemberRangeImpl: bind a temporary 0x48-byte archive
  * handle to `archive_id`, size the member, take a block of exactly that size
  * from the caller's heap, read the member into it, close the handle and hand
  * the block back.  The __FILE__ argument is "arc_tool.c" at 0x020A7EE0, the
  * same string src/matched/sub_020490F4.c already pins, with line 0xbb.
  *
  * This is the function the whole map-model path goes through: func_02048F60
- * calls it as func_02048D54(9, matrix_id, heap, 0, NULL), and ov010's
+ * calls it as ARC_TOOL_LoadMemberRangeImpl(9, matrix_id, heap, 0, NULL), and ov010's
  * func_02159B94 is what supplies archive id 9 (a/0/0/9) and the matrix id
  * read out of the zone record's +0x04 lane.  See docs/ASSETS.md.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02048D54.c \
- *       --func func_02048D54 --addr 0x02048D54 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_LoadMemberRangeImpl.c \
+ *       --func ARC_TOOL_LoadMemberRangeImpl --addr 0x02048D54 --cc 1.1p1 --arm
  */
-void *func_02048D54(u32 archiveID, u32 memberIdx, u16 heapID, u32 offset,
+void *ARC_TOOL_LoadMemberRangeImpl(u32 archiveID, u32 memberIdx, u16 heapID, u32 offset,
                     u32 size)
 {
     struct ArcFile h;
     u32 memberSize;
     void *buf;
 
-    func_02048DDC(&h, archiveID);
-    memberSize = func_02048E34((struct ArcHandle *)&h, memberIdx, offset, size);
-    buf = func_02030734(heapID, memberSize, 0, func_02048D54_File, 0xbb);
+    ARC_TOOL_OpenArchive(&h, archiveID);
+    memberSize = ARC_TOOL_SeekMember((struct ArcHandle *)&h, memberIdx, offset, size);
+    buf = func_02030734(heapID, memberSize, 0, arc_tool_file, 0xbb);
     func_02078B70((struct FSFile *)(&h), buf, memberSize);
     func_02078A80(&h);
     return buf;
@@ -1838,22 +1838,22 @@ void *func_02048D54(u32 archiveID, u32 memberIdx, u16 heapID, u32 offset,
 
 /*
  * The whole of packet pkt_02048DDC, 0x02048DDC-0x02048F4C: arc_tool.c's
- * archive binder (func_02048DDC) and the member resolver it hands off to
- * (func_02048E34), both open functions on the eidos port's blocked list.
+ * archive binder (ARC_TOOL_OpenArchive) and the member resolver it hands off to
+ * (ARC_TOOL_SeekMember), both open functions on the eidos port's blocked list.
  * Verified as one translation unit, so the literal pool at 0x02048E30
  * between the two functions and the two pool words at 0x02048F44/0x02048F48
  * are inside the compared range: 2 sections, 368 bytes, no padding, 16 of 16
  * relocation sites resolved (attestation classes: label for the five SDK
- * entry points and func_02034734, literal for g_02146A68 and the arc_tool.c
+ * entry points and func_02034734, literal for ARC_TOOL_gArchiveTable and the arc_tool.c
  * string, string for the assertion text).
  *
  * ---------------------------------------------------------------------------
- * func_02048DDC - "open archive by id"
+ * ARC_TOOL_OpenArchive - "open archive by id"
  *
  * FS_InitFile binds the caller's 0x48-byte handle, then the one global at
  * 0x02146A68 picks the archive's storage: with its +0x08 flag clear the
  * +0x00 pointer is the 235-entry name table (installed by
- * func_02048CEC(0x020A6C58, 0xeb), see docs/ASSETS.md) and the member's name
+ * ARC_TOOL_SetTable(0x020A6C58, 0xeb), see docs/ASSETS.md) and the member's name
  * is opened by path; with the flag set the same table is an array of 8-byte
  * {start, end} extents and the member is bound straight out of memory as
  * (start, end - start).  Nothing in the image ever sets +0x08, so the second
@@ -1876,7 +1876,7 @@ void *func_02048D54(u32 archiveID, u32 memberIdx, u16 heapID, u32 offset,
  *     short and re-tiles the low word onto the materialised address.
  *   - `u32 *tbl` bound before the record pointer: with the pointer expression
  *     inlined into the subscript
- *     (`(struct ArcRecord *)g_02146A68.unk00 + id`) the same code comes out
+ *     (`(struct ArcRecord *)ARC_TOOL_gArchiveTable.unk00 + id`) the same code comes out
  *     with the table in r1 and the materialised address in r2, i.e. every
  *     register in the record arm is off by one slot.  Naming the loaded table
  *     first makes mwcc keep it in r3 and use r1 for the address, as the
@@ -1887,11 +1887,11 @@ void *func_02048D54(u32 archiveID, u32 memberIdx, u16 heapID, u32 offset,
  * word first.  A plain `u32 *` (or a plain `u32` plus a cast in the word arm)
  * instead of `u32 * volatile` is 76-84 bytes, never 88.  The sibling unit
  * src/matched/unit_02048C58.c declares the same global as three plain u32
- * fields, which is right for what it does (func_02048CEC writes it) and is
+ * fields, which is right for what it does (ARC_TOOL_SetTable writes it) and is
  * not enough for this reader.  See docs/notes/pkt_02048DDC.c.txt.
  *
  * ---------------------------------------------------------------------------
- * func_02048E34 - resolve one member's extent
+ * ARC_TOOL_SeekMember - resolve one member's extent
  *
  * Read the FAT offset out of the file header at +0xc, read the tail of the
  * table it points to ({u32 image delta, u16 count} at fatOffset+4), range
@@ -1907,7 +1907,7 @@ void *func_02048D54(u32 archiveID, u32 memberIdx, u16 heapID, u32 offset,
  * is never written on the assert path, so the `ldrh` that fed the guard's
  * `cmp` is still live and only the member reaches the stack
  * (docs/idioms/a-free-variadic-argument-is-the-value-the-guard-compared.md).
- * 0x020A7EE0 is the arc_tool.c anchor src/matched/func_02048D54.c already
+ * 0x020A7EE0 is the arc_tool.c anchor src/matched/ARC_TOOL_LoadMemberRangeImpl.c already
  * pins; 0x020A7EEC is the assertion text, fixed from outside by the
  * terminator of the string in front of it.  The `ldreq`/`subeq` tail is
  * "take the caller's size if it is non-zero, else end - start".
@@ -1918,15 +1918,15 @@ void *func_02048D54(u32 archiveID, u32 memberIdx, u16 heapID, u32 offset,
  *   python tools/match.py tu --src src/matched/unit_02048DDC.c \
  *       --addr 0x02048DDC --cc 1.1p1 --arm
  * (both halves were also verified individually as `one` before folding them
- * into this unit: func_02048DDC 88 bytes, func_02048E34 280 bytes.)
+ * into this unit: ARC_TOOL_OpenArchive 88 bytes, ARC_TOOL_SeekMember 280 bytes.)
  */
-void func_02048DDC(struct ArcFile *arc, u32 archiveID)
+void ARC_TOOL_OpenArchive(struct ArcFile *arc, u32 archiveID)
 {
     FS_InitFile(arc);
-    if (g_02146A68.useRecords == 0) {
-        FS_OpenFile(arc, g_02146A68.entries[archiveID]);
+    if (ARC_TOOL_gArchiveTable.useRecords == 0) {
+        FS_OpenFile(arc, ARC_TOOL_gArchiveTable.entries[archiveID]);
     } else {
-        u32 *tbl = (u32 *)g_02146A68.entries;
+        u32 *tbl = (u32 *)ARC_TOOL_gArchiveTable.entries;
         struct ArcRecord *rec = (struct ArcRecord *)tbl + archiveID;
         u32 end = rec->end;
         u32 start = rec->start;
@@ -1942,7 +1942,7 @@ void func_02048DDC(struct ArcFile *arc, u32 archiveID)
 
 
 
-u32 func_02048E34(struct ArcHandle *arc, u32 memberIdx, u32 skip, u32 size)
+u32 ARC_TOOL_SeekMember(struct ArcHandle *arc, u32 memberIdx, u32 skip, u32 size)
 {
     u32 range[2];
     struct FatInfo info;
@@ -1957,7 +1957,7 @@ u32 func_02048E34(struct ArcHandle *arc, u32 memberIdx, u32 skip, u32 size)
     FS_SeekFile(arc, fatOffset + 4, 0);
     FS_ReadFile(arc, &info, 6);
     if (info.count <= memberIdx) {
-        func_02034734(func_02048DDC_File, 0xfb, func_02048DDC_Msg, info.count,
+        func_02034734(arc_tool_file, 0xfb, arc_tool_msg_member_range, info.count,
                       memberIdx);
     }
 
@@ -1986,17 +1986,17 @@ u32 func_02048E34(struct ArcHandle *arc, u32 memberIdx, u32 skip, u32 size)
 
 /*
  * "Read one archive sub-file into a caller-supplied buffer", the defaulting
- * wrapper around func_02048D00.  func_02048D00 takes five arguments
+ * wrapper around ARC_TOOL_ReadMemberRangeImpl.  ARC_TOOL_ReadMemberRangeImpl takes five arguments
  * (dst, archive id, member, mode, size_out); this entry point supplies zero
  * for the last two, which is why the body is a single `mov r3, #0` doing
  * double duty: the same zero reaches r3 (the fourth argument) and the one
  * word of outgoing stack area (the fifth).  The `push {r3, lr}` is the home
  * slot for that stack argument, not a saved register.
  *
- * func_02048D00 itself opens a temporary archive handle with func_02048DDC,
- * sizes the member with func_02048E34, reads it and closes the handle again.
+ * ARC_TOOL_ReadMemberRangeImpl itself opens a temporary archive handle with ARC_TOOL_OpenArchive,
+ * sizes the member with ARC_TOOL_SeekMember, reads it and closes the handle again.
  *
- * Kept in its own file so that the branch to func_02048D00 is witnessed from
+ * Kept in its own file so that the branch to ARC_TOOL_ReadMemberRangeImpl is witnessed from
  * outside this range by src/matched/func_02048F74.c, which calls the same
  * target (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
  *
@@ -2008,7 +2008,7 @@ u32 func_02048E34(struct ArcHandle *arc, u32 memberIdx, u32 skip, u32 size)
  */
 void func_02048F4C(void *dst, u32 archiveID, u32 memberIdx)
 {
-    func_02048D00(dst, archiveID, memberIdx, 0, 0);
+    ARC_TOOL_ReadMemberRangeImpl(dst, archiveID, memberIdx, 0, 0);
 }
 
 
@@ -2021,7 +2021,7 @@ void func_02048F4C(void *dst, u32 archiveID, u32 memberIdx)
 
 /*
  * "Load one archive sub-file into a fresh heap block", the defaulting wrapper
- * around func_02048D54.  Same shape as func_02048F4C one entry above: the
+ * around ARC_TOOL_LoadMemberRangeImpl.  Same shape as func_02048F4C one entry above: the
  * callee takes (archive id, member, heap, mode, size_out) and this entry
  * point supplies zero for the last two, so one `mov r3, #0` feeds both r3 and
  * the single outgoing stack word, and `push {r3, lr}` is that word's home
@@ -2033,7 +2033,7 @@ void func_02048F4C(void *dst, u32 archiveID, u32 memberIdx)
  * matrix id taken straight from the zone record's +0x04 lane.  See the
  * "Zone to map model" section of docs/ASSETS.md.
  *
- * Kept in its own file so the branch to func_02048D54 is witnessed from
+ * Kept in its own file so the branch to ARC_TOOL_LoadMemberRangeImpl is witnessed from
  * outside this range by src/matched/func_02048F88.c
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
  *
@@ -2045,7 +2045,7 @@ void func_02048F4C(void *dst, u32 archiveID, u32 memberIdx)
  */
 void *func_02048F60(u32 archiveID, u32 memberIdx, u16 heapID)
 {
-    return func_02048D54(archiveID, memberIdx, heapID, 0, 0);
+    return ARC_TOOL_LoadMemberRangeImpl(archiveID, memberIdx, heapID, 0, 0);
 }
 
 
@@ -2058,11 +2058,11 @@ void *func_02048F60(u32 archiveID, u32 memberIdx, u16 heapID)
 
 /*
  * The five-argument entry point of the same read: a pure forwarder to
- * func_02048D00 that copies the caller's one stack argument down into its own
+ * ARC_TOOL_ReadMemberRangeImpl that copies the caller's one stack argument down into its own
  * outgoing stack area (`ldr ip, [sp, #8]` reads it across the two words this
  * function pushed) and leaves r0-r3 untouched.
  *
- * Kept in its own file so the branch to func_02048D00 is witnessed from
+ * Kept in its own file so the branch to ARC_TOOL_ReadMemberRangeImpl is witnessed from
  * outside this range by src/matched/func_02048F4C.c.
  *
  * Addresses are Black-image addresses.
@@ -2074,7 +2074,7 @@ void *func_02048F60(u32 archiveID, u32 memberIdx, u16 heapID)
 void func_02048F74(void *dst, u32 archiveID, u32 memberIdx, u32 offset,
                    u32 size)
 {
-    func_02048D00(dst, archiveID, memberIdx, offset, size);
+    ARC_TOOL_ReadMemberRangeImpl(dst, archiveID, memberIdx, offset, size);
 }
 
 
@@ -2086,10 +2086,10 @@ void func_02048F74(void *dst, u32 archiveID, u32 memberIdx, u32 offset,
 
 /*
  * The five-argument entry point of the allocating load: a pure forwarder to
- * func_02048D54, with the caller's single stack argument copied down through
- * ip exactly as func_02048F74 does for func_02048D00.
+ * ARC_TOOL_LoadMemberRangeImpl, with the caller's single stack argument copied down through
+ * ip exactly as func_02048F74 does for ARC_TOOL_ReadMemberRangeImpl.
  *
- * Kept in its own file so the branch to func_02048D54 is witnessed from
+ * Kept in its own file so the branch to ARC_TOOL_LoadMemberRangeImpl is witnessed from
  * outside this range by src/matched/func_02048F60.c.
  *
  * Addresses are Black-image addresses.
@@ -2101,7 +2101,7 @@ void func_02048F74(void *dst, u32 archiveID, u32 memberIdx, u32 offset,
 void *func_02048F88(u32 archiveID, u32 memberIdx, u16 heapID, u32 offset,
                     u32 size)
 {
-    return func_02048D54(archiveID, memberIdx, heapID, offset, size);
+    return ARC_TOOL_LoadMemberRangeImpl(archiveID, memberIdx, heapID, offset, size);
 }
 
 
@@ -2112,7 +2112,7 @@ void *func_02048F88(u32 archiveID, u32 memberIdx, u16 heapID, u32 offset,
 
 
 /*
- * Promote-first callee of src/pending/func_02046E90.c (parks lane 2).
+ * Promote-first callee of src/pending/G3D_SYSTEM_CreateResourcePath.c (parks lane 2).
  * Open one member of an archive by path, size it, allocate the block from
  * the debug allocator, read the bytes in and close.  Same shape as its
  * sibling func_02049250 in the same cluster; the 0x4c frame is the 0x48
@@ -2121,10 +2121,10 @@ void *func_02048F88(u32 archiveID, u32 memberIdx, u16 heapID, u32 offset,
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02048F9C.c \
- *       --func func_02048F9C --addr 0x02048F9C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_LoadMemberFromPath.c \
+ *       --func ARC_TOOL_LoadMemberFromPath --addr 0x02048F9C --cc 1.1p1 --arm
  */
-void *func_02048F9C(const char *path, u32 memberIdx, u16 heapID)
+void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 memberIdx, u16 heapID)
 {
     struct ArcFile file;
     void *p;
@@ -2132,8 +2132,8 @@ void *func_02048F9C(const char *path, u32 memberIdx, u16 heapID)
 
     func_020788AC(&file);
     func_02078C18(&file, path);
-    size = func_02048E34((struct ArcHandle *)(&file), memberIdx, 0, 0);
-    p = func_02030734(heapID, size, 0, func_02048F9C_File, 0x182);
+    size = ARC_TOOL_SeekMember((struct ArcHandle *)(&file), memberIdx, 0, 0);
+    p = func_02030734(heapID, size, 0, arc_tool_file, 0x182);
     func_02078B70((struct FSFile *)(&file), p, size);
     func_02078A80(&file);
     return p;
@@ -2152,7 +2152,7 @@ u32 func_02049030(u32 archiveID)
     u16 header[3];
 
     headerSize = 0;
-    func_02048DDC((struct ArcFile *)buf, archiveID);
+    ARC_TOOL_OpenArchive((struct ArcFile *)buf, archiveID);
     func_02078B44((struct FSFile *)buf, 0xc, 0);
     func_02078B70((struct FSFile *)buf, &headerSize, 2);
     func_02078B44((struct FSFile *)buf, headerSize + 4, 0);
@@ -2172,8 +2172,8 @@ u32 func_020490A8(u32 archiveID, u32 memberIdx)
     char buf[0x48];
     u32 size;
 
-    func_02048DDC((struct ArcFile *)buf, archiveID);
-    size = func_02048E34((struct ArcHandle *)buf, memberIdx, 0, 0);
+    ARC_TOOL_OpenArchive((struct ArcFile *)buf, archiveID);
+    size = ARC_TOOL_SeekMember((struct ArcHandle *)buf, memberIdx, 0, 0);
     func_02078A80(buf);
     return size;
 }
@@ -2185,17 +2185,17 @@ u32 func_020490A8(u32 archiveID, u32 memberIdx)
 
 /*
  * Constructor: take a 0x50-byte record from the debug allocator, tie it to
- * the caller's object through func_02048DDC, run the one-time init at
- * func_0204919C and hand the record back.  The allocator's __FILE__/__LINE__
+ * the caller's object through ARC_TOOL_OpenArchive, run the one-time init at
+ * ARC_TOOL_ReadHandleHeader and hand the record back.  The allocator's __FILE__/__LINE__
  * pair is the usual ABS32 into the packed string area plus a pooled 0x209,
  * which is not an ARM rotated immediate.
  */
 void *sub_020490F4(u32 archiveID, u16 heapID)
 {
-    void *rec = func_02030734(heapID, 0x50, 0, sub_020490F4_File, 0x209);
+    void *rec = func_02030734(heapID, 0x50, 0, arc_tool_file, 0x209);
 
-    func_02048DDC(rec, archiveID);
-    func_0204919C(rec);
+    ARC_TOOL_OpenArchive(rec, archiveID);
+    ARC_TOOL_ReadHandleHeader(rec);
     return rec;
 }
 
@@ -2211,23 +2211,23 @@ void *sub_020490F4(u32 archiveID, u16 heapID)
  * buffer and length, run the reader over it, and hand the FSFile back.
  *
  * The __FILE__ argument is the arc_tool.c anchor at 0x020A7EE0 that
- * src/matched/func_02048D54.c and the rest of the 0x02049xxx run already
+ * src/matched/ARC_TOOL_LoadMemberRangeImpl.c and the rest of the 0x02049xxx run already
  * pin; the stacked fifth argument is __LINE__ = 0x21f.  Its own pool word
  * (0x02049198) sits inside the compared range, so the site resolves through
  * the `string` class - the anchor's address is fixed by the terminator of the
  * string in front of it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204913C.c \
- *       --func func_0204913C --addr 0x0204913C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_CreateHandleFromMemory.c \
+ *       --func ARC_TOOL_CreateHandleFromMemory --addr 0x0204913C --cc 1.1p1 --arm
  */
-void *func_0204913C(void *buf, u32 size, u16 heapID)
+void *ARC_TOOL_CreateHandleFromMemory(void *buf, u32 size, u16 heapID)
 {
-    void *handle = func_02030734(heapID, 0x50, 0, func_0204913C_File, 0x21f);
+    void *handle = func_02030734(heapID, 0x50, 0, arc_tool_file, 0x21f);
 
     FS_InitFile(handle);
     FS_CreateFileFromMemory(handle, buf, size);
-    func_0204919C(handle);
+    ARC_TOOL_ReadHandleHeader(handle);
     return handle;
 }
 
@@ -2245,10 +2245,10 @@ void *func_0204913C(void *buf, u32 size, u16 heapID)
  * the total for the final offset at +0x48.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204919C.c \
- *       --func func_0204919C --addr 0x0204919C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_ReadHandleHeader.c \
+ *       --func ARC_TOOL_ReadHandleHeader --addr 0x0204919C --cc 1.1p1 --arm
  */
-void func_0204919C(struct ArcHandle *arc)
+void ARC_TOOL_ReadHandleHeader(struct ArcHandle *arc)
 {
     struct ArcHeaderScan scan;
     u32 off;
@@ -2302,7 +2302,7 @@ void func_02049238(void *handle)
  * docs/idioms/a-free-variadic-argument-is-the-value-the-guard-compared.md.
  *
  * 0x020A7EE0 is the arc_tool.c anchor this translation unit already uses in
- * func_02048D54; 0x020A7F18 is the assertion message, attested by the
+ * ARC_TOOL_LoadMemberRangeImpl; 0x020A7F18 is the assertion message, attested by the
  * terminator of the string in front of it.
  *
  * Verified with:
@@ -2315,7 +2315,7 @@ void *func_02049250(struct ArcHandle *arc, u32 memberIdx, u16 heapID)
     void *buf;
 
     if (arc->count <= memberIdx) {
-        func_02034734(func_02049250_File, 613, func_02049250_Msg,
+        func_02034734(arc_tool_file, 613, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -2323,7 +2323,7 @@ void *func_02049250(struct ArcHandle *arc, u32 memberIdx, u16 heapID)
     func_02078B70((struct FSFile *)arc, range, 8);
     func_02078B44((struct FSFile *)arc, arc->imageBase + 8 + range[0], 0);
 
-    buf = func_02030734(heapID, range[1] - range[0], 0, func_02049250_File, 619);
+    buf = func_02030734(heapID, range[1] - range[0], 0, arc_tool_file, 619);
     if (buf != 0) {
         func_02078B70((struct FSFile *)arc, buf, range[1] - range[0]);
     }
@@ -2351,7 +2351,7 @@ void func_0204932C(struct ArcHandle *arc, u32 memberIdx, void *dst)
     u32 range[2];
 
     if (arc->count <= memberIdx) {
-        func_02034734(func_0204932C_File, 642, func_0204932C_Msg,
+        func_02034734(arc_tool_file, 642, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -2382,7 +2382,7 @@ u32 func_020493D4(struct ArcHandle *arc, u32 memberIdx)
     u32 range[2];
 
     if (arc->count <= memberIdx) {
-        func_02034734(func_020493D4_File, 665, func_020493D4_Msg,
+        func_02034734(arc_tool_file, 665, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -2419,7 +2419,7 @@ void func_0204944C(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size,
     u32 start;
 
     if (arc->count <= memberIdx) {
-        func_02034734(func_0204944C_File, 689, func_0204944C_Msg,
+        func_02034734(arc_tool_file, 689, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -2444,14 +2444,14 @@ void func_0204944C(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size,
  * (docs/idioms/a-free-variadic-argument-is-the-value-the-guard-compared.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020494F4.c  *       --func func_020494F4 --addr 0x020494F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_GetHandleMemberOffsetOut.c  *       --func ARC_TOOL_GetHandleMemberOffsetOut --addr 0x020494F4 --cc 1.1p1 --arm
  */
-void func_020494F4(struct ArcHandle *arc, u32 memberIdx, u32 *out)
+void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcHandle *arc, u32 memberIdx, u32 *out)
 {
     u32 start;
 
     if (arc->count <= memberIdx) {
-        func_02034734(func_020494F4_File, 713, func_020494F4_Msg,
+        func_02034734(arc_tool_file, 713, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -2466,7 +2466,7 @@ void func_020494F4(struct ArcHandle *arc, u32 memberIdx, u32 *out)
 
 /*
  * Return the absolute image offset of one archive member, the value
- * func_020494F4 writes through a pointer instead.
+ * ARC_TOOL_GetHandleMemberOffsetOut writes through a pointer instead.
  *
  * The bounds assertion is the same five-argument call func_02049250
  * uses: the count is already in r3 from the guard's own `cmp`, so only
@@ -2474,14 +2474,14 @@ void func_020494F4(struct ArcHandle *arc, u32 memberIdx, u32 *out)
  * (docs/idioms/a-free-variadic-argument-is-the-value-the-guard-compared.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02049578.c  *       --func func_02049578 --addr 0x02049578 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_GetHandleMemberOffset.c  *       --func ARC_TOOL_GetHandleMemberOffset --addr 0x02049578 --cc 1.1p1 --arm
  */
-u32 func_02049578(struct ArcHandle *arc, u32 memberIdx)
+u32 ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 memberIdx)
 {
     u32 start;
 
     if (arc->count <= memberIdx) {
-        func_02034734(func_02049578_File, 725, func_02049578_Msg,
+        func_02034734(arc_tool_file, 725, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -2503,10 +2503,10 @@ u32 func_02049578(struct ArcHandle *arc, u32 memberIdx)
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020495F4.c \
- *       --func func_020495F4 --addr 0x020495F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_ReadHandle.c \
+ *       --func ARC_TOOL_ReadHandle --addr 0x020495F4 --cc 1.1p1 --arm
  */
-void func_020495F4(struct ArcHandleRaw *arc, u32 size, void *dst)
+void ARC_TOOL_ReadHandle(struct ArcHandleRaw *arc, u32 size, void *dst)
 {
     func_02078B70((struct FSFile *)arc, dst, size);
 }
@@ -2514,7 +2514,7 @@ void func_020495F4(struct ArcHandleRaw *arc, u32 size, void *dst)
 
 
 
-int NHTTPi_GetConnection(struct FSFile *file, long offset)
+int ARC_TOOL_SeekHandle(struct FSFile *file, long offset)
 {
     return func_02078B44(file, offset, 0);
 }
@@ -2545,10 +2545,10 @@ u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6
 /*
  * Seven-argument entry point of the text-printing layer: resolve a handle
  * through sub_0204A380 from the first two arguments and the last two, then
- * hand that handle plus the middle arguments to sub_0204968C.
+ * hand that handle plus the middle arguments to ARC_UTIL_UploadBgChar.
  *
  * The sixth argument is read from the caller's stack slot twice, once as
- * sub_0204A380's third argument and once as sub_0204968C's fifth: the
+ * sub_0204A380's third argument and once as ARC_UTIL_UploadBgChar's fifth: the
  * compiler will not keep it in a callee-saved register across the first
  * call, because re-reading the incoming slot is free
  * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
@@ -2557,12 +2557,12 @@ u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6
  * the first call.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02049658.c \
- *       --func sub_02049658 --addr 0x02049658 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_UTIL_UploadBgCharFromHandle.c \
+ *       --func ARC_UTIL_UploadBgCharFromHandle --addr 0x02049658 --cc 1.1p1 --arm
  */
-u32 sub_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
+u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
 {
-    return sub_0204968C((void *)((u32)sub_0204A380(a, b, f, g)), c, d, e, f);
+    return ARC_UTIL_UploadBgChar((void *)((u32)sub_0204A380(a, b, f, g)), c, d, e, f);
 }
 
 
@@ -2570,7 +2570,7 @@ u32 sub_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
 
 
 /*
- * The write-into-an-existing-slot counterpart of src/matched/sub_0204979C.c:
+ * The write-into-an-existing-slot counterpart of src/matched/ARC_UTIL_RegisterObjChar.c:
  * the same func_02062A4C lookup and the same "size of zero means the object's
  * own size at +0x10" rule, but the result goes straight into func_02040B1C
  * instead of coming back as a packed handle, and the caller's handle is
@@ -2582,10 +2582,10 @@ u32 sub_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
  * mask written in the source.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204968C.c \
- *       --func sub_0204968C --addr 0x0204968C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_UTIL_UploadBgChar.c \
+ *       --func ARC_UTIL_UploadBgChar --addr 0x0204968C --cc 1.1p1 --arm
  */
-u32 sub_0204968C(void *buf, u32 a1, u32 a2, u32 a3, u32 unused)
+u32 ARC_UTIL_UploadBgChar(void *buf, u32 a1, u32 a2, u32 a3, u32 unused)
 {
     struct UnpackedGfxBlock *res;
 
@@ -2616,16 +2616,16 @@ u32 sub_0204968C(void *buf, u32 a1, u32 a2, u32 a3, u32 unused)
  * `(flags & 0x7FFF) | 0x8000` into an `and`/`orr` pair followed by a
  * `lsl #16`/`lsr #16` truncation rather than a single `orr`.
  *
- * The twin of src/matched/sub_02049740.c, differing only in which loader it
+ * The twin of src/matched/ARC_UTIL_RegisterObjCharFromHandle.c, differing only in which loader it
  * calls. func_0204A1BC has thirteen further callers image-wide and
  * func_0204979C its second caller at 0x02049780, so both resolve through the
  * `label` class.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020496E4.c \
- *       --func sub_020496E4 --addr 0x020496E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_UTIL_RegisterObjCharFromArchive.c \
+ *       --func ARC_UTIL_RegisterObjCharFromArchive --addr 0x020496E4 --cc 1.1p1 --arm
  */
-u32 sub_020496E4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
+u32 ARC_UTIL_RegisterObjCharFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
 {
     void *buf;
     u32 res;
@@ -2661,10 +2661,10 @@ u32 sub_020496E4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
  * outside witness being the second caller at 0x02049724.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02049740.c \
- *       --func sub_02049740 --addr 0x02049740 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_UTIL_RegisterObjCharFromHandle.c \
+ *       --func ARC_UTIL_RegisterObjCharFromHandle --addr 0x02049740 --cc 1.1p1 --arm
  */
-u32 sub_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
+u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
 {
     void *buf;
     u32 res;
@@ -2708,10 +2708,10 @@ u32 sub_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
  * with the unconditional one.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204979C.c \
- *       --func sub_0204979C --addr 0x0204979C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_UTIL_RegisterObjChar.c \
+ *       --func ARC_UTIL_RegisterObjChar --addr 0x0204979C --cc 1.1p1 --arm
  */
-u32 sub_0204979C(void *buf, u32 a1, u32 a2)
+u32 ARC_UTIL_RegisterObjChar(void *buf, u32 a1, u32 a2)
 {
     struct UnpackedGfxBlock *res;
     s32 slot;
@@ -2751,20 +2751,20 @@ fail:
  * bytes by plain adjacency, not by attestation; `compare()` now requires
  * `fb.mask` to be entirely hard before claiming EXACT, so this correctly
  * reports MATCH. It graduates for real only once 0x0204982C has an EXACT
- * entry of its own: src/pending/sub_0204982C.c is the C for it, stuck at
+ * entry of its own: src/pending/ARC_UTIL_UploadScreen.c is the C for it, stuck at
  * MATCH on the unattestable data address 0x020A135C. func_0204A380 resolves
  * normally (label, and src/matched/func_0204A380.c).
  *
  * A seven-argument front end that loads an archive member and hands the
  * buffer to the flush-and-dispatch worker; the flag word is passed straight
  * through as a halfword rather than having its top bit forced on, which is
- * what distinguishes this family member from src/matched/sub_02049740.c.
+ * what distinguishes this family member from src/matched/ARC_UTIL_RegisterObjCharFromHandle.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02049800.c \
- *       --func sub_02049800 --addr 0x02049800 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/ARC_UTIL_UploadScreenFromHandle.c \
+ *       --func ARC_UTIL_UploadScreenFromHandle --addr 0x02049800 --cc 1.1p1 --arm
  */
-u32 sub_02049800(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
+u32 ARC_UTIL_UploadScreenFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
 {
     return func_0204982C(func_0204A380(a0, a1, a5, a6), a2, a3, a4);
 }
@@ -2772,14 +2772,14 @@ u32 sub_02049800(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
 
 
 
-extern void (*g_020A135C[])(void *addr, u32 a1, u32 size);
+extern void (*ARC_UTIL_gScreenLoadFns[])(void *addr, u32 a1, u32 size);
 
 
 
 
 
 /*
- * Byte-correct, capped at MATCH. Blocked on: g_020A135C (0x020A135C) is named
+ * Byte-correct, capped at MATCH. Blocked on: ARC_UTIL_gScreenLoadFns (0x020A135C) is named
  * by exactly one word in the whole image, the pool word at 0x02049898 inside
  * this function, so the `literal` class has no witness outside the compared
  * range, and being plain data it has no other class available. The range is a
@@ -2787,7 +2787,7 @@ extern void (*g_020A135C[])(void *addr, u32 a1, u32 size);
  * somewhere in the image, which does not exist, or an attested data
  * definition at 0x020A135C. The other three relocations resolve.
  *
- * This is the DMA-flush variant of src/matched/sub_0204968C.c: the same
+ * This is the DMA-flush variant of src/matched/ARC_UTIL_UploadBgChar.c: the same
  * func_02062A00 lookup (the sibling of func_02062A4C), the same "a size of
  * zero means the object's own size at +0x10" rule, then a `DC_FlushRange`
  * over the object's buffer and a dispatch through the five-entry function
@@ -2798,10 +2798,10 @@ extern void (*g_020A135C[])(void *addr, u32 a1, u32 size);
  * through the pointer the local holds.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204982C.c \
- *       --func sub_0204982C --addr 0x0204982C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/ARC_UTIL_UploadScreen.c \
+ *       --func ARC_UTIL_UploadScreen --addr 0x0204982C --cc 1.1p1 --arm
  */
-u32 sub_0204982C(void *buf, u32 kind, u32 a2, u32 size)
+u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 a2, u32 size)
 {
     struct UnpackedGfxBlock *res;
 
@@ -2810,7 +2810,7 @@ u32 sub_0204982C(void *buf, u32 kind, u32 a2, u32 size)
             size = res->size;
         }
         DC_FlushRange(res->data, size);
-        g_020A135C[kind](res->data, a2, size);
+        ARC_UTIL_gScreenLoadFns[kind](res->data, a2, size);
     }
 
     ENV_SetResourceSet(buf);
@@ -2822,10 +2822,10 @@ u32 sub_0204982C(void *buf, u32 kind, u32 a2, u32 size)
 
 /*
  * Seven-argument front end: load an archive member with the top allocation
- * bit forced on, exactly as src/matched/sub_020496E4.c does, and forward the
- * buffer to func_02049A18 with two of its six arguments pinned to zero. The
- * handle is not released here; func_02049A18 does that itself (see its
- * near-miss note in docs/notes/func_02049A18.c.txt, which is where its
+ * bit forced on, exactly as src/matched/ARC_UTIL_RegisterObjCharFromArchive.c does, and forward the
+ * buffer to ARC_UTIL_UploadBgPalette with two of its six arguments pinned to zero. The
+ * handle is not released here; ARC_UTIL_UploadBgPalette does that itself (see its
+ * near-miss note in docs/notes/ARC_UTIL_UploadBgPalette.c.txt, which is where its
  * six-argument shape comes from).
  *
  * The two zeros are one `mov r3, #0` reused for the register argument and
@@ -2833,12 +2833,12 @@ u32 sub_0204982C(void *buf, u32 kind, u32 a2, u32 size)
  * two: writing the zeros first costs a second materialisation.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204989C.c \
- *       --func sub_0204989C --addr 0x0204989C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_UTIL_UploadBgPaletteFromArchive.c \
+ *       --func ARC_UTIL_UploadBgPaletteFromArchive --addr 0x0204989C --cc 1.1p1 --arm
  */
-void sub_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags)
+void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags)
 {
-    func_02049A18((void *)func_0204A1BC((u32)a0, (u32)a1, (u32)a5, (u16)((flags & 0x7FFF) | 0x8000)),
+    ARC_UTIL_UploadBgPalette((void *)func_0204A1BC((u32)a0, (u32)a1, (u32)a5, (u16)((flags & 0x7FFF) | 0x8000)),
                   a2, a3, 0, a4, 0);
 }
 
@@ -2846,7 +2846,7 @@ void sub_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags)
 
 
 /*
- * The same two-step shape as sub_02049658, but the handle lookup forces
+ * The same two-step shape as ARC_UTIL_UploadBgCharFromHandle, but the handle lookup forces
  * the top bit of its u16 selector on: `(g & 0x7fff) | 0x8000`.  0x7fff
  * does not fit an ARM rotated immediate, so it costs a pool word, while
  * 0x8000 is `orr r2, r2, #0x8000` in one instruction; the `lsl #16` /
@@ -2859,10 +2859,10 @@ void sub_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags)
  * lands between the two stack stores rather than before them.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020498F4.c \
- *       --func sub_020498F4 --addr 0x020498F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_UTIL_UploadBgPaletteFromHandle.c \
+ *       --func ARC_UTIL_UploadBgPaletteFromHandle --addr 0x020498F4 --cc 1.1p1 --arm
  */
-void sub_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
+void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
 {
     sub_02049A18(sub_0204A380(a, b, f, (u16)((g & 0x7fff) | 0x8000)),
                  c, d, 0, e, 0);
@@ -2880,10 +2880,10 @@ void sub_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
  *   python tools/match.py tu --src src/matched/unit_0204994C.c \
  *       --addr 0x0204994C --arm
  */
-u32 func_0204994C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7)
+u32 ARC_UTIL_UploadBgPaletteAddFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7)
 {
     u32 res = func_0204A1BC(a0, a1, a6, a7);
-    return func_02049A18((void *)res, a2, a3, a4, a5, 0);
+    return ARC_UTIL_UploadBgPalette((void *)res, a2, a3, a4, a5, 0);
 }
 
 
@@ -2892,16 +2892,16 @@ u32 func_0204994C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7
 u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7)
 {
     u32 res = (u32)func_0204A380(a0, a1, a6, a7);
-    return func_02049A18((void *)res, a2, a3, a4, a5, 0);
+    return ARC_UTIL_UploadBgPalette((void *)res, a2, a3, a4, a5, 0);
 }
 
 
 
 
-u32 func_020499D4(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7)
+u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7)
 {
     u32 res = (u32)func_0204A380(a0, a1, a6, a7);
-    return func_02049A18((void *)res, a2, a3, a4, a5, 1);
+    return ARC_UTIL_UploadBgPalette((void *)res, a2, a3, a4, a5, 1);
 }
 
 
@@ -2909,7 +2909,7 @@ u32 func_020499D4(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 
 
 /*
  * arc_tool.c (wave 13): the palette-upload worker the sound/palette front
- * ends of unit_0204994C.c, sub_0204989C.c and sub_020498F4.c forward to.
+ * ends of unit_0204994C.c, ARC_UTIL_UploadBgPaletteFromArchive.c and ARC_UTIL_UploadBgPaletteFromHandle.c forward to.
  * Look up the resource's palette block; default the size to the block's own
  * (+0x08); when `add` is non-zero, add it to every entry of the data at +0x0C
  * -- as halfwords (size / 2 of them) when func_0204169C says the channel is
@@ -2918,14 +2918,14 @@ u32 func_020499D4(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 
  * release the resource either way.  Every `and rN, r7, #0xff` is a callee's
  * u8 channel parameter, not a cast in the source.
  *
- * WHAT CLOSED IT (docs/notes/func_02049A18.c.txt: 300 against 296, 122 out):
+ * WHAT CLOSED IT (docs/notes/ARC_UTIL_UploadBgPalette.c.txt: 300 against 296, 122 out):
  * the callees take `u8 channel` and the caller passes the u32 unchanged; the
  * two loops each own a block-scoped counter (a shared `i` makes the compiler
  * hoist one `mov r3, #0` above the arm test, 4 bytes short); and inside each
  * block the counter is declared BEFORE the element pointer (the other order
  * swaps the two registers in both loops, 17 bytes).
  */
-u32 func_02049A18(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag)
+u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag)
 {
     struct UnpackedPalette *pal;
 
@@ -2980,7 +2980,7 @@ u32 func_02049A18(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag)
  *   python tools/match.py tu --src src/matched/unit_02049B40.c \
  *       --addr 0x02049B40 --arm
  */
-void sub_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f)
+void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f)
 {
     sub_02049B90(a, b, c, 0, d, e, f);
 }
@@ -2988,7 +2988,7 @@ void sub_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f)
 
 
 
-void sub_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f)
+void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f)
 {
     sub_02049BDC(a, b, c, 0, d, e, f);
 }
@@ -2998,7 +2998,7 @@ void sub_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f)
 
 /*
  * One of two seven-argument entry points on the cell-actor system, an
- * address apart, that differ only in which half of func_02049C28's dispatch
+ * address apart, that differ only in which half of ARC_UTIL_UploadPalette's dispatch
  * they reach first (func_0204A380 in func_02049BDC, 0x0204A1BC here); both
  * then forward into 0x02049C28 itself.
  *
@@ -3021,7 +3021,7 @@ void sub_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f)
 void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
 {
     u32 r = func_0204A1BC(a0, a1, 0, (u16)((a6 & 0x7fff) | 0x8000));
-    func_02049C28((void *)r, a2, a3, a4, a5);
+    ARC_UTIL_UploadPalette((void *)r, a2, a3, a4, a5);
 }
 
 
@@ -3041,7 +3041,7 @@ void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
 void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
 {
     u32 r = (u32)func_0204A380(a0, a1, 0, (u16)((a6 & 0x7fff) | 0x8000));
-    func_02049C28((void *)r, a2, a3, a4, a5);
+    ARC_UTIL_UploadPalette((void *)r, a2, a3, a4, a5);
 }
 
 
@@ -3070,7 +3070,7 @@ void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
  *     lands at sp+0 and PLTT at sp+4.
  * The table's const qualifier does not change the bytes.
  */
-void func_02049C28(void *file, u32 kind, u32 offset, u32 dest, u32 size)
+void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size)
 {
     struct PaletteBlock *pltt;
     u16 *pmcp;
@@ -3092,22 +3092,22 @@ void func_02049C28(void *file, u32 kind, u32 offset, u32 dest, u32 size)
         switch (kind) {
         case 2:
             func_0207F308();
-            g_020A1364[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
             func_0207F428();
             break;
         case 6:
             func_0207F5B0();
-            g_020A1364[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
             func_0207F65C();
             break;
         case 3:
             func_0207F47C();
-            g_020A1364[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
             func_0207F560();
             break;
         case 7:
             func_0207F6A8();
-            g_020A1364[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
             func_0207F754();
             break;
         case 0:
@@ -3115,7 +3115,7 @@ void func_02049C28(void *file, u32 kind, u32 offset, u32 dest, u32 size)
         case 4:
         case 5:
         default:
-            g_020A1364[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
             break;
         }
     }
@@ -3192,7 +3192,7 @@ void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
@@ -3252,7 +3252,7 @@ void *func_02049F78(void *a0, u32 a1, u32 a2, u16 a3)
 
 
 
-void *func_02049FBC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
@@ -3267,7 +3267,7 @@ void *func_02049FBC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-void *func_02049FFC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {
@@ -3282,7 +3282,7 @@ void *func_02049FFC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-void *func_0204A03C(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
@@ -3300,7 +3300,7 @@ void *func_0204A03C(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 /*
  * A whole translation unit, matched as one byte range.
  */
-void *func_0204A07C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadMultiCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {
@@ -3315,7 +3315,7 @@ void *func_0204A07C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-void *func_0204A0BC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadAnimBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
@@ -3330,7 +3330,7 @@ void *func_0204A0BC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-void *func_0204A0FC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {
@@ -3345,7 +3345,7 @@ void *func_0204A0FC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-void *func_0204A13C(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
@@ -3360,7 +3360,7 @@ void *func_0204A13C(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 
 
 
-void *func_0204A17C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {
@@ -3389,14 +3389,14 @@ int func_0204A1BC(int archiveID, int memberIdx, int decompress, u16 heapID)
 
     if (decompress != 0) {
         size = func_020490A8(archiveID, memberIdx);
-        buf = (int)func_02030734((u16)((heapID & 0x7fff) | 0x8000), size, 0, sArcUtil3730, 1599);
+        buf = (int)func_02030734((u16)((heapID & 0x7fff) | 0x8000), size, 0, arc_util_file, 1599);
     } else {
         size = func_020490A8(archiveID, memberIdx);
-        buf = (int)func_02030734(heapID, size, 0, sArcUtil3730, 1603);
+        buf = (int)func_02030734(heapID, size, 0, arc_util_file, 1603);
     }
     func_02048F4C((void *)buf, archiveID, memberIdx);
     if (decompress != 0) {
-        outBuf = (int)func_02030734(heapID, ((struct LzHeader *)buf)->sizeAndType >> 8, 0, sArcUtil3730, 1611);
+        outBuf = (int)func_02030734(heapID, ((struct LzHeader *)buf)->sizeAndType >> 8, 0, arc_util_file, 1611);
         func_020834C0(buf, outBuf);
         func_020307B0((void *)buf);
         buf = outBuf;
@@ -3419,14 +3419,14 @@ int func_0204A298(int archiveID, int memberIdx, int decompress, u16 heapID, u32 
 
     *out = func_020490A8(archiveID, memberIdx);
     if (decompress != 0) {
-        buf = (int)func_02030734((u16)((heapID & 0x7fff) | 0x8000), *out, 0, sArcUtil3730, 1642);
+        buf = (int)func_02030734((u16)((heapID & 0x7fff) | 0x8000), *out, 0, arc_util_file, 1642);
     } else {
-        buf = (int)func_02030734(heapID, *out, 0, sArcUtil3730, 1646);
+        buf = (int)func_02030734(heapID, *out, 0, arc_util_file, 1646);
     }
     func_02048F4C((void *)buf, archiveID, memberIdx);
     if (decompress != 0) {
         *out = ((struct LzHeader *)buf)->sizeAndType >> 8;
-        outBuf = (int)func_02030734(heapID, *out, 0, sArcUtil3730, 1656);
+        outBuf = (int)func_02030734(heapID, *out, 0, arc_util_file, 1656);
         func_020834C0(buf, outBuf);
         func_020307B0((void *)buf);
         buf = outBuf;
@@ -3469,15 +3469,15 @@ void *func_0204A39C(void *narc, int fileID, int decompress, u32 heapID, u32 *out
 
     *out_size = func_020493D4(narc, fileID);
     if (decompress != 0) {
-        buf = func_02030734((u16)(((u16)heapID & 0x7FFF) | 0x8000), *out_size, 0, lbl_020A7F30, 1709);
+        buf = func_02030734((u16)(((u16)heapID & 0x7FFF) | 0x8000), *out_size, 0, arc_util_file, 1709);
     } else {
-        buf = func_02030734((u16)heapID, *out_size, 0, lbl_020A7F30, 1713);
+        buf = func_02030734((u16)heapID, *out_size, 0, arc_util_file, 1713);
     }
     if (buf != 0) {
         func_0204932C(narc, fileID, buf);
         if (decompress != 0) {
             *out_size = ((struct LzHeader *)buf)->sizeAndType >> 8;
-            outBuf = func_02030734((u16)heapID, *out_size, 0, lbl_020A7F30, 1725);
+            outBuf = func_02030734((u16)heapID, *out_size, 0, arc_util_file, 1725);
             if (outBuf != 0) {
                 MI_UncompressLZ8(buf, outBuf);
                 func_020307B0(buf);

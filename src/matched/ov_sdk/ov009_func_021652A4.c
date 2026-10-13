@@ -1,5 +1,5 @@
 /*
- * function: func_021652A4
+ * function: WCM_ConnectAsync
  * address:  0x021652A4
  * packet:   pkt_ov009_021652A4
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_021657C8         0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork         0x021657C8  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   MI_CpuCopy8           0x02082D44  arm
  *   MI_CpuFill8           0x02082BCC  arm
@@ -58,7 +58,7 @@ typedef struct WCMWepDesc {
 } WCMWepDesc;
 
 extern unsigned long OS_DisableInterrupts(void);
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
@@ -67,7 +67,7 @@ extern long func_02166B2C(void);
 extern int OS_IsRunOnTwl(void);
 extern long WCMi_NwmifConnectAsync();
 
-long func_021652A4(void *bssDesc, void *wepDesc, unsigned long option)
+long WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option)
 {
     unsigned long e;
     WCMWork *wcmw;
@@ -75,7 +75,7 @@ long func_021652A4(void *bssDesc, void *wepDesc, unsigned long option)
     WCMWepDesc *privacyDesc;
 
     e = OS_DisableInterrupts();
-    wcmw = (WCMWork *)func_021657C8();
+    wcmw = (WCMWork *)WCMi_GetSystemWork();
     if (wcmw == 0) {
         OS_RestoreInterrupts(e);
         return 1;

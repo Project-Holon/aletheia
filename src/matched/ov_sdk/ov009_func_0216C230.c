@@ -1,5 +1,5 @@
 /*
- * function: func_0216C230
+ * function: DWCi_GT2ClosedProcess
  * address:  0x0216C230
  * packet:   pkt_ov009_0216C230
  * region:   ov009
@@ -148,7 +148,7 @@ extern void DWCi_SetState(int state);
 extern void DWCi_ClearQR2Key(void);
 extern int DWCi_IsServerChangeEnabled(void);
 
-void func_0216C230(struct GTI2Connection *connection, int reason,
+void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
                            int isPseudClose, unsigned char closeAid)
 {
     unsigned char aid;

@@ -12,9 +12,9 @@ typedef signed short   s16;
 typedef struct {
     u16 railIndex;    /* which rail */
     u8 type;          /* 2 marks a stored location as not set yet */
-    u8 reserved;
-    s16 lineGrid;     /* grid position along the rail line */
-    u16 widthGrid;    /* grid position across the rail line */
+    u8 key;           /* rail move key, converted from a direction (func_0201441C) */
+    s16 widthGrid;    /* grid position across the rail line, 0 at the centre */
+    u16 lineGrid;     /* grid position along the rail line */
 } RailLocation;
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * function: func_02027D44
+ * function: APP_TASKMENU_UpdateKey
  * address:  0x02027D44
  * packet:   pkt_02027D44
  * region:   arm9
@@ -13,7 +13,7 @@
  *   func_0203633C  0x0203633C  arm
  *   func_020355C4  0x020355C4  arm
  *   func_020355D8  0x020355D8  arm
- *   func_02027B30  0x02027B30  thumb
+ *   APP_TASKMENU_SetWinActive  0x02027B30  thumb
  *   func_020061E4  0x020061E4  thumb
  *
  * The TaskMenu per-frame input step: up (0x40) / down (0x80) move the
@@ -21,7 +21,7 @@
  * sound 0x551 or 0x54c by the row's +8 word); B (held & 2) jumps to the
  * last row, sound 0x551.  In the func_020355C4() == 1 mode a press that is
  * not B only re-highlights the current row.  When the cursor moved, the old
- * row is un-highlighted and the new one highlighted via func_02027B30.
+ * row is un-highlighted and the new one highlighted via APP_TASKMENU_SetWinActive.
  *
  * Closed in wave 12 from the 84-byte wave-4 source by two facts:
  *  - the up/down arms play 0x548, not 0x54C: the pool is 0x548, 0x551,
@@ -64,10 +64,10 @@ extern unsigned int func_0203633C(void);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
 struct S;
-extern void func_02027B30(u32 a0, struct S *s, int mode);
+extern void APP_TASKMENU_SetWinActive(u32 a0, struct S *s, int mode);
 extern void func_020061E4(u32 id);
 
-void func_02027D44(struct Menu *m)
+void APP_TASKMENU_UpdateKey(struct Menu *m)
 {
     u32 held;
     u32 hit;
@@ -83,7 +83,7 @@ void func_02027D44(struct Menu *m)
             if ((held & 0xC3) == 0) {
                 return;
             }
-            func_02027B30(m->f18[m->cursor], (struct S *)m->f34, 1);
+            APP_TASKMENU_SetWinActive(m->f18[m->cursor], (struct S *)m->f34, 1);
             func_020355D8(0);
             func_020061E4(0x548);
             return;
@@ -124,6 +124,6 @@ void func_02027D44(struct Menu *m)
     if (prev == m->cursor) {
         return;
     }
-    func_02027B30(m->f18[prev], (struct S *)m->f34, 0);
-    func_02027B30(m->f18[m->cursor], (struct S *)m->f34, 1);
+    APP_TASKMENU_SetWinActive(m->f18[prev], (struct S *)m->f34, 0);
+    APP_TASKMENU_SetWinActive(m->f18[m->cursor], (struct S *)m->f34, 1);
 }

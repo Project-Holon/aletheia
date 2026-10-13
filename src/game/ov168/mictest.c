@@ -20,15 +20,15 @@
  *   func_02030734 0x02030734 arm
  *   func_02030CBC 0x02030CBC arm
  *   func_020056A0 0x020056A0 thumb
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   d_02184A20 0x02184A20 data a4
  *   func_02030EAC  0x02030EAC  arm
  *   func_02030DA4  0x02030DA4  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
- *   func_02005DF8  0x02005DF8  thumb
- *   func_020312F8  0x020312F8  arm
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
+ *   PROCSYS_ReplaceGlobal  0x020312F8  arm
  *   ov088_id       0x00000058  data  a1
  *   d_021BD574     0x021BD574  data  a4
  *   func_02030D28   0x02030D28  arm
@@ -39,11 +39,11 @@
  *   func_020061E4   0x020061E4  thumb
  *   func_0204B878   0x0204B878  arm
  *   func_0204B98C   0x0204B98C  arm
- *   func_020434CC  0x020434CC  arm
- *   func_02043588  0x02043588  arm
- *   func_02022224  0x02022224  thumb
+ *   BG_SYS_ClearMainPlanes  0x020434CC  arm
+ *   BG_SYS_ClearSubPlanes  0x02043588  arm
+ *   WIPE_ResetWndMask  0x02022224  thumb
  *   func_020433E0  0x020433E0  arm
- *   func_02061C44  0x02061C44  arm
+ *   NNS_GfdDoVramTransfer  0x02061C44  arm
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
  *   func_0204A48C  0x0204A48C  arm
  *   func_020434DC  0x020434DC  arm
@@ -51,7 +51,7 @@
  *   d_020A1448     0x020A1448  data  a4
  *   d_021848D4     0x021848D4  data  ov168  a4
  *   func_0204A5AC 0x0204A5AC arm
- *   func_0204B8D4  0x0204B8D4  arm
+ *   CLACT_AddActorAnimFrame  0x0204B8D4  arm
  *   func_0204A600  0x0204A600  arm
  *   func_0204B100 0x0204B100 arm
  *   func_020490F4 0x020490F4 arm
@@ -63,8 +63,8 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B570 0x0204B570 arm
- *   func_0204B604 0x0204B604 arm
+ *   CLACT_SetActorAffineMode 0x0204B570 arm
+ *   CLACT_SetActorFlip 0x0204B604 arm
  *   d_02184910 0x02184910 data a4
  *   d_021848AC 0x021848AC data a4
  *   func_0204B1CC 0x0204B1CC arm
@@ -115,7 +115,7 @@
  *   func_02030DA8  0x02030DA8  arm
  *   func_02030EE8  0x02030EE8  arm
  *   func_0203F5FC  0x0203F5FC  arm
- *   func_0204B550  0x0204B550  arm
+ *   CLACT_SetActorPosAxis  0x0204B550  arm
  *   _ll_mul        0x0209C054  arm
  *   _fflt          0x0209BDBC  arm
  *   _fadd          0x0209C95C  arm
@@ -213,14 +213,14 @@ extern u32 func_02030CB0(u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void *func_020056A0(u32,u32,u32);
-extern void func_02005E30(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
 extern void func_02030EAC(struct Node *n);
 extern void func_02030DA4(int);
 extern u32 func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
-extern void func_02005DF8(u32 a);
-extern void func_020312F8(u32 a1, u32 a2, u32 a3);
+extern void GFL_USE_FadeInBgmFull(u32 a);
+extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern void func_02030D28(struct Ctx *c);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_020221A4(void);
@@ -229,16 +229,16 @@ extern u32 func_02006D94(void);
 extern void func_020061E4(u32 a);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern u32 func_0204B98C(struct Actor *a);
-extern void func_020434CC(void);
-extern void func_02043588(void);
-extern u32 func_02022224(void *win);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
+extern u32 WIPE_ResetWndMask(void *win);
 extern void func_020433E0(const struct DispVram *c);
-extern void func_02061C44(void);
+extern void NNS_GfdDoVramTransfer(void);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern void func_0204A5AC(void);
-extern void func_0204B8D4(struct Obj *p, u32 arg);
+extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void func_0204A600(void);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -250,8 +250,8 @@ extern void func_02049238(void *);
 extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B570(struct Actor *actor, u32 value);
-extern void func_0204B604(struct Actor *actor, u32 which, u32 set);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
+extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A648(void);
 extern void func_0203F8F4(u16);
@@ -295,7 +295,7 @@ extern u32 func_020056EC(u32 range);
 extern u32 func_02030DA8(int owner, void (*fn)(), int arg, int n);
 extern u32 func_02030EE8(struct S02030EE8 *p);
 extern int func_0203F5FC(u32 x);
-extern void func_0204B550(struct Actor *actor, signed short value, u32 axis);
+extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 extern void func_0207C9D0(void *, void *, void *);
 extern int func_02035C08(const void *p);
 enum Result func_02183B60(void *obj);
@@ -384,7 +384,7 @@ enum Result func_02183B60(void *obj)
     func_02183FC4((char *)p,((struct Obj02210 *)((unsigned)p))->f14C);
     func_02184398((u8 *)(p+0xf8),((struct Obj02210 *)((unsigned)p))->f14C,(int)func_021844C8,(int)p);
     func_02183D0C((int *)((unsigned)p+0x130),(int)p,(int)func_02183D4C);
-    func_02005E30(10);
+    GFL_USE_FadeOutBgm(10);
     return result;
 }
 
@@ -412,8 +412,8 @@ int func_02183C50(int a, int b, int c, void *p)
     v = (unsigned short)*(int *)((char *)p + 0x14c);
     func_020315D4((struct S020315D4 *)a);
     func_020306F0(v);
-    func_02005DF8(0xa);
-    func_020312F8((u32)ov088_id, (u32)d_021BD574, 0);
+    GFL_USE_FadeInBgmFull(0xa);
+    PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)d_021BD574, 0);
     return 1;
 }
 
@@ -651,12 +651,12 @@ void func_02183EC0(int *p)
 
 void func_02183ED4(int a0)
 {
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     *(volatile u32 *)0x04000000 &= 0xFFFFE0FFu;
     *(volatile u32 *)0x04001000 &= 0xFFFFE0FFu;
-    func_02022224((void *)0);
-    func_02022224((void *)1);
+    WIPE_ResetWndMask((void *)0);
+    WIPE_ResetWndMask((void *)1);
 }
 
 
@@ -669,8 +669,8 @@ void func_02183ED4(int a0)
 
 void func_02183F08(void)
 {
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     *(volatile u32 *)0x04000000 &= 0xFFFFE0FFu;
     *(volatile u32 *)0x04001000 &= 0xFFFFE0FFu;
 }
@@ -698,7 +698,7 @@ void func_02183F30(void)
 
 void func_02183F40(void *unused, char *p)
 {
-    func_02061C44();
+    NNS_GfdDoVramTransfer();
     func_02184144(p);
     func_021842B4(p + 0xe4);
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3FF8) |= 1;
@@ -741,7 +741,7 @@ void func_02183FA0(void **p)
     u16 i;
 
     for (i = 0; i < 7; i++)
-        func_0204B8D4(p[i], 0x1000);
+        CLACT_AddActorAnimFrame(p[i], 0x1000);
     func_0204A600();
 }
 
@@ -787,8 +787,8 @@ void func_02183FC4(char *p,u16 heap)
         ++i;
     }while(i<7);
     for(i=0;i<3;i++)func_0204B3DC(*(void **)(p+i*4+0x10),0);
-    func_0204B570(((struct Obj01262 *)p)->f0,0);
-    func_0204B604(((struct Obj01262 *)p)->f0,1,1);
+    CLACT_SetActorAffineMode(((struct Obj01262 *)p)->f0,0);
+    CLACT_SetActorFlip(((struct Obj01262 *)p)->f0,1,1);
     ((struct Obj01262 *)p)->fE0=10;
 }
 
@@ -1151,7 +1151,7 @@ int func_02184600(char *p, int unused, s16 x, s16 y, void *owner)
 
 /*
  * note (2026-10-05, wD9r lane41): closed by the parameter width. x and y (a3, e) are s16, and
- *   func_0204B550 takes an s16 second argument as in the matched sibling ov168 02184780. With an s16
+ *   CLACT_SetActorPosAxis takes an s16 second argument as in the matched sibling ov168 02184780. With an s16
  *   stack parameter the y load stays with the entry parameter copies (ldr r5,[sp,#0x18] before the
  *   pool load); an int parameter sinks it to the end of the entry block.
  */
@@ -1177,8 +1177,8 @@ void func_02184680(int a0, u32 handle, int a2, s16 a3, s16 e, int f, u32 g, u32 
     o->w1 = 0;
     o->w2 = 0x6000;
     o->h = h;
-    func_0204B550((struct Actor *)o->handle, a3, 0);
-    func_0204B550((struct Actor *)o->handle, e, 1);
+    CLACT_SetActorPosAxis((struct Actor *)o->handle, a3, 0);
+    CLACT_SetActorPosAxis((struct Actor *)o->handle, e, 1);
 }
 
 
@@ -1207,8 +1207,8 @@ void func_02184780(void *task, int *p)
         p[8] -= 0x168000;
     angle = func_0203F5FC((u16)(p[8] >> 12));
     x += (s16)((p[10] * angle) >> 12);
-    func_0204B550((void *)p[0], x, 0);
-    func_0204B550((void *)p[0], y, 1);
+    CLACT_SetActorPosAxis((void *)p[0], x, 0);
+    CLACT_SetActorPosAxis((void *)p[0], y, 1);
     if (y < -16) {
         func_0204B3DC((void *)p[0], 0);
         func_02030EAC(task);

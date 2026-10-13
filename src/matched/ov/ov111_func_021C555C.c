@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035BA4  0x02035BA4  arm
+ *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   func_021C6874  0x021C6874  thumb  ov111
  *   d_021C8544     0x021C8544  data  a1
  *
@@ -33,13 +33,13 @@ typedef struct {
     u8 b330E;
 } Work;
 
-extern int func_02035BA4(const void *p);
+extern int TOUCHPANEL_HitCont(const void *p);
 extern void func_021C6874(Work *p, int scroll, int flush, int idx);
 extern const u8 d_021C8544[];
 
 void func_021C555C(Work *p)
 {
-    if (p->f3034 != 0 && func_02035BA4(d_021C8544) && p->b32F7 == 1) {
+    if (p->f3034 != 0 && TOUCHPANEL_HitCont(d_021C8544) && p->b32F7 == 1) {
         func_021C6874(p, p->scroll, 1, 0);
         p->b32F7 = 0;
         p->b32F8 = 0;

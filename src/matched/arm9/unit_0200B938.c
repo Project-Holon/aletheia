@@ -11,14 +11,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200B938
+ * function: BATTLE_REC_SetData
  *
  * 84 bytes, 0x0200B938..0x0200B98C, one function, which carries a label in
  * the generated listing.
  *
  * The publisher of the battle record: three copies into the single object at
- * 0x0214616C and then a checksum word handed to func_0200B900.  The object is
- * 0x18A4 bytes, which is what func_0200B440 in src/matched/unit_0200B400.c
+ * 0x0214616C and then a checksum word handed to BATTLE_REC_Decode.  The object is
+ * 0x18A4 bytes, which is what BATTLE_REC_GetWorkSize in src/matched/unit_0200B400.c
  * returns, so the record is pinned from both ends: 0x80 + 0x44 + 0x17E0 is
  * exactly 0x18A4.
  *
@@ -33,7 +33,12 @@
  * src/matched/unit_0200BA38.c. *
  * symbols:
  *   MI_CpuCopy8    0x02082D44  arm
- *   gObj_0214616C  0x0214616C  data
+ *   pBattleRec  0x0214616C  data
+ *   BATTLE_REC_Decode  0x0200B900  thumb
+ *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
+ *   MSGDATA_ReadUnits  0x02045F5C  arm
+ *   BattleRecModeTable  0x0209DDCC  data
  */
 
 typedef unsigned char  u8;
@@ -55,24 +60,24 @@ extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern u32 func_02045C04(struct Rec *rec);
 extern u32 func_020307B0(void *p);
 
-extern void  func_0200B900(void *a, u32 b, u32 c);
+extern void  BATTLE_REC_Decode(void *a, u32 b, u32 c);
 extern void *func_020271CC(void *a, u32 id);
-extern void func_02017550(struct Sav *p);
+extern void POKE_TOOL_ClearBoxParam(struct Sav *p);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0201A954(struct Party *p, s32 capacity);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32   func_0201AA18(void *list);
 extern void *func_0201AB28(void *list, u32 i);
-extern void *func_020185F4(void *a);
+extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32   func_02017E88(void *e, u32 a, u32 b);
 extern void *func_0201747C(struct Mon *p, u32 heap);
 extern void *func_0200BBEC(void *a, u32 b, u32 c);
 
-extern const u16 func_0200B98C_Table[];
+extern const u16 BattleRecModeTable[];
 
 struct RecC4 {
     u8  unk0000[0x17DC];
@@ -86,7 +91,7 @@ struct BattleRec {
     struct RecC4 unkC4;
 };
 
-extern struct BattleRec *gObj_0214616C;
+extern struct BattleRec *pBattleRec;
 
 struct QRec {
     u16 unk00[0x0C];
@@ -114,14 +119,14 @@ struct Rec35C {
     u8 unk344[0x18];
 };
 
-void func_0200B938(const void *a, const void *b, const void *c)
+void BATTLE_REC_SetData(const void *a, const void *b, const void *c)
 {
     u16 v;
 
-    MI_CpuCopy8(b, gObj_0214616C->unk80, sizeof(gObj_0214616C->unk80));
-    MI_CpuCopy8(c, &gObj_0214616C->unkC4, sizeof(gObj_0214616C->unkC4));
-    MI_CpuCopy8(a, gObj_0214616C->unk00, sizeof(gObj_0214616C->unk00));
-    v = gObj_0214616C->unkC4.unk17DC;
-    func_0200B900(&gObj_0214616C->unkC4, 0x17DC, v + ((v ^ 0xFFFF) << 16));
+    MI_CpuCopy8(b, pBattleRec->unk80, sizeof(pBattleRec->unk80));
+    MI_CpuCopy8(c, &pBattleRec->unkC4, sizeof(pBattleRec->unkC4));
+    MI_CpuCopy8(a, pBattleRec->unk00, sizeof(pBattleRec->unk00));
+    v = pBattleRec->unkC4.unk17DC;
+    BATTLE_REC_Decode(&pBattleRec->unkC4, 0x17DC, v + ((v ^ 0xFFFF) << 16));
 }
 

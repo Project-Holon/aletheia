@@ -1,5 +1,5 @@
 /*
- * function: func_0216BC2C
+ * function: DWCi_GetConnectionInfoByIdx
  * address:  0x0216BC2C
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021AA920[];
 
-void *func_0216BC2C(int i)
+void *DWCi_GetConnectionInfoByIdx(int i)
 {
     return g_021AA920 + i * 8;
 }

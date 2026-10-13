@@ -1,5 +1,5 @@
 /*
- * function: func_021D5650
+ * function: P_STATUS_UpdatePaletteAnime
  * address: 0x021D5650
  * packet: pkt_ov131_021D5650
  * region: ov131
@@ -40,7 +40,7 @@ extern const struct Col4 d_021DBFB8;
 extern const s16 FX_SinCosTable_[];
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-s32 func_021D5650(struct W *p)
+s32 P_STATUS_UpdatePaletteAnime(struct W *p)
 {
     struct Col4 A;
     struct Col4 B;

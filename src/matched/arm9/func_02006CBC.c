@@ -14,15 +14,15 @@
  *           and every other site are right.
  *
  * symbols:
- *   g_020A703C   0x020A703C  data
- *   g_020A7030   0x020A7030  data
- *   g_02146164   0x02146164  data
+ *   _SndMicFile   0x020A703C  data
+ *   _MicIirFilter   0x020A7030  data
+ *   _SndMic   0x02146164  data
  *   func_02030734  0x02030734  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_0208BEF0  0x0208BEF0  arm
  *   func_0208BF38  0x0208BF38  arm
  *   func_0208B24C  0x0208B24C  arm
- *   func_02085D3C  0x02085D3C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_02006D3C  0x02006D3C  arm
  *
  * Allocate and publish the two sound blocks: a 0x28-byte driver object and
@@ -56,9 +56,9 @@ struct Sub02006CBCObj {
     u32 unk24;
 };
 
-extern char g_020A703C[];
-extern char g_020A7030[];
-extern struct Sub02006D44Obj *g_02146164;
+extern char _SndMicFile[];
+extern char _MicIirFilter[];
+extern struct Sub02006D44Obj *_SndMic;
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -66,7 +66,7 @@ extern void  func_02082BCC(void *p, u32 v, u32 n);
 extern unsigned int func_0208BEF0(unsigned int status);
 extern unsigned int func_0208BF38(unsigned int gain);
 extern void  func_0208B24C(void);
-extern int   func_02085D3C(void);
+extern int   OS_IsRunOnTwl(void);
 extern void  func_02006D3C(u32 a, char *b);
 
 void func_02006CBC(u16 heap)
@@ -74,17 +74,17 @@ void func_02006CBC(u16 heap)
     struct Sub02006CBCObj *p;
     void *pool;
 
-    p = func_02030734(heap, 0x28, 0, g_020A703C, 0x59);
+    p = func_02030734(heap, 0x28, 0, _SndMicFile, 0x59);
     func_02082BCC(p, 0, 0x28);
-    pool = func_02030734(heap, 0x2014, 0, g_020A703C, 0x5f);
+    pool = func_02030734(heap, 0x2014, 0, _SndMicFile, 0x5f);
     func_02082BCC(pool, 0, 0x2014);
     p->unk24 = (u32)pool;
     func_0208BEF0(1);
     func_0208BF38(2);
     p->unk20 = (p->unk20 & ~1u) | 1u;
     func_0208B24C();
-    if (func_02085D3C() == 1) {
-        func_02006D3C(0, g_020A7030);
+    if (OS_IsRunOnTwl() == 1) {
+        func_02006D3C(0, _MicIirFilter);
     }
-    g_02146164 = (struct Sub02006D44Obj *)(p);
+    _SndMic = (struct Sub02006D44Obj *)(p);
 }

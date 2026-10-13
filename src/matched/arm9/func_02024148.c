@@ -1,5 +1,5 @@
 /*
- * function: func_02024148
+ * function: PMSI_PARAM_GetSaveWork
  * address:  0x02024148
  * packet:   pkt_02024148
  * region:   arm9
@@ -13,4 +13,4 @@
  *
  * symbols:
  */
-void *func_02024148(char *p){return *(void **)(p+8);}
+void *PMSI_PARAM_GetSaveWork(char *p){return *(void **)(p+8);}

@@ -15,7 +15,7 @@
  * count pair, clears the 0x100-byte slot table g_02147C18, writes the GX
  * MTX_PUSH / MTX_IDENTITY command registers (0x04000444 / 0x04000454, plain
  * hardware addresses, no relocation) and rebuilds the slot-0 matrices via
- * func_02064E3C.  The body is the one docs/notes/func_02065BD0.c.txt
+ * NNSi_G2dRendererResetMtxSlot.  The body is the one docs/notes/func_02065BD0.c.txt
  * recorded at 144/168; the loop shape (guarded do-while, cursor p) is
  * that note's.
  *
@@ -36,7 +36,7 @@
  *   g_02147C18     0x02147C18  data  a4
  *   g_020A81F8     0x020A81F8  data  a2
  *   func_02082AC0  0x02082AC0  arm
- *   func_02064E3C  0x02064E3C  arm
+ *   NNSi_G2dRendererResetMtxSlot  0x02064E3C  arm
  */
 
 #include "../include/G_Scr.h"
@@ -63,7 +63,7 @@ extern struct Aff g_02148318[];
 extern struct SlotRec g_02147C18;
 extern struct Scr g_020A81F8;
 extern void func_02082AC0(u32 value, void *dst, u32 size);
-extern void func_02064E3C(void);
+extern void NNSi_G2dRendererResetMtxSlot(void);
 
 void func_02065BD0(void *obj)
 {
@@ -90,5 +90,5 @@ void func_02065BD0(void *obj)
 
     *(volatile u32 *)0x04000444 = 0;
     *(volatile u32 *)0x04000454 = 0;
-    func_02064E3C();
+    NNSi_G2dRendererResetMtxSlot();
 }

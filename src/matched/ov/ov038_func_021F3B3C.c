@@ -43,7 +43,7 @@
  *   func_02197DAC  0x02197DAC  thumb  ov021
  *   func_021618A0  0x021618A0  thumb  ov010
  *   func_02012374  0x02012374  thumb
- *   func_02006210  0x02006210  thumb
+ *   GFL_USE_StopAllSe  0x02006210  thumb
  *   func_021BE6E8  0x021BE6E8  thumb  ov021
  *   func_021BE6BC  0x021BE6BC  thumb  ov021
  *   func_02197D3C  0x02197D3C  thumb  ov021
@@ -105,7 +105,7 @@ extern int func_021BE6BC(int *p);
 extern int func_021BE6E8(int p, int i, int j, int k);
 extern unsigned int func_0203630C(void);
 extern void func_020061E4(u32 se);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void func_0201235C(struct S0201235C *o, u32 *out);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
@@ -205,7 +205,7 @@ int func_021F3B3C(int a0, int *a1)
         if (((struct Obj00488 *)s)->f18 != 0) {
             func_021BE6B0(e, 0);
             func_02012374((struct Evt *)a0, func_021618A0(w, (int)sys, 0xff, (int)(s[6] == 0 ? d_021F4608 : d_021F4600)));
-            func_02006210();
+            GFL_USE_StopAllSe();
             func_020061E4(0x6C3);
         }
         break;

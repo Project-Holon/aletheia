@@ -1,5 +1,5 @@
 /*
- * function: func_02033410
+ * function: BACKUP_SYSTEM_FillBlockAreas
  * address:  0x02033410
  * packet:   pkt_02033410
  * region:   arm9
@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_02082A7C  0x02082A7C  arm
- *   sub_02033BF0   0x02033BF0  arm
+ *   SAVEDATA_GetTableMax   0x02033BF0  arm
  *
  * backup_system.c.  Fills the whole packed 2-bit-per-slot bitmap at offset
  * 0x138 with one repeated value: MIi_CpuClear32 (func_02082A7C) wipes
  * p->nbytes bytes of it, then `val` is OR'd in two bits at a time for
- * sub_02033BF0(p->unk2c) + 2 slots.  The getter/setter for one slot of the
+ * SAVEDATA_GetTableMax(p->unk2c) + 2 slots.  The getter/setter for one slot of the
  * same bitmap are src/matched/unit_020332FC.c and
- * src/matched/sub_0203331C.c.
+ * src/matched/BACKUP_SYSTEM_SetBlockArea.c.
  *
  * Two spellings carry this function:
  *
@@ -38,8 +38,8 @@
  *    by tools/permuter.py --mode hill (`copy(n->n_@9) ; decl-order(n_<->i)`).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02033410.c \
- *       --func func_02033410 --addr 0x02033410 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_FillBlockAreas.c \
+ *       --func BACKUP_SYSTEM_FillBlockAreas --addr 0x02033410 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -54,9 +54,9 @@ struct Obj02033410 {
 
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 struct Obj02033BF0;
-extern u32 sub_02033BF0(struct Obj02033BF0 *p);
+extern u32 SAVEDATA_GetTableMax(struct Obj02033BF0 *p);
 
-void func_02033410(struct Obj02033410 *p, u32 val)
+void BACKUP_SYSTEM_FillBlockAreas(struct Obj02033410 *p, u32 val)
 {
     u32 n;
     u32 w;
@@ -65,7 +65,7 @@ void func_02033410(struct Obj02033410 *p, u32 val)
     u32 i;
 
     func_02082A7C(0, p->slots, p->nbytes);
-    n = sub_02033BF0(p->unk2c) + 2;
+    n = SAVEDATA_GetTableMax(p->unk2c) + 2;
     w = 0;
     sh = 0;
     n_ = n;

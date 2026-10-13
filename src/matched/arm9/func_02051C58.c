@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02051C58
+ * function: BUTTON_MAN_ClearSlot
  * address:  0x02051C58
  * packet:   pkt_02051648
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj08875.h"
 
-void func_02051C58(void *p0){ ((struct Obj08875 *)p0)->f0 = (unsigned char)0; ((struct Obj08875 *)p0)->f1 = (unsigned char)0; ((struct Obj08875 *)p0)->f2 = (unsigned short)0; }
+void BUTTON_MAN_ClearSlot(void *p0){ ((struct Obj08875 *)p0)->f0 = (unsigned char)0; ((struct Obj08875 *)p0)->f1 = (unsigned char)0; ((struct Obj08875 *)p0)->f2 = (unsigned short)0; }

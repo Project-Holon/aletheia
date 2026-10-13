@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204EE0C",
+   "name": "BILLBOARD_FindFreeImage",
    "address": "0x0204EE0C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204EE64",
+   "name": "BILLBOARD_BindImageResource",
    "address": "0x0204EE64",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204EEC8",
+   "name": "BILLBOARD_SetImageFormat",
    "address": "0x0204EEC8",
    "kind": "game",
    "region": "arm9",
@@ -50,7 +50,7 @@
    }
   },
   {
-   "name": "func_0204EF58",
+   "name": "BILLBOARD_AddImage",
    "address": "0x0204EF58",
    "kind": "game",
    "region": "arm9",
@@ -62,7 +62,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204EFC8",
+   "name": "BILLBOARD_AddImageFromArchive",
    "address": "0x0204EFC8",
    "kind": "game",
    "region": "arm9",

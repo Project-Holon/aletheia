@@ -22,9 +22,9 @@
  *   func_021FF72C 0x021FF72C thumb ov186
  *   func_021FF698 0x021FF698 thumb ov186
  *   func_02012EBC 0x02012EBC thumb
- *   func_0200B938 0x0200B938 thumb
- *   func_0200B928 0x0200B928 thumb
- *   func_0200B98C 0x0200B98C thumb
+ *   BATTLE_REC_SetData 0x0200B938 thumb
+ *   BATTLE_REC_GetHeader 0x0200B928 thumb
+ *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   func_021FD170 0x021FD170 thumb ov186
  *   func_02035C60 0x02035C60 arm
  *   func_02035D20 0x02035D20 arm
@@ -53,9 +53,9 @@ extern int func_021FF648(char *p);
 extern int func_021FF72C(char *p, int *out);
 extern int func_021FF698(char *p, int a1, int *out);
 extern void *func_02012EBC(struct Big *p);
-extern u8 *func_0200B928(void);
-extern void func_0200B938(const void *,const void *,const void *,void *);
-extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
+extern u8 *BATTLE_REC_GetHeader(void);
+extern void BATTLE_REC_SetData(const void *,const void *,const void *,void *);
+extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FD860(int,int,Pair *);
 extern int func_02035C60(void);
@@ -91,8 +91,8 @@ void func_021E26B8(int *task,State *state,char *p) {
         result=func_021FF72C(*(void **)(*(char **)(p+0x3c)+12),(int *)(&msg));
         if(result==0) {
             if(func_021FF698(*(void **)(*(char **)(p+0x3c)+12),(int)(&rec),&extra)) {
-                func_0200B938(rec,rec+0x80,rec+0xc4,func_02012EBC(*(void **)(*(char **)(p+0x3c)+0x14)));
-                found=0;value=func_0200B98C(func_0200B928(),4,0);
+                BATTLE_REC_SetData(rec,rec+0x80,rec+0xc4,func_02012EBC(*(void **)(*(char **)(p+0x3c)+0x14)));
+                found=0;value=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
                 i=1;arg=*(char **)(p+0x3c);
                 for(;i<=3;i++) {
                     if(*(u64 *)(*(char **)(arg+0x18)+i*8+0x30)==value) {found=1;break;}

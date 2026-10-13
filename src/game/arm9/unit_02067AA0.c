@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_02148B48   0x02148B48  data
+ *   sOamSoftEmuContext   0x02148B48  data
  */
 typedef unsigned char u8;
 
@@ -71,7 +71,7 @@ struct G2dOamState_02067B78 {
 void func_02067AA0(int *p, int a, int b);
 void func_02067AAC(int *p, int a, int b);
 void func_02067B28(u32 a, u32 b);
-extern struct Work02067AC0 *g_02148B48;
+extern struct Work02067AC0 *sOamSoftEmuContext;
 
 
 
@@ -109,7 +109,7 @@ void func_02067AAC(int *p, int a, int b)
  * src/matched/unit_02067B40.c.
  *
  * Decompiled so that it becomes a `matched` witness for the call at
- * 0x0204CBB0+0x1c (src/matched/func_0204CBB0.c).
+ * 0x0204CBB0+0x1c (src/matched/CLACT_SetupActorDraw.c).
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02067AB8.c \
@@ -134,7 +134,7 @@ void func_02067AB8(struct G2dOamState *p, u32 mode)
  */
 void func_02067AC0(struct Src02067AC0 *src)
 {
-    struct Work02067AC0 *w = g_02148B48;
+    struct Work02067AC0 *w = sOamSoftEmuContext;
 
     w->unk_2c = (u32)src;
     w->unk_40 = src->unk_00;
@@ -155,7 +155,7 @@ void func_02067AC0(struct Src02067AC0 *src)
 
 void func_02067B28(u32 a, u32 b)
 {
-    struct Work02067AC0 *p = g_02148B48;
+    struct Work02067AC0 *p = sOamSoftEmuContext;
 
     p->unk_2c = a;
     p->unk_28 = b;

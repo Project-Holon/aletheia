@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215683C  0x0215683C  thumb  ov009
+ *   DWC_RAP_SetOwnStatus  0x0215683C  thumb  ov009
  *
  * Hands the pointer at +0x08 to the ov009 routine with selector 0x20.
  */
@@ -24,9 +24,9 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_0215683C(char *a, int b);
+extern int DWC_RAP_SetOwnStatus(char *a, int b);
 
 void func_021BE6E4(char *s)
 {
-    func_0215683C(((struct Obj00008 *)s)->f8, 0x20);
+    DWC_RAP_SetOwnStatus(((struct Obj00008 *)s)->f8, 0x20);
 }

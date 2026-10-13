@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DB614",
+   "name": "P_STA_SKILL_SetNewMoveHeld",
    "address": "0x021DB614",
    "kind": "game",
    "region": "ov131",

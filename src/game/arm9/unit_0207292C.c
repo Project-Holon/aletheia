@@ -16,7 +16,7 @@
  *
  * Channel allocator, claim-by-mask.  Refuses an empty mask (returns 1), refuses
  * a mask that overlaps the in-use word at g_0214DEC0+8 (returns 0), otherwise
- * locks it through func_020895D8 and ORs it in.  Matched func_02072974 is the
+ * locks it through func_020895D8 and ORs it in.  Matched SND_CHANNEL_UnlockChannels is the
  * matching release and reads the same +0x08 word.
  *
  * PIN ../2.0/sp2, the "kept constants" tell (docs/FRONTEND-PINS.md, and

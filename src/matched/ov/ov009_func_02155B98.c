@@ -1,5 +1,5 @@
 /*
- * function: func_02155B98
+ * function: DWC_RAP_OnLogin
  * address:  0x02155B98
  * packet:   pkt_ov009_02155B98
  * region:   ov009
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021A8264     0x021A8264  data  ov009  a4
- *   func_0205984C  0x0205984C  arm
- *   func_02059870  0x02059870  arm
- *   func_02155374  0x02155374  thumb  ov009
+ *   _pRapWork     0x021A8264  data  ov009  a4
+ *   DWC_CheckDirtyFlag  0x0205984C  arm
+ *   DWC_ClearDirtyFlag  0x02059870  arm
+ *   DWC_RAP_SetState  0x02155374  thumb  ov009
  */
 
 typedef unsigned char u8;
@@ -25,19 +25,19 @@ typedef struct {
     u8 flag;
 } G;
 
-extern G *d_021A8264;
-int func_0205984C(void *userdata);
-void func_02059870(int h);
-void func_02155374(int n);
+extern G *_pRapWork;
+int DWC_CheckDirtyFlag(void *userdata);
+void DWC_ClearDirtyFlag(int h);
+void DWC_RAP_SetState(int n);
 
-void func_02155B98(int a)
+void DWC_RAP_OnLogin(int a)
 {
-    if (func_0205984C((void *)d_021A8264->h) != 0) {
-        func_02059870(d_021A8264->h);
-        d_021A8264->flag = 1;
+    if (DWC_CheckDirtyFlag((void *)_pRapWork->h) != 0) {
+        DWC_ClearDirtyFlag(_pRapWork->h);
+        _pRapWork->flag = 1;
     }
     if (a == 0)
-        func_02155374(4);
+        DWC_RAP_SetState(4);
     else
-        func_02155374(14);
+        DWC_RAP_SetState(14);
 }

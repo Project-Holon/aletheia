@@ -1,5 +1,5 @@
 /*
- * function: func_021B6368
+ * function: ERROR_SCREEN_PrintMessage
  * address:  0x021B6368
  * packet:   pkt_ov017_021B6368
  * region:   ov017
@@ -13,7 +13,7 @@
  *   func_0207DFB4  0x0207DFB4  arm
  *   func_0207E24C  0x0207E24C  arm
  *   func_02082A48  0x02082A48  arm
- *   func_02043754  0x02043754  arm
+ *   BMP_CreateFromVram  0x02043754  arm
  *   func_0201D7EC  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
@@ -37,7 +37,7 @@ struct MsgBank;
 struct Obj020437AC;
 struct Rec;
 struct U16Vec;
-extern struct Bmp *func_02043754(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -47,7 +47,7 @@ extern u32 func_02045C04(struct Rec *rec);
 extern u32 func_0201D83C(void *ptr);
 extern void func_020437AC(struct Obj020437AC *p);
 
-void func_021B6368(int a)
+void ERROR_SCREEN_PrintMessage(int a)
 {
     u16 *base;
     int j, i;
@@ -63,7 +63,7 @@ void func_021B6368(int a)
         }
     }
     func_02082A48(0x7777, func_0207E24C() + 0x400, 0x3C00);
-    p = (int)func_02043754((void *)(func_0207E24C() + 0x400), 30, 16, 32, 1);
+    p = (int)BMP_CreateFromVram((void *)(func_0207E24C() + 0x400), 30, 16, 32, 1);
     q = (int)func_0201D7EC(0x17, 0, 0, 0, 1);
     r = (int)func_02045B38(0, 2, 0xe8, 1);
     s = (int)func_02045EC0((struct MsgBank *)r, a);

@@ -17,7 +17,7 @@
  * survive.
  *
  * symbols:
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  */
 
 typedef unsigned char u8;
@@ -43,7 +43,7 @@ struct S {
     int f80;
 };
 
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
 void func_021B8990(struct S *s, int idx)
 {
@@ -80,7 +80,7 @@ void func_021B8990(struct S *s, int idx)
     else
         s->f77 = 0xff;
     s->f78 = 0xff;
-    if (func_02035CB8((u32 *)(&buf), (u32 *)(&s->f80)) == 0)
+    if (TOUCHPANEL_GetPointCont((u32 *)(&buf), (u32 *)(&s->f80)) == 0)
         s->f80 = -1;
     s->f7f = 1;
     s->f4e = 2;

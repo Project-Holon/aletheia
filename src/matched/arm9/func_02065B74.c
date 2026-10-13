@@ -27,8 +27,8 @@
  *
  * symbols:
  *   MIi_CpuClear16   0x02082A48  arm
- *   func_02065020    0x02065020  arm
- *   func_02065134    0x02065134  arm
+ *   NNSi_G2dRendererBeforeDrawCell    0x02065020  arm
+ *   NNSi_G2dRendererAfterDrawCell    0x02065134  arm
  *   func_020651B8    0x020651B8  arm
  *   func_020653A4    0x020653A4  arm
  */
@@ -50,8 +50,8 @@ extern void MIi_CpuClear16(u32 val, void *dst, u32 size);
 
 struct Cell;
 struct Host;
-extern void func_02065020(struct Host *h, void *a1);
-extern void func_02065134(void *a0, void *a1);
+extern void NNSi_G2dRendererBeforeDrawCell(struct Host *h, void *a1);
+extern void NNSi_G2dRendererAfterDrawCell(void *a0, void *a1);
 extern void func_020651B8(struct Cell *c, void *a1, void *a2);
 extern void func_020653A4(void *a0, void *a1, void *a2);
 
@@ -62,8 +62,8 @@ void func_02065B74(struct Obj *p)
     p->state = 1;
     p->mode  = 3;
 
-    p->fn18 = (u32)func_02065020;
-    p->fn1c = (u32)func_02065134;
+    p->fn18 = (u32)NNSi_G2dRendererBeforeDrawCell;
+    p->fn1c = (u32)NNSi_G2dRendererAfterDrawCell;
     p->fn20 = (u32)func_020651B8;
     p->fn24 = (u32)func_020653A4;
 }

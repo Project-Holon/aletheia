@@ -1,5 +1,5 @@
 /*
- * function: func_020282D8
+ * function: APP_TASKMENU_DrawWinFrame
  * address:  0x020282D8
  * packet:   pkt_02028084
  * region:   arm9
@@ -59,7 +59,7 @@ extern void *func_02045770(struct Descriptor *bg);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 n);
 
-void func_020282D8(u32 bg, struct Cfg *cfg, u32 style)
+void APP_TASKMENU_DrawWinFrame(u32 bg, struct Cfg *cfg, u32 style)
 {
     u8  y;
     u8  x;

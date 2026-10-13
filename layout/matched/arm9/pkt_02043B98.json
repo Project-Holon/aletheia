@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02043B98",
+   "name": "BMP_Blit4bpp",
    "address": "0x02043B98",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02043F4C",
+   "name": "BMP_Blit8bpp",
    "address": "0x02043F4C",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_02020970
+ * function: BMP_MENULIST_MoveCursor
  * address:  0x02020970
  * packet:   pkt_02020970
  * region:   arm9
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02020780  0x02020780  thumb
- *   func_0202071C  0x0202071C  thumb
- *   func_020206C0  0x020206C0  thumb
- *   func_020208B8  0x020208B8  thumb
- *   func_02020A34  0x02020A34  thumb
+ *   BMP_MENULIST_StepCursor  0x02020780  thumb
+ *   BMP_MENULIST_EraseCursor  0x0202071C  thumb
+ *   BMP_MENULIST_DrawCursor  0x020206C0  thumb
+ *   BMP_MENULIST_ScrollRows  0x020208B8  thumb
+ *   BMP_MENULIST_NotifyCursor  0x02020A34  thumb
  *   func_02045334  0x02045334  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02020970.c \
- *       --func func_02020970 --addr 0x02020970 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENULIST_MoveCursor.c \
+ *       --func BMP_MENULIST_MoveCursor --addr 0x02020970 --thumb
  *
- * Move the menu cursor count steps in direction dir (func_02020780 does one
+ * Move the menu cursor count steps in direction dir (BMP_MENULIST_StepCursor does one
  * step and answers 0 = no move, 1 = cursor moved inside the window, 2 = the
  * list scrolled), then, if notify, redraw what changed.  Closed in wave 13
- * after the 2026-09-21 note (docs/notes/func_02020970.c.txt) left it at 34
+ * after the 2026-09-21 note (docs/notes/BMP_MENULIST_MoveCursor.c.txt) left it at 34
  * bytes out.  What closed it, in order of weight:
  *   - ALL THREE SCALAR PARAMETERS ARE NARROW (u8 here; u16 compiles the
  *     same).  u8 count is what gives the guard its `cmp r0,#0 / bls` with
@@ -58,15 +58,15 @@ struct Obj {
     u16 f42;
 };
 
-extern u8   func_02020780(struct Obj *obj, u8 dir);
-extern void func_0202071C(struct Obj *obj, u32 n);
-extern void func_020206C0(struct Obj *obj);
-extern void func_020208B8(struct Obj *obj, int n, u32 flag);
-extern void func_02020A34(struct Obj *obj, void *arg);
+extern u8   BMP_MENULIST_StepCursor(struct Obj *obj, u8 dir);
+extern void BMP_MENULIST_EraseCursor(struct Obj *obj, u32 n);
+extern void BMP_MENULIST_DrawCursor(struct Obj *obj);
+extern void BMP_MENULIST_ScrollRows(struct Obj *obj, int n, u32 flag);
+extern void BMP_MENULIST_NotifyCursor(struct Obj *obj, void *arg);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *win);
 
-u32 func_02020970(struct Obj *obj, u8 notify, u8 count, u8 dir)
+u32 BMP_MENULIST_MoveCursor(struct Obj *obj, u8 notify, u8 count, u8 dir)
 {
     u8 acc;
     u8 moved;
@@ -81,7 +81,7 @@ u32 func_02020970(struct Obj *obj, u8 notify, u8 count, u8 dir)
     if (i < count) {
         do {
         again:
-            r = func_02020780(obj, dir);
+            r = BMP_MENULIST_StepCursor(obj, dir);
             acc |= r;
             if (r == 2) {
                 moved++;
@@ -97,17 +97,17 @@ u32 func_02020970(struct Obj *obj, u8 notify, u8 count, u8 dir)
         default:
             return 1;
         case 1:
-            func_0202071C(obj, saved);
-            func_020206C0(obj);
-            func_02020A34(obj, 0);
+            BMP_MENULIST_EraseCursor(obj, saved);
+            BMP_MENULIST_DrawCursor(obj);
+            BMP_MENULIST_NotifyCursor(obj, 0);
             func_02045334((struct Descriptor *)obj->unk0C);
             break;
         case 2:
         case 3:
-            func_0202071C(obj, saved);
-            func_020208B8(obj, moved, dir);
-            func_020206C0(obj);
-            func_02020A34(obj, 0);
+            BMP_MENULIST_EraseCursor(obj, saved);
+            BMP_MENULIST_ScrollRows(obj, moved, dir);
+            BMP_MENULIST_DrawCursor(obj);
+            BMP_MENULIST_NotifyCursor(obj, 0);
             break;
         }
     }

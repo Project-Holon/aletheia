@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02031AE0",
+   "name": "BACKUP_SYSTEM_Load",
    "address": "0x02031AE0",
    "kind": "game",
    "region": "arm9",

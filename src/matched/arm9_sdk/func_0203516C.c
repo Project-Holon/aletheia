@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0203515C 0x0203515C arm
- *   g_021469BC 0x021469BC data
+ *   gUiState 0x021469BC data
  */
 
 typedef unsigned char u8;
@@ -20,10 +20,10 @@ struct UiCtx {
     u8 pad00[0x38];
     u8 always;
 };
-#define g_021469BC (*(struct UiCtx **)0x021469BC)
+#define gUiState (*(struct UiCtx **)0x021469BC)
 extern void func_0203515C(struct UiCtx *p, u8 mask);
 
 void func_0203516C(u8 mask)
 {
-    func_0203515C(g_021469BC, mask);
+    func_0203515C(gUiState, mask);
 }

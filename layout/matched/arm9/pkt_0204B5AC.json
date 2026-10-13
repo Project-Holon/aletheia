@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204B5AC",
+   "name": "CLACT_SetActorScale",
    "address": "0x0204B5AC",
    "kind": "game",
    "region": "arm9",

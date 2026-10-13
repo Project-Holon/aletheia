@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02045A00",
+   "name": "STRBUF_SetChars",
    "address": "0x02045A00",
    "kind": "game",
    "region": "arm9",

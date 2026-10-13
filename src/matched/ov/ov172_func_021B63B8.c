@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_020351F8 0x020351F8 arm
- *   func_02085D3C 0x02085D3C arm
+ *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_021B6424 0x021B6424 arm ov172
  *   func_021B642C 0x021B642C arm ov172
  *   func_021B6434 0x021B6434 arm ov172
@@ -25,7 +25,7 @@
  */
 typedef unsigned int   u32;
 extern void func_020351F8(u32 a, u32 b);
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern void func_021B6424(void);
 extern void func_021B642C(void);
 extern void func_021B6434(void);
@@ -40,12 +40,12 @@ extern void *g_021C88E0;
 void func_021B63B8(char *p)
 {
     func_020351F8(0, 0);
-    if (func_02085D3C() != 0) func_021B6424();
-    if (func_02085D3C() != 0) func_021B642C();
+    if (OS_IsRunOnTwl() != 0) func_021B6424();
+    if (OS_IsRunOnTwl() != 0) func_021B642C();
     func_021B6868(p);
-    if (func_02085D3C() == 1) func_021B6434();
+    if (OS_IsRunOnTwl() == 1) func_021B6434();
     func_021B643C(1);
-    if (func_02085D3C() == 1) func_021B6444();
+    if (OS_IsRunOnTwl() == 1) func_021B6444();
     func_021B65C4(p);
     func_021B67BC(p);
     func_02034FB8(0x40);

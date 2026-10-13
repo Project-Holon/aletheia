@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202CAE4  0x0202CAE4  thumb
- *   func_0202CF84  0x0202CF84  thumb
+ *   BGWINFRM_SetFrameDataArc  0x0202CAE4  thumb
+ *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb
  *   ov135_func_021F9260  0x021F9260  thumb
  *   func_02082BCC  0x02082BCC  arm
  *   func_021FBE84  0x021FBE84  thumb
  *   func_021FBF6C  0x021FBF6C  thumb
  *   func_021FBEB8  0x021FBEB8  thumb
- *   func_0202CB4C  0x0202CB4C  thumb
+ *   BGWINFRM_PutFrame  0x0202CB4C  thumb
  *   func_0204B878  0x0204B878  arm
  *   func_021F4FF4  0x021F4FF4  thumb
  *   func_020355C4  0x020355C4  arm
@@ -69,14 +69,14 @@ extern const int tbl_02203324[];
 extern const Range tbl_022033F8[];
 extern const u32 tbl_02203440[];
 
-extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
-extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
+extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void ov135_func_021F9260(Menu *m, u32 mode);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void func_021FBE84(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g);
 extern int func_021FBF6C(Menu *m, u32 idx);
 extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
@@ -90,8 +90,8 @@ int func_021FAFF0(Menu *m)
     u16 color;
 
     i = 1;
-    func_0202CAE4(m->mgr, 0, 0x60, 0x1A, 1);
-    func_0202CF84(m->mgr, 0);
+    BGWINFRM_SetFrameDataArc(m->mgr, 0, 0x60, 0x1A, 1);
+    BGWINFRM_GetFrameBuffer(m->mgr, 0);
     ov135_func_021F9260(m, 5);
     func_02082BCC(m->flags, 1, 0x1A);
     func_021FBE84(m->mgr, m->bank, m->wins[0], m->page + 0x74, 2, 0x3DC2, m->g);
@@ -106,7 +106,7 @@ int func_021FAFF0(Menu *m)
         func_021FBE84(m->mgr, m->bank, m->wins[i], tbl_02203440[i + tbl_022033F8[m->page].first - 1], 5, color, m->g);
     }
     func_021FBEB8(m->mgr, m->bank, m->wins[14], 0x4A, m->g);
-    func_0202CB4C(m->mgr, 0, 0x10, 0);
+    BGWINFRM_PutFrame(m->mgr, 0, 0x10, 0);
     func_0204B878((struct Obj *)m->cursor, 4);
     if (m->sel < 0) {
         m->pos = 0;

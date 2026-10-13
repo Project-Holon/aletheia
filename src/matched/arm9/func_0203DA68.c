@@ -1,5 +1,5 @@
 /*
- * function: func_0203DA68
+ * function: GFL_NET_IRC_WIRELESS_SetSessionParamValue
  * address:  0x0203DA68
  * packet:   pkt_0203DA68
  * region:   arm9
@@ -17,7 +17,7 @@
 #include "../include/G_Ctx.h"
 
 extern struct Ctx *d_021469F0;
-void func_0203DA68(unsigned int value)
+void GFL_NET_IRC_WIRELESS_SetSessionParamValue(unsigned int value)
 {
     *(unsigned int *)(((unsigned char *)d_021469F0) + 0x74) = value;
 }

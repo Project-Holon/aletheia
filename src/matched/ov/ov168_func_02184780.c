@@ -22,7 +22,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0207C9D0 0x0207C9D0 arm
  *   func_0203F5FC 0x0203F5FC arm
- *   func_0204B550 0x0204B550 arm
+ *   CLACT_SetActorPosAxis 0x0204B550 arm
  *   func_02030EAC 0x02030EAC arm
  */
 typedef signed short s16;
@@ -33,7 +33,7 @@ extern void func_0207C9D0(void *, void *, void *);
 typedef unsigned int   u32;
 extern int func_0203F5FC(u32 x);
 struct Actor;
-extern void func_0204B550(struct Actor *actor, signed short value, u32 axis);
+extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 void func_02184780(void *task, int *p)
@@ -55,8 +55,8 @@ void func_02184780(void *task, int *p)
         p[8] -= 0x168000;
     angle = func_0203F5FC((u16)(p[8] >> 12));
     x += (s16)((p[10] * angle) >> 12);
-    func_0204B550((void *)p[0], x, 0);
-    func_0204B550((void *)p[0], y, 1);
+    CLACT_SetActorPosAxis((void *)p[0], x, 0);
+    CLACT_SetActorPosAxis((void *)p[0], y, 1);
     if (y < -16) {
         func_0204B3DC((void *)p[0], 0);
         func_02030EAC(task);

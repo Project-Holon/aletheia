@@ -22,9 +22,9 @@
  *   func_021C8838 0x021C8838 thumb ov093
  *   func_021C8860 0x021C8860 thumb ov093
  *   func_021C88C8 0x021C88C8 thumb ov093
- *   func_0201C1E8 0x0201C1E8 thumb
- *   func_0201C1D8 0x0201C1D8 thumb
- *   func_0201C1BC 0x0201C1BC thumb
+ *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
+ *   WAZA_TOOL_GetPower 0x0201C1D8 thumb
+ *   WAZA_TOOL_GetCategory 0x0201C1BC thumb
  *   d_021F0980 0x021F0980 data a4
  */
 typedef unsigned char u8;
@@ -39,9 +39,9 @@ extern u8 *func_021C8120(u8 *p, int b);
 extern u8 func_021D5448(struct QG *p);
 extern u8 func_021D5440(u8 *p);
 extern u16 func_021D54C0(u8 *p, int i);
-extern int func_0201C1E8(int a);
-extern u16 func_0201C1D8(void *p);
-extern u32 func_0201C1BC(u16);
+extern int WAZA_TOOL_GetDamageType(int a);
+extern u16 WAZA_TOOL_GetPower(void *p);
+extern u32 WAZA_TOOL_GetCategory(u16);
 extern u32 func_021D78AC(u32);
 extern void func_021C88B4(void *, int, int);
 extern void *func_021C88A4(char *p, int a, int b);
@@ -52,10 +52,10 @@ extern void func_021C88C8(void *, void *);
 static inline u32 score(u16 move)
 {
     u32 value;
-    if (func_0201C1E8(move)) {
-        value = (u8)func_0201C1D8((void *)move);
+    if (WAZA_TOOL_GetDamageType(move)) {
+        value = (u8)WAZA_TOOL_GetPower((void *)move);
         if (value == 1) {
-            if (func_0201C1BC(move) == 9) value = 150;
+            if (WAZA_TOOL_GetCategory(move) == 9) value = 150;
             else if (move == 68 || move == 243 || move == 368) value = 120;
             else value = 80;
         }

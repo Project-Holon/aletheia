@@ -17,6 +17,7 @@
  * symbols:
  *   func_021F6B34  0x021F6B34  thumb
  *   func_022026A0  0x022026A0  thumb
+ *   POKE_TOOL_ChangeBoxForm  0x020179B8  thumb  arm9
  */
 
 typedef signed char s8;
@@ -48,7 +49,7 @@ extern u32 func_020173EC(void);
 extern void func_02082B0C(const void *src, void *dst, u32 n);
 struct Sub0200852CObj;
 struct Sub02009470Obj;
-extern int func_020179B8(int a0, int a1);
+extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
 extern void func_022026A0(u8 *p, u32 k);
 extern const void *func_020084F4(const void *p);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
@@ -74,7 +75,7 @@ void func_021F8554(u8 *dst, Work *p)
     } else {
         species = func_02017E88(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {
-            func_020179B8((int)p->mon, 0);
+            POKE_TOOL_ChangeBoxForm((int)p->mon, 0);
         }
         func_022026A0(p->mon, (u32)dst);
     }

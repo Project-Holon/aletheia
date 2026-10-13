@@ -14,7 +14,7 @@
  *   func_021F1F9C 0x021F1F9C thumb
  *   func_02021FD8 0x02021FD8 thumb
  *   func_020311B8 0x020311B8 arm
- *   func_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
  */
 #include "../include/Obj04312.h"
@@ -30,14 +30,14 @@ struct Chan02021FD8;
 extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
-extern void *func_02031290(struct S02030FB4 *p);
+extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
 
 void func_021F1F34(char *p, u8 *q, int *r)
 {
     u8 *t;
 
-    t = func_02031290(func_020311B8(((struct Obj20439 *)p)->fA0, (void *)func_021F1F9C, 0x14, 0));
+    t = TCBL_GetWork(func_020311B8(((struct Obj20439 *)p)->fA0, (void *)func_021F1F9C, 0x14, 0));
     func_02082BCC(t, 0, 0x14);
     *(char * *)&((struct Obj04312 *)t)->fC = p;
     *(u8 * *)&((struct Obj04312 *)t)->f8 = q;

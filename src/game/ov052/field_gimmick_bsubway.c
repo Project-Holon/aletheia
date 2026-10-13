@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_bsubway.c
  * unit:     yes
- * function: func_021F36C0, func_021F3724, func_021F3770, func_021F37C0, func_021F380C, func_021F3844, func_021F3880, func_021F388C, func_021F38C0, func_021F38F0
+ * function: func_021F36C0, func_021F3724, func_021F3770, func_021F37C0, func_021F380C, func_021F3844, func_021F3880, func_021F388C, func_021F38C0, func_021F38E4, func_021F38F0
  * address:  0x021F36C0
  * region:   ov052
  * compiler: dsi/1.1p1
@@ -31,244 +31,193 @@
  *   func_0218DC4C  0x0218DC4C  thumb  ov021
  *   d_021F39CC     0x021F39CC  data  a4
  */
-#include "../../matched/include/Obj05135.h"
-#include "../../matched/include/G_021F3A2C.h"
-#include "../../matched/include/Obj13111.h"
-#include "../../matched/include/Obj20565.h"
-#include "../../matched/include/Obj13112.h"
-#include "../../matched/include/Obj20567.h"
-#include "../../matched/include/Obj01038.h"
-#include "../../matched/include/Obj20568.h"
+#include "field_gimmick_bsubway_types.h"
 
-struct Big;
-struct Ctx;
-struct Rec94;
-typedef unsigned short u16;
+void func_021F36C0(struct FieldMap *fieldMap);
+void func_021F3724(struct FieldMap *fieldMap);
+void func_021F3770(struct FieldMap *fieldMap);
+void func_021F37C0(struct FieldMap *fieldMap, u32 modelIndex, const VecFx32 *pos);
+struct FieldEffectObj *func_021F380C(struct FieldMap *fieldMap);
+void func_021F3844(BsubwayZoneGimmick *zone, struct FieldMap *fieldMap);
+void func_021F3880(BsubwayZoneGimmick *zone, struct FieldMap *fieldMap);
+void func_021F388C(struct FieldMap *fieldMap);
+void func_021F38C0(BsubwayZoneGimmick *zone, struct FieldMap *fieldMap);
+void func_021F38E4(BsubwayZoneGimmick *zone, struct FieldMap *fieldMap);
+void func_021F38F0(BsubwayZoneGimmick *zone, struct FieldMap *fieldMap);
 
-typedef unsigned char  u8;
-
-typedef signed int     s32;
-
-typedef unsigned int   u32;
-
-typedef struct { int v[4]; } T4;
-
-typedef struct { int x, y, z; } V3;
-
-extern u16 func_02188C84(u8 *p);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern u16 func_02188C9C(u8 *p);
-extern void func_021F3998(int, int *, int *);
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern u32 func_02188CD0(u8 *p);
-extern int func_021D0218(int, int, int);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021ABE30(int, int *, int);
-extern u32 func_020307B0(void *p);
-extern u32 func_02188C98(u8 *p);
-extern void func_0218DC4C(int, V3 *);
-void func_021F36C0(void *a);
-void func_021F3724(void *a);
-void func_021F3770(void *a);
-void func_021F37C0(void *a, int b, int c);
-int func_021F380C(int a);
-void func_021F3844(char *a, u8 *b);
-void func_021F3880(char *a);
-void func_021F388C(int a);
-void func_021F38C0(char *a);
-void func_021F38E4(char *a);
-void func_021F38F0(char *a, int b);
-extern struct G_021F3A2C d_021F3A2C[];
+extern BsubwayZoneHandlers d_021F3A2C[];
 extern char d_021F3AC0[];
-extern T4 d_021F39CC;
+extern BsubwaySwayIntervals d_021F39CC;
 
-
-
-
-
-
-void func_021F36C0(void *a)
+/* Gimmick init: fills in the record of the zone and runs the init handler of the zone. */
+void func_021F36C0(struct FieldMap *fieldMap)
 {
-    int s1;
-    int s0;
-    int r4;
-    int r6;
-    int r7;
-    unsigned h;
-    char *p;
-    void (*f)(void *, void *);
+    int handlerIndex;
+    int slotId;
+    int heapId;
+    int zoneId;
+    struct GameSystem *gameSystem;
+    struct GimmickWork *gimmickWork;
+    BsubwayZoneGimmick *zone;
+    BsubwayZoneHandler init;
 
-    r4 = func_02188C84(a);
-    r6 = (int)func_02188C80(a);
-    h = (unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)r6));
-    r7 = func_02188C9C(a);
-    func_021F3998(r7, &s0, &s1);
-    p = (char *)func_0200B3A4((struct Rec94 *)h, s0);
-    ((struct Obj05135 *)p)->f2 = s1;
-    ((struct Obj05135 *)p)->f4 = s0;
-    ((struct Obj05135 *)p)->f8 = r7;
-    ((struct Obj05135 *)p)->fC = r4;
-    ((struct Obj05135 *)p)->f1C = r6;
-    ((struct Obj05135 *)p)->f20 = a;
-    f = d_021F3A2C[*(unsigned short *)(p + 2)].f0;
-    if (f)
-        f(p, a);
+    heapId = func_02188C84(fieldMap);
+    gameSystem = func_02188C80(fieldMap);
+    gimmickWork = func_02012EC4(func_020120F4(gameSystem));
+    zoneId = func_02188C9C(fieldMap);
+    func_021F3998(zoneId, &slotId, &handlerIndex);
+    zone = func_0200B3A4(gimmickWork, slotId);
+    zone->handlerIndex = handlerIndex;
+    zone->slotId = slotId;
+    zone->zoneId = zoneId;
+    zone->heapId = heapId;
+    zone->gameSystem = gameSystem;
+    zone->fieldMap = fieldMap;
+    init = d_021F3A2C[zone->handlerIndex].init;
+    if (init)
+        init(zone, fieldMap);
 }
 
-
-
-
-
-
-void func_021F3724(void *a)
+/* Gimmick update: runs the update handler of the zone. */
+void func_021F3724(struct FieldMap *fieldMap)
 {
-    int s1;
-    int s0;
-    unsigned h;
-    unsigned short *p;
-    void (*f)(void *, void *);
+    int handlerIndex;
+    int slotId;
+    struct GimmickWork *gimmickWork;
+    BsubwayZoneGimmick *zone;
+    BsubwayZoneHandler update;
 
-    func_02188C84(a);
-    h = (unsigned int)func_02012EC4(func_020120F4(func_02188C80(a)));
-    func_021F3998(func_02188C9C(a), &s0, &s1);
-    p = (short unsigned int *)func_0200B3A4((struct Rec94 *)h, s0);
-    f = d_021F3A2C[p[1]].f1;
-    if (f)
-        f(p, a);
+    func_02188C84(fieldMap);
+    gimmickWork = func_02012EC4(func_020120F4(func_02188C80(fieldMap)));
+    func_021F3998(func_02188C9C(fieldMap), &slotId, &handlerIndex);
+    zone = func_0200B3A4(gimmickWork, slotId);
+    update = d_021F3A2C[zone->handlerIndex].update;
+    if (update)
+        update(zone, fieldMap);
 }
 
-
-
-
-
-void func_021F3770(void *a)
+/* Gimmick exit: runs the exit handler of the zone. */
+void func_021F3770(struct FieldMap *fieldMap)
 {
-    int s1;
-    int s0;
-    unsigned h;
+    int handlerIndex;
+    int slotId;
+    struct GimmickWork *gimmickWork;
 
-    h = (unsigned int)func_02012EC4((struct Big *)func_020120F4(func_02188C80(a)));
-    func_021F3998(func_02188C9C(a), &s0, &s1);
-    if (d_021F3A2C[s1].f2) {
-        void *p = func_0200B3A4((struct Rec94 *)h, s0);
-        d_021F3A2C[s1].f2(p, a);
+    gimmickWork = func_02012EC4(func_020120F4(func_02188C80(fieldMap)));
+    func_021F3998(func_02188C9C(fieldMap), &slotId, &handlerIndex);
+    if (d_021F3A2C[handlerIndex].exit) {
+        BsubwayZoneGimmick *zone = func_0200B3A4(gimmickWork, slotId);
+        d_021F3A2C[handlerIndex].exit(zone, fieldMap);
     }
 }
 
-
-
-
-void func_021F37C0(void *a, int b, int c)
+/* Script command: starts the train effect of one train kind at pos. */
+void func_021F37C0(struct FieldMap *fieldMap, u32 modelIndex, const VecFx32 *pos)
 {
-    int s1;
-    int s0;
-    unsigned h;
-    int *r5;
+    int handlerIndex;
+    int slotId;
+    struct GimmickWork *gimmickWork;
+    BsubwayTrainWork *train;
 
-    func_02188C84(a);
-    h = (unsigned int)func_02012EC4(func_020120F4(func_02188C80(a)));
-    func_021F3998(func_02188C9C(a), &s0, &s1);
-    r5 = *(int **)((char *)func_0200B3A4((struct Rec94 *)h, s0) + 0x24);
-    *r5 = func_021D0218(func_02188CD0(a), b, c);
+    func_02188C84(fieldMap);
+    gimmickWork = func_02012EC4(func_020120F4(func_02188C80(fieldMap)));
+    func_021F3998(func_02188C9C(fieldMap), &slotId, &handlerIndex);
+    train = func_0200B3A4(gimmickWork, slotId)->work.train;
+    train->effect = func_021D0218(func_02188CD0(fieldMap), modelIndex, pos);
 }
 
-
-
-
-int func_021F380C(int a)
+/* Returns the train effect that the script started. */
+struct FieldEffectObj *func_021F380C(struct FieldMap *fieldMap)
 {
-    int y, x;
-    unsigned h;
-    func_02188C84((u8 *)a);
-    h = (unsigned int)func_02012EC4(func_020120F4(func_02188C80((void *)a)));
-    func_021F3998(func_02188C9C((u8 *)a), &x, &y);
-    return **(int **)((char *)func_0200B3A4((struct Rec94 *)h, x) + 0x24);
+    int handlerIndex, slotId;
+    struct GimmickWork *gimmickWork;
+
+    func_02188C84(fieldMap);
+    gimmickWork = func_02012EC4(func_020120F4(func_02188C80(fieldMap)));
+    func_021F3998(func_02188C9C(fieldMap), &slotId, &handlerIndex);
+    return func_0200B3A4(gimmickWork, slotId)->work.train->effect;
 }
 
-
-
-
-void func_021F3844(char *a, u8 *b)
+/* Train handler init: allocates the train work and loads the train effect resources. */
+void func_021F3844(BsubwayZoneGimmick *zone, struct FieldMap *fieldMap)
 {
-    int n;
-    int r4 = func_02188CD0(b);
+    int effectId;
+    struct FieldEffectSys *fieldEffect = func_02188CD0(fieldMap);
 
-    ((struct Obj13111 *)a)->f24 = func_02030734(((struct Obj13111 *)a)->fC, 4, 1, d_021F3AC0, 0x112);
-    n = 0xe;
-    func_021ABE30(r4, &n, 1);
+    zone->work.raw = func_02030734(zone->heapId, sizeof(BsubwayTrainWork), 1, d_021F3AC0, 0x112);
+    effectId = BSUBWAY_EFFECT_ID_TRAIN;
+    func_021ABE30(fieldEffect, &effectId, 1);
 }
 
-
-
-void func_021F3880(char *a)
+/* Train handler exit. */
+void func_021F3880(BsubwayZoneGimmick *zone, struct FieldMap *fieldMap)
 {
-    func_020307B0(((struct Obj20567 *)a)->f24);
+    func_020307B0(zone->work.raw);
 }
 
-
-void func_021F388C(int a)
+/* Script command: stops the sway of the train, when the player is in the train zone. */
+void func_021F388C(struct FieldMap *fieldMap)
 {
-    unsigned h = (unsigned int)func_02012EC4(func_020120F4(func_02188C80((void *)a)));
-    if (func_02188C9C((u8 *)a) == 0x4b) {
-        char *p = (char *)func_0200B3A4((struct Rec94 *)h, 0x27);
-        if (p != 0) {
-            unsigned char *q = *(unsigned char * *)&((struct Obj20565 *)p)->f24;
-            if (q != 0)
-                *q = 1;
+    struct GimmickWork *gimmickWork = func_02012EC4(func_020120F4(func_02188C80(fieldMap)));
+
+    if (func_02188C9C(fieldMap) == BSUBWAY_ZONE_TRAIN) {
+        BsubwayZoneGimmick *zone = func_0200B3A4(gimmickWork, BSUBWAY_SLOT_TRAIN_SWAY);
+        if (zone != 0) {
+            BsubwayTrainSway *sway = zone->work.sway;
+            if (sway != 0)
+                sway->halted = 1;
         }
     }
 }
 
-
-
-void func_021F38C0(char *a)
+/* Sway handler init. */
+void func_021F38C0(BsubwayZoneGimmick *zone, struct FieldMap *fieldMap)
 {
-    ((struct Obj13112 *)a)->f24 = func_02030734(((struct Obj13112 *)a)->fC, 12, 1, d_021F3AC0, 0x164);
+    zone->work.raw = func_02030734(zone->heapId, sizeof(BsubwayTrainSway), 1, d_021F3AC0, 0x164);
 }
 
-
-
-void func_021F38E4(char *a)
+/* Sway handler exit. */
+void func_021F38E4(BsubwayZoneGimmick *zone, struct FieldMap *fieldMap)
 {
-    func_020307B0(((struct Obj20567 *)a)->f24);
+    func_020307B0(zone->work.raw);
 }
 
-
-
-void func_021F38F0(char *a, int b)
+/*
+ * Sway handler update: after a wait taken from the interval table the map
+ * origin moves by +1, -1 and 0 units on three frames in a row.
+ */
+void func_021F38F0(BsubwayZoneGimmick *zone, struct FieldMap *fieldMap)
 {
-    V3 v = {0, 0, 0};
-    T4 t = d_021F39CC;
-    unsigned char *p = *(unsigned char * *)&((struct Obj20568 *)a)->f24;
-    int r = func_02188C98((u8 *)b);
+    VecFx32 offset = {0, 0, 0};
+    BsubwaySwayIntervals intervals = d_021F39CC;
+    BsubwayTrainSway *sway = zone->work.sway;
+    struct FieldG3dMapper *mapper = func_02188C98(fieldMap);
 
-    switch (p[1]) {
+    switch (sway->phase) {
     case 0:
-        if (p[0] == 1)
+        if (sway->halted == 1)
             return;
-        ((struct Obj01038 *)p)->f4 = t.v[p[2]];
-        p[2]++;
-        p[2] &= 3;
-        p[1]++;
+        sway->waitFrames = intervals.frames[sway->intervalIndex];
+        sway->intervalIndex++;
+        sway->intervalIndex &= 3;
+        sway->phase++;
     case 1:
-        if (--((struct Obj01038 *)p)->f4 <= 0) {
-            ((struct Obj01038 *)p)->f8 = 1;
-            p[1]++;
+        if (--sway->waitFrames <= 0) {
+            sway->offsetY = 1;
+            sway->phase++;
         }
         break;
     case 2:
-        v.y = ((struct Obj01038 *)p)->f8 << 12;
-        func_0218DC4C(r, &v);
-        if (((struct Obj01038 *)p)->f8 == 0)
-            p[1] = 0;
-        if (((struct Obj01038 *)p)->f8 < 0) {
-            ((struct Obj01038 *)p)->f8 += 2;
-            if (((struct Obj01038 *)p)->f8 > 0)
-                ((struct Obj01038 *)p)->f8 = 0;
+        offset.y = sway->offsetY << 12;
+        func_0218DC4C(mapper, &offset);
+        if (sway->offsetY == 0)
+            sway->phase = 0;
+        if (sway->offsetY < 0) {
+            sway->offsetY += 2;
+            if (sway->offsetY > 0)
+                sway->offsetY = 0;
         }
-        ((struct Obj01038 *)p)->f8 = -((struct Obj01038 *)p)->f8;
+        sway->offsetY = -sway->offsetY;
         break;
     }
 }

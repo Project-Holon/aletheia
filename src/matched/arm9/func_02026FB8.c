@@ -1,5 +1,5 @@
 /*
- * function: func_02026FB8
+ * function: GAME_BEACON_RequestSend
  * address:  0x02026FB8
  * packet:   pkt_0202685C
  * region:   arm9
@@ -16,7 +16,7 @@
  *   func_02008650  0x02008650  thumb
  *   func_0200C1C4  0x0200C1C4  thumb
  *   func_0200C1DC  0x0200C1DC  thumb
- *   g_02146940     0x02146940  data
+ *   GAME_BEACON_Work     0x02146940  data
  */
 
 typedef unsigned char  u8;
@@ -38,7 +38,7 @@ typedef struct {
     u8  f5e;
 } Obj;
 
-extern void *g_02146940;
+extern void *GAME_BEACON_Work;
 
 struct Big;
 struct Blk34;
@@ -51,13 +51,13 @@ extern u8 func_02008650(const struct PlayTime *p);
 extern u32 func_0200C1C4(struct Blk34 *p);
 extern u32 func_0200C1DC(struct Blk34 *p);
 
-void func_02026FB8(Obj *o)
+void GAME_BEACON_RequestSend(Obj *o)
 {
     void *a;
     void *b;
 
-    a = func_02012EBC(*(void **)g_02146940);
-    b = (void *)func_02012FCC((int)(*(void **)g_02146940));
+    a = func_02012EBC(*(void **)GAME_BEACON_Work);
+    b = (void *)func_02012FCC((int)(*(void **)GAME_BEACON_Work));
     a = func_0200C0F0(a);
     o->f0c = func_0200864C(b);
     o->f0chi = func_02008650(b);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DE128
+ * function: MYSTERY_ALBUM_PathAnimInit
  * address: 0x021DE128
  * packet: pkt_ov121_021DE128
  * region: ov121
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02082BCC(void *,int,u32);
-void func_021DE128(u8 *p,u16 b,int c,int d)
+void MYSTERY_ALBUM_PathAnimInit(u8 *p,u16 b,int c,int d)
 {
     func_02082BCC(p,0,44);
     *(u16 *)(p+2)=b;

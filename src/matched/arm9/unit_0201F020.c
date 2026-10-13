@@ -29,6 +29,9 @@
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201F020.c  *       --addr 0x0201F020 --thumb
+ *
+ * symbols:
+ *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  */
 
 typedef unsigned char  u8;
@@ -44,7 +47,7 @@ struct Rec;
 extern u32 func_02045C04(struct Rec *rec);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u16 func_02045F50(const struct Obj *o);
-extern void  sub_02008500(void *a, void *b);
+extern void  MYSTATUS_NameToStrbuf(void *a, void *b);
 extern u32   func_02025B94(u32 a);
 extern u32 func_0202A230(void *a, u32 idx);
 extern void func_0200785C(void *save, u32 box, void *dest);
@@ -76,7 +79,7 @@ void func_0201F020(struct WordSet *p, u32 i, u32 v)
 
 void func_0201F02C(struct WordSet *p, u32 i, void *a)
 {
-    sub_02008500(a, p->buf);
+    MYSTATUS_NameToStrbuf(a, p->buf);
     func_0201ED84(p, i, p->buf, 0);
 }
 

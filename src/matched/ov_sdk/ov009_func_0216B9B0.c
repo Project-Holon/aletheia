@@ -1,5 +1,5 @@
 /*
- * function: func_0216B9B0
+ * function: DWC_GetServerAID
  * address:  0x0216B9B0
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -21,7 +21,7 @@
 extern struct DwcGlobal g_021AA878;
 extern char *func_0217637C(int index);
 
-unsigned char func_0216B9B0(void)
+unsigned char DWC_GetServerAID(void)
 {
     char *p = *(char **)(((char *)&g_021AA878) + 4);
     unsigned char *node;

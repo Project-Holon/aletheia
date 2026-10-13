@@ -1,5 +1,5 @@
 /*
- * function: sub_02019ED4
+ * function: POKE_REGULATION_CheckPartyUsable
  * address:  0x02019ED4
  * packet:   pkt_02019ED4
  * region:   arm9
@@ -15,11 +15,11 @@
  *
  * The party "is this team legal for the rule set" check.  It reads each
  * member's species (id 5) and form (id 0x9E) into two parallel u16[6] stack
- * arrays, zeroes the species of any member func_02019DA4 rejects, then runs an
+ * arrays, zeroes the species of any member POKE_REGULATION_CheckPokemon rejects, then runs an
  * O(n^2) duplicate-species scan that zeroes the worse of each colliding pair
  * (worse = the larger form value) and decrements a running count.  If the
  * surviving count is below what func_0200AE54(ctx, 2) requires it answers 4;
- * otherwise the answer is 0 or 1 from func_0201A59C.
+ * otherwise the answer is 0 or 1 from POKE_REGULATION_FindValidOrder.
  *
  * Two layout tells pin the frame:
  *   - the 12-byte MI_CpuFill8 buffer is declared LAST, not first: the later
@@ -35,16 +35,16 @@
  * content numbering; the team size 6 is the array bound and is structural.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/sub_02019ED4.c \
- *       --func sub_02019ED4 --addr 0x02019ED4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_REGULATION_CheckPartyUsable.c \
+ *       --func POKE_REGULATION_CheckPartyUsable --addr 0x02019ED4 --cc 1.1p1 --thumb
  * symbols:
  *   func_0201AA18  0x0201AA18  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
- *   func_02019DA4  0x02019DA4  thumb
+ *   POKE_REGULATION_CheckPokemon  0x02019DA4  thumb
  *   func_0200AE54  0x0200AE54  thumb
- *   func_0201A59C  0x0201A59C  thumb
+ *   POKE_REGULATION_FindValidOrder  0x0201A59C  thumb
  */
 
 typedef unsigned char  u8;
@@ -55,12 +55,12 @@ extern u32 func_0201AA18(void *p);
 extern void MI_CpuFill8(void *dst, u8 v, u32 n);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern int func_02019DA4(void *ctx, void *mon);
+extern int POKE_REGULATION_CheckPokemon(void *ctx, void *mon);
 struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
-extern int func_0201A59C(void *a0, void *a1, void *a2);
+extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
 
-int sub_02019ED4(void *ctx, void *q)
+int POKE_REGULATION_CheckPartyUsable(void *ctx, void *q)
 {
     u16 species[6];
     u16 form[6];
@@ -80,7 +80,7 @@ int sub_02019ED4(void *ctx, void *q)
 
         species[i] = (u16)func_02017E1C(mon, 5, 0);
         form[i] = (u16)func_02017E1C(mon, 0x9E, 0);
-        if (func_02019DA4(ctx, mon) != 0) {
+        if (POKE_REGULATION_CheckPokemon(ctx, mon) != 0) {
             species[i] = 0;
             cnt--;
         }
@@ -108,7 +108,7 @@ int sub_02019ED4(void *ctx, void *q)
     }
 
     r = 0;
-    if (func_0201A59C(ctx, q, 0) != 1) {
+    if (POKE_REGULATION_FindValidOrder(ctx, q, 0) != 1) {
         r = 1;
     }
     return r;

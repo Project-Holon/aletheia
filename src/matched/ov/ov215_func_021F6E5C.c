@@ -9,16 +9,16 @@
  * status: EXACT
  * prototype: 515B4 receives visibly loaded r1/r2 despite legacy one-argument callee.
  * symbols:
- *   func_020515B4 0x020515B4 arm
- *   func_02051620 0x02051620 arm
+ *   PARTICLE_StartEffect 0x020515B4 arm
+ *   PARTICLE_KillAllEffects 0x02051620 arm
  *   d_021F73B4 0x021F73B4 data a4
  */
 #include "../include/Obj02263.h"
 typedef unsigned short u16;
 typedef struct { int x,y,z; } Vec;
 extern const Vec d_021F73B4;
-extern int func_020515B4(void *p, int b, int c);
-extern void func_02051620(void *);
+extern int PARTICLE_StartEffect(void *p, int b, int c);
+extern void PARTICLE_KillAllEffects(void *);
 void func_021F6E5C(char *p)
 {
     if (((struct Obj02263 *)p)->f4814) {
@@ -29,13 +29,13 @@ void func_021F6E5C(char *p)
             u16 frame=((struct Obj02263 *)p)->f0;
             u16 key=*(u16 *)(table+(int)index*4);
             if (frame!=key) break;
-            func_020515B4(*(void **)(p+*(unsigned char *)(table+index*4+2)*0x4808+0x480c),*(unsigned char *)(table+index*4+3),(int)(&v));
+            PARTICLE_StartEffect(*(void **)(p+*(unsigned char *)(table+index*4+2)*0x4808+0x480c),*(unsigned char *)(table+index*4+3),(int)(&v));
             (((struct Obj02263 *)p)->f2)++;
         }
         (((struct Obj02263 *)p)->f0)++;
     }
     if (((struct Obj02263 *)p)->f4818>=0) {
-        if (((struct Obj02263 *)p)->f4818==0) func_02051620(((struct Obj02263 *)p)->f480C);
+        if (((struct Obj02263 *)p)->f4818==0) PARTICLE_KillAllEffects(((struct Obj02263 *)p)->f480C);
         (((struct Obj02263 *)p)->f4818)--;
     }
 }

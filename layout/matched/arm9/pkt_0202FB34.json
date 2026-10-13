@@ -30,10 +30,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202FBAC",
-    "sub_0202FBD0",
-    "sub_0202FBF8",
-    "sub_0202FC20"
+    "GFL_HEAP_GetHeap",
+    "GFL_HEAP_GetParentHeap",
+    "GFL_HEAP_GetBlock",
+    "GFL_HEAP_GetAllocCount"
+   ],
+   "addresses": [
+    "0x0202FBAC",
+    "0x0202FBD0",
+    "0x0202FBF8",
+    "0x0202FC20"
    ]
   },
   {

@@ -1,5 +1,5 @@
 /*
- * function: func_020517D8
+ * function: BUTTON_MAN_SetScaleX
  * address:  0x020517D8
  * packet:   pkt_02051790
  * region:   arm9
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj16170.h"
 
-void func_020517D8(char *p, int v)
+void BUTTON_MAN_SetScaleX(char *p, int v)
 {
     ((struct Obj16170 *)p)->f5C = v;
 }

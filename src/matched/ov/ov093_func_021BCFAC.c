@@ -18,21 +18,21 @@
  *   compares; an int d = x - y block; r as u32 with (u16) at the def and (int)r at the compare (a real
  *   signedness cast, still forwards r0). All 55 B.
  * note 2026-10-05 (integrator): the source no longer has the (int)(u32)r stand-in cast, so it is DIFF (the plain compare drops the reload of r). With the cast it verifies EXACT*: rejected as a stand-in.
- * note 2026-10-05: witness src/matched/arm9/func_02018480.c filed (EXACT); the wildcard at +0x38 resolves after regeneration. The reload still needs the (int)(u32)r spelling, which is a no-op steering cast (stand-in, not accepted). Tried without it: u16 callee return type for func_021D78AC with plain compares, and an int local fed from the u16 return: both forward r0 and drop the ldr (200 bytes). Parked MATCH* because of the cast; reading: r is spilled for real (p,a,x,y fill r4..r7), so the original defines r with the store at the def and the reload at first use; no stand-in free source found.
+ * note 2026-10-05: witness src/matched/arm9/POKE_TOOL_IsOwnedByPlayer.c filed (EXACT); the wildcard at +0x38 resolves after regeneration. The reload still needs the (int)(u32)r spelling, which is a no-op steering cast (stand-in, not accepted). Tried without it: u16 callee return type for func_021D78AC with plain compares, and an int local fed from the u16 return: both forward r0 and drop the ldr (200 bytes). Parked MATCH* because of the cast; reading: r is spilled for real (p,a,x,y fill r4..r7), so the original defines r with the store at the def and the reload at first use; no stand-in free source found.
  * evidence (older): every concrete byte matched (MATCH*, the trailing 021BD07E
  *   halfword is alignment padding). The one wildcard is +0x38, the bl to the
- *   ARM9 Thumb thunk func_02018480 (ldr r3,[pc]; bx r3; .word 0x02018489),
+ *   ARM9 Thumb thunk POKE_TOOL_IsOwnedByPlayer (ldr r3,[pc]; bx r3; .word 0x02018489),
  *   which has no witness outside this range: label/sole-ref need an arm9
  *   label or a matched entry there. It is an arm9 leaf, the integrator's; its verified
  *   C is below. Once it is filed this caller re-runs to EXACT*.
  * blocker:
- *   func_02018480 0x02018480 thumb, arm9; `one --thumb` (no --region): EXACT
- *     extern int func_02018488(void *p, int q);
- *     int func_02018480(void *p, int q)
+ *   POKE_TOOL_IsOwnedByPlayer 0x02018480 thumb, arm9; `one --thumb` (no --region): EXACT
+ *     extern int POKE_TOOL_IsBoxOwnedByPlayer(void *p, int q);
+ *     int POKE_TOOL_IsOwnedByPlayer(void *p, int q)
  *     {
- *         return func_02018488(p, q);
+ *         return POKE_TOOL_IsBoxOwnedByPlayer(p, q);
  *     }
- *   (func_02018488 0x02018488 thumb resolves by label; it reads r0 and r1 and
+ *   (POKE_TOOL_IsBoxOwnedByPlayer 0x02018488 thumb resolves by label; it reads r0 and r1 and
  *   returns the 0/1 in r6.)
  * note: the reload `str r0,[sp]; ldr r0,[sp]` at 021BD046/021BD048 comes only
  *   from spelling the first use of r through a widening cast, `(int)(u32)r`;
@@ -40,7 +40,7 @@
  *   and drop the ldr (55 bytes out), and `(u32)r` alone reloads but turns
  *   the bge into bhs.
  * symbols:
- *   func_02018480 0x02018480 thumb
+ *   POKE_TOOL_IsOwnedByPlayer 0x02018480 thumb
  *   func_021B86B8 0x021B86B8 thumb ov093
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021B8DDC 0x021B8DDC thumb ov093
@@ -62,7 +62,7 @@ extern u8 func_021B8DDC(u32);
 extern u8 func_021B8FF4(u8 *);
 extern void *func_021D5844(void *);
 extern int func_021B871C(char *);
-extern int func_02018480(void *, int);
+extern int POKE_TOOL_IsOwnedByPlayer(void *, int);
 struct Unk021D62A8;
 extern u8 func_021B85A0(u8 **p);
 extern int func_021D59B4(u8 *, int);
@@ -79,7 +79,7 @@ int func_021BCFAC(u8 *p, u8 *a)
         k = func_021B8DDC(func_021D5440(a));
         if (k == func_021B8FF4(*(u8 **)(p + 4))) {
             void *v = func_021D5844(a);
-            if (func_02018480(v, func_021B871C(*(char **)(p + 4))) == 0) {
+            if (POKE_TOOL_IsOwnedByPlayer(v, func_021B871C(*(char **)(p + 4))) == 0) {
                 n = func_021B85A0((u8 **)(*(u8 **)(p + 4)));
                 if (n < 8) {
                     u16 r;

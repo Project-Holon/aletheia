@@ -12,7 +12,7 @@
  * Re-verified 2026-09-23: the MATCH park had turned DIFF (one byte) under
  * the new extents because its header named the callee 0x020202CC.  The
  * pool word at 0x02022ACC is 0x020222CD: the callee is 0x020222CC
- * (src/matched/func_020222CC.c, labelled with sixteen outside branches),
+ * (src/matched/WIPE_SetBrightness.c, labelled with sixteen outside branches),
  * so the old "unlabelled leaf, sole reference" blocker was a digit slip.
  * With the address corrected the site resolves `label` and the file is
  * EXACT.

@@ -16,19 +16,19 @@
  * is spilled at entry and reloaded, as the image does).
  *
  * Blocker: two unlabelled arm9 Thumb leaves (relocation wildcards, no
- * witness outside the range): func_020163B0 (0x020163B0) and func_020163B4
+ * witness outside the range): MCSS_SetSysParam (0x020163B0) and MCSS_SetSysFlag
  * (0x020163B4).  Both are the integrator's; verified C (one --thumb, no --region,
  * EXACT each):
- *     void func_020163B0(char *p, int v) { *(int *)(p + 0x48) = v; }
+ *     void MCSS_SetSysParam(char *p, int v) { *(int *)(p + 0x48) = v; }
  *     typedef struct { char pad[0x2c]; unsigned int b0 : 1; unsigned int b1 : 1; } Obj;
- *     void func_020163B4(Obj *p, int v) { p->b1 = v; }
+ *     void MCSS_SetSysFlag(Obj *p, int v) { p->b1 = v; }
  * Re-run this file once layout/matched/arm9 shards for both exist.
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02014B08  0x02014B08  thumb
- *   func_020163B0  0x020163B0  thumb
- *   func_020163B4  0x020163B4  thumb
+ *   MCSS_Init  0x02014B08  thumb
+ *   MCSS_SetSysParam  0x020163B0  thumb
+ *   MCSS_SetSysFlag  0x020163B4  thumb
  *   d_0220AE7C     0x0220AE7C  data   ov094
  */
 typedef unsigned short u16;
@@ -61,9 +61,9 @@ typedef struct {
 
 extern char d_0220AE7C[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02014B08(u32 id, void *heap);
-extern void func_020163B0(char *p, int v);
-extern void func_020163B4(void *o, int v);
+extern void *MCSS_Init(u32 id, void *heap);
+extern void MCSS_SetSysParam(char *p, int v);
+extern void MCSS_SetSysFlag(void *o, int v);
 
 Work *func_021FEAC0(int mode, int a1, u16 a2)
 {
@@ -72,12 +72,12 @@ Work *func_021FEAC0(int mode, int a1, u16 a2)
     int i;
 
     w = func_02030734(a2, 0x5b4, 1, d_0220AE7C, 0x184);
-    w->obj = func_02014B08(v, (void *)a2);
+    w->obj = MCSS_Init(v, (void *)a2);
     w->cb = (int *)a1;
     w->heap = a2;
     v += 0xf2;
-    func_020163B0(w->obj, v);
-    func_020163B4(w->obj, 1);
+    MCSS_SetSysParam(w->obj, v);
+    MCSS_SetSysFlag(w->obj, 1);
     w->active = 1;
     w->scaleEven = 0x1000;
     w->scaleOdd = 0x1000;

@@ -13,7 +13,7 @@
  *   func_02188C9C  0x02188C9C  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   func_02049030  0x02049030  arm
- *   func_020111E8  0x020111E8  thumb
+ *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   func_021F4C10  0x021F4C10  thumb  ov048
  *   d_021F5224     0x021F5224  data  ov048  a1
  */
@@ -40,7 +40,7 @@ typedef unsigned char  u8;
 extern u16 func_02188C9C(u8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02049030(u32 id);
-extern u32 func_020111E8(void);
+extern u32 GPOWER_GetSpecialPowerId(void);
 extern int func_021F4C10(int a, int b, int c);
 
 void func_021F392C(Obj *o)
@@ -58,7 +58,7 @@ void func_021F392C(Obj *o)
         for (; i < n; i++) {
             func_021F4C10((int)(&buf), 0xae, i);
             if (buf.a == r5) {
-                if (buf.b == 0 || buf.b == func_020111E8()) {
+                if (buf.b == 0 || buf.b == GPOWER_GetSpecialPowerId()) {
                     *o->f1c = buf;
                     return;
                 }

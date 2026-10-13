@@ -1,5 +1,5 @@
 /*
- * function: func_0215FAD0
+ * function: SOC_InetAtoN
  * address:  0x0215FAD0
  * packet:   pkt_ov009_0215FAD0
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern unsigned long func_0215EE98(char *hostname);
 
-int func_0215FAD0(char *cp, unsigned long *inp)
+int SOC_InetAtoN(char *cp, unsigned long *inp)
 {
 	unsigned long h;
 

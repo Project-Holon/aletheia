@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  * function: func_02012AE4, func_02012B28, func_02012B2C, func_02012B30,
- *           func_02012B34, func_02012B38, func_02012B40, func_02012B4C,
+ *           func_02012B34, func_02012B38, GAME_DATA_GetEnterMode, func_02012B4C,
  *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, func_02012B98, func_02012BA4,
- *           func_02012BB0
+ *           func_02012B80, func_02012B8C, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag,
+ *           GAME_DATA_IsConfigFlagSet
  *
  * symbols:
- *   func_02008448  0x02008448  thumb
+ *   CONFIG_GetBattleFlag  0x02008448  thumb
  *
  * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
  * src/matched/unit_02012924.c across two near misses.  The same two objects:
@@ -47,14 +47,14 @@
  *    witnesses outside.
  *  - 0x02012BC8, 24 bytes, a tail call through a pool word holding
  *    0x02008451.  0x02008450 is a real Thumb function (the setter whose
- *    getter is the labelled func_02008448 four bytes earlier) but it opens
+ *    getter is the labelled CONFIG_GetBattleFlag four bytes earlier) but it opens
  *    with no register-saving prologue, so disasm.py never labelled it, and
  *    this pool word is the only reference to it anywhere in the image.  The
  *    source is
  *
- *        void func_02012BC8(struct BigObj *p, u32 v)
+ *        void GAME_DATA_SetConfigFlag(struct BigObj *p, u32 v)
  *        {
- *            func_02008450(p->unk198, v != 0);
+ *            CONFIG_SetBattleFlag(p->unk198, v != 0);
  *        }
  *
  *    Evidence class: literal, 0 witnesses outside.  It closes the day
@@ -73,7 +73,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern unsigned int func_02008448(int a0);
+extern unsigned int CONFIG_GetBattleFlag(int a0);
 
 struct Rec44 {
     u8  unk00[0x18];
@@ -142,7 +142,7 @@ void *func_02012B38(const struct BigObj *p)
     return p->unk1B8;
 }
 
-u8 func_02012B40(const struct BigObj *p)
+u8 GAME_DATA_GetEnterMode(const struct BigObj *p)
 {
     return p->unk1CA;
 }
@@ -183,19 +183,19 @@ void func_02012B8C(struct BigObj *p, u32 v)
     p->unk1CD = v;
 }
 
-u8 func_02012B98(const struct BigObj *p, u32 i)
+u8 GAME_DATA_GetSlotFlag(const struct BigObj *p, u32 i)
 {
     return p->unk1D0[i];
 }
 
-void func_02012BA4(struct BigObj *p, int i, u8 v)
+void GAME_DATA_SetSlotFlag(struct BigObj *p, int i, u8 v)
 {
     p->unk1D0[i] = v;
 }
 
-u32 func_02012BB0(const struct BigObj *p)
+u32 GAME_DATA_IsConfigFlagSet(const struct BigObj *p)
 {
-    if (func_02008448((int)p->unk198) == 1) {
+    if (CONFIG_GetBattleFlag((int)p->unk198) == 1) {
         return 1;
     }
     return 0;

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02047348, func_02047388, func_020473B8
+ * function: G3D_SYSTEM_IsTextureInVram, func_02047388, func_020473B8
  * address:  0x02047348
  * packet:   pkt_02047260
  * region:   arm9
@@ -18,7 +18,7 @@
  * carries three "ready" bits, one per halfword at +0x10, +0x20 and +0x32,
  * and each bit guards the word at +8, +0x18 and +0x2c respectively.
  *
- * func_02047348 asks whether any of the three is set: the first two tests
+ * G3D_SYSTEM_IsTextureInVram asks whether any of the three is set: the first two tests
  * are early `return 1`s, which is why they branch forward to a shared
  * one-exit and the third is written as the inverted guard (`if (!bit)
  * return 0;`) whose fall-through carries the `return 1`.
@@ -59,7 +59,7 @@ struct Ctl {
 
 extern unsigned char *func_0206E964(unsigned char *p);
 
-int func_02047348(struct Layer *layer)
+int G3D_SYSTEM_IsTextureInVram(struct Layer *layer)
 {
     struct Ctl *p = (struct Ctl *)func_0206E964(layer->unk_04);
 

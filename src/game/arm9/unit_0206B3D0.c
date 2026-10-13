@@ -1,6 +1,6 @@
 /*
  * file:     unit_0206B3D0.c
- * function: func_0206B3D0
+ * function: NNSi_G3dAnmBlendVis
  * address:  0x0206B3D0
  * packet:   pkt_0206AFE4
  * region:   arm9
@@ -34,7 +34,7 @@ typedef struct AnmObj {
  * result of every object that maps this node into *pResult. Returns 1 when
  * at least one object contributed.
  */
-int func_0206B3D0(u32 *pResult, AnmObj *pAnmObj, unsigned nodeIdx)
+int NNSi_G3dAnmBlendVis(u32 *pResult, AnmObj *pAnmObj, unsigned nodeIdx)
 {
     int hasResult = 0;
     u32 objResult;

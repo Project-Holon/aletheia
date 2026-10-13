@@ -24,7 +24,7 @@
  *   func_02062FF0   0x02062FF0  arm
  *   func_02064100   0x02064100  arm
  *   func_02064120   0x02064120  arm
- *   func_02064140   0x02064140  arm
+ *   NNSi_G2dSrtcInitControl   0x02064140  arm
  *   func_0206428C  0x0206428C  arm
  *   func_02064178  0x02064178  arm
  *   func_02062F38  0x02062F38  arm
@@ -117,7 +117,7 @@ extern void func_02064364(struct CellAnim *anim, s32 frames);
 extern void func_020640DC(SRTControl *s, s16 x, s16 y);
 extern void func_02064120(SRTControl *s, u32 sx, u32 sy);
 extern void func_02064100(SRTControl *s, u16 val);
-extern void func_02064140(SRTControl *s, u32 a);
+extern void NNSi_G2dSrtcInitControl(SRTControl *s, u32 a);
 extern MultiCellData *func_020629E8(MultiCellBank *bank, u32 idx);
 extern void func_02062FF0(struct CellAnim *anim, void *bank);
 extern NodeRec *func_02062D40(struct CellAnim *anim);
@@ -321,7 +321,7 @@ void func_0206469C(MultiCellAnim *o, void *bank)
     r = (u32)func_020629E8(o->bank, p->idx);
     k = o->f1c->kind & 0xff;
 
-    func_02064140(&o->srt, 1);
+    NNSi_G2dSrtcInitControl(&o->srt, 1);
 
     if (k == 0) {
         goto done;
@@ -407,12 +407,12 @@ void func_02064754(MultiCellAnim *o, void *buf, void *set, int a3, MultiCellBank
     }
     func_02062F38((struct CellAnim *)o);
     o->bank = bank;
-    func_02064140(&o->srt, 1);
+    NNSi_G2dSrtcInitControl(&o->srt, 1);
     o->totalFrames = 0;
   }
   func_02062F38((struct CellAnim *)o);
   o->bank = bank;
-  func_02064140(&o->srt, 1);
+  NNSi_G2dSrtcInitControl(&o->srt, 1);
   o->totalFrames = 0;
 }
 
@@ -544,7 +544,7 @@ void func_020649D4(MultiCellAnim *self, int a1)
     p = func_02062D40((struct CellAnim *)self);
     r7 = (int)func_020629E8(self->bank, p->idx);
     kind = self->f1c->kind & 0xff;
-    func_02064140(&self->srt, 1);
+    NNSi_G2dSrtcInitControl(&self->srt, 1);
     switch (kind) {
     case 0:
         break;
@@ -596,7 +596,7 @@ void func_02064AB4(MultiCellAnim *self, unsigned int i)
     p = func_02062D40((struct CellAnim *)self);
     item = (int)func_020629E8(self->bank, p->idx);
     kind = self->f1c->kind & 0xff;
-    func_02064140(&self->srt, 1);
+    NNSi_G2dSrtcInitControl(&self->srt, 1);
     switch (kind) {
     case 0:
         break;

@@ -1,5 +1,5 @@
 /*
- * function: func_02038524
+ * function: GFL_NET_SYSTEM_CheckAllChildRecv
  * address:  0x02038524
  * packet:   pkt_02038380
  * region:   arm9
@@ -9,8 +9,8 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_021469D0    0x021469D0  data
- *   func_02039160 0x02039160  arm
+ *   _pNetSys    0x021469D0  data
+ *   GFL_NET_SYSTEM_IsConnectMember 0x02039160  arm
  */
 
 #include "../include/G_LinkState.h"
@@ -19,15 +19,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern struct LinkState *g_021469D0;
-extern u32 func_02039160(u16 a);
+extern struct LinkState *_pNetSys;
+extern u32 GFL_NET_SYSTEM_IsConnectMember(u16 a);
 
-int func_02038524(void)
+int GFL_NET_SYSTEM_CheckAllChildRecv(void)
 {
     int i;
 
     for (i = 0; i < 8; i++) {
-        if (func_02039160((u16)i) != 0 && *(int *)(((u8 *)g_021469D0) + 0x1b4 + i * 4) > 0) {
+        if (GFL_NET_SYSTEM_IsConnectMember((u16)i) != 0 && *(int *)(((u8 *)_pNetSys) + 0x1b4 + i * 4) > 0) {
             return 0;
         }
     }

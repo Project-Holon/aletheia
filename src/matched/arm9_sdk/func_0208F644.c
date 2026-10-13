@@ -1,5 +1,5 @@
 /*
- * function: func_0208F644
+ * function: WM_StartParent
  * address:  0x0208F644
  * packet:   pkt_0208F644
  * region:   arm9
@@ -17,7 +17,7 @@
 
 extern int DWCi_IsSendableReliable(unsigned char aid, unsigned short type);
 
-int func_0208F644(unsigned char aid)
+int WM_StartParent(unsigned char aid)
 {
     return DWCi_IsSendableReliable(aid, 1);
 }

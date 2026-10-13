@@ -1,5 +1,5 @@
 /*
- * function: func_02029F6C
+ * function: RINGTONE_SYS_RegisterSleepCallbacks
  * address:  0x02029F6C
  * packet:   pkt_02029F6C
  * region:   arm9
@@ -12,10 +12,10 @@
  * blocker:  02029FE4 label
  *
  * symbols:
- *   func_02029FD0  0x02029FD0  thumb
- *   func_02029FE4  0x02029FE4  thumb
+ *   RINGTONE_SYS_OnSleep  0x02029FD0  thumb
+ *   RINGTONE_SYS_OnWake  0x02029FE4  thumb
  *   func_0203508C  0x0203508C  arm
- *   g_02146944     0x02146944  data
+ *   gRingtone     0x02146944  data
  */
 
 typedef unsigned char  u8;
@@ -23,14 +23,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 
-extern u32  g_02146944;
-extern void func_02029FD0(void);
-extern void func_02029FE4(void);
+extern u32  gRingtone;
+extern void RINGTONE_SYS_OnSleep(void);
+extern void RINGTONE_SYS_OnWake(void);
 extern void func_0203508C(u32 a, u32 b, u32 c);
 
-void func_02029F6C(void)
+void RINGTONE_SYS_RegisterSleepCallbacks(void)
 {
-    if (g_02146944 != 0) {
-        func_0203508C((u32)((void *)func_02029FD0), (u32)((void *)func_02029FE4), g_02146944);
+    if (gRingtone != 0) {
+        func_0203508C((u32)((void *)RINGTONE_SYS_OnSleep), (u32)((void *)RINGTONE_SYS_OnWake), gRingtone);
     }
 }

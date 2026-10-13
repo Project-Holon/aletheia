@@ -12,7 +12,7 @@
  * symbols:
  *   func_020056EC  0x020056EC  thumb
  *   func_02017ED8  0x02017ED8  thumb
- *   func_020185F8  0x020185F8  thumb
+ *   POKE_TOOL_GetGenderRatioClass  0x020185F8  thumb
  *   func_0201AF6C  0x0201AF6C  thumb
  *
  * Build a personality value for trainer id a0: a3 selects the gender
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 
 extern u32 func_020056EC(u32 range);
 extern u32 func_02017ED8(u32 a0, u32 a1);
-extern u32 func_020185F8(int a0, int a1, int a2);
+extern u32 POKE_TOOL_GetGenderRatioClass(int a0, int a1, int a2);
 extern u32 func_0201AF6C(u32 v);
 
 u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5)
@@ -47,7 +47,7 @@ u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5)
     } else {
         u32 t = func_020056EC(0) & ~0xFFu;
 
-        v = func_020185F8(a1, a2, (u8)a3);
+        v = POKE_TOOL_GetGenderRatioClass(a1, a2, (u8)a3);
         if (a3 == 0) {
             if (func_0201AF6C(v) == 0) {
                 v = v + func_020056EC(0xFE - v);

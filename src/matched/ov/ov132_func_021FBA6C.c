@@ -18,17 +18,17 @@
  *   d_021FDCB0 0x021FDCB0 data a4
  *   func_02050ED4 0x02050ED4 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02051574 0x02051574 arm
- *   func_02051534 0x02051534 arm
+ *   PARTICLE_UpdateAllSystems 0x02051574 arm
+ *   PARTICLE_DrawAllSystems 0x02051534 arm
  *   func_02050C04 0x02050C04 arm
  *   func_0205121C 0x0205121C arm
  *   func_020056BC 0x020056BC thumb
  *   func_02051230 0x02051230 arm
- *   func_02051620 0x02051620 arm
+ *   PARTICLE_KillAllEffects 0x02051620 arm
  *   func_02050DB8 0x02050DB8 arm
- *   func_020515B4 0x020515B4 arm
- *   func_02051630  0x02051630  arm
- *   func_02051838  0x02051838  arm
+ *   PARTICLE_StartEffect 0x020515B4 arm
+ *   PARTICLE_KillEffect  0x02051630  arm
+ *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
  *   d_021FDCC4 0x021FDCC4 data a4
  *   func_021F9DFC 0x021F9DFC thumb ov132
  *   func_02005728 0x02005728 thumb
@@ -68,7 +68,7 @@
  *   func_0204B98C 0x0204B98C arm
  *   func_021F9E0C 0x021F9E0C thumb ov132
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020490F4 0x020490F4 arm
  *   func_0204AC18 0x0204AC18 arm
  *   func_0204A6C8 0x0204A6C8 arm
@@ -90,15 +90,15 @@
  *   func_02060468 0x02060468 arm
  *   d_021FDCEC 0x021FDCEC data ov132 a4
  *   func_02011290 0x02011290 thumb
- *   func_02011264 0x02011264 thumb
+ *   VM_Delete 0x02011264 thumb
  *   func_02060614 0x02060614 arm
  *   func_02030DA4 0x02030DA4 arm
  *   func_02030D28 0x02030D28 arm
- *   func_0201121C 0x0201121C thumb
- *   func_0201126C 0x0201126C thumb
- *   func_0201127C 0x0201127C thumb
+ *   VM_Create 0x0201121C thumb
+ *   VM_Init 0x0201126C thumb
+ *   VM_Start 0x0201127C thumb
  *   d_021FDC2C 0x021FDC2C data ov132 a4
- *   func_02011298 0x02011298 thumb
+ *   VM_Control 0x02011298 thumb
  *   func_02030DA8 0x02030DA8 arm
  *   func_020604AC 0x020604AC arm
  *   func_02030EAC 0x02030EAC arm
@@ -185,9 +185,9 @@
  *   func_0203CDBC 0x0203CDBC arm
  *   func_0203A574 0x0203A574 arm
  *   d_021FDC38 0x021FDC38 data a4
- *   func_02012F44 0x02012F44 thumb
+ *   GAME_DATA_GetSaveBlock2A 0x02012F44 thumb
  *   func_020173EC 0x020173EC thumb
- *   func_020173E8 0x020173E8 thumb
+ *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   func_02008468 0x02008468 thumb
  *   func_02082BCC 0x02082BCC arm
  *   func_0200A81C 0x0200A81C thumb
@@ -336,17 +336,17 @@ extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
 extern void func_02050B80(unsigned);
 extern void func_02050ED4(void);
 extern u32 func_020307B0(void *p);
-extern int func_02051574(void);
-extern int func_02051534(void);
+extern int PARTICLE_UpdateAllSystems(void);
+extern int PARTICLE_DrawAllSystems(void);
 extern int func_02050C04(int a, int b, int c, int d);
 extern int func_0205121C(u32 a, u32 b, u32 c);
 extern unsigned func_020056BC(void);
 extern void func_02051230(void *, void *, unsigned, unsigned);
-extern void func_02051620(u32);
+extern void PARTICLE_KillAllEffects(u32);
 extern void func_02050DB8(u8 *p);
-extern int func_020515B4(void *p, int b, int c);
-extern void func_02051630(void **p, void *q);
-extern void func_02051838(void *, int);
+extern int PARTICLE_StartEffect(void *p, int b, int c);
+extern void PARTICLE_KillEffect(void **p, void *q);
+extern void BUTTON_MAN_SetEmitterPos(void *, int);
 extern u16 func_021F9DFC(void *p);
 extern unsigned func_02005728(unsigned);
 extern u8 func_0215725C(u8 *, int);
@@ -380,7 +380,7 @@ extern u8 *func_021F4F54(u8 *,int);
 extern int func_021F4F70(int *);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_02049238(void *);
 extern void func_0204B92C(struct Obj_021F9E40 *,u32);
 extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16),func_0204A6C8(void *,u32,u32,u32,u16),func_0204AF28(void *,u32,u32,u32),func_0204ABF0(void *,u32,u32,u32,u16);
@@ -395,14 +395,14 @@ extern u32 func_02030CB0(u32);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void func_02060468(int p0, int p1);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
-extern void func_02011264(void *);
+extern void VM_Delete(void *);
 extern void *func_02060614(struct DList *list, void *elem);
 extern void func_02030DA4(void *);
 extern void func_02030D28(struct Ctx *c);
-extern struct ScriptVm *func_0201121C(u32 heapId, const struct ScriptVmParams *params);
-extern void func_0201126C(struct ScriptVm *vm, void *user);
-extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
-extern int func_02011298(struct ScriptVm *vm);
+extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
+extern void VM_Init(struct ScriptVm *vm, void *user);
+extern void VM_Start(struct ScriptVm *vm, u8 *pc);
+extern int VM_Control(struct ScriptVm *vm);
 extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
 extern void func_020604AC(void *, void *);
 extern void func_02030EAC(struct Node *n);
@@ -485,9 +485,9 @@ extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_02012124(struct Ctx *p, u32 v);
 extern int func_0203CDBC(void);
 extern void func_0203A574(u32,u32,u32,u32);
-extern void *func_02012F44(void *);
+extern void *GAME_DATA_GetSaveBlock2A(void *);
 extern u32 func_020173EC(void);
-extern u32 func_020173E8(void);
+extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int func_02008468(void);
 extern void func_02082BCC(void *,u8,u32);
 extern u16 func_0200A81C(struct Big *p);

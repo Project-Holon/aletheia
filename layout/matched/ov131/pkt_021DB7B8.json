@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DB7B8",
+   "name": "P_STA_SKILL_DeleteSlotObjects",
    "address": "0x021DB7B8",
    "kind": "game",
    "region": "ov131",

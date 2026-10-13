@@ -1,5 +1,5 @@
 /*
- * function: func_0216B7E0
+ * function: DWC_CloseConnectionHardFromServer
  * address:  0x0216B7E0
  * packet:   pkt_02155168
  * region:   ov009
@@ -9,11 +9,11 @@
  * isa:      arm
  * status:   EXACT
  *
- * Returns -3 when func_0216BA08 rejects the pointer, else the func_0216BEA4 result.
+ * Returns -3 when DWC_IsServerMyself rejects the pointer, else the DWCi_CloseConnectionHard result.
  *
  * symbols:
- *   func_0216BA08  0x0216BA08  arm  ov009
- *   func_0216BEA4  0x0216BEA4  arm  ov009
+ *   DWC_IsServerMyself  0x0216BA08  arm  ov009
+ *   DWCi_CloseConnectionHard  0x0216BEA4  arm  ov009
 
  */
 
@@ -23,10 +23,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_0216B7E0(void *p)
+int DWC_CloseConnectionHardFromServer(void *p)
 {
-    int func_0216BA08(void);
-    int func_0216BEA4(void *);
-    if (func_0216BA08() == 0) return -3;
-    return func_0216BEA4(p);
+    int DWC_IsServerMyself(void);
+    int DWCi_CloseConnectionHard(void *);
+    if (DWC_IsServerMyself() == 0) return -3;
+    return DWCi_CloseConnectionHard(p);
 }

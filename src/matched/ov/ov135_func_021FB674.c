@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B898 0x0204B898 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   func_0204B878 0x0204B878 arm
  *   func_021FA514 0x021FA514 thumb ov135
  */
@@ -20,7 +20,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int on);
-extern u16 func_0204B898(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021FA514(void *p, u8 *flags);
 int func_021FB674(u8 *p)
@@ -30,14 +30,14 @@ int func_021FB674(u8 *p)
     switch ((u32)r) {
     case -2:
         func_0204B3DC((struct Obj *)((struct Obj00195 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj00195 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj00195 *)p)->f8)) + 9);
+        func_0204B878((struct Obj *)(((struct Obj00195 *)p)->f8), CLACT_GetActorAnimSeq((struct Obj *)(((struct Obj00195 *)p)->f8)) + 9);
         ((struct Obj00195 *)p)->f48 = 3;
         ((struct Obj00195 *)p)->f4C = 20;
         ((struct Obj00195 *)p)->f38 = -1;
         break;
     case 10:
         func_0204B3DC((struct Obj *)((struct Obj00195 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj00195 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj00195 *)p)->f8)) + 9);
+        func_0204B878((struct Obj *)(((struct Obj00195 *)p)->f8), CLACT_GetActorAnimSeq((struct Obj *)(((struct Obj00195 *)p)->f8)) + 9);
         ((struct Obj00195 *)p)->f48 = 3;
         ((struct Obj00195 *)p)->f4C = 20;
         ((struct Obj00195 *)p)->f38 = -2;

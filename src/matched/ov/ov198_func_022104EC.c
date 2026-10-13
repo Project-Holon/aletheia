@@ -14,7 +14,7 @@
  *   func_020414EC 0x020414EC arm
  *   func_02040B94 0x02040B94 arm
  *   sub_02041B6C 0x02041B6C arm
- *   sub_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_02212144 0x02212144 data a4
  *   d_02212174 0x02212174 data a4
  *   d_022121B4 0x022121B4 data a4
@@ -42,7 +42,7 @@ extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
 extern void func_020414EC(u32);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void sub_02041B6C(u32);
-extern void sub_02043598(u32,u32);
+extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 void func_022104EC(u8 *p)
 {
     struct BgVramReq req=d_02212144;
@@ -62,5 +62,5 @@ void func_022104EC(u8 *p)
     func_02040B94(4,32,0,((struct Obj25246 *)(*(u8 * *)&((struct Obj14568 *)p)->f0))->f10);
     sub_02041B6C(5);
     sub_02041B6C(4);
-    sub_02043598(15,1);
+    BG_SYS_SetSubPlaneVisible(15,1);
 }

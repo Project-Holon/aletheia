@@ -1,5 +1,5 @@
 /*
- * function: func_02059980
+ * function: DWC_CreateFriendKeyToken
  * address:  0x02059980
  * packet:   pkt_02059980
  * region:   arm9
@@ -21,7 +21,7 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void DWCi_Acc_SetFriendKey(void *data, unsigned long long friendkey);
 extern void DWCi_Acc_SetFlag_DataType(void *userdata, int type);
 
-void func_02059980(void *token, unsigned long long friend_key)
+void DWC_CreateFriendKeyToken(void *token, unsigned long long friend_key)
 {
     MI_CpuFill8(token, 0, 12);
     DWCi_Acc_SetFriendKey(token, friend_key);

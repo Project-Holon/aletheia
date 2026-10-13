@@ -13,8 +13,8 @@
  * src/matched/arm9, which closes the former MATCH.
  *
  * symbols:
- *   func_02015CC4  0x02015CC4  thumb
- *   func_02015CDC  0x02015CDC  thumb
+ *   MCSS_GetShadowScale  0x02015CC4  thumb
+ *   MCSS_SetShadowScale  0x02015CDC  thumb
  *   func_021F89BC  0x021F89BC  thumb  ov094
  *   func_021F9260  0x021F9260  thumb  ov094
  *   func_022019F4  0x022019F4  thumb  ov094
@@ -24,13 +24,13 @@
  * and no --region (cc 1.1p1, -O4,p), packets pkt_02015CC4 / pkt_02015CDC:
  *
  *   typedef unsigned int u32;
- *   void func_02015CC4(void *p, u32 *out)   // 0x02015CC4, 64 B extent
+ *   void MCSS_GetShadowScale(void *p, u32 *out)   // 0x02015CC4, 64 B extent
  *   {
  *       out[0] = *(u32 *)((char *)p + 0x128);
  *       out[1] = *(u32 *)((char *)p + 0x12C);
  *       out[2] = *(u32 *)((char *)p + 0x130);
  *   }
- *   void func_02015CDC(void *p, u32 *src)  // 0x02015CDC, inverse
+ *   void MCSS_SetShadowScale(void *p, u32 *src)  // 0x02015CDC, inverse
  *   {
  *       *(u32 *)((char *)p + 0x128) = src[0];
  *       *(u32 *)((char *)p + 0x12C) = src[1];
@@ -72,8 +72,8 @@ typedef struct {
 } Ctx;
 
 typedef unsigned int   u32;
-extern void func_02015CC4(void *p, u32 *out);
-extern void func_02015CDC(void *p, u32 *src);
+extern void MCSS_GetShadowScale(void *p, u32 *out);
+extern void MCSS_SetShadowScale(void *p, u32 *src);
 extern void func_021F89BC(void *h);
 extern int func_021F9260(Mover *m, VecFx32 *out);
 extern int func_022019F4(char *p, int key);
@@ -97,9 +97,9 @@ void func_022009C8(void *h, Ctx *c)
         func_021F89BC(h);
         return;
     }
-    func_02015CC4(w->e[i].h, (u32 *)(&v));
+    MCSS_GetShadowScale(w->e[i].h, (u32 *)(&v));
     r = func_021F9260(&c->mv, &v);
-    func_02015CDC(w->e[i].h, (u32 *)(&v));
+    MCSS_SetShadowScale(w->e[i].h, (u32 *)(&v));
     if (r == 1)
         func_021F89BC(h);
 }

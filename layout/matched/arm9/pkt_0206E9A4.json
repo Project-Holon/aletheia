@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206EA58",
+   "name": "NNSi_G3dTexPatAnmGetFrameValue",
    "address": "0x0206EA58",
    "kind": "game",
    "region": "arm9",

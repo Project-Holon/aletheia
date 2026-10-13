@@ -1,5 +1,5 @@
 /*
- * function: func_020274C8
+ * function: GAME_BEACON_RegisterClearCallback
  * address:  0x020274C8
  * packet:   pkt_020274C8
  * region:   arm9
@@ -17,13 +17,13 @@
  * matching the bl into func_021809D8 in asm/overlays/ov231.s), per
  * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
  * EXACT* because the listing extent (84 bytes) runs over the follower
- * sub_020274F8.
+ * GAME_BEACON_ClearFlags.
  *
  * symbols:
  *   func_02034AC4  0x02034AC4  arm
  *   func_021809D8  0x021809D8  thumb ov231
  *   func_02034A5C  0x02034A5C  arm
- *   sub_020274F8   0x020274F8  thumb
+ *   GAME_BEACON_ClearFlags   0x020274F8  thumb
  *   func_02005624  0x02005624  thumb
  *   ov231_id       0x000000E7  data
  */
@@ -34,10 +34,10 @@ extern char  ov231_id[];
 extern int   func_02034AC4(signed int id);
 extern int   func_021809D8(void);
 extern void  func_02034A5C(int id);
-extern void  sub_020274F8(void);
+extern void  GAME_BEACON_ClearFlags(void);
 extern void *func_02005624(u32 a, u32 b, u32 c);
 
-void func_020274C8(void)
+void GAME_BEACON_RegisterClearCallback(void)
 {
     int r;
 
@@ -45,6 +45,6 @@ void func_020274C8(void)
     r = func_021809D8();
     func_02034A5C((int)ov231_id);
     if (r == 0) {
-        func_02005624((u32)sub_020274F8, 0, 3);
+        func_02005624((u32)GAME_BEACON_ClearFlags, 0, 3);
     }
 }

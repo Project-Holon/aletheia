@@ -23,7 +23,7 @@
  *   GOAGetLastError  0x0217ED54  arm  ov009
  *   CanReceiveOnSocket  0x0217EF50  arm  ov009
  *   getlocalhost   0x0217EFB8  arm  ov009
- *   func_0217F260  0x0217F260  arm  ov009
+ *   SocketShutDown  0x0217F260  arm  ov009
  *   current_time   0x0217F264  arm  ov009
  *   gsiSafeStrcpyA 0x021803BC  arm  ov009
  *   SOC_GetHostByName  0x0215F650  arm  ov009
@@ -82,7 +82,7 @@ extern int inet_addr(int host);
 extern int GOAGetLastError(int sock);
 extern int CanReceiveOnSocket(int sock);
 extern SOCHostEnt *getlocalhost(void);
-extern void func_0217F260(void);
+extern void SocketShutDown(void);
 extern unsigned int current_time(void);
 extern int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
@@ -342,7 +342,7 @@ void func_0219B540(qr2_implementation_s *qrec)
     qrec->hbsock = -1;
     qrec->lastheartbeat = 0;
     if (qrec->read_socket)
-        func_0217F260();
+        SocketShutDown();
     if (qrec->cc_callback)
         NNFreeNegotiateList();
     if (qrec != &g_021A6604)

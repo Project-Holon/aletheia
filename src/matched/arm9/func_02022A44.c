@@ -1,5 +1,5 @@
 /*
- * function: func_02022A44
+ * function: WIPE_SUB_FadeMain
  * address:  0x02022A44
  * packet:   pkt_02022940
  * region:   arm9
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02022A88  0x02022A88  thumb
+ *   WIPE_SUB_FadeStep  0x02022A88  thumb
  *   func_02030EAC  0x02030EAC  arm
  *   func_020307B0  0x020307B0  arm
  *
- * The per-frame step of a wipe task, the sibling of func_020234C0 at the
+ * The per-frame step of a wipe task, the sibling of WIPE_SUB_BoxMain at the
  * other end of the family: the same four-phase switch over the task's
  * +0x0c, the same sub-object slot at +0x14, and the same terminal phase 3
- * that is the only one to answer 1.  Phase 1 polls func_02022A88 and
+ * that is the only one to answer 1.  Phase 1 polls WIPE_SUB_FadeStep and
  * advances when it answers 1; phase 2 releases the sub-object's +0x20
  * handle through func_02030EAC, frees the object itself, clears the slot
  * and advances.
  *
- * THE LEVER, and it is shared with func_02022A44, func_0202390C and
- * func_020234C0 (all three sat at exactly two bytes out until it was
- * found; func_0202363C in src/matched had it right all along and is where
+ * THE LEVER, and it is shared with WIPE_SUB_FadeMain, WIPE_SUB_ShutterMain and
+ * WIPE_SUB_BoxMain (all three sat at exactly two bytes out until it was
+ * found; WIPE_SUB_CircleMain in src/matched had it right all along and is where
  * it was read from).  Phase 2 assigns the result variable 1 as well,
  * immediately before its `break`:
  *
@@ -45,8 +45,8 @@
  * added empty case -- is the same two bytes out or worse.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022A44.c \
- *       --func func_02022A44 --addr 0x02022A44 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_FadeMain.c \
+ *       --func WIPE_SUB_FadeMain --addr 0x02022A44 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int  u32;
@@ -66,12 +66,12 @@ struct Task {
 };
 
 struct AnimStep;
-extern int func_02022A88(struct AnimStep *p);
+extern int WIPE_SUB_FadeStep(struct AnimStep *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern u32 func_020307B0(void *p);
 
-u32 func_02022A44(struct Task *t)
+u32 WIPE_SUB_FadeMain(struct Task *t)
 {
     struct Obj *obj;
     u32         ret;
@@ -81,7 +81,7 @@ u32 func_02022A44(struct Task *t)
 
     switch (t->phase) {
     case 1:
-        if (func_02022A88((struct AnimStep *)obj) == 1) {
+        if (WIPE_SUB_FadeStep((struct AnimStep *)obj) == 1) {
             t->phase = t->phase + 1;
         }
         break;

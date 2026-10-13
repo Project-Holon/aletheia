@@ -22,9 +22,9 @@
  *   SOC_RecvFrom     0x0215f500 arm
  *   func_0215F5B4                  0x0215F5B4  arm ov009
  *   SOC_Accept       0x0215f714 arm
- *   func_0215FAD0  0x0215FAD0  arm  ov009
- *   func_0215FBCC  0x0215FBCC  arm  ov009
- *   func_0215F854  0x0215F854  arm  ov009
+ *   SOC_InetAtoN  0x0215FAD0  arm  ov009
+ *   SOC_Poll  0x0215FBCC  arm  ov009
+ *   SOC_Fcntl  0x0215F854  arm  ov009
  *   func_0217D254  0x0217D254  arm  ov009
  *   g_021A3740     0x021A3740  data
  *   g_021A374C     0x021A374C  data
@@ -39,6 +39,7 @@
  *   _ZZ13func_0217EFB8vE9localhost_0 0x021AD0FC  data
  *   _ZZ13func_0217EFB8vE5ips_2_1   0x021AD10C  data
  *   _ZZ13func_0217EFB8vE8ipPtrs_1_2 0x021AD120  data
+ *   SOC_Shutdown  0x0215F638  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 
@@ -61,11 +62,11 @@ struct SOCInAddr {
 };
 
 extern int func_0215F428(void);
-extern int func_0215F644(int s);
+extern int SOC_Close(int s);
 extern int SOC_Close(int s);
 extern int SOCL_IsReleased(int s);
 extern int CheckRcode(int rcode, int errCode);
-extern int func_0215F638(int s, int how);
+extern int SOC_Shutdown(int s, int how);
 struct SOCSockAddr {
     unsigned char len;
     unsigned char family;
@@ -79,9 +80,9 @@ extern int SOC_RecvFrom(int s, void * buf, int len, int flags, void * sockFrom);
 extern int func_0215F590(void);
 extern int func_0215F5B4(int s, void *buf, int len, int flags, void *sockTo);
 extern int SOC_Accept(int s, void * sockAddr);
-extern int func_0215FAD0(char *cp, unsigned long *inp);
-extern int func_0215FBCC(GSPollFd *fds, int nfds, int timeout, int flags);
-extern int func_0215F854(int sock, int cmd, int arg);
+extern int SOC_InetAtoN(char *cp, unsigned long *inp);
+extern int SOC_Poll(GSPollFd *fds, int nfds, int timeout, int flags);
+extern int SOC_Fcntl(int sock, int cmd, int arg);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int setsockopt(int s, int level, int optname, void * optval, int optlen);
 extern int GSISocketSelect(int theSocket, int * theReadFlag, int * theWriteFlag, int * theExceptFlag);
@@ -162,7 +163,7 @@ int func_0217EB18(int pf, int type, int protocol)
 
 int func_0217EB2C(int sock)
 {
-    return func_0217EB00(func_0215F644(sock), -1);
+    return func_0217EB00(SOC_Close(sock), -1);
 }
 
 
@@ -189,7 +190,7 @@ int closesocketsure(int sock, int *notInCloseSocket)
 
 int func_0217EB9C(int sock, int how)
 {
-    return func_0217EB00(func_0215F638(sock, how), -1);
+    return func_0217EB00(SOC_Shutdown(sock, how), -1);
 }
 
 
@@ -297,7 +298,7 @@ int func_0217ED38(int a)
 {
     int v;
 
-    if (func_0215FAD0((char *)a, (long unsigned int *)(&v)) == 0) {
+    if (SOC_InetAtoN((char *)a, (long unsigned int *)(&v)) == 0) {
         return -1;
     }
 
@@ -326,7 +327,7 @@ int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theEx
         pfd.events |= 8;
     pfd.revents = 0;
 
-    result = func_0215FBCC(&pfd, 1, 0, 0);
+    result = SOC_Poll(&pfd, 1, 0, 0);
     if (result < 0)
         return -1;
 
@@ -367,12 +368,12 @@ int func_0217EE50(int sock, int isblocking)
     int val;
     int rcode;
 
-    val = func_0215F854(sock, 3, 0);
+    val = SOC_Fcntl(sock, 3, 0);
     if (isblocking)
         val &= ~4;
     else
         val |= 4;
-    rcode = func_0215F854(sock, 4, val);
+    rcode = SOC_Fcntl(sock, 4, val);
     if (rcode == 0) {
         func_0217D254(12, 0, 0x10, g_021A375C, sock, isblocking ? g_021A3740 : g_021A374C);
         return 1;

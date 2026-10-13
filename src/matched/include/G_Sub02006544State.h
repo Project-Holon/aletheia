@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_SUB02006544STATE_H
 #define ALETHEIA_G_SUB02006544STATE_H
-/* g_02140484 (arm9) */
+/* _VoiceSystem (arm9) */
 struct Sub02006544State {
     unsigned short unk00;
     unsigned short unk02;

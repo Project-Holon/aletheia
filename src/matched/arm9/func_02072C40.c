@@ -1,5 +1,5 @@
 /*
- * function: func_02072C40
+ * function: NNS_SndWaveOutSetSpeed
  * address:  0x02072C40
  * packet:   pkt_02072C40
  * region:   arm9
@@ -41,8 +41,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02072C40.c \
- *       --func func_02072C40 --addr 0x02072C40 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_SndWaveOutSetSpeed.c \
+ *       --func NNS_SndWaveOutSetSpeed --addr 0x02072C40 --arm --cc 1.1p1
  *   -> EXACT, compiled 132 = original 132, 3 of 3 sites resolved
  */
 
@@ -57,7 +57,7 @@ typedef struct {
 
 extern void func_02089618(u32 chBitMask, int timer);
 
-void func_02072C40(Obj *s, int v)
+void NNS_SndWaveOutSetSpeed(Obj *s, int v)
 {
     u64 t;
 

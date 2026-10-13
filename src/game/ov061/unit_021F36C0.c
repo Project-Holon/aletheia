@@ -42,135 +42,123 @@
  *   func_021A3080  0x021A3080  thumb
  *   func_021A308C  0x021A308C  thumb
  */
-struct Obj00020;
-struct BigObj;
-struct Ctx;
-typedef unsigned short u16;
+#include "unit_021F36C0_types.h"
 
-typedef unsigned char u8;
+struct GameSystem;
+struct GameData;
+struct EventData;
 
-typedef struct {
-    int a;
-    int b;
-    int c;
-} V3;
-
-typedef unsigned int   u32;
-
-extern u16 func_02188C84(u8 *p);
-extern int func_02188D2C(int *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void func_021BE760(void *a, void *b, int c);
-extern void func_021BE4B4(char *p, int i, int j, int v);
-extern int func_021BE480(char *p, unsigned i, int j);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern void func_021BE6B0(u8 *p, int v);
-extern void func_021BE6B8(u8 *p, int v);
-extern void func_021F388C(int *o, int a);
-extern u16 func_02188C9C(u8 *p);
-extern void func_021BE418(unsigned char *p, unsigned short i);
-extern void func_021897A0(unsigned char *p, int id);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012844(const struct BigObj *p);
-extern int *func_021897BC(char *a, int idx);
-extern void func_021BE580(int a);
-extern int func_021BE6BC(int *p);
-extern u16 func_021A3050(u8 *p);
-extern void func_021A3364(u32 *a, int b, int *out);
-extern int func_02162478(char *p, int *v);
-extern void func_021BE6CC(int a, int b, int c, int d, int e);
-extern u32 func_021A3080(void *x);
-extern u32 func_021A308C(void *x);
-void func_021F36C0(void *a);
-void func_021F3754(unsigned char *p);
-void func_021F376C(struct Obj00020 *a);
-int func_021F3868(void *unused, void *x);
+extern u16 func_02188C84(void *fieldMap);
+extern void *func_02188D2C(void *fieldMap);
+extern Gimmick61Work *func_02189764(void *fieldMap, int id, int heapId, int size);
+extern void func_021BE760(void *expObj, void *unitDesc, int b);
+extern void func_021BE4B4(void *expObj, int unit, int model, int hidden);
+extern VecFx32 *func_021BE480(void *expObj, unsigned unit, int model);
+extern void *func_021BE674(void *expObj, int unit, unsigned int model, int animeIdx);
+extern void func_021BE700(void *expObj, int unit, int model, int animeIdx, int enabled);
+extern void func_021BE6B0(u8 *anime, int paused);
+extern void func_021BE6B8(u8 *anime, int loop);
+extern void func_021F388C(Gimmick61Work *work, void *fieldMap);
+extern u16 func_02188C9C(void *fieldMap);
+extern void func_021BE418(void *expObj, unsigned short unit);
+extern void func_021897A0(void *fieldMap, int id);
+extern void *func_02188CB4(void *fieldMap);
+extern struct GameSystem *func_02188C80(void *fieldMap);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct EventData *func_02012844(const struct GameData *gameData);
+extern Gimmick61Work *func_021897BC(void *fieldMap, int idx);
+extern void func_021BE580(void *expObj);
+extern int func_021BE6BC(u8 *anime);
+extern u16 func_021A3050(void *player);
+extern void func_021A3364(void *player, int dir, VecFx32 *out);
+extern int func_02162478(struct EventData *eventData, VecFx32 *pos);
+extern void func_021BE6CC(void *expObj, int unit, int model, int animeIdx, int frame);
+extern u32 func_021A3080(void *player);
+extern u32 func_021A308C(void *player);
+void func_021F36C0(void *fieldMap);
+void func_021F3754(void *fieldMap);
+void func_021F376C(void *fieldMap);
+int func_021F3868(Gimmick61Work *unusedWork, void *player);
 extern char d_021F3974[];
 
-
-void func_021F36C0(void *a)
+void func_021F36C0(void *fieldMap)
 {
-    u16 w;
-    void *s;
-    int *o;
-    int i;
-    u8 *e;
+    u16 heapId;
+    void *expObj;
+    Gimmick61Work *work;
+    int model;
+    u8 *anime;
 
-    w = func_02188C84(a);
-    s = (void *)func_02188D2C(a);
-    o = func_02189764(a, 0, w, 0xc);
-    func_021BE760(s, d_021F3974, 0);
-    for (i = 0; i < 9; i++) {
-        func_021BE4B4(s, 0, (u16)i, 1);
+    heapId = func_02188C84(fieldMap);
+    expObj = func_02188D2C(fieldMap);
+    work = func_02189764(fieldMap, 0, heapId, sizeof(Gimmick61Work));
+    func_021BE760(expObj, d_021F3974, 0);
+    for (model = 0; model < GIMMICK61_MODEL_COUNT; model++) {
+        func_021BE4B4(expObj, 0, (u16)model, 1);
     }
-    o[1] = (int)func_021BE480(s, 0, 0);
-    e = func_021BE674(s, 0, 0, 0);
-    func_021BE700(s, 0, 0, 0, 1);
-    func_021BE6B0(e, 1);
-    func_021BE6B8(e, 0);
-    func_021F388C(o, (int)a);
-    o[2] = func_02188C9C(a);
+    work->effectPos = func_021BE480(expObj, 0, GIMMICK61_EFFECT_MODEL);
+    anime = func_021BE674(expObj, 0, GIMMICK61_EFFECT_MODEL, 0);
+    func_021BE700(expObj, 0, GIMMICK61_EFFECT_MODEL, 0, 1);
+    func_021BE6B0(anime, 1);
+    func_021BE6B8(anime, 0);
+    func_021F388C(work, fieldMap);
+    work->zoneId = func_02188C9C(fieldMap);
 }
 
-
-void func_021F3754(unsigned char *p)
+void func_021F3754(void *fieldMap)
 {
-    func_021BE418((unsigned char *)func_02188D2C((int *)p), 0);
-    func_021897A0(p, 0);
+    func_021BE418(func_02188D2C(fieldMap), 0);
+    func_021897A0(fieldMap, 0);
 }
 
-
-void func_021F376C(struct Obj00020 *a)
+void func_021F376C(void *fieldMap)
 {
-    int *o;
-    int s;
-    void *g;
-    int h;
-    int cur;
-    u8 *e;
-    V3 v;
+    Gimmick61Work *work;
+    void *expObj;
+    void *player;
+    struct EventData *eventData;
+    int zoneId;
+    u8 *anime;
+    VecFx32 pos;
 
-    s = func_02188D2C((int *)a);
-    g = func_02188CB4(a);
-    h = func_02012844(func_020120F4(func_02188C80(a)));
-    o = func_021897BC((char *)a, 0);
-    cur = func_02188C9C((u8 *)a);
-    if (o[2] != cur) {
-        func_021F388C(o, (int)a);
-        o[2] = cur;
+    expObj = func_02188D2C(fieldMap);
+    player = func_02188CB4(fieldMap);
+    eventData = func_02012844(func_020120F4(func_02188C80(fieldMap)));
+    work = func_021897BC(fieldMap, 0);
+    zoneId = func_02188C9C(fieldMap);
+    if (work->zoneId != zoneId) {
+        func_021F388C(work, fieldMap);
+        work->zoneId = zoneId;
     }
-    e = func_021BE674((char *)s, 0, 0, 0);
-    func_021BE580(s);
-    if (o[0] != 0 && func_021BE6BC((int *)e) != 0) {
-        func_021BE4B4((char *)s, 0, 0, 1);
-        o[0] = 0;
+    anime = func_021BE674(expObj, 0, GIMMICK61_EFFECT_MODEL, 0);
+    func_021BE580(expObj);
+    if (work->effectActive != 0 && func_021BE6BC(anime) != 0) {
+        func_021BE4B4(expObj, 0, GIMMICK61_EFFECT_MODEL, 1);
+        work->effectActive = 0;
     }
-    if (func_021F3868(o, g) == 0) {
+    if (func_021F3868(work, player) == 0) {
         return;
     }
-    func_021A3364(g, func_021A3050(g), (int *)(&v));
-    v.a -= 0x8000;
-    v.c -= 0x8000;
-    if (func_02162478((char *)h, (int *)(&v)) == 0) {
+    func_021A3364(player, func_021A3050(player), &pos);
+    pos.x -= 0x8000;
+    pos.z -= 0x8000;
+    if (func_02162478(eventData, &pos) == 0) {
         return;
     }
-    o[0] = 1;
-    func_021BE4B4((char *)s, 0, 0, 0);
-    e = func_021BE674((char *)s, 0, 0, 0);
-    func_021BE6CC(s, 0, 0, 0, 0);
-    func_021BE6B0(e, 0);
-    *(V3 *)o[1] = v;
+    work->effectActive = 1;
+    func_021BE4B4(expObj, 0, GIMMICK61_EFFECT_MODEL, 0);
+    anime = func_021BE674(expObj, 0, GIMMICK61_EFFECT_MODEL, 0);
+    func_021BE6CC(expObj, 0, GIMMICK61_EFFECT_MODEL, 0, 0);
+    func_021BE6B0(anime, 0);
+    *work->effectPos = pos;
 }
 
-
-int func_021F3868(void *unused, void *x)
+/* Returns 1 while the player is in step phase 3 of step kind 0 (ready for a new step). */
+int func_021F3868(Gimmick61Work *unusedWork, void *player)
 {
-    u32 a = func_021A3080(x);
+    u32 stepKind = func_021A3080(player);
 
-    if (func_021A308C(x) == 3 && a == 0) {
+    if (func_021A308C(player) == GIMMICK61_STEP_PHASE_READY && stepKind == 0) {
         return 1;
     }
     return 0;

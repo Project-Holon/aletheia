@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02027B60
+ * function: APP_TASKMENU_UpdateCursorColor
  * address:  0x02027B60
  * packet:   pkt_02027B60
  * region:   arm9
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   tbl_020A1B38   0x020A1B38  data
- *   sub_02061CA4   0x02061CA4  arm
+ *   NNS_GfdRegisterNewVramTransferTask   0x02061CA4  arm
  */
 
 typedef unsigned char  u8;
@@ -22,10 +22,10 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern s16 tbl_020A1B38[];
-extern s32 sub_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
 
-void func_02027B60(u16 *phase, u16 *out, u32 mode, u32 slot)
+void APP_TASKMENU_UpdateCursorColor(u16 *phase, u16 *out, u32 mode, u32 slot)
 {
     s32 s;
     u8 b, r, g;
@@ -45,8 +45,8 @@ void func_02027B60(u16 *phase, u16 *out, u32 mode, u32 slot)
     *out = (u16)(r | (g << 5) | (b << 10));
 
     if (mode <= 3) {
-        sub_02061CA4((void *)0xf, slot * 32 + 0xc, (u32)out, 2);
+        NNS_GfdRegisterNewVramTransferTask((void *)0xf, slot * 32 + 0xc, (u32)out, 2);
     } else {
-        sub_02061CA4((void *)0x1f, slot * 32 + 0xc, (u32)out, 2);
+        NNS_GfdRegisterNewVramTransferTask((void *)0x1f, slot * 32 + 0xc, (u32)out, 2);
     }
 }

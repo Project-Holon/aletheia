@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02059A10",
+   "name": "DWC_SetGsProfileId",
    "address": "0x02059A10",
    "kind": "sdk",
    "region": "arm9",

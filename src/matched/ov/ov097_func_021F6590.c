@@ -10,14 +10,14 @@
  * status: EXACT
  * symbols:
  *   D_021F7608 0x021F7608 data a4
- *   func_0202CD94 0x0202CD94 thumb
+ *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
  *   func_021F6B38 0x021F6B38 thumb ov097
  *   func_0204A600 0x0204A600 arm
  */
 #include "../include/Obj10194.h"
 struct WinMgr;
 extern int (*D_021F7608[])(char *);
-extern void func_0202CD94(struct WinMgr *mgr);
+extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern void func_021F6B38(char *);
 extern void func_0204A600(void);
-int func_021F6590(int a,int *b,int c,char *d) { *b=D_021F7608[*b](d); if(*b==5) return 1; func_0202CD94(*(struct WinMgr * *)&((struct Obj10194 *)d)->f8); func_021F6B38(d); func_0204A600(); return 0; }
+int func_021F6590(int a,int *b,int c,char *d) { *b=D_021F7608[*b](d); if(*b==5) return 1; BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((struct Obj10194 *)d)->f8); func_021F6B38(d); func_0204A600(); return 0; }

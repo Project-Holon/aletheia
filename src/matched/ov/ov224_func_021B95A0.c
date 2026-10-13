@@ -8,12 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 func_02043588 is defined in src/matched/arm9/unit_02043570.c
+ * blocker: ARM9 BG_SYS_ClearSubPlanes is defined in src/matched/arm9/unit_02043570.c
  *   but omitted from its function: header; the integrator owns this unit.
  * blocker: verified EXACT 16-byte ARM C copied from
  *   src/pending/ov/ov133_func_021B69AC.c after the caller's MATCH verdict:
- *   extern void func_02043558(void),func_02043570(void);
- *   void func_02043588(void) { func_02043558(); func_02043570(); }
+ *   extern void BG_SYS_ClearSubBgPlanes(void),BG_SYS_ClearSubObjPlane(void);
+ *   void BG_SYS_ClearSubPlanes(void) { BG_SYS_ClearSubBgPlanes(); BG_SYS_ClearSubObjPlane(); }
  * tu: MATCH 376 bytes, 29/30 relocations; --suggest-split has no viable partition.
  * lever: non-const resource table retains original outgoing stack-store order.
  * volatile: display control rereads 021B961C-021B962C.
@@ -24,9 +24,9 @@
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_0204047C 0x0204047C arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0207D518 0x0207D518 arm
- *   func_02043558 0x02043558 arm
+ *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
@@ -70,9 +70,9 @@ extern void func_0204047C(int,u16);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_021B9820(void);
 extern void func_021B9824(u16 *);
-extern void func_02043588(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0207D518(u32);
-extern void func_02043558(void);
+extern void BG_SYS_ClearSubBgPlanes(void);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
@@ -110,9 +110,9 @@ int func_021B95A0(struct Obj0203159C *proc,void *unused,void **args)
  i=ZERO;
  *(volatile u16 *)0x04001050=0;
  SetMode(MODE);
- func_02043588();
+ BG_SYS_ClearSubPlanes();
  func_0207D518(0);
- func_02043558();
+ BG_SYS_ClearSubBgPlanes();
  do {
   row=&d_021B9C04[i]; id=row->id;
   func_0203FCA0((u8)id,&row->bg,(u8)row->kind);

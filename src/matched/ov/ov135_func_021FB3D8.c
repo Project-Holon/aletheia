@@ -21,6 +21,9 @@
  *   func_021FBF04  0x021FBF04  thumb
  *   func_021FBEB8  0x021FBEB8  thumb
  *   func_021F4FF4  0x021F4FF4  thumb
+ *   BGWINFRM_SetFrameDataArc  0x0202CAE4  thumb  arm9
+ *   BGWINFRM_PutFrame  0x0202CB4C  thumb  arm9
+ *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb  arm9
  */
 
 typedef signed char s8;
@@ -66,8 +69,8 @@ struct WinMgr;
 extern const int tbl_02203324[];
 extern const Cell tbl_02203220[];
 
-extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
-extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
+extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void func_021F9260(Obj *p, u32 mode);
 extern int func_021FB26C(void **menu, void *msg, void *bank, u32 x, u32 kind, void *bag);
 extern void func_021FB2F0(Obj *p, int page, int total);
@@ -75,7 +78,7 @@ struct Obj;
 extern u32 func_021F9EEC(u8 *p, u32 n);
 extern void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages);
 extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
@@ -87,8 +90,8 @@ int func_021FB3D8(Obj *p)
 {
     u8 pages;
 
-    func_0202CAE4(p->mgr, 0, 0x60, 0x1D, 1);
-    func_0202CF84(p->mgr, 0);
+    BGWINFRM_SetFrameDataArc(p->mgr, 0, 0x60, 0x1D, 1);
+    BGWINFRM_GetFrameBuffer(p->mgr, 0);
     func_021F9260(p, 0);
     p->count = func_021FB26C(&p->menu, p->msg, p->bank, p->x2c, tbl_02203324[p->layout] + p->start, p->bag);
     p->page = 0;
@@ -96,7 +99,7 @@ int func_021FB3D8(Obj *p)
     pages = func_021F9EEC((u8 *)p->count, 4);
     func_021FBF04(p->mgr, p->list, p->strs[4], p->page, pages);
     func_021FBEB8(p->mgr, p->bank, p->strs[14], 0x4A, p->g);
-    func_0202CB4C(p->mgr, 0, 0x10, 0);
+    BGWINFRM_PutFrame(p->mgr, 0, 0x10, 0);
     func_0204B878((struct Obj *)p->cursor, 6);
     p->pos = 0;
     func_021F4FF4(p->cursor, tbl_02203220[p->pos].x, tbl_02203220[p->pos].y);

@@ -19,23 +19,23 @@
  * blocker: ARM9 020434CC is in src/matched/arm9/unit_0204349C.c but omitted
  *   from function: together with its nested 020434B4. Prior verified MATCH
  *   16-byte ARM C copied from ov133_func_021B69AC.c:
- *   extern void sub_0204349C(void),sub_020434B4(void);
- *   void sub_020434CC(void) { sub_0204349C(); sub_020434B4(); }
+ *   extern void BG_SYS_ClearMainBgPlanes(void),BG_SYS_ClearMainObjPlane(void);
+ *   void BG_SYS_ClearMainPlanes(void) { BG_SYS_ClearMainBgPlanes(); BG_SYS_ClearMainObjPlane(); }
  * blocker: ARM9 02043588 is in src/matched/arm9/unit_02043570.c but omitted
  *   from function:. Prior verified EXACT 16-byte ARM C copied from
  *   ov133_func_021B69AC.c:
- *   extern void func_02043558(void),func_02043570(void);
- *   void func_02043588(void) { func_02043558(); func_02043570(); }
+ *   extern void BG_SYS_ClearSubBgPlanes(void),BG_SYS_ClearSubObjPlane(void);
+ *   void BG_SYS_ClearSubPlanes(void) { BG_SYS_ClearSubBgPlanes(); BG_SYS_ClearSubObjPlane(); }
  * tu: --suggest-split MATCH216, sole function OUT, no viable partition.
  * volatile: hardware 0x04000050/0x04001050 writes; 0x04000000 at 021BDC48 and 0x04001000 at 021BDC52 are read-modify-written.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_020433E0 0x020433E0 arm
  *   func_021BDE30 0x021BDE30 thumb ov204
  *   func_021BDD98 0x021BDD98 thumb ov204
@@ -57,11 +57,11 @@ extern const struct DispVram d_021BFE4C,d_021BFE1C;
 extern const char d_021C09C0[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,u8,u32);
-extern void func_0204335C(u32);
+extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void func_0204363C(u32);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_020433E0(const struct DispVram *);
 extern void func_021BDE30(void *,u16);
 extern void func_021BDD98(void *,u32);
@@ -80,11 +80,11 @@ void *func_021BDC18(int swap, int mode, u16 heap)
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04000000 &=0xFFFF1FFF;
     *(volatile u32 *)0x04001000 &=0xFFFF1FFF;
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_0204363C(swap);
     func_0204361C();
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     if (mode==7) {
         func_020433E0(&d_021BFE4C);
         func_021BDE30(p,heap);

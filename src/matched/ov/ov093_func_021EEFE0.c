@@ -12,7 +12,7 @@
  * the index shift ahead of the last outgoing argument store.
  * symbols:
  *   func_02045A98 0x02045A98 arm
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   func_0201D5C4 0x0201D5C4 thumb
  *   func_0201D5CC 0x0201D5CC thumb
  *   func_0201D670 0x0201D670 thumb
@@ -41,7 +41,7 @@ extern struct H d_021F63D8;
 extern u16 func_02045A98(void);
 struct U16Vec;
 struct WordSet;
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u32 func_0201D5C4(void);
 extern u32 func_0201D5CC(const u16 *p);
 extern u32 func_0201D670(const u16 *p, u32 i);
@@ -74,7 +74,7 @@ void func_021EEFE0(void *s, const u32 *values, void *w)
     tag = func_0201D5C4();
     for (i = 0; i < 8; i++)
         removed[i] = 0;
-    p = func_02045A90(s);
+    p = STRBUF_GetChars(s);
     while (*p != end) {
         if (*p == tag) {
             if (func_0201D5CC(p)) {
@@ -88,7 +88,7 @@ void func_021EEFE0(void *s, const u32 *values, void *w)
         } else
             p++;
     }
-    p = func_02045A90(s);
+    p = STRBUF_GetChars(s);
     while (*p != end) {
         if (*p == tag) {
             if (func_0201D5CC(p)) {

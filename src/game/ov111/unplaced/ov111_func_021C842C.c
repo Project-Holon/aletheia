@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_021C83DC  0x021C83DC  thumb  ov111
  *   func_021C840C  0x021C840C  thumb  ov111
  *   func_021C8414  0x021C8414  thumb  ov111
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 typedef signed char s8;
 
-extern unsigned int func_02035CB8(u32 *a, u32 *b);
+extern unsigned int TOUCHPANEL_GetPointCont(u32 *a, u32 *b);
 extern void func_021C83DC(u8 *p, int value);
 extern void func_021C840C(u8 *p);
 extern void func_021C8414(u8 *p, int idx);
@@ -66,7 +66,7 @@ void func_021C842C(Work *p, int idx)
     int dx, dy;
     s8 s;
 
-    func_02035CB8(&x, &y);
+    TOUCHPANEL_GetPointCont(&x, &y);
     if (x != 0xFFFF && y != 0xFFFF && PREV_X != 0xFFFF && PREV_Y != 0xFFFF && idx != -1
         && (u32)idx < 8 && p->active[idx] != 0) {
         dx = Delta(&p->sx, PREV_X, x);

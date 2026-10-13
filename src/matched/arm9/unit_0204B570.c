@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_0204B570
+ * function: CLACT_SetActorAffineMode
  * address:  0x0204B570
  * packet:   pkt_0204B454
  * region:   arm9
@@ -15,13 +15,13 @@
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); it is a seed
  * for layout/function_starts.txt.
  *
- * sub_0204B570 writes a two-bit field at bits 18..19 of the u32 flag word at
+ * CLACT_SetActorAffineMode writes a two-bit field at bits 18..19 of the u32 flag word at
  * +0x60.  The base type has to be u32, not u8 as in
  * src/matched/unit_0204B22C.c: a u8-based bitfield would truncate the
  * incoming value with an `and r1, r1, #0xff` first, and there is no such
  * instruction here.
  *
- * 0x0204B588 is the +0x10 twin of src/matched/sub_0204B528.c, so the actor
+ * 0x0204B588 is the +0x10 twin of src/matched/CLACT_SetActorPos.c, so the actor
  * carries two halfword pairs, the screen position at +0x0c and this second
  * pair at +0x10.
  *
@@ -48,12 +48,12 @@ struct Actor {
     u32       unk_60_20 : 12;
 };
 
-void sub_0204B570(struct Actor *actor, u32 value)
+void CLACT_SetActorAffineMode(struct Actor *actor, u32 value)
 {
     actor->unk_60_18 = value;
 }
 
-void sub_0204B588(struct Actor *actor, const struct Pt *src)
+void CLACT_SetActorAffineOrigin(struct Actor *actor, const struct Pt *src)
 {
     actor->unk_10.x = src->x;
     actor->unk_10.y = src->y;

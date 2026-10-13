@@ -1,5 +1,5 @@
 /*
- * function: func_021D96B0
+ * function: P_STA_SKILL_Create
  * address: 0x021D96B0
  * packet: pkt_ov131_021D96B0
  * region: ov131
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   d_021DC844 0x021DC844 data a1
+ *   P_STA_SKILL_FileName 0x021DC844 data a1
  */
 #include "../include/Obj02189.h"
 #include "../include/Obj14075.h"
@@ -18,12 +18,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern const char d_021DC844[];
-u8 *func_021D96B0(u8 *a)
+extern const char P_STA_SKILL_FileName[];
+u8 *P_STA_SKILL_Create(u8 *a)
 {
     u8 *p;
     u8 i;
-    p=func_02030734(((struct Obj14075 *)a)->f0,296,0,d_021DC844,315);
+    p=func_02030734(((struct Obj14075 *)a)->f0,296,0,P_STA_SKILL_FileName,315);
     ((struct Obj02189 *)p)->f0=0;
     ((struct Obj02189 *)p)->f4=0;
     ((struct Obj02189 *)p)->f8=0;

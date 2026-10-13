@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045A38  0x02045A38  arm
- *   func_0202744C  0x0202744C  thumb
+ *   GAME_BEACON_ResetDetails  0x0202744C  thumb
  */
 #include "../include/Obj00121.h"
 
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_02045A38();
-extern int func_0202744C();
+extern int GAME_BEACON_ResetDetails();
 
 int func_0216586C(int a0, int a1)
 {
@@ -37,6 +37,6 @@ loc_0216587C:
 a0 = 0x31;
 ((struct Obj00121 *)t4)->f30 = a0;
 a0 = t4 + 0;
-    a0 = func_0202744C(a0);
+    a0 = GAME_BEACON_ResetDetails(a0);
 loc_02165886:
     return a0;}

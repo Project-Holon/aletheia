@@ -14,8 +14,8 @@
  *   func_0215A5E4  0x0215A5E4  thumb  ov010
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
- *   func_020083E4  0x020083E4  thumb
- *   func_020083EC  0x020083EC  thumb
+ *   CONFIG_GetAppliedFlag  0x020083E4  thumb
+ *   CONFIG_SetAppliedFlag  0x020083EC  thumb
  */
 
 typedef unsigned char u8;
@@ -27,8 +27,8 @@ struct Sub02008700Obj;
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern int func_020083E4(unsigned short *p);
-extern int func_020083EC();
+extern int CONFIG_GetAppliedFlag(unsigned short *p);
+extern int CONFIG_SetAppliedFlag();
 
 int func_0215AA60(int a0, int a1)
 {
@@ -43,7 +43,7 @@ loc_0215AA68:
 loc_0215AA6C:
     t4 = func_0200873C(p);
 loc_0215AA70:
-    a0 = func_020083E4((short unsigned int *)t4);
+    a0 = CONFIG_GetAppliedFlag((short unsigned int *)t4);
 loc_0215AA76:
 a1 = a0 + 0;
     if (a1 != 0) goto loc_0215AA7E;
@@ -55,7 +55,7 @@ loc_0215AA7E:
 loc_0215AA82:
 a1 = 0;
 loc_0215AA84:
-    a0 = func_020083EC(t4, a1);
+    a0 = CONFIG_SetAppliedFlag(t4, a1);
 loc_0215AA8A:
 a0 = 0;
     return a0;}

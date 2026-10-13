@@ -20,7 +20,7 @@
  *   func_020862F0  0x020862F0  arm
  *   func_02061878  0x02061878  arm
  *   func_02061840  0x02061840  arm
- *   g_02146B80     0x02146B80  data
+ *   sVramTransferTaskQueue     0x02146B80  data
  *   g_02146B80_cb  0x02146B80  data
  */
 #include "../../matched/include/Obj07006.h"
@@ -65,7 +65,7 @@ u32 func_02061BD0(struct Obj02061BD0 *p);
 void sub_02061C0C(void *a, u32 capacity);
 void func_02061C30(void);
 extern Fn g_020A1718[];
-extern struct Queue g_02146B80;
+extern struct Queue sVramTransferTaskQueue;
 extern struct Queue g_02146B80_cb;
 
 
@@ -200,7 +200,7 @@ u32 func_02061BD0(struct Obj02061BD0 *p)
  * 0x02146B80 and tail
  * calls func_02061B5C on it (docs/idioms/tail-call-is-a-pool-word-and-bx.md,
  * hence the `ldr ip` / `bx ip` pair rather than a `b`). The same queue object
- * is the one src/pending/sub_02061CA4.c pushes requests onto, and the stub at
+ * is the one src/pending/NNS_GfdRegisterNewVramTransferTask.c pushes requests onto, and the stub at
  * 0x02061C30 is the same tail call without the two stores.
  *
  * The one shape question this function poses is why 0x02146B80 costs two pool
@@ -210,7 +210,7 @@ u32 func_02061BD0(struct Obj02061BD0 *p)
  * argument, a cast through `void *` and a cast of the store base all still
  * CSE. Two distinct declarations at the address are the only spelling that
  * reproduces the pair, so that is what this file uses: `g_02146B80_cb` for
- * the base/capacity slots and `g_02146B80` for the queue the tail call takes.
+ * the base/capacity slots and `sVramTransferTaskQueue` for the queue the tail call takes.
  * Writing the two stores as a static helper the compiler might inline instead
  * makes it worse, not better: mwcc emits a real tail call to the helper and
  * merges the two stores into one `stm`, which the original does not have.
@@ -226,7 +226,7 @@ void sub_02061C0C(void *a, u32 capacity)
 {
     g_02146B80_cb.unk_00 = a;
     g_02146B80_cb.capacity = capacity;
-    func_02061B5C((u8 *)(&g_02146B80));
+    func_02061B5C((u8 *)(&sVramTransferTaskQueue));
 }
 
 
@@ -240,9 +240,9 @@ void sub_02061C0C(void *a, u32 capacity)
  * last-argument-write.md), the two loads transposed, 8 bytes out; the same C
  * under ../2.0/sp2 (also ../1.2/sp2, ../2.0/sp2p2) is 12 bytes, 0 mismatches.
  * Neighbour func_02061BD0 carries the same ../2.0/sp2 pin.
- * Witness for ov131 func_021D48E4.
+ * Witness for ov131 P_STATUS_ExitGraphics.
  */
 void func_02061C30(void)
 {
-    func_02061B5C((u8 *)(&g_02146B80));
+    func_02061B5C((u8 *)(&sVramTransferTaskQueue));
 }

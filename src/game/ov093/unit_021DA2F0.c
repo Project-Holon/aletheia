@@ -17,27 +17,29 @@
  *   func_021C88C8 0x021C88C8 thumb ov093
  * extent: includes store-and-return followers 021DA320.
  */
-#include "../../matched/include/Obj07811.h"
+#include "unit_021D9ADC_types.h"
+
 extern unsigned char d_021F07F0[];
 extern int func_021D775C(int);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *, void *);
+extern void *func_021C88A4(char *flowWork, int kind, int pokeId);
+extern void func_021C88C8(void *flowWork, void *record);
 
-void func_021DA2F0(int a, void *b, int c)
+/* Natural Cure: when the Pokemon leaves the field, cure its status condition. */
+void func_021DA2F0(int myHandle, void *flowWork, int pokeId)
 {
-    unsigned char *p;
-    if (c == func_021D775C(2)) {
-        p = func_021C88A4(b, 11, c);
-        ((struct Obj07811 *)p)->f4 = 0x24;
-        p[0x14] = 1;
-        p[8] = c;
-        p[0x15] = 1;
-        func_021C88C8(b, p);
+    struct HandExCureSick *record;
+    if (pokeId == func_021D775C(HANDVAR_POKE_ID)) {
+        record = func_021C88A4(flowWork, HANDEX_KIND_CURE_SICK, pokeId);
+        record->sickKind = 0x24;
+        record->pokeCount = 1;
+        record->pokeIds[0] = pokeId;
+        record->suppressMessage = 1;
+        func_021C88C8(flowWork, record);
     }
 }
 
-void *func_021DA320(int *p)
+void *func_021DA320(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F07F0;
 }

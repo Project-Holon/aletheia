@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   sub_0201C1BC   0x0201C1BC  thumb
+ *   WAZA_TOOL_GetCategory   0x0201C1BC  thumb
  *   func_021C2CD8  0x021C2CD8  thumb  ov093
  *   func_021C232C  0x021C232C  thumb  ov093
  */
@@ -18,13 +18,13 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 sub_0201C1BC(u16 move);
+extern u32 WAZA_TOOL_GetCategory(u16 move);
 extern void func_021C2CD8(u8 *p, u16 *q, u8 *a, u8 *b);
 extern void func_021C232C(u8 *p, const u16 *a, u32 b, u8 *c);
 
 void func_021C1880(u8 *p, u8 *q, u32 a, u32 b, u32 s0, int s1)
 {
-    switch (sub_0201C1BC(((struct Obj09968 *)q)->f0)) {
+    switch (WAZA_TOOL_GetCategory(((struct Obj09968 *)q)->f0)) {
     case 7:
         func_021C2CD8(p, (u16 *)q, (u8 *)a, (u8 *)a);
         break;

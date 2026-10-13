@@ -17,16 +17,16 @@
  * symbols:
  *   func_021D5580  0x021D5580  arm  ov016
  *   func_021C0E40  0x021C0E40  arm  ov016
- *   func_021CD67C  0x021CD67C  arm  ov016
+ *   DWCi_SceneSetTestCompletet_procScene  0x021CD67C  arm  ov016
  */
 
 extern int func_021D5580(int lcd);
 extern void func_021C0E40(unsigned int v);
-extern void func_021CD67C(void);
+extern void DWCi_SceneSetTestCompletet_procScene(void);
 
 void func_021CD658(void)
 {
     if (func_021D5580(0))
         return;
-    func_021C0E40((unsigned int)func_021CD67C);
+    func_021C0E40((unsigned int)DWCi_SceneSetTestCompletet_procScene);
 }

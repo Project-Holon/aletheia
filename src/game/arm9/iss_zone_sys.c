@@ -1,7 +1,7 @@
 /*
  * file:     iss_zone_sys.c
  * unit:     yes
- * function: func_0202BAF4, func_0202BB40, func_0202BB48, func_0202BB68, func_0202BBB0, func_0202BBFC, func_0202BC48, func_0202BC60, func_0202BC78, func_0202BCA0, func_0202BDD0, func_0202BDE8, func_0202BE00, func_0202BE24, func_0202BE54, func_0202BE68, func_0202BEA4, func_0202BEBC, func_0202BECC, func_0202BEDC, func_0202BEE4, func_0202BEEC, func_0202BF54, func_0202BF84, func_0202BF90, func_0202BFC4, func_0202BFF0
+ * function: func_0202BAF4, func_0202BB40, func_0202BB48, func_0202BB68, func_0202BBB0, func_0202BBFC, func_0202BC48, func_0202BC60, func_0202BC78, func_0202BCA0, func_0202BDD0, func_0202BDE8, func_0202BE00, func_0202BE24, func_0202BE54, ISS_ZONE_SYS_Create, ISS_ZONE_SYS_Delete, ISS_ZONE_SYS_Update, ISS_ZONE_SYS_SwitchZone, ISS_ZONE_SYS_Start, ISS_ZONE_SYS_Stop, ISS_ZONE_SYS_LoadRecords, ISS_ZONE_SYS_SelectRecord, ISS_ZONE_SYS_ClearActive, ISS_ZONE_SYS_BeginFade, ISS_ZONE_SYS_FindRecord, ISS_ZONE_SYS_StepFade
  * address:  0x0202BAF4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,8 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   sub_0202BE24   0x0202BE24  thumb
- *   func_0202BA24  0x0202BA24  thumb
+ *   ISS_3DS_SYS_ResetSources  0x0202BA24  thumb
  *   VEC_Subtract   0x0207CA00  arm
  *   VEC_Mag        0x0207CBD0  arm
  *   sub_0207C768   0x0207C768  arm
@@ -30,179 +29,131 @@
  *   _ffltu  0x0209BE04  arm
  *   _fsub   0x0209CB8C  arm
  *   _f2s    0x0209C494  arm
+ *   GFL_USE_SetBgmTrackParams  0x02005EE0  thumb
+ *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  */
-#include "../../matched/include/Obj03439.h"
-#include "../../matched/include/Obj11316.h"
-#include "../../matched/include/Obj02602.h"
-#include "../../matched/include/Obj03440.h"
-#include "../../matched/include/Obj08807.h"
-
-struct Obj0202BE24;
-struct Listener;
-struct Rec;
-struct Vec;
-struct Obj;
-struct ArcFile;
-struct Container;
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
-
-typedef enum { SLOT_0, SLOT_MAX = 16 } Slot;
-
-typedef signed int    s32_0202BB68;
-
-typedef signed int s32_0202BBFC;
-
-struct Vec { s32_0202BBFC x, y, z; };
-
-struct Rec {
-    s32_0202BBFC pad0;
-    struct Vec pos;
-    s32_0202BBFC radius;
-    s32_0202BBFC amp;
-};
-
-typedef int s32_0202BC48;
-
-typedef signed int   s32_0202BCA0;
-
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
 typedef signed long long s64;
 
-struct Listener {
-    s32_0202BCA0 pad00;
-    struct Vec fwd;
+/* Index of one 3D sound source of the iss_3ds_sys object (16 slots). */
+typedef enum { ISS_3DS_SOURCE_FIRST, ISS_3DS_SOURCE_MAX = 16 } Iss3dsSourceIndex;
+
+struct ArcFile;
+
+struct Vec {
+    s32 x, y, z;
 };
 
-typedef int s32_0202BDD0;
-
-typedef int s32_0202BDE8;
-
-typedef unsigned short u16;
-
-struct Obj0202BE24 {
-    u8 pad_00[0x4];
-    unsigned int f4;
-    u8 target;
-    u8 curr;
-    u8 step;
-    u8 pad_0B[0x1];
+/*
+ * One 8-byte record of the zone table (archive 0x88). A track mask is a
+ * bit mask over the tracks of the playing BGM.
+ */
+struct IssZoneRecord {
+    u16 key;            /* zone key the record is selected by */
+    u16 audibleMask;    /* tracks that sound in this zone */
+    u16 mutedMask;      /* tracks that are silent in this zone */
+    u16 fadeSteps;      /* length of the fade into this zone, in updates */
 };
 
-struct Rec_0202BF54 {
-    u16 key;
-    u16 f2;
-    u16 f4;
-    u16 f6;
+/*
+ * The zone object (0x18 bytes) that iss_3ds_sys.c keeps at +0x1c of its own
+ * object: the table of zone records and the state of the current fade
+ * between two zones.
+ */
+struct IssZone {
+    u32 active;                 /* 0: no record selected yet */
+    u8  recordCount;
+    u8  padding05[3];
+    struct IssZoneRecord *records;
+    u8  selected;               /* index of the selected record, 0xff: none */
+    u8  padding0D;
+    u16 fadeInMask;             /* tracks that fade in */
+    u16 fadeOutMask;            /* tracks that fade out */
+    u16 fadeSteps;              /* length of the running fade */
+    u16 fadeStep;               /* updates done so far in the fade */
+    u16 padding16;
 };
 
-struct Obj_0202BF54 {
-    u32 state;
-    u32 pad4;
-    const struct Rec_0202BF54 *base;
-    u8  sel;
-    u8  pad_d;
-    u16 fxe;
-    u16 f10;
-    u16 f12;
-    u16 f14;
+/* One 3D sound source: a point that drives the volume and pan of some tracks. */
+struct Iss3dsSource {
+    u32 active;
+    struct Vec pos;
+    s32 radius;                 /* distance beyond which the source is silent */
+    s32 amplitude;              /* volume at the source position */
+    u16 trackMask;
+    u16 padding1A;
 };
 
-struct Rec_0202BF90 {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
+/* The part of the iss_3ds_sys object that this file reads. */
+struct Iss3dsSys {
+    u8  padding00[4];
+    u32 enabled;
+    u8  targetVolume;           /* master volume the ramp moves toward */
+    u8  volume;                 /* current master volume (0..0x7f) */
+    u8  volumeStep;             /* ramp step of volume per update */
+    u8  padding0B;
+    struct Vec listenerPos;
+    struct Vec listenerTarget;  /* point the listener looks at */
+    struct Iss3dsSource sources[ISS_3DS_SOURCE_MAX];
+    s32 volumeLevel[ISS_3DS_SOURCE_MAX];    /* per-source volume, ramped */
+    s32 panLevel[ISS_3DS_SOURCE_MAX];       /* per-source pan, ramped */
+    struct IssZoneRecord *records;
+    u8  recordCount;
+    u8  activeRecord;           /* 0xff: none */
 };
 
-struct Obj_0202BF90 {
-    u32 pad0;
-    u32 pad4;
-    u32 base;
-    u8  sel;
-    u8  pad_d;
-    u16 fxe;
-    u16 f10;
-    u16 f12;
-    u16 f14;
-};
-
-struct Item {
-    u16 key;
-    u16 pad[3];
-};
-
-struct Container {
-    u8 pad[4];
-    u8 count;
-    u8 pad2[3];
-    const struct Item *items;
-};
-
-struct Obj_0202BFF0 {
-    u32 pad0;
-    u32 pad4;
-    u32 pad8;
-    u8  padc[2];
-    u16 fxe;
-    u16 f10;
-    u16 f12;
-    u16 f14;
-};
-
-extern void sub_0202BE24(struct Obj0202BE24 *p);
-extern void func_0202BA24(u8 *p);
+extern void ISS_3DS_SYS_ResetSources(struct Iss3dsSys *sys);
 extern void VEC_Subtract(const struct Vec *a, const struct Vec *b,
                          struct Vec *out);
-extern s32_0202BBFC  VEC_Mag(const struct Vec *v);
-extern u32 sub_0207C768(u32 a, u32 b);
+extern s32  VEC_Mag(const struct Vec *v);
+extern u32 sub_0207C768(u32 numerator, u32 denominator);
 extern void VEC_Normalize(const struct Vec *v, struct Vec *out);
 extern void VEC_CrossProduct(const struct Vec *a, const struct Vec *b,
                              struct Vec *out);
-extern s32_0202BCA0  VEC_DotProduct(const struct Vec *a, const struct Vec *b);
-extern void func_02005EE0(u32 a, u32 b, u32 c, u32 d);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern s32  VEC_DotProduct(const struct Vec *a, const struct Vec *b);
+extern void GFL_USE_SetBgmTrackParams(u32 trackMask, u32 paramKind, u32 unused, u32 value);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 func_020307B0(void *p);
-extern void *func_020490F4(u32 id, u32 heap);
-extern u16 func_0204961C(void *obj);
+extern void *func_020490F4(u32 archiveId, u32 heapId);
+extern u16 func_0204961C(void *archive);
 extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
-extern void   func_02049238(void *handle);
-extern void func_02005F24(u32 a0, u32 a1);
+extern void   func_02049238(void *archive);
+extern void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volume);
 extern float _ffltu(u32 v);
 extern float _fdiv(float a, float b);
 extern float _fmul(float a, float b);
 extern float _fsub(float a, float b);
 extern int   _f2s(float a);
-void func_0202BAF4(u8 *o);
-void func_0202BB40(u8 *p);
-void func_0202BB48(u8 *o);
-void func_0202BB68(u8 *o, int i);
-void func_0202BBB0(u8 *o, int i);
-s32_0202BBFC func_0202BBFC(struct Rec *r, const struct Vec *p);
-void sub_0202BC48(void *obj, u32 index, s32_0202BC48 cap);
-void sub_0202BC60(void *obj, u32 index, s32_0202BC48 cap);
-void func_0202BC78(u8 *o, u32 i);
-s32_0202BCA0 func_0202BCA0(const struct Listener *l, const struct Vec *ps, const struct Vec *pp);
-void sub_0202BDD0(void *obj, u32 index, s32_0202BDD0 cap);
-void sub_0202BDE8(void *obj, u32 index, s32_0202BDE8 cap);
-void func_0202BE00(u8 *p, u32 i);
-void func_0202BE24(struct Obj0202BE24 *p);
-u32 func_0202BE54(u8 *p, u32 a, void *unused);
-u8 *func_0202BE68(u32 heapId);
-void func_0202BEA4(u8 *p);
-void func_0202BEBC(u8 *p);
-void func_0202BECC(u8 *p, u32 key);
-void func_0202BEDC(u8 *o, u16 key);
-void func_0202BEE4(void *p);
-void func_0202BEEC(u8 *p, u32 id);
-void func_0202BF54(struct Obj_0202BF54 *o, u16 key);
-void func_0202BF84(u32 *p);
-void func_0202BF90(struct Obj_0202BF90 *o, u32 key);
-u32 func_0202BFC4(const struct Container *c, u32 key);
-void func_0202BFF0(struct Obj_0202BFF0 *o);
-
-
-
+void func_0202BAF4(struct Iss3dsSys *sys);
+void func_0202BB40(struct Iss3dsSys *sys);
+void func_0202BB48(struct Iss3dsSys *sys);
+void func_0202BB68(struct Iss3dsSys *sys, int sourceIndex);
+void func_0202BBB0(struct Iss3dsSys *sys, int sourceIndex);
+s32 func_0202BBFC(struct Iss3dsSource *source, const struct Vec *listenerPos);
+void sub_0202BC48(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap);
+void sub_0202BC60(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap);
+void func_0202BC78(struct Iss3dsSys *sys, u32 sourceIndex);
+s32 func_0202BCA0(const struct Iss3dsSource *source, const struct Vec *listenerPos, const struct Vec *listenerTarget);
+void sub_0202BDD0(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap);
+void sub_0202BDE8(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap);
+void func_0202BE00(struct Iss3dsSys *sys, u32 sourceIndex);
+void func_0202BE24(struct Iss3dsSys *sys);
+u32 func_0202BE54(struct Iss3dsSys *sys, u32 level, void *unused);
+struct IssZone *ISS_ZONE_SYS_Create(u32 heapId);
+void ISS_ZONE_SYS_Delete(struct IssZone *zone);
+void ISS_ZONE_SYS_Update(struct IssZone *zone);
+void ISS_ZONE_SYS_SwitchZone(struct IssZone *zone, u32 key);
+void ISS_ZONE_SYS_Start(struct IssZone *zone, u16 key);
+void ISS_ZONE_SYS_Stop(struct IssZone *zone);
+void ISS_ZONE_SYS_LoadRecords(struct IssZone *zone, u32 heapId);
+void ISS_ZONE_SYS_SelectRecord(struct IssZone *zone, u16 key);
+void ISS_ZONE_SYS_ClearActive(u32 *active);
+void ISS_ZONE_SYS_BeginFade(struct IssZone *zone, u32 key);
+u32 ISS_ZONE_SYS_FindRecord(const struct IssZone *zone, u32 key);
+void ISS_ZONE_SYS_StepFade(struct IssZone *zone);
 
 /*
  * iss_3ds_sys.c per-frame step: returns when +0x04 is zero, then runs the
@@ -210,223 +161,169 @@ void func_0202BFF0(struct Obj_0202BFF0 *o);
  * The listing extent (84) runs into the 8-byte thunk at 0x0202BB40; the
  * function itself is 74 bytes.
  *
- * The kept `cmp r4, #0x10; bge` zero-trip guard (the four bytes that were
- * the whole residue in docs/notes/func_0202BAF4.c.txt) is an enum-typed
+ * The kept `cmp r4, #0x10; bge` zero-trip guard is an enum-typed
  * counter (docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md),
- * the same lever as its sibling func_0202BA24.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BAF4.c \
- *       --func func_0202BAF4 --addr 0x0202BAF4 --thumb --cc 1.1p1
+ * the same lever as its sibling ISS_3DS_SYS_ResetSources.
  */
-void func_0202BAF4(u8 *o)
+void func_0202BAF4(struct Iss3dsSys *sys)
 {
-    Slot i;
+    Iss3dsSourceIndex i;
 
-    if (((struct Obj0202BE24 *)o)->f4 == 0) {
+    if (sys->enabled == 0) {
         return;
     }
-    sub_0202BE24((struct Obj0202BE24 *)o);
+    func_0202BE24(sys);
     for (i = 0; i < 0x10; i++) {
-        if (*(u32 *)(o + i * 0x1c + 0x24) != 0) {
-            func_0202BB68(o, i);
-            func_0202BBB0(o, i);
-            func_0202BC78(o, i);
-            func_0202BE00(o, i);
+        if (sys->sources[i].active != 0) {
+            func_0202BB68(sys, i);
+            func_0202BBB0(sys, i);
+            func_0202BC78(sys, i);
+            func_0202BE00(sys, i);
         }
     }
 }
 
-
-
-
 /*
- * iss_3ds_sys.c: a bare tail-call thunk to func_0202BA24 (ldr r3, [pc, #0];
- * bx r3; .word 0x0202BA25), the target of the thunk at 0x0202B90C.  Not a
- * seeded start yet (integrator: seed 0x0202BB40 thumb); filed so that
- * func_0202B90C's pool word has a matched witness.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BB40.c \
- *       --func func_0202BB40 --addr 0x0202BB40 --thumb --cc 1.1p1
+ * iss_3ds_sys.c: a bare tail-call thunk to ISS_3DS_SYS_ResetSources (ldr r3, [pc, #0];
+ * bx r3; .word 0x0202BA25), the target of the thunk at 0x0202B90C.
  */
-void func_0202BB40(u8 *p)
+void func_0202BB40(struct Iss3dsSys *sys)
 {
-    func_0202BA24(p);
+    ISS_3DS_SYS_ResetSources(sys);
 }
 
-
-
-void func_0202BB48(u8 *o)
+/* Silences the tracks of the active record, when there is one. */
+void func_0202BB48(struct Iss3dsSys *sys)
 {
-    u8 idx = o[0x269];
+    u8 record = sys->activeRecord;
 
-    if (idx != 0xff) {
-        func_02005F24(*(u16 *)(*(u32 *)(o + 0x264) + idx * 8 + 4), 0);
+    if (record != 0xff) {
+        GFL_USE_SetBgmTrackVolume(sys->records[record].mutedMask, 0);
     }
 }
 
-
-
-
 /*
- * A whole translation unit, matched as one byte range.
- *
  * iss_3ds_sys.c, the per-slot twins that func_0202BAF4 steps: for a live
- * entry (0x1c-byte stride at +0x24), run the entry's comparator and move the
- * slot's s32 level (+0x1E4 or +0x224, indexed by i) toward the result through
- * the clamp helpers of unit_0202BC48 / sub_0202BDD0 / sub_0202BDE8, which
- * take the comparator result as their third argument.  func_0202BBB0's
- * comparator takes the extra sub-object at +0x18, and its two compares are
- * the mirror of func_0202BB68's.
+ * source (0x1c-byte stride at +0x24), compute the target level and move the
+ * source's s32 level (volumeLevel or panLevel, indexed by sourceIndex) toward
+ * it through the clamp helpers sub_0202BC48 / sub_0202BDD0 / sub_0202BDE8,
+ * which take the computed level as their third argument.
  *
- * What closed them (wave 17, from 37 and 36 out): callee arity read from
- * the callee bodies.  Both clamp helpers compare against r2
- * (src/matched/unit_0202BC48.c, sub_0202BDD0.c, sub_0202BDE8.c are
- * (obj, index, cap)); declaring them with two parameters dropped the
- * image's `adds r2, r0, #0` copy of the comparator result, the one
- * instruction the note had chased as a register-order problem.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202BB68.c \
- *       --addr 0x0202BB68 --thumb
+ * Callee arity is read from the callee bodies: both clamp helpers compare
+ * against r2, so they are declared (sys, index, cap).
  */
-void func_0202BB68(u8 *o, int i)
+void func_0202BB68(struct Iss3dsSys *sys, int sourceIndex)
 {
-    u8 *e = o + 0x24;
-    s32_0202BB68 v;
-    s32_0202BB68 lv;
+    struct Iss3dsSource *sources = sys->sources;
+    s32 target;
+    s32 level;
 
-    if (*(u32 *)(e + i * 0x1c) == 0) {
+    if (sources[sourceIndex].active == 0) {
         return;
     }
-    v  = func_0202BBFC((struct Rec *)(e + i * 0x1c), (const struct Vec *)(o + 0xc));
-    lv = *(s32_0202BB68 *)(o + i * 4 + 0x1e4);
-    if (lv < v) {
-        sub_0202BC48(o, i, v);
+    target = func_0202BBFC(&sources[sourceIndex], &sys->listenerPos);
+    level  = sys->volumeLevel[sourceIndex];
+    if (level < target) {
+        sub_0202BC48(sys, sourceIndex, target);
         return;
     }
-    if (v < lv) {
-        sub_0202BC60(o, i, v);
+    if (target < level) {
+        sub_0202BC60(sys, sourceIndex, target);
     }
 }
 
-
-
-
-void func_0202BBB0(u8 *o, int i)
+void func_0202BBB0(struct Iss3dsSys *sys, int sourceIndex)
 {
-    u8 *e = o + 0x24;
-    s32_0202BB68 v;
-    s32_0202BB68 lv;
+    struct Iss3dsSource *sources = sys->sources;
+    s32 target;
+    s32 level;
 
-    if (*(u32 *)(e + i * 0x1c) == 0) {
+    if (sources[sourceIndex].active == 0) {
         return;
     }
-    v  = func_0202BCA0((const struct Listener *)(e + i * 0x1c), (const struct Vec *)(o + 0xc), (const struct Vec *)(o + 0x18));
-    lv = *(s32_0202BB68 *)(o + i * 4 + 0x224);
-    if (v < lv) {
-        sub_0202BDD0(o, i, v);
+    target = func_0202BCA0(&sources[sourceIndex], &sys->listenerPos, &sys->listenerTarget);
+    level  = sys->panLevel[sourceIndex];
+    if (target < level) {
+        sub_0202BDD0(sys, sourceIndex, target);
         return;
     }
-    if (lv < v) {
-        sub_0202BDE8(o, i, v);
+    if (level < target) {
+        sub_0202BDE8(sys, sourceIndex, target);
     }
 }
-
-
-
 
 /*
- * Distance falloff: the vector at +4 of the record is taken relative to
- * the caller's point, and the remaining headroom (the radius at +0x10
- * less that distance) is divided by the radius through the hardware
- * divider sub_0207C768.  The quotient is an FX32, so it is scaled back
- * by 4096.0f in float before multiplying the amplitude at +0x14 and
- * truncating; that is the pool word 0x45800000 at 0x0202BC44.
- * Outside the radius the answer is 0.
+ * Distance falloff: the source position is taken relative to the listener
+ * point, and the remaining headroom (the radius less that distance) is
+ * divided by the radius through the hardware divider sub_0207C768. The
+ * quotient is an FX32, so it is scaled back by 4096.0f in float before
+ * multiplying the amplitude and truncating; that is the pool word 0x45800000
+ * at 0x0202BC44. Outside the radius the answer is 0.
  *
  * The compare is signed (bge), so the radius field is s32 and the
  * `mag >= radius` arm is the one written first.
  */
-s32_0202BBFC func_0202BBFC(struct Rec *r, const struct Vec *p)
+s32 func_0202BBFC(struct Iss3dsSource *source, const struct Vec *listenerPos)
 {
-    struct Vec d;
-    s32_0202BBFC mag;
-    float q;
+    struct Vec delta;
+    s32 distance;
+    float ratio;
 
-    VEC_Subtract(&r->pos, p, &d);
-    mag = VEC_Mag(&d);
-    if (r->radius < mag) {
+    VEC_Subtract(&source->pos, listenerPos, &delta);
+    distance = VEC_Mag(&delta);
+    if (source->radius < distance) {
         return 0;
     }
-    q = (float)(s32_0202BBFC)sub_0207C768((s32_0202BBFC)(r->radius - mag), (s32_0202BBFC)r->radius) / 4096.0f;
-    return (s32_0202BBFC)((float)r->amp * q);
+    ratio = (float)(s32)sub_0207C768((s32)(source->radius - distance), (s32)source->radius) / 4096.0f;
+    return (s32)((float)source->amplitude * ratio);
 }
 
-
-
-
 /*
- * A whole translation unit, matched as one byte range.
- *
- * A clamp-increment and a clamp-decrement on the same signed 32-bit array,
- * offset 0x1E4 of the object, indexed by the second argument and clamped
- * against a caller-supplied bound passed as the third: sub_0202BC48 adds
- * 0x10 and caps at the bound from above, sub_0202BC60 subtracts 0x10 and
- * floors at the bound from below. The two are otherwise identical, back to
- * back with no gap, and neither has a relocation.
+ * A clamp-increment and a clamp-decrement on the same signed 32-bit array
+ * (volumeLevel), indexed by the second argument and clamped against a
+ * caller-supplied bound passed as the third: sub_0202BC48 adds 0x10 and caps
+ * at the bound from above, sub_0202BC60 subtracts 0x10 and floors at the
+ * bound from below.
  *
  * The comparison order in each is a deliberate `cmp`-operand tell
  * (docs/idioms/cmp-operand-order-names-the-temporary.md): sub_0202BC48
  * compares the bound against the computed value (`cmp r2, r1`), which is
  * what `if (cap < v)` compiles to, not `if (v > cap)`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202BC48.c \
- *       --addr 0x0202BC48 --thumb
  */
-void sub_0202BC48(void *obj, u32 index, s32_0202BC48 cap)
+void sub_0202BC48(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 {
-    s32_0202BC48 *arr = (s32_0202BC48 *)((char *)obj + 0x1E4);
-    s32_0202BC48 v = arr[index] + 0x10;
+    s32 *levels = sys->volumeLevel;
+    s32 level = levels[sourceIndex] + 0x10;
 
-    if (cap < v) {
-        v = cap;
+    if (cap < level) {
+        level = cap;
     }
-    arr[index] = v;
+    levels[sourceIndex] = level;
 }
 
-
-
-
-void sub_0202BC60(void *obj, u32 index, s32_0202BC48 cap)
+void sub_0202BC60(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 {
-    s32_0202BC48 *arr = (s32_0202BC48 *)((char *)obj + 0x1E4);
-    s32_0202BC48 v = arr[index] - 0x10;
+    s32 *levels = sys->volumeLevel;
+    s32 level = levels[sourceIndex] - 0x10;
 
-    if (v < cap) {
-        v = cap;
+    if (level < cap) {
+        level = cap;
     }
-    arr[index] = v;
+    levels[sourceIndex] = level;
 }
 
-
-
-void func_0202BC78(u8 *o, u32 i)
+/* Applies the master volume to the source's level and sets its tracks' volume. */
+void func_0202BC78(struct Iss3dsSys *sys, u32 sourceIndex)
 {
-    u8 *slot = o + i * 4;
-    int vol = func_0202BE54(o, (u8)*(int *)(slot + 0x1E4), slot);
+    u8 *slot = (u8 *)sys + sourceIndex * 4;
+    int volume = func_0202BE54(sys, (u8)*(int *)(slot + 0x1E4), slot);
 
-    func_02005F24(*(u16 *)(o + i * 0x1c + 60), vol);
+    GFL_USE_SetBgmTrackVolume(sys->sources[sourceIndex].trackMask, volume);
 }
-
-
-
 
 /*
- * Signed pan, -0x80..0x7f, for a point heard from a listener: build the
- * listener's right-hand axis by crossing its forward vector with world up
+ * Signed pan, -0x80..0x7f, for a source heard from a listener: build the
+ * listener's right-hand axis by crossing its facing vector with world up
  * (and normalising twice, which is what the doubled VEC_Normalize pair is),
  * then project the listener-to-source direction onto it.  The three
  * _ll_mul + shift-by-12 triples are FX_Mul in its open form, scaling the
@@ -439,47 +336,47 @@ void func_0202BC78(u8 *o, u32 i)
  * The 4096.0f divisor is the pool word 0x45800000 at 0x0202BDCC; 0x43000000
  * is 128.0f, materialised as movs #0x43 / lsls #0x18 rather than pooled.
  */
-s32_0202BCA0 func_0202BCA0(const struct Listener *l, const struct Vec *ps,
-                  const struct Vec *pp)
+s32 func_0202BCA0(const struct Iss3dsSource *source, const struct Vec *listenerPos,
+                  const struct Vec *listenerTarget)
 {
-    struct Vec d;
-    struct Vec rel;
-    struct Vec sv2;
+    struct Vec facing;
+    struct Vec toSource;
+    struct Vec horizontal;
     struct Vec up;
-    struct Vec sv;
-    struct Vec axis;
-    struct Vec scaled;
-    struct Vec n;
-    struct Vec src;
-    struct Vec pos;
-    struct Vec fwd;
-    s32_0202BCA0 dist;
-    s32_0202BCA0 pan;
+    struct Vec verticalPart;
+    struct Vec right;
+    struct Vec upAxis;
+    struct Vec facingUnit;
+    struct Vec listener;
+    struct Vec target;
+    struct Vec sourcePos;
+    s32 height;
+    s32 pan;
 
-    src = *ps;
-    pos = *pp;
-    fwd = l->fwd;
-    VEC_Subtract(&pos, &src, &d);
-    VEC_Subtract(&fwd, &src, &rel);
+    listener = *listenerPos;
+    target = *listenerTarget;
+    sourcePos = source->pos;
+    VEC_Subtract(&target, &listener, &facing);
+    VEC_Subtract(&sourcePos, &listener, &toSource);
 
     up.x = 0;
     up.y = 0x1000;
     up.z = 0;
-    VEC_Normalize(&d, &n);
-    VEC_CrossProduct(&n, &up, &axis);
-    VEC_Normalize(&axis, &axis);
-    VEC_CrossProduct(&axis, &n, &scaled);
-    VEC_Normalize(&scaled, &scaled);
-    VEC_Normalize(&scaled, &scaled);
+    VEC_Normalize(&facing, &facingUnit);
+    VEC_CrossProduct(&facingUnit, &up, &right);
+    VEC_Normalize(&right, &right);
+    VEC_CrossProduct(&right, &facingUnit, &upAxis);
+    VEC_Normalize(&upAxis, &upAxis);
+    VEC_Normalize(&upAxis, &upAxis);
 
-    dist = VEC_DotProduct(&rel, &scaled);
-    sv.x = (s32_0202BCA0)(((s64)scaled.x * dist + 0x800) >> 12);
-    sv.y = (s32_0202BCA0)(((s64)scaled.y * dist + 0x800) >> 12);
-    sv.z = (s32_0202BCA0)(((s64)scaled.z * dist + 0x800) >> 12);
+    height = VEC_DotProduct(&toSource, &upAxis);
+    verticalPart.x = (s32)(((s64)upAxis.x * height + 0x800) >> 12);
+    verticalPart.y = (s32)(((s64)upAxis.y * height + 0x800) >> 12);
+    verticalPart.z = (s32)(((s64)upAxis.z * height + 0x800) >> 12);
 
-    VEC_Subtract(&rel, &sv, &sv2);
-    VEC_Normalize(&sv2, &sv2);
-    pan = (s32_0202BCA0)((float)VEC_DotProduct(&axis, &sv2) / 4096.0f * 128.0f);
+    VEC_Subtract(&toSource, &verticalPart, &horizontal);
+    VEC_Normalize(&horizontal, &horizontal);
+    pan = (s32)((float)VEC_DotProduct(&right, &horizontal) / 4096.0f * 128.0f);
     if (pan < -0x80) {
         pan = -0x80;
     }
@@ -489,96 +386,72 @@ s32_0202BCA0 func_0202BCA0(const struct Listener *l, const struct Vec *ps,
     return pan;
 }
 
-
-
-
 /*
- * A clamp-decrement on the same shape as sub_0202BC60, a different signed
- * 32-bit array (offset 0x224 of the object) and a different step (0x20). No
- * relocation. Matched as a one-function unit rather than with `one`: this
- * function is followed by two bytes of inter-section padding before the
- * next label, exactly the situation in src/matched/sub_0202AB64.c.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/sub_0202BDD0.c \
- *       --addr 0x0202BDD0 --thumb
+ * A clamp-decrement on the same shape as sub_0202BC60, on panLevel (offset
+ * 0x224 of the object) with a different step (0x20). Matched as a
+ * one-function unit rather than with `one`: this function is followed by two
+ * bytes of inter-section padding before the next label.
  */
-void sub_0202BDD0(void *obj, u32 index, s32_0202BDD0 cap)
+void sub_0202BDD0(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 {
-    s32_0202BDD0 *arr = (s32_0202BDD0 *)((char *)obj + 0x224);
-    s32_0202BDD0 v = arr[index] - 0x20;
+    s32 *levels = sys->panLevel;
+    s32 level = levels[sourceIndex] - 0x20;
 
-    if (v < cap) {
-        v = cap;
+    if (level < cap) {
+        level = cap;
     }
-    arr[index] = v;
+    levels[sourceIndex] = level;
 }
 
-
-
-
 /*
- * A clamp-increment on the same shape as sub_0202BC48, the same array as
- * sub_0202BDD0 (offset 0x224) and the same step (0x20). No relocation. This
- * function opens the next packet, so it stays a file of its own rather than
- * joining the pkt_0202B7D4 trio it otherwise matches. Matched as a
- * one-function unit rather than with `one`, for the same trailing-padding
- * reason as sub_0202BDD0.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/sub_0202BDE8.c \
- *       --addr 0x0202BDE8 --thumb
+ * A clamp-increment on the same shape as sub_0202BC48, on panLevel (offset
+ * 0x224) with step 0x20. Matched as a one-function unit rather than with
+ * `one`, for the same trailing-padding reason as sub_0202BDD0.
  */
-void sub_0202BDE8(void *obj, u32 index, s32_0202BDE8 cap)
+void sub_0202BDE8(struct Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 {
-    s32_0202BDE8 *arr = (s32_0202BDE8 *)((char *)obj + 0x224);
-    s32_0202BDE8 v = arr[index] + 0x20;
+    s32 *levels = sys->panLevel;
+    s32 level = levels[sourceIndex] + 0x20;
 
-    if (cap < v) {
-        v = cap;
+    if (cap < level) {
+        level = cap;
     }
-    arr[index] = v;
+    levels[sourceIndex] = level;
 }
-
-
-
 
 /*
- * Signals one record's +0x3c halfword to func_02005EE0 with the +0x224
- * context pointer.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BE00.c \
- *       --func func_0202BE00 --addr 0x0202BE00 --thumb --cc 1.1p1
+ * Sets the pan of one source's tracks (trackMask halfword at +0x3c of the
+ * object) to its panLevel (+0x224 array).
  */
-void func_0202BE00(u8 *p, u32 i)
+void func_0202BE00(struct Iss3dsSys *sys, u32 sourceIndex)
 {
-    func_02005EE0(*(u16 *)(p + i * 0x1c + 0x3c), 0x100, 0,
-                  *(u32 *)(p + i * 4 + 0x224));
+    GFL_USE_SetBgmTrackParams(sys->sources[sourceIndex].trackMask, 0x100, 0,
+                  sys->panLevel[sourceIndex]);
 }
 
-
-
-
-void func_0202BE24(struct Obj0202BE24 *p)
+/*
+ * Moves the master volume one step toward targetVolume: a full step when
+ * the distance is at least volumeStep, the exact distance otherwise.
+ */
+void func_0202BE24(struct Iss3dsSys *sys)
 {
-    int target = p->target;
-    int curr = p->curr;
+    int target = sys->targetVolume;
+    int current = sys->volume;
     int diff;
     int abs_diff;
     int step;
 
-    if (curr == target) {
+    if (current == target) {
         return;
     }
 
-    diff = target - curr;
+    diff = target - current;
     abs_diff = diff;
     if (diff <= 0) {
         abs_diff = -diff;
     }
 
-    step = p->step;
+    step = sys->volumeStep;
     if (abs_diff >= step) {
         if (diff < 0) {
             diff = -step;
@@ -587,269 +460,190 @@ void func_0202BE24(struct Obj0202BE24 *p)
         }
     }
 
-    p->curr += diff;
+    sys->volume += diff;
 }
 
-
-
-
-
 /*
- * Returns (p[9] * a) / 0x7f truncated to a byte.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BE54.c \
- *       --func func_0202BE54 --addr 0x0202BE54 --thumb --cc 1.1p1
+ * Returns (volume * level) / 0x7f truncated to a byte: the source level
+ * scaled by the master volume. The third argument is unused.
  */
-u32 func_0202BE54(u8 *p, u32 a, void *unused)
+u32 func_0202BE54(struct Iss3dsSys *sys, u32 level, void *unused)
 {
-    return (u8)((p[9] * a) / 0x7f);
+    return (u8)((sys->volume * level) / 0x7f);
 }
 
-
-
-
-
 /*
- * Allocates a 0x18-byte iss_zone_sys node through the debug allocator, zeroes
- * its fields with the two exceptions (+0xc takes 0xff, the "no record" index),
- * and runs the init that takes the heap id.
- *
- * The allocator's __FILE__ word is the anchor at 0x0202BEA0, the same
- * 0x020A7748 the sibling func_0202BEEC pools.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BE68.c \
- *       --func func_0202BE68 --addr 0x0202BE68 --thumb --cc 1.1p1
+ * Allocates a 0x18-byte iss_zone_sys zone object through the debug allocator
+ * (the allocator's __FILE__ word is the anchor at 0x0202BEA0, the same
+ * 0x020A7748 that ISS_ZONE_SYS_LoadRecords pools; 0x55 is the line number), clears its
+ * fields with the one exception that selected takes 0xff ("no record"), and
+ * loads the record table.
  */
-u8 *func_0202BE68(u32 heapId)
+struct IssZone *ISS_ZONE_SYS_Create(u32 heapId)
 {
-    u8 *p = (u8 *)func_02030734(heapId, 0x18, 0, (const void *)0x020A7748,
-                                0x55);
+    struct IssZone *zone = (struct IssZone *)func_02030734(heapId, 0x18, 0,
+                                                           (const void *)0x020A7748, 0x55);
 
-    ((struct Obj03439 *)p)->f0 = 0;
-    p[4] = 0;
-    ((struct Obj03439 *)p)->f8 = 0;
-    p[0xc] = 0xff;
-    ((struct Obj03439 *)p)->fE = 0;
-    ((struct Obj03439 *)p)->f10 = 0;
-    ((struct Obj03439 *)p)->f12 = 0;
-    ((struct Obj03439 *)p)->f14 = 0;
-    func_0202BEEC(p, heapId);
-    return p;
+    zone->active = 0;
+    zone->recordCount = 0;
+    zone->records = 0;
+    zone->selected = 0xff;
+    zone->fadeInMask = 0;
+    zone->fadeOutMask = 0;
+    zone->fadeSteps = 0;
+    zone->fadeStep = 0;
+    ISS_ZONE_SYS_LoadRecords(zone, heapId);
+    return zone;
 }
 
-
-
-
-
-/*
- * Releases the +8 pointer when set, then the object itself.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BEA4.c \
- *       --func func_0202BEA4 --addr 0x0202BEA4 --thumb --cc 1.1p1
- */
-void func_0202BEA4(u8 *p)
+/* Releases the record table when set, then the zone object itself. */
+void ISS_ZONE_SYS_Delete(struct IssZone *zone)
 {
-    if (*(u32 *)&((struct Obj11316 *)p)->f8 != 0) {
-        func_020307B0(((struct Obj11316 *)p)->f8);
+    if (zone->records != 0) {
+        func_020307B0(zone->records);
     }
-    func_020307B0(p);
+    func_020307B0(zone);
 }
 
-
-
-
-
-/*
- * Calls func_0202BFF0 when the object's +0 word is set.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BEBC.c \
- *       --func func_0202BEBC --addr 0x0202BEBC --thumb --cc 1.1p1
- */
-void func_0202BEBC(u8 *p)
+/* Per-frame update: runs the fade step when a record is selected. */
+void ISS_ZONE_SYS_Update(struct IssZone *zone)
 {
-    if (((struct Obj02602 *)p)->f0 != 0) {
-        func_0202BFF0((struct Obj_0202BFF0 *)((struct Obj *)p));
+    if (zone->active != 0) {
+        ISS_ZONE_SYS_StepFade(zone);
     }
 }
 
-
-
-
-
 /*
- * Guarded one-argument forward: only when the node's first word is set does
- * func_0202BF90 get called with the node itself.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0202BECC.c \
- *       --func func_0202BECC --addr 0x0202BECC --thumb --cc 1.1p1
- *
- * Closed by the `matched` class: 0x0202BF90 was filed as an EXACT entry this wave (pkt_0202BEBC), matched with the object spelled as a struct.
+ * Guarded forward: only when a record is selected does the fade to the
+ * record of `key` start (ISS_ZONE_SYS_BeginFade).
  */
-void func_0202BECC(u8 *p, u32 key)
+void ISS_ZONE_SYS_SwitchZone(struct IssZone *zone, u32 key)
 {
-    if (((struct Obj03440 *)p)->f0 != 0) {
-        func_0202BF90((struct Obj_0202BF90 *)((struct Obj *)p), key);
+    if (zone->active != 0) {
+        ISS_ZONE_SYS_BeginFade(zone, key);
     }
 }
 
-
-
-
-
 /*
- * A four-byte tail-call thunk to func_0202BF54: one PROGBITS section per
+ * A four-byte tail-call thunk to ISS_ZONE_SYS_SelectRecord: one PROGBITS section per
  * function means this compiler cannot encode a displacement to another
  * function, so the target's address materialises through a literal pool word
  * and a `bx` (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  The pool
  * word's low bit carries the Thumb bit, so the extern is declared Thumb.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BEDC.c \
- *       --func func_0202BEDC --addr 0x0202BEDC --thumb --cc 1.1p1
  */
-void func_0202BEDC(u8 *o, u16 key)
+void ISS_ZONE_SYS_Start(struct IssZone *zone, u16 key)
 {
-    func_0202BF54((struct Obj_0202BF54 *)o, key);
+    ISS_ZONE_SYS_SelectRecord(zone, key);
 }
 
-
-
-
-void func_0202BEE4(void *p)
+/* Tail-call thunk to ISS_ZONE_SYS_ClearActive. */
+void ISS_ZONE_SYS_Stop(struct IssZone *zone)
 {
-    func_0202BF84(p);
+    ISS_ZONE_SYS_ClearActive((u32 *)zone);
 }
-
-
 
 /*
- * Sibling of func_0202B958: builds a selector out of the caller's id, takes
- * a handle from func_020490F4, sizes the record table from func_0204961C's
- * count and allocates it with func_02030734, then reads every 8-byte record
- * into the handle with func_0204944C and releases it with func_02049238.
- * The record table is at +8 and the count byte at +4 rather than the +0x264
- * and +0x268 func_0202B958 uses, and the count here stays a signed int (the
- * guard is `ble`), which is the whole difference between the two.
+ * Opens the zone archive (id 0x88) with the caller's heap id, sizes the
+ * record table from the archive's member count and allocates it, then reads
+ * every 8-byte record into the table and closes the archive.  The record
+ * table is at +8 and the count byte at +4; the count stays a signed int
+ * (the guard is `ble`).
  *
- * The five-argument window read is the same call func_0204944C makes from
- * its other sites; the buffer is its own stack word because the argument
- * count already spends r0-r3.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BEEC.c \
- *       --func func_0202BEEC --addr 0x0202BEEC --thumb --cc 1.1p1
+ * The five-argument read is the same call func_0204944C makes from its other
+ * sites; the buffer is its own stack word because the argument count already
+ * spends r0-r3.
  */
-void func_0202BEEC(u8 *p, u32 id)
+void ISS_ZONE_SYS_LoadRecords(struct IssZone *zone, u32 heapId)
 {
-    void *h = func_020490F4(0x88, (u16)((id & 0x7fff) | 0x8000));
-    int   n = func_0204961C(h);
+    void *archive = func_020490F4(0x88, (u16)((heapId & 0x7fff) | 0x8000));
+    int   count = func_0204961C(archive);
     int   i;
 
-    p[4] = (u8)n;
-    ((struct Obj08807 *)p)->f8 = (u32)func_02030734(id, (u32)(n << 3), 0,
+    zone->recordCount = (u8)count;
+    zone->records = (struct IssZoneRecord *)func_02030734(heapId, (u32)(count << 3), 0,
                                          (const void *)0x020A7748, 0xd2);
 
-    for (i = 0; i < n; i++) {
-        func_0204944C(h, (u32)i, 0, 8,
-                      (void *)(((struct Obj08807 *)p)->f8 + ((u32)i << 3)));
+    for (i = 0; i < count; i++) {
+        func_0204944C(archive, (u32)i, 0, 8,
+                      (void *)((u32)zone->records + ((u32)i << 3)));
     }
-    func_02049238(h);
+    func_02049238(archive);
 }
 
-
-
 /*
- * Selects the record func_0202BFC4 matches for the caller's key and latches
- * it into the object: +0xc keeps the index, +0xe and +0x10 take the record's
- * +2 and +4 words, +0x12 and +0x14 are the arm flag and its counter, and the
- * +0 word marks the object live.  A non-zero +0 word means "already
- * selected", and 0xff means "no match"; both leave the object untouched.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BF54.c \
- *       --func func_0202BF54 --addr 0x0202BF54 --thumb --cc 1.1p1
+ * Selects the record ISS_ZONE_SYS_FindRecord matches for the caller's key and latches
+ * it into the zone: selected keeps the index, fadeInMask and fadeOutMask take
+ * the record's audible and muted masks, fadeSteps is 1 and fadeStep 0 (so the
+ * next update completes the switch), and active marks the zone live.  A
+ * non-zero active word means "already selected", and 0xff means "no match";
+ * both leave the zone untouched.
  */
-void func_0202BF54(struct Obj_0202BF54 *o, u16 key)
+void ISS_ZONE_SYS_SelectRecord(struct IssZone *zone, u16 key)
 {
-    u32 idx;
+    u32 index;
 
-    if (o->state != 0) {
+    if (zone->active != 0) {
         return;
     }
-    idx = func_0202BFC4((const struct Container *)((const u8 *)o), key);
-    if (idx == 0xff) {
+    index = ISS_ZONE_SYS_FindRecord(zone, key);
+    if (index == 0xff) {
         return;
     }
-    o->sel = (u8)idx;
-    o->state = 1;
-    o->fxe = o->base[idx].f2;
-    o->f10 = o->base[idx].f4;
-    o->f12 = 1;
-    o->f14 = 0;
+    zone->selected = (u8)index;
+    zone->active = 1;
+    zone->fadeInMask = zone->records[index].audibleMask;
+    zone->fadeOutMask = zone->records[index].mutedMask;
+    zone->fadeSteps = 1;
+    zone->fadeStep = 0;
 }
 
-
-
-void func_0202BF84(u32 *p)
+/* Clears the active word of the zone, when set. */
+void ISS_ZONE_SYS_ClearActive(u32 *active)
 {
-    if (*p != 0) {
-        *p = 0;
+    if (*active != 0) {
+        *active = 0;
     }
 }
-
-
 
 /*
- * Combines the record selected by the object's +0xc byte with the record
- * func_0202BFC4 has just selected for the caller's key: the two crossings are
- * ANDed into +0xe and +0x10, +0x12 takes the new record's +6 and +0xc records
- * the new selection.
+ * Starts the fade from the selected record to the record ISS_ZONE_SYS_FindRecord
+ * finds for the caller's key: the tracks muted in the old record and audible
+ * in the new one fade in (fadeInMask), the tracks audible in the old and
+ * muted in the new fade out (fadeOutMask), fadeSteps takes the new record's
+ * length and selected records the new selection.
  *
  * The spelling that matters here is the object as a struct with named members:
  * with `u8 *p` and literal offsets the allocator puts p in r4 and sel in r5,
- * twenty bytes of register numbering away.  Reading `o->sel` first, calling
- * func_0202BFC4 on the same object and only then loading `o->base` is what puts
- * sel in r4, p in r5 and the base in r6, which is the original.
- *
- * Closes the blocker of src/pending/func_0202BECC.c and, through it,
- * src/pending/func_0202B7D4.c.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BF90.c \
- *       --func func_0202BF90 --addr 0x0202BF90 --thumb --cc 1.1p1
+ * twenty bytes of register numbering away.  Reading `selected` first, calling
+ * ISS_ZONE_SYS_FindRecord on the same object and only then loading `records` is what puts
+ * the old index in r4, the zone in r5 and the table in r6, which is the original.
  */
-void func_0202BF90(struct Obj_0202BF90 *o, u32 key)
+void ISS_ZONE_SYS_BeginFade(struct IssZone *zone, u32 key)
 {
-    u8 sel;
-    u32 idx;
-    const struct Rec_0202BF90 *base;
+    u8 oldIndex;
+    u32 newIndex;
+    const struct IssZoneRecord *records;
 
-    sel = o->sel;
-    idx = func_0202BFC4((const struct Container *)o, key);
-    base = (const struct Rec_0202BF90 *)o->base;
-    if (idx == 0xff) {
+    oldIndex = zone->selected;
+    newIndex = ISS_ZONE_SYS_FindRecord(zone, key);
+    records = zone->records;
+    if (newIndex == 0xff) {
         return;
     }
-    o->fxe = base[sel].f4 & base[idx].f2;
-    o->f10 = base[sel].f2 & base[idx].f4;
-    o->f12 = base[idx].f6;
-    o->f14 = 0;
-    o->sel = (u8)idx;
+    zone->fadeInMask = records[oldIndex].mutedMask & records[newIndex].audibleMask;
+    zone->fadeOutMask = records[oldIndex].audibleMask & records[newIndex].mutedMask;
+    zone->fadeSteps = records[newIndex].fadeSteps;
+    zone->fadeStep = 0;
+    zone->selected = (u8)newIndex;
 }
 
-
-
-u32 func_0202BFC4(const struct Container *c, u32 key)
+/* Returns the index of the record with the given key, 0xff when none has it. */
+u32 ISS_ZONE_SYS_FindRecord(const struct IssZone *zone, u32 key)
 {
     u8 i;
 
-    for (i = 0; i < c->count; i++) {
-        if (c->items[i].key == key) {
+    for (i = 0; i < zone->recordCount; i++) {
+        if (zone->records[i].key == key) {
             return i;
         }
     }
@@ -857,53 +651,47 @@ u32 func_0202BFC4(const struct Container *c, u32 key)
     return 0xff;
 }
 
-
-
 /*
- * The record's active window: while +0x12 exceeds the running +0x14 counter,
- * bump the counter and push a percentage to the +0xe and +0x10 gauges
- * (func_02005F24).  The two gauges differ only in the numerator: the first
- * scales the counter, the second the counter brought round by one.
+ * The fade step: while fadeSteps exceeds the running fadeStep counter, bump
+ * the counter and push a volume to the fadeInMask and fadeOutMask tracks
+ * (GFL_USE_SetBgmTrackVolume).  The two differ only in the numerator: the first scales
+ * the counter, the second the counter brought round by one.
  *
- * Each gauge id is bound to a local before the counter is stored and before
+ * Each track mask is bound to a local before the counter is stored and before
  * the division, which is what keeps it in the callee-saved r4 across the five
  * soft-float calls; read at the call site it is reloaded instead and the
  * frame loses a register and its numbering shifts.  Both arms re-read the two
  * u16 fields rather than sharing a computed quotient, which is why each is
  * loaded and converted twice.
  *
- * The counter bump is the one spelling that matters: `o->f14 = o->f14 + 1;`
- * compiles the same increment but lands the guard's two u16 loads in the
- * opposite r0/r1 pair (and so the `adds` that follows them), four concrete
- * bytes away from the original, while `o->f14 += 1;` reproduces it.  See
+ * The counter bump is the one spelling that matters: `zone->fadeStep =
+ * zone->fadeStep + 1;` compiles the same increment but lands the guard's two
+ * u16 loads in the opposite r0/r1 pair, four concrete bytes away from the
+ * original, while `+= 1` reproduces it.  See
  * docs/idioms/a-compound-assignment-on-a-field-flips-the-guards-register-pair.md.
  *
  * The soft-float helpers are MSL/runtime.a's; this front end names them
  * _ffltu, _fdiv, _fmul, _fsub and _f2s, which is what the relocations carry.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BFF0.c \
- *       --func func_0202BFF0 --addr 0x0202BFF0 --thumb --cc 1.1p1
  */
-void func_0202BFF0(struct Obj_0202BFF0 *o)
+void ISS_ZONE_SYS_StepFade(struct IssZone *zone)
 {
-    u16 id;
+    u16 trackMask;
 
-    if (o->f12 <= o->f14) {
+    if (zone->fadeSteps <= zone->fadeStep) {
         return;
     }
-    id = o->fxe;
-    o->f14 += 1;
-    if (id != 0) {
-        func_02005F24(id, _f2s(_fmul(127.0f,
-                                      _fdiv(_ffltu(o->f14),
-                                            _ffltu(o->f12)))));
+    trackMask = zone->fadeInMask;
+    zone->fadeStep += 1;
+    if (trackMask != 0) {
+        GFL_USE_SetBgmTrackVolume(trackMask, _f2s(_fmul(127.0f,
+                                      _fdiv(_ffltu(zone->fadeStep),
+                                            _ffltu(zone->fadeSteps)))));
     }
-    id = o->f10;
-    if (id != 0) {
-        func_02005F24(id, _f2s(_fmul(127.0f,
+    trackMask = zone->fadeOutMask;
+    if (trackMask != 0) {
+        GFL_USE_SetBgmTrackVolume(trackMask, _f2s(_fmul(127.0f,
                                       _fsub(1.0f,
-                                            _fdiv(_ffltu(o->f14),
-                                                  _ffltu(o->f12))))));
+                                            _fdiv(_ffltu(zone->fadeStep),
+                                                  _ffltu(zone->fadeSteps))))));
     }
 }

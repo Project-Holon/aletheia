@@ -1,5 +1,5 @@
 /*
- * function: func_02029560
+ * function: FIELD_SOUND_SYSTEM_PushTask
  * address:  0x02029560
  * packet:   pkt_02029488
  * region:   arm9
@@ -8,19 +8,19 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * closed:   blocker func_02029488.c is now a manifest entry (matched class)
+ * closed:   blocker FIELD_SOUND_SYSTEM_FadeInTask.c is now a manifest entry (matched class)
  *
  * Three-state stepper, kind 3 variant: state 0 emits the descriptor and
  * advances, state 1 advances only once func_020289B8 reports the channel is
  * idle, state 2 reports done.
  *
  * symbols:
- *   func_020289F8  0x020289F8  thumb
+ *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
  *   func_020289B8  0x020289B8  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02029560.c \
- *       --func func_02029560 --addr 0x02029560 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/pending/FIELD_SOUND_SYSTEM_PushTask.c \
+ *       --func FIELD_SOUND_SYSTEM_PushTask --addr 0x02029560 --thumb --cc 1.1p1
  */
 #include "../include/Obj11302.h"
 
@@ -29,16 +29,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Sys;
-extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
+extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 extern u32 func_020289B8(struct Sys *s);
 
-int func_02029560(u32 unused, u32 *state, u8 *cfg)
+int FIELD_SOUND_SYSTEM_PushTask(u32 unused, u32 *state, u8 *cfg)
 {
     u32 v = ((struct Obj11302 *)cfg)->f4;
 
     switch (*state) {
     case 0:
-        func_020289F8((struct Sys *)v, 3, 0, ((struct Obj11302 *)cfg)->fE, 0);
+        FIELD_SOUND_SYSTEM_PostRequest((struct Sys *)v, 3, 0, ((struct Obj11302 *)cfg)->fE, 0);
         (*state)++;
         break;
     case 1:

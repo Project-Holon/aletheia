@@ -14,9 +14,9 @@
  *
  * WM disconnect completion callback: on success finishes the reset or reports the disconnect result, otherwise moves to the failure phase and notifies.
  * symbols:
- *   func_021657C8    0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork    0x021657C8  arm  ov009
  *   WM_Init          0x0208E010  arm
- *   func_02165A4C    0x02165A4C  arm  ov009
+ *   WCMi_SetPhase    0x02165A4C  arm  ov009
  *   func_0208EAC8    0x0208EAC8  arm
  *   OS_GetMacAddress 0x02087C6C  arm
  *   func_021665CC    0x021665CC  arm  ov009
@@ -31,7 +31,7 @@
  *   DC_InvalidateRange 0x020862B8  arm
  *   WM_StartScanEx   0x0208F698  arm
  *   func_021671C0    0x021671C0  arm  ov009
- *   func_02090DEC  0x02090DEC  arm
+ *   WM_SetLifeTime  0x02090DEC  arm
  *   WM_EndDCF                        0x0208ffdc arm
  *   WcmWmcbEndDCF                    0x021678ac arm
  *   WMi_GetStatusAddress  0x0208E9C8  arm
@@ -40,7 +40,7 @@
  *   func_0208F328  0x0208F328  arm
  *   func_0208F400  0x0208F400  arm
  *   func_021679C0  0x021679C0  arm  ov009
- *   func_02166378  0x02166378  arm  ov009
+ *   WCMi_GetCpsifWork  0x02166378  arm  ov009
  *   func_0208FF0C  0x0208FF0C  arm
  *   OS_SleepThread  0x020857B0  arm
  *   func_02167DE0  0x02167DE0  arm  ov009
@@ -71,10 +71,10 @@
  *   func_021659B4  0x021659B4  arm  ov009
  *   func_02166804    0x02166804  arm  ov009
  *   func_02166358    0x02166358  arm  ov009
- *   func_0208F938    0x0208F938  arm
+ *   WM_Disconnect    0x0208F938  arm
  *   func_021676E4    0x021676E4  arm  ov009
  *   func_021656D0    0x021656D0  arm  ov009
- *   func_02165918    0x02165918  arm  ov009
+ *   WCMi_GetNextScanChannel    0x02165918  arm  ov009
  *   func_0208EFC4    0x0208EFC4  arm
  *   MI_CpuCopy8      0x02082D44  arm
  *   g_021A1988       0x021A1988  data  ov009
@@ -176,7 +176,7 @@ extern int func_0208F224(char *path);
 extern int WM_PowerOff(void (*callback)(void *));
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern long WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
-extern long func_02090DEC(void (*callback)(void *), unsigned short tableNumber, unsigned short camLifeTime, unsigned short frameLifeTime, unsigned short mpLifeTime);
+extern long WM_SetLifeTime(void (*callback)(void *), unsigned short tableNumber, unsigned short camLifeTime, unsigned short frameLifeTime, unsigned short mpLifeTime);
 extern int WM_EndDCF(void (*callback)(void *));
 extern WMStatus *WMi_GetStatusAddress(void);
 extern long WM_Finish(void);
@@ -206,9 +206,9 @@ extern long WM_EndScan(void (*callback)(void *));
 extern long WM_StartDCF(void (*callback)(void *), void *recvBuf, unsigned short recvBufSize);
 extern void func_02166804(unsigned char rssi);
 extern void func_02166358(unsigned char *srcAdrs, unsigned char *destAdrs, unsigned char *data, long length);
-extern long func_0208F938(void (*callback)(void *), unsigned long arg);
+extern long WM_Disconnect(void (*callback)(void *), unsigned long arg);
 extern unsigned long func_021656D0(unsigned long option);
-extern unsigned short func_02165918(unsigned short channel);
+extern unsigned short WCMi_GetNextScanChannel(unsigned short channel);
 extern unsigned short func_0208EFC4(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void WCMi_ResetKeepAliveAlarm(void);
@@ -360,7 +360,7 @@ long func_02166B2C(void)
     if (wcmw->phase == 3) {
         *(unsigned short *)(wcmw->bssDesc + 0x30) = *(unsigned short *)(wcmw->bssDesc + 0x2e) | 3;
     }
-    wmResult = func_02090DEC(WcmWmcbCommon, 0xFFFF, 0x50, 0xFFFF, 0xFFFF);
+    wmResult = WM_SetLifeTime(WcmWmcbCommon, 0xFFFF, 0x50, 0xFFFF, 0xFFFF);
     switch (wmResult) {
     case 2:
         WCMi_SetPhase(8);
@@ -912,7 +912,7 @@ void func_021678AC(void *arg)
             WcmWmReset();
             return;
         }
-        wmResult = func_0208F938(func_021676E4, 0);
+        wmResult = WM_Disconnect(func_021676E4, 0);
         switch (wmResult) {
         case 2:
             return;
@@ -1034,7 +1034,7 @@ void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long opt
     func_021656D0(option);
     wcmw->scanParam.scanBuf = wcmw->recvBuf;
     wcmw->scanParam.scanBufSize = 0x400;
-    wcmw->scanParam.channelList = (1 << func_02165918(0)) >> 1;
+    wcmw->scanParam.channelList = (1 << WCMi_GetNextScanChannel(0)) >> 1;
     t = wcmw->maxScanTime;
     if (t == 0) {
         t = func_0208EFC4();

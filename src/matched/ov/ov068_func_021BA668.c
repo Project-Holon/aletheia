@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02028230  0x02028230  thumb
+ *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb
  *   func_021BA694  0x021BA694  thumb
  */
 #include "../include/Obj13140.h"
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32 func_02028230(u8 *p);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void func_021BA694(u8 *p);
 
 u32 func_021BA668(u8 *p)
@@ -29,7 +29,7 @@ u32 func_021BA668(u8 *p)
         u32 t = ((struct Obj13140 *)p)->fC;
 
         if (t != 3) {
-            r = func_02028230((u8 *)(*(u32 *)(p + t * 4 + 0x34)));
+            r = APP_TASKMENU_WIN_IsFinish((u8 *)(*(u32 *)(p + t * 4 + 0x34)));
             if (r != 0) {
                 func_021BA694(p);
             }

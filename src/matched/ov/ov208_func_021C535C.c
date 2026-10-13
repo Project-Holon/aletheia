@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201BABC  0x0201BABC  thumb
+ *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   func_0204A6C8  0x0204A6C8  arm
  *   func_0204B294  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
@@ -32,7 +32,7 @@ typedef struct {
     u8  b7;
 } Ov208ObjPos;
 
-extern u32  func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
+extern u32  POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 typedef signed int     s32;
 struct Actor;
 struct Obj;
@@ -55,7 +55,7 @@ u32 ov208_func_021C535C(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u3
     pos.z = 1;
     pos.b6 = 1;
     pos.b7 = 0;
-    *res = func_0204A6C8((void *)arc, func_0201BABC(species, form, gender, isEgg), 0, 1, heap);
+    *res = func_0204A6C8((void *)arc, POKE_TOOL_CalcGraphicIndex(species, form, gender, isEgg), 0, 1, heap);
     obj = (u32)func_0204B294((void *)owner, *res, j, k, &pos, 1, heap);
     func_0204B92C((struct Obj *)obj, 0);
     func_0204B6F4((struct Obj *)obj, func_0201BB5C(species, form, gender, isEgg), 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_02023AF4
+ * function: WIPE_SUB_CalcShutterBand
  * address:  0x02023AF4
  * packet:   pkt_02023AF4
  * region:   arm9
@@ -36,7 +36,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_02023AF4(u8 *desc, u8 *out, s32 num, s32 den)
+void WIPE_SUB_CalcShutterBand(u8 *desc, u8 *out, s32 num, s32 den)
 {
     u32 lo = desc[0];
     u32 hi = desc[1];

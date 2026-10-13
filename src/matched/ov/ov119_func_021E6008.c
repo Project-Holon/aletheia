@@ -16,13 +16,14 @@
  *   func_02027754 0x02027754 thumb
  *   func_021B6208 0x021B6208 thumb ov067
  *   func_021B629C 0x021B629C thumb ov067
+ *   POKERUS_IsCured  0x0201B280  thumb  arm9
  */
 #include "../include/Obj00001.h"
 #include "../include/Obj08074.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { int f0,f4,f8,fC,f10,f14,f18; u8 b1c,b1d,b1e; } In;
-extern unsigned int func_0201B280(void *a);
+extern unsigned int POKERUS_IsCured(void *a);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 typedef unsigned int   u32;
@@ -37,7 +38,7 @@ void func_021E6008(char *p, int b, void *c)
 {
     char *q = p + 0x978;
     In in;
-    int a = func_0201B280(c);
+    int a = POKERUS_IsCured(c);
     if (a == 0) return;
     if (((struct Obj08074 *)q)->f10) {
         if (a == 0) func_0204B3DC((struct Obj *)((struct Obj08074 *)q)->f10, 0);

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Returns the byte-table entry g_0214621C of the first of the thirteen counter slots whose value is 1,
- * or 0x30 when none is. The loop index is the Slot enum (as in func_02010DF4): an int index lets
+ * or 0x30 when none is. The loop index is the Slot enum (as in GPOWER_ClearAll): an int index lets
  * mwcc fold the constant entry guard away.
  *
  * symbols:

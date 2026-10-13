@@ -21,13 +21,13 @@
  *   func_0203CBAC 0x0203CBAC arm
  *   d_021B743C 0x021B743C data a4
  *   func_0203CEAC  0x0203CEAC  arm
- *   func_0203D0DC 0x0203D0DC arm
+ *   GFL_NET_StartChangeoverChild 0x0203D0DC arm
  *   func_020399A8 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  *   func_02039CB4 0x02039CB4 arm
  *   func_0203D378 0x0203D378 arm
  *   func_0203D1A4 0x0203D1A4 arm
- *   func_02039468 0x02039468 arm
+ *   GFL_NET_SYSTEM_IsSendQueueEntry 0x02039468 arm
  *   func_0203D3A8 0x0203D3A8 arm
  *   func_0203D3F8 0x0203D3F8 arm
  *   func_0203A574 0x0203A574 arm
@@ -109,13 +109,13 @@ extern u32 func_020307B0(void *p);
 extern int func_0203CD98(void);
 extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern int func_0203CEAC(int a0);
-extern int func_0203D0DC(int);
+extern int GFL_NET_StartChangeoverChild(int);
 extern struct Entry *func_020399A8(void);
 extern void func_02039C68(struct Link *,unsigned int,unsigned int);
 extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 extern u32 func_0203D378(void);
 extern u32 func_0203D1A4(struct Link *p);
-extern int func_02039468(u32,u32);
+extern int GFL_NET_SYSTEM_IsSendQueueEntry(u32,u32);
 extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
 extern void func_0203A574(u32,u32,u32,u32);
@@ -277,7 +277,7 @@ int func_021B6254(int *p)
     if (p[30] != 0) return 1;
     switch(p[17]) {
     case 0:
-        func_0203D0DC(0);
+        GFL_NET_StartChangeoverChild(0);
         p[17] = 1;
         p[33] = 1;
         p[20] = 0;
@@ -379,7 +379,7 @@ int func_021B63D0(Obj_021B63D0 *p)
     p->counter += 1;
     if (old > 180) {
         p->counter = 0;
-        if (!func_02039468(0xD02,func_0203D1A4((void *)func_020399A8())))
+        if (!GFL_NET_SYSTEM_IsSendQueueEntry(0xD02,func_0203D1A4((void *)func_020399A8())))
             return func_021B6424((int)p);
     }
     return 0;
@@ -395,7 +395,7 @@ int func_021B6424(int p)
     if(((struct Obj22090 *)p)->f78) return 1;
     id=func_0203D1A4((void *)func_020399A8());
     other=(id == 0);
-    if(func_02039468(0xD02,id) == 0) {
+    if(GFL_NET_SYSTEM_IsSendQueueEntry(0xD02,id) == 0) {
         return func_021B64B8(p,0xD02,4,p+0x38,other,0,0,1);
     } else {
         return 0;

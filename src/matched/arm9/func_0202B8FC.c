@@ -1,5 +1,5 @@
 /*
- * function: func_0202B8FC
+ * function: ISS_3DS_SYS_Enter
  * address: 0x0202B8FC
  * packet: pkt_arm9_0202B8FC
  * region: arm9
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/arm9/iss_3ds_sys.c and filed here.
  *
  * symbols:
- *   func_0202BABC 0x0202BABC thumb
+ *   ISS_3DS_SYS_EnterImpl 0x0202BABC thumb
  */
 
 typedef unsigned char u8;
-void func_0202B8FC(u8 *p);
-void func_0202BABC(u8 *o);
+void ISS_3DS_SYS_Enter(u8 *p);
+void ISS_3DS_SYS_EnterImpl(u8 *o);
 
-void func_0202B8FC(u8 *p)
+void ISS_3DS_SYS_Enter(u8 *p)
 {
-    func_0202BABC(p);
+    ISS_3DS_SYS_EnterImpl(p);
 }

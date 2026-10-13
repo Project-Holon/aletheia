@@ -10,6 +10,8 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_TransferCharacterPart  0x0204AA94  arm  arm9
+ *   CLACT_GetActorCharacterIndex  0x0204B7F0  arm  arm9
  *
  * Stop the slot, re-key it and restart it.  Two facts pin this one:
  *   the second call's FIRST argument is the first call's RESULT (r0 is
@@ -22,16 +24,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;
-extern u16 func_0204B7F0(u8 *p);
-extern void func_0204AA94(int a, void *b, u32 c, int d, int e);
+extern u16 CLACT_GetActorCharacterIndex(u8 *p);
+extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern u16 func_0204B7F0(u8 *p);
-extern void func_0204AA94(int a, void *b, u32 c, int d, int e);
+extern u16 CLACT_GetActorCharacterIndex(u8 *p);
+extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 void func_021EC428(char *p, int a, int i, int b)
 {
-    int v = func_0204B7F0((u8 *)(*(int *)(p + 0x9E74 + i * 4)));
-    func_0204AA94(v, (void *)a, 0x200, 0, 0);
+    int v = CLACT_GetActorCharacterIndex((u8 *)(*(int *)(p + 0x9E74 + i * 4)));
+    CLACT_TransferCharacterPart(v, (void *)a, 0x200, 0, 0);
     func_0204B6F4((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), (unsigned char)b, 1);
 }
 

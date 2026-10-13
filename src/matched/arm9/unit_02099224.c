@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02099228
+ * function: func_02099224
  * address:  0x02099224
  * packet:   pkt_02099224
  * region:   arm9
@@ -16,7 +16,7 @@
  *   _dfix  0x0209C508  arm
  *
  * fdlibm __kernel_cos(x, y).  The machine entry is 0x02099224, four bytes
- * before the disasm body label func_02099228: the stub is the compiler's
+ * before the disasm body label func_02099224: the stub is the compiler's
  * push {r0-r3} spilling the register-passed doubles, because HI(x) takes
  * the address of x.  The body is MSL runtime (layout/runtime_arm9.txt,
  * _msl_double_minimax_poly); the unit exists so the 4-byte worklist row at
@@ -33,7 +33,7 @@ typedef int i32;
 #define HI(x) (((i32 *)&(x))[1])
 #define LO(x) (((i32 *)&(x))[0])
 
-double func_02099228(double x, double y)
+double func_02099224(double x, double y)
 {
     static const double one = 1.00000000000000000000e+00;
     static const double C1 = 4.16666666666666019037e-02;

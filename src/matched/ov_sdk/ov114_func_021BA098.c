@@ -12,8 +12,8 @@
  * sdk:      NHTTPi_resolveHostname (libnhttp.TWL.HYB.a(nhttp_socket_ntr))
  *
  * symbols:
- *   func_0215FAD0 0x0215FAD0 arm
- *   func_0215F650 0x0215F650 arm
+ *   SOC_InetAtoN 0x0215FAD0 arm
+ *   SOC_GetHostByName 0x0215F650 arm
  *   func_021BA100 0x021BA100 arm ov114
  */
 
@@ -27,8 +27,8 @@ typedef struct {
     unsigned long addr;
 } SOCInAddr;
 
-extern int func_0215FAD0(char *cp, SOCInAddr *inp);
-extern SOCHostEnt *func_0215F650(char *name);
+extern int SOC_InetAtoN(char *cp, SOCInAddr *inp);
+extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern void func_021BA100(void *dst_p, void *src_p, int size);
 
 unsigned long func_021BA098(int unused, char *hostname_p)
@@ -37,10 +37,10 @@ unsigned long func_021BA098(int unused, char *hostname_p)
     unsigned long addr = 0;
     SOCInAddr inAddr;
 
-    if (func_0215FAD0(hostname_p, &inAddr)) {
+    if (SOC_InetAtoN(hostname_p, &inAddr)) {
         addr = inAddr.addr;
     } else {
-        hostEnt = func_0215F650(hostname_p);
+        hostEnt = SOC_GetHostByName(hostname_p);
         if (hostEnt && hostEnt->h_length > 0) {
             func_021BA100(&addr, *hostEnt->h_addr_list, 4);
         }

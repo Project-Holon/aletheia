@@ -7,7 +7,7 @@
  * 0x02036CA8 is matched itself (its manifest entry would then be the witness)
  * or a second caller turns up.
  *
- * function: func_02037154
+ * function: GFL_NET_WM_ICON_EasyMain
  * address:  0x02037154
  * packet:   pkt_02037154
  * region:   arm9
@@ -18,28 +18,28 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02036CA8  0x02036CA8  arm
+ *   GFL_NET_WM_ICON_Draw  0x02036CA8  arm
  *   g_021469C8     0x021469C8  data
  *
  * Flush hook: does nothing while the handler in the second word of the global
- * at 0x021469C8 is unarmed, otherwise hands it to func_02036CA8.
+ * at 0x021469C8 is unarmed, otherwise hands it to GFL_NET_WM_ICON_Draw.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02037154.c \
- *       --func func_02037154 --addr 0x02037154 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GFL_NET_WM_ICON_EasyMain.c \
+ *       --func GFL_NET_WM_ICON_EasyMain --addr 0x02037154 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
 struct Icon;
-extern void func_02036CA8(struct Icon *c);
+extern void GFL_NET_WM_ICON_Draw(struct Icon *c);
 extern u32  g_021469C8[];
 
-void func_02037154(void)
+void GFL_NET_WM_ICON_EasyMain(void)
 {
     if (g_021469C8[1] == 0)
         return;
-    func_02036CA8((struct Icon *)g_021469C8[1]);
+    GFL_NET_WM_ICON_Draw((struct Icon *)g_021469C8[1]);
 }

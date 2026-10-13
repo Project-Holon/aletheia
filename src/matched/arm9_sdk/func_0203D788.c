@@ -1,5 +1,5 @@
 /*
- * function: func_0203D788
+ * function: GFL_NET_GetSession
  * address:  0x0203D788
  * packet:   pkt_0203D788
  * region:   arm9
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469E0  0x021469E0  data
+ *   gGFLNetMain  0x021469E0  data
  *
  * Returns the net context pointer the manager keeps at +8 of 0x021469E0.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D788.c \
- *       --func func_0203D788 --addr 0x0203D788 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_GetSession.c \
+ *       --func GFL_NET_GetSession --addr 0x0203D788 --arm --cc 1.1p1
  */
 
 #include "../include/G_Singleton.h"
 
 typedef unsigned char u8;
 
-extern struct Singleton g_021469E0;
+extern struct Singleton gGFLNetMain;
 
-void *func_0203D788(void)
+void *GFL_NET_GetSession(void)
 {
-    return *(void **)(((u8 *)&g_021469E0) + 8);
+    return *(void **)(((u8 *)&gGFLNetMain) + 8);
 }

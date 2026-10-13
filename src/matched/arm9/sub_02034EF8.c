@@ -11,11 +11,11 @@
  *
  * symbols:
  *   sub_020352DC  0x020352DC  arm
- *   sub_020360A8  0x020360A8  arm
- *   sub_02035A60  0x02035A60  arm
- *   sub_0203545C  0x0203545C  arm
+ *   KEY_Main  0x020360A8  arm
+ *   TOUCHPANEL_Main  0x02035A60  arm
+ *   UI_ServiceLidSleep  0x0203545C  arm
  *   sub_020356A0  0x020356A0  arm
- *   sub_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   sub_02035544  0x02035544  arm
  *
  * One tick of the main loop the areaman singleton drives: bump the frame
@@ -35,7 +35,7 @@
  *   0x020352DC, 0x020360A8, 0x02035A60, 0x0203545C, 0x020356A0
  *
  * Of those, 0x0203545C is the blocker that cannot be cleared from inside
- * this territory: src/pending/sub_0203545C.c is byte-correct but capped on
+ * this territory: src/pending/UI_ServiceLidSleep.c is byte-correct but capped on
  * PM_GoSleepMode (0x0208C154), which the whole image calls exactly once,
  * from that function.  0x02035A60 and 0x020360A8 are byte-correct too
  * (src/pending/) and capped on their own single-caller callees 0x020358A0
@@ -63,11 +63,11 @@ struct AreaCtx {
 };
 
 extern void sub_020352DC(void);
-extern void sub_020360A8(void);
-extern void sub_02035A60(void);
-extern void sub_0203545C(void);
+extern void KEY_Main(void);
+extern void TOUCHPANEL_Main(void);
+extern void UI_ServiceLidSleep(void);
 extern void sub_020356A0(int a0);
-extern unsigned int sub_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern void sub_02035544(u32 x);
 
 void sub_02034EF8(struct AreaCtx *p)
@@ -75,12 +75,12 @@ void sub_02034EF8(struct AreaCtx *p)
     p->frames++;
 
     sub_020352DC();
-    sub_020360A8();
-    sub_02035A60();
-    sub_0203545C();
+    KEY_Main();
+    TOUCHPANEL_Main();
+    UI_ServiceLidSleep();
     sub_020356A0((int)p);
 
-    if ((sub_0203630C() & 0x30C) == 0x30C && p->inhibit == 0) {
+    if ((KEY_GetCont() & 0x30C) == 0x30C && p->inhibit == 0) {
         if (p->fn != 0) {
             p->fn(p->arg);
         }

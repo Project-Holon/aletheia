@@ -20,7 +20,7 @@
  *   func_021C6E48  0x021C6E48  thumb
  *   func_0218FE98  0x0218FE98  thumb  ov021
  *   func_02188C84  0x02188C84  thumb  ov021
- *   func_020114D0  0x020114D0  thumb
+ *   ICA_ANIME_CreateFull  0x020114D0  thumb
  *   func_02006148  0x02006148  thumb
  *   func_0200616C  0x0200616C  thumb
  *   func_02011610  0x02011610  thumb
@@ -76,7 +76,7 @@ struct Evt;
 struct IcaAnime;
 struct S0201235C;
 extern u16 func_02188C84(u8 *p);
-extern void *func_020114D0(u32 heap, u32 a1, u32 a2);
+extern void *ICA_ANIME_CreateFull(u32 heap, u32 a1, u32 a2);
 extern int func_02006148(u32 a0);
 extern void func_0200616C(void *arg, int i);
 struct Rec12;
@@ -119,7 +119,7 @@ int func_0216C0E8(void *evt, u32 *state, Work *w)
         }
         break;
     case 2:
-        w->anim = func_020114D0(func_02188C84(field), 0x9D, 0x18);
+        w->anim = ICA_ANIME_CreateFull(func_02188C84(field), 0x9D, 0x18);
         func_0200616C((void *)1953, func_02006148(1953));
         (*state)++;
         break;

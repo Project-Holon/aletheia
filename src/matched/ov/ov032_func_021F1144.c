@@ -13,7 +13,7 @@
  *   func_02165CE4  0x02165CE4  thumb  ov010
  *   func_02165D08  0x02165D08  thumb  ov010
  *   func_02165C34  0x02165C34  thumb  ov010
- *   func_0204581C  0x0204581C  arm
+ *   STRBUF_Clear  0x0204581C  arm
  *   func_02165D50  0x02165D50  thumb  ov010
  *   func_021F10D8  0x021F10D8  thumb  ov032
  *   func_021F0F74  0x021F0F74  thumb  ov032
@@ -37,7 +37,7 @@ struct U16Vec;
 extern u16 func_02165CE4(u8 *r);
 extern u8 func_02165D08(struct Rec *r);
 extern void func_02165C34(struct Rec *r, void *buf);
-extern void func_0204581C(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
 struct Strbuf;
 extern void func_02165D50(struct Rec *r, struct Strbuf *buf);
 extern void func_021F10D8(char *this, u8 *p, int a);
@@ -55,7 +55,7 @@ void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t)
     ((struct Obj00225 *)q)->f6 = func_02165CE4(r);
     q[4] = func_02165D08(r);
     func_02165C34(r, ((struct Obj00225 *)q)->f24);
-    func_0204581C(((struct Obj00225 *)q)->f20);
+    STRBUF_Clear(((struct Obj00225 *)q)->f20);
     func_02165D50(r, ((struct Obj00225 *)q)->f20);
     func_021F10D8((char *)p, q, (int)r);
     func_021F0F74((char *)p, q, r);

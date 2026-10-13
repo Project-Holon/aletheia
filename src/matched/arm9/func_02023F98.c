@@ -1,5 +1,5 @@
 /*
- * function: func_02023F98
+ * function: BRIGHTNESS_ChangeReset
  * address:  0x02023F98
  * packet:   pkt_02023F98
  * region:   arm9
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   g_wipe_main    0x0214691C  data
- *   g_wipe_flags   0x021468FC  data
- *   g_wipe_subrec  0x021468FC  data
+ *   g_brightnessMain    0x0214691C  data
+ *   g_brightnessSub   0x021468FC  data
+ *   g_brightnessSub  0x021468FC  data
  *
- * The teardown counterpart of func_02023EF4: given the same two-bit engine
+ * The teardown counterpart of BRIGHTNESS_ChangeRequest: given the same two-bit engine
  * mask, it zeroes each selected engine's 0x20-byte blend record and clears
  * that engine's active flag.  Main engine's record is at 0x0214691C and its
  * flag at 0x021468FC+0x3c; the sub engine's record is at 0x021468FC+0x20
@@ -39,34 +39,34 @@
  * layout decision, not an allocation one).
  *
  * What reproduces it is TWO distinct externs at 0x021468FC, split along the
- * image's own sharing: `g_wipe_flags` names the object both arms' flag stores
+ * image's own sharing: `g_brightnessSub` names the object both arms' flag stores
  * reach (+0x3c for main, +0x1c for sub, one slot between them) and
- * `g_wipe_subrec` names the one arm 2 memsets (its own slot).  Whether the
+ * `g_brightnessSub` names the one arm 2 memsets (its own slot).  Whether the
  * original really had two objects at one address or one object the compiler
  * saw through two declarations is not decidable from the bytes; what the
  * bytes do fix is that three source-level names were in play, not two.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02023F98.c \
- *       --func func_02023F98 --addr 0x02023F98 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BRIGHTNESS_ChangeReset.c \
+ *       --func BRIGHTNESS_ChangeReset --addr 0x02023F98 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int  u32;
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
 
-extern u32 g_wipe_main[];
-extern u32 g_wipe_subrec[];
-extern u32 g_wipe_flags[];
+extern u32 g_brightnessMain[];
+extern u32 g_brightnessSub[];
+extern u32 g_brightnessSub[];
 
-void func_02023F98(u32 mask)
+void BRIGHTNESS_ChangeReset(u32 mask)
 {
     if (mask & 1) {
-        func_02082BCC(g_wipe_main, 0, 0x20);
-        g_wipe_flags[0x3c / 4] = 0;
+        func_02082BCC(g_brightnessMain, 0, 0x20);
+        g_brightnessSub[0x3c / 4] = 0;
     }
     if (mask & 2) {
-        func_02082BCC(g_wipe_subrec, 0, 0x20);
-        g_wipe_flags[0x1c / 4] = 0;
+        func_02082BCC(g_brightnessSub, 0, 0x20);
+        g_brightnessSub[0x1c / 4] = 0;
     }
 }

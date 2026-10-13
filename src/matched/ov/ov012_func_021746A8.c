@@ -1,5 +1,5 @@
 /*
- * function: func_021746A8
+ * function: UNION_MAIN_StepPlayEffectAtSeatLow
  * address:  0x021746A8
  * packet:   pkt_ov012_021746A8
  * region:   ov012
@@ -31,7 +31,7 @@ extern u32 func_0203D1A4(struct Link *p);
 typedef unsigned short u16;
 extern void *func_02184D38(void *p, int unused, int a, const int *q, u16 s, int t);
 
-int func_021746A8(int a, int b, int c, int d, int e, int *out, u8 *cnt)
+int UNION_MAIN_StepPlayEffectAtSeatLow(int a, int b, int c, int d, int e, int *out, u8 *cnt)
 {
     P s;
     int z;

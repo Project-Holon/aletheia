@@ -1,5 +1,5 @@
 /*
- * function: func_020275A8
+ * function: BEACON_STATUS_GetLog
  * address:  0x020275A8
  * packet:   pkt_020275A8
  * region:   arm9
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u32 func_020275A8(u32 a) { return a; }
+u32 BEACON_STATUS_GetLog(u32 a) { return a; }

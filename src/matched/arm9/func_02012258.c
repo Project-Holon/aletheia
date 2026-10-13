@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02012258
+ * function: GAMESYSTEM_ReleaseSleepCallback
  * address:  0x02012258
  * packet:   pkt_02012158
  * region:   arm9
@@ -13,7 +13,7 @@
 
 typedef unsigned int   u32;
 extern void func_02035138(void *fn, u32 arg);
-void func_02012258(void *o)
+void GAMESYSTEM_ReleaseSleepCallback(void *o)
 {
     func_02035138(0, 0);
 }

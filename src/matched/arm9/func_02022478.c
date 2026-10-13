@@ -1,5 +1,5 @@
 /*
- * function: func_02022478
+ * function: WIPE_HBlankSlotsTask
  * address:  0x02022478
  * packet:   pkt_02022478
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_02022478(int a0, int *p)
+void WIPE_HBlankSlotsTask(int a0, int *p)
 {
     int i;
     for (i = 0; i < 2; i++)

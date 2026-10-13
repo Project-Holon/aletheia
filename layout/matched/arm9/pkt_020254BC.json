@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020254BC",
+   "name": "ACTOR_TOOL_LoadCharSimplePalAnm",
    "address": "0x020254BC",
    "kind": "game",
    "region": "arm9",

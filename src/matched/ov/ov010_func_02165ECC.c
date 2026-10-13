@@ -21,7 +21,7 @@
  * stand-in, only the endpoints are pinned (2026-09-28 tree_ov010_4).
  *
  * symbols:
- *   func_0204581C  0x0204581C  arm
+ *   STRBUF_Clear  0x0204581C  arm
  *   func_02045994  0x02045994  arm
  */
 
@@ -33,7 +33,7 @@ typedef short s16;
 
 struct Strbuf;
 struct U16Vec;
-extern void func_0204581C(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
 extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 
 typedef struct Rec {
@@ -45,7 +45,7 @@ typedef struct Rec {
 
 void func_02165ECC(Rec *r, void *buf)
 {
-    func_0204581C(buf);
+    STRBUF_Clear(buf);
     func_02045994(buf, r->text, 11);
     switch (r->type) {
     case 16:

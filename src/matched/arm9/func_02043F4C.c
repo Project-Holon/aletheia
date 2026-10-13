@@ -1,5 +1,5 @@
 /*
- * function: func_02043F4C
+ * function: BMP_Blit8bpp
  * address:  0x02043F4C
  * packet:   pkt_02043B98
  * region:   arm9
@@ -34,7 +34,7 @@
  *     keyed loop steps xx before dxx (a three-register rotation, 12 -> 4
  *     -> 0);
  *   - the address arithmetic is the family's single integer sum over
- *     (u32)pixels (func_02044CE0) with one tile-row local per address.
+ *     (u32)pixels (BMP_FillRect8bpp) with one tile-row local per address.
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -75,7 +75,7 @@ static inline s32 ClipRect(struct Surf *src, const struct Surf *dst, s32 *x, s32
     return 1;
 }
 
-void func_02043F4C(struct Surf *src, struct Surf *dst, s32 x, s32 y, s32 dx, s32 dy,
+void BMP_Blit8bpp(struct Surf *src, struct Surf *dst, s32 x, s32 y, s32 dx, s32 dy,
                    u32 w, u32 h, u16 key)
 {
     s32 srow, drow;

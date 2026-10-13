@@ -17,7 +17,7 @@
  *   OS_Terminate   0x02088234  arm
  *   func_02087244  0x02087244  arm
  *   func_0207D3E4  0x0207D3E4  arm
- *   func_0207D148  0x0207D148  arm
+ *   FX_Init  0x0207D148  arm
  *   func_0207AD04  0x0207AD04  arm
  *   func_0208A924  0x0208A924  arm
  *   func_02088788  0x02088788  arm
@@ -43,7 +43,7 @@ extern int func_02087058(void);
 extern void OS_Terminate(void);
 extern int func_02087244(void);
 extern long func_0207D3E4(int enable);
-extern void func_0207D148(void);
+extern void FX_Init(void);
 extern void func_0207AD04(unsigned long default_dma_no);
 extern void func_0208A924(void);
 extern void func_02088788(void);
@@ -74,7 +74,7 @@ void func_021C0AA8(void)
         OS_Terminate();
     zero = 0;
     func_0207D3E4(zero);
-    func_0207D148();
+    FX_Init();
     func_0207AD04(zero - 1);
     func_0208A924();
     func_02088788();

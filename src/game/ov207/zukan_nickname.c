@@ -60,7 +60,7 @@
  *   func_0220B9E0 0x0220B9E0 thumb ov207
  *   func_0201F73C 0x0201F73C thumb
  *   func_02045374 0x02045374 arm
- *   func_02021D50 0x02021D50 thumb
+ *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_02034AC4 0x02034AC4 arm
  *   overlay94 0x0000005E data
  *   func_02202058 0x02202058 thumb ov094
@@ -68,6 +68,7 @@
  *   func_020215A0 0x020215A0 thumb
  *   func_02021540 0x02021540 thumb
  *   func_02034A5C 0x02034A5C arm
+ *   PALANM_SetAutoTransfer  0x02021EE4  thumb  arm9
  */
 #include "../../matched/include/Obj00174.h"
 #include "../../matched/include/Obj00181.h"
@@ -146,10 +147,10 @@ extern void func_0201F164(struct WordSet *,u32,u32,u32);
 extern void func_0220B9E0(int *);
 extern void func_0201F73C(void *,int,unsigned short,int);
 extern void func_02045374(struct Cfg *);
-extern void func_02021D50(struct S02021D50 *p);
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern int func_02034AC4(int);
 extern void *func_02021518(unsigned);
-extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern struct Obj *func_02202058(int a, int b, int c, int d, int e, u16 k);
 extern void func_022021F4(Obj *);
@@ -320,13 +321,13 @@ int func_0220B940(char *p)
     return ((struct Obj25413 *)p)->f40;
 }
 
-void func_0220B944(void *a, u32 *p){if(p[22])func_02021D50((void*)p[22]);}
+void func_0220B944(void *a, u32 *p){if(p[22])PALANM_TransferPalettes((void*)p[22]);}
 
 void func_0220B954(unsigned *p)
 {
     func_02034AC4((int)overlay94);
     p[22]=(unsigned)func_02021518(((struct Obj00174 *)p)->f0);
-    func_02021EE4((void *)p[22],1);
+    PALANM_SetAutoTransfer((void *)p[22],1);
     func_0202155C((void *)p[22],1,480,((struct Obj00174 *)p)->f0);
     func_0202155C((void *)p[22],3,480,((struct Obj00174 *)p)->f0);
     p[21]=(unsigned)func_02202058((int)((void *)p[8]),0,(int)((void *)p[22]),(int)((void *)p[6]),(int)(p+20),((struct Obj00174 *)p)->f0);

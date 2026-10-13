@@ -1,5 +1,5 @@
 /*
- * function: func_021D5DC4
+ * function: P_STATUS_UpdateRefresh
  * address: 0x021D5DC4
  * packet: pkt_ov131_021D5DC4
  * region: ov131
@@ -17,23 +17,23 @@
  * interfaces: callee own matched files; 7EAC keeps second caller payload
  *   visibly set at 021D5E9C despite its own body's unused parameter.
  * symbols:
- *   func_021D6D04 0x021D6D04 thumb ov131
- *   func_021D6A38 0x021D6A38 thumb ov131
- *   func_021D7EAC 0x021D7EAC thumb ov131
- *   func_021D9D94 0x021D9D94 thumb ov131
- *   func_021D90C0 0x021D90C0 thumb ov131
- *   func_021DA8BC 0x021DA8BC thumb ov131
- *   func_021D7CAC 0x021D7CAC thumb ov131
- *   func_021D9CD0 0x021D9CD0 thumb ov131
- *   func_021D8FAC 0x021D8FAC thumb ov131
- *   func_021DA7A4 0x021DA7A4 thumb ov131
- *   func_021D5BAC 0x021D5BAC thumb ov131
- *   func_021D62E4 0x021D62E4 thumb ov131
- *   func_021D60A4 0x021D60A4 thumb ov131
+ *   P_STA_SUB_HideSprite 0x021D6D04 thumb ov131
+ *   P_STA_SUB_Refresh 0x021D6A38 thumb ov131
+ *   P_STA_INFO_HidePage 0x021D7EAC thumb ov131
+ *   P_STA_SKILL_HideStatsPage 0x021D9D94 thumb ov131
+ *   P_STA_RIBBON_Hide 0x021D90C0 thumb ov131
+ *   P_STA_SKILL_HideMovesPage 0x021DA8BC thumb ov131
+ *   P_STA_INFO_ShowPage 0x021D7CAC thumb ov131
+ *   P_STA_SKILL_ShowStatsPage 0x021D9CD0 thumb ov131
+ *   P_STA_RIBBON_Show 0x021D8FAC thumb ov131
+ *   P_STA_SKILL_ShowMovesPage 0x021DA7A4 thumb ov131
+ *   P_STATUS_SearchPokemon 0x021D5BAC thumb ov131
+ *   P_STATUS_CanUseButtons 0x021D62E4 thumb ov131
+ *   P_STATUS_GetPokeParaSource 0x021D60A4 thumb ov131
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B878 0x0204B878 arm
- *   func_02006BB4 0x02006BB4 thumb
+ *   PM_VOICE_StopSlot 0x02006BB4 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_02006CAC 0x02006CAC thumb
  *   func_02006984 0x02006984 thumb
@@ -45,26 +45,26 @@ typedef unsigned int u32;
 struct Obj;
 struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
-extern void func_021D6D04(void *,u8 *);
-extern void func_021D6A38(u8 *p, u8 *q);
-extern void func_021D7EAC(u8 *,void *);
-extern void func_021D9D94(u8 *,u8 *);
-extern void func_021D90C0(u8 *,u8 *);
-extern void func_021DA8BC(u8 *,u8 *);
-extern void func_021D7CAC(u8 *,u8 *);
-extern void func_021D9CD0(u8 *,u8 *);
-extern void func_021D8FAC(u8 *,u8 *);
-extern void func_021DA7A4(u8 *,u8 *);
+extern void P_STA_SUB_HideSprite(void *,u8 *);
+extern void P_STA_SUB_Refresh(u8 *p, u8 *q);
+extern void P_STA_INFO_HidePage(u8 *,void *);
+extern void P_STA_SKILL_HideStatsPage(u8 *,u8 *);
+extern void P_STA_RIBBON_Hide(u8 *,u8 *);
+extern void P_STA_SKILL_HideMovesPage(u8 *,u8 *);
+extern void P_STA_INFO_ShowPage(u8 *,u8 *);
+extern void P_STA_SKILL_ShowStatsPage(u8 *,u8 *);
+extern void P_STA_RIBBON_Show(u8 *,u8 *);
+extern void P_STA_SKILL_ShowMovesPage(u8 *,u8 *);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern int func_021D5BAC(u8 *,int,u16 *);
-extern int func_021D62E4(char *);
-extern void func_02006BB4(u32);
-extern int func_021D60A4(char *p);
+extern int P_STATUS_SearchPokemon(u8 *,int,u16 *);
+extern int P_STATUS_CanUseButtons(char *);
+extern void PM_VOICE_StopSlot(u32);
+extern int P_STATUS_GetPokeParaSource(char *p);
 extern u32 func_02017E1C(void *,u32,u32);
 extern void func_02006CAC(void **);
 extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
-void func_021D5DC4(u8 *p)
+void P_STATUS_UpdateRefresh(u8 *p)
 {
     void *q;
     u32 a,b;
@@ -88,21 +88,21 @@ void func_021D5DC4(u8 *p)
     if (func_0201C6B4(((struct Obj00035 *)p)->f84)==1 &&
         (((struct Obj00035 *)p)->f25C==2 || ((struct Obj00035 *)p)->f25C==0)) {
         if (p[0x1a]!=((struct Obj00035 *)p)->f18) {
-            if (p[0x1a]!=255) func_021D6D04(p,*(u8 * *)&((struct Obj00035 *)p)->f88);
-            func_021D6A38(p,((struct Obj00035 *)p)->f88);
+            if (p[0x1a]!=255) P_STA_SUB_HideSprite(p,*(u8 * *)&((struct Obj00035 *)p)->f88);
+            P_STA_SUB_Refresh(p,((struct Obj00035 *)p)->f88);
             p[0x1a]=((struct Obj00035 *)p)->f18;
         }
         switch (((struct Obj00035 *)p)->f5C) {
-        case 0: func_021D7EAC(p,((struct Obj00035 *)p)->f8C); break;
-        case 1: func_021D9D94(p,*(u8 * *)&((struct Obj00035 *)p)->f90); break;
-        case 2: func_021D90C0(p,*(u8 * *)&((struct Obj00035 *)p)->f94); break;
-        case 3: func_021DA8BC(p,*(u8 * *)&((struct Obj00035 *)p)->f90); break;
+        case 0: P_STA_INFO_HidePage(p,((struct Obj00035 *)p)->f8C); break;
+        case 1: P_STA_SKILL_HideStatsPage(p,*(u8 * *)&((struct Obj00035 *)p)->f90); break;
+        case 2: P_STA_RIBBON_Hide(p,*(u8 * *)&((struct Obj00035 *)p)->f94); break;
+        case 3: P_STA_SKILL_HideMovesPage(p,*(u8 * *)&((struct Obj00035 *)p)->f90); break;
         }
         switch (((struct Obj00035 *)p)->f58) {
-        case 0: func_021D7CAC(p,*(u8 * *)&((struct Obj00035 *)p)->f8C); break;
-        case 1: func_021D9CD0(p,*(u8 * *)&((struct Obj00035 *)p)->f90); break;
-        case 2: func_021D8FAC(p,*(u8 * *)&((struct Obj00035 *)p)->f94); break;
-        case 3: func_021DA7A4(p,*(u8 * *)&((struct Obj00035 *)p)->f90); break;
+        case 0: P_STA_INFO_ShowPage(p,*(u8 * *)&((struct Obj00035 *)p)->f8C); break;
+        case 1: P_STA_SKILL_ShowStatsPage(p,*(u8 * *)&((struct Obj00035 *)p)->f90); break;
+        case 2: P_STA_RIBBON_Show(p,*(u8 * *)&((struct Obj00035 *)p)->f94); break;
+        case 3: P_STA_SKILL_ShowMovesPage(p,*(u8 * *)&((struct Obj00035 *)p)->f90); break;
         }
         if (((struct Obj00035 *)p)->f38==0 && (*(u8 **)(p+8))[13]!=2) {
             func_0204B3DC(((struct Obj00035 *)p)->f17C,1);
@@ -113,23 +113,23 @@ void func_021D5DC4(u8 *p)
             func_0204B3DC(((struct Obj00035 *)p)->f180,0);
         }
         if (*(u32 *)&((struct Obj00035 *)p)->f48==0) {
-            if (func_021D5BAC(p,0,0)==1) func_0204B878(((struct Obj00035 *)p)->f188,3);
+            if (P_STATUS_SearchPokemon(p,0,0)==1) func_0204B878(((struct Obj00035 *)p)->f188,3);
             else func_0204B878(((struct Obj00035 *)p)->f188,17);
         }
         if (*(u32 *)&((struct Obj00035 *)p)->f4C==0) {
-            if (func_021D5BAC(p,1,0)==1) func_0204B878(((struct Obj00035 *)p)->f18C,2);
+            if (P_STATUS_SearchPokemon(p,1,0)==1) func_0204B878(((struct Obj00035 *)p)->f18C,2);
             else func_0204B878(((struct Obj00035 *)p)->f18C,16);
         }
-        if (*(int *)&((struct Obj00035 *)p)->f58<3 && func_021D62E4((char *)p)==1) {
+        if (*(int *)&((struct Obj00035 *)p)->f58<3 && P_STATUS_CanUseButtons((char *)p)==1) {
             if (*(u32 *)((u32)p + (u32)*(int *)&((struct Obj00035 *)p)->f58*4 + 0x60)==1)
                 func_0204B878(((struct Obj00035 *)p)->f184,7);
             else func_0204B878(((struct Obj00035 *)p)->f184,6);
         }
         if (((struct Obj00035 *)p)->f10==1) {
             ((struct Obj00035 *)p)->f10=0;
-            func_02006BB4(0);
+            PM_VOICE_StopSlot(0);
             if (((struct Obj00035 *)p)->f38==0) {
-                q=(void *)func_021D60A4((char *)p);
+                q=(void *)P_STATUS_GetPokeParaSource((char *)p);
                 a=func_02017E1C(q,5,0);
                 b=func_02017E1C(q,111,0);
                 func_02006CAC(&out);

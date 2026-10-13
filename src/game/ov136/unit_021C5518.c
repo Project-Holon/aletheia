@@ -41,13 +41,13 @@
  *   func_02049238 0x02049238 arm
  *   func_0201F5BC 0x0201F5BC thumb
  *   func_02049B40 0x02049B40 arm
- *   func_0202C9B4 0x0202C9B4 thumb
- *   func_0202CA3C 0x0202CA3C thumb
- *   func_0202CAE4 0x0202CAE4 thumb
- *   func_0202CF84 0x0202CF84 thumb
+ *   BGWINFRM_Create 0x0202C9B4 thumb
+ *   BGWINFRM_AddFrame 0x0202CA3C thumb
+ *   BGWINFRM_SetFrameDataArc 0x0202CAE4 thumb
+ *   BGWINFRM_GetFrameBuffer 0x0202CF84 thumb
  *   func_02082D44 0x02082D44 arm
- *   func_0202CB4C 0x0202CB4C thumb
- *   func_0202CA0C 0x0202CA0C thumb
+ *   BGWINFRM_PutFrame 0x0202CB4C thumb
+ *   BGWINFRM_Delete 0x0202CA0C thumb
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC64 0x0201EC64 thumb
  *   func_020457B0 0x020457B0 arm
@@ -116,13 +116,13 @@ extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
-extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
-extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
-extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
+extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
+extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
+extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void func_02082D44(void *,void *,u32);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void func_0202CA0C(struct WinMgr *mgr);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
@@ -271,18 +271,18 @@ void func_021C587C(struct MbSeqCtx *p)
 {
     u32 i;
     void *first;
-    **(void ** *)&p->f8 = func_0202C9B4(2,11,102);
-    for(i=0;i<10;i++) func_0202CA3C(**(void ** *)&p->f8,i,2,14,4);
-    func_0202CA3C(**(void ** *)&p->f8,10,1,14,4);
-    func_0202CAE4(**(void ** *)&p->f8,0,155,40,1);
-    first = (void *)func_0202CF84(**(void ** *)&p->f8,0);
-    for(i=1;i<=10;i++) func_02082D44(first,(void *)func_0202CF84(**(void ** *)&p->f8,i),112);
-    for(i=0;i<10;i++) func_0202CB4C(**(void ** *)&p->f8,i,(i%2)*16+1,(i/2)*4);
+    **(void ** *)&p->f8 = BGWINFRM_Create(2,11,102);
+    for(i=0;i<10;i++) BGWINFRM_AddFrame(**(void ** *)&p->f8,i,2,14,4);
+    BGWINFRM_AddFrame(**(void ** *)&p->f8,10,1,14,4);
+    BGWINFRM_SetFrameDataArc(**(void ** *)&p->f8,0,155,40,1);
+    first = (void *)BGWINFRM_GetFrameBuffer(**(void ** *)&p->f8,0);
+    for(i=1;i<=10;i++) func_02082D44(first,(void *)BGWINFRM_GetFrameBuffer(**(void ** *)&p->f8,i),112);
+    for(i=0;i<10;i++) BGWINFRM_PutFrame(**(void ** *)&p->f8,i,(i%2)*16+1,(i/2)*4);
 }
 
 void func_021C5918(struct MbSeqCtx *p)
 {
-    func_0202CA0C(**(struct WinMgr ** *)&p->f8);
+    BGWINFRM_Delete(**(struct WinMgr ** *)&p->f8);
 }
 
 void func_021C5924(struct MbUnitBCtx *p)

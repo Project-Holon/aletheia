@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_02027FEC 0x02027FEC thumb
+ *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   func_02045808 0x02045808 arm
  *   func_02028148 0x02028148 thumb
  *   func_02028178 0x02028178 thumb
@@ -24,7 +24,7 @@ struct MsgBank;
 struct U16Vec;
 struct Item { void *text; u16 color; unsigned value; };
 extern void *func_02045EC0(struct MsgBank *, unsigned);
-extern unsigned func_02027FEC(unsigned, unsigned, unsigned, unsigned, u8, u16);
+extern unsigned APP_TASKMENU_WIN_Create(unsigned, unsigned, unsigned, unsigned, u8, u16);
 extern void func_02045808(struct U16Vec *);
 extern void func_02028148(u8 *);
 extern void func_02028178(u8 *);
@@ -34,7 +34,7 @@ void func_021BB3BC(char *p)
     item.text = func_02045EC0(*(struct MsgBank * *)&((struct Obj00084 *)p)->f234, 21);
     item.color = 0x39E3;
     item.value = 0;
-    *(unsigned *)&((struct Obj00084 *)p)->f260 = func_02027FEC(*(unsigned *)&((struct Obj00084 *)p)->f25C, (unsigned)&item, 9, 21, 14, ((struct Obj00084 *)p)->f0);
+    *(unsigned *)&((struct Obj00084 *)p)->f260 = APP_TASKMENU_WIN_Create(*(unsigned *)&((struct Obj00084 *)p)->f25C, (unsigned)&item, 9, 21, 14, ((struct Obj00084 *)p)->f0);
     func_02045808(item.text);
 }
 void func_021BB404(char *p)

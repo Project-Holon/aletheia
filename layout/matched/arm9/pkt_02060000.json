@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "NHTTPi_InitRequestInfo",
+   "name": "NNSi_GfdClearBlockListHead",
    "address": "0x02061DF0",
    "kind": "sdk",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "CTRDGi_IsTaskAvailable",
+   "name": "NNS_G3dGeIsBufferExist",
    "address": "0x0206DB24",
    "kind": "sdk",
    "region": "arm9",

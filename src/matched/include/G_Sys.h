@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_SYS_H
 #define ALETHEIA_G_SYS_H
-/* g_021469DC (arm9) */
+/* _pNetState (arm9) */
 struct Sys {
     unsigned char pad_0[0x8];
     void (*cb)(unsigned int);

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02036B88
+ * function: GFL_NET_QUEUE_Exit
  * address:  0x02036B88
  * packet:   pkt_020366C0
  * region:   arm9
@@ -14,4 +14,4 @@
 
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_02036B88(void *a0){ func_020307B0((void *)((int)((struct Obj15906 *)((char *)(a0)))->f18)); }
+void GFL_NET_QUEUE_Exit(void *a0){ func_020307B0((void *)((int)((struct Obj15906 *)((char *)(a0)))->f18)); }

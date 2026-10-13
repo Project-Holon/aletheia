@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204B658
+ * function: CLACT_GetActorFlip
  * address:  0x0204B658
  * packet:   pkt_0204B5D4
  * region:   arm9
@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The test side of sub_0204B604 in src/matched/unit_0204B5F4.c: is bit
+ * The test side of CLACT_SetActorFlip in src/matched/unit_0204B5F4.c: is bit
  * `which` of the two-bit field at bits 20..21 of the flag word at +0x60 set.
  *
  * The mask is not built into a register here the way the setter builds it.
@@ -21,8 +21,8 @@
  * assigned in both arms, not a returned expression.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B658.c \
- *       --func sub_0204B658 --addr 0x0204B658 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetActorFlip.c \
+ *       --func CLACT_GetActorFlip --addr 0x0204B658 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -39,7 +39,7 @@ struct Actor {
     u32 f_18 : 8;
 };
 
-u32 sub_0204B658(const struct Actor *actor, u32 which)
+u32 CLACT_GetActorFlip(const struct Actor *actor, u32 which)
 {
     u32 result = 0;
 

@@ -14,10 +14,10 @@
  * Verified scratch C, EXACT (blocker_02016068_r1.log):
  * typedef unsigned char u8;
  * typedef struct { char pad[0x140]; unsigned int padbits : 24; unsigned int value : 4; } Data;
- * u8 func_02016068(Data *p) { return p->value; }
+ * u8 MCSS_GetMosaic(Data *p) { return p->value; }
  * symbols:
  *   func_022019F4 0x022019F4 thumb ov094
- *   func_02016068 0x02016068 thumb
+ *   MCSS_GetMosaic 0x02016068 thumb
  *   func_0220074C 0x0220074C thumb ov094
  *   func_021F935C 0x021F935C thumb ov094
  *   func_02201234 0x02201234 thumb ov094
@@ -31,7 +31,7 @@
 typedef unsigned char u8;
 typedef struct { int x, y, z; } Vec;
 extern int func_022019F4(char *p, int key);
-extern u8 func_02016068(void *p);
+extern u8 MCSS_GetMosaic(void *p);
 extern void func_0220074C(void *, int, int, Vec *, Vec *, int, int, int, void *, void (*)(void *), int, u8);
 extern int func_021F935C(int x);
 extern void func_02201234(void *o, char *q);
@@ -49,7 +49,7 @@ void func_021FFBBC(char *w, int key, int kind, int value, int a, int b, int c)
     off = idx * 0x5c;
     if (*(void **)(e + off) == 0)
         return;
-    start.x = FX(func_02016068(*(void **)(e + off)));
+    start.x = FX(MCSS_GetMosaic(*(void **)(e + off)));
     start.y = 0;
     start.z = 0;
     end.x = FX(value);

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204AB84  0x0204AB84  arm
+ *   CLACT_GetCharacterProxy  0x0204AB84  arm
  *   func_020637B4  0x020637B4  arm
  *
  * Snapshot one actor record into a local 36-byte buffer and hand it to
@@ -23,7 +23,7 @@ struct Rec {
     u32 w[9];
 };
 
-extern void func_0204AB84(u32 idx, struct Rec *dst);
+extern void CLACT_GetCharacterProxy(u32 idx, struct Rec *dst);
 extern int func_020637B4(int *p, int i);
 
 int func_0204ABBC(u32 idx, u32 flag)
@@ -34,6 +34,6 @@ int func_0204ABBC(u32 idx, u32 flag)
     if (flag != 0) {
         mode = 2;
     }
-    func_0204AB84(idx, &buf);
+    CLACT_GetCharacterProxy(idx, &buf);
     return func_020637B4((int *)(&buf), mode);
 }

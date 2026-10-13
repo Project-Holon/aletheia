@@ -11,23 +11,23 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02007454, sub_0200745C, sub_02007464, sub_020074CC,
- *           sub_020074D8, sub_0200752C
+ * function: BOX_SAVEDATA_Init, BOX_SAVEDATA_GetSize, BOX_SAVEDATA_InitHeader, BOX_SAVEDATA_GetHeader,
+ *           BOX_SAVEDATA_AddPokemon, BOX_SAVEDATA_AddPokemonToBox
  *
  * symbols:
  *   sub_0200752C_File  0x020A7068  data
- *   sub_020071CC       0x020071CC  thumb
- *   sub_02007AF4       0x02007AF4  thumb
- *   sub_02017E88       0x02017E88  thumb
- *   sub_020181A0       0x020181A0  thumb
+ *   SAVE_CONTROL_GetBlock       0x020071CC  thumb
+ *   BOX_SAVEDATA_GetBoxPokemon       0x02007AF4  thumb
+ *   POKE_TOOL_GetBoxValue       0x02017E88  thumb
+ *   POKE_TOOL_RecoverBoxAllPP       0x020181A0  thumb
  *   func_02034714      0x02034714  arm
  *   func_02045B38      0x02045B38  arm
  *   func_02045C04      0x02045C04  arm
- *   func_02045F5C      0x02045F5C  arm
+ *   MSGDATA_ReadUnits      0x02045F5C  arm
  *
  * alias: this is where "box_savedata.c" starts.  The header of
  * src/matched/unit_020079BC.c records the file name, recovered from the
- * string at 0x020A706C that sub_02007AA4 passes to the debug allocator, and
+ * string at 0x020A706C that BOX_SAVEDATA_CreateWordHolder passes to the debug allocator, and
  * says the file's boundaries are bracketed rather than located.  The front
  * one is located now: 0x02007454 is the first function of it.  What fixes it
  * is the pair 0x02007454 and 0x0200745C, the twelve bytes immediately after
@@ -36,7 +36,7 @@
  * and 0x02007464, the very next function, is the constructor that clears
  * exactly that header.  Every block file in this region opens with that
  * pair; see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The
- * function before them, sub_02007428, passes no file name at all, but the
+ * function before them, SAVE_CONTROL_EraseOutsideSave, passes no file name at all, but the
  * one before that passes 0x020A7064, the empty string "save_control.c" uses,
  * and the first function of this file that names anything names 0x020A7068,
  * which is the empty string every assert in unit_020079BC.c, unit_02007774.c
@@ -49,7 +49,7 @@
  * flag at +0x3DC and the box count at +0x3DD.  Four details are worth
  * naming, and three of them are worth three bytes each.
  *
- *  - sub_02007464 seeds the twenty-four bytes at +0x3C4 with a counter that
+ *  - BOX_SAVEDATA_InitHeader seeds the twenty-four bytes at +0x3C4 with a counter that
  *    wraps at sixteen, and the reset is `adds r4, r1, #0` off a register
  *    holding zero rather than a `movs`, which is the same "derive the
  *    constant from a register that already has one" the rest of this region
@@ -60,13 +60,13 @@
  *    first, so the counter has to be cleared in the `for` initialiser
  *    alongside the index (`for (i = 0, c = 0; ...)`); clearing it in the
  *    statement before the loop swaps r3 and r4 throughout.
- *  - sub_0200752C copies a whole 0x88 byte entry with an inline `ldm`/`stm`
+ *  - BOX_SAVEDATA_AddPokemonToBox copies a whole 0x88 byte entry with an inline `ldm`/`stm`
  *    loop of seventeen iterations, which is
  *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md: the entry has
  *    to be declared four-aligned (`u32 data[0x22]`), because a byte-aligned
  *    declaration turns the same assignment into a 0x88 iteration
  *    `ldrb`/`strb` loop.
- *  - sub_020074D8 walks the boxes from the current one and stops when it
+ *  - BOX_SAVEDATA_AddPokemon walks the boxes from the current one and stops when it
  *    comes back to it, so the loop is a `do`/`while` with no guard, and the
  *    box count it reads on the way round is still live after the loop: the
  *    `cmp r1, #0x18` that follows compares the last value read inside it,
@@ -104,33 +104,33 @@ extern const char sub_0200752C_File[];
 struct MsgBank;
 struct Rec;
 struct Sub020071CCCtrl;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 typedef unsigned short u16;
 struct MsgData;
 struct Sub02007AC8Entry;
-extern struct Sub02007AC8Entry *sub_02007AF4(void **save, u32 box);
-extern u32 sub_02017E88(void *p, u32 id, u32 v);
-extern void sub_020181A0(void *p);
+extern struct Sub02007AC8Entry *BOX_SAVEDATA_GetBoxPokemon(void **save, u32 box);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_RecoverBoxAllPP(void *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02045C04(struct Rec *rec);
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 
-void sub_02007464(struct Sub02007454Header *h);
-struct Sub02007454Header *sub_020074CC(void **save);
-int sub_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
+void BOX_SAVEDATA_InitHeader(struct Sub02007454Header *h);
+struct Sub02007454Header *BOX_SAVEDATA_GetHeader(void **save);
+int BOX_SAVEDATA_AddPokemonToBox(void **save, u32 box, const struct Sub02007454Entry *src);
 
-void sub_02007454(struct Sub02007454Header *h)
+void BOX_SAVEDATA_Init(struct Sub02007454Header *h)
 {
-    sub_02007464(h);
+    BOX_SAVEDATA_InitHeader(h);
 }
 
-u32 sub_0200745C(void)
+u32 BOX_SAVEDATA_GetSize(void)
 {
     return sizeof(struct Sub02007454Header);
 }
 
-void sub_02007464(struct Sub02007454Header *h)
+void BOX_SAVEDATA_InitHeader(struct Sub02007454Header *h)
 {
     void *msg;
     u32 i;
@@ -147,7 +147,7 @@ void sub_02007464(struct Sub02007454Header *h)
     msg = func_02045B38(0, 2, 9, 1);
     if (msg != 0) {
         for (i = 0; i < 0x18; i++) {
-            func_02045F5C(msg, i + 6, (u16 *)(&h->unk04[i]), 0x14);
+            MSGDATA_ReadUnits(msg, i + 6, (u16 *)(&h->unk04[i]), 0x14);
         }
         func_02045C04(msg);
     }
@@ -155,22 +155,22 @@ void sub_02007464(struct Sub02007454Header *h)
     h->unk3DD = 8;
 }
 
-struct Sub02007454Header *sub_020074CC(void **save)
+struct Sub02007454Header *BOX_SAVEDATA_GetHeader(void **save)
 {
-    return sub_020071CC(*save, 0);
+    return SAVE_CONTROL_GetBlock(*save, 0);
 }
 
-int sub_020074D8(void **save, const struct Sub02007454Entry *src)
+int BOX_SAVEDATA_AddPokemon(void **save, const struct Sub02007454Entry *src)
 {
     u32 box;
     struct Sub02007454Header *h;
     u8 n;
 
-    h = sub_020074CC(save);
+    h = BOX_SAVEDATA_GetHeader(save);
     box = h->unk00;
 
     do {
-        if (sub_0200752C(save, box, src) != 0) {
+        if (BOX_SAVEDATA_AddPokemonToBox(save, box, src) != 0) {
             return 1;
         }
         box++;
@@ -181,15 +181,15 @@ int sub_020074D8(void **save, const struct Sub02007454Entry *src)
     } while (box != h->unk00);
     if (n != 0x18) {
         h->unk3DD += 8;
-        sub_0200752C(save, n, src);
+        BOX_SAVEDATA_AddPokemonToBox(save, n, src);
         return 1;
     }
     return 0;
 }
 
-int sub_0200752C(void **save, u32 box, const struct Sub02007454Entry *src)
+int BOX_SAVEDATA_AddPokemonToBox(void **save, u32 box, const struct Sub02007454Entry *src)
 {
-    struct Sub02007454Header *h = sub_020074CC(save);
+    struct Sub02007454Header *h = BOX_SAVEDATA_GetHeader(save);
     u32 slot;
 
     if (box == -1) {
@@ -198,11 +198,11 @@ int sub_0200752C(void **save, u32 box, const struct Sub02007454Entry *src)
         func_02034714(sub_0200752C_File, 0, sub_0200752C_File);
     }
     for (slot = 0; slot < 30; slot++) {
-        struct Sub02007454Entry *base = (struct Sub02007454Entry *)sub_02007AF4(save, box);
+        struct Sub02007454Entry *base = (struct Sub02007454Entry *)BOX_SAVEDATA_GetBoxPokemon(save, box);
 
-        if (sub_02017E88(&base[slot], 5, 0) == 0) {
+        if (POKE_TOOL_GetBoxValue(&base[slot], 5, 0) == 0) {
             base[slot] = *src;
-            sub_020181A0(&base[slot]);
+            POKE_TOOL_RecoverBoxAllPP(&base[slot]);
             return 1;
         }
     }

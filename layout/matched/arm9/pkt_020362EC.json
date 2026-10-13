@@ -18,16 +18,24 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020362EC",
-    "sub_0203630C",
-    "sub_0203631C",
-    "sub_0203633C",
-    "sub_0203634C",
-    "sub_02036370"
+    "KEY_GetContSys",
+    "KEY_GetCont",
+    "KEY_GetRepeatSys",
+    "KEY_GetRepeat",
+    "KEY_GetRepeatSpeedSys",
+    "KEY_GetRepeatSpeed"
+   ],
+   "addresses": [
+    "0x020362EC",
+    "0x0203630C",
+    "0x0203631C",
+    "0x0203633C",
+    "0x0203634C",
+    "0x02036370"
    ]
   },
   {
-   "name": "sub_02036390",
+   "name": "KEY_ClearFrameRateWork",
    "address": "0x02036390",
    "kind": "game",
    "region": "arm9",

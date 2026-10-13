@@ -1,5 +1,5 @@
 /*
- * function: func_02015F24
+ * function: MCSS_GetStopCellFlags
  * address:  0x02015F24
  * packet:   pkt_02015F24
  * region:   arm9
@@ -21,7 +21,7 @@ typedef struct {
     u8 *p30;
 } S;
 
-u8 func_02015F24(S *s)
+u8 MCSS_GetStopCellFlags(S *s)
 {
     return s->p30[1];
 }

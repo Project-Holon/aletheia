@@ -32,8 +32,8 @@
  *   func_0203630C 0x0203630C arm
  *   func_020362DC 0x020362DC arm
  *   func_02035C08 0x02035C08 arm
- *   func_02035CB8 0x02035CB8 arm
- *   func_02035BA4 0x02035BA4 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
+ *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   func_020061E4 0x020061E4 thumb
  */
 #include "../include/Obj00025.h"
@@ -42,8 +42,8 @@ typedef unsigned int u32;
 extern u32 func_0203630C(void);
 extern u32 func_020362DC(void);
 extern int func_02035C08(const void *p);
-extern int func_02035BA4(const void *p);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern int TOUCHPANEL_HitCont(const void *p);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void func_020061E4(u32 a);
 extern void *func_021C09B8(void *p);
 extern void func_021BC600(void *p);
@@ -74,7 +74,7 @@ void func_021BAF70(char *p)
     u32 a;
     u32 b;
     flag = func_02035C08(func_021C09B8(*(void **)p));
-    func_02035CB8(&a, &b);
+    TOUCHPANEL_GetPointCont(&a, &b);
     if (trg & 0xc0) {
         func_021BC600(p);
     } else {
@@ -132,7 +132,7 @@ void func_021BAF70(char *p)
         func_021BB910((u8 *)p, (int)6);
         return;
     }
-    if (func_02035BA4(p + 0x90) == 0 || func_02035C08(p + 0x90) == 0) {
+    if (TOUCHPANEL_HitCont(p + 0x90) == 0 || func_02035C08(p + 0x90) == 0) {
         if (func_021BC428(p) == 1) {
             func_021BBDAC((u8 *)p);
             func_021BC0E8((u32)p);

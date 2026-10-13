@@ -34,6 +34,8 @@
  *   func_02089B38  0x02089B38  arm
  *   func_02089CD4  0x02089CD4  arm
  *   g_0214E8F4     0x0214E8F4  data
+ *   SND_CHANNEL_UnlockChannels  0x02072974  arm
+ *   NNS_SndWaveOutFreeChannel  0x02072A08  arm
  */
 #include "../../matched/include/Obj08946.h"
 
@@ -156,7 +158,7 @@ struct Obj_02073CA0 {
 extern void func_02060468(int p0, int p1);
 extern void func_02073CEC(struct A *a);
 extern int func_0207292C(int mask);
-extern void func_02072974(u32);
+extern void SND_CHANNEL_UnlockChannels(u32);
 extern u32  func_0209C2B0(u32 a, s32 b);
 extern s32  func_020729C0(void);
 extern void func_02089660(u32 chan, int fmt, u32 data, int loopmode,
@@ -176,7 +178,7 @@ extern void func_0208C884(void *p);
 extern u32  func_02089D40(void);
 extern void func_02089B38(u32 a);
 extern void func_02089CD4(u32 a);
-extern void func_02072A08(u32);
+extern void NNS_SndWaveOutFreeChannel(u32);
 extern void func_020605B4(volatile struct DList *list, void *elem);
 void func_020737C0(S *p);
 int func_02073838(u8 *o, int n, u8 *src);
@@ -278,7 +280,7 @@ int func_02073838(u8 *o, int n, u8 *src) {
 void func_02073898(struct X_020737C0 *x)
 {
     if (x->f4c == 0) return;
-    func_02072974(x->f4c);
+    SND_CHANNEL_UnlockChannels(x->f4c);
     x->f4c = 0;
     x->f50 = 0;
 }
@@ -495,7 +497,7 @@ void func_02073B3C(struct Obj *o)
  */
 void func_02073BB0(struct X_02073BB0 *x)
 {
-    func_02072A08(x->f48);
+    NNS_SndWaveOutFreeChannel(x->f48);
     func_020605B4((volatile struct DList *)g_0214E8E8, x);
     x->f2c &= ~1;
 }

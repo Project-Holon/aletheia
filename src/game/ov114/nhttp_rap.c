@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02156F5C  0x02156F5C  thumb  ov009
- *   func_02156FDC  0x02156FDC  thumb  ov009
+ *   DWC_RAPCOMMON_Alloc  0x02156F5C  thumb  ov009
+ *   DWC_RAPCOMMON_Free  0x02156FDC  thumb  ov009
  *   d_021CE2D4 0x021CE2D4 data a4
  *   d_021CE284 0x021CE284 data a4
  *   d_021CE280 0x021CE280 data a4
@@ -37,6 +37,9 @@
  *   d_021CE3B8 0x021CE3B8 data a4
  *   d_021CE3A0 0x021CE3A0 data a4
  *   func_02086028  0x02086028  arm
+ *   GFL_NET_STATE_SetError  0x0203C9AC  arm  arm9
+ *   GFL_NET_AllocAligned  0x0203D7C8  arm  arm9
+ *   GFL_NET_FreeAligned  0x0203D7FC  arm  arm9
  */
 
 #include "../../matched/include/Obj08035.h"
@@ -66,8 +69,8 @@ typedef struct { char *buffer; int cursor; char *source; } Record_021B95A0;
 
 typedef struct { u8 a,b,c,d; } Record_021B98F8;
 
-extern unsigned int func_02156F5C(unsigned int, unsigned int, unsigned int);
-extern void func_02156FDC(u32 a, void *p, int b);
+extern unsigned int DWC_RAPCOMMON_Alloc(unsigned int, unsigned int, unsigned int);
+extern void DWC_RAPCOMMON_Free(u32 a, void *p, int b);
 extern int func_021BE648(int a, int b, int c);
 extern void *func_021BF04C(char *url_p, int method, char *buf_p, u32 len, int (*callback)(void *, int, void *), void *userParam_p);
 extern int func_021BE9C8(int a, int b, int c);
@@ -77,7 +80,7 @@ extern void func_02034714(const char *,u32,const char *);
 extern void func_02082BCC(void *,int,unsigned);
 extern int func_0208D80C(char *,int,const char *,...);
 extern int func_021BF308(int);
-extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
+extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 extern int func_021BF184(int a);
 extern void func_021BE698(void);
 extern int func_021BF488(int a);
@@ -85,12 +88,12 @@ extern int func_021BF4B0(u32, int *, int *);
 extern int func_021BE838(void *handle, char **value_pp);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void *func_0203D7C8(unsigned int a, unsigned int size, const char *c, unsigned short d);
+extern void *GFL_NET_AllocAligned(unsigned int a, unsigned int size, const char *c, unsigned short d);
 extern void func_02082D44(int, int, int);
 extern u32 func_021BE6AC(void);
 extern int func_021BE79C(void *handle, void *value_p, unsigned long length);
 extern char *func_0208CADC(char *, const char *);
-extern void func_0203D7FC(void *);
+extern void GFL_NET_FreeAligned(void *);
 extern int func_021BE880(int);
 extern void func_021CAB1C(void *, void *, int);
 extern int func_021CAA70(void *data_ptr, int data_len, void *sign_ptr, void *mod_ptr);
@@ -141,7 +144,7 @@ extern char d_021CE3B8[], d_021CE3A0[];
 
 unsigned int func_021B95A0(unsigned int a, unsigned int b)
 {
-    return func_02156F5C(13, a, b);
+    return DWC_RAPCOMMON_Alloc(13, a, b);
 }
 
 
@@ -153,7 +156,7 @@ unsigned int func_021B95A0(unsigned int a, unsigned int b)
 
 void func_021B95B0(int a)
 {
-    func_02156FDC(13, (void *)a, 0);
+    DWC_RAPCOMMON_Free(13, (void *)a, 0);
 }
 
 
@@ -245,7 +248,7 @@ int func_021B9748(u8 *p)
     if (p != 0) {
         h = func_021BF308(((struct Obj22571 *)p)->fC);
         if (h != 0) {
-            func_0203C9AC(h, 2, h, 0x3f6);
+            GFL_NET_STATE_SetError(h, 2, h, 0x3f6);
             return h;
         }
         return 0;
@@ -283,7 +286,7 @@ void func_021B9774(u8 *p)
  * func_021BF4B0 0x021BF4B0 arm ov114
  * func_021BE838 0x021BE838 arm ov114
  * func_021B9774 0x021B9774 thumb ov114
- * func_0203C9AC 0x0203C9AC arm
+ * GFL_NET_STATE_SetError 0x0203C9AC arm
  */
 int func_021B9790(u8 *p)
 {
@@ -297,7 +300,7 @@ int func_021B9790(u8 *p)
     } else {
         int x = func_021BF488(((struct Obj03763 *)p)->fC);
         if (x == 0) func_021BE838((void *)(((struct Obj03763 *)p)->fC), (char **)(&c));
-        else func_0203C9AC(x, 2, x, 0x3f6);
+        else GFL_NET_STATE_SetError(x, 2, x, 0x3f6);
         func_021B9774(p);
         return result;
     }
@@ -378,7 +381,7 @@ void func_021B98A0(u8 *p, int a, int b, int c)
 
     if (p == 0)
         return;
-    q = func_0203D7C8(a, b + 0x130, (const char *)0x021CE310, 0x1f5);
+    q = GFL_NET_AllocAligned(a, b + 0x130, (const char *)0x021CE310, 0x1f5);
     ((struct Obj03250 *)p)->f0 = (u32)q;
     func_02082BCC((void *)((int)q), 0, b + 0x130);
     func_021B984C((Record_021B95A0 *)p, c);
@@ -436,7 +439,7 @@ void func_021B99B8(u8 *p)
 {
     if (p != 0) {
         if (((struct Obj08036 *)p)->f0 != 0)
-            func_0203D7FC((void *)((struct Obj08036 *)p)->f0);
+            GFL_NET_FreeAligned((void *)((struct Obj08036 *)p)->f0);
         ((struct Obj08036 *)p)->f0 = 0;
         ((struct Obj08036 *)p)->f4 = 0;
     }

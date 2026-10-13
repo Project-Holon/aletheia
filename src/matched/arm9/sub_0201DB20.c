@@ -1,5 +1,5 @@
 /*
- * function: func_0201DB20
+ * function: GF_FONT_GetGlyphIndex
  * address:  0x0201DB20
  * packet:   pkt_0201DB20
  * region:   arm9
@@ -32,7 +32,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201DB20.c \
- *       --func func_0201DB20 --addr 0x0201DB20 --cc 1.1p1 --thumb
+ *       --func GF_FONT_GetGlyphIndex --addr 0x0201DB20 --cc 1.1p1 --thumb
  */
 #include "../include/Obj07086.h"
 
@@ -59,7 +59,7 @@ struct Font {
     u8 *unk88;
 };
 
-u32 func_0201DB20(struct Font *f, u16 c)
+u32 GF_FONT_GetGlyphIndex(struct Font *f, u16 c)
 {
     struct CMap *m;
     s32 lo;

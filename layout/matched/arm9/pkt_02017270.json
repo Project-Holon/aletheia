@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02017270",
+   "name": "MCSS_TOOL_AddPokeMcss",
    "address": "0x02017270",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020172BC",
+   "name": "MCSS_TOOL_SpindaSpotHook",
    "address": "0x020172BC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020173B4",
+   "name": "MCSS_TOOL_SetAnimeStopCallback",
    "address": "0x020173B4",
    "kind": "game",
    "region": "arm9",

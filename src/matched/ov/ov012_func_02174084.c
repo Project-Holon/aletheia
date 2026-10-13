@@ -1,5 +1,5 @@
 /*
- * function: func_02174084
+ * function: UNION_COMMAND_SendAppLeaveData
  * address:  0x02174084
  * packet:   pkt_ov012_02174084
  * region:   ov012
@@ -26,7 +26,7 @@ extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
 extern u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
-void func_02174084(int a, B32 *src)
+void UNION_COMMAND_SendAppLeaveData(int a, B32 *src)
 {
     Msg m;
 

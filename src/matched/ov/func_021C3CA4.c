@@ -1,5 +1,5 @@
 /*
- * function: func_021C3CA4
+ * function: DWCi_SceneOptMovDisconnect_draw
  * address:  0x021C3CA4
  * packet:   pkt_021C1CF8
  * region:   ov016
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C3CA4   0x021C3CA4  arm
+ *   DWCi_SceneOptMovDisconnect_draw   0x021C3CA4  arm
  *
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C3CA4.c \
- *       --func func_021C3CA4 --addr 0x021C3CA4 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneOptMovDisconnect_draw.c \
+ *       --func DWCi_SceneOptMovDisconnect_draw --addr 0x021C3CA4 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void func_021C3CA4(void)
+void DWCi_SceneOptMovDisconnect_draw(void)
 {
 }

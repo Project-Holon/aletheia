@@ -1,5 +1,5 @@
 /*
- * function: func_02028F60
+ * function: FIELD_SOUND_SYSTEM_SetMode4
  * address:  0x02028F60
  * packet:   pkt_02028F30
  * region:   arm9
@@ -8,17 +8,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * closed:   blocker func_02028F48.c is now a manifest entry (matched class)
+ * closed:   blocker FIELD_SOUND_SYSTEM_SetMode3.c is now a manifest entry (matched class)
  *
- * Node kind 4 setter: guarded by func_02028FD0, then the kind tag and
+ * Node kind 4 setter: guarded by FIELD_SOUND_SYSTEM_IsKindAllowedInState, then the kind tag and
  * this kind's payload members are written.
  *
  * symbols:
- *   func_02028FD0  0x02028FD0  thumb
+ *   FIELD_SOUND_SYSTEM_IsKindAllowedInState  0x02028FD0  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02028F60.c \
- *       --func func_02028F60 --addr 0x02028F60 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/pending/FIELD_SOUND_SYSTEM_SetMode4.c \
+ *       --func FIELD_SOUND_SYSTEM_SetMode4 --addr 0x02028F60 --thumb --cc 1.1p1
  */
 #include "../include/Obj00354.h"
 
@@ -27,11 +27,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct SoundParam;
-extern u32 func_02028FD0(struct SoundParam *obj, u32 kind);
+extern u32 FIELD_SOUND_SYSTEM_IsKindAllowedInState(struct SoundParam *obj, u32 kind);
 
-void func_02028F60(u8 *p, u32 a, u32 b)
+void FIELD_SOUND_SYSTEM_SetMode4(u8 *p, u32 a, u32 b)
 {
-    if (func_02028FD0((struct SoundParam *)p, 4) != 0) {
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState((struct SoundParam *)p, 4) != 0) {
         ((struct Obj00354 *)p)->f1C = (u32)4;
         ((struct Obj00354 *)p)->f18 = (u16)b;
         ((struct Obj00354 *)p)->f1A = (u16)a;

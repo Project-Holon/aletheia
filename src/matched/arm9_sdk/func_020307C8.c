@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02030238 0x02030238 arm
+ *   GFL_HEAP_InitAllocator 0x02030238 arm
  *   func_02088234 0x02088234 arm
  */
 
 typedef unsigned int u32;
 typedef int s32;
-extern u32 func_02030238(void *p, u32 heapId, s32 size);
+extern u32 GFL_HEAP_InitAllocator(void *p, u32 heapId, s32 size);
 extern void func_02088234(void);
 
 void func_020307C8(void *p, u32 heapId, s32 size)
 {
-    if (func_02030238(p, heapId, size) == 0) {
+    if (GFL_HEAP_InitAllocator(p, heapId, size) == 0) {
         func_02088234();
     }
 }

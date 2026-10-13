@@ -12,7 +12,7 @@
  * Startup: runs the ARM9 probe, then the three veneers, and latches the +0x10/+0x1c flags.
  *
  * symbols:
- *   func_02085D3C  0x02085D3C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_021B6850  0x021B6850  arm    ov172
  *   func_021B6858  0x021B6858  arm    ov172
  *   func_021B6860  0x021B6860  arm    ov172
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern int func_021B6850(void);
 extern int func_021B6858(int a);
 extern int func_021B6860(int a);
@@ -38,7 +38,7 @@ void func_021B6814(void *a0)
 
     if (((struct Obj08253 *)p)->f10 != 0)
         return;
-    if ((func_02085D3C() == 1 ? func_021B6850() : 0) != 0)
+    if ((OS_IsRunOnTwl() == 1 ? func_021B6850() : 0) != 0)
         return;
     if (func_021B6858(one) == 1)
         func_021B6860(one);

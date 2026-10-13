@@ -1,5 +1,5 @@
 /*
- * function: func_02174908
+ * function: INTRUDE_COMM_RecvAreaNotice
  * address:  0x02174908
  * packet:   pkt_ov011_02174908
  * region:   ov011
@@ -32,7 +32,7 @@ void *func_020127A4(struct SaveBlock *p);
 u16 func_02012AC8(const struct Rec44 *p);
 unsigned int func_02013D9C(unsigned int id);
 
-void func_02174908(int a, int b, int c, unsigned char *d)
+void INTRUDE_COMM_RecvAreaNotice(int a, int b, int c, unsigned char *d)
 {
     int h;
 

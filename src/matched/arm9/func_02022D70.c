@@ -1,5 +1,5 @@
 /*
- * function: func_02022D70
+ * function: WIPE_SUB_DeleteLineBuffers
  * address:  0x02022D70
  * packet:   pkt_02022AD0
  * region:   arm9
@@ -12,14 +12,14 @@
  * status:   EXACT
  * closed:   blocker func_020294C0.c is now a manifest entry (matched class)
  * symbols:
- *   func_02022D78  0x02022D78  thumb
+ *   WIPE_SUB_FreeLineBuffers  0x02022D78  thumb
  *
  */
 
 typedef unsigned char  u8;
-extern void func_02022D78(u8 *p);
+extern void WIPE_SUB_FreeLineBuffers(u8 *p);
 
-void func_02022D70(void *a0)
+void WIPE_SUB_DeleteLineBuffers(void *a0)
 {
-    func_02022D78(a0);
+    WIPE_SUB_FreeLineBuffers(a0);
 }

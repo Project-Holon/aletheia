@@ -13,7 +13,7 @@
  *   func_0203633C 0x0203633C arm
  *   func_020355D8 0x020355D8 arm
  *   func_020061E4 0x020061E4 thumb
- *   func_0202EB04 0x0202EB04 thumb
+ *   BLINK_PALANM_ResetPhase 0x0202EB04 thumb
  *   func_021CA154 0x021CA154 thumb ov128
  *   func_021CA184 0x021CA184 thumb ov128
  */
@@ -25,7 +25,7 @@ extern u32 func_0203633C(void);
 struct CodeIn;
 extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 a);
-extern void func_0202EB04(struct CodeIn *p);
+extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 extern void func_021CA154(u8 *, int);
 extern void func_021CA184(u8 *, int, int);
 int func_021C734C(u32 *p, int *q, u8 *ctx)
@@ -57,7 +57,7 @@ int func_021C734C(u32 *p, int *q, u8 *ctx)
     }
     if (func_020362DC() & 1) {
         func_020061E4(0x54c);
-        func_0202EB04(((struct Obj00329 *)ctx)->f184);
+        BLINK_PALANM_ResetPhase(((struct Obj00329 *)ctx)->f184);
         return 1;
     }
     if (func_0203633C() & 64) {

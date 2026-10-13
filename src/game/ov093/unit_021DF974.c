@@ -18,36 +18,27 @@
  *   func_021D7704  0x021D7704  thumb  ov093
  *   func_021DD008  0x021DD008  thumb  ov093
  */
+#include "unit_021DF974_types.h"
 
-typedef unsigned char u8;
+extern BtlEventHandler d_021F157C[];
 
-extern int func_021D775C(int key);
-extern void *func_021C7CF4(int *p, int i);
-typedef unsigned short u16;
-struct QF;
-extern u16 func_021D5444(struct QF *p);
-extern void func_021D7704(int key, int m);
-extern int func_021DD008(int a);
-
-void func_021DF974(int self, int a, int b)
+/* Lustrous Orb: Palkia's Dragon and Water moves get the item's power ratio. */
+void func_021DF974(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 v;
+    u8 moveType;
 
-    if (b != func_021D775C(3))
+    if (pokeId != func_021D775C(BTL_EVAR_ATTACKER_ID))
         return;
-    if (func_021D5444(func_021C7CF4((int *)a, b)) != 0x1e4)
+    if (func_021D5444(func_021C7CF4(flow, pokeId)) != SPECIES_PALKIA)
         return;
-    v = func_021D775C(0x16);
-    if (v == 0xf || v == 10)
-        func_021D7704(0x31, func_021DD008(self));
+    moveType = func_021D775C(BTL_EVAR_MOVE_TYPE);
+    if (moveType == POKETYPE_DRAGON || moveType == POKETYPE_WATER)
+        func_021D7704(BTL_EVAR_MOVE_POWER_RATIO, func_021DD008(factor));
 }
 
-
-extern int d_021F157C[];
-int *func_021DF9BC(int *p);
-
-int *func_021DF9BC(int *p)
+/* Adamant Orb handler table: one handler, move power. */
+BtlEventHandler *func_021DF9BC(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F157C;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C3C94
+ * function: DWCi_SceneOptMovDisconnect_procScene
  * address:  0x021C3C94
  * packet:   pkt_021C3280
  * region:   ov016
@@ -10,21 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C3C94   0x021C3C94  arm
+ *   DWCi_SceneOptMovDisconnect_procScene   0x021C3C94  arm
+ *   DWCi_SceneOptMovDisconnect_draw  0x021C3CA4  arm
  *
- * Call func_021C3D58, func_021C3CA4.
+ * Call func_021C3D58, DWCi_SceneOptMovDisconnect_draw.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C3C94.c \
- *       --func func_021C3C94 --addr 0x021C3C94 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneOptMovDisconnect_procScene.c \
+ *       --func DWCi_SceneOptMovDisconnect_procScene --addr 0x021C3C94 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern void func_021C3D58(void);
-extern void func_021C3CA4(void);
+extern void DWCi_SceneOptMovDisconnect_draw(void);
 
-void func_021C3C94(void)
+void DWCi_SceneOptMovDisconnect_procScene(void)
 {
     func_021C3D58();
-    func_021C3CA4();
+    DWCi_SceneOptMovDisconnect_draw();
 }

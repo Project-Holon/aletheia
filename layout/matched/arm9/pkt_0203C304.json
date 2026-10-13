@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203C304",
+   "name": "GFL_NET_STATE_WifiEnterRandomMatch",
    "address": "0x0203C304",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203C35C",
+   "name": "GFL_NET_STATE_WifiEnterFriendMatch",
    "address": "0x0203C35C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203C3B4",
+   "name": "GFL_NET_STATE_WifiEnterLoginDefault",
    "address": "0x0203C3B4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203C464",
+   "name": "GFL_NET_STATE_WifiConnected",
    "address": "0x0203C464",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203C934",
+   "name": "GFL_NET_STATE_NoProc",
    "address": "0x0203C934",
    "kind": "game",
    "region": "arm9",

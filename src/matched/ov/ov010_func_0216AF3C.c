@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * Unblocked by matching func_0217688C (ov011, EXACT): the +0032 call site now
+ * Unblocked by matching INTRUDE_COMM_SetPendingValue (ov011, EXACT): the +0032 call site now
  * attests as `matched`.
  * 
  *
@@ -20,7 +20,7 @@
  *   func_02012138  0x02012138  thumb
  *   func_02158344  0x02158344  thumb  ov010
  *   func_02012FB0  0x02012FB0  thumb
- *   func_0217688C  0x0217688C  thumb  ov011
+ *   INTRUDE_COMM_SetPendingValue  0x0217688C  thumb  ov011
  */
 
 typedef unsigned char u8;
@@ -37,7 +37,7 @@ struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158344(int a0);
 extern int func_02012FB0(unsigned char *base);
-extern int func_0217688C();
+extern int INTRUDE_COMM_SetPendingValue();
 
 void func_0216AF3C(int a0)
 {
@@ -69,6 +69,6 @@ loc_0216AF64:
 loc_0216AF6A:
 a1 = a0 + 0;
 a0 = t4 + 0;
-    a0 = func_0217688C(a0, a1);
+    a0 = INTRUDE_COMM_SetPendingValue(a0, a1);
 loc_0216AF72:
     return;}

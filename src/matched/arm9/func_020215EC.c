@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020215EC
+ * function: PALANM_LoadArcPaletteToSlotAt
  * address:  0x020215EC
  * packet:   pkt_02021444
  * region:   arm9
@@ -12,11 +12,11 @@
  *
  * symbols:
  *   func_02049F34  0x02049F34  arm
- *   func_020215BC  0x020215BC  thumb
+ *   PALANM_CopyToSlot  0x020215BC  thumb
  *   func_020307B0  0x020307B0  arm
  *
  * Load a palette resource, copy a run of it into both buffers of one
- * palette-animation slot, then release the loaded block.  func_02021660 is
+ * palette-animation slot, then release the loaded block.  PALANM_LoadHandlePaletteToSlotAt is
  * the same function against the sibling loader at 0x02049F78.
  *
  * The loader's fourth argument is `(u16)((arg & 0x7fff) | 0x8000)`: the
@@ -30,8 +30,8 @@
  * join rather than in each arm.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020215EC.c \
- *       --func func_020215EC --addr 0x020215EC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_LoadArcPaletteToSlotAt.c \
+ *       --func PALANM_LoadArcPaletteToSlotAt --addr 0x020215EC --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -53,11 +53,11 @@ struct PltRes {
 };
 
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx,
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx,
                           u32 off, u16 size);
 extern u32 func_020307B0(void *p);
 
-void func_020215EC(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag,
+void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag,
                    u32 idx, u32 count, u16 off, u16 srcOff)
 {
     struct PltRes *res;
@@ -67,6 +67,6 @@ void func_020215EC(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag,
     if (count == 0) {
         count = res->count;
     }
-    func_020215BC(slots, res->data + srcOff, idx, off, (u16)count);
+    PALANM_CopyToSlot(slots, res->data + srcOff, idx, off, (u16)count);
     func_020307B0(block);
 }

@@ -12,28 +12,26 @@
  * symbols:
  * Addresses are Black-image addresses.
  */
-#include "../../../matched/include/Obj07714.h"
-#include "../../../matched/include/Obj09917.h"
+#include "../../ov077/enceff_base_types.h"
+#include "../../ov077/enceff_grid_types.h"
+#include "../unit_021F5A80_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-
-void func_021F5CA0(u8 *w)
+void func_021F5CA0(EncEffGridWork *work)
 {
     int i;
-    int *c = (int *)(w + 0x3000);
-    u8 *t = w + 0x300C;
+    EncEffGridStepState *step = &work->step;
+    EncEffSpreadState *spread = ENCEFF_SPREAD_STATE(work);
 
-    for (i = 0; i < ((struct Obj07714 *)t)->f182; i++) {
-        u8 *e = w + *(u16 *)(t + i * 2 + 0xC0) * 64;
+    for (i = 0; i < spread->nextCount; i++) {
+        EncEffGridCell *cell = &work->cell[spread->next[i]];
 
-        if (((struct Obj09917 *)e)->f34 == 0) {
-            ((struct Obj09917 *)e)->f34 = 1;
-            c[0]++;
-            ((struct Obj09917 *)e)->f24 = 0x1000;
-            *(u16 *)(t + i * 2) = *(u16 *)(t + i * 2 + 0xC0);
+        if (cell->active == 0) {
+            cell->active = 1;
+            step->nextCell++;
+            cell->velocityX = 0x1000;
+            spread->wave[i] = spread->next[i];
         }
     }
-    ((struct Obj07714 *)t)->f180 = ((struct Obj07714 *)t)->f182;
-    ((struct Obj07714 *)t)->f182 = 0;
+    spread->waveCount = spread->nextCount;
+    spread->nextCount = 0;
 }

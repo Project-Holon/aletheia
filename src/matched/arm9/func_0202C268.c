@@ -1,5 +1,5 @@
 /*
- * function: func_0202C268
+ * function: ISS_SWITCH_SYS_FindSetByBgm
  * address:  0x0202C268
  * packet:   pkt_0202C268
  * region:   arm9
@@ -9,33 +9,33 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Scans the object's count entries (func_0202C240 is the count) looking for
+ * Scans the object's count entries (ISS_SWITCH_SYS_GetSetCount is the count) looking for
  * the one whose sub_0202C340 value equals the caller's second argument, and
  * returns the entry's sub_0202C244 value.  The index is truncated to a byte
  * before it is passed, which is what the lsls/lsrs pair says.  Unlabelled in
  * the listing and absent from the worklist; filed from the bytes.
  *
  * symbols:
- *   func_0202C240  0x0202C240  thumb
+ *   ISS_SWITCH_SYS_GetSetCount  0x0202C240  thumb
  *   sub_0202C244   0x0202C244  thumb
  *   sub_0202C340   0x0202C340  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C268.c \
- *       --func func_0202C268 --addr 0x0202C268 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_FindSetByBgm.c \
+ *       --func ISS_SWITCH_SYS_FindSetByBgm --addr 0x0202C268 --thumb --cc 1.1p1
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32 func_0202C240(void *obj);
+extern u32 ISS_SWITCH_SYS_GetSetCount(void *obj);
 struct Obj0202C244;
 extern u32 sub_0202C244(struct Obj0202C244 *p, u32 idx);
 extern u32 sub_0202C340(void *p);
 
-u32 func_0202C268(u8 *p, u32 v)
+u32 ISS_SWITCH_SYS_FindSetByBgm(u8 *p, u32 v)
 {
-    int n = func_0202C240(p);
+    int n = ISS_SWITCH_SYS_GetSetCount(p);
     int i;
 
     for (i = 0; i < n; i++) {

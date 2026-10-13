@@ -1,5 +1,5 @@
 /*
- * function: func_021DD9CC
+ * function: MYSTERY_ALBUM_StepIntro
  * address: 0x021DD9CC
  * packet: pkt_ov121_021DD9CC
  * region: ov121
@@ -20,13 +20,13 @@
  *   func_021DAB50 0x021DAB50 thumb ov121
  *   func_02006984 0x02006984 thumb
  *   func_0204B454 0x0204B454 arm
- *   func_0204B5FC 0x0204B5FC arm
- *   func_021DE128 0x021DE128 thumb ov121
- *   func_021DE154 0x021DE154 thumb ov121
+ *   CLACT_GetActorRotation 0x0204B5FC arm
+ *   MYSTERY_ALBUM_PathAnimInit 0x021DE128 thumb ov121
+ *   MYSTERY_ALBUM_PathAnimStep 0x021DE154 thumb ov121
  *   func_0204B404 0x0204B404 arm
  *   func_02006BD0 0x02006BD0 thumb
- *   func_021DDC30 0x021DDC30 arm ov121
- *   func_021DDC44 0x021DDC44 arm ov121
+ *   MYSTERY_ALBUM_SetBlendMain 0x021DDC30 arm ov121
+ *   MYSTERY_ALBUM_SetBlendSub 0x021DDC44 arm ov121
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,14 +41,14 @@ struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Actor;
-extern u16 func_0204B5FC(const struct Actor *actor);
-extern void func_021DE128(u8 *p, u16 b, int c, int d);
-extern int func_021DE154(void *,void *,void *);
+extern u16 CLACT_GetActorRotation(const struct Actor *actor);
+extern void MYSTERY_ALBUM_PathAnimInit(u8 *p, u16 b, int c, int d);
+extern int MYSTERY_ALBUM_PathAnimStep(void *,void *,void *);
 extern void func_0204B404(void *,const Point *,u16);
 extern u32 func_02006BD0(u32 i);
-extern void func_021DDC30(int,int);
-extern void func_021DDC44(int,int);
-void func_021DD9CC(char *p)
+extern void MYSTERY_ALBUM_SetBlendMain(int,int);
+extern void MYSTERY_ALBUM_SetBlendSub(int,int);
+void MYSTERY_ALBUM_StepIntro(char *p)
 {
     char *q=*(char **)(p+0x11c);
     int layer,a,b,done,ok;
@@ -57,8 +57,8 @@ void func_021DD9CC(char *p)
     Point pos;
     int xy[2];
     Output pt;
-    if(*(int *)(q+0x84)) { layer=14; blend=func_021DDC30; }
-    else { blend=func_021DDC44; layer=30; }
+    if(*(int *)(q+0x84)) { layer=14; blend=MYSTERY_ALBUM_SetBlendMain; }
+    else { blend=MYSTERY_ALBUM_SetBlendSub; layer=30; }
     switch(*(u16 *)(p+0xdc)) {
     case 1:
         func_0204B84C(*(void **)(q+0x20),*(u32 *)(q+0x90));
@@ -80,13 +80,13 @@ void func_021DD9CC(char *p)
         if(!*(int *)(p+0xe0))
             *(u32 *)(p+0xe8)=func_02006984(*(u16 *)(p+0xe4),*(u16 *)(p+0xe6),64,0,0,0,0,0);
         func_0204B454(*(void **)(q+0x20),(struct PtS *)(&pos),*(u32 *)(q+0x98));
-        func_021DE128((u8 *)(p+0xec),func_0204B5FC(*(void **)(q+0x20)),pos.x,pos.y);
+        MYSTERY_ALBUM_PathAnimInit((u8 *)(p+0xec),CLACT_GetActorRotation(*(void **)(q+0x20)),pos.x,pos.y);
         *(u16 *)(p+0xdc)=5;
         break;
     case 5:
         ok=1;
         done=1;
-        done&=func_021DE154(p+0xec,&pt,xy);
+        done&=MYSTERY_ALBUM_PathAnimStep(p+0xec,&pt,xy);
         pt.x=xy[0];
         pt.y=xy[1];
         func_0204B404(*(void **)(q+0x20),(Point *)&pt.x,*(u32 *)(q+0x98));

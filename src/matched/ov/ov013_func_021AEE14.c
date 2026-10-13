@@ -1,5 +1,5 @@
 /*
- * function: func_021AEE14
+ * function: VCT_MAIN_Update
  * address:  0x021AEE14
  * packet:   pkt_ov013_021AEE14
  * region:   ov013
@@ -11,17 +11,17 @@
  *
  * Frame step: records the input halfword at G+0x19B0, accumulates the
  * elapsed microseconds past one 60 Hz frame (16666 us) at G+0x1A44 since
- * the tick stamped at G+0x1A3C, runs func_021B386C once per whole frame
+ * the tick stamped at G+0x1A3C, runs VCT_Update once per whole frame
  * owed, then advances the state machine at G+0x19AC unless G+0x19A8 is 3.
  *
  * symbols:
  *   func_020870D0  0x020870D0  arm
  *   _u32_div_f     0x0209C2B0  arm
- *   func_021B386C  0x021B386C  arm  ov013
- *   func_0216B838  0x0216B838  arm  ov009
- *   func_021AEC74  0x021AEC74  thumb  ov013
- *   func_021AECC4  0x021AECC4  thumb  ov013
- *   d_021B3C80     0x021B3C80  data  ov013
+ *   VCT_Update  0x021B386C  arm  ov013
+ *   DWC_GetMyAID  0x0216B838  arm  ov009
+ *   VCT_MAIN_RequestConnection  0x021AEC74  thumb  ov013
+ *   VCT_MAIN_AcceptPendingPeer  0x021AECC4  thumb  ov013
+ *   gVctWork     0x021B3C80  data  ov013
  */
 
 #include "../include/G_Work.h"
@@ -32,51 +32,51 @@ typedef unsigned int u32;
 typedef int s32;
 typedef unsigned long long u64;
 
-extern struct Work *d_021B3C80;
+extern struct Work *gVctWork;
 
 extern u64 func_020870D0(void);
-extern void func_021B386C(void);
-extern unsigned char func_0216B838(void);
-extern int func_021AEC74(int x);
-extern int func_021AECC4(int x);
+extern void VCT_Update(void);
+extern unsigned char DWC_GetMyAID(void);
+extern int VCT_MAIN_RequestConnection(int x);
+extern int VCT_MAIN_AcceptPendingPeer(int x);
 
-void func_021AEE14(int input)
+void VCT_MAIN_Update(int input)
 {
     u64 tick;
 
-    d_021B3C80->f19B0 = input;
+    gVctWork->f19B0 = input;
     tick = func_020870D0();
-    d_021B3C80->f1A44 +=
-        (s32)(((u32)tick - (u32)d_021B3C80->f1A3C) * 64000 / 33514) - 16666;
-    if (d_021B3C80->f1A44 < -10000) {
-        d_021B3C80->f1A44 = 0;
+    gVctWork->f1A44 +=
+        (s32)(((u32)tick - (u32)gVctWork->f1A3C) * 64000 / 33514) - 16666;
+    if (gVctWork->f1A44 < -10000) {
+        gVctWork->f1A44 = 0;
     }
-    d_021B3C80->f1A3C = tick;
-    func_021B386C();
-    while (d_021B3C80->f1A44 >= 16666) {
-        func_021B386C();
-        d_021B3C80->f1A44 -= 16666;
+    gVctWork->f1A3C = tick;
+    VCT_Update();
+    while (gVctWork->f1A44 >= 16666) {
+        VCT_Update();
+        gVctWork->f1A44 -= 16666;
     }
-    if (d_021B3C80->f19A8 == 3) {
+    if (gVctWork->f19A8 == 3) {
         return;
     }
-    switch (d_021B3C80->f19AC) {
+    switch (gVctWork->f19AC) {
     case 0:
-        if (func_0216B838() == 0) {
-            if (func_021AEC74(1) != 0) {
-                d_021B3C80->f19AC = 1;
-                d_021B3C80->f1A48 = 60;
+        if (DWC_GetMyAID() == 0) {
+            if (VCT_MAIN_RequestConnection(1) != 0) {
+                gVctWork->f19AC = 1;
+                gVctWork->f1A48 = 60;
             }
-        } else if (func_0216B838() == 1) {
-            if (func_021AECC4(0) != 0) {
-                d_021B3C80->f19AC = 2;
+        } else if (DWC_GetMyAID() == 1) {
+            if (VCT_MAIN_AcceptPendingPeer(0) != 0) {
+                gVctWork->f19AC = 2;
             }
         }
         break;
     case 1:
-        d_021B3C80->f1A48 -= 1;
-        if (d_021B3C80->f1A48 == 0) {
-            d_021B3C80->f19AC = 0;
+        gVctWork->f1A48 -= 1;
+        if (gVctWork->f1A48 == 0) {
+            gVctWork->f19AC = 0;
         }
         break;
     case 2:

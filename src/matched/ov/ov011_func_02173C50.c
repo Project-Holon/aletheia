@@ -1,5 +1,5 @@
 /*
- * function: func_02173C50
+ * function: INTRUDE_COMM_RecvReady
  * address: 0x02173C50
  * packet: pkt_ov011_02173C50
  * region: ov011
@@ -13,6 +13,6 @@
  */
 
 typedef unsigned char u8;
-void func_02173C50(int n, int b, int c, u8 *p);
+void INTRUDE_COMM_RecvReady(int n, int b, int c, u8 *p);
 
-void func_02173C50(int n, int b, int c, u8 *p) { p[0x924] |= (u8)(1 << n); }
+void INTRUDE_COMM_RecvReady(int n, int b, int c, u8 *p) { p[0x924] |= (u8)(1 << n); }

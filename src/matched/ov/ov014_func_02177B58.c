@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A4 0x021797A4 data ov014 a4
+ *   g_pWhPipeWork 0x021797A4 data ov014 a4
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u8 *g_021797A4;
-u8 *func_02177B58(int i) { u8 *base = g_021797A4; if (base != 0 && *(u16 *)(base + 0xC40 + i * 2) != 0) return base + 0xC + i * 0xC0; return 0; }
+extern u8 *g_pWhPipeWork;
+u8 *func_02177B58(int i) { u8 *base = g_pWhPipeWork; if (base != 0 && *(u16 *)(base + 0xC40 + i * 2) != 0) return base + 0xC + i * 0xC0; return 0; }

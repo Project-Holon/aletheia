@@ -16,7 +16,7 @@
  *   func_02189764  0x02189764  thumb  ov021
  *   func_021F37B4  0x021F37B4  thumb  ov054
  *   func_021F38E4  0x021F38E4  thumb  ov054
- *   func_0202B914  0x0202B914  thumb
+ *   ISS_3DS_SYS_SetVolume  0x0202B914  thumb
  *   d_021F39A0     0x021F39A0  data  a4
  */
 
@@ -33,7 +33,7 @@ extern void *func_02189764(unsigned char *p, int id, int a, int b);
 struct O;
 extern void func_021F37B4(struct O *o, u32 q);
 extern void func_021F38E4(char *p, int a);
-extern void func_0202B914(struct Obj *o, u32 v);
+extern void ISS_3DS_SYS_SetVolume(struct Obj *o, u32 v);
 
 void func_021F36C0(unsigned a)
 {
@@ -45,5 +45,5 @@ void func_021F36C0(unsigned a)
     p = func_02189764((unsigned char *)a, 0, r5, 0x28);
     func_021F37B4((struct O *)p, a);
     func_021F38E4((char *)p, a);
-    func_0202B914((struct Obj *)p[1], 0x7f);
+    ISS_3DS_SYS_SetVolume((struct Obj *)p[1], 0x7f);
 }

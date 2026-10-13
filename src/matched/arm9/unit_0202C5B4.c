@@ -12,9 +12,9 @@
  *
  * A constructor: sets a flag word and clears three u16 fields, no
  * relocations. disasm.py's extent for this address runs to
- * func_0202C5CC, but the fourteen bytes in between are not this
+ * ISS_SWITCH_CountUpFade, but the fourteen bytes in between are not this
  * function's body: two bytes of padding, then the unlabelled leaf
- * func_0202C5C4 (src/matched/sub_0202C5C4.c), then two more bytes of
+ * ISS_SWITCH_SetParam (src/matched/sub_0202C5C4.c), then two more bytes of
  * padding.
  *
  * Verified with:

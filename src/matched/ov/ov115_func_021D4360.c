@@ -10,13 +10,13 @@
  * blocker: ARM9 0x0203C600 has no outside code witness; the integrator owns it.
  * blocker: 0x0203C600 ARM verified EXACT in ov099_func_021BEB68.c.
  *   extern char *d_021469DC;
- *   extern void func_0203C0F4(void);
- *   int func_0203C600(void) {
- *       return *(void **)(d_021469DC + 8) == (void *)func_0203C0F4;
+ *   extern void GFL_NET_STATE_WifiLoginMain(void);
+ *   int GFL_NET_STATE_IsWifiLoginState(void) {
+ *       return *(void **)(d_021469DC + 8) == (void *)GFL_NET_STATE_WifiLoginMain;
  *   }
- *   symbols: d_021469DC 0x021469DC data; func_0203C0F4 0x0203C0F4 arm.
+ *   symbols: d_021469DC 0x021469DC data; GFL_NET_STATE_WifiLoginMain 0x0203C0F4 arm.
  * symbols:
- *   func_0203C600 0x0203C600 arm
+ *   GFL_NET_STATE_IsWifiLoginState 0x0203C600 arm
  *   func_021D5D3C 0x021D5D3C thumb ov115
  *   func_021D5C94 0x021D5C94 thumb ov115
  *   func_021D5ED8 0x021D5ED8 thumb ov115
@@ -30,7 +30,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0203C600(void);
+extern int GFL_NET_STATE_IsWifiLoginState(void);
 extern void func_021D5D3C(u8 *p);
 extern void func_021D5C94(u8 *p);
 extern void func_021D5ED8(u8 *p, u32 n);
@@ -43,5 +43,5 @@ extern int func_021D4644(u8 *);
 #define W(k) (*(int *)(p+(k)))
 #define P(k) (*(u8 **)(p+(k)))
 void func_021D4360(u8 *p) {
- if(func_0203C600()) { if(W(0x20)) { func_021D5D3C((u8 *)W(0x38)); func_021D5C94((u8 *)W(0x38)); if(func_0202EB0C()) func_021D5ED8((u8 *)W(0x38),44); else func_021D5ED8((u8 *)W(0x38),19); func_021D426C(p,(u32)func_021D4310); } else if(*(int *)(P(0x40)+0x10)) { func_021D426C(p,(u32)func_021D4BB4); } else { func_021D426C(p,(u32)func_021D4AB0); } } else func_021D4644(p);
+ if(GFL_NET_STATE_IsWifiLoginState()) { if(W(0x20)) { func_021D5D3C((u8 *)W(0x38)); func_021D5C94((u8 *)W(0x38)); if(func_0202EB0C()) func_021D5ED8((u8 *)W(0x38),44); else func_021D5ED8((u8 *)W(0x38),19); func_021D426C(p,(u32)func_021D4310); } else if(*(int *)(P(0x40)+0x10)) { func_021D426C(p,(u32)func_021D4BB4); } else { func_021D426C(p,(u32)func_021D4AB0); } } else func_021D4644(p);
 }

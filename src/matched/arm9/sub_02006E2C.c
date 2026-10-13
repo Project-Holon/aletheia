@@ -2,7 +2,7 @@
  * Matched game function, written from the disassembly in
  * asm/arm9/src/000_02004000.s.
  *
- * function: sub_02006E2C
+ * function: SND_MIC_GetBufferAligned
  * address:  0x02006E2C
  * region:   arm9
  * compiler: 1.1p1
@@ -41,7 +41,7 @@ struct Sub02006E2CObj {
 
 extern struct Sub02006E2CObj *sub_02006E2C_Ptr;
 
-u32 sub_02006E2C(void)
+u32 SND_MIC_GetBufferAligned(void)
 {
     return (sub_02006E2C_Ptr->unk24 + 0x1F) & ~0x1Fu;
 }

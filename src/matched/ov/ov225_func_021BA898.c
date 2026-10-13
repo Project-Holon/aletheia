@@ -12,7 +12,7 @@
  * symbols:
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
- *   func_020499D4 0x020499D4 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   func_0204AC18 0x0204AC18 arm
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204AF28 0x0204AF28 arm
@@ -46,7 +46,7 @@ struct Quad { short x,y,z,w; };
 extern const struct Quad d_021BBF8C,d_021BBF94;
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 func_020499D4(void *,u32,u32,u32,u32,u32,u32,u16);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *,u32,u32,u32,u32,u32,u32,u16);
 extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern int func_0204AF28(void *,u32,u32,u32);
@@ -64,7 +64,7 @@ void func_021BA898(char *p)
     char *parent;
     func_02049B68(((struct Obj26185 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,0,4,0,0x40,((struct Obj26186 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     func_02049658(((struct Obj26187 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,2,4,0,0,0,((struct Obj26188 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
-    func_020499D4(((struct Obj26189 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,5,4,0,0,0,0,((struct Obj26190 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
+    ARC_UTIL_UploadBgPaletteAddFromHandleExt(((struct Obj26189 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,5,4,0,0,0,0,((struct Obj26190 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     *(int *)&((struct Obj00074 *)p)->f54=func_0204AC18(((struct Obj26191 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,1,1,0,0,1,((struct Obj26192 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     *(int *)&((struct Obj00074 *)p)->f50=func_0204A6C8(((struct Obj26193 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,3,0,1,((struct Obj26194 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     *(int *)&((struct Obj00074 *)p)->f58=func_0204AF28(((struct Obj26195 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,7,8,((struct Obj26196 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);

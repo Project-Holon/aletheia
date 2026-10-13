@@ -13,7 +13,7 @@
  *   func_02049238 0x02049238 arm
  *   func_02005624 0x02005624 thumb
  *   func_021D6548 0x021D6548 thumb ov123
- *   func_02024230 0x02024230 thumb
+ *   PMSI_PARAM_MakeSineTable 0x02024230 thumb
  */
 #include "../include/Obj08108.h"
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ extern void func_021D6548(void *, u8 *);
 typedef signed short   s16;
 typedef signed int     s32;
 extern void *func_02005624(u32 a, u32 b, u32 c);
-extern void func_02024230(s16 *out, u32 count, u16 step, s32 amp);
+extern void PMSI_PARAM_MakeSineTable(s16 *out, u32 count, u16 step, s32 amp);
 void func_021D65F4(u8 *p)
 {
     void *h;
@@ -34,5 +34,5 @@ void func_021D65F4(u8 *p)
     func_02049990(h, 22, 3, 0, (u16)((struct Obj08108 *)p)->f4, 0, 0, ((struct Obj08108 *)p)->f43C4);
     func_02049238(h);
     ((struct Obj08108 *)p)->f14 = func_02005624((u32)func_021D6548, (u32)p, 0);
-    func_02024230((s16 *)(p + 0x43c8), 192, 0x5b0, 0x1800);
+    PMSI_PARAM_MakeSineTable((s16 *)(p + 0x43c8), 192, 0x5b0, 0x1800);
 }

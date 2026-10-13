@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02085D3C 0x02085D3C arm
+ *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_02085CBC 0x02085CBC arm
  *   g_02151264 0x02151264 data
  *   SDK_LTDMAIN_ARENA_LO          0x02735B40  data
@@ -28,7 +28,7 @@ typedef struct OsArenaBss {
     u32 exArenaEnabled;
 } OsArenaBss;
 
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern u32 func_02085CBC(void);
 extern OsArenaBss g_02151264;
 extern char SDK_LTDMAIN_ARENA_LO[];
@@ -42,7 +42,7 @@ void *OS_GetInitArenaLo(int id)
 {
     switch (id) {
     case 0:
-        return func_02085D3C() ? (void *)SDK_LTDMAIN_ARENA_LO : (void *)SDK_MAIN_ARENA_LO;
+        return OS_IsRunOnTwl() ? (void *)SDK_LTDMAIN_ARENA_LO : (void *)SDK_MAIN_ARENA_LO;
     case 2:
         {
             void *arena;
@@ -52,7 +52,7 @@ void *OS_GetInitArenaLo(int id)
                 return 0;
             }
             type = func_02085CBC() & 0xF;
-            if (func_02085D3C()) {
+            if (OS_IsRunOnTwl()) {
                 arena = 0;
                 if (type != 4) {
                     arena = (void *)SDK_LTDMAIN_EX_ARENA_LO;

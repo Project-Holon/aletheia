@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020434CC  0x020434CC  arm
- *   func_02043588  0x02043588  arm
+ *   BG_SYS_ClearMainPlanes  0x020434CC  arm
+ *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   func_020490F4  0x020490F4  arm
  *   func_0202208C  0x0202208C  thumb
  *   func_0204363C  0x0204363C  arm
@@ -37,8 +37,8 @@ typedef unsigned int u32;
 
 typedef unsigned short u16;
 
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_0204363C(u32 swap);
@@ -62,8 +62,8 @@ void func_021B63AC(u8 *p)
 {
     u8 *q;
 
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     *(volatile u32 *)0x04000000 &= 0xffffe0ff;
     *(volatile u32 *)0x04001000 &= 0xffffe0ff;
     q = func_020490F4(0x7c, 0x4f);

@@ -18,7 +18,7 @@
  *   func_021897BC  0x021897BC  thumb  ov021
  *   func_02188CB4  0x02188CB4  thumb  ov021
  *   func_021BE4B4  0x021BE4B4  thumb  ov021
- *   func_02006210  0x02006210  thumb
+ *   GFL_USE_StopAllSe  0x02006210  thumb
  *   func_02197DA0  0x02197DA0  thumb  ov021
  *   func_02197DAC  0x02197DAC  thumb  ov021
  *   func_021A3038  0x021A3038  thumb  ov021
@@ -52,7 +52,7 @@ extern void func_021BE4B4(char *p, int i, int j, int v);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void func_021BE6CC(int p, int i, int j, int k, int flag);
 extern void func_020061E4(u32 se);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern int func_02197DA0(u32 a);
 extern void func_02197DAC(void *a);
 struct VecFx32;
@@ -81,7 +81,7 @@ int func_021F3DFC(int a0, int *a1)
         k = (u8)(k + 1);
     switch (*a1) {
     case 0:
-        func_02006210();
+        GFL_USE_StopAllSe();
         *a1 = *a1 + 1;
     case 1:
         if (((struct Obj00881 *)s)->f14 != 0) {

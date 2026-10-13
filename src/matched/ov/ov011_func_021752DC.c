@@ -1,5 +1,5 @@
 /*
- * function: func_021752DC
+ * function: INTRUDE_COMM_UpdateSelfRecord
  * address:  0x021752DC
  * packet:   pkt_ov011_021752DC
  * region:   ov011
@@ -41,7 +41,7 @@ u16 func_02012AC8(const struct Rec44 *p);
 int func_0216786C(struct Work *w, struct Report *out);
 u8 func_02012FB0(int a);
 
-int func_021752DC(u8 *p)
+int INTRUDE_COMM_UpdateSelfRecord(u8 *p)
 {
     int ctx;
     int v;

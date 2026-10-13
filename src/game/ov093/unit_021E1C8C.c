@@ -18,7 +18,7 @@
  *   func_021D5BB0  0x021D5BB0  thumb  ov093
  *   func_021C804C  0x021C804C  thumb  ov093
  *   func_021D8340  0x021D8340  thumb  ov093
- *   func_0201C314  0x0201C314  thumb
+ *   WAZA_TOOL_IsDamaging  0x0201C314  thumb
  *   func_021D76BC  0x021D76BC  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021B9A24  0x021B9A24  thumb  ov093
@@ -52,7 +52,7 @@ extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern int func_021C804C(int a, int b, u32 *out);
 extern u32 func_021D8340(u32 *m);
-extern u32 func_0201C314(void *p);
+extern u32 WAZA_TOOL_IsDamaging(void *p);
 extern int func_021D76BC(int key, u32 val);
 extern void func_021C8838(void *p, int a, int b);
 extern int func_021B9A24(unsigned int a, unsigned int b);
@@ -99,11 +99,11 @@ void func_021E1C8C(int u, int a, int b)
         q = func_021C7CF4((int *)a, k);
         ok = 0;
         if (func_021D5BB0(q, 3) == 0) {
-            if (func_021C804C(a, k, &buf) != 0 && (m = func_021D8340(&buf)) != 0 && func_0201C314((void *)m) != 0)
+            if (func_021C804C(a, k, &buf) != 0 && (m = func_021D8340(&buf)) != 0 && WAZA_TOOL_IsDamaging((void *)m) != 0)
                 ok = 1;
         }
         if (ok == 0) {
-            if ((m = func_021D8340(&buf)) == 0 || func_0201C314((void *)m) == 0) {
+            if ((m = func_021D8340(&buf)) == 0 || WAZA_TOOL_IsDamaging((void *)m) == 0) {
                 if (func_021D76BC(0x40, 1) != 0)
                     func_021C8838((void *)func_021D775C(0x3f), 1, 0x47);
             }

@@ -10,15 +10,14 @@
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      OS_IsThreadAvailable (libos.TWL.HYB.a(os_thread.o))
- *
  * symbols:
- *   OSi_IsThreadInitialized  0x021B4B98  data
+ *   gVctPendingList  0x021B4B98  data
  */
 
-extern int OSi_IsThreadInitialized;
+#include "vct_types.h"
 
-int OS_IsThreadAvailable(void)
+/* Head of the list of received packets that wait for decoding. */
+VctRxPacket *OS_IsThreadAvailable(void)
 {
-    return OSi_IsThreadInitialized;
+    return gVctPendingList.head;
 }

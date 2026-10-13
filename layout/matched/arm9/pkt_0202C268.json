@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202C268",
+   "name": "ISS_SWITCH_SYS_FindSetByBgm",
    "address": "0x0202C268",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202C29C",
+   "name": "ISS_SWITCH_SYS_ChangeActiveSet",
    "address": "0x0202C29C",
    "kind": "game",
    "region": "arm9",

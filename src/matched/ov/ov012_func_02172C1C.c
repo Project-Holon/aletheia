@@ -1,5 +1,5 @@
 /*
- * function: func_02172C1C
+ * function: UNION_COMM_Delete
  * address: 0x02172C1C
  * packet: pkt_ov012_02172C1C
  * region: ov012
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void func_020306F0(unsigned int heap);
 extern void func_02173420(void *p);
-void func_02172C1C(void *p, u8 *q)
+void UNION_COMM_Delete(void *p, u8 *q)
 {
     if (((struct Obj00033 *)q)->f352C != 0) func_020307B0(((struct Obj00033 *)q)->f352C);
     func_02173420(q);

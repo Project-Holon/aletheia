@@ -12,7 +12,7 @@
  * symbols:
  *   func_020457B0 0x020457B0 arm
  *   func_02045808 0x02045808 arm
- *   func_02045AA8 0x02045AA8 arm
+ *   STRBUF_Append 0x02045AA8 arm
  *   func_0201F35C 0x0201F35C thumb
  *   func_0204B878 0x0204B878 arm
  *   func_021E0E40 0x021E0E40 thumb ov183
@@ -27,7 +27,7 @@ struct Obj;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_02045AA8(struct U16Vec *dst, struct U16Vec *src);
+extern void STRBUF_Append(struct U16Vec *dst, struct U16Vec *src);
 extern void func_0201F35C(void *, int, u32, u32, u32);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021E0E40(int, int);
@@ -68,7 +68,7 @@ void func_021E1708(char *p)
       tmp = *((u32 *) record);
       digit = tmp - 1;
       func_0201F35C(text, digit, 1, 1, 1);
-      func_02045AA8(*((void **) (p + 0x33C)), text);
+      STRBUF_Append(*((void **) (p + 0x33C)), text);
       *((int *) ((((u32) p) + (group * 4)) + 0x354)) *= 10;
       *((int *) ((((u32) p) + (group * 4)) + 0x354)) += digit;
       used++;

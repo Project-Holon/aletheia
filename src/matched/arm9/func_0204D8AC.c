@@ -1,5 +1,5 @@
 /*
- * function: func_0204D8AC
+ * function: CLACT_ExitResources
  * address:  0x0204D8AC
  * packet:   pkt_0204D768
  * region:   arm9
@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * Was blocked at MATCH: all 264 concrete bytes were correct and the two PC24
- * sites at +0x00E0 and +0x00E8, both calls to func_020345DC, had no witness
+ * sites at +0x00E0 and +0x00E8, both calls to VMAN_Delete, had no witness
  * of any class (those two calls were its only branch references image
- * wide).  Unblocked by src/matched/func_020345DC.c, now a `matched` witness.
+ * wide).  Unblocked by src/matched/VMAN_Delete.c, now a `matched` witness.
  *
  * symbols:
  *   func_0204A8D4  0x0204A8D4  arm
  *   func_0204AFD8  0x0204AFD8  arm
  *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204DC64  0x0204DC64  arm
- *   func_0204E010  0x0204E010  arm
- *   func_0204E0C4  0x0204E0C4  arm
- *   func_020345DC  0x020345DC  arm
+ *   CLACT_FreeCharacterTable  0x0204DC64  arm
+ *   CLACT_FreePaletteTable  0x0204E010  arm
+ *   CLACT_FreeCellAnimTable  0x0204E0C4  arm
+ *   VMAN_Delete  0x020345DC  arm
  *
- * The inverse of src/pending/func_0204D7E0.c: release every live entry of the
+ * The inverse of src/pending/CLACT_InitResources.c: release every live entry of the
  * three parallel tables, then the tables themselves and the two heaps, and
  * NULL all five pointers.  This block is the tail of the singleton, at
  * +0x104, which is why the three per-entry finalisers take a bare index and
- * find the table through the global themselves (src/matched/sub_0204A8D4.c,
- * sub_0204ADA4.c and sub_0204AFD8.c).
+ * find the table through the global themselves (src/matched/CLACT_ReleaseCharacter.c,
+ * CLACT_ReleasePalette.c and CLACT_ReleaseCellAnim.c).
  *
  * The liveness tests are the same three fields those finalisers write: the
  * one-bit field at bit 31 of +0x3c of the 0x40-byte record, the whole word at
@@ -43,8 +43,8 @@
  * 0x18; only the 0x40 stride folds into `add r0, r0, r4, lsl #6`.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204D8AC.c \
- *       --func func_0204D8AC --addr 0x0204D8AC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_ExitResources.c \
+ *       --func CLACT_ExitResources --addr 0x0204D8AC --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -84,12 +84,12 @@ extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
 extern void func_0204ADA4(u32 i);
 struct Struct020345DC;
-extern void func_0204DC64(void *ptr);
-extern void func_0204E010(void *ptr);
-extern void func_0204E0C4(void *ptr);
-extern void func_020345DC(struct Struct020345DC *obj);
+extern void CLACT_FreeCharacterTable(void *ptr);
+extern void CLACT_FreePaletteTable(void *ptr);
+extern void CLACT_FreeCellAnimTable(void *ptr);
+extern void VMAN_Delete(struct Struct020345DC *obj);
 
-void func_0204D8AC(struct Res *res)
+void CLACT_ExitResources(struct Res *res)
 {
     u32 i;
 
@@ -111,11 +111,11 @@ void func_0204D8AC(struct Res *res)
         }
     }
 
-    func_0204DC64(res->cell);
-    func_0204E010(res->anim);
-    func_0204E0C4(res->pattern);
-    func_020345DC(res->palettes);
-    func_020345DC(res->tiles);
+    CLACT_FreeCharacterTable(res->cell);
+    CLACT_FreePaletteTable(res->anim);
+    CLACT_FreeCellAnimTable(res->pattern);
+    VMAN_Delete(res->palettes);
+    VMAN_Delete(res->tiles);
 
     res->tiles    = 0;
     res->palettes = 0;

@@ -32,10 +32,10 @@
  *   func_02008494 0x02008494 thumb
  *   func_02045A38 0x02045A38 arm
  *   func_02045924 0x02045924 arm
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   func_02045A98 0x02045A98 arm
  *   func_02082D44  0x02082D44  arm
- *   func_02008314  0x02008314  thumb
+ *   CONFIG_Copy  0x02008314  thumb
  */
 #include "../../matched/include/Obj00685.h"
 #include "../../matched/include/Obj01968.h"
@@ -107,10 +107,10 @@ extern u32 func_020307B0(void *p);
 extern void func_02008494(void *, void *);
 extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 func_02045A98(void);
 extern void func_02082D44(void *, void *, int);
-extern void func_02008314(void *a, void *b);
+extern void CONFIG_Copy(void *a, void *b);
 void func_021EE920(struct Mon *p,char *q);
 void func_021EEBF0(char *p,struct Mon *q);
 void func_021EEE78(void *p);
@@ -427,7 +427,7 @@ void func_021EF140(u8 *a, u8 *b)
     ((struct Obj01970 *)a)->f26 = ((struct Obj02529 *)b)->f3E;
     for(i=0;i<4;i++) *(u16 *)(a+12+i*2) = *(u16 *)(b+8+i*2);
     func_02045924(((struct Obj01970 *)a)->f14, (u16 *)(b+16));
-    p = func_02045A90(((struct Obj01970 *)a)->f14);
+    p = STRBUF_GetChars(((struct Obj01970 *)a)->f14);
     while (*p != func_02045A98()) p++;
 }
 
@@ -476,6 +476,6 @@ int func_021EF1F4(const u8 *a, u8 *b)
     ((Bits50 *)(b + 50))->high = a[33];
     f = (a[127] != 0);
     ((Bits51 *)(b + 51))->high = f;
-    func_02008314(*(void **)(a + 92), b + 40);
+    CONFIG_Copy(*(void **)(a + 92), b + 40);
     return 1;
 }

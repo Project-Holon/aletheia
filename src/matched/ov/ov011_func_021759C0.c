@@ -1,5 +1,5 @@
 /*
- * function: func_021759C0
+ * function: INTRUDE_COMM_AddSessionMember
  * address: 0x021759C0
  * packet: pkt_ov011_021759C0
  * region: ov011
@@ -28,7 +28,7 @@ static inline void SetBits(State *p, u8 bit)
     p->active |= bit;
     p->pending |= bit;
 }
-void func_021759C0(State *p, u8 index)
+void INTRUDE_COMM_AddSessionMember(State *p, u8 index)
 {
     if (p->active == 0) p->stamp = func_0203F4FC();
     SetBits(p, 1 << index);

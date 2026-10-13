@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203BEC8",
+   "name": "GFL_NET_STATE_ExitWait",
    "address": "0x0203BEC8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203BF4C",
+   "name": "GFL_NET_STATE_ExitStopDevice",
    "address": "0x0203BF4C",
    "kind": "game",
    "region": "arm9",
@@ -42,11 +42,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0203BF9C"
+    "GFL_NET_STATE_Exit"
+   ],
+   "addresses": [
+    "0x0203BF9C"
    ]
   },
   {
-   "name": "func_0203C010",
+   "name": "GFL_NET_STATE_EndDevice",
    "address": "0x0203C010",
    "kind": "game",
    "region": "arm9",

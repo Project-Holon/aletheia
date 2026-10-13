@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020258E8",
+   "name": "BMP_OAM_GetPos",
    "address": "0x020258E8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02025B18",
+   "name": "BMP_OAM_ReleaseModeSlots",
    "address": "0x02025B18",
    "kind": "game",
    "region": "arm9",

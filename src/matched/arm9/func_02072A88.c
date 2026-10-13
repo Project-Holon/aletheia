@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02072974  0x02072974  arm
+ *   SND_CHANNEL_UnlockChannels  0x02072974  arm
  *
- * One-line tail-call wrapper: func_02072974(1 << *p).
+ * One-line tail-call wrapper: SND_CHANNEL_UnlockChannels(1 << *p).
  *
  * Built by the 1.2 front end.  The image issues the callee's pool load into
  * ip BEFORE the `lsl` that computes the last argument:
@@ -36,9 +36,9 @@
 
 typedef unsigned int u32;
 
-extern void func_02072974(u32 chan);
+extern void SND_CHANNEL_UnlockChannels(u32 chan);
 
 void func_02072A88(u32 *p)
 {
-    func_02072974(1 << *p);
+    SND_CHANNEL_UnlockChannels(1 << *p);
 }

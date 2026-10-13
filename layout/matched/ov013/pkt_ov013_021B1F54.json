@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B1F54",
+   "name": "VCT_SESSION_FreePeerRecord",
    "address": "0x021B1F54",
    "kind": "game",
    "region": "ov013",

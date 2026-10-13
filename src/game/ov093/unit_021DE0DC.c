@@ -20,37 +20,27 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F162C     0x021F162C  data   ov093  a4
  */
-#include "../../matched/include/Obj21383.h"
+#include "unit_021DDC44_types.h"
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-extern int func_021D775C(int key);
-extern int func_0689C8CC(u16 a);
-extern void func_021D70C8(void *a);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
-void func_021DE0DC(void *a, void *b, int c, int *d);
-int *func_021DE0EC(int *p);
-void func_021DE0F8(void *a, void *b, int c, int *d);
-void func_021DE108(void *a, void *b, int c, int *d, int e);
+extern int func_021D775C(int varId);
+extern int func_0689C8CC(u16 moveId);
+extern void func_021D70C8(struct BtlEventFactor *factor);
+extern void *func_021C88A4(struct BtlSvFlow *flow, int kind, int pokeId);
+extern void func_021C88C8(struct BtlSvFlow *flow, void *record);
+void func_021DE0DC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+int *func_021DE0EC(int *handlerCount);
+void func_021DE0F8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void func_021DE108(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work, int moveCategory);
 extern int d_021F162C[];
 
-void func_021DE0DC(void *a, void *b, int c, int *d) { func_021DE108(a, b, c, d, 0x1); }
+/* Jaboca Berry, hit event: remembers the attacker of a physical hit. */
+void func_021DE0DC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work) { func_021DE108(factor, flow, pokeId, work, BTL_MOVE_CATEGORY_PHYSICAL); }
 
 
-int *func_021DE0EC(int *p)
+/* Handler table getter of Rowap Berry. */
+int *func_021DE0EC(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F162C;
 }
 
@@ -58,19 +48,26 @@ int *func_021DE0EC(int *p)
 /*
  * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #2; str r4, [sp]; bl func_021DE108; add sp, #4; pop {r3, r4, pc}.
  */
-void func_021DE0F8(void *a, void *b, int c, int *d) { func_021DE108(a, b, c, d, 0x2); }
+/* Rowap Berry, hit event: remembers the attacker of a special hit. */
+void func_021DE0F8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work) { func_021DE108(factor, flow, pokeId, work, BTL_MOVE_CATEGORY_SPECIAL); }
 
 
-void func_021DE108(void *a, void *b, int c, int *d, int e)
+/*
+ * Jaboca and Rowap Berry: when the holder is hit by a move of the berry's
+ * category (not through a substitute), store the attacker id plus one in the
+ * work word and queue a "keep the item" use record. The hit-back damage is
+ * dealt later by the use event.
+ */
+void func_021DE108(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work, int moveCategory)
 {
-    u8 *m;
+    HandExUseItem *record;
 
-    if (c == func_021D775C(4) && func_021D775C(0x46) == 0
-        && func_0689C8CC(func_021D775C(0x12)) == 0 && e == func_021D775C(0x1a)) {
-        func_021D70C8(a);
-        *d = func_021D775C(3) + 1;
-        m = (u8 *)func_021C88A4(b, 0, c);
-        ((struct Obj21383 *)m)->f4 |= 2;
-        func_021C88C8(b, m);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID) && func_021D775C(BTL_EVAR_HIT_SUBSTITUTE) == 0
+        && func_0689C8CC(func_021D775C(BTL_EVAR_MOVE_ID)) == 0 && moveCategory == func_021D775C(BTL_EVAR_MOVE_CATEGORY)) {
+        func_021D70C8(factor);
+        *work = func_021D775C(BTL_EVAR_ATTACKER_ID) + 1;
+        record = func_021C88A4(flow, HANDEX_KIND_USE_ITEM, pokeId);
+        record->useFlags |= HANDEX_USE_ITEM_KEEP_ITEM;
+        func_021C88C8(flow, record);
     }
 }

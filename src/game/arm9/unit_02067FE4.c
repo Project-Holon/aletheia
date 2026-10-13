@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02067F9C    0x02067F9C  arm
+ *   NNS_G2dFontGetGlyphIndex    0x02067F9C  arm
  *   g_020A18F4     0x020A18F4  data
  *   g_020A1914     0x020A1914  data
  *   func_02082AC0    0x02082AC0  arm
@@ -197,7 +197,7 @@ typedef struct {
 
 typedef NNSG2dTextRect Ext;
 
-extern u16 func_02067F9C(const NNSG2dFont *pFont, u16 c);
+extern u16 NNS_G2dFontGetGlyphIndex(const NNSG2dFont *pFont, u16 c);
 extern void func_02082AC0(u32 data, void *dst, int size);
 extern u32 func_02069BA0(struct BitReader *reader, int nBits);   /* NNSi_G2dBitReaderRead */
 const NNSG2dCharWidths *func_02067FE4(const NNSG2dFont *pFont, u32 idx);
@@ -269,7 +269,7 @@ const NNSG2dCharWidths *func_02067FE4(const NNSG2dFont *pFont, u32 idx)
 
 static inline int GetCharWidth(const NNSG2dFont *pFont, u16 c)
 {
-    u16 index = func_02067F9C(pFont, c);
+    u16 index = NNS_G2dFontGetGlyphIndex(pFont, c);
     if (index == 0xFFFF)
         index = pFont->pRes->alterCharIndex;
     return func_02067FE4(pFont, index)->charWidth;
@@ -286,7 +286,7 @@ static inline int GetCharWidth(const NNSG2dFont *pFont, u16 c)
  * NNS_G2dFontGetStringWidth (NitroSystem g2d_Font.c): width of one line of
  * text, stopping at NUL or '\n'; the spliter callback advances a cursor held
  * in a stack slot.  *pPos gets the cursor after a newline, NULL at end of
- * string, and one trailing hSpace is removed.  func_02067F9C is
+ * string, and one trailing hSpace is removed.  NNS_G2dFontGetGlyphIndex is
  * NNS_G2dFontGetGlyphIndex (0xFFFF = not found -> alterCharIndex),
  * func_02067FE4 NNS_G2dFontGetCharWidthsFromIndex.
  *
@@ -1371,7 +1371,7 @@ s8 func_02068EA0(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int a6, u16 co
     s8 *g;
     u8 k;
 
-    idx = func_02067F9C(font, code);
+    idx = NNS_G2dFontGetGlyphIndex(font, code);
     if (idx == 0xffff)
         idx = font->pRes->alterCharIndex;
     out[0] = (s8 *)func_02067FE4(font, idx);

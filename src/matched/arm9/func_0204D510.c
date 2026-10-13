@@ -1,5 +1,5 @@
 /*
- * function: func_0204D510
+ * function: CLACT_ResetAnim
  * address:  0x0204D510
  * packet:   pkt_0204D4B0
  * region:   arm9
@@ -20,11 +20,11 @@
  * stays MATCH regardless of the C.
  *
  * symbols:
- *   g_DispatchTable_0204D510  0x020A7F48  data
+ *   g_ClactAnimResetFuncs  0x020A7F48  data
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204D510.c \
- *       --func func_0204D510 --addr 0x0204D510 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_ResetAnim.c \
+ *       --func CLACT_ResetAnim --addr 0x0204D510 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -35,9 +35,9 @@ struct Ctl {
 
 typedef void (*Handler)(struct Ctl *c);
 
-extern Handler g_DispatchTable_0204D510[];
+extern Handler g_ClactAnimResetFuncs[];
 
-void func_0204D510(struct Ctl *c)
+void CLACT_ResetAnim(struct Ctl *c)
 {
-    g_DispatchTable_0204D510[c->mode](c);
+    g_ClactAnimResetFuncs[c->mode](c);
 }

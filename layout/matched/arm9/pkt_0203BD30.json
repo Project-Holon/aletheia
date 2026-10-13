@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203BD30",
+   "name": "GFL_NET_STATE_SetChangeoverMode",
    "address": "0x0203BD30",
    "kind": "game",
    "region": "arm9",

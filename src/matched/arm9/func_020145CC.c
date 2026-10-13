@@ -1,5 +1,5 @@
 /*
- * function: func_020145CC
+ * function: FIELD_STATUS_CreateFieldOpenEvent
  * address:  0x020145CC
  * packet:   pkt_02014584
  * region:   arm9
@@ -34,7 +34,7 @@ extern void *func_020124E8(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void func_0215FA34(void);
 
-void *func_020145CC(void *a0)
+void *FIELD_STATUS_CreateFieldOpenEvent(void *a0)
 {
     void *r6 = func_020122C0(a0, 0, (void *)0x02014585, 0x10);
     u32 *r4 = func_020124E8(r6);

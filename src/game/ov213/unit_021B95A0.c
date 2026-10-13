@@ -35,12 +35,12 @@
  *   func_02041EE4 0x02041EE4 arm
  *   func_021B613C 0x021B613C thumb ov067
  *   func_02045C04 0x02045C04 arm
- *   sub_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_0201D83C 0x0201D83C thumb
  *   func_021BAC0C 0x021BAC0C thumb ov213
- *   sub_020315D4 0x020315D4 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
- *   sub_02034A5C 0x02034A5C arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   overlay_id 0x00000043 data a1
  *   func_021B6144 0x021B6144 thumb ov067
  *   func_0201C4E4 0x0201C4E4 thumb
@@ -85,7 +85,7 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_0204B84C 0x0204B84C arm
  *   zero 0x021BB08C data ov213
- *   func_0204B8A0 0x0204B8A0 arm
+ *   CLACT_ChangeActorAnimSeq 0x0204B8A0 arm
  *   func_020450F0 0x020450F0 arm
  *   func_020457B0 0x020457B0 arm
  *   func_02008500 0x02008500 thumb
@@ -102,13 +102,13 @@
  *   func_02041B6C  0x02041B6C  arm
  *   func_021BA30C 0x021BA30C thumb ov213
  *   func_02008DF0 0x02008DF0 thumb
- *   func_0203D5D4 0x0203D5D4 arm
+ *   GFL_NET_GetGameKind 0x0203D5D4 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_021BAC94 0x021BAC94 thumb ov213
  *   func_021B6208 0x021B6208 thumb ov067
  *   func_021B6284 0x021B6284 thumb ov067
  *   func_021B629C 0x021B629C thumb ov067
- *   func_0204B800 0x0204B800 arm
+ *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   func_0207D63C 0x0207D63C arm
  *   func_02047CFC 0x02047CFC arm
  *   func_02050B80 0x02050B80 arm
@@ -119,8 +119,8 @@
  *   MTX_Identity33_ 0x0207ADC4 arm
  *   func_02047A60 0x02047A60 arm
  *   func_02050C04 0x02050C04 arm
- *   func_02051758 0x02051758 arm
- *   func_02051648 0x02051648 arm
+ *   PARTICLE_ReleaseCamera 0x02051758 arm
+ *   PARTICLE_InitCamera 0x02051648 arm
  *   func_0205121C 0x0205121C arm
  *   func_02051B04 0x02051B04 arm
  *   func_020056BC 0x020056BC thumb
@@ -128,15 +128,15 @@
  *   d_021BB324 0x021BB324 data a4
  *   d_021BB330 0x021BB330 data a4
  *   d_021BB360 0x021BB360 data a4
- *   func_02051620 0x02051620 arm
+ *   PARTICLE_KillAllEffects 0x02051620 arm
  *   func_02050DB8 0x02050DB8 arm
  *   func_02050ED4 0x02050ED4 arm
- *   func_020515B4 0x020515B4 arm
+ *   PARTICLE_StartEffect 0x020515B4 arm
  *   func_02047788 0x02047788 arm
- *   func_02047554 0x02047554 arm
+ *   G3D_SYSTEM_GetRenderTexRes 0x02047554 arm
  *   func_0204755C 0x0204755C arm
  *   func_02047250 0x02047250 arm
- *   func_0206A67C 0x0206A67C arm
+ *   G3D_TEX_ClearDictDoneFlags 0x0206A67C arm
  *   func_0206A5B4 0x0206A5B4 arm
  *   func_02047E88 0x02047E88 arm
  *   func_0204779C 0x0204779C arm
@@ -148,7 +148,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  *   d_021BB1A8 0x021BB1A8 data a2
  */
@@ -291,12 +291,12 @@ extern void fade(u32,int,int,int);
 extern void func_02041EE4(u32,u32,u32);
 extern void func_021B613C(void *);
 extern void func_02045C04(struct Rec *);
-extern void sub_0201C4C0(struct PrintSys *);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void func_0201D83C(void *);
 extern void func_021BA710(char *),func_021BA7B8(char *),func_021BAC0C(unsigned char *);
-extern void sub_020315D4(struct S020315D4 *);
+extern void PROCSYS_FreeProcWork(struct S020315D4 *);
 extern void func_020306F0(u32);
-extern void sub_02034A5C(int);
+extern void GF_OVERLAY_Unload(int);
 extern void func_021BAC68(char *p);
 extern int func_021B6144(struct S *s);
 extern u32 func_0201C4E4(struct PrintSys *ps);
@@ -330,7 +330,7 @@ extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void*,u32);
 extern void func_0204B3B4(struct Obj *p);
 extern void func_0204B3DC(struct Obj *p, unsigned int v),func_0204B84C(void*,u32);
-extern void func_0204B8A0(struct Obj *p, u16 v);
+extern void CLACT_ChangeActorAnimSeq(struct Obj *p, u16 v);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02008500(void *,void *);
@@ -347,13 +347,13 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 void func_021BA30C();
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
-extern u32 func_0203D5D4(void);
+extern u32 GFL_NET_GetGameKind(void);
 extern void func_0204B3DC(struct Obj *p, unsigned int v),func_0204B92C(void *,unsigned);
 extern u32 func_021BAC94(char *p);
 extern void func_021B6208(Out *out, In *in, int unused, unsigned heap);
 extern void func_021B6284(unsigned int *p);
 extern void *func_021B629C(void *,int,unsigned char,unsigned char,unsigned char,unsigned short);
-extern void func_0204B3DC(struct Obj *p, unsigned int v),func_0204B800(void *,unsigned);
+extern void func_0204B3DC(struct Obj *p, unsigned int v),CLACT_SetActorDrawPriority(void *,unsigned);
 extern void func_0207D63C(void *,int,int,int,int),func_02050B80(unsigned);
 extern void *func_02047CFC(unsigned,unsigned,unsigned);
 extern void func_02047E54(struct Rec *p);
@@ -363,19 +363,19 @@ extern void func_02050BE8(void);
 extern void MTX_Identity33_(MtxFx33 *p);
 extern void func_02047A60(void *a0, struct Arg *a1);
 extern int func_02050C04(int a,int b,int c,int d);
-extern int func_02051758(int a);
-extern void func_02051648(struct Dst648 *p,struct Src648 *src,u16 a2,int *a3,int *a4,int *a5,u32 heap);
+extern int PARTICLE_ReleaseCamera(int a);
+extern void PARTICLE_InitCamera(struct Dst648 *p,struct Src648 *src,u16 a2,int *a3,int *a4,int *a5,u32 heap);
 extern int func_0205121C(u32 a,u32 b,u32 c);
 extern u16 func_02051B04(void *res);
 extern u32 func_020056BC(void);
 extern void func_02051230(u8 *o,u32 a1,u32 a2,u32 a3);
-extern void func_02051620(u8 *);
+extern void PARTICLE_KillAllEffects(u8 *);
 extern void func_02050DB8(u8 *);
 extern void func_02050ED4(void);
-extern int func_020515B4(void *,int,int);
-extern int func_02047788(int *),func_02047554(int *),func_0204755C(int *);
+extern int PARTICLE_StartEffect(void *,int,int);
+extern int func_02047788(int *),G3D_SYSTEM_GetRenderTexRes(int *),func_0204755C(int *);
 extern int func_02047250(char *);
-extern void func_0206A67C(char *);
+extern void G3D_TEX_ClearDictDoneFlags(char *);
 extern int func_0206A5B4(char *,char *,u32,u32);
 extern u16 func_02047E88(Util *util, const Setup *setup);
 extern int func_0204779C(int *p);
@@ -385,7 +385,7 @@ extern int func_02047910(void *a, int idx, int amount);
 extern void func_020434DC(unsigned, unsigned);
 extern void func_0207DC44(BOOL, int, int, int);
 extern void func_0207DD24(unsigned short, int, int, int, BOOL);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(unsigned, unsigned);
 int func_021B95A0(void *manager,int *state,struct Args *args);
 int func_021B96C0(struct S020315D4 *owner,int unused,const void *cfg,char *p);
@@ -522,11 +522,11 @@ func_02041EE4(3,0,0);
 if(*(int *)((unsigned)cfg+0x44)==2 || *(int *)((unsigned)cfg+0x44)==4)func_021BA514(p);
 func_021B613C(((struct Obj06704 *)p)->f49C4);
 func_02045C04(*(void **)((unsigned)p+0x49c0));
-sub_0201C4C0(((struct Obj06704 *)p)->f49BC);
+PRINTSYS_QUE_Delete(((struct Obj06704 *)p)->f49BC);
 func_0201D83C(*(void **)((unsigned)p+0x49b8));
 func_021BA710(p+0xc);func_021BA7B8(p+0x24);
 func_021BAC0C(((struct Obj06704 *)p)->f49B4);
-heap=*(u16 *)p;sub_020315D4(owner);func_020306F0(heap);sub_02034A5C((int)overlay_id);return 1;
+heap=*(u16 *)p;PROCSYS_FreeProcWork(owner);func_020306F0(heap);GF_OVERLAY_Unload((int)overlay_id);return 1;
 }
 
 
@@ -1049,7 +1049,7 @@ void func_021BA1C0(char *p) {p[0x28]=1;}
 
 
 
-void func_021BA1C8(char *p,void *list,const u8 *flags,int index) {void *entry=0;int value;if(index<(int)func_0201AA18(list))entry=func_0201AB28(((struct Obj25696 *)p)->f0,index);value=func_021B9EB0(entry,flags[index]);func_0204B8A0((struct Obj *)(*(u32 *)(p+12+index*4)),value);}
+void func_021BA1C8(char *p,void *list,const u8 *flags,int index) {void *entry=0;int value;if(index<(int)func_0201AA18(list))entry=func_0201AB28(((struct Obj25696 *)p)->f0,index);value=func_021B9EB0(entry,flags[index]);CLACT_ChangeActorAnimSeq((struct Obj *)(*(u32 *)(p+12+index*4)),value);}
 
 
 
@@ -1207,7 +1207,7 @@ void func_021BA4BC(void *p,int kind,int variant)
 void func_021BA514(char *p)
 {
     if(((struct Obj25704 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54) {
-        switch((int)func_0203D5D4()) {
+        switch((int)GFL_NET_GetGameKind()) {
         case 37:case 12:case 31:func_021BA4BC(((struct Obj25706 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,37,((struct Obj03939 *)p)->f49CC);break;
         case 10:func_021BA4BC(((struct Obj25707 *)(*(char * *)&((struct Obj03939 *)p)->f4))->f54,17,((struct Obj03939 *)p)->f49CC);break;
         case 20:case 21:case 23:case 24:case 25:case 26:
@@ -1254,7 +1254,7 @@ void func_021BA650(char *p){func_021B9E50(((struct Obj04630 *)p)->f26);if(((stru
 
 
 
-void func_021BA68C(char *p,unsigned i,int kind){int n;switch(kind){case 0:n=7;break;case 1:n=8;break;case 2:n=9;break;}p+=24;func_0204B3DC(*(void **)((unsigned)p+i*4),1);func_0204B92C(*(void **)((unsigned)p+i*4),1);func_0204B8A0(*(void **)((unsigned)p+i*4),n);}
+void func_021BA68C(char *p,unsigned i,int kind){int n;switch(kind){case 0:n=7;break;case 1:n=8;break;case 2:n=9;break;}p+=24;func_0204B3DC(*(void **)((unsigned)p+i*4),1);func_0204B92C(*(void **)((unsigned)p+i*4),1);CLACT_ChangeActorAnimSeq(*(void **)((unsigned)p+i*4),n);}
 
 
 
@@ -1292,7 +1292,7 @@ void *func_021BA71C(char *p,int a,int b,unsigned short c){return func_021B629C(p
 
 
 
-void *func_021BA750(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=206;y=152;}else{x=50;y=40;}v=func_021BA71C(p,x,y,a);func_0204B3DC(v,0);func_0204B800(v,1);return v;}
+void *func_021BA750(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=206;y=152;}else{x=50;y=40;}v=func_021BA71C(p,x,y,a);func_0204B3DC(v,0);CLACT_SetActorDrawPriority(v,1);return v;}
 
 
 
@@ -1337,8 +1337,8 @@ void func_021BA81C(u8 *p,unsigned code)
     config.f14=0x1000;
     config.f18=0x400000;
     config.f1c=0;
-    func_02051758(*(int *)&((struct Obj02925 *)p)->f10);
-    func_02051648(*(struct Dst648 * *)&((struct Obj02925 *)p)->f10,&config,0x2000,d_021BB330,d_021BB324,d_021BB360,((struct Obj02925 *)p)->f4);
+    PARTICLE_ReleaseCamera(*(int *)&((struct Obj02925 *)p)->f10);
+    PARTICLE_InitCamera(*(struct Dst648 * *)&((struct Obj02925 *)p)->f10,&config,0x2000,d_021BB330,d_021BB324,d_021BB360,((struct Obj02925 *)p)->f4);
     resource=func_0205121C(0xB5,code,((struct Obj02925 *)p)->f4);
     p[0x4814]=func_02051B04((void *)resource);
     context=func_020056BC();
@@ -1347,7 +1347,7 @@ void func_021BA81C(u8 *p,unsigned code)
 
 
 
-void func_021BA8BC(char *p, int object) { func_02051620(*(u8 * *)&((struct Obj10930 *)p)->f10); func_02050DB8(*(u8 * *)&((struct Obj10930 *)p)->f10); *(u32 *)&((struct Obj10930 *)p)->f10=0; }
+void func_021BA8BC(char *p, int object) { PARTICLE_KillAllEffects(*(u8 * *)&((struct Obj10930 *)p)->f10); func_02050DB8(*(u8 * *)&((struct Obj10930 *)p)->f10); *(u32 *)&((struct Obj10930 *)p)->f10=0; }
 
 
 
@@ -1355,7 +1355,7 @@ void func_021BA8D4(char *p) { if(*(u8 * *)&((struct Obj10931 *)p)->f10) func_020
 
 
 
-int func_021BA8E8(char *p,int b,int c) { return func_020515B4(((struct Obj25709 *)p)->f10,b,c); }
+int func_021BA8E8(char *p,int b,int c) { return PARTICLE_StartEffect(((struct Obj25709 *)p)->f10,b,c); }
 
 
 
@@ -1369,7 +1369,7 @@ void func_021BA8F4(char *p,int v) { int i; for(i=0;i<((struct Obj25710 *)p)->f48
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
-int func_021BA920(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)func_02047788(p); a=(char *)func_02047554(q); h=*(char * *)&((struct Obj25711 *)((char *)func_0204755C(q)))->f4; r=(char *)func_02047250(a); func_0206A67C(h); return func_0206A5B4(h,r,b,c)&1; }
+int func_021BA920(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)func_02047788(p); a=(char *)G3D_SYSTEM_GetRenderTexRes(q); h=*(char * *)&((struct Obj25711 *)((char *)func_0204755C(q)))->f4; r=(char *)func_02047250(a); G3D_TEX_ClearDictDoneFlags(h); return func_0206A5B4(h,r,b,c)&1; }
 
 
 
@@ -1484,6 +1484,6 @@ void func_021BAABC(void)
     func_0207DC44(0, 0, 0, 0);
     func_0207DD24(0, 0, 0x7FFF, 63, 0);
     *(volatile unsigned *)0x04000580 = 0xBFFF0000;
-    for (i = 0; i < 4; i++) func_02046A94((unsigned char)i, d_021BB1A8[i]);
+    for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((unsigned char)i, d_021BB1A8[i]);
     func_02046BE0(1, 0);
 }

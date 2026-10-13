@@ -1,5 +1,5 @@
 /*
- * function: func_0203D6BC
+ * function: GFL_NET_GetChildSendSize
  * address:  0x0203D6BC
  * packet:   pkt_0203D578
  * region:   arm9
@@ -12,16 +12,19 @@
  * Returns the byte at +0x61 of the net context.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D6BC.c \
- *       --func func_0203D6BC --addr 0x0203D6BC --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_GetChildSendSize.c \
+ *       --func GFL_NET_GetChildSendSize --addr 0x0203D6BC --arm --cc 1.1p1
+ *
+ * symbols:
+ *   GFL_NET_GetSession  0x0203D788  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *func_0203D788(void);
+extern u8 *GFL_NET_GetSession(void);
 
-u32 func_0203D6BC(void)
+u32 GFL_NET_GetChildSendSize(void)
 {
-    return func_0203D788()[0x61];
+    return GFL_NET_GetSession()[0x61];
 }

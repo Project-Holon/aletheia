@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200B938"
+    "BATTLE_REC_SetData"
+   ],
+   "addresses": [
+    "0x0200B938"
    ]
   },
   {
@@ -34,7 +37,11 @@
    "status": "EXACT",
    "functions": [
     "func_0200BA38",
-    "func_0200BA44"
+    "BATTLE_REC_SetBodyCrc"
+   ],
+   "addresses": [
+    "0x0200BA38",
+    "0x0200BA44"
    ]
   },
   {

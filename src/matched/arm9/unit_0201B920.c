@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201B920
+ * function: POKE_TOOL_IsPPRestorable
  *
  * pokeparty.c's "is this move slot short of PP" predicate: 78 bytes, three
  * reads of the party record and one call into the PP table.
@@ -23,9 +23,9 @@
  * below it.
  *
  * It stands alone rather than inside a unit with its neighbours because
- * sub_0201B970, which sits immediately after it, is a documented near miss
- * (docs/notes/sub_0201B970.c.txt) and a range cannot be committed while any
- * part of it is short of EXACT.  Its own single caller, sub_0201B9F0 at
+ * POKE_TOOL_RestorePP, which sits immediately after it, is a documented near miss
+ * (docs/notes/POKE_TOOL_RestorePP.c.txt) and a range cannot be committed while any
+ * part of it is short of EXACT.  Its own single caller, POKE_TOOL_HealFull at
  * 0x0201BA18, is parked in src/pending/unit_0201B9F0.c and resolves this
  * address through the `matched` class off this entry.
  *
@@ -33,7 +33,7 @@
  * VERSION SENSITIVITY, read this before porting to Pokemon White
  * ---------------------------------------------------------------------------
  * No species, item or move id appears here.  0x36, 0x3A and 0x3E are party
- * record ids in src/matched/sub_02018DB4.c's space, and the three are written
+ * record ids in src/matched/POKE_TOOL_GetPartyValueRaw.c's space, and the three are written
  * out as three separate literals rather than derived from one base, so a
  * version that inserted a field into that id space would move all three
  * independently.
@@ -57,8 +57,11 @@
  * not a separate pointer.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/sub_0201B920.c \
- *       --func sub_0201B920 --addr 0x0201B920 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/POKE_TOOL_IsPPRestorable.c \
+ *       --func POKE_TOOL_IsPPRestorable --addr 0x0201B920 --cc 1.1p1
+ *
+ * symbols:
+ *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
  */
 
 typedef unsigned char  u8;
@@ -66,9 +69,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u8  func_0201C158(u32 move, u32 ppUp);
+extern u8  WAZA_TOOL_GetMaxPP(u32 move, u32 ppUp);
 
-u8 sub_0201B920(void *mon, u32 slot)
+u8 POKE_TOOL_IsPPRestorable(void *mon, u32 slot)
 {
     u32 move;
     u8 pp;
@@ -82,7 +85,7 @@ u8 sub_0201B920(void *mon, u32 slot)
     }
     pp = (u8)func_02017E1C(mon, slot + 0x3A, 0);
     ppUp = (u8)func_02017E1C(mon, slot + 0x3E, 0);
-    if (pp < func_0201C158(move, ppUp)) {
+    if (pp < WAZA_TOOL_GetMaxPP(move, ppUp)) {
         r = 1;
     }
     return r;

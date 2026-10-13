@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021803BC                  0x021803BC  arm ov009
- *   func_0217F25C                  0x0217F25C  arm ov009
+ *   SocketStartUp                  0x0217F25C  arm ov009
  *   func_02084F40                  0x02084F40  arm
  *   func_0217C690                  0x0217C690  arm ov009
  *   func_0217EB18                  0x0217EB18  arm ov009
@@ -40,7 +40,7 @@ struct gsAC {
     int sent;
 };
 extern int func_021803BC(char *dst, const char *src, unsigned int n);
-extern void func_0217F25C(void);
+extern void SocketStartUp(void);
 extern int func_02084F40(char *dst, char *fmt, ...);
 extern int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr);
 extern int func_0217EB18(int pf, int type, int protocol);
@@ -64,7 +64,7 @@ void func_0217C750(char *gamename)
 
     func_021803BC(g_021ACEFC, gamename, 64);
     g_021ACF7C.sock = -1;
-    func_0217F25C();
+    SocketStartUp();
     override = g_021ACF3C[0];
     if (override == 0)
         func_02084F40(hostname, g_021A36E8, gamename);

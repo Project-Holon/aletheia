@@ -1,5 +1,5 @@
 /*
- * function: func_02010DF4
+ * function: GPOWER_ClearAll
  * address:  0x02010DF4
  * packet:   pkt_02010DCC
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02010F50  0x02010F50  thumb
+ *   GPOWER_ClearType  0x02010F50  thumb
  *   g_02146228     0x02146228  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010DF4.c \
- *       --func func_02010DF4 --addr 0x02010DF4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_ClearAll.c \
+ *       --func GPOWER_ClearAll --addr 0x02010DF4 --cc 1.1p1 --thumb
  *
  * net_save.c: clear all thirteen counter slots, then deselect (+0x1c = 0xd,
  * the "none" slot).  Wave 14 closed the residue of
@@ -30,15 +30,15 @@
 typedef unsigned char u8;
 typedef enum { SLOT_0 = 0, SLOT_MAX = 13 } Slot;
 
-extern void func_02010F50(Slot idx);
+extern void GPOWER_ClearType(Slot idx);
 extern u8   g_02146228[];
 
-void func_02010DF4(void)
+void GPOWER_ClearAll(void)
 {
     Slot i;
 
     for (i = 0; i < SLOT_MAX; i++) {
-        func_02010F50(i);
+        GPOWER_ClearType(i);
     }
     g_02146228[0x1c] = SLOT_MAX;
 }

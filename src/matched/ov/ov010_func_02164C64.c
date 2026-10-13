@@ -28,9 +28,9 @@
  *   func_02026400  0x02026400  thumb
  *   func_02035390  0x02035390  arm
  *   func_020353B0  0x020353B0  arm
- *   func_020267FC  0x020267FC  thumb
+ *   GAME_BEACON_SendIfRequested  0x020267FC  thumb
  *   func_02164D6C  0x02164D6C  thumb  ov010
- *   func_020264AC  0x020264AC  thumb
+ *   GAME_COMM_GetNotifyFlag  0x020264AC  thumb
  *   func_02012B70  0x02012B70  thumb
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb
@@ -84,9 +84,9 @@ extern u32 func_0200FB24(void);
 extern void func_02026400(struct Comm *p);
 extern int func_02035390(void);
 extern int func_020353B0(void);
-extern void func_020267FC(void);
+extern void GAME_BEACON_SendIfRequested(void);
 extern u8 *func_02164D6C(u8 *obj, int *arg);
-extern u32 func_020264AC(void *obj);
+extern u32 GAME_COMM_GetNotifyFlag(void *obj);
 struct BigObj;
 extern int func_02012B70(const struct BigObj *p);
 extern void *func_020127A4(struct SaveBlock *p);
@@ -130,11 +130,11 @@ void func_02164C64(void *unused, void *sys, PollWork *w)
     }
     if (w->cooldown != 0)
         w->cooldown--;
-    func_020267FC();
+    GAME_BEACON_SendIfRequested();
     rec = (LinkRec *)func_02164D6C((u8 *)w, (int *)(&id));
     if (rec != 0) {
         if (rec->kind == 2) {
-            if (!PAD_DetectFold() && !func_020264AC(field) && !func_02012B70(p)) {
+            if (!PAD_DetectFold() && !GAME_COMM_GetNotifyFlag(field) && !func_02012B70(p)) {
                 v = func_02012AC8(func_020127A4(p));
                 if (v != w->last) {
                     w->last = v;

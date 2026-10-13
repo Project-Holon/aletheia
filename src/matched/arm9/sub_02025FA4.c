@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020355D8  0x020355D8  arm
+ *   UI_SetInputMode  0x020355D8  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void sub_020355D8(u8 v);
+extern void UI_SetInputMode(u8 v);
 
 typedef void (*Callback)(u32, u8, u8);
 
@@ -38,7 +38,7 @@ int func_02025FA4(struct Struct_02025CD0 *obj)
 {
     int one = 1;
 
-    sub_020355D8(0);
+    UI_SetInputMode(0);
     obj->field_4 = one;
     obj->field_E = 0xff;
     obj->field_F = 0xff;

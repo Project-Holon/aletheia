@@ -1,5 +1,5 @@
 /*
- * function: func_02013C70
+ * function: ZONEDATA_IsRailMap
  * address:  0x02013C70
  * packet:   pkt_02013C70
  * region:   arm9
@@ -14,10 +14,10 @@
  *           Same finding as src/matched/unit_02013C10.c's header.
  *
  * symbols:
- *   tbl_0209E010  0x0209E010  data
+ *   _RailMapZoneTable  0x0209E010  data
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02013C70.c \
- *       --func func_02013C70 --addr 0x02013C70 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/ZONEDATA_IsRailMap.c \
+ *       --func ZONEDATA_IsRailMap --addr 0x02013C70 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -26,11 +26,11 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef signed char s8;
 
-extern u8   tbl_0209E010[];
+extern u8   _RailMapZoneTable[];
 typedef signed int     s32;
 extern u32 func_02013B10(u32 id, const u16 *table, s32 count);
 
-int func_02013C70(u32 a)
+int ZONEDATA_IsRailMap(u32 a)
 {
-    return func_02013B10(a, (const u16 *)tbl_0209E010, 0xb);
+    return func_02013B10(a, (const u16 *)_RailMapZoneTable, 0xb);
 }

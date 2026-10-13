@@ -1,5 +1,5 @@
 /*
- * function: func_021B0600
+ * function: VCT_SESSION_ClearMemberCount
  * address: 0x021B0600
  * packet: pkt_ov013_021B0600
  * region: ov013
@@ -15,4 +15,4 @@
 #include "../include/G_021B3C84.h"
 
 extern struct G_021B3C84 d_021B3C84;
-void func_021B0600(void) { ((int *)&d_021B3C84)[8] = 0; }
+void VCT_SESSION_ClearMemberCount(void) { ((int *)&d_021B3C84)[8] = 0; }

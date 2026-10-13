@@ -1,5 +1,5 @@
 /*
- * function: func_02154ABC
+ * function: EVENT_WIFICLUB_FreeWork
  * address:  0x02154ABC
  * packet:   pkt_ov006_02154ABC
  * region:   ov006
@@ -25,7 +25,7 @@ extern int func_020130B4(s32);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02154ABC(s32 *p)
+void EVENT_WIFICLUB_FreeWork(s32 *p)
 {
     s32 v = p[0x37];
     if (v != 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_02176978
+ * function: DWCi_GetNodeInfoCount
  * address:  0x02176978
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern int func_0217603C(void);
 
-int func_02176978(void)
+int DWCi_GetNodeInfoCount(void)
 {
     return func_0217603C();
 }

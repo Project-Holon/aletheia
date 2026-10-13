@@ -18,7 +18,7 @@
  * func_021B739C 0x021B739C thumb ov101
  * func_02045B38 0x02045B38 arm
  * func_02045EC0 0x02045EC0 arm
- * func_02027FEC 0x02027FEC thumb
+ * APP_TASKMENU_WIN_Create 0x02027FEC thumb
  * func_02045808 0x02045808 arm
  * func_02045C04 0x02045C04 arm
  * d_021B7550 0x021B7550 data a1
@@ -42,7 +42,7 @@ extern u8 func_020416D4(u32);
 extern void func_021B739C(unsigned *p, unsigned b, int c, unsigned d, u8 e, u16 f);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
+extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_02045C04(struct Rec *rec);
 void *func_021B70DC(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u16 heap)
@@ -70,7 +70,7 @@ void *func_021B70DC(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u16 h
     desc.color=0x39e3;
     desc.str=func_02045EC0(bank,8);
     desc.flag=1;
-    ((struct Obj03227 *)p)->f0=func_02027FEC((u32)(((struct Obj03227 *)p)->f4),(u32)(&desc),19,21,13,heap);
+    ((struct Obj03227 *)p)->f0=APP_TASKMENU_WIN_Create((u32)(((struct Obj03227 *)p)->f4),(u32)(&desc),19,21,13,heap);
     func_02045808(desc.str);
     func_02045C04(bank);
     return p;

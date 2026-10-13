@@ -13,7 +13,7 @@
  *   func_020477D4 0x020477D4 arm
  *   func_020477A4 0x020477A4 arm
  *   func_0204784C 0x0204784C arm
- *   func_0204B908 0x0204B908 arm
+ *   CLACT_SetActorAnimIndex 0x0204B908 arm
  */
 #include "../include/Obj02938.h"
 typedef unsigned short u16;
@@ -29,7 +29,7 @@ extern int func_020477D4(struct Owner *owner, u32 index);
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 /* B908 reads only r0, forwarding its live r1 to D478; legacy r2/r3 unused. */
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 void func_021B9C90(char *p,unsigned next)
 {
     void *object;
@@ -49,7 +49,7 @@ void func_021B9C90(char *p,unsigned next)
             func_020477A4(object,i);
             func_0204784C(object,i,&frame);
         }
-        func_0204B908((int)(((struct Obj02938 *)p)->f224),0);
+        CLACT_SetActorAnimIndex((int)(((struct Obj02938 *)p)->f224),0);
     }
     ((struct Obj02938 *)p)->f22C=next;
 }

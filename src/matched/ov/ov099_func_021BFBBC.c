@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02156B68 0x02156B68 thumb ov009
+ *   DWC_RAP_GetVchatState 0x02156B68 thumb ov009
  *   func_021BE3CC 0x021BE3CC thumb ov099
  */
-extern int func_02156B68(char *);
+extern int DWC_RAP_GetVchatState(char *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021BE3CC(char *p, int a, u8 b, u8 c, u32 d, int e);
 void func_021BFBBC(char *p)
 {
-    if (func_02156B68(p)) {
+    if (DWC_RAP_GetVchatState(p)) {
         func_021BE3CC(p + 0x898, 1, 2, 1, 0x3c, 0);
     } else {
         func_021BE3CC(p + 0x898, 1, 2, 1, 0x33, 0);

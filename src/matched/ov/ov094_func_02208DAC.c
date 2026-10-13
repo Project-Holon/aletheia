@@ -19,7 +19,7 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_0204ABF0 0x0204ABF0 arm
  *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_0204AEF4 0x0204AEF4 arm
+ *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   func_020216D4 0x020216D4 thumb
  *   func_0204B294 0x0204B294 arm
  *   func_0204B454 0x0204B454 arm
@@ -65,7 +65,7 @@ extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_021F86E0(void);
-extern int func_0204AEF4(u32 idx, u32 alternate);
+extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 struct Actor;
@@ -97,7 +97,7 @@ Work *func_02208DAC(const Arg *arg, u32 heapId)
     w->h4 = func_0204A6C8(arc, 0xbd, 0, 0, w->heap);
     w->h8 = func_0204AF28(arc, 0xbf, 0xc0, w->heap);
     w->hc = func_0204ABF0(arc, 0xbe, 0, 0xc0, w->heap);
-    func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(func_0204AEF4(w->hc, 0) >> 1), 0x20);
+    func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(w->hc, 0) >> 1), 0x20);
     {
     Pos pos = {0, 0, 0, 0};
     int side = arg->side;

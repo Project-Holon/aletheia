@@ -1,5 +1,5 @@
 /*
- * function: func_021761C4
+ * function: INTRUDE_COMM_StoreJoinReply
  * address: 0x021761C4
  * packet: pkt_ov011_021761C4
  * region: ov011
@@ -14,9 +14,9 @@
 
 typedef unsigned char u8;
 typedef struct { int d[13]; } B34;
-void func_021761C4(u8 *p, u8 *s);
+void INTRUDE_COMM_StoreJoinReply(u8 *p, u8 *s);
 
-void func_021761C4(u8 *p, u8 *s)
+void INTRUDE_COMM_StoreJoinReply(u8 *p, u8 *s)
 {
     u8 v = s[0];
     p[0x1a3] = v;

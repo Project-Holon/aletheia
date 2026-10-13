@@ -1,5 +1,5 @@
 /*
- * function: func_0204E074
+ * function: CLACT_LoadCellAnimBanks
  * address:  0x0204E074
  * packet:   pkt_0204D768
  * region:   arm9
@@ -33,8 +33,8 @@
  * happens when it is live across the call as a plain value.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204E074.c \
- *       --func func_0204E074 --addr 0x0204E074 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_LoadCellAnimBanks.c \
+ *       --func CLACT_LoadCellAnimBanks --addr 0x0204E074 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -56,7 +56,7 @@ struct Pool {
 extern int func_02062820(int a, int *out);
 extern s32 func_02062670(void *handle, void **slot);
 
-s32 func_0204E074(struct Pool *pool, s32 idx, void *a, void *b)
+s32 CLACT_LoadCellAnimBanks(struct Pool *pool, s32 idx, void *a, void *b)
 {
     struct Entry *entry = &pool->entries[idx];
 

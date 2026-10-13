@@ -11,6 +11,7 @@
  *
  * symbols:
  *   s_clact_c       0x020A7F74  data
+ *   CLACT_InitRenderer  0x0204BD94  arm
  *
  * clact.c's 0xA0-byte cell-actor allocation helper: carve the record with the
  * three-argument allocator, hand it and the caller's three values to the
@@ -38,12 +39,12 @@ extern const char s_clact_c[];
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_0204BD94(struct Obj *obj, u8 *src, int count, u32 heap);
+extern void CLACT_InitRenderer(struct Obj *obj, u8 *src, int count, u32 heap);
 
 struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap)
 {
     struct Obj *p = (struct Obj *)func_02030734(heap, 0xa0, 0, s_clact_c, 0x633);
 
-    func_0204BD94(p, a0, a1, heap);
+    CLACT_InitRenderer(p, a0, a1, heap);
     return p;
 }

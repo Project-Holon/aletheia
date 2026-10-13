@@ -12,7 +12,7 @@
  * ABI: BABE8 forwards BC6DC's full-word getter result despite its legacy void declaration.
  * symbols:
  *   func_021BABE8 0x021BABE8 thumb ov110
- *   func_02024158 0x02024158 thumb
+ *   PMSI_PARAM_HasInitialSentence 0x02024158 thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_021B9BEC 0x021B9BEC thumb ov110
  *   func_021BD6F8 0x021BD6F8 thumb ov110
@@ -38,7 +38,7 @@ typedef short s16;
 typedef struct { s16 a; s8 b,c; } State;
 typedef int (*Handler)(u8 *,void *);
 extern int func_021BABE8(u8 *p);
-extern u32 func_02024158(const u8 *p);
+extern u32 PMSI_PARAM_HasInitialSentence(const u8 *p);
 extern void func_020061E4(u32);
 extern void func_021B9BEC(u8 *,int);
 extern void func_021BD6F8(State *,void *);
@@ -64,7 +64,7 @@ int func_021BDEF0(u8 *p,u32 *q)
         p[0x68]=func_021BABE8(*(u8 * *)&((struct Obj00012 *)p)->f14);
         *q=1;
     case 1:
-        if(func_02024158((const u8 *)(*(u32 *)&((struct Obj00012 *)p)->f0))) {
+        if(PMSI_PARAM_HasInitialSentence((const u8 *)(*(u32 *)&((struct Obj00012 *)p)->f0))) {
             if(((struct Obj00012 *)p)->f38&32) break;
             if(((struct Obj00012 *)p)->f38&16) break;
         }

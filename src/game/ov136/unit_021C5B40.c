@@ -16,9 +16,9 @@
  *   func_02009050 0x02009050 thumb
  *   func_02008EF8 0x02008EF8 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_0202CC70 0x0202CC70 thumb
- *   func_0202CC58 0x0202CC58 thumb
- *   func_0202CB4C 0x0202CB4C thumb
+ *   BGWINFRM_HideFrame 0x0202CC70 thumb
+ *   BGWINFRM_ShowFrame 0x0202CC58 thumb
+ *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_020413B0 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
@@ -30,9 +30,9 @@
  *   func_02049238 0x02049238 arm
  *   func_0201C440 0x0201C440 thumb
  *   func_0204B100 0x0204B100 arm
- *   func_0202DB0C 0x0202DB0C thumb
- *   func_0202DE5C 0x0202DE5C thumb
- *   func_0202DC08 0x0202DC08 thumb
+ *   PMS_DRAW_Create 0x0202DB0C thumb
+ *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
+ *   PMS_DRAW_Delete 0x0202DC08 thumb
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_0204B1CC 0x0204B1CC arm
  *   func_02045088 0x02045088 arm
@@ -58,7 +58,7 @@
  *   func_02045924 0x02045924 arm
  *   func_020439A0 0x020439A0 arm
  *   func_02008F9C 0x02008F9C thumb
- *   func_0202CEBC 0x0202CEBC thumb
+ *   BGWINFRM_PutBmpWin 0x0202CEBC thumb
  *   func_020437AC 0x020437AC arm
  *   func_020457B0 0x020457B0 arm
  *   func_02012FFC 0x02012FFC thumb
@@ -68,8 +68,8 @@
  *   func_0201F7A8    0x0201F7A8  thumb
  *   func_02045CAC 0x02045CAC arm
  *   func_02008FC8 0x02008FC8 thumb
- *   func_02024450 0x02024450 thumb
- *   func_0202DC48 0x0202DC48 thumb
+ *   PMSI_PARAM_IsEnabled 0x02024450 thumb
+ *   PMS_DRAW_Print 0x0202DC48 thumb
  *   func_02008FC0 0x02008FC0 thumb
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
@@ -77,7 +77,7 @@
  *   d_021C7BBC 0x021C7BBC data ov136 a4
  *   func_0204A600  0x0204A600  arm
  *   func_0204A48C   0x0204A48C  arm
- *   func_0204B270   0x0204B270  arm
+ *   CLACT_SetUnitDefaultRenderer   0x0204B270  arm
  *   d_021C78E0 0x021C78E0 data a4
  *   d_021C7BA0 0x021C7BA0 data a4
  *   func_0204A5AC  0x0204A5AC  arm
@@ -88,7 +88,7 @@
  *   func_0204B878        0x0204B878  arm
  *   func_0204B3DC        0x0204B3DC  arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   func_0204B688  0x0204B688  arm
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204ABF0 0x0204ABF0 arm
@@ -103,8 +103,8 @@
  *   func_02027620 0x02027620 thumb
  *   func_0201C4E4            0x0201C4E4  thumb
  *   func_0201C6C4            0x0201C6C4  thumb
- *   func_0202CD94 0x0202CD94 thumb
- *   func_0202DBC4  0x0202DBC4  thumb
+ *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
+ *   PMS_DRAW_Main  0x0202DBC4  thumb
  *   func_020310C4            0x020310C4  arm
  *   d_021C7DA8 0x021C7DA8 data a4
  */
@@ -223,9 +223,9 @@ typedef struct { s16 x, y; } Pair;
 extern struct Sub02008F80Obj *func_02009050(struct Sub02008F80Obj *arr, u32 unused, int i, u32 heap);
 extern int func_02008EF8(const struct Sub02008F80Obj *obj);
 extern u32 func_020307B0(void *p);
-extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
-extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32);
@@ -237,9 +237,9 @@ extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049238(void *);
 extern unsigned int func_0201C440(void *p);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
-extern void func_0202DE5C(struct PmsDraw *p, u8 v);
-extern void func_0202DC08(struct Obj *p);
+extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
+extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
+extern void PMS_DRAW_Delete(struct Obj *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_02045088(u16);
@@ -265,7 +265,7 @@ extern u8 *func_02008F84(struct Sub02008F80Obj *obj);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern u8 func_02008F9C(const struct Sub02008F80Obj *obj);
-extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
+extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 extern void func_020437AC(struct Obj020437AC *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
@@ -276,15 +276,15 @@ extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern struct Sub02008F80Entry *func_02008FC8(struct Sub02008F80Obj *obj, u32 i);
-extern int func_02024450(const u16 *p);
-extern void func_0202DC48(void *, void *, void *, u8);
+extern int PMSI_PARAM_IsEnabled(const u16 *p);
+extern void PMS_DRAW_Print(void *, void *, void *, u8);
 extern u16 func_02008FC0(const struct Sub02008F80Obj *obj);
 extern void func_020434DC(u32, u32);
 extern void func_02043598(u32, u32);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204A600(void *);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_0204AFD8(u32 i);
 extern void func_0204ADA4(u32 i);
 extern void func_0204A5AC(void);
@@ -293,7 +293,7 @@ extern void func_0204B3B4(struct Obj *p);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern u32 func_020275E4(void);
 extern u32 func_02027698(void);
@@ -307,11 +307,11 @@ extern u32 func_02027618(void);
 extern u32 func_02027614(void);
 extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
-extern void func_0202CD94(struct WinMgr *mgr);
+extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_020310C4(struct Tcbl *p);
-extern void func_0202DBC4(u8 *p);
+extern void PMS_DRAW_Main(u8 *p);
 void func_021C5B40(u8 *p);
 void func_021C5BE0(struct MbSeqCtx *p);
 void func_021C5C00(u8 *p);
@@ -395,10 +395,10 @@ void func_021C5C00(u8 *p)
     row = *(u8 * *)&((struct MbSeqCtx *)p)->f8+0x2e8+offset;
     offset += 2;
     for (i=0;i<10;i++) {
-        if(row[i]==255) func_0202CC70(**(void ** *)&((struct MbSeqCtx *)p)->f8,idx);
+        if(row[i]==255) BGWINFRM_HideFrame(**(void ** *)&((struct MbSeqCtx *)p)->f8,idx);
         else {
             func_021C6028(p,idx,offset,row[i]);
-            func_0202CC58(**(void ** *)&((struct MbSeqCtx *)p)->f8,idx);
+            BGWINFRM_ShowFrame(**(void ** *)&((struct MbSeqCtx *)p)->f8,idx);
         }
         offset++;
         idx++;
@@ -408,7 +408,7 @@ void func_021C5C00(u8 *p)
 void func_021C5C64(u8 *p)
 {
     func_021C6028(p, 10, 0x16, p[0x1f]);
-    func_0202CB4C(**(struct WinMgr ** *)&((struct MbSeqCtx *)p)->f8, 10, 4, 7);
+    BGWINFRM_PutFrame(**(struct WinMgr ** *)&((struct MbSeqCtx *)p)->f8, 10, 4, 7);
 }
 
 
@@ -464,13 +464,13 @@ void func_021C5DD8(struct MbSeqCtx *p)
 {
     ((struct MbUnitBCtx *)p->f8)->f36C = (void *)func_0201C440((void *)102);
     ((struct MbUnitBCtx *)p->f8)->f368 = func_0204B100(8,2,102);
-    ((struct MbUnitBCtx *)p->f8)->f35C = func_0202DB0C((u32)(((struct MbUnitBCtx *)p->f8)->f368),1,(u32)(((struct MbUnitBCtx *)p->f8)->f36C),(u32)(*(void * *)&p->f18),4,4,102);
-    func_0202DE5C(((struct MbUnitBCtx *)p->f8)->f35C,0);
+    ((struct MbUnitBCtx *)p->f8)->f35C = PMS_DRAW_Create((u32)(((struct MbUnitBCtx *)p->f8)->f368),1,(u32)(((struct MbUnitBCtx *)p->f8)->f36C),(u32)(*(void * *)&p->f18),4,4,102);
+    PMS_DRAW_SetNullColorPalette(((struct MbUnitBCtx *)p->f8)->f35C,0);
 }
 
 void func_021C5E30(u8 *p)
 {
-    func_0202DC08(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f35C);
+    PMS_DRAW_Delete(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f35C);
     func_0201C4C0(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f36C);
     func_0204B1CC(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f368);
 }
@@ -574,7 +574,7 @@ void func_021C6028(u8 *p, u32 a1, int idx, int sel)
         func_021C5F80(win, ((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f1D8, slot,
                       ((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f1C4, 0, 0, ((struct MbSeqCtx *)p)->f18, 0x1D04, 0);
     }
-    func_0202CEBC(**(void ** *)&((struct MbSeqCtx *)p)->f8, a1, win);
+    BGWINFRM_PutBmpWin(**(void ** *)&((struct MbSeqCtx *)p)->f8, a1, win);
     func_020437AC(b1);
     func_020437AC(b0);
 }
@@ -662,8 +662,8 @@ void func_021C630C(u8 *p, unsigned int i)
 
 
 /*
- * note (2026-10-02): byte-correct; only func_02024450 lacks a witness. Witness filed as
- *   src/matched/arm9/func_02024450.c (EXACT). Re-verify after its shard exists, then file EXACT.
+ * note (2026-10-02): byte-correct; only PMSI_PARAM_IsEnabled lacks a witness. Witness filed as
+ *   src/matched/arm9/PMSI_PARAM_IsEnabled.c (EXACT). Re-verify after its shard exists, then file EXACT.
  */
 void func_021C6374(u8 *p)
 {
@@ -673,8 +673,8 @@ void func_021C6374(u8 *p)
 
     for (i = 0; i < 3; i++) {
         mon = func_02008FC8(*(void **)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + p[0x1F] * 4 + 0x298), (u8)i);
-        if (func_02024450(mon)) {
-            func_0202DC48(((struct MbUnitBCtx *)*(u8 * *)&((struct MbSeqCtx *)p)->f8)->f35C, *(void **)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + i * 4 + 0xB0), mon, (u8)i);
+        if (PMSI_PARAM_IsEnabled(mon)) {
+            PMS_DRAW_Print(((struct MbUnitBCtx *)*(u8 * *)&((struct MbSeqCtx *)p)->f8)->f35C, *(void **)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + i * 4 + 0xB0), mon, (u8)i);
             w = *(void **)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + i * 4 + 0xB0);
             func_02045334(w);
             func_02045374(w);
@@ -685,7 +685,7 @@ void func_021C6374(u8 *p)
     ((struct MbUnitBCtx *)*(u8 * *)&((struct MbSeqCtx *)p)->f8)->f362 = 0;
     ((struct MbUnitBCtx *)*(u8 * *)&((struct MbSeqCtx *)p)->f8)->f364 = func_02008FC0(*(void **)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + p[0x1F] * 4 + 0x298));
     if (((struct MbUnitBCtx *)*(u8 * *)&((struct MbSeqCtx *)p)->f8)->f364 != 0) {
-        func_0202DC48(((struct MbUnitBCtx *)*(u8 * *)&((struct MbSeqCtx *)p)->f8)->f35C, ((struct MbUnitBCtx *)*(u8 * *)&((struct MbSeqCtx *)p)->f8)->fBC, *(u8 * *)&((struct MbSeqCtx *)p)->f8 + 0x360, 3);
+        PMS_DRAW_Print(((struct MbUnitBCtx *)*(u8 * *)&((struct MbSeqCtx *)p)->f8)->f35C, ((struct MbUnitBCtx *)*(u8 * *)&((struct MbSeqCtx *)p)->f8)->fBC, *(u8 * *)&((struct MbSeqCtx *)p)->f8 + 0x360, 3);
     }
     func_02043B5C(func_02045770(((struct MbUnitBCtx *)*(u8 * *)&((struct MbSeqCtx *)p)->f8)->fC0), 0);
     func_02045924(((struct MbUnitBCtx *)*(u8 * *)&((struct MbSeqCtx *)p)->f8)->f1D8, (const u16 *)func_02008F84(*(void **)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + p[0x1F] * 4 + 0x298)));
@@ -768,7 +768,7 @@ void func_021C65A8(u8 *p)
     func_0204A48C((const struct Cfg *)d_021C7BA0, (u32)d_021C78E0, 0x66);
     bank = func_0204B100(8, 0, 0x66);
     ((struct MbUnitBCtx2 *)p)->f1EC = bank;
-    func_0204B270(bank);
+    CLACT_SetUnitDefaultRenderer(bank);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }
@@ -831,7 +831,7 @@ void func_021C66CC(u8 *p, int i, int x, int y)
         func_0204B404(*(void **)(p + 0x1f0 + i * 4), (const struct Vec2 *)(&v), 0);
     else
         func_0204B404(*(void **)(p + 0x1f0 + i * 4), (const struct Vec2 *)(&v), 1);
-    func_0204B8C4(*(void **)(p + 0x1f0 + i * 4), 0);
+    CLACT_SetActorAnimFrame(*(void **)(p + 0x1f0 + i * 4), 0);
 }
 
 void func_021C670C(u8 *p, int i, int on)
@@ -905,7 +905,7 @@ int func_021C68A0(u8 *p, int *st)
         return 0;
     }
     if (*(u8 * *)&((struct MbUnitBCtx2 *)p)->f8 != 0) {
-        func_0202CD94(**(struct WinMgr ** *)&((struct MbUnitBCtx2 *)p)->f8);
+        BGWINFRM_UpdateMoves(**(struct WinMgr ** *)&((struct MbUnitBCtx2 *)p)->f8);
         func_021C6594(*(u8 * *)&((struct MbUnitBCtx2 *)p)->f8);
         if (((struct MbUnitBCtx *)((struct MbUnitBCtx2 *)p)->f8)->f1C4 != 0) {
             func_0201C4E4(((struct MbUnitBCtx *)((struct MbUnitBCtx2 *)p)->f8)->f1C4);
@@ -924,7 +924,7 @@ int func_021C68A0(u8 *p, int *st)
             func_020310C4(((struct MbUnitBCtx *)((struct MbUnitBCtx2 *)p)->f8)->f1CC);
         }
         if (((struct MbUnitBCtx *)((struct MbUnitBCtx2 *)p)->f8)->f36C != 0) {
-            func_0202DBC4(((struct MbUnitBCtx *)((struct MbUnitBCtx2 *)p)->f8)->f35C);
+            PMS_DRAW_Main(((struct MbUnitBCtx *)((struct MbUnitBCtx2 *)p)->f8)->f35C);
             func_0201C4E4(((struct MbUnitBCtx *)((struct MbUnitBCtx2 *)p)->f8)->f36C);
             for (j = 0x1B; j < 0x20; j++) {
                 void *g = ((struct MbUnitBCtx *)((struct MbUnitBCtx2 *)p)->f8)->f1C4;

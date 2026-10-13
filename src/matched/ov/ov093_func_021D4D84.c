@@ -20,7 +20,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02019C90  0x02019C90  thumb
- *   func_02017F90  0x02017F90  thumb
+ *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
  *   func_021D4EFC  0x021D4EFC  thumb  ov093
  *   func_021D4F84  0x021D4F84  thumb  ov093
  *   func_021D53C0  0x021D53C0  thumb  ov093
@@ -83,7 +83,7 @@ extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern u32 func_02017E1C(void *, u32, u32);
 extern u32 func_02019C90(u16, u16, u32);
-extern u32 func_02017F90(void *);
+extern u32 POKE_TOOL_GetStatusCondition(void *);
 extern void func_021D4EFC(S *, void *, u32, u32);
 extern int func_021D4F84(u8 *p, void *h, int reset);
 extern void func_021D53C0(u8 *);
@@ -119,7 +119,7 @@ S *func_021D4D84(void *a, u8 b, u32 c)
     p->f143 = 0;
     func_021D53C0(p->f0fc);
     func_021D63B8((u8 *)p, 1);
-    n = func_02017F90(a);
+    n = POKE_TOOL_GetStatusCondition(a);
     if (n != 0) {
         p->w1c[n] = func_021D7D18(n);
         *((u8 *)p + 0xac + n) = 0;

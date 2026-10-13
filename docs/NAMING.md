@@ -183,6 +183,21 @@ The only exception: functions that look like they belong to another original
 file are left with their current name and flagged in misplaced.tsv (their home
 file decides their module prefix).
 
+## Conventions the cleanup lanes settled
+
+| Kind | Form | Example |
+|---|---|---|
+| File static (variable) | `s` + PascalCase | `sFrameCounter` |
+| Global | `g` + PascalCase | `gMessageTable` |
+| Handler or callback table | `g<Name>Handlers` | `gBattleEventHandlers` |
+| Struct field, local, parameter | camelCase | `partySlot`, `moveId` |
+| Function | `MODULE_VerbObject` | `BTL_CALC_GetDamage` |
+| Type | PascalCase, module word first | `BtlPokeParam` |
+
+Open: ability and item handlers in ov093 still use several module prefixes
+(BTL_ABILITY_, BTL_TOKUSEI_, HAND_TOKUSEI_, BTL_CALC_; BTL_HANDLER_ITEM_ and
+BTL_ITEM_). One prefix per group is still to be chosen.
+
 ## How to apply
 
 1. Assert-derived names first. For each function in the assert table, name the

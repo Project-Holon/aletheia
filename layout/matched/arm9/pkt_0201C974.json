@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201C974",
+   "name": "PRINTSYS_PrintStep",
    "address": "0x0201C974",
    "kind": "game",
    "region": "arm9",
@@ -30,13 +30,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201CDF4",
-    "sub_0201CE0C",
-    "sub_0201CE20",
-    "sub_0201CE30",
-    "sub_0201CE34",
-    "sub_0201CE38",
-    "sub_0201CE48"
+    "PRINTSYS_SplitWait",
+    "PRINTSYS_PrintStreamStop",
+    "PRINTSYS_PrintStreamRun",
+    "PRINTSYS_PrintStreamGetState",
+    "PRINTSYS_PrintStreamGetWaitKind",
+    "PRINTSYS_PrintStreamReleasePause",
+    "PRINTSYS_PrintStreamDelete"
+   ],
+   "addresses": [
+    "0x0201CDF4",
+    "0x0201CE0C",
+    "0x0201CE20",
+    "0x0201CE30",
+    "0x0201CE34",
+    "0x0201CE38",
+    "0x0201CE48"
    ]
   }
  ]

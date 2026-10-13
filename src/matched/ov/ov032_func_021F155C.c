@@ -13,7 +13,7 @@
  *   func_021F155C 0x021F155C thumb
  *   func_021F1704 0x021F1704 thumb
  *   func_020311B8 0x020311B8 arm
- *   func_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_0207C768 0x0207C768 arm
  *   _fflt          0x0209BDBC  arm
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 extern void func_021F1704(void *h, char *t);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
-extern void *func_02031290(struct S02030FB4 *p);
+extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
 extern u32 func_0207C768(u32 a, u32 b);
 
@@ -40,7 +40,7 @@ void func_021F155C(char *p, u8 *e, int mode, u8 delay, int *r)
 {
     u8 *t;
 
-    t = func_02031290(func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1704, 0x28, 0));
+    t = TCBL_GetWork(func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1704, 0x28, 0));
     func_02082BCC(t, 0, 0x28);
     t[0xc] = mode;
     if (t[0xc] == 0) {

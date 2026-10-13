@@ -1,5 +1,5 @@
 /*
- * function: func_02015F04
+ * function: MCSS_GetSizeX
  * address:  0x02015F04
  * packet:   pkt_02015F04
  * region:   arm9
@@ -16,7 +16,7 @@
 
 typedef unsigned short u16;
 
-u16 func_02015F04(void *p)
+u16 MCSS_GetSizeX(void *p)
 {
     return (*(u16 **)((char *)p + 0x2C))[2];
 }

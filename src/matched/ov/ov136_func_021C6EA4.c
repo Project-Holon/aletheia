@@ -15,7 +15,7 @@
  *   func_02027974  0x02027974  thumb
  *   func_020279E8  0x020279E8  thumb
  *   func_02027A04  0x02027A04  thumb
- *   func_0202CC70  0x0202CC70  thumb
+ *   BGWINFRM_HideFrame  0x0202CC70  thumb
  *   func_021C5B30 0x021C5B30 thumb
  *   func_021C61CC 0x021C61CC thumb
  *   func_021C62F4 0x021C62F4 thumb
@@ -58,7 +58,7 @@ extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
 extern u16 func_020213AC(u32);
 extern void func_021C7430(u8 *, int, u16, u16);
 extern int func_021C7178(u8 *, u32);
-extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 extern void func_021C7298(void *p, int v);
 int func_021C6EA4(u8 *p)
 {
@@ -94,7 +94,7 @@ int func_021C6EA4(u8 *p)
     case 3:
         func_021C5B30(p);
         func_021C62F4(p);
-        func_0202CC70(**(void ** *)&((struct Obj00127 *)p)->f8, 10);
+        BGWINFRM_HideFrame(**(void ** *)&((struct Obj00127 *)p)->f8, 10);
         func_021C7298(*(u8 * *)&((struct Obj00127 *)p)->f8, 0);
         func_021C66B8(*(u8 * *)&((struct Obj00127 *)p)->f8, 2, 1);
         return 9;

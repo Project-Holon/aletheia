@@ -1,5 +1,5 @@
 /*
- * function: func_021B33F8
+ * function: VCT_DSP_SuppressEcho
  * address:  0x021B33F8
  * packet:   pkt_ov013_021B33F8
  * region:   ov013
@@ -12,7 +12,7 @@
  *
  * note (2026-10-05, wave P4 lane S4, pengy share, approved for this function):
  *   Semantics recovered from the listing: a 6-tap FIR over the state at
- *   d_021B4C48 (ring index [2],[3] masked 0x7FF, coefficients [5..10], delay line
+ *   gEchoState (ring index [2],[3] masked 0x7FF, coefficients [5..10], delay line
  *   [11..16]) that filters b[], leaves b[i] = a[i], sums squares into an s64, then
  *   divides by n/2 (DIVCNT mode 1), takes the hardware sqrt, and scales a[] by an
  *   attenuation shift kept in the halfword at state[0] (0 when 3*rms < 2*thr,
@@ -57,7 +57,7 @@
  *   (att hoisted into the preheader after the guard); ours gives `addeq` because the explicit
  *   `if (n != 0) { sh = att; do ... }` form is the only one that put the load after the guard.
  *   Causes found: (1) the state and the ring buffer are ONE object: a struct with s16 buf[] at +0x484
- *   and a local `ring = d_021B4C48.buf` (pool word sym+0x484 reloaded per use, w load after the ring
+ *   and a local `ring = gEchoState.buf` (pool word sym+0x484 reloaded per use, w load after the ring
  *   store, w spilled at its definition, frame 0x10, push list and slots as the original). Separate
  *   externs let the scheduler hoist the w load above the ring store and raised the pressure.
  *   (2) first tap written `d5 * c10 + d4 * c9` (mwcc fuses the left product into mla). (3) per-function
@@ -69,7 +69,7 @@
  *   in-loop shift read under common_subs off (18 B).
  *
  * symbols:
- *   d_021B4C48  0x021B4C48  data  a4
+ *   gEchoState  0x021B4C48  data  a4
  */
 
 #include "../include/G_021B4C48.h"
@@ -95,12 +95,12 @@ static inline void CP_SetSqrt32(u32 param)
     reg_CP_SQRT_PARAM = param;
 }
 
-extern struct G_021B4C48 d_021B4C48;
+extern struct G_021B4C48 gEchoState;
 
 #pragma opt_common_subs off
-void func_021B33F8(s16 *a, s16 *b, u32 n, u32 thr)
+void VCT_DSP_SuppressEcho(s16 *a, s16 *b, u32 n, u32 thr)
 {
-    s16 *ring = d_021B4C48.buf;
+    s16 *ring = gEchoState.buf;
     s64 e;
     u32 rms;
     s32 acc;
@@ -114,31 +114,31 @@ void func_021B33F8(s16 *a, s16 *b, u32 n, u32 thr)
     e = 0;
     n >>= 1;
     for (i = 0; i < n; i++) {
-        v = d_021B4C48.wr;
+        v = gEchoState.wr;
         ring[v] = b[i];
-        w = d_021B4C48.rd;
-        d_021B4C48.x[0] = ring[w];
-        d5 = d_021B4C48.x[5];
-        acc = d5 * d_021B4C48.c[5] + d_021B4C48.x[4] * d_021B4C48.c[4];
-        d_021B4C48.x[5] = d_021B4C48.x[4];
-        d3 = d_021B4C48.x[3];
-        acc += d3 * d_021B4C48.c[3];
-        d_021B4C48.x[4] = d3;
-        d2 = d_021B4C48.x[2];
-        acc += d2 * d_021B4C48.c[2];
-        d_021B4C48.x[3] = d2;
-        d1 = d_021B4C48.x[1];
-        acc += d1 * d_021B4C48.c[1];
-        d_021B4C48.x[2] = d1;
-        d0 = d_021B4C48.x[0];
-        acc += d0 * d_021B4C48.c[0];
-        d_021B4C48.x[1] = d0;
+        w = gEchoState.rd;
+        gEchoState.x[0] = ring[w];
+        d5 = gEchoState.x[5];
+        acc = d5 * gEchoState.c[5] + gEchoState.x[4] * gEchoState.c[4];
+        gEchoState.x[5] = gEchoState.x[4];
+        d3 = gEchoState.x[3];
+        acc += d3 * gEchoState.c[3];
+        gEchoState.x[4] = d3;
+        d2 = gEchoState.x[2];
+        acc += d2 * gEchoState.c[2];
+        gEchoState.x[3] = d2;
+        d1 = gEchoState.x[1];
+        acc += d1 * gEchoState.c[1];
+        gEchoState.x[2] = d1;
+        d0 = gEchoState.x[0];
+        acc += d0 * gEchoState.c[0];
+        gEchoState.x[1] = d0;
         if (acc > 0x3FFF8000)
             acc = 0x3FFF8000;
         else if (acc < (s32)0xC0000000)
             acc = (s32)0xC0000000;
-        d_021B4C48.wr = (v + 1) & (0x3FFF8000 >> 19);
-        d_021B4C48.rd = (w + 1) & (0x3FFF8000 >> 19);
+        gEchoState.wr = (v + 1) & (0x3FFF8000 >> 19);
+        gEchoState.rd = (w + 1) & (0x3FFF8000 >> 19);
         b[i] = acc >> 15;
         r = b[i];
         b[i] = a[i];
@@ -154,16 +154,16 @@ void func_021B33F8(s16 *a, s16 *b, u32 n, u32 thr)
     }
     rms = reg_CP_SQRT_RESULT;
     if (rms * 3 < thr * 2) {
-        d_021B4C48.att = 0;
+        gEchoState.att = 0;
         return;
     }
     if (thr < rms)
-        d_021B4C48.att = 4;
-    if (d_021B4C48.att < 4)
-        d_021B4C48.att = d_021B4C48.att + 1;
+        gEchoState.att = 4;
+    if (gEchoState.att < 4)
+        gEchoState.att = gEchoState.att + 1;
     i = 0;
     if (i < n) {
-        sh = d_021B4C48.att;
+        sh = gEchoState.att;
         do {
             a[i] >>= sh;
             i++;

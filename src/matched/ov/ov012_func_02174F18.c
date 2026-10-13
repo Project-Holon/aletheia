@@ -1,5 +1,5 @@
 /*
- * function: func_02174F18
+ * function: COLOSSEUM_RecvFinish
  * address: 0x02174F18
  * packet: pkt_ov012_02174F18
  * region: ov012
@@ -13,9 +13,9 @@
  */
 
 typedef unsigned char u8;
-void func_02174F18(int n, int b, int c, u8 *p);
+void COLOSSEUM_RecvFinish(int n, int b, int c, u8 *p);
 
-void func_02174F18(int n, int b, int c, u8 *p)
+void COLOSSEUM_RecvFinish(int n, int b, int c, u8 *p)
 {
     u8 *w = *(u8 **)(p + 0x355c);
     if (w != 0) {

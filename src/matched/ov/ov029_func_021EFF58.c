@@ -15,7 +15,7 @@
  *   func_021F0D14  0x021F0D14  thumb  ov029
  *   func_0204B878  0x0204B878  arm
  *   func_0204B9A0  0x0204B9A0  arm
- *   func_0204B49C  0x0204B49C  arm
+ *   CLACT_SetActorSurfacePosAxis  0x0204B49C  arm
  *   func_0204B294  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B3DC  0x0204B3DC  arm
@@ -48,7 +48,7 @@ struct Actor;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B9A0(struct Actor *a);
-extern void func_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis);
+extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -70,8 +70,8 @@ void func_021EFF58(u8 *p, int a, int c)
     if (sl->obj != 0) {
         func_0204B878(sl->obj, s.w);
         func_0204B9A0(sl->obj);
-        func_0204B49C(sl->obj, s.x, 0, 0);
-        func_0204B49C(sl->obj, s.y, 0, 1);
+        CLACT_SetActorSurfacePosAxis(sl->obj, s.x, 0, 0);
+        CLACT_SetActorSurfacePosAxis(sl->obj, s.y, 0, 1);
     } else {
         sl->obj = func_0204B294((void *)((struct Obj05112 *)p)->f34, ((struct Obj05112 *)p)->f2C, ((struct Obj05112 *)p)->f28, ((struct Obj05112 *)p)->f30, &s, 0, ((struct Obj05112 *)p)->fC);
         func_0204B92C(sl->obj, 1);

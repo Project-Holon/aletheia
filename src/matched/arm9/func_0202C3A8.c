@@ -1,5 +1,5 @@
 /*
- * function: func_0202C3A8
+ * function: ISS_SWITCH_SET_CreateSwitches
  * address:  0x0202C3A8
  * packet:   pkt_0202C3A8
  * region:   arm9
@@ -8,12 +8,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   ISS_SWITCH_Create  0x0202C538  thumb
  */
 
-extern int func_0202C538(int v);
-void func_0202C3A8(char *p, int a1)
+extern int ISS_SWITCH_Create(int v);
+void ISS_SWITCH_SET_CreateSwitches(char *p, int a1)
 {
     int i;
     for (i = 0; i < 9; i++)
-        *(int *)(p + 0x18 + i * 4) = func_0202C538(a1);
+        *(int *)(p + 0x18 + i * 4) = ISS_SWITCH_Create(a1);
 }

@@ -13,8 +13,8 @@
  * src/matched/arm9, which closes the former MATCH.
  *
  * symbols:
- *   func_02015CF8  0x02015CF8  thumb
- *   func_02015D14  0x02015D14  thumb
+ *   MCSS_GetRotate  0x02015CF8  thumb
+ *   MCSS_SetRotate  0x02015D14  thumb
  *   func_021F89BC  0x021F89BC  thumb  ov094
  *   func_021F9260  0x021F9260  thumb  ov094
  *   func_022019F4  0x022019F4  thumb  ov094
@@ -24,13 +24,13 @@
  * and no --region (cc 1.1p1, -O4,p), packets pkt_02015CF8 / pkt_02015D14:
  *
  *   typedef unsigned int u32;
- *   void func_02015CF8(void *p, u32 *out)   // 0x02015CF8, 64 B extent
+ *   void MCSS_GetRotate(void *p, u32 *out)   // 0x02015CF8, 64 B extent
  *   {
  *       out[0] = *(u32 *)((char *)p + 0xF8);
  *       out[1] = *(u32 *)((char *)p + 0xFC);
  *       out[2] = *(u32 *)((char *)p + 0x100);
  *   }
- *   void func_02015D14(void *p, u32 *src)  // 0x02015D14, inverse
+ *   void MCSS_SetRotate(void *p, u32 *src)  // 0x02015D14, inverse
  *   {
  *       *(u32 *)((char *)p + 0xF8) = src[0];
  *       *(u32 *)((char *)p + 0xFC) = src[1];
@@ -72,8 +72,8 @@ typedef struct {
 } Ctx;
 
 typedef unsigned int   u32;
-extern void func_02015CF8(void *p, u32 *out);
-extern void func_02015D14(void *p, u32 *src);
+extern void MCSS_GetRotate(void *p, u32 *out);
+extern void MCSS_SetRotate(void *p, u32 *src);
 extern void func_021F89BC(void *h);
 extern int func_021F9260(Mover *m, VecFx32 *out);
 extern int func_022019F4(char *p, int key);
@@ -97,9 +97,9 @@ void func_02200C0C(void *h, Ctx *c)
         func_021F89BC(h);
         return;
     }
-    func_02015CF8(w->e[i].h, (u32 *)(&v));
+    MCSS_GetRotate(w->e[i].h, (u32 *)(&v));
     r = func_021F9260(&c->mv, &v);
-    func_02015D14(w->e[i].h, (u32 *)(&v));
+    MCSS_SetRotate(w->e[i].h, (u32 *)(&v));
     if (r == 1)
         func_021F89BC(h);
 }

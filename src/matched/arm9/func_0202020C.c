@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BMP_CURSOR_Delete  0x02020D3C  thumb
  */
 #include "../include/Obj08775.h"
 
@@ -18,7 +21,7 @@ typedef unsigned int   u32;
 struct Obj;
 
 struct D;
-extern void func_02020D3C(struct D *p);
+extern void BMP_CURSOR_Delete(struct D *p);
 extern u32 func_020307B0(void *p);
 
 void func_0202020C(struct Obj *o, u16 *a, u16 *b)
@@ -29,6 +32,6 @@ void func_0202020C(struct Obj *o, u16 *a, u16 *b)
     if (b != 0) {
         *b = ((struct Obj08775 *)o)->f42;
     }
-    func_02020D3C((struct D *)(((struct Obj08775 *)o)->f3C));
+    BMP_CURSOR_Delete((struct D *)(((struct Obj08775 *)o)->f3C));
     func_020307B0(o);
 }

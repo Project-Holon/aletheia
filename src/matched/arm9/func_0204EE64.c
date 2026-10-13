@@ -1,5 +1,5 @@
 /*
- * function: func_0204EE64
+ * function: BILLBOARD_BindImageResource
  * address:  0x0204EE64
  * packet:   pkt_0204EE0C
  * region:   arm9
@@ -15,8 +15,8 @@
  *   func_020473B8   0x020473B8  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204EE64.c \
- *       --func func_0204EE64 --addr 0x0204EE64 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_BindImageResource.c \
+ *       --func BILLBOARD_BindImageResource --addr 0x0204EE64 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -38,7 +38,7 @@ struct Struct_0204EE64 {
     u32 off24;
 };
 
-void func_0204EE64(struct Struct_0204EE64 *p, u32 heapId)
+void BILLBOARD_BindImageResource(struct Struct_0204EE64 *p, u32 heapId)
 {
     u32 res;
 

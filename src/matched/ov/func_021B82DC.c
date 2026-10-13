@@ -1,5 +1,5 @@
 /*
- * function: func_021B82DC
+ * function: AOSS_Close
  * address:  0x021B82DC
  * packet:   pkt_021B8230
  * region:   ov016
@@ -10,19 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B82DC   0x021B82DC  thumb
+ *   AOSS_Close   0x021B82DC  thumb
+ *   SOC_Close  0x0215F644  arm  ov009
  *
- * Thumb tail-call thunk into func_0215F644.
+ * Thumb tail-call thunk into SOC_Close.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021B82DC.c \
- *       --func func_021B82DC --addr 0x021B82DC --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/AOSS_Close.c \
+ *       --func AOSS_Close --addr 0x021B82DC --region ov016 --cc dsi/1.1p1 --thumb
  */
 
-extern int func_0215F644(int s);
+extern int SOC_Close(int s);
 
-int func_021B82DC(int s)
+int AOSS_Close(int s)
 {
-    return func_0215F644(s);
+    return SOC_Close(s);
 }

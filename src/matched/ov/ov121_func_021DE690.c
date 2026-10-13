@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020103E4 0x020103E4 thumb
+ *   WIH_DWC_Delete 0x020103E4 thumb
  *   func_0203CEAC 0x0203CEAC arm
  *   func_021DEED0 0x021DEED0 thumb ov121
  *   func_021DEEA4 0x021DEEA4 thumb ov121
@@ -17,7 +17,7 @@
 #include "../include/Obj08100.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_020103E4(u8 *p);
+extern void WIH_DWC_Delete(u8 *p);
 extern int func_0203CEAC(int);
 extern void func_021DEED0(char *p);
 extern void func_021DE618(void);
@@ -26,7 +26,7 @@ void func_021DE690(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_020103E4(((struct Obj08100 *)p)->f10);
+        WIH_DWC_Delete(((struct Obj08100 *)p)->f10);
         *(int *)&((struct Obj08100 *)p)->f10 = 0;
         *state = 1;
         break;

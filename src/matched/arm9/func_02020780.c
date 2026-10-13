@@ -1,5 +1,5 @@
 /*
- * function: func_02020780
+ * function: BMP_MENULIST_StepCursor
  * address:  0x02020780
  * packet:   pkt_02020780
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02020780.c \
- *       --func func_02020780 --addr 0x02020780 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENULIST_StepCursor.c \
+ *       --func BMP_MENULIST_StepCursor --addr 0x02020780 --thumb
  *
  * One cursor step of the scrolling menu list, dir 0 = up, else down.  The
  * cursor row (f42) moves inside the window, skipping items whose value word
@@ -21,7 +21,7 @@
  * rows - (rows/2 + rows%2) - 1 going up and rows/2 + rows%2 going down, 0
  * for a one-row window.
  *
- * Re-derived in wave 13 (the 2026-09-21 note, docs/notes/func_02020780.c.txt,
+ * Re-derived in wave 13 (the 2026-09-21 note, docs/notes/BMP_MENULIST_StepCursor.c.txt,
  * kept no source).  What pinned the register map obj=r0 row=r4 col=r3
  * rows=r2, which that note could not reach:
  *   - col (f40) is an int local, not u16 (u16 keeps obj out of r0);
@@ -54,7 +54,7 @@ struct Obj {
     u16 f42;
 };
 
-u8 func_02020780(struct Obj *obj, u8 dir)
+u8 BMP_MENULIST_StepCursor(struct Obj *obj, u8 dir)
 {
     int ncol;
     int col;

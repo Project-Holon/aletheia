@@ -1,5 +1,5 @@
 /*
- * function: func_02193FE8
+ * function: PersistCanReceiveOnSocket
  * address:  0x02193FE8
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern int func_0217EF50(int sock);
 
-int func_02193FE8(int sock)
+int PersistCanReceiveOnSocket(int sock)
 {
     return func_0217EF50(sock);
 }

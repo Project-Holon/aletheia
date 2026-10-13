@@ -1,5 +1,5 @@
 /*
- * function: func_0203AE20
+ * function: GFL_NET_STATE_InitRandom
  * address:  0x0203AE20
  * packet:   pkt_0203AE20
  * region:   arm9
@@ -17,7 +17,7 @@
  *   g_02FFFC3C        0x02FFFC3C  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203AE20.c  *       --func func_0203AE20 --addr 0x0203AE20 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_InitRandom.c  *       --func GFL_NET_STATE_InitRandom --addr 0x0203AE20 --cc 1.1p1 --arm
  *
  * net_state.c RNG seeder.  Mixes the MAC with the RTC date/time and the
  * system word 0x02FFFC3C, seeds func_0203F034, draws two words into one
@@ -54,7 +54,7 @@ extern u32 g_02FFFC3C;
 struct Date { u32 year; u32 mon; u32 day; u32 wday; };
 struct Time { u32 hour; u32 min; u32 sec; };
 
-void func_0203AE20(MATHRandContext64 *o)
+void GFL_NET_STATE_InitRandom(MATHRandContext64 *o)
 {
   struct Date d;
   struct Time t;

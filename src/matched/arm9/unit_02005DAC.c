@@ -17,14 +17,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02005DAC
+ * function: GFL_USE_PlayFanfare
  *
  * symbols:
- *   sub_02005924   0x02005924  thumb
- *   sub_0200590C   0x0200590C  thumb
- *   sub_02005CE0   0x02005CE0  thumb
- *   sub_02005D14   0x02005D14  thumb
- *   sub_02005F90   0x02005F90  thumb
+ *   GFL_USE_LoadBgmData   0x02005924  thumb
+ *   GFL_USE_GetCurrentSndHandle   0x0200590C  thumb
+ *   GFL_USE_IsSeqStartAllowed   0x02005CE0  thumb
+ *   GFL_USE_StopBgm   0x02005D14  thumb
+ *   GFL_USE_CancelBgmChange   0x02005F90  thumb
  *   func_020755A8  0x020755A8  arm
  *
  * Two guarded steps of a wireless session teardown, each abandoning the
@@ -46,44 +46,44 @@
  *
  * The near miss this header used to record ran 0x02005DE4 through
  * 0x02005E64 and is now mostly closed.  Three of the four calls involved
- * reach func_02072F5C, from 0x02005E16 and 0x02005E22 inside sub_02005E04
- * and from 0x02005E40 inside sub_02005E30, so they are not short of evidence
+ * reach NNS_SndHandleMoveVolume, from 0x02005E16 and 0x02005E22 inside GFL_USE_FadeInBgm
+ * and from 0x02005E40 inside GFL_USE_FadeOutBgm, so they are not short of evidence
  * at all: they are short of a cut.  Matched as one range all three witnesses
  * are inside the bytes under test; cut between the two functions, each file
  * is the other's witness.  That is src/matched/unit_02005DF8.c and
  * src/matched/unit_02005E30.c, both EXACT, and `python tools/match.py tu
- * --suggest-split` is what found the cut.  sub_02005E50 was already matched
- * on its own as src/matched/sub_02005E50.c.
+ * --suggest-split` is what found the cut.  GFL_USE_IsBgmFading was already matched
+ * on its own as src/matched/GFL_USE_IsBgmFading.c.
  *
- * sub_02005DE4, 20 bytes, stays open, and no cut can help: it is the only
+ * GFL_USE_SetBgmPlayerParam, 20 bytes, stays open, and no cut can help: it is the only
  * caller of 0x02072E8C anywhere in the 3.9 MB image, overlays included, so
  * the single witness for that call is the call itself.  It closes the day
  * the image acquires a second caller.  See "The honesty rule" in
  * docs/MATCHING.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02005DAC.c \
- *       --func sub_02005DAC --addr 0x02005DAC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_USE_PlayFanfare.c \
+ *       --func GFL_USE_PlayFanfare --addr 0x02005DAC --cc 1.1p1 --thumb
  */
 
-extern int sub_02005924(unsigned int a);
+extern int GFL_USE_LoadBgmData(unsigned int a);
 typedef unsigned int   u32;
-extern u32 *sub_0200590C(void);
-extern int   sub_02005CE0(void *arg);
-extern void  sub_02005D14(void);
-extern void  sub_02005F90(void);
+extern u32 *GFL_USE_GetCurrentSndHandle(void);
+extern int   GFL_USE_IsSeqStartAllowed(void *arg);
+extern void  GFL_USE_StopBgm(void);
+extern void  GFL_USE_CancelBgmChange(void);
 
 extern u32 func_020755A8(u32 obj, int a, int b, int c, u32 arg);
 
-void sub_02005DAC(void *arg)
+void GFL_USE_PlayFanfare(void *arg)
 {
-    sub_02005F90();
-    if (sub_02005CE0(arg) == 0) {
+    GFL_USE_CancelBgmChange();
+    if (GFL_USE_IsSeqStartAllowed(arg) == 0) {
         return;
     }
-    sub_02005D14();
-    if (sub_02005924((unsigned int)arg) == 0) {
+    GFL_USE_StopBgm();
+    if (GFL_USE_LoadBgmData((unsigned int)arg) == 0) {
         return;
     }
-    func_020755A8((u32)sub_0200590C(), 6, -1, -1, (u32)arg);
+    func_020755A8((u32)GFL_USE_GetCurrentSndHandle(), 6, -1, -1, (u32)arg);
 }

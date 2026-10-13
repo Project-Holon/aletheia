@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02022AD0",
+   "name": "WIPE_SUB_WindowRectHBlank",
    "address": "0x02022AD0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02022D70",
+   "name": "WIPE_SUB_DeleteLineBuffers",
    "address": "0x02022D70",
    "kind": "game",
    "region": "arm9",

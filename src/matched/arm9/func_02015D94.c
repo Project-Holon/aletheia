@@ -1,5 +1,5 @@
 /*
- * function: func_02015D94
+ * function: MCSS_SetShadowOffset
  * address:  0x02015D94
  * packet:   pkt_02015D94
  * region:   arm9
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj08771.h"
 
-void func_02015D94(char *p, int *src)
+void MCSS_SetShadowOffset(char *p, int *src)
 {
     ((struct Obj08771 *)p)->f17C = src[0];
     ((struct Obj08771 *)p)->f180 = src[1];

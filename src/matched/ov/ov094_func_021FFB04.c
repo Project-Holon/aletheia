@@ -12,7 +12,7 @@
  * symbols:
  *   sub_02030734   0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
- *   func_02015C30  0x02015C30  thumb
+ *   MCSS_GetPosition  0x02015C30  thumb
  *   func_021F896C  0x021F896C  thumb  ov094
  *   func_021F935C  0x021F935C  thumb  ov094
  *   func_022010D0  0x022010D0  thumb  ov094
@@ -51,7 +51,7 @@ typedef struct {
 extern const char d_0220AE7C[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
-extern void func_02015C30(void *p, u32 *out);
+extern void MCSS_GetPosition(void *p, u32 *out);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern int func_021F935C(int x);
 extern void func_022010D0(void *task, char *q);
@@ -69,7 +69,7 @@ void func_021FFB04(Work *w, Obj *s)
         return;
     *o = *s;
     o->w = w;
-    func_02015C30(w->e[idx].h, (u32 *)o->v);
+    MCSS_GetPosition(w->e[idx].h, (u32 *)o->v);
     w->cnt[0][o->key]++;
     o->f28 = w->cnt[0][o->key];
     func_021F896C(func_02030DA8(w->owner, (void *)func_022010D0, o, 0), func_022011FC, 2);

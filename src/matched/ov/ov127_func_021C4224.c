@@ -12,15 +12,15 @@
  * Leaf of ov099 func_021B989C's callee func_021C5858 (a forwarder to here).
  *
  * symbols:
- *   func_0204B838  0x0204B838  arm
+ *   CLACT_GetActorDrawPriority  0x0204B838  arm
  */
 #include "../include/Obj23015.h"
 
 typedef unsigned char u8;
 
-extern int func_0204B838(int a0);
+extern int CLACT_GetActorDrawPriority(int a0);
 
 int func_021C4224(u8 *p)
 {
-    return func_0204B838((int)(((struct Obj23015 *)p)->f4));
+    return CLACT_GetActorDrawPriority((int)(((struct Obj23015 *)p)->f4));
 }

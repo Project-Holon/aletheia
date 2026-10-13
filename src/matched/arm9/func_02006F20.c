@@ -1,5 +1,5 @@
 /*
- * function: func_02006F20
+ * function: SAVE_CONTROL_Create
  * address:  0x02006F20
  * packet:   pkt_02006F20
  * region:   arm9
@@ -13,18 +13,18 @@
  *   func_02034AC4   0x02034AC4  arm
  *   func_02034A5C   0x02034A5C  arm
  *   func_02030734   0x02030734  arm
- *   func_0203192C   0x0203192C  arm
- *   func_02031AE0   0x02031AE0  arm
- *   func_020319C0   0x020319C0  arm
+ *   BACKUP_SYSTEM_Create   0x0203192C  arm
+ *   BACKUP_SYSTEM_Load   0x02031AE0  arm
+ *   BACKUP_SYSTEM_ClearWork   0x020319C0  arm
  *   func_02034714   0x02034714  arm
  *   func_021DFC20   0x021DFC20  thumb  ov228
  *   func_021DFE90   0x021DFE90  thumb  ov228
  *   func_021DFE98   0x021DFE98  thumb  ov228
  *   func_021DFDB8   0x021DFDB8  thumb  ov228
- *   sub_02008754    0x02008754  thumb
- *   sub_02008784    0x02008784  thumb
+ *   SYSTEM_DATA_IsActive    0x02008754  thumb
+ *   SYSTEM_DATA_IsMarked    0x02008784  thumb
  *   sub_0200725C    0x0200725C  thumb
- *   sub_020072A4    0x020072A4  thumb
+ *   SAVE_CONTROL_DeleteExtraSave    0x020072A4  thumb
  *   sub_0200A5F8    0x0200A5F8  thumb
  *   sub_0200A7EC    0x0200A7EC  thumb
  *   ov228_id        0x000000E4  data
@@ -49,13 +49,13 @@
  * every low case label exists in the source even where the arm is empty;
  * see docs/idioms/empty-switch-arms-are-what-make-the-table.md.
  *
- * WAVE 16 (docs/notes/func_02006F20.c.txt had it at 118 out and
+ * WAVE 16 (docs/notes/SAVE_CONTROL_Create.c.txt had it at 118 out and
  * MATCH-capped).  The cap went with the ov228 leaves matched this wave
  * (src/matched/func_021DFDB8.c, func_021DFE90.c, func_021DFE98.c; plus the
  * labelled func_021DFC20), carried by the ov228 hints above; func_021DFE90
  * takes the overlay work pointer (its body reads r0).  The bytes closed in
  * three steps: a fresh body with the switch value `r` tested as
- * (u32)(r - 1) <= 1 before sub_02008754 (167 out, size exact); an ENUM loop
+ * (u32)(r - 1) <= 1 before SYSTEM_DATA_IsActive (167 out, size exact); an ENUM loop
  * counter over the nine slots, which keeps the image's unfolded `cmp r4, #9`
  * guard (10 out); and the loop written in its own shape, `i = 0; if (i <
  * MAX) { flags = &c->unk0C; do { ... i++; } while (i < MAX); }`, which puts
@@ -63,8 +63,8 @@
  * with flags assigned inside the body instead keeps a second top test.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02006F20.c \
- *       --func func_02006F20 --addr 0x02006F20 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SAVE_CONTROL_Create.c \
+ *       --func SAVE_CONTROL_Create --addr 0x02006F20 --cc 1.1p1 --thumb
  */
 
 #include "../include/G_SaveCtrl.h"
@@ -76,20 +76,20 @@ extern void func_02034A5C(int id);
 typedef unsigned short u16;
 struct State;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0203192C(void *a, void *b);
-extern int func_02031AE0(struct State *o, u32 a1);
-extern void func_020319C0(u8 *p);
+extern u32 BACKUP_SYSTEM_Create(void *a, void *b);
+extern int BACKUP_SYSTEM_Load(struct State *o, u32 a1);
+extern void BACKUP_SYSTEM_ClearWork(u8 *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_021DFC20(u32 heap);
 extern u8 func_021DFE90(u8 *p);
 extern int func_021DFE98(u8 *p);
 extern void func_021DFDB8(void *p);
-extern u8 sub_02008754(void *sys);
-extern int sub_02008784(void *sys, u32 index);
+extern u8 SYSTEM_DATA_IsActive(void *sys);
+extern int SYSTEM_DATA_IsMarked(void *sys, u32 index);
 struct Ctrl;
 extern u32 sub_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
 struct Sub020072A4Ctrl;
-extern void sub_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
+extern void SAVE_CONTROL_DeleteExtraSave(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern void *sub_0200A5F8(void *sys);
 struct Big;
 extern void sub_0200A7EC(struct Big *p, u8 value);
@@ -100,7 +100,7 @@ extern struct SaveCtrl *sub_02006F20_Ptr;
 extern u8 g_0209D938[];
 typedef enum { SLOT_0, SLOT_1, SLOT_2, SLOT_3, SLOT_4, SLOT_5, SLOT_6, SLOT_7, SLOT_8, SLOT_MAX } Slot;
 
-struct SaveCtrl *func_02006F20(int heap)
+struct SaveCtrl *SAVE_CONTROL_Create(int heap)
 {
     struct SaveCtrl *c;
     void *ov;
@@ -124,9 +124,9 @@ struct SaveCtrl *func_02006F20(int heap)
     c->unk01 = 0;
     c->unk04 = mode;
     c->unk05 = sub;
-    c->unk10 = (void *)func_0203192C(g_0209D938, (void *)heap);
-    r = func_02031AE0(c->unk10, 1);
-    if ((u32)(r - 1) <= 1 && sub_02008754(c) == 1)
+    c->unk10 = (void *)BACKUP_SYSTEM_Create(g_0209D938, (void *)heap);
+    r = BACKUP_SYSTEM_Load(c->unk10, 1);
+    if ((u32)(r - 1) <= 1 && SYSTEM_DATA_IsActive(c) == 1)
         r = 0;
     c->unk0C = 0;
     if (sub == 1)
@@ -143,9 +143,9 @@ struct SaveCtrl *func_02006F20(int heap)
         if (i < SLOT_MAX) {
             flags = &c->unk0C;
             do {
-                if (sub_02008784(c, i) == 1) {
+                if (SYSTEM_DATA_IsMarked(c, i) == 1) {
                     s = sub_0200725C((struct Ctrl *)c, i, 1);
-                    sub_020072A4((struct Sub020072A4Ctrl *)c, i);
+                    SAVE_CONTROL_DeleteExtraSave((struct Sub020072A4Ctrl *)c, i);
                     switch (s) {
                     case 1:
                     case 2:
@@ -171,7 +171,7 @@ struct SaveCtrl *func_02006F20(int heap)
         c->unk0C |= 2;
     case 0:
     case 4:
-        func_020319C0(c->unk10);
+        BACKUP_SYSTEM_ClearWork(c->unk10);
         break;
     default:
         func_02034714(sub_02006F20_Msg, 0, sub_02006F20_Msg);

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02064150
+ * function: NNSi_G2dSrtcResetSrtData
  * address:  0x02064150
  * packet:   pkt_020640DC
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj08899.h"
 
-int func_02064150(int a0){ int t0; t0 = func_02082A48((int)0, (int)(a0 + 4), (int)0x18); ((struct Obj08899 *)((char *)(a0)))->f4 = (int)0x1000; ((struct Obj08899 *)((char *)(a0)))->f8 = (int)0x1000; return 0x1000; }
+int NNSi_G2dSrtcResetSrtData(int a0){ int t0; t0 = func_02082A48((int)0, (int)(a0 + 4), (int)0x18); ((struct Obj08899 *)((char *)(a0)))->f4 = (int)0x1000; ((struct Obj08899 *)((char *)(a0)))->f8 = (int)0x1000; return 0x1000; }

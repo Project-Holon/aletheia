@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B6DAC, func_021B6E84
+ * function: IRC_COMPATIBLE_ResultStepCreateArgs, IRC_COMPATIBLE_ResultStepDestroyArgs
  * address: 0x021B6DAC
  * packet: pkt_ov101_021B6DAC
  * region: ov101
@@ -22,8 +22,8 @@
  * func_0200A9D4 0x0200A9D4 thumb
  * func_021B658C 0x021B658C thumb ov101
  * func_0203D378 0x0203D378 arm
- * func_021B6ECC 0x021B6ECC thumb ov101
- * d_021B753C 0x021B753C data a1
+ * IRC_COMPATIBLE_CalcCompatibility 0x021B6ECC thumb ov101
+ * IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
  */
 #include "../include/Obj01387.h"
 #include "../include/Obj07971.h"
@@ -31,7 +31,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Data { u32 f00; u8 f04,f05; u16 f06; u8 f08,f09,f0a; unsigned char low:4; unsigned char high:4; u8 tail[32]; } Data;
-extern char d_021B753C[];
+extern char IRC_COMPATIBLE_SourceFileName[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern u32 func_020307B0(void *p);
 extern void func_02082BCC(void *,int,u32);
@@ -46,15 +46,15 @@ extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int func_0200A9D4(struct T0200A9A4 *o, u32 v);
 extern void func_021B658C(void *,Data *);
 extern u32 func_0203D378(void);
-extern int func_021B6ECC(u32 a, u32 b, int c, int d, char *x, char *y, int flag, u32 id, int a8);
-void *func_021B6DAC(u32 heap,char *p)
+extern int IRC_COMPATIBLE_CalcCompatibility(u32 a, u32 b, int c, int d, char *x, char *y, int flag, u32 id, int a8);
+void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heap,char *p)
 {
     Data data;
     void *token;
     char *out,*name;
     int both,flag=0;
     u32 id;
-    out=func_02030734(heap,16,0,d_021B753C,0x418);
+    out=func_02030734(heap,16,0,IRC_COMPATIBLE_SourceFileName,0x418);
     func_02082BCC(out,0,16);
     ((struct Obj07971 *)out)->f0=**(u32 * *)&((struct Obj01387 *)p)->f10;
     ((struct Obj07971 *)out)->f4=((struct Obj01387 *)p)->f0;
@@ -69,11 +69,11 @@ void *func_021B6DAC(u32 heap,char *p)
         func_021B658C(**(void ** *)&((struct Obj01387 *)p)->f10,&data);
         if(func_0203D378()) id=data.f00;
         else id=**(u32 * *)&((struct Obj01387 *)p)->f3C;
-        ((struct Obj07971 *)out)->fC=func_021B6ECC(((struct Obj01387 *)p)->f2C,((struct Obj01387 *)p)->f2E,((struct Obj01387 *)p)->f2D,((struct Obj01387 *)p)->f2F,(char *)(&data),((struct Obj01387 *)p)->f3C,both,id,58);
+        ((struct Obj07971 *)out)->fC=IRC_COMPATIBLE_CalcCompatibility(((struct Obj01387 *)p)->f2C,((struct Obj01387 *)p)->f2E,((struct Obj01387 *)p)->f2D,((struct Obj01387 *)p)->f2F,(char *)(&data),((struct Obj01387 *)p)->f3C,both,id,58);
     }
     return out;
 }
-void func_021B6E84(void *p)
+void IRC_COMPATIBLE_ResultStepDestroyArgs(void *p)
 {
     func_020307B0(p);
 }

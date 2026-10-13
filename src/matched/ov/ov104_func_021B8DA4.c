@@ -10,7 +10,7 @@
  * status: EXACT
  *
  * Evidence: 44-byte particle layout from ov104_func_021B8D20; float
- * runtime identities from matched func_0204CC6C; object callees from
+ * runtime identities from matched CLACT_ApplyActorTransform; object callees from
  * their own matched units. Unsigned shifts preserve 32-bit wrapping;
  * explicit runtime conversion retains all signed input values.
  *

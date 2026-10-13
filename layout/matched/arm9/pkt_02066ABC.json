@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02066ABC",
+   "name": "NNSi_G2dRequestCellTransferState",
    "address": "0x02066ABC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02066B38",
+   "name": "NNSi_G2dResetCellTransferState",
    "address": "0x02066B38",
    "kind": "game",
    "region": "arm9",

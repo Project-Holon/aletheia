@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02065020
+ * function: NNSi_G2dRendererBeforeDrawCell
  * address:  0x02065020
  * packet:   pkt_02064B68
  * region:   arm9
@@ -93,7 +93,7 @@ static inline Mtx *GetMtx(void)
     return m;
 }
 
-void func_02065020(struct Host *h, void *a1)
+void NNSi_G2dRendererBeforeDrawCell(struct Host *h, void *a1)
 {
     struct Obj74 *v = g_02147B88.f08->f74;
 

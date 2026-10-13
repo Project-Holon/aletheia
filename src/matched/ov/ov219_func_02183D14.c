@@ -44,16 +44,16 @@
  *           a `call:` label on `func_020061E4(m)`; the case 9 0x551 path does `m = 0x551; goto call;`;
  *           case 17 writes `if (W(0xC350) != 1) break; goto se54c;`. The 0x648/0x649 calls then
  *           merge into case 12's call by themselves. d_02185DE6 hint token dropped (contested).
- *           Remaining: three callees with no witness: arm9 func_02025BE8 and func_02027120 and ov219
+ *           Remaining: three callees with no witness: arm9 func_02025BE8 and GAME_BEACON_SetNationArea and ov219
  *           func_021856CC. This lane filed all three EXACT (src/matched/arm9/func_02025BE8.c,
- *           src/matched/arm9/func_02027120.c, src/matched/ov/ov219_func_021856CC.c); after the
+ *           src/matched/arm9/GAME_BEACON_SetNationArea.c, src/matched/ov/ov219_func_021856CC.c); after the
  *           manifest picks them up this should verify EXACT.
  *
  * symbols:
  *   func_020362DC 0x020362DC arm
  *   func_0203630C 0x0203630C arm
- *   func_02035BA4 0x02035BA4 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_HitCont 0x02035BA4 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_02035C60 0x02035C60 arm
  *   func_02035D20 0x02035D20 arm
  *   func_02045B38 0x02045B38 arm
@@ -75,8 +75,8 @@
  *   func_02025C44 0x02025C44 thumb
  *   func_02025B94 0x02025B94 thumb
  *   func_0200947C 0x0200947C thumb
- *   func_02027120 0x02027120 thumb
- *   func_02028230 0x02028230 thumb
+ *   GAME_BEACON_SetNationArea 0x02027120 thumb
+ *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_02183CBC 0x02183CBC thumb ov219
  *   func_02184734 0x02184734 thumb ov219
@@ -121,13 +121,13 @@ struct CharBuf;
 
 extern u32 func_020362DC(void);
 extern u32 func_0203630C(void);
-extern int func_02035BA4(const void *a);
+extern int TOUCHPANEL_HitCont(const void *a);
 typedef signed int     s32;
 struct MsgBank;
 struct Obj;
 struct PrintSys;
 struct Rec;
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -149,8 +149,8 @@ extern int func_02025BE8(void);
 extern int func_02025C44(u32 a0, u32 *a1, u32 *a2);
 extern u32 func_02025B94(u32 a);
 extern void func_0200947C(u32 a, u32 b, u32 c, u32 d);
-extern void func_02027120(u8 a, u8 b);
-extern u32 func_02028230(u8 *p);
+extern void GAME_BEACON_SetNationArea(u8 a, u8 b);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void func_020061E4(u32 a);
 extern void func_02183CBC(u8 *p, u32 i);
 extern void func_02184734(u8 *p);
@@ -214,8 +214,8 @@ int func_02183D14(u8 *p, int *state)
 
     W(0xC354) = func_020362DC();
     W(0xC358) = func_0203630C();
-    if (func_02035BA4(d_02185DE6) != -1) {
-        W(0xC360) = (int)func_02035CB8((u32 *)(p + 0xC364), (u32 *)(p + 0xC368));
+    if (TOUCHPANEL_HitCont(d_02185DE6) != -1) {
+        W(0xC360) = (int)TOUCHPANEL_GetPointCont((u32 *)(p + 0xC364), (u32 *)(p + 0xC368));
     } else {
         W(0xC360) = 0;
     }
@@ -393,7 +393,7 @@ int func_02183D14(u8 *p, int *state)
         case 0:
             func_02185310((char *)p);
             func_0200947C(W(0x10), W(0xC), W(0xC344), W(0xC348));
-            func_02027120(W(0xC344), W(0xC348));
+            GAME_BEACON_SetNationArea(W(0xC344), W(0xC348));
             W(0xC33C) = W(0xC344);
             W(0xC340) = W(0xC348);
             *state = 0x10;
@@ -473,7 +473,7 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 19:
-        if ((int)func_02028230(*(void **)(p + 0xC060)) == 0) {
+        if ((int)APP_TASKMENU_WIN_IsFinish(*(void **)(p + 0xC060)) == 0) {
             break;
         }
         if (W(0xC33C) == 0) {

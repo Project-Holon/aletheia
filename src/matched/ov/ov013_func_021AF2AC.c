@@ -1,5 +1,5 @@
 /*
- * function: func_021AF2AC
+ * function: VCT_MAIN_DisconnectPeers
  * address:  0x021AF2AC
  * packet:   pkt_ov013_021AF2AC
  * region:   ov013
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B3C80     0x021B3C80  data  ov013
- *   func_021B2254  0x021B2254  arm  ov013
+ *   gVctWork     0x021B3C80  data  ov013
+ *   VCT_SESSION_RemovePeer  0x021B2254  arm  ov013
  */
 
 #include "../include/G_Work.h"
@@ -20,27 +20,27 @@ typedef unsigned char u8;
 
 typedef struct Work Work;
 
-extern struct Work *d_021B3C80;
-extern int func_021B2254(int a);
+extern struct Work *gVctWork;
+extern int VCT_SESSION_RemovePeer(int a);
 
-int func_021AF2AC(int n)
+int VCT_MAIN_DisconnectPeers(int n)
 {
     int i;
 
-    if (d_021B3C80 == 0 || d_021B3C80->f19A8 != 3) {
+    if (gVctWork == 0 || gVctWork->f19A8 != 3) {
         return 0;
     }
     for (i = 0; i < 2; i++) {
         if (i == n) {
             continue;
         }
-        if (d_021B3C80->a[i] != 1) {
+        if (gVctWork->a[i] != 1) {
             continue;
         }
-        if (func_021B2254((u8)i)) {
+        if (VCT_SESSION_RemovePeer((u8)i)) {
             return 0;
         }
-        d_021B3C80->a[i] = 0;
+        gVctWork->a[i] = 0;
     }
     return 1;
 }

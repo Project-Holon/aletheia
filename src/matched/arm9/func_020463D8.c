@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020463D8
+ * function: SYSTEMFONT_GetGlyphWidth
  * address:  0x020463D8
  * packet:   pkt_020461F4
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_020463D8(void){ return 7; }
+int SYSTEMFONT_GetGlyphWidth(void){ return 7; }

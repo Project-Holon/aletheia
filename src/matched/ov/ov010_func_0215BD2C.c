@@ -17,12 +17,12 @@
  * symbols:
  *   func_02159B10  0x02159B10  thumb  ov010
  *   func_0215B4AC  0x0215B4AC  thumb  ov010
- *   func_02017D30  0x02017D30  thumb
+ *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   func_020180F4  0x020180F4  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02017E40  0x02017E40  thumb
  *   func_020181F4  0x020181F4  thumb
- *   func_02017D70  0x02017D70  thumb
+ *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  */
 
 typedef unsigned char u8;
@@ -32,12 +32,12 @@ typedef unsigned int u32;
 extern u16 func_02159B10(void *c, void *vm);
 struct Sav;
 extern int func_0215B4AC(void *a0, u32 a1, void **a2);
-extern u32 func_02017D30(struct Sav *p);
+extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern void func_020180F4(void *p, int move);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern void func_020181F4(void *p, u16 move, u32 slot);
-extern u32 func_02017D70(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 
 int func_0215BD2C(void *c, void *vm)
 {
@@ -57,7 +57,7 @@ int func_0215BD2C(void *c, void *vm)
     if (func_0215B4AC(vm, slot, &mon) == 0) {
         return 0;
     }
-    saved = func_02017D30(mon);
+    saved = POKE_TOOL_DecodePartyParam(mon);
     if (moveSlot > 4) {
         func_020180F4(mon, move);
     } else if (move == 0) {
@@ -81,6 +81,6 @@ int func_0215BD2C(void *c, void *vm)
     } else {
         func_020181F4(mon, move, (u8)moveSlot);
     }
-    func_02017D70(mon, saved);
+    POKE_TOOL_EncodePartyParam(mon, saved);
     return 0;
 }

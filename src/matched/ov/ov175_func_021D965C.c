@@ -19,7 +19,7 @@
  *   func_0200B074  0x0200B074  thumb
  *   func_0200B078  0x0200B078  thumb
  *   func_02008554  0x02008554  thumb
- *   func_0200DFD8  0x0200DFD8  thumb
+ *   BSUBWAY_SAVEDATA_GetStat  0x0200DFD8  thumb
  *   func_021E5548  0x021E5548  thumb  ov177
  *   func_021E5D68  0x021E5D68  thumb  ov177
  *
@@ -85,7 +85,7 @@ extern struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
 extern u8 *func_0200B074(struct Reg2 *p);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern u32 func_0200DFD8(u32 a, u32 b, u32 c);
+extern u32 BSUBWAY_SAVEDATA_GetStat(u32 a, u32 b, u32 c);
 extern int func_021E5548(int *p);
 extern char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
 
@@ -116,9 +116,9 @@ void func_021D965C(struct Obj *obj)
         c = func_0200B078((struct Reg2 *)data, 7);
         prof.f98 = (c << 24) | ((b << 24) >> 8) | ((a << 24) >> 16);
         prof.f9c = func_02008554((const struct Sub0200852CObj *)sys);
-        prof.fa0 = func_0200DFD8(obj->f104->f10, 10, 0);
-        a = func_0200DFD8(obj->f104->f10, 10, 1);
-        prof.fa4 = a + func_0200DFD8(obj->f104->f10, 10, 2);
+        prof.fa0 = BSUBWAY_SAVEDATA_GetStat(obj->f104->f10, 10, 0);
+        a = BSUBWAY_SAVEDATA_GetStat(obj->f104->f10, 10, 1);
+        prof.fa4 = a + BSUBWAY_SAVEDATA_GetStat(obj->f104->f10, 10, 2);
         prof.faa = func_0200B078((struct Reg2 *)data, 11);
         if (prof.fa4 == 0 && prof.fa0 == 0)
             prof.fa0 = 1500;

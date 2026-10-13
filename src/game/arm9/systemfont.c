@@ -1,7 +1,7 @@
 /*
  * file:     systemfont.c
  * unit:     yes
- * function: func_020461F4, func_02046300, func_0204638C, func_020463C0, func_020463D8, func_020463E0
+ * function: SYSTEMFONT_Load, SYSTEMFONT_GetGlyph, SYSTEMFONT_ExpandRowBits, SYSTEMFONT_GetGlyphHeight, SYSTEMFONT_GetGlyphWidth, SYSTEMFONT_SetColors
  * address:  0x020461F4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -58,12 +58,12 @@ extern u32   FS_GetLength(struct FSFile *file);
 extern s32   FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 extern void  FS_CloseFile(struct FSFile *file);
 extern void  OS_Terminate(void);
-void func_020461F4(u32 fontFile);
-void func_02046300(int idx, u8 *out);
-u32 func_0204638C(u32 rowBits);
-int func_020463C0(void);
-int func_020463D8(void);
-void func_020463E0(u32 fg, u32 bg);
+void SYSTEMFONT_Load(u32 fontFile);
+void SYSTEMFONT_GetGlyph(int idx, u8 *out);
+u32 SYSTEMFONT_ExpandRowBits(u32 rowBits);
+int SYSTEMFONT_GetGlyphHeight(void);
+int SYSTEMFONT_GetGlyphWidth(void);
+void SYSTEMFONT_SetColors(u32 fg, u32 bg);
 extern const char systemfont_File[];
 extern const u8 kBuiltinFontData[];
 extern struct SystemFont *gSystemFont;
@@ -101,16 +101,16 @@ extern struct SystemFont *gSystemFont;
  * constant would make the file EXACT by reading the answer out of the
  * bytes under test, which is exactly what the honesty rule forbids.
  *
- * Consequence for the chain: src/pending/func_0204E130.c (fan-in 121) was
+ * Consequence for the chain: src/pending/TEXTPRINT_Init.c (fan-in 121) was
  * blocked only on 0x020461F4, and the `matched` class needs an EXACT entry
  * here, so it stays at MATCH too.  Both unstick together if a second
  * reference to 0x020A08D0 turns up, most likely in an overlay's pool.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020461F4.c \
- *       --func func_020461F4 --addr 0x020461F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/SYSTEMFONT_Load.c \
+ *       --func SYSTEMFONT_Load --addr 0x020461F4 --cc 1.1p1 --arm
  */
-void func_020461F4(u32 fontFile)
+void SYSTEMFONT_Load(u32 fontFile)
 {
     struct FSFile file;
     u32 size;
@@ -137,7 +137,7 @@ void func_020461F4(u32 fontFile)
     } else {
         gSystemFont->data = (struct SystemFontHeader *)kBuiltinFontData;
         gSystemFont->isBuiltin = 1;
-        func_020463E0(1, 15);
+        SYSTEMFONT_SetColors(1, 15);
     }
 }
 
@@ -147,11 +147,11 @@ void func_020461F4(u32 fontFile)
  * Expand one 8-byte record of the loaded module table into eight words and
  * store the record's flag byte next to them.
  *
- * gSystemFont is the module record src/pending/func_020461F4.c allocates:
+ * gSystemFont is the module record src/pending/SYSTEMFONT_Load.c allocates:
  * its `data` field points at a header whose first two words are byte
  * offsets, the first to the record array, the second to the flag bytes.
  * `idx` selects one 8-byte record of that array; its eight bytes are each
- * run through func_0204638C and the results are merged with the two masks
+ * run through SYSTEMFONT_ExpandRowBits and the results are merged with the two masks
  * at +04/+08 of the record before being written out as eight words.
  *
  * Shape notes (each cost real bytes):
@@ -175,10 +175,10 @@ void func_020461F4(u32 fontFile)
  *    loses the second pool load.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02046300.c \
- *       --func func_02046300 --addr 0x02046300 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/SYSTEMFONT_GetGlyph.c \
+ *       --func SYSTEMFONT_GetGlyph --addr 0x02046300 --cc 1.1p1 --arm
  */
-void func_02046300(int idx, u8 *out)
+void SYSTEMFONT_GetGlyph(int idx, u8 *out)
 {
     u8 *row = (u8 *)gSystemFont->data + gSystemFont->data->glyphOffset
               + idx * 32 / 4;
@@ -189,7 +189,7 @@ void func_02046300(int idx, u8 *out)
     int i;
 
     for (i = 0; i < 8; i++) {
-        u32 mask = func_0204638C(*row++);
+        u32 mask = SYSTEMFONT_ExpandRowBits(*row++);
         u32 notMask = mask ^ 0xFFFFFFFF;
         *tileWord++ = (fgFill & mask) | (bgFill & notMask);
     }
@@ -213,9 +213,9 @@ void func_02046300(int idx, u8 *out)
  * and the accumulator lives in lr.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204638C.c  *       --func func_0204638C --addr 0x0204638C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/SYSTEMFONT_ExpandRowBits.c  *       --func SYSTEMFONT_ExpandRowBits --addr 0x0204638C --cc 1.1p1 --arm
  */
-u32 func_0204638C(u32 rowBits)
+u32 SYSTEMFONT_ExpandRowBits(u32 rowBits)
 {
     int i;
     u32 nibbleMask = 0;
@@ -228,10 +228,10 @@ u32 func_0204638C(u32 rowBits)
 }
 
 
-int func_020463C0(void){ return gSystemFont->data->glyphHeight; }
+int SYSTEMFONT_GetGlyphHeight(void){ return gSystemFont->data->glyphHeight; }
 
 
-int func_020463D8(void){ return 7; }
+int SYSTEMFONT_GetGlyphWidth(void){ return 7; }
 
 
 
@@ -244,10 +244,10 @@ int func_020463D8(void){ return 7; }
  * shift amounts run 24, 28, 20, 16, 12, 8, 4 and then a plain register.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020463E0.c \
- *       --func func_020463E0 --addr 0x020463E0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/SYSTEMFONT_SetColors.c \
+ *       --func SYSTEMFONT_SetColors --addr 0x020463E0 --cc 1.1p1 --arm
  */
-void func_020463E0(u32 fg, u32 bg)
+void SYSTEMFONT_SetColors(u32 fg, u32 bg)
 {
     gSystemFont->fgFill = (fg << 28) | (fg << 24) | (fg << 20) | (fg << 16) |
                           (fg << 12) | (fg << 8) | (fg << 4) | fg;

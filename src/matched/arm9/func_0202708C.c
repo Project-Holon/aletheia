@@ -1,5 +1,5 @@
 /*
- * function: func_0202708C
+ * function: GAME_BEACON_IsSpecialPokemon
  * address:  0x0202708C
  * packet:   pkt_0202685C
  * region:   arm9
@@ -11,20 +11,20 @@
  * blocker:  0209FC04 literal
  *
  * symbols:
- *   g_0209FC04  0x0209FC04  data
+ *   GAME_BEACON_SpecialPokemonTable  0x0209FC04  data
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 g_0209FC04[];
+extern u16 GAME_BEACON_SpecialPokemonTable[];
 
-int func_0202708C(u16 v)
+int GAME_BEACON_IsSpecialPokemon(u16 v)
 {
     u32 i = 0;
 
     while (i < 0xe) {
-        if (v == g_0209FC04[i]) {
+        if (v == GAME_BEACON_SpecialPokemonTable[i]) {
             return 1;
         }
         i++;

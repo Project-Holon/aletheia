@@ -1,5 +1,5 @@
 /*
- * function: func_0201A4A0
+ * function: POKE_REGULATION_GetItemClauseLine
  * address: 0x0201A4A0
  * packet: pkt_arm9_0201A4A0
  * region: arm9
@@ -26,9 +26,9 @@ struct Ctx {
 };
 
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-void *func_0201A4A0(u8 *a0, int a1, struct Ctx *c);
+void *POKE_REGULATION_GetItemClauseLine(u8 *a0, int a1, struct Ctx *c);
 
-void *func_0201A4A0(u8 *a0, int a1, struct Ctx *c)
+void *POKE_REGULATION_GetItemClauseLine(u8 *a0, int a1, struct Ctx *c)
 {
     u32 k = 0x14;
 

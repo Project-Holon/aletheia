@@ -15,8 +15,8 @@
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200E9F4 0x0200E9F4 thumb
  *   func_0200EA04 0x0200EA04 thumb
- *   func_02005C44 0x02005C44 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_GetBgmNo 0x02005C44 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   d_02213D04 0x02213D04 data a1 ov199
  */
 #include "../include/Obj06657.h"
@@ -27,8 +27,8 @@ struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E9F4(void *p);
 extern int func_0200EA04(int);
-extern u16 func_02005C44(void);
-extern void func_02005D90(unsigned, unsigned);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
 extern const char d_02213D04[];
 typedef enum { tag_2854 = 0x2c0 } Offset2854;
 int *func_02212854(int unused, unsigned heap, char *ctx)
@@ -56,6 +56,6 @@ int *func_02212854(int unused, unsigned heap, char *ctx)
         void *q = func_02012EBC(((struct Obj06657 *)ctx)->f4);
         p[4] = func_0200EA04((int)func_0200E9F4(q));
     }
-    if (func_02005C44() != 0x487) func_02005D90(0x487, 0xffff);
+    if (GFL_USE_GetBgmNo() != 0x487) GFL_USE_CancelChangeAndPlayBgm(0x487, 0xffff);
     return p;
 }

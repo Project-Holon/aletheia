@@ -11,18 +11,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200575C, sub_02005768
+ * function: GFL_USE_GetArcPath, GFL_USE_WaitInputReady
  *
  * symbols:
- *   sub_0200575C_Table  0x020A6C58  data
+ *   _ArcPathTable  0x020A6C58  data
  *   func_02034F5C       0x02034F5C  arm
  *   func_0203630C       0x0203630C  arm
  *
- * A pointer table lookup and a spin loop.  sub_0200575C was already matched
+ * A pointer table lookup and a spin loop.  GFL_USE_GetArcPath was already matched
  * as a single function in arm9/legacy.json; it is the first function of this
  * range and is absorbed here.
  *
- * sub_02005768 waits until four bits of func_0203630C's result are all set,
+ * GFL_USE_WaitInputReady waits until four bits of func_0203630C's result are all set,
  * pumping func_02034F5C once per turn.  The four masks are 0x200, 0x100,
  * 0x400 and 0x800 and none of them is materialised with a literal pool word:
  * the compiler builds 0x100 with `movs`/`lsls` and then derives the other
@@ -35,17 +35,17 @@
 
 typedef unsigned int u32;
 
-extern void *sub_0200575C_Table[];
+extern void *_ArcPathTable[];
 
 extern void func_02034F5C(void);
 extern unsigned int func_0203630C(void);
 
-void *sub_0200575C(u32 index)
+void *GFL_USE_GetArcPath(u32 index)
 {
-    return sub_0200575C_Table[index];
+    return _ArcPathTable[index];
 }
 
-void sub_02005768(void)
+void GFL_USE_WaitInputReady(void)
 {
     u32 x;
 

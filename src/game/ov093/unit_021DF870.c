@@ -20,103 +20,86 @@
  *   d_021F155C     0x021F155C  data   ov093  a4
  *   d_021F1404     0x021F1404  data   ov093  a4
  */
-void func_021DF93C(int, int, int, int);
-void func_021DF870(int a, int b, int c);
-int *func_021DF87C(int *p);
-void func_021DF888(int a, int b, int c);
-int *func_021DF894(int *p);
-void func_021DF8A0(int a, int b, int c);
-int *func_021DF8AC(int *p);
-void func_021DF8B8(int a, int b, int c);
-int *func_021DF8C4(int *p);
-void func_021DF8D0(int a, int b, int c);
-int *func_021DF8DC(int *p);
-extern int d_021F15E4[];
-extern int d_021F15DC[];
-extern int d_021F159C[];
-extern int d_021F155C[];
-extern int d_021F1404[];
+#include "unit_021DF3A4_types.h"
 
+extern const BtlEventHandler d_021F15E4[];
+extern const BtlEventHandler d_021F15DC[];
+extern const BtlEventHandler d_021F159C[];
+extern const BtlEventHandler d_021F155C[];
+extern const BtlEventHandler d_021F1404[];
 
-void func_021DF870(int a, int b, int c)
+void func_021DF870(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF87C(int *handlerCount);
+void func_021DF888(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF894(int *handlerCount);
+void func_021DF8A0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF8AC(int *handlerCount);
+void func_021DF8B8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF8C4(int *handlerCount);
+void func_021DF8D0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF8DC(int *handlerCount);
+
+/* Twisted Spoon. */
+void func_021DF870(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 13);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_PSYCHIC);
 }
 
-
-
-
-
-int *func_021DF87C(int *p)
+/* Charcoal. */
+const BtlEventHandler *func_021DF87C(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F15E4;
 }
 
-
-
-
-
-void func_021DF888(int a, int b, int c)
+/* Charcoal. */
+void func_021DF888(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 9);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_FIRE);
 }
 
-
-
-
-
-int *func_021DF894(int *p)
+/* Dragon Fang. */
+const BtlEventHandler *func_021DF894(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F15DC;
 }
 
-
-
-
-
-void func_021DF8A0(int a, int b, int c)
+/* Dragon Fang. */
+void func_021DF8A0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 15);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_DRAGON);
 }
 
-
-
-
-int *func_021DF8AC(int *p)
+/* Silk Scarf. */
+const BtlEventHandler *func_021DF8AC(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F159C;
 }
 
-
-
-
-void func_021DF8B8(int a, int b, int c)
+/* Silk Scarf. */
+void func_021DF8B8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 0);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_NORMAL);
 }
 
-
-
-int *func_021DF8C4(int *p)
+/* Odd Incense. */
+const BtlEventHandler *func_021DF8C4(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F155C;
 }
 
-
-
-void func_021DF8D0(int a, int b, int c)
+/* Odd Incense. */
+void func_021DF8D0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 13);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_PSYCHIC);
 }
 
-
-
-int *func_021DF8DC(int *p)
+/* Rock Incense. */
+const BtlEventHandler *func_021DF8DC(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F1404;
 }

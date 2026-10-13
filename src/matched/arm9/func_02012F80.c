@@ -1,5 +1,5 @@
 /*
- * function: func_02012F80
+ * function: GAME_DATA_GetExternalWork
  * address:  0x02012F80
  * packet:   pkt_02012F80
  * region:   arm9
@@ -14,11 +14,11 @@
  * matching it gives the overlay call sites a `matched` witness.
  *
  * symbols:
- *   func_02012F80  0x02012F80  thumb
+ *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  */
 #include "../include/Obj15637.h"
 
-int func_02012F80(char *base)
+int GAME_DATA_GetExternalWork(char *base)
 {
     return ((struct Obj15637 *)base)->f6A8;
 }

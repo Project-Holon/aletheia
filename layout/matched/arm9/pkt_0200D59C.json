@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200D59C",
-    "func_0200D5C8"
+    "GDS_PROFILE_Create",
+    "GDS_PROFILE_Delete"
+   ],
+   "addresses": [
+    "0x0200D59C",
+    "0x0200D5C8"
    ]
   },
   {
@@ -34,7 +38,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200D6D0"
+    "GDS_PROFILE_CreateNameStr"
+   ],
+   "addresses": [
+    "0x0200D6D0"
    ]
   }
  ]

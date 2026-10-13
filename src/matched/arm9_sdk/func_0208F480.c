@@ -1,5 +1,5 @@
 /*
- * function: func_0208F480
+ * function: WM_SetParentParameter
  * address:  0x0208F480
  * packet:   pkt_0208F480
  * region:   arm9
@@ -89,7 +89,7 @@ extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern void DC_StoreRange(void *startAddr, u32 nBytes);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 
-WMErrCode func_0208F480(WMCallbackFunc callback, WMParentParam *pparaBuf)
+WMErrCode WM_SetParentParameter(WMCallbackFunc callback, WMParentParam *pparaBuf)
 {
     WMErrCode result;
 

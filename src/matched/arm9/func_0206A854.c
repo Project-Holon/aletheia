@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02148B4C       0x02148B4C  data
+ *   g_renderState       0x02148B4C  data
  *   func_0206DDA4    0x0206DDA4  arm
  *
  * The "leave this rig mode" counterpart of src/matched/func_0206A8FC.c: one
- * registration of the 0x3e record at g_02148B4C + 4, keyed by the word at
- * g_02148B4C[0], then bits 0 and 1 of the "initialised subsystems" flag word
- * at g_02148B4C + 0xFC are both cleared (the exact pair func_0206A8FC sets and
+ * registration of the 0x3e record at g_renderState + 4, keyed by the word at
+ * g_renderState[0], then bits 0 and 1 of the "initialised subsystems" flag word
+ * at g_renderState + 0xFC are both cleared (the exact pair func_0206A8FC sets and
  * clears on the way in).
  *
  * PINNED ../2.0/sp2 on the "kept constants" tell, same family and same pass as
@@ -29,7 +29,7 @@
  *
  * TWO SPELLING POINTS, both of them four bytes each and both needed at once,
  * which is why the intermediate attempts all sat at 52 bytes:
- *   1. the record pointer is `(char *)g_02148B4C + 4`, NOT `g_02148B4C + 1`.
+ *   1. the record pointer is `(char *)g_renderState + 4`, NOT `g_renderState + 1`.
  *      Spelled as the array index the front end folds the offset into a
  *      SECOND pool word; through the char cast the offset stays a runtime add,
  *      which 2.0 then fuses with the value load into the image's single
@@ -47,12 +47,12 @@
 
 typedef unsigned int u32;
 
-extern u32  g_02148B4C[];
+extern u32  g_renderState[];
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 
 void func_0206A854(void)
 {
-    func_0206DDA4(g_02148B4C[0], (char *)g_02148B4C + 4, 0x3e);
-    g_02148B4C[0x3f] &= ~1u;
-    g_02148B4C[0x3f] &= ~2u;
+    func_0206DDA4(g_renderState[0], (char *)g_renderState + 4, 0x3e);
+    g_renderState[0x3f] &= ~1u;
+    g_renderState[0x3f] &= ~2u;
 }

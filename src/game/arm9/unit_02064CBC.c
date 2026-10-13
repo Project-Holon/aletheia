@@ -11,7 +11,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The reset twin of func_02064C10 / sub_02064B68: clears the u16 at +0x30,
+ * The reset twin of NNSi_G2dMCAnimUpdateBank / sub_02064B68: clears the u16 at +0x30,
  * runs func_0206469C over the object with its +0x1c word, raises the +0x0c
  * state to 1, then walks every record of the multi-cell bank and resets its
  * cell animation.  Same two layouts as the rest of the family (kind 1 is the

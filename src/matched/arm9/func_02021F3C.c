@@ -1,5 +1,5 @@
 /*
- * function: func_02021F3C
+ * function: PALANM_GetColor
  * address:  0x02021F3C
  * packet:   pkt_02021F3C
  * region:   arm9
@@ -20,7 +20,7 @@ typedef struct {
     int pad[3];
 } Slot;
 
-u16 func_02021F3C(Slot *s, int idx, int which, u16 pos)
+u16 PALANM_GetColor(Slot *s, int idx, int which, u16 pos)
 {
     if (which == 1) {
         return s[idx].a[pos];

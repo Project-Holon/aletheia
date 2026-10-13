@@ -1,5 +1,5 @@
 /*
- * function: func_02028784
+ * function: PLAYER_VOLUME_FADER_Delete
  * address:  0x02028784
  * packet:   pkt_02028590
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02028784(void *ptr)
+void PLAYER_VOLUME_FADER_Delete(void *ptr)
 {
     func_020307B0(ptr);
 }

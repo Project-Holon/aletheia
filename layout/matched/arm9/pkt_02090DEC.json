@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02090DEC",
+   "name": "WM_SetLifeTime",
    "address": "0x02090DEC",
    "kind": "sdk",
    "region": "arm9",

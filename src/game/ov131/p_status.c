@@ -1,0 +1,2208 @@
+/*
+ * file:     p_status.c
+ * unit:     yes
+ * function: P_STATUS_InitWork, P_STATUS_ExitWork, P_STATUS_MainSeq, P_STATUS_VBlankTask, P_STATUS_InitGraphics, P_STATUS_ExitGraphics, P_STATUS_InitBgLayer, P_STATUS_LoadObjResource, P_STATUS_DeleteObjResource, P_STATUS_CreateButtonActors, P_STATUS_DeleteButtonActors, P_STATUS_InitMessage, P_STATUS_ExitMessage, P_STATUS_UpdateTouch, P_STATUS_UpdateInput, P_STATUS_CheckKey, P_STATUS_CheckTouch, P_STATUS_UpdatePaletteAnime, P_STATUS_SetInputEnable, P_STATUS_ChangePokemon, P_STATUS_SearchPokemon, P_STATUS_LoadPokemonState, P_STATUS_RequestRefresh, P_STATUS_UpdateRefresh, P_STATUS_GetPokePara, P_STATUS_GetPokeParaSource, P_STATUS_SetFastMode, P_STATUS_PrintMsg, P_STATUS_PrintMsgToWin, P_STATUS_PrintWordSetMsg, P_STATUS_PrintWordSetMsgToWin, P_STATUS_PrintWordSetMsgRight, P_STATUS_PrintWordSetMsgRightToWin, P_STATUS_CanUseButtons, P_STATUS_HasRibbon, P_STATUS_ProcInit, P_STATUS_ProcExit, P_STATUS_ProcMain
+ * address:  0x021D4240
+ * region:   ov131
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Split from p_sta_oam.c at 0x021D65D8 (__FILE__ anchor boundary, certain cut).
+ *
+ * symbols:
+ *   func_020355C4 0x020355C4 arm
+ *   func_0201747C 0x0201747C thumb
+ *   func_020056A0 0x020056A0 thumb
+ *   func_02082A60 0x02082A60 arm
+ *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   func_0203D34C 0x0203D34C arm
+ *   func_02030EAC 0x02030EAC arm
+ *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
+ *   func_020355D8 0x020355D8 arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_0204A648 0x0204A648 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
+ *   func_0202208C 0x0202208C thumb
+ *   func_020221A4 0x020221A4 thumb
+ *   func_0204B98C 0x0204B98C arm
+ *   func_0201C4E4 0x0201C4E4 thumb
+ *   func_0204A600 0x0204A600 arm
+ *   MCSS_Main 0x02014C08 thumb
+ *   func_02047964 0x02047964 arm
+ *   func_020479D8 0x020479D8 arm
+ *   MCSS_Draw 0x02014D2C thumb
+ *   func_02047970 0x02047970 arm
+ *   func_02041EE4 0x02041EE4 arm
+ *   func_0204B878 0x0204B878 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
+ *   func_0202223C 0x0202223C thumb
+ *   WIPE_ResetWndMask 0x02022224 thumb
+ *   func_020433E0 0x020433E0 arm
+ *   func_0203F8F4 0x0203F8F4 arm
+ *   func_02045088 0x02045088 arm
+ *   func_0203FC28 0x0203FC28 arm
+ *   func_02040588 0x02040588 arm
+ *   func_0207D63C 0x0207D63C arm
+ *   func_0204A48C 0x0204A48C arm
+ *   func_0204B100 0x0204B100 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
+ *   func_020434DC 0x020434DC arm
+ *   func_02043598 0x02043598 arm
+ *   func_02046440 0x02046440 arm
+ *   func_02048A24 0x02048A24 arm
+ *   func_02048AD0 0x02048AD0 arm
+ *   func_0207DCF8 0x0207DCF8 arm
+ *   func_02046BE0 0x02046BE0 arm
+ *   func_0204044C 0x0204044C arm
+ *   MCSS_Init 0x02014B08 thumb
+ *   MCSS_SetTextureTransAdrs 0x02016020 thumb
+ *   MCSS_SetGlobalScale 0x020160C0 thumb
+ *   _VramBankConfig 0x021DC0E4 data ov131
+ *   _DispConfig 0x021DBFF4 data ov131
+ *   _BgSetups 0x021DC004 data ov131
+ *   ClactSysDefaultSetup 0x020A1448 data
+ *   _CameraVecs 0x021DBFC0 data ov131
+ *   _EdgeColorTable 0x021DBFE4 data ov131
+ *   func_02061C30 0x02061C30 arm
+ *   MCSS_Exit 0x02014BA8 thumb
+ *   func_02048AC4 0x02048AC4 arm
+ *   func_02046788 0x02046788 arm
+ *   func_0204B1CC 0x0204B1CC arm
+ *   func_0204A5AC 0x0204A5AC arm
+ *   func_020403F4 0x020403F4 arm
+ *   func_020450C8 0x020450C8 arm
+ *   func_0203F9B4 0x0203F9B4 arm
+ *   func_0203FCA0 0x0203FCA0 arm
+ *   func_020414AC 0x020414AC arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049B68 0x02049B68 arm
+ *   func_02049658 0x02049658 arm
+ *   func_020498F4 0x020498F4 arm
+ *   func_0204AC18 0x0204AC18 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_020413B0 0x020413B0 arm
+ *   func_02049238 0x02049238 arm
+ *   func_0204ADA4 0x0204ADA4 arm
+ *   func_0204A8D4 0x0204A8D4 arm
+ *   func_0204AFD8 0x0204AFD8 arm
+ *   _ButtonPlacement 0x021DBFA0 data ov131
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_0204B3B4 0x0204B3B4 arm
+ *   func_0201D7EC 0x0201D7EC thumb
+ *   func_02045B38 0x02045B38 arm
+ *   func_02049B40 0x02049B40 arm
+ *   func_0201C450 0x0201C450 thumb
+ *   func_0201C6EC 0x0201C6EC thumb
+ *   func_0201C4C0 0x0201C4C0 thumb
+ *   func_02045C04 0x02045C04 arm
+ *   func_0201D83C 0x0201D83C thumb
+ *   func_02035C08 0x02035C08 arm
+ *   _TouchHitRects 0x021DC114 data a1
+ *   func_0201C6B4 0x0201C6B4 thumb
+ *   func_0203633C 0x0203633C arm
+ *   func_020362DC 0x020362DC arm
+ *   func_020061E4 0x020061E4 thumb
+ *   func_02061CA4 0x02061CA4 arm
+ *   _CursorColorsFrom 0x021DBFA8 data a2
+ *   _CursorColorsTo 0x021DBFB8 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data
+ *   PM_VOICE_StopSlot 0x02006BB4 thumb
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_02006CAC 0x02006CAC thumb
+ *   func_02006984 0x02006984 thumb
+ *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
+ *   func_0201AB28 0x0201AB28 thumb
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02045808 0x02045808 arm
+ *   func_02045770 0x02045770 arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_02017E88 0x02017E88 thumb
+ *   func_0203064C 0x0203064C arm
+ *   func_0203159C 0x0203159C arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_02030734 0x02030734 arm
+ *   func_0203630C 0x0203630C arm
+ *   func_0201A920 0x0201A920 thumb
+ *   func_0201A954 0x0201A954 thumb
+ *   func_020173F0 0x020173F0 thumb
+ *   func_02017E40 0x02017E40 thumb
+ *   func_0201A98C 0x0201A98C thumb
+ *   POKE_TOOL_ClearBoxParam 0x02017550 thumb
+ *   func_02005728 0x02005728 thumb
+ *   POKE_TOOL_SetupBoxParam 0x02017600 thumb
+ *   POKE_TOOL_SetBoxValue 0x02017E64 thumb
+ *   GAME_DATA_Create 0x020124F4 thumb
+ *   _SourceFileName 0x021DC80C data a1
+ *   _DebugMovesParty 0x021DC138 data a2
+ *   _DebugMovesArray 0x021DC144 data a2
+ *   GAME_DATA_Delete 0x02012704 thumb
+ *   func_020315D4 0x020315D4 arm
+ *   func_020306F0 0x020306F0 arm
+ *   func_0201C724 0x0201C724 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   P_STA_SUB_Create 0x021D65D8 thumb ov131
+ *   P_STA_SUB_Delete 0x021D6608 thumb ov131
+ *   P_STA_SUB_Main 0x021D6614 thumb ov131
+ *   P_STA_SUB_LoadArcGraphics 0x021D67EC thumb ov131
+ *   P_STA_SUB_Exit 0x021D6808 thumb ov131
+ *   P_STA_SUB_CreateObjects 0x021D6810 thumb ov131
+ *   P_STA_SUB_DeleteObjects 0x021D694C thumb ov131
+ *   P_STA_SUB_InitWindows 0x021D697C thumb ov131
+ *   P_STA_SUB_Refresh 0x021D6A38 thumb ov131
+ *   P_STA_SUB_FreeWindows 0x021D6CDC thumb ov131
+ *   P_STA_SUB_HideSprite 0x021D6D04 thumb ov131
+ *   P_STA_INFO_AllocWork 0x021D7B00 thumb ov131
+ *   P_STA_INFO_FreeWork 0x021D7B34 thumb ov131
+ *   P_STA_INFO_Main 0x021D7B48 thumb ov131
+ *   P_STA_INFO_LoadResources 0x021D7B4C thumb ov131
+ *   P_STA_INFO_FreeResources 0x021D7BF0 thumb ov131
+ *   P_STA_INFO_Setup 0x021D7C38 thumb ov131
+ *   P_STA_INFO_ShowPage 0x021D7CAC thumb ov131
+ *   P_STA_INFO_DeleteWindows 0x021D7E84 thumb ov131
+ *   P_STA_INFO_HidePage 0x021D7EAC thumb ov131
+ *   P_STA_RIBBON_Create 0x021D87E0 thumb ov131
+ *   P_STA_RIBBON_Delete 0x021D881C thumb ov131
+ *   P_STA_RIBBON_Main 0x021D8830 thumb ov131
+ *   P_STA_RIBBON_LoadArcGraphics 0x021D8884 thumb ov131
+ *   P_STA_RIBBON_FreeArcGraphics 0x021D8904 thumb ov131
+ *   P_STA_RIBBON_CreateObjects 0x021D8938 thumb ov131
+ *   P_STA_RIBBON_DeleteObjects 0x021D89FC thumb ov131
+ *   P_STA_RIBBON_Init 0x021D8F50 thumb ov131
+ *   P_STA_RIBBON_Show 0x021D8FAC thumb ov131
+ *   P_STA_RIBBON_Deactivate 0x021D909C thumb ov131
+ *   P_STA_RIBBON_Hide 0x021D90C0 thumb ov131
+ *   P_STA_RIBBON_CollectOwned 0x021D911C thumb ov131
+ *   P_STA_RIBBON_Noop 0x021D91EC thumb ov131
+ *   P_STA_SKILL_Create 0x021D96B0 thumb ov131
+ *   P_STA_SKILL_Delete 0x021D9734 thumb ov131
+ *   P_STA_SKILL_Main 0x021D9740 thumb ov131
+ *   P_STA_SKILL_LoadArcGraphics 0x021D9980 thumb ov131
+ *   P_STA_SKILL_Exit 0x021D9A04 thumb ov131
+ *   P_STA_SKILL_CreateObjects 0x021D9A4C thumb ov131
+ *   P_STA_SKILL_DeleteObjects 0x021D9BD4 thumb ov131
+ *   P_STA_SKILL_InitStatsPage 0x021D9C3C thumb ov131
+ *   P_STA_SKILL_ShowStatsPage 0x021D9CD0 thumb ov131
+ *   P_STA_SKILL_FreeStatsPage 0x021D9D44 thumb ov131
+ *   P_STA_SKILL_HideStatsPage 0x021D9D94 thumb ov131
+ *   P_STA_SKILL_InitMovesPage 0x021DA6A4 thumb ov131
+ *   P_STA_SKILL_ShowMovesPage 0x021DA7A4 thumb ov131
+ *   P_STA_SKILL_FreeMovesPage 0x021DA84C thumb ov131
+ *   P_STA_SKILL_HideMovesPage 0x021DA8BC thumb ov131
+ *   P_STA_RIBBON_GetRibbonInfo 0x021DBF2C thumb ov131
+ *   POKE_TOOL_ClearPartyParam  0x02017528  thumb  arm9
+ *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb  arm9
+ *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb  arm9
+ */
+
+#include "p_status_types.h"
+
+struct Mon;
+struct Tcb;
+struct ClactObj;
+struct McssSys;
+struct PrintSys;
+struct DispVram;
+struct DispConfig;
+struct ClactUnit;
+struct Camera;
+struct BgTemplate;
+struct GfFont;
+struct MsgBank;
+struct PokePara;
+struct StrBuf;
+struct BmpWin;
+struct WordSet;
+struct StrObj;
+struct HeapSys;
+struct Party;
+struct PartyMon;
+struct SaveData;
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef signed short s16;
+typedef signed char s8;
+typedef unsigned long long u64;
+
+/* One background layer setup (_BgSetups), passed on as struct BgTemplate. */
+struct BgSetup { u32 data[8]; };
+
+/* Cell actor system setup (ClactSysDefaultSetup); P_STATUS_InitGraphics changes limits[0]. */
+struct ClactSysSetup { u32 setup[4]; u16 limits[6]; };
+
+/* Camera position, target and up vector (_CameraVecs). */
+struct Vec3 { u32 x, y, z; };
+
+typedef enum {GX_DISP_SELECT_SUB_MAIN=0, GX_DISP_SELECT_MAIN_SUB=1} GXDispSelect;
+
+/* One byte per button actor (_ButtonPlacement rows: x position, unused row, animation). */
+struct ButtonBytes { u8 v[8]; };
+
+/* Sub screen background palette 14: colors 9 and 10 are the text colors. */
+typedef struct { u16 otherColors[9]; u16 fontColor, shadowColor; } TextPalette;
+
+/* Touch areas of the eight buttons plus the end mark (_TouchHitRects). */
+struct TpHitTable { unsigned char rect[36]; };
+
+/* Four cursor colors (_CursorColorsFrom, _CursorColorsTo: the two ends of the blink). */
+struct CursorColors { u16 color[4]; };
+
+/* Moves given to the debug Pokemon (_DebugMovesParty, _DebugMovesArray). */
+typedef struct { u16 move[5]; } DebugMoves;
+
+/* Hardware registers (main engine A, sub engine B) and palette RAM. */
+#define HW_REG_DISPCNT 0x04000000
+#define HW_REG_BG3CNT 0x0400000c
+#define HW_REG_MOSAIC 0x0400004c
+#define HW_REG_BLDCNT 0x04000050
+#define HW_REG_DISP3DCNT 0x04000060
+#define HW_REG_POWCNT1 0x04000304
+#define HW_REG_DISPCNT_SUB 0x04001000
+#define HW_REG_BG2CNT_SUB 0x0400100a
+#define HW_REG_BG3CNT_SUB 0x0400100c
+#define HW_REG_MOSAIC_SUB 0x0400104c
+#define HW_REG_BLDCNT_SUB 0x04001050
+#define HW_PLTT_MAIN_OBJ 0x05000200
+#define HW_PLTT_SUB_BG 0x05000400
+#define HW_VBLANK_COUNT_BUF 0x02FFFC3C
+static inline u32 OS_GetVBlankCount(void) { return *(volatile u32 *)HW_VBLANK_COUNT_BUF; }
+
+extern u8 func_020355C4(void);
+extern void *func_0201747C(struct Mon *p, u32 heap);
+extern void *func_020056A0(u32,u32,u32);
+extern void func_02082A60(const void *,void *,u32);
+extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern void func_0203D34C(u32,u32);
+extern void func_02030EAC(struct Tcb *n);
+extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
+extern void func_020355D8(u8);
+extern u32 func_020307B0(void *p);
+extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *);
+extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
+extern u32 func_020221A4(void);
+extern u32 func_0204B98C(struct ClactObj *a);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void func_0204A600(void);
+extern void MCSS_Main(char *);
+extern void func_02047964(void);
+extern void func_020479D8(void);
+extern void MCSS_Draw(struct McssSys *sys);
+extern void func_02047970(void);
+extern void func_02041EE4(u32,u32,u32);
+extern void func_0204B878(struct ClactObj *p, u16 value);
+extern void func_0204A648(void);
+extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
+extern void func_0202223C(u32,u32);
+extern u32 WIPE_ResetWndMask(void *);
+extern void func_020433E0(const struct DispVram *);
+extern void func_0203F8F4(u16),func_02045088(u16);
+extern void func_0203FC28(struct DispConfig *);
+extern void func_02040588(unsigned int which, unsigned char enable);
+extern void func_0207D63C(u32 *,u32,u32,u32,u32);
+extern void func_0204A48C(const struct ClactSysSetup *cfg, u32 arg, u32 heapId);
+extern struct ClactUnit *func_0204B100(int count, u8 flag, u32 heapId);
+extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *bank);
+extern void func_020434DC(u32,u32),func_02043598(u32,u32);
+extern void func_02046440(u32,u32,u32,u32,u16,u16,void (*)(void));
+extern u32 *func_02048A24(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,struct Vec3 *,struct Vec3 *,u16);
+extern void func_02048AD0(struct Camera *l);
+extern void func_0207DCF8(const void *);
+extern void func_02046BE0(u32,u32),func_0204044C(u32);
+extern void *MCSS_Init(u32,void *);
+extern void MCSS_SetTextureTransAdrs(void *,u32);
+extern void MCSS_SetGlobalScale(char *p, unsigned int v);
+extern void func_02061C30(void);
+extern void MCSS_Exit(u8 *a0);
+extern unsigned int func_02048AC4(void *ptr);
+extern void func_02046788(void);
+extern u32 func_0204B1CC(struct ClactUnit *bank);
+extern void func_0204A5AC(void);
+extern void func_020403F4(unsigned int);
+extern void func_020450C8(void);
+extern void func_0203F9B4(void);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void func_020414AC(u32);
+extern void func_020409B4(u32);
+extern void *func_020490F4(u32 id, u32 heap);
+extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
+extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
+extern int func_0204A6C8(void *,u32,u32,u32,u16);
+extern int func_0204AF28(void *,u32,u32,u32);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_02049238(void *);
+extern u32 func_020275E4(void);
+extern u32 func_020275E8(void);
+extern u32 func_02027624(void);
+extern u32 func_02027628(void);
+extern u32 func_0202762C(void);
+extern u32 func_020275FC(u32);
+extern u32 func_02027600(u32);
+extern u32 func_020275F8(u32);
+extern u32 func_02027618(void);
+extern u32 func_0202761C(u32);
+extern u32 func_02027620(u32);
+extern int func_02027768(void);
+extern int func_0202776C(int);
+extern int func_02027770(int);
+extern int func_02027774(int);
+extern u32 func_020276B4(void);
+extern u32 func_020276B8(void);
+extern u32 func_020276BC(u32);
+extern u32 func_020276C0(u32);
+extern int func_02027720(int);
+extern int func_0202772C(int);
+extern int func_02027738(int,int);
+extern int func_02027740(int,int);
+extern int func_02027748(void);
+extern int func_0202774C(int);
+extern int func_02027750(int);
+extern int func_02027754(int);
+extern void func_0204ADA4(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
+extern struct ClactObj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
+extern void func_0204B92C(struct ClactObj *p, u32 v);
+extern void func_0204B3DC(struct ClactObj *p, u32 v);
+extern void func_0204B3B4(struct ClactObj *p);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_02049B40(u32,u32,u32,u32,u32,u16);
+extern void *func_0201C450(u16,u32);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern unsigned int func_02045C04(struct MsgBank *rec);
+extern u32 func_0201D83C(void *ptr);
+extern int func_02035C08(const void *key);
+extern u32 func_0201C6B4(const struct PrintSys *p);
+extern unsigned int func_0203633C(void);
+extern u32 func_020362DC(void);
+extern void func_020061E4(u32);
+extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern void POKE_TOOL_ClearPartyParam(struct PokePara *p);
+extern u32 func_02017E88(void *p, int id, void *v);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void PM_VOICE_StopSlot(u32);
+extern void func_02006CAC(void **);
+extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
+extern void *func_020185F0(void *);
+extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKE_TOOL_GetBoxParamSize(void);
+extern u32 POKE_TOOL_DecodePartyParam(struct PokePara *p);
+extern u32 POKE_TOOL_EncodePartyParam(struct PokePara *p, u32 f);
+extern u32 func_02017DBC(struct PokePara *p);
+extern u32 func_02017DE4(struct PokePara *p, u32 f);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct StrBuf *vec);
+extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void *func_02045770(struct BmpWin *p);
+extern struct StrBuf *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern void func_0203064C(unsigned int,unsigned int,unsigned int);
+extern void *func_0203159C(struct HeapSys *obj, u32 size, u32 heap);
+extern void func_02082BCC(void *,int,int);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 func_0203630C(void);
+extern struct Party *func_0201A920(u32 heap);
+extern void func_0201A954(struct Party *p, s32 capacity);
+extern void *func_020173F0(u16,u16,u32,u32,u32);
+extern void func_02017E40(void *p, u32 id, u32 v);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern void POKE_TOOL_ClearBoxParam(struct PokePara *p);
+extern u32 func_02005728(u32 range);
+extern void POKE_TOOL_SetupBoxParam(void *obj,u16 species,u16 level,u64 id);
+extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
+extern void *GAME_DATA_Create(u16);
+extern void GAME_DATA_Delete(u8 *p);
+extern void func_020315D4(struct SaveData *p);
+extern void func_020306F0(unsigned int heap);
+int P_STATUS_InitWork(PStatusWork *wk);
+int P_STATUS_ExitWork(PStatusWork *wk);
+int P_STATUS_MainSeq(PStatusWork *wk);
+void P_STATUS_VBlankTask(void);
+void P_STATUS_InitGraphics(PStatusWork *wk);
+void P_STATUS_ExitGraphics(PStatusWork *wk);
+void P_STATUS_InitBgLayer(struct BgSetup *cfg,u32 bg,u32 mode);
+void P_STATUS_LoadObjResource(PStatusWork *wk);
+void P_STATUS_DeleteObjResource(PStatusWork *wk);
+void P_STATUS_CreateButtonActors(PStatusWork *wk);
+void P_STATUS_DeleteButtonActors(PStatusWork *wk);
+void P_STATUS_InitMessage(PStatusWork *wk);
+void P_STATUS_ExitMessage(PStatusWork *wk);
+void P_STATUS_UpdateTouch(PStatusWork *wk);
+void P_STATUS_UpdateInput(PStatusWork *wk);
+int P_STATUS_CheckKey(PStatusWork *wk);
+void P_STATUS_CheckTouch(PStatusWork *wk);
+s32 P_STATUS_UpdatePaletteAnime(PStatusWork *wk);
+void P_STATUS_SetInputEnable(PStatusWork *wk,int enable);
+int P_STATUS_ChangePokemon(PStatusWork *wk,int direction);
+int P_STATUS_SearchPokemon(PStatusWork *wk,int direction,unsigned short *out);
+void P_STATUS_LoadPokemonState(PStatusWork *wk);
+void P_STATUS_RequestRefresh(PStatusWork *wk);
+void P_STATUS_UpdateRefresh(PStatusWork *wk);
+void *P_STATUS_GetPokePara(PStatusWork *wk);
+int P_STATUS_GetPokeParaSource(PStatusWork *wk);
+void P_STATUS_SetFastMode(PStatusWork *wk,int fastMode);
+void P_STATUS_PrintMsg(PStatusWork *wk,int bmpWin,int msgId,int x,unsigned short y,unsigned short color);
+void P_STATUS_PrintMsgToWin(PStatusWork *wk,unsigned int bmpWinData,int msgId,int x,unsigned short y,unsigned short color);
+void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color);
+void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk,unsigned int bmpWinData,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color);
+void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color);
+void P_STATUS_PrintWordSetMsgRightToWin(PStatusWork *wk,unsigned int bmpWinData,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color);
+int P_STATUS_CanUseButtons(PStatusWork *wk);
+int P_STATUS_HasRibbon(PStatusWork *wk, void *pp);
+int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk);
+int P_STATUS_ProcExit(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk);
+int P_STATUS_ProcMain(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk);
+PStaSubWork *P_STA_SUB_Create(PStatusWork *wk);
+void P_STA_SUB_Delete(PStatusWork *wk, PStaSubWork *pageWork);
+void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *pageWork);
+void P_STA_SUB_LoadArcGraphics(PStatusWork *wk, PStaSubWork *pageWork, void *arc);
+void P_STA_SUB_Exit(PStatusWork *wk, PStaSubWork *pageWork);
+void P_STA_SUB_CreateObjects(PStatusWork *wk, PStaSubWork *pageWork);
+void P_STA_SUB_DeleteObjects(PStatusWork *wk, PStaSubWork *pageWork);
+void P_STA_SUB_InitWindows(PStatusWork *wk, PStaSubWork *pageWork);
+void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *pageWork);
+void P_STA_SUB_FreeWindows(PStatusWork *wk, PStaSubWork *pageWork);
+void P_STA_SUB_HideSprite(PStatusWork *wk, PStaSubWork *pageWork);
+PStaInfoWork *P_STA_INFO_AllocWork(PStatusWork *wk);
+void P_STA_INFO_FreeWork(PStatusWork *wk, PStaInfoWork *pageWork);
+void P_STA_INFO_Main(PStatusWork *wk, PStaInfoWork *pageWork);
+void P_STA_INFO_LoadResources(PStatusWork *wk, PStaInfoWork *pageWork, void *arc);
+void P_STA_INFO_FreeResources(PStatusWork *wk, PStaInfoWork *pageWork);
+void P_STA_INFO_Setup(PStatusWork *wk, PStaInfoWork *pageWork);
+void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *pageWork);
+void P_STA_INFO_DeleteWindows(PStatusWork *wk, PStaInfoWork *pageWork);
+void P_STA_INFO_HidePage(PStatusWork *wk, PStaInfoWork *pageWork);
+PStaRibbonWork *P_STA_RIBBON_Create(PStatusWork *wk);
+void P_STA_RIBBON_Delete(PStatusWork *wk, PStaRibbonWork *pageWork);
+void P_STA_RIBBON_Main(PStatusWork *wk, PStaRibbonWork *pageWork);
+void P_STA_RIBBON_LoadArcGraphics(PStatusWork *wk, PStaRibbonWork *pageWork, void *arc);
+void P_STA_RIBBON_FreeArcGraphics(PStatusWork *wk, PStaRibbonWork *pageWork);
+void P_STA_RIBBON_CreateObjects(PStatusWork *wk, PStaRibbonWork *pageWork);
+void P_STA_RIBBON_DeleteObjects(PStatusWork *wk, PStaRibbonWork *pageWork);
+void P_STA_RIBBON_Init(PStatusWork *wk, PStaRibbonWork *pageWork);
+void P_STA_RIBBON_Show(PStatusWork *wk, PStaRibbonWork *pageWork);
+void P_STA_RIBBON_Deactivate(PStatusWork *wk, PStaRibbonWork *pageWork);
+void P_STA_RIBBON_Hide(PStatusWork *wk, PStaRibbonWork *pageWork);
+void P_STA_RIBBON_CollectOwned(PStatusWork *wk, PStaRibbonWork *pageWork);
+void P_STA_RIBBON_Noop(PStatusWork *wk, PStaRibbonWork *pageWork);
+PStaSkillWork *P_STA_SKILL_Create(PStatusWork *wk);
+void P_STA_SKILL_Delete(PStatusWork *wk, PStaSkillWork *pageWork);
+void P_STA_SKILL_Main(PStatusWork *wk, PStaSkillWork *pageWork);
+void P_STA_SKILL_LoadArcGraphics(PStatusWork *wk, PStaSkillWork *pageWork, void *arc);
+void P_STA_SKILL_Exit(PStatusWork *wk, PStaSkillWork *pageWork);
+void P_STA_SKILL_CreateObjects(PStatusWork *wk, PStaSkillWork *pageWork);
+void P_STA_SKILL_DeleteObjects(PStatusWork *wk, PStaSkillWork *pageWork);
+void P_STA_SKILL_InitStatsPage(PStatusWork *wk, PStaSkillWork *pageWork);
+void P_STA_SKILL_ShowStatsPage(PStatusWork *wk, PStaSkillWork *pageWork);
+void P_STA_SKILL_FreeStatsPage(PStatusWork *wk, PStaSkillWork *pageWork);
+void P_STA_SKILL_HideStatsPage(PStatusWork *wk, PStaSkillWork *pageWork);
+void P_STA_SKILL_InitMovesPage(PStatusWork *wk, PStaSkillWork *pageWork);
+void P_STA_SKILL_ShowMovesPage(PStatusWork *wk, PStaSkillWork *pageWork);
+void P_STA_SKILL_FreeMovesPage(PStatusWork *wk, PStaSkillWork *pageWork);
+void P_STA_SKILL_HideMovesPage(PStatusWork *wk, PStaSkillWork *pageWork);
+u32 P_STA_RIBBON_GetRibbonInfo(u32 ribbonNo, u32 field);
+extern const struct DispVram _VramBankConfig;
+extern struct DispConfig _DispConfig;
+extern struct BgSetup _BgSetups[7];
+extern struct ClactSysSetup ClactSysDefaultSetup;
+extern struct Vec3 _CameraVecs[3];
+extern u16 _EdgeColorTable[8];
+extern struct ButtonBytes _ButtonPlacement[3];
+extern const struct TpHitTable _TouchHitRects;
+extern const struct CursorColors _CursorColorsFrom;
+extern const struct CursorColors _CursorColorsTo;
+extern const s16 FX_SinCosTable_[];
+extern const char _SourceFileName[];
+extern const DebugMoves _DebugMovesParty;
+extern const DebugMoves _DebugMovesArray;
+
+
+
+
+
+
+
+
+
+
+
+
+int P_STATUS_InitWork(PStatusWork *wk)
+{
+    u8 i;
+    wk->pos=wk->param->pos;
+    wk->dispPos=255;
+    wk->vblankCount=0;
+    wk->lastTick=OS_GetVBlankCount();
+    wk->dispPage=4;
+    wk->isInputEnabled=1;
+    wk->prevButtonAnim=0;
+    wk->nextButtonAnim=0;
+    wk->retCode=0;
+    wk->refreshReq=1;
+    wk->mosaicSeq=0;
+    wk->mosaicLevel=0;
+    wk->seq=0;
+    wk->pushedButton = (void *)0;
+    wk->playCryReq=0;
+    wk->restoreModeAll=0;
+    wk->inputType=func_020355C4();
+    if (wk->param->mode==3) {
+        wk->param->mode=2;
+        wk->restoreModeAll=1;
+    }
+    if (wk->param->ppt==2) wk->tempPP=func_0201747C(P_STATUS_GetPokePara(wk),wk->heapId);
+    else wk->tempPP=0;
+    P_STATUS_InitGraphics(wk);
+    wk->subWork=P_STA_SUB_Create(wk);
+    wk->infoWork=P_STA_INFO_AllocWork(wk);
+    wk->skillWork=P_STA_SKILL_Create(wk);
+    wk->ribbonWork=P_STA_RIBBON_Create(wk);
+    P_STATUS_LoadObjResource(wk);
+    P_STATUS_InitMessage(wk);
+    P_STATUS_CreateButtonActors(wk);
+    wk->vblankTask=func_020056A0((u32)P_STATUS_VBlankTask,(u32)wk,8);
+    wk->blinkAngle=0;
+    func_02082A60((void *)(HW_PLTT_MAIN_OBJ + 0x6c),wk->savedCursorPal,12);
+    func_02082A60((void *)(HW_PLTT_MAIN_OBJ + 0x160),wk->glowPalBase,64);
+    func_02082A60((void *)(HW_PLTT_MAIN_OBJ + 0x1a0),wk->markPal,32);
+    func_02082A60((void *)(HW_PLTT_MAIN_OBJ + 0x1a0),wk->markPalBase,32);
+    P_STATUS_LoadPokemonState(wk);
+    if (wk->param->mode==2) {
+        wk->page=3;
+        P_STA_SUB_InitWindows(wk,wk->subWork);
+        P_STA_SKILL_InitMovesPage(wk,wk->skillWork);
+        P_STA_RIBBON_CollectOwned(wk,wk->ribbonWork);
+    } else {
+        wk->page=wk->param->page;
+        if (wk->page<3) {
+            for(i=0;i<3;i++) wk->pageToggle[i]=GAME_DATA_CheckSaveFlag((int)(wk->param->config),i+7);
+        }
+        P_STA_SUB_InitWindows(wk,wk->subWork);
+        P_STA_RIBBON_CollectOwned(wk,wk->ribbonWork);
+        switch (wk->page) {
+        case 0: P_STA_INFO_Setup(wk,wk->infoWork); break;
+        case 1: P_STA_SKILL_InitStatsPage(wk,wk->skillWork); break;
+        case 2: P_STA_RIBBON_Init(wk,wk->ribbonWork); break;
+        default: wk->page=0;
+            P_STA_INFO_Setup(wk,wk->infoWork); break;
+        }
+    }
+    func_0203D34C(1,wk->heapId);
+    return 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * extent: Two zero alignment bytes at 0x021D44C6.
+ */
+int P_STATUS_ExitWork(PStatusWork *wk)
+{
+    u8 i;
+    func_02030EAC(wk->vblankTask);
+    wk->param->pos=wk->pos;
+    P_STATUS_DeleteButtonActors(wk);
+    P_STATUS_ExitMessage(wk);
+    P_STATUS_DeleteObjResource(wk);
+    P_STA_RIBBON_Noop(wk,wk->ribbonWork);
+    P_STA_RIBBON_Delete(wk,wk->ribbonWork);
+    P_STA_SKILL_Delete(wk,wk->skillWork);
+    P_STA_INFO_FreeWork(wk,wk->infoWork);
+    P_STA_SUB_Delete(wk,wk->subWork);
+    P_STATUS_ExitGraphics(wk);
+    if(wk->page<3){
+        for(i=0;i<3;i++) GAME_DATA_SetSaveFlag(wk->param->config,i+7,wk->pageToggle[i]);
+    }
+    if(wk->restoreModeAll==1){
+        wk->param->mode=3;
+        wk->restoreModeAll=0;
+    }
+    func_020355D8(wk->inputType);
+    if(wk->tempPP) func_020307B0(wk->tempPP);
+    return 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * interface: 02035CB8 writes fields only on success; their previous values
+ *   remain initialized on failure. 021D5BAC guards a null output pointer.
+ *   Tick difference is unsigned full-word arithmetic then byte truncation.
+ *   Follower 021D46E4 is the complete eight-byte no-argument tail stub
+ *   to owner 0204A648 (void(void)), with no return consumed.
+ */
+int P_STATUS_MainSeq(PStatusWork *wk)
+{
+    u32 tick;
+    wk->prevTpX=wk->tpX;
+    wk->prevTpY=wk->tpY;
+    TOUCHPANEL_GetPointCont(&wk->tpX,&wk->tpY);
+    switch (wk->seq) {
+    case 0:
+        if (wk->refreshReq==1) P_STATUS_UpdateRefresh(wk);
+        else {
+            func_0202208C(0,1,1,0,6,1,wk->heapId);
+            wk->seq=1;
+        }
+        break;
+    case 1:
+        if (func_020221A4()==1) wk->seq=4;
+        break;
+    case 2:
+        if (wk->pushedButton==0 || func_0204B98C(wk->pushedButton)==0 || wk->param->forceExit==1) {
+            func_0202208C(0,0,0,0,6,1,wk->heapId);
+            wk->seq=3;
+        }
+        break;
+    case 3:
+        if (func_020221A4()==1) return wk->retCode;
+        break;
+    case 4:
+        P_STATUS_UpdateTouch(wk);
+        if (wk->refreshReq==1) P_STATUS_UpdateRefresh(wk);
+        else {
+            P_STA_SUB_Main(wk,wk->subWork);
+            if (wk->param->forceExit==1) {
+                wk->retCode=1;
+                wk->seq=2;
+            }
+            P_STATUS_UpdateInput(wk);
+            if (wk->refreshReq==0) {
+                switch (wk->dispPage) {
+                case 0: P_STA_INFO_Main(wk,wk->infoWork); break;
+                case 1:
+                case 3: P_STA_SKILL_Main(wk,wk->skillWork); break;
+                case 2: P_STA_RIBBON_Main(wk,wk->ribbonWork); break;
+                }
+            }
+        }
+        break;
+    }
+    func_0201C4E4(wk->printQue);
+    func_0204A600();
+    MCSS_Main((char *)wk->mcssSys);
+    func_02047964();
+    func_020479D8();
+    MCSS_Draw(wk->mcssSys);
+    func_02047970();
+    tick=OS_GetVBlankCount();
+    wk->vblankCount+=(u8)(tick-wk->lastTick);
+    wk->lastTick=tick;
+    while (wk->vblankCount>=4) {
+        func_02041EE4(3,1,1);
+        func_02041EE4(3,4,1);
+        func_02041EE4(7,1,1);
+        func_02041EE4(7,4,1);
+        wk->vblankCount-=4;
+    }
+    if (wk->prevButtonAnim==1 && func_0204B98C(wk->buttonActor[4])==0) {
+        if (P_STATUS_SearchPokemon(wk,0,0)==1) func_0204B878(wk->buttonActor[4],3);
+        else func_0204B878(wk->buttonActor[4],17);
+        wk->prevButtonAnim=0;
+    }
+    if (wk->nextButtonAnim==1 && func_0204B98C(wk->buttonActor[5])==0) {
+        if (P_STATUS_SearchPokemon(wk,1,0)==1) func_0204B878(wk->buttonActor[5],2);
+        else func_0204B878(wk->buttonActor[5],16);
+        wk->nextButtonAnim=0;
+    }
+    P_STATUS_UpdatePaletteAnime(wk);
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_VBlankTask(void) { func_0204A648(); }
+
+
+
+
+
+
+
+
+
+
+
+
+static inline void GX_SetVisiblePlane(int plane)
+{ *(volatile u32 *)HW_REG_DISPCNT=(u32)((*(volatile u32 *)HW_REG_DISPCNT & ~0x1f00) | (plane<<8)); }
+
+
+
+
+
+
+
+
+
+
+
+
+static inline void GXS_SetVisiblePlane(int plane)
+{ *(volatile u32 *)HW_REG_DISPCNT_SUB=(u32)((*(volatile u32 *)HW_REG_DISPCNT_SUB & ~0x1f00) | (plane<<8)); }
+
+
+
+
+
+
+
+
+
+
+
+
+static inline void GX_SetDispSelect(GXDispSelect sel)
+{ *(volatile u16 *)HW_REG_POWCNT1=(u16)((*(volatile u16 *)HW_REG_POWCNT1 & ~0x8000) | (sel<<15)); }
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * interface: complete original 020160C0 bytes 41 64 70 47 store r1 at
+ *   r0+0x44 and return. Caller supplies object and full word 0x10000.
+ *   02046440 owner's s16 heap is u16 here: original ldrh zero-extends its
+ *   outgoing stack word. Lower 16-bit callee conversion remains unchanged.
+ *   Config c initializes all 28 bytes before h[0] and consumer reads.
+ * lever: game hardware writes use vendor visible-plane and enum display
+ *   selection inlines; raw compound assignments change constant sharing.
+ * witness: 020160C0 filed as src/matched/arm9/MCSS_SetGlobalScale.c.
+ * volatile: hardware DISPCNT/BLDCNT/POWCNT1/DISP3DCNT registers
+ */
+void P_STATUS_InitGraphics(PStatusWork *wk)
+{
+    struct ClactSysSetup setup;
+    BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();
+    GX_SetVisiblePlane(0);GXS_SetVisiblePlane(0);
+    func_0202223C(0,0);func_0202223C(1,0);
+    WIPE_ResetWndMask(0);WIPE_ResetWndMask((void *)1);
+    *(volatile u16 *)HW_REG_BLDCNT=0;
+    *(volatile u16 *)HW_REG_BLDCNT_SUB=0;
+    GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
+    func_020433E0(&_VramBankConfig);
+    func_0203F8F4(wk->heapId);func_02045088(wk->heapId);
+    func_0203FC28(&_DispConfig);
+    P_STATUS_InitBgLayer(&_BgSetups[6],1,0);P_STATUS_InitBgLayer(&_BgSetups[4],2,0);P_STATUS_InitBgLayer(&_BgSetups[0],3,0);
+    func_02040588(0,1);
+    P_STATUS_InitBgLayer(&_BgSetups[1],4,0);P_STATUS_InitBgLayer(&_BgSetups[2],5,0);P_STATUS_InitBgLayer(&_BgSetups[3],6,0);P_STATUS_InitBgLayer(&_BgSetups[5],7,0);
+    func_0207D63C((u32 *)HW_REG_BLDCNT,4,30,13,16);
+    func_0207D63C((u32 *)HW_REG_BLDCNT_SUB,4,8,13,16);
+    setup=ClactSysDefaultSetup;setup.limits[0]=110;
+    func_0204A48C(&setup,(u32)(&_VramBankConfig),wk->heapId);
+    wk->clunit=func_0204B100(96,0,wk->heapId);
+    CLACT_SetUnitDefaultRenderer(wk->clunit);
+    func_020434DC(16,1);func_02043598(16,1);
+    func_02046440(0,2,0,1,0,wk->heapId,0);
+    wk->camera=func_02048A24(2,0xc0000,0,0,0x100000,0x80000,0x200000,0,&_CameraVecs[0],&_CameraVecs[2],&_CameraVecs[1],wk->heapId);
+    func_02048AD0(wk->camera);
+    func_0207DCF8(_EdgeColorTable);
+    *(volatile u16 *)HW_REG_DISP3DCNT &= ~0x3020;
+    func_02046BE0(0,0);func_0204044C(0);
+    wk->mcssSys=MCSS_Init(2,(void *)wk->heapId);
+    MCSS_SetTextureTransAdrs(wk->mcssSys,0);
+    MCSS_SetGlobalScale(wk->mcssSys,0x10000);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * 2026-10-02 R3: closed by the arm9 witness src/matched/arm9/func_02061C30.c
+ *   (the tail-call stub matches under ../2.0/sp2; see its header).
+ * extent: Two zero padding bytes at 0x021D493E.
+ */
+void P_STATUS_ExitGraphics(PStatusWork *wk)
+{
+    func_02061C30();
+    MCSS_Exit(wk->mcssSys);
+    func_02048AC4(wk->camera);
+    func_02046788();
+    func_0204B1CC(wk->clunit);
+    func_0204A5AC();
+    func_020403F4(5);
+    func_020403F4(6);
+    func_020403F4(7);
+    func_020403F4(3);
+    func_020403F4(2);
+    func_020403F4(1);
+    func_020403F4(0);
+    func_020450C8();
+    func_0203F9B4();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_InitBgLayer(struct BgSetup *cfg,u32 bg,u32 mode)
+{
+    func_0203FCA0(bg,(const struct BgTemplate *)cfg,mode);
+    func_02040588(bg,1);
+    func_020414AC(bg);
+    func_020409B4(bg);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * following: 0x021D4F22 is two bytes of alignment padding before P_STATUS_DeleteObjResource.
+ * lever: the loop store associates (p+i*4)+0x130; the second constructor result after func_02027770/74 is stored at +0x120.
+ * initialization: resource handles come from the original constructors; no uninitialized local or added success assumption. The u8 counter visits 0..16.
+ */
+void P_STATUS_LoadObjResource(PStatusWork *wk)
+{
+    u32 cellArcId, anmArcId;
+    void *statusArc;
+    void *commonArc;
+    u8 i;
+    statusArc=func_020490F4(78,wk->heapId);
+    func_02049B68(statusArc,0,0,0,0,wk->heapId);
+    func_02049658(statusArc,8,2,0,0,0,wk->heapId);
+    func_020498F4(statusArc,70,3,0,0,0,wk->heapId);
+    func_02049B68(statusArc,1,4,0,0,wk->heapId);
+    func_02049658(statusArc,10,6,0,0,0,wk->heapId);
+    func_02049658(statusArc,9,5,0,0,0,wk->heapId);
+    func_020498F4(statusArc,71,7,0,0,0,wk->heapId);
+    func_020498F4(statusArc,65,5,0,0,0,wk->heapId);
+    wk->objRes[PSTATUS_RES_PLTT_START + 0]=func_0204AC18(statusArc,3,0,0,0,4,wk->heapId);
+    wk->objRes[PSTATUS_RES_PLTT_START + 6]=func_0204AC18(statusArc,5,0,0x160,0,2,wk->heapId);
+    wk->objRes[PSTATUS_RES_PLTT_START + 7]=func_0204AC18(statusArc,6,1,0,0,5,wk->heapId);
+    wk->objRes[PSTATUS_RES_PLTT_START + 8]=func_0204AC18(statusArc,4,0,0x1a0,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_PLTT_START + 11]=func_0204AC18(statusArc,2,0,0x1c0,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 0]=func_0204A6C8(statusArc,11,0,0,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 8]=func_0204A6C8(statusArc,15,0,0,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 9]=func_0204A6C8(statusArc,14,0,0,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 12]=func_0204A6C8(statusArc,13,0,0,wk->heapId);
+    wk->objRes[PSTATUS_RES_CELL_START + 0]=func_0204AF28(statusArc,78,129,wk->heapId);
+    wk->objRes[PSTATUS_RES_CELL_START + 7]=func_0204AF28(statusArc,81,132,wk->heapId);
+    wk->objRes[PSTATUS_RES_CELL_START + 8]=func_0204AF28(statusArc,80,131,wk->heapId);
+    wk->objRes[PSTATUS_RES_CELL_START + 11]=func_0204AF28(statusArc,82,133,wk->heapId);
+    wk->objRes[PSTATUS_RES_CELL_START + 12]=func_0204AF28(statusArc,79,130,wk->heapId);
+    commonArc=func_020490F4(func_020275E4(),wk->heapId);
+    func_02049B68(commonArc,func_02027624(),0,0x120,32,wk->heapId);
+    func_02049658(commonArc,func_02027628(),1,0,0,0,wk->heapId);
+    func_020498F4(commonArc,func_0202762C(),1,0,0,0,wk->heapId);
+    func_020413B0(1,0,21,32,3,9);
+    func_02049B68(commonArc,0,4,0x1a0,32,wk->heapId);
+    wk->objRes[PSTATUS_RES_PLTT_START + 5]=func_0204AC18(commonArc,1,1,0x100,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 7]=func_0204A6C8(commonArc,2,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CELL_START + 6]=func_0204AF28(commonArc,5,8,wk->heapId);
+    wk->objRes[PSTATUS_RES_PLTT_START + 3]=func_0204AC18(commonArc,func_020275E8(),0,0x100,0,3,wk->heapId);
+    wk->objRes[PSTATUS_RES_PLTT_START + 4]=func_0204AC18(commonArc,func_020275E8(),1,0xa0,0,3,wk->heapId);
+    cellArcId=func_020275FC(2); anmArcId=func_02027600(2);
+    wk->objRes[PSTATUS_RES_CELL_START + 4]=func_0204AF28(commonArc,cellArcId,anmArcId,wk->heapId);
+    cellArcId=func_020275FC(0); anmArcId=func_02027600(0);
+    wk->objRes[PSTATUS_RES_CELL_START + 5]=func_0204AF28(commonArc,cellArcId,anmArcId,wk->heapId);
+    for(i=0;i<PSTATUS_TYPE_MAX;i++) wk->typeChrRes[i]=func_0204A6C8(commonArc,func_020275F8(i),0,0,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 4]=func_0204A6C8(commonArc,56,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 5]=func_0204A6C8(commonArc,57,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 6]=func_0204A6C8(commonArc,58,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 1]=func_0204A6C8(commonArc,func_02027618(),0,0,wk->heapId);
+    cellArcId=func_0202761C(2); anmArcId=func_02027620(2);
+    wk->objRes[PSTATUS_RES_CELL_START + 1]=func_0204AF28(commonArc,cellArcId,anmArcId,wk->heapId);
+    wk->objRes[PSTATUS_RES_PLTT_START + 9]=func_0204AC18(commonArc,func_02027768(),0,0xa0,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 10]=func_0204A6C8(commonArc,func_0202776C(2),0,0,wk->heapId);
+    cellArcId=func_02027770(2); anmArcId=func_02027774(2);
+    wk->objRes[PSTATUS_RES_CELL_START + 9]=func_0204AF28(commonArc,cellArcId,anmArcId,wk->heapId);
+    wk->objRes[PSTATUS_RES_PLTT_START + 2]=func_0204AC18(commonArc,func_02027748(),0,0xc0,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 3]=func_0204A6C8(commonArc,func_0202774C(2),0,0,wk->heapId);
+    cellArcId=func_02027750(2); anmArcId=func_02027754(2);
+    wk->objRes[PSTATUS_RES_CELL_START + 3]=func_0204AF28(commonArc,cellArcId,anmArcId,wk->heapId);
+    wk->objRes[PSTATUS_RES_PLTT_START + 10]=func_0204AC18(commonArc,func_020276B4(),0,0x80,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 11]=func_0204A6C8(commonArc,func_020276B8(),0,0,wk->heapId);
+    cellArcId=func_020276BC(2); anmArcId=func_020276C0(2);
+    wk->objRes[PSTATUS_RES_CELL_START + 10]=func_0204AF28(commonArc,cellArcId,anmArcId,wk->heapId);
+    wk->objRes[PSTATUS_RES_PLTT_START + 1]=func_0204AC18(commonArc,func_02027720(1),0,0xe0,0,1,wk->heapId);
+    wk->objRes[PSTATUS_RES_CHR_START + 2]=func_0204A6C8(commonArc,func_0202772C(1),0,0,wk->heapId);
+    cellArcId=func_02027738(1,2); anmArcId=func_02027740(1,2);
+    wk->objRes[PSTATUS_RES_CELL_START + 2]=func_0204AF28(commonArc,cellArcId,anmArcId,wk->heapId);
+    func_02049238(commonArc);
+    P_STA_SUB_LoadArcGraphics(wk,wk->subWork,statusArc);
+    P_STA_INFO_LoadResources(wk,wk->infoWork,statusArc);
+    P_STA_SKILL_LoadArcGraphics(wk,wk->skillWork,statusArc);
+    P_STA_RIBBON_LoadArcGraphics(wk,wk->ribbonWork,statusArc);
+    func_02049238(statusArc);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * extent: Two trailing zero alignment bytes at 0x021D4FBA.
+ */
+void P_STATUS_DeleteObjResource(PStatusWork *wk)
+{
+    u8 i;
+    P_STA_RIBBON_FreeArcGraphics(wk,wk->ribbonWork);
+    P_STA_SKILL_Exit(wk,wk->skillWork);
+    P_STA_INFO_FreeResources(wk,wk->infoWork);
+    P_STA_SUB_Exit(wk,wk->subWork);
+    for(i=PSTATUS_RES_PLTT_START;i<=PSTATUS_RES_PLTT_END;i++) func_0204ADA4(wk->objRes[i]);
+    for(i=PSTATUS_RES_CHR_START;i<=PSTATUS_RES_CHR_END;i++) func_0204A8D4(wk->objRes[i]);
+    for(i=PSTATUS_RES_CELL_START;i<=PSTATUS_RES_CELL_END;i++) func_0204AFD8(wk->objRes[i]);
+    for(i=0;i<PSTATUS_TYPE_MAX;i++) func_0204A8D4(wk->typeChrRes[i]);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * lever: real far bank/actor struct fields retain four offset spills.
+ * interface: owner 0204B294 legacy void prototype tail-forwards allocator
+ *   0204CFDC, whose full body returns an object pointer; caller consumes r0.
+ *   All seven arguments preserve owner's full-word ids and u16 stack args.
+ *   Descriptor x/y/z/kind/flag all initialize before any consumer call.
+ *   Byte tables are consecutive records at witnessed base 021DBFA0.
+ */
+void P_STATUS_CreateButtonActors(PStatusWork *wk)
+{
+    struct ButtonBytes anmSeq=_ButtonPlacement[2];
+    struct ButtonBytes posX=_ButtonPlacement[0];
+    StaOamActorPos init;
+    u8 i,j;
+    u32 chrRes,cellRes;
+    init.drawPriority=10;init.bgPriority=0;
+    for(i=0;i<8;i++){
+        if(i<=2){chrRes=wk->objRes[PSTATUS_RES_CHR_START + 0];cellRes=wk->objRes[PSTATUS_RES_CELL_START + 0];}
+        else{chrRes=wk->objRes[PSTATUS_RES_CHR_START + 1];cellRes=wk->objRes[PSTATUS_RES_CELL_START + 1];}
+        init.x=posX.v[i];init.y=(i==3)?172:168;init.animSeq=anmSeq.v[i];
+        wk->buttonActor[i]=func_0204B294(wk->clunit,chrRes,wk->objRes[PSTATUS_RES_PLTT_START + 0],cellRes,&init,0,wk->heapId);
+        func_0204B92C(wk->buttonActor[i],1);
+        func_0204B3DC(wk->buttonActor[i],1);
+    }
+    init.x=0;init.y=0;init.animSeq=0;
+    wk->typeIconActor[0]=func_0204B294(wk->clunit,wk->typeChrRes[0],wk->objRes[PSTATUS_RES_PLTT_START + 3],wk->objRes[PSTATUS_RES_CELL_START + 4],&init,0,wk->heapId);
+    wk->typeIconActor[1]=func_0204B294(wk->clunit,wk->typeChrRes[0],wk->objRes[PSTATUS_RES_PLTT_START + 3],wk->objRes[PSTATUS_RES_CELL_START + 4],&init,0,wk->heapId);
+    for(j=0;j<2;j++)func_0204B3DC(wk->typeIconActor[j],0);
+    if(wk->param->mode==2)for(i=0;i<8;i++)if(i!=7)func_0204B3DC(wk->buttonActor[i],0);
+    if(P_STATUS_CanUseButtons(wk)==0){func_0204B3DC(wk->buttonActor[6],0);func_0204B3DC(wk->buttonActor[3],0);}
+    P_STA_SUB_CreateObjects(wk,wk->subWork);
+    P_STA_RIBBON_CreateObjects(wk,wk->ribbonWork);
+    P_STA_SKILL_CreateObjects(wk,wk->skillWork);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_DeleteButtonActors(PStatusWork *wk)
+{
+    u8 i;
+    P_STA_RIBBON_DeleteObjects(wk,wk->ribbonWork);
+    P_STA_SKILL_DeleteObjects(wk,wk->skillWork);
+    P_STA_SUB_DeleteObjects(wk,wk->subWork);
+    for (i=0;i<8;i++) func_0204B3B4(wk->buttonActor[i]);
+    for (i=0;i<2;i++) func_0204B3B4(wk->typeIconActor[i]);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_InitMessage(PStatusWork *wk)
+{
+    wk->font=func_0201D7EC(23,0,0,0,wk->heapId);
+    wk->msgData=func_02045B38(0,2,158,wk->heapId);
+    func_02049B40(23,5,0,448,32,wk->heapId);
+    func_02049B40(23,5,4,448,32,wk->heapId);
+    {
+        enum { COLOR=0x4e59 } color=COLOR;
+        enum { BASE=(HW_PLTT_SUB_BG + 0x1c0) } base=BASE;
+        ((TextPalette *)base)->fontColor=color;
+        ((TextPalette *)base)->shadowColor=0x6a52;
+    }
+    wk->printQue=func_0201C450(4096,wk->heapId);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_ExitMessage(PStatusWork *wk)
+{
+    func_0201C6EC(wk->printQue);
+    func_0201C4C0(wk->printQue);
+    func_02045C04(wk->msgData);
+    func_0201D83C(wk->font);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_UpdateTouch(PStatusWork *wk)
+{
+    struct TpHitTable hitRects = _TouchHitRects;
+    wk->tpHit = func_02035C08(&hitRects);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_UpdateInput(PStatusWork *wk)
+{
+    if (wk->isInputEnabled == 1 && func_0201C6B4(wk->printQue) == 1 && P_STATUS_CheckKey(wk) == 0) {
+        P_STATUS_CheckTouch(wk);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int P_STATUS_CheckKey(PStatusWork *wk)
+{
+    int lastPage;
+    if (func_0203633C() & 0x80) {
+        if (P_STATUS_ChangePokemon(wk,1)==1) {
+            P_STATUS_RequestRefresh(wk);
+            func_0204B878(wk->buttonActor[4],3);
+            func_0204B878(wk->buttonActor[5],10);
+            wk->prevButtonAnim=0;
+            wk->nextButtonAnim=1;
+            func_020061E4(1636);
+            wk->inputType=0;
+            return 1;
+        }
+    } else if (func_0203633C() & 0x40) {
+        if (P_STATUS_ChangePokemon(wk,0)==1) {
+            P_STATUS_RequestRefresh(wk);
+            func_0204B878(wk->buttonActor[4],11);
+            func_0204B878(wk->buttonActor[5],2);
+            wk->prevButtonAnim=1;
+            wk->nextButtonAnim=0;
+            func_020061E4(1636);
+            wk->inputType=0;
+            return 1;
+        }
+    } else if (func_0203633C() & 0x10) {
+        lastPage=2;
+        if (wk->hasRibbon==0) lastPage=1;
+        if (wk->page<lastPage && wk->isEgg==0) {
+            wk->page++;
+            P_STATUS_RequestRefresh(wk);
+            func_020061E4(1637);
+            wk->inputType=0;
+            return 1;
+        }
+    } else if (func_0203633C() & 0x20) {
+        if (wk->page>0 && wk->isEgg==0) {
+            wk->page--;
+            P_STATUS_RequestRefresh(wk);
+            func_020061E4(1637);
+            wk->inputType=0;
+            return 1;
+        }
+    } else if (func_020362DC() & 2) {
+        wk->retCode=1;
+        wk->param->retSel=1;
+        wk->seq=2;
+        func_0204B878(wk->buttonActor[7],9);
+        wk->pushedButton=wk->buttonActor[7];
+        func_020061E4(1361);
+        wk->inputType=0;
+        return 1;
+    } else if ((func_020362DC() & 0x400) && P_STATUS_CanUseButtons(wk)==1) {
+        wk->retCode=2;
+        wk->param->retSel=2;
+        wk->seq=2;
+        func_0204B878(wk->buttonActor[6],8);
+        wk->pushedButton=wk->buttonActor[6];
+        func_020061E4(1366);
+        wk->inputType=0;
+        return 1;
+    } else if ((func_020362DC() & 0x800) && P_STATUS_CanUseButtons(wk)==1) {
+        if (wk->page<3) {
+            if (wk->pageToggle[wk->page]==1) {
+                wk->pageToggle[wk->page]=0;
+                func_0204B878(wk->buttonActor[3],6);
+            } else {
+                wk->pageToggle[wk->page]=1;
+                func_0204B878(wk->buttonActor[3],7);
+            }
+            func_020061E4(1606);
+            wk->inputType=0;
+        }
+        return 1;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * arithmetic: signed p+58 guard accepts negatives; scaled address uses
+ *   unsigned 32-bit multiply/add for the original wrapping lsl/add sequence.
+ */
+void P_STATUS_CheckTouch(PStatusWork *wk)
+{
+    switch (wk->tpHit) {
+    case 0:
+        if (wk->page!=0) {
+            wk->page=0;
+            P_STATUS_RequestRefresh(wk);
+            func_020061E4(1637);
+            wk->inputType=1;
+        }
+        break;
+    case 1:
+        if (wk->page!=1 && wk->isEgg==0) {
+            wk->page=1;
+            P_STATUS_RequestRefresh(wk);
+            func_020061E4(1637);
+            wk->inputType=1;
+        }
+        break;
+    case 2:
+        if (wk->page!=2 && wk->isEgg==0 && wk->hasRibbon==1) {
+            wk->page=2;
+            P_STATUS_RequestRefresh(wk);
+            func_020061E4(1637);
+            wk->inputType=1;
+        }
+        break;
+    case 3:
+        if (wk->page<3 && P_STATUS_CanUseButtons(wk)==1) {
+            if (wk->pageToggle[wk->page]==1) {
+                wk->pageToggle[wk->page]=0;
+                func_0204B878(wk->buttonActor[3],6);
+            } else {
+                wk->pageToggle[wk->page]=1;
+                func_0204B878(wk->buttonActor[3],7);
+            }
+            func_020061E4(1606);
+            wk->inputType=1;
+        }
+        break;
+    case 4:
+        if (P_STATUS_ChangePokemon(wk,0)==1) {
+            P_STATUS_RequestRefresh(wk);
+            func_0204B878(wk->buttonActor[4],11);
+            func_0204B878(wk->buttonActor[5],2);
+            wk->prevButtonAnim=1;
+            wk->nextButtonAnim=0;
+            func_020061E4(1636);
+            wk->inputType=1;
+        }
+        break;
+    case 5:
+        if (P_STATUS_ChangePokemon(wk,1)==1) {
+            P_STATUS_RequestRefresh(wk);
+            func_0204B878(wk->buttonActor[4],3);
+            func_0204B878(wk->buttonActor[5],10);
+            wk->prevButtonAnim=0;
+            wk->nextButtonAnim=1;
+            func_020061E4(1636);
+            wk->inputType=1;
+        }
+        break;
+    case 6:
+        if (P_STATUS_CanUseButtons(wk)==1) {
+            wk->retCode=2;
+            wk->param->retSel=2;
+            wk->seq=2;
+            func_0204B878(wk->buttonActor[6],8);
+            wk->pushedButton=wk->buttonActor[6];
+            func_020061E4(1366);
+            wk->inputType=1;
+        }
+        break;
+    case 7:
+        wk->retCode=1;
+        wk->param->retSel=1;
+        wk->seq=2;
+        func_0204B878(wk->buttonActor[7],9);
+        wk->pushedButton=wk->buttonActor[7];
+        func_020061E4(1361);
+        wk->inputType=1;
+        break;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+s32 P_STATUS_UpdatePaletteAnime(PStatusWork *wk)
+{
+    struct CursorColors A;
+    struct CursorColors B;
+    u16 ang;
+    float t;
+    u8 n_1;
+    u16 ca_1, cb_1;
+    s8 r_1, g_1, b_1;
+    u16 ca_2, cb_2;
+    s8 r_2, g_2, b_2;
+    u16 ca_3;
+    s8 r_3, g_3, b_3, r2_3, g2_3, b2_3;
+    int IR_3, IG_3, IB_3;
+
+    ang = wk->blinkAngle;
+    if (ang + 0x400 >= 0x10000) {
+        wk->blinkAngle = ang - 0xfc00;
+    } else {
+        wk->blinkAngle = ang + 0x400;
+    }
+    A = _CursorColorsFrom;
+    B = _CursorColorsTo;
+    t = (float)((FX_SinCosTable_[(wk->blinkAngle >> 4) * 2] + 0x1000) / 2) / 4096.0f;
+
+    for (n_1 = 0; n_1 < 4; n_1++) {
+        ca_1 = A.color[n_1];
+        r_1 = (s8)(ca_1 & 0x1f);
+        g_1 = (s8)((ca_1 & 0x3e0) >> 5);
+        b_1 = (s8)((ca_1 & 0x7c00) >> 10);
+        cb_1 = B.color[n_1];
+        r_1 = (s8)(int)((float)r_1 + t * (float)((s8)(cb_1 & 0x1f) - r_1));
+        g_1 = (s8)(int)((float)g_1 + t * (float)((s8)((cb_1 & 0x3e0) >> 5) - g_1));
+        b_1 = (s8)(int)((float)b_1 + t * (float)((s8)((cb_1 & 0x7c00) >> 10) - b_1));
+        if (r_1 < 0) r_1 = 0;
+        if (g_1 < 0) g_1 = 0;
+        if (b_1 < 0) b_1 = 0;
+        if (r_1 > 31) r_1 = 31;
+        if (g_1 > 31) g_1 = 31;
+        if (b_1 > 31) b_1 = 31;
+        wk->cursorPal[n_1] = (b_1 << 10) | ((g_1 << 5) | r_1);
+    }
+    func_02061CA4((void *)14, 0x6c, (u32)wk->cursorPal, 8);
+
+    for (n_1 = 0; n_1 < 16; n_1++) {
+        ca_2 = wk->glowPalBase[n_1];
+        r_2 = (s8)(ca_2 & 0x1f);
+        g_2 = (s8)((ca_2 & 0x3e0) >> 5);
+        b_2 = (s8)((ca_2 & 0x7c00) >> 10);
+        cb_2 = wk->glowPalTarget[n_1];
+        r_2 = (s8)(int)((float)r_2 + t * (float)((s8)(cb_2 & 0x1f) - r_2));
+        g_2 = (s8)(int)((float)g_2 + t * (float)((s8)((cb_2 & 0x3e0) >> 5) - g_2));
+        b_2 = (s8)(int)((float)b_2 + t * (float)((s8)((cb_2 & 0x7c00) >> 10) - b_2));
+        if (r_2 < 0) r_2 = 0;
+        if (g_2 < 0) g_2 = 0;
+        if (b_2 < 0) b_2 = 0;
+        if (r_2 > 31) r_2 = 31;
+        if (g_2 > 31) g_2 = 31;
+        if (b_2 > 31) b_2 = 31;
+        wk->glowPal[n_1] = (b_2 << 10) | ((g_2 << 5) | r_2);
+    }
+    func_02061CA4((void *)14, 0x180, (u32)wk->glowPal, 0x20);
+
+    for (n_1 = 12; n_1 <= 14; n_1++) {
+        ca_3 = wk->markPalBase[n_1];
+        IR_3 = ca_3 & 0x1f;
+        r_3 = (s8)IR_3;
+        IG_3 = (ca_3 & 0x3e0) >> 5;
+        g_3 = (s8)IG_3;
+        IB_3 = (ca_3 & 0x7c00) >> 10;
+        b_3 = (s8)IB_3;
+        r2_3 = (s8)(IR_3 + 10);
+        g2_3 = (s8)(IG_3 + 10);
+        b2_3 = (s8)(IB_3 + 10);
+        if (r2_3 > 31) r2_3 = 31;
+        if (g2_3 > 31) g2_3 = 31;
+        if (b2_3 > 31) b2_3 = 31;
+        r_3 = (s8)(int)((float)r_3 + t * (float)(r2_3 - r_3));
+        g_3 = (s8)(int)((float)g_3 + t * (float)(g2_3 - g_3));
+        b_3 = (s8)(int)((float)b_3 + t * (float)(b2_3 - b_3));
+        if (r_3 < 0) r_3 = 0;
+        if (g_3 < 0) g_3 = 0;
+        if (b_3 < 0) b_3 = 0;
+        if (r_3 > 31) r_3 = 31;
+        if (g_3 > 31) g_3 = 31;
+        if (b_3 > 31) b_3 = 31;
+        wk->markPal[n_1] = (b_3 << 10) | ((g_3 << 5) | r_3);
+    }
+    return func_02061CA4((void *)14, 0x1a0, (u32)wk->markPal, 0x20);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_SetInputEnable(PStatusWork *wk,int enable)
+{
+    wk->isInputEnabled=enable;
+    if(enable==0){
+        func_0204B3DC(wk->buttonActor[0],0);
+        func_0204B3DC(wk->buttonActor[1],0);
+        func_0204B3DC(wk->buttonActor[2],0);
+        func_0204B3DC(wk->buttonActor[3],0);
+        func_0204B3DC(wk->buttonActor[4],0);
+        func_0204B3DC(wk->buttonActor[5],0);
+        func_0204B3DC(wk->buttonActor[6],0);
+    }else{
+        func_0204B3DC(wk->buttonActor[0],1);
+        func_0204B3DC(wk->buttonActor[1],1);
+        if(wk->hasRibbon==1) func_0204B3DC(wk->buttonActor[2],1);
+        func_0204B3DC(wk->buttonActor[4],1);
+        func_0204B3DC(wk->buttonActor[5],1);
+        if(P_STATUS_CanUseButtons(wk)==1){
+            func_0204B3DC(wk->buttonActor[3],1);
+            func_0204B3DC(wk->buttonActor[6],1);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int P_STATUS_ChangePokemon(PStatusWork *wk,int direction)
+{
+ unsigned short newPos;
+ int found=P_STATUS_SearchPokemon(wk,direction,&newPos);
+ if(found==1) {
+ wk->pos=newPos;
+ if(wk->param->ppt==2) {
+ if(wk->tempPP) {POKE_TOOL_ClearPartyParam(wk->tempPP);func_020307B0(wk->tempPP);}
+ wk->tempPP=func_0201747C(P_STATUS_GetPokePara(wk),wk->heapId);
+ }
+ P_STATUS_LoadPokemonState(wk);
+ }
+ return found;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int P_STATUS_SearchPokemon(PStatusWork *wk,int direction,unsigned short *out)
+{
+ int found=0;
+ int savedPos;
+ int done;
+ void *pp;
+ done=0;
+ savedPos=wk->pos;
+ do {
+ if(direction==1 && wk->pos>=wk->param->max-1) {done=1;continue;}
+ if(direction==0 && wk->pos==0) {done=1;continue;}
+ if(direction==1) ++wk->pos; else --wk->pos;
+ pp=P_STATUS_GetPokePara(wk);
+ if(func_02017E88(pp,169,0)!=0) {
+ if(func_02017E88(pp,76,0)!=1 || wk->page==0) {
+ if(wk->page!=2 || P_STATUS_HasRibbon(wk,pp)!=0) {done=1;found=1;}
+ }
+ }
+ } while(done==0);
+ if(out) *out=wk->pos;
+ wk->pos=savedPos;
+ return found;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_LoadPokemonState(PStatusWork *wk)
+{
+ void *ppSrc=(void *)P_STATUS_GetPokeParaSource(wk);
+ void *pp=P_STATUS_GetPokePara(wk);
+ int one=1;
+ P_STATUS_SetFastMode(wk,1);
+ wk->isEgg=func_02017E1C(ppSrc,76,0);
+ wk->friendship=func_02017E1C(ppSrc,9,0);
+ wk->hasRibbon=P_STATUS_HasRibbon(wk,pp);
+ P_STATUS_SetFastMode(wk,0);
+ wk->playCryReq=one;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * volatile: hardware halfwords reread at 021D5D96, 021D5DA0, 021D5DA6
+ *   and written at 021D5D9C, 021D5DA4, 021D5DAA.
+ * arithmetic: full-word selectors have cases 0..3 and an empty default;
+ *   no selector bound is assumed. Halfword OR with 64 fits promoted int.
+ * interfaces: own matched 60D4,697C,7C38,9C3C,8F50,9D44,A84C;
+ *   matched callers 4418,4240,7BF0 supply remaining two-argument calls.
+ *   Full original 6CDC and 909C confirm both incoming payloads are passed.
+ */
+void P_STATUS_RequestRefresh(PStatusWork *wk)
+{
+    P_STATUS_SetFastMode(wk,1);
+    if (wk->dispPos!=wk->pos) {
+        if (wk->dispPos!=255) {
+            P_STA_SUB_FreeWindows(wk,wk->subWork);
+            P_STA_RIBBON_Noop(wk,wk->ribbonWork);
+        }
+        P_STA_SUB_InitWindows(wk,wk->subWork);
+        P_STA_RIBBON_CollectOwned(wk,wk->ribbonWork);
+    }
+    switch (wk->dispPage) {
+    case 0: P_STA_INFO_DeleteWindows(wk,wk->infoWork); break;
+    case 1: P_STA_SKILL_FreeStatsPage(wk,wk->skillWork); break;
+    case 2: P_STA_RIBBON_Deactivate(wk,wk->ribbonWork); break;
+    case 3: P_STA_SKILL_FreeMovesPage(wk,wk->skillWork); break;
+    }
+    switch (wk->page) {
+    case 0: P_STA_INFO_Setup(wk,wk->infoWork); break;
+    case 1: P_STA_SKILL_InitStatsPage(wk,wk->skillWork); break;
+    case 2: P_STA_RIBBON_Init(wk,wk->ribbonWork); break;
+    case 3: P_STA_SKILL_InitMovesPage(wk,wk->skillWork); break;
+    }
+    if (wk->dispPage!=wk->page) {
+        wk->mosaicSeq=1;
+        wk->mosaicLevel=0;
+        *(volatile u16 *)HW_REG_BG3CNT |= 64;
+        *(volatile u16 *)HW_REG_BG2CNT_SUB |= 64;
+        *(volatile u16 *)HW_REG_BG3CNT_SUB |= 64;
+    }
+    P_STATUS_SetFastMode(wk,0);
+    wk->refreshReq=1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * volatile: byte hardware writes 0400004C at 021D5DE6/021D5E1C
+ *   and 0400104C at 021D5DF2/021D5E28; no ordinary object is volatile.
+ * arithmetic: byte inc/dec is modulo 256; reloaded byte <=255 shifted
+ *   by five fits int. Signed selector <3 admits negatives: address uses
+ *   unsigned full-word multiply/add, preserving original wrap.
+ * output: matched unit_02006CAC unconditionally stores the one-word out;
+ *   the pointer payload passed as the eighth 02006984 argument is u32.
+ * interfaces: callee own matched files; 7EAC keeps second caller payload
+ *   visibly set at 021D5E9C despite its own body's unused parameter.
+ */
+void P_STATUS_UpdateRefresh(PStatusWork *wk)
+{
+    void *ppSrc;
+    u32 species,form;
+    void *voicePlayer;
+    if (wk->mosaicSeq==1) {
+        ++wk->mosaicLevel;
+        *(volatile u8 *)HW_REG_MOSAIC=wk->mosaicLevel | (wk->mosaicLevel<<5);
+        *(volatile u8 *)HW_REG_MOSAIC_SUB=wk->mosaicLevel | (wk->mosaicLevel<<5);
+        if (wk->mosaicLevel>=3) wk->mosaicSeq=2;
+    }
+    if (wk->mosaicSeq==3) {
+        --wk->mosaicLevel;
+        *(volatile u8 *)HW_REG_MOSAIC=wk->mosaicLevel | (wk->mosaicLevel<<5);
+        *(volatile u8 *)HW_REG_MOSAIC_SUB=wk->mosaicLevel | (wk->mosaicLevel<<5);
+        if (wk->mosaicLevel==0) {
+            wk->refreshReq=0;
+            wk->mosaicSeq=0;
+            return;
+        }
+    }
+    if (func_0201C6B4(wk->printQue)==1 &&
+        (wk->mosaicSeq==2 || wk->mosaicSeq==0)) {
+        if (wk->dispPos!=wk->pos) {
+            if (wk->dispPos!=255) P_STA_SUB_HideSprite(wk,wk->subWork);
+            P_STA_SUB_Refresh(wk,wk->subWork);
+            wk->dispPos=wk->pos;
+        }
+        switch (wk->dispPage) {
+        case 0: P_STA_INFO_HidePage(wk,wk->infoWork); break;
+        case 1: P_STA_SKILL_HideStatsPage(wk,wk->skillWork); break;
+        case 2: P_STA_RIBBON_Hide(wk,wk->ribbonWork); break;
+        case 3: P_STA_SKILL_HideMovesPage(wk,wk->skillWork); break;
+        }
+        switch (wk->page) {
+        case 0: P_STA_INFO_ShowPage(wk,wk->infoWork); break;
+        case 1: P_STA_SKILL_ShowStatsPage(wk,wk->skillWork); break;
+        case 2: P_STA_RIBBON_Show(wk,wk->ribbonWork); break;
+        case 3: P_STA_SKILL_ShowMovesPage(wk,wk->skillWork); break;
+        }
+        if (wk->isEgg==0 && wk->param->mode!=2) {
+            func_0204B3DC(wk->buttonActor[1],1);
+            if (wk->hasRibbon==0) func_0204B3DC(wk->buttonActor[2],0);
+            else func_0204B3DC(wk->buttonActor[2],1);
+        } else {
+            func_0204B3DC(wk->buttonActor[1],0);
+            func_0204B3DC(wk->buttonActor[2],0);
+        }
+        if (wk->prevButtonAnim==0) {
+            if (P_STATUS_SearchPokemon(wk,0,0)==1) func_0204B878(wk->buttonActor[4],3);
+            else func_0204B878(wk->buttonActor[4],17);
+        }
+        if (wk->nextButtonAnim==0) {
+            if (P_STATUS_SearchPokemon(wk,1,0)==1) func_0204B878(wk->buttonActor[5],2);
+            else func_0204B878(wk->buttonActor[5],16);
+        }
+        if (wk->page<3 && P_STATUS_CanUseButtons(wk)==1) {
+            if (wk->pageToggle[wk->page]==1)
+                func_0204B878(wk->buttonActor[3],7);
+            else func_0204B878(wk->buttonActor[3],6);
+        }
+        if (wk->playCryReq==1) {
+            wk->playCryReq=0;
+            PM_VOICE_StopSlot(0);
+            if (wk->isEgg==0) {
+                ppSrc=(void *)P_STATUS_GetPokeParaSource(wk);
+                species=func_02017E1C(ppSrc,5,0);
+                form=func_02017E1C(ppSrc,111,0);
+                func_02006CAC(&voicePlayer);
+                func_02006984(species,form,64,0,0,0,0,(u32)&voicePlayer);
+            }
+        }
+        if (wk->mosaicSeq==2) {
+            wk->mosaicSeq=3;
+            wk->dispPage=wk->page;
+            return;
+        }
+        wk->refreshReq=0;
+        wk->dispPage=wk->page;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void *P_STATUS_GetPokePara(PStatusWork *wk)
+{
+ switch(wk->param->ppt) {
+ case 0: return func_020185F0(wk->param->ppd);
+ case 1: return func_020185F0(func_0201AB28(wk->param->ppd,wk->pos));
+ case 2: return (unsigned char *)wk->param->ppd+POKE_TOOL_GetBoxParamSize()* wk->pos;
+ default: return 0;
+ }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int P_STATUS_GetPokeParaSource(PStatusWork *wk)
+{
+    PStatusParam *param = wk->param;
+    switch (param->ppt) {
+    case 0:
+        return (int)param->ppd;
+    case 1:
+        return (int)func_0201AB28(param->ppd, wk->pos);
+    case 2:
+        return (int)wk->tempPP;
+    default:
+        return 0;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_SetFastMode(PStatusWork *wk,int fastMode)
+{
+ void *pp;
+ switch(wk->param->ppt) {
+ case 0:
+ pp=wk->param->ppd;
+ if(fastMode==1) POKE_TOOL_DecodePartyParam(pp); else POKE_TOOL_EncodePartyParam(pp,1);
+ break;
+ case 1:
+ pp=func_0201AB28(wk->param->ppd,wk->pos);
+ if(fastMode==1) POKE_TOOL_DecodePartyParam(pp); else POKE_TOOL_EncodePartyParam(pp,1);
+ break;
+ case 2:
+ pp=P_STATUS_GetPokePara(wk);
+ if(fastMode==1) {POKE_TOOL_DecodePartyParam(wk->tempPP);func_02017DBC(pp);}
+ else {POKE_TOOL_EncodePartyParam(wk->tempPP,1);func_02017DE4(pp,1);}
+ break;
+ }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_PrintMsg(PStatusWork *wk,int bmpWin,int msgId,int x,unsigned short y,unsigned short color)
+{
+ void *text=func_02045EC0(wk->msgData,msgId);
+ func_0201C724(wk->printQue,bmpWin,(short)x,(short)y,(u32)text,(int)wk->font,color);
+ func_02045808(text);
+}
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_PrintMsgToWin(PStatusWork *wk,unsigned int bmpWinData,int msgId,int x,unsigned short y,unsigned short color)
+{
+ P_STATUS_PrintMsg(wk,(int)func_02045770((struct BmpWin *)bmpWinData),msgId,x,y,color);
+}
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
+{
+ void *str=func_020457B0(16,wk->heapId);
+ void *fmt=func_02045EC0(wk->msgData,msgId);
+ func_0201F250(wordSet,str,fmt);
+ func_0201C724(wk->printQue,bmpWin,(short)x,(short)y,(u32)str,(int)wk->font,color);
+ func_02045808(fmt);
+ func_02045808(str);
+}
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk,unsigned int bmpWinData,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
+{
+ P_STATUS_PrintWordSetMsg(wk,(int)func_02045770((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
+}
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
+{
+ void *str=func_020457B0(16,wk->heapId);
+ void *fmt=func_02045EC0(wk->msgData,msgId);
+ int width;
+ func_0201F250(wordSet,str,fmt);
+ width=func_0201D304(str,(int)wk->font,0);
+ func_0201C724(wk->printQue,bmpWin,(short)(x-width),(short)y,(u32)str,(int)wk->font,color);
+ func_02045808(fmt);
+ func_02045808(str);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void P_STATUS_PrintWordSetMsgRightToWin(PStatusWork *wk,unsigned int bmpWinData,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
+{
+ P_STATUS_PrintWordSetMsgRight(wk,(int)func_02045770((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int P_STATUS_CanUseButtons(PStatusWork *wk)
+{
+    return wk->param->canUseButtons == 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int P_STATUS_HasRibbon(PStatusWork *wk, void *pp)
+{
+    unsigned char i;
+    for (i = 0; i < 0x50; i++) {
+        if (func_02017E88(pp, P_STA_RIBBON_GetRibbonInfo(i, 0), 0) == 1) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+static inline void SetPartyMoves(void *pokePara, DebugMoves moves) { func_02017E40(pokePara,0x8e,(u32)(&moves)); }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+static inline void SetArrayMoves(void *pokePara, DebugMoves moves) { POKE_TOOL_SetBoxValue(pokePara,0x8e,(u32)(&moves)); }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
+{
+    switch(*seq) {
+    case 0: {
+        PStatusParam *param=pwk;
+        PStatusWork *wk;
+        u8 i;
+        func_0203064C(1,0x42,0x50000);
+        wk=func_0203159C(proc,0x264,0x42);
+        func_02082BCC(wk,0,0x264);
+        wk->heapId=0x42;
+        i=0;
+        if(param==0) {
+            param=func_02030734(1,0x28,0,_SourceFileName,0x4d);
+            if((func_0203630C()&0x400)==0) {
+                void *party;
+                void *pokePara;
+                party=func_0201A920(1);
+                func_0201A954(party,6);
+                for(i=0;i<5;i++) {
+                    pokePara=func_020173F0(i+3,10,-1,0,1);
+                    SetPartyMoves(pokePara,_DebugMovesParty);
+                    func_02017E40(pokePara,0x9a,0);
+                    func_0201A98C(party,pokePara);
+                    func_020307B0(pokePara);
+                }
+                param->pos=0;
+                param->ppd=party;
+                param->ppt=1;
+                param->max=5;
+            } else {
+                int monSize;
+                u8 *monArray;
+                u32 byteOffset;
+                monSize=POKE_TOOL_GetBoxParamSize();
+                param->ppd=func_02030734(1,monSize*0x1e,1,_SourceFileName,0x81);
+                param->ppt=2;
+                param->max=0x1e;
+                param->pos=0xff;
+                for(i=0;i<param->max;i++) {
+                    monSize=POKE_TOOL_GetBoxParamSize();
+                    monArray=(u8 *)param->ppd;
+                    byteOffset=i*monSize;
+                    POKE_TOOL_ClearBoxParam((struct PokePara *)(monArray+byteOffset));
+                    if(func_02005728(3)!=0) {
+                        POKE_TOOL_SetupBoxParam(monArray+byteOffset,i+1,0x32,(u64)-1);
+                        SetArrayMoves(monArray+byteOffset,_DebugMovesArray);
+                        POKE_TOOL_SetBoxValue(monArray+byteOffset,0x9a,0);
+                        if(param->pos==0xff) param->pos=i;
+                    }
+                }
+            }
+            i=0;
+            param->mode=0;
+            param->page=0;
+            param->canUseButtons=1;
+            param->isNationalDex=1;
+            param->config=GAME_DATA_Create(1);
+            if(func_0203630C()&0x400) {
+                param->mode=2;
+                param->canUseButtons=i;
+                param->newMove=10;
+            }
+            if(func_0203630C()&0x100) {
+                param->mode=1;
+                param->canUseButtons=0;
+            }
+            func_020355D8(1);
+        }
+        wk->param=param;
+        *seq=1;
+        break;
+    }
+    case 1:
+        if(P_STATUS_InitWork(mywk)==1) return 1;
+        break;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int P_STATUS_ProcExit(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk)
+{
+    if (!P_STATUS_ExitWork(mywk)) return 0;
+    if (!pwk) {
+        GAME_DATA_Delete(mywk->param->config);
+        func_020307B0(mywk->param->ppd);
+        func_020307B0(mywk->param);
+    }
+    func_020315D4(proc);
+    func_020306F0(0x42);
+    return 1;
+}
+
+int P_STATUS_ProcMain(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk)
+{
+    int ret = P_STATUS_MainSeq(mywk);
+    if (ret == 1)
+        return 1;
+    if (ret == 2)
+        return 1;
+    return 0;
+}

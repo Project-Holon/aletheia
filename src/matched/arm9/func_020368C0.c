@@ -1,5 +1,5 @@
 /*
- * function: func_020368C0
+ * function: GFL_NET_QUEUE_Put
  * address:  0x020368C0
  * packet:   pkt_020367C4
  * isa:      arm
@@ -11,10 +11,10 @@
  *           g_020A79C4 ("net_queue.c") does have 10 outside witnesses (literal class).
  *           Verified byte-correct otherwise: 264/264, 0 concrete bytes differ.
  * symbols:
- *   func_02036670   0x02036670  arm
- *   func_0203660C   0x0203660C  arm
- *   func_02036428   0x02036428  arm
- *   func_0203666C   0x0203666C  arm
+ *   GFL_NET_QUEUE_GetFreeNode   0x02036670  arm
+ *   GFL_NET_RING_BUFF_GetFreeSize   0x0203660C  arm
+ *   GFL_NET_RING_BUFF_Write   0x02036428  arm
+ *   GFL_NET_RING_BUFF_EndChange   0x0203666C  arm
  *   func_02034714   0x02034714  arm
  *   g_020A79C4      0x020A79C4  data
  *   g_020A79D0      0x020A79D0  data
@@ -44,18 +44,18 @@ typedef struct Queue020368C0 {
     u32 f14;
 } Queue020368C0;
 
-extern Node020368C0 *func_02036670(Queue020368C0 *q, u32 a1, u32 a2, u32 a3);
-extern u32 func_0203660C(u32 h);
-extern void func_02036428(u32 h, u32 a2, u32 a3);
-extern void func_0203666C(u32 h);
+extern Node020368C0 *GFL_NET_QUEUE_GetFreeNode(Queue020368C0 *q, u32 a1, u32 a2, u32 a3);
+extern u32 GFL_NET_RING_BUFF_GetFreeSize(u32 h);
+extern void GFL_NET_RING_BUFF_Write(u32 h, u32 a2, u32 a3);
+extern void GFL_NET_RING_BUFF_EndChange(u32 h);
 extern void func_02034714(char *file, u32 line, char *expr);
 extern char g_020A79C4[];
 extern char g_020A79D0[];
 extern char g_020A79D4[];
 
-int func_020368C0(Queue020368C0 *q, u16 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
+int GFL_NET_QUEUE_Put(Queue020368C0 *q, u16 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
 {
-    Node020368C0 *n = func_02036670(q, a1, a2, a3);
+    Node020368C0 *n = GFL_NET_QUEUE_GetFreeNode(q, a1, a2, a3);
 
     if (n == 0) {
         func_02034714(g_020A79C4, 0xdb, g_020A79D0);
@@ -65,12 +65,12 @@ int func_020368C0(Queue020368C0 *q, u16 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 
         func_02034714(g_020A79C4, 0xdf, g_020A79D4);
     }
     if (a5 != 0) {
-        if (!((int)(a3 + 5) < (int)func_0203660C(q->f14))) {
+        if (!((int)(a3 + 5) < (int)GFL_NET_RING_BUFF_GetFreeSize(q->f14))) {
             func_02034714(g_020A79C4, 0xe3, g_020A79D0);
             return 0;
         }
-        func_02036428(q->f14, a2, a3);
-        func_0203666C(q->f14);
+        GFL_NET_RING_BUFF_Write(q->f14, a2, a3);
+        GFL_NET_RING_BUFF_EndChange(q->f14);
         n->f0 = 0;
     } else {
         n->f0 = a2;

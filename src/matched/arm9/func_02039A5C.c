@@ -1,5 +1,5 @@
 /*
- * function: func_02039A5C
+ * function: GFL_NET_HANDLE_SendNegotiation
  * address:  0x02039A5C
  * packet:   pkt_02039A5C
  * region:   arm9
@@ -40,8 +40,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02039A5C.c \
- *       --func func_02039A5C --addr 0x02039A5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_SendNegotiation.c \
+ *       --func GFL_NET_HANDLE_SendNegotiation --addr 0x02039A5C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -55,7 +55,7 @@ extern u16 func_02039338(void);
 extern struct Entry *func_0203996C(s32 idx);
 extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 
-void func_02039A5C(void)
+void GFL_NET_HANDLE_SendNegotiation(void)
 {
     u8 *p;
     int i;

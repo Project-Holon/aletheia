@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02048330",
+   "name": "G3D_UTIL_BuildUnitObjects",
    "address": "0x02048330",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02048744",
+   "name": "G3D_UTIL_BuildUnitObjectsLoaded",
    "address": "0x02048744",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02048918",
+   "name": "G3D_UTIL_FreeUnitObjects",
    "address": "0x02048918",
    "kind": "game",
    "region": "arm9",
@@ -54,10 +54,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020489F4",
-    "sub_02048A00",
-    "sub_02048A0C",
-    "sub_02048A18"
+    "G3D_UTIL_GetUnitObjIdx",
+    "G3D_UTIL_GetUnitObjCount",
+    "G3D_UTIL_GetResource",
+    "G3D_UTIL_GetObject"
+   ],
+   "addresses": [
+    "0x020489F4",
+    "0x02048A00",
+    "0x02048A0C",
+    "0x02048A18"
    ]
   },
   {

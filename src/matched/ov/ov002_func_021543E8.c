@@ -1,5 +1,5 @@
 /*
- * function: func_021543E8
+ * function: EVENT_WIFIBATTLEMATCH_Create
  * address:  0x021543E8
  * packet:   pkt_021543E8
  * region:   ov002
@@ -35,7 +35,7 @@ void func_02026400(struct Comm *p);
 void *func_020124E8(struct Obj *p);
 u32 func_021542C0(void *obj, u32 *mode, u32 *args);
 
-void *func_021543E8(void *p, int a1, int a2, int a3, int a4)
+void *EVENT_WIFIBATTLEMATCH_Create(void *p, int a1, int a2, int a3, int a4)
 {
     void *r0v = func_020122C0(p, 0, func_021542C0, 0x20);
     int *obj;

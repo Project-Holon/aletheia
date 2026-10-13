@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02062B64    0x02062B64  arm
+ *   NNS_G2dFindBinaryBlock    0x02062B64  arm
  */
 struct AnimBank;
 struct NitroFileHeader;
@@ -64,7 +64,7 @@ struct AnimBank {
     u8 *sub;                    /* +0x14 */
 };
 
-extern void *func_02062B64(struct NitroFileHeader *file, u32 signature);
+extern void *NNS_G2dFindBinaryBlock(struct NitroFileHeader *file, u32 signature);
 int func_02062634(u32 a, u32 *out);
 void func_02062670(u32 a, u32 *out);
 void func_0206267C(u32 a, u32 *out);
@@ -76,13 +76,13 @@ void func_02062688(volatile struct AnimBank *bank);
  * Blocking class: label.  Every concrete byte is right; the only unresolved site
  * is the tail `bl func_02062688` at 0x02062648, and 0x02062688 -- the packet's own
  * 336-byte function -- has no witness outside this file's range, because this is
- * its only caller.  The `bl func_02062B64` site resolves (`label x40`), so the
+ * its only caller.  The `bl NNS_G2dFindBinaryBlock` site resolves (`label x40`), so the
  * file closes on its own as soon as 0x02062688 is matched, which makes the site
  * `matched` instead of `label`.
  */
 int func_02062634(u32 a, u32 *out)
 {
-    u32 r = (u32)func_02062B64((struct NitroFileHeader *)a, 0x41424E4B);
+    u32 r = (u32)NNS_G2dFindBinaryBlock((struct NitroFileHeader *)a, 0x41424E4B);
 
     if (r == 0) {
         *out = 0;

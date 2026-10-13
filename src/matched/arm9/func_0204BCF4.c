@@ -1,5 +1,5 @@
 /*
- * function: func_0204BCF4
+ * function: CLACT_ApplyOamManagers
  * address:  0x0204BCF4
  * packet:   pkt_0204BCF4
  * region:   arm9
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at
- * +0x0010 (the call to func_0204BD64) has no witness of any class.  Its only
+ * +0x0010 (the call to CLACT_ApplyOamManager) has no witness of any class.  Its only
  * caller image wide is that call, so no cut frees it; the unblock is a
  * `matched` entry at 0x0204BD64, and that file is itself capped on 0x0206343C
  * (508 bytes, pkt_02063078, claimed by lane-C).  Chain capped for this pass.
  *
- * Run func_0204BD64 over both of a cell actor's 0x20-byte OAM sub-records.
- * func_0204BD18 next door is the same loop against func_0204BD7C.
+ * Run CLACT_ApplyOamManager over both of a cell actor's 0x20-byte OAM sub-records.
+ * CLACT_ResetOamManagers next door is the same loop against CLACT_ResetOamManager.
  *
  * symbols:
- *   func_0204BD64  0x0204BD64  arm
+ *   CLACT_ApplyOamManager  0x0204BD64  arm
  */
 
 typedef unsigned char u8;
@@ -34,13 +34,13 @@ struct Obj {
     struct Sub w[2];
 };
 
-extern void func_0204BD64(struct Sub *s);
+extern void CLACT_ApplyOamManager(struct Sub *s);
 
-void func_0204BCF4(struct Obj *o)
+void CLACT_ApplyOamManagers(struct Obj *o)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        func_0204BD64(&o->w[i]);
+        CLACT_ApplyOamManager(&o->w[i]);
     }
 }

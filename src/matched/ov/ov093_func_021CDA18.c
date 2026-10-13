@@ -18,12 +18,12 @@
  *   func_021D3F4C 0x021D3F4C thumb ov093
  *   func_021EEC4C 0x021EEC4C thumb ov093
  *   func_021D3F60 0x021D3F60 thumb ov093
- *   func_02005CA4 0x02005CA4 thumb
- *   func_02006740 0x02006740 thumb
- *   func_02005E50 0x02005E50 thumb
+ *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
+ *   PM_VOICE_ResetMasterVolume 0x02006740 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   func_021D3FA8 0x021D3FA8 thumb ov093
  *   func_021BA73C 0x021BA73C thumb ov093
- *   func_02006734 0x02006734 thumb
+ *   PM_VOICE_SetMasterVolume 0x02006734 thumb
  */
 #include "../include/Obj00463.h"
 typedef unsigned char u8;
@@ -42,12 +42,12 @@ extern void func_021D3FC4(u8 *);
 extern int func_021D3F4C(void *);
 extern int func_021EEC4C(void *,void *,u32);
 extern u8 func_021D3F60(u8 *);
-extern void func_02005CA4(int,u32);
-extern void func_02006740(void);
-extern int func_02005E50(void);
+extern void GFL_USE_SetPlayersAudible(int,u32);
+extern void PM_VOICE_ResetMasterVolume(void);
+extern int GFL_USE_IsBgmFading(void);
 extern u16 func_021D3FA8(u8 *p);
 extern void func_021BA73C(char *,int);
-extern void func_02006734(u8);
+extern void PM_VOICE_SetMasterVolume(u8);
 int func_021CDA18(u8 *p)
 {
     u32 id, *pair, x, y;
@@ -100,16 +100,16 @@ int func_021CDA18(u8 *p)
     case 4:
         if (func_021D3F60(p+0x18) == 1) p[0x1a8] = 7;
         else {
-            if (((struct Obj00463 *)p)->f54) { func_02005CA4(1,62); func_02006740(); }
+            if (((struct Obj00463 *)p)->f54) { GFL_USE_SetPlayersAudible(1,62); PM_VOICE_ResetMasterVolume(); }
             p[0x1a8] = 5;
         }
         break;
     case 5:
-        if (!func_02005E50()) {
+        if (!GFL_USE_IsBgmFading()) {
             n = func_021D3FA8(p+0x18);
-            func_02005CA4(0,1);
+            GFL_USE_SetPlayersAudible(0,1);
             func_021BA73C(*(char * *)&((struct Obj00463 *)p)->f0,n);
-            func_02006734(0);
+            PM_VOICE_SetMasterVolume(0);
         }
         break;
     case 7:

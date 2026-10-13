@@ -1,5 +1,5 @@
 /*
- * function: sub_02034348
+ * function: AREAMAN_FindClearRunDown
  * address:  0x02034348
  * packet:   pkt_02033CA8
  * region:   arm9
@@ -12,7 +12,7 @@
  * symbols:
  *   Areaman_RunMask  0x020A048C  data
  *
- * areaman.c.  The backward twin of sub_020342F8: same run-mask table, but
+ * areaman.c.  The backward twin of AREAMAN_FindClearRunUp: same run-mask table, but
  * the cursor walks down from `start` instead of up, so the mask is shifted
  * left each step and the loop ends when the signed cursor goes negative.
  * The cursor really is signed here, which is the only reason the original
@@ -20,8 +20,8 @@
  * guard (`bmi`) and the loop back edge (`bpl`).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034348.c \
- *       --func sub_02034348 --addr 0x02034348 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/AREAMAN_FindClearRunDown.c \
+ *       --func AREAMAN_FindClearRunDown --addr 0x02034348 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -30,7 +30,7 @@ typedef signed int    s32;
 
 extern const u8 Areaman_RunMask[];
 
-s32 sub_02034348(u32 bits, u32 start, u32 len)
+s32 AREAMAN_FindClearRunDown(u32 bits, u32 start, u32 len)
 {
     u8 mask;
     s32 i;

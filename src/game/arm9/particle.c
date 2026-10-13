@@ -1,7 +1,7 @@
 /*
  * file:     particle.c
  * unit:     yes
- * function: func_0204FE94, func_0204FFFC, func_02050080, func_02050084, func_02050088, func_020500A0, func_020500B8, func_020500F0, func_02050238, func_02050278, func_02050304, func_02050330, func_02050340, func_02050468, func_020504D8, func_02050550, func_020506B8, func_02050738, func_02050790, func_020507A0, func_020507D0, func_020507F0, func_02050804, func_0205082C, func_02050848, func_0205085C, func_02050880, func_02050894, func_020508C4, func_020508D8, func_020508EC, func_02050920, func_02050944, func_02050984, func_020509E0, func_020509E8, func_02050A00, func_02050A58, func_02050A70, func_02050B14, func_02050B80, func_02050BE8, func_02050C04, func_02050C30, func_02050DB8, func_02050ED4, func_02050F1C, func_02050F4C, func_02050F7C, func_02050FAC, func_02050FDC, func_0205100C, func_0205103C, func_0205106C, func_0205109C, func_020510CC, func_020510FC, func_0205112C, func_0205115C, func_0205118C, func_020511BC, func_020511EC, func_0205121C, func_02051230, func_02051360, func_02051380, func_02051394, func_020513F8, func_02051414, func_020514F4, func_02051504, func_02051534, func_02051574, func_020515B4, func_020515CC, func_02051614, func_02051620, func_02051630, func_02051640, func_02051648, func_02051758
+ * function: func_0204FE94, func_0204FFFC, func_02050080, func_02050084, BILLBOARD_ACT_InitSlot, func_020500A0, BILLBOARD_ACT_InitEntry, func_020500F0, func_02050238, func_02050278, func_02050304, func_02050330, func_02050340, func_02050468, func_020504D8, BILLBOARD_ACT_UpdateEntry, BILLBOARD_ACT_UploadSlotFrame, BILLBOARD_ACT_UploadSlotPalette, func_02050790, func_020507A0, func_020507D0, func_020507F0, func_02050804, func_0205082C, func_02050848, func_0205085C, func_02050880, func_02050894, func_020508C4, func_020508D8, func_020508EC, BILLBOARD_ACT_IsControlCommand, BILLBOARD_ACT_RunControlCommand, BILLBOARD_ACT_GetControlHandler, BILLBOARD_ACT_CmdEnd, BILLBOARD_ACT_CmdSetList, BILLBOARD_ACT_CmdLoop, BILLBOARD_ACT_CmdJump, func_02050A70, func_02050B14, func_02050B80, func_02050BE8, func_02050C04, PARTICLE_CreateSystem, func_02050DB8, func_02050ED4, PARTICLE_AllocWorkSlot0, PARTICLE_AllocWorkSlot1, PARTICLE_AllocWorkSlot2, PARTICLE_AllocWorkSlot3, PARTICLE_AllocWorkSlot4, PARTICLE_AllocWorkSlot5, PARTICLE_AllocWorkSlot6, PARTICLE_AllocWorkSlot7, PARTICLE_AllocWorkSlot8, PARTICLE_AllocWorkSlot9, PARTICLE_AllocWorkSlot10, PARTICLE_AllocWorkSlot11, PARTICLE_AllocWorkSlot12, PARTICLE_AllocWorkSlot13, PARTICLE_AllocWorkSlot14, PARTICLE_AllocWorkSlot15, func_0205121C, func_02051230, PARTICLE_SetupSystemBorrowed, PARTICLE_SetupSystemNoHandlers, PARTICLE_ApplyLoadHandlers, PARTICLE_ApplyLoadHandlersTask, PARTICLE_DrawSystem, PARTICLE_UpdateSystem, PARTICLE_CountSystems, PARTICLE_DrawAllSystems, PARTICLE_UpdateAllSystems, PARTICLE_StartEffect, func_020515CC, func_02051614, PARTICLE_KillAllEffects, PARTICLE_KillEffect, PARTICLE_GetWorkBase, PARTICLE_InitCamera, PARTICLE_ReleaseCamera
  * address:  0x0204FE94
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -18,78 +18,79 @@
  *   func_02033C00     0x02033C00  arm
  *   sBillboardAct     0x020A7FB0  data
  *   gBillboardActTpl  0x020A155C  data  a4
- *   func_0204F5A8  0x0204F5A8  arm
+ *   BILLBOARD_FreeElem  0x0204F5A8  arm
  *   func_0204ED24  0x0204ED24  arm
- *   func_02033C9C  0x02033C9C  arm
+ *   AREAMAN_Delete  0x02033C9C  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02033CA8  0x02033CA8  arm
- *   func_0204EF58  0x0204EF58  arm
- *   func_0204F10C  0x0204F10C  arm
- *   func_0204F150  0x0204F150  arm
+ *   AREAMAN_Alloc  0x02033CA8  arm
+ *   BILLBOARD_AddImage  0x0204EF58  arm
+ *   BILLBOARD_TrimImageResource  0x0204F10C  arm
+ *   BILLBOARD_DeleteImage  0x0204F150  arm
  *   func_02046EFC  0x02046EFC  arm
- *   func_0203422C  0x0203422C  arm
- *   func_0204F428  0x0204F428  arm
+ *   AREAMAN_Free  0x0203422C  arm
+ *   BILLBOARD_AddElem  0x0204F428  arm
  *   func_0204F720  0x0204F720  arm
  *   func_0204F66C  0x0204F66C  arm
  *   func_0204F764  0x0204F764  arm
  *   func_0204F794  0x0204F794  arm
- *   func_020473D8  0x020473D8  arm
- *   func_0204F2B4  0x0204F2B4  arm
- *   func_0204F344  0x0204F344  arm
- *   func_020473EC   0x020473EC  arm
+ *   G3D_SYSTEM_GetTexDataAddr  0x020473D8  arm
+ *   BILLBOARD_GetImageVramAddr  0x0204F2B4  arm
+ *   BILLBOARD_CalcImageFrameRange  0x0204F344  arm
+ *   G3D_SYSTEM_GetPlttDataAddr   0x020473EC  arm
  *   func_0204F2CC   0x0204F2CC  arm
  *   DWCi_LSTlErase 0x0204F7DC arm
- *   g_02146A84     0x02146A84  data
+ *   g_pDmaChannels     0x02146A84  data
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_02146A88      0x02146A88  data
- *   g_020A7FC0     0x020A7FC0  data
- *   g_020A1590     0x020A1590  data
- *   g_020A1584     0x020A1584  data
- *   g_020A1578     0x020A1578  data
- *   g_020A15A8     0x020A15A8  data
+ *   g_pParticleMan      0x02146A88  data
+ *   sParticleFile     0x020A7FC0  data
+ *   sDefaultCameraPos     0x020A1590  data
+ *   sDefaultCameraTarget     0x020A1584  data
+ *   sDefaultCameraUp     0x020A1578  data
+ *   sSystemEngineIds     0x020A15A8  data
  *   func_02052DC8  0x02052DC8  arm
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02051620  0x02051620  arm
+ *   PARTICLE_KillAllEffects  0x02051620  arm
  *   func_0206168C  0x0206168C  arm
  *   func_020621FC  0x020621FC  arm
  *   func_02061824  0x02061824  arm
  *   func_02062594  0x02062594  arm
  *   func_02048AC4  0x02048AC4  arm
  *   func_02048F60  0x02048F60  arm
- *   func_02046BFC  0x02046BFC  arm
- *   func_02046C10  0x02046C10  arm
+ *   G3D_SYSTEM_GetTexManagerMode  0x02046BFC  arm
+ *   G3D_SYSTEM_GetPlttManagerMode  0x02046C10  arm
  *   func_0206164C  0x0206164C  arm
  *   func_02061808  0x02061808  arm
  *   func_02052A50  0x02052A50  arm
  *   func_02030DA8  0x02030DA8  arm
- *   func_02051A3C  0x02051A3C  arm
- *   func_02051A54  0x02051A54  arm
- *   func_02051AA0  0x02051AA0  arm
- *   func_02051AB8  0x02051AB8  arm
+ *   BUTTON_MAN_Func1A3C  0x02051A3C  arm
+ *   BUTTON_MAN_AppendList0  0x02051A54  arm
+ *   BUTTON_MAN_Func1AA0  0x02051AA0  arm
+ *   BUTTON_MAN_AppendList1  0x02051AB8  arm
  *   func_020528A8  0x020528A8  arm
  *   func_020528BC  0x020528BC  arm
  *   func_020528D0  0x020528D0  arm
  *   func_02052984  0x02052984  arm
- *   g_020A159C      0x020A159C  data
- *   g_02148B4C      0x02148B4C  data
+ *   sDefaultViewVec      0x020A159C  data
+ *   g_renderState      0x02148B4C  data
  *   g_02148B98      0x02148B98  data
- *   g_02148C08      0x02148C08  data
- *   func_020467EC   0x020467EC  arm
- *   func_02046858   0x02046858  arm
+ *   g_renderStateIdentityMtx      0x02148C08  data
+ *   G3D_SYSTEM_GetProjection   0x020467EC  arm
+ *   G3D_SYSTEM_SetProjection   0x02046858  arm
  *   func_02046AFC   0x02046AFC  arm
- *   func_02046B40   0x02046B40  arm
+ *   G3D_SYSTEM_SetLookAt   0x02046B40  arm
  *   func_020479D8   0x020479D8  arm
  *   func_02048AD0   0x02048AD0  arm
  *   func_020526A8   0x020526A8  arm
- *   func_0206A9DC   0x0206A9DC  arm
- *   func_0206AA0C   0x0206AA0C  arm
+ *   NNS_G3dGlbBaseTrans   0x0206A9DC  arm
+ *   NNS_G3dGlbBaseScale   0x0206AA0C  arm
  *   func_0206DB80   0x0206DB80  arm
  *   MI_Copy36B      0x02082B60  arm
  *   MTX_Identity33_ 0x0207ADC4  arm
  *   func_020524C8 0x020524C8 arm
  *   func_0205250C  0x0205250C  arm
  *   func_02048A24  0x02048A24  arm
+ *   BILLBOARD_GetElemVisible  0x0204F704  arm
  */
 
 typedef unsigned char  u8;
@@ -308,28 +309,28 @@ struct ParticleMan {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern struct BbBoard *func_0204EBD4(const struct BbActBoardInit *init, u32 heapId);
 extern struct AreaMan *func_02033C00(u32 size, u32 heapId);
-extern void func_0204F5A8(struct BbBoard *board, u32 elemId);
+extern void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemId);
 extern void func_0204ED24(struct BbBoard *board);
-extern u32 func_02033C9C(struct AreaMan *pool);
+extern u32 AREAMAN_Delete(struct AreaMan *pool);
 extern u32 func_020307B0(void *p);
-extern s32 func_02033CA8(struct AreaMan *pool, u32 count);
-extern u16  func_0204EF58(struct BbBoard *board, u32 resource, u32 format, u32 sizeS, u8 sizeT, u8 paletteId);
-extern void func_0204F10C(struct BbBoard *board, u32 boardId);
-extern void func_0204F150(struct BbBoard *board, int boardId);
+extern s32 AREAMAN_Alloc(struct AreaMan *pool, u32 count);
+extern u16  BILLBOARD_AddImage(struct BbBoard *board, u32 resource, u32 format, u32 sizeS, u8 sizeT, u8 paletteId);
+extern void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 boardId);
+extern void BILLBOARD_DeleteImage(struct BbBoard *board, int boardId);
 extern void func_02046EFC(struct PayloadBlock *payload);
-extern int func_0203422C(struct AreaMan *pool, u32 start, s32 count);
-extern s32  func_0204F428(struct BbBoard *board, u32 boardId, s16 width, s16 height, const Vec3 *pos, u8 layer, u32 color, u32 mode);
+extern int AREAMAN_Free(struct AreaMan *pool, u32 start, s32 count);
+extern s32  BILLBOARD_AddElem(struct BbBoard *board, u32 boardId, s16 width, s16 height, const Vec3 *pos, u8 layer, u32 color, u32 mode);
 extern int func_0204F720(struct BbBoard *board, u32 elemId, const u32 *flags);
 extern void func_0204F66C(struct BbBoard *board, u32 elemId, u16 *frame);
 extern void func_0204F764(struct BbBoard *board, u32 elemId, u32 *flipX);
 extern void func_0204F794(struct BbBoard *board, u32 elemId, u32 *flipY);
-extern int func_020473D8(u32 payload);
-extern void func_0204F2B4(struct BbBoard *board, u32 boardId, u32 *texDst);
-extern void func_0204F344(struct BbBoard *board, u32 boardId, int frame, u32 *offset, u32 *size, u8 flag);
-extern int func_020473EC(u32 payload);
+extern int G3D_SYSTEM_GetTexDataAddr(u32 payload);
+extern void BILLBOARD_GetImageVramAddr(struct BbBoard *board, u32 boardId, u32 *texDst);
+extern void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 boardId, int frame, u32 *offset, u32 *size, u8 flag);
+extern int G3D_SYSTEM_GetPlttDataAddr(u32 payload);
 extern u32 func_0204F2CC(struct BbBoard *board, u16 boardId, u32 *palDst);
 extern void DWCi_LSTlErase(void *ob);
-extern u32 func_0204F704(struct BbBoard *board, u32 elemId);
+extern u32 BILLBOARD_GetElemVisible(struct BbBoard *board, u32 elemId);
 extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
 extern struct ParticleEngine *func_02052DC8(u32 engineId, u32 effectLimit, u32 particleLimit, u32 limitA, u32 limitB, u32 maxResIndex);
@@ -340,30 +341,30 @@ extern void func_02061824(u32 *table);
 extern int func_02062594(u32 handle);
 extern u32 func_02048AC4(struct ParticleCamera *camera);
 extern struct ParticleCamera *func_02048F60(u32 archiveId, u32 member, u32 heapId);
-extern int func_02046BFC(void);
-extern int func_02046C10(void);
+extern int G3D_SYSTEM_GetTexManagerMode(void);
+extern int G3D_SYSTEM_GetPlttManagerMode(void);
 extern void func_0206164C(u32 *table);
 extern void func_02061808(u32 *table);
 extern void func_02052A50(struct ParticleEngine *engine, void *block);
 extern void func_02030DA8(u32 taskMgr, void (*proc)(struct TaskNode *task, struct ParticleSys *sys), struct ParticleSys *work, u32 priority);
-extern u32 func_02051A3C(u32 id, u32 arg);
-extern u32 func_02051A54(u32 id, u32 arg);
-extern u32 func_02051AA0(u32 id, u32 arg);
-extern u32 func_02051AB8(u32 id, u32 arg);
+extern u32 BUTTON_MAN_Func1A3C(u32 id, u32 arg);
+extern u32 BUTTON_MAN_AppendList0(u32 id, u32 arg);
+extern u32 BUTTON_MAN_Func1AA0(u32 id, u32 arg);
+extern u32 BUTTON_MAN_AppendList1(u32 id, u32 arg);
 extern void func_020528A8(struct ParticleEngine *engine);
 extern void func_020528BC(struct ParticleEngine *engine);
 extern int  func_020528D0(struct ParticleEngine *engine, ParticleLoadFn fn);
 extern int  func_02052984(struct ParticleEngine *engine, ParticleLoadFn fn);
 extern void func_02030EAC(struct TaskNode *task);
-extern void func_020467EC(SavedGxState *dst);
-extern void func_02046858(const SavedGxState *src);
+extern void G3D_SYSTEM_GetProjection(SavedGxState *dst);
+extern void G3D_SYSTEM_SetProjection(const SavedGxState *src);
 extern void func_02046AFC(Mtx33 *dst);
-extern void func_02046B40(Mtx33 *src);
+extern void G3D_SYSTEM_SetLookAt(Mtx33 *src);
 extern void func_020479D8(void);
 extern void func_02048AD0(struct ParticleCamera *camera);
 extern void func_020526A8(struct ParticleEngine *engine, const u32 *drawParams);
-extern void func_0206A9DC(Vec3 *p);
-extern void func_0206AA0C(Vec3 *p);
+extern void NNS_G3dGlbBaseTrans(Vec3 *p);
+extern void NNS_G3dGlbBaseScale(Vec3 *p);
 extern void func_0206DB80(void);
 extern void MI_Copy36B(const void *src, void *dst);
 extern void MTX_Identity33_(Mtx33 *p);
@@ -379,9 +380,9 @@ extern struct ParticleCamera *func_02048A24(u32 projType, u32 fovSin, u32 fovCos
 struct BbActSys *func_0204FE94(u16 slotCount, u16 entryCount, BbActUploadFn uploadFn, int heapId);
 void func_0204FFFC(struct BbActSys *sys);
 struct BbBoard *func_02050080(struct BbActSys *sys);
-void func_02050088(struct BbActSlot *slot);
+void BILLBOARD_ACT_InitSlot(struct BbActSlot *slot);
 void func_020500A0(struct BbActEntry *entry);
-void func_020500B8(struct BbActEntry *entry);
+void BILLBOARD_ACT_InitEntry(struct BbActEntry *entry);
 u16 func_020500F0(struct BbActSys *sys, const struct BbActRec *recs, u32 count);
 u32 func_02050238(struct BbActSys *sys, u32 boardId, u32 payload);
 void func_02050278(struct BbActSys *sys, u32 first, u32 count);
@@ -390,9 +391,9 @@ u16 func_02050330(struct BbActSys *sys, int slotIndex);
 u16 func_02050340(struct BbActSys *sys, u16 baseSlot, const struct BbActDesc *descs, u32 count, u32 mode);
 void func_02050468(struct BbActSys *sys, u16 first, u32 count);
 void func_020504D8(struct BbActSys *sys);
-void func_02050550(struct BbActSys *sys, struct BbActEntry *entry);
-void func_020506B8(struct BbActSys *sys, struct BbActSlot *slot, u32 frame);
-u32 func_02050738(struct BbActSys *sys, struct BbActSlot *slot);
+void BILLBOARD_ACT_UpdateEntry(struct BbActSys *sys, struct BbActEntry *entry);
+void BILLBOARD_ACT_UploadSlotFrame(struct BbActSys *sys, struct BbActSlot *slot, u32 frame);
+u32 BILLBOARD_ACT_UploadSlotPalette(struct BbActSys *sys, struct BbActSlot *slot);
 void func_02050790(LISTCB *list, int unused1, int unused2);
 int func_020507A0(struct BbActSys *sys, int entryIndex, u32 flags);
 int func_020507D0(struct BbActSys *sys, int entryIndex);
@@ -406,70 +407,70 @@ int func_02050894(struct BbActSys *sys, int entryIndex, int srcSlot);
 int func_020508C4(struct BbActSys *sys, int entryIndex);
 u32 func_020508D8(struct BbActSys *sys, u32 entryIndex);
 u32 func_020508EC(struct BbActSys *sys, int entryIndex, u16 *lastCommand);
-int func_02050920(struct BbActCmd *cmd);
-int func_02050944(struct BbActEntry *entry, struct BbActCmd *cmd);
-BbActControlFn func_02050984(u32 id);
-int func_020509E0(struct BbActEntry *entry, struct BbActCmd *cmd);
-int func_020509E8(struct BbActEntry *entry, struct BbActCmd *cmd);
-int func_02050A00(struct BbActEntry *entry, struct BbActCmd *cmd);
-int func_02050A58(struct BbActEntry *entry, struct BbActCmd *cmd);
+int BILLBOARD_ACT_IsControlCommand(struct BbActCmd *cmd);
+int BILLBOARD_ACT_RunControlCommand(struct BbActEntry *entry, struct BbActCmd *cmd);
+BbActControlFn BILLBOARD_ACT_GetControlHandler(u32 id);
+int BILLBOARD_ACT_CmdEnd(struct BbActEntry *entry, struct BbActCmd *cmd);
+int BILLBOARD_ACT_CmdSetList(struct BbActEntry *entry, struct BbActCmd *cmd);
+int BILLBOARD_ACT_CmdLoop(struct BbActEntry *entry, struct BbActCmd *cmd);
+int BILLBOARD_ACT_CmdJump(struct BbActEntry *entry, struct BbActCmd *cmd);
 void func_02050A70(void);
 void func_02050B14(u32 channel);
 void func_02050B80(u32 heapId);
 void func_02050BE8(void);
 struct ParticleSys *func_02050C04(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId);
-struct ParticleSys *func_02050C30(u32 workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heapId);
+struct ParticleSys *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heapId);
 void func_02050DB8(struct ParticleSys *sys);
 void func_02050ED4(void);
-void *func_02050F1C(u32 size);
-void *func_02050F4C(u32 size);
-void *func_02050F7C(u32 size);
-void *func_02050FAC(u32 size);
-void *func_02050FDC(u32 size);
-void *func_0205100C(u32 size);
-void *func_0205103C(u32 size);
-void *func_0205106C(u32 size);
-void *func_0205109C(u32 size);
-void *func_020510CC(u32 size);
-void *func_020510FC(u32 size);
-void *func_0205112C(u32 size);
-void *func_0205115C(u32 size);
-void *func_0205118C(u32 size);
-void *func_020511BC(u32 size);
-void *func_020511EC(u32 size);
+void *PARTICLE_AllocWorkSlot0(u32 size);
+void *PARTICLE_AllocWorkSlot1(u32 size);
+void *PARTICLE_AllocWorkSlot2(u32 size);
+void *PARTICLE_AllocWorkSlot3(u32 size);
+void *PARTICLE_AllocWorkSlot4(u32 size);
+void *PARTICLE_AllocWorkSlot5(u32 size);
+void *PARTICLE_AllocWorkSlot6(u32 size);
+void *PARTICLE_AllocWorkSlot7(u32 size);
+void *PARTICLE_AllocWorkSlot8(u32 size);
+void *PARTICLE_AllocWorkSlot9(u32 size);
+void *PARTICLE_AllocWorkSlot10(u32 size);
+void *PARTICLE_AllocWorkSlot11(u32 size);
+void *PARTICLE_AllocWorkSlot12(u32 size);
+void *PARTICLE_AllocWorkSlot13(u32 size);
+void *PARTICLE_AllocWorkSlot14(u32 size);
+void *PARTICLE_AllocWorkSlot15(u32 size);
 void *func_0205121C(u32 archiveId, u32 member, u32 heapId);
 void func_02051230(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr);
-void func_02051360(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr);
-void func_02051380(struct ParticleSys *sys, void *block);
-void func_02051394(struct ParticleSys *sys);
-void func_020513F8(struct TaskNode *task, struct ParticleSys *sys);
-void func_02051414(struct ParticleSys *sys);
-int func_020514F4(struct ParticleSys *sys);
-int func_02051504(void);
-int func_02051534(void);
-int func_02051574(void);
-int func_020515B4(struct ParticleSys *sys, int resId, int arg);
+void PARTICLE_SetupSystemBorrowed(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr);
+void PARTICLE_SetupSystemNoHandlers(struct ParticleSys *sys, void *block);
+void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys);
+void PARTICLE_ApplyLoadHandlersTask(struct TaskNode *task, struct ParticleSys *sys);
+void PARTICLE_DrawSystem(struct ParticleSys *sys);
+int PARTICLE_UpdateSystem(struct ParticleSys *sys);
+int PARTICLE_CountSystems(void);
+int PARTICLE_DrawAllSystems(void);
+int PARTICLE_UpdateAllSystems(void);
+int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg);
 int func_020515CC(struct ParticleSys *sys, int resId, void (*callback)(void *), int userArg);
 int func_02051614(struct ParticleSys *sys);
-void KeyValHashKey(struct ParticleSys *sys);
-void func_02051630(struct ParticleSys *sys, void *effect);
-void *func_02051640(struct ParticleSys *sys);
-void func_02051648(struct ParticleSys *sys, struct ParticleCameraParams *params, u16 angle,
+void PARTICLE_KillAllEffects(struct ParticleSys *sys);
+void PARTICLE_KillEffect(struct ParticleSys *sys, void *effect);
+void *PARTICLE_GetWorkBase(struct ParticleSys *sys);
+void PARTICLE_InitCamera(struct ParticleSys *sys, struct ParticleCameraParams *params, u16 angle,
                    Vec3 *pos, Vec3 *target, Vec3 *up, u32 heapId);
-int func_02051758(struct ParticleSys *sys);
+int PARTICLE_ReleaseCamera(struct ParticleSys *sys);
 extern const char sBillboardAct[];
 extern const struct BbActBoardInit gBillboardActTpl;
-extern DmaChannel *g_02146A84;
-extern struct ParticleMan *g_02146A88;
-extern const char g_020A7FC0[];
-extern Vec3 g_020A1590;
-extern Vec3 g_020A1584;
-extern Vec3 g_020A1578;
-extern const u32 g_020A15A8[];
-extern Vec3 g_020A159C;
-extern u32      g_02148B4C[];
+extern DmaChannel *g_pDmaChannels;
+extern struct ParticleMan *g_pParticleMan;
+extern const char sParticleFile[];
+extern Vec3 sDefaultCameraPos;
+extern Vec3 sDefaultCameraTarget;
+extern Vec3 sDefaultCameraUp;
+extern const u32 sSystemEngineIds[];
+extern Vec3 sDefaultViewVec;
+extern u32      g_renderState[];
 extern u32      g_02148B98[];
-extern u32      g_02148C08[];
+extern u32      g_renderStateIdentityMtx[];
 
 
 
@@ -539,10 +540,10 @@ struct BbActSys *func_0204FE94(u16 slotCount, u16 entryCount, BbActUploadFn uplo
     sys->entryPool = func_02033C00(sys->entryCount, heapId);
 
     for (i = 0; i < sys->slotCount; i++) {
-        func_02050088(&sys->slots[i]);
+        BILLBOARD_ACT_InitSlot(&sys->slots[i]);
     }
     for (j = 0; j < sys->entryCount; j++) {
-        func_020500B8(&sys->entries[j]);
+        BILLBOARD_ACT_InitEntry(&sys->entries[j]);
     }
     return sys;
 }
@@ -555,7 +556,7 @@ struct BbActSys *func_0204FE94(u16 slotCount, u16 entryCount, BbActUploadFn uplo
 /*
  * billboard_act.c teardown.  The two-byte residue of the earlier notes
  * (the loaded entry word landing in r0 instead of r1) was the callee's
- * arity: func_0204F5A8 takes TWO arguments, and the second is the entry's
+ * arity: BILLBOARD_FreeElem takes TWO arguments, and the second is the entry's
  * first word, which the image loads straight into r1 for the compare and
  * then passes on.  EXACT* because the unlabelled 8-byte getter at
  * 0x02050080 (`ldr r0,[r0,#4]; bx lr`, blx'd from ov021) follows the pool.
@@ -566,12 +567,12 @@ void func_0204FFFC(struct BbActSys *sys)
 
     for (i = 0; i < sys->entryCount; i++) {
         if (sys->entries[i].elemId != 0xFFFF) {
-            func_0204F5A8(sys->board, sys->entries[i].elemId);
+            BILLBOARD_FreeElem(sys->board, sys->entries[i].elemId);
         }
     }
-    func_02033C9C(sys->entryPool);
+    AREAMAN_Delete(sys->entryPool);
     func_020307B0(sys->entries);
-    func_02033C9C(sys->slotPool);
+    AREAMAN_Delete(sys->slotPool);
     func_020307B0(sys->slots);
     func_0204ED24(sys->board);
     func_020307B0(sys);
@@ -604,7 +605,7 @@ struct BbBoard *func_02050080(struct BbActSys *sys)
 
 
 
-void func_02050088(struct BbActSlot *slot)
+void BILLBOARD_ACT_InitSlot(struct BbActSlot *slot)
 {
     slot->boardId = 0xFFFF;
     slot->payload = 0;
@@ -639,10 +640,10 @@ void func_020500A0(struct BbActEntry *entry)
  * of literal pool at 0x020500EC (0x0000FFFF) are this function's own.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020500B8.c \
- *       --func func_020500B8 --addr 0x020500B8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_InitEntry.c \
+ *       --func BILLBOARD_ACT_InitEntry --addr 0x020500B8 --cc 1.1p1 --arm
  */
-void func_020500B8(struct BbActEntry *entry)
+void BILLBOARD_ACT_InitEntry(struct BbActEntry *entry)
 {
     entry->elemId = 0xFFFF;
     entry->cmdLists = 0;
@@ -664,7 +665,7 @@ void func_020500B8(struct BbActEntry *entry)
 
 /*
  * billboard_act.c: take n slot indices from the pool at +0x14 and fill one
- * slot record per request (0: board slot, 1: board slot plus func_0204F10C,
+ * slot record per request (0: board slot, 1: board slot plus BILLBOARD_TrimImageResource,
  * 2: an external payload word with the 0xFFFF sentinel id).  The 28-byte
  * scheduling wall of the earlier notes was the missing `const` on the
  * request array (its byte loads then batch ahead of the outgoing-argument
@@ -676,18 +677,18 @@ u16 func_020500F0(struct BbActSys *sys, const struct BbActRec *recs, u32 count)
     int base;
     u32 i;
 
-    base = func_02033CA8(sys->slotPool, count);
+    base = AREAMAN_Alloc(sys->slotPool, count);
     for (i = 0; i < count; i++) {
         const struct BbActRec *rec = &recs[i];
         u16 id;
         switch (rec->kind) {
         case 0:
-            sys->slots[base + i].boardId = func_0204EF58(sys->board, rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
+            sys->slots[base + i].boardId = BILLBOARD_AddImage(sys->board, rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
             sys->slots[base + i].payload = 0;
             break;
         case 1:
-            id = func_0204EF58(sys->board, rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
-            func_0204F10C(sys->board, id);
+            id = BILLBOARD_AddImage(sys->board, rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
+            BILLBOARD_TrimImageResource(sys->board, id);
             sys->slots[base + i].boardId = id;
             sys->slots[base + i].payload = 0;
             break;
@@ -709,7 +710,7 @@ u16 func_020500F0(struct BbActSys *sys, const struct BbActRec *recs, u32 count)
 
 /*
  * Appends one {u16, u32} record (8 bytes, id in the low half) to the array
- * the caller's object keeps at +12, at the slot func_02033CA8 hands back for
+ * the caller's object keeps at +12, at the slot AREAMAN_Alloc hands back for
  * the pool at +20; the return is the slot narrowed to u16.
  *
  * The four bytes that cost three attempts are the first store's register
@@ -727,7 +728,7 @@ u16 func_020500F0(struct BbActSys *sys, const struct BbActRec *recs, u32 count)
  */
 u32 func_02050238(struct BbActSys *sys, u32 boardId, u32 payload)
 {
-    int index = func_02033CA8(sys->slotPool, 1);
+    int index = AREAMAN_Alloc(sys->slotPool, 1);
 
     sys->slots[index].boardId = boardId;
     sys->slots[index].payload = payload;
@@ -743,9 +744,9 @@ u32 func_02050238(struct BbActSys *sys, u32 boardId, u32 payload)
 
 /*
  * billboard_act.c: release `count` slot records from `first`: the board
- * record through func_0204F150(board, id) when the id is live, the payload
+ * record through BILLBOARD_DeleteImage(board, id) when the id is live, the payload
  * through func_02046EFC when nonzero, then reset the record and return the
- * index range to the pool.  func_0204F150 takes TWO arguments (the loaded
+ * index range to the pool.  BILLBOARD_DeleteImage takes TWO arguments (the loaded
  * id is the r1 the image compares); the rest is plain subscripts.
  */
 void func_02050278(struct BbActSys *sys, u32 first, u32 count)
@@ -754,14 +755,14 @@ void func_02050278(struct BbActSys *sys, u32 first, u32 count)
 
     for (i = 0; i < count; i++) {
         if (sys->slots[first + i].boardId != 0xFFFF) {
-            func_0204F150(sys->board, sys->slots[first + i].boardId);
+            BILLBOARD_DeleteImage(sys->board, sys->slots[first + i].boardId);
         }
         if (sys->slots[first + i].payload != 0) {
             func_02046EFC((struct PayloadBlock *)sys->slots[first + i].payload);
         }
-        func_02050088(&sys->slots[first + i]);
+        BILLBOARD_ACT_InitSlot(&sys->slots[first + i]);
     }
-    func_0203422C(sys->slotPool, first, count);
+    AREAMAN_Free(sys->slotPool, first, count);
 }
 
 
@@ -771,8 +772,8 @@ void func_02050278(struct BbActSys *sys, u32 first, u32 count)
 
 int func_02050304(struct BbActSys *sys, u32 slot)
 {
-    func_02050088(&sys->slots[slot]);
-    return func_0203422C(sys->slotPool, slot, 1);
+    BILLBOARD_ACT_InitSlot(&sys->slots[slot]);
+    return AREAMAN_Free(sys->slotPool, slot, 1);
 }
 
 
@@ -794,11 +795,11 @@ u16 func_02050330(struct BbActSys *sys, int slotIndex)
 /*
  * billboard_act.c: take `count` consecutive entry indices from the pool at
  * +0x20 and build one board element per 0x24-byte descriptor through
- * func_0204F428, returning the first index (0xFFFF when the pool is full).
+ * BILLBOARD_AddElem, returning the first index (0xFFFF when the pool is full).
  * Levers, all measured: the descriptor array is `const` (its field loads
  * then move above the entry stores, 62 -> 15 bytes); the element id is a
  * named local passed on to func_0204F720 rather than re-read; the caller's
- * view of func_0204F428 takes s16 v12/v14 (ldrsh, no narrowing); all five
+ * view of BILLBOARD_AddElem takes s16 v12/v14 (ldrsh, no narrowing); all five
  * locals at function scope in the order p, e, idx, i, r (loop-scoped e/p
  * swap the i and p registers).
  */
@@ -810,7 +811,7 @@ u16 func_02050340(struct BbActSys *sys, u16 baseSlot, const struct BbActDesc *de
     u32 i;
     s32 elemId;
 
-    first = func_02033CA8(sys->entryPool, count);
+    first = AREAMAN_Alloc(sys->entryPool, count);
     if (first == -1) {
         return 0xFFFF;
     }
@@ -818,9 +819,9 @@ u16 func_02050340(struct BbActSys *sys, u16 baseSlot, const struct BbActDesc *de
         entry = &sys->entries[first + i];
         desc = &descs[i];
 
-        func_020500B8(entry);
+        BILLBOARD_ACT_InitEntry(entry);
         entry->slotIndex = baseSlot + desc->slot;
-        elemId = func_0204F428(sys->board, sys->slots[entry->slotIndex].boardId, desc->width, desc->height, &desc->pos, desc->layer, desc->color, mode);
+        elemId = BILLBOARD_AddElem(sys->board, sys->slots[entry->slotIndex].boardId, desc->width, desc->height, &desc->pos, desc->layer, desc->color, mode);
         entry->elemId = elemId;
         entry->hook = desc->hook;
         entry->hookArg = desc->hookArg;
@@ -846,10 +847,10 @@ void func_02050468(struct BbActSys *sys, u16 first, u32 count)
     u32 i;
 
     for (i = 0; i < count; i++) {
-        func_0204F5A8(sys->board, sys->entries[first + i].elemId);
-        func_020500B8(&sys->entries[first + i]);
+        BILLBOARD_FreeElem(sys->board, sys->entries[first + i].elemId);
+        BILLBOARD_ACT_InitEntry(&sys->entries[first + i]);
     }
-    func_0203422C(sys->entryPool, first, count);
+    AREAMAN_Free(sys->entryPool, first, count);
 }
 
 
@@ -862,13 +863,13 @@ void func_02050468(struct BbActSys *sys, u16 first, u32 count)
  * below the live count sys->entryCount, skip the entry whose first word is the
  * sentinel 0xFFFF, otherwise call its per-entry hook (a function pointer at
  * +0x20, taking the owner, the index and the entry's +0x24 word) when one is
- * installed, then hand the entry to func_02050550.
+ * installed, then hand the entry to BILLBOARD_ACT_UpdateEntry.
  *
  * Two shapes are load-bearing:
  *
  *   - The live count is re-read from sys->entryCount at the BOTTOM of the loop
  *     (`ldrh r0, [r5, #0x1c]` at +0x60) as well as at the top, because the
- *     hook and func_02050550 may both change it.  Caching it in a local gives
+ *     hook and BILLBOARD_ACT_UpdateEntry may both change it.  Caching it in a local gives
  *     one load and a different loop shape.
  *   - The count is a u16 but the comparison is SIGNED (`blt`, and `pople` on
  *     the entry guard), so the index is a plain `int` and the count is
@@ -877,8 +878,8 @@ void func_02050468(struct BbActSys *sys, u16 first, u32 count)
  * The 0xFFFF sentinel lives in the pool at 0x0205054C rather than as an
  * immediate, which is why r7 is loaded once before the loop.
  *
- * UNBLOCKED 2026-09-21: func_02050550 was filed EXACT
- * (src/matched/func_02050550.c, shard arm9/pkt_02050340.json), so the single
+ * UNBLOCKED 2026-09-21: BILLBOARD_ACT_UpdateEntry was filed EXACT
+ * (src/matched/BILLBOARD_ACT_UpdateEntry.c, shard arm9/pkt_02050340.json), so the single
  * relocation site, the `bl` at +0x5C, is now attested `matched` and this file
  * verifies EXACT unchanged.  No C was altered to promote it.
  *
@@ -903,7 +904,7 @@ void func_020504D8(struct BbActSys *sys)
                 if (entry->hook != 0) {
                     entry->hook(sys, i, entry->hookArg);
                 }
-                func_02050550(sys, entry);
+                BILLBOARD_ACT_UpdateEntry(sys, entry);
             }
         i++;
     } while (i < sys->entryCount);
@@ -914,7 +915,7 @@ void func_020504D8(struct BbActSys *sys)
 
 
 
-void func_02050550(struct BbActSys *sys, struct BbActEntry *entry)
+void BILLBOARD_ACT_UpdateEntry(struct BbActSys *sys, struct BbActEntry *entry)
 {
     struct BbActCmd *cmd;
     u32  flipXValue;
@@ -932,8 +933,8 @@ void func_02050550(struct BbActSys *sys, struct BbActEntry *entry)
     }
 
     cmd = &entry->cmdLists[entry->listIndex][entry->cursor];
-    while (func_02050920(cmd)) {
-        if (func_02050944(entry, cmd)) {
+    while (BILLBOARD_ACT_IsControlCommand(cmd)) {
+        if (BILLBOARD_ACT_RunControlCommand(entry, cmd)) {
             return;
         }
         cmd = &entry->cmdLists[entry->listIndex][entry->cursor];
@@ -945,7 +946,7 @@ void func_02050550(struct BbActSys *sys, struct BbActEntry *entry)
 
     slot = (struct BbActSlot *)((u8 *)(entry->slotIndex * 8) + (u32)sys->slots);
     if (slot->payload != 0) {
-        func_020506B8(sys, slot, frame);
+        BILLBOARD_ACT_UploadSlotFrame(sys, slot, frame);
     } else {
         func_0204F66C(sys->board, entry->elemId, &frame);
     }
@@ -975,7 +976,7 @@ void func_02050550(struct BbActSys *sys, struct BbActEntry *entry)
 
 
 
-void func_020506B8(struct BbActSys *sys, struct BbActSlot *slot, u32 frame)
+void BILLBOARD_ACT_UploadSlotFrame(struct BbActSys *sys, struct BbActSlot *slot, u32 frame)
 {
     u32 texDst;
     u32 frameOffset;
@@ -983,10 +984,10 @@ void func_020506B8(struct BbActSys *sys, struct BbActSlot *slot, u32 frame)
     u32 payloadBase;
     u32 zero;
 
-    payloadBase = func_020473D8(slot->payload);
-    func_0204F2B4(sys->board, slot->boardId, &texDst);
+    payloadBase = G3D_SYSTEM_GetTexDataAddr(slot->payload);
+    BILLBOARD_GetImageVramAddr(sys->board, slot->boardId, &texDst);
     zero = 0;
-    func_0204F344(sys->board, slot->boardId, frame, &frameOffset, &frameSize, zero);
+    BILLBOARD_CalcImageFrameRange(sys->board, slot->boardId, frame, &frameOffset, &frameSize, zero);
     if (sys->uploadFn != 0) {
         sys->uploadFn(zero, texDst, payloadBase + frameOffset, frameSize);
     }
@@ -999,7 +1000,7 @@ void func_020506B8(struct BbActSys *sys, struct BbActSlot *slot, u32 frame)
 
 /*
  * An 88-byte ARM function in the 0x02050000 block.  It reads a record index
- * out of the object at +4, resolves it through func_020473EC, then calls
+ * out of the object at +4, resolves it through G3D_SYSTEM_GetPlttDataAddr, then calls
  * func_0204F2CC with the object's word at +4, the halfword at q[0] and a
  * stack scratch slot; when the hook pointer at p+8 is non-null it calls the
  * hook with the scratch value and the resolved record.  The null case returns
@@ -1007,12 +1008,12 @@ void func_020506B8(struct BbActSys *sys, struct BbActSlot *slot, u32 frame)
  * second call with r0 still live.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050738.c \
- *       --func func_02050738 --addr 0x02050738 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_UploadSlotPalette.c \
+ *       --func BILLBOARD_ACT_UploadSlotPalette --addr 0x02050738 --cc 1.1p1 --arm
  */
-u32 func_02050738(struct BbActSys *sys, struct BbActSlot *slot)
+u32 BILLBOARD_ACT_UploadSlotPalette(struct BbActSys *sys, struct BbActSlot *slot)
 {
-    u32 paletteSrc = func_020473EC(slot->payload);
+    u32 paletteSrc = G3D_SYSTEM_GetPlttDataAddr(slot->payload);
     u32 paletteDst;
     u32 result = func_0204F2CC(sys->board, slot->boardId, &paletteDst);
     BbActUploadFn uploadFn = sys->uploadFn;
@@ -1080,7 +1081,7 @@ int func_020507A0(struct BbActSys *sys, int entryIndex, u32 flags)
  */
 int func_020507D0(struct BbActSys *sys, int entryIndex)
 {
-    return func_0204F704(sys->board, sys->entries[entryIndex].elemId);
+    return BILLBOARD_GetElemVisible(sys->board, sys->entries[entryIndex].elemId);
 }
 
 
@@ -1183,7 +1184,7 @@ u16 func_02050880(struct BbActSys *sys, int entryIndex)
  * Moves one word between two parallel record arrays of the object: the index
  * is read out of the 40-byte record table at p+24, the value out of the
  * 8-byte-pair array at p+12, the value is stored back into the record the
- * index names, and the record is handed to func_02050738.
+ * index names, and the record is handed to BILLBOARD_ACT_UploadSlotPalette.
  *
  * The listing's extent runs 140 bytes because the follower at 0x020508C4 is an
  * unlabelled leaf accessor (no prologue that saves lr).
@@ -1200,7 +1201,7 @@ int func_02050894(struct BbActSys *sys, int entryIndex, int srcSlot)
     u32 payload = slots[srcSlot].payload;
 
     slots[dstSlot].payload = payload;
-    return func_02050738(sys, &slots[dstSlot]);
+    return BILLBOARD_ACT_UploadSlotPalette(sys, &slots[dstSlot]);
 }
 
 
@@ -1243,12 +1244,12 @@ u32 func_020508EC(struct BbActSys *sys, int entryIndex, u16 *lastCommand)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050920.c \
- *       --func func_02050920 --addr 0x02050920 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_IsControlCommand.c \
+ *       --func BILLBOARD_ACT_IsControlCommand --addr 0x02050920 --cc 1.1p1 --arm
  */
-int func_02050920(struct BbActCmd *cmd)
+int BILLBOARD_ACT_IsControlCommand(struct BbActCmd *cmd)
 {
-    return func_02050984(cmd->frame) != 0;
+    return BILLBOARD_ACT_GetControlHandler(cmd->frame) != 0;
 }
 
 
@@ -1258,14 +1259,14 @@ int func_02050920(struct BbActCmd *cmd)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050944.c \
- *       --func func_02050944 --addr 0x02050944 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_RunControlCommand.c \
+ *       --func BILLBOARD_ACT_RunControlCommand --addr 0x02050944 --cc 1.1p1 --arm
  */
-int func_02050944(struct BbActEntry *entry, struct BbActCmd *cmd)
+int BILLBOARD_ACT_RunControlCommand(struct BbActEntry *entry, struct BbActCmd *cmd)
 {
     BbActControlFn handler;
 
-    handler = func_02050984(cmd->frame);
+    handler = BILLBOARD_ACT_GetControlHandler(cmd->frame);
     entry->lastCommand = cmd->frame;
     return handler(entry, cmd);
 }
@@ -1276,12 +1277,12 @@ int func_02050944(struct BbActEntry *entry, struct BbActCmd *cmd)
 
 
 /*
- * PROMOTED from src/pending/func_02050984.c 2026-09-21 (wave 4, billboard_act).
+ * PROMOTED from src/pending/BILLBOARD_ACT_GetControlHandler.c 2026-09-21 (wave 4, billboard_act).
  * The C is UNCHANGED: it was parked at MATCH* because three of its four ABS32
  * pool words -- 0x020509E0, 0x02050A00 and 0x02050A58 -- each had exactly one
  * mention image wide, the pool word inside this very function, so neither
  * `label` nor `literal` reached them.  All three handlers are now filed EXACT
- * (src/matched/func_020509E0.c, func_02050A00.c, func_02050A58.c, shard
+ * (src/matched/BILLBOARD_ACT_CmdEnd.c, BILLBOARD_ACT_CmdLoop.c, BILLBOARD_ACT_CmdJump.c, shard
  * arm9/pkt_02050984.json), so every site resolves by the `matched` class and
  * this file verifies EXACT* with no edit to the body.
  *
@@ -1306,16 +1307,16 @@ int func_02050944(struct BbActEntry *entry, struct BbActCmd *cmd)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050984.c \
- *       --func func_02050984 --addr 0x02050984 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_GetControlHandler.c \
+ *       --func BILLBOARD_ACT_GetControlHandler --addr 0x02050984 --cc 1.1p1 --arm
  */
-BbActControlFn func_02050984(u32 id)
+BbActControlFn BILLBOARD_ACT_GetControlHandler(u32 id)
 {
     switch (id) {
-    case BBACT_CMD_END:      return func_020509E0;
-    case BBACT_CMD_SET_LIST: return func_020509E8;
-    case BBACT_CMD_LOOP:     return func_02050A00;
-    case BBACT_CMD_JUMP:     return func_02050A58;
+    case BBACT_CMD_END:      return BILLBOARD_ACT_CmdEnd;
+    case BBACT_CMD_SET_LIST: return BILLBOARD_ACT_CmdSetList;
+    case BBACT_CMD_LOOP:     return BILLBOARD_ACT_CmdLoop;
+    case BBACT_CMD_JUMP:     return BILLBOARD_ACT_CmdJump;
     }
     return 0;
 }
@@ -1325,16 +1326,16 @@ BbActControlFn func_02050984(u32 id)
 
 
 /*
- * The second arm of the four-entry handler table func_02050984 dispatches
+ * The second arm of the four-entry handler table BILLBOARD_ACT_GetControlHandler dispatches
  * through (its pool word at 0x020509D0).  Eight bytes, a leaf that returns the
  * nonzero constant the dispatch caller tests, and one of the pool words that
- * keeps src/pending/func_02050984.c wildcarded until it has an EXACT entry.
+ * keeps src/pending/BILLBOARD_ACT_GetControlHandler.c wildcarded until it has an EXACT entry.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020509E0.c \
- *       --func func_020509E0 --addr 0x020509E0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_CmdEnd.c \
+ *       --func BILLBOARD_ACT_CmdEnd --addr 0x020509E0 --cc 1.1p1 --arm
  */
-int func_020509E0(struct BbActEntry *entry, struct BbActCmd *cmd)
+int BILLBOARD_ACT_CmdEnd(struct BbActEntry *entry, struct BbActCmd *cmd)
 {
     return 1;
 }
@@ -1346,10 +1347,10 @@ int func_020509E0(struct BbActEntry *entry, struct BbActCmd *cmd)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020509E8.c \
- *       --func func_020509E8 --addr 0x020509E8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_CmdSetList.c \
+ *       --func BILLBOARD_ACT_CmdSetList --addr 0x020509E8 --cc 1.1p1 --arm
  */
-int func_020509E8(struct BbActEntry *entry, struct BbActCmd *cmd)
+int BILLBOARD_ACT_CmdSetList(struct BbActEntry *entry, struct BbActCmd *cmd)
 {
     entry->listIndex = cmd->arg;
     func_020500A0(entry);
@@ -1362,14 +1363,14 @@ int func_020509E8(struct BbActEntry *entry, struct BbActCmd *cmd)
 
 
 /*
- * The third arm of the handler table func_02050984 dispatches through (see
- * src/pending/func_02050984.c).  88 bytes, a leaf: the command halfword at
+ * The third arm of the handler table BILLBOARD_ACT_GetControlHandler dispatches through (see
+ * src/pending/BILLBOARD_ACT_GetControlHandler.c).  88 bytes, a leaf: the command halfword at
  * cmd->arg packs two bytes, a repeat count in the high half and a value in the
  * low half.  While the entry's repeat counter at +0x14 is below the count,
  * store the value at +0x10 and bump the counter; once it reaches the count,
  * reset the counter and advance +0x10 by one instead.  +0x12 is zeroed on
  * both paths.  Returns 0 (the "command consumed, keep going" verdict the
- * dispatcher in func_02050944 tests).
+ * dispatcher in BILLBOARD_ACT_RunControlCommand tests).
  *
  * The comparison is SIGNED (`bge`), so both sides are promoted `int`s and the
  * counter is compared as an int, not as an unsigned halfword.
@@ -1387,10 +1388,10 @@ int func_020509E8(struct BbActEntry *entry, struct BbActCmd *cmd)
  *     after it, which is the last 8 bytes (88 bytes, 8 out).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050A00.c \
- *       --func func_02050A00 --addr 0x02050A00 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_CmdLoop.c \
+ *       --func BILLBOARD_ACT_CmdLoop --addr 0x02050A00 --cc 1.1p1 --arm
  */
-int func_02050A00(struct BbActEntry *entry, struct BbActCmd *cmd)
+int BILLBOARD_ACT_CmdLoop(struct BbActEntry *entry, struct BbActCmd *cmd)
 {
     int operand = cmd->arg;
     int count = entry->loopCount;
@@ -1415,8 +1416,8 @@ int func_02050A00(struct BbActEntry *entry, struct BbActCmd *cmd)
 
 
 /*
- * The fourth arm of the handler table func_02050984 dispatches through (its
- * pool word at 0x02050980-ish; see src/pending/func_02050984.c).  Twenty
+ * The fourth arm of the handler table BILLBOARD_ACT_GetControlHandler dispatches through (its
+ * pool word at 0x02050980-ish; see src/pending/BILLBOARD_ACT_GetControlHandler.c).  Twenty
  * bytes, a leaf: it loads the command's second halfword (`cmd->arg`), zeroes the
  * entry's +0x12 counter, stores the halfword at +0x10 and returns 0.
  *
@@ -1425,10 +1426,10 @@ int func_02050A00(struct BbActEntry *entry, struct BbActCmd *cmd)
  * shared between the store and the `return 0;` produces.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050A58.c \
- *       --func func_02050A58 --addr 0x02050A58 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_CmdJump.c \
+ *       --func BILLBOARD_ACT_CmdJump --addr 0x02050A58 --cc 1.1p1 --arm
  */
-int func_02050A58(struct BbActEntry *entry, struct BbActCmd *cmd)
+int BILLBOARD_ACT_CmdJump(struct BbActEntry *entry, struct BbActCmd *cmd)
 {
     u16 target = cmd->arg;
 
@@ -1451,7 +1452,7 @@ int func_02050A58(struct BbActEntry *entry, struct BbActCmd *cmd)
  *           no source reaches it).  Chain row.
  *
  *           All 164 concrete bytes reproduce, including the third site
- *           (g_02146A84, literal x5).  The counter is `int`, not `u32`: the
+ *           (g_pDmaChannels, literal x5).  The counter is `int`, not `u32`: the
  *           loop's back edge is `blt`.
  *
  * Sweep the four 16-byte slots of the global bank at 0x02146A84 and retire
@@ -1470,19 +1471,19 @@ void func_02050A70(void)
 {
     int i;
 
-    if (g_02146A84 == 0)
+    if (g_pDmaChannels == 0)
         return;
 
     for (i = 0; i < 4; i++) {
-        if (g_02146A84[i].dirty) {
-            g_02146A84[i].dirty = 0;
-            if (g_02146A84[i].control >> 11) {
+        if (g_pDmaChannels[i].dirty) {
+            g_pDmaChannels[i].dirty = 0;
+            if (g_pDmaChannels[i].control >> 11) {
                 func_02050B14(i);
-                g_02146A84[i].programmed = 1;
+                g_pDmaChannels[i].programmed = 1;
             }
         }
-        if (g_02146A84[i].reprogram) {
-            g_02146A84[i].reprogram = 0;
+        if (g_pDmaChannels[i].reprogram) {
+            g_pDmaChannels[i].reprogram = 0;
             func_02050B14(i);
         }
     }
@@ -1497,7 +1498,7 @@ void func_02050A70(void)
  * (44 differing bytes, diagnosed there as a one-register allocator shift with
  * "no source shape that reaches it").  The diagnosis was wrong: the residue was
  * a WRONG RECORD STRIDE, not an allocation tie.  The note's reconstruction read
- * the field as `g_02146A84[idx].unk_08` over 16-byte records but spelled the
+ * the field as `g_pDmaChannels[idx].unk_08` over 16-byte records but spelled the
  * index arithmetic so that the compiler emitted a multiply; the image emits
  * `add r1, r3, r4, lsl #4` -- a shift, because 16 is a power of two -- and
  * `mul r2, r4, r1` ONLY for the SECOND, independent 12-byte stride of the I/O
@@ -1528,7 +1529,7 @@ void func_02050A70(void)
 void func_02050B14(u32 channel)
 {
     u32 state = OS_DisableInterrupts();
-    u32 v = g_02146A84[channel].control;
+    u32 v = g_pDmaChannels[channel].control;
 
     REG_DMA_CNT(channel) =
         ((v << 30) >> 31) << 30 |
@@ -1564,14 +1565,14 @@ void func_02050B80(u32 heapId)
 {
     int i = 0;
 
-    g_02146A88 = func_02030734(heapId, 0x48, i, g_020A7FC0, 190);
+    g_pParticleMan = func_02030734(heapId, 0x48, i, sParticleFile, 190);
 
     for (i = 0; i < 16; i++) {
-        g_02146A88->systems[i] = 0;
+        g_pParticleMan->systems[i] = 0;
     }
 
-    g_02146A88->callbackArg = 0;
-    g_02146A88->current = 0;
+    g_pParticleMan->callbackArg = 0;
+    g_pParticleMan->current = 0;
 }
 
 
@@ -1586,10 +1587,10 @@ void func_02050B80(u32 heapId)
  */
 void func_02050BE8(void)
 {
-    if (func_02051504() == 0)
+    if (PARTICLE_CountSystems() == 0)
         return;
-    func_02051534();
-    func_02051574();
+    PARTICLE_DrawAllSystems();
+    PARTICLE_UpdateAllSystems();
 }
 
 
@@ -1603,7 +1604,7 @@ void func_02050BE8(void)
  */
 struct ParticleSys *func_02050C04(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId)
 {
-    return func_02050C30(workBuf, workSize, withCamera, 5, 6, 63, heapId);
+    return PARTICLE_CreateSystem(workBuf, workSize, withCamera, 5, 6, 63, heapId);
 }
 
 
@@ -1620,7 +1621,7 @@ struct ParticleSys *func_02050C04(u32 workBuf, u32 workSize, u32 withCamera, u32
  *
  * WHAT CLOSED IT (docs/notes/pkt_02050C30.c.txt: size-exact at 392 with 37
  * bytes out inside the final argument setup, permuter exhausted): the
- * per-slot table 0x020A15A8 is CONST, `extern const u32 g_020A15A8[];`.
+ * per-slot table 0x020A15A8 is CONST, `extern const u32 sSystemEngineIds[];`.
  * Without const the element load may not move above the two argument stores
  * to the outgoing area (they could alias it), so the compiler schedules the
  * truncations and stores first; const lets it issue the table base load
@@ -1630,13 +1631,13 @@ struct ParticleSys *func_02050C04(u32 workBuf, u32 workSize, u32 withCamera, u32
  * truncated with a (u16) cast at the use) and its three other decisions all
  * stand.
  */
-struct ParticleSys *func_02050C30(u32 workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heapId)
+struct ParticleSys *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heapId)
 {
     struct ParticleSys *sys;
     struct ParticleSys **table;
     int i = 0;
 
-    table = g_02146A88->systems;
+    table = g_pParticleMan->systems;
     do {
         if (table[i] == 0)
             break;
@@ -1645,23 +1646,23 @@ struct ParticleSys *func_02050C30(u32 workBuf, u32 workSize, u32 withCamera, u32
     if (i >= 16)
         return 0;
 
-    sys = func_02030734((u16)heapId, 0x260, 0, g_020A7FC0, 285);
+    sys = func_02030734((u16)heapId, 0x260, 0, sParticleFile, 285);
     MI_CpuFill8(sys, 0, 0x260);
-    sys->cameraPos = g_020A1590;
-    sys->cameraTarget = g_020A1584;
-    sys->cameraUp = g_020A1578;
+    sys->cameraPos = sDefaultCameraPos;
+    sys->cameraTarget = sDefaultCameraTarget;
+    sys->cameraUp = sDefaultCameraUp;
     sys->flags = sys->flags & ~1u;
     MI_CpuFill8((void *)workBuf, 0, workSize);
     sys->workBase = workBuf;
     sys->workCursor = workBuf;
     sys->workEnd = workBuf + workSize;
     sys->slotIndex = (u8)i;
-    g_02146A88->systems[i] = sys;
+    g_pParticleMan->systems[i] = sys;
 
     if (withCamera == 1)
-        func_02051648(sys, 0, 0x2000, 0, 0, 0, heapId);
+        PARTICLE_InitCamera(sys, 0, 0x2000, 0, 0, 0, heapId);
 
-    sys->engine = func_02052DC8(g_020A15A8[i], 0x18, 0xc8, (u16)limitA, (u16)limitB, (u16)maxResIndex);
+    sys->engine = func_02052DC8(sSystemEngineIds[i], 0x18, 0xc8, (u16)limitA, (u16)limitB, (u16)maxResIndex);
     return sys;
 }
 
@@ -1685,8 +1686,8 @@ struct ParticleSys *func_02050C30(u32 workBuf, u32 workSize, u32 withCamera, u32
  *    them.  All nine sites resolve, none wildcarded.
  *
  * 2. The note's 20-byte register swap in the sixteen-entry search loop is
- *    closed by writing that loop WITHOUT a cursor local: `g_02146A88->systems[j]`
- *    drawn fresh at both the read and the store, not `a = g_02146A88; a[j]`.
+ *    closed by writing that loop WITHOUT a cursor local: `g_pParticleMan->systems[j]`
+ *    drawn fresh at both the read and the store, not `a = g_pParticleMan; a[j]`.
  *    Found with tools/permuter.py (hill, budget 500, mutation `expand(a x2)`).
  *    The note ruled out declaration order, a separate index, hoisting the
  *    counter and the pointer-walk form, but never tried expanding the cursor
@@ -1716,7 +1717,7 @@ void func_02050DB8(struct ParticleSys *sys)
     int i;
     u32 z = 0;
 
-    KeyValHashKey(sys);
+    PARTICLE_KillAllEffects(sys);
 
     if (sys->loadMode & PARTICLE_LOAD_TEX_BULK) {
         func_0206168C(sys->texHandles);
@@ -1755,9 +1756,9 @@ void func_02050DB8(struct ParticleSys *sys)
     {
         int j = 0;
         for (;;) {
-            struct ParticleSys *t = g_02146A88->systems[j];
+            struct ParticleSys *t = g_pParticleMan->systems[j];
             if (t == sys) {
-                g_02146A88->systems[j] = (struct ParticleSys *)z;
+                g_pParticleMan->systems[j] = (struct ParticleSys *)z;
                 break;
             }
             j++;
@@ -1792,20 +1793,20 @@ void func_02050ED4(void)
     int i;
 
     for (i = 0; i < 16; i++) {
-        struct ParticleSys *sys = g_02146A88->systems[i];
+        struct ParticleSys *sys = g_pParticleMan->systems[i];
 
         if (sys != 0)
             func_02050DB8(sys);
     }
-    func_020307B0(g_02146A88);
-    g_02146A88 = 0;
+    func_020307B0(g_pParticleMan);
+    g_pParticleMan = 0;
 }
 
 
 
-void *func_02050F1C(u32 size)
+void *PARTICLE_AllocWorkSlot0(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[0];
+    struct ParticleSys *sys = g_pParticleMan->systems[0];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1817,9 +1818,9 @@ void *func_02050F1C(u32 size)
 
 
 
-void *func_02050F4C(u32 size)
+void *PARTICLE_AllocWorkSlot1(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[1];
+    struct ParticleSys *sys = g_pParticleMan->systems[1];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1831,9 +1832,9 @@ void *func_02050F4C(u32 size)
 
 
 
-void *func_02050F7C(u32 size)
+void *PARTICLE_AllocWorkSlot2(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[2];
+    struct ParticleSys *sys = g_pParticleMan->systems[2];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1845,9 +1846,9 @@ void *func_02050F7C(u32 size)
 
 
 
-void *func_02050FAC(u32 size)
+void *PARTICLE_AllocWorkSlot3(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[3];
+    struct ParticleSys *sys = g_pParticleMan->systems[3];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1859,9 +1860,9 @@ void *func_02050FAC(u32 size)
 
 
 
-void *func_02050FDC(u32 size)
+void *PARTICLE_AllocWorkSlot4(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[4];
+    struct ParticleSys *sys = g_pParticleMan->systems[4];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1873,9 +1874,9 @@ void *func_02050FDC(u32 size)
 
 
 
-void *func_0205100C(u32 size)
+void *PARTICLE_AllocWorkSlot5(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[5];
+    struct ParticleSys *sys = g_pParticleMan->systems[5];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1887,9 +1888,9 @@ void *func_0205100C(u32 size)
 
 
 
-void *func_0205103C(u32 size)
+void *PARTICLE_AllocWorkSlot6(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[6];
+    struct ParticleSys *sys = g_pParticleMan->systems[6];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1901,9 +1902,9 @@ void *func_0205103C(u32 size)
 
 
 
-void *func_0205106C(u32 size)
+void *PARTICLE_AllocWorkSlot7(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[7];
+    struct ParticleSys *sys = g_pParticleMan->systems[7];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1915,9 +1916,9 @@ void *func_0205106C(u32 size)
 
 
 
-void *func_0205109C(u32 size)
+void *PARTICLE_AllocWorkSlot8(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[8];
+    struct ParticleSys *sys = g_pParticleMan->systems[8];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1929,9 +1930,9 @@ void *func_0205109C(u32 size)
 
 
 
-void *func_020510CC(u32 size)
+void *PARTICLE_AllocWorkSlot9(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[9];
+    struct ParticleSys *sys = g_pParticleMan->systems[9];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1943,9 +1944,9 @@ void *func_020510CC(u32 size)
 
 
 
-void *func_020510FC(u32 size)
+void *PARTICLE_AllocWorkSlot10(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[10];
+    struct ParticleSys *sys = g_pParticleMan->systems[10];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1957,9 +1958,9 @@ void *func_020510FC(u32 size)
 
 
 
-void *func_0205112C(u32 size)
+void *PARTICLE_AllocWorkSlot11(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[11];
+    struct ParticleSys *sys = g_pParticleMan->systems[11];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1971,9 +1972,9 @@ void *func_0205112C(u32 size)
 
 
 
-void *func_0205115C(u32 size)
+void *PARTICLE_AllocWorkSlot12(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[12];
+    struct ParticleSys *sys = g_pParticleMan->systems[12];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1985,9 +1986,9 @@ void *func_0205115C(u32 size)
 
 
 
-void *func_0205118C(u32 size)
+void *PARTICLE_AllocWorkSlot13(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[13];
+    struct ParticleSys *sys = g_pParticleMan->systems[13];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -1999,9 +2000,9 @@ void *func_0205118C(u32 size)
 
 
 
-void *func_020511BC(u32 size)
+void *PARTICLE_AllocWorkSlot14(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[14];
+    struct ParticleSys *sys = g_pParticleMan->systems[14];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -2013,9 +2014,9 @@ void *func_020511BC(u32 size)
 
 
 
-void *func_020511EC(u32 size)
+void *PARTICLE_AllocWorkSlot15(u32 size)
 {
-    struct ParticleSys *sys = g_02146A88->systems[15];
+    struct ParticleSys *sys = g_pParticleMan->systems[15];
     u32 next = sys->workCursor + size;
     u32 start = sys->workCursor;
     if (next & 3) {
@@ -2058,8 +2059,8 @@ void func_02051230(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskM
     struct ParticleEngine *engine;
 
     z = 0;
-    mode = (func_02046BFC() == 1) ? 1 : 2;
-    palMode = func_02046C10();
+    mode = (G3D_SYSTEM_GetTexManagerMode() == 1) ? 1 : 2;
+    palMode = G3D_SYSTEM_GetPlttManagerMode();
     if (palMode == 1)
         palMode = 4;
     else
@@ -2068,32 +2069,32 @@ void func_02051230(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskM
     sys->loadMode = (u8)mode;
     if (mode & PARTICLE_LOAD_TEX_BULK) {
         func_0206164C(sys->texHandles);
-        sys->texLoadFn = func_02051A3C;
+        sys->texLoadFn = BUTTON_MAN_Func1A3C;
     } else if (mode & PARTICLE_LOAD_TEX_ENTRY) {
         for (i = 0; i < 0x40; i++)
             sys->texHandles[i] = z;
-        sys->texLoadFn = func_02051A54;
+        sys->texLoadFn = BUTTON_MAN_AppendList0;
         sys->texCount = z;
     }
     if (mode & PARTICLE_LOAD_PAL_BULK) {
         func_02061808(sys->palHandles);
-        sys->palLoadFn = func_02051AA0;
+        sys->palLoadFn = BUTTON_MAN_Func1AA0;
     } else if (mode & PARTICLE_LOAD_PAL_ENTRY) {
         for (i = 0; i < 0x40; i++)
             sys->palHandles[i] = z;
-        sys->palLoadFn = func_02051AB8;
+        sys->palLoadFn = BUTTON_MAN_AppendList1;
         sys->palCount = z;
     }
     engine = sys->engine;
     sys->resourceBlock = block;
     func_02052A50(engine, block);
     if (applyNow == 1) {
-        func_02051394(sys);
+        PARTICLE_ApplyLoadHandlers(sys);
         return;
     }
     if (taskMgr == 0)
         return;
-    func_02030DA8(taskMgr, func_020513F8, sys, 0);
+    func_02030DA8(taskMgr, PARTICLE_ApplyLoadHandlersTask, sys, 0);
 }
 
 
@@ -2102,10 +2103,10 @@ void func_02051230(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskM
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051360.c \
- *       --func func_02051360 --addr 0x02051360 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_SetupSystemBorrowed.c \
+ *       --func PARTICLE_SetupSystemBorrowed --addr 0x02051360 --cc 1.1p1 --arm
  */
-void func_02051360(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr)
+void PARTICLE_SetupSystemBorrowed(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr)
 {
     func_02051230(sys, block, applyNow, taskMgr);
     sys->flags = (u16)((sys->flags & ~1) | 1);
@@ -2120,7 +2121,7 @@ void func_02051360(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskM
 /*
  * Tail call with two zero arguments. Filed as the witness for ov094 func_021FA12C.
  */
-void func_02051380(struct ParticleSys *sys, void *block)
+void PARTICLE_SetupSystemNoHandlers(struct ParticleSys *sys, void *block)
 {
     func_02051230(sys, block, 0, 0);
 }
@@ -2157,15 +2158,15 @@ void func_02051380(struct ParticleSys *sys, void *block)
  * Assignment statements after the store reproduce all 25 instructions.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051394.c \
- *       --func func_02051394 --addr 0x02051394 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_ApplyLoadHandlers.c \
+ *       --func PARTICLE_ApplyLoadHandlers --addr 0x02051394 --cc 1.1p1 --arm
  */
-void func_02051394(struct ParticleSys *sys)
+void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys)
 {
     ParticleLoadFn fn;
     struct ParticleEngine *engine;
 
-    g_02146A88->current = sys;
+    g_pParticleMan->current = sys;
 
     fn = sys->texLoadFn;
     engine = sys->engine;
@@ -2181,7 +2182,7 @@ void func_02051394(struct ParticleSys *sys)
     else
         func_020528D0(engine, fn);
 
-    g_02146A88->current = 0;
+    g_pParticleMan->current = 0;
 }
 
 
@@ -2193,12 +2194,12 @@ void func_02051394(struct ParticleSys *sys)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020513F8.c \
- *       --func func_020513F8 --addr 0x020513F8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_ApplyLoadHandlersTask.c \
+ *       --func PARTICLE_ApplyLoadHandlersTask --addr 0x020513F8 --cc 1.1p1 --arm
  */
-void func_020513F8(struct TaskNode *task, struct ParticleSys *sys)
+void PARTICLE_ApplyLoadHandlersTask(struct TaskNode *task, struct ParticleSys *sys)
 {
-    func_02051394(sys);
+    PARTICLE_ApplyLoadHandlers(sys);
     func_02030EAC(task);
 }
 
@@ -2212,41 +2213,41 @@ void func_020513F8(struct TaskNode *task, struct ParticleSys *sys)
  * particle.c, the 3D setup half of a two-phase emitter pass (wave 13).  When
  * the private block at +0x20 exists: bring up the two frame objects (0x20 and
  * 0x24 bytes), copy the model vector 0x020A159C into a local, build an
- * identity 3x3, zero a vector for func_0206A9DC, copy the 3x3 to the
+ * identity 3x3, zero a vector for NNS_G3dGlbBaseTrans, copy the 3x3 to the
  * 0x02148C08 scratch, clear bits 0xa4 of word 63 of 0x02148B4C and hand the
- * model vector to func_0206AA0C; then the shared call func_020526A8 and, when
+ * model vector to NNS_G3dGlbBaseScale; then the shared call func_020526A8 and, when
  * the block is still there, the teardown.
  *
  * WHAT CLOSED IT (docs/notes/pkt_02051414.c.txt had it at 152 bytes out,
  * 220 against 224): the three setup-only locals are declared in a NESTED
- * BLOCK with INITIALISERS -- `VecFx32 v = g_020A159C; MtxFx33 m;
+ * BLOCK with INITIALISERS -- `VecFx32 v = sDefaultViewVec; MtxFx33 m;
  * VecFx32 z = {0, 0, 0};`.  The aggregate initialiser `{0, 0, 0}` is what
  * keeps &z in a callee-saved register (r6) and stores the zero through it,
  * which costs the image's extra r7 (&v) and the push of r3/r7.  Assigning the
  * three fields, a pointer local, an inline VEC_Set, a compound literal and
  * the same locals in the if-block without initialisers all stay at 152 out.
  *
- * g_020A159C resolves through sole-ref/self (its only pool word is inside
+ * sDefaultViewVec resolves through sole-ref/self (its only pool word is inside
  * this function; the ROM word equals the relocation), func_020526A8 through
  * sole-ref/code.
  */
-void func_02051414(struct ParticleSys *sys)
+void PARTICLE_DrawSystem(struct ParticleSys *sys)
 {
     SavedGxState savedState;
     Mtx33    savedMtx;
 
     if (sys->camera != 0) {
-        func_020467EC(&savedState);
+        G3D_SYSTEM_GetProjection(&savedState);
         func_02046AFC(&savedMtx);
         {
-            Vec3  viewVec = g_020A159C;
+            Vec3  viewVec = sDefaultViewVec;
             Mtx33 identity;
             Vec3  zeroVec = {0, 0, 0};
             MTX_Identity33_(&identity);
-            func_0206A9DC(&zeroVec);
-            MI_Copy36B(&identity, g_02148C08);
-            g_02148B4C[63] = g_02148B4C[63] & ~0xa4u;
-            func_0206AA0C(&viewVec);
+            NNS_G3dGlbBaseTrans(&zeroVec);
+            MI_Copy36B(&identity, g_renderStateIdentityMtx);
+            g_renderState[63] = g_renderState[63] & ~0xa4u;
+            NNS_G3dGlbBaseScale(&viewVec);
         }
         func_02048AD0(sys->camera);
         func_020479D8();
@@ -2255,8 +2256,8 @@ void func_02051414(struct ParticleSys *sys)
     func_020526A8(sys->engine, g_02148B98);
     if (sys->camera == 0)
         return;
-    func_02046858(&savedState);
-    func_02046B40(&savedMtx);
+    G3D_SYSTEM_SetProjection(&savedState);
+    G3D_SYSTEM_SetLookAt(&savedMtx);
     func_020479D8();
     func_0206DB80();
 }
@@ -2272,17 +2273,17 @@ void func_02051414(struct ParticleSys *sys)
  * four-byte gap between packet pkt_02051230 (ends 0x020514F4) and packet
  * pkt_02051504 (starts 0x02051504) - the last instruction word of the
  * 0x02051414 dump plus a pool word.  The listing does label it
- * (`func_020514F4` at asm/arm9/src/019_0204D434.s:5680), but its only caller
- * in the whole image is the `bl` at 0x02051594 inside func_02051574, which is
+ * (`PARTICLE_UpdateSystem` at asm/arm9/src/019_0204D434.s:5680), but its only caller
+ * in the whole image is the `bl` at 0x02051594 inside PARTICLE_UpdateAllSystems, which is
  * itself inside pkt_02051504's range, so the `label` class cannot attest it for
  * that caller.  Filing it here as its own entry makes it a `matched` witness
- * for func_02051574 instead, which is the only reason it is in this shard.
+ * for PARTICLE_UpdateAllSystems instead, which is the only reason it is in this shard.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020514F4.c \
- *       --func func_020514F4 --addr 0x020514F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_UpdateSystem.c \
+ *       --func PARTICLE_UpdateSystem --addr 0x020514F4 --cc 1.1p1 --arm
  */
-int func_020514F4(struct ParticleSys *sys)
+int PARTICLE_UpdateSystem(struct ParticleSys *sys)
 {
     return func_02052770(sys->engine);
 }
@@ -2294,19 +2295,19 @@ int func_020514F4(struct ParticleSys *sys)
 
 
 /*
- * Counts the non-NULL entries of the 16-slot pointer table g_02146A88.
+ * Counts the non-NULL entries of the 16-slot pointer table g_pParticleMan.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051504.c \
- *       --func func_02051504 --addr 0x02051504 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_CountSystems.c \
+ *       --func PARTICLE_CountSystems --addr 0x02051504 --cc 1.1p1 --arm
  */
-int func_02051504(void)
+int PARTICLE_CountSystems(void)
 {
     int n = 0;
     int i;
 
     for (i = 0; i < 16; i++) {
-        if (g_02146A88->systems[i] != 0)
+        if (g_pParticleMan->systems[i] != 0)
             n++;
     }
     return n;
@@ -2319,21 +2320,21 @@ int func_02051504(void)
 
 
 /*
- * For every live slot of g_02146A88, calls func_02051414 with the slot value;
+ * For every live slot of g_pParticleMan, calls PARTICLE_DrawSystem with the slot value;
  * returns how many slots were live (not what the callee returned).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051534.c \
- *       --func func_02051534 --addr 0x02051534 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_DrawAllSystems.c \
+ *       --func PARTICLE_DrawAllSystems --addr 0x02051534 --cc 1.1p1 --arm
  */
-int func_02051534(void)
+int PARTICLE_DrawAllSystems(void)
 {
     int i;
     int n = 0;
 
     for (i = 0; i < 16; i++) {
-        if (g_02146A88->systems[i] != 0) {
-            func_02051414(g_02146A88->systems[i]);
+        if (g_pParticleMan->systems[i] != 0) {
+            PARTICLE_DrawSystem(g_pParticleMan->systems[i]);
             n++;
         }
     }
@@ -2346,21 +2347,21 @@ int func_02051534(void)
 
 
 /*
- * Same walk as func_02051534, but each live slot goes to func_020514F4 -
+ * Same walk as PARTICLE_DrawAllSystems, but each live slot goes to PARTICLE_UpdateSystem -
  * the pair is a start/stop pass over the same 16-entry table.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051574.c \
- *       --func func_02051574 --addr 0x02051574 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_UpdateAllSystems.c \
+ *       --func PARTICLE_UpdateAllSystems --addr 0x02051574 --cc 1.1p1 --arm
  */
-int func_02051574(void)
+int PARTICLE_UpdateAllSystems(void)
 {
     int i;
     int n = 0;
 
     for (i = 0; i < 16; i++) {
-        if (g_02146A88->systems[i] != 0) {
-            func_020514F4(g_02146A88->systems[i]);
+        if (g_pParticleMan->systems[i] != 0) {
+            PARTICLE_UpdateSystem(g_pParticleMan->systems[i]);
             n++;
         }
     }
@@ -2379,10 +2380,10 @@ int func_02051574(void)
  * the C was needed.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020515B4.c \
- *       --func func_020515B4 --addr 0x020515B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_StartEffect.c \
+ *       --func PARTICLE_StartEffect --addr 0x020515B4 --cc 1.1p1 --arm
  */
-int func_020515B4(struct ParticleSys *sys, int resId, int arg)
+int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg)
 {
     int effect = func_02052634(sys->engine, resId, arg);
     sys->activeEffect = effect;
@@ -2411,9 +2412,9 @@ int func_020515CC(struct ParticleSys *sys, int resId, void (*callback)(void *), 
     int effect;
     if (sys->engine->effectCount >= 0x18)
         return -1;
-    g_02146A88->callbackArg = userArg;
+    g_pParticleMan->callbackArg = userArg;
     effect = func_020525A0(sys->engine, resId, callback);
-    g_02146A88->callbackArg = 0;
+    g_pParticleMan->callbackArg = 0;
     sys->activeEffect = effect;
     return effect;
 }
@@ -2434,7 +2435,7 @@ int func_02051614(struct ParticleSys *sys)
 
 
 
-void KeyValHashKey(struct ParticleSys *sys)
+void PARTICLE_KillAllEffects(struct ParticleSys *sys)
 {
     func_020524C8(sys->engine);
 }
@@ -2449,7 +2450,7 @@ void KeyValHashKey(struct ParticleSys *sys)
  * pointer.  Unlabelled ARM leaf in the ARM9 listing; matched so its overlay
  * callers get a `matched` witness.
  */
-void func_02051630(struct ParticleSys *sys, void *effect)
+void PARTICLE_KillEffect(struct ParticleSys *sys, void *effect)
 {
     func_0205250C(sys->engine, effect);
 }
@@ -2465,7 +2466,7 @@ void func_02051630(struct ParticleSys *sys, void *effect)
  *
  * Addresses are Black-image addresses.
  */
-void *func_02051640(struct ParticleSys *sys)
+void *PARTICLE_GetWorkBase(struct ParticleSys *sys)
 {
     return (void *)sys->workBase;
 }
@@ -2481,7 +2482,7 @@ void *func_02051640(struct ParticleSys *sys)
  * byte from the source record or from zero, then hands twelve arguments to
  * func_02048A24 and stores its return at +0x20.
  *
- * CLOSES the 268/272 near miss written up in docs/notes/func_02051648.c.txt,
+ * CLOSES the 268/272 near miss written up in docs/notes/PARTICLE_InitCamera.c.txt,
  * whose whole residue was one missing `mov r0, #0`: the compiler kept the
  * prologue's live zero across the branch and reused it for the null arm's
  * first two statements, where the image re-materialises it.
@@ -2507,21 +2508,21 @@ void *func_02051640(struct ParticleSys *sys)
  *     (docs/families/particle.h records this tell for the whole family).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051648.c \
- *       --func func_02051648 --addr 0x02051648 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_InitCamera.c \
+ *       --func PARTICLE_InitCamera --addr 0x02051648 --cc 1.1p1 --arm
  *   EXACT, 272 bytes, 5 relocation sites, all resolved (label x2, literal x3).
  */
-void func_02051648(struct ParticleSys *sys, struct ParticleCameraParams *params, u16 angle,
+void PARTICLE_InitCamera(struct ParticleSys *sys, struct ParticleCameraParams *params, u16 angle,
                    Vec3 *pos, Vec3 *target, Vec3 *up, u32 heapId)
 {
-    if (pos == 0) pos = &g_020A1590;
-    if (target == 0) target = &g_020A1584;
+    if (pos == 0) pos = &sDefaultCameraPos;
+    if (target == 0) target = &sDefaultCameraTarget;
 
     sys->cameraShiftX = 0;
     sys->cameraShiftY = 0;
     sys->cameraShiftZ = 0;
 
-    if (up == 0) up = &g_020A1578;
+    if (up == 0) up = &sDefaultCameraUp;
 
     sys->cameraAngle = angle;
 
@@ -2542,7 +2543,7 @@ void func_02051648(struct ParticleSys *sys, struct ParticleCameraParams *params,
 
 
 
-int func_02051758(struct ParticleSys *sys)
+int PARTICLE_ReleaseCamera(struct ParticleSys *sys)
 {
     func_02048AC4(sys->camera);
     sys->camera = 0;

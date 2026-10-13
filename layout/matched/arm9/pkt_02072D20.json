@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02072DD0",
+   "name": "NNS_SndPlayerSetAllocatableChannel",
    "address": "0x02072DD0",
    "kind": "game",
    "region": "arm9",

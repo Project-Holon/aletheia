@@ -12,7 +12,7 @@
  * sdk:      gsUdpUnrecognizedMsgCB (gsudpengine.o)
  *
  * symbols:
- *   func_02180404                  0x02180404  arm ov009
+ *   gsUdpEngineContext                  0x02180404  arm ov009
  *   func_02198620                  0x02198620  arm ov009
  *   func_0217D254                  0x0217D254  arm ov009
  *   g_021A3A54                     0x021A3A54  data
@@ -39,7 +39,7 @@ typedef struct GSUdpEngineObject {
     int (*unrecognizedCB)(unsigned int, unsigned short, unsigned char *, int, void *);
     void *userData;
 } GSUdpEngineObject;
-extern void *func_02180404(void);
+extern void *gsUdpEngineContext(void);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
@@ -53,7 +53,7 @@ int func_02180BFC(void *theSocket, unsigned int theIp, unsigned short thePort, u
     char anAddr[22];
     GSUdpEngineObject *aUdp;
 
-    aUdp = func_02180404();
+    aUdp = gsUdpEngineContext();
     if (aUdp->unrecognizedCB != 0) {
         func_0217D254(12, 0, 16, g_021A3A54, func_02198620(theIp, thePort, anAddr));
         aRet = aUdp->unrecognizedCB(theIp, thePort, theMessage, theMsgLen, aUdp->userData);

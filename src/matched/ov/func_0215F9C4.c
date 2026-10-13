@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020111E8  0x020111E8  thumb
+ *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_020111E8(void);
+extern u32 GPOWER_GetSpecialPowerId(void);
 
 int func_0215F9C4(void)
 {
     int a0;
 
-    a0 = func_020111E8();
+    a0 = GPOWER_GetSpecialPowerId();
 loc_0215F9CA:
     if (a0 == 0x14) goto loc_0215F9D2;
 loc_0215F9CE:

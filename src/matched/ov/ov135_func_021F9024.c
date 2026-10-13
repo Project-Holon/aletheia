@@ -10,7 +10,7 @@
  * symbols:
  *   func_021D5C70 0x021D5C70 thumb ov115
  *   func_021C8658 0x021C8658 arm ov114
- *   func_0216AD50 0x0216AD50 arm ov009
+ *   DWC_ShutdownFriendsMatch 0x0216AD50 arm ov009
  *   func_0205CC20 0x0205CC20 arm
  */
 #include "../include/Obj04528.h"
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef signed short s16;
 extern int func_021D5C70(u8 *p);
 extern void func_021C8658(void);
-extern void func_0216AD50(void);
+extern void DWC_ShutdownFriendsMatch(void);
 extern void func_0205CC20(void);
 int func_021F9024(u8 *p, void *dialog)
 {
@@ -34,7 +34,7 @@ int func_021F9024(u8 *p, void *dialog)
         break;
     case 3:
         func_021C8658();
-        func_0216AD50();
+        DWC_ShutdownFriendsMatch();
         func_0205CC20();
         (((struct Obj04528 *)p)->fF88)++;
         break;

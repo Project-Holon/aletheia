@@ -1,5 +1,5 @@
 /*
- * function: func_0203E808
+ * function: GFL_NET_LOWER_DATA_CreatePostWork
  * address:  0x0203E808
  * packet:   pkt_0203E484
  * region:   arm9
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-void func_0203E808(u32 a0, int a1, u32 a2, u32 a3)
+void GFL_NET_LOWER_DATA_CreatePostWork(u32 a0, int a1, u32 a2, u32 a3)
 {
     if (g_021469F4 == 0)
         func_02034714(s_020A7D74, 0xcf, s_020A7DA0);

@@ -29,9 +29,9 @@
  *   func_021F4D3C  0x021F4D3C  thumb  ov194
  *   func_02045874  0x02045874  arm
  *   func_020458F8  0x020458F8  arm
- *   func_02045A90  0x02045A90  arm
+ *   STRBUF_GetChars  0x02045A90  arm
  *   func_021F5004  0x021F5004  thumb  ov194
- *   func_0204581C  0x0204581C  arm
+ *   STRBUF_Clear  0x0204581C  arm
  *   func_021F45EC  0x021F45EC  thumb  ov194
  *   func_021F463C  0x021F463C  thumb  ov194
  *   func_021F1E28  0x021F1E28  thumb  ov194
@@ -147,9 +147,9 @@ extern void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s
 extern u32 *func_021F4D3C(u32 heap);
 extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
 extern u16 func_020458F8(struct U16Vec *vec);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u32 func_021F5004(u16 *s, u32 x);
-extern void func_0204581C(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
 extern void func_021F45EC(u8 *a, u32 b, u32 c);
 extern void func_021F463C(unsigned char *p, int *unused, unsigned char *q);
 extern void func_021F1E28(u8 *p, u32 a, u32 b, u32 c, u32 d, u8 *e, u32 f);
@@ -265,8 +265,8 @@ u32 func_021F1440(struct Obj0203159C *a, u32 b, u8 *args)
     *(u32 *)(w + 0x2d0) = (u32)func_02045874(*(struct U16Vec **)(args + 0x20), 0x1e);
     if (func_020458F8(*(struct U16Vec **)(w + 0x2d0)) != 0) {
         if (func_020458F8(*(struct U16Vec **)(w + 0x2d0)) > *(u32 *)(args + 0x18)
-            || func_021F5004(func_02045A90(*(struct U16Vec **)(w + 0x2d0)), 0x1e) == 0) {
-            func_0204581C(*(struct U16Vec **)(w + 0x2d0));
+            || func_021F5004(STRBUF_GetChars(*(struct U16Vec **)(w + 0x2d0)), 0x1e) == 0) {
+            STRBUF_Clear(*(struct U16Vec **)(w + 0x2d0));
         }
     }
     func_021F45EC(w + 0x2a0, (u32)w, (u32)func_021F463C);

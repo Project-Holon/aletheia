@@ -1,5 +1,5 @@
 /*
- * function: func_02026824
+ * function: GAME_BEACON_UpdateActionTime
  * address:  0x02026824
  * packet:   pkt_020266E0
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   data_0209FC20  0x0209FC20  data
+ *   GAME_BEACON_ActionTable  0x0209FC20  data
  *
  */
 #include "../include/Obj05716.h"
@@ -21,9 +21,9 @@ typedef unsigned int   u32;
 
 struct Obj;
 
-extern const u32 data_0209FC20[];
+extern const u32 GAME_BEACON_ActionTable[];
 
-void func_02026824(struct Obj *o)
+void GAME_BEACON_UpdateActionTime(struct Obj *o)
 {
     u16 n = ((struct Obj05716 *)o)->f30;
 
@@ -31,7 +31,7 @@ void func_02026824(struct Obj *o)
         return;
     }
     ((struct Obj05716 *)o)->f5C += 1;
-    if ((u32)((struct Obj05716 *)o)->f5C > (data_0209FC20[n] >> 8)) {
+    if ((u32)((struct Obj05716 *)o)->f5C > (GAME_BEACON_ActionTable[n] >> 8)) {
         *(u16 *)&((struct Obj05716 *)o)->f5C = 0;
         ((struct Obj05716 *)o)->f30 = 1;
     }

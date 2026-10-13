@@ -1,5 +1,5 @@
 /*
- * function: func_0216AD50
+ * function: DWC_ShutdownFriendsMatch
  * address:  0x0216AD50
  * packet:   pkt_ov009_0216AD50
  * region:   ov009
@@ -66,7 +66,7 @@ extern void func_0217772C(void);
 extern void func_02195AD8(void *socket);
 extern void func_0205A1B0(int name, void *ptr, long size);
 
-void func_0216AD50(void)
+void DWC_ShutdownFriendsMatch(void)
 {
     if (g_021AA878.st == 0)
         return;

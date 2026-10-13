@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203D7C8",
+   "name": "GFL_NET_AllocAligned",
    "address": "0x0203D7C8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D7FC",
+   "name": "GFL_NET_FreeAligned",
    "address": "0x0203D7FC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D814",
+   "name": "GFL_NET_SetIrcParams",
    "address": "0x0203D814",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D828",
+   "name": "GFL_NET_GetIrcParams",
    "address": "0x0203D828",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D844",
+   "name": "GFL_NET_CopyInitParam",
    "address": "0x0203D844",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D864",
+   "name": "GFL_NET_ClearBeaconCallbacks",
    "address": "0x0203D864",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D880",
+   "name": "GFL_NET_CheckError",
    "address": "0x0203D880",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D88C",
+   "name": "GFL_NET_RestartWithTimeout",
    "address": "0x0203D88C",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D8AC",
+   "name": "GFL_NET_RestartNoTimeout",
    "address": "0x0203D8AC",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D8C4",
+   "name": "GFL_NET_SetErrorCheckEnabled",
    "address": "0x0203D8C4",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D9EC",
+   "name": "GFL_NET_IRC_WIRELESS_Destroy",
    "address": "0x0203D9EC",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203DA20",
+   "name": "GFL_NET_IRC_WIRELESS_DestroyIfIdle",
    "address": "0x0203DA20",
    "kind": "game",
    "region": "arm9",

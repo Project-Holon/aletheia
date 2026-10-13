@@ -1,5 +1,5 @@
 /*
- * function: func_02174B7C
+ * function: INTRUDE_COMM_UpdateMemberLeave
  * address:  0x02174B7C
  * packet:   pkt_ov011_02174B7C
  * region:   ov011
@@ -12,22 +12,22 @@
  * symbols:
  *   func_0203D378  0x0203D378  arm
  *   func_0203D1C0  0x0203D1C0  arm
- *   func_021738E4  0x021738E4  thumb ov011
+ *   INTRUDE_COMM_SendPeerLeft  0x021738E4  thumb ov011
  */
 
 typedef unsigned int   u32;
 u32 func_0203D378(void);
 u32 func_0203D1C0(u32 index);
-int func_021738E4(void *a, int b);
+int INTRUDE_COMM_SendPeerLeft(void *a, int b);
 
-void func_02174B7C(unsigned char *p)
+void INTRUDE_COMM_UpdateMemberLeave(unsigned char *p)
 {
     int i;
 
     if (func_0203D378() != 0) {
         for (i = 0; i < p[0x902]; i++) {
             if ((int)func_0203D1C0((unsigned char)i) == 0 && (p[0x8FB] & (1 << i))) {
-                func_021738E4(p, i);
+                INTRUDE_COMM_SendPeerLeft(p, i);
             }
         }
     }

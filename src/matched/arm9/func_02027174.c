@@ -1,5 +1,5 @@
 /*
- * function: func_02027174
+ * function: GAME_BEACON_SetTrainerView
  * address:  0x02027174
  * packet:   pkt_02027174
  * region:   arm9
@@ -11,11 +11,11 @@
  *
  * Unlabelled Thumb leaf in the ARM9 module: inserts three bits (6..8) into the
  * word at +0x10 of the nested object at +4, then sets the byte at +0x62.
- * Pairs with func_02027138; the inner-object pointer pins the two-step
- * address form (see func_0202715C).
+ * Pairs with GAME_BEACON_SetResearchTeamRank; the inner-object pointer pins the two-step
+ * address form (see GAME_BEACON_SetPms).
  *
  * symbols:
- *   g_02146940  0x02146940  data
+ *   GAME_BEACON_Work  0x02146940  data
  *
  * Addresses are Black-image addresses.
  */
@@ -35,11 +35,11 @@ struct Outer {
     struct Inner in;
 };
 
-extern struct Outer *g_02146940;
+extern struct Outer *GAME_BEACON_Work;
 
-void func_02027174(u32 x)
+void GAME_BEACON_SetTrainerView(u32 x)
 {
-    struct Inner *in = &g_02146940->in;
+    struct Inner *in = &GAME_BEACON_Work->in;
 
     in->f0c = (in->f0c & 0xFFFFFE3Fu) | ((x << 29) >> 23);
     in->f5e = 1;

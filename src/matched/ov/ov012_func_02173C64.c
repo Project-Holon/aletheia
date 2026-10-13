@@ -1,5 +1,5 @@
 /*
- * function: func_02173C64
+ * function: UNION_COMMAND_RecvColosseumSetting
  * address:  0x02173C64
  * packet:   pkt_ov012_02173C64
  * region:   ov012
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-void func_02173C64(int a, int b, u32 *value, u8 *p)
+void UNION_COMMAND_RecvColosseumSetting(int a, int b, u32 *value, u8 *p)
 {
     u8 *q;
     q = *(u8 * *)&((struct Obj19258 *)p)->f355C;

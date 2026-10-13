@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_CTX_H
 #define ALETHEIA_G_CTX_H
-/* g_021469F0 (arm9) */
+/* gNetIrcWirelessLink (arm9) */
 struct Ctx {
     unsigned char pad_0[0x18];
     void *base_fn_18;

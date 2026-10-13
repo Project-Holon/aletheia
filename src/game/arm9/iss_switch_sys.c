@@ -1,7 +1,7 @@
 /*
  * file:     iss_switch_sys.c
  * unit:     yes
- * function: func_0202C070, func_0202C08C, func_0202C09C, func_0202C0B8, func_0202C0C0, func_0202C0C8, func_0202C0D0, func_0202C0E4, func_0202C0F8, func_0202C110, func_0202C118, func_0202C124, func_0202C140, func_0202C148, func_0202C198, func_0202C1C4, func_0202C1D4, func_0202C204, func_0202C218, func_0202C240, func_0202C244, func_0202C24C, func_0202C250, func_0202C268, func_0202C29C, func_0202C2C0, func_0202C2D0, func_0202C2D8, func_0202C2DC, func_0202C2EC, func_0202C308, func_0202C318, func_0202C320, func_0202C328, func_0202C330, func_0202C338, func_0202C340, func_0202C348, func_0202C350, func_0202C358, func_0202C360, func_0202C384, func_0202C3A0, func_0202C3A8, func_0202C3C4, func_0202C3E0, func_0202C470, func_0202C48C, func_0202C498, func_0202C4A4, func_0202C4C8, func_0202C4CC, func_0202C4D0, func_0202C4D8, func_0202C504, func_0202C510, func_0202C518, func_0202C538, func_0202C548, func_0202C550, func_0202C558, func_0202C560, func_0202C568, func_0202C570, func_0202C578, func_0202C580, func_0202C588, func_0202C590, func_0202C5AC, func_0202C5B4, func_0202C5C4, func_0202C5CC, func_0202C5E0, func_0202C5F0, func_0202C630, func_0202C634, func_0202C638, func_0202C654, func_0202C670, func_0202C688, func_0202C6A0, func_0202C6AC, func_0202C6B8, func_0202C6BC, func_0202C6C4, func_0202C710, func_0202C72C, func_0202C760, func_0202C794, func_0202C824, func_0202C83C, func_0202C860, func_0202C8B8, func_0202C934, func_0202C970, func_0202C9B4, func_0202CA0C, func_0202CA3C, func_0202CAC4, func_0202CAE4, func_0202CB18, func_0202CB4C, func_0202CC58, func_0202CC70, func_0202CD64, func_0202CD94, func_0202CDD4, func_0202CE40, func_0202CE50, func_0202CEBC, func_0202CF84, func_0202CF8C, func_0202CF98, func_0202CFC0, func_0202CFEC, func_0202D018, func_0202D01C, func_0202D034, func_0202D060, func_0202D064, func_0202D09C, func_0202D0D4, func_0202D110, func_0202D144, func_0202D178, func_0202D1AC, func_0202D1E0, func_0202D214, func_0202D2EC, func_0202D3D0, func_0202D4A8, func_0202D5CC, func_0202D5D8, func_0202D5F8, func_0202D61C, func_0202D640, func_0202D664, func_0202D688, func_0202D6AC, func_0202D6D0, func_0202D6F4, func_0202D760, func_0202D7C8, func_0202D7D8, func_0202D81C, func_0202D898, func_0202D8D0, func_0202D934, func_0202D9A4, func_0202DA04, func_0202DA18, func_0202DA48, func_0202DA6C, func_0202DAA4, func_0202DB0C, func_0202DBC4, func_0202DC08, func_0202DC48, func_0202DC60, func_0202DC98, func_0202DC9C, func_0202DCB0, func_0202DCC4, func_0202DCD4, func_0202DCFC, func_0202DD24, func_0202DE5C, func_0202DE64, func_0202DE68, func_0202DE6C, func_0202DE9C, func_0202DEE0, func_0202DF24, func_0202DF68, func_0202DFD4, func_0202DFEC, func_0202E040, func_0202E09C, func_0202E0C8, func_0202E0E0, func_0202E1F0, func_0202E38C, func_0202E3E4, func_0202E430, func_0202E43C, func_0202E448, func_0202E474
+ * function: ISS_SWITCH_SYS_Create, ISS_SWITCH_SYS_Delete, ISS_SWITCH_SYS_Main, ISS_SWITCH_SYS_On, ISS_SWITCH_SYS_Off, ISS_SWITCH_SYS_ZoneChange, func_0202C0D0, func_0202C0E4, func_0202C0F8, func_0202C110, ISS_SWITCH_SYS_Init, ISS_SWITCH_SYS_Alloc, ISS_SWITCH_SYS_Free, ISS_SWITCH_SYS_CreateSets, ISS_SWITCH_SYS_DeleteSets, ISS_SWITCH_SYS_UpdateActiveSet, ISS_SWITCH_SYS_TurnOn, ISS_SWITCH_SYS_TurnOff, ISS_SWITCH_SYS_CheckZoneChange, ISS_SWITCH_SYS_GetSetCount, ISS_SWITCH_SYS_GetSet, ISS_SWITCH_SYS_GetActiveSet, ISS_SWITCH_SYS_IsActiveSetZone, ISS_SWITCH_SYS_FindSetByBgm, ISS_SWITCH_SYS_ChangeActiveSet, ISS_SWITCH_SYS_UpdateVolume, ISS_SWITCH_SYS_GetPlayingBgm, ISS_SWITCH_SYS_IsOn, ISS_SWITCH_SYS_ResetActiveSet, ISS_SWITCH_SET_Create, ISS_SWITCH_SET_Delete, ISS_SWITCH_SET_Load, ISS_SWITCH_SET_Main, ISS_SWITCH_SET_SwitchOn, ISS_SWITCH_SET_SwitchOff, ISS_SWITCH_SET_ResetSwitch, ISS_SWITCH_SET_GetBgmNo, ISS_SWITCH_SET_IsValidZone, ISS_SWITCH_SET_IsSwitchOn, ISS_SWITCH_SET_UpdateVolume, ISS_SWITCH_SET_Init, ISS_SWITCH_SET_Alloc, ISS_SWITCH_SET_Free, ISS_SWITCH_SET_CreateSwitches, ISS_SWITCH_SET_DeleteSwitches, ISS_SWITCH_SET_LoadData, ISS_SWITCH_SET_UpdateSwitches, ISS_SWITCH_SET_StartSwitchOn, ISS_SWITCH_SET_StartSwitchOff, ISS_SWITCH_SET_ResetSwitches, ISS_SWITCH_SET_ReadBgmNo, ISS_SWITCH_SET_GetZoneCount, ISS_SWITCH_SET_GetZone, ISS_SWITCH_SET_CheckZone, ISS_SWITCH_SET_CheckSwitchOn, ISS_SWITCH_SET_GetSwitch, ISS_SWITCH_SET_ApplySwitchVolumes, ISS_SWITCH_Create, ISS_SWITCH_Delete, ISS_SWITCH_Setup, ISS_SWITCH_IsOn, ISS_SWITCH_On, ISS_SWITCH_Off, ISS_SWITCH_ForceOn, ISS_SWITCH_ForceOff, ISS_SWITCH_Main, ISS_SWITCH_SetVolume, ISS_SWITCH_Alloc, ISS_SWITCH_Free, ISS_SWITCH_Init, ISS_SWITCH_SetParam, ISS_SWITCH_CountUpFade, ISS_SWITCH_IsFadeEnd, ISS_SWITCH_Update, ISS_SWITCH_UpdateOn, ISS_SWITCH_UpdateOff, ISS_SWITCH_UpdateFadeIn, ISS_SWITCH_UpdateFadeOut, ISS_SWITCH_StartFadeIn, ISS_SWITCH_StartFadeOut, ISS_SWITCH_SetOnState, ISS_SWITCH_SetOffState, ISS_SWITCH_GetState, ISS_SWITCH_SetState, ISS_SWITCH_GetVolume, ISS_SWITCH_ApplyVolume, ISS_SWITCH_IsOnState, ISS_SWITCH_IsOffState, func_0202C794, func_0202C824, func_0202C83C, func_0202C860, func_0202C8B8, func_0202C934, func_0202C970, BGWINFRM_Create, BGWINFRM_Delete, BGWINFRM_AddFrame, BGWINFRM_SetFrameData, BGWINFRM_SetFrameDataArc, BGWINFRM_SetFrameDataArcHandle, BGWINFRM_PutFrame, BGWINFRM_ShowFrame, BGWINFRM_HideFrame, BGWINFRM_StartMove, BGWINFRM_UpdateMoves, BGWINFRM_UpdateMove, BGWINFRM_IsMoving, BGWINFRM_ChangePalette, BGWINFRM_PutBmpWin, BGWINFRM_GetFrameBuffer, BGWINFRM_GetBgFrame, BGWINFRM_GetPos, BGWINFRM_GetSize, BGWINFRM_SetClipArea, func_0202D018, func_0202D01C, func_0202D034, func_0202D060, func_0202D064, POKEGRA_GetCbrArcIndex, func_0202D0D4, POKEGRA_GetCelArcIndex, POKEGRA_GetAnmArcIndex, POKEGRA_GetMCelArcIndex, POKEGRA_GetMAnmArcIndex, POKEGRA_GetNcecArcIndex, POKEGRA_ConvertCharTo2D, POKEGRA_ConvertCharTo1D, POKEGRA_DrawSpindaSpots, POKEGRA_CalcArcIndex, POKEGRA_GetTrainerArcID, POKEGRA_GetTrainerCgrArcIndex, POKEGRA_GetTrainerCbrArcIndex, POKEGRA_GetTrainerPalArcIndex, POKEGRA_GetTrainerCelArcIndex, POKEGRA_GetTrainerAnmArcIndex, POKEGRA_GetTrainerMCelArcIndex, POKEGRA_GetTrainerMAnmArcIndex, POKEGRA_GetTrainerNcecArcIndex, POKEGRA_LoadCharDataPP, POKEGRA_LoadCharData, func_0202D7C8, func_0202D7D8, func_0202D81C, func_0202D898, func_0202D8D0, func_0202D934, func_0202D9A4, POKEGRA_OpenTrainerHandle, POKEGRA_RegisterTrainerPalette, POKEGRA_RegisterTrainerCgr, POKEGRA_RegisterTrainerCellAnim, POKEGRA_LoadTrainerGraphics, PMS_DRAW_Create, PMS_DRAW_Main, PMS_DRAW_Delete, PMS_DRAW_Print, PMS_DRAW_PrintOffset, PMS_DRAW_IsPrintEnd, PMS_DRAW_Clear, PMS_DRAW_SetVisible, PMS_DRAW_IsActive, PMS_DRAW_SetDecoVisible, PMS_DRAW_SetDecoPriority, PMS_DRAW_Copy, PMS_DRAW_SetNullColorPalette, PMS_DRAW_SetPrintColor, PMS_DRAW_SetFollowBgScroll, PMS_DRAW_CalcDecoPos, PMS_DRAW_GetDecoCgrIndex, PMS_DRAW_GetDecoCelIndex, PMS_DRAW_GetDecoAnmIndex, PMS_DRAW_LoadResources, PMS_DRAW_ReleaseResources, PMS_DRAW_CreateDecoActor, PMS_DRAW_PlaceDecoActor, PMS_DRAW_InitElem, PMS_DRAW_DeleteElem, PMS_DRAW_UpdateElem, PMS_DRAW_PrintElem, PMS_DRAW_ClearElem, PMS_DRAW_SetElemVisible, PMS_DRAW_GetFrameSurface, func_0202E43C, func_0202E448, BAG_PARAM_Create
  * address:  0x0202C070
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,56 +14,54 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   g_020A7758     0x020A7758  data
+ *   IssSwitchSysFileName     0x020A7758  data
  *   func_020307B0  0x020307B0  arm
- *   func_02005C44  0x02005C44  thumb
- *   g_020A776C     0x020A776C  data
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb
+ *   IssSwitchSetFileName     0x020A776C  data
  *   FSi_ConvertStringSjisToUnicode  0x02048F74  arm
- *   g_020A7780      0x020A7780  data
+ *   IssSwitchFileName      0x020A7780  data
  *   _s32_div_f    0x0209C0A4  arm
- *   func_02005F24  0x02005F24  thumb
+ *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *   func_020120F4  0x020120F4  thumb
- *   func_0201297C  0x0201297C  thumb
+ *   GAME_DATA_GetMusicalWork  0x0201297C  thumb
  *   func_0215E6A8  0x0215E6A8  thumb
  *   func_021647E8  0x021647E8  thumb  ov010
- *   func_02013C10  0x02013C10  thumb
+ *   ZONEDATA_GetWeatherId  0x02013C10  thumb
  *   func_0215E6F8  0x0215E6F8  thumb ov010
  *   func_02012994  0x02012994  thumb
- *   func_020129A0  0x020129A0  thumb
+ *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
  *   func_0201296C  0x0201296C  thumb
  *   func_02012138  0x02012138  thumb
  *   func_02013D74  0x02013D74  thumb
  *   func_020142E8  0x020142E8  thumb
  *   func_0215843C  0x0215843C  thumb
  *   gTbl_0209FFF4  0x0209FFF4  data
- *   func_020111E8  0x020111E8  thumb
- *   func_02014044   0x02014044  thumb
+ *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
+ *   ZONEDATA_IsRawZone176Or17A   0x02014044  thumb
  *   func_0203F4E4  0x0203F4E4  arm
  *   func_0202EB60   0x0202EB60  thumb
- *   bgwinfrm_File  0x020A7790  data
- *   str_020A7790   0x020A7790  data
+ *   BgWinFrmFileName  0x020A7790  data
  *   MIi_CpuCopy16  0x02082A60  arm
- *   func_02049EB4       0x02049EB4  arm
+ *   ARC_UTIL_LoadPaletteDataFromArchive       0x02049EB4  arm
  *   func_02049EF4       0x02049EF4  arm
  *   func_020410D0  0x020410D0  arm
- *   g_020A0058     0x020A0058  data
+ *   BgWinFrmScreenTransFuncs     0x020A0058  data
  *   func_02041300 0x02041300 arm
  *   func_02045768  0x02045768  arm
- *   func_02045778  0x02045778  arm
+ *   BMP_WIN_GetPalette  0x02045778  arm
  *   func_02045738  0x02045738  arm
  *   func_02045740  0x02045740  arm
  *   func_02045758  0x02045758  arm
  *   func_02045760  0x02045760  arm
  *   _u32_div_f  0x0209C2B0  arm
- *   str_020A77AC    0x020A77AC  data
+ *   PokegraFileName    0x020A77AC  data
  *   MIi_CpuCopyFast 0x02082B0C  arm
- *   sFile_020A77AC  0x020A77AC  data
- *   tile_tables  0x020A779C  data
+ *   SpindaSpotTables  0x020A779C  data
  *   func_02019C90  0x02019C90  thumb
  *   func_020490A8  0x020490A8  arm
- *   sub_0202D5D8_Table  0x020A023C  data
+ *   TrainerGraIndexTable  0x020A023C  data
  *   func_02017E88   0x02017E88  thumb
- *   func_02017EB4   0x02017EB4  thumb
+ *   POKE_TOOL_IsBoxShiny   0x02017EB4  thumb
  *   func_02049E34   0x02049E34  arm
  *   func_0204AC18  0x0204AC18  arm
  *   func_0204A6C8   0x0204A6C8  arm
@@ -79,7 +77,7 @@
  *   func_0204ADEC  0x0204ADEC  arm
  *   func_02062A98  0x02062A98  arm
  *   MI_CpuFill8    0x02082BCC  arm
- *   s_pms_draw_c   0x020A77B8  data  a1
+ *   PmsDrawFileName   0x020A77B8  data  a1
  *   func_0204B688  0x0204B688  arm
  *   func_02045770  0x02045770  arm
  *   func_02043814  0x02043814  arm
@@ -89,7 +87,7 @@
  *   func_02041B6C  0x02041B6C  arm
  *   func_0204B454  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
- *   func_0204B898  0x0204B898  arm
+ *   CLACT_GetActorAnimSeq  0x0204B898  arm
  *   func_0204B878  0x0204B878  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204ADA4  0x0204ADA4  arm
@@ -107,13 +105,13 @@
  *   func_02041664  0x02041664  arm
  *   func_0204B53C  0x0204B53C  arm
  *   func_0204B528  0x0204B528  arm
- *   func_02024570  0x02024570  thumb
- *   func_0202465C  0x0202465C  thumb
- *   func_0202441C  0x0202441C  thumb
+ *   PMSI_PARAM_Copy  0x02024570  thumb
+ *   PMSI_PARAM_Validate  0x0202465C  thumb
+ *   PMSI_PARAM_GetSourceString  0x0202441C  thumb
  *   func_0201D478  0x0201D478  thumb
- *   func_020244F8  0x020244F8  thumb
- *   func_020244D4  0x020244D4  thumb
- *   func_02024368  0x02024368  thumb
+ *   PMSI_PARAM_IsDecoWordAt  0x020244F8  thumb
+ *   PMSI_PARAM_GetWordId  0x020244D4  thumb
+ *   PMSI_PARAM_ToStringWords  0x02024368  thumb
  *   func_0201D528  0x0201D528  thumb
  *   func_0201D4BC  0x0201D4BC  thumb
  *   func_02043B5C  0x02043B5C  arm
@@ -122,35 +120,26 @@
  *   func_02045808  0x02045808  arm
  *   func_020456F8  0x020456F8  arm
  *   func_020409B4  0x020409B4  arm
- *   func_02082BCC  0x02082BCC  arm
- *   sub_0202E448_Table  0x020A02A8  data
- *   data_020A77C4  0x020A77C4  data
+ *   ItemValueTable  0x020A02A8  data
+ *   BagParamFileName  0x020A77C4  data
  */
-#include "../../matched/include/Obj04107.h"
-#include "../../matched/include/Obj04107.h"
-#include "../../matched/include/Obj04743.h"
-#include "../../matched/include/Obj15848.h"
-#include "../../matched/include/Obj16765.h"
-#include "../../matched/include/Obj13942.h"
-#include "../../matched/include/Obj11318.h"
-#include "../../matched/include/Obj04060.h"
 
-struct Obj0202C244;
-struct Obj0202C360;
-struct Arr0202C510;
-struct Arr0202C510;
-struct Arr0202C4D0;
-struct Obj0202C4CC;
-struct Counter0202C5B4;
-struct Counter0202C5B4;
+struct IssSwitchSys;
+struct IssSwitchSet;
+struct IssSwitchSet;
+struct IssSwitchSet;
+struct IssSwitchSet;
+struct IssSwitchSet;
+struct IssSwitch;
+struct IssSwitch;
 struct BigObj;
 struct Ctx;
 struct Descriptor;
-struct Obj0202D3D0;
+struct NNSG2dCharacterData;
 struct Sub0204A9D0;
 struct ArcFile;
 struct NitroFileHeader;
-struct Res;
+struct PmsDrawRes;
 struct Actor;
 struct PmsDraw;
 struct PmsElem;
@@ -158,10 +147,10 @@ struct Cfg;
 struct Bmp;
 struct PtS;
 struct Vec2;
-struct Pos;
+struct PmsPos;
 struct PrintSys;
 struct Container;
-struct Pos;
+struct PmsPos;
 struct Rec8;
 struct Struct_0202441C;
 struct T;
@@ -178,49 +167,30 @@ typedef unsigned short u16;
 
 typedef unsigned int  u32;
 
-struct Obj0202C244 {
-    u32 unk00;
-    u32 unk04;
-    u32 *unk08;
-    u32 unk0c;
+struct IssSwitchSys {
+    u32 isOn;
+    u8  setCount;
+    u8  pad_05[3];
+    struct IssSwitchSet **sets;
+    struct IssSwitchSet *activeSet;
 };
 
-struct Obj0202C360 {
-    u32 unk00;
-    u16 shorts[9];
-    u8  unk16;
-    u8  pad17;
-    void *words[9];
-};
-
-struct Arr0202C510 {
-    u8 pad_00[0x4];
-    u16 unk04[9];
-    u8 unk16;
-    u8 pad_17[0x1];
-    u32 unk18[1];
+struct IssSwitchSet {
+    u32 bgmNo;
+    u16 zones[9];
+    u8  zoneCount;
+    u8  pad_17;
+    struct IssSwitch *switches[9];
 };
 
 typedef signed int s32;
 
-struct Obj0202C4CC {
-    u8 pad[0x16];
-    u8 unk16;
-};
-
-
-
-struct Arr0202C4D0 {
-    u8 pad[4];
-    u16 unk04[1];
-};
-
-struct Counter0202C5B4 {
-    u32 unk00;
-    u16 unk04;
-    u16 unk06;
-    u16 unk08;
-    u8 pad_0A[0x2];
+struct IssSwitch {
+    u32 state;
+    u16 fadeCount;
+    u16 fadeFrames;
+    u16 trackBits;
+    u8  pad_0A[2];
 };
 
 
@@ -241,43 +211,49 @@ struct RtcDate {
 
 typedef signed char    s8;
 
-struct Win {
-    u16 *tiles;
-    u16 w:6;
-    u16 h:6;
-    u16 dirty:1;
-    u16 unk04_13:3;
+struct BgWinFrame {
+    u16 *screen;
+    u16 sizeX:6;
+    u16 sizeY:6;
+    u16 hidden:1;
+    u16 moveFlag:3;
     s8 x;
     s8 y;
-    s8 dx;
-    s8 dy;
-    u8 bg;
-    u8 frames;
+    s8 moveX;
+    s8 moveY;
+    u8 bgFrame;
+    u8 moveCount;
     s8 xmin;
     s8 xmax;
     s8 ymin;
     s8 ymax;
 };
 
-struct WinMgr {
-    struct Win *wins;
-    u16 count;
-    u16 mode : 15;
-    u16 flag : 1;
-    u32 heap;
+struct BgWinFrmWork {
+    struct BgWinFrame *frames;
+    u16 frameMax;
+    u16 transMode : 15;
+    u16 moving : 1;
+    u32 heapId;
 };
 
-struct Obj0202D3D0 {
-    u8  pad[0x14];
-    u8 *blob;
+/* NitroSystem character data header (the real NNS layout). */
+struct NNSG2dCharacterData {
+    u16 H;
+    u16 W;
+    u32 pixelFmt;
+    u32 mapingType;
+    u32 characterFmt;
+    u32 szByte;
+    void *pRawData;
 };
 
-typedef enum { PAL_0 } Pal;
+typedef enum { POKEGRA_DIR_OFFSET_FRONT } PokegraDirOffset;
 
 struct PmsFlagBits {
-    u32 b0 : 1;
-    u32 b1 : 1;
-    u32 b2 : 1;
+    u32 active : 1;
+    u32 visible : 1;
+    u32 decoVisible : 1;
     u32 rest : 29;
 };
 
@@ -287,81 +263,92 @@ union PmsFlags {
 };
 
 struct PmsElem {
-    void *handle;
-    u8    live;
+    void *bmpWin;
+    u8    printing;
     u8    pad05[3];
-    struct Actor *actor[2];
-    s32   x;
-    s32   y;
+    struct Actor *decoActor[2];
+    s32   scrollX;
+    s32   scrollY;
     union PmsFlags flags;
-    u32   unk1c;
-    u32   enabled[2];
+    u32   reserved1C;
+    u32   isDeco[2];
 };
 
 struct PmsDraw {
-    u16   heap;
+    u16   heapId;
     u8    pad02[2];
-    u32   unk04;
-    void *unk08;
+    u32   font;
+    void *printQue;
     struct PmsElem *elems;
-    u32   res[5];
-    u16   unk24;
+    u32   res[5];      /* struct PmsDrawRes, kept as words: DB0C and DF68 index it */
+    u16   printColor;
     u8    pad26[2];
-    u32   selected;
-    u32   unk2c;
-    u8    count;
-    u8    unk31;
+    u32   printEnd;
+    u32   followBgScroll;
+    u8    elemMax;
+    u8    nullColorPalette;
 };
 
 typedef signed short   s16;
 
-struct Pt_0202DD24 { s16 x; s16 y; };
+struct PmsPoint { s16 x; s16 y; };
 
-struct Pos {
+struct PmsPos {
     u32 x;
     u32 y;
 };
 
 typedef volatile unsigned int vu32;
 
-struct Zero4 { u16 a; u16 b; u16 c; u16 d; };
+struct BagParam {
+    void *gameData;
+    void *myStatus;
+    void *myItem;
+    u32   saveWork;
+    void *config;
+    u8    itemCheck[0x18];
+    int   mode;
+    int   cycleFlag;
+};
 
-struct Res {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    u32 f10;
+struct DecoActorInit { u16 x; u16 y; u16 anmSeq; u16 softPri; };
+
+struct PmsDrawRes {
+    u32 clunit;
+    u32 drawType;
+    u32 plttIndex;
+    u32 cgrIndex;
+    u32 cellAnmIndex;
 };
 
 
 
-struct Pt_0202E040  { u16 x; u16 y; };
+struct DecoPos  { u16 x; u16 y; };
 
 
 
-typedef struct { u16 arc; u16 str; u16 code[2]; } MSGPARAM;
+typedef struct { u16 sentenceType; u16 sentenceId; u16 word[2]; } PmsData;
 
-typedef struct { s32 x; s32 y; } BLINKPOS;
+typedef struct { s32 x; s32 y; } PmsOffset;
 
-struct Ent0202E448 {
-    u16 id  : 10;
-    u16 val : 6;
+struct ItemValueEntry {
+    u16 itemId : 10;
+    u16 value  : 6;
 };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern u32 func_02049030(u32 a);
-extern u16 func_02005C44(void);
+extern u16 GFL_USE_GetBgmNo(void);
 extern u32 FSi_ConvertStringSjisToUnicode(void *dst, u32 term, void *src,
                                            u32 srcOffset, u32 dstSize);
-extern void func_02005F24(u32 a0, u32 a1);
+extern void GFL_USE_SetBgmTrackVolume(u32 a0, u32 a1);
 extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_0201297C(const struct BigObj *p);
+extern u32 GAME_DATA_GetMusicalWork(const struct BigObj *p);
 extern u32 func_0215E6A8(void *a, u16 b);
 extern u32 func_021647E8(void *arg, unsigned int b);
-extern u32 func_02013C10(u32 id);
-extern void func_020129A0(struct BigObj *p, u8 v);
+extern u32 ZONEDATA_GetWeatherId(u32 id);
+extern void GAME_DATA_SetSubscreenMode(struct BigObj *p, u8 v);
 extern int func_0215E6F8(int a0);
 extern u8 func_02012994(const struct BigObj *p);
 extern u32 func_0201296C(const struct BigObj *p);
@@ -369,20 +356,20 @@ extern u32 func_02012138(const struct Ctx *p);
 extern int func_02013D74(u32 key);
 extern u32 func_020142E8(void *bitmap, s32 id);
 extern s32 func_0215843C(u32 a);
-extern u32 func_020111E8(void);
-extern u32 func_02014044(u32 id);
+extern u32 GPOWER_GetSpecialPowerId(void);
+extern u32 ZONEDATA_IsRawZone176Or17A(u32 id);
 extern void func_0203F4E4(struct RtcDate *date);
 extern void func_0202EB60(u8 *out1, u8 *out2);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
-extern void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049EF4(void *arc, u32 member, u32 alloc, void **out,
                            u16 heap);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, const u16 *a5,
                           u8 a6, u8 a7, u8 a8, u8 a9);
-extern void (*g_020A0058[])(u32);
+extern void (*BgWinFrmScreenTransFuncs[])(u32);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern u16 func_02045768(struct Descriptor *p);
-extern u8 func_02045778(struct Descriptor *p);
+extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
 extern u8 func_02045738(struct Descriptor *p);
 extern u8 func_02045740(struct Descriptor *p);
 extern u8 func_02045758(struct Descriptor *p);
@@ -391,7 +378,7 @@ extern void  MIi_CpuCopyFast(void *dst, const void *src, u32 size);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern u32 func_020490A8(u32 a, u32 b);
 extern u32 func_02017E88(void *mon, u32 id, u32 v);
-extern u32 func_02017EB4(void *mon);
+extern u32 POKE_TOOL_IsBoxShiny(void *mon);
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 func_0204AC18(void *h, u32 a1, u32 engine, u32 a3, u32 s0, u32 s1, u32 s2);
 extern u32 func_0204A6C8(void *h, u32 a1, u32 a2, u32 engine, u32 s0);
@@ -418,7 +405,7 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(struct Actor *p, const struct Vec2 *delta, u32 which);
-extern u16 func_0204B898(struct Actor *p);
+extern u16 CLACT_GetActorAnimSeq(struct Actor *p);
 extern void func_0204B878(struct Actor *p, u16 value);
 extern void func_0204B3DC(struct Actor *p, u32 v);
 extern void func_0204ADA4(u32 i);
@@ -435,15 +422,15 @@ extern void func_0204B3B4(struct Actor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern u32 func_02041648(u8 channel);
 extern u32 func_02041664(u8 channel);
-extern void func_0204B53C(const struct Actor *actor, struct Pt_0202DD24 *out);
-extern void func_0204B528(struct Actor *actor, const struct Pt_0202DD24 *src);
-extern void func_02024570(struct Rec8 *dst, const struct Rec8 *src);
-extern u32 func_0202465C(struct T *p, u32 a1, u32 a2);
-extern void *func_0202441C(const struct Struct_0202441C *obj, u32 heapId);
+extern void func_0204B53C(const struct Actor *actor, struct PmsPoint *out);
+extern void func_0204B528(struct Actor *actor, const struct PmsPoint *src);
+extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
+extern u32 PMSI_PARAM_Validate(struct T *p, u32 a1, u32 a2);
+extern void *PMSI_PARAM_GetSourceString(const struct Struct_0202441C *obj, u32 heapId);
 extern u32   func_0201D478(void *str);
-extern u32 func_020244F8(struct Container *p, u32 idx);
-extern u16 func_020244D4(void *obj, u32 idx);
-extern void *func_02024368(u16 *slots, u32 heap, int count);
+extern u32 PMSI_PARAM_IsDecoWordAt(struct Container *p, u32 idx);
+extern u16 PMSI_PARAM_GetWordId(void *obj, u32 idx);
+extern void *PMSI_PARAM_ToStringWords(u16 *slots, u32 heap, int count);
 extern u32 func_0201D528(void *s, u8 b, void *c, u32 d);
 extern u32   func_0201D4BC(void *s, u8 idx);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -452,103 +439,102 @@ extern void  func_02043AF4(u32 a, u32 b, s16 c, u32 d, u32 e, u8 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_020456F8(struct Descriptor *d);
 extern void func_020409B4(u32 index);
-extern void func_02082BCC(void *p, u32 a, u32 b);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u8 *func_02012944(void *p);
-extern unsigned int func_02012924(const struct BigObj *p);
+extern unsigned int GAME_DATA_GetMapMatrix(const struct BigObj *p);
 extern void *func_0201292C(const struct BigObj *p);
 extern void  func_02082D44(void *src, void *dst, int n);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u32 func_02012B28(const struct Rec44 *p);
-u8 *func_0202C070(u16 heap);
-void func_0202C08C(u8 *p);
-void func_0202C09C(u8 *p);
-void func_0202C0B8(u8 *p);
-void func_0202C0C0(u32 *p);
-void func_0202C0C8(u32 *p, u32 v);
-void func_0202C0D0(u8 *p, u32 a);
-void func_0202C0E4(u8 *p, u32 a);
-u32 func_0202C0F8(struct Obj0202C244 *p, u32 idx);
-void func_0202C110(void *p);
-void func_0202C118(void *obj);
-void *func_0202C124(u32 heap);
-void func_0202C140(void *ptr);
-void func_0202C148(u8 *p, u16 heapId);
-void func_0202C198(u8 *p);
-u32 func_0202C1C4(struct Obj0202C244 *p);
-void func_0202C1D4(u8 *p);
-void func_0202C204(u32 *p);
-void func_0202C218(u32 *p, u32 v);
-u32 func_0202C240(void *obj);
-u32 func_0202C244(struct Obj0202C244 *p, u32 idx);
-u32 func_0202C24C(struct Obj0202C244 *p);
-u32 func_0202C250(u32 *p, u32 v);
-u32 func_0202C268(u8 *p, u32 v);
-int func_0202C29C(u32 *p, u32 v);
-void func_0202C2C0(void *p);
-u32 func_0202C2D0(u32 v);
-u32 func_0202C2D8(u32 *p);
-void func_0202C2DC(void *p);
-u32 func_0202C2EC(void *heap);
-void func_0202C308(void *p);
-u32 func_0202C318(void *a, u32 b, u32 c);
-u32 func_0202C320(void *p);
-u32 func_0202C328(void *p, u32 idx);
-u32 func_0202C330(void *p, u32 idx);
-void func_0202C338(void *p);
-u32 func_0202C340(void *p);
-u32 func_0202C348(void *a, void *b);
-u32 func_0202C350(void *p, u32 idx);
-void func_0202C358(void *p);
-void func_0202C360(struct Obj0202C360 *p);
-void *func_0202C384(void *heap);
-u32 func_0202C3A0(void *p);
-void func_0202C3A8(char *p, int a1);
-void func_0202C3C4(struct Obj0202C360 *p);
-u32 func_0202C3E0(struct Arr0202C510 *a, void *b);
-u32 func_0202C470(void *p);
-u32 func_0202C48C(void *p, u32 idx);
-u32 func_0202C498(void *p, u32 idx);
-void func_0202C4A4(void *p);
-u32 func_0202C4C8(u32 *p);
-u32 func_0202C4CC(struct Obj0202C4CC *p);
-u32 func_0202C4D0(struct Arr0202C4D0 *p, u32 idx);
-u32 func_0202C4D8(void *a, u32 b);
-u32 func_0202C504(void *p, u32 idx);
-u32 func_0202C510(struct Arr0202C510 *p, u32 idx);
-void func_0202C518(void *p);
-void *func_0202C538(u32 heapId);
-u32 func_0202C548(void *p);
-u32 func_0202C550(void *p, u16 a, u16 b);
-u32 func_0202C558(void *p);
-u32 func_0202C560(void *p);
-u32 func_0202C568(void *p);
-u32 func_0202C570(void *p);
-u32 func_0202C578(void *p);
-void func_0202C580(void *p);
-void func_0202C588(void *p, u32 v);
-void *func_0202C590(u32 heapId);
-u32 func_0202C5AC(void *p);
-void func_0202C5B4(struct Counter0202C5B4 *p);
-u32 func_0202C5C4(struct Counter0202C5B4 *p, u16 a, u16 b);
-void func_0202C5CC(struct Counter0202C5B4 *p);
-u32 func_0202C5E0(struct Counter0202C5B4 *p);
-void func_0202C5F0(void *p);
-void func_0202C630(void *p);
-void func_0202C634(void *p);
-u32 func_0202C638(void *p);
-u32 func_0202C654(void *p);
-u32 func_0202C670(void *p);
-u32 func_0202C688(void *p);
-u32 func_0202C6A0(void *p);
-u32 func_0202C6AC(void *p);
-u32 func_0202C6B8(struct Counter0202C5B4 *p);
-struct Counter0202C5B4 *func_0202C6BC(struct Counter0202C5B4 *p, u32 v);
-s32 func_0202C6C4(struct Counter0202C5B4 *p);
-void func_0202C710(struct Counter0202C5B4 *p, s32 n);
-u32 func_0202C72C(void *p);
-u32 func_0202C760(void *p);
+u8 *ISS_SWITCH_SYS_Create(u16 heapId);
+void ISS_SWITCH_SYS_Delete(u8 *sys);
+void ISS_SWITCH_SYS_Main(u8 *sys);
+void ISS_SWITCH_SYS_On(u8 *sys);
+void ISS_SWITCH_SYS_Off(u32 *sys);
+void ISS_SWITCH_SYS_ZoneChange(u32 *sys, u32 zoneId);
+void func_0202C0D0(u8 *sys, u32 switchIdx);
+void func_0202C0E4(u8 *sys, u32 switchIdx);
+u32 func_0202C0F8(struct IssSwitchSys *sys, u32 switchIdx);
+void func_0202C110(void *sys);
+void ISS_SWITCH_SYS_Init(void *obj);
+void *ISS_SWITCH_SYS_Alloc(u32 heapId);
+void ISS_SWITCH_SYS_Free(void *sys);
+void ISS_SWITCH_SYS_CreateSets(u8 *p, u16 heapId);
+void ISS_SWITCH_SYS_DeleteSets(u8 *p);
+u32 ISS_SWITCH_SYS_UpdateActiveSet(struct IssSwitchSys *sys);
+void ISS_SWITCH_SYS_TurnOn(u8 *p);
+void ISS_SWITCH_SYS_TurnOff(u32 *sys);
+void ISS_SWITCH_SYS_CheckZoneChange(u32 *sys, u32 zoneId);
+u32 ISS_SWITCH_SYS_GetSetCount(void *sys);
+u32 ISS_SWITCH_SYS_GetSet(struct IssSwitchSys *sys, u32 idx);
+u32 ISS_SWITCH_SYS_GetActiveSet(struct IssSwitchSys *sys);
+u32 ISS_SWITCH_SYS_IsActiveSetZone(u32 *sys, u32 zoneId);
+u32 ISS_SWITCH_SYS_FindSetByBgm(u8 *sys, u32 bgmNo);
+int ISS_SWITCH_SYS_ChangeActiveSet(u32 *p, u32 bgmNo);
+void ISS_SWITCH_SYS_UpdateVolume(void *sys);
+u32 ISS_SWITCH_SYS_GetPlayingBgm(u32 unused);
+u32 ISS_SWITCH_SYS_IsOn(u32 *sys);
+void ISS_SWITCH_SYS_ResetActiveSet(void *sys);
+u32 ISS_SWITCH_SET_Create(void *heapId);
+void ISS_SWITCH_SET_Delete(void *set);
+u32 ISS_SWITCH_SET_Load(void *set, u32 datId, u32 heapId);
+u32 ISS_SWITCH_SET_Main(void *set);
+u32 ISS_SWITCH_SET_SwitchOn(void *set, u32 switchIdx);
+u32 ISS_SWITCH_SET_SwitchOff(void *set, u32 switchIdx);
+void ISS_SWITCH_SET_ResetSwitch(void *set);
+u32 ISS_SWITCH_SET_GetBgmNo(void *set);
+u32 ISS_SWITCH_SET_IsValidZone(void *set, void *zoneId);
+u32 ISS_SWITCH_SET_IsSwitchOn(void *set, u32 switchIdx);
+void ISS_SWITCH_SET_UpdateVolume(void *set);
+void ISS_SWITCH_SET_Init(struct IssSwitchSet *set);
+void *ISS_SWITCH_SET_Alloc(void *heapId);
+u32 ISS_SWITCH_SET_Free(void *set);
+void ISS_SWITCH_SET_CreateSwitches(char *p, int heapId);
+void ISS_SWITCH_SET_DeleteSwitches(struct IssSwitchSet *set);
+u32 ISS_SWITCH_SET_LoadData(struct IssSwitchSet *set, void *datId);
+u32 ISS_SWITCH_SET_UpdateSwitches(void *set);
+u32 ISS_SWITCH_SET_StartSwitchOn(void *set, u32 switchIdx);
+u32 ISS_SWITCH_SET_StartSwitchOff(void *set, u32 switchIdx);
+void ISS_SWITCH_SET_ResetSwitches(void *set);
+u32 ISS_SWITCH_SET_ReadBgmNo(u32 *set);
+u32 ISS_SWITCH_SET_GetZoneCount(struct IssSwitchSet *set);
+u32 ISS_SWITCH_SET_GetZone(struct IssSwitchSet *set, u32 idx);
+u32 ISS_SWITCH_SET_CheckZone(void *set, u32 zoneId);
+u32 ISS_SWITCH_SET_CheckSwitchOn(void *set, u32 switchIdx);
+u32 ISS_SWITCH_SET_GetSwitch(struct IssSwitchSet *set, u32 idx);
+void ISS_SWITCH_SET_ApplySwitchVolumes(void *set);
+void *ISS_SWITCH_Create(u32 heapId);
+u32 ISS_SWITCH_Delete(void *sw);
+u32 ISS_SWITCH_Setup(void *sw, u16 fadeFrames, u16 trackBits);
+u32 ISS_SWITCH_IsOn(void *sw);
+u32 ISS_SWITCH_On(void *sw);
+u32 ISS_SWITCH_Off(void *sw);
+u32 ISS_SWITCH_ForceOn(void *sw);
+u32 ISS_SWITCH_ForceOff(void *sw);
+void ISS_SWITCH_Main(void *sw);
+void ISS_SWITCH_SetVolume(void *sw, u32 maxVolume);
+void *ISS_SWITCH_Alloc(u32 heapId);
+u32 ISS_SWITCH_Free(void *sw);
+void ISS_SWITCH_Init(struct IssSwitch *sw);
+u32 ISS_SWITCH_SetParam(struct IssSwitch *sw, u16 fadeFrames, u16 trackBits);
+void ISS_SWITCH_CountUpFade(struct IssSwitch *sw);
+u32 ISS_SWITCH_IsFadeEnd(struct IssSwitch *sw);
+void ISS_SWITCH_Update(void *sw);
+void ISS_SWITCH_UpdateOn(void *sw);
+void ISS_SWITCH_UpdateOff(void *sw);
+u32 ISS_SWITCH_UpdateFadeIn(void *sw);
+u32 ISS_SWITCH_UpdateFadeOut(void *sw);
+u32 ISS_SWITCH_StartFadeIn(void *sw);
+u32 ISS_SWITCH_StartFadeOut(void *sw);
+u32 ISS_SWITCH_SetOnState(void *sw);
+u32 ISS_SWITCH_SetOffState(void *sw);
+u32 ISS_SWITCH_GetState(struct IssSwitch *sw);
+struct IssSwitch *ISS_SWITCH_SetState(struct IssSwitch *sw, u32 state);
+s32 ISS_SWITCH_GetVolume(struct IssSwitch *sw);
+void ISS_SWITCH_ApplyVolume(struct IssSwitch *sw, s32 maxVolume);
+u32 ISS_SWITCH_IsOnState(void *sw);
+u32 ISS_SWITCH_IsOffState(void *sw);
 u32 func_0202C794(void *a0, u32 a1);
 int func_0202C824(int a0);
 void func_0202C83C(struct Ctx *p, u32 a1);
@@ -556,160 +542,158 @@ void func_0202C860(u8 *a0, int a1);
 s32 func_0202C8B8(void *a0, u32 a1, u32 a2);
 s32 func_0202C934(void *a0, u32 a1, u32 a2);
 u32 func_0202C970(void *a, void *b, u32 c);
-struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
-void func_0202CA0C(struct WinMgr *obj);
-void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
-void func_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
-void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
-void func_0202CB18(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
-void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-void func_0202CC58(struct WinMgr *mgr, u32 idx);
-void func_0202CC70(struct WinMgr *mgr, u32 idx);
-void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
-void func_0202CD94(struct WinMgr *mgr);
-u32 func_0202CDD4(struct WinMgr *mgr, u32 idx);
-u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
-void func_0202CE50(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
-void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
-u16 *func_0202CF84(struct WinMgr *mgr, u32 idx);
-u8 func_0202CF8C(struct WinMgr *mgr, u32 idx);
-void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
-void func_0202CFEC(struct WinMgr *mgr, u32 idx, s8 xmin, s8 xmax, s8 ymin, s8 ymax);
+struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heapId);
+void BGWINFRM_Delete(struct BgWinFrmWork *wk);
+void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, u32 idx, u32 bgFrame, u32 sizeX, u32 sizeY);
+void BGWINFRM_SetFrameData(struct BgWinFrmWork *wk, u32 idx, const void *src);
+void BGWINFRM_SetFrameDataArc(struct BgWinFrmWork *wk, u32 idx, u32 arcId, u32 datId, u32 compressed);
+void BGWINFRM_SetFrameDataArcHandle(struct BgWinFrmWork *wk, u32 idx, void *arcHandle, u32 datId, u32 compressed);
+void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y);
+void BGWINFRM_ShowFrame(struct BgWinFrmWork *wk, u32 idx);
+void BGWINFRM_HideFrame(struct BgWinFrmWork *wk, u32 idx);
+void BGWINFRM_StartMove(struct BgWinFrmWork *wk, u32 idx, s8 moveX, s8 moveY, u8 count);
+void BGWINFRM_UpdateMoves(struct BgWinFrmWork *wk);
+u32 BGWINFRM_UpdateMove(struct BgWinFrmWork *wk, u32 idx);
+u32 BGWINFRM_IsMoving(struct BgWinFrmWork *wk, u32 idx);
+void BGWINFRM_ChangePalette(struct BgWinFrmWork *wk, u32 idx, s32 x, s32 y, u8 sizeX, u8 sizeY, u8 palette);
+void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, u32 idx, void *bmpWin);
+u16 *BGWINFRM_GetFrameBuffer(struct BgWinFrmWork *wk, u32 idx);
+u8 BGWINFRM_GetBgFrame(struct BgWinFrmWork *wk, u32 idx);
+void BGWINFRM_GetPos(struct BgWinFrmWork *wk, u32 idx, s8 *x, s8 *y);
+void BGWINFRM_GetSize(struct BgWinFrmWork *wk, u32 idx, u16 *sizeX, u16 *sizeY);
+void BGWINFRM_SetClipArea(struct BgWinFrmWork *wk, u32 idx, s8 xmin, s8 xmax, s8 ymin, s8 ymax);
 void func_0202D018(void);
 u8 func_0202D01C(u32 a, u32 b, u32 c);
 int func_0202D034(u32 a, u32 b);
 int func_0202D060(void);
-s32 func_0202D064(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-s32 func_0202D09C(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-s32 func_0202D110(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-s32 func_0202D144(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-s32 func_0202D178(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-s32 func_0202D1AC(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-s32 func_0202D1E0(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-void func_0202D214(void *p, u32 v);
-void func_0202D2EC(u32 *obj, u32 heap);
-void func_0202D3D0(struct Obj0202D3D0 *obj, u32 a1);
-void func_0202D4A8(void *narc, u32 species, s32 form, s32 mode, u32 base, u32 shiny, u32 egg, u32 *out_index, u32 *out_pal, u32 *out_mode, u32 *out_base, u32 **out_ptr, u32 female);
-u32 func_0202D5CC(u32 a);
-u32 func_0202D5D8(u32 id, u32 flags);
-u32 func_0202D5F8(u32 id, u32 flags);
-u32 func_0202D61C(u32 id, u32 flags);
-u32 func_0202D640(u32 id, u32 flags);
-u32 func_0202D664(u32 id, u32 flags);
-u32 func_0202D688(u32 id, u32 flags);
-u32 func_0202D6AC(u32 id, u32 flags);
-u32 func_0202D6D0(u32 id, u32 flags);
-void *func_0202D6F4(u32 *a0, void *mon, u32 a2, u16 a3);
-void *func_0202D760(u32 *out, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u32 s3, volatile u16 s4);
-void *func_0202D7C8(u32 heap);
-int func_0202D7D8(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
-u32 func_0202D81C(u32 a0, u32 a1, u32 a2, u32 a3, volatile u32 s0, volatile u32 s1, volatile u32 s2, volatile u32 s3, volatile u32 s4, volatile u16 key);
-u32 func_0202D898(u32 a0, u32 a1, u32 a2, u32 a3, volatile u32 w0, volatile u32 w1, volatile u32 w2, volatile u32 w3, volatile u16 key);
-int func_0202D8D0(int a0, void *a1, int a2, int a3, unsigned short a8, unsigned short a9);
-int func_0202D934(int a0, void *a1, int a2, int a3, unsigned short a9);
-u32 func_0202D9A4(u32 h, u32 b1, u32 b2, u32 b3, u16 key);
-void *func_0202DA04(u32 heap);
-s32 func_0202DA18(u32 a, u32 b, u32 c, u32 d, u16 e);
-void func_0202DA48(u32 a, u32 b, u32 c, u32 d);
-s32 func_0202DA6C(u32 a0, u32 a1, u32 a2, u16 a3);
-void func_0202DAA4(void *set, u32 id, void *dstA, void *dstB, volatile u16 which);
-struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
-void func_0202DBC4(struct PmsDraw *p);
-void func_0202DC08(struct PmsDraw *p);
-void func_0202DC48(u32 a, u32 b, u32 c, u32 d);
-void func_0202DC60(struct PmsDraw *p, void *a, void *w, u32 i, const void *e);
-u32 func_0202DC98(struct PmsDraw *o);
-void func_0202DC9C(struct PmsDraw *o, int i, u32 a1);
-void func_0202DCB0(struct PmsDraw *o, int i, u32 a1);
-u32 func_0202DCC4(const struct PmsDraw *p, u32 i);
-void func_0202DCD4(struct PmsDraw *p, u32 i, u32 val);
-void func_0202DCFC(struct PmsDraw *p, u32 i, u32 val);
-void func_0202DD24(struct PmsDraw *p, u32 i, u32 j);
-void func_0202DE5C(struct PmsDraw *p, u8 v);
-void func_0202DE64(struct PmsDraw *p, u16 v);
-void func_0202DE68(struct PmsDraw *p, u32 v);
-void func_0202DE6C(u32 a, u32 b, u32 c, const struct Pos *base, struct Pos *out);
-u32 func_0202DE9C(u32 engine);
-u32 func_0202DEE0(u32 engine);
-u32 func_0202DF24(u32 engine);
-void func_0202DF68(u32 *o, u32 a1, u32 heap);
-void func_0202DFD4(struct Res *p);
-void *func_0202DFEC(struct Res *r, u16 a);
-void func_0202E040(void *h, struct Descriptor *cell, u32 b, u32 c, u32 n, const struct Pos *base);
-void func_0202E09C(struct PmsElem *o, struct Res *a, u16 b);
-void func_0202E0C8(struct PmsElem *p);
-int func_0202E0E0(struct PmsElem *a0, void *a1, int a2);
-void func_0202E1F0(struct PmsElem *wk, void *owner, u32 a2, struct Descriptor *a3, const MSGPARAM *param, const BLINKPOS *pos, u16 pri, u8 pal, u16 heap);
-void func_0202E38C(struct PmsElem *obj, u32 a1);
-void func_0202E3E4(struct PmsElem *obj, u32 a1);
-u32 func_0202E430(u32 id);
+s32 func_0202D064(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
+s32 POKEGRA_GetCbrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
+s32 func_0202D0D4(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
+s32 POKEGRA_GetCelArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
+s32 POKEGRA_GetAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
+s32 POKEGRA_GetMCelArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
+s32 POKEGRA_GetMAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
+s32 POKEGRA_GetNcecArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
+void POKEGRA_ConvertCharTo2D(void *charData, u32 heapId);
+void POKEGRA_ConvertCharTo1D(u32 *charData, u32 heapId);
+void POKEGRA_DrawSpindaSpots(struct NNSG2dCharacterData *charData, u32 personality);
+void POKEGRA_CalcArcIndex(void *arcId, u32 monsNo, s32 formNo, s32 sex, u32 rare, u32 dir, u32 egg, u32 *outIndex, u32 *outDirOffset, u32 *outSex, u32 *outRare, u32 **outFormPalIndex, u32 isCgr);
+u32 POKEGRA_GetTrainerArcID(u32 isBack);
+u32 POKEGRA_GetTrainerCgrArcIndex(u32 trType, u32 flags);
+u32 POKEGRA_GetTrainerCbrArcIndex(u32 trType, u32 flags);
+u32 POKEGRA_GetTrainerPalArcIndex(u32 trType, u32 flags);
+u32 POKEGRA_GetTrainerCelArcIndex(u32 trType, u32 flags);
+u32 POKEGRA_GetTrainerAnmArcIndex(u32 trType, u32 flags);
+u32 POKEGRA_GetTrainerMCelArcIndex(u32 trType, u32 flags);
+u32 POKEGRA_GetTrainerMAnmArcIndex(u32 trType, u32 flags);
+u32 POKEGRA_GetTrainerNcecArcIndex(u32 trType, u32 flags);
+void *POKEGRA_LoadCharDataPP(u32 *outCharData, void *pp, u32 dir, u16 heapId);
+void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 personality, volatile u16 heapId);
+void *func_0202D7C8(u32 heapId);
+int func_0202D7D8(int handle, int monsNo, int formNo, int sex, int rare, int dir, int egg, int drawType, unsigned short palOffset, unsigned short heapId);
+u32 func_0202D81C(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare, volatile u32 dir, volatile u32 egg, volatile u32 personality, volatile u32 drawType, volatile u16 heapId);
+u32 func_0202D898(u32 monsNo, u32 formNo, u32 sex, u32 rare, volatile u32 dir, volatile u32 egg, volatile u32 mapping, volatile u32 unusedArg, volatile u16 heapId);
+int func_0202D8D0(int handle, void *pp, int dir, int drawType, unsigned short palOffset, unsigned short heapId);
+int func_0202D934(int handle, void *pp, int dir, int drawType, unsigned short heapId);
+u32 func_0202D9A4(u32 pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
+void *POKEGRA_OpenTrainerHandle(u32 heapId);
+s32 POKEGRA_RegisterTrainerPalette(u32 handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId);
+void POKEGRA_RegisterTrainerCgr(u32 handle, u32 trType, u32 drawType, u32 heapId);
+s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u16 heapId);
+void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, void *charDst, void *palDst, volatile u16 heapId);
+struct PmsDraw *PMS_DRAW_Create(u32 clunit, u32 drawType, u32 printQue, u32 font, u8 plttOffset, u8 elemMax, u16 heapId);
+void PMS_DRAW_Main(struct PmsDraw *wk);
+void PMS_DRAW_Delete(struct PmsDraw *wk);
+void PMS_DRAW_Print(u32 wk, u32 bmpWin, u32 pms, u32 id);
+void PMS_DRAW_PrintOffset(struct PmsDraw *wk, void *bmpWin, void *pms, u32 id, const void *offset);
+u32 PMS_DRAW_IsPrintEnd(struct PmsDraw *wk);
+void PMS_DRAW_Clear(struct PmsDraw *wk, int id, u32 isTrans);
+void PMS_DRAW_SetVisible(struct PmsDraw *wk, int id, u32 visible);
+u32 PMS_DRAW_IsActive(const struct PmsDraw *wk, u32 id);
+void PMS_DRAW_SetDecoVisible(struct PmsDraw *wk, u32 id, u32 visible);
+void PMS_DRAW_SetDecoPriority(struct PmsDraw *wk, u32 id, u32 priority);
+void PMS_DRAW_Copy(struct PmsDraw *wk, u32 srcId, u32 dstId);
+void PMS_DRAW_SetNullColorPalette(struct PmsDraw *wk, u8 palette);
+void PMS_DRAW_SetPrintColor(struct PmsDraw *wk, u16 color);
+void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *wk, u32 follow);
+void PMS_DRAW_CalcDecoPos(u32 bmpWin, u32 charX, u32 line, const struct PmsPos *offset, struct PmsPos *out);
+u32 PMS_DRAW_GetDecoCgrIndex(u32 engine);
+u32 PMS_DRAW_GetDecoCelIndex(u32 engine);
+u32 PMS_DRAW_GetDecoAnmIndex(u32 engine);
+void PMS_DRAW_LoadResources(u32 *res, u32 plttOffset, u32 heapId);
+void PMS_DRAW_ReleaseResources(struct PmsDrawRes *res);
+void *PMS_DRAW_CreateDecoActor(struct PmsDrawRes *res, u16 heapId);
+void PMS_DRAW_PlaceDecoActor(void *actor, struct Descriptor *bmpWin, u32 charX, u32 line, u32 wordId, const struct PmsPos *offset);
+void PMS_DRAW_InitElem(struct PmsElem *elem, struct PmsDrawRes *res, u16 heapId);
+void PMS_DRAW_DeleteElem(struct PmsElem *elem);
+int PMS_DRAW_UpdateElem(struct PmsElem *elem, void *printQue, int followBgScroll);
+void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct Descriptor *bmpWin, const PmsData *param, const PmsOffset *offset, u16 color, u8 nullColorPalette, u16 heapId);
+void PMS_DRAW_ClearElem(struct PmsElem *elem, u32 isTrans);
+void PMS_DRAW_SetElemVisible(struct PmsElem *elem, u32 visible);
+u32 PMS_DRAW_GetFrameSurface(u32 frame);
 void func_0202E43C(void *p);
 u32 func_0202E448(u32 id);
-void *func_0202E474(const struct BigObj *a0, int a1, int a2, int a3);
-extern const char g_020A7758[];
-extern const char g_020A776C[];
-extern char g_020A7780[];
+void *BAG_PARAM_Create(const struct BigObj *gameData, int itemCheck, int mode, int heapId);
+extern const char IssSwitchSysFileName[];
+extern const char IssSwitchSetFileName[];
+extern char IssSwitchFileName[];
 extern struct Pair gTbl_0209FFF4[];
-extern const char bgwinfrm_File[];
-extern const char str_020A7790[];
-extern const char str_020A77AC[];
-extern char  sFile_020A77AC[];
-extern const u8 *const tile_tables[4];
-extern const u8 sub_0202D5D8_Table[];
-extern char  s_pms_draw_c[];
-extern const struct Ent0202E448 sub_0202E448_Table[];
-extern char data_020A77C4[];
+extern const char BgWinFrmFileName[];
+extern const char PokegraFileName[];
+extern const u8 *const SpindaSpotTables[4];
+extern const u8 TrainerGraIndexTable[];
+extern char  PmsDrawFileName[];
+extern const struct ItemValueEntry ItemValueTable[];
+extern char BagParamFileName[];
 
 /*
- * Blocked: the THM_CALL at +0012 to func_0202C148 has no manifest entry.
+ * Blocked: the THM_CALL at +0012 to ISS_SWITCH_SYS_CreateSets has no manifest entry.
  * 0x0202C148 (76 bytes, pkt_0202C148, still open) is byte-correct except an
  * eight-instruction schedule permutation in its prologue: 15 C spellings were
  * measured and every one emits the same permuted block, so it is a DIFF and
  * cannot be filed - see docs/notes/pkt_0202C148.c.txt.  The other two sites
- * (func_0202C124, func_0202C118) resolve as `matched`.  Every concrete byte
+ * (ISS_SWITCH_SYS_Alloc, ISS_SWITCH_SYS_Init) resolve as `matched`.  Every concrete byte
  * reproduces.
  *
- * Creates a node through func_0202C124, prepares it with func_0202C118 and
- * binds the argument with func_0202C148.
+ * Creates a node through ISS_SWITCH_SYS_Alloc, prepares it with ISS_SWITCH_SYS_Init and
+ * binds the argument with ISS_SWITCH_SYS_CreateSets.
  */
-u8 *func_0202C070(u16 heap)
+u8 *ISS_SWITCH_SYS_Create(u16 heapId)
 {
-    u8 *r = func_0202C124(heap);
+    u8 *sys = ISS_SWITCH_SYS_Alloc(heapId);
 
-    func_0202C118(r);
-    func_0202C148(r, heap);
-    return r;
+    ISS_SWITCH_SYS_Init(sys);
+    ISS_SWITCH_SYS_CreateSets(sys, heapId);
+    return sys;
 }
 
 /*
- * closed:   blocker func_0202B6AC.c is now a manifest entry (matched class)
+ * closed:   blocker ISS_SYS_DeleteSwitch.c is now a manifest entry (matched class)
  *
- * Runs func_0202C198 then func_0202C140 over the object.
+ * Runs ISS_SWITCH_SYS_DeleteSets then ISS_SWITCH_SYS_Free over the object.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C08C.c \
- *       --func func_0202C08C --addr 0x0202C08C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_Delete.c \
+ *       --func ISS_SWITCH_SYS_Delete --addr 0x0202C08C --thumb --cc 1.1p1
  */
-void func_0202C08C(u8 *p)
+void ISS_SWITCH_SYS_Delete(u8 *sys)
 {
-    func_0202C198(p);
-    func_0202C140(p);
+    ISS_SWITCH_SYS_DeleteSets(sys);
+    ISS_SWITCH_SYS_Free(sys);
 }
 
 /*
- * When func_0202C2D8 reports true, runs func_0202C1C4 and func_0202C2C0.
+ * When ISS_SWITCH_SYS_IsOn reports true, runs ISS_SWITCH_SYS_UpdateActiveSet and ISS_SWITCH_SYS_UpdateVolume.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C09C.c \
- *       --func func_0202C09C --addr 0x0202C09C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_Main.c \
+ *       --func ISS_SWITCH_SYS_Main --addr 0x0202C09C --thumb --cc 1.1p1
  */
-void func_0202C09C(u8 *p)
+void ISS_SWITCH_SYS_Main(u8 *sys)
 {
-    if (func_0202C2D8((u32 *)p) != 0) {
-        func_0202C1C4((struct Obj0202C244 *)p);
-        func_0202C2C0(p);
+    if (ISS_SWITCH_SYS_IsOn((u32 *)sys) != 0) {
+        ISS_SWITCH_SYS_UpdateActiveSet((struct IssSwitchSys *)sys);
+        ISS_SWITCH_SYS_UpdateVolume(sys);
     }
 }
 
@@ -721,85 +705,85 @@ void func_0202C09C(u8 *p)
  * an existing manifest entry - and filed from the bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C0B8.c \
- *       --func func_0202C0B8 --addr 0x0202C0B8 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_On.c \
+ *       --func ISS_SWITCH_SYS_On --addr 0x0202C0B8 --thumb --cc 1.1p1
  */
-void func_0202C0B8(u8 *p)
+void ISS_SWITCH_SYS_On(u8 *sys)
 {
-    func_0202C1D4(p);
+    ISS_SWITCH_SYS_TurnOn(sys);
 }
 
 /*
- * An eight-byte tail-call thunk into func_0202C204, with the callee's ISA
+ * An eight-byte tail-call thunk into ISS_SWITCH_SYS_TurnOff, with the callee's ISA
  * carried in the low bit of the pool word (docs/idioms/
  * tail-call-is-a-pool-word-and-bx.md).  Unlabelled in the listing and absent
- * from the worklist; filed from the bytes.  src/pending/func_0202B704.c is
+ * from the worklist; filed from the bytes.  src/pending/ISS_SYS_UpdateSwitch.c is
  * blocked on this address and now has it as a `matched` witness.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C0C0.c \
- *       --func func_0202C0C0 --addr 0x0202C0C0 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_Off.c \
+ *       --func ISS_SWITCH_SYS_Off --addr 0x0202C0C0 --thumb --cc 1.1p1
  */
-void func_0202C0C0(u32 *p)
+void ISS_SWITCH_SYS_Off(u32 *sys)
 {
-    func_0202C204(p);
+    ISS_SWITCH_SYS_TurnOff(sys);
 }
 
 /*
- * An eight-byte tail-call thunk into func_0202C218.  Unlabelled in the listing
+ * An eight-byte tail-call thunk into ISS_SWITCH_SYS_CheckZoneChange.  Unlabelled in the listing
  * and absent from the worklist; filed from the bytes.  src/pending/
- * func_0202B7E0.c is blocked on this address and now has it as a `matched`
+ * ISS_SYS_OnZoneChangeSwitch.c is blocked on this address and now has it as a `matched`
  * witness.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C0C8.c \
- *       --func func_0202C0C8 --addr 0x0202C0C8 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_ZoneChange.c \
+ *       --func ISS_SWITCH_SYS_ZoneChange --addr 0x0202C0C8 --thumb --cc 1.1p1
  */
-void func_0202C0C8(u32 *p, u32 v)
+void ISS_SWITCH_SYS_ZoneChange(u32 *sys, u32 zoneId)
 {
-    func_0202C218(p, v);
+    ISS_SWITCH_SYS_CheckZoneChange(sys, zoneId);
 }
 
 /*
- * Resolves the object through func_0202C24C and, when found, forwards the
- * argument through func_0202C328.
+ * Resolves the object through ISS_SWITCH_SYS_GetActiveSet and, when found, forwards the
+ * argument through ISS_SWITCH_SET_SwitchOn.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0202C0D0.c \
  *       --func func_0202C0D0 --addr 0x0202C0D0 --thumb --cc 1.1p1
  */
-void func_0202C0D0(u8 *p, u32 a)
+void func_0202C0D0(u8 *sys, u32 switchIdx)
 {
-    u32 r = func_0202C24C((struct Obj0202C244 *)p);
+    u32 set = ISS_SWITCH_SYS_GetActiveSet((struct IssSwitchSys *)sys);
 
-    if (r != 0) {
-        func_0202C328((void *)r, a);
+    if (set != 0) {
+        ISS_SWITCH_SET_SwitchOn((void *)set, switchIdx);
     }
 }
 
 /*
- * Resolves the object through func_0202C24C and, when found, forwards the
- * argument through func_0202C330.
+ * Resolves the object through ISS_SWITCH_SYS_GetActiveSet and, when found, forwards the
+ * argument through ISS_SWITCH_SET_SwitchOff.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0202C0E4.c \
  *       --func func_0202C0E4 --addr 0x0202C0E4 --thumb --cc 1.1p1
  */
-void func_0202C0E4(u8 *p, u32 a)
+void func_0202C0E4(u8 *sys, u32 switchIdx)
 {
-    u32 r = func_0202C24C((struct Obj0202C244 *)p);
+    u32 set = ISS_SWITCH_SYS_GetActiveSet((struct IssSwitchSys *)sys);
 
-    if (r != 0) {
-        func_0202C330((void *)r, a);
+    if (set != 0) {
+        ISS_SWITCH_SET_SwitchOff((void *)set, switchIdx);
     }
 }
 
-u32 func_0202C0F8(struct Obj0202C244 *p, u32 idx)
+u32 func_0202C0F8(struct IssSwitchSys *sys, u32 switchIdx)
 {
-    u32 r = func_0202C24C(p);
+    u32 set = ISS_SWITCH_SYS_GetActiveSet(sys);
 
-    if (r != 0) {
-        return func_0202C350((void *)r, idx);
+    if (set != 0) {
+        return ISS_SWITCH_SET_IsSwitchOn((void *)set, switchIdx);
     }
     return 0;
 }
@@ -815,41 +799,43 @@ u32 func_0202C0F8(struct Obj0202C244 *p, u32 idx)
  *   python tools/match.py one --src src/matched/func_0202C110.c \
  *       --func func_0202C110 --addr 0x0202C110 --thumb --cc 1.1p1
  */
-void func_0202C110(void *p)
+void func_0202C110(void *sys)
 {
-    func_0202C2DC(p);
+    ISS_SWITCH_SYS_ResetActiveSet(sys);
 }
 
-void func_0202C118(void *obj)
+void ISS_SWITCH_SYS_Init(void *obj)
 {
-    ((struct Obj04107 *)obj)->f0 = 0;
-    ((struct Obj04107 *)obj)->f4 = 0;
-    ((struct Obj04107 *)obj)->f8 = 0;
-    ((struct Obj04107 *)obj)->fC = 0;
+    struct IssSwitchSys *sys = obj;
+
+    sys->isOn = 0;
+    sys->setCount = 0;
+    sys->sets = 0;
+    sys->activeSet = 0;
 }
 
 /*
  * Allocates 16 bytes from heap with tracking file and line.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C124.c \
- *       --func func_0202C124 --addr 0x0202C124 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_Alloc.c \
+ *       --func ISS_SWITCH_SYS_Alloc --addr 0x0202C124 --cc 1.1p1 --thumb
  */
-void *func_0202C124(u32 heap)
+void *ISS_SWITCH_SYS_Alloc(u32 heapId)
 {
-    return func_02030734(heap, 0x10, 0, g_020A7758, 0x10A);
+    return func_02030734(heapId, 0x10, 0, IssSwitchSysFileName, 0x10A);
 }
 
-void func_0202C140(void *ptr)
+void ISS_SWITCH_SYS_Free(void *sys)
 {
-    func_020307B0(ptr);
+    func_020307B0(sys);
 }
 
 /*
  * Build the unit table of a block: n = func_02049030(0x93) members, the
  * count stored at +4, an n-word pointer array allocated from heapId at +8
  * (file word 0x020A7758, line 0x13A), then one unit per slot from
- * func_0202C2EC(heapId), initialised by func_0202C318(unit, i, heapId).
+ * ISS_SWITCH_SET_Create(heapId), initialised by ISS_SWITCH_SET_Load(unit, i, heapId).
  *
  * What closed it (wave 17, from 17 out): heapId is a u16 PARAMETER.  With
  * a u32 heapId 1.1p1 hoists the heapId reload and the file pool word above
@@ -859,125 +845,129 @@ void func_0202C140(void *ptr)
  * The callee prototypes take the same u16 heap id.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C148.c \
- *       --func func_0202C148 --addr 0x0202C148 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_CreateSets.c \
+ *       --func ISS_SWITCH_SYS_CreateSets --addr 0x0202C148 --cc 1.1p1 --thumb
  */
-void func_0202C148(u8 *p, u16 heapId)
+void ISS_SWITCH_SYS_CreateSets(u8 *p, u16 heapId)
 {
+    struct IssSwitchSys *sys = (struct IssSwitchSys *)p;
     u32 i;
     int n;
 
     n = func_02049030(0x93);
-    p[4] = (u8)n;
-    ((struct Obj04107 *)p)->f8 = (u32)func_02030734(heapId, (u32)(n << 2), 0,
-                                         (const void *)0x020A7758, 0x13a);
+    sys->setCount = (u8)n;
+    sys->sets = func_02030734(heapId, (u32)(n << 2), 0,
+                              IssSwitchSysFileName, 0x13a);
     for (i = 0; (int)i < n; i++) {
-        u8 *r = (u8 *)func_0202C2EC((void *)heapId);
-        func_0202C318(r, i, heapId);
-        *(u32 *)(((struct Obj04107 *)p)->f8 + (i << 2)) = (u32)r;
+        struct IssSwitchSet *set = (struct IssSwitchSet *)ISS_SWITCH_SET_Create((void *)heapId);
+        ISS_SWITCH_SET_Load(set, i, heapId);
+        sys->sets[i] = set;
     }
 }
 
 /*
  * closed:   blocker  is now a manifest entry (matched class)
  *
- * Teardown for the list node func_0202C148 builds: walk the pointer array and
+ * Teardown for the list node ISS_SWITCH_SYS_CreateSets builds: walk the pointer array and
  * release each element, then free the array and clear all three headers.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0202C198.c \
- *       --func func_0202C198 --addr 0x0202C198 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/pending/ISS_SWITCH_SYS_DeleteSets.c \
+ *       --func ISS_SWITCH_SYS_DeleteSets --addr 0x0202C198 --thumb --cc 1.1p1
  */
-void func_0202C198(u8 *p)
+void ISS_SWITCH_SYS_DeleteSets(u8 *p)
 {
-    int n = p[4];
+    struct IssSwitchSys *sys = (struct IssSwitchSys *)p;
+    int n = sys->setCount;
     int i;
 
     for (i = 0; i < n; i++) {
-        func_0202C308(*(u8 **)(*(u32 *)&((struct Obj04743 *)p)->f8 + (i << 2)));
+        ISS_SWITCH_SET_Delete(sys->sets[i]);
     }
-    func_020307B0(((struct Obj04743 *)p)->f8);
-    p[4] = 0;
-    *(u32 *)&((struct Obj04743 *)p)->f8 = 0;
-    ((struct Obj04743 *)p)->fC = 0;
+    func_020307B0(sys->sets);
+    sys->setCount = 0;
+    sys->sets = 0;
+    sys->activeSet = 0;
 }
 
-u32 func_0202C1C4(struct Obj0202C244 *p)
+u32 ISS_SWITCH_SYS_UpdateActiveSet(struct IssSwitchSys *sys)
 {
-    u32 r = func_0202C24C(p);
+    u32 set = ISS_SWITCH_SYS_GetActiveSet(sys);
 
-    if (r != 0) {
-        return func_0202C320((void *)r);
+    if (set != 0) {
+        return ISS_SWITCH_SET_Main((void *)set);
     }
-    return r;
+    return set;
 }
 
-void func_0202C1D4(u8 *p)
+void ISS_SWITCH_SYS_TurnOn(u8 *p)
 {
-    if (func_0202C2D8((u32 *)p) == 1) {
+    struct IssSwitchSys *sys = (struct IssSwitchSys *)p;
+
+    if (ISS_SWITCH_SYS_IsOn((u32 *)sys) == 1) {
         return;
     }
-    ((struct Obj15848 *)p)->f0 = 1;
-    if (func_0202C29C((u32 *)p, func_0202C2D0(1)) != 1) {
+    sys->isOn = 1;
+    if (ISS_SWITCH_SYS_ChangeActiveSet((u32 *)sys, ISS_SWITCH_SYS_GetPlayingBgm(1)) != 1) {
         return;
     }
-    func_0202C2DC(p);
-    func_0202C2C0(p);
+    ISS_SWITCH_SYS_ResetActiveSet(sys);
+    ISS_SWITCH_SYS_UpdateVolume(sys);
 }
 
 /*
  * Clears the object's first word when it is non-zero.  Unlabelled in the
  * listing (no lr save) and absent from the worklist; filed from the bytes.
  * It is the tail-call target of the thunk at 0x0202C0C0, which is what
- * src/pending/func_0202B704.c is blocked on.
+ * src/pending/ISS_SYS_UpdateSwitch.c is blocked on.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C204.c \
- *       --func func_0202C204 --addr 0x0202C204 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_TurnOff.c \
+ *       --func ISS_SWITCH_SYS_TurnOff --addr 0x0202C204 --thumb --cc 1.1p1
  */
-void func_0202C204(u32 *p)
+void ISS_SWITCH_SYS_TurnOff(u32 *sys)
 {
-    if (func_0202C2D8(p) != 0) {
-        *p = 0;
+    if (ISS_SWITCH_SYS_IsOn(sys) != 0) {
+        *sys = 0;
     }
 }
 
 /*
- * Clears the record through func_0202C204 when the object is live and the
+ * Clears the record through ISS_SWITCH_SYS_TurnOff when the object is live and the
  * lookup fails.  Unlabelled in the listing (no lr save of its own beyond the
  * callee-saved set) and absent from the worklist; filed from the bytes.  It is
  * the tail-call target of the thunk at 0x0202C0C8, which is what
- * src/pending/func_0202B7E0.c is blocked on.
+ * src/pending/ISS_SYS_OnZoneChangeSwitch.c is blocked on.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C218.c \
- *       --func func_0202C218 --addr 0x0202C218 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_CheckZoneChange.c \
+ *       --func ISS_SWITCH_SYS_CheckZoneChange --addr 0x0202C218 --thumb --cc 1.1p1
  */
-void func_0202C218(u32 *p, u32 v)
+void ISS_SWITCH_SYS_CheckZoneChange(u32 *sys, u32 zoneId)
 {
-    if (func_0202C2D8(p) == 0) {
+    if (ISS_SWITCH_SYS_IsOn(sys) == 0) {
         return;
     }
-    if (func_0202C250(p, v) != 0) {
+    if (ISS_SWITCH_SYS_IsActiveSetZone(sys, zoneId) != 0) {
         return;
     }
-    func_0202C2DC(p);
-    func_0202C204(p);
+    ISS_SWITCH_SYS_ResetActiveSet(sys);
+    ISS_SWITCH_SYS_TurnOff(sys);
 }
 
-u32 func_0202C240(void *obj)
+u32 ISS_SWITCH_SYS_GetSetCount(void *sys)
 {
-    return ((struct Obj16765 *)obj)->f4;
+    return ((struct IssSwitchSys *)sys)->setCount;
 }
 
-u32 func_0202C244(struct Obj0202C244 *p, u32 idx)
+u32 ISS_SWITCH_SYS_GetSet(struct IssSwitchSys *sys, u32 idx)
 {
-    return p->unk08[idx];
+    return (u32)sys->sets[idx];
 }
 
-u32 func_0202C24C(struct Obj0202C244 *p)
+u32 ISS_SWITCH_SYS_GetActiveSet(struct IssSwitchSys *sys)
 {
-    return p->unk0c;
+    return (u32)sys->activeSet;
 }
 
 /*
@@ -986,262 +976,263 @@ u32 func_0202C24C(struct Obj0202C244 *p)
  * listing and absent from the worklist; filed from the bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C250.c \
- *       --func func_0202C250 --addr 0x0202C250 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_IsActiveSetZone.c \
+ *       --func ISS_SWITCH_SYS_IsActiveSetZone --addr 0x0202C250 --thumb --cc 1.1p1
  */
-u32 func_0202C250(u32 *p, u32 v)
+u32 ISS_SWITCH_SYS_IsActiveSetZone(u32 *sys, u32 zoneId)
 {
-    u32 f = func_0202C24C((struct Obj0202C244 *)p);
+    u32 set = ISS_SWITCH_SYS_GetActiveSet((struct IssSwitchSys *)sys);
 
-    if (f == 0) {
+    if (set == 0) {
         return 0;
     }
-    return func_0202C348((void *)f, (void *)v);
+    return ISS_SWITCH_SET_IsValidZone((void *)set, (void *)zoneId);
 }
 
 /*
- * Scans the object's count entries (func_0202C240 is the count) looking for
+ * Scans the object's count entries (ISS_SWITCH_SYS_GetSetCount is the count) looking for
  * the one whose sub_0202C340 value equals the caller's second argument, and
  * returns the entry's sub_0202C244 value.  The index is truncated to a byte
  * before it is passed, which is what the lsls/lsrs pair says.  Unlabelled in
  * the listing and absent from the worklist; filed from the bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C268.c \
- *       --func func_0202C268 --addr 0x0202C268 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_FindSetByBgm.c \
+ *       --func ISS_SWITCH_SYS_FindSetByBgm --addr 0x0202C268 --thumb --cc 1.1p1
  */
-u32 func_0202C268(u8 *p, u32 v)
+u32 ISS_SWITCH_SYS_FindSetByBgm(u8 *sys, u32 bgmNo)
 {
-    int n = func_0202C240(p);
+    int n = ISS_SWITCH_SYS_GetSetCount(sys);
     int i;
 
     for (i = 0; i < n; i++) {
-        u32 r = func_0202C244((struct Obj0202C244 *)p, (u8)i);
+        u32 set = ISS_SWITCH_SYS_GetSet((struct IssSwitchSys *)sys, (u8)i);
 
-        if (v == func_0202C340((void *)r)) {
-            return r;
+        if (bgmNo == ISS_SWITCH_SET_GetBgmNo((void *)set)) {
+            return set;
         }
     }
     return 0;
 }
 
 /*
- * Looks the caller's second argument up with func_0202C268; if the result
+ * Looks the caller's second argument up with ISS_SWITCH_SYS_FindSetByBgm; if the result
  * differs from the object's current +0xc field, installs it there and reports
  * success.  Unlabelled in the listing and absent from the worklist; filed from
  * the bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C29C.c \
- *       --func func_0202C29C --addr 0x0202C29C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_ChangeActiveSet.c \
+ *       --func ISS_SWITCH_SYS_ChangeActiveSet --addr 0x0202C29C --thumb --cc 1.1p1
  */
-int func_0202C29C(u32 *p, u32 v)
+int ISS_SWITCH_SYS_ChangeActiveSet(u32 *p, u32 bgmNo)
 {
-    u32 f = func_0202C24C((struct Obj0202C244 *)p);
-    u32 x = func_0202C268((u8 *)p, v);
+    u32 current = ISS_SWITCH_SYS_GetActiveSet((struct IssSwitchSys *)p);
+    u32 found = ISS_SWITCH_SYS_FindSetByBgm((u8 *)p, bgmNo);
 
-    if (f == x) {
+    if (current == found) {
         return 0;
     }
-    p[3] = x;
+    ((struct IssSwitchSys *)p)->activeSet = (struct IssSwitchSet *)found;
     return 1;
 }
 
-void func_0202C2C0(void *p)
+void ISS_SWITCH_SYS_UpdateVolume(void *sys)
 {
-    u32 v = func_0202C24C(p);
+    u32 set = ISS_SWITCH_SYS_GetActiveSet(sys);
 
-    if (v != 0) {
-        func_0202C358((void *)v);
+    if (set != 0) {
+        ISS_SWITCH_SET_UpdateVolume((void *)set);
     }
 }
 
-u32 func_0202C2D0(u32 v)
+u32 ISS_SWITCH_SYS_GetPlayingBgm(u32 unused)
 {
-    return func_02005C44();
+    return GFL_USE_GetBgmNo();
 }
 
-u32 func_0202C2D8(u32 *p)
+u32 ISS_SWITCH_SYS_IsOn(u32 *sys)
 {
-    return *p;
+    return ((struct IssSwitchSys *)sys)->isOn;
 }
 
-void func_0202C2DC(void *p)
+void ISS_SWITCH_SYS_ResetActiveSet(void *sys)
 {
-    u32 v = func_0202C24C(p);
+    u32 set = ISS_SWITCH_SYS_GetActiveSet(sys);
 
-    if (v != 0) {
-        func_0202C338((void *)v);
+    if (set != 0) {
+        ISS_SWITCH_SET_ResetSwitch((void *)set);
     }
 }
 
 /*
- * Closed: func_0202C384 became an EXACT manifest entry, so the matched class attests the call at 0x0202C2F0.
+ * Closed: ISS_SWITCH_SET_Alloc became an EXACT manifest entry, so the matched class attests the call at 0x0202C2F0.
  */
-u32 func_0202C2EC(void *heap)
+u32 ISS_SWITCH_SET_Create(void *heapId)
 {
-    u32 r = (u32)func_0202C384(heap);
+    u32 set = (u32)ISS_SWITCH_SET_Alloc(heapId);
 
-    func_0202C360((void *)r);
-    func_0202C3A8((char *)r, (int)heap);
-    return r;
+    ISS_SWITCH_SET_Init((void *)set);
+    ISS_SWITCH_SET_CreateSwitches((char *)set, (int)heapId);
+    return set;
 }
 
-void func_0202C308(void *p)
+void ISS_SWITCH_SET_Delete(void *set)
 {
-    func_0202C3C4(p);
-    func_0202C3A0(p);
+    ISS_SWITCH_SET_DeleteSwitches(set);
+    ISS_SWITCH_SET_Free(set);
 }
 
-u32 func_0202C318(void *a, u32 b, u32 c)
+u32 ISS_SWITCH_SET_Load(void *set, u32 datId, u32 heapId)
 {
-    return func_0202C3E0(a, (void *)b);
+    return ISS_SWITCH_SET_LoadData(set, (void *)datId);
 }
 
-u32 func_0202C320(void *p)
+u32 ISS_SWITCH_SET_Main(void *set)
 {
-    return func_0202C470(p);
+    return ISS_SWITCH_SET_UpdateSwitches(set);
 }
 
-u32 func_0202C328(void *p, u32 idx)
+u32 ISS_SWITCH_SET_SwitchOn(void *set, u32 switchIdx)
 {
-    return func_0202C48C(p, idx);
+    return ISS_SWITCH_SET_StartSwitchOn(set, switchIdx);
 }
 
-u32 func_0202C330(void *p, u32 idx)
+u32 ISS_SWITCH_SET_SwitchOff(void *set, u32 switchIdx)
 {
-    return func_0202C498(p, idx);
+    return ISS_SWITCH_SET_StartSwitchOff(set, switchIdx);
 }
 
-void func_0202C338(void *p)
+void ISS_SWITCH_SET_ResetSwitch(void *set)
 {
-    func_0202C4A4(p);
+    ISS_SWITCH_SET_ResetSwitches(set);
 }
 
-u32 func_0202C340(void *p)
+u32 ISS_SWITCH_SET_GetBgmNo(void *set)
 {
-    return func_0202C4C8(p);
+    return ISS_SWITCH_SET_ReadBgmNo(set);
 }
 
-u32 func_0202C348(void *a, void *b)
+u32 ISS_SWITCH_SET_IsValidZone(void *set, void *zoneId)
 {
-    return func_0202C4D8(a, (u32)b);
+    return ISS_SWITCH_SET_CheckZone(set, (u32)zoneId);
 }
 
-u32 func_0202C350(void *p, u32 idx)
+u32 ISS_SWITCH_SET_IsSwitchOn(void *set, u32 switchIdx)
 {
-    return func_0202C504(p, idx);
+    return ISS_SWITCH_SET_CheckSwitchOn(set, switchIdx);
 }
 
-void func_0202C358(void *p)
+void ISS_SWITCH_SET_UpdateVolume(void *set)
 {
-    func_0202C518(p);
+    ISS_SWITCH_SET_ApplySwitchVolumes(set);
 }
 
-void func_0202C360(struct Obj0202C360 *p)
+void ISS_SWITCH_SET_Init(struct IssSwitchSet *set)
 {
     int i;
 
-    p->unk00 = 0;
-    p->unk16 = 0;
+    set->bgmNo = 0;
+    set->zoneCount = 0;
 
     for (i = 0; i < 9; i++) {
-        p->shorts[i] = 0;
+        set->zones[i] = 0;
     }
 
     for (i = 0; i < 9; i++) {
-        p->words[i] = 0;
+        set->switches[i] = 0;
     }
 }
 
-void *func_0202C384(void *heap)
+void *ISS_SWITCH_SET_Alloc(void *heapId)
 {
-    return func_02030734((u32)heap, 0x3c, 0, g_020A776C, 0x12a);
+    return func_02030734((u32)heapId, 0x3c, 0, IssSwitchSetFileName, 0x12a);
 }
 
-u32 func_0202C3A0(void *p)
+u32 ISS_SWITCH_SET_Free(void *set)
 {
-    return func_020307B0(p);
+    return func_020307B0(set);
 }
 
-void func_0202C3A8(char *p, int a1)
+void ISS_SWITCH_SET_CreateSwitches(char *p, int heapId)
 {
+    struct IssSwitchSet *set = (struct IssSwitchSet *)p;
     int i;
     for (i = 0; i < 9; i++)
-        *(int *)(p + 0x18 + i * 4) = (int)func_0202C538(a1);
+        set->switches[i] = ISS_SWITCH_Create(heapId);
 }
 
-void func_0202C3C4(struct Obj0202C360 *p)
+void ISS_SWITCH_SET_DeleteSwitches(struct IssSwitchSet *set)
 {
     int i;
 
     for (i = 0; i < 9; i++) {
-        func_0202C548(p->words[i]);
-        p->words[i] = 0;
+        ISS_SWITCH_Delete(set->switches[i]);
+        set->switches[i] = 0;
     }
 }
 
-u32 func_0202C3E0(struct Arr0202C510 *a, void *b)
+u32 ISS_SWITCH_SET_LoadData(struct IssSwitchSet *set, void *datId)
 {
-    u16 digits[9];
-    u16 sep;
+    u16 trackBits[9];
+    u16 fadeFrames;
     int i;
-    u32 off;
+    u32 offset;
     u32 ret;
 
     i = 0;
-    off = 0;
-    FSi_ConvertStringSjisToUnicode(a, 0x93, b, off, 4);
-    off += 4;
+    offset = 0;
+    FSi_ConvertStringSjisToUnicode(set, 0x93, datId, offset, 4);
+    offset += 4;
 
-    for (; i < 9; i++, off += 2) {
-        FSi_ConvertStringSjisToUnicode(&digits[i], 0x93, b, off, 2);
+    for (; i < 9; i++, offset += 2) {
+        FSi_ConvertStringSjisToUnicode(&trackBits[i], 0x93, datId, offset, 2);
     }
 
-    FSi_ConvertStringSjisToUnicode(&sep, 0x93, b, off, 2);
-    FSi_ConvertStringSjisToUnicode(&a->unk16, 0x93, b, off + 2, 1);
-    FSi_ConvertStringSjisToUnicode(a->unk04, 0x93, b, off + 3, a->unk16 * 2);
+    FSi_ConvertStringSjisToUnicode(&fadeFrames, 0x93, datId, offset, 2);
+    FSi_ConvertStringSjisToUnicode(&set->zoneCount, 0x93, datId, offset + 2, 1);
+    FSi_ConvertStringSjisToUnicode(set->zones, 0x93, datId, offset + 3, set->zoneCount * 2);
 
     i = 0;
     for (; i < 9; i++) {
-        ret = func_0202C550((void *)func_0202C510((struct Arr0202C510 *)a, i), sep, digits[i]);
+        ret = ISS_SWITCH_Setup((void *)ISS_SWITCH_SET_GetSwitch(set, i), fadeFrames, trackBits[i]);
     }
 
     return ret;
 }
 
-u32 func_0202C470(void *p)
+u32 ISS_SWITCH_SET_UpdateSwitches(void *set)
 {
     s32 i;
 
     for (i = 0; i < 9; i++) {
-        func_0202C580((void *)func_0202C510(p, i));
+        ISS_SWITCH_Main((void *)ISS_SWITCH_SET_GetSwitch(set, i));
     }
 }
 
-u32 func_0202C48C(void *p, u32 idx)
+u32 ISS_SWITCH_SET_StartSwitchOn(void *set, u32 switchIdx)
 {
-    return func_0202C560((void *)func_0202C510(p, idx));
+    return ISS_SWITCH_On((void *)ISS_SWITCH_SET_GetSwitch(set, switchIdx));
 }
 
-u32 func_0202C498(void *p, u32 idx)
+u32 ISS_SWITCH_SET_StartSwitchOff(void *set, u32 switchIdx)
 {
-    return func_0202C568((void *)func_0202C510(p, idx));
+    return ISS_SWITCH_Off((void *)ISS_SWITCH_SET_GetSwitch(set, switchIdx));
 }
 
-void func_0202C4A4(void *p)
+void ISS_SWITCH_SET_ResetSwitches(void *set)
 {
     s32 i;
 
-    func_0202C570((void *)func_0202C510(p, 0));
+    ISS_SWITCH_ForceOn((void *)ISS_SWITCH_SET_GetSwitch(set, 0));
     for (i = 1; i < 9; i++) {
-        func_0202C578((void *)func_0202C510(p, i));
+        ISS_SWITCH_ForceOff((void *)ISS_SWITCH_SET_GetSwitch(set, i));
     }
 }
 
 /*
  * An unlabelled leaf sitting in the four bytes between sub_0202C4A4's last
- * instruction and func_0202C4CC's first
+ * instruction and ISS_SWITCH_SET_GetZoneCount's first
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md): no
  * register-saving prologue, so disasm.py's sweep never marks it. It is a
  * plain read of the object's first word, reached only through
@@ -1251,111 +1242,111 @@ void func_0202C4A4(void *p)
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0202C4C8.c \
- *       --func func_0202C4C8 --addr 0x0202C4C8 --cc 1.1p1 --thumb
+ *       --func ISS_SWITCH_SET_ReadBgmNo --addr 0x0202C4C8 --cc 1.1p1 --thumb
  */
-u32 func_0202C4C8(u32 *p)
+u32 ISS_SWITCH_SET_ReadBgmNo(u32 *set)
 {
-    return *p;
+    return ((struct IssSwitchSet *)set)->bgmNo;
 }
 
-u32 func_0202C4CC(struct Obj0202C4CC *p)
+u32 ISS_SWITCH_SET_GetZoneCount(struct IssSwitchSet *set)
 {
-    return p->unk16;
+    return set->zoneCount;
 }
 
-u32 func_0202C4D0(struct Arr0202C4D0 *p, u32 idx)
+u32 ISS_SWITCH_SET_GetZone(struct IssSwitchSet *set, u32 idx)
 {
-    return p->unk04[idx];
+    return set->zones[idx];
 }
 
-u32 func_0202C4D8(void *a, u32 b)
+u32 ISS_SWITCH_SET_CheckZone(void *set, u32 zoneId)
 {
-    int count = func_0202C4CC(a);
+    int count = ISS_SWITCH_SET_GetZoneCount(set);
     int i;
 
     for (i = 0; i < count; i++) {
-        if (b == func_0202C4D0(a, i)) {
+        if (zoneId == ISS_SWITCH_SET_GetZone(set, i)) {
             return 1;
         }
     }
     return 0;
 }
 
-u32 func_0202C504(void *p, u32 idx)
+u32 ISS_SWITCH_SET_CheckSwitchOn(void *set, u32 switchIdx)
 {
-    return func_0202C558((void *)func_0202C510(p, idx));
+    return ISS_SWITCH_IsOn((void *)ISS_SWITCH_SET_GetSwitch(set, switchIdx));
 }
 
-u32 func_0202C510(struct Arr0202C510 *p, u32 idx)
+u32 ISS_SWITCH_SET_GetSwitch(struct IssSwitchSet *set, u32 idx)
 {
-    return p->unk18[idx];
+    return (u32)set->switches[idx];
 }
 
-void func_0202C518(void *p)
+void ISS_SWITCH_SET_ApplySwitchVolumes(void *set)
 {
     s32 i;
 
     for (i = 0; i < 9; i++) {
-        func_0202C588((void *)func_0202C510(p, i), 0x7F);
+        ISS_SWITCH_SetVolume((void *)ISS_SWITCH_SET_GetSwitch(set, i), 0x7F);
     }
 }
 
-void *func_0202C538(u32 heapId)
+void *ISS_SWITCH_Create(u32 heapId)
 {
-    void *r = func_0202C590(heapId);
+    void *sw = ISS_SWITCH_Alloc(heapId);
 
-    func_0202C5B4(r);
-    return r;
+    ISS_SWITCH_Init(sw);
+    return sw;
 }
 
-u32 func_0202C548(void *p)
+u32 ISS_SWITCH_Delete(void *sw)
 {
-    return func_0202C5AC(p);
+    return ISS_SWITCH_Free(sw);
 }
 
-u32 func_0202C550(void *p, u16 a, u16 b)
+u32 ISS_SWITCH_Setup(void *sw, u16 fadeFrames, u16 trackBits)
 {
-    return func_0202C5C4(p, a, b);
+    return ISS_SWITCH_SetParam(sw, fadeFrames, trackBits);
 }
 
-u32 func_0202C558(void *p)
+u32 ISS_SWITCH_IsOn(void *sw)
 {
-    return func_0202C72C(p);
+    return ISS_SWITCH_IsOnState(sw);
 }
 
-u32 func_0202C560(void *p)
+u32 ISS_SWITCH_On(void *sw)
 {
-    return func_0202C670(p);
+    return ISS_SWITCH_StartFadeIn(sw);
 }
 
-u32 func_0202C568(void *p)
+u32 ISS_SWITCH_Off(void *sw)
 {
-    return func_0202C688(p);
+    return ISS_SWITCH_StartFadeOut(sw);
 }
 
-u32 func_0202C570(void *p)
+u32 ISS_SWITCH_ForceOn(void *sw)
 {
-    return func_0202C6A0(p);
+    return ISS_SWITCH_SetOnState(sw);
 }
 
-u32 func_0202C578(void *p)
+u32 ISS_SWITCH_ForceOff(void *sw)
 {
-    return func_0202C6AC(p);
+    return ISS_SWITCH_SetOffState(sw);
 }
 
-void func_0202C580(void *p)
+void ISS_SWITCH_Main(void *sw)
 {
-    func_0202C5F0(p);
+    ISS_SWITCH_Update(sw);
 }
 
-void func_0202C588(void *p, u32 v)
+void ISS_SWITCH_SetVolume(void *sw, u32 maxVolume)
 {
-    func_0202C710(p, v);
+    ISS_SWITCH_ApplyVolume(sw, maxVolume);
 }
 
-void *func_0202C590(u32 heapId)
+void *ISS_SWITCH_Alloc(u32 heapId)
 {
-    return func_02030734(heapId, 0xc, 0, g_020A7780, 0x115);
+    return func_02030734(heapId, 0xc, 0, IssSwitchFileName, 0x115);
 }
 
 /*
@@ -1369,107 +1360,107 @@ void *func_0202C590(u32 heapId)
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0202C5AC.c \
- *       --func func_0202C5AC --addr 0x0202C5AC --cc 1.1p1 --thumb
+ *       --func ISS_SWITCH_Free --addr 0x0202C5AC --cc 1.1p1 --thumb
  */
-u32 func_0202C5AC(void *p)
+u32 ISS_SWITCH_Free(void *sw)
 {
-    return func_020307B0(p);
+    return func_020307B0(sw);
 }
 
-void func_0202C5B4(struct Counter0202C5B4 *p)
+void ISS_SWITCH_Init(struct IssSwitch *sw)
 {
-    p->unk00 = 1;
-    p->unk04 = 0;
-    p->unk06 = 0;
-    p->unk08 = 0;
+    sw->state = 1;
+    sw->fadeCount = 0;
+    sw->fadeFrames = 0;
+    sw->trackBits = 0;
 }
 
 /*
  * An unlabelled leaf, six bytes padded to eight, sitting between
- * sub_0202C5B4's trailing padding and func_0202C5CC's label
+ * sub_0202C5B4's trailing padding and ISS_SWITCH_CountUpFade's label
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md): a plain
  * two-field setter with no prologue at all, reached only through
  * sub_0202C550's pool-word-and-bx tail call.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0202C5C4.c \
- *       --func func_0202C5C4 --addr 0x0202C5C4 --cc 1.1p1 --thumb
+ *       --func ISS_SWITCH_SetParam --addr 0x0202C5C4 --cc 1.1p1 --thumb
  */
-u32 func_0202C5C4(struct Counter0202C5B4 *p, u16 a, u16 b)
+u32 ISS_SWITCH_SetParam(struct IssSwitch *sw, u16 fadeFrames, u16 trackBits)
 {
-    p->unk06 = a;
-    p->unk08 = b;
+    sw->fadeFrames = fadeFrames;
+    sw->trackBits = trackBits;
 }
 
-void func_0202C5CC(struct Counter0202C5B4 *p)
+void ISS_SWITCH_CountUpFade(struct IssSwitch *sw)
 {
-    p->unk04 = p->unk04 + 1;
-    if (p->unk06 < p->unk04) {
-        p->unk04 = p->unk06;
+    sw->fadeCount = sw->fadeCount + 1;
+    if (sw->fadeFrames < sw->fadeCount) {
+        sw->fadeCount = sw->fadeFrames;
     }
 }
 
-u32 func_0202C5E0(struct Counter0202C5B4 *p)
+u32 ISS_SWITCH_IsFadeEnd(struct IssSwitch *sw)
 {
-    if (p->unk06 > p->unk04) {
+    if (sw->fadeFrames > sw->fadeCount) {
         return 0;
     }
     return 1;
 }
 
-void func_0202C5F0(void *p)
+void ISS_SWITCH_Update(void *sw)
 {
-    switch (func_0202C6B8(p)) {
+    switch (ISS_SWITCH_GetState(sw)) {
     case 0:
-        func_0202C630(p);
+        ISS_SWITCH_UpdateOn(sw);
         break;
     case 1:
-        func_0202C634(p);
+        ISS_SWITCH_UpdateOff(sw);
         break;
     case 2:
-        func_0202C638(p);
+        ISS_SWITCH_UpdateFadeIn(sw);
         break;
     case 3:
-        func_0202C654(p);
+        ISS_SWITCH_UpdateFadeOut(sw);
         break;
     }
 }
 
-void func_0202C630(void *p)
+void ISS_SWITCH_UpdateOn(void *sw)
 {
 }
 
-void func_0202C634(void *p)
+void ISS_SWITCH_UpdateOff(void *sw)
 {
 }
 
-u32 func_0202C638(void *p)
+u32 ISS_SWITCH_UpdateFadeIn(void *sw)
 {
-    func_0202C5CC(p);
-    if (func_0202C5E0(p) == 1) {
-        func_0202C6BC(p, 0);
+    ISS_SWITCH_CountUpFade(sw);
+    if (ISS_SWITCH_IsFadeEnd(sw) == 1) {
+        ISS_SWITCH_SetState(sw, 0);
     }
 }
 
-u32 func_0202C654(void *p)
+u32 ISS_SWITCH_UpdateFadeOut(void *sw)
 {
-    func_0202C5CC(p);
-    if (func_0202C5E0(p) == 1) {
-        func_0202C6BC(p, 1);
+    ISS_SWITCH_CountUpFade(sw);
+    if (ISS_SWITCH_IsFadeEnd(sw) == 1) {
+        ISS_SWITCH_SetState(sw, 1);
     }
 }
 
-u32 func_0202C670(void *p)
+u32 ISS_SWITCH_StartFadeIn(void *sw)
 {
-    if (func_0202C72C(p) != 1) {
-        func_0202C6BC(p, 2);
+    if (ISS_SWITCH_IsOnState(sw) != 1) {
+        ISS_SWITCH_SetState(sw, 2);
     }
 }
 
-u32 func_0202C688(void *p)
+u32 ISS_SWITCH_StartFadeOut(void *sw)
 {
-    if (func_0202C760(p) != 1) {
-        func_0202C6BC(p, 3);
+    if (ISS_SWITCH_IsOffState(sw) != 1) {
+        ISS_SWITCH_SetState(sw, 3);
     }
 }
 
@@ -1483,62 +1474,62 @@ u32 func_0202C688(void *p)
  * only through sub_0202C570 and sub_0202C578's pool-word-and-bx tail
  * calls (src/matched/unit_0202C548.c). Neither carries a
  * register-saving prologue, so neither is in the worklist's function
- * list; both sit exactly between func_0202C688's last instruction and
+ * list; both sit exactly between ISS_SWITCH_StartFadeOut's last instruction and
  * sub_0202C6B8's label.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0202C6A0.c \
  *       --addr 0x0202C6A0 --thumb
  */
-u32 func_0202C6A0(void *p)
+u32 ISS_SWITCH_SetOnState(void *sw)
 {
-    return (u32)func_0202C6BC(p, 0);
+    return (u32)ISS_SWITCH_SetState(sw, 0);
 }
 
-u32 func_0202C6AC(void *p)
+u32 ISS_SWITCH_SetOffState(void *sw)
 {
-    return (u32)func_0202C6BC(p, 1);
+    return (u32)ISS_SWITCH_SetState(sw, 1);
 }
 
-u32 func_0202C6B8(struct Counter0202C5B4 *p)
+u32 ISS_SWITCH_GetState(struct IssSwitch *sw)
 {
-    return p->unk00;
+    return sw->state;
 }
 
-struct Counter0202C5B4 *func_0202C6BC(struct Counter0202C5B4 *p, u32 v)
+struct IssSwitch *ISS_SWITCH_SetState(struct IssSwitch *sw, u32 state)
 {
-    p->unk00 = v;
-    p->unk04 = 0;
-    return p;
+    sw->state = state;
+    sw->fadeCount = 0;
+    return sw;
 }
 
-s32 func_0202C6C4(struct Counter0202C5B4 *p)
+s32 ISS_SWITCH_GetVolume(struct IssSwitch *sw)
 {
-    s32 v;
+    s32 volume;
 
-    switch (func_0202C6B8((struct Counter0202C5B4 *)p)) {
+    switch (ISS_SWITCH_GetState((struct IssSwitch *)sw)) {
     case 0:
         return 0x7F;
     case 1:
         return 0;
     case 2:
-        v = p->unk04 * 0x7F / p->unk06;
+        volume = sw->fadeCount * 0x7F / sw->fadeFrames;
         break;
     case 3:
-        v = 0x7F - p->unk04 * 0x7F / p->unk06;
+        volume = 0x7F - sw->fadeCount * 0x7F / sw->fadeFrames;
         break;
     }
-    return v;
+    return volume;
 }
 
-void func_0202C710(struct Counter0202C5B4 *p, s32 n)
+void ISS_SWITCH_ApplyVolume(struct IssSwitch *sw, s32 maxVolume)
 {
-    func_02005F24(p->unk08, n * func_0202C6C4(p) / 0x7F);
+    GFL_USE_SetBgmTrackVolume(sw->trackBits, maxVolume * ISS_SWITCH_GetVolume(sw) / 0x7F);
 }
 
-u32 func_0202C72C(void *p)
+u32 ISS_SWITCH_IsOnState(void *sw)
 {
-    switch (func_0202C6B8(p)) {
+    switch (ISS_SWITCH_GetState(sw)) {
     case 0:
         return 1;
     case 1:
@@ -1551,9 +1542,9 @@ u32 func_0202C72C(void *p)
     return 0;
 }
 
-u32 func_0202C760(void *p)
+u32 ISS_SWITCH_IsOffState(void *sw)
 {
-    switch (func_0202C6B8(p)) {
+    switch (ISS_SWITCH_GetState(sw)) {
     case 0:
         return 0;
     case 1:
@@ -1578,7 +1569,7 @@ u32 func_0202C760(void *p)
 u32 func_0202C794(void *a0, u32 a1)
 {
     u32 ctx = (u32)func_020120F4(a0);
-    u32 saved = func_0201297C((const struct BigObj *)ctx);
+    u32 saved = GAME_DATA_GetMusicalWork((const struct BigObj *)ctx);
     u32 r;
 
     r = func_0215E6A8((void *)ctx, (u16)a1);
@@ -1600,7 +1591,7 @@ u32 func_0202C794(void *a0, u32 a1)
     if (func_0202C824(ctx) != 0) {
         return (u8)func_021647E8((void *)saved, (u16)a1);
     }
-    return (u8)func_02013C10((u16)a1);
+    return (u8)ZONEDATA_GetWeatherId((u16)a1);
 }
 
 int func_0202C824(int a0){ int t0, t1; t0 = func_02012984(a0); t1 = func_0202E888((int)t0); if ((unsigned int)((t0 + 0)) == (unsigned int)(t1)) {  return 1; } else {  return 0; } }
@@ -1610,7 +1601,7 @@ void func_0202C83C(struct Ctx *p, u32 a1)
     struct BigObj *obj = func_020120F4(p);
     u32 r = func_0202C794(p, a1);
 
-    func_020129A0(obj, (u8)r);
+    GAME_DATA_SetSubscreenMode(obj, (u8)r);
 }
 
 /*
@@ -1645,7 +1636,7 @@ void func_0202C860(u8 *a0, int a1)
     v = func_0215E6A8(a0, (u16)a1);
     r = (u16)(u32)func_02012994((const struct BigObj *)a0);
     if (v != 0xffff) {
-        func_020129A0((struct BigObj *)a0, (u8)v);
+        GAME_DATA_SetSubscreenMode((struct BigObj *)a0, (u8)v);
         return;
     }
     if ((u32)(r - 6) > 1) {
@@ -1654,7 +1645,7 @@ void func_0202C860(u8 *a0, int a1)
     if (func_0215E6F8((int)a0) != 1) {
         return;
     }
-    func_020129A0((struct BigObj *)a0, (u8)func_02013C10((u16)a1));
+    GAME_DATA_SetSubscreenMode((struct BigObj *)a0, (u8)ZONEDATA_GetWeatherId((u16)a1));
 }
 
 /*
@@ -1695,7 +1686,7 @@ s32 func_0202C934(void *a0, u32 a1, u32 a2)
 
     if (a2 == 0x151) {
         if (func_020142E8((void *)r, 0x96f) != 0) {
-            if (func_020111E8() == 0x15) return 7;
+            if (GPOWER_GetSpecialPowerId() == 0x15) return 7;
             return 6;
         }
     }
@@ -1707,7 +1698,7 @@ u32 func_0202C970(void *a, void *b, u32 c)
     u8 buf[2];
     struct RtcDate date;
 
-    if (!func_02014044((u16)c)) {
+    if (!ZONEDATA_IsRawZone176Or17A((u16)c)) {
         goto fail;
     }
     func_0203F4E4(&date);
@@ -1727,151 +1718,151 @@ fail:
 /*
  * TU: bgwinfrm.c (__FILE__ 0x020A7790, lines 0x56 and 0x5d).
  */
-struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap)
+struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heapId)
 {
-    struct WinMgr *p;
+    struct BgWinFrmWork *wk;
 
-    p = func_02030734(heap, sizeof(struct WinMgr), 0, bgwinfrm_File, 0x56);
-    p->count = a1;
-    p->heap = heap;
-    p->mode = a0;
-    p->flag = 0;
-    p->wins = func_02030734(heap, a1 << 4, 1, bgwinfrm_File, 0x5d);
+    wk = func_02030734(heapId, sizeof(struct BgWinFrmWork), 0, BgWinFrmFileName, 0x56);
+    wk->frameMax = frameMax;
+    wk->heapId = heapId;
+    wk->transMode = transMode;
+    wk->moving = 0;
+    wk->frames = func_02030734(heapId, frameMax << 4, 1, BgWinFrmFileName, 0x5d);
 
-    return p;
+    return wk;
 }
 
-void func_0202CA0C(struct WinMgr *obj)
+void BGWINFRM_Delete(struct BgWinFrmWork *wk)
 {
     u32 i;
 
-    for (i = 0; i < obj->count; i++) {
-        if (obj->wins[i].tiles != 0) {
-            func_020307B0(obj->wins[i].tiles);
+    for (i = 0; i < wk->frameMax; i++) {
+        if (wk->frames[i].screen != 0) {
+            func_020307B0(wk->frames[i].screen);
         }
     }
-    func_020307B0(obj->wins);
-    func_020307B0(obj);
+    func_020307B0(wk->frames);
+    func_020307B0(wk);
 }
 
 /*
  * Initialises one 16-byte window record: allocates w*h*2 bytes of tile
  * storage from the debug allocator on the manager's own heap id, then
  * writes the two 6-bit size bitfields, the bg index, the scroll pair, the
- * dirty bit and the default clip box (0, 0x20, 0, 0x18).  Same struct Win
- * as src/matched/sub_0202CAC4.c and src/matched/func_0202CDD4.c.
+ * dirty bit and the default clip box (0, 0x20, 0, 0x18).  Same struct BgWinFrame
+ * as src/matched/sub_0202CAC4.c and src/matched/BGWINFRM_UpdateMove.c.
  *
  * The __FILE__ pool word 0x020A7790 spells "bgwinfrm.c"
  * (layout/file_anchors.txt line 119), which names this unit's source file.
  */
-void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h)
+void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, u32 idx, u32 bgFrame, u32 sizeX, u32 sizeY)
 {
-    struct Win *win = &mgr->wins[idx];
+    struct BgWinFrame *frame = &wk->frames[idx];
 
-    win->tiles = func_02030734((u16)mgr->heap, w * h * 2, 1,
-                                    str_020A7790, 0x8a);
-    win->w = (u16)w;
-    win->h = (u16)h;
-    win->bg = (u8)bg;
-    win->x = 0;
-    win->y = 0;
-    win->unk04_13 = 0;
-    win->dirty = 1;
-    win->xmin = 0;
-    win->xmax = 0x20;
-    win->ymin = 0;
-    win->ymax = 0x18;
+    frame->screen = func_02030734((u16)wk->heapId, sizeX * sizeY * 2, 1,
+                                    BgWinFrmFileName, 0x8a);
+    frame->sizeX = (u16)sizeX;
+    frame->sizeY = (u16)sizeY;
+    frame->bgFrame = (u8)bgFrame;
+    frame->x = 0;
+    frame->y = 0;
+    frame->moveFlag = 0;
+    frame->hidden = 1;
+    frame->xmin = 0;
+    frame->xmax = 0x20;
+    frame->ymin = 0;
+    frame->ymax = 0x18;
 }
 
-void func_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src)
+void BGWINFRM_SetFrameData(struct BgWinFrmWork *wk, u32 idx, const void *src)
 {
-    MIi_CpuCopy16(src, (void *)mgr->wins[idx].tiles,
-                  mgr->wins[idx].w * mgr->wins[idx].h * 2);
+    MIi_CpuCopy16(src, (void *)wk->frames[idx].screen,
+                  wk->frames[idx].sizeX * wk->frames[idx].sizeY * 2);
 }
 
-void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc)
+void BGWINFRM_SetFrameDataArc(struct BgWinFrmWork *wk, u32 idx, u32 arcId, u32 datId, u32 compressed)
 {
-    void *buf;
-    void *res;
+    void *data;
+    void *file;
 
-    res = func_02049EB4(arc, member, alloc, (u32)(&buf), mgr->heap);
-    func_0202CAC4(mgr, idx, (char *)buf + 0xc);
-    func_020307B0(res);
+    file = ARC_UTIL_LoadPaletteDataFromArchive(arcId, datId, compressed, (u32)(&data), wk->heapId);
+    BGWINFRM_SetFrameData(wk, idx, (char *)data + 0xc);
+    func_020307B0(file);
 }
 
-void func_0202CB18(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc)
+void BGWINFRM_SetFrameDataArcHandle(struct BgWinFrmWork *wk, u32 idx, void *arcHandle, u32 datId, u32 compressed)
 {
-    void *buf;
-    void *res;
+    void *data;
+    void *file;
 
-    res = func_02049EF4(arc, member, alloc, &buf, mgr->heap);
-    func_0202CAC4(mgr, idx, (char *)buf + 0xc);
-    func_020307B0(res);
+    file = func_02049EF4(arcHandle, datId, compressed, &data, wk->heapId);
+    BGWINFRM_SetFrameData(wk, idx, (char *)data + 0xc);
+    func_020307B0(file);
 }
 
-void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y)
+void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y)
 {
-    struct Win *win = &mgr->wins[idx];
-    u8 sx, ow, ox;
-    u8 sy, oh, oy;
-    s32 x1, y1;
+    struct BgWinFrame *frame = &wk->frames[idx];
+    u8 putX, putSizeX, srcX;
+    u8 putY, putSizeY, srcY;
+    s32 right, bottom;
 
-    win->x = x;
-    win->y = y;
-    if (x >= win->xmax) {
+    frame->x = x;
+    frame->y = y;
+    if (x >= frame->xmax) {
         return;
     }
-    if (y >= win->ymax) {
+    if (y >= frame->ymax) {
         return;
     }
-    x1 = x + win->w;
-    if (x1 < win->xmin) {
+    right = x + frame->sizeX;
+    if (right < frame->xmin) {
         return;
     }
-    y1 = y + win->h;
-    if (y1 < win->ymin) {
+    bottom = y + frame->sizeY;
+    if (bottom < frame->ymin) {
         return;
     }
 
-    sx = x;
-    ow = win->w;
-    ox = 0;
-    if (x < win->xmin) {
-        sx = win->xmin;
-        ox = win->xmin - x;
-        ow = ow - ox;
+    putX = x;
+    putSizeX = frame->sizeX;
+    srcX = 0;
+    if (x < frame->xmin) {
+        putX = frame->xmin;
+        srcX = frame->xmin - x;
+        putSizeX = putSizeX - srcX;
     }
-    if (x1 >= win->xmax) {
-        ow = ow - (u8)(x1 - win->xmax);
-    }
-
-    sy = y;
-    oh = win->h;
-    oy = 0;
-    if (y < win->ymin) {
-        sy = win->ymin;
-        oy = win->ymin - y;
-        oh = oh - oy;
-    }
-    if (y1 >= win->ymax) {
-        oh = oh - (u8)(y1 - win->ymax);
+    if (right >= frame->xmax) {
+        putSizeX = putSizeX - (u8)(right - frame->xmax);
     }
 
-    func_020410D0(win->bg, sx, sy, ow, oh, win->tiles, ox, oy, win->w, win->h);
-    g_020A0058[mgr->mode](win->bg);
-    win->dirty = 0;
+    putY = y;
+    putSizeY = frame->sizeY;
+    srcY = 0;
+    if (y < frame->ymin) {
+        putY = frame->ymin;
+        srcY = frame->ymin - y;
+        putSizeY = putSizeY - srcY;
+    }
+    if (bottom >= frame->ymax) {
+        putSizeY = putSizeY - (u8)(bottom - frame->ymax);
+    }
+
+    func_020410D0(frame->bgFrame, putX, putY, putSizeX, putSizeY, frame->screen, srcX, srcY, frame->sizeX, frame->sizeY);
+    BgWinFrmScreenTransFuncs[wk->transMode](frame->bgFrame);
+    frame->hidden = 0;
 }
 
-void func_0202CC58(struct WinMgr *mgr, u32 idx)
+void BGWINFRM_ShowFrame(struct BgWinFrmWork *wk, u32 idx)
 {
-    func_0202CB4C(mgr, idx, mgr->wins[idx].x, mgr->wins[idx].y);
+    BGWINFRM_PutFrame(wk, idx, wk->frames[idx].x, wk->frames[idx].y);
 }
 
 /*
  * bgwinfrm.c.  Marks a window record dirty, rejects it when it lies wholly
  * outside its clip box (xmin..xmax, ymin..ymax), clips the origin and the
  * size against the box, then blits it through func_02041300 and runs the
- * manager's mode callback.  Same struct Win as src/matched/func_0202CD64.c.
+ * manager's mode callback.  Same struct BgWinFrame as src/matched/BGWINFRM_StartMove.c.
  *
  * What closed it (wave 19): four spelling choices, all required.
  *  - xmax is a named local; the first guard and the right-edge clip read it.
@@ -1886,226 +1877,226 @@ void func_0202CC58(struct WinMgr *mgr, u32 idx)
  *    order (slots 0x20, 0x1c, 0x18, 0x14).
  * The callee prototype is the one func_02041300's own body declares.
  */
-void func_0202CC70(struct WinMgr *mgr, u32 idx)
+void BGWINFRM_HideFrame(struct BgWinFrmWork *wk, u32 idx)
 {
-    struct Win *win = &mgr->wins[idx];
-    s8 oh, ow;
-    s32 sx;
-    s32 w, h;
-    s32 x1, xmax;
-    s32 y, y1;
-    s8 sy;
+    struct BgWinFrame *frame = &wk->frames[idx];
+    s8 clearSizeY, clearSizeX;
+    s32 clearX;
+    s32 sizeX, sizeY;
+    s32 right, clipRight;
+    s32 top, bottom;
+    s8 clearY;
 
-    win->dirty = 1;
-    xmax = win->xmax;
-    if (win->x >= xmax) {
+    frame->hidden = 1;
+    clipRight = frame->xmax;
+    if (frame->x >= clipRight) {
         return;
     }
-    if (win->y >= win->ymax) {
+    if (frame->y >= frame->ymax) {
         return;
     }
-    w = win->w;
-    x1 = win->x + w;
-    if (x1 < win->xmin) {
+    sizeX = frame->sizeX;
+    right = frame->x + sizeX;
+    if (right < frame->xmin) {
         return;
     }
-    h = win->h;
-    sy = win->y;
-    y = sy;
-    y1 = y + h;
-    if (y1 < win->ymin) {
+    sizeY = frame->sizeY;
+    clearY = frame->y;
+    top = clearY;
+    bottom = top + sizeY;
+    if (bottom < frame->ymin) {
         return;
     }
 
-    sx = win->x;
-    ow = w;
-    if (win->x < win->xmin) {
-        sx = win->xmin;
-        ow = ow - (s8)(win->xmin - win->x);
+    clearX = frame->x;
+    clearSizeX = sizeX;
+    if (frame->x < frame->xmin) {
+        clearX = frame->xmin;
+        clearSizeX = clearSizeX - (s8)(frame->xmin - frame->x);
     }
-    if (x1 >= xmax) {
-        ow = ow - (s8)(x1 - xmax);
-    }
-
-    oh = h;
-    if (sy < win->ymin) {
-        sy = win->ymin;
-        oh = oh - (s8)(win->ymin - y);
-    }
-    if (y1 >= win->ymax) {
-        oh = oh - (s8)(y1 - win->ymax);
+    if (right >= clipRight) {
+        clearSizeX = clearSizeX - (s8)(right - clipRight);
     }
 
-    func_02041300(win->bg, 0, (u8)sx, (u8)sy, (u8)ow, (u8)oh, 0x10);
-    g_020A0058[mgr->mode](win->bg);
+    clearSizeY = sizeY;
+    if (clearY < frame->ymin) {
+        clearY = frame->ymin;
+        clearSizeY = clearSizeY - (s8)(frame->ymin - top);
+    }
+    if (bottom >= frame->ymax) {
+        clearSizeY = clearSizeY - (s8)(bottom - frame->ymax);
+    }
+
+    func_02041300(frame->bgFrame, 0, (u8)clearX, (u8)clearY, (u8)clearSizeX, (u8)clearSizeY, 0x10);
+    BgWinFrmScreenTransFuncs[wk->transMode](frame->bgFrame);
 }
 
 /*
  * bgwinfrm.c.  Arms the scroll animation on one window record: stores the
  * per-frame delta pair and the frame count, sets the 3-bit unk04_13 field
- * to 1, and raises the manager's top bit at offset 6.  Same struct Win as
- * src/matched/func_0202CDD4.c, same struct WinMgr as
+ * to 1, and raises the manager's top bit at offset 6.  Same struct BgWinFrame as
+ * src/matched/BGWINFRM_UpdateMove.c, same struct BgWinFrmWork as
  * src/matched/sub_0202CB4C.c.
  */
-void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames)
+void BGWINFRM_StartMove(struct BgWinFrmWork *wk, u32 idx, s8 moveX, s8 moveY, u8 count)
 {
-    struct Win *win = &mgr->wins[idx];
+    struct BgWinFrame *frame = &wk->frames[idx];
 
-    win->dx = dx;
-    win->dy = dy;
-    win->frames = frames;
-    win->unk04_13 = 1;
-    mgr->flag = 1;
+    frame->moveX = moveX;
+    frame->moveY = moveY;
+    frame->moveCount = count;
+    frame->moveFlag = 1;
+    wk->moving = 1;
 }
 
-void func_0202CD94(struct WinMgr *mgr)
+void BGWINFRM_UpdateMoves(struct BgWinFrmWork *wk)
 {
     u32 i;
 
-    if (!mgr->flag) return;
-    mgr->flag = 0;
-    for (i = 0; i < mgr->count; i++) {
-        if (func_0202CDD4(mgr, i) == 1) mgr->flag = 1;
+    if (!wk->moving) return;
+    wk->moving = 0;
+    for (i = 0; i < wk->frameMax; i++) {
+        if (BGWINFRM_UpdateMove(wk, i) == 1) wk->moving = 1;
     }
 }
 
-u32 func_0202CDD4(struct WinMgr *mgr, u32 idx)
+u32 BGWINFRM_UpdateMove(struct BgWinFrmWork *wk, u32 idx)
 {
-    if (mgr->wins[idx].unk04_13 == 0) {
+    if (wk->frames[idx].moveFlag == 0) {
         return 0;
     }
 
-    func_0202CC70(mgr, idx);
-    mgr->wins[idx].x = mgr->wins[idx].x + mgr->wins[idx].dx;
-    mgr->wins[idx].y = mgr->wins[idx].y + mgr->wins[idx].dy;
-    func_0202CC58(mgr, idx);
-    mgr->wins[idx].frames = mgr->wins[idx].frames - 1;
-    if (mgr->wins[idx].frames == 0) {
-        mgr->wins[idx].unk04_13 = 0;
+    BGWINFRM_HideFrame(wk, idx);
+    wk->frames[idx].x = wk->frames[idx].x + wk->frames[idx].moveX;
+    wk->frames[idx].y = wk->frames[idx].y + wk->frames[idx].moveY;
+    BGWINFRM_ShowFrame(wk, idx);
+    wk->frames[idx].moveCount = wk->frames[idx].moveCount - 1;
+    if (wk->frames[idx].moveCount == 0) {
+        wk->frames[idx].moveFlag = 0;
         return 0;
     }
     return 1;
 }
 
-u32 func_0202CE40(struct WinMgr *mgr, u32 idx)
+u32 BGWINFRM_IsMoving(struct BgWinFrmWork *wk, u32 idx)
 {
-    return mgr->wins[idx].unk04_13;
+    return wk->frames[idx].moveFlag;
 }
 
-void func_0202CE50(struct WinMgr *mgr, u32 idx, s32 x, s32 y,
-                   u8 w, u8 h, u8 pal)
+void BGWINFRM_ChangePalette(struct BgWinFrmWork *wk, u32 idx, s32 x, s32 y,
+                   u8 sizeX, u8 sizeY, u8 palette)
 {
-    u16 *tiles = mgr->wins[idx].tiles;
-    u32 stride = mgr->wins[idx].w;
-    s32 yend = y + h;
-    s32 i;
+    u16 *screen = wk->frames[idx].screen;
+    u32 rowSize = wk->frames[idx].sizeX;
+    s32 bottom = y + sizeY;
+    s32 column;
 
-    if (y < yend) {
-        u32 bits = pal << 12;
-        s32 xend = x + w;
+    if (y < bottom) {
+        u32 palBits = palette << 12;
+        s32 right = x + sizeX;
 
         do {
-            for (i = x; i < xend; i = (u16)(i + 1)) {
-                tiles[y * stride + i] = (tiles[y * stride + i] & 0x0fff)
-                                      | bits;
+            for (column = x; column < right; column = (u16)(column + 1)) {
+                screen[y * rowSize + column] = (screen[y * rowSize + column] & 0x0fff)
+                                      | palBits;
             }
             y = (u16)(y + 1);
-        } while (y < yend);
+        } while (y < bottom);
     }
 }
 
-void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a)
+void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, u32 idx, void *bmpWin)
 {
-    u16 *tiles = mgr->wins[idx].tiles;
-    u32 stride = mgr->wins[idx].w;
-    u32 row;
-    u32 oy;
-    u32 ox;
-    u32 bits;
-    u16 *dst;
-    s32 ch;
-    u32 base;
-    s32 cw;
+    u16 *screen = wk->frames[idx].screen;
+    u32 rowSize = wk->frames[idx].sizeX;
+    u32 charRow;
+    u32 charY;
+    u32 charX;
+    u32 palBits;
+    u16 *dstStart;
+    s32 charSizeY;
+    u32 charNo;
+    s32 charSizeX;
 
-    base = func_02045768(a);
-    bits = ((u32)func_02045778(a) << 0x1c) >> 0x10;
-    cw = func_02045738(a);
-    ch = func_02045740(a);
-    ox = func_02045758(a);
-    oy = func_02045760(a);
-    row = 0;
+    charNo = func_02045768(bmpWin);
+    palBits = ((u32)BMP_WIN_GetPalette(bmpWin) << 0x1c) >> 0x10;
+    charSizeX = func_02045738(bmpWin);
+    charSizeY = func_02045740(bmpWin);
+    charX = func_02045758(bmpWin);
+    charY = func_02045760(bmpWin);
+    charRow = 0;
 
-    if (ch > 0) {
-        dst = tiles + ox;
+    if (charSizeY > 0) {
+        dstStart = screen + charX;
 
         do {
-            s32 y = oy + row;
-            s32 col;
+            s32 y = charY + charRow;
+            s32 charCol;
 
-            if (y >= mgr->wins[idx].h) {
+            if (y >= wk->frames[idx].sizeY) {
                 break;
             }
-            col = 0;
-            if (cw > 0) {
-                u16 *line = dst + stride * y;
+            charCol = 0;
+            if (charSizeX > 0) {
+                u16 *dstLine = dstStart + rowSize * y;
 
                 do {
-                    if ((s32)(ox + col) >= (s32)mgr->wins[idx].w) {
+                    if ((s32)(charX + charCol) >= (s32)wk->frames[idx].sizeX) {
                         break;
                     }
-                    line[col] = bits + (base + col);
-                    col = (u16)(col + 1);
-                } while (col < cw);
+                    dstLine[charCol] = palBits + (charNo + charCol);
+                    charCol = (u16)(charCol + 1);
+                } while (charCol < charSizeX);
             }
-            base = (u16)(base + cw);
-            row = (u16)(row + 1);
-        } while ((s32)row < ch);
+            charNo = (u16)(charNo + charSizeX);
+            charRow = (u16)(charRow + 1);
+        } while ((s32)charRow < charSizeY);
     }
 }
 
 /*
  * bgwinfrm.c window-record accessors, 0x0202CF84..0x0202D01A: tile
  * pointer, bg index, scroll pair, the two 6-bit size bitfields, the clip
- * box setter and one empty function.  Same struct Win as
- * src/matched/func_0202CDD4.c.  All leaves; the unit calls nothing.
+ * box setter and one empty function.  Same struct BgWinFrame as
+ * src/matched/BGWINFRM_UpdateMove.c.  All leaves; the unit calls nothing.
  */
-u16 *func_0202CF84(struct WinMgr *mgr, u32 idx)
+u16 *BGWINFRM_GetFrameBuffer(struct BgWinFrmWork *wk, u32 idx)
 {
-    return mgr->wins[idx].tiles;
+    return wk->frames[idx].screen;
 }
 
-u8 func_0202CF8C(struct WinMgr *mgr, u32 idx)
+u8 BGWINFRM_GetBgFrame(struct BgWinFrmWork *wk, u32 idx)
 {
-    return mgr->wins[idx].bg;
+    return wk->frames[idx].bgFrame;
 }
 
-void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y)
+void BGWINFRM_GetPos(struct BgWinFrmWork *wk, u32 idx, s8 *x, s8 *y)
 {
     if (x != 0) {
-        *x = mgr->wins[idx].x;
+        *x = wk->frames[idx].x;
     }
     if (y != 0) {
-        *y = mgr->wins[idx].y;
+        *y = wk->frames[idx].y;
     }
 }
 
-void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h)
+void BGWINFRM_GetSize(struct BgWinFrmWork *wk, u32 idx, u16 *sizeX, u16 *sizeY)
 {
-    if (w != 0) {
-        *w = mgr->wins[idx].w;
+    if (sizeX != 0) {
+        *sizeX = wk->frames[idx].sizeX;
     }
-    if (h != 0) {
-        *h = mgr->wins[idx].h;
+    if (sizeY != 0) {
+        *sizeY = wk->frames[idx].sizeY;
     }
 }
 
-void func_0202CFEC(struct WinMgr *mgr, u32 idx, s8 xmin, s8 xmax,
+void BGWINFRM_SetClipArea(struct BgWinFrmWork *wk, u32 idx, s8 xmin, s8 xmax,
                    s8 ymin, s8 ymax)
 {
-    mgr->wins[idx].xmin = xmin;
-    mgr->wins[idx].xmax = xmax;
-    mgr->wins[idx].ymin = ymin;
-    mgr->wins[idx].ymax = ymax;
+    wk->frames[idx].xmin = xmin;
+    wk->frames[idx].xmax = xmax;
+    wk->frames[idx].ymin = ymin;
+    wk->frames[idx].ymax = ymax;
 }
 
 void func_0202D018(void)
@@ -2152,24 +2143,24 @@ int func_0202D060(void){ return 4; }
  *   python tools/match.py tu --src src/matched/unit_0202D064.c \
  *       --addr 0x0202D064 --cc 1.1p1 --thumb
  */
-s32 func_0202D064(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
+s32 func_0202D064(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
 {
-    s32 b;
-    s32 a;
-    s32 c;
+    s32 index;
+    s32 dirOffset;
+    s32 sexOffset;
 
-    func_0202D4A8((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), (u32 *)(&c), 0, 0, 1);
-    return c + (b + a);
+    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), (u32 *)(&sexOffset), 0, 0, 1);
+    return sexOffset + (index + dirOffset);
 }
 
-s32 func_0202D09C(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
+s32 POKEGRA_GetCbrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
 {
-    s32 b;
-    s32 a;
-    s32 c;
+    s32 index;
+    s32 dirOffset;
+    s32 sexOffset;
 
-    func_0202D4A8((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), (u32 *)(&c), 0, 0, 0);
-    return c + (b + a + 2);
+    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), (u32 *)(&sexOffset), 0, 0, 0);
+    return sexOffset + (index + dirOffset + 2);
 }
 
 /*
@@ -2182,18 +2173,18 @@ s32 func_0202D09C(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
  *   python tools/match.py one --src src/matched/func_0202D0D4.c \
  *       --func func_0202D0D4 --addr 0x0202D0D4 --cc 1.1p1 --thumb
  */
-s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
+s32 func_0202D0D4(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
 {
-    s32 b;
-    s32 a;
-    s32 r;
+    s32 index;
+    s32 rareOffset;
+    s32 palIndex;
 
-    r = 0;
-    func_0202D4A8((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), 0, 0, (u32 *)(&a), (u32 **)(&r), 0);
-    if (r == 0) {
-        r = b + 0x12 + a;
+    palIndex = 0;
+    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), 0, 0, (u32 *)(&rareOffset), (u32 **)(&palIndex), 0);
+    if (palIndex == 0) {
+        palIndex = index + 0x12 + rareOffset;
     }
-    return r;
+    return palIndex;
 }
 
 /*
@@ -2207,31 +2198,31 @@ s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
  *   python tools/match.py tu --src src/matched/unit_0202D110.c \
  *       --addr 0x0202D110 --cc 1.1p1 --thumb
  */
-s32 func_0202D110(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
+s32 POKEGRA_GetCelArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
 {
-    s32 b;
-    s32 a;
+    s32 index;
+    s32 dirOffset;
 
-    func_0202D4A8((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), 0, 0, 0, 0);
-    return b + a + 4;
+    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
+    return index + dirOffset + 4;
 }
 
-s32 func_0202D144(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
+s32 POKEGRA_GetAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
 {
-    s32 b;
-    s32 a;
+    s32 index;
+    s32 dirOffset;
 
-    func_0202D4A8((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), 0, 0, 0, 0);
-    return b + a + 5;
+    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
+    return index + dirOffset + 5;
 }
 
-s32 func_0202D178(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
+s32 POKEGRA_GetMCelArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
 {
-    s32 b;
-    s32 a;
+    s32 index;
+    s32 dirOffset;
 
-    func_0202D4A8((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), 0, 0, 0, 0);
-    return b + a + 6;
+    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
+    return index + dirOffset + 6;
 }
 
 /*
@@ -2245,87 +2236,87 @@ s32 func_0202D178(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
  *   python tools/match.py tu --src src/matched/unit_0202D1AC.c \
  *       --addr 0x0202D1AC --cc 1.1p1 --thumb
  */
-s32 func_0202D1AC(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
+s32 POKEGRA_GetMAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
 {
-    s32 b;
-    s32 a;
+    s32 index;
+    s32 dirOffset;
 
-    func_0202D4A8((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), 0, 0, 0, 0);
-    return b + a + 7;
+    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
+    return index + dirOffset + 7;
 }
 
-s32 func_0202D1E0(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
+s32 POKEGRA_GetNcecArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
 {
-    s32 b;
-    s32 a;
+    s32 index;
+    s32 dirOffset;
 
-    func_0202D4A8((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), 0, 0, 0, 0);
-    return b + a + 8;
+    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
+    return index + dirOffset + 8;
 }
 
-void func_0202D214(void *p, u32 v)
+void POKEGRA_ConvertCharTo2D(void *charData, u32 heapId)
 {
-    u8 *base = *(u8 * *)&((struct Obj13942 *)p)->f14;
-    u8 *buf;
-    u32 size;
+    u8 *raw = ((struct NNSG2dCharacterData *)charData)->pRawData;
+    u8 *work;
+    u32 rowBytes;
     int i;
-    u32 off;
+    u32 offset;
 
-    buf = func_02030734((u16)((v & 0x7fff) | 0x8000), 0x1200, 1, str_020A77AC, 0x100);
-    MIi_CpuCopyFast(base, buf, 0x1200);
+    work = func_02030734((u16)((heapId & 0x7fff) | 0x8000), 0x1200, 1, PokegraFileName, 0x100);
+    MIi_CpuCopyFast(raw, work, 0x1200);
 
-    size = 0x180;
-    off = 0;
+    rowBytes = 0x180;
+    offset = 0;
     for (i = 0; i < 8; i++) {
-        MIi_CpuCopyFast(buf + off, base + i * size, 0x100);
-        off += 0x100;
+        MIi_CpuCopyFast(work + offset, raw + i * rowBytes, 0x100);
+        offset += 0x100;
     }
     for (i = 0; i < 8; i++) {
-        MIi_CpuCopyFast(buf + off, base + (i * 12 + 8) * 32, 0x80);
-        off += 0x80;
+        MIi_CpuCopyFast(work + offset, raw + (i * 12 + 8) * 32, 0x80);
+        offset += 0x80;
     }
 
     for (i = 0; i < 4; i++) {
-        MIi_CpuCopyFast(buf + off, base + (i * size + 0xc00), 0x100);
-        off += 0x100;
+        MIi_CpuCopyFast(work + offset, raw + (i * rowBytes + 0xc00), 0x100);
+        offset += 0x100;
     }
     for (i = 0; i < 4; i++) {
-        MIi_CpuCopyFast(buf + off, base + (i * 12 + 0x68) * 32, 0x80);
-        off += 0x80;
+        MIi_CpuCopyFast(work + offset, raw + (i * 12 + 0x68) * 32, 0x80);
+        offset += 0x80;
     }
-    func_020307B0(buf);
+    func_020307B0(work);
 }
 
-void func_0202D2EC(u32 *obj, u32 heap)
+void POKEGRA_ConvertCharTo1D(u32 *charData, u32 heapId)
 {
-    u8 *dst;
-    u8 *buf;
+    u8 *raw;
+    u8 *work;
     s32 i;
-    s32 off;
+    s32 offset;
 
-    dst = (u8 *)obj[5];
-    buf = (u8 *)func_02030734((u16)((heap & 0x7fff) | 0x8000), 0x1200,
-                              1, sFile_020A77AC, 313);
-    MIi_CpuCopyFast(dst, buf, 0x1200);
+    raw = ((struct NNSG2dCharacterData *)charData)->pRawData;
+    work = (u8 *)func_02030734((u16)((heapId & 0x7fff) | 0x8000), 0x1200,
+                              1, PokegraFileName, 313);
+    MIi_CpuCopyFast(raw, work, 0x1200);
 
-    off = 0;
+    offset = 0;
     for (i = 0; i < 8; i++) {
-        MIi_CpuCopyFast(buf + i * 0x180, dst + off, 0x100);
-        off += 0x100;
+        MIi_CpuCopyFast(work + i * 0x180, raw + offset, 0x100);
+        offset += 0x100;
     }
     for (i = 0; i < 8; i++) {
-        MIi_CpuCopyFast(buf + (i * 12 + 8) * 32, dst + off, 0x80);
-        off += 0x80;
+        MIi_CpuCopyFast(work + (i * 12 + 8) * 32, raw + offset, 0x80);
+        offset += 0x80;
     }
     for (i = 0; i < 4; i++) {
-        MIi_CpuCopyFast(buf + (0xc00 + i * 0x180), dst + off, 0x100);
-        off += 0x100;
+        MIi_CpuCopyFast(work + (0xc00 + i * 0x180), raw + offset, 0x100);
+        offset += 0x100;
     }
     for (i = 0; i < 4; i++) {
-        MIi_CpuCopyFast(buf + (i * 12 + 0x68) * 32, dst + off, 0x80);
-        off += 0x80;
+        MIi_CpuCopyFast(work + (i * 12 + 0x68) * 32, raw + offset, 0x80);
+        offset += 0x80;
     }
-    func_020307B0(buf);
+    func_020307B0(work);
 }
 
 /*
@@ -2335,7 +2326,7 @@ void func_0202D2EC(u32 *obj, u32 heap)
  * table), locate the pixel's byte in a 12-tile-wide 8x8 tile layout and, when
  * its nibble is colour 1..3, move it to 6..8 (+5 low, +0x50 high).
  *
- * WHAT CLOSED IT (docs/notes/func_0202D3D0.c.txt: 216 against 216, 29 to 39
+ * WHAT CLOSED IT (docs/notes/POKEGRA_DrawSpindaSpots.c.txt: 216 against 216, 29 to 39
  * bytes out, "idx in r0 / v in r2" allocation never reached by sixteen
  * spellings, permuter flat): there is NO hoisted byte local.  Each arm reads
  * the pixel byte itself and updates it with a compound assignment,
@@ -2347,39 +2338,39 @@ void func_0202D2EC(u32 *obj, u32 heap)
  * quotient locals cx/cy (second pass) and `j = 0` above the terminator test
  * (first pass) stand.
  */
-void func_0202D3D0(struct Obj0202D3D0 *obj, u32 a1)
+void POKEGRA_DrawSpindaSpots(struct NNSG2dCharacterData *charData, u32 personality)
 {
-    u8 *blob = obj->blob;
+    u8 *raw = charData->pRawData;
     int i;
-    int j;
-    const u8 *tab;
-    s32 x, y, cx, cy, idx, n;
+    int point;
+    const u8 *spotTable;
+    s32 x, y, tileX, tileY, byteIdx, nibble;
 
     for (i = 0; i < 4; i++) {
-        tab = tile_tables[i];
-        j = 0;
-        if (tab[0] != 0xff) {
-            s32 bx = (s32)(a1 & 0xf) - 8;
-            s32 by = (s32)((a1 & 0xf0) >> 4) - 8;
+        spotTable = SpindaSpotTables[i];
+        point = 0;
+        if (spotTable[0] != 0xff) {
+            s32 offsetX = (s32)(personality & 0xf) - 8;
+            s32 offsetY = (s32)((personality & 0xf0) >> 4) - 8;
             do {
-                x = bx + (tab[j * 2] + 0x16);
-                y = by + (tab[j * 2 + 1] + 0x10);
-                cx = x / 8;
-                cy = y / 8;
-                idx = ((x % 8) + (y % 8) * 8 + (cx + cy * 12) * 64) / 2;
+                x = offsetX + (spotTable[point * 2] + 0x16);
+                y = offsetY + (spotTable[point * 2 + 1] + 0x10);
+                tileX = x / 8;
+                tileY = y / 8;
+                byteIdx = ((x % 8) + (y % 8) * 8 + (tileX + tileY * 12) * 64) / 2;
                 if (x & 1) {
-                    n = blob[idx] & 0xf0;
-                    if (n >= 0x10 && n <= 0x30)
-                        blob[idx] += 0x50;
+                    nibble = raw[byteIdx] & 0xf0;
+                    if (nibble >= 0x10 && nibble <= 0x30)
+                        raw[byteIdx] += 0x50;
                 } else {
-                    n = blob[idx] & 0xf;
-                    if (n >= 1 && n <= 3)
-                        blob[idx] += 5;
+                    nibble = raw[byteIdx] & 0xf;
+                    if (nibble >= 1 && nibble <= 3)
+                        raw[byteIdx] += 5;
                 }
-                j++;
-            } while (tab[j * 2] != 0xff);
+                point++;
+            } while (spotTable[point * 2] != 0xff);
         }
-        a1 >>= 8;
+        personality >>= 8;
     }
 }
 
@@ -2389,7 +2380,7 @@ void func_0202D3D0(struct Obj0202D3D0 *obj, u32 a1)
  * narc for the gendered palette variant when mode 1 asks.
  *
  * The 4-byte residue that held through five lanes and 2320 permuter
- * compiles (docs/notes/func_0202D4A8.c.txt: the two spilled values got
+ * compiles (docs/notes/POKEGRA_CalcArcIndex.c.txt: the two spilled values got
  * sp+4/sp+8 the wrong way round) is a declaration: the 2-way shiny value
  * written to *out_pal is an enum, which changes where the frame allocator
  * puts its spill slot (docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md;
@@ -2397,240 +2388,240 @@ void func_0202D3D0(struct Obj0202D3D0 *obj, u32 a1)
  * is written before `case 2`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202D4A8.c  *       --func func_0202D4A8 --addr 0x0202D4A8 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/POKEGRA_CalcArcIndex.c  *       --func POKEGRA_CalcArcIndex --addr 0x0202D4A8 --thumb --cc 1.1p1
  */
-void func_0202D4A8(void *narc, u32 species, s32 form, s32 mode,
-                   u32 base, u32 shiny, u32 egg,
-                   u32 *out_index, u32 *out_pal, u32 *out_mode, u32 *out_base,
-                   u32 **out_ptr, u32 female)
+void POKEGRA_CalcArcIndex(void *arcId, u32 monsNo, s32 formNo, s32 sex,
+                   u32 rare, u32 dir, u32 egg,
+                   u32 *outIndex, u32 *outDirOffset, u32 *outSex, u32 *outRare,
+                   u32 **outFormPalIndex, u32 isCgr)
 {
-    s32 idx;
-    s32 count;
-    s32 first;
-    s32 hidden;
-    Pal mode2;
-    s32 pal;
+    s32 index;
+    s32 formCount;
+    s32 formStart;
+    s32 palOnlyForms;
+    PokegraDirOffset dirOffset;
+    s32 sexFileOffset;
 
-    idx = species * 0x14;
+    index = monsNo * 0x14;
 
-    if (shiny == 0) {
-        mode2 = 0;
+    if (dir == 0) {
+        dirOffset = 0;
     } else {
-        mode2 = 9;
+        dirOffset = 9;
     }
 
-    if (female != 0) {
-        if (shiny == 0) {
-            pal = 0;
+    if (isCgr != 0) {
+        if (dir == 0) {
+            sexFileOffset = 0;
         } else {
-            pal = 9;
+            sexFileOffset = 9;
         }
     } else {
-        if (shiny == 0) {
-            pal = 2;
+        if (dir == 0) {
+            sexFileOffset = 2;
         } else {
-            pal = 0xb;
+            sexFileOffset = 0xb;
         }
     }
 
     if (egg != 0) {
-        s32 t;
+        s32 isManaphy;
 
-        if (species == 0x1ea) {
-            t = 1;
+        if (monsNo == 0x1ea) {
+            isManaphy = 1;
         } else {
-            t = 0;
+            isManaphy = 0;
         }
-        idx = (t + 0x28a) * 0x14;
-    } else if (form != 0) {
-        first = (s32)func_02019C90((u16)species, 0, 0x1f);
-        hidden = (s32)func_02019C90((u16)species, 0, 0x23);
-        count = (s32)func_02019C90((u16)species, 0, 0x20);
-        if (form >= count) {
-            form = 0;
+        index = (isManaphy + 0x28a) * 0x14;
+    } else if (formNo != 0) {
+        formStart = (s32)func_02019C90((u16)monsNo, 0, 0x1f);
+        palOnlyForms = (s32)func_02019C90((u16)monsNo, 0, 0x23);
+        formCount = (s32)func_02019C90((u16)monsNo, 0, 0x20);
+        if (formNo >= formCount) {
+            formNo = 0;
         }
-        if (hidden != 0) {
-            if (out_ptr != 0 && form != 0) {
-                *out_ptr = (u32 *)(base + (u32)((first + form - 1) * 2 + 0x37ad));
+        if (palOnlyForms != 0) {
+            if (outFormPalIndex != 0 && formNo != 0) {
+                *outFormPalIndex = (u32 *)(rare + (u32)((formStart + formNo - 1) * 2 + 0x37ad));
             }
-        } else if (form != 0) {
-            idx = (first + form - 1) * 0x14 + 0x32f0;
+        } else if (formNo != 0) {
+            index = (formStart + formNo - 1) * 0x14 + 0x32f0;
         }
     }
 
-    switch (mode) {
+    switch (sex) {
     case 0:
         break;
     case 1:
-        count = func_020490A8((u32)narc, (u32)(idx + pal + 1));
-        mode = 1;
-        if (count == 0) {
-            mode = 0;
+        formCount = func_020490A8((u32)arcId, (u32)(index + sexFileOffset + 1));
+        sex = 1;
+        if (formCount == 0) {
+            sex = 0;
         }
         break;
     case 2:
-        mode = 0;
+        sex = 0;
         break;
     default:
         break;
     }
 
-    if (out_index != 0) {
-        *out_index = (u32)idx;
+    if (outIndex != 0) {
+        *outIndex = (u32)index;
     }
-    if (out_pal != 0) {
-        *out_pal = (u32)mode2;
+    if (outDirOffset != 0) {
+        *outDirOffset = (u32)dirOffset;
     }
-    if (out_mode != 0) {
-        *out_mode = (u32)mode;
+    if (outSex != 0) {
+        *outSex = (u32)sex;
     }
-    if (out_base != 0) {
-        *out_base = base;
+    if (outRare != 0) {
+        *outRare = rare;
     }
 }
 
-u32 func_0202D5CC(u32 a)
+u32 POKEGRA_GetTrainerArcID(u32 isBack)
 {
-    if (a != 0) {
+    if (isBack != 0) {
         return 0x49;
     }
     return 0x48;
 }
 
-u32 func_0202D5D8(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerCgrArcIndex(u32 trType, u32 flags)
 {
-    u32 v;
+    u32 index;
 
     if (flags & 1) {
-        v = (u8)id;
-    } else if (id > 0x69) {
-        v = 0;
+        index = (u8)trType;
+    } else if (trType > 0x69) {
+        index = 0;
     } else {
-        v = sub_0202D5D8_Table[id];
+        index = TrainerGraIndexTable[trType];
     }
-    return v * 8;
+    return index * 8;
 }
 
-u32 func_0202D5F8(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerCbrArcIndex(u32 trType, u32 flags)
 {
-    u32 v;
+    u32 index;
 
     if (flags & 1) {
-        v = (u8)id;
-    } else if (id > 0x69) {
-        v = 0;
+        index = (u8)trType;
+    } else if (trType > 0x69) {
+        index = 0;
     } else {
-        v = sub_0202D5D8_Table[id];
+        index = TrainerGraIndexTable[trType];
     }
-    return v * 8 + 1;
+    return index * 8 + 1;
 }
 
-u32 func_0202D61C(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerPalArcIndex(u32 trType, u32 flags)
 {
-    u32 v;
+    u32 index;
 
     if (flags & 1) {
-        v = (u8)id;
-    } else if (id > 0x69) {
-        v = 0;
+        index = (u8)trType;
+    } else if (trType > 0x69) {
+        index = 0;
     } else {
-        v = sub_0202D5D8_Table[id];
+        index = TrainerGraIndexTable[trType];
     }
-    return v * 8 + 7;
+    return index * 8 + 7;
 }
 
-u32 func_0202D640(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerCelArcIndex(u32 trType, u32 flags)
 {
-    u32 v;
+    u32 index;
 
     if (flags & 1) {
-        v = (u8)id;
-    } else if (id > 0x69) {
-        v = 0;
+        index = (u8)trType;
+    } else if (trType > 0x69) {
+        index = 0;
     } else {
-        v = sub_0202D5D8_Table[id];
+        index = TrainerGraIndexTable[trType];
     }
-    return v * 8 + 2;
+    return index * 8 + 2;
 }
 
-u32 func_0202D664(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerAnmArcIndex(u32 trType, u32 flags)
 {
-    u32 v;
+    u32 index;
 
     if (flags & 1) {
-        v = (u8)id;
-    } else if (id > 0x69) {
-        v = 0;
+        index = (u8)trType;
+    } else if (trType > 0x69) {
+        index = 0;
     } else {
-        v = sub_0202D5D8_Table[id];
+        index = TrainerGraIndexTable[trType];
     }
-    return v * 8 + 3;
+    return index * 8 + 3;
 }
 
-u32 func_0202D688(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerMCelArcIndex(u32 trType, u32 flags)
 {
-    u32 v;
+    u32 index;
 
     if (flags & 1) {
-        v = (u8)id;
-    } else if (id > 0x69) {
-        v = 0;
+        index = (u8)trType;
+    } else if (trType > 0x69) {
+        index = 0;
     } else {
-        v = sub_0202D5D8_Table[id];
+        index = TrainerGraIndexTable[trType];
     }
-    return v * 8 + 4;
+    return index * 8 + 4;
 }
 
-u32 func_0202D6AC(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerMAnmArcIndex(u32 trType, u32 flags)
 {
-    u32 v;
+    u32 index;
 
     if (flags & 1) {
-        v = (u8)id;
-    } else if (id > 0x69) {
-        v = 0;
+        index = (u8)trType;
+    } else if (trType > 0x69) {
+        index = 0;
     } else {
-        v = sub_0202D5D8_Table[id];
+        index = TrainerGraIndexTable[trType];
     }
-    return v * 8 + 5;
+    return index * 8 + 5;
 }
 
-u32 func_0202D6D0(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerNcecArcIndex(u32 trType, u32 flags)
 {
-    u32 v;
+    u32 index;
 
     if (flags & 1) {
-        v = (u8)id;
-    } else if (id > 0x69) {
-        v = 0;
+        index = (u8)trType;
+    } else if (trType > 0x69) {
+        index = 0;
     } else {
-        v = sub_0202D5D8_Table[id];
+        index = TrainerGraIndexTable[trType];
     }
-    return v * 8 + 6;
+    return index * 8 + 6;
 }
 
 /*
  * Unpacks a party mon into the nine-argument sprite request of
- * func_0202D760: species (5), form (0x6F), gender (0x6E), the shiny
- * predicate func_02017EB4, isEgg (0x4C) and the personality word (id 0)
+ * POKEGRA_LoadCharData: species (5), form (0x6F), gender (0x6E), the shiny
+ * predicate POKE_TOOL_IsBoxShiny, isEgg (0x4C) and the personality word (id 0)
  * are read in that order, then forwarded along with the caller's own
  * a2/a3 pass-throughs.
  */
-void *func_0202D6F4(u32 *a0, void *mon, u32 a2, u16 a3)
+void *POKEGRA_LoadCharDataPP(u32 *outCharData, void *pp, u32 dir, u16 heapId)
 {
-    u32 species;
-    u32 form;
-    u32 gender;
-    u32 shiny;
-    u32 isEgg;
+    u32 monsNo;
+    u32 formNo;
+    u32 sex;
+    u32 rare;
+    u32 egg;
 
-    species = func_02017E88(mon, 5, 0);
-    form = func_02017E88(mon, 0x6F, 0);
-    gender = func_02017E88(mon, 0x6E, 0);
-    shiny = func_02017EB4(mon);
-    isEgg = func_02017E88(mon, 0x4C, 0);
-    return func_0202D760(a0, species, form, gender, shiny, a2, isEgg,
-                         func_02017E88(mon, 0, 0), a3);
+    monsNo = func_02017E88(pp, 5, 0);
+    formNo = func_02017E88(pp, 0x6F, 0);
+    sex = func_02017E88(pp, 0x6E, 0);
+    rare = POKE_TOOL_IsBoxShiny(pp);
+    egg = func_02017E88(pp, 0x4C, 0);
+    return POKEGRA_LoadCharData(outCharData, monsNo, formNo, sex, rare, dir, egg,
+                         func_02017E88(pp, 0, 0), heapId);
 }
 
 /*
@@ -2639,60 +2630,60 @@ void *func_0202D6F4(u32 *a0, void *mon, u32 a2, u16 a3)
  * resource id, which func_02049E34 instantiates with the caller's
  * out-slot `a0` as its a3 payload.  When the species word a1 is the
  * sentinel 0x147 the freshly filled *a0 is additionally run through the
- * func_0202D214 / func_0202D3D0 / func_0202D2EC triple, which is why
- * `*a0` is re-read before each of them (func_0202D3D0 may store through
+ * POKEGRA_ConvertCharTo2D / POKEGRA_DrawSpindaSpots / POKEGRA_ConvertCharTo1D triple, which is why
+ * `*a0` is re-read before each of them (POKEGRA_DrawSpindaSpots may store through
  * it, so the load cannot be cached).  This answers the open question in
  * docs/notes/func_0202D81C.c.txt: a0 is a genuine out-parameter, written
  * by func_02049E34 via its a3, not read-only.
  *
  * Blocked at MATCH: every concrete byte is identical.  2026-09-21, unblock
- * lane: ONE OF THE TWO BLOCKING SITES IS NOW CLEARED.  func_0202D2EC was
- * filed EXACT (src/matched/func_0202D2EC.c, shard arm9/pkt_0202D2EC.json),
+ * lane: ONE OF THE TWO BLOCKING SITES IS NOW CLEARED.  POKEGRA_ConvertCharTo1D was
+ * filed EXACT (src/matched/POKEGRA_ConvertCharTo1D.c, shard arm9/pkt_0202D2EC.json),
  * so the +0x58 THM_CALL resolves `matched`.  Only +0x50, the call to
- * func_0202D3D0, is still wildcarded: this function is that address's only
+ * POKEGRA_DrawSpindaSpots, is still wildcarded: this function is that address's only
  * caller image-wide, so no evidence class (label/matched) can attest it and
  * nothing but an EXACT at 0x0202D3D0 will promote this file.  That function
  * is a documented near miss, now at 29 concrete mismatches (down from 41)
  * and stuck on one register-assignment decision -- see
- * docs/notes/func_0202D3D0.c.txt, which records the lever that halved it
+ * docs/notes/POKEGRA_DrawSpindaSpots.c.txt, which records the lever that halved it
  * and the twelve spellings that do not move it further.
  */
-void *func_0202D760(u32 *out, u32 a1, u32 a2, u32 a3,
-                    u32 s0, u32 s1, u32 s2, u32 s3, volatile u16 s4)
+void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex,
+                    u32 rare, u32 dir, u32 egg, u32 personality, volatile u16 heapId)
 {
-    u32 id;
-    void *res;
+    u32 arcIndex;
+    void *file;
 
-    id = func_0202D064(func_0202D060(), a1, a2, a3, s0, s1, s2);
-    res = func_02049E34(func_0202D060(), id, 1, (u32)out, s4);
-    if (a1 == 0x147) {
-        func_0202D214((void *)(*out), s4);
-        func_0202D3D0((struct Obj0202D3D0 *)(*out), s3);
-        func_0202D2EC((u32 *)(*out), s4);
+    arcIndex = func_0202D064(func_0202D060(), monsNo, formNo, sex, rare, dir, egg);
+    file = func_02049E34(func_0202D060(), arcIndex, 1, (u32)outCharData, heapId);
+    if (monsNo == 0x147) {
+        POKEGRA_ConvertCharTo2D((void *)(*outCharData), heapId);
+        POKEGRA_DrawSpindaSpots((struct NNSG2dCharacterData *)(*outCharData), personality);
+        POKEGRA_ConvertCharTo1D((u32 *)(*outCharData), heapId);
     }
-    return res;
+    return file;
 }
 
-void *func_0202D7C8(u32 heap)
+void *func_0202D7C8(u32 heapId)
 {
-    return func_020490F4(func_0202D060(), heap);
+    return func_020490F4(func_0202D060(), heapId);
 }
 
-int func_0202D7D8(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7,
-                   unsigned short a8, unsigned short a9)
+int func_0202D7D8(int handle, int monsNo, int formNo, int sex, int rare, int dir, int egg, int drawType,
+                   unsigned short palOffset, unsigned short heapId)
 {
-    int t0 = func_0202D060();
-    int t1 = func_0202D0D4(t0, a1, a2, a3, a4, a5, a6);
-    return func_0204AC18((void *)a0, t1, a7, a8, 0, 1, a9);
+    int arcId = func_0202D060();
+    int palIndex = func_0202D0D4(arcId, monsNo, formNo, sex, rare, dir, egg);
+    return func_0204AC18((void *)handle, palIndex, drawType, palOffset, 0, 1, heapId);
 }
 
 /*
  * Issues a request through func_0204A6C8 built from a by-value tail struct
  * in the caller's frame (five words plus a u16 key at +0x14) and the
  * context func_0202D060()/func_0202D064() pair; when a1 is the sentinel
- * 0x147 it additionally runs the same tail through func_0202D760 with the
+ * 0x147 it additionally runs the same tail through POKEGRA_LoadCharData with the
  * address of a local out-slot, hands that slot's word to func_0204A9D0
- * alongside the request handle, and releases func_0202D760's result through
+ * alongside the request handle, and releases POKEGRA_LoadCharData's result through
  * func_020307B0. The request handle is returned either way.
  *
  * Three things the C has to say exactly, all found this session (the
@@ -2710,32 +2701,32 @@ int func_0202D7D8(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7
  *     `movs r2,#1`/`str r0,[sp]` pair instead of before it: the last 6 bytes
  *     of the DIFF, and the only thing that moves them.
  *
- * The out-slot at sp+0x14 is real: func_0202D760 reads `*a0` three times and
+ * The out-slot at sp+0x14 is real: POKEGRA_LoadCharData reads `*a0` three times and
  * never stores through it, so the `ldr r1,[sp,#0x14]` after the call reads
  * back an uninitialised local. That is what the original does; the note's
- * open question about a hidden write inside func_0202D760 is resolved as
+ * open question about a hidden write inside POKEGRA_LoadCharData is resolved as
  * "there is none, and the C does not need one".
  */
-u32 func_0202D81C(u32 a0, u32 a1, u32 a2, u32 a3, volatile u32 s0, volatile u32 s1,
-                  volatile u32 s2, volatile u32 s3, volatile u32 s4, volatile u16 key)
+u32 func_0202D81C(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare, volatile u32 dir,
+                  volatile u32 egg, volatile u32 personality, volatile u32 drawType, volatile u16 heapId)
 {
-    u32 r;
-    u32 h;
-    u32 x;
-    u32 k;
-    u32 v;
-    void *slot;
+    u32 charFile;
+    u32 cgrIndex;
+    u32 cgrArcIndex;
+    u32 heap;
+    u32 vramType;
+    void *charData;
 
-    x = func_0202D064(func_0202D060(), a1, a2, a3, s0, s1, s2);
-    k = key;
-    v = s4;
-    h = func_0204A6C8((void *)a0, x, 1, v, k);
-    if (a1 == 0x147) {
-        r = (u32)func_0202D760((u32 *)(&slot), a1, a2, a3, s0, s1, s2, s3, key);
-        func_0204A9D0(h, (struct Sub0204A9D0 *)((u32)slot));
-        func_020307B0((void *)r);
+    cgrArcIndex = func_0202D064(func_0202D060(), monsNo, formNo, sex, rare, dir, egg);
+    heap = heapId;
+    vramType = drawType;
+    cgrIndex = func_0204A6C8((void *)handle, cgrArcIndex, 1, vramType, heap);
+    if (monsNo == 0x147) {
+        charFile = (u32)POKEGRA_LoadCharData((u32 *)(&charData), monsNo, formNo, sex, rare, dir, egg, personality, heapId);
+        func_0204A9D0(cgrIndex, (struct Sub0204A9D0 *)((u32)charData));
+        func_020307B0((void *)charFile);
     }
-    return h;
+    return cgrIndex;
 }
 
 /*
@@ -2759,48 +2750,48 @@ u32 func_0202D81C(u32 a0, u32 a1, u32 a2, u32 a3, volatile u32 s0, volatile u32 
  * extent runs 2 bytes long over the alignment halfword. Never a byte
  * difference.
  */
-u32 func_0202D898(u32 a0, u32 a1, u32 a2, u32 a3, volatile u32 w0, volatile u32 w1,
-                  volatile u32 w2, volatile u32 w3, volatile u16 key)
+u32 func_0202D898(u32 monsNo, u32 formNo, u32 sex, u32 rare, volatile u32 dir, volatile u32 egg,
+                  volatile u32 mapping, volatile u32 unusedArg, volatile u16 heapId)
 {
-    u32 p;
-    u32 q;
-    void *h;
-    u32 r;
+    u32 cellDatId;
+    u32 anmDatId;
+    void *handle;
+    u32 cellIndex;
 
-    p = func_02027710(w2);
-    q = func_02027714(w2);
-    h = func_020490F4(func_020275E4(), key);
-    r = func_0204AF28(h, p, q, key);
-    func_02049238(h);
-    return r;
+    cellDatId = func_02027710(mapping);
+    anmDatId = func_02027714(mapping);
+    handle = func_020490F4(func_020275E4(), heapId);
+    cellIndex = func_0204AF28(handle, cellDatId, anmDatId, heapId);
+    func_02049238(handle);
+    return cellIndex;
 }
 
-int func_0202D8D0(int a0, void *a1, int a2, int a3, unsigned short a8, unsigned short a9)
+int func_0202D8D0(int handle, void *pp, int dir, int drawType, unsigned short palOffset, unsigned short heapId)
 {
-    int v1 = func_02017E88(a1, 5, 0);
-    int v2 = func_02017E88(a1, 0x6f, 0);
-    int v3 = func_02017E88(a1, 0x6e, 0);
-    int v4 = func_02017EB4(a1);
-    int v5 = func_02017E88(a1, 0x4c, 0);
+    int monsNo = func_02017E88(pp, 5, 0);
+    int formNo = func_02017E88(pp, 0x6f, 0);
+    int sex = func_02017E88(pp, 0x6e, 0);
+    int rare = POKE_TOOL_IsBoxShiny(pp);
+    int egg = func_02017E88(pp, 0x4c, 0);
 
-    return func_0202D7D8(a0, v1, v2, v3, v4, a2, v5, a3, a8, a9);
+    return func_0202D7D8(handle, monsNo, formNo, sex, rare, dir, egg, drawType, palOffset, heapId);
 }
 
-int func_0202D934(int a0, void *a1, int a2, int a3, unsigned short a9)
+int func_0202D934(int handle, void *pp, int dir, int drawType, unsigned short heapId)
 {
-    int v1 = func_02017E88(a1, 5, 0);
-    int v2 = func_02017E88(a1, 0x6f, 0);
-    int v3 = func_02017E88(a1, 0x6e, 0);
-    int v_eb4 = func_02017EB4(a1);
-    int v4 = func_02017E88(a1, 0x4c, 0);
-    int v5 = func_02017E88(a1, 0, 0);
+    int monsNo = func_02017E88(pp, 5, 0);
+    int formNo = func_02017E88(pp, 0x6f, 0);
+    int sex = func_02017E88(pp, 0x6e, 0);
+    int rare = POKE_TOOL_IsBoxShiny(pp);
+    int egg = func_02017E88(pp, 0x4c, 0);
+    int personality = func_02017E88(pp, 0, 0);
 
-    return func_0202D81C(a0, v1, v2, v3, v_eb4, a2, v4, v5, a3, a9);
+    return func_0202D81C(handle, monsNo, formNo, sex, rare, dir, egg, personality, drawType, heapId);
 }
 
 /*
  * Collects five properties off the handle (func_02017E88 with selectors 5,
- * 0x6f, 0x6e and 0x4c, plus func_02017EB4) and forwards them into
+ * 0x6f, 0x6e and 0x4c, plus POKE_TOOL_IsBoxShiny) and forwards them into
  * func_0202D898 together with this function's own three trailing words and
  * its u16 key, tail-position, returning what func_0202D898 returns.
  *
@@ -2820,56 +2811,56 @@ int func_0202D934(int a0, void *a1, int a2, int a3, unsigned short a9)
  * EXACT* only: the follower at 0x0202DA04 is unlabelled, so the inferred
  * extent runs over the trailing alignment halfword. Never a byte difference.
  */
-u32 func_0202D9A4(u32 h, u32 b1, u32 b2, u32 b3, u16 key)
+u32 func_0202D9A4(u32 pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId)
 {
-    u32 v1;
-    u32 v2;
-    u32 v3;
-    u32 v4;
+    u32 monsNo;
+    u32 formNo;
+    u32 sex;
+    u32 rare;
 
-    v1 = func_02017E88((void *)h, 5, 0);
-    v2 = func_02017E88((void *)h, 0x6f, 0);
-    v3 = func_02017E88((void *)h, 0x6e, 0);
-    v4 = func_02017EB4((void *)h);
+    monsNo = func_02017E88((void *)pp, 5, 0);
+    formNo = func_02017E88((void *)pp, 0x6f, 0);
+    sex = func_02017E88((void *)pp, 0x6e, 0);
+    rare = POKE_TOOL_IsBoxShiny((void *)pp);
 
-    return func_0202D898(v1, v2, v3, v4,
-                         b1, func_02017E88((void *)h, 0x4c, 0), b2, b3, key);
+    return func_0202D898(monsNo, formNo, sex, rare,
+                         dir, func_02017E88((void *)pp, 0x4c, 0), mapping, unusedArg, heapId);
 }
 
-void *func_0202DA04(u32 heap)
+void *POKEGRA_OpenTrainerHandle(u32 heapId)
 {
-    return func_020490F4(func_0202D5CC(0), heap);
+    return func_020490F4(POKEGRA_GetTrainerArcID(0), heapId);
 }
 
-s32 func_0202DA18(u32 a, u32 b, u32 c, u32 d, u16 e)
+s32 POKEGRA_RegisterTrainerPalette(u32 handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId)
 {
-    return func_0204AC18((void *)a, func_0202D61C(b, 0), c, d, 0, 1, e);
+    return func_0204AC18((void *)handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), drawType, palOffset, 0, 1, heapId);
 }
 
-void func_0202DA48(u32 a, u32 b, u32 c, u32 d)
+void POKEGRA_RegisterTrainerCgr(u32 handle, u32 trType, u32 drawType, u32 heapId)
 {
-    func_0204A6C8((void *)a, func_0202D5D8(b, 0), 1, c, d);
+    func_0204A6C8((void *)handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, drawType, heapId);
 }
 
-s32 func_0202DA6C(u32 a0, u32 a1, u32 a2, u16 a3)
+s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u16 heapId)
 {
-    u32 p;
-    u32 q;
-    void *h;
-    s32 r;
+    u32 cellDatId;
+    u32 anmDatId;
+    void *handle;
+    s32 cellIndex;
 
-    p = func_02027718(a1);
-    q = func_0202771C(a1);
-    h = func_020490F4(func_020275E4(), a3);
-    r = func_0204AF28(h, p, q, a3);
-    func_02049238(h);
-    return r;
+    cellDatId = func_02027718(mapping);
+    anmDatId = func_0202771C(mapping);
+    handle = func_020490F4(func_020275E4(), heapId);
+    cellIndex = func_0204AF28(handle, cellDatId, anmDatId, heapId);
+    func_02049238(handle);
+    return cellIndex;
 }
 
 /*
  * Loads two archived resources into a pair of consumers.  Each half
- * turns the caller's id into an archive entry index (func_0202D61C for
- * the first, func_0202D5D8 for the second), pulls the entry out of the
+ * turns the caller's id into an archive entry index (POKEGRA_GetTrainerPalArcIndex for
+ * the first, POKEGRA_GetTrainerCgrArcIndex for the second), pulls the entry out of the
  * archive set named by the fifth, stack-passed u16 argument, hands the
  * unpacked payload to its consumer and then frees the container with
  * the common finalizer func_020307B0.
@@ -2878,20 +2869,20 @@ s32 func_0202DA6C(u32 a0, u32 a1, u32 a2, u16 a3)
  * the second call rather than cached, so it is spelled as a `volatile
  * u16' stack parameter.
  */
-void func_0202DAA4(void *set, u32 id, void *dstA, void *dstB, volatile u16 which)
+void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, void *charDst, void *palDst, volatile u16 heapId)
 {
-    void *res;
-    void *b;
-    void *a;
+    void *file;
+    void *palData;
+    void *charData;
 
-    res = func_02049250(set, func_0202D61C(id, 0), which);
-    func_02062A98(res, &b);
-    func_0204ADEC(dstB, b, 1);
-    func_020307B0(res);
+    file = func_02049250(handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), heapId);
+    func_02062A98(file, &palData);
+    func_0204ADEC(palDst, palData, 1);
+    func_020307B0(file);
 
-    res = func_02049E74(set, func_0202D5D8(id, 0), 1, (u32)(&a), which);
-    func_0204A9D0((int)dstA, a);
-    func_020307B0(res);
+    file = func_02049E74(handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, (u32)(&charData), heapId);
+    func_0204A9D0((int)charDst, charData);
+    func_020307B0(file);
 }
 
 /*
@@ -2902,96 +2893,96 @@ void func_0202DAA4(void *set, u32 id, void *dstA, void *dstB, volatile u16 which
  *     same value as the strh operand and stays in r0 across the three
  *     field stores; `p->heap` written at the call re-reads it, the `heap`
  *     parameter makes it a callee-saved copy from the prologue;
- *   - the fifth parameter is u8 after all (`ldrb` at the func_0202DF68
+ *   - the fifth parameter is u8 after all (`ldrb` at the PMS_DRAW_LoadResources
  *     site); it only looked like it cost four bytes while the heap value
  *     was wrong.
  * The allocator result still has to go through a named local before p.
  */
-struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap)
+struct PmsDraw *PMS_DRAW_Create(u32 clunit, u32 drawType, u32 printQue, u32 font, u8 plttOffset, u8 elemMax, u16 heapId)
 {
-    struct PmsDraw *p;
-    u32 n;
-    u16 h;
+    struct PmsDraw *wk;
+    u32 size;
+    u16 heap;
     int i;
-    struct PmsDraw *tmp = func_02030734(heap, 0x34, 1, s_pms_draw_c, 0x81);
+    struct PmsDraw *alloc = func_02030734(heapId, 0x34, 1, PmsDrawFileName, 0x81);
 
-    p = tmp;
-    MI_CpuFill8(p, 0, 0x34);
-    p->heap = heap;
-    h = p->heap;
-    p->unk08 = (void *)c;
-    p->unk04 = d;
-    p->count = e1;
-    p->unk31 = 0xf;
-    p->unk2c = 0;
-    n = e1 * 0x28;
-    p->elems = func_02030734(h, n, 1, s_pms_draw_c, 0x8c);
-    MI_CpuFill8(p->elems, 0, n);
-    p->res[0] = a;
-    p->res[1] = b;
-    p->unk24 = 0x11 << 6;
-    func_0202DF68(p->res, e0, p->heap);
-    for (i = 0; i < p->count; i++) {
-        func_0202E09C(&p->elems[i], (struct Res *)p->res, p->heap);
+    wk = alloc;
+    MI_CpuFill8(wk, 0, 0x34);
+    wk->heapId = heapId;
+    heap = wk->heapId;
+    wk->printQue = (void *)printQue;
+    wk->font = font;
+    wk->elemMax = elemMax;
+    wk->nullColorPalette = 0xf;
+    wk->followBgScroll = 0;
+    size = elemMax * 0x28;
+    wk->elems = func_02030734(heap, size, 1, PmsDrawFileName, 0x8c);
+    MI_CpuFill8(wk->elems, 0, size);
+    wk->res[0] = clunit;
+    wk->res[1] = drawType;
+    wk->printColor = 0x11 << 6;
+    PMS_DRAW_LoadResources(wk->res, plttOffset, wk->heapId);
+    for (i = 0; i < wk->elemMax; i++) {
+        PMS_DRAW_InitElem(&wk->elems[i], (struct PmsDrawRes *)wk->res, wk->heapId);
     }
-    return p;
+    return wk;
 }
 
 /*
  * Picks the selected entry of the 0x28-byte element array hung off +0xc:
  * the selection at +0x28 is primed to 1, then every element whose +0x18
- * bit 0 is set is offered to func_0202E0E0 along with the two cursor
+ * bit 0 is set is offered to PMS_DRAW_UpdateElem along with the two cursor
  * words at +8 and +0x2c; the first one that answers non-zero resets the
  * selection to 0.  The count at +0x30 is a signed char and is re-read at
  * the top of every iteration (the call may change it), which is what
  * keeps the `adds r0, r5, #0x30; ldrb` pair inside the loop -- 0x30 is
  * past the Thumb `ldrb` immediate reach of +31.
  */
-void func_0202DBC4(struct PmsDraw *p)
+void PMS_DRAW_Main(struct PmsDraw *wk)
 {
     s32 i;
 
-    p->selected = 1;
-    for (i = 0; i < (s32)p->count; i++) {
-        struct PmsElem *e = p->elems + i;
-        if (e->flags.bits.b0 != 0) {
-            if (func_0202E0E0(e, p->unk08, p->unk2c) != 0) {
-                p->selected = 0;
+    wk->printEnd = 1;
+    for (i = 0; i < (s32)wk->elemMax; i++) {
+        struct PmsElem *elem = wk->elems + i;
+        if (elem->flags.bits.active != 0) {
+            if (PMS_DRAW_UpdateElem(elem, wk->printQue, wk->followBgScroll) != 0) {
+                wk->printEnd = 0;
             }
         }
     }
 }
 
-void func_0202DC08(struct PmsDraw *p)
+void PMS_DRAW_Delete(struct PmsDraw *wk)
 {
     int i;
 
-    for (i = 0; i < p->count; i++) {
-        func_0202E0C8(p->elems + i);
+    for (i = 0; i < wk->elemMax; i++) {
+        PMS_DRAW_DeleteElem(wk->elems + i);
     }
 
-    func_020307B0(p->elems);
-    func_0202DFD4((struct Res *)p->res);
-    func_020307B0(p);
+    func_020307B0(wk->elems);
+    PMS_DRAW_ReleaseResources((struct PmsDrawRes *)wk->res);
+    func_020307B0(wk);
 }
 
-void func_0202DC48(u32 a, u32 b, u32 c, u32 d)
+void PMS_DRAW_Print(u32 wk, u32 bmpWin, u32 pms, u32 id)
 {
-    u32 buf[2] = { 0, 0 };
+    u32 offset[2] = { 0, 0 };
 
-    func_0202DC60((struct PmsDraw *)a, (void *)b, (void *)c, d, buf);
+    PMS_DRAW_PrintOffset((struct PmsDraw *)wk, (void *)bmpWin, (void *)pms, id, offset);
 }
 
 /*
- * The forwarding shim in front of func_0202E1F0: it copies four of the
+ * The forwarding shim in front of PMS_DRAW_PrintElem: it copies four of the
  * object's own fields into the callee's five stack arguments and clears
  * the selection word at +0x28 afterwards.
  *
  * The ARGUMENT ORDER is what this function pins, and it corrects the
- * reading in docs/notes/pkt_0202E1F0.c.txt: r1 is the object pointer at
+ * reading in docs/notes/pkt_0202E1F0.anmSeq.txt: r1 is the object pointer at
  * +8, r2 the word at +4 and r3 the caller's own `a`, which the prologue
  * parks in r4 (`adds r4, r1, #0`) precisely because it is consumed LAST.
- * Spelling the call (e, a, p->f08, p->f04, ...) instead leaves `a` in r1
+ * Spelling the call (e, a, p->plttIndex, p->drawType, ...) instead leaves `a` in r1
  * and loses the r4 copy, four bytes short.
  *
  * The five stack words are four plain u32 arguments behind `w`, not a
@@ -3002,58 +2993,58 @@ void func_0202DC48(u32 a, u32 b, u32 c, u32 d)
  * call, so the parameters are u32.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0202DC60.c \
- *       --func func_0202DC60 --addr 0x0202DC60 --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/matched/PMS_DRAW_PrintOffset.anmSeq \
+ *       --func PMS_DRAW_PrintOffset --addr 0x0202DC60 --cc 1.1p1 --thumb
  */
-void func_0202DC60(struct PmsDraw *p, void *a, void *w, u32 i, const void *e)
+void PMS_DRAW_PrintOffset(struct PmsDraw *wk, void *bmpWin, void *pms, u32 id, const void *offset)
 {
-    func_0202E1F0(p->elems + i, p->unk08, p->unk04, a, w,
-                  e, p->unk24, p->unk31, p->heap);
-    p->selected = 0;
+    PMS_DRAW_PrintElem(wk->elems + id, wk->printQue, wk->font, bmpWin, pms,
+                  offset, wk->printColor, wk->nullColorPalette, wk->heapId);
+    wk->printEnd = 0;
 }
 
 /*
- * Three leaves before func_0202DCC4 over an object with a count at +0x28 and
+ * Three leaves before PMS_DRAW_IsActive over an object with a count at +0x28 and
  * an array of 0x28-byte elements at +0xc: the count getter, and two
- * forwarders that pass element i and one argument to func_0202E38C and
- * func_0202E3E4.  Seeded from ov031 0x021F069A, ov110 0x021C0CC6, ov111
+ * forwarders that pass element i and one argument to PMS_DRAW_ClearElem and
+ * PMS_DRAW_SetElemVisible.  Seeded from ov031 0x021F069A, ov110 0x021C0CC6, ov111
  * 0x021C61D2, ov216 0x021BD12A.
  *
  * Addresses are Black-image addresses.
  */
-u32 func_0202DC98(struct PmsDraw *o)
+u32 PMS_DRAW_IsPrintEnd(struct PmsDraw *wk)
 {
-    return o->selected;
+    return wk->printEnd;
 }
 
-void func_0202DC9C(struct PmsDraw *o, int i, u32 a1)
+void PMS_DRAW_Clear(struct PmsDraw *wk, int id, u32 isTrans)
 {
-    func_0202E38C(&o->elems[i], a1);
+    PMS_DRAW_ClearElem(&wk->elems[id], isTrans);
 }
 
-void func_0202DCB0(struct PmsDraw *o, int i, u32 a1)
+void PMS_DRAW_SetVisible(struct PmsDraw *wk, int id, u32 visible)
 {
-    func_0202E3E4(&o->elems[i], a1);
+    PMS_DRAW_SetElemVisible(&wk->elems[id], visible);
 }
 
-u32 func_0202DCC4(const struct PmsDraw *p, u32 i)
+u32 PMS_DRAW_IsActive(const struct PmsDraw *wk, u32 id)
 {
-    return p->elems[i].flags.bits.b0;
+    return wk->elems[id].flags.bits.active;
 }
 
-void func_0202DCD4(struct PmsDraw *p, u32 i, u32 val)
+void PMS_DRAW_SetDecoVisible(struct PmsDraw *wk, u32 id, u32 visible)
 {
-    if (func_0202DCC4(p, i) != 0) {
-        p->elems[i].flags.bits.b2 = val;
+    if (PMS_DRAW_IsActive(wk, id) != 0) {
+        wk->elems[id].flags.bits.decoVisible = visible;
     }
 }
 
-void func_0202DCFC(struct PmsDraw *p, u32 i, u32 val)
+void PMS_DRAW_SetDecoPriority(struct PmsDraw *wk, u32 id, u32 priority)
 {
-    int k;
+    int i;
 
-    for (k = 0; k < 2; k++) {
-        func_0204B688(p->elems[i].actor[k], val);
+    for (i = 0; i < 2; i++) {
+        func_0204B688(wk->elems[id].decoActor[i], priority);
     }
 }
 
@@ -3061,11 +3052,11 @@ void func_0202DCFC(struct PmsDraw *p, u32 i, u32 val)
  * Copies element i onto element j of the pms_draw owner, sprite state
  * included (docs/families/pms_draw.h). EXACT* only because the listing
  * extent runs on over the three unlabelled setters at 0x0202DE5C
- * (src/matched/unit_0202DE5C.c); the function itself is 310 bytes.
+ * (src/matched/unit_0202DE5C.anmSeq); the function itself is 310 bytes.
  *
  * Closed in wave 14 from the wave-12 note (8 bytes, dst/dy spill slots):
- *   - the handles are read through the element pointers, src->handle and
- *     dst->handle, not e[i]/e[j]; the compiler still folds them to the
+ *   - the handles are read through the element pointers, src->bmpWin and
+ *     dst->bmpWin, not e[i]/e[j]; the compiler still folds them to the
  *     image's `ldr r0,[r6,r7]` / `ldr r0,[r6,dj]`, but dst now stays a
  *     named value and takes the image's slot sp+8;
  *   - no `e` local: src = &p->elems[i]; dst = &p->elems[j];
@@ -3073,67 +3064,67 @@ void func_0202DCFC(struct PmsDraw *p, u32 i, u32 val)
  *   - the loop counter k declared FIRST: with src declared ahead of it,
  *     src takes r4 and the call temporaries/k take r5, the mirror image.
  */
-void func_0202DD24(struct PmsDraw *p, u32 i, u32 j)
+void PMS_DRAW_Copy(struct PmsDraw *wk, u32 srcId, u32 dstId)
 {
-    int k;
+    int i;
     struct PmsElem *src;
     struct PmsElem *dst;
     s32 dx;
     s32 dy;
-    u32 v;
-    struct Pt_0202DD24 pt;
-    void *h;
+    u32 surface;
+    struct PmsPoint pt;
+    void *bmpWin;
 
-    src = &p->elems[i];
-    dst = &p->elems[j];
-    dx = func_02045758(dst->handle) - func_02045758(src->handle);
-    dy = func_02045760(dst->handle) - func_02045760(src->handle);
-    func_02043814((struct Bmp *)((u32)func_02045770((struct Descriptor *)src->handle)), (const struct Bmp *)((u32)func_02045770((struct Descriptor *)dst->handle)));
-    h = dst->handle;
-    func_02045334(h);
-    func_02045374(h);
-    func_02041B6C(func_02045730(h));
+    src = &wk->elems[srcId];
+    dst = &wk->elems[dstId];
+    dx = func_02045758(dst->bmpWin) - func_02045758(src->bmpWin);
+    dy = func_02045760(dst->bmpWin) - func_02045760(src->bmpWin);
+    func_02043814((struct Bmp *)((u32)func_02045770((struct Descriptor *)src->bmpWin)), (const struct Bmp *)((u32)func_02045770((struct Descriptor *)dst->bmpWin)));
+    bmpWin = dst->bmpWin;
+    func_02045334(bmpWin);
+    func_02045374(bmpWin);
+    func_02041B6C(func_02045730(bmpWin));
 
-    for (k = 0; k < 2; k++) {
-        v = func_0202E430(func_02045730(src->handle));
-        func_0204B454(src->actor[k], (struct PtS *)&pt, (u16)v);
+    for (i = 0; i < 2; i++) {
+        surface = PMS_DRAW_GetFrameSurface(func_02045730(src->bmpWin));
+        func_0204B454(src->decoActor[i], (struct PtS *)&pt, (u16)surface);
         pt.x += dx * 8;
         pt.y += dy * 8;
-        func_0204B404(dst->actor[k], (const struct Vec2 *)(&pt), (u16)v);
-        func_0204B878(dst->actor[k], func_0204B898(src->actor[k]));
-        func_0204B3DC(dst->actor[k], src->enabled[k]);
+        func_0204B404(dst->decoActor[i], (const struct Vec2 *)(&pt), (u16)surface);
+        func_0204B878(dst->decoActor[i], CLACT_GetActorAnimSeq(src->decoActor[i]));
+        func_0204B3DC(dst->decoActor[i], src->isDeco[i]);
     }
-    dst->live = src->live;
-    dst->flags.bits.b0 = src->flags.bits.b0;
-    dst->flags.bits.b1 = src->flags.bits.b1;
-    for (k = 0; k < 2; k++) {
-        dst->enabled[k] = src->enabled[k];
+    dst->printing = src->printing;
+    dst->flags.bits.active = src->flags.bits.active;
+    dst->flags.bits.visible = src->flags.bits.visible;
+    for (i = 0; i < 2; i++) {
+        dst->isDeco[i] = src->isDeco[i];
     }
 }
 
-void func_0202DE5C(struct PmsDraw *p, u8 v)
+void PMS_DRAW_SetNullColorPalette(struct PmsDraw *wk, u8 palette)
 {
-    p->unk31 = v;
+    wk->nullColorPalette = palette;
 }
 
-void func_0202DE64(struct PmsDraw *p, u16 v)
+void PMS_DRAW_SetPrintColor(struct PmsDraw *wk, u16 color)
 {
-    p->unk24 = v;
+    wk->printColor = color;
 }
 
-void func_0202DE68(struct PmsDraw *p, u32 v)
+void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *wk, u32 follow)
 {
-    p->unk2c = v;
+    wk->followBgScroll = follow;
 }
 
-void func_0202DE6C(u32 a, u32 b, u32 c, const struct Pos *base,
-                  struct Pos *out)
+void PMS_DRAW_CalcDecoPos(u32 bmpWin, u32 charX, u32 line, const struct PmsPos *offset,
+                  struct PmsPos *out)
 {
-    out->x = base->x + (b + func_02045758((struct Descriptor *)a) * 8);
-    out->y = base->y + ((c << 4) + func_02045760((struct Descriptor *)a) * 8);
+    out->x = offset->x + (charX + func_02045758((struct Descriptor *)bmpWin) * 8);
+    out->y = offset->y + ((line << 4) + func_02045760((struct Descriptor *)bmpWin) * 8);
 }
 
-u32 func_0202DE9C(u32 engine)
+u32 PMS_DRAW_GetDecoCgrIndex(u32 engine)
 {
     vu32 *reg;
 
@@ -3153,7 +3144,7 @@ u32 func_0202DE9C(u32 engine)
     return 0x20;
 }
 
-u32 func_0202DEE0(u32 engine)
+u32 PMS_DRAW_GetDecoCelIndex(u32 engine)
 {
     vu32 *reg;
 
@@ -3173,7 +3164,7 @@ u32 func_0202DEE0(u32 engine)
     return 0x26;
 }
 
-u32 func_0202DF24(u32 engine)
+u32 PMS_DRAW_GetDecoAnmIndex(u32 engine)
 {
     vu32 *reg;
 
@@ -3204,37 +3195,37 @@ u32 func_0202DF24(u32 engine)
  * unequal shift pair lsls #0x15 / lsrs #0x10 -- a narrowing cast folded
  * with the shift, not an 11-bit bitfield.
  */
-void func_0202DF68(u32 *o, u32 a1, u32 heap)
+void PMS_DRAW_LoadResources(u32 *res, u32 plttOffset, u32 heapId)
 {
-    u32 b0;
-    u32 b1;
-    u32 b2;
-    void *h;
+    u32 cgrDatId;
+    u32 celDatId;
+    u32 anmDatId;
+    void *handle;
 
-    b0 = func_0202DE9C(o[1]);
-    b1 = func_0202DEE0(o[1]);
-    b2 = func_0202DF24(o[1]);
-    h = func_020490F4(0x2b, heap);
-    o[2] = func_0204AC18(h, 1, o[1], (u16)(a1 << 5), 0, 5, heap);
-    o[3] = func_0204A6C8(h, b2, 0, o[1], heap);
-    o[4] = func_0204AF28(h, b0, b1, heap);
-    func_02049238(h);
+    cgrDatId = PMS_DRAW_GetDecoCgrIndex(res[1]);
+    celDatId = PMS_DRAW_GetDecoCelIndex(res[1]);
+    anmDatId = PMS_DRAW_GetDecoAnmIndex(res[1]);
+    handle = func_020490F4(0x2b, heapId);
+    res[2] = func_0204AC18(handle, 1, res[1], (u16)(plttOffset << 5), 0, 5, heapId);
+    res[3] = func_0204A6C8(handle, anmDatId, 0, res[1], heapId);
+    res[4] = func_0204AF28(handle, cgrDatId, celDatId, heapId);
+    func_02049238(handle);
 }
 
-void func_0202DFD4(struct Res *p)
+void PMS_DRAW_ReleaseResources(struct PmsDrawRes *res)
 {
-    func_0204ADA4(p->f08);
-    func_0204A8D4(p->f0c);
-    func_0204AFD8(p->f10);
+    func_0204ADA4(res->plttIndex);
+    func_0204A8D4(res->cgrIndex);
+    func_0204AFD8(res->cellAnmIndex);
 }
 
 /*
  * Creates one actor out of the five-word resource record the owner keeps
- * at +0x10 (func_0202DF68 is what fills it), disables it, enables its
+ * at +0x10 (PMS_DRAW_LoadResources is what fills it), disables it, enables its
  * second flag, and adds the 0x2000 bit only for language 0x1e.
  *
  * The four zero halfwords at sp+0xc must be written as a BRACE
- * INITIALISER, `struct Zero4 z = { 0, 0, 0, 0 };`.  Assigning the four
+ * INITIALISER, `struct DecoActorInit z = { 0, 0, 0, 0 };`.  Assigning the four
  * fields as statements -- with or without the address bound to a named
  * pointer local -- swaps r0 and r2 throughout the block (the compiler
  * materialises the zero first and the frame address second, and then
@@ -3253,23 +3244,23 @@ void func_0202DFD4(struct Res *p)
  * at 0x0202E03E, which is the 82-against-84 the star records.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0202DFEC.c \
- *       --func func_0202DFEC --addr 0x0202DFEC --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/matched/PMS_DRAW_CreateDecoActor.anmSeq \
+ *       --func PMS_DRAW_CreateDecoActor --addr 0x0202DFEC --cc 1.1p1 --thumb
  */
-void *func_0202DFEC(struct Res *r, u16 a)
+void *PMS_DRAW_CreateDecoActor(struct PmsDrawRes *res, u16 heapId)
 {
-    struct Zero4 z = { 0, 0, 0, 0 };
-    void *o;
+    struct DecoActorInit init = { 0, 0, 0, 0 };
+    void *actor;
     u32 one;
 
-    o = func_0204B294((void *)r->f00, r->f0c, r->f08, r->f10, &z, (u16)r->f04, a);
-    func_0204B3DC(o, 0);
+    actor = func_0204B294((void *)res->clunit, res->cgrIndex, res->plttIndex, res->cellAnmIndex, &init, (u16)res->drawType, heapId);
+    func_0204B3DC(actor, 0);
     one = 1;
-    func_0204B92C(o, 1);
+    func_0204B92C(actor, 1);
     if (func_02035630() == 0x1e) {
-        func_0204B954(o, one << 0xd);
+        func_0204B954(actor, one << 0xd);
     }
-    return o;
+    return actor;
 }
 
 /*
@@ -3279,95 +3270,95 @@ void *func_0202DFEC(struct Res *r, u16 a)
  * word through sub_0202E430 and the last stack argument (a 1-based index)
  * is passed on as `(u16)(n - 1)`.
  */
-void func_0202E040(void *h, struct Descriptor *cell, u32 b, u32 c,
-                   u32 n, const struct Pos *base)
+void PMS_DRAW_PlaceDecoActor(void *actor, struct Descriptor *bmpWin, u32 charX, u32 line,
+                   u32 wordId, const struct PmsPos *offset)
 {
-    struct Pos pos;
-    struct Pt_0202E040 pt;
-    u32 t;
+    struct PmsPos pos;
+    struct DecoPos pt;
+    u32 frame;
 
-    func_0202DE6C((u32)cell, b, c, (const struct Pos *)base, (struct Pos *)(&pos));
+    PMS_DRAW_CalcDecoPos((u32)bmpWin, charX, line, (const struct PmsPos *)offset, (struct PmsPos *)(&pos));
     pt.x = (u16)pos.x;
     pt.y = (u16)pos.y;
-    t = func_02045730(cell);
-    func_0204B404(h, (const struct Vec2 *)(&pt), (u16)func_0202E430(t));
-    func_0204B84C(h, func_020416D4(t));
-    func_0204B878(h, (u16)(n - 1));
+    frame = func_02045730(bmpWin);
+    func_0204B404(actor, (const struct Vec2 *)(&pt), (u16)PMS_DRAW_GetFrameSurface(frame));
+    func_0204B84C(actor, func_020416D4(frame));
+    func_0204B878(actor, (u16)(wordId - 1));
 }
 
 /*
  * note:     closed 2026-09-21 by tools/permuter.py (hill, --types): the loop counter is signed,
  *           the image compares with blt; u32 gave blo (1 byte)
  */
-void func_0202E09C(struct PmsElem *o, struct Res *a, u16 b)
+void PMS_DRAW_InitElem(struct PmsElem *elem, struct PmsDrawRes *res, u16 heapId)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        o->actor[i] = func_0202DFEC(a, b);
+        elem->decoActor[i] = PMS_DRAW_CreateDecoActor(res, heapId);
     }
-    o->flags.word = (o->flags.word & ~1) | 4;
+    elem->flags.word = (elem->flags.word & ~1) | 4;
 }
 
-void func_0202E0C8(struct PmsElem *p)
+void PMS_DRAW_DeleteElem(struct PmsElem *elem)
 {
     s32 i;
 
     for (i = 0; i < 2; i++) {
-        func_0204B3B4(p->actor[i]);
+        func_0204B3B4(elem->decoActor[i]);
     }
 }
 
-int func_0202E0E0(struct PmsElem *a0, void *a1, int a2)
+int PMS_DRAW_UpdateElem(struct PmsElem *elem, void *printQue, int followBgScroll)
 {
     int ret;
     s32 i;
 
-    if (a0->live != 0) {
-        if (func_0201C6C4(a1, func_02045770(a0->handle)) == 0) {
-            func_02045334(a0->handle);
-            a0->live = 0;
+    if (elem->printing != 0) {
+        if (func_0201C6C4(printQue, func_02045770(elem->bmpWin)) == 0) {
+            func_02045334(elem->bmpWin);
+            elem->printing = 0;
         }
     }
 
-    ret = (a0->live != 0) ? 1 : 0;
+    ret = (elem->printing != 0) ? 1 : 0;
     if (ret == 0) {
-        if (a0->flags.bits.b1) {
+        if (elem->flags.bits.visible) {
             for (i = 0; i < 2; i++) {
-                if (a0->enabled[i] != 0 && a0->flags.bits.b2) {
-                    func_0204B3DC(a0->actor[i], 1);
+                if (elem->isDeco[i] != 0 && elem->flags.bits.decoVisible) {
+                    func_0204B3DC(elem->decoActor[i], 1);
                 } else {
-                    func_0204B3DC(a0->actor[i], 0);
+                    func_0204B3DC(elem->decoActor[i], 0);
                 }
             }
         }
     }
 
-    if (a2 != 0) {
-        s32 v = (s32)func_02045730(a0->handle);
-        struct Pt_0202DD24 diff = { 0, 0 };
-        struct Pt_0202DD24 pos;
-        s32 nx;
-        s32 ny;
-        nx = func_02041648((u8)v);
-        ny = func_02041664((u8)v);
+    if (followBgScroll != 0) {
+        s32 frame = (s32)func_02045730(elem->bmpWin);
+        struct PmsPoint diff = { 0, 0 };
+        struct PmsPoint pos;
+        s32 scrollX;
+        s32 scrollY;
+        scrollX = func_02041648((u8)frame);
+        scrollY = func_02041664((u8)frame);
 
-        if (nx != a0->x) {
-            diff.x = a0->x - nx;
-            a0->x = nx;
+        if (scrollX != elem->scrollX) {
+            diff.x = elem->scrollX - scrollX;
+            elem->scrollX = scrollX;
         }
 
-        if (ny != a0->y) {
-            diff.y = a0->y - ny;
-            a0->y = ny;
+        if (scrollY != elem->scrollY) {
+            diff.y = elem->scrollY - scrollY;
+            elem->scrollY = scrollY;
         }
 
         if (diff.x != 0 || diff.y != 0) {
             for (i = 0; i < 2; i++) {
-                func_0204B53C(a0->actor[i], &pos);
+                func_0204B53C(elem->decoActor[i], &pos);
                 pos.x += diff.x;
                 pos.y += diff.y;
-                func_0204B528(a0->actor[i], &pos);
+                func_0204B528(elem->decoActor[i], &pos);
             }
         }
     }
@@ -3377,20 +3368,20 @@ int func_0202E0E0(struct PmsElem *a0, void *a1, int a2)
 
 /*
  * blink_palanm: set up a message's blink palette animation.  Copy the
- * caller's MSGPARAM into a local, build the string, mark which characters
+ * caller's PmsData into a local, build the string, mark which characters
  * blink (wk->blink[i]) or are blank (mark[i]), draw the window, then start
- * a palette animation (func_0202E040) on every blinking character and clear
- * every blank one.  Only caller: func_0202DC60, which passes the five stack
+ * a palette animation (PMS_DRAW_PlaceDecoActor) on every blinking character and clear
+ * every blank one.  Only caller: PMS_DRAW_PrintOffset, which passes the five stack
  * words (param, pos, pri, pal, heap).
  *
  * Closed 2026-09-24 (wave 21, lane E12) from DIFF 2
- * (docs/notes/pkt_0202E1F0.c.txt, waves 5-21).  Two things together,
+ * (docs/notes/pkt_0202E1F0.anmSeq.txt, waves 5-21).  Two things together,
  * neither enough on its own:
  *   - the parameter `param` is reused as `param = &mp` after the copy, and
- *     every later call, including func_02024368 after loop 1, takes
+ *     every later call, including PMSI_PARAM_ToStringWords after loop 1, takes
  *     `param` (with `&mp` there the image's `adds r0, r7, #0` at +0x8E is
  *     rematerialised as `add r0, sp, #0x38`, 2 out);
- *   - the two stores after func_0202465C are written msg first, then
+ *   - the two stores after PMSI_PARAM_Validate are written msg first, then
  *     active.  In the other order the compile puts wk in r7 and param in r6
  *     (21 out).  The scheduler emits the strb before the str in both
  *     orders, so the listing only shows the order through the allocation.
@@ -3398,110 +3389,110 @@ int func_0202E0E0(struct PmsElem *a0, void *a1, int a2)
  * is the starting point; only those two lines differ from it.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0202E1F0.c \
- *       --func func_0202E1F0 --addr 0x0202E1F0 --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/matched/PMS_DRAW_PrintElem.anmSeq \
+ *       --func PMS_DRAW_PrintElem --addr 0x0202E1F0 --cc 1.1p1 --thumb
  */
-void func_0202E1F0(struct PmsElem *wk, void *owner, u32 a2, struct Descriptor *a3,
-                   const MSGPARAM *param, const BLINKPOS *pos,
-                   u16 pri, u8 pal, u16 heap)
+void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct Descriptor *bmpWin,
+                   const PmsData *param, const PmsOffset *offset,
+                   u16 color, u8 nullColorPalette, u16 heapId)
 {
-    u32 mark[2] = {0, 0};
-    MSGPARAM mp;
+    u32 isBlank[2] = {0, 0};
+    PmsData pmsCopy;
     void *str;
-    void *buf;
+    void *word;
     int i;
     u16 heapID;
-    int n;
+    int wordCount;
 
-    func_02024570((struct Rec8 *)(&mp), (const struct Rec8 *)param);
-    param = &mp;
-    func_0202465C((struct T *)(&mp), 1, heap);
-    wk->handle = a3;
-    wk->live = 0;
-    heapID = *(u16 *)&heap;
-    str = func_0202441C((const struct Struct_0202441C *)param, heapID);
-    n = (u8)func_0201D478(str);
-    for (i = 0; i < n; i++) {
-        if (func_020244F8((struct Container *)param, i)) {
-            wk->enabled[i] = 1;
-        } else if (func_020244D4((void *)param, i) == 0xffff) {
-            mark[i] = 1;
+    PMSI_PARAM_Copy((struct Rec8 *)(&pmsCopy), (const struct Rec8 *)param);
+    param = &pmsCopy;
+    PMSI_PARAM_Validate((struct T *)(&pmsCopy), 1, heapId);
+    elem->bmpWin = bmpWin;
+    elem->printing = 0;
+    heapID = *(u16 *)&heapId;
+    str = PMSI_PARAM_GetSourceString((const struct Struct_0202441C *)param, heapID);
+    wordCount = (u8)func_0201D478(str);
+    for (i = 0; i < wordCount; i++) {
+        if (PMSI_PARAM_IsDecoWordAt((struct Container *)param, i)) {
+            elem->isDeco[i] = 1;
+        } else if (PMSI_PARAM_GetWordId((void *)param, i) == 0xffff) {
+            isBlank[i] = 1;
         }
     }
-    buf = func_02024368((u16 *)param, heapID, n);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)wk->handle)), pal);
-    func_0201C724(owner, (u32)func_02045770((struct Descriptor *)wk->handle), (s16)pos->x, (s16)pos->y, (u32)buf, a2, pri);
-    wk->live = 1;
-    for (i = 0; i < n; i++) {
-        if (wk->enabled[i] == 1) {
-            u32 x = func_0201D528(buf, i, (void *)a2, 0);
-            u32 y = func_0201D4BC(buf, i);
-            func_0202E040(wk->actor[i], a3, x, y, func_020244D4((void *)param, i), (const struct Pos *)pos);
-        } else if (mark[i] == 1) {
-            u32 x = func_0201D528(buf, i, (void *)a2, 0);
-            u32 y = func_0201D4BC(buf, i);
-            func_02043AF4((u32)func_02045770((struct Descriptor *)a3), x, y << 4, 0x54, 0x10, pal);
+    word = PMSI_PARAM_ToStringWords((u16 *)param, heapID, wordCount);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)elem->bmpWin)), nullColorPalette);
+    func_0201C724(printQue, (u32)func_02045770((struct Descriptor *)elem->bmpWin), (s16)offset->x, (s16)offset->y, (u32)word, font, color);
+    elem->printing = 1;
+    for (i = 0; i < wordCount; i++) {
+        if (elem->isDeco[i] == 1) {
+            u32 x = func_0201D528(word, i, (void *)font, 0);
+            u32 y = func_0201D4BC(word, i);
+            PMS_DRAW_PlaceDecoActor(elem->decoActor[i], bmpWin, x, y, PMSI_PARAM_GetWordId((void *)param, i), (const struct PmsPos *)offset);
+        } else if (isBlank[i] == 1) {
+            u32 x = func_0201D528(word, i, (void *)font, 0);
+            u32 y = func_0201D4BC(word, i);
+            func_02043AF4((u32)func_02045770((struct Descriptor *)bmpWin), x, y << 4, 0x54, 0x10, nullColorPalette);
         }
     }
-    func_02045808(buf);
+    func_02045808(word);
     func_02045808(str);
-    func_02045374((struct Cfg *)wk->handle);
-    func_02041B6C(func_02045730((struct Descriptor *)wk->handle));
-    wk->flags.bits.b0 = 1;
-    wk->flags.bits.b1 = 1;
+    func_02045374((struct Cfg *)elem->bmpWin);
+    func_02041B6C(func_02045730((struct Descriptor *)elem->bmpWin));
+    elem->flags.bits.active = 1;
+    elem->flags.bits.visible = 1;
 }
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202E38C.c \
- *       --func func_0202E38C --addr 0x0202E38C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PMS_DRAW_ClearElem.anmSeq \
+ *       --func PMS_DRAW_ClearElem --addr 0x0202E38C --cc 1.1p1 --thumb
  */
-void func_0202E38C(struct PmsElem *obj, u32 a1)
+void PMS_DRAW_ClearElem(struct PmsElem *elem, u32 isTrans)
 {
     void *h;
     int i;
 
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)obj->handle)), 0);
-    if (a1 != 0) {
-        func_02045334((struct Descriptor *)obj->handle);
-        h = obj->handle;
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)elem->bmpWin)), 0);
+    if (isTrans != 0) {
+        func_02045334((struct Descriptor *)elem->bmpWin);
+        h = elem->bmpWin;
         func_020456F8((struct Descriptor *)h);
         func_020409B4(func_02045730((struct Descriptor *)h));
     }
     for (i = 0; i < 2; i++) {
-        func_0204B3DC(obj->actor[i], 0);
-        obj->enabled[i] = 0;
+        func_0204B3DC(elem->decoActor[i], 0);
+        elem->isDeco[i] = 0;
     }
-    obj->x = 0;
-    obj->y = 0;
-    obj->flags.word &= ~1;
-    obj->flags.word &= ~2;
+    elem->scrollX = 0;
+    elem->scrollY = 0;
+    elem->flags.word &= ~1;
+    elem->flags.word &= ~2;
 }
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202E3E4.c \
- *       --func func_0202E3E4 --addr 0x0202E3E4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PMS_DRAW_SetElemVisible.anmSeq \
+ *       --func PMS_DRAW_SetElemVisible --addr 0x0202E3E4 --cc 1.1p1 --thumb
  */
-void func_0202E3E4(struct PmsElem *obj, u32 a1)
+void PMS_DRAW_SetElemVisible(struct PmsElem *elem, u32 visible)
 {
     int i;
 
-    obj->flags.word = (obj->flags.word & ~2) | ((a1 & 1) << 1);
-    if (a1 != 0)
-        func_02045374((struct Cfg *)obj->handle);
+    elem->flags.word = (elem->flags.word & ~2) | ((visible & 1) << 1);
+    if (visible != 0)
+        func_02045374((struct Cfg *)elem->bmpWin);
     else
-        func_020456F8((struct Descriptor *)obj->handle);
-    func_02041B6C(func_02045730((struct Descriptor *)obj->handle));
+        func_020456F8((struct Descriptor *)elem->bmpWin);
+    func_02041B6C(func_02045730((struct Descriptor *)elem->bmpWin));
     for (i = 0; i < 2; i++) {
-        if (obj->enabled[i] != 0)
-            func_0204B3DC(obj->actor[i], a1);
+        if (elem->isDeco[i] != 0)
+            func_0204B3DC(elem->decoActor[i], visible);
     }
 }
 
-u32 func_0202E430(u32 id)
+u32 PMS_DRAW_GetFrameSurface(u32 frame)
 {
-    if (id >= 4) {
+    if (frame >= 4) {
         return 1;
     }
     return 0;
@@ -3509,7 +3500,7 @@ u32 func_0202E430(u32 id)
 
 void func_0202E43C(void *p)
 {
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
 }
 
 u32 func_0202E448(u32 id)
@@ -3517,8 +3508,8 @@ u32 func_0202E448(u32 id)
     u32 i;
 
     for (i = 0; i < 7; i++) {
-        if (id == sub_0202E448_Table[i].id) {
-            return sub_0202E448_Table[i].val;
+        if (id == ItemValueTable[i].itemId) {
+            return ItemValueTable[i].value;
         }
     }
     return 0x19;
@@ -3539,23 +3530,23 @@ u32 func_0202E448(u32 id)
  * name run whose start is pinned by the terminator of the string before it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202E474.c \
- *       --func func_0202E474 --addr 0x0202E474 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BAG_PARAM_Create.c \
+ *       --func BAG_PARAM_Create --addr 0x0202E474 --cc 1.1p1 --thumb
  */
-void *func_0202E474(const struct BigObj *a0, int a1, int a2, int a3)
+void *BAG_PARAM_Create(const struct BigObj *gameData, int itemCheck, int mode, int heapId)
 {
-    int   v = (int)func_02012EBC((struct Big *)a0);
-    char *p = func_02030734(a3, 0x3c, 1, data_020A77C4, 0x37);
+    int   saveControl = (int)func_02012EBC((struct Big *)gameData);
+    struct BagParam *param = func_02030734(heapId, 0x3c, 1, BagParamFileName, 0x37);
 
-    ((struct Obj04060 *)p)->f0 = (int)a0;
-    ((struct Obj04060 *)p)->f4 = (int)func_0200873C((void *)v);
-    ((struct Obj04060 *)p)->f8 = (int)func_02012944((void *)a0);
-    ((struct Obj04060 *)p)->fC = func_02012924(a0);
-    ((struct Obj04060 *)p)->f10 = func_0201292C((const struct BigObj *)a0);
-    if (a1 != 0) {
-        func_02082D44((void *)a1, p + 0x14, 0x18);
+    param->gameData = (void *)gameData;
+    param->myStatus = func_0200873C((void *)saveControl);
+    param->myItem = func_02012944((void *)gameData);
+    param->saveWork = GAME_DATA_GetMapMatrix(gameData);
+    param->config = func_0201292C((const struct BigObj *)gameData);
+    if (itemCheck != 0) {
+        func_02082D44((void *)itemCheck, param->itemCheck, 0x18);
     }
-    ((struct Obj04060 *)p)->f2C = a2;
-    ((struct Obj04060 *)p)->f30 = func_02012B28(func_020127A4((struct SaveBlock *)a0)) == 1;
-    return p;
+    param->mode = mode;
+    param->cycleFlag = func_02012B28(func_020127A4((struct SaveBlock *)gameData)) == 1;
+    return param;
 }

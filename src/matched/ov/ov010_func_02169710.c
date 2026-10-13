@@ -23,7 +23,7 @@
  *   VEC_Add        0x0207C9D0  arm
  *   MTX_RotY33_    0x0207AF1C  thumb
  *   func_021699A0  0x021699A0  thumb  ov010
- *   func_02047C8C  0x02047C8C  arm
+ *   G3D_SYSTEM_DrawRenderObj  0x02047C8C  arm
  *   tbl_020A1B38   0x020A1B38  data
  *   g_02148B98     0x02148B98  data
  */
@@ -78,7 +78,7 @@ extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern void  VEC_Add(const Vec *a, const Vec *b, Vec *dst);
 extern void  MTX_RotY33_(void *m, s16 sinv, s16 cosv);
 extern int   func_021699A0(void *p);
-extern void func_02047C8C(struct P02047C8C *p);
+extern void G3D_SYSTEM_DrawRenderObj(struct P02047C8C *p);
 
 void func_02169710(Obj *obj)
 {
@@ -114,7 +114,7 @@ void func_02169710(Obj *obj)
         MTX_RotY33_(&m, s, c);
         func_0206DDA4(0x19, &m, 12);
         if (func_021699A0(mdl) == 1) {
-            func_02047C8C(r);
+            G3D_SYSTEM_DrawRenderObj(r);
         }
     }
 }

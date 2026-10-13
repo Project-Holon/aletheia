@@ -18,7 +18,7 @@
  *   func_02012944  0x02012944  thumb
  *   func_02012A30  0x02012A30  thumb
  *   func_02012134  0x02012134  thumb
- *   func_02029DBC  0x02029DBC  thumb
+ *   FIELD_SOUND_SYSTEM_LowerVolume  0x02029DBC  thumb
  */
 
 typedef unsigned char  u8;
@@ -38,7 +38,7 @@ extern u8 *func_02012944(void *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
 extern u32 func_02012134(u32 *p);
-extern void func_02029DBC(u8 *a, u32 b);
+extern void FIELD_SOUND_SYSTEM_LowerVolume(u8 *a, u32 b);
 
 T *func_02160D6C(int *a0, int a1)
 {
@@ -53,7 +53,7 @@ T *func_02160D6C(int *a0, int a1)
     p->b = func_0200CA1C(sys);
     p->c = func_02012944(p->a);
     s = func_02012A30(p->a);
-    func_02029DBC((u8 *)s, func_02012134((u32 *)(*(int *)a0[6])));
+    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)s, func_02012134((u32 *)(*(int *)a0[6])));
     if (a1 != -1) {
         p->h = a1;
     } else {

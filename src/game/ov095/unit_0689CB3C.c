@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 typedef struct {
-    u32 id[6];
+    void *id[6];
     u16 a[6];
     u16 b[6];
     u8 c[6];
@@ -37,7 +37,7 @@ typedef struct {
 } S;
 
 struct S {
-    u32 arr[16];
+    void *arr[16];
     u8 _40[0x42 - 0x40];
     u8 f42;
     u8 _43;
@@ -45,25 +45,25 @@ struct S {
 };
 
 void func_02082BCC(void *p, int v, int n);
-int func_021D5B68(u32 x);
+int func_021D5B68(void *x);
 int func_021D5440();
 int func_021B9A24(int a, int b);
 void func_0689CB3C(void *p);
-void func_0689CB48(S *p, u32 id);
-void func_0689CBB8(S *p, u32 id, u16 amt, int flag);
-void func_0689CC14(S *p, u32 id);
-u32 func_0689CC70(S *p, u32 i);
+void func_0689CB48(S *p, void *id);
+void func_0689CBB8(S *p, void *id, u16 amt, int flag);
+void func_0689CC14(S *p, void *id);
+void *func_0689CC70(S *p, u32 i);
 void func_0689CC84(char *p);
-int func_0689CC8C(struct S *s);
-int func_0689CCB4(S *p, u32 id, u32 *out);
-int func_0689CCF8(S *p, u32 id, u32 *out);
-int func_0689CD38(S *p);
+void *func_0689CC8C(struct S *s);
+int func_0689CCB4(S *p, void *id, u32 *out);
+int func_0689CCF8(S *p, void *id, u32 *out);
+u32 func_0689CD38(S *p);
 int func_0689CD40(S *p);
 void func_0689CD48(S *p, u8 v);
 int func_0689CD50(S *p);
 int func_0689CD78(S *p, S *q);
-int func_0689CDCC(S *p, int a, S *q);
-int func_0689CE58(S *p, int a, S *q);
+int func_0689CDCC(S *p, void *a, S *q);
+int func_0689CE58(S *p, void *a, S *q);
 
 
 void func_0689CB3C(void *p)
@@ -72,14 +72,14 @@ void func_0689CB3C(void *p)
 }
 
 
-void func_0689CB48(S *p, u32 id)
+void func_0689CB48(S *p, void *id)
 {
     u32 i;
     u8 n = p->n;
 
     if (n < 6) {
         for (i = 0; i < n; i++) {
-            u32 t = p->id[i];
+            void *t = p->id[i];
             if (t == id)
                 return;
         }
@@ -94,10 +94,10 @@ void func_0689CB48(S *p, u32 id)
 }
 
 
-void func_0689CBB8(S *p, u32 id, u16 amt, int flag)
+void func_0689CBB8(S *p, void *id, u16 amt, int flag)
 {
     u32 i;
-    u32 t;
+    void *t;
 
     func_0689CB48(p, id);
     for (i = 0; i < p->n; i++) {
@@ -115,12 +115,12 @@ void func_0689CBB8(S *p, u32 id, u16 amt, int flag)
 }
 
 
-void func_0689CC14(S *p, u32 id)
+void func_0689CC14(S *p, void *id)
 {
     u32 i;
     u32 j;
     u8 n = p->n;
-    u32 t;
+    void *t;
 
     for (i = 0; i < n; i++) {
         t = p->id[i];
@@ -135,7 +135,7 @@ void func_0689CC14(S *p, u32 id)
 }
 
 
-u32 func_0689CC70(S *p, u32 i)
+void *func_0689CC70(S *p, u32 i)
 {
     if (i < p->n)
         return p->id[i];
@@ -149,7 +149,7 @@ void func_0689CC84(char *p)
 }
 
 
-int func_0689CC8C(struct S *s)
+void *func_0689CC8C(struct S *s)
 {
     u8 a = s->f44;
 
@@ -167,10 +167,10 @@ int func_0689CC8C(struct S *s)
  */
 #pragma opt_common_subs off
 
-int func_0689CCB4(S *p, u32 id, u32 *out)
+int func_0689CCB4(S *p, void *id, u32 *out)
 {
     u32 i;
-    u32 t;
+    void *t;
     for (i = 0; i < p->n; i++) {
         t = p->id[i];
         if (t == id && p->c[i] != 0) {
@@ -182,10 +182,10 @@ int func_0689CCB4(S *p, u32 id, u32 *out)
 }
 
 
-int func_0689CCF8(S *p, u32 id, u32 *out)
+int func_0689CCF8(S *p, void *id, u32 *out)
 {
     u32 i;
-    u32 t;
+    void *t;
     for (i = 0; i < p->n; i++) {
         t = p->id[i];
         if (t == id && p->c[i] == 1) {
@@ -199,7 +199,7 @@ int func_0689CCF8(S *p, u32 id, u32 *out)
 #pragma opt_common_subs reset
 
 
-int func_0689CD38(S *p)
+u32 func_0689CD38(S *p)
 {
     return p->n;
 }
@@ -232,7 +232,7 @@ int func_0689CD78(S *p, S *q)
 {
     u32 i;
     u32 n;
-    u32 x;
+    void *x;
 
     func_0689CB3C(q);
     n = func_0689CD38(p);
@@ -245,11 +245,11 @@ int func_0689CD78(S *p, S *q)
 }
 
 
-int func_0689CDCC(S *p, int a, S *q)
+int func_0689CDCC(S *p, void *a, S *q)
 {
     u32 i;
     u32 n;
-    u32 x;
+    void *x;
     int s;
 
     func_0689CB3C(q);
@@ -264,11 +264,11 @@ int func_0689CDCC(S *p, int a, S *q)
 }
 
 
-int func_0689CE58(S *p, int a, S *q)
+int func_0689CE58(S *p, void *a, S *q)
 {
     u32 i;
     u32 n;
-    u32 x;
+    void *x;
     int s;
 
     func_0689CB3C(q);

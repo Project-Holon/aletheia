@@ -12,11 +12,11 @@
  *   func_0201ADE4 0x0201ADE4 thumb
  *   func_0201AE1C 0x0201AE1C thumb
  *   func_0201AE14 0x0201AE14 thumb
- *   func_0215642C 0x0215642C thumb ov009
- *   func_02017270 0x02017270 thumb
- *   func_020173B4 0x020173B4 thumb
- *   func_02015CAC 0x02015CAC thumb
- *   func_02015FF0 0x02015FF0 thumb
+ *   DWC_RAP_SetVchatTalkLock 0x0215642C thumb ov009
+ *   MCSS_TOOL_AddPokeMcss 0x02017270 thumb
+ *   MCSS_TOOL_SetAnimeStopCallback 0x020173B4 thumb
+ *   MCSS_SetScale 0x02015CAC thumb
+ *   MCSS_SetShadowVanishFlag 0x02015FF0 thumb
  *   func_021E33FC 0x021E33FC thumb ov119
  *   data_021E7B00 0x021E7B00 data a4
  *   data_021E7B0C 0x021E7B0C data a4
@@ -41,11 +41,11 @@ extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
 struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *h);
-extern void func_0215642C(int);
-extern void *func_02017270(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
-extern int func_020173B4(int a0);
-extern void func_02015CAC(void *p, u32 *src);
-extern void func_02015FF0(char *p, int v);
+extern void DWC_RAP_SetVchatTalkLock(int);
+extern void *MCSS_TOOL_AddPokeMcss(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
+extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
+extern void MCSS_SetScale(void *p, u32 *src);
+extern void MCSS_SetShadowVanishFlag(char *p, int v);
 extern void func_021E33FC(void *p0, int *dir, int p2, void *mon);
 void func_021E35A0(Work *p, int idx, int side, void *mon, int flag)
 {
@@ -61,15 +61,15 @@ void func_021E35A0(Work *p, int idx, int side, void *mon, int flag)
             v.x = -v.x;
     }
     if (p->mode == 2)
-        func_0215642C(1);
+        DWC_RAP_SetVchatTalkLock(1);
     if (side)
-        p->obj[idx] = func_02017270(p->res, mon, 0, t.v[idx], -0x1C000, 0);
+        p->obj[idx] = MCSS_TOOL_AddPokeMcss(p->res, mon, 0, t.v[idx], -0x1C000, 0);
     else
-        p->obj[idx] = func_02017270(p->res, mon, 1, t.v[idx], -0x1C000, 0);
+        p->obj[idx] = MCSS_TOOL_AddPokeMcss(p->res, mon, 1, t.v[idx], -0x1C000, 0);
     if (p->mode == 2)
-        func_0215642C(0);
-    func_020173B4((int)p->obj[idx]);
-    func_02015CAC(p->obj[idx], (u32 *)(&v));
-    func_02015FF0(p->obj[idx], 1);
+        DWC_RAP_SetVchatTalkLock(0);
+    MCSS_TOOL_SetAnimeStopCallback((int)p->obj[idx]);
+    MCSS_SetScale(p->obj[idx], (u32 *)(&v));
+    MCSS_SetShadowVanishFlag(p->obj[idx], 1);
     func_021E33FC(p->obj[idx], (int *)(&v), side, mon);
 }

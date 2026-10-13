@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {
-    u32 id[6];
+    void *id[6];
     u16 a[6];
     u16 b[6];
     u8 c[6];
@@ -30,7 +30,7 @@ typedef struct {
     u8 f45;
 } S;
 struct Cursor {
-    u32 arr[16];
+    void *arr[16];
     u8 _40[2];
     u8 f42;
     u8 _43;
@@ -38,12 +38,12 @@ struct Cursor {
 };
 extern void func_0689CC84(char *p);
 struct S;
-extern int func_0689CC8C(struct S *s);
-extern void func_0689CC14(S *p, u32 id);
-extern int func_021D5B68(u32 id);
+extern void *func_0689CC8C(struct S *s);
+extern void func_0689CC14(S *p, void *id);
+extern int func_021D5B68(void *id);
 void func_0689CEE4(S *p)
 {
-    u32 id;
+    void *id;
     func_0689CC84((char *)p);
     id = func_0689CC8C((struct S *)p);
     while (id) {

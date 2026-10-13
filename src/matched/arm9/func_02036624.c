@@ -1,5 +1,5 @@
 /*
- * function: func_02036624
+ * function: GFL_NET_RING_BUFF_WrapPos
  * address:  0x02036624
  * packet:   pkt_02036624
  * region:   arm9
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj15900.h"
 
-int func_02036624(void *p, int v)
+int GFL_NET_RING_BUFF_WrapPos(void *p, int v)
 {
     return v % ((struct Obj15900 *)p)->f4;
 }

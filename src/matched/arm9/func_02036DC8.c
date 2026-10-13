@@ -1,5 +1,5 @@
 /*
- * function: func_02036DC8
+ * function: GFL_NET_WM_ICON_GetCharName
  * address:  0x02036DC8
  * packet:   pkt_02036DC8
  * region:   arm9
@@ -32,7 +32,7 @@
  *   func_02034714        0x02034714  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02036DC8.c  *       --func func_02036DC8 --addr 0x02036DC8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_WM_ICON_GetCharName.c  *       --func GFL_NET_WM_ICON_GetCharName --addr 0x02036DC8 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -45,7 +45,7 @@ extern u32  GX_GetBankForOBJ(void);
 extern u32  GX_GetBankForSubOBJ(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-u32 func_02036DC8(u32 engine, u32 b)
+u32 GFL_NET_WM_ICON_GetCharName(u32 engine, u32 b)
 {
     int m;
 

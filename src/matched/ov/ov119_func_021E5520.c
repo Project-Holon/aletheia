@@ -12,7 +12,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   d_021E7D00 0x021E7D00 data a4
  */
 typedef unsigned short u16;
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0207DC44(int,int,int,int);
 extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern char d_021E7D00[];
 static inline void shading(Shading s) { *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3002) | (s << 1)); }
 static inline void antialias(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 0x10); else *(volatile u16 *)0x04000060 &= (u16)~0x3010; }
@@ -36,6 +36,6 @@ void func_021E5520(void)
     func_0207DC44(1,0,0,0);
     func_0207DD24(0,0,0x7fff,0x3f,0);
     *(volatile unsigned *)0x04000580 = 0xbfff0000;
-    for(i=0;i<4;i++) func_02046A94((u8)i,(const u16 *)(d_021E7D00+i*8));
+    for(i=0;i<4;i++) G3D_SYSTEM_SetLight((u8)i,(const u16 *)(d_021E7D00+i*8));
     *(volatile u16 *)0x04000008 = (u16)((*(volatile u16 *)0x04000008 & ~3) | 2);
 }

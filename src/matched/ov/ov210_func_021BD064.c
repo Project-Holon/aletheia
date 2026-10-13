@@ -10,7 +10,7 @@
  * volatile: hardware stores at 0x021BD0D8 and 0x021BD0DC.
  * symbols:
  *   func_021BCE58 0x021BCE58 thumb ov210
- *   func_02021ED8 0x02021ED8 thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   func_021BC330 0x021BC330 thumb ov210
  *   func_021BC2AC 0x021BC2AC thumb ov210
  *   func_021BC92C 0x021BC92C thumb ov210
@@ -33,7 +33,7 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021BCE58(char *);
-extern u32 func_02021ED8(const char *);
+extern u32 PALANM_GetFadeRequestBits(const char *);
 extern u32 func_021BC330(u8 *p);
 extern u32 func_021BC2AC(u8 *p);
 extern void func_021BC92C(u32);
@@ -52,7 +52,7 @@ extern void func_02034A5C(int);
 extern const char ov067_id[];
 int func_021BD064(char *p)
 {
-    if (func_021BCE58(p) == 1 || func_02021ED8(*(char * *)&((struct Obj00085 *)p)->fC) != 0) return 1;
+    if (func_021BCE58(p) == 1 || PALANM_GetFadeRequestBits(*(char * *)&((struct Obj00085 *)p)->fC) != 0) return 1;
     func_021BC330((u8 *)p);
     func_021BC92C(func_021BC2AC((u8 *)p));
     func_021BCC1C((u8 *)p);

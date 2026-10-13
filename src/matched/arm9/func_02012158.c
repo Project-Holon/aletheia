@@ -1,5 +1,5 @@
 /*
- * function: func_02012158
+ * function: GAMESYSTEM_SetAlwaysNetFlag
  * address:  0x02012158
  * packet:   pkt_02012158
  * region:   arm9
@@ -9,11 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * blocker:  02012BC8
+ *
+ * symbols:
+ *   GAME_DATA_SetConfigFlag  0x02012BC8  thumb
  */
 #include "../include/Obj15624.h"
 
-extern void func_02012BC8(unsigned char *p, int on);
-void func_02012158(char *p, unsigned int v)
+extern void GAME_DATA_SetConfigFlag(unsigned char *p, int on);
+void GAMESYSTEM_SetAlwaysNetFlag(char *p, unsigned int v)
 {
-    func_02012BC8((unsigned char *)((struct Obj15624 *)p)->f1C, v);
+    GAME_DATA_SetConfigFlag((unsigned char *)((struct Obj15624 *)p)->f1C, v);
 }

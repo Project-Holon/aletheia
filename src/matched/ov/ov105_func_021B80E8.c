@@ -28,6 +28,7 @@
  *   func_021B7250 0x021B7250 thumb ov101
  *   func_021B8340 0x021B8340 thumb ov105
  *   func_02035C60 0x02035C60 arm
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  */
 #include "../include/Obj01709.h"
 typedef unsigned char u8;
@@ -54,7 +55,7 @@ extern int func_021B7250(int *);
 extern void func_021B8340(u8 *,u16 *);
 extern int func_02035C60(void);
 extern void func_020061E4(u32);
-extern void func_02005D90(int,int);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern int func_02005F38(void);
 #define CTX (*(u8 **)(p+0x1a4))
 void func_021B80E8(u8 *p,u16 *state) {
@@ -79,10 +80,10 @@ void func_021B80E8(u8 *p,u16 *state) {
   if((((struct Obj01709 *)p)->f198)++>50) {
    ((struct Obj01709 *)p)->f198=0;
    switch(func_021B87E8(CTX[12],0)) {
-   case 5:func_02005D90(0x527,65535);break;
-   case 4:func_02005D90(0x528,65535);break;
-   case 1:case 2:case 3:func_02005D90(0x529,65535);break;
-   case 0:func_02005D90(0x529,65535);break;
+   case 5:GFL_USE_CancelChangeAndPlayBgm(0x527,65535);break;
+   case 4:GFL_USE_CancelChangeAndPlayBgm(0x528,65535);break;
+   case 1:case 2:case 3:GFL_USE_CancelChangeAndPlayBgm(0x529,65535);break;
+   case 0:GFL_USE_CancelChangeAndPlayBgm(0x529,65535);break;
    default:break;
    }
    *state=6;

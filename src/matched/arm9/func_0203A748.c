@@ -1,5 +1,5 @@
 /*
- * function: func_0203A748
+ * function: GFL_NET_COMMAND_GetSizeFunc
  * address:  0x0203A748
  * packet:   pkt_0203A748
  * region:   arm9
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203A67C  0x0203A67C  arm
+ *   GFL_NET_COMMAND_GetCommandTable  0x0203A67C  arm
  */
 
 typedef unsigned int u32;
 
 struct BaseTable;
-extern struct BaseTable *func_0203A67C(u32 cmd);
+extern struct BaseTable *GFL_NET_COMMAND_GetCommandTable(u32 cmd);
 
-int func_0203A748(u32 idx)
+int GFL_NET_COMMAND_GetSizeFunc(u32 idx)
 {
-    int *p = (int *)func_0203A67C(idx);
+    int *p = (int *)GFL_NET_COMMAND_GetCommandTable(idx);
     if (p != 0) {
         char *base = (char *)*p;
         u32 off = ((idx << 24) >> 21);

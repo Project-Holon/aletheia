@@ -14,7 +14,7 @@
  *   func_02045EC0  0x02045EC0  arm
  *   func_02045C04  0x02045C04  arm
  *   func_02019B58  0x02019B58  thumb
- *   func_02045A90  0x02045A90  arm
+ *   STRBUF_GetChars  0x02045A90  arm
  *   func_02017E40  0x02017E40  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_0202136C  0x0202136C  thumb
@@ -38,7 +38,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_02045C04(struct Rec *rec);
 extern void func_02019B58(void *mon);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void func_02017E40(void *mon, u32 id, u32 v);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u32 func_0202136C(u16 v);
@@ -59,11 +59,11 @@ void func_0220254C(void *mon, u32 heap)
     str = func_02045EC0(bank, 0xF);
     func_02045C04(bank);
     func_02019B58(mon);
-    func_02017E40(mon, 0x8E, (u32)func_02045A90(str));
+    func_02017E40(mon, 0x8E, (u32)STRBUF_GetChars(str));
     if (func_0202136C((u16)func_02017E1C(mon, 6, 0)) != 0) {
         buf = func_02008F08((u16)id);
         func_02017E1C(mon, 0xA7, (u32)buf);
-        func_02008F88(buf, func_02045A90(str));
+        func_02008F88(buf, STRBUF_GetChars(str));
         func_02017E40(mon, 0xA7, (u32)buf);
         func_020307B0(buf);
     }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202B254",
+   "name": "ISS_ROAD_SYS_HasPlayerMoved",
    "address": "0x0202B254",
    "kind": "game",
    "region": "arm9",

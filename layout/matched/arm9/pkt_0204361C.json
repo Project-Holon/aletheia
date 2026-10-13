@@ -58,7 +58,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02043754",
+   "name": "BMP_CreateFromVram",
    "address": "0x02043754",
    "kind": "game",
    "region": "arm9",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021739E0",
+   "name": "INTRUDE_COMM_SendTimeoutWarning",
    "address": "0x021739E0",
    "kind": "game",
    "region": "ov011",

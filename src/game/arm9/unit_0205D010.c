@@ -1,6 +1,6 @@
 /*
  * file:     unit_0205D010.c
- * function: func_0205D010
+ * function: DWC_GetParseWMBssDescWorkSize
  * address:  0x0205D010
  * packet:   pkt_0205D010
  * region:   arm9
@@ -14,7 +14,7 @@
  */
 
 extern void func_0205CF24(void);
-void func_0205D010(void)
+void DWC_GetParseWMBssDescWorkSize(void)
 {
     func_0205CF24();
 }

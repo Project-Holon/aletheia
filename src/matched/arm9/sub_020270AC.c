@@ -1,5 +1,5 @@
 /*
- * function: func_020270AC
+ * function: GAME_BEACON_CopyStrbufCodes
  * address:  0x020270AC
  * packet:   pkt_020266E0
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GX_GetBankForLCDC  0x02045A98  arm
- *   sub_02045A38       0x02045A38  arm
+ *   STRBUF_ToChars       0x02045A38  arm
  */
 
 typedef unsigned short u16;
@@ -19,16 +19,16 @@ typedef unsigned int   u32;
 
 extern u16 GX_GetBankForLCDC(void);
 struct U16Vec;
-extern void sub_02045A38(struct U16Vec *vec, u16 *out, u32 n);
+extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
 
-void func_020270AC(void *vec, u16 *dest)
+void GAME_BEACON_CopyStrbufCodes(void *vec, u16 *dest)
 {
     u16 buf[12];
     u16 stamp;
     int i;
 
     stamp = GX_GetBankForLCDC();
-    sub_02045A38(vec, buf, 12);
+    STRBUF_ToChars(vec, buf, 12);
 
     for (i = 0; i < 10; i++) {
         dest[i] = buf[i];

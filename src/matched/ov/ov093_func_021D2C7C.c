@@ -10,12 +10,12 @@
  * status: EXACT
  * symbols:
  *   func_020061E4 0x020061E4 thumb
- *   func_02006254 0x02006254 thumb
+ *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_020061E4(unsigned int);
-extern int func_02006254(unsigned int);
+extern int GFL_USE_IsSeqPlaying(unsigned int);
 int func_021D2C7C(int n)
 {
     switch (n) {
@@ -23,7 +23,7 @@ int func_021D2C7C(int n)
         func_020061E4(0x56b);
         break;
     case 5:
-        if (func_02006254(0x56b) != 0) return 1;
+        if (GFL_USE_IsSeqPlaying(0x56b) != 0) return 1;
         break;
     }
     return 0;

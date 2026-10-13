@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021AA7DC  0x021AA7DC  data ov009
@@ -62,7 +62,7 @@ typedef struct OSMutex {
     long count;
 } OSMutex;
 
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void func_02086028(void *mutex);
@@ -101,7 +101,7 @@ unsigned char *func_02166384(void)
     unsigned long e;
 
     mac = 0;
-    w = (WCMWork_02166384 *)func_021657C8();
+    w = (WCMWork_02166384 *)WCMi_GetSystemWork();
     e = OS_DisableInterrupts();
     if (w != 0) {
         if (w->phase == 9 && w->resetting == 0) {
@@ -129,7 +129,7 @@ unsigned char *func_021663C8(unsigned short *length)
 
     essid = 0;
     len = 0;
-    w = (WCMWork_021663C8 *)func_021657C8();
+    w = (WCMWork_021663C8 *)WCMi_GetSystemWork();
     e = OS_DisableInterrupts();
     if (w != 0) {
         if (w->phase == 9 && w->resetting == 0) {
@@ -176,13 +176,13 @@ long func_02166444(unsigned char *dstAddr, unsigned char *header, long headerLen
     unsigned long e;
 
     e = OS_DisableInterrupts();
-    w = (WCMWork_02166444 *)func_021657C8();
+    w = (WCMWork_02166444 *)WCMi_GetSystemWork();
     if (w == 0) {
         OS_RestoreInterrupts(e);
         return -1;
     }
     func_02086028(g_021AA7E8);
-    w = (WCMWork_02166444 *)func_021657C8();
+    w = (WCMWork_02166444 *)WCMi_GetSystemWork();
     if (w == 0) {
         OS_UnlockMutex(g_021AA7E8);
         OS_RestoreInterrupts(e);

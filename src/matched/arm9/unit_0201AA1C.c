@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201AA1C, sub_0201AA50, sub_0201AA88, sub_0201AAD4,
- *           sub_0201AB08, sub_0201AB18
+ * function: POKEPARTY_GetNonEggCount, POKEPARTY_GetBattleReadyCount, POKEPARTY_GetEggCount, POKEPARTY_GetBadEggCount,
+ *           POKEPARTY_FindFirstBattleReady, POKEPARTY_FindFirstNonEgg
  *
  * Four counters over the 0xDC-byte-record array container of
  * src/matched/unit_0201AB28.c and src/matched/unit_0201AC2C.c, plus the two
- * predicate-passing wrappers in front of the search routine sub_0201AD58.
- * Each counter walks 0 to sub_0201AA18(p) and tests one or two fields of the
+ * predicate-passing wrappers in front of the search routine POKEPARTY_FindFirst.
+ * Each counter walks 0 to POKEPARTY_GetCount(p) and tests one or two fields of the
  * entry through the getter func_02017E1C.
  *
  * The two sixteen-byte functions at 0x0201AB08 and 0x0201AB18 are not linker
@@ -30,11 +30,11 @@
  * count, which is the only thing that puts the index in r4 and the count in
  * r5 (docs/idioms/declaration-order-decides-which-register-a-local-gets.md);
  * the initialising assignments stay in the original's order, count first,
- * and are unaffected.  sub_0201AA50 is the exception and wants the other
+ * and are unaffected.  POKEPARTY_GetBattleReadyCount is the exception and wants the other
  * order, because there the element count lives in r7 rather than on the
  * stack.
  *
- * sub_0201AA50 really does call sub_0201AB28 twice with the same arguments
+ * POKEPARTY_GetBattleReadyCount really does call POKEPARTY_GetMember twice with the same arguments
  * and drops the first result.  A call is never dead-code eliminated by this
  * front end, so the discarded one is in the source; it is not a scheduling
  * artefact of the surviving call.
@@ -42,30 +42,37 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201AA1C.c \
  *       --addr 0x0201AA1C --thumb
+ *
+ * symbols:
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
+ *   POKEPARTY_IsBattleReady  0x0201AD18  thumb
+ *   POKEPARTY_IsNotEgg  0x0201AD40  thumb
+ *   POKEPARTY_FindFirst  0x0201AD58  thumb
  */
 
 typedef unsigned int u32;
 typedef int s32;
 
-extern u32 sub_0201AA18(void *p);
-extern void *sub_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32  func_02017E1C(void *entry, u32 id, u32 v);
-extern u32  sub_0201AD18(void *entry);
-extern u32  sub_0201AD40(void *entry);
+extern u32  POKEPARTY_IsBattleReady(void *entry);
+extern u32  POKEPARTY_IsNotEgg(void *entry);
 
 typedef u32 (*Predicate)(void *entry);
 
-extern u32 sub_0201AD58(void *p, Predicate pred);
+extern u32 POKEPARTY_FindFirst(void *p, Predicate pred);
 
-u32 sub_0201AA1C(void *p)
+u32 POKEPARTY_GetNonEggCount(void *p)
 {
     s32 i;
     u32 n = 0;
     s32 count;
 
-    count = sub_0201AA18(p);
+    count = POKEPARTY_GetCount(p);
     for (i = 0; i < count; i++) {
-        void *entry = sub_0201AB28(p, i);
+        void *entry = POKEPARTY_GetMember(p, i);
 
         if (func_02017E1C(entry, 0x4C, 0) != 1) {
             n++;
@@ -74,31 +81,31 @@ u32 sub_0201AA1C(void *p)
     return n;
 }
 
-u32 sub_0201AA50(void *p)
+u32 POKEPARTY_GetBattleReadyCount(void *p)
 {
     u32 n = 0;
     s32 count;
     s32 i;
 
-    count = sub_0201AA18(p);
+    count = POKEPARTY_GetCount(p);
     for (i = 0; i < count; i++) {
-        sub_0201AB28(p, i);
-        if (sub_0201AD18(sub_0201AB28(p, i)) != 0) {
+        POKEPARTY_GetMember(p, i);
+        if (POKEPARTY_IsBattleReady(POKEPARTY_GetMember(p, i)) != 0) {
             n++;
         }
     }
     return n;
 }
 
-u32 sub_0201AA88(void *p)
+u32 POKEPARTY_GetEggCount(void *p)
 {
     s32 i;
     u32 n = 0;
     s32 count;
 
-    count = sub_0201AA18(p);
+    count = POKEPARTY_GetCount(p);
     for (i = 0; i < count; i++) {
-        void *entry = sub_0201AB28(p, i);
+        void *entry = POKEPARTY_GetMember(p, i);
         u32 a = func_02017E1C(entry, 0x4C, 0);
         u32 b = func_02017E1C(entry, 3, 0);
 
@@ -109,15 +116,15 @@ u32 sub_0201AA88(void *p)
     return n;
 }
 
-u32 sub_0201AAD4(void *p)
+u32 POKEPARTY_GetBadEggCount(void *p)
 {
     s32 i;
     u32 n = 0;
     s32 count;
 
-    count = sub_0201AA18(p);
+    count = POKEPARTY_GetCount(p);
     for (i = 0; i < count; i++) {
-        void *entry = sub_0201AB28(p, i);
+        void *entry = POKEPARTY_GetMember(p, i);
 
         if (func_02017E1C(entry, 3, 0) == 1) {
             n++;
@@ -126,12 +133,12 @@ u32 sub_0201AAD4(void *p)
     return n;
 }
 
-u32 sub_0201AB08(void *p)
+u32 POKEPARTY_FindFirstBattleReady(void *p)
 {
-    return sub_0201AD58(p, sub_0201AD18);
+    return POKEPARTY_FindFirst(p, POKEPARTY_IsBattleReady);
 }
 
-u32 sub_0201AB18(void *p)
+u32 POKEPARTY_FindFirstNonEgg(void *p)
 {
-    return sub_0201AD58(p, sub_0201AD40);
+    return POKEPARTY_FindFirst(p, POKEPARTY_IsNotEgg);
 }

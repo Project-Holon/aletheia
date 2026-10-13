@@ -1,5 +1,5 @@
 /*
- * function: func_0200F83C
+ * function: GFL_NET_ERR_ShowSimpleScreen
  * address:  0x0200F83C
  * packet:   pkt_0200F83C
  * region:   arm9
@@ -11,25 +11,25 @@
  *
  * symbols:
  *   func_02010054        0x02010054  thumb
- *   func_02006210        0x02006210  thumb
- *   sub_0200FD38         0x0200FD38  thumb
+ *   GFL_USE_StopAllSe        0x02006210  thumb
+ *   GFL_NET_ERR_SaveDisplayAndDraw         0x0200FD38  thumb
  *   GX_VBlankIntr        0x0207D3E4  arm
  *   func_02037174        0x02037174  arm
- *   func_02037200        0x02037200  arm
+ *   GFL_NET_WM_ICON_EasyGetEngine        0x02037200  arm
  *   func_0201034C        0x0201034C  thumb
- *   sub_0200F824         0x0200F824  thumb
- *   sub_0200FEBC         0x0200FEBC  thumb
+ *   GFL_NET_ERR_UpdateNetwork         0x0200F824  thumb
+ *   GFL_NET_ERR_RestoreDisplay         0x0200FEBC  thumb
  *   func_02037190        0x02037190  arm
  *   GXS_SetGraphicsMode  0x0207D518  arm
- *   g_0214617C           0x0214617C  data
+ *   gNetErrWork           0x0214617C  data
  *
  * net_err.c's fatal-error screen: snapshots the sub-engine DISPCNT and the
  * WINOUT outside / OBJ-window planes of both engines, blanks and redraws
- * through sub_0200FD38, narrows the chosen engine's windowing to BG1+OBJ,
+ * through GFL_NET_ERR_SaveDisplayAndDraw, narrows the chosen engine's windowing to BG1+OBJ,
  * waits for A/B to be released and pressed (PAD_DetachedCover / PAD_Read
- * inlines, polling func_0201034C and sub_0200F824 per frame), restores via
- * sub_0200FEBC and puts the snapshotted window state back on whichever
- * engine func_02037200 now names.  Written directly from NitroSDK's
+ * inlines, polling func_0201034C and GFL_NET_ERR_UpdateNetwork per frame), restores via
+ * GFL_NET_ERR_RestoreDisplay and puts the snapshotted window state back on whichever
+ * engine GFL_NET_WM_ICON_EasyGetEngine now names.  Written directly from NitroSDK's
  * gx.h / g2.h inline shapes (GXDispCnt, GXWndPlane, G2[S]_SetWnd*Plane,
  * GX[S]_SetVisible*); exact on the first compile.
  */
@@ -67,17 +67,17 @@ typedef struct {
 } GXWndPlane;
 
 extern u32  func_02010054(void);
-extern void func_02006210(void);
-extern void sub_0200FD38(u32 a, u32 b);
+extern void GFL_USE_StopAllSe(void);
+extern void GFL_NET_ERR_SaveDisplayAndDraw(u32 a, u32 b);
 extern BOOL GX_VBlankIntr(BOOL on);
 extern void func_02037174(void);
-extern u32 func_02037200(void);
+extern u32 GFL_NET_WM_ICON_EasyGetEngine(void);
 extern int func_0201034C(void);
-extern void sub_0200F824(void);
-extern void sub_0200FEBC(BOOL a);
+extern void GFL_NET_ERR_UpdateNetwork(void);
+extern void GFL_NET_ERR_RestoreDisplay(BOOL a);
 extern void func_02037190(void);
 extern void GXS_SetGraphicsMode(u32 bgMode);
-extern u8   g_0214617C[];
+extern u8   gNetErrWork[];
 
 #define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
 #define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
@@ -182,7 +182,7 @@ static inline u16 KeyFilter(u16 k)
     return (u16)(k & ~((k & 0x40) << 1) & ~((k & 0x20) >> 1));
 }
 
-void func_0200F83C(void)
+void GFL_NET_ERR_ShowSimpleScreen(void)
 {
     GXDispCnt dispCnt = GXS_GetDispCnt();
     GXWndPlane outMain = G2_GetWndOutsidePlane();
@@ -193,11 +193,11 @@ void func_0200F83C(void)
     if (func_02010054() == 0) {
         return;
     }
-    func_02006210();
-    sub_0200FD38(0, 0);
+    GFL_USE_StopAllSe();
+    GFL_NET_ERR_SaveDisplayAndDraw(0, 0);
     GX_VBlankIntr(1);
     func_02037174();
-    if (func_02037200() == 1) {
+    if (GFL_NET_WM_ICON_EasyGetEngine() == 1) {
         G2_SetWndOutsidePlane(2, 0);
         G2_SetWndOBJInsidePlane(0x10, 0);
         GX_SetVisibleWnd(4);
@@ -210,15 +210,15 @@ void func_0200F83C(void)
     }
     while (PAD_DetachedCover() == 1 || (KeyFilter(PAD_Read()) & 3) != 0) {
         func_0201034C();
-        sub_0200F824();
+        GFL_NET_ERR_UpdateNetwork();
     }
     while (PAD_DetachedCover() == 1 || (KeyFilter(PAD_Read()) & 3) == 0) {
         func_0201034C();
-        sub_0200F824();
+        GFL_NET_ERR_UpdateNetwork();
     }
-    sub_0200FEBC(*(u32 *)(g_0214617C + 0x44) == 1);
+    GFL_NET_ERR_RestoreDisplay(*(u32 *)(gNetErrWork + 0x44) == 1);
     func_02037190();
-    if (func_02037200() == 2) {
+    if (GFL_NET_WM_ICON_EasyGetEngine() == 2) {
         GXS_SetGraphicsMode(dispCnt.bgMode);
         GXS_SetVisiblePlane(dispCnt.visiblePlane);
         GXS_SetVisibleWnd(dispCnt.visibleWnd);

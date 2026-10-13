@@ -1,5 +1,5 @@
 /*
- * function: func_02006AEC
+ * function: PM_VOICE_AddFrequency
  * address:  0x02006AEC
  * packet:   pkt_02006948
  * region:   arm9
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   g_02140488  0x02140488  data
- *   func_02072C40  0x02072C40  arm
+ *   NNS_SndWaveOutSetSpeed  0x02072C40  arm
  *
  * Advance a voice's sample cursor by `delta`: the sum is stored first and
  * the stored value is what is passed to the first call, so the source kept
@@ -21,8 +21,8 @@
  * as the same pointed-to additions again rather than reusing the local.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02006AEC.c \
- *       --func func_02006AEC --addr 0x02006AEC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PM_VOICE_AddFrequency.c \
+ *       --func PM_VOICE_AddFrequency --addr 0x02006AEC --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -44,9 +44,9 @@ struct Sub02006AECVoice {
 };
 
 extern struct Sub02006AECVoice g_02140488[];
-extern void func_02072C40(u32 a, u32 b);
+extern void NNS_SndWaveOutSetSpeed(u32 a, u32 b);
 
-void func_02006AEC(u32 idx, u32 delta)
+void PM_VOICE_AddFrequency(u32 idx, u32 delta)
 {
     struct Sub02006AECVoice *p;
     u32 v;
@@ -57,8 +57,8 @@ void func_02006AEC(u32 idx, u32 delta)
     }
     v = p->unk20 + delta;
     p->unk20 = v;
-    func_02072C40(p->unk14, v);
+    NNS_SndWaveOutSetSpeed(p->unk14, v);
     if (p->unk2C == 1) {
-        func_02072C40(p->unk18, p->unk20 + p->unk24);
+        NNS_SndWaveOutSetSpeed(p->unk18, p->unk20 + p->unk24);
     }
 }

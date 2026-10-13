@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02011298  0x02011298  thumb
+ *   VM_Control  0x02011298  thumb
  *   func_02011324  0x02011324  thumb
  *   func_021F8198  0x021F8198  thumb  ov094
  *   func_021FE410  0x021FE410  thumb  ov094
@@ -28,7 +28,7 @@ typedef struct {
 } T;
 
 struct ScriptVm;
-extern int func_02011298(struct ScriptVm *vm);
+extern int VM_Control(struct ScriptVm *vm);
 extern void *func_02011324(struct ScriptVm *vm);
 extern void func_021F8198(int a, int b);
 extern void func_021FE410(T *t, int a, int b, int c);
@@ -39,7 +39,7 @@ int func_021F9478(void *vm)
     int r;
     T *t;
 
-    r = func_02011298(vm);
+    r = VM_Control(vm);
     t = func_02011324(vm);
     if (t->b7)
         return 0;

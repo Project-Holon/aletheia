@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02177EB0",
-    "func_02177ED4",
-    "func_02177ED8"
+    "NET_WHPIPE_RequestEnd",
+    "NET_WHPIPE_AcceptChild",
+    "NET_WHPIPE_RejectChild"
+   ],
+   "addresses": [
+    "0x02177EB0",
+    "0x02177ED4",
+    "0x02177ED8"
    ],
    "evidence": {
     "sole-ref": [

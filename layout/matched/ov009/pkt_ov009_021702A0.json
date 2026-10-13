@@ -85,7 +85,7 @@
    }
   },
   {
-   "name": "func_0216B838",
+   "name": "DWC_GetMyAID",
    "address": "0x0216B838",
    "kind": "sdk",
    "region": "ov009",
@@ -102,7 +102,7 @@
    }
   },
   {
-   "name": "func_0216B880",
+   "name": "DWC_GetAIDList",
    "address": "0x0216B880",
    "kind": "sdk",
    "region": "ov009",
@@ -120,7 +120,7 @@
    }
   },
   {
-   "name": "func_0216B908",
+   "name": "DWC_GetAIDBitmap",
    "address": "0x0216B908",
    "kind": "sdk",
    "region": "ov009",
@@ -140,7 +140,7 @@
    }
   },
   {
-   "name": "func_0216B9B0",
+   "name": "DWC_GetServerAID",
    "address": "0x0216B9B0",
    "kind": "sdk",
    "region": "ov009",
@@ -209,7 +209,7 @@
    }
   },
   {
-   "name": "func_0216BEA4",
+   "name": "DWCi_CloseConnectionHard",
    "address": "0x0216BEA4",
    "kind": "sdk",
    "region": "ov009",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02039C2C",
+   "name": "GFL_NET_HANDLE_RecvTimingTag",
    "address": "0x02039C2C",
    "kind": "game",
    "region": "arm9",

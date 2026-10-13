@@ -1,5 +1,5 @@
 /*
- * function: func_0202E9AC
+ * function: BLINK_PALANM_LoadPalettes
  * address:  0x0202E9AC
  * packet:   pkt_0202E940
  * region:   arm9
@@ -45,7 +45,7 @@ struct CodeIn {
 
 struct Blink;
 
-void func_0202E9AC(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4)
+void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4)
 {
     void *tmp;
     void *handle;

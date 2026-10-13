@@ -1,7 +1,7 @@
 /*
  * file:     unit_0206AA78.c
  * unit:     yes
- * function: func_0206AA78, func_0206AA8C, func_0206AAB0
+ * function: NNS_G3dGlbLightColor, func_0206AA8C, func_0206AAB0
  * address:  0x0206AA78
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,11 +14,11 @@
  *
  * symbols:
  *   g_02148BF4       0x02148BF4  data
- *   g_02148B4C       0x02148B4C  data
+ *   g_renderState       0x02148B4C  data
  */
 #include "unit_0206A110_types.h"
 
-void func_0206AA78(int lightId, u32 lightColor);
+void NNS_G3dGlbLightColor(int lightId, u32 lightColor);
 void func_0206AA8C(u32 diffuse, u32 ambient, u32 isSetVtxColor);
 void func_0206AAB0(u32 specular, u32 emission, u32 isShininess);
 
@@ -29,10 +29,10 @@ void func_0206AAB0(u32 specular, u32 emission, u32 isShininess);
  * bits 30..31.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206AA78.c \
- *       --func func_0206AA78 --addr 0x0206AA78 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dGlbLightColor.c \
+ *       --func NNS_G3dGlbLightColor --addr 0x0206AA78 --cc 1.1p1 --arm
  */
-void func_0206AA78(int lightId, u32 lightColor)
+void NNS_G3dGlbLightColor(int lightId, u32 lightColor)
 {
     NNS_G3dGlb.lightColor[lightId] = lightColor | (u32)(lightId << 30);
 }
@@ -41,7 +41,7 @@ void func_0206AA78(int lightId, u32 lightColor)
 
 /*
  * Unlabelled leaf: no prologue, so disasm.py never traced it and it sits in
- * the 76-byte gap between func_0206AA78 and func_0206AAD4, between two of the
+ * the 76-byte gap between NNS_G3dGlbLightColor and func_0206AAD4, between two of the
  * flags object's literal pools.  NNS_G3dGlbMaterialColorDiffAmb: packs the
  * diffuse color, the set-vertex-color bit at bit 15 and the ambient color
  * into prmMatColor0 (0x02148B4C + 0x94).

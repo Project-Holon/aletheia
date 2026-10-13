@@ -1,5 +1,5 @@
 /*
- * function: func_021D9568
+ * function: P_STA_RIBBON_ShowDetail
  * address: 0x021D9568
  * packet: pkt_ov131_021D9568
  * region: ov131
@@ -25,7 +25,7 @@
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02040AE0 0x02040AE0 arm
- *   func_021DBF2C 0x021DBF2C thumb ov131
+ *   P_STA_RIBBON_GetRibbonInfo 0x021DBF2C thumb ov131
  */
 #include "../include/Obj02484.h"
 #include "../include/Obj03816.h"
@@ -49,8 +49,8 @@ extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,c
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
-extern u32 func_021DBF2C(u32,u32);
-void func_021D9568(u8 *a,u8 *p)
+extern u32 P_STA_RIBBON_GetRibbonInfo(u32,u32);
+void P_STA_RIBBON_ShowDetail(u8 *a,u8 *p)
 {
     void *cell;
     void *archive;
@@ -66,7 +66,7 @@ void func_021D9568(u8 *a,u8 *p)
     func_02045374(cell);
     func_02041B6C(func_02045730(cell));
     archive=func_020490F4(78,((struct Obj03816 *)a)->f0);
-    ((struct Obj02484 *)p)->f18=func_0204A6C8((void *)((u32)archive),func_021DBF2C(index,1),0,1,((struct Obj03816 *)a)->f0);
+    ((struct Obj02484 *)p)->f18=func_0204A6C8((void *)((u32)archive),P_STA_RIBBON_GetRibbonInfo(index,1),0,1,((struct Obj03816 *)a)->f0);
     func_02049238(archive);
     pos.x=128;
     pos.y=100;
@@ -74,7 +74,7 @@ void func_021D9568(u8 *a,u8 *p)
     pos.flags=0;
     pos.z=0;
     *(u32 *)&((struct Obj02484 *)p)->f1C=(u32)func_0204B294((void *)((struct Obj03816 *)a)->f174,((struct Obj02484 *)p)->f18,((struct Obj03816 *)a)->fB4,((struct Obj03816 *)a)->f128,&pos,1,((struct Obj03816 *)a)->f0);
-    func_0204B6F4(((struct Obj02484 *)p)->f1C,(u8)func_021DBF2C(index,2),1);
+    func_0204B6F4(((struct Obj02484 *)p)->f1C,(u8)P_STA_RIBBON_GetRibbonInfo(index,2),1);
     func_0204B3DC(((struct Obj02484 *)p)->f1C,1);
     func_02040AE0(6,*(u8 * *)&((struct Obj02484 *)p)->f38+12,((struct Obj23157 *)(*(u8 * *)&((struct Obj02484 *)p)->f38))->f8);
     func_02041B6C(6);

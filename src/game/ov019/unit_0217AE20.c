@@ -13,7 +13,6 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
  *   func_02012964  0x02012964  thumb
  *   func_02025C74  0x02025C74  thumb
  *   func_0216E618  0x0216E618  thumb  ov010
@@ -31,12 +30,10 @@
  *   func_0216CF2C  0x0216CF2C  thumb  ov010
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02087C6C  0x02087C6C  arm
- *   func_0203EFC8  0x0203EFC8  arm
  *   func_0217F894  0x0217F894  thumb  ov019
  *   func_0200EDC4  0x0200EDC4  thumb
  *   func_0217F948  0x0217F948  thumb  ov019
  *   memcmp  0x0203EFC8  arm
- *   memset        0x02082BCC  arm
  *   func_02012114 0x02012114  thumb
  *   func_0217F93C 0x0217F93C  thumb  ov019
  *   func_02012EBC  0x02012EBC  thumb
@@ -95,29 +92,6 @@
  *   func_02173420  0x02173420  thumb  ov012
  *   func_02172D50  0x02172D50  thumb  ov012
  */
-#include "../../matched/include/Obj19389.h"
-#include "../../matched/include/Obj19390.h"
-#include "../../matched/include/Obj07379.h"
-#include "../../matched/include/Obj07380.h"
-#include "../../matched/include/Obj12518.h"
-#include "../../matched/include/Obj07381.h"
-#include "../../matched/include/Obj12521.h"
-#include "../../matched/include/Obj19401.h"
-#include "../../matched/include/Obj19402.h"
-#include "../../matched/include/Obj09409.h"
-#include "../../matched/include/Obj19403.h"
-#include "../../matched/include/Obj07382.h"
-#include "../../matched/include/Obj12522.h"
-
-struct BigObj;
-struct Ctx;
-struct ent_0217AE20;
-struct L0200EDC4;
-struct Big;
-struct obj;
-struct Obj00020;
-struct Src;
-struct Reg;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
@@ -126,305 +100,141 @@ typedef short s16;
 
 typedef unsigned int u32;
 
-typedef union { u32 w[9]; u16 h[18]; } Tmpl;
-
-typedef struct { s16 x, y; } Pt;
+typedef signed int     s32;
 
 typedef enum { FALSE, TRUE } BOOL;
 
-typedef struct { u8 *p; u8 f4,f5,f6,f7; u8 pad[4]; } Ent_0217AF04;
+typedef struct { s32 x, y, z; } VecFx32;
+#include "../ov012/union_comm_types.h"
+#include "unit_0217AE20_types.h"
 
-typedef struct {
-    u8 pad[0x6b];
-    u8 f6b;
-    u16 f6c;
-} Obj_0217AE20;
+struct GameData;
+struct GameSystem;
+struct Regulation;
 
-typedef struct {
-    Obj_0217AE20 *f0;
-    u8 pad4[2];
-    u8 f6, f7, f8, f9;
-    u8 pad[2];
-} Ent_0217AF4C;
+void MI_CpuFill8(void *dstp, u8 data, u32 size);
+int memcmp(const void *a, const void *b, int n);
 
-typedef struct {
-    int f0;
-    u8 f4, f5, f6, f7, f8, f9;
-    u8 pad[2];
-} Ent_0217AFE4;
-
-typedef struct {
-    u8 pad[6];
-    u8 f6;
-    u8 f7 : 1;
-} Src;
-
-typedef struct {
-    u8 mac[6];
-    u8 pad;
-    u8 f0 : 1;
-    u8 f1 : 1;
-} Ent8;
-
-typedef struct {
-    u8 pad[0x28];
-    Ent8 tab[5];
-    u8 pad2[0x5c - 0x50];
-    int f5c;
-    u8 pad3[0x6c - 0x60];
-    u16 f6c;
-    u8 pad4[2];
-    u8 *slot[5];
-} Obj_0217B054;
-
-typedef signed int     s32;
-
-struct sub {
-    u8 mac[6];
-    u8 pad;
-    u8 : 1;
-    u8 f : 1;
-    u8 : 6;
-};
-
-struct ent_0217AE20 {
-    u8 pad0[7];
-    u8 : 4;
-    u8 on : 1;
-    u8 : 3;
-    u8 pad1[0x20];
-    struct sub s[5];
-    u8 pad2[0x1c];
-    u16 cnt;
-    u8 pad3[0x1e];
-};
-
-struct ent_0217B1D0 {
-    u8 pad0[0x28];
-    struct sub s[5];
-    u8 pad1[0x20];
-    int p[5];
-};
-
-struct inner {
-    int pad0[2];
-    int f8;
-    int fc;
-};
-
-struct obj {
-    struct inner *in;
-};
-
-typedef struct Entry_0217B1D0 {
-    u8   pad0[7];
-    u8   f7_lo : 4;
-    u8   active : 1;
-    u8   f7_hi : 3;
-    u8   pad8[0x6C - 8];
-    u16  h6C;
-    u16  pad6E;
-    void *slots[5];
-    u8   pad84[8];
-} Entry_0217B1D0;
-
-typedef int (*fn_t)(char *, unsigned char *, int, unsigned char *);
-
-struct ent_0217B370 { fn_t f; int a; int b; };
-
-struct ent_0217B440 {
-    u8 pad0[7];
-    u8 : 4;
-    u8 on : 1;
-    u8 : 3;
-    u8 pad1[0x54];
-    int f5c;
-    u8 pad2[0x10];
-    int *p70;
-    u8 pad3[0x18];
-};
-
-typedef struct Rec {
-    u8 pad0[6];
-    u8 b6;
-    u8 f7_lo : 1;
-    u8 valid : 1;
-    u8 f7_hi : 6;
-} Rec;
-
-typedef struct Entry_0217B370 {
-    u8   pad0[6];
-    u8   n : 3;
-    u8   f6_hi : 5;
-    u8   f7_lo : 5;
-    u8   kind : 3;
-    u8   pad8[3];
-    u8   bB;
-    u8   padC[0x28 - 0xC];
-    Rec  recs[8];
-    u8   pad68[4];
-    u16  h6C;
-} Entry_0217B370;
-
-typedef struct Msg {
-    Entry_0217B370 *e;
-    u8     b4;
-    u8     b5;
-    u8     idx;
-} Msg;
-
-struct S {
-    char pad[0x58];
-    u16 f58;
-};
-
-typedef struct {
-    u8 pad[7];
-    unsigned char low : 4;
-    unsigned char flag : 1;
-    unsigned char high : 3;
-} Flags;
-
-struct ent { fn_t f; int a; int b; };
-
-typedef struct { struct { void *f0; } *head; } Work_0217AE20;
-
-typedef struct Entry {
-    u8 pad0[0xB];
-    u8 bB;
-    u8 padC[0x8C - 0xC];
-} Entry;
-
-typedef struct Work_0217BB70 {
-    u8    pad0[0x2910];
-    Entry entries[10];
-} Work_0217BB70;
-
-void func_02082BCC(void *p, int v, int n);
-extern u32 func_02012964(const struct BigObj *p);
-extern u32 func_02025C74(u32 x);
-extern void func_0216E618(void *, u32, u32, int);
-extern int func_0216CE60(int, void *, int);
-extern void *func_0216DE94(void *,unsigned int);
+extern u32 func_02012964(const struct GameData *gameData);
+extern u32 func_02025C74(u32 trainerView);
+extern void func_0216E618(void *header, u32 gridX, u32 gridZ, int gridY);
+extern int func_0216CE60(int mmdlSys, void *header, int param);
+extern void *func_0216DE94(void *mmdlSys, unsigned int objId);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_0216DAC8(unsigned int *p, unsigned int v);
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188CE0(u8 *p);
-extern void func_0217F958(char *p, u32 key);
-extern void func_0216CF2C(void *);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void func_02087C6C(void *);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, unsigned int n);
-extern int func_0217F894(void *p, char *q);
-extern int func_0200EDC4(struct L0200EDC4 *l, u32 val);
-extern void func_0217F948(char *p, u32 a, u32 b);
-extern int memcmp(const void *a, const void *b, int n);
-extern void memset(void *p, int v, int n);
-extern unsigned int func_02012114(const struct Ctx *p);
-extern void func_0217F93C(int, int);
-extern void *func_02012EBC(struct Big *p);
-extern void *func_0200ED48(void *p);
-extern u32 func_0201283C(const struct BigObj *p);
-extern int func_0217F060(int i);
-extern int func_0217F858(int a);
-extern int func_0216D3CC(int a0);
-extern void func_0216D410(void *a0, u16 a1);
-extern u16 func_0216D5A0(void *p);
-extern int func_0216E0E8(int a0, int a1);
-extern void func_0216D828(int, s16 *);
-extern int func_0216D454(int);
-extern int func_0216D480(char *p);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(unsigned char *p);
-extern u16 func_0216D5F8(void *p);
-extern u32 *func_0216D548(u32 *p, u32 v);
-extern u32 *func_0216D550(u32 *p, u32 v);
-extern void func_021BBA70(struct Ctx *ctx, struct Src *src, u16 *v, u8 kind);
-extern void func_021734A8(u8 *self, u32 id, u32 v);
-extern unsigned int func_02012138(const struct Ctx *p);
-extern u32 func_02026474(void *obj);
-extern int func_0217413C(int, int, unsigned char *);
-extern void *func_0200BAC8(void *);
-extern unsigned int func_0200BBA8(void *);
-extern void *func_0200BAF4(int, int);
+extern void func_0216DAC8(unsigned int *mmdl, unsigned int vanish);
+extern void *func_0201210C(struct GameSystem *gameSystem);
+extern u32 func_02188CE0(void *fieldMap);
+extern void func_0217F958(char *markSys, u32 mmdl);
+extern void func_0216CF2C(void *mmdl);
+extern void func_02087C6C(void *ownMac);
+extern int func_0217F894(void *wifiFriends, UnionBeaconPc *beaconPc);
+extern int func_0200EDC4(void *metTrainers, u32 trainerId);
+extern void func_0217F948(char *markSys, u32 mmdl, u32 kind);
+extern unsigned int func_02012114(struct GameSystem *gameSystem);
+extern void func_0217F93C(int markSys, int mmdl);
+extern void *func_02012EBC(const struct GameData *gameData);
+extern void *func_0200ED48(void *saveControl);
+extern u32 func_0201283C(const struct GameData *gameData);
+extern int func_0217F060(int status);
+extern int func_0217F858(int status);
+extern int func_0216D3CC(int mmdl);
+extern void func_0216D410(void *mmdl, u16 acmd);
+extern u16 func_0216D5A0(void *mmdl);
+extern int func_0216E0E8(int mmdl, int moveCode);
+extern void func_0216D828(int mmdl, s16 *pos);
+extern int func_0216D454(int mmdl);
+extern int func_0216D480(char *mmdl);
+extern void *func_02188CB4(void *fieldMap);
+extern void *func_021A3074(void *fieldPlayer);
+extern u16 func_0216D5F8(void *mmdl);
+extern u32 *func_0216D548(u32 *mmdl, u32 bit);
+extern u32 *func_0216D550(u32 *mmdl, u32 bit);
+extern void func_021BBA70(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *outValue, u8 mode);
+extern void func_021734A8(UnionRoomWork *work, u32 id, u32 value);
+extern unsigned int func_02012138(struct GameSystem *gameSystem);
+extern u32 func_02026474(void *gameComm);
+extern int func_0217413C(struct GameSystem *gameSystem, void *fieldMap, UnionRoomWork *work);
+extern void *func_0200BAC8(void *saveControl);
+extern unsigned int func_0200BBA8(void *battleTeam);
+extern void *func_0200BAF4(int battleTeam, int heapId);
 extern u32 func_020307B0(void *p);
-extern void func_0201A364(int a, unsigned int b);
-extern void func_0200AEE8(struct Reg *p, u32 id, s32 value);
-extern void *func_02012934(const struct BigObj *p);
-extern int func_0201A090(void *, void *, unsigned int *);
-extern void func_021A2E44(int, unsigned int);
+extern void func_0201A364(int regulationId, struct Regulation *regulation);
+extern void func_0200AEE8(struct Regulation *regulation, u32 id, s32 value);
+extern void *func_02012934(const struct GameData *gameData);
+extern int func_0201A090(struct Regulation *regulation, void *party, unsigned int *violationMask);
+extern void func_021A2E44(void *fieldMap, unsigned int busy);
 extern unsigned int func_0200FB24(void);
-extern void func_02173524(Work_0217AE20 *w, u8 *p);
-extern void func_0217F074(void *ctx);
-extern void *func_02188C7C(u8 *p);
-extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
-extern void  func_02172D20(u8 *w);
-extern int   func_02172D68(u8 *w);
-extern u16   func_0216D588(void *p);
-extern void *func_0216DDC0(u32 a, u32 b, u32 c, u32 d);
+extern void func_02173524(UnionRoomWork *work, UnionConnectInfo *connect);
+extern void func_0217F074(UnionRoomWork *work);
+extern void *func_02188C7C(void *fieldMap);
+extern int func_021A3460(u32 fieldPlayer, u32 outGridX, u32 outGridY, u32 outGridZ);
+extern void  func_02172D20(UnionRoomWork *work);
+extern int   func_02172D68(UnionRoomWork *work);
+extern u16   func_0216D588(void *mmdl);
+extern void *func_0216DDC0(u32 mmdlSys, u32 gridX, u32 gridZ, u32 gridY);
 extern int   func_0203D1B4(void);
 extern u32   func_020362DC(void);
-extern int func_0217F7E4(u32 arg);
-extern unsigned int func_0217F1EC(u8 *p);
-extern void func_02012124(struct Ctx *p, u32 v);
-extern void func_02172D38(u8 *p);
-extern void func_02173420(int *a);
-extern void func_02172D50(u8 *p);
-void func_0217AE20(u8 *w);
-int func_0217AE38(char *p, char v);
-int func_0217AE40(void *a, int b, u16 c, int d);
-u16 func_0217AED4(u8 *a, u8 *b);
-BOOL func_0217AEE8(u16 a);
-u16 func_0217AEFC(unsigned int x);
-int func_0217AF04(u8 *a, u16 key);
-int func_0217AF38(u16 a);
-int func_0217AF4C(char *a, u16 key);
-void *func_0217AFB0(void **a,u8 *b,u8 *c);
-Ent_0217AFE4 *func_0217AFE4(char *a, int b, Src *c, int d, int e, int *f);
-void func_0217B054(u8 *w, Entry_0217B1D0 *ent_0217AE20, void *c);
-void func_0217B098(u8 *w, u32 a, u32 b, u32 c, Entry_0217B1D0 *ent_0217AE20);
-int func_0217B158(char *base, struct ent_0217AE20 *excl, u8 *mac);
-int func_0217B1D0(struct obj *o, struct ent_0217B1D0 *e);
-void func_0217B264(u8 *w, void *sys, void *q);
-int func_0217B370(char *base, unsigned char *p, int r2);
-int func_0217B3EC(char *base, char *p);
-void func_0217B440(char *base, int x, void *y);
-int func_0217B4C4(u8 *w, Msg *m);
-int func_0217B5E0(char *base, int *p, int r2, unsigned char *state);
-int func_0217B66C(char *base, int *p, int r2, unsigned char *state);
-int func_0217B6B4(char *base, int *p, int r2, unsigned char *state);
-void func_0217B75C(char *p);
-void func_0217B798(char *base, u8 *p);
-int func_0217B80C(int a, int b);
-int func_0217B83C(void *sys, void *pos);
-int func_0217B840(char *base, int r1);
-int func_0217B8E4(char *p, int v);
-int func_0217B8F0(char *p, char v);
-int func_0217B908(int x);
-int func_0217B974(int x);
-int func_0217B9BC(unsigned int x);
-void *func_0217B9CC(char *p);
-void func_0217B9F4(void *p);
-void func_0217BA10(char *p, int x);
-int func_0217BA48(char *p, unsigned int *mask);
-int func_0217BA6C(char *p, unsigned int *mask);
-int func_0217BAA8(int a, int b, int *p, int *q);
-void func_0217BAF0(char *p, int x, unsigned int v);
-int func_0217BB04(char *p);
-int func_0217BB20(char *p);
-int func_0217BB3C(u8 *ctx, u8 *obj, int a);
-int func_0217BB70(u8 *w, u8 *obj, void *q);
-int func_0217BCDC(int *a, u8 *b, int c, u8 *d);
-extern const Tmpl d_0217FFF8;
-extern const Pt d_0218001C[];
-extern const Pt d_0217FFE4[];
+extern int func_0217F7E4(u32 fieldMap);
+extern unsigned int func_0217F1EC(UnionRoomWork *work);
+extern void func_02012124(struct GameSystem *gameSystem, u32 state);
+extern void func_02172D38(UnionRoomWork *work);
+extern void func_02173420(UnionRoomWork *work);
+extern void func_02172D50(UnionRoomWork *work);
+void func_0217AE20(UnionRoomWork *work);
+int func_0217AE38(UnionCharaSlot *slot, char nextAction);
+int func_0217AE40(UnionRoomWork *work, struct GameData *gameData, u16 trainerView, int objId);
+u16 func_0217AED4(UnionBeaconPc *beaconPc, UnionCharaSlot *slot);
+BOOL func_0217AEE8(u16 objId);
+u16 func_0217AEFC(unsigned int objId);
+int func_0217AF04(UnionRoomWork *work, u16 objId);
+int func_0217AF38(u16 objId);
+int func_0217AF4C(UnionRoomWork *work, u16 objId);
+void *func_0217AFB0(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionCharaSlot *slot);
+UnionCharaSlot *func_0217AFE4(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionMember *member, int memberIndex, int visible, int *mmdlOut);
+void func_0217B054(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionCharaSlot *slot);
+void func_0217B098(UnionRoomWork *work, u32 metTrainers, u32 wifiFriends, u32 markSys, UnionBeaconPc *beaconPc);
+int func_0217B158(UnionRoomWork *work, UnionBeaconPc *ownerPc, u8 *mac);
+int func_0217B1D0(UnionRoomWork *work, UnionBeaconPc *beaconPc);
+void func_0217B264(UnionRoomWork *work, struct GameData *gameData, void *fieldMap);
+int func_0217B370(UnionRoomWork *work, UnionCharaSlot *slot, void *fieldMap);
+int func_0217B3EC(UnionRoomWork *work, UnionBeaconPc *beaconPc);
+void func_0217B440(UnionRoomWork *work, struct GameData *gameData, void *fieldMap);
+int func_0217B4C4(UnionRoomWork *work, UnionCharaSlot *slot);
+int func_0217B5E0(UnionRoomWork *work, UnionCharaSlot *slot, void *fieldMap, u8 *step);
+int func_0217B66C(UnionRoomWork *work, UnionCharaSlot *slot, void *fieldMap, u8 *step);
+int func_0217B6B4(UnionRoomWork *work, UnionCharaSlot *slot, void *fieldMap, u8 *step);
+void func_0217B75C(UnionRoomWork *work);
+void func_0217B798(UnionRoomWork *work, UnionBeaconPc *beaconPc);
+int func_0217B80C(struct GameSystem *gameSystem, void *fieldMap);
+int func_0217B83C(void *gameSystem, void *pos);
+int func_0217B840(UnionRoomWork *work, void *fieldMap);
+int func_0217B8E4(UnionRoomWork *work, int playCategory);
+int func_0217B8F0(UnionRoomWork *work, char playCategory);
+int func_0217B908(int status);
+int func_0217B974(int status);
+int func_0217B9BC(unsigned int status);
+void *func_0217B9CC(UnionRoomWork *work);
+void func_0217B9F4(void *party);
+void func_0217BA10(UnionRoomWork *work, int status);
+int func_0217BA48(UnionRoomWork *work, unsigned int *violationMask);
+int func_0217BA6C(UnionRoomWork *work, unsigned int *violationMask);
+int func_0217BAA8(UnionRoomWork *work, int status, unsigned int *myPartyMask, unsigned int *battleTeamMask);
+void func_0217BAF0(UnionRoomWork *work, void *fieldMap, unsigned int busy);
+int func_0217BB04(UnionRoomWork *work);
+int func_0217BB20(UnionRoomWork *work);
+int func_0217BB3C(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap);
+int func_0217BB70(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap);
+int func_0217BCDC(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap, u8 *step);
+extern const UnionCharaMmdlHeader d_0217FFF8;
+extern const UnionGridPos d_0218001C[];
+extern const UnionGridPos d_0217FFE4[];
 extern const char d_021807E0[];
-extern struct ent_0217B370 d_02180044[];
-extern struct ent_0217B370 d_02180048[];
-extern struct ent_0217B370 d_0218004C[];
-extern struct ent d_02180074[];
-extern struct ent d_02180078[];
-extern struct ent d_0218007C[];
+extern UnionCharaActionEntry d_02180044[];
+extern UnionCharaActionEntry d_02180048[];
+extern UnionCharaActionEntry d_0218004C[];
+extern UnionOneselfActionEntry d_02180074[];
+extern UnionOneselfActionEntry d_02180078[];
+extern UnionOneselfActionEntry d_0218007C[];
 extern const char d_021807E4[];
 
 
@@ -432,18 +242,18 @@ extern const char d_021807E4[];
 
 
 
-void func_0217AE20(u8 *w)
+void func_0217AE20(UnionRoomWork *work)
 {
-    func_02082BCC(w + 0x2e88, 0, 0x258);
+    MI_CpuFill8(work->charaSlot, 0, sizeof(UnionCharaSlot) * UNION_CHARA_MAX);
 }
 
 
 
 
 
-int func_0217AE38(char *p, char v)
+int func_0217AE38(UnionCharaSlot *slot, char nextAction)
 {
-    p[9] = v;
+    slot->nextAction = nextAction;
     return 1;
 }
 
@@ -458,74 +268,74 @@ int func_0217AE38(char *p, char v)
  * the local; as u16 the reload stays after it (see
  * docs/notes/pkt_ov019_0217AE40.c.txt for the earlier near miss).
  */
-int func_0217AE40(void *a, int b, u16 c, int d)
+int func_0217AE40(UnionRoomWork *work, struct GameData *gameData, u16 trainerView, int objId)
 {
-    int t;
-    u16 hi, lo;
-    Tmpl l;
+    int mmdlSys;
+    u16 beaconIndex, memberIndex;
+    UnionCharaMmdlHeader header;
 
-    t = func_02012964((const struct BigObj *)b);
-    hi = (u16)(d >> 8);
-    lo = (u16)((d & 0xff) - 0x20);
-    l = d_0217FFF8;
-    l.h[0] = d;
-    l.h[1] = func_02025C74(c);
-    if (lo != 0)
-        l.h[2] = 15;
-    func_0216E618(&l, (u16)(d_0218001C[hi].x + d_0217FFE4[lo].x),
-                  (u16)(d_0218001C[hi].y + d_0217FFE4[lo].y), 0);
-    return func_0216CE60(t, &l, 422);
+    mmdlSys = func_02012964(gameData);
+    beaconIndex = (u16)(objId >> 8);
+    memberIndex = (u16)((objId & 0xff) - 0x20);
+    header = d_0217FFF8;
+    header.f.objId = objId;
+    header.f.graphicsId = func_02025C74(trainerView);
+    if (memberIndex != 0)
+        header.f.moveCode = 15;
+    func_0216E618(&header, (u16)(d_0218001C[beaconIndex].x + d_0217FFE4[memberIndex].x),
+                  (u16)(d_0218001C[beaconIndex].z + d_0217FFE4[memberIndex].z), 0);
+    return func_0216CE60(mmdlSys, &header, 422);
 }
 
 
 
 
 
-u16 func_0217AED4(u8 *a, u8 *b) { return (a[0x6b] << 8) | (b[6] + 0x20); }
+u16 func_0217AED4(UnionBeaconPc *beaconPc, UnionCharaSlot *slot) { return (beaconPc->index << 8) | (slot->memberIndex + 0x20); }
 
 
 
 
 
-BOOL func_0217AEE8(u16 a) { if ((u16)((unsigned char)a - 0x20) == 0) return FALSE; else return TRUE; }
+BOOL func_0217AEE8(u16 objId) { if ((u16)((unsigned char)objId - 0x20) == 0) return FALSE; else return TRUE; }
 
 
 
 
 
 
-u16 func_0217AEFC(unsigned int x)
+u16 func_0217AEFC(unsigned int objId)
 {
-    return (u16)(x >> 8);
+    return (u16)(objId >> 8);
 }
 
 
 
 
 
-int func_0217AF04(u8 *a, u16 key) { int i; Ent_0217AF04 *p; p = (Ent_0217AF04 *)(a+0x2e88); for(i=0;i<50;i++,p++) { if(p->f7 == 1 && p->p != 0 && key == func_0217AED4(p->p,(u8 *)p)) return p->f5; } return 0; }
+int func_0217AF04(UnionRoomWork *work, u16 objId) { int i; UnionCharaSlot *slot; slot = work->charaSlot; for(i=0;i<UNION_CHARA_MAX;i++,slot++) { if(slot->inUse == 1 && slot->beaconPc != 0 && objId == func_0217AED4(slot->beaconPc,slot)) return slot->sex; } return 0; }
 
 
 
 
 
-int func_0217AF38(u16 a) { unsigned int v; v = (unsigned char)a; if ((u16)v >= 0x20) return 1; else return 0; }
+int func_0217AF38(u16 objId) { unsigned int memberKey; memberKey = (unsigned char)objId; if ((u16)memberKey >= 0x20) return 1; else return 0; }
 
 
 
 
 
 
-int func_0217AF4C(char *a, u16 key)
+int func_0217AF4C(UnionRoomWork *work, u16 objId)
 {
-    Ent_0217AF4C *p;
+    UnionCharaSlot *slot;
     int i;
 
-    p = (Ent_0217AF4C *)(a + 0x2E88);
-    for (i = 0; i < 50; i++, p++) {
-        if (p->f7 == 1 && p->f0 != 0 && p->f0->f6c != 0
-            && key == ((p->f0->f6b << 8) | (p->f6 + 0x20))) {
-            if (p->f8 == 2 || p->f8 == 1 || (u8)(p->f9 + 0xff) <= 1)
+    slot = work->charaSlot;
+    for (i = 0; i < UNION_CHARA_MAX; i++, slot++) {
+        if (slot->inUse == 1 && slot->beaconPc != 0 && slot->beaconPc->life != 0
+            && objId == ((slot->beaconPc->index << 8) | (slot->memberIndex + 0x20))) {
+            if (slot->action == 2 || slot->action == 1 || (u8)(slot->nextAction + 0xff) <= 1)
                 return 0;
             return 1;
         }
@@ -537,33 +347,33 @@ int func_0217AF4C(char *a, u16 key)
 
 
 
-void *func_0217AFB0(void **a,u8 *b,u8 *c) { u16 key; void *p; key = func_0217AED4(b,c); p = func_0216DE94((void *)func_02012964(((struct Obj19389 *)((u8 *)*a))->f8),key); if(p == 0) func_02034714(d_021807E0,0,d_021807E0); return p; }
+void *func_0217AFB0(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionCharaSlot *slot) { u16 objId; void *mmdl; objId = func_0217AED4(beaconPc,slot); mmdl = func_0216DE94((void *)func_02012964(work->parent->gameData),objId); if(mmdl == 0) func_02034714(d_021807E0,0,d_021807E0); return mmdl; }
 
 
 
 
 
 
-Ent_0217AFE4 *func_0217AFE4(char *a, int b, Src *c, int d, int e, int *f)
+UnionCharaSlot *func_0217AFE4(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionMember *member, int memberIndex, int visible, int *mmdlOut)
 {
-    Ent_0217AFE4 *p;
+    UnionCharaSlot *slot;
     int i;
-    int r;
+    int mmdl;
 
-    p = (Ent_0217AFE4 *)(a + 0x2E88);
-    for (i = 0; i < 50; i++, p++) {
-        if (p->f7 == 0) {
-            p->f0 = b;
-            p->f4 = c->f6;
-            p->f5 = c->f7;
-            p->f6 = d;
-            p->f7 = 1;
-            r = func_0217AED4((u8 *)b, (u8 *)p);
-            r = func_0217AE40(a, ((int *)((struct Obj19390 *)a)->f0)[2], c->f6, r);
-            if (e == 0)
-                func_0216DAC8((unsigned int *)r, 1);
-            *f = r;
-            return p;
+    slot = work->charaSlot;
+    for (i = 0; i < UNION_CHARA_MAX; i++, slot++) {
+        if (slot->inUse == 0) {
+            slot->beaconPc = beaconPc;
+            slot->trainerView = member->trainerView;
+            slot->sex = member->sex;
+            slot->memberIndex = memberIndex;
+            slot->inUse = 1;
+            mmdl = func_0217AED4(beaconPc, slot);
+            mmdl = func_0217AE40(work, work->parent->gameData, member->trainerView, mmdl);
+            if (visible == 0)
+                func_0216DAC8((unsigned int *)mmdl, 1);
+            *mmdlOut = mmdl;
+            return slot;
         }
     }
     func_02034714(d_021807E0, 0, d_021807E0);
@@ -576,19 +386,17 @@ Ent_0217AFE4 *func_0217AFE4(char *a, int b, Src *c, int d, int e, int *f)
 
 
 
-void func_0217B054(u8 *w, Entry_0217B1D0 *ent_0217AE20, void *c)
+void func_0217B054(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionCharaSlot *slot)
 {
-    void **a = (void **)w;
-    int b = (int)ent_0217AE20;
-    void *h;
-    void *r;
+    void *fieldMap;
+    void *mmdl;
 
-    h = func_0201210C(((void **)a[0])[3]);
-    r = func_0217AFB0(a, (u8 *)b, c);
-    if (h != 0 && r != 0)
-        func_0217F958((char *)func_02188CE0(h), (u32)r);
-    func_0216CF2C(r);
-    MI_CpuFill8(c, 0, 12);
+    fieldMap = func_0201210C(work->parent->gameSystem);
+    mmdl = func_0217AFB0(work, beaconPc, slot);
+    if (fieldMap != 0 && mmdl != 0)
+        func_0217F958((char *)func_02188CE0(fieldMap), (u32)mmdl);
+    func_0216CF2C(mmdl);
+    MI_CpuFill8(slot, 0, sizeof(UnionCharaSlot));
 }
 
 
@@ -597,28 +405,27 @@ void func_0217B054(u8 *w, Entry_0217B1D0 *ent_0217AE20, void *c)
 
 
 
-void func_0217B098(u8 *w, u32 a, u32 b, u32 c, Entry_0217B1D0 *ent_0217AE20)
+void func_0217B098(UnionRoomWork *work, u32 metTrainers, u32 wifiFriends, u32 markSys, UnionBeaconPc *beaconPc)
 {
-    Obj_0217B054 *e = (Obj_0217B054 *)ent_0217AE20;
-    int out;
-    u8 buf[8];
+    int mmdl;
+    u8 ownMac[8];
     int i;
 
-    if (e->f6c == 0)
+    if (beaconPc->life == 0)
         return;
-    func_02087C6C(buf);
-    for (i = 0; i < 5; i++) {
-        if (e->slot[i] == 0 && e->tab[i].f1 == 1
-            && func_0203EFC8(buf, (const u8 *)(&e->tab[i]), 6) != 0
-            && func_0217B158((char *)w, (struct ent_0217AE20 *)e, (u8 *)(&e->tab[i])) != 0) {
-            e->slot[i] = (u8 *)func_0217AFE4((char *)w, (int)e, (Src *)&e->tab[i], i, 0, &out);
-            e->slot[i][8] = 1;
-            func_0217AE38((char *)e->slot[i], 0);
+    func_02087C6C(ownMac);
+    for (i = 0; i < UNION_MEMBER_MAX; i++) {
+        if (beaconPc->charaSlot[i] == 0 && beaconPc->beacon.group.member[i].valid == 1
+            && memcmp(ownMac, (const u8 *)(&beaconPc->beacon.group.member[i]), 6) != 0
+            && func_0217B158(work, beaconPc, (u8 *)(&beaconPc->beacon.group.member[i])) != 0) {
+            beaconPc->charaSlot[i] = func_0217AFE4(work, beaconPc, &beaconPc->beacon.group.member[i], i, 0, &mmdl);
+            beaconPc->charaSlot[i]->action = 1;
+            func_0217AE38(beaconPc->charaSlot[i], 0);
             if (i == 0) {
-                if (func_0217F894((void *)b, (char *)e) == 1)
-                    func_0217F948((char *)c, out, 0);
-                else if (func_0200EDC4((struct L0200EDC4 *)a, e->f5c) == 1)
-                    func_0217F948((char *)c, out, 1);
+                if (func_0217F894((void *)wifiFriends, beaconPc) == 1)
+                    func_0217F948((char *)markSys, mmdl, 0);
+                else if (func_0200EDC4((void *)metTrainers, beaconPc->beacon.trainerId) == 1)
+                    func_0217F948((char *)markSys, mmdl, 1);
             }
         }
     }
@@ -629,20 +436,20 @@ void func_0217B098(u8 *w, u32 a, u32 b, u32 c, Entry_0217B1D0 *ent_0217AE20)
 
 
 
-int func_0217B158(char *base, struct ent_0217AE20 *excl, u8 *mac)
+int func_0217B158(UnionRoomWork *work, UnionBeaconPc *ownerPc, u8 *mac)
 {
-    struct ent_0217AE20 *q = (struct ent_0217AE20 *)(base + 0x2910);
+    UnionBeaconPc *pc = work->beaconPc;
     int i;
     int j;
 
-    for (i = 0; i < 10; i++, q++) {
-        if (q == excl || q->on != 1) {
+    for (i = 0; i < UNION_BEACON_PC_MAX; i++, pc++) {
+        if (pc == ownerPc || pc->beacon.valid != 1) {
             continue;
         }
-        for (j = 0; j < 5; j++) {
-            if (q->s[j].f == 1 && memcmp(mac, q->s[j].mac, 6) == 0) {
-                if (q->cnt != 0) {
-                    q->cnt = 1;
+        for (j = 0; j < UNION_MEMBER_MAX; j++) {
+            if (pc->beacon.group.member[j].valid == 1 && memcmp(mac, pc->beacon.group.member[j].mac, 6) == 0) {
+                if (pc->life != 0) {
+                    pc->life = 1;
                 }
                 return 0;
             }
@@ -656,32 +463,32 @@ int func_0217B158(char *base, struct ent_0217AE20 *excl, u8 *mac)
 
 
 
-int func_0217B1D0(struct obj *o, struct ent_0217B1D0 *e)
+int func_0217B1D0(UnionRoomWork *work, UnionBeaconPc *beaconPc)
 {
     int i;
-    int v;
-    int t;
-    int r;
+    UnionCharaSlot *slot;
+    int markSys;
+    int objId;
 
-    for (i = 0; i < 5; i++) {
-        v = e->p[i];
-        if (v == 0 || e->s[i].f != 1) {
+    for (i = 0; i < UNION_MEMBER_MAX; i++) {
+        slot = beaconPc->charaSlot[i];
+        if (slot == 0 || beaconPc->beacon.group.member[i].valid != 1) {
             continue;
         }
-        if (memcmp(e->s[i].mac, (char *)o + 0x28a4, 6) != 0) {
+        if (memcmp(beaconPc->beacon.group.member[i].mac, work->mySituation.focusMac, 6) != 0) {
             continue;
         }
-        if (func_02012114((const struct Ctx *)o->in->fc) == 1) {
-            t = func_02188CE0(func_0201210C((void *)o->in->fc));
-            if (t != 0) {
-                r = func_0217AED4((u8 *)e, (u8 *)v);
-                r = (int)func_0216DE94((void *)func_02012964((const struct BigObj *)o->in->f8), r);
-                if (r != 0) {
-                    func_0217F93C(t, r);
+        if (func_02012114(work->parent->gameSystem) == 1) {
+            markSys = func_02188CE0(func_0201210C(work->parent->gameSystem));
+            if (markSys != 0) {
+                objId = func_0217AED4(beaconPc, slot);
+                objId = (int)func_0216DE94((void *)func_02012964(work->parent->gameData), objId);
+                if (objId != 0) {
+                    func_0217F93C(markSys, objId);
                 }
             }
         }
-        memset((char *)o + 0x28a4, 0, 6);
+        MI_CpuFill8(work->mySituation.focusMac, 0, 6);
         return 1;
     }
     return 0;
@@ -695,57 +502,57 @@ int func_0217B1D0(struct obj *o, struct ent_0217B1D0 *e)
 /*
  * Addresses are Black-image addresses.
  */
-void func_0217B264(u8 *w, void *sys, void *q)
+void func_0217B264(UnionRoomWork *work, struct GameData *gameData, void *fieldMap)
 {
     int i;
-    int flag;
-    u32 a;
-    u32 b;
-    u32 c;
-    Entry_0217B1D0 *e;
-    u8 buf[6] = {0, 0, 0, 0, 0, 0};
+    int focusPending;
+    u32 metTrainers;
+    u32 wifiFriends;
+    u32 markSys;
+    UnionBeaconPc *beaconPc;
+    u8 zeroMac[6] = {0, 0, 0, 0, 0, 0};
 
-    flag = 0;
-    a = (u32)func_0200ED48(func_02012EBC(sys));
-    b = func_0201283C(sys);
-    c = func_02188CE0(q);
-    func_02012964(sys);
-    if (memcmp(buf, w + 0x28A4, 6) != 0) {
-        flag = 1;
+    focusPending = 0;
+    metTrainers = (u32)func_0200ED48(func_02012EBC(gameData));
+    wifiFriends = func_0201283C(gameData);
+    markSys = func_02188CE0(fieldMap);
+    func_02012964(gameData);
+    if (memcmp(zeroMac, work->mySituation.focusMac, 6) != 0) {
+        focusPending = 1;
     }
-    e = (Entry_0217B1D0 *)(w + 0x2910);
-    for (i = 0; i < 10; i++, e++) {
-        if (e->active == 1) {
-            int cnt;
+    beaconPc = work->beaconPc;
+    for (i = 0; i < UNION_BEACON_PC_MAX; i++, beaconPc++) {
+        if (beaconPc->beacon.valid == 1) {
+            int freeCount;
             int j;
-            void *p;
+            UnionCharaSlot *slot;
 
-            func_0217B3EC((char *)w, (char *)e);
-            func_0217B098(w, a, b, c, e);
-            if (flag == 1) {
-                if (func_0217B1D0((struct obj *)w, (struct ent_0217B1D0 *)e) == 1) {
-                    flag = 0;
+            func_0217B3EC(work, beaconPc);
+            func_0217B098(work, metTrainers, wifiFriends, markSys, beaconPc);
+            if (focusPending == 1) {
+                if (func_0217B1D0(work, beaconPc) == 1) {
+                    focusPending = 0;
                 }
             }
-            cnt = 0;
-            for (j = 0; j < 5; j++) {
-                p = e->slots[j];
-                if (p != 0) {
-                    if (func_0217B370((char *)w, p, (int)q) == 0) {
-                        func_0217B054(w, e, p);
-                        e->slots[j] = 0;
-                        cnt++;
+            freeCount = 0;
+            for (j = 0; j < UNION_MEMBER_MAX; j++) {
+                slot = beaconPc->charaSlot[j];
+                if (slot != 0) {
+                    if (func_0217B370(work, slot, fieldMap) == 0) {
+                        func_0217B054(work, beaconPc, slot);
+                        beaconPc->charaSlot[j] = 0;
+                        freeCount++;
                     }
                 } else {
-                    cnt++;
+                    freeCount++;
                 }
             }
-            if (cnt >= 5 && e->h6C == 0) {
-                MI_CpuFill8(e, 0, sizeof(Entry_0217B1D0));
+            if (freeCount >= 5 && beaconPc->life == 0) {
+                MI_CpuFill8(beaconPc, 0, sizeof(UnionBeaconPc));
             }
         }
     }
-    MI_CpuFill8(w + 0x28A4, 0, 6);
+    MI_CpuFill8(work->mySituation.focusMac, 0, 6);
 }
 
 
@@ -753,35 +560,35 @@ void func_0217B264(u8 *w, void *sys, void *q)
 
 
 
-int func_0217B370(char *base, unsigned char *p, int r2)
+int func_0217B370(UnionRoomWork *work, UnionCharaSlot *slot, void *fieldMap)
 {
-    int res = 1;
-    fn_t fn;
+    int result = 1;
+    UnionCharaActionFunc func;
 
-    switch (p[0xa]) {
+    switch (slot->phase) {
     case 0:
-        fn = d_02180044[p[8]].f;
+        func = d_02180044[slot->action].func;
         break;
     case 1:
-        fn = d_02180048[p[8]].f;
+        func = d_02180048[slot->action].func;
         break;
     case 2:
-        fn = d_0218004C[p[8]].f;
+        func = d_0218004C[slot->action].func;
         break;
     }
-    if (fn != 0) {
-        res = fn(base, p, r2, p + 0xb);
+    if (func != 0) {
+        result = func(work, slot, fieldMap, &slot->step);
     }
-    if (res == 1) {
-        p[0xb] = 0;
-        p[0xa] = p[0xa] + 1;
-        if (p[0xa] > 2) {
-            if (p[8] == 2) {
+    if (result == 1) {
+        slot->step = 0;
+        slot->phase = slot->phase + 1;
+        if (slot->phase > 2) {
+            if (slot->action == 2) {
                 return 0;
             }
-            p[0xa] = 0;
-            p[8] = p[9];
-            p[9] = 0;
+            slot->phase = 0;
+            slot->action = slot->nextAction;
+            slot->nextAction = 0;
         }
     }
     return 1;
@@ -792,20 +599,20 @@ int func_0217B370(char *base, unsigned char *p, int r2)
 
 
 
-int func_0217B3EC(char *base, char *p)
+int func_0217B3EC(UnionRoomWork *work, UnionBeaconPc *beaconPc)
 {
-    char *q = base + 0x2830;
-    if (*(char * *)&((struct Obj07380 *)q)->f14 == p || *(char * *)&((struct Obj07380 *)q)->f18 == p ||
-        *(char * *)&((struct Obj07380 *)q)->f1C == p || *(char * *)&((struct Obj07380 *)q)->f20 == p) {
-        if (((struct Obj07379 *)p)->f6C == 0) {
-            ((struct Obj07379 *)p)->f6C = 1;
+    UnionMySituation *situation = (&work->mySituation);
+    if ((UnionBeaconPc *)situation->connect.talkParam == beaconPc || situation->connect.talkPc == beaconPc ||
+        (UnionBeaconPc *)situation->connect.connectParam == beaconPc || situation->connect.connectPc == beaconPc) {
+        if (beaconPc->life == 0) {
+            beaconPc->life = 1;
         }
         return 1;
     }
-    if (((struct Obj07379 *)p)->f6C == 0) {
+    if (beaconPc->life == 0) {
         return 0;
     }
-    ((struct Obj07379 *)p)->f6C -= 1;
+    beaconPc->life -= 1;
     return 1;
 }
 
@@ -814,27 +621,27 @@ int func_0217B3EC(char *base, char *p)
 
 
 
-void func_0217B440(char *base, int x, void *y)
+void func_0217B440(UnionRoomWork *work, struct GameData *gameData, void *fieldMap)
 {
-    struct ent_0217B440 *q;
-    int a;
-    int b;
-    int c;
-    int r;
+    UnionBeaconPc *beaconPc;
+    int metTrainers;
+    int wifiFriends;
+    int markSys;
+    int mmdl;
     int i;
 
-    a = (int)func_0200ED48(func_02012EBC((struct Big *)x));
-    b = func_0201283C((const struct BigObj *)x);
-    c = func_02188CE0((u8 *)y);
-    q = (struct ent_0217B440 *)(base + 0x2910);
-    for (i = 0; i < 10; i++, q++) {
-        if (q->on == 1 && q->p70 != 0) {
-            r = (int)func_0217AFB0((void **)base, (u8 *)(*q->p70), (u8 *)q->p70);
-            if (r != 0) {
-                if (func_0217F894((void *)b, (char *)q) == 1) {
-                    func_0217F948((char *)c, r, 0);
-                } else if (func_0200EDC4((struct L0200EDC4 *)a, q->f5c) == 1) {
-                    func_0217F948((char *)c, r, 1);
+    metTrainers = (int)func_0200ED48(func_02012EBC(gameData));
+    wifiFriends = func_0201283C(gameData);
+    markSys = func_02188CE0(fieldMap);
+    beaconPc = work->beaconPc;
+    for (i = 0; i < UNION_BEACON_PC_MAX; i++, beaconPc++) {
+        if (beaconPc->beacon.valid == 1 && beaconPc->charaSlot[0] != 0) {
+            mmdl = (int)func_0217AFB0(work, beaconPc->charaSlot[0]->beaconPc, beaconPc->charaSlot[0]);
+            if (mmdl != 0) {
+                if (func_0217F894((void *)wifiFriends, beaconPc) == 1) {
+                    func_0217F948((char *)markSys, mmdl, 0);
+                } else if (func_0200EDC4((void *)metTrainers, beaconPc->beacon.trainerId) == 1) {
+                    func_0217F948((char *)markSys, mmdl, 1);
                 }
             }
         }
@@ -846,45 +653,45 @@ void func_0217B440(char *base, int x, void *y)
 
 
 
-int func_0217B4C4(u8 *w, Msg *m)
+int func_0217B4C4(UnionRoomWork *work, UnionCharaSlot *slot)
 {
-    Entry_0217B370 *e;
-    u8 *s;
-    int t;
-    int v;
-    void *r;
+    UnionBeaconPc *beaconPc;
+    UnionMySituation *situation;
+    int groupCategory;
+    int appealNo;
+    void *mmdl;
 
-    s = w + 0x2830;
-    e = m->e;
-    if (e->h6C == 0) {
-        func_0217AE38((char *)m, 2);
+    situation = (&work->mySituation);
+    beaconPc = slot->beaconPc;
+    if (beaconPc->life == 0) {
+        func_0217AE38(slot, 2);
         return 1;
     }
-    if (!e->recs[m->idx].valid || m->b4 != e->recs[m->idx].b6) {
-        func_0217AE38((char *)m, 2);
+    if (!beaconPc->beacon.group.member[slot->memberIndex].valid || slot->trainerView != beaconPc->beacon.group.member[slot->memberIndex].trainerView) {
+        func_0217AE38(slot, 2);
         return 1;
     }
-    t = func_0217F858(e->bB);
-    if (((struct Obj12518 *)s)->f58 == func_0217AED4((u8 *)m->e, (u8 *)m)) {
-        func_0217AE38((char *)m, 3);
+    groupCategory = func_0217F858(beaconPc->beacon.status);
+    if (situation->connect.requestId == func_0217AED4(slot->beaconPc, slot)) {
+        func_0217AE38(slot, 3);
         return 1;
     }
-    v = s[2];
-    if (v != 0 && (v == t || (t == 0 && v == e->kind)) && m->idx == 0
-        && func_0217F060(e->bB) > e->n) {
-        r = func_0217AFB0((void **)w, (u8 *)m->e, (u8 *)m);
-        if (func_0216D3CC((int)r) == 1) {
-            func_0216D410(r, 0x31);
+    appealNo = situation->appealNo;
+    if (appealNo != 0 && (appealNo == groupCategory || (groupCategory == 0 && appealNo == beaconPc->beacon.appealNo)) && slot->memberIndex == 0
+        && func_0217F060(beaconPc->beacon.status) > beaconPc->beacon.connectNum) {
+        mmdl = func_0217AFB0(work, slot->beaconPc, slot);
+        if (func_0216D3CC((int)mmdl) == 1) {
+            func_0216D410(mmdl, 0x31);
         }
-    } else if (m->idx == 0 && e->n > 1) {
-        r = func_0217AFB0((void **)w, (u8 *)m->e, (u8 *)m);
-        if (func_0216D5A0(r) == 2) {
-            func_0216E0E8((int)r, 0xF);
+    } else if (slot->memberIndex == 0 && beaconPc->beacon.connectNum > 1) {
+        mmdl = func_0217AFB0(work, slot->beaconPc, slot);
+        if (func_0216D5A0(mmdl) == 2) {
+            func_0216E0E8((int)mmdl, 0xF);
         }
-    } else if (m->idx == 0 && e->n <= 1) {
-        r = func_0217AFB0((void **)w, (u8 *)m->e, (u8 *)m);
-        if (func_0216D5A0(r) == 0xF) {
-            func_0216E0E8((int)r, 2);
+    } else if (slot->memberIndex == 0 && beaconPc->beacon.connectNum <= 1) {
+        mmdl = func_0217AFB0(work, slot->beaconPc, slot);
+        if (func_0216D5A0(mmdl) == 0xF) {
+            func_0216E0E8((int)mmdl, 2);
         }
     }
     return 0;
@@ -895,24 +702,24 @@ int func_0217B4C4(u8 *w, Msg *m)
 
 
 
-int func_0217B5E0(char *base, int *p, int r2, unsigned char *state)
+int func_0217B5E0(UnionRoomWork *work, UnionCharaSlot *slot, void *fieldMap, u8 *step)
 {
-    s16 a[8];
-    int h = (int)func_0217AFB0((void **)base, (u8 *)(*p), (u8 *)p);
-    switch (*state) {
+    s16 pos[8];
+    int mmdl = (int)func_0217AFB0(work, slot->beaconPc, slot);
+    switch (*step) {
     case 0:
-        if (func_0216D3CC(h) == 1) {
-            func_0216D828((int)func_021A3074(func_02188CB4((void *)r2)), a);
-            func_0216D828(h, a + 4);
-            if (a[4] != a[0] || a[6] != a[2]) {
-                func_0216D410((void *)h, 0x44);
-                func_0216DAC8((unsigned int *)h, 0);
-                *state = *state + 1;
+        if (func_0216D3CC(mmdl) == 1) {
+            func_0216D828((int)func_021A3074(func_02188CB4(fieldMap)), pos);
+            func_0216D828(mmdl, pos + 4);
+            if (pos[4] != pos[0] || pos[6] != pos[2]) {
+                func_0216D410((void *)mmdl, 0x44);
+                func_0216DAC8((unsigned int *)mmdl, 0);
+                *step = *step + 1;
             }
         }
         break;
     case 1:
-        if (func_0216D454(h) == 1) { func_0216D480((char *)h); return 1; }
+        if (func_0216D454(mmdl) == 1) { func_0216D480((char *)mmdl); return 1; }
         break;
     }
     return 0;
@@ -923,15 +730,15 @@ int func_0217B5E0(char *base, int *p, int r2, unsigned char *state)
 
 
 
-int func_0217B66C(char *base, int *p, int r2, unsigned char *state)
+int func_0217B66C(UnionRoomWork *work, UnionCharaSlot *slot, void *fieldMap, u8 *step)
 {
-    int h = (int)func_0217AFB0((void **)base, (u8 *)(*p), (u8 *)p);
-    switch (*state) {
+    int mmdl = (int)func_0217AFB0(work, slot->beaconPc, slot);
+    switch (*step) {
     case 0:
-        if (func_0216D3CC(h) == 1) { func_0216D410((void *)h, 0x43); *state = *state + 1; }
+        if (func_0216D3CC(mmdl) == 1) { func_0216D410((void *)mmdl, 0x43); *step = *step + 1; }
         break;
     case 1:
-        if (func_0216D454(h) == 1) { func_0216D480((char *)h); return 1; }
+        if (func_0216D454(mmdl) == 1) { func_0216D480((char *)mmdl); return 1; }
         break;
     }
     return 0;
@@ -943,44 +750,44 @@ int func_0217B66C(char *base, int *p, int r2, unsigned char *state)
 
 
 
-int func_0217B6B4(char *base, int *p, int r2, unsigned char *state)
+int func_0217B6B4(UnionRoomWork *work, UnionCharaSlot *slot, void *fieldMap, u8 *step)
 {
-    struct S *q = (struct S *)(base + 0x2830);
-    int h;
-    u16 k;
+    UnionMySituation *situation = (&work->mySituation);
+    int mmdl;
+    u16 acmd;
 
-    h = (int)func_0217AFB0((void **)base, (u8 *)(*p), (u8 *)p);
-    switch (*state) {
+    mmdl = (int)func_0217AFB0(work, slot->beaconPc, slot);
+    switch (*step) {
     case 0:
-        if (func_0216D3CC(h) == 1) {
-            switch (func_0216D5F8(func_021A3074(func_02188CB4((void *)r2)))) {
+        if (func_0216D3CC(mmdl) == 1) {
+            switch (func_0216D5F8(func_021A3074(func_02188CB4(fieldMap)))) {
             case 0:
-                k = 1;
+                acmd = 1;
                 break;
             case 1:
-                k = 0;
+                acmd = 0;
                 break;
             case 2:
-                k = 3;
+                acmd = 3;
                 break;
             case 3:
             default:
-                k = 2;
+                acmd = 2;
                 break;
             }
-            func_0216D410((void *)h, k);
-            *state = *state + 1;
+            func_0216D410((void *)mmdl, acmd);
+            *step = *step + 1;
         }
         break;
     case 1:
-        if (func_0216D480((char *)h) == 1) {
-            func_0216D548((u32 *)h, 8);
-            *state = *state + 1;
+        if (func_0216D480((char *)mmdl) == 1) {
+            func_0216D548((u32 *)mmdl, 8);
+            *step = *step + 1;
         }
         break;
     case 2:
-        if (q->f58 != func_0217AED4((u8 *)(*p), (u8 *)p)) {
-            func_0216D550((u32 *)h, 8);
+        if (situation->connect.requestId != func_0217AED4(slot->beaconPc, slot)) {
+            func_0216D550((u32 *)mmdl, 8);
             return 1;
         }
         break;
@@ -997,15 +804,15 @@ int func_0217B6B4(char *base, int *p, int r2, unsigned char *state)
  * lever: the bit at byte 7, bit 4 is a one-bit unsigned char field;
  * integer masks instead produce asrs/movs/ands and grow the body by 4 bytes.
  */
-void func_0217B75C(char *p)
+void func_0217B75C(UnionRoomWork *work)
 {
     int i;
-    u8 *q;
-    q = (u8 *)p + 0x2910;
-    for (i = 0; i < 10; i++, q += 0x8c) {
-        if (((Flags *)q)->flag == 1 && q[0x6a] != 0) {
-            func_0217B798(p, q);
-            q[0x6a] = 0;
+    UnionBeaconPc *beaconPc;
+    beaconPc = work->beaconPc;
+    for (i = 0; i < UNION_BEACON_PC_MAX; i++, beaconPc++) {
+        if (beaconPc->beacon.valid == 1 && beaconPc->updateState != 0) {
+            func_0217B798(work, beaconPc);
+            beaconPc->updateState = 0;
         }
     }
 }
@@ -1016,17 +823,17 @@ void func_0217B75C(char *p)
 
 
 
-void func_0217B798(char *base, u8 *p)
+void func_0217B798(UnionRoomWork *work, UnionBeaconPc *beaconPc)
 {
-    u8 *q = (u8 *)base + 0x2830;
-    u8 buf[6];
+    UnionMySituation *situation = (&work->mySituation);
+    u8 ownMac[6];
 
-    func_021BBA70((struct Ctx *)base, (struct Src *)p, 0, 0);
-    if (q[1] == 0 && q[0x71] == 0 && p[0xa] == 5 && ((struct Obj07381 *)p)->f6C != 0) {
-        func_02087C6C(buf);
-        if (memcmp(p, buf, 6) == 0 && func_0217B8F0(base, 6) == 1) {
-            func_021734A8((u8 *)base, 2, (u32)p);
-            func_021734A8((u8 *)base, 0, (u32)p);
+    func_021BBA70(work, beaconPc, 0, 0);
+    if (situation->playCategory == 0 && situation->nextPlayCategory == 0 && beaconPc->beacon.playCategory == 5 && beaconPc->life != 0) {
+        func_02087C6C(ownMac);
+        if (memcmp(beaconPc->beacon.mac, ownMac, 6) == 0 && func_0217B8F0(work, 6) == 1) {
+            func_021734A8(work, 2, (u32)beaconPc);
+            func_021734A8(work, 0, (u32)beaconPc);
         }
     }
 }
@@ -1039,15 +846,15 @@ void func_0217B798(char *base, u8 *p)
 /*
  * extent: follower 0217B83C already has its own source and shard.
  */
-int func_0217B80C(int a, int b)
+int func_0217B80C(struct GameSystem *gameSystem, void *fieldMap)
 {
-    char *p;
-    char *q;
+    UnionRoomWork *work;
+    UnionSubEvent *subEvent;
     int result;
-    p = (char *)func_02026474((void *)func_02012138((const struct Ctx *)a));
+    work = (UnionRoomWork *)func_02026474((void *)func_02012138(gameSystem));
     result = 0;
-    q = p + 0x3548;
-    if (((struct Obj12521 *)q)->f4 != 0 && ((struct Obj12521 *)q)->f0 == 0) result = func_0217413C(a, b, (unsigned char *)p);
+    subEvent = &work->subEvent;
+    if (subEvent->id != 0 && subEvent->active == 0) result = func_0217413C(gameSystem, fieldMap, work);
     return result;
 }
 
@@ -1061,7 +868,7 @@ int func_0217B80C(int a, int b)
  * Callee of ov021 func_0218A0E4, which passes (sys, pos).
  * Addresses are Black-image addresses.
  */
-int func_0217B83C(void *sys, void *pos)
+int func_0217B83C(void *gameSystem, void *pos)
 {
     return 0;
 }
@@ -1072,37 +879,37 @@ int func_0217B83C(void *sys, void *pos)
 
 
 
-int func_0217B840(char *base, int r1)
+int func_0217B840(UnionRoomWork *work, void *fieldMap)
 {
-    unsigned char *q = (unsigned char *)base + 0x2830;
-    int res = 1;
-    fn_t fn;
+    UnionMySituation *situation = (&work->mySituation);
+    int result = 1;
+    UnionOneselfActionFunc func;
 
-    switch (q[0x72]) {
+    switch (situation->phase) {
     case 0:
-        fn = d_02180074[q[1]].f;
+        func = d_02180074[situation->playCategory].func;
         break;
     case 1:
-        fn = d_02180078[q[1]].f;
+        func = d_02180078[situation->playCategory].func;
         break;
     case 2:
-        fn = d_0218007C[q[1]].f;
+        func = d_0218007C[situation->playCategory].func;
         break;
     }
-    if (fn != 0) {
-        res = fn(base, q, r1, q + 0x73);
+    if (func != 0) {
+        result = func(work, situation, fieldMap, &situation->step);
     }
-    if (res == 1) {
-        q[0x73] = 0;
-        q[0x72] = q[0x72] + 1;
-        if (q[0x72] > 2) {
-            q[0x72] = 0;
-            q[0x70] = q[1];
-            q[1] = q[0x71];
-            q[0x71] = 0;
+    if (result == 1) {
+        situation->step = 0;
+        situation->phase = situation->phase + 1;
+        if (situation->phase > 2) {
+            situation->phase = 0;
+            situation->prevPlayCategory = situation->playCategory;
+            situation->playCategory = situation->nextPlayCategory;
+            situation->nextPlayCategory = 0;
         }
     }
-    return q[1];
+    return situation->playCategory;
 }
 
 
@@ -1110,9 +917,9 @@ int func_0217B840(char *base, int r1)
 
 
 
-int func_0217B8E4(char *p, int v)
+int func_0217B8E4(UnionRoomWork *work, int playCategory)
 {
-    p[0x28a1] = v;
+    (&work->mySituation)->nextPlayCategory = playCategory;
     return 1;
 }
 
@@ -1121,9 +928,9 @@ int func_0217B8E4(char *p, int v)
 
 
 
-int func_0217B8F0(char *p, char v)
+int func_0217B8F0(UnionRoomWork *work, char playCategory)
 {
-    if ((unsigned char)p[0x28a2] == 1) return func_0217B8E4(p, v);
+    if ((&work->mySituation)->phase == 1) return func_0217B8E4(work, playCategory);
     return 0;
 }
 
@@ -1132,9 +939,9 @@ int func_0217B8F0(char *p, char v)
 
 
 
-int func_0217B908(int x)
+int func_0217B908(int status)
 {
-    switch (x) {
+    switch (status) {
     case 0: case 1: case 2: case 3:
         break;
     case 4: case 5:
@@ -1166,9 +973,9 @@ int func_0217B908(int x)
 
 
 
-int func_0217B974(int x)
+int func_0217B974(int status)
 {
-    switch (x) {
+    switch (status) {
     case 0: case 1: case 2: case 3:
     case 5: case 7: case 9: case 11: case 13: case 15:
     case 17: case 19: case 21:
@@ -1185,9 +992,9 @@ int func_0217B974(int x)
 
 
 
-int func_0217B9BC(unsigned int x)
+int func_0217B9BC(unsigned int status)
 {
-    if (x < 4 || x > 23) return 0;
+    if (status < 4 || status > 23) return 0;
     return 1;
 }
 
@@ -1199,12 +1006,12 @@ int func_0217B9BC(unsigned int x)
 /*
  * Return from the legacy void tail forwarder 0200BAC8 is used by this caller.
  */
-void *func_0217B9CC(char *p)
+void *func_0217B9CC(UnionRoomWork *work)
 {
-    void *a;
-    a = func_0200BAC8(func_02012EBC(((struct Obj19402 *)(*(char * *)&((struct Obj19401 *)p)->f0))->f8));
-    if (func_0200BBA8(a) == 0) return 0;
-    return func_0200BAF4((int)a, 65);
+    void *battleTeam;
+    battleTeam = func_0200BAC8(func_02012EBC(work->parent->gameData));
+    if (func_0200BBA8(battleTeam) == 0) return 0;
+    return func_0200BAF4((int)battleTeam, UNION_HEAP_ID);
 }
 
 
@@ -1212,10 +1019,10 @@ void *func_0217B9CC(char *p)
 
 
 
-void func_0217B9F4(void *p)
+void func_0217B9F4(void *party)
 {
-    if (!p) func_02034714(d_021807E4, 0, d_021807E4);
-    func_020307B0(p);
+    if (!party) func_02034714(d_021807E4, 0, d_021807E4);
+    func_020307B0(party);
 }
 
 
@@ -1227,11 +1034,11 @@ void func_0217B9F4(void *p)
  * Interface evidence: stub at 0201A364 moves r0 to r2, r1 to r0,
  * sets r1=0x69, then jumps through pool 02048F4C. the integrator owns it.
  */
-void func_0217BA10(char *p, int x)
+void func_0217BA10(UnionRoomWork *work, int status)
 {
-    func_0201A364(func_0217B908(x), (unsigned int)(*(void **)(p + 0x352c)));
-    if (func_0217B974(x) == 1) func_0200AEE8(*(void **)(p + 0x352c), 13, 1);
-    else func_0200AEE8(*(void **)(p + 0x352c), 13, 0);
+    func_0201A364(func_0217B908(status), work->regulation);
+    if (func_0217B974(status) == 1) func_0200AEE8(work->regulation, 13, 1);
+    else func_0200AEE8(work->regulation, 13, 0);
 }
 
 
@@ -1239,12 +1046,12 @@ void func_0217BA10(char *p, int x)
 
 
 
-int func_0217BA48(char *p, unsigned int *mask)
+int func_0217BA48(UnionRoomWork *work, unsigned int *violationMask)
 {
     void *party;
-    *mask = 0;
-    party = func_02012934(((struct Obj19403 *)(*(char * *)&((struct Obj09409 *)p)->f0))->f8);
-    return func_0201A090(((struct Obj09409 *)p)->f352C, party, mask);
+    *violationMask = 0;
+    party = func_02012934(work->parent->gameData);
+    return func_0201A090(work->regulation, party, violationMask);
 }
 
 
@@ -1252,17 +1059,17 @@ int func_0217BA48(char *p, unsigned int *mask)
 
 
 
-int func_0217BA6C(char *p, unsigned int *mask)
+int func_0217BA6C(UnionRoomWork *work, unsigned int *violationMask)
 {
     void *party;
     int result;
-    party = func_0217B9CC(p);
-    *mask = 0;
+    party = func_0217B9CC(work);
+    *violationMask = 0;
     if (party != 0) {
-        result = func_0201A090(((struct Obj09409 *)p)->f352C, party, mask);
+        result = func_0201A090(work->regulation, party, violationMask);
         func_0217B9F4(party);
     } else {
-        *mask = -1;
+        *violationMask = -1;
         result = 5;
     }
     return result;
@@ -1274,17 +1081,17 @@ int func_0217BA6C(char *p, unsigned int *mask)
 
 
 
-int func_0217BAA8(int a, int b, int *p, int *q)
+int func_0217BAA8(UnionRoomWork *work, int status, unsigned int *myPartyMask, unsigned int *battleTeamMask)
 {
-    int r, t;
-    *p = 0;
-    *q = 0;
-    if (func_0217B9BC(b) == 0)
+    int myPartyResult, battleTeamResult;
+    *myPartyMask = 0;
+    *battleTeamMask = 0;
+    if (func_0217B9BC(status) == 0)
         return 1;
-    func_0217BA10((char *)a, b);
-    r = func_0217BA48((char *)a, (unsigned int *)p);
-    t = func_0217BA6C((char *)a, (unsigned int *)q);
-    if (r == 0 || t == 0)
+    func_0217BA10(work, status);
+    myPartyResult = func_0217BA48(work, myPartyMask);
+    battleTeamResult = func_0217BA6C(work, battleTeamMask);
+    if (myPartyResult == 0 || battleTeamResult == 0)
         return 1;
     return 0;
 }
@@ -1293,20 +1100,20 @@ int func_0217BAA8(int a, int b, int *p, int *q)
 
 
 
-void func_0217BAF0(char *p, int x, unsigned int v)
+void func_0217BAF0(UnionRoomWork *work, void *fieldMap, unsigned int busy)
 {
-    p[0x3563] = v;
-    func_021A2E44(x, v);
+    work->fieldBusy = busy;
+    func_021A2E44(fieldMap, busy);
 }
 
 
 
 
 
-int func_0217BB04(char *p)
+int func_0217BB04(UnionRoomWork *work)
 {
     if (func_0200FB24() != 0) {
-        func_0217B8E4(p, 1);
+        func_0217B8E4(work, 1);
         return 1;
     }
     return 0;
@@ -1316,10 +1123,10 @@ int func_0217BB04(char *p)
 
 
 
-int func_0217BB20(char *p)
+int func_0217BB20(UnionRoomWork *work)
 {
-    if (func_0217BB04(p) == 1) {
-        func_0217B8E4(p, 50);
+    if (func_0217BB04(work) == 1) {
+        func_0217B8E4(work, 50);
         return 1;
     }
     return 0;
@@ -1327,124 +1134,124 @@ int func_0217BB20(char *p)
 
 
 
-int func_0217BB3C(u8 *ctx, u8 *obj, int a)
+int func_0217BB3C(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap)
 {
-    func_02173524((Work_0217AE20 *)ctx, obj + 0x14);
-    func_021734A8(ctx, 4, 0);
-    func_0217F074(ctx);
-    func_0217BAF0((char *)ctx, a, 0);
-    ctx[0x282E] = 0;
+    func_02173524(work, &situation->connect);
+    func_021734A8(work, 4, 0);
+    func_0217F074(work);
+    func_0217BAF0(work, fieldMap, 0);
+    work->talkCancel = 0;
     return 1;
 }
 
 
 
-int func_0217BB70(u8 *w, u8 *obj, void *q)
+int func_0217BB70(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap)
 {
-    void *a;
-    void *b;
-    void *r;
-    u16 t;
-    u16 n;
-    s16 x;
-    s16 y;
-    s16 z;
+    void *fieldPlayer;
+    void *mmdlSys;
+    void *mmdl;
+    u16 objId;
+    u16 beaconIndex;
+    s16 gridX;
+    s16 gridY;
+    s16 gridZ;
 
-    a = func_02188CB4(q);
-    b = func_02188C7C(q);
-    if (func_0217BB04((char *)w) == 1) {
+    fieldPlayer = func_02188CB4(fieldMap);
+    mmdlSys = func_02188C7C(fieldMap);
+    if (func_0217BB04(work) == 1) {
         return 1;
     }
-    if (func_02172D68(w) == 1) {
+    if (func_02172D68(work) == 1) {
         return 0;
     }
-    if (obj[0x71] != 0) {
+    if (situation->nextPlayCategory != 0) {
         return 1;
     }
     if (func_0203D1B4() > 1) {
-        func_02172D20(w);
+        func_02172D20(work);
         return 0;
     }
     if (func_020362DC() & 1) {
-        func_021A3460((u32)a, (u32)(&x), (u32)(&y), (u32)(&z));
-        r = func_0216DDC0((u32)b, x, z, 0);
-        if (r == 0) {
+        func_021A3460((u32)fieldPlayer, (u32)(&gridX), (u32)(&gridY), (u32)(&gridZ));
+        mmdl = func_0216DDC0((u32)mmdlSys, gridX, gridZ, 0);
+        if (mmdl == 0) {
             return 0;
         }
-        t = func_0216D588(r);
-        if (func_0217AF38(t) == 0 || func_0217AF4C((char *)w, t) == 0) {
+        objId = func_0216D588(mmdl);
+        if (func_0217AF38(objId) == 0 || func_0217AF4C(work, objId) == 0) {
             return 0;
         }
-        ((struct Obj12522 *)obj)->f58 = t;
-        n = func_0217AEFC(t);
-        func_021734A8(w, 0, (u32)(&((Work_0217BB70 *)w)->entries[n]));
-        if (func_0217AEE8(t) == 0) {
-            if (((Work_0217BB70 *)w)->entries[n].bB == 0) {
-                func_021734A8(w, 1, (u32)(&((Work_0217BB70 *)w)->entries[n]));
-                func_0217B8E4((char *)w, 5);
+        situation->connect.requestId = objId;
+        beaconIndex = func_0217AEFC(objId);
+        func_021734A8(work, 0, (u32)(&work->beaconPc[beaconIndex]));
+        if (func_0217AEE8(objId) == 0) {
+            if (work->beaconPc[beaconIndex].beacon.status == 0) {
+                func_021734A8(work, 1, (u32)(&work->beaconPc[beaconIndex]));
+                func_0217B8E4(work, 5);
             } else {
-                func_0217B8E4((char *)w, 0xB);
+                func_0217B8E4(work, 0xB);
             }
         } else {
-            func_0217B8E4((char *)w, 0xC);
+            func_0217B8E4(work, 0xC);
         }
-        func_0217BAF0((char *)w, (int)q, 1);
+        func_0217BAF0(work, fieldMap, 1);
         return 1;
     }
-    if (w[0x282E] == 1) {
-        func_0217B8E4((char *)w, 4);
+    if (work->talkCancel == 1) {
+        func_0217B8E4(work, 4);
         return 1;
     }
-    if (func_0217F7E4((u32)q) == 1) {
-        if (((struct Obj07382 *)w)->f3564 == 1) {
-            func_0217BAF0((char *)w, (int)q, 1);
-            func_0217B8E4((char *)w, 3);
+    if (func_0217F7E4((u32)fieldMap) == 1) {
+        if (work->fieldRequestArmed == 1) {
+            func_0217BAF0(work, fieldMap, 1);
+            func_0217B8E4(work, 3);
         }
     } else {
-        ((struct Obj07382 *)w)->f3564 = 1;
+        work->fieldRequestArmed = 1;
     }
     return 0;
 }
 
 
 
-int func_0217BCDC(int *a, u8 *b, int c, u8 *d)
+int func_0217BCDC(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap, u8 *step)
 {
-    switch (*d) {
+    switch (*step) {
     case 0:
-        func_0217BAF0((char *)a, c, 1);
-        (*d)++;
+        func_0217BAF0(work, fieldMap, 1);
+        (*step)++;
         break;
     case 1:
-        if (func_0217F1EC((u8 *)a) == 1) {
-            func_0217F074(a);
-            (*d)++;
+        if (func_0217F1EC(work) == 1) {
+            func_0217F074(work);
+            (*step)++;
         }
         break;
     case 2:
         if (func_0200FB24() != 0) {
-            func_02012124((struct Ctx *)(*(int *)(a[0] + 0xc)), 1);
+            func_02012124(work->parent->gameSystem, 1);
             return 0;
         }
-        func_02172D38((u8 *)a);
-        (*d)++;
+        func_02172D38(work);
+        (*step)++;
         break;
     case 3:
-        if (func_02172D68((u8 *)a) == 0)
-            (*d)++;
+        if (func_02172D68(work) == 0)
+            (*step)++;
         break;
     case 4:
-        func_02173420(a);
-        func_02173524((void *)a, b + 0x14);
-        func_02172D50((u8 *)a);
-        (*d)++;
+        func_02173420(work);
+        func_02173524(work, &situation->connect);
+        func_02172D50(work);
+        (*step)++;
         break;
     case 5:
-        if (func_02172D68((u8 *)a) == 0)
-            (*d)++;
+        if (func_02172D68(work) == 0)
+            (*step)++;
         break;
     default:
-        func_0217B8E4((char *)a, 0);
+        func_0217B8E4(work, 0);
         return 1;
     }
     return 0;
@@ -1457,11 +1264,11 @@ int func_0217BD7C(void)
 }
 
 
-int func_0217BD80(u8 *p, int b, int c, u8 *q)
+int func_0217BD80(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap, u8 *step)
 {
-    if (*q == 0) {
-        *(int *)(p + 0x3568) = 1;
-        (*q)++;
+    if (*step == 0) {
+        work->fieldRequest = 1;
+        (*step)++;
     }
     return 0;
 }

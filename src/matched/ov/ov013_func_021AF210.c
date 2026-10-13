@@ -1,5 +1,5 @@
 /*
- * function: func_021AF210
+ * function: VCT_MAIN_GetVoiceLevel
  * address: 0x021AF210
  * packet: pkt_ov013_021AF210
  * region: ov013
@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021B3C80 0x021B3C80 data ov013 a4
- *   func_021B3064 0x021B3064 arm ov013
+ *   gVctWork 0x021B3C80 data ov013 a4
+ *   VCT_DSP_SetVoiceGateConfig 0x021B3064 arm ov013
  */
 
 #include "../include/G_Work.h"
 
-extern struct Work *d_021B3C80;
-extern void func_021B3064(void *);
-int func_021AF210(void)
+extern struct Work *gVctWork;
+extern void VCT_DSP_SetVoiceGateConfig(void *);
+int VCT_MAIN_GetVoiceLevel(void)
 {
     int a[4];
-    if (d_021B3C80 != 0) {
-        func_021B3064(a);
+    if (gVctWork != 0) {
+        VCT_DSP_SetVoiceGateConfig(a);
         if (a[1] > 2) return a[0];
     }
     return 0;

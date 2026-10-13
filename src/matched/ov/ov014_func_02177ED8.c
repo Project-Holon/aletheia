@@ -1,5 +1,5 @@
 /*
- * function: func_02177ED8
+ * function: NET_WHPIPE_RejectChild
  * address:  0x02177ED8
  * packet:   pkt_02177ED8
  * region:   ov014
@@ -15,4 +15,4 @@
  *   (none)
  */
 
-int func_02177ED8(void) { return 0; }
+int NET_WHPIPE_RejectChild(void) { return 0; }

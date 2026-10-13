@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
  */
 
 typedef unsigned char u8;
@@ -28,13 +32,13 @@ typedef struct {
 } S;
 
 struct Party;
-extern struct Party *sub_0201A920(u32 heap);
+extern struct Party *POKEPARTY_Create(u32 heap);
 extern void *sub_0200846C(int a0);
 extern void *sub_02013234(u32 heap);
 struct Big;
 struct Sub02008700Obj;
 extern void *sub_02012EBC(struct Big *p);
-extern struct Sub02008700Obj *sub_0200873C(void *sys);
+extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
 extern void *sub_020082EC(int a0);
 extern void sub_02008314(void *a0, void *a1);
 extern void *sub_0200CA1C(void *a);
@@ -50,12 +54,12 @@ void sub_020138C4(S *p, int a1, void *a2)
 
     sub_02082BCC(p, 0, 0xf0);
     for (i = 0; i < 4; i++) {
-        p->a24[i] = (void *)sub_0201A920((u32)a2);
+        p->a24[i] = (void *)POKEPARTY_Create((u32)a2);
         p->a34[i] = (void *)sub_0200846C((int)a2);
         p->a48[i] = (void *)sub_02013234((u32)a2);
     }
     p->f58 = a1;
-    t = (int)sub_0200873C(sub_02012EBC((void *)a1));
+    t = (int)SYSTEM_DATA_GetConfig(sub_02012EBC((void *)a1));
     v = (int)sub_020082EC((int)a2);
     p->f5c = v;
     sub_02008314((void *)t, (void *)v);

@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_0204B98C 0x0204B98C arm
- *   func_02028230 0x02028230 thumb
+ *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   func_021B7EB0 0x021B7EB0 thumb ov173
  */
 #include "../include/Obj05452.h"
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Actor;
 extern u32 func_0204B98C(struct Actor *a);
-extern u32 func_02028230(u8 *p);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void func_021B7EB0(char *p, int flag);
 int func_021B8110(u8 *p)
 {
@@ -27,7 +27,7 @@ int func_021B8110(u8 *p)
     if(((struct Obj05452 *)s)->fA==0) {
         if(func_0204B98C(*(void **)(p+260+((struct Obj05452 *)s)->f6*4))==0) return ((struct Obj05452 *)s)->f8;
     } else if(((struct Obj05452 *)s)->fA==1) {
-        if(func_02028230(*(void **)(p+544+((struct Obj05452 *)s)->f6*4))!=0) {
+        if(APP_TASKMENU_WIN_IsFinish(*(void **)(p+544+((struct Obj05452 *)s)->f6*4))!=0) {
             func_021B7EB0((char *)p,0);
             return ((struct Obj05452 *)s)->f8;
         }

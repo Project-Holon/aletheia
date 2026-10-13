@@ -10,18 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02015EA0  0x02015EA0  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
+ *   MCSS_Del  0x02015BA4  thumb  arm9
 
  * BLOCKED.  MATCH: the call at +0x08 targets 02015EA0, an ARM address with no label and no pool witness outside the compared range, so the site stays wildcarded.
  */
 
 
-extern void func_02015EA0(void *p);
-extern void func_02015BA4(void *sys, void *obj);
+extern void MCSS_SetVanishFlag(void *p);
+extern void MCSS_Del(void *sys, void *obj);
 
 void func_021C5078(int a, int b)
 {
-    func_02015EA0((void *)b);
-    func_02015BA4((void *)a, (void *)b);
+    MCSS_SetVanishFlag((void *)b);
+    MCSS_Del((void *)a, (void *)b);
 }
 

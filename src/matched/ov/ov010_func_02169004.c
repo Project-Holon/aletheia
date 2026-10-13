@@ -13,10 +13,10 @@
  *   func_02169138  0x02169138  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0201296C  0x0201296C  thumb
- *   func_020143F0  0x020143F0  thumb
+ *   ZONEDATA_ClearTimeFlags  0x020143F0  thumb
  *   func_0200D440  0x0200D440  thumb
  *   func_02012934  0x02012934  thumb
- *   func_0201B100  0x0201B100  thumb
+ *   POKERUS_DecreaseDays  0x0201B100  thumb
  *   func_02012F2C  0x02012F2C  thumb
  *   func_02008E30  0x02008E30  thumb
  *   func_02009470  0x02009470  thumb
@@ -45,10 +45,10 @@ struct Rec0200AB04;
 struct Sub02009470Obj;
 extern void *func_02012EBC(struct Big *p);
 extern u32 func_0201296C(const struct BigObj *p);
-extern void func_020143F0(u8 *a);
+extern void ZONEDATA_ClearTimeFlags(u8 *a);
 extern void func_0200D440(void *sys);
 extern void *func_02012934(const struct BigObj *p);
-extern void func_0201B100(void *, int);
+extern void POKERUS_DecreaseDays(void *, int);
 extern void *func_02012F2C(int *p);
 extern void func_02008E30(void *a0);
 extern struct Sub02009470Obj *func_02009470(void *sys);
@@ -64,9 +64,9 @@ void func_02169004(int a, int b)
     int x;
     func_02169138(a);
     x = (int)func_02012EBC((struct Big *)a);
-    func_020143F0((u8 *)func_0201296C((const struct BigObj *)a));
+    ZONEDATA_ClearTimeFlags((u8 *)func_0201296C((const struct BigObj *)a));
     func_0200D440((void *)x);
-    func_0201B100(func_02012934((void *)a), b);
+    POKERUS_DecreaseDays(func_02012934((void *)a), b);
     func_02008E30(func_02012F2C((int *)a));
     func_0200952C(func_02009470((void *)x));
     func_021862A8(a, b, 4);

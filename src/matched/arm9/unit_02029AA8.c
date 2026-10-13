@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02029AA8, func_02029AF4
+ * function: FIELD_SOUND_SYSTEM_PushAndPlayWaitTask, func_02029AF4
  *
  * Part of the (task body, task spawner) family that makes up the tail of
  * field_sound_system.c.  The body issues a command 3 with a literal 6 and a command 7, then waits
@@ -22,6 +22,9 @@
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02029AA8.c  *       --addr 0x02029AA8 --thumb
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
  */
 
 typedef unsigned short u16;
@@ -41,17 +44,17 @@ struct Ctx;
 struct Desc;
 struct Obj;
 struct Sys;
-extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
+extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 extern u32 func_020289B8(struct Sys *s);
 
-u32 func_02029AA8(void *task, u32 *state, struct Work *work)
+u32 FIELD_SOUND_SYSTEM_PushAndPlayWaitTask(void *task, u32 *state, struct Work *work)
 {
     void *sys = work->unk04;
 
     switch (*state) {
     case 0:
-        func_020289F8(sys, 3, 0, 6, 0);
-        func_020289F8(sys, 7, work->unk08, 0, 0);
+        FIELD_SOUND_SYSTEM_PostRequest(sys, 3, 0, 6, 0);
+        FIELD_SOUND_SYSTEM_PostRequest(sys, 7, work->unk08, 0, 0);
         (*state)++;
         break;
     case 1:
@@ -72,7 +75,7 @@ extern u32 func_02012A30(const struct BigObj *a);
 void *func_02029AF4(void *a, u32 b)
 {
     void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029AA8, 0x10);
+    void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_PushAndPlayWaitTask, 0x10);
     struct Work *work = func_020124E8(task);
 
     work->unk04 = (void *)func_02012A30(x);

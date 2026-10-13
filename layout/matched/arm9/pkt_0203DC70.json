@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203B1B0",
+   "name": "GFL_NET_STATE_BeaconScan",
    "address": "0x0203B1B0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203CFF0",
+   "name": "GFL_NET_ConnectMacAddressParent",
    "address": "0x0203CFF0",
    "kind": "sdk",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203DC70",
+   "name": "GFL_NET_IRC_WIRELESS_Main",
    "address": "0x0203DC70",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203E420",
+   "name": "GFL_NET_IRC_WIRELESS_GetBeaconData",
    "address": "0x0203E420",
    "kind": "game",
    "region": "arm9",

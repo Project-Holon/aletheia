@@ -21,11 +21,11 @@
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02017E1C   0x02017E1C  thumb
- *   func_0201BA34  0x0201BA34  thumb
+ *   POKE_TOOL_HealParty  0x0201BA34  thumb
  *   func_02011330  0x02011330  thumb
  *   func_02017E40  0x02017E40  thumb
  *   func_0201AB08  0x0201AB08  thumb
- *   func_0201AB18  0x0201AB18  thumb
+ *   POKEPARTY_FindFirstNonEgg  0x0201AB18  thumb
  *   func_0201AA14  0x0201AA14  thumb
  *   func_0201AA1C  0x0201AA1C  thumb
  *   func_0201AA50  0x0201AA50  thumb
@@ -37,14 +37,14 @@
  *   func_0215A5DC  0x0215A5DC  thumb  ov010
  *   func_0215A5CC  0x0215A5CC  thumb  ov010
  *   func_02012944  0x02012944  thumb
- *   func_02017D30  0x02017D30  thumb
+ *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   func_020180F4  0x020180F4  thumb
  *   func_020181F4  0x020181F4  thumb
- *   func_02017D70  0x02017D70  thumb
+ *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   func_02008530  0x02008530  thumb
  *   func_020457B0  0x020457B0  arm
  *   func_02008500  0x02008500  thumb
- *   func_0204589C  0x0204589C  arm
+ *   STRBUF_IsEqual  0x0204589C  arm
  *   func_02045808  0x02045808  arm
  *   func_02008550  0x02008550  thumb
  *   g0209DF08      0x0209DF08  data  a1
@@ -57,7 +57,7 @@
  *   d_02171180     0x02171180  data   ov010  a2
  *   d_0217118E     0x0217118E  data   ov010  a2
  *   d_02171190     0x02171190  data   ov010  a2
- *   func_02017A20  0x02017A20  thumb
+ *   POKE_TOOL_SetRotomFormMove  0x02017A20  thumb
  *   func_0216F948  0x0216F948  thumb  ov010
  *   func_0216FAA0  0x0216FAA0  thumb  ov010
  *   func_020307B0  0x020307B0  arm
@@ -72,32 +72,32 @@
  *   func_0201A98C  0x0201A98C  thumb
  *   g_020A7370     0x020A7370  data
  *   func_020186C8 0x020186C8 thumb
- *   func_02017430 0x02017430 thumb
+ *   POKE_TOOL_CreateEx 0x02017430 thumb
  *   func_02020FE4 0x02020FE4 thumb
- *   func_0202142C 0x0202142C thumb
+ *   PALANM_GetPairedCodeForFirst 0x0202142C thumb
  *   func_020127A4 0x020127A4 thumb
  *   func_02012AC8 0x02012AC8 thumb
  *   func_02013E4C 0x02013E4C thumb
- *   func_020185F4  0x020185F4  thumb
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_020074D8  0x020074D8  thumb
  *   func_0200CDE0  0x0200CDE0  thumb
  *   func_02012F08 0x02012F08 thumb
  *   func_0200C278 0x0200C278 thumb
  *   func_0200C29C 0x0200C29C thumb
  *   func_0200C274 0x0200C274 thumb
- *   func_020145CC   0x020145CC  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent   0x020145CC  thumb
  *   func_0215897C   0x0215897C  thumb  ov010
  *   func_0201210C  0x0201210C  thumb
- *   func_020144DC  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02158FB4  0x02158FB4  thumb  ov010
  *   func_02030734  0x02030734  arm
- *   func_020120B4  0x020120B4  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   func_020113D0  0x020113D0  thumb
  *   d_021728F0     0x021728F0  data  a1
  *   func_02158FB8  0x02158FB8  thumb  ov010
- *   func_020120F0  0x020120F0  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   func_02158FBC  0x02158FBC  thumb  ov010
- *   func_0202E474  0x0202E474  thumb
+ *   BAG_PARAM_Create  0x0202E474  thumb
  *   ov070_id       0x00000046  data
  *   d_021BB96C     0x021BB96C  data  ov070 a4
  *   func_02014840  0x02014840  thumb
@@ -116,7 +116,7 @@
  *   func_0215840C  0x0215840C  thumb  ov010
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
- *   func_02175648  0x02175648  thumb  ov011
+ *   INTRUDE_COMM_BuildLocalProfile  0x02175648  thumb  ov011
  *   d_021BA758     0x021BA758  data  ov099  a1
  *   ov071_id       0x00000047  data
  *   func_02158F50  0x02158F50  thumb  ov010
@@ -133,9 +133,9 @@
  *   ov223_id       0x000000DF  data
  *   d_021BC8C4     0x021BC8C4  data  ov223
  *   func_020124AC  0x020124AC  thumb
- *   func_02154438  0x02154438  thumb  ov002
+ *   EVENT_WIFIBATTLEMATCH_Entry  0x02154438  thumb  ov002
  *   ov002_id       0x00000002  data
- *   func_021543BC  0x021543BC  thumb  ov003
+ *   EVENT_MENUPROC_Entry  0x021543BC  thumb  ov003
  *   ov003_id       0x00000003  data
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
@@ -337,11 +337,11 @@ extern void *func_02012934(const struct GameData *);
 extern u32 func_0201AA18(void *);
 extern void *func_0201AB28(void *, u32 idx);
 extern u32 func_02017E1C(void *, u32 id, u32);
-extern void func_0201BA34(void *);
+extern void POKE_TOOL_HealParty(void *);
 extern u16 func_02011330(struct ScriptVm *);
 extern void func_02017E40(void *, u32 id, u32);
 extern u32 func_0201AB08(void *);
-extern u32 func_0201AB18(void *);
+extern u32 POKEPARTY_FindFirstNonEgg(void *);
 extern u32 func_0201AA14(void *);
 extern u32 func_0201AA1C(void *);
 extern u32 func_0201AA50(void *);
@@ -353,14 +353,14 @@ extern int func_020079A0(void *);
 extern void *func_0215A5DC(void *);
 extern u16 func_0215A5CC(void *);
 extern u8 *func_02012944(void *);
-extern u32 func_02017D30(struct PokemonParam *);
+extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *);
 extern void func_020180F4(void *, int move);
 extern void func_020181F4(void *, u16 move, u32 slot);
-extern u32 func_02017D70(struct PokemonParam *, u32);
+extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *, u32);
 extern u32 func_02008530(const struct MyStatus *obj);
 extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02008500(void *player, void *str);
-extern int func_0204589C(struct Strbuf *, struct Strbuf *);
+extern int STRBUF_IsEqual(struct Strbuf *, struct Strbuf *);
 extern void func_02045808(struct Strbuf *vec);
 extern u8 func_02008550(const struct MyStatus *obj);
 extern void *func_0215A5F4(void *);
@@ -368,7 +368,7 @@ extern void *func_020120F4(const struct GameSystem *);
 extern u32 func_02017988(void *, u32);
 extern void *func_0200CA1C(void *);
 extern void func_0200CFA0(struct ZukanSave *, void *);
-extern u32 func_02017A20(void *, u32 idx, u32 val);
+extern u32 POKE_TOOL_SetRotomFormMove(void *, u32 idx, u32 val);
 extern u16 *func_0216F948(void *mon, u32 heap);
 extern int func_0216FAA0(u16 *);
 extern u32 func_020307B0(void *);
@@ -382,31 +382,31 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0202F190(void *mon, u32, void *, u32, u32 heap);
 extern u32 func_0201A98C(struct Party *, const struct PokemonParam *src);
 extern u32 func_020186C8(u32, int, int, int, int, int);
-extern void *func_02017430(u16, u16, u64, u32, u64, u16);
+extern void *POKE_TOOL_CreateEx(u16, u16, u64, u32, u64, u16);
 extern int func_02020FE4(u16, u32, u16);
-extern unsigned short func_0202142C(int);
+extern unsigned short PALANM_GetPairedCodeForFirst(int);
 extern void *func_020127A4(struct GameData *);
 extern u16 func_02012AC8(const struct PlayerWork *);
 extern u32 func_02013E4C(u32 id);
-extern void *func_020185F4(void *);
+extern void *POKE_TOOL_GetBoxParam(void *);
 extern int func_020074D8(void **save, const struct BoxPokemonParam *src);
 extern void func_0200CDE0(struct ZukanSave *, void *);
 extern void *func_02012F08(int *);
 extern u32 func_0200C278(struct MiscSave *, u32);
 extern u32 func_0200C29C(struct MiscSave *, u32);
 extern u32 func_0200C274(struct MiscSave *);
-extern void *func_020145CC(void *);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
 extern void func_0215897C(void *, void *);
 extern void *func_0201210C(const struct GameSystem *);
-extern int func_020144DC(int, int);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int, int);
 extern void *func_02158FB4(void *);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020120B4(struct GameSystem *, u32 id, void *, void *);
+extern void GAMESYSTEM_CallProc(struct GameSystem *, u32 id, void *, void *);
 extern void func_020113D0(char *, int val);
 extern u32 func_02158FB8(void *);
-extern u32 func_020120F0(const struct GameSystem *);
+extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *);
 extern int func_02158FBC();
-extern void *func_0202E474(const struct GameData *, int, int, int);
+extern void *BAG_PARAM_Create(const struct GameData *, int, int, int);
 extern void *func_02014840(char *, int, int, int, int, int, int);
 extern int func_0216F940();
 extern void *func_0216F918(u32 heap);
@@ -419,13 +419,13 @@ extern int func_02175FB4(u8 *);
 extern PlayerName *func_0215840C(CommState *, int idx);
 extern void *func_02012EBC(struct GameData *);
 extern u16 *func_0200BE48(void *);
-extern void func_02175648(void *sv, struct PlayerProfile *o);
+extern void INTRUDE_COMM_BuildLocalProfile(void *sv, struct PlayerProfile *o);
 extern void *func_02158F50(void *);
 extern void *func_02161B90(void *, void *, int kind, int sub, int flag);
 extern void func_02165344(void);
 extern struct GameEvent *func_020124AC(void *, u32, u32 (*fn)(void *, u32), u32);
-extern void func_02154438(s32, s32 *);
-extern void func_021543BC(void);
+extern void EVENT_WIFIBATTLEMATCH_Entry(s32, s32 *);
+extern void EVENT_MENUPROC_Entry(void);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern void func_021F36C0(unsigned int, int, int);
@@ -695,7 +695,7 @@ int func_0215B5A8(int callArg0, int callArg1)
 callArg0 = callArg1 + 0;
     gameData = func_0215A5E4((void *)callArg0);
     party = func_02012934(gameData);
-    func_0201BA34(party);
+    POKE_TOOL_HealParty(party);
 callArg0 = 0;
     return callArg0;}
 
@@ -956,7 +956,7 @@ callArg0 = callArg0 << 0x10;
 callArg0 = (unsigned)callArg0 >> 0x10;
     goto store;
 nonEgg:
-    callArg0 = func_0201AB18(party);
+    callArg0 = POKEPARTY_FindFirstNonEgg(party);
     goto truncate;
 none:
 callArg0 = 0;
@@ -1360,7 +1360,7 @@ int func_0215BD2C(void *vm, void *cmdWork)
     if (func_0215B4AC(cmdWork, partyIndex, &mon) == 0) {
         return 0;
     }
-    saved = func_02017D30(mon);
+    saved = POKE_TOOL_DecodePartyParam(mon);
     if (moveSlot > 4) {
         func_020180F4(mon, move);
     } else if (move == 0) {
@@ -1384,7 +1384,7 @@ int func_0215BD2C(void *vm, void *cmdWork)
     } else {
         func_020181F4(mon, move, (u8)moveSlot);
     }
-    func_02017D70(mon, saved);
+    POKE_TOOL_EncodePartyParam(mon, saved);
     return 0;
 }
 
@@ -1401,7 +1401,7 @@ int func_0215BD2C(void *vm, void *cmdWork)
  *
  * Levers (2026-09-28 tree_ov010_4): the allocation check as
  * `if (a && b) {...} else fail` (moves the failure block after the name
- * test), the name test as `== 0` (func_0204589C answers "equal"), and the
+ * test), the name test as `== 0` (STRBUF_IsEqual answers "equal"), and the
  * version read into a local before the compare (`cmp r0, r1`).
  */
 int func_0215BE24(void *vm, void *cmdWork)
@@ -1433,7 +1433,7 @@ int func_0215BE24(void *vm, void *cmdWork)
     if (monOtName != 0 && playerName != 0) {
         func_02017E1C(mon, 0x8D, (u32)monOtName);
         func_02008500(myStatus, playerName);
-        if (func_0204589C(monOtName, playerName) == 0) {
+        if (STRBUF_IsEqual(monOtName, playerName) == 0) {
             func_02045808(monOtName);
             func_02045808(playerName);
             *resultVar = 0;
@@ -1496,7 +1496,7 @@ int func_0215BF7C(void *vm, void *cmdWork)
     func_0215A5F4(cmdWork);
     gameData = func_020120F4(func_0215A5DC(cmdWork));
     mon = func_0201AB28(func_02012934(gameData), (u32)partyIndex);
-    func_02017A20(mon, (u32)moveSlot, (u32)form);
+    POKE_TOOL_SetRotomFormMove(mon, (u32)moveSlot, (u32)form);
     func_0200CFA0(func_0200CA1C(gameData), mon);
     return 0;
 }
@@ -1807,7 +1807,7 @@ int func_0215C2D0(void *vm, void *cmdWork)
 
 
 /*
- * lever: func_02017430's matched signature has two u64 inputs; widening the
+ * lever: POKE_TOOL_CreateEx's matched signature has two u64 inputs; widening the
  * personality result to u64 schedules its high zero before the low-word store.
  */
 void *func_0215C40C(void *gameData, PokemonSpec *spec)
@@ -1818,11 +1818,11 @@ void *func_0215C40C(void *gameData, PokemonSpec *spec)
     myStatus = func_02012944(gameData);
     trainerIdOrMon = (void *)func_02008530((const struct MyStatus *)func_02012944(gameData));
     personalRnd = func_020186C8((u32)trainerIdOrMon, (u16)spec->species, (u16)spec->form, (u32)spec->natureMode, (u32)spec->genderMode, (u32)spec->shinyMode);
-    trainerIdOrMon = func_02017430(spec->species, spec->level, (u32)trainerIdOrMon, -1, personalRnd, spec->heapId);
+    trainerIdOrMon = POKE_TOOL_CreateEx(spec->species, spec->level, (u32)trainerIdOrMon, -1, personalRnd, spec->heapId);
     func_02017E40(trainerIdOrMon, 0x6F, spec->form);
     func_02017E40(trainerIdOrMon, 6, spec->heldItem);
     if (func_02020FE4(spec->ballItem, 0xF, spec->heapId) == 4)
-        func_02017E40(trainerIdOrMon, 0x98, (u32)func_0202142C((u16)spec->ballItem));
+        func_02017E40(trainerIdOrMon, 0x98, (u32)PALANM_GetPairedCodeForFirst((u16)spec->ballItem));
     func_0202F190(trainerIdOrMon, 0, (void *)myStatus, func_02013E4C(func_02012AC8(func_020127A4(gameData))), spec->heapId);
     func_020185C4(trainerIdOrMon);
     return trainerIdOrMon;
@@ -1842,7 +1842,7 @@ int func_0215C4C8(void *gameData, void *spec)
     if (func_02007984(boxManager) >= 0x2D0)
         return 0;
     mon = func_0215C40C(gameData, spec);
-    func_020074D8(boxManager, (const struct BoxPokemonParam *)((u32)func_020185F4(mon)));
+    func_020074D8(boxManager, (const struct BoxPokemonParam *)((u32)POKE_TOOL_GetBoxParam(mon)));
     func_0200CDE0(func_0200CA1C(gameData), mon);
     func_020307B0(mon);
     return 1;
@@ -1926,7 +1926,7 @@ int func_0215C5EC(void *vm, void *cmdWork)
 {
     void *eventSlot = func_0215A5F4(cmdWork);
 
-    func_0215897C(eventSlot, func_020145CC(func_0215A5DC(cmdWork)));
+    func_0215897C(eventSlot, FIELD_STATUS_CreateFieldOpenEvent(func_0215A5DC(cmdWork)));
 
     return 1;
 }
@@ -1951,7 +1951,7 @@ callArg0 = cmdWorkCopy + 0;
 callArg0 = cmdWorkCopy + 0;
     gameSystem = func_0215A5DC((void *)callArg0);
     fieldMap = func_0201210C(gameSystem);
-    callArg0 = func_020144DC((int)gameSystem, (int)fieldMap);
+    callArg0 = FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)fieldMap);
 callArg1 = callArg0 + 0;
     func_0215897C(eventSlot, (void *)callArg1);
 callArg0 = 1;
@@ -1968,7 +1968,7 @@ callArg0 = 1;
 /*
  * Starts a child process from an overlay on behalf of a script command:
  * allocates the 12-byte hand-off record (work pointer and two words),
- * launches the process over the work with func_020120B4, parks the record in the
+ * launches the process over the work with GAMESYSTEM_CallProc, parks the record in the
  * script's slot and waits on func_0215C69C.
  */
 void func_0215C63C(void *vm, void *cmdWork, u32 overlayId, const void *procData, void *procWork, u32 onFinish, u32 userData)
@@ -1983,7 +1983,7 @@ void func_0215C63C(void *vm, void *cmdWork, u32 overlayId, const void *procData,
     handoff->work = procWork;
     handoff->userData = userData;
     handoff->onFinish = onFinish;
-    func_020120B4(gameSystem, overlayId, (void *)procData, procWork);
+    GAMESYSTEM_CallProc(gameSystem, overlayId, (void *)procData, procWork);
     *handoffSlot = handoff;
     func_020113D0(vm, (int)func_0215C69C);
 }
@@ -2010,7 +2010,7 @@ callArg0 = cmdWorkOrSlot + 0;
 cmdWorkOrSlot = callArg0 + 0;
     callArg0 = func_02158FB8((void *)callArg0);
 handoff = callArg0 + 0;
-    callArg0 = func_020120F0(gameSystem);
+    callArg0 = GAMESYSTEM_GetProcStatus(gameSystem);
     if (callArg0 == 0) goto checkCallback;
 callArg0 = 0;
     return callArg0;
@@ -2085,7 +2085,7 @@ void func_0215C700(BagCloseData *closeData)
 /*
  * Script command: reads a selector and two words, maps the selector
  * (0 -> 4, 1 -> 5, else 0), then opens overlay 0x46 over a work built
- * from func_0202E474 with an 8-byte hand-off record.
+ * from BAG_PARAM_Create with an 8-byte hand-off record.
  *
  * 2026-10-05 (wave D9): EXACT. The ov070 token on the d_021BB96C data line
  * (the proc table lives in ov070, the overlay this function opens) gave the
@@ -2112,7 +2112,7 @@ int func_0215C72C(void *vm, void *cmdWork)
         bagType = 5;
     else
         bagType = 0;
-    bagParam = func_0202E474((const struct GameData *)func_0215A5E4(cmdWork), 0, bagType, 4);
+    bagParam = BAG_PARAM_Create((const struct GameData *)func_0215A5E4(cmdWork), 0, bagType, 4);
     closeData = func_02030734(4, 8, 1, d_021728F0, 0x118);
     closeData[0] = selectedVar;
     closeData[1] = itemVar;
@@ -2289,7 +2289,7 @@ int func_0215C89C(void *vm, void *cmdWork)
  * template) only reach an overlay loader through func_0215C63C, so no
  * class attests them.
  *
- * 2026-10-05 (wave D9): d_021BA758 now resolves with the ov099 token on its symbols line (`data  ov099  a1`; other covering overlays stay contested or unresolved). Only ov071_id remains: it reaches func_0215C63C, which is not in match.py OVERLAY_ID_CONSUMERS (forwards r2 to func_020120B4 r1); a data token on the id line does not help. Needs the consumer entry (tools), not C.
+ * 2026-10-05 (wave D9): d_021BA758 now resolves with the ov099 token on its symbols line (`data  ov099  a1`; other covering overlays stay contested or unresolved). Only ov071_id remains: it reaches func_0215C63C, which is not in match.py OVERLAY_ID_CONSUMERS (forwards r2 to GAMESYSTEM_CallProc r1); a data token on the id line does not help. Needs the consumer entry (tools), not C.
  */
 int func_0215C95C(void *vm, void *cmdWork)
 {
@@ -2315,7 +2315,7 @@ int func_0215C95C(void *vm, void *cmdWork)
         work->isRemote = 1;
     } else {
         func_0200BE48(func_02012EBC(gameData));
-        func_02175648(gameData, (struct PlayerProfile *)(&work->profile));
+        INTRUDE_COMM_BuildLocalProfile(gameData, (struct PlayerProfile *)(&work->profile));
         playerIndex = 0;
         work->isRemote = 0;
     }
@@ -2396,12 +2396,12 @@ int func_0215CAB4(void *vm, void *cmdWork)
  *
  * MATCH, bytes exact. Blockers: the three overlay ids (ABS32 0xDD, 0xDE,
  * 0xE0) have no witness: `overlay_id` would carry them, but func_0215C63C
- * (which forwards its r2 to func_020120B4's r1) is not in match.py's
+ * (which forwards its r2 to GAMESYSTEM_CallProc's r1) is not in match.py's
  * OVERLAY_ID_CONSUMERS. d_021BA250 (ov222) and d_021B9BF8 (ov224) are
  * contested hints that resolve once the function loads those overlays
  * through an overlay_id site. d_021BA1A4 (ov221) already resolves.
  *
- * 2026-10-05 (wave D9): re-tried overlay tokens on the contested hints; they stay contested because the id sites do not attest. Residue is the three id words (ov221_id, ov222_id, ov224_id) reaching func_0215C63C, which is not in OVERLAY_ID_CONSUMERS; add that consumer (r2 -> func_020120B4 r1) and the hints resolve. Not fixable in C.
+ * 2026-10-05 (wave D9): re-tried overlay tokens on the contested hints; they stay contested because the id sites do not attest. Residue is the three id words (ov221_id, ov222_id, ov224_id) reaching func_0215C63C, which is not in OVERLAY_ID_CONSUMERS; add that consumer (r2 -> GAMESYSTEM_CallProc r1) and the hints resolve. Not fixable in C.
  */
 int func_0215CB08(void *vm, void *cmdWork)
 {
@@ -2498,7 +2498,7 @@ callArg0 = 1;
 
 /*
  * Script command: reads a kind (0xF-0x13 mapped to 0-4) and a flag (0/1),
- * builds a four-word request on the stack and launches func_02154438
+ * builds a four-word request on the stack and launches EVENT_WIFIBATTLEMATCH_Entry
  * (ov002) through func_020124AC, parking the result in the script's slot.
  */
 int func_0215CC4C(void *vm, void *cmdWork)
@@ -2544,7 +2544,7 @@ int func_0215CC4C(void *vm, void *cmdWork)
     param.enabled = 1;
     param.flag = flagValue;
     param.matchKind = kindIndex;
-    func_0215897C(eventSlot, func_020124AC(gameSystem, (u32)ov002_id, (void *)func_02154438, (u32)(&param)));
+    func_0215897C(eventSlot, func_020124AC(gameSystem, (u32)ov002_id, (void *)EVENT_WIFIBATTLEMATCH_Entry, (u32)(&param)));
     return 1;
 }
 
@@ -2567,7 +2567,7 @@ int func_0215CCE8(void *vm, void *cmdWork)
     u32 mode = !func_02159B10(vm, cmdWork) ? 1 : 2;
     param.fieldMap = (u32)func_0201210C(gameSystem);
     param.mode = mode;
-    func_0215897C(eventSlot, func_020124AC(gameSystem, (u32)ov003_id, (void *)func_021543BC, (u32)(&param)));
+    func_0215897C(eventSlot, func_020124AC(gameSystem, (u32)ov003_id, (void *)EVENT_MENUPROC_Entry, (u32)(&param)));
     return 1;
 }
 
@@ -2970,7 +2970,7 @@ int func_0215D1E4(void *event, u32 *seq, DaycareEventWork *work)
         *seq = 1;
         break;
     case 1:
-        func_02012374(event, (struct GameEvent **)func_020144DC((int)gameSystem, (int)work->fieldMap));
+        func_02012374(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)work->fieldMap));
         work->menuParam->selectedPos = work->menuState->selectedPos;
         *seq = 2;
         break;
@@ -2979,7 +2979,7 @@ int func_0215D1E4(void *event, u32 *seq, DaycareEventWork *work)
         *seq = 3;
         break;
     case 3:
-        func_02012374(event, func_020145CC(gameSystem));
+        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         *seq = 4;
         break;
     case 4:

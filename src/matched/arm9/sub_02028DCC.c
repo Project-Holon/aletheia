@@ -1,5 +1,5 @@
 /*
- * function: func_02028DCC
+ * function: FIELD_SOUND_SYSTEM_CountRequestsOfKind
  * address:  0x02028DCC
  * packet:   pkt_02028DCC
  * region:   arm9
@@ -32,7 +32,7 @@ struct Sys {
     volatile u8 head;
 };
 
-u8 func_02028DCC(struct Sys *s, u32 target)
+u8 FIELD_SOUND_SYSTEM_CountRequestsOfKind(struct Sys *s, u32 target)
 {
     s32 curr = s->tail;
     u32 count = 0;

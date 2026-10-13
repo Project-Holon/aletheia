@@ -17,6 +17,7 @@
  *   DWCi_BTNlEnable                  0x021BCB84  arm
  *   DWCi_ChangeScene                 0x021C0E40  arm
  *   procScene                        0x021CA980  arm
+ *   DWCi_SceneSetListSave_button  0x021CA9D8  arm
  */
 typedef unsigned int   u32;
 
@@ -26,7 +27,7 @@ extern void DWCi_ChangeScene(void (*scene)());
 extern void func_02085A38(u32 msec);
 extern void func_021CAB68(void);
 extern void func_021CA9A0(void);
-extern void func_021CA9D8(void);
+extern void DWCi_SceneSetListSave_button(void);
 extern void func_021CA9DC(void);
 void func_021CA980(void);
 
@@ -56,6 +57,6 @@ void func_021CA980(void)
     func_02085A38(0xa);
     func_021CAB68();
     func_021CA9A0();
-    func_021CA9D8();
+    DWCi_SceneSetListSave_button();
     func_021CA9DC();
 }

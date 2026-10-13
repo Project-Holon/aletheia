@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035BA4 0x02035BA4 arm
+ *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   d_021F002C 0x021F002C data a4
  */
 
-extern int func_02035BA4(const void *p);
+extern int TOUCHPANEL_HitCont(const void *p);
 extern const unsigned char d_021F002C[];
 
 int func_021EF248(void)
 {
-    if (func_02035BA4(d_021F002C) != -1)
+    if (TOUCHPANEL_HitCont(d_021F002C) != -1)
         return 1;
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D04
+ * function: P_STA_SUB_HideSprite
  * address:  0x021D6D04
  * packet:   pkt_021D6D04
  * region:   ov131
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D797C  0x021D797C  thumb
+ *   P_STA_SUB_DeleteMcss  0x021D797C  thumb
  *   func_0204B3DC  0x0204B3DC  arm
  *
  * Addresses are Black-image addresses.
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021D797C(u8 *p, void **q);
+extern void P_STA_SUB_DeleteMcss(u8 *p, void **q);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 
-void func_021D6D04(void *a, u8 *p)
+void P_STA_SUB_HideSprite(void *a, u8 *p)
 {
-    func_021D797C(a, (void **)p);
+    P_STA_SUB_DeleteMcss(a, (void **)p);
     func_0204B3DC(((struct Obj23137 *)p)->f20, 0);
 }

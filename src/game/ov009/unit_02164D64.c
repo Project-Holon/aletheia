@@ -1,7 +1,7 @@
 /*
  * file:     unit_02164D64.c
  * unit:     yes
- * function: func_02164D64, func_02164D74, func_02164EE0, func_02164F38, func_02164F98, func_02165088, func_02165144, func_02165164, func_02165204, func_021652A4, func_02165478, func_02165560, WCM_GetPhase, func_021656D0, WCM_GetAllowedChannel, func_021657C8, func_021657D8, func_021658F8, func_02165918, WCMi_Notify, WCMi_NotifyEx, func_02165A4C, WCMi_ResetKeepAliveAlarm, func_02165B5C, func_02165B68
+ * function: WCM_Init, func_02164D74, WCM_Finish, WCM_GetWorkSize, WCM_StartupAsync, WCM_CleanupAsync, WCM_SearchAsync, WCM_BeginSearchAsync, WCM_EndSearchAsync, WCM_ConnectAsync, WCM_DisconnectAsync, WCM_TerminateAsync, WCM_GetPhase, func_021656D0, WCM_GetAllowedChannel, WCMi_GetSystemWork, WcmConfigure, WcmInitOption, WCMi_GetNextScanChannel, WCMi_Notify, WCMi_NotifyEx, WCMi_SetPhase, WCMi_ResetKeepAliveAlarm, func_02165B5C, WCMi_GetDefaultDeviceId
  * address:  0x02164D64
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -16,17 +16,17 @@
  *   OS_RestoreInterrupts 0x0208799C arm
  *   MI_CpuFill8          0x02082BCC arm
  *   MI_CpuCopy8          0x02082D44 arm
- *   func_02165B68 0x02165B68 arm ov009
+ *   WCMi_GetDefaultDeviceId 0x02165B68 arm ov009
  *   OS_IsRunOnTwl        0x02085D3C arm
- *   func_02164F38        0x02164F38 arm ov009
- *   func_021658F8        0x021658F8 arm ov009
+ *   WCM_GetWorkSize        0x02164F38 arm ov009
+ *   WcmInitOption        0x021658F8 arm ov009
  *   func_02166304        0x02166304 arm ov009
  *   func_02087058        0x02087058 arm
  *   func_02086FE8        0x02086FE8 arm
  *   func_02087244        0x02087244 arm
  *   func_02087208        0x02087208 arm
  *   func_02087254        0x02087254 arm
- *   func_021657D8        0x021657D8 arm ov009
+ *   WcmConfigure        0x021657D8 arm ov009
  *   func_0208EE60        0x0208EE60 arm
  *   func_02166880        0x02166880 arm ov009
  *   WCMi_NwmifStartupAsync        0x0273199C arm twl
@@ -34,8 +34,8 @@
  *   WCMi_NwmifCleanupAsync        0x02731A84 arm twl
  *   func_02166A24        0x02166A24 arm ov009
  *   WCMi_NwmifBeginSearchAsync        0x02731AF0 arm twl
- *   func_02165A4C        0x02165A4C arm ov009
- *   func_021657C8        0x021657C8 arm ov009
+ *   WCMi_SetPhase        0x02165A4C arm ov009
+ *   WCMi_GetSystemWork        0x021657C8 arm ov009
  *   func_021656D0        0x021656D0 arm ov009
  *   func_02166B2C        0x02166B2C arm ov009
  *   WCMi_NwmifConnectAsync        0x02731BF8 arm twl
@@ -81,16 +81,16 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern unsigned char func_02165B68(void);
+extern unsigned char WCMi_GetDefaultDeviceId(void);
 extern int OS_IsRunOnTwl(void);
-extern void func_021658F8(void);
+extern void WcmInitOption(void);
 extern void func_02166304(void);
 extern long func_02087058(void);
 extern void func_02086FE8(void);
 extern long func_02087244(void);
 extern void func_02087208(void);
 extern void func_02087254(void *alarm);
-extern void func_021657D8(WCMConfig *config, void (*notify)(void *));
+extern void WcmConfigure(WCMConfig *config, void (*notify)(void *));
 extern unsigned short func_0208EE60(void);
 extern long func_02166880(void);
 extern long WCMi_NwmifStartupAsync(void);
@@ -98,7 +98,7 @@ extern long func_021669B8(void);
 extern long WCMi_NwmifCleanupAsync(void);
 extern long func_02166A24(void *bssid, void *essid, unsigned long option);
 extern long WCMi_NwmifBeginSearchAsync(void *bssid, void *essid, unsigned long option);
-extern void func_02165A4C(unsigned char phase);
+extern void WCMi_SetPhase(unsigned char phase);
 extern long func_02166B2C(void);
 extern long WCMi_NwmifConnectAsync();
 extern long func_02166BD8(void);
@@ -114,24 +114,24 @@ extern void WcmKeepAliveAlarm(void *arg);
 long func_02164D74(void *buf, long len, unsigned char deviceId);
 long WCM_Finish(void);
 int WCM_GetWorkSize(long *workSize, unsigned char deviceId);
-long func_02164F98(void *config, void (*notify)(void *));
-long func_02165088(void);
-void func_02165144(void *bssid, void *essid, unsigned long option);
-long func_02165164(void *bssid, void *essid, unsigned long option);
-long func_02165204(void *bssid, void *essid);
-long func_021652A4(void *bssDesc, void *wepDesc, unsigned long option);
-long func_02165478(void);
-long func_02165560(void);
+long WCM_StartupAsync(void *config, void (*notify)(void *));
+long WCM_CleanupAsync(void);
+void WCM_SearchAsync(void *bssid, void *essid, unsigned long option);
+long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option);
+long WCM_EndSearchAsync(void *bssid, void *essid);
+long WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option);
+long WCM_DisconnectAsync(void);
+long WCM_TerminateAsync(void);
 long WCM_GetPhase(void);
 unsigned long func_021656D0(unsigned long option);
 unsigned short WCM_GetAllowedChannel(void);
-WCMWork *func_021657C8(void);
-void func_021657D8(WCMConfig *config, void (*notify)(void *));
-void func_021658F8(void);
-unsigned short func_02165918(unsigned short channel);
+WCMWork *WCMi_GetSystemWork(void);
+void WcmConfigure(WCMConfig *config, void (*notify)(void *));
+void WcmInitOption(void);
+unsigned short WCMi_GetNextScanChannel(unsigned short channel);
 void WCMi_Notify(short result, void *para0, void *para1, long para2);
 void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long para2);
-void func_02165A4C(unsigned char phase);
+void WCMi_SetPhase(unsigned char phase);
 void WCMi_ResetKeepAliveAlarm(void);
 extern void func_02165AF4(void);
 void func_02165B5C(void);
@@ -223,7 +223,7 @@ long func_02164D74(void *buf, long len, unsigned char deviceId)
     if (deviceId == 0) {
         deviceId = WCMi_OverridedDeviceId;
         if (deviceId == 0) {
-            deviceId = func_02165B68();
+            deviceId = WCMi_GetDefaultDeviceId();
         }
     }
     if (WCM_GetWorkSize(&expectLen, deviceId) == 0) {
@@ -241,7 +241,7 @@ long func_02164D74(void *buf, long len, unsigned char deviceId)
     wcmw->apListLock = 0;
     wcmw->resetting = 0;
     wcmw->deviceId = deviceId;
-    func_021658F8();
+    WcmInitOption();
     func_02166304();
     if (func_02087058() == 0) {
         func_02086FE8();
@@ -276,7 +276,7 @@ long WCM_Finish(void)
 int WCM_GetWorkSize(long *workSize, unsigned char deviceId)
 {
     if (deviceId == 0)
-        deviceId = func_02165B68();
+        deviceId = WCMi_GetDefaultDeviceId();
 
     switch (deviceId) {
     case 1:
@@ -299,7 +299,7 @@ int WCM_GetWorkSize(long *workSize, unsigned char deviceId)
  *
  * Starts up the WCM: configures it in the idle phase, then starts the WM or NWM device if a channel is allowed.
  */
-long func_02164F98(void *config, void (*notify)(void *))
+long WCM_StartupAsync(void *config, void (*notify)(void *))
 {
     unsigned long e;
     long wcmResult;
@@ -311,7 +311,7 @@ long func_02164F98(void *config, void (*notify)(void *))
     }
     switch (wcmw->phase) {
     case 1:
-        func_021657D8(config, notify);
+        WcmConfigure(config, notify);
         break;
     case 2:
         OS_RestoreInterrupts(e);
@@ -349,7 +349,7 @@ long func_02164F98(void *config, void (*notify)(void *))
  *
  * Requests cleanup of the WCM: only valid in the idle phase, dispatched to the WM or NWM cleanup by device id.
  */
-long func_02165088(void)
+long WCM_CleanupAsync(void)
 {
     unsigned long e;
     long wcmResult;
@@ -393,18 +393,18 @@ long func_02165088(void)
 /*
  * Dispatches on whether either argument is missing.
  */
-void func_02165144(void *bssid, void *essid, unsigned long option)
+void WCM_SearchAsync(void *bssid, void *essid, unsigned long option)
 {
     if (bssid == 0 || essid == 0) {
-        func_02165204(bssid, essid);
+        WCM_EndSearchAsync(bssid, essid);
         return;
     }
 
-    func_02165164(bssid, essid, option);
+    WCM_BeginSearchAsync(bssid, essid, option);
 }
 
 
-long func_02165164(void *bssid, void *essid, unsigned long option)
+long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option)
 {
     long wcmResult;
     unsigned long e;
@@ -437,7 +437,7 @@ long func_02165164(void *bssid, void *essid, unsigned long option)
  *
  * Ends an AP search: only valid in the search phases, moves to the search-ending phase and reports pending.
  */
-long func_02165204(void *bssid, void *essid)
+long WCM_EndSearchAsync(void *bssid, void *essid)
 {
     unsigned long e;
 
@@ -448,7 +448,7 @@ long func_02165204(void *bssid, void *essid)
     }
     switch (wcmw->phase) {
     case 6:
-        func_02165A4C(7);
+        WCMi_SetPhase(7);
         wcmw->notifyId = 4;
         break;
     case 7:
@@ -471,7 +471,7 @@ long func_02165204(void *bssid, void *essid)
  *
  * The 0x40 bound reads keyLen from the work area before it is stored, as the object does.
  */
-long func_021652A4(void *bssDesc, void *wepDesc, unsigned long option)
+long WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option)
 {
     unsigned long e;
     WCMWork *w;
@@ -479,7 +479,7 @@ long func_021652A4(void *bssDesc, void *wepDesc, unsigned long option)
     WCMWepDesc *privacyDesc;
 
     e = OS_DisableInterrupts();
-    w = func_021657C8();
+    w = WCMi_GetSystemWork();
     if (w == 0) {
         OS_RestoreInterrupts(e);
         return 1;
@@ -549,7 +549,7 @@ long func_021652A4(void *bssDesc, void *wepDesc, unsigned long option)
  *
  * Requests disconnection: valid only in the connected phase, either flagging the reset or dispatching to the WM or NWM disconnect.
  */
-long func_02165478(void)
+long WCM_DisconnectAsync(void)
 {
     unsigned long e;
     long wcmResult;
@@ -574,7 +574,7 @@ long func_02165478(void)
         break;
     }
     if (wcmw->resetting == 1) {
-        func_02165A4C(10);
+        WCMi_SetPhase(10);
         wcmw->notifyId = 6;
     } else {
         switch (wcmw->deviceId) {
@@ -601,7 +601,7 @@ long func_02165478(void)
  *
  * Starts asynchronous termination of the WCM state machine: switches on the phase and dispatches to the WM or NWM terminate call by device id.
  */
-long func_02165560(void)
+long WCM_TerminateAsync(void)
 {
     unsigned long e;
     long wcmResult;
@@ -620,7 +620,7 @@ long func_02165560(void)
         OS_RestoreInterrupts(e);
         return wcmResult;
     case 6:
-        func_02165A4C(13);
+        WCMi_SetPhase(13);
         wcmw->notifyId = 9;
         OS_RestoreInterrupts(e);
         return 3;
@@ -631,7 +631,7 @@ long func_02165560(void)
     case 9:
     case 12:
         if (wcmw->resetting == 1) {
-            func_02165A4C(13);
+            WCMi_SetPhase(13);
             wcmw->notifyId = 9;
         } else {
             switch (wcmw->deviceId) {
@@ -707,7 +707,7 @@ unsigned long func_021656D0(unsigned long option)
 
 unsigned short WCM_GetAllowedChannel(void)
 {
-    WCMWork *w = func_021657C8();
+    WCMWork *w = WCMi_GetSystemWork();
 
     if (w->phase >= 3 && w->phase <= 10) {
         switch (w->deviceId) {
@@ -726,13 +726,13 @@ unsigned short WCM_GetAllowedChannel(void)
 /*
  * The word at +4 of the module state block.
  */
-WCMWork *func_021657C8(void)
+WCMWork *WCMi_GetSystemWork(void)
 {
     return wcmw;
 }
 
 
-void func_021657D8(WCMConfig *config, void (*notify)(void *))
+void WcmConfigure(WCMConfig *config, void (*notify)(void *))
 {
     if (config == 0) {
         wcmw->config.dmano = 3;
@@ -758,7 +758,7 @@ void func_021657D8(WCMConfig *config, void (*notify)(void *))
 /*
  * Stores the constant 0xaaa082 at +0x12d4 of the block the state object holds.
  */
-void func_021658F8(void)
+void WcmInitOption(void)
 {
     WCMWork *p = wcmw;
 
@@ -771,7 +771,7 @@ void func_021658F8(void)
  *
  * Finds the next channel after the given one that is enabled in the scan mask and allowed by the region, wrapping over 13 channels.
  */
-unsigned short func_02165918(unsigned short channel)
+unsigned short WCMi_GetNextScanChannel(unsigned short channel)
 {
     long i;
 
@@ -816,7 +816,7 @@ void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long pa
  *
  * Sets the WCM phase under a critical section, managing the keep-alive alarm when entering or leaving the connected phase.
  */
-void func_02165A4C(unsigned char phase)
+void WCMi_SetPhase(unsigned char phase)
 {
     unsigned long e;
 
@@ -857,7 +857,7 @@ void func_02165B5C(void)
 /*
  * Two when the word call is non-zero, one otherwise.
  */
-unsigned char func_02165B68(void)
+unsigned char WCMi_GetDefaultDeviceId(void)
 {
     if (OS_IsRunOnTwl())
         return 2;

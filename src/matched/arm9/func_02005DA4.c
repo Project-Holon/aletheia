@@ -1,5 +1,5 @@
 /*
- * function: func_02005DA4
+ * function: GFL_USE_ChangeBgm
  * address:  0x02005DA4
  * packet:   pkt_02005DA4
  * region:   arm9
@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   sub_02005F70  0x02005F70  thumb
+ *   GFL_USE_BeginBgmChange  0x02005F70  thumb
  *
- * Wrapper that forwards all four arguments to sub_02005F70.  Seeded in
+ * Wrapper that forwards all four arguments to GFL_USE_BeginBgmChange.  Seeded in
  * layout/function_starts.txt from its only caller, the bl at ov012
  * 0x021745D0 (w6_fix18).
  */
 
-extern void sub_02005F70(unsigned int a, unsigned short b, int c, int d);
+extern void GFL_USE_BeginBgmChange(unsigned int a, unsigned short b, int c, int d);
 
-void func_02005DA4(unsigned int a, unsigned short b, int c, int d)
+void GFL_USE_ChangeBgm(unsigned int a, unsigned short b, int c, int d)
 {
-    sub_02005F70(a, b, c, d);
+    GFL_USE_BeginBgmChange(a, b, c, d);
 }

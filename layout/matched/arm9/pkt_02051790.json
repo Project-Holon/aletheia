@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02051790",
+   "name": "BUTTON_MAN_GetPos",
    "address": "0x02051790",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020517A4",
+   "name": "BUTTON_MAN_SetPos",
    "address": "0x020517A4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020517B4",
+   "name": "BUTTON_MAN_GetRot",
    "address": "0x020517B4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020517D0",
+   "name": "BUTTON_MAN_GetScaleX",
    "address": "0x020517D0",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020517D8",
+   "name": "BUTTON_MAN_SetScaleX",
    "address": "0x020517D8",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020517E0",
+   "name": "BUTTON_MAN_GetScaleY",
    "address": "0x020517E0",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020517E8",
+   "name": "BUTTON_MAN_SetScaleY",
    "address": "0x020517E8",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020517F0",
+   "name": "BUTTON_MAN_GetOffsetX",
    "address": "0x020517F0",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02051800",
+   "name": "BUTTON_MAN_SetOffsetX",
    "address": "0x02051800",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02051808",
+   "name": "BUTTON_MAN_GetOffsetY",
    "address": "0x02051808",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02051818",
+   "name": "BUTTON_MAN_SetOffsetY",
    "address": "0x02051818",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02051820",
+   "name": "BUTTON_MAN_GetAngle",
    "address": "0x02051820",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02051830",
+   "name": "BUTTON_MAN_GetAlpha",
    "address": "0x02051830",
    "kind": "game",
    "region": "arm9",

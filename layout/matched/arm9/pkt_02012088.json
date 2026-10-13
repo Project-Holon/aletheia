@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02012088",
+   "name": "GAMESYSTEM_Delete",
    "address": "0x02012088",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_0201209C",
+   "name": "GAMESYSTEM_SetEventCreator",
    "address": "0x0201209C",
    "kind": "game",
    "region": "arm9",

@@ -17,7 +17,7 @@
  *   func_0200C0F0  0x0200C0F0  thumb
  *   func_0200C224  0x0200C224  thumb
  *   func_0200C22C  0x0200C22C  thumb
- *   func_02027138  0x02027138  thumb
+ *   GAME_BEACON_SetResearchTeamRank  0x02027138  thumb
  */
 
 typedef unsigned char u8;
@@ -33,7 +33,7 @@ extern void *func_0200C0F0(void *sys);
 struct Blk34;
 extern u8 func_0200C224(struct Blk34 *p);
 extern int func_0200C22C();
-extern int func_02027138();
+extern int GAME_BEACON_SetResearchTeamRank();
 
 int func_0216B538(int a0, int a1)
 {
@@ -68,7 +68,7 @@ loc_0216B568:
 a0 = t4 + 1;
 a0 = a0 << 0x18;
 a0 = (unsigned)a0 >> 0x18;
-    a0 = func_02027138(a0);
+    a0 = GAME_BEACON_SetResearchTeamRank(a0);
 loc_0216B572:
 a0 = 0;
     return a0;}

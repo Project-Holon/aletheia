@@ -1,5 +1,5 @@
 /*
- * function: func_02011CF0
+ * function: ICA_ANIME_SetCameraPos
  * address:  0x02011CF0
  * packet:   pkt_020116E0
  * region:   arm9
@@ -18,8 +18,8 @@
  * function func_02048AFC together with the original first argument.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02011CF0.c \
- *       --func func_02011CF0 --addr 0x02011CF0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ICA_ANIME_SetCameraPos.c \
+ *       --func ICA_ANIME_SetCameraPos --addr 0x02011CF0 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -29,7 +29,7 @@ struct Rec12;
 extern unsigned int func_02011610(struct IcaAnime *a1, struct Rec12 *buf);
 extern void func_02048AFC(void *a0, const u8 *buf);
 
-void func_02011CF0(void *a0, void *a1)
+void ICA_ANIME_SetCameraPos(void *a0, void *a1)
 {
     u8 buf[0xc];
 

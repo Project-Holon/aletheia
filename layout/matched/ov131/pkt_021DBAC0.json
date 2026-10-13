@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DBAC0",
+   "name": "P_STA_OAM_DeleteManager",
    "address": "0x021DBAC0",
    "kind": "game",
    "region": "ov131",

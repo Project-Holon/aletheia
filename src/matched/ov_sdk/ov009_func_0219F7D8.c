@@ -12,12 +12,12 @@
  * sdk:      SBFreeDeadList (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:
- *   func_0219E26C  0x0219E26C  arm  ov009
+ *   SBServerGetNext  0x0219E26C  arm  ov009
  *   func_0219DFF8  0x0219DFF8  arm  ov009
  */
 
 struct SBL { char pad[0x7d8]; void *dead; };
-extern int func_0219E26C(const int *p);
+extern int SBServerGetNext(const int *p);
 extern void func_0219DFF8(void *elem);
 void func_0219F7D8(struct SBL *slist)
 {
@@ -27,7 +27,7 @@ void func_0219F7D8(struct SBL *slist)
 	if (next == 0)
 		return;
 	for (server = next; server != 0; server = next) {
-		next = (void *)func_0219E26C(server);
+		next = (void *)SBServerGetNext(server);
 		func_0219DFF8(&server);
 	}
 	slist->dead = 0;

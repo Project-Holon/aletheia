@@ -1,5 +1,5 @@
 /*
- * function: func_0203B038
+ * function: GFL_NET_STATE_ConnectMac
  * address:  0x0203B038
  * packet:   pkt_0203B038
  * region:   arm9
@@ -14,7 +14,7 @@
  *           site is 0x0203B018.
  * PARKED AT MATCH.  Every concrete byte is right (76 of 76) and the file is
  * the right size; the one open site is the ABS32 to 0x0203B018, the bare
- * `bx lr` filler word that sits between func_0203AFCC's literal pool and the
+ * `bx lr` filler word that sits between GFL_NET_STATE_DeviceInitialize's literal pool and the
  * unlabelled leaf at 0x0203B01C.  That address has no label (a prologue that
  * saves no `lr` is never auto-labelled) and the word appears in exactly one
  * literal pool image-wide - this function's own - so neither `label` nor
@@ -40,30 +40,30 @@
  * halfword by 0x3C); the report's identifier is the no-op at 0x0203B018.
  *
  * symbols:
- *   func_02037A6C  0x02037A6C  arm
- *   func_0203AD80  0x0203AD80  arm
+ *   GFL_NET_SYSTEM_ConnectToParent  0x02037A6C  arm
+ *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
  *   unk_0203B018   0x0203B018  arm
  *   unk_0203B01C   0x0203B01C  arm
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0203B038.c \
- *       --func func_0203B038 --addr 0x0203B038 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GFL_NET_STATE_ConnectMac.c \
+ *       --func GFL_NET_STATE_ConnectMac --addr 0x0203B038 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32  func_02037A6C(int a0, int a1, int a2, int a3);
+extern u32  GFL_NET_SYSTEM_ConnectToParent(int a0, int a1, int a2, int a3);
 typedef unsigned short u16;
 struct NetState;
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
 extern char unk_0203B018[];
 extern char unk_0203B01C[];
 
-void func_0203B038(u8 *a0)
+void GFL_NET_STATE_ConnectMac(u8 *a0)
 {
-    if (func_02037A6C(0, (int)(a0 + 0x40), 0x200, (int)unk_0203B01C) != 0)
-        func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)unk_0203B018, 0xA, 0x169);
+    if (GFL_NET_SYSTEM_ConnectToParent(0, (int)(a0 + 0x40), 0x200, (int)unk_0203B01C) != 0)
+        GFL_NET_STATE_ChangeStateDebug((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)unk_0203B018, 0xA, 0x169);
 }

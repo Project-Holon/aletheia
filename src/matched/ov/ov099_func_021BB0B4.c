@@ -16,7 +16,7 @@
  *   func_0201F868 0x0201F868 thumb
  *   func_020456F8 0x020456F8 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0201FEF4 0x0201FEF4 thumb
+ *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  */
 #include "../include/Obj00008.h"
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ extern void func_0202020C(struct Obj *, u16 *, u16 *);
 extern u32 func_0201F868(void *p);
 extern void func_020456F8(struct Descriptor *);
 extern void func_02041B6C(u32);
-extern void func_0201FEF4(u8 *);
+extern void BMP_MENU_DeleteYesNo(u8 *);
 void func_021BB0B4(char *p)
 {
     func_021BA8EC(p);
@@ -54,5 +54,5 @@ void func_021BB0B4(char *p)
     }
     if (((struct Obj00008 *)p)->fB4) { func_0202020C(*(struct Obj * *)&((struct Obj00008 *)p)->fB4, 0, 0); ((struct Obj00008 *)p)->fB4 = 0; }
     if (((struct Obj00008 *)p)->fB0) { func_0201F868(((struct Obj00008 *)p)->fB0); ((struct Obj00008 *)p)->fB0 = 0; }
-    if (((struct Obj00008 *)p)->f108) { func_0201FEF4(*(u8 * *)&((struct Obj00008 *)p)->f108); ((struct Obj00008 *)p)->f108 = 0; }
+    if (((struct Obj00008 *)p)->f108) { BMP_MENU_DeleteYesNo(*(u8 * *)&((struct Obj00008 *)p)->f108); ((struct Obj00008 *)p)->f108 = 0; }
 }

@@ -13,7 +13,7 @@
  *   sub_0200A8AC   0x0200A8AC  thumb
  *   sub_0200A8D0   0x0200A8D0  thumb
  *   sub_0200AA00   0x0200AA00  thumb
- *   sub_020056EC   0x020056EC  thumb
+ *   GFL_USE_GetRandom   0x020056EC  thumb
  */
 
 typedef unsigned int u32;
@@ -25,7 +25,7 @@ struct Rec;
 extern s32 sub_0200A8AC(struct Rec *r);
 extern u8 sub_0200A8D0(struct Rec *r, u32 index);
 extern u8 sub_0200AA00(u32 a0, u32 a1, struct Date *src);
-extern u32 sub_020056EC(u32 range);
+extern u32 GFL_USE_GetRandom(u32 range);
 
 int sub_0200A940(void *a0, int a1, int a2, void *a3)
 {
@@ -44,7 +44,7 @@ int sub_0200A940(void *a0, int a1, int a2, void *a3)
             u32 tmp[2];
             tmp[0] = (u32)best;
             tmp[1] = (u32)i;
-            best = (int)tmp[sub_020056EC(2)];
+            best = (int)tmp[GFL_USE_GetRandom(2)];
         } else if (bestd > d) {
             best = i;
             bestd = d;

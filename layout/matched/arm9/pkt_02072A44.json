@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02072A44",
+   "name": "NNS_SndWaveOutAllocChannel",
    "address": "0x02072A44",
    "kind": "game",
    "region": "arm9",
@@ -60,7 +60,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02072C18",
+   "name": "NNS_SndWaveOutSetVolume",
    "address": "0x02072C18",
    "kind": "game",
    "region": "arm9",
@@ -72,7 +72,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02072DB0",
+   "name": "NNS_SndPlayerSetPlayableSeqCount",
    "address": "0x02072DB0",
    "kind": "game",
    "region": "arm9",

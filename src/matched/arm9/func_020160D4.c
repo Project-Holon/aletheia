@@ -1,5 +1,5 @@
 /*
- * function: func_020160D4
+ * function: MCSS_CreatePaletteTransTask
  * address:  0x020160D4
  * packet:   pkt_020160D4
  * region:   arm9
@@ -12,7 +12,7 @@
  * mcss.c: builds the per-scene fade/transition context.  Three debug
  * allocations out of the heap named by the u16 at +0x14c (masked to
  * 0x7fff and forced into the 0x8000 bank), then a palette blend and a
- * copy, and finally either a task registration (func_0201691C as the
+ * copy, and finally either a task registration (MCSS_TransPaletteTask as the
  * callback, through the owner-aware path or the plain one) or, if the
  * caller has already set the "skip" bit at +0x140, an immediate teardown
  * of everything just allocated.  Either way the done bit 0x10000000 is
@@ -20,14 +20,14 @@
  *
  * The three heap ids are recomputed rather than cached: each is a fresh
  * `ldr`+lsls/lsrs of the int field at +0x14c, so the field is an `int`
- * truncated at the call, not a u16 member (see func_02016984 in this
+ * truncated at the call, not a u16 member (see MCSS_InitAnimCtrl in this
  * same file).  The two __LINE__ pool words 0x761 and 0x769 are the
  * consecutive-line idiom: 0x76e is derived from 0x769 with `adds #5`.
  *
  * symbols:
  *   data_020A72CC  0x020A72CC  data
- *   func_0201691C  0x0201691C  thumb
- *   func_02016C38  0x02016C38  thumb
+ *   MCSS_TransPaletteTask  0x0201691C  thumb
+ *   MCSS_DeletePaletteTask  0x02016C38  thumb
  *   func_02021F64  0x02021F64  thumb
  *   func_020056A0  0x020056A0  thumb
  *   func_02030734  0x02030734  arm
@@ -36,7 +36,7 @@
  *   func_02082A60  0x02082A60  arm
  *
  * Closed in the second pass (2026-09-22) from the 12-byte prologue-spill
- * near miss in docs/notes/func_020160D4.c.txt.  The lever is the THIRD
+ * near miss in docs/notes/MCSS_CreatePaletteTransTask.c.txt.  The lever is the THIRD
  * PARAMETER'S TYPE: `u16 a2`, not `int a2`.
  *
  * That note's own list had tried `u16` on a3 (which made it worse, 168
@@ -50,12 +50,12 @@
  * lever" guess (make a2 reach a call earlier) was not needed.
  *
  * This is also a data point for the family: the value at +0x13C that
- * func_020169E8 hands to func_02021F64 as `(u16)` is 16-bit AT THE
+ * MCSS_UpdatePaletteFade hands to func_02021F64 as `(u16)` is 16-bit AT THE
  * PARAMETER here, not only at the call.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020160D4.c \
- *       --func func_020160D4 --addr 0x020160D4 --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/matched/MCSS_CreatePaletteTransTask.c \
+ *       --func MCSS_CreatePaletteTransTask --addr 0x020160D4 --cc 1.1p1 --thumb
  */
 #include "../include/Obj01093.h"
 #include "../include/Obj01612.h"
@@ -73,8 +73,8 @@ typedef unsigned int   u32;
 extern char data_020A72CC[];
 
 struct Obj_0201691C;
-extern void func_0201691C(void *a0, struct Obj_0201691C *a1);
-extern int func_02016C38(int a0);
+extern void MCSS_TransPaletteTask(void *a0, struct Obj_0201691C *a1);
+extern int MCSS_DeletePaletteTask(int a0);
 extern void  func_02021F64(int a, int b, u16 c, int d, u16 e);
 extern int   func_020056A0(int fn, int arg, int n);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
@@ -82,7 +82,7 @@ extern int   func_02030DA8(int owner, int fn, int arg, int n);
 extern u32 func_020307B0(void *p);
 extern void  func_02082A60(int a, int b, int c);
 
-void func_020160D4(char *a0, char *a1, u16 a2, int a3)
+void MCSS_CreatePaletteTransTask(char *a0, char *a1, u16 a2, int a3)
 {
     char *o;
 
@@ -115,16 +115,16 @@ void func_020160D4(char *a0, char *a1, u16 a2, int a3)
                   ((struct Obj01093 *)a1)->fD8, ((struct Obj01093 *)a1)->fDC);
 
     if (((struct Obj01093 *)a1)->f8 != 0) {
-        func_02016C38(((struct Obj01093 *)a1)->f8);
+        MCSS_DeletePaletteTask(((struct Obj01093 *)a1)->f8);
         ((struct Obj01093 *)a1)->f8 = 0;
     }
 
     if (((u32)(((struct Obj01093 *)a1)->f140 << 0x13) >> 0x1f) == 0) {
         if (((struct Obj06864 *)a0)->f8 != 0) {
             ((struct Obj01093 *)a1)->f8 = func_02030DA8(((struct Obj06864 *)a0)->f8,
-                                             (int)func_0201691C, (int)o, 0);
+                                             (int)MCSS_TransPaletteTask, (int)o, 0);
         } else {
-            ((struct Obj01093 *)a1)->f8 = func_020056A0((int)func_0201691C, (int)o, 0);
+            ((struct Obj01093 *)a1)->f8 = func_020056A0((int)MCSS_TransPaletteTask, (int)o, 0);
         }
     } else {
         func_020307B0((void *)(((struct Obj15681 *)(*(char * *)&((struct Obj01612 *)o)->f4))->fC));

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202D6F4",
+   "name": "POKEGRA_LoadCharDataPP",
    "address": "0x0202D6F4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202D760",
+   "name": "POKEGRA_LoadCharData",
    "address": "0x0202D760",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202DA04",
+   "name": "POKEGRA_OpenTrainerHandle",
    "address": "0x0202DA04",
    "kind": "game",
    "region": "arm9",

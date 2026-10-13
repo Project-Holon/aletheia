@@ -1,5 +1,5 @@
 /*
- * function: func_0204D9B4
+ * function: CLACT_IsVramTypeCompatible
  * address:  0x0204D9B4
  * packet:   pkt_0204D768
  * region:   arm9
@@ -19,13 +19,13 @@
  * like once it is short enough not to branch.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D9B4.c \
- *       --func func_0204D9B4 --addr 0x0204D9B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_IsVramTypeCompatible.c \
+ *       --func CLACT_IsVramTypeCompatible --addr 0x0204D9B4 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
-u32 func_0204D9B4(u32 a, u32 b)
+u32 CLACT_IsVramTypeCompatible(u32 a, u32 b)
 {
     if (a == 2 || b == 2) {
         return 1;

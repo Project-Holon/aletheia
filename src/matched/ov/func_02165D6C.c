@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204581C  0x0204581C  arm
+ *   STRBUF_Clear  0x0204581C  arm
  *   func_02045924  0x02045924  arm
  */
 #include "../include/Obj17724.h"
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0204581C();
+extern int STRBUF_Clear();
 extern int func_02045924();
 
 int func_02165D6C(int a0, int a1)
@@ -31,7 +31,7 @@ a0 = ((struct Obj17724 *)a2)->f30;
     if (a0 == 0x18) goto loc_02165D7E;
 loc_02165D76:
 a0 = a1 + 0;
-    a0 = func_0204581C(a0);
+    a0 = STRBUF_Clear(a0);
 loc_02165D7C:
     return a0;
 loc_02165D7E:

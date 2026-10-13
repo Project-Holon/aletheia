@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   BGWINFRM_GetPos  0x0202CF98  thumb  arm9
  *
  * Read the 8-byte tag at the top of the frame; 1 when byte 1 is
  *   0x15 and byte 0 is 6.
@@ -19,10 +20,10 @@
 typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
-extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 int func_021EF45C(struct WinMgr *mgr)
 {
     s8 buf[4];
-    func_0202CF98(mgr, 8, buf + 1, buf);
+    BGWINFRM_GetPos(mgr, 8, buf + 1, buf);
     return buf[1] == 0x15 && buf[0] == 6;
 }

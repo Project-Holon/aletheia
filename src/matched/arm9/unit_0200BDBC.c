@@ -24,7 +24,7 @@
  * register rather than materialising 0x1A0 again; that is the compiler's
  * doing and not a second constant in the source.
  *
- * func_0200BDE4 hands the first sixteen bytes to func_021763BC, which lives
+ * func_0200BDE4 hands the first sixteen bytes to INTRUDE_COMM_ResetOutcomes, which lives
  * in overlay address space.  The call is attested because ov019's generated
  * listing carries a `func_` label at 0x021763BC and branches elsewhere in the
  * image reach it; see "Callees that live in an overlay" in docs/MATCHING.md.
@@ -39,7 +39,7 @@
  *
  * symbols:
  *   MI_CpuFill8     0x02082BCC  arm
- *   func_021763BC   0x021763BC  thumb
+ *   INTRUDE_COMM_ResetOutcomes   0x021763BC  thumb
  */
 
 typedef unsigned char  u8;
@@ -48,7 +48,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
-extern void func_021763BC(void *p);
+extern void INTRUDE_COMM_ResetOutcomes(void *p);
 
 struct Rec1B0 {
     u8  unk00[0x0C];
@@ -76,7 +76,7 @@ void func_0200BDC4(struct Rec1B0 *p)
 void func_0200BDE4(struct Rec1B0 *p)
 {
     MI_CpuFill8(p, 0, 0x10);
-    func_021763BC(p);
+    INTRUDE_COMM_ResetOutcomes(p);
 }
 
 u16 func_0200BDF8(struct Rec1B0 *p)

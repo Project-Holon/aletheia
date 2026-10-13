@@ -1,5 +1,5 @@
 /*
- * function: func_02156874
+ * function: DWC_RAP_GetFriendStatus
  * address:  0x02156874
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern struct _anon_Work *g_021A8264;
 
-unsigned char func_02156874(int i)
+unsigned char DWC_RAP_GetFriendStatus(int i)
 {
     return *(unsigned char *)(((char *)g_021A8264) + i + 0x32c);
 }

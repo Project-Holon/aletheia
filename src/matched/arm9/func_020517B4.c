@@ -1,5 +1,5 @@
 /*
- * function: func_020517B4
+ * function: BUTTON_MAN_GetRot
  * address:  0x020517B4
  * packet:   pkt_02051790
  * region:   arm9
@@ -16,7 +16,7 @@ typedef struct {
     short x, y, z;
 } Vec16;
 
-void func_020517B4(char *p, Vec16 *out)
+void BUTTON_MAN_GetRot(char *p, Vec16 *out)
 {
     *out = *(Vec16 *)(p + 0x50);
 }

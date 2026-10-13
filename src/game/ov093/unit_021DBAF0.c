@@ -36,224 +36,211 @@
  *   d_021F06C0 0x021F06C0 data a4
  *   func_021E85F8  0x021E85F8  thumb  ov093
  *   func_021E86E8  0x021E86E8  thumb  ov093
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   func_021C83D4  0x021C83D4  thumb  ov093
  *   func_021D62C4  0x021D62C4  thumb  ov093
  *   func_021D85C0  0x021D85C0  thumb  ov093
  *   func_021E896C  0x021E896C  thumb  ov093
  *   d_021F06C8     0x021F06C8  data   ov093  a4
  */
-#include "../../matched/include/Obj06258.h"
-#include "../../matched/include/Obj13481.h"
-#include "../../matched/include/Obj10064.h"
+#include "unit_021DBAF0_types.h"
 
-struct QI;
-struct QK;
-struct UtilWork;
-struct S;
-struct Unk021D62A8;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-typedef enum { N_4 = 4, N_5 = 5 } N;
-
-typedef struct Word { u32 v; } Word;
-
+/* Services of the event variable stack, the battle server flow and the poke parameter. */
 extern int func_021D775C(int key);
-extern int func_021B9A24(unsigned int a, unsigned int b);
-extern int func_021C7D00(u8 *p, int b);
-extern u8 func_021C7F68(int *p, int b, u8 *out);
-extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5814(void *p, int k);
-extern int func_021D76BC(int key, u32 val);
-extern u16 func_021D5B40(struct QI *p);
-extern void func_021D7704(int a, int b);
-extern u8 *func_021C8120(u8 *p, int b);
-extern int func_021D5BB0(struct UtilWork *p, u32 n);
-extern u16 func_021D6740(struct QK *p);
-extern u8 func_021D5440(u8 *p);
-extern u32 func_021D78AC(u32 k);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 v);
-extern void func_021C88C8(void *a, void *b);
-extern int func_021E85F8(int id);
-extern int func_021E86E8(void *a, int b, int c);
-extern u32 func_0201BEB8(u16 id, u32 bit);
-extern int func_021C83D4(u8 *p);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern int func_0689C8CC(u32 k);
-extern int func_021D85C0(int a, u32 b);
-extern Word func_021E896C(int a, int b);
-void func_021DBAF0(int a, int p, int x);
-int *func_021DBB58(int *p);
-void func_021DBB64(int a,void *b,int c,int *d);
-void func_021DBB98(int u, int a, int b, int *c);
-int *func_021DBBCC(int *p);
-void func_021DBBD8(int a, void *b, u8 c);
-void *func_021DBCE0(int *p);
-void func_021DBCEC(int u, void *a, int b);
-void func_021DBD9C(int u, void *a, int b);
+extern int func_021D76BC(int key, u32 value);
+extern void func_021D7704(int key, int ratio);
+extern u32 func_021D78AC(u32 range);
+extern int func_021B9A24(unsigned int pokeIdA, unsigned int pokeIdB);
+extern int func_021C7D00(struct BtlServerFlow *flow, int pokeId);
+extern u8 func_021C7F68(struct BtlServerFlow *flow, int posKey, u8 *out);
+extern struct BtlPokeParam *func_021C7CF4(struct BtlServerFlow *flow, int pokeId);
+extern u8 *func_021C8120(struct BtlServerFlow *flow, int size);
+extern void *func_021C88A4(struct BtlServerFlow *flow, int cmdKind, int pokeId);
+extern void func_021C8838(BtlStrParam *strParam, int strType, int strId);
+extern void func_021C8860(BtlStrParam *strParam, u32 arg);
+extern void func_021C88C8(struct BtlServerFlow *flow, void *cmd);
+extern int func_021C83D4(struct BtlServerFlow *flow);
+extern int func_021D5814(struct BtlPokeParam *bpp, int typeId);
+extern u16 func_021D5B40(struct BtlPokeParam *bpp);
+extern int func_021D5BB0(struct BtlPokeParam *bpp, u32 flagIndex);
+extern u16 func_021D6740(struct BtlPokeParam *bpp);
+extern u8 func_021D5440(struct BtlPokeParam *bpp);
+extern int func_021D62C4(struct BtlPokeParam *bpp, int sickId);
+extern int func_021D85C0(struct BtlServerFlow *flow, u32 percent);
+extern int func_021E85F8(int pokeId);
+extern int func_021E86E8(struct BtlServerFlow *flow, int pokeIdA, int pokeIdB);
+extern union BtlSickCont func_021E896C(int index, int value);
+extern int func_0689C8CC(u32 moveId);
+extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 flagBit);
+
+void func_021DBAF0(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId);
+int *func_021DBB58(int *handlerCount);
+void func_021DBB64(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId, int *work);
+void func_021DBB98(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId, int *work);
+int *func_021DBBCC(int *handlerCount);
+void func_021DBBD8(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 ownerId);
+void *func_021DBCE0(int *handlerCount);
+void func_021DBCEC(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId);
+void func_021DBD9C(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId);
 extern int d_021F0960[];
 extern u8 d_021F06C0[];
 extern int d_021F06C8[];
 
-
-void func_021DBAF0(int a, int p, int x)
+/* Magnet Pull: a Steel-type Pokemon among the owner's targets cannot escape. */
+void func_021DBAF0(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId)
 {
-    u8 buf[4];
-    u32 n;
+    u8 targetIds[4];
+    u32 targetCount;
     u8 i;
 
-    if (func_021B9A24((u8)func_021D775C(2), (int)x) == 0) {
-        n = func_021C7F68((int *)p, (u16)(func_021C7D00((u8 *)p, x) | 0x100), buf);
-        for (i = 0; i < n; i++) {
-            if (func_021D5814(func_021C7CF4((int *)p, buf[i]), 8) != 0)
-                func_021D76BC(0x41, 1);
+    if (func_021B9A24((u8)func_021D775C(BTL_EVAR_POKE_ID), ownerId) == 0) {
+        targetCount = func_021C7F68(flow, (u16)(func_021C7D00(flow, ownerId) | 0x100), targetIds);
+        for (i = 0; i < targetCount; i++) {
+            if (func_021D5814(func_021C7CF4(flow, targetIds[i]), POKETYPE_STEEL) != 0)
+                func_021D76BC(BTL_EVAR_PREVENT_FLAG, 1);
         }
     }
 }
 
-
-int *func_021DBB58(int *p)
+int *func_021DBB58(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F0960;
 }
 
-
-void func_021DBB64(int a,void *b,int c,int *d) { if(c==func_021D775C(2) && func_021D775C(0x2d)==0 && func_021D5B40(func_021C7CF4(b,c))) *d=1; }
-
-
-void func_021DBB98(int u, int a, int b, int *c)
+/* Unburden: remember that the owner is about to lose its held item. */
+void func_021DBB64(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId, int *work)
 {
-    if (b == func_021D775C(2) && *c == 1) {
-        if (func_021D5B40(func_021C7CF4((int *)a, b)) == 0) {
-            func_021D7704(0x35, 2 << 12);
+    if (ownerId == func_021D775C(BTL_EVAR_POKE_ID) && func_021D775C(BTL_EVAR_SELF_CAUSED_FLAG) == 0
+        && func_021D5B40(func_021C7CF4(flow, ownerId)))
+        *work = 1;
+}
+
+/* Unburden: once the item is gone, the speed of the owner doubles. */
+void func_021DBB98(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId, int *work)
+{
+    if (ownerId == func_021D775C(BTL_EVAR_POKE_ID) && *work == 1) {
+        if (func_021D5B40(func_021C7CF4(flow, ownerId)) == 0) {
+            func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_2_0);
         }
     }
 }
 
-
-int *func_021DBBCC(int *p)
+int *func_021DBBCC(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F06C8;
 }
 
-
-void func_021DBBD8(int a, void *b, u8 c)
+/* Pickup: an owner without an item takes a random item that a Pokemon around it used this turn. */
+void func_021DBBD8(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 ownerId)
 {
-    u8 *buf;
-    void *m;
-    u32 flag;
+    TokuseiPickupScratch *scratch;
+    struct BtlPokeParam *candidate;
+    BtlSetItemCmd *cmd;
+    u32 posKey;
     u8 i;
-    u8 n;
-    u8 selected;
-    u16 value;
-    u8 *r;
-    if (c == func_021D775C(2) && !func_021D5B40(func_021C7CF4(b, c))) {
-        flag = func_021C7D00(b, c);
-        buf = func_021C8120(b, 14);
-        buf[12] = (u8)func_021C7F68(b, (u16)(flag | 0x200), buf);
-        n = 0;
-        buf[13] = 0;
-        for (i = 0; i < (u32)buf[12]; i++) {
-            m = func_021C7CF4(b, buf[i]);
-            if (func_021D5BB0(m, 8) && func_021D6740(m)) {
-                buf[6 + n++] = func_021D5440(m);
+    u8 holderCount;
+    u8 selectedId;
+    u16 itemId;
+
+    if (ownerId == func_021D775C(BTL_EVAR_POKE_ID) && !func_021D5B40(func_021C7CF4(flow, ownerId))) {
+        posKey = func_021C7D00(flow, ownerId);
+        scratch = (TokuseiPickupScratch *)func_021C8120(flow, sizeof(TokuseiPickupScratch));
+        scratch->candidateCount = func_021C7F68(flow, (u16)(posKey | 0x200), scratch->candidateIds);
+        holderCount = 0;
+        scratch->spare = 0;
+        for (i = 0; i < (u32)scratch->candidateCount; i++) {
+            candidate = func_021C7CF4(flow, scratch->candidateIds[i]);
+            if (func_021D5BB0(candidate, BTL_TURN_FLAG_ITEM_USED) && func_021D6740(candidate)) {
+                scratch->holderIds[holderCount++] = func_021D5440(candidate);
             }
         }
-        if (n) {
-            selected = (buf + (u8)func_021D78AC(n))[6];
-            value = func_021D6740(func_021C7CF4(b, selected));
-            if (value) {
-                r = (u8 *)func_021C88A4(b, 0x20, c);
-                ((struct Obj06258 *)r)->f0 |= 0x800000;
-                r[6] = c;
-                ((struct Obj06258 *)r)->f4 = value;
-                r[8] = 1;
-                r[9] = selected;
-                func_021C8838(r + 12, 2, 0x1ea);
-                func_021C8860((struct S *)(r + 12), c);
-                func_021C8860((struct S *)(r + 12), value);
-                func_021C88C8(b, r);
+        if (holderCount) {
+            selectedId = (scratch->candidateIds + (u8)func_021D78AC(holderCount))[6];
+            itemId = func_021D6740(func_021C7CF4(flow, selectedId));
+            if (itemId) {
+                cmd = (BtlSetItemCmd *)func_021C88A4(flow, BTL_CMD_KIND_SET_ITEM, ownerId);
+                cmd->flags |= BTL_CMD_FLAG_FROM_ABILITY;
+                cmd->pokeId = ownerId;
+                cmd->itemId = itemId;
+                cmd->clearConsumed = 1;
+                cmd->sourcePokeId = selectedId;
+                func_021C8838(&cmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_PICKUP);
+                func_021C8860(&cmd->strParam, ownerId);
+                func_021C8860(&cmd->strParam, itemId);
+                func_021C88C8(flow, cmd);
             }
         }
     }
 }
 
+void *func_021DBCE0(int *handlerCount) { *handlerCount = 1; return d_021F06C0; }
 
-void *func_021DBCE0(int *p) { *p = 1; return d_021F06C0; }
-
-
-void func_021DBCEC(int u, void *a, int b)
+/* Pickpocket: when a contact move hits the owner, the owner takes the item of the attacker. */
+void func_021DBCEC(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId)
 {
-    u8 t;
-    void *x;
-    void *y;
-    u8 *e;
-    if (func_021E85F8(b) != 0) {
-        t = func_021D775C(3);
-        if (func_021E86E8(a, b, t) == 0
-            && func_0201BEB8(func_021D775C(0x12), 0) != 0) {
-            x = func_021C7CF4(a, b);
-            y = func_021C7CF4(a, t);
-            if (func_021D5B40(x) == 0 && func_021D5B40(y) != 0) {
-                e = func_021C88A4(a, 0x24, b);
-                ((struct Obj13481 *)e)->f0 |= 2 << 22;
-                e[4] = t;
-                func_021C8838(e + 8, 2, 0x1cc);
-                func_021C8860((struct S *)(e + 8), t);
-                func_021C8860((struct S *)(e + 8), func_021D5B40(y));
-                func_021C88C8(a, e);
+    u8 attackerId;
+    struct BtlPokeParam *owner;
+    struct BtlPokeParam *attacker;
+    BtlStealItemCmd *cmd;
+
+    if (func_021E85F8(ownerId) != 0) {
+        attackerId = func_021D775C(BTL_EVAR_ATTACKER_ID);
+        if (func_021E86E8(flow, ownerId, attackerId) == 0
+            && WAZA_TOOL_GetFlag(func_021D775C(BTL_EVAR_MOVE_ID), BTL_WAZA_FLAG_CONTACT) != 0) {
+            owner = func_021C7CF4(flow, ownerId);
+            attacker = func_021C7CF4(flow, attackerId);
+            if (func_021D5B40(owner) == 0 && func_021D5B40(attacker) != 0) {
+                cmd = func_021C88A4(flow, BTL_CMD_KIND_STEAL_ITEM, ownerId);
+                cmd->flags |= BTL_CMD_FLAG_FROM_ABILITY;
+                cmd->victimId = attackerId;
+                func_021C8838(&cmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_PICKPOCKET);
+                func_021C8860(&cmd->strParam, attackerId);
+                func_021C8860(&cmd->strParam, func_021D5B40(attacker));
+                func_021C88C8(flow, cmd);
             }
         }
     }
 }
 
+/* The number of turns of Disable: 4, or 5 when the target has already acted this turn. */
+typedef enum { DISABLE_TURNS_BASE = 4, DISABLE_TURNS_ACTED = 5 } DisableTurns;
 
 /*
- * note:     func_021E896C returns a one-word struct (Word): its return temporary is
- *           the unreferenced third frame word and moves n/k to r6/r7
+ * Cursed Body: sometimes disables the move that hit the owner.
+ * note:     func_021E896C returns a one-word struct: its return temporary is
+ *           the unreferenced third frame word and moves turns/moveId to r6/r7
  *           (an-unused-frame-word-is-a-callee-returning-a-one-word-struct.md);
- *           the enum N keeps n + 1 out of constant folding.
+ *           the enum DisableTurns keeps turns + 1 out of constant folding.
  */
-void func_021DBD9C(int u, void *a, int b)
+void func_021DBD9C(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId)
 {
-    u8 t;
-    u16 k;
-    N n;
-    void *m;
-    u8 *e;
-    n = N_4;
-    if (b == func_021D775C(4)
-        && func_021D775C(0x46) == 0
-        && func_021C83D4(a) == 0) {
-        t = func_021D775C(3);
-        m = func_021C7CF4(a, t);
-        if (func_021D62C4(m, 0xd) == 0) {
-            k = func_021D775C(0x14);
-            if (k != 0 && k != 0xa5 && func_0689C8CC(k) == 0
-                && func_021D85C0((int)a, 0x1e) != 0) {
-                if (func_021D5BB0(m, 1) != 0) {
-                    n = (N)(u8)(n + 1);
+    u8 attackerId;
+    u16 moveId;
+    DisableTurns turns;
+    struct BtlPokeParam *attacker;
+    BtlAddSickCmd *cmd;
+
+    turns = DISABLE_TURNS_BASE;
+    if (ownerId == func_021D775C(BTL_EVAR_DEFENDER_ID)
+        && func_021D775C(BTL_EVAR_SUBSTITUTE_FLAG) == 0
+        && func_021C83D4(flow) == 0) {
+        attackerId = func_021D775C(BTL_EVAR_ATTACKER_ID);
+        attacker = func_021C7CF4(flow, attackerId);
+        if (func_021D62C4(attacker, BTL_SICK_DISABLE) == 0) {
+            moveId = func_021D775C(BTL_EVAR_MOVE_ID_USED);
+            if (moveId != 0 && moveId != BTL_MOVE_STRUGGLE && func_0689C8CC(moveId) == 0
+                && func_021D85C0(flow, 30) != 0) {
+                if (func_021D5BB0(attacker, BTL_TURN_FLAG_ACTED) != 0) {
+                    turns = (DisableTurns)(u8)(turns + 1);
                 }
-                e = func_021C88A4(a, 0xc, b);
-                ((struct Obj10064 *)e)->f4 = 0xd;
-                *(Word *)(e + 8) = func_021E896C(n, k);
-                e[0xf] = t;
-                ((struct Obj10064 *)e)->f0 |= 2 << 22;
-                func_021C88C8(a, e);
+                cmd = func_021C88A4(flow, BTL_CMD_KIND_ADD_SICK, ownerId);
+                cmd->sickId = BTL_SICK_DISABLE;
+                cmd->sickCont = func_021E896C(turns, moveId);
+                cmd->targetId = attackerId;
+                cmd->flags |= BTL_CMD_FLAG_FROM_ABILITY;
+                func_021C88C8(flow, cmd);
             }
         }
     }

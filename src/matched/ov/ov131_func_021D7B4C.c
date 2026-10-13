@@ -1,5 +1,5 @@
 /*
- * function: func_021D7B4C
+ * function: P_STA_INFO_LoadResources
  * address: 0x021D7B4C
  * packet: pkt_ov131_021D7B4C
  * region: ov131
@@ -18,7 +18,7 @@ extern void *func_02049EF4(void *, unsigned int, unsigned int, void **, unsigned
 typedef unsigned int   u32;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-void func_021D7B4C(unsigned char *a, unsigned char *p, void *arc)
+void P_STA_INFO_LoadResources(unsigned char *a, unsigned char *p, void *arc)
 {
     ((struct Obj03285 *)p)->f50 = func_02049EF4(arc, 63, 0, (void **)(p+0x4c), ((struct Obj00776 *)a)->f0);
     ((struct Obj03285 *)p)->f58 = func_02049EF4(arc, 72, 0, (void **)(p+0x54), ((struct Obj00776 *)a)->f0);

@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at +0x001C
- * (the call to func_0204D510) has no witness of any class.  0x0204D510 has
+ * (the call to CLACT_ResetAnim) has no witness of any class.  0x0204D510 has
  * exactly one branch reference image wide and it is that call, so no cut frees
  * it; the only unblock is a `matched` entry at 0x0204D510, which sits in
  * pkt_0204D4B0, outside this packet.
  *
  * symbols:
- *   func_0204D410  0x0204D410  arm
- *   func_0204D510  0x0204D510  arm
+ *   CLACT_GetAnimCtrl  0x0204D410  arm
+ *   CLACT_ResetAnim  0x0204D510  arm
  *
- * func_0204B95C followed by a restart of the animation.  The actor pointer
- * has to survive the first call, so unlike func_0204B95C this one spends r4
+ * CLACT_StartActorAnim followed by a restart of the animation.  The actor pointer
+ * has to survive the first call, so unlike CLACT_StartActorAnim this one spends r4
  * and re-materialises `&a->ctl` for the second call.
  *
  * Verified with:
@@ -45,11 +45,11 @@ struct Actor {
     struct Ctl ctl;   /* 0x68 */
 };
 
-extern struct Anim *func_0204D410(struct Ctl *c);
-extern void         func_0204D510(struct Ctl *c);
+extern struct Anim *CLACT_GetAnimCtrl(struct Ctl *c);
+extern void         CLACT_ResetAnim(struct Ctl *c);
 
 void func_0204B9A0(struct Actor *a)
 {
-    func_0204D410(&a->ctl)->flag = 1;
-    func_0204D510(&a->ctl);
+    CLACT_GetAnimCtrl(&a->ctl)->flag = 1;
+    CLACT_ResetAnim(&a->ctl);
 }

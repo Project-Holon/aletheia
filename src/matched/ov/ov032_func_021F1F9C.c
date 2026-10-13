@@ -12,7 +12,7 @@
  * symbols:
  *   func_021F1F9C 0x021F1F9C thumb
  *   func_02021FD8 0x02021FD8 thumb
- *   func_02031194 0x02031194 arm
+ *   TCBL_DeleteTask 0x02031194 arm
  */
 #include "../include/Obj02752.h"
 #include "../include/Obj20443.h"
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 struct Chan02021FD8;
 extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 struct TcblNode;
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 
 void func_021F1F9C(void *task, u8 *s)
 {
@@ -44,6 +44,6 @@ void func_021F1F9C(void *task, u8 *s)
         r = *(int * *)&((struct Obj02752 *)s)->f10;
         if (r != 0)
             (*r)--;
-        func_02031194(task);
+        TCBL_DeleteTask(task);
     }
 }

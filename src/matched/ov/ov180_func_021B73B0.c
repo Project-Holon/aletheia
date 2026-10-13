@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B944 0x0204B944 arm
- *   func_0204B8D4 0x0204B8D4 arm
+ *   CLACT_GetActorAutoAnim 0x0204B944 arm
+ *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   func_0204A600 0x0204A600 arm
  */
 #include "../include/Obj10720.h"
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 struct Obj;
-extern u32 func_0204B944(struct Obj *p);
-extern void func_0204B8D4(struct Obj *p, u32 arg);
+extern u32 CLACT_GetActorAutoAnim(struct Obj *p);
+extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void func_0204A600(void);
-void func_021B73B0(char *p){u32 i;char *q;for(i=0;i<33;i++){q=p+i*4;if(((struct Obj10720 *)q)->f9048&&func_0204B944(((struct Obj10720 *)q)->f9048)!=1)func_0204B8D4(((struct Obj10720 *)q)->f9048,4096);}func_0204A600();}
+void func_021B73B0(char *p){u32 i;char *q;for(i=0;i<33;i++){q=p+i*4;if(((struct Obj10720 *)q)->f9048&&CLACT_GetActorAutoAnim(((struct Obj10720 *)q)->f9048)!=1)CLACT_AddActorAnimFrame(((struct Obj10720 *)q)->f9048,4096);}func_0204A600();}

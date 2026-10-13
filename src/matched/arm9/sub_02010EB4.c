@@ -1,5 +1,5 @@
 /*
- * function: sub_02010EB4
+ * function: GPOWER_GetActiveIdByType
  * address:  0x02010EB4
  * packet:   pkt_02010DB4
  * region:   arm9
@@ -12,7 +12,7 @@
  * symbols:
  *   g_0214621C  0x0214621C  data
  *
- * One of the two leaf accessors that follow sub_02010E14 and carry no label
+ * One of the two leaf accessors that follow GPOWER_Activate and carry no label
  * because they save no lr (docs/idioms/unlabelled-leaf-functions-hide-in-
  * word-runs.md).  It reads the state byte of one slot straight out of the
  * thirteen-entry byte table; see docs/families/net_save.h section 4.
@@ -20,15 +20,15 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02010EB4.c \
- *       --func sub_02010EB4 --addr 0x02010EB4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_GetActiveIdByType.c \
+ *       --func GPOWER_GetActiveIdByType --addr 0x02010EB4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
 
 extern u8 g_0214621C[];
 
-u8 sub_02010EB4(int k)
+u8 GPOWER_GetActiveIdByType(int k)
 {
     return g_0214621C[k];
 }

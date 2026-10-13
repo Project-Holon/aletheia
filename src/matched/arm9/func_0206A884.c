@@ -13,7 +13,7 @@
  *   g_02148B50       0x02148B50  data
  *   g_02148B98       0x02148B98  data
  *   g_02148BC8       0x02148BC8  data
- *   g_02148B4C       0x02148B4C  data
+ *   g_renderState       0x02148B4C  data
  *   func_0206DDA4    0x0206DDA4  arm
  *
  * Four registrations against the shared table at 0x02148B50/0x02148B98/
@@ -31,7 +31,7 @@ typedef unsigned int u32;
 extern int  g_02148B50[];
 extern int  g_02148B98[];
 extern int  g_02148BC8[];
-extern u32  g_02148B4C[];
+extern u32  g_renderState[];
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 
 void func_0206A884(void)
@@ -43,5 +43,5 @@ void func_0206A884(void)
         func_0206DDA4(0x10, &v, 1);
     }
     func_0206DDA4(0x15, g_02148BC8, 0x20);
-    g_02148B4C[63] = (g_02148B4C[63] & ~1u) | 2;
+    g_renderState[63] = (g_renderState[63] & ~1u) | 2;
 }

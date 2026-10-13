@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202DFEC
+ * function: PMS_DRAW_CreateDecoActor
  * address:  0x0202DFEC
  * packet:   pkt_0202DFEC
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT*
  *
  * Creates one actor out of the five-word resource record the owner keeps
- * at +0x10 (func_0202DF68 is what fills it), disables it, enables its
+ * at +0x10 (PMS_DRAW_LoadResources is what fills it), disables it, enables its
  * second flag, and adds the 0x2000 bit only for language 0x1e.
  *
  * The four zero halfwords at sp+0xc must be written as a BRACE
@@ -41,8 +41,8 @@
  *   func_0204B954  0x0204B954  arm
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0202DFEC.c \
- *       --func func_0202DFEC --addr 0x0202DFEC --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/matched/PMS_DRAW_CreateDecoActor.c \
+ *       --func PMS_DRAW_CreateDecoActor --addr 0x0202DFEC --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -69,7 +69,7 @@ extern void func_0204B92C(struct Obj *p, u32 v);
 extern u8 func_02035630(void);
 extern void func_0204B954(struct Actor *a, u32 v);
 
-void *func_0202DFEC(struct Res *r, u16 a)
+void *PMS_DRAW_CreateDecoActor(struct Res *r, u16 a)
 {
     struct Zero4 z = { 0, 0, 0, 0 };
     void *o;

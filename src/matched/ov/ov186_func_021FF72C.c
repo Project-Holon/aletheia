@@ -18,13 +18,13 @@
  * symbols:
  *   func_021D72EC 0x021D72EC thumb ov125
  *   func_021D72F8 0x021D72F8 thumb ov125
- *   func_02006210 0x02006210 thumb
- *   func_0200FB4C 0x0200FB4C thumb
+ *   GFL_USE_StopAllSe 0x02006210 thumb
+ *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  */
 extern int func_021D72EC(char *,int **);
 extern void func_021D72F8(char *);
-extern void func_02006210(void);
-extern void func_0200FB4C(unsigned int x);
+extern void GFL_USE_StopAllSe(void);
+extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
 int func_021FF72C(char *p,int *out)
 {
     const int *event;
@@ -54,10 +54,10 @@ int func_021FF72C(char *p,int *out)
             case 22000:
                 if(event[3]){
                     switch(event[3]){
-                    case 150:func_02006210();func_0200FB4C(65);result=3;break;
-                    case 151:func_02006210();func_0200FB4C(66);result=3;break;
-                    case 152:func_02006210();func_0200FB4C(68);result=3;break;
-                    case 153:func_02006210();func_0200FB4C(67);result=3;break;
+                    case 150:GFL_USE_StopAllSe();GFL_NET_ERR_RaiseFatal(65);result=3;break;
+                    case 151:GFL_USE_StopAllSe();GFL_NET_ERR_RaiseFatal(66);result=3;break;
+                    case 152:GFL_USE_StopAllSe();GFL_NET_ERR_RaiseFatal(68);result=3;break;
+                    case 153:GFL_USE_StopAllSe();GFL_NET_ERR_RaiseFatal(67);result=3;break;
                     default:if(out)*out=event[3]+261;result=2;break;
                     }
                 }

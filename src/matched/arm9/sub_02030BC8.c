@@ -11,10 +11,10 @@
  * function: sub_02030BC8
  *
  * symbols:
- *   sub_020305E4  0x020305E4  arm
+ *   GFL_HEAP_FreeSystem  0x020305E4  arm
  *
- * A four-instruction tail call to sub_020305E4 (src/matched/sub_020305E4.c,
- * pkt_02030534), attested by the `matched` class: sub_020305E4's own EXACT
+ * A four-instruction tail call to GFL_HEAP_FreeSystem (src/matched/GFL_HEAP_FreeSystem.c,
+ * pkt_02030534), attested by the `matched` class: GFL_HEAP_FreeSystem's own EXACT
  * entry pins its address, and this call is the only branch to it found in
  * the ROM.
  *
@@ -25,9 +25,9 @@
 
 typedef unsigned int u32;
 
-extern int sub_020305E4(u32 idx);
+extern int GFL_HEAP_FreeSystem(u32 idx);
 
 int sub_02030BC8(u32 idx)
 {
-    return sub_020305E4(idx);
+    return GFL_HEAP_FreeSystem(idx);
 }

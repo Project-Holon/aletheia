@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_020107FC",
+   "name": "WIH_DWC_FindSlotByKey",
    "address": "0x020107FC",
    "kind": "game",
    "region": "arm9",
@@ -30,9 +30,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02010848",
-    "func_02010864",
-    "func_02010884"
+    "WIH_DWC_GetAlertLevel",
+    "WIH_DWC_RequestAlertLevel",
+    "WIH_DWC_Dummy"
+   ],
+   "addresses": [
+    "0x02010848",
+    "0x02010864",
+    "0x02010884"
    ]
   }
  ]

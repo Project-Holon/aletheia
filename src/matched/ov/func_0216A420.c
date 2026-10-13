@@ -16,7 +16,7 @@
  * symbols:
  *   func_0215A5DC   0x0215A5DC  thumb  ov010
  *   func_020120F4   0x020120F4  thumb
- *   func_02012F50   0x02012F50  thumb
+ *   GAME_DATA_GetListCursor   0x02012F50  thumb
  *   func_021D0A48   0x021D0A48  thumb
  */
 
@@ -27,14 +27,14 @@ typedef unsigned int u32;
 extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012F50(void *base);
+extern void *GAME_DATA_GetListCursor(void *base);
 extern void func_021D0A48(void *, void *);
 
 int func_0216A420(void *a0, void *a1)
 {
     void *p = func_0215A5DC(a1);
 
-    func_021D0A48(p, func_02012F50(func_020120F4(p)));
+    func_021D0A48(p, GAME_DATA_GetListCursor(func_020120F4(p)));
 
     return 0;
 }

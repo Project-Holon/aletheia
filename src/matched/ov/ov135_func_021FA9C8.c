@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202CAE4 0x0202CAE4 thumb
- *   func_0202CF84 0x0202CF84 thumb
+ *   BGWINFRM_SetFrameDataArc 0x0202CAE4 thumb
+ *   BGWINFRM_GetFrameBuffer 0x0202CF84 thumb
  *   func_021F9260 0x021F9260 thumb ov135
  *   func_021FBEB8 0x021FBEB8 thumb ov135
  *   func_02082BCC 0x02082BCC arm
@@ -19,8 +19,8 @@
  *   func_021FC014 0x021FC014 thumb ov135
  *   func_021FAC50 0x021FAC50 thumb ov135
  *   func_02045808 0x02045808 arm
- *   func_0202CB4C 0x0202CB4C thumb
- *   func_0202CC58 0x0202CC58 thumb
+ *   BGWINFRM_PutFrame 0x0202CB4C thumb
+ *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  */
 #include "../include/Obj01744.h"
 typedef unsigned char u8;
@@ -28,8 +28,8 @@ typedef signed char s8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct WinMgr;
-extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
-extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
+extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void func_021F9260(void *, u32);
 extern void func_021FBEB8(void *, void *, void *, u32, void *);
 extern void func_02082BCC(void *, u32, u32);
@@ -40,16 +40,16 @@ extern int func_021FBFB0(void *, int);
 extern int func_021FC014(void *, int);
 extern void func_021FAC50(void *, void *, void *, u32, u16, void *);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
 void func_021FA9C8(u8 *p, int mode, int pos)
 {
     int i;
     void *str;
     u16 color;
     u8 *g;
-    func_0202CAE4(((struct Obj01744 *)p)->f18, 0, 96, mode == 6 ? 27 : 28, 1);
-    func_0202CF84(((struct Obj01744 *)p)->f18, 0);
+    BGWINFRM_SetFrameDataArc(((struct Obj01744 *)p)->f18, 0, 96, mode == 6 ? 27 : 28, 1);
+    BGWINFRM_GetFrameBuffer(((struct Obj01744 *)p)->f18, 0);
     func_021F9260(p, mode);
     func_021FBEB8(((struct Obj01744 *)p)->f18, ((struct Obj01744 *)p)->f20, (*(void ***)p)[14], 74, p + 124);
     func_02082BCC(p + 96, 1, 26);
@@ -82,6 +82,6 @@ void func_021FA9C8(u8 *p, int mode, int pos)
         func_021FAC50(((struct Obj01744 *)p)->f18, (*(void ***)p)[15], str, 2, 0x3dc2, p + 124);
         func_02045808(str);
     }
-    func_0202CB4C(((struct Obj01744 *)p)->f18, 0, pos, 0);
-    func_0202CC58(((struct Obj01744 *)p)->f18, 0);
+    BGWINFRM_PutFrame(((struct Obj01744 *)p)->f18, 0, pos, 0);
+    BGWINFRM_ShowFrame(((struct Obj01744 *)p)->f18, 0);
 }

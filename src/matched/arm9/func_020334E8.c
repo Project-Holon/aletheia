@@ -1,5 +1,5 @@
 /*
- * function: func_020334E8
+ * function: BACKUP_SYSTEM_ReadRecordFromFlash
  * address:  0x020334E8
  * packet:   pkt_020334E8
  * region:   arm9
@@ -9,10 +9,10 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_02146994    0x02146994  data
- *   func_02031EAC 0x02031EAC  arm
- *   func_02033B68 0x02033B68  arm
- *   func_020335E8 0x020335E8  arm
+ *   svsys    0x02146994  data
+ *   BACKUP_SYSTEM_GetAreaAddr 0x02031EAC  arm
+ *   SAVEDATA_GetBlockOffset 0x02033B68  arm
+ *   FLASH_ACCESS_Read 0x020335E8  arm
  */
 #include "../include/Obj15882.h"
 #include "../include/G_SaveMain.h"
@@ -20,15 +20,15 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern struct SaveMain *g_02146994;
-extern u32 func_02031EAC(u32 *p, u32 sel);
-extern u32 func_02033B68(u8 *p, u32 i);
-extern int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void));
+extern struct SaveMain *svsys;
+extern u32 BACKUP_SYSTEM_GetAreaAddr(u32 *p, u32 sel);
+extern u32 SAVEDATA_GetBlockOffset(u8 *p, u32 i);
+extern int FLASH_ACCESS_Read(u32 a0, u32 a1, u32 a2, void (*a3)(void));
 
-int func_020334E8(u8 *p, u32 b, u32 c, u32 d, u32 e)
+int BACKUP_SYSTEM_ReadRecordFromFlash(u8 *p, u32 b, u32 c, u32 d, u32 e)
 {
-    u32 n = func_02031EAC((u32 *)p, c + 1);
-    u32 m = func_02033B68(*(u8 * *)&((struct Obj15882 *)p)->f2C, b);
+    u32 n = BACKUP_SYSTEM_GetAreaAddr((u32 *)p, c + 1);
+    u32 m = SAVEDATA_GetBlockOffset(*(u8 * *)&((struct Obj15882 *)p)->f2C, b);
 
-    return func_020335E8(n + m, d, e, (void (*)(void))*(u32 *)(((u8 *)g_02146994) + 0x204));
+    return FLASH_ACCESS_Read(n + m, d, e, (void (*)(void))*(u32 *)(((u8 *)svsys) + 0x204));
 }

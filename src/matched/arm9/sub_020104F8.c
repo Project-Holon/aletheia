@@ -1,5 +1,5 @@
 /*
- * function: sub_020104F8
+ * function: WIH_DWC_IsSsidInFilterList
  * address:  0x020104F8
  * packet:   pkt_0201045C
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021461E0     0x021461E0  data
+ *   gWihDwc     0x021461E0  data
  *   func_0203F004  0x0203F004  arm
  *   func_0203EFC8  0x0203EFC8  arm
  *
  * Three 0x100-byte slots at +0x640 of the object hanging off +0x304 of the
- * global at 0x021461E0 (the same global func_0201045C reads); the first slot
+ * global at 0x021461E0 (the same global WIH_DWC_AddBeacon reads); the first slot
  * with a positive func_0203F004 whose func_0203EFC8 against obj+0xC returns
  * zero makes the function return 1.
  *
@@ -25,7 +25,7 @@
  *  1. the pool word is 0x021461E0, not 0x020461E0, and it holds a POINTER,
  *     not the object: the original does one `ldr r1, [r7]` and then
  *     `ldr r1, [r1, r0]` with r0 = 0x304.  Reading it as `**` costs an extra
- *     dereference at both sites.  It is the same global func_0201045C reads.
+ *     dereference at both sites.  It is the same global WIH_DWC_AddBeacon reads.
  *  2. func_0203EFC8 takes THREE arguments, and the third is the result of
  *     func_0203F004.  That is what the otherwise pointless `adds r2, r0, #0`
  *     at 0x02010518 is: r2 is set right after the first call and is still
@@ -41,32 +41,32 @@
  *     other way round.  That swap is the last two bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020104F8.c \
- *       --func sub_020104F8 --addr 0x020104F8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIH_DWC_IsSsidInFilterList.c \
+ *       --func WIH_DWC_IsSsidInFilterList --addr 0x020104F8 --cc 1.1p1 --thumb
  */
 
 #include "../include/G_WihCtx.h"
 
 typedef unsigned char u8;
 
-extern struct WihCtx g_021461E0;
+extern struct WihCtx gWihDwc;
 
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern u32 func_0203F004(const u8 *s);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
-int sub_020104F8(u8 *obj)
+int WIH_DWC_IsSsidInFilterList(u8 *obj)
 {
     int i = 0;
     u8 *q = obj + 0xC;
 
     for (; i < 3; i++) {
-        u8 *slot = *(u8 **)((*(u8 * *)&g_021461E0) + 0x304) + 0x640 + i * 0x100;
+        u8 *slot = *(u8 **)((*(u8 * *)&gWihDwc) + 0x304) + 0x640 + i * 0x100;
         int n = func_0203F004(slot);
 
         if (n > 0) {
-            slot = *(u8 **)((*(u8 * *)&g_021461E0) + 0x304) + 0x640 + i * 0x100;
+            slot = *(u8 **)((*(u8 * *)&gWihDwc) + 0x304) + 0x640 + i * 0x100;
             if (func_0203EFC8(slot, q, n) == 0)
                 return 1;
         }

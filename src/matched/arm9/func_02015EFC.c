@@ -1,5 +1,5 @@
 /*
- * function: func_02015EFC
+ * function: MCSS_GetStopCellIndex
  * address:  0x02015EFC
  * packet:   pkt_02015EFC
  * region:   arm9
@@ -12,7 +12,7 @@
 #include "../include/Obj15669.h"
 typedef unsigned char u8;
 
-u8 func_02015EFC(char *p, u8 i)
+u8 MCSS_GetStopCellIndex(char *p, u8 i)
 {
     return (*(u8 * *)&((struct Obj15669 *)p)->f30 + i)[2];
 }

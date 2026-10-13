@@ -16,15 +16,15 @@
  *   func_02043AF4  0x02043AF4  arm
  *   func_02043B5C  0x02043B5C  arm
  *   func_02045334  0x02045334  arm
- *   func_0201C974  0x0201C974  thumb
- *   sub_0201CEB8   0x0201CEB8  thumb
+ *   PRINTSYS_PrintStep  0x0201C974  thumb
+ *   PRINTSYS_PrintStreamResetSpeed   0x0201CEB8  thumb
  *   sub_0201D110   0x0201D110  thumb
  *
  * The per-frame task callback that func_0201CD10 installs for a printsys
  * text record (the 0x50-byte object, struct PrintCtx at +0x34).  State 0
  * either scrolls the window up by at most four lines (flag bit 1) or, once
  * the wait counter at +0x1e is spent, prints up to f1b/f1d glyphs through
- * func_0201C974, handling 0xFFFF (end: state 2), 0xFFFE (line break) and
+ * PRINTSYS_PrintStep, handling 0xFFFF (end: state 2), 0xFFFE (line break) and
  * the 0xF000/0xBE control block (sub_0201D110).  State 1 waits on flag
  * bit 2 and then clears or scrolls the window.
  *
@@ -113,8 +113,8 @@ extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 struct Descriptor;
 extern void  func_02045334(struct Descriptor *a);
-extern u16  *func_0201C974(struct PrintCtx *c, u16 *p, u32 f);
-extern void  sub_0201CEB8(struct Rec *p);
+extern u16  *PRINTSYS_PrintStep(struct PrintCtx *c, u16 *p, u32 f);
+extern void  PRINTSYS_PrintStreamResetSpeed(struct Rec *p);
 extern void  sub_0201D110(struct Rec *p);
 
 static inline u32 CtrlCode(u16 c, const u16 *p)
@@ -169,7 +169,7 @@ void func_0201CEE0(void *task, struct Rec *p)
             else
                 n = p->f1b;
             if (p->flags.b4) {
-                sub_0201CEB8(p);
+                PRINTSYS_PrintStreamResetSpeed(p);
                 p->flags.b4 = 0;
             }
             i = 0;
@@ -196,7 +196,7 @@ void func_0201CEE0(void *task, struct Rec *p)
                             break;
                         }
                     default:
-                        p->cur = func_0201C974(ctx, p->cur, 0);
+                        p->cur = PRINTSYS_PrintStep(ctx, p->cur, 0);
                         c = *p->cur;
                         if (c == 0xFFFF) {
                             p->state = 2;

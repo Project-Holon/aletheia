@@ -18,7 +18,7 @@
  *   func_021C4354  0x021C4354  thumb ov127
  *   func_0204B294  0x0204B294  arm
  *   func_0204B84C  0x0204B84C  arm
- *   func_0204B908  0x0204B908  arm
+ *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   func_021C4550  0x021C4550  thumb ov127
  */
 typedef unsigned char u8;
@@ -39,7 +39,7 @@ extern void *func_021C4604(u8 *p);
 extern int func_021C4354(int);
 extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void func_0204B84C(u32, u32);
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern int func_021C4550(int *p);
 u32 *func_021C40BC(Own *owner, const s16 *pos, int idx, u32 heap)
 {
@@ -58,9 +58,9 @@ u32 *func_021C40BC(Own *owner, const s16 *pos, int idx, u32 heap)
                          owner->res[idx].f0, &l, 0, (u16)heap);
     func_0204B84C(e[1], (u8)pos[3]);
     if (owner->rec[idx].f10 == 1)
-        func_0204B908(e[1], 6);
+        CLACT_SetActorAnimIndex(e[1], 6);
     else
-        func_0204B908(e[1], 1);
+        CLACT_SetActorAnimIndex(e[1], 1);
     e[3] = 9;
     *(u16 *)(e + 5) = 0;
     e[4] = 1;

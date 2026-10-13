@@ -1,5 +1,5 @@
 /*
- * function: func_02173EB8
+ * function: INTRUDE_CMD_RecvGroupRecord
  * address: 0x02173EB8
  * packet: pkt_ov011_02173EB8
  * region: ov011
@@ -12,7 +12,7 @@
  *   func_02026478 0x02026478 thumb
  *   func_020127A4 0x020127A4 thumb
  *   func_02012AC8 0x02012AC8 thumb
- *   func_02175954 0x02175954 thumb ov011
+ *   INTRUDE_COMM_StoreSessionRequest 0x02175954 thumb ov011
  */
 #include "../include/Obj12417.h"
 typedef unsigned char u8;
@@ -30,10 +30,10 @@ typedef struct Rec {
     u8 f2c;
     u8 pad2d[7];
 } Rec;
-int func_02175954(void *unused, u8 *o, Rec *src);
+int INTRUDE_COMM_StoreSessionRequest(void *unused, u8 *o, Rec *src);
 
-void func_02173EB8(int a, int b, void *c, u8 *d)
+void INTRUDE_CMD_RecvGroupRecord(int a, int b, void *c, u8 *d)
 {
     func_02012AC8(func_020127A4((struct SaveBlock *)func_02026478(((struct Obj12417 *)d)->f4)));
-    if (func_02175954(d, d + 0x1ac, c) == 1) d[0x90d] = 1;
+    if (INTRUDE_COMM_StoreSessionRequest(d, d + 0x1ac, c) == 1) d[0x90d] = 1;
 }

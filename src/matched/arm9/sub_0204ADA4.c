@@ -1,5 +1,5 @@
 /*
- * function: sub_0204ADA4
+ * function: CLACT_ReleasePalette
  * address:  0x0204ADA4
  * packet:   pkt_0204ACEC
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A74   0x02146A74  data
+ *   g_ClactSystem   0x02146A74  data
  *
  * Reset one entry of the 0x18-byte table hanging off +0x110 of the
  * singleton at 0x02146A74: set the top bit of the word at +0x14 and clear
@@ -19,7 +19,7 @@
  * The two statements do not share one address computation, even though
  * there is no call between them: the `str` of the first statement may
  * alias the global pointer itself, so the compiler has to reload
- * g_02146A74 and re-index before the second
+ * g_ClactSystem and re-index before the second
  * (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md, read
  * from the other side).  The index multiply is a real `mul` by a
  * register-held 0x18, not a shift pair, because 24 is not a power of two.
@@ -30,8 +30,8 @@
  * 1 does not collapse the two.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204ADA4.c \
- *       --func sub_0204ADA4 --addr 0x0204ADA4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ReleasePalette.c \
+ *       --func CLACT_ReleasePalette --addr 0x0204ADA4 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Mgr.h"
@@ -45,10 +45,10 @@ struct Entry {
     u32 unk_14_31 : 1;
 };
 
-extern struct Mgr *g_02146A74;
+extern struct Mgr *g_ClactSystem;
 
-void sub_0204ADA4(u32 i)
+void CLACT_ReleasePalette(u32 i)
 {
-    ((struct Entry *)g_02146A74->owner_slots2)[i].unk_14_31 = 1;
-    ((struct Entry *)g_02146A74->owner_slots2)[i].unk_14_0 = 0;
+    ((struct Entry *)g_ClactSystem->owner_slots2)[i].unk_14_31 = 1;
+    ((struct Entry *)g_ClactSystem->owner_slots2)[i].unk_14_0 = 0;
 }

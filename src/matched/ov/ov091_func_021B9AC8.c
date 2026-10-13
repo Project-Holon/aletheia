@@ -9,8 +9,8 @@
  * status: EXACT
  * blocker: arm9 0x020188AC, unfiled Thumb forwarding stub; verified EXACT
  *   with one --thumb, no region (scratch blocker188AC.log).
- *   extern unsigned int func_020188B4(void *, int);
- *   unsigned int func_020188AC(void *p, int n) { return func_020188B4(p, n); }
+ *   extern unsigned int POKE_TOOL_CheckBoxTmCompat(void *, int);
+ *   unsigned int func_020188AC(void *p, int n) { return POKE_TOOL_CheckBoxTmCompat(p, n); }
  * lever: u8 bit pins the prologue spill; explicit zero-initialized result
  *   locals keep the two final empty-slot tests zero-first.
  * note 2026-10-05 (wave D9r lane 131): removed the 2 dead first assignments

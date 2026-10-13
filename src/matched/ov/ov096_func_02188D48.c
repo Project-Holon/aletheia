@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0201C1D8 0x0201C1D8 thumb
+ *   WAZA_TOOL_GetPower 0x0201C1D8 thumb
  */
 #include "../include/Obj10177.h"
 typedef unsigned short u16;
-extern u16 func_0201C1D8(void *p);
-int func_02188D48(int a, unsigned char *b) { ((struct Obj10177 *)b)->f38=func_0201C1D8((void *)(((struct Obj10177 *)b)->f2)); return ((struct Obj10177 *)b)->fC4; }
+extern u16 WAZA_TOOL_GetPower(void *p);
+int func_02188D48(int a, unsigned char *b) { ((struct Obj10177 *)b)->f38=WAZA_TOOL_GetPower((void *)(((struct Obj10177 *)b)->f2)); return ((struct Obj10177 *)b)->fC4; }

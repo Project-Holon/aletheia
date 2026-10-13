@@ -1,5 +1,5 @@
 /*
- * function: func_0203A2F0
+ * function: GFL_NET_HANDLE_IsBitSet
  * address:  0x0203A2F0
  * packet:   pkt_0203A2F0
  * region:   arm9
@@ -22,8 +22,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A2F0.c \
- *       --func func_0203A2F0 --addr 0x0203A2F0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_IsBitSet.c \
+ *       --func GFL_NET_HANDLE_IsBitSet --addr 0x0203A2F0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -33,7 +33,7 @@ extern void func_02034714(const char *file, u32 line, const char *msg);
 extern const char file_020A7A68[];
 extern const char file_020A7AB0[];
 
-u32 func_0203A2F0(u32 a0, u32 a1)
+u32 GFL_NET_HANDLE_IsBitSet(u32 a0, u32 a1)
 {
     if (a1 == 0xFF)
         func_02034714(file_020A7A68, 0x3AB, file_020A7AB0);

@@ -21,7 +21,7 @@
  * them from the pool per front end).  Neither `-proc arm7tdmi` nor volatile
  * destination pointers changed the 1.1p1 if-conversion.
  *
- * Four-byte nibble extractor: the word at g_02148B4C + 0xa0 is spread over up
+ * Four-byte nibble extractor: the word at g_renderState + 0xa0 is spread over up
  * to four word-sized destinations, one byte per word, low byte first.  Each
  * arm re-spells the global rather than sharing a named local, which is what
  * makes the image re-load the pool word in every arm (and what puts the first
@@ -32,21 +32,21 @@
  *       --func func_0206AE94 --addr 0x0206AE94 --cc ../2.0/sp2 --arm
  *
  * symbols:
- *   g_02148B4C  0x02148B4C  data
+ *   g_renderState  0x02148B4C  data
  */
 
 typedef unsigned int u32;
 
-extern u32 g_02148B4C[];
+extern u32 g_renderState[];
 
 void func_0206AE94(u32 *a0, u32 *a1, u32 *a2, u32 *a3)
 {
     if (a0 != 0)
-        *a0 = g_02148B4C[0x28] & 0xff;
+        *a0 = g_renderState[0x28] & 0xff;
     if (a1 != 0)
-        *a1 = (g_02148B4C[0x28] >> 8) & 0xff;
+        *a1 = (g_renderState[0x28] >> 8) & 0xff;
     if (a2 != 0)
-        *a2 = (g_02148B4C[0x28] >> 16) & 0xff;
+        *a2 = (g_renderState[0x28] >> 16) & 0xff;
     if (a3 != 0)
-        *a3 = (g_02148B4C[0x28] >> 24) & 0xff;
+        *a3 = (g_renderState[0x28] >> 24) & 0xff;
 }

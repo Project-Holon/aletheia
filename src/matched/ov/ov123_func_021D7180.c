@@ -17,9 +17,9 @@
  *   func_021D5A60  0x021D5A60  thumb  ov123
  *   func_021D57D0  0x021D57D0  thumb  ov123
  *   func_021D56FC  0x021D56FC  thumb  ov123
- *   func_02005DE4  0x02005DE4  thumb
- *   func_02005E64  0x02005E64  thumb
- *   func_02005D90  0x02005D90  thumb
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_PushBgm  0x02005E64  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   func_021D70BC  0x021D70BC  thumb  ov123
  *   func_021D7130  0x021D7130  thumb  ov123
  */
@@ -35,9 +35,9 @@ extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D5A60(char *p);
 extern void func_021D57D0(void *p, int msg, int n, void *mon);
 extern void func_021D56FC(char *p, int mode);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
-extern void func_02005D90(int, int);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 extern void func_021D70BC(char *p);
 extern void func_021D7130(char *p);
 
@@ -55,9 +55,9 @@ void func_021D7180(int a)
     func_021D57D0((void *)(((struct Obj03792 *)a)->f18), 0x16, ((struct Obj03792 *)a)->f6C,
                  (void *)(((struct Obj03792 *)a)->fC));
     func_021D56FC((char *)(((struct Obj03792 *)a)->f18), 0);
-    func_02005DE4((void *)1);
-    func_02005E64();
-    func_02005D90(0x515, 0xffff);
+    GFL_USE_SetBgmPlayerParam((void *)1);
+    GFL_USE_PushBgm();
+    GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
     ((struct Obj03792 *)a)->f78 = 0xb4;
     func_021D6EE0((u8 *)a, (int)func_021D7130, 0x222);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02015EF4
+ * function: MCSS_GetStopCellNum
  * address:  0x02015EF4
  * packet:   pkt_02015EF4
  * region:   arm9
@@ -12,7 +12,7 @@
 #include "../include/Obj15667.h"
 typedef unsigned char u8;
 
-u8 func_02015EF4(char *p)
+u8 MCSS_GetStopCellNum(char *p)
 {
     return **(u8 * *)&((struct Obj15667 *)p)->f30;
 }

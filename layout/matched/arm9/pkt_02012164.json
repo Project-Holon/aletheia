@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02012164",
+   "name": "GAMESYSTEM_CanStartAutoComm",
    "address": "0x02012164",
    "kind": "game",
    "region": "arm9",

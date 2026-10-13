@@ -1,5 +1,5 @@
 /*
- * function: func_021563D0
+ * function: DWC_RAP_StopVchat
  * address:  0x021563D0
  * packet:   pkt_02155168
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   g_021A8264  0x021A8264  data
- *   func_021AF13C  0x021AF13C  thumb  ov013
+ *   VCT_MAIN_HangUp  0x021AF13C  thumb  ov013
 
  */
 #include "../include/Obj18651.h"
@@ -25,9 +25,9 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-void func_021563D0(void)
+void DWC_RAP_StopVchat(void)
 {
     extern struct _anon_Work *g_021A8264;
-    void func_021AF13C(void);
-    if (((struct Obj18651 *)((char *)g_021A8264))->f76C) func_021AF13C();
+    void VCT_MAIN_HangUp(void);
+    if (((struct Obj18651 *)((char *)g_021A8264))->f76C) VCT_MAIN_HangUp();
 }

@@ -93,7 +93,7 @@
  *   g_021A4FD8             0x021A4FD8  data
  *   func_02189750  0x02189750  arm  ov009
  *   func_0218964C  0x0218964C  arm  ov009
- *   func_02189644  0x02189644  arm  ov009
+ *   gpiSendOrBufferChar  0x02189644  arm  ov009
  *   g_021A4FEC  0x021A4FEC  data
  *   g_021A4FF0  0x021A4FF0  data
  *   SOC_InetNtoA      0x0215FA9C  arm
@@ -175,7 +175,7 @@ extern int  gpiSendOrBufferString(void **connection, GPIPeer *peer,
                                   char *string);
 extern int func_02189750(void **connection, GPIPeer *peer, char *string);
 extern int func_0218964C(void **connection, GPIPeer *peer, char *string, int stringLen);
-extern int func_02189644();
+extern int gpiSendOrBufferChar();
 extern char *SOC_InetNtoA(SOCInAddr in);
 extern void gsDebugFormat(int theCat, int theType, int theLevel, char *theTokenStr, ...);
 extern GPIPeer *func_0218F0E8(void **connection, unsigned int ip, unsigned short port);
@@ -1017,7 +1017,7 @@ int func_0218F51C(void **connection, GPIPeer *peer, char *message, int len)
     result = func_0218964C(connection, peer, message, len);
     if (result != 0)
         return result;
-    result = func_02189644(connection, peer, 0);
+    result = gpiSendOrBufferChar(connection, peer, 0);
     if (result != 0)
         return result;
     peer->timeout = func_02184098(0) + 10000;

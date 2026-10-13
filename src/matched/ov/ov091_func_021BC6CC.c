@@ -38,7 +38,7 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_0201F7A8 0x0201F7A8 thumb
- *   func_02018328 0x02018328 thumb
+ *   POKE_TOOL_GetLevelUpMove 0x02018328 thumb
  *   func_0201B2B0 0x0201B2B0 thumb
  *   func_021BB7A4 0x021BB7A4 thumb ov091
  *   func_021BB97C 0x021BB97C thumb ov091
@@ -92,7 +92,7 @@ extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
 extern void func_020456F8(struct Descriptor *d);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern u32 func_020452E8(struct Descriptor *d);
-extern u16 func_02018328(void *p, u32 *idx, u32 heap);
+extern u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap);
 extern void func_021BB7A4(void *p, u32 *s);
 extern void func_021BB97C(u16 *p, u32 s);
 extern void func_021BB99C(int a, int b, int c, int d);
@@ -174,7 +174,7 @@ void func_021BC6CC(u8 *p)
             p[0xe]=6; func_020061E4(0x547); func_020456F8((struct Descriptor *)W(0x130)); func_0201F7A8((void *)W(0x130),1); func_020452E8((struct Descriptor *)W(0x130)); W(0x130)=0;
         } break;
     case 6:
-        result=func_02018328((void *)W(0x38),(u32 *)(S+0x50),H(0)); func_021BB7A4(p,(u32 *)W(0x150));
+        result=POKE_TOOL_GetLevelUpMove((void *)W(0x38),(u32 *)(S+0x50),H(0)); func_021BB7A4(p,(u32 *)W(0x150));
         if(result==0) { p[0xe]=7; return; }
         if(result==0xfffe) { p[0xe]=7; return; }
         if(result&0x8000) {

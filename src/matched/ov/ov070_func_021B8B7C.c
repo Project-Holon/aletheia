@@ -12,8 +12,8 @@
  * symbols:
  *   func_020061E4  0x020061E4  thumb
  *   func_021BB398  0x021BB398  thumb  ov070
- *   func_0202EB04  0x0202EB04  thumb
- *   func_0202EA40  0x0202EA40  thumb
+ *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
+ *   BLINK_PALANM_Update  0x0202EA40  thumb
  *   func_021B6100  0x021B6100  thumb  ov070
  *   func_021B7128  0x021B7128  thumb  ov070
  */
@@ -25,9 +25,9 @@ extern void func_020061E4(u32 a);
 struct CodeIn;
 struct Row;
 extern void func_021BB398(int p, u32 val);
-extern void func_0202EB04(struct CodeIn *p);
+extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 typedef signed int     s32;
-extern s32 func_0202EA40(struct Row *p);
+extern s32 BLINK_PALANM_Update(struct Row *p);
 extern void func_021B6100(char *p, int k);
 extern void func_021B7128(struct Obj *o);
 
@@ -57,8 +57,8 @@ void func_021B8B7C(int p)
     case 7:
         ((struct Obj00002 *)p)->f864 = 0;
         func_021BB398(p, 1);
-        func_0202EB04((struct CodeIn *)(*(int *)&((struct Obj00002 *)p)->f850));
-        func_0202EA40((struct Row *)(*(int *)&((struct Obj00002 *)p)->f850));
+        BLINK_PALANM_ResetPhase((struct CodeIn *)(*(int *)&((struct Obj00002 *)p)->f850));
+        BLINK_PALANM_Update((struct Row *)(*(int *)&((struct Obj00002 *)p)->f850));
         func_021B6100((char *)p, (int)func_021B7128);
         return;
     }

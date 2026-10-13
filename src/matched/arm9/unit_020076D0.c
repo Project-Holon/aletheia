@@ -11,22 +11,22 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020076D0
+ * function: BOX_SAVEDATA_FindFreeSlot
  *
  * symbols:
- *   sub_020074CC  0x020074CC  thumb
- *   sub_02007AF4  0x02007AF4  thumb
- *   sub_02017E88  0x02017E88  thumb
+ *   BOX_SAVEDATA_GetHeader  0x020074CC  thumb
+ *   BOX_SAVEDATA_GetBoxPokemon  0x02007AF4  thumb
+ *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *
  * The one function between unit_02007664.c and unit_02007774.c: given a box
  * and a slot by reference, find the next occupied slot at or after it,
  * wrapping round the boxes, and write the answer back through the two
- * pointers.  sub_02017E88 asked with the field id 0xA9 is the "is this entry
+ * pointers.  POKE_TOOL_GetBoxValue asked with the field id 0xA9 is the "is this entry
  * empty" test, the same call unit_02007774.c counts with.
  *
  * Three things the shape says.  The box and slot are read out of the two
  * pointers once, before the outer loop, and are carried in registers: the
- * back edge at 0x0200774A lands on the sub_02007AF4 call and not on the
+ * back edge at 0x0200774A lands on the BOX_SAVEDATA_GetBoxPokemon call and not on the
  * loads, so a source that re-read `*pbox` each time round would be a
  * different function.  The wrap comparison is signed (`blt`), so the index
  * is an int even though the bound is the unsigned byte at 0x3DD.  And that
@@ -57,13 +57,13 @@ struct Sub020076D0Header {
 
 struct Sub02007454Header;
 struct Sub02007AC8Entry;
-extern struct Sub02007454Header *sub_020074CC(void **save);
-extern struct Sub02007AC8Entry *sub_02007AF4(void **save, u32 box);
-extern u32 sub_02017E88(void *p, u32 id, u32 v);
+extern struct Sub02007454Header *BOX_SAVEDATA_GetHeader(void **save);
+extern struct Sub02007AC8Entry *BOX_SAVEDATA_GetBoxPokemon(void **save, u32 box);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 
-int sub_020076D0(void *save, int *pbox, int *pslot)
+int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot)
 {
-    struct Sub020076D0Header *h = (struct Sub020076D0Header *)sub_020074CC(save);
+    struct Sub020076D0Header *h = (struct Sub020076D0Header *)BOX_SAVEDATA_GetHeader(save);
     int box;
     int slot;
 
@@ -73,10 +73,10 @@ int sub_020076D0(void *save, int *pbox, int *pslot)
     box = *pbox;
     slot = *pslot;
     while (1) {
-        struct Sub020076D0Entry *base = (struct Sub020076D0Entry *)sub_02007AF4(save, box);
+        struct Sub020076D0Entry *base = (struct Sub020076D0Entry *)BOX_SAVEDATA_GetBoxPokemon(save, box);
 
         while (slot < 30) {
-            if (sub_02017E88(&base[slot], 0xA9, 0) == 0) {
+            if (POKE_TOOL_GetBoxValue(&base[slot], 0xA9, 0) == 0) {
                 *pbox = box;
                 *pslot = slot;
                 return 1;

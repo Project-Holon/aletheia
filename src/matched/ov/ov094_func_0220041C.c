@@ -13,8 +13,8 @@
  * src/matched/arm9, which closes the former MATCH.
  *
  * symbols:
- *   func_020160CC  0x020160CC  thumb
- *   sub_02016028   0x02016028  thumb
+ *   MCSS_GetAnimSeqNumEx  0x020160CC  thumb
+ *   MCSS_SetAnimeIndex   0x02016028  thumb
  *   func_022019F4  0x022019F4  thumb  ov094
  *
  * MATCH: bytes identical (one prints MATCH*); blocked on 0x020160CC, an
@@ -24,7 +24,7 @@
  *
  *   typedef unsigned short u16;
  *   typedef struct { char pad[0x28]; u16 *p28; } S;
- *   u16 func_020160CC(S *s) { return *s->p28; }
+ *   u16 MCSS_GetAnimSeqNumEx(S *s) { return *s->p28; }
  *
  * The extern here takes `int` as return type (u16 not needed at the caller).
  */
@@ -44,8 +44,8 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(char *p, int key);
-extern int func_020160CC(void *h);
-extern void sub_02016028(void *h, u32 n);
+extern int MCSS_GetAnimSeqNumEx(void *h);
+extern void MCSS_SetAnimeIndex(void *h, u32 n);
 
 int func_0220041C(Work *w, int key, int n)
 {
@@ -56,8 +56,8 @@ int func_0220041C(Work *w, int key, int n)
         return 0;
     if (w->e[i].h == 0)
         return 0;
-    if (n < func_020160CC(w->e[i].h)) {
-        sub_02016028(w->e[i].h, n);
+    if (n < MCSS_GetAnimSeqNumEx(w->e[i].h)) {
+        MCSS_SetAnimeIndex(w->e[i].h, n);
         r = 1;
         w->e[i].f44 = r;
     }

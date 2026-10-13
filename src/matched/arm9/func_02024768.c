@@ -1,5 +1,5 @@
 /*
- * function: func_02024768
+ * function: PMSI_PARAM_IsSpecialWord
  * address:  0x02024768
  * packet:   pkt_02024768
  * region:   arm9
@@ -29,7 +29,7 @@ struct Tbl {
 
 extern const struct Tbl data_0209F734;
 
-s32 func_02024768(u32 v)
+s32 PMSI_PARAM_IsSpecialWord(u32 v)
 {
     struct Tbl b;
     u8 i;

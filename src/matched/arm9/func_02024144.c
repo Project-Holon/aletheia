@@ -1,5 +1,5 @@
 /*
- * function: func_02024144
+ * function: PMSI_PARAM_GetInputMode
  * address:  0x02024144
  * packet:   pkt_02024144
  * region:   arm9
@@ -15,4 +15,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-u32 func_02024144(const u8 *p) { return p[0]; }
+u32 PMSI_PARAM_GetInputMode(const u8 *p) { return p[0]; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D48E4
+ * function: P_STATUS_ExitGraphics
  * address: 0x021D48E4
  * packet: pkt_ov131_021D48E4
  * region: ov131
@@ -12,7 +12,7 @@
  * extent: Two zero padding bytes at 0x021D493E.
  * symbols:
  *   func_02061C30 0x02061C30 arm
- *   func_02014BA8 0x02014BA8 thumb
+ *   MCSS_Exit 0x02014BA8 thumb
  *   func_02048AC4 0x02048AC4 arm
  *   func_02046788 0x02046788 arm
  *   func_0204B1CC 0x0204B1CC arm
@@ -25,7 +25,7 @@
 extern void func_02061C30(void);
 typedef unsigned char  u8;
 struct Bank;
-extern void func_02014BA8(u8 *a0);
+extern void MCSS_Exit(u8 *a0);
 extern unsigned int func_02048AC4(void *ptr);
 extern void func_02046788(void);
 typedef unsigned int   u32;
@@ -34,10 +34,10 @@ extern void func_0204A5AC(void);
 extern void func_020403F4(unsigned int);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
-void func_021D48E4(char *p)
+void P_STATUS_ExitGraphics(char *p)
 {
     func_02061C30();
-    func_02014BA8(((struct Obj10503 *)p)->f78);
+    MCSS_Exit(((struct Obj10503 *)p)->f78);
     func_02048AC4(((struct Obj10503 *)p)->f70);
     func_02046788();
     func_0204B1CC(((struct Obj10503 *)p)->f174);

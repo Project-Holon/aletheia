@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02021ED8 0x02021ED8 thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  */
 #include "../include/Obj14668.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02021ED8(const char *);
-int func_021BCDE0(char *p) { if(func_02021ED8(*(char * *)&((struct Obj14668 *)p)->fC)==0)return ((struct Obj14668 *)p)->f1C;return 2; }
+extern u32 PALANM_GetFadeRequestBits(const char *);
+int func_021BCDE0(char *p) { if(PALANM_GetFadeRequestBits(*(char * *)&((struct Obj14668 *)p)->fC)==0)return ((struct Obj14668 *)p)->f1C;return 2; }

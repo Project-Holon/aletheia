@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_0209FB5C     0x0209FB5C  data
- *   func_02026490  0x02026490  thumb
+ *   GAME_COMM_KindTable     0x0209FB5C  data
+ *   GAME_COMM_SetSeqState  0x02026490  thumb
  *
  * game_comm.c: the per-frame request state machine.  The request kind
  * (+5) selects a 0x1C-byte record of callbacks in the table at 0x0209FB5C
@@ -69,8 +69,8 @@ struct Rec
 };
 /* the finish arm clears its fields through an enum-typed zero */
 typedef enum { Z0 } E;
-extern struct Rec g_0209FB5C[];
-extern void func_02026490(void *obj, u32 value);
+extern struct Rec GAME_COMM_KindTable[];
+extern void GAME_COMM_SetSeqState(void *obj, u32 value);
 void func_0202627C(struct Comm *p)
 {
   struct Sub *sub;
@@ -78,7 +78,7 @@ void func_0202627C(struct Comm *p)
   if ((p == 0) || (p->kind == 0))
     return;
   sub = &p->sub;
-  rec = &g_0209FB5C[p->kind];
+  rec = &GAME_COMM_KindTable[p->kind];
   if (sub->changed == 1)
   {
     sub->f00 = 0;
@@ -91,19 +91,19 @@ void func_0202627C(struct Comm *p)
       p->f18 = rec->start(sub, p->f14);
       p->f06 = p->kind;
       p->f08 = 0;
-      func_02026490(sub, 1);
+      GAME_COMM_SetSeqState(sub, 1);
       break;
 
     case 1:
       if ((rec->wait == 0) || (rec->wait(sub, p->f14, p->f18) == 1))
-      func_02026490(sub, 2);
+      GAME_COMM_SetSeqState(sub, 2);
       break;
 
     case 2:
       if (p->b0 == 1)
     {
       p->b0 = 0;
-      func_02026490(&p->sub, 3);
+      GAME_COMM_SetSeqState(&p->sub, 3);
       break;
     }
       rec->run(sub, p->f14, p->f18);
@@ -113,18 +113,18 @@ void func_0202627C(struct Comm *p)
       if (rec->stop != 0)
     {
       if (rec->stop(sub, p->f14, p->f18) == 1)
-        func_02026490(sub, 4);
+        GAME_COMM_SetSeqState(sub, 4);
     }
     else
     {
-      func_02026490(sub, 4);
+      GAME_COMM_SetSeqState(sub, 4);
     }
       break;
 
     case 4:
       if ((rec->end != 0) && (rec->end(sub, p->f14, p->f18) != 1))
       break;
-      func_02026490(sub, 5);
+      GAME_COMM_SetSeqState(sub, 5);
 
     case 5:
     {

@@ -1,5 +1,5 @@
 /*
- * function: func_02022230
+ * function: WIPE_ResetBrightness
  * address:  0x02022230
  * packet:   pkt_02022174
  * region:   arm9
@@ -9,24 +9,24 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The companion forwarder to func_02022224: it passes the caller's engine
- * selector straight through to func_020222CC and supplies the unused second
+ * The companion forwarder to WIPE_ResetWndMask: it passes the caller's engine
+ * selector straight through to WIPE_SetBrightness and supplies the unused second
  * argument as zero.  Same pool-word-and-`bx` tail call shape.
  *
  * symbols:
- *   func_020222CC  0x020222CC  thumb
+ *   WIPE_SetBrightness  0x020222CC  thumb
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022230.c \
- *       --func func_02022230 --addr 0x02022230 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_ResetBrightness.c \
+ *       --func WIPE_ResetBrightness --addr 0x02022230 --cc 1.1p1 --thumb
  */
 typedef unsigned int u32;
 
-extern void func_020222CC(u32 which, int brightness);
+extern void WIPE_SetBrightness(u32 which, int brightness);
 
-void func_02022230(u32 which)
+void WIPE_ResetBrightness(u32 which)
 {
-    func_020222CC(which, 0);
+    WIPE_SetBrightness(which, 0);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202AEEC",
+   "name": "ISS_CITY_UNIT_Create",
    "address": "0x0202AEEC",
    "kind": "game",
    "region": "arm9",

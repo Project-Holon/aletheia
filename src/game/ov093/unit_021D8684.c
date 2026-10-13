@@ -20,67 +20,55 @@
  *   d_021F07B0     0x021F07B0  data   ov093  a4
  *   d_021F05B8     0x021F05B8  data   ov093  a4
  */
-#include "../../matched/include/Obj05216.h"
+#include "unit_021D8434_types.h"
 
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-int func_021D775C(int a);
-void *func_021C88A4(char *p, int a, int b);
-void func_021C88C8(void *a, void *b);
-void func_021D8684(int a, int b, int c);
-int *func_021D869C(int *p);
-void func_021D86A8(void *a, int b, int c);
-int *func_021D86F0(int *p);
+void func_021D8684(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+int *func_021D869C(int *packedInfo);
+void func_021D86A8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+int *func_021D86F0(int *packedInfo);
 extern int d_021F07B0[];
 extern int d_021F05B8[];
 
 
-/* 021D8684  shape F1: gate on func_021D775C(4) */
-void func_021D8684(int a, int b, int c)
+/* Inner Focus: prevents flinching. */
+void func_021D8684(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(4))
-        func_021D76BC(0x41, 1);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID))
+        func_021D76BC(BTL_EVAR_PREVENT_FLAG, 1);
 }
 
 
-int *func_021D869C(int *p)
+/* Steadfast: handler table. */
+int *func_021D869C(int *packedInfo)
 {
-    *p = 1;
+    *packedInfo = 1;
     return d_021F07B0;
 }
 
 
-void func_021D86A8(void *a, int b, int c)
+/* Steadfast: raises the speed of the poke that flinched by one rank. */
+void func_021D86A8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 *p;
+    BtlRankCmd *cmd;
 
-    if (func_021D775C(0x22) == 6) {
-        if (c == func_021D775C(2)) {
-            p = func_021C88A4((char *)b, 0xe, c);
-            ((struct Obj05216 *)p)->f0 |= 2 << 22;
-            ((struct Obj05216 *)p)->f4 = 5;
-            p[0xc] = 1;
-            p[0xe] = 0;
-            p[0xf] = 1;
-            p[0x10] = c;
-            func_021C88C8((void *)b, p);
+    if (func_021D775C(BTL_EVAR_FAIL_REASON) == BTL_FAIL_REASON_FLINCH) {
+        if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+            cmd = func_021C88A4(flow, 0xe, pokeId);
+            cmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
+            cmd->statId = 5;
+            cmd->amount = 1;
+            cmd->showMessage = 0;
+            cmd->targetCount = 1;
+            cmd->targets[0] = pokeId;
+            func_021C88C8(flow, cmd);
         }
     }
 }
 
 
-int *func_021D86F0(int *p)
+/* Thick Fat: handler table. */
+int *func_021D86F0(int *packedInfo)
 {
-    *p = 1;
+    *packedInfo = 1;
     return d_021F05B8;
 }

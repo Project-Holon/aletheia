@@ -12,10 +12,10 @@
  * body starts with 02005FBC(void) and reads no entry inputs; omitted them.
  * symbols:
  *   func_02005F38 0x02005F38 thumb
- *   func_02005E9C 0x02005E9C thumb
- *   func_02005DE4 0x02005DE4 thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  */
 extern int func_02005F38(void);
-extern int func_02005E9C(void);
-extern void func_02005DE4(void *);
-int func_021E19A4(void) { if(func_02005F38()==0) { func_02005E9C();func_02005DE4(0);return 0; }return 1; }
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_SetBgmPlayerParam(void *);
+int func_021E19A4(void) { if(func_02005F38()==0) { GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);return 0; }return 1; }

@@ -12,7 +12,7 @@
  * sdk:      gsUdpEngineAddMsgHandler (libdwcgscommon.TWL.HYB.a(gsudpengine.o))
  *
  * symbols:
- *   func_02180404                  0x02180404  arm ov009
+ *   gsUdpEngineContext                  0x02180404  arm ov009
  *   func_0217D254                  0x0217D254  arm ov009
  *   func_02184144                  0x02184144  arm ov009
  *   func_02184234                  0x02184234  arm ov009
@@ -58,7 +58,7 @@ typedef struct GSUdpEngineObject {
 
 typedef struct { char c[16]; } GSChar16;
 
-extern void *func_02180404(void);
+extern void *gsUdpEngineContext(void);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void func_02184234(void *array, void *newElem);
@@ -78,7 +78,7 @@ int func_021815C8(char *theInitMsg, char *theHeader,
     GSUdpMsgHandler aMsgHandler;
     GSUdpEngineObject *aUdp;
 
-    aUdp = func_02180404();
+    aUdp = gsUdpEngineContext();
     if (!aUdp->mInitialized) {
         func_0217D254(12, 0, 15, g_021A3B9C);
         return 3;

@@ -1,5 +1,5 @@
 /*
- * function: func_0203D7FC
+ * function: GFL_NET_FreeAligned
  * address:  0x0203D7FC
  * packet:   pkt_0203D7C8
  * region:   arm9
@@ -9,12 +9,12 @@
  * isa:      arm
  * status:   EXACT
  *
- * Releases the aligned block func_0203D7C8 returns, via the pointer kept
+ * Releases the aligned block GFL_NET_AllocAligned returns, via the pointer kept
  * just before it, and tolerates a null.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D7FC.c \
- *       --func func_0203D7FC --addr 0x0203D7FC --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_FreeAligned.c \
+ *       --func GFL_NET_FreeAligned --addr 0x0203D7FC --arm --cc 1.1p1
  */
 
 typedef unsigned char u8;
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_0203D7FC(void *p)
+void GFL_NET_FreeAligned(void *p)
 {
     if (p == 0) {
         return;

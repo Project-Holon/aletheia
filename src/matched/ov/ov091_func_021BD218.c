@@ -12,11 +12,11 @@
  *   func_02030734 0x02030734 arm
  *   func_02017E1C 0x02017E1C thumb
  *   func_020490F4 0x020490F4 arm
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_0201BA68 0x0201BA68 thumb
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_02049238 0x02049238 arm
- *   func_0201BBE8 0x0201BBE8 thumb
+ *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   func_0204B294 0x0204B294 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B92C 0x0204B92C arm
@@ -25,7 +25,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_020450F0 0x020450F0 arm
  *   func_021B9C1C 0x021B9C1C thumb ov091
- *   func_02018430 0x02018430 thumb
+ *   POKE_TOOL_CalcLevel 0x02018430 thumb
  *   func_0201EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_021B9D58 0x021B9D58 thumb ov091
@@ -42,13 +42,13 @@ typedef signed int     s32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02017E1C(void *,u32,u32);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void *func_020185F4(void *p);
+extern void *POKE_TOOL_GetBoxParam(void *p);
 struct Obj;
 struct WordSet;
 extern u32 func_0201BA68(void *mon);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *);
-extern int func_0201BBE8(void *a0);
+extern int POKE_TOOL_GetIconPalette(void *a0);
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 struct Obj;
@@ -58,7 +58,7 @@ extern u32 func_0202136C(u16);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern u32 func_020450F0(int,u8,u8,int,u8,u8,u8);
 extern void func_021B9C1C(u8 *p, u32 win, u32 id, int x, s16 y, u16 color);
-extern u32 func_02018430(void *p);
+extern u32 POKE_TOOL_CalcLevel(void *p);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_021B9D58(u8 *p, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color);
@@ -85,10 +85,10 @@ u32 *func_021BD218(u8 *p,void *mon,s16 x,u16 y)
     s=func_02030734(((struct Obj02771 *)p)->f0,24,0,d_021BED48,0x199);
     egg=func_02017E1C(mon,0x4c,0);
     h=func_020490F4(7,((struct Obj02771 *)p)->f0);
-    species=(int)func_020185F4(mon);
+    species=(int)POKE_TOOL_GetBoxParam(mon);
     s[3]=func_0204A6C8(h,func_0201BA68((void *)species),0,1,((struct Obj02771 *)p)->f0);
     func_02049238(h);
-    frame=func_0201BBE8((void *)species);
+    frame=POKE_TOOL_GetIconPalette((void *)species);
     a.a=x+16;a.b=y+8;a.c=1;a.d=16;a.e=2;
     {
         int obj=(int)func_0204B294((void *)P(0x1ec),s[3],P(0x194),P(0x1d0),&a,1,((struct Obj02771 *)p)->f0);
@@ -114,7 +114,7 @@ u32 *func_021BD218(u8 *p,void *mon,s16 x,u16 y)
         if(special==0) func_021B9C1C(p,s[1],7,(u16)(z+4),0,0x14c0);
         else if(special==1) func_021B9C1C(p,s[1],8,(u16)(z+4),0,0xc80);
     }
-    level=func_02018430((void *)((int)mon));
+    level=POKE_TOOL_CalcLevel((void *)((int)mon));
     z=rem;
     s[2]=func_020450F0(4,(u8)gx,(u8)gy+3,6,1,14,1);
     if(egg==0) {

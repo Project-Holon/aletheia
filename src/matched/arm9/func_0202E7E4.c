@@ -1,5 +1,5 @@
 /*
- * function: func_0202E7E4
+ * function: COMM_PLAYER_SUPPORT_SavePreviousAndSuspend
  * address:  0x0202E7E4
  * packet:   pkt_0202E7E4
  * region:   arm9
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 typedef struct { u32 a[8]; } Block;
 typedef struct { u32 mode, old, other; Block current, previous; } State;
 
-void func_0202E7E4(State *p)
+void COMM_PLAYER_SUPPORT_SavePreviousAndSuspend(State *p)
 {
     p->old = p->mode;
     p->previous = p->current;

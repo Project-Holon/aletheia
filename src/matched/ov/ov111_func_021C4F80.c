@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207C778  0x0207C778  arm
+ *   FX_Inv  0x0207C778  arm
  *   func_0207D59C  0x0207D59C  arm
  *
  * Addresses are Black-image addresses.
@@ -42,17 +42,17 @@ typedef struct {
     u8 dirty : 1;
 } Work;
 
-extern fx32 func_0207C778(fx32 v);
+extern fx32 FX_Inv(fx32 v);
 extern void func_0207D59C(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
 
 void func_021C4F80(Work *p)
 {
     struct Mtx m;
 
-    m._00 = func_0207C778(p->scaleX);
+    m._00 = FX_Inv(p->scaleX);
     m._01 = 0;
     m._10 = 0;
-    m._11 = func_0207C778(p->scaleY);
+    m._11 = FX_Inv(p->scaleY);
     func_0207D59C((void *)0x04001020, &m, p->cx, p->cy, p->x, p->y);
     func_0207D59C((void *)0x04001030, &m, p->cx, p->cy, p->x, p->y);
     p->dirty = 0;

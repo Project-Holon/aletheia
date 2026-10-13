@@ -1,5 +1,5 @@
 /*
- * function: sub_020343C0
+ * function: AREAMAN_MarkUsed
  * address:  0x020343C0
  * packet:   pkt_020343C0
  * region:   arm9
@@ -10,13 +10,14 @@
  * status:   EXACT
  *
  * symbols:
+ *   AREAMAN_TraceByte  0x020344C4  arm
  *   Areaman_RunMask   0x020A048C  data
  *   Areaman_TailMask  0x020A0495  data
  *
  * areaman.c.  Mark `len` bits starting at bit `start` of the bitmap as used:
  * fails (0) past the managed range or when any target bit is already set
  * (dumping the mask and the byte through the release-empty hook
- * func_020344C4 when p->unk08 is set), otherwise sets the head bits, fills
+ * AREAMAN_TraceByte when p->unk08 is set), otherwise sets the head bits, fills
  * whole bytes with 0xFF and ORs the tail mask into the last byte.
  *
  * What closed it (wave 17, from 44 out): the byte index is the PARAMETER
@@ -27,8 +28,8 @@
  * `mov r2, r3`).  docs/idioms/a-dead-parameter-reused-as-the-index-rotates-the-loop-registers.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020343C0.c \
- *       --func sub_020343C0 --addr 0x020343C0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/AREAMAN_MarkUsed.c \
+ *       --func AREAMAN_MarkUsed --addr 0x020343C0 --cc 1.1p1 --arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,9 +47,9 @@ struct AreaMan {
 extern const u8 Areaman_RunMask[];
 extern const u8 Areaman_TailMask[];
 
-extern void func_020344C4(u8 x);
+extern void AREAMAN_TraceByte(u8 x);
 
-s32 sub_020343C0(struct AreaMan *p, s32 start, u32 len)
+s32 AREAMAN_MarkUsed(struct AreaMan *p, s32 start, u32 len)
 {
     u32 bit;
     u32 avail;
@@ -79,8 +80,8 @@ s32 sub_020343C0(struct AreaMan *p, s32 start, u32 len)
     v = p->bits[start];
     if ((mask & v) != 0) {
         if (p->unk08 != 0) {
-            func_020344C4((u8)mask);
-            func_020344C4(p->bits[start]);
+            AREAMAN_TraceByte((u8)mask);
+            AREAMAN_TraceByte(p->bits[start]);
         }
         return 0;
     }

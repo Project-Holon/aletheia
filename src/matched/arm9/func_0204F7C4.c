@@ -1,5 +1,5 @@
 /*
- * function: func_0204F7C4
+ * function: BILLBOARD_SetElemRotZ
  * address:  0x0204F7C4
  * packet:   pkt_0204F684
  * region:   arm9
@@ -30,7 +30,7 @@ struct Ent {
     u8  pad_18[4];
 };
 
-void func_0204F7C4(u8 *a0, int i, u16 *src)
+void BILLBOARD_SetElemRotZ(u8 *a0, int i, u16 *src)
 {
     struct Ent *e = &((struct Ent *)((struct Obj16149 *)a0)->f8)[i];
 

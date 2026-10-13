@@ -1,5 +1,5 @@
 /*
- * function: sub_020341F0
+ * function: AREAMAN_AllocAt
  * address:  0x020341F0
  * packet:   pkt_02033CA8
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020343C0  0x020343C0  arm
- *   func_02034508  0x02034508  arm
+ *   AREAMAN_MarkUsed  0x020343C0  arm
+ *   AREAMAN_TraceAlloc  0x02034508  arm
  *
  * areaman.c.  Test-and-report: ask the range checker at 0x020343C0 whether
  * the run [start, start+len) is free, and if it is not, report it through
@@ -20,8 +20,8 @@
  * precisely because the second call needs them again.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020341F0.c \
- *       --func sub_020341F0 --addr 0x020341F0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/AREAMAN_AllocAt.c \
+ *       --func AREAMAN_AllocAt --addr 0x020341F0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -37,15 +37,15 @@ struct AreaMan {
     u8 bits[1];
 };
 
-extern s32 func_020343C0(struct AreaMan *p, s32 start, u32 len);
-extern void func_02034508(struct AreaMan *p, u32 start, u32 len, u32 line);
+extern s32 AREAMAN_MarkUsed(struct AreaMan *p, s32 start, u32 len);
+extern void AREAMAN_TraceAlloc(struct AreaMan *p, u32 start, u32 len, u32 line);
 
-s32 sub_020341F0(struct AreaMan *p, u32 start, u32 len)
+s32 AREAMAN_AllocAt(struct AreaMan *p, u32 start, u32 len)
 {
-    if (func_020343C0(p, start, len) == 0) {
+    if (AREAMAN_MarkUsed(p, start, len) == 0) {
         return 0;
     }
 
-    func_02034508(p, start, len, 0x304);
+    AREAMAN_TraceAlloc(p, start, len, 0x304);
     return 1;
 }

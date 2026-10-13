@@ -13,7 +13,7 @@
  *   func_0203064C  0x0203064C  arm
  *   func_0203159C  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
- *   func_02036370  0x02036370  arm
+ *   KEY_GetRepeatSpeed  0x02036370  arm
  *   func_02045B38  0x02045B38  arm
  *   func_020457B0  0x020457B0  arm
  *   func_02051B84  0x02051B84  arm
@@ -84,7 +84,7 @@ typedef struct Work {
     u8 pad85C[0x86C - 0x85C];
     int f86C, f870;
 } Work;
-extern void func_0203064C(); extern void *func_0203159C(); extern void func_02082BCC(); extern void func_02036370();
+extern void func_0203064C(); extern void *func_0203159C(); extern void func_02082BCC(); extern void KEY_GetRepeatSpeed();
 extern void func_0200816C(); extern int func_02008284(struct MyItemSave *p); extern void func_02008270(struct MyItemSave *p, int i, s16 *a, s16 *b); extern int func_02007FA0(); extern void func_02008288(struct MyItemSave *p, int i, s16 a, s16 b);
 extern int func_02045B38(); extern int func_020457B0(); extern int func_0201EC64(); extern int func_0201C450();
 extern int func_02028590(); extern int func_0201D7EC(); extern int func_02051B84(); extern int func_020056A0(); extern int func_0203101C();
@@ -97,7 +97,7 @@ int func_021B86B8(void *proc, int st, Args *a)
     func_0203064C(1, 0xe, 0x34000);
     o = func_0203159C(proc, 0x874, 0xe);
     func_02082BCC(o, 0, 0x874);
-    func_02036370(&o->f86C, &o->f870);
+    KEY_GetRepeatSpeed(&o->f86C, &o->f870);
     o->f544 = 0xe;
     o->f858 = 1;
     o->f00 = a->f00; o->f08 = a->f08; o->f04 = a->f04;

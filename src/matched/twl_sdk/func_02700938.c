@@ -23,7 +23,7 @@
  *   data_0273302C  0x0273302C  data twl a2
  *   data_02700824  0x02700824  arm twl a2
  *   data_027340EC  0x027340EC  data twl a2
- *   func_02088498  0x02088498  arm twl a2
+ *   PXI_Init  0x02088498  arm twl a2
  *   func_020885EC  0x020885EC  arm twl a2
  *   func_020885A0  0x020885A0  arm twl a2
  *   CAMERA_ResetCore  0x02702080  arm twl a2
@@ -128,7 +128,7 @@ extern u32 data_0273419C[];
 extern u32 data_0273302C[];
 extern u32 data_027340EC[];
 
-extern void func_02088498(void);
+extern void PXI_Init(void);
 extern u32 func_020885EC(u32, u32);
 extern void func_020885A0(u32, void (*)(int, u32, int));
 extern void CameraPxiCallback(int, u32, int);
@@ -164,7 +164,7 @@ u32 CAMERA_InitCore(void) {
     data_02733FC8.f124 = 0;
     data_02733FC8.f1AC = 0;
     data_02733FC8.f1B0 = 0;
-    func_02088498();
+    PXI_Init();
     if (func_020885EC(0x15, 1) == 0) {
         return 7;
     }

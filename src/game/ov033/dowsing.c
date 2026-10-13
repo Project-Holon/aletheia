@@ -1,7 +1,7 @@
 /*
  * file:     dowsing.c
  * unit:     yes
- * function: func_021EFEC0, func_021EFEE4, func_021EFEEC, func_021EFF40, func_021EFF48, func_021F000C, func_021F0124, func_021F0174, func_021F05A4, func_021F0674, func_021F06AC, func_021F0738, func_021F0760, func_021F07DC, func_021F07F4, func_021F08EC, func_021F0924, func_021F0A90, func_021F0AC4, func_021F0B74, func_021F0C0C
+ * function: func_021EFEC0, func_021EFEE4, func_021EFEEC, func_021EFF40, func_021EFF48, func_021F000C, func_021F0124, func_021F0174, func_021F05A4, func_021F0674, func_021F06AC, func_021F0738, func_021F0760, func_021F07DC, func_021F07F4, func_021F08EC, func_021F0924, func_021F0A90, func_021F0AC4, func_021F0B74, func_021F0C0C, func_021F0C44
  * address:  0x021EFEC0
  * region:   ov033
  * compiler: dsi/1.1p1
@@ -40,7 +40,7 @@
  *   func_02013D74 0x02013D74 thumb
  *   func_02006148 0x02006148 thumb
  *   func_0200616C 0x0200616C thumb
- *   func_02006268 0x02006268 thumb
+ *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   func_02006224 0x02006224 thumb
  *   func_020061E4 0x020061E4 thumb
  *   d_021F0DC8 0x021F0DC8 data ov033 a4
@@ -49,14 +49,14 @@
  *   func_0204B404 0x0204B404 arm
  *   func_0204B878 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204B8C4 0x0204B8C4 arm
- *   func_02021D50 0x02021D50 thumb
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
+ *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_02040588 0x02040588 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040618 0x02040618 arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_02043598 0x02043598 arm
  *   d_021F0DF0 0x021F0DF0 data ov033 a4
  *   func_0204B1CC 0x0204B1CC arm
@@ -101,289 +101,110 @@
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030CBC 0x02030CBC arm
  *   func_02021518 0x02021518 thumb
- *   func_02021EE4 0x02021EE4 thumb
+ *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   func_0202155C 0x0202155C thumb
  *   func_020216D4 0x020216D4 thumb
  *   func_020215A0 0x020215A0 thumb
  *   func_02021540 0x02021540 thumb
  *   func_02030DA4 0x02030DA4 arm
+ *   func_02030D28 0x02030D28 arm
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
+ *   PALANM_RequestFade 0x0202173C thumb
+ *   CLACT_StartActorAnim 0x0204B95C arm
+ *   CLACT_StopActorAnim 0x0204B974 arm
  */
-#include "../../matched/include/Obj07642.h"
-#include "../../matched/include/Obj13070.h"
-#include "../../matched/include/Obj13071.h"
-#include "../../matched/include/Obj00618.h"
-#include "../../matched/include/Obj09801.h"
-#include "../../matched/include/Obj00323.h"
-#include "../../matched/include/Obj06142.h"
-#include "../../matched/include/Obj09802.h"
-#include "../../matched/include/G_ov033_021F0DF0.h"
-#include "../../matched/include/Obj20474.h"
-#include "../../matched/include/Obj13072.h"
-#include "../../matched/include/Obj20475.h"
-#include "../../matched/include/Obj09803.h"
-#include "../../matched/include/Obj20476.h"
-#include "../../matched/include/Obj06143.h"
-#include "../../matched/include/Obj01512.h"
-#include "../../matched/include/Obj06144.h"
+#include "../ov021/field_subscreen_types.h"
+#include "dowsing_types.h"
 
-struct Big;
-struct BigObj;
-struct Ctx;
-struct Node;
-struct Rec44;
-struct Vec12;
-struct Obj_vFEC0;
-struct Vec2;
-struct S02021D50;
+#define DOWSING_ARC_ID 0xC3
+#define DOWSING_HIDDEN_ITEM_FLAG_BASE 0x384
+#define DOWSING_SCAN_ALL 0xFFFF
+#define DOWSING_SCAN_PER_UPDATE 11
+#define DOWSING_ZONE_NONE 0xFFFF
+#define DOWSING_KEY_CLOSE 0x400
+#define SCAN_BEST 0
+#define SCAN_CURRENT 1
+
+#define reg_GXS_DB_BLDCNT (*(volatile u16 *)0x04001050)
+
+struct FieldSystem;
+struct GameData;
+struct PlayerAvatar;
 struct BgTemplate;
-struct Bank;
-struct Actor;
-struct Obj_v08EC;
-struct Obj02021EE4;
-struct PalAnmSlot;
-typedef unsigned int u32;
+struct Vec3Fx;
 
-typedef unsigned short u16;
-
-typedef struct { void *f00; u16 f04; void *f08; u16 f0c; } Work;
-
-typedef signed int     s32;
-
-typedef unsigned char  u8;
-
-typedef struct {
-    unsigned kind;
-    unsigned a;
-    unsigned b;
-} Rec_021EFEC0;
-
-typedef struct {
-    unsigned short h0;
-    unsigned short h2;
-    unsigned short h4;
-    unsigned short h6;
-    unsigned f8;
-    unsigned short hc;
-} T_vFEC0;
-
-typedef signed short   s16;
-
-typedef struct {
-    u32 a : 3;
-    u32 b : 3;
-    u32 c : 3;
-    u32 x : 8;
-    u32 y : 8;
-    u32 pan : 7;
-} Ent_021F0174;
-
-typedef struct {
-    u32 kind;
-    u32 a;
-    u32 b;
-} Rec_021F000C;
-
-typedef struct {
-    u8 pad0[2];
-    u8 b2;
-    u8 pad3;
-    u16 h4;
-    u16 h6;
-    u16 h8;
-} Ev;
-
-typedef struct {
+typedef struct Vec3Fx {
     int x, y, z;
-} Vec;
+} Vec3Fx;
 
-typedef struct {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u8 pad0C[0x60 - 0x0C];
-    u8 *map;
-    int f64;
-    int f68;
-    int f6C;
-    Rec_021F000C cur;
-    Rec_021F000C found;
-    int f88;
-    int f8C;
-    int f90;
-    int f94;
-    int f98;
-    int f9C;
-    u16 hA0;
-    u16 padA2;
-    int fA4;
-    u32 fA8;
-    u32 fAC;
-    int fB0;
-    u32 fB4;
-    u32 fB8;
-    u32 fBC;
-    int fC0;
-    u32 fC4;
-    int fC8;
-    int fCC;
-    void *fD0;
-} W;
-
-typedef struct {
-    u32 a : 3;
-    u32 b : 3;
-    u32 c : 3;
-    u32 x : 8;
-    u32 y : 8;
-    u32 pad : 7;
-} Ent_021F05A4;
-
-typedef struct {
-    u16 x;
-    u16 y;
-} Pt;
-
-typedef struct {
-    unsigned f00;
-    unsigned f04[8];
-    unsigned f24;
-    unsigned f28;
-} E;
-
-typedef struct {
-    u16 a;
-    u16 b;
-    u16 c;
-    u8 d;
-    u8 e;
-} Local_vFEC0;
-
-typedef struct {
-    u16 x;
-    u16 y;
-} Pos;
-
-typedef struct {
-    u8 a;
-    u8 b;
-    u8 c;
-} Ids;
-
-typedef struct {
-    u32 chr;
-    u32 cell;
-    u32 obj;
-} Rec;
-
-typedef struct {
-    u16 heap;
-    u16 heap2;
-    u8 pad4[0x8];
-    u32 fC;
-    u8 pad10[0x1C];
-    u32 f2C;
-    Rec rec[4];
-} Obj_vFEC0;
-
-typedef struct {
-    u16 a;
-    u16 b;
-    u16 c;
-    u8 d;
-    u8 e;
-} Local_v08EC;
-
-struct Scr {
-    u8 pad00[0xC];
-    u16 data[0x300];
-};
-
-typedef struct {
-    u16 heap;
-    u16 heap2;
-    u8 pad4[0x4];
-    u32 f8;
-    u32 fC;
-    u8 pad10[0x4];
-    u32 f14;
-    u32 f18;
-    u32 f1C;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-} Obj_v08EC;
-
-typedef struct {
-    unsigned f00;
-    unsigned f04;
-    char pad[0x1C];
-    unsigned f24;
-    unsigned f28;
-} T_v08EC;
-
-extern void *func_02030734(u32, u32, int, const char *, u16);
-extern u32 func_020307B0(void *p);
-extern u32 func_020142E8(void *bitmap, s32 id);
-extern int func_021CFAC0(u8 *base, int a, int b, int c, int d);
-extern char *func_0216476C(unsigned short *);
-extern unsigned func_021CFB68(unsigned, unsigned *);
-extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
-extern void *func_020056A0(void *fn, void *ctx, u32 a);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_0201296C(const struct BigObj *p);
-extern void *func_02012EBC(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
+extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
+extern u32 func_020307B0(void *mem);
+extern u32 func_020142E8(void *flagBitmap, s32 flagId);
+extern int func_021CFAC0(void *eventData, int zoneId, int x, int y, int z);
+extern const DowsingHiddenItem *func_0216476C(u16 *count);
+extern const DowsingMapEvent *func_021CFB68(void *eventData, unsigned *index);
+extern void *func_0204A298(u32 arcId, u32 fileId, int compressed, u32 heapId, u32 *outSize);
+extern struct Task *func_020056A0(void (*proc)(int, DowsingWork *), DowsingWork *work, u32 priority);
+extern struct FieldSystem *func_02188C80(void *fieldMap);
+extern struct GameData *func_020120F4(const struct FieldSystem *fieldSystem);
+extern void *func_0201296C(const struct GameData *gameData);
+extern void *func_02012EBC(struct GameData *gameData);
+extern void *func_0200BE48(void *sys);
 extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
 extern void func_0203D34C(u32, u32);
-extern void func_02030EAC(struct Node *n);
+extern void func_02030EAC(struct Task *task);
 extern void func_02024ABC(void);
-extern u8 *func_020120F8(const struct Ctx *p);
-extern struct Vec12 *func_02012AA0(struct Rec44 *p);
-extern u32 func_02012974(const struct BigObj *p);
-extern int func_02159C48(int a0, int a1, int a2);
-extern int func_02159BD4(int a0, int a1, int a2);
-extern u32 func_02013E7C(u32 id);
-extern int func_02013D74(u32 key);
-extern int func_02006148(u32 a0);
-extern void func_0200616C(void *arg, int i);
-extern void func_02006268(int i, u32 a, u32 b, u32 c);
-extern int func_02006224(u32 a0);
+extern struct PlayerAvatar *func_020120F8(const struct FieldSystem *fieldSystem);
+extern const Vec3Fx *func_02012AA0(const struct PlayerAvatar *player);
+extern u32 func_02012974(const struct GameData *gameData);
+extern int func_02159C48(int mapId, int x, int z);
+extern int func_02159BD4(int mapId, int x, int z);
+extern u32 func_02013E7C(u32 zoneId);
+extern int func_02013D74(u32 zoneId);
+extern int func_02006148(u32 se);
+extern void func_0200616C(u32 se, int handle);
+extern void GFL_USE_SetSeSlotParams(int handle, u32 volume, u32 pitch, u32 pan);
+extern int func_02006224(u32 handle);
 extern void func_020061E4(u32 se);
-extern void func_021F0C44(char *p);
-extern void func_0204B3DC(struct Obj_vFEC0 *p, u32 v);
-extern void func_0204B404(struct Obj_vFEC0 *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B878(struct Actor *p, u16 value);
-extern void func_0204B92C(struct Actor *p, u32 v);
-extern void func_0204B8C4(struct Obj_vFEC0 *p, u32 value);
-extern void func_02021D50(struct S02021D50 *);
-extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0203FCA0(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
-extern void func_020414AC(unsigned char);
-extern void func_02040618(unsigned char, unsigned, unsigned);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void func_021F0C44(DowsingWork *work);
+extern void func_02030D28(struct TaskSys *taskSys);
+extern u32 PALANM_GetFadeRequestBits(const struct PalAnm *palAnm);
+extern int PALANM_RequestFade(struct PalAnm *palAnm, u16 slotMask, u16 paletteMask, s16 wait, u8 startLevel, u8 endLevel, u16 color, struct TaskSys *taskSys);
+extern void CLACT_StartActorAnim(struct ClactActor *actor);
+extern void CLACT_StopActorAnim(struct ClactActor *actor);
+extern void func_0204B3DC(struct ClactActor *actor, u32 visible);
+extern void func_0204B404(struct ClactActor *actor, const ScreenPos *pos, u32 which);
+extern void func_0204B878(struct ClactActor *actor, u16 anim);
+extern void func_0204B92C(struct ClactActor *actor, u32 enable);
+extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame);
+extern void PALANM_TransferPalettes(struct PalAnm *palAnm);
+extern void func_02040588(unsigned char bgId, unsigned char visible);
+extern void func_0203FCA0(unsigned int bgId, const struct BgTemplate *bgTemplate, unsigned int bgType);
+extern void func_020414AC(unsigned char bgId);
+extern void func_02040618(unsigned char bgId, unsigned attr, unsigned value);
+extern struct ClactUnit *func_0204B100(int count, u8 flag, u32 heapId);
+extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *unit);
 extern void func_02043598(unsigned, unsigned);
-extern unsigned int func_0204B1CC(struct Bank *bank);
-extern void func_020403F4(u32 i);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern void func_02049238(void *);
+extern unsigned int func_0204B1CC(struct ClactUnit *unit);
+extern void func_020403F4(u32 bgId);
+extern void *func_020490F4(unsigned int arcId, unsigned int heapId);
+extern void func_02049BDC(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u32 palSize, u16 heapId);
+extern u32 func_02049740(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
+extern u32 func_02049990(void *archive, u32 fileId, u32 bgId, u32 offset, u32 charRegion, u32 x, u32 y, u16 heapId);
+extern void func_02049238(void *archive);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_02041B6C(unsigned);
-extern void func_0203FB44(u32 layer, u32 offset, u32 size);
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern struct Actor *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B3B4(struct Actor *p);
-extern void func_0204AFD8(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_02024A20(u8 a0, u8 a1, void *a2, u16 heap);
+extern void func_02041B6C(unsigned bgId);
+extern void func_0203FB44(u32 bgId, u32 offset, u32 size);
+extern s32 func_0204AC18(void *archive, u32 fileId, u32 slotCount, u32 offset, u16 e, u16 f, u16 heapId);
+extern s32 func_0204A6C8(void *archive, u32 fileId, u32 compressed, u32 mode, u16 heapId);
+extern s32 func_0204AF28(void *archive, u32 cellFileId, u32 animFileId, u32 heapId);
+extern struct ClactActor *func_0204B294(struct ClactUnit *unit, s32 charRes, s32 palRes, s32 cellRes, const ClactSetup *setup, unsigned short mode, unsigned short heapId);
+extern void func_0204B688(struct ClactActor *actor, u32 value);
+extern void func_0204B3B4(struct ClactActor *actor);
+extern void func_0204AFD8(s32 cellRes);
+extern void func_0204A8D4(s32 charRes);
+extern void func_0204ADA4(s32 palRes);
+extern void func_02024A20(u8 a0, u8 a1, struct GameData *gameData, u16 heapId);
 extern u32 func_020275E4(void);
 extern u32 func_02027624(void);
 extern u32 func_02027628(void);
@@ -392,719 +213,757 @@ extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_02049EF4(void *o, u32 a, u32 b, void **out, u16 e);
+extern void func_02049B68(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
+extern void *func_02049EF4(void *archive, u32 fileId, u32 compressed, void **outData, u16 heapId);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
-extern void func_0204B954(struct Actor *a, u32 v);
+extern void func_0204B954(struct ClactActor *actor, u32 value);
 extern int func_02024DCC(void);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern void func_020355D8(u8 v);
+extern u32 func_02035D20(u32 *outX, u32 *outY);
+extern void func_020355D8(u8 touchMode);
 extern u32 func_020362DC(void);
-extern u32 func_0204B98C(struct Actor *a);
-extern int func_021A0F30(u32 a, u32 b);
+extern u32 func_0204B98C(struct ClactActor *actor);
+extern int func_021A0F30(FieldSubscreen *subscreen, u32 mode);
 extern unsigned func_02030CB0(unsigned);
-extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void *func_02021518(u32 heap);
-extern void func_02021EE4(struct Obj02021EE4 *o, int v);
-extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern u32 func_02021540(void *a0);
-extern void func_02030DA4(void *);
-Work *func_021EFEC0(u32 heap, void *a, void *b);
-void func_021EFEE4(void *p);
-int func_021EFEEC(char *p, int *q);
-void func_021EFF40(char *p);
-int func_021EFF48(T_vFEC0 *p, unsigned *out, int mode);
-void *func_021F000C(u32 heap, u32 heap2, u32 a, u32 b);
-void func_021F0124(char *p);
-void func_021F0174(W *p, int on);
-void func_021F05A4(char *p, int flag);
-void func_021F0674(int a, unsigned char *p);
-void func_021F06AC(char *p);
-void func_021F0738(char *p);
-void func_021F0760(char *p);
-void func_021F07DC(char *p);
-void func_021F07F4(Obj_vFEC0 *p);
-void func_021F08EC(char *p);
-void func_021F0924(Obj_v08EC *p);
-void func_021F0A90(char *p);
-void func_021F0AC4(T_v08EC *p);
-void func_021F0B74(char *p);
-void func_021F0C0C(char *p);
+extern struct TaskSys *func_02030CBC(u32 capacity, void *mem);
+extern struct PalAnm *func_02021518(u32 heapId);
+extern void PALANM_SetAutoTransfer(struct PalAnm *palAnm, int enable);
+extern void func_0202155C(struct PalAnm *palAnm, u32 slot, u32 size, u32 heapId);
+extern void func_020216D4(struct PalAnm *palAnm, u32 slot, u32 offset, u32 size);
+extern void func_020215A0(struct PalAnm *palAnm, u32 slot);
+extern u32 func_02021540(struct PalAnm *palAnm);
+extern void func_02030DA4(struct TaskSys *taskSys);
+
+DowsingSearch *func_021EFEC0(u32 heapId, void *eventFlags, void *eventData);
+void func_021EFEE4(DowsingSearch *search);
+int func_021EFEEC(DowsingSearch *search, DowsingTarget *target);
+void func_021EFF40(DowsingSearch *search);
+int func_021EFF48(DowsingSearch *search, DowsingTarget *out, int mode);
+DowsingWork *func_021F000C(u32 heapId, u32 ownerHeapId, FieldSubscreen *subscreen, void *fieldMap);
+void func_021F0124(DowsingWork *work);
+void func_021F0174(DowsingWork *work, int isOn);
+void func_021F05A4(DowsingWork *work, int draw);
+void func_021F0674(int taskId, DowsingWork *work);
+void func_021F06AC(DowsingWork *work);
+void func_021F0738(DowsingWork *work);
+void func_021F0760(DowsingWork *work);
+void func_021F07DC(DowsingWork *work);
+void func_021F07F4(DowsingWork *work);
+void func_021F08EC(DowsingWork *work);
+void func_021F0924(DowsingWork *work);
+void func_021F0A90(DowsingWork *work);
+void func_021F0AC4(DowsingWork *work);
+void func_021F0B74(DowsingWork *work);
+void func_021F0C0C(DowsingWork *work);
 extern const char d_021F0E60[];
-extern const Ent_021F0174 d_021F0DC8[];
-extern struct G_ov033_021F0DF0 d_021F0DF0[];
-extern const Ids d_021F0DBC[];
+extern const DowsingLevelEntry d_021F0DC8[];
+extern DowsingBgSetup d_021F0DF0[];
+extern const DowsingPartIds d_021F0DBC[];
 
-
-
-
-Work *func_021EFEC0(u32 heap, void *a, void *b)
+DowsingSearch *func_021EFEC0(u32 heapId, void *eventFlags, void *eventData)
 {
-    Work *p;
-    p = func_02030734(heap, 0x10, 1, d_021F0E60, 0x8d);
-    p->f00 = a;
-    p->f04 = 0;
-    p->f08 = b;
-    p->f0c = 0;
-    return p;
+    DowsingSearch *search;
+    search = func_02030734(heapId, sizeof(DowsingSearch), 1, d_021F0E60, 0x8d);
+    search->eventFlags = eventFlags;
+    search->itemIndex = 0;
+    search->eventData = eventData;
+    search->eventIndex = 0;
+    return search;
 }
 
-
-
-
-
-void func_021EFEE4(void *p)
+void func_021EFEE4(DowsingSearch *search)
 {
-    func_020307B0(p);
+    func_020307B0(search);
 }
 
-
-
-
-
-int func_021EFEEC(char *p, int *q)
+/* Is the target still there: item not picked up yet, object still on the map. */
+int func_021EFEEC(DowsingSearch *search, DowsingTarget *target)
 {
-    int r;
-    if (q[0] == 1) {
-        unsigned short *s = *(unsigned short * *)&((struct Obj07642 *)q)->f4;
-        return func_020142E8((void *)(((struct Obj13070 *)p)->f0), (unsigned short)(*s + 0x384)) == 0;
+    int available;
+    if (target->kind == DOWSING_TARGET_HIDDEN_ITEM) {
+        const DowsingHiddenItem *item = target->item;
+        return func_020142E8(search->eventFlags, (u16)(item->flagIndex + DOWSING_HIDDEN_ITEM_FLAG_BASE)) == 0;
     }
-    if (q[0] == 2) {
-        short *s = *(short * *)&((struct Obj07642 *)q)->f8;
-        r = 0;
-        if (func_021CFAC0((u8 *)(((struct Obj13070 *)p)->f8), (unsigned short)s[3], s[0], s[1], s[2]) != 0xFF)
-            r = 1;
-        return r;
+    if (target->kind == DOWSING_TARGET_MAP_EVENT) {
+        const DowsingMapEvent *event = target->event;
+        available = 0;
+        if (func_021CFAC0(search->eventData, (unsigned short)event->zoneId, event->x, event->y, event->z) != 0xFF)
+            available = 1;
+        return available;
     }
     return 0;
 }
 
-
-
-
-
-void func_021EFF40(char *p)
+void func_021EFF40(DowsingSearch *search)
 {
-    ((struct Obj13071 *)p)->f4 = 0;
-    ((struct Obj13071 *)p)->fC = 0;
+    search->itemIndex = 0;
+    search->eventIndex = 0;
 }
 
-
-
-
-
-int func_021EFF48(T_vFEC0 *p, unsigned *out, int mode)
+/*
+ * Moves the cursor to the next available target of the kinds that mode
+ * allows (0 both, 1 hidden items, 2 map events). Returns 1 and fills out,
+ * or returns 0 with out->kind cleared when the end is reached.
+ */
+int func_021EFF48(DowsingSearch *search, DowsingTarget *out, int mode)
 {
-    unsigned short cnt;
-    unsigned idx;
-    Rec_021EFEC0 rec;
-    char *tbl;
-    unsigned v;
+    u16 itemCount;
+    unsigned eventIndex;
+    DowsingTarget candidate;
+    const DowsingHiddenItem *items;
+    const DowsingMapEvent *event;
     int found;
 
     found = 0;
-    tbl = func_0216476C(&cnt);
-    idx = p->hc;
+    items = func_0216476C(&itemCount);
+    eventIndex = search->eventIndex;
     if (mode == 0 || mode == 1) {
-        while (p->h4 < cnt) {
-            rec.kind = 1;
-            rec.a = (unsigned)(tbl + p->h4 * 10);
-            if (func_021EFEEC((char *)p, (int *)(&rec))) {
-                out[0] = rec.kind;
-                out[1] = rec.a;
+        while (search->itemIndex < itemCount) {
+            candidate.kind = DOWSING_TARGET_HIDDEN_ITEM;
+            candidate.item = items + search->itemIndex;
+            if (func_021EFEEC(search, &candidate)) {
+                out->kind = candidate.kind;
+                out->item = candidate.item;
                 found = 1;
             }
-            p->h4++;
+            search->itemIndex++;
             if (found)
                 return 1;
         }
     }
     if (mode == 0 || mode == 2) {
-        v = func_021CFB68(p->f8, &idx);
-        p->hc = idx;
-        while (v != 0) {
-            rec.b = v;
-            rec.kind = 2;
-            if (func_021EFEEC((char *)p, (int *)(&rec))) {
-                out[0] = rec.kind;
-                out[2] = rec.b;
+        event = func_021CFB68(search->eventData, &eventIndex);
+        search->eventIndex = eventIndex;
+        while (event != 0) {
+            candidate.event = event;
+            candidate.kind = DOWSING_TARGET_MAP_EVENT;
+            if (func_021EFEEC(search, &candidate)) {
+                out->kind = candidate.kind;
+                out->event = candidate.event;
                 found = 1;
             }
             if (found)
                 return 1;
-            v = func_021CFB68(p->f8, &idx);
-            p->hc = idx;
+            event = func_021CFB68(search->eventData, &eventIndex);
+            search->eventIndex = eventIndex;
         }
     }
-    out[0] = 0;
+    out->kind = DOWSING_TARGET_NONE;
     return 0;
 }
 
-
-
-
-
-void *func_021F000C(u32 heap, u32 heap2, u32 a, u32 b)
+DowsingWork *func_021F000C(u32 heapId, u32 ownerHeapId, FieldSubscreen *subscreen, void *fieldMap)
 {
-    char *p;
+    DowsingWork *work;
     u32 size;
-    u32 s;
-    u32 v;
+    struct GameData *gameData;
+    void *eventFlags;
 
-    p = func_02030734(heap, 0xD4, 1, d_021F0E60, 0x272);
-    ((struct Obj00618 *)p)->f0 = heap;
-    ((struct Obj00618 *)p)->f2 = heap2;
-    ((struct Obj00618 *)p)->f4 = a;
-    ((struct Obj00618 *)p)->f8 = b;
-    func_021F06AC(p);
-    func_021F0760(p);
-    func_021F07F4((Obj_vFEC0 *)p);
-    func_021F0924((Obj_v08EC *)p);
-    ((struct Obj00618 *)p)->f60 = (void *)func_0204A298(0xC3, 0xD, 0, ((struct Obj00618 *)p)->f0, &size);
-    ((struct Obj00618 *)p)->fA8 = func_020056A0(func_021F0674, p, 1);
-    ((struct Obj00618 *)p)->fAC = 0;
-    ((struct Obj00618 *)p)->fB0 = 1;
-    func_021F0B74(p);
-    ((struct Obj00618 *)p)->f64 = 10;
-    ((struct Obj00618 *)p)->f68 = 9;
-    ((struct Obj00618 *)p)->f6C = 10;
-    ((struct Obj00618 *)p)->f70 = 0;
-    ((struct Obj00618 *)p)->f7C = 0;
-    ((struct Obj00618 *)p)->f88 = 0;
-    ((struct Obj00618 *)p)->f8C = 0;
-    ((struct Obj00618 *)p)->f90 = 0;
-    ((struct Obj00618 *)p)->f94 = 0;
-    ((struct Obj00618 *)p)->f9C = 0;
-    ((struct Obj00618 *)p)->fA4 = 0;
-    func_021F05A4(p, 1);
-    ((struct Obj00618 *)p)->fC8 = 1;
-    ((struct Obj00618 *)p)->fCC = 1;
-    s = (u32)func_020120F4(func_02188C80((void *)(((struct Obj00618 *)p)->f8)));
-    v = func_0201296C((const struct BigObj *)s);
-    ((struct Obj00618 *)p)->fD0 = (void *)func_021EFEC0(((struct Obj00618 *)p)->f0, (void *)v, (void *)((u32)func_0200BE48(func_02012EBC((struct Big *)s))));
-    func_0207D63C(0x04001050, 0x10, 0x18, 1, 7);
-    func_0203D34C(0, ((struct Obj00618 *)p)->f0);
-    return p;
+    work = func_02030734(heapId, sizeof(DowsingWork), 1, d_021F0E60, 0x272);
+    work->heapId = heapId;
+    work->ownerHeapId = ownerHeapId;
+    work->subscreen = subscreen;
+    work->fieldMap = fieldMap;
+    func_021F06AC(work);
+    func_021F0760(work);
+    func_021F07F4(work);
+    func_021F0924(work);
+    work->levelGrid = func_0204A298(DOWSING_ARC_ID, 0xD, 0, work->heapId, &size);
+    work->task = func_020056A0(func_021F0674, work, 1);
+    work->tick = 0;
+    work->isOn = 1;
+    func_021F0B74(work);
+    work->prevLevel = 10;
+    work->level = DOWSING_LEVEL_NONE;
+    work->shownLevel = 10;
+    work->prevTarget.kind = 0;
+    work->target.kind = 0;
+    work->gridX = 0;
+    work->gridY = 0;
+    work->gridZ = 0;
+    work->hasSearched = 0;
+    work->seStarted = 0;
+    work->restartFoundAnim = 0;
+    func_021F05A4(work, 1);
+    work->needReset = 1;
+    work->needFullScan = 1;
+    gameData = func_020120F4(func_02188C80(work->fieldMap));
+    eventFlags = func_0201296C(gameData);
+    work->search = func_021EFEC0(work->heapId, eventFlags, func_0200BE48(func_02012EBC(gameData)));
+    func_0207D63C((u32)&reg_GXS_DB_BLDCNT, 0x10, 0x18, 1, 7);
+    func_0203D34C(0, work->heapId);
+    return work;
 }
 
-
-
-
-
-void func_021F0124(char *p)
+void func_021F0124(DowsingWork *work)
 {
-    *(volatile unsigned short *)0x04001050 = 0;
-    func_021EFEE4((void *)(((struct Obj09801 *)p)->fD0));
-    func_021F0C0C(p);
-    func_02030EAC((struct Node *)(((struct Obj09801 *)p)->fA8));
-    func_020307B0(((struct Obj09801 *)p)->f60);
-    func_021F0A90(p);
-    func_021F08EC(p);
-    func_021F07DC(p);
-    func_021F0738(p);
-    func_020307B0(p);
+    reg_GXS_DB_BLDCNT = 0;
+    func_021EFEE4(work->search);
+    func_021F0C0C(work);
+    func_02030EAC(work->task);
+    func_020307B0(work->levelGrid);
+    func_021F0A90(work);
+    func_021F08EC(work);
+    func_021F07DC(work);
+    func_021F0738(work);
+    func_020307B0(work);
 }
 
-
-
-
-
-void func_021F0174(W *p, int on)
+/*
+ * Per-frame update while the screen runs. When the machine is on it finds
+ * the nearest target within the 32 x 24 window around the player, reads the
+ * level of that cell and plays the proximity sounds.
+ */
+void func_021F0174(DowsingWork *work, int isOn)
 {
-    Rec_021F000C r[2];
-    int snd;
-    int changed;
-    int x0;
-    u32 map;
-    void *obj;
-    int gx, gy, gz;
-    int zone;
-    int flag;
-    u32 n;
-    int xmin, xmax, zmin, zmax;
-    int best;
-    u16 bestIdx;
-    Ev *e;
-    s16 *s;
-    int x1, z1;
-    Vec *pos;
-    int go;
-    int start;
-    u16 i;
+    DowsingTarget scan[2]; /* SCAN_BEST, SCAN_CURRENT */
+    int playLevelSound;
+    int levelChanged;
+    int prevX;
+    u32 mapId;
+    struct FieldSystem *fieldSystem;
+    int gridX, gridY, gridZ;
+    int zoneId;
+    int zoneFlag;
+    u32 scanCount;
+    int minX, maxX, minZ, maxZ;
+    int bestDist;
+    u16 bestCell;
+    const DowsingHiddenItem *item;
+    const DowsingMapEvent *event;
+    int newX, newZ;
+    const Vec3Fx *pos;
+    int runScan;
+    int startSe;
+    u16 targetIndex;
     int x, z;
     int dx, dz;
-    u16 idx;
-    u32 d;
-    int h;
+    u16 cell;
+    u32 dist;
+    int handle;
     int pan;
-    int c68;
-    u32 k;
+    int level;
+    u32 kind;
 
-    p->fB0 = on;
-    if (on)
-        p->fC0 = 1;
+    work->isOn = isOn;
+    if (isOn)
+        work->fadeRequest = DOWSING_FADE_IN;
     else
-        p->fC0 = 2;
+        work->fadeRequest = DOWSING_FADE_OUT;
     func_02024ABC();
-    if (on == 0)
+    if (isOn == 0)
         return;
-    p->f64 = p->f68;
-    p->cur.kind = p->found.kind;
-    if (p->cur.kind == 1)
-        p->cur.a = p->found.a;
-    else if (p->cur.kind == 2)
-        p->cur.b = p->found.b;
-    obj = func_02188C80((void *)p->f08);
-    pos = (Vec *)func_02012AA0((struct Rec44 *)func_020120F8(obj));
-    gx = (pos->x >> 4) / 4096;
-    gy = (pos->y >> 4) / 4096;
-    gz = (pos->z >> 4) / 4096;
-    map = func_02012974(func_020120F4(obj));
-    zone = 0xFFFF;
-    flag = 0;
-    if (func_02159C48((int)map, pos->x, pos->z) == 1) {
-        zone = func_02159BD4((int)map, pos->x, pos->z);
-        flag = (int)func_02013E7C((u16)zone);
+    work->prevLevel = work->level;
+    work->prevTarget.kind = work->target.kind;
+    if (work->prevTarget.kind == DOWSING_TARGET_HIDDEN_ITEM)
+        work->prevTarget.item = work->target.item;
+    else if (work->prevTarget.kind == DOWSING_TARGET_MAP_EVENT)
+        work->prevTarget.event = work->target.event;
+    fieldSystem = func_02188C80(work->fieldMap);
+    pos = func_02012AA0(func_020120F8(fieldSystem));
+    gridX = (pos->x >> 4) / 4096;
+    gridY = (pos->y >> 4) / 4096;
+    gridZ = (pos->z >> 4) / 4096;
+    mapId = func_02012974(func_020120F4(fieldSystem));
+    zoneId = DOWSING_ZONE_NONE;
+    zoneFlag = 0;
+    if (func_02159C48((int)mapId, pos->x, pos->z) == 1) {
+        zoneId = func_02159BD4((int)mapId, pos->x, pos->z);
+        zoneFlag = (int)func_02013E7C((u16)zoneId);
     }
-    if (p->f94 == 0) {
-        p->f94 = 1;
-        go = 1;
+    /* Both branches scan; the flag only records that a scan happened. */
+    if (work->hasSearched == 0) {
+        work->hasSearched = 1;
+        runScan = 1;
     } else {
-        go = 1;
+        runScan = 1;
     }
-    if (go) {
-        xmin = gx - 15;
-        xmax = gx + 17;
-        zmin = gz - 11;
-        zmax = gz + 13;
-        best = -1;
-        r[0].kind = 0;
-        if (p->fC8 != 0) {
-            func_021EFF40(p->fD0);
-            p->fC8 = 0;
+    if (runScan) {
+        minX = gridX - 15;
+        maxX = gridX + 17;
+        minZ = gridZ - 11;
+        maxZ = gridZ + 13;
+        bestDist = -1;
+        scan[SCAN_BEST].kind = DOWSING_TARGET_NONE;
+        if (work->needReset != 0) {
+            func_021EFF40(work->search);
+            work->needReset = 0;
         }
-        if (p->fCC != 0) {
-            n = 0xFFFF;
-            p->fCC = 0;
+        if (work->needFullScan != 0) {
+            scanCount = DOWSING_SCAN_ALL;
+            work->needFullScan = 0;
         } else {
-            n = 11;
+            scanCount = DOWSING_SCAN_PER_UPDATE;
         }
-        for (i = 0; i < n; i++) {
-            if (i == 0) {
-                if (p->cur.kind != 0) {
-                    if (func_021EFEEC(p->fD0, (int *)(&p->cur))) {
-                        r[1].kind = p->cur.kind;
-                        if (r[1].kind == 1)
-                            r[1].a = p->cur.a;
-                        else if (r[1].kind == 2)
-                            r[1].b = p->cur.b;
+        for (targetIndex = 0; targetIndex < scanCount; targetIndex++) {
+            if (targetIndex == 0) {
+                if (work->prevTarget.kind != DOWSING_TARGET_NONE) {
+                    if (func_021EFEEC(work->search, &work->prevTarget)) {
+                        scan[SCAN_CURRENT].kind = work->prevTarget.kind;
+                        if (scan[SCAN_CURRENT].kind == DOWSING_TARGET_HIDDEN_ITEM)
+                            scan[SCAN_CURRENT].item = work->prevTarget.item;
+                        else if (scan[SCAN_CURRENT].kind == DOWSING_TARGET_MAP_EVENT)
+                            scan[SCAN_CURRENT].event = work->prevTarget.event;
                     } else {
-                        p->fC8 = 1;
-                        p->fCC = 1;
+                        work->needReset = 1;
+                        work->needFullScan = 1;
                         break;
                     }
                 }
             } else {
-                if ((p->fC8 = func_021EFF48((T_vFEC0 *)p->fD0, (unsigned *)(&r[1]), 0) ? 0 : 1) != 0)
+                if ((work->needReset = func_021EFF48(work->search, &scan[SCAN_CURRENT], 0) ? 0 : 1) != 0)
                     break;
             }
-            if (zone == 0xFFFF)
+            if (zoneId == DOWSING_ZONE_NONE)
                 continue;
-            if (r[1].kind == 1) {
-                e = (Ev *)r[1].a;
-                if (zone != e->h4) {
-                    if (e->b2 == 0)
+            if (scan[SCAN_CURRENT].kind == DOWSING_TARGET_HIDDEN_ITEM) {
+                item = scan[SCAN_CURRENT].item;
+                if (zoneId != item->zoneId) {
+                    if (item->crossZone == 0)
                         continue;
-                    if (flag == 0)
+                    if (zoneFlag == 0)
                         continue;
-                    if (func_02013D74(e->h4) != 0)
+                    if (func_02013D74(item->zoneId) != 0)
                         continue;
                 }
-                x = e->h6;
-                z = e->h8;
-            } else if (r[1].kind == 2) {
-                s = (s16 *)r[1].b;
-                if ((int)func_02013E7C((u16)s[3]) == 0)
+                x = item->x;
+                z = item->z;
+            } else if (scan[SCAN_CURRENT].kind == DOWSING_TARGET_MAP_EVENT) {
+                event = scan[SCAN_CURRENT].event;
+                if ((int)func_02013E7C((u16)event->zoneId) == 0)
                     continue;
-                if (flag == 0)
+                if (zoneFlag == 0)
                     continue;
-                x = s[0];
-                z = s[2];
+                x = event->x;
+                z = event->z;
             }
-            if (xmin <= x && x < xmax && zmin <= z && z < zmax) {
-                dz = z - gz;
-                dx = x - gx;
-                idx = (u16)(dx + 15 + (dz + 11) * 32);
-                if (p->map[idx] == 9)
+            if (minX <= x && x < maxX && minZ <= z && z < maxZ) {
+                dz = z - gridZ;
+                dx = x - gridX;
+                cell = (u16)(dx + 15 + (dz + 11) * 32);
+                if (work->levelGrid[cell] == DOWSING_LEVEL_NONE)
                     continue;
-                d = dx * dx + dz * dz;
-                if (d < (u32)best) {
-                    bestIdx = idx;
-                    best = d;
-                    r[0].kind = r[1].kind;
-                    if (r[1].kind == 1)
-                        r[0].a = r[1].a;
-                    else if (r[1].kind == 2)
-                        r[0].b = r[1].b;
+                dist = dx * dx + dz * dz;
+                if (dist < (u32)bestDist) {
+                    bestCell = cell;
+                    bestDist = dist;
+                    scan[SCAN_BEST].kind = scan[SCAN_CURRENT].kind;
+                    if (scan[SCAN_CURRENT].kind == DOWSING_TARGET_HIDDEN_ITEM)
+                        scan[SCAN_BEST].item = scan[SCAN_CURRENT].item;
+                    else if (scan[SCAN_CURRENT].kind == DOWSING_TARGET_MAP_EVENT)
+                        scan[SCAN_BEST].event = scan[SCAN_CURRENT].event;
                 }
             }
         }
-        k = r[0].kind;
-        p->found.kind = k;
-        if (k != 0) {
-            p->f68 = p->map[bestIdx];
-            if (k == 1)
-                p->found.a = r[0].a;
-            else if (k == 2)
-                p->found.b = r[0].b;
+        kind = scan[SCAN_BEST].kind;
+        work->target.kind = kind;
+        if (kind != DOWSING_TARGET_NONE) {
+            work->level = work->levelGrid[bestCell];
+            if (kind == DOWSING_TARGET_HIDDEN_ITEM)
+                work->target.item = scan[SCAN_BEST].item;
+            else if (kind == DOWSING_TARGET_MAP_EVENT)
+                work->target.event = scan[SCAN_BEST].event;
         } else {
-            p->f68 = 9;
+            work->level = DOWSING_LEVEL_NONE;
         }
     }
-    snd = 1;
-    if (p->f68 == 8) {
-        start = 0;
-        if (p->f9C == 0) {
-            start = 1;
-            p->f9C = 1;
-        } else if (p->hA0 == 6) {
-            if (func_02006224(p->f98) == 0)
-                p->hA0--;
-        } else if (p->hA0 == 0) {
-            start = 1;
+    playLevelSound = 1;
+    if (work->level == DOWSING_LEVEL_ON_TARGET) {
+        startSe = 0;
+        if (work->seStarted == 0) {
+            startSe = 1;
+            work->seStarted = 1;
+        } else if (work->seTimer == 6) {
+            if (func_02006224(work->seHandle) == 0)
+                work->seTimer--;
+        } else if (work->seTimer == 0) {
+            startSe = 1;
         } else {
-            p->hA0--;
+            work->seTimer--;
         }
-        if (start) {
-            p->f98 = func_02006148(0x760);
-            func_0200616C((void *)0x760, p->f98);
-            func_02006268(p->f98, -1, 0x180, -1);
-            p->hA0 = 6;
-            p->fA4 = 1;
+        if (startSe) {
+            work->seHandle = func_02006148(DOWSING_SE_PROXIMITY);
+            func_0200616C(DOWSING_SE_PROXIMITY, work->seHandle);
+            GFL_USE_SetSeSlotParams(work->seHandle, -1, 0x180, -1);
+            work->seTimer = 6;
+            work->restartFoundAnim = 1;
         }
-        snd = 0;
+        playLevelSound = 0;
     } else {
-        p->f9C = 0;
+        work->seStarted = 0;
     }
-    if (snd && (c68 = p->f68) != 8 && p->found.kind != 0) {
-        changed = 0;
-        if (p->cur.kind == 1) {
-            e = (Ev *)p->cur.a;
-            x0 = e->h6;
-            z = e->h8;
-        } else if (p->cur.kind == 2) {
-            s = (s16 *)p->cur.b;
-            x0 = s[0];
-            z = s[2];
+    if (playLevelSound && (level = work->level) != DOWSING_LEVEL_ON_TARGET && work->target.kind != DOWSING_TARGET_NONE) {
+        levelChanged = 0;
+        if (work->prevTarget.kind == DOWSING_TARGET_HIDDEN_ITEM) {
+            item = work->prevTarget.item;
+            prevX = item->x;
+            z = item->z;
+        } else if (work->prevTarget.kind == DOWSING_TARGET_MAP_EVENT) {
+            event = work->prevTarget.event;
+            prevX = event->x;
+            z = event->z;
         } else {
-            changed = 1;
+            levelChanged = 1;
             goto done;
         }
-        if (p->found.kind == 1) {
-            e = (Ev *)p->found.a;
-            x1 = e->h6;
-            z1 = e->h8;
-        } else if (p->found.kind == 2) {
-            s = (s16 *)p->found.b;
-            x1 = s[0];
-            z1 = s[2];
+        if (work->target.kind == DOWSING_TARGET_HIDDEN_ITEM) {
+            item = work->target.item;
+            newX = item->x;
+            newZ = item->z;
+        } else if (work->target.kind == DOWSING_TARGET_MAP_EVENT) {
+            event = work->target.event;
+            newX = event->x;
+            newZ = event->z;
         }
-        if ((x0 != x1 || z != z1) && p->f64 != c68)
-            changed = 1;
+        if ((prevX != newX || z != newZ) && work->prevLevel != level)
+            levelChanged = 1;
     done:
-        if (changed) {
-            h = func_02006148(0x760);
-            pan = ((int)d_021F0DC8[p->f68].pan - 8) * 16;
+        if (levelChanged) {
+            handle = func_02006148(DOWSING_SE_PROXIMITY);
+            pan = ((int)d_021F0DC8[work->level].pan - 8) * 16;
             if (pan < -127)
                 pan = -127;
             else if (pan > 127)
                 pan = 127;
-            func_0200616C((void *)0x760, h);
-            func_02006268(h, -1, -1, pan);
-            snd = 0;
+            func_0200616C(DOWSING_SE_PROXIMITY, handle);
+            GFL_USE_SetSeSlotParams(handle, -1, -1, pan);
+            playLevelSound = 0;
         }
     }
-    if (snd && p->f64 != p->f68)
-        func_020061E4(0x762);
-    p->f88 = gx;
-    p->f8C = gy;
-    p->f90 = gz;
-    func_021F0AC4((T_v08EC *)p);
+    if (playLevelSound && work->prevLevel != work->level)
+        func_020061E4(DOWSING_SE_LEVEL_CHANGE);
+    work->gridX = gridX;
+    work->gridY = gridY;
+    work->gridZ = gridZ;
+    func_021F0AC4(work);
 }
 
-
-
-
-
-void func_021F05A4(char *p, int flag)
+/* Redraws the sprites after the level changed and runs the fade. */
+void func_021F05A4(DowsingWork *work, int draw)
 {
-    Pt pt;
+    ScreenPos pos;
 
-    func_021F0C44(p);
-    if (flag == 0)
+    func_021F0C44(work);
+    if (draw == 0)
         return;
-    if (((struct Obj00323 *)p)->f6C != ((struct Obj00323 *)p)->f68) {
-        func_0204B3DC(((struct Obj00323 *)p)->f50,
-                      (((struct Obj00323 *)p)->f68 == 8 || ((struct Obj00323 *)p)->f68 == 9) ? 0 : 1);
-        func_0204B3DC(((struct Obj00323 *)p)->f5C, ((struct Obj00323 *)p)->f68 == 8);
-        pt.x = d_021F0DC8[*(int *)(p + 0x68)].x;
-        pt.y = d_021F0DC8[*(int *)(p + 0x68)].y;
-        func_0204B404(((struct Obj00323 *)p)->f50, (const struct Vec2 *)(&pt), 1);
-        func_0204B878(((struct Obj00323 *)p)->f38, d_021F0DC8[*(int *)(p + 0x68)].a);
-        func_0204B878(((struct Obj00323 *)p)->f44, d_021F0DC8[*(int *)(p + 0x68)].b);
-        func_0204B878(((struct Obj00323 *)p)->f50, d_021F0DC8[*(int *)(p + 0x68)].c);
-        ((struct Obj00323 *)p)->f6C = ((struct Obj00323 *)p)->f68;
+    if (work->shownLevel != work->level) {
+        func_0204B3DC(work->parts[DOWSING_PART_DIRECTION].actor,
+                      (work->level == DOWSING_LEVEL_ON_TARGET || work->level == DOWSING_LEVEL_NONE) ? 0 : 1);
+        func_0204B3DC(work->parts[DOWSING_PART_FOUND_MARK].actor, work->level == DOWSING_LEVEL_ON_TARGET);
+        pos.x = d_021F0DC8[work->level].directionX;
+        pos.y = d_021F0DC8[work->level].directionY;
+        func_0204B404(work->parts[DOWSING_PART_DIRECTION].actor, &pos, 1);
+        func_0204B878(work->parts[DOWSING_PART_LEFT_GAUGE].actor, d_021F0DC8[work->level].leftAnim);
+        func_0204B878(work->parts[DOWSING_PART_RIGHT_GAUGE].actor, d_021F0DC8[work->level].rightAnim);
+        func_0204B878(work->parts[DOWSING_PART_DIRECTION].actor, d_021F0DC8[work->level].directionAnim);
+        work->shownLevel = work->level;
     }
-    if (((struct Obj00323 *)p)->f68 == 8 && ((struct Obj00323 *)p)->fA4 != 0) {
-        func_0204B878(((struct Obj00323 *)p)->f5C, 0);
-        func_0204B92C(((struct Obj00323 *)p)->f5C, 1);
-        func_0204B8C4(((struct Obj00323 *)p)->f5C, 0);
-        ((struct Obj00323 *)p)->fA4 = 0;
+    if (work->level == DOWSING_LEVEL_ON_TARGET && work->restartFoundAnim != 0) {
+        func_0204B878(work->parts[DOWSING_PART_FOUND_MARK].actor, 0);
+        func_0204B92C(work->parts[DOWSING_PART_FOUND_MARK].actor, 1);
+        CLACT_SetActorAnimFrame(work->parts[DOWSING_PART_FOUND_MARK].actor, 0);
+        work->restartFoundAnim = 0;
     }
 }
 
-
-
-
-void func_021F0674(int a, unsigned char *p)
+/* Task that transfers the palettes every frame and ticks the counter. */
+void func_021F0674(int taskId, DowsingWork *work)
 {
-    func_02021D50(*(struct S02021D50 * *)&((struct Obj06142 *)p)->fBC);
-    if (((struct Obj06142 *)p)->fB0 != 0) {
-        if (p[0xac] >= 4)
-            p[0xac] = 0;
-        p[0xac]++;
+    PALANM_TransferPalettes(work->palAnm);
+    if (work->isOn != 0) {
+        if (work->tick >= 4)
+            work->tick = 0;
+        work->tick++;
     }
 }
 
-
-
-
-void func_021F06AC(char *p)
+/* Hides BG 4 to 7, sets up the two screen layers and the actor unit. */
+void func_021F06AC(DowsingWork *work)
 {
     int i;
-    unsigned id;
-    E *e;
+    unsigned bgId;
+    DowsingBgSetup *setup;
     unsigned j;
     for (i = 4; i <= 7; i++)
         func_02040588((unsigned char)i, (unsigned char)0);
     for (j = 0; j < 2; j++) {
-        e = &((E *)d_021F0DF0)[j];
-        id = e->f00;
-        func_0203FCA0((unsigned char)id, (const struct BgTemplate *)e->f04, (unsigned char)e->f24);
-        func_020414AC(id);
-        func_02040588((unsigned char)id, (unsigned char)e->f28);
-        func_02040618(id, 0, 0);
-        func_02040618(id, 3, 0);
+        setup = &d_021F0DF0[j];
+        bgId = setup->bgId;
+        func_0203FCA0((unsigned char)bgId, (const struct BgTemplate *)setup->bgTemplate, (unsigned char)setup->bgType);
+        func_020414AC(bgId);
+        func_02040588((unsigned char)bgId, (unsigned char)setup->visible);
+        func_02040618(bgId, 0, 0);
+        func_02040618(bgId, 3, 0);
     }
-    ((struct Obj09802 *)p)->fC = func_0204B100(8, 0, ((struct Obj09802 *)p)->f0);
-    func_0204B270(((struct Obj09802 *)p)->fC);
+    work->clactUnit = func_0204B100(8, 0, work->heapId);
+    CLACT_SetUnitDefaultRenderer(work->clactUnit);
     func_02043598(0x10, 1);
 }
 
-
-
-void func_021F0738(char *p) { unsigned i; func_0204B1CC((struct Bank *)(((struct Obj20474 *)p)->fC)); for(i=0;i<2;i++) func_020403F4((unsigned char)d_021F0DF0[i].f00); }
-
-
-
-
-void func_021F0760(char *p)
+void func_021F0738(DowsingWork *work)
 {
-    unsigned h = ((struct Obj13072 *)p)->f2;
-    void *a = func_020490F4(0xC3, h);
-    unsigned b;
-    func_02049BDC(a, 0, 4, 0, 0, 0x40, h);
-    b = func_02049740(a, 2, 7, 0, 0, h);
-    func_02049990(a, 7, 7, 0, (unsigned short)b, 0, 0, h);
-    func_02049238(a);
+    unsigned i;
+    func_0204B1CC(work->clactUnit);
+    for (i = 0; i < 2; i++)
+        func_020403F4((unsigned char)d_021F0DF0[i].bgId);
+}
+
+/* Loads palette, tiles and screen of BG 7 from the archive. */
+void func_021F0760(DowsingWork *work)
+{
+    unsigned heapId = work->ownerHeapId;
+    void *archive = func_020490F4(DOWSING_ARC_ID, heapId);
+    unsigned charRegion;
+    func_02049BDC(archive, 0, 4, 0, 0, 0x40, heapId);
+    charRegion = func_02049740(archive, 2, 7, 0, 0, heapId);
+    func_02049990(archive, 7, 7, 0, (unsigned short)charRegion, 0, 0, heapId);
+    func_02049238(archive);
     func_020413B0(7, 0, 0, 0x20, 0x18, 1);
     func_02041B6C(7);
-    ((struct Obj13072 *)p)->f10 = b;
+    work->bgCharRegion7 = charRegion;
 }
 
-
-
-void func_021F07DC(char *p) { unsigned v = ((struct Obj20475 *)p)->f10; func_0203FB44(7, (unsigned short)v, (unsigned short)(v>>16)); }
-
-
-
-
-/*
- * note:     the four `strh #0` at the loop top are `Local_vFEC0 s = {0};` declared
- *           in the loop body (field-by-field zeroing ends in two strb), and
- *           `pt` lives in its own block after the loop so it takes the
- *           lower slot (sp+0x10) below `s` (sp+0x14).
- */
-/*
- * note:     the four `strh #0` at the loop top are `Local s = {0};` declared
- *           in the loop body (field-by-field zeroing ends in two strb), and
- *           `pt` lives in its own block after the loop so it takes the
- *           lower slot (sp+0x10) below `s` (sp+0x14).
- */
-void func_021F07F4(Obj_vFEC0 *p)
+void func_021F07DC(DowsingWork *work)
 {
-    void *arc;
+    unsigned region = work->bgCharRegion7;
+    func_0203FB44(7, (unsigned short)region, (unsigned short)(region >> 16));
+}
+
+/*
+ * Creates the four sprite parts. The right gauge (part 1) shares the
+ * resources of the left gauge.
+ *
+ * note:     the four `strh #0` at the loop top are `ClactSetup setup = {0};`
+ *           declared in the loop body (field-by-field zeroing ends in two
+ *           strb), and `pos` lives in its own block after the loop so it
+ *           takes the lower slot (sp+0x10) below `setup` (sp+0x14).
+ */
+void func_021F07F4(DowsingWork *work)
+{
+    void *archive;
     u8 i;
 
-    arc = func_020490F4(0xC3, p->heap2);
-    p->f2C = func_0204AC18(arc, 1, 1, 0, 0, 1, p->heap);
-    for (i = 0; i < 4; i++) {
-        Local_vFEC0 s = {0};
-        if (i == 1) {
-            p->rec[i].chr = p->rec[0].chr;
-            p->rec[i].cell = p->rec[0].cell;
+    archive = func_020490F4(DOWSING_ARC_ID, work->ownerHeapId);
+    work->partsPalRes = func_0204AC18(archive, 1, 1, 0, 0, 1, work->heapId);
+    for (i = 0; i < DOWSING_PART_COUNT; i++) {
+        ClactSetup setup = {0};
+        if (i == DOWSING_PART_RIGHT_GAUGE) {
+            work->parts[i].charRes = work->parts[DOWSING_PART_LEFT_GAUGE].charRes;
+            work->parts[i].cellRes = work->parts[DOWSING_PART_LEFT_GAUGE].cellRes;
         } else {
-            p->rec[i].chr = func_0204A6C8(arc, d_021F0DBC[i].a, 0, 1, p->heap);
-            p->rec[i].cell = func_0204AF28(arc, d_021F0DBC[i].b, d_021F0DBC[i].c, p->heap);
+            work->parts[i].charRes = func_0204A6C8(archive, d_021F0DBC[i].charId, 0, 1, work->heapId);
+            work->parts[i].cellRes = func_0204AF28(archive, d_021F0DBC[i].cellId, d_021F0DBC[i].animId, work->heapId);
         }
-        s.d = i;
-        p->rec[i].obj = (u32)func_0204B294((void *)p->fC, p->rec[i].chr, p->f2C, p->rec[i].cell, &s, 1, p->heap);
-        func_0204B92C((struct Actor *)p->rec[i].obj, 1);
-        func_0204B688((struct Actor *)p->rec[i].obj, 1);
+        setup.priority = i;
+        work->parts[i].actor = func_0204B294(work->clactUnit, work->parts[i].charRes, work->partsPalRes, work->parts[i].cellRes, &setup, 1, work->heapId);
+        func_0204B92C(work->parts[i].actor, 1);
+        func_0204B688(work->parts[i].actor, 1);
     }
-    func_02049238(arc);
+    func_02049238(archive);
     {
-        Pos pt;
+        ScreenPos pos;
 
-        pt.x = 0x50;
-        pt.y = 0x60;
-        func_0204B404((struct Obj_vFEC0 *)p->rec[0].obj, (const struct Vec2 *)(&pt), 1);
-        pt.x = 0xB0;
-        pt.y = 0x60;
-        func_0204B404((struct Obj_vFEC0 *)p->rec[1].obj, (const struct Vec2 *)(&pt), 1);
-        pt.x = 0x80;
-        pt.y = 0x60;
-        func_0204B404((struct Obj_vFEC0 *)p->rec[3].obj, (const struct Vec2 *)(&pt), 1);
+        pos.x = 0x50;
+        pos.y = 0x60;
+        func_0204B404(work->parts[DOWSING_PART_LEFT_GAUGE].actor, &pos, 1);
+        pos.x = 0xB0;
+        pos.y = 0x60;
+        func_0204B404(work->parts[DOWSING_PART_RIGHT_GAUGE].actor, &pos, 1);
+        pos.x = 0x80;
+        pos.y = 0x60;
+        func_0204B404(work->parts[DOWSING_PART_FOUND_MARK].actor, &pos, 1);
     }
 }
 
-
-void func_021F08EC(char *p) { unsigned char i; char *q; for(i=0;i<4;i++) { q=p+i*12; func_0204B3B4((struct Actor *)(((struct Obj09803 *)q)->f38)); if(i!=1) { func_0204AFD8(((struct Obj09803 *)q)->f34); func_0204A8D4(((struct Obj09803 *)q)->f30); } } func_0204ADA4(((struct Obj20476 *)p)->f2C); }
-
-
-
-/*
- * note:     the four `strh #0` after func_02024A20 are `Local_v08EC s = {0};`
- *           opening an inner block there; declared at the top they land
- *           before the first call.
- */
-/*
- * note:     the four `strh #0` after func_02024A20 are `Local s = {0};`
- *           opening an inner block there; declared at the top they land
- *           before the first call.
- */
-void func_021F0924(Obj_v08EC *p)
+void func_021F08EC(DowsingWork *work)
 {
-    struct Scr *ptr;
-    u32 heap2;
+    unsigned char i;
+    for (i = 0; i < DOWSING_PART_COUNT; i++) {
+        func_0204B3B4(work->parts[i].actor);
+        if (i != DOWSING_PART_RIGHT_GAUGE) {
+            func_0204AFD8(work->parts[i].cellRes);
+            func_0204A8D4(work->parts[i].charRes);
+        }
+    }
+    func_0204ADA4(work->partsPalRes);
+}
 
-    heap2 = p->heap2;
-    func_02024A20(4, 3, func_020120F4(func_02188C80((void *)p->f8)), p->heap);
+/*
+ * Builds the close button (BG 4 panel and one actor).
+ *
+ * note:     the four `strh #0` after func_02024A20 are `ClactSetup setup = {0};`
+ *           opening an inner block there; declared at the top they land
+ *           before the first call.
+ */
+void func_021F0924(DowsingWork *work)
+{
+    ScreenData *screen;
+    u32 ownerHeapId;
+
+    ownerHeapId = work->ownerHeapId;
+    func_02024A20(4, 3, func_020120F4(func_02188C80(work->fieldMap)), work->heapId);
     {
-        Local_v08EC s = {0};
-        void *h;
-        void *arc;
-        u16 *d;
+        ClactSetup setup = {0};
+        void *screenFile;
+        void *archive;
+        u16 *tiles;
         u16 i;
         u16 base;
 
-        arc = func_020490F4(func_020275E4(), heap2);
-        func_02049B68(arc, func_02027624(), 4, 0x40, 0x20, heap2);
-        p->f14 = func_02049740(arc, func_02027628(), 4, 0, 0, heap2);
-        h = func_02049EF4(arc, func_0202762C(), 0, (void **)&ptr, heap2);
-        base = p->f14;
-        d = ptr->data;
+        archive = func_020490F4(func_020275E4(), ownerHeapId);
+        func_02049B68(archive, func_02027624(), 4, 0x40, 0x20, ownerHeapId);
+        work->bgCharRegion4 = func_02049740(archive, func_02027628(), 4, 0, 0, ownerHeapId);
+        screenFile = func_02049EF4(archive, func_0202762C(), 0, (void **)&screen, ownerHeapId);
+        base = work->bgCharRegion4;
+        tiles = screen->tiles;
         for (i = 0; i < 0x300; i++) {
-            d[i] &= 0xFFF;
-            d[i] = (base + d[i]) | 0x2000;
+            tiles[i] &= 0xFFF;
+            tiles[i] = (base + tiles[i]) | 0x2000;
         }
-        func_020410D0(4, 0, 0x15, 0x20, 3, (u32)ptr->data, 0, 0x15, 0x20, 0x18);
+        func_020410D0(4, 0, 0x15, 0x20, 3, (u32)screen->tiles, 0, 0x15, 0x20, 0x18);
         func_02041B6C(4);
-        func_020307B0(h);
-        p->f18 = func_0204AC18(arc, func_02027614(), 1, 0x20, 0, 3, p->heap);
-        p->f1C = func_0204A6C8(arc, func_02027618(), 0, 1, p->heap);
-        p->f20 = func_0204AF28(arc, func_0202761C(0), func_02027620(0), p->heap);
-        s.a = 0xE8;
-        s.b = 0xA8;
-        p->f24 = (u32)func_0204B294((void *)p->fC, p->f1C, p->f18, p->f20, &s, 1, p->heap);
-        func_0204B92C((struct Actor *)p->f24, 1);
-        func_0204B954((struct Actor *)p->f24, 0x2000);
-        func_0204B878((struct Actor *)p->f24, 0);
-        func_02049238(arc);
-        p->f28 = 0;
+        func_020307B0(screenFile);
+        work->buttonPalRes = func_0204AC18(archive, func_02027614(), 1, 0x20, 0, 3, work->heapId);
+        work->buttonCharRes = func_0204A6C8(archive, func_02027618(), 0, 1, work->heapId);
+        work->buttonCellRes = func_0204AF28(archive, func_0202761C(0), func_02027620(0), work->heapId);
+        setup.x = 0xE8;
+        setup.y = 0xA8;
+        work->buttonActor = func_0204B294(work->clactUnit, work->buttonCharRes, work->buttonPalRes, work->buttonCellRes, &setup, 1, work->heapId);
+        func_0204B92C(work->buttonActor, 1);
+        func_0204B954(work->buttonActor, 0x2000);
+        func_0204B878(work->buttonActor, 0);
+        func_02049238(archive);
+        work->buttonState = DOWSING_BUTTON_IDLE;
     }
 }
 
-
-void func_021F0A90(char *p) { unsigned v; func_0204B3B4((struct Actor *)(((struct Obj06143 *)p)->f24)); func_0204AFD8(((struct Obj06143 *)p)->f20); func_0204A8D4(((struct Obj06143 *)p)->f1C); func_0204ADA4(((struct Obj06143 *)p)->f18); v=((struct Obj06143 *)p)->f14; func_0203FB44(4,(unsigned short)v,(unsigned short)(v>>16)); func_02024DCC(); }
-
-
-
-void func_021F0AC4(T_v08EC *p)
+void func_021F0A90(DowsingWork *work)
 {
-    unsigned x;
-    unsigned y;
-    int hit;
+    unsigned region;
+    func_0204B3B4(work->buttonActor);
+    func_0204AFD8(work->buttonCellRes);
+    func_0204A8D4(work->buttonCharRes);
+    func_0204ADA4(work->buttonPalRes);
+    region = work->bgCharRegion4;
+    func_0203FB44(4, (unsigned short)region, (unsigned short)(region >> 16));
+    func_02024DCC();
+}
 
-    switch (p->f28) {
-    case 0:
-        hit = 0;
-        if (func_02035D20(&x, &y) != 0) {
-            if (x >= 0xE8 && x < 0x100 && y >= 0xA8 && y < 0xC0) {
+/* Close button: touch box or key press, press animation, then the mode change. */
+void func_021F0AC4(DowsingWork *work)
+{
+    unsigned touchX;
+    unsigned touchY;
+    int pressed;
+
+    switch (work->buttonState) {
+    case DOWSING_BUTTON_IDLE:
+        pressed = 0;
+        if (func_02035D20(&touchX, &touchY) != 0) {
+            if (touchX >= 0xE8 && touchX < 0x100 && touchY >= 0xA8 && touchY < 0xC0) {
                 func_020355D8(1);
-                hit = 1;
+                pressed = 1;
             }
         }
-        if (hit == 0) {
-            if (func_020362DC() & 0x400) {
+        if (pressed == 0) {
+            if (func_020362DC() & DOWSING_KEY_CLOSE) {
                 func_020355D8(0);
-                hit = 1;
+                pressed = 1;
             }
         }
-        if (hit != 0) {
-            p->f28 = 1;
-            func_0204B878((struct Actor *)p->f24, 8);
-            func_020061E4(0x556);
+        if (pressed != 0) {
+            work->buttonState = DOWSING_BUTTON_PRESSED;
+            func_0204B878(work->buttonActor, 8);
+            func_020061E4(DOWSING_SE_CLOSE);
             return;
         }
         break;
-    case 1:
-        if (func_0204B98C((struct Actor *)p->f24) == 0) {
-            p->f28 = 2;
-            func_0204B878((struct Actor *)p->f24, 0);
+    case DOWSING_BUTTON_PRESSED:
+        if (func_0204B98C(work->buttonActor) == 0) {
+            work->buttonState = DOWSING_BUTTON_RELEASED;
+            func_0204B878(work->buttonActor, 0);
             return;
         }
         break;
-    case 2:
-        func_021A0F30(p->f04, 0);
-        p->f28 = 3;
+    case DOWSING_BUTTON_RELEASED:
+        func_021A0F30(work->subscreen, 0);
+        work->buttonState = DOWSING_BUTTON_CLOSE_REQUESTED;
         break;
-    case 3:
+    case DOWSING_BUTTON_CLOSE_REQUESTED:
         break;
     }
 }
-
-
 
 /*
- * note:     func_02030CBC takes (n, mem) (sub_0200545C): the 0xB8 result
+ * note:     func_02030CBC takes (n, mem) (GFL_USE_InitSystem): the 0xB8 result
  *           left in r1 before `blx func_02030CBC` is its second argument.
  */
-void func_021F0B74(char *p)
+void func_021F0B74(DowsingWork *work)
 {
-    ((struct Obj01512 *)p)->fB8 = func_02030734(((struct Obj01512 *)p)->f0, func_02030CB0(2), 1, d_021F0E60, 0x6DF);
-    ((struct Obj01512 *)p)->fB4 = func_02030CBC(2, ((struct Obj01512 *)p)->fB8);
-    ((struct Obj01512 *)p)->fBC = (unsigned int)func_02021518(((struct Obj01512 *)p)->f0);
-    func_02021EE4((struct Obj02021EE4 *)(((struct Obj01512 *)p)->fBC), 1);
-    func_0202155C((struct PalAnmSlot *)(((struct Obj01512 *)p)->fBC), 1, 0x60, ((struct Obj01512 *)p)->f0);
-    func_0202155C((struct PalAnmSlot *)(((struct Obj01512 *)p)->fBC), 3, 0x80, ((struct Obj01512 *)p)->f0);
-    func_020216D4((struct PalAnmSlot *)(((struct Obj01512 *)p)->fBC), 1, 0, 0x60);
-    func_020216D4((struct PalAnmSlot *)(((struct Obj01512 *)p)->fBC), 3, 0, 0x80);
-    ((struct Obj01512 *)p)->fC0 = 0;
-    ((struct Obj01512 *)p)->fC4 = 0;
+    work->fadeTaskMem = func_02030734(work->heapId, func_02030CB0(2), 1, d_021F0E60, 0x6DF);
+    work->fadeTaskSys = func_02030CBC(2, work->fadeTaskMem);
+    work->palAnm = func_02021518(work->heapId);
+    PALANM_SetAutoTransfer(work->palAnm, 1);
+    func_0202155C(work->palAnm, 1, 0x60, work->heapId);
+    func_0202155C(work->palAnm, 3, 0x80, work->heapId);
+    func_020216D4(work->palAnm, 1, 0, 0x60);
+    func_020216D4(work->palAnm, 3, 0, 0x80);
+    work->fadeRequest = DOWSING_FADE_NONE;
+    work->fadeState = 0;
 }
 
+void func_021F0C0C(DowsingWork *work)
+{
+    func_020215A0(work->palAnm, 1);
+    func_020215A0(work->palAnm, 3);
+    func_02021540(work->palAnm);
+    func_02030DA4(work->fadeTaskSys);
+    func_020307B0(work->fadeTaskMem);
+}
 
-void func_021F0C0C(char *p) { func_020215A0(((struct Obj06144 *)p)->fBC,1); func_020215A0(((struct Obj06144 *)p)->fBC,3); func_02021540(((struct Obj06144 *)p)->fBC); func_02030DA4(((struct Obj06144 *)p)->fB4); func_020307B0(((struct Obj06144 *)p)->fB8); }
+/*
+ * Runs the fade task system and, once the previous fade is done, applies the
+ * requested fade of the two palette slots: in shows the sprites and starts
+ * their animations, out darkens them and stops the animations.
+ */
+void func_021F0C44(DowsingWork *work)
+{
+    u16 paletteMask;
+    u8 i;
+
+    func_02030D28(work->fadeTaskSys);
+    if (work->fadeRequest == DOWSING_FADE_NONE || PALANM_GetFadeRequestBits(work->palAnm) != 0)
+        return;
+    switch (work->fadeRequest) {
+    case DOWSING_FADE_IN:
+        if (work->fadeState != 0) {
+            paletteMask = 0;
+            for (i = 0; i < 3; i++)
+                paletteMask |= (u16)(1 << i);
+            PALANM_RequestFade(work->palAnm, 2, paletteMask, 0, 0, 0, 0, work->fadeTaskSys);
+            paletteMask = 0;
+            for (i = 0; i < 4; i++)
+                paletteMask |= (u16)(1 << i);
+            PALANM_RequestFade(work->palAnm, 8, paletteMask, 0, 0, 0, 0, work->fadeTaskSys);
+            work->fadeState = 0;
+            for (i = 0; i < DOWSING_PART_COUNT; i++)
+                CLACT_StartActorAnim(work->parts[i].actor);
+        }
+        break;
+    case DOWSING_FADE_OUT:
+        if (work->fadeState != 1) {
+            paletteMask = 0;
+            for (i = 0; i < 3; i++)
+                paletteMask |= (u16)(1 << i);
+            PALANM_RequestFade(work->palAnm, 2, paletteMask, 0, 8, 8, 0, work->fadeTaskSys);
+            paletteMask = 0;
+            for (i = 0; i < 4; i++)
+                paletteMask |= (u16)(1 << i);
+            PALANM_RequestFade(work->palAnm, 8, paletteMask, 0, 8, 8, 0, work->fadeTaskSys);
+            work->fadeState = 1;
+            for (i = 0; i < DOWSING_PART_COUNT; i++)
+                CLACT_StopActorAnim(work->parts[i].actor);
+        }
+        break;
+    }
+    work->fadeRequest = DOWSING_FADE_NONE;
+}

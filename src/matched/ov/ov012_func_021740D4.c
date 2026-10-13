@@ -1,5 +1,5 @@
 /*
- * function: func_021740D4
+ * function: UNION_COMMAND_RecvAppNotice
  * address: 0x021740D4
  * packet: pkt_ov012_021740D4
  * region: ov012
@@ -27,7 +27,7 @@ extern u32 func_0203D1A4(struct Link *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_021840A4(int, u8);
 extern u8 d_02175624[];
-void func_021740D4(int a, int x, u8 *b, u8 *p)
+void UNION_COMMAND_RecvAppNotice(int a, int x, u8 *b, u8 *p)
 {
     if (a != func_0203D1A4((struct Link *)((int)func_020399A8()))) {
         if (((struct Obj12450 *)p)->f3528 == 0) {

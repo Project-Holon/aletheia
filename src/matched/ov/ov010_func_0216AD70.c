@@ -17,7 +17,7 @@
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200E0B0  0x0200E0B0  thumb
  *   func_02012138  0x02012138  thumb
- *   func_021767A0  0x021767A0  thumb  ov011
+ *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   func_02012FB0  0x02012FB0  thumb
  *   func_02166618  0x02166618  thumb  ov010
  *   func_0216662C  0x0216662C  thumb  ov010
@@ -45,7 +45,7 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E0B0(void *p);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
-extern u8 func_021767A0(void *a, void *b);
+extern u8 INTRUDE_COMM_GetPartnerSlot(void *a, void *b);
 extern int func_02012FB0(unsigned char *base);
 extern int func_02166618(int a0);
 extern int func_0216662C(int a0);
@@ -69,7 +69,7 @@ int func_0216AD70(int a0, int a1)
     t = func_02012138(x);
     switch (kind) {
     case 0:
-        if (func_021767A0((void *)t, y) == 4)
+        if (INTRUDE_COMM_GetPartnerSlot((void *)t, y) == 4)
             *out = 1;
         else
             *out = 0;

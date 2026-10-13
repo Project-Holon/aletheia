@@ -1,5 +1,5 @@
 /*
- * function: func_0201205C
+ * function: GAMESYSTEM_UpdateAutoComm
  * address:  0x0201205C
  * packet:   pkt_02011F28
  * region:   arm9
@@ -23,8 +23,8 @@
  * the source's nesting says.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201205C.c \
- *       --func func_0201205C --addr 0x0201205C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_UpdateAutoComm.c \
+ *       --func GAMESYSTEM_UpdateAutoComm --addr 0x0201205C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -52,7 +52,7 @@ extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188BE8(void *v);   /* overlay-resident */
 extern u32 func_020121CC(struct IcaAnime *p);
 
-void func_0201205C(struct IcaAnime *p)
+void GAMESYSTEM_UpdateAutoComm(struct IcaAnime *p)
 {
     if (func_020120D8((char *)p) == 0) {
         if (func_02012114((const struct Ctx *)p) == 1) {

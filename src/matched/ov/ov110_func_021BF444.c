@@ -9,7 +9,7 @@
  * status: EXACT
  * blocker: ARM9 0x020245A0 Thumb; no witness outside caller range.
  *   Verified EXACT (blocker-r1.log), 12 bytes:
- *   void func_020245A0(u8 *p,unsigned i,u16 v) {
+ *   void PMSI_PARAM_SetWordAt(u8 *p,unsigned i,u16 v) {
  *       if(i<2) *(u16 *)(p+4+2*i)=v;
  *   }
  * symbols:
@@ -17,7 +17,7 @@
  *   func_021B99C4 0x021B99C4 thumb ov110
  *   func_021BB1E4 0x021BB1E4 thumb ov110
  *   func_021BABF4 0x021BABF4 thumb ov110
- *   func_020245A0 0x020245A0 thumb
+ *   PMSI_PARAM_SetWordAt 0x020245A0 thumb
  *   func_021BF680 0x021BF680 thumb ov110
  */
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ extern unsigned func_021BEDD0(u8 *p);
 extern unsigned short func_021B99C4(unsigned int a, unsigned int b, unsigned int c);
 extern u16 func_021BB1E4(u32 p, u32 i);
 extern int func_021BABF4(u8 *p, int i);
-extern void func_020245A0(u8 *p, unsigned i, u16 v);
+extern void PMSI_PARAM_SetWordAt(u8 *p, unsigned i, u16 v);
 extern int func_021BF680(u8 *);
 int func_021BF444(u8 *p) {
     int i=*(u16 *)(p+98);
@@ -38,7 +38,7 @@ int func_021BF444(u8 *p) {
     switch(*(u32 *)(p+4)) {
     case 0: *(u16 *)(p+16)=v; break;
     case 1: *(u16 *)(p+16+2* *(u16 *)(p+74))=v; break;
-    case 2: func_020245A0(p+8,func_021BABF4(*(void **)(p+20),*(u16 *)(p+74)),v); break;
+    case 2: PMSI_PARAM_SetWordAt(p+8,func_021BABF4(*(void **)(p+20),*(u16 *)(p+74)),v); break;
     }
     return func_021BF680(p);
 }

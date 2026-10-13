@@ -1,5 +1,5 @@
 /*
- * function: func_02165918
+ * function: WCMi_GetNextScanChannel
  * address:  0x02165918
  * packet:   pkt_ov009_02165918
  * region:   ov009
@@ -30,7 +30,7 @@ typedef struct WCMState WCMState;
 extern struct WCMState g_021AA7D4;
 extern unsigned short func_0216576C(void);
 
-unsigned short func_02165918(unsigned short channel)
+unsigned short WCMi_GetNextScanChannel(unsigned short channel)
 {
     long i;
 

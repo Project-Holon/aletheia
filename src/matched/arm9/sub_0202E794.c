@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202E794
+ * function: COMM_PLAYER_SUPPORT_Delete
  * address:  0x0202E794
  * packet:   pkt_0202E770
  * region:   arm9
@@ -19,14 +19,14 @@
  * constructor at 0x0202E770, which allocates the same object.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202E794.c \
- *       --func sub_0202E794 --addr 0x0202E794 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/COMM_PLAYER_SUPPORT_Delete.c \
+ *       --func COMM_PLAYER_SUPPORT_Delete --addr 0x0202E794 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void sub_0202E794(void *p)
+void COMM_PLAYER_SUPPORT_Delete(void *p)
 {
     func_020307B0(p);
 }

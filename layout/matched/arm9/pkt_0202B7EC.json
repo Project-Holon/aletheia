@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202B7EC",
+   "name": "ISS_SYS_OnZoneChange3ds",
    "address": "0x0202B7EC",
    "kind": "game",
    "region": "arm9",

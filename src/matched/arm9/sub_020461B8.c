@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_020461B8
+ * function: MSGDATA_GetLanguageIndex
  * address:  0x020461B8
  * packet:   pkt_02045C44
  * region:   arm9
@@ -20,7 +20,7 @@
  * The verdict is EXACT*, not EXACT: the next function, the one-byte global
  * setter at 0x020461D4, saves nothing, so disasm.py folds it into this
  * function's extent and the inferred range runs sixteen bytes long.  It is
- * decompiled separately in src/matched/sub_020461D4.c and wants seeding
+ * decompiled separately in src/matched/MSGDATA_SetLanguage.c and wants seeding
  * into layout/function_starts.txt, which is the integrator's file.
  *
  * `movge r0, #0` in place of a branch is the whole `if` body: one
@@ -28,8 +28,8 @@
  * both arms fall into the same `pop`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020461B8.c \
- *       --func sub_020461B8 --addr 0x020461B8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_GetLanguageIndex.c \
+ *       --func MSGDATA_GetLanguageIndex --addr 0x020461B8 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -41,7 +41,7 @@ struct Header {
 
 extern s32 sub_020461E4(struct Header *h);
 
-s32 sub_020461B8(struct Header *h)
+s32 MSGDATA_GetLanguageIndex(struct Header *h)
 {
     s32 index = sub_020461E4(h);
 

@@ -19,6 +19,8 @@
  *   ov131_id        0x00000083  data
  *   g_021BED00      0x021BED00  data
  *   g_021DC800      0x021DC800  data
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *
  * A six-state machine on obj->f1e.  Every concrete byte matches: 152 of 152
  * against the listing extent, the two relocation sites that are attestable
@@ -52,8 +54,8 @@ typedef unsigned int  u32;
 
 struct Ctx;
 struct IcaAnime;
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern u8   ov091_id[];
 extern u8   ov131_id[];
 
@@ -63,11 +65,11 @@ u32 func_02014878(u32 a0, u32 *mode, u32 *p)
 
     switch (*mode) {
     case 0:
-        func_020120B4((struct IcaAnime *)v, (u32)ov091_id, (void *)0x021BED00, (void *)p[2]);
+        GAMESYSTEM_CallProc((struct IcaAnime *)v, (u32)ov091_id, (void *)0x021BED00, (void *)p[2]);
         *mode = 1;
         break;
     case 1:
-        if (func_020120F0((const struct Ctx *)v) != 0)
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)v) != 0)
             break;
         *mode = 2;
         break;
@@ -84,11 +86,11 @@ u32 func_02014878(u32 a0, u32 *mode, u32 *p)
         *mode = 5;
         break;
     case 3:
-        func_020120B4((struct IcaAnime *)v, (u32)ov131_id, (void *)0x021DC800, (void *)p[3]);
+        GAMESYSTEM_CallProc((struct IcaAnime *)v, (u32)ov131_id, (void *)0x021DC800, (void *)p[3]);
         *mode = 4;
         break;
     case 4:
-        if (func_020120F0((const struct Ctx *)v) != 0)
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)v) != 0)
             break;
         *(u32 *)(p[2] + 0x3c) = *(u8 *)(p[3] + 0xf);
         *mode = 0;

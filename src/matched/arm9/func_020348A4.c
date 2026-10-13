@@ -10,14 +10,14 @@
  * status:   EXACT
  *           --suggest-split offers nothing (single function, both
  *           unresolved sites' only witnesses are inside this range).
- * blocker:  func_0204E328 (label) and str_020A796C (string) -- neither has a
+ * blocker:  TEXTPRINT_PrintText (label) and str_020A796C (string) -- neither has a
  *           witness outside 020348A4..02034900; both of this site's calls to
- *           func_0204E328 are inside this function. Every concrete byte of the
+ *           TEXTPRINT_PrintText are inside this function. Every concrete byte of the
  *           body reproduces.
  * symbols:
  *   g_021469AC    0x021469AC  data
  *   str_020A796C  0x020A796C  data
- *   func_0204E328 0x0204E328  arm
+ *   TEXTPRINT_PrintText 0x0204E328  arm
  */
 
 #include "../include/G_Console.h"
@@ -26,13 +26,13 @@ typedef unsigned int u32;
 
 extern struct Console g_021469AC;
 extern const char str_020A796C[];
-extern void func_0204E328(const char *s, const char *d);
+extern void TEXTPRINT_PrintText(const char *s, const char *d);
 
 void func_020348A4(char *s)
 {
     int f;
 
-    func_0204E328(s, ((char *)&g_021469AC));
+    TEXTPRINT_PrintText(s, ((char *)&g_021469AC));
     f = 0;
     while (*s != 0) {
         if (*s++ == '\n') {
@@ -41,6 +41,6 @@ void func_020348A4(char *s)
         }
     }
     if (f == 0) {
-        func_0204E328(str_020A796C, ((char *)&g_021469AC));
+        TEXTPRINT_PrintText(str_020A796C, ((char *)&g_021469AC));
     }
 }

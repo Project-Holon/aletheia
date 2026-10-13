@@ -1,5 +1,5 @@
 /*
- * function: func_02044954
+ * function: BMP_Blit8bppToVram
  * address:  0x02044954
  * packet:   pkt_020445F4
  * region:   arm9
@@ -17,7 +17,7 @@
  * Reached from func_020439A0's kind == 2 arm (x, y, w, h u16; dx, dy s16;
  * the key is ldrh'd, so u16 here).
  *
- * The same four levers as func_020445F4, all measured:
+ * The same four levers as BMP_Blit4bppToVram, all measured:
  *   - the address is one integer sum over (u32)pixels with the in-tile
  *     row added afterwards;
  *   - each of the four tile-row masks has its own function-scope local
@@ -38,7 +38,7 @@ typedef signed int     s32;
 
 struct Surf { u8 *pixels; u16 width; u16 height; };
 
-void func_02044954(struct Surf *src, struct Surf *dst, u16 x, u16 y, s16 dx, s16 dy, u16 w, u16 h, u16 key)
+void BMP_Blit8bppToVram(struct Surf *src, struct Surf *dst, u16 x, u16 y, s16 dx, s16 dy, u16 w, u16 h, u16 key)
 {
     s32 xend, yend, srow, drow;
     s32 i, j, di, dj;

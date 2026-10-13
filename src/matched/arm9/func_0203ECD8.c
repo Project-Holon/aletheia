@@ -1,5 +1,5 @@
 /*
- * function: func_0203ECD8
+ * function: GFL_NET_LOWER_DATA_RecvChunk
  * address:  0x0203ECD8
  * packet:   pkt_0203EC7C
  * region:   arm9
@@ -23,13 +23,13 @@
  * Both entry guards are one `||` apiece, which is what makes the `cmpne` /
  * `ldrne` / `popeq` chain: the table pointer and the slot's record are tested
  * together and the null exit is each guard's own conditional return
- * (contrast func_0203EC7C in this packet, which shares one exit block; see
+ * (contrast GFL_NET_LOWER_DATA_GetPostEndAddress in this packet, which shares one exit block; see
  * docs/notes/pkt_0203EC7C.c.txt).  The global is re-read after every call
  * because each callee may publish a new table.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203ECD8.c \
- *       --func func_0203ECD8 --addr 0x0203ECD8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_LOWER_DATA_RecvChunk.c \
+ *       --func GFL_NET_LOWER_DATA_RecvChunk --addr 0x0203ECD8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -60,7 +60,7 @@ extern struct Entry *func_020399A8(void);
 struct Link;
 extern u32 func_0203D1A4(struct Link *p);
 
-void func_0203ECD8(u32 idx, u32 delta, u32 a2, u32 a3, u32 who)
+void GFL_NET_LOWER_DATA_RecvChunk(u32 idx, u32 delta, u32 a2, u32 a3, u32 who)
 {
     struct Ctx *ctx;
     struct Rec *rec;

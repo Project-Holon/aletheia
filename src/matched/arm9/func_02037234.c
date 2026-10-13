@@ -1,5 +1,5 @@
 /*
- * function: func_02037234
+ * function: GFL_NET_SYSTEM_InitRecvState
  * address:  0x02037234
  * packet:   pkt_02037234
  * region:   arm9
@@ -18,8 +18,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02037234.c \
- *       --func func_02037234 --addr 0x02037234 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_InitRecvState.c \
+ *       --func GFL_NET_SYSTEM_InitRecvState --addr 0x02037234 --cc 1.1p1 --arm
  */
 #include "../include/Obj05733.h"
 
@@ -27,7 +27,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02037234(u8 *p)
+void GFL_NET_SYSTEM_InitRecvState(u8 *p)
 {
     ((struct Obj05733 *)p)->fC = 0;
     ((struct Obj05733 *)p)->f8 = 0xFFFF;

@@ -1,5 +1,5 @@
 /*
- * function: func_02017600
+ * function: POKE_TOOL_SetupBoxParam
  * address:  0x02017600
  * packet:   pkt_0201756C
  * region:   arm9
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201761C  0x0201761C  thumb
+ *   POKE_TOOL_SetupBoxParamEx  0x0201761C  thumb
  *
- * Forwarder: func_0201761C(obj, species, level, id, 0xFFFFFFFF,
- * 0xFFFFFFFF00000000).  Twin of func_0201756C; wave 11, 2026-09-23, closed
+ * Forwarder: POKE_TOOL_SetupBoxParamEx(obj, species, level, id, 0xFFFFFFFF,
+ * 0xFFFFFFFF00000000).  Twin of POKE_TOOL_SetupPartyParam; wave 11, 2026-09-23, closed
  * by the u64 `id` parameter.
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned long long u64;
 
-extern void func_0201761C(void *obj, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
+extern void POKE_TOOL_SetupBoxParamEx(void *obj, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
 
-void func_02017600(void *obj, u16 species, u16 level, u64 id)
+void POKE_TOOL_SetupBoxParam(void *obj, u16 species, u16 level, u64 id)
 {
-    func_0201761C(obj, species, level, id, 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
+    POKE_TOOL_SetupBoxParamEx(obj, species, level, id, 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
 }

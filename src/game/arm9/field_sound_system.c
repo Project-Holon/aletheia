@@ -1,7 +1,7 @@
 /*
  * file:     field_sound_system.c
  * unit:     yes
- * function: func_02028844, func_0202889C, func_020288C4, func_02028900, func_02028988, func_020289B8, func_020289D4, func_020289F8, func_02028A14, func_02028A50, func_02028A58, func_02028A64, func_02028A70, func_02028A7C, func_02028ACC, func_02028B18, func_02028B50, func_02028BA0, func_02028BDC, func_02028C30, func_02028C50, func_02028CB0, func_02028CD4, func_02028D2C, func_02028D54, func_02028D7C, func_02028D8C, func_02028DB8, func_02028DCC, func_02028E0C, func_02028E48, func_02028E80, func_02028EAC, func_02028F18, func_02028FD0, func_02028FE0, func_02029040, func_020290F0, func_02029128, func_0202912C, func_02029130, func_02029134, func_02029138
+ * function: FIELD_SOUND_SYSTEM_Create, FIELD_SOUND_SYSTEM_Delete, FIELD_SOUND_SYSTEM_GetQueueDepth, FIELD_SOUND_SYSTEM_GetFinalValue, FIELD_SOUND_SYSTEM_IsStateActive, func_020289B8, FIELD_SOUND_SYSTEM_CanAcceptRequest, FIELD_SOUND_SYSTEM_PostRequest, FIELD_SOUND_SYSTEM_Update, FIELD_SOUND_SYSTEM_Reset, func_02028A58, FIELD_SOUND_SYSTEM_StartRingtone, func_02028A70, func_02028A7C, func_02028ACC, FIELD_SOUND_SYSTEM_TransferSlot, func_02028B50, func_02028BA0, func_02028BDC, FIELD_SOUND_SYSTEM_IsKnownSoundId, FIELD_SOUND_SYSTEM_IsSoundRecordChainValid, FIELD_SOUND_SYSTEM_IsSoundIdPlayable, FIELD_SOUND_SYSTEM_Init, FIELD_SOUND_SYSTEM_DrainAndInit, FIELD_SOUND_SYSTEM_ProcessNextRequest, FIELD_SOUND_SYSTEM_GetReadSlot, FIELD_SOUND_SYSTEM_GetCurrentRequest, FIELD_SOUND_SYSTEM_HasPendingRequest, FIELD_SOUND_SYSTEM_CountRequestsOfKind, FIELD_SOUND_SYSTEM_EnqueueRequest, FIELD_SOUND_SYSTEM_IsRequestKindAccepted, FIELD_SOUND_SYSTEM_DequeueRequest, FIELD_SOUND_SYSTEM_ExecuteRequest, FIELD_SOUND_SYSTEM_SetMode1, FIELD_SOUND_SYSTEM_IsKindAllowedInState, FIELD_SOUND_SYSTEM_HandleModeState0, FIELD_SOUND_SYSTEM_HandleModeState1, FIELD_SOUND_SYSTEM_HandleModeState2, FIELD_SOUND_SYSTEM_HandleModeState3, FIELD_SOUND_SYSTEM_HandleModeState4, FIELD_SOUND_SYSTEM_HandleModeState5, FIELD_SOUND_SYSTEM_HandleModeState6, FIELD_SOUND_SYSTEM_HandleModeState7
  * address:  0x02028844
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,972 +14,483 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02028760  0x02028760  thumb
- *   func_02029F14  0x02029F14  thumb
- *   func_02005D08  0x02005D08  thumb
+ *   PLAYER_VOLUME_FADER_Create  0x02028760  thumb
+ *   RINGTONE_SYS_Create  0x02029F14  thumb
+ *   GFL_USE_SetSeqStartFilter  0x02005D08  thumb
  *   g_020A7590     0x020A7590  data
- *   func_02028784  0x02028784  thumb
- *   func_02029F44  0x02029F44  thumb
+ *   PLAYER_VOLUME_FADER_Delete  0x02028784  thumb
+ *   RINGTONE_SYS_Delete  0x02029F44  thumb
  *   func_020307B0  0x020307B0  arm
  *   _s32_div_f  0x0209C0A4  arm
  *   g_020A7518  0x020A7518  data
  *   g_020A7554  0x020A7554  data
- *   func_02028794  0x02028794  thumb
- *   func_02029F54  0x02029F54  thumb
- *   func_02029F60  0x02029F60  thumb
+ *   PLAYER_VOLUME_FADER_SetTarget  0x02028794  thumb
+ *   RINGTONE_SYS_Start  0x02029F54  thumb
+ *   RINGTONE_SYS_Stop  0x02029F60  thumb
  *   func_02006148  0x02006148  thumb
  *   func_020061E4  0x020061E4  thumb
  *   func_021D21C0  0x021D21C0  thumb ov021
  *   func_021D21E0  0x021D21E0  thumb ov021
  *   func_020061F0  0x020061F0  thumb
- *   func_020062BC  0x020062BC  thumb
+ *   GFL_USE_SetSeSlotVolume  0x020062BC  thumb
  *   func_020061F8  0x020061F8  thumb
  *   sTable_0209FDD0  0x0209FDD0  data
- *   func_02074324  0x02074324  arm
- *   func_0207466C  0x0207466C  arm
- *   func_020743EC  0x020743EC  arm
- *   func_02074450  0x02074450  arm
- *   func_020293D8  0x020293D8  thumb
- *   func_02005D28  0x02005D28  thumb
+ *   NNS_SndArcGetSeqInfo  0x02074324  arm
+ *   NNS_SndArcGetFileAddress  0x0207466C  arm
+ *   NNS_SndArcGetBankInfo  0x020743EC  arm
+ *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
+ *   FIELD_SOUND_SYSTEM_PopBgm  0x020293D8  thumb
+ *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb
  *   g_0209FD90     0x0209FD90  data
  *   g_flagTable_0209FE1C  0x0209FE1C  data
+ *   PLAYER_VOLUME_FADER_Update  0x0202878C  thumb
+ *   FIELD_SOUND_SYSTEM_SetState  0x02029344  thumb
+ *   FIELD_SOUND_SYSTEM_DiscardRequest  0x02029354  thumb
+ *   FIELD_SOUND_SYSTEM_FinishRequest  0x02029364  thumb
+ *   FIELD_SOUND_SYSTEM_FadeInCurrentBgm  0x02029374  thumb
+ *   FIELD_SOUND_SYSTEM_FadeOutCurrentBgm  0x0202938C  thumb
+ *   FIELD_SOUND_SYSTEM_PlayRequestedBgmNow  0x0202945C  thumb
+ *   RINGTONE_SYS_Update  0x02029F4C  thumb
  */
-#include "../../matched/include/Obj11294.h"
-#include "../../matched/include/Obj00164.h"
-#include "../../matched/include/Obj00354.h"
-#include "../../matched/include/Obj16754.h"
-
-struct SndCmd;
-struct Fader;
-struct Sys;
-struct T;
-struct SoundParam;
-struct SoundParam2;
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
-
-struct Sys_02028844 {
-    u8    pad_00[0xa4];
-    void *unkA4;   /* 0xa4 */
-    void *unkA8;   /* 0xa8 */
-};
-
+typedef unsigned char  u8;
 typedef unsigned short u16;
+typedef unsigned int   u32;
 
-typedef int            s32_0202889C;
+struct Fader;
 
-struct Sys {
-    u32 unk00;
-    u32 unk04;
-    u8  unk08[0x14];
-    u32 unk1C;
-    u32 unk20;
-};
+/* One queued request: a ring slot of 12 bytes. */
+typedef struct FieldSoundRequest {
+    u32 kind;
+    u32 value;
+    u16 lowParam;
+    u16 highParam;
+} FieldSoundRequest;
 
-struct SoundSys_02028844 {
-    u8 unk00[0xA4];
-    struct Fader *fader;
-    void * ringtone;
-};
+/*
+ * The field sound system object (0xB8 bytes, allocated by the constructor).
+ * The functions of ringtone_sys.c drive the same object.
+ */
+typedef struct FieldSoundSystem {
+    void *desc;                     /* 0x00 descriptor given by the caller */
+    u32 state;                      /* 0x04 index into the two per-state handler tables */
+    u32 currentValue;               /* 0x08 */
+    u32 requestedValue;             /* 0x0C set by modes 5 to 7 */
+    u32 overrideValue;              /* 0x10 */
+    u32 reserved;                   /* 0x14 cleared by the init, never read */
+    u16 highParam;                  /* 0x18 */
+    u16 lowParam;                   /* 0x1A */
+    u32 mode;                       /* 0x1C latched request class, 0 = none */
+    int stackDepth;                 /* 0x20 */
+    u32 valueStack[1];              /* 0x24 */
+    FieldSoundRequest queue[10];    /* 0x28 ring of requests */
+    u8 readIndex;                   /* 0xA0 */
+    u8 writeIndex;                  /* 0xA1 */
+    struct Fader *volumeFader;      /* 0xA4 */
+    void *ringtone;                 /* 0xA8 */
+    u16 slotSoundId[2];             /* 0xAC claimed sound ids, 0xFFFF = free */
+    u16 slotOwner[2];               /* 0xB0 */
+    u32 pauseMask;                  /* 0xB4 */
+} FieldSoundSystem;
 
-typedef int            s32_020288C4;
+/* Records read through the lookup chain of the validity check. */
+typedef struct SoundEventRecord {
+    u32 checkId;
+    u16 groupIndex;
+} SoundEventRecord;
 
+typedef struct SoundGroupRecord {
+    u32 checkId;
+    u16 entryId[4];
+} SoundGroupRecord;
 
-
-typedef signed int    s32_02028900;
-
-typedef struct {
-    u8   pad00[8];
-    void *f08;
-    void *f0c;
-    void *f10;
-    u8   pad14[0x20 - 0x14];
-    s32_02028900  f20;
-    s32_02028900  f24[1];
-    u8   pad28[0xa0 - 0x28];
-    u8   fa0;
-    volatile u8 fa1;
-} Obj;
-
-typedef struct {
-    s32_02028900 op;
-    s32_02028900 a;
-    s32_02028900 b;
-} Ins;
-
-typedef int            s32_02028988;
-
-
-
-typedef int            s32_0;
-
-
-
-struct SndCmd {
-    u32 unk00;
-    u32 unk04;
-    u16 unk08;
-    u16 unk0A;
-};
-
-struct T {
-    u32 pad00;
-    u32 f04;
-};
-
-
-
-struct SoundSys2 {
-    u16 unk00[0x56];
-    u16 slot[2];
-    u16 owner[2];
-    u32 unkB4;
-};
-
-struct S_02028B50 { u8 pad[0xac]; u16 lo[2]; u16 hi[2]; };
-
-struct S_02028BDC { u8 pad[0xac]; u16 lo[2]; u16 hi[2]; u32 mask; };
-
-struct EntryA {
-    u32 f00;
-    u16 f04;
-};
-
-struct EntryB {
-    u32 f00;
-    u16 f04[4];
-};
-
-struct EntryC {
-    u32 f00 : 24;
-};
-
-struct Sys_02028D2C {
-    u8  pad_00[0x20];
-    u32 pending;   /* 0x20 */
-};
-
-typedef signed int     s32_1;
-
-
-
-struct Sys_02028D8C {
-    u8         pad_00[0x28];
-    struct SndCmd queue[10];   /* 0x28 */
-    u8         tail;        /* 0xa0 */
-    u8         head;        /* 0xa1 */
-};
-
-typedef signed int     s32;
-
-struct Sys_02028DCC {
-    u8          pad_00[0x28];
-    struct SndCmd  queue[10];
-    u8          tail;
-    volatile u8 head;
-};
-
-struct Sys_02028E0C {
-    u8         pad_00[0x28];
-    struct SndCmd queue[10];   /* 0x28 */
-    u8         pad_A0;
-    u8         head;        /* 0xa1 */
-};
-
-struct Sys_02028E48 {
-    u8  pad_00[0x1c];
-    u32 unk1C;      /* 0x1c */
-};
-
-
-
-struct SoundParam2 {
-    unsigned char pad00[4];
-    u32 group;    /* +0x04 */
-    unsigned char pad08[4];
-    u32 valC;     /* +0x0c */
-    unsigned char pad10[8];
-    u16 val18;    /* +0x18 */
-    u16 val1a;    /* +0x1a */
-    u32 kind;     /* +0x1c */
-};
-
-struct SoundParam {
-    u8 pad00[4];
-    u32 group;    /* +0x04 */
-};
-
-struct T_02028FE0 {
-    u32 pad00[7];
-    u32 f1c;
-};
-
-struct T_02029040 {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1c;
-};
+typedef struct SoundEntryRecord {
+    u32 checkId : 24;
+} SoundEntryRecord;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02028760(void *a, int v);
-extern u32 *func_02029F14(u32 a0, u32 a1);
-extern void  func_02005D08(void (*cb)(void));
-extern void func_02029F44(void *p);
-extern void func_02028784(void *p);
+extern void *PLAYER_VOLUME_FADER_Create(void *a, int v);
+extern u32 *RINGTONE_SYS_Create(u32 a0, u32 a1);
+extern void GFL_USE_SetSeqStartFilter(int (*hook)(u32 id));
+extern void GFL_USE_CancelChangeAndStopBgm(void);
+extern void RINGTONE_SYS_Delete(void *p);
+extern void PLAYER_VOLUME_FADER_Delete(struct Fader *p);
 extern u32 func_020307B0(void *p);
-extern s32_02028900 _s32_div_f(s32_02028900 a, s32_02028900 b);
-extern void func_02029F4C(void *p);
-extern void func_0202878C(struct Fader *s);
-extern void func_02028794(struct Fader *s, u8 level, u16 frames);
-extern void func_02029F54(void *p);
-extern void func_02029F60(void *p);
+extern void RINGTONE_SYS_Update(void *p);
+extern void PLAYER_VOLUME_FADER_Update(struct Fader *s);
+extern void PLAYER_VOLUME_FADER_SetTarget(struct Fader *s, u8 level, u16 frames);
+extern void RINGTONE_SYS_Start(void *p);
+extern void RINGTONE_SYS_Stop(void *p);
 extern int func_021D21C0(u32 id);
 extern int func_021D21E0(u32 id);
 extern int func_02006148(u32 a0);
 extern void func_020061E4(u32 id);
 extern void func_020061F0(u32 id, u32 who);
-extern void func_020062BC(int i, u32 level);
+extern void GFL_USE_SetSeSlotVolume(int i, u32 level);
 extern void func_020061F8(int i);
-extern void *func_02074324(int index);
-extern u32 func_0207466C(u32 idx);
-extern void *func_020743EC(int index);
-extern struct EntryC *func_02074450(u32 id);
-extern void func_020293D8(struct T *p);
-extern void func_02005D28(void);
-extern void func_02029344(void *obj, u32 value);
-extern void func_02029364(u8 *p);
-extern void func_02029374(u8 *p);
-extern void func_0202945C(u8 *p);
-extern int func_02029354(int a0);
-extern void func_0202938C(u8 *p);
-struct Sys_02028844 *func_02028844(void *desc, u32 heap);
-void func_0202889C(struct SoundSys_02028844 *s);
-s32_020288C4 func_020288C4(struct Sys *s);
-void *func_02028900(Obj *p);
-u32 func_02028988(struct Sys *s);
-u32 func_020289B8(struct Sys *s);
-u32 func_020289D4(struct Sys *s);
-void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
-void func_02028A14(struct T *p);
-void func_02028A50(void *sys, void *res);
-void func_02028A58(struct SoundSys_02028844 *sys, u8 level, u16 frames);
-void func_02028A64(struct SoundSys_02028844 *sys);
-void func_02028A70(struct SoundSys_02028844 *sys);
-void func_02028A7C(struct SoundSys2 *s, u32 id);
-void func_02028ACC(struct SoundSys2 *s, u32 id, u32 who);
-void func_02028B18(struct SoundSys2 *s, u32 id, u32 who);
-void func_02028B50(u8 *p, int a0);
-void func_02028BA0(u8 *o, u32 v);
-void func_02028BDC(struct S_02028BDC *s, u32 mask);
-int func_02028C30(u32 v);
-u32 func_02028C50(int index);
-int func_02028CB0(u32 v);
-void func_02028CD4(u8 *p, u32 v);
-void func_02028D2C(struct Sys_02028D2C *s, void *desc);
-void func_02028D54(int a0);
-void *func_02028D7C(void *obj);
-struct SndCmd *func_02028D8C(struct Sys_02028D8C *s);
-int func_02028DB8(void *obj);
-u8 func_02028DCC(struct Sys_02028DCC *s, u32 target);
-void func_02028E0C(struct Sys_02028E0C *s, struct SndCmd *cmd);
-u32 func_02028E48(struct Sys_02028E48 *s, u32 kind);
-void func_02028E80(struct Sys_02028D8C *s);
-void func_02028EAC(struct SoundParam2 *obj, struct SndCmd *cmd);
-void func_02028F18(struct SoundParam2 *obj, u16 a1);
-void func_02028F30(struct SoundParam2 *obj, u16 a1);
-void func_02028F48(struct SoundParam2 *obj, u16 a1);
-void func_02028F60(struct SoundParam2 *obj, u16 a1, u16 a2);
-void func_02028F7C(struct SoundParam2 *obj, u32 a1, u16 a2, u16 a3);
-void func_02028F9C(struct SoundParam2 *obj, u32 a1, u16 a2);
-void func_02028FB8(struct SoundParam2 *obj, u32 a1);
-u32 func_02028FD0(struct SoundParam *obj, u32 kind);
-void func_02028FE0(struct T_02028FE0 *p);
-void func_02029040(struct T_02029040 *p);
-void func_020290F0(u8 *p);
+extern SoundEventRecord *NNS_SndArcGetSeqInfo(int index);
+extern u32 NNS_SndArcGetFileAddress(u32 idx);
+extern SoundGroupRecord *NNS_SndArcGetBankInfo(int index);
+extern SoundEntryRecord *NNS_SndArcGetWaveArcInfo(u32 id);
+extern void FIELD_SOUND_SYSTEM_PopBgm(FieldSoundSystem *s);
+extern void FIELD_SOUND_SYSTEM_SetState(FieldSoundSystem *s, u32 value);
+extern void FIELD_SOUND_SYSTEM_FinishRequest(FieldSoundSystem *s);
+extern void FIELD_SOUND_SYSTEM_FadeInCurrentBgm(FieldSoundSystem *s);
+extern void FIELD_SOUND_SYSTEM_PlayRequestedBgmNow(FieldSoundSystem *s);
+extern void FIELD_SOUND_SYSTEM_DiscardRequest(FieldSoundSystem *s);
+extern void FIELD_SOUND_SYSTEM_FadeOutCurrentBgm(FieldSoundSystem *s);
+
 extern const char g_020A7590[];
-extern u32  g_020A7554[];
-extern u32  g_020A7518[];
+extern void (*g_020A7554[])(FieldSoundSystem *);
+extern void (*g_020A7518[])(FieldSoundSystem *);
 extern const u16 sTable_0209FDD0[];
 extern u8 g_0209FD90[][8];
 extern const u8 g_flagTable_0209FE1C[];
 
+void FIELD_SOUND_SYSTEM_Init(FieldSoundSystem *s, void *desc);
+int FIELD_SOUND_SYSTEM_IsSoundIdPlayable(u32 soundId);
+int FIELD_SOUND_SYSTEM_HasPendingRequest(FieldSoundSystem *s);
+u8 FIELD_SOUND_SYSTEM_CountRequestsOfKind(FieldSoundSystem *s, u32 kind);
+void FIELD_SOUND_SYSTEM_ProcessNextRequest(FieldSoundSystem *s);
+FieldSoundRequest *FIELD_SOUND_SYSTEM_GetReadSlot(FieldSoundSystem *s);
+FieldSoundRequest *FIELD_SOUND_SYSTEM_GetCurrentRequest(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_DrainAndInit(FieldSoundSystem *s, void *desc);
+void FIELD_SOUND_SYSTEM_EnqueueRequest(FieldSoundSystem *s, FieldSoundRequest *req);
+u32 FIELD_SOUND_SYSTEM_IsRequestKindAccepted(FieldSoundSystem *s, u32 kind);
+void FIELD_SOUND_SYSTEM_DequeueRequest(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_ExecuteRequest(FieldSoundSystem *s, FieldSoundRequest *req);
+void FIELD_SOUND_SYSTEM_SetMode1(FieldSoundSystem *s, u16 highParam);
+void FIELD_SOUND_SYSTEM_SetMode2(FieldSoundSystem *s, u16 lowParam);
+void FIELD_SOUND_SYSTEM_SetMode3(FieldSoundSystem *s, u16 lowParam);
+void FIELD_SOUND_SYSTEM_SetMode4(FieldSoundSystem *s, u16 lowParam, u16 highParam);
+void FIELD_SOUND_SYSTEM_SetMode5(FieldSoundSystem *s, u32 value, u16 lowParam, u16 highParam);
+void FIELD_SOUND_SYSTEM_SetMode6(FieldSoundSystem *s, u32 value, u16 lowParam);
+void FIELD_SOUND_SYSTEM_SetMode7(FieldSoundSystem *s, u32 value);
+u32 FIELD_SOUND_SYSTEM_IsKindAllowedInState(FieldSoundSystem *s, u32 kind);
+int FIELD_SOUND_SYSTEM_IsKnownSoundId(u32 soundId);
+u32 FIELD_SOUND_SYSTEM_IsSoundRecordChainValid(int soundIndex);
 
-
-
-
-
-
-/*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
- * Blocked at MATCH: all 88 concrete bytes are right, 3 of 7 relocations
- * resolve.  func_02028760, func_02029F14 and the callback pointer
- * func_02028CB0 have exactly one reference image-wide, this function's.  The
- * fourth blocker is the __FILE__ pointer: the string "field_sound_system.c"
- * at 0x020A7590 is preceded by a table of pointers rather than by another
- * string's terminator, so the `string` class cannot fix its start, exactly
- * the case docs/idioms/a-string-after-a-data-table-has-no-witness.md
- * describes.  That one caps the file at MATCH regardless of the C.
- *
- * The string does settle the translation unit's name: field_sound_system.c.
- *
- * field_sound_system.c: the constructor.  Allocates the 0xB8-byte system out
- * of the caller's heap through the debug allocator (the fourth and fifth
- * arguments are the __FILE__ pointer into the packed string area and the
- * literal line number, the line number being the pooled small constant that
- * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md warns
- * about reading as a symbol), initialises it from the caller's descriptor,
- * builds the two owned sub-objects at +0xA4 and +0xA8, and registers the
- * per-frame callback at func_02028CB0.
- *
- * +0xA4 is stored and then read back for the second construction rather than
- * kept live, which is the tell that the source spells the second argument
- * `s->unkA4` and not the value it just stored.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_02028844.c \
- *       --func func_02028844 --addr 0x02028844 --cc 1.1p1 --thumb
- */
-struct Sys_02028844 *func_02028844(void *desc, u32 heap)
+/* Constructor: allocates the system through the debug allocator (file name and line number are arguments). */
+FieldSoundSystem *FIELD_SOUND_SYSTEM_Create(void *desc, u32 heap)
 {
-    struct Sys_02028844 *s;
+    FieldSoundSystem *s;
 
-    s = func_02030734(heap, 0xb8, 1, g_020A7590, 331);
-    func_02028CD4((u8 *)s, (u32)desc);
-    s->unkA4 = func_02028760((void *)heap, 0);
-    s->unkA8 = func_02029F14(heap, (u32)s->unkA4);
-    func_02005D08((void (*)(void))func_02028CB0);
+    s = func_02030734(heap, sizeof(FieldSoundSystem), 1, g_020A7590, 331);
+    FIELD_SOUND_SYSTEM_Init(s, desc);
+    s->volumeFader = PLAYER_VOLUME_FADER_Create((void *)heap, 0);
+    s->ringtone = RINGTONE_SYS_Create(heap, (u32)s->volumeFader);
+    GFL_USE_SetSeqStartFilter(FIELD_SOUND_SYSTEM_IsSoundIdPlayable);
     return s;
 }
 
-
-
-
-
-
-
-/*
- * field_sound_system.c.  The destructor: it drops the frame callback, tears down the ringtone handle
- * at +0xA8 and the volume fader at +0xA4, and frees the object.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/func_0202889C.c  *       --addr 0x0202889C --thumb
- */
-void func_0202889C(struct SoundSys_02028844 *s)
+/* Destructor. */
+void FIELD_SOUND_SYSTEM_Delete(FieldSoundSystem *s)
 {
-    func_02005D08(0);
-    func_02029F44(s->ringtone);
-    func_02028784(s->fader);
+    GFL_USE_SetSeqStartFilter(0);
+    RINGTONE_SYS_Delete(s->ringtone);
+    PLAYER_VOLUME_FADER_Delete(s->volumeFader);
     func_020307B0(s);
 }
 
-
-
-
-
-
-
-/*
- * field_sound_system.c.  The queue depth the callers poll: the recorded base count plus the pending
- * requests of kind 3, less those of kind 4, with two mode specific
- * corrections.  The mode word is read once and kept, which is what makes it a
- * named local rather than two reads
- * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/func_020288C4.c  *       --addr 0x020288C4 --thumb
- */
-s32_020288C4 func_020288C4(struct Sys *s)
+/* Queue depth callers poll: stack depth plus pending pushes (kind 3) less pops (kind 4), with two mode corrections. */
+int FIELD_SOUND_SYSTEM_GetQueueDepth(FieldSoundSystem *s)
 {
-    s32_020288C4 n = s->unk20;
+    int depth = s->stackDepth;
     u32 mode;
 
-    n = n + func_02028DCC((struct Sys_02028DCC *)s, 3);
-    n = n - func_02028DCC((struct Sys_02028DCC *)s, 4);
-    mode = s->unk1C;
+    depth = depth + FIELD_SOUND_SYSTEM_CountRequestsOfKind(s, 3);
+    depth = depth - FIELD_SOUND_SYSTEM_CountRequestsOfKind(s, 4);
+    mode = s->mode;
     if (mode == 3) {
-        if (s->unk04 == 5 || s->unk04 - 0xB <= 1) {
-            n++;
+        if (s->state == 5 || s->state - 0xB <= 1) {
+            depth++;
         }
     }
     if (mode == 4) {
-        if (s->unk04 == 6) {
-            n--;
+        if (s->state == 6) {
+            depth--;
         }
     }
-    return n;
+    return depth;
 }
-
-
-
-
-
-
-
-void *func_02028900(Obj *p)
-{
-    void *cur;
-    s32_02028900 n;
-    s32_02028900 i;
-    s32_02028900 pc;
-    Ins *ins;
-    void *stack[1];
-
-    cur = p->f08;
-    if (p->f0c != 0) {
-        cur = p->f0c;
-    }
-    if (p->f10 != 0) {
-        cur = p->f10;
-    }
-    n = p->f20;
-    pc = p->fa0;
-    for (i = 0; i < n; i++) {
-        stack[i] = (void *)p->f24[i];
-    }
-    while (pc != p->fa1) {
-        ins = (Ins *)((char *)p + 0x28) + pc;
-        if (ins->op == 3) {
-            stack[n++] = cur;
-        } else if (ins->op == 4) {
-            n--;
-            cur = stack[n];
-        } else if ((unsigned)(ins->op - 5) <= 2) {
-            cur = (void *)ins->a;
-        }
-        pc = (pc + 1) % 10;
-    }
-    return cur;
-}
-
-
-
-
-
-
 
 /*
- * field_sound_system.c.  A pure predicate over the system's mode word: nine accepted values written
- * as one disjunction so that all nine tests share the single `movs r0, #1`
- * exit (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md).
- * The source order of the nine is the order of the nine `cmp` instructions,
- * which is not sorted.
+ * Replays the queued requests (kind 3 push, 4 pop, 5 to 7 set) over the
+ * current values and returns the value the system will end up with.
  *
- * Verified with:
- *   python tools/match.py tu --src src/matched/func_02028988.c  *       --addr 0x02028988 --thumb
+ * stand-in: the write index is read through a volatile cast. Without it the
+ * compiler hoists the load out of the loop (the divide helper call in the
+ * loop is not treated as a memory barrier) and the function is 8 bytes shorter.
  */
-u32 func_02028988(struct Sys *s)
+void *FIELD_SOUND_SYSTEM_GetFinalValue(FieldSoundSystem *s)
 {
-    u32 v = s->unk04;
+    void *value;
+    int depth;
+    int i;
+    int cursor;
+    FieldSoundRequest *req;
+    void *stack[1];
 
-    if (v == 4 || v == 3 || v == 6 || v == 7 || v == 5 || v == 8 || v == 10 ||
-        v == 11 || v == 13) {
+    value = (void *)s->currentValue;
+    if (s->requestedValue != 0) {
+        value = (void *)s->requestedValue;
+    }
+    if (s->overrideValue != 0) {
+        value = (void *)s->overrideValue;
+    }
+    depth = s->stackDepth;
+    cursor = s->readIndex;
+    for (i = 0; i < depth; i++) {
+        stack[i] = (void *)s->valueStack[i];
+    }
+    while (cursor != *(volatile u8 *)&s->writeIndex) {
+        req = &s->queue[cursor];
+        if (req->kind == 3) {
+            stack[depth++] = value;
+        } else if (req->kind == 4) {
+            depth--;
+            value = stack[depth];
+        } else if (req->kind - 5 <= 2) {
+            value = (void *)req->value;
+        }
+        cursor = (cursor + 1) % 10;
+    }
+    return value;
+}
+
+/*
+ * Predicate over the state word: nine accepted values in one disjunction (they share one exit).
+ * The order of the tests is the order of the compares in the original.
+ */
+u32 FIELD_SOUND_SYSTEM_IsStateActive(FieldSoundSystem *s)
+{
+    u32 state = s->state;
+
+    if (state == 4 || state == 3 || state == 6 || state == 7 || state == 5 || state == 8 || state == 10 ||
+        state == 11 || state == 13) {
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-/*
- * field_sound_system.c.  "Is the system busy": either the queue helper says so or the mode word is
- * non zero.  It is written as the negated conjunction rather than the
- * disjunction the semantics suggest, because the block the source puts inside
- * the `if` is the one emitted first and here that is the `return 0`
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/func_020289B8.c  *       --addr 0x020289B8 --thumb
- */
-u32 func_020289B8(struct Sys *s)
+/* Busy: the queue helper says so or the mode is non zero. Written as a negated conjunction (its `return 0` is the block emitted first). */
+u32 func_020289B8(FieldSoundSystem *s)
 {
-    if (func_02028DB8(s) == 0 && s->unk1C == 0) {
+    if (FIELD_SOUND_SYSTEM_HasPendingRequest(s) == 0 && s->mode == 0) {
         return 0;
     }
     return 1;
 }
 
-
-
-
-
-
-
-
-
-/*
- * field_sound_system.c.  "Can the system take another request": two independent rejections, each
- * with its own epilogue, which is what says they are two `if`s and not one
- * conjunction (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/func_020289D4.c  *       --addr 0x020289D4 --thumb
- */
-u32 func_020289D4(struct Sys *s)
+/* Can take another request: two separate rejections, each with its own epilogue. */
+u32 FIELD_SOUND_SYSTEM_CanAcceptRequest(FieldSoundSystem *s)
 {
-    if (s->unk1C == 4 && s->unk04 == 6) {
+    if (s->mode == 4 && s->state == 6) {
         return 0;
     }
-    if (func_02028DCC((struct Sys_02028DCC *)((struct Sys *)s), 4) != 0) {
+    if (FIELD_SOUND_SYSTEM_CountRequestsOfKind(s, 4) != 0) {
         return 0;
     }
     return 1;
 }
 
+/* Builds a request record on the stack and enqueues it; every caller in the region goes through here. */
+void FIELD_SOUND_SYSTEM_PostRequest(FieldSoundSystem *s, u32 kind, u32 value, u16 lowParam, u16 highParam)
+{
+    FieldSoundRequest req;
 
+    req.kind = kind;
+    req.value = value;
+    req.lowParam = lowParam;
+    req.highParam = highParam;
+    FIELD_SOUND_SYSTEM_EnqueueRequest(s, &req);
+}
 
-
-
-
-
-
+/* Per-frame update: process one request, run the per-state handlers, then update ringtone and fader. */
+void FIELD_SOUND_SYSTEM_Update(FieldSoundSystem *s)
+{
+    FIELD_SOUND_SYSTEM_ProcessNextRequest(s);
+    g_020A7554[s->state](s);
+    g_020A7518[s->state](s);
+    RINGTONE_SYS_Update(s->ringtone);
+    PLAYER_VOLUME_FADER_Update(s->volumeFader);
+}
 
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
- * field_sound_system.c.  The command enqueue every caller in the region goes through: it builds the
- * sixteen byte command record on its own stack and hands its address to the
- * queue.  The fifth argument arrives at [sp, #0x10], which is the pushed `lr`
- * plus the twelve bytes of the record.
- *
- * Why it is capped: the single relocation is the call to func_02028E0C, and a
- * scan of the image finds exactly one branch to 0x02028E0C, the one inside
- * this function.  The `label` class therefore has no witness outside the
- * compared range and no cut helps: the range cannot be made smaller than the
- * one function that holds the call.  It closes the day 0x02028E0C itself is
- * matched (it is in the packet that starts at 0x02028D7C, not in
- * pkt_0202878C), or the day a second caller appears.
- *
- * Wave 26: 0x02028E0C is now decompiled and byte-correct in
- * src/pending/func_02028E0C.c, but it is capped in turn, and permanently, by
- * the permission table at 0x0209FD90 that its own callee func_02028E48 reads
- * (src/pending/func_02028E48.c).  That word appears in exactly one literal
- * pool image-wide, inside func_02028E48 itself, so this chain cannot be closed
- * from inside field_sound_system.c.  A second caller is the only route left.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_020289F8.c  *       --func func_020289F8 --addr 0x020289F8 --thumb
+ * Forwarding thunks (a pool word and a bx). The reset thunk is the only caller of
+ * the drain-and-init function reachable from ringtone_sys.c. The three after it
+ * first fetch a sub-object (fader at +0xA4, ringtone at +0xA8); the offsets are
+ * past the Thumb ldr immediate, which costs an adds, not a second pointer.
  */
-void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d)
+void FIELD_SOUND_SYSTEM_Reset(FieldSoundSystem *s, void *desc)
 {
-    struct SndCmd cmd;
-
-    cmd.unk00 = a;
-    cmd.unk04 = b;
-    cmd.unk08 = c;
-    cmd.unk0A = d;
-    func_02028E0C((struct Sys_02028E0C *)s, (struct SndCmd *)(&cmd));
+    FIELD_SOUND_SYSTEM_DrainAndInit(s, desc);
 }
 
-
-
-
-
-
-
-
-
-void func_02028A14(struct T *p)
+void func_02028A58(FieldSoundSystem *s, u8 level, u16 frames)
 {
-    func_02028D54((int)p);
-    ((void (*)(struct T *))g_020A7554[p->f04])(p);
-    ((void (*)(struct T *))g_020A7518[p->f04])(p);
-    func_02029F4C(((struct Obj11294 *)p)->fA8);
-    func_0202878C(((struct Obj11294 *)p)->fA4);
+    PLAYER_VOLUME_FADER_SetTarget(s->volumeFader, level, frames);
 }
 
+void FIELD_SOUND_SYSTEM_StartRingtone(FieldSoundSystem *s)
+{
+    RINGTONE_SYS_Start(s->ringtone);
+}
 
-
-
-
-
-
-
+void func_02028A70(FieldSoundSystem *s)
+{
+    RINGTONE_SYS_Stop(s->ringtone);
+}
 
 /*
- * Four forwarding thunks in field_sound_system.c, each a pool word and a `bx`
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  The last three first
- * chase a sub-object pointer out of the sound system object: the volume fader
- * at +0xA4 that src/matched/unit_0202878C.c drives, and the ringtone handle at
- * +0xA8.  Both offsets are past the Thumb `ldr` immediate's reach of 124 and
- * so cost an `adds r0, #0xa4` first, which is an encoding artefact and not a
- * second pointer
- * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).
- *
- * UNLABELLED FOLLOWERS: none of these four saves `lr`, so `disasm.py` labels
- * none of them and `layout/function_starts.txt` has no seed for 0x02028A50,
- * 0x02028A64 or 0x02028A70 (it has one for 0x02028A58, sized 8 rather than
- * 12).  The witness for all four is this unit reproducing 0x02028A50..0x02028A7C
- * byte for byte, four sections of 8, 12, 12 and 12 bytes with no padding
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- *
- * ARITY: a thunk that moves no argument register says nothing about how many
- * arguments it forwards
- * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
- * func_02028A58 is written with the three parameters func_02028794 takes,
- * because src/matched/unit_0202878C.c fixes that signature; the other three
- * are written with one argument each, which is the conservative reading and
- * compiles to the same bytes as any other arity.
- *
- * func_02028A50 is why this file exists as its own unit: it is the only caller
- * of func_02028D2C reachable from src/matched/unit_020298E0.c, whose third
- * state hands a resource off through it, and that file has no other witness
- * for 0x02028A50.
- *
- * Wave 26 closed it.  All four pool words are the only reference in the image
- * to their target, so the `label` class sees nothing and no cut helps; the way
- * through was to decompile the three targets that live outside this packet.
- * func_02028D2C is now src/matched/func_02028D2C.c (pkt_02028B50),
- * func_02029F54 and func_02029F60 are src/matched/unit_02029F54.c and
- * src/matched/unit_02029F60.c (pkt_02029F4C), and all three resolve `matched`;
- * func_02028794 resolves `matched` off src/matched/unit_0202878C.c.  That also
- * lifts the cap this file placed on src/pending/unit_020298E0.c.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02028A50.c \
- *       --addr 0x02028A50 --thumb
+ * Sound slot functions: the two tables at +0xAC and +0xB0 hold two halfwords
+ * each (the loop in the transfer function fixes the count at two). Both are
+ * past the Thumb halfword immediate, so each access recomputes base + index*2.
  */
-void func_02028A50(void *sys, void *res)
+
+/* Claims a slot for a caller that gives no owner; marks the owner 0xFFFF. */
+void func_02028A7C(FieldSoundSystem *s, u32 soundId)
 {
-    func_02028D2C(sys, res);
-}
+    u32 slotIndex;
 
-
-
-
-
-
-
-
-
-void func_02028A58(struct SoundSys_02028844 *sys, u8 level, u16 frames)
-{
-    func_02028794(sys->fader, level, frames);
-}
-
-
-
-
-
-
-
-
-void func_02028A64(struct SoundSys_02028844 *sys)
-{
-    func_02029F54(sys->ringtone);
-}
-
-
-
-
-
-
-
-
-void func_02028A70(struct SoundSys_02028844 *sys)
-{
-    func_02029F60(sys->ringtone);
-}
-
-
-
-
-
-
-
-
-
-/*
- * field_sound_system.c: claim a sequence slot for a caller that gives no owner id, marking the
- * slot's owner 0xFFFF
- *
- * The two slot tables at +0xAC and +0xB0 are two halfwords each; the loop in
- * func_02028B18 is what fixes the count at two.  Both are past the Thumb
- * halfword immediate's reach of 62, so each access recomputes
- * `base + index*2` and then adds 0xAC or 0xB0
- * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).
- *
- * The overlay callee 0x021D21C0 is attested through the label class
- * with the ov021 region hint on the symbols line.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/func_02028A7C.c --addr 0x02028A7C --thumb
- */
-void func_02028A7C(struct SoundSys2 *s, u32 id)
-{
-    u32 n;
-
-    if (func_021D21C0(id) == 0) {
-        func_020061E4(id);
+    if (func_021D21C0(soundId) == 0) {
+        func_020061E4(soundId);
         return;
     }
-    if (func_021D21E0(id) != 0) {
-        n = func_02006148(id) - 1;
-        s->slot[n] = id;
-        s->owner[n] = 0xFFFF;
+    if (func_021D21E0(soundId) != 0) {
+        slotIndex = func_02006148(soundId) - 1;
+        s->slotSoundId[slotIndex] = soundId;
+        s->slotOwner[slotIndex] = 0xFFFF;
     }
-    if (s->unkB4 == 0) {
-        func_020061E4(id);
+    if (s->pauseMask == 0) {
+        func_020061E4(soundId);
     }
 }
 
-
-
-
-
-
-
-
-
-/*
- * field_sound_system.c: the same claim with an owner id supplied by the caller
- *
- * The two slot tables at +0xAC and +0xB0 are two halfwords each; the loop in
- * func_02028B18 is what fixes the count at two.  Both are past the Thumb
- * halfword immediate's reach of 62, so each access recomputes
- * `base + index*2` and then adds 0xAC or 0xB0
- * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).
- *
- * The overlay callee 0x021D21C0 is attested through the label class
- * with the ov021 region hint on the symbols line.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/func_02028ACC.c --addr 0x02028ACC --thumb
- */
-void func_02028ACC(struct SoundSys2 *s, u32 id, u32 who)
+/* The same claim with an owner supplied by the caller. */
+void func_02028ACC(FieldSoundSystem *s, u32 soundId, u32 owner)
 {
-    u32 n;
+    u32 slotIndex;
 
-    if (func_021D21C0(id) == 0) {
-        func_020061E4(id);
+    if (func_021D21C0(soundId) == 0) {
+        func_020061E4(soundId);
         return;
     }
-    if (func_021D21E0(id) != 0) {
-        n = func_02006148(id) - 1;
-        s->slot[n] = id;
-        s->owner[n] = who;
+    if (func_021D21E0(soundId) != 0) {
+        slotIndex = func_02006148(soundId) - 1;
+        s->slotSoundId[slotIndex] = soundId;
+        s->slotOwner[slotIndex] = owner;
     }
-    if (s->unkB4 == 0) {
-        func_020061F0(id, who);
+    if (s->pauseMask == 0) {
+        func_020061F0(soundId, owner);
     }
 }
 
-
-
-
-
-
-
-
-
-/*
- * field_sound_system.c: hand an already claimed slot to a new owner
- *
- * The two slot tables at +0xAC and +0xB0 are two halfwords each; the loop in
- * func_02028B18 is what fixes the count at two.  Both are past the Thumb
- * halfword immediate's reach of 62, so each access recomputes
- * `base + index*2` and then adds 0xAC or 0xB0
- * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).
- *
- * The overlay callee 0x021D21C0 is attested through the label class
- * with the ov021 region hint on the symbols line.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/func_02028B18.c --addr 0x02028B18 --thumb
- */
-void func_02028B18(struct SoundSys2 *s, u32 id, u32 who)
+/* Hands a claimed slot to a new owner. */
+void FIELD_SOUND_SYSTEM_TransferSlot(FieldSoundSystem *s, u32 soundId, u32 owner)
 {
-    s32_0 i;
+    int i;
 
-    if (func_021D21C0(id) != 0) {
+    if (func_021D21C0(soundId) != 0) {
         for (i = 0; i < 2; i++) {
-            if (s->slot[i] == id) {
-                func_020062BC(i + 1, who);
-                s->owner[i] = who;
+            if (s->slotSoundId[i] == soundId) {
+                GFL_USE_SetSeSlotVolume(i + 1, owner);
+                s->slotOwner[i] = owner;
                 return;
             }
         }
     }
 }
 
-
-
-
-
-
-
-
-/*
- * Both halfword cells the caller clears sit in ONE struct, four bytes apart
- * (0xac and 0xb0), and the same index reaches both.  Spelled as two
- * independent `u16 *` locals the compiler recomputes the second address from
- * `idx + 1` and the frame loses two bytes; as two adjacent u16[2] fields of
- * one struct both accesses share the scaled index register and the function
- * is EXACT.
- */
-void func_02028B50(u8 *p, int a0)
+/* Releases the slot that holds the sound. Both halfword cells are cleared through one scaled index (separate u16 pointers cost two bytes of frame). */
+void func_02028B50(FieldSoundSystem *s, int soundId)
 {
-    u32 idx;
-    struct S_02028B50 *s = (struct S_02028B50 *)p;
-    idx = func_02006148(a0);
-    if (func_021D21C0(a0) == 0) {
-        func_020061F8(idx);
+    u32 slotNumber;
+
+    slotNumber = func_02006148(soundId);
+    if (func_021D21C0(soundId) == 0) {
+        func_020061F8(slotNumber);
         return;
     }
-    if (func_021D21E0(a0) != 0) {
-        if (a0 == s->lo[idx - 1]) {
-            s->lo[idx - 1] = 0xffff;
-            s->hi[idx - 1] = 0xffff;
+    if (func_021D21E0(soundId) != 0) {
+        if (soundId == s->slotSoundId[slotNumber - 1]) {
+            s->slotSoundId[slotNumber - 1] = 0xffff;
+            s->slotOwner[slotNumber - 1] = 0xffff;
         }
     }
-    func_020061F8(idx);
+    func_020061F8(slotNumber);
 }
 
-
-
-
-
-
-
-
-
-void func_02028BA0(u8 *o, u32 v)
+/* Adds bits to the pause set; on the first bit, stops the sounds in both slots. */
+void func_02028BA0(FieldSoundSystem *s, u32 bits)
 {
     int i;
 
-    if (((struct Obj00164 *)o)->fB4 == 0) {
+    if (s->pauseMask == 0) {
         for (i = 0; i < 2; i++) {
-            if (*(u16 *)(o + 0xac + i * 2) != 0xffff) {
+            if (s->slotSoundId[i] != 0xffff) {
                 func_020061F8(i + 1);
             }
         }
     }
-    ((struct Obj00164 *)o)->fB4 |= v;
+    s->pauseMask |= bits;
 }
 
-
-
-
-
-
-
-
-
-/*
- * field_sound_system.c: drop the bits of mask from the pending set at
- * +0xB4 and, when the set empties, replay the two stored sounds.  The
- * 4-byte residue of docs/notes/pkt_02028BDC.c.txt ("a dead-after-use scaled
- * index") was the callee arity: both callees take the sound id (and
- * func_020061F0 the second id), so the index is not dead; the image passes
- * the loaded halfwords on in r0/r1.
- */
-void func_02028BDC(struct S_02028BDC *s, u32 mask)
+/* Drops bits from the pause set; when the set empties, replays the two stored sounds. */
+void func_02028BDC(FieldSoundSystem *s, u32 bits)
 {
     int i;
 
-    if ((s->mask & mask) == 0)
+    if ((s->pauseMask & bits) == 0)
         return;
 
-    s->mask = s->mask & ~mask;
+    s->pauseMask = s->pauseMask & ~bits;
 
-    if (s->mask != 0)
+    if (s->pauseMask != 0)
         return;
 
     for (i = 0; i < 2; i++) {
-        if (s->lo[i] != 0xffff) {
-            if (s->hi[i] == 0xffff)
-                func_020061E4(s->lo[i]);
+        if (s->slotSoundId[i] != 0xffff) {
+            if (s->slotOwner[i] == 0xffff)
+                func_020061E4(s->slotSoundId[i]);
             else
-                func_020061F0(s->lo[i], s->hi[i]);
+                func_020061F0(s->slotSoundId[i], s->slotOwner[i]);
         }
     }
 }
 
-
-
-
-
-
-
-
-
-/*
- * Blocked at MATCH: every concrete byte is identical; the ABS32 at +0x1C
- * naming the 0x26-entry u16 table at 0x0209FDD0 has no witness outside
- * 02028C30..02028C50.  The only pool word in the image that names that
- * address is 0x02028C4C, which is inside this function's own extent, and
- * the table fails `string` (no printable run) and `data_table` (not a run
- * of in-region pointers).  This is the wall already recorded in
- * docs/notes/lane2_band_0_64_pass3.c.txt; it cannot close from C.
- * Consequence: src/pending/func_02028CB0.c stays MATCH* on the 02028C30
- * blocker -- only func_02028C50 of its two sites is closable.
- *
- * 2026-09-21, FAMILY wave.  Re-verified in a fresh process: still MATCH,
- * every concrete byte identical.  Evidence worked to exhaustion:
- *   - `--suggest-split` reports "witnesses image wide: 1, of them inside
- *     this range: 1"; a single-function file has nothing to cut against.
- *   - No sibling in field_sound_system.c (0x02028844..0x02029EB4) references
- *     the object: the only other listing hits are the rodata DEFINITION in
- *     asm/arm9/src/030_*.s, which is a referent, not a referrer.
- *   - sole-ref/data was probed directly.  in_data_section = True and the
- *     layout/data_objects.txt row IS an object start when the range is
- *     ignored, but `_map_attests(addr, lo, hi)` = False once the range is
- *     applied, because that row's sole referrer is this function's own pool
- *     word.  This is the documented "a lone reference never contributes its
- *     own start" rule firing correctly, not a tooling gap.
- * Declarations cross-checked against docs/families/field_sound_system.h.
- */
-int func_02028C30(u32 v)
+/* Is the id one of the 0x26 ids in sTable_0209FDD0. */
+int FIELD_SOUND_SYSTEM_IsKnownSoundId(u32 soundId)
 {
     u32 i;
 
     for (i = 0; i < 0x26; i++) {
-        if (v == sTable_0209FDD0[i]) {
+        if (soundId == sTable_0209FDD0[i]) {
             return 1;
         }
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-u32 func_02028C50(int index)
+/* Walks the record chain (event, group, entries) of the index and checks each link. */
+u32 FIELD_SOUND_SYSTEM_IsSoundRecordChainValid(int soundIndex)
 {
-    struct EntryA *a;
+    SoundEventRecord *eventRec;
     int i;
-    struct EntryB *b;
+    SoundGroupRecord *groupRec;
 
-    a = func_02074324(index);
-    if (func_0207466C(a->f00) == 0) {
+    eventRec = NNS_SndArcGetSeqInfo(soundIndex);
+    if (NNS_SndArcGetFileAddress(eventRec->checkId) == 0) {
         return 0;
     }
 
-    b = func_020743EC(a->f04);
-    if (func_0207466C(b->f00) == 0) {
+    groupRec = NNS_SndArcGetBankInfo(eventRec->groupIndex);
+    if (NNS_SndArcGetFileAddress(groupRec->checkId) == 0) {
         return 0;
     }
 
     for (i = 0; i < 4; i++) {
-        if (b->f04[i] != 0xffff) {
-            if (func_0207466C(func_02074450(b->f04[i])->f00) == 0) {
+        if (groupRec->entryId[i] != 0xffff) {
+            if (NNS_SndArcGetFileAddress(NNS_SndArcGetWaveArcInfo(groupRec->entryId[i])->checkId) == 0) {
                 return 0;
             }
         }
@@ -988,587 +499,386 @@ u32 func_02028C50(int index)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-int func_02028CB0(u32 v)
+/* Hook registered with GFL_USE_SetSeqStartFilter: accepts an id that is in the table and whose record chain is valid. */
+int FIELD_SOUND_SYSTEM_IsSoundIdPlayable(u32 soundId)
 {
-    if (func_02028C30(v) == 0) {
+    if (FIELD_SOUND_SYSTEM_IsKnownSoundId(soundId) == 0) {
         return 0;
     }
-    if (func_02028C50(v) != 0) {
+    if (FIELD_SOUND_SYSTEM_IsSoundRecordChainValid(soundId) != 0) {
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-void func_02028CD4(u8 *p, u32 v)
+/* Initialises the system from the descriptor (shared by the constructor and the drain-and-init function). */
+void FIELD_SOUND_SYSTEM_Init(FieldSoundSystem *s, void *desc)
 {
     int i;
 
-    ((struct Obj00164 *)p)->f0 = v;
-    ((struct Obj00164 *)p)->f4 = 0;
-    ((struct Obj00164 *)p)->f1C = 0;
-    ((struct Obj00164 *)p)->f8 = 0;
-    ((struct Obj00164 *)p)->fC = 0;
-    ((struct Obj00164 *)p)->f10 = 0;
-    ((struct Obj00164 *)p)->f14 = 0;
-    ((struct Obj00164 *)p)->f18 = 0;
-    ((struct Obj00164 *)p)->f1A = 0;
-    *(u32 *)&((struct Obj00164 *)p)->f20 = 0;
-    ((struct Obj00164 *)p)->f24 = 0;
+    s->desc = desc;
+    s->state = 0;
+    s->mode = 0;
+    s->currentValue = 0;
+    s->requestedValue = 0;
+    s->overrideValue = 0;
+    s->reserved = 0;
+    s->highParam = 0;
+    s->lowParam = 0;
+    s->stackDepth = 0;
+    s->valueStack[0] = 0;
 
     for (i = 0; i < 10; i++)
-        *(u32 *)(p + 0x28 + i * 12) = 0;
+        s->queue[i].kind = 0;
 
-    ((struct Obj00164 *)p)->fA0 = 0;
-    ((struct Obj00164 *)p)->fA1 = 0;
+    s->readIndex = 0;
+    s->writeIndex = 0;
 
     for (i = 0; i < 2; i++)
-        *(u16 *)(p + 0xac + i * 2) = 0xffff;
+        s->slotSoundId[i] = 0xffff;
 
-    ((struct Obj00164 *)p)->fB4 = 0;
+    s->pauseMask = 0;
 }
 
-
-
-
-
-
-
-
 /*
- * field_sound_system.c: drain and re-arm.  Runs func_020293D8 until the
- * pending counter at +0x20 falls to zero, closes the frame with
- * func_02005D28, and then re-initialises the system from the descriptor the
- * caller passed, through the same func_02028CD4 the constructor uses.
- *
- * Nothing branches to this function anywhere in the image; its only reference
- * is the pool word of the forwarder at 0x02028A50, so the `label` class
- * cannot see it and src/matched/func_02028A50.c is EXACT only because this
- * file is a `matched` witness for it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02028D2C.c \
- *       --func func_02028D2C --addr 0x02028D2C --cc 1.1p1 --thumb
+ * Drains the stack through FIELD_SOUND_SYSTEM_PopBgm, closes the frame and re-initialises
+ * from desc. Nothing branches to it; its only reference is the pool word of
+ * the reset thunk.
  */
-void func_02028D2C(struct Sys_02028D2C *s, void *desc)
+void FIELD_SOUND_SYSTEM_DrainAndInit(FieldSoundSystem *s, void *desc)
 {
-    while (s->pending != 0) {
-        func_020293D8((struct T *)s);
+    while (s->stackDepth != 0) {
+        FIELD_SOUND_SYSTEM_PopBgm(s);
     }
-    func_02005D28();
-    func_02028CD4((u8 *)s, (u32)desc);
+    GFL_USE_CancelChangeAndStopBgm();
+    FIELD_SOUND_SYSTEM_Init(s, desc);
 }
 
-
-
-
-
-
-
-/*
- * closed:   blocker func_02028D54.c is now a manifest entry (matched class)
- */
-void func_02028D54(int a0)
+/* Takes the request at the read index if its class is allowed in the current state, runs it and removes it. */
+void FIELD_SOUND_SYSTEM_ProcessNextRequest(FieldSoundSystem *s)
 {
-    int *p = func_02028D7C((void *)a0);
-    if (func_02028FD0((struct SoundParam *)a0, *p)) {
-        func_02028EAC((struct SoundParam2 *)a0, (struct SndCmd *)((int)p));
-        func_02028E80((struct Sys_02028D8C *)((struct Sys *)a0));
+    FieldSoundRequest *req = FIELD_SOUND_SYSTEM_GetReadSlot(s);
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, req->kind)) {
+        FIELD_SOUND_SYSTEM_ExecuteRequest(s, req);
+        FIELD_SOUND_SYSTEM_DequeueRequest(s);
     }
 }
 
-
-
-
-
-
-
-
-void *func_02028D7C(void *obj)
+/* Slot at the read index. */
+FieldSoundRequest *FIELD_SOUND_SYSTEM_GetReadSlot(FieldSoundSystem *s)
 {
-    u8 idx = *((u8 *)obj + 0xa0);
-    return (u8 *)obj + 0x28 + idx * 12;
+    u8 index = s->readIndex;
+    return &s->queue[index];
 }
 
-
-
-
-
-
-
-
 /*
- * field_sound_system.c: pick the command slot the caller should look at.
- * While func_02028DB8 says the ring is idle that is the read cursor at +0xA0;
- * otherwise it is the slot just before the write cursor at +0xA1, which is
- * `(head + 9) % 10` rather than `head - 1` because the subtraction has to wrap
- * (the modulo is a real call to the runtime's signed divide helper, which
- * returns the remainder in r1 and so feeds the index computation directly).
- *
- * Both arms fall into one address computation, so the index is assigned in
- * each arm and the `&s->queue[i]` is written once after the `if`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/func_02028D8C.c \
- *       --addr 0x02028D8C --thumb
+ * The slot the caller should look at: the read index while the ring is idle,
+ * else the slot before the write index. (writeIndex + 9) % 10 and not
+ * writeIndex - 1, because the subtraction has to wrap; the modulo is a call to
+ * the signed divide helper.
  */
-struct SndCmd *func_02028D8C(struct Sys_02028D8C *s)
+FieldSoundRequest *FIELD_SOUND_SYSTEM_GetCurrentRequest(FieldSoundSystem *s)
 {
-    s32_1 i;
+    int index;
 
-    if (func_02028DB8(s) == 0) {
-        i = s->tail;
+    if (FIELD_SOUND_SYSTEM_HasPendingRequest(s) == 0) {
+        index = s->readIndex;
     } else {
-        i = (s->head + 9) % 10;
+        index = (s->writeIndex + 9) % 10;
     }
-    return &s->queue[i];
+    return &s->queue[index];
 }
 
-
-
-
-
-
-
-
-int func_02028DB8(void *obj)
+/* Is the slot at the read index occupied. */
+int FIELD_SOUND_SYSTEM_HasPendingRequest(FieldSoundSystem *s)
 {
-    return *(u32 *)func_02028D7C(obj) != 0;
+    return FIELD_SOUND_SYSTEM_GetReadSlot(s)->kind != 0;
 }
 
-
-
-
-
-
-u8 func_02028DCC(struct Sys_02028DCC *s, u32 target)
+/*
+ * Counts queued requests of the given kind.
+ *
+ * stand-in: the write index is read through a volatile cast, as in the replay
+ * function above (same hoisting, 8 bytes shorter without it).
+ */
+u8 FIELD_SOUND_SYSTEM_CountRequestsOfKind(FieldSoundSystem *s, u32 kind)
 {
-    s32 curr = s->tail;
+    int cursor = s->readIndex;
     u32 count = 0;
 
-    if (curr != s->head) {
+    if (cursor != *(volatile u8 *)&s->writeIndex) {
         do {
-            if (s->queue[curr].unk00 == target) {
+            if (s->queue[cursor].kind == kind) {
                 count++;
             }
-            curr = (curr + 1) % 10;
-        } while (curr != s->head);
+            cursor = (cursor + 1) % 10;
+        } while (cursor != *(volatile u8 *)&s->writeIndex);
     }
     return count;
 }
 
-
-
-
-
-
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
- * Blocked at MATCH: all 60 concrete bytes are right; the runtime divide
- * resolves `runtime`, and the only open site is func_02028E48, whose sole
- * branch reference image-wide is this call.  src/pending/func_02028E48.c is
- * byte-correct and capped by the table at 0x0209FD90, so this file is capped
- * with it.
- *
- * field_sound_system.c: enqueue one twelve-byte command.  The ring is ten
- * slots at +0x28 with the write cursor in the byte at +0xA1; a slot whose
- * first word is non-zero is still occupied and the command is dropped.  The
- * cursor is read into a local before the filter call, which is what puts the
- * `ldrb` above the `bl` rather than after it.
- *
- * The copy is one aggregate assignment, `ldm`/`stm` of two words plus the
- * trailing word (docs/idioms/aggregate-assignment-is-ldm-stm.md), and the
- * cursor advance is a real `%`: the call to the runtime's signed divide
- * helper returns the remainder in r1, which is what gets stored back
- * (docs/idioms/runtime-helper-reloc.md).
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_02028E0C.c \
- *       --func func_02028E0C --addr 0x02028E0C --cc 1.1p1 --thumb
+ * Enqueues one request. A slot whose first word is non zero is still occupied
+ * and the request is dropped. The write index is read into a local before the
+ * filter call (puts the ldrb above the bl); the advance is a real %.
  */
-void func_02028E0C(struct Sys_02028E0C *s, struct SndCmd *cmd)
+void FIELD_SOUND_SYSTEM_EnqueueRequest(FieldSoundSystem *s, FieldSoundRequest *req)
 {
-    s32 n;
+    int writeIndex;
 
-    n = s->head;
-    if (func_02028E48((struct Sys_02028E48 *)s, cmd->unk00) == 0) {
+    writeIndex = s->writeIndex;
+    if (FIELD_SOUND_SYSTEM_IsRequestKindAccepted(s, req->kind) == 0) {
         return;
     }
-    if (s->queue[n].unk00 != 0) {
+    if (s->queue[writeIndex].kind != 0) {
         return;
     }
-    s->queue[n] = *cmd;
-    s->head = (n + 1) % 10;
+    s->queue[writeIndex] = *req;
+    s->writeIndex = (writeIndex + 1) % 10;
 }
-
-
-
-
 
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
- * Blocked at MATCH on one data address: all 56 concrete bytes are right and
- * func_02028D8C and func_02028FD0 both resolve, but the permission table at
- * 0x0209FD90 appears in exactly one literal pool image-wide, this function's
- * own at 0x02028E7C, so the `literal` class has no outside site.  The word at
- * 0x0209FD90 is zero, so nothing distinguishes the table's start from the run
- * of zeros before it either.  Closing this file would close
- * src/pending/func_02028E0C.c and src/pending/func_020289F8.c behind it.
- *
- * field_sound_system.c: decide whether a new command of class `kind` may be
- * accepted.  Two states are consulted in order, the class of the command the
- * ring is currently pointing at (func_02028D8C) and the class latched at
- * +0x1C; the first non-zero one indexes the 8-wide permission table at
- * 0x0209FD90 by (state, kind).  With neither set the decision falls through
- * to func_02028FD0.
- *
- * The table base is loaded from the pool separately in each arm: the two arms
- * are siblings, not a dominator and a dominated block, and mwccarm does not
- * share an address constant across them.
- *
- * Verified with:
- *   python tools/match.py tu --src src/pending/func_02028E48.c \
- *       --addr 0x02028E48 --thumb
- *
- * 2026-09-21, FAMILY wave.  Re-verified in a fresh process: still MATCH,
- * every concrete byte identical.  Evidence worked to exhaustion:
- *   - `--suggest-split` reports "witnesses image wide: 1, of them inside
- *     this range: 1"; a single-function file has nothing to cut against.
- *   - No sibling in field_sound_system.c (0x02028844..0x02029EB4) references
- *     the object: the only other listing hits are the rodata DEFINITION in
- *     asm/arm9/src/030_*.s, which is a referent, not a referrer.
- *   - sole-ref/data was probed directly.  in_data_section = True and the
- *     layout/data_objects.txt row IS an object start when the range is
- *     ignored, but `_map_attests(addr, lo, hi)` = False once the range is
- *     applied, because that row's sole referrer is this function's own pool
- *     word.  This is the documented "a lone reference never contributes its
- *     own start" rule firing correctly, not a tooling gap.
- * Declarations cross-checked against docs/families/field_sound_system.h.
+ * Decides whether a request of class kind is accepted. The class of the
+ * request at the ring (FIELD_SOUND_SYSTEM_GetCurrentRequest) is consulted first, then the latched
+ * mode; the first non zero one indexes the 8-wide table at 0x0209FD90 by
+ * (row, kind). With neither set, FIELD_SOUND_SYSTEM_IsKindAllowedInState decides. The table base is
+ * loaded in each arm (siblings, not a dominator).
  */
-u32 func_02028E48(struct Sys_02028E48 *s, u32 kind)
+u32 FIELD_SOUND_SYSTEM_IsRequestKindAccepted(FieldSoundSystem *s, u32 kind)
 {
-    u32 state;
+    u32 row;
 
-    state = func_02028D8C((struct Sys_02028D8C *)s)->unk00;
-    if (state != 0) {
-        return g_0209FD90[state][kind];
+    row = FIELD_SOUND_SYSTEM_GetCurrentRequest(s)->kind;
+    if (row != 0) {
+        return g_0209FD90[row][kind];
     }
-    state = s->unk1C;
-    if (state != 0) {
-        return g_0209FD90[state][kind];
+    row = s->mode;
+    if (row != 0) {
+        return g_0209FD90[row][kind];
     }
-    return func_02028FD0((struct SoundParam *)s, kind);
+    return FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, kind);
 }
 
-
-
-
-
-void func_02028E80(struct Sys_02028D8C *s)
+/* Removes the request at the read index. */
+void FIELD_SOUND_SYSTEM_DequeueRequest(FieldSoundSystem *s)
 {
-    s32 tail = s->tail;
+    int readIndex = s->readIndex;
 
-    if (func_02028DB8(s) != 0) {
-        s->queue[tail].unk00 = 0;
-        s->tail = (tail + 1) % 10;
+    if (FIELD_SOUND_SYSTEM_HasPendingRequest(s) != 0) {
+        s->queue[readIndex].kind = 0;
+        s->readIndex = (readIndex + 1) % 10;
     }
 }
 
-
-
-
-
-/*
- * Byte-correct, MATCH*-capped. NOT in the manifest; see src/pending/README.md.
- *
- * closed:   blocker func_02028D54.c is now a manifest entry (matched class)
- * Previously blocked at MATCH* on callees: func_02028F30 through func_02028FB8 reside in
- * unit_02028F18 (pkt_02028B50), but unit_02028F18's header only lists func_02028F18,
- * so the other internal functions have no external branch witness in the manifest.
- */
-void func_02028EAC(struct SoundParam2 *obj, struct SndCmd *cmd)
+/* Runs one request: kind n latches mode n. */
+void FIELD_SOUND_SYSTEM_ExecuteRequest(FieldSoundSystem *s, FieldSoundRequest *req)
 {
-    switch (cmd->unk00) {
+    switch (req->kind) {
     case 1:
-        func_02028F18(obj, cmd->unk0A);
+        FIELD_SOUND_SYSTEM_SetMode1(s, req->highParam);
         break;
     case 2:
-        func_02028F30((struct SoundParam2 *)((u8 *)obj), cmd->unk08);
+        FIELD_SOUND_SYSTEM_SetMode2(s, req->lowParam);
         break;
     case 3:
-        func_02028F48((struct SoundParam2 *)((u8 *)obj), cmd->unk08);
+        FIELD_SOUND_SYSTEM_SetMode3(s, req->lowParam);
         break;
     case 4:
-        func_02028F60((struct SoundParam2 *)((u8 *)obj), cmd->unk08, cmd->unk0A);
+        FIELD_SOUND_SYSTEM_SetMode4(s, req->lowParam, req->highParam);
         break;
     case 5:
-        func_02028F7C((struct SoundParam2 *)((u8 *)obj), cmd->unk04, cmd->unk08, cmd->unk0A);
+        FIELD_SOUND_SYSTEM_SetMode5(s, req->value, req->lowParam, req->highParam);
         break;
     case 6:
-        func_02028F9C((struct SoundParam2 *)((u8 *)obj), cmd->unk04, cmd->unk08);
+        FIELD_SOUND_SYSTEM_SetMode6(s, req->value, req->lowParam);
         break;
     case 7:
-        func_02028FB8((struct SoundParam2 *)((u8 *)obj), (u16)cmd->unk04);
+        FIELD_SOUND_SYSTEM_SetMode7(s, (u16)req->value);
         break;
     default:
         break;
     }
 }
 
-
-
-void func_02028F18(struct SoundParam2 *obj, u16 a1)
+void FIELD_SOUND_SYSTEM_SetMode1(FieldSoundSystem *s, u16 highParam)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 1)) {
-        obj->kind = 1;
-        obj->val18 = a1;
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, 1)) {
+        s->mode = 1;
+        s->highParam = highParam;
     }
 }
 
-
-
-void func_02028F30(struct SoundParam2 *obj, u16 a1)
+void FIELD_SOUND_SYSTEM_SetMode2(FieldSoundSystem *s, u16 lowParam)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 2)) {
-        obj->kind = 2;
-        obj->val1a = a1;
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, 2)) {
+        s->mode = 2;
+        s->lowParam = lowParam;
     }
 }
 
-
-
-void func_02028F48(struct SoundParam2 *obj, u16 a1)
+void FIELD_SOUND_SYSTEM_SetMode3(FieldSoundSystem *s, u16 lowParam)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 3)) {
-        obj->kind = 3;
-        obj->val1a = a1;
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, 3)) {
+        s->mode = 3;
+        s->lowParam = lowParam;
     }
 }
 
-
-
-void func_02028F60(struct SoundParam2 *obj, u16 a1, u16 a2)
+void FIELD_SOUND_SYSTEM_SetMode4(FieldSoundSystem *s, u16 lowParam, u16 highParam)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 4)) {
-        obj->kind = 4;
-        obj->val18 = a2;
-        obj->val1a = a1;
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, 4)) {
+        s->mode = 4;
+        s->highParam = highParam;
+        s->lowParam = lowParam;
     }
 }
 
-
-
-void func_02028F7C(struct SoundParam2 *obj, u32 a1, u16 a2, u16 a3)
+void FIELD_SOUND_SYSTEM_SetMode5(FieldSoundSystem *s, u32 value, u16 lowParam, u16 highParam)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 5)) {
-        obj->kind = 5;
-        obj->valC = a1;
-        obj->val18 = a3;
-        obj->val1a = a2;
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, 5)) {
+        s->mode = 5;
+        s->requestedValue = value;
+        s->highParam = highParam;
+        s->lowParam = lowParam;
     }
 }
 
-
-
-void func_02028F9C(struct SoundParam2 *obj, u32 a1, u16 a2)
+void FIELD_SOUND_SYSTEM_SetMode6(FieldSoundSystem *s, u32 value, u16 lowParam)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 6)) {
-        obj->kind = 6;
-        obj->valC = a1;
-        obj->val1a = a2;
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, 6)) {
+        s->mode = 6;
+        s->requestedValue = value;
+        s->lowParam = lowParam;
     }
 }
 
-
-
-void func_02028FB8(struct SoundParam2 *obj, u32 a1)
+void FIELD_SOUND_SYSTEM_SetMode7(FieldSoundSystem *s, u32 value)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 7)) {
-        obj->kind = 7;
-        obj->valC = a1;
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, 7)) {
+        s->mode = 7;
+        s->requestedValue = value;
     }
 }
 
-
-
-/*
- * Blocked: g_flagTable_0209FE1C is named by this function's one pool word
- * (0x02028FDC), which lies inside the compared range, so the `literal`
- * class discards it; the object is not a string and not a pointer table
- * (no outside witness for the `string` or `data_table` class either).
- * Every concrete byte reproduces.
- * 2026-09-21, FAMILY wave.  Re-verified in a fresh process: still MATCH,
- * every concrete byte identical.  Evidence worked to exhaustion:
- *   - `--suggest-split` reports "witnesses image wide: 1, of them inside
- *     this range: 1"; a single-function file has nothing to cut against.
- *   - No sibling in field_sound_system.c (0x02028844..0x02029EB4) references
- *     the object: the only other listing hits are the rodata DEFINITION in
- *     asm/arm9/src/030_*.s, which is a referent, not a referrer.
- *   - sole-ref/data was probed directly.  in_data_section = True and the
- *     layout/data_objects.txt row IS an object start when the range is
- *     ignored, but `_map_attests(addr, lo, hi)` = False once the range is
- *     applied, because that row's sole referrer is this function's own pool
- *     word.  This is the documented "a lone reference never contributes its
- *     own start" rule firing correctly, not a tooling gap.
- * Declarations cross-checked against docs/families/field_sound_system.h.
- */
-u32 func_02028FD0(struct SoundParam *obj, u32 kind)
+/* Is a request of class kind allowed in the current state (8 flags per state in g_flagTable_0209FE1C). */
+u32 FIELD_SOUND_SYSTEM_IsKindAllowedInState(FieldSoundSystem *s, u32 kind)
 {
-    const u8 *p = g_flagTable_0209FE1C + obj->group * 8;
-    return p[kind];
+    const u8 *flags = g_flagTable_0209FE1C + s->state * 8;
+    return flags[kind];
 }
 
-
-
-void func_02028FE0(struct T_02028FE0 *p)
+/* Entry 0 of the mode handler table g_020A7554: a Thumb switch on the latched mode. */
+void FIELD_SOUND_SYSTEM_HandleModeState0(FieldSoundSystem *s)
 {
-    switch (p->f1c) {
+    switch (s->mode) {
     case 0:
     case 1:
     case 2:
     case 3:
         break;
     case 4:
-        func_020293D8((struct T *)p);
-        func_02029374((u8 *)p);
-        func_02029344(p, 7);
+        FIELD_SOUND_SYSTEM_PopBgm(s);
+        FIELD_SOUND_SYSTEM_FadeInCurrentBgm(s);
+        FIELD_SOUND_SYSTEM_SetState(s, 7);
         break;
     case 5:
-        func_02029344(p, 8);
+        FIELD_SOUND_SYSTEM_SetState(s, 8);
         break;
     case 6:
-        func_02029344(p, 0xd);
+        FIELD_SOUND_SYSTEM_SetState(s, 0xd);
         break;
     case 7:
-        func_0202945C((u8 *)p);
-        func_02029344(p, 1);
-        func_02029364((u8 *)p);
+        FIELD_SOUND_SYSTEM_PlayRequestedBgmNow(s);
+        FIELD_SOUND_SYSTEM_SetState(s, 1);
+        FIELD_SOUND_SYSTEM_FinishRequest(s);
         break;
     }
 }
 
-
-
-/*
- * A Thumb `add pc, r0` switch on p->f1c with eight arms, the twin of
- * func_02028FE0 in the same packet.  Every callee takes the object pointer,
- * which is why the switch index lives in r1 and r0 keeps holding p.
- */
-void func_02029040(struct T_02029040 *p)
+/* Entry 1 of g_020A7554: an eight arm switch (add pc, r0) on the mode. Every callee takes the object, so the index lives in r1. */
+void FIELD_SOUND_SYSTEM_HandleModeState1(FieldSoundSystem *s)
 {
-    switch (p->f1c) {
+    switch (s->mode) {
     case 0:
         break;
     case 1:
-        func_02029354((int)p);
+        FIELD_SOUND_SYSTEM_DiscardRequest(s);
         break;
     case 2:
-        func_0202938C((u8 *)p);
-        func_02029344(p, 3);
+        FIELD_SOUND_SYSTEM_FadeOutCurrentBgm(s);
+        FIELD_SOUND_SYSTEM_SetState(s, 3);
         break;
     case 3:
-        func_0202938C((u8 *)p);
-        func_02029344(p, 5);
+        FIELD_SOUND_SYSTEM_FadeOutCurrentBgm(s);
+        FIELD_SOUND_SYSTEM_SetState(s, 5);
         break;
     case 4:
-        func_0202938C((u8 *)p);
-        func_02029344(p, 6);
+        FIELD_SOUND_SYSTEM_FadeOutCurrentBgm(s);
+        FIELD_SOUND_SYSTEM_SetState(s, 6);
         break;
     case 5:
-        if (p->f0c == p->f08) {
-            func_02029354((int)p);
+        if (s->requestedValue == s->currentValue) {
+            FIELD_SOUND_SYSTEM_DiscardRequest(s);
         } else {
-            func_0202938C((u8 *)p);
-            func_02029344(p, 8);
+            FIELD_SOUND_SYSTEM_FadeOutCurrentBgm(s);
+            FIELD_SOUND_SYSTEM_SetState(s, 8);
         }
         break;
     case 6:
-        if (p->f0c == p->f08) {
-            func_02029354((int)p);
+        if (s->requestedValue == s->currentValue) {
+            FIELD_SOUND_SYSTEM_DiscardRequest(s);
         } else {
-            func_0202938C((u8 *)p);
-            func_02029344(p, 0xd);
+            FIELD_SOUND_SYSTEM_FadeOutCurrentBgm(s);
+            FIELD_SOUND_SYSTEM_SetState(s, 0xd);
         }
         break;
     case 7:
-        if (p->f0c == p->f08) {
-            func_02029354((int)p);
+        if (s->requestedValue == s->currentValue) {
+            FIELD_SOUND_SYSTEM_DiscardRequest(s);
         } else {
-            func_0202945C((u8 *)p);
-            func_02029344(p, 1);
-            func_02029364((u8 *)p);
+            FIELD_SOUND_SYSTEM_PlayRequestedBgmNow(s);
+            FIELD_SOUND_SYSTEM_SetState(s, 1);
+            FIELD_SOUND_SYSTEM_FinishRequest(s);
         }
         break;
     }
 }
 
-
-
-void func_020290F0(u8 *p)
+/* Entry 2 of g_020A7554. */
+void FIELD_SOUND_SYSTEM_HandleModeState2(FieldSoundSystem *s)
 {
-    switch (((struct Obj16754 *)p)->f1C) {
+    switch (s->mode) {
     case 0:
         break;
     case 1:
-        func_02029374(p);
-        func_02029344(p, 4);
+        FIELD_SOUND_SYSTEM_FadeInCurrentBgm(s);
+        FIELD_SOUND_SYSTEM_SetState(s, 4);
         break;
     case 7:
-        func_0202945C(p);
-        func_02029344(p, 1);
-        func_02029364(p);
+        FIELD_SOUND_SYSTEM_PlayRequestedBgmNow(s);
+        FIELD_SOUND_SYSTEM_SetState(s, 1);
+        FIELD_SOUND_SYSTEM_FinishRequest(s);
         break;
     }
 }
 
-
-void func_02029128(void);
-
-void func_02029128(void)
+/* Entries 3 to 7 of g_020A7554: states with no mode handling. */
+void FIELD_SOUND_SYSTEM_HandleModeState3(void)
 {
 }
 
-
-void func_0202912C(void);
-
-void func_0202912C(void)
+void FIELD_SOUND_SYSTEM_HandleModeState4(void)
 {
 }
 
-
-void func_02029130(void);
-
-void func_02029130(void)
+void FIELD_SOUND_SYSTEM_HandleModeState5(void)
 {
 }
 
-
-void func_02029134(void);
-
-void func_02029134(void)
+void FIELD_SOUND_SYSTEM_HandleModeState6(void)
 {
 }
 
-
-void func_02029138(void);
-
-void func_02029138(void)
+void FIELD_SOUND_SYSTEM_HandleModeState7(void)
 {
 }

@@ -3,7 +3,7 @@
  * address:  0x0201BB5C
  * note:     224 bytes, two functions
  * packet:   pkt_0201BB5C
- * function: sub_0201BB5C, sub_0201BBE8
+ * function: POKE_TOOL_CalcIconPalette, POKE_TOOL_GetIconPalette
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
@@ -13,7 +13,7 @@
  *
  * The nibble-table twin of src/matched/unit_0201BA68.c: the same egg and
  * alternate-form index arithmetic, indexing a packed table of two four bit
- * values per entry instead of an archive.  sub_0201BBE8 unpacks the four
+ * values per entry instead of an archive.  POKE_TOOL_GetIconPalette unpacks the four
  * inputs out of a Pokemon record, bracketed by the func_02017DBC /
  * func_02017DE4 pair, and hands them over.
  *
@@ -33,8 +33,8 @@
  * data object, so the site now resolves as `sole-ref` and the unit is EXACT.
  * The old "WHY IT IS CAPPED" reading below is kept only as history.
  *
- * The cut between this pair and sub_0201BA68/sub_0201BABC is what let those
- * two land EXACT.  sub_0201BB5C is reached only from 0x0201BC34, inside this
+ * The cut between this pair and POKE_TOOL_GetGraphicIndex/POKE_TOOL_CalcGraphicIndex is what let those
+ * two land EXACT.  POKE_TOOL_CalcIconPalette is reached only from 0x0201BC34, inside this
  * range, so that call is the `local` class and needs no evidence.
  *
  * ---------------------------------------------------------------------------
@@ -60,7 +60,7 @@
  * loses the `ands`.
  *
  * symbols:
- *   g_0209E474  0x0209E474  data
+ *   _IconPaletteTable  0x0209E474  data
  *
  * Verified with
  *   python tools/match.py tu --src src/pending/unit_0201BB5C.c \
@@ -78,9 +78,9 @@ extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *mon, u32 id, u32 v);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 
-extern const u8 g_0209E474[];
+extern const u8 _IconPaletteTable[];
 
-u32 sub_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg)
+u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg)
 {
     u32 first;
     u32 hidden;
@@ -102,12 +102,12 @@ u32 sub_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg)
         }
     }
     if (half != 0) {
-        return (u8)((g_0209E474[idx] & 0xF0) >> 4);
+        return (u8)((_IconPaletteTable[idx] & 0xF0) >> 4);
     }
-    return (u8)(g_0209E474[idx] & 0xF);
+    return (u8)(_IconPaletteTable[idx] & 0xF);
 }
 
-u32 sub_0201BBE8(void *mon)
+u32 POKE_TOOL_GetIconPalette(void *mon)
 {
     u32 save;
     u32 species;
@@ -121,5 +121,5 @@ u32 sub_0201BBE8(void *mon)
     gender = func_02017E88(mon, 0x6E, 0);
     isEgg = func_02017E88(mon, 0x4C, 0);
     func_02017DE4(mon, save);
-    return sub_0201BB5C(species, form, gender, isEgg);
+    return POKE_TOOL_CalcIconPalette(species, form, gender, isEgg);
 }

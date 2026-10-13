@@ -20,12 +20,12 @@
  *   func_0207ECF0 0x0207ECF0 arm
  *   func_0207E100 0x0207E100 arm
  *   func_02082A7C 0x02082A7C arm
- *   func_0207C778 0x0207C778 arm
+ *   FX_Inv 0x0207C778 arm
  *   func_0207D59C 0x0207D59C arm
  *   func_0202EB14 0x0202EB14 thumb
  *
  * note 2026-10-05 (wD9 lane06): EXACT. The last 4-byte residue (m[3] store and
- *   `movs r5,#0` swapped) closed with the two func_0207C778 calls and m[0]/m[3]
+ *   `movs r5,#0` swapped) closed with the two FX_Inv calls and m[0]/m[3]
  *   stores written in each arm of `if (q->f20 == 1)` with literal 0x2000/0x1000.
  *   Cross-jumping merges the two arms into one tail (movs r5,#1/#2 then a shared
  *   lsls), so the join label sits after the m[3] store and the zero for m[1], m[2]
@@ -80,7 +80,7 @@ extern void func_020862F0(void *p, u32 n);
 extern void func_0207ECF0(const void *src, u32 off, u32 size);
 extern void *func_0207E100(void);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
-extern int func_0207C778(int);
+extern int FX_Inv(int);
 extern void func_0207D59C(void *, int *, int, int, int, int);
 extern int func_0202EB14(void);
 
@@ -144,11 +144,11 @@ void func_021B71B8(void *p, Q *q)
             if (q->f20 != func_021BE078(p)) {
                 q->f20 = func_021BE078(p);
                 if (q->f20 == 1) {
-                    m[0] = func_0207C778(0x2000);
-                    m[3] = func_0207C778(0x2000);
+                    m[0] = FX_Inv(0x2000);
+                    m[3] = FX_Inv(0x2000);
                 } else {
-                    m[0] = func_0207C778(0x1000);
-                    m[3] = func_0207C778(0x1000);
+                    m[0] = FX_Inv(0x1000);
+                    m[3] = FX_Inv(0x1000);
                 }
                 m[1] = 0;
                 m[2] = 0;

@@ -13,15 +13,15 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203D5D4 0x0203D5D4 arm
- *   func_02010848 0x02010848 thumb
+ *   GFL_NET_GetGameKind 0x0203D5D4 arm
+ *   WIH_DWC_GetAlertLevel 0x02010848 thumb
  *   func_0208EE9C 0x0208EE9C arm
- *   func_02178E68  0x02178E68  thumb  ov014
- *   func_02177EDC  0x02177EDC  thumb  ov014
- *   func_02178034  0x02178034  thumb  ov014
- *   func_021780E4  0x021780E4  thumb  ov014
- *   g_021797A4     0x021797A4  data   a4
- *   d_02179780     0x02179780  data   a1
+ *   DWCi_MOV_WH_GetLastError  0x02178E68  thumb  ov014
+ *   NET_WHPIPE_SetAcceptChild  0x02177EDC  thumb  ov014
+ *   NET_WHPIPE_StartAutoSearch  0x02178034  thumb  ov014
+ *   NET_WHPIPE_StartJoinLock  0x021780E4  thumb  ov014
+ *   g_pWhPipeWork  0x021797A4  data   a4
+ *   sFileNetWhPipe 0x02179780  data   a1
  *   func_02030734  0x02030734  arm
  *   func_0203D798  0x0203D798  arm
  *   func_0208F1B4  0x0208F1B4  arm
@@ -31,99 +31,38 @@
  *   func_0203EFC8  0x0203EFC8  arm
  *   func_02082D44  0x02082D44  arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0217933C  0x0217933C  thumb  ov014
+ *   DWCi_MOV_WH_SetReceiver  0x0217933C  thumb  ov014
  *   func_02178E4C  0x02178E4C  thumb  ov014
- *   func_021785B4  0x021785B4  thumb  ov014
+ *   DWCi_MOV_WH_StartScan  0x021785B4  thumb  ov014
  *   func_02179498  0x02179498  thumb  ov014
- *   func_0217945C  0x0217945C  thumb  ov014
+ *   DWCi_MOV_WH_StateInEndKeyShare  0x0217945C  thumb  ov014
  *   func_020307B0 0x020307B0 arm
  *   func_0203CD98  0x0203CD98  arm
  *   func_02088234  0x02088234  arm
- *   func_02177D58  0x02177D58  thumb  ov014
- *   d_02179790     0x02179790  data   a4
+ *   NET_WHPIPE_SetBeaconGameInfo  0x02177D58  thumb  ov014
+ *   sEmptyString   0x02179790  data   a4
  *   func_02034714  0x02034714  arm
- *   func_021795A4  0x021795A4  thumb  ov014
+ *   WIH_GetOwnAid  0x021795A4  thumb  ov014
  *   func_02179570  0x02179570  thumb  ov014
- *   func_0203D720  0x0203D720  arm
- *   func_0203D754  0x0203D754  arm
- *   func_02177C1C  0x02177C1C  thumb
- *   func_02179664  0x02179664  thumb
- *   func_021793F8  0x021793F8  thumb
+ *   GFL_NET_CallErrorStateFunc  0x0203D720  arm
+ *   GFL_NET_CallStateChangeFunc  0x0203D754  arm
+ *   NET_WHPIPE_IsStateScanning  0x02177C1C  thumb
+ *   WIH_SetScanTimerPaused  0x02179664  thumb
+ *   WIH_UpdateScanTimer  0x021793F8  thumb
  *   func_02178E38  0x02178E38  thumb  ov014
- *   ctrdgi_task_work 0x021797a4 data
- *   d_021797A4  0x021797A4  data  ov014  a4
  */
-#include "../../matched/include/Obj05921.h"
-#include "../../matched/include/Obj19326.h"
-#include "../../matched/include/Obj03087.h"
-#include "../../matched/include/Obj05922.h"
-#include "../../matched/include/Obj19327.h"
-#include "../../matched/include/Obj04174.h"
-#include "../../matched/include/Obj07353.h"
-#include "../../matched/include/Obj19328.h"
-#include "../../matched/include/Obj07354.h"
-#include "../../matched/include/Obj09380.h"
-#include "../../matched/include/Obj09381.h"
-#include "../../matched/include/Obj04955.h"
-#include "../../matched/include/Obj19331.h"
-#include "../../matched/include/Obj02358.h"
+#include "../arm9/net_whpipe_types.h"
+#define OFFSETOF(type, field) ((u32)&((type *)0)->field)
 
-typedef unsigned short u16;
+typedef int BOOL;
 
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
-typedef struct Ent {
-    u8 b0[4];
-    u8 mac[6];
-    u8 rest[0xC0 - 10];
-} Ent;
-
-typedef struct W {
-    u8 pad0[8];
-    Ent ent[16];
-    u8 pad1[0x38];
-    u16 age[16];
-    u8 pad2[0xAF - 0x20];
-    u8 flag;
-} W;
-
-typedef int (*CheckFn)(u8 a, u8 b, u32 c);
-
-typedef void (*NotifyFn)(u32 a, u8 *obj, u32 b, u32 c);
-
-typedef signed int     s32;
-
-typedef int (*SizeFn)(u32 a);
-
-typedef u32 (*DataFn)(u32 a);
-
-typedef struct Head Head;
-
-struct Head {
-    void (*fn)(Head *);
-};
-
-typedef struct {
-    u8 pad0[4];
-    u8 kind;
-    u8 pad5[3];
-    u8 rec[4];
-} Sub;
-
-typedef struct {
-    u8 pad0[0x50];
-    Sub sub;
-} S;
-
-extern u32 func_0203D5D4(void);
-extern u16 func_02010848(void);
+extern u32 GFL_NET_GetGameKind(void);
+extern u16 WIH_DWC_GetAlertLevel(void);
 extern int func_0208EE9C(void);
-int func_02178E68(void);
-extern void func_02177EDC(int a);
-extern int func_02178034(void);
-extern void func_021780E4(int a);
+int DWCi_MOV_WH_GetLastError(void);
+extern void NET_WHPIPE_SetAcceptChild(int a);
+extern int NET_WHPIPE_StartAutoSearch(void);
+extern void NET_WHPIPE_StartJoinLock(int a);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0203D798(void);
 extern u16 func_0208F1B4(void);
@@ -133,78 +72,78 @@ u16 func_0203F1FC(const u8 *src, u32 len);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_02082D44(void *src, void *dst, int n);
 extern void func_02082BCC(void *, u32, u32);
-extern void func_0217933C(void *cb);
+extern void DWCi_MOV_WH_SetReceiver(void *cb);
 extern int func_02178E4C(void);
-extern int func_021785B4(u32 a, u16 *b, u32 c);
+extern int DWCi_MOV_WH_StartScan(u32 a, u16 *b, u32 c);
 extern int func_02179498(void);
-extern void func_0217945C(void);
+extern void DWCi_MOV_WH_StateInEndKeyShare(void);
 extern u32 func_020307B0(void *p);
 extern int func_0203CD98(void);
 extern void func_02088234(void);
-extern void func_02177D58(u8 *buf, u32 len);
+extern void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-unsigned short func_021795A4(void);
+unsigned short WIH_GetOwnAid(void);
 int func_02179570(void (*cb)(int));
-void func_0203D720(u32 a);
-void func_0203D754(u32 a);
-int func_02177C1C(void);
-void func_02179664(unsigned char v);
-void func_021793F8(void);
+void GFL_NET_CallErrorStateFunc(u32 a);
+void GFL_NET_CallStateChangeFunc(u32 a);
+int NET_WHPIPE_IsStateScanning(void);
+void WIH_SetScanTimerPaused(unsigned char v);
+void WIH_UpdateScanTimer(void);
 extern u16 func_02178E38(void);
-int func_0217721C(void);
-int func_0217723C(void);
-void func_0217725C(unsigned char v);
-void func_02177264(int a);
-int func_0217726C(void);
-void func_02177274(int a);
-void func_0217727C(u32 *p, u32 v);
-int func_02177280(int a, int b, u32 c, int d);
-void func_02177310(u32 v);
-int func_0217731C(u8 *obj);
-int func_021773E0(u8 *p);
-int func_02177494(u8 *obj, u32 flags);
-void func_02177560(void);
-void func_0217758C(u8 *p);
-int func_021775AC(int a, int b, int c);
-int func_021775BC(int arg);
-void func_02177614(u8 *p);
-void func_02177660(u8 *p);
-int func_021776C4(void);
-void func_02177704(void);
-int func_0217771C(u8 *obj);
-void func_02177744(void);
-void func_0217778C(void);
-void func_021777FC(void);
-void func_02177888(u32 arg);
-void func_0217796C(u32 arg);
-int func_021779F4(void);
-int func_02177A34(u16 n);
-int func_02177A74(void);
-int CTRDGi_IsTaskAvailable(void);
-int func_02177AA8(void);
-unsigned int func_02177ACC(void);
-int func_02177AEC(void);
-void func_02177B0C(u8 v);
-u8 *func_02177B2C(int i);
-u8 *func_02177B58(int i);
-u8 func_02177B80(int i);
-void func_02177BAC(u32 idx);
-void func_02177BCC(void);
-void func_02177BF4(unsigned int idx);
-u8 *func_02177BFC(S *a0, u8 *out);
-extern u8 *g_021797A4;
-extern char d_02179780[];
-extern u8 d_02179790[];
-extern void *ctrdgi_task_work;
-extern u8 *d_021797A4;
+int GFL_NET_DEVWIRELESS_GetSignalLevel(void);
+int GFL_NET_DEVWIRELESS_GetLastErrorCode(void);
+void GFL_NET_DEVWIRELESS_SetWatchDisconnect(unsigned char watch);
+void GFL_NET_DEVWIRELESS_SetAcceptChild(int accept);
+int GFL_NET_DEVWIRELESS_StartAutoSearch(void);
+void GFL_NET_DEVWIRELESS_StartJoinLock(int frames);
+void NET_WHPIPE_SetTask(WhPipeWork *work, WhPipeTask task);
+int NET_WHPIPE_Create(int heapId, int wmParam, u32 userData, int forListening);
+void NET_WHPIPE_SetEventCallback(int (*callback)(int a, int b, int c));
+int NET_WHPIPE_IsBeaconAcceptable(WhPipeEntry *entry);
+int NET_WHPIPE_StoreScannedEntry(WhPipeEntry *entry);
+int NET_WHPIPE_CheckBeaconFlags(WhPipeEntry *entry, u32 flags);
+void NET_WHPIPE_ClearEntries(void);
+void NET_WHPIPE_ResetState(WhPipeWork *work);
+int NET_WHPIPE_ForwardEvent(int a, int b, int c);
+int NET_WHPIPE_StartScan(int clearEntries);
+void NET_WHPIPE_TaskBeginFinalize(WhPipeWork *work);
+void NET_WHPIPE_TaskWaitFinalize(WhPipeWork *work);
+int NET_WHPIPE_RequestFinalize(void);
+void NET_WHPIPE_Destroy(void);
+int NET_WHPIPE_NotifyEntryAcceptable(WhPipeEntry *entry);
+void NET_WHPIPE_TickEntryAges(void);
+void NET_WHPIPE_PublishBeacon(void);
+void NET_WHPIPE_RefreshBeacon(void);
+void NET_WHPIPE_UpdateState(u32 tick);
+void NET_WHPIPE_Update(u32 tick);
+int NET_WHPIPE_IsConnected(void);
+int NET_WHPIPE_IsAidConnected(u16 aid);
+int NET_WHPIPE_GetConnectedNum(void);
+int NET_WHPIPE_IsWorkAllocated(void);
+int NET_WHPIPE_IsIdle(void);
+unsigned int NET_WHPIPE_GetChildBitmap(void);
+int NET_WHPIPE_IsDisconnectDetected(void);
+void NET_WHPIPE_SetWatchDisconnect(u8 watch);
+u8 *NET_WHPIPE_GetEntryBeaconData(int index);
+u8 *NET_WHPIPE_GetEntryBssid(int index);
+u8 NET_WHPIPE_GetEntryBeaconKind(int index);
+void NET_WHPIPE_ReleaseEntrySlot(u32 index);
+void NET_WHPIPE_ReleaseAllEntrySlots(void);
+void NET_WHPIPE_ReleaseEntry(unsigned int index);
+u8 *NET_WHPIPE_GetEntryBeacon(WhPipeEntry *entry, u8 *outKind);
+extern WhPipeWork *g_pWhPipeWork;
+extern char sFileNetWhPipe[];
+extern u8 sEmptyString[];
 
 
 /*
+ * Device table entries that belong to net_devwireless.c (they sit before the
+ * __FILE__ anchor of net_whpipe.c); see misplaced.tsv.
  * extent: two zero alignment bytes at 0217723A; existing code starts 0217723C.
  */
-int func_0217721C(void)
+int GFL_NET_DEVWIRELESS_GetSignalLevel(void)
 {
-    if (func_0203D5D4() == 3) return 3 - func_02010848();
+    if (GFL_NET_GetGameKind() == 3) return 3 - WIH_DWC_GetAlertLevel();
     return 3 - func_0208EE9C();
 }
 
@@ -214,51 +153,39 @@ int func_0217721C(void)
  * Normalises a queried mode: 5 maps to 0, and a zero mode with the predicate
  * set maps to 0x14.
  */
-int func_0217723C(void)
+int GFL_NET_DEVWIRELESS_GetLastErrorCode(void)
 {
-    int r4 = func_02178E68();
+    int code = DWCi_MOV_WH_GetLastError();
 
-    if (r4 == 5)
-        r4 = 0;
-    if (func_02177AEC() != 0 && r4 == 0)
-        r4 = 0x14;
-    return r4;
+    if (code == 5)
+        code = 0;
+    if (NET_WHPIPE_IsDisconnectDetected() != 0 && code == 0)
+        code = 0x14;
+    return code;
 }
 
 
-void func_0217725C(unsigned char v)
+void GFL_NET_DEVWIRELESS_SetWatchDisconnect(unsigned char watch)
 {
-    func_02177B0C(v);
+    NET_WHPIPE_SetWatchDisconnect(watch);
 }
 
 
-void func_02177264(int a)
+void GFL_NET_DEVWIRELESS_SetAcceptChild(int accept)
 {
-    func_02177EDC(a);
+    NET_WHPIPE_SetAcceptChild(accept);
 }
 
 
-int func_0217726C(void)
+int GFL_NET_DEVWIRELESS_StartAutoSearch(void)
 {
-    return func_02178034();
+    return NET_WHPIPE_StartAutoSearch();
 }
 
 
-void func_02177274(int a)
+void GFL_NET_DEVWIRELESS_StartJoinLock(int frames)
 {
-    func_021780E4(a);
-}
-
-
-
-
-
-
-
-
-void func_0217727C(u32 *p, u32 v)
-{
-    *p = v;
+    NET_WHPIPE_StartJoinLock(frames);
 }
 
 
@@ -268,25 +195,37 @@ void func_0217727C(u32 *p, u32 v)
 
 
 
-int func_02177280(int a, int b, u32 c, int d)
+void NET_WHPIPE_SetTask(WhPipeWork *work, WhPipeTask task)
 {
-    u8 *st;
-    u8 *w;
+    work->task = task;
+}
+
+
+
+
+
+
+
+
+int NET_WHPIPE_Create(int heapId, int wmParam, u32 userData, int forListening)
+{
+    WhPipeNetInit *init;
+    WhPipeWork *work;
 
     func_0203D798();
-    st = func_0203D798();
-    if (g_021797A4 != 0)
+    init = func_0203D798();
+    if (g_pWhPipeWork != 0)
         return 0;
-    w = func_02030734(a, 0xCF8, 1, d_02179780, 0xed);
-    g_021797A4 = w;
-    w[0xCE6] = 0xff;
-    if (func_021790E4(a, b, d) == 0)
+    work = func_02030734(heapId, 0xCF8, 1, sFileNetWhPipe, 0xed);
+    g_pWhPipeWork = work;
+    work->channel = 0xff;
+    if (func_021790E4(heapId, wmParam, forListening) == 0)
         return 0;
-    func_02178E1C(((struct Obj19326 *)st)->f50);
-    ((struct Obj05921 *)w)->fC64 = c;
-    w[0xCE7] = 0;
-    w[0xCE4] = 0;
-    ((struct Obj05921 *)w)->fC68 = func_0208F1B4();
+    func_02178E1C(init->ggid);
+    work->userData = userData;
+    work->shutdownRequest = 0;
+    work->startedFlag = 0;
+    work->tgid = func_0208F1B4();
     return 1;
 }
 
@@ -297,9 +236,9 @@ int func_02177280(int a, int b, u32 c, int d)
 
 
 
-void func_02177310(u32 v)
+void NET_WHPIPE_SetEventCallback(int (*callback)(int a, int b, int c))
 {
-    *(u32 *)(*(u32 *)0x021797A4 + 4) = v;
+    g_pWhPipeWork->eventCallback = callback;
 }
 
 
@@ -309,158 +248,126 @@ void func_02177310(u32 v)
 
 
 
-int func_0217731C(u8 *obj)
+/* Checks a scanned parent's beacon against our own init block; 1 when we may list it. */
+int NET_WHPIPE_IsBeaconAcceptable(WhPipeEntry *entry)
 {
-    u8 *base = g_021797A4;
-    u8 *st = func_0203D798();
-    u8 *p;
-    int v67;
-    u16 v50;
-    CheckFn fn;
-    NotifyFn nf;
+    WhPipeWork *work = g_pWhPipeWork;
+    WhPipeNetInit *init = func_0203D798();
+    WhPipeBeacon *beacon;
+    int gameKind;
+    u16 ggid;
+    WhPipeBeaconCompareFunc compare;
+    WhPipeNotifyFunc notify;
 
-    v67 = st[0x67];
-    v50 = ((struct Obj05922 *)st)->f50;
-    p = obj + 0x50;
-    if (p[7] != 0)
+    gameKind = init->gameKind;
+    ggid = init->ggid;
+    beacon = &entry->beacon;
+    if (beacon->status != 0)
         return 0;
-    if (p[5] != 0)
+    if (beacon->reserved != 0)
         return 0;
-    if (((struct Obj03087 *)p)->f0 != func_0203F1FC(p + 2, 0x6e))
+    if (beacon->checksum != func_0203F1FC((u8 *)beacon + 2, 0x6e))
         return 0;
-    if (((struct Obj03087 *)p)->f2 != v50)
+    if (beacon->ggid != ggid)
         return 0;
-    nf = *(NotifyFn *)(g_021797A4 + 0xC38);
-    if (nf != 0)
-        nf(*(u32 *)(g_021797A4 + 0xC3C), obj, p[4], p[6]);
-    fn = *(CheckFn *)&((struct Obj05922 *)st)->f20;
-    if (fn != 0) {
-        if (fn(v67, p[4], ((struct Obj19327 *)base)->fC64) == 0)
+    notify = g_pWhPipeWork->notifyFn;
+    if (notify != 0)
+        notify(g_pWhPipeWork->notifyArg, entry, beacon->kind, beacon->connectedNum);
+    compare = init->compareBeacon;
+    if (compare != 0) {
+        if (compare(gameKind, beacon->kind, work->userData) == 0)
             return 0;
-    } else if (v67 != p[4]) {
+    } else if (gameKind != beacon->kind) {
         return 0;
     }
-    if (v67 != 0x14 && p[6] >= st[0x60] && st[0x60] > 1)
+    if (gameKind != 0x14 && beacon->connectedNum >= init->maxConnectNum && init->maxConnectNum > 1)
         return 0;
     return 1;
 }
 
 
-
-
-
-
-int func_021773E0(u8 *p)
+/* Scan callback: files an acceptable parent in the entry table, refreshing the slot of a known bssid. */
+int NET_WHPIPE_StoreScannedEntry(WhPipeEntry *entry)
 {
     int i;
-    W *base = (W *)g_021797A4;
+    WhPipeWork *work = g_pWhPipeWork;
 
     func_0203D798();
-    if (func_0217731C(p) == 0)
+    if (NET_WHPIPE_IsBeaconAcceptable(entry) == 0)
         return 0;
-    for (i = 0; i < 16; i++) {
-        if (base->age[i] != 0 && func_0203EFC8(base->ent[i].mac, p + 4, 6) == 0) {
-            base->age[i] = 600;
-            func_02082D44(p, &base->ent[i], 0xC0);
+    for (i = 0; i < WHPIPE_ENTRY_MAX; i++) {
+        if (work->entryAge[i] != 0 && func_0203EFC8(work->entry[i].bssid, entry->bssid, 6) == 0) {
+            work->entryAge[i] = WHPIPE_ENTRY_LIFETIME;
+            func_02082D44(entry, &work->entry[i], 0xC0);
             return 1;
         }
     }
-    for (i = 0; i < 16; i++) {
-        if (base->age[i] == 0)
+    for (i = 0; i < WHPIPE_ENTRY_MAX; i++) {
+        if (work->entryAge[i] == 0)
             break;
     }
-    if (i >= 16)
+    if (i >= WHPIPE_ENTRY_MAX)
         return 0;
-    base->age[i] = 600;
-    func_02082D44(p, &base->ent[i], 0xC0);
-    base->flag = 1;
+    work->entryAge[i] = WHPIPE_ENTRY_LIFETIME;
+    func_02082D44(entry, &work->entry[i], 0xC0);
+    work->entryListChanged = 1;
     return 1;
 }
 
 
-
-
-
-
-
-
-
-
-
-int func_02177494(u8 *obj, u32 flags)
+/* Same tests as NET_WHPIPE_IsBeaconAcceptable, but only those selected by flags (WHPIPE_CHECK_*) and without the notify call. */
+int NET_WHPIPE_CheckBeaconFlags(WhPipeEntry *entry, u32 flags)
 {
-    u8 *base = g_021797A4;
-    u8 *st = func_0203D798();
-    int v67 = st[0x67];
-    u16 v50 = ((struct Obj07353 *)st)->f50;
-    u8 *p = obj + 0x50;
-    CheckFn fn;
+    WhPipeWork *work = g_pWhPipeWork;
+    WhPipeNetInit *init = func_0203D798();
+    int gameKind = init->gameKind;
+    u16 ggid = init->ggid;
+    WhPipeBeacon *beacon = &entry->beacon;
+    WhPipeBeaconCompareFunc compare;
 
-    if ((flags & 1) && p[7] != 0)
+    if ((flags & WHPIPE_CHECK_STATUS) && beacon->status != 0)
         return 0;
-    if ((flags & 2) && p[5] != 0)
+    if ((flags & WHPIPE_CHECK_RESERVED) && beacon->reserved != 0)
         return 0;
-    if ((flags & 4) && ((struct Obj04174 *)p)->f0 != func_0203F1FC(p + 2, 0x6e))
+    if ((flags & WHPIPE_CHECK_CHECKSUM) && beacon->checksum != func_0203F1FC((u8 *)beacon + 2, 0x6e))
         return 0;
-    if ((flags & 8) && ((struct Obj04174 *)p)->f2 != v50)
+    if ((flags & WHPIPE_CHECK_GGID) && beacon->ggid != ggid)
         return 0;
-    if (flags & 0x10) {
-        fn = *(CheckFn *)&((struct Obj07353 *)st)->f20;
-        if (fn != 0) {
-            if (fn(v67, p[4], ((struct Obj19328 *)base)->fC64) == 0)
+    if (flags & WHPIPE_CHECK_KIND) {
+        compare = init->compareBeacon;
+        if (compare != 0) {
+            if (compare(gameKind, beacon->kind, work->userData) == 0)
                 return 0;
-        } else if (v67 != p[4]) {
+        } else if (gameKind != beacon->kind) {
             return 0;
         }
     }
-    if ((flags & 0x20) && p[6] >= st[0x60])
+    if ((flags & WHPIPE_CHECK_MEMBERS) && beacon->connectedNum >= init->maxConnectNum)
         return 0;
     return 1;
 }
 
 
-
-
-
-
-
-
-
-
-void func_02177560(void)
+void NET_WHPIPE_ClearEntries(void)
 {
-    u8 *p = g_021797A4;
+    WhPipeWork *work = g_pWhPipeWork;
     int i;
-    for (i = 0; i < 16; i++) *(u16 *)(p + i*2 + 0xC40) = 0;
-    func_02082BCC(p + 8, 0, 0xC00);
+
+    for (i = 0; i < WHPIPE_ENTRY_MAX; i++)
+        work->entryAge[i] = 0;
+    func_02082BCC(work->entry, 0, 0xC00);
 }
 
 
-
-
-
-
-
-
-
-
-void func_0217758C(u8 *p)
+void NET_WHPIPE_ResetState(WhPipeWork *work)
 {
-    p[0xCEA] = 0;
-    p[0xCEF] = 0;
-    p[0xCEB] = 0;
-    p[0xCEC] = 0;
-    p[0xCE9] = 0;
-    p[0xCE8] = 0;
+    work->beaconStatus = 0;
+    work->entryListChanged = 0;
+    work->disconnectDetected = 0;
+    work->watchDisconnect = 0;
+    work->scanning = 0;
+    work->running = 0;
 }
-
-
-
-
-
-
-
-
 
 
 /*
@@ -468,304 +375,255 @@ void func_0217758C(u8 *p)
  * indirect callback target; legacy void(void) callers omit those inputs.
  * void(void) callback spelling changes the target register to r0 (run 2).
  */
-int func_021775AC(int a, int b, int c)
+int NET_WHPIPE_ForwardEvent(int a, int b, int c)
 {
-    return (*(int (**)(int, int, int))(g_021797A4 + 4))(a,b,c);
+    return g_pWhPipeWork->eventCallback(a, b, c);
 }
 
 
-
-
-
-
-
-
-
-
-
-int func_021775BC(int arg)
+/* Starts scanning for parents; clearEntries also empties the entry table first. */
+int NET_WHPIPE_StartScan(int clearEntries)
 {
-    u8 *w = g_021797A4;
+    WhPipeWork *work = g_pWhPipeWork;
 
-    if (w == 0)
+    if (work == 0)
         return 0;
-    func_0217758C(w);
-    if (arg != 0)
-        func_02177560();
-    func_0217933C(func_021775AC);
-    w[0xCE8] = 1;
-    if (func_02178E4C() == 1 && func_021785B4((u32)func_021773E0, 0, 0) != 0)
+    NET_WHPIPE_ResetState(work);
+    if (clearEntries != 0)
+        NET_WHPIPE_ClearEntries();
+    DWCi_MOV_WH_SetReceiver(NET_WHPIPE_ForwardEvent);
+    work->running = 1;
+    if (func_02178E4C() == 1 && DWCi_MOV_WH_StartScan((u32)NET_WHPIPE_StoreScannedEntry, 0, 0) != 0)
         return 1;
     return 0;
 }
 
 
-
-
-
-
-
-
-
-
-
-void func_02177614(u8 *p)
+void NET_WHPIPE_TaskBeginFinalize(WhPipeWork *work)
 {
     if (func_02178E4C() == 1 && func_02179498() != 0) {
-        p[0xCF5] = 0xFF;
-        func_0217727C((u32 *)g_021797A4, (u32)func_02177660);
+        work->shutdownCountdown = 0xFF;
+        NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskWaitFinalize);
     }
     if (func_02178E4C() == 9) {
-        p[0xCF5] = 0xFF;
-        func_0217727C((u32 *)g_021797A4, (u32)func_02177660);
+        work->shutdownCountdown = 0xFF;
+        NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskWaitFinalize);
     }
 }
 
 
-
-
-
-
-
-
-
-
-void func_02177660(u8 *p)
+void NET_WHPIPE_TaskWaitFinalize(WhPipeWork *work)
 {
-    p[0xCF5]--;
+    work->shutdownCountdown--;
     if (func_02178E4C() == 0 || func_02178E4C() == 1) {
-        func_0217727C((u32 *)g_021797A4, 0);
+        NET_WHPIPE_SetTask(g_pWhPipeWork, 0);
         return;
     }
     if (func_02178E4C() == 9) {
-        func_0217945C();
-        func_0217727C((u32 *)g_021797A4, (u32)func_02177614);
+        DWCi_MOV_WH_StateInEndKeyShare();
+        NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskBeginFinalize);
         return;
     }
-    if (p[0xCF5] == 0) {
-        func_0217945C();
-        func_0217727C((u32 *)g_021797A4, (u32)func_02177614);
+    if (work->shutdownCountdown == 0) {
+        DWCi_MOV_WH_StateInEndKeyShare();
+        NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskBeginFinalize);
     }
 }
 
 
-
-
-
-
-
-
-
-
-int func_021776C4(void)
+/* Asks the pipe to shut down; 1 when nothing is running or the request was taken, 0 when a request is pending or the finalize call failed. */
+int NET_WHPIPE_RequestFinalize(void)
 {
-    u8 *w = g_021797A4;
+    WhPipeWork *work = g_pWhPipeWork;
 
-    if (w == 0)
+    if (work == 0)
         return 1;
-    if (w[0xCE7] == 0 && func_02179498() != 0) {
-        w[0xCF5] = 0xFF;
-        func_0217727C((u32 *)g_021797A4, (u32)func_02177660);
+    if (work->shutdownRequest == 0 && func_02179498() != 0) {
+        work->shutdownCountdown = 0xFF;
+        NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskWaitFinalize);
         return 1;
     }
     return 0;
 }
 
 
-
-
-
-
-
-void func_02177704(void)
+void NET_WHPIPE_Destroy(void)
 {
-    if (g_021797A4 != 0) {
-        func_020307B0(g_021797A4);
-        g_021797A4 = 0;
+    if (g_pWhPipeWork != 0) {
+        func_020307B0(g_pWhPipeWork);
+        g_pWhPipeWork = 0;
     }
 }
 
 
-
-
-
-
-int func_0217771C(u8 *obj) { u8 *base = (u8 *)g_021797A4; void (*fn)(void); if (func_0217731C(obj) == 0) return 0; fn = *(void (**)(void))(base + 0xC60); if (fn != 0) fn(); return 1; }
-
-
-
-
-
-
-
-void func_02177744(void)
+int NET_WHPIPE_NotifyEntryAcceptable(WhPipeEntry *entry)
 {
-    u8 *w = g_021797A4;
+    WhPipeWork *work = g_pWhPipeWork;
+    void (*onConnected)(void);
+
+    if (NET_WHPIPE_IsBeaconAcceptable(entry) == 0)
+        return 0;
+    onConnected = work->onConnected;
+    if (onConnected != 0)
+        onConnected();
+    return 1;
+}
+
+
+/*
+ * Per-frame: counts every live entry down; an entry that reaches 0 is gone and flags the table as changed.
+ * stand-in: the volatile halfword accesses and the repeated age test are needed;
+ * plain entryAge[i] accesses compile 16 bytes shorter.
+ */
+void NET_WHPIPE_TickEntryAges(void)
+{
+    u8 *work = (u8 *)g_pWhPipeWork;
     int i;
 
-    for (i = 0; i < 16; i++) {
-        u16 v = *(volatile u16 *)(w + i * 2 + 0xC40);
-        if (v != 0 && v != 0) {
-            *(volatile u16 *)(w + i * 2 + 0xC40) = *(volatile u16 *)(w + i * 2 + 0xC40) - 1;
-            if (*(volatile u16 *)(w + i * 2 + 0xC40) == 0)
-                w[0xCEF] = 1;
+    for (i = 0; i < WHPIPE_ENTRY_MAX; i++) {
+        u16 age = *(volatile u16 *)(work + i * 2 + OFFSETOF(WhPipeWork, entryAge));
+        if (age != 0 && age != 0) {
+            *(volatile u16 *)(work + i * 2 + OFFSETOF(WhPipeWork, entryAge)) = *(volatile u16 *)(work + i * 2 + OFFSETOF(WhPipeWork, entryAge)) - 1;
+            if (*(volatile u16 *)(work + i * 2 + OFFSETOF(WhPipeWork, entryAge)) == 0)
+                work[OFFSETOF(WhPipeWork, entryListChanged)] = 1;
         }
     }
 }
 
 
-
-
-
-
-
-void func_0217778C(void)
+/* Builds our own beacon from the init block and the game's beacon callbacks, and hands it to the parent start. */
+void NET_WHPIPE_PublishBeacon(void)
 {
-    u8 *e;
-    u8 *st;
-    u8 *w;
-    SizeFn sfn;
-    int n;
+    WhPipeBeacon *beacon;
+    WhPipeNetInit *init;
+    WhPipeWork *work;
+    WhPipeBeaconSizeFunc getSize;
+    int size;
 
     if (func_0203CD98() == 0)
         return;
-    w = g_021797A4;
-    st = func_0203D798();
-    sfn = *(SizeFn *)&((struct Obj09380 *)st)->f1C;
-    if (sfn == 0)
+    work = g_pWhPipeWork;
+    init = func_0203D798();
+    getSize = init->getBeaconSize;
+    if (getSize == 0)
         return;
-    n = sfn(((struct Obj09381 *)w)->fC64);
-    if (n >= 0x68) {
+    size = getSize(work->userData);
+    if (size >= WHPIPE_BEACON_DATA_SIZE) {
         func_02088234();
         return;
     }
-    e = w + 0xC6E;
-    e[4] = st[0x67];
-    ((struct Obj07354 *)e)->f2 = ((struct Obj09380 *)st)->f50;
-    e[5] = 0;
-    e[7] = w[0xCEA];
-    func_02082D44((void *)(*(DataFn *)(st + 0x18))(((struct Obj09381 *)w)->fC64), e + 8, n);
-    func_02177D58(w + 0xC6E, 0x70);
+    beacon = &work->beacon;
+    beacon->kind = init->gameKind;
+    beacon->ggid = init->ggid;
+    beacon->reserved = 0;
+    beacon->status = work->beaconStatus;
+    func_02082D44((void *)init->getBeaconData(work->userData), beacon->data, size);
+    NET_WHPIPE_SetBeaconGameInfo((u8 *)&work->beacon, 0x70);
 }
 
 
-
-
-void func_021777FC(void)
+/* Refreshes the advertised beacon: copies fresh game bytes and, when the member count changed or the countdown ran out, republishes it. */
+void NET_WHPIPE_RefreshBeacon(void)
 {
-    u8 *w = g_021797A4;
-    u8 *e = w + 0xC6E;
-    u8 *st = func_0203D798();
-    SizeFn sfn = *(SizeFn *)&((struct Obj19331 *)st)->f1C;
-    int n;
+    WhPipeWork *work = g_pWhPipeWork;
+    WhPipeBeacon *beacon = &work->beacon;
+    WhPipeNetInit *init = func_0203D798();
+    WhPipeBeaconSizeFunc getSize = init->getBeaconSize;
+    int size;
 
-    if (sfn != 0) {
-        n = sfn(((struct Obj04955 *)w)->fC64);
-        if (n > 0x68)
-            func_02034714((const char *)d_02179790, 0, (const char *)d_02179790);
-        func_02082D44((void *)(*(DataFn *)(st + 0x18))(((struct Obj04955 *)w)->fC64), e + 8, n);
+    if (getSize != 0) {
+        size = getSize(work->userData);
+        if (size > WHPIPE_BEACON_DATA_SIZE)
+            func_02034714((const char *)sEmptyString, 0, (const char *)sEmptyString);
+        func_02082D44((void *)init->getBeaconData(work->userData), beacon->data, size);
     }
-    if (e[6] != func_02177A74()) {
-        w[0xCF0] = 0;
-        e[6] = func_02177A74();
+    if (beacon->connectedNum != NET_WHPIPE_GetConnectedNum()) {
+        work->beaconRefreshCountdown = 0;
+        beacon->connectedNum = NET_WHPIPE_GetConnectedNum();
     }
-    if (w[0xCF0] == 0) {
-        func_02177D58(w + 0xC6E, 0x70);
-        w[0xCF0] = 2;
+    if (work->beaconRefreshCountdown == 0) {
+        NET_WHPIPE_SetBeaconGameInfo((u8 *)&work->beacon, 0x70);
+        work->beaconRefreshCountdown = 2;
     }
-    w[0xCF0]--;
+    work->beaconRefreshCountdown--;
 }
 
 
-
-
-
-
-
-
-void func_02177888(u32 arg)
+/* Reacts to the WH state each frame: refreshes the beacon, watches the tick for a link drop, and finishes shutdowns. */
+void NET_WHPIPE_UpdateState(u32 tick)
 {
     int mode = func_02178E4C();
-    u8 *base = g_021797A4;
+    WhPipeWork *work = g_pWhPipeWork;
 
-    if (func_02177AEC() == 0)
-        func_021777FC();
-    if (((struct Obj02358 *)base)->fC6A == 0xFFFF)
-        ((struct Obj02358 *)base)->fC6A = arg;
-    if (base[0xCEC] != 0) {
-        if (func_021795A4() == 0 && func_02177ACC() == 0)
-            base[0xCEB] = 1;
-        if (((struct Obj02358 *)base)->fC6A > arg)
-            base[0xCEB] = 1;
+    if (NET_WHPIPE_IsDisconnectDetected() == 0)
+        NET_WHPIPE_RefreshBeacon();
+    if (work->startTime == 0xFFFF)
+        work->startTime = tick;
+    if (work->watchDisconnect != 0) {
+        if (WIH_GetOwnAid() == 0 && NET_WHPIPE_GetChildBitmap() == 0)
+            work->disconnectDetected = 1;
+        if (work->startTime > tick)
+            work->disconnectDetected = 1;
     }
-    if (func_02178E68() == 0x19)
-        func_0203D720(0);
+    if (DWCi_MOV_WH_GetLastError() == 0x19)
+        GFL_NET_CallErrorStateFunc(0);
     switch (mode) {
     case 0:
-        if (base[0xCE7] == 1)
-            func_02177704();
+        if (work->shutdownRequest == 1)
+            NET_WHPIPE_Destroy();
         break;
     case 1:
-        if (base[0xCE7] == 1 && func_02179570(0) != 0)
+        if (work->shutdownRequest == 1 && func_02179570(0) != 0)
             return;
-        if (base[0xCE7] == 2 && func_02179570(0) != 0)
+        if (work->shutdownRequest == 2 && func_02179570(0) != 0)
             return;
         break;
     case 8:
     case 9:
-        if (base != 0) {
-            if (base[0xCEB] == 0)
-                func_0203D754(func_02178E68());
-            base[0xCEB] = 1;
+        if (work != 0) {
+            if (work->disconnectDetected == 0)
+                GFL_NET_CallStateChangeFunc(DWCi_MOV_WH_GetLastError());
+            work->disconnectDetected = 1;
         }
         break;
     }
 }
 
 
-
-
-
-
-
-
-void func_0217796C(u32 arg)
+/* Main per-frame entry: runs the current task, the state update, the entry ageing and the join lock countdown. */
+void NET_WHPIPE_Update(u32 tick)
 {
-    Head *p = (Head *)*(u32 *)0x021797A4;
-    if (p != 0 && p->fn != 0)
-        p->fn(p);
-    if (*(u32 *)0x021797A4 != 0)
-        func_02177888(arg);
-    if (*(u32 *)0x021797A4 != 0) {
-        if (func_02177C1C() != 0)
-            func_02177744();
+    WhPipeWork *work = g_pWhPipeWork;
+
+    if (work != 0 && work->task != 0)
+        work->task(work);
+    if (g_pWhPipeWork != 0)
+        NET_WHPIPE_UpdateState(tick);
+    if (g_pWhPipeWork != 0) {
+        if (NET_WHPIPE_IsStateScanning() != 0)
+            NET_WHPIPE_TickEntryAges();
     }
-    if (*(u32 *)0x021797A4 != 0) {
-        if (*(u16 *)((u8 *)*(u32 *)0x021797A4 + 0xC6C) != 0) {
-            func_02179664(1);
-            ((u8 *)*(u32 *)0x021797A4)[0xCF3] = 1;
-            if (((u8 *)*(u32 *)0x021797A4)[0xCF4] == 0)
-                *(u16 *)((u8 *)*(u32 *)0x021797A4 + 0xC6C) -= 1;
+    if (g_pWhPipeWork != 0) {
+        if (g_pWhPipeWork->joinLockFrames != 0) {
+            WIH_SetScanTimerPaused(1);
+            g_pWhPipeWork->timerPaused = 1;
+            if (g_pWhPipeWork->joinLockHold == 0)
+                g_pWhPipeWork->joinLockFrames -= 1;
         } else {
-            func_02179664(0);
-            ((u8 *)*(u32 *)0x021797A4)[0xCF3] = 0;
+            WIH_SetScanTimerPaused(0);
+            g_pWhPipeWork->timerPaused = 0;
         }
     }
-    func_021793F8();
+    WIH_UpdateScanTimer();
 }
 
 
-
-
-
-
-
-
-int func_021779F4(void)
+/* 1 when the pipe exists, a link is up and the WH state is 4 or 5 (connected). */
+int NET_WHPIPE_IsConnected(void)
 {
-    if (g_021797A4 == 0)
+    if (g_pWhPipeWork == 0)
         return 0;
-    if (func_021795A4() == 0 && func_02177ACC() == 0)
+    if (WIH_GetOwnAid() == 0 && NET_WHPIPE_GetChildBitmap() == 0)
         return 0;
     if (func_02178E4C() == 4 || func_02178E4C() == 5)
         return 1;
@@ -773,200 +631,122 @@ int func_021779F4(void)
 }
 
 
-
-
-
-
-
-
-int func_02177A34(u16 n)
+int NET_WHPIPE_IsAidConnected(u16 aid)
 {
-    if (g_021797A4 == 0)
+    if (g_pWhPipeWork == 0)
         return 0;
     if (func_02178E4C() != 4 && func_02178E4C() != 5)
         return 0;
-    if (func_02178E38() & (1 << n))
+    if (func_02178E38() & (1 << aid))
         return 1;
     return 0;
 }
-
-
-
-
-
 
 
 /*
- * evidence: original truncates the index to u16 before calling A34; extern follows caller width.
+ * evidence: original truncates the index to u16 before calling IsAidConnected; extern follows caller width.
  * extent: trailing two zero bytes are alignment padding.
  */
-int func_02177A74(void) { int count = 0; int i = 0; for (; i < 8; i++) { if (func_02177A34(i) != 0) count++; } return count; }
+int NET_WHPIPE_GetConnectedNum(void) { int count = 0; int aid = 0; for (; aid < 8; aid++) { if (NET_WHPIPE_IsAidConnected(aid) != 0) count++; } return count; }
 
 
-
-
-
-
-
-
-int CTRDGi_IsTaskAvailable(void)
+/* 1 when the pipe work block is allocated. */
+int NET_WHPIPE_IsWorkAllocated(void)
 {
-    return ctrdgi_task_work != 0;
+    return g_pWhPipeWork != 0;
 }
 
 
+/* 1 when there is no pipe or the WH state is 1 (idle). */
+int NET_WHPIPE_IsIdle(void) { if (g_pWhPipeWork != 0) { if (func_02178E4C() == 1) return 1; return 0; } return 1; }
 
 
+/* Bitmap of connected aids without the parent bit. */
+unsigned int NET_WHPIPE_GetChildBitmap(void) { if (g_pWhPipeWork != 0) return func_02178E38() & 0xFFFE; return 0; }
 
 
-
-int func_02177AA8(void) { if (g_021797A4 != 0) { if (func_02178E4C() == 1) return 1; return 0; } return 1; }
-
-
-
-
-
-
-unsigned int func_02177ACC(void) { if (g_021797A4 != 0) return func_02178E38() & 0xFFFE; return 0; }
-
-
-
-
-
-
-
-int func_02177AEC(void)
+int NET_WHPIPE_IsDisconnectDetected(void)
 {
-    u8 *w = g_021797A4;
+    WhPipeWork *work = g_pWhPipeWork;
 
-    if (w != 0 && w[0xCEB] != 0)
+    if (work != 0 && work->disconnectDetected != 0)
         return 1;
     return 0;
 }
 
 
-
-
-void func_02177B0C(u8 v)
+void NET_WHPIPE_SetWatchDisconnect(u8 watch)
 {
-    u8 *w = g_021797A4;
-    if (w != 0) {
-        w[0xCEC] = v;
-        *(u16 *)(w + 0xC6A) = 0xFFFF;
+    WhPipeWork *work = g_pWhPipeWork;
+
+    if (work != 0) {
+        work->watchDisconnect = watch;
+        work->startTime = 0xFFFF;
     }
 }
-
-
-
 
 
 /*
  * lever: integer address sum preserves base+0x58 and the final pointer+8;
  * plain pointer additions fold these into base+0x60 (r1 DIFF, r2 EXACT).
  */
-u8 *func_02177B2C(int i) { u8 *base = g_021797A4; if (base != 0 && *(u16 *)(base + 0xC40 + i * 2) != 0) return (u8 *)((unsigned int)(base + 0x58) + i * 0xC0) + 8; return 0; }
-
-
-
-
-
-u8 *func_02177B58(int i) { u8 *base = g_021797A4; if (base != 0 && *(u16 *)(base + 0xC40 + i * 2) != 0) return base + 0xC + i * 0xC0; return 0; }
-
-
-
-
-
-
-
+u8 *NET_WHPIPE_GetEntryBeaconData(int index) { u8 *base = (u8 *)g_pWhPipeWork; if (base != 0 && *(u16 *)(base + OFFSETOF(WhPipeWork, entryAge) + index * 2) != 0) return (u8 *)((unsigned int)(base + 0x58) + index * 0xC0) + 8; return 0; }
+u8 *NET_WHPIPE_GetEntryBssid(int index) { u8 *base = (u8 *)g_pWhPipeWork; if (base != 0 && *(u16 *)(base + OFFSETOF(WhPipeWork, entryAge) + index * 2) != 0) return base + 0xC + index * 0xC0; return 0; }
 /*
  * Recursive MATCH unblocker: the unlabelled ov014 leaf that the arm9
- * wih_dwc.c pollers call (sub_020107FC +001E, func_0201058C +005C).  Reads
- * the per-slot u16 flag array at g_021797A4+0xC40 (stride 2) and returns the
- * slot's u8 state at +0x5C of the 0xC0-byte record, or 0 when the global or
- * the flag is clear.  func_02178098 is byte-identical.
+ * wih_dwc.c pollers call.  Reads the per-slot age flag array of the pipe
+ * work block and returns the slot's beacon kind byte, or 0 when the work
+ * block or the slot is not live.  NET_WHPIPE_GetEntryKind is byte-identical.
  */
-u8 func_02177B80(int i)
+u8 NET_WHPIPE_GetEntryBeaconKind(int index)
 {
-    u8 *base = g_021797A4;
+    WhPipeWork *work = g_pWhPipeWork;
 
-    if (base != 0 && *(u16 *)(base + 0xC40 + i * 2) != 0)
-        return *(u8 *)(base + 0x5C + i * 0xC0);
+    if (work != 0 && work->entryAge[index] != 0)
+        return work->entry[index].beacon.kind;
     return 0;
 }
 
 
-
-
-
-
-/*
- * Unlabelled leaf: clears halfword idx of the table at +0xC40 of the
- * object pointed to by the global at 0x021797A4. Blocks func_02177BF4.
- *
- * Addresses are Black-image addresses.
- */
-void func_02177BAC(u32 idx)
+/* Frees one entry slot (age 0). */
+void NET_WHPIPE_ReleaseEntrySlot(u32 index)
 {
-    u8 *p = d_021797A4;
-    u16 *h;
-    if (p != 0) {
-        h = (u16 *)(p + 0xc40);
-        if (h[idx] != 0) {
-            h[idx] = 0;
+    WhPipeWork *work = g_pWhPipeWork;
+
+    if (work != 0) {
+        if (work->entryAge[index] != 0) {
+            work->entryAge[index] = 0;
         }
     }
 }
 
 
-
-
-
-/*
- * Unlabelled overlay leaf blocking ov010 func_02157760.
- */
-void func_02177BCC(void)
+/* Frees every entry slot without clearing the entries themselves. */
+void NET_WHPIPE_ReleaseAllEntrySlots(void)
 {
-    u8 *p;
+    WhPipeWork *work;
     int i;
-    p = d_021797A4;
-    if (p != 0) {
-        for (i = 0; i < 16; i++)
-            *(u16 *)(p + 0xC40 + i * 2) = 0;
+
+    work = g_pWhPipeWork;
+    if (work != 0) {
+        for (i = 0; i < WHPIPE_ENTRY_MAX; i++)
+            work->entryAge[i] = 0;
     }
 }
 
 
-
-
-
-
-/*
- * Unlabelled tail-call thunk (ldr r3,[pc]; bx r3) to func_02177BAC.
- * Sole blocker of the func_02164E04 / func_02164D6C MATCHes (ov010).
- *
- * Addresses are Black-image addresses.
- */
-void func_02177BF4(unsigned int idx)
+/* Tail-call thunk to NET_WHPIPE_ReleaseEntrySlot. */
+void NET_WHPIPE_ReleaseEntry(unsigned int index)
 {
-    func_02177BAC(idx);
+    NET_WHPIPE_ReleaseEntrySlot(index);
 }
 
 
-
-
-
-
-/*
- * Unlabelled Thumb leaf (prints as .word data in ov014.s), the sole blocker
- * of ov011 func_02173368 +004A: writes the byte at +0x54 through its second
- * argument and returns the address of +0x58.
- *
- * Addresses are Black-image addresses.
- */
-u8 *func_02177BFC(S *a0, u8 *out)
+/* Writes the beacon's game kind through outKind and returns the beacon's game data. */
+u8 *NET_WHPIPE_GetEntryBeacon(WhPipeEntry *entry, u8 *outKind)
 {
-    Sub *s = &a0->sub;
+    WhPipeBeacon *beacon = &entry->beacon;
 
-    *out = s->kind;
-    return s->rec;
+    *outKind = beacon->kind;
+    return beacon->data;
 }

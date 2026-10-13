@@ -27,7 +27,7 @@
  * DISCRIMINATING PIN: dsi/1.1p1 is 848 bytes, push {r3-r8,lr}.
  *
  * symbols:
- *   g_02148B4C     0x02148B4C  data
+ *   g_renderState     0x02148B4C  data
  *   g_020A82B8     0x020A82B8  data
  *   func_0206DDA4  0x0206DDA4  arm
  *   func_0206DE88  0x0206DE88  arm
@@ -57,7 +57,7 @@ typedef struct {
     u8 pade0[0xfc - 0xe0];
     u32 flag;
 } Glb;
-extern Glb g_02148B4C;
+extern Glb g_renderState;
 
 typedef struct {
     u32 w0;
@@ -219,12 +219,12 @@ void func_0206D434(RS *rs, u32 opt)
                 u32 arg = 3;
                 func_0206DDA4(0x10, &arg, 1);
             }
-            if (g_02148B4C.flag & 1) {
-                func_0206DDA4(0x1a, &g_02148B4C.cameraMtx, 9);
-                func_0206DDA4(0x1a, &g_02148B4C.unkBC, 9);
+            if (g_renderState.flag & 1) {
+                func_0206DDA4(0x1a, &g_renderState.cameraMtx, 9);
+                func_0206DDA4(0x1a, &g_renderState.unkBC, 9);
                 func_0206DDA4(0x1a, &n, 9);
-            } else if (g_02148B4C.flag & 2) {
-                func_0206DDA4(0x1a, &g_02148B4C.cameraMtx, 9);
+            } else if (g_renderState.flag & 2) {
+                func_0206DDA4(0x1a, &g_renderState.cameraMtx, 9);
                 func_0206DDA4(0x1a, &n, 9);
             } else {
                 func_0206DDA4(0x1a, &n, 9);

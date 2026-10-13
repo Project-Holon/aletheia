@@ -13,7 +13,7 @@
  *   func_0204AC18 0x0204AC18 arm
  *   func_0204AF28 0x0204AF28 arm
  *   func_02049F78 0x02049F78 arm
- *   func_020215BC 0x020215BC thumb
+ *   PALANM_CopyToSlot 0x020215BC thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02049238 0x02049238 arm
  */
@@ -33,7 +33,7 @@ struct PalAnmSlot;
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern int func_0204AF28(void *,unsigned,unsigned,unsigned);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 void func_0220C304(char *p)
@@ -45,7 +45,7 @@ void func_0220C304(char *p)
     ((struct Obj00315 *)p)->f588=func_0204AC18(arc,116,1,256,4,1,((struct Obj25029 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
     ((struct Obj00315 *)p)->f594=func_0204AF28(arc,120,121,((struct Obj25030 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
     buf=func_02049F78(arc,116,(u32)(&data),(u16)((((struct Obj25031 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
-    func_020215BC(((struct Obj00315 *)p)->f8,*(char * *)&((struct Obj25032 *)data)->fC+128,3,128,32);
+    PALANM_CopyToSlot(((struct Obj00315 *)p)->f8,*(char * *)&((struct Obj25032 *)data)->fC+128,3,128,32);
     func_020307B0(buf);
     func_02049238(arc);
 }

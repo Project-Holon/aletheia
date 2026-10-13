@@ -15,20 +15,20 @@
  *
  * symbols:
  *   abs_id_14      0x00000014  data
- *   sub_02034AC4   0x02034AC4  arm
+ *   GF_OVERLAY_Load   0x02034AC4  arm
  *
- * Thumb tail call into the ARM sub_02034AC4 with the id 0x14, which the
+ * Thumb tail call into the ARM GF_OVERLAY_Load with the id 0x14, which the
  * original loads from its own pool rather than as `movs r0, #0x14`: the
  * pooled small constant is an absolute linker symbol
  * (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md).
  * Unlabelled in the listing (no lr-saving prologue, callers only in arm9);
- * the pair with func_0215FA44 (same id, into sub_02034A5C).
+ * the pair with func_0215FA44 (same id, into GF_OVERLAY_Unload).
  */
 
 extern unsigned char abs_id_14[];
-extern int sub_02034AC4(int id);
+extern int GF_OVERLAY_Load(int id);
 
 void func_0215FA34(void)
 {
-    sub_02034AC4((int)abs_id_14);
+    GF_OVERLAY_Load((int)abs_id_14);
 }

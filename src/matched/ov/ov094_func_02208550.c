@@ -14,11 +14,11 @@
  *   func_02043678 0x02043678 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_0201F35C 0x0201F35C thumb
- *   func_0201DE00 0x0201DE00 thumb
+ *   GF_FONT_GetTextColor 0x0201DE00 thumb
  *   func_0201DD78 0x0201DD78 thumb
  *   func_0201C7A4 0x0201C7A4 thumb
  *   func_020437D4 0x020437D4 arm
- *   func_0204B7C8 0x0204B7C8 arm
+ *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   func_02082A60 0x02082A60 arm
  *   func_02045808 0x02045808 arm
  *   func_020437AC 0x020437AC arm
@@ -41,11 +41,11 @@ struct Obj020437AC;
 struct U16Vec;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201F35C(void *, int, u32, u32, u32);
-extern void func_0201DE00(u8 *, u8 *, u8 *);
+extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern void *func_020437D4(const struct Bmp *bmp);
-extern void func_0204B7C8(const char *src, struct Struct36 *dst);
+extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_020437AC(struct Obj020437AC *p);
@@ -62,12 +62,12 @@ void func_02208550(O *o, E *e)
     bmp = func_02043678(3, 2, 32, (u16)((*(u16 *)((char *)o + off) & 0x7fff) | 0x8000));
     func_02043B5C(bmp, 0);
     func_0201F35C(v, e->f6c, 3, 0, 0);
-    func_0201DE00(&c[2], &c[1], &c[0]);
+    GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     func_0201DD78(1, 4, 0);
     func_0201C7A4(bmp, 0, 5, v, o->f8);
     func_0201DD78(c[2], c[1], c[0]);
     pixels = func_020437D4(bmp);
-    func_0204B7C8(e->f0, (struct Struct36 *)(&buf));
+    CLACT_GetActorImageProxy(e->f0, (struct Struct36 *)(&buf));
     if (e->f44 != 0) {
         base = VRAM;
         off += 0x38;

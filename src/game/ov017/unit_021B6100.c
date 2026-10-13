@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B6100.c
  * unit:     yes
- * function: func_021B6100, func_021B61F8, func_021B6298, func_021B6368
+ * function: ERROR_SCREEN_ShowAndWait, ERROR_SCREEN_Setup, ERROR_SCREEN_LoadBackground, ERROR_SCREEN_PrintMessage
  * address:  0x021B6100
  * region:   ov017
  * compiler: dsi/1.1p1
@@ -14,9 +14,9 @@
  *
  * symbols:
  *   func_0202EB0C  0x0202EB0C  thumb
- *   func_020053EC  0x020053EC  thumb
+ *   GFL_USE_PollPowerExit  0x020053EC  thumb
  *   func_02034F5C  0x02034F5C  arm
- *   func_021B641C  0x021B641C  thumb  ov017
+ *   ERROR_SCREEN_Teardown  0x021B641C  thumb  ov017
  *   func_0207D534  0x0207D534  arm
  *   func_020808F4  0x020808F4  arm
  *   func_020809A0  0x020809A0  arm
@@ -34,7 +34,7 @@
  *   func_02062AD4  0x02062AD4  arm
  *   func_02062A98  0x02062A98  arm
  *   func_02082A48  0x02082A48  arm
- *   func_02043754  0x02043754  arm
+ *   BMP_CreateFromVram  0x02043754  arm
  *   func_0201D7EC  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
@@ -44,135 +44,136 @@
  *   func_0201D83C  0x0201D83C  thumb
  *   func_020437AC  0x020437AC  arm
  */
-#define R32(a) (*(volatile u32 *)(a))
-#define R16(a) (*(volatile u16 *)(a))
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+typedef signed int     s32;
+typedef signed short   s16;
+
 struct NitroFileHeader;
 struct Bmp;
 struct GfFont;
 struct MsgBank;
-struct Obj020437AC;
-struct Rec;
-struct U16Vec;
-typedef unsigned short u16;
+struct Strbuf;
 
-typedef unsigned int   u32;
+/* Display and key registers touched by the error screen. */
+#define REG_DISPCNT_MAIN   (*(volatile u32 *)0x04000000)
+#define REG_BG1CNT_MAIN    (*(volatile u16 *)0x0400000A)
+#define REG_BG1HOFS_MAIN   (*(volatile u32 *)0x04000014)
+#define REG_BLDCNT_MAIN    (*(volatile u16 *)0x04000050)
+#define REG_MASTER_BRIGHT_MAIN ((volatile u16 *)0x0400006C)
+#define REG_MASTER_BRIGHT_SUB  ((volatile u16 *)0x0400106C)
+#define REG_KEYINPUT       (*(volatile u16 *)0x04000130)
+#define REG_EXT_KEYINPUT   (*(volatile u16 *)0x02FFFFA8)
+#define PLTT_MAIN_BG       0x05000000
 
-typedef unsigned char u8;
-
-typedef struct Chr {
+/* Character data block of a packed graphics file. */
+typedef struct CharData {
     u8 pad00[0x10];
-    u32 f10;
-    void *f14;
-} Chr;
+    u32 sizeBytes;
+    void *pixels;
+} CharData;
 
-typedef struct Scr {
+/* Screen (tile map) data block of a packed graphics file. */
+typedef struct ScreenData {
     u8 pad00[0x8];
-    u32 f08;
-    u8 f0c[1];
-} Scr;
+    u32 sizeBytes;
+    u8 tiles[1];
+} ScreenData;
 
-typedef struct Pal {
+/* Palette data block of a packed graphics file. */
+typedef struct PaletteData {
     u8 pad00[0xc];
-    void *f0c;
-} Pal;
-
-typedef signed int     s32;
-
-typedef signed short   s16;
+    void *colors;
+} PaletteData;
 
 extern u32 func_0202EB0C(void);
-extern void func_020053EC(void);
+extern void GFL_USE_PollPowerExit(void);
 extern void func_02034F5C(void);
-extern void func_021B641C(void);
+extern void ERROR_SCREEN_Teardown(void);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern int func_020808F4(void);
 extern int func_020809A0(void);
-extern void func_0207FDCC(int);
-extern void func_0207D4B0(int, int, int);
+extern void func_0207FDCC(int mode);
+extern void func_0207D4B0(int layer, int x, int y);
 extern void *func_0207E24C(void);
-extern void func_02082A7C(u32 v, void *dst, u32 size);
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
+extern void func_02082A7C(u32 value, void *dst, u32 size);
+extern int func_0204A1BC(int arcId, int fileId, int resident, int heapId);
 extern signed int func_02062A4C(struct NitroFileHeader *file, void **out);
-extern void func_020862F0(void *p, u32 size);
+extern void func_020862F0(void *data, u32 size);
 extern void func_02082A60(void *src, void *dst, u32 size);
-extern u32 func_020307B0(void *p);
+extern u32 func_020307B0(void *ptr);
 extern int func_02062B30(void *file, void **out);
 extern void *func_0207DFB4(void);
 extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
-extern void func_02082A48(int, u32, u32);
-extern struct Bmp *func_02043754(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern void func_02082A48(int value, u32 dst, u32 size);
+extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
+extern struct GfFont *func_0201D7EC(int fontId, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
-extern u32 func_0201D83C(void *ptr);
-extern void func_020437AC(struct Obj020437AC *p);
-void func_021B6100(void);
-void func_021B61F8(int a);
-void func_021B6298(void);
-void func_021B6368(int a);
+extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201C7D0(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+extern void func_02045808(struct Strbuf *str);
+extern u32 func_02045C04(struct MsgBank *bank);
+extern u32 func_0201D83C(struct GfFont *font);
+extern void func_020437AC(struct Bmp *bmp);
+void ERROR_SCREEN_ShowAndWait(void);
+void ERROR_SCREEN_Setup(int messageIndex);
+void ERROR_SCREEN_LoadBackground(void);
+void ERROR_SCREEN_PrintMessage(int messageIndex);
 
-
-
-
+/* Held keys, A and B only matter here; the shared (ext) key word is merged in. */
 static inline u16 ReadKeys(void)
 {
-    u16 k = (u16)(((*(volatile u16 *)0x04000130 | *(volatile u16 *)0x02FFFFA8) ^ 0x2FFF) & 0x2FFF);
-    k = (u16)(k & ~((k & 0x40) << 1) & ~((k & 0x20) >> 1));
-    return k;
+    u16 keys = (u16)(((REG_KEYINPUT | REG_EXT_KEYINPUT) ^ 0x2FFF) & 0x2FFF);
+    keys = (u16)(keys & ~((keys & 0x40) << 1) & ~((keys & 0x20) >> 1));
+    return keys;
 }
 
-
-
-
-void func_021B6100(void)
+/*
+ * Error screen entry: show message 0x2A (TWL) or 0x10 (DS) from message
+ * file 0xE8, wait until A and B are released, wait for A or B, then tear
+ * the screen down.
+ */
+void ERROR_SCREEN_ShowAndWait(void)
 {
-    func_021B61F8(func_0202EB0C() ? 0x2A : 0x10);
+    ERROR_SCREEN_Setup(func_0202EB0C() ? 0x2A : 0x10);
     while (ReadKeys() & 3) {
-        func_020053EC();
+        GFL_USE_PollPowerExit();
         func_02034F5C();
     }
     while (!(ReadKeys() & 3)) {
-        func_020053EC();
+        GFL_USE_PollPowerExit();
         func_02034F5C();
     }
-    func_021B641C();
+    ERROR_SCREEN_Teardown();
 }
 
-
-
-
-void func_021B61F8(int a)
+/* Blank both screens, set up BG1 on the main screen, draw the background and message, fade in. */
+void ERROR_SCREEN_Setup(int messageIndex)
 {
-    func_0207D534((volatile u16 *)0x0400006C, -16);
-    func_0207D534((volatile u16 *)0x0400106C, -16);
+    func_0207D534(REG_MASTER_BRIGHT_MAIN, -16);
+    func_0207D534(REG_MASTER_BRIGHT_SUB, -16);
     func_020808F4();
     func_020809A0();
     func_0207FDCC(4);
     func_0207D4B0(1, 0, 0);
-    R32(0x04000000) = (R32(0x04000000) & 0xFFFFE0FF) | (1 << 9);
-    R32(0x04000000) &= 0xFFFF1FFF;
-    R16(0x0400000A) = (R16(0x0400000A) & 0x43) | 4;
-    R16(0x0400000A) &= 0xFFBF;
-    R32(0x04000014) = 0;
-    R16(0x04000050) = 0;
-    func_021B6298();
-    func_021B6368(a);
-    func_0207D534((volatile u16 *)0x0400006C, 0);
-    func_0207D534((volatile u16 *)0x0400106C, 0x10);
+    REG_DISPCNT_MAIN = (REG_DISPCNT_MAIN & 0xFFFFE0FF) | (1 << 9);
+    REG_DISPCNT_MAIN &= 0xFFFF1FFF;
+    REG_BG1CNT_MAIN = (REG_BG1CNT_MAIN & 0x43) | 4;
+    REG_BG1CNT_MAIN &= 0xFFBF;
+    REG_BG1HOFS_MAIN = 0;
+    REG_BLDCNT_MAIN = 0;
+    ERROR_SCREEN_LoadBackground();
+    ERROR_SCREEN_PrintMessage(messageIndex);
+    func_0207D534(REG_MASTER_BRIGHT_MAIN, 0);
+    func_0207D534(REG_MASTER_BRIGHT_SUB, 0x10);
 }
 
-
-
-static inline void Copy(void *src, void *dst, u32 size)
+static inline void CopyToVram(void *src, void *dst, u32 size)
 {
     func_02082A60(src, dst, size);
 }
-
-
 
 /*
  * Loads a background from archive 0x16: clears 0x4000 bytes of character
@@ -184,63 +185,66 @@ static inline void Copy(void *src, void *dst, u32 size)
  * call argument f(src, g(), p->size) loads the size after g(); the
  * original loads it before g() and keeps it in r5.
  */
-void func_021B6298(void)
+void ERROR_SCREEN_LoadBackground(void)
 {
-    Chr *chr;
-    Scr *scr;
-    Pal *pal;
-    void *cmp;
+    CharData *charData;
+    ScreenData *screenData;
+    PaletteData *paletteData;
+    void *unusedBlock;
     void *file;
 
     func_02082A7C(0, func_0207E24C(), 0x4000);
 
     file = (void *)func_0204A1BC(0x16, 1, 0, 1);
-    if (func_02062A4C(file, (void **)(&chr))) {
-        func_020862F0(chr->f14, chr->f10);
-        Copy(chr->f14, func_0207E24C(), chr->f10);
+    if (func_02062A4C(file, (void **)(&charData))) {
+        func_020862F0(charData->pixels, charData->sizeBytes);
+        CopyToVram(charData->pixels, func_0207E24C(), charData->sizeBytes);
     }
     func_020307B0(file);
 
     file = (void *)func_0204A1BC(0x16, 2, 0, 1);
-    if (func_02062B30(file, (void **)(&scr))) {
-        func_020862F0(scr->f0c, scr->f08);
-        Copy(scr->f0c, func_0207DFB4(), scr->f08);
+    if (func_02062B30(file, (void **)(&screenData))) {
+        func_020862F0(screenData->tiles, screenData->sizeBytes);
+        CopyToVram(screenData->tiles, func_0207DFB4(), screenData->sizeBytes);
     }
     func_020307B0(file);
 
     file = (void *)func_0204A1BC(0x16, 0, 0, 1);
-    func_02062AD4(file, &cmp);
-    if (func_02062A98(file, (void **)(&pal))) {
-        func_020862F0(pal->f0c, 0x20);
-        Copy(pal->f0c, (void *)0x05000000, 0x20);
+    func_02062AD4(file, &unusedBlock);
+    if (func_02062A98(file, (void **)(&paletteData))) {
+        func_020862F0(paletteData->colors, 0x20);
+        CopyToVram(paletteData->colors, (void *)PLTT_MAIN_BG, 0x20);
     }
     func_020307B0(file);
 }
 
-
-void func_021B6368(int a)
+/* Fill the BG1 tile map (30x16 tiles at row 4, column 1) with sequential tiles from 0x20, print the message into the bitmap, release the temporaries. */
+void ERROR_SCREEN_PrintMessage(int messageIndex)
 {
-    u16 *base;
-    int j, i;
-    u16 v;
-    int p, q, r, s;
+    u16 *tileMap;
+    int col, row;
+    u16 tile;
+    struct Bmp *bmp;
+    struct GfFont *font;
+    struct MsgBank *bank;
+    struct Strbuf *message;
 
-    base = func_0207DFB4();
-    v = 0x20;
-    for (i = 4; i < 20; i++) {
-        for (j = 1; j < 31; j++) {
-            base[i * 32 + j] = v;
-            v++;
+    tileMap = func_0207DFB4();
+    tile = 0x20;
+    for (row = 4; row < 20; row++) {
+        for (col = 1; col < 31; col++) {
+            tileMap[row * 32 + col] = tile;
+            tile++;
         }
     }
     func_02082A48(0x7777, (u32)func_0207E24C() + 0x400, 0x3C00);
-    p = (int)func_02043754((void *)((u32)func_0207E24C() + 0x400), 30, 16, 32, 1);
-    q = (int)func_0201D7EC(0x17, 0, 0, 0, 1);
-    r = (int)func_02045B38(0, 2, 0xe8, 1);
-    s = (int)func_02045EC0((struct MsgBank *)r, a);
-    func_0201C7D0((void *)p, 0, 0, (void *)s, (void *)q, 0x1167);
-    func_02045808((struct U16Vec *)s);
-    func_02045C04((struct Rec *)r);
-    func_0201D83C((void *)q);
-    func_020437AC((struct Obj020437AC *)p);
+    bmp = BMP_CreateFromVram((void *)((u32)func_0207E24C() + 0x400), 30, 16, 32, 1);
+    font = func_0201D7EC(0x17, 0, 0, 0, 1);
+    bank = func_02045B38(0, 2, 0xe8, 1);
+    message = func_02045EC0(bank, messageIndex);
+    func_0201C7D0(bmp, 0, 0, message, font, 0x1167);
+    func_02045808(message);
+    func_02045C04(bank);
+    func_0201D83C(font);
+    func_020437AC(bmp);
 }

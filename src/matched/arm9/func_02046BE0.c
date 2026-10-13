@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C   0x02146A5C  data
+ *   _G3dSystem   0x02146A5C  data
  *
  * Store the pair of words at +0x80 and +0x84 of the context at 0x02146A5C.
  * The context pointer is re-read from its own slot between the two stores,
@@ -31,10 +31,10 @@ struct Ctx {
     u32 unk_84;
 };
 
-extern struct Ctx *g_02146A5C;
+extern struct Ctx *_G3dSystem;
 
 void func_02046BE0(u32 a, u32 b)
 {
-    g_02146A5C->unk_80 = a;
-    g_02146A5C->unk_84 = b;
+    _G3dSystem->unk_80 = a;
+    _G3dSystem->unk_84 = b;
 }

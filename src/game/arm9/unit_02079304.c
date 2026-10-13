@@ -1,7 +1,7 @@
 /*
  * file:     unit_02079304.c
  * unit:     yes
- * function: func_02079304, func_02079364, FSi_SeekDirDefault, func_0207942C, func_02079558, FSi_GetPathDefault, FSi_OpenFileFastDefault, FSi_OpenFileDirectDefault, FSi_ReadFileDefault, FSi_WriteFileDefault, func_02079BF4, FSi_TranslateCommand, func_02079CCC, func_02079D10, func_02079D54, func_02079DAC, func_02079ED4, func_02079F60, func_02079FA4, FSi_ROMFAT_OpenFileDirect, func_0207A040, func_0207A070, func_0207A0A4, func_0207A0D8, FSi_ROMFAT_Resume, FSi_ROMFAT_OpenFile, FSi_ROMFAT_SeekFile, FSi_ROMFAT_GetFileLength, func_0207A218, func_0207A234, FSi_ROMFAT_GetArchiveCaps, FSi_ROMFAT_OpenDirectory, FSi_ROMFAT_CloseDirectory, func_0207A2E0, func_0207A40C, func_0207A45C, func_0207A484, FS_LoadArchive, func_0207A51C, func_0207A528, func_0207A568, func_0207A5A8, func_0207A5C8, func_0207A708, func_0207A78C, func_0207A798, func_0207A7A8
+ * function: func_02079304, func_02079364, FSi_SeekDirDefault, func_0207942C, func_02079558, FSi_GetPathDefault, FSi_OpenFileFastDefault, FSi_OpenFileDirectDefault, FSi_ReadFileDefault, FSi_WriteFileDefault, FSi_NoOpCommandDefault, FSi_TranslateCommand, func_02079CCC, func_02079D10, func_02079D54, func_02079DAC, func_02079ED4, func_02079F60, func_02079FA4, FSi_ROMFAT_OpenFileDirect, func_0207A040, func_0207A070, func_0207A0A4, func_0207A0D8, FSi_ROMFAT_Resume, FSi_ROMFAT_OpenFile, FSi_ROMFAT_SeekFile, FSi_ROMFAT_GetFileLength, func_0207A218, func_0207A234, FSi_ROMFAT_GetArchiveCaps, FSi_ROMFAT_OpenDirectory, FSi_ROMFAT_CloseDirectory, func_0207A2E0, func_0207A40C, func_0207A45C, func_0207A484, FS_LoadArchive, FS_UnloadArchive, func_0207A528, func_0207A568, func_0207A5A8, func_0207A5C8, func_0207A708, func_0207A78C, func_0207A798, func_0207A7A8
  * address:  0x02079304
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -329,7 +329,7 @@ FSResult FSi_OpenFileFastDefault(FSFile *p_file);
 FSResult FSi_OpenFileDirectDefault(FSFile *p_file);
 FSResult FSi_ReadFileDefault(FSFile *file);
 FSResult FSi_WriteFileDefault(FSFile *file);
-FSResult func_02079BF4(FSFile *file);
+FSResult FSi_NoOpCommandDefault(FSFile *file);
 FSResult FSi_TranslateCommand(FSFile *file, FSCommandType command, BOOL block);
 FSResult FSi_ROMFAT_ReadFile(FSArchive *arc, FSFile *file, void *buffer, u32 *length);
 FSResult FSi_ROMFAT_WriteFile(FSArchive *arc, FSFile *file, const void *buffer, u32 *length);
@@ -357,7 +357,7 @@ FSResult FSi_ROMFAT_GetArchiveResource(FSArchive *arc, FSArchiveResource *resour
 FSResult FSi_ReadMemCallback(FSArchive *p_arc, void *dst, u32 pos, u32 size);
 FSResult FSi_WriteMemCallback(FSArchive *p_arc, const void *src, u32 pos, u32 size);
 BOOL FS_LoadArchive(FSArchive *arc, u32 base, u32 fat, u32 fat_size, u32 fnt, u32 fnt_size, FS_ARCHIVE_READ_FUNC read_func, FS_ARCHIVE_WRITE_FUNC write_func);
-BOOL func_0207A51C(FSArchive *arc);
+BOOL FS_UnloadArchive(FSArchive *arc);
 BOOL FSi_GetFileLengthIfProc(FSFile *file, u32 *length);
 BOOL FSi_GetFilePositionIfProc(FSFile *file, u32 *position);
 void FS_SetArchiveProc(void *arc, u32 proc, u32 flags);
@@ -810,7 +810,7 @@ FSResult FSi_WriteFileDefault(FSFile *file)
 
 
 /* 0x02079BF4: default handler of the two do-nothing commands in default_table\n * (table slots at 0x020A1A24 and 0x020A1A28); it only reports success. */
-FSResult func_02079BF4(FSFile *file)
+FSResult FSi_NoOpCommandDefault(FSFile *file)
 {
     return FS_RESULT_SUCCESS;
 }
@@ -1394,7 +1394,7 @@ BOOL FS_LoadArchive(FSArchive *arc, u32 base, u32 fat, u32 fat_size, u32 fnt, u3
 }
 
 
-BOOL func_0207A51C(FSArchive *arc)
+BOOL FS_UnloadArchive(FSArchive *arc)
 {
     return func_02078588(arc);
 }

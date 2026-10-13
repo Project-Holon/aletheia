@@ -1,5 +1,5 @@
 /*
- * function: sub_02026D04
+ * function: GAME_BEACON_SetNewFlagByTrainerId
  * address:  0x02026D04
  * packet:   pkt_02026CE0
  * region:   arm9
@@ -15,7 +15,7 @@
  * layout/function_starts.txt.
  *
  * symbols:
- *   g_GameBeacon  0x02146940  data
+ *   GAME_BEACON_Work  0x02146940  data
  */
 
 typedef unsigned char  u8;
@@ -25,11 +25,11 @@ typedef unsigned int   u32;
 /* slot[i]: +0x00 live byte, +0x10 id halfword, +0x5c halfword answer */
 struct Rec { u8 b00; u8 pad01[0x10 - 1]; u16 f10; u8 pad12[0x5c - 0x12]; u16 f5c; u8 pad5e[2]; };
 struct Blk { u32 f00; u8 own[0x60]; struct Rec slot[30]; u32 mask; };
-extern struct Blk *g_GameBeacon;
+extern struct Blk *GAME_BEACON_Work;
 
-int sub_02026D04(const struct Rec *r)
+int GAME_BEACON_SetNewFlagByTrainerId(const struct Rec *r)
 {
-    struct Blk *g = g_GameBeacon;
+    struct Blk *g = GAME_BEACON_Work;
     int i;
     for (i = 0; i < 30; i++) {
         if (r->f10 == g->slot[i].f10) {

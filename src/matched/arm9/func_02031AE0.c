@@ -1,5 +1,5 @@
 /*
- * function: func_02031AE0
+ * function: BACKUP_SYSTEM_Load
  * address:  0x02031AE0
  * packet:   pkt_020319C0
  * region:   arm9
@@ -23,12 +23,12 @@
  *
  * symbols:
  *   unk_02146994   0x02146994  data
- *   func_02031FE0  0x02031FE0  arm
- *   func_02032688  0x02032688  arm
+ *   BACKUP_SYSTEM_LoadDoubleCopy  0x02031FE0  arm
+ *   BACKUP_SYSTEM_LoadSingleCopy  0x02032688  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02031AE0.c \
- *       --func func_02031AE0 --addr 0x02031AE0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_Load.c \
+ *       --func BACKUP_SYSTEM_Load --addr 0x02031AE0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -42,10 +42,10 @@ struct State {
 };
 
 extern u32  unk_02146994[];
-extern u32  func_02031FE0(struct State *o, u32 a1, u32 a2, u32 a3);
-extern u32  func_02032688(struct State *o, u32 a1, u32 a2);
+extern u32  BACKUP_SYSTEM_LoadDoubleCopy(struct State *o, u32 a1, u32 a2, u32 a3);
+extern u32  BACKUP_SYSTEM_LoadSingleCopy(struct State *o, u32 a1, u32 a2);
 
-int func_02031AE0(struct State *o, u32 a1)
+int BACKUP_SYSTEM_Load(struct State *o, u32 a1)
 {
     u32 r;
 
@@ -53,9 +53,9 @@ int func_02031AE0(struct State *o, u32 a1)
         return 4;
 
     if (o->f00 != o->f04)
-        r = func_02031FE0(o, a1, 0, 0);
+        r = BACKUP_SYSTEM_LoadDoubleCopy(o, a1, 0, 0);
     else
-        r = func_02032688(o, 0, 0);
+        r = BACKUP_SYSTEM_LoadSingleCopy(o, 0, 0);
 
     switch (r) {
     case 1:

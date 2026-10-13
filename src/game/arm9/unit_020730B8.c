@@ -12,7 +12,7 @@
  *
  * Guarded two-store setter through a handle whose one field is re-read at
  * every use (the `volatile` pointer of docs/families/cluster_02073098.h
- * section 2, the same struct the EXACT sibling func_020730DC uses).
+ * section 2, the same struct the EXACT sibling NNS_SndHandleSetSweep uses).
  *
  * The wall recorded in docs/notes/pkt_02072F5C.func_020730B8.c.txt was the
  * if-conversion of an early return: `if (o->p == 0) return;` followed by two

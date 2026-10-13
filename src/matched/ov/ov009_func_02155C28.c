@@ -1,5 +1,5 @@
 /*
- * function: func_02155C28
+ * function: DWC_RAP_OnFriendDeleted
  * address:  0x02155C28
  * packet:   pkt_ov009_02155C28
  * region:   ov009
@@ -21,7 +21,7 @@ typedef int s32;
 extern char *g_021A8264;
 extern void *func_0203D798(void);
 
-void func_02155C28(s32 a, s32 b)
+void DWC_RAP_OnFriendDeleted(s32 a, s32 b)
 {
     s32 i;
 

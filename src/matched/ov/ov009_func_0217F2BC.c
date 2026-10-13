@@ -1,5 +1,5 @@
 /*
- * function: func_0217F2BC
+ * function: msleep
  * address:  0x0217F2BC
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern void func_02085A38(unsigned int msec);
 
-void func_0217F2BC(unsigned int msec)
+void msleep(unsigned int msec)
 {
     func_02085A38(msec);
 }

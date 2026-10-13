@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   func_021B8588  0x021B8588  thumb
  *   func_021B8C5C  0x021B8C5C  thumb
  *   func_021B9A00  0x021B9A00  thumb
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021B8588(u32 a);
-extern int func_0201BEB8(u32 a, int b);
+extern int WAZA_TOOL_GetFlag(u32 a, int b);
 extern int func_021B9A00(u32 a, u8 *p);
 extern u8 func_021B8C5C(int a, u8 b);
 
@@ -33,7 +33,7 @@ void func_0689AD4C(St *st, u32 a, u32 b, u32 c)
     u8 x;
 
     if (func_021B8588(a) == 2) {
-        if (func_0201BEB8(b, 0xb)) {
+        if (WAZA_TOOL_GetFlag(b, 0xb)) {
             if (func_021B9A00(c, &x)) {
                 st->d[st->n++] = x;
                 st->d[st->n++] = func_021B8C5C(2, x);

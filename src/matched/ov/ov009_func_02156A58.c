@@ -1,5 +1,5 @@
 /*
- * function: func_02156A58
+ * function: DWC_RAP_OnFriendServerMatched
  * address:  0x02156A58
  * packet:   pkt_ov009_02156A58
  * region:   ov009
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   g_021A8264  0x021A8264  data  ov009  a4
- *   func_02155374  0x02155374  thumb  ov009
- *   func_02155D2C  0x02155D2C  thumb  ov009
+ *   DWC_RAP_SetState  0x02155374  thumb  ov009
+ *   DWC_RAP_EnterConnected  0x02155D2C  thumb  ov009
  *   func_0203D650  0x0203D650  arm
- *   func_0216B7E0  0x0216B7E0  arm  ov009
- *   func_0216B908  0x0216B908  arm  ov009
+ *   DWC_CloseConnectionHardFromServer  0x0216B7E0  arm  ov009
+ *   DWC_GetAIDBitmap  0x0216B908  arm  ov009
  */
 
 typedef unsigned char  u8;
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u8 *g_021A8264;
-extern void func_02155374(int v);
-extern void func_02155D2C(int);
+extern void DWC_RAP_SetState(int v);
+extern void DWC_RAP_EnterConnected(int);
 extern u32 func_0203D650(void);
-extern void func_0216B7E0(u8);
-extern int func_0216B908(void);
+extern void DWC_CloseConnectionHardFromServer(u8);
+extern int DWC_GetAIDBitmap(void);
 
-void func_02156A58(int a, int b, int c, int d, int e)
+void DWC_RAP_OnFriendServerMatched(int a, int b, int c, int d, int e)
 {
     int flag = 0;
     *(u32 *)(g_021A8264 + 0x778) = 0;
@@ -45,16 +45,16 @@ void func_02156A58(int a, int b, int c, int d, int e)
             }
             if (g_021A8264[0x7a0] != 0 || flag != 0) {
                 if (e != -1) {
-                    func_0216B7E0(e);
+                    DWC_CloseConnectionHardFromServer(e);
                 }
             }
             *(int *)(g_021A8264 + 0x770) = e;
-            *(u32 *)(g_021A8264 + 0x798) = func_0216B908();
+            *(u32 *)(g_021A8264 + 0x798) = DWC_GetAIDBitmap();
             if (*(u32 *)(g_021A8264 + 0x798) == 1) {
-                func_02155374(8);
+                DWC_RAP_SetState(8);
                 return;
             }
-            func_02155D2C(e);
+            DWC_RAP_EnterConnected(e);
             return;
         }
         if (c == 0) {

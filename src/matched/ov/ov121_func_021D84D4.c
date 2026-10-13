@@ -98,7 +98,7 @@
  *   func_020186C8 0x020186C8 thumb
  *   func_02017588 0x02017588 thumb
  *   func_02017E40 0x02017E40 thumb
- *   func_02017FA8 0x02017FA8 thumb
+ *   POKE_TOOL_SetDefaultMoves 0x02017FA8 thumb
  *   func_0201808C 0x0201808C thumb
  *   func_020180F4 0x020180F4 thumb
  *   func_02018A00 0x02018A00 thumb
@@ -112,7 +112,7 @@
  *   func_020185C4 0x020185C4 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_0202D7C8 0x0202D7C8 thumb
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_0202D8D0 0x0202D8D0 thumb
  *   func_0202D9A4 0x0202D9A4 thumb
  *   func_0202D934 0x0202D934 thumb
@@ -159,7 +159,7 @@ extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
 struct Mon;
 extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *,u32,u32);
-extern u32 func_02017FA8(void *);
+extern u32 POKE_TOOL_SetDefaultMoves(void *);
 extern u32 func_0201808C(void *,u32);
 extern void func_020180F4(void *p, int move);
 extern void func_02018A00(void *,u32,u32);
@@ -173,7 +173,7 @@ extern void func_0202F2AC(void *,u32,u32,u32,u32);
 extern void func_020185C4(void *);
 extern u32 func_02017E1C(void *,u32,u32);
 extern int func_0202D7C8(int);
-extern void *func_020185F4(void *);
+extern void *POKE_TOOL_GetBoxParam(void *);
 extern int func_0202D8D0(int,void *,int,int,u16,u16);
 extern u32 func_0202D9A4(u32,u32,u32,u32,u16);
 extern int func_0202D934(int,void *,int,int,u16);
@@ -260,7 +260,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
             else if(desc[55]==2) random=func_020186C8(otId,(u16)species,desc[28],gender,selector,1);
         }
         func_02017588(allocated,H(26),level,id,packed,random);
-        func_02017E40(allocated,6,H(16));func_02017FA8(allocated);
+        func_02017E40(allocated,6,H(16));POKE_TOOL_SetDefaultMoves(allocated);
         for(i=0;i<4;i++) {
             value=*(u16 *)((u8 *)&work.move[0]+i*2);
             if(value!=0 && value<560 && func_0201808C(allocated,value)==65535) func_020180F4(allocated,value);
@@ -308,11 +308,11 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         goto image;
     image:
         arc=func_0202D7C8(heap);
-        O(12)=func_0202D8D0((int)arc,func_020185F4(mon),0,0,448,heap);
+        O(12)=func_0202D8D0((int)arc,POKE_TOOL_GetBoxParam(mon),0,0,448,heap);
         clamp=0;
-        O(20)=func_0202D9A4((u32)func_020185F4(mon),0,2,0,heap);
-        O(16)=func_0202D934((int)arc,func_020185F4(mon),0,0,heap);
-        OH(296)=func_021D94C4((int)func_020185F4(mon),heap)-48;
+        O(20)=func_0202D9A4((u32)POKE_TOOL_GetBoxParam(mon),0,2,0,heap);
+        O(16)=func_0202D934((int)arc,POKE_TOOL_GetBoxParam(mon),0,0,heap);
+        OH(296)=func_021D94C4((int)POKE_TOOL_GetBoxParam(mon),heap)-48;
         if(*(s16 *)(out+296)>48) clamp=48;
         else if(*(s16 *)(out+296)>=0) clamp=*(s16 *)(out+296);
         OH(296)=clamp;

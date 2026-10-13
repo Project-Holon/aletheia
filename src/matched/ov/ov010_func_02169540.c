@@ -12,16 +12,16 @@
  * Unlabelled leaf: tail call initialising the record at +0x84 in mode 1.
  *
  * symbols:
- *   sub_02046C9C  0x02046C9C  arm
+ *   G3D_SYSTEM_InitResourceByKind  0x02046C9C  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00281.h"
 
 typedef unsigned int   u32;
 struct Rec;
-extern void sub_02046C9C(struct Rec *rec, u32 mode, u32 value);
+extern void G3D_SYSTEM_InitResourceByKind(struct Rec *rec, u32 mode, u32 value);
 
 void func_02169540(unsigned char *a, unsigned int v)
 {
-    sub_02046C9C(((struct Obj00281 *)a)->f84, 1, v);
+    G3D_SYSTEM_InitResourceByKind(((struct Obj00281 *)a)->f84, 1, v);
 }

@@ -10,13 +10,13 @@
  * status: EXACT
  * symbols:
  *   func_0203A574 0x0203A574 arm
- *   d_02175588 0x02175588 data a4
+ *   gColosseumCommandTable 0x02175588 data a4
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_0203A574(u32,u32,u32,u32);
-extern u32 d_02175588[];
+extern u32 gColosseumCommandTable[];
 void func_02174B40(u32 p)
 {
-    func_0203A574(0x1500, (u32)d_02175588, 14, p);
+    func_0203A574(0x1500, (u32)gColosseumCommandTable, 14, p);
 }

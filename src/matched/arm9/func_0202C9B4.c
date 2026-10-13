@@ -1,5 +1,5 @@
 /*
- * function: func_0202C9B4
+ * function: BGWINFRM_Create
  * address:  0x0202C9B4
  * packet:   pkt_0202C9B4
  * region:   arm9
@@ -31,7 +31,7 @@ struct WinMgr {
     u32   w8;        /* 0x08 */
 };
 
-struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap)
+struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap)
 {
     struct WinMgr *p;
 

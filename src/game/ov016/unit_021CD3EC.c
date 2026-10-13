@@ -1,7 +1,7 @@
 /*
  * file:     unit_021CD3EC.c
  * unit:     yes
- * function: func_021CD3EC, func_021CD400, func_021CD404, func_021CD408
+ * function: DWCi_SceneSetTest_procScene, DWCi_SceneSetTest_input, DWCi_SceneSetTest_draw, DWCi_SceneSetTest_button
  * address:  0x021CD3EC
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -12,40 +12,28 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-void func_021CD3EC(void);
-void func_021CD400(void);
-void func_021CD404(void);
-void func_021CD408(void);
+void DWCi_SceneSetTest_procScene(void);
+void DWCi_SceneSetTest_input(void);
+void DWCi_SceneSetTest_draw(void);
+void DWCi_SceneSetTest_button(void);
 
 
 /*
- * Call func_021CD400, func_021CD404, func_021CD408.
+ * Call DWCi_SceneSetTest_input, DWCi_SceneSetTest_draw, DWCi_SceneSetTest_button.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CD3EC.c \
- *       --func func_021CD3EC --addr 0x021CD3EC --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetTest_procScene.c \
+ *       --func DWCi_SceneSetTest_procScene --addr 0x021CD3EC --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021CD3EC(void)
+void DWCi_SceneSetTest_procScene(void)
 {
-    func_021CD400();
-    func_021CD404();
-    func_021CD408();
+    DWCi_SceneSetTest_input();
+    DWCi_SceneSetTest_draw();
+    DWCi_SceneSetTest_button();
 }
 
-void func_021CD400(void)
-{
-}
-
-/*
- * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_021CD404.c \
- *       --func func_021CD404 --addr 0x021CD404 --region ov016 --cc dsi/1.1p1 --arm
- */
-void func_021CD404(void)
+void DWCi_SceneSetTest_input(void)
 {
 }
 
@@ -54,9 +42,21 @@ void func_021CD404(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CD408.c \
- *       --func func_021CD408 --addr 0x021CD408 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetTest_draw.c \
+ *       --func DWCi_SceneSetTest_draw --addr 0x021CD404 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021CD408(void)
+void DWCi_SceneSetTest_draw(void)
+{
+}
+
+/*
+ * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetTest_button.c \
+ *       --func DWCi_SceneSetTest_button --addr 0x021CD408 --region ov016 --cc dsi/1.1p1 --arm
+ */
+void DWCi_SceneSetTest_button(void)
 {
 }

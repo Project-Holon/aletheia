@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02008390
+ * function: CONFIG_GetSoundMode
  * address:  0x02008390
  * packet:   pkt_02008314
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj15571.h"
 
-unsigned int func_02008390(char *a0){ return (unsigned int)(((struct Obj15571 *)a0)->f0 << 0x1a) >> 0x1e; }
+unsigned int CONFIG_GetSoundMode(char *a0){ return (unsigned int)(((struct Obj15571 *)a0)->f0 << 0x1a) >> 0x1e; }

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B918 0x0204B918 arm
+ *   CLACT_GetActorAnimSeqCount 0x0204B918 arm
  */
 #include "../include/Obj23021.h"
 typedef unsigned char u8;
@@ -17,5 +17,5 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
-extern u16 func_0204B918(struct Obj *p);
-int func_021C4280(char *p) { return func_0204B918(((struct Obj23021 *)p)->f4); }
+extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
+int func_021C4280(char *p) { return CLACT_GetActorAnimSeqCount(((struct Obj23021 *)p)->f4); }

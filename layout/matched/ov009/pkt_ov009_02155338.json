@@ -18,11 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02155338",
-    "func_0215534C",
-    "func_02155354",
-    "func_0215535C",
-    "func_02155364"
+    "GFL_NET_DEVWIFI_IsFriendWaiting",
+    "GFL_NET_DEVWIFI_IsVchatEnabled",
+    "GFL_NET_DEVWIFI_GetNewClientAid",
+    "GFL_NET_DEVWIFI_SetAllowConnect",
+    "GFL_NET_DEVWIFI_IsInSession"
+   ],
+   "addresses": [
+    "0x02155338",
+    "0x0215534C",
+    "0x02155354",
+    "0x0215535C",
+    "0x02155364"
    ]
   }
  ]

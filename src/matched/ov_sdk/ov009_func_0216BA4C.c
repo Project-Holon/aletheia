@@ -1,5 +1,5 @@
 /*
- * function: func_0216BA4C
+ * function: DWCi_GT2Startup
  * address:  0x0216BA4C
  * packet:   pkt_ov009_0216BA4C
  * region:   ov009
@@ -16,9 +16,9 @@
  *   func_02198620  0x02198620  arm  ov009
  *   func_02195AB4  0x02195AB4  arm  ov009
  *   func_0216BE00  0x0216BE00  arm  ov009
- *   func_02195B20  0x02195B20  arm  ov009
- *   func_02195E68  0x02195E68  arm  ov009
- *   func_0216C7A8  0x0216C7A8  arm  ov009
+ *   gt2Listen  0x02195B20  arm  ov009
+ *   gt2SetUnrecognizedMessageCallback  0x02195E68  arm  ov009
+ *   DWCi_GT2SocketErrorCallback  0x0216C7A8  arm  ov009
  *   func_0216E5B0  0x0216E5B0  arm  ov009
  *   func_0216E4C0  0x0216E4C0  arm  ov009
  *   g_021AA878  0x021AA878  data
@@ -53,13 +53,13 @@ extern unsigned long func_021685CC(unsigned long max);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern int func_02195AB4(void **socket, char *localAddress, int outgoingBufferSize, int incomingBufferSize, void *callback);
 extern int func_0216BE00(int result);
-extern void func_02195B20(int *p, int v);
-extern void func_02195E68(int *p, int v);
-extern void func_0216C7A8(void *socket);
+extern void gt2Listen(int *p, int v);
+extern void gt2SetUnrecognizedMessageCallback(int *p, int v);
+extern void DWCi_GT2SocketErrorCallback(void *socket);
 extern void func_0216E5B0();
 extern int func_0216E4C0(int unused, unsigned int ip, unsigned short port, unsigned char *message, int len);
 
-int func_0216BA4C(void)
+int DWCi_GT2Startup(void)
 {
 	int gt2Result;
 	unsigned short baseport;
@@ -67,10 +67,10 @@ int func_0216BA4C(void)
 	if (((DwcState *)g_021AA878.st)->gt2Socket != 0)
 		return 0;
 	baseport = func_021685CC(0x4000) + 0xc000;
-	gt2Result = func_02195AB4(&((DwcState *)g_021AA878.st)->gt2Socket, func_02198620(0, baseport, 0), ((DwcState *)g_021AA878.st)->outSize, ((DwcState *)g_021AA878.st)->inSize, func_0216C7A8);
+	gt2Result = func_02195AB4(&((DwcState *)g_021AA878.st)->gt2Socket, func_02198620(0, baseport, 0), ((DwcState *)g_021AA878.st)->outSize, ((DwcState *)g_021AA878.st)->inSize, DWCi_GT2SocketErrorCallback);
 	if (func_0216BE00(gt2Result))
 		return gt2Result;
-	func_02195B20(((DwcState *)g_021AA878.st)->gt2Socket, (int)func_0216E5B0);
-	func_02195E68(((DwcState *)g_021AA878.st)->gt2Socket, (int)func_0216E4C0);
+	gt2Listen(((DwcState *)g_021AA878.st)->gt2Socket, (int)func_0216E5B0);
+	gt2SetUnrecognizedMessageCallback(((DwcState *)g_021AA878.st)->gt2Socket, (int)func_0216E4C0);
 	return gt2Result;
 }

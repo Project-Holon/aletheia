@@ -1,5 +1,5 @@
 /*
- * function: func_021B111C
+ * function: VCT_AUDIO_DecodePendingFrames
  * address:  0x021B111C
  * packet:   pkt_ov013_021B111C
  * region:   ov013
@@ -15,15 +15,15 @@
  * the bare field lands in r0).
  *
  * symbols:
- *   func_021B1488  0x021B1488  arm  ov013
- *   func_021B1498  0x021B1498  arm  ov013
- *   func_021B14A8  0x021B14A8  arm  ov013
- *   func_021B043C  0x021B043C  arm  ov013
- *   func_021B1634  0x021B1634  arm  ov013
- *   func_021B16B4  0x021B16B4  arm  ov013
- *   func_021B14F8  0x021B14F8  arm  ov013
- *   func_021B1810  0x021B1810  arm  ov013
- *   func_021B2FE4  0x021B2FE4  arm  ov013
+ *   VCT_AUDIO_GetPendingHead  0x021B1488  arm  ov013
+ *   VCT_AUDIO_GetPendingCount  0x021B1498  arm  ov013
+ *   VCT_AUDIO_FindPending  0x021B14A8  arm  ov013
+ *   VCT_ADPCM_DecodePacket  0x021B043C  arm  ov013
+ *   VCT_AUDIO_DecodeMuLaw  0x021B1634  arm  ov013
+ *   VCT_AUDIO_ConvertPcm8ToPcm16  0x021B16B4  arm  ov013
+ *   VCT_AUDIO_UnlinkPending  0x021B14F8  arm  ov013
+ *   VCT_AUDIO_InsertReadyPacket  0x021B1810  arm  ov013
+ *   VCT_POOL_FreeFrame  0x021B2FE4  arm  ov013
  *   func_02087988  0x02087988  arm
  *   func_0208799C  0x0208799C  arm
  */
@@ -45,22 +45,22 @@ typedef struct Voice {
     void *f474;
 } Voice;
 
-extern Voice *func_021B1488(void);
+extern Voice *VCT_AUDIO_GetPendingHead(void);
 struct AdpcmState;
-extern int func_021B1498(unsigned int i);
-extern Voice *func_021B14A8(u8 id);
-extern void func_021B043C(struct AdpcmState *hdr, void *dst, int n, int mode);
+extern int VCT_AUDIO_GetPendingCount(unsigned int i);
+extern Voice *VCT_AUDIO_FindPending(u8 id);
+extern void VCT_ADPCM_DecodePacket(struct AdpcmState *hdr, void *dst, int n, int mode);
 struct Node;
-extern void func_021B1634(unsigned char *src, short *dst, unsigned int n);
-extern void func_021B16B4(signed char *src, short *dst, unsigned int n, int fmt);
+extern void VCT_AUDIO_DecodeMuLaw(unsigned char *src, short *dst, unsigned int n);
+extern void VCT_AUDIO_ConvertPcm8ToPcm16(signed char *src, short *dst, unsigned int n, int fmt);
 struct Node;
-extern u32 func_021B14F8(struct Node *n);
-extern int func_021B1810(struct Node *n, u32 idx);
-extern void func_021B2FE4(void *p);
+extern u32 VCT_AUDIO_UnlinkPending(struct Node *n);
+extern int VCT_AUDIO_InsertReadyPacket(struct Node *n, u32 idx);
+extern void VCT_POOL_FreeFrame(void *p);
 extern int func_02087988(void);
 extern void func_0208799C(int);
 
-int func_021B111C(void)
+int VCT_AUDIO_DecodePendingFrames(void)
 {
     Voice *v;
     int i;
@@ -70,26 +70,26 @@ int func_021B111C(void)
     Voice *q;
     int fmt;
 
-    v = func_021B1488();
+    v = VCT_AUDIO_GetPendingHead();
     if (v == 0)
         return 0;
 
     irq = func_02087988();
     id = v->f11;
-    n = func_021B1498(id);
+    n = VCT_AUDIO_GetPendingCount(id);
     for (i = 0; i < n; i++) {
-        q = func_021B14A8(id);
+        q = VCT_AUDIO_FindPending(id);
         fmt = q->fC;
         if (fmt >= 2)
-            func_021B043C(q->f474, q->buf, q->f14, fmt);
+            VCT_ADPCM_DecodePacket(q->f474, q->buf, q->f14, fmt);
         else if (fmt == 1)
-            func_021B1634(q->f474, (short int *)q->buf, q->f14);
+            VCT_AUDIO_DecodeMuLaw(q->f474, (short int *)q->buf, q->f14);
         else
-            func_021B16B4(q->f474, (short int *)q->buf, q->f14, fmt);
+            VCT_AUDIO_ConvertPcm8ToPcm16(q->f474, (short int *)q->buf, q->f14, fmt);
         q->f474 = q->buf;
-        func_021B14F8((struct Node *)q);
-        if (func_021B1810((struct Node *)q, q->f11) < 0)
-            func_021B2FE4(q);
+        VCT_AUDIO_UnlinkPending((struct Node *)q);
+        if (VCT_AUDIO_InsertReadyPacket((struct Node *)q, q->f11) < 0)
+            VCT_POOL_FreeFrame(q);
     }
     func_0208799C(irq);
     return n;

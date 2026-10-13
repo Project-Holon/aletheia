@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02017FB0",
+   "name": "POKE_TOOL_SetBoxDefaultMoves",
    "address": "0x02017FB0",
    "kind": "game",
    "region": "arm9",
@@ -51,9 +51,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020181A0",
+    "POKE_TOOL_RecoverBoxAllPP",
     "func_020181F4",
-    "func_020181FC"
+    "POKE_TOOL_SetBoxMoveSlot"
+   ],
+   "addresses": [
+    "0x020181A0",
+    "0x020181F4",
+    "0x020181FC"
    ]
   },
   {
@@ -68,8 +73,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02018430",
-    "func_02018438"
+    "POKE_TOOL_CalcLevel",
+    "POKE_TOOL_CalcBoxLevel"
+   ],
+   "addresses": [
+    "0x02018430",
+    "0x02018438"
    ]
   },
   {

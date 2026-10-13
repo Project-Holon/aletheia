@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0203B018",
-    "func_0203B01C"
+    "GFL_NET_STATE_ConnectMacDone",
+    "GFL_NET_STATE_ExtendConnectTimer"
+   ],
+   "addresses": [
+    "0x0203B018",
+    "0x0203B01C"
    ]
   }
  ]

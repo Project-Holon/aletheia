@@ -13,7 +13,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_020490F4 0x020490F4 arm
@@ -40,7 +40,7 @@ extern const struct Cfg d_020A1448;
 extern void func_02082BCC(void *,int,int);
 extern void func_0204A48C(const struct Cfg *,u32,u32);
 extern struct Bank *func_0204B100(int,u8,u32);
-extern void func_0204B270(struct Bank *);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
 extern void func_020434DC(u32,u32);
 extern void func_02043598(u32,u32);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -62,7 +62,7 @@ void func_021B7B2C(u32 *p,const void *config,u16 heap) {
  func_02082BCC(p,0,0xb4);
  func_0204A48C(&d_020A1448,(u32)config,heap);
  p[0]=(u32)func_0204B100(0x80,0,heap);
- func_0204B270((struct Bank *)p[0]);
+ CLACT_SetUnitDefaultRenderer((struct Bank *)p[0]);
  func_020434DC(0x10,1);
  func_02043598(0x10,1);
  archive=func_020490F4(0x5e,heap);

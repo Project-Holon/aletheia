@@ -116,7 +116,7 @@
  *   split of the sy/sx block reproduces it.
  * note (2026-10-05, wave D9r lane 22): 94 -> 0 instruction lines differ; 5 bytes left (two spill slots).
  *   (1) The 0x040004A8 word is the SDK inline G3_TexImageParam with enum parameter types, as in the
- *   matched sibling arm9 func_02014D2C (same renderer: same matrix calls, Pose switch, TexInfo record
+ *   matched sibling arm9 MCSS_Draw (same renderer: same matrix calls, Pose switch, TexInfo record
  *   at obj+0x90 with addr/s/t/fmt/pltt0 at 0/0xC/0x10/0x14/0x1C).  With it, attr spills to sp+0x5C and
  *   &pos stays in r7 across the func_021F660C calls; the frame is 0x254 and the push has no r3.
  *   (2) attr, srcs and a new ctrl (obj+0x28) are plain assignments in the order attr, ctrl, srcs (the
@@ -145,7 +145,7 @@
  *   k-loop declaration order.  The pair stays swapped in every variant, so its order is probably fixed by the
  *   colouring tie-break, not by source position of the two expressions.
  * note (2026-10-05, wave D9r lane 90): residue unchanged at 5 bytes (same slot pair).  Compared with the
- *   matched twin arm9 func_02014D2C line by line and tested new forms, each a real compile.  Same 5 bytes:
+ *   matched twin arm9 MCSS_Draw line by line and tested new forms, each a real compile.  Same 5 bytes:
  *   outer i loop as the twin's `i = 0; if (n > 0) do { } while (++i < n);`; a typed MAnim/Frame chain
  *   (`((Obj *)obj)->anim->frames[pose.id]`) instead of the raw obj+0x6C casts; the node as a 0x5C-byte
  *   struct array (`&(*nodes)[idx]`, as the twin); a frame-cells pointer local at the head; a named int
@@ -273,7 +273,7 @@
  *   or scheduling off (9 B); head chain through a named `int id = pose.id` (723 B); second rotation rz before rx (652 B);
  *   `Z * cos` operand order (5 B, same).  Also off: opt_unroll_loops, opt_vectorize_loops, opt_findoffsets (5 B).  mwcc
  *   SpillCode.c: spill cost is use count times block weight; earlier lanes' extra-use diagnostics did not move the pair, so
- *   slot order is not cost-driven.  Twin arm9 func_02014D2C re-read: no k-body pr rotation, nothing to borrow.
+ *   slot order is not cost-driven.  Twin arm9 MCSS_Draw re-read: no k-body pr rotation, nothing to borrow.
  * note (pass 2 2026-10-06 P2L09): residue unchanged at 5 bytes; the body is unchanged.  40 real compiles.
  *   Slots low to high of the triple j*8 / cos(pr) / pr (flag 0x3C in all rows unless said):
  *   - `#pragma opt_strength_reduction off`: cos 30, pr 34, j*8 38 (6 B), the same as `long j`.  So strength

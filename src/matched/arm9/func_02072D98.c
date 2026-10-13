@@ -1,5 +1,5 @@
 /*
- * function: func_02072D98
+ * function: NNS_SndPlayerSetPlayerVolume
  * address:  0x02072D98
  * packet:   pkt_020720
  * region:   arm9
@@ -17,8 +17,8 @@
  * Byte field of record `idx` in the stride-0x24 table.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02072D98.c \
- *       --func func_02072D98 --addr 0x02072D98 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_SndPlayerSetPlayerVolume.c \
+ *       --func NNS_SndPlayerSetPlayerVolume --addr 0x02072D98 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -26,7 +26,7 @@ typedef unsigned char u8;
 
 extern u8 g_0214E484[];
 
-void func_02072D98(u32 idx, u32 val)
+void NNS_SndPlayerSetPlayerVolume(u32 idx, u32 val)
 {
     g_0214E484[idx * 0x24] = val;
 }

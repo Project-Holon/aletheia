@@ -24,7 +24,7 @@
  *
  * symbols:
  *   func_0209C0A4  0x0209C0A4  arm
- *   func_0204E824  0x0204E824  arm
+ *   FADE_ApplyBrightness  0x0204E824  arm
  *   g_02146A7C     0x02146A7C  data
  *
  * Verified with:
@@ -40,7 +40,7 @@ typedef unsigned int u32;
 extern struct Run0204E720 *g_02146A7C;
 
 extern s32  func_0209C0A4(s32 a, s32 b);
-extern void func_0204E824(void);
+extern void FADE_ApplyBrightness(void);
 
 void func_0204E720(u32 a, s32 b, s32 c, s32 d)
 {
@@ -72,7 +72,7 @@ void func_0204E720(u32 a, s32 b, s32 c, s32 d)
 
     g_02146A7C->unk08 = g_02146A7C->unk04;
 
-    func_0204E824();
+    FADE_ApplyBrightness();
 }
 
 int func_0204E804(void)

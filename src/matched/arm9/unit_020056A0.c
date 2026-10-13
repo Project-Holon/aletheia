@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020056A0, sub_020056BC, sub_020056C8, sub_020056D0, sub_020056EC, sub_02005728
+ * function: GFL_USE_AddMainTask, sub_020056BC, GFL_USE_InitRandomState, GFL_USE_InitRandom, GFL_USE_GetRandom, GFL_USE_GetRandomBelow
  *
  * symbols:
  *   sub_020056A0_Sys  0x020AA194  data
@@ -38,20 +38,20 @@
  * so is the high half of the seed, but the helper is called with r1 and r3
  * both zeroed, which is two operands already widened to 64 bits; that is
  * `(seed >> 32) * range` on a `u64` seed and not a `umull` of two words, and
- * taking the returned r1 is the `>> 32`.  sub_020056EC is the same draw with
+ * taking the returned r1 is the `>> 32`.  GFL_USE_GetRandom is the same draw with
  * a range of zero meaning "the whole word", and its two arms merge on r1,
  * which is why the zero arm loads the high half into r1 and moves rather than
  * loading it into r0.
  *
- * sub_020056EC reloads the high half from memory after the step and
- * sub_02005728 keeps it in the register the `adcs` left it in.  That is not a
+ * GFL_USE_GetRandom reloads the high half from memory after the step and
+ * GFL_USE_GetRandomBelow keeps it in the register the `adcs` left it in.  That is not a
  * difference in the source: it falls out of the branch in the first one, and
  * both come from the same expression.
  *
  * Three of the six carry no label, all because they save nothing.
- * sub_020056BC is a two load getter and sub_020056C8 is a tail call through a
- * pool word.  sub_020056C8 is in this range rather than a range of its own
- * because sub_020056D0 is its only caller anywhere in the image, so the call
+ * sub_020056BC is a two load getter and GFL_USE_InitRandomState is a tail call through a
+ * pool word.  GFL_USE_InitRandomState is in this range rather than a range of its own
+ * because GFL_USE_InitRandom is its only caller anywhere in the image, so the call
  * has to be the `local` class; splitting them leaves it with no witness at
  * all.
  *
@@ -76,12 +76,12 @@
  *       discards its only witness.  Seeding the label would not help: nothing
  *       in the image branches to 0x02005610 either.
  *   0x0200520C..0x02005230, 36 bytes.  `label`, the only caller of
- *       sub_02005640 is the `bl` at 0x0200520E.  sub_02005640 is matched, in
+ *       GFL_USE_CallVBlankHook is the `bl` at 0x0200520E.  GFL_USE_CallVBlankHook is matched, in
  *       src/matched/unit_0200560C.c, but it is 0x434 bytes away with two
  *       blocked functions and three linker veneers in between, so no
  *       contiguous range makes the site `local`.
  *   0x02005230..0x0200523C, 12 bytes.  `label` twice: the only caller of
- *       sub_02005430 is the `bl` at 0x02005232 and the only caller of
+ *       GFL_USE_PollTwlService is the `bl` at 0x02005232 and the only caller of
  *       sub_0200567C is the `bl` at 0x02005236.  Same obstruction as above in
  *       both directions at once.
  *   0x0200523C..0x020052EC, 176 bytes.  19 unresolved sites, 18 of them
@@ -161,10 +161,10 @@ extern struct Node *func_02030DA8(struct Ctx *c, void (*callback)(struct Node *,
 extern void  func_0203F034(u32 seed);
 extern void func_0203F258(struct Lcg64 *out);
 
-void sub_020056C8(void *heap);
-u32  sub_020056EC(u32 range);
+void GFL_USE_InitRandomState(void *heap);
+u32  GFL_USE_GetRandom(u32 range);
 
-void *sub_020056A0(void (*callback)(struct Node *, void *), void *work, u32 key)
+void *GFL_USE_AddMainTask(void (*callback)(struct Node *, void *), void *work, u32 key)
 {
     return func_02030DA8(sub_020056A0_Sys.unk10->unk20, callback, work, key);
 }
@@ -174,18 +174,18 @@ void *sub_020056BC(void)
     return sub_020056A0_Sys.unk10->unk20;
 }
 
-void sub_020056C8(void *heap)
+void GFL_USE_InitRandomState(void *heap)
 {
     func_0203F258(heap);
 }
 
-void sub_020056D0(void)
+void GFL_USE_InitRandom(void)
 {
-    sub_020056C8(sub_020056A0_Sys.unk10);
-    func_0203F034(sub_020056EC(0));
+    GFL_USE_InitRandomState(sub_020056A0_Sys.unk10);
+    func_0203F034(GFL_USE_GetRandom(0));
 }
 
-u32 sub_020056EC(u32 range)
+u32 GFL_USE_GetRandom(u32 range)
 {
     struct Sub020056A0Heaps *p = sub_020056A0_Sys.unk10;
     u32 v;
@@ -199,7 +199,7 @@ u32 sub_020056EC(u32 range)
     return v;
 }
 
-u32 sub_02005728(u32 range)
+u32 GFL_USE_GetRandomBelow(u32 range)
 {
     struct Sub020056A0Heaps *p = sub_020056A0_Sys.unk10;
 

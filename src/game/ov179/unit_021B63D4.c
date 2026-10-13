@@ -24,8 +24,8 @@
  *   func_021B6290 0x021B6290 thumb ov179
  *   d_021B6A1C 0x021B6A1C data a4
  *   func_020221A4 0x020221A4 thumb
- *   func_02005E50 0x02005E50 thumb
- *   func_02005D28 0x02005D28 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_021B6268 0x021B6268 thumb ov179
  *   func_02049238 0x02049238 arm
  *   func_021B6248 0x021B6248 thumb ov179
@@ -49,6 +49,7 @@
  *   func_020498F4 0x020498F4 arm
  *   func_021B6338 0x021B6338 thumb ov179
  *   func_02040588  0x02040588  arm
+ *   GFL_USE_PlayFanfare  0x02005DAC  thumb  arm9
  */
 #include "../../matched/include/Obj14386.h"
 #include "../../matched/include/Obj14387.h"
@@ -97,8 +98,8 @@ extern void func_021B622C(char *);
 extern void func_021B624C(int *);
 extern void func_021B6290(char *,unsigned,unsigned,unsigned);
 extern u32 func_020221A4(void);
-extern int func_02005E50(void);
-extern void func_02005D28(void);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void func_021B6268(char *);
 extern void func_02049238(void *);
 extern void func_021B6248(char *);
@@ -117,7 +118,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_021B6338(void *,int,int);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02005DAC(void *arg);
+extern void GFL_USE_PlayFanfare(void *arg);
 int func_021B63D4(char *p);
 int func_021B6448(char *p);
 u32 func_021B6490(char *p);
@@ -163,8 +164,8 @@ int func_021B63D4(char *p)
 
 int func_021B6448(char *p) {
  if(func_020221A4()==0) return 1;
- if(func_02005E50()==1) return 1;
- func_02005D28();
+ if(GFL_USE_IsBgmFading()==1) return 1;
+ GFL_USE_CancelChangeAndStopBgm();
  if(((struct Obj14387 *)p)->f6058==1) { func_021B6268(p); func_02049238(((struct Obj14387 *)p)->f4); func_021B6248(p); func_021B6220(); }
  return 6;
 }
@@ -388,19 +389,19 @@ int func_021B6878(void)
 
 int func_021B687C(void)
 {
-    func_02005D28();
+    GFL_USE_CancelChangeAndStopBgm();
     return 1;
 }
 
 
 /*
- * 12-byte leaf: forwards the second word of the record to func_02005DAC and
+ * 12-byte leaf: forwards the second word of the record to GFL_USE_PlayFanfare and
  * returns 1.  The lane enumerator reports 664 bytes because this is the last
  * func_ label in ov179; the disassembly ends at the pop and the rest is data.
  */
 int func_021B6888(void *ctx, unsigned int *rec)
 {
-    func_02005DAC((void *)rec[1]);
+    GFL_USE_PlayFanfare((void *)rec[1]);
     return 1;
 }
 

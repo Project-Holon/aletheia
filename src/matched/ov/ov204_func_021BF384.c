@@ -15,24 +15,24 @@
  * prior fixed-flag ARM9-45CAC.log, using the owner's unit declarations:
  * void func_02045CAC(struct MsgBank *bank, u32 index, void *dest) {
  *   u32 size; struct MsgEntry *e;
- *   if (index >= bank->file->count) { func_0204581C(dest); return; }
+ *   if (index >= bank->file->count) { STRBUF_Clear(dest); return; }
  *   func_02046180(bank);
  *   if (bank->resident == 0) {
  *     u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *     func_0204960C(bank->stream, pos + (index * 8 + 4));
- *     func_020495F4(bank->stream, 8, &bank->cache); e = &bank->cache;
+ *     ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache); e = &bank->cache;
  *   } else { e = (struct MsgEntry *)((u8 *)bank->base + 4) + index; }
  *   if (bank->resident == 0) {
  *     void *buf; size = e->len * 2;
  *     buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),
- *                       size, 0, g_020A7E8C, 0xd6);
+ *                       size, 0, MSGDATA_AllocSite, 0xd6);
  *     if (buf != 0) {
  *       func_0204960C(bank->stream, e->off + (bank->origin
  *                     + bank->file->langOff[bank->langIndex]));
- *       func_020495F4(bank->stream, size, buf);
- *       func_02045A00(dest, buf, e->len); func_020307B0(buf);
+ *       ARC_TOOL_ReadHandle(bank->stream, size, buf);
+ *       STRBUF_SetChars(dest, buf, e->len); func_020307B0(buf);
  *     }
- *   } else { func_02045A00(dest, (u8 *)bank->base + e->off, e->len); }
+ *   } else { STRBUF_SetChars(dest, (u8 *)bank->base + e->off, e->len); }
  *   func_02045E04(dest, index);
  * }
  * lever: u16 heap local places its word home at sp+8; u32 swaps it with

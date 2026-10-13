@@ -12,9 +12,9 @@
  * sdk:      WCMi_WmifStartupAsync (libwcm.TWL.HYB.a wmif.o)
  *
  * symbols:
- *   func_021657C8    0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork    0x021657C8  arm  ov009
  *   WM_Init          0x0208E010  arm
- *   func_02165A4C    0x02165A4C  arm  ov009
+ *   WCMi_SetPhase    0x02165A4C  arm  ov009
  *   func_0208EAC8    0x0208EAC8  arm
  *   OS_GetMacAddress 0x02087C6C  arm
  *   func_021665CC    0x021665CC  arm  ov009
@@ -35,9 +35,9 @@ typedef struct WCMWork {
     unsigned char wmSysBuf[1];
 } WCMWork;
 
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 extern long WM_Init(void *wmSysBuf, unsigned short dmaNo);
-extern void func_02165A4C(unsigned char phase);
+extern void WCMi_SetPhase(unsigned char phase);
 extern long func_0208EAC8(void (*callback)(void *));
 extern void OS_GetMacAddress(unsigned char *macAddress);
 extern void func_021665CC(unsigned char *macAddress);
@@ -51,11 +51,11 @@ long func_02166880(void)
     WCMWork *wcmw;
     long wmResult;
 
-    wcmw = (WCMWork *)func_021657C8();
+    wcmw = (WCMWork *)WCMi_GetSystemWork();
     wmResult = WM_Init(wcmw->wmSysBuf, wcmw->dmaNo);
     switch (wmResult) {
     case 3:
-        func_02165A4C(0xb);
+        WCMi_SetPhase(0xb);
         return 7;
     case 4:
         return 5;
@@ -64,13 +64,13 @@ long func_02166880(void)
     case 5:
     case 6:
     default:
-        func_02165A4C(0xb);
+        WCMi_SetPhase(0xb);
         return 7;
     case 0:
         break;
     }
     if (func_0208EAC8(func_02166EB0) != 0) {
-        func_02165A4C(0xb);
+        WCMi_SetPhase(0xb);
         return 7;
     }
     OS_GetMacAddress(macAddress);
@@ -78,15 +78,15 @@ long func_02166880(void)
     wmResult = func_0208F224((char *)func_02166F24);
     switch (wmResult) {
     case 2:
-        func_02165A4C(2);
+        WCMi_SetPhase(2);
         wcmw->wmState = 1;
         break;
     case 8:
-        func_02165A4C(0xc);
+        WCMi_SetPhase(0xc);
         return 1;
     case 3:
     default:
-        func_02165A4C(0xb);
+        WCMi_SetPhase(0xb);
         return 7;
     }
     return 3;

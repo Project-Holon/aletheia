@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0217ED38  0x0217ED38  arm
- *   func_0215F650  0x0215F650  arm
+ *   SOC_GetHostByName  0x0215F650  arm
  */
 
 typedef struct SOCHostEnt {
@@ -22,7 +22,7 @@ typedef struct SOCHostEnt {
 } SOCHostEnt;
 
 extern int func_0217ED38(int a);
-extern SOCHostEnt *func_0215F650(char *name);
+extern SOCHostEnt *SOC_GetHostByName(char *name);
 
 unsigned int func_02199CE8(char *name)
 {
@@ -32,7 +32,7 @@ unsigned int func_02199CE8(char *name)
     ret = func_0217ED38((int)name);
     if (ret != (unsigned int)-1)
         return ret;
-    hent = func_0215F650(name);
+    hent = SOC_GetHostByName(name);
     if (hent == 0)
         return 0;
     return **hent->addrList;

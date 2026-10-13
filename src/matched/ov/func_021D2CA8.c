@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_021D2CA8   0x021D2CA8  thumb
- *   func_02005D90   0x02005D90  thumb
- *   func_02005DE4   0x02005DE4  thumb
- *   func_02005E64   0x02005E64  thumb
- *   func_02005E9C   0x02005E9C  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm   0x02005D90  thumb
+ *   GFL_USE_SetBgmPlayerParam   0x02005DE4  thumb
+ *   GFL_USE_PushBgm   0x02005E64  thumb
+ *   GFL_USE_PopBgm   0x02005E9C  thumb
  *   func_02005F38   0x02005F38  thumb
  *   func_02017E1C   0x02017E1C  thumb
  *   func_020181F4   0x020181F4  thumb
- *   func_02018328   0x02018328  thumb
+ *   POKE_TOOL_GetLevelUpMove   0x02018328  thumb
  *   func_021B9934   0x021B9934  thumb ov093
  *   func_021B9AF8   0x021B9AF8  thumb ov093
  *   func_021B9CBC   0x021B9CBC  thumb ov093
@@ -66,7 +66,7 @@ extern struct StateData g_021F3B64;
 
 extern u8 func_021D5440(u8 *p);
 extern void *func_021D5844(void *mon);
-extern u16 func_02018328(void *p, u32 *idx, u32 heap);
+extern u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap);
 extern u8 *func_021B9934(char *p, int i);
 extern void func_021D6BFC(u8 *p);
 struct H;
@@ -78,11 +78,11 @@ extern void func_021EA614(char *p, struct H *h);
 extern void func_021EA638(char *p, struct H *h, int c);
 extern int func_021EA720(u32 *p);
 extern int func_021EA710(u32 *p);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
-extern void func_02005D90(int a, int b);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(int a, int b);
 extern int func_02005F38(void);
-extern int func_02005E9C(void);
+extern int GFL_USE_PopBgm(void);
 extern void func_021EABC4(u8 *a, u32 x, u32 y, u32 z);
 extern int func_021EAC54(void *win, int *sel);
 extern char *func_021B9AF8(char *p, int i);
@@ -103,7 +103,7 @@ int func_021D2CA8(LearnSeq *s, int *state, void *mon)
         g_021F3B64.move = 0;
         *state = 1;
     case 1:
-        g_021F3B64.move = func_02018328(func_021D5844(mon), &g_021F3B64.iter, s->level);
+        g_021F3B64.move = POKE_TOOL_GetLevelUpMove(func_021D5844(mon), &g_021F3B64.iter, s->level);
         if (g_021F3B64.move == 0)
             return 1;
         if (g_021F3B64.move == 0xFFFE)
@@ -127,17 +127,17 @@ int func_021D2CA8(LearnSeq *s, int *state, void *mon)
     }
     case 3:
         if (func_021EA720(s->msgWin)) {
-            func_02005DE4((void *)1);
-            func_02005E64();
-            func_02005D90(0x515, 0xFFFF);
+            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_PushBgm();
+            GFL_USE_CancelChangeAndPlayBgm(0x515, 0xFFFF);
         }
         if (func_021EA710(s->msgWin))
             *state = 4;
         break;
     case 4:
         if (func_02005F38() == 0) {
-            func_02005E9C();
-            func_02005DE4(0);
+            GFL_USE_PopBgm();
+            GFL_USE_SetBgmPlayerParam(0);
             *state = 1;
         }
         break;

@@ -1,5 +1,5 @@
 /*
- * function: func_02175938
+ * function: INTRUDE_COMM_StoreSessionEntry
  * address: 0x02175938
  * packet: pkt_ov011_02175938
  * region: ov011
@@ -11,7 +11,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-void func_02175938(u8 *p, const u16 *src, int index)
+void INTRUDE_COMM_StoreSessionEntry(u8 *p, const u16 *src, int index)
 {
     u16 *dst = (u16 *)(p + index * 40);
     unsigned n;

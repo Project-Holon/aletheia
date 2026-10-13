@@ -16,7 +16,7 @@
  *   func_021F4AC8 0x021F4AC8 thumb ov112
  *   func_0204F638 0x0204F638 arm
  *   func_0204F684 0x0204F684 arm
- *   func_0204F7C4 0x0204F7C4 arm
+ *   BILLBOARD_SetElemRotZ 0x0204F7C4 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  */
 typedef unsigned char u8;
@@ -37,7 +37,7 @@ extern void func_021F4F60(u8 *,Offset *);
 extern void func_021F4AC8(u8 *p, u8 *a, u8 *b);
 extern void func_0204F638(u8 *,int,struct Trip *);
 extern void func_0204F684(struct Manager0204F684 *,int,const s16 *,const s16 *);
-extern void func_0204F7C4(u8 *,int,u16 *);
+extern void BILLBOARD_SetElemRotZ(u8 *,int,u16 *);
 extern s16 FX_SinCosTable_[];
 void func_021F4990(Object *p)
 {
@@ -67,7 +67,7 @@ void func_021F4990(Object *p)
             scale.a=e->a*scale.y;
             scale.b=e->b*scale.x;
             func_0204F684((struct Manager0204F684 *)p->board,e->index,&scale.a,&scale.b);
-            func_0204F7C4(p->board,e->index,&e->angle);
+            BILLBOARD_SetElemRotZ(p->board,e->index,&e->angle);
             p->entries[i].flags.bits.dirty=0;
         }
     }

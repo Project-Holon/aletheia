@@ -10,12 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
+ *   CLACT_SetActorScale  0x0204B5AC  arm  arm9
  *   (none)
  *
  * Hands the element at +0x5C a 0x80 pair and a 0x1000 pair and marks +0x60.
  *
  * Blocker resolved: 0x0204B5AC was matched in arm9 (src/matched/
- * func_0204B5AC.c, shard pkt_0204B5AC), so the call at +0x30 attests as
+ * CLACT_SetActorScale.c, shard pkt_0204B5AC), so the call at +0x30 attests as
  * `matched`.  All 58 concrete bytes equal (the 60-byte listing extent is 58
  * plus two padding bytes); the extent ran two bytes long because the follower
  * has no func_ label.
@@ -28,7 +29,7 @@ struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Pair;
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 
 void func_021C31CC(int unused, char *q)
 {
@@ -42,6 +43,6 @@ void func_021C31CC(int unused, char *q)
     buf.w[0] = 0x1000;
     buf.w[1] = 0x1000;
     func_0204B404((struct Obj *)(*(int *)(q + ((struct Obj09208 *)q)->f5C * 4 + 0x54)), (const struct Vec2 *)buf.h, 1);
-    func_0204B5AC((struct Obj *)(*(int *)(q + ((struct Obj09208 *)q)->f5C * 4 + 0x54)), (struct Pair *)buf.w);
+    CLACT_SetActorScale((struct Obj *)(*(int *)(q + ((struct Obj09208 *)q)->f5C * 4 + 0x54)), (struct Pair *)buf.w);
     ((struct Obj09208 *)q)->f60 = 1;
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0201320C
+ * function: BTL_SETUP_InitCommFieldSituation
  * address:  0x0201320C
  * packet:   pkt_02013090
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj04040.h"
 
-void func_0201320C(int p0){ ((struct Obj04040 *)p0)->f0 = (int)9; ((struct Obj04040 *)p0)->f4 = (int)0; ((struct Obj04040 *)p0)->f8 = (unsigned char)0; ((struct Obj04040 *)p0)->fA = (unsigned short)0; ((struct Obj04040 *)p0)->fC = (unsigned char)0; ((struct Obj04040 *)p0)->fD = (unsigned char)0; ((struct Obj04040 *)p0)->f9 = (unsigned char)0; }
+void BTL_SETUP_InitCommFieldSituation(int p0){ ((struct Obj04040 *)p0)->f0 = (int)9; ((struct Obj04040 *)p0)->f4 = (int)0; ((struct Obj04040 *)p0)->f8 = (unsigned char)0; ((struct Obj04040 *)p0)->fA = (unsigned short)0; ((struct Obj04040 *)p0)->fC = (unsigned char)0; ((struct Obj04040 *)p0)->fD = (unsigned char)0; ((struct Obj04040 *)p0)->f9 = (unsigned char)0; }

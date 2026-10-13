@@ -1,5 +1,5 @@
 /*
- * function: sub_020342F8
+ * function: AREAMAN_FindClearRunUp
  * address:  0x020342F8
  * packet:   pkt_02033CA8
  * region:   arm9
@@ -26,8 +26,8 @@
  * the compared range and the `literal` class closes the site.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020342F8.c \
- *       --func sub_020342F8 --addr 0x020342F8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/AREAMAN_FindClearRunUp.c \
+ *       --func AREAMAN_FindClearRunUp --addr 0x020342F8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ typedef signed int    s32;
 
 extern const u8 Areaman_RunMask[];
 
-s32 sub_020342F8(u32 bits, u32 start, u32 len)
+s32 AREAMAN_FindClearRunUp(u32 bits, u32 start, u32 len)
 {
     u8 mask;
     u32 last;

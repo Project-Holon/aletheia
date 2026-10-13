@@ -15,16 +15,16 @@
  * len; ADVANCE spells that with a block-scoped temporary.
  *
  * symbols:
- *   func_0219E9AC  0x0219E9AC  arm  ov009
+ *   SBServerSetFlags  0x0219E9AC  arm  ov009
  *   func_0219E9B4  0x0219E9B4  arm  ov009
- *   func_0219E9C0  0x0219E9C0  arm  ov009
+ *   SBServerSetICMPIP  0x0219E9C0  arm  ov009
  *   func_02184200  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   func_0219E084  0x0219E084  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
  *   strlen  0x0209477C  arm
- *   func_0219E9D0  0x0219E9D0  arm  ov009
- *   func_0219E9C8  0x0219E9C8  arm  ov009
+ *   SBServerGetState  0x0219E9D0  arm  ov009
+ *   SBServerSetState  0x0219E9C8  arm  ov009
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -48,15 +48,15 @@ typedef struct SBServerList {
     unsigned short defaultport;
 } SBServerList;
 
-extern void func_0219E9AC(SBServer *server, unsigned char flags);
+extern void SBServerSetFlags(SBServer *server, unsigned char flags);
 extern void func_0219E9B4(SBServer *server, unsigned int ip, unsigned short port);
-extern void func_0219E9C0(SBServer *server, unsigned int ip);
+extern void SBServerSetICMPIP(SBServer *server, unsigned int ip);
 extern int func_02184200(void *array);
 extern void *func_02184208(void *array, int n);
 extern void func_0219E084(SBServer *server, char *keyname, int value);
 extern void func_0219E01C(SBServer *server, char *keyname, char *value);
-extern unsigned char func_0219E9D0(SBServer *server);
-extern void func_0219E9C8(SBServer *server, unsigned char state);
+extern unsigned char SBServerGetState(SBServer *server);
+extern void SBServerSetState(SBServer *server, unsigned char state);
 
 int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int usepopularlist)
 {
@@ -74,7 +74,7 @@ int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int
 
     holdlen = len;
     flags = *buf++;
-    func_0219E9AC(server, flags);
+    SBServerSetFlags(server, flags);
     buf += 4;
     len -= 5;
     if (flags & 0x10) {
@@ -98,7 +98,7 @@ int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int
         memcpy(&ip, buf, 4);
         buf += 4;
         len -= 4;
-        func_0219E9C0(server, ip);
+        SBServerSetICMPIP(server, ip);
     }
     if (flags & 0x40) {
         numkeys = func_02184200(slist->keylist);
@@ -129,7 +129,7 @@ int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int
                 break;
             }
         }
-        func_0219E9C8(server, func_0219E9D0(server) | 1);
+        SBServerSetState(server, SBServerGetState(server) | 1);
     }
     if (flags & 0x80) {
         while (*buf && len > 0) {
@@ -139,10 +139,10 @@ int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int
             ADVANCE(buf, len);
         }
         len--;
-        func_0219E9C8(server, func_0219E9D0(server) | 2);
+        SBServerSetState(server, SBServerGetState(server) | 2);
     }
-    state = func_0219E9D0(server);
+    state = SBServerGetState(server);
     if (!(flags & 0xc0) && ((state & 1) || (state & 2)))
-        func_0219E9C8(server, state & 0xfc);
+        SBServerSetState(server, state & 0xfc);
     return holdlen - len;
 }

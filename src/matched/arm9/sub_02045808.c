@@ -8,15 +8,15 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02045808
+ * function: STRBUF_Delete
  *
  * symbols:
  *   sub_020307B0  0x020307B0  arm
  *
- * The destructor of the u16-array object sub_020457B0 builds: it kills
+ * The destructor of the u16-array object STRBUF_Create builds: it kills
  * the 0xECD2F8B6 liveness magic at +0x4 and then tail-calls the family's
  * generic free at 0x020307B0, which is the counterpart of the allocation
- * entry at 0x02030734 (it is also what sub_020452E8 finishes with).
+ * entry at 0x02030734 (it is also what BMP_WIN_Delete finishes with).
  * Clearing the magic before the free is what makes a stale pointer
  * detectable rather than merely dangling.
  *
@@ -33,8 +33,8 @@
  * used instead.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045808.c \
- *       --func sub_02045808 --addr 0x02045808 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/STRBUF_Delete.c \
+ *       --func STRBUF_Delete --addr 0x02045808 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -50,7 +50,7 @@ struct U16Vec {
 
 extern u32 sub_020307B0(void *p);
 
-void sub_02045808(struct U16Vec *vec)
+void STRBUF_Delete(struct U16Vec *vec)
 {
     vec->magic = 0;
     sub_020307B0(vec);

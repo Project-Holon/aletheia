@@ -6,6 +6,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
+#include "../arm9/net_types.h"
+
 typedef void (*DwcRapRecvFunc)(u32 aid, u8 *data, u16 size);
 
 /*
@@ -111,23 +113,7 @@ enum {
     DWC_RAP_RESULT_DISCONNECT_ERROR = 0x3F1
 };
 
-/*
- * The part of the GFLNetInitializeStruct (src/game/arm9/net_types.h) this file
- * reads; func_0203D798 returns the live copy.
- */
-typedef struct DwcRapNetInit {
-    char pad0[0x3C];
-    void (*deleteFriendFunc)(u32 deletedIndex, u32 srcIndex, u32 userArg); /* 0x3C */
-    char pad40[0x48 - 0x40];
-    int heapSize;                       /* 0x48 */
-    char pad4C[0x56 - 0x4C];
-    u16 heapId;                         /* 0x56 */
-    u16 wifiHeapId;                     /* 0x58 */
-    char pad5A[0x60 - 0x5A];
-    u8 maxConnectNum;                   /* 0x60 */
-} DwcRapNetInit;
-
-extern DwcRapNetInit *func_0203D798(void);
+extern GFLNetInitializeStruct *func_0203D798(void);
 
 /* Heap object that _pRapHeap points to (the DWC allocator of this module). */
 typedef struct DwcRapHeap {

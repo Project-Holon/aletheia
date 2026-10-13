@@ -1,5 +1,5 @@
 /*
- * function: func_021B6A4C
+ * function: IRC_COMPATIBLE_HandleEntry
  * address: 0x021B6A4C
  * packet: pkt_ov101_021B6A4C
  * region: ov101
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B6A3C 0x021B6A3C thumb ov101
- *   func_021B6A7C 0x021B6A7C thumb ov101
+ *   IRC_COMPATIBLE_SetHandler 0x021B6A3C thumb ov101
+ *   IRC_COMPATIBLE_HandleMenu 0x021B6A7C thumb ov101
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021B6A3C(u8 *,u32);
-extern void func_021B6A7C(u8 *,u16 *);
-void func_021B6A4C(u8 *p,u16 *state) { if(*state==0) func_021B6A3C(p,(u32)func_021B6A7C); }
+extern void IRC_COMPATIBLE_SetHandler(u8 *,u32);
+extern void IRC_COMPATIBLE_HandleMenu(u8 *,u16 *);
+void IRC_COMPATIBLE_HandleEntry(u8 *p,u16 *state) { if(*state==0) IRC_COMPATIBLE_SetHandler(p,(u32)IRC_COMPATIBLE_HandleMenu); }

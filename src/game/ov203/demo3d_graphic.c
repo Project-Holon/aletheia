@@ -15,12 +15,12 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   d_021C3CCC 0x021C3CCC data a1
@@ -48,7 +48,7 @@
  *   func_020419E4 0x020419E4 arm
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_0204B1CC 0x0204B1CC arm
@@ -66,12 +66,12 @@
  *   func_02047970 0x02047970 arm
  *   func_0204EA64 0x0204EA64 arm
  *   func_02048AC4 0x02048AC4 arm
- *   func_020113F0 0x020113F0 thumb
+ *   TIMEZONE_GetTimeZoneOfHour 0x020113F0 thumb
  *   FX_Div 0x0207C768 arm
  *   _ll_mul 0x0209C054 arm
  *   func_02048A24 0x02048A24 arm
- *   func_02048B9C 0x02048B9C arm
- *   func_02048BB0 0x02048BB0 arm
+ *   G3D_CAMERA_GetNearClipAlt 0x02048B9C arm
+ *   G3D_CAMERA_GetFarClipAlt 0x02048BB0 arm
  *   func_0204E8C0 0x0204E8C0 arm
  *   func_02005654 0x02005654 thumb
  *   MTX_Identity33_ 0x0207ADC4 arm
@@ -100,18 +100,18 @@
  *   func_020480E4 0x020480E4 arm
  *   func_02047E54 0x02047E54 arm
  *   func_0204EA38 0x0204EA38 arm
- *   func_02048BA8 0x02048BA8 arm
- *   func_02048BBC 0x02048BBC arm
+ *   G3D_CAMERA_SetNearClipAlt 0x02048BA8 arm
+ *   G3D_CAMERA_SetFarClipAlt 0x02048BBC arm
  *   func_0201160C 0x0201160C thumb
  *   func_021BF858 0x021BF858 thumb
- *   func_020115C0 0x020115C0 thumb
+ *   ICA_ANIME_IncFrameNoLoop 0x020115C0 thumb
  *   func_02011B8C 0x02011B8C thumb
- *   sub_02048A18 0x02048A18 arm
+ *   G3D_UTIL_GetObject 0x02048A18 arm
  *   func_02047910 0x02047910 arm
  *   func_02048AD0 0x02048AD0 arm
  *   func_02047A60 0x02047A60 arm
  *   func_0204EA4C 0x0204EA4C arm
- *   func_02011608 0x02011608 thumb
+ *   ICA_ANIME_GetFrameNum 0x02011608 thumb
  *   func_0201493C 0x0201493C thumb
  *   func_0207DCF8 0x0207DCF8 arm
  *   func_0207DC44 0x0207DC44 arm
@@ -266,12 +266,12 @@ typedef struct Flags { unsigned short doubled:1; unsigned short rest:15; } Flags
 
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern void func_02082BCC(void *, unsigned, unsigned);
-extern void func_0204335C(unsigned);
+extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(unsigned);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
 extern void func_02030EAC(struct Node *n);
@@ -295,7 +295,7 @@ extern void func_0203F9B4(void);
 extern void func_020419E4(void);
 extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern u32 func_0204B1CC(struct Bank *bank);
@@ -313,11 +313,11 @@ extern void func_020479D8(void);
 extern void func_02047970(void);
 extern void func_0204EA64(void);
 extern u32 func_02048AC4(void *ptr);
-extern int func_020113F0(int row, int col);
+extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
 extern fx32 FX_Div(fx32, fx32);
 extern void *func_02048A24(int, int, int, int, int, int, int, int, VecFx32 *, VecFx32 *, VecFx32 *, int);
-extern void func_02048B9C(struct Light *l, u32 *out);
-extern void func_02048BB0(struct Light *l, u32 *out);
+extern void G3D_CAMERA_GetNearClipAlt(struct Light *l, u32 *out);
+extern void G3D_CAMERA_GetFarClipAlt(struct Light *l, u32 *out);
 extern void func_0204E8C0(u32);
 extern int func_02005654(int a, int b);
 extern void MTX_Identity33_(void *);
@@ -340,18 +340,18 @@ extern void func_02011558(struct IcaAnime *p);
 extern void func_020480E4(struct Ctx *c, u32 i);
 extern void func_02047E54(struct Rec *p);
 extern u32 func_0204EA38(void);
-extern void func_02048BA8(struct Light *,u32);
-extern void func_02048BBC(struct Light *,u32);
+extern void G3D_CAMERA_SetNearClipAlt(struct Light *,u32);
+extern void G3D_CAMERA_SetFarClipAlt(struct Light *,u32);
 extern u32 func_0201160C(struct Obj11245 *p);
 extern void func_021BF858(void *,int,int);
-extern u32 func_020115C0(struct IcaAnime *,int);
+extern u32 ICA_ANIME_IncFrameNoLoop(struct IcaAnime *,int);
 extern void func_02011B8C(void *,void *);
-extern u32 sub_02048A18(u8 *,int);
+extern u32 G3D_UTIL_GetObject(u8 *,int);
 extern int func_02047910(void *,int,int);
 extern void func_02048AD0(struct Light *);
 extern void func_02047A60(void *,struct Arg *);
 extern void func_0204EA4C(void);
-extern u32 func_02011608(struct Obj11244 *p);
+extern u32 ICA_ANIME_GetFrameNum(struct Obj11244 *p);
 extern void func_0201493C(u32,u32,u32,u32,u32,u16 *,u16);
 extern void func_0207DCF8(const u16 *);
 extern void func_0207DC44(BOOL,GXFogBlend,GXFogSlope,int);
@@ -436,12 +436,12 @@ void *func_021BDDD8(unsigned swap, void *config, u8 heap)
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;
     *(volatile unsigned *)0x04001000 &= 0xffff1fff;
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)d_021BFBC4[((struct Obj08374 *)ctx)->f14]);
     func_0204363C(swap);
     func_0204361C();
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     func_0201DD60();
     if (((struct Obj08374 *)ctx)->f14 == 0) {
         func_021BDFC0(ctx, heap);
@@ -602,7 +602,7 @@ void func_021BE084(unsigned char *p, int a, int b)
     func_02082BCC(p, 0, 4);
     func_0204A48C((const struct Cfg *)0x021BFB60, a, b);
     ((struct Obj14586 *)p)->f0 = func_0204B100(0x20, 0, b);
-    func_0204B270(((struct Obj14586 *)p)->f0);
+    CLACT_SetUnitDefaultRenderer(((struct Obj14586 *)p)->f0);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }
@@ -769,7 +769,7 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     ctx->f78 = ctx->id;
     ctx->b80 = cfg->fc;
     ctx->f7c = cfg->f8;
-    ctx->b81 = func_020113F0((u8)cfg->sec, (u8)cfg->fd);
+    ctx->b81 = TIMEZONE_GetTimeZoneOfHour((u8)cfg->sec, (u8)cfg->fd);
     ctx->b82 = cfg->bit7;
     ctx->b83 = cfg->fd;
     ctx->b84 = cfg->fe;
@@ -791,8 +791,8 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     left = -FX_Div(FX_Mul(FX_Div(w, d), s), c);
     ctx->f20 = func_02048A24(1, top, bottom, left, right, near, mid, far,
                              &d_021BFCE0, &d_021BFCD4, &d_021BFCEC, heap);
-    func_02048B9C(ctx->f20, &ctx->f24);
-    func_02048BB0(ctx->f20, &ctx->f28);
+    G3D_CAMERA_GetNearClipAlt(ctx->f20, &ctx->f24);
+    G3D_CAMERA_GetFarClipAlt(ctx->f20, &ctx->f28);
     func_021BE63C((struct Context *)ctx, (struct Config *)cfg, (const struct Record *)ctx->f74, heap);
     ctx->f14 = func_021BE920(ctx->id);
     ctx->f10 = func_021BE938((void *)ctx->id);
@@ -875,17 +875,17 @@ void func_021BE4B4(char *ctx, int b, int c, u32 d)
  * blocked: ARM9 0x02048BA8 and 0x02048BBC; existing matched unit_02048AD0.c contains their bodies but omits both from function:.
  * spelling: loads repeated in explicit branch arms reproduce cmp-before-base-load; shared-base and offset ternary differ.
  *   0x02048BA8 ARM EXACT, dsi/1.1p1 -O4,p, verified without --region:
- *   void func_02048BA8(struct Light *p,u32 v) { *(u32 *)((char *)p+4)=v; }
+ *   void G3D_CAMERA_SetNearClipAlt(struct Light *p,u32 v) { *(u32 *)((char *)p+4)=v; }
  *   0x02048BBC ARM EXACT, dsi/1.1p1 -O4,p, verified without --region:
- *   void func_02048BBC(struct Light *p,u32 v) { *(u32 *)((char *)p+8)=v; }
+ *   void G3D_CAMERA_SetFarClipAlt(struct Light *p,u32 v) { *(u32 *)((char *)p+8)=v; }
  */
 void func_021BE508(char *p,struct Light *q)
 {
     int x;
     if(func_0204EA38()==0)x=*(short *)(*(char **)(p+0x74)+0x20);
     else x=*(short *)(*(char **)(p+0x74)+0x22);
-    func_02048BA8(q,x+*(u32 *)(p+0x24));
-    func_02048BBC(q,x+*(u32 *)(p+0x28));
+    G3D_CAMERA_SetNearClipAlt(q,x+*(u32 *)(p+0x24));
+    G3D_CAMERA_SetFarClipAlt(q,x+*(u32 *)(p+0x28));
 }
 
 
@@ -904,10 +904,10 @@ int func_021BE538(const struct Context *ctx, u32 frames)
         else func_021BF858(ctx->events,-4096,i);
         advance += ctx->step;
     }
-    done = func_020115C0(ctx->anime,advance);
+    done = ICA_ANIME_IncFrameNoLoop(ctx->anime,advance);
     func_02011B8C(ctx->light,ctx->anime);
     for(i=0;i<ctx->count;i++) {
-        void *obj=(void *)sub_02048A18(ctx->table,ctx->indices[i]);
+        void *obj=(void *)G3D_UTIL_GetObject(ctx->table,ctx->indices[i]);
         int j, count=func_0204779C(obj);
         for(j=0;j<count;j++) func_02047910(obj,(u16)j,advance);
     }
@@ -915,7 +915,7 @@ int func_021BE538(const struct Context *ctx, u32 frames)
     func_02048AD0(ctx->light);
     func_021BDF18(ctx->owner);
     for(i=0;i<ctx->count;i++) {
-        func_02047A60((void *)sub_02048A18(ctx->table,ctx->indices[i]),(struct Arg *)ctx->args);
+        func_02047A60((void *)G3D_UTIL_GetObject(ctx->table,ctx->indices[i]),(struct Arg *)ctx->args);
     }
     func_021BDF24(ctx->owner);
     if(ctx->a10 != 0) func_0204EA4C();
@@ -934,7 +934,7 @@ int func_021BE620(char *p) { return func_0201160C(((struct Obj25315 *)p)->f18); 
 
 
 
-u32 func_021BE62C(char *p) { return func_02011608(((struct Obj25316 *)p)->f18); }
+u32 func_021BE62C(char *p) { return ICA_ANIME_GetFrameNum(((struct Obj25316 *)p)->f18); }
 
 
 

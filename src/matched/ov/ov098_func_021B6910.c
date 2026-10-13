@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_021B6910, func_021B6988, func_021B69C4
+ * function: func_021B6910, func_021B694C, func_021B6988
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
  *   func_021B6140  0x021B6140  thumb  ov098
@@ -54,7 +54,7 @@ void func_021B6910(int a, int b) {
     func_02045808((struct U16Vec *)r);
 }
 
-void func_021B6988(int a, int b) {
+void func_021B694C(int a, int b) {
     int r;
     int t;
     r = (int)func_02045EC0((struct MsgBank *)(((struct Obj07933 *)a)->f20), 3);
@@ -65,7 +65,7 @@ void func_021B6988(int a, int b) {
     func_02045808((struct U16Vec *)r);
 }
 
-void func_021B69C4(int a, int b) {
+void func_021B6988(int a, int b) {
     int r;
     int t;
     r = (int)func_02045EC0((struct MsgBank *)(((struct Obj07934 *)a)->f20), 1);

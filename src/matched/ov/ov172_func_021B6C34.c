@@ -12,7 +12,7 @@
  * Frees the +0x10 pointer with the ARM9 releaser, then the object itself.
  *
  * symbols:
- *   func_0203D7FC  0x0203D7FC  arm
+ *   GFL_NET_FreeAligned  0x0203D7FC  arm
  *   func_020307B0  0x020307B0  arm
  *
  * Addresses are Black-image addresses.
@@ -24,11 +24,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0203D7FC(void *p);
+extern void GFL_NET_FreeAligned(void *p);
 extern u32 func_020307B0(void *p);
 
 void func_021B6C34(char *p)
 {
-    func_0203D7FC(((struct Obj24067 *)p)->f10);
+    GFL_NET_FreeAligned(((struct Obj24067 *)p)->f10);
     func_020307B0(p);
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0203AD74
+ * function: GFL_NET_STATE_ChangeState
  * address:  0x0203AD74
  * packet:   pkt_0203A81C
  * region:   arm9
@@ -27,13 +27,13 @@ struct NetState {
     u16 unk46;
 };
 
-void func_0203AD74(struct NetState *s, void *p, u16 v)
+void GFL_NET_STATE_ChangeState(struct NetState *s, void *p, u16 v)
 {
     s->unk8 = p;
     s->unk46 = v;
 }
 
-void func_0203AD80(struct NetState *s, void *p, u16 v, int line)
+void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line)
 {
-    func_0203AD74(s, p, v);
+    GFL_NET_STATE_ChangeState(s, p, v);
 }

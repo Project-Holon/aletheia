@@ -23,7 +23,7 @@
  *   func_0204B878  0x0204B878  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B84C  0x0204B84C  arm
- *   func_0204B800  0x0204B800  arm
+ *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B688  0x0204B688  arm
  *   func_0204B404  0x0204B404  arm
@@ -86,7 +86,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 struct Obj;
 extern void func_0204B92C(struct Obj *obj, u32 v);
 extern void func_0204B84C(u32 obj, int v);
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -141,7 +141,7 @@ void func_021C0134(u16 *heap, u8 *p, int key)
         func_0204B878((struct Obj *)OBJ(i), anim.v[i]);
         func_0204B92C((struct Obj *)OBJ(i), 1);
         func_0204B84C(OBJ(i), pri.v[i]);
-        func_0204B800((struct Node *)OBJ(i), pal.v[i]);
+        CLACT_SetActorDrawPriority((struct Node *)OBJ(i), pal.v[i]);
         func_0204B3DC((struct Obj *)OBJ(i), 0);
         func_0204B688((struct Actor *)OBJ(i), 1);
     }

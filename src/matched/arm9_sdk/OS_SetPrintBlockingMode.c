@@ -1,5 +1,5 @@
 /*
- * function: OS_SetPrintBlockingMode
+ * function: GAME_BEACON_SetPokeCapture
  * address:  0x020271DC
  * packet:   pkt_020271DC
  * region:   arm9
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202708C 0x0202708C thumb
- *   func_02027230 0x02027230 thumb
- *   func_020271F8 0x020271F8 thumb
+ *   GAME_BEACON_IsSpecialPokemon 0x0202708C thumb
+ *   GAME_BEACON_SetSpecialPokeGet 0x02027230 thumb
+ *   GAME_BEACON_SetPokeGet 0x020271F8 thumb
  */
 
 typedef unsigned short u16;
-extern int func_0202708C(u16 v);
-extern void func_02027230(u16 value);
-extern void func_020271F8(u16 value);
+extern int GAME_BEACON_IsSpecialPokemon(u16 v);
+extern void GAME_BEACON_SetSpecialPokeGet(u16 value);
+extern void GAME_BEACON_SetPokeGet(u16 value);
 
-void OS_SetPrintBlockingMode(u16 v)
+void GAME_BEACON_SetPokeCapture(u16 v)
 {
-    if (func_0202708C(v)) {
-        func_02027230(v);
+    if (GAME_BEACON_IsSpecialPokemon(v)) {
+        GAME_BEACON_SetSpecialPokeGet(v);
     } else {
-        func_020271F8(v);
+        GAME_BEACON_SetPokeGet(v);
     }
 }

@@ -13,7 +13,7 @@
  *   func_02017E88   0x02017E88  thumb
  *   func_0202F358   0x0202F358  thumb
  *   func_0202F464   0x0202F464  thumb
- *   func_02017E64   0x02017E64  thumb
+ *   POKE_TOOL_SetBoxValue   0x02017E64  thumb
  *
  * Addresses are Black-image addresses.
  *
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 extern u32  func_02017E88(void *p, u32 id, u32 v);
 extern void func_0202F358(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
 extern int func_0202F464(int a0);
-extern void func_02017E64(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 
 void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4)
 {
@@ -36,5 +36,5 @@ void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4)
     else
         func_0202F358(a0, a1, a2, a3, a4, 1);
     func_0202F464((int)a0);
-    func_02017E64(a0, 0x6D, 1);
+    POKE_TOOL_SetBoxValue(a0, 0x6D, 1);
 }

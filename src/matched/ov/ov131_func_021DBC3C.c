@@ -1,5 +1,5 @@
 /*
- * function: func_021DBC3C
+ * function: P_STA_OAM_DeleteBitmapActors
  * address: 0x021DBC3C
  * packet: pkt_ov131_021DBC3C
  * region: ov131
@@ -18,7 +18,7 @@ extern void func_0204A8D4(u32 i);
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 extern u32 func_020307B0(void *p);
-void func_021DBC3C(u8 *p)
+void P_STA_OAM_DeleteBitmapActors(u8 *p)
 {
     u8 i, j;
     for (i = 0; i < p[0x23]; i++) {

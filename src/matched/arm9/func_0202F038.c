@@ -17,7 +17,7 @@
  *   func_02045334   0x02045334  arm
  *   func_020452E8   0x020452E8  arm
  *   func_02030EAC   0x02030EAC  arm
- *   func_02031194   0x02031194  arm
+ *   TCBL_DeleteTask   0x02031194  arm
  *
  * Addresses are Black-image addresses.
  *
@@ -43,7 +43,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *a);
 extern u32 func_020452E8(struct Descriptor *d);
 extern void func_02030EAC(struct Node *n);
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 
 void func_0202F038(u8 *p)
 {
@@ -66,5 +66,5 @@ void func_0202F038(u8 *p)
     }
 
     if (((struct Obj01809 *)p)->f4 != 0)
-        func_02031194((struct TcblNode *)(((struct Obj01809 *)p)->f4));
+        TCBL_DeleteTask((struct TcblNode *)(((struct Obj01809 *)p)->f4));
 }

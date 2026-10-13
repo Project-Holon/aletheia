@@ -1,0 +1,1471 @@
+/*
+ * file:     scrcmd_network.c
+ * unit:     yes
+ * function: func_0215F168, func_0215F1C8, func_0215F214, func_0215F228, func_0215F238, func_0215F280, func_0215F2A0, func_0215F2B8, func_0215F2DC, func_0215F2F0, func_0215F318, func_0215F33C, func_0215F3A4, func_0215F424, func_0215F4F4, func_0215F52C, func_0215F608, func_0215F630, func_0215F64C, func_0215F6E8, func_0215F734, func_0215F8A8, func_0215F900, func_0215F920, func_0215F948, func_0215F9C4, func_0215F9DC, func_0215F9EC, func_0215FA00, func_0215FA1C, func_0215FA34, func_0215FA44, func_0215FA54, func_0215FBF4, func_0215FC40, func_0215FCE0, func_0215FD0C, func_0215FEC8, func_0215FED4, func_0215FEF0, func_0215FEF4
+ * address:  0x0215F168
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_0216075C  0x0216075C  thumb  ov010
+ *   func_02161B90  0x02161B90  thumb  ov010
+ *   func_020122C0 0x020122C0 thumb
+ *   func_020124E8 0x020124E8 thumb
+ *   func_020120F4  0x020120F4  thumb
+ *   func_0201296C  0x0201296C  thumb
+ *   func_0201210C  0x0201210C  thumb
+ *   func_02158780  0x02158780  thumb  ov010
+ *   func_0201235C  0x0201235C  thumb
+ *   func_0215A5DC  0x0215A5DC  thumb  ov010
+ *   func_0215A5F4  0x0215A5F4  thumb  ov010
+ *   func_02012138  0x02012138  thumb
+ *   func_02158FB4  0x02158FB4  thumb  ov010
+ *   func_02189734  0x02189734  thumb
+ *   func_020307B0  0x020307B0  arm
+ *   func_02159AE8  0x02159AE8  thumb  ov010
+ *   func_02030734  0x02030734  arm
+ *   d_0217294C     0x0217294C  data  ov010  a4
+ *   func_020113D0  0x020113D0  thumb
+ *   func_0202EB44  0x0202EB44  thumb
+ *   func_020121CC  0x020121CC  thumb
+ *   func_02026454  0x02026454  thumb
+ *   func_02026400  0x02026400  thumb
+ *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
+ *   func_02159144  0x02159144  thumb  ov010
+ *   func_02159168   0x02159168  thumb  ov010
+ *   func_0201214C  0x0201214C  thumb
+ *   GAMESYSTEM_SetAlwaysNetFlag 0x02012158 thumb
+ *   func_0204A1BC 0x0204A1BC arm
+ *   func_02159114 0x02159114 thumb ov010
+ *   func_0215911C  0x0215911C  thumb  ov010
+ *   func_02159B10  0x02159B10  thumb  ov010
+ *   func_0215A5E4  0x0215A5E4  thumb  ov010
+ *   func_02012844  0x02012844  thumb
+ *   func_0215A480  0x0215A480  thumb  ov010
+ *   func_02162788  0x02162788  thumb  ov010
+ *   func_0215A490  0x0215A490  thumb  ov010
+ *   func_02162774  0x02162774  thumb  ov010
+ *   func_02158F54 0x02158F54 thumb ov010
+ *   func_0215A500 0x0215A500 thumb ov010
+ *   func_020056EC  0x020056EC  thumb
+ *   func_02159F80 0x02159F80 thumb ov010
+ *   func_02012914 0x02012914 thumb
+ *   BRIGHTNESS_Set  0x02023F60  thumb
+ *   func_02012444  0x02012444  thumb
+ *   d_021B9EC0     0x021B9EC0  data  a4
+ *   ov_id_00CD     0x000000CD  data  a1
+ *   func_02012374  0x02012374  thumb
+ *   func_02012944  0x02012944  thumb
+ *   func_02012ED0  0x02012ED0  thumb
+ *   func_021666A4  0x021666A4  thumb  ov010
+ *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
+ *   func_02014554  0x02014554  thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
+ *   func_021BE8D4  0x021BE8D4  thumb
+ *   func_02158A20  0x02158A20  thumb  ov010
+ *   ov180_id       0x000000B4  data
+ *   ov181_id       0x000000B5  data
+ *   ov205_id       0x000000CD  data
+ *   ov182_id       0x000000B6  data
+ *   d_021B800C     0x021B800C  data  ov180
+ *   d_021BAB24     0x021BAB24  data  ov181
+ *   d_021B9E54     0x021B9E54  data  ov205
+ *   d_021B9BA0     0x021B9BA0  data  ov182
+ *   func_0215E580  0x0215E580  thumb  ov010
+ *   func_02012934   0x02012934  thumb
+ *   func_02012FCC   0x02012FCC  thumb
+ *   func_0200873C  0x0200873C  thumb
+ *   CONFIG_GetAppliedFlag  0x020083E4  thumb
+ *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
+ *   func_02012F08  0x02012F08  thumb
+ *   func_0200C3B8  0x0200C3B8  thumb
+ *   func_02034AC4 0x02034AC4 arm
+ *   func_02183B6C 0x02183B6C thumb ov020
+ *   func_0218571C      0x0218571C  thumb  ov020
+ *   abs_id_14      0x00000014  data
+ *   GF_OVERLAY_Load   0x02034AC4  arm
+ *   GF_OVERLAY_Unload   0x02034A5C  arm
+ *   func_020129B8  0x020129B8  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
+ *   func_02026460  0x02026460  thumb
+ *   func_02158344  0x02158344  thumb  ov010
+ *   func_021BE92C  0x021BE92C  thumb
+ *   func_0217CE08  0x0217CE08  thumb
+ *   func_0217CDBC  0x0217CDBC  thumb
+ *   func_0217FA24  0x0217FA24  thumb
+ *   ov122_id       0x0000007A  data
+ *   ov172_id       0x000000AC  data
+ *   d_021D5764     0x021D5764  data  ov122
+ *   d_021C7240     0x021C7240  data
+ *   func_02188CCC  0x02188CCC  thumb  ov021
+ *   func_0201232C  0x0201232C  thumb
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_021A0F90  0x021A0F90  thumb  ov021
+ *   func_021A0EE4  0x021A0EE4  thumb  ov021
+ *   func_020355D8  0x020355D8  arm
+ *   func_02188C9C 0x02188C9C thumb ov021
+ *   func_02013CE0 0x02013CE0 thumb
+ *   func_02188C7C  0x02188C7C  thumb  ov021
+ *   func_021A0ED4  0x021A0ED4  thumb  ov021
+ *   func_021A0F30  0x021A0F30  thumb  ov021
+ *   func_021A0F94  0x021A0F94  thumb  ov021
+ *   func_021A0FA8  0x021A0FA8  thumb  ov021
+ *   func_021A12A4  0x021A12A4  thumb  ov021
+ *   func_021945A4  0x021945A4  thumb  ov021
+ *   func_0216D9A0  0x0216D9A0  thumb  ov010
+ *   func_0216D9E4  0x0216D9E4  thumb  ov010
+ *   func_0215E840  0x0215E840  thumb  ov010
+ *   func_0215EA30  0x0215EA30  thumb  ov010
+ *   func_0215EA38  0x0215EA38  thumb  ov010
+ *   func_021644F4  0x021644F4  thumb  ov010
+ *   func_020124E4  0x020124E4  thumb
+ *   func_020129D0  0x020129D0  thumb
+ *   d_021712AC     0x021712AC  data
+ *   func_021A12BC   0x021A12BC  thumb
+ */
+
+struct ScriptVm;
+struct ScriptWork;
+struct ScriptCtl;
+struct GameSystem;
+struct GameData;
+struct GameComm;
+struct GameEvent;
+struct FieldMap;
+struct FieldCommLink;
+struct MoveModelSys;
+struct SaveControl;
+struct MyStatus;
+struct PokeParty;
+struct Config;
+struct EventDataSystem;
+struct EventWork;
+struct MiscSave;
+
+typedef unsigned char u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int u32;
+
+typedef signed short s16;
+
+typedef signed int s32;
+
+typedef enum { FALSE, TRUE } BOOL;
+
+#include "../arm9/script_vm_types.h"
+
+/* Event task callback: (event, sequence counter, work). */
+typedef int (*EventTaskFn)(struct GameEvent *event, u32 *seq, void *work);
+
+/* Wait callback of a script command: receives the script work as user data. */
+typedef int (*ScriptWorkWaitFn)(ScriptVm *vm, struct ScriptWork *scriptWork);
+
+/* Heap block behind the script command "wait for the comm state". */
+typedef struct CommWaitWork {
+    u16 *resultVar;     /* 0x00: script variable that receives 2 when the state is 2 */
+} CommWaitWork;
+
+/*
+ * One row of the 0x6B-row table in archive member 0xD1 (8 bytes). A row is
+ * found by its two keys; the other two fields feed the NPC records of the
+ * event data.
+ */
+#define NPC_TABLE_ROW_COUNT 0x6B
+
+typedef struct NpcTableRow {
+    u16 keyA;           /* 0x00 */
+    u16 keyB;           /* 0x02 */
+    u16 objCode;        /* 0x04: stored as is in the NPC record */
+    u16 eventKey;       /* 0x06: converted to the NPC event ids */
+} NpcTableRow;
+
+/* Work of the event that starts a comm session from the field (0xC bytes). */
+typedef struct CommProcEventWork {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    int warpChanged;                /* 0x04: selects the script id */
+    struct MyStatus *myStatus;      /* 0x08 */
+} CommProcEventWork;
+
+/* Parameter blocks that the comm battle event passes to its procs. */
+typedef struct CommBattleOv205Param {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    u32 mode;                       /* 0x04 */
+} CommBattleOv205Param;
+
+typedef struct CommBattleOv180Param {
+    struct PokeParty *myParty;      /* 0x00 */
+    struct MyStatus *myStatus;      /* 0x04 */
+    u32 playTime;                   /* 0x08 */
+} CommBattleOv180Param;
+
+typedef struct CommBattleOv181Param {
+    u32 isMode1;                    /* 0x00 */
+    u32 configApplied;              /* 0x04 */
+} CommBattleOv181Param;
+
+/* Steps of the comm battle event; the order comes from the sequence table. */
+enum {
+    COMM_BATTLE_STEP_PREPARE,
+    COMM_BATTLE_STEP_FIELD_PREPARE_EVENT,
+    COMM_BATTLE_STEP_REQUEST_COMM_IDLE,
+    COMM_BATTLE_STEP_WAIT_COMM_IDLE,
+    COMM_BATTLE_STEP_CLOSE_FIELD,
+    COMM_BATTLE_STEP_CALL_OV180,
+    COMM_BATTLE_STEP_WAIT_OV180,
+    COMM_BATTLE_STEP_CALL_OV181,
+    COMM_BATTLE_STEP_WAIT_OV181,
+    COMM_BATTLE_STEP_COMM_EXIT_EVENT,
+    COMM_BATTLE_STEP_SET_SCRIPT_STATE,
+    COMM_BATTLE_STEP_CALL_OV205,
+    COMM_BATTLE_STEP_WAIT_FRAMES,
+    COMM_BATTLE_STEP_CALL_OV182,
+    COMM_BATTLE_STEP_DONE,
+    COMM_BATTLE_STEP_ABORT
+};
+
+/* Work of the comm battle event (0x7C bytes). */
+typedef struct CommBattleWork {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    struct GameData *gameData;      /* 0x04 */
+    u32 mode;                       /* 0x08: 1 selects the second step sequence */
+    u8 pad0C[4];
+    struct MyStatus *myStatus;      /* 0x10 */
+    CommBattleOv205Param ov205Param;/* 0x14 */
+    CommBattleOv180Param ov180Param;/* 0x1C */
+    CommBattleOv181Param ov181Param;/* 0x28 */
+    u32 ov182Param;                 /* 0x30: configApplied again */
+    u32 step;                       /* 0x34: seq[current index] */
+    u32 seq[16];                    /* 0x38 */
+    int frameCount;                 /* 0x78 */
+} CommBattleWork;
+
+/* Work of the event that opens the Wi-Fi screens (0x34 bytes). */
+typedef struct WifiProcWork {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    struct GameData *gameData;      /* 0x04 */
+    struct SaveControl *saveControl;/* 0x08 */
+    u8 ov172Param[0x10];            /* 0x0C: parameter block of the ov172 task */
+    u32 exitRequest;                /* 0x1C: cleared once the screens closed */
+    u32 entryKind;                  /* 0x20: 0 opening, 1 with BGM change */
+    u32 savedBgmNo;                 /* 0x24 */
+    u32 exitKind;                   /* 0x28: picks the closing screen */
+    u8 pad2C[0x34 - 0x2C];
+} WifiProcWork;
+
+/* Skill (hidden move) structs shared with move_pokemon.c. */
+typedef struct FieldSkillInfo {
+    u16 zoneId;                     /* 0x00 */
+    u16 usableMask;                 /* 0x02 */
+    u32 playerState;                /* 0x04 */
+    struct GameSystem *gameSystem;  /* 0x08 */
+    void *playerObj;                /* 0x0C */
+    struct FieldMap *fieldMap;      /* 0x10 */
+} FieldSkillInfo;
+
+typedef struct FieldSkillTarget {
+    u16 partySlot;                  /* 0x00 */
+    u16 skillIndex;                 /* 0x02 */
+    u32 targetParam;                /* 0x04 */
+} FieldSkillTarget;
+
+struct RecordLinkWork;
+
+/*
+ * Request object that the battle record link hands to the shortcut menu
+ * event (event_shortcut_menu.c reads kind/detail/result/next). It sits at
+ * 0x1C inside RecordLinkWork and is 0x34 bytes.
+ */
+typedef struct ShortcutRequest {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    struct FieldMap *fieldMap;      /* 0x04 */
+    struct GameEvent *event;        /* 0x08 */
+    u32 kind;                       /* 0x0C */
+    int detail;                     /* 0x10: -1 */
+    int (*onUpdate)(struct ShortcutRequest *request, struct RecordLinkWork *work);  /* 0x14 */
+    int (*onClose)(struct ShortcutRequest *request, struct RecordLinkWork *work);   /* 0x18 */
+    int (*onFinish)(struct ShortcutRequest *request, struct RecordLinkWork *work);  /* 0x1C */
+    struct RecordLinkWork *work;    /* 0x20 */
+    u32 result;                     /* 0x24: set by the menu */
+    u32 next;                       /* 0x28: chosen menu entry */
+    u32 partySlot;                  /* 0x2C */
+    u32 targetParam;                /* 0x30 */
+} ShortcutRequest;
+
+/* Work of the battle record link event (0x5C bytes). */
+typedef struct RecordLinkWork {
+    u16 id;                         /* 0x00 */
+    u8 pad02[2];
+    struct GameEvent *event;        /* 0x04 */
+    struct GameSystem *gameSystem;  /* 0x08 */
+    struct FieldMap *fieldMap;      /* 0x0C */
+    u32 frameRate;                  /* 0x10 */
+    u32 state;                      /* 0x14 */
+    int linkMode;                   /* 0x18: 3, 4, 2 or 5 */
+    ShortcutRequest request;        /* 0x1C */
+    u8 pad50[0x5C - 0x50];
+} RecordLinkWork;
+
+/* script work (ov010) */
+extern struct GameSystem *func_0215A5DC(struct ScriptWork *scriptWork);
+extern struct ScriptCtl *func_0215A5F4(struct ScriptWork *scriptWork);
+extern struct GameData *func_0215A5E4(struct ScriptWork *scriptWork);
+extern u16 *func_02159AE8(ScriptVm *vm, struct ScriptWork *scriptWork);
+extern u32 func_02159B10(ScriptVm *vm, struct ScriptWork *scriptWork);
+extern CommWaitWork **func_02158FB4(struct ScriptCtl *scriptCtl);
+extern struct GameSystem *func_02158F54(struct ScriptCtl *scriptCtl);
+extern void func_02159114(struct ScriptCtl *scriptCtl, void *table);
+extern void *func_0215911C(struct ScriptCtl *scriptCtl);
+extern void func_02159144(int flagNo);
+extern void func_02159168(int flagNo);
+extern void func_0215A500(struct EventWork *eventWork, unsigned eventKey);
+extern u16 func_0215A480(unsigned eventKey);
+extern u16 func_0215A490(unsigned eventKey);
+extern int func_02159F80(void);
+extern void *func_02158780(struct GameEvent *event, u32 scriptId, u32 targetObj, u32 param, u32 mode);
+extern void func_02158A20(struct GameSystem *gameSystem, int value);
+extern int func_02158344(struct GameComm *gameComm);
+extern void func_02162788(struct EventDataSystem *eventData, unsigned slot, u16 eventId);
+extern void func_02162774(struct EventDataSystem *eventData, unsigned slot, u16 objCode);
+
+/* script virtual machine */
+extern void func_020113D0(ScriptVm *vm, ScriptWorkWaitFn waitFn);
+
+/* game system, game event, game data */
+extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, EventTaskFn taskFn, u32 workSize);
+extern void *func_020124E8(struct GameEvent *event);
+extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern void func_02012374(struct GameEvent *parent, struct GameEvent *child);
+extern void func_0201235C(struct GameEvent *event, struct GameEvent *next);
+extern void func_0201232C(struct GameEvent *event, EventTaskFn taskFn, u32 workSize);
+extern void func_02012444(struct GameEvent *event, u32 overlayId, const void *procData, void *procArg);
+extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
+extern struct FieldMap *func_0201210C(struct GameSystem *gameSystem);
+extern struct GameComm *func_02012138(struct GameSystem *gameSystem);
+extern void GAMESYSTEM_SetCommBlocked(struct GameSystem *gameSystem, u32 commBlocked);
+extern u32 func_0201214C(struct GameSystem *gameSystem);
+extern void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, u32 alwaysNet);
+extern u32 func_020121CC(struct GameSystem *gameSystem);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, const void *procData, void *procArg);
+extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
+extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct PokeParty *func_02012934(struct GameData *gameData);
+extern int func_02012FCC(struct GameData *gameData);
+extern struct MiscSave *func_02012F08(struct GameData *gameData);
+extern struct EventDataSystem *func_02012844(struct GameData *gameData);
+extern struct EventWork *func_0201296C(struct GameData *gameData);
+extern u16 func_02012914(struct GameData *gameData);
+extern void *func_02012ED0(struct GameData *gameData);
+extern void func_020129B8(struct GameData *gameData, u32 subscreenType);
+extern void func_020129D0(struct GameData *gameData, u8 frameRate);
+
+/* game comm, config, misc */
+extern u32 func_02026454(struct GameComm *gameComm);
+extern void func_02026400(struct GameComm *gameComm);
+extern u32 func_02026460(struct GameComm *gameComm);
+extern int func_02189734(struct GameComm *gameComm);
+extern int func_0202EB44(void);
+extern struct Config *func_0200873C(struct SaveControl *saveControl);
+extern int CONFIG_GetAppliedFlag(struct Config *config);
+extern int func_0200C3B8(struct MiscSave *miscSave, int value);
+extern u32 GPOWER_GetSpecialPowerId(void);
+
+/* heap, archive, random, overlays, memory */
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 func_020307B0(void *ptr);
+extern int func_0204A1BC(int archiveId, int memberId, int heapId, int flags);
+extern u32 func_020056EC(u32 range);
+extern int func_02034AC4(s32 overlayId);
+extern void func_02034A5C(s32 overlayId);
+extern int GF_OVERLAY_Load(int overlayId);
+extern void GF_OVERLAY_Unload(int overlayId);
+extern void func_02082BCC(void *dst, int value, int size);
+
+/* screen, sound */
+extern void BRIGHTNESS_Set(s32 screen, u32 brightness, u32 mask);
+extern void GFL_USE_FadeOutBgm(u32 frames);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 volume);
+extern void GFL_USE_FadeInBgmFull(u32 frames);
+
+/* field events and field */
+extern struct GameEvent *func_021BE8D4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b);
+extern struct GameEvent *func_02014554(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
+extern struct GameEvent *func_021BE92C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern struct GameEvent *func_0217CE08(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b);
+extern struct GameEvent *func_0217CDBC(struct GameSystem *gameSystem);
+extern struct GameEvent *func_0217FA24(struct GameSystem *gameSystem);
+extern struct GameEvent *func_02161B90(struct GameSystem *gameSystem, struct GameEvent *event, int kind, int sub, int flag);
+extern struct GameEvent *func_0218571C(struct GameSystem *gameSystem);
+extern struct GameEvent *func_02183B6C(struct GameSystem *gameSystem, u32 initParam);
+extern void func_021666A4(void *eventState);
+extern void func_0215E580(struct GameData *gameData);
+
+/* field map link and moving models */
+extern struct FieldCommLink *func_02188CCC(struct FieldMap *fieldMap);
+extern struct MoveModelSys *func_02188C7C(struct FieldMap *fieldMap);
+extern u16 func_02188C9C(struct FieldMap *fieldMap);
+extern u32 func_02013CE0(u32 zoneId);
+extern u32 func_021A0F90(struct FieldCommLink *link);
+extern int func_021A0EE4(struct FieldCommLink *link, int a);
+extern void func_020355D8(u8 value);
+extern int func_021A0ED4(struct FieldCommLink *link);
+extern int func_021A0F30(struct FieldCommLink *link, u32 a);
+extern int func_021A0F94(struct FieldCommLink *link);
+extern void func_021A0FA8(struct FieldCommLink *link);
+extern u32 func_021A12A4(struct FieldCommLink *link);
+extern void func_021A12BC(struct FieldCommLink *link, int frameRate);
+extern struct GameEvent *func_021945A4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 linkMode);
+extern void func_0216D9A0(struct MoveModelSys *moveModelSys);
+extern u32 *func_0216D9E4(struct MoveModelSys *moveModelSys);
+extern void func_0215E840(struct FieldMap *fieldMap, FieldSkillInfo *info);
+extern void func_0215EA30(FieldSkillTarget *target, u16 partySlot, u16 skillIndex, u32 targetParam);
+extern struct GameEvent *func_0215EA38(int skillIndex, FieldSkillTarget *target, FieldSkillInfo *info);
+extern struct GameEvent *func_021644F4(int index, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern struct GameEvent *func_0216075C(ShortcutRequest *request, u16 id);
+
+extern const char d_0217294C[];
+extern u8 d_021B9EC0[];
+extern u8 ov_id_00CD[];
+extern u8 ov180_id[];
+extern u8 ov181_id[];
+extern u8 ov205_id[];
+extern u8 ov182_id[];
+extern u8 d_021B800C[];
+extern u8 d_021BAB24[];
+extern u8 d_021B9E54[];
+extern u8 d_021B9BA0[];
+extern unsigned char ov020_id[];
+extern unsigned char abs_id_14[];
+extern u8 ov122_id[];
+extern u8 ov172_id[];
+extern u8 d_021D5764[];
+extern u8 d_021C7240[];
+extern const u32 d_021712AC[];
+
+int func_0215F168(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F1C8(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F214(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F228(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F238(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F280(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F2A0(struct GameSystem **gameSystemRef, void *unused);
+int func_0215F2B8(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F2DC(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F2F0(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F318(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F33C(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F3A4(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F424(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F4F4(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F52C(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215F608(const NpcTableRow *table, int keyA, int keyB);
+BOOL func_0215F630(struct GameData *gameData);
+int func_0215F64C(struct GameEvent *event, u32 *seq, void *workArg);
+struct GameEvent *func_0215F6E8(struct GameSystem *gameSystem);
+int func_0215F734(struct GameEvent *event, u32 *seq, void *workArg);
+struct GameEvent *func_0215F8A8(struct GameSystem *gameSystem, int mode);
+void func_0215F900(CommBattleWork *work);
+int func_0215F920(CommBattleWork *work);
+void func_0215F948(CommBattleWork *work);
+int func_0215F9C4(void);
+void func_0215F9DC(CommBattleWork *work, u32 *seq);
+int func_0215F9EC(CommBattleWork *work);
+struct GameEvent *func_0215FA00(struct GameSystem *gameSystem, u32 initParam);
+struct GameEvent *func_0215FA1C(struct GameSystem *gameSystem);
+void func_0215FA34(void);
+void func_0215FA44(void);
+int func_0215FA54(struct GameEvent *event, u32 *seq, void *workArg);
+struct GameEvent *func_0215FBF4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct GameEvent *event, int createNew);
+struct GameEvent *func_0215FC40(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id);
+struct GameEvent *func_0215FCE0(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id);
+int func_0215FD0C(struct GameEvent *event, u32 *seq, void *workArg);
+u32 func_0215FEC8(u32 frameRate);
+int func_0215FED4(ShortcutRequest *request, RecordLinkWork *work);
+int func_0215FEF0(ShortcutRequest *request, RecordLinkWork *work);
+int func_0215FEF4(ShortcutRequest *request, RecordLinkWork *work);
+
+/*
+ * Wait callback of the "wait for the comm state" command: state 0 keeps
+ * waiting, state 1 ends the wait, state 2 ends it and stores 2 in the
+ * result variable.
+ */
+int func_0215F168(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    struct GameSystem *gameSystem = func_0215A5DC(scriptWork);
+    struct ScriptCtl *scriptCtl = func_0215A5F4(scriptWork);
+    struct GameComm *gameComm = func_02012138(gameSystem);
+    CommWaitWork *waitWork;
+
+    func_0201210C(gameSystem);
+    waitWork = *func_02158FB4(scriptCtl);
+    switch (func_02189734(gameComm)) {
+    case 0:
+        return 0;
+    case 1:
+        func_020307B0(waitWork);
+        return 1;
+    case 2:
+        *waitWork->resultVar = 2;
+        func_020307B0(waitWork);
+        return 1;
+    default:
+        return 0;
+    }
+}
+
+
+int func_0215F1C8(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    CommWaitWork **slot;
+    u16 *resultVar;
+    CommWaitWork *waitWork;
+
+    slot = func_02158FB4(func_0215A5F4(scriptWork));
+    resultVar = func_02159AE8(vm, scriptWork);
+    waitWork = func_02030734(4, 4, 1, d_0217294C, 0x63);
+    *slot = waitWork;
+    waitWork->resultVar = resultVar;
+    *resultVar = 0;
+    func_020113D0(vm, func_0215F168);
+    return 1;
+}
+
+
+int func_0215F214(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    u16 *resultVar = func_02159AE8(vm, scriptWork);
+
+    *resultVar = func_0202EB44();
+    return 0;
+}
+
+
+int func_0215F228(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    struct GameSystem *gameSystem = func_0215A5DC(scriptWork);
+
+    func_020121CC(gameSystem);
+    return 1;
+}
+
+
+int func_0215F238(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    struct GameSystem *gameSystem;
+    struct GameComm *gameComm;
+
+    gameSystem = func_0215A5DC(scriptWork);
+    gameComm = func_02012138(gameSystem);
+    switch (func_02026454(gameComm)) {
+    case 1:
+    case 2:
+    case 5:
+        func_02026400(gameComm);
+        break;
+    case 0:
+    case 3:
+    case 4:
+        break;
+    }
+    GAMESYSTEM_SetCommBlocked(gameSystem, 1);
+    func_02159144(0xb);
+    return 1;
+}
+
+
+int func_0215F280(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    struct GameSystem *gameSystem = func_0215A5DC(scriptWork);
+
+    GAMESYSTEM_SetCommBlocked(gameSystem, 0);
+    func_020121CC(gameSystem);
+    func_02159168(0xB);
+
+    return 1;
+}
+
+
+/* Callback that takes a cell holding the game system. */
+int func_0215F2A0(struct GameSystem **gameSystemRef, void *unused)
+{
+    struct GameSystem *gameSystem = *gameSystemRef;
+
+    GAMESYSTEM_SetCommBlocked(gameSystem, 0);
+    func_020121CC(gameSystem);
+    return 1;
+}
+
+
+int func_0215F2B8(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    struct GameSystem *gameSystem;
+    u16 *resultVar;
+
+    gameSystem = func_0215A5DC(scriptWork);
+    resultVar = func_02159AE8(vm, scriptWork);
+    *resultVar = func_0201214C(gameSystem);
+    return 0;
+}
+
+
+int func_0215F2DC(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    GAMESYSTEM_SetAlwaysNetFlag(func_0215A5DC(scriptWork), 0);
+    return 0;
+}
+
+
+/* Loads archive member 0xD1 (the NpcTableRow table) into the script control. */
+int func_0215F2F0(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    struct ScriptCtl *scriptCtl = func_0215A5F4(scriptWork);
+
+    func_02159114(scriptCtl, (void *)func_0204A1BC(0xd1, 0, 0, 0x8004));
+    return 0;
+}
+
+
+int func_0215F318(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    struct ScriptCtl *scriptCtl = func_0215A5F4(scriptWork);
+    void *table = func_0215911C(scriptCtl);
+
+    if (table != 0) {
+        func_020307B0(table);
+        func_02159114(scriptCtl, 0);
+    }
+    return 0;
+}
+
+
+/* Sets the event id of NPC record outSlot from the row found by (keyA, keyB). */
+int func_0215F33C(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    struct ScriptCtl *scriptCtl = func_0215A5F4(scriptWork);
+    u32 keyA = func_02159B10(vm, scriptWork);
+    u32 outSlot = func_02159B10(vm, scriptWork);
+    u32 keyB = func_02159B10(vm, scriptWork);
+    const NpcTableRow *table;
+    struct EventDataSystem *eventData;
+    u16 eventKey;
+
+    eventData = func_02012844(func_0215A5E4(scriptWork));
+    table = func_0215911C(scriptCtl);
+    eventKey = table[(u16)func_0215F608(table, keyA, keyB)].eventKey;
+    func_02162788(eventData, outSlot, func_0215A480(eventKey));
+    return 0;
+}
+
+
+/* Same lookup, sets the event ids of two NPC records. */
+int func_0215F3A4(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    struct ScriptCtl *scriptCtl = func_0215A5F4(scriptWork);
+    u32 keyA = func_02159B10(vm, scriptWork);
+    u32 outSlotA = func_02159B10(vm, scriptWork);
+    u32 outSlotB = func_02159B10(vm, scriptWork);
+    u32 keyB = func_02159B10(vm, scriptWork);
+    const NpcTableRow *table;
+    struct EventDataSystem *eventData;
+    u16 index;
+
+    eventData = func_02012844(func_0215A5E4(scriptWork));
+    table = func_0215911C(scriptCtl);
+    index = func_0215F608(table, keyA, keyB);
+    func_02162788(eventData, outSlotA, func_0215A480(table[index].eventKey));
+    func_02162788(eventData, outSlotB, func_0215A490(table[index].eventKey));
+    return 0;
+}
+
+
+/* Sets object code and event id of three NPC records from three table rows. */
+int func_0215F424(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    struct ScriptCtl *scriptCtl = func_0215A5F4(scriptWork);
+    u32 slot0 = func_02159B10(vm, scriptWork);
+    u32 slot1 = func_02159B10(vm, scriptWork);
+    u32 slot2 = func_02159B10(vm, scriptWork);
+    u32 row0 = func_02159B10(vm, scriptWork);
+    u32 row1 = func_02159B10(vm, scriptWork);
+    u32 row2 = func_02159B10(vm, scriptWork);
+    struct EventDataSystem *eventData = func_02012844(func_0215A5E4(scriptWork));
+    NpcTableRow *table = func_0215911C(scriptCtl);
+
+    func_02162774(eventData, slot0, table[row0].objCode);
+    func_02162774(eventData, slot1, table[row1].objCode);
+    func_02162774(eventData, slot2, table[row2].objCode);
+    func_02162788(eventData, slot0, func_0215A480(table[row0].eventKey));
+    func_02162788(eventData, slot1, func_0215A480(table[row1].eventKey));
+    func_02162788(eventData, slot2, func_0215A480(table[row2].eventKey));
+    return 0;
+}
+
+
+int func_0215F4F4(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    struct ScriptCtl *scriptCtl;
+    struct EventWork *eventWork;
+    int i;
+    NpcTableRow *table;
+
+    scriptCtl = func_0215A5F4(scriptWork);
+    eventWork = func_0201296C(func_020120F4(func_02158F54(scriptCtl)));
+    table = func_0215911C(scriptCtl);
+    for (i = 0; i < NPC_TABLE_ROW_COUNT; i++)
+        func_0215A500(eventWork, table[i].eventKey);
+    return 0;
+}
+
+
+/*
+ * Draws six distinct values from 0..0x33 (random pick among the ones not
+ * yet taken) and writes each plus 0x37 to six script-variable slots.
+ *
+ * Keys: the work locals live in a nested block opened after the six
+ * func_02159AE8 calls, so `u16 picked[6] = {0}` is emitted there (at function
+ * scope the initializer lands above the calls) and its stores go through
+ * the same `add r4, sp, #0x18` the search loops index. `u16 poolSize = 0x34`
+ * declared before picked schedules `movs r7, #0x34` ahead of the zero stores.
+ * EXACT* only for the 2-byte pad after the function (218 of 220).
+ */
+int func_0215F52C(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    u16 *outVar0, *outVar1, *outVar2, *outVar3, *outVar4, *outVar5;
+
+    func_0215A5F4(scriptWork);
+    outVar0 = func_02159AE8(vm, scriptWork);
+    outVar1 = func_02159AE8(vm, scriptWork);
+    outVar2 = func_02159AE8(vm, scriptWork);
+    outVar3 = func_02159AE8(vm, scriptWork);
+    outVar4 = func_02159AE8(vm, scriptWork);
+    outVar5 = func_02159AE8(vm, scriptWork);
+    {
+        u16 poolSize = 0x34;
+        u16 picked[6] = {0};
+        int drawIndex, candidate, prior;
+        s16 skipCount;
+
+        for (drawIndex = 0; drawIndex < 6; drawIndex++) {
+            skipCount = func_020056EC(poolSize);
+            for (candidate = 0; candidate < 0x34; candidate++) {
+                for (prior = 0; prior < drawIndex; prior++) {
+                    if (picked[prior] == candidate)
+                        break;
+                }
+                if (prior == drawIndex) {
+                    if (--skipCount < 0) {
+                        picked[drawIndex] = candidate;
+                        break;
+                    }
+                }
+            }
+            poolSize--;
+        }
+        *outVar0 = picked[0] + 0x37;
+        *outVar1 = picked[1] + 0x37;
+        *outVar2 = picked[2] + 0x37;
+        *outVar3 = picked[3] + 0x37;
+        *outVar4 = picked[4] + 0x37;
+        *outVar5 = picked[5] + 0x37;
+    }
+    return 0;
+}
+
+
+/* Index of the first row matching both keys, 0 when none does. */
+int func_0215F608(const NpcTableRow *table, int keyA, int keyB)
+{
+    int i;
+
+    for (i = 0; i < NPC_TABLE_ROW_COUNT; i++) {
+        const NpcTableRow *row = &table[i];
+
+        if (keyA == row->keyA && keyB == row->keyB)
+            return i;
+    }
+    return 0;
+}
+
+
+/* TRUE when the situation warp id differs from the current one. */
+BOOL func_0215F630(struct GameData *gameData)
+{
+    int currentWarpId = func_02159F80();
+
+    if (currentWarpId == func_02012914(gameData))
+        return FALSE;
+    else
+        return TRUE;
+}
+
+
+/*
+ * former blocker: ABS32 0x000000CD (ov_id_00CD) has no witness outside the function (literal pool word only)
+ *
+ * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
+ */
+int func_0215F64C(struct GameEvent *event, u32 *seq, void *workArg)
+{
+    CommProcEventWork *work = workArg;
+
+    switch (*seq) {
+    case 0:
+        BRIGHTNESS_Set(-16, 0x37, 1);
+        BRIGHTNESS_Set(-16, 0x3f, 2);
+        func_02012444(event, (u32)ov_id_00CD, d_021B9EC0, work);
+        (*seq)++;
+        break;
+    case 1:
+        BRIGHTNESS_Set(0, 0x3f, 3);
+        func_02012374(event, func_0215FA1C(work->gameSystem));
+        (*seq)++;
+        break;
+    case 2:
+        if (work->warpChanged == 0) {
+            func_02158780(event, 3, 0, 0, 0x15);
+        } else {
+            func_02158780(event, 0x7d1, 0, 0, 0x15);
+        }
+        (*seq)++;
+        break;
+    case 3:
+        return 1;
+    }
+    return 0;
+}
+
+
+struct GameEvent *func_0215F6E8(struct GameSystem *gameSystem)
+{
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_0215F64C, sizeof(CommProcEventWork));
+    CommProcEventWork *work = func_020124E8(event);
+
+    work->gameSystem = gameSystem;
+    work->warpChanged = func_0215F630(gameData);
+    work->myStatus = func_02012944(gameData);
+    func_021666A4(func_02012ED0(gameData));
+    GAMESYSTEM_SetCommBlocked(gameSystem, 0);
+    return event;
+}
+
+
+/*
+ * Step machine of the comm battle event: the step comes from work->seq[*seq]
+ * through func_0215F9DC, loading ov180/ov181 as procs and ov205/ov182 as
+ * tasks. Byte-correct first draft.
+ * Former blocker (MATCH): ov205_id and ov182_id reach r1 of func_02012444, which
+ * is not in match.py's OVERLAY_ID_CONSUMERS; d_021B9BA0 then fails its
+ * ov182 hint for want of that overlay_id site. Same blocker as
+ * func_0215FA54.
+ *
+ * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
+ */
+int func_0215F734(struct GameEvent *event, u32 *seq, void *workArg)
+{
+    CommBattleWork *work = workArg;
+    struct GameSystem *gameSystem = work->gameSystem;
+    struct GameComm *gameComm;
+    struct FieldMap *fieldMap;
+
+    func_02012EBC(work->gameData);
+    fieldMap = func_0201210C(work->gameSystem);
+    gameComm = func_02012138(work->gameSystem);
+    switch (work->step) {
+    case COMM_BATTLE_STEP_PREPARE:
+        if (work->mode == 1)
+            func_0215F9EC(work);
+        GFL_USE_FadeOutBgm(30);
+        func_0215F9DC(work, seq);
+        break;
+    case COMM_BATTLE_STEP_FIELD_PREPARE_EVENT:
+        func_02012374(event, func_021BE8D4(gameSystem, fieldMap, 0, 0));
+        func_0215F9DC(work, seq);
+        break;
+    case COMM_BATTLE_STEP_REQUEST_COMM_IDLE:
+        if (func_02026454(gameComm))
+            func_02026400(gameComm);
+        func_0215F9DC(work, seq);
+        break;
+    case COMM_BATTLE_STEP_WAIT_COMM_IDLE:
+        if (func_02026454(gameComm) == 0)
+            func_0215F9DC(work, seq);
+        break;
+    case COMM_BATTLE_STEP_CLOSE_FIELD:
+        func_02012374(event, func_02014554(gameSystem, fieldMap));
+        func_0215F9DC(work, seq);
+        break;
+    case COMM_BATTLE_STEP_CALL_OV180:
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov180_id, d_021B800C, &work->ov180Param);
+        func_0215F9DC(work, seq);
+        break;
+    case COMM_BATTLE_STEP_WAIT_OV180:
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0)
+            func_0215F9DC(work, seq);
+        break;
+    case COMM_BATTLE_STEP_CALL_OV181:
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov181_id, d_021BAB24, &work->ov181Param);
+        func_0215F9DC(work, seq);
+        break;
+    case COMM_BATTLE_STEP_WAIT_OV181:
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0)
+            func_0215F9DC(work, seq);
+        break;
+    case COMM_BATTLE_STEP_COMM_EXIT_EVENT:
+        func_02012374(event, func_02161B90(gameSystem, event, func_0215F9C4(), 0, 0));
+        func_0215F9DC(work, seq);
+        break;
+    case COMM_BATTLE_STEP_SET_SCRIPT_STATE:
+        func_02158A20(gameSystem, 4);
+        func_0215F9DC(work, seq);
+        break;
+    case COMM_BATTLE_STEP_CALL_OV205:
+        func_02012444(event, (u32)ov205_id, d_021B9E54, &work->ov205Param);
+        func_0215F9DC(work, seq);
+        break;
+    case COMM_BATTLE_STEP_WAIT_FRAMES:
+        if (work->frameCount > 60) {
+            work->frameCount = 0;
+            func_0215F9DC(work, seq);
+        }
+        work->frameCount++;
+        break;
+    case COMM_BATTLE_STEP_CALL_OV182:
+        func_02012444(event, (u32)ov182_id, d_021B9BA0, &work->ov182Param);
+        GAMESYSTEM_SetAlwaysNetFlag(gameSystem, 0);
+        func_0215F9DC(work, seq);
+        break;
+    case COMM_BATTLE_STEP_DONE:
+        return 1;
+    case COMM_BATTLE_STEP_ABORT:
+        return 0;
+    }
+    return 0;
+}
+
+
+struct GameEvent *func_0215F8A8(struct GameSystem *gameSystem, int mode)
+{
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_0215F734, 0x7C);
+    CommBattleWork *work = func_020124E8(event);
+
+    work->gameSystem = gameSystem;
+    work->gameData = gameData;
+    work->mode = mode;
+    work->myStatus = func_02012944(gameData);
+    work->frameCount = 0;
+    work->ov205Param.gameSystem = gameSystem;
+    work->ov205Param.mode = mode;
+    func_0215E580(gameData);
+    func_0215F900(work);
+    func_0215F920(work);
+    func_0215F948(work);
+    return event;
+}
+
+
+/* Caches the party, status and play time of the game data for the ov180 proc. */
+void func_0215F900(CommBattleWork *work)
+{
+    work->ov180Param.myParty = func_02012934(work->gameData);
+    work->ov180Param.myStatus = func_02012944(work->gameData);
+    work->ov180Param.playTime = func_02012FCC(work->gameData);
+}
+
+
+/* Fills the ov181 and ov182 parameters from the config applied flag. */
+int func_0215F920(CommBattleWork *work)
+{
+    struct SaveControl *saveControl;
+    struct Config *config;
+    int configApplied;
+
+    if (work->mode == 1)
+        work->ov181Param.isMode1 = 1;
+    else
+        work->ov181Param.isMode1 = 0;
+    saveControl = func_02012EBC(work->gameData);
+    config = func_0200873C(saveControl);
+    configApplied = CONFIG_GetAppliedFlag(config);
+    work->ov181Param.configApplied = configApplied;
+    work->ov182Param = configApplied;
+    return configApplied;
+}
+
+
+/*
+ * Picks the step sequence from the mode and loads its first step.
+ * Addresses are Black-image addresses.
+ */
+void func_0215F948(CommBattleWork *work)
+{
+    if (work->mode == 0 || work->mode != 1) {
+        work->seq[0] = COMM_BATTLE_STEP_PREPARE;
+        work->seq[1] = COMM_BATTLE_STEP_REQUEST_COMM_IDLE;
+        work->seq[2] = COMM_BATTLE_STEP_WAIT_COMM_IDLE;
+        work->seq[3] = COMM_BATTLE_STEP_CLOSE_FIELD;
+        work->seq[4] = COMM_BATTLE_STEP_CALL_OV181;
+        work->seq[5] = COMM_BATTLE_STEP_WAIT_OV181;
+        work->seq[6] = COMM_BATTLE_STEP_WAIT_FRAMES;
+        work->seq[7] = COMM_BATTLE_STEP_COMM_EXIT_EVENT;
+        work->seq[8] = COMM_BATTLE_STEP_WAIT_FRAMES;
+        work->seq[9] = COMM_BATTLE_STEP_SET_SCRIPT_STATE;
+        work->seq[10] = COMM_BATTLE_STEP_CALL_OV205;
+        work->seq[11] = COMM_BATTLE_STEP_WAIT_FRAMES;
+        work->seq[12] = COMM_BATTLE_STEP_CALL_OV182;
+        work->seq[13] = COMM_BATTLE_STEP_DONE;
+    } else {
+        work->seq[0] = COMM_BATTLE_STEP_PREPARE;
+        work->seq[1] = COMM_BATTLE_STEP_REQUEST_COMM_IDLE;
+        work->seq[2] = COMM_BATTLE_STEP_FIELD_PREPARE_EVENT;
+        work->seq[3] = COMM_BATTLE_STEP_WAIT_COMM_IDLE;
+        work->seq[4] = COMM_BATTLE_STEP_CLOSE_FIELD;
+        work->seq[5] = COMM_BATTLE_STEP_CALL_OV180;
+        work->seq[6] = COMM_BATTLE_STEP_WAIT_OV180;
+        work->seq[7] = COMM_BATTLE_STEP_SET_SCRIPT_STATE;
+        work->seq[8] = COMM_BATTLE_STEP_CALL_OV205;
+        work->seq[9] = COMM_BATTLE_STEP_CALL_OV181;
+        work->seq[10] = COMM_BATTLE_STEP_WAIT_OV181;
+        work->seq[11] = COMM_BATTLE_STEP_CALL_OV182;
+        work->seq[12] = COMM_BATTLE_STEP_DONE;
+    }
+    work->step = work->seq[0];
+}
+
+
+/*
+ * Kind passed to the comm exit event: 7 for power 0x15, else 8. The 0x14
+ * test is redundant but is in the bytes.
+ */
+int func_0215F9C4(void)
+{
+    int powerId = GPOWER_GetSpecialPowerId();
+
+    if (powerId == 0x14 || powerId != 0x15)
+        return 8;
+    return 7;
+}
+
+
+/*
+ * Advance the step counter and load the next step from the sequence.
+ */
+void func_0215F9DC(CommBattleWork *work, u32 *seq)
+{
+    (*seq)++;
+    work->step = work->seq[*seq];
+}
+
+
+int func_0215F9EC(CommBattleWork *work)
+{
+    struct MiscSave *miscSave = func_02012F08(work->gameData);
+
+    return func_0200C3B8(miscSave, 0x5a0);
+}
+
+
+struct GameEvent *func_0215FA00(struct GameSystem *gameSystem, u32 initParam)
+{
+    func_02034AC4((u32)ov020_id);
+    return func_02183B6C(gameSystem, initParam);
+}
+
+
+/*
+ * Loads overlay 20 (GF_OVERLAY_Load with the pooled id abs_id_14) and returns
+ * the task that ov020 func_0218571C creates for the game system.  The bytes
+ * are the same as the TWL DSPi_WaitForPipe (dsp_pipe.o), which named it before.
+ */
+struct GameEvent *func_0215FA1C(struct GameSystem *gameSystem)
+{
+    GF_OVERLAY_Load((int)abs_id_14);
+    return func_0218571C(gameSystem);
+}
+
+
+/*
+ * note:     wave 17 (overlay_id class): EXACT. The pooled overlay-id site
+ *           abs_id_14 (20) resolves as `overlay_id` (a layout overlay index,
+ *           loaded by a pc-relative load of this function, reaching the id
+ *           register of a known overlay loader), which was the last blocker.
+ *
+ * Thumb tail call into the ARM GF_OVERLAY_Load with the id 0x14, which the
+ * original loads from its own pool rather than as `movs r0, #0x14`: the
+ * pooled small constant is an absolute linker symbol
+ * (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md).
+ * Unlabelled in the listing (no lr-saving prologue, callers only in arm9);
+ * the pair with func_0215FA44 (same id, into GF_OVERLAY_Unload).
+ */
+void func_0215FA34(void)
+{
+    GF_OVERLAY_Load((int)abs_id_14);
+}
+
+
+/*
+ * note:     wave 17 (overlay_id class): EXACT. The pooled overlay-id site
+ *           abs_id_14 (20) resolves as `overlay_id` (a layout overlay index,
+ *           loaded by a pc-relative load of this function, reaching the id
+ *           register of a known overlay loader), which was the last blocker.
+ *
+ * Thumb tail call into the ARM GF_OVERLAY_Unload with the id 0x14, which the
+ * original loads from its own pool rather than as `movs r0, #0x14`: the
+ * pooled small constant is an absolute linker symbol
+ * (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md).
+ * Unlabelled in the listing (no lr-saving prologue, callers only in arm9);
+ * the pair with func_0215FA34 (same id, into GF_OVERLAY_Load).
+ */
+void func_0215FA44(void)
+{
+    GF_OVERLAY_Unload((int)abs_id_14);
+}
+
+
+/*
+ * Event main of the Wi-Fi screens: 11 states that push the child
+ * tasks, load ov122 and ov172, and pick the closing screen from
+ * work->exitKind.
+ * Byte-correct (first draft plus one lever: in state 9 the `exitKind == 2`
+ * test and the call share an else block ending in the one `*seq = 10`
+ * store, so that store is the copy the other arms cross-jump to).
+ * Former blocker (MATCH): the pooled 0xAC is ov172_id passed in r1 to
+ * func_02012444, which is not in match.py's OVERLAY_ID_CONSUMERS
+ * (func_02012444 stores r1 in a task descriptor, src/matched/func_02012444.c),
+ * so the ABS32 at +0x190 has no witness.
+ *
+ * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
+ */
+int func_0215FA54(struct GameEvent *event, u32 *seq, void *workArg)
+{
+    WifiProcWork *work = workArg;
+    struct GameSystem *gameSystem = work->gameSystem;
+    struct GameComm *gameComm = func_02012138(gameSystem);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct FieldMap *fieldMap = func_0201210C(gameSystem);
+
+    switch (*seq) {
+    case 0:
+        func_02012374(event, func_021BE8D4(gameSystem, fieldMap, 0, 0));
+        (*seq)++;
+        break;
+    case 1:
+        func_02012374(event, FIELD_STATUS_CreateFieldCloseEvent(gameSystem, fieldMap));
+        *seq = 2;
+        break;
+    case 2:
+        (*seq)++;
+    case 3:
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov122_id, d_021D5764, work);
+        (*seq)++;
+        break;
+    case 4:
+        if (GAMESYSTEM_GetProcStatus(gameSystem) != 0)
+            break;
+        switch (work->entryKind) {
+        case 0:
+            if (func_02158344(gameComm) && work->exitKind == 2)
+                func_020129B8(gameData, 3);
+            *seq = 6;
+            break;
+        case 1:
+            work->savedBgmNo = GFL_USE_GetBgmNo();
+            func_02012444(event, (u32)ov172_id, d_021C7240, work->ov172Param);
+            *seq = 5;
+            break;
+        default:
+            *seq = 6;
+            break;
+        }
+        break;
+    case 5:
+        if (GAMESYSTEM_GetProcStatus(gameSystem) != 0)
+            break;
+        GFL_USE_CancelChangeAndPlayBgm(work->savedBgmNo, 0xFFFF);
+        GFL_USE_FadeInBgmFull(60);
+        *seq = 6;
+        break;
+    case 6:
+        work->exitRequest = 0;
+        (*seq)++;
+        break;
+    case 7:
+        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        (*seq)++;
+        break;
+    case 8:
+        func_02012374(event, func_021BE92C(gameSystem, fieldMap, 0, 0, 1, 0, 0));
+        (*seq)++;
+        break;
+    case 9:
+        if (work->entryKind == 0) {
+            if (work->exitKind == 0) {
+                if (func_02026460(gameComm))
+                    break;
+                if (func_02026454(gameComm)) {
+                    func_02026400(gameComm);
+                    break;
+                }
+                func_02012374(event, func_0217CE08(gameSystem, fieldMap, 0x117, 0));
+                *seq = 10;
+            } else if (work->exitKind == 3) {
+                func_02012374(event, func_0217FA24(gameSystem));
+                *seq = 10;
+            } else {
+                if (work->exitKind != 2)
+                    func_02012374(event, func_0217CDBC(gameSystem));
+                *seq = 10;
+            }
+        } else {
+            *seq = 10;
+        }
+        break;
+    case 10:
+        return 1;
+    }
+    return 0;
+}
+
+
+/*
+ * Creates the Wi-Fi screens event, or turns the given event into it when
+ * createNew is 0.
+ */
+struct GameEvent *func_0215FBF4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct GameEvent *event, int createNew)
+{
+    WifiProcWork *work;
+    struct GameData *gameData;
+
+    func_02188CCC(fieldMap);
+    if (createNew != 0) {
+        event = func_020122C0(gameSystem, 0, func_0215FA54, 0x34);
+    } else {
+        func_0201232C(event, func_0215FA54, 0x34);
+    }
+    work = func_020124E8(event);
+    gameData = func_020120F4(gameSystem);
+    work->gameData = gameData;
+    work->saveControl = func_02012EBC(gameData);
+    work->gameSystem = gameSystem;
+    return event;
+}
+
+
+struct GameEvent *func_0215FC40(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id)
+{
+    struct FieldCommLink *link;
+    int workSize = 0x5c;
+    struct GameEvent *event;
+    RecordLinkWork *work;
+    int linkMode;
+
+    link = func_02188CCC(fieldMap);
+    event = func_020122C0(gameSystem, 0, func_0215FD0C, workSize);
+    work = func_020124E8(event);
+    func_02082BCC(work, 0, workSize);
+    work->gameSystem = gameSystem;
+    work->event = event;
+    work->fieldMap = fieldMap;
+    work->id = id;
+    work->state = 0;
+    work->request.gameSystem = gameSystem;
+    work->request.fieldMap = fieldMap;
+    work->request.event = event;
+    work->request.onUpdate = func_0215FED4;
+    work->request.onClose = func_0215FEF0;
+    work->request.onFinish = func_0215FEF4;
+    work->request.work = work;
+    work->request.detail = workSize - 0x5d;
+    linkMode = func_021A0F90(link);
+    switch (linkMode) {
+    case 3:
+        linkMode = 3;
+        break;
+    case 4:
+        linkMode = 4;
+        break;
+    default:
+        linkMode = func_021A0EE4(func_02188CCC(work->fieldMap), 0);
+        break;
+    }
+    work->linkMode = linkMode;
+    func_020355D8(1);
+    return event;
+}
+
+
+struct GameEvent *func_0215FCE0(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id)
+{
+    struct GameEvent *event;
+    RecordLinkWork *work;
+
+    event = func_0215FC40(gameSystem, fieldMap, id);
+    work = func_020124E8(event);
+    work->linkMode = func_02013CE0(func_02188C9C(fieldMap)) == 1 ? 5 : 2;
+    return event;
+}
+
+
+/*
+ * Nine-state link setup task of the ov010 field (the extent ends at
+ * 0x0215FEC6; 0x0215FEC8 is its unlabelled table-lookup leaf). State 3
+ * keeps the call arm inside the negated test so the `return 1` block
+ * follows it.
+ */
+int func_0215FD0C(struct GameEvent *event, u32 *seq, void *workArg)
+{
+    RecordLinkWork *work = workArg;
+    FieldSkillTarget target;
+    FieldSkillInfo info;
+    struct MoveModelSys *moveModelSys;
+    struct GameData *gameData;
+    struct GameEvent *skillEvent;
+    u32 frameRate;
+    int linkState;
+
+    switch (work->state) {
+    case 0:
+        if (func_021A0ED4(func_02188CCC(work->fieldMap)) == 1) {
+            moveModelSys = func_02188C7C(work->fieldMap);
+            gameData = func_020120F4(func_020124E4(event));
+            func_0216D9A0(moveModelSys);
+            func_020129D0(gameData, 1);
+            func_021A0F30(func_02188CCC(work->fieldMap), 1);
+            work->state = 1;
+        }
+        break;
+    case 1:
+        linkState = func_021A0F94(func_02188CCC(work->fieldMap));
+        if (linkState == 3) {
+            work->state = 2;
+            func_021A0FA8(func_02188CCC(work->fieldMap));
+        } else if (linkState == 4) {
+            work->state = 3;
+            func_021A0FA8(func_02188CCC(work->fieldMap));
+        }
+        break;
+    case 2:
+        gameData = func_020120F4(func_020124E4(event));
+        frameRate = func_021A12A4(func_02188CCC(work->fieldMap));
+        func_020129D0(gameData, frameRate);
+        work->frameRate = func_021A12A4(func_02188CCC(work->fieldMap));
+        work->request.kind = func_0215FEC8(frameRate);
+        work->state = 5;
+        break;
+    case 3:
+        func_0216D9E4(func_02188C7C(work->fieldMap));
+        if (work->request.result != 1 && work->request.result != 4) {
+            func_0201235C(event, func_021945A4(func_020124E4(event), work->fieldMap, work->linkMode));
+            return 0;
+        }
+        return 1;
+    case 4:
+        func_0216D9E4(func_02188C7C(work->fieldMap));
+        func_0215E840(func_0201210C(work->gameSystem), &info);
+        func_0215EA30(&target, work->request.partySlot, work->request.next, work->request.targetParam);
+        skillEvent = func_0215EA38(work->request.next, &target, &info);
+        if (skillEvent == 0)
+            return 1;
+        func_0201235C(work->event, skillEvent);
+        break;
+    case 5:
+        func_02012374(event, func_0216075C(&work->request, work->id));
+        work->state = 6;
+        break;
+    case 6:
+        if (work->request.result == 0)
+            work->state = 1;
+        else if (work->request.result == 1)
+            work->state = 3;
+        else if (work->request.result == 3)
+            work->state = 7;
+        else if (work->request.result == 2)
+            work->state = 4;
+        else if (work->request.result == 4)
+            work->state = 3;
+        break;
+    case 7:
+        func_0216D9E4(func_02188C7C(work->fieldMap));
+        func_02012374(event, func_021644F4(work->request.next, work->gameSystem, work->fieldMap));
+        work->state = 8;
+        break;
+    case 8:
+        return 1;
+    }
+    return 0;
+}
+
+
+/*
+ * Unlabelled leaf after func_0215FD0C (bl from 0x0215FDD0): the request
+ * kind for a frame rate.
+ */
+u32 func_0215FEC8(u32 frameRate)
+{
+    return d_021712AC[frameRate];
+}
+
+
+/*
+ * Conditional arm9 pair call on the record's second field; the first
+ * call's result is the first operand either way.
+ */
+int func_0215FED4(ShortcutRequest *request, RecordLinkWork *work)
+{
+    struct FieldCommLink *link = func_02188CCC(work->fieldMap);
+
+    if (request->result == 0)
+        func_021A12BC(link, work->frameRate);
+
+    return 1;
+}
+
+
+/*
+ * Unlabelled leaf: returns 1.
+ */
+int func_0215FEF0(ShortcutRequest *request, RecordLinkWork *work)
+{
+    return 1;
+}
+
+
+int func_0215FEF4(ShortcutRequest *request, RecordLinkWork *work)
+{
+    struct GameData *gameData = func_020120F4(work->gameSystem);
+
+    switch (request->result) {
+    case 4:
+        func_020129B8(gameData, 6);
+        break;
+    case 0:
+        func_020129B8(gameData, 1);
+        break;
+    case 1:
+    case 2:
+    case 3:
+        func_020129B8(gameData, (u8)work->linkMode);
+        break;
+    default:
+        break;
+    }
+    return 1;
+}

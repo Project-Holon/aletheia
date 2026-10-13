@@ -1,5 +1,5 @@
 /*
- * function: func_0203E484
+ * function: GFL_NET_IRC_WIRELESS_AddMacList
  * address:  0x0203E484
  * packet:   pkt_0203E484
  * region:   arm9
@@ -20,7 +20,7 @@
  *   str_020A7D34  0x020A7D34  data
  *   str_020A7D4C  0x020A7D4C  data
  *   func_02034714 0x02034714  arm
- *   func_0203DAC4 0x0203DAC4  arm
+ *   GFL_NET_IRC_WIRELESS_AddMacAddress 0x0203DAC4  arm
  */
 
 typedef unsigned char u8;
@@ -29,9 +29,9 @@ typedef unsigned int  u32;
 extern const u8 str_020A7D34[];
 extern const u8 str_020A7D4C[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_0203DAC4(const u8 *mac);
+extern void GFL_NET_IRC_WIRELESS_AddMacAddress(const u8 *mac);
 
-void func_0203E484(u32 a, u32 b, int *p)
+void GFL_NET_IRC_WIRELESS_AddMacList(u32 a, u32 b, int *p)
 {
     int i;
     int n;
@@ -44,6 +44,6 @@ void func_0203E484(u32 a, u32 b, int *p)
         n = 4;
     }
     for (i = 0; i < n; i++) {
-        func_0203DAC4((u8 *)(p + 1) + i * 8);
+        GFL_NET_IRC_WIRELESS_AddMacAddress((u8 *)(p + 1) + i * 8);
     }
 }

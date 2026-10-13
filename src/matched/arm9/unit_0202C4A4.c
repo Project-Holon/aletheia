@@ -31,7 +31,7 @@
  *
  * The loop counter is signed, the same `blt` tell as
  * src/matched/unit_0202C470.c. Matched as a one-function unit because the
- * range ends exactly at func_0202C4C8, an unlabelled leaf matched
+ * range ends exactly at ISS_SWITCH_SET_ReadBgmNo, an unlabelled leaf matched
  * separately as src/matched/sub_0202C4C8.c, so the listing extent runs
  * four bytes long into it.
  *

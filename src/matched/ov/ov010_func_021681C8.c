@@ -26,15 +26,15 @@
  *   func_02013610  0x02013610  thumb
  *   func_02013644  0x02013644  thumb
  *   func_02013734  0x02013734  thumb
- *   func_02013810  0x02013810  thumb
+ *   BTL_SETUP_SetupCommAiMulti  0x02013810  thumb
  *   func_020399A8  0x020399A8  arm
  *   func_02039338  0x02039338  arm
- *   func_02013980  0x02013980  thumb
+ *   BTL_SETUP_AllocRecordBuffer  0x02013980  thumb
  *   func_02012944  0x02012944  thumb
  *   func_0201A954  0x0201A954  thumb
  *   func_020173EC  0x020173EC  thumb
  *   func_02030734  0x02030734  arm
- *   func_02017528  0x02017528  thumb
+ *   POKE_TOOL_ClearPartyParam  0x02017528  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02019CE0  0x02019CE0  thumb
  *   func_02017E1C  0x02017E1C  thumb
@@ -42,10 +42,10 @@
  *   func_0201A98C  0x0201A98C  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_02045924  0x02045924  arm
- *   func_0202428C  0x0202428C  thumb
+ *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   func_02168AC8  0x02168AC8  thumb  ov010
  *   func_0216869C  0x0216869C  thumb  ov010
- *   func_0201394C  0x0201394C  thumb
+ *   BTL_SETUP_ChangeToSubway  0x0201394C  thumb
  *   d_02172A2C     0x02172A2C  data
  */
 
@@ -104,15 +104,15 @@ extern void *func_02013090(u32 heap);
 extern void func_02013610(u8 *p, u32 a, u32 b, u32 c, u16 d);
 extern void func_02013644(u8 *p, u32 a, u32 b, u32 c, u16 d);
 extern void func_02013734(struct Obj02013734 *o, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern void func_02013810(u8 *o, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u16 a7);
+extern void BTL_SETUP_SetupCommAiMulti(u8 *o, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u16 a7);
 extern struct Entry *func_020399A8(void);
 extern u16 func_02039338(void);
-extern void func_02013980(struct ZoneData *o, u32 heap);
+extern void BTL_SETUP_AllocRecordBuffer(struct ZoneData *o, u32 heap);
 extern u8 *func_02012944(void *p);
 extern void func_0201A954(struct Party *p, s32 capacity);
 extern u32 func_020173EC(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02017528(struct Sav *p);
+extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
@@ -120,10 +120,10 @@ extern void func_02019CA0(void *p, u32 v);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern void func_0202428C(void *p);
+extern void PMSI_PARAM_ClearSentence(void *p);
 extern int func_02168AC8(int a0);
 extern void func_0216869C(const struct BattleMon *src, void *mon);
-extern void func_0201394C(struct ZoneData *o);
+extern void BTL_SETUP_ChangeToSubway(struct ZoneData *o);
 extern const char d_02172A2C[];
 
 Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int n)
@@ -169,10 +169,10 @@ Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int 
         flag = 0;
         if (func_02039338() != 0)
             flag = 2;
-        func_02013810((u8 *)bs, (u32)ctx, (u32)e, 1, flag, 0, 0, 4);
+        BTL_SETUP_SetupCommAiMulti((u8 *)bs, (u32)ctx, (u32)e, 1, flag, 0, 0, 4);
         break;
     }
-    func_02013980((struct ZoneData *)bs, 4);
+    BTL_SETUP_AllocRecordBuffer((struct ZoneData *)bs, 4);
 
     k = SIDE_0;
     i = 0;
@@ -181,7 +181,7 @@ Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int 
     party = bs->f24[k];
     func_0201A954(party, 6);
     mon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x253);
-    func_02017528(mon);
+    POKE_TOOL_ClearPartyParam(mon);
     for (; i < n; i++) {
         e = func_0201AB28(partyA, i);
         func_02019CE0(e, mon);
@@ -197,8 +197,8 @@ Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int 
     o->f04 = recA->f04;
     o->f08 = 0x87;
     func_02045924(o->f14, (const u16 *)recA->f08);
-    func_0202428C(&o->w18.v[0]);
-    func_0202428C(&o->w18.v[4]);
+    PMSI_PARAM_ClearSentence(&o->w18.v[0]);
+    PMSI_PARAM_ClearSentence(&o->w18.v[4]);
     if (mode == 4) {
         o->w18.v[0] = recA->w20.v[0];
         o->w18.v[1] = recA->w20.v[1];
@@ -251,8 +251,8 @@ Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int 
         o->f04 = recB->f04;
         o->f08 = 0x87;
         func_02045924(o->f14, (const u16 *)recB->f08);
-        func_0202428C(&o->w18.v[0]);
-        func_0202428C(&o->w18.v[4]);
+        PMSI_PARAM_ClearSentence(&o->w18.v[0]);
+        PMSI_PARAM_ClearSentence(&o->w18.v[4]);
         partyD = bs->f24[k];
         func_0201A954(partyD, 6);
         mon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x2F3);
@@ -262,6 +262,6 @@ Bs *func_021681C8(void *sys, void *partyA, u32 mode0, Rec *recA, Rec *recB, int 
         }
         func_020307B0(mon);
     }
-    func_0201394C((struct ZoneData *)bs);
+    BTL_SETUP_ChangeToSubway((struct ZoneData *)bs);
     return bs;
 }

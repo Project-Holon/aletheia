@@ -12,5 +12,9 @@
  * symbols:
  *   d_021F0718 0x021F0718 data a4
  */
+#include "unit_021DBAF0_types.h"
+
 extern int d_021F0718;
-int *func_021DBE60(int *p) { *p=1; return &d_021F0718; }
+
+/* Cursed Body handler table (one handler). */
+int *func_021DBE60(int *handlerCount) { *handlerCount = 1; return &d_021F0718; }

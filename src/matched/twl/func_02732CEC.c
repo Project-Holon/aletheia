@@ -21,7 +21,7 @@
  * image's `mov r5,#0 / cmp / beq / mvn r5,#4`).
  *
  * symbols:
- *   func_02166378  0x02166378  arm  ov009
+ *   WCMi_GetCpsifWork  0x02166378  arm  ov009
  *   func_02165AF4  0x02165AF4  arm  ov009
  *   func_02166594  0x02166594  arm  ov009
  */
@@ -42,14 +42,14 @@ typedef struct WCMCpsifWork {
 } WCMCpsifWork;
 typedef struct NWMCallback { unsigned short apiid; unsigned short retcode; } NWMCallback;
 
-extern WCMCpsifWork *func_02166378(void);
+extern WCMCpsifWork *WCMi_GetCpsifWork(void);
 extern void func_02165AF4(void);
 extern void func_02166594(OSMutex *mutex);
 
 void WcmNwmcbSetDCFDataAsync(void *arg)
 {
     NWMCallback *cb = (NWMCallback *)arg;
-    WCMCpsifWork *wcmiw = func_02166378();
+    WCMCpsifWork *wcmiw = WCMi_GetCpsifWork();
     long wcmResult;
     void (*sendCallback)(long);
 

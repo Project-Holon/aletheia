@@ -1,5 +1,5 @@
 /*
- * function: func_02198E74
+ * function: NatifyThink
  * address:  0x02198E74
  * packet:   pkt_02155168
  * region:   ov009
@@ -20,7 +20,7 @@
 struct _NAT;
 extern int func_02198A0C(int sock, struct _NAT *nat);
 
-int func_02198E74(int sock, void *nat)
+int NatifyThink(int sock, void *nat)
 {
     return func_02198A0C(sock, nat);
 }

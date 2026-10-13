@@ -1,5 +1,5 @@
 /*
- * function: func_0203971C
+ * function: GFL_NET_HANDLE_ClearTimingMask
  * address:  0x0203971C
  * packet:   pkt_0203971C
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203A28C  0x0203A28C  arm
+ *   GFL_NET_HANDLE_SetBitMask  0x0203A28C  arm
  *   func_02082BCC  0x02082BCC  arm
  *
  * Clears the slot's `0x3e` field, refreshes its `0x40` field from the
@@ -22,15 +22,15 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_0203A28C(u16 mask, u32 idx, u32 set);
+extern u16 GFL_NET_HANDLE_SetBitMask(u16 mask, u32 idx, u32 set);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 
-void func_0203971C(unsigned char *a, u32 b)
+void GFL_NET_HANDLE_ClearTimingMask(unsigned char *a, u32 b)
 {
     if (b != 0xFF) {
         u16 h = ((struct Obj08833 *)a)->f40;
         ((struct Obj08833 *)a)->f3E = 0;
-        ((struct Obj08833 *)a)->f40 = (u16)func_0203A28C(h, b, 0);
+        ((struct Obj08833 *)a)->f40 = (u16)GFL_NET_HANDLE_SetBitMask(h, b, 0);
     }
     {
         void *p = *(void **)(a + b * 4 + 8);

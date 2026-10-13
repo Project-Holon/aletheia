@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02012C0C
+ * function: GAME_DATA_GetRtcWork
  *
  * Twelve bytes: the address of the BigObj sub-object at +0x5E8, reached
  * through a literal pool word holding the plain constant 0x5E8 rather than a
@@ -30,7 +30,7 @@ struct BigObj {
     u8 unk5E8[4];
 };
 
-u8 *func_02012C0C(struct BigObj *p)
+u8 *GAME_DATA_GetRtcWork(struct BigObj *p)
 {
     return p->unk5E8;
 }

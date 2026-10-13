@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B2ED8",
+   "name": "VCT_POOL_InitFrames",
    "address": "0x021B2ED8",
    "kind": "game",
    "region": "ov013",

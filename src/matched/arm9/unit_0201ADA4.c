@@ -8,17 +8,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201ADA4
+ * function: POKE_PERSONAL_LoadData
  *
  * symbols:
- *   g_0214652C  0x0214652C  data
+ *   _pPersonalArc  0x0214652C  data
+ *   ARC_TOOL_GetHandleMemberOffset  0x02049578  arm
+ *   ARC_TOOL_ReadHandle  0x020495F4  arm
+ *   POKE_PERSONAL_GetFormDataId  0x0201AFD4  thumb
  *
- * A three-parameter wrapper: calls sub_0201AFD4(a, b) (0x0201AFD4, still
+ * A three-parameter wrapper: calls POKE_PERSONAL_GetFormDataId(a, b) (0x0201AFD4, still
  * open) and threads its result through two handler calls keyed off a static
  * handle at 0x0214652C, then hands the third parameter off to a third
  * handler with a literal id of 0x3C.  Kept as its own file rather than
- * merged with the neighbouring sub_0201ADD0/sub_0201ADE4
- * (src/matched/unit_0201ADD0.c) because both of those call sub_0201AFD4 as
+ * merged with the neighbouring POKE_PERSONAL_LoadDataDirect/POKE_PERSONAL_Create
+ * (src/matched/unit_0201ADD0.c) because both of those call POKE_PERSONAL_GetFormDataId as
  * well; one range holding all three calls has none of them attested and
  * caps at MATCH (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
  * With this function alone, the other two callers are outside the range and
@@ -32,18 +35,18 @@
 typedef unsigned int u32;
 
 struct ArcFile;
-extern u32 sub_0201AFD4(u32 a, int b);
-extern u32 func_02049578(struct ArcFile *handle, u32 x);
+extern u32 POKE_PERSONAL_GetFormDataId(u32 a, int b);
+extern u32 ARC_TOOL_GetHandleMemberOffset(struct ArcFile *handle, u32 x);
 extern void *func_0204960C(void *handle, void *x);
 struct ArcFile;
-extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
-extern void *g_0214652C;
+extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
+extern void *_pPersonalArc;
 
-void sub_0201ADA4(u32 a, int b, void *c)
+void POKE_PERSONAL_LoadData(u32 a, int b, void *c)
 {
-    u32 r = sub_0201AFD4(a, b);
+    u32 r = POKE_PERSONAL_GetFormDataId(a, b);
 
-    r = func_02049578(g_0214652C, r);
-    func_0204960C(g_0214652C, (void *)r);
-    func_020495F4(g_0214652C, 0x3C, c);
+    r = ARC_TOOL_GetHandleMemberOffset(_pPersonalArc, r);
+    func_0204960C(_pPersonalArc, (void *)r);
+    ARC_TOOL_ReadHandle(_pPersonalArc, 0x3C, c);
 }

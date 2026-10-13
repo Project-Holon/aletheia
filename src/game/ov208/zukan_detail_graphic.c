@@ -15,12 +15,12 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   d_021C8DC0 0x021C8DC0 data a1
@@ -42,7 +42,7 @@
  *   func_020419E4 0x020419E4  arm
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_0204A600 0x0204A600  arm
@@ -134,7 +134,7 @@
  *   func_020437EC 0x020437EC arm
  *   func_020437D4 0x020437D4 arm
  *   func_02040B58 0x02040B58 arm
- *   func_0204994C 0x0204994C arm
+ *   ARC_UTIL_UploadBgPaletteAddFromArchive 0x0204994C arm
  *   func_02045B38 0x02045B38 arm
  *   func_02049BDC        0x02049BDC  arm
  *   func_02043814        0x02043814  arm
@@ -168,7 +168,7 @@
  *   func_021BDAD4 0x021BDAD4 thumb
  *   func_021BDBB8 0x021BDBB8 thumb
  *   func_021BC3A4 0x021BC3A4 thumb
- *   func_02012BF8 0x02012BF8 thumb
+ *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   func_021BE840 0x021BE840 thumb
  *   func_021BE82C 0x021BE82C thumb
  *   func_021BE844 0x021BE844 thumb
@@ -188,7 +188,7 @@
  *   func_021BC3C0  0x021BC3C0  thumb  ov208
  *   func_021BC3CC  0x021BC3CC  thumb  ov208
  *   func_021BC40C  0x021BC40C  thumb  ov208
- *   func_02012BE0  0x02012BE0  thumb
+ *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   ov208_func_021BF280  0x021BF280  thumb  ov208
  *   func_020061E4  0x020061E4  thumb
  *   func_021BA550 0x021BA550 thumb ov206
@@ -248,7 +248,7 @@
  *   func_0204B034  0x0204B034  arm
  *   func_0204B258  0x0204B258  arm
  *   func_0204B84C  0x0204B84C  arm
- *   func_0204B800  0x0204B800  arm
+ *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   data_021C8558  0x021C8558  data
  *   data_021C8560  0x021C8560  data
@@ -270,7 +270,7 @@
  *   func_0204ACEC  0x0204ACEC  arm
  *   func_0201BC78  0x0201BC78  thumb
  *   func_0201BCEC  0x0201BCEC  thumb
- *   func_0201BABC  0x0201BABC  thumb
+ *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   func_0201BB5C  0x0201BB5C  thumb
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb
@@ -282,9 +282,9 @@
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_02051F1C 0x02051F1C arm
- *   func_0205207C 0x0205207C arm
- *   func_02051F34 0x02051F34 arm
+ *   BUTTON_MAN_InitSphere 0x02051F1C arm
+ *   BUTTON_MAN_InitSegment 0x0205207C arm
+ *   BUTTON_MAN_SegmentSphereTest 0x02051F34 arm
  *   func_020355C4 0x020355C4 arm
  *   func_0203630C 0x0203630C arm
  *   func_0207CA00 0x0207CA00 arm
@@ -304,12 +304,12 @@
  *   func_0201ED04  0x0201ED04  thumb
  *   func_021C0740  0x021C0740  thumb  ov208
  *   func_02013E4C  0x02013E4C  thumb
- *   func_0204B8C4  0x0204B8C4  arm
+ *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   func_0201D304  0x0201D304  thumb
  *   func_020437DC  0x020437DC  arm
  *   func_021C0C8C 0x021C0C8C thumb ov208
  *   sub_0201D304  0x0201D304  thumb
- *   sub_0201C724  0x0201C724  thumb
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   data_021C8E14  0x021C8E14  data
  *   data_021C8E1A  0x021C8E1A  data
  *   func_0207D63C 0x0207D63C  arm
@@ -347,9 +347,9 @@
  *   func_021BC99C 0x021BC99C thumb ov208
  *   func_021BC678 0x021BC678 thumb ov208
  *   func_021C34A4  0x021C34A4  thumb  ov208
- *   func_02005E30  0x02005E30  thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   data_021C8704  0x021C8704  data
- *   func_0204B908 0x0204B908 arm
+ *   CLACT_SetActorAnimIndex 0x0204B908 arm
  *   data_021C86EC 0x021C86EC data ov208 a1
  *   func_021BC738 0x021BC738 thumb ov208
  *   func_0204B324 0x0204B324 arm
@@ -359,13 +359,18 @@
  *   func_0202D898 0x0202D898 thumb
  *   func_0202D060 0x0202D060 thumb
  *   func_0202D0D4 0x0202D0D4 thumb
- *   func_0204B5C0 0x0204B5C0 arm
- *   func_0204B5AC 0x0204B5AC arm
+ *   CLACT_GetActorScale 0x0204B5C0 arm
+ *   CLACT_SetActorScale 0x0204B5AC arm
  *   _fdiv 0x0209CE10 arm
  *   _fmul 0x0209C77C arm
  *   _fgr 0x0209BBB0 arm
  *   _fleq 0x0209BC0C arm
  *   _fgeq 0x0209BB54 arm
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb  arm9
+ *   GFL_USE_PushBgm  0x02005E64  thumb  arm9
+ *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
  */
 #include "../../matched/include/Obj04613.h"
 #include "../../matched/include/Obj18203.h"
@@ -902,12 +907,12 @@ struct Pair { int x; int y; };
 
 extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern void func_0204335C(unsigned);
+extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(unsigned);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
 extern void func_02030EAC(struct Node *n);
@@ -925,7 +930,7 @@ extern void func_0203F9B4(void);
 extern void func_020419E4(void);
 extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern u32 func_0204B1CC(struct Bank *bank);
@@ -1018,7 +1023,7 @@ extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
 extern u32 func_020437EC(const struct Bmp *bmp);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern u32 func_02040B58(u32 index, const void *src, u32 size);
-extern u32 func_0204994C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned int func_02045C04(struct Rec *rec);
 extern void func_020437AC(struct Obj020437AC *p);
@@ -1050,7 +1055,7 @@ extern void func_021BDAAC(void *s, u32 a, u32 b, u32 c);
 extern void func_021BDAD4(void *s, int a);
 extern void func_021BDBB8(void *s, u32 a);
 extern int func_021BC3A4(int *ctx);
-extern int func_02012BF8(int a, int b);
+extern int GAME_DATA_CheckSaveFlag(int a, int b);
 extern int func_021BE840(void *s);
 extern void func_021BE82C(void *s, int a);
 extern void func_021BE844(void *s);
@@ -1070,7 +1075,7 @@ extern void func_021BC46C(struct Ov208Blend *a, struct Ov208Blend *b);
 extern u16 func_021BC3C0(void *p);
 extern void func_021BC3CC(char *p);
 extern void func_021BC40C(struct Ov208Cur *p);
-extern void func_02012BE0(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern void ov208_func_021BF280(void *first, char *q, void *third, int next);
 extern void func_021BA550(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6);
 extern void func_021BA6B0(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6, int a7);
@@ -1122,7 +1127,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
 extern void func_0204B258(struct Bank *bank, void *p);
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_0204B084(void *);
 extern int  func_02166CD0(int a, u32 msg);
 extern void func_02045374(struct Cfg *cfg);
@@ -1134,16 +1139,16 @@ extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern int func_0201BC78(void);
 extern int func_0201BCEC(void);
-extern u32  func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
+extern u32  POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern u32  func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u16  func_02012AC8(const struct Rec44 *a);
 extern u32  func_02166C7C(int a, u32 b);
 extern int func_021BBB48(int a0, int a1);
 extern u8   func_021C0C14(u16 *heap, u8 *p, int key);
-extern void func_02051F1C(struct Ball *,struct Vec_021C0D5C *,u32);
-extern void func_0205207C(char *p, struct S12 *q, struct S12 *r, u32 v);
-extern u32 func_02051F34(struct Seg *,struct Ball *,struct Out *);
+extern void BUTTON_MAN_InitSphere(struct Ball *,struct Vec_021C0D5C *,u32);
+extern void BUTTON_MAN_InitSegment(char *p, struct S12 *q, struct S12 *r, u32 v);
+extern u32 BUTTON_MAN_SegmentSphereTest(struct Seg *,struct Ball *,struct Out *);
 extern u8 func_020355C4(void);
 extern unsigned int func_0203630C(void);
 extern void func_0207CA00(struct Vec_021C1450 *a, struct Vec_021C1450 *b, struct Vec_021C1450 *out);
@@ -1163,13 +1168,13 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
 extern u32 func_02013E4C(u32 id);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 func_020437DC(const struct Bmp *bmp);
 extern void func_021C0C8C(u16 *, u8 *, int, int);
 extern u32 sub_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void sub_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0207D63C(volatile void *, int, int, int, int);
 extern void ov208_func_021BC518(u32 blend);
 extern u32 ov208_func_021BCF4C(int v);
@@ -1204,13 +1209,13 @@ extern void func_021C3318(u16 *,u8 *,int);
 extern void func_021BC99C(char *p);
 extern void func_021BC678(char *p);
 extern void func_021C34A4(u16 *heap, u8 *p, int key);
-extern void func_02005E30(u32 v);
-extern int func_02005E9C(void);
-extern void func_02005DE4(void *p);
-extern void func_02005DF8(u32 a);
-extern int func_02005E50(void);
-extern int func_02005E64(void);
-extern void func_0204B908(int a0, int a1);
+extern void GFL_USE_FadeOutBgm(u32 v);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_FadeInBgmFull(u32 a);
+extern int GFL_USE_IsBgmFading(void);
+extern int GFL_USE_PushBgm(void);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern int func_0202D7C8(int a0);
 extern u32 func_0202D81C(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int func_0202D7D8(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
@@ -1219,8 +1224,8 @@ extern int func_0202D060(void);
 extern s32_021C23BC func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern void func_021BC738(struct Ov208Gfx *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g);
 extern struct Obj *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
-extern void func_0204B5C0(const struct Obj *o, struct Pair *p);
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
+extern void CLACT_GetActorScale(const struct Obj *o, struct Pair *p);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 char *func_021BCE10(unsigned display,unsigned short heap,int threeD);
 void func_021BCEC0(char *p);
 void func_021BCF18(char *p);
@@ -1489,12 +1494,12 @@ char *func_021BCE10(unsigned display,unsigned short heap,int threeD)
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)d_021C8184);
     func_0204363C(display);
     func_0204361C();
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     func_0201DD60();
     ((struct Obj04613 *)p)->f10=0;
     func_021BCF98(p,heap);
@@ -1677,7 +1682,7 @@ void func_021BD03C(unsigned char *p, int a, int b)
     func_02082BCC(p, 0, 4);
     func_0204A48C((const struct Cfg *)0x021C8148, a, b);
     ((struct Obj14644 *)p)->f0 = func_0204B100(0x50, 0, b);
-    func_0204B270(((struct Obj14644 *)p)->f0);
+    CLACT_SetUnitDefaultRenderer(((struct Obj14644 *)p)->f0);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }
@@ -2565,7 +2570,7 @@ char *func_021BD8C0(u16 heap,unsigned arg)
     func_02040618(1,3,-24);func_0204047C(1,0);
     p[0x38]=0;((struct Obj01080 *)p)->f3C=0;
     *(struct Bank * *)&((struct Obj01080 *)p)->f28=func_0204B100(16,0,((struct Obj01080 *)p)->f0);
-    func_0204B270(*(struct Bank * *)&((struct Obj01080 *)p)->f28);
+    CLACT_SetUnitDefaultRenderer(*(struct Bank * *)&((struct Obj01080 *)p)->f28);
     *(unsigned *)&((struct Obj01080 *)p)->f30=0;func_021BDCF8((struct Ov208Scene *)p);
     func_021BD358(((struct Obj01080 *)p)->f30,0);
     ((struct Obj01080 *)p)->fB4=24;func_021BDD48(p,((struct Obj01080 *)p)->fB4);
@@ -3804,7 +3809,7 @@ void func_021BE868(struct Ov208Gfx *g)
     g->f18 = func_0204384C(0x9f, 14, 0, g->heap);
     g->f20 = func_020437EC(g->f18);
     g->f1c = func_02040B58(5, func_020437D4(g->f18), g->f20);
-    func_0204994C(0x9f, 0x25, 5, 0, g->f1c, 0xc0, 0, g->heap);
+    ARC_UTIL_UploadBgPaletteAddFromArchive(0x9f, 0x25, 5, 0, g->f1c, 0xc0, 0, g->heap);
     func_020413B0(5, 0, 0, 0x20, 0x18, 13);
     g->f24 = (int)func_02045B38(0, 2, 0xea, g->heap);
 }
@@ -4023,7 +4028,7 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
             func_021BDBB8(scn, 0);
         }
         func_021BDC48(scn, 0);
-        func_021BDC14(scn, func_02012BF8(func_021BC3A4(ctx), 0x11));
+        func_021BDC14(scn, GAME_DATA_CheckSaveFlag(func_021BC3A4(ctx), 0x11));
         if (func_021BE840(icon) != 2) {
             func_021BE82C(icon, 0);
             func_021BE844(icon);
@@ -4156,7 +4161,7 @@ void func_021BEE70(void *a0, void *a1, void *heap, struct S_021BEE70 *st, int *o
         func_021BDBA0((void *)sc);
         return;
     case 5:
-        func_02012BE0((void *)func_021BC3A4(obj), 0x11, func_021BDC2C((char *)sc));
+        GAME_DATA_SetSaveFlag((void *)func_021BC3A4(obj), 0x11, func_021BDC2C((char *)sc));
         func_021BDBA0((void *)sc);
         return;
     default:
@@ -4758,7 +4763,7 @@ int ov208_func_021BF9B0(void *proc, int *seq, u16 *heap, u8 *p, int key)
         }
         func_021BDC48(scene, 0);
         W(0x88) = 0;
-        ov208_func_021BDC14(scene, func_02012BF8(ov208_func_021BC3A4(key), 18));
+        ov208_func_021BDC14(scene, GAME_DATA_CheckSaveFlag(ov208_func_021BC3A4(key), 18));
         if (ov208_func_021BE840(icon) != 2) {
             ov208_func_021BE82C(icon, 1);
             ov208_func_021BE844(icon);
@@ -4942,7 +4947,7 @@ void func_021BFE08(void *a0, void *a1, void *heap, struct S *st, int *obj, int k
         }
         break;
     case 5:
-        func_02012BE0((void *)func_021BC3A4(obj), 0x12, func_021BDC2C((char *)sc));
+        GAME_DATA_SetSaveFlag((void *)func_021BC3A4(obj), 0x12, func_021BDC2C((char *)sc));
         func_021BDBA0((void *)sc);
         return;
     case 19:
@@ -5078,7 +5083,7 @@ void func_021C0134(u16 *heap, u8 *p, int key)
         func_0204B878((struct Obj *)OBJ(i), anim.v[i]);
         func_0204B92C((struct Obj *)OBJ(i), 1);
         func_0204B84C(OBJ(i), pri.v[i]);
-        func_0204B800((struct Node *)OBJ(i), pal.v[i]);
+        CLACT_SetActorDrawPriority((struct Node *)OBJ(i), pal.v[i]);
         func_0204B3DC((struct Obj *)OBJ(i), 0);
         func_0204B688((struct Actor *)OBJ(i), 1);
     }
@@ -5135,7 +5140,7 @@ void ov208_func_021C0450(u16 *heap, u8 *p, int key)
         func_0204B878((struct Obj *)(*(u32 *)(p + i * 4 + 0xdc)), func_021BBB3C((char *)W(0x3c8), i, 0x18));
         func_0204B92C((struct Obj *)*(u32 *)(p + i * 4 + 0xdc), 1);
         func_0204B84C(*(u32 *)(p + i * 4 + 0xdc), 2);
-        func_0204B800((struct Node *)(*(u32 *)(p + i * 4 + 0xdc)), 4);
+        CLACT_SetActorDrawPriority((struct Node *)(*(u32 *)(p + i * 4 + 0xdc)), 4);
         func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0xdc), 0);
         func_0204B688((struct Actor *)(*(u32 *)(p + i * 4 + 0xdc)), 1);
     }
@@ -5566,7 +5571,7 @@ u32 func_021C0B6C(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 f
     pos.z = 1;
     pos.pri = 1;
     pos.f7 = 0;
-    *slot = func_0204A6C8(h, func_0201BABC(species, form, gender, isEgg), 0, 1, heap);
+    *slot = func_0204A6C8(h, POKE_TOOL_CalcGraphicIndex(species, form, gender, isEgg), 0, 1, heap);
     obj = (u32)func_0204B294((u32)res, *slot, a, b, &pos, 1, heap);
     func_0204B92C((struct Obj *)obj, 0);
     func_0204B6F4((struct Obj *)obj, func_0201BB5C(species, form, gender, isEgg), 0);
@@ -5745,7 +5750,7 @@ u8 func_021C0D5C(void *unused,char *p,int unused2,u8 x,u8 y)
     point.x=FX(x);
     point.y=FX(y);
     point.z=0;
-    func_02051F1C(&ball,&point,0);
+    BUTTON_MAN_InitSphere(&ball,&point,0);
     for(i=0;i<61;i++) {
         if (*(u32 *)(p+i*8+0x1e0)==1) continue;
         a.x=FX(FIELD(6));
@@ -5754,8 +5759,8 @@ u8 func_021C0D5C(void *unused,char *p,int unused2,u8 x,u8 y)
         b.x=FX(FIELD(8));
         b.y=FX(FIELD(9));
         b.z=0;
-        func_0205207C((char *)(&seg),(struct S12 *)(&a),(struct S12 *)(&b),FX(FIELD(10)));
-        if (func_02051F34(&seg,&ball,&out)) {
+        BUTTON_MAN_InitSegment((char *)(&seg),(struct S12 *)(&a),(struct S12 *)(&b),FX(FIELD(10)));
+        if (BUTTON_MAN_SegmentSphereTest(&seg,&ball,&out)) {
             if(result==255) { best=out.distance; result=i; }
             else if(best>out.distance) { best=out.distance; result=i; }
         }
@@ -6245,7 +6250,7 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
             func_0204B3DC((struct Obj *)W(0xd0), 0);
             wide = func_021BC3BC((int *)((char *)key)) > 1 ? 1 : 0;
             func_021BDAAC(s, 0, 1, wide);
-            func_021BDC14((struct Ov208Scene *)s, func_02012BF8(func_021BC3A4((int *)key), 0x12));
+            func_021BDC14((struct Ov208Scene *)s, GAME_DATA_CheckSaveFlag(func_021BC3A4((int *)key), 0x12));
         }
         break;
     case 8:
@@ -6438,7 +6443,7 @@ void func_021C1E10(u16 *heap, u8 *p, int key, int dir, int touch)
     }
     func_0204B878((struct Obj *)OBJ(p[0xd8]), anim);
     func_0204B92C((struct Obj *)OBJ(other), 0);
-    func_0204B8C4((struct Obj *)OBJ(other), 0);
+    CLACT_SetActorAnimFrame((struct Obj *)OBJ(other), 0);
     func_021BDC48((struct Ov208Scene *)s, 0);
     if (touch == 1) {
         func_0204B3DC((struct Obj *)W(0xcc), 0);
@@ -6597,7 +6602,7 @@ void func_021C20C0(void *a0, u8 *st, void *a2)
             h = func_020437DC((const struct Bmp *)((u32)func_02045770(((struct Obj00081 *)st)->f20)));
             t = (u32)func_02045770(((struct Obj00081 *)st)->f20);
             d = h - w;
-            sub_0201C724(((struct Obj00081 *)st)->f40, t, (s16_021C20C0)(u16)(d / 2), 1, (u32)msg, ((struct Obj00081 *)st)->f4, 0x3c40);
+            PRINTSYS_PrintQueColor(((struct Obj00081 *)st)->f40, t, (s16_021C20C0)(u16)(d / 2), 1, (u32)msg, ((struct Obj00081 *)st)->f4, 0x3c40);
             func_02045808(msg);
             ((struct Obj00081 *)st)->f30 = 1;
             func_021C0740((u16 *)a0, st, (int)a2, 3);
@@ -7135,7 +7140,7 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
             func_021BDAD4(scene,0);
         }else func_021BDBB8(scene,2);
         func_021BDC48(scene,0);
-        func_021BDC14((struct Ov208Scene *)scene, func_02012BF8(func_021BC3A4((int *)key),0x13));
+        func_021BDC14((struct Ov208Scene *)scene, GAME_DATA_CheckSaveFlag(func_021BC3A4((int *)key),0x13));
         if(func_021BE840(icon)!=2){
             func_021BE82C(icon,2);
             func_021BE844(icon);
@@ -7254,7 +7259,7 @@ void func_021C2A70(void *a0, void *a1, void *heap, struct S_021C2A70 *st, int *o
         func_021BDBA0((struct Ov208Scene *)sc);
         return;
     case 5:
-        func_02012BE0((void *)func_021BC3A4(obj), 0x13, func_021BDC2C((char *)sc));
+        GAME_DATA_SetSaveFlag((void *)func_021BC3A4(obj), 0x13, func_021BDC2C((char *)sc));
         func_021BDBA0((struct Ov208Scene *)sc);
         return;
     default:
@@ -7290,7 +7295,7 @@ void func_021C2BA8(void *unused, u8 *p)
 
 void func_021C2BE0(void *unused, u8 *p, void *a2)
 {
-    func_02005E30(0x1e);
+    GFL_USE_FadeOutBgm(0x1e);
     ((struct Obj25506 *)p)->fB8 = 1;
 }
 
@@ -7306,10 +7311,10 @@ void func_021C2BE0(void *unused, u8 *p, void *a2)
 void func_021C2BF4(void *unused, char *p, void *a2)
 {
     if (((struct Obj00146 *)p)->fB8 == 2) {
-        func_02005E9C();
-        func_02005DE4(0);
+        GFL_USE_PopBgm();
+        GFL_USE_SetBgmPlayerParam(0);
     }
-    func_02005DF8(0x3c);
+    GFL_USE_FadeInBgmFull(0x3c);
     ((struct Obj00146 *)p)->fB8 = 3;
 }
 
@@ -7324,9 +7329,9 @@ void func_021C2BF4(void *unused, char *p, void *a2)
 void func_021C2C1C(int unused, char *p, int a2)
 {
     if (((struct Obj00146 *)p)->fB8 == 1) {
-        if (func_02005E50() == 0) {
-            func_02005DE4((void *)1);
-            func_02005E64();
+        if (GFL_USE_IsBgmFading() == 0) {
+            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_PushBgm();
             ((struct Obj00146 *)p)->fB8 = 2;
         }
     }
@@ -7408,7 +7413,7 @@ void func_021C2DE0(void *unused,u8 *p,void *unused2,int first,u16 second)
     if(digits[2]>9)digits[2]=9;
     digits[3]=second%10;
     for(i=0;i<4;i++)
-        func_0204B908((int)(*(struct Obj **)(p+ids.v[i]*4+0x9c)),digits[i]);
+        CLACT_SetActorAnimIndex((int)(*(struct Obj **)(p+ids.v[i]*4+0x9c)),digits[i]);
 }
 
 
@@ -7472,7 +7477,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
         break;
     case 1:
         func_0204B454(OBJ(p), (struct PtS *)&pos, 1);
-        func_0204B5C0(OBJ(p), &sc);
+        CLACT_GetActorScale(OBJ(p), &sc);
         f = (float)sc.y / 4096.0f;
         f += 0.01f;
         if (f >= 1.1f) {
@@ -7485,11 +7490,11 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
         else
             sc.y = (int)(4096.0f * f - 0.5f);
         func_0204B404(OBJ(p), (const struct Vec2 *)(&pos), 1);
-        func_0204B5AC(OBJ(p), &sc);
+        CLACT_SetActorScale(OBJ(p), &sc);
         break;
     case 3:
         func_0204B454(OBJ(p), (struct PtS *)&pos, 1);
-        func_0204B5C0(OBJ(p), &sc);
+        CLACT_GetActorScale(OBJ(p), &sc);
         f = (float)sc.y / 4096.0f - 0.01f;
         if (f <= 1.0f) {
             f = 1.0f;
@@ -7503,7 +7508,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
         else
             sc.y = (int)(4096.0f * f - 0.5f);
         func_0204B404(OBJ(p), (const struct Vec2 *)(&pos), 1);
-        func_0204B5AC(OBJ(p), &sc);
+        CLACT_SetActorScale(OBJ(p), &sc);
         break;
     }
 }

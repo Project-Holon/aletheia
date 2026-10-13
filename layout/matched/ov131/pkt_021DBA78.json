@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DBA78",
+   "name": "P_STA_SKILL_SetSlotAnim",
    "address": "0x021DBA78",
    "kind": "game",
    "region": "ov131",

@@ -1,5 +1,5 @@
 /*
- * function: func_02173248
+ * function: UNION_COMM_GetBeacon
  * address: 0x02173248
  * packet: pkt_ov012_02173248
  * region: ov012
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0217325C 0x0217325C thumb ov012
+ *   UNION_COMM_BuildBeacon 0x0217325C thumb ov012
  */
 typedef unsigned char u8;
 typedef struct Rec { u8 b[0x64]; } Rec;
-extern void func_0217325C(u8 *self, Rec *out);
-Rec *func_02173248(u8 *p) { func_0217325C(p, (Rec *)(p + 0x28ac)); return (Rec *)(p + 0x28ac); }
+extern void UNION_COMM_BuildBeacon(u8 *self, Rec *out);
+Rec *UNION_COMM_GetBeacon(u8 *p) { UNION_COMM_BuildBeacon(p, (Rec *)(p + 0x28ac)); return (Rec *)(p + 0x28ac); }

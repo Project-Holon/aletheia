@@ -11,7 +11,7 @@
  * symbols:
  *   func_0204B454 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B5AC 0x0204B5AC arm
+ *   CLACT_SetActorScale 0x0204B5AC arm
  *   func_0204B878 0x0204B878 arm
  *   func_021E0E40 0x021E0E40 thumb ov183
  *   func_021E0CE8 0x021E0CE8 thumb ov183
@@ -40,7 +40,7 @@ struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Pair;
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021E0E40(int,int);
@@ -70,13 +70,13 @@ int func_021E13FC(char *p) {
                 if(i>=((struct Obj00478 *)p)->f248&&i<((struct Obj00478 *)p)->f24C){
                     factor=*(int *)((u32)d_021E3998+((struct Obj00417 *)record)->f19*4);
                     scale.x=factor;scale.y=factor;
-                    func_0204B5AC(((struct Obj00417 *)record)->fC,(struct Pair *)(&scale));
+                    CLACT_SetActorScale(((struct Obj00417 *)record)->fC,(struct Pair *)(&scale));
                     ++((struct Obj00417 *)record)->f19;
                 }
                 if(i>=((struct Obj00478 *)p)->f250&&i<((struct Obj00478 *)p)->f254){
                     factor=*(int *)((u32)d_021E397C+((struct Obj00417 *)record)->f19*4);
                     scale.x=factor;scale.y=factor;
-                    func_0204B5AC(((struct Obj00417 *)record)->fC,(struct Pair *)(&scale));
+                    CLACT_SetActorScale(((struct Obj00417 *)record)->fC,(struct Pair *)(&scale));
                     ++((struct Obj00417 *)record)->f19;
                 }
             }
@@ -110,7 +110,7 @@ int func_021E13FC(char *p) {
             if(((struct Obj00417 *)record)->f19!=6){
                 factor=*(int *)((u32)d_021E3998+((struct Obj00417 *)record)->f19*4);
                 scale.x=factor;scale.y=factor;
-                func_0204B5AC(((struct Obj00417 *)record)->fC,(struct Pair *)(&scale));
+                CLACT_SetActorScale(((struct Obj00417 *)record)->fC,(struct Pair *)(&scale));
                 ++((struct Obj00417 *)record)->f19;
             }
         }
@@ -119,7 +119,7 @@ int func_021E13FC(char *p) {
             if(((struct Obj00417 *)record)->f19!=6){
                 factor=*(int *)((u32)d_021E397C+((struct Obj00417 *)record)->f19*4);
                 scale.x=factor;scale.y=factor;
-                func_0204B5AC(((struct Obj00417 *)record)->fC,(struct Pair *)(&scale));
+                CLACT_SetActorScale(((struct Obj00417 *)record)->fC,(struct Pair *)(&scale));
                 ++((struct Obj00417 *)record)->f19;
             }
         }

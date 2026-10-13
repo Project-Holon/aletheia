@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Counts the occupied entries of the same eight-byte-stride table
- * func_0201F8B8 claims from, stopping at the 0xFFFFFFFF terminator.  An empty
+ * BMP_MENUWORK_FindFreeEntry claims from, stopping at the 0xFFFFFFFF terminator.  An empty
  * table returns zero without entering the loop.
  *
  * Two shape facts.  The terminator constant is `subs r1, r3, #1` off the

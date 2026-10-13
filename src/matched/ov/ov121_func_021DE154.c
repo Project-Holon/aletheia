@@ -1,5 +1,5 @@
 /*
- * function: func_021DE154
+ * function: MYSTERY_ALBUM_PathAnimStep
  * address: 0x021DE154
  * packet: pkt_ov121_021DE154
  * region: ov121
@@ -23,10 +23,10 @@
  *   direction table extern declared const. The live table pointer holds r1 at the startx store, so x
  *   takes r2 and the index*8 shift waits for the store. Non-const table or pointer: 8 B; no pointer: 9 B.
  * symbols:
- *   d_021DF858 0x021DF858 data a2
- *   d_021DF822 0x021DF822 data a1
- *   d_021DF82D 0x021DF82D data a1
- *   d_021DF944 0x021DF944 data a4
+ *   MYSTERY_ALBUM_PathFrameIds 0x021DF858 data a2
+ *   MYSTERY_ALBUM_PathDirections 0x021DF822 data a1
+ *   MYSTERY_ALBUM_PathDurations 0x021DF82D data a1
+ *   MYSTERY_ALBUM_PathWaypoints 0x021DF944 data a4
  *   _s32_div_f 0x0209C0A4 arm
  *   _u32_div_f 0x0209C2B0 arm
  * division: explicit runtime quotient preserves admitted zero-delta division.
@@ -45,14 +45,14 @@ typedef struct {
     int startx, starty;
     Pair target, current;
 } State;
-extern u16 d_021DF858[];
-extern const s8 d_021DF822[];
-extern s8 d_021DF82D[];
-extern const Pair d_021DF944[];
+extern u16 MYSTERY_ALBUM_PathFrameIds[];
+extern const s8 MYSTERY_ALBUM_PathDirections[];
+extern s8 MYSTERY_ALBUM_PathDurations[];
+extern const Pair MYSTERY_ALBUM_PathWaypoints[];
 extern int _s32_div_f(int, int);
 extern u32 _u32_div_f(u32, u32);
 #pragma opt_propagation off
-int func_021DE154(State *p, u16 *out, Pair *position)
+int MYSTERY_ALBUM_PathAnimStep(State *p, u16 *out, Pair *position)
 {
     int result = 0;
     switch (p->state) {
@@ -61,14 +61,14 @@ int func_021DE154(State *p, u16 *out, Pair *position)
         int x;
         p->frame = 0;
         p->previous = p->next;
-        p->next = d_021DF858[p->index];
+        p->next = MYSTERY_ALBUM_PathFrameIds[p->index];
         x = p->target.x;
-        t = d_021DF822;
+        t = MYSTERY_ALBUM_PathDirections;
         p->startx = x;
         p->direction = t[p->index];
-        p->frames = d_021DF82D[p->index];
+        p->frames = MYSTERY_ALBUM_PathDurations[p->index];
         p->starty = p->target.y;
-        p->target = d_021DF944[p->index];
+        p->target = MYSTERY_ALBUM_PathWaypoints[p->index];
         if (p->direction > 0) {
             p->previous = p->previous == 0xffff ? 0 : p->previous;
             p->next = p->next == 0 ? 0xffff : p->next;

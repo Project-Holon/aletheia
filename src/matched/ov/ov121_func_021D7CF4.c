@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0200A0C8 0x0200A0C8 thumb
+ *   MYSTERY_DATA_HasCardSpace 0x0200A0C8 thumb
  *   func_0204E720 0x0204E720 arm
  *   func_0204E804 0x0204E804 arm
  *   func_02082BCC 0x02082BCC arm
@@ -37,7 +37,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 w[9]; } Desc;
-extern u32 func_0200A0C8(u8 *p);
+extern u32 MYSTERY_DATA_HasCardSpace(u8 *p);
 typedef signed int     s32;
 struct Obj;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
@@ -121,7 +121,7 @@ void func_021D7CF4(void *task,u32 *state,u8 *p)
         *state=8;
         break;
     case 7:
-        ((struct Obj00827 *)p)->f3C8=(void *)func_0200A0C8(((struct Obj00827 *)p)->f3BC);
+        ((struct Obj00827 *)p)->f3C8=(void *)MYSTERY_DATA_HasCardSpace(((struct Obj00827 *)p)->f3BC);
         func_021DA8B0(task,(u32)func_021D6E3C);
         break;
     case 8:

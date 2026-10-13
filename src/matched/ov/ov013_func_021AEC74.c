@@ -1,5 +1,5 @@
 /*
- * function: func_021AEC74
+ * function: VCT_MAIN_RequestConnection
  * address: 0x021AEC74
  * packet: pkt_ov013_021AEC74
  * region: ov013
@@ -12,10 +12,10 @@
  *   null test (new allocation, existing node); the compiler cross-jumps the
  *   shared tail and the first arm uses the call result register directly.
  * symbols:
- *   d_021B3C80 0x021B3C80 data ov013 a4
- *   func_021B1F2C 0x021B1F2C arm ov013
+ *   gVctWork 0x021B3C80 data ov013 a4
+ *   VCT_SESSION_AllocPeerRecord 0x021B1F2C arm ov013
  *   func_021B20B0 0x021B20B0 arm ov013
- *   func_021B1F54 0x021B1F54 arm ov013
+ *   VCT_SESSION_FreePeerRecord 0x021B1F54 arm ov013
  */
 
 #include "../include/G_Work.h"
@@ -23,19 +23,19 @@
 typedef unsigned char u8;
 struct Node;
 
-extern struct Work *d_021B3C80;
+extern struct Work *gVctWork;
 
-extern struct Node *func_021B1F2C(unsigned int i);
+extern struct Node *VCT_SESSION_AllocPeerRecord(unsigned int i);
 extern int func_021B20B0(int p, int x);
-extern int func_021B1F54(struct Node *p);
+extern int VCT_SESSION_FreePeerRecord(struct Node *p);
 
-int func_021AEC74(int i)
+int VCT_MAIN_RequestConnection(int i)
 {
-    struct Node *p = d_021B3C80->f1A1C;
+    struct Node *p = gVctWork->f1A1C;
     int r;
 
     if (p == 0) {
-        p = func_021B1F2C(i);
+        p = VCT_SESSION_AllocPeerRecord(i);
         if (p == 0) {
             return 0;
         }
@@ -44,10 +44,10 @@ int func_021AEC74(int i)
         r = func_021B20B0((int)p, 0);
     }
     if (r != 0) {
-        func_021B1F54(p);
-        d_021B3C80->f1A1C = 0;
+        VCT_SESSION_FreePeerRecord(p);
+        gVctWork->f1A1C = 0;
         return 0;
     }
-    d_021B3C80->f1A1C = p;
+    gVctWork->f1A1C = p;
     return 1;
 }

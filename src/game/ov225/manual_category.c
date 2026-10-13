@@ -44,7 +44,7 @@
  *   func_021BA154 0x021BA154 thumb ov225
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
- *   func_020499D4 0x020499D4 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   sub_02041B6C 0x02041B6C arm
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
@@ -55,8 +55,8 @@
  *   func_02045808 0x02045808 arm
  *   d_021BBFA8 0x021BBFA8 data a1
  *   func_0201C6EC 0x0201C6EC thumb
- *   sub_020456F8 0x020456F8 arm
- *   sub_020452E8 0x020452E8 arm
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_02045374 0x02045374 arm
  *   func_02045730 0x02045730 arm
@@ -169,7 +169,7 @@ extern unsigned func_021BA158(char *p);
 extern unsigned func_021BA154(char *p);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 func_020499D4(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void sub_02041B6C(u32);
 extern u32 func_020450F0(u32 layer,u32 a,u32 b,u32 tiles,u8 c,u8 d,u8 slot);
 extern void *func_02045770(struct Descriptor *p);
@@ -179,8 +179,8 @@ extern void *func_02045EC0(struct MsgBank *p,u32 index);
 extern void func_0201C724(void *p,u32 a,u32 b,u32 c,u32 d,u32 e,u16 f);
 extern void func_02045808(struct U16Vec *p);
 extern void func_0201C6EC(struct PrintSys *);
-extern void sub_020456F8(struct Descriptor *);
-extern u32 sub_020452E8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_0201C6C4(struct PrintSys *p,void *value);
 extern void func_02045374(struct Cfg *p);
 extern u8 func_02045730(struct Descriptor *p);
@@ -464,7 +464,7 @@ void func_021BBBF4(char *p)
 {
     func_02049B68((void *)(((struct Obj26316 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f24), 0, 4, 0, 64, ((struct Obj26317 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f4);
     func_02049658((void *)(((struct Obj26318 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f24), 2, 4, 0, 0, 0, ((struct Obj26319 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f4);
-    func_020499D4((void *)(((struct Obj26320 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f24), 6, 4, 0, 0, 0, 0, ((struct Obj26321 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f4);
+    ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct Obj26320 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f24), 6, 4, 0, 0, 0, 0, ((struct Obj26321 *)(*(char * *)&((struct Obj05575 *)p)->f4))->f4);
 }
 
 void func_021BBC44(char *a0) { sub_02041B6C(4); }
@@ -497,7 +497,7 @@ void func_021BBC54(u8 *p)
     func_021BBD28(p);
 }
 
-void func_021BBCF4(char *p) { u8 i; for(i=0;i<3;i++) { *(u32 *)(p+i*4+0x28)=0; func_0201C6EC(*(struct PrintSys **)(p+i*4+0x1c)); sub_020456F8(*(struct Descriptor **)(p+i*4+0x10)); sub_020452E8(*(struct Descriptor **)(p+i*4+0x10)); } sub_02041B6C(5); }
+void func_021BBCF4(char *p) { u8 i; for(i=0;i<3;i++) { *(u32 *)(p+i*4+0x28)=0; func_0201C6EC(*(struct PrintSys **)(p+i*4+0x1c)); BMP_WIN_ClearScreen(*(struct Descriptor **)(p+i*4+0x10)); BMP_WIN_Delete(*(struct Descriptor **)(p+i*4+0x10)); } sub_02041B6C(5); }
 
 void func_021BBD28(u8 *p)
 {

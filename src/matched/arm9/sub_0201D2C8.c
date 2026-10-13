@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02045A90  0x02045A90  arm
+ *   STRBUF_GetChars  0x02045A90  arm
  *
  * printsys.c: counts the lines of a string object, i.e. one plus the number
  * of 0xFFFE line-break codes before the 0xFFFF terminator.  0xF000 opens an
@@ -33,7 +33,7 @@ struct StrObj {
 };
 
 struct U16Vec;
-extern u16 *sub_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 
 u32 sub_0201D2C8(struct StrObj *s)
 {
@@ -41,7 +41,7 @@ u32 sub_0201D2C8(struct StrObj *s)
     u32 n;
     u16 c;
 
-    p = sub_02045A90((struct U16Vec *)s);
+    p = STRBUF_GetChars((struct U16Vec *)s);
     c = *p;
     n = 1;
     while (c != 0xFFFF) {

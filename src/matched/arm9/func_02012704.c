@@ -1,5 +1,5 @@
 /*
- * function: func_02012704
+ * function: GAME_DATA_Delete
  * address:  0x02012704
  * packet:   pkt_020124F4
  * region:   arm9
@@ -15,7 +15,7 @@
  * symbols:
  *   func_020307B0   0x020307B0  arm
  *   func_021647D8   0x021647D8  thumb  ov010
- *   func_02027584   0x02027584  thumb
+ *   BEACON_STATUS_Delete   0x02027584  thumb
  *   func_0202E794   0x0202E794  thumb
  *   func_0215E334   0x0215E334  thumb  ov010
  *   func_02006E64   0x02006E64  thumb
@@ -23,8 +23,8 @@
  *   func_0216CCB0   0x0216CCB0  thumb  ov010
  *   func_02159BBC   0x02159BBC  thumb  ov010
  *   func_021623BC   0x021623BC  thumb  ov010
- *   func_02014444   0x02014444  thumb
- *   func_0202889C   0x0202889C  thumb
+ *   FIELD_STATUS_Delete   0x02014444  thumb
+ *   FIELD_SOUND_SYSTEM_Delete   0x0202889C  thumb
  *
  * A destructor: fifteen pointer fields of one big object handed to fifteen
  * different release functions, then the object itself to the base deleter
@@ -38,8 +38,8 @@
  * the same derived-constant chain.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012704.c \
- *       --func func_02012704 --addr 0x02012704 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_DATA_Delete.c \
+ *       --func GAME_DATA_Delete --addr 0x02012704 --cc 1.1p1 --thumb
  */
 #include "../include/Obj01611.h"
 
@@ -50,7 +50,7 @@ struct SoundSys;
 struct Sub02006E40Obj;
 extern u32 func_020307B0(void *p);
 extern int func_021647D8(int a0);
-extern void func_02027584(u8 *p);
+extern void BEACON_STATUS_Delete(u8 *p);
 extern void func_0202E794(void *p);
 extern void func_0215E334(void *ptr);
 extern void func_02006E64(struct Sub02006E40Obj *obj);
@@ -58,14 +58,14 @@ extern void func_02007AC8(void *p);
 extern int func_0216CCB0(int a0);
 extern void func_02159BBC(void *ptr);
 extern int func_021623BC(int a0);
-extern void func_02014444(u32 p);
-extern void func_0202889C(struct SoundSys *s);
+extern void FIELD_STATUS_Delete(u32 p);
+extern void FIELD_SOUND_SYSTEM_Delete(struct SoundSys *s);
 
-void func_02012704(u8 *p)
+void GAME_DATA_Delete(u8 *p)
 {
     func_020307B0((void *)(((struct Obj01611 *)p)->f6AC));
     func_021647D8(((struct Obj01611 *)p)->f690);
-    func_02027584((u8 *)(((struct Obj01611 *)p)->f68C));
+    BEACON_STATUS_Delete((u8 *)(((struct Obj01611 *)p)->f68C));
     func_0202E794((void *)(((struct Obj01611 *)p)->f684));
     func_0215E334((void *)(((struct Obj01611 *)p)->f5E4));
     func_02006E64((struct Sub02006E40Obj *)(((struct Obj01611 *)p)->f1A4));
@@ -75,7 +75,7 @@ void func_02012704(u8 *p)
     func_0216CCB0(((struct Obj01611 *)p)->f1A8);
     func_02159BBC((void *)(((struct Obj01611 *)p)->f1B0));
     func_021623BC(((struct Obj01611 *)p)->f158);
-    func_02014444(((struct Obj01611 *)p)->f1B8);
-    func_0202889C((struct SoundSys *)(((struct Obj01611 *)p)->f1B4));
+    FIELD_STATUS_Delete(((struct Obj01611 *)p)->f1B8);
+    FIELD_SOUND_SYSTEM_Delete((struct SoundSys *)(((struct Obj01611 *)p)->f1B4));
     func_020307B0((void *)((u32)p));
 }

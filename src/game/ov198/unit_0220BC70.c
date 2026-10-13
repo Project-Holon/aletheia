@@ -25,7 +25,7 @@
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_020452E8 0x020452E8 arm
- *   func_02045778 0x02045778 arm
+ *   BMP_WIN_GetPalette 0x02045778 arm
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_020457B0 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -60,7 +60,7 @@
  *   d_02211B0D 0x02211B0D data a1
  *   sub_0201BD28 0x0201BD28 thumb
  *   d_02211B2C 0x02211B2C data a1
- *   sub_0201C1F4 0x0201C1F4 thumb
+ *   WAZA_TOOL_IsAlwaysHit 0x0201C1F4 thumb
  *   d_02211AF9 0x02211AF9 data a1
  *   func_02020FE4 0x02020FE4 thumb
  *   func_0201F73C 0x0201F73C thumb
@@ -73,9 +73,9 @@
  *   func_0220F1F4 0x0220F1F4 thumb ov198
  *   func_02043598 0x02043598 arm
  *   func_020490F4  0x020490F4  arm
- *   func_020185F4  0x020185F4  thumb
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_0201BA68  0x0201BA68  thumb
- *   func_0201BABC  0x0201BABC  thumb
+ *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   func_0204A6C8  0x0204A6C8  arm
  *   func_0201BC3C  0x0201BC3C  thumb
  *   func_0204ACEC  0x0204ACEC  arm
@@ -358,7 +358,7 @@ extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot
 extern u32 func_020452E8(struct Descriptor *d);
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *,u8);
-extern u8 func_02045778(struct Descriptor *p);
+extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
 extern int func_022110D4(u8 *, int);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -384,7 +384,7 @@ extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *);
 extern void func_02041B6C(unsigned);
 extern unsigned sub_0201BD28(u16,unsigned);
-extern u32 sub_0201C1F4(u16 id);
+extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 extern u32 func_02020FE4(void *a, u32 sel, u32 id);
 extern void func_0201F73C(void *,int,int,int);
 extern unsigned func_0201DD78(unsigned,unsigned,unsigned);
@@ -396,9 +396,9 @@ extern void func_0220B07C(void *);
 extern void func_0220F1F4(u8 *p);
 extern void func_02043598(u32 mask, u32 enable);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void *func_020185F4(void *p);
+extern void *POKE_TOOL_GetBoxParam(void *p);
 extern u32 func_0201BA68(void *mon);
-extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
@@ -774,7 +774,7 @@ void func_0220BEB8(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
     slot = slot * 8;
     tab = p + 0x1F70;
     handle = *(void **)(tab + slot);
-    k = func_02045778(handle);
+    k = BMP_WIN_GetPalette(handle);
     n = func_022110D4(p, a2);
     base = p + 4;
     off = n * 0x4C;
@@ -2385,7 +2385,7 @@ void func_0220DF20(char *p) {
         type=sub_0201BD28(((struct Obj25185 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,5);
         func_0220C4DC(p,((struct Obj25186 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,1,0x53,0,0,0x3dc0);
         func_0220D348(p,8,((struct Obj25187 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26);
-        if(sub_0201C1F4(((struct Obj25188 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26)==1) func_0220D090(p,6,0);
+        if(WAZA_TOOL_IsAlwaysHit(((struct Obj25188 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26)==1) func_0220D090(p,6,0);
         else func_0220D090(p,6,sub_0201BD28(((struct Obj25189 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,4));
         func_0220D218(p,7,sub_0201BD28(((struct Obj25190 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,3));
         func_0220D418(p,10,sub_0201BD28(((struct Obj25191 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,2));
@@ -2614,9 +2614,9 @@ void func_0220E340(u8 *p)
     for (i = 0; i < 6; i++) {
         u8 *e = p + i * 0x4C;
         if (*(u16 *)(e + 8) != 0) {
-            *(int *)((u32)p + 0x24A4 + i * 4) = func_0204A6C8(arc, func_0201BA68(func_020185F4(*(void **)(e + 4))), 0, 1, *(u16 *)(*(u8 **)p + 0x10));
+            *(int *)((u32)p + 0x24A4 + i * 4) = func_0204A6C8(arc, func_0201BA68(POKE_TOOL_GetBoxParam(*(void **)(e + 4))), 0, 1, *(u16 *)(*(u8 **)p + 0x10));
         } else {
-            *(int *)((u32)p + 0x24A4 + i * 4) = func_0204A6C8(arc, func_0201BABC(0, 0, 0, 0), 0, 1, *(u16 *)(*(u8 **)p + 0x10));
+            *(int *)((u32)p + 0x24A4 + i * 4) = func_0204A6C8(arc, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 1, *(u16 *)(*(u8 **)p + 0x10));
         }
     }
     *(int *)(p + 0x250C) = func_0204ACEC(arc, func_0201BC3C(), 1, 0, *(u16 *)(*(u8 **)p + 0x10));
@@ -2859,8 +2859,8 @@ void func_0220E7E4(Record_0220D9B4 *records)
 /*
  * Verified scratch one: EXACT 12 bytes, Thumb, dsi/1.1p1 -O4,p.
  * typedef unsigned char u8;
- * extern const u8 d_0209FCF8[];
- * unsigned func_020275EC(u8 index){return d_0209FCF8[index];}
+ * extern const u8 _PokeTypePltOffset[];
+ * unsigned func_020275EC(u8 index){return _PokeTypePltOffset[index];}
  */
 void func_0220E82C(char *p,void *obj,int index,int which)
 {
@@ -2887,8 +2887,8 @@ void func_0220E82C(char *p,void *obj,int index,int which)
 /*
  * Verified scratch one: EXACT 12 bytes, Thumb, dsi/1.1p1 -O4,p.
  * typedef unsigned char u8;
- * extern const u8 d_0209FCEC[];
- * unsigned func_02027604(u8 index){return d_0209FCEC[index];}
+ * extern const u8 _WazaKindPltOffset[];
+ * unsigned func_02027604(u8 index){return _WazaKindPltOffset[index];}
  */
 void func_0220E8B4(char *p,int first,int index,int which)
 {

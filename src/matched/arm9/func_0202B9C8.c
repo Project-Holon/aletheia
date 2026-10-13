@@ -1,5 +1,5 @@
 /*
- * function: func_0202B9C8
+ * function: ISS_3DS_SYS_FreeTable
  * address:  0x0202B9C8
  * packet:   pkt_0202B7BC
  * region:   arm9
@@ -13,8 +13,8 @@
  * then tears the object down through func_0202B944.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B9C8.c \
- *       --func func_0202B9C8 --addr 0x0202B9C8 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_3DS_SYS_FreeTable.c \
+ *       --func ISS_3DS_SYS_FreeTable --addr 0x0202B9C8 --thumb --cc 1.1p1
  */
 #include "../include/Obj01019.h"
 
@@ -26,7 +26,7 @@ struct Obj;
 extern u32 func_020307B0(void *p);
 extern void func_0202B944(void *obj);
 
-void func_0202B9C8(struct Obj *o)
+void ISS_3DS_SYS_FreeTable(struct Obj *o)
 {
     func_020307B0((void *)(((struct Obj01019 *)o)->f264));
     func_0202B944(o);

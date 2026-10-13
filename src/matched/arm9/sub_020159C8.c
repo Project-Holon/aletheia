@@ -1,5 +1,5 @@
 /*
- * function: func_020159C8
+ * function: MCSS_Add
  * address:  0x020159C8
  * packet:   pkt_02014D90
  * region:   arm9
@@ -84,10 +84,11 @@
  * fixed-point 1.0 (0x1000), a bitfield value or the source line number.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/sub_020159C8.c  *       --func func_020159C8 --addr 0x020159C8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MCSS_Add.c  *       --func MCSS_Add --addr 0x020159C8 --cc 1.1p1
  *
  * symbols:
  *   func_020159C8_File  0x020A72CC  data
+ *   MCSS_LoadResource  0x020163C4  thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -150,9 +151,9 @@ extern const char func_020159C8_File[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Ctx;
 struct Src;
-extern void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2);
+extern void MCSS_LoadResource(struct Ctx *a0, u32 idx, const struct Src *a2);
 
-struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3,
+struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3,
                           const struct Sub150 *src)
 {
     s32 i;
@@ -191,7 +192,7 @@ struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3,
             obj->unk14[i]->unk150 = *src;
             obj->unk14[i]->unk174 = 0x1000;
             obj->unk14[i]->f6 = 1;
-            func_020163C4((struct Ctx *)obj, i, (const struct Src *)src);
+            MCSS_LoadResource((struct Ctx *)obj, i, (const struct Src *)src);
             break;
         }
     }

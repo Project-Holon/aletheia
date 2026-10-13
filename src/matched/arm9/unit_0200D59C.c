@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200D59C, func_0200D5C8
+ * function: GDS_PROFILE_Create, GDS_PROFILE_Delete
  *
  * 52 bytes, 0x0200D59C..0x0200D5D0, 2 functions, one of which carries no
  * label in the generated listing.
@@ -22,7 +22,7 @@
  * 0x0200D59C passes it to the debug allocator at 0x02030734 with line 0x50,
  * and the rest of the file is src/matched/unit_0200D6D0.c,
  * src/matched/unit_0200D6EC.c and src/matched/unit_0200D74C.c, with
- * func_0200D5D0 the one function of it left out; see below.
+ * GDS_PROFILE_Init the one function of it left out; see below.
  *
  * The record is 0x80 bytes, which is what the constructor allocates and
  * clears, and which src/matched/unit_0200D5D0.c fills field by field.
@@ -31,13 +31,13 @@
  * parameter: this front end assumes an incoming `u16` parameter is already
  * zero extended and emits nothing, so the `lsls #0x10` / `lsrs #0x10` pair at
  * 0x0200D5A2 is a narrowing the source wrote.  The same reading applies to
- * the tag parameters of func_0200D6D0 and func_0200D774.
+ * the tag parameters of GDS_PROFILE_CreateNameStr and func_0200D774.
  *
- * func_0200D5C8 is the destructor and is eight bytes: a pool word and a `bx`,
+ * GDS_PROFILE_Delete is the destructor and is eight bytes: a pool word and a `bx`,
  * with no argument set-up at all; see
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md.
  *
- * Left out of this range: func_0200D5D0, 256 bytes, which builds the whole
+ * Left out of this range: GDS_PROFILE_Init, 256 bytes, which builds the whole
  * record.  Every concrete byte of it reproduces and it is capped at MATCH,
  * because 0x0200C164 is the target of exactly one branch in the image, its
  * own call at 0x0200D610, so the `label` class has no witness outside the
@@ -85,7 +85,7 @@ struct GdsProfile {
     u16 unk7E;
 };
 
-struct GdsProfile *func_0200D59C(u32 heap)
+struct GdsProfile *GDS_PROFILE_Create(u32 heap)
 {
     struct GdsProfile *p = func_02030734((u16)heap, sizeof(struct GdsProfile),
                                          0, func_0200D59C_File, 0x50);
@@ -94,7 +94,7 @@ struct GdsProfile *func_0200D59C(u32 heap)
     return p;
 }
 
-void func_0200D5C8(struct GdsProfile *p)
+void GDS_PROFILE_Delete(struct GdsProfile *p)
 {
     func_020307B0(p);
 }

@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202784C",
+   "name": "APP_TASKMENU_OpenMenuFastDecide",
    "address": "0x0202784C",
    "kind": "game",
    "region": "arm9",

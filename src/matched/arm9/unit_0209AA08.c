@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0209AA0C
+ * function: func_0209AA08
  * address:  0x0209AA08
  * packet:   pkt_0209A0EC
  * region:   arm9
@@ -13,7 +13,7 @@
  *   _dsub  0x0209AF34  arm
  *
  * fdlibm sin().  The machine entry is 0x0209AA08, four bytes before the
- * disasm body label func_0209AA0C: the stub is the compiler's `push {r0-r3}`
+ * disasm body label func_0209AA08: the stub is the compiler's `push {r0-r3}`
  * spilling the register-passed double argument, so the body reads x from the
  * stack and pops 16 bytes on every return.  The unit is anchored at the stub
  * and the function list records the body label the worklist names.
@@ -38,7 +38,7 @@ extern double func_02099224(double x, double y);
 extern int func_02098B44(double x, double *y);
 extern double func_0209AF34(double x, double y);
 
-double func_0209AA0C(double x)
+double func_0209AA08(double x)
 {
     double y[2];
     double z = 0.0;

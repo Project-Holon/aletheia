@@ -14,8 +14,8 @@
  *
  * symbols:
  *   func_021BD2F4  0x021BD2F4  thumb  ov088
- *   func_02031330  0x02031330  arm
- *   func_02031348  0x02031348  arm
+ *   PROCSYS_Main  0x02031330  arm
+ *   PROCSYS_Push  0x02031348  arm
  *   func_02008550  0x02008550  thumb
  *   func_021BC4A4  0x021BC4A4  thumb  ov088
  *   ov204_id       0x000000CC  data
@@ -33,8 +33,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_021BD2F4(void *p);
-extern unsigned int func_02031330(void *p);
-extern void func_02031348(u32 h, void *id, void *proc, void *arg);
+extern unsigned int PROCSYS_Main(void *p);
+extern void PROCSYS_Push(u32 h, void *id, void *proc, void *arg);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_021BC4A4(int a, int b, int c);
@@ -48,10 +48,10 @@ int func_021BC230(void *a0, int *seq, void *a2, char *w)
     int busy;
 
     func_021BD2F4(((struct Obj01518 *)w)->f2C);
-    busy = func_02031330((void *)((struct Obj01518 *)w)->f30);
+    busy = PROCSYS_Main((void *)((struct Obj01518 *)w)->f30);
     switch (*seq) {
     case 0:
-        func_02031348(((struct Obj01518 *)w)->f30, ov204_id, d_021BFD24, w + 0x10);
+        PROCSYS_Push(((struct Obj01518 *)w)->f30, ov204_id, d_021BFD24, w + 0x10);
         *seq = 1;
         break;
     case 1:
@@ -61,7 +61,7 @@ int func_021BC230(void *a0, int *seq, void *a2, char *w)
     case 2:
         ((struct Obj20826 *)(*(char * *)&((struct Obj01518 *)w)->f28))->f4 = func_02008550((const struct Sub0200852CObj *)(((struct Obj01518 *)w)->f8));
         ((struct Obj20827 *)(*(char * *)&((struct Obj01518 *)w)->f28))->f24 = *(u32 *)&((struct Obj01518 *)w)->f2C;
-        func_02031348(((struct Obj01518 *)w)->f30, ov194_id, d_021F5580, ((struct Obj01518 *)w)->f28);
+        PROCSYS_Push(((struct Obj01518 *)w)->f30, ov194_id, d_021F5580, ((struct Obj01518 *)w)->f28);
         *seq = 3;
         break;
     case 3:
@@ -72,7 +72,7 @@ int func_021BC230(void *a0, int *seq, void *a2, char *w)
         func_021BC4A4(((struct Obj01518 *)w)->f54, ((struct Obj20828 *)(*(char * *)&((struct Obj01518 *)w)->f28))->f20,
                       func_02008550((const struct Sub0200852CObj *)(((struct Obj01518 *)w)->f54)));
         ((struct Obj01518 *)w)->f18 = 7;
-        func_02031348(((struct Obj01518 *)w)->f30, ov204_id, d_021BFD24, w + 0x10);
+        PROCSYS_Push(((struct Obj01518 *)w)->f30, ov204_id, d_021BFD24, w + 0x10);
         *seq = 6;
         break;
     case 6:

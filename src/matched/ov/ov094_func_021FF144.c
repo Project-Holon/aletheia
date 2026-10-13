@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_022019F4  0x022019F4  thumb  ov094
- *   func_02015C48  0x02015C48  thumb
+ *   MCSS_SetPosition  0x02015C48  thumb
  */
 
 typedef int fx32;
@@ -35,7 +35,7 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern int func_022019F4(char *p, int key);
-extern void func_02015C48(void *p, u32 *src);
+extern void MCSS_SetPosition(void *p, u32 *src);
 
 void func_021FF144(Work *w, int key, fx32 x, fx32 y, fx32 z)
 {
@@ -45,5 +45,5 @@ void func_021FF144(Work *w, int key, fx32 x, fx32 y, fx32 z)
     v.x = x;
     v.y = y;
     v.z = z;
-    func_02015C48(w->e[idx].h, (u32 *)(&v));
+    MCSS_SetPosition(w->e[idx].h, (u32 *)(&v));
 }

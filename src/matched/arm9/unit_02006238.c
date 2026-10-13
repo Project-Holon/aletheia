@@ -11,39 +11,39 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02006238, sub_02006254, sub_02006268, sub_020062BC,
- *           sub_020062D8, sub_020062EC, sub_02006300
+ * function: GFL_USE_IsAnySeBusy, GFL_USE_IsSeqPlaying, GFL_USE_SetSeSlotParams, GFL_USE_SetSeSlotVolume,
+ *           GFL_USE_LoaderThreadSeqBank, GFL_USE_LoaderThreadWaves, GFL_USE_StartLoaderThread
  *
  * symbols:
  *   sub_02006238_Table   0x020AA294  data
  *   sub_02006300_State   0x020AA260  data
  *   sub_02006300_Thread  0x020AA354  data
  *   sub_02006300_Stack   0x020AA9B4  data
- *   sub_02006224         0x02006224  thumb
- *   sub_02006368         0x02006368  thumb
+ *   GFL_USE_IsSeSlotBusy         0x02006224  thumb
+ *   GFL_USE_StopLoaderThread         0x02006368  thumb
  *   func_02072EE0        0x02072EE0  arm
- *   func_02072F34        0x02072F34  arm
- *   func_02073018        0x02073018  arm
- *   func_02073038        0x02073038  arm
- *   func_02073098        0x02073098  arm
+ *   NNS_SndHandleSetSeqPriority        0x02072F34  arm
+ *   NNS_SndHandleSetTrackPitch        0x02073018  arm
+ *   NNS_SndHandleSetTrackPan        0x02073038  arm
+ *   NNS_SndHandleStop        0x02073098  arm
  *   func_020853C0        0x020853C0  arm
  *   func_02074AC4        0x02074AC4  arm
  *   func_02085868        0x02085868  arm
  *
- * The two thread bodies and the routine that starts one.  sub_020062D8 and
- * sub_020062EC carry no label: both are six instructions with no prologue
+ * The two thread bodies and the routine that starts one.  GFL_USE_LoaderThreadSeqBank and
+ * GFL_USE_LoaderThreadWaves carry no label: both are six instructions with no prologue
  * that dereference the thread argument, read one field of the state block
  * and tail call func_02074AC4 with a different constant, and the only
- * references to them in the image are the two pool words of sub_02006300
+ * references to them in the image are the two pool words of GFL_USE_StartLoaderThread
  * immediately below.  That is why the three have to be one byte range:
  * outside it neither thread body has a witness, and inside it both are
  * `local`.
  *
- * sub_02006300's call to func_020853C0 is an OS thread creation: the thread
+ * GFL_USE_StartLoaderThread's call to func_020853C0 is an OS thread creation: the thread
  * object at 0x020AA354, the entry point, the argument, the stack at
  * 0x020AA9B4, and 0x400 and 0x11 on the stack for the stack size and the
  * priority.  The argument, 0x020AA26C, is the address of the state block's
- * own `unk0C` field, which is the word sub_02006300 has just written, so it
+ * own `unk0C` field, which is the word GFL_USE_StartLoaderThread has just written, so it
  * reaches the relocation as the state symbol with an addend of 0xC rather
  * than as an object of its own.
  */
@@ -69,35 +69,35 @@ extern struct Sub02006238Entry sub_02006238_Table[];
 extern u32 sub_02006300_Thread[];
 extern u32 sub_02006300_Stack[];
 
-extern int sub_02006224(u32 a0);
-extern void sub_02006368(void);
+extern int GFL_USE_IsSeSlotBusy(u32 a0);
+extern void GFL_USE_StopLoaderThread(void);
 extern int  func_02072EE0(u32 a);
-extern void func_02072F34(u32 *req, u32 level);
+extern void NNS_SndHandleSetSeqPriority(u32 *req, u32 level);
 struct Obj;
-extern void func_02073018(struct Obj *o, u32 v, u32 w);
-extern void func_02073038(struct Obj *o, u32 v, u32 w);
-extern void func_02073098(struct Obj *o, u32 v);
+extern void NNS_SndHandleSetTrackPitch(struct Obj *o, u32 v, u32 w);
+extern void NNS_SndHandleSetTrackPan(struct Obj *o, u32 v, u32 w);
+extern void NNS_SndHandleStop(struct Obj *o, u32 v);
 extern u32 func_02074AC4(u32 a, u32 b, u32 c);
 extern void func_020853C0(u32 *thread, void (*entry)(void *), void *arg,
                           u32 *stack, u32 size, u32 prio);
 extern void func_02085868(u32 *thread);
 
-void sub_020062D8(u32 *arg);
-void sub_020062EC(u32 *arg);
+void GFL_USE_LoaderThreadSeqBank(u32 *arg);
+void GFL_USE_LoaderThreadWaves(u32 *arg);
 
-int sub_02006238(void)
+int GFL_USE_IsAnySeBusy(void)
 {
     int i;
 
     for (i = 0; i < 5; i++) {
-        if (sub_02006224(i) == 1) {
+        if (GFL_USE_IsSeSlotBusy(i) == 1) {
             return 1;
         }
     }
     return 0;
 }
 
-int sub_02006254(u32 a)
+int GFL_USE_IsSeqPlaying(u32 a)
 {
     if (func_02072EE0(a) != 0) {
         return 1;
@@ -105,49 +105,49 @@ int sub_02006254(u32 a)
     return 0;
 }
 
-void sub_02006268(int i, u32 a, u32 b, u32 c)
+void GFL_USE_SetSeSlotParams(int i, u32 a, u32 b, u32 c)
 {
     if (a != -1) {
-        func_02073098((struct Obj *)(&sub_02006238_Table[i].unk04), a);
+        NNS_SndHandleStop((struct Obj *)(&sub_02006238_Table[i].unk04), a);
     }
     if (b != -1) {
-        func_02073018((struct Obj *)(&sub_02006238_Table[i].unk04), 0xFFFF, b);
+        NNS_SndHandleSetTrackPitch((struct Obj *)(&sub_02006238_Table[i].unk04), 0xFFFF, b);
     }
     if (c != -1) {
-        func_02073038((struct Obj *)(&sub_02006238_Table[i].unk04), 0xFFFF, c);
+        NNS_SndHandleSetTrackPan((struct Obj *)(&sub_02006238_Table[i].unk04), 0xFFFF, c);
     }
 }
 
-void sub_020062BC(int i, u32 level)
+void GFL_USE_SetSeSlotVolume(int i, u32 level)
 {
     if (level > 0x7F) {
         level = 0x7F;
     }
-    func_02072F34(&sub_02006238_Table[i].unk04, level);
+    NNS_SndHandleSetSeqPriority(&sub_02006238_Table[i].unk04, level);
 }
 
-void sub_020062D8(u32 *arg)
+void GFL_USE_LoaderThreadSeqBank(u32 *arg)
 {
     func_02074AC4(*arg, 3, sub_02006300_State.unk10);
 }
 
-void sub_020062EC(u32 *arg)
+void GFL_USE_LoaderThreadWaves(u32 *arg)
 {
     func_02074AC4(*arg, 4, sub_02006300_State.unk10);
 }
 
-void sub_02006300(u32 a, int mode)
+void GFL_USE_StartLoaderThread(u32 a, int mode)
 {
     sub_02006300_State.unk0C = a;
-    sub_02006368();
+    GFL_USE_StopLoaderThread();
     switch (mode) {
     case 0:
-        func_020853C0(sub_02006300_Thread, (void (*)(void *))sub_020062D8,
+        func_020853C0(sub_02006300_Thread, (void (*)(void *))GFL_USE_LoaderThreadSeqBank,
                       &sub_02006300_State.unk0C, sub_02006300_Stack,
                       0x400, 0x11);
         break;
     case 1:
-        func_020853C0(sub_02006300_Thread, (void (*)(void *))sub_020062EC,
+        func_020853C0(sub_02006300_Thread, (void (*)(void *))GFL_USE_LoaderThreadWaves,
                       &sub_02006300_State.unk0C, sub_02006300_Stack,
                       0x400, 0x11);
         break;

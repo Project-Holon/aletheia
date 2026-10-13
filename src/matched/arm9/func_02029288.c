@@ -1,5 +1,5 @@
 /*
- * function: func_02029288
+ * function: FIELD_SOUND_SYSTEM_UpdateFadingInLoaded
  * address:  0x02029288
  * packet:   pkt_02029250
  * region:   arm9
@@ -8,27 +8,33 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb
+ *   FIELD_SOUND_SYSTEM_SetState  0x02029344  thumb
+ *   FIELD_SOUND_SYSTEM_FinishRequest  0x02029364  thumb
+ *   FIELD_SOUND_SYSTEM_FadeOutCurrentBgm  0x0202938C  thumb
  */
 #include "../include/Obj05724.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int func_02005E50(void);
-extern void func_02029344(void *obj, u32 value);
-extern void func_0202938C(u8 *p);
-extern void func_02029364(u8 *p);
+extern int GFL_USE_IsBgmFading(void);
+extern void FIELD_SOUND_SYSTEM_SetState(void *obj, u32 value);
+extern void FIELD_SOUND_SYSTEM_FadeOutCurrentBgm(u8 *p);
+extern void FIELD_SOUND_SYSTEM_FinishRequest(u8 *p);
 
-void func_02029288(u8 *p)
+void FIELD_SOUND_SYSTEM_UpdateFadingInLoaded(u8 *p)
 {
-    if (func_02005E50() != 0) {
+    if (GFL_USE_IsBgmFading() != 0) {
         return;
     }
     if (((struct Obj05724 *)p)->fC != 0 && ((struct Obj05724 *)p)->fC != ((struct Obj05724 *)p)->f8) {
-        func_0202938C(p);
-        func_02029344(p, 8);
+        FIELD_SOUND_SYSTEM_FadeOutCurrentBgm(p);
+        FIELD_SOUND_SYSTEM_SetState(p, 8);
         return;
     }
-    func_02029344(p, 1);
-    func_02029364(p);
+    FIELD_SOUND_SYSTEM_SetState(p, 1);
+    FIELD_SOUND_SYSTEM_FinishRequest(p);
 }

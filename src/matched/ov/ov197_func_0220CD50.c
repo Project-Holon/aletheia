@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02021ED8 0x02021ED8 thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   func_0220D884 0x0220D884 thumb ov197
  *   func_02025DE8 0x02025DE8 thumb
  *   func_0220BB98 0x0220BB98 thumb ov197
@@ -30,7 +30,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Sound;
-extern u32 func_02021ED8(const char *ptr);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern int func_0220D884(char **);
 extern int func_02025DE8(struct Sound *obj);
 extern unsigned func_0220BB98(const char *p, unsigned n);
@@ -40,7 +40,7 @@ extern u8 func_020260E0(struct Sound *obj);
 int func_0220CD50(char *p)
 {
     unsigned sel;
-    if (func_02021ED8(((struct Obj00389 *)p)->f8) != 0) goto done;
+    if (PALANM_GetFadeRequestBits(((struct Obj00389 *)p)->f8) != 0) goto done;
     if (func_0220D884((char **)p) == 1) return 0x12;
     sel = func_02025DE8(((struct Obj00389 *)p)->f144);
     switch (sel) {

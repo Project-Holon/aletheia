@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203D10C
+ * function: GFL_NET_StartChangeoverParent
  * address:  0x0203D10C
  * packet:   pkt_0203D0DC
  * region:   arm9
@@ -9,7 +9,11 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   GFL_NET_STATE_StartChangeover  0x0203BA98  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  */
 #include "../include/Obj15980.h"
 
-int func_0203D10C(int a0){ int t0 = func_0203D788(); int t1 = func_0203BA98((int)((struct Obj15980 *)((char *)(t0)))->f56, (int)a0, (int)0); return t1; }
+int GFL_NET_StartChangeoverParent(int a0){ int t0 = GFL_NET_GetSession(); int t1 = GFL_NET_STATE_StartChangeover((int)((struct Obj15980 *)((char *)(t0)))->f56, (int)a0, (int)0); return t1; }

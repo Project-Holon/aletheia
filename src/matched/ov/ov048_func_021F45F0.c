@@ -15,7 +15,7 @@
  *   func_021F44B8  0x021F44B8  thumb  ov048
  *   func_0215E404  0x0215E404  thumb  ov010
  *   func_0215E3E4  0x0215E3E4  thumb  ov010
- *   func_020111E8  0x020111E8  thumb
+ *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  */
 #include "../include/Obj13107.h"
 
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021F44B8(u8 *p);
 extern int func_0215E404(int a);
-extern u32 func_020111E8(void);
+extern u32 GPOWER_GetSpecialPowerId(void);
 extern u32 func_0215E3E4(void *p, u32 slot);
 
 void func_021F45F0(int *a, void *b)
@@ -39,7 +39,7 @@ void func_021F45F0(int *a, void *b)
     r7 = (int)func_0200D418(func_02012EBC((struct Big *)a[2]));
     func_021F44B8(b);
     if (func_0215E404(r7)) {
-        r0 = func_020111E8();
+        r0 = GPOWER_GetSpecialPowerId();
         switch (r0) {
         case 0x14:
             r4 = 0;

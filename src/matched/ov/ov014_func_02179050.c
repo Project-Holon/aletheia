@@ -1,5 +1,5 @@
 /*
- * function: func_02179050
+ * function: WIH_PickRandomChannel
  * address:  0x02179050
  * packet:   pkt_ov014_02179050
  * region:   ov014
@@ -21,7 +21,7 @@ typedef signed short s16;
 
 extern struct S *g_021797A8;
 
-int func_02179050(u16 mask)
+int WIH_PickRandomChannel(u16 mask)
 {
     s16 last = 0;
     s16 i;

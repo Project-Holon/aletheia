@@ -1,5 +1,5 @@
 /*
- * function: func_0202B47C
+ * function: ISS_DUNGEON_SYS_Activate
  * address:  0x0202B47C
  * packet:   pkt_0202B1F4
  * region:   arm9
@@ -13,8 +13,11 @@
  * record.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B47C.c \
- *       --func func_0202B47C --addr 0x0202B47C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_DUNGEON_SYS_Activate.c \
+ *       --func ISS_DUNGEON_SYS_Activate --addr 0x0202B47C --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   ISS_DUNGEON_SYS_SelectRecord  0x0202B49C  thumb
  */
 #include "../include/Obj02009.h"
 
@@ -22,12 +25,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0202B49C(u8 *p, u32 id);
+extern void ISS_DUNGEON_SYS_SelectRecord(u8 *p, u32 id);
 
-void func_0202B47C(u8 *p)
+void ISS_DUNGEON_SYS_Activate(u8 *p)
 {
     if (((struct Obj02009 *)p)->fC == 0) {
         ((struct Obj02009 *)p)->fC = 1;
-        func_0202B49C(p, ((struct Obj02009 *)p)->f10);
+        ISS_DUNGEON_SYS_SelectRecord(p, ((struct Obj02009 *)p)->f10);
     }
 }

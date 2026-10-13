@@ -1,5 +1,5 @@
 /*
- * function: func_02031DC0
+ * function: BACKUP_SYSTEM_LoadLinked
  * address:  0x02031DC0
  * packet:   pkt_02031C30
  * region:   arm9
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146994    0x02146994  data
- *   func_02031FE0 0x02031FE0  arm
- *   func_02032688 0x02032688  arm
+ *   svsys    0x02146994  data
+ *   BACKUP_SYSTEM_LoadDoubleCopy 0x02031FE0  arm
+ *   BACKUP_SYSTEM_LoadSingleCopy 0x02032688  arm
  *
  * Drive one step of the object's state machine.  The engine pointer is read
  * through the global at 0x02146994 twice (`ldr ip,[pc]; ldr ip,[ip]; cmp`),
  * so the declaration is a `u32 *` and a null engine reports 4 without
  * touching anything.  The object's +0x00 and +0x04 words then pick which of
- * the two engine entry points runs - different words take func_02031FE0 with
+ * the two engine entry points runs - different words take BACKUP_SYSTEM_LoadDoubleCopy with
  * the object, the first argument, a hard 1 and the third argument, equal
- * words take func_02032688 - and that call's status picks the arm: 1 and 2
+ * words take BACKUP_SYSTEM_LoadSingleCopy - and that call's status picks the arm: 1 and 2
  * also set the +0x1C byte, 0/3/4 report themselves and anything above 4
  * reports 4.
  *
@@ -43,8 +43,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02031DC0.c \
- *       --func func_02031DC0 --addr 0x02031DC0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_LoadLinked.c \
+ *       --func BACKUP_SYSTEM_LoadLinked --addr 0x02031DC0 --cc 1.1p1 --arm
  */
 
 #include "../include/G_SaveMain.h"
@@ -60,21 +60,21 @@ typedef struct Obj02031DC0 {
     u8  f1c;
 } Obj02031DC0;
 
-extern struct SaveMain *g_02146994;
+extern struct SaveMain *svsys;
 
-extern int func_02031FE0(Obj02031DC0 *o, u32 a1, u32 flag, u32 a2);
-extern int func_02032688(Obj02031DC0 *o, u32 flag, u32 a2);
+extern int BACKUP_SYSTEM_LoadDoubleCopy(Obj02031DC0 *o, u32 a1, u32 flag, u32 a2);
+extern int BACKUP_SYSTEM_LoadSingleCopy(Obj02031DC0 *o, u32 flag, u32 a2);
 
-int func_02031DC0(Obj02031DC0 *a0, u32 a1, u32 a2)
+int BACKUP_SYSTEM_LoadLinked(Obj02031DC0 *a0, u32 a1, u32 a2)
 {
     int st;
 
-    if (*((u32 *)g_02146994) == 0)
+    if (*((u32 *)svsys) == 0)
         return 4;
     if (a0->f00 != a0->f04)
-        st = func_02031FE0(a0, a1, 1, a2);
+        st = BACKUP_SYSTEM_LoadDoubleCopy(a0, a1, 1, a2);
     else
-        st = func_02032688(a0, 1, a2);
+        st = BACKUP_SYSTEM_LoadSingleCopy(a0, 1, a2);
     switch (st) {
     case 1:
         a0->f1c = 1;

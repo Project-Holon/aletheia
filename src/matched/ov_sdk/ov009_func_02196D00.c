@@ -14,7 +14,7 @@
  * symbols:
  *   func_02196AF8  0x02196AF8  arm  ov009
  *   func_02196B48  0x02196B48  arm  ov009
- *   func_02196C28  0x02196C28  arm  ov009
+ *   gti2HandlePing  0x02196C28  arm  ov009
  *   func_02196C34  0x02196C34  arm  ov009
  *   func_02196CC8  0x02196CC8  arm  ov009
  */
@@ -31,7 +31,7 @@ typedef struct Conn {
 
 extern int func_02196AF8(Conn *c, unsigned char *msg, int len);
 extern int func_02196B48(Conn *c, unsigned char *msg, int len);
-extern int func_02196C28(void *connection, unsigned char *message, int len);
+extern int gti2HandlePing(void *connection, unsigned char *message, int len);
 extern int func_02196C34(Conn *c, unsigned char *msg, int len);
 extern int func_02196CC8(Conn *c);
 
@@ -51,7 +51,7 @@ int func_02196D00(Conn *c, int type, unsigned char *message, int len)
 		if (!func_02196B48(c, dataStart, dataLen))
 			return 0;
 	} else if (type == 0x66) {
-		if (!func_02196C28(c, message, len))
+		if (!gti2HandlePing(c, message, len))
 			return 0;
 	} else if (type == 0x67) {
 		if (!func_02196C34(c, dataStart, dataLen))

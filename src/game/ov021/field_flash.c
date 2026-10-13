@@ -153,502 +153,411 @@
  *   func_021C87E0  0x021C87E0  thumb  ov021
  *   func_02158768  0x02158768  thumb  ov010
  */
-#include "../../matched/include/Obj05086.h"
-#include "../../matched/include/Obj05087.h"
-#include "../../matched/include/Obj05088.h"
-#include "../../matched/include/Obj05089.h"
-#include "../../matched/include/Obj07232.h"
-#include "../../matched/include/Obj18324.h"
-#include "../../matched/include/Obj03529.h"
-#include "../../matched/include/Obj18326.h"
-#include "../../matched/include/Obj18327.h"
-#include "../../matched/include/Obj18328.h"
-#include "../../matched/include/Obj18329.h"
-#include "../../matched/include/Obj18330.h"
-#include "../../matched/include/Obj18331.h"
-#include "../../matched/include/Obj18332.h"
-#include "../../matched/include/Obj09214.h"
-#include "../../matched/include/Obj03616.h"
-#include "../../matched/include/Obj07575.h"
-#include "../../matched/include/Obj06090.h"
 
 #define FX_FX32_TO_F32(x) ((f32)((x) / 4096.0f))
 #define FX32_ONE 0x1000
-struct Obj00020;
-struct Vec3;
-struct Actor;
-struct VecFx32_021C7878;
-struct Rec;
-struct Tagged;
-struct Arg;
-struct Ctx;
-struct Stream;
-struct Desc;
-struct Obj;
-struct Sub0200852CObj;
-struct t;
-struct TaskCtx;
-struct Evt;
+#define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
+
 typedef unsigned char u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int u32;
-
-typedef struct Q Q;
-
-typedef struct { u8 n; u8 pad[3]; Q **f4; u32 *f8; } R;
-
-typedef struct { u32 f0; u8 f4; u8 f5; u16 f6; u16 f8; u16 fA; u32 fC; u32 f10; } W_021C6F00;
-
-typedef int s32_021C6E5C;
-
+typedef signed short s16;
+typedef signed char s8;
+typedef signed int s32;
 typedef int fx32;
-
 typedef float f32;
 
-typedef struct {
-    void *f0;
-    u8 f4;
+typedef struct VecFx32 {
+    s32 x;
+    s32 y;
+    s32 z;
+} VecFx32;
+
+/* Opaque handles owned by other files. */
+typedef struct FieldTask FieldTask;         /* field_task.c: state, work, update function */
+typedef struct FieldMap FieldMap;
+typedef struct FieldCamera FieldCamera;
+typedef struct FieldPlayer FieldPlayer;
+typedef struct Mmdl Mmdl;
+typedef struct MmdlSys MmdlSys;
+typedef struct FieldEffectCtrl FieldEffectCtrl;
+typedef struct GameSystem GameSystem;
+typedef struct GameEvent GameEvent;
+typedef struct ScriptVm ScriptVm;
+typedef struct ScrCmdWork ScrCmdWork;
+typedef struct ScriptSystem ScriptSystem;
+typedef struct Fld3dCi Fld3dCi;
+typedef struct MyStatus MyStatus;
+typedef struct ZoneStartLocation {
+    u8 data[0x1C];
+} ZoneStartLocation;
+
+/* The task update function receives its work pointer and returns 1 when finished. */
+typedef int (*FieldTaskUpdateFunc)();
+
+/* Task list (home: field_task_manager, see "field_task_manager.c" assert string).
+ * A slot holds a task and, optionally, the parent task it waits for. */
+typedef struct FieldTaskList {
+    u8 count;
+    u8 pad[3];
+    FieldTask **tasks;
+    u32 *parents;
+} FieldTaskList;
+
+/* Camera distance tween: linear in float from the current distance to the target. */
+typedef struct CameraDistanceTween {
+    FieldMap *fieldMap;
+    u8 state;
     u8 pad5;
-    u16 f6;
-    u16 f8;
+    u16 frame;
+    u16 frames;
     u16 padA;
-    fx32 fC;
-    fx32 f10;
-} Work_021C6E94;
+    fx32 startDistance;
+    fx32 targetDistance;
+} CameraDistanceTween;
 
-typedef struct FieldFlashWork {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    u8 fC;
-    u8 fD;
-    u16 fE;
-    u16 f10;
-    u16 f12;
-    u32 f14;
-    u32 f18;
-    u16 f1c;
-} FieldFlashWork;
+enum CameraAngleAxis {
+    CAMERA_ANGLE_AXIS_YAW = 0,
+    CAMERA_ANGLE_AXIS_PITCH = 1
+};
 
-
-typedef struct {
-    u32 w0;
-    void *obj;
-    u32 mode;
-    u16 hc;
-    u16 cnt;
-    u16 max;
-    u16 pad;
+/* Camera angle tween: smoothstep from the current angle to the target angle. */
+typedef struct CameraAngleTween {
+    FieldMap *fieldMap;
+    FieldCamera *camera;
+    u32 axis;
+    u8 state;
+    u8 padD;
+    u16 frame;
+    u16 frames;
+    u16 pad12;
     u32 from;
     u32 to;
-} Work_021C70DC;
+} CameraAngleTween;
 
+/* Spin task: turns a field model through its four facing animations. */
+typedef struct MmdlSpinTask {
+    FieldMap *fieldMap;
+    Mmdl *mmdl;
+    u16 frame;
+    u16 frames;
+    u8 spins;
+    u8 padD;
+    u16 endDirection;
+} MmdlSpinTask;
 
-typedef struct { u16 v[4]; } T4;
+typedef struct SpinAcmdTable {
+    u16 acmd[4];
+} SpinAcmdTable;
 
-typedef struct {
-    u32 w0;
-    u32 w4;
-    u16 h8;
-    u16 ha;
-    u8  bc;
-    u8  pad;
-    u16 he;
-} Ctl;
-
-
-typedef struct { u8 f0; u32 f4; u32 f8; u32 fC; u8 pad[0xc]; FieldFlashWork f1C; } X;
-
-typedef signed int     s32_021C7500;
-
-typedef struct VecFx32_021C6E5C { s32_021C7500 x; s32_021C7500 y; s32_021C7500 z; } VecFx32_021C6E5C;
-
-typedef struct {
+/* Linear tween of a position between two points (player or camera target). */
+typedef struct PosTween {
     u8 state;
-    u8 pad[3];
-    void *id;
-    int cnt;
-    int max;
-    VecFx32_021C6E5C from;
-    VecFx32_021C6E5C to;
-} Work_021C6E5C;
-
-typedef struct {
-    u8    st;
-    u32   w4;
-    u16   h8;
-    u16   ha;
-    float fc;
-    u32   w10;
-} Fx;
-
-typedef struct {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} Vec_021C7500;
-
-typedef struct {
-    int x;
-    int y;
-    int z;
-} Vec_021C7730;
-
-typedef struct { u16 f0; u16 f2; } X_021C77D8;
-
-typedef struct { u32 f0; u32 f4; u32 f8; u32 fC; u32 f10; } X_021C7814;
-
-typedef signed short   s16;
-
-typedef signed char    s8;
-
-typedef struct { int x, y, z; } Vec;
-
-typedef struct {
-    u8 f0;
     u8 pad1[3];
-    int f4;
-    int f8;
-    u16 fC;
-    u16 fE;
-    Vec f10;
-    int f1C[3];
-    int f28;
-} Obj_021C6E5C;
-
-typedef signed int     s32;
-
-typedef struct VecFx32_021C7878 { s32 x; s32 y; s32 z; } VecFx32_021C7878;
-
-typedef struct {
-    u8 f0;
-    u8 pad1[3];
-    int f4;
-    int f8;
-    u16 fC;
-    u16 fE;
-    Vec f10;
-    Vec f1C;
-    int f28;
-} Obj_021C7A20;
-
-typedef struct VecFx32 { s32 x; s32 y; s32 z; } VecFx32;
-
-typedef struct {
-    u8 state;
-    u8 pad[3];
-    void *id;
-    int cnt;
-    int max;
+    FieldMap *fieldMap;
+    int frame;
+    int frames;
     VecFx32 from;
     VecFx32 to;
-} Work_021C7A20;
+} PosTween;
 
-typedef struct {
-    u8 f0;
+/* Player drop task: draw offset falls from a height to the ground. */
+typedef struct PlayerDropTask {
+    u8 state;
+    FieldMap *fieldMap;
+    u16 frame;
+    u16 frames;
+    float height;
+    Mmdl *mmdl;
+} PlayerDropTask;
+
+typedef struct WaitTask {
+    u16 frame;
+    u16 frames;
+} WaitTask;
+
+typedef struct FadeTask {
+    FieldMap *fieldMap;
+    u32 fadeMode;
+    u32 startBrightness;
+    u32 endBrightness;
+    u32 wait;
+} FadeTask;
+
+/* Field model offset tween (draw offset or position offset). */
+typedef struct MmdlOffsetTween {
+    u8 state;
     u8 pad1[3];
-    int f4;
-    u16 f8;
-    u16 fA;
-    Vec fC;
-    Vec f18;
-    Vec f24;
-    int f30;
-} Obj_021C7C74;
+    FieldMap *fieldMap;
+    int reverse;
+    u16 frame;
+    u16 frames;
+    VecFx32 offset;
+    VecFx32 startPos;
+    Mmdl *mmdl;
+} MmdlOffsetTween;
 
-typedef struct {
-    int f0;
-    int f4;
-    void *f8;
-    u8 fC;
+/* Camera target linear interpolation. */
+typedef struct CameraLerpTask {
+    u8 state;
+    u8 pad1[3];
+    FieldMap *fieldMap;
+    u16 frame;
+    u16 frames;
+    VecFx32 start;
+    VecFx32 end;
+    VecFx32 delta;
+    int savedFlag;
+} CameraLerpTask;
+
+/* Calls a player effect every `interval` frames for `frames` frames. */
+typedef struct RepeatEffectTask {
+    FieldMap *fieldMap;
+    FieldEffectCtrl *effectCtrl;
+    Mmdl *mmdl;
+    u8 state;
     u8 padD;
-    u16 fE;
-    u16 f10;
-    u16 f12;
-} Obj_021C7D28;
+    u16 frame;
+    u16 frames;
+    u16 interval;
+} RepeatEffectTask;
 
-
-typedef struct { u32 f0; u8 sub[0x18]; u16 f1C; u16 f1E; } M;
-
-
-typedef short s16_021C7E90;
-
-typedef struct {
-    int f0;
-    u8 f4;
+/* FIELD_FLASH: the cave flash light. A tween drives the size and alpha of the mask model. */
+typedef struct FlashTween {
+    fx32 size;
+    u8 alpha;
     u8 pad5;
-    u16 f6;
-    u16 f8;
+    u16 frame;
+    u16 frames;
     u8 padA[2];
-    int fC;
-    int f10;
-    s16_021C7E90 f14;
-    s16_021C7E90 f16;
-} Obj_021C7E90;
+    fx32 sizeStart;
+    fx32 sizeDelta;
+    s16 alphaStart;
+    s16 alphaDelta;
+} FlashTween;
 
-typedef signed short   s16_021C7EFC;
+typedef struct FldWipe3dObj FldWipe3dObj;
 
-typedef struct { u32 f0; u8 sub[0x18]; u16 f1C; u16 f1E; } M_021C7FC0;
+typedef struct FieldFlash {
+    FldWipe3dObj *model;
+    FlashTween tween;
+    u16 state;
+    u16 pendingCommand;
+} FieldFlash;
 
-typedef struct { u32 f0; u8 sub[0x18]; u16 f1C; u16 f1E; } M_021C8018;
+enum FlashState {
+    FLASH_STATE_OFF = 0,
+    FLASH_STATE_READY = 1,
+    FLASH_STATE_EXPANDING = 2,
+    FLASH_STATE_EXPANDED = 3
+};
 
-typedef struct { u32 f0; u32 f4; } N;
+enum FlashCommand {
+    FLASH_CMD_INIT = 0,
+    FLASH_CMD_EXPAND = 1,
+    FLASH_CMD_SHOW_EXPANDED = 2,
+    FLASH_CMD_HIDE = 3,
+    FLASH_CMD_NONE = 4
+};
 
-typedef struct { int x, y, z; } V_021C7FB4;
+/* FIELDSKILL_MAPEFF: holds the map effects a field skill can add; only the flash so far. */
+typedef struct FieldSkillMapEff {
+    FieldFlash *flash;
+} FieldSkillMapEff;
 
-typedef struct { int m[9]; } M_021C8078;
+/* FLD_WIPE_3DOBJ: resource archive and object of the flash mask model. */
+struct FldWipe3dObj {
+    void *resArc;
+    void *object;
+};
 
-typedef struct { int m[12]; } M43;
+typedef struct G3dLookAt {
+    VecFx32 camPos;
+    VecFx32 camUp;
+    VecFx32 target;
+} G3dLookAt; /* same layout as G3dLookAt in arm9/g3d_system_types.h */
 
-typedef struct { V_021C7FB4 pos, tgt, up; } Cam;
+typedef struct Mtx33 {
+    int m[9];
+} Mtx33;
 
-typedef struct { V_021C7FB4 t; V_021C7FB4 s; M_021C8078 r; } SRT;
+typedef struct Mtx43 {
+    int m[12];
+} Mtx43;
 
-typedef struct { int f0; void *f4; } Ent_0204755C;
+typedef struct G3dObjectStatus {
+    VecFx32 trans;
+    VecFx32 scale;
+    Mtx33 rotate;
+} G3dObjectStatus; /* same layout as G3dObjectStatus in arm9/g3d_system_types.h */
 
-typedef struct { int f0; void *f4; } Obj_021C8078;
+typedef struct G3dRenderRef {
+    int magic;
+    void *rndObj;
+} G3dRenderRef;
 
-typedef struct Buf24 {
-    u32 w[6];
-} Buf24;
+/* Wipe event work (wipe with a 3D cut-in and a map change). */
+typedef struct CameraAnimFlags {
+    u32 apply[6];
+} CameraAnimFlags;
 
-typedef struct Param {
-    u32 pad0[3];
-    VecFx32 pos;
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u16 h24;
-    u16 h26;
-    u32 f28;
-    u16 h2c;
-    u16 pad2e;
-    Buf24 buf;
-} Param;
+typedef struct CameraAnimParam {
+    u32 padding0[3];
+    VecFx32 targetPos;
+    VecFx32 targetOffset;
+    u16 pitch;
+    u16 yaw;
+    u32 distance;
+    u16 fovy;
+    u16 pad2E;
+    CameraAnimFlags flags;
+} CameraAnimParam;
 
-typedef struct TaskCtx {
-    void *w0;
-    u32 f04;
-    u32 f08;
-    u8 f0c[0x28 - 0x0c];
-    u32 f28;
-    u32 f2c;
-} Ctx;
+typedef struct WipeMapChangeWork {
+    GameSystem *gameSystem;
+    u32 savedCameraBits;
+    u32 zoneId;
+    ZoneStartLocation startLocation;
+    u32 cutInIdBefore;
+    u32 cutInIdAfter;
+} WipeMapChangeWork;
 
-typedef struct { u32 f0; u32 f4; u32 f8; u8 pad[0x1a8]; u32 f1B4; } P;
+/* PLEASURE_BOAT work (0x1B8). */
+typedef struct BoatPassenger {
+    u8 info[0x18];
+    int occupied;
+} BoatPassenger;
 
-typedef struct {
-    int f0;
-    short f4;
-    short f6;
-    int f8;
-} S;
+typedef struct PleasureBoatWork {
+    int eventPending;
+    short timeTicks;
+    u16 visitorCount;
+    int periodCount;
+    BoatPassenger passengers[15];
+    u8 groupCount[4];
+    int locked;
+} PleasureBoatWork;
 
-extern void func_021C6CA8(Q *q);
-extern void func_021C6CBC(void);
-extern u32 func_021C6CE0(u8 *p);
-extern void func_021C6CC4(u32 *a0);
-extern int func_021C6CD0(u32 a);
-extern u16 func_02188C84(u8 *p);
-extern Q *func_021C6C70(u32 heap, u32 size, void *fn);
-extern u32 func_021C6CCC(u8 *p);
-extern void *func_02188C58(void *o);
-extern u32 func_0218ED54(u8 *p);
-extern u32 func_0218E138(u8 *p);
-extern void func_0218E13C(u8 *a, u32 s);
-extern void func_0218ED58(u8 *p, u32 v);
-extern u16 func_0218ED40(u8 *p);
-extern u16 func_0218ED2C(u8 *p);
-extern void func_0218ED34(u8 *p, u16 v);
-extern void func_0218ED48(u8 *p, u32 v);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(unsigned char *);
-extern u16 func_0216D5F8(void *a);
+extern void func_021C6CA8(FieldTask *task);
+extern void func_021C6CBC(FieldTask *task);
+extern u32 func_021C6CE0(FieldTask *task);
+extern void func_021C6CC4(FieldTask *task);
+extern int func_021C6CD0(FieldTask *task);
+extern u16 func_02188C84(FieldMap *fieldMap);
+extern FieldTask *func_021C6C70(u32 heapId, u32 size, FieldTaskUpdateFunc update);
+extern void *func_021C6CCC(FieldTask *task);
+extern FieldCamera *func_02188C58(FieldMap *fieldMap);
+extern fx32 func_0218ED54(FieldCamera *camera);
+extern u32 func_0218E138(FieldCamera *camera);
+extern void func_0218E13C(FieldCamera *camera, u32 value);
+extern void func_0218ED58(FieldCamera *camera, fx32 distance);
+extern u16 func_0218ED40(FieldCamera *camera);
+extern u16 func_0218ED2C(FieldCamera *camera);
+extern void func_0218ED34(FieldCamera *camera, u16 angle);
+extern void func_0218ED48(FieldCamera *camera, u16 angle);
+extern FieldPlayer *func_02188CB4(FieldMap *fieldMap);
+extern Mmdl *func_021A3074(FieldPlayer *player);
+extern u16 func_0216D5F8(Mmdl *mmdl);
 extern double func_0209C5E0(double x);
-extern void func_0216D410(u32 a, int b);
-extern void func_0216D5E0(int a0, int a1);
-extern void func_021A3038(unsigned char *, struct VecFx32_021C6E5C *);
-extern void func_021A3044(u8 *p, void *v);
-extern int func_02164010(int a);
-extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *dst);
-extern void func_0207C9D0(const VecFx32_021C6E5C *a, const VecFx32_021C6E5C *b, VecFx32_021C6E5C *c);
-extern u32 func_02188CD0(u8 *p);
-extern void func_0216D8C0(u32 a, Vec_021C7730 *v);
-extern void func_021AC528(u32 a, u32 b);
-extern void func_020061E4(u32 a);
-extern void func_0204E720(u32 a, s32_021C7500 b, s32_021C7500 c, s32_021C7500 d);
-extern void func_0216D88C(const struct Actor *, struct VecFx32_021C7878 *);
-extern void func_0216D89C(int, Vec *);
-extern void func_0218ECC4(void *o, VecFx32 *out);
-extern void func_0218ECD4(void *o, VecFx32 *v);
-extern void func_0207CA00(Vec *, Vec *, Vec *);
-extern void func_0218EC90(int, Vec *);
-extern void func_0207CEE4(int, Vec *, Vec *, Vec *);
-extern void func_021ADD7C(int a, int b);
+extern void func_0216D410(Mmdl *mmdl, int acmd);
+extern void func_0216D5E0(Mmdl *mmdl, int direction);
+extern void func_021A3038(FieldPlayer *player, VecFx32 *pos);
+extern void func_021A3044(FieldPlayer *player, VecFx32 *pos);
+extern int func_02164010(Mmdl *mmdl);
+extern void func_020520A4(const VecFx32 *v, int scale, VecFx32 *out);
+extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern FieldEffectCtrl *func_02188CD0(FieldMap *fieldMap);
+extern void func_0216D8C0(Mmdl *mmdl, VecFx32 *offset);
+extern void func_021AC528(Mmdl *mmdl, FieldEffectCtrl *effectCtrl);
+extern void func_020061E4(u32 seId);
+extern void func_0204E720(u32 mode, u32 start, u32 end, u32 wait);
+extern void func_0216D88C(const Mmdl *mmdl, VecFx32 *pos);
+extern void func_0216D89C(Mmdl *mmdl, VecFx32 *pos);
+extern void func_0218ECC4(FieldCamera *camera, VecFx32 *out);
+extern void func_0218ECD4(FieldCamera *camera, VecFx32 *v);
+extern void func_0207CA00(VecFx32 *a, VecFx32 *b, VecFx32 *out);
+extern void func_0218EC90(FieldCamera *camera, VecFx32 *v);
+extern void func_0207CEE4(int t, VecFx32 *a, VecFx32 *b, VecFx32 *out);
+extern void func_021ADD7C(Mmdl *mmdl, FieldEffectCtrl *effectCtrl);
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, int);
+extern void func_02082BCC(void *dst, int value, int size);
 extern u32 func_0207C768(u32 a, u32 b);
-extern void *func_02046DB8(u32 a0, u32 a1);
-extern void *func_02047400(void *a0, u32 n, void *a2);
-extern void *func_0204767C(u32 a0, u32 *a1, int a2);
-extern void func_02046EFC(struct Tagged *p);
-extern void func_02047504(struct Rec *p);
-extern void func_02047738(struct Rec *p);
-extern int func_02047788(int *p);
-extern void func_02046AFC(u8 *dst);
-extern void func_0207CCA4(V_021C7FB4 *, V_021C7FB4 *);
+extern void *func_02046DB8(u32 arcId, u32 mode);
+extern void *func_02047400(void *resArc, u32 index, void *param);
+extern void *func_0204767C(void *render, u32 *anime, int count);
+extern void func_02046EFC(void *resArc);
+extern void func_02047504(void *render);
+extern void func_02047738(void *object);
+extern void *func_02047788(void *object);
+extern void func_02046AFC(G3dLookAt *dst);
+extern void func_0207CCA4(VecFx32 *src, VecFx32 *dst);
 extern u32 *func_0206AAD4(void);
-extern void func_02082B60(M43 *, M_021C8078 *);
-extern Ent_0204755C *func_0204755C(void *);
-extern void func_0206E394(void *, int, int);
-extern void func_0206E4FC(void *, int, int);
-extern void func_0206E484(void *, int, int);
-extern void func_0206E574(void *, int, int);
-extern void func_0206E40C(void *, int, int);
-extern void func_02047A60(void *a0, struct Arg *a1);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02189A00(unsigned char *p);
-extern u16 func_02011330(struct Stream *s);
-extern void *func_0215A5F4(void *p);
-extern int func_021C1CB0(int a, char *b, int c);
-extern void func_0215897C(void *vm, void *task);
-extern unsigned int func_02159B10(void *a, void *b);
-extern int func_021C1D68(int a, int b, int c);
-extern int func_021C30B8(void *a, unsigned char *b, unsigned int c);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, unsigned int size);
-extern void *func_020124E8(struct Obj *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012944(void *p);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void func_02014204(struct t *p, int id);
-extern u32 func_02188C5C(u8 *p);
-extern void func_0218F1AC(u8 *p, u32 v);
-extern u32 func_0218EC5C(u8 *p);
-extern void func_0218F0A8(u8 *a);
-extern u32 func_0218F0E8(u8 *a);
-extern void func_021BB260(u32 a, u32 b);
-extern void func_0218EC54(u8 *p);
-extern void func_0218F818(u8 *a);
-extern void func_0218F848(u8 *a);
-extern void func_0218F900(u8 *a, void *p, int n);
-extern int func_0218FE50(u8 *a);
-extern void *func_02188C7C(u8 *p);
-extern void func_0216D9A0(void *map);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern u32 *func_0216D9E4(void *c);
-extern void func_0216DAC8(unsigned int *p, unsigned int v);
-extern void func_0218F878(u8 *a);
-extern u32 func_021BEA30(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_021854CC(void *p, u32 u, u16 u2, void *src, u16 h);
-extern u32 func_02188D20(u8 *p);
-extern int func_021BC5BC(u8 *a);
+extern void func_02082B60(Mtx43 *src, Mtx33 *dst);
+extern G3dRenderRef *func_0204755C(void *render);
+extern void func_0206E394(void *mdl, int a, int b);
+extern void func_0206E4FC(void *mdl, int a, int b);
+extern void func_0206E484(void *mdl, int a, int b);
+extern void func_0206E574(void *mdl, int a, int b);
+extern void func_0206E40C(void *mdl, int a, int b);
+extern void func_02047A60(void *object, G3dObjectStatus *status);
+extern GameSystem *func_0215A5DC(ScrCmdWork *work);
+extern FieldMap *func_0201210C(GameSystem *gameSystem);
+extern Fld3dCi *func_02189A00(FieldMap *fieldMap);
+extern u16 func_02011330(ScriptVm *vm);
+extern ScriptSystem *func_0215A5F4(ScrCmdWork *work);
+extern GameEvent *func_021C1CB0(GameSystem *gameSystem, Fld3dCi *ci, int id);
+extern void func_0215897C(ScriptSystem *scriptSys, GameEvent *event);
+extern unsigned int func_02159B10(ScriptVm *vm, ScrCmdWork *work);
+extern GameEvent *func_021C1D68(GameSystem *gameSystem, Fld3dCi *ci, int value);
+extern GameEvent *func_021C30B8(GameSystem *gameSystem, Fld3dCi *ci, unsigned int value);
+extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, int (*main)(), unsigned int workSize);
+extern void *func_020124E8(GameEvent *event);
+extern void *func_020120F4(GameSystem *gameSystem);
+extern MyStatus *func_02012944(void *gameData);
+extern u8 func_02008550(const MyStatus *myStatus);
+extern void func_02014204(ZoneStartLocation *location, int zoneId);
+extern u32 func_02188C5C(FieldMap *fieldMap);
+extern void func_0218F1AC(FieldCamera *camera, u32 value);
+extern u32 func_0218EC5C(FieldCamera *camera);
+extern void func_0218F0A8(FieldCamera *camera);
+extern u32 func_0218F0E8(FieldCamera *camera);
+extern void func_021BB260(u32 bg, u32 value);
+extern void func_0218EC54(FieldCamera *camera);
+extern void func_0218F818(FieldCamera *camera);
+extern void func_0218F848(FieldCamera *camera);
+extern void func_0218F900(FieldCamera *camera, CameraAnimParam *param, int frames);
+extern int func_0218FE50(FieldCamera *camera);
+extern MmdlSys *func_02188C7C(FieldMap *fieldMap);
+extern void func_0216D9A0(MmdlSys *mmdlSys);
+extern void func_02012374(GameEvent *parent, GameEvent *child);
+extern u32 *func_0216D9E4(MmdlSys *mmdlSys);
+extern void func_0216DAC8(Mmdl *mmdl, unsigned int vanish);
+extern void func_0218F878(FieldCamera *camera);
+extern GameEvent *func_021BEA30(GameSystem *gameSystem, FieldMap *fieldMap, u32 a, u32 b);
+extern GameEvent *func_021854CC(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, ZoneStartLocation *location, u16 flag);
+extern void *func_02188D20(FieldMap *fieldMap);
+extern int func_021BC5BC(void *msgBg);
 extern u32 func_02043658(void);
 extern void func_02188DA0(void);
 extern void func_02043534(u32 planes);
-extern void func_02188DB0(u8 *a);
-extern void func_021BC578(void *p, int v);
-extern void func_0218F9C4(u8 *p, u8 *src, u16 v);
-extern void func_0218EC30(u32 a, u32 b);
-extern void func_0218F05C(unsigned char *a);
-extern void *func_020124E4(struct Obj *p);
+extern void func_02188DB0(FieldMap *fieldMap);
+extern void func_021BC578(void *msgBg, int zoneId);
+extern void func_0218F9C4(FieldCamera *camera, CameraAnimFlags *flags, u16 frames);
+extern void func_0218EC30(FieldCamera *camera, u32 bits);
+extern void func_0218F05C(FieldCamera *camera);
+extern GameSystem *func_020124E4(GameEvent *event);
 extern int func_0204E804(void);
-extern int func_02034AC4(s32 handle);
-extern void func_02034A5C(int a);
-extern void func_021F36C0(char *p);
-extern int func_021C87E0(char *p);
-extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
-void func_021C6E5C(R *r, int i, Q *q, u32 v);
-void func_021C6E74(R *r, int i);
-void func_021C6E94(R *r, int i);
-void func_021C6EA8(R *r, int i);
-void func_021C6EDC(R *r, int i);
-Q *func_021C6F00(u32 a, u16 b, u32 c);
-int func_021C6F30(Work_021C6E94 *w);
-Q *func_021C701C(u32 a, u16 b, u32 c);
-Q *func_021C7058(u32 a, u16 b, u32 c);
-void func_021C7094(u32 *p);
-void func_021C70DC(Work_021C70DC *w);
-int func_021C71A4(FieldFlashWork *w);
-void *func_021C71D4(u32 a, u32 b, u32 c);
-void *func_021C7220(u32 a, u16 b, int c, u32 d);
-void *func_021C7260(u32 a, u16 b, int c);
-void *func_021C72AC(u32 a, u16 b, int c, int d);
-u16 func_021C72F8(float a, float b, float c);
-u16 func_021C734C(float a, float b, float c);
-u16 func_021C73B4(float a, float b, float c);
-int func_021C7418(Ctl *o);
-int func_021C748C(Ctl *o);
-int func_021C7500(Ctl *o);
-Q *func_021C754C(u32 a, u32 b, FieldFlashWork *v);
-int func_021C7584(Work_021C6E5C *w);
-void *func_021C7684(u32 a, u32 b, int c, int d);
-void func_021C76C4(Vec_021C7500 *out, float a, float b, float c);
-int func_021C7730(Fx *o);
-Q *func_021C77D8(u32 a, u16 b);
-int func_021C77FC(X_021C77D8 *x);
-Q *func_021C7814(u32 a, u32 b, u32 c, u32 d, u32 e);
-int func_021C7844(u32 a, u32 b, u32 c);
-int func_021C7858(u32 a, u32 b, u32 c);
-int func_021C7878(int a, int b, const Vec *c, int d);
-int func_021C78DC(int a, int b, const Vec *c, int d);
-void func_021C7940(Vec *out, u16 cnt, Vec *v, u16 max);
-int func_021C7A20(Obj_021C7A20 *p);
-int func_021C7A7C(Obj_021C7A20 *p);
-Q *func_021C7AE4(u32 a, u32 b, const FieldFlashWork *v);
-int func_021C7B1C(Work_021C7A20 *w);
-int func_021C7C10(int a, int b, const Vec *c, const Vec *d);
-int func_021C7C74(Obj_021C7C74 *p);
-int func_021C7D28(int a, int b, u16 c, u16 d);
-int func_021C7D78(FieldFlashWork *w);
-M *func_021C7DAC(u32 heap);
-void func_021C7DE0(M *m);
-void func_021C7DFC(M *m);
-void func_021C7E30(M *m);
-void func_021C7E50(u8 *p, u16 v);
-u16 func_021C7E54(FieldFlashWork *p);
-void func_021C7E58(u32 a);
-void func_021C7E64(u32 a);
-int func_021C7E70(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1);
-int func_021C7E90(Obj_021C7E90 *p);
-u32 func_021C7EEC(u8 *p);
-void func_021C7EF0(u8 *p, u32 v);
-u8 func_021C7EF4(u8 *p);
-u8 *func_021C7EF8(u8 *p, u8 v);
-int func_021C7EFC(u32 a, u32 b, u32 c, u32 d);
-void func_021C7F18(M *m);
-void func_021C7F44(M *m);
-void func_021C7F5C(M *m);
-M **func_021C7F70(u32 flags, u32 heap);
-void func_021C7F9C(u8 *p);
-void func_021C7FAC(u32 a);
-void func_021C7FB4(u32 a);
-void *func_021C7FBC(void **p);
-void func_021C7FC0(M_021C7FC0 **pp, u32 flags, u32 heap);
-void func_021C7FF0(void *msg);
-void func_021C8000(u8 *p);
-void func_021C800C(u8 *p);
-void *func_021C8018(u32 heap);
-int func_021C8054(void *a);
-void func_021C8078(Obj_021C8078 *p, int b, int c);
-int func_021C812C(int a, int b);
-int func_021C8170(int a, int b);
-int func_021C81B4(int a, int b);
-int func_021C81F8(int a, int b);
-int func_021C8268(void *a, int b, int c);
-int func_021C82C4(u32 a, int *st, Ctx *c);
-int func_021C85CC(void *task, int *state);
-char *func_021C8608(void);
-void func_021C8660(P *p);
-int func_021C868C(int a, char *b);
-void func_021C86E8(S *p, int b, int c);
-int func_021C8738(char *p, int k);
-extern T4 d_021DAAC0;
-extern T4 d_021DAAB8;
-extern T4 d_021DAAC8;
+extern int func_02034AC4(s32 overlayId);
+extern void func_02034A5C(int overlayId);
+extern void func_021F36C0(PleasureBoatWork *work);
+extern int func_021C87E0(PleasureBoatWork *work);
+extern GameEvent *func_02158768(GameSystem *gameSystem, int a, int b, int scriptId);
+
+/* Spin acmd tables (u16 per facing direction) and the FLD3D_CI id table (key, id pairs). */
+extern SpinAcmdTable d_021DAAC0;
+extern SpinAcmdTable d_021DAAB8;
+extern SpinAcmdTable d_021DAAC8;
 extern char d_021DE4FC[];
 extern char d_021DE50C[];
 extern char d_021DE520[];
@@ -656,918 +565,535 @@ extern unsigned short d_021DAAE0[];
 extern unsigned short d_021DAAE2[];
 extern char d_021DE534;
 extern char d_00000024[];
+extern void (*d_021DAAD0[])(FieldFlash *flash);
 
+void func_021C6E5C(FieldTaskList *list, int slot, FieldTask *task, u32 parent);
+void func_021C6E74(FieldTaskList *list, int slot);
+void func_021C6E94(FieldTaskList *list, int slot);
+void func_021C6EA8(FieldTaskList *list, int slot);
+void func_021C6EDC(FieldTaskList *list, int slot);
+FieldTask *func_021C6F00(FieldMap *fieldMap, u16 frames, fx32 targetDistance);
+int func_021C6F30(CameraDistanceTween *tween);
+FieldTask *func_021C701C(FieldMap *fieldMap, u16 frames, u32 targetAngle);
+FieldTask *func_021C7058(FieldMap *fieldMap, u16 frames, u32 targetAngle);
+void func_021C7094(CameraAngleTween *tween);
+void func_021C70DC(CameraAngleTween *tween);
+int func_021C71A4(CameraAngleTween *tween);
+FieldTask *func_021C71D4(FieldMap *fieldMap, u32 frames, u32 spins);
+FieldTask *func_021C7220(FieldMap *fieldMap, u16 frames, int spins, Mmdl *mmdl);
+FieldTask *func_021C7260(FieldMap *fieldMap, u16 frames, int spins);
+FieldTask *func_021C72AC(FieldMap *fieldMap, u16 frames, int spins, int endDirection);
+u16 func_021C72F8(float frame, float frames, float spins);
+u16 func_021C734C(float frame, float frames, float spins);
+u16 func_021C73B4(float frame, float frames, float spins);
+int func_021C7418(MmdlSpinTask *task);
+int func_021C748C(MmdlSpinTask *task);
+int func_021C7500(MmdlSpinTask *task);
+FieldTask *func_021C754C(FieldMap *fieldMap, u32 frames, VecFx32 *to);
+int func_021C7584(PosTween *tween);
+FieldTask *func_021C7684(FieldMap *fieldMap, Mmdl *mmdl, int frames, int height);
+void func_021C76C4(VecFx32 *out, float frame, float frames, float height);
+int func_021C7730(PlayerDropTask *task);
+FieldTask *func_021C77D8(FieldMap *fieldMap, u16 frames);
+int func_021C77FC(WaitTask *task);
+FieldTask *func_021C7814(FieldMap *fieldMap, u32 fadeMode, u32 startBrightness, u32 endBrightness, u32 wait);
+int func_021C7844(FadeTask *task);
+FieldTask *func_021C7858(FieldMap *fieldMap, int frames, const VecFx32 *offset);
+FieldTask *func_021C7878(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl);
+FieldTask *func_021C78DC(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl);
+void func_021C7940(VecFx32 *out, u16 frame, VecFx32 *offset, u16 frames);
+int func_021C7A20(MmdlOffsetTween *tween);
+int func_021C7A7C(MmdlOffsetTween *tween);
+FieldTask *func_021C7AE4(FieldMap *fieldMap, u32 frames, const VecFx32 *to);
+int func_021C7B1C(PosTween *tween);
+FieldTask *func_021C7C10(FieldMap *fieldMap, int frames, const VecFx32 *start, const VecFx32 *end);
+int func_021C7C74(CameraLerpTask *task);
+FieldTask *func_021C7D28(FieldMap *fieldMap, int unused, u16 frames, u16 interval);
+int func_021C7D78(RepeatEffectTask *task);
+FieldFlash *func_021C7DAC(u32 heapId);
+void func_021C7DE0(FieldFlash *flash);
+void func_021C7DFC(FieldFlash *flash);
+void func_021C7E30(FieldFlash *flash);
+void func_021C7E50(FieldFlash *flash, u16 command);
+u16 func_021C7E54(FieldFlash *flash);
+void func_021C7E58(FlashTween *tween);
+void func_021C7E64(FlashTween *tween);
+FlashTween *func_021C7E70(FlashTween *tween, fx32 sizeStart, fx32 sizeEnd, u32 alphaStart, u8 alphaEnd, u32 frames);
+int func_021C7E90(FlashTween *tween);
+u32 func_021C7EEC(FlashTween *tween);
+void func_021C7EF0(FlashTween *tween, fx32 size);
+u8 func_021C7EF4(FlashTween *tween);
+FlashTween *func_021C7EF8(FlashTween *tween, u8 alpha);
+void func_021C7EFC(FieldFlash *flash);
+void func_021C7F18(FieldFlash *flash);
+void func_021C7F44(FieldFlash *flash);
+void func_021C7F60(FieldFlash *flash);
+FieldSkillMapEff *func_021C7F70(u32 flags, u32 heapId);
+void func_021C7F9C(FieldSkillMapEff *mapEff);
+void func_021C7FAC(FieldSkillMapEff *mapEff);
+void func_021C7FB4(FieldSkillMapEff *mapEff);
+FieldFlash *func_021C7FBC(FieldSkillMapEff *mapEff);
+void func_021C7FC0(FieldSkillMapEff *mapEff, u32 flags, u32 heapId);
+void func_021C7FF0(FieldSkillMapEff *mapEff);
+void func_021C8000(FieldSkillMapEff *mapEff);
+void func_021C800C(FieldSkillMapEff *mapEff);
+FldWipe3dObj *func_021C8018(u32 heapId);
+int func_021C8054(FldWipe3dObj *obj);
+void func_021C8078(FldWipe3dObj *obj, int size, int alpha);
+int func_021C812C(ScriptVm *vm, ScrCmdWork *work);
+int func_021C8170(ScriptVm *vm, ScrCmdWork *work);
+int func_021C81B4(ScriptVm *vm, ScrCmdWork *work);
+int func_021C81F8(ScriptVm *vm, ScrCmdWork *work);
+GameEvent *func_021C8268(GameSystem *gameSystem, int unused, int zoneId);
+int func_021C82C4(GameEvent *event, int *seq, WipeMapChangeWork *work);
+int func_021C85CC(GameEvent *event, int *seq);
+PleasureBoatWork *func_021C8608(void);
+void func_021C8660(PleasureBoatWork *work);
+GameEvent *func_021C868C(GameSystem *gameSystem, PleasureBoatWork *work);
+void func_021C86E8(PleasureBoatWork *work, int seconds, int clamp);
+int func_021C8738(PleasureBoatWork *work, int kind);
 
-
-
-
-
-
-#define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
-
-
-
-
-
-
-
-
-
-void func_021C6E5C(R *r, int i, Q *q, u32 v)
+void func_021C6E5C(FieldTaskList *list, int slot, FieldTask *task, u32 parent)
 {
-    if (r->f4[i] == 0) {
-        r->f4[i] = q;
-        r->f8[i] = v;
+    if (list->tasks[slot] == 0) {
+        list->tasks[slot] = task;
+        list->parents[slot] = parent;
     }
 }
 
-
-
-
-
-
-
-
-
-void func_021C6E74(R *r, int i){
-    if (r->f4[i] != 0) {
-        func_021C6CA8(r->f4[i]);
-        r->f4[i] = 0;
-        r->f8[i] = 0;
+void func_021C6E74(FieldTaskList *list, int slot)
+{
+    if (list->tasks[slot] != 0) {
+        func_021C6CA8(list->tasks[slot]);
+        list->tasks[slot] = 0;
+        list->parents[slot] = 0;
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021C6E94(R *r, int i)
+void func_021C6E94(FieldTaskList *list, int slot)
 {
-    if (r->f4[i] != 0)
-        func_021C6CBC();
+    if (list->tasks[slot] != 0)
+        func_021C6CBC(list->tasks[slot]);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021C6EA8(R *r, int i)
+void func_021C6EA8(FieldTaskList *list, int slot)
 {
-    if (r->f4[i] != 0 && r->f8[i] != 0) {
-        if (func_021C6CE0((u8 *)r->f4[i]) == 0 && func_021C6CE0((u8 *)r->f8[i]) == 2)
-            func_021C6CC4((u32 *)r->f4[i]);
+    if (list->tasks[slot] != 0 && list->parents[slot] != 0) {
+        if (func_021C6CE0(list->tasks[slot]) == 0 && func_021C6CE0((FieldTask *)list->parents[slot]) == 2)
+            func_021C6CC4(list->tasks[slot]);
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021C6EDC(R *r, int i)
+void func_021C6EDC(FieldTaskList *list, int slot)
 {
-    if (r->f4[i] != 0 && func_021C6CD0((u32)r->f4[i]) == 1)
-        func_021C6E74(r, i);
+    if (list->tasks[slot] != 0 && func_021C6CD0(list->tasks[slot]) == 1)
+        func_021C6E74(list, slot);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Q *func_021C6F00(u32 a, u16 b, u32 c)
+FieldTask *func_021C6F00(FieldMap *fieldMap, u16 frames, fx32 targetDistance)
 {
-    Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x14, func_021C6F30);
-    W_021C6F00 *w = (W_021C6F00 *)func_021C6CCC((u8 *)q);
-    w->f4 = 0;
-    w->f0 = a;
-    w->f6 = 0;
-    w->f8 = b;
-    w->f10 = c;
-    return q;
+    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 0x14, func_021C6F30);
+    CameraDistanceTween *tween = (CameraDistanceTween *)func_021C6CCC(task);
+    tween->state = 0;
+    tween->fieldMap = fieldMap;
+    tween->frame = 0;
+    tween->frames = frames;
+    tween->targetDistance = targetDistance;
+    return task;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021C6F30(Work_021C6E94 *w)
+int func_021C6F30(CameraDistanceTween *tween)
 {
-    void *o;
-    u32 save;
+    FieldCamera *camera;
+    u32 savedBits;
     f32 t;
-    f32 a;
-    f32 b;
-    f32 v;
-
-    o = func_02188C58(w->f0);
-    switch (w->f4) {
+    f32 start;
+    f32 target;
+    f32 distance;
+    camera = func_02188C58(tween->fieldMap);
+    switch (tween->state) {
     case 0:
-        w->fC = func_0218ED54(o);
-        w->f4++;
+        tween->startDistance = func_0218ED54(camera);
+        tween->state++;
         break;
     case 1:
-        w->f6++;
-        save = func_0218E138(o);
-        func_0218E13C(o, 0);
-        t = (f32)w->f6 / (f32)w->f8;
-        a = FX_FX32_TO_F32(w->fC);
-        b = FX_FX32_TO_F32(w->f10);
-        v = (1.0f - t) * a + t * b;
-        func_0218ED58(o, FX_F32_TO_FX32(v));
-        func_0218E13C(o, save);
-        if (w->f8 <= w->f6)
+        tween->frame++;
+        savedBits = func_0218E138(camera);
+        func_0218E13C(camera, 0);
+        t = (f32)tween->frame / (f32)tween->frames;
+        start = FX_FX32_TO_F32(tween->startDistance);
+        target = FX_FX32_TO_F32(tween->targetDistance);
+        distance = (1.0f - t) * start + t * target;
+        func_0218ED58(camera, FX_F32_TO_FX32(distance));
+        func_0218E13C(camera, savedBits);
+        if (tween->frames <= tween->frame)
             return 1;
         break;
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Q *func_021C701C(u32 a, u16 b, u32 c)
+FieldTask *func_021C701C(FieldMap *fieldMap, u16 frames, u32 targetAngle)
 {
-    Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x1c, func_021C71A4);
-    FieldFlashWork *w = (FieldFlashWork *)func_021C6CCC((u8 *)q);
-    w->f0 = a;
-    w->f4 = (u32)func_02188C58((void *)a);
-    w->fC = 0;
-    w->f8 = 0;
-    w->fE = 0;
-    w->f10 = b;
-    w->f18 = c;
-    return q;
+    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 0x1c, func_021C71A4);
+    CameraAngleTween *tween = (CameraAngleTween *)func_021C6CCC(task);
+    tween->fieldMap = fieldMap;
+    tween->camera = func_02188C58(fieldMap);
+    tween->state = 0;
+    tween->axis = CAMERA_ANGLE_AXIS_YAW;
+    tween->frame = 0;
+    tween->frames = frames;
+    tween->to = targetAngle;
+    return task;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Q *func_021C7058(u32 a, u16 b, u32 c)
+FieldTask *func_021C7058(FieldMap *fieldMap, u16 frames, u32 targetAngle)
 {
-    Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x1c, func_021C71A4);
-    FieldFlashWork *w = (FieldFlashWork *)func_021C6CCC((u8 *)q);
-    w->f0 = a;
-    w->f4 = (u32)func_02188C58((void *)a);
-    w->fC = 0;
-    w->f8 = 1;
-    w->fE = 0;
-    w->f10 = b;
-    w->f18 = c;
-    return q;
+    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 0x1c, func_021C71A4);
+    CameraAngleTween *tween = (CameraAngleTween *)func_021C6CCC(task);
+    tween->fieldMap = fieldMap;
+    tween->camera = func_02188C58(fieldMap);
+    tween->state = 0;
+    tween->axis = CAMERA_ANGLE_AXIS_PITCH;
+    tween->frame = 0;
+    tween->frames = frames;
+    tween->to = targetAngle;
+    return task;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021C7094(u32 *p)
+/* Reads the current angle and moves the target by a full turn when the short way round crosses the wrap. */
+void func_021C7094(CameraAngleTween *tween)
 {
-    u32 m = p[2];
-    u32 a = p[1];
-    u32 b = p[6];
-    u32 d;
-
-    if (m == 0 || m != 1)
-        a = func_0218ED40((u8 *)a);
+    u32 axis = tween->axis;
+    u32 from = (u32)tween->camera;
+    u32 to = tween->to;
+    u32 diff;
+    if (axis == 0 || axis != 1)
+        from = func_0218ED40((FieldCamera *)from);
     else
-        a = func_0218ED2C((u8 *)a);
-    if (a < b) {
-        d = b - a;
-        if (d > 0x8000)
-            a += 0x10000;
-    } else if (b < a) {
-        d = a - b;
-        if (d > 0x8000)
-            b += 0x10000;
+        from = func_0218ED2C((FieldCamera *)from);
+    if (from < to) {
+        diff = to - from;
+        if (diff > 0x8000)
+            from += 0x10000;
+    } else if (to < from) {
+        diff = from - to;
+        if (diff > 0x8000)
+            to += 0x10000;
     }
-    p[5] = a;
-    p[6] = b;
+    tween->from = from;
+    tween->to = to;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021C70DC(Work_021C70DC *w)
+void func_021C70DC(CameraAngleTween *tween)
 {
-    u16 max;
-    void *o;
+    u16 frames;
+    FieldCamera *camera;
     f32 t;
     f32 s;
-    u16 v;
-    u32 save;
-
-    max = w->max;
-    o = w->obj;
-    w->cnt++;
-    if (w->cnt > max)
+    u16 angle;
+    u32 savedBits;
+    frames = tween->frames;
+    camera = tween->camera;
+    tween->frame++;
+    if (tween->frame > frames)
         return;
-    t = (f32)w->cnt / (f32)max;
+    t = (f32)tween->frame / (f32)frames;
     s = (3.0f + -2.0f * t) * (t * t);
-    v = (u16)((1.0f - s) * (f32)w->from + s * (f32)w->to);
-    save = func_0218E138(o);
-    func_0218E13C(o, 0);
-    switch (w->mode) {
-    case 0:
-        func_0218ED48(o, v);
+    angle = (u16)((1.0f - s) * (f32)tween->from + s * (f32)tween->to);
+    savedBits = func_0218E138(camera);
+    func_0218E13C(camera, 0);
+    switch (tween->axis) {
+    case CAMERA_ANGLE_AXIS_YAW:
+        func_0218ED48(camera, angle);
         break;
-    case 1:
-        func_0218ED34(o, v);
+    case CAMERA_ANGLE_AXIS_PITCH:
+        func_0218ED34(camera, angle);
         break;
     }
-    func_0218E13C(o, save);
+    func_0218E13C(camera, savedBits);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-int func_021C71A4(FieldFlashWork *w)
+int func_021C71A4(CameraAngleTween *tween)
 {
-    switch (w->fC) {
+    switch (tween->state) {
     case 0:
-        func_021C7094((u32 *)w);
-        w->fC++;
+        func_021C7094(tween);
+        tween->state++;
         break;
     case 1:
-        func_021C70DC((Work_021C70DC *)w);
-        if (w->f10 <= w->fE)
+        func_021C70DC(tween);
+        if (tween->frames <= tween->frame)
             return 1;
         break;
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-void *func_021C71D4(u32 a, u32 b, u32 c)
+/* Spin the player: linear rate of turn. */
+FieldTask *func_021C71D4(FieldMap *fieldMap, u32 frames, u32 spins)
 {
-    u32 heap = func_02188C84((u8 *)a);
-    void *x = func_02188CB4((void *)a);
-    void *r = func_021C6C70(heap, 0x10, (void *)func_021C7418);
-    u8 *e = (u8 *)func_021C6CCC(r);
-    void *t;
-
-    ((struct Obj05086 *)e)->f0 = a;
-    t = func_021A3074((void *)x);
-    ((struct Obj05086 *)e)->f4 = t;
-    ((struct Obj05086 *)e)->f8 = 0;
-    ((struct Obj05086 *)e)->fA = b;
-    e[12] = c;
-    ((struct Obj05086 *)e)->fE = func_0216D5F8(t);
-    return r;
+    u32 heapId = func_02188C84(fieldMap);
+    FieldPlayer *player = func_02188CB4(fieldMap);
+    FieldTask *task = func_021C6C70(heapId, 0x10, func_021C7418);
+    MmdlSpinTask *spin = (MmdlSpinTask *)func_021C6CCC(task);
+    Mmdl *mmdl;
+    spin->fieldMap = fieldMap;
+    mmdl = func_021A3074(player);
+    spin->mmdl = mmdl;
+    spin->frame = 0;
+    spin->frames = frames;
+    spin->spins = spins;
+    spin->endDirection = func_0216D5F8(mmdl);
+    return task;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-void *func_021C7220(u32 a, u16 b, int c, u32 d)
+/* Spin the given model: linear rate of turn. */
+FieldTask *func_021C7220(FieldMap *fieldMap, u16 frames, int spins, Mmdl *mmdl)
 {
-    void *o;
-    u8 *p;
-
-    o = func_021C6C70(func_02188C84((u8 *)a), 0x10, (void *)func_021C7418);
-    p = (u8 *)func_021C6CCC(o);
-    ((struct Obj05087 *)p)->f0 = a;
-    ((struct Obj05087 *)p)->f4 = d;
-    ((struct Obj05087 *)p)->f8 = 0;
-    ((struct Obj05087 *)p)->fA = b;
-    p[0xc] = c;
-    ((struct Obj05087 *)p)->fE = func_0216D5F8((void *)d);
-    return o;
+    FieldTask *task;
+    MmdlSpinTask *spin;
+    task = func_021C6C70(func_02188C84(fieldMap), 0x10, func_021C7418);
+    spin = (MmdlSpinTask *)func_021C6CCC(task);
+    spin->fieldMap = fieldMap;
+    spin->mmdl = mmdl;
+    spin->frame = 0;
+    spin->frames = frames;
+    spin->spins = spins;
+    spin->endDirection = func_0216D5F8(mmdl);
+    return task;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-void *func_021C7260(u32 a, u16 b, int c)
+/* Spin the player: rate of turn grows (ease in). */
+FieldTask *func_021C7260(FieldMap *fieldMap, u16 frames, int spins)
 {
-    void *o;
-    u8 *p;
-    u32 h;
-    void *q;
-    void *t;
-
-    h = func_02188C84((u8 *)a);
-    q = func_02188CB4((void *)a);
-    o = func_021C6C70(h, 0x10, (void *)func_021C748C);
-    p = (u8 *)func_021C6CCC(o);
-    ((struct Obj05088 *)p)->f0 = a;
-    t = func_021A3074((void *)q);
-    ((struct Obj05088 *)p)->f4 = t;
-    ((struct Obj05088 *)p)->f8 = 0;
-    ((struct Obj05088 *)p)->fA = b;
-    p[0xc] = c;
-    ((struct Obj05088 *)p)->fE = func_0216D5F8(t);
-    return o;
+    FieldTask *task;
+    MmdlSpinTask *spin;
+    u32 heapId;
+    FieldPlayer *player;
+    Mmdl *mmdl;
+    heapId = func_02188C84(fieldMap);
+    player = func_02188CB4(fieldMap);
+    task = func_021C6C70(heapId, 0x10, func_021C748C);
+    spin = (MmdlSpinTask *)func_021C6CCC(task);
+    spin->fieldMap = fieldMap;
+    mmdl = func_021A3074(player);
+    spin->mmdl = mmdl;
+    spin->frame = 0;
+    spin->frames = frames;
+    spin->spins = spins;
+    spin->endDirection = func_0216D5F8(mmdl);
+    return task;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void *func_021C72AC(u32 a, u16 b, int c, int d)
+/* Spin the player: rate of turn drops (ease out); ends facing endDirection. */
+FieldTask *func_021C72AC(FieldMap *fieldMap, u16 frames, int spins, int endDirection)
 {
-    void *o;
-    u8 *p;
-    u32 h;
-    void *q;
-
-    h = func_02188C84((u8 *)a);
-    q = func_02188CB4((void *)a);
-    o = func_021C6C70(h, 0x10, (void *)func_021C7500);
-    p = (u8 *)func_021C6CCC(o);
-    ((struct Obj05089 *)p)->f0 = a;
-    ((struct Obj05089 *)p)->f4 = func_021A3074((void *)q);
-    ((struct Obj05089 *)p)->f8 = 0;
-    ((struct Obj05089 *)p)->fA = b;
-    p[0xc] = c;
-    ((struct Obj05089 *)p)->fE = d;
-    return o;
+    FieldTask *task;
+    MmdlSpinTask *spin;
+    u32 heapId;
+    FieldPlayer *player;
+    heapId = func_02188C84(fieldMap);
+    player = func_02188CB4(fieldMap);
+    task = func_021C6C70(heapId, 0x10, func_021C7500);
+    spin = (MmdlSpinTask *)func_021C6CCC(task);
+    spin->fieldMap = fieldMap;
+    spin->mmdl = func_021A3074(player);
+    spin->frame = 0;
+    spin->frames = frames;
+    spin->spins = spins;
+    spin->endDirection = endDirection;
+    return task;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Picks one of four halfwords from a table by (int)(4*c/b*a) % 4, in soft float.
  * The last multiply keeps its operand order only through a named float local;
  * inline it and the compiler swaps to a * f.
  */
-u16 func_021C72F8(float a, float b, float c)
+u16 func_021C72F8(float frame, float frames, float spins)
 {
-    T4 t = d_021DAAC0;
-    float f = 4.0f * c / b;
-    int n = (int)(f * a);
-
-    return t.v[n % 4];
+    SpinAcmdTable table = d_021DAAC0;
+    float turnsPerFrame = 4.0f * spins / frames;
+    int index = (int)(turnsPerFrame * frame);
+    return table.acmd[index % 4];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-u16 func_021C734C(float a, float b, float c)
+u16 func_021C734C(float frame, float frames, float spins)
 {
-    T4 t = d_021DAAB8;
-    float f = 4.0f * c / (b * b);
-    float g = f * a;
-    int n = (int)(a * g);
-
-    return t.v[n % 4];
+    SpinAcmdTable table = d_021DAAB8;
+    float turnsPerFrame = 4.0f * spins / (frames * frames);
+    float turns = turnsPerFrame * frame;
+    int index = (int)(frame * turns);
+    return table.acmd[index % 4];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-u16 func_021C73B4(float a, float b, float c)
+u16 func_021C73B4(float frame, float frames, float spins)
 {
-    T4 t = d_021DAAC8;
-    float x = 4.0f * c;
-    float f = x * x / b;
-    int n = (int)(float)func_0209C5E0((double)(f * a));
-
-    return t.v[n % 4];
+    SpinAcmdTable table = d_021DAAC8;
+    float fullTurns = 4.0f * spins;
+    float rate = fullTurns * fullTurns / frames;
+    int index = (int)(float)func_0209C5E0((double)(rate * frame));
+    return table.acmd[index % 4];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-int func_021C7418(Ctl *o)
+int func_021C7418(MmdlSpinTask *task)
 {
-    u32 s;
-    int k;
-
-    s = o->w4;
-    func_0216D410(s,func_021C72F8((float)(u32)o->h8, (float)(u32)o->ha, (float)(u32)o->bc));
-    o->h8 = o->h8 + 1;
-    if (o->ha < o->h8) {
-        switch (o->he) {
+    Mmdl *mmdl;
+    int acmd;
+    mmdl = task->mmdl;
+    func_0216D410(mmdl, func_021C72F8((float)(u32)task->frame, (float)(u32)task->frames, (float)(u32)task->spins));
+    task->frame = task->frame + 1;
+    if (task->frames < task->frame) {
+        switch (task->endDirection) {
         default:
-        case 0: k = 0; break;
-        case 1: k = 1; break;
-        case 2: k = 2; break;
-        case 3: k = 3; break;
+        case 0: acmd = 0; break;
+        case 1: acmd = 1; break;
+        case 2: acmd = 2; break;
+        case 3: acmd = 3; break;
         }
-        func_0216D410(s, k);
+        func_0216D410(mmdl, acmd);
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-int func_021C748C(Ctl *o)
+int func_021C748C(MmdlSpinTask *task)
 {
-    u32 s;
-    int k;
-
-    s = o->w4;
-    func_0216D410(s, func_021C734C((float)(u32)o->h8, (float)(u32)o->ha, (float)(u32)o->bc));
-    o->h8 = o->h8 + 1;
-    if (o->ha < o->h8) {
-        switch (o->he) {
+    Mmdl *mmdl;
+    int acmd;
+    mmdl = task->mmdl;
+    func_0216D410(mmdl, func_021C734C((float)(u32)task->frame, (float)(u32)task->frames, (float)(u32)task->spins));
+    task->frame = task->frame + 1;
+    if (task->frames < task->frame) {
+        switch (task->endDirection) {
         default:
-        case 0: k = 0; break;
-        case 1: k = 1; break;
-        case 2: k = 2; break;
-        case 3: k = 3; break;
+        case 0: acmd = 0; break;
+        case 1: acmd = 1; break;
+        case 2: acmd = 2; break;
+        case 3: acmd = 3; break;
         }
-        func_0216D410(s, k);
+        func_0216D410(mmdl, acmd);
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-#undef FX_F32_TO_FX32
-
-
-#undef FX_F32_TO_FX32
-
-#undef FX_F32_TO_FX32
-
-
-
-
-#define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021C7500(Ctl *o){
-    u32 s;
-
-    s = o->w4;
-    func_0216D410((u32)((void *)s), func_021C73B4((float)(u32)o->h8, (float)(u32)o->ha, (float)(u32)o->bc));
-    o->h8 = o->h8 + 1;
-    if (o->ha < o->h8) {
-        func_0216D5E0(s, o->he);
+int func_021C7500(MmdlSpinTask *task)
+{
+    Mmdl *mmdl;
+    mmdl = task->mmdl;
+    func_0216D410(mmdl, func_021C73B4((float)(u32)task->frame, (float)(u32)task->frames, (float)(u32)task->spins));
+    task->frame = task->frame + 1;
+    if (task->frames < task->frame) {
+        func_0216D5E0(mmdl, task->endDirection);
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-static inline void set3(FieldFlashWork *d, u32 x, u32 y, u32 z)
+/* The inline setter evaluates its arguments right to left, which puts y in r1 and z in r2
+ * (three plain field copies swap them; a struct assignment is ldm/stm). */
+static inline void setVec(VecFx32 *dst, int x, int y, int z)
 {
-    d->f0 = x;
-    d->f4 = y;
-    d->f8 = z;
+    dst->x = x;
+    dst->y = y;
+    dst->z = z;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-Q *func_021C754C(u32 a, u32 b, FieldFlashWork *v)
+/* Tween the player position to a point. */
+FieldTask *func_021C754C(FieldMap *fieldMap, u32 frames, VecFx32 *to)
 {
-    Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x28, func_021C7584);
-    X *x = (X *)func_021C6CCC((u8 *)q);
-    x->f0 = 0;
-    x->f4 = a;
-    x->f8 = 0;
-    x->fC = b;
-    set3(&x->f1C, v->f0, v->f4, v->f8);
-    return q;
+    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 0x28, func_021C7584);
+    PosTween *tween = (PosTween *)func_021C6CCC(task);
+    tween->state = 0;
+    tween->fieldMap = fieldMap;
+    tween->frame = 0;
+    tween->frames = frames;
+    setVec(&tween->to, to->x, to->y, to->z);
+    return task;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021C7584(Work_021C6E5C *w)
+int func_021C7584(PosTween *tween)
 {
-    void *o;
-    void *m;
+    FieldPlayer *player;
+    Mmdl *mmdl;
     fx32 t;
-    VecFx32_021C6E5C a;
-    VecFx32_021C6E5C b;
-    VecFx32_021C6E5C c;
-
-    o = func_02188CB4(w->id);
-    m = func_021A3074(o);
-    switch (w->state) {
+    VecFx32 fromPart;
+    VecFx32 toPart;
+    VecFx32 pos;
+    player = func_02188CB4(tween->fieldMap);
+    mmdl = func_021A3074(player);
+    switch (tween->state) {
     case 0:
-        func_021A3038(o, (struct VecFx32_021C6E5C *)(&w->from));
-        w->state++;
+        func_021A3038(player, &tween->from);
+        tween->state++;
         break;
     case 1:
-        w->cnt++;
-        t = FX_F32_TO_FX32((f32)w->cnt / (f32)w->max);
-        func_020520A4((const struct Vec3 *)(&w->from), FX32_ONE - t, (struct Vec3 *)(&a));
-        func_020520A4((const struct Vec3 *)(&w->to), t, (struct Vec3 *)(&b));
-        func_0207C9D0((const VecFx32_021C6E5C *)&a, (const VecFx32_021C6E5C *)&b, (VecFx32_021C6E5C *)&c);
-        func_021A3044(o, &c);
-        func_02164010((int)m);
-        if (w->max <= w->cnt)
+        tween->frame++;
+        t = FX_F32_TO_FX32((f32)tween->frame / (f32)tween->frames);
+        func_020520A4(&tween->from, FX32_ONE - t, &fromPart);
+        func_020520A4(&tween->to, t, &toPart);
+        func_0207C9D0(&fromPart, &toPart, &pos);
+        func_021A3044(player, &pos);
+        func_02164010(mmdl);
+        if (tween->frames <= tween->frame)
             return 1;
         break;
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-void *func_021C7684(u32 a, u32 b, int c, int d)
+/* Player drop: the draw offset falls from `height` to the ground. */
+FieldTask *func_021C7684(FieldMap *fieldMap, Mmdl *mmdl, int frames, int height)
 {
-    void *o;
-    Fx *p;
-
-    o = func_021C6C70(func_02188C84((u8 *)a), 0x14, (void *)func_021C7730);
-    p = (Fx *)func_021C6CCC(o);
-    p->st = 0;
-    p->w4 = a;
-    p->h8 = 0;
-    p->ha = c;
-    p->fc = (float)d;
-    p->w10 = b;
-    return o;
+    FieldTask *task;
+    PlayerDropTask *drop;
+    task = func_021C6C70(func_02188C84(fieldMap), 0x14, func_021C7730);
+    drop = (PlayerDropTask *)func_021C6CCC(task);
+    drop->state = 0;
+    drop->fieldMap = fieldMap;
+    drop->frame = 0;
+    drop->frames = frames;
+    drop->height = (float)height;
+    drop->mmdl = mmdl;
+    return task;
 }
 
-
-
-
-
-
-
-
-
-
-
 #undef FX_F32_TO_FX32
-
-
-
-
-
-
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-
-
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-#undef FX_F32_TO_FX32
-
-
-#undef FX_F32_TO_FX32
-
-#undef FX_F32_TO_FX32
-
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? \
                                   ((x) * (1 << 12) + 0.5f) : \
                                   ((x) * (1 << 12) - 0.5f)))
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021C76C4(Vec_021C7500 *out, float a, float b, float c)
+/* Draw offset y of a falling model: height * (1 - (frame / frames)^2). */
+void func_021C76C4(VecFx32 *out, float frame, float frames, float height)
 {
-    float y = c / (b * b);
-    float z = y * a;
-    float v = c - a * z;
-
+    float rate = height / (frames * frames);
+    float drop = rate * frame;
+    float offsetY = height - frame * drop;
     out->x = 0;
-    out->y = FX_F32_TO_FX32(v);
+    out->y = FX_F32_TO_FX32(offsetY);
     out->z = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-int func_021C7730(Fx *o)
+int func_021C7730(PlayerDropTask *task)
 {
-    Vec_021C7730 v;
-    u32 s;
-
-    func_02188CB4((struct Obj00020 *)o->w4);
-    s = o->w10;
-    switch (o->st) {
+    VecFx32 offset;
+    Mmdl *mmdl;
+    func_02188CB4(task->fieldMap);
+    mmdl = task->mmdl;
+    switch (task->state) {
     case 0:
-        func_021C76C4((Vec_021C7500 *)(&v), (float)(u32)o->h8, (float)(u32)o->ha, o->fc);
-        func_0216D8C0(s, &v);
+        func_021C76C4(&offset, (float)(u32)task->frame, (float)(u32)task->frames, task->height);
+        func_0216D8C0(mmdl, &offset);
         func_020061E4(0x681);
-        o->st = o->st + 1;
+        task->state = task->state + 1;
         break;
     case 1:
-        o->h8 = o->h8 + 1;
-        func_021C76C4((Vec_021C7500 *)(&v), (float)(u32)o->h8, (float)(u32)o->ha, o->fc);
-        func_0216D8C0(s, &v);
-        if (o->ha <= o->h8) {
-            func_021AC528(s, func_02188CD0((u8 *)o->w4));
+        task->frame = task->frame + 1;
+        func_021C76C4(&offset, (float)(u32)task->frame, (float)(u32)task->frames, task->height);
+        func_0216D8C0(mmdl, &offset);
+        if (task->frames <= task->frame) {
+            func_021AC528(mmdl, func_02188CD0(task->fieldMap));
             func_020061E4(0x682);
             return 1;
         }
@@ -1576,411 +1102,236 @@ int func_021C7730(Fx *o)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-Q *func_021C77D8(u32 a, u16 b)
+FieldTask *func_021C77D8(FieldMap *fieldMap, u16 frames)
 {
-    Q *q = func_021C6C70(func_02188C84((u8 *)a), 4, func_021C77FC);
-    X_021C77D8 *x = (X_021C77D8 *)func_021C6CCC((u8 *)q);
-    x->f0 = 0;
-    x->f2 = b;
-    return q;
+    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 4, func_021C77FC);
+    WaitTask *wait = (WaitTask *)func_021C6CCC(task);
+    wait->frame = 0;
+    wait->frames = frames;
+    return task;
 }
 
-
-
-
-
-
-
-
-
-
-
-int func_021C77FC(X_021C77D8 *x)
+int func_021C77FC(WaitTask *task)
 {
-    x->f0++;
-    if (x->f2 <= x->f0)
+    task->frame++;
+    if (task->frames <= task->frame)
         return 1;
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-Q *func_021C7814(u32 a, u32 b, u32 c, u32 d, u32 e)
+FieldTask *func_021C7814(FieldMap *fieldMap, u32 fadeMode, u32 startBrightness, u32 endBrightness, u32 wait)
 {
-    Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x14, func_021C7844);
-    X_021C7814 *x = (X_021C7814 *)func_021C6CCC((u8 *)q);
-    x->f0 = a;
-    x->f4 = b;
-    x->f8 = c;
-    x->fC = d;
-    x->f10 = e;
-    return q;
+    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 0x14, func_021C7844);
+    FadeTask *fade = (FadeTask *)func_021C6CCC(task);
+    fade->fieldMap = fieldMap;
+    fade->fadeMode = fadeMode;
+    fade->startBrightness = startBrightness;
+    fade->endBrightness = endBrightness;
+    fade->wait = wait;
+    return task;
 }
 
-
-
-
-
-
-
-
-
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_021C7844(u32 a, u32 b, u32 c)
+int func_021C7844(FadeTask *task)
 {
-func_0204E720(((struct Obj07232 *)((u8 *)(a)))->f4, ((struct Obj07232 *)((u8 *)(a)))->f8, ((struct Obj07232 *)((u8 *)(a)))->fC, ((struct Obj07232 *)((u8 *)(a)))->f10);
-return 1;
+    func_0204E720(task->fadeMode, task->startBrightness, task->endBrightness, task->wait);
+    return 1;
 }
 
-
-
-
-
-
-
-
-
-int func_021C7858(u32 a, u32 b, u32 c)
+FieldTask *func_021C7858(FieldMap *fieldMap, int frames, const VecFx32 *offset)
 {
-return func_021C7878(a, b, (const Vec *)c, (int)(func_021A3074(func_02188CB4((struct Obj00020 *)a))));
+    return func_021C7878(fieldMap, frames, offset, func_021A3074(func_02188CB4(fieldMap)));
 }
-
-
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-#undef FX_F32_TO_FX32
-
-
-#undef FX_F32_TO_FX32
 
 #undef FX_F32_TO_FX32
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
 
-
-
-
-
-
-
-
-
-/* The Vec copy is a VEC_Set-style inline setter: its arguments are
- * evaluated right to left, which is what puts y in r1 and z in r2
- * (three plain field copies swap them; a struct assignment is ldm/stm). */
-static inline void vset(Vec *d, int x, int y, int z)
+/* Draw offset of a model slides from zero to `offset` (negative frames: from `offset` back to zero). */
+FieldTask *func_021C7878(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl)
 {
-    d->x = x;
-    d->y = y;
-    d->z = z;
-}
-
-
-
-
-
-
-
-
-
-int func_021C7878(int a, int b, const Vec *c, int d)
-{
-    Obj_021C6E5C *o;
-    int h;
-
-    h = (int)func_021C6C70(func_02188C84((u8 *)a), 0x2c, func_021C7A20);
-    o = (Obj_021C6E5C *)func_021C6CCC((u8 *)h);
-    o->f0 = 0;
-    o->f4 = a;
-    o->f28 = d;
-    func_0216D88C((const struct Actor *)d, (struct VecFx32_021C7878 *)o->f1C);
-    if (b >= 0) {
-        o->f8 = 0;
-        o->fC = 0;
-        o->fE = b;
+    MmdlOffsetTween *tween;
+    FieldTask *task;
+    task = func_021C6C70(func_02188C84(fieldMap), 0x2c, func_021C7A20);
+    tween = (MmdlOffsetTween *)func_021C6CCC(task);
+    tween->state = 0;
+    tween->fieldMap = fieldMap;
+    tween->mmdl = mmdl;
+    func_0216D88C(mmdl, &tween->startPos);
+    if (frames >= 0) {
+        tween->reverse = 0;
+        tween->frame = 0;
+        tween->frames = frames;
     } else {
-        o->f8 = 1;
-        o->fC = 0;
-        o->fE = -b;
+        tween->reverse = 1;
+        tween->frame = 0;
+        tween->frames = -frames;
     }
-    vset(&o->f10, c->x, c->y, c->z);
-    return h;
+    setVec(&tween->offset, offset->x, offset->y, offset->z);
+    return task;
 }
 
-
-
-
-
-
-
-
-
-int func_021C78DC(int a, int b, const Vec *c, int d)
+/* Position of a model slides by `offset` from its start position. */
+FieldTask *func_021C78DC(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl)
 {
-    Obj_021C6E5C *o;
-    int h;
-
-    h = (int)func_021C6C70(func_02188C84((u8 *)a), 0x2c, func_021C7A7C);
-    o = (Obj_021C6E5C *)func_021C6CCC((u8 *)h);
-    o->f0 = 0;
-    o->f4 = a;
-    o->f28 = d;
-    func_0216D88C((const struct Actor *)d, (struct VecFx32_021C7878 *)o->f1C);
-    if (b >= 0) {
-        o->f8 = 0;
-        o->fC = 0;
-        o->fE = b;
+    MmdlOffsetTween *tween;
+    FieldTask *task;
+    task = func_021C6C70(func_02188C84(fieldMap), 0x2c, func_021C7A7C);
+    tween = (MmdlOffsetTween *)func_021C6CCC(task);
+    tween->state = 0;
+    tween->fieldMap = fieldMap;
+    tween->mmdl = mmdl;
+    func_0216D88C(mmdl, &tween->startPos);
+    if (frames >= 0) {
+        tween->reverse = 0;
+        tween->frame = 0;
+        tween->frames = frames;
     } else {
-        o->f8 = 1;
-        o->fC = 0;
-        o->fE = -b;
+        tween->reverse = 1;
+        tween->frame = 0;
+        tween->frames = -frames;
     }
-    vset(&o->f10, c->x, c->y, c->z);
-    return h;
+    setVec(&tween->offset, offset->x, offset->y, offset->z);
+    return task;
 }
 
-
-
-
-
-
-
-
-void func_021C7940(Vec *out, u16 cnt, Vec *v, u16 max){
+/* out = offset * (frame / frames) in fixed point. */
+void func_021C7940(VecFx32 *out, u16 frame, VecFx32 *offset, u16 frames)
+{
     fx32 t;
-
-    t = FX_F32_TO_FX32((f32)cnt / (f32)max);
-    out->x = (fx32)(((long long)v->x * t + 0x800) >> 12);
-    out->y = (fx32)(((long long)v->y * t + 0x800) >> 12);
-    out->z = (fx32)(((long long)v->z * t + 0x800) >> 12);
+    t = FX_F32_TO_FX32((f32)frame / (f32)frames);
+    out->x = (fx32)(((long long)offset->x * t + 0x800) >> 12);
+    out->y = (fx32)(((long long)offset->y * t + 0x800) >> 12);
+    out->z = (fx32)(((long long)offset->z * t + 0x800) >> 12);
 }
 
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-
-#undef FX_F32_TO_FX32
-
-
-
-#undef FX_F32_TO_FX32
-
-
-#undef FX_F32_TO_FX32
-
-#undef FX_F32_TO_FX32
-#define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
-
-
-
-
-
-
-
-
-int func_021C7A20(Obj_021C7A20 *p)
+int func_021C7A20(MmdlOffsetTween *tween)
 {
-    int h = p->f28;
-    Vec v;
-
-    if (p->f0 == 0) {
-        p->fC = p->fC + 1;
-        if (p->f8 == 0) {
-            func_021C7940(&v, p->fC, &p->f10, p->fE);
-        } else if (p->f8 == 1) {
-            func_021C7940(&v, p->fE - p->fC, &p->f10, p->fE);
+    Mmdl *mmdl = tween->mmdl;
+    VecFx32 offset;
+    if (tween->state == 0) {
+        tween->frame = tween->frame + 1;
+        if (tween->reverse == 0) {
+            func_021C7940(&offset, tween->frame, &tween->offset, tween->frames);
+        } else if (tween->reverse == 1) {
+            func_021C7940(&offset, tween->frames - tween->frame, &tween->offset, tween->frames);
         }
-        func_0216D8C0(h, (Vec_021C7730 *)&v);
-        if (p->fE <= p->fC) {
+        func_0216D8C0(mmdl, &offset);
+        if (tween->frames <= tween->frame) {
             return 1;
         }
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-int func_021C7A7C(Obj_021C7A20 *p)
+int func_021C7A7C(MmdlOffsetTween *tween)
 {
-    int h = p->f28;
-    Vec v;
-
-    if (p->f0 == 0) {
-        p->fC = p->fC + 1;
-        if (p->f8 == 0) {
-            func_021C7940(&v, p->fC, &p->f10, p->fE);
-        } else if (p->f8 == 1) {
-            func_021C7940(&v, p->fE - p->fC, &p->f10, p->fE);
+    Mmdl *mmdl = tween->mmdl;
+    VecFx32 offset;
+    if (tween->state == 0) {
+        tween->frame = tween->frame + 1;
+        if (tween->reverse == 0) {
+            func_021C7940(&offset, tween->frame, &tween->offset, tween->frames);
+        } else if (tween->reverse == 1) {
+            func_021C7940(&offset, tween->frames - tween->frame, &tween->offset, tween->frames);
         }
-        func_0207C9D0((const VecFx32_021C6E5C *)&v, (const VecFx32_021C6E5C *)(&p->f1C), (VecFx32_021C6E5C *)&v);
-        func_0216D89C(h, &v);
-        if (p->fE <= p->fC) {
+        func_0207C9D0(&offset, &tween->startPos, &offset);
+        func_0216D89C(mmdl, &offset);
+        if (tween->frames <= tween->frame) {
             return 1;
         }
     }
     return 0;
 }
-
-
-
-
-
-
 
 /*
- * The source vector is `const FieldFlashWork *`: the const lets the scheduler hoist each
- * load above the preceding store (ldr x; str fC; ldr y; str x; ...).  The
- * sibling func_021C754C takes a plain `FieldFlashWork *` and keeps loads after the fC store.
+ * The source vector is const: the const lets the scheduler hoist each
+ * load above the preceding store (ldr x; str frames; ldr y; str x; ...).  The
+ * sibling func_021C754C takes a plain pointer and keeps loads after the frames store.
  */
-Q *func_021C7AE4(u32 a, u32 b, const FieldFlashWork *v)
+FieldTask *func_021C7AE4(FieldMap *fieldMap, u32 frames, const VecFx32 *to)
 {
-    Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x28, func_021C7B1C);
-    X *x = (X *)func_021C6CCC((u8 *)q);
-    x->f0 = 0;
-    x->f4 = a;
-    x->f8 = 0;
-    x->fC = b;
-    set3(&x->f1C, v->f0, v->f4, v->f8);
-    return q;
+    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 0x28, func_021C7B1C);
+    PosTween *tween = (PosTween *)func_021C6CCC(task);
+    tween->state = 0;
+    tween->fieldMap = fieldMap;
+    tween->frame = 0;
+    tween->frames = frames;
+    setVec(&tween->to, to->x, to->y, to->z);
+    return task;
 }
 
-
-
-
-
-
-
-
-int func_021C7B1C(Work_021C7A20 *w)
+/* Tween the camera target offset between two points. */
+int func_021C7B1C(PosTween *tween)
 {
-    void *o;
+    FieldCamera *camera;
     fx32 t;
-    VecFx32 a;
-    VecFx32 b;
-    VecFx32 c;
-
-    o = func_02188C58(w->id);
-    switch (w->state) {
+    VecFx32 fromPart;
+    VecFx32 toPart;
+    VecFx32 pos;
+    camera = func_02188C58(tween->fieldMap);
+    switch (tween->state) {
     case 0:
-        func_0218ECC4(o, &w->from);
-        w->state++;
+        func_0218ECC4(camera, &tween->from);
+        tween->state++;
         break;
     case 1:
-        w->cnt++;
-        t = FX_F32_TO_FX32((f32)w->cnt / (f32)w->max);
-        func_020520A4((const struct Vec3 *)(&w->from), FX32_ONE - t, (struct Vec3 *)(&a));
-        func_020520A4((const struct Vec3 *)(&w->to), t, (struct Vec3 *)(&b));
-        func_0207C9D0((const VecFx32_021C6E5C *)((Vec *)(&a)), (const VecFx32_021C6E5C *)((Vec *)(&b)), (VecFx32_021C6E5C *)((Vec *)(&c)));
-        func_0218ECD4(o, &c);
-        if (w->max <= w->cnt)
+        tween->frame++;
+        t = FX_F32_TO_FX32((f32)tween->frame / (f32)tween->frames);
+        func_020520A4(&tween->from, FX32_ONE - t, &fromPart);
+        func_020520A4(&tween->to, t, &toPart);
+        func_0207C9D0(&fromPart, &toPart, &pos);
+        func_0218ECD4(camera, &pos);
+        if (tween->frames <= tween->frame)
             return 1;
         break;
     }
     return 0;
 }
 
-
-
-
-
-int func_021C7C10(int a, int b, const Vec *c, const Vec *d)
+/* Move the camera along a line from `start` to `end`. */
+FieldTask *func_021C7C10(FieldMap *fieldMap, int frames, const VecFx32 *start, const VecFx32 *end)
 {
-    int w;
-    int h;
-    Obj_021C7C74 *o;
-
-    w = func_02188C84((u8 *)a);
-    func_02188C58((void *)a);
-    h = (int)func_021C6C70(w, 0x34, func_021C7C74);
-    o = (Obj_021C7C74 *)func_021C6CCC((u8 *)h);
-    o->f0 = 0;
-    o->f4 = a;
-    o->f8 = 0;
-    o->fA = b;
-    o->fC = *c;
-    o->f18 = *d;
-    func_0207CA00(&o->f18, &o->fC, &o->f24);
-    return h;
+    int heapId;
+    FieldTask *task;
+    CameraLerpTask *lerp;
+    heapId = func_02188C84(fieldMap);
+    func_02188C58(fieldMap);
+    task = func_021C6C70(heapId, 0x34, func_021C7C74);
+    lerp = (CameraLerpTask *)func_021C6CCC(task);
+    lerp->state = 0;
+    lerp->fieldMap = fieldMap;
+    lerp->frame = 0;
+    lerp->frames = frames;
+    lerp->start = *start;
+    lerp->end = *end;
+    func_0207CA00(&lerp->end, &lerp->start, &lerp->delta);
+    return task;
 }
 
-
-
-
-
-int func_021C7C74(Obj_021C7C74 *p)
+int func_021C7C74(CameraLerpTask *task)
 {
-    int h;
-    int n;
-    float t;
-    Vec v;
-
-    h = (int)func_02188C58((void *)p->f4);
-    switch (p->f0) {
+    FieldCamera *camera;
+    int t;
+    float progress;
+    VecFx32 pos;
+    camera = func_02188C58(task->fieldMap);
+    switch (task->state) {
     case 0:
-        p->f30 = func_0218E138((u8 *)h);
-        func_0218E13C((u8 *)h, 0);
-        p->f0 = p->f0 + 1;
+        task->savedFlag = func_0218E138(camera);
+        func_0218E13C(camera, 0);
+        task->state = task->state + 1;
         break;
     case 1:
-        p->f8 = p->f8 + 1;
-        t = (float)(u32)p->f8 / (float)(u32)p->fA;
-        if (t > 0.0f) {
-            n = (int)(4096.0f * t + 0.5f);
+        task->frame = task->frame + 1;
+        progress = (float)(u32)task->frame / (float)(u32)task->frames;
+        if (progress > 0.0f) {
+            t = (int)(4096.0f * progress + 0.5f);
         } else {
-            n = (int)(4096.0f * t - 0.5f);
+            t = (int)(4096.0f * progress - 0.5f);
         }
-        func_0207CEE4(n, &p->f24, &p->fC, &v);
-        func_0218EC90(h, &v);
-        if (p->fA <= p->f8) {
-            func_0218E13C((u8 *)h, p->f30);
+        func_0207CEE4(t, &task->delta, &task->start, &pos);
+        func_0218EC90(camera, &pos);
+        if (task->frames <= task->frame) {
+            func_0218E13C(camera, task->savedFlag);
             return 1;
         }
         break;
@@ -1988,715 +1339,565 @@ int func_021C7C74(Obj_021C7C74 *p)
     return 0;
 }
 
-
-
-
-
-int func_021C7D28(int a, int b, u16 c, u16 d)
+/* Run the player effect every `interval` frames for `frames` frames. */
+FieldTask *func_021C7D28(FieldMap *fieldMap, int unused, u16 frames, u16 interval)
 {
-    int w;
-    void *s;
-    int h;
-    Obj_021C7D28 *o;
-
-    w = func_02188C84((u8 *)a);
-    s = func_02188CB4((void *)a);
-    h = (int)func_021C6C70(w, 0x14, func_021C7D78);
-    o = (Obj_021C7D28 *)func_021C6CCC((u8 *)h);
-    o->f0 = a;
-    o->f4 = func_02188CD0((u8 *)a);
-    o->f8 = func_021A3074((void *)s);
-    o->fC = 0;
-    o->fE = 0;
-    o->f10 = c;
-    o->f12 = d;
-    return h;
+    int heapId;
+    FieldPlayer *player;
+    FieldTask *task;
+    RepeatEffectTask *effect;
+    heapId = func_02188C84(fieldMap);
+    player = func_02188CB4(fieldMap);
+    task = func_021C6C70(heapId, 0x14, func_021C7D78);
+    effect = (RepeatEffectTask *)func_021C6CCC(task);
+    effect->fieldMap = fieldMap;
+    effect->effectCtrl = func_02188CD0(fieldMap);
+    effect->mmdl = func_021A3074(player);
+    effect->state = 0;
+    effect->frame = 0;
+    effect->frames = frames;
+    effect->interval = interval;
+    return task;
 }
 
-
-
-
-int func_021C7D78(FieldFlashWork *w)
+int func_021C7D78(RepeatEffectTask *task)
 {
-    if (w->fC == 0) {
-        if (w->fE % w->f12 == 0)
-            func_021ADD7C(w->f8, w->f4);
-        if (w->f10 <= w->fE++)
+    if (task->state == 0) {
+        if (task->frame % task->interval == 0)
+            func_021ADD7C(task->mmdl, task->effectCtrl);
+        if (task->frames <= task->frame++)
             return 1;
     }
     return 0;
 }
 
-
-
-
-M *func_021C7DAC(u32 heap)
+FieldFlash *func_021C7DAC(u32 heapId)
 {
-    M *m = func_02030734(heap, 0x20, 1, d_021DE4FC, 0x7a);
-    m->f0 = (unsigned int)func_021C8018(heap);
-    m->f1C = 0;
-    m->f1E = 4;
-    func_021C7E58((u32)m->sub);
-    return m;
+    FieldFlash *flash = func_02030734(heapId, sizeof(FieldFlash), 1, d_021DE4FC, 0x7a);
+    flash->model = func_021C8018(heapId);
+    flash->state = FLASH_STATE_OFF;
+    flash->pendingCommand = FLASH_CMD_NONE;
+    func_021C7E58(&flash->tween);
+    return flash;
 }
 
-
-
-
-void func_021C7DE0(M *m)
+void func_021C7DE0(FieldFlash *flash)
 {
-    if (m != 0) {
-        func_021C7E64((u32)m->sub);
-        func_021C8054((void *)m->f0);
-        func_020307B0(m);
+    if (flash != 0) {
+        func_021C7E64(&flash->tween);
+        func_021C8054(flash->model);
+        func_020307B0(flash);
     }
 }
 
-
-
-
-extern void (*d_021DAAD0[])(M *m);
-
-
-
-
-void func_021C7DFC(M *m)
+/* Runs a pending command, then steps the tween while it expands. */
+void func_021C7DFC(FieldFlash *flash)
 {
-    if (m != 0) {
-        if (m->f1E != 4) {
-            d_021DAAD0[m->f1E](m);
-            m->f1E = 4;
+    if (flash != 0) {
+        if (flash->pendingCommand != FLASH_CMD_NONE) {
+            d_021DAAD0[flash->pendingCommand](flash);
+            flash->pendingCommand = FLASH_CMD_NONE;
         }
-        if (m->f1C == 2 && func_021C7E90((Obj_021C7E90 *)m->sub))
-            m->f1C = 3;
+        if (flash->state == FLASH_STATE_EXPANDING && func_021C7E90(&flash->tween))
+            flash->state = FLASH_STATE_EXPANDED;
     }
 }
 
-
-
-
-void func_021C7E30(M *m)
+/* Applies the tween size and alpha to the mask model. */
+void func_021C7E30(FieldFlash *flash)
 {
-    u32 a;
-    if (m != 0) {
-        a = func_021C7EEC(m->sub);
-        func_021C8078((Obj_021C8078 *)m->f0, a, func_021C7EF4(m->sub));
+    u32 size;
+    if (flash != 0) {
+        size = func_021C7EEC(&flash->tween);
+        func_021C8078(flash->model, size, func_021C7EF4(&flash->tween));
     }
 }
 
-
-
-
-
-/*
- * Field setter at +0x1e.
- *
- * Addresses are Black-image addresses.
- */
-void func_021C7E50(u8 *p, u16 v)
+void func_021C7E50(FieldFlash *flash, u16 command)
 {
-    ((struct Obj18324 *)p)->f1E = v;
+    flash->pendingCommand = command;
 }
-
-
-
-
 
 /*
  * Unlabelled leaf accessor (prints as .word in the listing): returns the u16 at +0x1C (func_021C7E50 sets +0x1E).
  * Sole blocker of ov010 func_0215ECBC's MATCH.
  */
-u16 func_021C7E54(FieldFlashWork *p)
+u16 func_021C7E54(FieldFlash *flash)
 {
-    return p->f1c;
+    return flash->state;
 }
 
-
-
-
-
-/*
- * Tail-call thunk: pins arguments 2 and 3 to 0 and 24.
- *
- * Addresses are Black-image addresses.
- */
-void func_021C7E58(u32 a)
+/* Tail-call thunk: pins arguments 2 and 3 to 0 and 24. */
+void func_021C7E58(FlashTween *tween)
 {
-    func_02082BCC((void *)a, 0, 24);
+    func_02082BCC(tween, 0, 24);
 }
 
-
-
-
-
-void func_021C7E64(u32 a)
+void func_021C7E64(FlashTween *tween)
 {
-    func_02082BCC((void *)a, 0, 24);
+    func_02082BCC(tween, 0, 24);
 }
 
-
-
-
-
-int func_021C7E70(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1)
+/* Starts a tween of size sizeStart..sizeEnd and alpha alphaStart..alphaEnd over `frames`. */
+FlashTween *func_021C7E70(FlashTween *tween, fx32 sizeStart, fx32 sizeEnd, u32 alphaStart, u8 alphaEnd, u32 frames)
 {
-((struct Obj03529 *)((u8 *)(a)))->f0 = b;
-((struct Obj03529 *)((u8 *)(a)))->fC = b;
-((struct Obj03529 *)((u8 *)(a)))->f10 = (c - b);
-((struct Obj03529 *)((u8 *)(a)))->f4 = d;
-((struct Obj03529 *)((u8 *)(a)))->f14 = d;
-((struct Obj03529 *)((u8 *)(a)))->f16 = (*(u8 *)((u8 *)((u8 *)&e0)) - d);
-((struct Obj03529 *)((u8 *)(a)))->f6 = 0;
-((struct Obj03529 *)((u8 *)(a)))->f8 = e1;
-return a;
+    tween->size = sizeStart;
+    tween->sizeStart = sizeStart;
+    tween->sizeDelta = (sizeEnd - sizeStart);
+    tween->alpha = alphaStart;
+    tween->alphaStart = alphaStart;
+    tween->alphaDelta = (alphaEnd - alphaStart);
+    tween->frame = 0;
+    tween->frames = frames;
+    return tween;
 }
 
-
-
-
-
-int func_021C7E90(Obj_021C7E90 *p)
+/* Returns 1 once the tween has run its frames. */
+int func_021C7E90(FlashTween *tween)
 {
-    if (p->f6 < p->f8) {
-        p->f6 = p->f6 + 1;
-        p->f0 = p->fC + func_0207C768((int)(((long long)p->f10 * (p->f6 << 12) + 0x800) >> 12), p->f8 << 12);
-        p->f4 = p->f14 + p->f16 * p->f6 / p->f8;
+    if (tween->frame < tween->frames) {
+        tween->frame = tween->frame + 1;
+        tween->size = tween->sizeStart + func_0207C768((int)(((long long)tween->sizeDelta * (tween->frame << 12) + 0x800) >> 12), tween->frames << 12);
+        tween->alpha = tween->alphaStart + tween->alphaDelta * tween->frame / tween->frames;
         return 0;
     }
     return 1;
 }
 
-
-
-
-
-u32 func_021C7EEC(u8 *p)
+u32 func_021C7EEC(FlashTween *tween)
 {
-    return ((struct Obj18326 *)p)->f0;
+    return tween->size;
 }
 
-
-
-
-
-/*
- * Field setter at +0x0.
- *
- * Addresses are Black-image addresses.
- */
-void func_021C7EF0(u8 *p, u32 v)
+void func_021C7EF0(FlashTween *tween, fx32 size)
 {
-    ((struct Obj18327 *)p)->f0 = v;
+    tween->size = size;
 }
 
-
-
-
-
-/*
- * Loads the byte at +0x4 of the object.
- */
-u8 func_021C7EF4(u8 *p)
+u8 func_021C7EF4(FlashTween *tween)
 {
-    return ((struct Obj18328 *)p)->f4;
+    return tween->alpha;
 }
 
-
-
-
-
-u8 *func_021C7EF8(u8 *p, u8 v)
+FlashTween *func_021C7EF8(FlashTween *tween, u8 alpha)
 {
-    ((struct Obj18329 *)p)->f4 = v;
-    return p;
+    tween->alpha = alpha;
+    return tween;
 }
 
-
-
-
-
-int func_021C7EFC(u32 a, u32 b, u32 c, u32 d)
+/* Command 0: small lit area (size 3.0, full alpha). */
+void func_021C7EFC(FieldFlash *flash)
 {
-((struct Obj18330 *)((u8 *)(a)))->f1C = 1;
-func_021C7EF0((u8 *)(a + 4), (3 << 12));
-return (int)func_021C7EF8((u8 *)(a + 4), 31);
+    flash->state = FLASH_STATE_READY;
+    func_021C7EF0(&flash->tween, (3 << 12));
+    func_021C7EF8(&flash->tween, 31);
 }
 
-
-
-
-void func_021C7F18(M *m)
+/* Command 1: grow the lit area to size 10.6 in 15 frames (flash was just used). */
+void func_021C7F18(FieldFlash *flash)
 {
-    m->f1C = 2;
-    func_021C7E70((u32)m->sub, 0x3000, 0xaa00, 0x1f, 0x1f, 0xf);
+    flash->state = FLASH_STATE_EXPANDING;
+    func_021C7E70(&flash->tween, 0x3000, 0xaa00, 0x1f, 0x1f, 0xf);
     func_020061E4(0x767);
 }
 
-
-
-
-void func_021C7F44(M *m)
+/* Command 2: show the expanded lit area at once (flash was already active). */
+void func_021C7F44(FieldFlash *flash)
 {
-    m->f1C = 3;
-    func_021C7EF0(m->sub, 0xaa00);
-    func_021C7EF8(m->sub, 0x1f);
+    flash->state = FLASH_STATE_EXPANDED;
+    func_021C7EF0(&flash->tween, 0xaa00);
+    func_021C7EF8(&flash->tween, 0x1f);
 }
 
-
-
-
-
-void func_021C7F5C(M *m)
+/* Command 3: hide the mask. */
+void func_021C7F60(FieldFlash *flash)
 {
-    m->f1C = 0;
-    func_021C7EF0(m->sub, 0);
+    flash->state = FLASH_STATE_OFF;
+    func_021C7EF0(&flash->tween, 0);
 }
 
-
-
-
-M **func_021C7F70(u32 flags, u32 heap)
+FieldSkillMapEff *func_021C7F70(u32 flags, u32 heapId)
 {
-    M **pp = func_02030734(heap, 4, 1, d_021DE50C, 0x49);
-    func_021C7FC0((M_021C7FC0 * *)pp, flags, heap);
-    return pp;
+    FieldSkillMapEff *mapEff = func_02030734(heapId, sizeof(FieldSkillMapEff), 1, d_021DE50C, 0x49);
+    func_021C7FC0(mapEff, flags, heapId);
+    return mapEff;
 }
 
-
-
-
-
-/*
- * Pattern-generated from the ov021 family.
- *
- * Addresses are Black-image addresses.
- */
-void func_021C7F9C(u8 *p)
+void func_021C7F9C(FieldSkillMapEff *mapEff)
 {
-    func_021C7FF0(p);
-    func_020307B0(p);
+    func_021C7FF0(mapEff);
+    func_020307B0(mapEff);
 }
 
-
-
-
-
-/*
- * Tail-call thunk: forwards to func_021C8000 with no argument change.
- *
- * Addresses are Black-image addresses.
- */
-void func_021C7FAC(u32 a)
+/* Tail-call thunk: forwards to func_021C8000 with no argument change. */
+void func_021C7FAC(FieldSkillMapEff *mapEff)
 {
-    func_021C8000((u8 *)a);
+    func_021C8000(mapEff);
 }
 
-
-
-/*
- * Tail-call thunk: forwards to func_021C800C with no argument change.
- *
- * Addresses are Black-image addresses.
- */
-void func_021C7FB4(u32 a)
+/* Tail-call thunk: forwards to func_021C800C with no argument change. */
+void func_021C7FB4(FieldSkillMapEff *mapEff)
 {
-    func_021C800C((u8 *)a);
+    func_021C800C(mapEff);
 }
-
-
 
 /*
  * Unlabelled leaf accessor (prints as .word in the listing): returns the first word of its argument.
  * Sole blocker of ov010 func_0215ECBC's MATCH.
  */
-void *func_021C7FBC(void **p)
+FieldFlash *func_021C7FBC(FieldSkillMapEff *mapEff)
 {
-    return *p;
+    return mapEff->flash;
 }
 
-
-void func_021C7FC0(M_021C7FC0 **pp, u32 flags, u32 heap)
+/* Creates the flash when the map effect mask has bit 0 or 1; bit 1 starts it already expanded. */
+void func_021C7FC0(FieldSkillMapEff *mapEff, u32 flags, u32 heapId)
 {
     if (flags & 3) {
-        *pp = (M_021C7FC0 *)func_021C7DAC(heap);
+        mapEff->flash = func_021C7DAC(heapId);
         if (flags & 2)
-            func_021C7E50((u8 *)(*pp), 2);
+            func_021C7E50(mapEff->flash, FLASH_CMD_SHOW_EXPANDED);
         else
-            func_021C7E50((u8 *)(*pp), 0);
+            func_021C7E50(mapEff->flash, FLASH_CMD_INIT);
     } else {
-        *pp = 0;
+        mapEff->flash = 0;
     }
 }
 
-
-
-/*
- * TwlDWC libdwcgsgp gpipeer.o: frees the buffer the message owns and clears
- * the message's pointer (gsifree is func_021C7DE0 here).
- */
-void func_021C7FF0(void *msg)
+void func_021C7FF0(FieldSkillMapEff *mapEff)
 {
-    func_021C7DE0((M *)(*(void **)msg));
-    *(u32 *)msg = 0;
+    func_021C7DE0(mapEff->flash);
+    mapEff->flash = 0;
 }
 
-
-
-/*
- * Tail-call thunk: forwards the object's first word to func_021C7DFC.
- *
- * Addresses are Black-image addresses.
- */
-void func_021C8000(u8 *p)
+/* Tail-call thunk: forwards the flash to func_021C7DFC. */
+void func_021C8000(FieldSkillMapEff *mapEff)
 {
-    func_021C7DFC((M *)(((struct Obj18331 *)p)->f0));
+    func_021C7DFC(mapEff->flash);
 }
 
-
-
-/*
- * Tail-call thunk: forwards the object's first word to func_021C7E30.
- *
- * Addresses are Black-image addresses.
- */
-void func_021C800C(u8 *p)
+/* Tail-call thunk: forwards the flash to func_021C7E30. */
+void func_021C800C(FieldSkillMapEff *mapEff)
 {
-    func_021C7E30((M *)(((struct Obj18332 *)p)->f0));
+    func_021C7E30(mapEff->flash);
 }
 
-
-void *func_021C8018(u32 heap){
-    N *n = func_02030734(heap, 8, 1, d_021DE520, 0x24);
-    n->f0 = (u32)func_02046DB8(0x4a, 0);
-    n->f4 = (u32)func_0204767C((u32)func_02047400((void *)n->f0, 0, 0), 0, 0);
-    return n;
+FldWipe3dObj *func_021C8018(u32 heapId)
+{
+    FldWipe3dObj *obj = func_02030734(heapId, sizeof(FldWipe3dObj), 1, d_021DE520, 0x24);
+    obj->resArc = func_02046DB8(0x4a, 0);
+    obj->object = func_0204767C(func_02047400(obj->resArc, 0, 0), 0, 0);
+    return obj;
 }
 
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_021C8054(void *a)
+int func_021C8054(FldWipe3dObj *obj)
 {
-func_02047504((struct Rec *)func_02047788((int *)(((struct Obj09214 *)((u8 *)(a)))->f4)));
-func_02047738((struct Rec *)(((struct Obj09214 *)((u8 *)(a)))->f4));
-func_02046EFC((struct Tagged *)(((struct Obj09214 *)((u8 *)(a)))->f0));
-return func_020307B0(a);
+    func_02047504(func_02047788(obj->object));
+    func_02047738(obj->object);
+    func_02046EFC(obj->resArc);
+    return func_020307B0(obj);
 }
 
-
-
-void func_021C8078(Obj_021C8078 *p, int b, int c)
+/* Draws the mask model as a camera-facing billboard of the given size and alpha. */
+void func_021C8078(FldWipe3dObj *obj, int size, int alpha)
 {
-    SRT srt;
-    Cam cam;
-    V_021C7FB4 v;
-    int y;
-    void *q;
-
-    if (b == 0) {
+    G3dObjectStatus status;
+    G3dLookAt lookAt;
+    VecFx32 viewDir;
+    int viewY;
+    void *mdl;
+    if (size == 0) {
         return;
     }
-    func_02046AFC((u8 *)(&cam));
-    srt.t = cam.pos;
-    func_0207CA00((Vec *)(&cam.up), (Vec *)(&cam.pos), (Vec *)&v);
-    func_0207CCA4((V_021C7FB4 *)&v, (V_021C7FB4 *)&v);
-    y = v.y;
-    if (y <= 0) {
-        y = -y;
+    func_02046AFC(&lookAt);
+    status.trans = lookAt.camPos;
+    func_0207CA00(&lookAt.target, &lookAt.camPos, &viewDir);
+    func_0207CCA4(&viewDir, &viewDir);
+    viewY = viewDir.y;
+    if (viewY <= 0) {
+        viewY = -viewY;
     }
-    srt.s.x = b;
-    srt.s.y = (int)(((long long)b * y + 0x800) >> 12);
-    srt.s.z = 0x4000;
-    func_02082B60((M43 *)func_0206AAD4(), &srt.r);
-    q = func_0204755C((void *)func_02047788(p->f4))->f4;
-    func_0206E394(q, 0, 0);
-    func_0206E4FC(q, 0, 0);
-    func_0206E484(q, 0, 2);
-    func_0206E574(q, 0, c);
-    func_0206E40C(q, 0, 0);
-    func_02047A60(p->f4, (struct Arg *)(&srt));
+    status.scale.x = size;
+    status.scale.y = (int)(((long long)size * viewY + 0x800) >> 12);
+    status.scale.z = 0x4000;
+    func_02082B60((Mtx43 *)func_0206AAD4(), &status.rotate);
+    mdl = func_0204755C(func_02047788(obj->object))->rndObj;
+    func_0206E394(mdl, 0, 0);
+    func_0206E4FC(mdl, 0, 0);
+    func_0206E484(mdl, 0, 2);
+    func_0206E574(mdl, 0, alpha);
+    func_0206E40C(mdl, 0, 0);
+    func_02047A60(obj->object, &status);
 }
 
-
-
-int func_021C812C(int a, int b)
+/* Script command: start the FLD3D_CI sequence whose id is the next script halfword. */
+int func_021C812C(ScriptVm *vm, ScrCmdWork *work)
 {
-    void *r7;
-    int r4, v;
-    void *r5;
-    void *r6;
-
-    r5 = func_0215A5DC((void *)b);
-    r7 = func_02189A00(func_0201210C(r5));
-    r4 = func_02011330((struct Stream *)a);
-    r6 = func_0215A5F4((void *)b);
-    v = func_021C1CB0((int)r5, r7, (unsigned char)r4);
-    if (v) {
-        func_0215897C(r6, (void *)v);
-    }
-    return 1;
-}
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-int func_021C8170(int a, int b)
-{
-    void *r7;
-    int r5, v;
-    void *r6;
-    void *r4;
-
-    r6 = func_0215A5DC((void *)b);
-    r7 = func_02189A00(func_0201210C(r6));
-    r5 = func_02159B10((void *)a, (void *)b);
-    r4 = func_0215A5F4((void *)b);
-    v = func_021C1D68((int)r6, (int)r7, (unsigned char)r5);
-    if (v) {
-        func_0215897C(r4, (void *)v);
+    Fld3dCi *ci;
+    int ciId;
+    GameSystem *gameSystem;
+    ScriptSystem *scriptSys;
+    GameEvent *event;
+    gameSystem = func_0215A5DC(work);
+    ci = func_02189A00(func_0201210C(gameSystem));
+    ciId = func_02011330(vm);
+    scriptSys = func_0215A5F4(work);
+    event = func_021C1CB0(gameSystem, ci, (unsigned char)ciId);
+    if (event) {
+        func_0215897C(scriptSys, event);
     }
     return 1;
 }
 
-
-
-int func_021C81B4(int a, int b)
+/* Script command: start the FLD3D_CI sequence whose id is read from a script value. */
+int func_021C8170(ScriptVm *vm, ScrCmdWork *work)
 {
-    void *r7;
-    int r5, v;
-    void *r6;
-    void *r4;
-
-    r6 = func_0215A5DC((void *)b);
-    r7 = func_02189A00(func_0201210C(r6));
-    r5 = (int)func_02159B10((void *)a, (void *)b);
-    r4 = func_0215A5F4((void *)b);
-    v = func_021C30B8(r6, r7, r5);
-    if (v) {
-        func_0215897C(r4, (void *)v);
+    Fld3dCi *ci;
+    int ciId;
+    GameSystem *gameSystem;
+    ScriptSystem *scriptSys;
+    GameEvent *event;
+    gameSystem = func_0215A5DC(work);
+    ci = func_02189A00(func_0201210C(gameSystem));
+    ciId = func_02159B10(vm, work);
+    scriptSys = func_0215A5F4(work);
+    event = func_021C1D68(gameSystem, ci, (unsigned char)ciId);
+    if (event) {
+        func_0215897C(scriptSys, event);
     }
     return 1;
 }
 
-
-
-int func_021C81F8(int a, int b)
+/* Script command: run the FLD3D_CI main function with a script value. */
+int func_021C81B4(ScriptVm *vm, ScrCmdWork *work)
 {
-    void *sp4;
-    void *sp0;
-    int v, found, i;
-    void *r5;
-    unsigned short r4;
+    Fld3dCi *ci;
+    int value;
+    GameSystem *gameSystem;
+    ScriptSystem *scriptSys;
+    GameEvent *event;
+    gameSystem = func_0215A5DC(work);
+    ci = func_02189A00(func_0201210C(gameSystem));
+    value = (int)func_02159B10(vm, work);
+    scriptSys = func_0215A5F4(work);
+    event = func_021C30B8(gameSystem, ci, value);
+    if (event) {
+        func_0215897C(scriptSys, event);
+    }
+    return 1;
+}
 
-    sp4 = func_0215A5DC((void *)b);
-    sp0 = func_02189A00(func_0201210C(sp4));
-    v = (int)func_02159B10((void *)a, (void *)b);
+/* Script command: map a script value through the 17-entry key table to a FLD3D_CI id and start it. */
+int func_021C81F8(ScriptVm *vm, ScrCmdWork *work)
+{
+    GameSystem *gameSystem;
+    Fld3dCi *ci;
+    int value;
+    int found;
+    int i;
+    ScriptSystem *scriptSys;
+    unsigned short ciId;
+    GameEvent *event;
+    gameSystem = func_0215A5DC(work);
+    ci = func_02189A00(func_0201210C(gameSystem));
+    value = (int)func_02159B10(vm, work);
     found = 0;
     for (i = 0; i < 17; i++) {
-        if (v == d_021DAAE0[i * 2]) {
+        if (value == d_021DAAE0[i * 2]) {
             found = 1;
-            r4 = d_021DAAE2[i * 2];
+            ciId = d_021DAAE2[i * 2];
             break;
         }
     }
     if (found) {
-        r5 = func_0215A5F4((void *)b);
-        v = func_021C1CB0((int)sp4, sp0, (unsigned char)r4);
-        if (v) {
-            func_0215897C(r5, (void *)v);
+        scriptSys = func_0215A5F4(work);
+        event = func_021C1CB0(gameSystem, ci, (unsigned char)ciId);
+        if (event) {
+            func_0215897C(scriptSys, event);
         }
     }
     return 1;
 }
 
-
-
-int func_021C8268(void *a, int b, int c)
+/* Creates the wipe event: picks the two FLD3D_CI ids by player outfit and remembers the destination zone. */
+GameEvent *func_021C8268(GameSystem *gameSystem, int unused, int zoneId)
 {
-    int r7;
-    int *r4;
-    int v;
-
-    r7 = (int)func_020122C0(a, 0, func_021C82C4, 0x30);
-    r4 = func_020124E8((struct Obj *)r7);
-    func_02082BCC(r4, 0, 0x30);
-    r4[0] = (int)a;
-    r4[2] = c;
-    if (func_02008550((const struct Sub0200852CObj *)func_02012944(func_020120F4((const struct Ctx *)a))) == 0) {
-        r4[10] = 11;
-        v = 12;
+    GameEvent *event;
+    WipeMapChangeWork *work;
+    int cutInIdAfter;
+    event = func_020122C0(gameSystem, 0, func_021C82C4, 0x30);
+    work = func_020124E8(event);
+    func_02082BCC(work, 0, 0x30);
+    work->gameSystem = gameSystem;
+    work->zoneId = zoneId;
+    if (func_02008550(func_02012944(func_020120F4(gameSystem))) == 0) {
+        work->cutInIdBefore = 11;
+        cutInIdAfter = 12;
     } else {
-        r4[10] = 18;
-        v = 19;
+        work->cutInIdBefore = 18;
+        cutInIdAfter = 19;
     }
-    r4[11] = v;
-    func_02014204((struct t *)(r4 + 3), (unsigned short)c);
-    return r7;
+    work->cutInIdAfter = cutInIdAfter;
+    func_02014204(&work->startLocation, (unsigned short)zoneId);
+    return event;
 }
 
-
-
-int func_021C82C4(u32 a, int *st, Ctx *c)
+/* Wipe event: camera swing and FLD3D_CI cut-in, map change, then the reverse cut-in. */
+int func_021C82C4(GameEvent *event, int *seq, WipeMapChangeWork *work)
 {
-    void *sys;
-    u32 h;
-    void *y;
-    u32 x;
-    u32 v;
-    void *o;
-    void *t;
-    Param p1;
-    Param p2;
-    VecFx32 v1;
-    VecFx32 v2;
-    Buf24 buf;
-
-    sys = func_0201210C(c->w0);
-    h = (u32)func_02188C58(sys);
-    y = func_02189A00(sys);
-    x = func_02188C5C(sys);
-    switch (*st) {
+    FieldMap *fieldMap;
+    FieldCamera *camera;
+    Fld3dCi *ci;
+    u32 bg;
+    GameEvent *child;
+    void *msgBg;
+    u32 visiblePlanes;
+    Mmdl *mmdl;
+    CameraAnimParam param1;
+    CameraAnimParam param2;
+    VecFx32 playerPos1;
+    VecFx32 playerPos2;
+    CameraAnimFlags flags;
+    fieldMap = func_0201210C(work->gameSystem);
+    camera = func_02188C58(fieldMap);
+    ci = func_02189A00(fieldMap);
+    bg = func_02188C5C(fieldMap);
+    switch (*seq) {
     case 0:
-        func_0218F1AC((u8 *)h, 0);
-        c->f04 = func_0218EC5C((u8 *)h);
-        func_0218F0A8((u8 *)h);
-        (*st)++;
+        func_0218F1AC(camera, 0);
+        work->savedCameraBits = func_0218EC5C(camera);
+        func_0218F0A8(camera);
+        (*seq)++;
         break;
     case 1:
-        if (c->f04 != 0 && func_0218F0E8((u8 *)h) != 0)
+        if (work->savedCameraBits != 0 && func_0218F0E8(camera) != 0)
             break;
-        func_021BB260(x, 0);
-        func_0218EC54((u8 *)h);
-        func_0218F818((u8 *)h);
-        func_021A3038(func_02188CB4(sys), (struct VecFx32_021C6E5C *)&v1);
-        p1.h24 = 0x25d8;
-        p1.h26 = 0;
-        p1.f28 = 0xed000;
-        p1.f18 = 0;
-        p1.f1c = 0x4000;
-        p1.f20 = 0;
-        p1.pos = v1;
-        p1.h2c = 0xe38;
-        p1.buf.w[0] = 1;
-        p1.buf.w[1] = 1;
-        p1.buf.w[2] = 0;
-        p1.buf.w[3] = 1;
-        p1.buf.w[4] = 1;
-        p1.buf.w[5] = 1;
-        func_0218F900((u8 *)h, &p1, 10);
-        (*st)++;
+        func_021BB260(bg, 0);
+        func_0218EC54(camera);
+        func_0218F818(camera);
+        func_021A3038(func_02188CB4(fieldMap), &playerPos1);
+        param1.pitch = 0x25d8;
+        param1.yaw = 0;
+        param1.distance = 0xed000;
+        param1.targetOffset.x = 0;
+        param1.targetOffset.y = 0x4000;
+        param1.targetOffset.z = 0;
+        param1.targetPos = playerPos1;
+        param1.fovy = 0xe38;
+        param1.flags.apply[0] = 1;
+        param1.flags.apply[1] = 1;
+        param1.flags.apply[2] = 0;
+        param1.flags.apply[3] = 1;
+        param1.flags.apply[4] = 1;
+        param1.flags.apply[5] = 1;
+        func_0218F900(camera, &param1, 10);
+        (*seq)++;
     case 2:
-        if (func_0218FE50((u8 *)h) != 0)
+        if (func_0218FE50(camera) != 0)
             break;
-        func_0216D9A0(func_02188C7C(sys));
-        v = (u32)func_021C1CB0((u32)c->w0, y, (u8)c->f28);
-        if (v != 0)
-            func_02012374((struct Evt *)a, (struct Evt **)v);
-        (*st)++;
+        func_0216D9A0(func_02188C7C(fieldMap));
+        child = func_021C1CB0(work->gameSystem, ci, (u8)work->cutInIdBefore);
+        if (child != 0)
+            func_02012374(event, child);
+        (*seq)++;
         break;
     case 3:
-        func_0216D9E4(func_02188C7C(sys));
-        func_0216DAC8(func_021A3074(func_02188CB4(sys)), 1);
-        func_0218F878((u8 *)h);
-        func_02012374((struct Evt *)a, (struct Evt **)func_021BEA30((u32)c->w0, (u32)sys, 0, 0));
-        (*st)++;
+        func_0216D9E4(func_02188C7C(fieldMap));
+        func_0216DAC8(func_021A3074(func_02188CB4(fieldMap)), 1);
+        func_0218F878(camera);
+        func_02012374(event, func_021BEA30(work->gameSystem, fieldMap, 0, 0));
+        (*seq)++;
         break;
     case 4:
-        func_02012374((struct Evt *)a, (struct Evt **)func_021854CC(c->w0, (u32)sys, c->f08, c->f0c, 1));
-        (*st)++;
+        func_02012374(event, func_021854CC(work->gameSystem, fieldMap, work->zoneId, &work->startLocation, 1));
+        (*seq)++;
         break;
     case 5:
-        func_021BC5BC((u8 *)func_02188D20(sys));
-        c->f04 = func_0218EC5C((u8 *)h);
-        func_0218F0A8((u8 *)h);
-        (*st)++;
+        func_021BC5BC(func_02188D20(fieldMap));
+        work->savedCameraBits = func_0218EC5C(camera);
+        func_0218F0A8(camera);
+        (*seq)++;
         break;
     case 6:
-        if (c->f04 != 0 && func_0218F0E8((u8 *)h) != 0)
+        if (work->savedCameraBits != 0 && func_0218F0E8(camera) != 0)
             break;
-        func_021BB260(x, 0);
-        func_0218EC54((u8 *)h);
-        func_0218F848((u8 *)h);
-        func_0218F1AC((u8 *)h, 0);
-        func_021A3038(func_02188CB4(sys), (struct VecFx32_021C6E5C *)&v2);
-        p2.h24 = 0x25d8;
-        p2.h26 = 0;
-        p2.f28 = 0xed000;
-        p2.f18 = 0;
-        p2.f1c = 0x4000;
-        p2.f20 = 0;
-        p2.pos = v2;
-        p2.h2c = 0xe38;
-        p2.buf.w[0] = 1;
-        p2.buf.w[1] = 1;
-        p2.buf.w[2] = 0;
-        p2.buf.w[3] = 1;
-        p2.buf.w[4] = 1;
-        p2.buf.w[5] = 1;
-        func_0218F900((u8 *)h, &p2, 1);
-        (*st)++;
+        func_021BB260(bg, 0);
+        func_0218EC54(camera);
+        func_0218F848(camera);
+        func_0218F1AC(camera, 0);
+        func_021A3038(func_02188CB4(fieldMap), &playerPos2);
+        param2.pitch = 0x25d8;
+        param2.yaw = 0;
+        param2.distance = 0xed000;
+        param2.targetOffset.x = 0;
+        param2.targetOffset.y = 0x4000;
+        param2.targetOffset.z = 0;
+        param2.targetPos = playerPos2;
+        param2.fovy = 0xe38;
+        param2.flags.apply[0] = 1;
+        param2.flags.apply[1] = 1;
+        param2.flags.apply[2] = 0;
+        param2.flags.apply[3] = 1;
+        param2.flags.apply[4] = 1;
+        param2.flags.apply[5] = 1;
+        func_0218F900(camera, &param2, 1);
+        (*seq)++;
     case 7:
-        if (func_0218FE50((u8 *)h) != 0)
+        if (func_0218FE50(camera) != 0)
             break;
-        func_0216DAC8(func_021A3074(func_02188CB4(sys)), 1);
-        t = (void *)func_02043658();
+        func_0216DAC8(func_021A3074(func_02188CB4(fieldMap)), 1);
+        visiblePlanes = func_02043658();
         func_02188DA0();
-        func_02043534((u32)t);
-        func_02188DB0(sys);
-        (*st)++;
+        func_02043534(visiblePlanes);
+        func_02188DB0(fieldMap);
+        (*seq)++;
         break;
     case 8:
-        func_0216D9A0(func_02188C7C(sys));
-        v = (u32)func_021C1CB0((u32)c->w0, y, (u8)c->f2c);
-        if (v != 0) {
-            func_02012374((struct Evt *)a, (struct Evt **)v);
+        func_0216D9A0(func_02188C7C(fieldMap));
+        child = func_021C1CB0(work->gameSystem, ci, (u8)work->cutInIdAfter);
+        if (child != 0) {
+            func_02012374(event, child);
         } else {
-            o = func_021A3074(func_02188CB4(sys));
-            func_0216DAC8(o, 0);
-            func_0216D5E0((u32)o, (u32)1);
-            func_02012374((struct Evt *)a, (struct Evt **)func_020122C0(c->w0, (void *)a, func_021C85CC, 0));
+            mmdl = func_021A3074(func_02188CB4(fieldMap));
+            func_0216DAC8(mmdl, 0);
+            func_0216D5E0(mmdl, 1);
+            func_02012374(event, func_020122C0(work->gameSystem, event, func_021C85CC, 0));
         }
-        (*st)++;
+        (*seq)++;
         break;
     case 9:
-        func_0216D9E4(func_02188C7C(sys));
-        func_021BC578((void *)func_02188D20(sys), c->f08);
-        buf.w[0] = 1;
-        buf.w[1] = 1;
-        buf.w[2] = 0;
-        buf.w[3] = 1;
-        buf.w[4] = 1;
-        buf.w[5] = 1;
-        func_0218F9C4((u8 *)h, (u8 *)(&buf), 10);
-        (*st)++;
+        func_0216D9E4(func_02188C7C(fieldMap));
+        func_021BC578(func_02188D20(fieldMap), work->zoneId);
+        flags.apply[0] = 1;
+        flags.apply[1] = 1;
+        flags.apply[2] = 0;
+        flags.apply[3] = 1;
+        flags.apply[4] = 1;
+        flags.apply[5] = 1;
+        func_0218F9C4(camera, &flags, 10);
+        (*seq)++;
     case 10:
-        if (func_0218FE50((u8 *)h) != 0)
+        if (func_0218FE50(camera) != 0)
             break;
-        if (c->f04 != 0)
-            func_0218EC30(h, c->f04);
-        func_0218F05C((unsigned char *)h);
-        func_021BB260(x, 1);
-        func_0218F878((u8 *)h);
-        func_0218F1AC((u8 *)h, 1);
+        if (work->savedCameraBits != 0)
+            func_0218EC30(camera, work->savedCameraBits);
+        func_0218F05C(camera);
+        func_021BB260(bg, 1);
+        func_0218F878(camera);
+        func_0218F1AC(camera, 1);
         return 1;
     }
     return 0;
 }
 
-
-int func_021C85CC(void *task, int *state)
+/* Fades the screen out, then ends. */
+int func_021C85CC(GameEvent *event, int *seq)
 {
-    func_0201210C(func_020124E4(task));
-    switch (*state) {
+    func_0201210C(func_020124E4(event));
+    switch (*seq) {
     case 0:
         func_0204E720(3, 0x10, 0, 0);
-        (*state)++;
+        (*seq)++;
         break;
     case 1:
         if (func_0204E804() == 0)
@@ -2706,131 +1907,122 @@ int func_021C85CC(void *task, int *state)
     return 0;
 }
 
-
-
-char *func_021C8608(void)
+PleasureBoatWork *func_021C8608(void)
 {
-    char *p = func_02030734(5, 0x1b8, 1, &d_021DE534, 0x31);
-
-    ((struct Obj03616 *)p)->f0 = 0;
-    ((struct Obj03616 *)p)->f4 = 0;
-    ((struct Obj03616 *)p)->f8 = 0;
-    p[0x1b0] = 0;
-    p[0x1b1] = 0;
-    p[0x1b2] = 0;
-    p[0x1b3] = 0;
-    ((struct Obj03616 *)p)->f1B4 = 0;
-    func_02034AC4((int)d_00000024);
-    func_021F36C0(p);
+    PleasureBoatWork *work = func_02030734(5, sizeof(PleasureBoatWork), 1, &d_021DE534, 0x31);
+    work->eventPending = 0;
+    work->timeTicks = 0;
+    work->periodCount = 0;
+    work->groupCount[0] = 0;
+    work->groupCount[1] = 0;
+    work->groupCount[2] = 0;
+    work->groupCount[3] = 0;
+    work->locked = 0;
+    func_02034AC4((int)d_00000024); /* stand-in: overlay id passed as a raw address constant; a plain 0x24 changes the literal pool */
+    func_021F36C0(work);
     func_02034A5C((int)d_00000024);
-    return p;
+    return work;
 }
 
-
-void func_021C8660(P *p)
+/* Plays the arrival jingle and moves to the next period once the pending flag is set. */
+void func_021C8660(PleasureBoatWork *work)
 {
-    if (p != 0 && p->f1B4 == 0 && p->f0 != 0) {
+    if (work != 0 && work->locked == 0 && work->eventPending != 0) {
         func_020061E4(0x6dd);
-        p->f8++;
-        p->f0 = 0;
+        work->periodCount++;
+        work->eventPending = 0;
     }
 }
 
-
-
-int func_021C868C(int a, char *b)
+/* Advances the boat clock; returns the script event when the boat reaches a milestone. */
+GameEvent *func_021C868C(GameSystem *gameSystem, PleasureBoatWork *work)
 {
-    int r4;
-    int flag;
-    int v;
-
-    if (b == 0) {
+    GameEvent *event;
+    int hasEvent;
+    int milestone;
+    if (work == 0) {
         return 0;
     }
-    if (((struct Obj07575 *)b)->f1B4 != 0) {
+    if (work->locked != 0) {
         return 0;
     }
-    ((struct Obj07575 *)b)->f4 = ((struct Obj07575 *)b)->f4 + 1;
-    v = func_021C87E0(b);
-    switch (v) {
+    work->timeTicks = work->timeTicks + 1;
+    milestone = func_021C87E0(work);
+    switch (milestone) {
     case 1:
-        ((struct Obj07575 *)b)->f0 = 1;
-        flag = 0;
+        work->eventPending = 1;
+        hasEvent = 0;
         break;
     case 2:
-        r4 = (int)func_02158768(a, 1, 0, 0x8015);
-        flag = 1;
+        event = func_02158768(gameSystem, 1, 0, 0x8015);
+        hasEvent = 1;
         break;
     default:
-        flag = 0;
+        hasEvent = 0;
         break;
     }
-    if (flag == 0) {
-        r4 = 0;
+    if (hasEvent == 0) {
+        event = 0;
     }
-    return r4;
+    return event;
 }
-
-
 
 /*
  * The sum is built in two statements (`r = f4 % 1350; r += b * 30;`) so
  * the multiply lands after the _s32_div_f call; one expression, or a
  * separate `t = b * 30` local, hoists it above the call into r4.
- * Addresses are Black-image addresses.
+ * Adds `seconds` of boat time (30 ticks per second, 1350 ticks per period).
+ * At a period end the clock stops one tick short (clamp) or enters the next period.
  */
-void func_021C86E8(S *p, int b, int c)
+void func_021C86E8(PleasureBoatWork *work, int seconds, int clamp)
 {
-    int r;
-
-    r = p->f4 % 1350;
-    r += b * 30;
-    if (r >= 1350) {
-        if (c) {
-            p->f4 = (p->f8 + 1) * 1350 - 1;
+    int ticks;
+    ticks = work->timeTicks % 1350;
+    ticks += seconds * 30;
+    if (ticks >= 1350) {
+        if (clamp) {
+            work->timeTicks = (work->periodCount + 1) * 1350 - 1;
         } else {
-            p->f4 = (p->f8 + 1) * 1350;
-            p->f8++;
+            work->timeTicks = (work->periodCount + 1) * 1350;
+            work->periodCount++;
         }
     } else {
-        p->f4 += b * 30;
+        work->timeTicks += seconds * 30;
     }
 }
 
-
-
-int func_021C8738(char *p, int k)
+/* Reads one boat statistic: kinds 0-3 are the group counters, 4 the visitor count, 5 the used passenger slots. */
+int func_021C8738(PleasureBoatWork *work, int kind)
 {
-    int r;
+    int result;
     int i;
-
-    switch (k) {
+    switch (kind) {
     case 0:
-        r = ((struct Obj06090 *)p)->f1B0;
+        result = work->groupCount[0];
         break;
     case 1:
-        r = ((struct Obj06090 *)p)->f1B1;
+        result = work->groupCount[1];
         break;
     case 2:
-        r = ((struct Obj06090 *)p)->f1B2;
+        result = work->groupCount[2];
         break;
     case 3:
-        r = ((struct Obj06090 *)p)->f1B3;
+        result = work->groupCount[3];
         break;
     case 4:
-        r = ((struct Obj06090 *)p)->f6;
+        result = work->visitorCount;
         break;
     case 5:
-        r = 0;
+        result = 0;
         for (i = 0; i < 15; i++) {
-            if (*(int *)(p + i * 0x1c + 0x24) != 0) {
-                r++;
+            if (work->passengers[i].occupied != 0) {
+                result++;
             }
         }
         break;
     default:
-        r = 0;
+        result = 0;
         break;
     }
-    return r;
+    return result;
 }

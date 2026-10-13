@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * Unblocked (was MATCH on one witness).
- * +0008 ABS32 func_02156BC4          -> resolved as `matched` by
+ * +0008 ABS32 DWC_RAP_SetVchatEnabled          -> resolved as `matched` by
  * src/matched/ov009_func_02156BC4.c after fixing the ISA/region hint: the
  * target is Thumb code in ov009 (ov010 decodes to a pop with no push), declared
- * as `func_02156BC4 0x02156BC4 thumb ov009` below.
+ * as `DWC_RAP_SetVchatEnabled 0x02156BC4 thumb ov009` below.
  *
  * symbols:
- *   func_02156BC4  0x02156BC4  thumb  ov009
+ *   DWC_RAP_SetVchatEnabled  0x02156BC4  thumb  ov009
  */
 
 typedef unsigned char u8;
@@ -26,5 +26,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_02156BC4(int);
-void func_021C0C7C(void) { func_02156BC4(0); }
+extern void DWC_RAP_SetVchatEnabled(int);
+void func_021C0C7C(void) { DWC_RAP_SetVchatEnabled(0); }

@@ -8,18 +8,18 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02014C08 0x02014C08 thumb
- *   func_02014D2C 0x02014D2C thumb
+ *   MCSS_Main 0x02014C08 thumb
+ *   MCSS_Draw 0x02014D2C thumb
  */
 #include "../include/Obj14627.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct McssSys;
-extern void func_02014C08(char *);
-extern void func_02014D2C(struct McssSys *);
+extern void MCSS_Main(char *);
+extern void MCSS_Draw(struct McssSys *);
 void func_021BF610(u8 *p)
 {
-    func_02014C08(*(char * *)&((struct Obj14627 *)p)->f4);
-    func_02014D2C(*(struct McssSys * *)&((struct Obj14627 *)p)->f4);
+    MCSS_Main(*(char * *)&((struct Obj14627 *)p)->f4);
+    MCSS_Draw(*(struct McssSys * *)&((struct Obj14627 *)p)->f4);
 }

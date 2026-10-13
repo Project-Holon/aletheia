@@ -13,6 +13,7 @@
  *
  * symbols:
  *   func_021BA3E0  0x021BA3E0  thumb  ov217
+ *   CLACT_SetActorAnimFrame  0x0204B8C4  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -26,7 +27,7 @@ typedef signed int     s32;
 
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern u32 func_0204B8C4();
+extern u32 CLACT_SetActorAnimFrame();
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 struct Actor;
@@ -38,6 +39,6 @@ u32 func_021BA328(u32 a0)
     func_0204B3DC((struct Obj *)v1, 1);
     func_0204B92C((struct Obj *)v1, 1);
     func_0204B954((struct Actor *)v1, 4096);
-    return func_0204B8C4(v1, 0);
+    return CLACT_SetActorAnimFrame(v1, 0);
 }
 

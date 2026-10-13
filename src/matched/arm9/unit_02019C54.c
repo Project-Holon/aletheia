@@ -11,7 +11,7 @@
  * function: func_02019C54
  *
  * A one-entry memo: the (a, b) key pair at 0x02146270 and the 0x10 byte
- * object built for it at 0x02146274, rebuilt through sub_0201ADA4
+ * object built for it at 0x02146274, rebuilt through POKE_PERSONAL_LoadData
  * (src/matched/unit_0201ADA4.c) only when the key changes.  func_02019C90 in
  * src/matched/unit_02019C7C.c is its only caller.
  *
@@ -33,7 +33,8 @@
  * src/pending/sub_02019C38.c; this range is cut to exclude it.
  *
  * symbols:
- *   g_02146270   0x02146270  data
+ *   gPersonalCache   0x02146270  data
+ *   POKE_PERSONAL_LoadData  0x0201ADA4  thumb
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02019C54.c \
@@ -46,16 +47,16 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern struct Memo g_02146270;
+extern struct Memo gPersonalCache;
 
-extern void sub_0201ADA4(u32 a, int b, void *dest);
+extern void POKE_PERSONAL_LoadData(u32 a, int b, void *dest);
 
 void *func_02019C54(u32 a, u32 b)
 {
-    if (a != g_02146270.a || b != g_02146270.b) {
-        g_02146270.b = (u16)b;
-        g_02146270.a = (u16)a;
-        sub_0201ADA4(a, b, g_02146270.obj);
+    if (a != gPersonalCache.a || b != gPersonalCache.b) {
+        gPersonalCache.b = (u16)b;
+        gPersonalCache.a = (u16)a;
+        POKE_PERSONAL_LoadData(a, b, gPersonalCache.obj);
     }
-    return g_02146270.obj;
+    return gPersonalCache.obj;
 }

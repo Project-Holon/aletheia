@@ -1,5 +1,5 @@
 /*
- * function: func_020588FC
+ * function: writeDisable
  * address:  0x020588FC
  * packet:   pkt_020588FC
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_020588FC(void)
+int writeDisable(void)
 {
     return 1;
 }

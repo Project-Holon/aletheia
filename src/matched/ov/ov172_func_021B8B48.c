@@ -12,8 +12,8 @@
  * arm9 call whose result is the first argument of the second call.
  *
  * symbols:
- *   sub_020399A8  0x020399A8  arm
- *   sub_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Entry;
-extern struct Entry *sub_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 sub_02039CB4(struct Link *a, u32 b, u32 c);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, u32 b, u32 c);
 
 int func_021B8B48(void *p, u32 a, u32 b)
 {
-    return sub_02039CB4((struct Link *)sub_020399A8(), b, 0x20);
+    return GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), b, 0x20);
 }

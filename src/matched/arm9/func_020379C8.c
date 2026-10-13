@@ -1,5 +1,5 @@
 /*
- * function: func_020379C8
+ * function: GFL_NET_SYSTEM_EndDevice
  * address:  0x020379C8
  * packet:   pkt_02037288
  * region:   arm9
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788   0x0203D788  arm
+ *   GFL_NET_GetSession   0x0203D788  arm
  *   func_0203D798   0x0203D798  arm
- *   func_02037858   0x02037858  arm
- *   func_02038924   0x02038924  arm
- *   func_02037288   0x02037288  arm
+ *   GFL_NET_SYSTEM_ChildConnectHook   0x02037858  arm
+ *   GFL_NET_SYSTEM_RecvParentData   0x02038924  arm
+ *   GFL_NET_SYSTEM_InitWork   0x02037288  arm
  *   g_020A7A20      0x020A7A20  data
  *
  * Context teardown through three vtable slots at +0x3c, +0xbc and +0x68 of the
@@ -24,31 +24,31 @@
  * rest runs, and the byte at +1 of the object at 0x020A7A20 is set to 4.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020379C8.c \
- *       --func func_020379C8 --addr 0x020379C8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_EndDevice.c \
+ *       --func GFL_NET_SYSTEM_EndDevice --addr 0x020379C8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 extern char *func_0203D798(void);
-extern void  func_02037858(u32 arg);
-extern void  func_02038924(u32 arg);
-extern int func_02037288(u32 a0, u32 heap, u32 c);
+extern void  GFL_NET_SYSTEM_ChildConnectHook(u32 arg);
+extern void  GFL_NET_SYSTEM_RecvParentData(u32 arg);
+extern int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c);
 extern u8    g_020A7A20[];
 
-int func_020379C8(u32 p)
+int GFL_NET_SYSTEM_EndDevice(u32 p)
 {
     int   r;
-    char *c = func_0203D788();
+    char *c = GFL_NET_GetSession();
 
-    (*(void (**)(u32))(*(char **)(c + 0x340) + 0x3C))((u32)func_02037858);
+    (*(void (**)(u32))(*(char **)(c + 0x340) + 0x3C))((u32)GFL_NET_SYSTEM_ChildConnectHook);
     r = (*(int (**)(void))(*(char **)(c + 0x340) + 0xBC))();
     if (r == 1) {
-        (*(void (**)(u32))(*(char **)(c + 0x340) + 0x68))((u32)func_02038924);
-        func_02037288(p, *(u16 *)(func_0203D798() + 0x56), 0);
+        (*(void (**)(u32))(*(char **)(c + 0x340) + 0x68))((u32)GFL_NET_SYSTEM_RecvParentData);
+        GFL_NET_SYSTEM_InitWork(p, *(u16 *)(func_0203D798() + 0x56), 0);
         g_020A7A20[1] = 4;
     }
     return r;

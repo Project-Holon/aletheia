@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02010DCC",
+   "name": "GPOWER_CountDownTimers",
    "address": "0x02010DCC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02010DF4",
+   "name": "GPOWER_ClearAll",
    "address": "0x02010DF4",
    "kind": "game",
    "region": "arm9",

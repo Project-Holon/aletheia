@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02067F9C    0x02067F9C  arm
+ *   NNS_G2dFontGetGlyphIndex    0x02067F9C  arm
  *   func_02067FE4    0x02067FE4  arm
  *
  * NNS_G2dFontGetStringWidth (NitroSystem g2d_Font.c): width of one line of
  * text, stopping at NUL or '\n'; the spliter callback advances a cursor held
  * in a stack slot.  *pPos gets the cursor after a newline, NULL at end of
- * string, and one trailing hSpace is removed.  func_02067F9C is
+ * string, and one trailing hSpace is removed.  NNS_G2dFontGetGlyphIndex is
  * NNS_G2dFontGetGlyphIndex (0xFFFF = not found -> alterCharIndex),
  * func_02067FE4 NNS_G2dFontGetCharWidthsFromIndex.
  *
@@ -67,12 +67,12 @@ typedef struct NNSG2dFont {
     u16 (*cbCharSpliter)(const void **ppChar);  /* +4, called through blx */
 } NNSG2dFont;
 
-extern u16 func_02067F9C(const NNSG2dFont *pFont, u16 c);
+extern u16 NNS_G2dFontGetGlyphIndex(const NNSG2dFont *pFont, u16 c);
 extern const struct NNSG2dCharWidths *func_02067FE4(const struct NNSG2dFont *pFont, u32 idx);
 
 static inline int GetCharWidth(const NNSG2dFont *pFont, u16 c)
 {
-    u16 index = func_02067F9C(pFont, c);
+    u16 index = NNS_G2dFontGetGlyphIndex(pFont, c);
     if (index == 0xFFFF)
         index = pFont->pRes->alterCharIndex;
     return func_02067FE4(pFont, index)->charWidth;

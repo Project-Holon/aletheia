@@ -1,5 +1,5 @@
 /*
- * function: func_02176194
+ * function: INTRUDE_COMM_SendPendingReplies
  * address:  0x02176194
  * packet:   pkt_ov011_02176194
  * region:   ov011
@@ -12,7 +12,7 @@
  * note:     an unlabelled leaf follows the pool word, at 0x021761C4.
  *
  * symbols:
- *   func_021740AC  0x021740AC  thumb  ov011
+ *   INTRUDE_CMD_SendProposalReply  0x021740AC  thumb  ov011
  */
 
 typedef unsigned char u8;
@@ -22,14 +22,14 @@ typedef struct {
     u8 f197[3];
 } Work;
 
-extern int func_021740AC(int a, int b, int c, ...);
+extern int INTRUDE_CMD_SendProposalReply(int a, int b, int c, ...);
 
-void func_02176194(void *a, Work *w)
+void INTRUDE_COMM_SendPendingReplies(void *a, Work *w)
 {
     int i;
 
     for (i = 0; i < 3; i++) {
-        if (w->f197[i] != 0 && func_021740AC((int)a, w->f197[i], i) == 1) {
+        if (w->f197[i] != 0 && INTRUDE_CMD_SendProposalReply((int)a, w->f197[i], i) == 1) {
             w->f197[i] = 0;
         }
     }

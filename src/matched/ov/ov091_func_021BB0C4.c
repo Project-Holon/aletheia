@@ -24,7 +24,7 @@
  *   written after a call with a literal 0 argument. zero is now a plain int (as in twin 021BA6A0); the enum
  *   selector stays (int selector gives 6 B, the twin uses the same enum).
  * symbols:
- *   func_02045780 0x02045780 arm
+ *   BMP_WIN_SetPosX 0x02045780 arm
  *   func_0204B09C 0x0204B09C arm
  *   func_020410D0 0x020410D0 arm
  *   func_020413B0 0x020413B0 arm
@@ -42,7 +42,7 @@ typedef struct { short x,y; } Pt;
 typedef struct { Pt point; short width,height; } Rect;
 struct Cfg;
 struct Descriptor;
-extern void func_02045780(struct Descriptor *p, u8 v);
+extern void BMP_WIN_SetPosX(struct Descriptor *p, u8 v);
 extern void func_0204B09C(void *,int,void *);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
@@ -59,7 +59,7 @@ void func_021BB0C4(u8 *p,const u8 *s,int d)
     int zero;
     enum Selector {SEL_ZERO,SEL_ONE} selector;
     if (i % 2 == 0) d=-d;
-    func_02045780((void *)W(0x20),d+(x+16));
+    BMP_WIN_SetPosX((void *)W(0x20),d+(x+16));
     pt.x=-(x+d)*8;
     pt.y=-y*8;
     func_0204B09C((void *)W(0x24),0,&pt);

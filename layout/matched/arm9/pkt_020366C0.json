@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020366C0",
+   "name": "GFL_NET_QUEUE_GetCount",
    "address": "0x020366C0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020366FC",
+   "name": "GFL_NET_QUEUE_PopList",
    "address": "0x020366FC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02036738",
+   "name": "GFL_NET_QUEUE_PutByte",
    "address": "0x02036738",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02036B4C",
+   "name": "GFL_NET_QUEUE_Reset",
    "address": "0x02036B4C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02036B88",
+   "name": "GFL_NET_QUEUE_Exit",
    "address": "0x02036B88",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02036BD4",
+   "name": "GFL_NET_WM_ICON_Create",
    "address": "0x02036BD4",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02036EC8",
+   "name": "GFL_NET_WM_ICON_SetScreen",
    "address": "0x02036EC8",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02037010",
+   "name": "GFL_NET_WM_ICON_EasyStart",
    "address": "0x02037010",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02037118",
+   "name": "GFL_NET_WM_ICON_EasySetScreen",
    "address": "0x02037118",
    "kind": "game",
    "region": "arm9",

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   d_021C7D7C 0x021C7D7C data a4
  *   func_021C714C 0x021C714C thumb ov136
  */
@@ -18,11 +18,11 @@ typedef unsigned char u8;
 struct Row { int (*call)(u8 *); int result; int other; };
 extern const struct Row d_021C7D7C[];
 typedef unsigned int   u32;
-extern unsigned int func_02031330(void *p);
+extern unsigned int PROCSYS_Main(void *p);
 extern int func_021C714C(u8 *p, u32 v);
 int func_021C6BF0(u8 *p)
 {
-    if (func_02031330(((struct Obj14194 *)p)->f30) == 1) return 7;
+    if (PROCSYS_Main(((struct Obj14194 *)p)->f30) == 1) return 7;
     ((struct Obj14194 *)p)->f28 = d_021C7D7C[*(int *)(p + 0x14)].call(p);
     return d_021C7D7C[*(int *)(p + 0x14)].result;
 }

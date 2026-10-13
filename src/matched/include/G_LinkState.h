@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_LINKSTATE_H
 #define ALETHEIA_G_LINKSTATE_H
-/* g_021469D0 (arm9) */
+/* _pNetSys (arm9) */
 struct LinkState {
     void *f0;
     unsigned int *f04;

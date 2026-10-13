@@ -1,7 +1,7 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * function: func_020289F8
+ * function: FIELD_SOUND_SYSTEM_PostRequest
  * address:  0x020289F8
  * packet:   pkt_0202878C
  * region:   arm9
@@ -16,7 +16,7 @@
  * queue.  The fifth argument arrives at [sp, #0x10], which is the pushed `lr`
  * plus the twelve bytes of the record.
  *
- * Why it is capped: the single relocation is the call to func_02028E0C, and a
+ * Why it is capped: the single relocation is the call to FIELD_SOUND_SYSTEM_EnqueueRequest, and a
  * scan of the image finds exactly one branch to 0x02028E0C, the one inside
  * this function.  The `label` class therefore has no witness outside the
  * compared range and no cut helps: the range cannot be made smaller than the
@@ -25,17 +25,17 @@
  * pkt_0202878C), or the day a second caller appears.
  *
  * Wave 26: 0x02028E0C is now decompiled and byte-correct in
- * src/pending/func_02028E0C.c, but it is capped in turn, and permanently, by
- * the permission table at 0x0209FD90 that its own callee func_02028E48 reads
- * (src/pending/func_02028E48.c).  That word appears in exactly one literal
- * pool image-wide, inside func_02028E48 itself, so this chain cannot be closed
+ * src/pending/FIELD_SOUND_SYSTEM_EnqueueRequest.c, but it is capped in turn, and permanently, by
+ * the permission table at 0x0209FD90 that its own callee FIELD_SOUND_SYSTEM_IsRequestKindAccepted reads
+ * (src/pending/FIELD_SOUND_SYSTEM_IsRequestKindAccepted.c).  That word appears in exactly one literal
+ * pool image-wide, inside FIELD_SOUND_SYSTEM_IsRequestKindAccepted itself, so this chain cannot be closed
  * from inside field_sound_system.c.  A second caller is the only route left.
  *
  * symbols:
- *   func_02028E0C  0x02028E0C  thumb
+ *   FIELD_SOUND_SYSTEM_EnqueueRequest  0x02028E0C  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020289F8.c  *       --func func_020289F8 --addr 0x020289F8 --thumb
+ *   python tools/match.py one --src src/pending/FIELD_SOUND_SYSTEM_PostRequest.c  *       --func FIELD_SOUND_SYSTEM_PostRequest --addr 0x020289F8 --thumb
  */
 
 typedef unsigned char  u8;
@@ -59,9 +59,9 @@ struct SndCmd {
 };
 
 struct Cmd;
-extern void func_02028E0C(struct Sys *s, struct Cmd *cmd);
+extern void FIELD_SOUND_SYSTEM_EnqueueRequest(struct Sys *s, struct Cmd *cmd);
 
-void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d)
+void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d)
 {
     struct SndCmd cmd;
 
@@ -69,5 +69,5 @@ void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d)
     cmd.unk04 = b;
     cmd.unk08 = c;
     cmd.unk0A = d;
-    func_02028E0C(s, (struct Cmd *)(&cmd));
+    FIELD_SOUND_SYSTEM_EnqueueRequest(s, (struct Cmd *)(&cmd));
 }

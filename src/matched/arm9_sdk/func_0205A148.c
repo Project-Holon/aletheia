@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0205A12C    0x0205A12C  arm
+ *   DWCi_GetAllocateHeader    0x0205A12C  arm
 */
 
 typedef struct {
@@ -18,10 +18,10 @@ typedef struct {
     unsigned long size;
     unsigned char pad[24];
 } _tagDWCiAllocHeader;
-extern void *func_0205A12C(char *p);
+extern void *DWCi_GetAllocateHeader(char *p);
 
 unsigned long func_0205A148(char *ptr)
 {
-    _tagDWCiAllocHeader *header = func_0205A12C(ptr);
+    _tagDWCiAllocHeader *header = DWCi_GetAllocateHeader(ptr);
     return header->size;
 }

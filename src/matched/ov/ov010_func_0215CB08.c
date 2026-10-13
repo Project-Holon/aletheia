@@ -16,12 +16,12 @@
  *
  * MATCH, bytes exact. Blockers: the three overlay ids (ABS32 0xDD, 0xDE,
  * 0xE0) have no witness: `overlay_id` would carry them, but func_0215C63C
- * (which forwards its r2 to func_020120B4's r1) is not in match.py's
+ * (which forwards its r2 to GAMESYSTEM_CallProc's r1) is not in match.py's
  * OVERLAY_ID_CONSUMERS. d_021BA250 (ov222) and d_021B9BF8 (ov224) are
  * contested hints that resolve once the function loads those overlays
  * through an overlay_id site. d_021BA1A4 (ov221) already resolves.
  *
- * 2026-10-05 (wave D9): re-tried overlay tokens on the contested hints; they stay contested because the id sites do not attest. Residue is the three id words (ov221_id, ov222_id, ov224_id) reaching func_0215C63C, which is not in OVERLAY_ID_CONSUMERS; add that consumer (r2 -> func_020120B4 r1) and the hints resolve. Not fixable in C.
+ * 2026-10-05 (wave D9): re-tried overlay tokens on the contested hints; they stay contested because the id sites do not attest. Residue is the three id words (ov221_id, ov222_id, ov224_id) reaching func_0215C63C, which is not in OVERLAY_ID_CONSUMERS; add that consumer (r2 -> GAMESYSTEM_CallProc r1) and the hints resolve. Not fixable in C.
  *
  * symbols:
  *   func_0215A5DC  0x0215A5DC  thumb  ov010

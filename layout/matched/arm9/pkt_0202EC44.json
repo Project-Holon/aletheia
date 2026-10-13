@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202EF60",
+   "name": "TIME_ICON_Alloc",
    "address": "0x0202EF60",
    "kind": "game",
    "region": "arm9",

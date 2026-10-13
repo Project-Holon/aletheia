@@ -21,10 +21,10 @@
  *   d_02FE0000 0x02FE0000 data a4
  *   func_020419E4 0x020419E4 arm
  *   func_0204A648 0x0204A648 arm
- *   func_02021D50 0x02021D50 thumb
+ *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
- *   func_0204335C  0x0204335C  arm
+ *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   func_020433E0  0x020433E0  arm
  *   d_021C0754  0x021C0754  data  a4
  */
@@ -61,11 +61,11 @@ extern u32 func_020056A0(void (*)(void), u8 *, u32);
 extern u32 func_02030EAC(u32 a);
 extern void func_020419E4(void);
 extern void func_0204A648(void);
-extern void func_02021D50(struct S02021D50 *p);
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void func_020434DC(unsigned,unsigned);
 extern void func_02043598(unsigned,unsigned);
 extern void *func_02005624(u32 a, u32 b, u32 c);
-extern void func_0204335C(u32 a);
+extern void BG_SYS_ClearGraphicsMemory(u32 a);
 extern void func_020433E0(const struct DispVram *c);
 u32 func_021BC240(void *man, u32 b, u32 arg);
 u32 func_021BC270(u32 a, u32 b, u32 c, u32 d);
@@ -125,7 +125,7 @@ void func_021BC2B8(void *unused,unsigned char *p)
 {
     func_020419E4();
     func_0204A648();
-    func_02021D50((struct S02021D50 *)(*(struct S_02021D50 * *)&((struct Obj06692 *)p)->fC));
+    PALANM_TransferPalettes((struct S02021D50 *)(*(struct S_02021D50 * *)&((struct Obj06692 *)p)->fC));
     if (p[0x2b8]==1) {
         func_020434DC(10,1);
         func_02043598(2,1);
@@ -193,7 +193,7 @@ void func_021BC33C(void *ctx, unsigned char *p)
 
 void func_021BC3D4(void)
 {
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)d_021C0754);
 }
 

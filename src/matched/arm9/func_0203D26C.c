@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203D26C
+ * function: GFL_NET_IsNetTypeBeacon
  * address:  0x0203D26C
  * packet:   pkt_0203D1B4
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *
  * TU: net.c.
  *
@@ -21,8 +21,8 @@
  * `and r0, r0, #0xff` that the u8 cast forces.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D26C.c \
- *       --func func_0203D26C --addr 0x0203D26C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_IsNetTypeBeacon.c \
+ *       --func GFL_NET_IsNetTypeBeacon --addr 0x0203D26C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -33,11 +33,11 @@ struct NetSys {
     u8 mode;
 };
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 
-u32 func_0203D26C(void)
+u32 GFL_NET_IsNetTypeBeacon(void)
 {
-    struct NetSys *s = func_0203D788();
+    struct NetSys *s = GFL_NET_GetSession();
 
     if (s != 0) {
         if ((u8)(s->mode + 0xfd) <= 1) {

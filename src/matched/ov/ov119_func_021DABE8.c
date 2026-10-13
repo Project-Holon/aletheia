@@ -10,7 +10,7 @@
  * symbols:
  *   func_020399A8 0x020399A8 arm
  *   func_02039CB4 0x02039CB4 arm
- *   func_0203D7B0 0x0203D7B0 arm
+ *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   func_0203D7BC 0x0203D7BC arm
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DABB0 0x021DABB0 thumb ov119
@@ -21,13 +21,13 @@ extern struct Entry *func_020399A8(void);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
 typedef unsigned char  u8;
-extern void func_0203D7B0(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern void func_0203D7BC(u8 a0);
 extern void func_021D8E84(void *p, int v);
 extern void func_021DABB0(char *);
 void func_021DABE8(char *p) {
  if(func_02039CB4((struct Link *)func_020399A8(),22,8)) {
-  func_0203D7B0(1);
+  GFL_NET_SetAutoExit(1);
   func_0203D7BC(1);
   ((struct Obj22731 *)p)->fF2C=0;
   func_021D8E84(p,(int)func_021DABB0);

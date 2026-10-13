@@ -37,7 +37,7 @@
  *     docs/idioms/pointer-minus-one-scales-before-the-subtraction.md.
  *
  * func_0201D60C's parameter count is `u16`, not `u32`: it is passed straight to
- * func_02045AFC with no truncation, and a `u32` parameter costs the `lsls` /
+ * STRBUF_AppendChar with no truncation, and a `u32` parameter costs the `lsls` /
  * `lsrs` pair there.
  *
  * Addresses are Black-image addresses.
@@ -45,6 +45,9 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201D5C4.c \
  *       --addr 0x0201D5C4 --thumb
+ *
+ * symbols:
+ *   STRBUF_AppendChar  0x02045AFC  arm
  */
 
 typedef unsigned char  u8;
@@ -52,7 +55,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct U16Vec;
-extern void func_02045AFC(struct U16Vec *vec, u16 value);
+extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 
 u32 func_0201D5C4(void)
 {
@@ -88,11 +91,11 @@ void func_0201D60C(void *s, u32 b, u32 c, u16 n, const u16 *arr)
 {
     u32 i;
 
-    func_02045AFC(s, 0xF000);
-    func_02045AFC(s, (u16)((u16)(b << 8) | c));
-    func_02045AFC(s, n);
+    STRBUF_AppendChar(s, 0xF000);
+    STRBUF_AppendChar(s, (u16)((u16)(b << 8) | c));
+    STRBUF_AppendChar(s, n);
     for (i = 0; i < n; i = (u8)(i + 1)) {
-        func_02045AFC(s, arr[i]);
+        STRBUF_AppendChar(s, arr[i]);
     }
 }
 

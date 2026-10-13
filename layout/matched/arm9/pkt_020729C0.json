@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020729A4",
+   "name": "SND_CHANNEL_ClearClaimedMask",
    "address": "0x020729A4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02072A08",
+   "name": "NNS_SndWaveOutFreeChannel",
    "address": "0x02072A08",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02072A28",
+   "name": "NNS_SndWaveOutInit",
    "address": "0x02072A28",
    "kind": "game",
    "region": "arm9",

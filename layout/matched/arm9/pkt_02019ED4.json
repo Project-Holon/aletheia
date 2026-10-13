@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02019ED4",
+   "name": "POKE_REGULATION_CheckPartyUsable",
    "address": "0x02019ED4",
    "kind": "game",
    "region": "arm9",

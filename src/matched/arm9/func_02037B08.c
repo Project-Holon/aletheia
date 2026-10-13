@@ -1,5 +1,5 @@
 /*
- * function: func_02037B08
+ * function: GFL_NET_SYSTEM_FreeWork
  * address:  0x02037B08
  * packet:   pkt_02037A6C
  * region:   arm9
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788   0x0203D788  arm
+ *   GFL_NET_GetSession   0x0203D788  arm
  *   func_0203D798   0x0203D798  arm
  *   func_020307B0   0x020307B0  arm
- *   func_02036B88   0x02036B88  arm
- *   g_021469D0      0x021469D0  data
+ *   GFL_NET_QUEUE_Exit   0x02036B88  arm
+ *   _pNetSys      0x021469D0  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02037B08.c \
- *       --func func_02037B08 --addr 0x02037B08 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_FreeWork.c \
+ *       --func GFL_NET_SYSTEM_FreeWork --addr 0x02037B08 --cc 1.1p1 --arm
  */
 
 #include "../include/G_LinkState.h"
@@ -27,35 +27,35 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 extern void *func_0203D798(void);
 extern u32 func_020307B0(void *p);
-extern void  func_02036B88(void *p);
+extern void  GFL_NET_QUEUE_Exit(void *p);
 
-extern struct LinkState *g_021469D0;
+extern struct LinkState *_pNetSys;
 
-void func_02037B08(void)
+void GFL_NET_SYSTEM_FreeWork(void)
 {
-    func_0203D788();
+    GFL_NET_GetSession();
     func_0203D798();
 
-    if (g_021469D0 == 0) {
+    if (_pNetSys == 0) {
         return;
     }
 
-    func_020307B0(g_021469D0->f14);
-    func_020307B0(g_021469D0->f18);
-    func_020307B0(g_021469D0->f10);
+    func_020307B0(_pNetSys->f14);
+    func_020307B0(_pNetSys->f18);
+    func_020307B0(_pNetSys->f10);
 
-    func_02036B88(&g_021469D0->obj_F4);
-    func_02036B88(&g_021469D0->obj_CC);
+    GFL_NET_QUEUE_Exit(&_pNetSys->obj_F4);
+    GFL_NET_QUEUE_Exit(&_pNetSys->obj_CC);
 
-    func_020307B0(g_021469D0->f0);
-    func_020307B0(g_021469D0->f04);
-    func_020307B0(g_021469D0->f08);
-    func_020307B0(g_021469D0->f0C);
+    func_020307B0(_pNetSys->f0);
+    func_020307B0(_pNetSys->f04);
+    func_020307B0(_pNetSys->f08);
+    func_020307B0(_pNetSys->f0C);
 
-    func_020307B0(g_021469D0);
+    func_020307B0(_pNetSys);
 
-    g_021469D0 = 0;
+    _pNetSys = 0;
 }

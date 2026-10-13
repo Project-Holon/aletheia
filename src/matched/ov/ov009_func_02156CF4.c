@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02156CF4, func_02156D5C, func_02156D70
+ * function: DWC_RAP_FlushDeletedFriends, DWC_RAP_GetResult, DWC_RAP_StoreAllowConnect
  * address:  0x02156CF4
  * packet:   pkt_ov009_02156CF4
  * region:   ov009
@@ -26,7 +26,7 @@ extern u8 *g_021A8264;
 extern void *func_0203D798(void);
 extern u32 func_0203D650(void);
 
-void func_02156CF4(void)
+void DWC_RAP_FlushDeletedFriends(void)
 {
     volatile int off2 = 0x17c;
     int i;
@@ -45,12 +45,12 @@ void func_02156CF4(void)
     }
 }
 
-u32 func_02156D5C(void)
+u32 DWC_RAP_GetResult(void)
 {
     return *(u32 *)(g_021A8264 + 0x758);
 }
 
-void func_02156D70(u32 v)
+void DWC_RAP_StoreAllowConnect(u32 v)
 {
     g_021A8264[0x7a5] = v;
 }

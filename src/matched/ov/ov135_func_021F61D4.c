@@ -28,6 +28,7 @@
  *   func_021F6C28  0x021F6C28  thumb
  *   func_021F6B34  0x021F6B34  thumb
  *   func_021F6474  0x021F6474  thumb
+ *   POKE_TOOL_ChangeBoxForm  0x020179B8  thumb  arm9
  */
 
 typedef signed char s8;
@@ -72,7 +73,7 @@ extern int func_021F6C28(u32 handle);
 extern int func_021F6B34(int v);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern int func_020179B8(int a0, int a1);
+extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
 extern int func_021F6474(Work *p);
 
 int func_021F61D4(Work *p)
@@ -109,7 +110,7 @@ int func_021F61D4(Work *p)
                 func_0201AB28(p->ctx->party, p->slot);
             }
             if (func_02017E88(mon, 5, 0) == 0x1EC) {
-                func_020179B8((int)mon, 0);
+                POKE_TOOL_ChangeBoxForm((int)mon, 0);
             }
             func_021F6474(p);
         }

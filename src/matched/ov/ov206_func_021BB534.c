@@ -19,7 +19,7 @@
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204B294 0x0204B294 arm
  *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B800 0x0204B800 arm
+ *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   func_0204B688 0x0204B688 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
@@ -56,7 +56,7 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(void *, Pos *, unsigned short);
@@ -168,7 +168,7 @@ void func_021BB534(Ent *p, unsigned x, unsigned y, int row)
             if (p->m[row][j] != -1) {
                 p->n[row][j] = func_0204B294(p->f24, p->m[row][j], (unsigned int)p->fc8, (unsigned int)p->fcc, &rr[j], (unsigned short)tern, p->f0);
                 func_0204B6F4(p->n[row][j], func_020275EC(sel[j]), 1);
-                func_0204B800(p->n[row][j], 2);
+                CLACT_SetActorDrawPriority(p->n[row][j], 2);
                 func_0204B688(p->n[row][j], 1);
             }
         }

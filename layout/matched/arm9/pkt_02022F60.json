@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02022F60",
+   "name": "WIPE_SUB_LineMaskHBlank",
    "address": "0x02022F60",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02023464",
+   "name": "WIPE_SUB_BoxStart",
    "address": "0x02023464",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020234C0",
+   "name": "WIPE_SUB_BoxMain",
    "address": "0x020234C0",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02023568",
+   "name": "WIPE_SUB_BoxStep",
    "address": "0x02023568",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020235F0",
+   "name": "WIPE_SUB_CircleStart",
    "address": "0x020235F0",
    "kind": "game",
    "region": "arm9",

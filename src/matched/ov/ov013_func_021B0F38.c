@@ -1,5 +1,5 @@
 /*
- * function: func_021B0F38
+ * function: VCT_AUDIO_ReceiveFrame
  * address:  0x021B0F38
  * packet:   pkt_ov013_021B0F38
  * region:   ov013
@@ -18,13 +18,13 @@
  *   d_021B3CBC  0x021B3CBC  data  ov013  a4
  *   d_021B3AD0  0x021B3AD0  data  ov013  a1
  *   func_021B2FB0  0x021B2FB0  arm  ov013
- *   func_021B1720  0x021B1720  arm  ov013
- *   func_021B133C  0x021B133C  arm  ov013
- *   func_021B1790  0x021B1790  arm  ov013
- *   func_021B1398  0x021B1398  arm  ov013
- *   func_021B1B94  0x021B1B94  arm  ov013
- *   func_021B1404  0x021B1404  arm  ov013
- *   func_021B2FE4  0x021B2FE4  arm  ov013
+ *   VCT_AUDIO_FlushReadyQueue  0x021B1720  arm  ov013
+ *   VCT_AUDIO_FlushPendingSlot  0x021B133C  arm  ov013
+ *   VCT_AUDIO_FlushAllReadyQueues  0x021B1790  arm  ov013
+ *   VCT_AUDIO_FlushPendingAll  0x021B1398  arm  ov013
+ *   VCT_AUDIO_TrackPacketTiming  0x021B1B94  arm  ov013
+ *   VCT_AUDIO_QueuePending  0x021B1404  arm  ov013
+ *   VCT_POOL_FreeFrame  0x021B2FE4  arm  ov013
  *   func_02082D44  0x02082D44  arm
  */
 
@@ -92,19 +92,19 @@ extern Chan d_021B3CBC[3];
 extern SizeEnt d_021B3AD0[];
 
 extern Voice *func_021B2FB0(void);
-extern void func_021B1720(u32 x);
-extern void func_021B133C(u32 x);
-extern void func_021B1790(void);
-extern void func_021B1398(void);
+extern void VCT_AUDIO_FlushReadyQueue(u32 x);
+extern void VCT_AUDIO_FlushPendingSlot(u32 x);
+extern void VCT_AUDIO_FlushAllReadyQueues(void);
+extern void VCT_AUDIO_FlushPendingAll(void);
 struct Pkt;
 struct Src;
-extern int func_021B1B94(struct Src *s, struct Pkt *pkt);
+extern int VCT_AUDIO_TrackPacketTiming(struct Src *s, struct Pkt *pkt);
 struct Node;
-extern int func_021B1404(struct Node *n);
-extern void func_021B2FE4(Voice *v);
+extern int VCT_AUDIO_QueuePending(struct Node *n);
+extern void VCT_POOL_FreeFrame(Voice *v);
 extern void func_02082D44(void *src, void *dst, u32 n);
 
-int func_021B0F38(u32 id, Frame *hdr, u32 size, u64 tick)
+int VCT_AUDIO_ReceiveFrame(u32 id, Frame *hdr, u32 size, u64 tick)
 {
     Voice *v;
     Chan *ch;
@@ -144,11 +144,11 @@ int func_021B0F38(u32 id, Frame *hdr, u32 size, u64 tick)
         return 0;
 
     if ((v = func_021B2FB0()) == 0) {
-        func_021B1720(ch->f34);
-        func_021B133C(ch->f34);
+        VCT_AUDIO_FlushReadyQueue(ch->f34);
+        VCT_AUDIO_FlushPendingSlot(ch->f34);
         if ((v = func_021B2FB0()) == 0) {
-            func_021B1790();
-            func_021B1398();
+            VCT_AUDIO_FlushAllReadyQueues();
+            VCT_AUDIO_FlushPendingAll();
             v = func_021B2FB0();
         }
         if (v == 0)
@@ -166,10 +166,10 @@ int func_021B0F38(u32 id, Frame *hdr, u32 size, u64 tick)
     v->f45C = hdr->f5 & 0x80;
     v->f460 = hdr->f8;
     v->f18 = hdr->f6;
-    if (func_021B1B94((struct Src *)ch, (struct Pkt *)v) == 0) {
-        func_021B2FE4(v);
+    if (VCT_AUDIO_TrackPacketTiming((struct Src *)ch, (struct Pkt *)v) == 0) {
+        VCT_POOL_FreeFrame(v);
         return 0;
     }
-    func_021B1404((struct Node *)v);
+    VCT_AUDIO_QueuePending((struct Node *)v);
     return 1;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202CDD4",
+   "name": "BGWINFRM_UpdateMove",
    "address": "0x0202CDD4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202CE50",
+   "name": "BGWINFRM_ChangePalette",
    "address": "0x0202CE50",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202CEBC",
+   "name": "BGWINFRM_PutBmpWin",
    "address": "0x0202CEBC",
    "kind": "game",
    "region": "arm9",

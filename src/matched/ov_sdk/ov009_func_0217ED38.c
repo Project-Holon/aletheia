@@ -12,16 +12,16 @@
  * The word the call fills in, or -1.
  *
  * symbols:
- *   func_0215FAD0  0x0215FAD0  arm  ov009
+ *   SOC_InetAtoN  0x0215FAD0  arm  ov009
  */
 
-extern int func_0215FAD0(char *cp, unsigned long *inp);
+extern int SOC_InetAtoN(char *cp, unsigned long *inp);
 
 int func_0217ED38(int a)
 {
     int v;
 
-    if (func_0215FAD0((char *)a, (long unsigned int *)(&v)) == 0) {
+    if (SOC_InetAtoN((char *)a, (long unsigned int *)(&v)) == 0) {
         return -1;
     }
 

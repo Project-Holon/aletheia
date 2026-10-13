@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_021D56F0  0x021D56F0  thumb  ov118
- *   func_02016028  0x02016028  thumb
- *   func_02015EA0  0x02015EA0  thumb
- *   func_02015C48  0x02015C48  thumb
+ *   MCSS_SetAnimeIndex  0x02016028  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
+ *   MCSS_SetPosition  0x02015C48  thumb
  *   func_021E71F0  0x021E71F0  thumb  ov119
  *   func_021E7208  0x021E7208  thumb  ov119
  *   func_021D54F0  0x021D54F0  thumb  ov118
@@ -34,9 +34,9 @@ typedef struct {
 } Vec;
 
 extern void func_021D56F0(u8 *p);
-extern void func_02016028(void *a, u32 flag);
-extern void func_02015EA0(void *p);
-extern void func_02015C48(void *p, u32 *src);
+extern void MCSS_SetAnimeIndex(void *a, u32 flag);
+extern void MCSS_SetVanishFlag(void *p);
+extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_021E71F0(void *p, int a);
 extern void func_021E7208(void *p, int a);
 extern void func_021D54F0(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy);
@@ -48,12 +48,12 @@ void func_021D59B0(u8 *p)
 {
     func_021D56F0(p);
     ((struct Obj03770 *)p)->f854 = 1;
-    func_02016028((void *)(((struct Obj03770 *)p)->f844), 0);
-    func_02015EA0((void *)(((struct Obj03770 *)p)->f844));
-    func_02015EA0((void *)(((struct Obj03770 *)p)->f848));
+    MCSS_SetAnimeIndex((void *)(((struct Obj03770 *)p)->f844), 0);
+    MCSS_SetVanishFlag((void *)(((struct Obj03770 *)p)->f844));
+    MCSS_SetVanishFlag((void *)(((struct Obj03770 *)p)->f848));
     if (((struct Obj03770 *)p)->f118C == 6) {
         Vec v = d_021D7CA8;
-        func_02015C48((void *)(((struct Obj03770 *)p)->f844), (u32 *)(&v));
+        MCSS_SetPosition((void *)(((struct Obj03770 *)p)->f844), (u32 *)(&v));
     }
     func_021E71F0(p, 0x11);
     func_021E7208(p, 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_0204919C
+ * function: ARC_TOOL_ReadHandleHeader
  * address:  0x0204919C
  * packet:   pkt_0204919C
  * region:   arm9
@@ -21,8 +21,8 @@
  * the total for the final offset at +0x48.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204919C.c \
- *       --func func_0204919C --addr 0x0204919C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_ReadHandleHeader.c \
+ *       --func ARC_TOOL_ReadHandleHeader --addr 0x0204919C --cc 1.1p1 --arm
  */
 #include "../include/Obj05745.h"
 #include "../include/Obj08859.h"
@@ -36,7 +36,7 @@ struct FSFile;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
-void func_0204919C(u8 *p)
+void ARC_TOOL_ReadHandleHeader(u8 *p)
 {
     u8 buf[12];
     u32 off;

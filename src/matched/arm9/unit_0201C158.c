@@ -8,12 +8,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201C158, sub_0201C184, sub_0201C1BC
+ * function: WAZA_TOOL_GetMaxPP, WAZA_TOOL_GetWeather, WAZA_TOOL_GetCategory
  *
  * waza_tool.c: the effective PP calculation, a four-entry id translation and
  * one more named field read.
  *
- * sub_0201C158 is the function src/pending/sub_02018E34.c's field map calls
+ * WAZA_TOOL_GetMaxPP is the function src/pending/POKE_TOOL_GetBoxValueRaw.c's field map calls
  * for ids 0x42 to 0x45: base PP (field 5 of the move record, through
  * src/matched/unit_0201BD28.c) plus base * 20 * ppUp / 100, with ppUp clamped
  * to 3 and every intermediate truncated to u8.  The two `muls` are one
@@ -27,7 +27,7 @@
  * still right and the call goes to _u32_div_f instead, which is a different
  * address and a DIFF.
  *
- * sub_0201C184 is a sparse four-case switch, which this front end lowers as a
+ * WAZA_TOOL_GetWeather is a sparse four-case switch, which this front end lowers as a
  * binary search rather than a table: `> 0xF1`, then `< 0xF0`, then the two
  * equality tests.  The bodies are still emitted in source order, so the arms
  * are written 0xF0, 0xF1, 0xC9, 0x102 even though the comparisons are in
@@ -40,7 +40,7 @@
  * which shares Black's numbering, but they are the constants to re-read first
  * if a White build diverges here.
  *
- * sub_0201C1BC is an unlabelled tail call, three instructions and two pool
+ * WAZA_TOOL_GetCategory is an unlabelled tail call, three instructions and two pool
  * words (docs/idioms/tail-call-is-a-pool-word-and-bx.md), reading field 1.
  *
  * symbols:
@@ -57,7 +57,7 @@ typedef unsigned int   u32;
 
 extern u32 sub_0201BD28(u16 id, u32 field);
 
-u8 sub_0201C158(u16 move, u32 ppUp)
+u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp)
 {
     u8 base;
 
@@ -68,7 +68,7 @@ u8 sub_0201C158(u16 move, u32 ppUp)
     return (u8)(base + (u8)((int)(ppUp * (base * 20)) / 100));
 }
 
-u32 sub_0201C184(int id)
+u32 WAZA_TOOL_GetWeather(int id)
 {
     switch (id) {
     case 0xF0:  return 2;
@@ -79,7 +79,7 @@ u32 sub_0201C184(int id)
     return 0;
 }
 
-u32 sub_0201C1BC(u16 move)
+u32 WAZA_TOOL_GetCategory(u16 move)
 {
     return sub_0201BD28(move, 1);
 }

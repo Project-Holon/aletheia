@@ -26,7 +26,7 @@
  *   func_02177E64  0x02177E64  arm  ov009
  *   g_021AB180  0x021AB180  data
  *   DWC_GetMyAID                   0x0216B838  arm ov009
- *   func_0216B838   0x0216B838  arm ov009
+ *   DWC_GetMyAID   0x0216B838  arm ov009
  *   DWCi_SendUnreliable  0x02177848  arm  ov009
  *   DWCs_GetTransConnection  0x02177770 arm
  *   DWCs_GetRecvState        0x021777A4 arm
@@ -147,7 +147,7 @@ extern int strncmp(const char *a, const char *b, unsigned int n);
 extern void DWCi_HandleGT2UnreliableMatchCommandMessage(void *data, int len);
 extern void DWCi_ProcessMatchSynPacket(unsigned char aid, unsigned short type, unsigned char *data);
 extern int gt2GetOutgoingBufferFreeSpace(void *connection);
-extern unsigned char func_0216B838(void);
+extern unsigned char DWC_GetMyAID(void);
 extern TransInfo *g_021AB180;
 extern char g_021A2344[];
 extern char g_021A2348[];
@@ -296,7 +296,7 @@ int func_02177044(unsigned char aid, void *buffer, int size)
         return 0;
     if (size > 0x5B6)
         return 0;
-    func_02177848(func_0216B838(), aid, buffer, size, 1);
+    func_02177848(DWC_GetMyAID(), aid, buffer, size, 1);
     if (g_021AB180->sendCallback != 0)
         g_021AB180->sendCallback(size, aid, g_021AB180->sendCallbackParam);
     return 1;

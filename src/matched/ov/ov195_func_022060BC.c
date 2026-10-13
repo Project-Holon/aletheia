@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02014BA8 0x02014BA8 thumb
+ *   MCSS_Exit 0x02014BA8 thumb
  */
 #include "../include/Obj02911.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void func_02014BA8(u8 *a0);
-void func_022060BC(char *p){func_02014BA8(((struct Obj02911 *)p)->f4C);}
+extern void MCSS_Exit(u8 *a0);
+void func_022060BC(char *p){MCSS_Exit(((struct Obj02911 *)p)->f4C);}

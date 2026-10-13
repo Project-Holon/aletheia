@@ -12,7 +12,7 @@
  *   func_02009CC0 0x02009CC0 thumb
  *   func_02008540 0x02008540 thumb
  *   func_0200853C 0x0200853C thumb
- *   func_0205994C 0x0205994C arm
+ *   DWC_CreateFriendKey 0x0205994C arm
  *   func_021C8F2C 0x021C8F2C arm ov114
  *   func_021C96CC 0x021C96CC arm ov114
  *   func_021D70E4 0x021D70E4 thumb ov116
@@ -29,7 +29,7 @@ struct Sub0200852CObj;
 extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 struct DWCstAccUserData;
-extern unsigned long long func_0205994C(struct DWCstAccUserData *userdata);
+extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 extern void func_021C8F2C(unsigned a, unsigned b, unsigned c, unsigned mode);
 extern void func_021C96CC(void);
 extern void func_021D70E4(u8 *p);
@@ -39,7 +39,7 @@ void func_021D7A3C(u8 *p) {
     u64 value;
     func_02008540(((struct Obj00671 *)p)->f1850,(u32)func_02009CC0(((struct Obj00671 *)p)->f184C));
     b=(void *)func_0200853C(((struct Obj00671 *)p)->f1850);
-    value=func_0205994C(a);
+    value=DWC_CreateFriendKey(a);
     func_021C8F2C((unsigned int)b,(u32)value,(u32)(value>>32),0);
     func_021C96CC();
     func_021D70E4(p+0x182c);

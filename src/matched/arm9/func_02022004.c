@@ -1,5 +1,5 @@
 /*
- * function: func_02022004
+ * function: PALANM_BlendChannelMask
  * address:  0x02022004
  * packet:   pkt_02021B6C
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 
 extern void func_02021FD8(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
 
-void func_02022004(u32 a0, u32 a1, u16 m, u32 a3, u32 a4)
+void PALANM_BlendChannelMask(u32 a0, u32 a1, u16 m, u32 a3, u32 a4)
 {
     u32 i = 0;
 

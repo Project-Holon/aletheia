@@ -34,7 +34,7 @@
  *   func_0203D34C 0x0203D34C arm
  *   func_02012A30 0x02012A30 thumb
  *   func_02028A58 0x02028A58 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_021FEE9C 0x021FEE9C thumb ov186
  *   func_021FEE4C 0x021FEE4C thumb ov186
  *   func_021FE840 0x021FE840 thumb ov186
@@ -61,26 +61,26 @@
  *   func_02034714 0x02034714 arm
  *   d_02200D00 0x02200D00 data
  *   func_02012EBC 0x02012EBC thumb
- *   func_0200B570 0x0200B570 thumb
- *   func_0200B910 0x0200B910 thumb
- *   func_0200D5D0 0x0200D5D0 thumb
+ *   BATTLE_REC_Load 0x0200B570 thumb
+ *   BATTLE_REC_GetWork 0x0200B910 thumb
+ *   GDS_PROFILE_Init 0x0200D5D0 thumb
  *   func_020071CC   0x020071CC  thumb
  *   func_0200E9F4   0x0200E9F4  thumb
  *   func_0200EA04   0x0200EA04  thumb
  *   func_02045808 0x02045808 arm
- *   func_0200D6D0 0x0200D6D0 thumb
+ *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   func_0200D6EC 0x0200D6EC thumb
- *   func_0200B928 0x0200B928 thumb
- *   func_0200B98C 0x0200B98C thumb
+ *   BATTLE_REC_GetHeader 0x0200B928 thumb
+ *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   func_0200A5F8 0x0200A5F8 thumb
  *   func_0200A630 0x0200A630 thumb
  *   func_02030734 0x02030734 arm
- *   func_02031324 0x02031324 arm
+ *   PROCSYS_Create 0x02031324 arm
  *   d_02200D04 0x02200D04 data a1
  *   func_0203133C  0x0203133C  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02031348 0x02031348 arm
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Push 0x02031348 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   d_02200D14 0x02200D14 data a1
  *   func_02082D44  0x02082D44  arm
  */
@@ -252,7 +252,7 @@ extern int func_02034AC4(int),func_0203CD98(void);
 extern void func_0203D34C(u32,u32);
 extern u32 func_02012A30(const struct BigObj *p);
 extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
-extern void func_02005D90(u32,u16);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
 extern void func_021FEE9C(char *p);
 extern void func_021FEE4C(char *p);
 extern void func_021FE840(int,int,int);
@@ -276,25 +276,25 @@ extern void func_021FC4C8(char *);
 extern void func_021FF52C(char *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02012EBC(struct Big *p);
-extern struct ObjC4 *func_0200B910(void);
-extern u32 func_0200B570(void *a, u16 heap, u32 *dp, u32 id);
-extern void func_0200D5D0(struct GdsProfile *p, void *sys);
+extern struct ObjC4 *BATTLE_REC_GetWork(void);
+extern u32 BATTLE_REC_Load(void *a, u16 heap, u32 *dp, u32 id);
+extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
 extern void *func_020071CC(struct Sub020071CCCtrl *, unsigned int);
 extern void *func_0200E9F4(void *p);
 extern int func_0200EA04(int);
-extern u8 *func_0200B928(void);
+extern u8 *BATTLE_REC_GetHeader(void);
 extern void *func_0200A5F8(void *);
 extern void func_02045808(struct U16Vec *vec);
-extern void *func_0200D6D0(const void *,u32);
+extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 extern u32 func_0200D6EC(struct RecGet *p);
 extern u32 func_0200A630(struct Bits *p);
-extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
+extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 extern void func_0203133C(struct S020314B8 *);
 extern u32 func_020307B0(void *p);
-extern void func_02031348(u32_021F9A80,u32_021F9A80,u32_021F9A80,void *);
-extern u32_021F9A80 func_02031330(void *);
+extern void PROCSYS_Push(u32_021F9A80,u32_021F9A80,u32_021F9A80,void *);
+extern u32_021F9A80 PROCSYS_Main(void *);
 extern void func_02082D44(void *, void *, int);
 int func_021F90C0(void *obj,int unused,char *q);
 int func_021F9244(int sys,int unused,int unused2,int *p);
@@ -388,7 +388,7 @@ int func_021F90C0(void *obj,int unused,char *q)
     if(func_0203CD98()) func_0203D34C(0,0x5a);
     if(!**(int * *)&((struct Obj24783 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) {
         if(((struct Obj24785 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4!=1) func_02028A58((void *)func_02012A30(((struct Obj24787 *)(*(char * *)&((struct Obj24786 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4),0x40,0);
-    } else func_02005D90(0x484,0xffff);
+    } else GFL_USE_CancelChangeAndPlayBgm(0x484,0xffff);
     if(((struct Obj24788 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4==1) {
         func_021FEE9C((char *)(*(int *)&((struct Obj00387 *)p)->f10));func_021FEE4C((char *)(*(int *)&((struct Obj00387 *)p)->f10));
         func_021FE840(*(int *)&((struct Obj00387 *)p)->fC,3,0);
@@ -586,8 +586,8 @@ void func_021F94E4(int *out,int *source,const char *ctx,int type)
         out[2]=*(int *)(ctx+8);out[12]=0;
         *(int *)(*(char **)((char *)source[6]+8)+0x1744)=out[2];
         sys=*(void **)(*(char **)((char *)source[6]+12)+4);
-        func_0200B570(func_02012EBC(sys),0x59,&result,out[2]);
-        if(result==1) {if(!out[2]) func_0200D5D0((struct GdsProfile *)func_0200B910(),sys);}
+        BATTLE_REC_Load(func_02012EBC(sys),0x59,&result,out[2]);
+        if(result==1) {if(!out[2]) GDS_PROFILE_Init((struct GdsProfile *)BATTLE_REC_GetWork(),sys);}
         else func_02034714(d_02200D00,0,d_02200D00);
         return;
     case 5:
@@ -831,7 +831,7 @@ void func_021F9868(Top *p, Top *q)
     if (p->f28 == 0)
         return;
     func_021F98F8((char *)q->f18->f8 + 0x1748, 0, (void *)q->f18->p0c->f4, 0x5a);
-    func_0200B570((void *)((int)func_02012EBC((struct Big *)q->f18->p0c->f4)), 0x805a, (u32 *)buf, p->f2c);
+    BATTLE_REC_Load((void *)((int)func_02012EBC((struct Big *)q->f18->p0c->f4)), 0x805a, (u32 *)buf, p->f2c);
 }
 
 
@@ -854,7 +854,7 @@ void func_021F98F4(void) {}
 
 /*
  * note: 2026-10-05 recoup. The old draft had the save and tag spill slots swapped
- *   (4 bytes). Declaring the heap parameter of func_0200B570 as u16 and keeping the
+ *   (4 bytes). Declaring the heap parameter of BATTLE_REC_Load as u16 and keeping the
  *   tag as a plain u32 local `(heap & 0x7fff) | 0x8000` (no u16 cast) gives EXACT in
  *   c99 and c. Other forms tried: u16 or int tag, tag inline in the call, tag set
  *   before save, declaration order of tag and save, tag in the loop body, heap
@@ -882,14 +882,14 @@ void func_021F98F8(char *p, int skip, void *sys, int heap)
         func_02082BCC(p,0,0x58);
         tag=(heap&0x7fff)|0x8000;
         for(i=0;i<4;i++) {
-            func_0200B570((void *)save,tag,&result,i);
+            BATTLE_REC_Load((void *)save,tag,&result,i);
             if(result==1) {
-                profile=func_0200B910();
-                if(i==0) func_0200D5D0(profile,sys);
+                profile=BATTLE_REC_GetWork();
+                if(i==0) GDS_PROFILE_Init(profile,sys);
                 *(int *)((u32)p+(u32)i*4)=1;
-                *(void **)((u32)p+(u32)i*4+0x10)=func_0200D6D0(profile,0x59);
+                *(void **)((u32)p+(u32)i*4+0x10)=GDS_PROFILE_CreateNameStr(profile,0x59);
                 *(u32 *)((u32)p+(u32)i*4+0x20)=func_0200D6EC(profile);
-                *(u64 *)((u32)p+(u32)i*8+0x30)=func_0200B98C(func_0200B928(),4,0);
+                *(u64 *)((u32)p+(u32)i*8+0x30)=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
             }
         }
         *(u32 *)(p+0x50)=func_0200A630(func_0200A5F8(func_02012EBC(sys)));
@@ -911,7 +911,7 @@ Context *func_021F99CC(unsigned fallback, void *base, unsigned count, unsigned a
     ctx->arg = arg;
     ctx->base = base;
     ctx->list = list;
-    ctx->object = (unsigned int)func_02031324(heap);
+    ctx->object = (unsigned int)PROCSYS_Create(heap);
     func_021F9CA4((char *)ctx + 0x2c);
     func_021F9CA4((char *)ctx + 0x3c);
     func_021F9CA4((char *)ctx + 0x1c);
@@ -964,10 +964,10 @@ void func_021F9A80(char *p)
   current->ops->init(current->work,((struct Obj01569 *)p)->fC,old->work,mode);
   ((struct Obj01569 *)p)->f6C=0;
   if(old->work)func_020307B0(old->work);
-  func_02031348(*(u32_021F9A80 *)&((struct Obj01569 *)p)->f0,current->ops->fn,current->ops->id,current->work);
+  PROCSYS_Push(*(u32_021F9A80 *)&((struct Obj01569 *)p)->f0,current->ops->fn,current->ops->id,current->work);
   ((struct Obj01569 *)p)->f18=2;break;
  }
- case 2:if(!func_02031330(((struct Obj01569 *)p)->f0))((struct Obj01569 *)p)->f18=3;break;
+ case 2:if(!PROCSYS_Main(((struct Obj01569 *)p)->f0))((struct Obj01569 *)p)->f18=3;break;
  case 3:
   if(!current->active)func_02034714(d_02200D14,0,d_02200D14);
   if(current->ops->update)current->ops->update(current->work,((struct Obj01569 *)p)->fC);

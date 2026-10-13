@@ -27,11 +27,11 @@
  *   func_0200FB24  0x0200FB24  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0201A090  0x0201A090  thumb
- *   func_0201A918  0x0201A918  thumb
+ *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_020242A4  0x020242A4  thumb
- *   func_020245D4  0x020245D4  thumb
+ *   PMSI_PARAM_InitSentence  0x020242A4  thumb
+ *   PMSI_PARAM_IsValid  0x020245D4  thumb
  *   func_02025BEC  0x02025BEC  thumb
  *   func_0203064C  0x0203064C  arm
  *   func_0203CD98  0x0203CD98  arm
@@ -42,10 +42,10 @@
  *   func_02045B38  0x02045B38  arm
  *   func_02045C04  0x02045C04  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02052274  0x02052274  arm
- *   func_02156E30  0x02156E30  thumb
- *   func_02156ED0  0x02156ED0  thumb
- *   func_02156F50  0x02156F50  thumb
+ *   BUTTON_MAN_ConvertUcs2ToSjis  0x02052274  arm
+ *   DWC_RAPCOMMON_CreateSubHeap  0x02156E30  thumb
+ *   DWC_RAPCOMMON_DestroySubHeap  0x02156ED0  thumb
+ *   DWC_RAPCOMMON_SetHeapTag  0x02156F50  thumb
  *   func_021D965C  0x021D965C  thumb
  *   func_021D97A4  0x021D97A4  thumb
  *   func_021D97B8  0x021D97B8  thumb
@@ -186,11 +186,11 @@ struct U16Vec;
 extern u32 func_0200FB24(void);
 extern void *func_02012EBC(struct Big *p);
 extern int func_0201A090(void *rules, void *party, u32 *mask);
-extern int func_0201A918(void);
+extern int POKE_REGULATION_GetDataSize(void);
 extern unsigned int func_0201AA18(void *list);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void func_020242A4(void *obj, u32 id);
-extern u32 func_020245D4(struct T *p, u32 a1);
+extern void PMSI_PARAM_InitSentence(void *obj, u32 id);
+extern u32 PMSI_PARAM_IsValid(struct T *p, u32 a1);
 extern u32 func_02025BEC(u32 a, u32 b, u32 c);
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern int func_0203CD98(void);
@@ -202,10 +202,10 @@ extern u16 func_02045A98(void);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02045C04(struct Rec *rec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02052274(u8 *a, u8 *b, u32 n);
-extern void func_02156E30(int a, int b, int c, int d);
-extern void func_02156ED0(void);
-extern void func_02156F50(int a);
+extern void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32 n);
+extern void DWC_RAPCOMMON_CreateSubHeap(int a, int b, int c, int d);
+extern void DWC_RAPCOMMON_DestroySubHeap(void);
+extern void DWC_RAPCOMMON_SetHeapTag(int a);
 
 extern void func_021D7BE4(u32 sys, int *state, char *p);
 extern void func_021D9064(void *obj, int unused, u8 *p);
@@ -265,7 +265,7 @@ static inline void TouchParty(u8 *rec, u8 *buf)
 {
     int i;
 
-    func_02052274(rec, buf, 8);
+    BUTTON_MAN_ConvertUcs2ToSjis(rec, buf, 8);
     {
         void *p = rec + 0xd4;
 
@@ -458,7 +458,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         break;
     case 0xe:
         if (func_021DC1E4(obj->f34, &rec38) != 0) {
-            MI_CpuCopy8(rec38, w18->f18, func_0201A918() + 0xd4);
+            MI_CpuCopy8(rec38, w18->f18, POKE_REGULATION_GetDataSize() + 0xd4);
             r = w18->f18;
             bad = 0;
             fresh = 1;
@@ -487,8 +487,8 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
                 r[0x19] = 0;
                 bad++;
             }
-            if (func_020245D4((struct T *)(r + 0x38), 0x8057) == 0) {
-                func_020242A4(r + 0x38, 1);
+            if (PMSI_PARAM_IsValid((struct T *)(r + 0x38), 0x8057) == 0) {
+                PMSI_PARAM_InitSentence(r + 0x38, 1);
                 bad++;
             }
             if (bad == 0)
@@ -677,8 +677,8 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         break;
     case 0x23:
         func_0203064C(1, 0x86, 0x60000);
-        func_02156E30(9, 0x60000, 1000, 0x86);
-        func_02156F50(0x86);
+        DWC_RAPCOMMON_CreateSubHeap(9, 0x60000, 1000, 0x86);
+        DWC_RAPCOMMON_SetHeapTag(0x86);
         func_021DA5B0(obj->f34, 0, 0, 0, 0, 0);
         obj->ff4 = 0;
         *state = 0x24;
@@ -695,7 +695,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
                 func_021DA36C(obj->f34);
             case 2:
             case 4:
-                func_02156ED0();
+                DWC_RAPCOMMON_DestroySubHeap();
                 func_021E7E0C((void **)obj->f28, 0);
                 func_021E8AA0((int *)sys, (int)func_021D9064);
                 break;
@@ -703,7 +703,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         }
         break;
     case 0x25:
-        func_02156ED0();
+        DWC_RAPCOMMON_DestroySubHeap();
         func_02040588(0, 1);
         func_021E8738((int *)obj->f2c, obj->f14, 0x24, 2);
         *state = 0x35;

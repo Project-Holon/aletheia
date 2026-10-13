@@ -144,11 +144,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02008EF8"
+    "MAIL_IsDesignValid"
+   ],
+   "addresses": [
+    "0x02008EF8"
    ]
   },
   {
-   "name": "sub_02008F3C",
+   "name": "MAIL_Copy",
    "address": "0x02008F3C",
    "kind": "game",
    "region": "arm9",

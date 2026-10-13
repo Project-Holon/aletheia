@@ -1,5 +1,5 @@
 /*
- * function: func_02020A34
+ * function: BMP_MENULIST_NotifyCursor
  * address:  0x02020A34
  * packet:   pkt_02020408
  * region:   arm9
@@ -27,7 +27,7 @@ struct Obj {
     u16 f42;
 };
 
-void func_02020A34(struct Obj *obj, void *arg1)
+void BMP_MENULIST_NotifyCursor(struct Obj *obj, void *arg1)
 {
     if (obj->callback != 0) {
         obj->callback(obj, obj->arr[obj->f40 + obj->f42].unk04, arg1);

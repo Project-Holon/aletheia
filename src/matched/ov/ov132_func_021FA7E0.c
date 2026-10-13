@@ -13,7 +13,7 @@
  * symbols:
  *   func_021F9E0C 0x021F9E0C thumb ov132
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020490F4 0x020490F4 arm
  *   func_0204AC18 0x0204AC18 arm
  *   func_0204A6C8 0x0204A6C8 arm
@@ -40,7 +40,7 @@ extern int func_021F4F70(int *);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_02049238(void *);
 extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void func_0204B92C(struct Obj *,u32);
@@ -56,7 +56,7 @@ void func_021FA7E0(char *p)
     int format;
     table=(u8 *)func_021F9E0C((u8 *)(*(char * *)&((struct Obj00151 *)p)->f4));
     ((struct Obj00151 *)p)->f18=func_0204B100(5,0,((struct Obj00151 *)p)->f0);
-    func_0204B270(((struct Obj00151 *)p)->f18);
+    CLACT_SetUnitDefaultRenderer(((struct Obj00151 *)p)->f18);
     narc=func_020490F4(47,((struct Obj00151 *)p)->f0);
     *(int *)&((struct Obj00151 *)p)->f1C=func_0204AC18(narc,0,1,0,0,2,((struct Obj00151 *)p)->f0);
     *(int *)&((struct Obj00151 *)p)->f28=func_0204A6C8(narc,6,0,1,((struct Obj00151 *)p)->f0);

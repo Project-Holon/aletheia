@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020332FC
+ * function: BACKUP_SYSTEM_GetBlockArea
  *
  * A packed 2-bit-per-slot array getter. The backing store is a u32 array
  * reached through offset 0x138 of the object; slot `idx` lives in word
@@ -31,7 +31,7 @@ struct Obj020332FC {
     u32 *slots;
 };
 
-u32 sub_020332FC(struct Obj020332FC *p, u32 idx)
+u32 BACKUP_SYSTEM_GetBlockArea(struct Obj020332FC *p, u32 idx)
 {
     return (p->slots[idx >> 4] >> ((idx & 0xf) * 2)) & 3;
 }

@@ -10,7 +10,7 @@
  * symbols:
  *   func_021BBE74 0x021BBE74 thumb ov091
  *   func_021BB464 0x021BB464 thumb ov091
- *   func_02018430 0x02018430 thumb
+ *   POKE_TOOL_CalcLevel 0x02018430 thumb
  *   func_021BB97C 0x021BB97C thumb ov091
  *   func_021BB99C 0x021BB99C thumb ov091
  *   func_021BB9EC 0x021BB9EC thumb ov091
@@ -18,7 +18,7 @@
  *   func_021BB98C 0x021BB98C thumb ov091
  *   func_020457B0 0x020457B0 arm
  *   func_02017E1C 0x02017E1C thumb
- *   func_02027268 0x02027268 thumb
+ *   GAME_BEACON_SetPokeLevelUp 0x02027268 thumb
  *   func_02045808 0x02045808 arm
  *   func_021BCC2C 0x021BCC2C thumb ov091
  *   func_021BCC80 0x021BCC80 thumb ov091
@@ -36,7 +36,7 @@ typedef unsigned short u16;
 extern int func_021BBE74(int);
 struct U16Vec;
 extern unsigned short func_021BB464(int unused, unsigned short *p);
-extern unsigned int func_02018430(void *p);
+extern unsigned int POKE_TOOL_CalcLevel(void *p);
 extern void func_021BB97C(u8 *,int);
 extern void func_021BB99C(int a, int b, int c, int d);
 extern void func_021BB9EC(int a, int b, int c, int d, unsigned char e);
@@ -45,7 +45,7 @@ typedef unsigned int   u32;
 extern void func_021BB98C(void *p, u32 s);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02027268(int);
+extern void GAME_BEACON_SetPokeLevelUp(int);
 extern void func_02045808(struct U16Vec *vec);
 extern int func_021BCC2C(void *p, int i, int a2);
 extern void func_021BCC80(int p, int id, int v);
@@ -74,7 +74,7 @@ int func_021BC350(u8 *p,int v)
         break;
     }
     case 2:
-        t=(int)func_02018430((void *)W(0x38));
+        t=(int)POKE_TOOL_CalcLevel((void *)W(0x38));
         func_021BB97C(p,(int)W(0x150));
         func_021BB99C((int)p,W(0x150),0,W(0x38));
         func_021BB9EC((int)p,W(0x150),1,(u16)(t+1),3);
@@ -82,7 +82,7 @@ int func_021BC350(u8 *p,int v)
         func_021BB98C(p,W(0x150));
         t=(int)func_020457B0(12,H(0));
         func_02017E1C((void *)W(0x38),0x73,t);
-        func_02027268(t);
+        GAME_BEACON_SetPokeLevelUp(t);
         func_02045808((struct U16Vec *)t);
         for(i=0;i<6;i++) {
             int j=i*2;

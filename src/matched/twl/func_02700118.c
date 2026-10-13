@@ -54,6 +54,8 @@
  *   CameraStandbyCallback  0x02702070  arm
  *   PMi_InsertPostExitCallbackEx  0x0273156C  arm
  *   PM_DeletePostExitCallback  0x02731590  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm  arm9
+ *   PXI_Init  0x02088498  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -72,7 +74,7 @@ typedef struct TwlShared {
     vu32 flags;
 } TwlShared;
 
-extern u32 func_02085D3C(void);
+extern u32 OS_IsRunOnTwl(void);
 extern s32 CAMERA_GetErrorStatusCore(void);
 extern u64 func_020870D0(void);
 extern void func_02085DBC(u32*, u32, u32);
@@ -97,7 +99,7 @@ extern void func_02085A38(u32);
 extern u32 func_02085E50(u32*, u32*, u32);
 extern void func_02087974(void);
 extern void CAMERA_ResetCore(void);
-extern void func_02088498(void);
+extern void PXI_Init(void);
 extern u32 func_020885EC(u32, u32);
 extern void func_020885A0(u32, void (*)(int, u32, int));
 extern void CAMERA_StopCaptureCore(void);

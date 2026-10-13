@@ -1,5 +1,5 @@
 /*
- * function: func_0204C060
+ * function: CLACT_IsAffineCellInView
  * address:  0x0204C060
  * packet:   pkt_0204C060
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The 2x2-matrix sibling of func_0204C214 (see docs/notes/pkt_0204C060.c.txt):
+ * The 2x2-matrix sibling of CLACT_IsCellInView (see docs/notes/pkt_0204C060.c.txt):
  * transform the sprite's four half-extents through the caller's 2x2 matrix in
  * 20.12 fixed point, translate by the camera delta, take the min/max of each
  * axis and cull against the viewport.
@@ -28,8 +28,8 @@
  *    image keeps `and #0x3f` + `lsl #2` + `and #0xff`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C060.c \
- *       --func func_0204C060 --addr 0x0204C060 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_IsAffineCellInView.c \
+ *       --func CLACT_IsAffineCellInView --addr 0x0204C060 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -45,7 +45,7 @@ struct C { s32 f00; s32 f04; s32 f08; s32 f0c; };
 
 #define fxmul(a, b) ((s32)((((s64)(a) * (s64)(b)) + 0x800) >> 12))
 
-int func_0204C060(struct A *a, struct M *m, struct C *c)
+int CLACT_IsAffineCellInView(struct A *a, struct M *m, struct C *c)
 {
     u16 f = a->f02;
     s32 m6 = (s32)(u8)(f & 0x3f);

@@ -1,5 +1,5 @@
 /*
- * function: func_021AF13C
+ * function: VCT_MAIN_HangUp
  * address:  0x021AF13C
  * packet:   pkt_ov013_021AF13C
  * region:   ov013
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B3C80     0x021B3C80  data  ov013
- *   func_02156400  0x02156400  thumb  ov009
+ *   gVctWork     0x021B3C80  data  ov013
+ *   DWC_RAP_CleanupVchat  0x02156400  thumb  ov009
  *   func_021B20B0  0x021B20B0  arm  ov013
  */
 
@@ -24,23 +24,23 @@ typedef struct Work {
     int f1A1C;
 } Work;
 
-extern Work *d_021B3C80;
-extern void func_02156400(void);
+extern Work *gVctWork;
+extern void DWC_RAP_CleanupVchat(void);
 extern int func_021B20B0(int a, int b);
 
-void func_021AF13C(void)
+void VCT_MAIN_HangUp(void)
 {
-    if (d_021B3C80->f1A1C == 0 || d_021B3C80->f19AC == 0) {
-        func_02156400();
+    if (gVctWork->f1A1C == 0 || gVctWork->f19AC == 0) {
+        DWC_RAP_CleanupVchat();
         return;
     }
-    if (d_021B3C80->f19AC == 1) {
-        if (func_021B20B0(d_021B3C80->f1A1C, 2)) {
-            func_02156400();
+    if (gVctWork->f19AC == 1) {
+        if (func_021B20B0(gVctWork->f1A1C, 2)) {
+            DWC_RAP_CleanupVchat();
             return;
         }
     }
-    if (func_021B20B0(d_021B3C80->f1A1C, 1)) {
-        func_02156400();
+    if (func_021B20B0(gVctWork->f1A1C, 1)) {
+        DWC_RAP_CleanupVchat();
     }
 }

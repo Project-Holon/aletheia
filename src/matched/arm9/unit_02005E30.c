@@ -11,27 +11,27 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02005E30
+ * function: GFL_USE_FadeOutBgm
  *
  * symbols:
  *   sub_02005E30_State  0x020AA260  data
- *   sub_02005FBC        0x02005FBC  thumb
- *   sub_0200590C        0x0200590C  thumb
- *   func_02072F5C       0x02072F5C  arm
+ *   GFL_USE_FlushBgmChange        0x02005FBC  thumb
+ *   GFL_USE_GetCurrentSndHandle        0x0200590C  thumb
+ *   NNS_SndHandleMoveVolume       0x02072F5C  arm
  *
- * The one-level form of src/matched/unit_02005DF8.c's sub_02005E04: the same
+ * The one-level form of src/matched/unit_02005DF8.c's GFL_USE_FadeInBgm: the same
  * state settle, one call instead of two, and the same word of the state block
  * written back.
  *
  * Its own byte range for an evidence reason and not a source one.  The three
- * `blx` sites that reach func_02072F5C image wide are 0x02005E16, 0x02005E22
+ * `blx` sites that reach NNS_SndHandleMoveVolume image wide are 0x02005E16, 0x02005E22
  * and 0x02005E40; the first two are in unit_02005DF8.c and the third is this
  * function, so the two files witness each other's calls and neither may hold
  * all three.  See the header of unit_02005DF8.c and
  * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.
  *
- * The function after this range, sub_02005E50, is already matched on its own
- * as src/matched/sub_02005E50.c.
+ * The function after this range, GFL_USE_IsBgmFading, is already matched on its own
+ * as src/matched/GFL_USE_IsBgmFading.c.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02005E30.c \
@@ -48,14 +48,14 @@ struct Sub02005E30State {
 
 extern struct Sub02005E30State sub_02005E30_State;
 
-extern void sub_02005FBC(void);
-extern u32 *sub_0200590C(void);
+extern void GFL_USE_FlushBgmChange(void);
+extern u32 *GFL_USE_GetCurrentSndHandle(void);
 struct Obj02072F5C;
-extern void func_02072F5C(struct Obj02072F5C * volatile *pp, u32 a, u32 b);
+extern void NNS_SndHandleMoveVolume(struct Obj02072F5C * volatile *pp, u32 a, u32 b);
 
-void sub_02005E30(u32 a)
+void GFL_USE_FadeOutBgm(u32 a)
 {
-    sub_02005FBC();
-    func_02072F5C((struct Obj02072F5C * volatile*)sub_0200590C(), 0, a);
+    GFL_USE_FlushBgmChange();
+    NNS_SndHandleMoveVolume((struct Obj02072F5C * volatile*)GFL_USE_GetCurrentSndHandle(), 0, a);
     sub_02005E30_State.unk08 = a;
 }

@@ -15,7 +15,7 @@
  *   func_0201134C 0x0201134C thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02048F60 0x02048F60 arm
- *   func_020113B0 0x020113B0 thumb
+ *   VM_Jump 0x020113B0 thumb
  */
 #include "../include/Obj03713.h"
 #include "../include/Obj21683.h"
@@ -27,7 +27,7 @@ extern unsigned int func_020307B0(void *p);
 extern void *func_02048F60(unsigned int archive_id, unsigned int member, unsigned int heap);
 typedef unsigned int   u32;
 struct Cur;
-extern void func_020113B0(struct Cur *c, u32 v);
+extern void VM_Jump(struct Cur *c, u32 v);
 
 int func_021FC374(void *a, char *s)
 {
@@ -41,6 +41,6 @@ int func_021FC374(void *a, char *s)
         *(char * *)&((struct Obj03713 *)s)->f1E8 = func_02048F60((int)0x43, (int)(id - 0x231), (u16)((((struct Obj03713 *)s)->f238 & 0x7fff) | 0x8000));
     p = *(char * *)&((struct Obj03713 *)s)->f1E8;
     ((struct Obj03713 *)s)->f4 = 0;
-    func_020113B0(a, (u32)(p + ((struct Obj21683 *)p)->f4));
+    VM_Jump(a, (u32)(p + ((struct Obj21683 *)p)->f4));
     return ((struct Obj03713 *)s)->f23C;
 }

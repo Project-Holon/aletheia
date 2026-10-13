@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02036E80
+ * function: GFL_NET_WM_ICON_Delete
  * address:  0x02036E80
  * packet:   pkt_02036CA8
  * region:   arm9
@@ -17,11 +17,11 @@
  * word/halfword/word/halfword run off one base register.  The record is then
  * released through the overruled SDK address 0x020307B0 (matched), attesting
  * the PC24 site.  This function was the last blocker for
- * src/matched/func_020370C8.c.
+ * src/matched/GFL_NET_WM_ICON_EasyEnd.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02036E80.c \
- *       --func func_02036E80 --addr 0x02036E80 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_WM_ICON_Delete.c \
+ *       --func GFL_NET_WM_ICON_Delete --addr 0x02036E80 --arm --cc 1.1p1
  */
 #include "../include/Obj06937.h"
 
@@ -30,7 +30,7 @@ typedef unsigned short u16;
 
 extern u32 func_020307B0(void *p);
 
-void func_02036E80(unsigned char *p)
+void GFL_NET_WM_ICON_Delete(unsigned char *p)
 {
     *(volatile u32 *)0x07000000 = 0x40000200;
     *(volatile u16 *)0x07000004 = 0;

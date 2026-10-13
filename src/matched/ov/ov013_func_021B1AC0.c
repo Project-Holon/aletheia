@@ -1,5 +1,5 @@
 /*
- * function: func_021B1AC0
+ * function: VCT_AUDIO_UpdateSequence
  * address:  0x021B1AC0
  * packet:   pkt_ov013_021B1AC0
  * region:   ov013
@@ -12,14 +12,14 @@
  * RFC 3550 update_seq shape: MAX_DROPOUT 3000, MAX_MISORDER 100.
  *
  * symbols:
- *   func_021B1AA0  0x021B1AA0  arm  ov013
+ *   VCT_AUDIO_InitSequence  0x021B1AA0  arm  ov013
  */
 #include "../include/Obj01641.h"
 #include "../include/Obj12461.h"
 
-extern void func_021B1AA0(char *p, unsigned short v);
+extern void VCT_AUDIO_InitSequence(char *p, unsigned short v);
 
-int func_021B1AC0(char *p, char *pkt, unsigned short seq)
+int VCT_AUDIO_UpdateSequence(char *p, char *pkt, unsigned short seq)
 {
     unsigned short last = ((struct Obj01641 *)p)->f68;
     unsigned short delta = seq - last;
@@ -30,7 +30,7 @@ int func_021B1AC0(char *p, char *pkt, unsigned short seq)
         ((struct Obj01641 *)p)->f68 = seq;
     } else if (delta <= 0x10000 - 100) {
         if (seq == ((struct Obj01641 *)p)->f64) {
-            func_021B1AA0(p, seq);
+            VCT_AUDIO_InitSequence(p, seq);
             ((struct Obj01641 *)p)->f54 = (unsigned short)(seq - 1);
         } else {
             ((struct Obj01641 *)p)->f64 = (unsigned short)(seq + 1);

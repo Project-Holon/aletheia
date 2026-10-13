@@ -1,5 +1,5 @@
 /*
- * function: func_021D5C98
+ * function: P_STATUS_RequestRefresh
  * address: 0x021D5C98
  * packet: pkt_ov131_021D5C98
  * region: ov131
@@ -15,59 +15,59 @@
  *   matched callers 4418,4240,7BF0 supply remaining two-argument calls.
  *   Full original 6CDC and 909C confirm both incoming payloads are passed.
  * symbols:
- *   func_021D60D4 0x021D60D4 thumb ov131
- *   func_021D6CDC 0x021D6CDC thumb ov131
- *   func_021D91EC 0x021D91EC thumb ov131
- *   func_021D697C 0x021D697C thumb ov131
- *   func_021D911C 0x021D911C thumb ov131
- *   func_021D7E84 0x021D7E84 thumb ov131
- *   func_021D9D44 0x021D9D44 thumb ov131
- *   func_021D909C 0x021D909C thumb ov131
- *   func_021DA84C 0x021DA84C thumb ov131
- *   func_021D7C38 0x021D7C38 thumb ov131
- *   func_021D9C3C 0x021D9C3C thumb ov131
- *   func_021D8F50 0x021D8F50 thumb ov131
- *   func_021DA6A4 0x021DA6A4 thumb ov131
+ *   P_STATUS_SetFastMode 0x021D60D4 thumb ov131
+ *   P_STA_SUB_FreeWindows 0x021D6CDC thumb ov131
+ *   P_STA_RIBBON_Noop 0x021D91EC thumb ov131
+ *   P_STA_SUB_InitWindows 0x021D697C thumb ov131
+ *   P_STA_RIBBON_CollectOwned 0x021D911C thumb ov131
+ *   P_STA_INFO_DeleteWindows 0x021D7E84 thumb ov131
+ *   P_STA_SKILL_FreeStatsPage 0x021D9D44 thumb ov131
+ *   P_STA_RIBBON_Deactivate 0x021D909C thumb ov131
+ *   P_STA_SKILL_FreeMovesPage 0x021DA84C thumb ov131
+ *   P_STA_INFO_Setup 0x021D7C38 thumb ov131
+ *   P_STA_SKILL_InitStatsPage 0x021D9C3C thumb ov131
+ *   P_STA_RIBBON_Init 0x021D8F50 thumb ov131
+ *   P_STA_SKILL_InitMovesPage 0x021DA6A4 thumb ov131
  */
 #include "../include/Obj00039.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021D60D4(u8 *,int);
-extern void func_021D6CDC(unsigned char *a, unsigned char *b);
-extern void func_021D91EC(void *,void *);
-extern void func_021D697C(u8 *,int *);
-extern void func_021D911C(u8 *a, u8 *p);
-extern void func_021D7E84(void *p, void **q);
-extern void func_021D9D44(void *,u8 *);
-extern void func_021D909C(u8 *a, u8 *p);
-extern void func_021DA84C(u8 *,u8 *);
-extern void func_021D7C38(void *,u8 *);
-extern void func_021D9C3C(void *,u8 *);
-extern void func_021D8F50(void *,u8 *);
-extern void func_021DA6A4(u8 *a, u8 *p);
-void func_021D5C98(u8 *p)
+extern void P_STATUS_SetFastMode(u8 *,int);
+extern void P_STA_SUB_FreeWindows(unsigned char *a, unsigned char *b);
+extern void P_STA_RIBBON_Noop(void *,void *);
+extern void P_STA_SUB_InitWindows(u8 *,int *);
+extern void P_STA_RIBBON_CollectOwned(u8 *a, u8 *p);
+extern void P_STA_INFO_DeleteWindows(void *p, void **q);
+extern void P_STA_SKILL_FreeStatsPage(void *,u8 *);
+extern void P_STA_RIBBON_Deactivate(u8 *a, u8 *p);
+extern void P_STA_SKILL_FreeMovesPage(u8 *,u8 *);
+extern void P_STA_INFO_Setup(void *,u8 *);
+extern void P_STA_SKILL_InitStatsPage(void *,u8 *);
+extern void P_STA_RIBBON_Init(void *,u8 *);
+extern void P_STA_SKILL_InitMovesPage(u8 *a, u8 *p);
+void P_STATUS_RequestRefresh(u8 *p)
 {
-    func_021D60D4(p,1);
+    P_STATUS_SetFastMode(p,1);
     if (p[0x1a]!=((struct Obj00039 *)p)->f18) {
         if (p[0x1a]!=255) {
-            func_021D6CDC(p,((struct Obj00039 *)p)->f88);
-            func_021D91EC(p,((struct Obj00039 *)p)->f94);
+            P_STA_SUB_FreeWindows(p,((struct Obj00039 *)p)->f88);
+            P_STA_RIBBON_Noop(p,((struct Obj00039 *)p)->f94);
         }
-        func_021D697C(p,*(int * *)&((struct Obj00039 *)p)->f88);
-        func_021D911C(p,((struct Obj00039 *)p)->f94);
+        P_STA_SUB_InitWindows(p,*(int * *)&((struct Obj00039 *)p)->f88);
+        P_STA_RIBBON_CollectOwned(p,((struct Obj00039 *)p)->f94);
     }
     switch (((struct Obj00039 *)p)->f5C) {
-    case 0: func_021D7E84(p,(void **)(*(u8 * *)&((struct Obj00039 *)p)->f8C)); break;
-    case 1: func_021D9D44(p,*(u8 * *)&((struct Obj00039 *)p)->f90); break;
-    case 2: func_021D909C(p,((struct Obj00039 *)p)->f94); break;
-    case 3: func_021DA84C(p,*(u8 * *)&((struct Obj00039 *)p)->f90); break;
+    case 0: P_STA_INFO_DeleteWindows(p,(void **)(*(u8 * *)&((struct Obj00039 *)p)->f8C)); break;
+    case 1: P_STA_SKILL_FreeStatsPage(p,*(u8 * *)&((struct Obj00039 *)p)->f90); break;
+    case 2: P_STA_RIBBON_Deactivate(p,((struct Obj00039 *)p)->f94); break;
+    case 3: P_STA_SKILL_FreeMovesPage(p,*(u8 * *)&((struct Obj00039 *)p)->f90); break;
     }
     switch (*(u32 *)&((struct Obj00039 *)p)->f58) {
-    case 0: func_021D7C38(p,*(u8 * *)&((struct Obj00039 *)p)->f8C); break;
-    case 1: func_021D9C3C(p,*(u8 * *)&((struct Obj00039 *)p)->f90); break;
-    case 2: func_021D8F50(p,*(u8 * *)&((struct Obj00039 *)p)->f94); break;
-    case 3: func_021DA6A4(p,((struct Obj00039 *)p)->f90); break;
+    case 0: P_STA_INFO_Setup(p,*(u8 * *)&((struct Obj00039 *)p)->f8C); break;
+    case 1: P_STA_SKILL_InitStatsPage(p,*(u8 * *)&((struct Obj00039 *)p)->f90); break;
+    case 2: P_STA_RIBBON_Init(p,*(u8 * *)&((struct Obj00039 *)p)->f94); break;
+    case 3: P_STA_SKILL_InitMovesPage(p,((struct Obj00039 *)p)->f90); break;
     }
     if (((struct Obj00039 *)p)->f5C!=*(u32 *)&((struct Obj00039 *)p)->f58) {
         ((struct Obj00039 *)p)->f25C=1;
@@ -76,6 +76,6 @@ void func_021D5C98(u8 *p)
         *(volatile u16 *)0x0400100a |= 64;
         *(volatile u16 *)0x0400100c |= 64;
     }
-    func_021D60D4(p,0);
+    P_STATUS_SetFastMode(p,0);
     ((struct Obj00039 *)p)->fC=1;
 }

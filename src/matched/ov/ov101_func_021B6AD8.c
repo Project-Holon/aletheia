@@ -1,5 +1,5 @@
 /*
- * function: func_021B6AD8
+ * function: IRC_COMPATIBLE_HandleTests
  * address: 0x021B6AD8
  * packet: pkt_ov101_021B6AD8
  * region: ov101
@@ -10,18 +10,18 @@
  * evidence: full own C20 body reads/forwards fourth int arg; original r3=p
  *   remains live into all three calls, preserved as the same full-word payload.
  * symbols:
- *   func_021B6C20 0x021B6C20 thumb ov101
- *   func_021B6A3C 0x021B6A3C thumb ov101
- *   func_021B6A7C 0x021B6A7C thumb ov101
+ *   IRC_COMPATIBLE_StepRunnerRun 0x021B6C20 thumb ov101
+ *   IRC_COMPATIBLE_SetHandler 0x021B6A3C thumb ov101
+ *   IRC_COMPATIBLE_HandleMenu 0x021B6A7C thumb ov101
  */
 #include "../include/Obj02808.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B6C20(int *,int,int,int);
-extern void func_021B6A3C(u8 *,u32);
-extern void func_021B6A7C(u8 *,u16 *);
-void func_021B6AD8(u8 *p,u16 *state)
+extern int IRC_COMPATIBLE_StepRunnerRun(int *,int,int,int);
+extern void IRC_COMPATIBLE_SetHandler(u8 *,u32);
+extern void IRC_COMPATIBLE_HandleMenu(u8 *,u16 *);
+void IRC_COMPATIBLE_HandleTests(u8 *p,u16 *state)
 {
     switch(*state) {
     case 0:
@@ -30,7 +30,7 @@ void func_021B6AD8(u8 *p,u16 *state)
         *state=1;
         break;
     case 1:
-        if(func_021B6C20((int *)(p+4),2,0x3a,(int)p)) *state=2;
+        if(IRC_COMPATIBLE_StepRunnerRun((int *)(p+4),2,0x3a,(int)p)) *state=2;
         break;
     case 2:
         if(((struct Obj02808 *)p)->f28==0) *state=3;
@@ -41,7 +41,7 @@ void func_021B6AD8(u8 *p,u16 *state)
         } else *state=6;
         break;
     case 3:
-        if(func_021B6C20((int *)(p+4),1,0x3a,(int)p)) *state=4;
+        if(IRC_COMPATIBLE_StepRunnerRun((int *)(p+4),1,0x3a,(int)p)) *state=4;
         break;
     case 4:
         if(((struct Obj02808 *)p)->f24==0) *state=5;
@@ -52,10 +52,10 @@ void func_021B6AD8(u8 *p,u16 *state)
         } else *state=6;
         break;
     case 5:
-        if(func_021B6C20((int *)(p+4),3,0x3a,(int)p)) *state=6;
+        if(IRC_COMPATIBLE_StepRunnerRun((int *)(p+4),3,0x3a,(int)p)) *state=6;
         break;
     case 6:
-        func_021B6A3C(p,(u32)func_021B6A7C);
+        IRC_COMPATIBLE_SetHandler(p,(u32)IRC_COMPATIBLE_HandleMenu);
         break;
     }
 }

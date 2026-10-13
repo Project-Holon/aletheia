@@ -21,7 +21,7 @@
  *   func_02082658 0x02082658 arm
  *   MI_StopAllNDma 0x0272FD18 arm
  *   PMi_FinalizeDebugger 0x02731500 arm
- *   func_020882C0 0x020882C0 arm
+ *   OSi_DisableInterruptsAndHalt 0x020882C0 arm
  */
 
 typedef struct PMiGenCallbackInfo PMiGenCallbackInfo;
@@ -38,7 +38,7 @@ void func_02087988(void);
 void func_02082658(void);
 void MI_StopAllNDma(void);
 void PMi_FinalizeDebugger(void);
-void func_020882C0(void);
+void OSi_DisableInterruptsAndHalt(void);
 
 void PMi_CallPostExitCallbackAndReset(int flag)
 {
@@ -76,5 +76,5 @@ void PMi_CallPostExitCallbackAndReset(int flag)
     func_02082658();
     MI_StopAllNDma();
     PMi_FinalizeDebugger();
-    func_020882C0();
+    OSi_DisableInterruptsAndHalt();
 }

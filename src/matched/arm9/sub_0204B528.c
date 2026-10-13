@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204B528
+ * function: CLACT_SetActorPos
  * address:  0x0204B528
  * packet:   pkt_0204B454
  * region:   arm9
@@ -17,8 +17,8 @@
  * out two halfword moves instead.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B528.c \
- *       --func sub_0204B528 --addr 0x0204B528 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorPos.c \
+ *       --func CLACT_SetActorPos --addr 0x0204B528 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -34,7 +34,7 @@ struct Actor {
     struct Pt pos;
 };
 
-void sub_0204B528(struct Actor *actor, const struct Pt *src)
+void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src)
 {
     actor->pos.x = src->x;
     actor->pos.y = src->y;

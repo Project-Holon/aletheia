@@ -1,5 +1,5 @@
 /*
- * function: func_02049A18
+ * function: ARC_UTIL_UploadBgPalette
  * address:  0x02049A18
  * packet:   pkt_0204994C
  * region:   arm9
@@ -20,7 +20,7 @@
  *   func_020307B0  0x020307B0  arm
  *
  * arc_tool.c (wave 13): the palette-upload worker the sound/palette front
- * ends of unit_0204994C.c, sub_0204989C.c and sub_020498F4.c forward to.
+ * ends of unit_0204994C.c, ARC_UTIL_UploadBgPaletteFromArchive.c and ARC_UTIL_UploadBgPaletteFromHandle.c forward to.
  * Look up the resource's palette block; default the size to the block's own
  * (+0x08); when `add` is non-zero, add it to every entry of the data at +0x0C
  * -- as halfwords (size / 2 of them) when func_0204169C says the channel is
@@ -29,7 +29,7 @@
  * release the resource either way.  Every `and rN, r7, #0xff` is a callee's
  * u8 channel parameter, not a cast in the source.
  *
- * WHAT CLOSED IT (docs/notes/func_02049A18.c.txt: 300 against 296, 122 out):
+ * WHAT CLOSED IT (docs/notes/ARC_UTIL_UploadBgPalette.c.txt: 300 against 296, 122 out):
  * the callees take `u8 channel` and the caller passes the u32 unchanged; the
  * two loops each own a block-scoped counter (a shared `i` makes the compiler
  * hoist one `mov r3, #0` above the arm test, 4 bytes short); and inside each
@@ -56,7 +56,7 @@ extern void func_020409B4(u8 channel);
 extern void func_02041B6C(u8 channel);
 extern u32 func_020307B0(void *p);
 
-u32 func_02049A18(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag)
+u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag)
 {
     struct Pal *pal;
 

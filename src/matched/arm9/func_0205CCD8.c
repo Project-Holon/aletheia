@@ -1,5 +1,5 @@
 /*
- * function: func_0205CCD8
+ * function: DWC_GetLinkLevel
  * address:  0x0205CCD8
  * packet:   pkt_0205CCD8
  * region:   arm9
@@ -18,7 +18,7 @@
 
 extern int func_021666C8(void);
 
-int func_0205CCD8(void)
+int DWC_GetLinkLevel(void)
 {
     return func_021666C8();
 }

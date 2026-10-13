@@ -14,16 +14,16 @@
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_02175FB8  0x02175FB8  arm  ov009
- *   func_0216B908  0x0216B908  arm  ov009
+ *   DWC_GetAIDBitmap  0x0216B908  arm  ov009
  *   func_02175EB4  0x02175EB4  arm  ov009
- *   func_0216B838  0x0216B838  arm  ov009
+ *   DWC_GetMyAID  0x0216B838  arm  ov009
  */
 
 extern int func_02175F3C(void);
 extern unsigned char func_02175FB8(void);
-extern int func_0216B908(void);
+extern int DWC_GetAIDBitmap(void);
 extern int func_02175EB4(void);
-extern unsigned char func_0216B838(void);
+extern unsigned char DWC_GetMyAID(void);
 
 int func_0216CB90(void)
 {
@@ -35,12 +35,12 @@ int func_0216CB90(void)
     if (!func_02175FB8())
         return 0;
     bitmap = *(unsigned int *)(func_02175F3C() + 0x1c);
-    bitmap &= func_0216B908();
+    bitmap &= DWC_GetAIDBitmap();
     if (!func_02175EB4())
-        bitmap &= ~(1 << func_0216B838());
-    if ((bitmap ^ func_0216B908()) == 0)
+        bitmap &= ~(1 << DWC_GetMyAID());
+    if ((bitmap ^ DWC_GetAIDBitmap()) == 0)
         bNew = 1;
-    else if ((bitmap & func_0216B908()) == 0)
+    else if ((bitmap & DWC_GetAIDBitmap()) == 0)
         bNew = 0;
     if (bNew != -1)
         *(int *)(func_02175F3C() + 0x28) = bNew == 1;

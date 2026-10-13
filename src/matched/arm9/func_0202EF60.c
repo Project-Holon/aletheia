@@ -1,5 +1,5 @@
 /*
- * function: func_0202EF60
+ * function: TIME_ICON_Alloc
  * address:  0x0202EF60
  * packet:   pkt_0202EC44
  * region:   arm9
@@ -31,7 +31,7 @@ struct Bmp;
 extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
 extern const char g_020A7814[];
 
-struct Obj *func_0202EF60(u32 heap)
+struct Obj *TIME_ICON_Alloc(u32 heap)
 {
     struct Obj *obj = func_02030734(heap, 0x1c, 0, g_020A7814, 0xa6);
 

@@ -16,7 +16,7 @@
  *   func_02012138  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
  *   func_02026400  0x02026400  thumb
- *   func_02012158  0x02012158  thumb
+ *   GAMESYSTEM_SetAlwaysNetFlag  0x02012158  thumb
  *   func_020121CC  0x020121CC  thumb
  *   func_021A0F7C  0x021A0F7C  thumb ov021
  *   func_02168B18  0x02168B18  thumb ov010
@@ -32,7 +32,7 @@ extern u32 func_02188CCC(u8 *p);
 extern unsigned int func_02012138(const struct Ctx *);
 extern u32 func_02026454(void *obj);
 extern void func_02026400(struct Comm *p);
-extern void func_02012158(char *p, unsigned int v);
+extern void GAMESYSTEM_SetAlwaysNetFlag(char *p, unsigned int v);
 extern u32 func_020121CC(struct IcaAnime *p);
 extern int func_021A0F7C(u32 a, u32 b, u32 c, u32 d);
 extern void func_02168B18(int *);
@@ -54,12 +54,12 @@ int func_02168B20(int a, int *b, int *c)
     case 1:
         if (func_02026454((void *)y) != 0)
             break;
-        func_02012158((char *)s, 0);
+        GAMESYSTEM_SetAlwaysNetFlag((char *)s, 0);
         (*b)++;
         break;
     case 2:
         if (c[1] != 0) {
-            func_02012158((char *)s, 1);
+            GAMESYSTEM_SetAlwaysNetFlag((char *)s, 1);
             func_020121CC((struct IcaAnime *)s);
         }
         (*b)++;

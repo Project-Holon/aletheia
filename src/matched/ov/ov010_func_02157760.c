@@ -26,7 +26,7 @@
  *   func_02177B2C  0x02177B2C  thumb  ov014
  *   func_02177BAC  0x02177BAC  thumb  ov014
  *   func_0203F1FC  0x0203F1FC  arm
- *   func_021780C4  0x021780C4  thumb  ov014
+ *   NET_WHPIPE_SelectEntry  0x021780C4  thumb  ov014
  *   func_02082D44  0x02082D44  arm
  *   func_02177BCC  0x02177BCC  thumb  ov014
  */
@@ -40,7 +40,7 @@ typedef unsigned int u32;
 extern u8 *func_02177B2C(int);
 extern void func_02177BAC(u32 idx);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void func_021780C4(u32 i);
+extern void NET_WHPIPE_SelectEntry(u32 i);
 extern void func_02082D44(void *, void *, u32);
 extern void func_02177BCC(void);
 
@@ -83,7 +83,7 @@ void func_02157760(u8 *q)
             } else {
                 if (p->sel == 0xFF)
                     p->sel = e[0x5E];
-                func_021780C4(i);
+                NET_WHPIPE_SelectEntry(i);
                 func_02082D44(e, base + idx * 100, 100);
                 func_02177BCC();
             }

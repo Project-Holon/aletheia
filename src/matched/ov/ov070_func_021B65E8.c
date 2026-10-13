@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   func_021B61C8  0x021B61C8  thumb  ov070
  *   func_021B61B8  0x021B61B8  thumb  ov070
@@ -24,7 +24,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int func_021B61C8(u8 *p);
 extern int func_021B61B8(u8 *p);
 struct Obj;
@@ -41,7 +41,7 @@ int func_021B65E8(u8 *p)
     int n;
     u32 i;
 
-    if (func_02035CB8(&x, &y) == 1) {
+    if (TOUCHPANEL_GetPointCont(&x, &y) == 1) {
         if (x < 0x90 || x > 0xE7 || y < 0xC || y > 0x9B)
             return 0;
         target = (y - 0xC) / 0x18;

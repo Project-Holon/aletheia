@@ -1,5 +1,5 @@
 /*
- * function: sub_02046C9C
+ * function: G3D_SYSTEM_InitResourceByKind
  * address:  0x02046C9C
  * packet:   pkt_02046C9C
  * region:   arm9
@@ -21,8 +21,8 @@
  * no label; 0x48BF is too wide for a `mov` and is the pool word at the end.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02046C9C.c \
- *       --func sub_02046C9C --addr 0x02046C9C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_InitResourceByKind.c \
+ *       --func G3D_SYSTEM_InitResourceByKind --addr 0x02046C9C --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -34,7 +34,7 @@ struct Rec {
     u32 unk_04;
 };
 
-void sub_02046C9C(struct Rec *rec, u32 mode, u32 value)
+void G3D_SYSTEM_InitResourceByKind(struct Rec *rec, u32 mode, u32 value)
 {
     switch (mode) {
     case 1:

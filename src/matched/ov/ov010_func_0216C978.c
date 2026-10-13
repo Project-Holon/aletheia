@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   d_02172548     0x02172548  data  ov010  a4
  */
 
@@ -20,8 +20,8 @@ typedef unsigned int   u32;
 struct Ctx;
 struct IcaAnime;
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern char d_02172548[];
 
 int func_0216C978(int a, int *st, int *o)
@@ -34,11 +34,11 @@ int func_0216C978(int a, int *st, int *o)
         o[3] = (int)func_020120F4((const struct Ctx *)x);
         t[1] = o[1];
         t[2] = o[2];
-        func_020120B4((struct IcaAnime *)x, ~0, d_02172548, t);
+        GAMESYSTEM_CallProc((struct IcaAnime *)x, ~0, d_02172548, t);
         (*st)++;
         break;
     case 1:
-        if (func_020120F0((const struct Ctx *)x) == 0)
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)x) == 0)
             return 1;
         break;
     }

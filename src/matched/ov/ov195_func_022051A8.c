@@ -10,13 +10,13 @@
  * extent: 82 code bytes followed by two zero alignment bytes at 0x022051FA.
  * symbols:
  *   func_02040588 0x02040588 arm
- *   func_02021D50 0x02021D50 thumb
+ *   PALANM_TransferPalettes 0x02021D50 thumb
  */
 #include "../include/Obj04594.h"
 typedef unsigned int   u32;
 struct S02021D50;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02021D50(struct S02021D50 *p);
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
 void func_022051A8(int task, char *p)
 {
     switch (((struct Obj04594 *)p)->f88) {
@@ -32,5 +32,5 @@ void func_022051A8(int task, char *p)
         break;
     }
     if (((struct Obj04594 *)p)->fA8)
-        func_02021D50(((struct Obj04594 *)p)->fA8);
+        PALANM_TransferPalettes(((struct Obj04594 *)p)->fA8);
 }

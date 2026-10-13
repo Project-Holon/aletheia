@@ -40,126 +40,84 @@
  *   func_021AB0F0  0x021AB0F0  thumb  ov021
  *   func_021AB44C  0x021AB44C  thumb  ov021
  */
-#include "../../matched/include/Obj20524.h"
+#include "unit_021F36C0_types.h"
 
-struct Big;
-struct Ctx;
-struct Obj00020;
-struct Rec94;
-typedef unsigned short u16;
-
-typedef unsigned char  u8;
-
-typedef signed int     s32_021F36C0;
-
-typedef unsigned int   u32;
-
-typedef signed int     s32_021F370C;
-
-typedef short s16;
-
-typedef int s32_021F3740;
-
-typedef long long s64;
-
-typedef struct Rec12 { s32_021F3740 a; s32_021F3740 b; s32_021F3740 c; } Rec12;
-
-typedef struct Obj {
-    s32_021F3740 f00;
-    u8 *f04;
-    Rec12 r;
-} Obj;
-
-typedef signed int     s32_021F3800;
-
-extern void *func_02188C80(void *p);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern int *func_021897BC(char *p, int idx);
-extern void *func_021A3074(unsigned char *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern s32_021F36C0 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern void func_0216D8E0(u8 *,void *);
-extern void func_021897A0(u8 *,int);
-extern int func_021F381C(int *p);
-extern u32 func_02005728(u32 range);
-extern short func_0203F684(unsigned short x);
-extern int _fflt(int a);
-extern int _fadd(int a, int b);
-extern int _fsub(int a, int b);
-extern int _ffix(int a);
-extern void func_02082BCC(void *,int,int);
-void func_021F36C0(int a);
-void func_021F370C(u32 a);
-void func_021F3740(int a);
-void func_021F3800(u32 a);
 extern u8 d_021F3840[];
 
+/* Sway amplitudes (in tiles) picked at random at the start of each cycle. */
+#define BRIDGE_SWAY_AMPLITUDE_COUNT 4
+/* Degrees added to the sway phase per frame. */
+#define BRIDGE_SWAY_ANGLE_STEP 8
 
-void func_021F36C0(int a)
+#define FX32_FROM_INT(x) ((fx32)(((x) > 0) ? ((x) * (1 << 12) + .5f) : ((x) * (1 << 12) - .5f)))
+
+/* Gimmick start: allocates the sway work and stores the player and its model in it. */
+void func_021F36C0(FieldMap *fieldMap)
 {
-    void **p;
+    BridgeSwayWork *work;
 
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 0x1f);
-    func_02189764((unsigned char *)a, 1, func_02188C84((u8 *)a), 0x14);
-    p = (void **)func_021897BC((char *)a, 1);
-    p[0] = func_02188CB4((void *)a);
-    p[1] = func_021A3074(p[0]);
-    p[2] = 0;
-    p[3] = 0;
-    p[4] = 0;
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
+    func_02189764(fieldMap, BRIDGE_SWAY_WORK_ID, func_02188C84(fieldMap), sizeof(BridgeSwayWork));
+    work = func_021897BC(fieldMap, BRIDGE_SWAY_WORK_ID);
+    work->player = func_02188CB4(fieldMap);
+    work->playerMmdl = func_021A3074(work->player);
+    work->drawOffset.x = 0;
+    work->drawOffset.y = 0;
+    work->drawOffset.z = 0;
 }
 
-void func_021F370C(u32 a) { u8 *p; func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))),31); p=(u8 *)func_021897BC((char *)a,1); func_0216D8E0(*(u8 * *)&((struct Obj20524 *)p)->f4,p+8); func_021897A0((u8 *)a,1); }
-
-
-void func_021F3740(int a)
+/* Gimmick end: applies the last draw offset to the player model and frees the sway work. */
+void func_021F370C(FieldMap *fieldMap)
 {
-    s16 *p;
-    Obj *o;
-    int r;
-    int v;
-    s32_021F3740 x;
+    BridgeSwayWork *work;
 
-    p = (s16 *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 0x1f);
-    o = (Obj *)func_021897BC((char *)a, 1);
-    if (func_021F381C((int *)o) == 0) {
-        o->r.b = 0;
-        p[0] = 0;
-        func_0216D8E0(o->f04, &o->r);
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
+    work = func_021897BC(fieldMap, BRIDGE_SWAY_WORK_ID);
+    func_0216D8E0(work->playerMmdl, &work->drawOffset);
+    func_021897A0(fieldMap, BRIDGE_SWAY_WORK_ID);
+}
+
+/* Per frame: while the player stands on a no-dash tile, bob the player model on a sine of the sway phase. */
+void func_021F3740(FieldMap *fieldMap)
+{
+    BridgeSwaySave *save;
+    BridgeSwayWork *work;
+    fx32 height;
+    int amplitude;
+    fx32 sine;
+
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
+    work = func_021897BC(fieldMap, BRIDGE_SWAY_WORK_ID);
+    if (func_021F381C(work) == 0) {
+        work->drawOffset.y = 0;
+        save->angle = 0;
+        func_0216D8E0(work->playerMmdl, &work->drawOffset);
         return;
     }
-    if (p[0] == 0) {
-        p[1] = d_021F3840[func_02005728(4)];
+    if (save->angle == 0) {
+        save->amplitude = d_021F3840[func_02005728(BRIDGE_SWAY_AMPLITUDE_COUNT)];
     }
-    v = p[1];
-    if (v > 0) {
-        r = _fadd(0x3f000000, _fflt(v << 12));
-    } else {
-        r = _fsub(_fflt(v << 12), 0x3f000000);
-    }
-    r = _ffix(r);
-    x = func_0203F684((u16)p[0]);
-    o->r.b = (s32_021F3740)(((s64)x * r + 0x800) >> 12);
-    func_0216D8E0(o->f04, &o->r);
-    p[0] = (p[0] + 8) % 360;
+    amplitude = save->amplitude;
+    height = FX32_FROM_INT(amplitude);
+    sine = func_0203F684((u16)save->angle);
+    work->drawOffset.y = (fx32)(((s64)sine * height + 0x800) >> 12);
+    func_0216D8E0(work->playerMmdl, &work->drawOffset);
+    save->angle = (save->angle + BRIDGE_SWAY_ANGLE_STEP) % 360;
 }
 
-void func_021F3800(u32 a) { func_02082BCC(func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)a)),31),0,4); }
-
-extern u32 func_021A30C8(void **ctx);
-extern int func_021AB100(u32 attr);
-extern u16 func_021AB0F0(u32 attr);
-extern int func_021AB44C(u16 id);
-
-int func_021F381C(int *p)
+/* Gimmick save reset: clears the sway state. */
+void func_021F3800(struct GameSystem *gameSystem)
 {
-    int r4 = func_021A30C8((void **)(*p));
-    if (func_021AB100(r4) == 0) {
+    func_02082BCC(func_0200B3A4(func_02012EC4(func_020120F4(gameSystem)), FIELD_GIMMICK_ID_BRIDGE_SWAY), 0, sizeof(BridgeSwaySave));
+}
+
+/* The player stands on a tile whose terrain is the no-dash terrain (checked through the attribute predicates). */
+int func_021F381C(BridgeSwayWork *work)
+{
+    u32 attr = func_021A30C8(work->player);
+
+    if (func_021AB100(attr) == 0) {
         return 0;
     }
-    return func_021AB44C(func_021AB0F0(r4));
+    return func_021AB44C(func_021AB0F0(attr));
 }
-

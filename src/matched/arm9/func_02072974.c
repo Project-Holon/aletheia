@@ -1,5 +1,5 @@
 /*
- * function: func_02072974
+ * function: SND_CHANNEL_UnlockChannels
  * address:  0x02072974
  * packet:   pkt_0207292C
  * region:   arm9
@@ -19,8 +19,8 @@
  * from the word at g_0214DEC0 + 8.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02072974.c \
- *       --func func_02072974 --addr 0x02072974 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/SND_CHANNEL_UnlockChannels.c \
+ *       --func SND_CHANNEL_UnlockChannels --addr 0x02072974 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 extern void func_020895F8(u32 chan, u32 a);
 extern u32  g_0214DEC0[];
 
-void func_02072974(u32 chan)
+void SND_CHANNEL_UnlockChannels(u32 chan)
 {
     if (chan == 0) {
         return;

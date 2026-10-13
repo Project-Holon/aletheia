@@ -46,12 +46,24 @@
     "func_02049DF4",
     "func_02049E34",
     "func_02049E74",
-    "func_02049EB4",
+    "ARC_UTIL_LoadPaletteDataFromArchive",
     "func_02049EF4",
     "func_02049F34",
     "func_02049F78",
-    "func_02049FBC",
-    "func_02049FFC"
+    "ARC_UTIL_LoadCellBankFromArchive",
+    "ARC_UTIL_LoadCellBankFromHandle"
+   ],
+   "addresses": [
+    "0x02049DB4",
+    "0x02049DF4",
+    "0x02049E34",
+    "0x02049E74",
+    "0x02049EB4",
+    "0x02049EF4",
+    "0x02049F34",
+    "0x02049F78",
+    "0x02049FBC",
+    "0x02049FFC"
    ]
   }
  ]

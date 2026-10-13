@@ -1,5 +1,5 @@
 /*
- * function: func_021D618C
+ * function: P_STATUS_PrintMsgToWin
  * address: 0x021D618C
  * packet: pkt_ov131_021D618C
  * region: ov131
@@ -9,11 +9,11 @@
  * status: EXACT*
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_021D614C 0x021D614C thumb ov131
+ *   P_STATUS_PrintMsg 0x021D614C thumb ov131
  */
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_021D614C(unsigned char *,int,int,int,unsigned short,unsigned short);
-void func_021D618C(unsigned char *p,unsigned int a,int b,int c,unsigned short d,unsigned short e) {
- func_021D614C(p,(int)func_02045770((struct Descriptor *)a),b,c,d,e);
+extern void P_STATUS_PrintMsg(unsigned char *,int,int,int,unsigned short,unsigned short);
+void P_STATUS_PrintMsgToWin(unsigned char *p,unsigned int a,int b,int c,unsigned short d,unsigned short e) {
+ P_STATUS_PrintMsg(p,(int)func_02045770((struct Descriptor *)a),b,c,d,e);
 }

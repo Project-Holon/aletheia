@@ -1,5 +1,5 @@
 /*
- * function: func_0202B254
+ * function: ISS_ROAD_SYS_HasPlayerMoved
  * address:  0x0202B254
  * region:   arm9
  * packet:   pkt_0202B230
@@ -22,12 +22,12 @@
  * `movs r3,#1`, five bytes away; the ternary spelling of the same conjunction
  * keeps the polarity but moves the copy, and loses the match.
  *
- * Closes the blocker of src/pending/func_0202B230.c, and through it
- * src/pending/func_0202B1F4.c and src/pending/func_0202B6CC.c.
+ * Closes the blocker of src/pending/ISS_ROAD_SYS_UpdateVolume.c, and through it
+ * src/pending/ISS_ROAD_SYS_Update.c and src/pending/ISS_SYS_UpdateRoad.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B254.c \
- *       --func func_0202B254 --addr 0x0202B254 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_ROAD_SYS_HasPlayerMoved.c \
+ *       --func ISS_ROAD_SYS_HasPlayerMoved --addr 0x0202B254 --thumb --cc 1.1p1
  */
 #include "../include/Obj03001.h"
 
@@ -44,7 +44,7 @@ struct Rec44;
 struct Vec12;
 extern struct Vec12 *func_02012AA0(struct Rec44 *p);
 
-u32 func_0202B254(u8 *p)
+u32 ISS_ROAD_SYS_HasPlayerMoved(u8 *p)
 {
     u32 *s = (u32 *)func_02012AA0((struct Rec44 *)(((struct Obj03001 *)p)->f8));
     int differ;

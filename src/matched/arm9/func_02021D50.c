@@ -1,5 +1,5 @@
 /*
- * function: func_02021D50
+ * function: PALANM_TransferPalettes
  * address:  0x02021D50
  * packet:   pkt_02021D50
  * region:   arm9
@@ -26,7 +26,7 @@
  *   func_0207F6A8   0x0207F6A8  arm
  *   func_0207F6C0   0x0207F6C0  arm
  *   func_0207F754   0x0207F754  arm
- *   func_02021930   0x02021930  thumb
+ *   PALANM_CheckBit   0x02021930  thumb
  *
  * The apply pass of the slot object: walks the 14 channel records and pushes
  * each one's current value out through the graphics-engine setter that the
@@ -38,7 +38,7 @@
  * guard to come out `cmp #0xd; bhi` (signed makes it a `bgt`/`bhi` pair),
  * but the loop's own bound must be compared signed -- `(int)i < 14` -- or
  * the back edge is `bhs` where the original has `bge`. And the bit index
- * handed to func_02021930 is truncated, `(u16)i`, which is the
+ * handed to PALANM_CheckBit is truncated, `(u16)i`, which is the
  * `lsls #0x10 / lsrs #0x10` pair at +0x3E.
  *
  * The final `if` re-reads p->b_lo out of memory rather than reusing the
@@ -73,7 +73,7 @@ struct S02021D50 {
     u16 b_hi : 1;
 };
 
-extern u8 func_02021930(u32 val, int bit);
+extern u8 PALANM_CheckBit(u32 val, int bit);
 extern void func_020862F0(void *a, u32 b);
 extern void func_0207E3D0(void *a, u32 b, u32 c);
 extern void func_0207E468(void *a, u32 b, u32 c);
@@ -92,7 +92,7 @@ extern void func_0207F6A8(void);
 extern void func_0207F6C0(void *a, u32 b, u32 c);
 extern void func_0207F754(void);
 
-void func_02021D50(struct S02021D50 *p)
+void PALANM_TransferPalettes(struct S02021D50 *p)
 {
     struct Chan *c;
     u32 k;
@@ -108,7 +108,7 @@ void func_02021D50(struct S02021D50 *p)
             if (p->ch[i].f4 == 0) {
                 continue;
             }
-            if (func_02021930(p->b_lo, (u16)i) == 0) {
+            if (PALANM_CheckBit(p->b_lo, (u16)i) == 0) {
                 continue;
             }
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_02015FF0
+ * function: MCSS_SetShadowVanishFlag
  * address:  0x02015FF0
  * packet:   pkt_02015FF0
  * region:   arm9
@@ -13,11 +13,11 @@
  * witness.  Addresses are Black-image addresses.
  *
  * symbols:
- *   func_02015FF0  0x02015FF0  thumb
+ *   MCSS_SetShadowVanishFlag  0x02015FF0  thumb
  */
 #include "../include/Obj00933.h"
 
-void func_02015FF0(char *p, int v)
+void MCSS_SetShadowVanishFlag(char *p, int v)
 {
     ((struct Obj00933 *)p)->f140 = (((struct Obj00933 *)p)->f140 & 0xFF7FFFFF) | ((v & 1) << 23);
 }

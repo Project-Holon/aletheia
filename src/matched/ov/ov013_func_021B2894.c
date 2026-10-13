@@ -1,5 +1,5 @@
 /*
- * function: func_021B2894
+ * function: VCT_SESSION_AdvancePhase
  * address:  0x021B2894
  * packet:   pkt_ov013_021B2894
  * region:   ov013
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B60D8  0x021B60D8  data  ov013  a4
- *   d_021B3BC8  0x021B3BC8  data  ov013  a1
- *   d_021B3AFC  0x021B3AFC  data  ov013  a1
- *   func_021B25B0  0x021B25B0  arm  ov013
+ *   gVctSession  0x021B60D8  data  ov013  a4
+ *   gVctHostPhaseTable  0x021B3BC8  data  ov013  a1
+ *   gVctClientPhaseTable  0x021B3AFC  data  ov013  a1
+ *   VCT_SESSION_SendReply  0x021B25B0  arm  ov013
  */
 
 typedef unsigned char u8;
@@ -38,12 +38,12 @@ typedef struct St {
     int state;
 } St;
 
-extern St d_021B60D8;
-extern s8 d_021B3BC8[][11];
-extern s8 d_021B3AFC[][11];
-extern int func_021B25B0(int a, int b);
+extern St gVctSession;
+extern s8 gVctHostPhaseTable[][11];
+extern s8 gVctClientPhaseTable[][11];
+extern int VCT_SESSION_SendReply(int a, int b);
 
-int func_021B2894(Ctx *c, Msg *m)
+int VCT_SESSION_AdvancePhase(Ctx *c, Msg *m)
 {
     int i;
     int r;
@@ -55,20 +55,20 @@ int func_021B2894(Ctx *c, Msg *m)
         i = -1;
     if (i < 0)
         return -1;
-    if (d_021B60D8.state == 1)
-        r = d_021B3BC8[c->fC][i];
+    if (gVctSession.state == 1)
+        r = gVctHostPhaseTable[c->fC][i];
     else
-        r = d_021B3AFC[c->fC][i];
+        r = gVctClientPhaseTable[c->fC][i];
     switch (r) {
     case -1:
         return r;
     case -2:
-        func_021B25B0((int)c, 1);
+        VCT_SESSION_SendReply((int)c, 1);
         c->fC = 0;
         c->f0 = 0;
         return r;
     case -3:
-        func_021B25B0((int)c, 3);
+        VCT_SESSION_SendReply((int)c, 3);
         c->fC = 0;
         c->f0 = 0;
         return r;

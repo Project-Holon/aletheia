@@ -11,7 +11,7 @@
  * symbols:
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02031324 0x02031324 arm
+ *   PROCSYS_Create 0x02031324 arm
  */
 #include "../include/Obj10612.h"
 #include "../include/Obj23664.h"
@@ -21,5 +21,5 @@ typedef unsigned int u32;
 struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,u32);
-extern void *func_02031324(int a0);
-int func_021DC860(void *obj,int a,u8 *ctx) { u8 *p=func_0203159C(obj,36,4); func_02082BCC(p,0,36); ((struct Obj10612 *)p)->f10=((struct Obj23664 *)ctx)->f4; ((struct Obj10612 *)p)->f8=ctx; ((struct Obj10612 *)p)->f20=func_02031324(1); return 1; }
+extern void *PROCSYS_Create(int a0);
+int func_021DC860(void *obj,int a,u8 *ctx) { u8 *p=func_0203159C(obj,36,4); func_02082BCC(p,0,36); ((struct Obj10612 *)p)->f10=((struct Obj23664 *)ctx)->f4; ((struct Obj10612 *)p)->f8=ctx; ((struct Obj10612 *)p)->f20=PROCSYS_Create(1); return 1; }

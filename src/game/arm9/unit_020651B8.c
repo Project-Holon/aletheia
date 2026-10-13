@@ -30,31 +30,31 @@
  *   g_02147C18     0x02147C18  data  a4
  *   g_02148318     0x02148318  data  a4
  *   g_02147B98     0x02147B98  data  a4
- *   func_02064EDC  0x02064EDC  arm
+ *   NNSi_G2dMCMLoadCurrentMtxToCache  0x02064EDC  arm
  *   func_02067B28  0x02067B28  arm
  *   func_02067AC0  0x02067AC0  arm
  *   func_02067DC8  0x02067DC8  arm
- *   func_02067D14  0x02067D14  arm
+ *   NNSi_G2dOamSoftEmuRender  0x02067D14  arm
  *   func_02067B40  0x02067B40  arm
  *   func_02067B48  0x02067B48  arm
  *   func_02067AAC  0x02067AAC  arm
  *   func_02067BA4  0x02067BA4  arm
- *   func_02067CB0  0x02067CB0  arm
+ *   NNSi_G2dOamSoftEmuEnd  0x02067CB0  arm
  *   func_02067B50  0x02067B50  arm
  *   func_02067B64  0x02067B64  arm
  *   g_020A1B38     0x020A1B38  data  a2
  *   func_02067A60  0x02067A60  arm
  *   func_02082AC0  0x02082AC0  arm
  *   MIi_CpuClear16   0x02082A48  arm
- *   func_02065020    0x02065020  arm
- *   func_02065134    0x02065134  arm
- *   func_02064E3C  0x02064E3C  arm
+ *   NNSi_G2dRendererBeforeDrawCell    0x02065020  arm
+ *   NNSi_G2dRendererAfterDrawCell    0x02065134  arm
+ *   NNSi_G2dRendererResetMtxSlot  0x02064E3C  arm
  *   func_02066E20  0x02066E20  arm
  *   func_02066DEC  0x02066DEC  arm
  *   func_02066E10  0x02066E10  arm
  *   func_02066DFC  0x02066DFC  arm
  *   g_02148018     0x02148018  data  a4
- *   func_0207C778  0x0207C778  arm
+ *   FX_Inv  0x0207C778  arm
  */
 #define FX32_SHIFT 12
 struct Ctx;
@@ -268,29 +268,29 @@ struct RendererBssHead {
 typedef long long fx64;
 
 extern int func_02063784(unsigned short *p, int i);
-extern void func_02064EDC(void);
+extern void NNSi_G2dMCMLoadCurrentMtxToCache(void);
 extern void func_02067B28(u32 a, u32 b);
 extern void func_02067AC0(struct Src02067AC0 *src);
 extern void func_02067DC8(u32 a0, s32 a1);
-extern void func_02067D14(u32 arg0);
+extern void NNSi_G2dOamSoftEmuRender(u32 arg0);
 extern void func_02067B40(struct G2dOamState *p, u32 v);
 extern void func_02067B48(u32 *p, u32 v);
 extern void func_02067AAC(int *p, int a, int b);
 extern void func_02067BA4(struct Ctx *c);
-extern void func_02067CB0(void);
+extern void NNSi_G2dOamSoftEmuEnd(void);
 extern u32 func_02067B50(const struct G2dOamState *p);
 extern u32 func_02067B64(const struct G2dOamState *p);
 extern void func_02067A60(NNSG2dRndCoreInstance *p);
 extern void func_02082AC0(u32 data, void *dest, u32 size);
 extern void MIi_CpuClear16(u32 val, void *dst, u32 size);
-extern void func_02065020(struct Host *h, void *a1);
-extern void func_02065134(void *a0, void *a1);
-extern void func_02064E3C(void);
+extern void NNSi_G2dRendererBeforeDrawCell(struct Host *h, void *a1);
+extern void NNSi_G2dRendererAfterDrawCell(void *a0, void *a1);
+extern void NNSi_G2dRendererResetMtxSlot(void);
 extern int func_02066E20(void);
 extern void func_02066DEC(int);
 extern void func_02066E10(int);
 extern void func_02066DFC(void);
-extern fx32 func_0207C778(fx32 v);
+extern fx32 FX_Inv(fx32 v);
 extern void func_02067AA0(int *p, int a, int b);
 void func_020651B8(struct Cell *c, void *a1, void *a2);
 void func_020653A4(void *a0, void *a1, void *a2);
@@ -476,12 +476,12 @@ static inline NNSG2dRndCore2DMtxCache *GetAff(void)
         if (g_02148718.bDrawMC != 0) {
             aff = g_02148718.cellAnimMtxCacheTbl[g_02148718.currentCellAnimIdx];
             if (aff == 0) {
-                func_02064EDC();
+                NNSi_G2dMCMLoadCurrentMtxToCache();
                 aff = &g_02148318[g_02147C18[(u16)g_02147B88.stackPos_].mtxCacheIdx];
                 g_02148718.cellAnimMtxCacheTbl[g_02148718.currentCellAnimIdx] = aff;
             }
         } else {
-            func_02064EDC();
+            NNSi_G2dMCMLoadCurrentMtxToCache();
             aff = &g_02148318[g_02147C18[(u16)g_02147B88.stackPos_].mtxCacheIdx];
         }
     }
@@ -504,7 +504,7 @@ static inline void Finish(void *a)
     if (r != 0)
         func_02067DC8((u32)a, g_020A81F8.currenVramTransferHandle_);
     else
-        func_02067D14((u32)a);
+        NNSi_G2dOamSoftEmuRender((u32)a);
 }
 
 
@@ -529,7 +529,7 @@ static inline void DrawA(void *a, NNSG2dRenderSurface *p)
     func_02067B28((u32)GetMtx(), (u32)aff);
     Finish(a);
     g_02147B88.pCurrentInstance_->rendererCore.pCurrentTargetSurface = 0;
-    func_02067CB0();
+    NNSi_G2dOamSoftEmuEnd();
 }
 
 
@@ -552,7 +552,7 @@ static inline void DrawB(void *a, NNSG2dRendererInstance *o, NNSG2dRenderSurface
     func_02067AC0((struct Src02067AC0 *)GetMtx());
     Finish(a);
     g_02147B88.pCurrentInstance_->rendererCore.pCurrentTargetSurface = 0;
-    func_02067CB0();
+    NNSi_G2dOamSoftEmuEnd();
 }
 
 
@@ -837,8 +837,8 @@ void func_02065B74(struct Obj *p)
     p->state = 1;
     p->mode  = 3;
 
-    p->fn18 = (u32)func_02065020;
-    p->fn1c = (u32)func_02065134;
+    p->fn18 = (u32)NNSi_G2dRendererBeforeDrawCell;
+    p->fn1c = (u32)NNSi_G2dRendererAfterDrawCell;
     p->fn20 = (u32)func_020651B8;
     p->fn24 = (u32)func_020653A4;
 }
@@ -857,7 +857,7 @@ void func_02065B74(struct Obj *p)
  * count pair, clears the 0x100-byte slot table g_02147C18, writes the GX
  * MTX_PUSH / MTX_IDENTITY command registers (0x04000444 / 0x04000454, plain
  * hardware addresses, no relocation) and rebuilds the slot-0 matrices via
- * func_02064E3C.  The body is the one docs/notes/func_02065BD0.c.txt
+ * NNSi_G2dRendererResetMtxSlot.  The body is the one docs/notes/func_02065BD0.c.txt
  * recorded at 144/168; the loop shape (guarded do-while, cursor p) is
  * that note's.
  *
@@ -897,7 +897,7 @@ void func_02065BD0(NNSG2dRendererInstance *obj)
 
     *(volatile u32 *)0x04000444 = 0;
     *(volatile u32 *)0x04000454 = 0;
-    func_02064E3C();
+    NNSi_G2dRendererResetMtxSlot();
 }
 
 
@@ -911,7 +911,7 @@ void func_02065BD0(NNSG2dRendererInstance *obj)
  * +0x7c, clears the two per-bit slots and drops the object pointer.
  *
  * Decompiled as a leaf so that it becomes a `matched` witness for the call at
- * 0x0204CB44+0x64 (src/pending/func_0204CB44.c); it reads no argument, the r0
+ * 0x0204CB44+0x64 (src/pending/CLACT_DrawActor.c); it reads no argument, the r0
  * the caller passes is a leftover.
  *
  * Verified with:
@@ -932,7 +932,7 @@ void func_02065C78(u32 a)
             g_02147B88.bDonotUseSRTransform = 0;
         if (f & 2) {
             o->rendererCore.pCurrentTargetSurface = 0;
-            func_02067CB0();
+            NNSi_G2dOamSoftEmuEnd();
         }
         g_02147B88.pCurrentInstance_->rendererCore.flag = 0;
     }
@@ -1342,10 +1342,10 @@ static inline void NNSi_G2dSetScale(MtxFx32 *m, fx32 sx, fx32 sy)
 
 static inline void NNSi_G2dSetScaleFor2DHW(MtxFx32 *m, fx32 sx, fx32 sy)
 {
-    m->_00 = func_0207C778(sx);
+    m->_00 = FX_Inv(sx);
     m->_01 = 0;
     m->_10 = 0;
-    m->_11 = func_0207C778(sy);
+    m->_11 = FX_Inv(sy);
     m->_20 = 0;
     m->_21 = 0;
 }
@@ -1450,7 +1450,7 @@ static inline void NNSi_G2dMCMSetCurrentMtxSRChanged(void)
 /*
  * NitroSystem g2d_Renderer.c NNS_G2dScale(x, y, z) (z unused): NNSi_G2dScale
  * concatenates NNSi_G2dSetScale onto mtxStack_[stackPos_] and
- * NNSi_G2dSetScaleFor2DHW (FX_Inv of each factor, func_0207C778) onto
+ * NNSi_G2dSetScaleFor2DHW (FX_Inv of each factor, FX_Inv) onto
  * mtxStackFor2DHW_[stackPos_] with NNSi_G2dMtxConcat32 (func_02066754), then
  * the SR-transformed latch and NNSi_G2dMCMSetCurrentMtxSRChanged.  Library
  * shape verbatim; closed by the same lever as func_02066620 (NNS_G2dRotZ):

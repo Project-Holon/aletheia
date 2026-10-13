@@ -1,5 +1,5 @@
 /*
- * function: func_0202B958
+ * function: ISS_3DS_SYS_LoadTable
  * address:  0x0202B958
  * packet:   pkt_0202B744
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  * closed:   blocker  is now a manifest entry (matched class)
  *
- * Same list dance as func_0202BEEC, on a node whose record table sits at
+ * Same list dance as ISS_ZONE_SYS_LoadRecords, on a node whose record table sits at
  * 0x264 and whose record count at 0x268; the node's own u16 id supplies the
  * selector.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0202B958.c \
- *       --func func_0202B958 --addr 0x0202B958 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/pending/ISS_3DS_SYS_LoadTable.c \
+ *       --func ISS_3DS_SYS_LoadTable --addr 0x0202B958 --thumb --cc 1.1p1
  */
 #include "../include/Obj01019.h"
 
@@ -31,7 +31,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
 extern void   func_02049238(void *h);
 
-void func_0202B958(u8 *p)
+void ISS_3DS_SYS_LoadTable(u8 *p)
 {
     u32  id = ((struct Obj01019 *)p)->f0;
     void *h = func_020490F4(0xb9, (u16)((id & 0x7fff) | 0x8000));

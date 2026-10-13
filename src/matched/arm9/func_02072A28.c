@@ -1,5 +1,5 @@
 /*
- * function: func_02072A28
+ * function: NNS_SndWaveOutInit
  * address:  0x02072A28
  * packet:   pkt_020729C0
  * region:   arm9
@@ -18,7 +18,7 @@ struct Struct0214DEC0 {
     u32 field8;
 };
 
-void func_02072A28(void)
+void NNS_SndWaveOutInit(void)
 {
     struct Struct0214DEC0 *p = (struct Struct0214DEC0 *)0x0214DEC0;
     p->field8 = 0;

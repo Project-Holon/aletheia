@@ -19,7 +19,11 @@
    "status": "EXACT",
    "functions": [
     "func_02174E64",
-    "func_02174E88"
+    "COLOSSEUM_RecvCancelAck"
+   ],
+   "addresses": [
+    "0x02174E64",
+    "0x02174E88"
    ]
   }
  ]

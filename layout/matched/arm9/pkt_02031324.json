@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02031324",
+   "name": "PROCSYS_Create",
    "address": "0x02031324",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02031330",
+   "name": "PROCSYS_Main",
    "address": "0x02031330",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0203133C",
+   "name": "PROCSYS_Delete",
    "address": "0x0203133C",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020314B8",
+   "name": "PROCSYS_DeleteInternal",
    "address": "0x020314B8",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020314DC",
+   "name": "PROCSYS_QueueReplace",
    "address": "0x020314DC",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020315D4",
+   "name": "PROCSYS_FreeProcWork",
    "address": "0x020315D4",
    "kind": "game",
    "region": "arm9",

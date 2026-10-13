@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02035750
+ * function: TOUCHPANEL_GetWork
  * address:  0x02035750
  * packet:   pkt_0203568C
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02035750(void){ return *(int *)(0x21469C4); }
+int TOUCHPANEL_GetWork(void){ return *(int *)(0x21469C4); }

@@ -12,7 +12,7 @@
  *   func_0220BF40 0x0220BF40 thumb ov197
  *   func_0220B980 0x0220B980 thumb ov197
  *   func_020310C4 0x020310C4 arm
- *   func_0202CD94 0x0202CD94 thumb
+ *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
  *   d_0220DF40 0x0220DF40 data a4
  */
 #include "../include/Obj00846.h"
@@ -29,7 +29,7 @@ extern int func_0220D3B0(struct Node *task, char *p);
 extern void func_0220BF40(char *);
 extern int func_0220B980(char *);
 extern void func_020310C4(struct Tcbl *);
-extern void func_0202CD94(struct WinMgr *mgr);
+extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 void func_0220C914(void *task, char *p)
 {
     if (((struct Obj25048 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) {
@@ -41,6 +41,6 @@ void func_0220C914(void *task, char *p)
     if (((struct Obj00846 *)p)->f530 == 20 && func_0220D3B0(task, p) == 1) return;
     func_020310C4(*(struct Tcbl * *)&((struct Obj00846 *)p)->f4);
     func_0220BF40(p);
-    func_0202CD94(*(struct WinMgr * *)&((struct Obj00846 *)p)->f520);
+    BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((struct Obj00846 *)p)->f520);
     func_0220B980(p);
 }

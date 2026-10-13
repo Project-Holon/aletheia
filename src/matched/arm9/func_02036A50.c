@@ -1,5 +1,5 @@
 /*
- * function: func_02036A50
+ * function: GFL_NET_QUEUE_FillSendBuffer
  * address:  0x02036A50
  * packet:   pkt_020369F8
  * region:   arm9
@@ -8,20 +8,20 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * blocker:  label -- func_020369F8 (this lane's own packet pkt_020369F8, but
+ * blocker:  label -- GFL_NET_QUEUE_RemoveNext (this lane's own packet pkt_020369F8, but
  *           unlabelled work not in the slice and itself only called from here)
- *           and func_020367C4 (pkt_020367C4, not this lane's).  Filing
- *           func_020369F8 would still leave func_020367C4 unwitnessed, so the
+ *           and GFL_NET_QUEUE_WriteNode (pkt_020367C4, not this lane's).  Filing
+ *           GFL_NET_QUEUE_RemoveNext would still leave GFL_NET_QUEUE_WriteNode unwitnessed, so the
  *           park is capped either way.
  *
  * symbols:
- *   func_020369C8   0x020369C8  arm
- *   func_020369F8   0x020369F8  arm
- *   func_020367C4   0x020367C4  arm
+ *   GFL_NET_QUEUE_GetNext   0x020369C8  arm
+ *   GFL_NET_QUEUE_RemoveNext   0x020369F8  arm
+ *   GFL_NET_QUEUE_WriteNode   0x020367C4  arm
  *   func_02082BCC   0x02082BCC  arm
  *
  * Byte-identical at 164 bytes; only the two PC24 call fields at +0x40 and
- * +0x54 stay wildcarded (func_020369C8 resolves `matched`, func_02082BCC
+ * +0x54 stay wildcarded (GFL_NET_QUEUE_GetNext resolves `matched`, func_02082BCC
  * resolves `label x566`).
  *
  * Spellings that mattered: every `return 1` must be a `goto` to one label at
@@ -36,24 +36,24 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 typedef unsigned char  u8;
-extern u32 func_020369C8(u32 *p);
-extern void func_020369F8(u8 *p);
-extern int   func_020367C4(int slot, u16 *info, u32 arg, int flag);
+extern u32 GFL_NET_QUEUE_GetNext(u32 *p);
+extern void GFL_NET_QUEUE_RemoveNext(u8 *p);
+extern int   GFL_NET_QUEUE_WriteNode(int slot, u16 *info, u32 arg, int flag);
 extern void *func_02082BCC(void *dst, int val, u32 size);
 
-int func_02036A50(u32 list, u16 *info)
+int GFL_NET_QUEUE_FillSendBuffer(u32 list, u16 *info)
 {
     int flag = 0;
 
     if (info[2] == 0)
         goto done;
     while (1) {
-        int slot = func_020369C8((u32 *)list);
+        int slot = GFL_NET_QUEUE_GetNext((u32 *)list);
 
         if (slot == 0)
             goto done;
-        func_020369F8((u8 *)list);
-        if (func_020367C4(slot, info, ((struct Obj08825 *)list)->f14, flag) == 0) {
+        GFL_NET_QUEUE_RemoveNext((u8 *)list);
+        if (GFL_NET_QUEUE_WriteNode(slot, info, ((struct Obj08825 *)list)->f14, flag) == 0) {
             ((struct Obj08825 *)list)->f10 = slot;
             goto done;
         }

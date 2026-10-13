@@ -1,5 +1,5 @@
 /*
- * function: func_02015FD4
+ * function: MCSS_SetShadowAlpha
  * address:  0x02015FD4
  * packet:   pkt_02015FD4
  * region:   arm9
@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf accessor, the follower of func_02015FBC: a 9-bit field at
- * bit 14 of the word at +0x140. Labelled so that func_02015FBC's extent ends
+ * Unlabelled leaf accessor, the follower of MCSS_SetAlpha: a 9-bit field at
+ * bit 14 of the word at +0x140. Labelled so that MCSS_SetAlpha's extent ends
  * at its own bx lr. Addresses are Black-image addresses.
  *
  * symbols:
- *   func_02015FD4  0x02015FD4  thumb
+ *   MCSS_SetShadowAlpha  0x02015FD4  thumb
  */
 #include "../include/Obj11257.h"
 
-void func_02015FD4(char *p, int v)
+void MCSS_SetShadowAlpha(char *p, int v)
 {
     ((struct Obj11257 *)p)->f140 = (((struct Obj11257 *)p)->f140 & 0xFF803FFF) | ((v & 0x1FF) << 14);
 }

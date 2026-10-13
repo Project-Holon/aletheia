@@ -1,6 +1,6 @@
 /*
  * file:     unit_02178DA4.c
- * function: func_02178DA4
+ * function: DWCi_Auth_AbortAuthentication
  * address:  0x02178DA4
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 extern void func_021780A8(void);
 extern void func_02178144(void);
 
-void func_02178DA4(void)
+void DWCi_Auth_AbortAuthentication(void)
 {
     func_021780A8();
     func_02178144();

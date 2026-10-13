@@ -25,7 +25,7 @@
  *   func_021F0CF8 0x021F0CF8 thumb ov032
  *   func_021F0B10 0x021F0B10 thumb ov032
  *   func_021F05E8 0x021F05E8 thumb ov032
- *   func_02031194 0x02031194 arm
+ *   TCBL_DeleteTask 0x02031194 arm
  */
 #include "../include/Obj00007.h"
 #include "../include/Obj01037.h"
@@ -49,7 +49,7 @@ extern void func_021F0D38(char *p);
 extern int func_021F0CF8(char *p, int i);
 extern void func_021F0B10(char *p, int a, int b);
 extern void func_021F05E8(u8 *p, int a, u32 b);
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 
 void func_021F1B94(void *h, u8 *t)
 {
@@ -120,7 +120,7 @@ void func_021F1B94(void *h, u8 *t)
         func_021F05E8((u8 *)p, 4, 0);
         func_021F029C(p, 0);
         (**(int * *)&((struct Obj01037 *)t)->f20)--;
-        func_02031194(h);
+        TCBL_DeleteTask(h);
         break;
     }
 }

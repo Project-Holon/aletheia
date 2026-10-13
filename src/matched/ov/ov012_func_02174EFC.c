@@ -1,5 +1,5 @@
 /*
- * function: func_02174EFC
+ * function: COLOSSEUM_RecvConfirm
  * address: 0x02174EFC
  * packet: pkt_ov012_02174EFC
  * region: ov012
@@ -13,9 +13,9 @@
  */
 
 typedef unsigned char u8;
-void func_02174EFC(int a, int b, int c, u8 *p);
+void COLOSSEUM_RecvConfirm(int a, int b, int c, u8 *p);
 
-void func_02174EFC(int a, int b, int c, u8 *p)
+void COLOSSEUM_RecvConfirm(int a, int b, int c, u8 *p)
 {
     u8 *w = *(u8 **)(p + 0x355c);
     if (w != 0)

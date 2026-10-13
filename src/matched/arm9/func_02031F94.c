@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02031F94
+ * function: BACKUP_SYSTEM_SetSaveCount
  * address:  0x02031F94
  * packet:   pkt_02031C30
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_02031F94(int *p, int v){ p[10] = v; }
+void BACKUP_SYSTEM_SetSaveCount(int *p, int v){ p[10] = v; }

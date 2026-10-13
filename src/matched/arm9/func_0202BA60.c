@@ -1,5 +1,5 @@
 /*
- * function: func_0202BA60
+ * function: ISS_3DS_SYS_StartSourceImpl
  * address:  0x0202BA60
  * packet:   pkt_0202BA60
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef struct { int f0; int f4[3]; int f10; int f14; int f18; } E;
 typedef struct { char pad[0x24]; E e[1]; } M;
 
-void func_0202BA60(M *m, int i, int a, int b)
+void ISS_3DS_SYS_StartSourceImpl(M *m, int i, int a, int b)
 {
     E *e = &m->e[i];
     if (e->f0 != 1) {

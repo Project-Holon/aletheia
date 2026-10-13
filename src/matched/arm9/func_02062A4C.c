@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02062B64  0x02062B64  arm
+ *   NNS_G2dFindBinaryBlock  0x02062B64  arm
  *   func_02062A88  0x02062A88  arm
  *
  * Finds the 'RAHC' (NCGR character data), second entry point block in a loaded NITRO file, runs its
@@ -29,12 +29,12 @@ typedef signed int     s32;
 
 struct NitroFileHeader;
 
-extern void *func_02062B64(struct NitroFileHeader *file, u32 signature);
+extern void *NNS_G2dFindBinaryBlock(struct NitroFileHeader *file, u32 signature);
 extern void func_02062A88(u8 *block);
 
 s32 func_02062A4C(struct NitroFileHeader *file, void **out)
 {
-    void *block = func_02062B64(file, 0x43484152);
+    void *block = NNS_G2dFindBinaryBlock(file, 0x43484152);
 
     if (block == 0) {
         *out = 0;

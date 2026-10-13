@@ -12,7 +12,7 @@
  *   func_020399A8 0x020399A8 arm
  *   func_02039CB4 0x02039CB4 arm
  *   func_02039C68 0x02039C68 arm
- *   func_0203D7B0 0x0203D7B0 arm
+ *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   func_0203D7BC 0x0203D7BC arm
  */
 #include "../include/Obj22056.h"
@@ -23,13 +23,13 @@ struct Link;
 extern unsigned func_02039CB4(struct Link *, unsigned, unsigned);
 extern void func_02039C68(struct Link *, unsigned, unsigned);
 typedef unsigned char  u8;
-extern void func_0203D7B0(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern void func_0203D7BC(u8 a0);
 int func_021C14A8(char *p, int ret)
 {
     if (func_021C1154(p) == 0) {
         if (func_02039CB4((struct Link *)func_020399A8(), 15, 10) != 0) {
-            func_0203D7B0(1);
+            GFL_NET_SetAutoExit(1);
             func_0203D7BC(1);
             func_02039C68((struct Link *)func_020399A8(), 18, 10);
             ((struct Obj22056 *)p)->f1CC = 45;

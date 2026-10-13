@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208F43C",
+   "name": "WM_End",
    "address": "0x0208F43C",
    "kind": "sdk",
    "region": "arm9",

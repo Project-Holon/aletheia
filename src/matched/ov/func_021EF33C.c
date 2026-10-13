@@ -10,17 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
+ *   BGWINFRM_PutFrame  0x0202CB4C  thumb  arm9
  *
- * Forward a plus constants to func_0202CB4C.
+ * Forward a plus constants to BGWINFRM_PutFrame.
  */
 
 typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 
 void func_021EF33C(struct WinMgr *mgr)
 {
-    func_0202CB4C(mgr, 8, 0x15, 6);
+    BGWINFRM_PutFrame(mgr, 8, 0x15, 6);
 }
 

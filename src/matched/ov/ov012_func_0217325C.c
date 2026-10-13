@@ -1,5 +1,5 @@
 /*
- * function: func_0217325C
+ * function: UNION_COMM_BuildBeacon
  * address:  0x0217325C
  * packet:   pkt_ov012_0217325C
  * region:   ov012
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Fills the 0x64-byte record that func_021730F8 files into its table
+ * Fills the 0x64-byte record that UNION_COMM_StoreBeacon files into its table
  * (same bitfield at byte 7 bit 4, MAC at +0x64 of a table entry).
  *
  * symbols:
@@ -111,7 +111,7 @@ extern u32 func_0201283C(const struct BigObj *p);
 extern int func_02009CB0(int a0, int a1);
 extern int func_021840C8(u8 *p);
 
-void func_0217325C(u8 *self, Rec *out)
+void UNION_COMM_BuildBeacon(u8 *self, Rec *out)
 {
     Local *l = (Local *)(self + 0x2830);
 

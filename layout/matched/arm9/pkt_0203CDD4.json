@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203CDD4",
+   "name": "GFL_NET_EndSession",
    "address": "0x0203CDD4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203CF3C",
+   "name": "GFL_NET_GetScanResultMac",
    "address": "0x0203CF3C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D0D0",
+   "name": "GFL_NET_IRC_WIRELESS_Exit",
    "address": "0x0203D0D0",
    "kind": "game",
    "region": "arm9",

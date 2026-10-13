@@ -1,5 +1,5 @@
 /*
- * function: func_0203386C
+ * function: FLASH_ACCESS_CancelWrite
  * address:  0x0203386C
  * packet:   pkt_020334E8
  * region:   arm9
@@ -15,9 +15,9 @@
  *           Every concrete byte of the body reproduces.
  * symbols:
  *   g_02146998    0x02146998  data
- *   func_02076B8C 0x02076B8C  arm
+ *   CARD_TryWaitBackupAsync 0x02076B8C  arm
  *   func_02076B98 0x02076B98  arm
- *   func_02076B80 0x02076B80  arm
+ *   CARD_WaitBackupAsync 0x02076B80  arm
  *   func_02075EAC 0x02075EAC  arm
  *   func_02084F10 0x02084F10  arm
  */
@@ -25,17 +25,17 @@
 typedef unsigned int u32;
 
 extern u32 g_02146998;
-extern u32 func_02076B8C(void);
+extern u32 CARD_TryWaitBackupAsync(void);
 extern void func_02076B98(void);
-extern void func_02076B80(void);
+extern void CARD_WaitBackupAsync(void);
 extern void func_02075EAC(u32 a);
 extern void func_02084F10(u32 a);
 
-void func_0203386C(u32 a)
+void FLASH_ACCESS_CancelWrite(u32 a)
 {
-    if (func_02076B8C() == 0) {
+    if (CARD_TryWaitBackupAsync() == 0) {
         func_02076B98();
-        func_02076B80();
+        CARD_WaitBackupAsync();
     }
     if (g_02146998 != 1) {
         return;

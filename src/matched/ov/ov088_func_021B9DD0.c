@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020489F4  0x020489F4  arm
- *   func_020115C0  0x020115C0  thumb
+ *   ICA_ANIME_IncFrameNoLoop  0x020115C0  thumb
  *   func_02011B8C  0x02011B8C  thumb
  *   func_02048AD0  0x02048AD0  arm
  *   func_02047964  0x02047964  arm
@@ -30,7 +30,7 @@ typedef unsigned char  u8;
 struct IcaAnime;
 struct Light;
 extern u32 func_020489F4(u8 *a0, int i);
-extern u32 func_020115C0(struct IcaAnime *p, s32 v);
+extern u32 ICA_ANIME_IncFrameNoLoop(struct IcaAnime *p, s32 v);
 extern void func_02011B8C(void *, void *);
 extern void func_02048AD0(struct Light *l);
 extern void func_02047964(void);
@@ -48,7 +48,7 @@ void func_021B9DD0(int *p)
     unsigned i;
     void *h;
     base = func_020489F4((void *)p[0], ((struct Obj03674 *)p)->f4);
-    func_020115C0((void *)p[3], 0x1000);
+    ICA_ANIME_IncFrameNoLoop((void *)p[3], 0x1000);
     func_02011B8C((void *)p[4], (void *)p[3]);
     func_02048AD0((void *)p[4]);
     func_02047964();

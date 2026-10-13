@@ -17,8 +17,8 @@
  *   func_02047964 0x02047964 arm
  *   func_02048AD0 0x02048AD0 arm
  *   func_020479D8 0x020479D8 arm
- *   func_0206AA3C 0x0206AA3C arm
- *   func_0206AA78 0x0206AA78 arm
+ *   NNS_G3dGlbLightVector 0x0206AA3C arm
+ *   NNS_G3dGlbLightColor 0x0206AA78 arm
  *   func_0206AA8C 0x0206AA8C arm
  *   func_0206AAB0 0x0206AAB0 arm
  *   func_021E0698 0x021E0698 thumb ov137
@@ -30,7 +30,7 @@
  *   func_02045334 0x02045334 arm
  *   func_0201C4E4 0x0201C4E4 thumb
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_0202F0B0 0x0202F0B0 thumb
+ *   TIME_ICON_Update 0x0202F0B0 thumb
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -39,7 +39,7 @@ struct Light;
 extern void func_02048B6C(struct Light *l, const u32 *in);
 extern void func_02048AD0(struct Light *l);
 extern void func_02047964(void),func_020479D8(void),func_02047970(void),func_0204A600(void);
-extern void func_0206AA3C(int,int,int,int),func_0206AA78(int,u32),func_0206AA8C(u32,u32,u32),func_0206AAB0(u32,u32,u32);
+extern void NNS_G3dGlbLightVector(int,int,int,int),NNS_G3dGlbLightColor(int,u32),func_0206AA8C(u32,u32,u32),func_0206AAB0(u32,u32,u32);
 extern void func_021E0698(u8 *),func_021E05D4(u8 *),func_021E0848(u8 *);
 struct Descriptor;
 struct PrintSys;
@@ -47,7 +47,7 @@ extern u32 func_0201C4E4(struct PrintSys *ps);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02045334(struct Descriptor *d);
-extern void func_0202F0B0(u8 *p);
+extern void TIME_ICON_Update(u8 *p);
 void func_021DF864(u8 *p)
 {
     u32 flags=0x1000000;
@@ -57,8 +57,8 @@ void func_021DF864(u8 *p)
     func_02047964();
     func_02048AD0(*(void **)(p+0xd54));
     func_020479D8();
-    func_0206AA3C(0,0,-4096,0);
-    func_0206AA78(0,0x7fff);
+    NNS_G3dGlbLightVector(0,0,-4096,0);
+    NNS_G3dGlbLightColor(0,0x7fff);
     func_0206AA8C(0x7fff,0x7fff,0);
     func_0206AAB0(0x7fff,0x7fff,0);
     func_021E0698(p);func_021E05D4(p);func_021E0848(p);
@@ -80,5 +80,5 @@ void func_021DF864(u8 *p)
             }
         }
     }
-    if(*(void **)(p+0xda8)) func_0202F0B0(*(void **)(p+0xda8));
+    if(*(void **)(p+0xda8)) TIME_ICON_Update(*(void **)(p+0xda8));
 }

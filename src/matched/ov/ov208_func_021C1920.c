@@ -22,7 +22,7 @@
  *   func_021BDBA0  0x021BDBA0  thumb  ov208
  *   func_021BDC48  0x021BDC48  thumb  ov208
  *   func_021BC3A4  0x021BC3A4  thumb  ov208
- *   func_02012BF8  0x02012BF8  thumb
+ *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
  *   func_021BDC14  0x021BDC14  thumb  ov208
  */
 
@@ -43,7 +43,7 @@ extern void func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
 extern void func_021BDBA0(void *s);
 extern void func_021BDC48(void *s, u32 on);
 extern int func_021BC3A4(int *p);
-extern int func_02012BF8(int a0, int a1);
+extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void func_021BDC14(char *p, int b);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -118,7 +118,7 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
             func_0204B3DC((struct Obj *)W(0xd0), 0);
             wide = func_021BC3BC((char *)key) > 1 ? 1 : 0;
             func_021BDAAC(s, 0, 1, wide);
-            func_021BDC14(s, func_02012BF8(func_021BC3A4((int *)key), 0x12));
+            func_021BDC14(s, GAME_DATA_CheckSaveFlag(func_021BC3A4((int *)key), 0x12));
         }
         break;
     case 8:

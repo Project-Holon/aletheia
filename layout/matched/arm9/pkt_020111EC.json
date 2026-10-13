@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020111EC",
-    "func_0201121C"
+    "VM_Reset",
+    "VM_Create"
+   ],
+   "addresses": [
+    "0x020111EC",
+    "0x0201121C"
    ]
   },
   {
@@ -34,12 +38,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201126C",
-    "func_0201127C",
-    "sub_02011290",
-    "func_02011298",
-    "sub_02011324",
-    "sub_02011328"
+    "VM_Init",
+    "VM_Start",
+    "VM_End",
+    "VM_Control",
+    "VM_GetContext",
+    "VM_SetHook"
+   ],
+   "addresses": [
+    "0x0201126C",
+    "0x0201127C",
+    "0x02011290",
+    "0x02011298",
+    "0x02011324",
+    "0x02011328"
    ]
   }
  ]

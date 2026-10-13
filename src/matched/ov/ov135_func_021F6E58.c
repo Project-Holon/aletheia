@@ -20,7 +20,7 @@
  *   func_0200AD9C  0x0200AD9C  thumb
  *   func_02019CE0  0x02019CE0  thumb
  *   func_02034714  0x02034714  arm
- *   func_02031348  0x02031348  arm
+ *   PROCSYS_Push  0x02031348  arm
  *   str_02203B6C   0x02203B6C  data  a1
  *   d_021E75B4     0x021E75B4  data  ov119
  *   d_021E75CC     0x021E75CC  data  ov119
@@ -98,7 +98,7 @@ extern void *func_021F72C4(void *e);
 extern void func_0200AD9C(void *sys, void *mon);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02031348(void *h, u32 id, void *a, void *b);
+extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
 
 int func_021F6E58(Work *p)
 {
@@ -150,7 +150,7 @@ int func_021F6E58(Work *p)
         func_02034714((void *)0x02203B80, 0, (void *)0x02203B80);
         break;
     }
-    func_02031348(p->f12F0, (u32)ov119_id, tmpl, p->req);
+    PROCSYS_Push(p->f12F0, (u32)ov119_id, tmpl, p->req);
     p->fB8 = 1;
     p->f12E4 = 0;
     return 1;

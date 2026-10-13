@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02014BA8 0x02014BA8 thumb
+ *   MCSS_Exit 0x02014BA8 thumb
  */
 #include "../include/Obj25760.h"
 typedef unsigned char u8;
-extern void func_02014BA8(u8 *);
-void func_021F6AE0(char *p){func_02014BA8(*(u8 * *)&((struct Obj25760 *)p)->f30);}
+extern void MCSS_Exit(u8 *);
+void func_021F6AE0(char *p){MCSS_Exit(*(u8 * *)&((struct Obj25760 *)p)->f30);}

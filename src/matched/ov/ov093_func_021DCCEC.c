@@ -15,7 +15,7 @@
  * symbols:
  *   func_021D70AC 0x021D70AC thumb ov093
  *   func_021B9A24 0x021B9A24 thumb ov093
- *   func_020213C0 0x020213C0 thumb
+ *   PALANM_IsColorCodeKnown 0x020213C0 thumb
  *   d_021F0AE8 0x021F0AE8 data a4
  */
 typedef unsigned char u8;
@@ -24,13 +24,13 @@ typedef struct { u16 h0; u16 pad2; u8 b4; u8 pad5[3]; } Args;
 extern u8 func_021D70AC(u8 *);
 extern int func_021B9A24(unsigned int a, unsigned int b);
 typedef unsigned int   u32;
-extern int func_020213C0(u32 a);
+extern int PALANM_IsColorCodeKnown(u32 a);
 extern int d_021F0AE8;
 int func_021DCCEC(u8 *a,int b,int c,int d,Args e)
 {
     if(c==5) {
         if(!func_021B9A24(func_021D70AC(a),e.b4)) {
-            if(func_020213C0(e.h0)) return 1;
+            if(PALANM_IsColorCodeKnown(e.h0)) return 1;
         }
     }
     return 0;

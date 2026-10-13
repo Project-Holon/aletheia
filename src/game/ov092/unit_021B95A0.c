@@ -16,19 +16,19 @@
  *   func_0203064C  0x0203064C  arm
  *   func_0203159C  0x0203159C  arm
  *   func_020457B0  0x020457B0  arm
- *   func_02031324  0x02031324  arm
+ *   PROCSYS_Create  0x02031324  arm
  *   func_0203133C 0x0203133C arm
  *   func_02045808 0x02045808 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   func_02012934 0x02012934 thumb
  *   func_02012944 0x02012944 thumb
  *   func_0200CA1C 0x0200CA1C thumb
  *   func_0201293C 0x0201293C thumb
  *   func_0201AC2C 0x0201AC2C thumb
- *   func_0201B038 0x0201B038 thumb
- *   func_0201B170 0x0201B170 thumb
+ *   POKERUS_TryInfectParty 0x0201B038 thumb
+ *   POKERUS_SpreadParty 0x0201B170 thumb
  *   func_02012F08 0x02012F08 thumb
  *   func_0200C278 0x0200C278 thumb
  *   func_0200C29C 0x0200C29C thumb
@@ -53,7 +53,7 @@
  *   func_0200CED4 0x0200CED4 thumb
  *   func_0200CFA0 0x0200CFA0 thumb
  *   func_0200CDE0 0x0200CDE0 thumb
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200C0F0 0x0200C0F0 thumb
  *   func_0216C0A4 0x0216C0A4 thumb ov010
@@ -66,9 +66,9 @@
  *   func_0201A98C 0x0201A98C thumb
  *   func_020185F0 0x020185F0 thumb
  *   func_020074D8 0x020074D8 thumb
- *   func_02005E30 0x02005E30 thumb
- *   func_02005E50 0x02005E50 thumb
- *   func_02005D28 0x02005D28 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_02012984 0x02012984 thumb
  *   func_0201B2B0 0x0201B2B0 thumb
  *   func_02030734 0x02030734 arm
@@ -85,346 +85,436 @@
  *   d_021B9D6E 0x021B9D6E data ov092 a2
  *   d_021B9D58 0x021B9D58 data ov092 a2
  *   d_021B9D4D 0x021B9D4D data ov092 a1
- *   func_02017F9C  0x02017F9C  thumb
+ *   POKE_TOOL_SetStatusCondition  0x02017F9C  thumb
  *   func_0216E62C  0x0216E62C  thumb  ov010
  *   func_02048F60 0x02048F60 arm
  */
-#include "../../matched/include/Obj07738.h"
-#include "../../matched/include/Obj13264.h"
-
-struct Obj0203159C;
-struct U16Vec;
-struct S020314B8;
-struct S020315D4;
-struct Big;
-struct BigObj;
-struct Blk34;
-struct Blk37;
-struct MsgBank;
-struct Party;
-struct PartyMon;
-struct Rec;
-struct Rec44;
-struct Rec534;
-struct S_021B95A0;
-struct SaveBlock;
-struct Sub02007454Entry;
-struct Sub02008C20Obj;
 typedef unsigned char u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int u32;
+typedef signed int s32;
 
-struct W {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u8 pad0c[0x20];
-    u32 f2c;
-    u32 f30;
-    u32 f34;
-    u8 pad38[4];
-    u16 f3c;
-    u8 pad3e[2];
-    u32 f40;
-    u32 f44;
-    u32 f48;
-};
+/* Heap created for the whole after-battle processing; freed in the exit step. */
+#define EVENT_BATTLE_RETURN_HEAP_ID 0x52
 
-typedef struct { u8 pad[0x38]; u16 idx, mask; } Rec;
+/* Parameter ids of the get/set party-value accessors. */
+#define MON_PARAM_SPECIES 5
+#define MON_PARAM_HELD_ITEM 6
+#define MON_PARAM_ABILITY 0xa
+#define MON_PARAM_NICKNAME 115
+#define MON_PARAM_ORIGINAL_TRAINER_NAME 141
+#define MON_PARAM_LEVEL 0x9e
+#define MON_PARAM_SPECIES_OR_EGG 0xab
 
-typedef struct { void *save, *party; u16 species; u8 slot, method; u32 x, flag; } Extra;
+#define SPECIES_EGG 0x28a
+#define SPECIES_SHAYMIN 0x1ec
+#define ABILITY_NATURAL_CURE 0x1e
+#define ABILITY_PICKUP 0x35
+#define ABILITY_HONEY_GATHER 0x76
+#define ITEM_HONEY 0x5e
+#define EVENT_FLAG_BOX_NOTICE_SEEN 0x96d
+#define RECORD_NICKNAMED_COUNT 30
+#define MAX_NICKNAME_LENGTH 10
+#define BGM_FADE_FRAMES 30
+#define BURMY_FORM_ARCHIVE 0x98
+#define LINE_OF_HEAP_ALLOC 0x1ca
 
-typedef signed int     s32;
-
-struct In {
-    u32 f00;
-    u8 pad04[0x20];
-    void *f24;
-    u8 pad28[0x64];
-    u32 f8c;
-};
-
-struct S_021B95A0 {
-    void *f00;
-    struct In *f04;
-};
-
-struct S_021B9AA0 {
-    u32 f00;
-    u8 *f04;
-};
-
-extern void func_0203064C(u32 src, u32 dst, u32 size);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_02031324(int a0);
-extern void func_0203133C(struct S020314B8 *);
-extern void func_02045808(struct U16Vec *);
-extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(unsigned int heap);
-extern u32 func_02031330(void *);
-extern void *func_02012934(const struct BigObj *p);
-extern u8 *func_02012944(void *);
-extern void *func_0200CA1C(void *);
-extern u32 func_0201293C(const struct BigObj *p);
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
-extern void func_0201B038(void *);
-extern void func_0201B170(void *);
-extern void *func_02012F08(int *p);
-extern u32 func_0200C278(struct Blk34 *p, u32 v);
-extern u32 func_0200C29C(struct Blk34 *p, u32 v);
-extern void *func_0201AB28(void *, u32);
-extern void func_02008500(void *, void *);
-extern void func_02017E40(void *, u32, u32);
-extern u32 func_0201AA18(void *p);
-extern u32 func_0201AA14(void *p);
-extern u32 func_02007698(void *);
-extern int func_020076D0(void *, int *, int *);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_0201296C(const struct BigObj *p);
-extern u32 func_020142E8(void *bitmap, s32 id);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045C04(struct Rec *rec);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
-extern u32 func_02013E4C(u32);
-extern void func_0202F190(void *, u32, u32, u32, u16);
-extern u32 func_0200CA38(struct Blk37 *p);
-extern u32 func_02017E1C(void *, u32, u32);
-extern u32 func_0200CED4(struct Blk37 *p, u16 id);
-extern void func_0200CFA0(struct Blk37 *p, void *m);
-extern void func_0200CDE0(struct Blk37 *p, void *m);
-extern void func_02031348(void *, u32, const u8 *, void *);
-extern void *func_02012EBC(struct Big *p);
-extern void *func_0200C0F0(void *);
-extern int *func_0216C0A4(unsigned short a, int b, int c, int d, int e, int f, int g, int h);
-extern int func_0216C0E4(int *p);
-extern void func_0216C0D4(int *p, int a1);
-extern void *func_02012F2C(int *p);
-extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
-extern int func_0216C0C0(int a0);
-extern void func_021B9D04(void *);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern void *func_020185F0(void *);
-extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
-extern void func_02005E30(u32);
-extern int func_02005E50(void);
-extern void func_02005D28(void);
-extern u8 func_02012984(const struct BigObj *p);
-extern u16 func_0201B2B0(void *, void *, u32, u32, u8, u32 *, u16);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
-extern u32 func_020056EC(u32);
-extern void func_02017F9C(void *mon, u32 v);
-extern void func_0216E62C(int a, int p, int id);
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
-int func_021B95A0(struct Obj0203159C *a0);
-int func_021B95E8(struct S020315D4 *p, u32 b, u32 c, u32 d);
-int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r);
-void func_021B9A14(u8 *a0, struct S_021B95A0 *s);
-void func_021B9AA0(void *party);
-void func_021B9BD8(void *party);
-void func_021B9C34(struct S_021B9AA0 *s, void *party, int c);
-u32 func_021B9C80(u32 p, u32 heap);
-void func_021B9CA4(struct S_021B9AA0 *s, void *party);
-extern const u8 data_0220BAB0[], data_021F5580[], data_02208C40[], data_021B9DC0[];
+/* Overlay ids of the sub-screens this step machine starts. */
 extern const u8 ov207_id[], ov194_id[], ov195_id[];
+
+/* Values of BattleReturnParam.outcome that matter here. */
+enum {
+    BATTLE_OUTCOME_WIN = 1,
+    BATTLE_OUTCOME_DRAW = 3,
+    BATTLE_OUTCOME_CAUGHT = 5
+};
+
+/* Values of BattleReturnParam.competitor: 0 and 1 are wild and trainer fights. */
+#define COMPETITOR_LAST_NORMAL 1
+
+struct ProcObj;
+struct ProcSys;
+struct SubProcTable;
+struct NameInArgs;
+struct GameData;
+struct PokeParty;
+struct PokemonParam;
+struct BoxPokemon;
+struct BoxManager;
+struct MyStatus;
+struct MiscSave;
+struct SaveControl;
+struct ZukanSave;
+struct EventWork;
+struct PlayerWork;
+struct RecordBlock;
+struct Strbuf;
+struct MsgBank;
+struct EvolutionRequest;
+
+/*
+ * The battle parameter object (BattleSetupParam, btl_setup_types.h) seen from
+ * the result side. Its header names are inferred for offsets past 0x84; the
+ * names here come from how this file reads the battle results, so the header
+ * should take these (moneyDelta, outcome, capturedIndex, participated).
+ */
+struct BattleField {
+    s32 bgType;
+    s32 bgAttr;
+    u8 weather;
+    u8 season;
+    u16 zoneId;
+    u8 hour;
+    u8 minute;
+    u8 pad0e[2];
+};
+
+struct BattleReturnParam {
+    u32 competitor;
+    u8 pad04[4];
+    struct BattleField field;
+    u8 pad18[0xc];
+    struct PokeParty *playerParty;
+    struct PokeParty *opponentParty;
+    u8 pad2c[0x5c];
+    s32 moneyDelta;
+    u32 outcome;
+    u8 capturedIndex;
+    u8 pad91[0x31];
+    u8 participated[6];
+};
+
+/* Arguments of the event: the game data and the finished battle's parameters. */
+struct EventBattleReturnArgs {
+    struct GameData *gameData;
+    struct BattleReturnParam *battleParam;
+};
+
+/* Arguments of the catch registration screen (overlay 207). */
+struct CatchRegistrationArgs {
+    u32 wasAlreadyCaught;
+    struct PokemonParam *mon;
+    u32 dexMode;
+    struct Strbuf *boxFullMsg;
+    struct BoxManager *boxManager;
+    u32 boxNo;
+    struct GameData *gameData;
+    u32 wantsNickname;
+};
+
+/* Work of the step machine, allocated with the proc (0x4c bytes). */
+struct EventBattleReturnWork {
+    struct NameInArgs *nameInArgs;
+    struct Strbuf *nameBuf;
+    struct PokemonParam *caughtMon;
+    struct CatchRegistrationArgs catchArgs;
+    struct Strbuf *boxFullMsg;
+    u32 boxNo;
+    struct EvolutionRequest *evolutionRequest;
+    u16 scanIndex;
+    u16 levelUpMask;
+    u16 heapId;
+    u8 pad3e[2];
+    struct ProcSys *procSys;
+    u32 bgmSettled;
+    u32 bgmFadeStarted;
+};
+
+/* Parameter block of the evolution screen (overlay 195), same layout as the one in the trade code. */
+struct EvolutionRequest {
+    struct GameData *gameData;
+    struct PokeParty *party;
+    u16 targetSpecies;
+    u8 partySlot;
+    u8 evolveCondition;
+    u32 fromTrade;
+    u32 fromField;
+};
+
+/* One 0x24-byte record per battle background of the Burmy form table. */
+struct BurmyFormRecord {
+    u8 header[0x13];
+    u8 formByAttr[0x11];
+};
+
+extern void func_0203064C(u32 parentHeapId, u32 heapId, u32 size);
+extern void *func_0203159C(struct ProcObj *proc, u32 size, u32 heapId);
+extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
+extern struct ProcSys *PROCSYS_Create(int heapId);
+extern void func_0203133C(struct ProcSys *procSys);
+extern void func_02045808(struct Strbuf *strbuf);
+extern void func_020315D4(struct ProcObj *proc);
+extern void func_020306F0(unsigned int heapId);
+extern u32 PROCSYS_Main(struct ProcSys *procSys);
+extern struct PokeParty *func_02012934(const struct GameData *gameData);
+extern struct MyStatus *func_02012944(const struct GameData *gameData);
+extern struct ZukanSave *func_0200CA1C(const struct GameData *gameData);
+extern struct BoxManager *func_0201293C(const struct GameData *gameData);
+extern void func_0201AC2C(const struct PokeParty *src, struct PokeParty *dst);
+extern void POKERUS_TryInfectParty(struct PokeParty *party);
+extern void POKERUS_SpreadParty(struct PokeParty *party);
+extern struct MiscSave *func_02012F08(const struct GameData *gameData);
+extern u32 func_0200C278(struct MiscSave *misc, u32 amount);
+extern u32 func_0200C29C(struct MiscSave *misc, u32 amount);
+extern struct PokemonParam *func_0201AB28(struct PokeParty *party, u32 index);
+extern void func_02008500(struct MyStatus *status, struct Strbuf *name);
+extern void func_02017E40(struct PokemonParam *mon, u32 paramId, u32 value);
+extern u32 func_0201AA18(struct PokeParty *party);
+extern u32 func_0201AA14(struct PokeParty *party);
+extern u32 func_02007698(struct BoxManager *boxManager);
+extern int func_020076D0(struct BoxManager *boxManager, int *box, int *slot);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct EventWork *func_0201296C(const struct GameData *gameData);
+extern u32 func_020142E8(struct EventWork *eventWork, s32 flagId);
+extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u32 func_02045C04(struct MsgBank *bank);
+extern struct PlayerWork *func_020127A4(const struct GameData *gameData);
+extern u16 func_02012AC8(const struct PlayerWork *player);
+extern u32 func_02013E4C(u32 zoneId);
+extern void func_0202F190(struct PokemonParam *mon, u32 mode, const struct MyStatus *trainer, u32 placeNameId, u16 heapId);
+extern u32 func_0200CA38(struct ZukanSave *zukan);
+extern u32 func_02017E1C(struct PokemonParam *mon, u32 paramId, u32 unused);
+extern u32 func_0200CED4(struct ZukanSave *zukan, u16 species);
+extern void func_0200CFA0(struct ZukanSave *zukan, struct PokemonParam *mon);
+extern void func_0200CDE0(struct ZukanSave *zukan, struct PokemonParam *mon);
+extern void PROCSYS_Push(struct ProcSys *procSys, u32 overlayId, const struct SubProcTable *procTable, void *args);
+extern struct SaveControl *func_02012EBC(const struct GameData *gameData);
+extern struct MiscSave *func_0200C0F0(struct SaveControl *saveControl);
+extern struct NameInArgs *func_0216C0A4(unsigned short heapId, struct PokemonParam *mon, int maxLength, int mode, struct Strbuf *boxFullMsg, struct BoxManager *boxManager, int boxNo, struct MiscSave *misc);
+extern int func_0216C0E4(struct NameInArgs *args);
+extern void func_0216C0D4(struct NameInArgs *args, struct Strbuf *dst);
+extern struct RecordBlock *func_02012F2C(const struct GameData *gameData);
+extern u32 func_02008DF0(struct RecordBlock *record, int index);
+extern int func_0216C0C0(struct NameInArgs *args);
+extern void func_021B9D04(struct PokemonParam *mon);
+extern u32 func_0201A98C(struct PokeParty *party, const struct PokemonParam *mon);
+extern struct BoxPokemon *func_020185F0(struct PokemonParam *mon);
+extern int func_020074D8(struct BoxManager *boxManager, const struct BoxPokemon *mon);
+extern void GFL_USE_FadeOutBgm(u32 frames);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
+extern u8 func_02012984(const struct GameData *gameData);
+extern u16 func_0201B2B0(struct PokeParty *party, struct PokemonParam *mon, u32 mode, u32 zoneId, u8 season, u32 *method, u16 heapId);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern u32 func_020307B0(void *memory);
+extern u32 func_020056EC(u32 range);
+extern void POKE_TOOL_SetStatusCondition(struct PokemonParam *mon, u32 status);
+extern void func_0216E62C(struct GameData *gameData, struct PokemonParam *mon, int burmyForm);
+extern void *func_02048F60(u32 archiveId, u32 member, u32 heapId);
+
+int func_021B95A0(struct ProcObj *proc);
+int func_021B95E8(struct ProcObj *proc, u32 seq, u32 pwk, struct EventBattleReturnWork *work);
+int func_021B9614(struct ProcObj *proc, u32 *seq, struct EventBattleReturnArgs *args, struct EventBattleReturnWork *work);
+void func_021B9A14(struct EventBattleReturnWork *work, struct EventBattleReturnArgs *args);
+void func_021B9AA0(struct PokeParty *party);
+void func_021B9BD8(struct PokeParty *party);
+void func_021B9C34(struct EventBattleReturnArgs *args, struct PokeParty *party, int burmyForm);
+u32 func_021B9C80(const struct BattleField *field, u32 heapId);
+void func_021B9CA4(struct EventBattleReturnArgs *args, struct PokeParty *party);
+
+extern const struct SubProcTable data_0220BAB0, data_021F5580, data_02208C40;
+extern const u8 data_021B9DC0[];
 extern const u8 d_021B9D44[];
 extern const u16 d_021B9D6E[];
 extern const u16 d_021B9D58[];
 extern const u8 d_021B9D4D[];
 
-
-
-int func_021B95A0(struct Obj0203159C *a0)
+/* Step machine init: heap, work, name buffer and sub-proc system. */
+int func_021B95A0(struct ProcObj *proc)
 {
-    struct W *p;
+    struct EventBattleReturnWork *work;
 
-    func_0203064C(1, 0x52, 0x1000);
-    p = func_0203159C(a0, 0x4c, 0x52);
-    p->f04 = (u32)func_020457B0(0x20, 0x52);
-    p->f00 = 0;
-    p->f08 = 0;
-    p->f2c = 0;
-    p->f30 = 0;
-    p->f34 = 0;
-    p->f3c = 0x52;
-    p->f40 = (u32)func_02031324(p->f3c);
-    p->f44 = 0;
-    p->f48 = 0;
+    func_0203064C(1, EVENT_BATTLE_RETURN_HEAP_ID, 0x1000);
+    work = func_0203159C(proc, 0x4c, EVENT_BATTLE_RETURN_HEAP_ID);
+    work->nameBuf = func_020457B0(0x20, EVENT_BATTLE_RETURN_HEAP_ID);
+    work->nameInArgs = 0;
+    work->caughtMon = 0;
+    work->boxFullMsg = 0;
+    work->boxNo = 0;
+    work->evolutionRequest = 0;
+    work->heapId = EVENT_BATTLE_RETURN_HEAP_ID;
+    work->procSys = PROCSYS_Create(work->heapId);
+    work->bgmSettled = 0;
+    work->bgmFadeStarted = 0;
     return 1;
 }
 
-
-int func_021B95E8(struct S020315D4 *p, u32 b, u32 c, u32 d)
+/* Step machine exit: frees the sub-proc system, both strings, the work and the heap. */
+int func_021B95E8(struct ProcObj *proc, u32 seq, u32 pwk, struct EventBattleReturnWork *work)
 {
-    func_0203133C(*(struct S020314B8 * *)&((struct Obj07738 *)d)->f40);
-    if (*(struct U16Vec * *)&((struct Obj07738 *)d)->f2C) func_02045808(*(struct U16Vec * *)&((struct Obj07738 *)d)->f2C);
-    func_02045808(*(struct U16Vec * *)&((struct Obj07738 *)d)->f4);
-    func_020315D4(p);
-    func_020306F0(0x52);
+    func_0203133C(work->procSys);
+    if (work->boxFullMsg) func_02045808(work->boxFullMsg);
+    func_02045808(work->nameBuf);
+    func_020315D4(proc);
+    func_020306F0(EVENT_BATTLE_RETURN_HEAP_ID);
     return 1;
 }
-
 
 /*
+ * Step machine main. Steps: 0 applies the battle results to the party and, for
+ * a caught Pokemon, starts the catch registration screen; 1 starts the
+ * nickname screen if the player wants one; 2 stores the nickname; 3 puts the
+ * caught Pokemon into the party or a box; 4 scans the members that gained a
+ * level for an evolution; 5 waits for the evolution screen; 6 ends.
+ *
  * note: 2026-10-05 matched. Loader order (context, id, descriptor, argument). Closing forms: case 1, 2 and 5 are
  *   `if (busy != 1) { body; break; } return 0;` (return block after the body); `ok = 0; if (f == 1) ok = 1;`;
  *   `if (flag) x = 0; else x = 1;`; `case 6: default: return 1;`; the case 4 tail `r68 = 1; break;` written in
  *   the guarded arm and again after it (cross-jumped copy leaves the b stub); species and slot as u16 locals,
  *   box/bslot declared first; the source record pointer s is not const. Case 4 mask and slot use a two-field view.
  */
-int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
+int func_021B9614(struct ProcObj *proc, u32 *seq, struct EventBattleReturnArgs *args, struct EventBattleReturnWork *work)
 {
     u32 busy;
-    void *party;
-    int box, bslot;
+    struct PokeParty *party;
+    int box, boxSlot;
     u32 method;
-    void *mon;
-    u8 *buf;
-    void *dex, *save, *bank;
-    int amount, used, index;
-    int flag;
-    unsigned long dexno;
+    struct PokemonParam *mon;
+    struct MyStatus *myStatus;
+    struct ZukanSave *zukan;
+    struct BoxManager *boxManager;
+    struct MsgBank *msgBank;
+    struct MiscSave *miscSave;
+    int moneyDelta, partyCount, msgIndex;
+    int isNewSpecies, wantsNickname;
+    unsigned long dexMode;
     u16 species;
     u16 slot;
-    Extra *e;
-    busy = func_02031330((*(void **)((u8 *)(r)+( 64))));
+    struct EvolutionRequest *evolutionRequest;
+    busy = PROCSYS_Main(work->procSys);
     if (busy == 1) return 0;
-    switch (*step) {
+    switch (*seq) {
     case 0:
-        party = func_02012934((*(void **)((u8 *)(s)+( 0))));
-        buf = func_02012944((*(void **)((u8 *)(s)+( 0))));
-        dex = func_0200CA1C((*(void **)((u8 *)(s)+( 0))));
-        save = (void *)func_0201293C((*(void **)((u8 *)(s)+( 0))));
-        (((Rec *)r)->idx) = 0;
-        (((Rec *)r)->mask) = 0;
-        if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 0))) <= 1) {
-            func_021B9A14(r, (struct S_021B95A0 *)s);
-            func_0201AC2C((*(void **)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 36))), party);
-            func_0201B038(party);
-            func_0201B170(party);
-            if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 140))) == 1) func_021B9AA0(party);
-            func_021B9C34((struct S_021B9AA0 *)((struct S_021B95A0 *)s), party, func_021B9C80((u32)(*(void **)((u8 *)(s)+( 4))) + 8, (*(u16 *)((u8 *)(r)+( 60)))));
-            func_021B9CA4((struct S_021B9AA0 *)((struct S_021B95A0 *)s), party);
-            amount = (*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 136)));
-            if (amount > 0) func_0200C278(func_02012F08((*(void **)((u8 *)(s)+( 0)))), amount);
-            else if (amount < 0) func_0200C29C(func_02012F08((*(void **)((u8 *)(s)+( 0)))), -amount);
+        party = func_02012934(args->gameData);
+        myStatus = func_02012944(args->gameData);
+        zukan = func_0200CA1C(args->gameData);
+        boxManager = func_0201293C(args->gameData);
+        work->scanIndex = 0;
+        work->levelUpMask = 0;
+        if (args->battleParam->competitor <= COMPETITOR_LAST_NORMAL) {
+            func_021B9A14(work, args);
+            func_0201AC2C(args->battleParam->playerParty, party);
+            POKERUS_TryInfectParty(party);
+            POKERUS_SpreadParty(party);
+            if (args->battleParam->outcome == BATTLE_OUTCOME_WIN) func_021B9AA0(party);
+            func_021B9C34(args, party, func_021B9C80(&args->battleParam->field, work->heapId));
+            func_021B9CA4(args, party);
+            moneyDelta = args->battleParam->moneyDelta;
+            if (moneyDelta > 0) func_0200C278(func_02012F08(args->gameData), moneyDelta);
+            else if (moneyDelta < 0) func_0200C29C(func_02012F08(args->gameData), -moneyDelta);
         }
         func_021B9BD8(party);
-        if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 140))) == 5) {
-            (*(void **)((u8 *)(r)+( 8))) = func_0201AB28((*(void **)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 40))), *((u8 *)(*(void **)((u8 *)(s)+( 4))) + 144));
-            func_02008500(buf, (*(void **)((u8 *)(r)+( 4))));
-            func_02017E40((*(void **)((u8 *)(r)+( 8))), 141, (*(u32 *)((u8 *)(r)+( 4))));
-            used = (int)func_0201AA18(party);
-            if (used >= (int)func_0201AA14(party)) {
-                box = func_02007698(save); bslot = 0;
-                func_020076D0(save, &box, &bslot);
-                (*(u32 *)((u8 *)(r)+( 48))) = box;
-                bank = func_02045B38(0, 2, 234, 82);
-                index = func_020142E8((void *)func_0201296C((*(void **)((u8 *)(s)+( 0)))), 0x96d) ? 177 : 176;
-                (*(void **)((u8 *)(r)+( 44))) = func_02045EC0(bank, index);
-                func_02045C04(bank);
+        if (args->battleParam->outcome == BATTLE_OUTCOME_CAUGHT) {
+            work->caughtMon = func_0201AB28(args->battleParam->opponentParty, args->battleParam->capturedIndex);
+            func_02008500(myStatus, work->nameBuf);
+            func_02017E40(work->caughtMon, MON_PARAM_ORIGINAL_TRAINER_NAME, (u32)work->nameBuf);
+            partyCount = (int)func_0201AA18(party);
+            if (partyCount >= (int)func_0201AA14(party)) {
+                box = func_02007698(boxManager); boxSlot = 0;
+                func_020076D0(boxManager, &box, &boxSlot);
+                work->boxNo = box;
+                msgBank = func_02045B38(0, 2, 234, EVENT_BATTLE_RETURN_HEAP_ID);
+                msgIndex = func_020142E8(func_0201296C(args->gameData), EVENT_FLAG_BOX_NOTICE_SEEN) ? 177 : 176;
+                work->boxFullMsg = func_02045EC0(msgBank, msgIndex);
+                func_02045C04(msgBank);
             }
-            func_0202F190((*(void **)((u8 *)(r)+( 8))), 0, (u32)buf, func_02013E4C(func_02012AC8(func_020127A4((*(void **)((u8 *)(s)+( 0)))))), (*(u16 *)((u8 *)(r)+( 60))));
-            flag = 0;
-            dexno = func_0200CA38(dex);
-            if (func_0200CED4(dex, func_02017E1C((*(void **)((u8 *)(r)+( 8))), 5, 0)) == 0) flag = 1;
-            func_0200CFA0(dex, (*(void **)((u8 *)(r)+( 8))));
-            func_0200CDE0(dex, (*(void **)((u8 *)(r)+( 8))));
-            (*(u32 *)((u8 *)(r)+( 20))) = dexno;
-            (*(void **)((u8 *)(r)+( 16))) = (*(void **)((u8 *)(r)+( 8)));
-            (*(void **)((u8 *)(r)+( 24))) = (*(void **)((u8 *)(r)+( 44)));
-            (*(void **)((u8 *)(r)+( 28))) = save;
-            (*(u32 *)((u8 *)(r)+( 32))) = (*(u32 *)((u8 *)(r)+( 48)));
-            (*(void **)((u8 *)(r)+( 36))) = (*(void **)((u8 *)(s)+( 0)));
-            if (flag) (*(u32 *)((u8 *)(r)+( 12))) = 0; else (*(u32 *)((u8 *)(r)+( 12))) = 1;
-            func_02031348((*(void **)((u8 *)(r)+( 64))), (u32)ov207_id, data_0220BAB0, r + 12);
-            ++*step;
-        } else *step = 4;
+            func_0202F190(work->caughtMon, 0, myStatus, func_02013E4C(func_02012AC8(func_020127A4(args->gameData))), work->heapId);
+            isNewSpecies = 0;
+            dexMode = func_0200CA38(zukan);
+            if (func_0200CED4(zukan, func_02017E1C(work->caughtMon, MON_PARAM_SPECIES, 0)) == 0) isNewSpecies = 1;
+            func_0200CFA0(zukan, work->caughtMon);
+            func_0200CDE0(zukan, work->caughtMon);
+            work->catchArgs.dexMode = dexMode;
+            work->catchArgs.mon = work->caughtMon;
+            work->catchArgs.boxFullMsg = work->boxFullMsg;
+            work->catchArgs.boxManager = boxManager;
+            work->catchArgs.boxNo = work->boxNo;
+            work->catchArgs.gameData = args->gameData;
+            if (isNewSpecies) work->catchArgs.wasAlreadyCaught = 0; else work->catchArgs.wasAlreadyCaught = 1;
+            PROCSYS_Push(work->procSys, (u32)ov207_id, &data_0220BAB0, &work->catchArgs);
+            ++*seq;
+        } else *seq = 4;
         break;
     case 1:
         if (busy != 1) {
-        save = (void *)func_0201293C((*(void **)((u8 *)(s)+( 0))));
-        flag = 0;
-        if ((*(u32 *)((u8 *)(r)+( 40))) == 1) flag = 1;
-        if (flag) {
-            bank = func_0200C0F0(func_02012EBC((*(void **)((u8 *)(s)+( 0)))));
-            (*(void **)((u8 *)(r)+( 0))) = func_0216C0A4((*(u16 *)((u8 *)(r)+( 60))), (int)(*(void **)((u8 *)(r)+( 8))), 10, 0, (int)(*(void **)((u8 *)(r)+( 44))), (int)save, (*(u32 *)((u8 *)(r)+( 48))), (int)bank);
-            func_02031348((*(void **)((u8 *)(r)+( 64))), (u32)ov194_id, data_021F5580, (*(void **)((u8 *)(r)+( 0))));
-            ++*step;
-        } else *step = 3;
+        boxManager = func_0201293C(args->gameData);
+        wantsNickname = 0;
+        if (work->catchArgs.wantsNickname == 1) wantsNickname = 1;
+        if (wantsNickname) {
+            miscSave = func_0200C0F0(func_02012EBC(args->gameData));
+            work->nameInArgs = func_0216C0A4(work->heapId, work->caughtMon, MAX_NICKNAME_LENGTH, 0, work->boxFullMsg, boxManager, work->boxNo, miscSave);
+            PROCSYS_Push(work->procSys, (u32)ov194_id, &data_021F5580, work->nameInArgs);
+            ++*seq;
+        } else *seq = 3;
         break;
         }
         return 0;
     case 2:
         if (busy != 1) {
-        if (!func_0216C0E4((*(void **)((u8 *)(r)+( 0))))) {
-            func_0216C0D4((*(void **)((u8 *)(r)+( 0))), (u32)(*(u32 *)((u8 *)(r)+( 4))));
-            func_02017E40((*(void **)((u8 *)(r)+( 8))), 115, (*(u32 *)((u8 *)(r)+( 4))));
-            func_02008DF0(func_02012F2C((*(void **)((u8 *)(s)+( 0)))), 30);
+        if (!func_0216C0E4(work->nameInArgs)) {
+            func_0216C0D4(work->nameInArgs, work->nameBuf);
+            func_02017E40(work->caughtMon, MON_PARAM_NICKNAME, (u32)work->nameBuf);
+            func_02008DF0(func_02012F2C(args->gameData), RECORD_NICKNAMED_COUNT);
         }
-        func_0216C0C0((int)(*(void **)((u8 *)(r)+( 0))));
-        (*(void **)((u8 *)(r)+( 0))) = 0;
-        ++*step;
+        func_0216C0C0(work->nameInArgs);
+        work->nameInArgs = 0;
+        ++*seq;
         break;
         }
         return 0;
     case 3:
-        party = func_02012934((*(void **)((u8 *)(s)+( 0))));
-        func_021B9D04((*(void **)((u8 *)(r)+( 8))));
-        if (!(*(void **)((u8 *)(r)+( 44)))) func_0201A98C(party, (*(void **)((u8 *)(r)+( 8))));
+        party = func_02012934(args->gameData);
+        func_021B9D04(work->caughtMon);
+        if (!work->boxFullMsg) func_0201A98C(party, work->caughtMon);
         else {
-            save = (void *)func_0201293C((*(void **)((u8 *)(s)+( 0))));
-            func_020074D8(save, func_020185F0((*(void **)((u8 *)(r)+( 8)))));
+            boxManager = func_0201293C(args->gameData);
+            func_020074D8(boxManager, func_020185F0(work->caughtMon));
         }
-        ++*step;
+        ++*seq;
         break;
     case 4: {
-        void *party;
-        if (!(*(u32 *)((u8 *)(r)+( 68)))) {
-            if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 140))) == 5 && (((Rec *)r)->mask)) {
-                if (!(*(u32 *)((u8 *)(r)+( 72)))) { func_02005E30(30); (*(u32 *)((u8 *)(r)+( 72))) = 1; break; }
-                if (func_02005E50()) break;
-                func_02005D28();
-                (*(u32 *)((u8 *)(r)+( 68))) = 1;
+        struct PokeParty *scanParty;
+        if (!work->bgmSettled) {
+            if (args->battleParam->outcome == BATTLE_OUTCOME_CAUGHT && work->levelUpMask) {
+                if (!work->bgmFadeStarted) { GFL_USE_FadeOutBgm(BGM_FADE_FRAMES); work->bgmFadeStarted = 1; break; }
+                if (GFL_USE_IsBgmFading()) break;
+                GFL_USE_CancelChangeAndStopBgm();
+                work->bgmSettled = 1;
                 break;
             }
-            (*(u32 *)((u8 *)(r)+( 68))) = 1;
+            work->bgmSettled = 1;
             break;
         }
-        if ((((Rec *)r)->mask)) {
+        if (work->levelUpMask) {
             species = 0;
-            party = func_02012934((*(void **)((u8 *)(s)+( 0))));
-            *step = 6;
-            while ((((Rec *)r)->mask)) {
-                if ((((Rec *)r)->mask) & 1) {
-                    mon = func_0201AB28(party, (((Rec *)r)->idx));
-                    species = func_0201B2B0(party, mon, 0, (*(u16 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 18))), func_02012984((*(void **)((u8 *)(s)+( 0)))), &method, (*(u16 *)((u8 *)(r)+( 60))));
-                    slot = (((Rec *)r)->idx);
+            scanParty = func_02012934(args->gameData);
+            *seq = 6;
+            while (work->levelUpMask) {
+                if (work->levelUpMask & 1) {
+                    mon = func_0201AB28(scanParty, work->scanIndex);
+                    species = func_0201B2B0(scanParty, mon, 0, args->battleParam->field.zoneId, func_02012984(args->gameData), &method, work->heapId);
+                    slot = work->scanIndex;
                 }
-                (((Rec *)r)->mask) = (((Rec *)r)->mask) >> 1;
-                (((Rec *)r)->idx)++;
+                work->levelUpMask = work->levelUpMask >> 1;
+                work->scanIndex++;
                 if (species) {
-                    e = func_02030734((*(u16 *)((u8 *)(r)+( 60))), 20, 0, (const char *)data_021B9DC0, 0x1ca);
-                    e->save = (*(void **)((u8 *)(s)+( 0))); e->party = party; e->species = species; e->slot = slot; e->method = method; e->x = 0; e->flag = 1;
-                    (*(void **)((u8 *)(r)+( 52))) = e;
-                    func_02031348((*(void **)((u8 *)(r)+( 64))), (u32)ov195_id, data_02208C40, e);
-                    *step = 5;
+                    evolutionRequest = func_02030734(work->heapId, 20, 0, (const char *)data_021B9DC0, LINE_OF_HEAP_ALLOC);
+                    evolutionRequest->gameData = args->gameData; evolutionRequest->party = scanParty; evolutionRequest->targetSpecies = species; evolutionRequest->partySlot = slot; evolutionRequest->evolveCondition = method; evolutionRequest->fromTrade = 0; evolutionRequest->fromField = 1;
+                    work->evolutionRequest = evolutionRequest;
+                    PROCSYS_Push(work->procSys, (u32)ov195_id, &data_02208C40, evolutionRequest);
+                    *seq = 5;
                     break;
                 }
             }
-        } else *step = 6;
+        } else *seq = 6;
         break;
     }
     case 5:
         if (busy != 1) {
-        func_020307B0((*(void **)((u8 *)(r)+( 52))));
-        (*(void **)((u8 *)(r)+( 52))) = 0;
-        if ((((Rec *)r)->mask)) *step = 4;
-        else ++*step;
+        func_020307B0(work->evolutionRequest);
+        work->evolutionRequest = 0;
+        if (work->levelUpMask) *seq = 4;
+        else ++*seq;
         break;
         }
         return 0;
@@ -435,149 +525,145 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
     return 0;
 }
 
-
-
-void func_021B9A14(u8 *a0, struct S_021B95A0 *s)
+/* Sets bit i of levelUpMask for each member whose level is higher after the battle. */
+void func_021B9A14(struct EventBattleReturnWork *work, struct EventBattleReturnArgs *args)
 {
-    struct In *in = s->f04;
-    void *p1;
-    int n;
+    struct BattleReturnParam *battleParam = args->battleParam;
+    struct PokeParty *partyBefore;
+    int count;
     int i;
-    u16 *dst;
+    u16 *mask;
 
-    if (in->f8c == 1 || in->f8c == 3 || in->f8c == 5) {
-        switch (in->f00) {
+    if (battleParam->outcome == BATTLE_OUTCOME_WIN || battleParam->outcome == BATTLE_OUTCOME_DRAW || battleParam->outcome == BATTLE_OUTCOME_CAUGHT) {
+        switch (battleParam->competitor) {
         case 0:
         case 1:
-            p1 = func_02012934(s->f00);
-            n = func_0201AA18(p1);
+            partyBefore = func_02012934(args->gameData);
+            count = func_0201AA18(partyBefore);
             i = 0;
-            if (n > 0) {
-                dst = (u16 *)(a0 + 0x3a);
+            if (count > 0) {
+                mask = &work->levelUpMask;
                 do {
-                    void *m1 = func_0201AB28(p1, i);
-                    void *m2 = func_0201AB28(s->f04->f24, i);
-                    u32 v1 = func_02017E1C(m1, 0x9e, 0);
-                    u32 v2 = func_02017E1C(m2, 0x9e, 0);
-                    if (v1 < v2) {
-                        *dst |= (u16)(1 << i);
+                    struct PokemonParam *monBefore = func_0201AB28(partyBefore, i);
+                    struct PokemonParam *monAfter = func_0201AB28(args->battleParam->playerParty, i);
+                    u32 levelBefore = func_02017E1C(monBefore, MON_PARAM_LEVEL, 0);
+                    u32 levelAfter = func_02017E1C(monAfter, MON_PARAM_LEVEL, 0);
+                    if (levelBefore < levelAfter) {
+                        *mask |= (u16)(1 << i);
                     }
                     i++;
-                } while (i < n);
+                } while (i < count);
             }
             break;
         }
     }
 }
 
-
-void func_021B9AA0(void *party)
+/* Pickup and Honey Gather: members holding nothing may find an item after the battle. */
+void func_021B9AA0(struct PokeParty *party)
 {
     int i;
-    void *mon;
+    struct PokemonParam *mon;
     u16 species,item;
     int ability;
-    int random;
+    int roll;
     int j;
-    u8 tier;
-    int threshold;
-    int index;
+    u8 levelTier;
+    int levelCeil;
+    int chanceIndex;
     for (i=0;i<(int)func_0201AA18(party);i++) {
         mon = func_0201AB28(party,i);
-        species = func_02017E1C(mon,0xab,0);
-        item = func_02017E1C(mon,6,0);
-        ability = (u8)func_02017E1C(mon,0xa,0);
-        if (ability == 0x35 && species != 0 && species != 0x28a && item == 0 && func_020056EC(10) == 0) {
-            random = func_020056EC(100);
-            tier = (func_02017E1C(mon,0x9e,0)-1)/10u;
-            if (tier >= 10) tier=9;
+        species = func_02017E1C(mon,MON_PARAM_SPECIES_OR_EGG,0);
+        item = func_02017E1C(mon,MON_PARAM_HELD_ITEM,0);
+        ability = (u8)func_02017E1C(mon,MON_PARAM_ABILITY,0);
+        if (ability == ABILITY_PICKUP && species != 0 && species != SPECIES_EGG && item == 0 && func_020056EC(10) == 0) {
+            roll = func_020056EC(100);
+            levelTier = (func_02017E1C(mon,MON_PARAM_LEVEL,0)-1)/10u;
+            if (levelTier >= 10) levelTier=9;
             for (j=0;j<9;j++) {
-                if (d_021B9D44[j] > random) {
-                    func_02017E40(mon,6,d_021B9D6E[tier+j]);
+                if (d_021B9D44[j] > roll) {
+                    func_02017E40(mon,MON_PARAM_HELD_ITEM,d_021B9D6E[levelTier+j]);
                     break;
-                } else if (random >= 98 && random <= 99) {
-                    func_02017E40(mon,6,d_021B9D58[tier+(99-random)]);
+                } else if (roll >= 98 && roll <= 99) {
+                    func_02017E40(mon,MON_PARAM_HELD_ITEM,d_021B9D58[levelTier+(99-roll)]);
                     break;
                 }
             }
         }
-        if (ability == 0x76 && species != 0 && species != 0x28a && item == 0) {
-            index=0;
-            threshold=10;
-            ability=(u8)func_02017E1C(mon,0x9e,0);
-            while (threshold < ability) {
-                threshold+=10;
-                index++;
+        if (ability == ABILITY_HONEY_GATHER && species != 0 && species != SPECIES_EGG && item == 0) {
+            chanceIndex=0;
+            levelCeil=10;
+            ability=(u8)func_02017E1C(mon,MON_PARAM_LEVEL,0);
+            while (levelCeil < ability) {
+                levelCeil+=10;
+                chanceIndex++;
             }
-            if (func_020056EC(100) < d_021B9D4D[index]) func_02017E40(mon,6,0x5e);
+            if (func_020056EC(100) < d_021B9D4D[chanceIndex]) func_02017E40(mon,MON_PARAM_HELD_ITEM,ITEM_HONEY);
         }
     }
 }
 
-
-
-void func_021B9BD8(void *party)
+/* Natural Cure: clears the status of every member that has the ability. */
+void func_021B9BD8(struct PokeParty *party)
 {
     int i;
-    void *mon;
-    u16 a;
-    u8 b;
+    struct PokemonParam *mon;
+    u16 species;
+    u8 ability;
 
     for (i = 0; i < (int)func_0201AA18(party); i++) {
         mon = func_0201AB28(party, i);
-        a = func_02017E1C(mon, 0xab, 0);
-        b = func_02017E1C(mon, 0xa, 0);
-        if (b == 0x1e && a != 0 && a != 0x28a) {
-            func_02017F9C(mon, 0);
+        species = func_02017E1C(mon, MON_PARAM_SPECIES_OR_EGG, 0);
+        ability = func_02017E1C(mon, MON_PARAM_ABILITY, 0);
+        if (ability == ABILITY_NATURAL_CURE && species != 0 && species != SPECIES_EGG) {
+            POKE_TOOL_SetStatusCondition(mon, 0);
         }
     }
 }
 
-
-
-void func_021B9C34(struct S_021B9AA0 *s, void *party, int c)
+/* Applies the Burmy form for the battle background to every member that took part. */
+void func_021B9C34(struct EventBattleReturnArgs *args, struct PokeParty *party, int burmyForm)
 {
     int i;
 
-    if (*(u32 *)s->f04 - 2 > 1) {
+    if (args->battleParam->competitor - 2 > 1) {
         for (i = 0; i < (int)func_0201AA18(party); i++) {
-            if (s->f04[0xc2 + i] != 0) {
-                func_0216E62C(s->f00, (int)func_0201AB28(party, i), c);
+            if (args->battleParam->participated[i] != 0) {
+                func_0216E62C(args->gameData, func_0201AB28(party, i), burmyForm);
             }
         }
     }
 }
 
-
-u32 func_021B9C80(u32 p, u32 heap)
+/* Reads the Burmy form of a battle background from its archive table. */
+u32 func_021B9C80(const struct BattleField *field, u32 heapId)
 {
-    void *data;
-    u32 result;
-    u8 *record;
-    data = func_02048F60(0x98, 0, heap);
-    record = (u8 *)data + ((struct Obj13264 *)p)->f0 * 0x24;
-    result = *(record + ((struct Obj13264 *)p)->f4 + 0x13);
-    func_020307B0(data);
-    return result;
+    struct BurmyFormRecord *table;
+    u32 form;
+    struct BurmyFormRecord *record;
+    table = func_02048F60(BURMY_FORM_ARCHIVE, 0, heapId);
+    record = &table[field->bgType];
+    form = record->formByAttr[field->bgAttr];
+    func_020307B0(table);
+    return form;
 }
 
-
-
-void func_021B9CA4(struct S_021B9AA0 *s, void *party)
+/* Registers the form of each participating Shaymin in the Pokedex. */
+void func_021B9CA4(struct EventBattleReturnArgs *args, struct PokeParty *party)
 {
     int i;
-    void *mon;
-    u32 t;
+    struct PokemonParam *mon;
+    u32 competitor;
 
-    t = *(u32 *)s->f04;
-    switch (t) {
+    competitor = args->battleParam->competitor;
+    switch (competitor) {
     case 0:
     case 1:
         for (i = 0; i < (int)func_0201AA18(party); i++) {
-            if (s->f04[0xc2 + i] != 0) {
+            if (args->battleParam->participated[i] != 0) {
                 mon = func_0201AB28(party, i);
-                if (func_02017E1C(mon, 5, 0) == 0x1ec) {
-                    func_0200CFA0(func_0200CA1C((void *)s->f00), mon);
+                if (func_02017E1C(mon, MON_PARAM_SPECIES, 0) == SPECIES_SHAYMIN) {
+                    func_0200CFA0(func_0200CA1C(args->gameData), mon);
                 }
             }
         }

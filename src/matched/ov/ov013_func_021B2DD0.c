@@ -1,5 +1,5 @@
 /*
- * function: func_021B2DD0
+ * function: VCT_SESSION_HandleAnnounce
  * address:  0x021B2DD0
  * packet:   pkt_ov013_021B2DD0
  * region:   ov013
@@ -54,7 +54,7 @@ struct Event {
 extern struct Pool g_021B4BE0;
 extern struct Sess g_021B60D8;
 
-int func_021B2DD0(struct Pkt *pkt, struct Event *ev)
+int VCT_SESSION_HandleAnnounce(struct Pkt *pkt, struct Event *ev)
 {
     if (g_021B60D8.f10 != 2)
         return 0;

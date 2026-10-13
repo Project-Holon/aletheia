@@ -1,5 +1,5 @@
 /*
- * function: func_021B1F2C
+ * function: VCT_SESSION_AllocPeerRecord
  * address: 0x021B1F2C
  * packet: pkt_ov013_021B1F2C
  * region: ov013
@@ -9,17 +9,17 @@
  * isa: arm
  * status: EXACT
  * symbols:
- *   d_021B60D8 0x021B60D8 data a4
- *   func_021B24FC 0x021B24FC arm ov013
+ *   gVctSession 0x021B60D8 data a4
+ *   VCT_SESSION_AllocPeer 0x021B24FC arm ov013
  */
 
 #include "../include/G_Sess.h"
 
-extern struct Sess d_021B60D8;
+extern struct Sess gVctSession;
 struct Node;
-extern struct Node *func_021B24FC(unsigned int);
-struct Node *func_021B1F2C(unsigned int i)
+extern struct Node *VCT_SESSION_AllocPeer(unsigned int);
+struct Node *VCT_SESSION_AllocPeerRecord(unsigned int i)
 {
-    if (((unsigned int *)&d_021B60D8)[4] == 0 || ((unsigned int *)&d_021B60D8)[4] == 2) return 0;
-    return func_021B24FC(i);
+    if (((unsigned int *)&gVctSession)[4] == 0 || ((unsigned int *)&gVctSession)[4] == 2) return 0;
+    return VCT_SESSION_AllocPeer(i);
 }

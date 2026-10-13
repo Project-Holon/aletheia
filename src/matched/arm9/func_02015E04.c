@@ -1,5 +1,5 @@
 /*
- * function: func_02015E04
+ * function: MCSS_SetAnmStopFlag
  * address:  0x02015E04
  * packet:   pkt_02015E04
  * region:   arm9
@@ -13,7 +13,7 @@
  * bitfield at bits 9..10 of the register at +0x140 with 1. The access is
  * non-volatile in the original: mwcc reads the word once and reinserts the
  * field without a reload (a `volatile` spelling forces a second `ldr` and
- * diverges). Pairs with func_02015E4C, which clears bit 9.
+ * diverges). Pairs with MCSS_ResetAnmStopFlag, which clears bit 9.
  *
  * Addresses are Black-image addresses.
  */
@@ -25,7 +25,7 @@ struct Reg02015Exx {
     unsigned int f : 2;
 };
 
-void func_02015E04(void *p)
+void MCSS_SetAnmStopFlag(void *p)
 {
     ((struct Reg02015Exx *)((char *)p + 0x140))->f |= 1;
 }

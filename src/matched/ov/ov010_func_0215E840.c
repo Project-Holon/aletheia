@@ -32,15 +32,15 @@
  *   func_0216E5FC  0x0216E5FC  thumb  ov010
  *   func_0216E5B0  0x0216E5B0  thumb  ov010
  *   func_0215F118  0x0215F118  thumb  ov010
- *   func_02013C40  0x02013C40  thumb
+ *   ZONEDATA_IsFlyEnabled  0x02013C40  thumb
  *   func_02013C50  0x02013C50  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_02012B38  0x02012B38  thumb
  *   func_02014470  0x02014470  thumb
  *   func_021CD440  0x021CD440  thumb
  *   func_02013FFC  0x02013FFC  thumb
- *   func_0201400C  0x0201400C  thumb
- *   func_02014018  0x02014018  thumb
+ *   ZONEDATA_IsRawZoneF6  0x0201400C  thumb
+ *   ZONEDATA_IsRawZoneF7  0x02014018  thumb
  *   func_02013E04  0x02013E04  thumb
  *   func_02012B70  0x02012B70  thumb
  *   d_021711EC     0x021711EC  data
@@ -98,15 +98,15 @@ extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern int func_0216E5FC(u16 kind);
 extern int func_0216E5B0(void *map, const VecFx32 *pos);
 extern int func_0215F118(const Area *a, u16 x, u16 z, u32 flag, void *field);
-extern u32 func_02013C40(u32 id);
+extern u32 ZONEDATA_IsFlyEnabled(u32 id);
 extern u32 func_02013C50(u32 id);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012B38(const struct BigObj *p);
 extern u16 func_02014470(struct Sub02014444Obj *o);
 extern int func_021CD440(void *field, u16 *out);
 extern u32 func_02013FFC(u32 id);
-extern u32 func_0201400C(u32 id);
-extern u32 func_02014018(u32 id);
+extern u32 ZONEDATA_IsRawZoneF6(u32 id);
+extern u32 ZONEDATA_IsRawZoneF7(u32 id);
 extern u32 func_02013E04(u32 id);
 extern int func_02012B70(const struct BigObj *p);
 
@@ -152,7 +152,7 @@ void func_0215E840(void *field, Info *out)
         out->flags |= 2;
     if (func_021A3524((u8 *)q, b, c) == 1)
         out->flags |= 4;
-    if (func_02013C40(out->id) == 1) {
+    if (ZONEDATA_IsFlyEnabled(out->id) == 1) {
         out->flags |= 0x10;
         out->flags |= 0x40;
     }
@@ -164,9 +164,9 @@ void func_0215E840(void *field, Info *out)
         out->flags |= 0x400;
     if (func_02013FFC(out->id)) {
         func_021A35FC(func_02188CB4(out->field), &x, &y, &z);
-        if (func_0201400C(out->id) && func_0215F118(&d_021711EC, x, z, 0x113, field))
+        if (ZONEDATA_IsRawZoneF6(out->id) && func_0215F118(&d_021711EC, x, z, 0x113, field))
             out->flags |= 0x20;
-        if (func_02014018(out->id) && func_0215F118(&d_021711F4, x, z, 0x112, field))
+        if (ZONEDATA_IsRawZoneF7(out->id) && func_0215F118(&d_021711F4, x, z, 0x112, field))
             out->flags |= 8;
     }
     if (func_02013E04(out->id) == 0) {

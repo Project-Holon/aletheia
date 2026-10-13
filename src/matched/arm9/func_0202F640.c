@@ -13,6 +13,9 @@
  * relocation) are part of the compiled body, so the compared output is 72
  * bytes against the worklist's 62 code bytes; the listing extent runs to the
  * end of the packet.  All four call sites resolve on `label`.
+ *
+ * symbols:
+ *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  */
 
 typedef unsigned int u32;
@@ -20,7 +23,7 @@ typedef unsigned int u32;
 struct Sav;
 extern u32 func_02017DBC(struct Sav *p);
 extern int func_0202F498(void *a0, int a1);
-extern void func_02017E64(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 
 void func_0202F640(u32 a, u32 b)
@@ -30,10 +33,10 @@ void func_0202F640(u32 a, u32 b)
     if (func_0202F498((void *)a, b) == 1) {
         switch (b) {
         case 0:
-            func_02017E64((void *)a, 0x96, 0x753B);
+            POKE_TOOL_SetBoxValue((void *)a, 0x96, 0x753B);
             break;
         case 2:
-            func_02017E64((void *)a, 0x96, 0x753D);
+            POKE_TOOL_SetBoxValue((void *)a, 0x96, 0x753D);
             break;
         }
     }

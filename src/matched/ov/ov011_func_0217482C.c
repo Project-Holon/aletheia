@@ -1,5 +1,5 @@
 /*
- * function: func_0217482C
+ * function: INTRUDE_COMM_RecvPageRequest
  * address: 0x0217482C
  * packet: pkt_ov011_0217482C
  * region: ov011
@@ -13,14 +13,14 @@
  */
 
 typedef unsigned char  u8;
-void func_0217482C(int a, int b, const u8 *c, u8 *p);
+void INTRUDE_COMM_RecvPageRequest(int a, int b, const u8 *c, u8 *p);
 
 /*
  * Hidden function (round 5): copies the four bytes at c to the 4-byte record
  * number a at offset 0x8d4 of p. The const source lets both byte pairs load
  * before their stores.
  */
-void func_0217482C(int a, int b, const u8 *c, u8 *p)
+void INTRUDE_COMM_RecvPageRequest(int a, int b, const u8 *c, u8 *p)
 {
     u8 *q = p + a * 4;
     q[0x8d4] = c[0];

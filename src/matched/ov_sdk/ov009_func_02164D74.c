@@ -28,9 +28,9 @@
  *   OS_DisableInterrupts 0x02087988 arm
  *   OS_RestoreInterrupts 0x0208799C arm
  *   MI_CpuFill8          0x02082BCC arm
- *   func_02165B68        0x02165B68 arm ov009
- *   func_02164F38        0x02164F38 arm ov009
- *   func_021658F8        0x021658F8 arm ov009
+ *   WCMi_GetDefaultDeviceId        0x02165B68 arm ov009
+ *   WCM_GetWorkSize        0x02164F38 arm ov009
+ *   WcmInitOption        0x021658F8 arm ov009
  *   func_02166304        0x02166304 arm ov009
  *   func_02087058        0x02087058 arm
  *   func_02086FE8        0x02086FE8 arm
@@ -94,9 +94,9 @@ static WCMWork *wcmw = 0;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern unsigned char func_02165B68(void);
-extern long func_02164F38(long *size, unsigned char deviceId);
-extern void func_021658F8(void);
+extern unsigned char WCMi_GetDefaultDeviceId(void);
+extern long WCM_GetWorkSize(long *size, unsigned char deviceId);
+extern void WcmInitOption(void);
 extern void func_02166304(void);
 extern long func_02087058(void);
 extern void func_02086FE8(void);
@@ -127,10 +127,10 @@ long func_02164D74(void *buf, long len, unsigned char deviceId)
     if (deviceId == 0) {
         deviceId = WCMi_OverridedDeviceId;
         if (deviceId == 0) {
-            deviceId = func_02165B68();
+            deviceId = WCMi_GetDefaultDeviceId();
         }
     }
-    if (func_02164F38(&expectLen, deviceId) == 0) {
+    if (WCM_GetWorkSize(&expectLen, deviceId) == 0) {
         OS_RestoreInterrupts(e);
         return 1;
     }
@@ -145,7 +145,7 @@ long func_02164D74(void *buf, long len, unsigned char deviceId)
     wcmw->resetting0 = 0;
     wcmw->resetting = 0;
     wcmw->deviceId = deviceId;
-    func_021658F8();
+    WcmInitOption();
     func_02166304();
     if (func_02087058() == 0) {
         func_02086FE8();

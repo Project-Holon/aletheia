@@ -25,7 +25,7 @@
  *   func_021D9E50 0x021D9E50 thumb ov121
  *   func_021DC08C 0x021DC08C thumb ov121
  *   func_02082BCC 0x02082BCC arm
- *   func_0200A170 0x0200A170 thumb
+ *   MYSTERY_DATA_HasAnyCard 0x0200A170 thumb
  *   func_0207D658 0x0207D658 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021DF86E 0x021DF86E data a1
@@ -50,7 +50,7 @@ extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021D9E50(u8 *);
 extern void func_021DC08C(void *task, u32 *state, char *p);
 extern void func_02082BCC(void *,int,int);
-extern int func_0200A170(char *p);
+extern int MYSTERY_DATA_HasAnyCard(char *p);
 extern void func_0207D658(u32,int,int);
 extern u8 d_021DF86E[],d_021DF86F[];
 #define W(k) (*(u32 *)(p+(k)))
@@ -124,7 +124,7 @@ void func_021DC734(void *task,u32 *state,char *p)
         if(W(0xae8)++>30) {W(0xae8)=0;*state=7;}
         break;
     case 7:
-        if(!func_0200A170((char *)P(12))) func_021DA2F0(P(0xab8),1);
+        if(!MYSTERY_DATA_HasAnyCard((char *)P(12))) func_021DA2F0(P(0xab8),1);
         *(volatile u32 *)0x04000000 &= ~0xe000;
         *state=8;break;
     case 8:func_021D9F08(P(0xabc),W(28),121,1);*state=9;break;

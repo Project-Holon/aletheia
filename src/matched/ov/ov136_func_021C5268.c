@@ -9,6 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
+ *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb  arm9
  */
 #include "../include/Obj00160.h"
 typedef unsigned char u8;
@@ -16,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
+extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 void func_021C5268(u8 *p)
 {
     if (p[0xB] == 1) {
@@ -26,7 +27,7 @@ void func_021C5268(u8 *p)
         ((struct Obj00160 *)p)->f13C = (u32)func_02045EC0(((struct Obj00160 *)p)->f20, 1);
         ((struct Obj00160 *)p)->f140 = 0x39E3;
         ((struct Obj00160 *)p)->f144 = 1;
-        ((struct Obj00160 *)p)->f128 = func_02027FEC(*(u32 *)&((struct Obj00160 *)p)->f108, (u32)(p + 0x130), 21, 18, 10, (u16)((struct Obj00160 *)p)->f0);
-        ((struct Obj00160 *)p)->f12C = func_02027FEC(*(u32 *)&((struct Obj00160 *)p)->f108, (u32)(p + 0x13C), 21, 21, 10, (u16)((struct Obj00160 *)p)->f0);
+        ((struct Obj00160 *)p)->f128 = APP_TASKMENU_WIN_Create(*(u32 *)&((struct Obj00160 *)p)->f108, (u32)(p + 0x130), 21, 18, 10, (u16)((struct Obj00160 *)p)->f0);
+        ((struct Obj00160 *)p)->f12C = APP_TASKMENU_WIN_Create(*(u32 *)&((struct Obj00160 *)p)->f108, (u32)(p + 0x13C), 21, 21, 10, (u16)((struct Obj00160 *)p)->f0);
     }
 }

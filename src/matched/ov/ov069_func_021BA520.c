@@ -14,8 +14,8 @@
  *   func_02043B5C  0x02043B5C  arm
  *   func_02045334  0x02045334  arm
  *   func_0201C7D0  0x0201C7D0  thumb
- *   func_0202CEBC  0x0202CEBC  thumb
- *   func_0202CC58  0x0202CC58  thumb
+ *   BGWINFRM_PutBmpWin  0x0202CEBC  thumb
+ *   BGWINFRM_ShowFrame  0x0202CC58  thumb
  */
 #include "../include/Obj07687.h"
 
@@ -31,8 +31,8 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
-extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
+extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
 
 void func_021BA520(u8 *a0, int a1, void *a2, int a3)
 {
@@ -44,6 +44,6 @@ void func_021BA520(u8 *a0, int a1, void *a2, int a3)
         func_0201C7D0((void *)func_02045770(*(void **)(a0 + 0x10 + a1 * 4)), 0, 0, a2,
                       ((struct Obj07687 *)a0)->fC, 0x2D44);
     func_02045334(*(void **)(a0 + 0x10 + a1 * 4));
-    func_0202CEBC(*(struct WinMgr * *)&((struct Obj07687 *)a0)->f4, a1, *(void **)(a0 + 0x10 + a1 * 4));
-    func_0202CC58(*(struct WinMgr * *)&((struct Obj07687 *)a0)->f4, a1);
+    BGWINFRM_PutBmpWin(*(struct WinMgr * *)&((struct Obj07687 *)a0)->f4, a1, *(void **)(a0 + 0x10 + a1 * 4));
+    BGWINFRM_ShowFrame(*(struct WinMgr * *)&((struct Obj07687 *)a0)->f4, a1);
 }

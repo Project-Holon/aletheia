@@ -1,5 +1,5 @@
 /*
- * function: func_020160CC
+ * function: MCSS_GetAnimSeqNumEx
  * address:  0x020160CC
  * packet:   pkt_020160CC
  * region:   arm9
@@ -21,7 +21,7 @@ typedef struct {
     u16 *p28;
 } S;
 
-u16 func_020160CC(S *s)
+u16 MCSS_GetAnimSeqNumEx(S *s)
 {
     return *s->p28;
 }

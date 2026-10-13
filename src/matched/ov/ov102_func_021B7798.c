@@ -14,7 +14,7 @@
  *   func_021B78EC 0x021B78EC thumb ov102
  *   func_0204B92C 0x0204B92C arm
  *   func_021B87FC 0x021B87FC thumb ov102
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_021B89F0 0x021B89F0 thumb ov102
  *   func_021B87C8 0x021B87C8 thumb ov102
  *   func_021B842C 0x021B842C thumb ov102
@@ -29,7 +29,7 @@ extern u32 func_021B78EC(void *, int);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021B87FC(int *);
-extern void func_02005D90(u32, u16);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32, u16);
 extern void func_021B89F0(u8 *);
 extern void func_021B87C8(u8 *p);
 extern void func_021B842C(unsigned char *p);
@@ -47,7 +47,7 @@ int func_021B7798(void *unused, u32 *state, int unused2, char *p)
         if (func_0204E804() == 0) {
             func_0204B92C((void *)func_021B78EC(p, 31), 1);
             func_021B87FC((int *)(p + 0xfc));
-            func_02005D90(0x52a, 0xffff);
+            GFL_USE_CancelChangeAndPlayBgm(0x52a, 0xffff);
             *state = 3;
         }
         break;

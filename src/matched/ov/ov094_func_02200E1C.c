@@ -11,7 +11,7 @@
  * symbols:
  *   func_022019F4 0x022019F4 thumb ov094
  *   func_021F89BC 0x021F89BC thumb ov094
- *   func_02015C78 0x02015C78 thumb
+ *   MCSS_SetOfsPosition 0x02015C78 thumb
  *   _ll_mul 0x0209C054 arm
  *   d_020A1B38 0x020A1B38 data
  */
@@ -25,7 +25,7 @@ typedef struct Vec { int x, y, z; } Vec;
 extern int func_022019F4(char *, int);
 extern void func_021F89BC(void *);
 extern const s16 d_020A1B38[];
-extern void func_02015C78(void *, u32 *);
+extern void MCSS_SetOfsPosition(void *, u32 *);
 #define MUL(a, b) ((int)(((s64)(a) * (b) + 0x800) >> 12))
 void func_02200E1C(void *task, char *q)
 {
@@ -111,7 +111,7 @@ void func_02200E1C(void *task, char *q)
                 break;
             }
         }
-        func_02015C78(*(void **)(e + off), (u32 *)&v);
+        MCSS_SetOfsPosition(*(void **)(e + off), (u32 *)&v);
         } else {
             ((struct Obj00264 *)q)->f30 += 1;
         }

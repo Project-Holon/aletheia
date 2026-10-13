@@ -18,12 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02033CA8",
-    "sub_02033CC0"
+    "AREAMAN_Alloc",
+    "AREAMAN_AllocUp"
+   ],
+   "addresses": [
+    "0x02033CA8",
+    "0x02033CC0"
    ]
   },
   {
-   "name": "sub_02033CFC",
+   "name": "AREAMAN_AllocShortUp",
    "address": "0x02033CFC",
    "kind": "game",
    "region": "arm9",
@@ -35,7 +39,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02033E30",
+   "name": "AREAMAN_AllocLongUp",
    "address": "0x02033E30",
    "kind": "game",
    "region": "arm9",
@@ -47,7 +51,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02033F64",
+   "name": "AREAMAN_AllocDown",
    "address": "0x02033F64",
    "kind": "game",
    "region": "arm9",
@@ -59,7 +63,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02033FB0",
+   "name": "AREAMAN_AllocShortDown",
    "address": "0x02033FB0",
    "kind": "game",
    "region": "arm9",
@@ -71,7 +75,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020340D0",
+   "name": "AREAMAN_AllocLongDown",
    "address": "0x020340D0",
    "kind": "game",
    "region": "arm9",
@@ -83,7 +87,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020341F0",
+   "name": "AREAMAN_AllocAt",
    "address": "0x020341F0",
    "kind": "game",
    "region": "arm9",
@@ -95,7 +99,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020342F8",
+   "name": "AREAMAN_FindClearRunUp",
    "address": "0x020342F8",
    "kind": "game",
    "region": "arm9",
@@ -107,7 +111,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02034348",
+   "name": "AREAMAN_FindClearRunDown",
    "address": "0x02034348",
    "kind": "game",
    "region": "arm9",
@@ -119,7 +123,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02034394",
+   "name": "AREAMAN_ClearByteRun",
    "address": "0x02034394",
    "kind": "game",
    "region": "arm9",

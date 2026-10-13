@@ -1,5 +1,5 @@
 /*
- * function: func_020055F8
+ * function: GFL_USE_PollFrameInput
  * address:  0x020055F8
  * packet:   pkt_02005438
  * region:   arm9
@@ -8,16 +8,19 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   PROCSYS_MainGlobal  0x020312B4  arm
  */
 
 extern void func_02034F5C(void);
 extern int func_0200F2D4(void);
-extern int func_020312B4(void);
+extern int PROCSYS_MainGlobal(void);
 extern void func_0203F3F0(void);
-void func_020055F8(void)
+void GFL_USE_PollFrameInput(void)
 {
     func_02034F5C();
     func_0200F2D4();
-    func_020312B4();
+    PROCSYS_MainGlobal();
     func_0203F3F0();
 }

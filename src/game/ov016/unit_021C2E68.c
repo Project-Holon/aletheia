@@ -1,6 +1,6 @@
 /*
  * file:     unit_021C2E68.c
- * function: func_021C2E68
+ * function: DWCi_SceneOptMenu_draw
  * address:  0x021C2E68
  * packet:   pkt_021C1CF8
  * region:   ov016
@@ -11,16 +11,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C2E68   0x021C2E68  arm
+ *   DWCi_SceneOptMenu_draw   0x021C2E68  arm
  *
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C2E68.c \
- *       --func func_021C2E68 --addr 0x021C2E68 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneOptMenu_draw.c \
+ *       --func DWCi_SceneOptMenu_draw --addr 0x021C2E68 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void func_021C2E68(void)
+void DWCi_SceneOptMenu_draw(void)
 {
 }

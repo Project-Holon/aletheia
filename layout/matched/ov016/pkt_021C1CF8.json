@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B82C4",
+   "name": "AOSS_Setsockopt",
    "address": "0x021B82C4",
    "kind": "game",
    "region": "ov016",
@@ -53,7 +53,7 @@
    }
   },
   {
-   "name": "func_021C1CF8",
+   "name": "DWCi_SceneMenu_draw",
    "address": "0x021C1CF8",
    "kind": "game",
    "region": "ov016",
@@ -65,7 +65,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C20FC",
+   "name": "DWCi_SceneOptErase_draw",
    "address": "0x021C20FC",
    "kind": "game",
    "region": "ov016",
@@ -77,7 +77,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2480",
+   "name": "DWCi_SceneOptErase1_draw",
    "address": "0x021C2480",
    "kind": "game",
    "region": "ov016",
@@ -89,7 +89,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C291C",
+   "name": "DWCi_SceneOptInfo_draw",
    "address": "0x021C291C",
    "kind": "game",
    "region": "ov016",
@@ -101,7 +101,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2E68",
+   "name": "DWCi_SceneOptMenu_draw",
    "address": "0x021C2E68",
    "kind": "game",
    "region": "ov016",
@@ -113,7 +113,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C3290",
+   "name": "DWCi_SceneOptMovComm_input",
    "address": "0x021C3290",
    "kind": "game",
    "region": "ov016",
@@ -125,7 +125,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C3294",
+   "name": "DWCi_SceneOptMovComm_draw",
    "address": "0x021C3294",
    "kind": "game",
    "region": "ov016",
@@ -137,7 +137,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C3514",
+   "name": "DWCi_SceneOptMovComplete_draw",
    "address": "0x021C3514",
    "kind": "game",
    "region": "ov016",
@@ -149,7 +149,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C3748",
+   "name": "DWCi_SceneOptMovConfirm_draw",
    "address": "0x021C3748",
    "kind": "game",
    "region": "ov016",
@@ -161,7 +161,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C39F4",
+   "name": "DWCi_SceneOptMovConfirm1_draw",
    "address": "0x021C39F4",
    "kind": "game",
    "region": "ov016",
@@ -173,7 +173,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C3CA4",
+   "name": "DWCi_SceneOptMovDisconnect_draw",
    "address": "0x021C3CA4",
    "kind": "game",
    "region": "ov016",
@@ -185,7 +185,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C3F80",
+   "name": "DWCi_SceneOptMovFailure_draw",
    "address": "0x021C3F80",
    "kind": "game",
    "region": "ov016",
@@ -197,7 +197,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C4348",
+   "name": "DWCi_SceneOptMovUser_input",
    "address": "0x021C4348",
    "kind": "game",
    "region": "ov016",
@@ -209,7 +209,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C434C",
+   "name": "DWCi_SceneOptMovUser_draw",
    "address": "0x021C434C",
    "kind": "game",
    "region": "ov016",
@@ -221,7 +221,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C46AC",
+   "name": "DWCi_SceneOptMovWait_draw",
    "address": "0x021C46AC",
    "kind": "game",
    "region": "ov016",
@@ -233,7 +233,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C4C14",
+   "name": "DWCi_SceneSetAossButton_draw",
    "address": "0x021C4C14",
    "kind": "game",
    "region": "ov016",
@@ -245,7 +245,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C4FE0",
+   "name": "DWCi_SceneSetAossComplete_draw",
    "address": "0x021C4FE0",
    "kind": "game",
    "region": "ov016",

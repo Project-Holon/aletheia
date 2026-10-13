@@ -17,7 +17,7 @@
  *
  * It masks the heap id with 0x7fff (bit 15 is the allocator's high/low
  * direction flag, meaningless here but still masked off), bounds-checks it
- * against g_EnvModule.count, then resolves the arena through sub_0202FBAC.
+ * against g_EnvModule.count, then resolves the arena through GFL_HEAP_GetHeap.
  * Each failure stamps its own code into g_EnvModule.error, 1 for an id out
  * of range and 2 for an id that maps to no live heap, exactly the codes
  * sub_02030098 uses, and returns 0; success writes 0 and returns 1. The
@@ -42,7 +42,7 @@
  *
  * symbols:
  *   g_EnvModule   0x02146954  data
- *   sub_0202FBAC  0x0202FBAC  arm
+ *   GFL_HEAP_GetHeap  0x0202FBAC  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_020304CC.c \
@@ -65,7 +65,7 @@ struct EnvEntry {
 
 extern struct EnvModule g_EnvModule;
 
-extern void *sub_0202FBAC(u32 idx);
+extern void *GFL_HEAP_GetHeap(u32 idx);
 
 u32 sub_020304CC(u32 heapId)
 {
@@ -76,7 +76,7 @@ u32 sub_020304CC(u32 heapId)
         g_EnvModule.error = 1;
         goto fail;
     }
-    arena = sub_0202FBAC(heapId);
+    arena = GFL_HEAP_GetHeap(heapId);
     if (arena == 0) {
         g_EnvModule.error = 2;
         goto fail;

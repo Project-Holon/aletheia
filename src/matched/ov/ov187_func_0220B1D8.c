@@ -9,12 +9,12 @@
  * status: EXACT
  * symbols:
  *   func_02012A30 0x02012A30 thumb
- *   func_02005E9C 0x02005E9C thumb
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005DF8 0x02005DF8 thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   func_02028A58 0x02028A58 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_02013930 0x02013930 thumb
+ *   BTL_SETUP_ClearWithSlots 0x02013930 thumb
  *   func_0220B0F8 0x0220B0F8 thumb ov187
  */
 #include "../include/Obj01819.h"
@@ -26,25 +26,25 @@ typedef unsigned int u32;
 typedef struct { unsigned char low:1, flag:1, rest:6; } Flag;
 struct BigObj;
 extern unsigned int func_02012A30(const struct BigObj *);
-extern int func_02005E9C(void);
+extern int GFL_USE_PopBgm(void);
 struct SoundSys;
-extern void func_02005DE4(void *p);
-extern void func_02005DF8(u32);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_FadeInBgmFull(u32);
 extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
 extern u32 func_020307B0(void *p);
 struct Obj;
-extern void func_02013930(struct Obj *p);
+extern void BTL_SETUP_ClearWithSlots(struct Obj *p);
 extern void func_0220B0F8(u8 *p, u32 v);
 void func_0220B1D8(u8 *a, u8 *b)
 {
     void *p = (void *)func_02012A30(((struct Obj24886 *)(*(u8 * *)&((struct Obj10802 *)b)->f17F0))->f4);
-    func_02005E9C();
-    func_02005DE4(0);
-    func_02005DF8(30);
+    GFL_USE_PopBgm();
+    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_FadeInBgmFull(30);
     if (*(u32 *)*(u8 * *)&((struct Obj10802 *)b)->f17F0 == 0) func_02028A58(p,64,0);
     ((struct Obj10802 *)b)->f17E4 = ((Flag *)(a+0xC1))->flag;
     func_020307B0(((struct Obj01819 *)a)->f34);
-    func_02013930((struct Obj *)a);
+    BTL_SETUP_ClearWithSlots((struct Obj *)a);
     func_020307B0(a);
     func_0220B0F8((u8 *)((u32)b),0);
 }

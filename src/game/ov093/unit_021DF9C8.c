@@ -25,121 +25,83 @@
  *   d_021F14FC     0x021F14FC  data   ov093  a4
  *   d_021F140C     0x021F140C  data   ov093  a4
  */
-struct QF;
-typedef unsigned char u8;
+#include "unit_021DF974_types.h"
 
-typedef unsigned short u16;
+extern BtlEventHandler d_021F166C[];
+extern BtlEventHandler d_021F1504[];
+extern BtlEventHandler d_021F14FC[];
+extern BtlEventHandler d_021F140C[];
 
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-extern int func_021D775C(int key);
-extern void *func_021C7CF4(int *p, int i);
-extern u16 func_021D5444(struct QF *p);
-extern void func_021D7704(int key, int m);
-extern int func_021DD008(int a);
-extern int func_021C818C(unsigned char *p, int v);
-void func_021DF9C8(int self, int a, int b);
-int *func_021DFA14(int *p);
-void func_021DFA20(int a, int b, int c);
-void func_021DFA3C(int a, int b, int c);
-int *func_021DFA54(int *p);
-void func_021DFA60(int a, int b, int c);
-int *func_021DFA7C(int *p);
-void func_021DFA88(int a, unsigned char *b, int c);
-int *func_021DFAB0(int *p);
-extern int d_021F166C[];
-extern int d_021F1504[];
-extern int d_021F14FC[];
-extern int d_021F140C[];
-
-
-
-
-void func_021DF9C8(int self, int a, int b)
+/* Adamant Orb: Dialga's Dragon and Steel moves get the item's power ratio. */
+void func_021DF9C8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 v;
+    u8 moveType;
 
-    if (b != func_021D775C(3))
+    if (pokeId != func_021D775C(BTL_EVAR_ATTACKER_ID))
         return;
-    if (func_021D5444(func_021C7CF4((int *)a, b)) != 0x1e3)
+    if (func_021D5444(func_021C7CF4(flow, pokeId)) != SPECIES_DIALGA)
         return;
-    v = func_021D775C(0x16);
-    if (v == 0xf || v == 8)
-        func_021D7704(0x31, func_021DD008(self));
+    moveType = func_021D775C(BTL_EVAR_MOVE_TYPE);
+    if (moveType == POKETYPE_DRAGON || moveType == POKETYPE_STEEL)
+        func_021D7704(BTL_EVAR_MOVE_POWER_RATIO, func_021DD008(factor));
 }
 
-
-
-
-int *func_021DFA14(int *p)
+/* Iron Ball handler table: speed ratio and ground check. */
+BtlEventHandler *func_021DFA14(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F166C;
 }
 
-
-
-
-void func_021DFA20(int a, int b, int c)
+/* Iron Ball: halves the speed of the holder. */
+void func_021DFA20(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    int n = 2;
+    int keyAndShift = 2; /* the same 2 is the poke id key and the shift of the 0.5 ratio */
 
-    if (c == func_021D775C(n))
-        func_021D7704(53, n << 10);
+    if (pokeId == func_021D775C(keyAndShift))
+        func_021D7704(BTL_EVAR_RATIO, keyAndShift << 10);
 }
 
-
-
-
-
-/* 021DFA3C  shape F1: gate on func_021D775C(2) */
-void func_021DFA3C(int a, int b, int c)
+/* Iron Ball: the holder counts as grounded. */
+void func_021DFA3C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(2))
-        func_021D76BC(0x41, 1);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID))
+        func_021D76BC(BTL_EVAR_FORCE_GROUNDED_FLAG, 1);
 }
 
-
-
-int *func_021DFA54(int *p)
+/* Float Stone handler table: weight ratio. */
+BtlEventHandler *func_021DFA54(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F1504;
 }
 
-
-
-void func_021DFA60(int a, int b, int c)
+/* Float Stone: halves the weight of the holder. */
+void func_021DFA60(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    int n = 2;
+    int keyAndShift = 2; /* the same 2 is the poke id key and the shift of the 0.5 ratio */
 
-    if (c == func_021D775C(n))
-        func_021D7704(53, n << 10);
+    if (pokeId == func_021D775C(keyAndShift))
+        func_021D7704(BTL_EVAR_RATIO, keyAndShift << 10);
 }
 
-
-int *func_021DFA7C(int *p)
+/* Eviolite handler table: defense ratio. */
+BtlEventHandler *func_021DFA7C(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F14FC;
 }
 
-
-void func_021DFA88(int a, unsigned char *b, int c)
+/* Eviolite: x1.5 defense while the holder can still evolve. */
+void func_021DFA88(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(4) && func_021C818C(b, c))
-        func_021D7704(53, 6 << 10);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID) && func_021C818C(flow, pokeId))
+        func_021D7704(BTL_EVAR_RATIO, 6 << 10);
 }
 
-
-int *func_021DFAB0(int *p)
+/* Rocky Helmet handler table: damage reaction. */
+BtlEventHandler *func_021DFAB0(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F140C;
 }

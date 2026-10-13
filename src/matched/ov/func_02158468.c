@@ -15,7 +15,7 @@
  *   func_02012984  0x02012984  thumb
  *   func_0215841C  0x0215841C  thumb  ov010
  *   func_02012B58  0x02012B58  thumb
- *   func_02012B98  0x02012B98  thumb
+ *   GAME_DATA_GetSlotFlag  0x02012B98  thumb
  */
 
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ extern int func_02012B70(const struct BigObj *p);
 extern u8 func_02012984(const struct BigObj *p);
 extern u8 func_0215841C(void *p);
 extern u8 func_02012B58(const struct BigObj *p);
-extern u8 func_02012B98(const struct BigObj *p, u32 i);
+extern u8 GAME_DATA_GetSlotFlag(const struct BigObj *p, u32 i);
 
 int func_02158468(int a0)
 {
@@ -64,6 +64,6 @@ loc_02158498:
 loc_0215849A:
 a0 = t5 + 0;
 a1 = t4 + 0;
-    a0 = func_02012B98((const struct BigObj *)a0, a1);
+    a0 = GAME_DATA_GetSlotFlag((const struct BigObj *)a0, a1);
 loc_021584A2:
     return a0;}

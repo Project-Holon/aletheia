@@ -10,34 +10,34 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02015BA4, sub_02015BF0, sub_02015C00, sub_02015C0C,
- *           sub_02015C1C
+ * function: MCSS_Del, MCSS_SetOrthoMode, MCSS_ResetOrthoMode, MCSS_SetOrthoBillboardFlag,
+ *           MCSS_ResetOrthoBillboardFlag
  *
  * symbols:
- *   func_02016BA0  0x02016BA0  thumb
- *   func_02016C0C  0x02016C0C  thumb
- *   func_02016C38  0x02016C38  thumb
+ *   MCSS_FreeResource  0x02016BA0  thumb
+ *   MCSS_DeleteTextureTask  0x02016C0C  thumb
+ *   MCSS_DeletePaletteTask  0x02016C38  thumb
  *   func_020307B0  0x020307B0  arm
  *
- * alias: sub_02015BA4 tears down an object: it calls func_02016BA0(obj), then
+ * alias: MCSS_Del tears down an object: it calls MCSS_FreeResource(obj), then
  * for each of the three word fields at +0, +4 and +8 that is non-zero it
  * passes that field's *value* (not the object) to a cleanup call
- * (func_02016C0C for +0, func_02016C38 for +4 and +8) and zeroes the field;
+ * (MCSS_DeleteTextureTask for +0, MCSS_DeletePaletteTask for +4 and +8) and zeroes the field;
  * it then clears a slot this object owns in an array reached through
  * sys->+0x14, indexed by the object's own field at +0x148, and finally
  * hands the object to func_020307B0 through an interworking blx.
  *
  * The four followers are unlabelled leaf accessors on the same class of
  * object, found in the .word run disasm.py left undecoded immediately
- * after sub_02015BA4 (its prologue has no register-saving push that a
+ * after MCSS_Del (its prologue has no register-saving push that a
  * two-word bit-flag accessor shares); see
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md. Two work a
- * flag at +0x2c: sub_02015BF0 clears then re-sets bit 0 (a clear/set pair
+ * flag at +0x2c: MCSS_SetOrthoMode clears then re-sets bit 0 (a clear/set pair
  * rather than a plain |=, which is what tells apart the extra bics), and
- * sub_02015C00 only clears it. The other two work a flag at +0x140, too far
+ * MCSS_ResetOrthoMode only clears it. The other two work a flag at +0x140, too far
  * from the object base for an immediate str, which is why the compiler
  * computes the offset into a register instead of folding it into the
- * instruction: sub_02015C0C sets bit 0x1D (0x20000000) and sub_02015C1C
+ * instruction: MCSS_SetOrthoBillboardFlag sets bit 0x1D (0x20000000) and MCSS_ResetOrthoBillboardFlag
  * clears it via the pool word 0xDFFFFFFF immediately after it.
  *
  * Verified with:
@@ -54,29 +54,29 @@
 typedef unsigned int  u32;
 typedef unsigned char u8;
 
-extern void func_02016BA0(void *obj);
-extern void func_02016C0C(void *id);
-extern int func_02016C38(int a0);
+extern void MCSS_FreeResource(void *obj);
+extern void MCSS_DeleteTextureTask(void *id);
+extern int MCSS_DeletePaletteTask(int a0);
 extern u32 func_020307B0(void *p);
 
-void sub_02015BA4(void *sys, void *obj)
+void MCSS_Del(void *sys, void *obj)
 {
     u32 *p = (u32 *)obj;
     u32 idx;
     u32 *arr;
 
-    func_02016BA0(obj);
+    MCSS_FreeResource(obj);
 
     if (p[0] != 0) {
-        func_02016C0C((void *)p[0]);
+        MCSS_DeleteTextureTask((void *)p[0]);
         p[0] = 0;
     }
     if (p[1] != 0) {
-        func_02016C38(p[1]);
+        MCSS_DeletePaletteTask(p[1]);
         p[1] = 0;
     }
     if (p[2] != 0) {
-        func_02016C38(p[2]);
+        MCSS_DeletePaletteTask(p[2]);
         p[2] = 0;
     }
 
@@ -87,23 +87,23 @@ void sub_02015BA4(void *sys, void *obj)
     func_020307B0(obj);
 }
 
-void sub_02015BF0(void *obj)
+void MCSS_SetOrthoMode(void *obj)
 {
     ((struct Obj11824 *)obj)->f2C &= ~1;
     ((struct Obj11824 *)obj)->f2C |= 1;
 }
 
-void sub_02015C00(void *obj)
+void MCSS_ResetOrthoMode(void *obj)
 {
     ((struct Obj17197 *)obj)->f2C &= ~1;
 }
 
-void sub_02015C0C(void *obj)
+void MCSS_SetOrthoBillboardFlag(void *obj)
 {
     ((struct Obj17198 *)obj)->f140 |= 0x20000000;
 }
 
-void sub_02015C1C(void *obj)
+void MCSS_ResetOrthoBillboardFlag(void *obj)
 {
     ((struct Obj17199 *)obj)->f140 &= ~0x20000000;
 }

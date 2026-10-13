@@ -1,5 +1,5 @@
 /*
- * function: sub_02034394
+ * function: AREAMAN_ClearByteRun
  * address:  0x02034394
  * packet:   pkt_02033CA8
  * region:   arm9
@@ -18,8 +18,8 @@
  * mask written in the source.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034394.c \
- *       --func sub_02034394 --addr 0x02034394 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/AREAMAN_ClearByteRun.c \
+ *       --func AREAMAN_ClearByteRun --addr 0x02034394 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ typedef unsigned int  u32;
 
 extern const u8 Areaman_RunMask[];
 
-void sub_02034394(u8 *p, u32 start, u32 len)
+void AREAMAN_ClearByteRun(u8 *p, u32 start, u32 len)
 {
     u8 mask = Areaman_RunMask[len] >> start;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0203C238
+ * function: GFL_NET_STATE_WifiLoginStart
  * address:  0x0203C238
  * packet:   pkt_0203C0F4
  * region:   arm9
@@ -10,13 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
+ *   _pNetState     0x021469DC  data
+ *   GFL_NET_SYSTEM_ResetAll  0x02037D78  arm
+ *   GFL_NET_HANDLE_InitWork  0x02039834  arm
+ *   GFL_NET_HANDLE_ExitWork  0x020398B4  arm
+ *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C238.c \
- *       --func func_0203C238 --addr 0x0203C238 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiLoginStart.c \
+ *       --func GFL_NET_STATE_WifiLoginStart --addr 0x0203C238 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Sys.h"
@@ -26,25 +31,25 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern struct Sys *g_021469DC;
-extern void *func_0203D788(void);
+extern struct Sys *_pNetState;
+extern void *GFL_NET_GetSession(void);
 extern void *func_0203D798(void);
 struct NetState;
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
-extern void func_02037D78(void);
-extern void func_020398B4(u32 a);
-extern void func_02039834(u32 a);
+extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
+extern void GFL_NET_SYSTEM_ResetAll(void);
+extern void GFL_NET_HANDLE_ExitWork(u32 a);
+extern void GFL_NET_HANDLE_InitWork(u32 a);
 
-void func_0203C238(s8 *p)
+void GFL_NET_STATE_WifiLoginStart(s8 *p)
 {
-    u8 *s = func_0203D788();
+    u8 *s = GFL_NET_GetSession();
     u8 *q = func_0203D798();
 
     if ((*(u32 (**)(int, u32, u32))(*(u32 *)(s + 0x340) + 0x50))(p[0x48], q[0x60], 0) != 0)
         return;
 
-    func_02037D78();
-    func_020398B4((u32)s);
-    func_02039834((u32)s);
-    func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203C0F4, 0, 0x5AC);
+    GFL_NET_SYSTEM_ResetAll();
+    GFL_NET_HANDLE_ExitWork((u32)s);
+    GFL_NET_HANDLE_InitWork((u32)s);
+    GFL_NET_STATE_ChangeStateDebug((struct NetState *)((u8 *)_pNetState), (void *)0x0203C0F4, 0, 0x5AC);
 }

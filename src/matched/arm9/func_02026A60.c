@@ -1,5 +1,5 @@
 /*
- * function: func_02026A60
+ * function: GAME_BEACON_ReceiveInfo
  * address:  0x02026A60
  * packet:   pkt_0202685C
  * region:   arm9
@@ -15,11 +15,12 @@
  * hit doing `hit = 1; break;`.  The compiler itself cross-jumps loop 3's hit
  * block into loop 1's (both continue at the tail) and keeps loop 2's, whose
  * break lands on loop 3's `i = 0`; the earlier goto/label construction in
- * docs/notes/func_02026A60.c.txt only imitated that and left a duplicated
+ * docs/notes/GAME_BEACON_ReceiveInfo.c.txt only imitated that and left a duplicated
  * `blt`.  EXACT* because the follower at 0x02026BFC has no label.
  *
  * symbols:
- *   g_GameBeacon  0x02146940  data
+ *   GAME_BEACON_Work  0x02146940  data
+ *   GAME_BEACON_AddLog  0x0202685C  thumb
  */
 #include "../include/Obj00747.h"
 
@@ -49,11 +50,11 @@ struct Req {
     u16  f46;
 };
 
-extern u8 *g_GameBeacon;
-extern void func_0202685C(u8 *base, struct Req *r);
-int func_02026A60(struct Req *r)
+extern u8 *GAME_BEACON_Work;
+extern void GAME_BEACON_AddLog(u8 *base, struct Req *r);
+int GAME_BEACON_ReceiveInfo(struct Req *r)
 {
-    u8 *base = g_GameBeacon;
+    u8 *base = GAME_BEACON_Work;
     int hit = 0;
     int i;
     u16 kind;
@@ -128,7 +129,7 @@ int func_02026A60(struct Req *r)
         *(u16 *)(base + off + 0xC0) = 0;
         ((struct Obj00747 *)base)->fBA4 |= (u32)(1 << i);
     } else {
-        func_0202685C(base, r);
+        GAME_BEACON_AddLog(base, r);
         ((struct Obj00747 *)base)->fBA8 = ((struct Obj00747 *)base)->fBA8 + 1;
     }
     return 1;

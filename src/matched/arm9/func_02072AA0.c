@@ -16,18 +16,18 @@
  *   _ll_udiv       0x0209C00C  arm
  *
  * Starts one channel.  The ten-argument signature is not guessed: the single
- * caller src/matched/unit_020067E0.c (sub_02006868) already spells the call
+ * caller src/matched/unit_020067E0.c (PM_VOICE_StartChannels) already spells the call
  *
  *   func_02072AA0(e->unk14, 0, e->unk10, 0, 0, e->unk08, e->unk0C,
- *                 sub_0200674C(e->unk1C), e->unk20, e->unk28)
+ *                 PM_VOICE_ScaleVolume(e->unk1C), e->unk20, e->unk28)
  *
  * which fixes the four register arguments and the six stack words at
  * [sp+0x38] .. [sp+0x4c] (0x20 of push plus the 0x18 frame).  `rate` (arg7)
  * is read twice -- once as the first divisor and once at the end as the value
- * latched into s->f4, which is exactly what func_02072C40 later divides by.
+ * latched into s->f4, which is exactly what NNS_SndWaveOutSetSpeed later divides by.
  *
  * The period is the chained 64-bit division of src/matched/unit_020067E0.c and
- * src/matched/func_02072C40.c: dividend 0x7FD87F8000 (low word 0xD87F8000 in
+ * src/matched/NNS_SndWaveOutSetSpeed.c: dividend 0x7FD87F8000 (low word 0xD87F8000 in
  * the pool at 0x02072BD4, high word 0x7F as `mov r1, #0x7f`), two `int`
  * divisors each widened by the `asr r3, r2, #0x1f` in front of its call, and
  * the same `if (t < 0x10) ... else if (t > 0xFFFF) ...` exclusive clamp

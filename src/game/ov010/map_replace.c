@@ -1,0 +1,423 @@
+/*
+ * file:     map_replace.c
+ * unit:     yes
+ * function: func_02159D84, func_02159DC8, func_02159DCC, func_02159DEC, func_02159E00, func_02159E60, func_02159E8C, func_02159F04, func_02159F28, func_02159F54, func_02159F80, func_02159F84, func_02159F94, func_02159FA8, func_02159FE0, func_0215A014, func_0215A048, func_0215A064
+ * address:  0x02159D84
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * Range 0x02159F80..0x0215A064 (warp/fly table d_02170FEC users) is from an
+ * unknown original file; it stays here until its home is known.
+ *
+ * symbols:
+ *   func_0201296C  0x0201296C  thumb
+ *   func_02014314  0x02014314  thumb
+ *   func_020120F4  0x020120F4  thumb
+ *   func_02030734  0x02030734  arm
+ *   func_020307B0  0x020307B0  arm
+ *   func_020490F4  0x020490F4  arm
+ *   func_020493D4  0x020493D4  arm
+ *   d_021728BC  0x021728BC  data
+ *   func_0204944C  0x0204944C  arm
+ *   func_02049238  0x02049238  arm
+ *   d_02170FB0 0x02170FB0 data
+ *   func_02012138  0x02012138  thumb
+ *   func_0202E83C  0x0202E83C  thumb
+ *   func_0215843C  0x0215843C  thumb  ov010
+ *   func_020143CC  0x020143CC  thumb
+ *   func_02159F04 0x02159F04 thumb ov010
+ *   d_02170FF4 0x02170FF4 data a2
+ *   d_02170FEC 0x02170FEC data
+ *   d_02170FF0 0x02170FF0 data
+ *   func_02014184 0x02014184 thumb
+ *   func_02159F84  0x02159F84  thumb  ov010
+ *   func_02159F80  0x02159F80  thumb  ov010
+ *   func_02159F28  0x02159F28  thumb  ov010
+ *   func_02159F54  0x02159F54  thumb  ov010
+ */
+struct BigObj;
+struct Ctx;
+struct ArcFile;
+typedef unsigned char u8;
+
+typedef unsigned int u32;
+
+typedef unsigned short u16;
+
+/*
+ * One 16-byte record of the replace archive (a/0/1/0 member 0).  ids[0] is
+ * the map index the matrix holds; ids[variant] is the one to put in its place.
+ */
+typedef struct MapReplaceRecord {
+    u16 matrixId;           /* matrix the record applies to */
+    u8 kind;                /* 0: swap one map index, 1: reload the matrix */
+    u8 selector;            /* which variant byte picks the id: 0..2, else a flag table id */
+    u16 ids[6];
+} MapReplaceRecord;
+
+/* Map replace state (0x2C bytes), created per matrix load and deleted after it. */
+typedef struct MapReplace {
+    u16 heapId;
+    u16 pad02;
+    struct ArcFile *arc;
+    u32 recordCount;
+    /*
+     * Variant index per selector: [0] info code, [1] 1 unless the field
+     * map reports 0x15, [2] info code + 1 when [1] is set, [3 + i] 1 when
+     * event work d_02170FB0[i] holds its value.
+     */
+    u8 variant[13];
+    MapReplaceRecord record;    /* last record read by func_02159DCC */
+} MapReplace;
+
+/* Entry of the 10-entry flag table d_02170FB0. */
+typedef struct MapReplaceFlagEntry {
+    u8 selector;            /* record selector this entry answers */
+    u8 flagNo;              /* number callers use to set or test it */
+    u16 workId;             /* event work id */
+    u16 value;              /* event work value that means "set" */
+} MapReplaceFlagEntry;
+
+/* Entry of the 17-entry warp table d_02170FEC (0x14 bytes, home file unknown). */
+typedef struct WarpDataEntry {
+    u16 arriveFlag;         /* event flag set on arrival */
+    u16 isFlyTarget : 1;
+    u16 setsFlagOnEntry : 1;
+    u16 unusedBits : 14;
+    u16 zoneId;             /* zone the warp lands in */
+    u16 gridX : 8;
+    u16 gridZ : 8;
+    u16 entryZoneId;        /* zone whose entry sets arriveFlag */
+    char pad0A[10];
+} WarpDataEntry;
+extern u32 func_0201296C(const struct BigObj *p);
+extern void func_02014314(char *, int);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 func_020307B0(void *p);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern u32 func_020493D4(struct ArcFile *arc, u32 member);
+extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+extern void func_02049238(void *arc);
+int func_02159E60(int selector);
+extern u32 func_02012138(const struct Ctx *p);
+extern int func_0202E83C(void *a0);
+extern int func_0215843C(void *p);
+extern u32 func_020143CC(u32 a, u32 b);
+void func_02159E8C(u8 *variant, int gameSystem);
+MapReplaceFlagEntry *func_02159F04(int unused, int flagNo);
+/* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Constant leaf: `movs r0, N; bx lr`. * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/func_02159F80.c \ * --func func_02159F80 --addr 0x02159F80 --region ov010 --cc dsi/1.1p1 --thumb */ int func_02159F80(void);
+int func_02159F84(int warpId);
+extern void func_02014184(void *, int, int, int, int, int);
+/* * evidence: owner commit f860957 supplies the matched ARM9 Thumb02014184 * witness. Recheck the caller against that witness; no owner C compiled. * prototype: owner's u16 id is widened to int here because original r1 * is passed unchanged without narrowing. Remaining payloads retain 32 bits. * prior: wave49 one MATCH; tu --suggest-split left caller OUT. */ void func_0215A048(void *location, int zoneId, int unused, unsigned gridX, u16 gridZ);
+int func_0215A064(int warpId);
+extern const char d_021728BC[];
+extern MapReplaceFlagEntry d_02170FB0[];
+extern u16 d_02170FF4[][10];
+extern const WarpDataEntry d_02170FEC[];
+extern const u16 d_02170FF0[][10];
+
+
+MapReplace *func_02159D84(int heapId, int gameSystem)
+{
+    MapReplace *replace = func_02030734(heapId, sizeof(MapReplace), 1, d_021728BC, 0x77);
+    replace->heapId = heapId;
+    replace->arc = func_020490F4(10, heapId);
+    replace->recordCount = (u16)func_020493D4(replace->arc, 0) / sizeof(MapReplaceRecord);
+    func_02159E8C(replace->variant, gameSystem);
+    return replace;
+}
+
+
+
+u32 func_02159DC8(MapReplace *replace) { return replace->recordCount; }
+
+
+
+/* Read record `index` into replace->record and return its matrix id. */
+u32 func_02159DCC(MapReplace *replace, int index)
+{
+    func_0204944C(replace->arc, 0, index * sizeof(MapReplaceRecord), sizeof(MapReplaceRecord), &replace->record);
+    return replace->record.matrixId;
+}
+
+
+
+int func_02159DEC(MapReplace *replace)
+{
+    func_02049238(replace->arc);
+    return func_020307B0(replace);
+}
+
+
+
+/*
+ * Check the loaded record: returns 0 when the chosen id equals ids[0],
+ * 2 for a reload record (kind 1), 1 for a swap record (kind 0).
+ */
+int func_02159E00(MapReplace *replace, u32 *oldId, u32 *newId)
+{
+    MapReplaceRecord *record = &replace->record;
+    u8 *variant = replace->variant;
+    int selector = record->selector;
+    u32 baseId = record->ids[0];
+    int index;
+    u32 id;
+    switch (selector) {
+    case 0:
+        index = variant[0];
+        break;
+    case 1:
+        index = variant[1];
+        break;
+    case 2:
+        index = variant[2];
+        break;
+    default:
+        index = (variant + func_02159E60(selector))[3];
+        break;
+    }
+    id = record->ids[index];
+    *oldId = baseId;
+    *newId = id;
+    if (baseId == id)
+        return 0;
+    if (record->kind == 1)
+        return 2;
+    if (record->kind == 0)
+        return 1;
+    return 0;
+}
+
+
+
+int func_02159E60(int selector)
+{
+    unsigned int i;
+    for (i = 0; i < 10; i++) {
+        if (selector == d_02170FB0[i].selector)
+            return i;
+    }
+    return -1;
+}
+
+
+
+void func_02159E8C(u8 *variant, int gameSystem)
+{
+    int eventWork = func_0201296C(func_020120F4((const struct Ctx *)gameSystem));
+    int fieldMap = func_02012138((const struct Ctx *)gameSystem);
+    int infoCode = func_0202E83C((void *)gameSystem);
+    int i;
+    variant[0] = infoCode;
+    variant[1] = (func_0215843C((void *)fieldMap) != 0x15);
+    variant[2] = (variant[1] == 0) ? 0 : infoCode + 1;
+    for (i = 0; i < 10; i++) {
+        MapReplaceFlagEntry *entry = &d_02170FB0[i];
+        u16 *work = (u16 *)func_020143CC(eventWork, entry->workId);
+        if (*work == entry->value)
+            variant[3 + i] = 1;
+        else
+            variant[3 + i] = 0;
+    }
+}
+
+
+
+MapReplaceFlagEntry *func_02159F04(int unused, int flagNo)
+{
+    unsigned int i;
+    for (i = 0; i < 10; i++) {
+        MapReplaceFlagEntry *entry = &d_02170FB0[i];
+        if (entry->flagNo == flagNo)
+            return entry;
+    }
+    return 0;
+}
+
+
+
+/*
+ * extent: two bytes of zero alignment padding at 0x02159F52.
+ */
+void func_02159F28(int gameData, int flagNo, int set)
+{
+    MapReplaceFlagEntry *entry = func_02159F04(gameData, flagNo);
+    u16 *work;
+    if (entry) {
+        work = (u16 *)func_020143CC(func_0201296C((const struct BigObj *)gameData), entry->workId);
+        if (set)
+            *work = entry->value;
+        else
+            *work = 0;
+    }
+}
+
+
+
+int func_02159F54(int gameData, int flagNo)
+{
+    MapReplaceFlagEntry *entry = func_02159F04(gameData, flagNo);
+    u16 *work;
+    if (entry) {
+        work = (u16 *)func_020143CC(func_0201296C((const struct BigObj *)gameData), entry->workId);
+        if (entry->value == *work)
+            return 1;
+        else
+            return 0;
+    }
+    return 0;
+}
+
+
+
+/*
+ * generated: lane O24 (ov010 leaf/wrapper sweep)
+ *
+ * Constant leaf: `movs r0, N; bx lr`.
+ *
+ * Addresses are Black-image addresses.  --region ov010 is required: this
+ * address is only ov010 in the overlay that defines it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02159F80.c \
+ *       --func func_02159F80 --addr 0x02159F80 --region ov010 --cc dsi/1.1p1 --thumb
+ */
+/*
+ * generated: lane O24 (ov010 leaf/wrapper sweep)
+ *
+ * Constant leaf: `movs r0, #N; bx lr`.
+ *
+ * Addresses are Black-image addresses.  --region ov010 is required: this
+ * address is only ov010 in the overlay that defines it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02159F80.c \
+ *       --func func_02159F80 --addr 0x02159F80 --region ov010 --cc dsi/1.1p1 --thumb
+ */
+int func_02159F80(void) { return 1; }
+
+
+
+
+
+/* 1 when warpId is a valid 1-based index of the 17-entry warp table (stand-in: goto form). */
+int func_02159F84(int warpId)
+{
+
+    if (warpId <= 0) goto loc_02159F8C;
+loc_02159F88:
+    if ((unsigned)warpId <= (unsigned)0x11) goto loc_02159F90;
+loc_02159F8C:
+warpId = 0;
+    return warpId;
+loc_02159F90:
+warpId = 1;
+    return warpId;}
+
+
+/*
+ * addressing: getter result converted to unsigned; scale/add modulo 32 bits
+ * preserves the original muls/add address without assuming a valid array index.
+ */
+u16 func_02159F94(int warpId) { return *(u16 *)((unsigned)d_02170FF4 + (unsigned)func_0215A064(warpId) * 20u); }
+
+
+/*
+ * extent: followed by independently matched ov010_func_02159FE0.c.
+ * lever: const table declarations hoist the second table load before the stack argument.
+ * prototype: both payload bytes come out of the halfword as bit fields, so the
+ * u16 fifth input needs no extra truncation.
+ */
+void func_02159FA8(int warpId, int location)
+{
+    int index = func_0215A064(warpId);
+    const WarpDataEntry *entry = &d_02170FEC[index];
+    u32 zoneId = d_02170FF0[index][0];
+    func_0215A048((void *)location, zoneId, 0, entry->gridX, entry->gridZ);
+}
+
+
+
+
+
+
+
+
+
+/*
+ * Unlabelled leaf (push {r4,r5} only, so disasm.py prints it as .word
+ * data): a 1-based index lookup over a 17-entry, 0x14-byte table.
+ * Callee of ov020 func_021857C0.
+ */
+int func_02159FE0(int zoneId)
+{
+    unsigned int i;
+
+    for (i = 0; i < 17; i++) {
+        if (zoneId == d_02170FEC[i].zoneId && d_02170FEC[i].isFlyTarget)
+            return i + 1;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+void func_0215A014(void *gameData, int zoneId)
+{
+    unsigned i;
+    const WarpDataEntry *entry;
+    for (i = 0; i < 17; i++) {
+        entry = &d_02170FEC[i];
+        if (zoneId == entry->entryZoneId && entry->setsFlagOnEntry) {
+            func_02014314((char *)func_0201296C(gameData), entry->arriveFlag);
+            return;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+/*
+ * evidence: owner commit f860957 supplies the matched ARM9 Thumb02014184
+ * witness. Recheck the caller against that witness; no owner C compiled.
+ * prototype: owner's u16 id is widened to int here because original r1
+ * is passed unchanged without narrowing. Remaining payloads retain 32 bits.
+ * prior: wave49 one MATCH; tu --suggest-split left caller OUT.
+ */
+void func_0215A048(void *location, int zoneId, int unused, unsigned gridX, u16 gridZ)
+{
+    func_02014184(location, zoneId, 1, gridX << 16, 0, (unsigned)gridZ << 16);
+}
+
+
+
+
+
+
+
+
+
+/* Table index of a 1-based warp id; an out-of-range id falls back to the default id. */
+int func_0215A064(int warpId)
+{
+    if (func_02159F84(warpId) == 0)
+        warpId = func_02159F80();
+    return warpId - 1;
+}

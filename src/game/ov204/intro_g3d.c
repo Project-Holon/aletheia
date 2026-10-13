@@ -14,23 +14,23 @@
  *
  * symbols:
  *   defaultPos_021C08FC 0x021C08FC data
- *   func_02015CAC 0x02015CAC thumb
- *   func_02015E04 0x02015E04 thumb
+ *   MCSS_SetScale 0x02015CAC thumb
+ *   MCSS_SetAnmStopFlag 0x02015E04 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
- *   func_02015EB0 0x02015EB0 thumb
- *   func_02015EA0 0x02015EA0 thumb
- *   func_02016028 0x02016028 thumb
- *   func_02015E4C 0x02015E4C thumb
+ *   MCSS_ResetVanishFlag 0x02015EB0 thumb
+ *   MCSS_SetVanishFlag 0x02015EA0 thumb
+ *   MCSS_SetAnimeIndex 0x02016028 thumb
+ *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
  *   func_02015F2C 0x02015F2C thumb
  *   func_0207D63C 0x0207D63C arm
- *   func_02015FBC 0x02015FBC thumb
- *   func_02015DB0 0x02015DB0 thumb
- *   func_02015DC0 0x02015DC0 thumb
- *   func_02016374 0x02016374 thumb
- *   func_02015C30 0x02015C30 thumb
- *   func_02015C48 0x02015C48 thumb
+ *   MCSS_SetAlpha 0x02015FBC thumb
+ *   MCSS_SetMepachiFlag 0x02015DB0 thumb
+ *   MCSS_ResetMepachiFlag 0x02015DC0 thumb
+ *   MCSS_RestartAnime 0x02016374 thumb
+ *   MCSS_GetPosition 0x02015C30 thumb
+ *   MCSS_SetPosition 0x02015C48 thumb
  *   func_02030734 0x02030734 arm
  *   func_02047CFC 0x02047CFC arm
  *   func_02048A24 0x02048A24 arm
@@ -57,8 +57,8 @@
  *   _ffix 0x0209C494 arm
  *   func_02050B80 0x02050B80 arm
  *   func_02050C04 0x02050C04 arm
- *   func_02051758 0x02051758 arm
- *   func_02051648 0x02051648 arm
+ *   PARTICLE_ReleaseCamera 0x02051758 arm
+ *   PARTICLE_InitCamera 0x02051648 arm
  *   func_0205121C 0x0205121C arm
  *   func_02051230 0x02051230 arm
  *   d_021C0B30 0x021C0B30 data a1
@@ -67,6 +67,8 @@
  *   d_021C0B24 0x021C0B24 data a4
  *   func_02050ED4 0x02050ED4 arm
  *   func_02050BE8 0x02050BE8 arm
+ *   MCSS_Add  0x020159C8  thumb  arm9
+ *   MCSS_TOOL_MakeAddWorkFromPP  0x02017100  thumb  arm9
  */
 #include "../../matched/include/Obj10881.h"
 #include "../../matched/include/Obj10882.h"
@@ -109,24 +111,24 @@ typedef signed int     s32;
 typedef struct { int a,b,c,d,e,f,g,h; } Config;
 
 extern void *func_020173F0(unsigned short, unsigned short, unsigned long long, unsigned short);
-extern void func_02017100(void *p, struct Stats *out, u32 lvl);
+extern void MCSS_TOOL_MakeAddWorkFromPP(void *p, struct Stats *out, u32 lvl);
 extern u32 func_020307B0(void *p);
-extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
-extern void func_02015CAC(void *p, u32 *src);
-extern void func_02015E04(void *);
+extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
+extern void MCSS_SetScale(void *p, u32 *src);
+extern void MCSS_SetAnmStopFlag(void *);
 extern unsigned int func_0203F0A8(void);
 extern void func_02015F2C(void *, void *, void (*)(void *, void *), int);
-extern void func_02015EB0(void *);
-extern void func_02015EA0(void *);
-extern void func_02016028(void *, unsigned int);
-extern void func_02015E4C(void *);
+extern void MCSS_ResetVanishFlag(void *);
+extern void MCSS_SetVanishFlag(void *);
+extern void MCSS_SetAnimeIndex(void *, unsigned int);
+extern void MCSS_ResetAnmStopFlag(void *);
 extern void func_0207D63C(void *,int,int,int,int);
-extern void func_02015FBC(char *p, int v);
-extern void func_02015DB0(void *);
-extern void func_02015DC0(void *);
-extern void func_02016374(void *);
-extern void func_02015C30(void *p, u32 *out);
-extern void func_02015C48(void *p, u32 *src);
+extern void MCSS_SetAlpha(char *p, int v);
+extern void MCSS_SetMepachiFlag(void *);
+extern void MCSS_ResetMepachiFlag(void *);
+extern void MCSS_RestartAnime(void *);
+extern void MCSS_GetPosition(void *p, u32 *out);
+extern void MCSS_SetPosition(void *p, u32 *src);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void *func_02047CFC(u16,u16,u32);
 extern void *func_02048A24(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3 *,u32);
@@ -145,8 +147,8 @@ extern int func_020478B8(void *, int, int);
 extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
 extern void func_02050B80(unsigned);
 extern int func_02050C04(int a, int b, int c, int d);
-extern int func_02051758(int a0);
-extern void func_02051648(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
+extern int PARTICLE_ReleaseCamera(int a0);
+extern void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
 extern int func_0205121C(unsigned,unsigned,unsigned);
 extern void func_02051230(void *,unsigned,unsigned,unsigned);
 extern void func_02050ED4(void);
@@ -190,11 +192,11 @@ void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsi
     void *tmp = func_020173F0((unsigned short)species, 0, 0, ((struct Obj10881 *)p)->f0);
     char *base = p + 8;
     unsigned int off = i * 12;
-    func_02017100(tmp, (struct Stats *)data, 0);
+    MCSS_TOOL_MakeAddWorkFromPP(tmp, (struct Stats *)data, 0);
     func_020307B0(tmp);
-    *(void **)(base + off) = func_020159C8(((struct Obj10881 *)p)->f4, a, b, c, (const struct Sub150 *)data);
-    func_02015CAC(*(void **)(base + off), (u32 *)(&pos));
-    func_02015E04(*(void **)(base + off));
+    *(void **)(base + off) = MCSS_Add(((struct Obj10881 *)p)->f4, a, b, c, (const struct Sub150 *)data);
+    MCSS_SetScale(*(void **)(base + off), (u32 *)(&pos));
+    MCSS_SetAnmStopFlag(*(void **)(base + off));
     *(unsigned int *)(p + off + 12) = 0;
     *(unsigned int *)(p + off + 16) = 1;
     ((struct Obj10881 *)p)->f68 = 20 * (unsigned int)(((unsigned long long)func_0203F0A8() * 5) >> 32) + 200;
@@ -203,8 +205,8 @@ void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsi
 
 void func_021BF720(u8 *p, int flag, u8 index)
 {
-    if(flag==1)func_02015EB0(*(void **)((u32)p+(u32)index*12+8));
-    else func_02015EA0(*(void **)((u32)p+(u32)index*12+8));
+    if(flag==1)MCSS_ResetVanishFlag(*(void **)((u32)p+(u32)index*12+8));
+    else MCSS_SetVanishFlag(*(void **)((u32)p+(u32)index*12+8));
 }
 
 
@@ -216,8 +218,8 @@ void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v)
     char *base = p + 8;
     unsigned int off = i * 12;
     enum { Zero } zero;
-    func_02016028(*(void **)(base + off), flag);
-    func_02015E4C(*(void **)(base + off));
+    MCSS_SetAnimeIndex(*(void **)(base + off), flag);
+    MCSS_ResetAnmStopFlag(*(void **)(base + off));
     zero = Zero;
     *(unsigned int *)(p + off + 12) = zero;
     *(unsigned int *)(p + off + 16) = v;
@@ -243,19 +245,19 @@ void func_021BF794(u8 *p, u8 index, u32 alpha)
 {
     func_0207D63C((void *)0x04000050,1,9,0,0);
     if(alpha>31)alpha=31;
-    func_02015FBC(*(char **)((u32)p+(u32)index*12+8),(u8)alpha);
+    MCSS_SetAlpha(*(char **)((u32)p+(u32)index*12+8),(u8)alpha);
 }
 
 void func_021BF7CC(u8 *p, u8 index, int flag)
 {
-    if(flag!=0)func_02015DB0(*(void **)((u32)p+(u32)index*12+8));
-    else func_02015DC0(*(void **)((u32)p+(u32)index*12+8));
+    if(flag!=0)MCSS_SetMepachiFlag(*(void **)((u32)p+(u32)index*12+8));
+    else MCSS_ResetMepachiFlag(*(void **)((u32)p+(u32)index*12+8));
 }
 
 void func_021BF7F0(u8 *p)
 {
     ((struct Obj10882 *)p)->f4=1;
-    if(((struct Obj10882 *)p)->f8==1)func_02016374(((struct Obj10882 *)p)->f0);
+    if(((struct Obj10882 *)p)->f8==1)MCSS_RestartAnime(((struct Obj10882 *)p)->f0);
 }
 
 
@@ -265,7 +267,7 @@ int func_021BF804(char *p, unsigned int i, int step, int limit)
     char *base = p + 8;
     unsigned int off = i * 12;
     int done;
-    func_02015C30(*(void **)(base + off), (u32 *)(&pos));
+    MCSS_GetPosition(*(void **)(base + off), (u32 *)(&pos));
     done = 1;
     pos.v[0] += step;
     if (pos.v[0] != limit)
@@ -275,16 +277,16 @@ int func_021BF804(char *p, unsigned int i, int step, int limit)
         else
             done = 0;
     }
-    func_02015C48(*(void **)(base + off), (u32 *)(&pos));
+    MCSS_SetPosition(*(void **)(base + off), (u32 *)(&pos));
     if (*(unsigned int *)(p + off + 12) == 1)
-        func_02015E04(*(void **)(base + off));
+        MCSS_SetAnmStopFlag(*(void **)(base + off));
     return done;
 }
 
 /*
  * extent: two zero alignment bytes at 0x021BF896 follow; no follower.
  */
-int func_021BF864(char *p,int delta,int limit) { u32 v[3]; int done; func_02015C30(((struct Obj14628 *)p)->f14,v); v[1]-=delta; if((int)v[1]<=limit) { v[1]=limit;done=1; } else done=0;func_02015C48(((struct Obj14628 *)p)->f14,v);return done; }
+int func_021BF864(char *p,int delta,int limit) { u32 v[3]; int done; MCSS_GetPosition(((struct Obj14628 *)p)->f14,v); v[1]-=delta; if((int)v[1]<=limit) { v[1]=limit;done=1; } else done=0;MCSS_SetPosition(((struct Obj14628 *)p)->f14,v);return done; }
 
 
 void func_021BF898(char *p)
@@ -297,7 +299,7 @@ void func_021BF898(char *p)
             func_021BF744(p, 1, 0, 1);
             return;
         }
-        func_02015E04(((struct Obj06674 *)p)->f14);
+        MCSS_SetAnmStopFlag(((struct Obj06674 *)p)->f14);
         --((struct Obj06674 *)p)->f68;
     }
 }
@@ -475,8 +477,8 @@ char *func_021BFC24(void *owner,unsigned heap)
     config.f=4096;
     config.g=4194304;
     config.h=4096;
-    func_02051758((int)(((struct Obj03923 *)p)->f8));
-    func_02051648(((struct Obj03923 *)p)->f8,(struct Src648 *)(&config),8192,d_021C0B18,d_021C0B0C,d_021C0B24,((struct Obj03923 *)p)->f0);
+    PARTICLE_ReleaseCamera((int)(((struct Obj03923 *)p)->f8));
+    PARTICLE_InitCamera(((struct Obj03923 *)p)->f8,(struct Src648 *)(&config),8192,d_021C0B18,d_021C0B0C,d_021C0B24,((struct Obj03923 *)p)->f0);
     func_02051230(((struct Obj03923 *)p)->f8,func_0205121C(6,6,((struct Obj03923 *)p)->f0),1,0);
     return p;
 }

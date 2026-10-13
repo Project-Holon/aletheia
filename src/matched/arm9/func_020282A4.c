@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020282A4
+ * function: APP_TASKMENU_WIN_ResetDecide
  * address:  0x020282A4
  * packet:   pkt_020282A4
  * region:   arm9
@@ -24,7 +24,7 @@ struct Obj {
     u16 pad_12;
 };
 
-void func_020282A4(struct Obj *obj)
+void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj)
 {
     obj->field_08 = 0;
     obj->field_10 = 0;

@@ -15,7 +15,7 @@
  *   func_021D694C 0x021D694C thumb ov121
  *   func_021DAB50 0x021DAB50 thumb ov121
  *   func_021D9254 0x021D9254 thumb ov121
- *   func_0204B49C 0x0204B49C arm
+ *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_020061E4 0x020061E4 thumb
  *   _u32_div_f 0x0209C2B0 arm
@@ -32,7 +32,7 @@ struct Obj;
 extern void func_021D694C(u16 *p, int mode);
 extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
 extern void func_021D9254(char *p, int n);
-extern void func_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis);
+extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_020061E4(u32 a);
 void func_021D8D1C(u8 *p)
@@ -74,7 +74,7 @@ void func_021D8D1C(u8 *p)
         break;
     case 4:
         y=((214-((struct Obj00498 *)p)->f128)*((struct Obj00498 *)p)->f18)/60u-96;
-        func_0204B49C(((struct Obj00498 *)p)->f4,y,0,1);
+        CLACT_SetActorSurfacePosAxis(((struct Obj00498 *)p)->f4,y,0,1);
         if(y>=-48 && y<=192) func_0204B3DC(((struct Obj00498 *)p)->f4,1);
         if((((struct Obj00498 *)p)->f18)++>=60) {
             func_020061E4(1649);

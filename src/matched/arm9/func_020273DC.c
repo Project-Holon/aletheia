@@ -1,5 +1,5 @@
 /*
- * function: func_020273DC
+ * function: GAME_BEACON_SetDetailsBattleSpecialPoke
  * address:  0x020273DC
  * packet:   pkt_020273DC
  * region:   arm9
@@ -13,11 +13,11 @@
  * witness.  Addresses are Black-image addresses.
  *
  * symbols:
- *   func_020273DC  0x020273DC  thumb
+ *   GAME_BEACON_SetDetailsBattleSpecialPoke  0x020273DC  thumb
  */
 #include "../include/Obj05717.h"
 
-void func_020273DC(char *p, unsigned short v)
+void GAME_BEACON_SetDetailsBattleSpecialPoke(char *p, unsigned short v)
 {
     ((struct Obj05717 *)p)->f48 = (((struct Obj05717 *)p)->f48 & ~0xff) | 1;
     ((struct Obj05717 *)p)->f4E = v;

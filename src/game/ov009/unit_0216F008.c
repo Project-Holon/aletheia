@@ -1,6 +1,6 @@
 /*
  * file:     unit_0216F008.c
- * function: func_0216F008
+ * function: DWCi_ProcessMatchSynPacketSub
  * address:  0x0216F008
  * packet:   pkt_02155168
  * region:   ov009
@@ -20,7 +20,7 @@
 
 extern void func_0216EC84(unsigned char aid, unsigned short type, unsigned char *data);
 
-void func_0216F008(unsigned char aid, unsigned short type, unsigned char *data)
+void DWCi_ProcessMatchSynPacketSub(unsigned char aid, unsigned short type, unsigned char *data)
 {
     func_0216EC84(aid, type, data);
 }

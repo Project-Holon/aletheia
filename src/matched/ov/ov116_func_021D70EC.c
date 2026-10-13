@@ -19,7 +19,7 @@
  *   func_021C93D0 0x021C93D0 arm ov114
  *   func_021C940C 0x021C940C arm ov114
  *   func_021C9634 0x021C9634 arm ov114
- *   func_0200F7B8 0x0200F7B8 thumb
+ *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  */
 
 /*
@@ -32,7 +32,7 @@ extern int func_021C93D0(void);
 extern int func_021C940C(void);
 extern void func_021C9634(void);
 typedef unsigned int   u32;
-extern u32 func_0200F7B8(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 int func_021D70EC(u8 *p,int *q) {
     int done=0;
     if(func_021C93D0()==0) {
@@ -47,10 +47,10 @@ int func_021D70EC(u8 *p,int *q) {
         switch(result) {
         case -7: case -6: case -4: case -3: case -2: case -1:
             *(int *)p=result; break;
-        case -5: func_0200F7B8(1); break;
+        case -5: GFL_NET_ERR_ShowScreen(1); break;
         default:
             if(result>=0) *q=result;
-            else func_0200F7B8(1);
+            else GFL_NET_ERR_ShowScreen(1);
             break;
         }
     }

@@ -11,10 +11,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0200852C, sub_02008530, sub_02008534, sub_0200853C,
- *           sub_02008540, sub_0200854C, sub_02008550, sub_02008554,
- *           sub_02008558, sub_0200855C, sub_02008560, sub_02008564,
- *           sub_02008568, sub_0200856C, sub_02008570, sub_02008574
+ * function: MYSTATUS_SetId, MYSTATUS_GetId, MYSTATUS_GetIdLow16, MYSTATUS_GetProfileId,
+ *           MYSTATUS_SetProfileIdOnce, MYSTATUS_SetOutfitVariant, MYSTATUS_GetOutfitVariant, MYSTATUS_GetOutfit,
+ *           MYSTATUS_SetOutfit, MYSTATUS_GetAvatarId, MYSTATUS_SetAvatarId, MYSTATUS_GetGender,
+ *           MYSTATUS_SetGender, MYSTATUS_GetLanguage, MYSTATUS_GetVersion, MYSTATUS_SetLanguageAndVersion
  *
  * 0x0200852C..0x0200857C is 80 bytes of nothing but accessors on one object,
  * sixteen of them, and the address range is closed on both sides: the
@@ -69,22 +69,22 @@ struct Sub0200852CObj {
     u8  unk1D;
 };
 
-void sub_0200852C(struct Sub0200852CObj *obj, u32 value)
+void MYSTATUS_SetId(struct Sub0200852CObj *obj, u32 value)
 {
     obj->unk10 = value;
 }
 
-u32 sub_02008530(const struct Sub0200852CObj *obj)
+u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj)
 {
     return obj->unk10;
 }
 
-u16 sub_02008534(const struct Sub0200852CObj *obj)
+u16 MYSTATUS_GetIdLow16(const struct Sub0200852CObj *obj)
 {
     return (u16)obj->unk10;
 }
 
-u32 sub_0200853C(const struct Sub0200852CObj *obj)
+u32 MYSTATUS_GetProfileId(const struct Sub0200852CObj *obj)
 {
     return obj->unk14;
 }
@@ -92,64 +92,64 @@ u32 sub_0200853C(const struct Sub0200852CObj *obj)
 /* Set once: the store is skipped if the field is already non-zero.  The
  * compare-and-branch is over the store, which is why this one function is 10
  * bytes and drags two bytes of fill in behind it. */
-void sub_02008540(struct Sub0200852CObj *obj, u32 value)
+void MYSTATUS_SetProfileIdOnce(struct Sub0200852CObj *obj, u32 value)
 {
     if (obj->unk14 == 0) {
         obj->unk14 = value;
     }
 }
 
-void sub_0200854C(struct Sub0200852CObj *obj, u8 value)
+void MYSTATUS_SetOutfitVariant(struct Sub0200852CObj *obj, u8 value)
 {
     obj->unk1D = value;
 }
 
-u8 sub_02008550(const struct Sub0200852CObj *obj)
+u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj)
 {
     return obj->unk1D;
 }
 
-u8 sub_02008554(const struct Sub0200852CObj *obj)
+u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj)
 {
     return obj->unk1C;
 }
 
-void sub_02008558(struct Sub0200852CObj *obj, u8 value)
+void MYSTATUS_SetOutfit(struct Sub0200852CObj *obj, u8 value)
 {
     obj->unk1C = value;
 }
 
-u8 sub_0200855C(const struct Sub0200852CObj *obj)
+u8 MYSTATUS_GetAvatarId(const struct Sub0200852CObj *obj)
 {
     return obj->unk1B;
 }
 
-void sub_02008560(struct Sub0200852CObj *obj, u8 value)
+void MYSTATUS_SetAvatarId(struct Sub0200852CObj *obj, u8 value)
 {
     obj->unk1B = value;
 }
 
-u8 sub_02008564(const struct Sub0200852CObj *obj)
+u8 MYSTATUS_GetGender(const struct Sub0200852CObj *obj)
 {
     return obj->unk1A;
 }
 
-void sub_02008568(struct Sub0200852CObj *obj, u8 value)
+void MYSTATUS_SetGender(struct Sub0200852CObj *obj, u8 value)
 {
     obj->unk1A = value;
 }
 
-u8 sub_0200856C(const struct Sub0200852CObj *obj)
+u8 MYSTATUS_GetLanguage(const struct Sub0200852CObj *obj)
 {
     return obj->unk18;
 }
 
-u8 sub_02008570(const struct Sub0200852CObj *obj)
+u8 MYSTATUS_GetVersion(const struct Sub0200852CObj *obj)
 {
     return obj->unk19;
 }
 
-void sub_02008574(struct Sub0200852CObj *obj, u8 a, u8 b)
+void MYSTATUS_SetLanguageAndVersion(struct Sub0200852CObj *obj, u8 a, u8 b)
 {
     obj->unk18 = a;
     obj->unk19 = b;

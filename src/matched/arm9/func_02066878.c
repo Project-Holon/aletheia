@@ -1,5 +1,5 @@
 /*
- * function: func_02066878
+ * function: NNSi_G2dGetCellTransferState
  * address:  0x02066878
  * packet:   pkt_02066754
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02148B20       0x02148B20  data
+ *   sCellTransferStateManager       0x02148B20  data
  */
 
 typedef unsigned char u8;
@@ -23,9 +23,9 @@ struct Hdr02066878 {
     u32 base;
 };
 
-extern struct Hdr02066878 g_02148B20;
+extern struct Hdr02066878 sCellTransferStateManager;
 
-u8 *func_02066878(u32 i)
+u8 *NNSi_G2dGetCellTransferState(u32 i)
 {
-    return (u8 *)g_02148B20.base + i * 0x30;
+    return (u8 *)sCellTransferStateManager.base + i * 0x30;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02035AA4
+ * function: TOUCHPANEL_HitRect
  * address:  0x02035AA4
  * packet:   pkt_02035760
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The rectangular counterpart of src/matched/func_02035A70.c, on the same
+ * The rectangular counterpart of src/matched/TOUCHPANEL_HitCircle.c, on the same
  * packed four-byte record: a point (a, b) is inside when both distances from
  * the low corner fit in the record's width and height, each spelled as the
  * one-sided range test `v - lo <= hi - lo`.
@@ -27,14 +27,14 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02035AA4.c \
- *       --func func_02035AA4 --addr 0x02035AA4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TOUCHPANEL_HitRect.c \
+ *       --func TOUCHPANEL_HitRect --addr 0x02035AA4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u32 func_02035AA4(u8 *p, u32 a, u32 b)
+u32 TOUCHPANEL_HitRect(u8 *p, u32 a, u32 b)
 {
     if (a - p[2] <= (u32)(p[3] - p[2]) && b - p[0] <= (u32)(p[1] - p[0]))
         return 1;

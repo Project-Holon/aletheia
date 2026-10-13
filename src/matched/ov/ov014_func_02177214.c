@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov014/unit_021771F8.c and filed here.
  *
  * symbols:
- *   func_02177C44 0x02177C44 thumb ov014
+ *   NET_WHPIPE_GetOwnAid 0x02177C44 thumb ov014
  */
 
-extern int func_02177C44(void);
+extern int NET_WHPIPE_GetOwnAid(void);
 int func_02177214(void);
 
 int func_02177214(void)
 {
-    return func_02177C44();
+    return NET_WHPIPE_GetOwnAid();
 }

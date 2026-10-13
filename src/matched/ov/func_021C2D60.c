@@ -1,5 +1,5 @@
 /*
- * function: func_021C2D60
+ * function: DWCi_SceneOptMenu_procScene
  * address:  0x021C2D60
  * packet:   pkt_021C20AC
  * region:   ov016
@@ -10,23 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C2D60   0x021C2D60  arm
+ *   DWCi_SceneOptMenu_procScene   0x021C2D60  arm
+ *   DWCi_SceneOptMenu_draw  0x021C2E68  arm
  *
- * Call func_021C2D74, func_021C2E68, func_021C2E6C.
+ * Call func_021C2D74, DWCi_SceneOptMenu_draw, func_021C2E6C.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C2D60.c \
- *       --func func_021C2D60 --addr 0x021C2D60 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneOptMenu_procScene.c \
+ *       --func DWCi_SceneOptMenu_procScene --addr 0x021C2D60 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern void func_021C2D74(void);
-extern void func_021C2E68(void);
+extern void DWCi_SceneOptMenu_draw(void);
 extern void func_021C2E6C(void);
 
-void func_021C2D60(void)
+void DWCi_SceneOptMenu_procScene(void)
 {
     func_021C2D74();
-    func_021C2E68();
+    DWCi_SceneOptMenu_draw();
     func_021C2E6C();
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DD980
+ * function: MYSTERY_ALBUM_Delete
  * address: 0x021DD980
  * packet: pkt_ov121_021DD980
  * region: ov121
@@ -22,7 +22,7 @@ extern unsigned int func_020307B0(void *p);
 extern void func_021DA3C0(u8 *p);
 typedef unsigned int   u32;
 extern void func_021DBEE4(u32 p);
-void func_021DD980(char *p)
+void MYSTERY_ALBUM_Delete(char *p)
 {
     if (((struct Obj03789 *)p)->f128) {
         func_02030EAC(((struct Obj03789 *)p)->f128);

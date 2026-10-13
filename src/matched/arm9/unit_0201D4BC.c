@@ -20,7 +20,7 @@
  * 0xFFFE with `subs r4, r0, #1`, which is ordinary common subexpression
  * elimination on the constant and needs nothing in the source.
  *
- * The leading call to func_02045A90 whose result is discarded is in the original
+ * The leading call to STRBUF_GetChars whose result is discarded is in the original
  * and is reproduced rather than tidied.
  *
  * Addresses are Black-image addresses.
@@ -28,6 +28,9 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201D4BC.c \
  *       --addr 0x0201D4BC --thumb
+ *
+ * symbols:
+ *   STRBUF_GetChars  0x02045A90  arm
  */
 
 typedef unsigned char  u8;
@@ -35,7 +38,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct U16Vec;
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 *func_0201D688(u16 *p);
 
 u32 func_0201D4BC(void *s, u8 v)
@@ -44,8 +47,8 @@ u32 func_0201D4BC(void *s, u8 v)
     u16 n = 0;
     u32 t;
 
-    func_02045A90(s);
-    p = func_02045A90(s);
+    STRBUF_GetChars(s);
+    p = STRBUF_GetChars(s);
     while (p[0] != 0xFFFF) {
         if (p[0] == 0xFFFE) {
             n = (u16)(n + 1);

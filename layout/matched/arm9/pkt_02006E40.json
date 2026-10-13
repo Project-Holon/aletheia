@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02006E40",
-    "sub_02006E64",
-    "sub_02006E7C",
-    "sub_02006EA4"
+    "BGM_INFO_Create",
+    "BGM_INFO_Free",
+    "BGM_INFO_GetIssMode",
+    "BGM_INFO_Load"
+   ],
+   "addresses": [
+    "0x02006E40",
+    "0x02006E64",
+    "0x02006E7C",
+    "0x02006EA4"
    ]
   },
   {
@@ -36,8 +42,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02007084",
-    "sub_020070A4"
+    "SAVE_CONTROL_Delete",
+    "SAVE_CONTROL_Get"
+   ],
+   "addresses": [
+    "0x02007084",
+    "0x020070A4"
    ]
   },
   {
@@ -52,7 +62,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020071CC"
+    "SAVE_CONTROL_GetBlock"
+   ],
+   "addresses": [
+    "0x020071CC"
    ]
   },
   {
@@ -67,17 +80,30 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020071E4",
-    "sub_020071E8",
-    "sub_020071EC",
-    "sub_020071F0",
-    "sub_02007210",
-    "sub_02007214",
-    "sub_02007218",
-    "sub_0200721C",
-    "sub_02007220",
-    "sub_02007230",
-    "sub_0200723C"
+    "SAVE_CONTROL_IsNewGame",
+    "SAVE_CONTROL_GetLoadFlags",
+    "SAVE_CONTROL_HasFlashSave",
+    "SAVE_CONTROL_WouldOverwriteSave",
+    "SAVE_CONTROL_GetOutsideSaveLoaded",
+    "SAVE_CONTROL_SetOutsideSaveLoaded",
+    "SAVE_CONTROL_GetOutsideSaveBroken",
+    "SAVE_CONTROL_SetOutsideSaveBroken",
+    "SAVE_CONTROL_ResetToNewGame",
+    "SAVE_CONTROL_EraseMainSave",
+    "SAVE_CONTROL_GetDiffSize"
+   ],
+   "addresses": [
+    "0x020071E4",
+    "0x020071E8",
+    "0x020071EC",
+    "0x020071F0",
+    "0x02007210",
+    "0x02007214",
+    "0x02007218",
+    "0x0200721C",
+    "0x02007220",
+    "0x02007230",
+    "0x0200723C"
    ]
   },
   {
@@ -92,7 +118,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020072A4"
+    "SAVE_CONTROL_DeleteExtraSave"
+   ],
+   "addresses": [
+    "0x020072A4"
    ]
   },
   {
@@ -107,8 +136,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02007324",
-    "sub_0200734C"
+    "SAVE_CONTROL_CreateExtraSaveWithBuffer",
+    "SAVE_CONTROL_DeleteExtraSaveBuffered"
+   ],
+   "addresses": [
+    "0x02007324",
+    "0x0200734C"
    ]
   },
   {
@@ -123,7 +156,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020073D8"
+    "SAVE_CONTROL_GetExtraSaveRecord"
+   ],
+   "addresses": [
+    "0x020073D8"
    ]
   },
   {
@@ -138,7 +174,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02007428"
+    "SAVE_CONTROL_EraseOutsideSave"
+   ],
+   "addresses": [
+    "0x02007428"
    ]
   },
   {
@@ -153,12 +192,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02007454",
-    "sub_0200745C",
-    "sub_02007464",
-    "sub_020074CC",
-    "sub_020074D8",
-    "sub_0200752C"
+    "BOX_SAVEDATA_Init",
+    "BOX_SAVEDATA_GetSize",
+    "BOX_SAVEDATA_InitHeader",
+    "BOX_SAVEDATA_GetHeader",
+    "BOX_SAVEDATA_AddPokemon",
+    "BOX_SAVEDATA_AddPokemonToBox"
+   ],
+   "addresses": [
+    "0x02007454",
+    "0x0200745C",
+    "0x02007464",
+    "0x020074CC",
+    "0x020074D8",
+    "0x0200752C"
    ]
   }
  ]

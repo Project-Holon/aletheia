@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * Unlabelled Thumb leaf accessor: if the u32 at +0x2c of the object at
- * g_0214617C is 1, set it to 2.
+ * gNetErrWork is 1, set it to 2.
  *
  * symbols:
- *   g_0214617C     0x0214617C  data  a4
+ *   gNetErrWork     0x0214617C  data  a4
  */
 
-extern unsigned int g_0214617C[];
+extern unsigned int gNetErrWork[];
 
 void func_0200FB38(void)
 {
-    if (g_0214617C[11] == 1) {
-        g_0214617C[11] = 2;
+    if (gNetErrWork[11] == 1) {
+        gNetErrWork[11] = 2;
     }
 }

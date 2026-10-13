@@ -1,5 +1,5 @@
 /*
- * function: func_02019308
+ * function: POKE_TOOL_SetPartyValueRaw
  * address:  0x02019308
  * packet:   pkt_02018DB4
  * region:   arm9
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The setter twin of func_02018DB4 (src/matched/sub_02018DB4.c): the same
+ * The setter twin of POKE_TOOL_GetPartyValueRaw (src/matched/POKE_TOOL_GetPartyValueRaw.c): the same
  * twelve party-area ids 0x9D to 0xA8 over the same offsets of the 0xDC byte
- * record, with everything else forwarded to func_02019388, the 178 case
- * writer over the block area (src/matched/sub_02019388.c).
+ * record, with everything else forwarded to POKE_TOOL_SetBoxValueRaw, the 178 case
+ * writer over the block area (src/matched/POKE_TOOL_SetBoxValueRaw.c).
  *
  * Two details cost the time here and both are about where the two ids that
  * store nothing send control.
@@ -32,12 +32,12 @@
  * Nothing here is version specific.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/sub_02019308.c \
- *       --func func_02019308 --addr 0x02019308 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/POKE_TOOL_SetPartyValueRaw.c \
+ *       --func POKE_TOOL_SetPartyValueRaw --addr 0x02019308 --cc 1.1p1
  *
  * symbols:
- *   sub_02008F3C   0x02008F3C  thumb
- *   func_02019388  0x02019388  thumb
+ *   MAIL_Copy   0x02008F3C  thumb
+ *   POKE_TOOL_SetBoxValueRaw  0x02019388  thumb
  */
 
 typedef unsigned char  u8;
@@ -70,10 +70,10 @@ struct Mon {
 };
 
 struct Sub02008F80Obj;
-extern void sub_02008F3C(const struct Sub02008F80Obj *src, struct Sub02008F80Obj *dest);
-extern void func_02019388(struct Mon *p, u32 id, u32 v);
+extern void MAIL_Copy(const struct Sub02008F80Obj *src, struct Sub02008F80Obj *dest);
+extern void POKE_TOOL_SetBoxValueRaw(struct Mon *p, u32 id, u32 v);
 
-void func_02019308(struct Mon *p, u32 id, u32 v)
+void POKE_TOOL_SetPartyValueRaw(struct Mon *p, u32 id, u32 v)
 {
     switch (id) {
     case 0x9D: p->unk88 = v; return;
@@ -87,12 +87,12 @@ void func_02019308(struct Mon *p, u32 id, u32 v)
     case 0xA5: p->unk98 = (u16)v; return;
     case 0xA6: p->unk9A = (u16)v; return;
     case 0xA7:
-        sub_02008F3C((const struct Sub02008F80Obj *)v, (struct Sub02008F80Obj *)(&p->unk9C));
+        MAIL_Copy((const struct Sub02008F80Obj *)v, (struct Sub02008F80Obj *)(&p->unk9C));
         return;
     case 0xA8:
         break;
     default:
-        func_02019388(p, id, v);
+        POKE_TOOL_SetBoxValueRaw(p, id, v);
         break;
     }
 }

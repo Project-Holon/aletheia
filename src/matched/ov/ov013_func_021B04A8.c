@@ -1,5 +1,5 @@
 /*
- * function: func_021B04A8
+ * function: VCT_ADPCM_EncodePacket
  * address:  0x021B04A8
  * packet:   pkt_ov013_021B04A8
  * region:   ov013
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B01FC  0x021B01FC  arm  ov013
- *   func_021AFABC  0x021AFABC  arm  ov013
- *   func_021AF494  0x021AF494  arm  ov013
+ *   VCT_ADPCM_Encode2Bit  0x021B01FC  arm  ov013
+ *   VCT_ADPCM_Encode3Bit  0x021AFABC  arm  ov013
+ *   VCT_ADPCM_Encode4Bit  0x021AF494  arm  ov013
  */
 
 typedef unsigned char u8;
@@ -30,24 +30,24 @@ typedef struct AdpcmState {
 } AdpcmState;
 
 typedef unsigned int   u32;
-extern void func_021B01FC(u8 *dst, s16 *src, u32 n, struct AdpcmState *st);
-extern void func_021AFABC(u8 *dst, s16 *src, u32 n, struct AdpcmState *st);
-extern void func_021AF494(u8 *dst, s16 *src, u32 n, struct AdpcmState *st);
+extern void VCT_ADPCM_Encode2Bit(u8 *dst, s16 *src, u32 n, struct AdpcmState *st);
+extern void VCT_ADPCM_Encode3Bit(u8 *dst, s16 *src, u32 n, struct AdpcmState *st);
+extern void VCT_ADPCM_Encode4Bit(u8 *dst, s16 *src, u32 n, struct AdpcmState *st);
 
-void func_021B04A8(AdpcmHdr *out, void *a, int n, AdpcmState *st, int mode)
+void VCT_ADPCM_EncodePacket(AdpcmHdr *out, void *a, int n, AdpcmState *st, int mode)
 {
     out->pred = st->pred;
     out->index = st->index;
     out->zero = 0;
     switch (mode) {
     case 2:
-        func_021B01FC((u8 *)out + 4, a, n, st);
+        VCT_ADPCM_Encode2Bit((u8 *)out + 4, a, n, st);
         break;
     case 3:
-        func_021AFABC((u8 *)out + 4, a, n, st);
+        VCT_ADPCM_Encode3Bit((u8 *)out + 4, a, n, st);
         break;
     case 4:
-        func_021AF494((u8 *)out + 4, a, n, st);
+        VCT_ADPCM_Encode4Bit((u8 *)out + 4, a, n, st);
         break;
     }
 }

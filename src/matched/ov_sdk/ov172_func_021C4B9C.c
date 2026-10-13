@@ -19,7 +19,7 @@
  *
  * JPEG encode driver.  Sets up the g_021CAE90 encoder config (0x1000/7 and a
  * 28-byte payload clamped to 30), zeroes the g_021CAEC6 string scratch, builds
- * a 4-byte id at `local` (0 unless func_02085D3C() reports the firmware id, in
+ * a 4-byte id at `local` (0 unless OS_IsRunOnTwl() reports the firmware id, in
  * which case the hardware word at 0x02FFE230 is taken), copies it into the
  * local buf and NUL-terminates so func_021C2D9C can publish it as the string
  * length.  Then, if the global-outstanding flag g_021CADF0.f0 is clear, it
@@ -40,6 +40,7 @@
  *   func_021C3DF4  0x021C3DF4  arm  ov172
  *   func_021C2D24  0x021C2D24  arm  ov172
  *   func_021C2D9C  0x021C2D9C  arm  ov172
+ *   OS_IsRunOnTwl  0x02085D3C  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -70,7 +71,7 @@ extern struct Adf0 g_021CADF0;
 extern u8  g_021CAEC6[];
 
 void func_02082BCC(void *dst, int val, u32 n);
-int  func_02085D3C(void);
+int  OS_IsRunOnTwl(void);
 void func_02082D44(void *src, void *dst, u32 n);
 void func_02087A04(u32 x);
 void func_02088234(void);
@@ -98,7 +99,7 @@ u32 func_021C4B9C(int a0, int a1, int a2, u8 *a3, u32 a4)
     func_02082BCC(g_021CAEC6, 0, g_021CAE90.count);
 
     local = 0;
-    if (func_02085D3C() == 1)
+    if (OS_IsRunOnTwl() == 1)
         local = *(u32 *)0x02FFE230;
     func_02082D44(&local, buf, 4);
     buf[4] = 0;

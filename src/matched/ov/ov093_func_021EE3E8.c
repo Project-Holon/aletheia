@@ -10,7 +10,7 @@
  * symbols:
  *   func_0201DD78 0x0201DD78 thumb
  *   func_02045374 0x02045374 arm
- *   func_020454E0 0x020454E0 arm
+ *   BMP_WIN_DrawFrame 0x020454E0 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
@@ -39,7 +39,7 @@ struct Cfg;
 struct Descriptor;
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_02045374(struct Cfg *cfg);
-extern void func_020454E0(struct Cfg *cfg, u16 base, u32 pal);
+extern void BMP_WIN_DrawFrame(struct Cfg *cfg, u16 base, u32 pal);
 typedef signed short   s16;
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -56,7 +56,7 @@ int func_021EE3E8(int *st, struct C *c)
     case 0:
         func_0201DD78(1, 9, 12);
         func_02045374(c->f08);
-        func_020454E0(c->f08, c->f10, 3);
+        BMP_WIN_DrawFrame(c->f08, c->f10, 3);
         func_02043B5C((struct CharBuf *)c->f0c, 12);
         func_020409B4(func_02045730(c->f08));
         (*st)++;

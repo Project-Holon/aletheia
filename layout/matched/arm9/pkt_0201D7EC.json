@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201D854",
+   "name": "GF_FONT_LoadResource",
    "address": "0x0201D854",
    "kind": "game",
    "region": "arm9",

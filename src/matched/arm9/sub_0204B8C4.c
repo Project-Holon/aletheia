@@ -1,5 +1,5 @@
 /*
- * function: sub_0204B8C4
+ * function: CLACT_SetActorAnimFrame
  * address:  0x0204B8C4
  * packet:   pkt_0204B454
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *    sub_0204D3A0   0x0204D3A0  arm
+ *    CLACT_SetAnimFrame   0x0204D3A0  arm
  *
  * Forward the sub-object embedded at +0x68 of the 0x0204Bxxx object to
- * sub_0204D3A0.  A pool word and a `bx ip`, never a displacement branch,
+ * CLACT_SetAnimFrame.  A pool word and a `bx ip`, never a displacement branch,
  * because each function is its own section
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
  *
@@ -23,7 +23,7 @@
  * decompiled to EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B8C4.c  *       --func sub_0204B8C4 --addr 0x0204B8C4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorAnimFrame.c  *       --func CLACT_SetActorAnimFrame --addr 0x0204B8C4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -39,9 +39,9 @@ struct Obj {
     struct Sub unk_68;
 };
 
-extern void sub_0204D3A0(struct Obj *o, u32 value);
+extern void CLACT_SetAnimFrame(struct Obj *o, u32 value);
 
-void sub_0204B8C4(struct Obj *p, u32 value)
+void CLACT_SetActorAnimFrame(struct Obj *p, u32 value)
 {
-    sub_0204D3A0((struct Obj *)(&p->unk_68), value);
+    CLACT_SetAnimFrame((struct Obj *)(&p->unk_68), value);
 }

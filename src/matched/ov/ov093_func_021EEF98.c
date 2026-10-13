@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045A90  0x02045A90  arm
+ *   STRBUF_GetChars  0x02045A90  arm
  *   func_021EEF20  0x021EEF20  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 struct U16Vec;
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 *func_021EEF20(u16 *p, u32 *o1, u16 *o2, u8 *o3);
 
 u8 func_021EEF98(void *s)
@@ -27,7 +27,7 @@ u8 func_021EEF98(void *s)
     u16 *p;
     u8 n;
 
-    p = func_02045A90(s);
+    p = STRBUF_GetChars(s);
     n = 0;
     if (p != 0) {
         do {

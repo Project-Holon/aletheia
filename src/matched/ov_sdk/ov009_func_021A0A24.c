@@ -15,7 +15,7 @@
  *   func_021A0378  0x021A0378  arm  ov009
  *   func_0219D478  0x0219D478  arm  ov009
  *   func_0219F978  0x0219F978  arm  ov009
- *   func_021A0A1C  0x021A0A1C  arm  ov009
+ *   SBServerListSetLastError  0x021A0A1C  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   func_02184200  0x02184200  arm  ov009
  *   func_0219F8B0  0x0219F8B0  arm  ov009
@@ -73,7 +73,7 @@ typedef struct _SBServerList {
 extern void func_021A0378(SBServerList *slist, char *key, int keylen);
 extern void func_0219D478(void *state, unsigned char *bp, int len);
 extern int func_0219F978(char *buf, int len);
-extern void func_021A0A1C(SBServerList *slist, char *theError);
+extern void SBServerListSetLastError(SBServerList *slist, char *theError);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern int func_02184200(void *array);
 extern char *func_0219F8B0(SBServerList *slist, char *str);
@@ -121,7 +121,7 @@ SBError func_021A0A24(SBServerList *slist)
             int keylen = func_0219F978(inbuf + 6, inlen - 6);
             if (keylen == -1)
                 break;
-            func_021A0A1C(slist, inbuf + 6);
+            SBServerListSetLastError(slist, inbuf + 6);
             slist->ListCallback(slist, 5, g_021AEB00, slist->instance);
             if (slist->inbuffer == NULL)
                 break;

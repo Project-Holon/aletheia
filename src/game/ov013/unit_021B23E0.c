@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B23E0.c
  * unit:     yes
- * function: func_021B23E0, func_021B2488, func_021B24FC, func_021B2564, func_021B25B0, func_021B25FC, func_021B2620, func_021B26DC, func_021B2724, func_021B275C, func_021B279C, func_021B2848, func_021B2894, func_021B2958, func_021B29A4, func_021B2A20, func_021B2AA0, func_021B2BE0, func_021B2D54, func_021B2DD0, func_021B2ED8
+ * function: func_021B23E0, VCT_SESSION_HandlePacket, VCT_SESSION_AllocPeer, VCT_SESSION_SendCommand, VCT_SESSION_SendReply, VCT_SESSION_FillAnnounceFields, VCT_SESSION_BroadcastPacket, VCT_SESSION_BroadcastState, VCT_SESSION_InitPeer, VCT_SESSION_SendPacket, VCT_SESSION_GetEventCode, VCT_SESSION_InitPacketHeader, VCT_SESSION_AdvancePhase, VCT_SESSION_HasNoOtherTalker, VCT_SESSION_CheckCommandAllowed, VCT_SESSION_FindPeer, func_021B2AA0, VCT_SESSION_HandleSharedPacket, VCT_SESSION_HandleUnknownProtocolPacket, VCT_SESSION_HandleAnnounce, VCT_POOL_InitFrames
  * address:  0x021B23E0
  * region:   ov013
  * compiler: dsi/1.1p1
@@ -13,292 +13,230 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   d_021B60D8  0x021B60D8  data  ov013  a4
- *   d_021B4BD0  0x021B4BD0  data  ov013  a4
- *   d_021B3C48  0x021B3C48  data  ov013  a4
- *   d_021B4BE0  0x021B4BE0  data  a4
+ *   gVctSession  0x021B60D8  data  ov013  a4
+ *   gVctGroup  0x021B4BD0  data  ov013  a4
+ *   gVctAnnounceTimeout  0x021B3C48  data  ov013  a4
+ *   gVctPeerPool  0x021B4BE0  data  a4
  *   func_020870D0  0x020870D0  arm
- *   func_021B2010  0x021B2010  arm  ov013
- *   func_021B20D4  0x021B20D4  arm  ov013
+ *   VCT_SESSION_BuildGroupCommand  0x021B2010  arm  ov013
+ *   VCT_SESSION_BuildPeerReply  0x021B20D4  arm  ov013
  *   func_02176E90  0x02176E90  arm  ov009
  *   func_020923B0 0x020923B0 arm
- *   d_021B3AF0  0x021B3AF0  data  ov013  a1
- *   d_021B3AF5  0x021B3AF5  data  ov013  a1
- *   d_021B3BC8  0x021B3BC8  data  ov013  a1
- *   d_021B3AFC  0x021B3AFC  data  ov013  a1
- *   d_021B3B40 0x021B3B40 data ov013 a1
- *   d_021B3B84 0x021B3B84 data ov013 a1
- *   func_021B1F54  0x021B1F54  arm  ov013
+ *   gVctGroupEventCodes  0x021B3AF0  data  ov013  a1
+ *   gVctPeerEventCodes  0x021B3AF5  data  ov013  a1
+ *   gVctHostPhaseTable  0x021B3BC8  data  ov013  a1
+ *   gVctClientPhaseTable  0x021B3AFC  data  ov013  a1
+ *   gVctHostAllowTable 0x021B3B40 data ov013 a1
+ *   gVctClientAllowTable 0x021B3B84 data ov013 a1
+ *   VCT_SESSION_FreePeerRecord  0x021B1F54  arm  ov013
  *   d_021B4C24 0x021B4C24 data a4
  *   func_02082AC0 0x02082AC0 arm
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef unsigned long long u64;
-typedef signed char s8;
-
-typedef struct Node {
-    u32 state;
-    u8 f4;
-    u8 f5;
-    u16 f6;
-    u32 f8;
-    int fC;
-    u32 f10;
-    struct Node *next;
-} Node;
-
-typedef struct Pool {
-    Node *nodes;
-    Node *head;
-    void *tick;
-    u32 mul;
-    u32 add;
-    Node freeList;
-    Node active;
-} Pool;
-
-typedef struct Sess {
-    u8 id;
-    u8 f1;
-    u8 pad2[2];
-    void (*cb)(int, int, void *, unsigned int);
-    u32 arg;
-    int fC;
-    int state;
-    u32 f14;
-} Sess;
-
-typedef struct Stat {
-    int f0;
-    int mask;
-    u64 t;
-} Stat;
-
-typedef struct Pkt {
-    u32 magic;
-    u8 f4;
-    u8 f5;
-    u8 f6;
-    u8 f7;
-    u8 f8;
-    u8 f9;
-    u8 fa;
-    u8 fb;
-    u32 fc;
-} Pkt;
-
-typedef struct Event {
-    int type;
-    Node *node;
-} Event;
-
-typedef struct E {
-    struct E *next;
-    u8 pad[0x474];
-} E;
-
-typedef struct {
-    E *cur;
-    E *buf;
-} G;
+#include "vct_types.h"
 
 extern u64 func_020870D0(void);
-extern int func_02176E90(int i, Pkt *p, int n);
+extern int func_02176E90(int peerId, VctPacket *packet, int length);
 extern void *func_020923B0(void *, int, unsigned int);
 extern void func_02082AC0(int, void *, u32);
-extern int func_021B1F54(Node *p);
-extern int func_021B2010(void *a, unsigned int b, unsigned char *buf, unsigned int c);
-extern int func_021B20D4(Node *a, unsigned int b, unsigned char *buf, unsigned int c);
+extern int VCT_SESSION_FreePeerRecord(VctPeer *peer);
+extern int VCT_SESSION_BuildGroupCommand(void *a, unsigned int b, unsigned char *buf, unsigned int c);
+extern int VCT_SESSION_BuildPeerReply(VctPeer *peer, unsigned int command, unsigned char *buf, unsigned int length);
 void func_021B23E0(void);
-int func_021B2488(int a, Pkt *p, int len, Event *x);
-Node *func_021B24FC(unsigned int idx);
-int func_021B2564(int a, int b);
-int func_021B25B0(int a, int b);
-void func_021B25FC(Node *a, Pkt *b);
-int func_021B2620(Node *o, Pkt *p);
-void func_021B26DC(int x);
-void func_021B2724(Node *p, unsigned int v);
-int func_021B275C(Node *o, Pkt *p);
-int func_021B279C(Pkt *o, Node *q);
-int func_021B2848(Node *o, Pkt *p, int n);
-int func_021B2894(Node *c, Pkt *m);
-int func_021B2958(Node *p);
-int func_021B29A4(Node *obj, const Pkt *q);
-Node *func_021B2A20(int id);
-int func_021B2AA0(Pkt *pkt, Event *ev);
-int func_021B2BE0(Pkt *pkt, Event *ev);
-int func_021B2D54(Pkt *p, Event *out);
-int func_021B2DD0(Pkt *pkt, Event *ev);
-int func_021B2ED8(E *a, u32 b);
-extern Sess d_021B60D8;
-extern Stat d_021B4BD0;
-extern u64 d_021B3C48;
-extern Pool d_021B4BE0;
-extern u8 d_021B3AF0[];
-extern u8 d_021B3AF5[];
-extern s8 d_021B3BC8[][11];
-extern s8 d_021B3AFC[][11];
-extern s8 d_021B3B40[], d_021B3B84[];
-extern G d_021B4C24;
+int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEvent *event);
+VctPeer *VCT_SESSION_AllocPeer(unsigned int peerId);
+int VCT_SESSION_SendCommand(int peer, int command);
+int VCT_SESSION_SendReply(int peer, int command);
+void VCT_SESSION_FillAnnounceFields(VctPeer *peer, VctPacket *packet);
+int VCT_SESSION_BroadcastPacket(VctPeer *peer, VctPacket *packet);
+void VCT_SESSION_BroadcastState(int flag);
+void VCT_SESSION_InitPeer(VctPeer *peer, unsigned int peerId);
+int VCT_SESSION_SendPacket(VctPeer *peer, VctPacket *packet);
+int VCT_SESSION_GetEventCode(VctPacket *packet, VctPeer *peer);
+int VCT_SESSION_InitPacketHeader(VctPeer *peer, VctPacket *packet, int command);
+int VCT_SESSION_AdvancePhase(VctPeer *peer, VctPacket *packet);
+int VCT_SESSION_HasNoOtherTalker(VctPeer *peer);
+int VCT_SESSION_CheckCommandAllowed(VctPeer *peer, const VctPacket *packet);
+VctPeer *VCT_SESSION_FindPeer(int peerId);
+int func_021B2AA0(VctPacket *packet, VctEvent *event);
+int VCT_SESSION_HandleSharedPacket(VctPacket *packet, VctEvent *event);
+int VCT_SESSION_HandleUnknownProtocolPacket(VctPacket *packet, VctEvent *event);
+int VCT_SESSION_HandleAnnounce(VctPacket *packet, VctEvent *event);
+int VCT_POOL_InitFrames(VctRxPacket *buffer, u32 size);
+extern VctGroup gVctGroup;
+extern u64 gVctAnnounceTimeout;
+extern u8 gVctGroupEventCodes[];
+extern u8 gVctPeerEventCodes[];
+extern s8 gVctHostPhaseTable[][11];
+extern s8 gVctClientPhaseTable[][11];
+extern s8 gVctHostAllowTable[], gVctClientAllowTable[];
 
 
+/* Client mode: if the host announced a session and stays silent past the timeout, close it and tell the game. */
 void func_021B23E0(void)
 {
     u64 now;
 
     now = func_020870D0();
-    if (d_021B60D8.state != 2)
+    if (gVctSession.mode != 2)
         return;
-    if (d_021B60D8.fC == 0)
+    if (gVctSession.sharedSession == 0)
         return;
-    if (d_021B4BD0.t == 0)
+    if (gVctGroup.announceTick == 0)
         return;
-    if (now - d_021B4BD0.t <= d_021B3C48)
+    if (now - gVctGroup.announceTick <= gVctAnnounceTimeout)
         return;
-    d_021B4BD0.t = 0;
-    d_021B4BE0.active.state = 0;
-    d_021B4BE0.active.fC = 0;
-    func_021B26DC(0);
-    d_021B60D8.cb(d_021B4BE0.active.f4, 9, &d_021B4BE0.active, d_021B60D8.arg);
+    gVctGroup.announceTick = 0;
+    gVctPeerPool.active.mode = 0;
+    gVctPeerPool.active.phase = 0;
+    VCT_SESSION_BroadcastState(0);
+    gVctSession.eventCallback(gVctPeerPool.active.peerId, 9, &gVctPeerPool.active, gVctSession.callbackArg);
 }
 
-int func_021B2488(int a, Pkt *p, int len, Event *x)
+/* Entry point for a received control packet. Returns 1 when event is filled in. */
+int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEvent *event)
 {
-    if (len != 0x10)
+    if (length != 0x10)
         return 0;
-    if (p->f8 != a || p->f9 != d_021B60D8.id)
+    if (packet->srcId != senderId || packet->dstId != gVctSession.localId)
         return 0;
-    if (p->f5 != 0x10)
-        return func_021B2D54(p, x);
-    if (d_021B60D8.fC == 0)
-        return func_021B2AA0(p, x);
-    return func_021B2BE0(p, x);
+    if (packet->protocol != 0x10)
+        return VCT_SESSION_HandleUnknownProtocolPacket(packet, event);
+    if (gVctSession.sharedSession == 0)
+        return func_021B2AA0(packet, event);
+    return VCT_SESSION_HandleSharedPacket(packet, event);
 }
 
-Node *func_021B24FC(unsigned int idx)
+/* Take a peer record from the free list and put it on the active list. Fails for ids above 31 and the local id. */
+VctPeer *VCT_SESSION_AllocPeer(unsigned int peerId)
 {
-    Node *n;
+    VctPeer *peer;
 
-    if (idx >= 0x20)
+    if (peerId >= 0x20)
         return 0;
-    if (idx == d_021B60D8.id)
+    if (peerId == gVctSession.localId)
         return 0;
-    n = d_021B4BE0.nodes;
-    if (n == 0)
+    peer = gVctPeerPool.freePeers;
+    if (peer == 0)
         return 0;
-    d_021B4BE0.nodes = n->next;
-    func_021B2724(n, idx);
-    n->next = d_021B4BE0.head;
-    d_021B4BE0.head = n;
-    return n;
+    gVctPeerPool.freePeers = peer->next;
+    VCT_SESSION_InitPeer(peer, peerId);
+    peer->next = gVctPeerPool.activeHead;
+    gVctPeerPool.activeHead = peer;
+    return peer;
 }
 
-int func_021B2564(int a, int b)
+/* Build a command packet for a peer, send it, return -4 when the send fails. */
+int VCT_SESSION_SendCommand(int peer, int command)
 {
-    u8 buf[16];
-    int r;
+    u8 packet[16];
+    int result;
 
-    r = func_021B2010((void *)a, b, buf, 16);
-    if (r != 0)
-        return r;
-    if (func_021B275C((Node *)a, (Pkt *)buf) != 0)
+    result = VCT_SESSION_BuildGroupCommand((void *)peer, command, packet, 16);
+    if (result != 0)
+        return result;
+    if (VCT_SESSION_SendPacket((VctPeer *)peer, (VctPacket *)packet) != 0)
         return 0;
     return -4;
 }
 
-int func_021B25B0(int a, int b)
+/* Same as above for a reply to a peer record. */
+int VCT_SESSION_SendReply(int peer, int command)
 {
-    u8 buf[16];
-    int r;
+    u8 packet[16];
+    int result;
 
-    r = func_021B20D4((Node *)a, b, buf, 16);
-    if (r != 0)
-        return r;
-    if (func_021B275C((Node *)a, (Pkt *)buf) != 0)
+    result = VCT_SESSION_BuildPeerReply((VctPeer *)peer, command, packet, 16);
+    if (result != 0)
+        return result;
+    if (VCT_SESSION_SendPacket((VctPeer *)peer, (VctPacket *)packet) != 0)
         return 0;
     return -4;
 }
 
-void func_021B25FC(Node *a, Pkt *b)
+/* An announcement (flag 1) carries the floor holder and the member mask. */
+void VCT_SESSION_FillAnnounceFields(VctPeer *peer, VctPacket *packet)
 {
-    if (b->fa == 1) {
-        b->fb = a->f4;
-        b->fc = d_021B4BD0.mask;
+    if (packet->flag == 1) {
+        packet->floorHolderId = peer->peerId;
+        packet->memberMask = gVctGroup.peerMask;
     }
 }
 
-int func_021B2620(Node *o, Pkt *p)
+/* Send the packet to every group member except the local one. Returns -4 when no send worked. */
+int VCT_SESSION_BroadcastPacket(VctPeer *peer, VctPacket *packet)
 {
-    int cnt;
-    u8 i;
+    int sent;
+    u8 id;
 
-    cnt = 0;
-    func_021B25FC(o, p);
-    for (i = 0; i < 0x20; i++) {
-        unsigned int m = (i != 0) ? (1 << i) : 1;
-        if ((d_021B4BD0.mask & m) != 0 && i != d_021B60D8.id) {
-            p->f9 = i;
-            if (func_02176E90(i, p, 0x10) != 0)
-                cnt++;
+    sent = 0;
+    VCT_SESSION_FillAnnounceFields(peer, packet);
+    for (id = 0; id < 0x20; id++) {
+        unsigned int bit = (id != 0) ? (1 << id) : 1;
+        if ((gVctGroup.peerMask & bit) != 0 && id != gVctSession.localId) {
+            packet->dstId = id;
+            if (func_02176E90(id, packet, 0x10) != 0)
+                sent++;
         }
     }
-    if (p->fa == 1)
-        o->f8 = d_021B4BD0.mask;
-    else if (p->fa == 0)
-        o->f8 = 0;
-    return cnt == 0 ? -4 : 0;
+    if (packet->flag == 1)
+        peer->memberMask = gVctGroup.peerMask;
+    else if (packet->flag == 0)
+        peer->memberMask = 0;
+    return sent == 0 ? -4 : 0;
 }
 
-void func_021B26DC(int x)
+/* Broadcast the session state: flag 1 announces the session, 0 closes it. */
+void VCT_SESSION_BroadcastState(int flag)
 {
-    u8 buf[16];
+    u8 buffer[16];
 
-    ((Pkt *)buf)->f4 = 0xff;
-    func_021B2848(&d_021B4BE0.active, (Pkt *)buf, 4);
-    ((Pkt *)buf)->fa = x;
-    func_021B2620(&d_021B4BE0.active, (Pkt *)buf);
+    ((VctPacket *)buffer)->kind = 0xff;
+    VCT_SESSION_InitPacketHeader(&gVctPeerPool.active, (VctPacket *)buffer, 4);
+    ((VctPacket *)buffer)->flag = flag;
+    VCT_SESSION_BroadcastPacket(&gVctPeerPool.active, (VctPacket *)buffer);
 }
 
-void func_021B2724(Node *p, unsigned int v)
+/* Clear a peer record and bind it to a peer id. */
+void VCT_SESSION_InitPeer(VctPeer *peer, unsigned int peerId)
 {
-    func_020923B0(p, 0, 24);
-    p->state = d_021B60D8.state;
-    p->fC = 0;
-    p->f4 = v;
+    func_020923B0(peer, 0, 24);
+    peer->mode = gVctSession.mode;
+    peer->phase = 0;
+    peer->peerId = peerId;
 }
 
-int func_021B275C(Node *o, Pkt *p)
+/* Send a control packet: group packets with command 4 go to all members, others to the peer. Returns 1 on success. */
+int VCT_SESSION_SendPacket(VctPeer *peer, VctPacket *packet)
 {
-    if (p->f4 == 0xff && p->f6 == 4) {
-        func_021B2620(o, p);
-    } else if (func_02176E90(o->f4, p, 0x10) == 0) {
+    if (packet->kind == 0xff && packet->command == 4) {
+        VCT_SESSION_BroadcastPacket(peer, packet);
+    } else if (func_02176E90(peer->peerId, packet, 0x10) == 0) {
         return 0;
     }
     return 1;
 }
 
-int func_021B279C(Pkt *o, Node *q)
+/* Map a received packet to the event code for the game and update the peer. */
+int VCT_SESSION_GetEventCode(VctPacket *packet, VctPeer *peer)
 {
-    q->f5 = o->fb;
-    if (o->f4 == 0xff) {
-        if (o->f6 == 0) {
-            q->f8 = (q->f4 != 0) ? (1 << q->f4) : 1;
+    peer->floorHolderId = packet->floorHolderId;
+    if (packet->kind == 0xff) {
+        if (packet->command == 0) {
+            peer->memberMask = (peer->peerId != 0) ? (1 << peer->peerId) : 1;
         }
-        return d_021B3AF0[o->f6];
+        return gVctGroupEventCodes[packet->command];
     }
-    if (o->f4 == 0) {
-        if (o->f6 == 0) {
-            if (q->fC == 1) {
-                q->f8 = (q->f4 != 0) ? (1 << q->f4) : 1;
+    if (packet->kind == 0) {
+        if (packet->command == 0) {
+            if (peer->phase == 1) {
+                peer->memberMask = (peer->peerId != 0) ? (1 << peer->peerId) : 1;
                 return 7;
             }
-            if (q->fC == 5)
+            if (peer->phase == 5)
                 return 9;
             return 12;
         }
-        return d_021B3AF5[o->f6];
+        return gVctPeerEventCodes[packet->command];
     }
     return 12;
 }
@@ -306,184 +244,190 @@ int func_021B279C(Pkt *o, Node *q)
 /*
  * lever: Returning zero keeps the clearing value in r0 and frees r2 for byte loads.
  */
-int func_021B2848(Node *o, Pkt *p, int n)
+int VCT_SESSION_InitPacketHeader(VctPeer *peer, VctPacket *packet, int command)
 {
-    p->magic = 0x5f564354;
-    p->f5 = 0x10;
-    p->f6 = n;
-    p->f8 = d_021B60D8.id;
-    p->f9 = o->f4;
-    p->fa = 0;
-    p->fb = d_021B60D8.id;
-    p->fc = 0;
+    packet->magic = 0x5f564354;
+    packet->protocol = 0x10;
+    packet->command = command;
+    packet->srcId = gVctSession.localId;
+    packet->dstId = peer->peerId;
+    packet->flag = 0;
+    packet->floorHolderId = gVctSession.localId;
+    packet->memberMask = 0;
     return 0;
 }
 
-int func_021B2894(Node *c, Pkt *m)
+/* Look up the next phase of the peer for this packet. -2 and -3 close the link and send a reply. */
+int VCT_SESSION_AdvancePhase(VctPeer *peer, VctPacket *packet)
 {
-    int i;
-    int r;
+    int column;
+    int next;
 
-    i = m->f6;
-    if (m->f4 == 0)
-        i += 5;
-    if ((unsigned int)i >= 0xb)
-        i = -1;
-    if (i < 0)
+    column = packet->command;
+    if (packet->kind == 0)
+        column += 5;
+    if ((unsigned int)column >= 0xb)
+        column = -1;
+    if (column < 0)
         return -1;
-    if (d_021B60D8.state == 1)
-        r = d_021B3BC8[c->fC][i];
+    if (gVctSession.mode == 1)
+        next = gVctHostPhaseTable[peer->phase][column];
     else
-        r = d_021B3AFC[c->fC][i];
-    switch (r) {
+        next = gVctClientPhaseTable[peer->phase][column];
+    switch (next) {
     case -1:
-        return r;
+        return next;
     case -2:
-        func_021B25B0((int)c, 1);
-        c->fC = 0;
-        c->state = 0;
-        return r;
+        VCT_SESSION_SendReply((int)peer, 1);
+        peer->phase = 0;
+        peer->mode = 0;
+        return next;
     case -3:
-        func_021B25B0((int)c, 3);
-        c->fC = 0;
-        c->state = 0;
-        return r;
+        VCT_SESSION_SendReply((int)peer, 3);
+        peer->phase = 0;
+        peer->mode = 0;
+        return next;
     default:
-        return r;
+        return next;
     }
 }
 
-int func_021B2958(Node *p)
+/* Returns 1 when no other peer than the given one is in phase 2. */
+int VCT_SESSION_HasNoOtherTalker(VctPeer *peer)
 {
-    Node *n;
+    VctPeer *cur;
 
-    n = d_021B4BE0.head;
-    while (n) {
-        if (n->state != 0 && n->fC == 2) {
-            if (p != n)
+    cur = gVctPeerPool.activeHead;
+    while (cur) {
+        if (cur->mode != 0 && cur->phase == 2) {
+            if (peer != cur)
                 return 0;
         }
-        n = n->next;
+        cur = cur->next;
     }
     return 1;
 }
 
-static inline s8 lookup(u32 t, int row, u32 col) { return *(s8 *)(row * 11 + t + col); }
+static inline s8 lookup(u32 table, int row, u32 column) { return *(s8 *)(row * 11 + table + column); }
 
 /*
  * lever: Calling the indexed inline in each table-selection arm restores the MLA register and independent -1/-2 constants.
  * checks: Per-arm inline lookup is EXACT; one data table in each arm preserves the original dispatch.
  */
-int func_021B29A4(Node *obj, const Pkt *q)
+/* Check whether a command is allowed in the peer phase; moves the peer to the next phase. Returns 0 when refused. */
+int VCT_SESSION_CheckCommandAllowed(VctPeer *peer, const VctPacket *packet)
 {
-    u32 i;
-    int v;
-    i = q->f6;
-    if (q->f4 == 0)
-        i += 5;
-    if (i >= 11)
-        i = -1;
-    if ((int)i < 0)
+    u32 column;
+    int next;
+    column = packet->command;
+    if (packet->kind == 0)
+        column += 5;
+    if (column >= 11)
+        column = -1;
+    if ((int)column < 0)
         return -1;
-    if (d_021B60D8.state == 1)
-        v = lookup((u32)d_021B3B40, obj->fC, i);
+    if (gVctSession.mode == 1)
+        next = lookup((u32)gVctHostAllowTable, peer->phase, column);
     else
-        v = lookup((u32)d_021B3B84, obj->fC, i);
-    if (v == -1)
+        next = lookup((u32)gVctClientAllowTable, peer->phase, column);
+    if (next == -1)
         return 1;
-    if (v == -2)
+    if (next == -2)
         return 0;
-    obj->fC = v;
+    peer->phase = next;
     return 1;
 }
 
-Node *func_021B2A20(int id)
+/* Find the record of a peer in use. */
+VctPeer *VCT_SESSION_FindPeer(int peerId)
 {
-    Node *n;
+    VctPeer *peer;
 
-    n = d_021B4BE0.head;
-    if (d_021B60D8.state == 2) {
-        if (d_021B4BE0.active.state != 0 && d_021B4BE0.active.f4 == id)
-            return &d_021B4BE0.active;
+    peer = gVctPeerPool.activeHead;
+    if (gVctSession.mode == 2) {
+        if (gVctPeerPool.active.mode != 0 && gVctPeerPool.active.peerId == peerId)
+            return &gVctPeerPool.active;
         return 0;
     }
-    while (n) {
-        if (n->state != 0 && n->f4 == id)
-            return n;
-        n = n->next;
+    while (peer) {
+        if (peer->mode != 0 && peer->peerId == peerId)
+            return peer;
+        peer = peer->next;
     }
     return 0;
 }
 
-int func_021B2AA0(Pkt *pkt, Event *ev)
+/* Packet handler when each pair of peers has its own link (sharedSession 0). */
+int func_021B2AA0(VctPacket *packet, VctEvent *event)
 {
-    Node *node;
-    int r;
+    VctPeer *peer;
+    int next;
 
-    if (pkt->f4 == 0xFF) {
-        if (pkt->f6 == 4)
-            return func_021B2DD0(pkt, ev);
-        if (pkt->f6 == 3)
+    if (packet->kind == 0xFF) {
+        if (packet->command == 4)
+            return VCT_SESSION_HandleAnnounce(packet, event);
+        if (packet->command == 3)
             return 0;
     }
-    node = func_021B2A20(pkt->f8);
-    if (node) {
-        r = func_021B2894(node, pkt);
-        switch (r) {
+    peer = VCT_SESSION_FindPeer(packet->srcId);
+    if (peer) {
+        next = VCT_SESSION_AdvancePhase(peer, packet);
+        switch (next) {
         case -1:
             return 0;
         case -2:
-            ev->type = 0xC;
-            node->state = 0;
-            ev->node = node;
+            event->code = 0xC;
+            peer->mode = 0;
+            event->peer = peer;
             return 1;
         }
-        ev->type = func_021B279C(pkt, node);
-        ev->node = node;
-        node->fC = r;
-        return ev->type != 0;
+        event->code = VCT_SESSION_GetEventCode(packet, peer);
+        event->peer = peer;
+        peer->phase = next;
+        return event->code != 0;
     }
-    node = func_021B24FC(pkt->f8);
-    if (node == 0) {
-        func_021B2724(&d_021B4BE0.freeList, pkt->f8);
-        func_021B25B0((int)&d_021B4BE0.freeList, 3);
+    peer = VCT_SESSION_AllocPeer(packet->srcId);
+    if (peer == 0) {
+        VCT_SESSION_InitPeer(&gVctPeerPool.rejectPeer, packet->srcId);
+        VCT_SESSION_SendReply((int)&gVctPeerPool.rejectPeer, 3);
         return 0;
     }
-    r = func_021B2894(node, pkt);
-    if (r == -2 || r == -1) {
-        func_021B1F54(node);
+    next = VCT_SESSION_AdvancePhase(peer, packet);
+    if (next == -2 || next == -1) {
+        VCT_SESSION_FreePeerRecord(peer);
         return 0;
     }
-    ev->type = func_021B279C(pkt, node);
-    ev->node = node;
-    node->fC = r;
-    return ev->type != 0;
+    event->code = VCT_SESSION_GetEventCode(packet, peer);
+    event->peer = peer;
+    peer->phase = next;
+    return event->code != 0;
 }
 
 /*
  * note: Audio session start/continue gate.
  *
  * note pass 2 2026-10-06 P2L53: EXACT (c99 and c). The event fill
- * (ev->type, ev->node, n->fC) is written out in each arm and only the tick
+ * (event->code, event->peer, peer->phase) is written out in each arm and only the tick
  * stamp is shared. The two fill copies are cross-jumped after jump threading,
  * which leaves the lone `b` hop at +0x88 (idiom
  * a-conditional-branch-onto-an-unconditional-b-is-a-cross-jumped-tail-copy).
- * The ev->type compare then sits after a join with two stored values, so it
+ * The event->code compare then sits after a join with two stored values, so it
  * is reloaded (`ldr r0,[r7]`), and the zero/result colours (r6/r4) follow.
  */
-int func_021B2BE0(Pkt *pkt, Event *ev)
+/* Packet handler when all peers share one session (sharedSession set), using the single active record. */
+int VCT_SESSION_HandleSharedPacket(VctPacket *packet, VctEvent *event)
 {
-    Node *n;
-    int r;
+    VctPeer *peer;
+    int next;
 
-    if (d_021B4BE0.active.state == 2) {
-        if (d_021B4BE0.active.f4 == pkt->f8) {
-            n = &d_021B4BE0.active;
-            r = func_021B2894(n, pkt);
-            switch (r) {
+    if (gVctPeerPool.active.mode == 2) {
+        if (gVctPeerPool.active.peerId == packet->srcId) {
+            peer = &gVctPeerPool.active;
+            next = VCT_SESSION_AdvancePhase(peer, packet);
+            switch (next) {
             case -2:
-                ev->type = 0xC;
-                ev->node = 0;
+                event->code = 0xC;
+                event->peer = 0;
                 return 1;
             case -3:
             case -1:
@@ -491,92 +435,94 @@ int func_021B2BE0(Pkt *pkt, Event *ev)
             default:
                 break;
             }
-            ev->type = func_021B279C(pkt, n);
-            ev->node = n;
-            n->fC = r;
+            event->code = VCT_SESSION_GetEventCode(packet, peer);
+            event->peer = peer;
+            peer->phase = next;
         } else {
-            func_021B26DC(1);
+            VCT_SESSION_BroadcastState(1);
             return 0;
         }
     } else {
-        if (!(d_021B4BD0.mask & ((pkt->f8 != 0) ? (1 << pkt->f8) : 1)))
+        if (!(gVctGroup.peerMask & ((packet->srcId != 0) ? (1 << packet->srcId) : 1)))
             return 0;
-        d_021B4BE0.active.f4 = pkt->f8;
-        d_021B4BE0.active.state = 2;
-        d_021B4BE0.active.fC = 0;
-        n = &d_021B4BE0.active;
-        r = func_021B2894(n, pkt);
-        switch (r) {
+        gVctPeerPool.active.peerId = packet->srcId;
+        gVctPeerPool.active.mode = 2;
+        gVctPeerPool.active.phase = 0;
+        peer = &gVctPeerPool.active;
+        next = VCT_SESSION_AdvancePhase(peer, packet);
+        switch (next) {
         case -3:
         case -2:
         case -1:
-            d_021B4BE0.active.state = 0;
+            gVctPeerPool.active.mode = 0;
             return 0;
         }
-        ev->type = func_021B279C(pkt, n);
-        ev->node = n;
-        n->fC = r;
+        event->code = VCT_SESSION_GetEventCode(packet, peer);
+        event->peer = peer;
+        peer->phase = next;
     }
-    if (ev->type == 10) {
-        func_021B26DC(1);
-        d_021B4BD0.t = func_020870D0();
+    if (event->code == 10) {
+        VCT_SESSION_BroadcastState(1);
+        gVctGroup.announceTick = func_020870D0();
     } else {
-        func_021B26DC(0);
-        d_021B4BD0.t = 0;
+        VCT_SESSION_BroadcastState(0);
+        gVctGroup.announceTick = 0;
     }
     return 1;
 }
 
-int func_021B2D54(Pkt *p, Event *out)
+/* Packet with a protocol other than 0x10: drop the peer, answer with reply 2 and report event 2. */
+int VCT_SESSION_HandleUnknownProtocolPacket(VctPacket *packet, VctEvent *event)
 {
-    Node *n;
+    VctPeer *peer;
 
-    if (p->f4 == 0xff && p->f6 == 4)
+    if (packet->kind == 0xff && packet->command == 4)
         return 0;
-    n = func_021B2A20(p->f8);
-    if (n) {
-        out->type = 2;
-        out->node = n;
-        n->state = 0;
-        func_021B25B0((int)n, 2);
+    peer = VCT_SESSION_FindPeer(packet->srcId);
+    if (peer) {
+        event->code = 2;
+        event->peer = peer;
+        peer->mode = 0;
+        VCT_SESSION_SendReply((int)peer, 2);
         return 1;
     }
-    func_021B2724(&d_021B4BE0.freeList, p->f8);
-    func_021B25B0((int)&d_021B4BE0.freeList, 2);
+    VCT_SESSION_InitPeer(&gVctPeerPool.rejectPeer, packet->srcId);
+    VCT_SESSION_SendReply((int)&gVctPeerPool.rejectPeer, 2);
     return 0;
 }
 
-int func_021B2DD0(Pkt *pkt, Event *ev)
+/* Client mode: the host announces (flag 1) or closes (flag 0) the shared session. */
+int VCT_SESSION_HandleAnnounce(VctPacket *packet, VctEvent *event)
 {
-    if (d_021B60D8.state != 2)
+    if (gVctSession.mode != 2)
         return 0;
-    if (d_021B60D8.f1 != pkt->f8)
+    if (gVctSession.hostId != packet->srcId)
         return 0;
-    switch (pkt->fa) {
+    switch (packet->flag) {
     case 0:
-        if (d_021B4BE0.active.state == 0)
+        if (gVctPeerPool.active.mode == 0)
             return 0;
-        if (d_021B4BE0.active.fC == 5 || d_021B4BE0.active.fC == 2)
-            ev->type = 9;
+        if (gVctPeerPool.active.phase == 5 || gVctPeerPool.active.phase == 2)
+            event->code = 9;
         else
-            ev->type = 5;
-        d_021B4BE0.active.state = 0;
-        d_021B4BE0.active.fC = 0;
-        ev->node = &d_021B4BE0.active;
+            event->code = 5;
+        gVctPeerPool.active.mode = 0;
+        gVctPeerPool.active.phase = 0;
+        event->peer = &gVctPeerPool.active;
         break;
     case 1:
-        d_021B4BE0.active.state = 2;
-        if (pkt->fb == d_021B60D8.id) {
-            d_021B4BE0.active.fC = 2;
-            ev->type = 7;
-            d_021B4BE0.active.f8 = pkt->fc;
+        gVctPeerPool.active.mode = 2;
+        if (packet->floorHolderId == gVctSession.localId) {
+            gVctPeerPool.active.phase = 2;
+            event->code = 7;
+            gVctPeerPool.active.memberMask = packet->memberMask;
         } else {
-            d_021B4BE0.active.fC = 3;
-            ev->type = 6;
-            d_021B4BE0.active.f8 = pkt->fb == 0 ? 1 : 1 << pkt->fb;
+            gVctPeerPool.active.phase = 3;
+            event->code = 6;
+            gVctPeerPool.active.memberMask = packet->floorHolderId == 0 ? 1 : 1 << packet->floorHolderId;
         }
-        d_021B4BE0.active.f5 = pkt->fb;
-        ev->node = &d_021B4BE0.active;
+        gVctPeerPool.active.floorHolderId = packet->floorHolderId;
+        event->peer = &gVctPeerPool.active;
         break;
     default:
         return 0;
@@ -587,25 +533,26 @@ int func_021B2DD0(Pkt *pkt, Event *ev)
 /*
  * lever: fill call takes data, p and b; r1/r2 stay live across the guards.
  */
-int func_021B2ED8(E *a, u32 b)
+/* Set up the frame buffer pool over a 32 byte aligned area of 4 to 72 frames and chain the free list. */
+int VCT_POOL_InitFrames(VctRxPacket *buffer, u32 size)
 {
     u32 i;
-    u32 n;
-    E *p;
-    n = b / 0x478;
-    p = a;
-    d_021B4C24.buf = p;
-    if (n < 4 || n > 0x48) return 0;
-    if (p == 0) return 0;
-    if ((u32)p & 0x1f) {
-        d_021B4C24.buf = 0;
+    u32 count;
+    VctRxPacket *area;
+    count = size / 0x478;
+    area = buffer;
+    d_021B4C24.base = area;
+    if (count < 4 || count > 0x48) return 0;
+    if (area == 0) return 0;
+    if ((u32)area & 0x1f) {
+        d_021B4C24.base = 0;
         return 0;
     }
     i = 0;
-    func_02082AC0(i, p, b);
-    for (i = 0; i < n - 1; i++)
-        d_021B4C24.buf[i].next = &d_021B4C24.buf[i + 1];
-    (d_021B4C24.buf + n)[-1].next = 0;
-    d_021B4C24.cur = d_021B4C24.buf;
+    func_02082AC0(i, area, size);
+    for (i = 0; i < count - 1; i++)
+        d_021B4C24.base[i].freeLink = &d_021B4C24.base[i + 1];
+    (d_021B4C24.base + count)[-1].freeLink = 0;
+    d_021B4C24.freeHead = d_021B4C24.base;
     return 1;
 }

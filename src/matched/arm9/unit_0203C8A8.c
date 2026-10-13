@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0203C8A8
+ * function: GFL_NET_STATE_WifiStartMatch
  * address:  0x0203C8A8
  * packet:   pkt_0203C65C
  * region:   arm9
@@ -11,7 +11,11 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
+ *   _pNetState     0x021469DC  data
+ *   GFL_NET_SYSTEM_IsDeviceReady  0x020392EC  arm
+ *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
+ *   GFL_NET_STATE_WifiMatchStart  0x0203C864  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *
  * 140 bytes, three functions.  The middle one, 0x0203C8E8, is a 16-byte leaf
  * that saves nothing and so carries no label in the generated listing; the
@@ -29,39 +33,39 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern struct Sys *g_021469DC;
+extern struct Sys *_pNetState;
 
-extern void *func_0203D788(void);
-extern void func_0203C864(void);
-extern int  func_020392EC(void);
+extern void *GFL_NET_GetSession(void);
+extern void GFL_NET_STATE_WifiMatchStart(void);
+extern int  GFL_NET_SYSTEM_IsDeviceReady(void);
 extern void *func_0203D798(void);
 extern void func_0203516C(u32 a);
 typedef unsigned short u16;
 struct NetState;
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
 
-void func_0203C8A8(void)
+void GFL_NET_STATE_WifiStartMatch(void)
 {
-    if (func_020392EC() != 0)
+    if (GFL_NET_SYSTEM_IsDeviceReady() != 0)
         return;
 
     func_0203D798();
     func_0203516C(1);
-    func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203C864, 0, 0x760);
+    GFL_NET_STATE_ChangeStateDebug((struct NetState *)((u8 *)_pNetState), (void *)0x0203C864, 0, 0x760);
 }
 
-void func_0203C8E8(u8 v)
+void GFL_NET_STATE_SetAutoExit(u8 v)
 {
-    if (((u8 *)g_021469DC) != 0)
-        ((u8 *)g_021469DC)[0x4F] = v;
+    if (((u8 *)_pNetState) != 0)
+        ((u8 *)_pNetState)[0x4F] = v;
 }
 
-void func_0203C900(u8 v)
+void GFL_NET_STATE_SetLoginOption(u8 v)
 {
-    u8 *s = func_0203D788();
+    u8 *s = GFL_NET_GetSession();
 
-    if (((u8 *)g_021469DC) != 0)
-        ((u8 *)g_021469DC)[0x50] = v;
+    if (((u8 *)_pNetState) != 0)
+        ((u8 *)_pNetState)[0x50] = v;
 
     (*(void (**)(u32))(*(u32 *)(s + 0x340) + 0x8C))(v);
 }

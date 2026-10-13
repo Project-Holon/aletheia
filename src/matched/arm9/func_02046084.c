@@ -1,5 +1,5 @@
 /*
- * function: func_02046084
+ * function: MSGDATA_LoadFileHeader
  * address:  0x02046084
  * packet:   pkt_02045F5C
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A7E8C     0x020A7E8C  data
+ *   MSGDATA_AllocSite     0x020A7E8C  data
  *   sub_02030734   0x02030734  arm
- *   func_020495F4  0x020495F4  arm
+ *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *   func_0204960C  0x0204960C  arm
  *   func_02082D44  0x02082D44  arm
  *
@@ -42,8 +42,8 @@
  * block in r1.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02046084.c \
- *       --func func_02046084 --addr 0x02046084 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_LoadFileHeader.c \
+ *       --func MSGDATA_LoadFileHeader --addr 0x02046084 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -65,15 +65,15 @@ struct MsgFile {
     u32 langOff[1];
 };
 
-extern char g_020A7E8C[];
+extern char MSGDATA_AllocSite[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 struct ArcFile;
-extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
+extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
 extern void func_0204960C(void *stream, u32 pos);
 extern void func_02082D44(const void *src, void *dest, u32 size);
 
-struct MsgFile *func_02046084(void *stream, u32 origin, u16 heapId)
+struct MsgFile *MSGDATA_LoadFileHeader(void *stream, u32 origin, u16 heapId)
 {
     u8 hdr[12];
     struct MsgFileHdr *hp;
@@ -81,11 +81,11 @@ struct MsgFile *func_02046084(void *stream, u32 origin, u16 heapId)
 
     func_0204960C(stream, origin);
     hp = (struct MsgFileHdr *)hdr;
-    func_020495F4(stream, sizeof(struct MsgFileHdr), hp);
+    ARC_TOOL_ReadHandle(stream, sizeof(struct MsgFileHdr), hp);
 
     file = (struct MsgFile *)sub_02030734(heapId, hp->langCount * 4 + 0xc, 0,
-                                          g_020A7E8C, 0x1f3);
+                                          MSGDATA_AllocSite, 0x1f3);
     func_02082D44(hp, file, sizeof(struct MsgFileHdr));
-    func_020495F4(stream, file->langCount * 4, file->langOff);
+    ARC_TOOL_ReadHandle(stream, file->langCount * 4, file->langOff);
     return file;
 }

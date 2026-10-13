@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C   0x02146A5C  data
+ *   _G3dSystem   0x02146A5C  data
  *
  * Copy three twelve-byte groups out of the context: +0x5c to the caller's
  * +0, +0x68 to +0xc and +0x74 to +0x18.  Each group is one nested struct
@@ -36,11 +36,11 @@ struct Tri {
     u32 c;
 };
 
-extern u8 *g_02146A5C;
+extern u8 *_G3dSystem;
 
 void func_02046AFC(u8 *dst)
 {
-    *(struct Tri *)(dst + 0x00) = *(struct Tri *)(g_02146A5C + 0x5c);
-    *(struct Tri *)(dst + 0x0c) = *(struct Tri *)(g_02146A5C + 0x68);
-    *(struct Tri *)(dst + 0x18) = *(struct Tri *)(g_02146A5C + 0x74);
+    *(struct Tri *)(dst + 0x00) = *(struct Tri *)(_G3dSystem + 0x5c);
+    *(struct Tri *)(dst + 0x0c) = *(struct Tri *)(_G3dSystem + 0x68);
+    *(struct Tri *)(dst + 0x18) = *(struct Tri *)(_G3dSystem + 0x74);
 }

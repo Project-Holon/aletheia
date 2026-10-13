@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201C1F4, sub_0201C284
+ * function: WAZA_TOOL_IsAlwaysHit, WAZA_TOOL_IsAlwaysCritical
  *
  * waza_tool.c: two predicates over a move record, "is field 4 equal to 0x65"
  * and "is field 0x0E equal to 6", which are the same two special values
@@ -27,8 +27,8 @@
  * constants to re-read first if a White build diverges.
  *
  * symbols:
- *   gWazaTool   0x02146530  data
- *   g_02146534  0x02146534  data
+ *   _pWazaTool   0x02146530  data
+ *   _WazaTempData  0x02146534  data
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201C1F4.c \
@@ -50,35 +50,35 @@ struct Waza {
     u8  unk0F;
 };
 
-extern struct WazaTool *gWazaTool;
-extern struct Waza g_02146534;
+extern struct WazaTool *_pWazaTool;
+extern struct Waza _WazaTempData;
 
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 
-u32 sub_0201C1F4(u16 id)
+u32 WAZA_TOOL_IsAlwaysHit(u16 id)
 {
     struct Waza *rec;
     s32 i;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (((u16 *)gWazaTool->vals)[i] == 0) {
-                ((u16 *)gWazaTool->vals)[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            if (((u16 *)_pWazaTool->vals)[i] == 0) {
+                ((u16 *)_pWazaTool->vals)[i] = id;
+                func_02048F4C(_pWazaTool->recs[i], 0x15, id);
                 break;
             }
-            if (id == ((u16 *)gWazaTool->vals)[i]) {
+            if (id == ((u16 *)_pWazaTool->vals)[i]) {
                 break;
             }
         }
-        if (i == gWazaTool->count) {
+        if (i == _pWazaTool->count) {
             i--;
-            ((u16 *)gWazaTool->vals)[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+            ((u16 *)_pWazaTool->vals)[i] = id;
+            func_02048F4C(_pWazaTool->recs[i], 0x15, id);
         }
-        rec = gWazaTool->recs[i];
+        rec = _pWazaTool->recs[i];
     } else {
-        rec = &g_02146534;
+        rec = &_WazaTempData;
         func_02048F4C(rec, 0x15, id);
     }
     if (rec->unk04 == 0x65) {
@@ -87,30 +87,30 @@ u32 sub_0201C1F4(u16 id)
     return 0;
 }
 
-u32 sub_0201C284(u16 id)
+u32 WAZA_TOOL_IsAlwaysCritical(u16 id)
 {
     struct Waza *rec;
     s32 i;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (((u16 *)gWazaTool->vals)[i] == 0) {
-                ((u16 *)gWazaTool->vals)[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            if (((u16 *)_pWazaTool->vals)[i] == 0) {
+                ((u16 *)_pWazaTool->vals)[i] = id;
+                func_02048F4C(_pWazaTool->recs[i], 0x15, id);
                 break;
             }
-            if (id == ((u16 *)gWazaTool->vals)[i]) {
+            if (id == ((u16 *)_pWazaTool->vals)[i]) {
                 break;
             }
         }
-        if (i == gWazaTool->count) {
+        if (i == _pWazaTool->count) {
             i--;
-            ((u16 *)gWazaTool->vals)[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+            ((u16 *)_pWazaTool->vals)[i] = id;
+            func_02048F4C(_pWazaTool->recs[i], 0x15, id);
         }
-        rec = gWazaTool->recs[i];
+        rec = _pWazaTool->recs[i];
     } else {
-        rec = &g_02146534;
+        rec = &_WazaTempData;
         func_02048F4C(rec, 0x15, id);
     }
     if (rec->unk0E == 6) {

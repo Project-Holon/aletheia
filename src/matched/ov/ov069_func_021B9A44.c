@@ -12,13 +12,13 @@
  * Tail call on the word loaded from offset 0x4.
  *
  * symbols:
- *   func_0202CA0C  0x0202CA0C  thumb
+ *   BGWINFRM_Delete  0x0202CA0C  thumb
  */
 #include "../include/Obj01132.h"
 
 struct WinMgr;
 void func_021B9A44(void *p)
 {
-    void func_0202CA0C(struct WinMgr *mgr);
-    func_0202CA0C(((struct Obj01132 *)p)->f4);
+    void BGWINFRM_Delete(struct WinMgr *mgr);
+    BGWINFRM_Delete(((struct Obj01132 *)p)->f4);
 }

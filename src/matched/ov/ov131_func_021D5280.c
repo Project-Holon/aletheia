@@ -1,5 +1,5 @@
 /*
- * function: func_021D5280
+ * function: P_STATUS_UpdateTouch
  * address: 0x021D5280
  * packet: pkt_ov131_021D5280
  * region: ov131
@@ -15,7 +15,7 @@
 struct Rect36 { unsigned char b[36]; };
 extern const struct Rect36 d_021DC114;
 extern int func_02035C08(const void *key);
-void func_021D5280(char *p)
+void P_STATUS_UpdateTouch(char *p)
 {
     struct Rect36 r = d_021DC114;
     ((struct Obj23123 *)p)->f24 = func_02035C08(&r);

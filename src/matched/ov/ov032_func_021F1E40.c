@@ -15,7 +15,7 @@
  *   func_021F0FC8 0x021F0FC8 thumb
  *   func_021F0ED0 0x021F0ED0 thumb
  *   func_020311B8 0x020311B8 arm
- *   func_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02165E24 0x02165E24 thumb ov010
  *   func_02165FC0 0x02165FC0 thumb ov010
@@ -33,7 +33,7 @@ extern void func_021F0FC8(char *p, u8 *q, int r);
 extern void func_021F0ED0(char *q, int a);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
-extern void *func_02031290(struct S02030FB4 *p);
+extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
 extern int func_02165E24(int a0);
 extern u8 func_02165FC0(u32 type);
@@ -44,7 +44,7 @@ void func_021F1E40(char *p, char *q, void *x, int flag)
     u8 *r;
 
     t = func_020311B8(((struct Obj20436 *)p)->fA0, (void *)func_021F1EAC, 0x18, 0);
-    r = func_02031290(t);
+    r = TCBL_GetWork(t);
     func_02082BCC(r, 0, 0x18);
     *(char * *)&((struct Obj05121 *)r)->f10 = p;
     *(char * *)&((struct Obj05121 *)r)->f8 = q;

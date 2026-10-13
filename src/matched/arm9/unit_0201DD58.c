@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201DD58, func_0201DD60, func_0201DD68
+ * function: GF_FONT_GetFixedWidth, func_0201DD60, func_0201DD68
  *
  * Three unlabelled leaves of gf_font.c: the accessor for the byte at +0x5E and
  * a two-step thunk that resets the text colour to (1, 2, 0).
@@ -72,7 +72,7 @@ extern void func_0201DD78(u32 r, u32 g, u32 b);
 
 void func_0201DD68(void);
 
-u32 func_0201DD58(struct Font *p)
+u32 GF_FONT_GetFixedWidth(struct Font *p)
 {
     return p->unk58[6];
 }

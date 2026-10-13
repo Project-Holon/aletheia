@@ -31,8 +31,8 @@
  *   func_0203064C 0x0203064C arm
  *   func_02030734 0x02030734 arm
  *   func_020490F4 0x020490F4 arm
- *   func_02036370 0x02036370 arm
- *   func_02036270 0x02036270 arm
+ *   KEY_GetRepeatSpeed 0x02036370 arm
+ *   KEY_SetRepeatSpeed 0x02036270 arm
  *   func_021DC9C4 0x021DC9C4 thumb ov170
  *   func_021DC9E0 0x021DC9E0 thumb ov170
  *   func_021DCDB8 0x021DCDB8 thumb ov170
@@ -68,8 +68,8 @@ struct Ov170Ctx;
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_02036370(u32 *outA, u32 *outB);
-extern int func_02036270(int a0, int a1);
+extern void KEY_GetRepeatSpeed(u32 *outA, u32 *outB);
+extern int KEY_SetRepeatSpeed(int a0, int a1);
 extern void func_021DC9C4(void);
 extern void func_021DC9E0(u8 *);
 extern void func_021DCDB8(char *p);
@@ -105,8 +105,8 @@ int func_021E1E80(u8 *p)
     func_0203064C(1,0x4C,0x80000);
     W(p)=func_02030734(0x4C,0xA19C,1,str_021F140C,0x2B5);
     *(void **)(W(p)+0x1B0)=func_020490F4(7,0x4C);
-    func_02036370((u32 *)(W(p)+0x4C),(u32 *)(W(p)+0x50));
-    func_02036270(6,6);
+    KEY_GetRepeatSpeed((u32 *)(W(p)+0x4C),(u32 *)(W(p)+0x50));
+    KEY_SetRepeatSpeed(6,6);
     func_021DC9C4();
     func_021DC9E0(p);
     func_021DCDB8((char *)p);

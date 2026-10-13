@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_02177168, func_0217717C, func_02177184, func_02177190
+ * function: GFL_NET_DEVWIRELESS_IsDataSharing, GFL_NET_DEVWIRELESS_StepDataSharing, GFL_NET_DEVWIRELESS_GetSharedData, GFL_NET_DEVWIRELESS_SendData
  * address: 0x02177168
  * packet: pkt_ov014_02177168
  * region: ov014
@@ -15,15 +15,15 @@
  *   func_02178E4C 0x02178E4C thumb ov014
  *   func_021793B8 0x021793B8 thumb ov014
  *   func_02179394 0x02179394 thumb ov014
- *   func_02177C30 0x02177C30 thumb ov014
+ *   NET_WHPIPE_SendData 0x02177C30 thumb ov014
  */
 extern int func_02178E4C(void);
-int func_02177168(void) { if (func_02178E4C() == 5) return 1; return 0; }
+int GFL_NET_DEVWIRELESS_IsDataSharing(void) { if (func_02178E4C() == 5) return 1; return 0; }
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021793B8(int);
 extern int func_02179394(u16);
-extern int func_02177C30(int,u32,int);
-int func_0217717C(int a) { return func_021793B8(a); }
-int func_02177184(u32 a) { return func_02179394((u16)a); }
-int func_02177190(int a,u32 b,int c,int d) { return func_02177C30(a,b,d); }
+extern int NET_WHPIPE_SendData(int,u32,int);
+int GFL_NET_DEVWIRELESS_StepDataSharing(int a) { return func_021793B8(a); }
+int GFL_NET_DEVWIRELESS_GetSharedData(u32 a) { return func_02179394((u16)a); }
+int GFL_NET_DEVWIRELESS_SendData(int a,u32 b,int c,int d) { return NET_WHPIPE_SendData(a,b,d); }

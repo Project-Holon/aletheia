@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202E54C
+ * function: CODEIN_PARAM_Delete
  *
  * symbols:
  *   func_02045808  0x02045808  arm
@@ -39,7 +39,7 @@ extern void func_02045808(struct U16Vec *vec);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void sub_0202E54C(struct Obj0202E54C *p)
+void CODEIN_PARAM_Delete(struct Obj0202E54C *p)
 {
     func_02045808(p->unk20);
     func_020307B0(p);

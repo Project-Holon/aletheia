@@ -13,7 +13,7 @@
  * Two ARM9 tail calls on the pointer loaded from offset 0.
  *
  * symbols:
- *   func_0204B800  0x0204B800  arm
+ *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   func_0204B84C  0x0204B84C  arm
  */
 #include "../include/Obj20614.h"
@@ -23,8 +23,8 @@ typedef unsigned int   u32;
 struct Node;
 void func_021B6A10(void *p, unsigned int v)
 {
-    void func_0204B800(struct Node *node, u32 val);
-    func_0204B800(((struct Obj20614 *)p)->f0, v);
+    void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
+    CLACT_SetActorDrawPriority(((struct Obj20614 *)p)->f0, v);
 }
 
 void func_021B6A1C(void *p, unsigned int v)

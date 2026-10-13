@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02015FBC  0x02015FBC  thumb
- *   func_02015EB0  0x02015EB0  thumb
- *   func_02015C48  0x02015C48  thumb
- *   func_02015E04  0x02015E04  thumb
- *   func_02015CAC  0x02015CAC  thumb
- *   func_02015F50  0x02015F50  thumb
+ *   MCSS_SetAlpha  0x02015FBC  thumb
+ *   MCSS_ResetVanishFlag  0x02015EB0  thumb
+ *   MCSS_SetPosition  0x02015C48  thumb
+ *   MCSS_SetAnmStopFlag  0x02015E04  thumb
+ *   MCSS_SetScale  0x02015CAC  thumb
+ *   MCSS_SetPaletteFade  0x02015F50  thumb
  *
  * The call to 0x02015FBC (arm9 byte insert at +0x140) attests through
- * src/matched/func_02015FBC.c, seeded in layout/function_starts.txt.
+ * src/matched/MCSS_SetAlpha.c, seeded in layout/function_starts.txt.
  *
  * Addresses are Black-image addresses.
  */
@@ -33,23 +33,23 @@ typedef struct {
 } Vec;
 
 struct McssFade;
-extern void func_02015FBC(char *p, int v);
-extern void func_02015EB0(void *);
-extern void func_02015C48(void *p, u32 *src);
-extern void func_02015E04(void *);
-extern void func_02015CAC(void *p, u32 *src);
-extern void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
+extern void MCSS_SetAlpha(char *p, int v);
+extern void MCSS_ResetVanishFlag(void *);
+extern void MCSS_SetPosition(void *p, u32 *src);
+extern void MCSS_SetAnmStopFlag(void *);
+extern void MCSS_SetScale(void *p, u32 *src);
+extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 
 void func_021D49F4(void *obj, void *p)
 {
     Vec v;
-    func_02015FBC(obj, 0x1f);
-    func_02015EB0(obj);
+    MCSS_SetAlpha(obj, 0x1f);
+    MCSS_ResetVanishFlag(obj);
     v.x = 0;
     v.y = -0x17000;
     v.z = 0xa000;
-    func_02015C48(obj, (u32 *)(&v));
-    func_02015E04(obj);
-    func_02015CAC(obj, (u32 *)((char *)((struct Obj22645 *)p)->fC + 0x48));
-    func_02015F50(obj, 0x10, 0x10, 0, 0x7fff);
+    MCSS_SetPosition(obj, (u32 *)(&v));
+    MCSS_SetAnmStopFlag(obj);
+    MCSS_SetScale(obj, (u32 *)((char *)((struct Obj22645 *)p)->fC + 0x48));
+    MCSS_SetPaletteFade(obj, 0x10, 0x10, 0, 0x7fff);
 }

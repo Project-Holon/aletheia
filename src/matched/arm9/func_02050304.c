@@ -9,7 +9,11 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   AREAMAN_Free  0x0203422C  arm
+ *   BILLBOARD_ACT_InitSlot  0x02050088  arm
  */
 #include "../include/Obj08868.h"
 
-int func_02050304(int a0, int a1){ int t0 = func_02050088((int)(*(int *)&((struct Obj08868 *)((char *)(a0)))->fC + (a1 << 3))); int t1 = func_0203422C((int)((struct Obj08868 *)((char *)(a0)))->f14, (int)a1, (int)1); return t1; }
+int func_02050304(int a0, int a1){ int t0 = BILLBOARD_ACT_InitSlot((int)(*(int *)&((struct Obj08868 *)((char *)(a0)))->fC + (a1 << 3))); int t1 = AREAMAN_Free((int)((struct Obj08868 *)((char *)(a0)))->f14, (int)a1, (int)1); return t1; }

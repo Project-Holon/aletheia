@@ -11,15 +11,15 @@
  * symbols:
  *   func_021B6100 0x021B6100 thumb ov070
  *   func_021B66FC 0x021B66FC thumb ov070
- *   func_02036270 0x02036270 arm
+ *   KEY_SetRepeatSpeed 0x02036270 arm
  */
 typedef unsigned int u32;
 extern void func_021B6100(char *p, int k);
 typedef unsigned char  u8;
 extern void func_021B66FC(u8 *p);
-extern int func_02036270(int a0, int a1);
+extern int KEY_SetRepeatSpeed(int a0, int a1);
 int func_021B8B0C(void *p)
 {
     func_021B6100(p, (int)func_021B66FC);
-    return func_02036270(3, 6);
+    return KEY_SetRepeatSpeed(3, 6);
 }

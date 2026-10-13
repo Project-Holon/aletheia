@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200D6D0
+ * function: GDS_PROFILE_CreateNameStr
  *
  * 28 bytes, 0x0200D6D0..0x0200D6EC, one function, which carries a label in
  * the generated listing.
@@ -37,7 +37,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 struct Strbuf;
 extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 
-void *func_0200D6D0(const void *src, u32 tag)
+void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag)
 {
     void *h = func_020457B0(0xF, (u16)tag);
 

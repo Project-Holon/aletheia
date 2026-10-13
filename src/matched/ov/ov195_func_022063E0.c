@@ -16,7 +16,7 @@
  *   FX_SinCosTable_ 0x020A1B38 data
  *   func_02030734 0x02030734 arm
  *   func_02017E1C 0x02017E1C thumb
- *   func_02017F00 0x02017F00 thumb
+ *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   func_02017EAC 0x02017EAC thumb
  *   func_02048A24 0x02048A24 arm
  *   func_0220685C 0x0220685C thumb ov195
@@ -91,7 +91,7 @@ static inline fx32 FX_CosIdx(int idx)
 struct Quad;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u8 func_02017F00(void *p);
+extern u8 POKE_TOOL_GetGender(void *p);
 extern u32 func_02017EAC(void *p);
 extern void *func_02048A24(u32 a0, fx32 sin, fx32 cos, fx32 aspect, u32 a4, fx32 a5,
                            fx32 a6, u32 a7, VecFx32 *a8, VecFx32 *a9, VecFx32 *a10,
@@ -122,7 +122,7 @@ void func_022063E0(Owner *o)
 
     a = func_02017E1C(o->res0, 5, 0);
     b = func_02017E1C(o->res0, 0x6f, 0);
-    c = func_02017F00(o->res0);
+    c = POKE_TOOL_GetGender(o->res0);
     g = w->grid[0] = func_0220685C(a, b, c, func_02017EAC(o->res0), 0, 0, 0x26000, 0x960, o->heap);
     if (o->f08 == 0) {
         func_02206A5C(g, o->heap);
@@ -135,7 +135,7 @@ void func_022063E0(Owner *o)
     if (o->f08 == 0) {
         a = func_02017E1C(o->res1, 5, 0);
         b = func_02017E1C(o->res1, 0x6f, 0);
-        c = func_02017F00(o->res1);
+        c = POKE_TOOL_GetGender(o->res1);
         g = w->grid[1] = func_0220685C(a, b, c, func_02017EAC(o->res1), 0, 0, 0x28000, 0x980, o->heap);
         func_02206A5C(g, o->heap);
         g->state = 3;

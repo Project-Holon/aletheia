@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0202CEBC 0x0202CEBC thumb
+ *   BGWINFRM_PutBmpWin 0x0202CEBC thumb
  *   func_021EB90C 0x021EB90C thumb ov170
  */
 #include "../include/Obj01558.h"
@@ -18,5 +18,5 @@
 #include "../include/Obj23989.h"
 typedef unsigned int   u32;
 struct WinMgr;
-extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a); extern void func_021EB90C(char *);
-void func_021EB95C(char *p){func_0202CEBC((struct WinMgr *)(((struct Obj23986 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f74),7,(void *)(((struct Obj23987 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f134));func_0202CEBC((struct WinMgr *)(((struct Obj23988 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f74),7,(void *)(((struct Obj23989 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f13C));func_021EB90C(p);}
+extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a); extern void func_021EB90C(char *);
+void func_021EB95C(char *p){BGWINFRM_PutBmpWin((struct WinMgr *)(((struct Obj23986 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f74),7,(void *)(((struct Obj23987 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f134));BGWINFRM_PutBmpWin((struct WinMgr *)(((struct Obj23988 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f74),7,(void *)(((struct Obj23989 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f13C));func_021EB90C(p);}

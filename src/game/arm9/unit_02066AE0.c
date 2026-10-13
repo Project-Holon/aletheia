@@ -12,7 +12,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02148B20  0x02148B20  data
+ *   sCellTransferStateManager  0x02148B20  data
  *
  * Claim the first cell of the bank at 0x02148B20 whose +0x1c occupancy word
  * is not 1: set it to 1 and return the index, or return -1 when every cell
@@ -35,10 +35,10 @@
  *     `count != 0`.  The image's `bls` at 0x02066AF0 is the loop's own
  *     unsigned pre-test hoisted; `!= 0` gives `beq` and is one byte wrong.
  *     This is the same lever src/matched/func_02067998.c needed.
- *   - the claim STORE is through the index, `g_02148B20.cells[i].used = 1`,
+ *   - the claim STORE is through the index, `sCellTransferStateManager.cells[i].used = 1`,
  *     while the SCAN is through the cursor `c`.  That is what makes the
  *     image spend `mov r1, #0x30` / `mla r1, r0, r1, ip` on a cell address
- *     it already has in r2: the accessor func_02066878 (0x02066878, the
+ *     it already has in r2: the accessor NNSi_G2dGetCellTransferState (0x02066878, the
  *     same `base + i * 0x30` shape) is inlined at the store and not at the
  *     load.  Storing through `c` drops both instructions.
  *
@@ -62,23 +62,23 @@ struct Bank02066AE0 {
     struct Cell02066AE0 *cells;   /* +0x08 */
 };
 
-extern struct Bank02066AE0 g_02148B20;
+extern struct Bank02066AE0 sCellTransferStateManager;
 
 int func_02066AE0(void)
 {
     u32 i = 0;
 
-    if (g_02148B20.count > i) {
-        struct Cell02066AE0 *c = g_02148B20.cells;
+    if (sCellTransferStateManager.count > i) {
+        struct Cell02066AE0 *c = sCellTransferStateManager.cells;
 
         do {
             if (c->used != 1) {
-                g_02148B20.cells[i].used = 1;
+                sCellTransferStateManager.cells[i].used = 1;
                 return i;
             }
             i++;
             c++;
-        } while (i < g_02148B20.count);
+        } while (i < sCellTransferStateManager.count);
     }
     return -1;
 }

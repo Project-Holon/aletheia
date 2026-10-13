@@ -24,7 +24,7 @@
  *   g_021CEFF4     0x021CEFF4  data
  *   func_0217D254  0x0217D254  arm   ov009
  *   func_021C02C8  0x021C02C8  arm   ov114
- *   func_0217F25C  0x0217F25C  arm   ov009
+ *   SocketStartUp  0x0217F25C  arm   ov009
  *   func_021C109C  0x021C109C  arm   ov114
  *   g_021CEFF8     0x021CEFF8  data
  *   g_021CF010     0x021CF010  data
@@ -148,7 +148,7 @@ extern int func_020964E0(u32 a0);
 extern char *func_0217F1E0(char *);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_021C02C8(GHIConnection *, char *, int);
-extern void func_0217F25C();
+extern void SocketStartUp();
 extern int func_021C109C(int, int);
 extern int func_0217ED38(int a);
 extern int func_0217F150(char *hostname, struct GSIResolveHostnameInfo **handle);
@@ -345,7 +345,7 @@ void func_021C3BAC(GHIConnection *connection)
 
     func_0217D254(8, (char *)3, 16, g_021CEFF8);
     func_021C02C8(connection, 0, 0);
-    func_0217F25C();
+    SocketStartUp();
     if (func_021C3A38(connection) == GHI_FALSE) {
         connection->completed = 1;
         connection->result = 3;

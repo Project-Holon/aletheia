@@ -1,5 +1,5 @@
 /*
- * function: func_021B6A44
+ * function: IRC_COMPATIBLE_SetFinished
  * address:  0x021B6A44
  * packet:   pkt_ov101_021B6A44
  * region:   ov101
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021B6A44(u8 *p) { ((struct Obj22109 *)p)->f1C = 1; }
+void IRC_COMPATIBLE_SetFinished(u8 *p) { ((struct Obj22109 *)p)->f1C = 1; }

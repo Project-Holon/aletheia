@@ -1,5 +1,5 @@
 /*
- * function: func_02173E2C
+ * function: INTRUDE_CMD_SendJoinRequest
  * address:  0x02173E2C
  * packet:   pkt_ov011_02173E2C
  * region:   ov011
@@ -10,26 +10,26 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021736D8  0x021736D8  thumb ov011
- *   func_02176200  0x02176200  thumb ov011
+ *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
+ *   INTRUDE_COMM_ClearJoinReply  0x02176200  thumb ov011
  *   func_020399A8  0x020399A8  arm
  *   func_0203D3A8  0x0203D3A8  arm
  */
 
 typedef unsigned short u16;
 
-int func_021736D8(void);
-void func_02176200(char *a);
+int INTRUDE_COMM_IsLinked(void);
+void INTRUDE_COMM_ClearJoinReply(char *a);
 typedef unsigned int   u32;
 struct Entry;
 struct Entry *func_020399A8(void);
 int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 
-int func_02173E2C(char *a, int b)
+int INTRUDE_CMD_SendJoinRequest(char *a, int b)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }
-    func_02176200(a + 0x1AC);
+    INTRUDE_COMM_ClearJoinReply(a + 0x1AC);
     return func_0203D3A8(func_020399A8(), 0x210, 0x30, b);
 }

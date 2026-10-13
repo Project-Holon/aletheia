@@ -44,42 +44,34 @@
  *   func_021CC7B4  0x021CC7B4  thumb  ov021
  */
 
-typedef struct BattleTaskWork {
-    unsigned int sys;
-    unsigned int f4;
-    unsigned char pad8[4];
-    unsigned int party;
-    unsigned int w;
-    unsigned char rulesFlag;
-    unsigned char r2Flag;
-    unsigned short k;
-    unsigned int out;
-} BattleTaskWork;
+#include "../arm9/script_vm_types.h"
 
+struct ScrcmdWork;
 struct WordSet;
-struct Blk37;
-struct Big;
-struct BigObj;
-struct Ctx;
-struct Desc;
-struct Obj;
-typedef unsigned char u8;
+struct ZukanSave;
+struct GameData;
+struct GameSystem;
+struct FieldMap;
+struct FieldTask;
+struct PartySelectList;
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef struct {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    u32 fc;
-    u32 f10;
-    u8 f14;
-    u8 f15;
-    u16 f16;
-    u16 *f18;
-} Work;
+/*
+ * Work of the party check task (0x1C bytes, allocated by the field task
+ * function). The task shows the party select list for the player party and
+ * the party stored in the battle record, and marks the ones that break the
+ * regulation.
+ */
+typedef struct PartyCheckTaskWork {
+    void *gameSystem;                    /* 0x00 */
+    void *fieldMap;                      /* 0x04 */
+    struct PartySelectList *partySelect; /* 0x08 */
+    void *playerParty;                   /* 0x0C */
+    void *recordParty;                   /* 0x10: heap copy, freed when the task ends */
+    u8 playerPartyInvalid;               /* 0x14 */
+    u8 recordPartyInvalid;               /* 0x15 */
+    u16 heapId;                          /* 0x16 */
+    u16 *result;                         /* 0x18 */
+} PartyCheckTaskWork;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
@@ -93,43 +85,48 @@ extern u32 func_020307B0(void *p);
 extern void func_0215897C(void *vm, void *task);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void *func_0200CA1C(void *a);
-extern u32 func_0200CED4(struct Blk37 *p, u16 id);
+extern u32 func_0200CED4(struct ZukanSave *p, u16 id);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02012934(const struct BigObj *p);
-extern void *func_02012EBC(struct Big *p);
-extern int func_02019ED4(void *ctx, void *q);
+extern void *func_020120F4(const struct GameSystem *p);
+extern void *func_0201210C(const struct GameSystem *p);
+extern void *func_02012934(const struct GameData *p);
+extern void *func_02012EBC(struct GameData *p);
+extern int func_02019ED4(void *rules, void *party);
 extern int func_0201A090(void *rules, void *party, u32 *mask);
 extern void *func_0200BAC8(void *);
 extern u32 func_0200BBA8(void *a);
 extern void *func_0200BAF4(int a0, int a1);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Obj *p);
-extern struct Obj *func_021CC720(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
-extern int func_021CC810(struct Obj *p);
-extern u32 func_021CC7B4(struct Obj *p, u32 *out);
-int func_021B5700(void *a0, void *a1);
-int func_021B574C(int a0, int a1);
-u16 func_021B57CC(void *a0, void *a1, u32 a2, int a3);
-u16 *func_021B5824(u8 *a0, void *a1, u16 *a2, int a3);
-void *func_021B58B0(void *sys, int flag, void *rules, u16 *out, u16 k);
-int func_021B59B0(int a0, int *state, Work *w);
+extern struct FieldTask *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct FieldTask *p);
+extern struct PartySelectList *func_021CC720(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
+extern int func_021CC810(struct PartySelectList *p);
+extern u32 func_021CC7B4(struct PartySelectList *p, u32 *out);
+int func_021B5700(struct ScriptVm *vm, struct ScrcmdWork *work);
+int func_021B574C(struct ScriptVm *vm, struct ScrcmdWork *work);
+u16 func_021B57CC(void *gameData, void *wordSet, u32 regulationNo, int heapId);
+u16 *func_021B5824(u8 *regulation, void *gameData, u16 *count, int heapId);
+void *func_021B58B0(void *gameSystem, int isSubwayRules, void *rules, u16 *result, u16 heapId);
+int func_021B59B0(struct FieldTask *fieldTask, int *state, PartyCheckTaskWork *taskWork);
 extern const char g_021DE248[];
 
 
 
-int func_021B5700(void *a0, void *a1)
+/*
+ * Script command: register the names of the species the regulation allows
+ * and the player has seen in the word set; the count goes to the result
+ * variable.
+ */
+int func_021B5700(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
-    void *r6 = func_0215A5F4(a1);
-    void *s = func_0215A5E4(a1);
-    unsigned int r7;
-    u16 *r5;
+    void *wordSet = func_0215A5F4(work);
+    void *gameData = func_0215A5E4(work);
+    unsigned int regulationNo;
+    u16 *countOut;
 
-    r6 = func_02158F74(r6);
-    r7 = func_02159B10(a0, a1);
-    r5 = func_02159AE8(a0, a1);
-    *r5 = func_021B57CC(s, r6, r7, func_0215A5CC(a1));
+    wordSet = func_02158F74(wordSet);
+    regulationNo = func_02159B10(vm, work);
+    countOut = func_02159AE8(vm, work);
+    *countOut = func_021B57CC(gameData, wordSet, regulationNo, func_0215A5CC(work));
     return 0;
 }
 
@@ -137,72 +134,81 @@ int func_021B5700(void *a0, void *a1)
 
 /*
  * func_0201A354 is filed as src/matched/arm9/func_0201A354.c (witness).
+ *
+ * Script command: check the player party and the party in the battle record
+ * against a regulation; starts the party select task when the check needs
+ * the player to look at the result. Returns 1 while that task runs.
  */
-int func_021B574C(int a0, int a1)
+int func_021B574C(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
-    void *s8 = func_0215A5F4((void *)a1);
-    void *s4 = func_0215A5DC((void *)a1);
-    int r4 = func_02159B10((void *)a0, (void *)a1);
-    u16 *r7 = func_02159AE8((void *)a0, (void *)a1);
-    u16 r6 = func_0215A5CC((void *)a1);
-    void *r5 = func_0201A354(r4, r6);
-    int r1 = 1;
-    u16 d = r4 + 0xffec;
-    void *res;
+    void *scriptWork = func_0215A5F4(work);
+    void *gameSystem = func_0215A5DC(work);
+    int regulationNo = func_02159B10(vm, work);
+    u16 *resultOut = func_02159AE8(vm, work);
+    u16 heapId = func_0215A5CC(work);
+    void *rules = func_0201A354(regulationNo, heapId);
+    int isSubwayRules = 1;
+    u16 subwayIndex = regulationNo + 0xffec;
+    void *task;
 
-    if (d > 2) {
-        r1 = 0;
+    if (subwayIndex > 2) {
+        isSubwayRules = 0;
     }
-    res = func_021B58B0((void *)s4, r1, r5, r7, r6);
-    func_020307B0(r5);
-    if (res == 0) {
+    task = func_021B58B0(gameSystem, isSubwayRules, rules, resultOut, heapId);
+    func_020307B0(rules);
+    if (task == 0) {
         return 0;
     }
-    func_0215897C(s8, res);
+    func_0215897C(scriptWork, task);
     return 1;
 }
 
 
 
-u16 func_021B57CC(void *a0, void *a1, u32 a2, int a3)
+u16 func_021B57CC(void *gameData, void *wordSet, u32 regulationNo, int heapId)
 {
-    u16 n = 0;
+    u16 count = 0;
     u16 i = 0;
-    void *t;
-    u16 *v;
+    void *regulation;
+    u16 *speciesList;
 
-    t = func_0201A354(a2, a3);
-    v = func_021B5824(t, a0, &n, a3);
-    for (i = 0; i < n; i++) {
-        func_0201EE60(a1, i, v[i]);
+    regulation = func_0201A354(regulationNo, heapId);
+    speciesList = func_021B5824(regulation, gameData, &count, heapId);
+    for (i = 0; i < count; i++) {
+        func_0201EE60(wordSet, i, speciesList[i]);
     }
-    func_020307B0(v);
-    func_020307B0(t);
-    return n;
+    func_020307B0(speciesList);
+    func_020307B0(regulation);
+    return count;
 }
 
 
 
-u16 *func_021B5824(u8 *a0, void *a1, u16 *a2, int a3)
+/*
+ * Lists the species that the regulation bitmap (at +0x0A) allows and the
+ * player has in the Pokedex, at most 0x20. The result is a heap block of 0x40
+ * bytes owned by the caller.
+ */
+u16 *func_021B5824(u8 *regulation, void *gameData, u16 *count, int heapId)
 {
-    int i = 0;
-    void *r;
-    u16 *v;
+    int species = 0;
+    void *zukan;
+    u16 *speciesList;
 
-    *a2 = 0;
-    r = func_0200CA1C(a1);
-    v = func_02030734((u16)((a3 & 0x7fff) | 0x8000), 0x40, 1, g_021DE248, 0xac);
-    for (i = 0; i < 0x28b; i++) {
-        if (a0[0xa + i / 8] & (1 << (i % 8))) {
-            if (func_0200CED4(r, (u16)i)) {
-                if (*a2 >= 0x20) {
+    *count = 0;
+    zukan = func_0200CA1C(gameData);
+    speciesList = func_02030734((u16)((heapId & 0x7fff) | 0x8000), 0x40, 1, g_021DE248, 0xac);
+    for (species = 0; species < 0x28b; species++) {
+        if (regulation[0xa + species / 8] & (1 << (species % 8))) {
+            if (func_0200CED4(zukan, (u16)species)) {
+                if (*count >= 0x20) {
                     break;
                 }
-                v[(*a2)++] = i;
+                speciesList[(*count)++] = species;
             }
         }
     }
-    return v;
+    return speciesList;
 }
 
 
@@ -211,92 +217,96 @@ u16 *func_021B5824(u8 *a0, void *a1, u16 *a2, int a3)
  * Two spellings carry the block layout: the else arm's result goes through
  * a temporary (tmp), which keeps the inner if/else ahead of the outer else
  * rather than sunk before the rest; and the not-1 path is an if/else of two
- * stores, not a ternary (which compiles branch-free).  `b = 0` after the
- * task call is what puts its zero in r1.
+ * stores, not a ternary (which compiles branch-free).  `playerFlag = 0`
+ * after the task call is what puts its zero in r1.
  *
  * Addresses are Black-image addresses.
  */
-void *func_021B58B0(void *sys, int flag, void *rules, u16 *out, u16 k)
+void *func_021B58B0(void *gameSystem, int isSubwayRules, void *rules, u16 *result, u16 heapId)
 {
     u32 mask = 0;
-    void *w;
-    void *party;
-    int r2;
-    void *q;
-    void *task;
-    BattleTaskWork *e;
-    u32 b;
-    int r1;
+    void *gameData;
+    void *playerParty;
+    int playerPartyInvalid;
+    void *battleRec;
+    void *recordParty;
+    int recordPartyInvalid;
+    struct FieldTask *task;
+    PartyCheckTaskWork *taskWork;
+    u32 playerFlag;
     int tmp;
 
-    w = func_020120F4(sys);
+    gameData = func_020120F4(gameSystem);
     mask = 0;
-    party = func_02012934(w);
-    if (flag) {
-        r1 = func_02019ED4(rules, party);
+    playerParty = func_02012934(gameData);
+    if (isSubwayRules) {
+        playerPartyInvalid = func_02019ED4(rules, playerParty);
     } else {
-        r1 = func_0201A090(rules, party, &mask);
+        playerPartyInvalid = func_0201A090(rules, playerParty, &mask);
     }
-    q = func_0200BAC8(func_02012EBC(w));
-    if (func_0200BBA8(q) == 1) {
+    battleRec = func_0200BAC8(func_02012EBC(gameData));
+    if (func_0200BBA8(battleRec) == 1) {
         mask = 0;
-        w = func_0200BAF4((int)q, k);
-        if (flag) {
-            r2 = func_02019ED4(rules, w);
+        recordParty = func_0200BAF4((int)battleRec, heapId);
+        if (isSubwayRules) {
+            recordPartyInvalid = func_02019ED4(rules, recordParty);
         } else {
-            tmp = func_0201A090(rules, w, &mask);
-            r2 = tmp;
+            tmp = func_0201A090(rules, recordParty, &mask);
+            recordPartyInvalid = tmp;
         }
     } else {
-        if (r1) {
-            *out = 3;
+        if (playerPartyInvalid) {
+            *result = 3;
         } else {
-            *out = 0;
+            *result = 0;
         }
         return 0;
     }
-    if (r1 && r2) {
-        if (w) {
-            func_020307B0(w);
+    if (playerPartyInvalid && recordPartyInvalid) {
+        if (recordParty) {
+            func_020307B0(recordParty);
         }
-        *out = 3;
+        *result = 3;
         return 0;
     }
-    task = func_020122C0(sys, 0, (void *)func_021B59B0, 0x1c);
-    b = 0;
-    e = func_020124E8(task);
-    e->sys = (u32)sys;
-    e->f4 = (u32)func_0201210C(sys);
-    e->out = (u32)out;
-    e->k = k;
-    e->party = (u32)party;
-    e->w = (u32)w;
-    if (r1) {
-        b = 1;
+    task = func_020122C0(gameSystem, 0, (void *)func_021B59B0, 0x1c);
+    playerFlag = 0;
+    taskWork = func_020124E8(task);
+    taskWork->gameSystem = gameSystem;
+    taskWork->fieldMap = func_0201210C(gameSystem);
+    taskWork->result = result;
+    taskWork->heapId = heapId;
+    taskWork->playerParty = playerParty;
+    taskWork->recordParty = recordParty;
+    if (playerPartyInvalid) {
+        playerFlag = 1;
     }
-    e->rulesFlag = b;
-    e->r2Flag = r2 ? 1 : 0;
+    taskWork->playerPartyInvalid = playerFlag;
+    taskWork->recordPartyInvalid = recordPartyInvalid ? 1 : 0;
     return task;
 }
 
 
 
-int func_021B59B0(int a0, int *state, Work *w)
+/* Field task function: opens the party select list, then stores its result. */
+int func_021B59B0(struct FieldTask *fieldTask, int *state, PartyCheckTaskWork *taskWork)
 {
-    int loc;
+    int cancelled;
 
     switch (*state) {
     case 0:
-        w->f8 = (u32)func_021CC720(w->f4, w->fc, w->f10, w->f14, w->f15, w->f16);
+        taskWork->partySelect = func_021CC720((u32)taskWork->fieldMap, (u32)taskWork->playerParty,
+                                              (u32)taskWork->recordParty, taskWork->playerPartyInvalid,
+                                              taskWork->recordPartyInvalid, taskWork->heapId);
         (*state)++;
         break;
     case 1:
-        if (func_021CC810((struct Obj *)w->f8)) {
-            *w->f18 = func_021CC7B4((struct Obj *)w->f8, (u32 *)(&loc));
-            if (loc == 1) {
-                *w->f18 = 3;
+        if (func_021CC810(taskWork->partySelect)) {
+            *taskWork->result = func_021CC7B4(taskWork->partySelect, (u32 *)(&cancelled));
+            if (cancelled == 1) {
+                *taskWork->result = 3;
             }
-            func_020307B0((void *)w->f10);
+            func_020307B0(taskWork->recordParty);
             return 1;
         }
         break;

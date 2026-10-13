@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02009ED4",
+   "name": "MYSTERY_DATA_GetWorkSize",
    "address": "0x02009ED4",
    "kind": "game",
    "region": "arm9",

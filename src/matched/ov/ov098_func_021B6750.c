@@ -13,7 +13,7 @@
  *   func_021B6A00  0x021B6A00  thumb  ov098
  *   func_021B6A3C  0x021B6A3C  thumb  ov098
  *   func_0204E720  0x0204E720  arm
- *   func_02005E30  0x02005E30  thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   func_0204E804  0x0204E804  arm
  */
 #include "../include/Obj03730.h"
@@ -24,7 +24,7 @@ extern int func_021B6A3C(u8 *p);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern void func_02005E30(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
 extern int func_0204E804(void);
 
 int func_021B6750(char *p)
@@ -37,7 +37,7 @@ int func_021B6750(char *p)
     case 1:
         if (func_021B6A3C((u8 *)(((struct Obj03730 *)p)->f14)) != 0) {
             func_0204E720(3, 0, 0x10, 2);
-            func_02005E30(8);
+            GFL_USE_FadeOutBgm(8);
             ((struct Obj03730 *)p)->f60 = ((struct Obj03730 *)p)->f60 + 1;
         }
         break;

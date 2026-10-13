@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202DD24",
+   "name": "PMS_DRAW_Copy",
    "address": "0x0202DD24",
    "kind": "game",
    "region": "arm9",

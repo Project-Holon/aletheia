@@ -15,8 +15,8 @@
  *   func_0201AB08  0x0201AB08  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
- *   func_0201104C  0x0201104C  thumb
- *   func_020110CC  0x020110CC  thumb
+ *   GPOWER_UseHpRestore  0x0201104C  thumb
+ *   GPOWER_UsePpRestore  0x020110CC  thumb
  */
 
 typedef unsigned char u8;
@@ -30,8 +30,8 @@ extern void *func_02012934(const struct BigObj *p);
 extern u32   func_0201AB08(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern u32   func_0201104C(void *p);
-extern u32   func_020110CC(void *p);
+extern u32   GPOWER_UseHpRestore(void *p);
+extern u32   GPOWER_UsePpRestore(void *p);
 
 void func_021F5488(void *a0, void *a1, int a2)
 {
@@ -42,10 +42,10 @@ void func_021F5488(void *a0, void *a1, int a2)
     func_0201EEF4(a1, 1, func_0201AB28(h, i));
     switch (a2) {
     case 5:
-        func_0201104C(h);
+        GPOWER_UseHpRestore(h);
         break;
     case 6:
-        func_020110CC(h);
+        GPOWER_UsePpRestore(h);
         break;
     }
 }

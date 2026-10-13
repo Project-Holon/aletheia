@@ -1,7 +1,7 @@
 /*
  * file:     unit_0204F2FC.c
  * unit:     yes
- * function: func_0204F2FC, func_0204F32C, func_0204F344, func_0204F428, func_0204F5A8, func_0204F5E4, func_0204F604, func_0204F638, func_0204F654, func_0204F66C, func_0204F684, func_0204F6B4, func_0204F704
+ * function: BILLBOARD_SetImageTexAddr, func_0204F32C, BILLBOARD_CalcImageFrameRange, BILLBOARD_AddElem, BILLBOARD_FreeElem, func_0204F5E4, func_0204F604, func_0204F638, func_0204F654, func_0204F66C, func_0204F684, func_0204F6B4, BILLBOARD_GetElemVisible
  * address:  0x0204F2FC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -17,19 +17,19 @@
  */
 #include "billboard_types.h"
 
-void func_0204F2FC(struct BbBoard *board, int imageIndex, u32 texKey);
+void BILLBOARD_SetImageTexAddr(struct BbBoard *board, int imageIndex, u32 texKey);
 void func_0204F32C(struct BbBoard *board, int imageIndex, u32 *outPlttKey);
-void func_0204F344(struct BbBoard *board, u32 imageIndex, int frame, int *outOffset, int *outFrameSize, u8 useFrameIndex);
-void func_0204F5A8(struct BbBoard *board, u32 elemIndex);
+void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 imageIndex, int frame, int *outOffset, int *outFrameSize, u8 useFrameIndex);
+void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemIndex);
 void func_0204F5E4(struct BbBoard *board, u32 elemIndex, u16 *outImageIndex);
 void func_0204F604(struct BbBoard *board, u32 elemIndex, u16 *imageIndex);
 void func_0204F654(struct BbBoard *board, int elemIndex, u16 *outCell);
 void func_0204F66C(struct BbBoard *board, int elemIndex, u16 *cell);
 void func_0204F6B4(struct BbBoard *board, int elemIndex, u8 *alpha);
 void func_0204F6DC(struct BbBoard *board, int elemIndex, u8 *polyId);
-u32 func_0204F704(struct BbBoard *board, int elemIndex);
+u32 BILLBOARD_GetElemVisible(struct BbBoard *board, int elemIndex);
 
-void func_0204F2FC(struct BbBoard *board, int imageIndex, u32 texKey)
+void BILLBOARD_SetImageTexAddr(struct BbBoard *board, int imageIndex, u32 texKey)
 {
     u32 off = imageIndex * sizeof(struct BbImage);
     ((struct BbImage *)((u8 *)board->images + off))->texKey = texKey;
@@ -42,7 +42,7 @@ void func_0204F32C(struct BbBoard *board, int imageIndex, u32 *outPlttKey)
 }
 
 
-void func_0204F344(struct BbBoard *board, u32 imageIndex, int frame, int *outOffset, int *outFrameSize, u8 useFrameIndex)
+void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 imageIndex, int frame, int *outOffset, int *outFrameSize, u8 useFrameIndex)
 {
     struct BbImage *image = (struct BbImage *)((u8 *)board->images + imageIndex * sizeof(struct BbImage));
     int frameRow;
@@ -76,7 +76,7 @@ void func_0204F344(struct BbBoard *board, u32 imageIndex, int frame, int *outOff
  * assignment (14/2 at +0x00, 5/4/1/1/1/4 at +0x18), in the image's store
  * order.
  */
-s32 func_0204F428(struct BbBoard *board, u32 imageIndex, u16 scaleX, u16 scaleY, VecFx32 *pos, u8 alpha, u32 light, u32 facingMode)
+s32 BILLBOARD_AddElem(struct BbBoard *board, u32 imageIndex, u16 scaleX, u16 scaleY, VecFx32 *pos, u8 alpha, u32 light, u32 facingMode)
 {
     s32 i;
 
@@ -108,7 +108,7 @@ s32 func_0204F428(struct BbBoard *board, u32 imageIndex, u16 scaleX, u16 scaleY,
  * to a plain lsl/lsr pair as a bitfield
  * (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md).
  */
-void func_0204F5A8(struct BbBoard *board, u32 elemIndex)
+void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemIndex)
 {
     struct BbElem *elem = (struct BbElem *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem));
 
@@ -130,7 +130,7 @@ void func_0204F5E4(struct BbBoard *board, u32 elemIndex, u16 *outImageIndex)
 
 
 /*
- * Same element and field as func_0204F5A8, but the low 14 bits are copied in
+ * Same element and field as BILLBOARD_FreeElem, but the low 14 bits are copied in
  * from the caller's u16. The compiler reuses the inverted mask it already
  * needed as `lsr #18` rather than materialising 0x3fff twice.
  */
@@ -203,7 +203,7 @@ void func_0204F6DC(struct BbBoard *board, int elemIndex, u8 *polyId)
 }
 
 
-u32 func_0204F704(struct BbBoard *board, int elemIndex)
+u32 BILLBOARD_GetElemVisible(struct BbBoard *board, int elemIndex)
 {
     struct BbElem *elem = &board->elems[elemIndex];
 

@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: func_02072F34, func_02072F48
+ * function: NNS_SndHandleSetSeqPriority, NNS_SndHandleSetPlayerPriority
  * address:  0x02072F34
  * packet:   pkt_02072EA8
  * region:   arm9
@@ -27,12 +27,12 @@ typedef unsigned int   u32;
 struct Sub { u8 pad00[0x40]; u8 b40; u8 b41; };
 struct Obj { struct Sub * volatile p; };
 
-void func_02072F34(struct Obj *o, u8 v)
+void NNS_SndHandleSetSeqPriority(struct Obj *o, u8 v)
 {
     if (o->p) o->p->b41 = v;
 }
 
-void func_02072F48(struct Obj *o, u8 v)
+void NNS_SndHandleSetPlayerPriority(struct Obj *o, u8 v)
 {
     if (o->p) o->p->b40 = v;
 }

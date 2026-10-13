@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021736D8  0x021736D8  thumb  ov011
+ *   INTRUDE_COMM_IsLinked  0x021736D8  thumb  ov011
  *   func_020399A8  0x020399A8  arm
  *   func_0203D3A8  0x0203D3A8  arm
  */
 
 typedef unsigned short u16;
 
-int func_021736D8(void);
+int INTRUDE_COMM_IsLinked(void);
 struct Entry;
 struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
@@ -24,7 +24,7 @@ int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 
 int func_02173D2C(int a0, int a1)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }
     return func_0203D3A8(func_020399A8(), 0x20E, 4, (u32)(&a1));

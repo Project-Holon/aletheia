@@ -12,17 +12,17 @@
  * symbols:
  *   d_02208E8C 0x02208E8C data
  *   d_02148BCC 0x02148BCC data
- *   func_020467EC 0x020467EC arm
+ *   G3D_SYSTEM_GetProjection 0x020467EC arm
  *   func_02046AFC 0x02046AFC arm
  *   func_0207ADC4 0x0207ADC4 arm
- *   func_0206A9DC 0x0206A9DC arm
+ *   NNS_G3dGlbBaseTrans 0x0206A9DC arm
  *   func_02082B60 0x02082B60 arm
- *   func_0206AA0C 0x0206AA0C arm
+ *   NNS_G3dGlbBaseScale 0x0206AA0C arm
  *   func_02048AD0 0x02048AD0 arm
  *   func_020479D8 0x020479D8 arm
  *   func_0206DB80 0x0206DB80 arm
- *   func_02046858 0x02046858 arm
- *   func_02046B40 0x02046B40 arm
+ *   G3D_SYSTEM_SetProjection 0x02046858 arm
+ *   G3D_SYSTEM_SetLookAt 0x02046B40 arm
  *   func_02207510 0x02207510 thumb ov195
  *   func_02208570 0x02208570 thumb ov195
  */
@@ -69,18 +69,18 @@ typedef struct Owner {
 
 extern const VecFx32 d_02208E8C;
 extern GlbState d_02148BCC;
-extern void func_020467EC(int p0);
+extern void G3D_SYSTEM_GetProjection(int p0);
 struct Light;
 extern void func_02046AFC(u8 *dst);
 extern void func_0207ADC4(MtxFx33 *m);
-extern void func_0206A9DC(const VecFx32 *trans);
+extern void NNS_G3dGlbBaseTrans(const VecFx32 *trans);
 extern void func_02082B60(const MtxFx33 *src, MtxFx33 *dst);
-extern void func_0206AA0C(const VecFx32 *scale);
+extern void NNS_G3dGlbBaseScale(const VecFx32 *scale);
 extern void func_02048AD0(struct Light *l);
 extern void func_020479D8(void);
 extern void func_0206DB80(void);
-extern void func_02046858(const u32 *src);
-extern void func_02046B40(u8 *a0);
+extern void G3D_SYSTEM_SetProjection(const u32 *src);
+extern void G3D_SYSTEM_SetLookAt(u8 *a0);
 struct Grid;
 extern void func_02207510(struct Grid *w, u16 heap);
 struct Quad;
@@ -93,7 +93,7 @@ void func_02206664(Owner *o)
     Work *w = o->work;
     u8 i;
 
-    func_020467EC((int)save0);
+    G3D_SYSTEM_GetProjection((int)save0);
     func_02046AFC(save1);
     {
         VecFx32 scale = d_02208E8C;
@@ -101,10 +101,10 @@ void func_02206664(Owner *o)
         VecFx32 trans = {0, 0, 0};
 
         func_0207ADC4(&rot);
-        func_0206A9DC(&trans);
+        NNS_G3dGlbBaseTrans(&trans);
         func_02082B60(&rot, &d_02148BCC.baseRot);
         d_02148BCC.flag &= ~0xa4;
-        func_0206AA0C(&scale);
+        NNS_G3dGlbBaseScale(&scale);
     }
     func_02048AD0(w->tex);
     func_020479D8();
@@ -120,8 +120,8 @@ void func_02206664(Owner *o)
     }
     if (w->quad != 0)
         func_02208570(w->quad, o->heap);
-    func_02046858((const u32 *)save0);
-    func_02046B40(save1);
+    G3D_SYSTEM_SetProjection((const u32 *)save0);
+    G3D_SYSTEM_SetLookAt(save1);
     func_020479D8();
     func_0206DB80();
 }

@@ -20,7 +20,7 @@
  *   func_0201D7EC   0x0201D7EC  thumb
  *   func_0201DC80   0x0201DC80  thumb
  *   func_0201C440   0x0201C440  thumb
- *   func_0201F9D0   0x0201F9D0  thumb
+ *   BMP_MENU_Add   0x0201F9D0  thumb
  *   func_02045374   0x02045374  arm
  *   func_0201F73C   0x0201F73C  thumb
  *   func_02045730   0x02045730  arm
@@ -29,7 +29,7 @@
  *
  * bmp_menu.c: the yes/no menu builder (message archive 2 entry 0xE9, a
  * two-item BmpMenuWork list, a BmpMenuHeader filled on the stack, then
- * func_0201F9D0 and the window upload).  docs/notes/pkt_0201FC5C.c.txt.
+ * BMP_MENU_Add and the window upload).  docs/notes/pkt_0201FC5C.c.txt.
  *
  * THE LEVER (wave 18, lane ties_a; it was DIFF 284/284, 2 bytes out for
  * five waves: the r3 home store `str r3, [sp, #0x14]` scheduled after
@@ -106,7 +106,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201DC80(struct Font *p);
 extern u32 func_0201C440(void *p);
-extern BmpMenu *func_0201F9D0(const BmpMenuHeader *hdr, u32 px, u32 py, u32 pos, u16 heap, u32 cancel);
+extern BmpMenu *BMP_MENU_Add(const BmpMenuHeader *hdr, u32 px, u32 py, u32 pos, u16 heap, u32 cancel);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern u8 func_02045730(struct Descriptor *p);
@@ -156,7 +156,7 @@ BmpMenu *func_0201FDA0(const WinDat *winDat, u16 base, u8 pal, u8 pos, u16 heap)
     hdr.que = (void *)func_0201C440((void *)heap);
     hdr.unk20 = 0;
 
-    m = func_0201F9D0(&hdr, 0xE, 0, pos, heap, 2);
+    m = BMP_MENU_Add(&hdr, 0xE, 0, pos, heap, 2);
     func_02045374(hdr.win);
     func_0201F73C(hdr.win, 0, base, pal);
     func_020409B4(func_02045730(hdr.win));

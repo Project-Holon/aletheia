@@ -10,8 +10,8 @@
  * status:   EXACT
  * function: func_0201850C
  *
- * Experience to level.  This is the callee of id 0x9E of func_02018E34
- * (src/pending/sub_02018E34.c), which passes it a species id, the five bit
+ * Experience to level.  This is the callee of id 0x9E of POKE_TOOL_GetBoxValueRaw
+ * (src/pending/POKE_TOOL_GetBoxValueRaw.c), which passes it a species id, the five bit
  * form field of substruct B +0x18 and the experience word of substruct A +8.
  * It reads field 0x17 of the species' record, which is the growth-rate
  * selector, fills the shared word buffer at 0x02146398 with that curve through
@@ -26,8 +26,8 @@
  *
  * The range stops at 0x02018544, where an eight byte
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md thunk forwards to
- * func_0201854C.  That thunk's pool word is the only reference to
- * func_0201854C in the image, so including it caps the file at MATCH; it is
+ * POKE_TOOL_GetBoxLevelMinExp.  That thunk's pool word is the only reference to
+ * POKE_TOOL_GetBoxLevelMinExp in the image, so including it caps the file at MATCH; it is
  * left out and this function is clean.
  *
  * 0x02146398 is the same scratch buffer func_02019BA4 fills in
@@ -42,7 +42,7 @@
  *       --addr 0x0201850C --thumb
  *
  * symbols:
- *   gWordBuf  0x02146398  data
+ *   gExpTableBuf  0x02146398  data
  */
 
 typedef unsigned short u16;
@@ -53,16 +53,16 @@ extern void *func_02019C54(u32 a, u32 b);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void  func_02019B94(u32 a, void *b);
 
-extern u32 gWordBuf[];
+extern u32 gExpTableBuf[];
 
 u32 func_0201850C(u16 species, u16 form, u32 exp)
 {
     u16 i;
 
     func_02019B94((u16)func_0201AE1C(func_02019C54(species, form), 0x17),
-                  gWordBuf);
+                  gExpTableBuf);
     for (i = 1; i < 0x65; i = (u16)(i + 1)) {
-        if (gWordBuf[i] > exp) {
+        if (gExpTableBuf[i] > exp) {
             break;
         }
     }

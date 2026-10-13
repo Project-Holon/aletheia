@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0200DFD8 0x0200DFD8 thumb
- *   func_0200DFE4 0x0200DFE4 thumb
+ *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
+ *   BSUBWAY_SAVEDATA_SetStat 0x0200DFE4 thumb
  */
 typedef unsigned int u32;
-extern u32 func_0200DFD8(u32, u32, u32);
-extern void func_0200DFE4(u32, u32, u32, u32);
+extern u32 BSUBWAY_SAVEDATA_GetStat(u32, u32, u32);
+extern void BSUBWAY_SAVEDATA_SetStat(u32, u32, u32, u32);
 int func_021D646C(u32 save, u32 kind, u32 obj)
 {
     int *q;
@@ -54,9 +54,9 @@ int func_021D646C(u32 save, u32 kind, u32 obj)
         c = q[0x34 / 4];
         break;
     }
-    changed = (a != func_0200DFD8(save, kind + 5, 0) || b != func_0200DFD8(save, kind + 5, 1) || c != func_0200DFD8(save, kind + 5, 2));
-    func_0200DFE4(save, kind + 5, 0, a);
-    func_0200DFE4(save, kind + 5, 1, b);
-    func_0200DFE4(save, kind + 5, 2, c);
+    changed = (a != BSUBWAY_SAVEDATA_GetStat(save, kind + 5, 0) || b != BSUBWAY_SAVEDATA_GetStat(save, kind + 5, 1) || c != BSUBWAY_SAVEDATA_GetStat(save, kind + 5, 2));
+    BSUBWAY_SAVEDATA_SetStat(save, kind + 5, 0, a);
+    BSUBWAY_SAVEDATA_SetStat(save, kind + 5, 1, b);
+    BSUBWAY_SAVEDATA_SetStat(save, kind + 5, 2, c);
     return changed;
 }

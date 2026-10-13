@@ -16,9 +16,9 @@
  *   func_021F6B34 0x021F6B34 thumb ov135
  *   func_021F6B80 0x021F6B80 thumb ov135
  *   func_021F6B40 0x021F6B40 thumb ov135
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   str_02203E30 0x02203E30 data a1
- *   d_021DC800 0x021DC800 data ov131 a4
+ *   gPokeStatusProcData 0x021DC800 data ov131 a4
  *   ov131_id 0x83 data
  */
 #include "../include/Obj01162.h"
@@ -41,7 +41,7 @@ typedef struct {
     u32 f1C, f20, f24;
 } Request;
 extern const char str_02203E30[], ov131_id[];
-extern const u32 d_021DC800[];
+extern const u32 gPokeStatusProcData[];
 extern void func_021F50EC(u8 *);
 struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -50,7 +50,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern int func_021F6B34(int);
 extern u32 func_021F6B80(u8 *p, u32 b, u32 c);
 extern void *func_021F6B40(void *,void *,int,int);
-extern void func_02031348(void *,u32,const void *,void *);
+extern void PROCSYS_Push(void *,u32,const void *,void *);
 void func_021FF58C(u8 *p)
 {
     Request *r;
@@ -76,6 +76,6 @@ void func_021FF58C(u8 *p)
         r->mon=func_021F6B40(((struct Obj23434 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->f8,((struct Obj23435 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->fC,((struct Obj01162 *)p)->fC4,0);
         r->type=2;
     }
-    func_02031348(((struct Obj01162 *)p)->f12F0,(u32)ov131_id,d_021DC800,r);
+    PROCSYS_Push(((struct Obj01162 *)p)->f12F0,(u32)ov131_id,gPokeStatusProcData,r);
     ((struct Obj01162 *)p)->fB8=1;
 }

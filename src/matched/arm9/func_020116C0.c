@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020116C0
+ * function: ICA_ANIME_Clear
  * address:  0x020116C0
  * packet:   pkt_020113F0
  * region:   arm9
@@ -14,7 +14,7 @@
 
 struct IcaAnime;
 
-void func_020116C0(struct IcaAnime *p)
+void ICA_ANIME_Clear(struct IcaAnime *p)
 {
     unsigned char *p0 = (unsigned char *)p;
 

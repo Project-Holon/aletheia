@@ -1,5 +1,5 @@
 /*
- * function: func_02024004
+ * function: BRIGHTNESS_IsFinished
  * address:  0x02024004
  * packet:   pkt_02024004
  * region:   arm9
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern u32 d_021468FC[];
 
-int func_02024004(int a)
+int BRIGHTNESS_IsFinished(int a)
 {
     if (a == 3) {
         if (d_021468FC[0x3C / 4] == 0 && d_021468FC[0x1C / 4] == 0)

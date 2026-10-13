@@ -1,5 +1,5 @@
 /*
- * function: func_020834B8
+ * function: MI_SwapWord
  * address:  0x020834B8
  * packet:   pkt_020834B8
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-asm int func_020834B8(int val, int *ptr)
+asm int MI_SwapWord(int val, int *ptr)
 {
     swp r0, r0, [r1]
     bx lr

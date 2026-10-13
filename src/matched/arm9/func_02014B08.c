@@ -1,5 +1,5 @@
 /*
- * function: func_02014B08
+ * function: MCSS_Init
  * address:  0x02014B08
  * packet:   pkt_02014808
  * region:   arm9
@@ -14,7 +14,7 @@
  *   func_020637D4     0x020637D4  arm
  *   func_02049F34     0x02049F34  arm
  *   func_020056A0     0x020056A0  thumb
- *   func_02016880     0x02016880  thumb
+ *   MCSS_TransTextureTask     0x02016880  thumb
  *   sFile_020A72CC    0x020A72CC  data
  */
 
@@ -52,10 +52,10 @@ extern void func_020637D4(u32 *p);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *func_020056A0(void *fn, Sub *s, u32 a);
 struct Obj_02016880;
-extern void func_02016880(void *a0, struct Obj_02016880 *a1);
+extern void MCSS_TransTextureTask(void *a0, struct Obj_02016880 *a1);
 extern char  sFile_020A72CC[];
 
-void *func_02014B08(u32 id, void *heap)
+void *MCSS_Init(u32 id, void *heap)
 {
     Obj *o;
     Sub *s;
@@ -75,6 +75,6 @@ void *func_02014B08(u32 id, void *heap)
     s->f0c = (u32)o->f18;
     s->f1c = 0x1100;
     s->f14 = (u32)func_02049F34(0xb, 0x58, (u32)s->f04, (u16)m);
-    o->f0c = func_020056A0((void *)func_02016880, s, 0);
+    o->f0c = func_020056A0((void *)MCSS_TransTextureTask, s, 0);
     return o;
 }

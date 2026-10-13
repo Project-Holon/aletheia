@@ -27,63 +27,64 @@
  *   _s32_div_f     0x0209C0A4  arm
  *   d_021F13E4     0x021F13E4  data   a4
  */
-struct UtilWork;
-typedef unsigned char u8;
+#include "unit_021DDC44_types.h"
 
-typedef unsigned short u16;
+#define TURN_FLAG_ACTED 1   /* the Pokemon has acted this turn */
 
-typedef unsigned int u32;
-
-extern int func_021D775C(int k);
-extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5BB0(struct UtilWork *p, u32 n);
-extern int func_021DD008(int a);
-extern void func_021D7704(int key, int m);
-extern int func_021DCFF8(int a, int b);
-void func_021DE620(int a, int b, int c);
-int *func_021DE65C(int *p);
-void func_021DE668(int a, int b, int c);
-int *func_021DE6C0(int *p);
+extern int func_021D775C(int varId);
+extern struct BtlPokeParam *func_021C7CF4(struct BtlSvFlow *flow, int pokeId);
+extern int func_021D5BB0(struct BtlPokeParam *poke, u32 flag);
+extern int func_021DD008(struct BtlEventFactor *factor);
+extern void func_021D7704(int varId, int ratio);
+extern int func_021DCFF8(struct BtlEventFactor *factor, int paramIndex);
+void func_021DE620(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+int *func_021DE65C(int *handlerCount);
+void func_021DE668(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+int *func_021DE6C0(int *handlerCount);
 extern int d_021F1474;
 extern int d_021F13E4;
 
 
-void func_021DE620(int a, int b, int c)
+/* Zoom Lens, accuracy event: raises the accuracy by the item percent when the defender has already acted. */
+void func_021DE620(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 v;
-    if (c == func_021D775C(3)) {
-        v = func_021D775C(4);
-        if (func_021D5BB0(func_021C7CF4((int *)b, v), 1) != 0)
-            func_021D7704(0x35, func_021DD008(a));
+    u8 defenderId;
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID)) {
+        defenderId = func_021D775C(BTL_EVAR_DEFENDER_ID);
+        if (func_021D5BB0(func_021C7CF4(flow, defenderId), TURN_FLAG_ACTED) != 0)
+            func_021D7704(BTL_EVAR_RATIO, func_021DD008(factor));
     }
 }
 
 
-int *func_021DE65C(int *p)
+/* Handler table getter of Lax Incense. */
+int *func_021DE65C(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return &d_021F1474;
 }
 
 
-void func_021DE668(int a, int b, int c)
+/* Lax Incense, accuracy event: lowers the attacker's accuracy by the item percent (the holder is the defender). */
+void func_021DE668(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u16 v;
-    float x;
+    u16 percentLeft;
+    float ratio;
 
-    if (c == func_021D775C(4)) {
-        v = 100 - func_021DCFF8(a, 2);
-        if (v != 0)
-            x = 0.5f + (float)(v << 12);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID)) {
+        percentLeft = 100 - func_021DCFF8(factor, BTL_ITEM_PARAM_VALUE);
+        if (percentLeft != 0)
+            ratio = 0.5f + (float)(percentLeft << 12);
         else
-            x = (float)(v << 12) - 0.5f;
-        func_021D7704(0x35, (int)x / 100);
+            ratio = (float)(percentLeft << 12) - 0.5f;
+        func_021D7704(BTL_EVAR_RATIO, (int)ratio / 100);
     }
 }
 
 
-int *func_021DE6C0(int *p)
+/* Handler table getter of Muscle Band. */
+int *func_021DE6C0(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return &d_021F13E4;
 }

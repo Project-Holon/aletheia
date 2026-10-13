@@ -14,7 +14,7 @@
  *   func_021BE588 0x021BE588 thumb ov209
  *   func_021BE43C 0x021BE43C thumb ov209
  *   func_021BD280 0x021BD280 thumb ov209
- *   func_02021ED8 0x02021ED8 thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   func_0207D534 0x0207D534 arm
  *   func_021BC730 0x021BC730 thumb ov209
  *   func_021BC90C 0x021BC90C thumb ov209
@@ -29,7 +29,7 @@ extern void func_021BE5D4(char *, int);
 extern void func_021BE588(char *);
 extern void func_021BE43C(char *);
 extern void func_021BD280(char *);
-extern unsigned func_02021ED8(const char *);
+extern unsigned PALANM_GetFadeRequestBits(const char *);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_021BC730(char *p, u8 a, u8 b);
 extern void func_021BC90C(char *, int);
@@ -49,7 +49,7 @@ int func_021BCDF8(char *p)
         }
         break;
     case 1:
-        if (func_02021ED8(*(char * *)&((struct Obj00088 *)p)->fC) == 0) {
+        if (PALANM_GetFadeRequestBits(*(char * *)&((struct Obj00088 *)p)->fC) == 0) {
             func_0207D534((unsigned short *)0x0400006c, 0);
             func_0207D534((unsigned short *)0x0400106c, 0);
             func_021BC730(p, step = 16, 0);
@@ -59,7 +59,7 @@ int func_021BCDF8(char *p)
         }
         break;
     case 2:
-        if (func_021BC91C(p) == 0 && func_02021ED8(*(char * *)&((struct Obj00088 *)p)->fC) == 0) {
+        if (func_021BC91C(p) == 0 && PALANM_GetFadeRequestBits(*(char * *)&((struct Obj00088 *)p)->fC) == 0) {
             ((struct Obj00088 *)p)->fC30 = 0;
             return 4;
         }

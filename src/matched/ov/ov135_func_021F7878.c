@@ -15,7 +15,7 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B878 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204B974 0x0204B974 arm
+ *   CLACT_StopActorAnim 0x0204B974 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
 #include "../include/Obj00778.h"
@@ -30,7 +30,7 @@ struct Actor;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B974(struct Actor *a);
+extern void CLACT_StopActorAnim(struct Actor *a);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021F7878(u8 *p)
 {
@@ -41,7 +41,7 @@ void func_021F7878(u8 *p)
     ((struct Obj00778 *)p)->fBF8=func_0204B294(((struct Obj00778 *)p)->fBC0,(unsigned int)((struct Obj00778 *)p)->fBE8,(unsigned int)((struct Obj00778 *)p)->fBC8,(unsigned int)((struct Obj00778 *)p)->fBF0,&pos,0,0x48);
     func_0204B878(((struct Obj00778 *)p)->fBF8,12);
     func_0204B92C(((struct Obj00778 *)p)->fBF8,1);
-    func_0204B974(((struct Obj00778 *)p)->fBF8);
+    CLACT_StopActorAnim(((struct Obj00778 *)p)->fBF8);
     func_0204B3DC(((struct Obj00778 *)p)->fBF8,0);
     pos.x=0xE4;
     pos.y=0x75;

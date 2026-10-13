@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020333F8
+ * function: BACKUP_SYSTEM_ClearBlockAreas
  * address:  0x020333F8
  * packet:   pkt_0203331C
  * region:   arm9
@@ -13,4 +13,4 @@
 #include "../include/Obj11327.h"
 
 extern void func_02082A7C(int, int, int, int);
-void func_020333F8(int a0, int a1, int a2, int a3){ func_02082A7C((int)0, (int)((struct Obj11327 *)((char *)(a0)))->f138, (int)((struct Obj11327 *)((char *)(a0)))->f13C, (int)a3); }
+void BACKUP_SYSTEM_ClearBlockAreas(int a0, int a1, int a2, int a3){ func_02082A7C((int)0, (int)((struct Obj11327 *)((char *)(a0)))->f138, (int)((struct Obj11327 *)((char *)(a0)))->f13C, (int)a3); }

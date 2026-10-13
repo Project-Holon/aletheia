@@ -11,7 +11,7 @@
  * ABI exception: AE14 and 084F4 empty callees preserve live pointer r0;
  * caller consumes it after their BL, despite legacy void(void).
  * symbols:
- *   func_0201A948 0x0201A948 thumb
+ *   POKEPARTY_Init 0x0201A948 thumb
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_0201A354 0x0201A354 thumb
@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 struct Big;
 struct Party;
 struct Rec160;
-extern void func_0201A948(struct Party *p);
+extern void POKEPARTY_Init(struct Party *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, unsigned);
 extern void *func_0201A354(int, int);
@@ -56,8 +56,8 @@ u8 *func_02212988(int unused, unsigned heap, u8 *p)
     u8 *out;
     u8 *row;
     unsigned id;
-    func_0201A948(((struct Obj01078 *)p)->f30);
-    func_0201A948(((struct Obj01078 *)p)->f34);
+    POKEPARTY_Init(((struct Obj01078 *)p)->f30);
+    POKEPARTY_Init(((struct Obj01078 *)p)->f34);
     out = func_02030734(heap, 0x24, 0, d_02213D04, 0x32f);
     func_02082BCC(out, 0, 0x24);
     if (((struct Obj01078 *)p)->f1C == 2 || ((struct Obj01078 *)p)->f1C == 3) {

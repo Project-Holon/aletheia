@@ -1,5 +1,5 @@
 /*
- * function: func_02155C0C
+ * function: DWC_RAP_OnUpdateServers
  * address:  0x02155C0C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,18 +12,18 @@
  * Stores slot 6 when the argument is zero and slot 0xe otherwise.
  *
  * symbols:
- *   func_02155374  0x02155374  thumb  ov009
+ *   DWC_RAP_SetState  0x02155374  thumb  ov009
  */
 
-extern void func_02155374(int v);
+extern void DWC_RAP_SetState(int v);
 
-void func_02155C0C(int a)
+void DWC_RAP_OnUpdateServers(int a)
 {
     if (a == 0) {
-        func_02155374(6);
+        DWC_RAP_SetState(6);
         return;
     }
 
-    func_02155374(0xe);
+    DWC_RAP_SetState(0xe);
 }
 

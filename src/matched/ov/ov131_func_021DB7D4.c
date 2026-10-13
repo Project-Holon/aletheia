@@ -1,5 +1,5 @@
 /*
- * function: func_021DB7D4
+ * function: P_STA_SKILL_InitSlotText
  * address: 0x021DB7D4
  * packet: pkt_ov131_021DB7D4
  * region: ov131
@@ -14,7 +14,7 @@
  *   All24 descriptor bytes (including its value and screen) are assigned.
  *   Pool B95C/B960 name the same byte-pair object at C2B8 and its +1 byte.
  * symbols:
- *   func_021D6064 0x021D6064 thumb ov131
+ *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   func_02017E88 0x02017E88 thumb
  *   func_0201BD28 0x0201BD28 thumb
  *   func_02043678 0x02043678 arm
@@ -23,14 +23,14 @@
  *   func_0201C724 0x0201C724 thumb
  *   func_02045808 0x02045808 arm
  *   func_02045C04 0x02045C04 arm
- *   func_021D614C 0x021D614C thumb ov131
+ *   P_STATUS_PrintMsg 0x021D614C thumb ov131
  *   func_0201EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
- *   func_021D6244 0x021D6244 thumb ov131
+ *   P_STATUS_PrintWordSetMsgRight 0x021D6244 thumb ov131
  *   func_0201ED04 0x0201ED04 thumb
- *   func_021D61B8 0x021D61B8 thumb ov131
- *   func_021DBAD0 0x021DBAD0 thumb ov131
- *   d_021DC2B8 0x021DC2B8 data a1 ov131
+ *   P_STATUS_PrintWordSetMsg 0x021D61B8 thumb ov131
+ *   P_STA_OAM_CreateBitmapActors 0x021DBAD0 thumb ov131
+ *   P_STA_SKILL_SlotTilePos 0x021DC2B8 data a1 ov131
  */
 #include "../include/Obj01409.h"
 #include "../include/Obj02846.h"
@@ -47,8 +47,8 @@ struct MsgBank;
 struct U16Vec;
 struct Rec;
 struct WordSet;
-extern const Pair d_021DC2B8[];
-extern void *func_021D6064(u8 *);
+extern const Pair P_STA_SKILL_SlotTilePos[];
+extern void *P_STATUS_GetPokePara(u8 *);
 extern u32 func_02017E88(void *,u32,u32);
 extern u32 func_0201BD28(u16,u32);
 struct Bmp;
@@ -58,14 +58,14 @@ extern void *func_02045EC0(struct MsgBank *,u32);
 extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02045808(struct U16Vec *);
 extern u32 func_02045C04(struct Rec *rec);
-extern void func_021D614C(u8 *,int,int,int,s16,u16);
+extern void P_STATUS_PrintMsg(u8 *,int,int,int,s16,u16);
 extern struct WordSet *func_0201EC64(u32);
 extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
-extern void func_021D6244(u8 *,int,void *,int,u16,s16,u16);
+extern void P_STATUS_PrintWordSetMsgRight(u8 *,int,void *,int,u16,s16,u16);
 extern u32 func_0201ED04(struct WordSet *p);
-extern void func_021D61B8(u8 *,int,void *,int,s16,s16,u16);
-extern u8 *func_021DBAD0(u8 *a, const u8 *b);
-void func_021DB7D4(u8 *p,u8 *q,u8 *entry)
+extern void P_STATUS_PrintWordSetMsg(u8 *,int,void *,int,s16,s16,u16);
+extern u8 *P_STA_OAM_CreateBitmapActors(u8 *a, const u8 *b);
+void P_STA_SKILL_InitSlotText(u8 *p,u8 *q,u8 *entry)
 {
     Descriptor desc;
     void *mon;
@@ -73,7 +73,7 @@ void func_021DB7D4(u8 *p,u8 *q,u8 *entry)
     struct MsgBank *bank;
     void *text;
     struct WordSet *first,*second;
-    mon=func_021D6064(p);
+    mon=P_STATUS_GetPokePara(p);
     if(entry[0]<4) {
         id=func_02017E88(mon,entry[0]+54,0);
         count=func_02017E88(mon,entry[0]+58,0);
@@ -90,21 +90,21 @@ void func_021DB7D4(u8 *p,u8 *q,u8 *entry)
     func_02045808(text);
     func_02045C04((struct Rec *)bank);
     if(id!=0) {
-        func_021D614C(p,*(int *)&((struct Obj01409 *)entry)->f10,135,13,17,1088);
+        P_STATUS_PrintMsg(p,*(int *)&((struct Obj01409 *)entry)->f10,135,13,17,1088);
         first=func_0201EC64(((struct Obj02846 *)p)->f0);
         func_0201EFA4(first,0,count,3,1,1);
-        func_021D6244(p,*(int *)&((struct Obj01409 *)entry)->f10,first,136,57,17,1088);
+        P_STATUS_PrintWordSetMsgRight(p,*(int *)&((struct Obj01409 *)entry)->f10,first,136,57,17,1088);
         func_0201ED04(first);
-        func_021D614C(p,*(int *)&((struct Obj01409 *)entry)->f10,117,57,17,1088);
+        P_STATUS_PrintMsg(p,*(int *)&((struct Obj01409 *)entry)->f10,117,57,17,1088);
         second=func_0201EC64(((struct Obj02846 *)p)->f0);
         func_0201EFA4(second,0,value,3,1,1);
-        func_021D61B8(p,*(int *)&((struct Obj01409 *)entry)->f10,second,141,61,17,1088);
+        P_STATUS_PrintWordSetMsg(p,*(int *)&((struct Obj01409 *)entry)->f10,second,141,61,17,1088);
         func_0201ED04(second);
     } else {
-        func_021D614C(p,*(int *)&((struct Obj01409 *)entry)->f10,153,49,17,1088);
+        P_STATUS_PrintMsg(p,*(int *)&((struct Obj01409 *)entry)->f10,153,49,17,1088);
     }
-    desc.x=(*(const u8 *)((u32)&d_021DC2B8[0].x+(u32)entry[0]*2U)+5)*8;
-    desc.y=*(const u8 *)((u32)&d_021DC2B8[0].y+(u32)entry[0]*2U)*8;
+    desc.x=(*(const u8 *)((u32)&P_STA_SKILL_SlotTilePos[0].x+(u32)entry[0]*2U)+5)*8;
+    desc.y=*(const u8 *)((u32)&P_STA_SKILL_SlotTilePos[0].y+(u32)entry[0]*2U)*8;
     desc.resource=*(u32 *)&((struct Obj02846 *)p)->fB8;
     desc.value=0;
     desc.a=6;
@@ -112,6 +112,6 @@ void func_021DB7D4(u8 *p,u8 *q,u8 *entry)
     desc.c=0;
     desc.d=0;
     desc.bmp=*(Bmp * *)&((struct Obj01409 *)entry)->f10;
-    *(u8 * *)&((struct Obj01409 *)entry)->f14=func_021DBAD0(*(u8 * *)&((struct Obj04511 *)q)->fA4,(const u8 *)(&desc));
+    *(u8 * *)&((struct Obj01409 *)entry)->f14=P_STA_OAM_CreateBitmapActors(*(u8 * *)&((struct Obj04511 *)q)->fA4,(const u8 *)(&desc));
     ((struct Obj01409 *)entry)->f4=1;
 }

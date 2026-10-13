@@ -1,7 +1,7 @@
 /*
  * file:     unit_0206A110.c
  * unit:     yes
- * function: func_0206A110, func_0206A124, func_0206A12C
+ * function: NNS_G3dPlttGetRequiredSize, NNS_G3dPlttSetPlttKey, NNS_G3dPlttLoad
  * address:  0x0206A110
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -42,19 +42,19 @@ typedef struct {
 extern void GX_BeginLoadTexPltt(void);
 extern void GX_LoadTexPltt(const void *pSrc, u32 destSlotAddr, u32 szByte);
 extern void GX_EndLoadTexPltt(void);
-u32 func_0206A110(NNSG3dResTex *pTex);
-void func_0206A124(NNSG3dResTex *pTex, u32 plttKey);
-void func_0206A12C(NNSG3dResTex *pTex, BOOL exec);
+u32 NNS_G3dPlttGetRequiredSize(NNSG3dResTex *pTex);
+void NNS_G3dPlttSetPlttKey(NNSG3dResTex *pTex, u32 plttKey);
+void NNS_G3dPlttLoad(NNSG3dResTex *pTex, BOOL exec);
 
 
 /* NNS_G3dPlttGetRequiredSize: palette block size in bytes (sizePltt is in 8-byte units). */
-u32 func_0206A110(NNSG3dResTex *pTex)
+u32 NNS_G3dPlttGetRequiredSize(NNSG3dResTex *pTex)
 {
     return pTex ? ((u32)pTex->plttInfo.sizePltt << 3) : 0;
 }
 
 /* NNS_G3dPlttSetPlttKey: store the VRAM key of the palette block. */
-void func_0206A124(NNSG3dResTex *pTex, u32 plttKey){ pTex->plttInfo.vramKey = plttKey; }
+void NNS_G3dPlttSetPlttKey(NNSG3dResTex *pTex, u32 plttKey){ pTex->plttInfo.vramKey = plttKey; }
 
 /*
  * NitroSystem g3d palette upload (the NNS_G3dPlttLoad shape): bracket with
@@ -67,7 +67,7 @@ void func_0206A124(NNSG3dResTex *pTex, u32 plttKey){ pTex->plttInfo.vramKey = pl
  * which kept p and flag live in the swapped registers (9 bytes).  With the
  * real TwlSDK prototypes the function is EXACT.
  */
-void func_0206A12C(NNSG3dResTex *pTex, BOOL exec)
+void NNS_G3dPlttLoad(NNSG3dResTex *pTex, BOOL exec)
 {
     if (exec) {
         GX_BeginLoadTexPltt();

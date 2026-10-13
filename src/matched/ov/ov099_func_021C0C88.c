@@ -23,7 +23,7 @@
  *   func_021BF050  0x021BF050  thumb  ov099
  *   func_021B97F4  0x021B97F4  thumb  ov099
  *   func_021BE2A8  0x021BE2A8  thumb  ov099
- *   func_0203CB00  0x0203CB00  arm
+ *   GFL_NET_STATE_IsFatalError  0x0203CB00  arm
  *   func_021BA8BC  0x021BA8BC  thumb  ov099
  *   func_0202020C  0x0202020C  thumb
  *   func_0201F868  0x0201F868  thumb
@@ -52,7 +52,7 @@ extern s32 func_020200CC(struct Obj *o);
 extern int func_021BF050(char *p);
 extern u8 func_021B97F4(char *p);
 extern void *func_021BE2A8(char *p, int key);
-extern int func_0203CB00(void);
+extern int GFL_NET_STATE_IsFatalError(void);
 extern int func_021BA8BC(void *p);
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 extern u32 func_0201F868(void *p);
@@ -86,7 +86,7 @@ int func_021C0C88(char *p, int v)
     t = func_021B97F4(p + 0x274);
     *(u16 *)(p + 0x242) = t;
     r7 = (int)func_021BE2A8(p, t);
-    if (func_0203CB00()) {
+    if (GFL_NET_STATE_IsFatalError()) {
         *(u32 *)(p + 0x1a4) = func_021BA8BC((void *)(*(u32 *)(p + 0x1a4)));
         func_0202020C((struct Obj *)(*(u32 *)(p + 0xbc)), 0, 0);
         func_0201F868((void *)(*(u32 *)(p + 0xb8)));

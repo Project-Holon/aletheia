@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_SUB02006D44OBJ_H
 #define ALETHEIA_G_SUB02006D44OBJ_H
-/* g_02146164 (arm9) */
+/* _SndMic (arm9) */
 struct Sub02006D44Obj {
     unsigned int unk00_unk00;
     unsigned int unk00_unk04;

@@ -1,5 +1,5 @@
 /*
- * function: func_0204BD18
+ * function: CLACT_ResetOamManagers
  * address:  0x0204BD18
  * packet:   pkt_0204BCF4
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at
- * +0x0010 (the call to func_0204BD7C) has no witness of any class.  Its only
+ * +0x0010 (the call to CLACT_ResetOamManager) has no witness of any class.  Its only
  * caller image wide is that call, and that file is itself capped on 0x02063640
  * (316 bytes, pkt_02063640, claimed by lane-C).  Chain capped for this pass.
  *
- * Run func_0204BD7C over both of a cell actor's 0x20-byte OAM sub-records.
+ * Run CLACT_ResetOamManager over both of a cell actor's 0x20-byte OAM sub-records.
  *
  * symbols:
- *   func_0204BD7C  0x0204BD7C  arm
+ *   CLACT_ResetOamManager  0x0204BD7C  arm
  */
 
 typedef unsigned char u8;
@@ -32,13 +32,13 @@ struct Obj {
     struct Sub w[2];
 };
 
-extern void func_0204BD7C(struct Sub *s);
+extern void CLACT_ResetOamManager(struct Sub *s);
 
-void func_0204BD18(struct Obj *o)
+void CLACT_ResetOamManagers(struct Obj *o)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        func_0204BD7C(&o->w[i]);
+        CLACT_ResetOamManager(&o->w[i]);
     }
 }

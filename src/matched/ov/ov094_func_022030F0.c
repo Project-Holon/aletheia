@@ -13,10 +13,10 @@
  *   d_0220A380     0x0220A380  data
  *   d_0220AE98     0x0220AE98  data
  *   d_0220AEA4     0x0220AEA4  data
- *   func_02021ED8  0x02021ED8  thumb
+ *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   func_020362DC  0x020362DC  arm
  *   func_021F8168  0x021F8168  thumb  ov094
- *   func_02021848  0x02021848  thumb
+ *   PALANM_RequestFadeOverwrite  0x02021848  thumb
  *   func_02206B74  0x02206B74  thumb  ov094
  *   func_02204B0C  0x02204B0C  thumb  ov094
  *   func_02035C08  0x02035C08  arm
@@ -84,10 +84,10 @@ extern const u8 d_0220A380[3];
 extern void *const d_0220AE98[];
 extern void *const d_0220AEA4[];
 
-extern u32 func_02021ED8(const char *ptr);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern u32 func_020362DC(void);
 extern void func_021F8168(void);
-extern void func_02021848(int a, int b, u16 c, int d, int e, int f, int g, void *h);
+extern void PALANM_RequestFadeOverwrite(int a, int b, u16 c, int d, int e, int f, int g, void *h);
 extern void func_02206B74(char *p);
 extern void func_02204B0C(Main *m, int c);
 extern int func_02035C08(const void *p);
@@ -108,7 +108,7 @@ int func_022030F0(Main *m, u8 *key, int *out)
     u32 held;
     int r;
 
-    if (m->b0 || func_02021ED8((const char *)m->f64) != 0 || m->b31)
+    if (m->b0 || PALANM_GetFadeRequestBits((const char *)m->f64) != 0 || m->b31)
         return 0;
     if (func_020362DC() & 8)
         func_021F8168();
@@ -121,8 +121,8 @@ int func_022030F0(Main *m, u8 *key, int *out)
             *key = sec_0220A380.key[m->mode];
             m->f70 = -1;
             m->f6c &= ~2;
-            func_02021848(m->f64, 2, 0x3e00, 0, 0, 0, 0, m->owner);
-            func_02021848(m->f64, 8, 0x700, 0, 0, 0, 0, m->owner);
+            PALANM_RequestFadeOverwrite(m->f64, 2, 0x3e00, 0, 0, 0, 0, m->owner);
+            PALANM_RequestFadeOverwrite(m->f64, 8, 0x700, 0, 0, 0, 0, m->owner);
             return 1;
         }
         m->f5 = 0;

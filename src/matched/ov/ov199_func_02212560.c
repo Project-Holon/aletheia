@@ -17,14 +17,14 @@
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02082D44 0x02082D44 arm
- *   func_020124F4 0x020124F4 thumb
+ *   GAME_DATA_Create 0x020124F4 thumb
  *   func_0201A920 0x0201A920 thumb
- *   func_0200B400 0x0200B400 thumb
+ *   BATTLE_REC_AllocWork 0x0200B400 thumb
  *   func_0221336C 0x0221336C thumb ov199
  *   func_022136E4 0x022136E4 thumb ov199
  *   func_02213808 0x02213808 thumb ov199
  *   func_02012934 0x02012934 thumb
- *   func_0201A918 0x0201A918 thumb
+ *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200BAC8 0x0200BAC8 thumb
  *   func_0200BAF4 0x0200BAF4 thumb
@@ -46,14 +46,14 @@ struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *, int, unsigned);
 extern void func_02082D44(const void *, void *, unsigned);
-extern void *func_020124F4(u16);
+extern void *GAME_DATA_Create(u16);
 extern struct Party *func_0201A920(u32 heap);
-extern void func_0200B400(unsigned);
+extern void BATTLE_REC_AllocWork(unsigned);
 extern void func_0221336C(char *, int);
 extern void *func_022136E4(void *, void *, void *, int);
 extern void func_02213808(char *p, int value);
 extern void *func_02012934(const struct BigObj *p);
-extern int func_0201A918(void);
+extern int POKE_REGULATION_GetDataSize(void);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern void *func_0200BAF4(int a0, int a1);
@@ -77,14 +77,14 @@ int func_02212560(void *a, int unused, u8 *arg)
     func_02082D44(arg, p + 4, 0x14);
     ((struct Obj01177 *)p)->f20 = 0;
     if (((struct Obj01177 *)p)->f4 == 0) {
-        ((struct Obj01177 *)p)->f4 = func_020124F4(1);
+        ((struct Obj01177 *)p)->f4 = GAME_DATA_Create(1);
         ((struct Obj01177 *)p)->f0 = 1;
     }
     ((struct Obj01177 *)p)->f30 = func_0201A920(0x56);
     ((struct Obj01177 *)p)->f34 = func_0201A920(0x56);
     ((struct Obj01177 *)p)->f38 = func_0201A920(0x56);
     ((struct Obj01177 *)p)->f3C = func_0201A920(0x56);
-    func_0200B400(0x56);
+    BATTLE_REC_AllocWork(0x56);
     func_0221336C((char *)p, 0x56);
     ((struct Obj01177 *)p)->f18 = func_022136E4((void *)d_02213C58, (void *)9, p, 0x56);
     switch (((struct Obj01177 *)p)->fC) {
@@ -102,11 +102,11 @@ int func_02212560(void *a, int unused, u8 *arg)
     switch (((struct Obj01177 *)p)->f10) {
     case 0:
         v = func_02012934(((struct Obj01177 *)p)->f4);
-        func_02082D44(v, dst + 0xd4, func_0201A918());
+        func_02082D44(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         break;
     case 1:
         v = func_0200BAF4((int)func_0200BAC8(func_02012EBC(((struct Obj01177 *)p)->f4)), 0x8056);
-        func_02082D44(v, dst + 0xd4, func_0201A918());
+        func_02082D44(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         func_020307B0(v);
         break;
     }

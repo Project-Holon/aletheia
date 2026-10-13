@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   sub_02014044   0x02014044  thumb
+ *   ZONEDATA_IsRawZone176Or17A   0x02014044  thumb
  *   func_0203F4E4  0x0203F4E4  arm
  *   sub_0202EB60   0x0202EB60  thumb
  */
@@ -25,7 +25,7 @@ struct RtcDate {
     u32 week;
 };
 
-extern u32 sub_02014044(u32 id);
+extern u32 ZONEDATA_IsRawZone176Or17A(u32 id);
 extern void func_0203F4E4(struct RtcDate *date);
 extern void sub_0202EB60(u8 *out1, u8 *out2);
 
@@ -34,7 +34,7 @@ u32 func_0202C970(void *a, void *b, u32 c)
     u8 buf[2];
     struct RtcDate date;
 
-    if (!sub_02014044((u16)c)) {
+    if (!ZONEDATA_IsRawZone176Or17A((u16)c)) {
         goto fail;
     }
     func_0203F4E4(&date);

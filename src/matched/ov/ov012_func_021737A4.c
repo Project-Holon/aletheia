@@ -15,8 +15,8 @@
  *   func_02034714  0x02034714  arm
  *   func_02188C80  0x02188C80  thumb  ov021
  *   func_0201212C  0x0201212C  thumb
- *   func_020123C4  0x020123C4  thumb
- *   func_02173840  0x02173840  thumb  ov012
+ *   GAME_EVENT_IsRunning  0x020123C4  thumb
+ *   UNION_MAIN_IsFieldReady  0x02173840  thumb  ov012
  *   func_02174268  0x02174268  thumb  ov012
  *   func_0217B840  0x0217B840  thumb  ov019
  *   func_0217B75C  0x0217B75C  thumb  ov019
@@ -35,8 +35,8 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 struct Ctx;
 extern void *func_02188C80(void *p);
 extern u8 func_0201212C(const struct Ctx *p);
-extern int func_020123C4(void *v);
-extern int func_02173840(u8 *p);
+extern int GAME_EVENT_IsRunning(void *v);
+extern int UNION_MAIN_IsFieldReady(u8 *p);
 extern int func_02174268(u8 *p);
 extern int func_0217B840(char *base, int r1);
 extern void func_0217B75C(char *p);
@@ -57,10 +57,10 @@ void func_021737A4(void *a, int b)
     if (func_0201212C(func_02188C80((void *)b)) == 1) {
         return;
     }
-    if (func_020123C4((void *)((struct Obj19233 *)(*(u8 * *)&((struct Obj00610 *)r4)->f0))->fC) == 1) {
+    if (GAME_EVENT_IsRunning((void *)((struct Obj19233 *)(*(u8 * *)&((struct Obj00610 *)r4)->f0))->fC) == 1) {
         return;
     }
-    if (func_02173840(r4) != 1) {
+    if (UNION_MAIN_IsFieldReady(r4) != 1) {
         return;
     }
     s = r4[0x2830];

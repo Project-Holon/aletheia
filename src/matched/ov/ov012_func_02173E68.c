@@ -1,5 +1,5 @@
 /*
- * function: func_02173E68
+ * function: UNION_COMMAND_SendAppQuitAccept
  * address:  0x02173E68
  * packet:   pkt_ov012_02173E68
  * region:   ov012
@@ -20,7 +20,7 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
-u32 func_02173E68(u32 a)
+u32 UNION_COMMAND_SendAppQuitAccept(u32 a)
 {
     return func_0203D3F8((u32)func_020399A8(), a, 0x140E, 0, 0, 1, 0, 0);
 }

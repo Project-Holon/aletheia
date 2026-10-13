@@ -1,5 +1,5 @@
 /*
- * function: func_021DBAC0
+ * function: P_STA_OAM_DeleteManager
  * address:  0x021DBAC0
  * packet:   pkt_021DBAC0
  * region:   ov131
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DBF0C  0x021DBF0C  thumb
+ *   P_STA_OAM_FreeCellRes  0x021DBF0C  thumb
  *   func_020307B0  0x020307B0  arm
  *
  * Addresses are Black-image addresses.
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021DBF0C(int *p);
+extern void P_STA_OAM_FreeCellRes(int *p);
 extern u32 func_020307B0(void *p);
 
-void func_021DBAC0(u8 *p)
+void P_STA_OAM_DeleteManager(u8 *p)
 {
-    func_021DBF0C((int *)p);
+    P_STA_OAM_FreeCellRes((int *)p);
     func_020307B0(p);
 }

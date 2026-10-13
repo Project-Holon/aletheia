@@ -13,13 +13,13 @@
  * sdk:      gsCoreInitialize (libdwcgscommon.TWL.HYB.a(gscore.o))
  *
  * symbols:
- *   func_0217CA20  0x0217CA20  arm  ov009
- *   func_0217F2BC  0x0217F2BC  arm  ov009
+ *   gsiCoreGetManager  0x0217CA20  arm  ov009
+ *   msleep  0x0217F2BC  arm  ov009
  *   func_0217F0B4  0x0217F0B4  arm  ov009
  *   func_0217F0FC  0x0217F0FC  arm  ov009
  *   func_020912A8  0x020912A8  arm
- *   func_0217F108  0x0217F108  arm  ov009
- *   func_0217F114  0x0217F114  arm  ov009
+ *   gsiEnterCriticalSection  0x0217F108  arm  ov009
+ *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   func_021C1FF8  0x021C1FF8  arm  ov114
  *   func_0217CA2C  0x0217CA2C  arm  ov009
@@ -37,42 +37,42 @@ typedef struct {
     void *mTaskArray;
 } GSCoreMgr;
 
-extern void *func_0217CA20(void);
-extern void func_0217F2BC(unsigned int msec);
+extern void *gsiCoreGetManager(void);
+extern void msleep(unsigned int msec);
 extern unsigned int func_0217F0B4(unsigned int *value);
 extern void func_0217F0FC(void *mutex);
 extern u32 func_020912A8(u32 a0);
-extern void func_0217F108(void *mutex);
-extern void func_0217F114(void *mutex);
+extern void gsiEnterCriticalSection(void *mutex);
+extern void gsiLeaveCriticalSection(void *mutex);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void func_021C1FF8(void);
 extern void func_0217CA2C(void);
 
 void func_0217CA40(void)
 {
-    GSCoreMgr *aCore = func_0217CA20();
+    GSCoreMgr *aCore = gsiCoreGetManager();
 
     while (aCore->mIsShuttingDown)
-        func_0217F2BC(100);
+        msleep(100);
     if (func_0217F0B4(&aCore->mRefCount) == 1) {
         if (!aCore->mIsStaticInitComplete) {
             func_0217F0FC(aCore->mQueueCrit);
             func_020912A8((u32)func_0217CA2C);
             aCore->mIsStaticInitComplete = 1;
         }
-        func_0217F108(aCore->mQueueCrit);
-        func_0217F114(aCore->mQueueCrit);
+        gsiEnterCriticalSection(aCore->mQueueCrit);
+        gsiLeaveCriticalSection(aCore->mQueueCrit);
         while (aCore->mIsShuttingDown)
-            func_0217F2BC(100);
+            msleep(100);
         aCore->mTaskArray = func_02184144(4, 10, 0);
         func_021C1FF8();
         aCore->mIsInitialized = 1;
     } else {
         while (!aCore->mIsStaticInitComplete)
-            func_0217F2BC(100);
-        func_0217F108(aCore->mQueueCrit);
-        func_0217F114(aCore->mQueueCrit);
+            msleep(100);
+        gsiEnterCriticalSection(aCore->mQueueCrit);
+        gsiLeaveCriticalSection(aCore->mQueueCrit);
         while (!aCore->mIsInitialized)
-            func_0217F2BC(100);
+            msleep(100);
     }
 }

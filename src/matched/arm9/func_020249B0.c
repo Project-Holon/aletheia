@@ -14,7 +14,7 @@
  * ov021 func_021D213C (wave A1).
  *
  * symbols:
- *   data_0209F7C8  0x0209F7C8  data
+ *   g_pmsWordSimilarGroups  0x0209F7C8  data
  */
 
 typedef unsigned short u16;
@@ -25,7 +25,7 @@ typedef struct Group {
     int count;
 } Group;
 
-extern const Group data_0209F7C8[13];
+extern const Group g_pmsWordSimilarGroups[13];
 
 int func_020249B0(u32 a, u16 b)
 {
@@ -36,10 +36,10 @@ int func_020249B0(u32 a, u16 b)
         return 1;
     }
     for (i = 0; i < 13; i++) {
-        for (j = 0; j < data_0209F7C8[i].count; j++) {
-            if (a == data_0209F7C8[i].list[j]) {
-                for (k = 0; k < data_0209F7C8[i].count; k++) {
-                    if (b == data_0209F7C8[i].list[k]) {
+        for (j = 0; j < g_pmsWordSimilarGroups[i].count; j++) {
+            if (a == g_pmsWordSimilarGroups[i].list[j]) {
+                for (k = 0; k < g_pmsWordSimilarGroups[i].count; k++) {
+                    if (b == g_pmsWordSimilarGroups[i].list[k]) {
                         return 1;
                     }
                 }

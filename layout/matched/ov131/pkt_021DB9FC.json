@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DB9FC",
+   "name": "P_STA_SKILL_HideSlot",
    "address": "0x021DB9FC",
    "kind": "game",
    "region": "ov131",

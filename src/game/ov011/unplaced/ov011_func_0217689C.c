@@ -16,28 +16,27 @@
  */
 
 typedef unsigned char u8;
-
-typedef struct {
-    u8 b0 : 1;
-    u8 b1 : 1;
-    u8 b2 : 1;
-    u8 b3 : 1;
-    u8 b4 : 1;
-    u8 b5 : 1;
-    u8 b6 : 1;
-    u8 b7 : 1;
-} Flags;
-
+typedef unsigned short u16;
 typedef unsigned int   u32;
+typedef signed char s8;
+typedef signed short s16;
+typedef signed int s32;
+
+#include "../intrude_comm_types.h"
+
 extern u32 func_02013D9C(u32 id);
 
-int func_0217689C(u8 *ctx, int arg)
+/*
+ * Consumes the areaNoticeSeen flag (set by the partner's zone report);
+ * returns 1 when it was set and the zone is in the special zone group
+ * (ZONEDATA_IsZoneGroup118To120).
+ */
+int func_0217689C(IntrudeCommSys *linkState, int zoneId)
 {
-    Flags *f = (Flags *)(ctx + 0x8f8);
-    int b = f->b2;
-    f->b2 = 0;
-    if (b == 1) {
-        if (func_02013D9C(arg) == 1)
+    int wasPending = linkState->areaNoticeSeen;
+    linkState->areaNoticeSeen = 0;
+    if (wasPending == 1) {
+        if (func_02013D9C(zoneId) == 1)
             return 1;
     }
     return 0;

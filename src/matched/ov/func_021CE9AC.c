@@ -1,5 +1,5 @@
 /*
- * function: func_021CE9AC
+ * function: DWCi_SBlDisp
  * address:  0x021CE9AC
  * packet:   pkt_021CE9AC
  * region:   ov016
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CE9AC   0x021CE9AC  arm
+ *   DWCi_SBlDisp   0x021CE9AC  arm
  *
  * ARM tail-call thunk into func_021CEEE8.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CE9AC.c \
- *       --func func_021CE9AC --addr 0x021CE9AC --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SBlDisp.c \
+ *       --func DWCi_SBlDisp --addr 0x021CE9AC --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern void func_021CEEE8(int pos);
 
-void func_021CE9AC(int pos)
+void DWCi_SBlDisp(int pos)
 {
     func_021CEEE8(pos);
 }

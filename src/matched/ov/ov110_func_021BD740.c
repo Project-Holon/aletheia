@@ -10,8 +10,8 @@
  * status: EXACT*
  * Extent remainder: two-byte zero alignment padding.
  * symbols:
- *   func_02024584 0x02024584 thumb
- *   func_02024598 0x02024598 thumb
+ *   PMSI_PARAM_GetSentenceCount 0x02024584 thumb
+ *   PMSI_PARAM_SetSentenceId 0x02024598 thumb
  */
 #include "../include/Obj05295.h"
 typedef unsigned char u8;
@@ -19,12 +19,12 @@ typedef signed char s8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern u8 func_02024584(u32 i);
-extern void func_02024598(void *,int,int);
+extern u8 PMSI_PARAM_GetSentenceCount(u32 i);
+extern void PMSI_PARAM_SetSentenceId(void *,int,int);
 void func_021BD740(u8 *p,void *out,int v)
 {
     p[2]=0;
     ((struct Obj05295 *)p)->f0=v;
-    p[3]=func_02024584(((struct Obj05295 *)p)->f0);
-    func_02024598(out,((struct Obj05295 *)p)->f0,*(s8 *)&((struct Obj05295 *)p)->f2);
+    p[3]=PMSI_PARAM_GetSentenceCount(((struct Obj05295 *)p)->f0);
+    PMSI_PARAM_SetSentenceId(out,((struct Obj05295 *)p)->f0,*(s8 *)&((struct Obj05295 *)p)->f2);
 }

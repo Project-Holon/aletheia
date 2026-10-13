@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02046BFC
+ * function: G3D_SYSTEM_GetTexManagerMode
  * address:  0x02046BFC
  * packet:   pkt_020463E0
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02046BFC(void){ return *(int *)((*(int *)(0x2146A5C) + 140)); }
+int G3D_SYSTEM_GetTexManagerMode(void){ return *(int *)((*(int *)(0x2146A5C) + 140)); }

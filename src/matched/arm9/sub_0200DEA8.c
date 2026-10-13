@@ -1,5 +1,5 @@
 /*
- * function: sub_0200DEA8
+ * function: BSUBWAY_SAVEDATA_ExportTrainer
  * address:  0x0200DEA8
  * packet:   pkt_0200DEA8
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 
 extern void func_02082D44(void *dst, const void *src, u32 n);
 
-void sub_0200DEA8(u8 *base, u8 *out, int idx)
+void BSUBWAY_SAVEDATA_ExportTrainer(u8 *base, u8 *out, int idx)
 {
     u8 *rec = base + 0x104 + idx * 0xf0;
 

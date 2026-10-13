@@ -1,5 +1,5 @@
 /*
- * function: func_02165088
+ * function: WCM_CleanupAsync
  * address:  0x02165088
  * packet:   pkt_ov009_02165088
  * region:   ov009
@@ -39,7 +39,7 @@ extern long func_021669B8(void);
 extern int OS_IsRunOnTwl(void);
 extern long WCMi_NwmifCleanupAsync(void);
 
-long func_02165088(void)
+long WCM_CleanupAsync(void)
 {
     unsigned long e;
     long wcmResult;

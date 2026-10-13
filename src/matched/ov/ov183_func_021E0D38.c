@@ -10,7 +10,7 @@
  * extent: 021E0D8E alignment padding.
  * symbols:
  *   func_0204B404 0x0204B404 arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  */
 #include "../include/Obj02895.h"
 typedef unsigned char u8;
@@ -21,7 +21,7 @@ struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 void func_021E0D38(struct Coordinates *p, int index)
 {
     int width = p->rect[index + 12][1] - p->rect[index + 12][0];
@@ -30,5 +30,5 @@ void func_021E0D38(struct Coordinates *p, int index)
     pos[0] = height / 2 + p->rect[index + 12][2];
     pos[1] = width / 2 + p->rect[index + 12][0];
     func_0204B404(((struct Obj02895 *)p)->f1B0, (const struct Vec2 *)pos, 1);
-    func_0204B8C4(((struct Obj02895 *)p)->f1B0, 0);
+    CLACT_SetActorAnimFrame(((struct Obj02895 *)p)->f1B0, 0);
 }

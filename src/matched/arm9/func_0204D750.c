@@ -1,5 +1,5 @@
 /*
- * function: func_0204D750
+ * function: CLACT_GetMultiCellBankCount
  * address: 0x0204D750
  * packet: pkt_arm9_0204D750
  * region: arm9
@@ -43,9 +43,9 @@ typedef struct {
     ClactInner *f74;
 } ClactObj;
 
-u16 func_0204D750(ClactObj *o);
+u16 CLACT_GetMultiCellBankCount(ClactObj *o);
 
-u16 func_0204D750(ClactObj *o)
+u16 CLACT_GetMultiCellBankCount(ClactObj *o)
 {
     return *(u16 *)o->f08;
 }

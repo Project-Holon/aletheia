@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02006C2C",
+   "name": "PM_VOICE_PrepareCry",
    "address": "0x02006C2C",
    "kind": "game",
    "region": "arm9",

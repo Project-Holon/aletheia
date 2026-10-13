@@ -11,12 +11,12 @@
  * 2026-10-05 (D8 lane19): re-verified, status unchanged; sole blocker is arm9 callee 0x0200B98C (no witness outside the caller). Needs a label seed. Source is byte-correct; no C change possible.
  * blocker: ARM9 0200B98C thumb +017A has no outside code-start witness; scratch 0200B98C-blocker2.log EXACT. No overlay leaves filed.
  * tu: --suggest-split leaves this caller out (MATCH, 608 bytes, 24/25 resolved); sole unresolved site remains ARM9 0200B98C +017A.
- * blocker-symbols: func_0200B98C_Table 0x0209DDCC data a4
+ * blocker-symbols: BattleRecModeTable 0x0209DDCC data a4
  *   typedef unsigned short u16;
  *   typedef unsigned char u8;
  *   typedef unsigned long long u64;
- *   extern const u16 func_0200B98C_Table[];
- *   u64 func_0200B98C(char *p, int selector, int index)
+ *   extern const u16 BattleRecModeTable[];
+ *   u64 BATTLE_REC_GetHeaderParam(char *p, int selector, int index)
  *   {
  *       int i;
  *       u16 v;
@@ -33,7 +33,7 @@
  *           return v;
  *       case 3:
  *           for (i = 0; i < 0x29; i++) {
- *               if (*(u16 *)(p + 0x26) == func_0200B98C_Table[i]) return i;
+ *               if (*(u16 *)(p + 0x26) == BattleRecModeTable[i]) return i;
  *           }
  *           return 0;
  *       case 4:
@@ -59,7 +59,7 @@
  *   func_021FF6DC 0x021FF6DC thumb ov186
  *   func_021FF704 0x021FF704 thumb ov186
  *   func_021FF6B4 0x021FF6B4 thumb ov186
- *   func_0200B98C 0x0200B98C thumb
+ *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021DF18C 0x021DF18C thumb ov183
  *   func_021FD170 0x021FD170 thumb ov186
@@ -87,7 +87,7 @@ extern int func_021FF704(char *p, void *buffer, int count, int *out);
 extern int func_021FF6B4(char *p, void *buffer, int count, int *out);
 extern void func_021FD860(int,int,struct Pair *);
 extern void func_021FD170(char *p, char *q, void *text);
-extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
+extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021DF18C(int *p, int *state, char *q);
 extern int func_02035C60(void);
@@ -136,7 +136,7 @@ void func_021DEE7C(int *task,u32 *state,char *p)
             }
             if(success) {
                 for(i=0;i<(*(struct Data **)(*(char **)(p+0x108)+0x1c))->count;i++) {
-                    *(u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i+0x16f8)=(u8)func_0200B98C((u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i*0xc4+0x80),5,0);
+                    *(u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i+0x16f8)=(u8)BATTLE_REC_GetHeaderParam((u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i*0xc4+0x80),5,0);
                 }
                 func_021FD73C(task,(int)func_021DF18C);
             } else {

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204CEB4
+ * function: CLACT_UpdateActorAutoAnim
  * address:  0x0204CEB4
  * packet:   pkt_0204CA74
  * region:   arm9
@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0204B8D4  0x0204B8D4  arm
+ *   CLACT_AddActorAnimFrame  0x0204B8D4  arm
  *
- * Run the object through sub_0204B8D4, but only when the flag word at +0x60
+ * Run the object through CLACT_AddActorAnimFrame, but only when the flag word at +0x60
  * has its seventh bit set.
  *
  * `lsl #6; lsr #31` with nothing that could be a type conversion is a
@@ -28,13 +28,13 @@
  * is why the comparison survives as an explicit `cmp r1, #1` instead of
  * folding into the shift's flags.
  *
- * sub_0204B8D4 takes one argument; the `ldr r1, [r0, #0x54]` that precedes
+ * CLACT_AddActorAnimFrame takes one argument; the `ldr r1, [r0, #0x54]` that precedes
  * the call is a second, forwarded value this function reads but that callee
- * ignores (src/pending/sub_0204B8D4.c).
+ * ignores (src/pending/CLACT_AddActorAnimFrame.c).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CEB4.c \
- *       --func sub_0204CEB4 --addr 0x0204CEB4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_UpdateActorAutoAnim.c \
+ *       --func CLACT_UpdateActorAutoAnim --addr 0x0204CEB4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -49,11 +49,11 @@ struct Obj {
     u32  pad_60_hi : 6;
 };
 
-extern void sub_0204B8D4(struct Obj *o, u32 arg);
+extern void CLACT_AddActorAnimFrame(struct Obj *o, u32 arg);
 
-void sub_0204CEB4(struct Obj *o)
+void CLACT_UpdateActorAutoAnim(struct Obj *o)
 {
     if (o->enabled == 1) {
-        sub_0204B8D4(o, o->unk_54);
+        CLACT_AddActorAnimFrame(o, o->unk_54);
     }
 }

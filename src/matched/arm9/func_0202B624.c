@@ -1,5 +1,5 @@
 /*
- * function: func_0202B624
+ * function: ISS_SYS_CreateDungeon
  * address:  0x0202B624
  * packet:   pkt_0202B59C
  * region:   arm9
@@ -8,13 +8,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
- * closed:   blocker func_0202B3A0.c is now a manifest entry (matched class)
+ * closed:   blocker ISS_DUNGEON_SYS_Create.c is now a manifest entry (matched class)
  *
  * Builds the +0x18 sub-object.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B624.c \
- *       --func func_0202B624 --addr 0x0202B624 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SYS_CreateDungeon.c \
+ *       --func ISS_SYS_CreateDungeon --addr 0x0202B624 --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   ISS_DUNGEON_SYS_Create  0x0202B3A0  thumb
+ *   ISS_SYS_GetLocation  0x0202B7F8  thumb
  */
 #include "../include/Obj00563.h"
 
@@ -24,12 +28,12 @@ typedef unsigned int   u32;
 
 struct Obj;
 
-extern void *func_0202B7F8(struct Obj *o);
+extern void *ISS_SYS_GetLocation(struct Obj *o);
 struct Node;
-extern struct Node *func_0202B3A0(u32 a, u32 b, u32 heapId);
+extern struct Node *ISS_DUNGEON_SYS_Create(u32 a, u32 b, u32 heapId);
 
-void func_0202B624(struct Obj *o)
+void ISS_SYS_CreateDungeon(struct Obj *o)
 {
-    ((struct Obj00563 *)o)->f18 = (u32)func_0202B3A0(((struct Obj00563 *)o)->f4,
-                                             (u32)func_0202B7F8(o), ((struct Obj00563 *)o)->f0);
+    ((struct Obj00563 *)o)->f18 = (u32)ISS_DUNGEON_SYS_Create(((struct Obj00563 *)o)->f4,
+                                             (u32)ISS_SYS_GetLocation(o), ((struct Obj00563 *)o)->f0);
 }

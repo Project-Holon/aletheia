@@ -24,7 +24,7 @@
  *   func_02062F00  0x02062F00  arm
  *   func_02062D40  0x02062D40  arm
  *   func_020629E8  0x020629E8  arm
- *   func_02064140  0x02064140  arm
+ *   NNSi_G2dSrtcInitControl  0x02064140  arm
  *   func_020640DC  0x020640DC  arm
  *   func_02064120  0x02064120  arm
  *   func_02064100  0x02064100  arm
@@ -50,7 +50,7 @@ struct MCInstance;
 struct MultiCellBank;
 struct MultiCellData;
 extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
-extern void func_02064140(struct O02064140 *o, u32 a);
+extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 extern void func_020640DC(char *self, int a, int b);
 extern void func_02064120(char *self, int a, int b);
 struct Obj02064100;
@@ -68,7 +68,7 @@ void func_02064AB4(char *self, unsigned int i)
     p = func_02062D40((struct CellAnim *)self);
     item = (int)func_020629E8((struct MultiCellBank *)(((struct Obj07024 *)self)->f44), ((struct Obj03475 *)p)->f0);
     kind = *(int *)(((struct Obj07024 *)self)->f1C + 4) & 0xff;
-    func_02064140((struct O02064140 *)(self + 0x48), 1);
+    NNSi_G2dSrtcInitControl((struct O02064140 *)(self + 0x48), 1);
     switch (kind) {
     case 0:
         break;

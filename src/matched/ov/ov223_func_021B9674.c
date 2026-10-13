@@ -11,7 +11,7 @@
  * symbols:
  *   func_0204E720 0x0204E720 arm
  *   func_020355D8 0x020355D8 arm
- *   func_0204E6F4 0x0204E6F4 arm
+ *   FADE_SetSpeed 0x0204E6F4 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
@@ -22,7 +22,7 @@ typedef int s32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern void func_020355D8(u32 v);
 struct S020315D4;
-extern void func_0204E6F4(s32 a);
+extern void FADE_SetSpeed(s32 a);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 int func_021B9674(void *a, int unused1, int unused2, u8 *ctx)
@@ -30,7 +30,7 @@ int func_021B9674(void *a, int unused1, int unused2, u8 *ctx)
     u16 v;
     func_0204E720(0xC, 0x10, 0x10, 0);
     func_020355D8(*(u32 *)(ctx + 8));
-    func_0204E6F4(*(u32 *)(ctx + 0x874));
+    FADE_SetSpeed(*(u32 *)(ctx + 0x874));
     switch (*(u32 *)(ctx + 0x228)) {
     case 0:
         ***(u16 ***)(ctx + 4) = 0;

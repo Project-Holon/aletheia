@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020979C0
+ * function: func_020979BC
  * address:  0x020979BC
  * packet:   pkt_020979BC
  * region:   arm9
@@ -30,7 +30,7 @@
  * MSL __ieee754_pow(x, y): fdlibm e_pow.c with the MSL edits listed in
  * docs/notes/pkt_020979C0.c.txt.  fabs = func_0209A504, sqrt = func_0209C5E0.
  * The machine entry is 0x020979BC (push {r0-r3} home for the register-passed
- * doubles), four bytes before the disasm body label func_020979C0.
+ * doubles), four bytes before the disasm body label func_020979BC.
  *
  * Front end dsi/1.2 (1.2p2 identical): kept &bp base across its three uses
  * and the push {r3-fp,lr} / sub sp,#0x78 frame; 1.1p1 splits the loads and
@@ -87,7 +87,7 @@ ivln2    =  1.44269504088896338700e+00,
 ivln2_h  =  1.44269502162933349609e+00,
 ivln2_l  =  1.92596299112661746887e-08;
 
-double func_020979C0(double x, double y)
+double func_020979BC(double x, double y)
 {
 	double z,ax,z_h,z_l,p_h,p_l;
 	double y1,t1,t2,r,s,t,u,v,w;

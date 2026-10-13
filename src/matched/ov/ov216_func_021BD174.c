@@ -18,7 +18,7 @@
  *   func_02165C34 0x02165C34 thumb ov010
  *   func_021BD07C 0x021BD07C thumb ov216
  *   func_02165C60 0x02165C60 thumb ov010
- *   func_0204581C 0x0204581C arm
+ *   STRBUF_Clear 0x0204581C arm
  *   func_0201F1C8 0x0201F1C8 thumb
  *   func_021BCEA4 0x021BCEA4 thumb ov216
  *   func_02165C78 0x02165C78 thumb ov010
@@ -31,13 +31,13 @@
  *   func_0201F094 0x0201F094 thumb
  *   func_02165D40 0x02165D40 thumb ov010
  *   func_02165D48 0x02165D48 thumb ov010
- *   func_0202DCC4 0x0202DCC4 thumb
- *   func_0202DC9C 0x0202DC9C thumb
+ *   PMS_DRAW_IsActive 0x0202DCC4 thumb
+ *   PMS_DRAW_Clear 0x0202DC9C thumb
  *   func_02165C90 0x02165C90 thumb ov010
- *   func_0202DC48 0x0202DC48 thumb
+ *   PMS_DRAW_Print 0x0202DC48 thumb
  *   func_02165CE8 0x02165CE8 thumb ov010
  *   func_02025C88 0x02025C88 thumb
- *   func_0202DAA4 0x0202DAA4 thumb
+ *   POKEGRA_LoadTrainerGraphics 0x0202DAA4 thumb
  *   func_02165CB4 0x02165CB4 thumb ov010
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021BCE7C 0x021BCE7C thumb ov216
@@ -60,7 +60,7 @@ extern int func_021BCDC0(void *);
 extern void func_02165C34(struct Rec *,void *);
 extern void func_021BD07C(void *,void **,int,short,u8,u8,u8,u8);
 extern int func_02165C60(int a0);
-extern void func_0204581C(struct U16Vec *);
+extern void STRBUF_Clear(struct U16Vec *);
 extern void func_0201F1C8(struct WordSet *,u32,u32);
 extern void func_021BCEA4(u8 *p, u8 n);
 extern int func_02165C78(int a0);
@@ -74,13 +74,13 @@ extern u8 func_02165C5C(const u8 *p);
 extern void func_0201F094(struct WordSet *,u32,u32,u32);
 extern u32 func_02165D40(const struct S *p);
 extern u32 func_02165D48(const struct S *p);
-extern u32 func_0202DCC4(const struct Obj0202DCC4 *,u32);
-extern void func_0202DC9C(struct Obj0202DC98 *,int,u32);
+extern u32 PMS_DRAW_IsActive(const struct Obj0202DCC4 *,u32);
+extern void PMS_DRAW_Clear(struct Obj0202DC98 *,int,u32);
 extern void func_02165C90(const struct R *p, struct Quad *q);
-extern void func_0202DC48(u32,u32,u32,u32);
+extern void PMS_DRAW_Print(u32,u32,u32,u32);
 extern u8 func_02165CE8(struct S *);
 extern u32 func_02025C88(u32);
-extern void func_0202DAA4(void *set, u32 id, void *dstA, void *dstB, volatile u16 which);
+extern void POKEGRA_LoadTrainerGraphics(void *set, u32 id, void *dstA, void *dstB, volatile u16 which);
 extern u8 func_02165CB4(void *);
 extern void func_0204B3DC(struct Obj *,u32);
 extern void func_021BCE7C(void *p, unsigned short value);
@@ -102,11 +102,11 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     func_02165C34(record,((struct Obj00051 *)p)->f13C);
     func_021BD07C((char *)p,(void **)q,*(int *)&((struct Obj00051 *)p)->f13C,6,48,13,2,0);
     subtype=func_02165C60((int)record);
-    if(subtype==255) func_0204581C(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
+    if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
     else {func_0201F1C8(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,5);}
     func_021BD07C((char *)p,(void **)(q+16),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
     subtype=func_02165C78((int)record);
-    if(subtype==255) func_0204581C(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
+    if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
     else {func_0201F198(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,4);}
     func_021BD07C((char *)p,(void **)(q+32),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,0);
     func_02165D10(record,&counts.b,&counts.a);
@@ -123,12 +123,12 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,func_02165D48(record),5,1,1);
     func_021BCEA4((u8 *)p,10);
     func_021BD07C((char *)p,(void **)(q+96),*(int *)&((struct Obj00051 *)p)->f140,21,0,6,4,0);
-    if(func_0202DCC4(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158,slot)!=0) func_0202DC9C(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158,slot,1);
+    if(PMS_DRAW_IsActive(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158,slot)!=0) PMS_DRAW_Clear(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158,slot,1);
     func_02165C90(record,&data);
-    func_0202DC48(*(u32 *)&((struct Obj00051 *)p)->f158,((struct Obj05555 *)q)->f70,(u32)&data,slot);
+    PMS_DRAW_Print(*(u32 *)&((struct Obj00051 *)p)->f158,((struct Obj05555 *)q)->f70,(u32)&data,slot);
     ((struct Obj05555 *)q)->f7C=func_02165CE8(record);
     index=slot*12;
-    func_0202DAA4(((struct Obj00051 *)p)->f58,func_02025C88(((struct Obj05555 *)q)->f7C),*(void **)((u32)p+0x6c+(u32)index),*(void **)((u32)p+0x68+(u32)index),((struct Obj00051 *)p)->f2);
+    POKEGRA_LoadTrainerGraphics(((struct Obj00051 *)p)->f58,func_02025C88(((struct Obj05555 *)q)->f7C),*(void **)((u32)p+0x6c+(u32)index),*(void **)((u32)p+0x68+(u32)index),((struct Obj00051 *)p)->f2);
     subtype=func_02165CB4(record);
     if(subtype==0) {func_0204B3DC(*(struct Obj * *)&((struct Obj05555 *)q)->f74,0);return;}
     func_021BCE7C(((struct Obj05555 *)q)->f74,(u8)(subtype+1));

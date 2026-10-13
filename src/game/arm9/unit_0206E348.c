@@ -1,7 +1,7 @@
 /*
  * file:     unit_0206E348.c
  * unit:     yes
- * function: func_0206E348, func_0206E358, func_0206E364, func_0206E388, func_0206E394, func_0206E5EC
+ * function: NNS_G3dAllocRenderObj, NNS_G3dFreeRenderObj, NNS_G3dAllocAnmObj, NNS_G3dFreeAnmObj, func_0206E394, NNS_G3dMdlSetMdlPolygonIDAll
  * address:  0x0206E348
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02069C14    0x02069C14  arm
+ *   GetTaggedPayloadSize    0x02069C14  arm
  *   func_02061330    0x02061330  arm
  */
 struct NNSFndAllocator;
@@ -65,40 +65,40 @@ typedef struct {
 
 extern void *func_02061330(struct NNSFndAllocator *pAllocator, u32 size);
 extern void func_02061344(struct NNSFndAllocator *pAllocator, void *pBlock);
-extern u32 func_02069C14(const u8 *pAnm, const ResMdl *pMdl);
-void *func_0206E348(struct NNSFndAllocator *pAllocator);
-void func_0206E358(struct NNSFndAllocator *pAllocator, void *pRenderObj);
-void *func_0206E364(struct NNSFndAllocator *pAllocator, const u8 *pAnm, const ResMdl *pMdl);
-void func_0206E388(struct NNSFndAllocator *pAllocator, void *pAnmObj);
+extern u32 GetTaggedPayloadSize(const u8 *pAnm, const ResMdl *pMdl);
+void *NNS_G3dAllocRenderObj(struct NNSFndAllocator *pAllocator);
+void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj);
+void *NNS_G3dAllocAnmObj(struct NNSFndAllocator *pAllocator, const u8 *pAnm, const ResMdl *pMdl);
+void NNS_G3dFreeAnmObj(struct NNSFndAllocator *pAllocator, void *pAnmObj);
 void func_0206E394(ResMdl *pMdl, u32 matIdx, u32 lightMask);
 void func_0206E40C(ResMdl *pMdl, u32 matIdx, u32 polygonMode);
 void func_0206E484(ResMdl *pMdl, u32 matIdx, u32 cullMode);
 void func_0206E4FC(ResMdl *pMdl, u32 matIdx, u32 polygonId);
 void func_0206E574(ResMdl *pMdl, u32 matIdx, u32 alpha);
-void func_0206E5EC(ResMdl *pMdl, u32 polygonId);
+void NNS_G3dMdlSetMdlPolygonIDAll(ResMdl *pMdl, u32 polygonId);
 
 /* NNS_G3dAllocRenderObj: 0x54 bytes from the allocator. */
-void *func_0206E348(struct NNSFndAllocator *pAllocator){ return func_02061330(pAllocator, 0x54); }
+void *NNS_G3dAllocRenderObj(struct NNSFndAllocator *pAllocator){ return func_02061330(pAllocator, 0x54); }
 
 /* NNS_G3dFreeRenderObj */
-void func_0206E358(struct NNSFndAllocator *pAllocator, void *pRenderObj){ func_02061344(pAllocator, pRenderObj); }
+void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj){ func_02061344(pAllocator, pRenderObj); }
 
 /*
- * NNS_G3dAllocAnmObj: forwards the two tail arguments through func_02069C14 and hands the result,
+ * NNS_G3dAllocAnmObj: forwards the two tail arguments through GetTaggedPayloadSize and hands the result,
  * with the first argument, to func_02061330 -- the argument shuffle is why the
  * first parameter moves into r4 before either call.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206E364.c \
- *       --func func_0206E364 --addr 0x0206E364 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dAllocAnmObj.c \
+ *       --func NNS_G3dAllocAnmObj --addr 0x0206E364 --cc 1.1p1 --arm
  */
-void *func_0206E364(struct NNSFndAllocator *pAllocator, const u8 *pAnm, const ResMdl *pMdl)
+void *NNS_G3dAllocAnmObj(struct NNSFndAllocator *pAllocator, const u8 *pAnm, const ResMdl *pMdl)
 {
-    return func_02061330(pAllocator, func_02069C14(pAnm, pMdl));
+    return func_02061330(pAllocator, GetTaggedPayloadSize(pAnm, pMdl));
 }
 
 /* NNS_G3dFreeAnmObj */
-void func_0206E388(struct NNSFndAllocator *pAllocator, void *pAnmObj){ func_02061344(pAllocator, pAnmObj); }
+void NNS_G3dFreeAnmObj(struct NNSFndAllocator *pAllocator, void *pAnmObj){ func_02061344(pAllocator, pAnmObj); }
 
 /*
  * A family of five near-identical bitfield setters over the same inlined
@@ -111,7 +111,7 @@ void func_0206E388(struct NNSFndAllocator *pAllocator, void *pAnmObj){ func_0206
  *   func_0206E484  bits 6..7     (mask 0x000000c0, shift 6)
  *   func_0206E4FC  bits 24..29   (mask 0x3f000000, shift 24)
  *   func_0206E574  bits 16..20   (mask 0x001f0000, shift 16)
- * func_0206E5EC (already EXACT, next packet boundary) loops func_0206E4FC.
+ * NNS_G3dMdlSetMdlPolygonIDAll (already EXACT, next packet boundary) loops func_0206E4FC.
  *
  * Two shape notes that cost the derivation real time:
  *  - Every NULL arm shares ONE tail (`n = 0` at the very end), so each early
@@ -262,10 +262,10 @@ set:
  * re-read from memory every iteration.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206E5EC.c \
- *       --func func_0206E5EC --addr 0x0206E5EC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dMdlSetMdlPolygonIDAll.c \
+ *       --func NNS_G3dMdlSetMdlPolygonIDAll --addr 0x0206E5EC --cc 1.1p1 --arm
  */
-void func_0206E5EC(ResMdl *pMdl, u32 polygonId)
+void NNS_G3dMdlSetMdlPolygonIDAll(ResMdl *pMdl, u32 polygonId)
 {
     u32 matIdx = 0;
     for (matIdx = 0; matIdx < pMdl->numMat; matIdx++) {

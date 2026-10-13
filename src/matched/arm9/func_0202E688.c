@@ -1,5 +1,5 @@
 /*
- * function: func_0202E688
+ * function: SCREENTEX_SetupCamera
  * address:  0x0202E688
  * packet:   pkt_0202E688
  * region:   arm9
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A02B8        0x020A02B8  data
- *   g_020A02C4        0x020A02C4  data
- *   g_020A0300        0x020A0300  data
+ *   SCREENTEX_CameraTarget        0x020A02B8  data
+ *   SCREENTEX_CameraPosition        0x020A02C4  data
+ *   SCREENTEX_CameraBlockTemplate        0x020A0300  data
  *   FX_SinCosTable_   0x020A1B38  data
- *   g_020A2B38        0x020A2B38  data
+ *   SCREENTEX_RotationSinCos        0x020A2B38  data
  *   g_02148B54        0x02148B54  data
  *   g_02148B98        0x02148B98  data
  *   g_02148BCC        0x02148BCC  data
- *   g_02148D8C        0x02148D8C  data
- *   g_02148D98        0x02148D98  data
- *   g_02148DA4        0x02148DA4  data
+ *   SCREENTEX_CameraPositionOut        0x02148D8C  data
+ *   SCREENTEX_CameraTargetOut        0x02148D98  data
+ *   SCREENTEX_CameraUpOut        0x02148DA4  data
  *   func_02047A60     0x02047A60  arm
  *   MTX_PerspectiveW  0x0207C408  arm
  *   MTX_LookAt        0x0207BCA0  arm
@@ -46,8 +46,8 @@
  * pool words is carried by sole-ref/self now.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202E688.c \
- *       --func func_0202E688 --addr 0x0202E688 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCREENTEX_SetupCamera.c \
+ *       --func SCREENTEX_SetupCamera --addr 0x0202E688 --cc 1.1p1 --thumb
  */
 
 #include "../include/G_Glb.h"
@@ -69,9 +69,9 @@ typedef struct {
     MtxFx33  m;
 } Blk;
 
-extern VecFx32 g_020A02C4;
-extern VecFx32 g_020A02B8;
-extern Blk      g_020A0300;
+extern VecFx32 SCREENTEX_CameraPosition;
+extern VecFx32 SCREENTEX_CameraTarget;
+extern Blk      SCREENTEX_CameraBlockTemplate;
 extern const s16 FX_SinCosTable_[];
 
 static inline s16 FX_SinIdx(int idx)
@@ -84,13 +84,13 @@ static inline s16 FX_CosIdx(int idx)
     return FX_SinCosTable_[((idx >> 4) << 1) + 1];
 }
 
-extern s16      g_020A2B38[];
+extern s16      SCREENTEX_RotationSinCos[];
 extern u32      g_02148B54[];
 extern u32      g_02148B98[];
 extern struct Glb g_02148BCC;
-extern VecFx32  g_02148D8C;
-extern VecFx32  g_02148D98;
-extern VecFx32  g_02148DA4;
+extern VecFx32  SCREENTEX_CameraPositionOut;
+extern VecFx32  SCREENTEX_CameraTargetOut;
+extern VecFx32  SCREENTEX_CameraUpOut;
 
 struct Arg;
 extern void func_02047A60(void *a0, struct Arg *a1);
@@ -105,22 +105,22 @@ extern void MTX_LookAt(const VecFx32 *cam, const VecFx32 *tgt,
                        const VecFx32 *up, void *mtx);
 extern void MTX_RotX33_(void *mtx, s32 sinv, s32 cosv);
 
-void func_0202E688(u32 a0)
+void SCREENTEX_SetupCamera(u32 a0)
 {
-    VecFx32 cam = g_020A02C4;
+    VecFx32 cam = SCREENTEX_CameraPosition;
     VecFx32 up = { 0, 0, 0 };
-    VecFx32 tgt = g_020A02B8;
-    Blk buf = g_020A0300;
+    VecFx32 tgt = SCREENTEX_CameraTarget;
+    Blk buf = SCREENTEX_CameraBlockTemplate;
 
     MTX_Perspective(FX_SinIdx(0xE38), FX_CosIdx(0xE38), 0x1555, 0x1000,
                     0x400000, g_02148B54);
     ((u32 *)&g_02148BCC)[31] &= ~0x50u;
-    g_02148D8C = cam;
-    g_02148D98 = tgt;
-    g_02148DA4 = up;
+    SCREENTEX_CameraPositionOut = cam;
+    SCREENTEX_CameraTargetOut = tgt;
+    SCREENTEX_CameraUpOut = up;
     MTX_LookAt(&cam, &tgt, &up, g_02148B98);
     ((u32 *)&g_02148BCC)[31] &= ~0xe8u;
-    MTX_RotX33_(&buf.m, g_020A2B38[0], g_020A2B38[1]);
+    MTX_RotX33_(&buf.m, SCREENTEX_RotationSinCos[0], SCREENTEX_RotationSinCos[1]);
     func_02047A60((void *)a0, (struct Arg *)buf.f);
 }
 

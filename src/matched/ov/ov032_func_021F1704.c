@@ -13,7 +13,7 @@
  *   func_021F1704 0x021F1704 thumb
  *   func_021F1218 0x021F1218 thumb
  *   func_021F0EDC 0x021F0EDC thumb
- *   func_02031194 0x02031194 arm
+ *   TCBL_DeleteTask 0x02031194 arm
  */
 #include "../include/Obj00225.h"
 #include "../include/Obj00710.h"
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 extern void func_021F1218(char *p, short x, short y);
 extern void func_021F0EDC(char *p);
 struct TcblNode;
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 
 void func_021F1704(void *h, char *t)
 {
@@ -60,5 +60,5 @@ void func_021F1704(void *h, char *t)
         break;
     }
     **(int * *)&((struct Obj00710 *)t)->f24 = **(int * *)&((struct Obj00710 *)t)->f24 - 1;
-    func_02031194(h);
+    TCBL_DeleteTask(h);
 }

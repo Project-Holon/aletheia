@@ -1,5 +1,5 @@
 /*
- * function: func_021B2488
+ * function: VCT_SESSION_HandlePacket
  * address:  0x021B2488
  * packet:   pkt_ov013_021B2488
  * region:   ov013
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B60D8  0x021B60D8  data  ov013  a4
- *   func_021B2D54  0x021B2D54  arm  ov013
+ *   gVctSession  0x021B60D8  data  ov013  a4
+ *   VCT_SESSION_HandleUnknownProtocolPacket  0x021B2D54  arm  ov013
  *   func_021B2AA0  0x021B2AA0  arm  ov013
- *   func_021B2BE0  0x021B2BE0  arm  ov013
+ *   VCT_SESSION_HandleSharedPacket  0x021B2BE0  arm  ov013
  */
 
 typedef unsigned char u8;
@@ -24,22 +24,22 @@ typedef struct Ctx {
     int fC;
 } Ctx;
 
-extern Ctx d_021B60D8;
+extern Ctx gVctSession;
 struct Event;
 struct Pkt;
-extern int func_021B2D54(u8 *p, int *out);
+extern int VCT_SESSION_HandleUnknownProtocolPacket(u8 *p, int *out);
 extern int func_021B2AA0(struct Pkt *pkt, struct Event *ev);
-extern int func_021B2BE0(struct Pkt *pkt, struct Event *ev);
+extern int VCT_SESSION_HandleSharedPacket(struct Pkt *pkt, struct Event *ev);
 
-int func_021B2488(int a, u8 *p, int len, int x)
+int VCT_SESSION_HandlePacket(int a, u8 *p, int len, int x)
 {
     if (len != 0x10)
         return 0;
-    if (p[8] != a || p[9] != d_021B60D8.b0)
+    if (p[8] != a || p[9] != gVctSession.b0)
         return 0;
     if (p[5] != 0x10)
-        return func_021B2D54(p, (int *)x);
-    if (d_021B60D8.fC == 0)
+        return VCT_SESSION_HandleUnknownProtocolPacket(p, (int *)x);
+    if (gVctSession.fC == 0)
         return func_021B2AA0((struct Pkt *)p, (struct Event *)x);
-    return func_021B2BE0((struct Pkt *)p, (struct Event *)x);
+    return VCT_SESSION_HandleSharedPacket((struct Pkt *)p, (struct Event *)x);
 }

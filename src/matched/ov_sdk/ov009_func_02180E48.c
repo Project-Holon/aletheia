@@ -9,16 +9,17 @@
  * isa:      arm
  * status:   EXACT
  *
- * Word at +0xc of the block func_02180404 returns.
+ * Word at +0xc of the block gsUdpEngineContext returns.
  *
  * symbols:
+ *   gsUdpEngineContext  0x02180404  arm
 
  */
 
-extern char *func_02180404(void);
+extern char *gsUdpEngineContext(void);
 
 int func_02180E48(void)
 {
-    return *(int *)(func_02180404() + 0xc);
+    return *(int *)(gsUdpEngineContext() + 0xc);
 }
 

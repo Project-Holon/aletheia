@@ -1,5 +1,5 @@
 /*
- * function: func_021738D4
+ * function: UNION_MAIN_FieldDeleteCallback
  * address:  0x021738D4
  * packet:   pkt_ov012_021738D4
  * region:   ov012
@@ -27,7 +27,7 @@ extern void func_0217505C(int *p, int x);
 struct Work;
 extern void func_02167688(struct Work *w);
 
-void func_021738D4(int a, T *p)
+void UNION_MAIN_FieldDeleteCallback(int a, T *p)
 {
     S *o;
 

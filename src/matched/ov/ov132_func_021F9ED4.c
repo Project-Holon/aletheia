@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02051534 0x02051534 arm
+ *   PARTICLE_DrawAllSystems 0x02051534 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02051534(void);
-int func_021F9ED4(u8 *a0) { return func_02051534(); }
+extern int PARTICLE_DrawAllSystems(void);
+int func_021F9ED4(u8 *a0) { return PARTICLE_DrawAllSystems(); }

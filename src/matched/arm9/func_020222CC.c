@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_020222CC
+ * function: WIPE_SetBrightness
  *
  * symbols:
  *   func_0207D534  0x0207D534  arm
@@ -20,8 +20,8 @@
  * passed through a register must be named in the C).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020222CC.c \
- *       --func func_020222CC --addr 0x020222CC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SetBrightness.c \
+ *       --func WIPE_SetBrightness --addr 0x020222CC --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_0207D534(volatile u16 *reg, int brightness);
 
-void func_020222CC(u32 which, int brightness)
+void WIPE_SetBrightness(u32 which, int brightness)
 {
     if (which == 0) {
         func_0207D534((volatile u16 *)0x0400006C, brightness);

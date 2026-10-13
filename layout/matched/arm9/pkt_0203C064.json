@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203C064",
+   "name": "GFL_NET_STATE_WifiFatal",
    "address": "0x0203C064",
    "kind": "game",
    "region": "arm9",

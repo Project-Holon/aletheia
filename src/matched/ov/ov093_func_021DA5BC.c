@@ -13,9 +13,9 @@
  *   func_021D57FC   0x021D57FC  thumb ov093
  *   func_021D5448   0x021D5448  thumb ov093
  *   func_021D54C0   0x021D54C0  thumb ov093
- *   sub_0201C1BC    0x0201C1BC  thumb
- *   func_0201C314   0x0201C314  thumb
- *   sub_0201C1C8    0x0201C1C8  thumb
+ *   WAZA_TOOL_GetCategory    0x0201C1BC  thumb
+ *   WAZA_TOOL_IsDamaging   0x0201C314  thumb
+ *   WAZA_TOOL_GetType    0x0201C1C8  thumb
  *   func_021D799C   0x021D799C  thumb ov093
  */
 
@@ -30,9 +30,9 @@ extern u16 func_021D57FC(void *p);
 struct QG;
 extern u8 func_021D5448(struct QG *p);
 extern u16 func_021D54C0(u8 *p, int i);
-extern u32 sub_0201C1BC(u16 move);
-extern u32 func_0201C314(void *p);
-extern u8 sub_0201C1C8(void *p);
+extern u32 WAZA_TOOL_GetCategory(u16 move);
+extern u32 WAZA_TOOL_IsDamaging(void *p);
+extern u8 WAZA_TOOL_GetType(void *p);
 extern int func_021D799C(int a, int b);
 
 int func_021DA5BC(void *a, void *b)
@@ -46,10 +46,10 @@ int func_021DA5BC(void *a, void *b)
     n = func_021D5448(b);
     for (i = 0; i < n; i++) {
         t = func_021D54C0(b, i);
-        if (sub_0201C1BC(t) == 9)
+        if (WAZA_TOOL_GetCategory(t) == 9)
             return 1;
-        if (func_0201C314((void *)t) != 0) {
-            if (func_021D799C(sub_0201C1C8((void *)t), s) > 3)
+        if (WAZA_TOOL_IsDamaging((void *)t) != 0) {
+            if (func_021D799C(WAZA_TOOL_GetType((void *)t), s) > 3)
                 return 1;
         }
     }

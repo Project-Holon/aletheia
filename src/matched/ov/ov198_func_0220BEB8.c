@@ -18,7 +18,7 @@
  *   0x31A0 for b0 == 1 in both k arms (the draft had it per k); (5) a2 as u16 (the matched caller passes
  *   `(u16)i`), which puts the a2 spill store first at entry.
  * symbols:
- *   func_02045778 0x02045778 arm
+ *   BMP_WIN_GetPalette 0x02045778 arm
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_020457B0 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -53,7 +53,7 @@ struct MsgBank;
 struct StrObj;
 struct U16Vec;
 struct WordSet;
-extern u8 func_02045778(struct Descriptor *p);
+extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
 extern int func_022110D4(u8 *, int);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -92,7 +92,7 @@ void func_0220BEB8(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
     slot = slot * 8;
     tab = p + 0x1F70;
     handle = *(void **)(tab + slot);
-    k = func_02045778(handle);
+    k = BMP_WIN_GetPalette(handle);
     n = func_022110D4(p, a2);
     base = p + 4;
     off = n * 0x4C;

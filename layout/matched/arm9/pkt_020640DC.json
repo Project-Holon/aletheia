@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02064140",
+   "name": "NNSi_G2dSrtcInitControl",
    "address": "0x02064140",
    "kind": "game",
    "region": "arm9",
@@ -48,7 +48,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02064150",
+   "name": "NNSi_G2dSrtcResetSrtData",
    "address": "0x02064150",
    "kind": "game",
    "region": "arm9",

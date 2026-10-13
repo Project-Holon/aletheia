@@ -1,5 +1,5 @@
 /*
- * function: func_0206A12C
+ * function: NNS_G3dPlttLoad
  * address:  0x0206A12C
  * packet:   pkt_0206A12C
  * region:   arm9
@@ -46,7 +46,7 @@ typedef struct {
 extern void GX_BeginLoadTexPltt(void);
 extern void GX_LoadTexPltt(const void *pSrc, u32 destSlotAddr, u32 szByte);
 extern void GX_EndLoadTexPltt(void);
-void func_0206A12C(NNSG3dResTex *pTex, BOOL exec)
+void NNS_G3dPlttLoad(NNSG3dResTex *pTex, BOOL exec)
 {
     if (exec) {
         GX_BeginLoadTexPltt();

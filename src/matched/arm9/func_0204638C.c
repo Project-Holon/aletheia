@@ -1,5 +1,5 @@
 /*
- * function: func_0204638C
+ * function: SYSTEMFONT_ExpandRowBits
  * address:  0x0204638C
  * packet:   pkt_020461F4
  * region:   arm9
@@ -21,12 +21,12 @@
  * and the accumulator lives in lr.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204638C.c  *       --func func_0204638C --addr 0x0204638C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/SYSTEMFONT_ExpandRowBits.c  *       --func SYSTEMFONT_ExpandRowBits --addr 0x0204638C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
-u32 func_0204638C(u32 bits)
+u32 SYSTEMFONT_ExpandRowBits(u32 bits)
 {
     int i;
     u32 out = 0;

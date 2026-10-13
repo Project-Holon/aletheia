@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204B95C",
+   "name": "CLACT_StartActorAnim",
    "address": "0x0204B95C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204B974",
+   "name": "CLACT_StopActorAnim",
    "address": "0x0204B974",
    "kind": "game",
    "region": "arm9",
@@ -78,7 +78,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0204B9C4"
+    "CLACT_SetActorAnimLoopCount"
+   ],
+   "addresses": [
+    "0x0204B9C4"
    ]
   },
   {
@@ -94,7 +97,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BA38",
+   "name": "CLACT_InitDefaultRenderer",
    "address": "0x0204BA38",
    "kind": "game",
    "region": "arm9",
@@ -106,7 +109,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BA7C",
+   "name": "CLACT_SetOamOffsets",
    "address": "0x0204BA7C",
    "kind": "game",
    "region": "arm9",
@@ -118,7 +121,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BAEC",
+   "name": "CLACT_SetSystemActive",
    "address": "0x0204BAEC",
    "kind": "game",
    "region": "arm9",
@@ -130,7 +133,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BB04",
+   "name": "CLACT_IsSystemActive",
    "address": "0x0204BB04",
    "kind": "game",
    "region": "arm9",
@@ -142,7 +145,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BB20",
+   "name": "CLACT_SetOamPending",
    "address": "0x0204BB20",
    "kind": "game",
    "region": "arm9",
@@ -154,7 +157,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BB38",
+   "name": "CLACT_IsOamPending",
    "address": "0x0204BB38",
    "kind": "game",
    "region": "arm9",
@@ -166,7 +169,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BB54",
+   "name": "CLACT_ResetOamIfPending",
    "address": "0x0204BB54",
    "kind": "game",
    "region": "arm9",
@@ -178,7 +181,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BB8C",
+   "name": "CLACT_DrawAllUnits",
    "address": "0x0204BB8C",
    "kind": "game",
    "region": "arm9",
@@ -190,7 +193,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BBC8",
+   "name": "CLACT_LinkUnit",
    "address": "0x0204BBC8",
    "kind": "game",
    "region": "arm9",
@@ -202,7 +205,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BC40",
+   "name": "CLACT_UnlinkUnit",
    "address": "0x0204BC40",
    "kind": "game",
    "region": "arm9",
@@ -214,7 +217,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BC94",
+   "name": "CLACT_InitOamManagers",
    "address": "0x0204BC94",
    "kind": "game",
    "region": "arm9",
@@ -226,7 +229,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BCD8",
+   "name": "CLACT_ExitOamManagers",
    "address": "0x0204BCD8",
    "kind": "game",
    "region": "arm9",

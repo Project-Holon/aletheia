@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B3604",
+   "name": "VCT_DSP_SuppressEchoWithReference",
    "address": "0x021B3604",
    "kind": "game",
    "region": "ov013",

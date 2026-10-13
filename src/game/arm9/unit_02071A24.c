@@ -1,7 +1,7 @@
 /*
  * file:     unit_02071A24.c
  * unit:     yes
- * function: func_02071A24, func_02071B2C
+ * function: NNSi_G3dTexMtxScaleRotTrans, NNSi_G3dTexMtxRotTrans
  * address:  0x02071A24
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -54,7 +54,7 @@ extern u32 func_0207C86C(void);
 /* NNS texture matrix constructor, translation + scale + rotation. */
 /*
  * The full-rotate constructor with the smull quartet: the body of
- * src/matched/func_02071CDC.c with its two plain negated multipliers
+ * src/matched/NNSi_G3dTexMtxScaleRot.c with its two plain negated multipliers
  * replaced by the translation-weighted pair func_02071C14 uses,
  *   a = (-origWidth << 11) - transS * origWidth
  *   b = transT * origHeight + (-origHeight << 11)
@@ -67,13 +67,13 @@ extern u32 func_0207C86C(void);
  * change it is 264 bytes, 0 out.
  *
  * Front end: NOT pinned.  EXACT under both dsi/1.1p1 and ../2.0/sp2 with
- * the same C; filed under the project default like func_02071CDC.
+ * the same C; filed under the project default like NNSi_G3dTexMtxScaleRot.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02071A24.c \
- *       --func func_02071A24 --addr 0x02071A24 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G3dTexMtxScaleRotTrans.c \
+ *       --func NNSi_G3dTexMtxScaleRotTrans --addr 0x02071A24 --arm
  */
-void func_02071A24(TexMtx *pTexMtx, MatAnmResult *pMatAnm)
+void NNSi_G3dTexMtxScaleRotTrans(TexMtx *pTexMtx, MatAnmResult *pMatAnm)
 {
     s32 widthFx, heightFx;
     s32 scaleSCos, scaleSSin, scaleTCos, scaleTSin, divResult;
@@ -128,10 +128,10 @@ void func_02071A24(TexMtx *pTexMtx, MatAnmResult *pMatAnm)
  * and 0x02071C14.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02071B2C.c \
- *       --func func_02071B2C --addr 0x02071B2C --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dTexMtxRotTrans.c \
+ *       --func NNSi_G3dTexMtxRotTrans --addr 0x02071B2C --arm --cc 1.1p1
  */
-void func_02071B2C(TexMtx *pTexMtx, MatAnmResult *pMatAnm)
+void NNSi_G3dTexMtxRotTrans(TexMtx *pTexMtx, MatAnmResult *pMatAnm)
 {
     s32 widthFx, heightFx, divResult;
     s32 offsetS, offsetT, width, height, cosRot, sinRot;

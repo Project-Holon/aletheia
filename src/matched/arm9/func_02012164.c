@@ -1,5 +1,5 @@
 /*
- * function: func_02012164
+ * function: GAMESYSTEM_CanStartAutoComm
  * address:  0x02012164
  * packet:   pkt_02012164
  * region:   arm9
@@ -61,7 +61,7 @@ extern struct Sub02009210Obj *func_0200921C(void *p);
 struct Sub020090B0Obj;
 extern u8 func_020090E0(const struct Sub020090B0Obj *obj);
 
-u32 func_02012164(struct IcaAnime *p)
+u32 GAMESYSTEM_CanStartAutoComm(struct IcaAnime *p)
 {
     u16 id;
 

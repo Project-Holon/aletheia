@@ -1,5 +1,5 @@
 /*
- * function: func_0216BFB8
+ * function: DWCi_MatchedCallback
  * address:  0x0216BFB8
  * packet:   pkt_ov009_0216BFB8
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      DWCi_MatchedCallback (libdwcmatch.TWL.HYB.a(dwc_main.o))
  *
  * symbols:
- *   func_0216BC84  0x0216BC84  arm  ov009
+ *   DWCi_SetState  0x0216BC84  arm  ov009
  *   func_0216EC18  0x0216EC18  arm  ov009
  *   g_021AA878  0x021AA878  data
  */
@@ -48,21 +48,21 @@ typedef struct DwcGlobal DwcGlobal;
 
 extern struct DwcGlobal g_021AA878;
 
-extern void func_0216BC84(int state);
+extern void DWCi_SetState(int state);
 extern void func_0216EC18(void);
 
-void func_0216BFB8(int error, int cancel, int self, int isServer, int index)
+void DWCi_MatchedCallback(int error, int cancel, int self, int isServer, int index)
 {
 	if (error == 0 && cancel != 0) {
 		if (((DwcState *)g_021AA878.st)->a96c == 0) {
-			func_0216BC84(3);
+			DWCi_SetState(3);
 			func_0216EC18();
 		}
 	} else if (error == 0) {
-		func_0216BC84(5);
+		DWCi_SetState(5);
 	}
 	if (((DwcState *)g_021AA878.st)->b05 == 0)
 		((void (*)(int, int, int, int, int, void *))((DwcState *)g_021AA878.st)->matchedCallback)(error, cancel, self, isServer, index, ((DwcState *)g_021AA878.st)->matchedParam);
 	if (error != 0 && g_021AA878.st != 0 && (unsigned int)(((DwcState *)g_021AA878.st)->state - 4) <= 1)
-		func_0216BC84(3);
+		DWCi_SetState(3);
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02011330  0x02011330  thumb
- *   func_0201137C  0x0201137C  thumb
+ *   VM_PushStack  0x0201137C  thumb
  */
 
 typedef unsigned char u8;
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 struct Stream;
 extern u16 func_02011330(struct Stream *s);
-extern int func_0201137C();
+extern int VM_PushStack();
 
 int func_021593DC(int a0, int a1)
 {
@@ -31,7 +31,7 @@ t4 = a0 + 0;
 loc_021593E4:
 a1 = a0 + 0;
 a0 = t4 + 0;
-    a0 = func_0201137C(a0, a1);
+    a0 = VM_PushStack(a0, a1);
 loc_021593EC:
 a0 = 0;
     return a0;}

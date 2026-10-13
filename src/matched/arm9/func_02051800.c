@@ -1,5 +1,5 @@
 /*
- * function: func_02051800
+ * function: BUTTON_MAN_SetOffsetX
  * address:  0x02051800
  * packet:   pkt_02051790
  * region:   arm9
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj16174.h"
 
-void func_02051800(char *p, int v)
+void BUTTON_MAN_SetOffsetX(char *p, int v)
 {
     ((struct Obj16174 *)p)->f64 = v;
 }

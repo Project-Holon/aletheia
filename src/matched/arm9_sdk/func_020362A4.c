@@ -1,5 +1,5 @@
 /*
- * function: func_020362A4
+ * function: KEY_SetControlModeTable
  * address:  0x020362A4
  * packet:   pkt_020362A4
  * region:   arm9
@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_02035224   0x02035224  arm
- *   func_02036290   0x02036290  arm
+ *   KEY_SetControlModeTableSys   0x02036290  arm
  */
 
 struct UiCtx;
 extern struct UiCtx *func_02035224(void);
-extern int func_02036290(int a0, const void *a1);
+extern int KEY_SetControlModeTableSys(int a0, const void *a1);
 
-void func_020362A4(const void *p)
+void KEY_SetControlModeTable(const void *p)
 {
-    func_02036290((int)func_02035224(), p);
+    KEY_SetControlModeTableSys((int)func_02035224(), p);
 }

@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: sub_020124E4, sub_020124E8, sub_020124EC, sub_020124F0
+ * function: GAME_EVENT_GetGameSystem, GAME_EVENT_GetWork, GAME_EVENT_GetSeq, GAME_EVENT_GetParent
  * address:  0x020124E4
  * packet:   pkt_02012158
  * region:   arm9
@@ -15,7 +15,7 @@
  * Four two-byte leaf accessors in a row on the same object.  None of them
  * saves lr, so disasm.py labels none of them and the whole run prints as a
  * `.byte` blob between two pools; they are only reachable by sweeping
- * addresses.  sub_020124EC returns the address of the embedded sub-object
+ * addresses.  GAME_EVENT_GetSeq returns the address of the embedded sub-object
  * at +8 rather than a stored pointer.
  *
  * Verified with:
@@ -33,22 +33,22 @@ struct Obj {
     void *unk_10;
 };
 
-void *sub_020124E4(struct Obj *p)
+void *GAME_EVENT_GetGameSystem(struct Obj *p)
 {
     return p->unk_10;
 }
 
-void *sub_020124E8(struct Obj *p)
+void *GAME_EVENT_GetWork(struct Obj *p)
 {
     return p->unk_0c;
 }
 
-u32 *sub_020124EC(struct Obj *p)
+u32 *GAME_EVENT_GetSeq(struct Obj *p)
 {
     return &p->unk_08;
 }
 
-void *sub_020124F0(struct Obj *p)
+void *GAME_EVENT_GetParent(struct Obj *p)
 {
     return p->unk_00;
 }

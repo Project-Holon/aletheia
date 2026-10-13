@@ -36,12 +36,12 @@
  *   func_0201D83C  0x0201D83C  thumb
  *   func_0201C4E4  0x0201C4E4  thumb
  *   func_020310C4  0x020310C4  arm
- *   func_0204335C  0x0204335C  arm
+ *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   func_020433E0  0x020433E0  arm
  *   func_0204363C  0x0204363C  arm
  *   func_0204361C  0x0204361C  arm
- *   func_020434CC  0x020434CC  arm
- *   func_02043588  0x02043588  arm
+ *   BG_SYS_ClearMainPlanes  0x020434CC  arm
+ *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   func_0201DD60  0x0201DD60  thumb
  *   func_0201DD78  0x0201DD78  thumb
  *   func_020056A0  0x020056A0  thumb
@@ -93,7 +93,7 @@
  *   func_02061CA4  0x02061CA4  arm
  *   func_0204A48C  0x0204A48C  arm
  *   func_0204B100  0x0204B100  arm
- *   func_0204B270  0x0204B270  arm
+ *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
  *   func_020434DC  0x020434DC  arm
  *   func_02043598  0x02043598  arm
  *   func_0204ABF0  0x0204ABF0  arm
@@ -112,11 +112,11 @@
  *   func_0204AFD8  0x0204AFD8  arm
  *   func_0204B1CC  0x0204B1CC  arm
  *   func_0204A5AC  0x0204A5AC  arm
- *   func_0204B908  0x0204B908  arm
+ *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   func_0204A600  0x0204A600  arm
  *   func_0204A648 0x0204A648 arm
  *   func_02035D20  0x02035D20  arm
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_020362DC  0x020362DC  arm
  *   func_0203630C  0x0203630C  arm
  *   func_020355C4  0x020355C4  arm
@@ -124,7 +124,7 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_020457B0  0x020457B0  arm
  *   func_02028470  0x02028470  thumb
- *   func_02045778  0x02045778  arm
+ *   BMP_WIN_GetPalette  0x02045778  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   func_020409B4  0x020409B4  arm
  *   func_0201CE48  0x0201CE48  thumb
@@ -134,50 +134,50 @@
  *   func_02028484  0x02028484  thumb
  *   func_0201C6C4  0x0201C6C4  thumb
  *   func_021B62E0  0x021B62E0  thumb  ov067
- *   func_02012BF8  0x02012BF8  thumb
+ *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
  *   func_021B6598  0x021B6598  thumb  ov067
  *   d_021BB5D4     0x021BB5D4  data  a4
  *   func_021B639C  0x021B639C  thumb
  *   func_02028148  0x02028148  thumb
  *   func_021BB508  0x021BB508  thumb  ov068
- *   func_02028218  0x02028218  thumb
- *   func_0202822C  0x0202822C  thumb
+ *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb
+ *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
  *   func_021B63D0  0x021B63D0  thumb  ov067
  *   func_021B6470  0x021B6470  thumb  ov067
  *   func_021B6448  0x021B6448  thumb  ov067
  *   func_021B65A8  0x021B65A8  thumb  ov067
- *   func_02012BE0  0x02012BE0  thumb
+ *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   d_021BB550     0x021BB550  data  a4
  *   func_020061E4_2  0x020061E4  thumb
  *   d_021BB560     0x021BB560  data  ov068  a4
  *   func_02028178  0x02028178  thumb
- *   func_02028230  0x02028230  thumb
- *   func_020282A4  0x020282A4  thumb
- *   func_02027FEC  0x02027FEC  thumb
+ *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb
+ *   APP_TASKMENU_WIN_ResetDecide  0x020282A4  thumb
+ *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb
  *   func_02040804  0x02040804  arm
  *   d_021BB570     0x021BB570  data  a4
  *   func_020413B0  0x020413B0  arm
- *   func_0204B8A0  0x0204B8A0  arm
+ *   CLACT_ChangeActorAnimSeq  0x0204B8A0  arm
  *   d_021BB538     0x021BB538  data  a1
  *   func_02041EE4  0x02041EE4  arm
  *   func_0204B404  0x0204B404  arm
- *   func_02005C28  0x02005C28  thumb
+ *   GFL_USE_SetStereoOutput  0x02005C28  thumb
  *   func_02027778  0x02027778  thumb
  *   func_02027974  0x02027974  thumb
  *   func_020279E8  0x020279E8  thumb
  *   func_02027A04  0x02027A04  thumb
  *   func_02027858  0x02027858  thumb
  *   func_0207D658 0x0207D658 arm
- *   func_02008374  0x02008374  thumb
- *   func_020083AC  0x020083AC  thumb
- *   func_020083C8  0x020083C8  thumb
- *   func_02008390  0x02008390  thumb
+ *   CONFIG_GetTextSpeed  0x02008374  thumb
+ *   CONFIG_GetBattleScene  0x020083AC  thumb
+ *   CONFIG_GetBattleStyle  0x020083C8  thumb
+ *   CONFIG_GetSoundMode  0x02008390  thumb
  *   func_02008428  0x02008428  thumb
- *   func_0200837C 0x0200837C thumb
- *   func_020083B4 0x020083B4 thumb
- *   func_020083D0 0x020083D0 thumb
- *   func_02008398 0x02008398 thumb
- *   func_02008430 0x02008430 thumb
+ *   CONFIG_SetTextSpeed 0x0200837C thumb
+ *   CONFIG_SetBattleScene 0x020083B4 thumb
+ *   CONFIG_SetBattleStyle 0x020083D0 thumb
+ *   CONFIG_SetSoundMode 0x02008398 thumb
+ *   CONFIG_SetButtonMode 0x02008430 thumb
  *   d_021BB572     0x021BB572  data  a2
  *   d_021BB574     0x021BB574  data  a4
  *   d_021BB708     0x021BB708  data  a4
@@ -188,792 +188,554 @@
  *   func_0201C6B4  0x0201C6B4  thumb
  *   func_020071F0  0x020071F0  thumb
  */
-#include "../../matched/include/Obj05149.h"
-#include "../../matched/include/Obj13137.h"
-#include "../../matched/include/Obj20634.h"
-#include "../../matched/include/Obj20635.h"
-#include "../../matched/include/Obj13138.h"
-#include "../../matched/include/Obj20637.h"
-#include "../../matched/include/Obj09869.h"
-#include "../../matched/include/Obj05150.h"
-#include "../../matched/include/Obj01227.h"
-#include "../../matched/include/Obj07683.h"
-#include "../../matched/include/Obj00884.h"
-#include "../../matched/include/Obj03658.h"
-#include "../../matched/include/Obj02762.h"
-#include "../../matched/include/Obj20641.h"
-#include "../../matched/include/Obj13139.h"
-#include "../../matched/include/Obj13140.h"
-#include "../../matched/include/Obj06169.h"
-#include "../../matched/include/Obj20643.h"
-#include "../../matched/include/Obj00103.h"
-#include "../../matched/include/Obj20644.h"
-#include "../../matched/include/Obj04326.h"
-#include "../../matched/include/Obj13141.h"
-#include "../../matched/include/Obj20645.h"
-#include "../../matched/include/Obj09870.h"
-#include "../../matched/include/Obj13142.h"
-#include "../../matched/include/Obj20646.h"
-#include "../../matched/include/Obj20647.h"
-#include "../../matched/include/Obj02763.h"
-#include "../../matched/include/Obj09871.h"
-#include "../../matched/include/Obj02417.h"
-#include "../../matched/include/Obj20648.h"
-#include "../../matched/include/Obj13144.h"
-#include "../../matched/include/Obj20650.h"
-#include "../../matched/include/Obj13145.h"
-#include "../../matched/include/Obj13146.h"
-#include "../../matched/include/Obj20651.h"
-#include "../../matched/include/Obj20652.h"
-#include "../../matched/include/Obj09875.h"
-#include "../../matched/include/Obj20654.h"
-#include "../../matched/include/Obj20655.h"
-
-struct Obj0203159C;
-struct Big;
-struct Ctx;
-struct GfFont;
-struct MsgBank;
-struct R;
-struct Sub02008700Obj;
-struct Tcbl;
-struct PrintSys;
-struct Rec;
-struct S02031140;
-struct S020315D4;
-struct TaskMenuState;
-struct DispVram;
-struct Node;
-struct Blk_021B9980;
-struct BgTemplate;
-struct DispConfig;
-struct Descriptor;
-struct Bmp;
-struct Cfg;
-struct CharBuf;
-struct StrObj;
-struct U16Vec;
-struct Bank;
-struct Obj;
-struct Rec3;
-struct S;
-struct Vec2;
-struct TaskMenu;
-struct TaskMenuTmpl;
-struct Sub020071E4Ctrl;
 typedef unsigned char  u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int   u32;
-
-typedef struct {
-    u32 x0;
-    u32 x4;
-} Args;
-
-typedef struct {
-    u8 pad0[0xd4];
-    u8 xD4[0x10];
-    u8 xE4[0x20];
-    u8 x104[0x44];
-    u8 x148[0x58];
-    u8 x1A0[0x38];
-    u8 x1D8[0x70];
-    u8 x248[0xc];
-    u32 font;
-    u32 x258;
-    u32 msg;
-    u32 x260;
-    u32 x264;
-    u32 x268;
-    Args *args;
-} Work;
-
+typedef signed char    s8;
+typedef signed short   s16;
 typedef signed int     s32;
 
-typedef struct {
-    u32 id;
-    u32 w[8];
-    u32 f24;
-} Row;
+#include "unit_021B95A0_types.h"
 
-typedef struct {
-    u8 pad0[0xC];
-    u8 *data;
-} PlttData;
+/* Display registers of the main (A) and sub (B) engine. */
+#define REG_A_DISPCNT_ADDR 0x04000000
+#define REG_A_BLDCNT_ADDR  0x04000050
+#define REG_B_DISPCNT_ADDR 0x04001000
+#define REG_B_BLDCNT_ADDR  0x04001050
+#define REG_A_DISPCNT (*(volatile u32 *)REG_A_DISPCNT_ADDR)
+#define REG_A_BLDCNT  (*(volatile u16 *)REG_A_BLDCNT_ADDR)
+#define REG_B_DISPCNT (*(volatile u32 *)REG_B_DISPCNT_ADDR)
+#define REG_B_BLDCNT  (*(volatile u16 *)REG_B_BLDCNT_ADDR)
+#define DISPCNT_WINDOWS_OFF 0xFFFF1FFF
 
-typedef signed short   s16;
+/* Key bits of the trigger and held masks. */
+#define OPTION_KEY_A     0x0001
+#define OPTION_KEY_B     0x0002
+#define OPTION_KEY_RIGHT 0x0010
+#define OPTION_KEY_LEFT  0x0020
+#define OPTION_KEY_UP    0x0040
+#define OPTION_KEY_DOWN  0x0080
+#define OPTION_KEY_Y     0x0400
+#define OPTION_KEY_X     0x0800
 
-typedef struct {
-    u32 msg;
-    u8 x;
-    u8 y;
-    u8 w;
-    u8 h;
-} Ent_021B9C04;
+/* Sound effect ids. */
+#define OPTION_SE_CURSOR  0x548
+#define OPTION_SE_CONFIRM 0x54c
+#define OPTION_SE_CANCEL  0x551
+#define OPTION_SE_APPLY   0x558
 
-typedef struct {
-    u16 a;
-    u16 b;
-    u16 c;
-    u8 d;
-    u8 e;
-} Local;
-
-typedef struct {
-    u32 offset;
-    u32 value;
-    u32 f8;
-    u32 fC;
-    s16 f10;
-    s16 f12;
-    s16 f14;
-    s16 f16;
-} Ent_021BB704;
-
-typedef struct { u32 w[16]; } Tbl;
-
-typedef struct { u32 w[8]; } Req;
-
-typedef struct {
-    u8 pad0[8];
-    int f8;
-    int fC;
-    int f10;
-    u8 pad14[0x20];
-    int f34[2];
-    int f3C;
-    int f40;
-} W;
-
-typedef struct { u32 h; u16 x; u16 pad; u32 idx; } Ent_021B9980;
-
-typedef struct { u8 pad[0x1c]; Ent_021B9980 e[2]; } P;
-
-typedef struct Blk_021B9980 { u32 a; u32 b; u32 c; } Blk_021B9980;
-
-typedef struct {
-    u32 f0;
-    u8 x;
-    u8 y;
-    u8 w;
-    u8 h;
-} Rect;
-
-typedef struct { u16 x; u16 y; } Pt;
-
-typedef signed char   s8;
-
-typedef struct {
-    u16 f0;
-    u16 cnt;
-    u8  list[4];
-} Tab;
-
-typedef struct {
-    u32 f0;
-    u32 f4;
-    u32 pad[4];
-} Ent_021BAF9C;
-
-typedef void (*Callback)(void *, void *, int);
-
-typedef struct {
-    u32 a;
-    u8  b;
-    u8  pad5[3];
-    u32 c;
-} Blk_021BB114;
-
-typedef struct {
-    u32 a;
-    u32 b;
-    u32 c;
-} Blk_021BB418;
+struct DispVram;
+struct DispConfig;
+struct ClInitParam;
 
 extern int func_02034AC4(s32 handle);
-extern void  func_0203064C(u32 a, u32 b, u32 c);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void  func_02082BCC(void *p, u32 v, u32 n);
+extern void func_0203064C(u32 a, u32 b, u32 c);
+extern void *func_0203159C(struct Proc *proc, u32 size, u32 heapId);
+extern void func_02082BCC(void *dst, u32 value, u32 size);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201C440(void *p);
-extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct PrintSys *func_0201C440(u32 heapId);
+extern struct TaskMenuRes *func_02027F60(u16 type, u16 style, struct GfFont *font, struct PrintSys *printSys, u16 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
-extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern void func_02031140(struct S02031140 *p);
-extern u32 func_02045C04(struct Rec *rec);
-extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(unsigned int heap);
+extern struct TaskList *func_0203101C(u16 heapId, u16 tag, u32 count, u32 workSize);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct SaveData *func_02012EBC(struct GameData *gameData);
+extern struct Config *func_0200873C(struct SaveData *saveData);
+extern void func_02031140(struct TaskList *taskList);
+extern u32 func_02045C04(struct MsgBank *msgBank);
+extern void func_020315D4(struct Proc *proc);
+extern void func_020306F0(unsigned int heapId);
 extern void func_02034A5C(int a);
-extern u32 func_02027FD8(struct TaskMenuState *s);
-extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_0201D83C(void *ptr);
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_020310C4(struct Tcbl *p);
-extern void func_0204335C(u32 keep);
-extern void func_020433E0(const struct DispVram *c);
+extern u32 func_02027FD8(struct TaskMenuRes *menuRes);
+extern void func_0201C4C0(struct PrintSys *printSys);
+extern u32 func_0201D83C(struct GfFont *font);
+extern u32 func_0201C4E4(struct PrintSys *printSys);
+extern void func_020310C4(struct TaskList *taskList);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
+extern void func_020433E0(const struct DispVram *config);
 extern void func_0204363C(u32 v);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern u32 func_020056A0(void (*fn)(void), void *arg, u32 z);
-extern void func_02030EAC(struct Node *n);
+extern struct Task *func_020056A0(void (*fn)(struct Task *, OptionMenuScreen *), OptionMenuScreen *arg, u32 priority);
+extern void func_02030EAC(struct Task *task);
 extern void func_0201DD68(void);
-extern void func_02082D44(void *src, void *dst, u32 n);
-extern void func_0203F8F4(u16 heap);
-extern void func_02045088(u16 heap);
-extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void func_02082D44(const void *src, void *dst, u32 size);
+extern void func_0203F8F4(u16 heapId);
+extern void func_02045088(u16 heapId);
+extern void func_0203FC28(struct DispConfig *config);
+extern void func_0203FCA0(u32 bgId, const BgTemplate *layout, u32 type);
 extern void func_020414AC(u8 id);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02040C14(u32 a, u32 b, u32 c, u32 d);
-extern void *func_020490F4(u32 id, u32 heap);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_02049238(void *a);
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *func_020490F4(u32 id, u32 heapId);
+extern u32 func_02049658(void *arc, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+extern void func_020498F4(void *arc, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+extern void func_02049B68(void *arc, u32 b, u32 c, u32 d, u32 e, u16 heapId);
+extern void func_02049BDC(void *arc, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 heapId);
+extern void *func_02049DF4(void *arc, u32 id, u32 b, ScreenData **out, u16 heapId);
+extern void func_02049238(void *arc);
+extern void *func_02049F34(u32 arcId, u32 id, PaletteResource **out, u32 heapId);
 extern void func_020307B0(void *p);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_020452E8(struct Descriptor *d);
+extern struct BmpWindow *func_020450F0(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
+extern u32 func_020452E8(struct BmpWindow *window);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern void func_020403F4(u32 a);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern struct StringBuf *func_02045EC0(struct MsgBank *msgBank, u32 index);
+extern u32 func_0201D304(struct StringBuf *str, struct GfFont *font, u32 a);
+extern struct Bitmap *func_02045770(struct BmpWindow *window);
+extern void func_02043B5C(struct Bitmap *bitmap, u8 value);
+extern void func_0201C7A4(struct Bitmap *bitmap, s16 x, s16 y, struct StringBuf *str, struct GfFont *font);
+extern void func_0201C7D0(struct Bitmap *bitmap, s16 x, s16 y, struct StringBuf *str, struct GfFont *font, u16 color);
+extern void func_02045334(struct BmpWindow *window);
+extern void func_02045374(struct BmpWindow *window);
+extern u8 func_02045730(struct BmpWindow *window);
 extern void func_02041B6C(u32 a);
-extern void func_02045808(struct U16Vec *vec);
-extern void *func_020437D4(const struct Bmp *bmp);
-extern void func_02082A90(u32 a, u32 b, u32 n);
-extern u8 func_02045738(struct Descriptor *p);
-extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void func_02045808(struct StringBuf *str);
+extern void *func_020437D4(const struct Bitmap *bitmap);
+extern void func_02082A90(u32 a, u32 b, u32 size);
+extern u8 func_02045738(struct BmpWindow *window);
+extern s32 func_02061CA4(u32 kind, u32 offset, const void *src, s32 size);
+extern void func_0204A48C(const struct ClInitParam *param, const void *res, u32 heapId);
+extern struct ClUnit *func_0204B100(int count, u8 flag, u32 heapId);
+extern void CLACT_SetUnitDefaultRenderer(struct ClUnit *unit);
 extern void func_020434DC(u32 a, u32 b);
 extern void func_02043598(u32 mask, u32 enable);
-extern int func_0204ABF0(void *, int, int, int, int);
-extern int func_0204A6C8(void *, int, int, int, int);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern int func_0204B294(int, int, int, int, Local *, int, int);
-extern void func_0204B92C(struct Obj *, u32);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern struct ClRes *func_0204ABF0(void *arc, int id, int b, int c, int heapId);
+extern struct ClRes *func_0204A6C8(void *arc, int id, int b, int c, int heapId);
+extern struct ClRes *func_0204AF28(void *arc, u32 first, u32 second, u32 heapId);
+extern struct ClActor *func_0204B294(struct ClUnit *unit, struct ClRes *charRes, struct ClRes *plttRes, struct ClRes *cellRes, ClActorParam *param, int flag, int heapId);
+extern void func_0204B92C(struct ClActor *actor, u32 v);
+extern void func_0204B6F4(struct ClActor *actor, u32 v, u32 flag);
 extern int func_0203CD98(void);
 extern void func_0203D34C(u32 a, u32 b);
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204ADA4(u32 a);
-extern void func_0204A8D4(u32 a);
-extern void func_0204AFD8(u32 a);
-extern u32 func_0204B1CC(struct Bank *bank);
+extern void func_0204B3B4(struct ClActor *actor);
+extern void func_0204ADA4(struct ClRes *res);
+extern void func_0204A8D4(struct ClRes *res);
+extern void func_0204AFD8(struct ClRes *res);
+extern u32 func_0204B1CC(struct ClUnit *unit);
 extern void func_0204A5AC(void);
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(struct ClActor *actor, int index);
 extern void func_0204A600(void);
 extern void func_0204A648(void);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
-extern u32  func_020362DC(void);
+extern u32 func_02035D20(int *x, int *y);
+extern u32 TOUCHPANEL_GetPointCont(int *x, int *y);
+extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 id);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02028470(u8 *p, u32 v);
-extern u8 func_02045778(struct Descriptor *p);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern struct StringBuf *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02028470(PrintWaitState *waitState, u32 v);
+extern u8 BMP_WIN_GetPalette(struct BmpWindow *window);
+extern void func_0201F73C(struct BmpWindow *window, int a1, int a2, int palette);
 extern void func_020409B4(u32 index);
-extern void func_0201CE48(struct Rec3 *p);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-extern u32  func_0201CCE4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
-                          u32 a7, u16 a8, u16 a9);
-extern s32 func_02028484(struct Blk_021B9980 *blk, void *h);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern u32  func_021B62E0(Req *r, u16 a);
-extern int func_02012BF8(int a0, int a1);
-extern void func_021B6598(unsigned char *p, unsigned int id, unsigned int v);
-extern void func_021B639C(void *a);
-extern void func_02028148(u8 *p);
-extern int  func_021BB508(int *rect, void *b);
+extern void func_0201CE48(struct PrintStream *stream);
+extern void func_02045CAC(struct MsgBank *msgBank, u32 index, struct StringBuf *dest);
+extern void func_0201C6FC(struct PrintSys *printSys, struct Bitmap *bitmap, u32 x, u32 y, struct StringBuf *str, struct GfFont *font);
+extern struct PrintStream *func_0201CCE4(struct BmpWindow *window, u32 x, u32 y, struct StringBuf *buffer,
+                                         struct GfFont *font, u32 wait, struct TaskList *taskList,
+                                         u32 zero, u16 heapId, u16 fillColor);
+extern s32 func_02028484(PrintWaitState *waitState, struct PrintStream *stream);
+extern u32 func_0201C6C4(struct PrintSys *printSys, struct Bitmap *bitmap);
+extern struct ReturnButton *func_021B62E0(ReturnButtonRequest *request, u16 heapId);
+extern int GAME_DATA_CheckSaveFlag(struct GameData *gameData, int flag);
+extern void func_021B6598(struct ReturnButton *button, unsigned int id, unsigned int v);
+extern void func_021B639C(struct ReturnButton *button);
+extern void func_02028148(struct TaskMenuWin *win);
+/* stand-in: second name for func_020061E4 with an int parameter; with the u32 prototype the
+   conditional sound id compiles 4 bytes smaller than the original (func_021BA448). */
 extern void func_020061E4_2(int id);
-extern void func_02028218(struct Obj *obj, u32 a);
-extern void func_0202822C(char *p, int v);
-extern void func_021B63D0(struct S *p);
-extern int func_021B6470(u8 *p);
-extern int func_021B6448(u8 *p);
-extern int func_021B65A8(unsigned char *p, int id);
-extern void func_02012BE0(void *p, u32 a, u32 b);
-extern void func_02028178(u8 *p);
-extern u32 func_02028230(u8 *p);
-extern void func_020282A4(struct Obj *obj);
-extern u32  func_02027FEC(u32 a, u8 *b, u8 c, u32 d, u32 e, u32 f);
+extern void APP_TASKMENU_WIN_SetActive(struct TaskMenuWin *win, u32 a);
+extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, int v);
+extern void func_021B63D0(struct ReturnButton *button);
+extern int func_021B6470(struct ReturnButton *button);
+extern int func_021B6448(struct ReturnButton *button);
+extern int func_021B65A8(struct ReturnButton *button, int id);
+extern void GAME_DATA_SetSaveFlag(struct GameData *gameData, u32 a, u32 b);
+extern void func_02028178(struct TaskMenuWin *win);
+extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
+extern void APP_TASKMENU_WIN_ResetDecide(struct TaskMenuWin *win);
+extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, TaskMenuItem *item, u8 y, u32 width, u32 height, u32 heapId);
 extern u32 func_02040804(u32 layer);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_0204B8A0(struct Obj *p, u16 v);
+extern void CLACT_ChangeActorAnimSeq(struct ClActor *actor, u16 v);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_02005C28(u32 a);
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
-extern void  func_02027974(void *p);
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8    func_02027A04(const u8 *p);
-extern void func_02027858(struct TaskMenu *m);
+extern void func_0204B404(struct ClActor *actor, const ClPos *delta, u32 which);
+extern void GFL_USE_SetStereoOutput(u32 a);
+extern struct TaskMenu *func_02027778(TaskMenuTemplate *tmpl, struct TaskMenuRes *res);
+extern void func_02027974(struct TaskMenu *menu);
+extern u32 func_020279E8(struct TaskMenu *menu);
+extern u8 func_02027A04(const struct TaskMenu *menu);
+extern void func_02027858(struct TaskMenu *menu);
 extern void func_0207D658(u32, int, int);
-extern unsigned int func_02008374(int a0);
-extern u32 func_020083AC(u32 a);
-extern u32 func_020083C8(u32 a);
-extern unsigned int func_02008390(char *a0);
-extern int func_02008428(unsigned short *p);
-extern void func_0200837C(u16 *, unsigned int);
-extern void func_020083B4(u16 *, unsigned int);
-extern void func_020083D0(u16 *, unsigned int);
-extern void func_02008398(u16 *, unsigned int);
-extern void func_02008430(u16 *, unsigned int);
+extern unsigned int CONFIG_GetTextSpeed(struct Config *config);
+extern u32 CONFIG_GetBattleScene(struct Config *config);
+extern u32 CONFIG_GetBattleStyle(struct Config *config);
+extern unsigned int CONFIG_GetSoundMode(struct Config *config);
+extern int func_02008428(struct Config *config);
+extern void CONFIG_SetTextSpeed(struct Config *config, unsigned int value);
+extern void CONFIG_SetBattleScene(struct Config *config, unsigned int value);
+extern void CONFIG_SetBattleStyle(struct Config *config, unsigned int value);
+extern void CONFIG_SetSoundMode(struct Config *config, unsigned int value);
+extern void CONFIG_SetButtonMode(struct Config *config, unsigned int value);
 extern int func_0203EFC8(const u8 *, const u8 *, u32);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
-extern u32 func_0201C6B4(const struct PrintSys *p);
-extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
-int func_021B95A0(void *proc, int *seq, Args *args);
-int func_021B9768(void *a, u32 b, u32 c, u8 *w);
-int func_021B980C(u32 a, u32 b, u32 c, u8 *w);
-void func_021B9850(u8 *p, u16 a);
-void func_021B98E0(u8 *p);
-void func_021B9930(u8 *p);
-int func_021B9944(void *p, int i);
-int func_021B9950(void *p);
-int func_021B995C(int *p, int i);
-void func_021B9964(char *p);
-void func_021B996C(void *task, char *p);
-void func_021B9980(u8 *p, u16 heap);
-void func_021B9B6C(u32 *p);
-void func_021B9BD0(u8 *p);
-int func_021B9BFC(int *p, int i);
-void func_021B9C04(u32 *p);
-void func_021B9D58(char *p);
-void func_021B9D60(char *a0);
-void func_021B9D68(u16 *out, u16 *ang, int inc, u32 idx, u8 slot, u16 c0, u16 c1);
-void func_021B9E28(int *p, void *res, u32 heap);
-void func_021B9F70(u32 *p);
-void func_021B9FC0(u8 *p);
-void func_021BA010(char *a0);
-int func_021BA018(char *p, int i);
-int func_021BA020(int *p);
-void func_021BA024(void *p, int heap);
-void func_021BA030(void *p);
-void func_021BA03C(int *p);
-int func_021BA190(const int *p);
-void func_021BA194(const u8 *p, int which, int *out);
-void func_021BA1C4(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u16 s2);
-void func_021BA254(u8 *p);
-void func_021BA278(u8 *p, u32 a, u32 b, u32 c);
-void func_021BA28C(u8 *p, u32 a1, u32 a2, u32 a3, u32 a4);
-int func_021BA31C(u8 *p);
-void func_021BA37C(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u16 s3);
-void func_021BA410(u8 *p);
-void func_021BA448(W *p, void *obj, void *arg);
-void func_021BA644(u8 *p);
-int func_021BA65C(u8 *p, int *out);
-u32 func_021BA668(u8 *p);
-void func_021BA694(u8 *p);
-void func_021BA6B8(u8 *p, u32 arg);
-int func_021BA730(u8 *p);
-void func_021BA734(u8 *p, u16 a1, u16 a2, u32 a3, Blk_021B9980 *src, u32 heap);
-void func_021BA7B4(void *p);
-void func_021BA7C0(u8 *p, void *a1, void *a2, void *a3, void *a4);
-void func_021BA9C0(u8 *p, char *q);
-int func_021BA9DC(void *p);
-void func_021BA9E0(u8 *p, Blk_021B9980 *out);
-void func_021BA9F0(u8 *p, int unused);
-void func_021BA9FC(u8 *p, u8 v);
-void func_021BAA0C(u8 *p, int flag);
-void func_021BABE0(u8 *p, int a1, int a2, int a3);
-void func_021BAC70(u8 *p, void *b);
-void func_021BACF4(u8 *p, u32 a, u32 b);
-void func_021BAD14(u8 *p, u32 v);
-int func_021BAD38(u8 *p, int *q);
-void func_021BAD58(void *p);
-void func_021BAD60(u8 *p, u32 a, u32 b, void *c, u32 s0, u32 s1, u32 s2, u16 s3);
-void func_021BADFC(u8 *p);
-void func_021BAE28(u8 *p);
-void func_021BAE90(void *p, u32 value);
-u16 func_021BAEBC(u8 *p);
-void func_021BAEC4(void *a, u32 b, u32 c);
-void func_021BAF0C(void *p, u32 id, u32 value);
-int func_021BAF38(u8 *p);
-void func_021BAF5C(u8 *p, short unsigned int *a);
-void func_021BAF9C(void *p);
-void func_021BAFA8(u8 *p);
-void func_021BAFD8(u8 *p, int i);
-void func_021BB000(u8 *p, int i, int delta);
-int func_021BB0AC(u8 *p, int i);
-u32 func_021BB0D0(void *b);
-int func_021BB0D8(void *p);
-int func_021BB0E4(const u8 *p, const u8 *q);
-void func_021BB0F8(u8 *p, int value, int callback);
-void func_021BB114(void *p);
-void func_021BB120(u8 *p);
-int func_021BB134(void *p);
-void func_021BB138(void *p, int v);
-void func_021BB140(void *p);
-void func_021BB148(void *unused, u32 *p);
-void func_021BB188(void *p,u32 *state);
-void func_021BB1C4(void *a, u32 *st, u8 *w);
-void func_021BB418(void *a0, u32 *st, u8 *base);
-void func_021BB4A4(void *a,u32 b,u8 *p);
-void func_021BB4D4(void *a,u32 b,u8 *p);
+extern u32 func_0201C6B4(const struct PrintSys *printSys);
+extern int func_020071F0(struct SaveData *saveData);
+extern void func_020419E4(void);
+extern signed char func_02012FFC(void);
+
+int func_021B95A0(struct Proc *proc, int *seq, OptionMenuArgs *args);
+int func_021B9768(struct Proc *proc, int *seq, void *args, OptionMenuWork *work);
+int func_021B980C(struct Proc *proc, int *seq, void *args, OptionMenuWork *work);
+void func_021B9850(OptionMenuScreen *screen, u16 heapId);
+void func_021B98E0(OptionMenuScreen *screen);
+void func_021B9930(OptionMenuScreen *screen);
+struct ClActor *func_021B9944(OptionMenuScreen *screen, int index);
+struct ClUnit *func_021B9950(OptionMenuScreen *screen);
+struct BmpWindow *func_021B995C(OptionMenuScreen *screen, int index);
+void func_021B9964(OptionMenuScreen *screen);
+void func_021B996C(struct Task *task, OptionMenuScreen *screen);
+void func_021B9980(OptionMenuGfx *gfx, u16 heapId);
+void func_021B9B6C(OptionMenuGfx *gfx);
+void func_021B9BD0(OptionMenuGfx *gfx);
+struct BmpWindow *func_021B9BFC(OptionMenuGfx *gfx, int index);
+void func_021B9C04(OptionMenuGfx *gfx);
+void func_021B9D58(OptionMenuGfx *gfx);
+void func_021B9D60(OptionMenuGfx *gfx);
+void func_021B9D68(u16 *outColor, u16 *angle, int step, u32 paletteIndex, u8 slot, u16 color0, u16 color1);
+void func_021B9E28(OptionMenuSprites *sprites, const void *res, u32 heapId);
+void func_021B9F70(OptionMenuSprites *sprites);
+void func_021B9FC0(OptionMenuSprites *sprites);
+void func_021BA010(OptionMenuSprites *sprites);
+struct ClActor *func_021BA018(OptionMenuSprites *sprites, int index);
+struct ClUnit *func_021BA020(OptionMenuSprites *sprites);
+void func_021BA024(OptionMenuInput *input, int heapId);
+void func_021BA030(OptionMenuInput *input);
+void func_021BA03C(OptionMenuInput *input);
+int func_021BA190(const OptionMenuInput *input);
+void func_021BA194(const OptionMenuInput *input, int which, OptionMenuPoint *out);
+void func_021BA1C4(OptionMenuTextBox *box, struct BmpWindow *window, struct GfFont *font, struct MsgBank *msgBank, struct TaskList *taskList, struct PrintSys *printSys, u16 heapId);
+void func_021BA254(OptionMenuTextBox *box);
+void func_021BA278(OptionMenuTextBox *box, u32 messageId, u32 wait, u32 useStream);
+void func_021BA28C(OptionMenuTextBox *box, struct MsgBank *msgBank, u32 messageId, u32 wait, u32 useStream);
+int func_021BA31C(OptionMenuTextBox *box);
+void func_021BA37C(OptionMenuButtons *buttons, struct ClUnit *unit, struct GfFont *font, struct PrintSys *printSys, struct MsgBank *msgBank, struct TaskMenuRes *menuRes, struct GameData *gameData, u16 heapId);
+void func_021BA410(OptionMenuButtons *buttons);
+void func_021BA448(OptionMenuButtons *buttons, const OptionMenuInput *input, const OptionMenuList *list);
+void func_021BA644(OptionMenuButtons *buttons);
+int func_021BA65C(OptionMenuButtons *buttons, int *choice);
+u32 func_021BA668(OptionMenuButtons *buttons);
+void func_021BA694(OptionMenuButtons *buttons);
+void func_021BA6B8(OptionMenuButtons *buttons, u32 heapId);
+int func_021BA730(OptionMenuButtons *buttons);
+void func_021BA734(OptionMenuList *list, u16 mainLayer, u16 subLayer, OptionMenuScreen *screen, const OptionSettings *settings, u32 heapId);
+void func_021BA7B4(OptionMenuList *list);
+void func_021BA7C0(OptionMenuList *list, const OptionMenuInput *input, OptionMenuTextBox *helpText, OptionMenuScreen *screen, OptionMenuButtons *buttons);
+void func_021BA9C0(OptionMenuList *list, OptionMenuScreen *screen);
+int func_021BA9DC(const OptionMenuList *list);
+void func_021BA9E0(const OptionMenuList *list, OptionSettings *out);
+void func_021BA9F0(OptionMenuList *list, int unused);
+void func_021BA9FC(OptionMenuList *list, u8 value);
+void func_021BAA0C(OptionMenuList *list, int highlight);
+void func_021BABE0(OptionMenuList *list, int delta, int min, int max);
+void func_021BAC70(OptionMenuList *list, const OptionMenuPoint *touch);
+void func_021BACF4(OptionMenuList *list, u32 soundMode, u32 force);
+void func_021BAD14(OptionMenuList *list, int delta);
+int func_021BAD38(OptionMenuList *list, const OptionMenuPoint *touch);
+void func_021BAD58(OptionMenuList *list);
+void func_021BAD60(OptionMenuMessageBox *box, struct BmpWindow *window, struct GfFont *font, struct MsgBank *msgBank, struct TaskList *taskList, struct TaskMenuRes *menuRes, struct PrintSys *printSys, u16 heapId);
+void func_021BADFC(OptionMenuMessageBox *box);
+void func_021BAE28(OptionMenuMessageBox *box);
+void func_021BAE90(OptionMenuMessageBox *box, u32 wait);
+u16 func_021BAEBC(const OptionMenuMessageBox *box);
+void func_021BAEC4(OptionMenuMessageBox *box, u32 messageId, u32 wait);
+void func_021BAF0C(OptionMenuMessageBox *box, u32 messageId, u32 wait);
+int func_021BAF38(OptionMenuMessageBox *box);
+void func_021BAF5C(OptionSettings *settings, struct Config *config);
+void func_021BAF9C(OptionSettings *settings);
+void func_021BAFA8(const OptionSettings *settings);
+void func_021BAFD8(OptionSettings *settings, int choiceIndex);
+void func_021BB000(OptionSettings *settings, int row, int delta);
+int func_021BB0AC(const OptionSettings *settings, int choiceIndex);
+u32 func_021BB0D0(const OptionSettings *settings);
+int func_021BB0D8(OptionSettings *settings);
+int func_021BB0E4(const OptionSettings *a, const OptionSettings *b);
+void func_021BB0F8(OptionMenuRunner *runner, OptionMenuWork *work, OptionMenuStateFn callback);
+void func_021BB114(OptionMenuRunner *runner);
+void func_021BB120(OptionMenuRunner *runner);
+int func_021BB134(OptionMenuRunner *runner);
+void func_021BB138(OptionMenuRunner *runner, OptionMenuStateFn callback);
+void func_021BB140(OptionMenuRunner *runner);
+void func_021BB148(OptionMenuRunner *runner, u32 *state, OptionMenuWork *work);
+void func_021BB188(OptionMenuRunner *runner, u32 *state, OptionMenuWork *work);
+void func_021BB1C4(OptionMenuRunner *runner, u32 *state, OptionMenuWork *work);
+void func_021BB418(OptionMenuRunner *runner, u32 *state, OptionMenuWork *work);
+void func_021BB4A4(OptionMenuRunner *runner, u32 *state, OptionMenuWork *work);
+void func_021BB4D4(OptionMenuRunner *runner, u32 *state, OptionMenuWork *work);
+int func_021BB508(const OptionMenuRect *rect, const OptionMenuPoint *point);
+
 extern u8 ov067_id[];
-extern int d_021BB598[];
-extern u8 d_021BB540[];
-extern Row d_021BB614[];
-extern Ent_021B9C04 d_021BB820[];
-extern s16  d_020A1B38[];
-extern char d_020A1448[];
-extern Ent_021BB704 d_021BB704[];
-extern Tbl  d_021BB5D4;
-extern int d_021BB550[];
-extern int d_021BB560[];
-extern const u16 d_021BB570[][4];
+extern struct DispVram d_021BB598;
+extern struct DispConfig d_021BB540;
+extern OptionMenuBgLayer d_021BB614[];
+extern OptionMenuLabel d_021BB820[];
+extern s16 d_020A1B38[];
+extern struct ClInitParam d_020A1448;
+extern OptionMenuChoice d_021BB704[];
+extern ReturnButtonCells d_021BB5D4;
+extern OptionMenuRect d_021BB550;
+extern OptionMenuRect d_021BB560;
+/*
+ * The setting row table at 0x021BB570 and the choice table at 0x021BB704 are
+ * each reached through several symbols in the original: the offsets 0, 2 and
+ * 4 of a row (8 bytes) and the value member (offset 4) of a choice (24 bytes)
+ * are separate pool entries, so each stays its own extern.
+ */
+extern const OptionMenuSettingRow d_021BB570[];
+extern u16 d_021BB572[][4];
+extern u8 d_021BB574[][8];
+extern u32 d_021BB708[][6];
 extern const u8 d_021BB538[];
-extern u16 d_021BB572[];
-extern u8  d_021BB574[];
-extern Ent_021BAF9C d_021BB708[];
 
-
-
-
-
-int func_021B95A0(void *proc, int *seq, Args *args)
+/* Proc init: allocates the work and builds every part of the screen. */
+int func_021B95A0(struct Proc *proc, int *seq, OptionMenuArgs *args)
 {
-    Work *w;
-    u32 t;
+    OptionMenuWork *work;
+    struct GameData *gameData;
 
     func_02034AC4((u32)ov067_id);
     func_0203064C(1, 0x1c, 0x21000);
-    w = func_0203159C(proc, sizeof(Work), 0x1c);
-    func_02082BCC(w, 0, sizeof(Work));
-    w->args = args;
-    w->args->x0 = 0;
-    func_021B9850((u8 *)w, 0x1c);
-    w->font = (u32)func_0201D7EC(0x17, 0, 0, 0, 0x1c);
-    w->x258 = func_0201C440((void *)0x1c);
-    w->x260 = (u32)func_02027F60(0, 0xd, w->font, w->x258, 0x1c);
-    w->x264 = (u32)func_02027F60(3, 9, w->font, w->x258, 0x1c);
-    w->msg = (u32)func_02045B38(0, 2, 0x1d, 0x1c);
-    w->x268 = (u32)func_0203101C(0x1c, 0x1c, 0x20, 0x20);
-    func_021BAF5C(w->x248, (short unsigned int *)func_0200873C(func_02012EBC(func_020120F4((const struct Ctx *)w->args->x4))));
-    func_021BB0F8(w->xD4, (int)w, (int)func_021BB148);
-    t = (u32)func_020120F4((const struct Ctx *)w->args->x4);
-    func_021BA37C(w->x104, func_021B9950(w), w->font, w->x258, w->msg, w->x260, t, 0x1c);
-    func_021BA734(w->x148, 1, 2, (u32)w, (struct Blk_021B9980 *)w->x248, 0x1c);
-    func_021BA024(w->xE4, 0x1c);
-    func_021BA1C4(w->x1A0, func_021B995C((int *)w, 0x11), w->font, w->msg, w->x268, w->x258, 0x1c);
-    func_021BAD60(w->x1D8, func_021B995C((int *)w, 0x12), w->font, (void *)w->msg, w->x268, w->x264, w->x258, 0x1c);
+    work = func_0203159C(proc, sizeof(OptionMenuWork), 0x1c);
+    func_02082BCC(work, 0, sizeof(OptionMenuWork));
+    work->args = args;
+    work->args->result = 0;
+    func_021B9850(&work->screen, 0x1c);
+    work->font = func_0201D7EC(0x17, 0, 0, 0, 0x1c);
+    work->printSys = func_0201C440(0x1c);
+    work->buttonMenuRes = func_02027F60(0, 0xd, work->font, work->printSys, 0x1c);
+    work->messageMenuRes = func_02027F60(3, 9, work->font, work->printSys, 0x1c);
+    work->msgBank = func_02045B38(0, 2, 0x1d, 0x1c);
+    work->taskList = func_0203101C(0x1c, 0x1c, 0x20, 0x20);
+    func_021BAF5C(&work->savedSettings, func_0200873C(func_02012EBC(func_020120F4(work->args->gameSystem))));
+    func_021BB0F8(&work->runner, work, func_021BB148);
+    gameData = func_020120F4(work->args->gameSystem);
+    func_021BA37C(&work->buttons, func_021B9950(&work->screen), work->font, work->printSys, work->msgBank, work->buttonMenuRes, gameData, 0x1c);
+    func_021BA734(&work->list, 1, 2, &work->screen, &work->savedSettings, 0x1c);
+    func_021BA024(&work->input, 0x1c);
+    func_021BA1C4(&work->helpText, func_021B995C(&work->screen, OPTION_WINDOW_DESCRIPTION), work->font, work->msgBank, work->taskList, work->printSys, 0x1c);
+    func_021BAD60(&work->messageBox, func_021B995C(&work->screen, OPTION_WINDOW_MESSAGE), work->font, work->msgBank, work->taskList, work->messageMenuRes, work->printSys, 0x1c);
     return 1;
 }
 
-
-
-
-
-int func_021B9768(void *a, u32 b, u32 c, u8 *w)
+int func_021B9768(struct Proc *proc, int *seq, void *args, OptionMenuWork *work)
 {
-    func_021BADFC(w + 0x1d8);
-    func_021BA254(w + 0x1a0);
-    func_021BA030(w + 0xe4);
-    func_021BA7B4(w + 0x148);
-    func_021BA410(w + 0x104);
-    func_021BB114(w + 0xd4);
-    func_021BAF9C(w + 0x248);
-    func_02031140(((struct Obj05149 *)w)->f268);
-    func_02045C04(((struct Obj05149 *)w)->f25C);
-    func_02027FD8(((struct Obj05149 *)w)->f264);
-    func_02027FD8(((struct Obj05149 *)w)->f260);
-    func_0201C4C0(((struct Obj05149 *)w)->f258);
-    func_0201D83C(((struct Obj05149 *)w)->f254);
-    func_021B98E0(w);
-    func_020315D4(a);
+    func_021BADFC(&work->messageBox);
+    func_021BA254(&work->helpText);
+    func_021BA030(&work->input);
+    func_021BA7B4(&work->list);
+    func_021BA410(&work->buttons);
+    func_021BB114(&work->runner);
+    func_021BAF9C(&work->savedSettings);
+    func_02031140(work->taskList);
+    func_02045C04(work->msgBank);
+    func_02027FD8(work->messageMenuRes);
+    func_02027FD8(work->buttonMenuRes);
+    func_0201C4C0(work->printSys);
+    func_0201D83C(work->font);
+    func_021B98E0(&work->screen);
+    func_020315D4(proc);
     func_020306F0(0x1c);
     func_02034A5C((int)ov067_id);
     return 1;
 }
 
-
-
-
-
-int func_021B980C(u32 a, u32 b, u32 c, u8 *w)
+int func_021B980C(struct Proc *proc, int *seq, void *args, OptionMenuWork *work)
 {
-    func_021BB120(w + 0xd4);
-    func_021B9930(w);
-    func_0201C4E4(((struct Obj13137 *)w)->f258);
-    func_020310C4(((struct Obj13137 *)w)->f268);
-    func_021BA644(w + 0x104);
-    if (func_021BB134(w + 0xd4) != 0)
+    func_021BB120(&work->runner);
+    func_021B9930(&work->screen);
+    func_0201C4E4(work->printSys);
+    func_020310C4(work->taskList);
+    func_021BA644(&work->buttons);
+    if (func_021BB134(&work->runner) != 0)
         return 1;
     return 0;
 }
 
-
-
-
-
-void func_021B9850(u8 *p, u16 a)
+void func_021B9850(OptionMenuScreen *screen, u16 heapId)
 {
-    func_02082BCC(p, 0, 0xd4);
-    *(volatile u16 *)0x04000050 = 0;
-    *(volatile u16 *)0x04001050 = 0;
-    *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
-    *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
-    func_0204335C(0);
-    func_020433E0((const struct DispVram *)d_021BB598);
+    func_02082BCC(screen, 0, sizeof(OptionMenuScreen));
+    REG_A_BLDCNT = 0;
+    REG_B_BLDCNT = 0;
+    REG_A_DISPCNT &= DISPCNT_WINDOWS_OFF;
+    REG_B_DISPCNT &= DISPCNT_WINDOWS_OFF;
+    BG_SYS_ClearGraphicsMemory(0);
+    func_020433E0(&d_021BB598);
     func_0204363C(0);
     func_0204361C();
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     func_0201DD60();
     func_0201DD78(0xf, 0xe, 0);
-    func_021B9980(p, a);
-    func_021B9E28((int *)(p + 0x7c), d_021BB598, a);
-    ((struct Obj20634 *)p)->fD0 = func_020056A0((void (*)(void))func_021B996C, p, 0);
+    func_021B9980(&screen->gfx, heapId);
+    func_021B9E28(&screen->sprites, &d_021BB598, heapId);
+    screen->task = func_020056A0(func_021B996C, screen, 0);
 }
 
-
-
-
-
-void func_021B98E0(u8 *p)
+void func_021B98E0(OptionMenuScreen *screen)
 {
-    func_02030EAC((struct Node *)(((struct Obj20635 *)p)->fD0));
-    func_021B9F70((u32 *)(p + 0x7c));
-    func_021B9B6C((u32 *)p);
+    func_02030EAC(screen->task);
+    func_021B9F70(&screen->sprites);
+    func_021B9B6C(&screen->gfx);
     func_0201DD68();
-    *(volatile u16 *)0x04000050 = 0;
-    *(volatile u16 *)0x04001050 = 0;
-    *(volatile u32 *)0x04000000 &= 0xffff1fff;
-    *(volatile u32 *)0x04001000 &= 0xffff1fff;
-    func_02082BCC(p, 0, 0xd4);
+    REG_A_BLDCNT = 0;
+    REG_B_BLDCNT = 0;
+    REG_A_DISPCNT &= DISPCNT_WINDOWS_OFF;
+    REG_B_DISPCNT &= DISPCNT_WINDOWS_OFF;
+    func_02082BCC(screen, 0, sizeof(OptionMenuScreen));
 }
 
-
-
-
-void func_021B9930(u8 *p)
+void func_021B9930(OptionMenuScreen *screen)
 {
-    func_021B9FC0(p + 0x7c);
-    func_021B9BD0(p);
+    func_021B9FC0(&screen->sprites);
+    func_021B9BD0(&screen->gfx);
 }
 
-
-
-
-int func_021B9944(void *p, int i)
+struct ClActor *func_021B9944(OptionMenuScreen *screen, int index)
 {
-    int func_021BA018(char *, int);
-    return func_021BA018((char *)p + 0x7c, i);
+    return func_021BA018(&screen->sprites, index);
 }
 
-
-
-
-
-int func_021B9950(void *p)
+struct ClUnit *func_021B9950(OptionMenuScreen *screen)
 {
-    int func_021BA020(int *p);
-    return func_021BA020((int *)((char *)p + 0x7c));
+    return func_021BA020(&screen->sprites);
 }
 
-
-
-
-
-int func_021B995C(int *p, int i)
+struct BmpWindow *func_021B995C(OptionMenuScreen *screen, int index)
 {
-    int func_021B9BFC(int *, int);
-    return func_021B9BFC(p, i);
+    return func_021B9BFC(&screen->gfx, index);
 }
 
-
-
-
-
-void func_021B9964(char *p)
+void func_021B9964(OptionMenuScreen *screen)
 {
-    void func_021B9D58(char *);
-    func_021B9D58(p);
+    func_021B9D58(&screen->gfx);
 }
 
-
-void func_021B996C(void *task, char *p)
+/* Per frame task of the screen: background transfer, then actor drawing. */
+void func_021B996C(struct Task *task, OptionMenuScreen *screen)
 {
-    func_021B9D60(p);
-    func_021BA010(p + 0x7c);
+    func_021B9D60(&screen->gfx);
+    func_021BA010(&screen->sprites);
 }
-
-
-
-
-
-
-
 
 /*
  * note 2026-10-05 (recoup R14): func_02049658 returns u32 (as in ov210 021BC5DC); declared void it
  *   made the build copy the zero from r5 (adds rN,r5,#0) for the register zero arguments after
  *   02049BDC. EXACT in c99 and c with the u32 return.
  */
-void func_021B9980(u8 *p, u16 heap)
+void func_021B9980(OptionMenuGfx *gfx, u16 heapId)
 {
-    void *h;
-    void *buf;
-    PlttData *pd;
+    void *arc;
+    void *buffer;
+    PaletteResource *pltt;
     int i;
-    u32 id;
+    u32 layerId;
 
-    func_02082BCC(p, 0, 0x7c);
-    func_0203F8F4(heap);
-    func_02045088(heap);
-    func_0203FC28((struct DispConfig *)d_021BB540);
+    func_02082BCC(gfx, 0, sizeof(OptionMenuGfx));
+    func_0203F8F4(heapId);
+    func_02045088(heapId);
+    func_0203FC28(&d_021BB540);
     for (i = 0; i < 6; i++) {
-        id = d_021BB614[i].id;
-        func_0203FCA0((u8)id, (const struct BgTemplate *)(&d_021BB614[i].w[0]), (u8)d_021BB614[i].f24);
-        func_020414AC(id);
-        func_02040588(id, 1);
+        layerId = d_021BB614[i].layerId;
+        func_0203FCA0((u8)layerId, &d_021BB614[i].layout, (u8)d_021BB614[i].mapType);
+        func_020414AC(layerId);
+        func_02040588(layerId, 1);
     }
     func_02040588(3, 0);
     func_02040C14(4, 0, 1, 0);
     func_02040C14(3, 0, 1, 0);
-    h = func_020490F4(0x1b, heap);
-    func_02049B68(h, 1, 0, 0, 0, heap);
-    func_02049658(h, 0xd, 0, 0, 0, 0, heap);
-    func_020498F4(h, 0xe, 0, 0, 0, 0, heap);
-    func_02049658(h, 0, 2, 0, 0, 0, heap);
-    func_020498F4(h, 2, 2, 0, 0, 0, heap);
-    func_02049658(h, 0x10, 3, 1, 0, 0, heap);
-    func_02049BDC(h, 8, 0, 0x80, 0x1e0, 0x20, heap);
-    *(void **)(p + 0x54) = func_02049DF4(h, 0xf, 0, (u32)(p + 0x58), heap);
-    func_02049B68(h, 8, 4, 0, 0, heap);
-    func_02049658(h, 7, 5, 0, 0, 0, heap);
-    func_020498F4(h, 9, 5, 0, 0, 0, heap);
-    func_02049658(h, 0x10, 4, 1, 0, 0, heap);
-    func_02049238(h);
-    buf = func_02049F34(0x1b, 1, (u32)(&pd), heap);
-    func_02082D44(pd->data + 0xe0, p + 0x5c, 0x20);
-    func_020307B0(buf);
-    *(u32 *)(p + 0x44) = func_020450F0(4, 1, 0x13, 0x1e, 4, 4, 1);
-    *(u32 *)(p + 0x48) = func_020450F0(3, 1, 1, 0x1e, 4, 0xf, 1);
-    *(u32 *)(p + 0x40) = func_020450F0(0, 0, 0, 0x10, 3, 8, 1);
-    func_021B9C04((u32 *)p);
+    arc = func_020490F4(0x1b, heapId);
+    func_02049B68(arc, 1, 0, 0, 0, heapId);
+    func_02049658(arc, 0xd, 0, 0, 0, 0, heapId);
+    func_020498F4(arc, 0xe, 0, 0, 0, 0, heapId);
+    func_02049658(arc, 0, 2, 0, 0, 0, heapId);
+    func_020498F4(arc, 2, 2, 0, 0, 0, heapId);
+    func_02049658(arc, 0x10, 3, 1, 0, 0, heapId);
+    func_02049BDC(arc, 8, 0, 0x80, 0x1e0, 0x20, heapId);
+    gfx->screenBuffer = func_02049DF4(arc, 0xf, 0, &gfx->screenData, heapId);
+    func_02049B68(arc, 8, 4, 0, 0, heapId);
+    func_02049658(arc, 7, 5, 0, 0, 0, heapId);
+    func_020498F4(arc, 9, 5, 0, 0, 0, heapId);
+    func_02049658(arc, 0x10, 4, 1, 0, 0, heapId);
+    func_02049238(arc);
+    buffer = func_02049F34(0x1b, 1, &pltt, heapId);
+    func_02082D44(pltt->colors + 0xe0, gfx->palette, 0x20);
+    func_020307B0(buffer);
+    gfx->windows[OPTION_WINDOW_DESCRIPTION] = func_020450F0(4, 1, 0x13, 0x1e, 4, 4, 1);
+    gfx->windows[OPTION_WINDOW_MESSAGE] = func_020450F0(3, 1, 1, 0x1e, 4, 0xf, 1);
+    gfx->windows[OPTION_WINDOW_TITLE] = func_020450F0(0, 0, 0, 0x10, 3, 8, 1);
+    func_021B9C04(gfx);
     func_02040588(4, 0);
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_021B9B6C(u32 *p)
+void func_021B9B6C(OptionMenuGfx *gfx)
 {
     int i;
 
-    for (i = 0; i < 19; i++) {
-        if (p[i] != 0) {
-            func_020452E8((struct Descriptor *)p[i]);
+    for (i = 0; i < OPTION_WINDOW_COUNT; i++) {
+        if (gfx->windows[i] != 0) {
+            func_020452E8(gfx->windows[i]);
         }
     }
-    func_020307B0((void *)p[21]);
+    func_020307B0(gfx->screenBuffer);
     func_02040DA8(4, 1, 0);
     i = 0;
     func_02040DA8(3, 1, 0);
     for (i = 0; i < 6; i++) {
-        func_020403F4((u8)d_021BB614[i].id);
+        func_020403F4((u8)d_021BB614[i].layerId);
     }
     func_020450C8();
     func_0203F9B4();
-    func_02082BCC(p, 0, 0x7c);
+    func_02082BCC(gfx, 0, sizeof(OptionMenuGfx));
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_021B9BD0(u8 *p)
+/* Cross-fades the highlight colour (palette entries 11 and 12). */
+void func_021B9BD0(OptionMenuGfx *gfx)
 {
-    func_021B9D68((u16 *)(p + 0x50), (u16 *)(p + 0x4c), 0x400, 7, 1,
-                 ((struct Obj13138 *)p)->f72, ((struct Obj13138 *)p)->f74);
+    func_021B9D68(&gfx->blinkColor, &gfx->blinkAngle, 0x400, 7, 1,
+                 gfx->palette[11], gfx->palette[12]);
 }
 
-
-
-
-
-
-
-
-
-
-
-int func_021B9BFC(int *p, int i)
+struct BmpWindow *func_021B9BFC(OptionMenuGfx *gfx, int index)
 {
-    return p[i];
+    return gfx->windows[index];
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The rounded width goes through a u8 local that is both stored to the
  * table row and passed on (the call reloading the field is 4 bytes longer).
  * func_0201D304 takes the string first and the font second.
  */
-void func_021B9C04(u32 *p)
+void func_021B9C04(OptionMenuGfx *gfx)
 {
-    u32 font;
-    u32 msg;
-    u32 str;
-    u32 w;
+    struct GfFont *font;
+    struct MsgBank *msgBank;
+    struct StringBuf *str;
+    struct BmpWindow *window;
+    u8 *charData;
     int i;
     int x;
-    Ent_021B9C04 *e;
-    u8 wv;
+    OptionMenuLabel *label;
+    u8 width;
 
-    font = (u32)func_0201D7EC(0x17, 0, 0, 0, 0x1c);
-    msg = (u32)func_02045B38(0, 2, 0x1d, 0x1c);
-    for (i = 0; i < 16; i++) {
+    font = func_0201D7EC(0x17, 0, 0, 0, 0x1c);
+    msgBank = func_02045B38(0, 2, 0x1d, 0x1c);
+    for (i = 0; i < OPTION_WINDOW_LABEL_COUNT; i++) {
         x = 0;
         switch (i) {
         case 0:
@@ -986,1933 +748,1395 @@ void func_021B9C04(u32 *p)
             x = 2;
             break;
         }
-        e = &d_021BB820[i];
-        str = (u32)func_02045EC0((struct MsgBank *)msg, d_021BB820[i].msg);
-        wv = (x + func_0201D304((struct StrObj *)str, font, 0) + 7) >> 3;
-        e->w = wv;
-        p[i] = func_020450F0(1, e->x, e->y, wv, e->h, 0, 1);
-        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p[i])), 0);
-        func_0201C7A4((void *)((u32)func_02045770((struct Descriptor *)p[i])), x, 0, (void *)str, (void *)font);
-        w = p[i];
-        func_02045334((struct Descriptor *)w);
-        func_02045374((struct Cfg *)w);
-        func_02041B6C(func_02045730((struct Descriptor *)w));
-        func_02045808((struct U16Vec *)str);
+        label = &d_021BB820[i];
+        str = func_02045EC0(msgBank, d_021BB820[i].messageId);
+        width = (x + func_0201D304(str, font, 0) + 7) >> 3;
+        label->width = width;
+        gfx->windows[i] = func_020450F0(1, label->x, label->y, width, label->height, 0, 1);
+        func_02043B5C(func_02045770(gfx->windows[i]), 0);
+        func_0201C7A4(func_02045770(gfx->windows[i]), x, 0, str, font);
+        window = gfx->windows[i];
+        func_02045334(window);
+        func_02045374(window);
+        func_02041B6C(func_02045730(window));
+        func_02045808(str);
     }
-    w = *(u32 *)(p[22] + 0x14);
-    func_02082A90(w, (u32)func_020437D4((const struct Bmp *)((u32)func_02045770((struct Descriptor *)p[16]))), 0x600);
-    str = (u32)func_02045EC0((struct MsgBank *)msg, 0);
-    x = func_02045738((struct Descriptor *)p[16]) * 4;
-    x -= func_0201D304((struct StrObj *)str, font, 0) >> 1;
-    func_0201C7D0((void *)((u32)func_02045770((struct Descriptor *)p[16])), x, 4, (void *)str, (void *)font, 0x3dc1);
-    w = p[16];
-    func_02045334((struct Descriptor *)w);
-    func_02045374((struct Cfg *)w);
-    func_02041B6C(func_02045730((struct Descriptor *)w));
-    func_02045808((struct U16Vec *)str);
-    func_02045C04((struct Rec *)msg);
-    func_0201D83C((void *)font);
+    charData = gfx->screenData->charData;
+    func_02082A90((u32)charData, (u32)func_020437D4(func_02045770(gfx->windows[OPTION_WINDOW_TITLE])), 0x600);
+    str = func_02045EC0(msgBank, 0);
+    x = func_02045738(gfx->windows[OPTION_WINDOW_TITLE]) * 4;
+    x -= func_0201D304(str, font, 0) >> 1;
+    func_0201C7D0(func_02045770(gfx->windows[OPTION_WINDOW_TITLE]), x, 4, str, font, 0x3dc1);
+    window = gfx->windows[OPTION_WINDOW_TITLE];
+    func_02045334(window);
+    func_02045374(window);
+    func_02041B6C(func_02045730(window));
+    func_02045808(str);
+    func_02045C04(msgBank);
+    func_0201D83C(font);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void func_021B9D58(char *p)
+/* Restarts the highlight cross-fade. */
+void func_021B9D58(OptionMenuGfx *gfx)
 {
-    ((struct Obj20637 *)p)->f4C = 0;
+    gfx->blinkAngle = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_021B9D60(char *a0)
+void func_021B9D60(OptionMenuGfx *gfx)
 {
-    void func_020419E4(void);
     func_020419E4();
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
- * BGR555 cross-fade of one palette entry: advance the u16 phase at *ang by
- * inc (wrapping at 0x10000), take f = (table[phase >> 4 pair, second entry]
+ * BGR555 cross-fade of one palette entry: advance the u16 phase at *angle by
+ * step (wrapping at 0x10000), take weight = (table[phase >> 4 pair, second entry]
  * + 0x1000) / 2 as an s16 from the table at 0x020A1B38, blend each channel
- * of c0 toward c1 by f >> 12, store to *out and hand it to func_02061CA4.
- * Twin: arm9 func_0202EA40 (blink_palanm.c).  What closed it: all six
+ * of color0 toward color1 by weight >> 12, store to *outColor and hand it to func_02061CA4.
+ * Twin: arm9 BLINK_PALANM_Update (blink_palanm.c).  What closed it: all six
  * channels as u8 locals extracted in mask-then-shift form, the blended
  * channels as s32 with a u8 cast, and the pack `(b << 10) | (r | (g << 5))`
  * (the channel ORed last is evaluated first: blue, red, green).  Shift-then-
  * mask extraction, or the unnested pack, compiles 184 bytes.
  */
-void func_021B9D68(u16 *out, u16 *ang, int inc, u32 idx, u8 slot, u16 c0, u16 c1)
+void func_021B9D68(u16 *outColor, u16 *angle, int step, u32 paletteIndex, u8 slot, u16 color0, u16 color1)
 {
-    int t;
-    s16 f;
+    int next;
+    s16 weight;
     u8 r0, g0, b0, r1, g1, b1;
     s32 r, g, b;
 
-    t = *ang + inc;
-    if (t >= 0x10000) {
-        *ang = t - 0x10000;
+    next = *angle + step;
+    if (next >= 0x10000) {
+        *angle = next - 0x10000;
     } else {
-        *ang = t;
+        *angle = next;
     }
-    f = (d_020A1B38[((*ang >> 4) << 1) + 1] + 0x1000) / 2;
-    r0 = c0 & 0x1f;
-    g0 = (c0 & 0x3e0) >> 5;
-    b0 = (c0 & 0x7c00) >> 10;
-    r1 = c1 & 0x1f;
-    g1 = (c1 & 0x3e0) >> 5;
-    b1 = (c1 & 0x7c00) >> 10;
-    b = (u8)(b0 + (((b1 - b0) * f) >> 12));
-    r = (u8)(r0 + (((r1 - r0) * f) >> 12));
-    g = (u8)(g0 + (((g1 - g0) * f) >> 12));
-    *out = (u16)((b << 10) | (r | (g << 5)));
-    func_02061CA4((void *)15, idx * 32 + slot * 2, (u32)out, 2);
+    weight = (d_020A1B38[((*angle >> 4) << 1) + 1] + 0x1000) / 2;
+    r0 = color0 & 0x1f;
+    g0 = (color0 & 0x3e0) >> 5;
+    b0 = (color0 & 0x7c00) >> 10;
+    r1 = color1 & 0x1f;
+    g1 = (color1 & 0x3e0) >> 5;
+    b1 = (color1 & 0x7c00) >> 10;
+    b = (u8)(b0 + (((b1 - b0) * weight) >> 12));
+    r = (u8)(r0 + (((r1 - r0) * weight) >> 12));
+    g = (u8)(g0 + (((g1 - g0) * weight) >> 12));
+    *outColor = (u16)((b << 10) | (r | (g << 5)));
+    func_02061CA4(15, paletteIndex * 32 + slot * 2, outColor, 2);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void func_021B9E28(int *p, void *res, u32 heap)
+void func_021B9E28(OptionMenuSprites *sprites, const void *res, u32 heapId)
 {
-    Local s;
-    void *h;
+    ClActorParam param;
+    void *arc;
     int i;
 
-    func_02082BCC(p, 0, 0x54);
-    func_0204A48C((const struct Cfg *)d_020A1448, (u32)res, heap);
-    p[0] = (int)func_0204B100(0x80, 0, heap);
-    func_0204B270((struct Bank *)p[0]);
+    func_02082BCC(sprites, 0, 0x54);
+    func_0204A48C(&d_020A1448, res, heapId);
+    sprites->unit = func_0204B100(0x80, 0, heapId);
+    CLACT_SetUnitDefaultRenderer(sprites->unit);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
-    h = func_020490F4(0x1b, heap);
-    p[1] = func_0204ABF0(h, 6, 0, 0, heap);
-    p[2] = func_0204A6C8(h, 5, 0, 0, heap);
-    p[3] = func_0204AF28(h, 4, 3, heap);
-    p[4] = func_0204A6C8(h, 0xc, 0, 0, heap);
-    p[5] = func_0204AF28(h, 0xb, 0xa, heap);
-    func_02049238(h);
-    func_02082BCC(&s, 0, 8);
-    s.e = 2;
-    s.d = 2;
-    for (i = 2; i < 13; i++) {
-        s.a = d_021BB704[i - 2].f8;
-        s.b = d_021BB704[i - 2].fC;
-        p[6 + i] = func_0204B294(p[0], p[2], p[1], p[3], &s, 0, heap);
-        func_0204B92C((struct Obj *)p[6 + i], 0);
+    arc = func_020490F4(0x1b, heapId);
+    sprites->plttRes = func_0204ABF0(arc, 6, 0, 0, heapId);
+    sprites->mainCharRes = func_0204A6C8(arc, 5, 0, 0, heapId);
+    sprites->mainCellRes = func_0204AF28(arc, 4, 3, heapId);
+    sprites->subCharRes = func_0204A6C8(arc, 0xc, 0, 0, heapId);
+    sprites->subCellRes = func_0204AF28(arc, 0xb, 0xa, heapId);
+    func_02049238(arc);
+    func_02082BCC(&param, 0, 8);
+    param.bgPriority = 2;
+    param.priority = 2;
+    for (i = OPTION_ACTOR_CHOICE_FIRST; i < OPTION_ACTOR_CHOICE_FIRST + OPTION_ACTOR_CHOICE_COUNT; i++) {
+        param.x = d_021BB704[i - 2].actorX;
+        param.y = d_021BB704[i - 2].actorY;
+        sprites->actors[i] = func_0204B294(sprites->unit, sprites->mainCharRes, sprites->plttRes, sprites->mainCellRes, &param, 0, heapId);
+        func_0204B92C(sprites->actors[i], 0);
     }
-    func_02082BCC(&s, 0, 8);
-    s.a = 0x80;
-    s.b = 0x60;
-    s.e = 2;
-    s.d = 1;
-    p[7] = func_0204B294(p[0], p[4], p[1], p[5], &s, 0, heap);
-    func_0204B6F4((struct Obj *)p[7], 6, 1);
+    func_02082BCC(&param, 0, 8);
+    param.x = 0x80;
+    param.y = 0x60;
+    param.bgPriority = 2;
+    param.priority = 1;
+    sprites->actors[OPTION_ACTOR_CURSOR] = func_0204B294(sprites->unit, sprites->subCharRes, sprites->plttRes, sprites->subCellRes, &param, 0, heapId);
+    func_0204B6F4(sprites->actors[OPTION_ACTOR_CURSOR], 6, 1);
     if (func_0203CD98())
-        func_0203D34C(1, heap);
+        func_0203D34C(1, heapId);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void func_021B9F70(u32 *p)
+void func_021B9F70(OptionMenuSprites *sprites)
 {
     int i;
 
-    for (i = 0; i < 14; i++) {
-        if (p[i + 6] != 0) {
-            func_0204B3B4((struct Obj *)p[i + 6]);
+    for (i = 0; i < OPTION_ACTOR_COUNT; i++) {
+        if (sprites->actors[i] != 0) {
+            func_0204B3B4(sprites->actors[i]);
         }
     }
-    func_0204ADA4(p[1]);
-    func_0204A8D4(p[2]);
-    func_0204AFD8(p[3]);
-    func_0204A8D4(p[4]);
-    func_0204AFD8(p[5]);
-    func_0204B1CC((struct Bank *)p[0]);
+    func_0204ADA4(sprites->plttRes);
+    func_0204A8D4(sprites->mainCharRes);
+    func_0204AFD8(sprites->mainCellRes);
+    func_0204A8D4(sprites->subCharRes);
+    func_0204AFD8(sprites->subCellRes);
+    func_0204B1CC(sprites->unit);
     func_0204A5AC();
-    func_02082BCC(p, 0, 0x54);
+    func_02082BCC(sprites, 0, 0x54);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void func_021B9FC0(u8 *p)
+/* Steps the choice animation frame (wraps after 0x60) and draws the actors. */
+void func_021B9FC0(OptionMenuSprites *sprites)
 {
     int i;
-    u16 t;
+    u16 frame;
 
-    t = (((struct Obj09869 *)p)->f50)++;
-    if (t > 0x60) {
-        ((struct Obj09869 *)p)->f50 = 0;
+    frame = (sprites->animFrame)++;
+    if (frame > 0x60) {
+        sprites->animFrame = 0;
     }
-    for (i = 2; i < 13; i++) {
-        func_0204B908(*(u32 *)(p + i * 4 + 0x18), (u16)(((struct Obj09869 *)p)->f50 / 12));
+    for (i = OPTION_ACTOR_CHOICE_FIRST; i < OPTION_ACTOR_CHOICE_FIRST + OPTION_ACTOR_CHOICE_COUNT; i++) {
+        CLACT_SetActorAnimIndex(sprites->actors[i], (u16)(sprites->animFrame / 12));
     }
     func_0204A600();
 }
 
+void func_021BA010(OptionMenuSprites *sprites) { func_0204A648(); }
 
-
-
-
-
-
-
-
-
-
-void func_021BA010(char *a0) { func_0204A648(); }
-
-
-
-
-
-
-
-
-
-
-int func_021BA018(char *p, int i)
+struct ClActor *func_021BA018(OptionMenuSprites *sprites, int index)
 {
-    return *(int *)(p + (i << 2) + 0x18);
+    return sprites->actors[index];
 }
 
-
-
-
-
-
-
-
-
-
-int func_021BA020(int *p)
+struct ClUnit *func_021BA020(OptionMenuSprites *sprites)
 {
-    return *p;
+    return sprites->unit;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Two identical wrappers around func_02082BCC(p, 0, 0x20).
  */
-void func_021BA024(void *p, int heap)
+void func_021BA024(OptionMenuInput *input, int heapId)
 {
-    void func_02082BCC(void *, u32, u32);
-    func_02082BCC(p, 0, 0x20);
+    func_02082BCC(input, 0, 0x20);
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_021BA030(void *p)
+void func_021BA030(OptionMenuInput *input)
 {
-    void func_02082BCC(void *, u32, u32);
-    func_02082BCC(p, 0, 0x20);
+    func_02082BCC(input, 0, 0x20);
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
- * Touch and key input to a command code in p[0].
+ * Touch and key input to a command code in input->command.
  */
-void func_021BA03C(int *p)
+void func_021BA03C(OptionMenuInput *input)
 {
     int x;
     int y;
-    u32 trg;
-    u32 cont;
-    int d;
+    u32 trigger;
+    u32 held;
+    int dy;
 
-    p[0] = 0;
-    if (func_02035D20((u32 *)(&x), (u32 *)(&y))) {
-        p[0] = 3;
-        p[1] = x;
-        p[2] = y;
-        p[5] = x;
-        p[6] = y;
-        p[7] = 1;
-    } else if (func_02035CB8((u32 *)(&x), (u32 *)(&y)) && p[7] != 0) {
-        d = y - p[2];
-        if (d < 0)
-            d = -d;
-        if (d >= 1) {
-            p[0] = 1;
-            p[3] = x - p[5];
-            p[4] = y - p[6];
-            p[5] = x;
-            p[6] = y;
+    input->command = OPTION_INPUT_NONE;
+    if (func_02035D20(&x, &y)) {
+        input->command = OPTION_INPUT_TOUCH;
+        input->startX = x;
+        input->startY = y;
+        input->lastX = x;
+        input->lastY = y;
+        input->touching = 1;
+    } else if (TOUCHPANEL_GetPointCont(&x, &y) && input->touching != 0) {
+        dy = y - input->startY;
+        if (dy < 0)
+            dy = -dy;
+        if (dy >= 1) {
+            input->command = OPTION_INPUT_DRAG;
+            input->dragX = x - input->lastX;
+            input->dragY = y - input->lastY;
+            input->lastX = x;
+            input->lastY = y;
         }
     } else {
-        p[7] = 0;
+        input->touching = 0;
     }
-    trg = func_020362DC();
-    cont = func_0203630C();
-    if (trg != 0 && func_020355C4() == 1 && (trg & 0xc02) == 0) {
+    trigger = func_020362DC();
+    held = func_0203630C();
+    if (trigger != 0 && func_020355C4() == 1 && (trigger & (OPTION_KEY_X | OPTION_KEY_Y | OPTION_KEY_B)) == 0) {
         func_020355D8(0);
-        p[0] = 0xe;
-        func_020061E4(0x548);
+        input->command = OPTION_INPUT_KEY_ACTIVATE;
+        func_020061E4(OPTION_SE_CURSOR);
         return;
     }
-    if (trg & 0x40) {
-        p[0] = 4;
+    if (trigger & OPTION_KEY_UP) {
+        input->command = OPTION_INPUT_UP;
         return;
     }
-    if (trg & 0x80) {
-        p[0] = 5;
+    if (trigger & OPTION_KEY_DOWN) {
+        input->command = OPTION_INPUT_DOWN;
         return;
     }
-    if (trg & 0x20) {
-        p[0] = 7;
+    if (trigger & OPTION_KEY_LEFT) {
+        input->command = OPTION_INPUT_LEFT;
         return;
     }
-    if (trg & 0x10) {
-        p[0] = 6;
+    if (trigger & OPTION_KEY_RIGHT) {
+        input->command = OPTION_INPUT_RIGHT;
         return;
     }
-    if (cont & 0x40) {
-        p[0] = 0xa;
+    if (held & OPTION_KEY_UP) {
+        input->command = OPTION_INPUT_HOLD_UP;
         return;
     }
-    if (cont & 0x80) {
-        p[0] = 0xb;
+    if (held & OPTION_KEY_DOWN) {
+        input->command = OPTION_INPUT_HOLD_DOWN;
         return;
     }
-    if (trg & 1) {
-        p[0] = 8;
+    if (trigger & OPTION_KEY_A) {
+        input->command = OPTION_INPUT_CONFIRM;
         return;
     }
-    if (trg & 2) {
+    if (trigger & OPTION_KEY_B) {
         func_020355D8(0);
-        p[0] = 9;
+        input->command = OPTION_INPUT_CANCEL;
         return;
     }
-    if (trg & 0x800) {
+    if (trigger & OPTION_KEY_X) {
         func_020355D8(0);
-        p[0] = 0xc;
+        input->command = OPTION_INPUT_SHORTCUT_X;
         return;
     }
-    if (trg & 0x400) {
+    if (trigger & OPTION_KEY_Y) {
         func_020355D8(0);
-        p[0] = 0xd;
+        input->command = OPTION_INPUT_SHORTCUT_Y;
     }
 }
 
+int func_021BA190(const OptionMenuInput *input) { return input->command; }
 
-
-
-
-
-
-
-
-
-int func_021BA190(const int *p) { return *p; }
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021BA194(const u8 *p, int which, int *out)
+/* which: 0 = touch start, 1 = drag step, 2 = last touch point. */
+void func_021BA194(const OptionMenuInput *input, int which, OptionMenuPoint *out)
 {
     if (out == 0)
         return;
     switch (which) {
     case 0:
-        out[0] = *(const int *)&((struct Obj05150 *)p)->f4;
-        out[1] = *(const int *)&((struct Obj05150 *)p)->f8;
+        out->x = input->startX;
+        out->y = input->startY;
         break;
     case 1:
-        out[0] = *(const int *)&((struct Obj05150 *)p)->fC;
-        out[1] = *(const int *)&((struct Obj05150 *)p)->f10;
+        out->x = input->dragX;
+        out->y = input->dragY;
         break;
     case 2:
-        out[0] = *(const int *)&((struct Obj05150 *)p)->f14;
-        out[1] = *(const int *)&((struct Obj05150 *)p)->f18;
+        out->x = input->lastX;
+        out->y = input->lastY;
         break;
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void func_021BA1C4(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u16 s2)
+void func_021BA1C4(OptionMenuTextBox *box, struct BmpWindow *window, struct GfFont *font, struct MsgBank *msgBank, struct TaskList *taskList, struct PrintSys *printSys, u16 heapId)
 {
-    u32 w;
+    struct BmpWindow *printWindow;
 
-    func_02082BCC(p, 0, 0x38);
-    ((struct Obj01227 *)p)->f18 = 4;
-    ((struct Obj01227 *)p)->f10 = a1;
-    ((struct Obj01227 *)p)->f1A = s2;
-    ((struct Obj01227 *)p)->f4 = a2;
-    ((struct Obj01227 *)p)->f0 = a3;
-    ((struct Obj01227 *)p)->f14 = (u32)func_020457B0(0xff, s2);
-    ((struct Obj01227 *)p)->fC = s0;
-    ((struct Obj01227 *)p)->f8 = 0;
-    ((struct Obj01227 *)p)->f24 = s1;
-    ((struct Obj01227 *)p)->f28 = 0;
-    func_02028470(p + 0x2c, 0x406);
-    func_0201F73C((void *)(((struct Obj01227 *)p)->f10), 2, 1, func_02045778((struct Descriptor *)a1));
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01227 *)p)->f10)), (u8)((struct Obj01227 *)p)->f18);
-    w = ((struct Obj01227 *)p)->f10;
-    func_02045334((struct Descriptor *)w);
-    func_02045374((struct Cfg *)w);
-    func_020409B4(func_02045730((struct Descriptor *)w));
-    ((struct Obj01227 *)p)->f1C = ((struct Obj01227 *)p)->f10;
-    p[0x20] = 0;
+    func_02082BCC(box, 0, sizeof(OptionMenuTextBox));
+    box->fillColor = 4;
+    box->window = window;
+    box->heapId = heapId;
+    box->font = font;
+    box->msgBank = msgBank;
+    box->buffer = func_020457B0(0xff, heapId);
+    box->taskList = taskList;
+    box->stream = 0;
+    box->printSys = printSys;
+    box->mode = 0;
+    func_02028470(&box->waitState, 0x406);
+    func_0201F73C(box->window, 2, 1, BMP_WIN_GetPalette(window));
+    func_02043B5C(func_02045770(box->window), (u8)box->fillColor);
+    printWindow = box->window;
+    func_02045334(printWindow);
+    func_02045374(printWindow);
+    func_020409B4(func_02045730(printWindow));
+    box->printWindow = box->window;
+    box->printing = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void func_021BA254(u8 *p)
+void func_021BA254(OptionMenuTextBox *box)
 {
-    if (((struct Obj07683 *)p)->f8 != 0) {
-        func_0201CE48((struct Rec3 *)(((struct Obj07683 *)p)->f8));
-        ((struct Obj07683 *)p)->f8 = 0;
+    if (box->stream != 0) {
+        func_0201CE48(box->stream);
+        box->stream = 0;
     }
-    func_02045808((struct U16Vec *)(((struct Obj07683 *)p)->f14));
-    func_02082BCC(p, 0, 0x38);
+    func_02045808(box->buffer);
+    func_02082BCC(box, 0, sizeof(OptionMenuTextBox));
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_021BA278(u8 *p, u32 a, u32 b, u32 c)
+void func_021BA278(OptionMenuTextBox *box, u32 messageId, u32 wait, u32 useStream)
 {
-    func_021BA28C(p, ((struct Obj00884 *)p)->f0, a, b, c);
+    func_021BA28C(box, box->msgBank, messageId, wait, useStream);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void func_021BA28C(u8 *p, u32 a1, u32 a2, u32 a3, u32 a4)
+/* useStream 0 prints at once through the print system, otherwise a print stream runs. */
+void func_021BA28C(OptionMenuTextBox *box, struct MsgBank *msgBank, u32 messageId, u32 wait, u32 useStream)
 {
-    u32 t;
+    struct PrintSys *printSys;
 
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj00884 *)p)->f10)), (u8)((struct Obj00884 *)p)->f18);
-    func_02045CAC((struct MsgBank *)a1, a2, (void *)(((struct Obj00884 *)p)->f14));
-    if (((struct Obj00884 *)p)->f8 != 0) {
-        func_0201CE48((struct Rec3 *)(((struct Obj00884 *)p)->f8));
-        ((struct Obj00884 *)p)->f8 = 0;
+    func_02043B5C(func_02045770(box->window), (u8)box->fillColor);
+    func_02045CAC(msgBank, messageId, box->buffer);
+    if (box->stream != 0) {
+        func_0201CE48(box->stream);
+        box->stream = 0;
     }
-    if (a4 == 0) {
-        t = ((struct Obj00884 *)p)->f24;
-        func_0201C6FC((struct PrintSys *)t, (u32)func_02045770((struct Descriptor *)((struct Obj00884 *)p)->f1C), 0, 0,
-                      (void *)(((struct Obj00884 *)p)->f14), ((struct Obj00884 *)p)->f4);
-        p[0x20] = 1;
-        ((struct Obj00884 *)p)->f28 = 2;
+    if (useStream == 0) {
+        printSys = box->printSys;
+        func_0201C6FC(printSys, func_02045770(box->printWindow), 0, 0,
+                      box->buffer, box->font);
+        box->printing = 1;
+        box->mode = 2;
         return;
     }
-    ((struct Obj00884 *)p)->f8 = func_0201CCE4(((struct Obj00884 *)p)->f10, 0, 0, ((struct Obj00884 *)p)->f14,
-                                    ((struct Obj00884 *)p)->f4, a3, ((struct Obj00884 *)p)->fC, 0,
-                                    ((struct Obj00884 *)p)->f1A, ((struct Obj00884 *)p)->f18);
-    ((struct Obj00884 *)p)->f28 = 1;
+    box->stream = func_0201CCE4(box->window, 0, 0, box->buffer,
+                                box->font, wait, box->taskList, 0,
+                                box->heapId, box->fillColor);
+    box->mode = 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-int func_021BA31C(u8 *p)
+/* Returns 1 when nothing is left to print. */
+int func_021BA31C(OptionMenuTextBox *box)
 {
-    u32 t;
+    struct PrintSys *printSys;
 
-    switch (((struct Obj03658 *)p)->f28) {
+    switch (box->mode) {
     case 0:
     default:
         return 1;
     case 2:
-        t = ((struct Obj03658 *)p)->f24;
-        if (p[0x20] != 0) {
-            if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj03658 *)p)->f1C))) == 0) {
-                func_02045334((struct Descriptor *)((struct Obj03658 *)p)->f1C);
-                p[0x20] = 0;
+        printSys = box->printSys;
+        if (box->printing != 0) {
+            if (func_0201C6C4(printSys, func_02045770(box->printWindow)) == 0) {
+                func_02045334(box->printWindow);
+                box->printing = 0;
             }
         }
-        if (p[0x20] == 0) {
+        if (box->printing == 0) {
             return 1;
         }
         return 0;
     case 1:
-        return func_02028484((struct Blk_021B9980 *)(p + 0x2c), (void *)(((struct Obj03658 *)p)->f8));
+        return func_02028484(&box->waitState, box->stream);
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void func_021BA37C(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u16 s3)
+void func_021BA37C(OptionMenuButtons *buttons, struct ClUnit *unit, struct GfFont *font, struct PrintSys *printSys, struct MsgBank *msgBank, struct TaskMenuRes *menuRes, struct GameData *gameData, u16 heapId)
 {
-    Tbl t;
-    Req r;
+    ReturnButtonCells cells;
+    ReturnButtonRequest request;
 
-    func_02082BCC(p, 0, 0x44);
-    ((struct Obj02762 *)p)->fC = 3;
-    ((struct Obj02762 *)p)->f0 = a2;
-    ((struct Obj02762 *)p)->f14 = s1;
-    ((struct Obj02762 *)p)->f18 = s0;
-    ((struct Obj02762 *)p)->f4 = a3;
-    ((struct Obj02762 *)p)->f3C = s2;
-    t = d_021BB5D4;
-    func_02082BCC(&r, 0, 0x20);
-    r.w[0] = (u32)&t;
-    r.w[1] = 2;
-    r.w[2] = a1;
-    r.w[5] = 8;
-    r.w[7] = 1;
-    r.w[6] = 2;
-    ((struct Obj02762 *)p)->f8 = func_021B62E0(&r, s3);
-    func_021BA6B8(p, s3);
-    if (func_02012BF8(((struct Obj02762 *)p)->f3C, 0x18) != 0) {
-        func_021B6598((unsigned char *)(((struct Obj02762 *)p)->f8), 6, 1);
+    func_02082BCC(buttons, 0, sizeof(OptionMenuButtons));
+    buttons->choice = OPTION_BUTTON_NONE;
+    buttons->font = font;
+    buttons->menuRes = menuRes;
+    buttons->msgBank = msgBank;
+    buttons->printSys = printSys;
+    buttons->gameData = gameData;
+    cells = d_021BB5D4;
+    func_02082BCC(&request, 0, 0x20);
+    request.cells = &cells;
+    request.cellCount = 2;
+    request.unit = unit;
+    request.size = 8;
+    request.enabled = 1;
+    request.priority = 2;
+    buttons->returnButton = func_021B62E0(&request, heapId);
+    func_021BA6B8(buttons, heapId);
+    if (GAME_DATA_CheckSaveFlag(buttons->gameData, 0x18) != 0) {
+        func_021B6598(buttons->returnButton, 6, 1);
     } else {
-        func_021B6598((unsigned char *)(((struct Obj02762 *)p)->f8), 6, 0);
+        func_021B6598(buttons->returnButton, 6, 0);
     }
 }
 
-
-
-
-
-
-
-
-
-
-void func_021BA410(u8 *p)
+void func_021BA410(OptionMenuButtons *buttons)
 {
     int i;
 
-    func_021B639C(((struct Obj20641 *)p)->f8);
+    func_021B639C(buttons->returnButton);
     for (i = 0; i < 2; i++) {
-        func_02045808((struct U16Vec *)(*(u32 *)(p + i * 0xc + 0x1c)));
-        func_02028148((u8 *)(*(u32 *)(p + i * 4 + 0x34)));
+        func_02045808(buttons->items[i].label);
+        func_02028148(buttons->buttons[i]);
     }
-    func_02082BCC(p, 0, 0x44);
+    func_02082BCC(buttons, 0, sizeof(OptionMenuButtons));
 }
 
-
-
-
-
-
-
-void func_021BA448(W *p, void *obj, void *arg)
+/* Handles the confirm and cancel buttons and the return button for one frame. */
+void func_021BA448(OptionMenuButtons *buttons, const OptionMenuInput *input, const OptionMenuList *list)
 {
-    int cmd;
-    int flag;
-    int v;
-    int r;
-    int pt[2];
+    int command;
+    int refresh;
+    int cursor;
+    int result;
+    OptionMenuPoint touch;
 
-    flag = 0;
-    p->f40 = 0;
-    if (p->f10 != 0)
-        cmd = 0;
+    refresh = 0;
+    buttons->focusChanged = 0;
+    if (buttons->decided != 0)
+        command = OPTION_INPUT_NONE;
     else
-        cmd = func_021BA190(obj);
-    v = func_021BA9DC(arg);
-    switch (cmd) {
-    case 0:
-    case 1:
+        command = func_021BA190(input);
+    cursor = func_021BA9DC(list);
+    switch (command) {
+    case OPTION_INPUT_NONE:
+    case OPTION_INPUT_DRAG:
     case 2:
-    case 12:
-    case 13:
+    case OPTION_INPUT_SHORTCUT_X:
+    case OPTION_INPUT_SHORTCUT_Y:
         break;
-    case 14:
+    case OPTION_INPUT_KEY_ACTIVATE:
         return;
-    case 3:
-        func_021BA194(obj, 0, pt);
-        if (func_021BB508(d_021BB550, pt) && p->fC != 0) {
+    case OPTION_INPUT_TOUCH:
+        func_021BA194(input, 0, &touch);
+        if (func_021BB508(&d_021BB550, &touch) && buttons->choice != OPTION_BUTTON_CONFIRM) {
             func_02040588(4, 0);
-            func_020061E4(0x54c);
-            p->fC = 0;
-            p->f10 = 1;
-            p->f40 = 1;
+            func_020061E4(OPTION_SE_CONFIRM);
+            buttons->choice = OPTION_BUTTON_CONFIRM;
+            buttons->decided = 1;
+            buttons->focusChanged = 1;
             if (func_020355C4() == 0)
                 func_020355D8(1);
-        } else if (func_021BB508(d_021BB560, pt) && p->fC != 1) {
+        } else if (func_021BB508(&d_021BB560, &touch) && buttons->choice != OPTION_BUTTON_CANCEL) {
             func_02040588(4, 0);
-            func_020061E4(0x551);
-            p->fC = 1;
-            p->f10 = 1;
-            p->f40 = 1;
+            func_020061E4(OPTION_SE_CANCEL);
+            buttons->choice = OPTION_BUTTON_CANCEL;
+            buttons->decided = 1;
+            buttons->focusChanged = 1;
             if (func_020355C4() == 0)
                 func_020355D8(1);
-        } else if (p->fC != 3) {
-            p->fC = 3;
+        } else if (buttons->choice != OPTION_BUTTON_NONE) {
+            buttons->choice = OPTION_BUTTON_NONE;
         }
-        flag = 1;
+        refresh = 1;
         break;
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 10:
-    case 11:
-        switch (v) {
-        case 5:
-            p->fC = 0;
+    case OPTION_INPUT_UP:
+    case OPTION_INPUT_DOWN:
+    case OPTION_INPUT_RIGHT:
+    case OPTION_INPUT_LEFT:
+    case OPTION_INPUT_HOLD_UP:
+    case OPTION_INPUT_HOLD_DOWN:
+        switch (cursor) {
+        case OPTION_CURSOR_CONFIRM:
+            buttons->choice = OPTION_BUTTON_CONFIRM;
             break;
-        case 6:
-            p->fC = 1;
+        case OPTION_CURSOR_CANCEL:
+            buttons->choice = OPTION_BUTTON_CANCEL;
             break;
         default:
-            p->fC = 3;
+            buttons->choice = OPTION_BUTTON_NONE;
             break;
         }
-        flag = 1;
+        refresh = 1;
         break;
-    case 8:
-        if (p->fC != 3) {
-            func_020061E4_2(p->fC == 1 ? 0x551 : 0x54c);
+    case OPTION_INPUT_CONFIRM:
+        if (buttons->choice != OPTION_BUTTON_NONE) {
+            func_020061E4_2(buttons->choice == OPTION_BUTTON_CANCEL ? OPTION_SE_CANCEL : OPTION_SE_CONFIRM);
         } else {
-            p->fC = 0;
-            func_020061E4(0x54c);
+            buttons->choice = OPTION_BUTTON_CONFIRM;
+            func_020061E4(OPTION_SE_CONFIRM);
         }
-        flag = 1;
-        p->f10 = 1;
+        refresh = 1;
+        buttons->decided = 1;
         break;
-    case 9:
-        func_020061E4(0x551);
-        flag = 1;
-        p->fC = 1;
-        p->f10 = 1;
+    case OPTION_INPUT_CANCEL:
+        func_020061E4(OPTION_SE_CANCEL);
+        refresh = 1;
+        buttons->choice = OPTION_BUTTON_CANCEL;
+        buttons->decided = 1;
         break;
     }
-    if (flag) {
-        if (p->fC == 3) {
-            func_02028218((struct Obj *)p->f34[0], 0);
-            func_02028218((struct Obj *)p->f34[1], 0);
-        } else if (p->f10 != 0) {
-            func_02028218((struct Obj *)p->f34[p->fC], 0);
-            func_0202822C((char *)p->f34[p->fC], 1);
-            func_02028218((struct Obj *)p->f34[p->fC ^ 1], 0);
+    if (refresh) {
+        if (buttons->choice == OPTION_BUTTON_NONE) {
+            APP_TASKMENU_WIN_SetActive(buttons->buttons[0], 0);
+            APP_TASKMENU_WIN_SetActive(buttons->buttons[1], 0);
+        } else if (buttons->decided != 0) {
+            APP_TASKMENU_WIN_SetActive(buttons->buttons[buttons->choice], 0);
+            APP_TASKMENU_WIN_SetDecide(buttons->buttons[buttons->choice], 1);
+            APP_TASKMENU_WIN_SetActive(buttons->buttons[buttons->choice ^ 1], 0);
         } else {
-            func_02028218((struct Obj *)p->f34[p->fC], 1);
-            func_02028218((struct Obj *)p->f34[p->fC ^ 1], 0);
+            APP_TASKMENU_WIN_SetActive(buttons->buttons[buttons->choice], 1);
+            APP_TASKMENU_WIN_SetActive(buttons->buttons[buttons->choice ^ 1], 0);
         }
     }
-    if (p->f10 == 0) {
-        func_021B63D0((struct S *)p->f8);
-        r = func_021B6470((u8 *)p->f8);
-        if (r != 0) {
-            if (r == 6 && func_020355C4() == 1)
-                p->f40 = 1;
+    if (buttons->decided == 0) {
+        func_021B63D0(buttons->returnButton);
+        result = func_021B6470(buttons->returnButton);
+        if (result != 0) {
+            if (result == 6 && func_020355C4() == 1)
+                buttons->focusChanged = 1;
         } else {
             if (func_020355C4() == 1)
-                p->f40 = 1;
+                buttons->focusChanged = 1;
         }
-        r = func_021B6448((u8 *)p->f8);
-        if (r != 0) {
-            if (r == 6) {
-                if (func_021B65A8((unsigned char *)p->f8, 6))
-                    func_02012BE0((void *)p->f3C, 0x18, 1);
+        result = func_021B6448(buttons->returnButton);
+        if (result != 0) {
+            if (result == 6) {
+                if (func_021B65A8(buttons->returnButton, 6))
+                    GAME_DATA_SetSaveFlag(buttons->gameData, 0x18, 1);
                 else
-                    func_02012BE0((void *)p->f3C, 0x18, 0);
-                p->fC = 3;
+                    GAME_DATA_SetSaveFlag(buttons->gameData, 0x18, 0);
+                buttons->choice = OPTION_BUTTON_NONE;
             }
         } else {
-            p->fC = 2;
-            p->f10 = 1;
+            buttons->choice = OPTION_BUTTON_RETURN;
+            buttons->decided = 1;
         }
     }
 }
 
-
-
-
-
-
-
-
-
-void func_021BA644(u8 *p)
+void func_021BA644(OptionMenuButtons *buttons)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        func_02028178((u8 *)(*(u32 *)(p + i * 4 + 0x34)));
+        func_02028178(buttons->buttons[i]);
     }
 }
 
-
-
-
-
-
-
-
-
-
-int func_021BA65C(u8 *p, int *out)
+/* Returns whether a button was pressed; the choice goes to *choice if given. */
+int func_021BA65C(OptionMenuButtons *buttons, int *choice)
 {
-    if (out != 0)
-        *out = ((struct Obj13139 *)p)->fC;
-    return ((struct Obj13139 *)p)->f10;
+    if (choice != 0)
+        *choice = buttons->choice;
+    return buttons->decided;
 }
 
-
-
-
-
-
-
-
-
-
-u32 func_021BA668(u8 *p)
+/* Returns whether the pressed button finished its animation, and resets the buttons then. */
+u32 func_021BA668(OptionMenuButtons *buttons)
 {
-    u32 r = 0;
+    u32 finished = 0;
 
-    if (((struct Obj13140 *)p)->f10 != 0) {
-        u32 t = ((struct Obj13140 *)p)->fC;
+    if (buttons->decided != 0) {
+        u32 choice = buttons->choice;
 
-        if (t != 3) {
-            r = func_02028230((u8 *)(*(u32 *)(p + t * 4 + 0x34)));
-            if (r != 0) {
-                func_021BA694(p);
+        if (choice != OPTION_BUTTON_NONE) {
+            finished = APP_TASKMENU_WIN_IsFinish(buttons->buttons[choice]);
+            if (finished != 0) {
+                func_021BA694(buttons);
             }
         }
     }
-    return r;
+    return finished;
 }
 
-
-
-
-
-
-
-
-
-
-void func_021BA694(u8 *p)
+void func_021BA694(OptionMenuButtons *buttons)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        func_020282A4((struct Obj *)(*(u32 *)(p + i * 4 + 0x34)));
-        func_02028218((struct Obj *)(*(u32 *)(p + i * 4 + 0x34)), 0);
+        APP_TASKMENU_WIN_ResetDecide(buttons->buttons[i]);
+        APP_TASKMENU_WIN_SetActive(buttons->buttons[i], 0);
     }
 }
 
-
-
-
-
-
-
-
-
-
-/*
- * The stores through a 12-byte element struct (P/Ent_021B9980) versus the byte-offset
- * reads keep two separate i*12 multiplies, as in the original.
- */
-/*
- * The stores through a 12-byte element struct (P/Ent) versus the byte-offset
- * reads keep two separate i*12 multiplies, as in the original.
- */
-void func_021BA6B8(u8 *p, u32 arg)
+void func_021BA6B8(OptionMenuButtons *buttons, u32 heapId)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        if (*(u32 *)(p + i * 12 + 0x1c) != 0) {
-            func_02045808((struct U16Vec *)(*(u32 *)(p + i * 12 + 0x1c)));
+        if (buttons->items[i].label != 0) {
+            func_02045808(buttons->items[i].label);
         }
-        ((P *)p)->e[i].h = (u32)func_02045EC0((struct MsgBank *)(((struct Obj06169 *)p)->f18), i + 8);
-        ((P *)p)->e[i].x = 0x39e3;
-        ((P *)p)->e[i].idx = i;
-        if (*(u32 *)(p + i * 4 + 0x34) != 0) {
-            func_02028148((u8 *)(*(u32 *)(p + i * 4 + 0x34)));
+        buttons->items[i].label = func_02045EC0(buttons->msgBank, i + 8);
+        buttons->items[i].color = 0x39e3;
+        buttons->items[i].value = i;
+        if (buttons->buttons[i] != 0) {
+            func_02028148(buttons->buttons[i]);
         }
-        *(u32 *)(p + i * 4 + 0x34) =
-            func_02027FEC(((struct Obj06169 *)p)->f14, p + 0x1c + i * 12, i * 9 + 14, 0x15, 9, arg);
+        buttons->buttons[i] =
+            APP_TASKMENU_WIN_Create(buttons->menuRes, &buttons->items[i], i * 9 + 14, 0x15, 9, heapId);
     }
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Unlabelled leaf before func_021BA734; func_021BB1C4 tests its result.
  */
-int func_021BA730(u8 *p)
+int func_021BA730(OptionMenuButtons *buttons)
 {
-    return ((struct Obj20643 *)p)->f40;
+    return buttons->focusChanged;
 }
 
-
-
-
-
-
-
-
 /*
- * a1/a2 are u16 parameters (stored with strh); as u32 the strh of a1 is
- * scheduled after the struct-copy source load.
+ * mainLayer/subLayer are u16 parameters (stored with strh); as u32 the strh of the
+ * first is scheduled after the struct-copy source load.
  */
-void func_021BA734(u8 *p, u16 a1, u16 a2, u32 a3, Blk_021B9980 *src, u32 heap)
+void func_021BA734(OptionMenuList *list, u16 mainLayer, u16 subLayer, OptionMenuScreen *screen, const OptionSettings *settings, u32 heapId)
 {
     int i;
 
-    func_02082BCC(p, 0, 0x58);
-    ((struct Obj00103 *)p)->f0 = a1;
-    ((struct Obj00103 *)p)->f2 = a2;
-    ((struct Obj00103 *)p)->f34 = 0x10;
-    *(Blk_021B9980 *)(p + 0x44) = *src;
-    for (i = 0; i < 11; i++) {
-        *(u32 *)(p + i * 4 + 8) = func_021B9944((void *)a3, i + 2);
+    func_02082BCC(list, 0, sizeof(OptionMenuList));
+    list->mainLayer = mainLayer;
+    list->subLayer = subLayer;
+    list->scrollY = 0x10;
+    list->settings = *settings;
+    for (i = 0; i < OPTION_ACTOR_CHOICE_COUNT; i++) {
+        list->choiceActors[i] = func_021B9944(screen, i + OPTION_ACTOR_CHOICE_FIRST);
     }
-    func_021BABE0(p, -8, -192, 192);
+    func_021BABE0(list, -8, -192, 192);
     if (func_020355C4() == 1) {
-        ((struct Obj00103 *)p)->f4 = -1;
-        func_021BAA0C(p, 0);
-        *(u32 *)&((struct Obj00103 *)p)->f50 = 0;
+        list->cursor = -1;
+        func_021BAA0C(list, 0);
+        list->redraw = 0;
     } else {
-        *(u32 *)&((struct Obj00103 *)p)->f4 = 0;
-        func_021BAA0C(p, 1);
-        *(u32 *)&((struct Obj00103 *)p)->f50 = 1;
+        list->cursor = 0;
+        func_021BAA0C(list, 1);
+        list->redraw = 1;
     }
 }
 
-
-
-
-
-
-
-
-void func_021BA7B4(void *p)
+void func_021BA7B4(OptionMenuList *list)
 {
-    void func_02082BCC(void *, u32, u32);
-    func_02082BCC(p, 0, 0x58);
+    func_02082BCC(list, 0, sizeof(OptionMenuList));
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * The 0/1/2 test on func_021BB0D8's result is a switch with three empty
  * labels: `r == 0 || r == 1 || r == 2` folds to one unsigned `cmp #2`.
  */
-void func_021BA7C0(u8 *p, void *a1, void *a2, void *a3, void *a4)
+void func_021BA7C0(OptionMenuList *list, const OptionMenuInput *input, OptionMenuTextBox *helpText, OptionMenuScreen *screen, OptionMenuButtons *buttons)
 {
-    int pos[2];
-    int r;
-    int s;
-    u32 t;
+    OptionMenuPoint touch;
+    int command;
+    int useStream;
+    u32 wait;
 
-    r = func_021BA190(a1);
-    func_02040804(((struct Obj00103 *)p)->f2);
-    switch (r) {
-    case 14:
-        ((struct Obj00103 *)p)->f4 = ((struct Obj00103 *)p)->f4 > 6 ? 6 : (((struct Obj00103 *)p)->f4 < 0 ? 0 : ((struct Obj00103 *)p)->f4);
-        func_021BAA0C(p, 1);
-        ((struct Obj00103 *)p)->f50 = 1;
+    command = func_021BA190(input);
+    func_02040804(list->subLayer);
+    switch (command) {
+    case OPTION_INPUT_KEY_ACTIVATE:
+        list->cursor = list->cursor > OPTION_CURSOR_CANCEL ? OPTION_CURSOR_CANCEL : (list->cursor < 0 ? 0 : list->cursor);
+        func_021BAA0C(list, 1);
+        list->redraw = 1;
         break;
-    case 10:
-        if ((((struct Obj00103 *)p)->f38)++ < 10)
+    case OPTION_INPUT_HOLD_UP:
+        if ((list->repeatCounter)++ < 10)
             break;
-    case 4:
-        ((struct Obj00103 *)p)->f38 = 0;
-        ((struct Obj00103 *)p)->f4 = ((struct Obj00103 *)p)->f4 == 0 ? 6 : ((struct Obj00103 *)p)->f4 - 1;
-        ((struct Obj00103 *)p)->f50 = 1;
-        func_020061E4(0x548);
-        func_021BAA0C(p, 1);
-        func_021B9964(a3);
+        /* fall through */
+    case OPTION_INPUT_UP:
+        list->repeatCounter = 0;
+        list->cursor = list->cursor == 0 ? OPTION_CURSOR_CANCEL : list->cursor - 1;
+        list->redraw = 1;
+        func_020061E4(OPTION_SE_CURSOR);
+        func_021BAA0C(list, 1);
+        func_021B9964(screen);
         break;
-    case 11:
-        if ((((struct Obj00103 *)p)->f38)++ < 10)
+    case OPTION_INPUT_HOLD_DOWN:
+        if ((list->repeatCounter)++ < 10)
             break;
-    case 5:
-        ((struct Obj00103 *)p)->f38 = 0;
-        if (((struct Obj00103 *)p)->f4 == 6)
-            ((struct Obj00103 *)p)->f4 = 0;
+        /* fall through */
+    case OPTION_INPUT_DOWN:
+        list->repeatCounter = 0;
+        if (list->cursor == OPTION_CURSOR_CANCEL)
+            list->cursor = 0;
         else
-            (((struct Obj00103 *)p)->f4)++;
-        ((struct Obj00103 *)p)->f50 = 1;
-        func_020061E4(0x548);
-        func_021BAA0C(p, 1);
-        func_021B9964(a3);
+            (list->cursor)++;
+        list->redraw = 1;
+        func_020061E4(OPTION_SE_CURSOR);
+        func_021BAA0C(list, 1);
+        func_021B9964(screen);
         break;
-    case 3:
-        func_021BA194(a1, 0, pos);
-        if (pos[1] < 0x18 || pos[1] > 0xA8)
+    case OPTION_INPUT_TOUCH:
+        func_021BA194(input, 0, &touch);
+        if (touch.y < 0x18 || touch.y > 0xA8)
             break;
-        ((struct Obj00103 *)p)->f4 = func_021BAD38(p, pos);
-        func_021BAC70(p, pos);
-        func_021BAA0C(p, 0);
-        func_021B9964(a3);
-        ((struct Obj00103 *)p)->f50 = 1;
+        list->cursor = func_021BAD38(list, &touch);
+        func_021BAC70(list, &touch);
+        func_021BAA0C(list, 0);
+        func_021B9964(screen);
+        list->redraw = 1;
         if (func_020355C4() == 0)
             func_020355D8(1);
         break;
-    case 6:
-        if (((struct Obj00103 *)p)->f4 < 5) {
-            func_020061E4(0x548);
-            func_021BAD14(p, 1);
-            func_021BAA0C(p, 1);
-            func_021B9964(a3);
-        } else if (((struct Obj00103 *)p)->f4 == 5) {
-            (((struct Obj00103 *)p)->f4)++;
-            func_020061E4(0x548);
-            ((struct Obj00103 *)p)->f4 = ((struct Obj00103 *)p)->f4 > 6 ? 6 : (((struct Obj00103 *)p)->f4 < 0 ? 0 : ((struct Obj00103 *)p)->f4);
+    case OPTION_INPUT_RIGHT:
+        if (list->cursor < OPTION_COUNT) {
+            func_020061E4(OPTION_SE_CURSOR);
+            func_021BAD14(list, 1);
+            func_021BAA0C(list, 1);
+            func_021B9964(screen);
+        } else if (list->cursor == OPTION_CURSOR_CONFIRM) {
+            (list->cursor)++;
+            func_020061E4(OPTION_SE_CURSOR);
+            list->cursor = list->cursor > OPTION_CURSOR_CANCEL ? OPTION_CURSOR_CANCEL : (list->cursor < 0 ? 0 : list->cursor);
         }
         break;
-    case 7:
-        if (((struct Obj00103 *)p)->f4 < 5) {
-            func_020061E4(0x548);
-            func_021BAD14(p, -1);
-            func_021BAA0C(p, 1);
-            func_021B9964(a3);
-        } else if (((struct Obj00103 *)p)->f4 == 6) {
-            (((struct Obj00103 *)p)->f4)--;
-            func_020061E4(0x548);
-            ((struct Obj00103 *)p)->f4 = ((struct Obj00103 *)p)->f4 > 6 ? 6 : (((struct Obj00103 *)p)->f4 < 0 ? 0 : ((struct Obj00103 *)p)->f4);
+    case OPTION_INPUT_LEFT:
+        if (list->cursor < OPTION_COUNT) {
+            func_020061E4(OPTION_SE_CURSOR);
+            func_021BAD14(list, -1);
+            func_021BAA0C(list, 1);
+            func_021B9964(screen);
+        } else if (list->cursor == OPTION_CURSOR_CANCEL) {
+            (list->cursor)--;
+            func_020061E4(OPTION_SE_CURSOR);
+            list->cursor = list->cursor > OPTION_CURSOR_CANCEL ? OPTION_CURSOR_CANCEL : (list->cursor < 0 ? 0 : list->cursor);
         }
         break;
-    case 12:
-        func_021BAA0C(p, 1);
+    case OPTION_INPUT_SHORTCUT_X:
+        func_021BAA0C(list, 1);
         break;
-    case 8:
-    case 9:
-        func_021BAA0C(p, 0);
+    case OPTION_INPUT_CONFIRM:
+    case OPTION_INPUT_CANCEL:
+        func_021BAA0C(list, 0);
         break;
     }
-    switch (func_021BB0D8(p + 0x44)) {
+    switch (func_021BB0D8(&list->settings)) {
     case 0:
     case 1:
     case 2:
-        ((struct Obj00103 *)p)->f50 = 1;
+        list->redraw = 1;
         break;
     }
-    if (((struct Obj00103 *)p)->f50) {
-        if (((struct Obj00103 *)p)->f4 >= 0 && ((struct Obj00103 *)p)->f4 < 5) {
-            if (((struct Obj00103 *)p)->f4 == 0) {
-                s = 1;
-                t = func_021BB0D0(p + 0x44);
+    if (list->redraw) {
+        if (list->cursor >= 0 && list->cursor < OPTION_COUNT) {
+            if (list->cursor == 0) {
+                useStream = 1;
+                wait = func_021BB0D0(&list->settings);
             } else {
-                s = 0;
-                t = 0;
+                useStream = 0;
+                wait = 0;
             }
             func_02040588(4, 1);
-            func_021BA278(a2, d_021BB570[((struct Obj00103 *)p)->f4][0], t, s);
+            func_021BA278(helpText, d_021BB570[list->cursor].descriptionId, wait, useStream);
         } else {
             func_02040588(4, 0);
         }
-        ((struct Obj00103 *)p)->f50 = 0;
+        list->redraw = 0;
     }
-    func_021BA31C(a2);
-    func_021BAD58(p);
+    func_021BA31C(helpText);
+    func_021BAD58(list);
 }
 
-
-
-
-
-
-
-
-
-void func_021BA9C0(u8 *p, char *q)
+void func_021BA9C0(OptionMenuList *list, OptionMenuScreen *screen)
 {
-    func_021BAA0C(p, 0);
+    func_021BAA0C(list, 0);
     func_02040588(4, 0);
-    func_021B9964(q);
+    func_021B9964(screen);
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Integer getter at offset 0x4.
  */
-int func_021BA9DC(void *p)
+int func_021BA9DC(const OptionMenuList *list)
 {
-    return ((struct Obj20644 *)p)->f4;
+    return list->cursor;
 }
 
-
-
-
-
-
-
-
-
-void func_021BA9E0(u8 *p, Blk_021B9980 *out)
+void func_021BA9E0(const OptionMenuList *list, OptionSettings *out)
 {
-    *out = *(Blk_021B9980 *)(p + 0x44);
+    *out = list->settings;
 }
-
-
-
-
-
-
-
-
 
 /*
  * Unlabelled tail-call stub after func_021BA9E0: redraws through
  * func_021BAA0C with the stored +0x54 flag.  func_021BB1C4 passes a second
  * argument (0 or 1) in r1 that this body never reads.
  */
-void func_021BA9F0(u8 *p, int unused)
+void func_021BA9F0(OptionMenuList *list, int unused)
 {
-    func_021BAA0C(p, ((struct Obj00103 *)p)->f54);
+    func_021BAA0C(list, list->highlight);
 }
 
-
-
-
-
-
-
-
-
-void func_021BA9FC(u8 *p, u8 v)
+void func_021BA9FC(OptionMenuList *list, u8 value)
 {
-    p[0x48] = v;
-    func_021BAA0C(p, ((struct Obj00103 *)p)->f54);
+    list->settings.values[OPTION_BUTTON_MODE] = value;
+    func_021BAA0C(list, list->highlight);
 }
 
-
-
-
-
-
-
-
-
-void func_021BAA0C(u8 *p, int flag)
+/* Redraws the row backgrounds, the label colours and the choice actors. */
+void func_021BAA0C(OptionMenuList *list, int highlight)
 {
     int base;
     u32 k;
     int i;
 
-    if (((struct Obj00103 *)p)->f4 >= 5)
-        flag = 0;
-    ((struct Obj00103 *)p)->f54 = flag;
-    base = ((int)func_02040804(((struct Obj00103 *)p)->f2) + 0x14) / 0x18;
-    func_020413B0((u8)(((struct Obj00103 *)p)->f2), 0, 0, 0x20, 0x20, 5);
+    if (list->cursor >= OPTION_COUNT)
+        highlight = 0;
+    list->highlight = highlight;
+    base = ((int)func_02040804(list->subLayer) + 0x14) / 0x18;
+    func_020413B0((u8)(list->subLayer), 0, 0, 0x20, 0x20, 5);
     i = 0;
-    for (k = 0; k < 5; k++)
-        func_020413B0((u8)(((struct Obj00103 *)p)->f2), i, (base + k) * 3 + 2, 0x20, 3, d_021BB538[k]);
-    for (i = 0; i < 11; i++) {
-        if (((struct Obj00103 *)p)->f4 == d_021BB704[i].offset && flag) {
-            if (func_021BB0AC(p + 0x44, i))
-                func_020413B0((u8)(((struct Obj00103 *)p)->f0), d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 7);
+    for (k = 0; k < OPTION_COUNT; k++)
+        func_020413B0((u8)(list->subLayer), i, (base + k) * 3 + 2, 0x20, 3, d_021BB538[k]);
+    for (i = 0; i < OPTION_ACTOR_CHOICE_COUNT; i++) {
+        if (list->cursor == d_021BB704[i].settingIndex && highlight) {
+            if (func_021BB0AC(&list->settings, i))
+                func_020413B0((u8)(list->mainLayer), d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].width, d_021BB820[i].height, 7);
             else
-                func_020413B0((u8)(((struct Obj00103 *)p)->f0), d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 0xC);
+                func_020413B0((u8)(list->mainLayer), d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].width, d_021BB820[i].height, 0xC);
         } else {
-            if (func_021BB0AC(p + 0x44, i))
-                func_020413B0((u8)(((struct Obj00103 *)p)->f0), d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 0);
+            if (func_021BB0AC(&list->settings, i))
+                func_020413B0((u8)(list->mainLayer), d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].width, d_021BB820[i].height, 0);
             else
-                func_020413B0((u8)(((struct Obj00103 *)p)->f0), d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 3);
+                func_020413B0((u8)(list->mainLayer), d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].width, d_021BB820[i].height, 3);
         }
     }
-    for (i = 11; i < 16; i++) {
-        if (i - 11 == ((struct Obj00103 *)p)->f4 && flag)
-            func_020413B0((u8)(((struct Obj00103 *)p)->f0), d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 7);
+    for (i = OPTION_ACTOR_CHOICE_COUNT; i < OPTION_WINDOW_LABEL_COUNT; i++) {
+        if (i - OPTION_ACTOR_CHOICE_COUNT == list->cursor && highlight)
+            func_020413B0((u8)(list->mainLayer), d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].width, d_021BB820[i].height, 7);
         else
-            func_020413B0((u8)(((struct Obj00103 *)p)->f0), d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 0);
+            func_020413B0((u8)(list->mainLayer), d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].width, d_021BB820[i].height, 0);
     }
-    if (flag)
-        func_020413B0((u8)(((struct Obj00103 *)p)->f2), 0, ((struct Obj00103 *)p)->f4 * 3 + 2, 0x20, 3, 7);
-    func_02041B6C((u8)(((struct Obj00103 *)p)->f2));
-    func_02041B6C((u8)(((struct Obj00103 *)p)->f0));
-    for (i = 0; i < 11; i++) {
-        if (((struct Obj00103 *)p)->f4 == d_021BB704[i].offset && flag) {
-            if (func_021BB0AC(p + 0x44, i))
-                func_0204B8A0(*(void **)(p + i * 4 + 8), 3);
+    if (highlight)
+        func_020413B0((u8)(list->subLayer), 0, list->cursor * 3 + 2, 0x20, 3, 7);
+    func_02041B6C((u8)(list->subLayer));
+    func_02041B6C((u8)(list->mainLayer));
+    for (i = 0; i < OPTION_ACTOR_CHOICE_COUNT; i++) {
+        if (list->cursor == d_021BB704[i].settingIndex && highlight) {
+            if (func_021BB0AC(&list->settings, i))
+                CLACT_ChangeActorAnimSeq(list->choiceActors[i], 3);
             else
-                func_0204B8A0(*(void **)(p + i * 4 + 8), 2);
+                CLACT_ChangeActorAnimSeq(list->choiceActors[i], 2);
         } else {
-            if (func_021BB0AC(p + 0x44, i))
-                func_0204B8A0(*(void **)(p + i * 4 + 8), 0);
+            if (func_021BB0AC(&list->settings, i))
+                CLACT_ChangeActorAnimSeq(list->choiceActors[i], 0);
             else
-                func_0204B8A0(*(void **)(p + i * 4 + 8), 1);
+                CLACT_ChangeActorAnimSeq(list->choiceActors[i], 1);
         }
     }
 }
 
-
-
-
-
-
-
-
-
 /*
- * The clamp of the +0x34 field is a nested ternary (if/else-if reallocates
+ * The clamp of the scrollY field is a nested ternary (if/else-if reallocates
  * registers); the first call result goes through a local so the sum is
  * `adds r7, r0, r1`.
  */
-void func_021BABE0(u8 *p, int a1, int a2, int a3)
+void func_021BABE0(OptionMenuList *list, int delta, int min, int max)
 {
     int i;
     int v;
     int t;
-    Pt pt;
+    ClPos pos;
 
-    t = func_02040804(((struct Obj04326 *)p)->f2);
-    v = t + a1;
-    if (v > a3) {
-        v = a3;
-    } else if (v < a2) {
-        v = a2;
+    t = func_02040804(list->subLayer);
+    v = t + delta;
+    if (v > max) {
+        v = max;
+    } else if (v < min) {
+        v = min;
     }
-    func_02041EE4((u8)((struct Obj04326 *)p)->f0, 3, v + 0x14);
-    func_02041EE4((u8)((struct Obj04326 *)p)->f2, 3, v);
-    t = ((struct Obj04326 *)p)->f34 - a1;
-    ((struct Obj04326 *)p)->f34 = t;
-    ((struct Obj04326 *)p)->f34 = t > 0x10 - a2 ? 0x10 - a2 : (t < 0x10 - a3 ? 0x10 - a3 : t);
-    for (i = 0; i < 11; i++) {
-        pt.x = d_021BB704[i].f8;
-        pt.y = ((struct Obj04326 *)p)->f34 + d_021BB704[i].fC;
-        func_0204B404((struct Obj *)(*(u32 *)(p + i * 4 + 8)), (const struct Vec2 *)(&pt), 0);
+    func_02041EE4((u8)list->mainLayer, 3, v + 0x14);
+    func_02041EE4((u8)list->subLayer, 3, v);
+    t = list->scrollY - delta;
+    list->scrollY = t;
+    list->scrollY = t > 0x10 - min ? 0x10 - min : (t < 0x10 - max ? 0x10 - max : t);
+    for (i = 0; i < OPTION_ACTOR_CHOICE_COUNT; i++) {
+        pos.x = d_021BB704[i].actorX;
+        pos.y = list->scrollY + d_021BB704[i].actorY;
+        func_0204B404(list->choiceActors[i], &pos, 0);
     }
 }
 
-
-
-
-
-
-
-
-
-void func_021BAC70(u8 *p, void *b)
+/* Selects the choice under the touch point, if any. */
+void func_021BAC70(OptionMenuList *list, const OptionMenuPoint *touch)
 {
     int i;
-    int r[4];
+    OptionMenuRect rect;
     int x;
     int y;
 
-    for (i = 0; i < 11; i++) {
-        Ent_021BB704 *e = &d_021BB704[i];
+    for (i = 0; i < OPTION_ACTOR_CHOICE_COUNT; i++) {
+        OptionMenuChoice *choice = &d_021BB704[i];
 
-        y = ((struct Obj13141 *)p)->f34 + e->f12;
-        x = e->f10;
-        r[1] = y;
-        r[0] = x;
-        r[3] = y + e->f16;
-        r[2] = x + e->f14;
-        if (y >= 0x18 && y <= 0xa8 && r[3] >= 0x18 && r[3] <= 0xa8) {
-            if (func_021BB508(r, b)) {
-                func_020061E4(0x548);
-                func_021BAFD8(p + 0x44, i);
-                func_021BACF4(p, ((struct Obj13141 *)p)->f47, 0);
+        y = list->scrollY + choice->rectY;
+        x = choice->rectX;
+        rect.top = y;
+        rect.left = x;
+        rect.bottom = y + choice->rectHeight;
+        rect.right = x + choice->rectWidth;
+        if (y >= 0x18 && y <= 0xa8 && rect.bottom >= 0x18 && rect.bottom <= 0xa8) {
+            if (func_021BB508(&rect, touch)) {
+                func_020061E4(OPTION_SE_CURSOR);
+                func_021BAFD8(&list->settings, i);
+                func_021BACF4(list, (s8)list->settings.values[OPTION_SOUND_MODE], 0);
                 return;
             }
         }
     }
 }
 
-
-
-
-
-
-
-
-
-void func_021BACF4(u8 *p, u32 a, u32 b)
+/* Switches the audio output when the sound row changed (or when forced). */
+void func_021BACF4(OptionMenuList *list, u32 soundMode, u32 force)
 {
-    if (((struct Obj20645 *)p)->f4 == 3 || b == 1) {
-        if (a == 0) {
-            func_02005C28(1);
+    if (list->cursor == OPTION_SOUND_MODE || force == 1) {
+        if (soundMode == 0) {
+            GFL_USE_SetStereoOutput(1);
         } else {
-            func_02005C28(0);
+            GFL_USE_SetStereoOutput(0);
         }
     }
 }
 
-
-
-
-
-
-
-
-
-void func_021BAD14(u8 *p, u32 v)
+void func_021BAD14(OptionMenuList *list, int delta)
 {
-    if (((struct Obj09870 *)p)->f4 < 5) {
-        func_021BB000(p + 0x44, ((struct Obj09870 *)p)->f4, v);
-        func_021BACF4(p, *(s8 *)(p + 0x44 + ((struct Obj09870 *)p)->f4), 0);
+    if (list->cursor < OPTION_COUNT) {
+        func_021BB000(&list->settings, list->cursor, delta);
+        func_021BACF4(list, (s8)list->settings.values[list->cursor], 0);
     }
 }
-
-
-
-
-
-
-
 
 /*
  * Lever: name the call result before addition (commutative operand idiom).
  * Arithmetic: unsigned word addition/subtraction wraps before signed division.
  */
-int func_021BAD38(u8 *p, int *q)
+int func_021BAD38(OptionMenuList *list, const OptionMenuPoint *touch)
 {
-    int n;
-    n = func_02040804(((struct Obj13142 *)p)->f2);
-    n = (int)((u32)n + ((struct Obj20646 *)q)->f4 - 16u) / 24;
-    if ((u32)n >= 5) n = ((struct Obj13142 *)p)->f4;
-    return n;
+    int row;
+    row = func_02040804(list->subLayer);
+    row = (int)((u32)row + touch->y - 16u) / 24;
+    if ((u32)row >= OPTION_COUNT) row = list->cursor;
+    return row;
 }
 
-
-
-
-
-
-
-
-
-void func_021BAD58(void *p)
+void func_021BAD58(OptionMenuList *list)
 {
-    ((struct Obj20647 *)p)->f3C <<= 1;
+    list->inputTrail <<= 1;
 }
 
-
-
-
-
-
-
-
-
-void func_021BAD60(u8 *p, u32 a, u32 b, void *c, u32 s0, u32 s1, u32 s2, u16 s3)
+void func_021BAD60(OptionMenuMessageBox *box, struct BmpWindow *window, struct GfFont *font, struct MsgBank *msgBank, struct TaskList *taskList, struct TaskMenuRes *menuRes, struct PrintSys *printSys, u16 heapId)
 {
     int i;
 
-    func_02082BCC(p, 0, 0x70);
-    ((struct Obj02763 *)p)->f54 = 0;
-    ((struct Obj02763 *)p)->f6C = s1;
-    func_021BA1C4(p, a, b, (u32)c, s0, s2, s3);
+    func_02082BCC(box, 0, sizeof(OptionMenuMessageBox));
+    box->answer = 0;
+    box->menuRes = menuRes;
+    func_021BA1C4(&box->text, window, font, msgBank, taskList, printSys, heapId);
     for (i = 0; i < 2; i++) {
-        u8 *e = p + i * 12;
-
-        ((struct Obj09871 *)e)->f3C = func_02045EC0(c, i + 0x22);
-        ((struct Obj09871 *)e)->f40 = 0x39E3;
-        ((struct Obj09871 *)e)->f44 = 0;
+        box->items[i].label = func_02045EC0(msgBank, i + 0x22);
+        box->items[i].color = 0x39E3;
+        box->items[i].value = 0;
     }
-    ((struct Obj02763 *)p)->f58 = s3;
-    ((struct Obj02763 *)p)->f5C = 2;
-    *(u8 * *)&((struct Obj02763 *)p)->f60 = p + 0x3c;
-    ((struct Obj02763 *)p)->f64 = 1;
-    ((struct Obj02763 *)p)->f68 = 0x20;
-    ((struct Obj02763 *)p)->f69 = 0xc;
-    ((struct Obj02763 *)p)->f6A = 0xd;
-    ((struct Obj02763 *)p)->f6B = 3;
+    box->menuTemplate.heapId = heapId;
+    box->menuTemplate.itemCount = 2;
+    box->menuTemplate.items = box->items;
+    box->menuTemplate.cursorType = 1;
+    box->menuTemplate.tileOffset = 0x20;
+    box->menuTemplate.cursorPalette = 0xc;
+    box->menuTemplate.windowPalette = 0xd;
+    box->menuTemplate.textColor = 3;
 }
 
-
-
-
-
-
-
-
-void func_021BADFC(u8 *p)
+void func_021BADFC(OptionMenuMessageBox *box)
 {
     int i;
-    for (i = 0; i < 2; i++) func_02045808((struct U16Vec *)(*(u32 *)(p + i * 12 + 60)));
-    func_021BA254(p);
-    func_02082BCC(p, 0, 112);
+    for (i = 0; i < 2; i++) func_02045808(box->items[i].label);
+    func_021BA254(&box->text);
+    func_02082BCC(box, 0, sizeof(OptionMenuMessageBox));
 }
 
-
-
-
-
-
-
-
-
-void func_021BAE28(u8 *p)
+/* Prints the question, opens the two choice menu, then stores the answer (1 or 2). */
+void func_021BAE28(OptionMenuMessageBox *box)
 {
-    switch (((struct Obj02417 *)p)->f56) {
+    switch (box->phase) {
     case 0:
-        if (func_021BA31C(p) != 0) {
-            ((struct Obj02417 *)p)->f56 = 1;
+        if (func_021BA31C(&box->text) != 0) {
+            box->phase = 1;
         }
         break;
     case 1:
-        ((struct Obj02417 *)p)->f38 = func_02027778((struct TaskMenuTmpl *)(p + 0x58), ((struct Obj02417 *)p)->f6C);
-        ((struct Obj02417 *)p)->f56 = 2;
+        box->menu = func_02027778(&box->menuTemplate, box->menuRes);
+        box->phase = 2;
         break;
     case 2:
-        func_02027974(((struct Obj02417 *)p)->f38);
-        if (func_020279E8(((struct Obj02417 *)p)->f38) != 0) {
-            ((struct Obj02417 *)p)->f54 = func_02027A04(*(u8 * *)&((struct Obj02417 *)p)->f38) + 1;
-            ((struct Obj02417 *)p)->f56 = 3;
-            func_02027858(((struct Obj02417 *)p)->f38);
+        func_02027974(box->menu);
+        if (func_020279E8(box->menu) != 0) {
+            box->answer = func_02027A04(box->menu) + 1;
+            box->phase = 3;
+            func_02027858(box->menu);
         }
         break;
     }
 }
 
-
-
-
-
-
-
-
-void func_021BAE90(void *p, u32 value)
+void func_021BAE90(OptionMenuMessageBox *box, u32 wait)
 {
-    func_0207D658(0x04000050, 23, 8);
+    func_0207D658(REG_A_BLDCNT_ADDR, 23, 8);
     func_02040588(3, 1);
-    func_021BA278(p, 33, value, 0);
+    func_021BA278(&box->text, 33, wait, 0);
 }
-
-
-
-
-
-
-
-
 
 /*
  * Unlabelled leaf (halfword getter) found while matching func_021BB418.
  */
-u16 func_021BAEBC(u8 *p)
+u16 func_021BAEBC(const OptionMenuMessageBox *box)
 {
-    return ((struct Obj20648 *)p)->f54;
+    return box->answer;
 }
 
-
-
-
-
-
-
-
-
-void func_021BAEC4(void *a, u32 b, u32 c)
+void func_021BAEC4(OptionMenuMessageBox *box, u32 messageId, u32 wait)
 {
-    void *h;
+    struct MsgBank *msgBank;
 
-    func_0207D658((u32)((void *)0x04000050), 0x17, 8);
+    func_0207D658(REG_A_BLDCNT_ADDR, 0x17, 8);
     func_02040588(3, 1);
-    h = func_02045B38(0, 3, 0x9e, 0x801C);
-    func_021BA28C(a, (u32)h, b, c, 1);
-    func_02045C04(h);
+    msgBank = func_02045B38(0, 3, 0x9e, 0x801C);
+    func_021BA28C(&box->text, msgBank, messageId, wait, 1);
+    func_02045C04(msgBank);
 }
-
-
-
-
-
-
-
 
 /*
  * Interface: full-width r1 is forwarded through 021BA278 to 021BA28C;
  * the legacy u16 extern has no caller truncation witness here.
  */
-void func_021BAF0C(void *p, u32 id, u32 value)
+void func_021BAF0C(OptionMenuMessageBox *box, u32 messageId, u32 wait)
 {
-    func_0207D658(0x04000050, 23, 8);
+    func_0207D658(REG_A_BLDCNT_ADDR, 23, 8);
     func_02040588(3, 1);
-    func_021BA278(p, id, value, 1);
+    func_021BA278(&box->text, messageId, wait, 1);
 }
 
-
-
-
-
-
-int func_021BAF38(u8 *p)
+int func_021BAF38(OptionMenuMessageBox *box)
 {
-    if (func_021BA31C(p)) {
-        *(volatile unsigned short *)0x04000050 = 0;
+    if (func_021BA31C(&box->text)) {
+        REG_A_BLDCNT = 0;
         func_02040588(3, 0);
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
 /*
  * Byte-correct; blocked by two unwitnessed arm9 leaves (the integrator's):
- *   func_020083AC (bitfield read, verified EXACT: typedef struct { unsigned short a:7; unsigned short b:1; } S;
- *                  unsigned func_020083AC(S *p){ return p->b; })
- *   func_020083C8 (same with a:6, b:1; disasm ldrh; lsls #0x19; lsrs #0x1f)
+ *   CONFIG_GetBattleScene (bitfield read, verified EXACT: typedef struct { unsigned short a:7; unsigned short b:1; } S;
+ *                  unsigned CONFIG_GetBattleScene(S *p){ return p->b; })
+ *   CONFIG_GetBattleStyle (same with a:6, b:1; disasm ldrh; lsls #0x19; lsrs #0x1f)
  *
  * 2026-10-05: body byte-correct. Leaves 020083AC and 020083C8 are now filed
  * EXACT in src/matched/arm9/. Needs shard seeding by the integrator.
  */
-void func_021BAF5C(u8 *p, short unsigned int *a)
+void func_021BAF5C(OptionSettings *settings, struct Config *config)
 {
-    func_02082BCC(p, 0, 12);
-    p[5] = 11;
-    *(u32 *)(p + 8) = (u32)a;
-    p[0] = func_02008374((int)a);
-    p[1] = func_020083AC((u32)a);
-    p[2] = func_020083C8((u32)a);
-    p[3] = func_02008390((char *)a);
-    p[4] = func_02008428(a);
+    func_02082BCC(settings, 0, sizeof(OptionSettings));
+    settings->lastChanged = OPTION_NO_CHANGE;
+    settings->config = config;
+    settings->values[OPTION_TEXT_SPEED] = CONFIG_GetTextSpeed(config);
+    settings->values[OPTION_BATTLE_SCENE] = CONFIG_GetBattleScene(config);
+    settings->values[OPTION_BATTLE_STYLE] = CONFIG_GetBattleStyle(config);
+    settings->values[OPTION_SOUND_MODE] = CONFIG_GetSoundMode(config);
+    settings->values[OPTION_BUTTON_MODE] = func_02008428(config);
 }
 
-
-
-
-
-void func_021BAF9C(void *p)
+void func_021BAF9C(OptionSettings *settings)
 {
-    void func_02082BCC(void *, u32, u32);
-    func_02082BCC(p, 0, 0xc);
+    func_02082BCC(settings, 0, sizeof(OptionSettings));
 }
 
-
-
-
-
-
-void func_021BAFA8(u8 *p)
+/* Writes the five settings back to the config. */
+void func_021BAFA8(const OptionSettings *settings)
 {
-    func_0200837C(*(u16 **)(p + 8), p[0]);
-    func_020083B4(*(u16 **)(p + 8), p[1]);
-    func_020083D0(*(u16 **)(p + 8), p[2]);
-    func_02008398(*(u16 **)(p + 8), p[3]);
-    func_02008430(*(u16 **)(p + 8), p[4]);
+    CONFIG_SetTextSpeed(settings->config, settings->values[OPTION_TEXT_SPEED]);
+    CONFIG_SetBattleScene(settings->config, settings->values[OPTION_BATTLE_SCENE]);
+    CONFIG_SetBattleStyle(settings->config, settings->values[OPTION_BATTLE_STYLE]);
+    CONFIG_SetSoundMode(settings->config, settings->values[OPTION_SOUND_MODE]);
+    CONFIG_SetButtonMode(settings->config, settings->values[OPTION_BUTTON_MODE]);
 }
 
-
-
-
-
-
-void func_021BAFD8(u8 *p, int i)
+void func_021BAFD8(OptionSettings *settings, int choiceIndex)
 {
-    if (p[d_021BB704[i].offset] != d_021BB704[i].value) {
-        p[d_021BB704[i].offset] = d_021BB704[i].value;
-        p[5] = i;
-        func_021BAFA8(p);
+    if (settings->values[d_021BB704[choiceIndex].settingIndex] != d_021BB704[choiceIndex].value) {
+        settings->values[d_021BB704[choiceIndex].settingIndex] = d_021BB704[choiceIndex].value;
+        settings->lastChanged = choiceIndex;
+        func_021BAFA8(settings);
     }
 }
-
-
-
-
-
-
 
 /*
  * The three 0x021BB57x pool words and the two 0x021BB70x words are separate
  * pool entries in the original, so each is its own extern.
  */
-void func_021BB000(u8 *p, int i, int delta)
+void func_021BB000(OptionSettings *settings, int row, int delta)
 {
     int j;
     int k;
-    int n;
-    Tab *t;
-    int off = i << 3;
-    s8 idx;
-    int t2;
-    int v = -1;
+    int count;
+    const OptionMenuSettingRow *rowInfo;
+    int off = row << 3;
+    s8 index;
+    int position;
+    int choice = -1;
 
-    n = *(u16 *)((u8 *)d_021BB572 + off);
+    count = *(u16 *)((u8 *)d_021BB572 + off);
     j = 0;
-    if (n > 0) {
+    if (count > 0) {
         do {
-            u8 cur;
-            u32 f;
+            u8 current;
+            u32 value;
 
-            t = (Tab *)((u8 *)d_021BB570 + off);
-            cur = p[i];
+            rowInfo = (const OptionMenuSettingRow *)((u8 *)d_021BB570 + off);
+            current = settings->values[row];
 
-            v = t->list[j];
-            f = d_021BB704[v].value;
-            if (f == cur) {
+            choice = rowInfo->choices[j];
+            value = d_021BB704[choice].value;
+            if (value == current) {
                 break;
             }
             j++;
-        } while (j < t->cnt);
+        } while (j < rowInfo->choiceCount);
     }
-    t2 = (s8)(v - d_021BB574[(u32)i << 3]);
-    t2 = (s8)(t2 + delta);
-    idx = (s8)(t2 > n - 1 ? n - 1 : (t2 < 0 ? 0 : t2));
-    k = (d_021BB574 + off)[idx];
-    if (p[i] != d_021BB708[k].f0) {
-        p[i] = d_021BB708[k].f0;
-        p[5] = k;
-        func_021BAFA8(p);
+    position = (s8)(choice - d_021BB574[0][(u32)row << 3]);
+    position = (s8)(position + delta);
+    index = (s8)(position > count - 1 ? count - 1 : (position < 0 ? 0 : position));
+    k = ((u8 *)d_021BB574 + off)[index];
+    if (settings->values[row] != d_021BB708[k][0]) {
+        settings->values[row] = d_021BB708[k][0];
+        settings->lastChanged = k;
+        func_021BAFA8(settings);
     }
 }
 
-
-
-
-
-
-int func_021BB0AC(u8 *p, int i)
+int func_021BB0AC(const OptionSettings *settings, int choiceIndex)
 {
-    if (p[d_021BB704[i].offset] == d_021BB704[i].value) return 1;
+    if (settings->values[d_021BB704[choiceIndex].settingIndex] == d_021BB704[choiceIndex].value) return 1;
     return 0;
 }
 
-
-
-
-
-
-
 /*
- * ARM9 tail call then a byte read-modify-write.
+ * ARM9 tail call (text speed to message wait); the settings argument is not read.
  */
-u32 func_021BB0D0(void *b)
+u32 func_021BB0D0(const OptionSettings *settings)
 {
-    signed char func_02012FFC(void);
     func_02012FFC();
 }
 
-
-
-
-
-
-
-int func_021BB0D8(void *p)
+/* Returns the index of the setting changed since the last call and clears it. */
+int func_021BB0D8(OptionSettings *settings)
 {
-    unsigned char old = ((struct Obj13144 *)p)->f5;
-    ((struct Obj13144 *)p)->f5 = 0xb;
+    unsigned char old = settings->lastChanged;
+    settings->lastChanged = OPTION_NO_CHANGE;
     return old;
 }
 
-
-
-
-
-int func_021BB0E4(const u8 *p, const u8 *q)
+int func_021BB0E4(const OptionSettings *a, const OptionSettings *b)
 {
-    if (func_0203EFC8(p, q, 5) == 0) return 1;
+    if (func_0203EFC8(a->values, b->values, OPTION_COUNT) == 0) return 1;
     return 0;
 }
 
-
-
-
-
-void func_021BB0F8(u8 *p, int value, int callback)
+void func_021BB0F8(OptionMenuRunner *runner, OptionMenuWork *work, OptionMenuStateFn callback)
 {
-    func_02082BCC(p, 0, 16);
-    ((struct Obj20650 *)p)->fC = value;
-    func_021BB138(p, callback);
+    func_02082BCC(runner, 0, 16);
+    runner->work = work;
+    func_021BB138(runner, callback);
 }
-
-
-
-
-
 
 /*
  * Tail call to func_02082BCC(p, 0, 0x10).
  */
-void func_021BB114(void *p)
+void func_021BB114(OptionMenuRunner *runner)
 {
-    void func_02082BCC(void *, u32, u32);
-    func_02082BCC(p, 0, 0x10);
+    func_02082BCC(runner, 0, 0x10);
 }
 
-
-
-
-
-
-void func_021BB120(u8 *p)
+void func_021BB120(OptionMenuRunner *runner)
 {
-    if (((struct Obj13145 *)p)->f4 == 0)
-        (*(Callback *)p)(p, p + 8, ((struct Obj13145 *)p)->fC);
+    if (runner->finished == 0)
+        runner->callback(runner, &runner->state, runner->work);
 }
 
-
-
-
-
-
-
-int func_021BB134(void *p)
+int func_021BB134(OptionMenuRunner *runner)
 {
-    return ((struct Obj20651 *)p)->f4;
+    return runner->finished;
 }
-
-
-
-
-
-
 
 /*
  * Getter and two small setters.
  */
-void func_021BB138(void *p, int v)
+void func_021BB138(OptionMenuRunner *runner, OptionMenuStateFn callback)
 {
-    ((struct Obj13146 *)p)->f0 = v;
-    ((struct Obj13146 *)p)->f8 = 0;
+    runner->callback = callback;
+    runner->state = 0;
 }
 
-
-
-
-
-
-
-void func_021BB140(void *p)
+void func_021BB140(OptionMenuRunner *runner)
 {
-    ((struct Obj20652 *)p)->f4 = 1;
+    runner->finished = 1;
 }
 
-
-
-
-
-
-
-void func_021BB148(void *unused, u32 *p)
+/* Fade in, then hand over to the main state. */
+void func_021BB148(OptionMenuRunner *runner, u32 *state, OptionMenuWork *work)
 {
-    switch (*p) {
+    switch (*state) {
     case 0:
         func_0204E720(3, 16, 0, 0);
-        *p = 1;
+        *state = 1;
         break;
     case 1:
         if (func_0204E804() == 0) {
-            *p = 2;
+            *state = 2;
         }
         break;
     case 2:
-        func_021BB138(unused, (int)func_021BB1C4);
+        func_021BB138(runner, func_021BB1C4);
         break;
     }
 }
 
-
-
-
-
-
-void func_021BB188(void *p,u32 *state) { switch(*state) { case 0: func_0204E720(3,0,16,0); *state=1; break; case 1: if(func_0204E804()==0) *state=2; break; case 2: func_021BB140(p); break; } }
-
-
-
-
-
-
-
-void func_021BB1C4(void *a, u32 *st, u8 *w)
+/* Fade out, then finish the runner. */
+void func_021BB188(OptionMenuRunner *runner, u32 *state, OptionMenuWork *work)
 {
-    Blk_021BB114 b50;
-    Blk_021BB114 b44;
-    Blk_021BB114 b38;
-    Blk_021BB114 b2C;
-    Blk_021BB114 b20;
-    Blk_021BB114 b14;
-    Blk_021BB114 b8;
-    int k;
-    int r;
-
-    if (func_0201C6B4((const struct PrintSys *)(((struct Obj09875 *)w)->f258)) == 0)
-        return;
-    switch (*st) {
+    switch (*state) {
     case 0:
-        func_021BA03C((int *)(w + 0xE4));
-        if (func_021BA65C(w + 0x104, 0) == 0)
-            func_021BA7C0(w + 0x148, w + 0xE4, w + 0x1A0, w, w + 0x104);
-        func_021BA448((W *)(w + 0x104), w + 0xE4, w + 0x148);
-        if (func_021BA730(w + 0x104))
-            func_021BA9C0(w + 0x148, (char *)w);
-        if (func_021BA65C(w + 0x104, &k)) {
-            switch (k) {
-            case 0:
-                if (func_021BA668(w + 0x104))
-                    func_021BB138(a, (int)func_021BB4D4);
+        func_0204E720(3, 0, 16, 0);
+        *state = 1;
+        break;
+    case 1:
+        if (func_0204E804() == 0)
+            *state = 2;
+        break;
+    case 2:
+        func_021BB140(runner);
+        break;
+    }
+}
+
+/* Main state: input, list, buttons and the help messages. */
+void func_021BB1C4(OptionMenuRunner *runner, u32 *state, OptionMenuWork *work)
+{
+    OptionSettings settingsReturn;
+    OptionSettings settingsCancel;
+    OptionSettings settingsCurrent;
+    OptionSettings settingsTextSpeed;
+    OptionSettings settingsBattleScene;
+    OptionSettings settingsBattleStyle;
+    OptionSettings settingsSound;
+    int choice;
+    int tutorialPending;
+
+    if (func_0201C6B4(work->printSys) == 0)
+        return;
+    switch (*state) {
+    case 0:
+        func_021BA03C(&work->input);
+        if (func_021BA65C(&work->buttons, 0) == 0)
+            func_021BA7C0(&work->list, &work->input, &work->helpText, &work->screen, &work->buttons);
+        func_021BA448(&work->buttons, &work->input, &work->list);
+        if (func_021BA730(&work->buttons))
+            func_021BA9C0(&work->list, &work->screen);
+        if (func_021BA65C(&work->buttons, &choice)) {
+            switch (choice) {
+            case OPTION_BUTTON_CONFIRM:
+                if (func_021BA668(&work->buttons))
+                    func_021BB138(runner, func_021BB4D4);
                 break;
-            case 2:
-                **(int * *)&((struct Obj09875 *)w)->f26C = 1;
-                func_021BA9E0(w + 0x148, (Blk_021B9980 *)((Blk_021BB114 *)&b50));
-                if (func_021BB0E4(w + 0x248, (const u8 *)(&b50))) {
-                    func_021BB138(a, (int)func_021BB4A4);
+            case OPTION_BUTTON_RETURN:
+                work->args->result = 1;
+                func_021BA9E0(&work->list, &settingsReturn);
+                if (func_021BB0E4(&work->savedSettings, &settingsReturn)) {
+                    func_021BB138(runner, func_021BB4A4);
                 } else {
-                    func_021BA694(w + 0x104);
-                    func_021BB138(a, (int)func_021BB418);
+                    func_021BA694(&work->buttons);
+                    func_021BB138(runner, func_021BB418);
                 }
                 break;
-            case 1:
-                if (func_021BA668(w + 0x104)) {
-                    func_021BA9E0(w + 0x148, (Blk_021B9980 *)((Blk_021BB114 *)&b44));
-                    if (func_021BB0E4(w + 0x248, (const u8 *)(&b44))) {
-                        func_021BB138(a, (int)func_021BB4A4);
+            case OPTION_BUTTON_CANCEL:
+                if (func_021BA668(&work->buttons)) {
+                    func_021BA9E0(&work->list, &settingsCancel);
+                    if (func_021BB0E4(&work->savedSettings, &settingsCancel)) {
+                        func_021BB138(runner, func_021BB4A4);
                     } else {
-                        func_021BA694(w + 0x104);
-                        func_021BB138(a, (int)func_021BB418);
+                        func_021BA694(&work->buttons);
+                        func_021BB138(runner, func_021BB418);
                     }
                 }
                 break;
             }
         }
-        r = func_020071F0(func_02012EBC(func_020120F4((const struct Ctx *)(((struct Obj20654 *)(*(u8 * *)&((struct Obj09875 *)w)->f26C))->f4))));
-        func_021BA9E0(w + 0x148, (Blk_021B9980 *)((Blk_021BB114 *)&b38));
-        if (b38.b == 0 && r != 0)
-            *st = 1;
+        tutorialPending = func_020071F0(func_02012EBC(func_020120F4(work->args->gameSystem)));
+        func_021BA9E0(&work->list, &settingsCurrent);
+        if (settingsCurrent.values[OPTION_BUTTON_MODE] == 0 && tutorialPending != 0)
+            *state = 1;
         break;
     case 1:
-        func_021BA9E0(w + 0x148, (Blk_021B9980 *)((Blk_021BB114 *)&b2C));
-        func_021BAF0C(w + 0x1D8, 0x20, func_021BB0D0(&b2C));
-        func_021BA9FC(w + 0x148, 1);
-        *st = 5;
+        func_021BA9E0(&work->list, &settingsTextSpeed);
+        func_021BAF0C(&work->messageBox, 0x20, func_021BB0D0(&settingsTextSpeed));
+        func_021BA9FC(&work->list, 1);
+        *state = 5;
         break;
     case 2:
-        func_021BA9E0(w + 0x148, (Blk_021B9980 *)((Blk_021BB114 *)&b20));
-        func_021BAEC4(w + 0x1D8, 0x16, func_021BB0D0(&b20));
-        func_021BA9F0(w + 0x148, 0);
-        *st = 5;
+        func_021BA9E0(&work->list, &settingsBattleScene);
+        func_021BAEC4(&work->messageBox, 0x16, func_021BB0D0(&settingsBattleScene));
+        func_021BA9F0(&work->list, 0);
+        *state = 5;
         break;
     case 3:
-        func_021BA9E0(w + 0x148, (Blk_021B9980 *)((Blk_021BB114 *)&b14));
-        func_021BAEC4(w + 0x1D8, 0x16, func_021BB0D0(&b14));
-        func_021BA9F0(w + 0x148, 0);
-        *st = 5;
+        func_021BA9E0(&work->list, &settingsBattleStyle);
+        func_021BAEC4(&work->messageBox, 0x16, func_021BB0D0(&settingsBattleStyle));
+        func_021BA9F0(&work->list, 0);
+        *state = 5;
         break;
     case 4:
-        func_021BA9E0(w + 0x148, (Blk_021B9980 *)((Blk_021BB114 *)&b8));
-        func_021BAF0C(w + 0x1D8, 0x24, func_021BB0D0(&b8));
-        func_021BA9F0(w + 0x148, 1);
-        *st = 5;
+        func_021BA9E0(&work->list, &settingsSound);
+        func_021BAF0C(&work->messageBox, 0x24, func_021BB0D0(&settingsSound));
+        func_021BA9F0(&work->list, 1);
+        *state = 5;
         break;
     case 5:
-        if (func_021BAF38(w + 0x1D8))
-            *st = 0;
+        if (func_021BAF38(&work->messageBox))
+            *state = 0;
         break;
     }
 }
 
-
-
-
-
-void func_021BB418(void *a0, u32 *st, u8 *base)
+/* Asks whether to discard the changes: answer 1 applies them, answer 2 reverts. */
+void func_021BB418(OptionMenuRunner *runner, u32 *state, OptionMenuWork *work)
 {
-    Blk_021BB418 b;
-    u16 r;
+    OptionSettings settings;
+    u16 answer;
 
-    switch (*st) {
+    switch (*state) {
     case 0:
-        func_021BA9E0(base + 0x148, (Blk_021B9980 *)((Blk_021BB114 *)&b));
-        func_021BAE90(base + 0x1d8, func_021BB0D0(&b));
+        func_021BA9E0(&work->list, &settings);
+        func_021BAE90(&work->messageBox, func_021BB0D0(&settings));
         func_02040588(4, 0);
-        *st = 1;
+        *state = 1;
         break;
     case 1:
-        r = func_021BAEBC(base + 0x1d8);
-        switch (r) {
+        answer = func_021BAEBC(&work->messageBox);
+        switch (answer) {
         case 1:
-            *st = 2;
+            *state = 2;
             break;
         case 2:
-            *st = 3;
+            *state = 3;
             break;
         }
         break;
     case 2:
-        func_021BB138(a0, (int)func_021BB4D4);
+        func_021BB138(runner, func_021BB4D4);
         break;
     case 3:
-        func_021BB138(a0, (int)func_021BB4A4);
+        func_021BB138(runner, func_021BB4A4);
         break;
     }
-    func_021BAE28(base + 0x1d8);
+    func_021BAE28(&work->messageBox);
 }
 
-
-
-
-void func_021BB4A4(void *a,u32 b,u8 *p) { func_021BAFA8(p+0x248); func_021BACF4(p+0x148,((struct Obj20655 *)p)->f24B,1); func_021BB138(a,(int)func_021BB188); }
-
-
-
-
-void func_021BB4D4(void *a,u32 b,u8 *p) { Blk_021BB114 t; func_021BA9E0(p+0x148, (Blk_021B9980 *)((Blk_021BB114 *)&t)); func_021BAFA8((u8 *)&t); func_020061E4(0x558); func_021BB138(a,(int)func_021BB188); }
-
-typedef struct {
-    u32 x0;
-    u32 y0;
-    u32 x1;
-    u32 y1;
-} Box_021BB508;
-
-typedef struct {
-    u32 x;
-    u32 y;
-} Pt_021BB508;
-
-int func_021BB508(int *rect, void *pt)
+/* Keeps the saved settings and leaves. */
+void func_021BB4A4(OptionMenuRunner *runner, u32 *state, OptionMenuWork *work)
 {
-    const Box_021BB508 *b = (const Box_021BB508 *)rect;
-    const Pt_021BB508 *p = (const Pt_021BB508 *)pt;
-    u32 inx = (p->x - b->x0) <= (b->x1 - b->x0);
-    u32 iny = (p->y - b->y0) <= (b->y1 - b->y0);
-    return inx & iny;
+    func_021BAFA8(&work->savedSettings);
+    func_021BACF4(&work->list, (s8)work->savedSettings.values[OPTION_SOUND_MODE], 1);
+    func_021BB138(runner, func_021BB188);
 }
 
+/* Writes the edited settings and leaves. */
+void func_021BB4D4(OptionMenuRunner *runner, u32 *state, OptionMenuWork *work)
+{
+    OptionSettings settings;
+
+    func_021BA9E0(&work->list, &settings);
+    func_021BAFA8(&settings);
+    func_020061E4(OPTION_SE_APPLY);
+    func_021BB138(runner, func_021BB188);
+}
+
+/* Inclusive rectangle hit test (unsigned range compare per axis). */
+int func_021BB508(const OptionMenuRect *rect, const OptionMenuPoint *point)
+{
+    u32 inX = ((u32)point->x - (u32)rect->left) <= ((u32)rect->right - (u32)rect->left);
+    u32 inY = ((u32)point->y - (u32)rect->top) <= ((u32)rect->bottom - (u32)rect->top);
+    return inX & inY;
+}

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02031ECC
+ * function: BACKUP_SYSTEM_GetCrcTable
  * address:  0x02031ECC
  * packet:   pkt_02031C30
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj01020.h"
 
-int func_02031ECC(int p0){ return (*(int *)&((struct Obj01020 *)p0)->f34 + ((*(int *)&((struct Obj01020 *)p0)->f30 - 0x10) - *(int *)&((struct Obj01020 *)p0)->f140)); }
+int BACKUP_SYSTEM_GetCrcTable(int p0){ return (*(int *)&((struct Obj01020 *)p0)->f34 + ((*(int *)&((struct Obj01020 *)p0)->f30 - 0x10) - *(int *)&((struct Obj01020 *)p0)->f140)); }

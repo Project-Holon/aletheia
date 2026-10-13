@@ -1,5 +1,5 @@
 /*
- * function: func_0215FBCC
+ * function: SOC_Poll
  * address:  0x0215FBCC
  * packet:   pkt_ov009_0215FBCC
  * region:   ov009
@@ -25,7 +25,7 @@ typedef struct {
 extern int func_0215EFB0(int s);
 extern void func_02085A38(unsigned long msec);
 
-int func_0215FBCC(PollFD *fds, unsigned int nfds, long long timeout)
+int SOC_Poll(PollFD *fds, unsigned int nfds, long long timeout)
 {
 	PollFD *fp;
 	int is_enable_timeout;

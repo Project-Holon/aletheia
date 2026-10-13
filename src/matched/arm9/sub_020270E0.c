@@ -1,5 +1,5 @@
 /*
- * function: func_020270E0
+ * function: GAME_BEACON_PopQuestionnaireUpdated
  * address:  0x020270E0
  * packet:   pkt_020266E0
  * region:   arm9
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146940  0x02146940  data
+ *   GAME_BEACON_Work  0x02146940  data
  */
 
 typedef unsigned char u8;
 
-extern void *g_02146940;
+extern void *GAME_BEACON_Work;
 
-u8 func_020270E0(void)
+u8 GAME_BEACON_PopQuestionnaireUpdated(void)
 {
-    u8 *ptr = *(u8 **)&g_02146940;
+    u8 *ptr = *(u8 **)&GAME_BEACON_Work;
     u8 ret;
 
     if (ptr == 0) {

@@ -1,6 +1,5 @@
 /*
- * Function matched as standalone.
- *
+ * function: WMi_GetSystemWork
  * address:  0x0208E4BC
  * packet:   pkt_0208E4BC
  * region:   arm9
@@ -16,8 +15,8 @@
  * Global state member accessor.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0208E4BC.c \
- *       --func func_0208E4BC --addr 0x0208E4BC --arm
+ *   python tools/match.py one --src src/matched/WMi_GetSystemWork.c \
+ *       --func WMi_GetSystemWork --addr 0x0208E4BC --arm
  */
 
 struct Struct_02153058 {
@@ -27,7 +26,7 @@ struct Struct_02153058 {
 
 extern struct Struct_02153058 data_02153058;
 
-void *func_0208E4BC(void)
+void *WMi_GetSystemWork(void)
 {
     return data_02153058.val;
 }

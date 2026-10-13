@@ -14,17 +14,20 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0203D650.c \
  *       --func func_0203D650 --addr 0x0203D650 --arm --cc 1.1p1
+ *
+ * symbols:
+ *   GFL_NET_GetSession  0x0203D788  arm
  */
 #include "../include/Obj15989.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 
 u32 func_0203D650(void)
 {
-    u8 *p = func_0203D788();
+    u8 *p = GFL_NET_GetSession();
 
     return p != 0 ? ((struct Obj15989 *)p)->f34C : 0;
 }

@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   POKE_TOOL_CalcBoxLevel  0x02018438  thumb  arm9
  *
 
  * Store the query byte at +3 of the second argument.
@@ -19,9 +20,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern u32 func_02018438(void *p);
+extern u32 POKE_TOOL_CalcBoxLevel(void *p);
 
 void func_021F6748(u32 a, u8 *q)
 {
-    q[3] = func_02018438((void *)a);
+    q[3] = POKE_TOOL_CalcBoxLevel((void *)a);
 }

@@ -24,7 +24,7 @@
  *   d_021F0658 0x021F0658 data a4
  *   d_021F05F8 0x021F05F8 data a4
  *   func_021D76BC 0x021D76BC thumb ov093
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   func_021D85C0  0x021D85C0  thumb  ov093
  *   func_021D7D18  0x021D7D18  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
@@ -32,142 +32,134 @@
  *   func_021D84F0 0x021D84F0 thumb ov093
  *   d_021F0600 0x021F0600 data a4
  */
-#include "../../matched/include/Obj03701.h"
-#include "../../matched/include/Obj06260.h"
-
-struct S;
-typedef unsigned char u8;
-
-typedef signed char s8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed short s16;
-
-typedef signed int s32;
+#include "unit_021DBAF0_types.h"
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int *p, int i);
-extern u8 *func_021C8120(u8 *p, int b);
-extern int func_021D5D14(s8 *p, int i, int sign);
-extern u32 func_021D78AC(u32 k);
-extern void func_021C88B4(void *a, int k, int b);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
-extern int func_021D76BC(int,unsigned int);
-extern u32 func_0201BEB8(u16 id, u32 bit);
-extern int func_021D85C0(int a, u32 b);
-extern u32 func_021D7D18(int x);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 v);
-extern unsigned int func_021D84F0(unsigned int, unsigned int);
-void func_021DC32C(int a, void *b, u8 c);
-void *func_021DC498(int *p);
-void func_021DC4A4(int a, int b, int c);
-void *func_021DC4C8(int *p);
-void func_021DC4D4(int u, void *a, int b);
-void *func_021DC564(unsigned int *p);
+extern struct BtlPokeParam *func_021C7CF4(struct BtlServerFlow *flow, int pokeId);
+extern u8 *func_021C8120(struct BtlServerFlow *flow, int size);
+extern int func_021D5D14(struct BtlPokeParam *bpp, int statId, int direction);
+extern u32 func_021D78AC(u32 range);
+extern void func_021C88B4(struct BtlServerFlow *flow, int popupState, int pokeId);
+extern void *func_021C88A4(struct BtlServerFlow *flow, int cmdKind, int pokeId);
+extern void func_021C88C8(struct BtlServerFlow *flow, void *cmd);
+extern int func_021D76BC(int key, unsigned int value);
+extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 flagBit);
+extern int func_021D85C0(struct BtlServerFlow *flow, u32 percent);
+extern u32 func_021D7D18(int sickId);
+extern void func_021C8838(BtlStrParam *strParam, int strType, int strId);
+extern void func_021C8860(BtlStrParam *strParam, u32 arg);
+extern unsigned int func_021D84F0(unsigned int priority, unsigned int handlerCount);
+void func_021DC32C(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 ownerId);
+void *func_021DC498(int *handlerCount);
+void func_021DC4A4(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId);
+void *func_021DC4C8(int *handlerCount);
+void func_021DC4D4(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId);
+void *func_021DC564(unsigned int *packedInfo);
 extern u8 d_021F0658[];
 extern unsigned char d_021F05F8[];
 extern unsigned char d_021F0600[];
 
 /*
- * Pointer-sum grouping preserves both candidate-list load sequences.
+ * Moody: at the end of the turn one stat of the owner rises by two stages and another falls by one.
+ * The pointer-sum form of the random pick preserves the load sequence of the candidate lists.
  * Signed byte storage of -1 preserves the subtraction from the live one.
  */
-void func_021DC32C(int a, void *b, u8 c)
+void func_021DC32C(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 ownerId)
 {
-    u8 *buf;
-    void *m;
-    u8 n1;
-    u8 n2;
+    TokuseiMoodyScratch *scratch;
+    struct BtlPokeParam *owner;
+    u8 raisableCount;
+    u8 lowerableCount;
     u32 i;
-    u8 n;
+    u8 pairCount;
     u32 j;
-    u8 first;
-    u8 second;
+    u8 raiseStat;
+    u8 lowerStat;
     u16 pair;
-    u8 *r;
-    if (c == func_021D775C(2)) {
-        buf = func_021C8120(b, 0xb6);
-        m = func_021C7CF4(b, c);
-        n2 = 0;
-        n1 = 0;
-        for (i = 0; i < 7; i++) {
-            if (func_021D5D14(m, i + 1, 1)) buf[0xa8 + n1++] = i + 1;
-            if (func_021D5D14(m, i + 1, -1)) buf[0xaf + n2++] = i + 1;
+    BtlRankCmd *cmd;
+    if (ownerId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        scratch = (TokuseiMoodyScratch *)func_021C8120(flow, sizeof(TokuseiMoodyScratch));
+        owner = func_021C7CF4(flow, ownerId);
+        lowerableCount = 0;
+        raisableCount = 0;
+        for (i = 0; i < BTL_STAT_COUNT_RANKED; i++) {
+            if (func_021D5D14(owner, i + 1, 1)) scratch->raisableStats[raisableCount++] = i + 1;
+            if (func_021D5D14(owner, i + 1, -1)) scratch->lowerableStats[lowerableCount++] = i + 1;
         }
-        second = 0;
-        first = 0;
-        if (n1 == 0 && n2 != 0) {
-            second = (buf + func_021D78AC(n2))[0xaf];
-        } else if (n1 != 0 && n2 == 0) {
-            first = (buf + func_021D78AC(n1))[0xa8];
-        } else if (n1 != 0 && n2 != 0) {
-            n = 0;
-            for (i = 0; i < n1; i++) {
-                for (j = 0; j < n2; j++) {
-                    if (buf[0xa8 + i] != buf[0xaf + j]) {
-                        ((u16 *)buf)[n++] = (buf[0xa8 + i] << 8) | buf[0xaf + j];
-                        if (n >= 0x54) break;
+        lowerStat = 0;
+        raiseStat = 0;
+        if (raisableCount == 0 && lowerableCount != 0) {
+            lowerStat = (scratch->lowerableStats + func_021D78AC(lowerableCount))[0];
+        } else if (raisableCount != 0 && lowerableCount == 0) {
+            raiseStat = (scratch->raisableStats + func_021D78AC(raisableCount))[0];
+        } else if (raisableCount != 0 && lowerableCount != 0) {
+            pairCount = 0;
+            for (i = 0; i < raisableCount; i++) {
+                for (j = 0; j < lowerableCount; j++) {
+                    if (scratch->raisableStats[i] != scratch->lowerableStats[j]) {
+                        scratch->pairs[pairCount++] = (scratch->raisableStats[i] << 8) | scratch->lowerableStats[j];
+                        if (pairCount >= 0x54) break;
                     }
                 }
             }
-            pair = ((u16 *)buf)[func_021D78AC(n)];
-            first = pair >> 8;
-            second = pair;
+            pair = scratch->pairs[func_021D78AC(pairCount)];
+            raiseStat = pair >> 8;
+            lowerStat = pair;
         }
-        func_021C88B4(b, 2, c);
-        if (first) {
-            r = (u8 *)func_021C88A4(b, 14, c);
-            r[15] = 1;
-            r[16] = c;
-            ((struct Obj03701 *)r)->f4 = first;
-            r[12] = 2;
-            func_021C88C8(b, r);
+        func_021C88B4(flow, BTL_ABILITY_POPUP_OPEN, ownerId);
+        if (raiseStat) {
+            cmd = (BtlRankCmd *)func_021C88A4(flow, BTL_CMD_KIND_RANK_EFFECT, ownerId);
+            cmd->targetCount = 1;
+            cmd->targets[0] = ownerId;
+            cmd->statId = raiseStat;
+            cmd->amount = 2;
+            func_021C88C8(flow, cmd);
         }
-        if (second) {
-            r = (u8 *)func_021C88A4(b, 14, c);
-            r[15] = 1;
-            r[16] = c;
-            ((struct Obj03701 *)r)->f4 = second;
-            *(s8 *)&((struct Obj03701 *)r)->fC = -1;
-            func_021C88C8(b, r);
+        if (lowerStat) {
+            cmd = (BtlRankCmd *)func_021C88A4(flow, BTL_CMD_KIND_RANK_EFFECT, ownerId);
+            cmd->targetCount = 1;
+            cmd->targets[0] = ownerId;
+            cmd->statId = lowerStat;
+            cmd->amount = -1;
+            func_021C88C8(flow, cmd);
         }
-        func_021C88B4(b, 3, c);
+        func_021C88B4(flow, BTL_ABILITY_POPUP_CLOSE, ownerId);
     }
 }
 
-void *func_021DC498(int *p) { *p = 1; return d_021F0658; }
+void *func_021DC498(int *handlerCount) { *handlerCount = 1; return d_021F0658; }
 
-void func_021DC4A4(int a, int b, int c) { if (c == func_021D775C(2) && func_021D775C(50) > 0) func_021D76BC(65,1); }
-
-void *func_021DC4C8(int *p) { *p = 1; return d_021F05F8; }
-
-
-void func_021DC4D4(int u, void *a, int b)
+/* Overcoat: weather damage to the owner is prevented. */
+void func_021DC4A4(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId)
 {
-    u8 *e;
-    if (b == func_021D775C(3)
-        && func_021D775C(0x46) == 0
-        && func_021D775C(0x47) == 0
-        && func_0201BEB8(func_021D775C(0x12), 0) != 0
-        && func_021D85C0((int)a, 0x1e) != 0) {
-        e = func_021C88A4(a, 0xc, b);
-        ((struct Obj06260 *)e)->f0 |= 2 << 22;
-        e[0xf] = func_021D775C(4);
-        ((struct Obj06260 *)e)->f4 = 5;
-        ((struct Obj06260 *)e)->f8 = func_021D7D18(5);
-        func_021C8838(e + 0x14, 2, 0x1d8);
-        func_021C8860((struct S *)(e + 0x14), e[0xf]);
-        func_021C88C8(a, e);
+    if (ownerId == func_021D775C(BTL_EVAR_POKE_ID) && func_021D775C(BTL_EVAR_DAMAGE) > 0)
+        func_021D76BC(BTL_EVAR_PREVENT_FLAG, 1);
+}
+
+void *func_021DC4C8(int *handlerCount) { *handlerCount = 1; return d_021F05F8; }
+
+/* Poison Touch: a contact move of the owner sometimes poisons the defender. */
+void func_021DC4D4(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId)
+{
+    BtlAddSickCmd *cmd;
+    if (ownerId == func_021D775C(BTL_EVAR_ATTACKER_ID)
+        && func_021D775C(BTL_EVAR_SUBSTITUTE_FLAG) == 0
+        && func_021D775C(BTL_EVAR_EFFECT_BLOCKED_FLAG) == 0
+        && WAZA_TOOL_GetFlag(func_021D775C(BTL_EVAR_MOVE_ID), BTL_WAZA_FLAG_CONTACT) != 0
+        && func_021D85C0(flow, 30) != 0) {
+        cmd = func_021C88A4(flow, BTL_CMD_KIND_ADD_SICK, ownerId);
+        cmd->flags |= BTL_CMD_FLAG_FROM_ABILITY;
+        cmd->targetId = func_021D775C(BTL_EVAR_DEFENDER_ID);
+        cmd->sickId = BTL_SICK_POISON;
+        cmd->sickCont.raw = func_021D7D18(BTL_SICK_POISON);
+        func_021C8838(&cmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_POISON_TOUCH);
+        func_021C8860(&cmd->strParam, cmd->targetId);
+        func_021C88C8(flow, cmd);
     }
 }
 
-void *func_021DC564(unsigned int *p)
+void *func_021DC564(unsigned int *packedInfo)
 {
-    *p = func_021D84F0(4, 1);
+    *packedInfo = func_021D84F0(4, 1);
     return d_021F0600;
 }

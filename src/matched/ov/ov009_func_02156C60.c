@@ -1,5 +1,5 @@
 /*
- * function: func_02156C60
+ * function: DWC_RAP_FreeRecvBuffers
  * address:  0x02156C60
  * packet:   pkt_02155168
  * region:   ov009
@@ -13,21 +13,21 @@
  *
  * symbols:
  *   g_021A8264  0x021A8264  data
- *   func_02156BD8  0x02156BD8  thumb  ov009
+ *   DWC_RAP_FreeRecvBuffer  0x02156BD8  thumb  ov009
  */
 
 #include "../include/G__anon_Work.h"
 
 extern struct _anon_Work *g_021A8264;
 typedef unsigned int   u32;
-extern void func_02156BD8(u32 i);
+extern void DWC_RAP_FreeRecvBuffer(u32 i);
 
-void func_02156C60(void)
+void DWC_RAP_FreeRecvBuffers(void)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        func_02156BD8(i);
+        DWC_RAP_FreeRecvBuffer(i);
     }
 
     *(unsigned char *)(((char *)g_021A8264) + 0x7a6) = 1;

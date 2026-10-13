@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02072974",
+   "name": "SND_CHANNEL_UnlockChannels",
    "address": "0x02072974",
    "kind": "game",
    "region": "arm9",

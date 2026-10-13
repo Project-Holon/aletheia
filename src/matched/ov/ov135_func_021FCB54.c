@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020185F0  0x020185F0  thumb
- *   func_0202D6F4  0x0202D6F4  thumb
+ *   POKEGRA_LoadCharDataPP  0x0202D6F4  thumb
  *   func_020862F0  0x020862F0  arm
  *   func_0207E780  0x0207E780  arm
  *   func_020307B0  0x020307B0  arm
@@ -34,7 +34,7 @@ typedef struct {
 } PalFile;
 
 extern void *func_020185F0(void);
-extern u32 func_0202D6F4(void *a0, void *mon, u32 a2, u32 a3);
+extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
 extern void func_020862F0(void *p, u32 n);
 extern void func_0207E780(void *src, u32 dst, u32 n);
 extern u32 func_020307B0(void *p);
@@ -55,7 +55,7 @@ void func_021FCB54(void *mon)
     u32 shiny;
     u32 id;
 
-    h = (void *)func_0202D6F4(&pal, func_020185F0(), 0, 0x48);
+    h = (void *)POKEGRA_LoadCharDataPP(&pal, func_020185F0(), 0, 0x48);
     func_020862F0(pal->data, 0x1200);
     func_0207E780(pal->data, 0x3F80, 0x1200);
     func_020307B0(h);

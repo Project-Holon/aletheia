@@ -18,17 +18,17 @@
  *   d_021FDCB0 0x021FDCB0 data a4
  *   func_02050ED4 0x02050ED4 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02051574 0x02051574 arm
- *   func_02051534 0x02051534 arm
+ *   PARTICLE_UpdateAllSystems 0x02051574 arm
+ *   PARTICLE_DrawAllSystems 0x02051534 arm
  *   func_02050C04 0x02050C04 arm
  *   func_0205121C 0x0205121C arm
  *   func_020056BC 0x020056BC thumb
  *   func_02051230 0x02051230 arm
- *   func_02051620 0x02051620 arm
+ *   PARTICLE_KillAllEffects 0x02051620 arm
  *   func_02050DB8 0x02050DB8 arm
- *   func_020515B4 0x020515B4 arm
- *   func_02051630  0x02051630  arm
- *   func_02051838  0x02051838  arm
+ *   PARTICLE_StartEffect 0x020515B4 arm
+ *   PARTICLE_KillEffect  0x02051630  arm
+ *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
  *   d_021FDCC4 0x021FDCC4 data a4
  *   func_021F9DFC 0x021F9DFC thumb ov132
  *   func_02005728 0x02005728 thumb
@@ -68,7 +68,7 @@
  *   func_0204B98C 0x0204B98C arm
  *   func_021F9E0C 0x021F9E0C thumb ov132
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020490F4 0x020490F4 arm
  *   func_0204AC18 0x0204AC18 arm
  *   func_0204A6C8 0x0204A6C8 arm
@@ -90,15 +90,15 @@
  *   func_02060468 0x02060468 arm
  *   d_021FDCEC 0x021FDCEC data ov132 a4
  *   func_02011290 0x02011290 thumb
- *   func_02011264 0x02011264 thumb
+ *   VM_Delete 0x02011264 thumb
  *   func_02060614 0x02060614 arm
  *   func_02030DA4 0x02030DA4 arm
  *   func_02030D28 0x02030D28 arm
- *   func_0201121C 0x0201121C thumb
- *   func_0201126C 0x0201126C thumb
- *   func_0201127C 0x0201127C thumb
+ *   VM_Create 0x0201121C thumb
+ *   VM_Init 0x0201126C thumb
+ *   VM_Start 0x0201127C thumb
  *   d_021FDC2C 0x021FDC2C data ov132 a4
- *   func_02011298 0x02011298 thumb
+ *   VM_Control 0x02011298 thumb
  *   func_02030DA8 0x02030DA8 arm
  *   func_020604AC 0x020604AC arm
  *   func_02030EAC 0x02030EAC arm
@@ -186,9 +186,9 @@
  *   func_0203CDBC 0x0203CDBC arm
  *   func_0203A574 0x0203A574 arm
  *   d_021FDC38 0x021FDC38 data a4
- *   func_02012F44 0x02012F44 thumb
+ *   GAME_DATA_GetSaveBlock2A 0x02012F44 thumb
  *   func_020173EC 0x020173EC thumb
- *   func_020173E8 0x020173E8 thumb
+ *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   func_02008468 0x02008468 thumb
  *   func_02082BCC 0x02082BCC arm
  *   func_0200A81C 0x0200A81C thumb
@@ -331,17 +331,17 @@ extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
 extern void func_02050B80(unsigned);
 extern void func_02050ED4(void);
 extern u32 func_020307B0(void *p);
-extern int func_02051574(void);
-extern int func_02051534(void);
+extern int PARTICLE_UpdateAllSystems(void);
+extern int PARTICLE_DrawAllSystems(void);
 extern int func_02050C04(int a, int b, int c, int d);
 extern int func_0205121C(u32 a, u32 b, u32 c);
 extern unsigned func_020056BC(void);
 extern void func_02051230(void *, void *, unsigned, unsigned);
-extern void func_02051620(u32);
+extern void PARTICLE_KillAllEffects(u32);
 extern void func_02050DB8(u8 *p);
-extern int func_020515B4(void *p, int b, int c);
-extern void func_02051630(void **p, void *q);
-extern void func_02051838(void *, int);
+extern int PARTICLE_StartEffect(void *p, int b, int c);
+extern void PARTICLE_KillEffect(void **p, void *q);
+extern void BUTTON_MAN_SetEmitterPos(void *, int);
 extern u16 func_021F9DFC(void *p);
 extern unsigned func_02005728(unsigned);
 extern u8 func_0215725C(u8 *, int);
@@ -375,7 +375,7 @@ extern u8 *func_021F4F54(u8 *,int);
 extern int func_021F4F70(int *);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_02049238(void *);
 extern void func_0204B92C(struct Obj_021F9E40 *,u32);
 extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16),func_0204A6C8(void *,u32,u32,u32,u16),func_0204AF28(void *,u32,u32,u32),func_0204ABF0(void *,u32,u32,u32,u16);
@@ -390,14 +390,14 @@ extern u32 func_02030CB0(u32);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void func_02060468(int p0, int p1);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
-extern void func_02011264(void *);
+extern void VM_Delete(void *);
 extern void *func_02060614(struct DList *list, void *elem);
 extern void func_02030DA4(void *);
 extern void func_02030D28(struct Ctx *c);
-extern struct ScriptVm *func_0201121C(u32 heapId, const struct ScriptVmParams *params);
-extern void func_0201126C(struct ScriptVm *vm, void *user);
-extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
-extern int func_02011298(struct ScriptVm *vm);
+extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
+extern void VM_Init(struct ScriptVm *vm, void *user);
+extern void VM_Start(struct ScriptVm *vm, u8 *pc);
+extern int VM_Control(struct ScriptVm *vm);
 extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
 extern void func_020604AC(void *, void *);
 extern void func_02030EAC(struct Node *n);
@@ -480,9 +480,9 @@ extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_02012124(struct Ctx *p, u32 v);
 extern int func_0203CDBC(void);
 extern void func_0203A574(u32,u32,u32,u32);
-extern void *func_02012F44(void *);
+extern void *GAME_DATA_GetSaveBlock2A(void *);
 extern u32 func_020173EC(void);
-extern u32 func_020173E8(void);
+extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int func_02008468(void);
 extern void func_02082BCC(void *,u8,u32);
 extern u16 func_0200A81C(struct Big *p);
@@ -718,7 +718,7 @@ void func_021F9E94(u8 *p) { u8 i; for(i=0;i<8;i++) { if(*(u32 *)(p+i*0x4848+4)==
 
 
 
-int func_021F9ECC(u8 *a0) { return func_02051574(); }
+int func_021F9ECC(u8 *a0) { return PARTICLE_UpdateAllSystems(); }
 
 
 
@@ -726,7 +726,7 @@ int func_021F9ECC(u8 *a0) { return func_02051574(); }
 
 
 
-int func_021F9ED4(u8 *a0) { return func_02051534(); }
+int func_021F9ED4(u8 *a0) { return PARTICLE_DrawAllSystems(); }
 
 
 
@@ -756,7 +756,7 @@ char *func_021F9EDC(char *p, u32 a)
 
 
 
-void func_021F9F58(u8 *unused,u8 *p) { ((struct TargetBank *)p)->f0.u=0; func_02051620(((struct TargetBank *)p)->f4804.u); func_02050DB8((u8 *)(((struct TargetBank *)p)->f4804.u)); }
+void func_021F9F58(u8 *unused,u8 *p) { ((struct TargetBank *)p)->f0.u=0; PARTICLE_KillAllEffects(((struct TargetBank *)p)->f4804.u); func_02050DB8((u8 *)(((struct TargetBank *)p)->f4804.u)); }
 
 
 
@@ -784,7 +784,7 @@ static inline void set(Vec *p, int x, int y, int z)
  */
 void func_021F9F74(char *p, unsigned i, Vec *v)
 {
-    int a = func_020515B4(((struct TargetBank *)p)->f4804.p, i, (int)v);
+    int a = PARTICLE_StartEffect(((struct TargetBank *)p)->f4804.p, i, (int)v);
     if (a == 0 || i < 4) {
         ((Obj_021F9E40 *)p)->part[i].a = a;
         set(&((Obj_021F9E40 *)p)->part[i].v, v->x, v->y, v->z);
@@ -810,7 +810,7 @@ void func_021F9FB4(char *p, int i)
     int v = *(int *)(p + i * 16 + 0x4808);
 
     if (v != 0)
-        func_02051630(((struct TargetBank *)p)->f4804.p, (void *)v);
+        PARTICLE_KillEffect(((struct TargetBank *)p)->f4804.p, (void *)v);
 }
 
 
@@ -828,7 +828,7 @@ void func_021F9FD0(char *p, int i, int a)
     void *v = *(void **)(p + i * 16 + 0x4808);
 
     if (v != 0)
-        func_02051838(v, a);
+        BUTTON_MAN_SetEmitterPos(v, a);
 }
 
 
@@ -1361,7 +1361,7 @@ void func_021FA7E0(char *p)
     int format;
     table=(u8 *)func_021F9E0C((u8 *)(*(char * *)&((struct TaskObj *)p)->f4));
     ((struct TaskObj *)p)->f18=func_0204B100(5,0,((struct TaskObj *)p)->f0);
-    func_0204B270(((struct TaskObj *)p)->f18);
+    CLACT_SetUnitDefaultRenderer(((struct TaskObj *)p)->f18);
     narc=func_020490F4(47,((struct TaskObj *)p)->f0);
     *(int *)&((struct TaskObj *)p)->f1C=func_0204AC18(narc,0,1,0,0,2,((struct TaskObj *)p)->f0);
     *(int *)&((struct TaskObj *)p)->f28=func_0204A6C8(narc,6,0,1,((struct TaskObj *)p)->f0);
@@ -1517,7 +1517,7 @@ void func_021FAB58(char *p)
         slot = (char **)(p + i * 4);
         if (slot[3] != 0) {
             func_02011290(((struct ScriptEntry *)(slot[3]))->f4);
-            func_02011264(((struct ScriptEntry *)(slot[3]))->f4);
+            VM_Delete(((struct ScriptEntry *)(slot[3]))->f4);
             if (((struct ScriptEntry *)(slot[3]))->f16 & 8) func_020307B0(((struct ScriptEntry *)(slot[3]))->fC);
             func_020307B0(slot[3]);
             slot[3] = 0;
@@ -1599,9 +1599,9 @@ void *func_021FAC74(char *p, void *arg, int flag)
     ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f19 = i;
     if (flag == 1) ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f16 |= 2;
     *(char **)((char **)(p + 0xc))[i] = p;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f4 = func_0201121C(((struct ScriptOwner *)p)->f0, (const struct ScriptVmParams *)d_021FDC2C);
-    func_0201126C(((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f4, ((char **)(p + 0xc))[i]);
-    func_0201127C(((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f4, ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f8);
+    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f4 = VM_Create(((struct ScriptOwner *)p)->f0, (const struct ScriptVmParams *)d_021FDC2C);
+    VM_Init(((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f4, ((char **)(p + 0xc))[i]);
+    VM_Start(((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f4, ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->f8);
     return ((char **)(p + 0xc))[i];
 }
 
@@ -1634,10 +1634,10 @@ int func_021FAD2C(void *unused, char *p)
 {
     if (((struct TargetBank *)p)->f14 != 0) (((struct TargetBank *)p)->f14)--;
     if (((struct TargetBank *)p)->f14 == 0 && !(((struct TargetBank *)p)->f16 & 4)) {
-        func_02011298(((struct TargetBank *)p)->f4);
+        VM_Control(((struct TargetBank *)p)->f4);
         if (((struct TargetBank *)p)->f16 & 1) {
             func_02011290(((struct TargetBank *)p)->f4);
-            func_02011264(((struct TargetBank *)p)->f4);
+            VM_Delete(((struct TargetBank *)p)->f4);
             if (((struct TargetBank *)p)->f16 & 8) func_020307B0(((struct TargetBank *)p)->fC);
             return 1;
         }
@@ -3468,7 +3468,7 @@ void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
  void *data;
  u32 size1,size2;
  u8 i,j;
- data=func_02012F44(P(p,0x58));
+ data=GAME_DATA_GetSaveBlock2A(P(p,0x58));
  ((struct ActingHost *)p)->f0=heap;
  for(i=0;i<4;i++) {
   u8 *row;
@@ -3480,10 +3480,10 @@ void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   row[0x70]=10;row[0x71]=10;
   P(row,0x7C)=func_02030734(((struct ActingHost *)p)->f0,func_020173EC()+0x7C,0,d_021FDE5C,0x20E);
   size1=func_02008468();
-  P(row,0x8C)=func_02030734(((struct ActingHost *)p)->f0,(size1+4)+func_020173E8(),0,d_021FDE5C,0x20F);
+  P(row,0x8C)=func_02030734(((struct ActingHost *)p)->f0,(size1+4)+POKE_TOOL_GetBoxParamSize(),0,d_021FDE5C,0x20F);
   clear8(P(row,0x7C),func_020173EC()+0x7C);
   size2=func_02008468();
-  clear8(P(row,0x8C),(size2+4)+func_020173E8());
+  clear8(P(row,0x8C),(size2+4)+POKE_TOOL_GetBoxParamSize());
   P(row,0x80)=P(row,0x8C);
   P(row,0x84)=P(row,0x8C)+4;
   P(row,0x88)=P(row,0x8C)+4+func_02008468();
@@ -3494,7 +3494,7 @@ void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
  W(p,0x138)=0;W(p,0x124)=0;
  P(p,0x128)=func_02030734(((struct ActingHost *)p)->f0,(func_020173EC()+0x7C)*4,0,d_021FDE5C,0x221);
  size1=func_02008468();
- P(p,0x13C)=func_02030734(((struct ActingHost *)p)->f0,((size1+4)+func_020173E8())*4,0,d_021FDE5C,0x222);
+ P(p,0x13C)=func_02030734(((struct ActingHost *)p)->f0,((size1+4)+POKE_TOOL_GetBoxParamSize())*4,0,d_021FDE5C,0x222);
  p[0x1C]=0;W(p,0x14)=0;W(p,0x18)=0;
  p[0x14C]=0;W(p,0x150)=0;
  W(p,0x158)=0;W(p,0x15C)=0;W(p,0x160)=0;W(p,0x164)=0;
@@ -3947,14 +3947,14 @@ u32 func_021FD14C(Owner_021F9E40 *p)
     char *q, *t;
     if(p->buffer) func_020307B0(p->buffer);
     a=func_02008468();
-    b=func_020173E8();
+    b=POKE_TOOL_GetBoxParamSize();
     q=func_02030734(p->heap,a+4+b,0,d_021FDE5C,0x533);
     p->buffer=q;
     t=q+4+func_02008468();
     func_02082D44(&p->value,q,4);
     func_02082D44(p->first,q+4,func_02008468());
-    func_02082D44(p->second,t,func_020173E8());
-    return func_0203D3F8((u32)func_020399A8(),0xff,0x1101,func_02008468()+4+func_020173E8(),(u32)p->buffer,1,0,1);
+    func_02082D44(p->second,t,POKE_TOOL_GetBoxParamSize());
+    return func_0203D3F8((u32)func_020399A8(),0xff,0x1101,func_02008468()+4+POKE_TOOL_GetBoxParamSize(),(u32)p->buffer,1,0,1);
 }
 
 
@@ -3975,16 +3975,16 @@ int func_021FD22C(char *p)
     void *h;
     for(i=0;i<4;i++) {
         m=func_02008468();
-        n=func_020173E8();
+        n=POKE_TOOL_GetBoxParamSize();
         q=*(char * *)&((struct ActingHost *)p)->f13C;
         k=i*(m+4+n);
         m=func_02008468();
-        n=func_020173E8();
+        n=POKE_TOOL_GetBoxParamSize();
         func_02082D44(*(void **)(p+i*0x30+0x8c),q+k,m+4+n);
     }
     h=func_0203996C(0xff);
     m=func_02008468();
-    n=func_020173E8();
+    n=POKE_TOOL_GetBoxParamSize();
     return func_0203D3F8((u32)h,0xff,0x1102,(m+4+n)*4,(u32)(((struct ActingHost *)p)->f13C),1,0,1);
 }
 
@@ -4003,11 +4003,11 @@ void func_021FD2B8(int a,int b,int c,char *p)
     int flag;
     for(i=0;i<4;i++) {
         m=func_02008468();
-        n=func_020173E8();
+        n=POKE_TOOL_GetBoxParamSize();
         q=*(char * *)&((struct ActingHost *)p)->f13C;
         k=i*(m+4+n);
         m=func_02008468();
-        n=m+4+func_020173E8();
+        n=m+4+POKE_TOOL_GetBoxParamSize();
         s=p+i*0x30;
         func_02082D44(q+k,((struct ActingScene *)s)->f8C,n);
         flag=func_020084BC(((struct ActingScene *)s)->f84)==0 ? 1 : 0;

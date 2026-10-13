@@ -1,5 +1,5 @@
 /*
- * function: func_02025B18
+ * function: BMP_OAM_ReleaseModeSlots
  * address:  0x02025B18
  * packet:   pkt_02025774
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0204AFD8  0x0204AFD8  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  */
 
 typedef unsigned char u8;
@@ -22,15 +22,15 @@ struct Obj02025774 {
     s32 slots[3];
 };
 
-extern void sub_0204AFD8(u32 slot);
+extern void CLACT_ReleaseCellAnim(u32 slot);
 
-void func_02025B18(struct Obj02025774 *p)
+void BMP_OAM_ReleaseModeSlots(struct Obj02025774 *p)
 {
     int i;
 
     for (i = 0; i < 3; i++) {
         if (p->slots[i] != -1) {
-            sub_0204AFD8(p->slots[i]);
+            CLACT_ReleaseCellAnim(p->slots[i]);
             p->slots[i] = -1;
         }
     }

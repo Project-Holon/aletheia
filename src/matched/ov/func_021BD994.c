@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   sub_020399A8  0x020399A8  arm
- *   sub_02039C68  0x02039C68  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *
  * The result of the first arm9 call is the first argument of the second.
  * Returns the second argument.
@@ -27,13 +27,13 @@ typedef signed long    s32;
 typedef int BOOL;
 
 struct Entry;
-extern struct Entry *sub_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void sub_02039C68(struct Link *a, unsigned int b, unsigned int c);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
 
 int func_021BD994(void *v, int b)
 {
-    sub_02039C68((struct Link *)sub_020399A8(), 0x1B, 0x0A);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1B, 0x0A);
     ((struct Obj18245 *)v)->f1CC = 0x8B;
 
     return b;

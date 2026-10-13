@@ -1,5 +1,5 @@
 /*
- * function: func_02010F94
+ * function: GPOWER_GetPowerType
  * address:  0x02010F94
  * packet:   pkt_02010F94
  * region:   arm9
@@ -21,7 +21,7 @@ struct Rec02010F94 {
     unsigned char pad2;
 };
 
-unsigned int func_02010F94(struct Rec02010F94 *p, int idx)
+unsigned int GPOWER_GetPowerType(struct Rec02010F94 *p, int idx)
 {
     return p[idx].f;
 }

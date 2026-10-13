@@ -17,13 +17,13 @@
  *   func_0201BC3C 0x0201BC3C thumb
  *   func_0204AF28 0x0204AF28 arm
  *   func_0204ACEC 0x0204ACEC arm
- *   func_0204AEF4 0x0204AEF4 arm
+ *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   func_020216D4 0x020216D4 thumb
  *   func_02030734 0x02030734 arm
  *   func_020056A0 0x020056A0 thumb
  *   func_0220684C 0x0220684C thumb ov094
  *   func_02204BCC 0x02204BCC thumb ov094
- *   func_0201BABC 0x0201BABC thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0201BB5C 0x0201BB5C thumb
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204B294 0x0204B294 arm
@@ -71,13 +71,13 @@ extern int func_0201BCEC(void);
 extern int func_0201BC3C(void);
 extern int func_0204AF28(void *, u32, u32, u32);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern int func_0204AEF4(u32 idx, u32 alternate);
+extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_020056A0(void *cb, void *ctx, int a);
 extern void func_0220684C(char *p, int a, int b);
 extern void func_02204BCC(void *a0, int *c);
-extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
 extern int func_0204A6C8(void *, u32, u32, u32, u16);
 struct Obj;
@@ -105,7 +105,7 @@ void func_022057CC(Main *m, Info *q)
     arc = func_020490F4(7, (u16)((m->heap & 0x7fff) | 0x8000));
     m->h1c0 = func_0204AF28(arc, func_0201BC78(), func_0201BCEC(), m->heap);
     m->h1bc = func_0204ACEC(arc, func_0201BC3C(), 1, 0x160, m->heap);
-    func_020216D4(m->pal, 3, (u16)(func_0204AEF4(m->h1bc, 1) >> 1), 0x60);
+    func_020216D4(m->pal, 3, (u16)(CLACT_GetPaletteVramAddress(m->h1bc, 1) >> 1), 0x60);
     *(volatile u16 *)0x04001040 = 0x100;
     *(volatile u16 *)0x04001044 = 0;
     *(volatile u16 *)0x04001042 = 0x100;
@@ -118,7 +118,7 @@ void func_022057CC(Main *m, Info *q)
     }
     for (i = 0; i < n; i++) {
         if (q->species[i] != 0) {
-            m->h1b0[i] = func_0204A6C8(arc, func_0201BABC(q->species[i], q->form[i], q->gender[i], 0), 0, 1, m->heap);
+            m->h1b0[i] = func_0204A6C8(arc, POKE_TOOL_CalcGraphicIndex(q->species[i], q->form[i], q->gender[i], 0), 0, 1, m->heap);
             m->h1c8[i].obj = func_0204B294((void *)m->h1c4, m->h1b0[i], m->h1bc, m->h1c0, d_0220A392, 1, m->heap);
             func_0204B404(m->h1c8[i].obj, (const struct Vec2 *)(&d_0220A50C[m->mode][i]), 1);
             func_0204B92C(m->h1c8[i].obj, 1);

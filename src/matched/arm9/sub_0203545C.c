@@ -1,5 +1,5 @@
 /*
- * function: sub_0203545C
+ * function: UI_ServiceLidSleep
  * address:  0x0203545C
  * packet:   pkt_020353B0
  * region:   arm9
@@ -12,19 +12,19 @@
  * symbols:
  *   func_02035224   0x02035224  arm
  *   func_020353F8   0x020353F8  arm
- *   func_02035E08   0x02035E08  arm
+ *   TOUCHPANEL_AutoSamplingStop   0x02035E08  arm
  *   func_0203524C   0x0203524C  arm
  *   PM_GoSleepMode  0x0208C154  arm
  *   func_020353C8   0x020353C8  arm
  *   func_020352AC   0x020352AC  arm
  *   func_02035268   0x02035268  arm
- *   func_02035DC8   0x02035DC8  arm
+ *   TOUCHPANEL_AutoSamplingRestart   0x02035DC8  arm
  *   func_02035428   0x02035428  arm
  *   func_02035284   0x02035284  arm
  *
  * The lid/sleep service, one of the five sub_02034EF8 runs per frame.  Bit
  * 15 of the halfword at 0x02FFFFA8 is the lid-closed flag; when it is set
- * and the veto predicate sub_020353F8 says no, the machine goes to sleep
+ * and the veto predicate UI_IsSleepInhibited says no, the machine goes to sleep
  * with the whole shutdown/wake sequence around it, and when the predicate
  * says yes the context is instead marked as suspended (+0x43) with the
  * backlight forced off.  An open lid undoes the suspension.
@@ -47,8 +47,8 @@
  * This is what caps src/pending/sub_02034EF8.c as well.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0203545C.c \
- *       --func sub_0203545C --addr 0x0203545C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_ServiceLidSleep.c \
+ *       --func UI_ServiceLidSleep --addr 0x0203545C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -64,17 +64,17 @@ struct UiCtx {
 
 extern struct UiCtx *func_02035224(void);
 extern int  func_020353F8(struct UiCtx *p);
-extern void func_02035E08(void);
+extern void TOUCHPANEL_AutoSamplingStop(void);
 extern void func_0203524C(struct UiCtx *p);
 extern void PM_GoSleepMode(u32 trigger, u32 a, u32 b);
 extern void func_020353C8(struct UiCtx *p);
 extern void func_020352AC(struct UiCtx *p);
 extern void func_02035268(struct UiCtx *p);
-extern void func_02035DC8(void);
+extern void TOUCHPANEL_AutoSamplingRestart(void);
 extern void func_02035428(u32 status);
 extern void func_02035284(struct UiCtx *p);
 
-void sub_0203545C(void)
+void UI_ServiceLidSleep(void)
 {
     struct UiCtx *p;
 
@@ -82,13 +82,13 @@ void sub_0203545C(void)
 
     if ((*(u16 *)0x02FFFFA8 & 0x8000) >> 15) {
         if (func_020353F8(p) == 0) {
-            func_02035E08();
+            TOUCHPANEL_AutoSamplingStop();
             func_0203524C(p);
             PM_GoSleepMode(0xC, 0, 0);
             func_020353C8(p);
             func_020352AC(p);
             func_02035268(p);
-            func_02035DC8();
+            TOUCHPANEL_AutoSamplingRestart();
             if (p->suspended != 0) {
                 p->suspended = 0;
                 func_02035428(p->backlight);

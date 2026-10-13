@@ -12,10 +12,11 @@
  * isa:      thumb
  * status:   EXACT
  * function: func_0200B394, func_0200B3A4, func_0200B3A8, func_0200B3AC,
- *           func_0200B3B0, func_0200B3C8, func_0200B3DC
+ *           func_0200B3B0, func_0200B3C8, BATTLE_REC_Create
  *
  * symbols:
  *   func_0200B3DC_File  0x020A71C4  data
+ *   BATTLE_REC_Clear  0x0200B448  thumb
  *
  * 108 bytes, 0x0200B394..0x0200B400, 7 functions, four of which carry no
  * label in the generated listing.
@@ -23,7 +24,7 @@
  * alias: 0x020A71C4 spells "battle_rec.c", the third original source file
  * name recovered by this project, attested by the `string` class off the
  * terminator of "regulation.c" at 0x020A71C2.  The constructor at 0x0200B3DC
- * allocates 0x2000 bytes at line 0x67 and hands them to func_0200B448, which
+ * allocates 0x2000 bytes at line 0x67 and hands them to BATTLE_REC_Clear, which
  * is the first function of the next packet.
  *
  * Near miss, and the reason this unit starts at 0x0200B394 rather than
@@ -51,7 +52,7 @@ extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Struct_0200B37C;
 extern void func_0200B37C(struct Struct_0200B37C *p);
-extern void func_0200B448(struct BattleRec *p);
+extern void BATTLE_REC_Clear(struct BattleRec *p);
 extern const char func_0200B3DC_File[];
 
 struct Rec94 {
@@ -92,10 +93,10 @@ void func_0200B3C8(void *sys, const struct Rec94 *src)
     func_02082A90(func_020071CC(sys, 0x30), src, sizeof(struct Rec94));
 }
 
-void *func_0200B3DC(u32 heap)
+void *BATTLE_REC_Create(u32 heap)
 {
     void *p = func_02030734(heap, 0x2000, 1, func_0200B3DC_File, 0x67);
 
-    func_0200B448(p);
+    BATTLE_REC_Clear(p);
     return p;
 }

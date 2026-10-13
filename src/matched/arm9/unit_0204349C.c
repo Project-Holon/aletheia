@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_0204349C
+ * function: BG_SYS_ClearMainBgPlanes
  * address:  0x0204349C
  * packet:   pkt_02042B24
  * region:   arm9
@@ -19,7 +19,7 @@
  * first, 0x0f for the second), so calling both in sequence clears the word
  * outright; the wrapper is the reset path.
  *
- * Kept as one unit so the two `bl` sites in sub_020434CC are `local`: they
+ * Kept as one unit so the two `bl` sites in BG_SYS_ClearMainPlanes are `local`: they
  * are that pair's only callers image-wide, and split into three files
  * neither could attest the other
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md in
@@ -32,18 +32,18 @@ typedef unsigned int u32;
 
 extern struct Flags g_02146A48;
 
-void sub_0204349C(void)
+void BG_SYS_ClearMainBgPlanes(void)
 {
     g_02146A48.unk_04 = g_02146A48.unk_04 & 0x10;
 }
 
-void sub_020434B4(void)
+void BG_SYS_ClearMainObjPlane(void)
 {
     g_02146A48.unk_04 = g_02146A48.unk_04 & 0xf;
 }
 
-void sub_020434CC(void)
+void BG_SYS_ClearMainPlanes(void)
 {
-    sub_0204349C();
-    sub_020434B4();
+    BG_SYS_ClearMainBgPlanes();
+    BG_SYS_ClearMainObjPlane();
 }

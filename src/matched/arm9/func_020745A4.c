@@ -1,5 +1,5 @@
 /*
- * function: func_020745A4
+ * function: NNS_SndArcReadFile
  * address:  0x020745A4
  * packet:   pkt_0207457C
  * region:   arm9
@@ -45,7 +45,7 @@ struct FSFile;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
-int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset)
+int NNS_SndArcReadFile(u32 idx, void *dst_buf, int total_len, u32 offset)
 {
     struct Context *ctx = ptr_0214EA50;
     struct TableHeader *tbl = ctx->table;

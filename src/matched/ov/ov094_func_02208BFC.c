@@ -12,8 +12,8 @@
  * symbols:
  *   func_021F86E0 0x021F86E0 thumb ov094
  *   func_021F86D4 0x021F86D4 thumb ov094
- *   func_0202173C 0x0202173C thumb
- *   func_02021ED8 0x02021ED8 thumb
+ *   PALANM_RequestFade 0x0202173C thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   d_0220AB4C 0x0220AB4C data a4
  */
 typedef unsigned char u8;
@@ -27,8 +27,8 @@ typedef struct { Owner *owner; int state, mask, count; } State;
 extern const Masks d_0220AB4C;
 extern int func_021F86E0(void);
 extern void *func_021F86D4(void);
-extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
-extern u32 func_02021ED8(const char *);
+extern int PALANM_RequestFade(void *, u16, u16, s16, u8, u8, u16, void *);
+extern u32 PALANM_GetFadeRequestBits(const char *);
 void func_02208BFC(void *unused, State *s)
 {
     Masks masks = d_0220AB4C;
@@ -43,19 +43,19 @@ void func_02208BFC(void *unused, State *s)
         }
         if (s->mask) {
             pal = (void *)func_021F86E0();
-            func_0202173C(pal, 4, s->mask, 0, 0, 8, 16, func_021F86D4());
+            PALANM_RequestFade(pal, 4, s->mask, 0, 0, 8, 16, func_021F86D4());
             s->state = 1;
         }
         break;
     case 1:
-        if (!func_02021ED8((const char *)func_021F86E0())) {
+        if (!PALANM_GetFadeRequestBits((const char *)func_021F86E0())) {
             pal = (void *)func_021F86E0();
-            func_0202173C(pal, 4, s->mask, 0, 8, 0, 16, func_021F86D4());
+            PALANM_RequestFade(pal, 4, s->mask, 0, 8, 0, 16, func_021F86D4());
             s->state = 2;
         }
         break;
     case 2:
-        if (!func_02021ED8((const char *)func_021F86E0())) {
+        if (!PALANM_GetFadeRequestBits((const char *)func_021F86E0())) {
             s->count++;
             if (s->count == 3) {
                 s->count = 0;

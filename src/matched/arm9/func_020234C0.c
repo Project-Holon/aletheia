@@ -1,5 +1,5 @@
 /*
- * function: func_020234C0
+ * function: WIPE_SUB_BoxMain
  * address:  0x020234C0
  * packet:   pkt_02022F60
  * region:   arm9
@@ -10,22 +10,22 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02023568  0x02023568  thumb
- *   func_02022DCC  0x02022DCC  thumb
+ *   WIPE_SUB_BoxStep  0x02023568  thumb
+ *   WIPE_SUB_RequestWindowEnd  0x02022DCC  thumb
  *   func_020307B0  0x020307B0  arm
  *
  * The per-frame step of the wipe/transition task set up at 0x02023464.
  * The task block keeps its phase at +0x0c and the sub-object it allocated
- * at +0x14.  Phase 1 polls func_02023568 and, once that answers 1, hands
- * the sub-object's +0x44 field to func_02022DCC and advances; phase 2
+ * at +0x14.  Phase 1 polls WIPE_SUB_BoxStep and, once that answers 1, hands
+ * the sub-object's +0x44 field to WIPE_SUB_RequestWindowEnd and advances; phase 2
  * frees the sub-object (func_020307B0), clears the slot and advances;
  * phase 3 is the terminal phase and is the only one that answers 1, which
  * is how the caller learns the transition has finished.  Phase 0 and any
  * other value answer 0 and do nothing.
  *
- * THE LEVER, and it is shared with func_02022A44, func_0202390C and
- * func_020234C0 (all three sat at exactly two bytes out until it was
- * found; func_0202363C in src/matched had it right all along and is where
+ * THE LEVER, and it is shared with WIPE_SUB_FadeMain, WIPE_SUB_ShutterMain and
+ * WIPE_SUB_BoxMain (all three sat at exactly two bytes out until it was
+ * found; WIPE_SUB_CircleMain in src/matched had it right all along and is where
  * it was read from).  Phase 2 assigns the result variable 1 as well,
  * immediately before its `break`:
  *
@@ -46,8 +46,8 @@
  * added empty case -- is the same two bytes out or worse.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020234C0.c \
- *       --func func_020234C0 --addr 0x020234C0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_BoxMain.c \
+ *       --func WIPE_SUB_BoxMain --addr 0x020234C0 --cc 1.1p1 --thumb
  */
 #include "../include/Obj00862.h"
 
@@ -64,11 +64,11 @@ struct Task {
 };
 
 struct Obj;
-extern u32 func_02023568(struct Obj *o);
-extern void func_02022DCC(u32 a0, void *a1, u32 a2);
+extern u32 WIPE_SUB_BoxStep(struct Obj *o);
+extern void WIPE_SUB_RequestWindowEnd(u32 a0, void *a1, u32 a2);
 extern u32 func_020307B0(void *p);
 
-u32 func_020234C0(struct Task *t)
+u32 WIPE_SUB_BoxMain(struct Task *t)
 {
     void *obj;
     u32   ret;
@@ -78,8 +78,8 @@ u32 func_020234C0(struct Task *t)
 
     switch (t->phase) {
     case 1:
-        if (func_02023568(obj) == 1) {
-            func_02022DCC(((struct Obj00862 *)obj)->f44, (void *)t->f18, t->f10);
+        if (WIPE_SUB_BoxStep(obj) == 1) {
+            WIPE_SUB_RequestWindowEnd(((struct Obj00862 *)obj)->f44, (void *)t->f18, t->f10);
             t->phase = t->phase + 1;
         }
         break;

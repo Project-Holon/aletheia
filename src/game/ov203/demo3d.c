@@ -38,8 +38,8 @@
  *   func_021BE620 0x021BE620 thumb ov203
  *   func_021BE638 0x021BE638 thumb ov203
  *   d_02FFFC3C 0x02FFFC3C data
- *   func_02022268 0x02022268 thumb
- *   func_0204E6E0 0x0204E6E0 arm
+ *   WIPE_SetMstBrightColor 0x02022268 thumb
+ *   FADE_GetSpeed 0x0204E6E0 arm
  *   func_0202208C 0x0202208C thumb
  *   func_020221A4 0x020221A4 thumb
  *   func_020362DC 0x020362DC arm
@@ -50,9 +50,10 @@
  *   func_0204044C 0x0204044C arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  *   d_021BFB7C 0x021BFB7C data a2
+ *   BRIGHTNESS_ChangeReset  0x02023F98  thumb  arm9
  */
 #include "../../matched/include/Obj06663.h"
 #include "../../matched/include/Obj06664.h"
@@ -101,7 +102,7 @@ extern void func_02043598(unsigned, unsigned);
 extern struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap);
 extern u32 func_021BE62C(char *p);
 extern void func_021BE948(void *, int, u8 *, u8 *);
-extern void func_02023F98(u32 mask);
+extern void BRIGHTNESS_ChangeReset(u32 mask);
 extern u32 func_02045C04(struct Rec *rec);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_021BE4B4(char *ctx);
@@ -115,8 +116,8 @@ extern int func_021BE538(const struct Context *ctx, u32 frames);
 extern int func_021BE620(char *p);
 extern void func_021BE638(char *p, int a);
 extern u32 func_020221A4(void);
-extern void func_02022268(unsigned);
-extern unsigned func_0204E6E0(void);
+extern void WIPE_SetMstBrightColor(unsigned);
+extern unsigned FADE_GetSpeed(void);
 extern void func_0202208C(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 extern unsigned func_020362DC(void);
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
@@ -124,7 +125,7 @@ extern u32 func_020307B0(void *p);
 extern void func_0204044C(unsigned);
 extern void func_0207DC44(int, int, int, int);
 extern void func_0207DD24(unsigned short, int, int, int, int);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(unsigned, unsigned);
 int func_021BDA40(void *manager, int unused, u8 *p);
 int func_021BDB20(void *a, void *b, void *c, char *work);
@@ -176,7 +177,7 @@ int func_021BDA40(void *manager, int unused, u8 *p)
 
 int func_021BDB20(void *a, void *b, void *c, char *work)
 {
-    func_02023F98(3);
+    BRIGHTNESS_ChangeReset(3);
     func_021BDD18(*(char * *)&((struct Obj06664 *)work)->f1C);
     func_02045C04(((struct Obj06664 *)work)->f14);
     func_0201C4C0(((struct Obj06664 *)work)->f10);
@@ -239,9 +240,9 @@ int func_021BDC20(void *ctx, unsigned mode, unsigned heap)
     func_021BE948(ctx, (unsigned char)(mode == 0), &width, &height);
     color = 0;
     if (width) color = 32767;
-    func_02022268(color);
+    WIPE_SetMstBrightColor(color);
     if (height) {
-        factor = func_0204E6E0();
+        factor = FADE_GetSpeed();
         func_0202208C(0, mode, mode, color, height * factor, 1, heap);
         return 0;
     }
@@ -328,6 +329,6 @@ void func_021BDD40(void)
     func_0207DC44(0, 0, 0, 0);
     func_0207DD24(0, 0, 32767, 63, 0);
     *(volatile unsigned *)0x04000580 = 0xbfff0000;
-    for (; i < 4; i++) func_02046A94((unsigned char)i, d_021BFB7C[i]);
+    for (; i < 4; i++) G3D_SYSTEM_SetLight((unsigned char)i, d_021BFB7C[i]);
     func_02046BE0(0, 0);
 }

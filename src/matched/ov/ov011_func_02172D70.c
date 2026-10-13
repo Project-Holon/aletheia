@@ -18,7 +18,7 @@
  *   func_02035390  0x02035390  arm
  *   func_020353B0  0x020353B0  arm
  *   func_021735FC  0x021735FC  thumb  ov011
- *   func_02173658  0x02173658  thumb  ov011
+ *   INTRUDE_COMM_AgeFoundList  0x02173658  thumb  ov011
  *   func_020392B8  0x020392B8  arm
  *   func_0203D7BC  0x0203D7BC  arm
  *   func_02039ACC  0x02039ACC  arm
@@ -33,19 +33,19 @@
  *   func_020399A8  0x020399A8  arm
  *   func_020399B8  0x020399B8  arm
  *   func_02161F54  0x02161F54  thumb  ov010
- *   func_02174E3C  0x02174E3C  thumb  ov011
- *   func_02174EAC  0x02174EAC  thumb  ov011
- *   func_02173828  0x02173828  thumb  ov011
+ *   INTRUDE_COMM_RefreshSelfRecord  0x02174E3C  thumb  ov011
+ *   INTRUDE_COMM_ApplyPlayerBeacon  0x02174EAC  thumb  ov011
+ *   INTRUDE_COMM_SendStatusRecord  0x02173828  thumb  ov011
  *   func_0203F4FC  0x0203F4FC  arm
  *   func_02012B70  0x02012B70  thumb
  *   func_02012114  0x02012114  thumb
  *   func_02174978  0x02174978  thumb  ov011
- *   func_02175EB8  0x02175EB8  thumb  ov011
+ *   INTRUDE_COMM_IsResultConfirmed  0x02175EB8  thumb  ov011
  *   func_0203D378  0x0203D378  arm
  *   func_02175B14  0x02175B14  thumb  ov011
- *   func_021739E0  0x021739E0  thumb  ov011
- *   func_02175ED8  0x02175ED8  thumb  ov011
- *   func_02175628  0x02175628  thumb  ov011
+ *   INTRUDE_COMM_SendTimeoutWarning  0x021739E0  thumb  ov011
+ *   INTRUDE_COMM_GetLeaveFlag  0x02175ED8  thumb  ov011
+ *   INTRUDE_COMM_HasConnectedPeers  0x02175628  thumb  ov011
  *
  * evidence: 0x02008494 is an unlabelled ARM9 thunk ("ldr r3, =func_02082D44; movs r2, #0x20; bx r3") that the
  * prologue sweep misses; its start is seeded in layout/function_starts.txt
@@ -106,7 +106,7 @@ extern void func_02026400(struct Comm *p);
 extern u32   func_02035390(void);
 extern int func_020353B0(void);
 extern void  func_021735FC(void *sv, void *p);
-extern void func_02173658(u8 *o);
+extern void INTRUDE_COMM_AgeFoundList(u8 *o);
 extern int   func_020392B8(void);
 extern void func_0203D7BC(u8 a0);
 extern int func_02039ACC(void);
@@ -122,20 +122,20 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_020399B8(u8 *p);
 extern int func_02161F54(int a0);
-extern void func_02174E3C(u8 *p);
-extern void func_02174EAC(u8 *p, int idx, u8 *q);
-extern int func_02173828(char *p);
+extern void INTRUDE_COMM_RefreshSelfRecord(u8 *p);
+extern void INTRUDE_COMM_ApplyPlayerBeacon(u8 *p, int idx, u8 *q);
+extern int INTRUDE_COMM_SendStatusRecord(char *p);
 extern u32 func_0203F4FC(void);
 extern int func_02012B70(const struct BigObj *p);
 struct Ctx;
 extern u32   func_02012114(const struct Ctx *p);
 extern void func_02174978(u8 *s);
-extern int   func_02175EB8(void *p);
+extern int   INTRUDE_COMM_IsResultConfirmed(void *p);
 extern u32 func_0203D378(void);
 extern int func_02175B14(u8 *p);
-extern int   func_021739E0(void);
-extern int func_02175ED8(struct Sub *s);
-extern int   func_02175628(void);
+extern int   INTRUDE_COMM_SendTimeoutWarning(void);
+extern int INTRUDE_COMM_GetLeaveFlag(struct Sub *s);
+extern int   INTRUDE_COMM_HasConnectedPeers(void);
 
 void func_02172D70(int *state, Param *p, Work *w)
 {
@@ -166,7 +166,7 @@ void func_02172D70(int *state, Param *p, Work *w)
         return;
     }
     func_021735FC(sv, (u8 *)w + 0xc);
-    func_02173658((u8 *)w);
+    INTRUDE_COMM_AgeFoundList((u8 *)w);
     switch (*state) {
     case 0:
         if (func_020392B8() > 1 && w->step < 5) {
@@ -204,12 +204,12 @@ void func_02172D70(int *state, Param *p, Work *w)
         break;
     case 2:
         func_02161F54((int)((u8 *)w + 0x35c));
-        func_02174E3C((u8 *)w);
-        func_02174EAC((u8 *)w, func_02039338(), (u8 *)w + 0x160);
+        INTRUDE_COMM_RefreshSelfRecord((u8 *)w);
+        INTRUDE_COMM_ApplyPlayerBeacon((u8 *)w, func_02039338(), (u8 *)w + 0x160);
         (*state)++;
         break;
     case 3:
-        if (func_02173828((char *)w) == 1) {
+        if (INTRUDE_COMM_SendStatusRecord((char *)w) == 1) {
             w->step = 7;
             w->stamp = func_0203F4FC();
             (*state)++;
@@ -222,7 +222,7 @@ void func_02172D70(int *state, Param *p, Work *w)
             return;
         }
         func_02174978((u8 *)w);
-        if (func_02175EB8((u8 *)w + 0x1ac) == 1) {
+        if (INTRUDE_COMM_IsResultConfirmed((u8 *)w + 0x1ac) == 1) {
             func_02026400(w->field004);
             return;
         }
@@ -237,16 +237,16 @@ void func_02172D70(int *state, Param *p, Work *w)
                 func_02026400(w->field004);
                 return;
             }
-            if (now > 170 && w->warned == 0 && func_021739E0() == 1) {
+            if (now > 170 && w->warned == 0 && INTRUDE_COMM_SendTimeoutWarning() == 1) {
                 w->warned = 1;
             }
         } else if (w->lock == 0 && func_0203D378() == 1
-                   && func_02175ED8((struct Sub *)((u8 *)w + 0x1ac)) == 1) {
+                   && INTRUDE_COMM_GetLeaveFlag((struct Sub *)((u8 *)w + 0x1ac)) == 1) {
             func_02026400(w->field004);
         } else {
             w->warned = 0;
         }
-        if (func_02175628() == 0) {
+        if (INTRUDE_COMM_HasConnectedPeers() == 0) {
             w->idle++;
             if (w->idle > 180) {
                 func_02026400(w->field004);

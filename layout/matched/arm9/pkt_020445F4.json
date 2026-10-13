@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020445F4",
+   "name": "BMP_Blit4bppToVram",
    "address": "0x020445F4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02044954",
+   "name": "BMP_Blit8bppToVram",
    "address": "0x02044954",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02044BF0",
+   "name": "BMP_FillRect4bpp",
    "address": "0x02044BF0",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02044CE0",
+   "name": "BMP_FillRect8bpp",
    "address": "0x02044CE0",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02044D88",
+   "name": "BMP_FillRect4bppVram",
    "address": "0x02044D88",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02044EBC",
+   "name": "BMP_FillRect8bppVram",
    "address": "0x02044EBC",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02045088",
+   "name": "BMP_WIN_Init",
    "address": "0x02045088",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020450C8",
+   "name": "BMP_WIN_Exit",
    "address": "0x020450C8",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020450F0",
+   "name": "BMP_WIN_Create",
    "address": "0x020450F0",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02045180",
+   "name": "BMP_WIN_CreateAt",
    "address": "0x02045180",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02045210",
+   "name": "BMP_WIN_Alloc",
    "address": "0x02045210",
    "kind": "game",
    "region": "arm9",

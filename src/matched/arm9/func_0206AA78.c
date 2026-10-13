@@ -1,5 +1,5 @@
 /*
- * function: func_0206AA78
+ * function: NNS_G3dGlbLightColor
  * address:  0x0206AA78
  * packet:   pkt_0206A12C
  * region:   arm9
@@ -13,15 +13,15 @@
  * symbols:
  *   g_02148BF4       0x02148BF4  data
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206AA78.c \
- *       --func func_0206AA78 --addr 0x0206AA78 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dGlbLightColor.c \
+ *       --func NNS_G3dGlbLightColor --addr 0x0206AA78 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
 extern u32 g_02148BF4[];
 
-void func_0206AA78(int idx, u32 v)
+void NNS_G3dGlbLightColor(int idx, u32 v)
 {
     g_02148BF4[idx] = v | (u32)(idx << 30);
 }

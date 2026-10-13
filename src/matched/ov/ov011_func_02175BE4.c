@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02175BE4, func_02175C04
+ * function: func_02175BE4, INTRUDE_COMM_SetSessionReadyBit
  * address:  0x02175BE4
  * packet:   pkt_ov011_02175BE4
  * region:   ov011
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_02175C04 is an unlabelled leaf (sets one bit in a byte at +0x19f or +0x1a0).
+ * INTRUDE_COMM_SetSessionReadyBit is an unlabelled leaf (sets one bit in a byte at +0x19f or +0x1a0).
  *
  * symbols:
  *   func_02175B8C  0x02175B8C  thumb  ov011
@@ -31,7 +31,7 @@ int func_02175BE4(void *a)
     return 0;
 }
 
-void func_02175C04(u8 *o, u32 bit)
+void INTRUDE_COMM_SetSessionReadyBit(u8 *o, u32 bit)
 {
     if (o[0xe0] == 4) {
         o[0x19f] |= (u8)(1 << bit);

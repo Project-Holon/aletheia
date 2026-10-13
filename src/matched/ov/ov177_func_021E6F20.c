@@ -9,6 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_0200B214 0x0200B214 thumb
+ *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,7 +41,7 @@ typedef signed int     s32;
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 struct Rec1E;
 extern s32 func_0200B214(struct Rec1E *p, u32 id, u8 n);
-extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *);
 extern u32 func_020275E4(void);
@@ -69,7 +70,7 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
         species = func_0200B214(rec, 0, i);
         form = func_0200B214(rec, 1, i);
         gender = func_0200B214(rec, 3, i);
-        w->chr[i] = (void *)func_0204A6C8(h, func_0201BABC((u16)(species != 0 ? species : 1), form, gender, 0), 0, w->layer, (heap & 0x7fff) | 0x8000);
+        w->chr[i] = (void *)func_0204A6C8(h, POKE_TOOL_CalcGraphicIndex((u16)(species != 0 ? species : 1), form, gender, 0), 0, w->layer, (heap & 0x7fff) | 0x8000);
     }
     func_02049238(h);
     h = func_020490F4(func_020275E4(), heap);

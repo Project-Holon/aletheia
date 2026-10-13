@@ -15,16 +15,16 @@
  * symbols:
  *   func_02030734    0x02030734  arm
  *   MI_CpuFill8      0x02082BCC  arm
- *   func_02035EE8    0x02035EE8  arm
- *   func_020357E0    0x020357E0  arm
+ *   KEY_Create    0x02035EE8  arm
+ *   TOUCHPANEL_Create    0x020357E0  arm
  *   PM_GetBackLight  0x0208BFD0  arm
- *   g_021469BC     0x021469BC  data
+ *   gUiState     0x021469BC  data
  *   s_UiFile         0x020A7984  data
- *   sub_020360A8  0x020360A8  arm
- *   sub_02035A60  0x02035A60  arm
- *   sub_0203545C  0x0203545C  arm
+ *   KEY_Main  0x020360A8  arm
+ *   TOUCHPANEL_Main  0x02035A60  arm
+ *   UI_ServiceLidSleep  0x0203545C  arm
  *   sub_020356A0  0x020356A0  arm
- *   sub_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   sub_02035544  0x02035544  arm
  *   g_02034F5C_Ptr  0x021469BC  data
  *   func_02034EF8   0x02034EF8  arm
@@ -93,14 +93,14 @@ struct AreaCtx {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
-extern void *func_02035EE8(u32 heap);
-extern void *func_020357E0(u32 heap);
+extern void *KEY_Create(u32 heap);
+extern void *TOUCHPANEL_Create(u32 heap);
 extern void  PM_GetBackLight(u32 *top, u32 *bottom);
-extern void sub_020360A8(void);
-extern void sub_02035A60(void);
-extern void sub_0203545C(void);
+extern void KEY_Main(void);
+extern void TOUCHPANEL_Main(void);
+extern void UI_ServiceLidSleep(void);
 extern void sub_020356A0(int a0);
-extern unsigned int sub_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern void sub_02035544(u32 x);
 extern void func_02034EF8(struct AreaCtx *p);
 extern void func_02035080(struct UiCtx *p, UiCb fn, void *arg);
@@ -150,7 +150,7 @@ void sub_020352AC(struct UiCtx *p);
 void sub_020352DC(void);
 extern const char s_UiFile[];
 extern void *g_02034F5C_Ptr;
-extern struct UiCtx *g_021469BC;
+extern struct UiCtx *gUiState;
 
 
 
@@ -158,8 +158,8 @@ extern struct UiCtx *g_021469BC;
 
 /*
  * BLOCKER (re-derived after 0x020357E0 was filed in pkt_020357E0): the
- * two capped sites this file used to name -- func_02035EE8 and
- * func_020357E0 -- both resolve now (`matched`), and 9 of the 10
+ * two capped sites this file used to name -- KEY_Create and
+ * TOUCHPANEL_Create -- both resolve now (`matched`), and 9 of the 10
  * relocation sites are closed.  The single remaining one is
  *
  *   +00CC ABS32 s_UiFile  0x020A7984 (data, declared in symbols)
@@ -180,7 +180,7 @@ extern struct UiCtx *g_021469BC;
  *
  * Note this is a different translation unit from the rest of pkt_02034978:
  * the debug file string here is "ui.c" at 0x020A7984, not the
- * "gf_overlay.c" at 0x020A7970 that sub_0203499C and sub_02034BB0 use.  The
+ * "gf_overlay.c" at 0x020A7970 that GF_OVERLAY_Init and GF_OVERLAY_CheckRangeFree use.  The
  * boundary between the two units falls between 0x02034DC4 and 0x02034E24.
  *
  * The two mode tests are sequential `if`s, not an if/else chain: mode 0 only
@@ -219,12 +219,12 @@ void sub_02034E24(u32 heap, u8 mode)
     p = func_02030734(heap, sizeof(struct UiCtx), 0, s_UiFile, 58);
     MI_CpuFill8(p, 0, sizeof(struct UiCtx));
 
-    p->unk00 = func_02035EE8(heap);
-    p->unk04 = func_020357E0(heap);
+    p->unk00 = KEY_Create(heap);
+    p->unk04 = TOUCHPANEL_Create(heap);
 
     p->unk3C = 0;
     p->unk3D = 0x3C;
-    g_021469BC = p;
+    gUiState = p;
     p->mode = mode;
     p->unk3F = 5;
 
@@ -262,7 +262,7 @@ void sub_02034E24(u32 heap, u8 mode)
  *   0x020352DC, 0x020360A8, 0x02035A60, 0x0203545C, 0x020356A0
  *
  * Of those, 0x0203545C is the blocker that cannot be cleared from inside
- * this territory: src/pending/sub_0203545C.c is byte-correct but capped on
+ * this territory: src/pending/UI_ServiceLidSleep.c is byte-correct but capped on
  * PM_GoSleepMode (0x0208C154), which the whole image calls exactly once,
  * from that function.  0x02035A60 and 0x020360A8 are byte-correct too
  * (src/pending/) and capped on their own single-caller callees 0x020358A0
@@ -279,12 +279,12 @@ void sub_02034EF8(struct AreaCtx *p)
     p->frames++;
 
     sub_020352DC();
-    sub_020360A8();
-    sub_02035A60();
-    sub_0203545C();
+    KEY_Main();
+    TOUCHPANEL_Main();
+    UI_ServiceLidSleep();
     sub_020356A0((int)p);
 
-    if ((sub_0203630C() & 0x30C) == 0x30C && p->inhibit == 0) {
+    if ((KEY_GetCont() & 0x30C) == 0x30C && p->inhibit == 0) {
         if (p->fn != 0) {
             p->fn(p->arg);
         }
@@ -330,7 +330,7 @@ void func_02034F74(struct UiCtx *p, u8 flags)
 
 void func_02034F84(u8 flags)
 {
-    func_02034F74(g_021469BC, flags);
+    func_02034F74(gUiState, flags);
 }
 
 
@@ -348,7 +348,7 @@ void func_02034FA0(struct UiCtx *p, unsigned char flags)
 
 void func_02034FB8(u8 v)
 {
-    func_02034FA0(g_021469BC, v);
+    func_02034FA0(gUiState, v);
 }
 
 
@@ -367,7 +367,7 @@ u32 func_02034FD4(struct UiCtx *p, u8 flags)
 
 u32 func_02034FE8(u8 flags)
 {
-    return func_02034FD4(g_021469BC, flags);
+    return func_02034FD4(gUiState, flags);
 }
 
 
@@ -390,11 +390,11 @@ void func_02035004(struct UiCtx *o, UiCb a, void *b)
 
 
 /*
- * Wrapper: calls func_02035004 with the object g_021469BC points at as the first argument.
+ * Wrapper: calls func_02035004 with the object gUiState points at as the first argument.
  */
 void func_02035010(UiCb a, void *b)
 {
-    func_02035004(g_021469BC, a, b);
+    func_02035004(gUiState, a, b);
 }
 
 
@@ -415,25 +415,25 @@ void func_02035034(struct UiCtx *o, UiCb a, void *b)
 
 
 /*
- * Wrapper: calls func_02035034 with the object g_021469BC points at as the first argument.
+ * Wrapper: calls func_02035034 with the object gUiState points at as the first argument.
  */
 void func_02035040(UiCb a, void *b)
 {
-    func_02035034(g_021469BC, a, b);
+    func_02035034(gUiState, a, b);
 }
 
 
 
 /*
- * Stores a callback and its argument into the object g_021469BC points at
+ * Stores a callback and its argument into the object gUiState points at
  * (+0x24 and +0x34).  The pointer is reloaded for the second store because
- * the first store may alias it.  Called from func_020122A4 and
- * func_020122B4.
+ * the first store may alias it.  Called from GAMESYSTEM_RegisterSleepCheck and
+ * GAMESYSTEM_ReleaseSleepCheck.
  */
 void func_02035064(UiPred fn, void *arg)
 {
-    g_021469BC->on_24 = fn;
-    g_021469BC->arg_34 = arg;
+    gUiState->on_24 = fn;
+    gUiState->arg_34 = arg;
 }
 
 
@@ -465,7 +465,7 @@ void sub_02035080(struct UiCtx *p, UiCb fn, void *arg)
 
 void func_0203508C(UiCb a, UiCb b, void *c)
 {
-    struct UiCtx *g = g_021469BC;
+    struct UiCtx *g = gUiState;
 
     if (g->armed != 0) {
         if (g->on_18 != 0) {
@@ -475,8 +475,8 @@ void func_0203508C(UiCb a, UiCb b, void *c)
             a(c);
         }
     }
-    func_02035080(g_021469BC, a, c);
-    func_02035120(g_021469BC, b, c);
+    func_02035080(gUiState, a, c);
+    func_02035120(gUiState, b, c);
 }
 
 
@@ -515,7 +515,7 @@ UiCb func_02035100(struct UiCtx *p)
  */
 UiCb func_02035108(void)
 {
-    return func_02035100(g_021469BC);
+    return func_02035100(gUiState);
 }
 
 
@@ -563,12 +563,12 @@ void func_0203512C(struct UiCtx *p, UiCb fn, void *arg)
 
 
 /*
- * Tail call: func_0203512C(*g_021469BC, fn, arg).  Called from func_02012248
- * and func_02012258.
+ * Tail call: func_0203512C(*gUiState, fn, arg).  Called from GAMESYSTEM_RegisterSleepCallback
+ * and GAMESYSTEM_ReleaseSleepCallback.
  */
 void func_02035138(UiCb fn, void *arg)
 {
-    func_0203512C(g_021469BC, fn, arg);
+    func_0203512C(gUiState, fn, arg);
 }
 
 
@@ -602,7 +602,7 @@ void sub_0203515C(struct UiCtx *p, u8 mask)
 
 void func_0203516C(u8 mask)
 {
-    func_0203515C(g_021469BC, mask);
+    func_0203515C(gUiState, mask);
 }
 
 
@@ -633,7 +633,7 @@ void sub_02035188(struct UiCtx *p, u8 mask)
 
 int func_020351A0(u32 v)
 {
-    return func_02035188(g_021469BC, v);
+    return func_02035188(gUiState, v);
 }
 
 
@@ -663,7 +663,7 @@ u32 sub_020351BC(struct UiCtx *p, u32 mask)
 
 u32 func_020351D0(u32 mask)
 {
-    return func_020351BC(g_021469BC, mask);
+    return func_020351BC(gUiState, mask);
 }
 
 
@@ -696,12 +696,12 @@ void sub_020351EC(struct UiCtx *p, u32 a, u32 b)
 
 /*
  * Forwards both arguments to the setter sub_020351EC on the object held in
- * g_021469BC (a tail call through ip).  No lr push, so disasm.py never
+ * gUiState (a tail call through ip).  No lr push, so disasm.py never
  * labels it; filed so its ov088/ov172 callers can resolve the BLX.
  */
 void sub_020351F8(u32 a, u32 b)
 {
-    sub_020351EC(g_021469BC, a, b);
+    sub_020351EC(gUiState, a, b);
 }
 
 
@@ -745,10 +745,10 @@ u32 sub_0203521C(u32 *p)
  */
 struct UiCtx *sub_02035224(void)
 {
-    if (g_021469BC == 0) {
+    if (gUiState == 0) {
         OS_Terminate();
     }
-    return g_021469BC;
+    return gUiState;
 }
 
 
@@ -880,14 +880,14 @@ void sub_020352DC(void)
 
     if (OS_IsRunOnTwl() != 0) {
         if (PM_GetACAdapter(&ac) == 0)
-            g_021469BC->unk3F = ac;
+            gUiState->unk3F = ac;
         return;
     }
 
     if (PM_GetBattery(&bat) != 0)
         return;
     if (bat == 0)
-        g_021469BC->unk3F = 5;
+        gUiState->unk3F = 5;
     else
-        g_021469BC->unk3F = 1;
+        gUiState->unk3F = 1;
 }

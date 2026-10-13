@@ -10,24 +10,24 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02034630, sub_02034640
+ * function: VMAN_InvalidateHandle, VMAN_IsHandleInvalid
  *
- * The packet's first function, sub_020345F8 (a five-entry linear search
+ * The packet's first function, VMAN_GetUnitSize (a five-entry linear search
  * over two small tables, neither of which has a witness anywhere else in
  * the ARM9 image), matches byte for byte but keeps two wildcarded ABS32
  * sites, so it is MATCH rather than EXACT and lives at
- * src/pending/sub_020345F8.c instead of in this file.
+ * src/pending/VMAN_GetUnitSize.c instead of in this file.
  *
- * sub_02034630/sub_02034640 are a sentinel pair on a two-word struct:
- * sub_02034630 marks it invalid (both words 0xFFFFFFFF) and sub_02034640
+ * VMAN_InvalidateHandle/VMAN_IsHandleInvalid are a sentinel pair on a two-word struct:
+ * VMAN_InvalidateHandle marks it invalid (both words 0xFFFFFFFF) and VMAN_IsHandleInvalid
  * reports whether it currently is.
  *
- * The rest of this packet (sub_02034660, sub_020346B8, sub_020346D8,
+ * The rest of this packet (sub_02034660, VMAN_Free, VMAN_GetOffset,
  * sub_020346EC) is a separate, non-contiguous piece of this same small
  * file; see unit_020346D8.c and unit_020346EC.c for the two of those four
  * that matched cleanly. sub_02034660 (calls sub_0209C2B0 twice and
- * sub_02033CA8) and sub_020346B8 (calls sub_0203422C then this file's own
- * sub_02034630) are left open: both reach into the array/table subsystem
+ * AREAMAN_Alloc) and VMAN_Free (calls AREAMAN_Free then this file's own
+ * VMAN_InvalidateHandle) are left open: both reach into the array/table subsystem
  * around pkt_020339D0 whose argument shapes are not pinned down yet.
  *
  * Verified with:
@@ -42,13 +42,13 @@ struct Sentinel {
     u32 hi;
 };
 
-void sub_02034630(struct Sentinel *p)
+void VMAN_InvalidateHandle(struct Sentinel *p)
 {
     p->lo = 0xFFFFFFFFu;
     p->hi = 0xFFFFFFFFu;
 }
 
-int sub_02034640(struct Sentinel *p)
+int VMAN_IsHandleInvalid(struct Sentinel *p)
 {
     return p->lo == 0xFFFFFFFFu && p->hi == 0xFFFFFFFFu;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02020D5C
+ * function: BMP_CURSOR_Draw
  * address:  0x02020D5C
  * packet:   pkt_02020D5C
  * region:   arm9
@@ -47,7 +47,7 @@ extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx
 extern void func_02045334(struct Descriptor *d);
 extern void *func_02045770(struct Descriptor *p);
 
-void func_02020D5C(struct Desc *d, u32 x, u32 y, struct Handle *h,
+void BMP_CURSOR_Draw(struct Desc *d, u32 x, u32 y, struct Handle *h,
                    void *dst, u32 f)
 {
     if (d->mode == 1) {

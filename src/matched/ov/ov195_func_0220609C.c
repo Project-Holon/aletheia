@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02014B08 0x02014B08 thumb
- *   func_02016020 0x02016020 thumb
- *   func_02015BF0 0x02015BF0 thumb
+ *   MCSS_Init 0x02014B08 thumb
+ *   MCSS_SetTextureTransAdrs 0x02016020 thumb
+ *   MCSS_SetOrthoMode 0x02015BF0 thumb
  *
  * 0x02016020 (arm9 Thumb leaf `str r1,[r0,#0x30]; bx lr`) resolves as label
  * since its function_starts seed (2026-09-27). EXACT*: the listing extent
@@ -23,13 +23,13 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_02014B08(u32 id, void *heap);
-extern void func_02016020(void *p, u32 v);
-extern void func_02015BF0(void *obj);
+extern void *MCSS_Init(u32 id, void *heap);
+extern void MCSS_SetTextureTransAdrs(void *p, u32 v);
+extern void MCSS_SetOrthoMode(void *obj);
 
 void func_0220609C(char *a)
 {
-    ((struct Obj08349 *)a)->f4C = (u32)func_02014B08(2, (void *)(((struct Obj08349 *)a)->f0));
-    func_02016020((void *)(((struct Obj08349 *)a)->f4C), 0x30000);
-    func_02015BF0((void *)(((struct Obj08349 *)a)->f4C));
+    ((struct Obj08349 *)a)->f4C = (u32)MCSS_Init(2, (void *)(((struct Obj08349 *)a)->f0));
+    MCSS_SetTextureTransAdrs((void *)(((struct Obj08349 *)a)->f4C), 0x30000);
+    MCSS_SetOrthoMode((void *)(((struct Obj08349 *)a)->f4C));
 }

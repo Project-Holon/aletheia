@@ -1,5 +1,5 @@
 /*
- * function: func_02018328
+ * function: POKE_TOOL_GetLevelUpMove
  * address:  0x02018328
  * packet:   pkt_02018328
  * region:   arm9
@@ -60,7 +60,7 @@ static inline int Learn_IsEnd(const struct Learn *t)
     return end;
 }
 
-u16 func_02018328(void *p, u32 *idx, u32 heap)
+u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap)
 {
     struct Learn *tbl;
     u16 species;

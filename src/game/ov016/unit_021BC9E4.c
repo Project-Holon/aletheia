@@ -27,7 +27,7 @@
  *   g_021DA026  0x021da026  data
  *   g_021DA010  0x021da010  data
  *   func_021D5250  0x021d5250  arm  ov016
- *   func_021D771C  0x021d771c  arm  ov016
+ *   DWCi_TSKlSetParam  0x021d771c  arm  ov016
  *   func_021D600C  0x021D600C  arm  ov016
  *   func_021D696C  0x021D696C  arm  ov016
  *   func_021D4FE0  0x021D4FE0  arm  ov016
@@ -70,7 +70,7 @@ extern void *func_021D7680(int kind, void (*func)(void *, void *), void *work, u
 extern void DWCi_TSKlChangeFunc(int prm, void (*fn)(void *));
 extern void func_021D5118(void *cell, int idx, int x, int y);
 extern void func_021D5250(void *cell, int idx, int *x, int *y);
-extern void func_021D771C(char *p, unsigned int v);
+extern void DWCi_TSKlSetParam(char *p, unsigned int v);
 extern void func_021D600C(const struct tagCOORD *coord, const struct tagCOORD *size, struct tagRECT *rect);
 extern int func_021D696C(u16 *a);
 extern char *func_021D4FE0(char *p, unsigned int i);
@@ -206,7 +206,7 @@ void func_021BCC44(void *task)
     if (y > 168)
         return;
     func_021BCBB4(168);
-    func_021D771C(task, (unsigned int)func_021BCCB0);
+    DWCi_TSKlSetParam(task, (unsigned int)func_021BCCB0);
 }
 
 
@@ -219,7 +219,7 @@ void func_021BCCB0(void *task)
     g_021DE508->count++;
     if (g_021DE508->count >= 4) {
         g_021DE508->count = 0;
-        func_021D771C(task, (unsigned int)func_021BCD00);
+        DWCi_TSKlSetParam(task, (unsigned int)func_021BCD00);
     }
 }
 
@@ -265,7 +265,7 @@ void func_021BCE7C(void *task)
     y += 4;
     func_021BCBB4(y);
     if (y >= 192)
-        func_021D771C(task, (unsigned int)func_021BCEE0);
+        DWCi_TSKlSetParam(task, (unsigned int)func_021BCEE0);
 }
 
 

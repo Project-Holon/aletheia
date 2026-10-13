@@ -1,5 +1,5 @@
 /*
- * function: func_02179664
+ * function: WIH_SetScanTimerPaused
  * address:  0x02179664
  * packet:   pkt_02179664
  * region:   ov014
@@ -9,14 +9,19 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   d_021797A8  0x021797A8  data
+ *   g_021797A8  0x021797A8  data
  */
 
 #include "../../../matched/include/G_S.h"
 
-extern struct S *d_021797A8;
+extern struct S *g_021797A8;
 
-void func_02179664(unsigned char v)
+/*
+ * Sets the byte at +0x1EDE of the WH work block: nonzero pauses the scan
+ * timeout countdown (the pipe sets it while its join lock is active).
+ * Home: wih.c, last function after 02179650.
+ */
+void WIH_SetScanTimerPaused(unsigned char v)
 {
-    ((unsigned char *)d_021797A8)[0x1EDE] = v;
+    ((unsigned char *)g_021797A8)[0x1EDE] = v;
 }

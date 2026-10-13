@@ -1,17 +1,17 @@
 /*
- * function: func_02038924
+ * function: GFL_NET_SYSTEM_RecvParentData
  * address:  0x02038924
  * packet:   pkt_020385C4
  * status:   EXACT
  * symbols:
  *   lbl_021469D0   0x021469D0  data
  *   func_0203D798  0x0203D798  arm
- *   func_0203D6BC  0x0203D6BC  arm
+ *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
  *   func_0203F1FC  0x0203F1FC  arm
- *   func_02039548  0x02039548  arm
- *   func_0203CA98  0x0203CA98  arm
- *   func_0203C9AC  0x0203C9AC  arm
- *   func_02036428  0x02036428  arm
+ *   GFL_NET_SYSTEM_SetError  0x02039548  arm
+ *   GFL_NET_STATE_GetError  0x0203CA98  arm
+ *   GFL_NET_STATE_SetError  0x0203C9AC  arm
+ *   GFL_NET_RING_BUFF_Write  0x02036428  arm
  */
 #include "../include/Obj06939.h"
 #include "../include/Obj11355.h"
@@ -23,14 +23,14 @@ typedef signed int     s32;
 
 extern u8 *lbl_021469D0;
 extern int func_0203D798(void);
-extern void func_0203D6BC(void);
+extern void GFL_NET_GetChildSendSize(void);
 extern u16 func_0203F1FC(u8 *p, s32 n);
-extern void func_02039548(void);
-extern u8 *func_0203CA98(void);
-extern void func_0203C9AC(u32 a, u32 b, u32 c, u32 d);
-extern void func_02036428(u8 *dst, u8 *src, s32 len);
+extern void GFL_NET_SYSTEM_SetError(void);
+extern u8 *GFL_NET_STATE_GetError(void);
+extern void GFL_NET_STATE_SetError(u32 a, u32 b, u32 c, u32 d);
+extern void GFL_NET_RING_BUFF_Write(u8 *dst, u8 *src, s32 len);
 
-int func_02038924(u32 a0, u8 *p, s32 n)
+int GFL_NET_SYSTEM_RecvParentData(u32 a0, u8 *p, s32 n)
 {
     u8 *g;
     u8 *q;
@@ -39,7 +39,7 @@ int func_02038924(u32 a0, u8 *p, s32 n)
     int r;
 
     func_0203D798();
-    func_0203D6BC();
+    GFL_NET_GetChildSendSize();
     g = lbl_021469D0;
     ((struct Obj11355 *)g)->f1B0 = ((struct Obj11355 *)g)->f1B0 - 1;
     if (p == 0)
@@ -55,17 +55,17 @@ int func_02038924(u32 a0, u8 *p, s32 n)
     }
     r = func_0203F1FC(p + 2, n - 2);
     if (p[0] != (u8)r || ((r & 0xff00) >> 8) != p[1]) {
-        func_02039548();
-        q = func_0203CA98();
+        GFL_NET_SYSTEM_SetError();
+        q = GFL_NET_STATE_GetError();
         if (((struct Obj06939 *)q)->fC == 0)
-            func_0203C9AC(((struct Obj06939 *)q)->f0, ((struct Obj06939 *)q)->f4, ((struct Obj06939 *)q)->f8, 0x3f2);
+            GFL_NET_STATE_SetError(((struct Obj06939 *)q)->f0, ((struct Obj06939 *)q)->f4, ((struct Obj06939 *)q)->f8, 0x3f2);
         return 0;
     }
     *(u8 *)(lbl_021469D0 + 0x1d6) = p[5];
     len = p[2];
     if (p[4] & 8)
         len += 0xff;
-    func_02036428(lbl_021469D0 + 0x2c, p + 7, len);
+    GFL_NET_RING_BUFF_Write(lbl_021469D0 + 0x2c, p + 7, len);
     *(u32 *)(lbl_021469D0 + 0x34) = 1;
     return 1;
 }

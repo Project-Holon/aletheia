@@ -1,5 +1,5 @@
 /*
- * function: func_020083C8
+ * function: CONFIG_GetBattleStyle
  * address:  0x020083C8
  * packet:   pkt_020083C8
  * region:   arm9
@@ -12,7 +12,7 @@
  * Unlabelled leaf getter on a u16 bitfield word (witness for ov068 callers).
  *
  * symbols:
- *   func_020083C8  0x020083C8  thumb
+ *   CONFIG_GetBattleStyle  0x020083C8  thumb
  */
 
 typedef struct {
@@ -24,4 +24,4 @@ typedef struct {
     unsigned short f : 1;
 } BF;
 
-unsigned int func_020083C8(BF *p) { return p->c; }
+unsigned int CONFIG_GetBattleStyle(BF *p) { return p->c; }

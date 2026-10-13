@@ -13,7 +13,7 @@
  *   func_02046440  0x02046440  arm
  *   func_02048BC4  0x02048BC4  arm
  *   func_02048C58  0x02048C58  arm
- *   func_02046858  0x02046858  arm
+ *   G3D_SYSTEM_SetProjection  0x02046858  arm
  *   func_02040588  0x02040588  arm
  *   d_021C8810  0x021C8810  data
  *   d_021C896C  0x021C896C  data
@@ -113,7 +113,7 @@ extern void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, 
 struct LightSet;
 extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
 extern void func_02048C58(struct LightSlot *slots);
-extern void func_02046858(const u32 *src);
+extern void G3D_SYSTEM_SetProjection(const u32 *src);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern const void *const d_021C8810;
 extern const Camera d_021C896C;
@@ -131,7 +131,7 @@ void func_021C76A4(Work *p)
     cam = d_021C896C;
     cam.f4 = FX_SinCosTable_[0x16C];
     cam.f8 = FX_SinCosTable_[0x16D];
-    func_02046858((const u32 *)(&cam));
+    G3D_SYSTEM_SetProjection((const u32 *)(&cam));
     func_02040588(0, 1);
     *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~(0x2000 | 0x1000)) | 0x8);
 }

@@ -11,7 +11,7 @@
  * symbols:
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_0204B034 0x0204B034 arm
  *   func_0204B258 0x0204B258 arm
  *   func_0204A6C8 0x0204A6C8 arm
@@ -40,7 +40,7 @@ extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
 struct Obj;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
 extern void func_0204B258(struct Bank *bank, void *p);
 extern int func_0204A6C8(void *,u32,u32,u32,u32);
@@ -63,7 +63,7 @@ void func_021C67A8(char *p,int heap)
     func_0204A48C((const struct Cfg *)(&config),(u32)d_021CA5CC,heap);
     bank=func_0204B100(32,0,heap);
     ((struct Obj01936 *)p)->f138=bank;
-    func_0204B270(bank);
+    CLACT_SetUnitDefaultRenderer(bank);
     ((struct Obj01936 *)p)->f140=func_0204B034(d_021CA7D0,1,heap);
     bank=func_0204B100(18,1,heap);
     ((struct Obj01936 *)p)->f13C=bank;

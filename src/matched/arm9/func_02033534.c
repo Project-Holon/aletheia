@@ -1,5 +1,5 @@
 /*
- * function: func_02033534
+ * function: FLASH_ACCESS_Identify
  * address:  0x02033534
  * packet:   pkt_020334E8
  * region:   arm9
@@ -37,7 +37,7 @@ extern int func_02076B2C(int type);
 extern void func_02075EAC(u16 a);
 extern void func_02084F10(u16 a);
 
-int func_02033534(u32 a)
+int FLASH_ACCESS_Identify(u32 a)
 {
     int id = func_02084EB8(a);
     u32 h;

@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012108  0x02012108  thumb
+ *   GAMESYSTEM_SetEvent  0x02012108  thumb
  *
  * Publish the object through the caller's out parameter and tail-call the
  * setter on its +0x10 member, which stores `out` (still in r1) as that
@@ -34,10 +34,10 @@ struct Evt {
 };
 
 struct Ctx;
-extern void func_02012108(struct Ctx *p, u32 v);
+extern void GAMESYSTEM_SetEvent(struct Ctx *p, u32 v);
 
 void func_02012374(struct Evt *evt, struct Evt **out)
 {
     *out = evt;
-    func_02012108(evt->unk_10, (u32)out);
+    GAMESYSTEM_SetEvent(evt->unk_10, (u32)out);
 }

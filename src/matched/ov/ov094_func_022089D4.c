@@ -8,50 +8,50 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02005E50 0x02005E50 thumb
- *   func_02005E9C 0x02005E9C thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
  *   func_021F882C 0x021F882C thumb ov094
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02208D24 0x02208D24 thumb ov094
- *   func_02005DF8 0x02005DF8 thumb
- *   func_02005E64 0x02005E64 thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
+ *   GFL_USE_PushBgm 0x02005E64 thumb
  *   func_0202D034 0x0202D034 thumb
- *   func_02005C44 0x02005C44 thumb
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_GetBgmNo 0x02005C44 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  */
 typedef unsigned int u32;
 typedef struct { char p0[0x40]; int f40, f44, f48, f4c; char p50[0x20]; u32 b0:1, b1:1, b2:1, b3:1, hi:28; char p74[12]; } E;
 typedef struct { char p0[0x40]; E e[8]; u32 b0:1, b1:1, b2:1, b3:1, hi:28; int f444; } O;
-extern int func_02005E50(void);
-extern int func_02005E9C(void);
+extern int GFL_USE_IsBgmFading(void);
+extern int GFL_USE_PopBgm(void);
 extern int func_021F882C(void);
-extern void func_02005D90(u32, u32);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern void func_02208D24(int);
-extern void func_02005DF8(u32);
-extern int func_02005E64(void);
+extern void GFL_USE_FadeInBgmFull(u32);
+extern int GFL_USE_PushBgm(void);
 typedef unsigned short u16;
 extern int func_0202D034(u32 a, u32 b);
-extern u16 func_02005C44(void);
-extern void func_02005E30(u32);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_FadeOutBgm(u32);
 void func_022089D4(O *o)
 {
     int busy, found, i;
     if (o->b1) {
-        if (func_02005E50() != 0) return;
+        if (GFL_USE_IsBgmFading() != 0) return;
         o->b1 = 0;
         if (o->b2) {
-            func_02005E9C();
+            GFL_USE_PopBgm();
             if (!o->b3 && func_021F882C() != 0) {
-                func_02005D90(o->f444, 0xffff);
+                GFL_USE_CancelChangeAndPlayBgm(o->f444, 0xffff);
                 o->b3 = 1;
             } else {
                 func_02208D24(0);
             }
-            func_02005DF8(24);
+            GFL_USE_FadeInBgmFull(24);
         } else {
             func_02208D24(1);
-            func_02005E64();
-            func_02005D90(0x47a, 0xffff);
+            GFL_USE_PushBgm();
+            GFL_USE_CancelChangeAndPlayBgm(0x47a, 0xffff);
         }
         o->b2 ^= 1;
         return;
@@ -65,10 +65,10 @@ void func_022089D4(O *o)
             if (func_0202D034(o->e[i].f48, o->e[i].f4c) == 2) found = 1;
         }
     }
-    if (!o->b2 && o->f444 != func_02005C44()) return;
+    if (!o->b2 && o->f444 != GFL_USE_GetBgmNo()) return;
     if (busy != 0) return;
     if ((o->b2 && found == 0) || (!o->b2 && found == 1)) {
         o->b1 = 1;
-        func_02005E30(8);
+        GFL_USE_FadeOutBgm(8);
     }
 }

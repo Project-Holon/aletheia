@@ -8,21 +8,21 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_020120F0, func_020120F4, func_020120F8, func_02012104,
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
+ * function: GAMESYSTEM_GetProcStatus, func_020120F4, func_020120F8, func_02012104,
+ *           GAMESYSTEM_SetEvent, func_0201210C, func_02012110, func_02012114,
  *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
+ *           GAMESYSTEM_SetCommBlocked, GAMESYSTEM_IsCommBlocked, func_0201214C
  *
  * symbols:
  *   func_020127A4  0x020127A4  thumb
- *   func_02012BB0  0x02012BB0  thumb
+ *   GAME_DATA_IsConfigFlagSet  0x02012BB0  thumb
  *
  * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
  * label: every one of them is a two- or three-instruction accessor on a
  * 0x34-byte context record, and the whole run arrives in the listing as .word
  * data between two literal pools.
  *
- * The size of the record is not a guess: func_02011F24 is
+ * The size of the record is not a guess: GAMESYSTEM_GetWorkSize is
  * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
  * src/matched/unit_02011F24.c against the same declaration.  The two byte
  * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
@@ -31,18 +31,18 @@
  * source.
  *
  * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
+ * first hands +0x1C to func_020127A4 and the second to GAME_DATA_IsConfigFlagSet, and
  * both are ABS32 against a Thumb target, so the pool word is odd.
  *
  * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
+ * miss.  Its pool word holds 0x02012BC9, and GAME_DATA_SetConfigFlag has no label in the
  * listing (it has no register-saving prologue) and no other reference anywhere
  * in the image, so neither the `label` nor the `literal` class has a witness
  * outside the twelve bytes under test.  Every concrete byte reproduces from
  *
- *     void func_02012158(const struct Ctx *p, u32 v)
+ *     void GAMESYSTEM_SetAlwaysNetFlag(const struct Ctx *p, u32 v)
  *     {
- *         func_02012BC8(p->unk1C, v);
+ *         GAME_DATA_SetConfigFlag(p->unk1C, v);
  *     }
  *
  * Evidence class: literal, 0 witnesses outside.  It closes with the same event
@@ -62,7 +62,7 @@ typedef unsigned int   u32;
 struct BigObj;
 struct SaveBlock;
 extern void *func_020127A4(struct SaveBlock *p);
-extern u32 func_02012BB0(const struct BigObj *p);
+extern u32 GAME_DATA_IsConfigFlagSet(const struct BigObj *p);
 
 struct Ctx {
     u8    unk00[0xC];
@@ -80,7 +80,7 @@ struct Ctx {
     u8    unk33;
 };
 
-u32 func_020120F0(const struct Ctx *p)
+u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p)
 {
     return p->unk0C;
 }
@@ -100,7 +100,7 @@ u32 func_02012104(const struct Ctx *p)
     return p->unk18;
 }
 
-void func_02012108(struct Ctx *p, u32 v)
+void GAMESYSTEM_SetEvent(struct Ctx *p, u32 v)
 {
     p->unk18 = v;
 }
@@ -143,17 +143,17 @@ u32 func_02012138(const struct Ctx *p)
     return p->unk24;
 }
 
-void func_0201213C(struct Ctx *p, u32 v)
+void GAMESYSTEM_SetCommBlocked(struct Ctx *p, u32 v)
 {
     p->unk32 = v;
 }
 
-u8 func_02012144(const struct Ctx *p)
+u8 GAMESYSTEM_IsCommBlocked(const struct Ctx *p)
 {
     return p->unk32;
 }
 
 u32 func_0201214C(const struct Ctx *p)
 {
-    return func_02012BB0(p->unk1C);
+    return GAME_DATA_IsConfigFlagSet(p->unk1C);
 }

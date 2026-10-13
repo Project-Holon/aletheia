@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02011290 0x02011290 thumb
- *   func_02011264 0x02011264 thumb
+ *   VM_Delete 0x02011264 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02060614 0x02060614 arm
  *   func_021FADF8 0x021FADF8 thumb ov132
@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 struct ScriptVm;
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
-extern void func_02011264(void *);
+extern void VM_Delete(void *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 struct DList;
@@ -41,7 +41,7 @@ void func_021FAB58(char *p)
         slot = (char **)(p + i * 4);
         if (slot[3] != 0) {
             func_02011290(((struct Obj23230 *)(slot[3]))->f4);
-            func_02011264(((struct Obj23231 *)(slot[3]))->f4);
+            VM_Delete(((struct Obj23231 *)(slot[3]))->f4);
             if (((struct Obj23232 *)(slot[3]))->f16 & 8) func_020307B0(((struct Obj23233 *)(slot[3]))->fC);
             func_020307B0(slot[3]);
             slot[3] = 0;

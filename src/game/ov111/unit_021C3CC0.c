@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020434CC  0x020434CC  arm
- *   func_02043588  0x02043588  arm
+ *   BG_SYS_ClearMainPlanes  0x020434CC  arm
+ *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   func_0202223C  0x0202223C  thumb
- *   func_02022224  0x02022224  thumb
+ *   WIPE_ResetWndMask  0x02022224  thumb
  *   func_0203064C  0x0203064C  arm
  *   func_0203159C  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
@@ -25,7 +25,7 @@
  *   func_0203D1B4  0x0203D1B4  arm
  *   func_0203F8F4  0x0203F8F4  arm
  *   func_020433E0  0x020433E0  arm
- *   func_0202DB0C  0x0202DB0C  thumb
+ *   PMS_DRAW_Create  0x0202DB0C  thumb
  *   func_020056A0  0x020056A0  thumb
  *   func_0203101C  0x0203101C  arm
  *   func_0203D34C  0x0203D34C  arm
@@ -40,17 +40,17 @@
  *   func_020221A4  0x020221A4  thumb
  *   func_0204B98C  0x0204B98C  arm
  *   func_0204A600  0x0204A600  arm
- *   func_0202DBC4  0x0202DBC4  thumb
+ *   PMS_DRAW_Main  0x0202DBC4  thumb
  *   func_0201C4E4  0x0201C4E4  thumb
  *   func_020310C4  0x020310C4  arm
- *   func_02012F5C  0x02012F5C  thumb
+ *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   func_020089CC  0x020089CC  thumb
  *   func_02082D44  0x02082D44  arm
  *   func_02012944  0x02012944  thumb
  *   func_02008558  0x02008558  thumb
  *   func_02008A14  0x02008A14  thumb
  *   func_02008A1C  0x02008A1C  thumb
- *   func_0202DC08  0x0202DC08  thumb
+ *   PMS_DRAW_Delete  0x0202DC08  thumb
  *   func_021C6F4C  0x021C6F4C  thumb  ov111
  *   func_020307B0  0x020307B0  arm
  *   func_021C60A0  0x021C60A0  thumb  ov111
@@ -84,7 +84,7 @@
  *   d_021C8648     0x021C8648  data  a4
  *   d_021C8668     0x021C8668  data  a4
  *   func_02049DB4  0x02049DB4  arm
- *   func_02049EB4  0x02049EB4  arm
+ *   ARC_UTIL_LoadPaletteDataFromArchive  0x02049EB4  arm
  *   func_02049624  0x02049624  arm
  *   func_0204989C  0x0204989C  arm
  *   func_020275E4  0x020275E4  thumb
@@ -104,21 +104,21 @@
  *   func_021C636C  0x021C636C  thumb  ov111
  *   func_021C631C  0x021C631C  thumb  ov111
  *   func_021C6FA0  0x021C6FA0  thumb  ov111
- *   func_02012BF8  0x02012BF8  thumb
- *   func_0202DCD4  0x0202DCD4  thumb
- *   func_0202DCB0  0x0202DCB0  thumb
+ *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
+ *   PMS_DRAW_SetDecoVisible  0x0202DCD4  thumb
+ *   PMS_DRAW_SetVisible  0x0202DCB0  thumb
  *   _ll_mul          0x0209C054  arm
  *   FX_SinCosTable_  0x020A1B38  data
  *   func_0207D658  0x0207D658  arm
- *   func_0207C778  0x0207C778  arm
+ *   FX_Inv  0x0207C778  arm
  *   func_0207D59C  0x0207D59C  arm
  *   func_02035C38  0x02035C38  arm
  *   func_0203630C  0x0203630C  arm
  *   func_020362DC  0x020362DC  arm
- *   func_02012BE0  0x02012BE0  thumb
+ *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_02035CB8  0x02035CB8  arm
- *   func_02035BA4  0x02035BA4  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
+ *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   d_021C8544     0x021C8544  data  a1
  *   func_02035C08  0x02035C08  arm
  *   func_02035C60  0x02035C60  arm
@@ -139,7 +139,7 @@
  *   func_0207E468  0x0207E468  arm
  *   d_021C8534     0x021C8534  data  a1
  *   d_021C854C     0x021C854C  data  a1
- *   func_02035D40  0x02035D40  arm
+ *   TOUCHPANEL_HitPoint  0x02035D40  arm
  *   d_021C852C     0x021C852C  data  a1
  *   d_021C853C     0x021C853C  data  a1
  *   d_021C86A8     0x021C86A8  data  a1
@@ -1000,10 +1000,10 @@ typedef struct {
     u8 b330F;
 } Work_021C5BCC;
 
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0202223C(u32 a, u32 b);
-extern u32 func_02022224(void *win);
+extern u32 WIPE_ResetWndMask(void *win);
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, u32 v, u32 n);
@@ -1012,7 +1012,7 @@ extern signed char func_02012FFC(void);
 extern int func_0203D1B4(void);
 extern void func_0203F8F4(u16 heap);
 extern void func_020433E0(const struct DispVram *c);
-extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
+extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work_021C581C *), void *ctx, int pri);
 extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0203D34C(u32 a, u32 b);
@@ -1026,17 +1026,17 @@ extern void func_020061E4(u32 a);
 extern u32 func_020221A4(void);
 extern u32 func_0204B98C(struct Actor *a);
 extern void func_0204A600(void);
-extern void func_0202DBC4(u8 *p);
+extern void PMS_DRAW_Main(u8 *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_020310C4(struct Tcbl *p);
-extern void *func_02012F5C(void **h);
+extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern void *func_020089CC(void *p);
 extern void func_02082D44(const void *src, void *dst, u32 size);
 extern u8 *func_02012944(void *p);
 extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
 extern void func_02008A14(void *p, u32 v);
 extern void func_02008A1C(struct Sub020089A8Obj *obj, u8 value);
-extern void func_0202DC08(struct Obj *p);
+extern void PMS_DRAW_Delete(struct Obj *p);
 extern void func_021C6F4C(Anim_021C3F54 *a);
 extern u32 func_020307B0(void *p);
 extern void func_021C60A0(Work_021C40DC *p);
@@ -1062,7 +1062,7 @@ extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u32 bgId);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern u32 func_020275E4(void);
@@ -1081,19 +1081,19 @@ extern void func_021C6874(Work_v4754 *p, int scroll, int flush, int idx);
 extern void func_021C636C(Work_v4754 *p, void **bg, Info_v4754 *info);
 extern void func_021C631C(Work_v4754 *p, void **bg);
 extern void func_021C6FA0(Anim_v4858 *a, int idx, u8 x, u8 y);
-extern int func_02012BF8(int a0, int a1);
-extern void func_0202DCD4(struct Obj0202DCC4 *p, u32 i, u32 val);
-extern void func_0202DCB0(struct Obj0202DC98 *o, int i, u32 a1);
+extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern void PMS_DRAW_SetDecoVisible(struct Obj0202DCC4 *p, u32 i, u32 val);
+extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *o, int i, u32 a1);
 extern void func_0207D658(u32 addr, int plane, int brightness);
-extern fx32 func_0207C778(fx32 v);
+extern fx32 FX_Inv(fx32 v);
 extern void func_0207D59C(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
 extern int func_02035C38(void);
 extern unsigned int func_0203630C(void);
 extern u32 func_020362DC(void);
-extern void func_02012BE0(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
-extern int func_02035BA4(const void *p);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
+extern int TOUCHPANEL_HitCont(const void *p);
 extern int func_02035C08(const void *rect);
 extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *x, u32 *y);
@@ -1109,7 +1109,7 @@ extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6
 extern u32 func_0204162C(int channel);
 extern void func_02041B6C(u32 bit);
 extern void func_0207E468(const void *src, u32 offset, u32 size);
-extern u32 func_02035D40(struct Ctx *ctx, u32 a, u32 b);
+extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
 int func_021C3CC0(void *man, int *state, Args_v3CC0 *args);
 void func_021C3EF8(Info_021C3EF8 *info);
 void func_021C3F18(Work_021C3F18 *p, int speed);
@@ -1199,14 +1199,14 @@ int func_021C3CC0(void *man, int *state, Args_v3CC0 *args)
     int i;
     u16 mask;
 
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     *(volatile u32 *)0x04000000 &= ~0x1F00;
     *(volatile u32 *)0x04001000 &= ~0x1F00;
     func_0202223C(0, 0);
     func_0202223C(1, 0);
-    func_02022224(0);
-    func_02022224((void *)1);
+    WIPE_ResetWndMask(0);
+    WIPE_ResetWndMask((void *)1);
     func_0203064C(1, 0x27, 0x50000);
     p = func_0203159C(man, sizeof(Work_021C3CC0), 0x27);
     func_02082BCC(p, 0, sizeof(Work_021C3CC0));
@@ -1243,7 +1243,7 @@ int func_021C3CC0(void *man, int *state, Args_v3CC0 *args)
     func_021C6804(p, p->args->info);
     func_021C6E8C((Anim_021C3CC0 *)(&p->anim));
     func_021C6000(p);
-    p->f32B0 = func_0202DB0C((u32)p->anim.f4, 1, (u32)p->f32CC, (u32)p->f31FC, 8, 1, 0x27);
+    p->f32B0 = PMS_DRAW_Create((u32)p->anim.f4, 1, (u32)p->f32CC, (u32)p->f31FC, 8, 1, 0x27);
     func_021C6D98(p, p->bg[4], 1, p->f320C);
     if (p->args->f14 == 2) {
         p->args->f14 = 0;
@@ -1385,7 +1385,7 @@ int func_021C3F54(void *proc, int *seq, int c, Work_021C3F54 *p)
         p->b32D6 = 0;
     }
     func_0204A600();
-    func_0202DBC4(p->f32B0);
+    PMS_DRAW_Main(p->f32B0);
     func_0201C4E4(p->f32CC);
     if (p->f31F8) {
         func_020310C4(p->f31F8);
@@ -1413,16 +1413,16 @@ int func_021C40DC(void *man, int *state, Args_021C40DC *args, Work_021C40DC *p)
 
     if (!p->info->f4_5) {
         func_021C59B0(p->pix, p->info->bitmap);
-        func_02082D44(p->info->bitmap, func_020089CC(func_02012F5C(p->args->f4)), 0x600);
+        func_02082D44(p->info->bitmap, func_020089CC(GAME_DATA_GetSaveBlock21(p->args->f4)), 0x600);
     }
     if (args->f8 != 0) {
         a = func_02012944(p->args->f4);
-        b = func_02012F5C(p->args->f4);
+        b = GAME_DATA_GetSaveBlock21(p->args->f4);
         func_02008558(a, p->info->b6);
         func_02008A14(b, p->info->f48);
         func_02008A1C(b, p->info->f4_4);
     }
-    func_0202DC08(p->f32B0);
+    PMS_DRAW_Delete(p->f32B0);
     func_021C5874();
     func_021C42C0((Work_021C42C0 *)p);
     func_021C6F4C((Anim_021C3F54 *)(&p->anim));
@@ -1633,13 +1633,13 @@ void func_021C453C(Work_v3CC0 *p)
     if (p->info->f4_7 == 0) {
         p->f302C = func_02049DB4(0x28, 0x1F, 0, (u32)(&p->f3030), p->heap);
         if (p->info->f4_1 == 0) {
-            p->f31D8 = func_02049EB4(0x28, 0x2B, 0, (u32)(&p->f31DC), p->heap);
+            p->f31D8 = ARC_UTIL_LoadPaletteDataFromArchive(0x28, 0x2B, 0, (u32)(&p->f31DC), p->heap);
         } else {
-            p->f31D8 = func_02049EB4(0x28, 0x2C, 0, (u32)(&p->f31DC), p->heap);
+            p->f31D8 = ARC_UTIL_LoadPaletteDataFromArchive(0x28, 0x2C, 0, (u32)(&p->f31DC), p->heap);
         }
     } else {
         p->f302C = func_02049DB4(0x29, d_021C86E8[p->info->b6][0], 0, (u32)(&p->f3030), p->heap);
-        p->f31D8 = func_02049EB4(0x29, 0x20, 0, (u32)(&p->f31DC), p->heap);
+        p->f31D8 = ARC_UTIL_LoadPaletteDataFromArchive(0x29, 0x20, 0, (u32)(&p->f31DC), p->heap);
         func_021C43C4((Work_021C43C4 *)p, p->info->b6);
     }
     func_021C58E0((Work_021C58E0_021C567C *)p);
@@ -1729,7 +1729,7 @@ void func_021C47EC(Work_v4754 *p)
 {
     func_021C479C((Work_021C479C *)p);
     func_021C60CC(p, p->bg, p->info);
-    func_0202DBC4(p->f32B0);
+    PMS_DRAW_Main(p->f32B0);
     if (p->f3034 == 0) {
         func_021C6874(p, p->scroll, 0, 0);
         func_021C58E0((Work_021C58E0_021C567C *)p);
@@ -1757,7 +1757,7 @@ void func_021C4858(Work_021C4858 *p, int flag)
         func_021C6FA0(&p->anim, 4, 0x12, 0);
         func_021C6FA0(&p->anim, 5, 6, 0);
         func_021C6FA0(&p->anim, 2, 0x10, 1);
-        func_021C6FA0(&p->anim, 7, func_02012BF8((int)p->f24->f4, 0x15) + 6, 1);
+        func_021C6FA0(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x15) + 6, 1);
     } else if (p->h305E == 0) {
         func_021C6FA0(&p->anim, 0, 1, 1);
         func_021C6FA0(&p->anim, 1, 0, 1);
@@ -1765,7 +1765,7 @@ void func_021C4858(Work_021C4858 *p, int flag)
         func_021C6FA0(&p->anim, 4, 0x12, p->info->f4_4 ^ 1);
         func_021C6FA0(&p->anim, 5, 8 - p->b32F6 * 2, p->info->f4_4 ^ 1);
         func_021C51B4((Work_021C51B4_021C51B4 *)p, p->info->f4_4, 1);
-        func_021C6FA0(&p->anim, 7, func_02012BF8((int)p->f24->f4, 0x16) + 6, 1);
+        func_021C6FA0(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x16) + 6, 1);
     } else {
         func_021C6FA0(&p->anim, 0, 0xF, 1);
         func_021C6FA0(&p->anim, 1, 0xE, 1);
@@ -1792,7 +1792,7 @@ void func_021C49D8(Work_021C4858 *p, int flag)
         func_021C6FA0(&p->anim, 4, 0x12, 0);
         func_021C6FA0(&p->anim, 5, 6, 0);
         func_021C6FA0(&p->anim, 2, 0x10, 1);
-        func_021C6FA0(&p->anim, 7, func_02012BF8((int)p->f24->f4, 0x15) + 6, 1);
+        func_021C6FA0(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x15) + 6, 1);
     } else {
         func_021C6FA0(&p->anim, 0, 1, 1);
         func_021C6FA0(&p->anim, 1, 0, 1);
@@ -1800,7 +1800,7 @@ void func_021C49D8(Work_021C4858 *p, int flag)
         func_021C6FA0(&p->anim, 6, 0x16, 1);
         func_021C6FA0(&p->anim, 5, 8 - p->b32F6 * 2, 0);
         func_021C51B4((Work_021C51B4_021C51B4 *)p, p->info->f4_4, 0);
-        func_021C6FA0(&p->anim, 7, func_02012BF8((int)p->f24->f4, 0x16) + 6, 1);
+        func_021C6FA0(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->f24->f4, 0x16) + 6, 1);
     }
 }
 
@@ -1885,7 +1885,7 @@ int func_021C4B9C(Work_021C4B9C *p)
         p->scaleY = 0x103D;
         func_020061E4(0x65A);
         if (p->f3034 == 0) {
-            func_0202DCD4(p->f32B0, 0, 0);
+            PMS_DRAW_SetDecoVisible(p->f32B0, 0, 0);
         }
         p->state++;
         break;
@@ -1932,8 +1932,8 @@ int func_021C4B9C(Work_021C4B9C *p)
             p->scaleY = 0x1000;
             done = 1;
             if (p->f3034 == 0) {
-                func_0202DCB0(p->f32B0, 0, 1);
-                func_0202DCD4(p->f32B0, 0, 1);
+                PMS_DRAW_SetVisible(p->f32B0, 0, 1);
+                PMS_DRAW_SetDecoVisible(p->f32B0, 0, 1);
             }
         }
         break;
@@ -2110,10 +2110,10 @@ void func_021C4F80(Work_021C4F80 *p)
 {
     struct Mtx m;
 
-    m._00 = func_0207C778(p->scaleX);
+    m._00 = FX_Inv(p->scaleX);
     m._01 = 0;
     m._10 = 0;
-    m._11 = func_0207C778(p->scaleY);
+    m._11 = FX_Inv(p->scaleY);
     func_0207D59C((void *)0x04001020, &m, p->cx, p->cy, p->x, p->y);
     func_0207D59C((void *)0x04001030, &m, p->cx, p->cy, p->x, p->y);
     p->dirty = 0;
@@ -2202,13 +2202,13 @@ void func_021C513C(Work_v4858 *p)
 
     func_020061E4(0x646);
     if (p->f3034 == 0) {
-        v = func_02012BF8((int)p->args->f4, 0x15) ^ 1;
+        v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x15) ^ 1;
         func_021C6FA0(&p->anim, 7, v + 6, 1);
-        func_02012BE0(p->args->f4, 0x15, v);
+        GAME_DATA_SetSaveFlag(p->args->f4, 0x15, v);
     } else {
-        v = func_02012BF8((int)p->args->f4, 0x16) ^ 1;
+        v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x16) ^ 1;
         func_021C6FA0(&p->anim, 7, v + 6, 1);
-        func_02012BE0(p->args->f4, 0x16, v);
+        GAME_DATA_SetSaveFlag(p->args->f4, 0x16, v);
     }
 }
 
@@ -2298,7 +2298,7 @@ int func_021C5280(Work_v51B4 *p, int hit)
         func_020061E4(0x556);
         return 5;
     case 2:
-        func_02035CB8(&p->f32D8, &p->f32DC);
+        TOUCHPANEL_GetPointCont(&p->f32D8, &p->f32DC);
         func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 6, 0x17, 1);
         return 3;
     case 3:
@@ -2408,7 +2408,7 @@ int func_021C5484(Work_021C5484 *p, int hit)
 
 void func_021C555C(Work_021C555C *p)
 {
-    if (p->f3034 != 0 && func_02035BA4(d_021C8544) && p->b32F7 == 1) {
+    if (p->f3034 != 0 && TOUCHPANEL_HitCont(d_021C8544) && p->b32F7 == 1) {
         func_021C6874((Work_v4754 *)p, p->scroll, 1, 0);
         p->b32F7 = 0;
         p->b32F8 = 0;
@@ -2427,14 +2427,14 @@ void func_021C55A4(Work_v5484 *p)
     if (!func_02035C08(d_021C8544)) {
         p->b330E = 1;
     }
-    if (p->b330E != 0 && !func_02035BA4(d_021C8544)) {
+    if (p->b330E != 0 && !TOUCHPANEL_HitCont(d_021C8544)) {
         if (func_02035C60()) {
             func_02035D20(&x, &y);
             p->grabY = y;
             p->grabScroll = p->scroll;
         }
         if (func_02035C38()) {
-            func_02035CB8(&x, &y);
+            TOUCHPANEL_GetPointCont(&x, &y);
             p->scroll = p->grabScroll - (p->grabY - y);
         }
         lim = -(p->rows - 4) << 4;
@@ -2534,7 +2534,7 @@ void func_021C5718(Work_021C5718 *p, int sel, int *seq)
         break;
     case 6:
         if (p->args->cfg->f4_6) {
-            sub_02008A00(func_02012F5C(p->args->f4));
+            sub_02008A00(GAME_DATA_GetSaveBlock21(p->args->f4));
             func_020061E4(0x548);
             func_021C3EF8((Info_021C3EF8 *)p->info);
             func_021C61EC(p, p->info->b6, 1);
@@ -2587,8 +2587,8 @@ void func_021C5874(void)
     struct Mtx m;
     fx32 a, d;
 
-    a = func_0207C778(0x1000);
-    d = func_0207C778(0x1000);
+    a = FX_Inv(0x1000);
+    d = FX_Inv(0x1000);
     m._00 = a;
     m._01 = 0;
     m._10 = 0;
@@ -2746,8 +2746,8 @@ void func_021C5B34(Work_021C5B34 *p)
 
 void func_021C5B80(Work_021C5B80 *p)
 {
-    if ((p->f3034 != 0 && p->h305E == 0 && func_02035BA4(d_021C8534))
-        || (p->h305E == 1 && func_02035BA4(d_021C854C))) {
+    if ((p->f3034 != 0 && p->h305E == 0 && TOUCHPANEL_HitCont(d_021C8534))
+        || (p->h305E == 1 && TOUCHPANEL_HitCont(d_021C854C))) {
         p->b330F = 0;
     }
 }
@@ -2762,12 +2762,12 @@ void func_021C5BCC(Work_021C5BCC *p, int side)
     if (p->info->f4_5 || p->info->f4_4 == 1) {
         return;
     }
-    if (func_02035CB8(&x, &y)) {
+    if (TOUCHPANEL_GetPointCont(&x, &y)) {
         if (side == 0) {
             if (!func_02035C08(d_021C852C)) {
                 p->b330F = 1;
             }
-            if (p->b330F != 0 && !func_02035D40((struct Ctx *)d_021C852C, x, y)) {
+            if (p->b330F != 0 && !TOUCHPANEL_HitPoint((struct Ctx *)d_021C852C, x, y)) {
                 p->raw.x = x;
                 p->raw.y = y;
                 p->raw.size = p->size;
@@ -2784,7 +2784,7 @@ void func_021C5BCC(Work_021C5BCC *p, int side)
             if (!func_02035C08(d_021C853C)) {
                 p->b330F = 1;
             }
-            if (p->b330F != 0 && !func_02035D40((struct Ctx *)d_021C853C, x, y)) {
+            if (p->b330F != 0 && !TOUCHPANEL_HitPoint((struct Ctx *)d_021C853C, x, y)) {
                 p->raw.x = ((x - 0x20) + p->h305C * 0xC0) / 2 + 0x20;
                 p->raw.y = (y - 0x18) / 2 + 0x58;
                 p->raw.size = p->size;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201C8BC",
+   "name": "PRINTSYS_RunJob",
    "address": "0x0201C8BC",
    "kind": "game",
    "region": "arm9",
@@ -30,7 +30,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201CA2C"
+    "PRINTSYS_PutGlyph4bpp"
+   ],
+   "addresses": [
+    "0x0201CA2C"
    ]
   }
  ]

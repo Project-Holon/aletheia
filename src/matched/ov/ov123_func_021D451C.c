@@ -10,10 +10,10 @@
  * status: EXACT
  * extent: follower 021D45F0 already filed separately.
  * symbols:
- *   func_0204BA10 0x0204BA10 arm
+ *   CLACT_ResetActorAnimCommand 0x0204BA10 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_020452E8 0x020452E8 arm
- *   func_02085D3C 0x02085D3C arm
+ *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_02045CAC 0x02045CAC arm
  *   func_021D4EF0 0x021D4EF0 thumb ov123
  *   func_021D4D40 0x021D4D40 thumb ov123
@@ -30,10 +30,10 @@ struct Actor;
 struct Descriptor;
 struct MsgBank;
 struct Obj;
-extern void func_0204BA10(struct Actor *a);
+extern void CLACT_ResetActorAnimCommand(struct Actor *a);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern u32 func_020452E8(struct Descriptor *d);
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021D4EF0(char *, int, int);
 extern void func_021D4D40(char *, int);
@@ -45,14 +45,14 @@ extern void func_021D4FB8(char *p);
 extern void func_021D4440(void);
 void func_021D451C(char *p)
 {
-    func_0204BA10(*(void **)(p + ((struct Obj00273 *)p)->f270 * 4 + 0x2a0));
+    CLACT_ResetActorAnimCommand(*(void **)(p + ((struct Obj00273 *)p)->f270 * 4 + 0x2a0));
     func_0204B92C(*(void **)(p + ((struct Obj00273 *)p)->f270 * 4 + 0x2a0), 0);
     if (((struct Obj00273 *)p)->f8 == 3) {
         if (((struct Obj00273 *)p)->f224) {
             func_020452E8(((struct Obj00273 *)p)->f224);
             ((struct Obj00273 *)p)->f224 = 0;
         }
-        if (func_02085D3C()) {
+        if (OS_IsRunOnTwl()) {
             func_02045CAC(((struct Obj00273 *)p)->f28, 0x20, ((struct Obj00273 *)p)->f38);
             func_021D4EF0(p, 10, 0);
             func_021D4D40(p, 1);

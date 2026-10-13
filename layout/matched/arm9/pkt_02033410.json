@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02033410",
+   "name": "BACKUP_SYSTEM_FillBlockAreas",
    "address": "0x02033410",
    "kind": "game",
    "region": "arm9",

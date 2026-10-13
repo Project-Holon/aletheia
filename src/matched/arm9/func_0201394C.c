@@ -1,5 +1,5 @@
 /*
- * function: func_0201394C
+ * function: BTL_SETUP_ChangeToSubway
  * address:  0x0201394C
  * packet:   pkt_0201394C
  * region:   arm9
@@ -22,8 +22,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201394C.c \
- *       --func func_0201394C --addr 0x0201394C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_ChangeToSubway.c \
+ *       --func BTL_SETUP_ChangeToSubway --addr 0x0201394C --cc 1.1p1 --thumb
  */
 #include "../include/Obj15647.h"
 
@@ -42,7 +42,7 @@ struct ZoneData {
 
 extern u8 func_0202A3FC(u32 key);
 
-void func_0201394C(struct ZoneData *o)
+void BTL_SETUP_ChangeToSubway(struct ZoneData *o)
 {
     if (o->f0 == 1) {
         o->f0 = 2;

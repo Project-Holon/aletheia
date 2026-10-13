@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_0203D1B4  0x0203D1B4  arm
- *   func_02039414  0x02039414  arm
- *   func_02173590  0x02173590  thumb  ov011
+ *   GFL_NET_SYSTEM_CheckError  0x02039414  arm
+ *   INTRUDE_COMM_InitBeacon  0x02173590  thumb  ov011
  *   func_0217778C  0x0217778C  thumb  ov014
  */
 
@@ -29,14 +29,14 @@ typedef struct {
 
 extern int func_0203D1B4(void);
 typedef unsigned int   u32;
-extern u32 func_02039414(void);
-extern void func_02173590(int a, Hdr *p, int c);
+extern u32 GFL_NET_SYSTEM_CheckError(void);
+extern void INTRUDE_COMM_InitBeacon(int a, Hdr *p, int c);
 extern void func_0217778C(void);
 
 int func_021735FC(int a, Hdr *p)
 {
-    if (p->a != func_0203D1B4() || p->c != func_02039414()) {
-        func_02173590(a, p, -1);
+    if (p->a != func_0203D1B4() || p->c != GFL_NET_SYSTEM_CheckError()) {
+        INTRUDE_COMM_InitBeacon(a, p, -1);
         func_0217778C();
         return 1;
     }

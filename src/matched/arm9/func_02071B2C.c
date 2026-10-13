@@ -1,5 +1,5 @@
 /*
- * function: func_02071B2C
+ * function: NNSi_G3dTexMtxRotTrans
  * address:  0x02071B2C
  * packet:   pkt_02071360
  * region:   arm9
@@ -34,8 +34,8 @@
  * and 0x02071C14.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02071B2C.c \
- *       --func func_02071B2C --addr 0x02071B2C --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dTexMtxRotTrans.c \
+ *       --func NNSi_G3dTexMtxRotTrans --addr 0x02071B2C --arm --cc 1.1p1
  *
  * symbols:
  *   func_0207C930  0x0207C930  arm
@@ -72,7 +72,7 @@ struct DST {
 extern void func_0207C930(u32 numer, u32 denom);
 extern u32 func_0207C86C(void);
 
-void func_02071B2C(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxRotTrans(struct DST *d, struct SRC *s)
 {
     s32 e12, f12, t;
     s32 p, q, e, f, a, bb;

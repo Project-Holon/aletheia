@@ -13,7 +13,7 @@
  * symbols:
  *   func_0215A5F4  0x0215A5F4  thumb  ov010
  *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012F80  0x02012F80  thumb
+ *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   func_02156BAC  0x02156BAC  thumb  ov010
  *   func_02156BCC  0x02156BCC  thumb  ov010
  *   func_021FD910  0x021FD910  thumb
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
-extern int func_02012F80(char *base);
+extern int GAME_DATA_GetExternalWork(char *base);
 extern int func_02156BAC();
 extern u32 func_02156BCC(void *p);
 extern int func_021FD910();
@@ -44,7 +44,7 @@ loc_0215E18E:
 a0 = t4 + 0;
     v1 = func_0215A5E4((void *)a0);
 loc_0215E194:
-    a0 = func_02012F80(v1);
+    a0 = GAME_DATA_GetExternalWork(v1);
 loc_0215E198:
 t4 = a0 + 0;
 a0 = *(int *)&((struct Obj00005 *)((char *)t4))->f0;

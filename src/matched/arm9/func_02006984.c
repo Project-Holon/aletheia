@@ -12,8 +12,8 @@
  * symbols:
  *   func_02005C64  0x02005C64  thumb
  *   func_02085A38  0x02085A38  arm
- *   func_020069D4  0x020069D4  thumb
- *   func_02006A64  0x02006A64  thumb
+ *   PM_VOICE_Prepare  0x020069D4  thumb
+ *   PM_VOICE_Start  0x02006A64  thumb
  *
  * Eight parameters: four arrive in registers and four in the caller's stack
  * frame, which this function copies down into its own outgoing argument area
@@ -35,8 +35,8 @@ typedef unsigned int   u32;
 
 extern int  func_02005C64(void);
 extern void func_02085A38(u32 v);
-extern int func_020069D4(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
-extern int func_02006A64(u32 idx);
+extern int PM_VOICE_Prepare(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
+extern int PM_VOICE_Start(u32 idx);
 
 u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3,
                   u32 a4, u32 a5, u32 a6, u32 a7)
@@ -49,7 +49,7 @@ u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3,
             func_02085A38(v);
         } while (func_02005C64() == 1);
     }
-    v = (u16)func_020069D4(a0, a1, a2, a3, a4, a5, a6, a7);
-    func_02006A64(v);
+    v = (u16)PM_VOICE_Prepare(a0, a1, a2, a3, a4, a5, a6, a7);
+    PM_VOICE_Start(v);
     return v;
 }

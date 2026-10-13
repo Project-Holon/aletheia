@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0201C1F4  0x0201C1F4  thumb
+ *   WAZA_TOOL_IsAlwaysHit  0x0201C1F4  thumb
  *   func_021D74F8  0x021D74F8  thumb  ov093
  *   func_021D5440  0x021D5440  thumb  ov093
  *   func_021D75EC  0x021D75EC  thumb  ov093
@@ -22,7 +22,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 sub_0201C1F4(u16 id);
+extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 extern void func_021D74F8(int line);
 extern u8 func_021D5440(u8 *p);
 extern void func_021D75EC(int key, u32 val);
@@ -33,7 +33,7 @@ extern void func_021D7540(int line);
 
 int func_021C69B8(u8 *p, u8 *a, u32 c, u16 id)
 {
-    int r = sub_0201C1F4(id);
+    int r = WAZA_TOOL_IsAlwaysHit(id);
     if (r == 0) {
         func_021D74F8(0x2E15);
         func_021D75EC(3, func_021D5440(a));

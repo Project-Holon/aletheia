@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_02008314  0x02008314  thumb
+ *   CONFIG_Copy  0x02008314  thumb
  */
 
 typedef unsigned char u8;
@@ -19,7 +19,7 @@ typedef struct { u32 w[4]; } Block16;
 typedef struct { u32 w[6]; } Block24;
 typedef struct { unsigned char low:5, high:3; } Bits50;
 typedef struct { unsigned char low:4, mid:3, high:1; } Bits51;
-extern void func_02008314(void *a, void *b);
+extern void CONFIG_Copy(void *a, void *b);
 
 int func_021EF1F4(const u8 *a, u8 *b)
 {
@@ -35,6 +35,6 @@ int func_021EF1F4(const u8 *a, u8 *b)
     ((Bits50 *)(b + 50))->high = a[33];
     f = (a[127] != 0);
     ((Bits51 *)(b + 51))->high = f;
-    func_02008314(*(void **)(a + 92), b + 40);
+    CONFIG_Copy(*(void **)(a + 92), b + 40);
     return 1;
 }

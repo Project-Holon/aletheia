@@ -11,7 +11,7 @@
  * symbols:
  *   func_021F20E4 0x021F20E4 thumb ov032
  *   func_020311B8 0x020311B8 arm
- *   func_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
  */
 #include "../include/Obj09799.h"
@@ -22,12 +22,12 @@ typedef unsigned int u32;
 extern void func_021F20E4(void *task, char *q);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
-extern void *func_02031290(struct S02030FB4 *p);
+extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
 void func_021F20A8(char *p, char *q, int *r)
 {
     u8 *t;
-    t = func_02031290(func_020311B8(((struct Obj20446 *)p)->fA0, (void *)func_021F20E4, 0x10, 0));
+    t = TCBL_GetWork(func_020311B8(((struct Obj20446 *)p)->fA0, (void *)func_021F20E4, 0x10, 0));
     func_02082BCC(t, 0, 0x10);
     *(char * *)&((struct Obj09799 *)t)->f8 = p;
     *(char * *)&((struct Obj09799 *)t)->f4 = q;

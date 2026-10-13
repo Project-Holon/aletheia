@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203C0DC",
+   "name": "GFL_NET_STATE_SetWifiErrorCode",
    "address": "0x0203C0DC",
    "kind": "game",
    "region": "arm9",

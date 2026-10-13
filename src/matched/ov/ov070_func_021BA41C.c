@@ -14,10 +14,10 @@
  *   func_0204B454  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
  *   func_020355C4  0x020355C4  arm
- *   func_0202EB04  0x0202EB04  thumb
+ *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
  *   func_021B61C8  0x021B61C8  thumb  ov070
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B908  0x0204B908  arm
+ *   CLACT_SetActorAnimIndex  0x0204B908  arm
  */
 #include "../include/Obj01365.h"
 
@@ -37,11 +37,11 @@ struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
-extern void func_0202EB04(struct CodeIn *p);
+extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 extern int func_021B61C8(u8 *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B908(int, int);
+extern void CLACT_SetActorAnimIndex(int, int);
 
 void func_021BA41C(char *p)
 {
@@ -53,8 +53,8 @@ void func_021BA41C(char *p)
     if (func_020355C4() == 0) {
         func_021BB398((int)p, 1);
     }
-    func_0202EB04((struct CodeIn *)(((struct Obj01365 *)p)->f850));
+    BLINK_PALANM_ResetPhase((struct CodeIn *)(((struct Obj01365 *)p)->f850));
     func_0204B3DC((struct Obj *)((struct Obj01365 *)p)->f6A8, func_021B61C8((u8 *)p) >= 7);
-    func_0204B908(((struct Obj01365 *)p)->f6A4, 0);
-    func_0204B908(((struct Obj01365 *)p)->f6A8, 0);
+    CLACT_SetActorAnimIndex(((struct Obj01365 *)p)->f6A4, 0);
+    CLACT_SetActorAnimIndex(((struct Obj01365 *)p)->f6A8, 0);
 }

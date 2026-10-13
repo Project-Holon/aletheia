@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0202FE68  0x0202FE68  arm
+ *   GFL_HEAP_RegisterBlockHeapImpl  0x0202FE68  arm
  *   sub_02030524  0x02030524  arm
  *   sub_020306A0  0x020306A0  arm
  *
@@ -33,14 +33,14 @@
 
 typedef unsigned int u32;
 
-extern int   sub_0202FE68(void *a, u32 b, u32 c);
+extern int   GFL_HEAP_RegisterBlockHeapImpl(void *a, u32 b, u32 c);
 typedef unsigned short u16;
 extern u16 sub_02030524(void);
 extern void  sub_020306A0(void *obj, void *a, u32 b);
 
 void sub_02030678(void *a, u32 b, u32 c)
 {
-    if (sub_0202FE68(a, b, c) != 0) {
+    if (GFL_HEAP_RegisterBlockHeapImpl(a, b, c) != 0) {
         return;
     }
     sub_020306A0((void *)sub_02030524(), 0, c);

@@ -20,8 +20,8 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B570 0x0204B570 arm
- *   func_0204B604 0x0204B604 arm
+ *   CLACT_SetActorAffineMode 0x0204B570 arm
+ *   CLACT_SetActorFlip 0x0204B604 arm
  *   d_02184910 0x02184910 data a4
  *   d_021848AC 0x021848AC data a4
  */
@@ -48,8 +48,8 @@ extern void func_02049238(void *);
 extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B570(struct Actor *actor, u32 value);
-extern void func_0204B604(struct Actor *actor, u32 which, u32 set);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
+extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 void func_02183FC4(char *p,u16 heap)
 {
     void *first,*second;
@@ -82,7 +82,7 @@ void func_02183FC4(char *p,u16 heap)
         ++i;
     }while(i<7);
     for(i=0;i<3;i++)func_0204B3DC(*(void **)(p+i*4+0x10),0);
-    func_0204B570(((struct Obj01262 *)p)->f0,0);
-    func_0204B604(((struct Obj01262 *)p)->f0,1,1);
+    CLACT_SetActorAffineMode(((struct Obj01262 *)p)->f0,0);
+    CLACT_SetActorFlip(((struct Obj01262 *)p)->f0,1,1);
     ((struct Obj01262 *)p)->fE0=10;
 }

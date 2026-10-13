@@ -1,5 +1,5 @@
 /*
- * function: func_020208B8
+ * function: BMP_MENULIST_ScrollRows
  * address:  0x020208B8
  * packet:   pkt_02020408
  * region:   arm9
@@ -12,6 +12,8 @@
  * symbols:
  *   func_02045770  0x02045770  arm
  *   func_02043B5C  0x02043B5C  arm
+ *   BMP_MENULIST_DrawItems  0x0202055C  thumb
+ *   BMP_MENULIST_ShiftWindow  0x02020CA0  thumb
  */
 
 typedef unsigned char  u8;
@@ -49,27 +51,27 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0202055C(struct Obj *o, u32 a, u32 b, u32 c, u32 d);
-extern void func_02020CA0(void *win, u32 a, u32 b, u32 c, u16 tile);
+extern void BMP_MENULIST_DrawItems(struct Obj *o, u32 a, u32 b, u32 c, u32 d);
+extern void BMP_MENULIST_ShiftWindow(void *win, u32 a, u32 b, u32 c, u16 tile);
 
-void func_020208B8(struct Obj *obj, int n, u32 flag)
+void BMP_MENULIST_ScrollRows(struct Obj *obj, int n, u32 flag)
 {
     u8 step;
 
     if (n >= (int)obj->rows) {
         func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)obj->unk0C)), obj->f18lo);
-        func_0202055C(obj, obj->f40, 0, obj->rows, 1);
+        BMP_MENULIST_DrawItems(obj, obj->f40, 0, obj->rows, 1);
         return;
     }
 
     step = (u8)(obj->f22 + obj->f1Amid);
     if (flag == 0) {
         u8 k = obj->f18lo;
-        func_02020CA0(obj->unk0C, 1, (u8)(n * step), (u8)((k << 4) | k), 0);
-        func_0202055C(obj, obj->f40, 0, n, 1);
+        BMP_MENULIST_ShiftWindow(obj->unk0C, 1, (u8)(n * step), (u8)((k << 4) | k), 0);
+        BMP_MENULIST_DrawItems(obj, obj->f40, 0, n, 1);
     } else {
         u8 k = obj->f18lo;
-        func_02020CA0(obj->unk0C, 0, (u8)(n * step), (u8)((k << 4) | k), 0);
-        func_0202055C(obj, (u16)(obj->f40 + (obj->rows - n)), (u16)(obj->rows - n), n, 0);
+        BMP_MENULIST_ShiftWindow(obj->unk0C, 0, (u8)(n * step), (u8)((k << 4) | k), 0);
+        BMP_MENULIST_DrawItems(obj, (u16)(obj->f40 + (obj->rows - n)), (u16)(obj->rows - n), n, 0);
     }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02028FE0",
+   "name": "FIELD_SOUND_SYSTEM_HandleModeState0",
    "address": "0x02028FE0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02029040",
+   "name": "FIELD_SOUND_SYSTEM_HandleModeState1",
    "address": "0x02029040",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020290F0",
+   "name": "FIELD_SOUND_SYSTEM_HandleModeState2",
    "address": "0x020290F0",
    "kind": "game",
    "region": "arm9",

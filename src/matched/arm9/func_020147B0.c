@@ -1,5 +1,5 @@
 /*
- * function: func_020147B0
+ * function: FIELD_STATUS_SubProcNoFadeCallbackEvent
  * address:  0x020147B0
  * packet:   pkt_02014628
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Byte-for-byte the twin of func_02014758 (same 86-byte shape, same three
+ * Byte-for-byte the twin of FIELD_STATUS_SubProcCallbackEvent (same 86-byte shape, same three
  * states) with func_020146F8 replaced by func_02014728.  The only other
  * difference is the literal pool holding 0x020307B0: 0x02014758's pool is
  * reachable with `blx 0x20307b0`'s 26-bit reach, this one needs no change.
@@ -18,8 +18,8 @@
  * the next labelled function; no byte of the body differs.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020147B0.c \
- *       --func func_020147B0 --addr 0x020147B0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FIELD_STATUS_SubProcNoFadeCallbackEvent.c \
+ *       --func FIELD_STATUS_SubProcNoFadeCallbackEvent --addr 0x020147B0 --cc 1.1p1 --thumb
  */
 
 typedef struct {
@@ -38,7 +38,7 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-int func_020147B0(int a0, int *a1, S *a2)
+int FIELD_STATUS_SubProcNoFadeCallbackEvent(int a0, int *a1, S *a2)
 {
     switch (*a1) {
     case 0:

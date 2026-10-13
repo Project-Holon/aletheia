@@ -10,7 +10,7 @@
  * status:   EXACT
  * history:  was MATCH on evidence only (every concrete byte matched).  Wave 17:
  *           the pooled overlay ids 0x73 / 0x7B (ov115_id, ov123_id) now
- *           resolve as `overlay_id` (id argument of func_020312CC).  Two
+ *           resolve as `overlay_id` (id argument of PROCSYS_PushGlobal).  Two
  *           ABS32 sites are left, the overlay-resident proc pointers
  *           0x021D6338 / 0x021D654C, whose only other pool words sit in
  *           func_02010C34's pool (0x02010D84..), which disasm.py prints as
@@ -28,12 +28,12 @@
  *           block there, so sole-ref/data refuses the contested hint, and the
  *           choice rests on the hint plus the overlay_id 0x73 site in this
  *           same function.  EXACT, seed round 10.
- * evidence: d_021DA9A8 lies in the windows of ov016, ov021, ov123, ov125
+ * evidence: gNetSaveCheckProc lies in the windows of ov016, ov021, ov123, ov125
  *           and ov175, so the ov123 hint needs outside support.  Case 1
  *           passes ov123_id (0x7B, attested `overlay_id`) and this pointer
- *           in one func_020312CC call; func_020314F4 -> func_02031538 stores
+ *           in one PROCSYS_PushGlobal call; PROCSYS_PushInternal -> PROCSYS_NewProc stores
  *           the id at Proc+4 and the pointer at Proc+0 (ProcData), and
- *           func_020315F0 loads overlay Proc+4 (func_02034AC4) before it
+ *           PROCSYS_StepProc loads overlay Proc+4 (func_02034AC4) before it
  *           calls any ProcData callback.  So ov123 is resident whenever the
  *           pointer is dereferenced.  Independently, ov123's bytes at
  *           0x021DA9A8 are three Thumb pointers 0x021DA479/0x021DA54D/
@@ -44,17 +44,17 @@
  * symbols:
  *   ov115_id       0x00000073  data  a1
  *   ov123_id       0x0000007B  data  a1
- *   d_021D6338     0x021D6338  data  ov115
- *   d_021DA9A8     0x021DA9A8  data  ov123
- *   d_021D654C     0x021D654C  data  ov115
- *   func_020312CC  0x020312CC  arm
- *   func_0200F7B8  0x0200F7B8  thumb
+ *   gNetSaveMainProc     0x021D6338  data  ov115
+ *   gNetSaveCheckProc     0x021DA9A8  data  ov123
+ *   gNetSaveRetryProc     0x021D654C  data  ov115
+ *   PROCSYS_PushGlobal  0x020312CC  arm
+ *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
  *   func_0203CD98  0x0203CD98  arm
  *
  * The net_save.c save task's per-frame step (the task record of
  * sub_02010A5C; state word at +0x1D4): case 0 starts overlay 0x73's proc
  * 0x021D6338 on the record, case 1 starts overlay 0x7B's proc on +0x48
- * unless +0x1C says finished, case 2 hands off to func_0200F7B8(0), case 3
+ * unless +0x1C says finished, case 2 hands off to GFL_NET_ERR_ShowScreen(0), case 3
  * restarts overlay 0x73 with proc 0x021D654C on +0x28 or ends the task.
  * Wave 13: the earlier DIFF read both small pool words as distinct symbols
  * and the size argument as 0x1A8; they are the arguments (0x73, proc, arg).
@@ -67,12 +67,12 @@ typedef unsigned int   u32;
 
 extern u8 ov115_id[];
 extern u8 ov123_id[];
-extern u8 d_021D6338[];
-extern u8 d_021DA9A8[];
-extern u8 d_021D654C[];
+extern u8 gNetSaveMainProc[];
+extern u8 gNetSaveCheckProc[];
+extern u8 gNetSaveRetryProc[];
 
-extern void func_020312CC(u32 ovl, u32 proc, u32 arg);
-extern u32 func_0200F7B8(u32 a0);
+extern void PROCSYS_PushGlobal(u32 ovl, u32 proc, u32 arg);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern int  func_0203CD98(void);
 
 int func_02010AC4(u32 a0, u32 a1, u32 a2, u8 *ctx)
@@ -84,7 +84,7 @@ int func_02010AC4(u32 a0, u32 a1, u32 a2, u8 *ctx)
         ((struct Obj00562 *)ctx)->f8 = 1;
         ((struct Obj00562 *)ctx)->fC = 0x32;
         *(u8 * *)&((struct Obj00562 *)ctx)->f10 = ctx + 0x5c;
-        func_020312CC((u32)ov115_id, (u32)d_021D6338, (u32)ctx);
+        PROCSYS_PushGlobal((u32)ov115_id, (u32)gNetSaveMainProc, (u32)ctx);
         ((struct Obj00562 *)ctx)->f1D4 += 1;
         break;
     case 1:
@@ -95,7 +95,7 @@ int func_02010AC4(u32 a0, u32 a1, u32 a2, u8 *ctx)
         ((struct Obj00562 *)ctx)->f48 = ((struct Obj00562 *)ctx)->f44;
         ((struct Obj00562 *)ctx)->f50 = ((struct Obj00562 *)ctx)->f1D0;
         *(u8 * *)&((struct Obj00562 *)ctx)->f4C = ctx + 0x5c;
-        func_020312CC((u32)ov123_id, (u32)d_021DA9A8, (u32)(ctx + 0x48));
+        PROCSYS_PushGlobal((u32)ov123_id, (u32)gNetSaveCheckProc, (u32)(ctx + 0x48));
         ((struct Obj00562 *)ctx)->f1D4 += 1;
         break;
     case 2:
@@ -103,7 +103,7 @@ int func_02010AC4(u32 a0, u32 a1, u32 a2, u8 *ctx)
             ((struct Obj00562 *)ctx)->f1D4 = 4;
             break;
         }
-        func_0200F7B8(0);
+        GFL_NET_ERR_ShowScreen(0);
         ((struct Obj00562 *)ctx)->f1D4 += 1;
         break;
     case 3:
@@ -115,7 +115,7 @@ int func_02010AC4(u32 a0, u32 a1, u32 a2, u8 *ctx)
         ((struct Obj00562 *)ctx)->f28 = ((struct Obj00562 *)ctx)->f44;
         ((struct Obj00562 *)ctx)->f2C = 0;
         ((struct Obj00562 *)ctx)->f30 = 1;
-        func_020312CC((u32)ov115_id, (u32)d_021D654C, (u32)(ctx + 0x28));
+        PROCSYS_PushGlobal((u32)ov115_id, (u32)gNetSaveRetryProc, (u32)(ctx + 0x28));
         ((struct Obj00562 *)ctx)->f1D4 += 1;
         break;
     default:

@@ -19,7 +19,7 @@
  *   func_02193710  0x02193710  arm  ov009
  *   func_02189D78  0x02189D78  arm  ov009
  *   func_0217EE50  0x0217EE50  arm  ov009
- *   func_0215F650  0x0215F650  arm  ov009
+ *   SOC_GetHostByName  0x0215F650  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
  *   func_0217ED54  0x0217ED54  arm  ov009
  *   func_0217F264  0x0217F264  arm  ov009
@@ -45,7 +45,7 @@
  *   func_02193418  0x02193418  arm  ov009
  *   func_02189DFC  0x02189DFC  arm  ov009
  *   func_021803BC  0x021803BC  arm  ov009
- *   func_0217F2BC  0x0217F2BC  arm  ov009
+ *   msleep  0x0217F2BC  arm  ov009
  *   func_0217EAC8  0x0217EAC8  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
  *   func_020948E0  0x020948E0  arm
@@ -190,7 +190,7 @@ extern int func_0217EB18(int pf, int type, int protocol);
 extern void func_02193710(void **connection, int code, char *string);
 extern int func_02189D78(void **connection, int result, int fatal);
 extern int func_0217EE50(int sock, int isblocking);
-extern SOCHostEnt *func_0215F650(char *name);
+extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int func_0217ED54(int sock);
 extern unsigned int func_0217F264(void);
@@ -213,7 +213,7 @@ extern int func_0219359C(void **connection, char *buffer, int *index, char *key,
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
 extern int func_02189DFC(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
 extern int func_021803BC(char *dst, const char *src, unsigned int n);
-extern void func_0217F2BC(u32 ms);
+extern void msleep(u32 ms);
 extern void *func_0217EAC8(void *ptr, unsigned int size);
 extern void func_0217EAE0(void *ptr);
 extern int func_020948E0(const char *s1, const char *s2);
@@ -350,7 +350,7 @@ int func_021903B0(void **connection, GPIOperation *operation)
         return 3;
     }
 
-    host = func_0215F650(g_021A5240);
+    host = SOC_GetHostByName(g_021A5240);
     if (host == 0) {
         func_02193710(connection, 5, g_021A52EC);
         func_02189D78(connection, 3, 1);
@@ -1391,7 +1391,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
             }
         }
         if (loop)
-            func_0217F2BC(10);
+            msleep(10);
     } while (loop);
 
     return GP_NO_ERROR;

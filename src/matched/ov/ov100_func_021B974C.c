@@ -11,7 +11,7 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B570 0x0204B570 arm
+ *   CLACT_SetActorAffineMode 0x0204B570 arm
  */
 #include "../include/Obj06361.h"
 typedef unsigned short u16;
@@ -25,7 +25,7 @@ extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_0204B3DC(struct Obj *,unsigned int);
 typedef unsigned int   u32;
 struct Actor;
-extern void func_0204B570(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 void func_021B974C(int a,int b,int c,int d,int e)
 {
  struct Point p;
@@ -34,6 +34,6 @@ void func_021B974C(int a,int b,int c,int d,int e)
   *(int *)(a+0x2c8+d*4)=(int)func_0204B294((void *)((struct Obj06361 *)a)->f2B4,((struct Obj06361 *)a)->f2BC,((struct Obj06361 *)a)->f2B8,((struct Obj06361 *)a)->f2C0,&p,0,((struct Obj06361 *)a)->f278);
   func_0204B92C((struct Obj *)*(int *)(a+0x2c8+d*4),1);
   func_0204B3DC((struct Obj *)*(int *)(a+0x2c8+d*4),1);
-  func_0204B570((struct Actor *)(*(int *)(a+0x2c8+d*4)),2);
+  CLACT_SetActorAffineMode((struct Actor *)(*(int *)(a+0x2c8+d*4)),2);
  }
 }

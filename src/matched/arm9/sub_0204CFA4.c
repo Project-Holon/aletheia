@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204CFA4
+ * function: CLACT_InitActorRequest
  * address:  0x0204CFA4
  * packet:   pkt_0204CA74
  * region:   arm9
@@ -22,8 +22,8 @@
  * (docs/idioms/aggregate-assignment-is-ldm-stm.md describes the other case).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CFA4.c \
- *       --func sub_0204CFA4 --addr 0x0204CFA4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_InitActorRequest.c \
+ *       --func CLACT_InitActorRequest --addr 0x0204CFA4 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -41,7 +41,7 @@ struct Req {
     u32 unk_1c;
 };
 
-void sub_0204CFA4(struct Req *r, u16 a, u16 b, u32 c, u32 d, u32 e, u32 f)
+void CLACT_InitActorRequest(struct Req *r, u16 a, u16 b, u32 c, u32 d, u32 e, u32 f)
 {
     r->unk_00 = a;
     r->unk_02 = b;

@@ -13,7 +13,7 @@
  *   func_021BDFE4  0x021BDFE4  thumb  ov172
  *   func_021B8108  0x021B8108  thumb  ov172
  *   func_0203CF10  0x0203CF10  arm
- *   func_0203CF3C  0x0203CF3C  arm
+ *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
  *   func_02177B80  0x02177B80  thumb
  *   func_020084F4  0x020084F4  thumb
  *   func_02008550  0x02008550  thumb
@@ -77,7 +77,7 @@ struct Bits2 {
 extern u32 func_021BDFE4(void *p);
 extern int func_021B8108(void *unused, void *p);
 extern u32 func_0203CF10(u32 a);
-extern void *func_0203CF3C(u32 a);
+extern void *GFL_NET_GetScanResultMac(u32 a);
 extern u8 func_02177B80(int i);
 struct Sub0200852CObj;
 extern const void *func_020084F4(const void *p);
@@ -153,7 +153,7 @@ void func_021BC7FC(void *ctx, u8 *list)
             if (p == 0)
                 continue;
             slot = 0xff;
-            mac = func_0203CF3C(j);
+            mac = GFL_NET_GetScanResultMac(j);
             kind = func_02177B80(j);
             if (kind == 3 && ((struct Bits2 *)((u8 *)p + 2))->b1 != 2)
                 continue;

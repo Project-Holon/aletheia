@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203A958",
+   "name": "GFL_NET_COMMAND_RecvHugeBuffer",
    "address": "0x0203A958",
    "kind": "game",
    "region": "arm9",
@@ -30,7 +30,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0203AA94"
+    "GFL_NET_COMMAND_SetSendSlot"
+   ],
+   "addresses": [
+    "0x0203AA94"
    ]
   }
  ]

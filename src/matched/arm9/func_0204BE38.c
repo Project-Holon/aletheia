@@ -1,5 +1,5 @@
 /*
- * function: func_0204BE38
+ * function: CLACT_SetSurfaceCulling
  * address:  0x0204BE38
  * packet:   pkt_0204BE38
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204C2C8   0x0204C2C8  arm
+ *   CLACT_CullOam   0x0204C2C8  arm
  *
  * Culling on/off for a 0x48-stride element array (the same f98/f9c pair
- * func_0204BD94 allocates): on != 0 installs func_0204C2C8 as each element's
+ * CLACT_InitRenderer allocates): on != 0 installs CLACT_CullOam as each element's
  * +0x40 callback, on == 0 sets obj->f30 = 1 and clears the callbacks.  Reached
  * only through a pool word at 0x0204B0FC; the pool word 0x0204C2C8 resolves
  * sole-ref/code.
@@ -44,15 +44,15 @@ struct Obj {
 typedef signed int     s32;
 struct Box;
 struct Pair;
-extern void func_0204C2C8(struct Elem *e, struct Pair *p, s32 u2, s32 u3, struct Box *box);
+extern void CLACT_CullOam(struct Elem *e, struct Pair *p, s32 u2, s32 u3, struct Box *box);
 
-void func_0204BE38(struct Obj *obj, int on)
+void CLACT_SetSurfaceCulling(struct Obj *obj, int on)
 {
     u32 i;
     CullFn fn;
 
     if (on != 0) {
-        fn = (CullFn)func_0204C2C8;
+        fn = (CullFn)CLACT_CullOam;
     } else {
         obj->f30 = 1;
         fn = 0;

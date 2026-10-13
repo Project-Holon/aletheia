@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020746B0",
+   "name": "NNS_SndArcSetReadChunkSize",
    "address": "0x020746B0",
    "kind": "game",
    "region": "arm9",

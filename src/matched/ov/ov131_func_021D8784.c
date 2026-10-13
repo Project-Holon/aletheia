@@ -1,5 +1,5 @@
 /*
- * function: func_021D8784
+ * function: P_STA_INFO_GetPlaceName
  * address: 0x021D8784
  * packet: pkt_ov131_021D8784
  * region: ov131
@@ -21,7 +21,7 @@ extern unsigned int func_0202F6D8(unsigned int);
 typedef unsigned int   u32;
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-void func_021D8784(void *a, unsigned char *p, unsigned int n)
+void P_STA_INFO_GetPlaceName(void *a, unsigned char *p, unsigned int n)
 {
     unsigned int bank = func_0202F688(n);
     unsigned int index = func_0202F6D8(n);

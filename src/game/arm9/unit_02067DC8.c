@@ -11,21 +11,21 @@
  * status:   EXACT
  *
  * The rig-step entry of the NNS G2D cell composer, the sibling of
- * func_02067D14 (src/pending/func_02067D14.c) that also takes a part
- * index.  Reads the singleton rig at g_02148B48, raises its +0x30 gate,
+ * NNSi_G2dOamSoftEmuRender (src/pending/NNSi_G2dOamSoftEmuRender.c) that also takes a part
+ * index.  Reads the singleton rig at sOamSoftEmuContext, raises its +0x30 gate,
  * runs the caller's +0x18 pre hook, and while the gate survives the hook
  * dispatches on the inner object's +0x14 mode through a four-entry table:
  * mode 0 -> func_02067998, modes 1 and 2 -> func_02067340, mode 3 empty
  * (the empty arm is what makes the `addls pc, pc, r0, lsl #2` table exist
  * at all).  When a1 is not the -1 sentinel it first sets the part's own
- * bit in func_02066878(a1)->f20.  The +0x1c post hook closes it.
+ * bit in NNSi_G2dGetCellTransferState(a1)->f20.  The +0x1c post hook closes it.
  *
  * BYTE-CORRECT: 232 bytes, 0 concrete mismatches, under the pin below.
  *
  * blocked:  label, no outside witness.  Two of the four relocation sites
  *   stay wildcarded: the +0x00B0 PC24 to func_02067998 and the +0x00C0
  *   PC24 to func_02067340.  Each of those two callees is branched to from
- *   exactly two places image-wide, this function and func_02067D14
+ *   exactly two places image-wide, this function and NNSi_G2dOamSoftEmuRender
  *   (0x02067D14), and that file is itself parked at MATCH, so neither
  *   caller attests the other and `label` refuses both.  Being one
  *   function, no `--suggest-split` cut exists.  It promotes with NO edit
@@ -51,8 +51,8 @@
  * out swapped and 13 instructions differ at the same 232 bytes.
  *
  * symbols:
- *   g_02148B48    0x02148B48  data
- *   func_02066878 0x02066878  arm
+ *   sOamSoftEmuContext    0x02148B48  data
+ *   NNSi_G2dGetCellTransferState 0x02066878  arm
  *   func_02067998 0x02067998  arm
  *   func_02067340 0x02067340  arm
  */
@@ -79,8 +79,8 @@ struct Rig {
 
 struct Part { u8 pad_00[0x20]; u32 f20; };
 
-extern struct Rig *g_02148B48;
-extern u8 *func_02066878(u32 i);
+extern struct Rig *sOamSoftEmuContext;
+extern u8 *NNSi_G2dGetCellTransferState(u32 i);
 struct Hooks;
 struct List;
 extern void func_02067998(struct Hooks *h, struct List *lst);
@@ -90,19 +90,19 @@ void func_02067DC8(u32 a0, s32 a1)
 {
     u32 idx;
     struct Inner *o;
-    struct Rig *g = g_02148B48;
+    struct Rig *g = sOamSoftEmuContext;
 
     o = g->inner;
     if (o->field_10 == 0) return;
 
     g->flag_30 = 1;
-    if (o->cb_18 != 0) o->cb_18(g_02148B48, a0);
+    if (o->cb_18 != 0) o->cb_18(sOamSoftEmuContext, a0);
 
-    if (g_02148B48->flag_30 != 0) {
+    if (sOamSoftEmuContext->flag_30 != 0) {
         if (a1 != -1) {
             struct Part *p;
             idx = o->mode;
-            p = (struct Part *)func_02066878(a1);
+            p = (struct Part *)NNSi_G2dGetCellTransferState(a1);
             p->f20 = (p->f20 & ~(1 << idx)) | (1 << idx);
         }
         switch (o->mode) {
@@ -112,5 +112,5 @@ void func_02067DC8(u32 a0, s32 a1)
         case 3: break;
         }
     }
-    if (o->cb_1c != 0) o->cb_1c(g_02148B48, a0);
+    if (o->cb_1c != 0) o->cb_1c(sOamSoftEmuContext, a0);
 }

@@ -10,16 +10,16 @@
  * trailing: 022033F0..022033F4 is an unlabelled 4-byte getter (ldr r0, [r0, #0x58]; bx lr).
  *
  * symbols:
- *   func_02021ED8  0x02021ED8  thumb
+ *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  */
 typedef struct Bits { unsigned b0:1; unsigned mid:30; unsigned b31:1; } Bits;
 typedef struct Obj { char pad[0x64]; void *h64; Bits f68; } Obj;
 typedef unsigned int   u32;
-extern u32 func_02021ED8(const char *ptr);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
 int func_022033CC(Obj *p)
 {
-    if (p->f68.b0 || func_02021ED8(p->h64) != 0 || p->f68.b31)
+    if (p->f68.b0 || PALANM_GetFadeRequestBits(p->h64) != 0 || p->f68.b31)
         return 1;
     return 0;
 }

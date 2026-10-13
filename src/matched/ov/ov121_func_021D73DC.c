@@ -33,6 +33,9 @@
  *   func_021D7814 0x021D7814 thumb ov121
  *   func_020362DC 0x020362DC arm
  *   func_0203F4E4 0x0203F4E4 arm
+ *   MYSTERY_DATA_AddCard  0x0200A034  thumb  arm9
+ *   MYSTERY_DATA_IsEventFlag  0x0200A1A8  thumb  arm9
+ *   MYSTERY_DATA_SetEventFlag  0x0200A1E4  thumb  arm9
  */
 #include "../include/Obj13939.h"
 typedef unsigned char u8;
@@ -65,9 +68,9 @@ extern void func_021D6E3C(void *task, u32 *state, u8 *p);
 extern void func_021D7814(void *task, u32 *state, u8 *p);
 extern u32 func_020362DC(void);
 extern void func_0203F4E4(struct RtcDate *date);
-extern int func_0200A1A8(char *p, unsigned int bit);
-extern int func_0200A034(void *p, void *arg);
-extern void func_0200A1E4(void *p, unsigned int idx);
+extern int MYSTERY_DATA_IsEventFlag(char *p, unsigned int bit);
+extern int MYSTERY_DATA_AddCard(void *p, void *arg);
+extern void MYSTERY_DATA_SetEventFlag(void *p, unsigned int idx);
 #define P(k) (*(void **)(p+(k)))
 #define W(k) (*(u32 *)(p+(k)))
 void func_021D73DC(void *task,u32 *state,u8 *p)
@@ -142,11 +145,11 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
             func_021D8198((char *)p);
             if(v==0) {
                 func_021D8380((char *)p);
-                if(((Flag *)(p+1152))->bit && func_0200A1A8(P(956),((struct Obj13939 *)p)->f47C)) {*state=11;break;}
+                if(((Flag *)(p+1152))->bit && MYSTERY_DATA_IsEventFlag(P(956),((struct Obj13939 *)p)->f47C)) {*state=11;break;}
                 func_0203F4E4((struct RtcDate *)(&date));
                 W(1144)=(((u32)date.y+2000)<<16)|(((u32)date.m<<24)>>16)|(u8)date.d;
-                func_0200A034(P(956),p+972);
-                func_0200A1E4(P(956),((struct Obj13939 *)p)->f47C);
+                MYSTERY_DATA_AddCard(P(956),p+972);
+                MYSTERY_DATA_SetEventFlag(P(956),((struct Obj13939 *)p)->f47C);
                 func_021DA8B0(task,(u32)func_021D7814);
             } else if(v==1) *state=5;
         }

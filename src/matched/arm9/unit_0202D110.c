@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0202D110
+ * function: POKEGRA_GetCelArcIndex
  * address:  0x0202D110
  * packet:   pkt_0202D110
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202D4A8  0x0202D4A8  thumb
+ *   POKEGRA_CalcArcIndex  0x0202D4A8  thumb
  *
  * The three consecutive wrappers around the 13-argument text/window
  * measurement routine at 0x0202D4A8, folded into one translation unit.
@@ -27,32 +27,32 @@
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_0202D4A8(void *narc, u32 species, s32 form, s32 mode, u32 base, u32 shiny, u32 egg, u32 *out_index, u32 *out_pal, u32 *out_mode, u32 *out_base, u32 **out_ptr, u32 female);
+extern void POKEGRA_CalcArcIndex(void *narc, u32 species, s32 form, s32 mode, u32 base, u32 shiny, u32 egg, u32 *out_index, u32 *out_pal, u32 *out_mode, u32 *out_base, u32 **out_ptr, u32 female);
 
-s32 func_0202D110(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
+s32 POKEGRA_GetCelArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
 {
     s32 b;
     s32 a;
 
-    func_0202D4A8((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), 0, 0, 0, 0);
+    POKEGRA_CalcArcIndex((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), 0, 0, 0, 0);
     return b + a + 4;
 }
 
-s32 func_0202D144(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
+s32 POKEGRA_GetAnmArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
 {
     s32 b;
     s32 a;
 
-    func_0202D4A8((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), 0, 0, 0, 0);
+    POKEGRA_CalcArcIndex((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), 0, 0, 0, 0);
     return b + a + 5;
 }
 
-s32 func_0202D178(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
+s32 POKEGRA_GetMCelArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
 {
     s32 b;
     s32 a;
 
-    func_0202D4A8((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), 0, 0, 0, 0);
+    POKEGRA_CalcArcIndex((void *)a0, a1, a2, a3, s5, s6, s7, (u32 *)(&b), (u32 *)(&a), 0, 0, 0, 0);
     return b + a + 6;
 }
 

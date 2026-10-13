@@ -1,5 +1,5 @@
 /*
- * function: func_02156D70
+ * function: DWC_RAP_StoreAllowConnect
  * address:  0x02156D70
  * packet:   pkt_02156D70
  * region:   ov009
@@ -12,7 +12,7 @@
  * Stores the low byte of v at 0x7A5 of the ov009 work block.
  *
  * symbols:
- *   d_021A8264  0x021A8264  data  ov009  a4
+ *   _pRapWork  0x021A8264  data  ov009  a4
  */
 
 typedef unsigned char  u8;
@@ -28,9 +28,9 @@ typedef struct {
     char pad7A6[0x7AC - 0x7A6];
 } G;
 
-extern G *d_021A8264;
+extern G *_pRapWork;
 
-void func_02156D70(u32 v)
+void DWC_RAP_StoreAllowConnect(u32 v)
 {
-    d_021A8264->b7a5 = v;
+    _pRapWork->b7a5 = v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02028CB0
+ * function: FIELD_SOUND_SYSTEM_IsSoundIdPlayable
  * address:  0x02028CB0
  * packet:   pkt_02028BDC
  * region:   arm9
@@ -10,19 +10,23 @@
  * status:   EXACT*
  * blocker:  02028C30 label
  * blocker:  02028C50 label
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_IsKnownSoundId  0x02028C30  thumb
+ *   FIELD_SOUND_SYSTEM_IsSoundRecordChainValid  0x02028C50  thumb
  */
 
 typedef unsigned int u32;
 
-extern int func_02028C30(u32 v);
-extern u32 func_02028C50(int index);
+extern int FIELD_SOUND_SYSTEM_IsKnownSoundId(u32 v);
+extern u32 FIELD_SOUND_SYSTEM_IsSoundRecordChainValid(int index);
 
-int func_02028CB0(u32 v)
+int FIELD_SOUND_SYSTEM_IsSoundIdPlayable(u32 v)
 {
-    if (func_02028C30(v) == 0) {
+    if (FIELD_SOUND_SYSTEM_IsKnownSoundId(v) == 0) {
         return 0;
     }
-    if (func_02028C50(v) != 0) {
+    if (FIELD_SOUND_SYSTEM_IsSoundRecordChainValid(v) != 0) {
         return 1;
     }
     return 0;

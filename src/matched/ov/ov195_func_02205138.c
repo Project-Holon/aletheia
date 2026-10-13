@@ -13,10 +13,10 @@
  * +0x60 pointer set, tear down the six +0x48 handles.
  *
  * symbols:
- *   func_0204B908  0x0204B908  arm
+ *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   func_0204B92C  0x0204B92C  arm
  */
-extern void func_0204B908(int, int);
+extern void CLACT_SetActorAnimIndex(int, int);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 
@@ -27,7 +27,7 @@ void func_02205138(int a, int *p)
     if (p[0x18] == 0)
         return;
     for (i = 0; i < 6; i++) {
-        func_0204B908(p[0x12 + i], 0);
+        CLACT_SetActorAnimIndex(p[0x12 + i], 0);
         func_0204B92C((struct Obj *)p[0x12 + i], 1);
     }
 }

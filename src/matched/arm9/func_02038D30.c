@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02038D30
+ * function: GFL_NET_SYSTEM_GetChildRingDataSize
  * address:  0x02038D30
  * packet:   pkt_02038C18
  * region:   arm9
@@ -9,7 +9,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   GFL_NET_RING_BUFF_GetDataSize  0x020365E8  arm
  */
 
-extern int func_020365E8(char *p);
-void func_02038D30(int a0, int a1, int a2, int a3){ func_020365E8((char *)((int)(*(int *)((char *)(0x21469D0)) + 0x1c))); }
+extern int GFL_NET_RING_BUFF_GetDataSize(char *p);
+void GFL_NET_SYSTEM_GetChildRingDataSize(int a0, int a1, int a2, int a3){ GFL_NET_RING_BUFF_GetDataSize((char *)((int)(*(int *)((char *)(0x21469D0)) + 0x1c))); }

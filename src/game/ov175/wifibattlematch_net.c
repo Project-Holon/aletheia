@@ -19,7 +19,7 @@
  *   d_021E2C74 0x021E2C74 data a4
  *   d_021E2C80 0x021E2C80 data a4
  *   d_021E2DE0 0x021E2DE0 data
- *   func_02006210 0x02006210 thumb
+ *   GFL_USE_StopAllSe 0x02006210 thumb
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data
  *   ov114_id 0x00000072 data
@@ -67,21 +67,21 @@
  *   func_02012EBC 0x02012EBC thumb
  *   func_02009448 0x02009448 thumb
  *   func_020092EC 0x020092EC thumb
- *   func_0201A918 0x0201A918 thumb
+ *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_02045A98 0x02045A98 arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045A38 0x02045A38 arm
  *   func_02045808 0x02045808 arm
  *   func_02025BEC 0x02025BEC thumb
- *   func_020245D4 0x020245D4 thumb
- *   func_020242A4 0x020242A4 thumb
+ *   PMSI_PARAM_IsValid 0x020245D4 thumb
+ *   PMSI_PARAM_InitSentence 0x020242A4 thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_02040588 0x02040588 arm
  *   func_021E8AA8 0x021E8AA8 thumb ov177
- *   func_02156E30 0x02156E30 thumb
- *   func_02156F50 0x02156F50 thumb
- *   func_02156ED0 0x02156ED0 thumb
+ *   DWC_RAPCOMMON_CreateSubHeap 0x02156E30 thumb
+ *   DWC_RAPCOMMON_SetHeapTag 0x02156F50 thumb
+ *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb
  *   func_02009EC8 0x02009EC8 thumb
  *   func_021E8AC0 0x021E8AC0 thumb ov177
  *   func_0200ED48 0x0200ED48 thumb
@@ -91,7 +91,7 @@
  *   func_02012DD0 0x02012DD0 thumb
  *   func_0200FBB0 0x0200FBB0 thumb
  *   func_02012944 0x02012944 thumb
- *   func_0200DFD8 0x0200DFD8 thumb
+ *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
  *   func_02008554 0x02008554 thumb
  *   func_021E5C20 0x021E5C20 thumb ov177
  *   func_021E5D40   0x021E5D40  thumb
@@ -104,8 +104,8 @@
  *   func_021E7520 0x021E7520 thumb ov177
  *   func_021E7710   0x021E7710  thumb
  *   func_021E777C 0x021E777C thumb ov177
- *   func_0200DFE4 0x0200DFE4 thumb
- *   func_0200E008  0x0200E008  thumb
+ *   BSUBWAY_SAVEDATA_SetStat 0x0200DFE4 thumb
+ *   BSUBWAY_SAVEDATA_IncStat  0x0200E008  thumb
  *   func_021E888C 0x021E888C thumb ov177
  *   func_02008468 0x02008468 thumb
  *   func_0200E6E8 0x0200E6E8 thumb
@@ -144,7 +144,7 @@
  *   func_0200B1F8 0x0200B1F8 thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_02052274  0x02052274  arm
+ *   BUTTON_MAN_ConvertUcs2ToSjis  0x02052274  arm
  *   func_02167ED8 0x02167ED8 arm ov009
  *   func_02089004 0x02089004 arm
  *   func_020891E0 0x020891E0 arm
@@ -157,19 +157,19 @@
  *   func_021E8338 0x021E8338 thumb ov177
  *   func_021E8420 0x021E8420 thumb ov177
  *   func_021E88B0 0x021E88B0 thumb ov177
- *   func_0201A948 0x0201A948 thumb
+ *   POKEPARTY_Init 0x0201A948 thumb
  *   func_02008494  0x02008494  thumb
  *   func_0200B1C4  0x0200B1C4  thumb
  *   func_020185F0  0x020185F0  thumb
- *   func_020173E8  0x020173E8  thumb
+ *   POKE_TOOL_GetBoxParamSize  0x020173E8  thumb
  *   func_0203EFC8  0x0203EFC8  arm
  *   func_02030734 0x02030734 arm
  *   func_02009860 0x02009860 thumb
  *   func_0200853C 0x0200853C thumb
  *   func_0203A574 0x0203A574 arm
- *   func_0203D644 0x0203D644 arm
- *   func_02156DC4 0x02156DC4 thumb ov009
- *   func_02156DE0 0x02156DE0 thumb ov009
+ *   GFL_NET_SetWaitMode 0x0203D644 arm
+ *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
+ *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   d_021E2EE0 0x021E2EE0 data a4
  *   d_021E2EF8 0x021E2EF8 data a4
  *   d_021E2C90 0x021E2C90 data a4
@@ -177,32 +177,32 @@
  *   func_020399A8  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
- *   func_0203D7B0  0x0203D7B0  arm
+ *   GFL_NET_SetAutoExit  0x0203D7B0  arm
  *   func_0203D7BC  0x0203D7BC  arm
  *   func_02012E40  0x02012E40  thumb
- *   func_02012E08  0x02012E08  thumb
+ *   GAME_DATA_SaveCancel  0x02012E08  thumb
  *   func_0200F7C0  0x0200F7C0  thumb
- *   func_02157170  0x02157170  thumb
- *   func_0203C968  0x0203C968  arm
- *   func_0203CA04  0x0203CA04  arm
- *   func_0200F83C  0x0200F83C  thumb
+ *   DWC_RAPCOMMON_HandleNetError  0x02157170  thumb
+ *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
+ *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
+ *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
- *   func_0203C9AC  0x0203C9AC  arm
+ *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  *   func_0200FAAC  0x0200FAAC  thumb
  *   func_0200FB38  0x0200FB38  thumb
  *   STD_TSPrintf                 0x0208D7E0  arm
  *   d_021E2EFC                   0x021E2EFC  data
- *   func_0215580C  0x0215580C  thumb
- *   func_0203C304  0x0203C304  arm
- *   func_02156BC4  0x02156BC4  thumb
- *   func_0203C554  0x0203C554  arm
- *   func_0203C3EC  0x0203C3EC  arm
- *   func_0203CA98  0x0203CA98  arm
+ *   DWC_RAP_StartMatchWithFilter  0x0215580C  thumb
+ *   GFL_NET_STATE_WifiEnterRandomMatch  0x0203C304  arm
+ *   DWC_RAP_SetVchatEnabled  0x02156BC4  thumb
+ *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
+ *   GFL_NET_STATE_GetWifiState  0x0203C3EC  arm
+ *   GFL_NET_STATE_GetError  0x0203CA98  arm
  *   func_02039338  0x02039338  arm
  *   func_02039ACC  0x02039ACC  arm
- *   func_020399EC  0x020399EC  arm
+ *   GFL_NET_HANDLE_GetNegotiationNum  0x020399EC  arm
  *   func_0203D378  0x0203D378  arm
- *   func_02156CD0  0x02156CD0  thumb  ov009
+ *   DWC_RAP_IsStateInSession  0x02156CD0  thumb  ov009
  *   g_021E2C8C     0x021E2C8C  data
  *   DWC_AddMatchKeyInt  0x0216C8DC  arm  ov009
  *   d_021E2E10          0x021E2E10  data
@@ -285,11 +285,11 @@
  *   func_021B99DC 0x021B99DC thumb ov114
  *   func_021B9790 0x021B9790 thumb ov114
  *   func_021B97F4 0x021B97F4 thumb ov114
- *   func_0200FB4C 0x0200FB4C thumb
+ *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  *   func_021B973C 0x021B973C thumb ov114
  *   func_021BE79C 0x021BE79C arm ov114
  *   func_02008510              0x02008510  thumb
- *   func_02045A90              0x02045A90  arm
+ *   STRBUF_GetChars              0x02045A90  arm
  *   func_020458F8              0x020458F8  arm
  *   DWC_CheckProfanityExAsync  0x0217BC44  arm  ov009
  *   DWC_CheckProfanityProcess  0x0217BC90  arm  ov009
@@ -1033,7 +1033,7 @@ typedef unsigned int u32_021DD044;
 extern int func_02034AC4(s32 handle);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02034A5C(int);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern void func_0203064C(u32, u32, u32);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *, int, u32);
@@ -1078,21 +1078,21 @@ extern void func_021E8AB8(u32);
 extern void *func_02012EBC(struct Big *);
 extern struct Sub02009448Obj *func_02009448(void *);
 extern u8 func_020092EC(const struct Sub02009210Obj *);
-extern int func_0201A918();
+extern int POKE_REGULATION_GetDataSize();
 extern void func_02082D44(const void *, void *, u32_021D4B3C);
 extern u16 func_02045A98(void);
 extern void *func_02045EC0(struct MsgBank *, u32_021D4B3C);
 extern void func_02045A38(struct U16Vec *, u16 *, unsigned int);
 extern void func_02045808(struct U16Vec *);
 extern unsigned int func_02025BEC(unsigned int, unsigned int, unsigned int);
-extern unsigned int func_020245D4(struct T *, unsigned int);
-extern void func_020242A4(void *, unsigned int);
+extern unsigned int PMSI_PARAM_IsValid(struct T *, unsigned int);
+extern void PMSI_PARAM_InitSentence(void *, unsigned int);
 extern void func_020061E4(unsigned);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021E8AA8(int);
-extern void func_02156E30(int, int, int, int);
-extern void func_02156F50(int);
-extern void func_02156ED0(void);
+extern void DWC_RAPCOMMON_CreateSubHeap(int, int, int, int);
+extern void DWC_RAPCOMMON_SetHeapTag(int);
+extern void DWC_RAPCOMMON_DestroySubHeap(void);
 extern void *func_02009EC8(void *sys);
 extern void func_021E8AC0(int, int);
 extern void *func_0200ED48(void *);
@@ -1102,7 +1102,7 @@ extern int func_02012DAC(int);
 extern int func_02012DD0(u8 *);
 extern u32_021D4B3C func_0200FBB0(void);
 extern u8 *func_02012944(void *p);
-extern u32_021D62A4 func_0200DFD8(u32_021D62A4,u32_021D62A4,u32_021D62A4);
+extern u32_021D62A4 BSUBWAY_SAVEDATA_GetStat(u32_021D62A4,u32_021D62A4,u32_021D62A4);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32_021D62A4 func_021E5C20(Desc_021D4240 *,int,u32_021D62A4,int,u32_021D62A4,u32_021D62A4,u32_021D62A4,u32_021D62A4,u32_021D62A4,int);
 extern void func_021E5D40(u32_021D639C p);
@@ -1111,8 +1111,8 @@ extern u32_021D63B0 func_021E65FC(u32_021D63B0 p);
 extern u32_021D63F8 func_021E7520(u32_021D63F8,u32_021D63F8,u32_021D63F8,u32_021D63F8,u32_021D63F8,u32_021D63F8,u32_021D63F8,u32_021D63F8,u32_021D63F8,u32_021D63F8,u32_021D63F8);
 extern void func_021E7710(u32_021D644C p);
 extern int func_021E777C(void *);
-extern void func_0200DFE4(u32_021D646C, u32_021D646C, u32_021D646C, u32_021D646C);
-extern void func_0200E008(u8 *base, int a, int idx);
+extern void BSUBWAY_SAVEDATA_SetStat(u32_021D646C, u32_021D646C, u32_021D646C, u32_021D646C);
+extern void BSUBWAY_SAVEDATA_IncStat(u8 *base, int a, int idx);
 extern u32_021D6550 func_021E888C(void *, u32_021D6550);
 extern void func_021E89D0(u32_021D65C8 p);
 extern int func_021E8A00(u32_021D65DC p);
@@ -1153,7 +1153,7 @@ extern void func_0200BBD8(void *p, int v);
 extern void func_0200B1F8(struct Rec1E *);
 extern void MI_CpuFill8(void *dst, u8 val, u32_021D7E18 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32_021D7E18 size);
-extern void func_02052274(u8 *a, u8 *b, u32_021D7E18 n);
+extern void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32_021D7E18 n);
 extern int func_02167ED8(void *date, void *time);
 extern void func_0200FA84(void);
 extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
@@ -1168,48 +1168,48 @@ extern void func_021E82BC(char *p);
 extern int func_021E8338(Work *);
 extern int func_021E8420(Work *);
 extern u32_021D98E4 func_021E88B0(Desc_021D76D4 *, int, unsigned char, int, int, int);
-extern void *func_0201A948(void *);
+extern void *POKEPARTY_Init(void *);
 extern void func_02008494(void *src, void *dst);
 extern u16 func_0200B1C4(struct Reg2 *p);
 extern u8 *func_020185F0(u32_021D9BC4 entry);
-extern u32_021D9BC4 func_020173E8(void);
+extern u32_021D9BC4 POKE_TOOL_GetBoxParamSize(void);
 extern int func_0203EFC8(const u8 *a, const u8 *b, u32_021D9BC4 n);
 extern void *func_02030734(u32_021D9DC8 heapId, u32_021D9DC8 size, int clear, const char *site, u16 tag);
 extern u32_021D9DC8 func_02009860(void);
 extern u32_021D9DC8 func_0200853C(const struct Sub0200852CObj *obj);
 extern void func_0203A574(u32_021D9DC8, u32_021D9DC8, u32_021D9DC8, u32_021D9DC8);
-extern void func_0203D644(int);
-extern void func_02156DC4(int, int);
-extern void func_02156DE0(int, int);
+extern void GFL_NET_SetWaitMode(int);
+extern void DWC_RAP_SetErrorCallback(int, int);
+extern void DWC_RAP_SetErrorHookCallback(int, int);
 extern void func_0203A5E4(u32_021D9EA0);
 extern struct Entry *func_020399A8(void);
 extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 extern unsigned int func_02039CB4(struct Link *tick, unsigned int value, unsigned int line);
-extern void func_0203D7B0(int a);
+extern void GFL_NET_SetAutoExit(int a);
 extern void func_0203D7BC(int a);
 extern u8 func_02012E40(const u8 *o);
-extern void func_02012E08(char *p);
+extern void GAME_DATA_SaveCancel(char *p);
 extern void func_0200F7C0(u32_021D9F04 value);
-extern int func_02157170(void *a, void *b);
-extern void func_0203C968(void);
-extern void func_0203CA04(void);
-extern void func_0200F83C(void);
+extern int DWC_RAPCOMMON_HandleNetError(void *a, void *b);
+extern void GFL_NET_STATE_ClearErrorMode(void);
+extern void GFL_NET_STATE_SetWifiError(void);
+extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void func_0200FBA0(void);
-extern void func_0203C9AC(int a, u32_021D9F04 b, u32_021D9F04 c, u32_021D9F04 d);
+extern void GFL_NET_STATE_SetError(int a, u32_021D9F04 b, u32_021D9F04 c, u32_021D9F04 d);
 extern void func_0200FAAC(void);
 extern void func_0200FB38(void);
 extern int STD_TSPrintf(char *dst, const char *fmt, ...);
-extern int func_0215580C(char *filter, int n, void *cb, char *obj);
-extern u32_021DA1E4 func_0203C304(void);
-extern void func_02156BC4(int v);
-extern void func_0203C554(u32_021DA1E4 a);
-extern int func_0203C3EC(void);
-extern u32_021DA1E4 func_0203CA98(void);
+extern int DWC_RAP_StartMatchWithFilter(char *filter, int n, void *cb, char *obj);
+extern u32_021DA1E4 GFL_NET_STATE_WifiEnterRandomMatch(void);
+extern void DWC_RAP_SetVchatEnabled(int v);
+extern void GFL_NET_STATE_WifiDisconnect(u32_021DA1E4 a);
+extern int GFL_NET_STATE_GetWifiState(void);
+extern u32_021DA1E4 GFL_NET_STATE_GetError(void);
 extern u16 func_02039338(void);
 extern int func_02039ACC(void);
-extern int func_020399EC(void);
+extern int GFL_NET_HANDLE_GetNegotiationNum(void);
 extern u32_021DA1E4 func_0203D378(void);
-extern int func_02156CD0(void);
+extern int DWC_RAP_IsStateInSession(void);
 extern int func_0203D3A8(struct Entry *a, u32_021DA434 b, u32_021DA434 c, u32_021DA434 d);
 extern u8 DWC_AddMatchKeyInt(u8 keyID, const char *keyString, const int *valueSrc);
 extern int DWC_GetMatchIntValue(int index, const char *key, int idefault);
@@ -1271,11 +1271,11 @@ extern int func_021B9748(u8 *);
 extern int func_021B99DC(u8 *);
 extern int func_021B9790(u8 *);
 extern u8 *func_021B97F4(u8 *);
-extern void func_0200FB4C(unsigned int x);
+extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
 extern int func_021B973C(char *);
 extern int func_021BE79C(void *handle, void *value_p, unsigned int length);
 extern void *func_02008510(void *a, int tag);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 func_020458F8(struct U16Vec *vec);
 extern int DWC_CheckProfanityExAsync(u16 **words, int wordsnum, char *reserved, int timeout,
                                      char *result, int *badwordsnum, int region);
@@ -1573,7 +1573,7 @@ int func_021D429C(int a,int b,int *p,int d)
     case 0: result=d_021E2C80.close(a,b,p,d); break;
     default: func_02034714(d_021E2DE0,0,d_021E2DE0); break;
     }
-    func_02006210();
+    GFL_USE_StopAllSe();
     func_02034A5C((int)ov177_id);
     return result;
 }
@@ -1998,7 +1998,7 @@ void func_021D4B3C(unsigned sys, int *state, char *p)
     case 4:
         if (func_021DC1E4((char *)P(0x30), &incoming)) {
             data = (char *)Q(0x18);
-            size = func_0201A918() + 0xd4;
+            size = POKE_REGULATION_GetDataSize() + 0xd4;
             func_02082D44(incoming, data, size);
             fixed = 0;
             empty = 1;
@@ -2019,7 +2019,7 @@ void func_021D4B3C(unsigned sys, int *state, char *p)
             if (!func_02025BEC((u8)data[0x18], (u8)data[0x19], (u8)data[0x1a])) {
                 data[0x18] = 0; data[0x19] = 0; fixed++;
             }
-            if (!func_020245D4((struct T *)(data + 0x38), 0x8057)) { func_020242A4(data + 0x38, 1); fixed++; }
+            if (!PMSI_PARAM_IsValid((struct T *)(data + 0x38), 0x8057)) { PMSI_PARAM_InitSentence(data + 0x38, 1); fixed++; }
             if (fixed == 0) func_02009EC8(func_02012EBC(*(struct Big **)Q(8)));
             TIMEOUT = 0; *state = 5;
         }
@@ -2073,8 +2073,8 @@ void func_021D4B3C(unsigned sys, int *state, char *p)
     case 15: if (TIMER++ > 0) { TIMER = 0; *state = 16; } break;
     case 16:
         func_0203064C(1, 0x86, 0x60000);
-        func_02156E30(9, 0x60000, 1000, 0x86);
-        func_02156F50(0x86);
+        DWC_RAPCOMMON_CreateSubHeap(9, 0x60000, 1000, 0x86);
+        DWC_RAPCOMMON_SetHeapTag(0x86);
         func_021DA5B0((char *)P(0x30), 0, 2, 0, (u32_021D4B3C *)0, 0);
         P(0xfc) = 0;
         P(0xf4) = 0;
@@ -2087,14 +2087,14 @@ void func_021D4B3C(unsigned sys, int *state, char *p)
             switch (func_021D9F04((char *)P(0x30), 0, (void *)1)) {
             case 1: func_021DA36C((void *)(P(0x30)));
             case 2: case 4:
-                func_02156ED0();
+                DWC_RAPCOMMON_DestroySubHeap();
                 func_021E8AA0((int *)sys, (int)func_021D61A4);
                 break;
             }
         }
         break;
     case 18:
-        func_02156ED0(); *state = 19; break;
+        DWC_RAPCOMMON_DestroySubHeap(); *state = 19; break;
     case 19:
         func_02040588(0, 1); func_021E8738((int *)P(0x24), P(0x10), 36, 2);
         *state = 30; func_021E8AB4(sys, 20); break;
@@ -2193,8 +2193,8 @@ void func_021D51BC(unsigned sys, int *state, char *p)
         }
         P(0xf8) = 0;
         func_0203064C(1, 0x86, 0x60000);
-        func_02156E30(9, 0x60000, 1000, 0x86);
-        func_02156F50(0x86);
+        DWC_RAPCOMMON_CreateSubHeap(9, 0x60000, 1000, 0x86);
+        DWC_RAPCOMMON_SetHeapTag(0x86);
         *state = 1;
         break;
     case 1:
@@ -2222,14 +2222,14 @@ void func_021D51BC(unsigned sys, int *state, char *p)
             switch (func_021D9F04((char *)P(0x30), 0, (void *)1)) {
             case 1: func_021DA36C((void *)(P(0x30)));
             case 2: case 4:
-                func_02156ED0();
+                DWC_RAPCOMMON_DestroySubHeap();
                 func_021E8AA0((int *)sys, (int)func_021D61A4);
                 break;
             }
         }
         break;
     case 4:
-        func_02156ED0();
+        DWC_RAPCOMMON_DestroySubHeap();
         if (Q(12) == 2) func_021E8AA0((int *)sys, (int)func_021D54E8);
         else *state = 5;
         break;
@@ -2929,7 +2929,7 @@ void func_021D5908(unsigned sys, int *state, char *p)
     case 9:
         if (func_021DC1E4((char *)P(0x30), &incoming)) {
             data = (char *)Q(0x18);
-            size = func_0201A918() + 0xd4;
+            size = POKE_REGULATION_GetDataSize() + 0xd4;
             func_02082D44(incoming, data, size);
             empty = 1;
             for (i = 0; i < 8; i++) if (((u16 *)data)[i] == func_02045A98()) empty = 0;
@@ -2947,7 +2947,7 @@ void func_021D5908(unsigned sys, int *state, char *p)
             if (!func_02025BEC((u8)data[0x18], (u8)data[0x19], (u8)data[0x1a])) {
                 data[0x18] = 0; data[0x19] = 0;
             }
-            if (!func_020245D4((struct T *)(data + 0x38), 0x8057)) func_020242A4(data + 0x38, 1);
+            if (!PMSI_PARAM_IsValid((struct T *)(data + 0x38), 0x8057)) PMSI_PARAM_InitSentence(data + 0x38, 1);
             TIMEOUT = 0; *state = 10;
         }
         timed = 1; break;
@@ -3434,15 +3434,15 @@ void func_021D62A4(u32_021D62A4 *p, u32_021D62A4 mode)
         func_02082BCC(&desc,0,20);
         if(mode==0) {
             desc.kind=REC[1]; flag=1;
-            desc.count=func_0200DFD8(CTX[4],REC[1]+5,0);
-            desc.a=func_0200DFD8(CTX[4],REC[1]+5,1);
-            desc.b=func_0200DFD8(CTX[4],REC[1]+5,2);
+            desc.count=BSUBWAY_SAVEDATA_GetStat(CTX[4],REC[1]+5,0);
+            desc.a=BSUBWAY_SAVEDATA_GetStat(CTX[4],REC[1]+5,1);
+            desc.b=BSUBWAY_SAVEDATA_GetStat(CTX[4],REC[1]+5,2);
             desc.total=desc.a+desc.b;
             if(desc.count==0 && desc.total==0) desc.count=1500;
         } else if(mode==1) {
             desc.kind=REC[1]; flag=0; desc.count=0;
-            desc.a=func_0200DFD8(CTX[4],REC[1],1);
-            desc.b=func_0200DFD8(CTX[4],REC[1],2);
+            desc.a=BSUBWAY_SAVEDATA_GetStat(CTX[4],REC[1],1);
+            desc.b=BSUBWAY_SAVEDATA_GetStat(CTX[4],REC[1],2);
             desc.total=desc.a+desc.b;
         }
         desc.name=func_02008554((const struct Sub0200852CObj *)sys);
@@ -3663,10 +3663,10 @@ int func_021D646C(u32_021D646C save, u32_021D646C kind, u32_021D646C obj)
         c = q[0x34 / 4];
         break;
     }
-    changed = (a != func_0200DFD8(save, kind + 5, 0) || b != func_0200DFD8(save, kind + 5, 1) || c != func_0200DFD8(save, kind + 5, 2));
-    func_0200DFE4(save, kind + 5, 0, a);
-    func_0200DFE4(save, kind + 5, 1, b);
-    func_0200DFE4(save, kind + 5, 2, c);
+    changed = (a != BSUBWAY_SAVEDATA_GetStat(save, kind + 5, 0) || b != BSUBWAY_SAVEDATA_GetStat(save, kind + 5, 1) || c != BSUBWAY_SAVEDATA_GetStat(save, kind + 5, 2));
+    BSUBWAY_SAVEDATA_SetStat(save, kind + 5, 0, a);
+    BSUBWAY_SAVEDATA_SetStat(save, kind + 5, 1, b);
+    BSUBWAY_SAVEDATA_SetStat(save, kind + 5, 2, c);
     return changed;
 }
 
@@ -3694,11 +3694,11 @@ void func_021D6524(int a, int b, u32_021D6524 c)
     switch (c) {
     case 1:
     case 4:
-        func_0200E008((u8 *)a, b, 1);
+        BSUBWAY_SAVEDATA_IncStat((u8 *)a, b, 1);
         break;
     case 0:
     case 3:
-        func_0200E008((u8 *)a, b, 2);
+        BSUBWAY_SAVEDATA_IncStat((u8 *)a, b, 2);
         break;
     }
 }
@@ -3814,13 +3814,13 @@ void func_021D6698(u32_021D6698 *p,u32_021D6698 *q)
     func_0200E6FC(func_0200E6E8(profile),0,(struct Rec0200E6FC *)((char *)(p+14)));
     ctx=(u32_021D6698 *)q[16];
     if(ctx[0]==0) {
-        p[10]=func_0200DFD8(ctx[4],((u32_021D6698 *)ctx[2])[1]+5,1);
+        p[10]=BSUBWAY_SAVEDATA_GetStat(ctx[4],((u32_021D6698 *)ctx[2])[1]+5,1);
         ctx=(u32_021D6698 *)q[16];
-        p[11]=func_0200DFD8(ctx[4],((u32_021D6698 *)ctx[2])[1]+5,2);
+        p[11]=BSUBWAY_SAVEDATA_GetStat(ctx[4],((u32_021D6698 *)ctx[2])[1]+5,2);
     } else {
-        p[10]=func_0200DFD8(ctx[4],((u32_021D6698 *)ctx[2])[1],1);
+        p[10]=BSUBWAY_SAVEDATA_GetStat(ctx[4],((u32_021D6698 *)ctx[2])[1],1);
         ctx=(u32_021D6698 *)q[16];
-        p[11]=func_0200DFD8(ctx[4],((u32_021D6698 *)ctx[2])[1],2);
+        p[11]=BSUBWAY_SAVEDATA_GetStat(ctx[4],((u32_021D6698 *)ctx[2])[1],2);
     }
     p[18]=func_02009CC0((void *)func_0201283C((const struct BigObj *)save));
 }
@@ -3839,15 +3839,15 @@ void func_021D6724(u32_021D6724 *p, u32_021D6724 *q)
 {
     u32_021D6724 *r = (u32_021D6724 *)q[16];
     if (r[0] == 0) {
-        p[10] = func_0200DFD8(r[4], ((u32_021D6724 *)r[2])[1] + 5, 1);
+        p[10] = BSUBWAY_SAVEDATA_GetStat(r[4], ((u32_021D6724 *)r[2])[1] + 5, 1);
         r = (u32_021D6724 *)q[16];
-        p[11] = func_0200DFD8(r[4], ((u32_021D6724 *)r[2])[1] + 5, 2);
+        p[11] = BSUBWAY_SAVEDATA_GetStat(r[4], ((u32_021D6724 *)r[2])[1] + 5, 2);
         r = (u32_021D6724 *)q[16];
-        p[13] = func_0200DFD8(r[4], ((u32_021D6724 *)r[2])[1] + 5, 0);
+        p[13] = BSUBWAY_SAVEDATA_GetStat(r[4], ((u32_021D6724 *)r[2])[1] + 5, 0);
     } else {
-        p[10] = func_0200DFD8(r[4], ((u32_021D6724 *)r[2])[1], 1);
+        p[10] = BSUBWAY_SAVEDATA_GetStat(r[4], ((u32_021D6724 *)r[2])[1], 1);
         r = (u32_021D6724 *)q[16];
-        p[11] = func_0200DFD8(r[4], ((u32_021D6724 *)r[2])[1], 2);
+        p[11] = BSUBWAY_SAVEDATA_GetStat(r[4], ((u32_021D6724 *)r[2])[1], 2);
     }
 }
 
@@ -4269,7 +4269,7 @@ void func_021D6DB8(int *sys,int *state,char *p)
         item=(u32)func_0200B204((struct RecBig *)func_0200B358((void *)saved),0);
         func_02082D44(p+0x10c,(void *)W(0x108),0x160);
         func_0200BBD8(box,1);func_0200B110((struct Reg2 *)W(0x108),10,1);
-        func_0200DFE4(ctx[4],10,0,0);func_0200DFE4(ctx[4],10,1,0);func_0200DFE4(ctx[4],10,2,0);
+        BSUBWAY_SAVEDATA_SetStat(ctx[4],10,0,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,1,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,2,0);
         func_0200B1F8((struct Rec1E *)item);func_02012DAC(*(u32 *)ctx[2]);*state=44;break;
     case 44:r=func_02012DD0((unsigned char *)*(u32 *)ctx[2]);if(r==2)*state=37;else if(r==3)*state=45;break;
     case 45:func_021E8738((int *)W(0x2c),W(0x14),0x40,1);func_021E8AB4((u32)sys,55);*state=56;break;
@@ -4278,7 +4278,7 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 48:
         r=func_021DB478(H);if(r==1){*(u32 *)CTX[8]=0x708;*state=49;}
         if(r!=0)switch(func_021D9F04(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;}break;
-    case 49:if(((u32 *)CTX[13])[4]!=func_0200DFD8(ctx[4],10,0))*state=50;else *state=55;break;
+    case 49:if(((u32 *)CTX[13])[4]!=BSUBWAY_SAVEDATA_GetStat(ctx[4],10,0))*state=50;else *state=55;break;
     case 50:func_021E8738((int *)W(0x2c),W(0x14),0x3a,2);func_021E8AB4((u32)sys,51);*state=56;break;
     case 51:func_021D9D50(p,(void *)ctx[13]);func_02012DAC(*(u32 *)ctx[2]);*state=52;break;
     case 52:if(func_02012DD0((unsigned char *)*(u32 *)ctx[2])==2)*state=55;break;
@@ -4444,7 +4444,7 @@ static inline void TouchParty(u8 *rec, u8 *buf)
 {
     int i;
 
-    func_02052274(rec, buf, 8);
+    BUTTON_MAN_ConvertUcs2ToSjis(rec, buf, 8);
     {
         void *p = rec + 0xd4;
 
@@ -4654,7 +4654,7 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
         break;
     case 0xe:
         if (func_021DC1E4(obj->f34, &rec38) != 0) {
-            MI_CpuCopy8(rec38, w18->f18, func_0201A918() + 0xd4);
+            MI_CpuCopy8(rec38, w18->f18, POKE_REGULATION_GetDataSize() + 0xd4);
             r = w18->f18;
             bad = 0;
             fresh = 1;
@@ -4683,8 +4683,8 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
                 r[0x19] = 0;
                 bad++;
             }
-            if (func_020245D4((struct T *)(r + 0x38), 0x8057) == 0) {
-                func_020242A4(r + 0x38, 1);
+            if (PMSI_PARAM_IsValid((struct T *)(r + 0x38), 0x8057) == 0) {
+                PMSI_PARAM_InitSentence(r + 0x38, 1);
                 bad++;
             }
             if (bad == 0)
@@ -4873,8 +4873,8 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
         break;
     case 0x23:
         func_0203064C(1, 0x86, 0x60000);
-        func_02156E30(9, 0x60000, 1000, 0x86);
-        func_02156F50(0x86);
+        DWC_RAPCOMMON_CreateSubHeap(9, 0x60000, 1000, 0x86);
+        DWC_RAPCOMMON_SetHeapTag(0x86);
         func_021DA5B0(obj->f34, 0, 0, 0, 0, 0);
         obj->ff4 = 0;
         *state = 0x24;
@@ -4891,7 +4891,7 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
                 func_021DA36C(obj->f34);
             case 2:
             case 4:
-                func_02156ED0();
+                DWC_RAPCOMMON_DestroySubHeap();
                 func_021E7E0C((void **)obj->f28, 0);
                 func_021E8AA0((int *)sys, (int)func_021D9064);
                 break;
@@ -4899,7 +4899,7 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
         }
         break;
     case 0x25:
-        func_02156ED0();
+        DWC_RAPCOMMON_DestroySubHeap();
         func_02040588(0, 1);
         func_021E8738((int *)obj->f2c, obj->f14, 0x24, 2);
         *state = 0x35;
@@ -5073,8 +5073,8 @@ void func_021D8904(u32_021D8904 sys,int *state,char *p)
         else {
             ((struct Obj00477 *)p)->f100=0;
             func_0203064C(1,134,0x60000);
-            func_02156E30(9,0x60000,1000,134);
-            func_02156F50(134);*state=1;
+            DWC_RAPCOMMON_CreateSubHeap(9,0x60000,1000,134);
+            DWC_RAPCOMMON_SetHeapTag(134);*state=1;
         }break;
     case 1:func_021E8738((int *)(((struct Obj00477 *)p)->f2C),((struct Obj00477 *)p)->f14,70,2);
         *state=13;func_021E8AB4(sys,2);break;
@@ -5092,10 +5092,10 @@ void func_021D8904(u32_021D8904 sys,int *state,char *p)
         if(((struct Obj00477 *)p)->fF8!=0) {
             switch(func_021D9F04(*(char * *)&((struct Obj00477 *)p)->f34,0,(void *)1)) {
             case 1:func_021DA36C(*(char * *)&((struct Obj00477 *)p)->f34);
-            case 2:case 4:func_021E8AA0((int *)sys,(int)func_021D9064);func_02156ED0();break;
+            case 2:case 4:func_021E8AA0((int *)sys,(int)func_021D9064);DWC_RAPCOMMON_DestroySubHeap();break;
             }
         }break;
-    case 4:func_02156ED0();
+    case 4:DWC_RAPCOMMON_DestroySubHeap();
         if(((struct Obj02512 *)q)->fC==2)func_021E8AA0((int *)sys,(int)func_021D8BC4);
         else *state=5;break;
     case 5:list=func_0200ED48(func_02012EBC(**(void ** *)&((struct Obj02512 *)q)->f8));
@@ -5581,9 +5581,9 @@ void func_021D965C(struct Obj_021D8EC8 *obj)
         c = func_0200B078((struct Reg2 *)data, 7);
         prof.f98 = (c << 24) | ((b << 24) >> 8) | ((a << 24) >> 16);
         prof.f9c = func_02008554((const struct Sub0200852CObj *)sys);
-        prof.fa0 = func_0200DFD8(obj->f104->f10, 10, 0);
-        a = func_0200DFD8(obj->f104->f10, 10, 1);
-        prof.fa4 = a + func_0200DFD8(obj->f104->f10, 10, 2);
+        prof.fa0 = BSUBWAY_SAVEDATA_GetStat(obj->f104->f10, 10, 0);
+        a = BSUBWAY_SAVEDATA_GetStat(obj->f104->f10, 10, 1);
+        prof.fa4 = a + BSUBWAY_SAVEDATA_GetStat(obj->f104->f10, 10, 2);
         prof.faa = func_0200B078((struct Reg2 *)data, 11);
         if (prof.fa4 == 0 && prof.fa0 == 0)
             prof.fa0 = 1500;
@@ -5891,7 +5891,7 @@ void func_021D9A50(char *dest, char *ctx)
     void *records;
     func_02082BCC(dest, 0, 212);
     records = func_0200BAF4((int)func_0200BAC8(func_02012EBC(**(void ** *)&((struct Obj24311 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), 87);
-    func_02082D44(records, dest + 212, func_0201A918(func_0201A948(dest + 212)));
+    func_02082D44(records, dest + 212, POKE_REGULATION_GetDataSize(POKEPARTY_Init(dest + 212)));
     func_020307B0(records);
     ((struct Obj24310 *)dest)->f44 = 100;
 }
@@ -5978,7 +5978,7 @@ int func_021D9BC4(u32_021D9BC4 a, u32_021D9BC4 b)
             u32_021D9BC4 eb = (u32_021D9BC4)func_0201AB28((void *)b, i);
             u8 *pa = func_020185F0(ea);
             u8 *pb = func_020185F0(eb);
-            if (func_0203EFC8(pa, pb, func_020173E8()) != 0)
+            if (func_0203EFC8(pa, pb, POKE_TOOL_GetBoxParamSize()) != 0)
                 return 0;
         }
         return 1;
@@ -6094,13 +6094,13 @@ int func_021D9D50(char *obj, u32_021D9D50 *rec)
 {
     int changed = 0;
 
-    if (rec[4] != func_0200DFD8(((struct Obj24320 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 0)
-        || rec[2] != func_0200DFD8(((struct Obj24321 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 1)
-        || rec[3] != func_0200DFD8(((struct Obj24322 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 2))
+    if (rec[4] != BSUBWAY_SAVEDATA_GetStat(((struct Obj24320 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 0)
+        || rec[2] != BSUBWAY_SAVEDATA_GetStat(((struct Obj24321 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 1)
+        || rec[3] != BSUBWAY_SAVEDATA_GetStat(((struct Obj24322 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 2))
         changed = 1;
-    func_0200DFE4(((struct Obj24323 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 0, rec[4]);
-    func_0200DFE4(((struct Obj24324 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 1, rec[2]);
-    func_0200DFE4(((struct Obj24325 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 2, rec[3]);
+    BSUBWAY_SAVEDATA_SetStat(((struct Obj24323 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 0, rec[4]);
+    BSUBWAY_SAVEDATA_SetStat(((struct Obj24324 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 1, rec[2]);
+    BSUBWAY_SAVEDATA_SetStat(((struct Obj24325 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 2, rec[3]);
     return changed;
 }
 
@@ -6109,15 +6109,15 @@ int func_021D9D50(char *obj, u32_021D9D50 *rec)
 
 
 /*
- *   extern void func_020394F0(int);
- *   void func_0203D644(int value) { func_020394F0(value); }
+ *   extern void GFL_NET_SYSTEM_SetWaitMode(int);
+ *   void GFL_NET_SetWaitMode(int value) { GFL_NET_SYSTEM_SetWaitMode(value); }
  *   Its target stores its one word input at global +0x1ac; no extra input.
  *   Leaf returns *(u32_021D9A50 *)(p+0x1458) for kind 3 or 6, otherwise 0.
  * lever: u16 heap fixes allocator spill order; 02009860 leaves r0 live,
  *   and caller stores that return word despite the callee's void declaration.
  * note 2026-10-04 (lane 20, D2): leaf func_021DC5F8 is now filed EXACT as
  * src/matched/ov/ov175_func_021DC5F8.c (24 bytes). The tool still says "no witness" for it until
- * the integrator runs the manifest. The other blocker, ARM9 func_0203D644 (veneer-like 12-byte
+ * the integrator runs the manifest. The other blocker, ARM9 GFL_NET_SetWaitMode (veneer-like 12-byte
  * tail call), is the arm9 label lane's. Body is byte-correct; expect EXACT after manifest + label.
  */
 char *func_021D9DC8(u32_021D9DC8 a, void *save, u32_021D9DC8 b, u16 heap) {
@@ -6135,9 +6135,9 @@ char *func_021D9DC8(u32_021D9DC8 a, void *save, u32_021D9DC8 b, u16 heap) {
     func_02082BCC(*(void **)(p + 0x190), 0, 0x260);
     if (!func_0203CD98()) func_02034714(d_021E2EF8, 0, d_021E2EF8);
     func_0203A574(0x2400, (u32_021D9DC8)d_021E2C90, 6, (u32_021D9DC8)p);
-    func_0203D644(0);
-    func_02156DC4((int)func_021DC5C8, (int)p);
-    func_02156DE0((int)func_021DC5F8, (int)p);
+    GFL_NET_SetWaitMode(0);
+    DWC_RAP_SetErrorCallback((int)func_021DC5C8, (int)p);
+    DWC_RAP_SetErrorHookCallback((int)func_021DC5F8, (int)p);
     return p;
 }
 
@@ -6145,7 +6145,7 @@ char *func_021D9DC8(u32_021D9DC8 a, void *save, u32_021D9DC8 b, u16 heap) {
 
 
 
-void func_021D9EA0(u8 *p) { func_02156DE0(0,0); func_02156DC4(0,0); func_0203A5E4(0x2400); func_020307B0(((struct Obj24326 *)p)->f190); func_020307B0(p); }
+void func_021D9EA0(u8 *p) { DWC_RAP_SetErrorHookCallback(0,0); DWC_RAP_SetErrorCallback(0,0); func_0203A5E4(0x2400); func_020307B0(((struct Obj24326 *)p)->f190); func_020307B0(p); }
 
 
 
@@ -6208,15 +6208,15 @@ int func_021D9F04(char *ctx, void *a, void *b)
 
     if (func_0203CD98()) {
         if (func_0200FB24()) {
-            func_0203D7B0(r);
+            GFL_NET_SetAutoExit(r);
             func_0203D7BC(r);
-            func_02006210();
+            GFL_USE_StopAllSe();
             if (func_02012E40((const u8 *)(((struct Obj08279 *)ctx)->f8))) {
-                func_02012E08((char *)(((struct Obj08279 *)ctx)->f8));
+                GAME_DATA_SaveCancel((char *)(((struct Obj08279 *)ctx)->f8));
                 func_0200F7C0(0x29);
             }
         }
-        switch (func_02157170(a, b)) {
+        switch (DWC_RAPCOMMON_HandleNetError(a, b)) {
         case 0:
             r = RES_NONE;
             break;
@@ -6258,24 +6258,24 @@ int func_021D9F04(char *ctx, void *a, void *b)
             break;
         }
         if (r != RES_NONE) {
-            func_0203D7B0(0);
+            GFL_NET_SetAutoExit(0);
             func_0203D7BC(0);
-            func_02006210();
+            GFL_USE_StopAllSe();
             if (func_02012E40((const u8 *)(((struct Obj08279 *)ctx)->f8))) {
-                func_02012E08((char *)(((struct Obj08279 *)ctx)->f8));
+                GAME_DATA_SaveCancel((char *)(((struct Obj08279 *)ctx)->f8));
                 func_0200F7C0(0x29);
             }
         }
         switch (r) {
         case RES_1:
-            func_0203C968();
-            func_0203CA04();
-            func_0200F83C();
+            GFL_NET_STATE_ClearErrorMode();
+            GFL_NET_STATE_SetWifiError();
+            GFL_NET_ERR_ShowSimpleScreen();
             func_0200FBA0();
             break;
         case RES_2:
             if (!func_0200FB24()) {
-                func_0203C9AC(0, 0, 0, 0x3F7);
+                GFL_NET_STATE_SetError(0, 0, 0, 0x3F7);
                 func_0200FAAC();
             }
             func_0200FB38();
@@ -6394,12 +6394,12 @@ int func_021DA1E4(char *obj)
 {
     switch (((struct Obj00839 *)obj)->f40) {
     case 0:
-        if (func_0215580C(obj + 0x44, 2, ((struct Obj00839 *)obj)->f1218, obj)) {
-            func_0203C304();
-            func_02156BC4(0);
+        if (DWC_RAP_StartMatchWithFilter(obj + 0x44, 2, ((struct Obj00839 *)obj)->f1218, obj)) {
+            GFL_NET_STATE_WifiEnterRandomMatch();
+            DWC_RAP_SetVchatEnabled(0);
             ((struct Obj00839 *)obj)->f40 = 1;
         } else {
-            func_0203C554(1);
+            GFL_NET_STATE_WifiDisconnect(1);
             return 2;
         }
         break;
@@ -6407,9 +6407,9 @@ int func_021DA1E4(char *obj)
         ((struct Obj00839 *)obj)->f40 = 2;
         break;
     case 2:
-        switch (func_0203C3EC()) {
+        switch (GFL_NET_STATE_GetWifiState()) {
         case 0:
-            if ((u32_021DA1E4)(*(u32_021DA1E4 *)(func_0203CA98() + 0xc) - 0x3f0) > 1)
+            if ((u32_021DA1E4)(*(u32_021DA1E4 *)(GFL_NET_STATE_GetError() + 0xc) - 0x3f0) > 1)
                 break;
             func_021DA384(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
@@ -6417,7 +6417,7 @@ int func_021DA1E4(char *obj)
         case 1:
             ((struct Obj00839 *)obj)->f1A4 = 0;
             ((struct Obj00839 *)obj)->f40 = 3;
-            func_0203D7B0(1);
+            GFL_NET_SetAutoExit(1);
             func_0203D7BC(1);
             break;
         default:
@@ -6448,7 +6448,7 @@ int func_021DA1E4(char *obj)
         if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
             func_021DA384(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
-        } else if (func_020399EC() && func_02039ACC()) {
+        } else if (GFL_NET_HANDLE_GetNegotiationNum() && func_02039ACC()) {
             func_02039C68((struct Link *)func_020399A8(), 0xf, 0x24);
             ((struct Obj00839 *)obj)->f1A4 = 0;
             ((struct Obj00839 *)obj)->f40 = 6;
@@ -6464,11 +6464,11 @@ int func_021DA1E4(char *obj)
         break;
     case 7:
         if (func_021DA390(obj)) {
-            if ((u32_021DA1E4)(*(u32_021DA1E4 *)(func_0203CA98() + 0xc) - 0x3f0) <= 1) {
-                func_0203CA04();
-                func_0203C968();
+            if ((u32_021DA1E4)(*(u32_021DA1E4 *)(GFL_NET_STATE_GetError() + 0xc) - 0x3f0) <= 1) {
+                GFL_NET_STATE_SetWifiError();
+                GFL_NET_STATE_ClearErrorMode();
                 func_0200FBA0();
-                func_0203C554(1);
+                GFL_NET_STATE_WifiDisconnect(1);
             }
             return 2;
         }
@@ -6492,9 +6492,9 @@ int func_021DA1E4(char *obj)
  */
 void func_021DA36C()
 {
-    func_0203D7B0(0);
+    GFL_NET_SetAutoExit(0);
     func_0203D7BC(0);
-    func_0203C554(1);
+    GFL_NET_STATE_WifiDisconnect(1);
 }
 
 
@@ -6535,7 +6535,7 @@ int func_021DA390(char *obj)
             (((struct Obj02513 *)obj)->f154)++;
         break;
     case 2:
-        func_0203D7B0(0);
+        GFL_NET_SetAutoExit(0);
         func_0203D7BC(0);
         ((struct Obj02513 *)obj)->f134 = 0;
         (((struct Obj02513 *)obj)->f154)++;
@@ -6545,7 +6545,7 @@ int func_021DA390(char *obj)
             (((struct Obj02513 *)obj)->f154)++;
         break;
     case 4:
-        func_0203C554(1);
+        GFL_NET_STATE_WifiDisconnect(1);
         (((struct Obj02513 *)obj)->f154)++;
         break;
     case 5:
@@ -6562,7 +6562,7 @@ int func_021DA390(char *obj)
 
 int func_021DA434()
 {
-    if (func_02156CD0() != 0)
+    if (DWC_RAP_IsStateInSession() != 0)
         return func_0203D3A8(func_020399A8(), 0x2402, 4, (u32_021DA434)g_021E2C8C);
     return 1;
 }
@@ -6771,7 +6771,7 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
 
     if (out != 0)
         *out = *(u32_021D9A50 *)(p + 0x16c);
-    s = (Sys *)func_0203CA98();
+    s = (Sys *)GFL_NET_STATE_GetError();
     if (s->fc - 0x3f0 <= 1)
         *(u32_021D9A50 *)(p + 0x160) = 1;
     if (func_0200FB24() == 1) {
@@ -8049,7 +8049,7 @@ u32_021DC1A0 func_021DC1A0(char *obj, u32_021DC1A0 data)
 
     if (busy != 0)
         flag = 0;
-    return func_0203D3F8((u32_021DC1A0)func_020399A8(), (u8)flag, 0x2401, func_0201A918() + 0xd4, data, 1, 1, 1);
+    return func_0203D3F8((u32_021DC1A0)func_020399A8(), (u8)flag, 0x2401, POKE_REGULATION_GetDataSize() + 0xd4, data, 1, 1, 1);
 }
 
 
@@ -8081,7 +8081,7 @@ u32_021DC200 func_021DC200(char *p,unsigned int data)
     unsigned int busy=func_0203D1A4((struct Link *)((unsigned int)func_020399A8()));
     int flag=1;
     if(busy!=0) flag=0;
-    return func_0203D3F8((unsigned int)func_020399A8(),(unsigned char)flag,0x2403,func_0201A918(),data,1,1,1);
+    return func_0203D3F8((unsigned int)func_020399A8(),(unsigned char)flag,0x2403,POKE_REGULATION_GetDataSize(),data,1,1,1);
 }
 
 
@@ -8102,7 +8102,7 @@ u32_021DC240 func_021DC240(char *obj, u32_021DC240 arg)
 
     if (v != 0) {
         ((struct Obj14345 *)obj)->f144 = 0;
-        func_02082D44(obj + 0x218, (void *)arg, func_0201A918());
+        func_02082D44(obj + 0x218, (void *)arg, POKE_REGULATION_GetDataSize());
     }
     return v;
 }
@@ -8241,7 +8241,7 @@ int func_021DC338(u8 *p)
         break;
     case 4:
         func_021C5AB8();
-        if((((struct Obj00841 *)p)->f1A0)++>7200) {func_0203C9AC(0,0,0,0x3f7);func_021DC6D0(p,8);}
+        if((((struct Obj00841 *)p)->f1A0)++>7200) {GFL_NET_STATE_SetError(0,0,0,0x3f7);func_021DC6D0(p,8);}
         if(d_021E4B80[0]==0) {
             if(func_021C5E14((u32_021DC338 *)(p+0x1444),(u32_021DC338 *)(p+0x1448))==1) {
                 percent=_u32_div_f(((struct Obj00841 *)p)->f1444*100,((struct Obj00841 *)p)->f1448);
@@ -8265,7 +8265,7 @@ int func_021DC338(u8 *p)
     case 8:((struct Obj00841 *)p)->f1458=0;return 3;
     case 100:
         func_021C5AB8();
-        if((((struct Obj00841 *)p)->f1A0)++>7200) {func_0203C9AC(0,0,0,0x3f7);func_021DC6D0(p,8);}
+        if((((struct Obj00841 *)p)->f1A0)++>7200) {GFL_NET_STATE_SetError(0,0,0,0x3f7);func_021DC6D0(p,8);}
         if(*(u32_021DC338 *)(d_021E4B80+4)!=0) {
             if(*(u32_021DC338 *)(d_021E4B80+4)==8)func_0200FA84();
             else func_021DC6A4(p,8);
@@ -8471,11 +8471,11 @@ int func_021DC77C(u8 *p)
         if(status==0) {
             r=func_021B97F4(*(u8 **)(p+0x121c));
             if(query!=0x1f6) {
-                if(query==0x1f7) {*(u32_021DC77C *)(p+0x12c)=4;func_0200FB4C(62);return 0;}
-            } else {*(u32_021DC77C *)(p+0x12c)=4;func_0200FB4C(63);return 0;}
+                if(query==0x1f7) {*(u32_021DC77C *)(p+0x12c)=4;GFL_NET_ERR_RaiseFatal(62);return 0;}
+            } else {*(u32_021DC77C *)(p+0x12c)=4;GFL_NET_ERR_RaiseFatal(63);return 0;}
             *(Pair *)(p+0x1220)=*(const Pair *)(r+0x80);
             if(*(u32_021DC77C *)r==0)*(u32_021DC77C *)(p+0x12c)=3;
-            else {func_0200FB4C(func_021DC610(*(u32_021DC77C *)r));*(u32_021DC77C *)(p+0x12c)=4;}
+            else {GFL_NET_ERR_RaiseFatal(func_021DC610(*(u32_021DC77C *)r));*(u32_021DC77C *)(p+0x12c)=4;}
         } else if(status!=15) {
             if(*(u8 **)(p+0x121c)!=0) {func_021B9838(*(u8 **)(p+0x121c));*(u32_021DC77C *)(p+0x121c)=0;}
             return 2;
@@ -8553,11 +8553,11 @@ int func_021DC908(char *p)
         if(status==0) {
             data=(u32_021DC908 *)func_021B97F4(*(u8 **)(p+0x121c));
             switch(result) {
-            case 0x1f7: *(u32_021DC908 *)(p+0x12c)=3;func_0200FB4C(0x3e);return 0;
-            case 0x1f6: *(u32_021DC908 *)(p+0x12c)=3;func_0200FB4C(0x3f);return 0;
+            case 0x1f7: *(u32_021DC908 *)(p+0x12c)=3;GFL_NET_ERR_RaiseFatal(0x3e);return 0;
+            case 0x1f6: *(u32_021DC908 *)(p+0x12c)=3;GFL_NET_ERR_RaiseFatal(0x3f);return 0;
             default:
                 if(*data==0) *(u32_021DC908 *)(p+0x12c)=4;
-                else {func_0200FB4C(func_021DC610(*data));*(u32_021DC908 *)(p+0x12c)=3;}
+                else {GFL_NET_ERR_RaiseFatal(func_021DC610(*data));*(u32_021DC908 *)(p+0x12c)=3;}
                 break;
             }
         } else if(status!=15) {
@@ -8599,7 +8599,7 @@ void func_021DCA28(char *obj, u32_021DCA28 win, u16 tag)
     str = (u32_021DCA28)func_02008510((void *)win, ((struct Obj06576 *)obj)->f124);
     MI_CpuFill8(obj + 0x1468, 0, 0x28);
     ((struct Obj06576 *)obj)->f148C = tag;
-    src = func_02045A90((struct U16Vec *)str);
+    src = STRBUF_GetChars((struct U16Vec *)str);
     for (i = 0; i < func_020458F8((struct U16Vec *)str) + 1; i++) {
         u16 c = src[i];
         if (c == func_02045A98())
@@ -8709,15 +8709,15 @@ static inline void release(char *p)
 
 /*
  * blocker-C: copied verified32B Thumb EXACT from ov116_func_021D7200.c header, prior scratch blocker-1.log, dsi/1.1p1 -O4,p.
- * extern unsigned char g_0214617C[],g_021461BC[];
- * void func_0200FB4C(int a) {
- *   if(*(int *)(g_0214617C+44)!=2) {
- *     *(int *)(g_0214617C+96)=a;
+ * extern unsigned char gNetErrWork[],g_021461BC[];
+ * void GFL_NET_ERR_RaiseFatal(int a) {
+ *   if(*(int *)(gNetErrWork+44)!=2) {
+ *     *(int *)(gNetErrWork+96)=a;
  *     g_021461BC[26]=1;g_021461BC[25]=1;
- *     *(int *)(g_0214617C+44)=2;
+ *     *(int *)(gNetErrWork+44)=2;
  *   }
  * }
- * Blocker symbols: g_0214617C 0x0214617C data; g_021461BC 0x021461BC data.
+ * Blocker symbols: gNetErrWork 0x0214617C data; g_021461BC 0x021461BC data.
  * abi: CE58 retains visibly loaded third argument despite its two-argument body; 9A14 reads live r1, the count last loaded by the loop.
  */
 int func_021DCC28(char *p,u8 *out)
@@ -8738,10 +8738,10 @@ int func_021DCC28(char *p,u8 *out)
         status=func_021B9790(*(u8 **)(p+0x121c));
         if(status==0) {
             switch(result) {
-            case 400: func_0200FB4C(0x41);release(p);return 3;
-            case 401: func_0200FB4C(0x42);release(p);return 3;
-            case 408: func_0200FB4C(0x44);release(p);return 3;
-            default: func_0200FB4C(0x43);release(p);return 3;
+            case 400: GFL_NET_ERR_RaiseFatal(0x41);release(p);return 3;
+            case 401: GFL_NET_ERR_RaiseFatal(0x42);release(p);return 3;
+            case 408: GFL_NET_ERR_RaiseFatal(0x44);release(p);return 3;
+            default: GFL_NET_ERR_RaiseFatal(0x43);release(p);return 3;
             case 200: (*(u32_021DCC28 *)(p+0x12c))++;break;
             }
         } else if(status!=15) {
@@ -8777,7 +8777,7 @@ void func_021DCE08(char *ctx, u32_021DCE08 v, int line)
 {
     ((struct Obj14349 *)ctx)->f18 = v;
     ((struct Obj14349 *)ctx)->f1C = 5;
-    func_0203C9AC(0, 0, 0, 0x3F5);
+    GFL_NET_STATE_SetError(0, 0, 0, 0x3F5);
 }
 
 
@@ -8794,7 +8794,7 @@ void func_021DCE24(char *p, int v, int a2)
 {
     ((struct Obj14350 *)p)->f0 = v;
     ((struct Obj14350 *)p)->f1C = 1;
-    func_0203C9AC(0, 0, 0, 0x3f7);
+    GFL_NET_STATE_SetError(0, 0, 0, 0x3f7);
 }
 
 

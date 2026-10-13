@@ -15,7 +15,7 @@
  *   func_020435F4  0x020435F4  arm
  *   func_0204363C  0x0204363C  arm
  *   func_0207D534  0x0207D534  arm
- *   func_02005DAC  0x02005DAC  thumb
+ *   GFL_USE_PlayFanfare  0x02005DAC  thumb
  *   func_021B98F4  0x021B98F4  thumb  ov181
  *   func_021B9908  0x021B9908  thumb  ov181
  *   func_021B99F8  0x021B99F8  thumb  ov181
@@ -36,7 +36,7 @@ extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 planes);
 extern void func_0204363C(u32 swap);
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void func_02005DAC(void *arg);
+extern void GFL_USE_PlayFanfare(void *arg);
 extern void func_021B98F4(void);
 extern void func_021B9908(void);
 extern void func_021B99F8(void);
@@ -65,7 +65,7 @@ int func_021B9630(u8 *p)
     func_021B9E14((char *)p);
     func_021B9D04((char *)p);
     func_021B9AF8((char *)p);
-    func_02005DAC((void *)0x3f8);
+    GFL_USE_PlayFanfare((void *)0x3f8);
     return 3;
 }
 

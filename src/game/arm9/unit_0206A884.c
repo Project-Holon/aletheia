@@ -16,9 +16,9 @@
  *   g_02148B50       0x02148B50  data
  *   g_02148B98       0x02148B98  data
  *   g_02148BC8       0x02148BC8  data
- *   g_02148B4C       0x02148B4C  data
+ *   g_renderState       0x02148B4C  data
  *   func_0206DDA4    0x0206DDA4  arm
- *   g_02148C08       0x02148C08  data
+ *   g_renderStateIdentityMtx       0x02148C08  data
  *   g_02148C44       0x02148C44  data
  *   func_0207B0A4    0x0207B0A4  arm
  */
@@ -31,8 +31,8 @@ void func_0206A8FC(void);
 extern int  g_02148B50[];
 extern int  g_02148B98[];
 extern int  g_02148BC8[];
-extern u32  g_02148B4C[];
-extern u32  g_02148C08[];
+extern u32  g_renderState[];
+extern u32  g_renderStateIdentityMtx[];
 extern u32  g_02148C44[];
 
 
@@ -55,7 +55,7 @@ void func_0206A884(void)
         func_0206DDA4(0x10, &v, 1);
     }
     func_0206DDA4(0x15, g_02148BC8, 0x20);
-    g_02148B4C[63] = (g_02148B4C[63] & ~1u) | 2;
+    g_renderState[63] = (g_renderState[63] & ~1u) | 2;
 }
 
 
@@ -65,7 +65,7 @@ void func_0206A884(void)
  * the same table helper func_0206DDA4, one of them (0x10) with a one-word
  * out-parameter whose address is taken and one (0x17) reading a twelve-byte
  * record that func_0207B0A4 fills, then bit 0 of the "initialised subsystems"
- * flag word at g_02148B4C + 0xFC is set and bit 1 cleared.  The 0x34-byte
+ * flag word at g_renderState + 0xFC is set and bit 1 cleared.  The 0x34-byte
  * frame is the 13-word scratch array: w[0] is the 0x10 call's out-parameter,
  * w[1..12] the record.
  *
@@ -86,9 +86,9 @@ void func_0206A884(void)
  * loads in order (the pool is shared: 0x0206A9CC is loaded TWICE, at
  * 0x0206A928 and 0x0206A94C, and 0x0206A9D0 twice, at 0x0206A968 and
  * 0x0206A9A0, so there are ten loads over eight words):
- *   1. func_0207B0A4's first argument is g_02148C08, the SAME object the
+ *   1. func_0207B0A4's first argument is g_renderStateIdentityMtx, the SAME object the
  *      0x1b19 registration uses, not g_02148BC8.
- *   2. the 0xE registration takes g_02148B4C[0x1f] as its value and
+ *   2. the 0xE registration takes g_renderState[0x1f] as its value and
  *      g_02148BC8 + 4 as its pointer; the two objects are the other way round
  *      from the order the loads appear in.
  * The `+ 4` must be spelled through a `char *` cast: as `g_02148BC8 + 1` the
@@ -105,13 +105,13 @@ void func_0206A8FC(void)
 
     func_0206DDA4(0x1610, g_02148B50, 0x11);
     func_0206DDA4(0x19, g_02148B98, 0xC);
-    func_0206DDA4(0x1b19, g_02148C08, 0xF);
+    func_0206DDA4(0x1b19, g_renderStateIdentityMtx, 0xF);
     w[0] = 2;
     func_0206DDA4(0x10, &w[0], 1);
-    func_0207B0A4(g_02148C08, &w[1]);
+    func_0207B0A4(g_renderStateIdentityMtx, &w[1]);
     func_0206DDA4(0x17, &w[1], 0xC);
-    func_0206DDA4(g_02148B4C[0x1f], (char *)g_02148BC8 + 4, 0xE);
+    func_0206DDA4(g_renderState[0x1f], (char *)g_02148BC8 + 4, 0xE);
     func_0206DDA4(0x15, 0, 0);
     func_0206DDA4(0x2a, g_02148C44, 1);
-    g_02148B4C[0x3f] = (g_02148B4C[0x3f] | 1) & ~2u;
+    g_renderState[0x3f] = (g_renderState[0x3f] | 1) & ~2u;
 }

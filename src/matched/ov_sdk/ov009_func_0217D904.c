@@ -49,10 +49,10 @@
  * symbols:
  *   func_0217D3AC                  0x0217D3AC  arm ov009
  *   memcpy                         0x02092344  arm
- *   func_0217D3F8                  0x0217D3F8  arm ov009
- *   func_0217D448                  0x0217D448  arm ov009
+ *   gsiLargeIntTimerExit                  0x0217D3F8  arm ov009
+ *   gsiLargeIntCompare                  0x0217D448  arm ov009
  *   memset                         0x020923B0  arm
- *   func_0217DCA4                  0x0217DCA4  arm ov009
+ *   gsiLargeIntSubDivide                  0x0217DCA4  arm ov009
  */
 
 typedef struct gsLargeInt_s {
@@ -62,9 +62,9 @@ typedef struct gsLargeInt_s {
 
 #include "../../matched/arm9_sdk/libc/string.h"
 extern void func_0217D3AC(int id);
-extern void func_0217D3F8(int id);
-extern int func_0217D448(const unsigned int *data1, unsigned int len1, const unsigned int *data2, unsigned int len2);
-extern int func_0217DCA4(unsigned int *src, unsigned int length, const unsigned int *divisor, unsigned int dlen, int divisorHighBit, unsigned int *quotient);
+extern void gsiLargeIntTimerExit(int id);
+extern int gsiLargeIntCompare(const unsigned int *data1, unsigned int len1, const unsigned int *data2, unsigned int len2);
+extern int gsiLargeIntSubDivide(unsigned int *src, unsigned int length, const unsigned int *divisor, unsigned int dlen, int divisorHighBit, unsigned int *quotient);
 
 int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLargeInt_t *dest, gsLargeInt_t *remainder)
 {
@@ -108,21 +108,21 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
             remainder->mData[0] = 0;
             remainder->mLength = 0;
         }
-        func_0217D3F8(5);
+        gsiLargeIntTimerExit(5);
         if (divisorLen == 0)
             return 0;
         else
             return 1;
     }
 
-    if (func_0217D448(scopy, scopyLen, divisorData, divisorLen) == -1) {
+    if (gsiLargeIntCompare(scopy, scopyLen, divisorData, divisorLen) == -1) {
         if (dest) {
             dest->mLength = 0;
             dest->mData[0] = 0;
         }
         remainder->mLength = scopyLen;
         memcpy(remainder->mData, scopy, scopyLen * sizeof(unsigned int));
-        func_0217D3F8(5);
+        gsiLargeIntTimerExit(5);
         return 1;
     }
 
@@ -133,7 +133,7 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
         while ((w & (1 << divisorHighBit)) == 0 && divisorHighBit >= 0)
             divisorHighBit--;
         if (divisorHighBit == -1) {
-            func_0217D3F8(5);
+            gsiLargeIntTimerExit(5);
             return 0;
         }
         divisorHighBit += dlen * 32;
@@ -143,7 +143,7 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
     readLength = (int)divisorLen;
 
     do {
-        result = func_0217D448(&scopy[readIndex], (unsigned int)readLength, divisorData, divisorLen);
+        result = gsiLargeIntCompare(&scopy[readIndex], (unsigned int)readLength, divisorData, divisorLen);
         if (result == -1) {
             if (readIndex > 0) {
                 readIndex--;
@@ -162,8 +162,8 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
                 endLoop = 1;
         } else {
             unsigned int quotientTemp = 0;
-            if (func_0217DCA4(&scopy[readIndex], (unsigned int)readLength, divisorData, divisorLen, (unsigned int)divisorHighBit, &quotientTemp) == 0) {
-                func_0217D3F8(5);
+            if (gsiLargeIntSubDivide(&scopy[readIndex], (unsigned int)readLength, divisorData, divisorLen, (unsigned int)divisorHighBit, &quotientTemp) == 0) {
+                gsiLargeIntTimerExit(5);
                 return 0;
             }
             quotient.mData[readIndex] = (unsigned int)(quotient.mData[readIndex] + quotientTemp);
@@ -188,6 +188,6 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
         memcpy(dest->mData, quotient.mData, quotient.mLength * sizeof(unsigned int));
         dest->mLength = quotient.mLength;
     }
-    func_0217D3F8(5);
+    gsiLargeIntTimerExit(5);
     return 1;
 }

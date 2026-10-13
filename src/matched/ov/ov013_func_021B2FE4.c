@@ -1,5 +1,5 @@
 /*
- * function: func_021B2FE4
+ * function: VCT_POOL_FreeFrame
  * address: 0x021B2FE4
  * packet: pkt_ov013_021B2FE4
  * region: ov013
@@ -18,7 +18,7 @@ struct Node { Node *next; int f4,f8; };
 extern Node *g_021B4C24;
 extern int func_02087988(void);
 extern void func_0208799C(int);
-void func_021B2FE4(Node *p)
+void VCT_POOL_FreeFrame(Node *p)
 {
     int irq=func_02087988();
     p->next=g_021B4C24;

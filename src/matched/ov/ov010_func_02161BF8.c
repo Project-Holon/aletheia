@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012144  0x02012144  thumb
- *   func_0201213C  0x0201213C  thumb
+ *   GAMESYSTEM_IsCommBlocked  0x02012144  thumb
+ *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
  *   func_02026454  0x02026454  thumb
  *   func_02026400  0x02026400  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   d_021BFB3C     0x021BFB3C  data  ov203
  *   ov203_id       0x000000CB  data
  */
@@ -36,20 +36,20 @@ extern u8 ov203_id[];
 
 struct Comm;
 struct Ctx;
-extern u8 func_02012144(const struct Ctx *p);
-extern void func_0201213C(struct Ctx *p, u32 v);
+extern u8 GAMESYSTEM_IsCommBlocked(const struct Ctx *p);
+extern void GAMESYSTEM_SetCommBlocked(struct Ctx *p, u32 v);
 extern u32 func_02026454(void *obj);
 extern void func_02026400(struct Comm *p);
 struct IcaAnime;
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 
 int func_02161BF8(void *a0, int *state, Obj *o)
 {
     switch (*state) {
     case 0:
-        o->f20 = func_02012144(o->f00);
-        func_0201213C(o->f00, 1);
+        o->f20 = GAMESYSTEM_IsCommBlocked(o->f00);
+        GAMESYSTEM_SetCommBlocked(o->f00, 1);
         if (func_02026454(o->f04) == 0) {
             *state = *state + 2;
         } else {
@@ -62,12 +62,12 @@ int func_02161BF8(void *a0, int *state, Obj *o)
             *state = *state + 1;
         break;
     case 2:
-        func_020120B4(o->f00, (u32)ov203_id, d_021BFB3C, o->f08);
+        GAMESYSTEM_CallProc(o->f00, (u32)ov203_id, d_021BFB3C, o->f08);
         *state = *state + 1;
         break;
     case 3:
-        if (func_020120F0(o->f00) == 0) {
-            func_0201213C(o->f00, o->f20);
+        if (GAMESYSTEM_GetProcStatus(o->f00) == 0) {
+            GAMESYSTEM_SetCommBlocked(o->f00, o->f20);
             return 1;
         }
         break;

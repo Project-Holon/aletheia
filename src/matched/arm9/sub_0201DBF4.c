@@ -1,5 +1,5 @@
 /*
- * function: func_0201DBF4
+ * function: GF_FONT_ReadStreamedGlyph
  * address:  0x0201DBF4
  * packet:   pkt_0201DB20
  * region:   arm9
@@ -11,12 +11,12 @@
  *
  * symbols:
  *   func_0204960C  0x0204960C  arm
- *   func_020495F4  0x020495F4  arm
- *   func_0201DC44  0x0201DC44  thumb
+ *   ARC_TOOL_ReadHandle  0x020495F4  arm
+ *   GF_FONT_DecodeGlyph  0x0201DC44  thumb
  *
  * gf_font.c's glyph fetch for a streamed font: seek the resource handle to
  * the header base plus the glyph directory plus record i, read mapSize bytes
- * into the scratch buffer, then hand it to func_0201DC44 with the last-tile
+ * into the scratch buffer, then hand it to GF_FONT_DecodeGlyph with the last-tile
  * column count.
  *
  * The lever (wave 16) is `const` on the font parameter, exactly as in its
@@ -27,7 +27,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201DBBC.c \
- *       --func func_0201DBF4 --addr 0x0201DBF4 --cc 1.1p1 --thumb
+ *       --func GF_FONT_ReadStreamedGlyph --addr 0x0201DBF4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -56,12 +56,12 @@ struct Font {
 
 extern void func_0204960C(void *handle, u32 off);
 struct ArcFile;
-extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
-extern void func_0201DC44(struct Font *f, const u8 *g, u32 w, void *d, u8 *out);
+extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
+extern void GF_FONT_DecodeGlyph(struct Font *f, const u8 *g, u32 w, void *d, u8 *out);
 
-void func_0201DBF4(const struct Font *f, u32 i, void *d, u8 *out)
+void GF_FONT_ReadStreamedGlyph(const struct Font *f, u32 i, void *d, u8 *out)
 {
     func_0204960C(f->handle, (u32)f->resHdr + ((u32)f->glyphDir + i * f->mapSize));
-    func_020495F4(f->handle, f->mapSize, f->scratch);
-    func_0201DC44((struct Font *)f, f->scratch, f->lastCols, d, out);
+    ARC_TOOL_ReadHandle(f->handle, f->mapSize, f->scratch);
+    GF_FONT_DecodeGlyph((struct Font *)f, f->scratch, f->lastCols, d, out);
 }

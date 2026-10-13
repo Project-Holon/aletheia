@@ -1,5 +1,5 @@
 /*
- * function: func_02014628
+ * function: FIELD_STATUS_SubProcEvent
  * address:  0x02014628
  * packet:   pkt_02014628
  * region:   arm9
@@ -30,7 +30,7 @@ extern void *func_02014728(char *a0, int a1, int a2, int a3, int a4);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 
-u32 func_02014628(void *obj, u32 *mode, u32 *p)
+u32 FIELD_STATUS_SubProcEvent(void *obj, u32 *mode, u32 *p)
 {
     u32 a0 = p[0];
     void *r;

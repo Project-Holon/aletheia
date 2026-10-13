@@ -10,9 +10,9 @@
  * status: EXACT
  * symbols:
  *   func_0204B454 0x0204B454 arm
- *   func_0204B5C0 0x0204B5C0 arm
+ *   CLACT_GetActorScale 0x0204B5C0 arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B5AC 0x0204B5AC arm
+ *   CLACT_SetActorScale 0x0204B5AC arm
  *   _fflt 0x0209BDBC arm
  *   _fdiv 0x0209CE10 arm
  *   _fadd 0x0209C95C arm
@@ -36,10 +36,10 @@ struct Pair { int x; int y; };
 struct Actor; struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
-extern void func_0204B5C0(const struct Obj *o, struct Pair *p);
+extern void CLACT_GetActorScale(const struct Obj *o, struct Pair *p);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 
 #define OBJ(p) (*(void **)((p) + *(int *)((p) + 0x5c) * 4 + 0x54))
 
@@ -54,7 +54,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
         break;
     case 1:
         func_0204B454(OBJ(p), (struct PtS *)&pos, 1);
-        func_0204B5C0(OBJ(p), &sc);
+        CLACT_GetActorScale(OBJ(p), &sc);
         f = (float)sc.y / 4096.0f;
         f += 0.01f;
         if (f >= 1.1f) {
@@ -67,11 +67,11 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
         else
             sc.y = (int)(4096.0f * f - 0.5f);
         func_0204B404(OBJ(p), (const struct Vec2 *)(&pos), 1);
-        func_0204B5AC(OBJ(p), &sc);
+        CLACT_SetActorScale(OBJ(p), &sc);
         break;
     case 3:
         func_0204B454(OBJ(p), (struct PtS *)&pos, 1);
-        func_0204B5C0(OBJ(p), &sc);
+        CLACT_GetActorScale(OBJ(p), &sc);
         f = (float)sc.y / 4096.0f - 0.01f;
         if (f <= 1.0f) {
             f = 1.0f;
@@ -85,7 +85,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
         else
             sc.y = (int)(4096.0f * f - 0.5f);
         func_0204B404(OBJ(p), (const struct Vec2 *)(&pos), 1);
-        func_0204B5AC(OBJ(p), &sc);
+        CLACT_SetActorScale(OBJ(p), &sc);
         break;
     }
 }

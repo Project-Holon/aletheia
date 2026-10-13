@@ -1,5 +1,5 @@
 /*
- * function: sub_02034DC4
+ * function: GF_OVERLAY_GetRamRange
  * address:  0x02034DC4
  * packet:   pkt_02034978
  * region:   arm9
@@ -21,8 +21,8 @@
  * both the `target` argument and the failure return need it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034DC4.c \
- *       --func sub_02034DC4 --addr 0x02034DC4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_GetRamRange.c \
+ *       --func GF_OVERLAY_GetRamRange --addr 0x02034DC4 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -43,7 +43,7 @@ struct OverlayInfo {
 
 extern int FS_LoadOverlayInfo(struct OverlayInfo *info, u32 target, u32 id);
 
-int sub_02034DC4(u32 id, u32 *start, u32 *end)
+int GF_OVERLAY_GetRamRange(u32 id, u32 *start, u32 *end)
 {
     struct OverlayInfo info;
     u32 addr;

@@ -1,5 +1,5 @@
 /*
- * function: func_0202AB84
+ * function: ISS_CITY_SYS_ReleaseUnits
  * address:  0x0202AB84
  * packet:   pkt_0202AB7C
  * region:   arm9
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0202ABD0  0x0202ABD0  thumb
+ *   ISS_CITY_SYS_FreeUnits  0x0202ABD0  thumb
  */
 
 typedef unsigned int u32;
 
 struct Obj;
-extern void func_0202ABD0(struct Obj *obj);
+extern void ISS_CITY_SYS_FreeUnits(struct Obj *obj);
 
-void func_0202AB84(void *obj)
+void ISS_CITY_SYS_ReleaseUnits(void *obj)
 {
-    func_0202ABD0(obj);
+    ISS_CITY_SYS_FreeUnits(obj);
 }

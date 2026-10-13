@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02036F04",
+   "name": "GFL_NET_WM_ICON_GetCharOffset",
    "address": "0x02036F04",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02036FD8",
+   "name": "GFL_NET_WM_ICON_ClearOam",
    "address": "0x02036FD8",
    "kind": "game",
    "region": "arm9",

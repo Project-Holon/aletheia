@@ -1,5 +1,5 @@
 /*
- * function: func_0203C0DC
+ * function: GFL_NET_STATE_SetWifiErrorCode
  * address:  0x0203C0DC
  * packet:   pkt_0203C0DC
  * region:   arm9
@@ -18,14 +18,14 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C0DC.c \
- *       --func func_0203C0DC --addr 0x0203C0DC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_SetWifiErrorCode.c \
+ *       --func GFL_NET_STATE_SetWifiErrorCode --addr 0x0203C0DC --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-void func_0203C0DC(u8 *p, u32 v)
+void GFL_NET_STATE_SetWifiErrorCode(u8 *p, u32 v)
 {
     if (v - 1005 > 1)
         v = -v;

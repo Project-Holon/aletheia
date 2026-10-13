@@ -9,11 +9,11 @@
  *   func_02049250 0x02049250 arm
  *   func_0206E964 0x0206E964 arm
  *   func_02030734 0x02030734 arm
- *   func_0204B7F0 0x0204B7F0 arm
- *   func_0204AA94 0x0204AA94 arm
+ *   CLACT_GetActorCharacterIndex 0x0204B7F0 arm
+ *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020862F0 0x020862F0 arm
- *   func_0204B764 0x0204B764 arm
+ *   CLACT_GetActorPaletteProxy 0x0204B764 arm
  *   func_02063800 0x02063800 arm
  *   func_0207E51C 0x0207E51C arm
  *   func_0207E5D0 0x0207E5D0 arm
@@ -32,12 +32,12 @@ struct ArcFile;
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern u8 *func_0206E964(u8 *);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern u16 func_0204B7F0(u8 *);
-extern void func_0204AA94(int,void *,u32,int,int);
+extern u16 CLACT_GetActorCharacterIndex(u8 *);
+extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
 extern u32 func_020307B0(void *p);
 extern void func_020862F0(void *,unsigned);
 struct Struct20;
-extern void func_0204B764(const char *src, struct Struct20 *dst);
+extern void CLACT_GetActorPaletteProxy(const char *src, struct Struct20 *dst);
 extern int func_02063800(char *,int);
 extern void func_0207E51C(void *,int,unsigned);
 extern void func_0207E5D0(void *,int,unsigned);
@@ -68,11 +68,11 @@ void func_021F51E4(u8 *dst,unsigned arc,u32 member,u32 index,u16 width,u16 heigh
     pixels=tex+((struct Obj14519 *)tex)->f14;
     void *buf=func_02030734((u16)((heap&0x7fff)|0x8000),size,0,d_021F57A8,95);
     func_021F513C((const char *)(pixels+offset),width,0,0,width,height,buf);
-    func_0204AA94(func_0204B7F0(dst),buf,size,pos,mode);
+    CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex(dst),buf,size,pos,mode);
     func_020307B0(buf);
     u32 poff=((struct Obj14519 *)tex)->f38;
     func_020862F0(tex+poff,32);
-    func_0204B764((const char *)dst,(struct Struct20 *)(&pal));
+    CLACT_GetActorPaletteProxy((const char *)dst,(struct Struct20 *)(&pal));
     if(mode==0 || mode==2) func_0207E51C(tex+poff,func_02063800((char *)&pal,1),32);
     if(mode==1 || mode==2) func_0207E5D0(tex+poff,func_02063800((char *)&pal,2),32);
     func_020307B0(raw);

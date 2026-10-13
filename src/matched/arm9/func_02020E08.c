@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02020E08
+ * function: FILE_UTIL_LoadRange
  * address:  0x02020E08
  * packet:   pkt_02020E08
  * region:   arm9
@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A73B0     0x020A73B0  data
- *   func_02020DEC  0x02020DEC  thumb
+ *   FILE_UTIL_FILE_NAME     0x020A73B0  data
+ *   FILE_UTIL_OpenById  0x02020DEC  thumb
  *   FS_CloseFile   0x02078A80  arm
  *   FS_SeekFile    0x02078B44  arm
  *   FS_ReadFile    0x02078B70  arm
@@ -20,17 +20,17 @@
  *   sub_02030734   0x02030734  arm
  *
  * "Read a byte range out of a whole file, by archive id", the raw-file
- * counterpart to the arc_tool.c NARC member API.  func_02020DEC (already
+ * counterpart to the arc_tool.c NARC member API.  FILE_UTIL_OpenById (already
  * EXACT) opens the file whose path is name-table entry `archive_id`; this
  * function then seeks to `offset`, allocates `size` bytes on `heap` and
  * reads them in.  A zero `size` means "the whole file", which is why the
  * FS_GetLength call is guarded rather than unconditional.
  *
- * g_020A73B0 is the __FILE__ argument of the allocation site.  Its bytes
+ * FILE_UTIL_FILE_NAME is the __FILE__ argument of the allocation site.  Its bytes
  * spell "file_util.c", and the run is fixed from outside this function by
  * the terminator of "bmp_cursor.c" immediately before it
  * (docs/idioms/file-string-is-an-abs32-into-the-string-area.md), so the
- * enclosing translation unit for both this function and func_02020DEC is
+ * enclosing translation unit for both this function and FILE_UTIL_OpenById is
  * file_util.c.
  *
  * The only caller in the image is sub_0201407C, the a/0/1/3 record reader
@@ -47,8 +47,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02020E08.c \
- *       --func func_02020E08 --addr 0x02020E08 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_LoadRange.c \
+ *       --func FILE_UTIL_LoadRange --addr 0x02020E08 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -58,26 +58,26 @@ struct FSFile {
     u8 raw[0x48];
 };
 
-extern char g_020A73B0[];
+extern char FILE_UTIL_FILE_NAME[];
 
 typedef unsigned short u16;
-extern void func_02020DEC(void *p, u32 x);
+extern void FILE_UTIL_OpenById(void *p, u32 x);
 extern void  FS_CloseFile(struct FSFile *file);
 extern u32   FS_SeekFile(struct FSFile *file, int offset, u32 origin);
 extern u32   FS_ReadFile(struct FSFile *file, void *dst, u32 size);
 extern u32   FS_GetLength(struct FSFile *file);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-void *func_02020E08(u32 archive_id, u32 heap, u32 offset, u32 size)
+void *FILE_UTIL_LoadRange(u32 archive_id, u32 heap, u32 offset, u32 size)
 {
     struct FSFile file;
     void *buf;
 
-    func_02020DEC(&file, archive_id);
+    FILE_UTIL_OpenById(&file, archive_id);
     if (size == 0) {
         size = FS_GetLength(&file);
     }
-    buf = sub_02030734(heap, size, 0, g_020A73B0, 0xAC);
+    buf = sub_02030734(heap, size, 0, FILE_UTIL_FILE_NAME, 0xAC);
     FS_SeekFile(&file, offset, 0);
     FS_ReadFile(&file, buf, size);
     FS_CloseFile(&file);

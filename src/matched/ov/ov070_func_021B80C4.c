@@ -13,7 +13,7 @@
  *   func_020355D8  0x020355D8  arm
  *   func_021B61C8  0x021B61C8  thumb  ov070
  *   func_021BB398  0x021BB398  thumb  ov070
- *   func_0202EB04  0x0202EB04  thumb
+ *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
  *   func_021B97E8  0x021B97E8  thumb  ov070
  */
 
@@ -31,7 +31,7 @@ extern void func_020355D8(u8 v);
 extern int func_021B61C8(u8 *p);
 typedef unsigned int   u32;
 extern void func_021BB398(int p, u32 val);
-extern void func_0202EB04(struct CodeIn *p);
+extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 extern void func_021B97E8(char *p, int mode);
 
 void func_021B80C4(Obj *o, int flag)
@@ -48,7 +48,7 @@ void func_021B80C4(Obj *o, int flag)
         func_021BB398((int)o, 0);
     } else {
         func_021BB398((int)o, 1);
-        func_0202EB04(o->f850);
+        BLINK_PALANM_ResetPhase(o->f850);
     }
     func_021B97E8((char *)o, flag);
 }

@@ -8,21 +8,21 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_020228B4
+ * function: WIPE_SUB_PatternBoxSlideOut
  *
  * symbols:
- *   func_020222A8  0x020222A8  thumb
- *   func_02023464  0x02023464  thumb
- *   func_020234C0  0x020234C0  thumb
+ *   WIPE_SetBackColor  0x020222A8  thumb
+ *   WIPE_SUB_BoxStart  0x02023464  thumb
+ *   WIPE_SUB_BoxMain  0x020234C0  thumb
  *
- * Same shape as src/matched/func_02022804.c; kept in its own file for the
+ * Same shape as src/matched/WIPE_SUB_PatternBoxOpenOut.c; kept in its own file for the
  * same reason (the sibling calls to the shared helpers have to stay
  * outside the compared range to attest them).  Sets the flag pair to
  * (1, 0) and stashes the constant 0x0209F5EC.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020228B4.c \
- *       --func func_020228B4 --addr 0x020228B4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_PatternBoxSlideOut.c \
+ *       --func WIPE_SUB_PatternBoxSlideOut --addr 0x020228B4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -39,19 +39,19 @@ struct Obj {
     u32 unk2C;
 };
 
-extern void func_020222A8(u32 a);
+extern void WIPE_SetBackColor(u32 a);
 struct Task;
-extern void func_02023464(struct Task *t, u8 *cfg);
-extern u32 func_020234C0(struct Task *t);
+extern void WIPE_SUB_BoxStart(struct Task *t, u8 *cfg);
+extern u32 WIPE_SUB_BoxMain(struct Task *t);
 
-void func_020228B4(struct Obj *p)
+void WIPE_SUB_PatternBoxSlideOut(struct Obj *p)
 {
     if (p->unk0C == 0) {
-        func_020222A8(p->unk24);
-        func_02023464((struct Task *)p, (u8 *)0x0209F5EC);
+        WIPE_SetBackColor(p->unk24);
+        WIPE_SUB_BoxStart((struct Task *)p, (u8 *)0x0209F5EC);
         p->unk28 = 1;
         p->unk2C = 0;
         return;
     }
-    func_020234C0((struct Task *)p);
+    WIPE_SUB_BoxMain((struct Task *)p);
 }

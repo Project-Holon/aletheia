@@ -110,7 +110,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202C4C8",
+   "name": "ISS_SWITCH_SET_ReadBgmNo",
    "address": "0x0202C4C8",
    "kind": "game",
    "region": "arm9",

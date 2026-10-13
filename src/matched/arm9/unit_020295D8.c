@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_020295D8, func_02029620
+ * function: FIELD_SOUND_SYSTEM_PopAndWaitTask, func_02029620
  *
  * One of the sixteen (task body, task spawner) pairs that make up the tail of
  * field_sound_system.c.  Every pair has the same shape: a small state machine
@@ -28,7 +28,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   func_02012A30  0x02012A30  thumb
  *   func_020289B8  0x020289B8  thumb
- *   func_020289F8  0x020289F8  thumb
+ *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_020295D8.c \
@@ -52,16 +52,16 @@ struct Ctx;
 struct Desc;
 struct Obj;
 struct Sys;
-extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
+extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 extern u32 func_020289B8(struct Sys *s);
 
-u32 func_020295D8(void *task, u32 *state, struct Work *work)
+u32 FIELD_SOUND_SYSTEM_PopAndWaitTask(void *task, u32 *state, struct Work *work)
 {
     void *sys = work->unk04;
 
     switch (*state) {
     case 0:
-        func_020289F8(sys, 4, 0, work->unk0E, work->unk0C);
+        FIELD_SOUND_SYSTEM_PostRequest(sys, 4, 0, work->unk0E, work->unk0C);
         (*state)++;
         break;
     case 1:
@@ -84,7 +84,7 @@ extern u32 func_02012A30(const struct BigObj *p);
 void *func_02029620(void *a, u32 b, u32 c)
 {
     void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_020295D8, 0x10);
+    void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_PopAndWaitTask, 0x10);
     struct Work *work = func_020124E8(task);
 
     work->unk04 = (void *)func_02012A30(x);

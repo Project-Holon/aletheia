@@ -1,5 +1,5 @@
 /*
- * function: func_0202B1EC
+ * function: ISS_ROAD_SYS_Delete
  * address:  0x0202B1EC
  * packet:   pkt_0202AFFC
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_0202B1EC(void *ptr)
+void ISS_ROAD_SYS_Delete(void *ptr)
 {
     func_020307B0(ptr);
 }

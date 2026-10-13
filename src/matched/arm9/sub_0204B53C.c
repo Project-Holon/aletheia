@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204B53C
+ * function: CLACT_GetActorPos
  * address:  0x0204B53C
  * packet:   pkt_0204B454
  * region:   arm9
@@ -10,12 +10,12 @@
  * isa:      arm
  * status:   EXACT
  *
- * The read side of src/matched/sub_0204B528.c: copy the actor's screen
+ * The read side of src/matched/CLACT_SetActorPos.c: copy the actor's screen
  * position pair out of +0x0c/+0x0e, field by field.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B53C.c \
- *       --func sub_0204B53C --addr 0x0204B53C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetActorPos.c \
+ *       --func CLACT_GetActorPos --addr 0x0204B53C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -31,7 +31,7 @@ struct Actor {
     struct Pt pos;
 };
 
-void sub_0204B53C(const struct Actor *actor, struct Pt *out)
+void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out)
 {
     out->x = actor->pos.x;
     out->y = actor->pos.y;

@@ -15,7 +15,7 @@
  *   func_021B994C  0x021B994C  thumb
  *   func_02006984  0x02006984  thumb
  *   func_02006A8C  0x02006A8C  thumb
- *   func_02006AEC  0x02006AEC  thumb
+ *   PM_VOICE_AddFrequency  0x02006AEC  thumb
  *   d_02209FC0  0x02209FC0  data  ov094
  *   d_02209FE0  0x02209FE0  data  ov094
  *   d_02209FF0  0x02209FF0  data  ov094
@@ -57,7 +57,7 @@ extern int func_021F8754(void);
 extern int func_021B994C(void *p, int key, u32 *out);
 extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern void func_02006A8C(u32 idx, int delta);
-extern void func_02006AEC(u32 idx, u32 delta);
+extern void PM_VOICE_AddFrequency(u32 idx, u32 delta);
 
 u32 func_02200218(Work *w, int key, int pitch, int pan, u32 a4, u32 a5, u32 a6)
 {
@@ -116,6 +116,6 @@ u32 func_02200218(Work *w, int key, int pitch, int pan, u32 a4, u32 a5, u32 a6)
     }
     r = func_02006984(w->e[idx].k2c, w->e[idx].k30, (u8)id, flag, a4, a5, a6, (u32)out);
     func_02006A8C(r, (signed char)pan);
-    func_02006AEC(r, pitch);
+    PM_VOICE_AddFrequency(r, pitch);
     return r;
 }

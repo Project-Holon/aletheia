@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021EFEC0  0x021EFEC0  thumb
- *   func_02021EE4  0x02021EE4  thumb
+ *   PALANM_SetAutoTransfer  0x02021EE4  thumb
  *   func_021F0AC0  0x021F0AC0  thumb  ov032
  *   func_021F0B10  0x021F0B10  thumb  ov032
  *   func_02165AC4  0x02165AC4  thumb  ov010
@@ -35,7 +35,7 @@ typedef signed short   s16;
 struct Obj02021EE4;
 struct Queue;
 struct Rec;
-extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void func_021F0AC0(char *p);
 extern void func_021F0B10(char *p, int a, int b);
 extern int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta);
@@ -57,7 +57,7 @@ void func_021EFEC0(u8 *o)
     int s;
     int t;
 
-    func_02021EE4((struct Obj02021EE4 *)(*(int *)&((struct Obj00007 *)o)->fAC), 1);
+    PALANM_SetAutoTransfer((struct Obj02021EE4 *)(*(int *)&((struct Obj00007 *)o)->fAC), 1);
     func_021F0AC0((char *)o);
     func_021F0B10((char *)o, 1, 0);
     for (i = 0; i < o[0x7D]; i++) {

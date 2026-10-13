@@ -1,5 +1,5 @@
 /*
- * function: func_021D9EF0
+ * function: P_STA_SKILL_ApplyMovesScreen
  * address: 0x021D9EF0
  * packet: pkt_ov131_021D9EF0
  * region: ov131
@@ -23,11 +23,11 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_020410D0 0x020410D0 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_021DB964 0x021DB964 thumb ov131
- *   func_021D6064 0x021D6064 thumb ov131
+ *   P_STA_SKILL_ShowSlot 0x021DB964 thumb ov131
+ *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   func_02017E88 0x02017E88 thumb
- *   func_0204AB84 0x0204AB84 arm
- *   func_0204B784 0x0204B784 arm
+ *   CLACT_GetCharacterProxy 0x0204AB84 arm
+ *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   func_020275EC 0x020275EC thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B404 0x0204B404 arm
@@ -56,19 +56,19 @@ extern void func_02040AE0(u32 index, const void *src, u32 mode);
 extern void func_02041B6C(u32 bit);
 extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_021DB964(u8 *,void *,u8 *);
-extern void *func_021D6064(u8 *);
+extern void P_STA_SKILL_ShowSlot(u8 *,void *,u8 *);
+extern void *P_STATUS_GetPokePara(u8 *);
 extern u32 func_02017E88(void *,u32,u32);
 struct Rec;
 struct Struct36;
 struct Vec2;
-extern void func_0204AB84(u32 idx, struct Rec *dst);
-extern void func_0204B784(char *dst, const struct Struct36 *src);
+extern void CLACT_GetCharacterProxy(u32 idx, struct Rec *dst);
+extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 extern u8 func_020275EC(int i);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B84C(void *,u32);
-void func_021D9EF0(u8 *a,u8 *p)
+void P_STA_SKILL_ApplyMovesScreen(u8 *a,u8 *p)
 {
     Rec r1,r2;
     Point point;
@@ -91,12 +91,12 @@ void func_021D9EF0(u8 *a,u8 *p)
     func_02041B6C(5);
     func_0204B3DC(((struct Obj00536 *)p)->f90,0);
     func_0204B3DC(((struct Obj00536 *)p)->f94,1);
-    for(;i<p[0x2b];i++) func_021DB964(a,p,(p+0xb0)+i*24);
-    object=func_021D6064(a);
+    for(;i<p[0x2b];i++) P_STA_SKILL_ShowSlot(a,p,(p+0xb0)+i*24);
+    object=P_STATUS_GetPokePara(a);
     first=func_02017E88(object,174,0);
     second=func_02017E88(object,175,0);
-    func_0204AB84(*(u32 *)(((u32)a+first*4u)+0x130u),(struct Rec *)(&r1));
-    func_0204B784(((struct Obj00136 *)a)->f198,(const struct Struct36 *)(&r1));
+    CLACT_GetCharacterProxy(*(u32 *)(((u32)a+first*4u)+0x130u),(struct Rec *)(&r1));
+    CLACT_SetActorImageProxy(((struct Obj00136 *)a)->f198,(const struct Struct36 *)(&r1));
     func_0204B6F4(((struct Obj00136 *)a)->f198,func_020275EC((u8)first),1);
     point.x=208;
     point.y=120;
@@ -104,8 +104,8 @@ void func_021D9EF0(u8 *a,u8 *p)
     func_0204B3DC(((struct Obj00136 *)a)->f198,1);
     func_0204B84C(((struct Obj00136 *)a)->f198,0);
     if(first!=second) {
-        func_0204AB84(*(u32 *)(((u32)a+second*4u)+0x130u),(struct Rec *)(&r2));
-        func_0204B784(((struct Obj00136 *)a)->f19C,(const struct Struct36 *)(&r2));
+        CLACT_GetCharacterProxy(*(u32 *)(((u32)a+second*4u)+0x130u),(struct Rec *)(&r2));
+        CLACT_SetActorImageProxy(((struct Obj00136 *)a)->f19C,(const struct Struct36 *)(&r2));
         func_0204B6F4(((struct Obj00136 *)a)->f19C,func_020275EC((u8)second),1);
         point.x=240;
         point.y=120;

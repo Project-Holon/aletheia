@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02015F14  0x02015F14  thumb
- *   func_02015C78  0x02015C78  thumb
+ *   MCSS_GetOfsX  0x02015F14  thumb
+ *   MCSS_SetOfsPosition  0x02015C78  thumb
  *   _fflt  0x0209BDBC  arm
  *   _fgr  0x0209BBB0  arm
  *   _fmul  0x0209C77C  arm
@@ -30,8 +30,8 @@ typedef struct {
 } Vec;
 
 typedef signed short   s16;
-extern s16 func_02015F14(void *p);
-extern void func_02015C78(void *p, u32 *src);
+extern s16 MCSS_GetOfsX(void *p);
+extern void MCSS_SetOfsPosition(void *p, u32 *src);
 
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? \
                                   ((x) * (1 << 12) + 0.5f) : \
@@ -42,9 +42,9 @@ void ov208_func_021C5090(u32 obj)
     Vec v;
     float y;
 
-    y = 0.25f * -(float)func_02015F14((void *)obj);
+    y = 0.25f * -(float)MCSS_GetOfsX((void *)obj);
     v.x = FX_F32_TO_FX32(y);
     v.y = 0;
     v.z = 0;
-    func_02015C78((void *)obj, (u32 *)(&v));
+    MCSS_SetOfsPosition((void *)obj, (u32 *)(&v));
 }

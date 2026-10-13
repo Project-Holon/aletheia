@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045798 0x02045798 arm
+ *   BMP_WIN_SetPalette 0x02045798 arm
  *   func_02045730 0x02045730 arm
  *   func_02045758 0x02045758 arm
  *   func_02045760 0x02045760 arm
@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor;
-extern void func_02045798(struct Descriptor *,u8);
+extern void BMP_WIN_SetPalette(struct Descriptor *,u8);
 extern u8 func_02045730(struct Descriptor *);
 extern u8 func_02045758(struct Descriptor *);
 extern u8 func_02045760(struct Descriptor *);
@@ -33,7 +33,7 @@ void func_021C1038(u8 *p,u8 palette)
 {
     u32 layer;
     u8 x,y,width,height;
-    func_02045798(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18,palette);
+    BMP_WIN_SetPalette(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18,palette);
     layer=func_02045730(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
     x=func_02045758(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
     y=func_02045760(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);

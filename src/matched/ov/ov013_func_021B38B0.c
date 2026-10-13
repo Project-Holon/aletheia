@@ -1,5 +1,5 @@
 /*
- * function: func_021B38B0
+ * function: VCT_ReceiveFrame
  * address:  0x021B38B0
  * packet:   pkt_ov013_021B38B0
  * region:   ov013
@@ -11,19 +11,19 @@
  *
  * symbols:
  *   d_021B60CC  0x021B60CC  data  a4
- *   func_021B3924  0x021B3924  arm  ov013
+ *   VCT_ParseFrame  0x021B3924  arm  ov013
  */
 
 #include "../include/G_021B60CC.h"
 
 extern struct G_021B60CC d_021B60CC;
-extern int func_021B3924(int a, int b, int c, int *out);
+extern int VCT_ParseFrame(int a, int b, int c, int *out);
 
-int func_021B38B0(int a, int b, int c)
+int VCT_ReceiveFrame(int a, int b, int c)
 {
     int out[2];
 
-    switch (func_021B3924(a, b, c, out)) {
+    switch (VCT_ParseFrame(a, b, c, out)) {
     case 0:
         break;
     case 1:

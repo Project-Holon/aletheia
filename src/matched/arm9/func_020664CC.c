@@ -13,11 +13,11 @@
  *   g_02147B88     0x02147B88  data  a4
  *   g_020A81F8     0x020A81F8  data  a2
  *   func_02066754  0x02066754  arm
- *   func_0207C778  0x0207C778  arm
+ *   FX_Inv  0x0207C778  arm
  *
  * NitroSystem g2d_Renderer.c NNS_G2dScale(x, y, z) (z unused): NNSi_G2dScale
  * concatenates NNSi_G2dSetScale onto mtxStack_[stackPos_] and
- * NNSi_G2dSetScaleFor2DHW (FX_Inv of each factor, func_0207C778) onto
+ * NNSi_G2dSetScaleFor2DHW (FX_Inv of each factor, FX_Inv) onto
  * mtxStackFor2DHW_[stackPos_] with NNSi_G2dMtxConcat32 (func_02066754), then
  * the SR-transformed latch and NNSi_G2dMCMSetCurrentMtxSRChanged.  Library
  * shape verbatim; closed by the same lever as func_02066620 (NNS_G2dRotZ):
@@ -58,7 +58,7 @@ struct RendererBss {
 extern struct RendererBss g_02147B88;
 extern struct Scr g_020A81F8;
 extern void func_02066754(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
-extern fx32 func_0207C778(fx32 v);
+extern fx32 FX_Inv(fx32 v);
 
 static inline void NNSi_G2dSetScale(MtxFx32 *m, fx32 sx, fx32 sy)
 {
@@ -72,10 +72,10 @@ static inline void NNSi_G2dSetScale(MtxFx32 *m, fx32 sx, fx32 sy)
 
 static inline void NNSi_G2dSetScaleFor2DHW(MtxFx32 *m, fx32 sx, fx32 sy)
 {
-    m->_00 = func_0207C778(sx);
+    m->_00 = FX_Inv(sx);
     m->_01 = 0;
     m->_10 = 0;
-    m->_11 = func_0207C778(sy);
+    m->_11 = FX_Inv(sy);
     m->_20 = 0;
     m->_21 = 0;
 }

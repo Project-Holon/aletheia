@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02006504 0x02006504 thumb
+ *   GFL_USE_StopSeqAndUnload 0x02006504 thumb
  */
 #include "../include/Obj23186.h"
-extern void func_02006504(void);
-void func_021F9690(char *p){((struct Obj23186 *)p)->f28=0;func_02006504();}
+extern void GFL_USE_StopSeqAndUnload(void);
+void func_021F9690(char *p){((struct Obj23186 *)p)->f28=0;GFL_USE_StopSeqAndUnload();}

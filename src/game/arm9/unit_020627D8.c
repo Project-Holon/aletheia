@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02062BAC 0x02062BAC arm
- *   func_02062B64    0x02062B64  arm
+ *   NNS_G2dFindBinaryBlock    0x02062B64  arm
  *   func_0206296C    0x0206296C  arm
  *   func_0206295C  0x0206295C  arm
  */
@@ -88,7 +88,7 @@ struct MultiCellBank {
 };
 
 extern void func_02062BAC(struct Tbl *t);
-extern void *func_02062B64(struct NitroFileHeader *file, u32 signature);
+extern void *NNS_G2dFindBinaryBlock(struct NitroFileHeader *file, u32 signature);
 extern void func_02062884(int *p);
 extern void *func_0206285C(struct CellDataBank *bank, u32 idx);
 extern void func_0206296C(volatile struct MultiCellBank *bank);
@@ -164,7 +164,7 @@ void func_02062810(void *p)
 
 int func_02062820(int a, int *out)
 {
-    char *o = (char *)func_02062B64((struct NitroFileHeader *)a, 0x4345424b);
+    char *o = (char *)NNS_G2dFindBinaryBlock((struct NitroFileHeader *)a, 0x4345424b);
     if (o == 0) {
         *out = 0;
         return 0;
@@ -257,11 +257,11 @@ void func_02062884(int *p)
  * Blocking class: label.  Same shape as src/pending/func_02062634.c one tag over:
  * every concrete byte is right, the only unresolved site is the tail
  * `bl func_0206296C` at 0x02062934, and this call is the only branch to
- * 0x0206296C in the image.  The `bl func_02062B64` site resolves (`label x40`).
+ * 0x0206296C in the image.  The `bl NNS_G2dFindBinaryBlock` site resolves (`label x40`).
  */
 int func_02062920(u32 a, u32 *out)
 {
-    u32 r = (u32)func_02062B64((struct NitroFileHeader *)a, 0x4D43424B);
+    u32 r = (u32)NNS_G2dFindBinaryBlock((struct NitroFileHeader *)a, 0x4D43424B);
 
     if (r == 0) {
         *out = 0;
@@ -396,7 +396,7 @@ struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx)
  */
 s32 func_02062A00(struct NitroFileHeader *file, void **out)
 {
-    void *block = func_02062B64(file, 0x43484152);
+    void *block = NNS_G2dFindBinaryBlock(file, 0x43484152);
 
     if (block == 0) {
         *out = 0;
@@ -434,7 +434,7 @@ void func_02062A3C(u8 *block)
  */
 s32 func_02062A4C(struct NitroFileHeader *file, void **out)
 {
-    void *block = func_02062B64(file, 0x43484152);
+    void *block = NNS_G2dFindBinaryBlock(file, 0x43484152);
 
     if (block == 0) {
         *out = 0;
@@ -472,7 +472,7 @@ void func_02062A88(u8 *block)
  */
 s32 func_02062A98(struct NitroFileHeader *file, void **out)
 {
-    void *block = func_02062B64(file, 0x504C5454);
+    void *block = NNS_G2dFindBinaryBlock(file, 0x504C5454);
 
     if (block == 0) {
         *out = 0;
@@ -495,7 +495,7 @@ s32 func_02062A98(struct NitroFileHeader *file, void **out)
  */
 s32 func_02062AD4(struct NitroFileHeader *file, void **out)
 {
-    void *block = func_02062B64(file, 0x50434D50);
+    void *block = NNS_G2dFindBinaryBlock(file, 0x50434D50);
 
     if (block == 0) {
         *out = 0;

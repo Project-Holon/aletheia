@@ -18,11 +18,11 @@
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02082D44 0x02082D44 arm
- *   func_020124F4 0x020124F4 thumb
+ *   GAME_DATA_Create 0x020124F4 thumb
  *   func_0201A920 0x0201A920 thumb
- *   func_0200B400 0x0200B400 thumb
+ *   BATTLE_REC_AllocWork 0x0200B400 thumb
  *   func_02012934 0x02012934 thumb
- *   func_0201A918 0x0201A918 thumb
+ *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200BAC8 0x0200BAC8 thumb
  *   func_0200BAF4 0x0200BAF4 thumb
@@ -30,19 +30,19 @@
  *   d_02213D00 0x02213D00 data a1 ov199
  *   d_02213C58 0x02213C58 data a4 ov199
  *   func_0200B424 0x0200B424 thumb
- *   func_02012704 0x02012704 thumb
+ *   GAME_DATA_Delete 0x02012704 thumb
  *   func_02087BCC 0x02087BCC arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
- *   func_02005D28 0x02005D28 thumb
- *   func_0200F7B8 0x0200F7B8 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
+ *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  *   func_02030734 0x02030734 arm
- *   func_02005C44 0x02005C44 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_GetBgmNo 0x02005C44 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   d_02213D04 0x02213D04 data a1 ov199
  *   func_0200E9F4 0x0200E9F4 thumb
  *   func_0200EA04 0x0200EA04 thumb
- *   func_0201A948 0x0201A948 thumb
+ *   POKEPARTY_Init 0x0201A948 thumb
  *   func_0201A354 0x0201A354 thumb
  *   func_0200AE14 0x0200AE14 thumb
  *   func_0200B1D4 0x0200B1D4 thumb
@@ -52,38 +52,39 @@
  *   func_020084F4 0x020084F4 thumb
  *   func_02008550 0x02008550 thumb
  *   ov093_id 0x0000005D data
- *   func_0200B480 0x0200B480 thumb
+ *   BATTLE_REC_ClearWork 0x0200B480 thumb
  *   func_02012F2C 0x02012F2C thumb
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_020399A8 0x020399A8 arm
- *   func_02013790 0x02013790 thumb
- *   func_020137C0 0x020137C0 thumb
- *   func_02013864 0x02013864 thumb
- *   func_02013894 0x02013894 thumb
+ *   BTL_SETUP_SetupCommSingle 0x02013790 thumb
+ *   BTL_SETUP_SetupCommDouble 0x020137C0 thumb
+ *   BTL_SETUP_SetupCommTriple 0x02013864 thumb
+ *   BTL_SETUP_SetupCommRotation 0x02013894 thumb
  *   func_0200AE54 0x0200AE54 thumb
  *   func_0200B078 0x0200B078 thumb
- *   func_02013128 0x02013128 thumb
- *   func_02013160 0x02013160 thumb
- *   func_02013980 0x02013980 thumb
+ *   BTL_SETUP_SetParty 0x02013128 thumb
+ *   BTL_SETUP_ApplyRegulation 0x02013160 thumb
+ *   BTL_SETUP_AllocRecordBuffer 0x02013980 thumb
  *   func_0200BA58 0x0200BA58 thumb
  *   func_021EEE78 0x021EEE78 thumb ov188
  *   func_0200BA68 0x0200BA68 thumb
- *   func_020130DC 0x020130DC thumb
+ *   BTL_SETUP_FreeSlots 0x020130DC thumb
  *   func_0200BA38 0x0200BA38 thumb
  *   func_021EEEA8 0x021EEEA8 thumb ov188
- *   func_02013930 0x02013930 thumb
+ *   BTL_SETUP_ClearWithSlots 0x02013930 thumb
  *   func_0200853C 0x0200853C thumb
  *   func_0201AA18 0x0201AA18 thumb
  *   func_0201AB28 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_02167ED8 0x02167ED8 arm ov009
- *   func_02031324 0x02031324 arm
+ *   PROCSYS_Create 0x02031324 arm
  *   func_0203133C 0x0203133C arm
- *   func_02031330 0x02031330 arm
- *   func_02031348 0x02031348 arm
- *   func_02005E30 0x02005E30 thumb
+ *   PROCSYS_Main 0x02031330 arm
+ *   PROCSYS_Push 0x02031348 arm
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_0203A5E4 0x0203A5E4 arm
+ *   BTL_SETUP_InitWithSlots  0x020138C4  thumb  arm9
  */
 #include "../../matched/include/Obj01177.h"
 #include "../../matched/include/Obj25291.h"
@@ -259,28 +260,28 @@ extern void func_0203064C(unsigned, unsigned, unsigned);
 extern void *func_0203159C(struct Obj0203159C *obj, u32_02212560 size, u32_02212560 heap);
 extern void func_02082BCC(void *, int, unsigned);
 extern void func_02082D44(const void *, void *, unsigned);
-extern void *func_020124F4(u16);
+extern void *GAME_DATA_Create(u16);
 extern struct Party *func_0201A920(u32_02212560 heap);
-extern void func_0200B400(unsigned);
+extern void BATTLE_REC_AllocWork(unsigned);
 extern void *func_02012934(const struct BigObj *p);
-extern int func_0201A918(void);
+extern int POKE_REGULATION_GetDataSize(void);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern void *func_0200BAF4(int a0, int a1);
 extern u32_02212560 func_020307B0(void *p);
 extern void func_0200B424(void);
-extern void func_02012704(u8 *p);
+extern void GAME_DATA_Delete(u8 *p);
 extern void func_02087BCC(u32_0221268C parameter);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32_0221268C);
-extern void func_02005D28(void);
-extern u32_022126F4 func_0200F7B8(u32_022126F4 a0);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
+extern u32_022126F4 GFL_NET_ERR_ShowScreen(u32_022126F4 a0);
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
-extern u16 func_02005C44(void);
-extern void func_02005D90(unsigned, unsigned);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
 extern void *func_0200E9F4(void *p);
 extern int func_0200EA04(int);
-extern void func_0201A948(struct Party *p);
+extern void POKEPARTY_Init(struct Party *p);
 extern void *func_0201A354(int, int);
 extern void *func_0200AE14(void *);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32_02212988 index);
@@ -289,39 +290,39 @@ extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern void func_0201A2A8(void *, void *);
 extern void *func_020084F4(void *);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void func_0200B480(void);
+extern void BATTLE_REC_ClearWork(void);
 extern void *func_02012F2C(int *p);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(int);
 extern struct Entry *func_020399A8(void);
-extern void func_02013790(void *, void *, int, int, u32_02212AF8);
-extern void func_020137C0(void *, void *, int, int, u32_02212AF8);
-extern void func_02013864(void *, void *, int, int, u32_02212AF8);
-extern void func_02013894(void *, void *, int, int, u32_02212AF8);
+extern void BTL_SETUP_SetupCommSingle(void *, void *, int, int, u32_02212AF8);
+extern void BTL_SETUP_SetupCommDouble(void *, void *, int, int, u32_02212AF8);
+extern void BTL_SETUP_SetupCommTriple(void *, void *, int, int, u32_02212AF8);
+extern void BTL_SETUP_SetupCommRotation(void *, void *, int, int, u32_02212AF8);
 extern u32_02212AF8 func_0200AE54(struct Reg *p, u32_02212AF8 id);
 extern s32 func_0200B078(struct Reg2 *p, u32_02212AF8 id);
-extern void func_02013128(void *, void *, int);
-extern void func_02013160(u8 *o, void *a1, u32_02212AF8 a2);
-extern void func_02013980(struct ZoneData *o, u32_02212AF8 heap);
+extern void BTL_SETUP_SetParty(void *, void *, int);
+extern void BTL_SETUP_ApplyRegulation(u8 *o, void *a1, u32_02212AF8 a2);
+extern void BTL_SETUP_AllocRecordBuffer(struct ZoneData *o, u32_02212AF8 heap);
 extern void func_0200BA58(void);
 extern void func_021EEE78(void *);
 extern void func_0200BA68(void);
-extern void func_020130DC(void *);
+extern void BTL_SETUP_FreeSlots(void *);
 extern unsigned func_0200BA38(unsigned);
 extern void func_020130C4(u8 *p);
-extern void func_020138C4(char *, void *, int);
+extern void BTL_SETUP_InitWithSlots(char *, void *, int);
 extern void func_021EEEA8(void *p, u32_022132C4 c);
-extern void func_02013930(struct Obj *p);
+extern void BTL_SETUP_ClearWithSlots(struct Obj *p);
 extern u32_022133E4 func_0200853C(const struct Sub0200852CObj *obj);
 extern unsigned func_0201AA18(void *);
 extern void *func_0201AB28(void *,unsigned);
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
 extern int func_02167ED8(void *date, void *time);
-extern void *func_02031324(int);
+extern void *PROCSYS_Create(int);
 extern void func_0203133C(struct S020314B8 *p);
-extern int func_02031330(int);
-extern int func_02031348(int, int, int, int);
-extern void func_02005E30(unsigned);
+extern int PROCSYS_Main(int);
+extern int PROCSYS_Push(int, int, int, int);
+extern void GFL_USE_FadeOutBgm(unsigned);
 extern void func_0203A5E4(u32_02213850 key);
 int func_02212560(void *a, int unused, u8 *arg);
 int func_0221268C(void *sys, int unused, void *data, char *p);
@@ -385,14 +386,14 @@ int func_02212560(void *a, int unused, u8 *arg)
     func_02082D44(arg, p + 4, 0x14);
     ((struct Obj01177 *)p)->f20 = 0;
     if (((struct Obj01177 *)p)->f4 == 0) {
-        ((struct Obj01177 *)p)->f4 = func_020124F4(1);
+        ((struct Obj01177 *)p)->f4 = GAME_DATA_Create(1);
         ((struct Obj01177 *)p)->f0 = 1;
     }
     ((struct Obj01177 *)p)->f30 = func_0201A920(0x56);
     ((struct Obj01177 *)p)->f34 = func_0201A920(0x56);
     ((struct Obj01177 *)p)->f38 = func_0201A920(0x56);
     ((struct Obj01177 *)p)->f3C = func_0201A920(0x56);
-    func_0200B400(0x56);
+    BATTLE_REC_AllocWork(0x56);
     func_0221336C((char *)p, 0x56);
     ((struct Obj01177 *)p)->f18 = func_022136E4((void *)d_02213C58, (void *)9, p, 0x56);
     switch (((struct Obj01177 *)p)->fC) {
@@ -410,11 +411,11 @@ int func_02212560(void *a, int unused, u8 *arg)
     switch (((struct Obj01177 *)p)->f10) {
     case 0:
         v = func_02012934(((struct Obj01177 *)p)->f4);
-        func_02082D44(v, dst + 0xd4, func_0201A918());
+        func_02082D44(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         break;
     case 1:
         v = func_0200BAF4((int)func_0200BAC8(func_02012EBC(((struct Obj01177 *)p)->f4)), 0x8056);
-        func_02082D44(v, dst + 0xd4, func_0201A918());
+        func_02082D44(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         func_020307B0(v);
         break;
     }
@@ -430,12 +431,12 @@ int func_0221268C(void *sys, int unused, void *data, char *p)
     func_020307B0(((struct Obj03352 *)p)->f38);
     func_020307B0(((struct Obj03352 *)p)->f34);
     func_020307B0(((struct Obj03352 *)p)->f30);
-    if (((struct Obj03352 *)p)->f0) func_02012704(((struct Obj03352 *)p)->f4);
+    if (((struct Obj03352 *)p)->f0) GAME_DATA_Delete(((struct Obj03352 *)p)->f4);
     if (((struct Obj03352 *)p)->fC != 1) func_02087BCC(0);
     if (((struct Obj03352 *)p)->f14) func_020307B0(data);
     func_020315D4(sys);
     func_020306F0(0x56);
-    func_02005D28();
+    GFL_USE_CancelChangeAndStopBgm();
     return 1;
 }
 
@@ -447,7 +448,7 @@ int func_022126F4(int unused,int *state,int unused2,char *p)
         if(((struct Obj08367 *)p)->f1CC) --((struct Obj08367 *)p)->f1CC;
         {
             int x=func_02213800((char *)(((struct Obj08367 *)p)->f18));
-            if(x==2 || x==0) func_0200F7B8(0);
+            if(x==2 || x==0) GFL_NET_ERR_ShowScreen(0);
         }
         break;
     case 1: return 1;
@@ -482,7 +483,7 @@ int *func_02212740(void *obj, unsigned heap, char *ctx)
         else func_02034714(d_02213D00, 0, d_02213D00);
         break;
     }
-    if (func_02005C44() != 0x487) func_02005D90(0x487, 0xffff);
+    if (GFL_USE_GetBgmNo() != 0x487) GFL_USE_CancelChangeAndPlayBgm(0x487, 0xffff);
     return p;
 }
 
@@ -529,7 +530,7 @@ int *func_02212854(int unused, unsigned heap, char *ctx)
         void *q = func_02012EBC(((struct Obj06657 *)ctx)->f4);
         p[4] = func_0200EA04((int)func_0200E9F4(q));
     }
-    if (func_02005C44() != 0x487) func_02005D90(0x487, 0xffff);
+    if (GFL_USE_GetBgmNo() != 0x487) GFL_USE_CancelChangeAndPlayBgm(0x487, 0xffff);
     return p;
 }
 
@@ -565,8 +566,8 @@ u8 *func_02212988(int unused, unsigned heap, u8 *p)
     u8 *out;
     u8 *row;
     unsigned id;
-    func_0201A948(((struct Obj01078 *)p)->f30);
-    func_0201A948(((struct Obj01078 *)p)->f34);
+    POKEPARTY_Init(((struct Obj01078 *)p)->f30);
+    POKEPARTY_Init(((struct Obj01078 *)p)->f34);
     out = func_02030734(heap, 0x24, 0, d_02213D04, 0x32f);
     func_02082BCC(out, 0, 0x24);
     if (((struct Obj01078 *)p)->f1C == 2 || ((struct Obj01078 *)p)->f1C == 3) {
@@ -638,7 +639,7 @@ struct Out *func_02212AF8(int unused, u32_02212AF8 heap, struct In *p)
     out = func_02030734(heap, 0x10, 0, d_02213D04, 0x3e0);
     func_02082BCC(out, 0, 0x10);
     out->f0 = p->f4;
-    func_0200B480();
+    BATTLE_REC_ClearWork();
     func_02082BCC((u8 *)p + 0x1b4, 0, 0x18);
     out->f8 = func_02030734(heap, 0x58, 0, d_02213D04, 0x3eb);
     func_02082BCC(out->f8, 0, 0x58);
@@ -663,31 +664,31 @@ struct Out *func_02212AF8(int unused, u32_02212AF8 heap, struct In *p)
     if (p->f1c == 2 || p->f1c == 3) {
         id = 16;
         switch (p->f8) {
-        case 0: default: id = 15; func_02013790(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 1: func_020137C0(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 2: id = 17; func_02013864(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 3: id = 18; func_02013894(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 4: id = 19; func_02013864(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 0: default: id = 15; BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 2: id = 17; BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 3: id = 18; BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 4: id = 19; BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
         }
         v = func_0201A354(id, heap);
         flag = 1;
     } else if (p->f1c == 0) {
         v = func_0200AE14(func_0200B1D4(sys, 0));
         switch (func_0200AE54(v, 0x15)) {
-        case 0: func_02013790(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 1: func_020137C0(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 2: func_02013864(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 3: func_02013894(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        default: func_02013790(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 0: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 2: BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 3: BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        default: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
         }
     } else if (p->f1c == 1) {
         v = func_0200AE14(func_0200B1D4(sys, 1));
         switch (func_0200AE54(v, 0x15)) {
-        case 0: func_02013790(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 1: func_020137C0(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 2: func_02013864(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 3: func_02013894(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        default: func_02013790(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 0: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 2: BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 3: BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        default: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
         }
     } else {
         func_02034714(d_02213D00, flag, d_02213D00);
@@ -727,10 +728,10 @@ struct Out *func_02212AF8(int unused, u32_02212AF8 heap, struct In *p)
             out->f8->f50 = 1;
         }
     }
-    func_02013128(out->f4, p->f30, 0);
-    func_02013160((u8 *)out->f4, v, (u16)((heap & 0x7fff) | 0x8000));
+    BTL_SETUP_SetParty(out->f4, p->f30, 0);
+    BTL_SETUP_ApplyRegulation((u8 *)out->f4, v, (u16)((heap & 0x7fff) | 0x8000));
     if (p->f8ac) out->f4->fc1 |= 4;
-    func_02013980((struct ZoneData *)out->f4, heap);
+    BTL_SETUP_AllocRecordBuffer((struct ZoneData *)out->f4, heap);
     func_02034A5C((int)ov093_id);
     if (flag) func_020307B0(v);
     return out;
@@ -763,7 +764,7 @@ int func_02212E74(void *manager, u8 *arg, u8 *p)
         if (state == 0) func_022133E4(p + 0x1d0,((struct Obj01007 *)p)->f30,((struct Obj01007 *)p)->f34,((struct Obj01007 *)p)->f2C,created,0,record,p + 0x1b4,2);
         func_020307B0(created);
     }
-    func_020130DC(((struct Obj03909 *)arg)->f4);
+    BTL_SETUP_FreeSlots(((struct Obj03909 *)arg)->f4);
     func_020307B0(((struct Obj03909 *)arg)->f4);
     func_020307B0(((struct Obj03909 *)arg)->f8);
     func_020307B0(arg);
@@ -961,22 +962,22 @@ void *func_022132C4(void *unused, int heap, char *p)
     func_02082BCC(work, 0, 0xf0);
     func_02034AC4((s32)ov093_id);
     func_020130C4((u8 *)work);
-    func_020138C4(work, *(void **)(p + 4), heap);
+    BTL_SETUP_InitWithSlots(work, *(void **)(p + 4), heap);
     func_02034A5C((s32)ov093_id);
     func_0200BA58();
     func_021EEEA8(work, heap);
     func_0200BA68();
     func_02034AC4((s32)ov093_id);
-    func_02005D28();
-    func_02005D90(*(unsigned short *)(work + 0x18), 0xffff);
+    GFL_USE_CancelChangeAndStopBgm();
+    GFL_USE_CancelChangeAndPlayBgm(*(unsigned short *)(work + 0x18), 0xffff);
     return work;
 }
 
 int func_02213338(char *p, char *q)
 {
-    func_02005D28();
+    GFL_USE_CancelChangeAndStopBgm();
     func_020307B0(((struct Obj01819 *)q)->f34);
-    func_02013930((struct Obj *)q);
+    BTL_SETUP_ClearWithSlots((struct Obj *)q);
     func_020307B0(q);
     func_02034A5C((int)ov093_id);
     func_02213808(p, 0);
@@ -986,11 +987,11 @@ int func_02213338(char *p, char *q)
 void func_0221336C(char *p, int heap)
 {
     int size;
-    ((struct Obj08373 *)p)->f28 = func_02030734(heap, func_0201A918() + 0xd4, 0, d_02213D04, 0x72d);
-    size = func_0201A918() + 0xd4;
+    ((struct Obj08373 *)p)->f28 = func_02030734(heap, POKE_REGULATION_GetDataSize() + 0xd4, 0, d_02213D04, 0x72d);
+    size = POKE_REGULATION_GetDataSize() + 0xd4;
     func_02082BCC(((struct Obj08373 *)p)->f28, 0, size);
-    ((struct Obj08373 *)p)->f2C = func_02030734(heap, func_0201A918() + 0xd4, 0, d_02213D04, 0x72f);
-    size = func_0201A918() + 0xd4;
+    ((struct Obj08373 *)p)->f2C = func_02030734(heap, POKE_REGULATION_GetDataSize() + 0xd4, 0, d_02213D04, 0x72f);
+    size = POKE_REGULATION_GetDataSize() + 0xd4;
     func_02082BCC(((struct Obj08373 *)p)->f2C, 0, size);
 }
 
@@ -1111,7 +1112,7 @@ void *func_022136E4(void *a, void *b, void *c, int heap)
 {
     char *work = func_02030734(heap, 0x20, 0, d_02213D04, 0x846);
     func_02082BCC(work, 0, 0x20);
-    ((struct Obj06661 *)work)->f0 = func_02031324(heap);
+    ((struct Obj06661 *)work)->f0 = PROCSYS_Create(heap);
     ((struct Obj06661 *)work)->fC = c;
     ((struct Obj06661 *)work)->f10 = a;
     ((struct Obj06661 *)work)->f14 = b;
@@ -1147,7 +1148,7 @@ int func_02213754(S *s)
             s->f4 = r(s, s->f8, s->fc);
         else
             s->f4 = 0;
-        func_02031348(s->f0,
+        PROCSYS_Push(s->f0,
                         *(int *)((char *)s->f10 + (s->f1a << 4)),
                         *(int *)((char *)s->f10 + 4 + (s->f1a << 4)),
                         s->f4);
@@ -1155,7 +1156,7 @@ int func_02213754(S *s)
         break;
     }
     case 2:
-        s->f1c = func_02031330(s->f0);
+        s->f1c = PROCSYS_Main(s->f0);
         if (s->f1c == 0)
             s->f1b = 3;
         break;
@@ -1204,7 +1205,7 @@ void func_02213808(char *p, int value)
  */
 void func_0221380C(unsigned char *p){p[0x19]=255;}
 
-int func_02213814(struct Obj0203159C *p,int unused,char *q){void *r;func_0203064C(1,88,336);r=func_0203159C(p,16,88);func_02082BCC(r,0,16);((struct Obj25303 *)q)->fC=0;((struct Obj25304 *)r)->f0=func_02031324(88);func_02005E30(16);return 1;}
+int func_02213814(struct Obj0203159C *p,int unused,char *q){void *r;func_0203064C(1,88,336);r=func_0203159C(p,16,88);func_02082BCC(r,0,16);((struct Obj25303 *)q)->fC=0;((struct Obj25304 *)r)->f0=PROCSYS_Create(88);GFL_USE_FadeOutBgm(16);return 1;}
 
 int func_02213850(void *a, void *b, void *c, char *work)
 {

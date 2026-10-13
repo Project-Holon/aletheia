@@ -1,5 +1,5 @@
 /*
- * function: func_02046C24
+ * function: G3D_SYSTEM_SetGlbFlushMode
  * address:  0x02046C24
  * packet:   pkt_02046C24
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C      0x02146A5C  data
- *   func_02046C88   0x02046C88  arm
+ *   _G3dSystem      0x02146A5C  data
+ *   G3D_SYSTEM_FlushGlbDefault   0x02046C88  arm
  *   func_0206A884   0x0206A884  arm
  *   func_0206A8FC   0x0206A8FC  arm
  *
@@ -44,23 +44,23 @@ struct Ctx {
     void *unk_88;
 };
 
-extern struct Ctx *g_02146A5C;
-extern void func_02046C88(void);
+extern struct Ctx *_G3dSystem;
+extern void G3D_SYSTEM_FlushGlbDefault(void);
 extern void func_0206A884(void);
 extern void func_0206A8FC(void);
 
-void func_02046C24(u32 mode)
+void G3D_SYSTEM_SetGlbFlushMode(u32 mode)
 {
     switch (mode) {
     case 0:
     default:
-        g_02146A5C->unk_88 = func_02046C88;
+        _G3dSystem->unk_88 = G3D_SYSTEM_FlushGlbDefault;
         break;
     case 1:
-        g_02146A5C->unk_88 = func_0206A884;
+        _G3dSystem->unk_88 = func_0206A884;
         break;
     case 2:
-        g_02146A5C->unk_88 = func_0206A8FC;
+        _G3dSystem->unk_88 = func_0206A8FC;
         break;
     }
 }

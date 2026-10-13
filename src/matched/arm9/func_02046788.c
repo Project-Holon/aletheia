@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C      0x02146A5C  data
+ *   _G3dSystem      0x02146A5C  data
  *   func_020307B0   0x020307B0  arm
  *   func_0206DB24   0x0206DB24  arm
- *   func_0206DB60   0x0206DB60  arm
+ *   NNS_G3dGeReleaseBuffer   0x0206DB60  arm
  *   func_02030BC8   0x02030BC8  arm
  *
  * Shut the module down: free the two owned pointers at +0x10 and +0x14 if
@@ -51,24 +51,24 @@ struct Ctx {
     void *unk_14;
 };
 
-extern struct Ctx *g_02146A5C;
+extern struct Ctx *_G3dSystem;
 
 extern u32 func_020307B0(void *p);
 extern u32   func_0206DB24(void);
-extern void *func_0206DB60(void);
+extern void *NNS_G3dGeReleaseBuffer(void);
 extern int   func_02030BC8(u32 idx);
 
 void func_02046788(void)
 {
-    if (g_02146A5C->unk_10 != 0)
-        func_020307B0(g_02146A5C->unk_10);
-    if (g_02146A5C->unk_14 != 0)
-        func_020307B0(g_02146A5C->unk_14);
+    if (_G3dSystem->unk_10 != 0)
+        func_020307B0(_G3dSystem->unk_10);
+    if (_G3dSystem->unk_14 != 0)
+        func_020307B0(_G3dSystem->unk_14);
 
     if (func_0206DB24() == 1) {
-        func_02030BC8((u32)func_0206DB60());
+        func_02030BC8((u32)NNS_G3dGeReleaseBuffer());
     }
 
-    func_020307B0(g_02146A5C);
-    g_02146A5C = 0;
+    func_020307B0(_G3dSystem);
+    _G3dSystem = 0;
 }

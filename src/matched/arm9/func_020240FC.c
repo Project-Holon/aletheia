@@ -1,5 +1,5 @@
 /*
- * function: func_020240FC
+ * function: PMSI_PARAM_Delete
  * address:  0x020240FC
  * packet:   pkt_020240FC
  * region:   arm9
@@ -19,15 +19,15 @@
  *   sub_020307B0  0x020307B0  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020240FC.c \
- *       --func func_020240FC --addr 0x020240FC --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/PMSI_PARAM_Delete.c \
+ *       --func PMSI_PARAM_Delete --addr 0x020240FC --thumb --cc 1.1p1
  */
 
 typedef unsigned int u32;
 
 extern u32 sub_020307B0(void *p);
 
-void func_020240FC(void *t)
+void PMSI_PARAM_Delete(void *t)
 {
     sub_020307B0(t);
 }

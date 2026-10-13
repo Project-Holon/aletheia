@@ -1,5 +1,5 @@
 /*
- * function: func_02173FE0
+ * function: UNION_COMMAND_RecvAppData
  * address: 0x02173FE0
  * packet: pkt_ov012_02173FE0
  * region: ov012
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02183FB8(int, void *, u8, int);
 extern u8 d_02175624[];
-void func_02173FE0(int a, int x, int y, u8 *p)
+void UNION_COMMAND_RecvAppData(int a, int x, int y, u8 *p)
 {
     if (((struct Obj12449 *)p)->f3528 == 0) {
         func_02034714((const char *)d_02175624, 0, (const char *)d_02175624);

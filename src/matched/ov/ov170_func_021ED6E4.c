@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B838 0x0204B838 arm
- *   func_0204B864 0x0204B864 arm
+ *   CLACT_GetActorDrawPriority 0x0204B838 arm
+ *   CLACT_GetActorBgPriority 0x0204B864 arm
  *   func_021EC000 0x021EC000 thumb
  *   func_021EC030 0x021EC030 thumb
  *   func_021EC048 0x021EC048 thumb
  */
 
-extern int func_0204B838(int a);
+extern int CLACT_GetActorDrawPriority(int a);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_0204B864(u8 *a0);
+extern u32 CLACT_GetActorBgPriority(u8 *a0);
 extern void func_021EC000(char *p, int i, int v);
 extern void func_021EC030(char *p, int i, int c);
 extern void func_021EC048(char *p, int i, int c);
@@ -33,8 +33,8 @@ void func_021ED6E4(char **p, int v)
             func_021EC000(p[11], j + 0x58, v);
             if (v == 1 && ((unsigned char *)p)[0x16] != 0xFF) {
                 unsigned char k = *(unsigned char *)(p[11] + ((unsigned char *)p)[0x16] + 0x3DD2);
-                func_021EC048(p[11], j + 0x58, func_0204B838(*(int *)(p[11] + k * 4 + 0x9E74)) + 1);
-                func_021EC030(p[11], j + 0x58, func_0204B864((u8 *)(*(int *)(p[11] + k * 4 + 0x9E74))));
+                func_021EC048(p[11], j + 0x58, CLACT_GetActorDrawPriority(*(int *)(p[11] + k * 4 + 0x9E74)) + 1);
+                func_021EC030(p[11], j + 0x58, CLACT_GetActorBgPriority((u8 *)(*(int *)(p[11] + k * 4 + 0x9E74))));
             }
         }
     }

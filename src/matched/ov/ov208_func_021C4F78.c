@@ -8,20 +8,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * blocker:  func_02014CEC witness (src/matched/arm9/func_02014CEC.c) has no shard yet; EXACT once the integrator builds it (2026-10-02)
+ * blocker:  MCSS_SetTaskSystem witness (src/matched/arm9/MCSS_SetTaskSystem.c) has no shard yet; EXACT once the integrator builds it (2026-10-02)
  *
  * The last call takes the 3D heap handle as its second argument (r1 still
  * holds it), which is why the image copies the result to r1 before the store.
  *
  * symbols:
- *   func_02014B08  0x02014B08  thumb
- *   func_02016020  0x02016020  thumb
- *   func_02015BF0  0x02015BF0  thumb
+ *   MCSS_Init  0x02014B08  thumb
+ *   MCSS_SetTextureTransAdrs  0x02016020  thumb
+ *   MCSS_SetOrthoMode  0x02015BF0  thumb
  *   func_0202D060  0x0202D060  thumb
- *   func_02014CB8  0x02014CB8  thumb
+ *   MCSS_OpenHandle  0x02014CB8  thumb
  *   func_02030CB0  0x02030CB0  arm
  *   func_02030CBC  0x02030CBC  arm
- *   func_02014CEC  0x02014CEC  thumb
+ *   MCSS_SetTaskSystem  0x02014CEC  thumb
  *   func_02030734  0x02030734  arm
  *   data_021C8E64  0x021C8E64  data
  */
@@ -40,25 +40,25 @@ struct Ov208Menu {
 };
 
 struct Sub02014CB8Obj;
-extern void *func_02014B08(u32 id, void *heap);
-extern void func_02016020(void *p, u32 v);
-extern void func_02015BF0(void *obj);
+extern void *MCSS_Init(u32 id, void *heap);
+extern void MCSS_SetTextureTransAdrs(void *p, u32 v);
+extern void MCSS_SetOrthoMode(void *obj);
 struct Ctx;
 extern int func_0202D060(void);
-extern void func_02014CB8(struct Sub02014CB8Obj *o, u32 x);
+extern void MCSS_OpenHandle(struct Sub02014CB8Obj *o, u32 x);
 extern u32  func_02030CB0(u32 n);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void func_02014CEC(u8 *p, u32 value);
+extern void MCSS_SetTaskSystem(u8 *p, u32 value);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char data_021C8E64[];
 
 void ov208_func_021C4F78(u16 *heap, struct Ov208Menu *p)
 {
-    p->cam = (u32)func_02014B08(4, (void *)(*heap));
-    func_02016020((void *)p->cam, 0);
-    func_02015BF0((void *)p->cam);
-    func_02014CB8((struct Sub02014CB8Obj *)p->cam, func_0202D060());
+    p->cam = (u32)MCSS_Init(4, (void *)(*heap));
+    MCSS_SetTextureTransAdrs((void *)p->cam, 0);
+    MCSS_SetOrthoMode((void *)p->cam);
+    MCSS_OpenHandle((struct Sub02014CB8Obj *)p->cam, func_0202D060());
     p->mem = func_02030734(*heap, func_02030CB0(4), 0, data_021C8E64, 0xa53);
     p->heap3d = func_02030CBC(4, p->mem);
-    func_02014CEC((u8 *)p->cam, (u32)p->heap3d);
+    MCSS_SetTaskSystem((u8 *)p->cam, (u32)p->heap3d);
 }

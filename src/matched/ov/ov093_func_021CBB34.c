@@ -18,7 +18,7 @@
  *   func_02019C90 0x02019C90 thumb
  *   func_021CBD48 0x021CBD48 thumb ov093
  *   func_021D62A8 0x021D62A8 thumb ov093
- *   func_020111BC 0x020111BC thumb
+ *   GPOWER_ApplyCaptureRate 0x020111BC thumb
  *   func_021CBEA8 0x021CBEA8 thumb ov093
  *   FX_Div 0x0207C768 arm
  *   FX_Sqrt 0x0207C7B4 arm
@@ -44,7 +44,7 @@ extern u16 func_021D5444(struct QF *p);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern int func_021CBD48(u8 *, void *, void *, int);
 extern int func_021D62A8(struct Unk021D62A8 *p);
-extern int func_020111BC(int);
+extern int GPOWER_ApplyCaptureRate(int);
 extern int func_021CBEA8(u8 *p, int x);
 extern int FX_Div(int, int);
 extern int FX_Sqrt(int);
@@ -74,7 +74,7 @@ int func_021CBB34(u8 *p, void *q, void *m, u16 mode, u8 *out, u8 *flag)
     case 2: case 3: v = ((s64)v * 0x2800 + 0x800) >> 12; break;
     case 1: case 4: case 5: v = ((s64)v * 0x1800 + 0x800) >> 12; break;
     }
-    rate = func_020111BC(v);
+    rate = GPOWER_ApplyCaptureRate(v);
     *flag = func_021CBEA8(p, rate);
     if (rate >= 0xff000) { *out = *flag ? 1 : 3; return 1; }
     count = *flag ? 1 : 3;

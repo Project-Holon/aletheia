@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02043900
+ * function: BMP_InitFromCharData
  * address:  0x02043900
  * packet:   pkt_0204384C
  * region:   arm9
@@ -73,7 +73,7 @@ extern const char func_02043900_File[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
-void func_02043900(struct Bmp *b, struct BmpInfo *info, u32 heap)
+void BMP_InitFromCharData(struct Bmp *b, struct BmpInfo *info, u32 heap)
 {
     b->width = info->cellsY * 8;
     b->height = info->cellsX * 8;

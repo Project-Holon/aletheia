@@ -11,10 +11,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02005430
+ * function: GFL_USE_PollTwlService
  *
  * symbols:
- *   func_02061C44  0x02061C44  arm
+ *   NNS_GfdDoVramTransfer  0x02061C44  arm
  *
  * One eight byte tail call, the shape
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes: a pool word and a
@@ -36,9 +36,9 @@
  */
 
 /* ARM, and attested by a branch to it from an overlay. */
-extern void func_02061C44(void);
+extern void NNS_GfdDoVramTransfer(void);
 
-void sub_02005430(void)
+void GFL_USE_PollTwlService(void)
 {
-    func_02061C44();
+    NNS_GfdDoVramTransfer();
 }

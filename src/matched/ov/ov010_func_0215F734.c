@@ -22,12 +22,12 @@
  *   func_0201210C  0x0201210C  thumb
  *   func_02012138  0x02012138  thumb
  *   func_02012374  0x02012374  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   func_02012444  0x02012444  thumb
- *   func_02012158  0x02012158  thumb
+ *   GAMESYSTEM_SetAlwaysNetFlag  0x02012158  thumb
  *   func_02014554  0x02014554  thumb
- *   func_02005E30  0x02005E30  thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   func_02026400  0x02026400  thumb
  *   func_02026454  0x02026454  thumb
  *   func_021BE8D4  0x021BE8D4  thumb
@@ -76,12 +76,12 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02012138(const struct Ctx *p);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
-extern void func_02012158(char *p, unsigned int v);
+extern void GAMESYSTEM_SetAlwaysNetFlag(char *p, unsigned int v);
 extern int func_02014554(int a0, int a1);
-extern void func_02005E30(u32 v);
+extern void GFL_USE_FadeOutBgm(u32 v);
 extern void func_02026400(struct Comm *p);
 extern u32 func_02026454(void *obj);
 extern void *func_021BE8D4(void *sys, void *proc, u32 a, u32 b);
@@ -112,7 +112,7 @@ int func_0215F734(void *evt, u32 *i, Work *w)
     case 0:
         if (w->f08 == 1)
             func_0215F9EC((int)w);
-        func_02005E30(30);
+        GFL_USE_FadeOutBgm(30);
         func_0215F9DC(w, i);
         break;
     case 1:
@@ -133,19 +133,19 @@ int func_0215F734(void *evt, u32 *i, Work *w)
         func_0215F9DC(w, i);
         break;
     case 5:
-        func_020120B4(sys, (u32)ov180_id, d_021B800C, w->f1c);
+        GAMESYSTEM_CallProc(sys, (u32)ov180_id, d_021B800C, w->f1c);
         func_0215F9DC(w, i);
         break;
     case 6:
-        if (func_020120F0(sys) == 0)
+        if (GAMESYSTEM_GetProcStatus(sys) == 0)
             func_0215F9DC(w, i);
         break;
     case 7:
-        func_020120B4(sys, (u32)ov181_id, d_021BAB24, w->f28);
+        GAMESYSTEM_CallProc(sys, (u32)ov181_id, d_021BAB24, w->f28);
         func_0215F9DC(w, i);
         break;
     case 8:
-        if (func_020120F0(sys) == 0)
+        if (GAMESYSTEM_GetProcStatus(sys) == 0)
             func_0215F9DC(w, i);
         break;
     case 9:
@@ -169,7 +169,7 @@ int func_0215F734(void *evt, u32 *i, Work *w)
         break;
     case 13:
         func_02012444(evt, (u32)ov182_id, (u32)d_021B9BA0, (u32)w->f30);
-        func_02012158(sys, 0);
+        GAMESYSTEM_SetAlwaysNetFlag(sys, 0);
         func_0215F9DC(w, i);
         break;
     case 14:

@@ -1,7 +1,7 @@
 /*
  * file:     backup_system.c
  * unit:     yes
- * function: func_020316C8, func_0203174C, func_0203192C, FSi_ConvertStringSjisToUnicode, func_0203195C, func_02031994, func_020319A4, func_020319C0, func_020319E4, func_020319F0, func_02031AE0, func_02031B8C, func_02031BB4, func_02031C04, func_02031C10, func_02031C30, func_02031DC0, func_02031E68, func_02031E70, func_02031E7C, func_02031EAC, func_02031ECC, func_02031EE8, func_02031EF8, func_02031F54, func_02031F94, func_02031F9C, BACKUP_SYSTEM_GetRecordCount, func_02031FE0, func_02032688, sub_020328E0, sub_02032930, sub_02032970, sub_020329AC, sub_02032A9C, sub_02032BF8, sub_02032C84, func_02032CD0, sub_020331A4, sub_020331D0, sub_02033200, sub_02033264, sub_020332A4, sub_020332FC, sub_0203331C, sub_0203335C, func_020333F8, func_02033410, func_02033478, func_02033494, func_020334B0, func_020334CC, func_020334E8
+ * function: BACKUP_SYSTEM_Init, BACKUP_SYSTEM_CreateCore, BACKUP_SYSTEM_Create, BACKUP_SYSTEM_CreateWithWork, BACKUP_SYSTEM_Delete, BACKUP_SYSTEM_GetWork, BACKUP_SYSTEM_GetRecordWork, BACKUP_SYSTEM_ClearWork, BACKUP_SYSTEM_GetDiffSize, BACKUP_SYSTEM_Erase, BACKUP_SYSTEM_Load, BACKUP_SYSTEM_StartSave, BACKUP_SYSTEM_MainSave, BACKUP_SYSTEM_CancelSave, BACKUP_SYSTEM_InitLinkedSave, BACKUP_SYSTEM_MainLinkedSave, BACKUP_SYSTEM_LoadLinked, BACKUP_SYSTEM_GetWrittenSize, BACKUP_SYSTEM_IsFlashBusy, BACKUP_SYSTEM_CalcCrcTableCrc, BACKUP_SYSTEM_GetAreaAddr, BACKUP_SYSTEM_GetCrcTable, BACKUP_SYSTEM_GetFooter, BACKUP_SYSTEM_CheckFooter, BACKUP_SYSTEM_SetFooter, BACKUP_SYSTEM_SetSaveCount, BACKUP_SYSTEM_GetFooterInfo, BACKUP_SYSTEM_GetRecordCount, BACKUP_SYSTEM_LoadDoubleCopy, BACKUP_SYSTEM_LoadSingleCopy, BACKUP_SYSTEM_WriteFooterBody, BACKUP_SYSTEM_WriteFooterLastByte, BACKUP_SYSTEM_InitSaveSeq, BACKUP_SYSTEM_CalcDiffSize, BACKUP_SYSTEM_CompareRecordStep, BACKUP_SYSTEM_WriteRecord, BACKUP_SYSTEM_WriteCrcTable, BACKUP_SYSTEM_SaveSeqMain, BACKUP_SYSTEM_EndSave, BACKUP_SYSTEM_CancelSaveSeq, BACKUP_SYSTEM_EraseFooter, BACKUP_SYSTEM_IncRecordCount, BACKUP_SYSTEM_UpdateRecordCrc, BACKUP_SYSTEM_GetBlockArea, BACKUP_SYSTEM_SetBlockArea, BACKUP_SYSTEM_SwapBlockAreas, BACKUP_SYSTEM_ClearBlockAreas, BACKUP_SYSTEM_FillBlockAreas, BACKUP_SYSTEM_WriteFlash, BACKUP_SYSTEM_WriteFlashAsync, BACKUP_SYSTEM_CheckFlashAsync, BACKUP_SYSTEM_ReadFlash, BACKUP_SYSTEM_ReadRecordFromFlash
  * address:  0x020316C8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -18,8 +18,8 @@
  *   func_02082A7C  0x02082A7C  arm
  *   func_020819B8  0x020819B8  arm
  *   str_020A7848   0x020A7848  data
- *   g_02146994     0x02146994  data
- *   sub_02033BF8  0x02033BF8  arm
+ *   svsys     0x02146994  data
+ *   SAVEDATA_GetTotalSize  0x02033BF8  arm
  *   func_02034714  0x02034714  arm
  *   str_020A7858   0x020A7858  data
  *   str_020A7868   0x020A7868  data
@@ -31,19 +31,19 @@
  *   func_0203EFC8  0x0203EFC8  arm
  *   str_020A7888   0x020A7888  data  a1
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02033534 0x02033534 arm
- *   func_020335AC 0x020335AC arm
- *   func_020335E8 0x020335E8 arm
- *   func_020336B8 0x020336B8 arm
- *   func_020337B8 0x020337B8 arm
- *   func_0203386C 0x0203386C arm
- *   func_020338F8 0x020338F8 arm
- *   func_02033908 0x02033908 arm
- *   func_020339B4 0x020339B4 arm
- *   func_020339D0 0x020339D0 arm
- *   func_02033B68 0x02033B68 arm
- *   func_02033BAC 0x02033BAC arm
- *   sub_02033BF0 0x02033BF0 arm
+ *   FLASH_ACCESS_Identify 0x02033534 arm
+ *   FLASH_ACCESS_Write 0x020335AC arm
+ *   FLASH_ACCESS_Read 0x020335E8 arm
+ *   FLASH_ACCESS_StartWrite 0x020336B8 arm
+ *   FLASH_ACCESS_PollWrite 0x020337B8 arm
+ *   FLASH_ACCESS_CancelWrite 0x0203386C arm
+ *   FLASH_ACCESS_GetBusyFlag 0x020338F8 arm
+ *   SAVEDATA_CreateTable 0x02033908 arm
+ *   SAVEDATA_DeleteTable 0x020339B4 arm
+ *   SAVEDATA_InitBuffer 0x020339D0 arm
+ *   SAVEDATA_GetBlockOffset 0x02033B68 arm
+ *   SAVEDATA_GetBlockSize 0x02033BAC arm
+ *   SAVEDATA_GetTableMax 0x02033BF0 arm
  */
 
 typedef unsigned char  u8;
@@ -57,8 +57,8 @@ struct MATHCRC16Table;
 typedef struct SaveDataTable SaveDataTable;
 
 /*
- * The backup system work (svsys), allocated once by func_020316C8.  The
- * assert "svsys != NULL" in func_0203174C names the pointer.
+ * The backup system work (svsys), allocated once by BACKUP_SYSTEM_Init.  The
+ * assert "svsys != NULL" in BACKUP_SYSTEM_CreateCore names the pointer.
  */
 typedef struct BackupSystem {
     u32 flash_exists;              /* 0x000 the backup device answered the identify */
@@ -83,7 +83,7 @@ typedef struct SaveDataParam {
 
 /*
  * One save data area (sv).  The assert "svwk_size >= sv->savearea_size" in
- * func_0203174C names the field at +0x08.
+ * BACKUP_SYSTEM_CreateCore names the field at +0x08.
  *
  * block_area holds two bits per block: the records of the table, then the
  * CRC table block (index table_num) and the footer (index table_num + 1).
@@ -96,12 +96,12 @@ typedef struct BackupSaveData {
     u32 magic_id;          /* 0x00C */
     u32 prev_save_count;   /* 0x010 save_count before the running save, restored on failure */
     u32 write_block;       /* 0x014 block the save sequence is at */
-    u8  write_seq;         /* 0x018 state of func_02032CD0 */
+    u8  write_seq;         /* 0x018 state of BACKUP_SYSTEM_SaveSeqMain */
     u8  write_pass;        /* 0x019 copies written by the running save */
     u8  pad_1A[2];
     u8  data_exists;       /* 0x01C set by a good load or a failed save, cleared by the erase */
     u8  work_allocated;    /* 0x01D svwk was allocated here (freed by the delete) */
-    u8  link_seq;          /* 0x01E state of the linked save (func_02031C30) */
+    u8  link_seq;          /* 0x01E state of the linked save (BACKUP_SYSTEM_MainLinkedSave) */
     u8  link_result;       /* 0x01F result of the linked area's last pass */
     u32 *link_count;       /* 0x020 where the linked save stores the other area's save_count */
     u32 reserved;          /* 0x024 cleared by the constructor, never read here */
@@ -146,75 +146,75 @@ extern u16 MATH_CalcCRC16CCITT(const void *table, const void *data, u32 len);
 extern void  func_02082A60(const void *src, void *dst, u32 size);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 size);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-void func_020316C8(u32 heap_id, u32 read_error_func, u32 write_error_func);
-BackupSaveData *func_0203174C(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode);
-BackupSaveData *func_0203192C(const SaveDataParam *param, u32 heap_id);
-BackupSaveData *FSi_ConvertStringSjisToUnicode(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode);
-void func_0203195C(BackupSaveData *sv);
-u8 *func_02031994(BackupSaveData *sv, u32 *size);
-u8 *func_020319A4(BackupSaveData *sv, u32 id);
-void func_020319C0(BackupSaveData *sv);
-void func_020319E4(BackupSaveData *sv, u32 *diff_size, u32 *total_size);
-int func_020319F0(BackupSaveData *sv, u32 heap_id);
-int func_02031AE0(BackupSaveData *sv, u32 heap_id);
-void func_02031B8C(BackupSaveData *sv);
-int func_02031BB4(BackupSaveData *sv);
-void func_02031C04(BackupSaveData *sv);
-void func_02031C10(BackupSaveData *main_sv, BackupSaveData *link_sv, u32 *link_count);
-int func_02031C30(BackupSaveData *main_sv, BackupSaveData *link_sv);
-int func_02031DC0(BackupSaveData *sv, u32 heap_id, u32 link_count);
-u32 func_02031E68(const BackupSaveData *sv);
-void * func_02031E70(void);
-u16 func_02031E7C(BackupSaveData *sv, u8 *buf);
-u32 func_02031EAC(BackupSaveData *sv, u32 area);
-u16 *func_02031ECC(BackupSaveData *sv);
-SaveFooter *func_02031EE8(BackupSaveData *sv, u8 *buf);
-u32 func_02031EF8(BackupSaveData *sv, u8 *buf, u32 area);
-void func_02031F54(const BackupSaveData *sv, u8 *buf);
-void func_02031F94(BackupSaveData *sv, u32 save_count);
-void func_02031F9C(u32 *result, BackupSaveData *sv, u8 *buf, u32 area);
-int func_02031FE0(BackupSaveData *sv, u32 heap_id, u32 mode, u32 link_count);
-int func_02032688(BackupSaveData *sv, int mode, int link_count);
-int sub_020328E0(BackupSaveData *sv, u32 area);
-int sub_02032930(BackupSaveData *sv, u32 area);
-void sub_02032970(BackupSaveData *sv, u32 set_busy);
-void sub_020329AC(BackupSaveData *sv, u32 *diff_size, u32 *total_size);
-u32 sub_02032A9C(BackupSaveData *sv, u32 id, u32 area, u32 *rest, u32 *budget, u32 *done_size, u32 *yield);
-u16 sub_02032BF8(BackupSaveData *sv, u32 id, u32 area, u32 pass);
-int sub_02032C84(BackupSaveData *sv, u32 area);
-int func_02032CD0(BackupSaveData *sv, u32 *pass_done);
-void sub_020331A4(BackupSaveData *sv, u32 result, u32 clear_busy);
-void sub_020331D0(BackupSaveData *sv);
-u32 sub_02033200(BackupSaveData *sv, u32 area);
-u16 sub_02033264(BackupSaveData *sv, u32 id);
-u16 sub_020332A4(BackupSaveData *sv, u32 id);
-u32 sub_020332FC(BackupSaveData *sv, u32 block);
-void sub_0203331C(BackupSaveData *sv, u32 block, u32 area);
-void sub_0203335C(BackupSaveData *sv);
-void func_020333F8(BackupSaveData *sv);
-void func_02033410(BackupSaveData *sv, u32 area);
-void func_02033478(u32 flash_addr, u32 src, u32 size);
-u16 func_02033494(u32 flash_addr, u32 src, u32 size);
-int func_020334B0(u16 lock_id, u32 *success);
-int func_020334CC(u32 flash_addr, u32 dst, u32 size);
-int func_020334E8(BackupSaveData *sv, u32 id, u32 area_index, u32 dst, u32 size);
+void BACKUP_SYSTEM_Init(u32 heap_id, u32 read_error_func, u32 write_error_func);
+BackupSaveData *BACKUP_SYSTEM_CreateCore(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode);
+BackupSaveData *BACKUP_SYSTEM_Create(const SaveDataParam *param, u32 heap_id);
+BackupSaveData *BACKUP_SYSTEM_CreateWithWork(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode);
+void BACKUP_SYSTEM_Delete(BackupSaveData *sv);
+u8 *BACKUP_SYSTEM_GetWork(BackupSaveData *sv, u32 *size);
+u8 *BACKUP_SYSTEM_GetRecordWork(BackupSaveData *sv, u32 id);
+void BACKUP_SYSTEM_ClearWork(BackupSaveData *sv);
+void BACKUP_SYSTEM_GetDiffSize(BackupSaveData *sv, u32 *diff_size, u32 *total_size);
+int BACKUP_SYSTEM_Erase(BackupSaveData *sv, u32 heap_id);
+int BACKUP_SYSTEM_Load(BackupSaveData *sv, u32 heap_id);
+void BACKUP_SYSTEM_StartSave(BackupSaveData *sv);
+int BACKUP_SYSTEM_MainSave(BackupSaveData *sv);
+void BACKUP_SYSTEM_CancelSave(BackupSaveData *sv);
+void BACKUP_SYSTEM_InitLinkedSave(BackupSaveData *main_sv, BackupSaveData *link_sv, u32 *link_count);
+int BACKUP_SYSTEM_MainLinkedSave(BackupSaveData *main_sv, BackupSaveData *link_sv);
+int BACKUP_SYSTEM_LoadLinked(BackupSaveData *sv, u32 heap_id, u32 link_count);
+u32 BACKUP_SYSTEM_GetWrittenSize(const BackupSaveData *sv);
+void * BACKUP_SYSTEM_IsFlashBusy(void);
+u16 BACKUP_SYSTEM_CalcCrcTableCrc(BackupSaveData *sv, u8 *buf);
+u32 BACKUP_SYSTEM_GetAreaAddr(BackupSaveData *sv, u32 area);
+u16 *BACKUP_SYSTEM_GetCrcTable(BackupSaveData *sv);
+SaveFooter *BACKUP_SYSTEM_GetFooter(BackupSaveData *sv, u8 *buf);
+u32 BACKUP_SYSTEM_CheckFooter(BackupSaveData *sv, u8 *buf, u32 area);
+void BACKUP_SYSTEM_SetFooter(const BackupSaveData *sv, u8 *buf);
+void BACKUP_SYSTEM_SetSaveCount(BackupSaveData *sv, u32 save_count);
+void BACKUP_SYSTEM_GetFooterInfo(u32 *result, BackupSaveData *sv, u8 *buf, u32 area);
+int BACKUP_SYSTEM_LoadDoubleCopy(BackupSaveData *sv, u32 heap_id, u32 mode, u32 link_count);
+int BACKUP_SYSTEM_LoadSingleCopy(BackupSaveData *sv, int mode, int link_count);
+int BACKUP_SYSTEM_WriteFooterBody(BackupSaveData *sv, u32 area);
+int BACKUP_SYSTEM_WriteFooterLastByte(BackupSaveData *sv, u32 area);
+void BACKUP_SYSTEM_InitSaveSeq(BackupSaveData *sv, u32 set_busy);
+void BACKUP_SYSTEM_CalcDiffSize(BackupSaveData *sv, u32 *diff_size, u32 *total_size);
+u32 BACKUP_SYSTEM_CompareRecordStep(BackupSaveData *sv, u32 id, u32 area, u32 *rest, u32 *budget, u32 *done_size, u32 *yield);
+u16 BACKUP_SYSTEM_WriteRecord(BackupSaveData *sv, u32 id, u32 area, u32 pass);
+int BACKUP_SYSTEM_WriteCrcTable(BackupSaveData *sv, u32 area);
+int BACKUP_SYSTEM_SaveSeqMain(BackupSaveData *sv, u32 *pass_done);
+void BACKUP_SYSTEM_EndSave(BackupSaveData *sv, u32 result, u32 clear_busy);
+void BACKUP_SYSTEM_CancelSaveSeq(BackupSaveData *sv);
+u32 BACKUP_SYSTEM_EraseFooter(BackupSaveData *sv, u32 area);
+u16 BACKUP_SYSTEM_IncRecordCount(BackupSaveData *sv, u32 id);
+u16 BACKUP_SYSTEM_UpdateRecordCrc(BackupSaveData *sv, u32 id);
+u32 BACKUP_SYSTEM_GetBlockArea(BackupSaveData *sv, u32 block);
+void BACKUP_SYSTEM_SetBlockArea(BackupSaveData *sv, u32 block, u32 area);
+void BACKUP_SYSTEM_SwapBlockAreas(BackupSaveData *sv);
+void BACKUP_SYSTEM_ClearBlockAreas(BackupSaveData *sv);
+void BACKUP_SYSTEM_FillBlockAreas(BackupSaveData *sv, u32 area);
+void BACKUP_SYSTEM_WriteFlash(u32 flash_addr, u32 src, u32 size);
+u16 BACKUP_SYSTEM_WriteFlashAsync(u32 flash_addr, u32 src, u32 size);
+int BACKUP_SYSTEM_CheckFlashAsync(u16 lock_id, u32 *success);
+int BACKUP_SYSTEM_ReadFlash(u32 flash_addr, u32 dst, u32 size);
+int BACKUP_SYSTEM_ReadRecordFromFlash(BackupSaveData *sv, u32 id, u32 area_index, u32 dst, u32 size);
 /* flash_access.c */
-int func_02033534(u32 unused_arg);
-u32 func_020335AC(u32 flash_addr, u32 src, u32 size, u32 write_error_func);
-int func_020335E8(u32 flash_addr, u32 dst, u32 size, void (*read_error_func)(void));
-u16 func_020336B8(u32 flash_addr, u32 src, u32 size, u32 write_error_func);
-int func_020337B8(u16 lock_id, u32 *success, u32 write_error_func);
-void func_0203386C(u16 lock_id);
-void *func_020338F8(void);
+int FLASH_ACCESS_Identify(u32 unused_arg);
+u32 FLASH_ACCESS_Write(u32 flash_addr, u32 src, u32 size, u32 write_error_func);
+int FLASH_ACCESS_Read(u32 flash_addr, u32 dst, u32 size, void (*read_error_func)(void));
+u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 src, u32 size, u32 write_error_func);
+int FLASH_ACCESS_PollWrite(u16 lock_id, u32 *success, u32 write_error_func);
+void FLASH_ACCESS_CancelWrite(u16 lock_id);
+void *FLASH_ACCESS_GetBusyFlag(void);
 /* savedata.c */
-SaveDataTable *func_02033908(u16 heap_id, const void *table_def, u32 table_num, u32 savearea_size, u32 footer_size, u32 record_footer_size, u32 crc_table_size);
-void func_020339B4(SaveDataTable *table);
-void func_020339D0(u8 *svwk, SaveDataTable *table);
-u32 func_02033B68(SaveDataTable *table, u32 id);
-u32 func_02033BAC(SaveDataTable *table, u32 id);
-u32 sub_02033BF0(SaveDataTable *table);
-u32 sub_02033BF8(SaveDataTable *table);
-extern BackupSystem *g_02146994;
+SaveDataTable *SAVEDATA_CreateTable(u16 heap_id, const void *table_def, u32 table_num, u32 savearea_size, u32 footer_size, u32 record_footer_size, u32 crc_table_size);
+void SAVEDATA_DeleteTable(SaveDataTable *table);
+void SAVEDATA_InitBuffer(u8 *svwk, SaveDataTable *table);
+u32 SAVEDATA_GetBlockOffset(SaveDataTable *table, u32 id);
+u32 SAVEDATA_GetBlockSize(SaveDataTable *table, u32 id);
+u32 SAVEDATA_GetTableMax(SaveDataTable *table);
+u32 SAVEDATA_GetTotalSize(SaveDataTable *table);
+extern BackupSystem *svsys;
 extern const char str_020A7848[];
 extern const u8 str_020A7858[];
 extern const u8 str_020A7868[];
@@ -225,7 +225,7 @@ extern const char str_020A7888[];
 /*
  * Blocked at MATCH on the `label`/`matched` classes: all 124 concrete bytes
  * of the body reproduce and 6 of 7 relocation sites resolve, but
- * func_02033534 (PC24 at +0x6c) has exactly one branch reference image-wide
+ * FLASH_ACCESS_Identify (PC24 at +0x6c) has exactly one branch reference image-wide
  * and it is this call, so the site has no witness outside 020316C8..0203174C
  * and no cut frees it.  Filing 0x02033534 as an EXACT manifest entry promotes
  * this file with no change to the C.
@@ -241,27 +241,27 @@ extern const char str_020A7888[];
  * argument.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020316C8.c \
- *       --func func_020316C8 --addr 0x020316C8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/BACKUP_SYSTEM_Init.c \
+ *       --func BACKUP_SYSTEM_Init --addr 0x020316C8 --cc 1.1p1 --arm
  */
-void func_020316C8(u32 heap_id, u32 read_error_func, u32 write_error_func)
+void BACKUP_SYSTEM_Init(u32 heap_id, u32 read_error_func, u32 write_error_func)
 {
     BackupSystem *work = func_02030734((u16)heap_id, 0x210, 0, str_020A7848, 0xdf);
 
-    g_02146994 = work;
+    svsys = work;
     func_02082A7C(0, work, 0x210);
-    func_020819B8((struct MATHCRC16Table *)g_02146994->crc_table, 0x1100 - 0xdf);
-    g_02146994->read_error_func = (void (*)(void))read_error_func;
-    work = g_02146994;
+    func_020819B8((struct MATHCRC16Table *)svsys->crc_table, 0x1100 - 0xdf);
+    svsys->read_error_func = (void (*)(void))read_error_func;
+    work = svsys;
     work->write_error_func = write_error_func;
-    g_02146994->flash_exists = func_02033534((u32)work);
+    svsys->flash_exists = FLASH_ACCESS_Identify((u32)work);
 }
 
 
 
 /*
  * backup_system.c.  The save-block constructor; its already-matched caller
- * src/matched/func_0203192C.c fixes the five-argument signature.  The
+ * src/matched/BACKUP_SYSTEM_Create.c fixes the five-argument signature.  The
  * allocator func_02030734 takes (heap, size, align, __FILE__, __LINE__)
  * with the line on the stack: 0x10e, 0x125 and 0x131.  0x154 is the block
  * size, kept live in sb, and the second assert's line 0x116 is derived from
@@ -278,13 +278,13 @@ void func_020316C8(u32 heap_id, u32 read_error_func, u32 write_error_func)
  * with the `tst`/`addne` correction being the low-bit remainder test the
  * front end derives from `+ 2` / `& 0xf`.
  */
-BackupSaveData *func_0203174C(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode)
+BackupSaveData *BACKUP_SYSTEM_CreateCore(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode)
 {
     BackupSaveData *sv;
     u32 n;
     SaveDataTable *table;
 
-    if (g_02146994 == 0)
+    if (svsys == 0)
         func_02034714(str_020A7848, 0x10c, (const char *)str_020A7858);
 
     sv = func_02030734(heap_id, 0x154, 1, str_020A7848, 0x10e);
@@ -307,9 +307,9 @@ BackupSaveData *func_0203174C(const SaveDataParam *param, u32 heap_id, void *svw
 
     sv->block_area = func_02030734(heap_id, sv->block_area_size, 1, str_020A7848,
                                  0x125);
-    table = func_02033908((u16)heap_id, param->table_def, param->table_num, sv->savearea_size, 0x10, 4, sv->crc_table_size);
+    table = SAVEDATA_CreateTable((u16)heap_id, param->table_def, param->table_num, sv->savearea_size, 0x10, 4, sv->crc_table_size);
     sv->table = table;
-    sv->data_size = sub_02033BF8(table);
+    sv->data_size = SAVEDATA_GetTotalSize(table);
     if (svwk != 0) {
         sv->svwk = svwk;
         sv->work_allocated = 0;
@@ -322,9 +322,9 @@ BackupSaveData *func_0203174C(const SaveDataParam *param, u32 heap_id, void *svw
     sv->save_count = 0;
     sv->reserved = 0;
     if (init_mode == 1)
-        func_020319C0(sv);
+        BACKUP_SYSTEM_ClearWork(sv);
     else
-        func_02033410(sv, 1);
+        BACKUP_SYSTEM_FillBlockAreas(sv, 1);
     return sv;
 }
 
@@ -340,12 +340,12 @@ BackupSaveData *func_0203174C(const SaveDataParam *param, u32 heap_id, void *svw
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203192C.c \
- *       --func func_0203192C --addr 0x0203192C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_Create.c \
+ *       --func BACKUP_SYSTEM_Create --addr 0x0203192C --cc 1.1p1 --arm
  */
-BackupSaveData *func_0203192C(const SaveDataParam *param, u32 heap_id)
+BackupSaveData *BACKUP_SYSTEM_Create(const SaveDataParam *param, u32 heap_id)
 {
-    return func_0203174C(param, heap_id, 0, 0, 1);
+    return BACKUP_SYSTEM_CreateCore(param, heap_id, 0, 0, 1);
 }
 
 
@@ -355,9 +355,9 @@ BackupSaveData *func_0203192C(const SaveDataParam *param, u32 heap_id)
  * five arguments.  The FSi_ name is a false SDK match (layout/symbols_sdk.json
  * lists it as rejected at this address); rename_map.tsv gives the game name.
  */
-BackupSaveData *FSi_ConvertStringSjisToUnicode(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode)
+BackupSaveData *BACKUP_SYSTEM_CreateWithWork(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode)
 {
-    return func_0203174C(param, heap_id, svwk, svwk_size, init_mode);
+    return BACKUP_SYSTEM_CreateCore(param, heap_id, svwk, svwk_size, init_mode);
 }
 
 
@@ -375,12 +375,12 @@ BackupSaveData *FSi_ConvertStringSjisToUnicode(const SaveDataParam *param, u32 h
  * no label, so the inferred extent from this address runs long: EXACT*.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203195C.c \
- *       --func func_0203195C --addr 0x0203195C --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_Delete.c \
+ *       --func BACKUP_SYSTEM_Delete --addr 0x0203195C --arm --cc 1.1p1
  */
-void func_0203195C(BackupSaveData *sv)
+void BACKUP_SYSTEM_Delete(BackupSaveData *sv)
 {
-    func_020339B4(sv->table);
+    SAVEDATA_DeleteTable(sv->table);
     func_020307B0(sv->block_area);
     if (sv->work_allocated == 1) {
         func_020307B0(sv->svwk);
@@ -392,10 +392,10 @@ void func_0203195C(BackupSaveData *sv)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02031994.c \\
- *       --func func_02031994 --addr 0x02031994 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_GetWork.c \\
+ *       --func BACKUP_SYSTEM_GetWork --addr 0x02031994 --arm --cc 1.1p1
  */
-u8 *func_02031994(BackupSaveData *sv, u32 *size)
+u8 *BACKUP_SYSTEM_GetWork(BackupSaveData *sv, u32 *size)
 {
     *size = sv->data_size;
     return sv->svwk;
@@ -405,12 +405,12 @@ u8 *func_02031994(BackupSaveData *sv, u32 *size)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020319A4.c \\
- *       --func func_020319A4 --addr 0x020319A4 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_GetRecordWork.c \\
+ *       --func BACKUP_SYSTEM_GetRecordWork --addr 0x020319A4 --arm --cc 1.1p1
  */
-u8 *func_020319A4(BackupSaveData *sv, u32 id)
+u8 *BACKUP_SYSTEM_GetRecordWork(BackupSaveData *sv, u32 id)
 {
-    return func_02033B68(sv->table, id) + sv->svwk;
+    return SAVEDATA_GetBlockOffset(sv->table, id) + sv->svwk;
 }
 
 
@@ -420,20 +420,20 @@ u8 *func_020319A4(BackupSaveData *sv, u32 id)
  *           every relocation site resolves and match.py one reports EXACT*.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020319C0.c \\
- *       --func func_020319C0 --addr 0x020319C0 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_ClearWork.c \\
+ *       --func BACKUP_SYSTEM_ClearWork --addr 0x020319C0 --arm --cc 1.1p1
  */
-void func_020319C0(BackupSaveData *sv)
+void BACKUP_SYSTEM_ClearWork(BackupSaveData *sv)
 {
-    func_020339D0(sv->svwk, sv->table);
-    func_02033410(sv, 1);
+    SAVEDATA_InitBuffer(sv->svwk, sv->table);
+    BACKUP_SYSTEM_FillBlockAreas(sv, 1);
 }
 
 
 
-void func_020319E4(BackupSaveData *sv, u32 *diff_size, u32 *total_size)
+void BACKUP_SYSTEM_GetDiffSize(BackupSaveData *sv, u32 *diff_size, u32 *total_size)
 {
-    sub_020329AC(sv, diff_size, total_size);
+    BACKUP_SYSTEM_CalcDiffSize(sv, diff_size, total_size);
 }
 
 
@@ -448,7 +448,7 @@ void func_020319E4(BackupSaveData *sv, u32 *diff_size, u32 *total_size)
  * behind the global at 0x02146994, re-read once per page along with the base.
  *
  * The literal 1 is materialised ONCE into r4 and reused as the second
- * argument of the first sub_02033200 call
+ * argument of the first BACKUP_SYSTEM_EraseFooter call
  * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md);
  * the second call's 2 is its own `mov`.  The 0x1000 page size is materialised
  * twice, once for the allocation and once into callee-saved r8 for the loop,
@@ -456,7 +456,7 @@ void func_020319E4(BackupSaveData *sv, u32 *diff_size, u32 *total_size)
  *
  * The lengths compare unsigned (`bls`/`blo`), so a zero-length device skips
  * the loop entirely; the +4 word is a second length whose inequality with
- * +0 triggers an extra sub_02033200(obj, 2) pass before the fill.
+ * +0 triggers an extra BACKUP_SYSTEM_EraseFooter(obj, 2) pass before the fill.
  *
  * Declaration order is one/off/page, which is what shares r4 between the
  * literal 1 and the loop cursor and leaves r5 for the scratch page
@@ -469,10 +469,10 @@ void func_020319E4(BackupSaveData *sv, u32 *diff_size, u32 *total_size)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020319F0.c \
- *       --func func_020319F0 --addr 0x020319F0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_Erase.c \
+ *       --func BACKUP_SYSTEM_Erase --addr 0x020319F0 --cc 1.1p1 --arm
  */
-int func_020319F0(BackupSaveData *sv, u32 heap_id)
+int BACKUP_SYSTEM_Erase(BackupSaveData *sv, u32 heap_id)
 {
     u32 one;
     u32 off;
@@ -482,17 +482,17 @@ int func_020319F0(BackupSaveData *sv, u32 heap_id)
 
     one = 1;
     func_02034F84(one);
-    sub_02033200(sv, one);
+    BACKUP_SYSTEM_EraseFooter(sv, one);
     if (sv->area_addr[0] != sv->area_addr[1])
-        sub_02033200(sv, 2);
+        BACKUP_SYSTEM_EraseFooter(sv, 2);
 
     func_02082A7C(0xFFFFFFFF, page, 0x1000);
 
     for (off = 0; off < sv->savearea_size; off += 0x1000)
-        func_020335AC(off + sv->area_addr[0], (u32)page, 0x1000, g_02146994->write_error_func);
+        FLASH_ACCESS_Write(off + sv->area_addr[0], (u32)page, 0x1000, svsys->write_error_func);
 
     func_020307B0(page);
-    func_020319C0(sv);
+    BACKUP_SYSTEM_ClearWork(sv);
     sv->data_exists = 0;
 
     func_02034FB8(1);
@@ -515,20 +515,20 @@ int func_020319F0(BackupSaveData *sv, u32 heap_id)
  *     order and the original's case-0 body sits after case 3's, at +0x90.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02031AE0.c \
- *       --func func_02031AE0 --addr 0x02031AE0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_Load.c \
+ *       --func BACKUP_SYSTEM_Load --addr 0x02031AE0 --cc 1.1p1 --arm
  */
-int func_02031AE0(BackupSaveData *sv, u32 heap_id)
+int BACKUP_SYSTEM_Load(BackupSaveData *sv, u32 heap_id)
 {
     u32 result;
 
-    if (g_02146994->flash_exists == 0)
+    if (svsys->flash_exists == 0)
         return 4;
 
     if (sv->area_addr[0] != sv->area_addr[1])
-        result = func_02031FE0(sv, heap_id, 0, 0);
+        result = BACKUP_SYSTEM_LoadDoubleCopy(sv, heap_id, 0, 0);
     else
-        result = func_02032688(sv, 0, 0);
+        result = BACKUP_SYSTEM_LoadSingleCopy(sv, 0, 0);
 
     switch (result) {
     case 1:
@@ -551,13 +551,13 @@ int func_02031AE0(BackupSaveData *sv, u32 heap_id)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02031B8C.c \\
- *       --func func_02031B8C --addr 0x02031B8C --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_StartSave.c \\
+ *       --func BACKUP_SYSTEM_StartSave --addr 0x02031B8C --arm --cc 1.1p1
  */
-void func_02031B8C(BackupSaveData *sv)
+void BACKUP_SYSTEM_StartSave(BackupSaveData *sv)
 {
-    if (g_02146994->flash_exists != 0) {
-        sub_02032970(sv, 1);
+    if (svsys->flash_exists != 0) {
+        BACKUP_SYSTEM_InitSaveSeq(sv, 1);
     }
 }
 
@@ -566,28 +566,28 @@ void func_02031B8C(BackupSaveData *sv)
 /*
  * Blocked at MATCH on the `label`/`matched` classes: 75 of 76 bytes
  * reproduce and the only unresolved site is the PC24 at +0x24 to
- * func_02032CD0, whose single branch reference image-wide is this call, so
+ * BACKUP_SYSTEM_SaveSeqMain, whose single branch reference image-wide is this call, so
  * there is no witness outside 02031BB4..02031C04.  Filing 0x02032CD0 as an
  * EXACT manifest entry promotes this file with no change to the C.
  *
  * 0x02031BB4 is called from 0x02031B88 (the same packet's neighbour) and the
- * stack slot it hands func_02032CD0 is the pushed r3 scratch word, so the
+ * stack slot it hands BACKUP_SYSTEM_SaveSeqMain is the pushed r3 scratch word, so the
  * local's address is taken but its value is never read here.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02031BB4.c \
- *       --func func_02031BB4 --addr 0x02031BB4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/BACKUP_SYSTEM_MainSave.c \
+ *       --func BACKUP_SYSTEM_MainSave --addr 0x02031BB4 --cc 1.1p1 --arm
  */
-int func_02031BB4(BackupSaveData *sv)
+int BACKUP_SYSTEM_MainSave(BackupSaveData *sv)
 {
     int result;
     u32 pass_done;
 
-    if (g_02146994->flash_exists == 0)
+    if (svsys->flash_exists == 0)
         return 3;
-    result = func_02032CD0(sv, &pass_done);
+    result = BACKUP_SYSTEM_SaveSeqMain(sv, &pass_done);
     if (result != 0 && result != 1)
-        sub_020331A4(sv, result, 1);
+        BACKUP_SYSTEM_EndSave(sv, result, 1);
     return result;
 }
 
@@ -595,22 +595,22 @@ int func_02031BB4(BackupSaveData *sv)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02031C04.c \\
- *       --func func_02031C04 --addr 0x02031C04 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_CancelSave.c \\
+ *       --func BACKUP_SYSTEM_CancelSave --addr 0x02031C04 --arm --cc 1.1p1
  */
-void func_02031C04(BackupSaveData *sv)
+void BACKUP_SYSTEM_CancelSave(BackupSaveData *sv)
 {
-    sub_020331D0(sv);
+    BACKUP_SYSTEM_CancelSaveSeq(sv);
 }
 
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02031C10.c \\
- *       --func func_02031C10 --addr 0x02031C10 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_InitLinkedSave.c \\
+ *       --func BACKUP_SYSTEM_InitLinkedSave --addr 0x02031C10 --arm --cc 1.1p1
  */
-void func_02031C10(BackupSaveData *main_sv, BackupSaveData *link_sv, u32 *link_count)
+void BACKUP_SYSTEM_InitLinkedSave(BackupSaveData *main_sv, BackupSaveData *link_sv, u32 *link_count)
 {
     main_sv->link_count = link_count;
     main_sv->link_seq = 0;
@@ -623,36 +623,36 @@ void func_02031C10(BackupSaveData *main_sv, BackupSaveData *link_sv, u32 *link_c
 
 
 /*
- * Drive a two-copy save through func_02032CD0 (the write state machine),
+ * Drive a two-copy save through BACKUP_SYSTEM_SaveSeqMain (the write state machine),
  * one step per call, on the state byte at q+0x1E: open a generation on `p`
- * (sub_02032970), write `p`, copy its generation word to *q->link_count and open one
+ * (BACKUP_SYSTEM_InitSaveSeq), write `p`, copy its generation word to *q->link_count and open one
  * on `q`, write `q` (on failure also report it against `p` when p's two
  * area words differ), finish `p` if its two area words differ, then finish
  * `q`, answering 3 when p's result byte says so.  Both objects are the same
- * save-record type (both go to func_02032CD0 and sub_020331A4).
+ * save-record type (both go to BACKUP_SYSTEM_SaveSeqMain and BACKUP_SYSTEM_EndSave).
  * Wave 11, 2026-09-23.
  *
  * The one lever the 2026-09-21 lanes named and did not reach: case 4 is
  * written with the UNEQUAL test first and the bare `q->link_seq++` in the `else`
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).  That moves the
  * `state = s + 1` block out of line (0x02031D78) and lets case 1's
- * `state++; break;` share case 4's `b 0x02031C70`.  All four func_02032CD0
+ * `state++; break;` share case 4's `b 0x02031C70`.  All four BACKUP_SYSTEM_SaveSeqMain
  * result tests are negated (`r != 0 && r != 1`), per the note.
  */
-int func_02031C30(BackupSaveData *main_sv, BackupSaveData *link_sv)
+int BACKUP_SYSTEM_MainLinkedSave(BackupSaveData *main_sv, BackupSaveData *link_sv)
 {
     u32 pass_done;
     int result;
 
     switch (main_sv->link_seq) {
     case 0:
-        sub_02032970(link_sv, 1);
+        BACKUP_SYSTEM_InitSaveSeq(link_sv, 1);
         main_sv->link_seq++;
         break;
     case 1:
-        result = func_02032CD0(link_sv, &pass_done);
+        result = BACKUP_SYSTEM_SaveSeqMain(link_sv, &pass_done);
         if (result != 0 && result != 1) {
-            sub_020331A4(link_sv, result, 1);
+            BACKUP_SYSTEM_EndSave(link_sv, result, 1);
             if (result == 3)
                 return 3;
             main_sv->link_seq++;
@@ -663,15 +663,15 @@ int func_02031C30(BackupSaveData *main_sv, BackupSaveData *link_sv)
         break;
     case 2:
         *main_sv->link_count = link_sv->save_count;
-        sub_02032970(main_sv, 0);
+        BACKUP_SYSTEM_InitSaveSeq(main_sv, 0);
         main_sv->link_seq++;
         break;
     case 3:
-        result = func_02032CD0(main_sv, &pass_done);
+        result = BACKUP_SYSTEM_SaveSeqMain(main_sv, &pass_done);
         if (result != 0 && result != 1) {
-            sub_020331A4(main_sv, result, 1);
+            BACKUP_SYSTEM_EndSave(main_sv, result, 1);
             if (link_sv->area_addr[0] != link_sv->area_addr[1])
-                sub_020331A4(link_sv, result, 1);
+                BACKUP_SYSTEM_EndSave(link_sv, result, 1);
             return 3;
         }
         if (pass_done == 1)
@@ -679,9 +679,9 @@ int func_02031C30(BackupSaveData *main_sv, BackupSaveData *link_sv)
         break;
     case 4:
         if (link_sv->area_addr[0] != link_sv->area_addr[1]) {
-            result = func_02032CD0(link_sv, &pass_done);
+            result = BACKUP_SYSTEM_SaveSeqMain(link_sv, &pass_done);
             if (result != 0 && result != 1) {
-                sub_020331A4(link_sv, result, 0);
+                BACKUP_SYSTEM_EndSave(link_sv, result, 0);
                 link_sv->link_result = result;
                 main_sv->link_seq++;
             }
@@ -690,9 +690,9 @@ int func_02031C30(BackupSaveData *main_sv, BackupSaveData *link_sv)
         }
         break;
     case 5:
-        result = func_02032CD0(main_sv, &pass_done);
+        result = BACKUP_SYSTEM_SaveSeqMain(main_sv, &pass_done);
         if (result != 0 && result != 1) {
-            sub_020331A4(main_sv, result, 1);
+            BACKUP_SYSTEM_EndSave(main_sv, result, 1);
             if (link_sv->link_result == 3)
                 result = 3;
             return result;
@@ -709,9 +709,9 @@ int func_02031C30(BackupSaveData *main_sv, BackupSaveData *link_sv)
  * through the global at 0x02146994 twice (`ldr ip,[pc]; ldr ip,[ip]; cmp`),
  * so the declaration is a `u32 *` and a null engine reports 4 without
  * touching anything.  The object's +0x00 and +0x04 words then pick which of
- * the two engine entry points runs - different words take func_02031FE0 with
+ * the two engine entry points runs - different words take BACKUP_SYSTEM_LoadDoubleCopy with
  * the object, the first argument, a hard 1 and the third argument, equal
- * words take func_02032688 - and that call's status picks the arm: 1 and 2
+ * words take BACKUP_SYSTEM_LoadSingleCopy - and that call's status picks the arm: 1 and 2
  * also set the +0x1C byte, 0/3/4 report themselves and anything above 4
  * reports 4.
  *
@@ -734,19 +734,19 @@ int func_02031C30(BackupSaveData *main_sv, BackupSaveData *link_sv)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02031DC0.c \
- *       --func func_02031DC0 --addr 0x02031DC0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_LoadLinked.c \
+ *       --func BACKUP_SYSTEM_LoadLinked --addr 0x02031DC0 --cc 1.1p1 --arm
  */
-int func_02031DC0(BackupSaveData *sv, u32 heap_id, u32 link_count)
+int BACKUP_SYSTEM_LoadLinked(BackupSaveData *sv, u32 heap_id, u32 link_count)
 {
     int result;
 
-    if (g_02146994->flash_exists == 0)
+    if (svsys->flash_exists == 0)
         return 4;
     if (sv->area_addr[0] != sv->area_addr[1])
-        result = func_02031FE0(sv, heap_id, 1, link_count);
+        result = BACKUP_SYSTEM_LoadDoubleCopy(sv, heap_id, 1, link_count);
     else
-        result = func_02032688(sv, 1, link_count);
+        result = BACKUP_SYSTEM_LoadSingleCopy(sv, 1, link_count);
     switch (result) {
     case 1:
         sv->data_exists = 1;
@@ -766,37 +766,37 @@ int func_02031DC0(BackupSaveData *sv, u32 heap_id, u32 link_count)
 
 
 
-u32 func_02031E68(const BackupSaveData *sv)
+u32 BACKUP_SYSTEM_GetWrittenSize(const BackupSaveData *sv)
 {
     return sv->written_size;
 }
 
 
 
-void * func_02031E70(void)
+void * BACKUP_SYSTEM_IsFlashBusy(void)
 {
-    return func_020338F8();
+    return FLASH_ACCESS_GetBusyFlag();
 }
 
 
 /*
  * backup_system.c.  The CRC-16/CCITT of one backup record: the table is the
  * CRC table that lives inline at +4 of the object at 0x02146994 (the same
- * `struct { u8 pad000[4]; u8 crcTable[1]; }` shape src/matched/sub_020332A4.c
+ * `struct { u8 pad000[4]; u8 crcTable[1]; }` shape src/matched/BACKUP_SYSTEM_UpdateRecordCrc.c
  * uses), the data starts at `buf + p->data_size - 0x10 - p->crc_table_size` and runs for
- * p->crc_table_size bytes.  The result is what src/matched/func_02031EF8.c compares
- * against the footer halfword and what src/matched/func_02031F54.c stores
+ * p->crc_table_size bytes.  The result is what src/matched/BACKUP_SYSTEM_CheckFooter.c compares
+ * against the footer halfword and what src/matched/BACKUP_SYSTEM_SetFooter.c stores
  * into it.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02031E7C.c \
- *       --func func_02031E7C --addr 0x02031E7C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_CalcCrcTableCrc.c \
+ *       --func BACKUP_SYSTEM_CalcCrcTableCrc --addr 0x02031E7C --cc 1.1p1 --arm
  */
-u16 func_02031E7C(BackupSaveData *sv, u8 *buf)
+u16 BACKUP_SYSTEM_CalcCrcTableCrc(BackupSaveData *sv, u8 *buf)
 {
-    return MATH_CalcCRC16CCITT(g_02146994->crc_table,
+    return MATH_CalcCRC16CCITT(svsys->crc_table,
                                buf + (sv->data_size - 0x10 - sv->crc_table_size),
                                sv->crc_table_size);
 }
@@ -807,7 +807,7 @@ u16 func_02031E7C(BackupSaveData *sv, u8 *buf)
  * copy's address, any other area the main copy's.  When the two addresses
  * are equal (an area with one copy) the main address is returned at once.
  * Callers feed the answer straight to a flash read or write, e.g.
- * `func_020335E8(func_02031EAC(sv, 1), work, sv->data_size, ...)`.
+ * `FLASH_ACCESS_Read(BACKUP_SYSTEM_GetAreaAddr(sv, 1), work, sv->data_size, ...)`.
  *
  * Both loads happen in source order (+4 first), and the equal case returns the
  * word already in r0, so the tail is a bare `bxeq lr`.
@@ -815,10 +815,10 @@ u16 func_02031E7C(BackupSaveData *sv, u8 *buf)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02031EAC.c \
- *       --func func_02031EAC --addr 0x02031EAC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_GetAreaAddr.c \
+ *       --func BACKUP_SYSTEM_GetAreaAddr --addr 0x02031EAC --cc 1.1p1 --arm
  */
-u32 func_02031EAC(BackupSaveData *sv, u32 area)
+u32 BACKUP_SYSTEM_GetAreaAddr(BackupSaveData *sv, u32 area)
 {
     u32 addr;
 
@@ -831,13 +831,13 @@ u32 func_02031EAC(BackupSaveData *sv, u32 area)
 }
 
 
-u16 *func_02031ECC(BackupSaveData *sv)
+u16 *BACKUP_SYSTEM_GetCrcTable(BackupSaveData *sv)
 {
     return (u16 *)(sv->svwk + ((sv->data_size - 0x10) - sv->crc_table_size));
 }
 
 
-SaveFooter *func_02031EE8(BackupSaveData *sv, u8 *buf)
+SaveFooter *BACKUP_SYSTEM_GetFooter(BackupSaveData *sv, u8 *buf)
 {
     return (SaveFooter *)(buf + (sv->data_size - 0x10));
 }
@@ -848,10 +848,10 @@ SaveFooter *func_02031EE8(BackupSaveData *sv, u8 *buf)
  * words of its footer agree with the descriptor, 1 when the running check
  * disagrees, 2 when the length or the sequence number disagrees.
  *
- * The footer descriptor comes from func_02031EE8(p, buf) (src/matched/
- * func_02031EE8.c): it is `buf + p->data_size - 0x10`.  Word +4 and word +8 of that
+ * The footer descriptor comes from BACKUP_SYSTEM_GetFooter(p, buf) (src/matched/
+ * BACKUP_SYSTEM_GetFooter.c): it is `buf + p->data_size - 0x10`.  Word +4 and word +8 of that
  * footer are compared against p->data_size and p->unkC, and the halfword at +0xE is
- * compared against func_02031E7C(p, buf), the CRC16 of the area (the packet's
+ * compared against BACKUP_SYSTEM_CalcCrcTableCrc(p, buf), the CRC16 of the area (the packet's
  * only SDK call).  Only 0x02031F9C calls this function anywhere in the image,
  * which is why that file was parked at MATCH until this one landed; it can now
  * be promoted.
@@ -863,29 +863,29 @@ SaveFooter *func_02031EE8(BackupSaveData *sv, u8 *buf)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02031EF8.c \
- *       --func func_02031EF8 --addr 0x02031EF8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_CheckFooter.c \
+ *       --func BACKUP_SYSTEM_CheckFooter --addr 0x02031EF8 --cc 1.1p1 --arm
  */
-u32 func_02031EF8(BackupSaveData *sv, u8 *buf, u32 area)
+u32 BACKUP_SYSTEM_CheckFooter(BackupSaveData *sv, u8 *buf, u32 area)
 {
     SaveFooter *footer;
 
-    footer = func_02031EE8(sv, buf);
+    footer = BACKUP_SYSTEM_GetFooter(sv, buf);
 
     if (footer->data_size != sv->data_size)
         return 2;
     if (footer->magic_id != sv->magic_id)
         return 2;
-    if (footer->crc != func_02031E7C(sv, buf))
+    if (footer->crc != BACKUP_SYSTEM_CalcCrcTableCrc(sv, buf))
         return 1;
     return 0;
 }
 
 
 /*
- * backup_system.c.  Writes the footer descriptor that func_02031EF8 verifies,
- * at func_02031EE8(p, buf) (buf + p->data_size - 0x10): generation p->save_count,
- * size p->data_size, id p->magic_id, then the CRC-16/CCITT from func_02031E7C at
+ * backup_system.c.  Writes the footer descriptor that BACKUP_SYSTEM_CheckFooter verifies,
+ * at BACKUP_SYSTEM_GetFooter(p, buf) (buf + p->data_size - 0x10): generation p->save_count,
+ * size p->data_size, id p->magic_id, then the CRC-16/CCITT from BACKUP_SYSTEM_CalcCrcTableCrc at
  * +0x0E.  Closed wave 12: the record pointer is `const`.  With a non-const
  * pointer every field load stays below the previous footer store (the
  * compiler must assume they alias) and six instructions come out in the
@@ -894,20 +894,20 @@ u32 func_02031EF8(BackupSaveData *sv, u8 *buf, u32 area)
  * store.md).  dsi/1.1p1 only; ../2.0/sp2 keeps the 16-byte residue.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02031F54.c \
- *       --func func_02031F54 --addr 0x02031F54 --arm
+ *   python3 tools/match.py one --src src/matched/BACKUP_SYSTEM_SetFooter.c \
+ *       --func BACKUP_SYSTEM_SetFooter --addr 0x02031F54 --arm
  */
-void func_02031F54(const BackupSaveData *sv, u8 *buf)
+void BACKUP_SYSTEM_SetFooter(const BackupSaveData *sv, u8 *buf)
 {
-    SaveFooter *footer = func_02031EE8((BackupSaveData *)sv, buf);
+    SaveFooter *footer = BACKUP_SYSTEM_GetFooter((BackupSaveData *)sv, buf);
     footer->save_count = sv->save_count;
     footer->data_size = sv->data_size;
     footer->magic_id = sv->magic_id;
-    footer->crc = func_02031E7C((BackupSaveData *)sv, buf);
+    footer->crc = BACKUP_SYSTEM_CalcCrcTableCrc((BackupSaveData *)sv, buf);
 }
 
 
-void func_02031F94(BackupSaveData *sv, u32 save_count)
+void BACKUP_SYSTEM_SetSaveCount(BackupSaveData *sv, u32 save_count)
 {
     sv->save_count = save_count;
 }
@@ -919,7 +919,7 @@ void func_02031F94(BackupSaveData *sv, u32 save_count)
  * branch in the whole image is the one inside this file
  * (match.image_call_sites(0x02031EF8) == [0x02031FCC]), so the `label` class
  * had no outside witness and there was no literal or runtime witness either.
- * 0x02031EF8 is now matched itself (src/matched/func_02031EF8.c), so the site
+ * 0x02031EF8 is now matched itself (src/matched/BACKUP_SYSTEM_CheckFooter.c), so the site
  * resolves in the `matched` class and every byte here is attested.
  *
  * backup_system.c.  Fills the two-word record descriptor `out` for one of the
@@ -930,14 +930,14 @@ void func_02031F94(BackupSaveData *sv, u32 save_count)
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02031F9C.c \
- *       --func func_02031F9C --addr 0x02031F9C --cc 1.1p1 --arm
+ *       --func BACKUP_SYSTEM_GetFooterInfo --addr 0x02031F9C --cc 1.1p1 --arm
  */
-void func_02031F9C(u32 *result, BackupSaveData *sv, u8 *buf, u32 area)
+void BACKUP_SYSTEM_GetFooterInfo(u32 *result, BackupSaveData *sv, u8 *buf, u32 area)
 {
     SaveFooter *footer;
 
-    footer = func_02031EE8(sv, buf);
-    result[0] = func_02031EF8(sv, buf, area);
+    footer = BACKUP_SYSTEM_GetFooter(sv, buf);
+    result[0] = BACKUP_SYSTEM_CheckFooter(sv, buf, area);
     result[1] = footer->save_count;
 }
 
@@ -951,15 +951,15 @@ static inline u16 BACKUP_SYSTEM_GetRecordCount(SaveRecordFooter *rec)
 
 /*
  * backup_system.c.  The two-copy load: read both copies of the save area
- * (func_020335E8 at func_02031EAC(self, 1) into the staging buffer self->svwk
+ * (FLASH_ACCESS_Read at BACKUP_SYSTEM_GetAreaAddr(self, 1) into the staging buffer self->svwk
  * and at (self, 2) into a heap block from func_02030734, line 0x429), repair
  * one copy from the other when only one read failed, check both footers
- * (func_02031F9C, the mode == 1 generation test), cross-copy the footer block
+ * (BACKUP_SYSTEM_GetFooterInfo, the mode == 1 generation test), cross-copy the footer block
  * when exactly one is bad, pick the newer good copy, then walk every record
  * checking its CRC against both copies, marking each record 0/1/2 through
- * sub_0203331C and retrying with the other copy if the walk breaks.  A
+ * BACKUP_SYSTEM_SetBlockArea and retrying with the other copy if the walk breaks.  A
  * completed walk copies the marked records back and commits the generation
- * (func_02031F94).  The two-copy twin of func_02032688
+ * (BACKUP_SYSTEM_SetSaveCount).  The two-copy twin of BACKUP_SYSTEM_LoadSingleCopy
  * (docs/notes/pkt_02031FE0.c.txt holds the history from wave 11).
  *
  * Closed wave 19 by `unsigned long AB` together with the declaration order
@@ -967,14 +967,14 @@ static inline u16 BACKUP_SYSTEM_GetRecordCount(SaveRecordFooter *rec)
  * locals (image: AB r4, B r8, A r7).  Either change alone is 13 or 22 bytes
  * out; the earlier 9-byte residue was this one register swap.  The inline
  * cnt16 on the two record-counter compares and the one-argument
- * func_020333F8 are load-bearing (wave 12); func_02030734 uses its real
+ * BACKUP_SYSTEM_ClearBlockAreas are load-bearing (wave 12); func_02030734 uses its real
  * prototype with an explicit (u16) heap.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02031FE0.c \
- *       --func func_02031FE0 --addr 0x02031FE0 --arm
+ *   python3 tools/match.py one --src src/matched/BACKUP_SYSTEM_LoadDoubleCopy.c \
+ *       --func BACKUP_SYSTEM_LoadDoubleCopy --addr 0x02031FE0 --arm
  */
-int func_02031FE0(BackupSaveData *sv, u32 heap_id, u32 mode, u32 link_count)
+int BACKUP_SYSTEM_LoadDoubleCopy(BackupSaveData *sv, u32 heap_id, u32 mode, u32 link_count)
 {
     u32 info2[2];
     u32 info1[2];
@@ -996,27 +996,27 @@ int func_02031FE0(BackupSaveData *sv, u32 heap_id, u32 mode, u32 link_count)
     u32 size;
     u32 crc_ofs;
 
-    func_020333F8(sv);
+    BACKUP_SYSTEM_ClearBlockAreas(sv);
     work1 = sv->svwk;
     work2 = func_02030734((u16)heap_id, sv->data_size, 0, str_020A7848, 0x429);
-    read1 = func_020335E8(func_02031EAC(sv, 1), (u32)work1, sv->data_size, g_02146994->read_error_func);
-    read2 = func_020335E8(func_02031EAC(sv, 2), (u32)work2, sv->data_size, g_02146994->read_error_func);
+    read1 = FLASH_ACCESS_Read(BACKUP_SYSTEM_GetAreaAddr(sv, 1), (u32)work1, sv->data_size, svsys->read_error_func);
+    read2 = FLASH_ACCESS_Read(BACKUP_SYSTEM_GetAreaAddr(sv, 2), (u32)work2, sv->data_size, svsys->read_error_func);
     if (read1 == 0 && read2 == 0) {
-        func_02033410(sv, 1);
+        BACKUP_SYSTEM_FillBlockAreas(sv, 1);
         func_02082A7C(0, work1, sv->data_size);
         func_020307B0(work2);
         return 0;
     }
     if (read1 == 1 && read2 == 0) {
-        func_02033410(sv, 2);
+        BACKUP_SYSTEM_FillBlockAreas(sv, 2);
         func_02082A60(work1, work2, sv->data_size);
     } else if (read1 == 0 && read2 == 1) {
-        func_02033410(sv, 1);
+        BACKUP_SYSTEM_FillBlockAreas(sv, 1);
         func_02082A60(work2, work1, sv->data_size);
     }
 
-    func_02031F9C(info1, sv, work1, 0);
-    func_02031F9C(info2, sv, work2, 1);
+    BACKUP_SYSTEM_GetFooterInfo(info1, sv, work1, 0);
+    BACKUP_SYSTEM_GetFooterInfo(info2, sv, work2, 1);
     if (mode == 1) {
         if (info1[1] != link_count)
             info1[0] = 2;
@@ -1026,25 +1026,25 @@ int func_02031FE0(BackupSaveData *sv, u32 heap_id, u32 mode, u32 link_count)
 
     if (info1[0] == 0) {
         if (info2[0] != 0) {
-        sub_0203331C(sv, sub_02033BF0(sv->table), 2);
-        sub_0203331C(sv, sub_02033BF0(sv->table) + 1, 2);
+        BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table), 2);
+        BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table) + 1, 2);
         crc_ofs = sv->data_size - 0x10 - sv->crc_table_size;
         func_02082A60(work1 + crc_ofs, work2 + crc_ofs, sv->crc_table_size + 0x10);
         }
     } else if (info2[0] == 0) {
         if (info1[0] != 0) {
-        sub_0203331C(sv, sub_02033BF0(sv->table), 1);
-        sub_0203331C(sv, sub_02033BF0(sv->table) + 1, 1);
+        BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table), 1);
+        BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table) + 1, 1);
         crc_ofs = sv->data_size - 0x10 - sv->crc_table_size;
         func_02082A60(work2 + crc_ofs, work1 + crc_ofs, sv->crc_table_size + 0x10);
         }
     } else {
         if (info1[0] == 1 || info2[0] == 1) {
-            func_02033410(sv, 1);
+            BACKUP_SYSTEM_FillBlockAreas(sv, 1);
             func_020307B0(work2);
             return 3;
         }
-        func_02033410(sv, 1);
+        BACKUP_SYSTEM_FillBlockAreas(sv, 1);
         func_020307B0(work2);
         return 0;
     }
@@ -1071,89 +1071,89 @@ int func_02031FE0(BackupSaveData *sv, u32 heap_id, u32 mode, u32 link_count)
         crc_ofs = sv->data_size - 0x10 - sv->crc_table_size;
         cur_work = works[pass];
         crc_table = (u16 *)(works[pass] + crc_ofs);
-        for (id = 0; id < sub_02033BF0(sv->table); id++) {
-            ofs = func_02033B68(sv->table, id);
-            size = func_02033BAC(sv->table, id);
+        for (id = 0; id < SAVEDATA_GetTableMax(sv->table); id++) {
+            ofs = SAVEDATA_GetBlockOffset(sv->table, id);
+            size = SAVEDATA_GetBlockSize(sv->table, id);
             footer_ofs = ofs + size;
             rec1 = (SaveRecordFooter *)(work1 + footer_ofs);
             rec2 = (SaveRecordFooter *)(work2 + footer_ofs);
-            sub_0203331C(sv, id, 0);
+            BACKUP_SYSTEM_SetBlockArea(sv, id, 0);
             if (rec1->crc != crc_table[id]
                 && rec2->crc != crc_table[id])
                 break;
             if (rec1->crc == crc_table[id]) {
-                if (rec1->crc != MATH_CalcCRC16CCITT(g_02146994->crc_table, work1 + ofs, size))
-                    sub_0203331C(sv, id, 1);
+                if (rec1->crc != MATH_CalcCRC16CCITT(svsys->crc_table, work1 + ofs, size))
+                    BACKUP_SYSTEM_SetBlockArea(sv, id, 1);
             } else {
-                sub_0203331C(sv, id, 1);
+                BACKUP_SYSTEM_SetBlockArea(sv, id, 1);
             }
             if (rec2->crc == crc_table[id]) {
-                if (rec2->crc != MATH_CalcCRC16CCITT(g_02146994->crc_table, work2 + ofs, size)) {
-                    if (sub_020332FC(sv, id) == 1)
+                if (rec2->crc != MATH_CalcCRC16CCITT(svsys->crc_table, work2 + ofs, size)) {
+                    if (BACKUP_SYSTEM_GetBlockArea(sv, id) == 1)
                         break;
-                    sub_0203331C(sv, id, 2);
+                    BACKUP_SYSTEM_SetBlockArea(sv, id, 2);
                 }
             } else {
-                if (sub_020332FC(sv, id) == 1)
+                if (BACKUP_SYSTEM_GetBlockArea(sv, id) == 1)
                     break;
-                sub_0203331C(sv, id, 2);
+                BACKUP_SYSTEM_SetBlockArea(sv, id, 2);
             }
-            if (sub_020332FC(sv, id) == 0) {
+            if (BACKUP_SYSTEM_GetBlockArea(sv, id) == 0) {
                 if (BACKUP_SYSTEM_GetRecordCount(rec1) != ((SaveRecordFooter *)(works[pass] + footer_ofs))->count)
-                    sub_0203331C(sv, id, 1);
+                    BACKUP_SYSTEM_SetBlockArea(sv, id, 1);
                 if (BACKUP_SYSTEM_GetRecordCount(rec2) != ((SaveRecordFooter *)(works[pass] + footer_ofs))->count) {
-                    if (sub_020332FC(sv, id) == 1)
+                    if (BACKUP_SYSTEM_GetBlockArea(sv, id) == 1)
                         break;
-                    sub_0203331C(sv, id, 2);
+                    BACKUP_SYSTEM_SetBlockArea(sv, id, 2);
                 }
             }
         }
-        if (id >= sub_02033BF0(sv->table)) {
+        if (id >= SAVEDATA_GetTableMax(sv->table)) {
             u32 area = areas[pass ^ 1];
 
-            sub_0203331C(sv, sub_02033BF0(sv->table) + 1, area);
-            sub_0203331C(sv, sub_02033BF0(sv->table), area);
+            BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table) + 1, area);
+            BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table), area);
             break;
         }
     }
     if (pass >= 2) {
-        func_02033410(sv, 1);
+        BACKUP_SYSTEM_FillBlockAreas(sv, 1);
         func_020307B0(work2);
         return 3;
     }
 
     crc_ofs = sv->data_size - 0x10 - sv->crc_table_size;
     func_02082A60(works[pass] + crc_ofs, work1 + crc_ofs, sv->crc_table_size + 0x10);
-    for (id = 0; id < sub_02033BF0(sv->table); id++) {
-        if (sub_020332FC(sv, id) == 1) {
-            ofs = func_02033B68(sv->table, id);
-            size = func_02033BAC(sv->table, id);
+    for (id = 0; id < SAVEDATA_GetTableMax(sv->table); id++) {
+        if (BACKUP_SYSTEM_GetBlockArea(sv, id) == 1) {
+            ofs = SAVEDATA_GetBlockOffset(sv->table, id);
+            size = SAVEDATA_GetBlockSize(sv->table, id);
             func_02082A60(work2 + ofs, work1 + ofs, size + 4);
         }
     }
-    func_02031F94(sv, counts[pass]);
+    BACKUP_SYSTEM_SetSaveCount(sv, counts[pass]);
     func_020307B0(work2);
-    for (id = 0; id < sub_02033BF0(sv->table); id++)
-        sub_020332FC(sv, id);
+    for (id = 0; id < SAVEDATA_GetTableMax(sv->table); id++)
+        BACKUP_SYSTEM_GetBlockArea(sv, id);
     return 1;
 }
 
 
 /*
  * backup_system.c.  The one-copy load: read copy 1 of the save area into the
- * staging buffer self->svwk (func_020335E8 at func_02031EAC(self, 1)); on a
- * read failure clear the marks (func_02033410(self, 1)), zero the buffer and
- * answer 0.  Otherwise check the footer (func_02031F9C; with mode == 1 a
+ * staging buffer self->svwk (FLASH_ACCESS_Read at BACKUP_SYSTEM_GetAreaAddr(self, 1)); on a
+ * read failure clear the marks (BACKUP_SYSTEM_FillBlockAreas(self, 1)), zero the buffer and
+ * answer 0.  Otherwise check the footer (BACKUP_SYSTEM_GetFooterInfo; with mode == 1 a
  * generation other than arg3 counts as bad), answer 3 or 0 for a bad footer,
  * then walk every record checking its stored CRC against the footer's CRC
- * table and recomputing it (func_02081B8C over g_02146994's inline table),
+ * table and recomputing it (func_02081B8C over svsys's inline table),
  * marking each record 0, or 1 on a recompute mismatch.  A completed walk marks
  * the two trailing slots 1 and commits the footer's generation
- * (func_02031F94); a broken one answers 3.  The one-copy twin of
- * func_02031FE0 (docs/notes/pkt_02031FE0.c.txt holds the history).
+ * (BACKUP_SYSTEM_SetSaveCount); a broken one answers 3.  The one-copy twin of
+ * BACKUP_SYSTEM_LoadDoubleCopy (docs/notes/pkt_02031FE0.c.txt holds the history).
  *
- * Closed wave 12 by the callee's real argument list: func_020333F8 takes
- * self ONLY (src/matched/func_020333F8.c forwards self->+0x138/+0x13C to a
+ * Closed wave 12 by the callee's real argument list: BACKUP_SYSTEM_ClearBlockAreas takes
+ * self ONLY (src/matched/BACKUP_SYSTEM_ClearBlockAreas.c forwards self->+0x138/+0x13C to a
  * clear and never reads its other parameters).  Passing (self, mode, arg3)
  * as every earlier draft did left four instructions of the first read's
  * argument setup in the wrong order (10 bytes).  The redundant re-test
@@ -1162,10 +1162,10 @@ int func_02031FE0(BackupSaveData *sv, u32 heap_id, u32 mode, u32 link_count)
  * the loop's registers.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02032688.c \
- *       --func func_02032688 --addr 0x02032688 --arm
+ *   python3 tools/match.py one --src src/matched/BACKUP_SYSTEM_LoadSingleCopy.c \
+ *       --func BACKUP_SYSTEM_LoadSingleCopy --addr 0x02032688 --arm
  */
-int func_02032688(BackupSaveData *sv, int mode, int link_count)
+int BACKUP_SYSTEM_LoadSingleCopy(BackupSaveData *sv, int mode, int link_count)
 {
     u32 info[2];
     u8 *work;
@@ -1175,55 +1175,55 @@ int func_02032688(BackupSaveData *sv, int mode, int link_count)
     SaveRecordFooter *rec;
     u32 id;
 
-    func_020333F8(sv);
+    BACKUP_SYSTEM_ClearBlockAreas(sv);
     work = sv->svwk;
-    if (func_020335E8(func_02031EAC(sv, 1), (u32)work, sv->data_size,
-                      g_02146994->read_error_func) == 0) {
-        func_02033410(sv, 1);
+    if (FLASH_ACCESS_Read(BACKUP_SYSTEM_GetAreaAddr(sv, 1), (u32)work, sv->data_size,
+                      svsys->read_error_func) == 0) {
+        BACKUP_SYSTEM_FillBlockAreas(sv, 1);
         func_02082A7C(0, work, sv->data_size);
         return 0;
     }
-    func_02031F9C(info, sv, work, 0);
+    BACKUP_SYSTEM_GetFooterInfo(info, sv, work, 0);
     if (mode == 1) {
         if ((s32)info[1] != link_count)
             info[0] = 2;
     }
     if (info[0] != 0) {
         if (info[0] == 1) {
-            func_02033410(sv, 1);
+            BACKUP_SYSTEM_FillBlockAreas(sv, 1);
             return 3;
         }
-        func_02033410(sv, 1);
+        BACKUP_SYSTEM_FillBlockAreas(sv, 1);
         return 0;
     }
 
     crc_table = work + (sv->data_size - 0x10 - sv->crc_table_size);
     save_count = (s32)info[1];
-    for (id = 0; id < sub_02033BF0(sv->table); id++) {
-        ofs = func_02033B68(sv->table, id);
-        size = func_02033BAC(sv->table, id);
+    for (id = 0; id < SAVEDATA_GetTableMax(sv->table); id++) {
+        ofs = SAVEDATA_GetBlockOffset(sv->table, id);
+        size = SAVEDATA_GetBlockSize(sv->table, id);
         rec = (SaveRecordFooter *)(work + (ofs + size));
-        sub_0203331C(sv, id, 0);
+        BACKUP_SYSTEM_SetBlockArea(sv, id, 0);
         if (rec->crc != *(u16 *)(crc_table + id * 2))
             goto done;
         if (rec->crc == *(u16 *)(crc_table + id * 2)) {
-            if (rec->crc != MATH_CalcCRC16CCITT(g_02146994->crc_table, work + ofs, size)) {
-                sub_0203331C(sv, id, 1);
+            if (rec->crc != MATH_CalcCRC16CCITT(svsys->crc_table, work + ofs, size)) {
+                BACKUP_SYSTEM_SetBlockArea(sv, id, 1);
                 goto done;
             }
         }
     }
 done:
-    if (id >= sub_02033BF0(sv->table)) {
-        sub_0203331C(sv, sub_02033BF0(sv->table) + 1, 1);
-        sub_0203331C(sv, sub_02033BF0(sv->table), 1);
+    if (id >= SAVEDATA_GetTableMax(sv->table)) {
+        BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table) + 1, 1);
+        BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table), 1);
     } else {
-        func_02033410(sv, 1);
+        BACKUP_SYSTEM_FillBlockAreas(sv, 1);
         return 3;
     }
-    func_02031F94(sv, save_count);
-    for (id2 = 0; id2 < sub_02033BF0(sv->table); id2++)
-        sub_020332FC(sv, id2);
+    BACKUP_SYSTEM_SetSaveCount(sv, save_count);
+    for (id2 = 0; id2 < SAVEDATA_GetTableMax(sv->table); id2++)
+        BACKUP_SYSTEM_GetBlockArea(sv, id2);
     return 1;
 }
 
@@ -1243,37 +1243,37 @@ done:
  * 0x02031F54 in between is made for its effect only; its result is dropped.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_020328E0.c  *       --func sub_020328E0 --addr 0x020328E0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/BACKUP_SYSTEM_WriteFooterBody.c  *       --func BACKUP_SYSTEM_WriteFooterBody --addr 0x020328E0 --cc 1.1p1 --arm
  */
-int sub_020328E0(BackupSaveData *sv, u32 area)
+int BACKUP_SYSTEM_WriteFooterBody(BackupSaveData *sv, u32 area)
 {
     u32 flash_addr;
     u32 data_size;
     u8 *work;
 
     data_size = sv->data_size;
-    flash_addr = data_size + func_02031EAC(sv, area) - 0x10;
+    flash_addr = data_size + BACKUP_SYSTEM_GetAreaAddr(sv, area) - 0x10;
     work = sv->svwk;
-    func_02031F54(sv, work);
-    return func_020336B8(flash_addr, (u32)(work + (data_size - 0x10)), 0xF, g_02146994->write_error_func);
+    BACKUP_SYSTEM_SetFooter(sv, work);
+    return FLASH_ACCESS_StartWrite(flash_addr, (u32)(work + (data_size - 0x10)), 0xF, svsys->write_error_func);
 }
 
 
 /*
- * backup_system.c.  The one byte twin of sub_020328E0: same area and staging
+ * backup_system.c.  The one byte twin of BACKUP_SYSTEM_WriteFooterBody: same area and staging
  * buffer, but it rewrites only the single trailing byte of the record.
- * Unlike sub_020328E0 it does not touch 0x02031F54 first, so nothing has to
+ * Unlike BACKUP_SYSTEM_WriteFooterBody it does not touch 0x02031F54 first, so nothing has to
  * survive the call and the function gets away with three saved registers.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02032930.c  *       --func sub_02032930 --addr 0x02032930 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_WriteFooterLastByte.c  *       --func BACKUP_SYSTEM_WriteFooterLastByte --addr 0x02032930 --cc 1.1p1 --arm
  */
-int sub_02032930(BackupSaveData *sv, u32 area)
+int BACKUP_SYSTEM_WriteFooterLastByte(BackupSaveData *sv, u32 area)
 {
     u32 data_size = sv->data_size;
-    u32 end_addr = data_size + func_02031EAC(sv, area);
+    u32 end_addr = data_size + BACKUP_SYSTEM_GetAreaAddr(sv, area);
 
-    return func_020336B8(end_addr - 1, (u32)(sv->svwk + (data_size - 1)), 1, g_02146994->write_error_func);
+    return FLASH_ACCESS_StartWrite(end_addr - 1, (u32)(sv->svwk + (data_size - 1)), 1, svsys->write_error_func);
 }
 
 
@@ -1285,9 +1285,9 @@ int sub_02032930(BackupSaveData *sv, u32 area)
  * 0x02034F84.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02032970.c  *       --func sub_02032970 --addr 0x02032970 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_InitSaveSeq.c  *       --func BACKUP_SYSTEM_InitSaveSeq --addr 0x02032970 --cc 1.1p1 --arm
  */
-void sub_02032970(BackupSaveData *sv, u32 set_busy)
+void BACKUP_SYSTEM_InitSaveSeq(BackupSaveData *sv, u32 set_busy)
 {
     u32 save_count;
 
@@ -1326,10 +1326,10 @@ void sub_02032970(BackupSaveData *sv, u32 set_busy)
  * unknown bound, so the test really is written after the body.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020329AC.c \
- *       --func sub_020329AC --addr 0x020329AC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_CalcDiffSize.c \
+ *       --func BACKUP_SYSTEM_CalcDiffSize --addr 0x020329AC --cc 1.1p1 --arm
  */
-void sub_020329AC(BackupSaveData *sv, u32 *diff_size, u32 *total_size)
+void BACKUP_SYSTEM_CalcDiffSize(BackupSaveData *sv, u32 *diff_size, u32 *total_size)
 {
     u32 rest;
     u32 budget;
@@ -1349,12 +1349,12 @@ void sub_020329AC(BackupSaveData *sv, u32 *diff_size, u32 *total_size)
     done_size = 0;
 
     do {
-        size = func_02033BAC(sv->table, i);
+        size = SAVEDATA_GetBlockSize(sv->table, i);
         *total_size = *total_size + size;
 
-        if (sub_020332FC(sv, i) == 0) {
+        if (BACKUP_SYSTEM_GetBlockArea(sv, i) == 0) {
             do {
-                result = sub_02032A9C(sv, i, 1, &rest, &budget, &done_size, &yield);
+                result = BACKUP_SYSTEM_CompareRecordStep(sv, i, 1, &rest, &budget, &done_size, &yield);
                 if (result == 2) {
                     size = 0;
                 }
@@ -1363,7 +1363,7 @@ void sub_020329AC(BackupSaveData *sv, u32 *diff_size, u32 *total_size)
 
         *diff_size = *diff_size + size;
         i++;
-    } while (i < sub_02033BF0(sv->table));
+    } while (i < SAVEDATA_GetTableMax(sv->table));
 
     func_02034FB8(1);
 }
@@ -1383,10 +1383,10 @@ void sub_020329AC(BackupSaveData *sv, u32 *diff_size, u32 *total_size)
  * like a no-op in the prologue.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02032A9C.c \
- *       --func sub_02032A9C --addr 0x02032A9C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_CompareRecordStep.c \
+ *       --func BACKUP_SYSTEM_CompareRecordStep --addr 0x02032A9C --cc 1.1p1 --arm
  */
-u32 sub_02032A9C(BackupSaveData *sv, u32 id, u32 area, u32 *rest, u32 *budget,
+u32 BACKUP_SYSTEM_CompareRecordStep(BackupSaveData *sv, u32 id, u32 area, u32 *rest, u32 *budget,
                  u32 *done_size, u32 *yield)
 {
     u32 flash_addr;
@@ -1396,19 +1396,19 @@ u32 sub_02032A9C(BackupSaveData *sv, u32 id, u32 area, u32 *rest, u32 *budget,
     u8 *record;
     u32 total;
 
-    flash_addr = func_02031EAC(sv, area);
-    flash_addr = flash_addr + func_02033B68(sv->table, id);
+    flash_addr = BACKUP_SYSTEM_GetAreaAddr(sv, area);
+    flash_addr = flash_addr + SAVEDATA_GetBlockOffset(sv->table, id);
 
     rest_size = *rest;
     if (rest_size != 0) {
         done = *done_size;
         flash_addr = flash_addr + done;
     } else {
-        rest_size = func_02033BAC(sv->table, id);
+        rest_size = SAVEDATA_GetBlockSize(sv->table, id);
         done = 0;
     }
 
-    record = func_020319A4(sv, id);
+    record = BACKUP_SYSTEM_GetRecordWork(sv, id);
 
     *rest = 0;
     *done_size = 0;
@@ -1430,7 +1430,7 @@ u32 sub_02032A9C(BackupSaveData *sv, u32 id, u32 area, u32 *rest, u32 *budget,
             *budget = 0;
         }
 
-        if (func_020335E8(flash_addr, (u32)sv->compare_buf, chunk, g_02146994->read_error_func) == 0) {
+        if (FLASH_ACCESS_Read(flash_addr, (u32)sv->compare_buf, chunk, svsys->read_error_func) == 0) {
             return 1;
         }
 
@@ -1457,16 +1457,16 @@ u32 sub_02032A9C(BackupSaveData *sv, u32 id, u32 area, u32 *rest, u32 *budget,
 
 /*
  * backup_system.c.  Commits one record of a backup generation: refresh the
- * record's CRC through sub_020332A4 (src/matched/sub_020332A4.c) and file
+ * record's CRC through BACKUP_SYSTEM_UpdateRecordCrc (src/matched/BACKUP_SYSTEM_UpdateRecordCrc.c) and file
  * it in the halfword table 0x02031ECC owns, then write the record itself,
  * four bytes longer than its payload, to the Flash offset that 0x02031EAC
  * and 0x02033B68 name between them.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02032BF8.c \
- *       --func sub_02032BF8 --addr 0x02032BF8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_WriteRecord.c \
+ *       --func BACKUP_SYSTEM_WriteRecord --addr 0x02032BF8 --cc 1.1p1 --arm
  */
-u16 sub_02032BF8(BackupSaveData *sv, u32 id, u32 area, u32 pass)
+u16 BACKUP_SYSTEM_WriteRecord(BackupSaveData *sv, u32 id, u32 area, u32 pass)
 {
     u16 *crc_table;
     u32 area_addr;
@@ -1474,13 +1474,13 @@ u16 sub_02032BF8(BackupSaveData *sv, u32 id, u32 area, u32 pass)
     u32 size;
     u8 *record;
 
-    crc_table = func_02031ECC(sv);
-    crc_table[id] = sub_020332A4(sv, id);
-    area_addr = func_02031EAC(sv, area);
-    ofs = func_02033B68(sv->table, id);
-    size = func_02033BAC(sv->table, id);
-    record = func_020319A4(sv, id);
-    func_020336B8(area_addr + ofs, (u32)record, size + 4, g_02146994->write_error_func);
+    crc_table = BACKUP_SYSTEM_GetCrcTable(sv);
+    crc_table[id] = BACKUP_SYSTEM_UpdateRecordCrc(sv, id);
+    area_addr = BACKUP_SYSTEM_GetAreaAddr(sv, area);
+    ofs = SAVEDATA_GetBlockOffset(sv->table, id);
+    size = SAVEDATA_GetBlockSize(sv->table, id);
+    record = BACKUP_SYSTEM_GetRecordWork(sv, id);
+    FLASH_ACCESS_StartWrite(area_addr + ofs, (u32)record, size + 4, svsys->write_error_func);
 }
 
 
@@ -1493,35 +1493,35 @@ u16 sub_02032BF8(BackupSaveData *sv, u32 id, u32 area, u32 pass)
  * down to three saved registers.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02032C84.c \n *       --func sub_02032C84 --addr 0x02032C84 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_WriteCrcTable.c \n *       --func BACKUP_SYSTEM_WriteCrcTable --addr 0x02032C84 --cc 1.1p1 --arm
  */
-int sub_02032C84(BackupSaveData *sv, u32 area)
+int BACKUP_SYSTEM_WriteCrcTable(BackupSaveData *sv, u32 area)
 {
     u32 flash_addr;
     u16 *crc_table;
 
-    flash_addr = sv->data_size + func_02031EAC(sv, area);
+    flash_addr = sv->data_size + BACKUP_SYSTEM_GetAreaAddr(sv, area);
     flash_addr = flash_addr - 0x10 - sv->crc_table_size;
-    crc_table = func_02031ECC(sv);
-    return func_020336B8(flash_addr, (u32)crc_table, sv->crc_table_size, g_02146994->write_error_func);
+    crc_table = BACKUP_SYSTEM_GetCrcTable(sv);
+    return FLASH_ACCESS_StartWrite(flash_addr, (u32)crc_table, sv->crc_table_size, svsys->write_error_func);
 }
 
 
 /*
  * The backup_system.c save-write state machine, one step per call, on the
  * state byte at +0x18 (docs/families/backup_system.h's unk18).  States:
- *   0-1   pump every not-yet-resident record through sub_02032A9C (the
+ *   0-1   pump every not-yet-resident record through BACKUP_SYSTEM_CompareRecordStep (the
  *         resumable Flash copy; `done` is its yield flag), refreshing each
- *         record's counter with sub_02033264; a 0 answer without the yield
+ *         record's counter with BACKUP_SYSTEM_IncRecordCount; a 0 answer without the yield
  *         flag raises the backup_system.c line 0x72A assertion
- *   2-4   for every marked record, start its write (sub_02032BF8) and poll
- *         it (func_020337B8 on the handle kept at g_02146994+0x20C), summing
+ *   2-4   for every marked record, start its write (BACKUP_SYSTEM_WriteRecord) and poll
+ *         it (FLASH_ACCESS_PollWrite on the handle kept at svsys+0x20C), summing
  *         the written sizes into +0x144
- *   5-6   the trailing block (sub_02032C84), 7-8 the footer (sub_020328E0,
+ *   5-6   the trailing block (BACKUP_SYSTEM_WriteCrcTable), 7-8 the footer (BACKUP_SYSTEM_WriteFooterBody,
  *         returns 1 when committed), 9-10 the footer's last byte
- *         (sub_02032930); state 10 then either restarts at state 2 for the
- *         second copy (sub_0203335C swaps the 1/2 marks, *out = 1) or
- *         finishes (func_020333F8) and answers 2
+ *         (BACKUP_SYSTEM_WriteFooterLastByte); state 10 then either restarts at state 2 for the
+ *         second copy (BACKUP_SYSTEM_SwapBlockAreas swaps the 1/2 marks, *out = 1) or
+ *         finishes (BACKUP_SYSTEM_ClearBlockAreas) and answers 2
  *   11    answers 2
  * A failed poll answers 3, or 2 once the first copy has been written (+0x19).
  * Wave 11, 2026-09-23 -- first transcription, EXACT after one declaration
@@ -1529,7 +1529,7 @@ int sub_02032C84(BackupSaveData *sv, u32 area)
  * 0/1/2/3 live in callee-saved registers across the whole switch, which is
  * dsi/1.1p1's own habit (../2.0/sp2 is 957 bytes out).
  */
-int func_02032CD0(BackupSaveData *sv, u32 *pass_done)
+int BACKUP_SYSTEM_SaveSeqMain(BackupSaveData *sv, u32 *pass_done)
 {
     u32 success;
     u32 yield;
@@ -1548,10 +1548,10 @@ int func_02032CD0(BackupSaveData *sv, u32 *pass_done)
         do {
             if (yield == 1)
                 return 0;
-            if (sub_020332FC(sv, sv->write_block) == 0) {
-                result = sub_02032A9C(sv, sv->write_block, 1, &sv->compare_rest, &sv->compare_budget, &sv->compare_done, &yield);
+            if (BACKUP_SYSTEM_GetBlockArea(sv, sv->write_block) == 0) {
+                result = BACKUP_SYSTEM_CompareRecordStep(sv, sv->write_block, 1, &sv->compare_rest, &sv->compare_budget, &sv->compare_done, &yield);
                 if (result == 1) {
-                    sub_0203331C(sv, sv->write_block, 1);
+                    BACKUP_SYSTEM_SetBlockArea(sv, sv->write_block, 1);
                 } else if (result == 0) {
                     if (yield != 1)
                         func_02034714(str_020A7848, 0x72A, str_020A7888);
@@ -1560,83 +1560,83 @@ int func_02032CD0(BackupSaveData *sv, u32 *pass_done)
                     goto next;
                 }
             }
-            sub_02033264(sv, sv->write_block);
+            BACKUP_SYSTEM_IncRecordCount(sv, sv->write_block);
         next:
             sv->write_block++;
-        } while (sv->write_block < sub_02033BF0(sv->table));
+        } while (sv->write_block < SAVEDATA_GetTableMax(sv->table));
         sv->write_seq++;
         break;
     case 2:
         sv->write_block = 0;
         sv->write_seq++;
     case 3:
-        for (; sv->write_block < sub_02033BF0(sv->table); sv->write_block++) {
-            area = sub_020332FC(sv, sv->write_block);
+        for (; sv->write_block < SAVEDATA_GetTableMax(sv->table); sv->write_block++) {
+            area = BACKUP_SYSTEM_GetBlockArea(sv, sv->write_block);
             if (area != 0) {
-                g_02146994->lock_id = sub_02032BF8(sv, sv->write_block, area, sv->write_pass);
+                svsys->lock_id = BACKUP_SYSTEM_WriteRecord(sv, sv->write_block, area, sv->write_pass);
                 sv->write_seq++;
                 break;
             }
         }
-        if (sv->write_block >= sub_02033BF0(sv->table)) {
+        if (sv->write_block >= SAVEDATA_GetTableMax(sv->table)) {
             sv->write_block = 0;
             sv->write_seq = 5;
         }
         break;
     case 4:
-        if (func_020337B8(g_02146994->lock_id, &success, g_02146994->write_error_func) == 0)
+        if (FLASH_ACCESS_PollWrite(svsys->lock_id, &success, svsys->write_error_func) == 0)
             break;
         if (success == 0)
             return sv->write_pass == 0 ? 3 : 2;
-        sv->written_size += func_02033BAC(sv->table, sv->write_block);
+        sv->written_size += SAVEDATA_GetBlockSize(sv->table, sv->write_block);
         sv->write_block++;
         sv->write_seq = 3;
         break;
     case 5:
-        area = sub_020332FC(sv, sub_02033BF0(sv->table));
+        area = BACKUP_SYSTEM_GetBlockArea(sv, SAVEDATA_GetTableMax(sv->table));
         if (area == 0) {
             area = 1;
-            sub_0203331C(sv, sub_02033BF0(sv->table), area);
+            BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table), area);
         }
-        g_02146994->lock_id = sub_02032C84(sv, area);
+        svsys->lock_id = BACKUP_SYSTEM_WriteCrcTable(sv, area);
         sv->write_seq++;
     case 6:
-        if (func_020337B8(g_02146994->lock_id, &success, g_02146994->write_error_func) == 0)
+        if (FLASH_ACCESS_PollWrite(svsys->lock_id, &success, svsys->write_error_func) == 0)
             break;
         if (success == 0)
             return sv->write_pass == 0 ? 3 : 2;
         sv->write_seq++;
         break;
     case 7:
-        area = sub_020332FC(sv, sub_02033BF0(sv->table) + 1);
+        area = BACKUP_SYSTEM_GetBlockArea(sv, SAVEDATA_GetTableMax(sv->table) + 1);
         if (area == 0) {
             area = 1;
-            sub_0203331C(sv, sub_02033BF0(sv->table) + 1, area);
+            BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table) + 1, area);
         }
-        g_02146994->lock_id = sub_020328E0(sv, area);
+        svsys->lock_id = BACKUP_SYSTEM_WriteFooterBody(sv, area);
         sv->write_seq++;
     case 8:
-        if (func_020337B8(g_02146994->lock_id, &success, g_02146994->write_error_func) == 0)
+        if (FLASH_ACCESS_PollWrite(svsys->lock_id, &success, svsys->write_error_func) == 0)
             break;
         if (success == 0)
             return sv->write_pass == 0 ? 3 : 2;
         sv->write_seq++;
         return 1;
     case 9:
-        g_02146994->lock_id = sub_02032930(sv, sub_020332FC(sv, sub_02033BF0(sv->table) + 1));
+        svsys->lock_id = BACKUP_SYSTEM_WriteFooterLastByte(sv, BACKUP_SYSTEM_GetBlockArea(sv, SAVEDATA_GetTableMax(sv->table) + 1));
         sv->write_seq++;
     case 10:
-        if (func_020337B8(g_02146994->lock_id, &success, g_02146994->write_error_func) == 0)
+        if (FLASH_ACCESS_PollWrite(svsys->lock_id, &success, svsys->write_error_func) == 0)
             break;
         if (success == 0)
             return sv->write_pass == 0 ? 3 : 2;
         if (++sv->write_pass == 1 && sv->area_addr[0] != sv->area_addr[1]) {
-            sub_0203335C(sv);
+            BACKUP_SYSTEM_SwapBlockAreas(sv);
             sv->write_seq = 2;
             *pass_done = 1;
             return 0;
         }
-        func_020333F8(sv);
+        BACKUP_SYSTEM_ClearBlockAreas(sv);
         sv->write_seq++;
         return 2;
     case 11:
@@ -1656,9 +1656,9 @@ int func_02032CD0(BackupSaveData *sv, u32 *pass_done)
  * statements.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020331A4.c  *       --func sub_020331A4 --addr 0x020331A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_EndSave.c  *       --func BACKUP_SYSTEM_EndSave --addr 0x020331A4 --cc 1.1p1 --arm
  */
-void sub_020331A4(BackupSaveData *sv, u32 result, u32 clear_busy)
+void BACKUP_SYSTEM_EndSave(BackupSaveData *sv, u32 result, u32 clear_busy)
 {
     if (result == 3) {
         sv->save_count = sv->prev_save_count;
@@ -1677,7 +1677,7 @@ void sub_020331A4(BackupSaveData *sv, u32 result, u32 clear_busy)
  * `bl` to 0x0203386C, which has exactly one caller image-wide, this one, so
  * `label` has nothing outside the range to point at.
  *
- * backup_system.c.  The same completion path as sub_020331A4 but for the
+ * backup_system.c.  The same completion path as BACKUP_SYSTEM_EndSave but for the
  * unconditional case: roll the generation back, hand the halfword at
  * +0x20C of the object the global at 0x02146994 points at to 0x0203386C,
  * and drop the busy flag.
@@ -1687,12 +1687,12 @@ void sub_020331A4(BackupSaveData *sv, u32 result, u32 clear_busy)
  * docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_020331D0.c  *       --func sub_020331D0 --addr 0x020331D0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/BACKUP_SYSTEM_CancelSaveSeq.c  *       --func BACKUP_SYSTEM_CancelSaveSeq --addr 0x020331D0 --cc 1.1p1 --arm
  */
-void sub_020331D0(BackupSaveData *sv)
+void BACKUP_SYSTEM_CancelSaveSeq(BackupSaveData *sv)
 {
     sv->save_count = sv->prev_save_count;
-    func_0203386C(g_02146994->lock_id);
+    FLASH_ACCESS_CancelWrite(svsys->lock_id);
     func_02034FB8(1);
 }
 
@@ -1703,21 +1703,21 @@ void sub_020331D0(BackupSaveData *sv)
  * callee-saved register because it is both the fill length and the write
  * length, one on each side of the MI_CpuFill8 call.
  *
- * 0x02031EAC takes two arguments here.  sub_020328E0 in the same file
+ * 0x02031EAC takes two arguments here.  BACKUP_SYSTEM_WriteFooterBody in the same file
  * reaches it with only r0 set, which is the leftover-argument shape of
  * docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md
  * seen from the caller side; two arguments is the honest prototype.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02033200.c \n *       --func sub_02033200 --addr 0x02033200 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_EraseFooter.c \n *       --func BACKUP_SYSTEM_EraseFooter --addr 0x02033200 --cc 1.1p1 --arm
  */
-u32 sub_02033200(BackupSaveData *sv, u32 area)
+u32 BACKUP_SYSTEM_EraseFooter(BackupSaveData *sv, u32 area)
 {
     u8 blank[0x10];
 
     MI_CpuFill8(blank, 0xFF, sizeof(blank));
-    return func_020335AC(sv->data_size + func_02031EAC(sv, area) - 0x10, (u32)blank, sizeof(blank),
-                  g_02146994->write_error_func);
+    return FLASH_ACCESS_Write(sv->data_size + BACKUP_SYSTEM_GetAreaAddr(sv, area) - 0x10, (u32)blank, sizeof(blank),
+                  svsys->write_error_func);
 }
 
 
@@ -1729,16 +1729,16 @@ u32 sub_02033200(BackupSaveData *sv, u32 area)
  * be two, so the compiler reads the store back rather than masking.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02033264.c \n *       --func sub_02033264 --addr 0x02033264 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_IncRecordCount.c \n *       --func BACKUP_SYSTEM_IncRecordCount --addr 0x02033264 --cc 1.1p1 --arm
  */
-u16 sub_02033264(BackupSaveData *sv, u32 id)
+u16 BACKUP_SYSTEM_IncRecordCount(BackupSaveData *sv, u32 id)
 {
     u32 ofs;
     u32 size;
     u16 *count;
 
-    ofs = func_02033B68(sv->table, id);
-    size = func_02033BAC(sv->table, id);
+    ofs = SAVEDATA_GetBlockOffset(sv->table, id);
+    size = SAVEDATA_GetBlockSize(sv->table, id);
     count = (u16 *)(sv->svwk + (ofs + size));
     *count = *count + 1;
     return *count;
@@ -1750,24 +1750,24 @@ u16 sub_02033264(BackupSaveData *sv, u32 id)
  * buffer and stores it in the halfword that follows the record.  The table
  * argument is the global at 0x02146994 plus four, i.e. a MATHCRC16Table
  * that lives inline at +4 of that object rather than a pointer kept there.
- * As in sub_02033264 the answer is read back out of the halfword it was
+ * As in BACKUP_SYSTEM_IncRecordCount the answer is read back out of the halfword it was
  * just stored into.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020332A4.c \n *       --func sub_020332A4 --addr 0x020332A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_UpdateRecordCrc.c \n *       --func BACKUP_SYSTEM_UpdateRecordCrc --addr 0x020332A4 --cc 1.1p1 --arm
  */
-u16 sub_020332A4(BackupSaveData *sv, u32 id)
+u16 BACKUP_SYSTEM_UpdateRecordCrc(BackupSaveData *sv, u32 id)
 {
     u32 ofs;
     u32 size;
     SaveRecordFooter *record_footer;
     u8 *work;
 
-    ofs = func_02033B68(sv->table, id);
-    size = func_02033BAC(sv->table, id);
+    ofs = SAVEDATA_GetBlockOffset(sv->table, id);
+    size = SAVEDATA_GetBlockSize(sv->table, id);
     work = sv->svwk;
     record_footer = (SaveRecordFooter *)(work + (ofs + size));
-    record_footer->crc = MATH_CalcCRC16CCITT(g_02146994->crc_table, work + ofs, size);
+    record_footer->crc = MATH_CalcCRC16CCITT(svsys->crc_table, work + ofs, size);
     return record_footer->crc;
 }
 
@@ -1786,7 +1786,7 @@ u16 sub_020332A4(BackupSaveData *sv, u32 id)
  *   python tools/match.py tu --src src/matched/unit_020332FC.c \
  *       --addr 0x020332FC --arm
  */
-u32 sub_020332FC(BackupSaveData *sv, u32 block)
+u32 BACKUP_SYSTEM_GetBlockArea(BackupSaveData *sv, u32 block)
 {
     return (sv->block_area[block >> 4] >> ((block & 0xf) * 2)) & 3;
 }
@@ -1825,10 +1825,10 @@ u32 sub_020332FC(BackupSaveData *sv, u32 block)
  *    the residue to the same 10 bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203331C.c \
- *       --func sub_0203331C --addr 0x0203331C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_SetBlockArea.c \
+ *       --func BACKUP_SYSTEM_SetBlockArea --addr 0x0203331C --cc 1.1p1 --arm
  */
-void sub_0203331C(BackupSaveData *sv, u32 block, u32 area)
+void BACKUP_SYSTEM_SetBlockArea(BackupSaveData *sv, u32 block, u32 area)
 {
     u32 shift = (block & 0xf) * 2;
     u32 word;
@@ -1845,11 +1845,11 @@ void sub_0203331C(BackupSaveData *sv, u32 block, u32 area)
  * backup_system.c.  Swaps the two record marks across the whole packed
  * 2-bit-per-slot bitmap at +0x138: every slot holding 1 becomes 2 and every
  * slot holding 2 becomes 1 (0 and 3 are left alone).  The slot count is
- * sub_02033BF0(p->table) + 2, the same count func_02033410 fills; the one-slot
- * getter and setter are src/matched/unit_020332FC.c and sub_0203331C.c.
- * Called by func_02032CD0 when a save generation completes.
+ * SAVEDATA_GetTableMax(p->table) + 2, the same count BACKUP_SYSTEM_FillBlockAreas fills; the one-slot
+ * getter and setter are src/matched/unit_020332FC.c and BACKUP_SYSTEM_SetBlockArea.c.
+ * Called by BACKUP_SYSTEM_SaveSeqMain when a save generation completes.
  *
- * Three spellings carry it (docs/notes/sub_0203335C.c.txt has four lanes of
+ * Three spellings carry it (docs/notes/BACKUP_SYSTEM_SwapBlockAreas.c.txt has four lanes of
  * measurements at 21 bytes out before these were found):
  *
  * 1. The clear mask is the 64-bit complement written on a widened value,
@@ -1863,14 +1863,14 @@ void sub_0203331C(BackupSaveData *sv, u32 block, u32 area)
  *    slots pointer and the slot value rotate (r2/r6/r5 -> r6/r5/r2, 28
  *    bytes).  Found by tools/permuter.py anneal, then isolated by a sweep.
  * 3. The bound is a copy `n_ = n` tested by the loop, the guard tests `n`
- *    (the lever that closed func_02033410); all loop values are u32 so the
+ *    (the lever that closed BACKUP_SYSTEM_FillBlockAreas); all loop values are u32 so the
  *    wrap uses subhs/addhs.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203335C.c \
- *       --func sub_0203335C --addr 0x0203335C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_SwapBlockAreas.c \
+ *       --func BACKUP_SYSTEM_SwapBlockAreas --addr 0x0203335C --cc 1.1p1 --arm
  */
-void sub_0203335C(BackupSaveData *sv)
+void BACKUP_SYSTEM_SwapBlockAreas(BackupSaveData *sv)
 {
     u32 count;
     u32 word;
@@ -1879,7 +1879,7 @@ void sub_0203335C(BackupSaveData *sv)
     u32 block;
     u32 area;
 
-    count = sub_02033BF0(sv->table) + 2;
+    count = SAVEDATA_GetTableMax(sv->table) + 2;
     word = 0;
     shift = 0;
     block = 0;
@@ -1908,7 +1908,7 @@ void sub_0203335C(BackupSaveData *sv)
 }
 
 
-void func_020333F8(BackupSaveData *sv)
+void BACKUP_SYSTEM_ClearBlockAreas(BackupSaveData *sv)
 {
     func_02082A7C(0, sv->block_area, sv->block_area_size);
 }
@@ -1918,9 +1918,9 @@ void func_020333F8(BackupSaveData *sv)
  * backup_system.c.  Fills the whole packed 2-bit-per-slot bitmap at offset
  * 0x138 with one repeated value: MIi_CpuClear32 (func_02082A7C) wipes
  * p->block_area_size bytes of it, then `val` is OR'd in two bits at a time for
- * sub_02033BF0(p->table) + 2 slots.  The getter/setter for one slot of the
+ * SAVEDATA_GetTableMax(p->table) + 2 slots.  The getter/setter for one slot of the
  * same bitmap are src/matched/unit_020332FC.c and
- * src/matched/sub_0203331C.c.
+ * src/matched/BACKUP_SYSTEM_SetBlockArea.c.
  *
  * Two spellings carry this function:
  *
@@ -1940,10 +1940,10 @@ void func_020333F8(BackupSaveData *sv)
  *    by tools/permuter.py --mode hill (`copy(n->n_@9) ; decl-order(n_<->i)`).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02033410.c \
- *       --func func_02033410 --addr 0x02033410 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_FillBlockAreas.c \
+ *       --func BACKUP_SYSTEM_FillBlockAreas --addr 0x02033410 --cc 1.1p1 --arm
  */
-void func_02033410(BackupSaveData *sv, u32 area)
+void BACKUP_SYSTEM_FillBlockAreas(BackupSaveData *sv, u32 area)
 {
     u32 count;
     u32 word;
@@ -1952,7 +1952,7 @@ void func_02033410(BackupSaveData *sv, u32 area)
     u32 block;
 
     func_02082A7C(0, sv->block_area, sv->block_area_size);
-    count = sub_02033BF0(sv->table) + 2;
+    count = SAVEDATA_GetTableMax(sv->table) + 2;
     word = 0;
     shift = 0;
     count_copy = count;
@@ -1972,56 +1972,56 @@ void func_02033410(BackupSaveData *sv, u32 area)
 }
 
 
-void func_02033478(u32 flash_addr, u32 src, u32 size)
+void BACKUP_SYSTEM_WriteFlash(u32 flash_addr, u32 src, u32 size)
 {
-    func_020335AC(flash_addr, src, size, g_02146994->write_error_func);
+    FLASH_ACCESS_Write(flash_addr, src, size, svsys->write_error_func);
 }
 
 
 /*
- * Tail-call accessor, the sibling of func_02033478: load the object at
+ * Tail-call accessor, the sibling of BACKUP_SYSTEM_WriteFlash: load the object at
  * 0x02146994, read its field at +0x208, and forward r0-r2 plus that word
- * as the fourth argument of func_020336B8.  Unlabelled in the listing (it
+ * as the fourth argument of FLASH_ACCESS_StartWrite.  Unlabelled in the listing (it
  * saves no lr), so it is invisible to `sole-ref/code` until this entry
  * exists; it is the witness that unblocks the thumb caller func_021DFE00.
  */
-u16 func_02033494(u32 flash_addr, u32 src, u32 size)
+u16 BACKUP_SYSTEM_WriteFlashAsync(u32 flash_addr, u32 src, u32 size)
 {
-    return func_020336B8(flash_addr, src, size, g_02146994->write_error_func);
+    return FLASH_ACCESS_StartWrite(flash_addr, src, size, svsys->write_error_func);
 }
 
 
 /*
- * Tail-call accessor, the sibling of func_02033478: load the object at
+ * Tail-call accessor, the sibling of BACKUP_SYSTEM_WriteFlash: load the object at
  * 0x02146994, read its field at +0x208, and forward r0-r1 plus that word
- * as the third argument of func_020337B8.  The loaded word lands in r2
- * (not r3 like func_02033494), which is what fixes the arity at three.
+ * as the third argument of FLASH_ACCESS_PollWrite.  The loaded word lands in r2
+ * (not r3 like BACKUP_SYSTEM_WriteFlashAsync), which is what fixes the arity at three.
  * Unlabelled in the listing (it saves no lr), so it is invisible to
  * `sole-ref/code` until this entry exists; it is the witness that
  * unblocks the thumb caller func_021DFE00.
  */
-int func_020334B0(u16 lock_id, u32 *success)
+int BACKUP_SYSTEM_CheckFlashAsync(u16 lock_id, u32 *success)
 {
-    return func_020337B8(lock_id, success, g_02146994->write_error_func);
+    return FLASH_ACCESS_PollWrite(lock_id, success, svsys->write_error_func);
 }
 
 
 /*
- * Tail-call thunk: forwards its arguments to func_020335E8 with the word at
- * +0x204 of the object at g_02146994 as the last argument.  No arm9 code
+ * Tail-call thunk: forwards its arguments to FLASH_ACCESS_Read with the word at
+ * +0x204 of the object at svsys as the last argument.  No arm9 code
  * calls it; its callers are Thumb blx in ov228, so the listing carried it as
  * raw words until the seed in layout/function_starts.txt.
  */
-int func_020334CC(u32 flash_addr, u32 dst, u32 size)
+int BACKUP_SYSTEM_ReadFlash(u32 flash_addr, u32 dst, u32 size)
 {
-    return func_020335E8(flash_addr, dst, size, g_02146994->read_error_func);
+    return FLASH_ACCESS_Read(flash_addr, dst, size, svsys->read_error_func);
 }
 
 
-int func_020334E8(BackupSaveData *sv, u32 id, u32 area_index, u32 dst, u32 size)
+int BACKUP_SYSTEM_ReadRecordFromFlash(BackupSaveData *sv, u32 id, u32 area_index, u32 dst, u32 size)
 {
-    u32 area_addr = func_02031EAC(sv, area_index + 1);
-    u32 ofs = func_02033B68(sv->table, id);
+    u32 area_addr = BACKUP_SYSTEM_GetAreaAddr(sv, area_index + 1);
+    u32 ofs = SAVEDATA_GetBlockOffset(sv->table, id);
 
-    return func_020335E8(area_addr + ofs, dst, size, g_02146994->read_error_func);
+    return FLASH_ACCESS_Read(area_addr + ofs, dst, size, svsys->read_error_func);
 }

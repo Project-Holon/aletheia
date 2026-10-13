@@ -1,7 +1,7 @@
 /*
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
  *
- * function: func_0201DADC
+ * function: GF_FONT_ExitFormat
  * address:  0x0201DADC
  * packet:   pkt_0201DA00
  * region:   arm9
@@ -14,7 +14,7 @@
  * symbols:
  *   g_0209E744  0x0209E744  data
  *
- * gf_font.c's format teardown, the mirror of func_0201DA00: it dispatches on
+ * gf_font.c's format teardown, the mirror of GF_FONT_SetFormat: it dispatches on
  * the format word the selector stored at +0 through a second four-entry table
  * that sits two words after the first one.  Twenty bytes, one indirect call.
  *
@@ -32,7 +32,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/sub_0201DADC.c \
- *       --func func_0201DADC --addr 0x0201DADC --cc 1.1p1 --thumb
+ *       --func GF_FONT_ExitFormat --addr 0x0201DADC --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -45,7 +45,7 @@ typedef void (*FontFini)(struct Font *f);
 
 extern FontFini g_0209E744[];
 
-void func_0201DADC(struct Font *f)
+void GF_FONT_ExitFormat(struct Font *f)
 {
     g_0209E744[f->unk00](f);
 }

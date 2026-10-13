@@ -1,5 +1,5 @@
 /*
- * function: func_02173558
+ * function: INTRUDE_COMM_SuspendPlayers
  * address: 0x02173558
  * packet: pkt_ov011_02173558
  * region: ov011
@@ -17,7 +17,7 @@
 typedef struct { void *sys; void *obj; } Work;
 struct Work;
 extern void func_02167688(struct Work *w);
-void func_02173558(int a, char *p)
+void INTRUDE_COMM_SuspendPlayers(int a, char *p)
 {
     if (p != 0)
         func_02167688((struct Work *)(*(Work * *)&((struct Obj19162 *)p)->f8));

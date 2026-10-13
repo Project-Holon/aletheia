@@ -1,5 +1,5 @@
 /*
- * function: func_02071A24
+ * function: NNSi_G3dTexMtxScaleRotTrans
  * address:  0x02071A24
  * packet:   pkt_02071360
  * region:   arm9
@@ -10,7 +10,7 @@
  *   func_0207C86C  0x0207C86C  arm
  *
  * The full-rotate constructor with the smull quartet: the body of
- * src/matched/func_02071CDC.c with its two plain negated multipliers
+ * src/matched/NNSi_G3dTexMtxScaleRot.c with its two plain negated multipliers
  * replaced by the translation-weighted pair func_02071C14 uses,
  *   a = (-f2c << 11) - f24 * f2c
  *   b = f28 * f2e + (-f2e << 11)
@@ -23,11 +23,11 @@
  * change it is 264 bytes, 0 out.
  *
  * Front end: NOT pinned.  EXACT under both dsi/1.1p1 and ../2.0/sp2 with
- * the same C; filed under the project default like func_02071CDC.
+ * the same C; filed under the project default like NNSi_G3dTexMtxScaleRot.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02071A24.c \
- *       --func func_02071A24 --addr 0x02071A24 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G3dTexMtxScaleRotTrans.c \
+ *       --func NNSi_G3dTexMtxScaleRotTrans --addr 0x02071A24 --arm
  */
 
 typedef unsigned char  u8;
@@ -63,7 +63,7 @@ struct DST {
 extern void func_0207C930(u32 numer, u32 denom);
 extern u32 func_0207C86C(void);
 
-void func_02071A24(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxScaleRotTrans(struct DST *d, struct SRC *s)
 {
     s32 e12, f12;
     s32 p, q, r, bd, t;

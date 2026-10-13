@@ -12,12 +12,12 @@
  * symbols:
  *   func_022060C8 0x022060C8 thumb ov195
  *   func_02206274 0x02206274 thumb ov195
- *   func_02017270 0x02017270 thumb
- *   func_02015FF0 0x02015FF0 thumb
- *   func_020173B4 0x020173B4 thumb
- *   func_02015CAC 0x02015CAC thumb
- *   func_02015EA0 0x02015EA0 thumb
- *   func_02015E04 0x02015E04 thumb
+ *   MCSS_TOOL_AddPokeMcss 0x02017270 thumb
+ *   MCSS_SetShadowVanishFlag 0x02015FF0 thumb
+ *   MCSS_TOOL_SetAnimeStopCallback 0x020173B4 thumb
+ *   MCSS_SetScale 0x02015CAC thumb
+ *   MCSS_SetVanishFlag 0x02015EA0 thumb
+ *   MCSS_SetAnmStopFlag 0x02015E04 thumb
  *   _fgr 0x0209BBB0 arm
  *   _fmul 0x0209C77C arm
  *   _fadd 0x0209C95C arm
@@ -57,12 +57,12 @@ typedef struct Owner {
 
 extern fx32 func_022060C8(void *res);
 extern void func_02206274(Owner *o);
-extern void *func_02017270(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
-extern void func_02015FF0(char *p, int v);
-extern int func_020173B4(int a0);
-extern void func_02015CAC(void *p, u32 *src);
-extern void func_02015EA0(void *obj);
-extern void func_02015E04(void *obj);
+extern void *MCSS_TOOL_AddPokeMcss(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
+extern void MCSS_SetShadowVanishFlag(char *p, int v);
+extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
+extern void MCSS_SetScale(void *p, u32 *src);
+extern void MCSS_SetVanishFlag(void *obj);
+extern void MCSS_SetAnmStopFlag(void *obj);
 
 void func_02206108(Owner *o)
 {
@@ -77,22 +77,22 @@ void func_02206108(Owner *o)
     if (o->f08 == 0) {
         for (i = 0; i < 2; i++) {
             if (i == 0)
-                o->obj[i] = func_02017270(o->sys, o->res0, 0, 0, func_022060C8(o->res0), 0);
+                o->obj[i] = MCSS_TOOL_AddPokeMcss(o->sys, o->res0, 0, 0, func_022060C8(o->res0), 0);
             else
-                o->obj[i] = func_02017270(o->sys, o->res1, 0, 0, func_022060C8(o->res1), 0);
-            func_02015FF0(o->obj[i], 1);
-            func_020173B4((int)o->obj[i]);
-            func_02015CAC(o->obj[i], (u32 *)(&scale));
+                o->obj[i] = MCSS_TOOL_AddPokeMcss(o->sys, o->res1, 0, 0, func_022060C8(o->res1), 0);
+            MCSS_SetShadowVanishFlag(o->obj[i], 1);
+            MCSS_TOOL_SetAnimeStopCallback((int)o->obj[i]);
+            MCSS_SetScale(o->obj[i], (u32 *)(&scale));
             if (i != 0) {
-                func_02015EA0(o->obj[i]);
-                func_02015E04(o->obj[i]);
+                MCSS_SetVanishFlag(o->obj[i]);
+                MCSS_SetAnmStopFlag(o->obj[i]);
             }
         }
     } else {
-        o->obj[1] = func_02017270(o->sys, o->res0, 0, 0, func_022060C8(o->res0), 0);
-        func_02015FF0(o->obj[1], 1);
-        func_020173B4((int)o->obj[1]);
-        func_02015CAC(o->obj[1], (u32 *)(&scale));
+        o->obj[1] = MCSS_TOOL_AddPokeMcss(o->sys, o->res0, 0, 0, func_022060C8(o->res0), 0);
+        MCSS_SetShadowVanishFlag(o->obj[1], 1);
+        MCSS_TOOL_SetAnimeStopCallback((int)o->obj[1]);
+        MCSS_SetScale(o->obj[1], (u32 *)(&scale));
     }
     func_02206274(o);
 }

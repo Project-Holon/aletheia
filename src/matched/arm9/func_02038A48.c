@@ -1,5 +1,5 @@
 /*
- * function: func_02038A48
+ * function: GFL_NET_SYSTEM_SendCallback
  * address:  0x02038A48
  * packet:   pkt_02037F48
  * region:   arm9
@@ -33,8 +33,8 @@
  *   func_02034714  0x02034714  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02038A48.c \
- *       --func func_02038A48 --addr 0x02038A48 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_SendCallback.c \
+ *       --func GFL_NET_SYSTEM_SendCallback --addr 0x02038A48 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -45,7 +45,7 @@ extern u8   g_020A7A50[];
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-int func_02038A48(int a)
+int GFL_NET_SYSTEM_SendCallback(int a)
 {
     if (a != 0 && g_020A7A20[1] == 2) {
         g_020A7A20[1] = 4;

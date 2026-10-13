@@ -11,26 +11,26 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02005CA4, sub_02005CBC, sub_02005CE0, sub_02005D08,
- *           sub_02005D14, sub_02005D28
+ * function: GFL_USE_SetPlayersAudible, GFL_USE_SetPlayerVolumes, GFL_USE_IsSeqStartAllowed, GFL_USE_SetSeqStartFilter,
+ *           GFL_USE_StopBgm, GFL_USE_CancelChangeAndStopBgm
  *
  * symbols:
  *   sub_02005CE0_State  0x020AA260  data
- *   sub_0200590C        0x0200590C  thumb
- *   sub_020059C8        0x020059C8  thumb
- *   sub_02005C64        0x02005C64  thumb
- *   sub_02005F90        0x02005F90  thumb
- *   func_02072D98       0x02072D98  arm
+ *   GFL_USE_GetCurrentSndHandle        0x0200590C  thumb
+ *   GFL_USE_UnloadBgmData        0x020059C8  thumb
+ *   GFL_USE_IsLoaderBusy        0x02005C64  thumb
+ *   GFL_USE_CancelBgmChange        0x02005F90  thumb
+ *   NNS_SndPlayerSetPlayerVolume       0x02072D98  arm
  *   func_02072E7C       0x02072E7C  arm
  *
  * A bit-per-channel broadcast and the callback hook that goes with it.
  *
- * sub_02005CA4 forwards its second argument without ever mentioning it: the
+ * GFL_USE_SetPlayersAudible forwards its second argument without ever mentioning it: the
  * original never touches r1 between entry and either call, which is what a
  * parameter that is only ever passed on looks like.  The one thing to get
  * right is that both arms call the same function with a different first
  * argument rather than computing the argument and calling once; written as
- * `sub_02005CBC(a == 1 ? 0x7F : 0, b)` the compiler folds the two calls into
+ * `GFL_USE_SetPlayerVolumes(a == 1 ? 0x7F : 0, b)` the compiler folds the two calls into
  * one and the function is four bytes shorter.
  */
 
@@ -43,39 +43,39 @@ struct Sub02005CE0State {
 
 extern struct Sub02005CE0State sub_02005CE0_State;
 
-extern u32 *sub_0200590C(void);
-extern void sub_020059C8(void);
-extern int  sub_02005C64(void);
-extern void sub_02005F90(void);
-extern void func_02072D98(u32 idx, u32 val);
+extern u32 *GFL_USE_GetCurrentSndHandle(void);
+extern void GFL_USE_UnloadBgmData(void);
+extern int  GFL_USE_IsLoaderBusy(void);
+extern void GFL_USE_CancelBgmChange(void);
+extern void NNS_SndPlayerSetPlayerVolume(u32 idx, u32 val);
 extern void func_02072E7C(void **r0, int fadeFrame);
 
-void sub_02005CBC(u32 value, u32 mask);
-void sub_02005D14(void);
+void GFL_USE_SetPlayerVolumes(u32 value, u32 mask);
+void GFL_USE_StopBgm(void);
 
-void sub_02005CA4(int a, u32 mask)
+void GFL_USE_SetPlayersAudible(int a, u32 mask)
 {
     if (a == 1) {
-        sub_02005CBC(0x7F, mask);
+        GFL_USE_SetPlayerVolumes(0x7F, mask);
     } else {
-        sub_02005CBC(0, mask);
+        GFL_USE_SetPlayerVolumes(0, mask);
     }
 }
 
-void sub_02005CBC(u32 value, u32 mask)
+void GFL_USE_SetPlayerVolumes(u32 value, u32 mask)
 {
     int i;
 
     for (i = 0; i < 5; i++) {
         if ((1 << i) & mask) {
-            func_02072D98(i, value);
+            NNS_SndPlayerSetPlayerVolume(i, value);
         }
     }
 }
 
-int sub_02005CE0(void *arg)
+int GFL_USE_IsSeqStartAllowed(void *arg)
 {
-    if (sub_02005C64() == 0) {
+    if (GFL_USE_IsLoaderBusy() == 0) {
         return 1;
     }
     if (sub_02005CE0_State.unk04 == 0) {
@@ -84,19 +84,19 @@ int sub_02005CE0(void *arg)
     return sub_02005CE0_State.unk04(arg);
 }
 
-void sub_02005D08(int (*hook)(void *arg))
+void GFL_USE_SetSeqStartFilter(int (*hook)(void *arg))
 {
     sub_02005CE0_State.unk04 = hook;
 }
 
-void sub_02005D14(void)
+void GFL_USE_StopBgm(void)
 {
-    func_02072E7C((void **)sub_0200590C(), 0);
-    sub_020059C8();
+    func_02072E7C((void **)GFL_USE_GetCurrentSndHandle(), 0);
+    GFL_USE_UnloadBgmData();
 }
 
-void sub_02005D28(void)
+void GFL_USE_CancelChangeAndStopBgm(void)
 {
-    sub_02005F90();
-    sub_02005D14();
+    GFL_USE_CancelBgmChange();
+    GFL_USE_StopBgm();
 }

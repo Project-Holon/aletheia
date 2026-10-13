@@ -1,5 +1,5 @@
 /*
- * function: func_02173644
+ * function: INTRUDE_COMM_RecvQuit
  * address: 0x02173644
  * packet: pkt_ov011_02173644
  * region: ov011
@@ -14,7 +14,7 @@
 
 typedef unsigned char  u8;
 
-void func_02173644(int a, int b, u8 *p)
+void INTRUDE_COMM_RecvQuit(int a, int b, u8 *p)
 {
     p[0x93F] |= 2;
 }

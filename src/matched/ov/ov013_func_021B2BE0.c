@@ -1,5 +1,5 @@
 /*
- * function: func_021B2BE0
+ * function: VCT_SESSION_HandleSharedPacket
  * address:  0x021B2BE0
  * packet:   pkt_ov013_021B2BE0
  * region:   ov013
@@ -26,9 +26,9 @@
  *   g_021B4BE0     0x021B4BE0  data  a4
  *   d_021B4C0C     0x021B4C0C  data  a4
  *   g_021B4BD0     0x021B4BD0  data  a4
- *   func_021B2894  0x021B2894  arm  ov013
- *   func_021B279C  0x021B279C  arm  ov013
- *   func_021B26DC  0x021B26DC  arm  ov013
+ *   VCT_SESSION_AdvancePhase  0x021B2894  arm  ov013
+ *   VCT_SESSION_GetEventCode  0x021B279C  arm  ov013
+ *   VCT_SESSION_BroadcastState  0x021B26DC  arm  ov013
  *   func_020870D0  0x020870D0  arm
  */
 
@@ -72,12 +72,12 @@ typedef unsigned char  u8;
 struct Ctx;
 struct Msg;
 struct Q;
-extern int func_021B2894(struct Ctx *c, struct Msg *m);
-extern int func_021B279C(u8 *o, struct Q *q);
-extern void func_021B26DC(int x);
+extern int VCT_SESSION_AdvancePhase(struct Ctx *c, struct Msg *m);
+extern int VCT_SESSION_GetEventCode(u8 *o, struct Q *q);
+extern void VCT_SESSION_BroadcastState(int x);
 extern unsigned long long func_020870D0(void);
 
-int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
+int VCT_SESSION_HandleSharedPacket(struct Pkt *pkt, struct Event *ev)
 {
     struct Node *n;
     int r;
@@ -85,7 +85,7 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
     if (g_021B4BE0.active_state == 2) {
         if (g_021B4BE0.id == pkt->f8) {
             n = ((struct Node *)&d_021B4C0C);
-            r = func_021B2894((struct Ctx *)n, (struct Msg *)pkt);
+            r = VCT_SESSION_AdvancePhase((struct Ctx *)n, (struct Msg *)pkt);
             switch (r) {
             case -2:
                 ev->type = 0xC;
@@ -97,11 +97,11 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
             default:
                 break;
             }
-            ev->type = func_021B279C((u8 *)pkt, (struct Q *)n);
+            ev->type = VCT_SESSION_GetEventCode((u8 *)pkt, (struct Q *)n);
             ev->node = n;
             n->fc = r;
         } else {
-            func_021B26DC(1);
+            VCT_SESSION_BroadcastState(1);
             return 0;
         }
     } else {
@@ -111,7 +111,7 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
         g_021B4BE0.active_state = 2;
         g_021B4BE0.active_fc = 0;
         n = ((struct Node *)&d_021B4C0C);
-        r = func_021B2894((struct Ctx *)n, (struct Msg *)pkt);
+        r = VCT_SESSION_AdvancePhase((struct Ctx *)n, (struct Msg *)pkt);
         switch (r) {
         case -3:
         case -2:
@@ -119,15 +119,15 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
             g_021B4BE0.active_state = 0;
             return 0;
         }
-        ev->type = func_021B279C((u8 *)pkt, (struct Q *)n);
+        ev->type = VCT_SESSION_GetEventCode((u8 *)pkt, (struct Q *)n);
         ev->node = n;
         n->fc = r;
     }
     if (ev->type == 10) {
-        func_021B26DC(1);
+        VCT_SESSION_BroadcastState(1);
         g_021B4BD0.f8 = func_020870D0();
     } else {
-        func_021B26DC(0);
+        VCT_SESSION_BroadcastState(0);
         g_021B4BD0.f8 = 0;
     }
     return 1;

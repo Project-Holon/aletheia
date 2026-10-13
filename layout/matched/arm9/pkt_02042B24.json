@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020432E4",
+   "name": "BG_SYS_ApplyCenterOp",
    "address": "0x020432E4",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204335C",
+   "name": "BG_SYS_ClearGraphicsMemory",
    "address": "0x0204335C",
    "kind": "game",
    "region": "arm9",
@@ -150,7 +150,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204349C"
+    "BG_SYS_ClearMainBgPlanes"
+   ],
+   "addresses": [
+    "0x0204349C"
    ]
   }
  ]

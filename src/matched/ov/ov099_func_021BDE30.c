@@ -9,13 +9,13 @@
  * status: EXACT*
  * extent: 98 bytes code followed by two zero alignment bytes.
  * symbols:
- *   func_0203D644 0x0203D644 arm
+ *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   func_021BDD0C 0x021BDD0C thumb ov099
  *   func_021BDDB4 0x021BDDB4 thumb ov099
  *   func_020399A8 0x020399A8 arm
  *   func_0203D1E8 0x0203D1E8 arm
  */
-extern void func_0203D644(int);
+extern void GFL_NET_SetWaitMode(int);
 extern void func_021BDD0C(void *, int);
 typedef unsigned int   u32;
 extern int func_021BDDB4(int a, void *b);
@@ -25,10 +25,10 @@ extern void func_0203D1E8(u32 unused, void *arg);
 void func_021BDE30(void *p, int kind, int value)
 {
     if (kind == 1) {
-        func_0203D644(0);
+        GFL_NET_SetWaitMode(0);
         func_021BDD0C(p, 0);
     } else {
-        if (func_021BDDB4(kind, (void *)value)) func_0203D644(1);
+        if (func_021BDDB4(kind, (void *)value)) GFL_NET_SetWaitMode(1);
     }
     switch (kind) {
     case 2:

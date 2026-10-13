@@ -15,7 +15,7 @@
  *   OS_GetTick  0x020870D0  arm
  *
  * Reset the palette-animation module state block and stamp it with the
- * current tick.  The same global's first word is the one func_02021438
+ * current tick.  The same global's first word is the one PALANM_StopTimer
  * clears, so the block is a struct starting at 0x02146788, not five
  * unrelated globals.
  *

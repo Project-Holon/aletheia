@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202E7DC  0x0202E7DC  thumb
+ *   COMM_PLAYER_SUPPORT_GetCurrent  0x0202E7DC  thumb
  *
  * blocker: target 0x0202E7DC has no `func_`/`sub_` label and no outside
  * branch, so the pool relocation cannot be witnessed.  All bytes correct.
  */
 #include "../include/Obj20998.h"
 
-char *func_0202E7DC(char *p);
+char *COMM_PLAYER_SUPPORT_GetCurrent(char *p);
 
 void func_021BA080(char **p)
 {
-    func_0202E7DC((char *)(((struct Obj20998 *)(*p))->f70));
+    COMM_PLAYER_SUPPORT_GetCurrent((char *)(((struct Obj20998 *)(*p))->f70));
 }

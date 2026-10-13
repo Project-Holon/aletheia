@@ -10,12 +10,12 @@
  * symbols:
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_0204B5AC 0x0204B5AC arm
+ *   CLACT_SetActorScale 0x0204B5AC arm
  */
 #include "../include/Obj05439.h"
 struct Obj;
 struct Pair;
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 int func_021EC994(char *p)
 {
     int pair[2];
@@ -25,6 +25,6 @@ int func_021EC994(char *p)
         return 0;
     pair[0] = (int)*(float *)(p + 8);
     pair[1] = (int)*(float *)(p + 8);
-    func_0204B5AC(((struct Obj05439 *)p)->f0, (struct Pair *)pair);
+    CLACT_SetActorScale(((struct Obj05439 *)p)->f0, (struct Pair *)pair);
     return 1;
 }

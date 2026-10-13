@@ -9,9 +9,9 @@
  * status: EXACT*
  * extent: two bytes of zero alignment padding after the return.
  * symbols:
- *   func_0202CA0C 0x0202CA0C thumb
+ *   BGWINFRM_Delete 0x0202CA0C thumb
  *   func_02030EAC 0x02030EAC arm
- *   func_02020D3C 0x02020D3C thumb
+ *   BMP_CURSOR_Delete 0x02020D3C thumb
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_02045C04 0x02045C04 arm
  *   func_02045808 0x02045808 arm
@@ -21,7 +21,7 @@
 #include "../include/Obj01248.h"
 typedef unsigned char u8;
 struct WinMgr;
-extern void func_0202CA0C(struct WinMgr *mgr);
+extern void BGWINFRM_Delete(struct WinMgr *mgr);
 struct D;
 struct Descriptor;
 struct Node;
@@ -29,7 +29,7 @@ struct Obj;
 struct Rec;
 struct U16Vec;
 extern void func_02030EAC(struct Node *n);
-extern void func_02020D3C(struct D *p);
+extern void BMP_CURSOR_Delete(struct D *p);
 extern void func_0204B3B4(struct Obj *p);
 extern unsigned int func_02045C04(struct Rec *rec);
 extern void func_02045808(struct U16Vec *vec);
@@ -38,10 +38,10 @@ typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021BBCF0(u8 *p)
 {
-    func_0202CA0C(((struct Obj01248 *)p)->f1B4);
+    BGWINFRM_Delete(((struct Obj01248 *)p)->f1B4);
     if (((struct Obj01248 *)p)->f1B0) func_02030EAC(((struct Obj01248 *)p)->f1B0);
     if (((struct Obj01248 *)p)->f1A4) func_02030EAC(((struct Obj01248 *)p)->f1A4);
-    if (((struct Obj01248 *)p)->f34) func_02020D3C(((struct Obj01248 *)p)->f34);
+    if (((struct Obj01248 *)p)->f34) BMP_CURSOR_Delete(((struct Obj01248 *)p)->f34);
     if (((struct Obj01248 *)p)->f14) func_0204B3B4(((struct Obj01248 *)p)->f14);
     if (((struct Obj01248 *)p)->f18) func_0204B3B4(((struct Obj01248 *)p)->f18);
     if (((struct Obj01248 *)p)->f2C) func_02045C04(((struct Obj01248 *)p)->f2C);

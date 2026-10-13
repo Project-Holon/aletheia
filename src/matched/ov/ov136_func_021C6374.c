@@ -7,12 +7,12 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * note (2026-10-02): byte-correct; only func_02024450 lacks a witness. Witness filed as
- *   src/matched/arm9/func_02024450.c (EXACT). Re-verify after its shard exists, then file EXACT.
+ * note (2026-10-02): byte-correct; only PMSI_PARAM_IsEnabled lacks a witness. Witness filed as
+ *   src/matched/arm9/PMSI_PARAM_IsEnabled.c (EXACT). Re-verify after its shard exists, then file EXACT.
  * symbols:
  *   func_02008FC8 0x02008FC8 thumb
- *   func_02024450 0x02024450 thumb
- *   func_0202DC48 0x0202DC48 thumb
+ *   PMSI_PARAM_IsEnabled 0x02024450 thumb
+ *   PMS_DRAW_Print 0x0202DC48 thumb
  *   func_02045334 0x02045334 arm
  *   func_02045374 0x02045374 arm
  *   func_02045730 0x02045730 arm
@@ -47,8 +47,8 @@ struct Descriptor;
 struct Sub02008F80Entry;
 struct Sub02008F80Obj;
 extern struct Sub02008F80Entry *func_02008FC8(struct Sub02008F80Obj *obj, u32 i);
-extern int func_02024450(const u16 *p);
-extern void func_0202DC48(void *, void *, void *, u8);
+extern int PMSI_PARAM_IsEnabled(const u16 *p);
+extern void PMS_DRAW_Print(void *, void *, void *, u8);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
@@ -69,8 +69,8 @@ void func_021C6374(u8 *p)
 
     for (i = 0; i < 3; i++) {
         mon = func_02008FC8(*(void **)(*(u8 * *)&((struct Obj00627 *)p)->f8 + p[0x1F] * 4 + 0x298), (u8)i);
-        if (func_02024450(mon)) {
-            func_0202DC48(((struct Obj23579 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f35C, *(void **)(*(u8 * *)&((struct Obj00627 *)p)->f8 + i * 4 + 0xB0), mon, (u8)i);
+        if (PMSI_PARAM_IsEnabled(mon)) {
+            PMS_DRAW_Print(((struct Obj23579 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f35C, *(void **)(*(u8 * *)&((struct Obj00627 *)p)->f8 + i * 4 + 0xB0), mon, (u8)i);
             w = *(void **)(*(u8 * *)&((struct Obj00627 *)p)->f8 + i * 4 + 0xB0);
             func_02045334(w);
             func_02045374(w);
@@ -81,7 +81,7 @@ void func_021C6374(u8 *p)
     ((struct Obj23581 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f362 = 0;
     ((struct Obj23582 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f364 = func_02008FC0(*(void **)(*(u8 * *)&((struct Obj00627 *)p)->f8 + p[0x1F] * 4 + 0x298));
     if (((struct Obj23583 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f364 != 0) {
-        func_0202DC48(((struct Obj23584 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f35C, ((struct Obj23585 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->fBC, *(u8 * *)&((struct Obj00627 *)p)->f8 + 0x360, 3);
+        PMS_DRAW_Print(((struct Obj23584 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f35C, ((struct Obj23585 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->fBC, *(u8 * *)&((struct Obj00627 *)p)->f8 + 0x360, 3);
     }
     func_02043B5C(func_02045770(((struct Obj23586 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->fC0), 0);
     func_02045924(((struct Obj23587 *)(*(u8 * *)&((struct Obj00627 *)p)->f8))->f1D8, (const u16 *)func_02008F84(*(void **)(*(u8 * *)&((struct Obj00627 *)p)->f8 + p[0x1F] * 4 + 0x298)));

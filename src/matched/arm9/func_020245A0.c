@@ -1,5 +1,5 @@
 /*
- * function: func_020245A0
+ * function: PMSI_PARAM_SetWordAt
  * address:  0x020245A0
  * packet:   pkt_020245A0
  * region:   arm9
@@ -16,6 +16,6 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-void func_020245A0(u8 *p,unsigned i,u16 v) {
+void PMSI_PARAM_SetWordAt(u8 *p,unsigned i,u16 v) {
     if(i<2) *(u16 *)(p+4+2*i)=v;
 }

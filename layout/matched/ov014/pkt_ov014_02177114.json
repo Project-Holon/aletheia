@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02177114",
-    "func_02177124",
-    "func_02177128",
-    "func_0217712C"
+    "GFL_NET_DEVWIRELESS_GetScanResultMac",
+    "GFL_NET_DEVWIRELESS_UnusedSlot12",
+    "GFL_NET_DEVWIRELESS_UnusedSlot13",
+    "GFL_NET_DEVWIRELESS_HasBeaconBeenSent"
+   ],
+   "addresses": [
+    "0x02177114",
+    "0x02177124",
+    "0x02177128",
+    "0x0217712C"
    ]
   }
  ]

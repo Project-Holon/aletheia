@@ -1,5 +1,5 @@
 /*
- * function: func_0202B788
+ * function: ISS_SYS_LeaveDungeon
  * address: 0x0202B788
  * packet: pkt_arm9_0202B788
  * region: arm9
@@ -10,15 +10,18 @@
  * status: EXACT*
  *
  * Function with no listing label, matched inside src/game/arm9/iss_3ds_sys_p01.c and filed here.
+ *
+ * symbols:
+ *   ISS_DUNGEON_SYS_Stop  0x0202B42C  thumb
  */
 
 #include "../include/Obj02010.h"
 
 typedef unsigned char u8;
-extern void func_0202B42C(u8 *p);
-void func_0202B788(u8 *p);
+extern void ISS_DUNGEON_SYS_Stop(u8 *p);
+void ISS_SYS_LeaveDungeon(u8 *p);
 
-void func_0202B788(u8 *p)
+void ISS_SYS_LeaveDungeon(u8 *p)
 {
-    func_0202B42C((u8 *)((struct Obj02010 *)p)->f18);
+    ISS_DUNGEON_SYS_Stop((u8 *)((struct Obj02010 *)p)->f18);
 }

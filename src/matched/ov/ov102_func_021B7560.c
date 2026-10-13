@@ -38,7 +38,7 @@
  * func_021B7F08 0x021B7F08 thumb ov102
  * func_021B8320 0x021B8320 thumb ov102
  * func_021B81B0 0x021B81B0 thumb ov102
- * func_02005D28 0x02005D28 thumb
+ * GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  * func_021B63CC 0x021B63CC thumb ov101
  * d_021B8AD4 0x021B8AD4 data a4
  */
@@ -82,7 +82,7 @@ extern int func_021B7CC0(void *);
 extern void *func_021B70DC(u32,u32,u16,u16,u8,u32,u32,u32,u16);
 extern void func_021B7F08(unsigned p, unsigned x);
 extern void func_021B8320(u8 *,u16 *),func_021B81B0(u8 *,u16 *);
-extern void func_02005D28(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void func_021B63CC(int *,int);
 extern u32 d_021B8AD4[];
 int func_021B7560(void *owner,int unused,void *arg)
@@ -123,7 +123,7 @@ int func_021B7560(void *owner,int unused,void *arg)
     case 1: func_021B7F08((unsigned int)p,(unsigned int)func_021B8320); break;
     case 2: func_021B7F08((unsigned int)p,(unsigned int)func_021B81B0); break;
     }
-    func_02005D28();
+    GFL_USE_CancelChangeAndStopBgm();
     func_021B63CC(*(int * *)&((struct Obj22137 *)(*(u8 * *)&((struct Obj03229 *)p)->f48C))->f4,0);
     return 1;
 }

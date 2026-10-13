@@ -1,5 +1,5 @@
 /*
- * function: func_020730DC
+ * function: NNS_SndHandleSetSweep
  * address:  0x020730DC
  * packet:   pkt_02072EA8
  * region:   arm9
@@ -29,7 +29,7 @@ struct Sub {
 };
 struct Obj { struct Sub * volatile p; };
 
-void func_020730DC(struct Obj *o, u32 a, u32 b)
+void NNS_SndHandleSetSweep(struct Obj *o, u32 a, u32 b)
 {
     if (o->p == 0) return;
     o->p->h34 = 2;

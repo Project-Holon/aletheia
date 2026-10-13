@@ -14,14 +14,14 @@
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
- * extern const u16 func_0200B98C_Table[];
- * u64 func_0200B98C(char *p,int selector,int index) {
+ * extern const u16 BattleRecModeTable[];
+ * u64 BATTLE_REC_GetHeaderParam(char *p,int selector,int index) {
  *   int i;u16 v;
  *   switch(selector) {
  *   case 0: v=((u16 *)p)[index];if(v>0x289)return 0;return v;
  *   case 1: return *(u8 *)(p+index+0x18)&0x7f;
  *   case 2: v=*(u16 *)(p+0x24);if(v>0x270f)return 0x270f;return v;
- *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==func_0200B98C_Table[i])return i;return 0;
+ *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==BattleRecModeTable[i])return i;return 0;
  *   case 4: return *(u64 *)(p+0x38);
  *   case 5: return *(u8 *)(p+0x2a);
  *   case 6: return (*(u8 *)(p+index+0x18)&0x80)>>7;
@@ -45,13 +45,13 @@
  *   func_020457B0 0x020457B0 arm
  *   func_02045808 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0200D6D0 0x0200D6D0 thumb
+ *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   func_0200D6EC 0x0200D6EC thumb
  *   func_0200D774 0x0200D774 thumb
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_0200B98C 0x0200B98C thumb
+ *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   _ll_udiv 0x0209C00C arm
  *   _ull_mod 0x0209C018 arm
  *   d_021E32C8 0x021E32C8 data a4
@@ -80,13 +80,13 @@ extern void func_021DCBD8(char *,void *,void *,u16);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045808(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_0200D6D0(const void *,u32);
+extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 extern void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
 extern u32 func_0200D6EC(struct RecGet *p);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
+extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 void func_021DC8EC(char *p,char *q)
 {
     u16 record[4];
@@ -115,7 +115,7 @@ void func_021DC8EC(char *p,char *q)
                 void *name;
                 void *message;
                 text=func_020457B0(128,*(u16 *)(p+0xb4));
-                name=func_0200D6D0(*(void **)(p+0xc0),*(u16 *)(p+0xb4));
+                name=GDS_PROFILE_CreateNameStr(*(void **)(p+0xc0),*(u16 *)(p+0xb4));
                 message=func_02045EC0(bank,d->message);
                 func_0201EE0C(words,0,name,func_0200D6EC(*(RecGet **)(p+0xc0)),1,2);
                 func_0201F250(words,text,message);
@@ -126,7 +126,7 @@ void func_021DC8EC(char *p,char *q)
             case 1:
                 {
                 u32 selector;
-                selector=func_0200B98C(*(void **)(p+0xc4),3,0);
+                selector=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),3,0);
                 text=func_02045EC0(bank,selector+d->message);
                 func_021FC868(*(void **)(slot+0x30),0,1,0);ready=1;break;
                 }
@@ -137,7 +137,7 @@ void func_021DC8EC(char *p,char *q)
                 u32 low,middle,high;
                 void *message;
                 void *temporary;
-                value=func_0200B98C(*(void **)(p+0xc4),4,0);
+                value=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),4,0);
                 low=value%100000ULL;
                 quotient=value/100000ULL;
                 middle=quotient%100000ULL;
@@ -156,7 +156,7 @@ void func_021DC8EC(char *p,char *q)
                 if(func_021DD25C(*(void **)(p+0xc4))) {
                     u32 count;
                     void *message;
-                    count=func_0200B98C(*(void **)(p+0xc4),2,0);
+                    count=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),2,0);
                     text=func_020457B0(128,*(u16 *)(p+0xb4));
                     message=func_02045EC0(bank,d->message);
                     func_0201EFA4(words,0,count,4,0,1);func_0201F250(words,text,message);func_02045808((U16Vec *)message);

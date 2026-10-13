@@ -1,7 +1,7 @@
 /*
  * file:     unit_02088498.c
  * unit:     yes
- * function: func_02088498, func_020884A4
+ * function: PXI_Init, PXI_InitFifo
  * address:  0x02088498
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -60,14 +60,14 @@ extern u32 OS_ResetRequestIrqMask(u32 intr);
 extern void OS_SetIrqFunction(u32 intrBit, void (*function)(void));
 extern u32 OS_EnableIrqMask(u32 intr);
 void PXIi_HandlerRecvFifoNotEmpty(void);
-void func_02088498(void);
-void func_020884A4(void);
+void PXI_Init(void);
+void PXI_InitFifo(void);
 extern u16 FifoCtrlInit;
 extern PXIFifoCallback FifoRecvCallbackTable[32];
 
-void func_02088498(void)
+void PXI_Init(void)
 {
-    func_020884A4();
+    PXI_InitFifo();
 }
 
 
@@ -89,7 +89,7 @@ static inline OSSystemWork *OS_GetSystemWork(void)
 /*
  * sdk:      PXI_InitFifo (libpxi.TWL.HYB.a pxi_fifo.o)
  */
-void func_020884A4(void)
+void PXI_InitFifo(void)
 {
     OSIntrMode enabled;
     int i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021747E0
+ * function: INTRUDE_COMM_RecvReturnPending
  * address: 0x021747E0
  * packet: pkt_ov011_021747E0
  * region: ov011
@@ -18,9 +18,9 @@
 typedef unsigned short u16;
 typedef unsigned char  u8;
 void func_02162008(u8 *p, u16 v);
-void func_021747E0(int a, int b, int c, u8 *p);
+void INTRUDE_COMM_RecvReturnPending(int a, int b, int c, u8 *p);
 
-void func_021747E0(int a, int b, int c, u8 *p)
+void INTRUDE_COMM_RecvReturnPending(int a, int b, int c, u8 *p)
 {
     func_02162008(p + 0x35c, (u16)a);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02165560
+ * function: WCM_TerminateAsync
  * address:  0x02165560
  * packet:   pkt_ov009_02165560
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_02165A4C  0x02165A4C  arm  ov009
+ *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   func_02166C44  0x02166C44  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   WCMi_NwmifTerminateAsync  0x02731D6C  arm  twl
@@ -39,12 +39,12 @@ extern struct WcmState {
 
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void func_02165A4C(unsigned char phase);
+extern void WCMi_SetPhase(unsigned char phase);
 extern long func_02166C44(void);
 extern int OS_IsRunOnTwl(void);
 extern long WCMi_NwmifTerminateAsync();
 
-long func_02165560(void)
+long WCM_TerminateAsync(void)
 {
     unsigned long e;
     long wcmResult;
@@ -63,7 +63,7 @@ long func_02165560(void)
         OS_RestoreInterrupts(e);
         return wcmResult;
     case 6:
-        func_02165A4C(13);
+        WCMi_SetPhase(13);
         g_021AA7D4.wcmw->notifyId = 9;
         OS_RestoreInterrupts(e);
         return 3;
@@ -74,7 +74,7 @@ long func_02165560(void)
     case 9:
     case 12:
         if (g_021AA7D4.wcmw->resetting == 1) {
-            func_02165A4C(13);
+            WCMi_SetPhase(13);
             g_021AA7D4.wcmw->notifyId = 9;
         } else {
             switch (g_021AA7D4.wcmw->deviceId) {

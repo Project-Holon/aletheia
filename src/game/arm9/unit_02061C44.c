@@ -1,7 +1,7 @@
 /*
  * file:     unit_02061C44.c
  * unit:     yes
- * function: func_02061C44, sub_02061CA4, func_02061D0C, func_02061DF0, func_02061DFC, func_02061E48, DWCi_TSKlForm
+ * function: NNS_GfdDoVramTransfer, NNS_GfdRegisterNewVramTransferTask, NNSi_GfdMergeAdjacentFreeBlocks, func_02061DF0, NNSi_GfdInitBlockPool, NNSi_GfdAddBlock, NNSi_GfdAllocBlockUnaligned
  * address:  0x02061C44
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  * unit_02061B2C.c before it and unit_02061EB8.c after it) and with ../1.2/sp2.
  *
  * symbols:
- *   g_02146B80  0x02146B80  data
+ *   sVramTransferTaskQueue  0x02146B80  data
  *   func_02061BB0  0x02061BB0  arm
  *   func_02061BD0  0x02061BD0  arm
  *   func_02061B2C  0x02061B2C  arm
@@ -73,14 +73,14 @@ extern int func_02061860(u8 *p);
 extern u32 func_02061BC0(u8 *p);
 extern int func_02061B74(char *p);
 extern int func_02061EB8(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size, u32 alignment);
-void func_02061C44(void);
-s32 sub_02061CA4(void *pTaskFunc, u32 pSrc, u32 dstAddr, s32 szByte);
-u32 func_02061D0C(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, struct GfdLnkRange *range);
-void NHTTPi_InitRequestInfo(struct GfdLnkBlock **ppHead);
-struct GfdLnkBlock *func_02061DFC(struct GfdLnkBlock *blocks, u32 count);
-u32 func_02061E48(struct GfdLnkBlockList *list, struct GfdLnkBlockPool *pool, u32 start, u32 size);
-int DWCi_TSKlForm(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size);
-extern struct GfdTransferTaskQueue g_02146B80;
+void NNS_GfdDoVramTransfer(void);
+s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 pSrc, u32 dstAddr, s32 szByte);
+u32 NNSi_GfdMergeAdjacentFreeBlocks(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, struct GfdLnkRange *range);
+void NNSi_GfdClearBlockListHead(struct GfdLnkBlock **ppHead);
+struct GfdLnkBlock *NNSi_GfdInitBlockPool(struct GfdLnkBlock *blocks, u32 count);
+u32 NNSi_GfdAddBlock(struct GfdLnkBlockList *list, struct GfdLnkBlockPool *pool, u32 start, u32 size);
+int NNSi_GfdAllocBlockUnaligned(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size);
+extern struct GfdTransferTaskQueue sVramTransferTaskQueue;
 
 
 /*
@@ -97,14 +97,14 @@ extern struct GfdTransferTaskQueue g_02146B80;
  * selection residue respectively), so neither can ever be filed EXACT and
  * neither can attest this file.  Every concrete byte here reproduces.
  */
-void func_02061C44(void)
+void NNS_GfdDoVramTransfer(void)
 {
-    struct GfdTransferTask *task = (struct GfdTransferTask *)func_02061BB0((u8 *)(&g_02146B80));
+    struct GfdTransferTask *task = (struct GfdTransferTask *)func_02061BB0((u8 *)(&sVramTransferTaskQueue));
 
-    while (func_02061BD0((struct Obj02061BD0 *)(&g_02146B80)) != 0) {
+    while (func_02061BD0((struct Obj02061BD0 *)(&sVramTransferTaskQueue)) != 0) {
         func_02061B2C((u32 *)task);
-        g_02146B80.totalSzByte -= task->szByte;
-        task = (struct GfdTransferTask *)func_02061BB0((u8 *)(&g_02146B80));
+        sVramTransferTaskQueue.totalSzByte -= task->szByte;
+        task = (struct GfdTransferTask *)func_02061BB0((u8 *)(&sVramTransferTaskQueue));
     }
 }
 
@@ -130,24 +130,24 @@ void func_02061C44(void)
  * func_02061BC0 is likewise a matched entry now.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02061CA4.c \
- *       --func sub_02061CA4 --addr 0x02061CA4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_GfdRegisterNewVramTransferTask.c \
+ *       --func NNS_GfdRegisterNewVramTransferTask --addr 0x02061CA4 --cc 1.1p1 --arm
  */
-s32 sub_02061CA4(void *pTaskFunc, u32 pSrc, u32 dstAddr, s32 szByte)
+s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 pSrc, u32 dstAddr, s32 szByte)
 {
     struct GfdTransferTask *req;
 
-    if (func_02061860((u8 *)(&g_02146B80)) != 0) {
+    if (func_02061860((u8 *)(&sVramTransferTaskQueue)) != 0) {
         return 0;
     }
 
-    req = (struct GfdTransferTask *)func_02061BC0((u8 *)(&g_02146B80));
+    req = (struct GfdTransferTask *)func_02061BC0((u8 *)(&sVramTransferTaskQueue));
     req->pTaskFunc = pTaskFunc;
     req->dstAddr = dstAddr;
     req->pSrc = pSrc;
     req->szByte = szByte;
-    func_02061B74((char *)(&g_02146B80));
-    g_02146B80.totalSzByte += req->szByte;
+    func_02061B74((char *)(&sVramTransferTaskQueue));
+    sVramTransferTaskQueue.totalSzByte += req->szByte;
     return 1;
 }
 
@@ -155,7 +155,7 @@ s32 sub_02061CA4(void *pTaskFunc, u32 pSrc, u32 dstAddr, s32 szByte)
 
 
 
-u32 func_02061D0C(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, struct GfdLnkRange *range) {
+u32 NNSi_GfdMergeAdjacentFreeBlocks(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, struct GfdLnkRange *range) {
     struct GfdLnkBlock *block = *ppList;
     struct GfdLnkBlock *nextBlock;
     u32 merged = 0;
@@ -233,7 +233,7 @@ u32 func_02061D0C(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, stru
 
 
 
-void NHTTPi_InitRequestInfo(struct GfdLnkBlock **ppHead)
+void NNSi_GfdClearBlockListHead(struct GfdLnkBlock **ppHead)
 {
     *ppHead = 0;
 }
@@ -246,7 +246,7 @@ void NHTTPi_InitRequestInfo(struct GfdLnkBlock **ppHead)
  * note:     closed 2026-09-21 by tools/permuter.py (hill, --types, ret-var): the function
  *           returns the array pointer it was given; the void version freed r0 too early (2 bytes)
  */
-struct GfdLnkBlock *func_02061DFC(struct GfdLnkBlock *blocks, u32 count)
+struct GfdLnkBlock *NNSi_GfdInitBlockPool(struct GfdLnkBlock *blocks, u32 count)
 {
     u32 last = count - 1;
     u32 i = 0;
@@ -273,7 +273,7 @@ struct GfdLnkBlock *func_02061DFC(struct GfdLnkBlock *blocks, u32 count)
 
 
 
-u32 func_02061E48(struct GfdLnkBlockList *list, struct GfdLnkBlockPool *pool, u32 start, u32 size)
+u32 NNSi_GfdAddBlock(struct GfdLnkBlockList *list, struct GfdLnkBlockPool *pool, u32 start, u32 size)
 {
     struct GfdLnkBlock *block = pool->freeList;
 
@@ -305,7 +305,7 @@ err:
 }
 
 
-int DWCi_TSKlForm(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size)
+int NNSi_GfdAllocBlockUnaligned(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size)
 {
     return func_02061EB8(ppList, ppPool, pAddr, size, 0);
 }

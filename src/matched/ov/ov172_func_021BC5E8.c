@@ -11,15 +11,15 @@
  *
  * symbols:
  *   func_02035D20  0x02035D20  arm
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_021BDFE4  0x021BDFE4  thumb  ov172
  *   func_020061E4  0x020061E4  thumb
  *   func_021BCEF8  0x021BCEF8  thumb  ov172
  *   func_0204B878  0x0204B878  arm
  *   func_0204B404  0x0204B404  arm
  *   _u32_div_f     0x0209C2B0  arm
- *   func_0202824C  0x0202824C  thumb
- *   func_0202822C  0x0202822C  thumb
+ *   APP_TASKMENU_WIN_IsTouch  0x0202824C  thumb
+ *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
  *   func_0200616C  0x0200616C  thumb
  *   func_02035C08  0x02035C08  arm
  *   func_020362DC  0x020362DC  arm
@@ -41,7 +41,7 @@ struct SpritePos {
 };
 
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 func_021BDFE4(void *p);
 extern void func_020061E4(u32 id);
 extern void func_021BCEF8(void *ctx, u8 *st);
@@ -49,8 +49,8 @@ struct Obj;
 struct Vec2;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern u32 func_0202824C(void **p);
-extern void func_0202822C(char *p, int v);
+extern u32 APP_TASKMENU_WIN_IsTouch(void **p);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void func_0200616C(void *arg, int i);
 extern int func_02035C08(const void *p);
 extern u32 func_020362DC(void);
@@ -74,7 +74,7 @@ void func_021BC5E8(void *ctx, u8 *list)
     u32 range;
 
     trg = func_02035D20(&tx, &ty);
-    cont = func_02035CB8(&dx, &dy);
+    cont = TOUCHPANEL_GetPointCont(&dx, &dy);
     func_021BDFE4(ctx);
     if (trg == 1) {
         if (tx > 8 && tx < 0xe0) {
@@ -159,8 +159,8 @@ void func_021BC5E8(void *ctx, u8 *list)
         ((struct Obj00330 *)list)->f10 = 0;
         func_0204B878((struct Obj *)(((struct Obj00330 *)list)->f404), 0xc);
     }
-    if (((struct Obj00330 *)list)->f1C != 0 && func_0202824C((void **)(((struct Obj00330 *)list)->f1C)) == 1) {
-        func_0202822C((char *)(((struct Obj00330 *)list)->f1C), 1);
+    if (((struct Obj00330 *)list)->f1C != 0 && APP_TASKMENU_WIN_IsTouch((void **)(((struct Obj00330 *)list)->f1C)) == 1) {
+        APP_TASKMENU_WIN_SetDecide((char *)(((struct Obj00330 *)list)->f1C), 1);
         ((struct Obj00330 *)list)->f8 = 6;
         func_020061E4(0x54c);
         if (((struct Obj00330 *)list)->f18 == 1)

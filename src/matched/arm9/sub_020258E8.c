@@ -1,5 +1,5 @@
 /*
- * function: func_020258E8
+ * function: BMP_OAM_GetPos
  * address:  0x020258E8
  * packet:   pkt_02025774
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0204B454  0x0204B454  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  */
 
 typedef unsigned char  u8;
@@ -32,13 +32,13 @@ struct Obj02025774 {
     u16           space;
 };
 
-extern void sub_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
-void func_020258E8(struct Obj02025774 *p, s16 *out_x, s16 *out_y)
+void BMP_OAM_GetPos(struct Obj02025774 *p, s16 *out_x, s16 *out_y)
 {
     struct PtS pt;
 
-    sub_0204B454(p->actor, &pt, p->space);
+    CLACT_GetActorSurfacePos(p->actor, &pt, p->space);
     *out_x = pt.x;
     *out_y = pt.y;
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02035D20  0x02035D20  arm
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_0207CA00  0x0207CA00  arm
  *   func_0207CBD0  0x0207CBD0  arm
  */
@@ -28,7 +28,7 @@ struct Obj {
 };
 
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void func_0207CA00(struct V *a, struct V *b, struct V *c);
 extern int func_0207CBD0(struct V *a);
 
@@ -49,7 +49,7 @@ void func_021BB5EC(struct Obj *p)
         }
         return;
     }
-    if (func_02035CB8(&y, &x)) {
+    if (TOUCHPANEL_GetPointCont(&y, &x)) {
         if (x <= 0xA8) {
             if (p->f20 != 0) {
                 p->a = p->b;

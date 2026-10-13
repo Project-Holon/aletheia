@@ -1,5 +1,5 @@
 /*
- * function: func_0202B404
+ * function: ISS_DUNGEON_SYS_Update
  * address:  0x0202B404
  * packet:   pkt_0202B1F4
  * region:   arm9
@@ -13,8 +13,11 @@
  * latches the new value and re-resolves the current record.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B404.c \
- *       --func func_0202B404 --addr 0x0202B404 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_DUNGEON_SYS_Update.c \
+ *       --func ISS_DUNGEON_SYS_Update --addr 0x0202B404 --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   ISS_DUNGEON_SYS_SelectRecord  0x0202B49C  thumb
  */
 #include "../include/Obj02009.h"
 
@@ -22,9 +25,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0202B49C(u8 *p, u32 id);
+extern void ISS_DUNGEON_SYS_SelectRecord(u8 *p, u32 id);
 
-void func_0202B404(u8 *p)
+void ISS_DUNGEON_SYS_Update(u8 *p)
 {
     u16 a;
     u16 b;
@@ -38,5 +41,5 @@ void func_0202B404(u8 *p)
         return;
     }
     ((struct Obj02009 *)p)->f10 = b;
-    func_0202B49C(p, ((struct Obj02009 *)p)->f10);
+    ISS_DUNGEON_SYS_SelectRecord(p, ((struct Obj02009 *)p)->f10);
 }

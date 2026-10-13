@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204335C  0x0204335C  arm  arm9
+ *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm  arm9
  *   func_020433E0  0x020433E0  arm  arm9
  *
  * Two calls after setting the first argument.
@@ -18,12 +18,12 @@
 
 typedef unsigned int   u32;
 struct DispVram;
-extern void func_0204335C(u32 keep);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void func_020433E0(const struct DispVram *c);
 
 void func_021DC9C4(void)
 {
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((void *)0x021EF7CC);
 }
 

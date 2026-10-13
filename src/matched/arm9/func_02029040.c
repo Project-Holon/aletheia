@@ -1,5 +1,5 @@
 /*
- * function: func_02029040
+ * function: FIELD_SOUND_SYSTEM_HandleModeState1
  * address:  0x02029040
  * packet:   pkt_02028FD0
  * region:   arm9
@@ -10,8 +10,15 @@
  * status:   EXACT
  *
  * A Thumb `add pc, r0` switch on p->f1c with eight arms, the twin of
- * func_02028FE0 in the same packet.  Every callee takes the object pointer,
+ * FIELD_SOUND_SYSTEM_HandleModeState0 in the same packet.  Every callee takes the object pointer,
  * which is why the switch index lives in r1 and r0 keeps holding p.
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_SetState  0x02029344  thumb
+ *   FIELD_SOUND_SYSTEM_DiscardRequest  0x02029354  thumb
+ *   FIELD_SOUND_SYSTEM_FinishRequest  0x02029364  thumb
+ *   FIELD_SOUND_SYSTEM_FadeOutCurrentBgm  0x0202938C  thumb
+ *   FIELD_SOUND_SYSTEM_PlayRequestedBgmNow  0x0202945C  thumb
  */
 
 typedef unsigned int u32;
@@ -27,56 +34,56 @@ struct T {
     u32 f1c;
 };
 
-extern void func_02029344(void *obj, u32 value);
-extern int func_02029354(int a0);
+extern void FIELD_SOUND_SYSTEM_SetState(void *obj, u32 value);
+extern int FIELD_SOUND_SYSTEM_DiscardRequest(int a0);
 typedef unsigned char  u8;
-extern void func_02029364(u8 *p);
-extern void func_0202938C(u8 *p);
-extern void func_0202945C(u8 *p);
+extern void FIELD_SOUND_SYSTEM_FinishRequest(u8 *p);
+extern void FIELD_SOUND_SYSTEM_FadeOutCurrentBgm(u8 *p);
+extern void FIELD_SOUND_SYSTEM_PlayRequestedBgmNow(u8 *p);
 
-void func_02029040(struct T *p)
+void FIELD_SOUND_SYSTEM_HandleModeState1(struct T *p)
 {
     switch (p->f1c) {
     case 0:
         break;
     case 1:
-        func_02029354((int)p);
+        FIELD_SOUND_SYSTEM_DiscardRequest((int)p);
         break;
     case 2:
-        func_0202938C((u8 *)p);
-        func_02029344(p, 3);
+        FIELD_SOUND_SYSTEM_FadeOutCurrentBgm((u8 *)p);
+        FIELD_SOUND_SYSTEM_SetState(p, 3);
         break;
     case 3:
-        func_0202938C((u8 *)p);
-        func_02029344(p, 5);
+        FIELD_SOUND_SYSTEM_FadeOutCurrentBgm((u8 *)p);
+        FIELD_SOUND_SYSTEM_SetState(p, 5);
         break;
     case 4:
-        func_0202938C((u8 *)p);
-        func_02029344(p, 6);
+        FIELD_SOUND_SYSTEM_FadeOutCurrentBgm((u8 *)p);
+        FIELD_SOUND_SYSTEM_SetState(p, 6);
         break;
     case 5:
         if (p->f0c == p->f08) {
-            func_02029354((int)p);
+            FIELD_SOUND_SYSTEM_DiscardRequest((int)p);
         } else {
-            func_0202938C((u8 *)p);
-            func_02029344(p, 8);
+            FIELD_SOUND_SYSTEM_FadeOutCurrentBgm((u8 *)p);
+            FIELD_SOUND_SYSTEM_SetState(p, 8);
         }
         break;
     case 6:
         if (p->f0c == p->f08) {
-            func_02029354((int)p);
+            FIELD_SOUND_SYSTEM_DiscardRequest((int)p);
         } else {
-            func_0202938C((u8 *)p);
-            func_02029344(p, 0xd);
+            FIELD_SOUND_SYSTEM_FadeOutCurrentBgm((u8 *)p);
+            FIELD_SOUND_SYSTEM_SetState(p, 0xd);
         }
         break;
     case 7:
         if (p->f0c == p->f08) {
-            func_02029354((int)p);
+            FIELD_SOUND_SYSTEM_DiscardRequest((int)p);
         } else {
-            func_0202945C((u8 *)p);
-            func_02029344(p, 1);
-            func_02029364((u8 *)p);
+            FIELD_SOUND_SYSTEM_PlayRequestedBgmNow((u8 *)p);
+            FIELD_SOUND_SYSTEM_SetState(p, 1);
+            FIELD_SOUND_SYSTEM_FinishRequest((u8 *)p);
         }
         break;
     }

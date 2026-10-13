@@ -1,5 +1,5 @@
 /*
- * function: func_02014388
+ * function: ZONEDATA_GetEventFlagAddress
  * address:  0x02014388
  * packet:   pkt_02014314
  * region:   arm9
@@ -8,16 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * blocker:  +0040 ABS32 sub_02146268_Sys       : 02146268 (data, from header) has no witness outside 02014388..020143CC
+ * blocker:  +0040 ABS32 _EventTempFlags       : 02146268 (data, from header) has no witness outside 02014388..020143CC
  * symbols:
- *   sub_02146268_Sys  0x02146268  data
+ *   _EventTempFlags  0x02146268  data
  */
 
 typedef unsigned int u32;
 
-extern char sub_02146268_Sys[];
+extern char _EventTempFlags[];
 
-char *func_02014388(char *a0, u32 a1)
+char *ZONEDATA_GetEventFlagAddress(char *a0, u32 a1)
 {
     int i;
 
@@ -32,5 +32,5 @@ char *func_02014388(char *a0, u32 a1)
     i = (int)(a1 - 0x4000) / 8;
     if (i >= 8)
         return 0;
-    return sub_02146268_Sys + i;
+    return _EventTempFlags + i;
 }

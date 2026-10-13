@@ -10,7 +10,7 @@
  * prototype: explicit original heap shift pairs require narrow extern parameters for D7EC/40B94 despite their full-width own declarations;84968 returns descriptor pointer.
  * symbols:
  *   func_0201D7EC 0x0201D7EC thumb
- *   func_0201DE00 0x0201DE00 thumb
+ *   GF_FONT_GetTextColor 0x0201DE00 thumb
  *   func_0201DD78 0x0201DD78 thumb
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414EC 0x020414EC arm
@@ -39,7 +39,7 @@ extern const struct BgTemplate d_02185E58,d_02185E78;
 extern const u8 d_02185DBD[];
 struct GfFont;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern void func_0201DE00(u8 *,u8 *,u8 *),func_0201DD78(u32,u32,u32);
+extern void GF_FONT_GetTextColor(u8 *,u8 *,u8 *),func_0201DD78(u32,u32,u32);
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32),func_020414EC(u32);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
@@ -54,7 +54,7 @@ extern void func_0201F73C(void *,int,int,int),func_02045334(struct Descriptor *)
 void func_021849A4(char *p,void *arc)
 {
     ((struct Obj01012 *)p)->fC06C=func_0201D7EC(0x17,0,0,0,(u16)(((struct Obj01012 *)p)->f0));
-    func_0201DE00((u8 *)p+0xc084,(u8 *)p+0xc085,(u8 *)p+0xc086);
+    GF_FONT_GetTextColor((u8 *)p+0xc084,(u8 *)p+0xc085,(u8 *)p+0xc086);
     func_0201DD78(1,2,0xf);
     func_0203FCA0(6,&d_02185E58,0);
     func_020414EC(6);

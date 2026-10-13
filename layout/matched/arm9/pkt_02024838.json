@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02024838",
+   "name": "PMS_WORD_LoadString",
    "address": "0x02024838",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02024888",
+   "name": "PMS_WORD_MakeWordId",
    "address": "0x02024888",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020248D8",
+   "name": "PMS_WORD_SplitWordId",
    "address": "0x020248D8",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02024918",
+   "name": "PMS_WORD_SetSaveEntry",
    "address": "0x02024918",
    "kind": "game",
    "region": "arm9",

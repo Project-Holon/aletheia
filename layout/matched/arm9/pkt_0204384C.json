@@ -33,11 +33,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02043900"
+    "BMP_InitFromCharData"
+   ],
+   "addresses": [
+    "0x02043900"
    ]
   },
   {
-   "name": "func_02043994",
+   "name": "BMP_GetTileBytes",
    "address": "0x02043994",
    "kind": "game",
    "region": "arm9",
@@ -61,7 +64,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02043AAC",
+   "name": "BMP_BlitPaletteOffset",
    "address": "0x02043AAC",
    "kind": "game",
    "region": "arm9",

@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 func_02025358 at +0x26 has no outside witness.
+ * blocker: ARM9 ACTOR_TOOL_Delete at +0x26 has no outside witness.
  * split: TU confirms one image-wide witness, inside this caller; no cuts.
  * ARM9 stub: 02025358 ldr r3,[pc,#0]; bx r3; pool 020307B0.
  * symbols:
@@ -17,7 +17,7 @@
  *   func_02025588 0x02025588 thumb
  *   func_0204B1CC 0x0204B1CC arm
  *   func_0204A5AC 0x0204A5AC arm
- *   func_02025358 0x02025358 thumb
+ *   ACTOR_TOOL_Delete 0x02025358 thumb
  */
 typedef unsigned int u32;
 struct Bank;
@@ -26,7 +26,7 @@ extern void func_02043598(u32, u32);
 extern void func_02025588(void *);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
-extern void func_02025358(void *);
+extern void ACTOR_TOOL_Delete(void *);
 void func_021B68B4(void **p)
 {
     func_020434DC(0x10, 0);
@@ -34,5 +34,5 @@ void func_021B68B4(void **p)
     func_02025588(p[11]);
     func_0204B1CC(p[5]);
     func_0204A5AC();
-    func_02025358(p[1]);
+    ACTOR_TOOL_Delete(p[1]);
 }

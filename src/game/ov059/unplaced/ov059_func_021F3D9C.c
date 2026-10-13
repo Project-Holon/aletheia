@@ -8,8 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note:     the task callback func_021F3CFC installs; the function is 180
- *           bytes, the rest of the handed 772 is data.
+ * note:     the event func_021F3CFC starts; the function is 180 bytes, the
+ *           rest of the handed 772 is data.
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
@@ -32,80 +32,72 @@
  *   func_021BE674  0x021BE674  thumb  ov021
  *   func_021BE6BC  0x021BE6BC  thumb  ov021
  */
+#include "../sp_poke_gimmick_types.h"
 
-typedef unsigned short u16;
-typedef unsigned char u8;
-typedef unsigned int u32;
+struct MmdlSys;
+struct EventData;
+struct Mmdl;
+struct NpcHeader;
+struct PlayerWork;
 
-typedef struct {
-    u8 pad[0x24];
-    u16 *p24;
-} W;
+extern struct MmdlSys *func_02188C7C(struct FieldMap *fieldMap);
+extern struct Mmdl *func_0216DE94(struct MmdlSys *mmdlSys, u32 objectId);
+extern void func_0216CF2C(struct Mmdl *mmdl);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct EventData *func_02012844(const struct GameData *gameData);
+extern u16 func_02162744(struct EventData *eventData);
+extern struct PlayerWork *func_020127A4(struct GameData *gameData);
+extern u16 func_02012AC8(const struct PlayerWork *playerWork);
+extern u32 func_0201296C(const struct GameData *gameData);
+extern struct NpcHeader *func_02162740(struct EventData *eventData);
+extern struct Mmdl *func_0216CEE4(struct MmdlSys *mmdlSys, struct NpcHeader *headers, u32 zoneId, int count,
+                                  u32 eventWork, u32 objectId);
+extern void func_0216DAF8(struct Mmdl *mmdl);
 
-struct BigObj;
-struct Ctx;
-struct Obj;
-struct Rec44;
-struct SaveBlock;
-extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
-extern int func_021BE6E8(int a, int b, int c, int d);
-extern void *func_02188C7C(u8 *p);
-extern void *func_0216DE94(void *map, u32 id);
-extern void func_0216CF2C(void *o);
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012844(const struct BigObj *p);
-extern u16 func_02162744(u8 *p);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
-extern u32 func_0201296C(const struct BigObj *p);
-extern u32 func_02162740(u8 *p);
-extern void *func_0216CEE4(void *a, void *e, u32 b, int n, u32 c, u32 id);
-extern void func_0216DAF8(void *obj);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern int func_021BE6BC(int *p);
-
-int func_021F3D9C(void *a)
+/*
+ * Event: when the effect model reaches its swap frame, remove the map object
+ * with the first stored id and add the one with the second id from the NPC
+ * headers of the zone. Ends when the effect animation has stopped.
+ */
+int func_021F3D9C(struct GameEvent *event, int *seq, void *eventWork)
 {
-    void *o;
-    void *t;
-    void *s;
-    W *w;
-    u16 x;
-    u16 y;
-    void *map;
-    void *v;
-    void *m;
-    u16 k;
-    u32 b;
-    u32 c;
-    void *e;
-    int r;
+    struct GameSystem *gameSystem;
+    struct FieldMap *fieldMap;
+    FldExpObjCnt *expObj;
+    SpPokeGimmickWork *work;
+    u16 removeObjectId;
+    u16 addObjectId;
+    struct MmdlSys *mmdlSys;
+    struct GameData *gameData;
+    struct EventData *eventData;
+    u16 npcCount;
+    u32 zoneId;
+    u32 eventFlagWork;
+    struct Mmdl *mmdl;
+    int result;
 
-    o = func_020124E4(a);
-    t = func_0201210C(o);
-    s = (void *)func_02188D2C(t);
-    w = (W *)func_021897BC(t, 1);
-    if (func_021BE6E8((int)s, 0, 2, 0) == 0xF000) {
-        x = w->p24[0];
-        y = w->p24[1];
-        map = func_02188C7C(t);
-        func_0216CF2C(func_0216DE94(map, x));
-        v = func_020120F4(o);
-        m = (void *)func_02012844(v);
-        k = func_02162744(m);
-        b = func_02012AC8(func_020127A4(v));
-        if (k != 0) {
-            c = func_0201296C(v);
-            e = func_0216CEE4(map, (void *)func_02162740(m), b, k, c, y);
-            if (e != 0)
-                func_0216DAF8(e);
+    gameSystem = func_020124E4(event);
+    fieldMap = func_0201210C(gameSystem);
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    if (func_021BE6E8(expObj, 0, SP_POKE_GIMMICK_EFFECT_MODEL, 0) == SP_POKE_GIMMICK_SWAP_FRAME) {
+        removeObjectId = work->swapObjectIds[0];
+        addObjectId = work->swapObjectIds[1];
+        mmdlSys = func_02188C7C(fieldMap);
+        func_0216CF2C(func_0216DE94(mmdlSys, removeObjectId));
+        gameData = func_020120F4(gameSystem);
+        eventData = func_02012844(gameData);
+        npcCount = func_02162744(eventData);
+        zoneId = func_02012AC8(func_020127A4(gameData));
+        if (npcCount != 0) {
+            eventFlagWork = func_0201296C(gameData);
+            mmdl = func_0216CEE4(mmdlSys, func_02162740(eventData), zoneId, npcCount, eventFlagWork, addObjectId);
+            if (mmdl != 0)
+                func_0216DAF8(mmdl);
         }
     }
-    r = 0;
-    if (func_021BE6BC(func_021BE674(s, 0, 2, 0)) != 0)
-        r = 1;
-    return r;
+    result = 0;
+    if (func_021BE6BC(func_021BE674(expObj, 0, SP_POKE_GIMMICK_EFFECT_MODEL, 0)) != 0)
+        result = 1;
+    return result;
 }

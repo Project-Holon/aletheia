@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0201F7A8  0x0201F7A8  thumb
- *   sub_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *
  * Null-guarded two-step release; always answers 0.  The `adds r4, r0, #0`
  * before the `beq` is the compare, not a copy.
@@ -25,13 +25,13 @@ typedef int BOOL;
 
 struct Descriptor;
 extern void func_0201F7A8(void *desc, u32 kind);
-extern u32 sub_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 int func_021BA8BC(void *p)
 {
     if (p != 0) {
         func_0201F7A8(p, 0);
-        sub_020452E8(p);
+        BMP_WIN_Delete(p);
     }
 
     return 0;

@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_SUB020057DCSLOT_H
 #define ALETHEIA_G_SUB020057DCSLOT_H
-/* sub_020057DC_Table (arm9) */
+/* _SndSlots (arm9) */
 struct Sub020057DCSlot {
     unsigned int unk00;
     unsigned short unk04;

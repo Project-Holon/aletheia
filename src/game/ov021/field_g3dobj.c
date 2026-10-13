@@ -1,8 +1,8 @@
 /*
  * file:     field_g3dobj.c
  * unit:     yes
- * function: func_021C5FA8, func_021C5FC0, func_021C5FEC, func_021C6018, func_021C602C, func_021C6054, func_021C6068, func_021C6078, func_021C60B8, func_021C61D4, func_021C61EC, func_021C622C, func_021C62F0, func_021C6368, func_021C63AC, func_021C6400, func_021C6470, func_021C64E0, func_021C6534, func_021C6538, func_021C6574, func_021C6580, func_021C6590, func_021C6628, func_021C6658, func_021C6664, func_021C6678, func_021C6694, func_021C66EC, func_021C6744, func_021C67A8, func_021C67D8, func_021C67F4, func_021C6828, func_021C6844, func_021C6854, func_021C6874, func_021C6940, func_021C69B4, func_021C6A90, func_021C6AE0, func_021C6AF0, func_021C6AF8, func_021C6AFC, func_021C6B18, func_021C6B8C, func_021C6BB4
- * address:  0x021C5FA8
+ * function: func_021C6068, func_021C6078, func_021C60B8, func_021C61D4, func_021C61EC, func_021C622C, func_021C62F0, func_021C6368, func_021C63AC, func_021C6400, func_021C6470, func_021C64E0, func_021C6534, func_021C6538, func_021C6574, func_021C6580, func_021C6590, func_021C6628, func_021C6658, func_021C6664, func_021C6678, func_021C6694, func_021C66EC, func_021C6744, func_021C67A8, func_021C67D8, func_021C67F4, func_021C6828, func_021C6844, func_021C6854, func_021C6874, func_021C6940, func_021C69B4, func_021C6A90, func_021C6AE0, func_021C6AF0, func_021C6AF8, func_021C6AFC, func_021C6B18, func_021C6B8C, func_021C6BB4
+ * address:  0x021C6068
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,12 +13,6 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_021BB528  0x021BB528  thumb  ov021
- *   func_021AE01C  0x021AE01C  thumb  ov021
- *   func_021AC154  0x021AC154  thumb  ov021
- *   func_021ADF94  0x021ADF94  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_02082BCC  0x02082BCC  arm
@@ -79,7 +73,6 @@
  *   func_02047788  0x02047788  arm
  *   func_02047738  0x02047738  arm
  *   func_02047504  0x02047504  arm
- *   func_02082A7C  0x02082A7C  arm
  *   func_02030EAC  0x02030EAC  arm
  *   func_02188C84  0x02188C84  thumb  ov021
  *   func_02188C58  0x02188C58  thumb  ov021
@@ -88,632 +81,316 @@
  *   func_02030DA8  0x02030DA8  arm
  *   d_021DE4B8     0x021DE4B8  data  ov021  a4
  *   func_0218ED58  0x0218ED58  thumb  ov021
- *   _ffltu         0x0209BE04  arm
- *   _fdiv          0x0209CE10  arm
- *   _fmul          0x0209C77C  arm
- *   _fsub          0x0209CB8C  arm
- *   _fadd          0x0209C95C  arm
  *   _ffix          0x0209C494  arm
- *   _fflt          0x0209BDBC  arm
- *   _f2d           0x0209BD38  arm
- *   _d2f           0x0209B64C  arm
  *   _dsqrt         0x0209C5E0  arm
- *   _fgr           0x0209BBB0  arm
  */
-#include "../../matched/include/Obj07564.h"
-#include "../../matched/include/Obj06080.h"
-#include "../../matched/include/Obj06081.h"
-#include "../../matched/include/Obj06082.h"
-#include "../../matched/include/Obj18307.h"
-#include "../../matched/include/Obj06083.h"
-#include "../../matched/include/Obj00458.h"
-#include "../../matched/include/Obj18309.h"
-#include "../../matched/include/Obj18310.h"
-#include "../../matched/include/Obj18311.h"
-#include "../../matched/include/Obj12952.h"
-#include "../../matched/include/Obj12953.h"
-#include "../../matched/include/Obj09694.h"
-#include "../../matched/include/Obj18312.h"
-#include "../../matched/include/Obj01866.h"
-#include "../../matched/include/Obj06084.h"
-#include "../../matched/include/Obj18313.h"
-#include "../../matched/include/Obj06085.h"
-#include "../../matched/include/Obj03145.h"
-
-struct Ctx;
-struct Desc;
-struct Obj;
-struct Obj00020;
-struct Evt;
-struct St021D3244;
-struct St021D325C;
-struct Arg;
-struct AnmCtl;
-struct Tagged;
-struct G3dOwner;
-struct G3dRec;
-struct G3dSys;
-struct Rec;
-struct Node;
 typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef struct {
-    u8 pad0[0x60];
-    u32 f60;
-} Work;
-
 typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef s32 fx32;
 
-typedef struct {
-    u8 f0;
-    u8 pad1[3];
-    u32 f4;
-    u32 f8;
-    void *fC;
-    void *f10;
-} Work_021C6078;
+typedef struct { fx32 x, y, z; } VecFx32;
+typedef struct { fx32 m[3][3]; } MtxFx33;
 
-typedef signed short s16;
+/* Sweet Scent field move (021C6068..021C6368)                          */
 
-typedef signed char s8;
+#define SWEET_SCENT_NO_POKEMON 6   /* party slots 0..5 are real; 6 and above mean no Pokemon */
 
-typedef struct {
-    u8 f0;
-    u8 f1;
-    u8 f2;
-    u8 f3;
-    void *f4;
-} Ctx;
+/* Event work of the move (0x14 bytes). */
+typedef struct SweetScentWork {
+    u8 partyIdx;                           /* party slot of the user, 0xFF from the item */
+    u8 pad01[3];
+    void *gameSys;
+    void *gameData;
+    void *fieldMap;
+    void *fieldPlayer;
+} SweetScentWork;
 
-typedef struct {
+/* Work of the screen fade task (8 bytes). */
+typedef struct SweetScentFade {
+    u8 bgLayer;
+    u8 level;                              /* 0..8, fade strength */
+    u8 interval;                           /* frames per level */
+    u8 timer;
+    void *vreq;                            /* VRAM request object of the field */
+} SweetScentFade;
+
+typedef struct BgPoint {
     u16 x;
     u16 y;
-} Pt;
+} BgPoint;
 
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    void *f8;
-    void *fC;
-} Work_021C62F0;
-
-typedef struct {
-    u32 kind : 2;
-    u32 rest : 30;
-    u16 f4;
-    u16 f6;
-    u8 pad8[0x3C];
-    void *f44;
-    u8 pad48[0x20];
-} Elem_021C6400;
-
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u8 *f8;
-    Elem_021C6400 *fC;
-} Mgr_021C6400;
-
-typedef struct {
-    u32 kind : 2;
-    u32 rest : 30;
-    u16 f4;
-    u16 f6;
-    u8 pad8[0x3C];
-    void *f44;
-    u8 pad48[0x20];
-} Elem_021C6470;
-
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u8 *f8;
-    Elem_021C6470 *fC;
-} Mgr_021C6470;
-
-typedef struct {
-    u32 kind : 2;
-    u32 b2 : 1;
-    u32 b3 : 1;
-    u32 b4 : 1;
-    u32 b5 : 1;
-    u32 rest : 26;
-    u16 f4;
-    u16 f6;
-    u8 f8[0x3C];
-    void *f44;
-    u8 pad48[0x20];
-} Elem_021C64E0;
-
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    void *f8;
-    Elem_021C64E0 *fC;
-} Mgr_021C64E0;
-
-typedef struct { u32 f0; u8 pad[0x28]; } Item_021C6078;
-
-typedef struct { u16 f0; u16 f2; u16 f4; u16 f6; Item_021C6078 *f8; } Mgr;
-
-typedef struct {
-    int x;
-    int y;
-    int z;
-} Vec;
-
-typedef struct {
-    u32 kind : 2;
-    u32 b2 : 1;
-    u32 rest : 29;
-    u16 f4;
-    u16 f6;
-    Vec f8;
-    int f14;
-    int f18;
-    int f1C;
-    u8 f20[0x24];
-    void *f44;
-    u8 pad48[0x20];
-} Elem_021C6590;
-
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u8 *f8;
-    Elem_021C6590 *fC;
-} Mgr_021C6590;
-
-typedef struct { u8 pad[0x2c]; } Item_021C6580;
-
-typedef struct { u32 k:2; u32 rest:30; u16 f4; u8 pad[0x62]; } Elem_021C6628;
-
-typedef struct { u16 f0; u16 f2; u16 f4; u16 f6; Item_021C6580 *f8; Elem_021C6628 *fC; } Mgr_021C6628;
-
-typedef struct { u32 f0; u32 f4; u32 f8[8]; u8 f28; u8 f29; } S;
-
-typedef struct {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    u16 fC;
-    u16 fE;
-    u16 f10[8];
-    u8 f20;
-} D;
-
-typedef struct { u32 x, y, z; } V_021C69B4;
-
-typedef struct {
-    u32 k:2;
-    u32 b2:1;
-    u32 b3:1;
-    u32 b4:1;
-    u32 b5:1;
-    u32 rest:26;
-    u16 f4;
-    u16 f6;
-    V_021C69B4 f8;
-    u32 f14;
-    u32 f18;
-    u32 f1C;
-    u8 f20[0x24];
-    u32 f44;
-    u32 f48[8];
-} Elem_021C69B4;
-
-typedef struct { u32 a, b, c; } V_021C6664;
-
-typedef struct { u32 f0; u32 f4; V_021C6664 f8; u8 pad[0x68 - 0x14]; } Elem_021C6664;
-
-typedef struct { u8 pad[0xc]; Elem_021C6664 *fC; } Mgr_021C6664;
-
-typedef struct { u32 k:2; u32 x:1; u32 b:1; u32 rest:28; u8 pad[0x64]; } Elem_021C6678;
-
-typedef struct { u8 pad[0xc]; Elem_021C6678 *fC; } Mgr_021C6678;
-
-typedef struct { u32 k : 2; } K;
-
-typedef signed int s32;
-
-typedef struct { u32 a, b, c; } V_021C67A8;
-
-typedef struct {
-    u32 k:2;
-    u32 b2:1;
-    u32 b3:1;
-    u32 b4:1;
-    u32 b5:1;
-    u32 rest:26;
-    u16 f4;
-    u16 f6;
-    V_021C67A8 f8;
-    u8 pad14[0x30];
-    u32 f44;
-    u8 pad48[0x20];
-} Elem_021C67A8;
-
-typedef struct { u8 pad[0x2c]; } Item;
-
-typedef struct { u16 f0; u16 f2; u16 f4; u16 f6; Item *f8; Elem_021C67A8 *fC; } Mgr_021C67A8;
-
-typedef struct { u32 a, b, c; } V_021C67D8;
-
-typedef struct {
-    u32 k:2;
-    u32 b2:1;
-    u32 b3:1;
-    u32 b4:1;
-    u32 b5:1;
-    u32 rest:26;
-    u16 f4;
-    u16 f6;
-    V_021C67D8 f8;
-    u8 pad14[0x30];
-    u32 f44;
-    u8 pad48[0x20];
-} Elem_021C67D8;
-
-typedef struct { u16 f0; u16 f2; u16 f4; u16 f6; Item *f8; Elem_021C67D8 *fC; } Mgr_021C67D8;
-
-typedef struct { u32 a, b, c; } V_021C67F4;
-
-typedef struct {
-    u32 k:2;
-    u32 b2:1;
-    u32 b3:1;
-    u32 b4:1;
-    u32 b5:1;
-    u32 rest:26;
-    u16 f4;
-    u16 f6;
-    V_021C67F4 f8;
-    u8 pad14[0x30];
-    u32 f44;
-    u8 pad48[0x20];
-} Elem_021C67F4;
-
-typedef struct { u16 f0; u16 f2; u16 f4; u16 f6; Item *f8; Elem_021C67F4 *fC; } Mgr_021C67F4;
-
-typedef struct { u32 a, b, c; } V_021C6828;
-
-typedef struct {
-    u32 k:2;
-    u32 b2:1;
-    u32 b3:1;
-    u32 b4:1;
-    u32 b5:1;
-    u32 rest:26;
-    u16 f4;
-    u16 f6;
-    V_021C6828 f8;
-    u8 pad14[0x30];
-    u32 f44;
-    u8 pad48[0x20];
-} Elem_021C6828;
-
-typedef struct { u16 f0; u16 f2; u16 f4; u16 f6; Item *f8; Elem_021C6828 *fC; } Mgr_021C6828;
-
-typedef struct {
-    u8 pad0[0x30];
-    u16 f30;
-    u8 pad32[6];
-    u32 f38;
-} Pal;
-
-typedef struct { u32 f0; u16 f4; u16 f6; } P;
-
-extern u32 func_020362DC(void);
-extern u32 func_02188CD0(u8 *p);
-extern void func_0216D674(void *p, unsigned short v);
-extern u32 func_021BB528(u32 a, u32 b, u32 c, u32 d);
-extern void func_021AE01C(u32 a, u16 v);
-extern void func_021AC154(u32 a);
-extern u32 func_021ADF94(u32 a, void *b, u32 c, int d);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Obj *p);
+extern void *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(void *task);
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern void func_021A2F48(u8 *p, u32 a1);
-extern int func_021A2F54(u8 *p);
-extern void *func_021A3074(u8 *p);
-extern void func_0216D410(void *a0, u16 a1);
-extern int func_0216D480(char *p);
-extern void *func_02189A00(u8 *p);
-extern int func_021C1D68(int a, int b, int c);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern u32 func_02188CE8(u8 *p);
-extern int func_021A9F40(struct Ctx *ctx, int mode);
-extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
-extern void *func_02188C7C(u8 *p);
+extern void *func_02188CB4(void *fieldMap);
+extern void *func_020120F4(void *gameSys);
+extern void func_021A2F48(void *player, u32 a1);
+extern int func_021A2F54(void *player);
+extern void *func_021A3074(void *player);
+extern void func_0216D410(void *mmdl, u16 a1);
+extern int func_0216D480(void *mmdl);
+extern void *func_02189A00(void *fieldMap);
+extern void *func_021C1D68(void *gameSys, void *a, int partyIdx);
+extern void func_02012374(void *task, void *sub);
+extern void *func_02188CE8(void *fieldMap);
+extern void *func_021A9F40(void *a, int mode);
+extern int func_02158780(void *task, u16 b, int c, int d, u16 e);
+extern void *func_02188C7C(void *fieldMap);
 extern u32 *func_0216D9E4(void *c);
-extern u32 func_02188C6C(u8 *p);
-extern u16 func_021A1BF4(u8 *p);
-extern u32 func_02188E30(u8 *p);
+extern void *func_02188C6C(void *fieldMap);
+extern u16 func_021A1BF4(void *weatherTask);
+extern void *func_02188E30(void *fieldMap);
 extern void func_020061E4(u32 a);
 extern void func_021D3288(void *a, int b, int c);
-extern void func_021D325C(struct St021D325C *p, u32 a, u32 b, u32 c, u32 d);
-extern void func_021D3244(struct St021D3244 *p, int i, u8 v);
+extern void func_021D325C(void *p, u32 a, u32 b, u32 c, u32 d);
+extern void func_021D3244(void *p, int i, u8 v);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);
 extern void func_020409B4(u32 index);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern const BgPoint d_021DAAB4;
+
+/* Field camera zoom task (021C6B18..021C6BB4)                          */
+
+/* Task work (0x10 bytes). */
+typedef struct CameraZoomWork {
+    void *fieldMap;
+    u16 frame;
+    u16 frameMax;
+    fx32 startZoom;
+    fx32 endZoom;
+} CameraZoomWork;
+
+extern u16 func_02188C84(void *fieldMap);
+extern void *func_02188C58(void *fieldMap);
+extern u32 func_02188D30(void *fieldMap);
+extern fx32 func_0218ED54(void *camera);
+extern void func_0218ED58(void *camera, fx32 v);
+extern void func_02030DA8(u32 priority, void *cb, void *arg, int z);
+extern void func_02030EAC(void *task);
+extern char d_021DE4B8[];   /* source file name used as allocation site */
+extern double _dsqrt(double x);
+
+void *func_021C6068(void *fieldMap, void *gameSys);
+void *func_021C6078(void *gameSys, void *fieldMap, u8 partyIdx);
+int func_021C60B8(void *task, int *state, SweetScentWork *w);
+int func_021C61D4(SweetScentWork *w);
+void func_021C61EC(void *task, void *gameSys, void *fieldMap);
+int func_021C622C(void *task, int *state, SweetScentFade *fade);
+void func_021C62F0(SweetScentFade *fade);
+void func_021C6368(SweetScentFade *fade);
+void func_021C6B18(void *fieldMap, u16 frames, fx32 zoomDelta);
+void func_021C6B8C(void *task, CameraZoomWork *w);
+void func_021C6BB4(CameraZoomWork *w);
+
+/* Opaque 3D system objects (layouts in arm9/g3d_system_types.h). */
+typedef struct G3dResource G3dResource;
+typedef struct G3dRender G3dRender;
+typedef struct G3dAnime G3dAnime;
+typedef struct G3dObject G3dObject;
+
+/* Field 3D object control (field_g3dobj.c, 021C63AC..021C6AFC)        */
+
+#define FIELD_G3DOBJ_ANIME_MAX 8
+
+/* FieldG3dObjRes.state */
+#define FIELD_G3DOBJ_RES_FREE    0   /* being rebuilt or released */
+#define FIELD_G3DOBJ_RES_READY   1   /* textures are in VRAM */
+#define FIELD_G3DOBJ_RES_PENDING 2   /* textures are sent to VRAM on the next update */
+
+/* FieldG3dObj.kind */
+#define FIELD_G3DOBJ_FREE    0
+#define FIELD_G3DOBJ_ACTIVE  1   /* g3dObject and anime are created */
+#define FIELD_G3DOBJ_PENDING 2   /* waits for the resource textures; created by the next update */
+
+/* Files of one resource: a model, a texture file and up to eight animations (0x24 bytes). */
+typedef struct FieldG3dObjResDesc {
+    u32 modelArc;                          /* archive handle of the model file */
+    u32 texArc;                            /* archive handle of the texture file, 0 = none */
+    u32 anmArc;                            /* archive handle of the animation files */
+    u16 modelFile;
+    u16 texFile;
+    u16 anmFile[FIELD_G3DOBJ_ANIME_MAX];
+    u8  anmCount;
+} FieldG3dObjResDesc;
+
+/* One loaded model with its texture and animations (0x2C bytes). */
+typedef struct FieldG3dObjRes {
+    G3dResource *model;
+    G3dResource *texture;
+    G3dResource *anime[FIELD_G3DOBJ_ANIME_MAX];
+    u8 animeCount;
+    u8 state;                              /* FIELD_G3DOBJ_RES_* */
+} FieldG3dObjRes;
+
+/* One placed object (0x68 bytes). */
+typedef struct FieldG3dObj {
+    u32 kind : 2;                          /* FIELD_G3DOBJ_* */
+    u32 culling : 1;                       /* draw with the view box test */
+    u32 hidden : 1;
+    u32 manualDraw : 1;                    /* skipped by the batch draw */
+    u32 redrawFlag : 1;                    /* cleared by the batch draw */
+    u32 reserved : 26;
+    u16 resIdx;                            /* index in FieldG3dObjCtrl.resTbl */
+    u16 modelIdx;                          /* model inside the resource */
+    VecFx32 trans;
+    VecFx32 scale;
+    MtxFx33 rotate;
+    G3dObject *object;
+    G3dAnime *anime[FIELD_G3DOBJ_ANIME_MAX];
+} FieldG3dObj;
+
+/* The control: a table of resources and a table of objects (0x14 bytes). */
+typedef struct FieldG3dObjCtrl {
+    u16 heapId;
+    u16 ready;                             /* 0 while a table is being changed */
+    u16 resCount;
+    u16 objCount;
+    FieldG3dObjRes *resTbl;
+    FieldG3dObj *objTbl;
+    const u8 *palTable;                    /* palette conversion table, 0 = none */
+} FieldG3dObjCtrl;
+
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern int func_02047AC8(void *a0, struct Arg *a1);
-extern void func_02047A60(void *a0, struct Arg *a1);
-extern void func_0207ADC4(void *p);
-extern int func_020478B8(void *a, int idx, int amount);
-extern int func_02047910(void *a, int idx, int amount);
-extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
-extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
-extern int func_02046FF8(int *self);
-extern void *func_02046E24(u32 a0, u32 a1);
-extern u32 func_02046F50(struct Tagged *p, u32 sel);
-extern void *func_02046F48(struct Tagged *p);
-extern unsigned char *func_0206E964(unsigned char *p);
-extern void func_02022040(u16 *pal, int n, const u8 *table);
-extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
-extern int func_020470D0(u32 *p);
-extern void func_02046EFC(struct Tagged *p);
 extern void func_02082C60(void *p, int v, int n);
-extern void *func_02047400(void *a0, u32 n, void *a2);
-extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern void *func_0204767C(u32 a0, u32 *a1, int a2);
-extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
-extern void func_0204762C(struct Rec *p);
-extern int func_02047788(int *p);
-extern void func_02047738(struct Rec *p);
-extern void func_02047504(struct Rec *p);
-extern void func_02082A7C(u32 a, u32 b, u32 c);
-extern void func_02030EAC(struct Node *n);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02188C58(void *p);
-extern u32 func_02188D30(u8 *p);
-extern u32 func_0218ED54(u8 *p);
-extern void func_02030DA8(u32 a, void *cb, void *arg, int z);
-extern void func_0218ED58(u8 *p, u32 v);
-extern double _dsqrt(double x);
-int func_021C5FA8(Work *w, u32 n);
-int func_021C5FC0(u8 *p, u32 lim);
-void func_021C5FEC(u8 *p);
-void func_021C6018(u32 *p);
-void func_021C602C(u8 *p);
-void func_021C6054(u32 *p);
-void *func_021C6068(void *a, void *b);
-void *func_021C6078(void *a, void *b, u8 c);
-int func_021C60B8(void *task, int *state, Work_021C6078 *w);
-int func_021C61D4(u32 a);
-void func_021C61EC(void *a, void *b, void *c);
-int func_021C622C(void *unused, int *st, Ctx *c);
-void func_021C62F0(u8 *p);
-void func_021C6368(u8 *p);
-Work_021C62F0 *func_021C63AC(u32 heap, u32 n, u32 m);
-void func_021C6400(Mgr_021C6400 *m);
-void func_021C6470(Mgr_021C6470 *m);
-void func_021C64E0(Mgr_021C64E0 *m);
-void func_021C6534(u32 *p, u32 v);
-u16 func_021C6538(Mgr *m, void *c, int d, int e);
-int func_021C6574(u32 a, u32 b, u32 c);
-void func_021C6580(u8 *p, int i);
-u16 func_021C6590(Mgr_021C6590 *m, u16 idx, u16 a, Vec *src);
-void func_021C6628(Mgr_021C6628 *m, int idx);
-int func_021C6658(u32 a, u32 b);
-void func_021C6664(Mgr_021C6664 *m, int idx, V_021C6664 *v);
-void func_021C6678(Mgr_021C6678 *m, int idx, int v);
-int func_021C6694(u32 *a, int idx, int v);
-int func_021C66EC(u32 *a, int idx, int v);
-void func_021C6744(u32 *a, int idx, int mode, u32 val);
-int func_021C67A8(Mgr_021C67A8 *m, int idx, int i);
-void func_021C67D8(Mgr_021C67D8 *m, int idx, int v);
-void func_021C67F4(Mgr_021C67F4 *m, int idx);
-void func_021C6828(Mgr_021C6828 *m, int idx, int v);
-int func_021C6844(int a, int b);
-void func_021C6854(S *s);
-void func_021C6874(S *s, int unused, D *d, int mode, int flag);
-void func_021C6940(u8 *p);
-void func_021C69B4(Elem_021C69B4 *e, S *s, u16 idx, u16 id, u32 unused, V_021C69B4 *pos, int flag);
-void func_021C6A90(u32 *p, u8 *q);
-void func_021C6AE0(u32 a);
-int func_021C6AF0(u32 a, u32 b, u32 c);
-void func_021C6AF8(u32 *p, u32 v);
-void func_021C6AFC(D *d, u16 v);
-void func_021C6B18(u32 a, u16 b, u32 c);
-void func_021C6B8C(void *task, P *p);
-void func_021C6BB4(u8 *p);
-extern const Pt d_021DAAB4;
-extern char d_021DE4A8[];
-extern int d_021DE4B8;
+extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
+extern void func_0207ADC4(MtxFx33 *m);
+/* Palette block of a texture resource (NNSG3dResTex, only what is read here). */
+typedef struct ResTexPltt {
+    u8 pad00[0x30];
+    u16 sizePltt;                          /* palette size in units of 8 bytes */
+    u8 pad32[0x06];
+    u32 ofsPlttData;
+} ResTexPltt;
 
+extern void func_02022040(u16 *pal, int n, const u8 *table);
+extern ResTexPltt *func_0206E964(void *file);
+extern void func_02047AC8(G3dObject *obj, VecFx32 *status);
+extern void func_02047A60(G3dObject *obj, VecFx32 *status);
+extern int func_020478B8(G3dObject *obj, int idx, int amount);
+extern int func_02047910(G3dObject *obj, int idx, int amount);
+extern u32 func_0204784C(G3dObject *obj, u16 idx, s32 *frame);
+extern u32 func_02047828(G3dObject *obj, u32 idx, s32 *frame);
+extern int func_02046FF8(G3dResource *res);
+extern G3dResource *func_02046E24(u32 arc, u32 file);
+extern u32 func_02046F50(G3dResource *res, u32 kind);
+extern void *func_02046F48(G3dResource *res);
+extern int func_020470D0(G3dResource *res);
+extern void func_02046EFC(G3dResource *res);
+extern G3dRender *func_02047400(G3dResource *model, u32 modelIdx, G3dResource *texture);
+extern G3dAnime *func_02047564(G3dRender *render, G3dResource *anime, int unused);
+extern G3dObject *func_0204767C(G3dRender *render, G3dAnime **anime, int count);
+extern u32 func_020477A4(G3dObject *obj, u32 idx);
+extern void func_0204762C(G3dAnime *anime);
+extern G3dRender *func_02047788(G3dObject *obj);
+extern void func_02047738(G3dObject *obj);
+extern void func_02047504(G3dRender *render);
 
+extern char d_021DE4A8[];   /* source file name used as allocation site */
 
+FieldG3dObjCtrl *func_021C63AC(u32 heapId, u32 resCount, u32 objCount);
+void func_021C6400(FieldG3dObjCtrl *ctrl);
+void func_021C6470(FieldG3dObjCtrl *ctrl);
+void func_021C64E0(FieldG3dObjCtrl *ctrl);
+void func_021C6534(FieldG3dObjCtrl *ctrl, const u8 *palTable);
+u16 func_021C6538(FieldG3dObjCtrl *ctrl, FieldG3dObjResDesc *desc, int mode, const u8 *palTable);
+int func_021C6574(FieldG3dObjCtrl *ctrl, FieldG3dObjResDesc *desc, int mode);
+void func_021C6580(FieldG3dObjCtrl *ctrl, int resIdx);
+u16 func_021C6590(FieldG3dObjCtrl *ctrl, u16 resIdx, u16 modelIdx, VecFx32 *pos);
+void func_021C6628(FieldG3dObjCtrl *ctrl, int objIdx);
+VecFx32 *func_021C6658(FieldG3dObjCtrl *ctrl, int objIdx);
+void func_021C6664(FieldG3dObjCtrl *ctrl, int objIdx, VecFx32 *pos);
+void func_021C6678(FieldG3dObjCtrl *ctrl, int objIdx, int hidden);
+int func_021C6694(FieldG3dObjCtrl *ctrl, int objIdx, int speed);
+int func_021C66EC(FieldG3dObjCtrl *ctrl, int objIdx, int speed);
+void func_021C6744(FieldG3dObjCtrl *ctrl, int objIdx, int animeIdx, s32 frame);
+int func_021C67A8(FieldG3dObjCtrl *ctrl, int objIdx, int animeIdx);
+void func_021C67D8(FieldG3dObjCtrl *ctrl, int objIdx, int manualDraw);
+void func_021C67F4(FieldG3dObjCtrl *ctrl, int objIdx);
+void func_021C6828(FieldG3dObjCtrl *ctrl, int objIdx, int redrawFlag);
+int func_021C6844(FieldG3dObjCtrl *ctrl, int objIdx);
+void func_021C6854(FieldG3dObjRes *res);
+void func_021C6874(FieldG3dObjRes *res, int heapId, FieldG3dObjResDesc *desc, int mode, const u8 *palTable);
+void func_021C6940(FieldG3dObjRes *res);
+void func_021C69B4(FieldG3dObj *obj, FieldG3dObjRes *res, u16 resIdx, u16 modelIdx, u32 heapId, VecFx32 *pos, int initDefaults);
+void func_021C6A90(FieldG3dObj *obj, FieldG3dObjRes *res);
+void func_021C6AE0(FieldG3dObjResDesc *desc);
+void func_021C6AF0(FieldG3dObjResDesc *desc, u32 arc, u32 file);
+void func_021C6AF8(FieldG3dObjResDesc *desc, u32 arc);
+void func_021C6AFC(FieldG3dObjResDesc *desc, u16 file);
 
+void *func_021C6068(void *fieldMap, void *gameSys) { return func_021C6078(gameSys, fieldMap, 0xff); }
 
-
-int func_021C5FA8(Work *w, u32 n)
-{
-    if (w->f60++ < n)
-        return 0;
-    w->f60 = 0;
-    return 1;
-}
-
-
-
-
-
-
-/*
- * Wait step: 1 on a key press, 2 on timeout, otherwise 0.
- */
-int func_021C5FC0(u8 *p, u32 lim)
-{
-    u32 n = ((struct Obj07564 *)p)->f60;
-
-    ((struct Obj07564 *)p)->f60 = n + 1;
-    if (n < lim) {
-        if (func_020362DC() & 1) {
-            ((struct Obj07564 *)p)->f60 = 0;
-            return 1;
-        }
-    } else {
-        ((struct Obj07564 *)p)->f60 = 0;
-        return 2;
-    }
-    return 0;
-}
-
-
-
-
-
-
-/*
- * Switches the window to mode 2 and opens the message box.
- */
-void func_021C5FEC(u8 *p)
-{
-    u32 o = func_02188CD0((u8 *)(((struct Obj06080 *)p)->f8));
-
-    func_0216D674((void *)(((struct Obj06080 *)p)->f1C), 2);
-    ((struct Obj06080 *)p)->f2C = func_021BB528(o, ((struct Obj06080 *)p)->f1C, 0, 1);
-    func_021AE01C(((struct Obj06080 *)p)->f30, 1);
-}
-
-
-
-
-
-void func_021C6018(u32 *p)
-{
-    if (p[11] != 0) {
-        func_021AC154(p[11]);
-        p[11] = 0;
-    }
-}
-
-
-
-
-
-void func_021C602C(u8 *p)
-{
-    ((struct Obj06081 *)p)->f30 = func_021ADF94(func_02188CD0((u8 *)(((struct Obj06081 *)p)->f8)), p + 0x40, ((struct Obj06081 *)p)->f58, ((struct Obj06081 *)p)->f44 == ((struct Obj06081 *)p)->f38);
-}
-
-
-
-
-void func_021C6054(u32 *p)
-{
-    if (p[12] != 0) {
-        func_021AC154(p[12]);
-        p[12] = 0;
-    }
-}
-
-
-
-void *func_021C6068(void *a, void *b) { return func_021C6078(b, a, 0xff); }
-
-
-
-
-
-
-
-
-
-
-void *func_021C6078(void *a, void *b, u8 c)
+void *func_021C6078(void *gameSys, void *fieldMap, u8 partyIdx)
 {
     void *task;
-    u8 *w;
+    SweetScentWork *w;
 
-    task = func_020122C0(a, 0, func_021C60B8, 0x14);
+    task = func_020122C0(gameSys, 0, func_021C60B8, sizeof(SweetScentWork));
     w = func_020124E8(task);
-    func_02082BCC(w, 0, 0x14);
-    w[0] = c;
-    ((struct Obj06082 *)w)->f4 = a;
-    ((struct Obj06082 *)w)->fC = b;
-    ((struct Obj06082 *)w)->f10 = func_02188CB4(b);
-    ((struct Obj06082 *)w)->f8 = func_020120F4(a);
+    func_02082BCC(w, 0, sizeof(SweetScentWork));
+    w->partyIdx = partyIdx;
+    w->gameSys = gameSys;
+    w->fieldMap = fieldMap;
+    w->fieldPlayer = func_02188CB4(fieldMap);
+    w->gameData = func_020120F4(gameSys);
     return task;
 }
 
-
-
-
-
-
-
-
-
-
-int func_021C60B8(void *task, int *state, Work_021C6078 *w)
+int func_021C60B8(void *task, int *state, SweetScentWork *w)
 {
-    void *t;
+    void *sub;
 
     switch (*state) {
     case 0:
-        if (w->f0 >= 6) {
+        if (w->partyIdx >= SWEET_SCENT_NO_POKEMON) {
             *state = 5;
             break;
         }
-        func_021A2F48(w->f10, 0x80);
+        func_021A2F48(w->fieldPlayer, 0x80);
         (*state)++;
     case 1:
-        if (func_021A2F54(w->f10) != 1)
+        if (func_021A2F54(w->fieldPlayer) != 1)
             break;
-        func_0216D410(func_021A3074(w->f10), 0xa2);
+        func_0216D410(func_021A3074(w->fieldPlayer), 0xa2);
         (*state)++;
         break;
     case 2:
-        if (func_0216D480(func_021A3074(w->f10)) != 1)
+        if (func_0216D480(func_021A3074(w->fieldPlayer)) != 1)
             break;
-        t = (void *)func_021C1D68(w->f4, (int)func_02189A00(w->fC), w->f0);
-        if (t != 0)
-            func_02012374(task, t);
+        sub = func_021C1D68(w->gameSys, func_02189A00(w->fieldMap), w->partyIdx);
+        if (sub != 0)
+            func_02012374(task, sub);
         (*state)++;
         break;
     case 3:
-        func_021A2F48(w->f10, 8);
+        func_021A2F48(w->fieldPlayer, 8);
         (*state)++;
     case 4:
-        if (func_021A2F54(w->f10) != 1)
+        if (func_021A2F54(w->fieldPlayer) != 1)
             break;
         *state = 5;
         break;
     case 5:
-        if (func_021C61D4((u32)w) == 0) {
+        if (func_021C61D4(w) == 0) {
             *state = 8;
             break;
         }
-        func_021C61EC(task, (void *)w->f4, w->fC);
+        func_021C61EC(task, w->gameSys, w->fieldMap);
         *state = 6;
         break;
     case 6:
-        t = (void *)func_021A9F40((struct Ctx *)func_02188CE8(w->fC), 2);
-        if (t == 0) {
+        sub = func_021A9F40(func_02188CE8(w->fieldMap), 2);
+        if (sub == 0) {
             *state = 7;
             break;
         }
-        func_02012374(task, t);
+        func_02012374(task, sub);
         *state = 9;
         break;
     case 7:
@@ -725,738 +402,586 @@ int func_021C60B8(void *task, int *state, Work_021C6078 *w)
         *state = 9;
         break;
     case 9:
-        func_0216D9E4(func_02188C7C(w->fC));
+        func_0216D9E4(func_02188C7C(w->fieldMap));
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-int func_021C61D4(u32 a)
+int func_021C61D4(SweetScentWork *w)
 {
-if (func_021A1BF4((u8 *)func_02188C6C((u8 *)(((struct Obj18307 *)((u8 *)(a)))->fC))) == 0) {
-    return 1;
-}
-return 0;
+    if (func_021A1BF4(func_02188C6C(w->fieldMap)) == 0) {
+        return 1;
+    }
+    return 0;
 }
 
-
-
-
-
-
-
-
-
-
-void func_021C61EC(void *a, void *b, void *c)
+void func_021C61EC(void *task, void *gameSys, void *fieldMap)
 {
-    void *task;
-    u8 *w;
+    void *fadeTask;
+    SweetScentFade *fade;
 
-    task = func_020122C0(b, 0, func_021C622C, 8);
-    w = func_020124E8(task);
-    w[0] = 3;
-    w[1] = 0;
-    w[2] = 2;
-    w[3] = 0;
-    ((struct Obj06083 *)w)->f4 = func_02188E30(c);
-    func_02012374(a, task);
+    fadeTask = func_020122C0(gameSys, 0, func_021C622C, sizeof(SweetScentFade));
+    fade = func_020124E8(fadeTask);
+    fade->bgLayer = 3;
+    fade->level = 0;
+    fade->interval = 2;
+    fade->timer = 0;
+    fade->vreq = func_02188E30(fieldMap);
+    func_02012374(task, fadeTask);
 }
 
-
-
-
-
-
-
-
-
-
-int func_021C622C(void *unused, int *st, Ctx *c)
+int func_021C622C(void *task, int *state, SweetScentFade *fade)
 {
-    switch (*st) {
+    switch (*state) {
     case 0:
-        func_021C62F0((u8 *)c);
+        func_021C62F0(fade);
         func_020061E4(0x683);
-        *st = *st + 1;
+        *state = *state + 1;
         break;
     case 1:
-        if (c->f3++ >= c->f2) {
-            c->f1++;
-            func_021D3288(c->f4, c->f1, 0x10 - c->f1);
-            c->f3 = 0;
+        if (fade->timer++ >= fade->interval) {
+            fade->level++;
+            func_021D3288(fade->vreq, fade->level, 0x10 - fade->level);
+            fade->timer = 0;
         }
-        if (c->f1 >= 8) {
-            *st = *st + 1;
+        if (fade->level >= 8) {
+            *state = *state + 1;
         }
         break;
     case 2:
-        if (c->f3++ < 0x1e) {
-            *st = *st + 1;
+        if (fade->timer++ < 0x1e) {
+            *state = *state + 1;
         }
         break;
     case 3:
-        if (c->f3++ >= c->f2) {
-            c->f1--;
-            func_021D3288(c->f4, c->f1, 0x10 - c->f1);
-            c->f3 = 0;
+        if (fade->timer++ >= fade->interval) {
+            fade->level--;
+            func_021D3288(fade->vreq, fade->level, 0x10 - fade->level);
+            fade->timer = 0;
         }
-        if (c->f1 == 0) {
-            *st = *st + 1;
+        if (fade->level == 0) {
+            *state = *state + 1;
         }
         break;
     case 4:
-        func_021D325C(c->f4, 0, 0, 0, 0x1f);
-        func_021D3244(c->f4, c->f0, 0);
-        *st = *st + 1;
+        func_021D325C(fade->vreq, 0, 0, 0, 0x1f);
+        func_021D3244(fade->vreq, fade->bgLayer, 0);
+        *state = *state + 1;
         break;
     default:
-        func_021C6368((u8 *)c);
+        func_021C6368(fade);
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-void func_021C62F0(u8 *p)
+void func_021C62F0(SweetScentFade *fade)
 {
-    Pt pt;
+    BgPoint pos;
 
-    pt = d_021DAAB4;
-    func_02040588(p[0], 0);
-    func_02040E78(p[0], &pt, 8, 0x20);
-    func_02040C14(p[0], 1, 1, 0x100);
-    func_02041300(p[0], 0x100, 0, 0, 0x20, 0x20, 1);
-    func_020409B4(p[0]);
-    func_021D325C(((struct Obj00458 *)p)->f4, 8, 0x37, p[1], 0x10 - p[1]);
-    func_021D3244(((struct Obj00458 *)p)->f4, p[0], 1);
+    pos = d_021DAAB4;
+    func_02040588(fade->bgLayer, 0);
+    func_02040E78(fade->bgLayer, &pos, 8, 0x20);
+    func_02040C14(fade->bgLayer, 1, 1, 0x100);
+    func_02041300(fade->bgLayer, 0x100, 0, 0, 0x20, 0x20, 1);
+    func_020409B4(fade->bgLayer);
+    func_021D325C(fade->vreq, 8, 0x37, fade->level, 0x10 - fade->level);
+    func_021D3244(fade->vreq, fade->bgLayer, 1);
 }
 
-
-
-
-
-
-
-
-
-void func_021C6368(u8 *p)
+void func_021C6368(SweetScentFade *fade)
 {
-    Pt pt = {0, 0};
+    BgPoint pos = {0, 0};
 
-    func_02040E78(p[0], &pt, 8, 0x20);
-    func_02041300(p[0], 0, 0, 0, 0x20, 0x20, 1);
-    func_020409B4(p[0]);
-    func_02040DA8(p[0], 1, 0x100);
+    func_02040E78(fade->bgLayer, &pos, 8, 0x20);
+    func_02041300(fade->bgLayer, 0, 0, 0, 0x20, 0x20, 1);
+    func_020409B4(fade->bgLayer);
+    func_02040DA8(fade->bgLayer, 1, 0x100);
 }
 
-
-
-
-
-
-
-
-
-Work_021C62F0 *func_021C63AC(u32 heap, u32 n, u32 m)
+FieldG3dObjCtrl *func_021C63AC(u32 heapId, u32 resCount, u32 objCount)
 {
-    Work_021C62F0 *w;
+    FieldG3dObjCtrl *ctrl;
 
-    w = func_02030734(heap, 0x14, 1, d_021DE4A8, 0x72);
-    w->f8 = func_02030734(heap, n * 0x2c, 1, d_021DE4A8, 0x75);
-    w->fC = func_02030734(heap, m * 0x68, 1, d_021DE4A8, 0x78);
-    w->f0 = heap;
-    w->f4 = n;
-    w->f6 = m;
-    w->f2 = 1;
-    return w;
+    ctrl = func_02030734(heapId, sizeof(FieldG3dObjCtrl), 1, d_021DE4A8, 0x72);
+    ctrl->resTbl = func_02030734(heapId, resCount * sizeof(FieldG3dObjRes), 1, d_021DE4A8, 0x75);
+    ctrl->objTbl = func_02030734(heapId, objCount * sizeof(FieldG3dObj), 1, d_021DE4A8, 0x78);
+    ctrl->heapId = heapId;
+    ctrl->resCount = resCount;
+    ctrl->objCount = objCount;
+    ctrl->ready = 1;
+    return ctrl;
 }
 
-
-
-
-
-
-
-
-
-void func_021C6400(Mgr_021C6400 *m)
+void func_021C6400(FieldG3dObjCtrl *ctrl)
 {
     u32 i;
-    Elem_021C6400 *e;
-    u8 *s;
+    FieldG3dObj *obj;
+    FieldG3dObjRes *res;
 
     i = 0;
-    m->f2 = 0;
-    e = m->fC;
-    if (i < m->f6)
-        for (; i < m->f6; i++) {
-            if (e->kind == 1 && e->f44 != 0)
-                func_021C6A90((u32 *)e, m->f8 + e->f4 * 0x2c);
-            e++;
+    ctrl->ready = 0;
+    obj = ctrl->objTbl;
+    if (i < ctrl->objCount)
+        for (; i < ctrl->objCount; i++) {
+            if (obj->kind == FIELD_G3DOBJ_ACTIVE && obj->object != 0)
+                func_021C6A90(obj, &ctrl->resTbl[obj->resIdx]);
+            obj++;
         }
-    func_020307B0(m->fC);
+    func_020307B0(ctrl->objTbl);
     i = 0;
-    s = m->f8;
-    if (i < m->f4)
-        for (; i < m->f4; i++) {
-            func_021C6940(s);
-            s += 0x2c;
+    res = ctrl->resTbl;
+    if (i < ctrl->resCount)
+        for (; i < ctrl->resCount; i++) {
+            func_021C6940(res);
+            res++;
         }
-    func_020307B0(m->f8);
-    func_020307B0(m);
+    func_020307B0(ctrl->resTbl);
+    func_020307B0(ctrl);
 }
 
-
-
-
-
-
-
-
-
-void func_021C6470(Mgr_021C6470 *m)
+void func_021C6470(FieldG3dObjCtrl *ctrl)
 {
     int i;
     int j;
-    Elem_021C6470 *e;
-    u8 *s;
+    FieldG3dObj *obj;
+    FieldG3dObjRes *res;
 
-    if (m->f2 == 1) {
-        e = m->fC;
-        s = m->f8;
-        for (i = 0; i < m->f4; i++) {
-            if (s[0x29] == 2)
-                func_021C6854((S *)s);
-            s += 0x2c;
+    if (ctrl->ready == 1) {
+        obj = ctrl->objTbl;
+        res = ctrl->resTbl;
+        for (i = 0; i < ctrl->resCount; i++) {
+            if (res->state == FIELD_G3DOBJ_RES_PENDING)
+                func_021C6854(res);
+            res++;
         }
-        s = m->f8;
-        for (j = 0; j < m->f6; j++) {
-            if (e->kind == 2)
-                func_021C69B4((Elem_021C69B4 *)e, (S *)(s + e->f4 * 0x2c), e->f4, e->f6, m->f0, 0, 0);
-            e++;
+        res = ctrl->resTbl;
+        for (j = 0; j < ctrl->objCount; j++) {
+            if (obj->kind == FIELD_G3DOBJ_PENDING)
+                func_021C69B4(obj, &res[obj->resIdx], obj->resIdx, obj->modelIdx, ctrl->heapId, 0, 0);
+            obj++;
         }
     }
 }
 
-
-
-
-
-
-
-
-
-void func_021C64E0(Mgr_021C64E0 *m)
+void func_021C64E0(FieldG3dObjCtrl *ctrl)
 {
     u32 i;
-    Elem_021C64E0 *e;
+    FieldG3dObj *obj;
 
-    e = m->fC;
-    for (i = 0; i < m->f6; i++) {
-        if (e->kind == 1) {
-            if (e->b4 == 0 && e->b3 == 0) {
-                if (e->b2 == 1)
-                    func_02047AC8(e->f44, (struct Arg *)e->f8);
+    obj = ctrl->objTbl;
+    for (i = 0; i < ctrl->objCount; i++) {
+        if (obj->kind == FIELD_G3DOBJ_ACTIVE) {
+            if (obj->manualDraw == 0 && obj->hidden == 0) {
+                if (obj->culling == 1)
+                    func_02047AC8(obj->object, &obj->trans);
                 else
-                    func_02047A60(e->f44, (struct Arg *)e->f8);
+                    func_02047A60(obj->object, &obj->trans);
             }
-            e->b5 = 0;
+            obj->redrawFlag = 0;
         }
-        e++;
+        obj++;
     }
 }
 
-
-
-
-
-
-
 /*
- * Setter: stores the second argument at +0x10.  Unlabelled in the listing;
- * called from func_021881D8.
- *
- * Addresses are Black-image addresses.
+ * Setter: stores the palette conversion table at +0x10.  Unlabelled in
+ * the listing; called from func_021881D8.
  */
-void func_021C6534(u32 *p, u32 v)
+void func_021C6534(FieldG3dObjCtrl *ctrl, const u8 *palTable)
 {
-    p[4] = v;
+    ctrl->palTable = palTable;
 }
 
-
-
-
-
-u16 func_021C6538(Mgr *m, void *c, int d, int e)
+u16 func_021C6538(FieldG3dObjCtrl *ctrl, FieldG3dObjResDesc *desc, int mode, const u8 *palTable)
 {
     u16 i;
-    Item_021C6078 *it = m->f8;
-    for (i = 0; i < m->f4; i++, it++) {
-        if (it->f0 == 0) {
-            func_021C6874((S *)it, m->f0, (D *)c, d, e);
+    FieldG3dObjRes *res = ctrl->resTbl;
+    for (i = 0; i < ctrl->resCount; i++, res++) {
+        if (res->model == 0) {
+            func_021C6874(res, ctrl->heapId, desc, mode, palTable);
             return i;
         }
     }
     return 0;
 }
 
-
-
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_021C6574(u32 a, u32 b, u32 c)
+int func_021C6574(FieldG3dObjCtrl *ctrl, FieldG3dObjResDesc *desc, int mode)
 {
-    return func_021C6538((Mgr *)a, (void *)b, c, ((struct Obj18309 *)((u8 *)(a)))->f10);
+    return func_021C6538(ctrl, desc, mode, ctrl->palTable);
 }
 
-
-
-
-
 /*
- * Tail call on a strided element of the array at +8.
- *
- * Addresses are Black-image addresses.
+ * Tail call on a strided element of the resource table.
  */
-void func_021C6580(u8 *p, int i)
+void func_021C6580(FieldG3dObjCtrl *ctrl, int resIdx)
 {
-    func_021C6940((u8 *)(((struct Obj18310 *)p)->f8 + i * 0x2c));
+    func_021C6940(&ctrl->resTbl[resIdx]);
 }
 
-
-
-
-
-u16 func_021C6590(Mgr_021C6590 *m, u16 idx, u16 a, Vec *src)
+u16 func_021C6590(FieldG3dObjCtrl *ctrl, u16 resIdx, u16 modelIdx, VecFx32 *pos)
 {
     u16 i;
-    Elem_021C6590 *e;
-    u8 *s;
+    FieldG3dObj *obj;
+    FieldG3dObjRes *res;
 
-    e = m->fC;
-    for (i = 0; i < m->f6; i++) {
-        if (e->kind == 0 && e->f44 == 0) {
-            s = m->f8 + idx * 0x2c;
-            if (s[0x29] == 2) {
-                e->f4 = idx;
-                e->f6 = a;
-                e->kind = 2;
-                e->b2 = 1;
-                e->f14 = 0x1000;
-                e->f18 = 0x1000;
-                e->f1C = 0x1000;
-                if (src != 0)
-                    e->f8 = *src;
-                func_0207ADC4(e->f20);
+    obj = ctrl->objTbl;
+    for (i = 0; i < ctrl->objCount; i++) {
+        if (obj->kind == FIELD_G3DOBJ_FREE && obj->object == 0) {
+            res = &ctrl->resTbl[resIdx];
+            if (res->state == FIELD_G3DOBJ_RES_PENDING) {
+                obj->resIdx = resIdx;
+                obj->modelIdx = modelIdx;
+                obj->kind = FIELD_G3DOBJ_PENDING;
+                obj->culling = 1;
+                obj->scale.x = 0x1000;
+                obj->scale.y = 0x1000;
+                obj->scale.z = 0x1000;
+                if (pos != 0)
+                    obj->trans = *pos;
+                func_0207ADC4(&obj->rotate);
             } else {
-                func_021C69B4((Elem_021C69B4 *)e, (S *)s, idx, a, m->f0, (V_021C69B4 *)src, 1);
+                func_021C69B4(obj, res, resIdx, modelIdx, ctrl->heapId, pos, 1);
             }
             return i;
         }
-        e++;
+        obj++;
     }
     return 0;
 }
 
-
-
-
-void func_021C6628(Mgr_021C6628 *m, int idx)
+void func_021C6628(FieldG3dObjCtrl *ctrl, int objIdx)
 {
-    Elem_021C6628 *e;
-    e = &m->fC[idx];
-    m->f2 = 0;
-    if (e->k == 1)
-        func_021C6A90((u32 *)e, (u8 *)(&m->f8[e->f4]));
-    m->f2 = 1;
+    FieldG3dObj *obj;
+    obj = &ctrl->objTbl[objIdx];
+    ctrl->ready = 0;
+    if (obj->kind == FIELD_G3DOBJ_ACTIVE)
+        func_021C6A90(obj, &ctrl->resTbl[obj->resIdx]);
+    ctrl->ready = 1;
 }
 
+VecFx32 *func_021C6658(FieldG3dObjCtrl *ctrl, int objIdx)
+{
+    return &ctrl->objTbl[objIdx].trans;
+}
 
+void func_021C6664(FieldG3dObjCtrl *ctrl, int objIdx, VecFx32 *pos)
+{
+    ctrl->objTbl[objIdx].trans = *pos;
+}
+
+void func_021C6678(FieldG3dObjCtrl *ctrl, int objIdx, int hidden)
+{
+    ctrl->objTbl[objIdx].hidden = hidden;
+}
 
 /*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
+ * Advances every animation of the object by speed, clamped at the ends.
+ * Returns 1 when one of them moved or the object is not created yet.
  */
-int func_021C6658(u32 a, u32 b)
+int func_021C6694(FieldG3dObjCtrl *ctrl, int objIdx, int speed)
 {
-return ((((struct Obj18311 *)((u8 *)(a)))->fC + (b * 104)) + 8);
-}
+    int result = 0;
+    FieldG3dObj *obj = &ctrl->objTbl[objIdx];
+    int count, i;
 
-
-void func_021C6664(Mgr_021C6664 *m, int idx, V_021C6664 *v)
-{
-    m->fC[idx].f8 = *v;
-}
-
-
-void func_021C6678(Mgr_021C6678 *m, int idx, int v)
-{
-    m->fC[idx].b = v;
-}
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-int func_021C6694(u32 *a, int idx, int v)
-{
-    int r = 0;
-    u8 *e = (u8 *)a[3] + idx * 0x68;
-    int n, i;
-
-    if (((K *)e)->k == 1) {
-        n = *(u8 *)((u8 *)a[2] + ((struct Obj12952 *)e)->f4 * 0x2c + 0x28);
-        for (i = r; i < n; i++) {
-            if (func_020478B8((void *)(((struct Obj12952 *)e)->f44), (u16)i, v))
-                r = 1;
+    if (obj->kind == FIELD_G3DOBJ_ACTIVE) {
+        count = ctrl->resTbl[obj->resIdx].animeCount;
+        for (i = result; i < count; i++) {
+            if (func_020478B8(obj->object, (u16)i, speed))
+                result = 1;
         }
-    } else if (((K *)e)->k == 2) {
-        r = 1;
+    } else if (obj->kind == FIELD_G3DOBJ_PENDING) {
+        result = 1;
     }
-    return r;
+    return result;
 }
 
-
-
-int func_021C66EC(u32 *a, int idx, int v)
+/* Same as func_021C6694, but the animations wrap at the ends. */
+int func_021C66EC(FieldG3dObjCtrl *ctrl, int objIdx, int speed)
 {
-    int r = 0;
-    u8 *e = (u8 *)a[3] + idx * 0x68;
-    int n, i;
+    int result = 0;
+    FieldG3dObj *obj = &ctrl->objTbl[objIdx];
+    int count, i;
 
-    if (((K *)e)->k == 1) {
-        n = *(u8 *)((u8 *)a[2] + ((struct Obj12953 *)e)->f4 * 0x2c + 0x28);
-        for (i = r; i < n; i++) {
-            if (func_02047910((void *)(((struct Obj12953 *)e)->f44), (u16)i, v))
-                r = 1;
+    if (obj->kind == FIELD_G3DOBJ_ACTIVE) {
+        count = ctrl->resTbl[obj->resIdx].animeCount;
+        for (i = result; i < count; i++) {
+            if (func_02047910(obj->object, (u16)i, speed))
+                result = 1;
         }
-    } else if (((K *)e)->k == 2) {
-        r = 1;
+    } else if (obj->kind == FIELD_G3DOBJ_PENDING) {
+        result = 1;
     }
-    return r;
+    return result;
 }
-
-
 
 /*
  * push {r0-r3} entry (0x021C6744); the fourth parameter's address is taken.
- *
- * Addresses are Black-image addresses.
+ * animeIdx 8 sets every animation of the object.
  */
-void func_021C6744(u32 *a, int idx, int mode, u32 val)
+void func_021C6744(FieldG3dObjCtrl *ctrl, int objIdx, int animeIdx, s32 frame)
 {
-    u8 *e = (u8 *)a[3] + idx * 0x68;
-    int n, i;
+    FieldG3dObj *obj = &ctrl->objTbl[objIdx];
+    int count, i;
 
-    if (((K *)e)->k == 1) {
-        n = *(u8 *)((u8 *)a[2] + ((struct Obj09694 *)e)->f4 * 0x2c + 0x28);
-        if (mode == 8) {
+    if (obj->kind == FIELD_G3DOBJ_ACTIVE) {
+        count = ctrl->resTbl[obj->resIdx].animeCount;
+        if (animeIdx == FIELD_G3DOBJ_ANIME_MAX) {
             i = 0;
-            if (n > 0) {
+            if (count > 0) {
                 do {
-                    func_0204784C((struct AnmCtl *)(((struct Obj09694 *)e)->f44), (u16)i, (s32 *)(&val));
+                    func_0204784C(obj->object, (u16)i, &frame);
                     i++;
-                } while (i < n);
+                } while (i < count);
             }
-        } else if (mode < n) {
-            func_0204784C((struct AnmCtl *)(((struct Obj09694 *)e)->f44), (u16)mode, (s32 *)(&val));
+        } else if (animeIdx < count) {
+            func_0204784C(obj->object, (u16)animeIdx, &frame);
         }
     }
 }
 
-
-int func_021C67A8(Mgr_021C67A8 *m, int idx, int i)
+int func_021C67A8(FieldG3dObjCtrl *ctrl, int objIdx, int animeIdx)
 {
-    int r = 0;
-    Elem_021C67A8 *e = &m->fC[idx];
-    if (e->k == 1) {
-        if ((int)func_02047828((struct AnmCtl *)e->f44, (u16)i, &r) == 0)
-            r = 0;
+    int frame = 0;
+    FieldG3dObj *obj = &ctrl->objTbl[objIdx];
+    if (obj->kind == FIELD_G3DOBJ_ACTIVE) {
+        if ((int)func_02047828(obj->object, (u16)animeIdx, &frame) == 0)
+            frame = 0;
     }
-    return r;
+    return frame;
 }
 
-
-void func_021C67D8(Mgr_021C67D8 *m, int idx, int v)
+void func_021C67D8(FieldG3dObjCtrl *ctrl, int objIdx, int manualDraw)
 {
-    m->fC[idx].b4 = v;
+    ctrl->objTbl[objIdx].manualDraw = manualDraw;
 }
 
-
-void func_021C67F4(Mgr_021C67F4 *m, int idx)
+/* Draws one object at once unless it is hidden. */
+void func_021C67F4(FieldG3dObjCtrl *ctrl, int objIdx)
 {
-    Elem_021C67F4 *e = &m->fC[idx];
-    if (e->k == 1 && e->b3 == 0) {
-        if (e->b2 == 1)
-            func_02047AC8((void *)e->f44, (struct Arg *)(&e->f8));
+    FieldG3dObj *obj = &ctrl->objTbl[objIdx];
+    if (obj->kind == FIELD_G3DOBJ_ACTIVE && obj->hidden == 0) {
+        if (obj->culling == 1)
+            func_02047AC8(obj->object, &obj->trans);
         else
-            func_02047A60((void *)e->f44, (struct Arg *)(&e->f8));
+            func_02047A60(obj->object, &obj->trans);
     }
 }
 
-
-void func_021C6828(Mgr_021C6828 *m, int idx, int v)
+void func_021C6828(FieldG3dObjCtrl *ctrl, int objIdx, int redrawFlag)
 {
-    m->fC[idx].b5 = v;
+    ctrl->objTbl[objIdx].redrawFlag = redrawFlag;
 }
 
-
-
-int func_021C6844(int a, int b)
+int func_021C6844(FieldG3dObjCtrl *ctrl, int objIdx)
 {
-return ((*(u32 *)((u8 *)(((struct Obj18312 *)((u8 *)(a)))->fC) + ((b * 104))) << 26) >> 31);
+    return ctrl->objTbl[objIdx].redrawFlag;
 }
 
-
-void func_021C6854(S *s)
+/* Sends the texture of the resource to VRAM. */
+void func_021C6854(FieldG3dObjRes *res)
 {
-    s->f29 = 0; if (s->f4 != 0) func_02046FF8((int *)s->f4); else func_02046FF8((int *)s->f0); s->f29 = 1;
+    res->state = FIELD_G3DOBJ_RES_FREE;
+    if (res->texture != 0)
+        func_02046FF8(res->texture);
+    else
+        func_02046FF8(res->model);
+    res->state = FIELD_G3DOBJ_RES_READY;
 }
 
-
-
-void func_021C6874(S *s, int unused, D *d, int mode, int flag)
+void func_021C6874(FieldG3dObjRes *res, int heapId, FieldG3dObjResDesc *desc, int mode, const u8 *palTable)
 {
-    u32 h;
-    Pal *p;
+    G3dResource *palRes;
+    ResTexPltt *tex;
     int i;
 
-    if (d->f0 != 0)
-        s->f0 = (u32)func_02046E24(d->f0, d->fC);
-    if (d->f4 != 0)
-        s->f4 = (u32)func_02046E24(d->f4, d->fE);
-    if (flag != 0) {
-        h = 0;
-        if (s->f0 != 0)
-            h = s->f0;
-        if (s->f4 != 0)
-            h = s->f4;
-        if (func_02046F50((struct Tagged *)h, 2)) {
-            p = (Pal *)func_0206E964((unsigned char *)((u32)func_02046F48((struct Tagged *)h)));
-            func_02022040((u16 *)((u8 *)p + p->f38), (u32)(p->f30 << 3) / sizeof(u16), (const u8 *)flag);
+    if (desc->modelArc != 0)
+        res->model = func_02046E24(desc->modelArc, desc->modelFile);
+    if (desc->texArc != 0)
+        res->texture = func_02046E24(desc->texArc, desc->texFile);
+    if (palTable != 0) {
+        palRes = 0;
+        if (res->model != 0)
+            palRes = res->model;
+        if (res->texture != 0)
+            palRes = res->texture;
+        if (func_02046F50(palRes, 2)) {
+            tex = func_0206E964(func_02046F48(palRes));
+            func_02022040((u16 *)((u8 *)tex + tex->ofsPlttData), (u32)(tex->sizePltt << 3) / sizeof(u16), palTable);
         }
     }
-    if (s->f0 != 0 || s->f4 != 0) {
+    if (res->model != 0 || res->texture != 0) {
         if (mode == 1)
-            func_021C6854(s);
+            func_021C6854(res);
         else
-            s->f29 = 2;
+            res->state = FIELD_G3DOBJ_RES_PENDING;
     }
-    if (d->f20 != 0) {
-        s->f28 = d->f20;
-        MIi_CpuClear32(0, s->f8, sizeof(s->f8));
-        for (i = 0; i < s->f28; i++)
-            s->f8[i] = (u32)func_02046E24(d->f8, d->f10[i]);
+    if (desc->anmCount != 0) {
+        res->animeCount = desc->anmCount;
+        MIi_CpuClear32(0, res->anime, sizeof(res->anime));
+        for (i = 0; i < res->animeCount; i++)
+            res->anime[i] = func_02046E24(desc->anmArc, desc->anmFile[i]);
     }
 }
 
-
-
-void func_021C6940(u8 *p)
+void func_021C6940(FieldG3dObjRes *res)
 {
     int i;
-    u8 f = p[0x29];
+    u8 state = res->state;
 
-    p[0x29] = 0;
-    if (f == 1) {
-        if (((struct Obj01866 *)p)->f4 != 0)
-            func_020470D0((u32 *)(((struct Obj01866 *)p)->f4));
-        else if (((struct Obj01866 *)p)->f0 != 0)
-            func_020470D0((u32 *)(((struct Obj01866 *)p)->f0));
+    res->state = FIELD_G3DOBJ_RES_FREE;
+    if (state == FIELD_G3DOBJ_RES_READY) {
+        if (res->texture != 0)
+            func_020470D0(res->texture);
+        else if (res->model != 0)
+            func_020470D0(res->model);
     }
-    if (((struct Obj01866 *)p)->f4 != 0)
-        func_02046EFC((struct Tagged *)(((struct Obj01866 *)p)->f4));
-    if (((struct Obj01866 *)p)->f0 != 0)
-        func_02046EFC((struct Tagged *)(((struct Obj01866 *)p)->f0));
-    if (p[0x28] != 0) {
-        for (i = 0; i < p[0x28]; i++)
-            func_02046EFC((struct Tagged *)(*(u32 *)(p + 8 + i * 4)));
+    if (res->texture != 0)
+        func_02046EFC(res->texture);
+    if (res->model != 0)
+        func_02046EFC(res->model);
+    if (res->animeCount != 0) {
+        for (i = 0; i < res->animeCount; i++)
+            func_02046EFC(res->anime[i]);
     }
-    func_02082C60(p, 0, 0x2c);
-    p[0x29] = 1;
+    func_02082C60(res, 0, sizeof(FieldG3dObjRes));
+    res->state = FIELD_G3DOBJ_RES_READY;
 }
-
 
 /*
- * Unused 5th parameter puts pos/flag at sp+0x1c/0x20.  func_0204767C takes
- * the count as a third argument (the last f28 load is reused in r2).  The
- * h value starts (i = 0) before the e->f4/f6 stores, so it interferes with
- * idx in r2 and lands in r5, copied to r2 at the call.
+ * The unused 5th parameter (heapId) puts pos and initDefaults at sp+0x1c and
+ * sp+0x20.  func_0204767C takes the animation count as a third argument
+ * (the last animeCount load is reused in r2).
  */
-void func_021C69B4(Elem_021C69B4 *e, S *s, u16 idx, u16 id, u32 unused, V_021C69B4 *pos, int flag)
+void func_021C69B4(FieldG3dObj *obj, FieldG3dObjRes *res, u16 resIdx, u16 modelIdx, u32 heapId, VecFx32 *pos, int initDefaults)
 {
     int i;
-    u32 m;
+    G3dRender *render;
+    G3dResource *texRes;
 
-    i = 0;
-    e->f4 = idx;
-    e->f6 = id;
-    if (s->f29 == 1) {
-        i = s->f0;
-        if (s->f4 != 0)
-            i = s->f4;
+    texRes = 0;
+    obj->resIdx = resIdx;
+    obj->modelIdx = modelIdx;
+    if (res->state == FIELD_G3DOBJ_RES_READY) {
+        texRes = res->model;
+        if (res->texture != 0)
+            texRes = res->texture;
     }
-    m = (u32)func_02047400((void *)s->f0, id, (void *)i);
-    if (s->f28 != 0) {
-        MIi_CpuClear32(0, e->f48, sizeof(e->f48));
-        for (i = 0; i < s->f28; i++)
-            e->f48[i] = (u32)func_02047564((struct G3dOwner *)m, (const struct G3dOwner *)s->f8[i], 0);
+    render = func_02047400(res->model, modelIdx, texRes);
+    if (res->animeCount != 0) {
+        MIi_CpuClear32(0, obj->anime, sizeof(obj->anime));
+        for (i = 0; i < res->animeCount; i++)
+            obj->anime[i] = func_02047564(render, res->anime[i], 0);
     }
-    e->f44 = (u32)func_0204767C(m, e->f48, s->f28);
-    if (s->f28 != 0) {
-        for (i = 0; i < s->f28; i++)
-            func_020477A4((struct G3dSys *)e->f44, (u16)i);
+    obj->object = func_0204767C(render, obj->anime, res->animeCount);
+    if (res->animeCount != 0) {
+        for (i = 0; i < res->animeCount; i++)
+            func_020477A4(obj->object, (u16)i);
     }
     if (pos != 0)
-        e->f8 = *pos;
-    if (flag != 0) {
-        e->b2 = 1;
-        e->f14 = 0x1000;
-        e->f18 = 0x1000;
-        e->f1C = 0x1000;
-        func_0207ADC4(e->f20);
+        obj->trans = *pos;
+    if (initDefaults != 0) {
+        obj->culling = 1;
+        obj->scale.x = 0x1000;
+        obj->scale.y = 0x1000;
+        obj->scale.z = 0x1000;
+        func_0207ADC4(&obj->rotate);
     }
-    e->k = 1;
+    obj->kind = FIELD_G3DOBJ_ACTIVE;
 }
 
-
-
-void func_021C6A90(u32 *p, u8 *q)
+void func_021C6A90(FieldG3dObj *obj, FieldG3dObjRes *res)
 {
-    u32 t;
+    G3dRender *render;
     int i;
 
-    if (p + 0x12) {
-        for (i = 0; i < q[0x28]; i++)
-            func_0204762C((struct Rec *)p[0x12 + i]);
+    if (obj->anime) {
+        for (i = 0; i < res->animeCount; i++)
+            func_0204762C(obj->anime[i]);
     }
-    if (p[0x11] != 0) {
-        t = func_02047788((int *)p[0x11]);
-        func_02047738((struct Rec *)p[0x11]);
-        func_02047504((struct Rec *)t);
+    if (obj->object != 0) {
+        render = func_02047788(obj->object);
+        func_02047738(obj->object);
+        func_02047504(render);
     }
-    func_02082C60(p, 0, 0x68);
+    func_02082C60(obj, 0, sizeof(FieldG3dObj));
 }
-
-
 
 /*
  * Tail call with a zero first argument and a constant size.
- *
- * Addresses are Black-image addresses.
  */
-void func_021C6AE0(u32 a)
+void func_021C6AE0(FieldG3dObjResDesc *desc)
 {
-    func_02082A7C(0, a, 0x24);
+    MIi_CpuClear32(0, desc, sizeof(FieldG3dObjResDesc));
 }
 
-
-
-int func_021C6AF0(u32 a, u32 b, u32 c)
+void func_021C6AF0(FieldG3dObjResDesc *desc, u32 arc, u32 file)
 {
-((struct Obj06084 *)((u8 *)(a)))->f0 = b;
-((struct Obj06084 *)((u8 *)(a)))->fC = c;
-return a;
+    desc->modelArc = arc;
+    desc->modelFile = file;
 }
 
-
-
-/*
- * Field setter at +0x8.
- *
- * Addresses are Black-image addresses.
- */
-void func_021C6AF8(u32 *p, u32 v)
+void func_021C6AF8(FieldG3dObjResDesc *desc, u32 arc)
 {
-    ((struct Obj18313 *)p)->f8 = v;
+    desc->anmArc = arc;
 }
 
-
-void func_021C6AFC(D *d, u16 v)
+void func_021C6AFC(FieldG3dObjResDesc *desc, u16 file)
 {
-    d->f10[d->f20] = v;
-    d->f20++;
+    desc->anmFile[desc->anmCount] = file;
+    desc->anmCount++;
 }
 
-
-
-void func_021C6B18(u32 a, u16 b, u32 c)
+void func_021C6B18(void *fieldMap, u16 frames, fx32 zoomDelta)
 {
-    u32 h = func_02188C84((u8 *)a);
-    u32 x = (u32)func_02188C58((void *)a);
-    u32 y = func_02188D30((u8 *)a);
-    u32 *e;
+    u32 heapId = func_02188C84(fieldMap);
+    void *camera = func_02188C58(fieldMap);
+    u32 priority = func_02188D30(fieldMap);
+    CameraZoomWork *w;
 
-    e = (u32 *)func_02030734((u16)((h & 0x7FFF) | 0x8000), 0x10, 0, (const char *)&d_021DE4B8, 0x5F);
-    ((struct Obj06085 *)e)->f4 = 0;
-    ((struct Obj06085 *)e)->f6 = b;
-    e[2] = func_0218ED54((u8 *)x);
-    e[3] = c + func_0218ED54((u8 *)x);
-    e[0] = a;
-    func_02030DA8(y, (void *)func_021C6B8C, e, 0);
+    w = func_02030734((u16)((heapId & 0x7FFF) | 0x8000), sizeof(CameraZoomWork), 0, d_021DE4B8, 0x5F);
+    w->frame = 0;
+    w->frameMax = frames;
+    w->startZoom = func_0218ED54(camera);
+    w->endZoom = zoomDelta + func_0218ED54(camera);
+    w->fieldMap = fieldMap;
+    func_02030DA8(priority, func_021C6B8C, w, 0);
 }
 
-
-void func_021C6B8C(void *task, P *p)
+void func_021C6B8C(void *task, CameraZoomWork *w)
 {
-    func_021C6BB4((u8 *)p);
-    p->f4++;
-    if (p->f6 < p->f4) {
-        func_020307B0(p);
+    func_021C6BB4(w);
+    w->frame++;
+    if (w->frameMax < w->frame) {
+        func_020307B0(w);
         func_02030EAC(task);
     }
 }
-
-
 
 /*
  * Lever: `t = 1.0f; t *= a / b;` keeps the fmul by 1.0f; a plain `1.0f * x`
  * or `x * 1.0f` folds away. The FX32 round (x > 0 ? x*4096+0.5 : x*4096-0.5)
  * must go through one float temp so the _ffix and the call are shared.
- *
- * Addresses are Black-image addresses.
  */
-void func_021C6BB4(u8 *p)
+void func_021C6BB4(CameraZoomWork *w)
 {
-    u32 h = (u32)func_02188C58((void *)(((struct Obj03145 *)p)->f0));
-    u32 n = ((struct Obj03145 *)p)->f6;
-    float t, a, b, v;
+    void *camera = func_02188C58(w->fieldMap);
+    u32 frameMax = w->frameMax;
+    float ratio, startZoom, endZoom, zoom;
 
-    if (((struct Obj03145 *)p)->f4 <= n) {
-        t = 1.0f;
-        t *= (float)(u32)((struct Obj03145 *)p)->f4 / (float)n;
-        t = (float)_dsqrt((double)t);
-        a = (float)((struct Obj03145 *)p)->f8 / 4096.0f;
-        b = (float)((struct Obj03145 *)p)->fC / 4096.0f;
-        v = (1.0f - t) * a + t * b;
-        if (v > 0.0f)
-            v = 4096.0f * v + 0.5f;
+    if (w->frame <= frameMax) {
+        ratio = 1.0f;
+        ratio *= (float)(u32)w->frame / (float)frameMax;
+        ratio = (float)_dsqrt((double)ratio);
+        startZoom = (float)w->startZoom / 4096.0f;
+        endZoom = (float)w->endZoom / 4096.0f;
+        zoom = (1.0f - ratio) * startZoom + ratio * endZoom;
+        if (zoom > 0.0f)
+            zoom = 4096.0f * zoom + 0.5f;
         else
-            v = 4096.0f * v - 0.5f;
-        func_0218ED58((u8 *)h, (int)v);
+            zoom = 4096.0f * zoom - 0.5f;
+        func_0218ED58(camera, (int)zoom);
     }
 }

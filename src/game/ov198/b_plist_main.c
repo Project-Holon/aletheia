@@ -17,11 +17,11 @@
  *   func_0220E7CC 0x0220E7CC thumb ov198
  *   sub_0201BD28 0x0201BD28 thumb
  *   d_02211DA0 0x02211DA0 data a4
- *   func_0204B898 0x0204B898 arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   func_0204B878 0x0204B878 arm
  *   func_0202D034 0x0202D034 thumb
- *   func_0204B8D4 0x0204B8D4 arm
+ *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   func_0220AF6C 0x0220AF6C thumb ov196
  *   func_0220AFDC 0x0220AFDC thumb ov196
  *   func_0204B454 0x0204B454 arm
@@ -35,7 +35,7 @@
  *   d_0221221C 0x0221221C data a4
  *   d_04001050 0x04001050 data a2
  *   func_0207D534 0x0207D534 arm
- *   sub_0203101C 0x0203101C arm
+ *   TCBL_Create 0x0203101C arm
  *   func_0220AF40 0x0220AF40 thumb ov196
  *   func_0220B848 0x0220B848 thumb ov198
  *   func_0220BB94 0x0220BB94 thumb ov198
@@ -44,11 +44,11 @@
  *   func_0220BC24 0x0220BC24 thumb ov198
  *   func_0220BE2C 0x0220BE2C thumb ov198
  *   func_0220E25C 0x0220E25C thumb ov198
- *   func_0202173C 0x0202173C thumb
+ *   PALANM_RequestFade 0x0202173C thumb
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_0202208C 0x0202208C thumb
  *   func_020221A4 0x020221A4 thumb
- *   func_02021ED8 0x02021ED8 thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   func_0220B760 0x0220B760 thumb ov198
  *   func_0220E13C 0x0220E13C thumb ov198
  *   func_0220E1D4 0x0220E1D4 thumb ov198
@@ -60,14 +60,14 @@
  *   func_020362DC  0x020362DC  arm
  *   func_02035C60  0x02035C60  arm
  *   func_0201F7A8 0x0201F7A8 thumb
- *   sub_0201C6B4 0x0201C6B4 thumb
- *   sub_0201C6EC 0x0201C6EC thumb
- *   func_020221B8 0x020221B8 thumb
- *   sub_0201CE48 0x0201CE48 thumb
- *   func_0202CA0C 0x0202CA0C thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   WIPE_SYS_ExeEnd 0x020221B8 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
+ *   BGWINFRM_Delete 0x0202CA0C thumb
  *   func_0220E74C 0x0220E74C thumb ov198
  *   func_0220BE04 0x0220BE04 thumb ov198
- *   sub_02031140 0x02031140 arm
+ *   TCBL_Destroy 0x02031140 arm
  *   func_0220AF64 0x0220AF64 thumb ov196
  *   sub_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
@@ -76,7 +76,7 @@
  *   func_020414EC 0x020414EC arm
  *   func_02040B94 0x02040B94 arm
  *   sub_02041B6C 0x02041B6C arm
- *   sub_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_02212144 0x02212144 data a4
  *   d_02212174 0x02212174 data a4
  *   d_022121B4 0x022121B4 data a4
@@ -85,13 +85,13 @@
  *   func_02043598 0x02043598 arm
  *   func_020403F4 0x020403F4 arm
  *   sub_020490F4 0x020490F4 arm
- *   sub_02049658 0x02049658 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   func_02049EF4 0x02049EF4 arm
  *   func_0220B120 0x0220B120 thumb ov198
  *   func_0220B3B4 0x0220B3B4 thumb ov198
- *   func_02021640 0x02021640 thumb
+ *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   func_02049238 0x02049238 arm
- *   func_02021728 0x02021728 thumb
+ *   PALANM_GetDefaultWork 0x02021728 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_0201F5BC 0x0201F5BC thumb
  *   func_020216D4 0x020216D4 thumb
@@ -106,12 +106,12 @@
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_02045808 0x02045808 arm
  *   func_02017E1C 0x02017E1C thumb
- *   func_02017F00 0x02017F00 thumb
+ *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   func_020276C4 0x020276C4 thumb
- *   func_02018544 0x02018544 thumb
+ *   POKE_TOOL_GetLevelMinExp 0x02018544 thumb
  *   func_02018584 0x02018584 thumb
- *   sub_0201C158 0x0201C158 thumb
- *   sub_0201C1F4 0x0201C1F4 thumb
+ *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
+ *   WAZA_TOOL_IsAlwaysHit 0x0201C1F4 thumb
  *   func_0201AA18 0x0201AA18 thumb
  *   func_0201AB28 0x0201AB28 thumb
  *   d_02212130 0x02212130 data a1
@@ -121,7 +121,7 @@
  *   func_0220BDD4 0x0220BDD4 thumb ov198
  *   func_0220BC70 0x0220BC70 thumb ov198
  *   func_02041570 0x02041570 arm
- *   func_02049EB4 0x02049EB4 arm
+ *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
  *   func_02041090 0x02041090 arm
  *   d_022121D4 0x022121D4 data a4
  *   func_02045EC0 0x02045EC0 arm
@@ -144,6 +144,14 @@
  *   func_02025D14  0x02025D14  thumb
  *   func_0202616C  0x0202616C  thumb
  *   func_0220B000  0x0220B000  thumb  ov196
+ *   BGWINFRM_Create  0x0202C9B4  thumb  arm9
+ *   BGWINFRM_AddFrame  0x0202CA3C  thumb  arm9
+ *   BGWINFRM_SetFrameData  0x0202CAC4  thumb  arm9
+ *   BGWINFRM_PutFrame  0x0202CB4C  thumb  arm9
+ *   BGWINFRM_StartMove  0x0202CD64  thumb  arm9
+ *   BGWINFRM_UpdateMoves  0x0202CD94  thumb  arm9
+ *   BGWINFRM_IsMoving  0x0202CE40  thumb  arm9
+ *   BGWINFRM_GetPos  0x0202CF98  thumb  arm9
  */
 #include "../../matched/include/Obj10848.h"
 #include "../../matched/include/Obj00172.h"
@@ -361,11 +369,11 @@ typedef unsigned int   u32_02211A24;
 extern void func_0220E82C(char *p, void *obj, int index, int which);
 extern void func_0220E7CC(u8 *, u32);
 extern u32 sub_0201BD28(u16, u32);
-extern u16 func_0204B898(struct Obj *p);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_0204B878(void *, int);
 extern int func_0202D034(unsigned,unsigned);
-extern void func_0204B8D4(struct Obj *p, u32 arg);
+extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void func_0220AF6C(char *,int,int,int,int);
 extern unsigned func_0220AFDC();
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
@@ -376,7 +384,7 @@ extern void func_020310C4(struct Tcbl *p);
 extern void func_0220B7AC(u8 *);
 extern void func_0220E22C(u8 *);
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern struct Tcbl *sub_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u8 *func_0220AF40(u16 v);
 extern void func_0220B848(u8 *,u32);
 extern void func_0220BB94(u8 *,u32);
@@ -385,11 +393,11 @@ extern void func_0220EA68(char *,u32);
 extern void func_0220BC24(u8 *);
 extern int func_0220BE2C(char *,int);
 extern void func_0220E25C(u8 *);
-extern int func_0202173C(void *,u16,u16,short,u8,u8,u16,void *);
+extern int PALANM_RequestFade(void *,u16,u16,short,u8,u8,u16,void *);
 extern u32 func_0201C6B4(const struct PrintSys *);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern u32 func_020221A4(void);
-extern u32 func_02021ED8(const char *);
+extern u32 PALANM_GetFadeRequestBits(const char *);
 extern void func_0220B760(u8 *,u32);
 extern void func_0220E13C(u8 *);
 extern void func_0220E1D4(u8 *);
@@ -405,14 +413,14 @@ extern void func_0201CE38(void *p);
 extern int func_02035C60(void);
 extern unsigned int func_0203630C(void);
 extern u32 func_020362DC(void);
-extern u32 sub_0201C6B4(const struct PrintSys *);
-extern void sub_0201C6EC(struct PrintSys *);
-extern void func_020221B8(void);
-extern void sub_0201CE48(struct Rec3 *);
-extern void func_0202CA0C(struct WinMgr *obj);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *);
+extern void WIPE_SYS_ExeEnd(void);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
+extern void BGWINFRM_Delete(struct WinMgr *obj);
 extern void func_0220E74C(char *);
 extern void func_0220BE04(u8 *p);
-extern void sub_02031140(struct S02031140 *);
+extern void TCBL_Destroy(struct S02031140 *);
 extern void func_0220AF64(void *);
 extern void sub_02030EAC(struct Node *);
 extern u32 func_020307B0(void *p);
@@ -421,17 +429,17 @@ extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
 extern void func_020414EC(u32);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void sub_02041B6C(u32);
-extern void sub_02043598(u32,u32);
+extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void func_02043598(u32 mask, u32 enable);
 extern void func_020403F4(u32 i);
 extern void *sub_020490F4(u32 id, u32 heap);
-extern u32 sub_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void *func_02049EF4(void *,u32,u32,void **,u16);
 extern void func_0220B120(char *,u16 *);
 extern void func_0220B3B4(char *,u16 *);
-extern void func_02021640(struct PalAnmSlot *,u32,u32,u32,u32,u32,u16);
+extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *,u32,u32,u32,u32,u32,u16);
 extern void func_02049238(void *);
-extern int func_02021728(char *,int);
+extern int PALANM_GetDefaultWork(char *,int);
 extern void func_02082D44(const void *,void *,u32);
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
 extern void func_020216D4(struct PalAnmSlot *,u32,u32,u32);
@@ -446,12 +454,12 @@ extern u32 func_0201ED04(struct WordSet *p);
 extern void func_0201C4C0(struct PrintSys *);
 extern void func_02045808(struct U16Vec *);
 extern u32 func_02017E1C(void *,u32,u32);
-extern u8 func_02017F00(void *);
+extern u8 POKE_TOOL_GetGender(void *);
 extern int func_020276C4(int a0);
-extern u32 func_02018544(void *);
+extern u32 POKE_TOOL_GetLevelMinExp(void *);
 extern u32 func_02018584(u16,u16,u16);
-extern u8 sub_0201C158(u16,u32);
-extern u32 sub_0201C1F4(u16);
+extern u8 WAZA_TOOL_GetMaxPP(u16,u32);
+extern u32 WAZA_TOOL_IsAlwaysHit(u16);
 extern unsigned func_0201AA18(void *);
 extern void *func_0201AB28(void *,unsigned);
 extern u8 func_0202D01C(u32,u32,u32);
@@ -460,7 +468,7 @@ extern void func_02041B6C(u8);
 extern void func_0220BDD4(char *);
 extern void func_0220BC70(u8 *,u32);
 extern void func_02041570(int channel, u16 val);
-extern void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
@@ -470,14 +478,14 @@ extern void func_0220C688(char *p);
 extern void func_0220E27C(u8 *p);
 extern u32_022113B8 func_0204162C(int channel);
 extern void func_02082A60(const void *, void *, unsigned);
-extern struct WinMgr *func_0202C9B4(u32_02211420 a0, u32_02211420 a1, u32_02211420 heap);
-extern void func_0202CA3C(struct WinMgr *mgr, u32_02211420 idx, u32_02211420 a, u32_02211420 b, u32_02211420 c);
-extern void func_0202CAC4(struct WinMgr *mgr, u32_02211420 idx, const void *src);
-extern void func_0202CB4C(struct WinMgr *mgr, u32_02211420 idx, s8 x, s8 y);
-extern void func_0202CD94(struct WinMgr *mgr);
-extern void func_0202CD64(struct WinMgr *mgr, u32_02211420 idx, s8 dx, s8 dy, u8 frames);
-extern void func_0202CF98(struct WinMgr *mgr, u32_02211420 idx, s8 *x, s8 *y);
-extern u32_02211420 func_0202CE40(struct WinMgr *mgr, u32_02211420 idx);
+extern struct WinMgr *BGWINFRM_Create(u32_02211420 a0, u32_02211420 a1, u32_02211420 heap);
+extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32_02211420 idx, u32_02211420 a, u32_02211420 b, u32_02211420 c);
+extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32_02211420 idx, const void *src);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32_02211420 idx, s8 x, s8 y);
+extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
+extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32_02211420 idx, s8 dx, s8 dy, u8 frames);
+extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32_02211420 idx, s8 *x, s8 *y);
+extern u32_02211420 BGWINFRM_IsMoving(struct WinMgr *mgr, u32_02211420 idx);
 extern void func_0220BBF0(u8 *);
 extern void func_0220C67C(char *p);
 extern void func_020061E4(u32_02211970);
@@ -647,9 +655,9 @@ void func_0220F060(u8 *p)
 
 void func_0220F138(void *a, int b)
 {
-    if (b != func_0204B898(a))
+    if (b != CLACT_GetActorAnimSeq(a))
     {
-        func_0204B8C4(a, 0);
+        CLACT_SetActorAnimFrame(a, 0);
         func_0204B878(a, b);
     }
 }
@@ -683,7 +691,7 @@ void func_0220F1A4(u8 *p)
         if (*(u16 *)(p+j*0x4c+8)) {
             int k=func_0220F158((char *)p+4+j*0x4c);
             func_0220F138(*(void **)(p+j*4+0x1ed8),k);
-            func_0204B8D4(*(void **)(p+j*4+0x1ed8),0x1000);
+            CLACT_AddActorAnimFrame(*(void **)(p+j*4+0x1ed8),0x1000);
         }
     }
 }
@@ -797,7 +805,7 @@ int func_0220F4E0(u8 *p)
 {
     d_04001050[0]=0;
     func_0207D534((u16 *)((u32)d_04001050+28),-16);
-    ((struct Obj00633 *)p)->f1D4=sub_0203101C(((struct Obj25226 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f10,((struct Obj25227 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f10,1,4);
+    ((struct Obj00633 *)p)->f1D4=TCBL_Create(((struct Obj25226 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f10,((struct Obj25227 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f10,1,4);
     if((*(u8 **)p)[31]==4) p[0x2180]=6;
     else if((*(u8 **)p)[31]==5) p[0x2180]=4;
     else p[0x2180]=0;
@@ -816,7 +824,7 @@ int func_0220F4E0(u8 *p)
     } else if((*(u8 **)p)[31]==5) func_02211998(p,p[0x2180],(*(u8 **)p)[75]);
     else func_02211998(p,p[0x2180],0);
     func_02210BFC(p,p[0x2180]);
-    func_0202173C(((struct Obj00633 *)p)->f1D8,10,65535,0,16,0,0,((struct Obj25231 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f28);
+    PALANM_RequestFade(((struct Obj00633 *)p)->f1D8,10,65535,0,16,0,0,((struct Obj25231 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f28);
     ((struct Obj00633 *)p)->f2540=1;
     return 1;
 }
@@ -837,7 +845,7 @@ int func_0220F698(u8 *p) { if(func_020221A4()==1) { if((*(u8 **)p)[31]==4)return
 int func_0220F6C0(u8 *p)
 {
     u8 pair[2];
-    if(func_02021ED8(*(char * *)&((struct Obj04601 *)p)->f1D8)!=0) return 3;
+    if(PALANM_GetFadeRequestBits(*(char * *)&((struct Obj04601 *)p)->f1D8)!=0) return 3;
     if(func_02211958((u8 **)p)==1) return 31;
     if(func_02210A4C(p)==1) {
         if((*(u8 **)p)[32]==6) {
@@ -1120,7 +1128,7 @@ int func_0220FDD4(u8 *p)
 {
     u32 sel;
     int row;
-    if(func_02021ED8(*(const char * *)&((struct Obj14565 *)p)->f1D8)!=0)return 30;
+    if(PALANM_GetFadeRequestBits(*(const char * *)&((struct Obj14565 *)p)->f1D8)!=0)return 30;
     if(func_02211958((u8 **)p)==1)return 31;
     sel=func_02025DE8(*(struct Sound * *)&((struct Obj14565 *)p)->f2184);
     switch(sel){
@@ -1158,7 +1166,7 @@ int func_0220FED0(u8 *p)
 {
     u32 sel;
     u8 value;
-    if(func_02021ED8(*(const char * *)&((struct Obj08361 *)p)->f1D8)!=0)return 25;
+    if(PALANM_GetFadeRequestBits(*(const char * *)&((struct Obj08361 *)p)->f1D8)!=0)return 25;
     sel=func_02025DE8(*(struct Sound * *)&((struct Obj08361 *)p)->f2184);
     switch(sel){
     case 0: case 1: case 2: case 3: case 4:
@@ -1475,7 +1483,7 @@ int func_022103B8(char *p)
 {
     if (func_02210EFC((char **)((unsigned)p))==1 && (*(u8 **)p)[0x20]!=6)
         (*(u8 **)p)[0x20]/=2u;
-    func_0202173C(((struct Obj14567 *)p)->f1D8,10,0xffff,0,0,0x10,0,((struct Obj25237 *)(*(char * *)&((struct Obj14567 *)p)->f0))->f28);
+    PALANM_RequestFade(((struct Obj14567 *)p)->f1D8,10,0xffff,0,0,0x10,0,((struct Obj25237 *)(*(char * *)&((struct Obj14567 *)p)->f0))->f28);
     return 0x20;
 }
 
@@ -1485,7 +1493,7 @@ int func_022103B8(char *p)
 
 u32 func_02210408(u8 *p)
 {
-    if (func_02021ED8((const char *)(((struct Obj25238 *)p)->f1D8)) == 0) {
+    if (PALANM_GetFadeRequestBits((const char *)(((struct Obj25238 *)p)->f1D8)) == 0) {
         return 0x21;
     }
     return 0x20;
@@ -1497,21 +1505,21 @@ u32 func_02210408(u8 *p)
 int func_02210420(struct Node *task,char *p)
 {
     if(((struct Obj01006 *)p)->f2540==1) {
-        if(sub_0201C6B4(*(struct PrintSys * *)&((struct Obj01006 *)p)->f1EAC)==0) {
-            if(((struct Obj25239 *)(*(char * *)&((struct Obj01006 *)p)->f0))->f34==1) sub_0201C6EC(*(struct PrintSys * *)&((struct Obj01006 *)p)->f1EAC);
+        if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj01006 *)p)->f1EAC)==0) {
+            if(((struct Obj25239 *)(*(char * *)&((struct Obj01006 *)p)->f0))->f34==1) PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01006 *)p)->f1EAC);
             else return 0;
         }
         if(func_020221A4()==0) {
-            if(((struct Obj25240 *)(*(char * *)&((struct Obj01006 *)p)->f0))->f34==1) func_020221B8();
+            if(((struct Obj25240 *)(*(char * *)&((struct Obj01006 *)p)->f0))->f34==1) WIPE_SYS_ExeEnd();
             else return 0;
         }
-        if(*(struct Rec3 * *)&((struct Obj01006 *)p)->f1EB0) sub_0201CE48(*(struct Rec3 * *)&((struct Obj01006 *)p)->f1EB0);
-        if(*(struct Obj * *)&((struct Obj01006 *)p)->f2194) func_0202CA0C((struct WinMgr *)(*(struct Obj * *)&((struct Obj01006 *)p)->f2194));
+        if(*(struct Rec3 * *)&((struct Obj01006 *)p)->f1EB0) PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct Obj01006 *)p)->f1EB0);
+        if(*(struct Obj * *)&((struct Obj01006 *)p)->f2194) BGWINFRM_Delete((struct WinMgr *)(*(struct Obj * *)&((struct Obj01006 *)p)->f2194));
         func_02210774((u8 *)p);
         func_0220E74C(p);
         func_0220BE04((u8 *)p);
         func_022105E4();
-        sub_02031140(*(struct S02031140 * *)&((struct Obj01006 *)p)->f1D4);
+        TCBL_Destroy(*(struct S02031140 * *)&((struct Obj01006 *)p)->f1D4);
         func_022119E8((u8 *)p);
         func_0220AF64(((struct Obj01006 *)p)->f2188);
         if(((struct Obj01006 *)p)->f218C==1) **(u8 * *)&((struct Obj25241 *)(*(char * *)&((struct Obj01006 *)p)->f0))->f44=1;
@@ -1545,7 +1553,7 @@ void func_022104EC(u8 *p)
     func_02040B94(4,32,0,((struct Obj25246 *)(*(u8 * *)&((struct Obj14568 *)p)->f0))->f10);
     sub_02041B6C(5);
     sub_02041B6C(4);
-    sub_02043598(15,1);
+    BG_SYS_SetSubPlaneVisible(15,1);
 }
 
 
@@ -1569,19 +1577,19 @@ void func_02210608(char *p)
     void *owner=sub_020490F4(100,(u16)((((struct Obj25247 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10&0x7fff)|0x8000));
     void *handle;
     char *data;
-    sub_02049658(owner,18,7,0,0,1,((struct Obj25248 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10);
+    ARC_UTIL_UploadBgCharFromHandle(owner,18,7,0,0,1,((struct Obj25248 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10);
     handle=func_02049EF4(owner,16,1,(void **)&data,((struct Obj25249 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10);
     func_0220B120(p,(u16 *)(data+12));
     func_020307B0(handle);
     handle=func_02049EF4(owner,17,1,(void **)&data,((struct Obj25250 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10);
     func_0220B3B4(p,(u16 *)(data+12));
     func_020307B0(handle);
-    func_02021640(*(struct PalAnmSlot * *)&((struct Obj02535 *)p)->f1D8,100,19,((struct Obj25251 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10,1,0x1e0,0);
+    PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02535 *)p)->f1D8,100,19,((struct Obj25251 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10,1,0x1e0,0);
     func_02049238(owner);
-    func_02082D44((void *)(func_02021728(*(char * *)&((struct Obj02535 *)p)->f1D8,1)+0x180),p+0x1e78,32);
+    func_02082D44((void *)(PALANM_GetDefaultWork(*(char * *)&((struct Obj02535 *)p)->f1D8,1)+0x180),p+0x1e78,32);
     func_0201F5BC(4,1,14,0,((struct Obj25252 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10);
     func_020216D4(*(struct PalAnmSlot * *)&((struct Obj02535 *)p)->f1D8,1,0xe0,32);
-    func_02021640(*(struct PalAnmSlot * *)&((struct Obj02535 *)p)->f1D8,23,5,((struct Obj25253 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10,1,32,0xd0);
+    PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02535 *)p)->f1D8,23,5,((struct Obj25253 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10,1,32,0xd0);
 }
 
 
@@ -1607,12 +1615,12 @@ void func_02210774(u8 *p) { func_02045C04(*(struct Rec * *)&((struct Obj06656 *)
 /*
  * lever: write upper experience to the same field in both if/else arms;
  *   one common store or a switch removes the original two-byte branch.
- * 2026-10-04: filed src/matched/arm9/func_02018544.c (EXACT, 8 bytes); needs the label registered by the integrator, then this resolves.
+ * 2026-10-04: filed src/matched/arm9/POKE_TOOL_GetLevelMinExp.c (EXACT, 8 bytes); needs the label registered by the integrator, then this resolves.
  *   022107A8..0221099C. integrator-owned ARM9 Thumb tail stub, verified EXACT
  *   (8 bytes, 1/1 relocation resolved) in B9/blocker18544.log:
  *   typedef unsigned int u32;
- *   extern u32 func_0201854C(void *);
- *   u32 func_02018544(void *p) {return func_0201854C(p);}
+ *   extern u32 POKE_TOOL_GetBoxLevelMinExp(void *);
+ *   u32 POKE_TOOL_GetLevelMinExp(void *p) {return POKE_TOOL_GetBoxLevelMinExp(p);}
  * 020276C4's matched legacy C has unused a1/a2/a3 parameters; this caller
  * and the callee body use only a0, so its declaration here has one argument.
  */
@@ -1641,14 +1649,14 @@ void func_022107A8(void *unused,void *mon,struct Summary *p)
     p->level=(u8)func_02017E1C(p->mon,0x9e,0);
     if(func_02017E1C(p->mon,0xad,0)==1) p->egg=0;
     else p->egg=1;
-    p->gender=func_02017F00(p->mon);
+    p->gender=POKE_TOOL_GetGender(p->mon);
     p->nature=(u8)func_020276C4((int)p->mon);
     p->flag=(u8)func_02017E1C(p->mon,0x4c,0);
     p->item=func_02017E1C(p->mon,10,0);
     p->unknown=func_02017E1C(p->mon,6,0);
     p->personality=func_02017E1C(p->mon,0x6f,0);
     p->exp=func_02017E1C(p->mon,8,0);
-    exp=func_02018544(p->mon);
+    exp=POKE_TOOL_GetLevelMinExp(p->mon);
     p->lower=exp;
     if(p->level==100) p->upper=p->lower;
     else p->upper=func_02018584(p->species,(u16)p->personality,(u16)(p->level+1));
@@ -1660,10 +1668,10 @@ void func_022107A8(void *unused,void *mon,struct Summary *p)
         if(moves[i].id==0) continue;
         move->pp=func_02017E1C(p->mon,i+0x3a,0);
         move->up=func_02017E1C(p->mon,i+0x3e,0);
-        move->up=sub_0201C158(move->id,move->up);
+        move->up=WAZA_TOOL_GetMaxPP(move->id,move->up);
         move->kind=sub_0201BD28(move->id,0);
         move->power=sub_0201BD28(move->id,2);
-        if(sub_0201C1F4(move->id)==1) move->type=0;
+        if(WAZA_TOOL_IsAlwaysHit(move->id)==1) move->type=0;
         else move->type=sub_0201BD28(move->id,4);
         move->accuracy=sub_0201BD28(move->id,3);
     }
@@ -1839,7 +1847,7 @@ void func_02210D4C(u8 *p,u32 n)
     u8 *out;
     void *buf;
     for(;i<2;i++) {
-        buf=func_02049EB4(100,table[i],1,(u32)(&out),((struct Obj25269 *)(*(u8 * *)&((struct Obj25267 *)p)->f0))->f10);
+        buf=ARC_UTIL_LoadPaletteDataFromArchive(100,table[i],1,(u32)(&out),((struct Obj25269 *)(*(u8 * *)&((struct Obj25267 *)p)->f0))->f10);
         func_02041090((u8)(i+6),(u32)(out+12),0,0,32,24);
         func_02041B6C(i+6);
         func_020307B0(buf);
@@ -2172,7 +2180,7 @@ int func_02211190(u8 *p)
 
 int func_022112AC(u8 *p)
 {
-    if (func_02021ED8(((struct Obj02536 *)p)->f1D8) != 0) return 8;
+    if (PALANM_GetFadeRequestBits(((struct Obj02536 *)p)->f1D8) != 0) return 8;
     if (func_02211958((u8 **)p) == 1) return 0x1f;
     if (func_02210A4C(p) == 1) {
         if ((*(u8 **)p)[0x20] == 6) {
@@ -2265,93 +2273,93 @@ int func_02211420(u8 *p)
     switch (p[0x1e98]) {
     case 0: {
         u8 *buf;
-        MGR = func_0202C9B4(2, 4, *(u16 *)(*(u8 **)p + 0x10));
-        func_0202CA3C(MGR, 0, 5, 0x10, 6);
-        func_0202CA3C(MGR, 1, 6, 0x10, 6);
-        func_0202CA3C(MGR, 2, 5, 0x10, 6);
-        func_0202CA3C(MGR, 3, 6, 0x10, 6);
+        MGR = BGWINFRM_Create(2, 4, *(u16 *)(*(u8 **)p + 0x10));
+        BGWINFRM_AddFrame(MGR, 0, 5, 0x10, 6);
+        BGWINFRM_AddFrame(MGR, 1, 6, 0x10, 6);
+        BGWINFRM_AddFrame(MGR, 2, 5, 0x10, 6);
+        BGWINFRM_AddFrame(MGR, 3, 6, 0x10, 6);
         buf = func_02030734((u16)(0x8000 | (*(u16 *)(*(u8 **)p + 0x10) & 0x7fff)), 0xc0, 0, (const char *)data_02212550, 0xb89);
         func_022113B8(buf, 5, p[0x2499]);
-        func_0202CAC4(MGR, 0, buf);
+        BGWINFRM_SetFrameData(MGR, 0, buf);
         func_022113B8(buf, 6, p[0x2499]);
-        func_0202CAC4(MGR, 1, buf);
+        BGWINFRM_SetFrameData(MGR, 1, buf);
         func_022113B8(buf, 5, p[0x249a]);
-        func_0202CAC4(MGR, 2, buf);
+        BGWINFRM_SetFrameData(MGR, 2, buf);
         func_022113B8(buf, 6, p[0x249a]);
-        func_0202CAC4(MGR, 3, buf);
+        BGWINFRM_SetFrameData(MGR, 3, buf);
         func_020307B0(buf);
         func_0221139C((u8 *)&xy[1], (u8 *)&xy[0], p[0x2499]);
-        func_0202CB4C(MGR, 0, xy[1], xy[0]);
-        func_0202CB4C(MGR, 1, xy[1], xy[0]);
+        BGWINFRM_PutFrame(MGR, 0, xy[1], xy[0]);
+        BGWINFRM_PutFrame(MGR, 1, xy[1], xy[0]);
         func_0221139C((u8 *)&xy[1], (u8 *)&xy[0], p[0x249a]);
-        func_0202CB4C(MGR, 2, xy[1], xy[0]);
-        func_0202CB4C(MGR, 3, xy[1], xy[0]);
-        func_0202CD94(MGR);
+        BGWINFRM_PutFrame(MGR, 2, xy[1], xy[0]);
+        BGWINFRM_PutFrame(MGR, 3, xy[1], xy[0]);
+        BGWINFRM_UpdateMoves(MGR);
         p[0x1e98]++;
         break;
     }
     case 1:
         if (p[0x2499] & 1) {
-            func_0202CD64(MGR, 0, 1, 0, 0x10);
-            func_0202CD64(MGR, 1, 1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 0, 1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 1, 1, 0, 0x10);
         } else {
-            func_0202CD64(MGR, 0, -1, 0, 0x10);
-            func_0202CD64(MGR, 1, -1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 0, -1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 1, -1, 0, 0x10);
         }
         if (p[0x249a] & 1) {
-            func_0202CD64(MGR, 2, 1, 0, 0x10);
-            func_0202CD64(MGR, 3, 1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 2, 1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 3, 1, 0, 0x10);
         } else {
-            func_0202CD64(MGR, 2, -1, 0, 0x10);
-            func_0202CD64(MGR, 3, -1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 2, -1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 3, -1, 0, 0x10);
         }
         p[0x1e98]++;
         break;
     case 2: {
-        func_0202CD94(MGR);
+        BGWINFRM_UpdateMoves(MGR);
         func_022113FC(p, p[0x2499], 0);
         func_022113FC(p, p[0x249a], 0);
-        func_0202CF98(MGR, 0, &pos[3], &pos[2]);
-        func_0202CF98(MGR, 2, &pos[1], &pos[0]);
-        if (func_0202CE40(MGR, 0) != 0) break;
+        BGWINFRM_GetPos(MGR, 0, &pos[3], &pos[2]);
+        BGWINFRM_GetPos(MGR, 2, &pos[1], &pos[0]);
+        if (BGWINFRM_IsMoving(MGR, 0) != 0) break;
         func_022110A4(p, p[0x2499], p[0x249a]);
-        func_0202CB4C(MGR, 0, pos[1], pos[0]);
-        func_0202CB4C(MGR, 1, pos[1], pos[0]);
-        func_0202CB4C(MGR, 2, pos[3], pos[2]);
-        func_0202CB4C(MGR, 3, pos[3], pos[2]);
+        BGWINFRM_PutFrame(MGR, 0, pos[1], pos[0]);
+        BGWINFRM_PutFrame(MGR, 1, pos[1], pos[0]);
+        BGWINFRM_PutFrame(MGR, 2, pos[3], pos[2]);
+        BGWINFRM_PutFrame(MGR, 3, pos[3], pos[2]);
         func_0220F2DC((char *)p, p[0x2499], p[0x249a]);
         p[0x1e98]++;
         break;
     }
     case 3:
-        func_0202CD94(MGR);
+        BGWINFRM_UpdateMoves(MGR);
         if (p[0x249a] & 1) {
-            func_0202CD64(MGR, 0, -1, 0, 0x10);
-            func_0202CD64(MGR, 1, -1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 0, -1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 1, -1, 0, 0x10);
         } else {
-            func_0202CD64(MGR, 0, 1, 0, 0x10);
-            func_0202CD64(MGR, 1, 1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 0, 1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 1, 1, 0, 0x10);
         }
         if (p[0x2499] & 1) {
-            func_0202CD64(MGR, 2, -1, 0, 0x10);
-            func_0202CD64(MGR, 3, -1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 2, -1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 3, -1, 0, 0x10);
         } else {
-            func_0202CD64(MGR, 2, 1, 0, 0x10);
-            func_0202CD64(MGR, 3, 1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 2, 1, 0, 0x10);
+            BGWINFRM_StartMove(MGR, 3, 1, 0, 0x10);
         }
         p[0x1e98]++;
         break;
     case 4: {
-        func_0202CD94(MGR);
+        BGWINFRM_UpdateMoves(MGR);
         func_022113FC(p, p[0x2499], 1);
         func_022113FC(p, p[0x249a], 1);
-        func_0202CF98(MGR, 0, &pos2[3], &pos2[2]);
-        func_0202CF98(MGR, 2, &pos2[1], &pos2[0]);
-        if (func_0202CE40(MGR, 0) == 0) p[0x1e98]++;
+        BGWINFRM_GetPos(MGR, 0, &pos2[3], &pos2[2]);
+        BGWINFRM_GetPos(MGR, 2, &pos2[1], &pos2[0]);
+        if (BGWINFRM_IsMoving(MGR, 0) == 0) p[0x1e98]++;
         break;
     }
     case 5:
-        func_0202CA0C(MGR);
+        BGWINFRM_Delete(MGR);
         MGR = 0;
         p[0x1e98] = 0;
         return 0;

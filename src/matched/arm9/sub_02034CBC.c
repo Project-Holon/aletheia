@@ -1,5 +1,5 @@
 /*
- * function: sub_02034CBC
+ * function: GF_OVERLAY_GetSlots
  * address:  0x02034CBC
  * packet:   pkt_02034978
  * region:   arm9
@@ -20,8 +20,8 @@
  * block of its own.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034CBC.c \
- *       --func sub_02034CBC --addr 0x02034CBC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_GetSlots.c \
+ *       --func GF_OVERLAY_GetSlots --addr 0x02034CBC --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -35,7 +35,7 @@ struct AreaTables {
 
 extern struct AreaTables *unk_021469B8;
 
-void *sub_02034CBC(int i)
+void *GF_OVERLAY_GetSlots(int i)
 {
     switch (i) {
     default:

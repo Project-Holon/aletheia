@@ -1,5 +1,5 @@
 /*
- * function: func_0204E0C4
+ * function: CLACT_FreeCellAnimTable
  * address:  0x0204E0C4
  * packet:   pkt_0204E0C4
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_0204E0C4(void *ptr)
+void CLACT_FreeCellAnimTable(void *ptr)
 {
     func_020307B0(ptr);
 }

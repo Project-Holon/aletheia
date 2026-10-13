@@ -21,7 +21,7 @@
  *   func_020862F0  0x020862F0  arm
  *   func_0207E684  0x0207E684  arm
  *   func_0207E708  0x0207E708  arm
- *   func_021D7744  0x021D7744  arm  ov016
+ *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
  *   func_021D6438  0x021D6438  arm  ov016
  *   func_021D546C  0x021D546C  arm  ov016
  */
@@ -32,7 +32,7 @@ extern void *func_021D7680(int kind, void (*func)(void *, void *), void *work, u
 extern void func_020862F0(void *start, unsigned long n);
 extern void func_0207E684(void *src, unsigned long off, unsigned long sz);
 extern void func_0207E708(void *src, unsigned long off, unsigned long sz);
-extern void func_021D7744(unsigned int idx, void *r4);
+extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
 extern void func_021D6438(void **mem);
 extern void *func_021D54C4(void *queue);
 extern void func_021D546C(void *que, void *elem);
@@ -73,7 +73,7 @@ void func_021D6EA4(void)
  */
 void func_021D6EEC(void)
 {
-	func_021D7744(1, *(void **)(g_021DE6A8 + 0x808));
+	DWCi_TSKlDeleteByIndex(1, *(void **)(g_021DE6A8 + 0x808));
 	func_021D6438((void *)0x021DE6A8);
 }
 

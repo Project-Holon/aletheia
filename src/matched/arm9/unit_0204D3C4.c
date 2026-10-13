@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_0204D3C4
+ * function: CLACT_AddAnimFrame
  * address:  0x0204D3C4
  * packet:   pkt_0204D3C4
  * region:   arm9
@@ -11,27 +11,27 @@
  * status:   EXACT
  *
  * symbols:
- *   gUnk_020A1394  0x020A1394  data
+ *   g_ClactAnimFuncTable  0x020A1394  data
  *   sub_02064364   0x02064364  arm
  *   sub_020649D4   0x020649D4  arm
- *   sub_0204D3C4   0x0204D3C4  arm
- *   sub_0204D3E0   0x0204D3E0  arm
- *   sub_0204D3F0   0x0204D3F0  arm
- *   sub_0204D400   0x0204D400  arm
+ *   CLACT_AddAnimFrame   0x0204D3C4  arm
+ *   CLACT_AddCellAnimFrame   0x0204D3E0  arm
+ *   CLACT_AddMultiCellAnimFrame   0x0204D3F0  arm
+ *   CLACT_AddVramAnimFrame   0x0204D400  arm
  *
- * One more thunk of the family documented in src/matched/func_0204D324.c,
+ * One more thunk of the family documented in src/matched/CLACT_SetAnimSeq.c,
  * plus the three handlers it dispatches to.  The pool word here is
- * 0x020A140C, which func_0204D324.c's row map does not cover: it is
+ * 0x020A140C, which CLACT_SetAnimSeq.c's row map does not cover: it is
  * 0x020A1394 + 0x78, exactly ten twelve-byte rows past the base, so the
  * handler array runs to at least eleven rows and not the eight that were
  * visible when that file was written.  The stride is the evidence: a 0x78
  * displacement is a whole number of three-pointer rows, and every other thunk
  * in the family lands on one too.
  *
- * Declaring the array as gUnk_020A1394[][3] and writing the row index in the
+ * Declaring the array as g_ClactAnimFuncTable[][3] and writing the row index in the
  * C is what makes this file EXACT rather than MATCH.  The relocation then
  * names the base with a +0x78 addend, and the base is attested `literal` by
- * the pool word at 0x0204D490 (sub_0204D478, row 0), well outside this range.
+ * the pool word at 0x0204D490 (CLACT_SetAnimIndex, row 0), well outside this range.
  * Reading 0x020A140C as a table object in its own right would leave the
  * ABS32 with no witness at all, since that word appears in exactly one pool
  * image-wide, this function's own; see
@@ -61,28 +61,28 @@ struct Obj {
 
 typedef void *(*DispatchFn)(struct Obj *o, u32 arg);
 
-extern DispatchFn const gUnk_020A1394[][3];
+extern DispatchFn const g_ClactAnimFuncTable[][3];
 
 struct CellAnim;
 extern void sub_02064364(struct CellAnim *anim, s32 frames);
 extern void sub_020649D4(char *self, int a1);
 
-void *sub_0204D3C4(struct Obj *o, u32 arg)
+void *CLACT_AddAnimFrame(struct Obj *o, u32 arg)
 {
-    return gUnk_020A1394[10][o->kind](o, arg);
+    return g_ClactAnimFuncTable[10][o->kind](o, arg);
 }
 
-void sub_0204D3E0(struct Obj *o, s32 frames)
-{
-    sub_02064364((struct CellAnim *)(&o->unk_0c), frames);
-}
-
-void sub_0204D3F0(struct Obj *o, s32 frames)
+void CLACT_AddCellAnimFrame(struct Obj *o, s32 frames)
 {
     sub_02064364((struct CellAnim *)(&o->unk_0c), frames);
 }
 
-void sub_0204D400(struct Obj *o, s32 frames)
+void CLACT_AddMultiCellAnimFrame(struct Obj *o, s32 frames)
+{
+    sub_02064364((struct CellAnim *)(&o->unk_0c), frames);
+}
+
+void CLACT_AddVramAnimFrame(struct Obj *o, s32 frames)
 {
     sub_020649D4((char *)(&o->unk_0c), frames);
 }

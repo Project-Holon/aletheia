@@ -12,7 +12,7 @@
  * sdk:      NHTTPi_SocClose (libnhttp.TWL.HYB.a(nhttp_socket_ntr))
  *
  * symbols:
- *   func_0215F644 0x0215F644 arm
+ *   SOC_Close 0x0215F644 arm
  *   func_02085A38 0x02085A38 arm
  *   func_0215EBB4 0x0215EBB4 arm
  *   func_021BA850 0x021BA850 arm ov114
@@ -23,7 +23,7 @@ typedef struct {
     void *pSslCon;
 } Req;
 
-extern int func_0215F644(int socket);
+extern int SOC_Close(int socket);
 extern void func_02085A38(unsigned long msec);
 extern void func_0215EBB4(void);
 extern void func_021BA850(int a);
@@ -33,9 +33,9 @@ int func_021B9CFC(int unused, Req *req_p, int socket)
     int error;
     int elapsed;
 
-    error = func_0215F644(socket);
+    error = SOC_Close(socket);
     if (error == 0 || error == -26) {
-        for (elapsed = 0; (error = func_0215F644(socket)) == -26 && elapsed <= 10000; elapsed += 500) {
+        for (elapsed = 0; (error = SOC_Close(socket)) == -26 && elapsed <= 10000; elapsed += 500) {
             func_02085A38(500);
             func_0215EBB4();
         }

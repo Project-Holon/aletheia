@@ -11,7 +11,7 @@
  *
  * symbols:
  *   g_02146A44     0x02146A44  data
- *   func_0203422C  0x0203422C  arm
+ *   AREAMAN_Free  0x0203422C  arm
  *
  * bg_sys.c.  Release a run of tiles from one layer's arena.  The layer index
  * selects the arena (0-3 at +0x168, 4-7 at +0x16c, anything else a no-op) and
@@ -47,7 +47,7 @@ struct Ctx {
 extern struct Ctx *g_02146A44;
 typedef signed int     s32;
 struct AreaMan;
-extern void func_0203422C(struct AreaMan *p, u32 start, s32 len);
+extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
 void func_02040DA8(u32 idx, u32 count, u32 tile)
 {
@@ -57,20 +57,20 @@ void func_02040DA8(u32 idx, u32 count, u32 tile)
     case 0: case 1: case 2: case 3:
         unit = g_02146A44->slots[idx].depth;
         if (unit == 0x20) {
-            func_0203422C(g_02146A44->arena_a,
+            AREAMAN_Free(g_02146A44->arena_a,
                           (g_02146A44->base[idx] + tile * unit) >> 5, count);
         } else {
-            func_0203422C(g_02146A44->arena_a,
+            AREAMAN_Free(g_02146A44->arena_a,
                           (g_02146A44->base[idx] + tile * unit) >> 5, count * 2);
         }
         break;
     case 4: case 5: case 6: case 7:
         unit = g_02146A44->slots[idx].depth;
         if (unit == 0x20) {
-            func_0203422C(g_02146A44->arena_b,
+            AREAMAN_Free(g_02146A44->arena_b,
                           (g_02146A44->base[idx] + tile * unit) >> 5, count);
         } else {
-            func_0203422C(g_02146A44->arena_b,
+            AREAMAN_Free(g_02146A44->arena_b,
                           (g_02146A44->base[idx] + tile * unit) >> 5, count * 2);
         }
         break;

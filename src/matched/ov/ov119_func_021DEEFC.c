@@ -12,13 +12,13 @@
  * symbols:
  *   func_021B9774  0x021B9774  thumb  ov114
  *   func_021B9838  0x021B9838  thumb  ov114
- *   func_02156ED0  0x02156ED0  thumb  ov009
+ *   DWC_RAPCOMMON_DestroySubHeap  0x02156ED0  thumb  ov009
  */
 
 typedef unsigned char  u8;
 extern void func_021B9774(u8 *p);
 extern void func_021B9838(u8 *p);
-extern void func_02156ED0(void);
+extern void DWC_RAPCOMMON_DestroySubHeap(void);
 
 void func_021DEEFC(void **p)
 {
@@ -26,6 +26,6 @@ void func_021DEEFC(void **p)
         func_021B9774(*p);
         func_021B9838(*p);
         *p = 0;
-        func_02156ED0();
+        DWC_RAPCOMMON_DestroySubHeap();
     }
 }

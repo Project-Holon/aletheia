@@ -70,7 +70,7 @@
  *   func_0217A674  0x0217A674  arm    ov015
  *   func_0217A5B4  0x0217A5B4  arm    ov015
  *   func_0217A718  0x0217A718  arm    ov015
- *   func_02084E2C  0x02084E2C  arm
+ *   OS_UnLockCard  0x02084E2C  arm
  *   func_02075EAC  0x02075EAC  arm
  *   g_0217ACA0     0x0217ACA0  data
  *   g_0217AC90     0x0217AC90  data
@@ -102,7 +102,7 @@ extern long func_02084DF4(u16 id);
 extern u8 func_0217A674(struct irc_param *p);
 extern void func_0217A5B4(void);
 extern void func_0217A718(struct irc_param *p);
-extern void func_02084E2C();
+extern void OS_UnLockCard();
 extern void func_02075EAC(u16 id);
 
 int func_0217A7AC(u8 *buf)
@@ -145,7 +145,7 @@ int func_0217A7AC(u8 *buf)
     }
     while (*(volatile u16 *)0x040001A0 & 0x80)
         ;
-    func_02084E2C(g_0217AAB4);
+    OS_UnLockCard(g_0217AAB4);
     func_02075EAC(g_0217AAB4);
     return size;
 }

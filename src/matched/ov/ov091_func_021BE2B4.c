@@ -21,7 +21,7 @@
  *   func_02017E40 0x02017E40 thumb
  *   func_02018584 0x02018584 thumb
  *   func_020185C4 0x020185C4 thumb
- *   func_0201B970 0x0201B970 thumb
+ *   POKE_TOOL_RestorePP 0x0201B970 thumb
  *   func_021BE874 0x021BE874 thumb ov091
  *   func_021BE914 0x021BE914 thumb ov091
  *   func_021BE948 0x021BE948 thumb ov091
@@ -38,7 +38,7 @@ extern u32 func_02017E1C(void *, u32, u32);
 extern void func_02017E40(void *, u32, u32);
 extern u32 func_02018584(u16, u16, u16);
 extern void func_020185C4(void *);
-extern u32 func_0201B970(void *, u32, u32);
+extern u32 POKE_TOOL_RestorePP(void *, u32, u32);
 extern int func_021BE874(void *, int, int);
 extern void func_021BE914(void *, u32, u32, u32);
 extern int func_021BE948(int, int, int, int);
@@ -98,10 +98,10 @@ int func_021BE2B4(void *mon, u16 item, u16 moveSlot, u16 arg, int heap)
         applicable = 1;
     }
     if (func_02021014(rec, 39)) {
-        if (func_0201B970(mon, moveSlot, func_02021014(rec, 59)) == 1) changed = 1;
+        if (POKE_TOOL_RestorePP(mon, moveSlot, func_02021014(rec, 59)) == 1) changed = 1;
         applicable = 1;
     } else if (func_02021014(rec, 40)) {
-        for (i = 0; i < 4; i++) if (func_0201B970(mon, i, func_02021014(rec, 59)) == 1) changed = 1;
+        for (i = 0; i < 4; i++) if (POKE_TOOL_RestorePP(mon, i, func_02021014(rec, 59)) == 1) changed = 1;
         applicable = 1;
     }
     hpStat = func_02017E1C(mon, 13, 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_02046FCC
+ * function: G3D_SYSTEM_CutTexture
  * address:  0x02046FCC
  * packet:   pkt_02046EFC
  * region:   arm9
@@ -27,7 +27,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02046FCC.c \
- *       --func func_02046FCC --addr 0x02046FCC --cc 1.1p1 --arm
+ *       --func G3D_SYSTEM_CutTexture --addr 0x02046FCC --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -48,7 +48,7 @@ struct Record {
 extern unsigned char *func_0206E964(unsigned char *p);
 extern void func_020307E0(void *p, u32 size);
 
-void func_02046FCC(struct Tagged *p)
+void G3D_SYSTEM_CutTexture(struct Tagged *p)
 {
     void          *buf = p->buf;
     struct Record *last = (struct Record *)func_0206E964(buf);

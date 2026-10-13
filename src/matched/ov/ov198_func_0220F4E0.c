@@ -12,7 +12,7 @@
  * symbols:
  *   d_04001050 0x04001050 data a2
  *   func_0207D534 0x0207D534 arm
- *   sub_0203101C 0x0203101C arm
+ *   TCBL_Create 0x0203101C arm
  *   func_0220AF40 0x0220AF40 thumb ov196
  *   func_0220AFDC 0x0220AFDC thumb ov196
  *   func_02211034 0x02211034 thumb ov198
@@ -33,7 +33,7 @@
  *   func_02210F04 0x02210F04 thumb ov198
  *   func_02211998 0x02211998 thumb ov198
  *   func_02210BFC 0x02210BFC thumb ov198
- *   func_0202173C 0x0202173C thumb
+ *   PALANM_RequestFade 0x0202173C thumb
  */
 #include "../include/Obj00633.h"
 #include "../include/Obj25226.h"
@@ -47,7 +47,7 @@ typedef unsigned int u32;
 extern volatile u16 d_04001050[];
 struct Tcbl;
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern struct Tcbl *sub_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u8 *func_0220AF40(u16 v);
 extern void func_0220AFDC(char *p, void *v);
 extern void func_02211034(u8 *);
@@ -62,12 +62,12 @@ extern void func_0220E25C(u8 *);
 extern int func_022110D4(u8 *,int);
 extern u32 func_02210F04(u32,u32);
 extern void func_02211998(u8 *,u32,u32),func_02210BFC(u8 *,int);
-extern int func_0202173C(void *,u16,u16,short,u8,u8,u16,void *);
+extern int PALANM_RequestFade(void *,u16,u16,short,u8,u8,u16,void *);
 int func_0220F4E0(u8 *p)
 {
     d_04001050[0]=0;
     func_0207D534((u16 *)((u32)d_04001050+28),-16);
-    ((struct Obj00633 *)p)->f1D4=sub_0203101C(((struct Obj25226 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f10,((struct Obj25227 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f10,1,4);
+    ((struct Obj00633 *)p)->f1D4=TCBL_Create(((struct Obj25226 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f10,((struct Obj25227 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f10,1,4);
     if((*(u8 **)p)[31]==4) p[0x2180]=6;
     else if((*(u8 **)p)[31]==5) p[0x2180]=4;
     else p[0x2180]=0;
@@ -86,7 +86,7 @@ int func_0220F4E0(u8 *p)
     } else if((*(u8 **)p)[31]==5) func_02211998(p,p[0x2180],(*(u8 **)p)[75]);
     else func_02211998(p,p[0x2180],0);
     func_02210BFC(p,p[0x2180]);
-    func_0202173C(((struct Obj00633 *)p)->f1D8,10,65535,0,16,0,0,((struct Obj25231 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f28);
+    PALANM_RequestFade(((struct Obj00633 *)p)->f1D8,10,65535,0,16,0,0,((struct Obj25231 *)(*(u8 * *)&((struct Obj00633 *)p)->f0))->f28);
     ((struct Obj00633 *)p)->f2540=1;
     return 1;
 }

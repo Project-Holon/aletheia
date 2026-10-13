@@ -1,5 +1,5 @@
 /*
- * function: func_0202DCFC
+ * function: PMS_DRAW_SetDecoPriority
  * address:  0x0202DCFC
  * packet:   pkt_0202DCD4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   sub_0204B688  0x0204B688  arm
+ *   CLACT_SetActorObjMode  0x0204B688  arm
  */
 
 typedef unsigned char u8;
@@ -31,13 +31,13 @@ struct Obj0202DCC4 {
     struct Rec0202DCC4 *unk0C;
 };
 
-extern void sub_0204B688(struct Actor *actor, u32 val);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 val);
 
-void func_0202DCFC(struct Obj0202DCC4 *p, u32 i, u32 val)
+void PMS_DRAW_SetDecoPriority(struct Obj0202DCC4 *p, u32 i, u32 val)
 {
     int k;
 
     for (k = 0; k < 2; k++) {
-        sub_0204B688(p->unk0C[i].actors[k], val);
+        CLACT_SetActorObjMode(p->unk0C[i].actors[k], val);
     }
 }

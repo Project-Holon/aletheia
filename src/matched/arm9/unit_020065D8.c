@@ -11,14 +11,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020065D8, sub_020065FC, sub_02006650, sub_02006674
+ * function: PM_VOICE_StopAll, PM_VOICE_StopFinished, PM_VOICE_IsAnyActive, PM_VOICE_AllocBuffers
  *
  * symbols:
  *   sub_02006544_State  0x02140484  data
  *   sub_02006674_File   0x020A7024  data
- *   sub_02006948        0x02006948  thumb
+ *   PM_VOICE_Stop        0x02006948  thumb
  *   func_02030734       0x02030734  arm
- *   func_02072CC4       0x02072CC4  arm
+ *   NNS_SndWaveOutIsPlaying       0x02072CC4  arm
  *
  * The four functions that walk the three element voice array.
  *
@@ -35,7 +35,7 @@
  * Reading each pool word as a separate object is the wrong conclusion and
  * costs the file its relocations.
  *
- * sub_02006674 passes 0x020A7024 to the debug allocator at 0x02030734 with
+ * PM_VOICE_AllocBuffers passes 0x020A7024 to the debug allocator at 0x02030734 with
  * the line number 0x105, and the bytes at 0x020A7024 spell "pm_voice.c", so
  * this run is that file.  The string is named by one literal pool word in
  * the image and it is this function's own, so the `literal` class discards
@@ -43,19 +43,19 @@
  * "wb_sound_data.sdat" ends with its NUL at 0x020A7022 and one byte of
  * padding puts the next string at 0x020A7024 by construction.
  *
- * sub_02006650 carries no label in the generated listing, because it saves
+ * PM_VOICE_IsAnyActive carries no label in the generated listing, because it saves
  * nothing: it is four instructions of loop, an early `return 1` and a
  * `return 0`, and `disasm.py` prints it as a run of `.word`s.  It is also
  * the reason this range and the next one can be matched at all.  The pool
  * word at 0x02006670 is one of the only two in the image that hold
- * 0x02140484, the other being 0x020065C0 inside sub_02006544, so each of
+ * 0x02140484, the other being 0x020065C0 inside PM_VOICE_Init, so each of
  * those two functions is the outside witness the other ranges need.
  *
- * The near miss immediately before this range is sub_02006544,
+ * The near miss immediately before this range is PM_VOICE_Init,
  * 0x02006544..0x020065D8, 148 bytes.  Evidence class `literal`, witness
  * census 1 image wide and 1 inside the range: the halfword pair table at
  * 0x0209D8C0 that its loop indexes is named by exactly one literal pool
- * word in the whole 3.9 MB image, 0x020065CC, which is sub_02006544's own
+ * word in the whole 3.9 MB image, 0x020065CC, which is PM_VOICE_Init's own
  * pool.  0x0209D8C0 is read only data in the image, so `label`, `veneer`
  * and `string` cannot apply and `literal` is the only class available; no
  * cut helps, because the witness is the pool word of the very function that
@@ -103,12 +103,12 @@ extern struct Sub02006544State sub_02006544_State;
 extern const char sub_02006674_File[];
 
 struct Sub02006948;
-extern void  sub_02006948(struct Sub02006948 *e);
+extern void  PM_VOICE_Stop(struct Sub02006948 *e);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct O;
-extern int func_02072CC4(struct O *o);
+extern int NNS_SndWaveOutIsPlaying(struct O *o);
 
-void sub_020065D8(void)
+void PM_VOICE_StopAll(void)
 {
     int i;
 
@@ -116,12 +116,12 @@ void sub_020065D8(void)
         struct Sub02006544Entry *e = &sub_02006544_State.entries[i];
 
         if (e->unk00 == 1) {
-            sub_02006948((struct Sub02006948 *)e);
+            PM_VOICE_Stop((struct Sub02006948 *)e);
         }
     }
 }
 
-void sub_020065FC(void)
+void PM_VOICE_StopFinished(void)
 {
     struct Sub02006544Entry *e;
     int i;
@@ -131,20 +131,20 @@ void sub_020065FC(void)
     for (i = 0; i < sub_02006544_State.count; i++) {
         e = &sub_02006544_State.entries[i];
         if (e->unk00 == 1) {
-            a = func_02072CC4((struct O *)e->unk14);
+            a = NNS_SndWaveOutIsPlaying((struct O *)e->unk14);
             if (e->unk2C == 1) {
-                b = func_02072CC4((struct O *)e->unk18);
+                b = NNS_SndWaveOutIsPlaying((struct O *)e->unk18);
             } else {
                 b = 0;
             }
             if (a == 0 && b == 0) {
-                sub_02006948((struct Sub02006948 *)e);
+                PM_VOICE_Stop((struct Sub02006948 *)e);
             }
         }
     }
 }
 
-int sub_02006650(void)
+int PM_VOICE_IsAnyActive(void)
 {
     int i;
 
@@ -156,12 +156,12 @@ int sub_02006650(void)
     return 0;
 }
 
-void sub_02006674(int n, u32 heap)
+void PM_VOICE_AllocBuffers(int n, u32 heap)
 {
     struct Sub02006544Entry *e;
     int i;
 
-    sub_020065D8();
+    PM_VOICE_StopAll();
     if (n > 2) {
         n = 2;
     }

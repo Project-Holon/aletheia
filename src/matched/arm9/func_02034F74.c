@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   gUiState  0x021469BC  data
  */
 
 typedef unsigned char u8;
@@ -16,7 +19,7 @@ struct UiCtx {
     u8 pad00[0x38];
     u8 always;
 };
-#define g_021469BC (*(struct UiCtx **)0x021469BC)
+#define gUiState (*(struct UiCtx **)0x021469BC)
 
 void func_02034F74(struct UiCtx *p, u8 flags)
 {

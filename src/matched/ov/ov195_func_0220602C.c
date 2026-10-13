@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02014D2C 0x02014D2C thumb
+ *   MCSS_Draw 0x02014D2C thumb
  *   func_02206664 0x02206664 thumb ov195
  */
 
@@ -27,13 +27,13 @@ typedef struct Owner {
 } Owner;
 
 struct McssSys;
-extern void func_02014D2C(struct McssSys *sys);
+extern void MCSS_Draw(struct McssSys *sys);
 extern void func_02206664(Owner *o);
 
 void func_0220602C(Owner *o)
 {
     if (o->f5c != 0)
-        func_02014D2C(o->mcss);
+        MCSS_Draw(o->mcss);
     else
         func_02206664(o);
 }

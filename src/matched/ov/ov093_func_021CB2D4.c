@@ -30,11 +30,11 @@
  *   func_021D5844 0x021D5844 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   func_021CB55C 0x021CB55C thumb ov093
- *   func_02018480 0x02018480 thumb arm9
+ *   POKE_TOOL_IsOwnedByPlayer 0x02018480 thumb arm9
  *   func_02017E1C 0x02017E1C thumb arm9
  *   func_02008564 0x02008564 thumb arm9
  *   func_021D7B10 0x021D7B10 thumb ov093
- *   func_02011168 0x02011168 thumb arm9
+ *   GPOWER_ApplyExpRate 0x02011168 thumb arm9
  *   func_021B9BF0 0x021B9BF0 thumb ov093
  *   func_021CB5F0 0x021CB5F0 thumb ov093
  *   _u32_div_f 0x0209C2B0 arm
@@ -67,11 +67,11 @@ extern int func_021B871C(char *p);
 extern void *func_021D5844(void *);
 extern int func_021D59B4(u8 *p, int k);
 extern u32 func_021CB55C(void *, u32, u16, u16);
-extern int func_02018480(void *p, int q);
+extern int POKE_TOOL_IsOwnedByPlayer(void *p, int q);
 extern u32 func_02017E1C(void *, u32, u32);
 extern u8 func_02008564(const struct Sub0200852CObj *obj);
 extern u32 func_021D7B10(u32, u32);
-extern u32 func_02011168(u32);
+extern u32 GPOWER_ApplyExpRate(u32);
 extern u32 func_021B9BF0(struct S2 *p, u32 i);
 extern void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2);
 void func_021CB2D4(u8 *p, u8 *a, u32 b, Rec *rec)
@@ -161,7 +161,7 @@ void func_021CB2D4(u8 *p, u8 *a, u32 b, Rec *rec)
       lvl = func_021D59B4(t, 15);
       lvl2 = func_021D59B4((void *) b, 15);
       rec[j].value = func_021CB55C(t, rec[j].value, lvl, lvl2);
-      if (func_02018480(v28, (u32)v24) == 0)
+      if (POKE_TOOL_IsOwnedByPlayer(v28, (u32)v24) == 0)
       {
         save = (void *) func_02017E1C(v28, 12, 0);
         if ((u32) save != func_02008564((const struct Sub0200852CObj *)v24))
@@ -176,7 +176,7 @@ void func_021CB2D4(u8 *p, u8 *a, u32 b, Rec *rec)
         rec[j].value = func_021D7B10(rec[j].value, 0x1800);
         rec[j].flag = 1;
       }
-      rec[j].value = func_02011168(rec[j].value);
+      rec[j].value = GPOWER_ApplyExpRate(rec[j].value);
     }
   }
   for (m = 0; m < n; m++)

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02036738
+ * function: GFL_NET_QUEUE_PutByte
  * address:  0x02036738
  * packet:   pkt_020366C0
  * region:   arm9
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj05732.h"
 
-void func_02036738(char *q, int v)
+void GFL_NET_QUEUE_PutByte(char *q, int v)
 {
     *(char *)*(char * *)&((struct Obj05732 *)q)->f0 = (char)v;
     *(char * *)&((struct Obj05732 *)q)->f0 = *(char * *)&((struct Obj05732 *)q)->f0 + 1;

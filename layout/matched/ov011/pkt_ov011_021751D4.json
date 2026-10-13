@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021751D4",
+   "name": "INTRUDE_COMM_AdjustRemotePosition",
    "address": "0x021751D4",
    "kind": "game",
    "region": "ov011",

@@ -1,5 +1,5 @@
 /*
- * function: func_02087D1C
+ * function: OSi_GetOwnerInfoExBuffer
  * address:  0x02087D1C
  * packet:   pkt_02087D1C
  * region:   arm9
@@ -18,7 +18,7 @@
 
 extern char g_020A5CE8[];
 
-char *func_02087D1C(void)
+char *OSi_GetOwnerInfoExBuffer(void)
 {
     return g_020A5CE8;
 }

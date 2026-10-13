@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203A494",
+   "name": "GFL_NET_COMMAND_Init",
    "address": "0x0203A494",
    "kind": "game",
    "region": "arm9",

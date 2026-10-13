@@ -18,7 +18,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02020268",
+    "BMP_MENULIST_SetColors",
     "func_02020298",
     "func_020202EC",
     "func_020202FC",
@@ -26,6 +26,16 @@
     "func_02020324",
     "func_02020344",
     "func_02020350"
+   ],
+   "addresses": [
+    "0x02020268",
+    "0x02020298",
+    "0x020202EC",
+    "0x020202FC",
+    "0x02020314",
+    "0x02020324",
+    "0x02020344",
+    "0x02020350"
    ]
   }
  ]

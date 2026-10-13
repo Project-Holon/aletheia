@@ -12,11 +12,11 @@
  * symbols:
  *   func_02017E88 0x02017E88 thumb
  *   func_02030734 0x02030734 arm
- *   func_020185A0 0x020185A0 thumb
- *   func_02017F08 0x02017F08 thumb
- *   func_02017EB4 0x02017EB4 thumb
- *   func_0201B268 0x0201B268 thumb
- *   func_0201B28C 0x0201B28C thumb
+ *   POKE_TOOL_GetBoxNature 0x020185A0 thumb
+ *   POKE_TOOL_GetBoxGender 0x02017F08 thumb
+ *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
+ *   POKERUS_IsBoxInfected 0x0201B268 thumb
+ *   POKERUS_IsBoxCured 0x0201B28C thumb
  *   d_021F1400 0x021F1400 data a1
  *
  * Allocates the 0x1C-byte summary of a Pokemon (species, form, PID,
@@ -46,11 +46,11 @@ extern unsigned func_02017E88(void *p, unsigned id, unsigned v);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern unsigned char func_020185A0(void *mon);
-extern unsigned char func_02017F08(void *mon);
-extern u32 func_02017EB4(void *p);
-extern u32 func_0201B268(void *mon);
-extern u32 func_0201B28C(void *mon);
+extern unsigned char POKE_TOOL_GetBoxNature(void *mon);
+extern unsigned char POKE_TOOL_GetBoxGender(void *mon);
+extern u32 POKE_TOOL_IsBoxShiny(void *p);
+extern u32 POKERUS_IsBoxInfected(void *mon);
+extern u32 POKERUS_IsBoxCured(void *mon);
 extern const char d_021F1400[];
 
 Summary *func_021DEDD8(void *mon)
@@ -67,21 +67,21 @@ Summary *func_021DEDD8(void *mon)
         s->cC = func_02017E88(mon, 0xAE, 0);
         s->cD = func_02017E88(mon, 0xAF, 0);
         s->cE = func_02017E88(mon, 0xA, 0);
-        s->cF = func_020185A0(mon);
+        s->cF = POKE_TOOL_GetBoxNature(mon);
         s->item = func_02017E88(mon, 0xB, 0);
         s->level = func_02017E88(mon, 0x9E, 0);
         s->egg = (unsigned char)func_02017E88(mon, 0x4C, 0);
         if (s->egg == 0)
-            s->gender = func_02017F08(mon);
+            s->gender = POKE_TOOL_GetBoxGender(mon);
         else
             s->gender = 0;
-        if (func_02017EB4(mon) == 1)
+        if (POKE_TOOL_IsBoxShiny(mon) == 1)
             s->shiny = 1;
         else
             s->shiny = 0;
-        if (func_0201B268(mon) == 1)
+        if (POKERUS_IsBoxInfected(mon) == 1)
             s->mark = 1;
-        else if (func_0201B28C(mon) == 1)
+        else if (POKERUS_IsBoxCured(mon) == 1)
             s->mark = 2;
         else
             s->mark = 0;

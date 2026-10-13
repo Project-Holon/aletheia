@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02021D50 0x02021D50  thumb
+ *   PALANM_TransferPalettes 0x02021D50  thumb
  *
  * Loads the word at +8 and tail-calls the function at 0x02021D51 (the thumb
  * address of the ARM9 function at 0x02021D50).
@@ -19,9 +19,9 @@
 #include "../include/Obj18185.h"
 
 struct S02021D50;
-extern void func_02021D50(struct S02021D50 *p);
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
 
 void func_021BC6BC(char *p)
 {
-    func_02021D50((struct S02021D50 *)(((struct Obj18185 *)p)->f8));
+    PALANM_TransferPalettes((struct S02021D50 *)(((struct Obj18185 *)p)->f8));
 }

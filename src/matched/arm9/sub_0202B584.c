@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202B584
+ * function: ISS_SYS_ClearFields
  * address:  0x0202B584
  * packet:   pkt_0202B4BC
  * region:   arm9
@@ -14,15 +14,15 @@
  * words, all zeroed in address order. No relocation.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202B584.c \
- *       --func sub_0202B584 --addr 0x0202B584 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SYS_ClearFields.c \
+ *       --func ISS_SYS_ClearFields --addr 0x0202B584 --cc 1.1p1 --thumb
  */
 #include "../include/Obj00563.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void sub_0202B584(void *obj)
+void ISS_SYS_ClearFields(void *obj)
 {
     ((struct Obj00563 *)obj)->f0 = 0;
     ((struct Obj00563 *)obj)->f4 = 0;

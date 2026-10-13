@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02005E9C  0x02005E9C  thumb
- *   func_02005DE4  0x02005DE4  thumb
- *   func_02005DF8  0x02005DF8  thumb
+ *   GFL_USE_PopBgm  0x02005E9C  thumb
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  *
  * Decrement the +0x11f8 guard byte (both its condition and the store use
  * that same pool word) and pulse the 0x3c delay. Non-SDK dep of
@@ -24,19 +24,19 @@
 
 typedef unsigned char u8;
 
-extern int func_02005E9C(void);
+extern int GFL_USE_PopBgm(void);
 typedef unsigned int   u32;
-extern void func_02005DE4(void *p);
-extern void func_02005DF8(u32 a);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_FadeInBgmFull(u32 a);
 
 void func_021DFD3C(void *p)
 {
     u8 *b = p;
 
     if (((struct Obj00906 *)b)->f11F8 != 0) {
-        func_02005E9C();
+        GFL_USE_PopBgm();
         ((struct Obj00906 *)b)->f11F8 -= 1;
-        func_02005DE4(0);
-        func_02005DF8(0x3c);
+        GFL_USE_SetBgmPlayerParam(0);
+        GFL_USE_FadeInBgmFull(0x3c);
     }
 }

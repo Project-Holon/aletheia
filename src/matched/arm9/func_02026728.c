@@ -1,5 +1,5 @@
 /*
- * function: func_02026728
+ * function: GAME_BEACON_Update
  * address:  0x02026728
  * packet:   pkt_020266E0
  * region:   arm9
@@ -12,9 +12,9 @@
  *   func_0203CD98  0x0203CD98  arm
  *   func_02012FCC  0x02012FCC  thumb
  *   func_0200864C  0x0200864C  thumb
- *   func_020272EC  0x020272EC  thumb
- *   func_02026824  0x02026824  thumb
- *   g_02146940     0x02146940  data
+ *   GAME_BEACON_SetPlayTime  0x020272EC  thumb
+ *   GAME_BEACON_UpdateActionTime  0x02026824  thumb
+ *   GAME_BEACON_Work     0x02146940  data
  */
 #include "../include/Obj06914.h"
 
@@ -25,22 +25,22 @@ typedef unsigned int   u32;
 
 struct Obj;
 
-extern char *g_02146940;
+extern char *GAME_BEACON_Work;
 
 extern int  func_0203CD98(void);
 extern int func_02012FCC(int p0);
 struct PlayTime;
 extern u16 func_0200864C(const struct PlayTime *p);
-extern void func_020272EC(s32 a);
-extern void func_02026824(struct Obj *o);
+extern void GAME_BEACON_SetPlayTime(s32 a);
+extern void GAME_BEACON_UpdateActionTime(struct Obj *o);
 
-void func_02026728(void)
+void GAME_BEACON_Update(void)
 {
     char *p;
     s32 v;
     s32 i;
 
-    p = g_02146940;
+    p = GAME_BEACON_Work;
     if (p == 0) {
         return;
     }
@@ -55,13 +55,13 @@ void func_02026728(void)
             case 0x1e:
             case 0x32:
             case 0x64:
-                func_020272EC(v);
+                GAME_BEACON_SetPlayTime(v);
                 break;
             }
         }
         ((struct Obj06914 *)p)->fBB0 = (u16)v;
     }
-    func_02026824((struct Obj *)(p + 4));
+    GAME_BEACON_UpdateActionTime((struct Obj *)(p + 4));
     for (i = 0; i < 0x1e; i++) {
         if (*(u8 *)(p + i * 0x60 + 0x64) != 0) {
             if (*(u16 *)(p + i * 0x60 + 0xc0) < 0xffff) {

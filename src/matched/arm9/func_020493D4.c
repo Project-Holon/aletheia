@@ -14,8 +14,8 @@
  *   func_02034734      0x02034734  arm
  *   func_02078B44      0x02078B44  arm
  *   func_02078B70      0x02078B70  arm
- *   func_020493D4_File 0x020A7EE0  data
- *   func_020493D4_Msg  0x020A7F18  data
+ *   arc_tool_file 0x020A7EE0  data
+ *   arc_tool_msg_member_bounds  0x020A7F18  data
  *
  * Return the byte length of one archive member without reading it: the
  * FAT entry's two words are fetched and subtracted, and the file cursor is
@@ -40,8 +40,8 @@ struct ArcFile {
     u16 count;
 };
 
-extern const char func_020493D4_File[];
-extern const char func_020493D4_Msg[];
+extern const char arc_tool_file[];
+extern const char arc_tool_msg_member_bounds[];
 
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
 typedef signed int     s32;
@@ -54,7 +54,7 @@ u32 func_020493D4(struct ArcFile *arc, u32 member)
     u32 range[2];
 
     if (arc->count <= member) {
-        func_02034734(func_020493D4_File, 665, func_020493D4_Msg,
+        func_02034734(arc_tool_file, 665, arc_tool_msg_member_bounds,
                       arc->count, member);
     }
 

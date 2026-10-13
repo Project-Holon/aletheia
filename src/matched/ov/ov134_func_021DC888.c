@@ -10,7 +10,7 @@
  * symbols:
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02031324 0x02031324 arm
+ *   PROCSYS_Create 0x02031324 arm
  *   func_0203A574 0x0203A574 arm
  *   func_021DCB48 0x021DCB48 thumb ov134
  *   func_021DCC48 0x021DCC48 thumb ov134
@@ -25,7 +25,7 @@ typedef struct { u32 w[11]; } Args;
 struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *, int, u32);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern void func_021DCB48(const Args *, void *, void *);
 extern void func_021DCC48(u8 *p, void *unused, u8 *out);
@@ -38,7 +38,7 @@ int func_021DC888(void *ctx, int unused, const Args *args)
     func_02082BCC(p, 0, 0x100);
     *(Args *)(p + 0xd0) = *args;
     ((struct Obj05411 *)p)->fFC = 4;
-    ((struct Obj05411 *)p)->fCC = func_02031324(((struct Obj05411 *)p)->fFC);
+    ((struct Obj05411 *)p)->fCC = PROCSYS_Create(((struct Obj05411 *)p)->fFC);
     func_0203A574(0x2f00, (u32)tbl_021DCC9C, 1, (u32)p);
     func_021DCB48(args, p, p + 4);
     func_021DCC48((u8 *)args, p, p + 0x9c);

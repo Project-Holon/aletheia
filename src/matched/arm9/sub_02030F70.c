@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_02030F70
+ * function: TCBL_FreeTask
  * address:  0x02030F70
  * packet:   pkt_02030F50
  * region:   arm9
@@ -12,11 +12,11 @@
  *
  * symbols:
  *   sub_020307B0  0x020307B0  arm
- *   sub_02030F34  0x02030F34  arm
+ *   TCBL_PushFreeTask  0x02030F34  arm
  *
  * Destroy one task-callback node: release the work block the registrar
  * allocated for it at +0x10 (if it owns one), clear the callback so a walk
- * already inside sub_020310C4 cannot call it again, unlink it from the
+ * already inside TCBL_Main cannot call it again, unlink it from the
  * manager's circular list and push it back on the free list.
  *
  * The callback is cleared before the free rather than after, which is what
@@ -32,8 +32,8 @@
  * reloads and loses eight bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030F70.c \
- *       --func sub_02030F70 --addr 0x02030F70 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCBL_FreeTask.c \
+ *       --func TCBL_FreeTask --addr 0x02030F70 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -56,9 +56,9 @@ struct TcblNode {
 extern u32 sub_020307B0(void *p);
 struct Node02030F34;
 struct S02030F34;
-extern void sub_02030F34(struct S02030F34 *p, struct Node02030F34 *node);
+extern void TCBL_PushFreeTask(struct S02030F34 *p, struct Node02030F34 *node);
 
-void sub_02030F70(struct TcblNode *n)
+void TCBL_FreeTask(struct TcblNode *n)
 {
     n->func = 0;
     if (n->work != 0) {
@@ -66,5 +66,5 @@ void sub_02030F70(struct TcblNode *n)
     }
     n->prev->next = n->next;
     n->next->prev = n->prev;
-    sub_02030F34((struct S02030F34 *)n->owner, (struct Node02030F34 *)n);
+    TCBL_PushFreeTask((struct S02030F34 *)n->owner, (struct Node02030F34 *)n);
 }

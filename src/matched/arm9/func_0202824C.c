@@ -1,5 +1,5 @@
 /*
- * function: func_0202824C
+ * function: APP_TASKMENU_WIN_IsTouch
  * address:  0x0202824C
  * packet:   pkt_0202824C
  * region:   arm9
@@ -34,7 +34,7 @@ extern u8 func_02045738(struct Descriptor *p);
 extern u8 func_02045758(struct Descriptor *p);
 extern u8 func_02045760(struct Descriptor *p);
 
-u32 func_0202824C(void **p)
+u32 APP_TASKMENU_WIN_IsTouch(void **p)
 {
     u32 x;
     u32 y;

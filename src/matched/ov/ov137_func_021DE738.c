@@ -14,6 +14,7 @@
  *   func_02184114 0x02184114 thumb ov022
  *   func_021841A4 0x021841A4 thumb ov022
  *   func_021841A0 0x021841A0 thumb ov022
+ *   BMP_MENU_DeleteYesNo  0x0201FEF4  thumb  arm9
  */
 #include "../include/Obj00170.h"
 #include "../include/Obj23737.h"
@@ -25,7 +26,7 @@ extern void *func_021DCF50(u8 *p);
 extern int func_02184114(unsigned char *p);
 extern int func_021841A4(unsigned char *p);
 extern unsigned char func_021841A0(unsigned char *p);
-extern void func_0201FEF4(u8 *o);
+extern void BMP_MENU_DeleteYesNo(u8 *o);
 int func_021DE738(Obj *obj)
 {
     u8 *p = (u8 *)obj;
@@ -41,7 +42,7 @@ int func_021DE738(Obj *obj)
         if ((unsigned)func_021841A4(func_021DCF50(p)) > 1 || func_021841A0(func_021DCF50(p)) > 1) return 1;
         *(int *)&((struct Obj00170 *)p)->f118 = 17;
         if (((struct Obj00170 *)p)->fE8) {
-            func_0201FEF4(((struct Obj00170 *)p)->fE8);
+            BMP_MENU_DeleteYesNo(((struct Obj00170 *)p)->fE8);
             ((struct Obj00170 *)p)->fE8 = 0;
         }
         return 2;

@@ -23,7 +23,7 @@
  * DISCRIMINATING PIN: dsi/1.1p1 is DIFF.
  *
  * symbols:
- *   g_02148B4C     0x02148B4C  data
+ *   g_renderState     0x02148B4C  data
  *   g_020A8370     0x020A8370  data
  *   func_0206DDA4  0x0206DDA4  arm
  *   func_0206DB80  0x0206DB80  arm
@@ -56,7 +56,7 @@ typedef struct {
     u8 pad7c[0xfc - 0x7c];
     u32 flag;
 } Glb;
-extern Glb g_02148B4C;
+extern Glb g_renderState;
 
 typedef struct {
     u32 cmd;
@@ -159,13 +159,13 @@ void func_0206C82C(RS *rs, u32 opt)
             GXFIFO = 0;
             while (func_0207DC98(&m))
                 ;
-            if (g_02148B4C.flag & 1) {
+            if (g_renderState.flag & 1) {
                 MtxFx44 tmp;
                 func_0207B5C0((const MtxFx43 *)func_0206ADBC(), &tmp);
                 func_0207BE14(&m, &tmp, &m);
-            } else if (g_02148B4C.flag & 2) {
+            } else if (g_renderState.flag & 2) {
                 MtxFx44 tmp;
-                func_0207B5C0(&g_02148B4C.cameraMtx, &tmp);
+                func_0207B5C0(&g_renderState.cameraMtx, &tmp);
                 func_0207BE14(&m, &tmp, &m);
             }
             trans->x = m._30;
@@ -185,13 +185,13 @@ void func_0206C82C(RS *rs, u32 opt)
             func_0207CCA4((VecFx32 *)&mtx->_10, (VecFx32 *)&mtx->_10);
             func_0207CAE8((VecFx32 *)&mtx->_00, (VecFx32 *)&mtx->_10, (VecFx32 *)&mtx->_20);
 
-            if (g_02148B4C.flag & 1) {
+            if (g_renderState.flag & 1) {
                 GXFIFO = 0x00171012;
                 func_02082AA8(&g_020A8370.prm[0], &GXFIFO, 8);
                 func_02082AA8(func_0206ADF4(), &GXFIFO, 0x30);
                 GXFIFO = 0x1b19;
                 func_02082AA8(&g_020A8370.mtx, &GXFIFO, 0x3c);
-            } else if (g_02148B4C.flag & 2) {
+            } else if (g_renderState.flag & 2) {
                 GXFIFO = 0x00171012;
                 func_02082AA8(&g_020A8370.prm[0], &GXFIFO, 8);
                 func_02082AA8(func_0206AAD4(), &GXFIFO, 0x30);

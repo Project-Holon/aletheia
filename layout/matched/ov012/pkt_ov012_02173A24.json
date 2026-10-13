@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02173A24",
+   "name": "UNION_COMMAND_RecvPartnerSelectB",
    "address": "0x02173A24",
    "kind": "game",
    "region": "ov012",

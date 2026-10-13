@@ -1,5 +1,5 @@
 /*
- * function: sub_0203499C
+ * function: GF_OVERLAY_Init
  * address:  0x0203499C
  * packet:   pkt_02034978
  * region:   arm9
@@ -15,8 +15,8 @@
  *   unk_021469B8    0x021469B8  data
  *   s_FileName      0x020A7970  data
  *
- * gf_overlay.c's constructor: allocate the singleton sub_02034CBC and
- * sub_02034D08 read, one 0x10-byte header followed by the three
+ * gf_overlay.c's constructor: allocate the singleton GF_OVERLAY_GetSlots and
+ * GF_OVERLAY_GetSlotCount read, one 0x10-byte header followed by the three
  * registration tables laid end to end, zero it, then record the three table
  * lengths at +0/+1/+2 and the three table bases at +4/+8/+0xc.
  *
@@ -30,8 +30,8 @@
  * The file string is "gf_overlay.c" and the debug line is 108.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203499C.c \
- *       --func sub_0203499C --addr 0x0203499C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_Init.c \
+ *       --func GF_OVERLAY_Init --addr 0x0203499C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -60,7 +60,7 @@ typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MIi_CpuClear32(u32 data, void *dest, u32 size);
 
-void sub_0203499C(u32 heap, int n0, int n1, int n2)
+void GF_OVERLAY_Init(u32 heap, int n0, int n1, int n2)
 {
     struct AreaMan *p;
     int count;

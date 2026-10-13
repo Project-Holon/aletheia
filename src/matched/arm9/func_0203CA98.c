@@ -1,5 +1,5 @@
 /*
- * function: func_0203CA98
+ * function: GFL_NET_STATE_GetError
  * address:  0x0203CA98
  * packet:   pkt_0203C494
  * region:   arm9
@@ -23,8 +23,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203CA98.c \
- *       --func func_0203CA98 --addr 0x0203CA98 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_GetError.c \
+ *       --func GFL_NET_STATE_GetError --addr 0x0203CA98 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -34,7 +34,7 @@ extern u32  unk_021469DC;
 extern const char file_020A7BA8[];
 extern const char file_020A7C70[];
 
-u32 func_0203CA98(void)
+u32 GFL_NET_STATE_GetError(void)
 {
     if (unk_021469DC == 0)
         func_02034714(file_020A7BA8, 0x8CA, file_020A7C70);

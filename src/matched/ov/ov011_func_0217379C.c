@@ -1,5 +1,5 @@
 /*
- * function: func_0217379C
+ * function: INTRUDE_COMM_RecvRecordRequest
  * address: 0x0217379C
  * packet: pkt_ov011_0217379C
  * region: ov011
@@ -13,6 +13,6 @@
  */
 
 typedef unsigned char u8;
-void func_0217379C(int a, int b, int c, u8 *p);
+void INTRUDE_COMM_RecvRecordRequest(int a, int b, int c, u8 *p);
 
-void func_0217379C(int a, int b, int c, u8 *p) { p[0x8fe] = 1; }
+void INTRUDE_COMM_RecvRecordRequest(int a, int b, int c, u8 *p) { p[0x8fe] = 1; }

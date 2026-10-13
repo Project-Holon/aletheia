@@ -1,5 +1,5 @@
 /*
- * function: sub_0202FE68
+ * function: GFL_HEAP_RegisterBlockHeapImpl
  * address:  0x0202FE68
  * packet:   pkt_0202FC48
  * region:   arm9
@@ -29,8 +29,8 @@
  * (docs/idioms/guards-separated-by-statements-share-an-exit-only-through-goto.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202FE68.c \
- *       --func sub_0202FE68 --addr 0x0202FE68 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_RegisterBlockHeapImpl.c \
+ *       --func GFL_HEAP_RegisterBlockHeapImpl --addr 0x0202FE68 --cc 1.1p1 --arm
  */
 
 #include "../include/G_EnvModule.h"
@@ -52,7 +52,7 @@ extern struct EnvModule g_EnvModule;
 
 extern int sub_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3);
 
-int sub_0202FE68(void *bound, u32 param, u32 dst)
+int GFL_HEAP_RegisterBlockHeapImpl(void *bound, u32 param, u32 dst)
 {
     u32 idx;
 

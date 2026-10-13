@@ -12,7 +12,7 @@
  *   func_0203159C 0x0203159C arm
  *   func_02082AC0 0x02082AC0 arm
  *   func_02008FEC 0x02008FEC thumb
- *   func_02031324 0x02031324 arm
+ *   PROCSYS_Create 0x02031324 arm
  */
 #include "../include/Obj06527.h"
 typedef unsigned char u8;
@@ -23,7 +23,7 @@ extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082AC0(int,void *,int);
 struct Sub02008F80Obj;
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
-extern void *func_02031324(int);
+extern void *PROCSYS_Create(int);
 int func_021C5480(void *a, int unused, void **arg)
 {
     u8 *p;
@@ -34,6 +34,6 @@ int func_021C5480(void *a, int unused, void **arg)
     ((struct Obj06527 *)p)->f0 = func_02008FEC(*arg);
     ((struct Obj06527 *)p)->f28 = 8;
     ((struct Obj06527 *)p)->f2C = 0;
-    ((struct Obj06527 *)p)->f30 = func_02031324(101);
+    ((struct Obj06527 *)p)->f30 = PROCSYS_Create(101);
     return 1;
 }

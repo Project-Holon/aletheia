@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02013930
+ * function: BTL_SETUP_ClearWithSlots
  * address:  0x02013930
  * packet:   pkt_02013528
  * region:   arm9
@@ -12,14 +12,14 @@
  *
  * symbols:
  *   func_020307B0     0x020307B0  arm
- *   func_020130DC     0x020130DC  thumb
+ *   BTL_SETUP_FreeSlots     0x020130DC  thumb
  *
  * The subsystem destructor: the +0x5C buffer is released and its pointer
  * cleared (the store inside the guard, not after it), then the teardown is
- * handed to func_020130DC with the object left in r0.
+ * handed to BTL_SETUP_FreeSlots with the object left in r0.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013930.c  *       --func func_02013930 --addr 0x02013930 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_ClearWithSlots.c  *       --func BTL_SETUP_ClearWithSlots --addr 0x02013930 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -31,13 +31,13 @@ struct Obj {
 };
 
 extern u32 func_020307B0(void *p);
-extern void func_020130DC(struct Obj *p);
+extern void BTL_SETUP_FreeSlots(struct Obj *p);
 
-void func_02013930(struct Obj *p)
+void BTL_SETUP_ClearWithSlots(struct Obj *p)
 {
     if (p->f5c != 0) {
         func_020307B0((void *)p->f5c);
         p->f5c = 0;
     }
-    func_020130DC(p);
+    BTL_SETUP_FreeSlots(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02079BF4
+ * function: FSi_NoOpCommandDefault
  * address: 0x02079BF4
  * packet: pkt_arm9_02079BF4
  * region: arm9
@@ -154,10 +154,10 @@ typedef struct FSFile {
     FSROMFATCommandInfo arg;
 } FSFile;
 
-FSResult func_02079BF4(FSFile *file);
+FSResult FSi_NoOpCommandDefault(FSFile *file);
 
 /* 0x02079BF4: default handler of the two do-nothing commands in default_table\n * (table slots at 0x020A1A24 and 0x020A1A28); it only reports success. */
-FSResult func_02079BF4(FSFile *file)
+FSResult FSi_NoOpCommandDefault(FSFile *file)
 {
     return FS_RESULT_SUCCESS;
 }

@@ -13,13 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0217CA20  0x0217CA20  arm  ov009
- *   func_0217F2BC  0x0217F2BC  arm  ov009
+ *   gsiCoreGetManager  0x0217CA20  arm  ov009
+ *   msleep  0x0217F2BC  arm  ov009
  *   func_0217F0B4  0x0217F0B4  arm  ov009
  *   func_0217F0FC  0x0217F0FC  arm  ov009
  *   func_020912A8  0x020912A8  arm
- *   func_0217F108  0x0217F108  arm  ov009
- *   func_0217F114  0x0217F114  arm  ov009
+ *   gsiEnterCriticalSection  0x0217F108  arm  ov009
+ *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
  *   func_021C1FF8  0x021C1FF8  arm  ov114
  *   func_0217F264  0x0217F264  arm  ov009
@@ -33,6 +33,7 @@
  *   func_02184234                  0x02184234  arm ov009
  *   func_0217EAB0                  0x0217EAB0  arm ov009
  *   func_020923B0                  0x020923B0  arm
+ *   gsiDeleteCriticalSection  0x0217F120  arm
  */
 typedef unsigned char u8;
 
@@ -64,14 +65,14 @@ typedef struct GSTask {
     int (*mThinkFunc)(void *);
 } GSTask;
 
-extern char *func_0217CA20(void);
-extern void func_0217F120(void *p);
-extern void func_0217F2BC(unsigned int msec);
+extern char *gsiCoreGetManager(void);
+extern void gsiDeleteCriticalSection(void *p);
+extern void msleep(unsigned int msec);
 extern unsigned int func_0217F0B4(unsigned int *value);
 extern void func_0217F0FC(void *mutex);
 extern u32 func_020912A8(u32 a0);
-extern void func_0217F108(void *mutex);
-extern void func_0217F114(void *mutex);
+extern void gsiEnterCriticalSection(void *mutex);
+extern void gsiLeaveCriticalSection(void *mutex);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void func_021C1FF8(void);
 extern unsigned int func_0217F264(void);
@@ -102,11 +103,11 @@ GSTask *func_0217CF24(void);
 
 
 /*
- * Calls func_0217F120 on the block sixteen bytes into the result.
+ * Calls gsiDeleteCriticalSection on the block sixteen bytes into the result.
  */
 void func_0217CA2C(void)
 {
-    func_0217F120(func_0217CA20() + 0x10);
+    gsiDeleteCriticalSection(gsiCoreGetManager() + 0x10);
 }
 
 
@@ -117,30 +118,30 @@ void func_0217CA2C(void)
 
 void func_0217CA40(void)
 {
-    GSCoreMgr *aCore = (void *)func_0217CA20();
+    GSCoreMgr *aCore = (void *)gsiCoreGetManager();
 
     while (aCore->mIsShuttingDown)
-        func_0217F2BC(100);
+        msleep(100);
     if (func_0217F0B4(&aCore->mRefCount) == 1) {
         if (!aCore->mIsStaticInitComplete) {
             func_0217F0FC(aCore->mQueueCrit);
             func_020912A8((u32)func_0217CA2C);
             aCore->mIsStaticInitComplete = 1;
         }
-        func_0217F108(aCore->mQueueCrit);
-        func_0217F114(aCore->mQueueCrit);
+        gsiEnterCriticalSection(aCore->mQueueCrit);
+        gsiLeaveCriticalSection(aCore->mQueueCrit);
         while (aCore->mIsShuttingDown)
-            func_0217F2BC(100);
+            msleep(100);
         aCore->mTaskArray = func_02184144(4, 10, 0);
         func_021C1FF8();
         aCore->mIsInitialized = 1;
     } else {
         while (!aCore->mIsStaticInitComplete)
-            func_0217F2BC(100);
-        func_0217F108(aCore->mQueueCrit);
-        func_0217F114(aCore->mQueueCrit);
+            msleep(100);
+        gsiEnterCriticalSection(aCore->mQueueCrit);
+        gsiLeaveCriticalSection(aCore->mQueueCrit);
         while (!aCore->mIsInitialized)
-            func_0217F2BC(100);
+            msleep(100);
     }
 }
 
@@ -173,7 +174,7 @@ void func_0217CB5C(GSTask *theTask, int theResult)
  */
 int func_0217CB88(GSTask *theTask)
 {
-    GSCoreMgr *aCore = (void *)func_0217CA20();
+    GSCoreMgr *aCore = (void *)gsiCoreGetManager();
     int aResult = 0;
     int i;
     int removeTask;
@@ -199,7 +200,7 @@ int func_0217CB88(GSTask *theTask)
         if (theTask->mCleanupFunc)
             removeTask = theTask->mCleanupFunc(theTask->mTaskData);
         if (removeTask) {
-            func_0217F108(aCore->mQueueCrit);
+            gsiEnterCriticalSection(aCore->mQueueCrit);
             len = func_02184200(aCore->mTaskArray);
             for (i = 0; i < len; i++) {
                 if (*(GSTask **)func_02184208(aCore->mTaskArray, i) == theTask) {
@@ -208,7 +209,7 @@ int func_0217CB88(GSTask *theTask)
                     break;
                 }
             }
-            func_0217F114(aCore->mQueueCrit);
+            gsiLeaveCriticalSection(aCore->mQueueCrit);
             return 4;
         }
     }
@@ -231,7 +232,7 @@ int func_0217CB88(GSTask *theTask)
  */
 void func_0217CCCC(unsigned int theMS)
 {
-    GSCoreMgr *aCore = (void *)func_0217CA20();
+    GSCoreMgr *aCore = (void *)gsiCoreGetManager();
     int i;
     unsigned int aStartTime;
     int allTasksAreDead = 1;
@@ -240,7 +241,7 @@ void func_0217CCCC(unsigned int theMS)
 
     if (aCore->mIsInitialized == 0)
         return;
-    func_0217F108(aCore->mQueueCrit);
+    gsiEnterCriticalSection(aCore->mQueueCrit);
     aStartTime = func_0217F264();
     len = func_02184200(aCore->mTaskArray);
     if (len > 0)
@@ -260,7 +261,7 @@ void func_0217CCCC(unsigned int theMS)
         }
         aCore->mIsShuttingDown = 0;
     }
-    func_0217F114(aCore->mQueueCrit);
+    gsiLeaveCriticalSection(aCore->mQueueCrit);
 }
 
 
@@ -274,22 +275,22 @@ void func_0217CCCC(unsigned int theMS)
  */
 void func_0217CD94(void)
 {
-    GSCoreMgr *aCore = (void *)func_0217CA20();
+    GSCoreMgr *aCore = (void *)gsiCoreGetManager();
     int i;
     int len;
 
     if (aCore->mIsInitialized == 0)
         return;
-    func_0217F108(aCore->mQueueCrit);
+    gsiEnterCriticalSection(aCore->mQueueCrit);
     if (func_0217F0D8(&aCore->mRefCount) != 0) {
-        func_0217F114(aCore->mQueueCrit);
+        gsiLeaveCriticalSection(aCore->mQueueCrit);
         return;
     }
     aCore->mIsShuttingDown = 1;
     len = func_02184200(aCore->mTaskArray);
     for (i = 0; i < len; i++)
         func_0217CECC(*(GSTask **)func_02184208(aCore->mTaskArray, i));
-    func_0217F114(aCore->mQueueCrit);
+    gsiLeaveCriticalSection(aCore->mQueueCrit);
 }
 
 
@@ -303,7 +304,7 @@ void func_0217CD94(void)
  */
 int func_0217CE1C(void)
 {
-    GSCoreMgr *aCore = (void *)func_0217CA20();
+    GSCoreMgr *aCore = (void *)gsiCoreGetManager();
     if (aCore->mIsShuttingDown != 0)
         return 1;
     if (aCore->mRefCount == 0)
@@ -320,7 +321,7 @@ int func_0217CE1C(void)
  */
 void func_0217CE48(GSTask *theTask, unsigned int theTimeoutMs)
 {
-    GSCoreMgr *aCore = (void *)func_0217CA20();
+    GSCoreMgr *aCore = (void *)gsiCoreGetManager();
     theTask->mIsCallbackPending = 1;
     theTask->mIsStarted = 1;
     theTask->mIsRunning = 1;
@@ -328,9 +329,9 @@ void func_0217CE48(GSTask *theTask, unsigned int theTimeoutMs)
     theTask->mStartTime = func_0217F264();
     if (theTask->mExecuteFunc != 0)
         theTask->mExecuteFunc(theTask->mTaskData);
-    func_0217F108(aCore->mQueueCrit);
+    gsiEnterCriticalSection(aCore->mQueueCrit);
     func_02184234(aCore->mTaskArray, &theTask);
-    func_0217F114(aCore->mQueueCrit);
+    gsiLeaveCriticalSection(aCore->mQueueCrit);
 }
 
 
@@ -340,14 +341,14 @@ void func_0217CE48(GSTask *theTask, unsigned int theTimeoutMs)
  */
 void func_0217CECC(GSTask *theTask)
 {
-    GSCoreMgr *aCore = (void *)func_0217CA20();
-    func_0217F108(aCore->mQueueCrit);
+    GSCoreMgr *aCore = (void *)gsiCoreGetManager();
+    gsiEnterCriticalSection(aCore->mQueueCrit);
     if (theTask->mIsRunning != 0 && theTask->mIsCanceled == 0) {
         theTask->mIsCanceled = 1;
         if (theTask->mCancelFunc != 0)
             theTask->mCancelFunc(theTask->mTaskData);
     }
-    func_0217F114(aCore->mQueueCrit);
+    gsiLeaveCriticalSection(aCore->mQueueCrit);
 }
 
 

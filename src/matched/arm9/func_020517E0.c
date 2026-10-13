@@ -1,5 +1,5 @@
 /*
- * function: func_020517E0
+ * function: BUTTON_MAN_GetScaleY
  * address:  0x020517E0
  * packet:   pkt_02051790
  * region:   arm9
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj16171.h"
 
-int func_020517E0(char *p)
+int BUTTON_MAN_GetScaleY(char *p)
 {
     return ((struct Obj16171 *)p)->f60;
 }

@@ -17,12 +17,12 @@
  *   func_02082D44  0x02082D44  arm
  *   func_020413B0  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_0202DCC4  0x0202DCC4  thumb
- *   func_0202DC9C  0x0202DC9C  thumb
+ *   PMS_DRAW_IsActive  0x0202DCC4  thumb
+ *   PMS_DRAW_Clear  0x0202DC9C  thumb
  *   func_02045770  0x02045770  arm
  *   func_02043B5C  0x02043B5C  arm
  *   func_02045334  0x02045334  arm
- *   func_0202DC60  0x0202DC60  thumb
+ *   PMS_DRAW_PrintOffset  0x0202DC60  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   func_02045374  0x02045374  arm
  *   func_02045730  0x02045730  arm
@@ -70,12 +70,12 @@ extern u32 func_0204162C(int channel);
 extern void func_02082D44(void *src, void *dst, int n);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
-extern u32 func_0202DCC4(const struct Obj0202DCC4 *p, u32 i);
-extern void func_0202DC9C(struct Obj0202DC98 *o, int i, u32 a1);
+extern u32 PMS_DRAW_IsActive(const struct Obj0202DCC4 *p, u32 i);
+extern void PMS_DRAW_Clear(struct Obj0202DC98 *o, int i, u32 a1);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
-extern void func_0202DC60(struct Obj *p, u32 a, void *w, u32 i, u32 e);
+extern void PMS_DRAW_PrintOffset(struct Obj *p, u32 a, void *w, u32 i, u32 e);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
@@ -108,14 +108,14 @@ void func_021F07AC(struct Obj *p, const u8 *e, u8 k)
     func_02041B6C(6);
     t = d_021F1040;
     if (p->b[k] == 0) {
-        if (func_0202DCC4((const struct Obj0202DCC4 *)p->w7c, k) == 1)
-            func_0202DC9C((struct Obj0202DC98 *)p->w7c, k, 1);
+        if (PMS_DRAW_IsActive((const struct Obj0202DCC4 *)p->w7c, k) == 1)
+            PMS_DRAW_Clear((struct Obj0202DC98 *)p->w7c, k, 1);
     } else if (p->b[k] == 1) {
         func_02043B5C(func_02045770((struct Descriptor *)p->a[k]), 0);
         func_02045334((struct Descriptor *)p->a[k]);
     }
     if (e[0x21] == 0) {
-        func_0202DC60((struct Obj *)p->w7c, p->a[k], (void *)(e + 0x10), k, (u32)(&t));
+        PMS_DRAW_PrintOffset((struct Obj *)p->w7c, p->a[k], (void *)(e + 0x10), k, (u32)(&t));
         p->b[k] = 0;
     } else {
         switch (e[0x21]) {

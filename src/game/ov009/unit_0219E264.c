@@ -1,7 +1,7 @@
 /*
  * file:     unit_0219E264.c
  * unit:     yes
- * function: func_0219E264, func_0219E26C
+ * function: SBServerSetNext, SBServerGetNext
  * address:  0x0219E264
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -14,13 +14,13 @@
  */
 #include "unit_0219E1EC_types.h"
 
-void func_0219E264(SBServer *server, SBServer *next);
-SBServer *func_0219E26C(const SBServer *server);
+void SBServerSetNext(SBServer *server, SBServer *next);
+SBServer *SBServerGetNext(const SBServer *server);
 
 /*
  * Sets the next server in a list.
  */
-void func_0219E264(SBServer *server, SBServer *next)
+void SBServerSetNext(SBServer *server, SBServer *next)
 {
     server->next = next;
 }
@@ -28,7 +28,7 @@ void func_0219E264(SBServer *server, SBServer *next)
 /*
  * Next server in a list.
  */
-SBServer *func_0219E26C(const SBServer *server)
+SBServer *SBServerGetNext(const SBServer *server)
 {
     return server->next;
 }

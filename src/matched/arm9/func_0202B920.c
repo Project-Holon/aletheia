@@ -13,14 +13,14 @@
  * func_021C4D14 (wave A1, lane 13).
  *
  * symbols:
- *   func_0202BA60  0x0202BA60  thumb
+ *   ISS_3DS_SYS_StartSourceImpl  0x0202BA60  thumb
  */
 
 /* All four argument registers are live, so r3 cannot carry a pool tail
  * call: push {r3, lr}; bl; pop {r3, pc}. */
-extern void func_0202BA60(void *m, int i, int a, int b);
+extern void ISS_3DS_SYS_StartSourceImpl(void *m, int i, int a, int b);
 
 void func_0202B920(void *m, int i, int a, int b)
 {
-    func_0202BA60(m, i, a, b);
+    ISS_3DS_SYS_StartSourceImpl(m, i, a, b);
 }

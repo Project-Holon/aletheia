@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B908 0x0204B908 arm
+ *   CLACT_SetActorAnimIndex 0x0204B908 arm
  *   data_021C86EC 0x021C86EC data ov208 a1
  */
 typedef unsigned char u8;
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct Obj;
 struct Indices { u8 v[4]; };
 extern const struct Indices data_021C86EC;
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 void func_021C2DE0(void *unused,u8 *p,void *unused2,int first,u16 second)
 {
     struct Indices ids;
@@ -31,5 +31,5 @@ void func_021C2DE0(void *unused,u8 *p,void *unused2,int first,u16 second)
     if(digits[2]>9)digits[2]=9;
     digits[3]=second%10;
     for(i=0;i<4;i++)
-        func_0204B908((int)(*(struct Obj **)(p+ids.v[i]*4+0x9c)),digits[i]);
+        CLACT_SetActorAnimIndex((int)(*(struct Obj **)(p+ids.v[i]*4+0x9c)),digits[i]);
 }

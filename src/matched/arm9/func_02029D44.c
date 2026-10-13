@@ -9,21 +9,26 @@
  * isa:      thumb
  * status:   EXACT
 
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
+ *   FIELD_SOUND_SYSTEM_GetZoneBgm  0x02029E64  thumb
+ *   FIELD_SOUND_SYSTEM_FindZoneBgmOverride  0x02029E74  thumb
  */
 
 typedef signed char    s8;
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_020289F8(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void FIELD_SOUND_SYSTEM_PostRequest(u32 a, u32 b, u32 c, u32 d, u32 e);
 
 void func_02029D44(u32 a, u32 b, u16 c, u8 d)
 {
-    u32 r = func_02029E74(b, c);
+    u32 r = FIELD_SOUND_SYSTEM_FindZoneBgmOverride(b, c);
 
     if (r == ~0u) {
-        r = func_02029E64(b, c, d);
+        r = FIELD_SOUND_SYSTEM_GetZoneBgm(b, c, d);
     }
 
-    func_020289F8(a, 6, r, 0x3C, 0);
+    FIELD_SOUND_SYSTEM_PostRequest(a, 6, r, 0x3C, 0);
 }

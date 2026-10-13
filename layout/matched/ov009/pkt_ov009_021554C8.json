@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021554C8",
+   "name": "DWC_RAP_StepLogin",
    "address": "0x021554C8",
    "kind": "game",
    "region": "ov009",

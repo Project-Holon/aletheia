@@ -1,5 +1,5 @@
 /*
- * function: func_02023B74
+ * function: WIPE_SUB_SetWindowInside
  * address:  0x02023B74
  * packet:   pkt_02023B74
  * region:   arm9
@@ -16,14 +16,14 @@
  * Both registers are read-modify-written as volatile halfwords.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02023B74.c \
- *       --func func_02023B74 --addr 0x02023B74 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_SetWindowInside.c \
+ *       --func WIPE_SUB_SetWindowInside --addr 0x02023B74 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02023B74(u32 a0, u32 a1, u32 a2, u32 a3)
+void WIPE_SUB_SetWindowInside(u32 a0, u32 a1, u32 a2, u32 a3)
 {
     if (a2 == 0) {
         if (a3 == 0) {

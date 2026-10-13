@@ -10,7 +10,7 @@
  * symbols:
  *   func_020399A8 0x020399A8 arm
  *   func_02039CB4 0x02039CB4 arm
- *   func_0201BA34 0x0201BA34 thumb
+ *   POKE_TOOL_HealParty 0x0201BA34 thumb
  *   func_021B9AB4 0x021B9AB4 thumb ov100
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B9A54 0x021B9A54 thumb ov100
@@ -23,7 +23,7 @@ struct Link;
 extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_0201BA34(void *party);
+extern void POKE_TOOL_HealParty(void *party);
 extern int func_021B9AB4(unsigned a);
 extern void func_021B95B8(u8 *p, u32 v);
 extern void func_021B9A54(int a);
@@ -34,8 +34,8 @@ void func_021B9AD8(int a)
   switch(((struct Obj22075 *)a)->f24C) {
   case 7: func_021B95B8((u8 *)a,(u32)func_021B9A54); return;
   case 1: case 2: case 3: case 4:
-   func_0201BA34((void *)((*(int **)(a+0x244))[2]));
-   func_0201BA34((void *)((*(int **)(a+0x244))[3]));
+   POKE_TOOL_HealParty((void *)((*(int **)(a+0x244))[2]));
+   POKE_TOOL_HealParty((void *)((*(int **)(a+0x244))[3]));
    switch(func_021B9AB4(a)) {
     case 0: break;
     case 1: (*(int **)(a+0x244))[7]=1; break;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202B59C",
+   "name": "ISS_SYS_Setup",
    "address": "0x0202B59C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B5D4",
+   "name": "ISS_SYS_DeleteSubsystems",
    "address": "0x0202B5D4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B5FC",
+   "name": "ISS_SYS_CreateRoad",
    "address": "0x0202B5FC",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B610",
+   "name": "ISS_SYS_CreateCity",
    "address": "0x0202B610",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B624",
+   "name": "ISS_SYS_CreateDungeon",
    "address": "0x0202B624",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B63C",
+   "name": "ISS_SYS_CreateZone",
    "address": "0x0202B63C",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B65C",
+   "name": "ISS_SYS_Create3ds",
    "address": "0x0202B65C",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B66C",
+   "name": "ISS_SYS_DeleteRoad",
    "address": "0x0202B66C",
    "kind": "game",
    "region": "arm9",

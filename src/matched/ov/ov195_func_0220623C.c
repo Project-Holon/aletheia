@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02015EA0 0x02015EA0 thumb
- *   func_02015BA4 0x02015BA4 thumb
+ *   MCSS_SetVanishFlag 0x02015EA0 thumb
+ *   MCSS_Del 0x02015BA4 thumb
  */
 
 typedef unsigned char u8;
@@ -24,8 +24,8 @@ typedef struct Owner {
     void *obj[2];
 } Owner;
 
-extern void func_02015EA0(void *obj);
-extern void func_02015BA4(void *sys, void *obj);
+extern void MCSS_SetVanishFlag(void *obj);
+extern void MCSS_Del(void *sys, void *obj);
 
 void func_0220623C(Owner *o)
 {
@@ -33,8 +33,8 @@ void func_0220623C(Owner *o)
 
     for (i = 0; i < 2; i++) {
         if (o->obj[i] != 0) {
-            func_02015EA0(o->obj[i]);
-            func_02015BA4(o->sys, o->obj[i]);
+            MCSS_SetVanishFlag(o->obj[i]);
+            MCSS_Del(o->sys, o->obj[i]);
         }
     }
 }

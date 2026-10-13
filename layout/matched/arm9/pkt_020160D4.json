@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020160D4",
+   "name": "MCSS_CreatePaletteTransTask",
    "address": "0x020160D4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201624C",
+   "name": "MCSS_CreatePaletteCopyTask",
    "address": "0x0201624C",
    "kind": "game",
    "region": "arm9",

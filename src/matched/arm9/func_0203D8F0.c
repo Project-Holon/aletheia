@@ -1,5 +1,5 @@
 /*
- * function: func_0203D8F0
+ * function: GFL_NET_IRC_WIRELESS_Create
  * address:  0x0203D8F0
  * packet:   pkt_0203D8F0
  * region:   arm9
@@ -13,7 +13,7 @@
  * 0x10C-byte record low on the header's own heap (id | 0x8000, __FILE__
  * 0x020A7D34, line 0x72), copies the header in, saves the header's three
  * callbacks (+0x2C, +0x18, +0x1C) at +0x80/+0x78/+0x7C, installs the
- * wireless callbacks func_0203DC4C, func_0203E420, func_0203E458 in their
+ * wireless callbacks GFL_NET_IRC_WIRELESS_OnConnectEnd, GFL_NET_IRC_WIRELESS_GetBeaconData, GFL_NET_IRC_WIRELESS_GetBeaconCompare in their
  * place, publishes the record at 0x021469F0 and returns it.  With a live
  * record whose +0x101 is 1 it returns the header untouched.
  *
@@ -23,13 +23,13 @@
  * keeps the header loads behind them and schedules the allocator's stack
  * argument differently; with const both regions reproduce.
  * symbols:
- *   g_021469F0     0x021469F0  data
+ *   gNetIrcWirelessLink     0x021469F0  data
  *   d_020A7D34     0x020A7D34  data
  *   func_02030734  0x02030734  arm
  *   func_02034F84  0x02034F84  arm
- *   func_0203DC4C  0x0203DC4C  arm
- *   func_0203E420  0x0203E420  arm
- *   func_0203E458  0x0203E458  arm
+ *   GFL_NET_IRC_WIRELESS_OnConnectEnd  0x0203DC4C  arm
+ *   GFL_NET_IRC_WIRELESS_GetBeaconData  0x0203E420  arm
+ *   GFL_NET_IRC_WIRELESS_GetBeaconCompare  0x0203E458  arm
  */
 
 
@@ -69,19 +69,19 @@ typedef struct Wrap {
     u8    pad_108[0x10C - 0x108];
 } Wrap;
 
-extern Wrap *g_021469F0;
+extern Wrap *gNetIrcWirelessLink;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02034F84(u32 v);
-extern void func_0203DC4C(void);
-extern void *func_0203E420(void *arg);
-extern void *func_0203E458(void *arg);
+extern void GFL_NET_IRC_WIRELESS_OnConnectEnd(void);
+extern void *GFL_NET_IRC_WIRELESS_GetBeaconData(void *arg);
+extern void *GFL_NET_IRC_WIRELESS_GetBeaconCompare(void *arg);
 extern u8 d_020A7D34[];
 
-Base *func_0203D8F0(const Base *src, u32 a1)
+Base *GFL_NET_IRC_WIRELESS_Create(const Base *src, u32 a1)
 {
     Wrap *obj;
 
-    if (g_021469F0 != 0 && g_021469F0->f101 == 1)
+    if (gNetIrcWirelessLink != 0 && gNetIrcWirelessLink->f101 == 1)
         return (Base *)src;
 
     obj = func_02030734((u16)((src->heap & 0x7FFF) | 0x8000), sizeof(Wrap), 1, (const char *)d_020A7D34, 0x72);
@@ -91,14 +91,14 @@ Base *func_0203D8F0(const Base *src, u32 a1)
     obj->fn_18 = src->fn_18;
     obj->fn_1c = src->fn_1c;
     obj->base.f65 = 3;
-    obj->base.fn_2c = func_0203DC4C;
-    obj->base.fn_18 = func_0203E420;
-    obj->base.fn_1c = func_0203E458;
+    obj->base.fn_2c = GFL_NET_IRC_WIRELESS_OnConnectEnd;
+    obj->base.fn_18 = GFL_NET_IRC_WIRELESS_GetBeaconData;
+    obj->base.fn_1c = GFL_NET_IRC_WIRELESS_GetBeaconCompare;
     obj->f104 = obj->base.f64;
     obj->base.f64 = 0;
     obj->f107 = obj->base.f60;
 
-    g_021469F0 = obj;
+    gNetIrcWirelessLink = obj;
     func_02034F84(0x20);
-    return &g_021469F0->base;
+    return &gNetIrcWirelessLink->base;
 }

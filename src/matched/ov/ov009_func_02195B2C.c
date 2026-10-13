@@ -1,5 +1,5 @@
 /*
- * function: func_02195B2C
+ * function: gt2Accept
  * address:  0x02195B2C
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern int func_0219569C(void *connection, void *callbacks);
 
-int func_02195B2C(void *connection, void *callbacks)
+int gt2Accept(void *connection, void *callbacks)
 {
     return func_0219569C(connection, callbacks);
 }

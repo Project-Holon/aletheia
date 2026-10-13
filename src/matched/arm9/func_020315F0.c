@@ -1,5 +1,5 @@
 /*
- * function: func_020315F0
+ * function: PROCSYS_StepProc
  * address:  0x020315F0
  * packet:   pkt_020315F0
  * region:   arm9
@@ -43,7 +43,7 @@ typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 
-u32 func_020315F0(Proc *p)
+u32 PROCSYS_StepProc(Proc *p)
 {
     switch (p->seq) {
     case 0:

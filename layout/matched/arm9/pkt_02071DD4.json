@@ -18,11 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02071DD4"
+    "NNSi_G3dTexMtxRot"
+   ],
+   "addresses": [
+    "0x02071DD4"
    ]
   },
   {
-   "name": "func_02071EAC",
+   "name": "NNSi_G3dTexMtxScale",
    "address": "0x02071EAC",
    "kind": "game",
    "region": "arm9",

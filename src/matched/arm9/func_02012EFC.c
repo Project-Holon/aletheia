@@ -1,5 +1,5 @@
 /*
- * function: func_02012EFC
+ * function: GAME_DATA_GetSaveBlock3B
  * address:  0x02012EFC
  * packet:   pkt_02012EFC
  * region:   arm9
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled Thumb tail-call thunk: sub_020071CC(*p, 0x3b).
+ * Unlabelled Thumb tail-call thunk: SAVE_CONTROL_GetBlock(*p, 0x3b).
  *
  * symbols:
- *   sub_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
 
 typedef unsigned int   u32;
 struct Sub020071CCCtrl;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 
-void *func_02012EFC(void **p)
+void *GAME_DATA_GetSaveBlock3B(void **p)
 {
-    return sub_020071CC(*p, 0x3b);
+    return SAVE_CONTROL_GetBlock(*p, 0x3b);
 }

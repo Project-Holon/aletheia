@@ -1,5 +1,5 @@
 /*
- * function: func_0219DC24
+ * function: ParseSingleICMPReply
  * address:  0x0219DC24
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Constant 1, so that the caller can be compiled as a tail call.
  */
 
-int func_0219DC24(void)
+int ParseSingleICMPReply(void)
 {
     return 1;
 }

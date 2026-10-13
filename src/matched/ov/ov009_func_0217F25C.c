@@ -1,5 +1,5 @@
 /*
- * function: func_0217F25C
+ * function: SocketStartUp
  * address:  0x0217F25C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,6 +12,6 @@
  * Empty stub; nothing but a return.
  */
 
-void func_0217F25C(void)
+void SocketStartUp(void)
 {
 }

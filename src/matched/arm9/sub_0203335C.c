@@ -1,5 +1,5 @@
 /*
- * function: sub_0203335C
+ * function: BACKUP_SYSTEM_SwapBlockAreas
  * address:  0x0203335C
  * packet:   pkt_0203335C
  * region:   arm9
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02033BF0  0x02033BF0  arm
+ *   SAVEDATA_GetTableMax  0x02033BF0  arm
  *
  * backup_system.c.  Swaps the two record marks across the whole packed
  * 2-bit-per-slot bitmap at +0x138: every slot holding 1 becomes 2 and every
  * slot holding 2 becomes 1 (0 and 3 are left alone).  The slot count is
- * sub_02033BF0(p->unk2c) + 2, the same count func_02033410 fills; the one-slot
- * getter and setter are src/matched/unit_020332FC.c and sub_0203331C.c.
- * Called by func_02032CD0 when a save generation completes.
+ * SAVEDATA_GetTableMax(p->unk2c) + 2, the same count BACKUP_SYSTEM_FillBlockAreas fills; the one-slot
+ * getter and setter are src/matched/unit_020332FC.c and BACKUP_SYSTEM_SetBlockArea.c.
+ * Called by BACKUP_SYSTEM_SaveSeqMain when a save generation completes.
  *
- * Three spellings carry it (docs/notes/sub_0203335C.c.txt has four lanes of
+ * Three spellings carry it (docs/notes/BACKUP_SYSTEM_SwapBlockAreas.c.txt has four lanes of
  * measurements at 21 bytes out before these were found):
  *
  * 1. The clear mask is the 64-bit complement written on a widened value,
@@ -33,12 +33,12 @@
  *    slots pointer and the slot value rotate (r2/r6/r5 -> r6/r5/r2, 28
  *    bytes).  Found by tools/permuter.py anneal, then isolated by a sweep.
  * 3. The bound is a copy `n_ = n` tested by the loop, the guard tests `n`
- *    (the lever that closed func_02033410); all loop values are u32 so the
+ *    (the lever that closed BACKUP_SYSTEM_FillBlockAreas); all loop values are u32 so the
  *    wrap uses subhs/addhs.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203335C.c \
- *       --func sub_0203335C --addr 0x0203335C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_SwapBlockAreas.c \
+ *       --func BACKUP_SYSTEM_SwapBlockAreas --addr 0x0203335C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -51,9 +51,9 @@ struct Obj0203335C {
 };
 
 struct Obj02033BF0;
-extern u32 sub_02033BF0(struct Obj02033BF0 *p);
+extern u32 SAVEDATA_GetTableMax(struct Obj02033BF0 *p);
 
-void sub_0203335C(struct Obj0203335C *p)
+void BACKUP_SYSTEM_SwapBlockAreas(struct Obj0203335C *p)
 {
     u32 n;
     u32 w;
@@ -62,7 +62,7 @@ void sub_0203335C(struct Obj0203335C *p)
     u32 i;
     u32 v;
 
-    n = sub_02033BF0(p->unk2c) + 2;
+    n = SAVEDATA_GetTableMax(p->unk2c) + 2;
     w = 0;
     sh = 0;
     i = 0;

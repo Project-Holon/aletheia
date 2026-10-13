@@ -1,5 +1,5 @@
 /*
- * function: func_02021ED8
+ * function: PALANM_GetFadeRequestBits
  * address:  0x02021ED8
  * packet:   pkt_02021EE4
  * region:   arm9
@@ -14,7 +14,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_02021ED8(const char *ptr)
+u32 PALANM_GetFadeRequestBits(const char *ptr)
 {
     u16 v = ((struct Obj15732 *)ptr)->f118;
     return (u32)(v << 16) >> 18;

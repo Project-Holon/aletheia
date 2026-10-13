@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_02046180
+ * function: MSGDATA_RefreshLanguage
  * address:  0x02046180
  * packet:   pkt_02045C44
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020461B8  0x020461B8  arm
+ *   MSGDATA_GetLanguageIndex  0x020461B8  arm
  *   sub_02046110  0x02046110  arm
  *
  * Re-read the clamped index for the header at +0 and, if it moved, record
@@ -26,8 +26,8 @@
  * does.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02046180.c \
- *       --func sub_02046180 --addr 0x02046180 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_RefreshLanguage.c \
+ *       --func MSGDATA_RefreshLanguage --addr 0x02046180 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -44,13 +44,13 @@ struct Obj {
     u8             enabled;
 };
 
-extern s32  sub_020461B8(struct Header *h);
+extern s32  MSGDATA_GetLanguageIndex(struct Header *h);
 struct MsgData;
 extern void sub_02046110(struct MsgData *msg);
 
-void sub_02046180(struct Obj *o)
+void MSGDATA_RefreshLanguage(struct Obj *o)
 {
-    s32 index = sub_020461B8(o->header);
+    s32 index = MSGDATA_GetLanguageIndex(o->header);
 
     if (o->index == index) {
         return;

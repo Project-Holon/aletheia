@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
- *   func_02165A4C  0x02165A4C  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
+ *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   func_021659B4  0x021659B4  arm  ov009
  *   func_020862B8  0x020862B8  arm  twl
  *   func_02166804  0x02166804  arm  ov009
@@ -42,8 +42,8 @@ typedef struct Pkt {
     u8 *data;
 } Pkt;
 
-extern NetWork *func_021657C8(void);
-extern void func_02165A4C(u8 phase);
+extern NetWork *WCMi_GetSystemWork(void);
+extern void WCMi_SetPhase(u8 phase);
 extern void func_021659B4(u32 a, void *b, u32 c, u32 line);
 extern void func_020862B8(void *buf, u32 len);
 extern void func_02166804(u8 v);
@@ -54,13 +54,13 @@ extern void WcmNwmcbConnect(void *arg);
 
 void WcmNwmcbSetRecvFrmBuf(Pkt *p)
 {
-    NetWork *w = func_021657C8();
+    NetWork *w = WCMi_GetSystemWork();
     int lv;
 
     switch (p->kind) {
     case 0:
         if (w->state == 12) {
-            func_02165A4C(8);
+            WCMi_SetPhase(8);
             WcmNwmReset();
             return;
         }
@@ -68,12 +68,12 @@ void WcmNwmcbSetRecvFrmBuf(Pkt *p)
         case 2:
             return;
         case 6:
-            func_02165A4C(12);
+            WCMi_SetPhase(12);
             func_021659B4(1, w->buf, 0, 1286);
             return;
         case 3:
         default:
-            func_02165A4C(11);
+            WCMi_SetPhase(11);
             func_021659B4(7, w->buf, 0, 1295);
             return;
         }

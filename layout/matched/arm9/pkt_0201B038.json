@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0201B038",
+   "name": "POKERUS_TryInfectParty",
    "address": "0x0201B038",
    "kind": "game",
    "region": "arm9",
@@ -30,8 +30,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201B100",
-    "sub_0201B170"
+    "POKERUS_DecreaseDays",
+    "POKERUS_SpreadParty"
+   ],
+   "addresses": [
+    "0x0201B100",
+    "0x0201B170"
    ]
   },
   {
@@ -46,15 +50,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201B220",
-    "sub_0201B25C",
-    "sub_0201B268",
-    "sub_0201B280",
-    "sub_0201B28C"
+    "POKERUS_GetInfectedMask",
+    "POKERUS_IsInfected",
+    "POKERUS_IsBoxInfected",
+    "POKERUS_IsCured",
+    "POKERUS_IsBoxCured"
+   ],
+   "addresses": [
+    "0x0201B220",
+    "0x0201B25C",
+    "0x0201B268",
+    "0x0201B280",
+    "0x0201B28C"
    ]
   },
   {
-   "name": "sub_0201B2B0",
+   "name": "SHINKA_CHECK_CheckEvolution",
    "address": "0x0201B2B0",
    "kind": "game",
    "region": "arm9",
@@ -86,10 +97,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201B70C",
-    "sub_0201B718",
-    "sub_0201B764",
-    "sub_0201B774"
+    "SHINKA_CHECK_OpenHandle",
+    "SHINKA_CHECK_GetRowParam",
+    "SHINKA_CHECK_LoadData",
+    "SHINKA_CHECK_KnowsMove"
+   ],
+   "addresses": [
+    "0x0201B70C",
+    "0x0201B718",
+    "0x0201B764",
+    "0x0201B774"
    ]
   },
   {
@@ -104,7 +121,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201B920"
+    "POKE_TOOL_IsPPRestorable"
+   ],
+   "addresses": [
+    "0x0201B920"
    ]
   },
   {
@@ -119,8 +139,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201B9F0",
-    "sub_0201BA34"
+    "POKE_TOOL_HealFull",
+    "POKE_TOOL_HealParty"
+   ],
+   "addresses": [
+    "0x0201B9F0",
+    "0x0201BA34"
    ]
   },
   {
@@ -135,8 +159,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201BA68",
-    "sub_0201BABC"
+    "POKE_TOOL_GetGraphicIndex",
+    "POKE_TOOL_CalcGraphicIndex"
+   ],
+   "addresses": [
+    "0x0201BA68",
+    "0x0201BABC"
    ]
   }
  ]

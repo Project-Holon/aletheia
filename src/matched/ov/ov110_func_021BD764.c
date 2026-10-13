@@ -13,11 +13,11 @@
  * Scratch one verdict EXACT (12 bytes), fixed compiler/flags, no region:
  * Blocker relocation: func_020355D8 0x020355D8 arm (matched).
  * extern void func_020355D8(void *);
- * void func_02024224(void *a,void *b) { func_020355D8(b); }
+ * void PMSI_PARAM_SetUiInputMode(void *a,void *b) { func_020355D8(b); }
  * The caller visibly loads both r0 and r1, so its extern retains both arguments.
  * Extent remainder: two-byte zero alignment padding.
  * symbols:
- *   func_02024224 0x02024224 thumb
+ *   PMSI_PARAM_SetUiInputMode 0x02024224 thumb
  *   func_02051C6C 0x02051C6C arm
  *   func_021B9B20 0x021B9B20 thumb ov110
  *   func_02030DA4 0x02030DA4 arm
@@ -31,7 +31,7 @@ typedef signed char s8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_02024224(void *,void *);
+extern void PMSI_PARAM_SetUiInputMode(void *,void *);
 extern void func_02051C6C(void *);
 extern void func_021B9B20(u8 *);
 extern void func_02030DA4(void *);
@@ -42,7 +42,7 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 void func_021BD764(u8 *p,void *a)
 {
-    func_02024224(*(void **)p,*(void **)(p+0x70));
+    PMSI_PARAM_SetUiInputMode(*(void **)p,*(void **)(p+0x70));
     func_02051C6C(*(void **)(p+0x44));
     func_021B9B20(*(u8 **)(p+0x14));
     func_02030DA4(*(void **)(p+0x7c));

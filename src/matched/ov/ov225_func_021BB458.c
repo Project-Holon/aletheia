@@ -11,10 +11,10 @@
  * symbols:
  *   func_02027F60 0x02027F60 thumb
  *   func_02045EC0 0x02045EC0 arm
- *   func_02027FEC 0x02027FEC thumb
+ *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   func_02045808 0x02045808 arm
  *   func_020355C4 0x020355C4 arm
- *   func_02028218 0x02028218 thumb
+ *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  */
 #include "../include/Obj01596.h"
 #include "../include/Obj26246.h"
@@ -32,10 +32,10 @@ struct Entry { void *resource; u16 tag; u16 pad; unsigned flags; };
 extern struct R *func_02027F60(u16, u16, unsigned, unsigned, u16);
 extern void *func_02045EC0(struct MsgBank *, unsigned);
 typedef unsigned int   u32;
-extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
+extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void func_02045808(struct U16Vec *);
 extern u8 func_020355C4(void);
-extern void func_02028218(struct Obj *, unsigned);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *, unsigned);
 void func_021BB458(char *p)
 {
     struct Entry entries[2];
@@ -48,8 +48,8 @@ void func_021BB458(char *p)
     entries[1].tag = 0x39e3;
     entries[1].flags = 0;
     for (i = 0; i < 2; i++) {
-        *(unsigned *)(p + i * 4 + 0xc) = func_02027FEC(*(unsigned *)&((struct Obj01596 *)p)->f8, (unsigned)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct Obj26251 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f4);
+        *(unsigned *)(p + i * 4 + 0xc) = APP_TASKMENU_WIN_Create(*(unsigned *)&((struct Obj01596 *)p)->f8, (unsigned)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct Obj26251 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f4);
         func_02045808(entries[i].resource);
     }
-    if (func_020355C4() == 0) func_02028218(*(struct Obj **)(p + *(u8 *)*(char * *)&((struct Obj01596 *)p)->f0 * 4 + 0xc), 1);
+    if (func_020355C4() == 0) APP_TASKMENU_WIN_SetActive(*(struct Obj **)(p + *(u8 *)*(char * *)&((struct Obj01596 *)p)->f0 * 4 + 0xc), 1);
 }

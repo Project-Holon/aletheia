@@ -1,7 +1,7 @@
 /*
  * file:     unit_020742E4.c
  * unit:     yes
- * function: func_020742E4, func_020742FC, func_0207430C, func_02074324,, func_0207457C, func_020745A4, func_0207466C, func_02074694, func_020746B0
+ * function: NNS_SndArcSetCurrent, NNS_SndArcGetCurrent, NNS_SndArcGetSeqParam, NNS_SndArcGetSeqInfo,, NNS_SndArcGetFileSize, NNS_SndArcReadFile, NNS_SndArcGetFileAddress, NNS_SndArcSetFileAddress, NNS_SndArcSetReadChunkSize
  * address:  0x020742E4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -62,44 +62,44 @@ struct SndArc {
 
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
-struct SndArc *func_020742E4(struct SndArc *newArc);
-struct SndArc *func_020742FC(void);
-void *func_0207430C(int entryNo);
-void *func_02074324(int entryNo);
-void *func_02074388(int entryNo);
-void *func_020743EC(int entryNo);
-void *func_02074450(int entryNo);
-void *func_020744B4(int entryNo);
-void *func_02074518(int entryNo);
-u32 func_0207457C(u32 fileId);
-int func_020745A4(u32 fileId, void *dst, int length, u32 offset);
-u32 func_0207466C(u32 fileId);
-void func_02074694(u32 fileId, u32 address);
-void func_020746B0(int chunkSize);
+struct SndArc *NNS_SndArcSetCurrent(struct SndArc *newArc);
+struct SndArc *NNS_SndArcGetCurrent(void);
+void *NNS_SndArcGetSeqParam(int entryNo);
+void *NNS_SndArcGetSeqInfo(int entryNo);
+void *NNS_SndArcGetSeqArcInfo(int entryNo);
+void *NNS_SndArcGetBankInfo(int entryNo);
+void *NNS_SndArcGetWaveArcInfo(int entryNo);
+void *NNS_SndArcGetPlayerInfo(int entryNo);
+void *NNS_SndArcGetGroupInfo(int entryNo);
+u32 NNS_SndArcGetFileSize(u32 fileId);
+int NNS_SndArcReadFile(u32 fileId, void *dst, int length, u32 offset);
+u32 NNS_SndArcGetFileAddress(u32 fileId);
+void NNS_SndArcSetFileAddress(u32 fileId, u32 address);
+void NNS_SndArcSetReadChunkSize(int chunkSize);
 extern struct SndArc *ptr_0214EA50;
 
-struct SndArc *func_020742E4(struct SndArc *newArc)
+struct SndArc *NNS_SndArcSetCurrent(struct SndArc *newArc)
 {
     struct SndArc *previous = ptr_0214EA50;
     ptr_0214EA50 = newArc;
     return previous;
 }
 
-struct SndArc *func_020742FC(void)
+struct SndArc *NNS_SndArcGetCurrent(void)
 {
     return ptr_0214EA50;
 }
 
-void *func_0207430C(int entryNo)
+void *NNS_SndArcGetSeqParam(int entryNo)
 {
-    void *ptr = func_02074324(entryNo);
+    void *ptr = NNS_SndArcGetSeqInfo(entryNo);
     if (ptr == 0) {
         return 0;
     }
     return (char *)ptr + 4;
 }
 
-void *func_02074324(int entryNo)
+void *NNS_SndArcGetSeqInfo(int entryNo)
 {
     struct SndArc *arc = ptr_0214EA50;
     struct SndArcInfoHeader *infoHeader = arc->infoHeader;
@@ -128,7 +128,7 @@ void *func_02074324(int entryNo)
     return (char *)infoBase + offset;
 }
 
-void *func_02074388(int entryNo)
+void *NNS_SndArcGetSeqArcInfo(int entryNo)
 {
     struct SndArc *arc = ptr_0214EA50;
     struct SndArcInfoHeader *infoHeader = arc->infoHeader;
@@ -157,7 +157,7 @@ void *func_02074388(int entryNo)
     return (char *)infoBase + offset;
 }
 
-void *func_020743EC(int entryNo)
+void *NNS_SndArcGetBankInfo(int entryNo)
 {
     struct SndArc *arc = ptr_0214EA50;
     struct SndArcInfoHeader *infoHeader = arc->infoHeader;
@@ -186,7 +186,7 @@ void *func_020743EC(int entryNo)
     return (char *)infoBase + offset;
 }
 
-void *func_02074450(int entryNo)
+void *NNS_SndArcGetWaveArcInfo(int entryNo)
 {
     struct SndArc *arc = ptr_0214EA50;
     struct SndArcInfoHeader *infoHeader = arc->infoHeader;
@@ -215,7 +215,7 @@ void *func_02074450(int entryNo)
     return (char *)infoBase + offset;
 }
 
-void *func_020744B4(int entryNo)
+void *NNS_SndArcGetPlayerInfo(int entryNo)
 {
     struct SndArc *arc = ptr_0214EA50;
     struct SndArcInfoHeader *infoHeader = arc->infoHeader;
@@ -244,7 +244,7 @@ void *func_020744B4(int entryNo)
     return (char *)infoBase + offset;
 }
 
-void *func_02074518(int entryNo)
+void *NNS_SndArcGetGroupInfo(int entryNo)
 {
     struct SndArc *arc = ptr_0214EA50;
     struct SndArcInfoHeader *infoHeader = arc->infoHeader;
@@ -273,7 +273,7 @@ void *func_02074518(int entryNo)
     return (char *)infoBase + offset;
 }
 
-u32 func_0207457C(u32 fileId)
+u32 NNS_SndArcGetFileSize(u32 fileId)
 {
     struct SndArc *arc = ptr_0214EA50;
     struct SndArcFileTable *fileTable = arc->fileTable;
@@ -283,7 +283,7 @@ u32 func_0207457C(u32 fileId)
     return fileTable->entries[fileId].size;
 }
 
-int func_020745A4(u32 fileId, void *dst, int length, u32 offset)
+int NNS_SndArcReadFile(u32 fileId, void *dst, int length, u32 offset)
 {
     struct SndArc *arc = ptr_0214EA50;
     struct SndArcFileTable *fileTable = arc->fileTable;
@@ -330,7 +330,7 @@ int func_020745A4(u32 fileId, void *dst, int length, u32 offset)
     return bytesRead;
 }
 
-u32 func_0207466C(u32 fileId)
+u32 NNS_SndArcGetFileAddress(u32 fileId)
 {
     struct SndArc *arc = ptr_0214EA50;
     struct SndArcFileTable *fileTable = arc->fileTable;
@@ -340,11 +340,11 @@ u32 func_0207466C(u32 fileId)
     return fileTable->entries[fileId].loadedData;
 }
 
-void func_02074694(u32 fileId, u32 address)
+void NNS_SndArcSetFileAddress(u32 fileId, u32 address)
 {
     struct SndArc *arc = ptr_0214EA50;
     struct SndArcFileTable *fileTable = arc->fileTable;
     fileTable->entries[fileId].loadedData = address;
 }
 
-void func_020746B0(int chunkSize){ *(int *)((*(int *)(0x214EA50) + 148)) = (int)chunkSize; }
+void NNS_SndArcSetReadChunkSize(int chunkSize){ *(int *)((*(int *)(0x214EA50) + 148)) = (int)chunkSize; }

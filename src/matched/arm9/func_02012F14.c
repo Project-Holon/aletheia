@@ -1,5 +1,5 @@
 /*
- * function: func_02012F14
+ * function: GAME_DATA_GetSaveBlock1F
  * address:  0x02012F14
  * packet:   pkt_02012F14
  * region:   arm9
@@ -21,7 +21,7 @@
 
 extern void *func_02009EC8(void *sys);
 
-void *func_02012F14(void **h)
+void *GAME_DATA_GetSaveBlock1F(void **h)
 {
     return func_02009EC8(*h);
 }

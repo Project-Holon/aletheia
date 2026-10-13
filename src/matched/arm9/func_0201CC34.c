@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0201CC34
+ * function: PRINTSYS_ProcColorTag
  * address:  0x0201CC34
  * packet:   pkt_0201CA78
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 
-u16 *func_0201CC34(u16 *a0, u16 *a1)
+u16 *PRINTSYS_ProcColorTag(u16 *a0, u16 *a1)
 {
     u16 t;
     u8 b;

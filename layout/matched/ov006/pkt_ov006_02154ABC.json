@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02154ABC",
+   "name": "EVENT_WIFICLUB_FreeWork",
    "address": "0x02154ABC",
    "kind": "game",
    "region": "ov006",

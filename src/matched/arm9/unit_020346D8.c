@@ -1,5 +1,5 @@
 /*
- * function: sub_020346D8
+ * function: VMAN_GetOffset
  * address:  0x020346D8
  * packet:   pkt_020345F8
  * region:   arm9
@@ -15,7 +15,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/unit_020346D8.c \
- *       --func sub_020346D8 --addr 0x020346D8 --cc 1.1p1 --arm
+ *       --func VMAN_GetOffset --addr 0x020346D8 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -28,7 +28,7 @@ struct Item020346D8 {
     u16 unk06;
 };
 
-u32 sub_020346D8(struct Item020346D8 *a, u32 *b)
+u32 VMAN_GetOffset(struct Item020346D8 *a, u32 *b)
 {
     return *b * a->unk04 + a->unk06;
 }

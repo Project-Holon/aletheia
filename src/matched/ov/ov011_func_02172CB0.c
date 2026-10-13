@@ -1,5 +1,5 @@
 /*
- * function: func_02172CB0
+ * function: INTRUDE_COMM_StartSession
  * address:  0x02172CB0
  * packet:   pkt_ov011_02172CB0
  * region:   ov011
@@ -13,7 +13,7 @@
  * b as a struct with the byte at 0x0E, c as a struct with the step byte at 0x8FD (written
  * c->step = 3 / 4 in each arm, no local v), callee types from matched twins (func_02026478 and
  * func_02030734 return u32, func_02012E40 takes const u8 *). The only open item is the pool
- * word func_02173568: the leaf is filed at src/matched/ov/ov011_func_02173568.c (EXACT);
+ * word INTRUDE_COMM_OnSessionStarted: the leaf is filed at src/matched/ov/ov011_func_02173568.c (EXACT);
  * the integrator needs a shard for it, then this file is EXACT.
  *
  * symbols:
@@ -23,9 +23,9 @@
  *   func_02158590  0x02158590  thumb  ov010
  *   func_0203CBAC  0x0203CBAC  arm
  *   func_020307B0  0x020307B0  arm
- *   func_0203D10C  0x0203D10C  arm
- *   func_0203CFF0  0x0203CFF0  arm
- *   func_02173568  0x02173568  thumb  ov011
+ *   GFL_NET_StartChangeoverParent  0x0203D10C  arm
+ *   GFL_NET_ConnectMacAddressParent  0x0203CFF0  arm
+ *   INTRUDE_COMM_OnSessionStarted  0x02173568  thumb  ov011
  *   d_02177000     0x02177000  data  ov011
  *   d_021768C8     0x021768C8  data  a4
  */
@@ -60,11 +60,11 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern int func_02158590(void *p);
 extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern u32 func_020307B0(void *p);
-extern int func_0203D10C(int a0);
-extern void func_0203CFF0(void *p);
-extern void func_02173568(u8 *w);
+extern int GFL_NET_StartChangeoverParent(int a0);
+extern void GFL_NET_ConnectMacAddressParent(void *p);
+extern void INTRUDE_COMM_OnSessionStarted(u8 *w);
 
-int func_02172CB0(int *a, Param *b, Work *c)
+int INTRUDE_COMM_StartSession(int *a, Param *b, Work *c)
 {
     u8 *h;
     T70 *p;
@@ -80,17 +80,17 @@ int func_02172CB0(int *a, Param *b, Work *c)
             if (func_02158590(h) == 0)
                 *((u8 *)p + 0x60) = 2;
         }
-        func_0203CBAC((struct Req *)p, (u32)func_02173568, (u32)c);
+        func_0203CBAC((struct Req *)p, (u32)INTRUDE_COMM_OnSessionStarted, (u32)c);
         func_020307B0(p);
         *a = *a + 1;
         break;
     case 1:
         if (c->step >= 2) {
             if (b->field0e == 1) {
-                func_0203D10C(0);
+                GFL_NET_StartChangeoverParent(0);
                 c->step = 3;
             } else {
-                func_0203CFF0((u8 *)b + 8);
+                GFL_NET_ConnectMacAddressParent((u8 *)b + 8);
                 c->step = 4;
             }
             return 1;

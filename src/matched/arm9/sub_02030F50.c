@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_02030F50
+ * function: TCBL_InitTaskLinks
  * address:  0x02030F50
  * packet:   pkt_02030F50
  * region:   arm9
@@ -25,8 +25,8 @@
  * materialised between them, filling the load slot.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030F50.c \
- *       --func sub_02030F50 --addr 0x02030F50 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCBL_InitTaskLinks.c \
+ *       --func TCBL_InitTaskLinks --addr 0x02030F50 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -59,7 +59,7 @@ struct Tcbl {
     struct TcblNode *freeHead;
 };
 
-void sub_02030F50(struct Tcbl *p, struct TcblNode *n)
+void TCBL_InitTaskLinks(struct Tcbl *p, struct TcblNode *n)
 {
     n->owner = p;
     n->prev = &p->sentinel;

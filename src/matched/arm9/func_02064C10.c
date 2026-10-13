@@ -1,5 +1,5 @@
 /*
- * function: func_02064C10
+ * function: NNSi_G2dMCAnimUpdateBank
  * address:  0x02064C10
  * packet:   pkt_020648E0
  * region:   arm9
@@ -23,8 +23,8 @@
  * is rematerialised off the counter's own zero.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02064C10.c \
- *       --func func_02064C10 --addr 0x02064C10 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_G2dMCAnimUpdateBank.c \
+ *       --func NNSi_G2dMCAnimUpdateBank --addr 0x02064C10 --arm --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -50,7 +50,7 @@ struct Obj02064C10 {
 struct CellAnim;
 extern void func_02064384(struct CellAnim *anim, u32 i);
 
-void func_02064C10(struct Obj02064C10 *x)
+void NNSi_G2dMCAnimUpdateBank(struct Obj02064C10 *x)
 {
     u16 i;
 

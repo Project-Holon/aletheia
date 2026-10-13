@@ -1,5 +1,5 @@
 /*
- * function: func_02013360
+ * function: BTL_SETUP_InitCommon
  * address:  0x02013360
  * packet:   pkt_02013360
  * region:   arm9
@@ -14,7 +14,7 @@
  *   func_0200C0E8   0x0200C0E8  thumb
  *   func_0200C258   0x0200C258  thumb
  *   func_0200CA1C   0x0200CA1C  thumb
- *   func_02012924   0x02012924  thumb
+ *   GAME_DATA_GetMapMatrix   0x02012924  thumb
  *   func_0201292C   0x0201292C  thumb
  *   func_02012944   0x02012944  thumb
  *   func_0201296C   0x0201296C  thumb
@@ -45,7 +45,7 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013360.c  *       --func func_02013360 --addr 0x02013360 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_InitCommon.c  *       --func BTL_SETUP_InitCommon --addr 0x02013360 --cc 1.1p1 --thumb
  */
 #include "../include/Obj00155.h"
 typedef unsigned char  u8;
@@ -61,7 +61,7 @@ extern void *func_0200C0E8(void *sys);
 extern u32 func_0200C258(struct Blk34 *p);
 extern void *func_0200CA1C(void *a);
 struct BigObj;
-extern u32 func_02012924(const struct BigObj *p);
+extern u32 GAME_DATA_GetMapMatrix(const struct BigObj *p);
 extern void *func_0201292C(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
 extern u32 func_0201296C(const struct BigObj *p);
@@ -72,7 +72,7 @@ extern void func_02013144(char *p, int v);
 extern u32 func_020142E8(void *bitmap, s32 id);
 extern void func_02082D44(const void *src, void *dst, u32 n);
 
-void func_02013360(u8 *o, void *a1, const void *a2)
+void BTL_SETUP_InitCommon(u8 *o, void *a1, const void *a2)
 {
     u32 i = 0;
     u32 j;
@@ -102,7 +102,7 @@ void func_02013360(u8 *o, void *a1, const void *a2)
     }
     ((struct Obj00155 *)o)->f34 = (u32)func_02012944(a1);
     ((struct Obj00155 *)o)->f60 = func_0201292C(a1);
-    ((struct Obj00155 *)o)->f64 = func_02012924(a1);
+    ((struct Obj00155 *)o)->f64 = GAME_DATA_GetMapMatrix(a1);
     ((struct Obj00155 *)o)->f68 = (u32)func_0200CA1C(a1);
     ((struct Obj00155 *)o)->f70 = func_02012F20((int)a1);
     ((struct Obj00155 *)o)->f6C = (u32)func_02012F2C(a1);

@@ -13,8 +13,8 @@
  *   func_020124E4  0x020124E4  thumb
  *   func_02012138  0x02012138  thumb
  *   func_02158344  0x02158344  thumb  ov010
- *   func_02176850  0x02176850  thumb  ov011
- *   func_02176870  0x02176870  thumb  ov011
+ *   INTRUDE_COMM_SendValueNow  0x02176850  thumb  ov011
+ *   INTRUDE_COMM_IsRecordReceived  0x02176870  thumb  ov011
  */
 #include "../include/Obj09327.h"
 
@@ -27,8 +27,8 @@ extern void *func_020124E4(struct Obj *p);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158344(int a0);
-extern int func_02176850(u8 *p, u8 value);
-extern u32 func_02176870(u8 *p);
+extern int INTRUDE_COMM_SendValueNow(u8 *p, u8 value);
+extern u32 INTRUDE_COMM_IsRecordReceived(u8 *p);
 
 int func_0216B280(int a0, int *state, u8 **work)
 {
@@ -44,11 +44,11 @@ int func_0216B280(int a0, int *state, u8 **work)
     }
     switch (*state) {
     case 0:
-        if (func_02176850((u8 *)r, ((u8 *)work)[4]) == 1)
+        if (INTRUDE_COMM_SendValueNow((u8 *)r, ((u8 *)work)[4]) == 1)
             (*state)++;
         break;
     case 1:
-        if (func_02176870((u8 *)r) == 1)
+        if (INTRUDE_COMM_IsRecordReceived((u8 *)r) == 1)
             (*state)++;
         break;
     case 2:

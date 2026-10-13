@@ -19,8 +19,8 @@
  * orderings, and the ordering's n-th byte is the offset of the n-th 0x20 byte
  * substruct inside the 0x80 byte block area at +0x08, so the table at
  * 0x0209E3A4 is 32 rows of four offsets drawn from 0x00, 0x20, 0x40 and 0x60.
- * src/matched/sub_02019388.c, src/matched/unit_020188B4.c and
- * src/pending/sub_02018E34.c all index through it, and ov188 calls it eight
+ * src/matched/POKE_TOOL_SetBoxValueRaw.c, src/matched/unit_020188B4.c and
+ * src/pending/POKE_TOOL_GetBoxValueRaw.c all index through it, and ov188 calls it eight
  * more times.
  *
  * Why it WAS capped (historical, resolved 2026-09-21): the one relocation is an ABS32 against the table at
@@ -31,7 +31,7 @@
  * function that holds the pool word.  The `matched` class never applies to
  * data (docs/MATCHING.md, "The matched class"), so this is the same shape as
  * src/matched/sub_02013FA8.c's private table and not the same shape as
- * sub_02018E34's runtime helper.  It closes the day anything else in the image
+ * POKE_TOOL_GetBoxValueRaw's runtime helper.  It closes the day anything else in the image
  * names 0x0209E3A4, or the day the table itself is a matched data entry.
  *
  * The neighbour func_02019C54, which is the one-entry memo in front of this

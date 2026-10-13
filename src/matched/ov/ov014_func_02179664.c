@@ -1,5 +1,5 @@
 /*
- * function: func_02179664
+ * function: WIH_SetScanTimerPaused
  * address:  0x02179664
  * packet:   pkt_02179664
  * region:   ov014
@@ -16,7 +16,7 @@
 
 extern struct S *d_021797A8;
 
-void func_02179664(unsigned char v)
+void WIH_SetScanTimerPaused(unsigned char v)
 {
     ((unsigned char *)d_021797A8)[0x1EDE] = v;
 }

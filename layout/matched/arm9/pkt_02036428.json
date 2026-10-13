@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02036428",
+   "name": "GFL_NET_RING_BUFF_Write",
    "address": "0x02036428",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020364D4",
+   "name": "GFL_NET_RING_BUFF_Read",
    "address": "0x020364D4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02036500",
+   "name": "GFL_NET_RING_BUFF_ReadByte",
    "address": "0x02036500",
    "kind": "game",
    "region": "arm9",

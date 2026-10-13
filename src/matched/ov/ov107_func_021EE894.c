@@ -56,7 +56,7 @@
  *   func_020788AC 0x020788AC arm
  *   func_02078C18 0x02078C18 arm
  *   func_02078B44 0x02078B44 arm
- *   func_02078C28 0x02078C28 arm
+ *   FS_GetLength 0x02078C28 arm
  *   func_02078B70 0x02078B70 arm
  *   func_02078A80 0x02078A80 arm
  *   func_02034714 0x02034714 arm
@@ -64,12 +64,12 @@
  *   func_0204A600 0x0204A600 arm
  *   func_0204A648 0x0204A648 arm
  *   func_02012E40 0x02012E40 thumb
- *   func_02012E08 0x02012E08 thumb
+ *   GAME_DATA_SaveCancel 0x02012E08 thumb
  *   func_0202208C 0x0202208C thumb
  *   func_020221A4 0x020221A4 thumb
  *   func_0202EB44 0x0202EB44 thumb
  *   func_02012FFC 0x02012FFC thumb
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_0200C184 0x0200C184 thumb
  *   func_0200575C 0x0200575C thumb
  *   func_02012F2C 0x02012F2C thumb
@@ -96,12 +96,12 @@ struct Bits;
 struct Blk34;
 struct FSFile;
 struct Sub02008C20Obj;
-extern void func_02012E08(char *p);
+extern void GAME_DATA_SaveCancel(char *p);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_020221A4(void);
 extern int func_0202EB44(void);
 extern signed char func_02012FFC(void);
-extern void func_02005E30(u32),func_0203D34C(u32,u32);
+extern void GFL_USE_FadeOutBgm(u32),func_0203D34C(u32,u32);
 extern void func_021F1628(void *,int);
 extern void func_021F1704(void *,int,int);
 extern void func_021F1A58(char *p, int a);
@@ -124,7 +124,7 @@ extern int func_02078C18(File *,void *),func_02078A80(File *);
 typedef enum { SEEK_SET=0, SEEK_CUR=1, SEEK_END=2 } SeekOrigin;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
-extern u32 func_02078C28(struct FSFile *a0);
+extern u32 FS_GetLength(struct FSFile *a0);
 extern u8 d_021F6E08[],d_021F6E0C[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -158,7 +158,7 @@ static inline void load_payload(u8 *p) {
  File file; void *name;
  name=func_0200575C(142);func_020788AC(&file);
  if(!func_02078C18(&file,name))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
- func_02078B44((struct FSFile *)(&file),0,0);W(100)=func_02078C28((struct FSFile *)(&file));
+ func_02078B44((struct FSFile *)(&file),0,0);W(100)=FS_GetLength((struct FSFile *)(&file));
  P(96)=func_02030734(H(0),W(100),1,(const char *)d_021F6E0C,660);
  func_02078B70((struct FSFile *)(&file),P(96),W(100));
  if(!func_02078A80(&file))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
@@ -169,7 +169,7 @@ int func_021EE894(u8 *p) {
  func_021F0E6C(O);
  if(W(16)==1 && W(32)!=2 && W(32)!=3) {
   W(24)=func_02012E40(SAVE);
-  if(W(24)==1)func_02012E08(SAVE);
+  if(W(24)==1)GAME_DATA_SaveCancel(SAVE);
   W(32)=2;func_021EFC1C(p,3);
  }
  switch(PHASE) {
@@ -181,7 +181,7 @@ int func_021EE894(u8 *p) {
   }break;
  case 2:
   if(*(u8 *)P(8)==0)func_0202208C(0,0,0,0,6,1,H(0));
-  else {func_0202208C(0,0,0,32767,6,1,H(0));func_02005E30(6);}
+  else {func_0202208C(0,0,0,32767,6,1,H(0));GFL_USE_FadeOutBgm(6);}
   W(32)=3;break;
  case 3:if(func_020221A4()==1)return 1;break;
  case 4:func_021F1628(M,5);func_021F1704(M,43,func_02012FFC());W(32)=5;break;

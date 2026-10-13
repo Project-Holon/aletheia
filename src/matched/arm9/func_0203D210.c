@@ -11,14 +11,14 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469E0     0x021469E0  data
- *   func_0203D788  0x0203D788  arm
+ *   gGFLNetMain     0x021469E0  data
+ *   GFL_NET_GetSession  0x0203D788  arm
  *
  * TU: net.c.
  *
  * "Nothing running, or the +0x6c hook says idle".  The first test reads
- * g_021469E0.unk_08 straight out of the singleton (the same two
- * instructions func_0203D788 is made of), while the second goes through the
+ * gGFLNetMain.unk_08 straight out of the singleton (the same two
+ * instructions GFL_NET_GetSession is made of), while the second goes through the
  * real call; that asymmetry is what says the first read is a file-local
  * access and not an inlined copy of the extern.
  *
@@ -42,13 +42,13 @@ struct NetSys {
     struct NetVtbl *vtbl;
 };
 
-extern struct Singleton g_021469E0;
-extern struct NetSys   *func_0203D788(void);
+extern struct Singleton gGFLNetMain;
+extern struct NetSys   *GFL_NET_GetSession(void);
 
 u32 func_0203D210(void)
 {
-    if (g_021469E0.unk_08 == 0) {
+    if (gGFLNetMain.unk_08 == 0) {
         return 1;
     }
-    return func_0203D788()->vtbl->unk_6c() == 0;
+    return GFL_NET_GetSession()->vtbl->unk_6c() == 0;
 }

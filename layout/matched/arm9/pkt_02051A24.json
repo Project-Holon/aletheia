@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02051A24",
+   "name": "BUTTON_MAN_SetCallback",
    "address": "0x02051A24",
    "kind": "game",
    "region": "arm9",

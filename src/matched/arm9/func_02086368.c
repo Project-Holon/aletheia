@@ -1,5 +1,5 @@
 /*
- * function: func_02086368
+ * function: OS_Init
  * address:  0x02086368
  * packet:   pkt_02086368
  * region:   arm9
@@ -25,7 +25,7 @@
 
 extern void func_02086374(void);
 
-void func_02086368(void)
+void OS_Init(void)
 {
     func_02086374();
 }

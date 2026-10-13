@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202B7BC",
+   "name": "ISS_SYS_OnZoneChangeCity",
    "address": "0x0202B7BC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B7C8",
+   "name": "ISS_SYS_OnZoneChangeDungeon",
    "address": "0x0202B7C8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B7D4",
+   "name": "ISS_SYS_OnZoneChangeZone",
    "address": "0x0202B7D4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B7E0",
+   "name": "ISS_SYS_OnZoneChangeSwitch",
    "address": "0x0202B7E0",
    "kind": "game",
    "region": "arm9",
@@ -66,13 +66,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0202B7F8",
-    "func_0202B804",
-    "func_0202B810"
+    "ISS_SYS_GetLocation",
+    "ISS_SYS_GetZoneId",
+    "ISS_SYS_GetCurrentBgmId"
+   ],
+   "addresses": [
+    "0x0202B7F8",
+    "0x0202B804",
+    "0x0202B810"
    ]
   },
   {
-   "name": "func_0202B818",
+   "name": "ISS_SYS_GetBgmMode",
    "address": "0x0202B818",
    "kind": "game",
    "region": "arm9",
@@ -84,7 +89,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B834",
+   "name": "ISS_SYS_HasBgmChanged",
    "address": "0x0202B834",
    "kind": "game",
    "region": "arm9",
@@ -96,7 +101,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B8E4",
+   "name": "ISS_3DS_SYS_Delete",
    "address": "0x0202B8E4",
    "kind": "game",
    "region": "arm9",
@@ -108,7 +113,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B8F4",
+   "name": "ISS_3DS_SYS_Update",
    "address": "0x0202B8F4",
    "kind": "game",
    "region": "arm9",
@@ -120,7 +125,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B914",
+   "name": "ISS_3DS_SYS_SetVolume",
    "address": "0x0202B914",
    "kind": "game",
    "region": "arm9",
@@ -132,7 +137,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B9C8",
+   "name": "ISS_3DS_SYS_FreeTable",
    "address": "0x0202B9C8",
    "kind": "game",
    "region": "arm9",

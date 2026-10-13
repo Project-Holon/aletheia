@@ -11,6 +11,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_020452E8 0x020452E8 arm
+ *   PMS_DRAW_Delete  0x0202DC08  thumb  arm9
  */
 #include "../include/Obj01437.h"
 #include "../include/Obj05553.h"
@@ -20,7 +21,7 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B3B4(struct Obj *p);
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_0202DC08(struct Obj *p);
+extern void PMS_DRAW_Delete(struct Obj *p);
 void func_021BC8A8(char *p)
 {
     int i=0,j;
@@ -34,5 +35,5 @@ void func_021BC8A8(char *p)
         for(j=0;j<4;j++) func_020452E8(*(void **)(q+j*16));
         func_020452E8(((struct Obj05553 *)q)->f70);
     }
-    func_0202DC08(((struct Obj01437 *)p)->f158);
+    PMS_DRAW_Delete(((struct Obj01437 *)p)->f158);
 }

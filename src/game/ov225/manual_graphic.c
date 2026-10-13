@@ -48,12 +48,12 @@
  *   func_021BB854 0x021BB854 thumb ov225
  *   func_021B9E60 0x021B9E60 thumb ov225
  *   func_02030734 0x02030734 arm
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
  *   file 0x021BBFE0 data ov225 a1
  *   vram 0x021BBE1C data ov225
@@ -70,7 +70,7 @@
  *   d_021BBE4C 0x021BBE4C data a4
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_0204B1CC  0x0204B1CC  arm
@@ -163,12 +163,12 @@ extern int func_021BBB0C(char *);
 extern struct Q *func_021BB854(struct Owner *p, struct Data *data);
 extern void func_021B9E60(char *);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_0204335C(u32);
+extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern u32 func_020307B0(void *p);
 extern void func_0201DD68(void);
@@ -184,7 +184,7 @@ extern void func_0203F9B4(void);
 extern void func_020419E4(void);
 extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, unsigned int heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern u32 func_0204B1CC(struct Bank *bank);
@@ -382,12 +382,12 @@ void *func_021B9900(u32 swap, u32 heap)
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)vram);
     func_0204363C(swap);
     func_0204361C();
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     func_0201DD60();
     func_021B9A28(p, heap);
     func_021B9ACC((unsigned char *)p + 4, (int)vram, heap);
@@ -459,7 +459,7 @@ void func_021B9ACC(unsigned char *p, int a, int b)
     func_02082BCC(p, 0, 4);
     func_0204A48C((const struct Cfg *)0x021BBE00, a, b);
     ((struct Obj14801 *)p)->f0 = (int)func_0204B100(0x80, 0, b);
-    func_0204B270((void *)((struct Obj14801 *)p)->f0);
+    CLACT_SetUnitDefaultRenderer((void *)((struct Obj14801 *)p)->f0);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }

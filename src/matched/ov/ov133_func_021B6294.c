@@ -11,7 +11,7 @@
  * symbols:
  *   func_020355D8 0x020355D8 arm
  *   func_0200A6F8 0x0200A6F8 thumb
- *   func_02005D28 0x02005D28 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_021B9BD0 0x021B9BD0 thumb ov133
  *   func_021B9F24 0x021B9F24 thumb ov133
  *   func_0204B3B4 0x0204B3B4 arm
@@ -40,7 +40,7 @@ typedef unsigned int u32;
 struct Big;struct Obj;struct Descriptor;struct Bank;struct Node;
 extern void func_020355D8(u8);
 extern void func_0200A6F8(struct Big *);
-extern void func_02005D28(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void func_021B9BD0(unsigned char *p);
 extern void func_021B9F24(unsigned char *p);
 extern void func_0204B3B4(struct Obj *);
@@ -66,7 +66,7 @@ void func_021B6294(char *p)
     u8 i;
     func_020355D8(1);
     func_0200A6F8(*(struct Big * *)&((struct Obj23308 *)(*(char * *)&((struct Obj01941 *)p)->f4))->f8);
-    func_02005D28();
+    GFL_USE_CancelChangeAndStopBgm();
     func_021B9BD0((unsigned char *)p);
     func_021B9F24((unsigned char *)p);
     func_0204B3B4(*(struct Obj * *)&((struct Obj01941 *)p)->f184C);

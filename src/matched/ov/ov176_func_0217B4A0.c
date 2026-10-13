@@ -21,7 +21,7 @@
  *   func_0217B594 0x0217B594 thumb ov176
  *   func_0217B3C0 0x0217B3C0 thumb ov176
  *   func_0202EB44 0x0202EB44 thumb
- *   func_0200B480 0x0200B480 thumb
+ *   BATTLE_REC_ClearWork 0x0200B480 thumb
  */
 extern void func_0217B93C(int *,int);
 extern int func_0217B964(int *);
@@ -36,7 +36,7 @@ extern void func_0217B55C(int p, int *state, int *q);
 extern void func_0217B594(int p, int *state, char *q);
 extern void func_0217B3C0(int p, unsigned *state, int *q);
 extern int func_0202EB44(void);
-extern void func_0200B480(void);
+extern void BATTLE_REC_ClearWork(void);
 void func_0217B4A0(int p,unsigned *state,int *q)
 {
     unsigned result;
@@ -50,7 +50,7 @@ void func_0217B4A0(int p,unsigned *state,int *q)
             switch(result) {
             case 0:
                 if(func_0202EB44()==0) func_021E8AA0((int *)p,(int)func_0217B7A0);
-                else {func_0200B480(); func_0217B970(q,2);}
+                else {BATTLE_REC_ClearWork(); func_0217B970(q,2);}
                 break;
             case 1: func_021E8AA0((int *)p,(int)func_0217B55C); break;
             case 2: func_021E8AA0((int *)p,(int)func_0217B594); break;

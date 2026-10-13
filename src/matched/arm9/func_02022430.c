@@ -1,5 +1,5 @@
 /*
- * function: func_02022430
+ * function: WIPE_SYS_InitPanel
  * address:  0x02022430
  * packet:   pkt_02022174
  * region:   arm9
@@ -21,13 +21,13 @@
  * ldr/str pairing.  The last argument is a u16, not a pointer: it is read back
  * with `add r1, sp, #0` + `ldrh r1, [r1, #0x18]` because Thumb has no
  * halfword load with an sp base, and stored with `strh`.  That is the value
- * func_020225F4 resolved, so the sentinel slot at +0x150 is a u16 end to end.
+ * WIPE_SUB_ResolveColor resolved, so the sentinel slot at +0x150 is a u16 end to end.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022430.c \
- *       --func func_02022430 --addr 0x02022430 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SYS_InitPanel.c \
+ *       --func WIPE_SYS_InitPanel --addr 0x02022430 --cc 1.1p1 --thumb
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -46,7 +46,7 @@ struct Screen {
     u16   f24;
 };
 
-void func_02022430(struct Screen *s, u32 a, u32 b, s32 c, u32 d, u32 e,
+void WIPE_SYS_InitPanel(struct Screen *s, u32 a, u32 b, s32 c, u32 d, u32 e,
                    u32 f, void *g, void *h, u32 i, u16 j)
 {
     s->f00 = a;

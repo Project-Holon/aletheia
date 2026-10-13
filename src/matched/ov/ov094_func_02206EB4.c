@@ -17,7 +17,7 @@
  *   func_02207E1C 0x02207E1C thumb ov094
  *   func_020061E4 0x020061E4 thumb
  *   func_02207EF0 0x02207EF0 thumb ov094
- *   func_02006210 0x02006210 thumb
+ *   GFL_USE_StopAllSe 0x02006210 thumb
  *   func_022086F8 0x022086F8 thumb ov094
  *   func_022087C4 0x022087C4 thumb ov094
  *   func_0204B3DC 0x0204B3DC arm
@@ -50,7 +50,7 @@ extern void func_022082FC(struct O *o, int idx, int k);
 extern void func_02207E1C(struct O *obj, int idx);
 extern void func_020061E4(u32 a);
 extern void func_02207EF0(struct O *obj, int idx);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern void func_022086F8(O *, int);
 extern void func_022087C4(char *, int);
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -94,7 +94,7 @@ void func_02206EB4(W *p)
             if (p->rows[i].count < 16)
                 p->rows[i].count++;
             if (!p->rows[i].b1 && p->rows[i].count == 16) {
-                func_02006210();
+                GFL_USE_StopAllSe();
                 p->rows[i].count++;
                 p->rows[i].b28 = 0;
             }

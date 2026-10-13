@@ -1,5 +1,5 @@
 /*
- * function: func_0203B9D4
+ * function: GFL_NET_STATE_ChangeoverChildScan
  * address:  0x0203B9D4
  * packet:   pkt_0203B9D4
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469DC      0x021469DC  data
- *   func_0203D788   0x0203D788  arm
- *   func_0203AD80   0x0203AD80  arm
+ *   _pNetState      0x021469DC  data
+ *   GFL_NET_GetSession   0x0203D788  arm
+ *   GFL_NET_STATE_ChangeStateDebug   0x0203AD80  arm
  *
  * A frame's 64-bit accumulator advanced by a 64-bit multiply: the pair at
  * +0x0c (little-endian u64) is multiplied by the pair at +0x14, the pair at
@@ -30,8 +30,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B9D4.c \
- *       --func func_0203B9D4 --addr 0x0203B9D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverChildScan.c \
+ *       --func GFL_NET_STATE_ChangeoverChildScan --addr 0x0203B9D4 --cc 1.1p1 --arm
  */
 #include "../include/Obj03451.h"
 #include "../include/G_Sys.h"
@@ -41,20 +41,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned long long u64;
 
-extern struct Sys *g_021469DC;
+extern struct Sys *_pNetState;
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 struct NetState;
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
 
-void func_0203B9D4(u8 *p)
+void GFL_NET_STATE_ChangeoverChildScan(u8 *p)
 {
-    u8 *s = func_0203D788();
+    u8 *s = GFL_NET_GetSession();
     u64 x, y, r;
 
     if ((*(u32 (**)(void))(*(u32 *)(s + 0x340) + 0xAC))() == 1) {
         (*(void (**)(void))(*(u32 *)(s + 0x340) + 0xB4))();
-        func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203B868, 0, 0x3A5);
+        GFL_NET_STATE_ChangeStateDebug((struct NetState *)((u8 *)_pNetState), (void *)0x0203B868, 0, 0x3A5);
         return;
     }
 

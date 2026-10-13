@@ -17,7 +17,7 @@
  *   func_02169568  0x02169568  arm  ov009
  *   func_020591CC  0x020591CC  arm
  *   func_0216A39C  0x0216A39C  arm  ov009
- *   func_020598EC  0x020598EC  arm
+ *   DWC_GetGsProfileId  0x020598EC  arm
  *   func_02059194  0x02059194  arm
  *   func_02059240  0x02059240  arm
  *   func_0205912C  0x0205912C  arm
@@ -63,7 +63,7 @@ extern void func_02169568(void);
 extern int func_020591CC();
 extern int func_0216A39C(void);
 struct DWCstAccUserData;
-extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
+extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 extern int func_02059194(FriendData *frienddata);
 extern void func_02059240(void *frienddata, int setflag);
 extern int func_0205912C(FriendData *frienddata);
@@ -90,7 +90,7 @@ void func_0216A020(void *connection, GPGetReverseBuddiesListResponseArg *arg)
     for (i = 0; i < CNT->friendListLen; i++) {
         if (func_020591CC(&CNT->friendList[i]) == 3) {
             for (j = 0; j < arg->numOfUniqueMatchs; j++) {
-                if (arg->matches[j].profile == func_020598EC((struct DWCstAccUserData *)func_0216A39C(), &CNT->friendList[i])) {
+                if (arg->matches[j].profile == DWC_GetGsProfileId((struct DWCstAccUserData *)func_0216A39C(), &CNT->friendList[i])) {
                     if (!func_02059194(&CNT->friendList[i])) {
                         CNT->reverseChanged = 1;
                         func_02059240(&CNT->friendList[i], 1);

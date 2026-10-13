@@ -18,7 +18,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204B9C4 0x0204B9C4 arm
+ *   CLACT_SetActorAnimLoopCount 0x0204B9C4 arm
  */
 #include "../include/Obj00021.h"
 typedef unsigned char u8;
@@ -35,7 +35,7 @@ extern void func_021C11FC(u8 *h, u8 key, s32 *px, s32 *py);
 extern void func_0204B3DC(struct Obj *,unsigned);
 extern void func_0204B404(struct Obj *,const struct Vec2 *,unsigned);
 extern void func_0204B92C(struct Obj *,unsigned);
-extern void func_0204B9C4(struct Actor *,unsigned);
+extern void CLACT_SetActorAnimLoopCount(struct Actor *,unsigned);
 void func_021BF4AC(char *p)
 {
     struct Obj *obj;
@@ -57,5 +57,5 @@ void func_021BF4AC(char *p)
     func_0204B404(obj,&pos,table[12]);
     func_0204B3DC(obj,1);
     func_0204B92C(obj,1);
-    func_0204B9C4((struct Actor *)obj,2);
+    CLACT_SetActorAnimLoopCount((struct Actor *)obj,2);
 }

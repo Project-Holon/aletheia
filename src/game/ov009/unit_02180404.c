@@ -1,6 +1,6 @@
 /*
  * file:     unit_02180404.c
- * function: func_02180404
+ * function: gsUdpEngineContext
  * address:  0x02180404
  * packet:   pkt_02155168
  * region:   ov009
@@ -18,7 +18,7 @@
 
 extern char g_021AD188[];
 
-void *func_02180404(void)
+void *gsUdpEngineContext(void)
 {
     return g_021AD188;
 }

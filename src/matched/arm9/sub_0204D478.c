@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204D478
+ * function: CLACT_SetAnimIndex
  * address:  0x0204D478
  * packet:   pkt_0204D478
  * region:   arm9
@@ -11,11 +11,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   gUnk_020A1394  0x020A1394  data
+ *   g_ClactAnimFuncTable  0x020A1394  data
  *
  * Row 0 of the eight-by-three handler table at 0x020A1394, the same shape as
  * src/matched/unit_0204D410.c (row 7), src/matched/unit_0204D444.c (row 1)
- * and src/matched/func_0204D324.c (row 3, and the row map).  Every concrete
+ * and src/matched/CLACT_SetAnimSeq.c (row 3, and the row map).  Every concrete
  * byte is reproduced; the single unresolved site is the ABS32 in the pool.
  *
  * Blocked on: evidence class `literal`, and it can never be satisfied.  For
@@ -29,12 +29,12 @@
  *
  * The arity comes from the register pair, not from the call: the original
  * takes the kind in r3 and the table base in r2, which is the two-parameter
- * allocation (compare src/matched/func_0204D324.c).  The one-parameter
+ * allocation (compare src/matched/CLACT_SetAnimSeq.c).  The one-parameter
  * spelling allocates r2 then r1 and is a four-instruction diff.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204D478.c \
- *       --func sub_0204D478 --addr 0x0204D478 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_SetAnimIndex.c \
+ *       --func CLACT_SetAnimIndex --addr 0x0204D478 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -45,9 +45,9 @@ struct Obj0204D478 {
 
 typedef void *(*DispatchFn)(struct Obj0204D478 *o, u32 arg);
 
-extern DispatchFn const gUnk_020A1394[][3];
+extern DispatchFn const g_ClactAnimFuncTable[][3];
 
-void *sub_0204D478(struct Obj0204D478 *o, u32 arg)
+void *CLACT_SetAnimIndex(struct Obj0204D478 *o, u32 arg)
 {
-    return gUnk_020A1394[0][o->kind](o, arg);
+    return g_ClactAnimFuncTable[0][o->kind](o, arg);
 }

@@ -10,7 +10,7 @@
  * Tail: two zero bytes of alignment padding after the return.
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B898 0x0204B898 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   func_0204B878 0x0204B878 arm
  *   func_021FA394 0x021FA394 thumb ov135
  */
@@ -21,7 +21,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int on);
-extern u16 func_0204B898(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021FA394(void *p);
 int func_021FBDD0(u8 *p)
@@ -31,7 +31,7 @@ int func_021FBDD0(u8 *p)
     switch (r) {
     case -2:
         func_0204B3DC((struct Obj *)((struct Obj01746 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj01746 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj01746 *)p)->f8)) + 9);
+        func_0204B878((struct Obj *)(((struct Obj01746 *)p)->f8), CLACT_GetActorAnimSeq((struct Obj *)(((struct Obj01746 *)p)->f8)) + 9);
         ((struct Obj01746 *)p)->f48 = 3;
         ((struct Obj01746 *)p)->f4C = 35;
         ((struct Obj01746 *)p)->f41 = -2;
@@ -39,7 +39,7 @@ int func_021FBDD0(u8 *p)
     case -1: break;
     default:
         func_0204B3DC((struct Obj *)((struct Obj01746 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj01746 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj01746 *)p)->f8)) + 9);
+        func_0204B878((struct Obj *)(((struct Obj01746 *)p)->f8), CLACT_GetActorAnimSeq((struct Obj *)(((struct Obj01746 *)p)->f8)) + 9);
         ((struct Obj01746 *)p)->f48 = 3;
         ((struct Obj01746 *)p)->f4C = 35;
         ((struct Obj01746 *)p)->f41 = *(u32 *)(*(u8 * *)&((struct Obj01746 *)p)->f30 + (r + ((struct Obj01746 *)p)->f56 * 4) * 8 + 4);

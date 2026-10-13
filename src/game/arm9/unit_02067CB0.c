@@ -1,7 +1,7 @@
 /*
  * file:     unit_02067CB0.c
  * unit:     yes
- * function: func_02067CB0, func_02067D14
+ * function: NNSi_G2dOamSoftEmuEnd, NNSi_G2dOamSoftEmuRender
  * address:  0x02067CB0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_02148B48  0x02148B48  data
+ *   sOamSoftEmuContext  0x02148B48  data
  *   func_02067998 0x02067998  arm
  *   func_02067340 0x02067340  arm
  */
@@ -45,14 +45,14 @@ struct OamSoftEmuContext {
 
 extern void func_02067998(struct OamSoftEmuParams *params, void *pOamList);
 extern void func_02067340(struct OamSoftEmuParams *params, u32 pOamList);
-void func_02067CB0(void);
-void func_02067D14(u32 pOamList);
-extern struct OamSoftEmuContext *g_02148B48;
+void NNSi_G2dOamSoftEmuEnd(void);
+void NNSi_G2dOamSoftEmuRender(u32 pOamList);
+extern struct OamSoftEmuContext *sOamSoftEmuContext;
 
 
-void func_02067CB0(void)
+void NNSi_G2dOamSoftEmuEnd(void)
 {
-    struct OamSoftEmuContext *ctx = g_02148B48;
+    struct OamSoftEmuContext *ctx = sOamSoftEmuContext;
 
     if (ctx->pParams->mode == 0) {
         volatile u32 *reg = (volatile u32 *)0x04000440;
@@ -61,10 +61,10 @@ void func_02067CB0(void)
         reg[0] = 1;
     } else {
         ctx->queuedCount = 0;
-        g_02148B48->skippedCount = 0;
-        g_02148B48->drawnCount = 0;
+        sOamSoftEmuContext->skippedCount = 0;
+        sOamSoftEmuContext->drawnCount = 0;
     }
-    g_02148B48 = 0;
+    sOamSoftEmuContext = 0;
 }
 
 
@@ -73,9 +73,9 @@ void func_02067CB0(void)
  *           function's own range: 0x02067998 and 0x02067340, each called from nowhere else
  *           in the image. It turns EXACT the moment either gets an entry of its own.
  */
-void func_02067D14(u32 pOamList)
+void NNSi_G2dOamSoftEmuRender(u32 pOamList)
 {
-    struct OamSoftEmuContext *st = g_02148B48;
+    struct OamSoftEmuContext *st = sOamSoftEmuContext;
     struct OamSoftEmuParams *params = st->pParams;
 
     if (params->isEnabled == 0) {
@@ -85,10 +85,10 @@ void func_02067D14(u32 pOamList)
     st->isRenderRequested = 1;
 
     if (params->pBeforeRenderFunc != 0) {
-        params->pBeforeRenderFunc(g_02148B48, pOamList);
+        params->pBeforeRenderFunc(sOamSoftEmuContext, pOamList);
     }
 
-    if (g_02148B48->isRenderRequested != 0) {
+    if (sOamSoftEmuContext->isRenderRequested != 0) {
         switch (params->mode) {
         case 0:
             func_02067998(params, (void *)pOamList);
@@ -103,6 +103,6 @@ void func_02067D14(u32 pOamList)
     }
 
     if (params->pAfterRenderFunc != 0) {
-        params->pAfterRenderFunc(g_02148B48, pOamList);
+        params->pAfterRenderFunc(sOamSoftEmuContext, pOamList);
     }
 }

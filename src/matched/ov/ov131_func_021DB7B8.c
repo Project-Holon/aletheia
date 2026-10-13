@@ -1,5 +1,5 @@
 /*
- * function: func_021DB7B8
+ * function: P_STA_SKILL_DeleteSlotObjects
  * address:  0x021DB7B8
  * packet:   pkt_021DB7B8
  * region:   ov131
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 
-void func_021DB7B8(void *a, void *b, u8 *p)
+void P_STA_SKILL_DeleteSlotObjects(void *a, void *b, u8 *p)
 {
     func_0204B3B4(((struct Obj10524 *)p)->f8);
     func_0204B3B4(((struct Obj10524 *)p)->fC);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6E8C
+ * function: IRC_COMPATIBLE_HelpStepCreateArgs
  * address: 0x021B6E8C
  * packet: pkt_ov101_021B6E8C
  * region: ov101
@@ -11,7 +11,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   d_021B753C 0x021B753C data a1
+ *   IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
  */
 #include "../include/Obj22124.h"
 #include "../include/Obj22125.h"
@@ -20,5 +20,5 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,int,u32);
-extern const char d_021B753C[];
-void *func_021B6E8C(u32 heap,u8 *p) { void *q; q=func_02030734(heap,4,0,d_021B753C,0x49b); func_02082BCC(q,0,4); ((struct Obj22125 *)q)->f0=**(u32 * *)&((struct Obj22124 *)p)->f10; return q; }
+extern const char IRC_COMPATIBLE_SourceFileName[];
+void *IRC_COMPATIBLE_HelpStepCreateArgs(u32 heap,u8 *p) { void *q; q=func_02030734(heap,4,0,IRC_COMPATIBLE_SourceFileName,0x49b); func_02082BCC(q,0,4); ((struct Obj22125 *)q)->f0=**(u32 * *)&((struct Obj22124 *)p)->f10; return q; }

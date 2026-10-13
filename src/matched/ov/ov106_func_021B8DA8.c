@@ -10,14 +10,14 @@
  * extent: two zero padding bytes follow the return, before 0x021B8E50.
  * symbols:
  *   func_02035D20 0x02035D20 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_020362DC 0x020362DC arm
  *   func_0203630C 0x0203630C arm
  */
 
 typedef unsigned int u32;
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 void func_021B8DA8(int *p) {
@@ -26,7 +26,7 @@ void func_021B8DA8(int *p) {
     if(func_02035D20((u32 *)(&x),(u32 *)(&y))) {
         p[0]=x;p[1]=y;p[2]=x;p[3]=y;p[4]=x;p[5]=y;
         p[6]=0;p[7]=0;p[8]=0;
-    } else if(func_02035CB8((u32 *)(&x),(u32 *)(&y))) {
+    } else if(TOUCHPANEL_GetPointCont((u32 *)(&x),(u32 *)(&y))) {
         d=y-p[1];
         if(d<0)d=-d;
         if(d>=1) {

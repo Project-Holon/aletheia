@@ -19,7 +19,7 @@
  *   func_0201F7A8  0x0201F7A8  thumb
  *   func_02028148  0x02028148  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_02027FEC  0x02027FEC  thumb
+ *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb
  *   func_02045808  0x02045808  arm
  *   func_021BD0C4  0x021BD0C4  thumb  ov172
  *
@@ -50,7 +50,7 @@ extern void func_02041B6C(u32 bit);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_02028148(u8 *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
+extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021BD0C4(void *a0, char *a1, int a2);
 
@@ -85,7 +85,7 @@ void func_021BCEF8(void *ctx, u8 *st)
             p.str = (u32)func_02045EC0((struct MsgBank *)msgs, 0x13);
             p.color = 0x39e3;
             p.flags = 0;
-            ((struct Obj00543 *)st)->f1C = func_02027FEC(sys, (u32)(&p), 0, 0x15, 0x15, heap);
+            ((struct Obj00543 *)st)->f1C = APP_TASKMENU_WIN_Create(sys, (u32)(&p), 0, 0x15, 0x15, heap);
             func_02045808((struct U16Vec *)p.str);
             ((struct Obj00543 *)st)->f18 = 2;
         }
@@ -102,7 +102,7 @@ void func_021BCEF8(void *ctx, u8 *st)
             p.str = (u32)func_02045EC0((struct MsgBank *)msgs, 0x12);
             p.color = 0x39e3;
             p.flags = 0;
-            ((struct Obj00543 *)st)->f1C = func_02027FEC(sys, (u32)(&p), 0, 0x15, 0x15, heap);
+            ((struct Obj00543 *)st)->f1C = APP_TASKMENU_WIN_Create(sys, (u32)(&p), 0, 0x15, 0x15, heap);
             func_02045808((struct U16Vec *)p.str);
             ((struct Obj00543 *)st)->f18 = 1;
         }

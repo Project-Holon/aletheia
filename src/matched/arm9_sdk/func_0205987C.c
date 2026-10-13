@@ -1,5 +1,5 @@
 /*
- * function: func_0205987C
+ * function: DWCi_Acc_ClearDirty
  * address:  0x0205987C
  * packet:   pkt_0205987C
  * region:   arm9
@@ -38,7 +38,7 @@ struct DWCstAccUserData {
 extern void MATHi_CRC32InitTableRev(struct MATHCRC32Table *table, unsigned long poly);
 extern unsigned long MATH_CalcCRC32(struct MATHCRC32Table *table, void *data, unsigned long dataLength);
 
-void func_0205987C(struct DWCstAccUserData *userdata)
+void DWCi_Acc_ClearDirty(struct DWCstAccUserData *userdata)
 {
     struct MATHCRC32Table table;
 

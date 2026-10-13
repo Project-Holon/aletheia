@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02026CE0",
+   "name": "GAME_BEACON_ClearNewFlag",
    "address": "0x02026CE0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02026D04",
+   "name": "GAME_BEACON_SetNewFlagByTrainerId",
    "address": "0x02026D04",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02026D48",
+   "name": "GAME_BEACON_GetReceivedFramesByTrainerId",
    "address": "0x02026D48",
    "kind": "game",
    "region": "arm9",

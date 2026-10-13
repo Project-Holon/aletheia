@@ -1,5 +1,5 @@
 /*
- * function: func_02175BAC
+ * function: INTRUDE_COMM_SetSessionFinished
  * address: 0x02175BAC
  * packet: pkt_ov011_02175BAC
  * region: ov011
@@ -11,7 +11,7 @@
  * extent: follower 0x02175BBC already filed separately.
  */
 typedef unsigned char u8;
-void func_02175BAC(u8 *p)
+void INTRUDE_COMM_SetSessionFinished(u8 *p)
 {
     p[0x1A5] |= 8;
 }

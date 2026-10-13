@@ -1,5 +1,5 @@
 /*
- * function: func_0217EA64
+ * function: gsiMemoryFree
  * address: 0x0217EA64
  * packet: pkt_ov009_0217EA64
  * region: ov009
@@ -16,9 +16,9 @@
  */
 
 extern void func_020913E8(void *p);
-void func_0217EA64(void *p);
+void gsiMemoryFree(void *p);
 
-void func_0217EA64(void *p)
+void gsiMemoryFree(void *p)
 {
     func_020913E8(p);
 }

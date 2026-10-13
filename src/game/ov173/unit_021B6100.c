@@ -43,8 +43,8 @@
  *   func_02027FD8 0x02027FD8 thumb
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_02028178  0x02028178  thumb
- *   func_020434CC  0x020434CC  arm
- *   func_02043588  0x02043588  arm
+ *   BG_SYS_ClearMainPlanes  0x020434CC  arm
+ *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   func_020490F4  0x020490F4  arm
  *   func_0202208C  0x0202208C  thumb
  *   func_0204363C  0x0204363C  arm
@@ -120,7 +120,7 @@
  *   func_02027858 0x02027858 thumb
  *   d_021B8228 0x021B8228 data a4
  *   func_02017E40 0x02017E40 thumb
- *   func_0201C158 0x0201C158 thumb
+ *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   func_021B7968 0x021B7968 thumb ov173
  *   func_0201D304 0x0201D304 thumb
  *   func_02045738 0x02045738 arm
@@ -131,7 +131,7 @@
  *   func_02045334 0x02045334 arm
  *   func_02045374 0x02045374 arm
  *   func_0201EEF4 0x0201EEF4 thumb
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_02017E88 0x02017E88 thumb
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021B78CC 0x021B78CC thumb ov173
@@ -140,7 +140,7 @@
  *   func_0201F878 0x0201F878 thumb
  *   func_0201F868 0x0201F868 thumb
  *   func_0201BD28 0x0201BD28 thumb
- *   func_0201C1F4 0x0201C1F4 thumb
+ *   WAZA_TOOL_IsAlwaysHit 0x0201C1F4 thumb
  *   func_021B79E0 0x021B79E0 thumb ov173
  *   func_0201EF34 0x0201EF34 thumb
  *   func_0201F02C 0x0201F02C thumb
@@ -152,11 +152,11 @@
  *   func_020409B4 0x020409B4 arm
  *   func_0201F7A8  0x0201F7A8  thumb
  *   func_02006238 0x02006238 thumb
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005E64 0x02005E64 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_PushBgm 0x02005E64 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02005F38 0x02005F38 thumb
- *   func_02005E9C 0x02005E9C thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
  */
 #include "../../matched/include/Obj06563.h"
 #include "../../matched/include/Obj24149.h"
@@ -282,8 +282,8 @@ extern void func_02045808(struct U16Vec *vec);
 extern u32 func_02027FD8(struct TaskMenuState *s);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_02028178(u8 *p);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_0204363C(u32 swap);
@@ -356,7 +356,7 @@ extern u8 func_02027A04(const u8 *p);
 extern void func_02027974(u32);
 extern void func_02027858(struct TaskMenu *m);
 extern void func_02017E40(void *, u32, u32);
-extern u8 func_0201C158(u16 move, u32 ppUp);
+extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
 extern void func_021B7968(char *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 func_02045738(struct Descriptor *p);
@@ -367,7 +367,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
-extern void *func_020185F4(void *);
+extern void *POKE_TOOL_GetBoxParam(void *);
 extern u32 func_02017E88(void *,u32,u32);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021B78CC(u8 *p, u16 id, u16 i);
@@ -376,7 +376,7 @@ extern void *func_0201F81C(u32, u32);
 extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern u32 func_0201F868(void *p);
 extern u32 func_0201BD28(u16,u32);
-extern u32 func_0201C1F4(u16);
+extern u32 WAZA_TOOL_IsAlwaysHit(u16);
 extern void func_021B79E0(u8 *p, u16 id);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
@@ -387,11 +387,11 @@ extern struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5,
 extern void func_020409B4(u32);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern int func_02006238(void);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
-extern void func_02005D90(unsigned int, unsigned int);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int, unsigned int);
 extern int func_02005F38(void);
-extern int func_02005E9C(void);
+extern int GFL_USE_PopBgm(void);
 int func_021B6100(struct Obj0203159C *obj, int unused, u8 *input);
 int func_021B6174(void *unused0,u32 *state,void *unused2,u8 *p);
 int func_021B6250(void *p,u32 a,u32 b,char *ctx);
@@ -567,8 +567,8 @@ void func_021B63AC(u8 *p)
 {
     u8 *q;
 
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     *(volatile u32 *)0x04000000 &= 0xffffe0ff;
     *(volatile u32 *)0x04001000 &= 0xffffe0ff;
     q = func_020490F4(0x7c, 0x4f);
@@ -856,7 +856,7 @@ int func_021B6B0C(char **p)
     zero = 0;
     func_02017E40(((struct Obj05450 *)q)->f0, ((struct Obj05450 *)q)->f1B + 0x3e, 0);
     q = *p;
-    func_02017E40(((struct Obj05450 *)q)->f0, ((struct Obj05450 *)q)->f1B + 0x3a, func_0201C158(func_021B7438(p), 0));
+    func_02017E40(((struct Obj05450 *)q)->f0, ((struct Obj05450 *)q)->f1B + 0x3a, WAZA_TOOL_GetMaxPP(func_021B7438(p), 0));
     ((struct Obj24157 *)(*p))->f1A = zero;
     return 8;
 }
@@ -978,13 +978,13 @@ static inline void flush(void *win)
  *     u8 langIndex;
  *     u8 resident;
  * };
- * extern char g_020A7E8C[];
+ * extern char MSGDATA_AllocSite[];
  * extern void *sub_02030734(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
- * extern void func_020495F4(void *,u32,void *);
+ * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
- * extern void func_0204581C(void *);
- * extern void func_02045A00(void *,const void *,u16);
+ * extern void STRBUF_Clear(void *);
+ * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
  * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
@@ -992,14 +992,14 @@ static inline void flush(void *win)
  *     u32 size;
  *     struct MsgEntry *e;
  *     if (index >= bank->file->count) {
- *         func_0204581C(dest);
+ *         STRBUF_Clear(dest);
  *         return;
  *     }
  *     func_02046180(bank);
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *         func_0204960C(bank->stream,pos + (index * 8 + 4));
- *         func_020495F4(bank->stream,8,&bank->cache);
+ *         ARC_TOOL_ReadHandle(bank->stream,8,&bank->cache);
  *         e = &bank->cache;
  *     } else {
  *         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
@@ -1008,17 +1008,17 @@ static inline void flush(void *win)
  *         void *buf;
  *         size = e->len * 2;
  *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
- *                            0,g_020A7E8C,0xd6);
+ *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
- *             func_020495F4(bank->stream,size,buf);
- *             func_02045A00(dest,buf,e->len);
+ *             ARC_TOOL_ReadHandle(bank->stream,size,buf);
+ *             STRBUF_SetChars(dest,buf,e->len);
  *             func_020307B0(buf);
  *         }
  *     } else {
- *         func_02045A00(dest,(u8 *)bank->base + e->off,e->len);
+ *         STRBUF_SetChars(dest,(u8 *)bank->base + e->off,e->len);
  *     }
  *     func_02045E04(dest,index);
  * }
@@ -1048,7 +1048,7 @@ void func_021B6CC0(char *p)
     func_021B6BF8(p,13,*(u32 *)(p+0x60),0x3c40,0,4);
     flush(*(void **)(p+0x38));
     bank=func_02045B38(0,2,0xcb,79);
-    mon=func_020185F4(**(void ***)p);
+    mon=POKE_TOOL_GetBoxParam(**(void ***)p);
     for(i=0;i<4;i++) {
         move=func_02017E88(mon,0x36+i,0);
         if(move==0) func_0204B3DC(*(void **)(p+i*4+0x124),0);
@@ -1113,7 +1113,7 @@ void func_021B6FDC(char *p,u8 first,u8 row)
     flush(((struct Obj00837 *)p)->f30);
     func_0201C7D0(func_02045770(((struct Obj00837 *)p)->f30),96,y,((struct Obj00837 *)p)->f50,((struct Obj00837 *)p)->f60,0x440);
     flush(((struct Obj00837 *)p)->f30);
-    value=func_0201C158(*(u32 *)(*(char * *)&((struct Obj00837 *)p)->f58+index*8+4),0);
+    value=WAZA_TOOL_GetMaxPP(*(u32 *)(*(char * *)&((struct Obj00837 *)p)->f58+index*8+4),0);
     func_0201EFA4(((struct Obj00837 *)p)->f48,0,value,2,1,1);
     func_0201EFA4(((struct Obj00837 *)p)->f48,1,value,2,0,1);
     func_0201F250(((struct Obj00837 *)p)->f48,((struct Obj00837 *)p)->f4C,((struct Obj00837 *)p)->f54);
@@ -1221,13 +1221,13 @@ static inline void clear(void *win)
  *     u8 langIndex;
  *     u8 resident;
  * };
- * extern char g_020A7E8C[];
+ * extern char MSGDATA_AllocSite[];
  * extern void *sub_02030734(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
- * extern void func_020495F4(void *,u32,void *);
+ * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
- * extern void func_0204581C(void *);
- * extern void func_02045A00(void *,const void *,u16);
+ * extern void STRBUF_Clear(void *);
+ * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
  * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
@@ -1235,14 +1235,14 @@ static inline void clear(void *win)
  *     u32 size;
  *     struct MsgEntry *e;
  *     if (index >= bank->file->count) {
- *         func_0204581C(dest);
+ *         STRBUF_Clear(dest);
  *         return;
  *     }
  *     func_02046180(bank);
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *         func_0204960C(bank->stream,pos + (index * 8 + 4));
- *         func_020495F4(bank->stream,8,&bank->cache);
+ *         ARC_TOOL_ReadHandle(bank->stream,8,&bank->cache);
  *         e = &bank->cache;
  *     } else {
  *         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
@@ -1251,17 +1251,17 @@ static inline void clear(void *win)
  *         void *buf;
  *         size = e->len * 2;
  *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
- *                            0,g_020A7E8C,0xd6);
+ *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
- *             func_020495F4(bank->stream,size,buf);
- *             func_02045A00(dest,buf,e->len);
+ *             ARC_TOOL_ReadHandle(bank->stream,size,buf);
+ *             STRBUF_SetChars(dest,buf,e->len);
  *             func_020307B0(buf);
  *         }
  *     } else {
- *         func_02045A00(dest,(u8 *)bank->base + e->off,e->len);
+ *         STRBUF_SetChars(dest,(u8 *)bank->base + e->off,e->len);
  *     }
  *     func_02045E04(dest,index);
  * }
@@ -1283,7 +1283,7 @@ void func_021B71C4(char *p,int move)
         else func_021B6C84(p,0x1d,value,3,0);
         func_021B6BF8(p,4,*(u32 *)(p+0x60),0x440,1,0);
         value=func_0201BD28(move,4);
-        if(value==0 || func_0201C1F4(move)!=0) func_02045CAC(*(void **)(p+0x44),0x21,*(void **)(p+0x4c));
+        if(value==0 || WAZA_TOOL_IsAlwaysHit(move)!=0) func_02045CAC(*(void **)(p+0x44),0x21,*(void **)(p+0x4c));
         else func_021B6C84(p,0x1e,value,3,0);
         func_021B6BF8(p,5,*(u32 *)(p+0x60),0x440,1,0);
         bank=func_02045B38(0,2,0xca,79);
@@ -1419,14 +1419,14 @@ int func_021B74F8(unsigned int state)
     case 2: return func_02006238();
     case 3: func_020061E4(0x56b); break;
     case 4:
-        func_02005DE4((void *)1);
-        func_02005E64();
-        func_02005D90(0x515, 0xffff);
+        GFL_USE_SetBgmPlayerParam((void *)1);
+        GFL_USE_PushBgm();
+        GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
         break;
     case 5:
         if (func_02005F38() == 0) {
-            func_02005E9C();
-            func_02005DE4(0);
+            GFL_USE_PopBgm();
+            GFL_USE_SetBgmPlayerParam(0);
         } else {
             return 1;
         }

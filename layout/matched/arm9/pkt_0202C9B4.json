@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202C9B4",
+   "name": "BGWINFRM_Create",
    "address": "0x0202C9B4",
    "kind": "game",
    "region": "arm9",

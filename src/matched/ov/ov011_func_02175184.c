@@ -1,5 +1,5 @@
 /*
- * function: func_02175184
+ * function: INTRUDE_COMM_CompareZonePair
  * address: 0x02175184
  * packet: pkt_ov011_02175184
  * region: ov011
@@ -12,7 +12,7 @@
 #include "../include/Obj02670.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-int func_02175184(u8 *a, u8 *b)
+int INTRUDE_COMM_CompareZonePair(u8 *a, u8 *b)
 {
     if (((struct Obj02670 *)a)->f0 == ((struct Obj02670 *)b)->f0) return 0;
     if (a[2] != b[2] && a[3] == b[3]) return 1;

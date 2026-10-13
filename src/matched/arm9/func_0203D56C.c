@@ -1,5 +1,5 @@
 /*
- * function: func_0203D56C
+ * function: GFL_NET_ResetSendQueue
  * address:  0x0203D56C
  * packet:   pkt_0203D56C
  * region:   arm9
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020394C0  0x020394C0  arm
+ *   GFL_NET_SYSTEM_IsSendQueueEmpty  0x020394C0  arm
  */
 
-extern int func_020394C0(void);
-void func_0203D56C(void)
+extern int GFL_NET_SYSTEM_IsSendQueueEmpty(void);
+void GFL_NET_ResetSendQueue(void)
 {
-    func_020394C0();
+    GFL_NET_SYSTEM_IsSendQueueEmpty();
 }

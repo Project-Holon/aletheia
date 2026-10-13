@@ -23,17 +23,17 @@
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030CBC 0x02030CBC arm
  *   func_02021518 0x02021518 thumb
- *   func_02021EE4 0x02021EE4 thumb
+ *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   func_0202155C 0x0202155C thumb
  *   func_020215A0 0x020215A0 thumb
  *   func_02021540 0x02021540 thumb
  *   func_02030DA4 0x02030DA4 arm
  *   func_02030D28 0x02030D28 arm
- *   func_02021ED8 0x02021ED8 thumb
- *   func_02021D50 0x02021D50  thumb
- *   func_02021660 0x02021660 thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
+ *   PALANM_TransferPalettes 0x02021D50  thumb
+ *   PALANM_LoadHandlePaletteToSlotAt 0x02021660 thumb
  *   func_020216D4  0x020216D4  thumb
- *   func_0202173C 0x0202173C thumb
+ *   PALANM_RequestFade 0x0202173C thumb
  *   func_020490F4  0x020490F4  arm
  *   func_02049BDC  0x02049BDC  arm
  *   func_02049740  0x02049740  arm
@@ -86,7 +86,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  *   d_021C8164 0x021C8164 data a2
  */
@@ -221,17 +221,17 @@ extern void func_0207D67C(unsigned int, int, int, int, int, int);
 extern u32 func_02030CB0(u32);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void *func_02021518(u32);
-extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern u32 func_02021540(void *a0);
 extern void func_02030DA4(void *);
 extern void func_02030D28(struct Ctx *c);
-extern u32 func_02021ED8(const char *ptr);
-extern void func_02021D50(struct S02021D50 *p);
-extern void func_02021660(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
+extern void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern int func_0202173C(void *,unsigned short,unsigned short,short,unsigned char,unsigned char,unsigned short,void *);
+extern int PALANM_RequestFade(void *,unsigned short,unsigned short,short,unsigned char,unsigned char,unsigned short,void *);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
@@ -277,7 +277,7 @@ extern void func_021C3B68(u16 *p, u32 value);
 extern void func_020434DC(unsigned,unsigned);
 extern void func_0207DC44(int,int,int,int);
 extern void func_0207DD24(u16,int,int,int,int);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(unsigned,unsigned);
 struct Ov208Obj *func_021BC240(void *owner, int val, u32 heap);
 void func_021BC26C(void *p);
@@ -681,7 +681,7 @@ PalFade *func_021BC560(u32 heap,u16 mask)
     p->memory=func_02030734(heap,func_02030CB0(2),1,d_021C8D98,0x1e8);
     p->task=func_02030CBC(2,p->memory);
     p->slots=func_02021518(heap);
-    func_02021EE4(p->slots,1);
+    PALANM_SetAutoTransfer(p->slots,1);
     p->mask=mask;
     if(p->mask&1)func_0202155C(p->slots,0,0x1a0,heap);
     if(p->mask&4)func_0202155C(p->slots,2,0x100,heap);
@@ -726,11 +726,11 @@ void func_021BC678(char *p)
     case 1:
         break;
     case 2:
-        if (func_02021ED8((const char *)(((struct Obj04893 *)p)->f8)) == 0)
+        if (PALANM_GetFadeRequestBits((const char *)(((struct Obj04893 *)p)->f8)) == 0)
             ((struct Obj04893 *)p)->f10 = 0;
         break;
     case 3:
-        if (func_02021ED8((const char *)(((struct Obj04893 *)p)->f8)) == 0)
+        if (PALANM_GetFadeRequestBits((const char *)(((struct Obj04893 *)p)->f8)) == 0)
             ((struct Obj04893 *)p)->f10 = 1;
         break;
     }
@@ -745,7 +745,7 @@ void func_021BC678(char *p)
  */
 void func_021BC6BC(char *p)
 {
-    func_02021D50((struct S02021D50 *)(((struct Obj18185 *)p)->f8));
+    PALANM_TransferPalettes((struct S02021D50 *)(((struct Obj18185 *)p)->f8));
 }
 
 
@@ -803,7 +803,7 @@ void func_021BC718(char *p)
 
 void func_021BC738(struct Ov208Gfx *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g)
 {
-    func_02021660(p->gfx, (void *)a, b, c, d, e, f, g);
+    PALANM_LoadHandlePaletteToSlotAt(p->gfx, (void *)a, b, c, d, e, f, g);
 }
 
 
@@ -825,10 +825,10 @@ void ov208_func_021BC758(struct Ov208PalFade *p)
 
 void func_021BC7B4(char *p,short b,unsigned char c,unsigned char d)
 {
-    if(((struct Obj02252 *)p)->fC&1)func_0202173C(((struct Obj02252 *)p)->f8,1,0x1fff,b,c,d,0,((struct Obj02252 *)p)->f0);
-    if(((struct Obj02252 *)p)->fC&4)func_0202173C(((struct Obj02252 *)p)->f8,4,0xff,b,c,d,0,((struct Obj02252 *)p)->f0);
-    if(((struct Obj02252 *)p)->fC&2)func_0202173C(((struct Obj02252 *)p)->f8,2,0x1fff,b,c,d,0,((struct Obj02252 *)p)->f0);
-    if(((struct Obj02252 *)p)->fC&8)func_0202173C(((struct Obj02252 *)p)->f8,8,0x3fff,b,c,d,0,((struct Obj02252 *)p)->f0);
+    if(((struct Obj02252 *)p)->fC&1)PALANM_RequestFade(((struct Obj02252 *)p)->f8,1,0x1fff,b,c,d,0,((struct Obj02252 *)p)->f0);
+    if(((struct Obj02252 *)p)->fC&4)PALANM_RequestFade(((struct Obj02252 *)p)->f8,4,0xff,b,c,d,0,((struct Obj02252 *)p)->f0);
+    if(((struct Obj02252 *)p)->fC&2)PALANM_RequestFade(((struct Obj02252 *)p)->f8,2,0x1fff,b,c,d,0,((struct Obj02252 *)p)->f0);
+    if(((struct Obj02252 *)p)->fC&8)PALANM_RequestFade(((struct Obj02252 *)p)->f8,8,0x3fff,b,c,d,0,((struct Obj02252 *)p)->f0);
 }
 
 
@@ -1119,6 +1119,6 @@ void func_021BCD68(void)
     func_0207DC44(0,0,0,0);
     func_0207DD24(0,0,0x7fff,0x3f,0);
     *(volatile unsigned *)0x04000580=0xbfff0000;
-    for(i=0;i<4;i++)func_02046A94((unsigned char)i,d_021C8164[i]);
+    for(i=0;i<4;i++)G3D_SYSTEM_SetLight((unsigned char)i,d_021C8164[i]);
     func_02046BE0(0,0);
 }

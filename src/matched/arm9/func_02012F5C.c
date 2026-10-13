@@ -1,5 +1,5 @@
 /*
- * function: func_02012F5C
+ * function: GAME_DATA_GetSaveBlock21
  * address:  0x02012F5C
  * packet:   pkt_02012F5C
  * region:   arm9
@@ -22,7 +22,7 @@
 struct Sub020089A8Obj;
 extern struct Sub020089A8Obj *func_020089C0(void *sys);
 
-void *func_02012F5C(void **h)
+void *GAME_DATA_GetSaveBlock21(void **h)
 {
     return func_020089C0(*h);
 }

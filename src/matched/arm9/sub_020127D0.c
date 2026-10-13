@@ -1,5 +1,5 @@
 /*
- * function: sub_020127D0
+ * function: GAME_DATA_GetUnionInfo
  * address:  0x020127D0
  * packet:   pkt_02012158
  * region:   arm9
@@ -19,8 +19,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020127D0.c \
- *       --func sub_020127D0 --addr 0x020127D0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_DATA_GetUnionInfo.c \
+ *       --func GAME_DATA_GetUnionInfo --addr 0x020127D0 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 
-u8 *sub_020127D0(u8 *o, u32 idx)
+u8 *GAME_DATA_GetUnionInfo(u8 *o, u32 idx)
 {
     return o + 0x214 + idx * 0x1E8;
 }

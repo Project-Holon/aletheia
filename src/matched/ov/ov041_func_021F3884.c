@@ -67,11 +67,11 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_02012EC4  0x02012EC4  thumb
  *   func_0200B3A4  0x0200B3A4  thumb
- *   func_02011428  0x02011428  thumb
- *   func_02011608  0x02011608  thumb
+ *   ICA_ANIME_CreateWithFullBuffer  0x02011428  thumb
+ *   ICA_ANIME_GetFrameNum  0x02011608  thumb
  *   func_020061E4  0x020061E4  thumb
  *   func_02011558  0x02011558  thumb
- *   func_02011688  0x02011688  thumb
+ *   ICA_ANIME_GetTranslateAt  0x02011688  thumb
  *   d_021F4320     0x021F4320  data  a4
  *   d_021F4198     0x021F4198  data  a2
  *   d_021F40F0     0x021F40F0  data  a2
@@ -126,9 +126,9 @@ extern u32 func_0218F0E8(u8 *a);
 extern int func_021F3F44(int);
 extern int func_021F3FC0(u32, int);
 extern u16 func_021F3F18(int);
-extern void *func_02011428(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void *ICA_ANIME_CreateWithFullBuffer(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4);
 struct Obj11244;
-extern u32 func_02011608(struct Obj11244 *p);
+extern u32 ICA_ANIME_GetFrameNum(struct Obj11244 *p);
 extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void func_021BE6CC(void *, int, u16, u16, int);
 extern int func_021BE6E8(int a, int b, int c, int d);
@@ -152,7 +152,7 @@ extern u32 *func_0216D550(u32 *p, u32 v);
 extern void func_02011558(struct IcaAnime *p);
 extern void func_0218F05C(unsigned char *a);
 extern void func_0218F878(u8 *a);
-extern u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx);
+extern u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *p, struct Rec12 *dst, u32 idx);
 extern void func_021A3038(u8 *p, struct VecFx32 *out);
 extern void func_0218EC54(u8 *p);
 extern void func_0218ECE4(void *, Vec *);
@@ -206,8 +206,8 @@ int func_021F3884(void *a0, int *state)
         v = d_021F4320[w[0]][sel].id;
         if (v == -1)
             return 1;
-        *(u32 *)(w + 0x714) = (u32)func_02011428((int)0x8015, (int)0x79, (int)v, (u32)(w + 4), (int)0x708);
-        *(u16 *)(w + 0x71A) = func_02011608((struct Obj11244 *)(*(u32 *)(w + 0x714)));
+        *(u32 *)(w + 0x714) = (u32)ICA_ANIME_CreateWithFullBuffer((int)0x8015, (int)0x79, (int)v, (u32)(w + 4), (int)0x708);
+        *(u16 *)(w + 0x71A) = ICA_ANIME_GetFrameNum((struct Obj11244 *)(*(u32 *)(w + 0x714)));
         idx = (u16)d_021F4320[row][sel].k;
         c = d_021F4198[idx].c;
         len = d_021F4198[idx].d;
@@ -321,7 +321,7 @@ int func_021F3884(void *a0, int *state)
         {
             Vec base = {0, 0, 0};
             b0 = w[0];
-            if (func_02011688((struct IcaAnime *)(*(u32 *)(w + 0x714)), (struct Rec12 *)(&base), *(u16 *)(w + 0x718)) != 0) {
+            if (ICA_ANIME_GetTranslateAt((struct IcaAnime *)(*(u32 *)(w + 0x714)), (struct Rec12 *)(&base), *(u16 *)(w + 0x718)) != 0) {
                 base.x += (d_021F40F0[b0].a << 16) + 0x8000;
                 base.y += d_021F40F0[b0].pad << 16;
                 base.z += (d_021F40F0[b0].b << 16) + 0x8000;

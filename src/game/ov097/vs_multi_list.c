@@ -17,7 +17,7 @@
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   D_021F7608 0x021F7608 data a4
- *   func_0202CD94 0x0202CD94 thumb
+ *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
  *   func_0204A600 0x0204A600 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
@@ -29,8 +29,8 @@
  *   func_021F75E0 0x021F75E0 thumb ov097
  *   func_020221A4 0x020221A4 thumb
  *   func_0201C6B4 0x0201C6B4 thumb
- *   func_0202CD64 0x0202CD64 thumb
- *   func_0202CE40 0x0202CE40 thumb
+ *   BGWINFRM_StartMove 0x0202CD64 thumb
+ *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_0202208C 0x0202208C thumb
  *   d_021F761C 0x021F761C data a4
@@ -83,15 +83,15 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_0201C724 0x0201C724 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_02017F00 0x02017F00 thumb
+ *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   func_0201D304 0x0201D304 thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_02043AF4 0x02043AF4 arm
  *   func_0204A48C 0x0204A48C arm
  *   d_021F764C 0x021F764C data a4
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_0201BA68 0x0201BA68 thumb
- *   func_0201BABC 0x0201BABC thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0201BC3C 0x0201BC3C thumb
  *   func_0204ACEC 0x0204ACEC arm
@@ -111,22 +111,22 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0201BBE8 0x0201BBE8 thumb
+ *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0202136C 0x0202136C thumb
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   func_0204B878 0x0204B878 arm
  *   d_021F76C8 0x021F76C8 data a4
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_0204B1CC 0x0204B1CC arm
  *   func_0204B454 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
- *   func_0202C9B4 0x0202C9B4 thumb
- *   func_0202CA3C 0x0202CA3C thumb
- *   func_0202CEBC 0x0202CEBC thumb
- *   func_0202CAC4 0x0202CAC4 thumb
- *   func_0202CE50 0x0202CE50 thumb
- *   func_0202CB4C 0x0202CB4C thumb
+ *   BGWINFRM_Create 0x0202C9B4 thumb
+ *   BGWINFRM_AddFrame 0x0202CA3C thumb
+ *   BGWINFRM_PutBmpWin 0x0202CEBC thumb
+ *   BGWINFRM_SetFrameData 0x0202CAC4 thumb
+ *   BGWINFRM_ChangePalette 0x0202CE50 thumb
+ *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   func_0204162C 0x0204162C arm
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
@@ -242,7 +242,7 @@ struct P_021F734C {
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern void *func_0203159C(struct Obj0203159C *,unsigned int,unsigned int);
 extern void func_02082BCC(void *,int,unsigned int);
-extern void func_0202CD94(struct WinMgr *mgr);
+extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern void func_0204A600(void);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
@@ -254,8 +254,8 @@ extern void func_020434DC(u32 mask, u32 enable);
 extern void func_021F75E0(int *);
 extern u32 func_020221A4(void);
 extern u32 func_0201C6B4(const struct PrintSys *p);
-extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
-extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
+extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
 extern void func_020061E4(u32);
 extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
 extern void func_020433E0(const struct DispVram *c);
@@ -303,15 +303,15 @@ extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201C724(void *, u32, u32, u32, u32, u32, u16);
 extern u32 func_02017E1C(void *, u32, u32);
-extern u8 func_02017F00(void *);
+extern u8 POKE_TOOL_GetGender(void *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201EFA4(struct WordSet *, u32, u32, u32, u32, u32);
 extern void func_02043AF4(struct Bmp *, unsigned, unsigned, unsigned, unsigned, unsigned);
 extern void func_0204A48C(const struct Cfg *, unsigned, unsigned);
 extern void func_0204A5AC(void);
-extern void *func_020185F4(void *);
+extern void *POKE_TOOL_GetBoxParam(void *);
 extern u32 func_0201BA68(void *);
-extern u32 func_0201BABC(u32, u32, u32, u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
 extern int func_0204A6C8(void *, u32, u32, u32, u16);
 extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *, u32, u32, u32, u16);
@@ -331,21 +331,21 @@ extern struct Bank *func_0204B100(int, u8, u32);
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *, u32);
 extern void func_0204B92C(struct Obj *, u32);
-extern int func_0201BBE8(void *);
+extern int POKE_TOOL_GetIconPalette(void *);
 extern void func_0204B6F4(struct Obj *, u32, u32);
 extern u32 func_0202136C(u16);
-extern void func_0204B8C4(struct Obj *, u32);
+extern void CLACT_SetActorAnimFrame(struct Obj *, u32);
 extern void func_0204B878(struct Obj *, u16);
 extern void func_0204B3B4(struct Obj *);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
-extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
-extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
-extern void func_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
-extern void func_0202CE50(struct WinMgr *mgr, u32 idx, s32_021F734C x, s32_021F734C y, u8 w, u8 h, u8 pal);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
+extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
+extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
+extern void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, s32_021F734C x, s32_021F734C y, u8 w, u8 h, u8 pal);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern u32 func_0204162C(int);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_020307B0(void *p);
@@ -412,7 +412,7 @@ extern int (*D_021F7608[])(char *);
 
 
 
-int func_021F6590(int a,int *b,int c,char *d) { *b=D_021F7608[*b](d); if(*b==5) return 1; func_0202CD94(*(struct WinMgr * *)&((struct Obj10194 *)d)->f8); func_021F6B38(d); func_0204A600(); return 0; }
+int func_021F6590(int a,int *b,int c,char *d) { *b=D_021F7608[*b](d); if(*b==5) return 1; BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((struct Obj10194 *)d)->f8); func_021F6B38(d); func_0204A600(); return 0; }
 
 
 
@@ -474,27 +474,27 @@ int func_021F66B4(u8 *p)
         if (func_0201C6B4(((struct Obj00111 *)p)->f1C) == 0) break;
         if (*(int *)(*(int *)&((struct Obj00111 *)p)->f0 + 8) == 0) {
             for (i = 0; i < 3; i++) {
-                func_0202CD64(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, i + 3, -1, 0, 16);
-                func_0202CD64(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, i + 9, -1, 0, 16);
+                BGWINFRM_StartMove(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, i + 3, -1, 0, 16);
+                BGWINFRM_StartMove(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, i + 9, -1, 0, 16);
             }
         } else {
             for (i = 0; i < 3; i++) {
-                func_0202CD64(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, i, 1, 0, 16);
-                func_0202CD64(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, i + 6, 1, 0, 16);
+                BGWINFRM_StartMove(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, i, 1, 0, 16);
+                BGWINFRM_StartMove(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, i + 6, 1, 0, 16);
             }
         }
         func_020061E4(0x642);
         (((struct Obj00111 *)p)->f110)++;
     case 1:
         if (*(int *)(*(int *)&((struct Obj00111 *)p)->f0 + 8) == 0) {
-            if (func_0202CE40(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, 3) == 0) {
+            if (BGWINFRM_IsMoving(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, 3) == 0) {
                 (((struct Obj00111 *)p)->f110)++;
                 func_020061E4(0x57a);
                 return func_021F681C(p, 0x80, 4);
             }
             func_021F7308((int)p, 3, -8);
         } else {
-            if (func_0202CE40(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, 0) == 0) {
+            if (BGWINFRM_IsMoving(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, 0) == 0) {
                 (((struct Obj00111 *)p)->f110)++;
                 func_020061E4(0x57a);
                 return func_021F681C(p, 0x80, 4);
@@ -754,7 +754,7 @@ void func_021F6B7C(int p, int i)
     func_02045808(t);
     if (func_02017E1C(*(void **)(mons + mi), 0xad, 0) == 1 &&
         func_02017E1C(*(void **)(mons + mi), 0x4c, 0) == 0) {
-        gender = func_02017F00(*(void **)(mons + mi));
+        gender = POKE_TOOL_GetGender(*(void **)(mons + mi));
         if (gender == 0) print_right(p, windows, dirty, i, window, 0x16, 0x2960);
         else if (gender == 1) print_right(p, windows, dirty, i, window, 0x17, 0x31a0);
     }
@@ -932,9 +932,9 @@ void func_021F6F88(int p)
     icons = IconBase(p);
     for (i = 0; i < 6; i++) {
         if (*(void **)(p + i * 4 + 0xf8) != 0)
-            icon = func_0201BA68(func_020185F4(*(void **)(p + i * 4 + 0xf8)));
+            icon = func_0201BA68(POKE_TOOL_GetBoxParam(*(void **)(p + i * 4 + 0xf8)));
         else
-            icon = func_0201BABC(0, 0, 0, 0);
+            icon = POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0);
         *(int *)(icons + i * 4) = func_0204A6C8(h, icon, 0, 0, 0x71);
     }
     *(int *)&((struct Obj00410 *)p)->fD8 = func_0204ACEC(h, func_0201BC3C(), 0, 0, 0x71);
@@ -993,14 +993,14 @@ void func_021F714C(struct P_021F714C *p)
             func_0204B3DC(p->actors.set.d[i], 0);
         } else {
             func_0204B92C(p->actors.set.a[i], 1);
-            func_0204B6F4(p->actors.set.a[i], func_0201BBE8(func_020185F4(p->mons[i])), 1);
+            func_0204B6F4(p->actors.set.a[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(p->mons[i])), 1);
             species = func_02017E1C(p->mons[i], 6, 0);
             if (species == 0) func_0204B3DC(p->actors.set.b[i], 0);
             else if (func_0202136C(species) == 1) {
-                func_0204B8C4(p->actors.set.b[i], 0);
+                CLACT_SetActorAnimFrame(p->actors.set.b[i], 0);
                 func_0204B878(p->actors.set.b[i], 1);
             } else {
-                func_0204B8C4(p->actors.set.b[i], 0);
+                CLACT_SetActorAnimFrame(p->actors.set.b[i], 0);
                 func_0204B878(p->actors.set.b[i], 0);
             }
         }
@@ -1061,50 +1061,50 @@ void func_021F734C(struct P_021F734C *p)
 {
     u16 i;
     u8 *palette, *buf;
-    p->window = func_0202C9B4(2, 12, 0x71);
+    p->window = BGWINFRM_Create(2, 12, 0x71);
     for (i = 0; i < 6; i++) {
-        func_0202CA3C(p->window, i, 1, 16, 6);
-        func_0202CA3C(p->window, i + 6, 0, 16, 6);
-        func_0202CEBC(p->window, i + 6, p->images[i].data);
+        BGWINFRM_AddFrame(p->window, i, 1, 16, 6);
+        BGWINFRM_AddFrame(p->window, i + 6, 0, 16, 6);
+        BGWINFRM_PutBmpWin(p->window, i + 6, p->images[i].data);
     }
     palette = (u8 *)func_0204162C(1);
     buf = func_02030734(0x8071, 0xc0, 0, d_021F78C0, 0x606);
     for (i = 0; i < 6; i++) MIi_CpuCopy16(palette + i * 64, buf + i * 32, 32);
-    for (i = 0; i < 6; i++) if (p->mons[i]) func_0202CAC4(p->window, i, buf);
+    for (i = 0; i < 6; i++) if (p->mons[i]) BGWINFRM_SetFrameData(p->window, i, buf);
     for (i = 0; i < 6; i++) MIi_CpuCopy16(palette + (i + 18) * 64, buf + i * 32, 32);
-    for (i = 0; i < 6; i++) if (!p->mons[i]) func_0202CAC4(p->window, i, buf);
+    for (i = 0; i < 6; i++) if (!p->mons[i]) BGWINFRM_SetFrameData(p->window, i, buf);
     func_020307B0(buf);
     func_020414EC(1);
     if (((struct Obj21995 *)(p->parent))->f8 == 0) {
-        for (i = 3; i < 6; i++) if (p->mons[i]) func_0202CE50(p->window, i, 0, 0, 16, 6, 5);
+        for (i = 3; i < 6; i++) if (p->mons[i]) BGWINFRM_ChangePalette(p->window, i, 0, 0, 16, 6, 5);
     } else {
-        for (i = 0; i < 3; i++) if (p->mons[i]) func_0202CE50(p->window, i, 0, 0, 16, 6, 5);
+        for (i = 0; i < 3; i++) if (p->mons[i]) BGWINFRM_ChangePalette(p->window, i, 0, 0, 16, 6, 5);
     }
     if (((struct Obj21996 *)(p->parent))->f8 == 0) {
-        func_0202CB4C(p->window, 0, 0, 0);
-        func_0202CB4C(p->window, 1, 0, 6);
-        func_0202CB4C(p->window, 2, 0, 12);
-        func_0202CB4C(p->window, 6, 0, 0);
-        func_0202CB4C(p->window, 7, 0, 6);
-        func_0202CB4C(p->window, 8, 0, 12);
-        func_0202CB4C(p->window, 3, 32, 1);
-        func_0202CB4C(p->window, 4, 32, 7);
-        func_0202CB4C(p->window, 5, 32, 13);
-        func_0202CB4C(p->window, 9, 32, 1);
-        func_0202CB4C(p->window, 10, 32, 7);
-        func_0202CB4C(p->window, 11, 32, 13);
+        BGWINFRM_PutFrame(p->window, 0, 0, 0);
+        BGWINFRM_PutFrame(p->window, 1, 0, 6);
+        BGWINFRM_PutFrame(p->window, 2, 0, 12);
+        BGWINFRM_PutFrame(p->window, 6, 0, 0);
+        BGWINFRM_PutFrame(p->window, 7, 0, 6);
+        BGWINFRM_PutFrame(p->window, 8, 0, 12);
+        BGWINFRM_PutFrame(p->window, 3, 32, 1);
+        BGWINFRM_PutFrame(p->window, 4, 32, 7);
+        BGWINFRM_PutFrame(p->window, 5, 32, 13);
+        BGWINFRM_PutFrame(p->window, 9, 32, 1);
+        BGWINFRM_PutFrame(p->window, 10, 32, 7);
+        BGWINFRM_PutFrame(p->window, 11, 32, 13);
     } else {
-        func_0202CB4C(p->window, 0, -16, 0);
-        func_0202CB4C(p->window, 1, -16, 6);
-        func_0202CB4C(p->window, 2, -16, 12);
-        func_0202CB4C(p->window, 6, -16, 0);
-        func_0202CB4C(p->window, 7, -16, 6);
-        func_0202CB4C(p->window, 8, -16, 12);
-        func_0202CB4C(p->window, 3, 16, 1);
-        func_0202CB4C(p->window, 4, 16, 7);
-        func_0202CB4C(p->window, 5, 16, 13);
-        func_0202CB4C(p->window, 9, 16, 1);
-        func_0202CB4C(p->window, 10, 16, 7);
-        func_0202CB4C(p->window, 11, 16, 13);
+        BGWINFRM_PutFrame(p->window, 0, -16, 0);
+        BGWINFRM_PutFrame(p->window, 1, -16, 6);
+        BGWINFRM_PutFrame(p->window, 2, -16, 12);
+        BGWINFRM_PutFrame(p->window, 6, -16, 0);
+        BGWINFRM_PutFrame(p->window, 7, -16, 6);
+        BGWINFRM_PutFrame(p->window, 8, -16, 12);
+        BGWINFRM_PutFrame(p->window, 3, 16, 1);
+        BGWINFRM_PutFrame(p->window, 4, 16, 7);
+        BGWINFRM_PutFrame(p->window, 5, 16, 13);
+        BGWINFRM_PutFrame(p->window, 9, 16, 1);
+        BGWINFRM_PutFrame(p->window, 10, 16, 7);
+        BGWINFRM_PutFrame(p->window, 11, 16, 13);
     }
 }

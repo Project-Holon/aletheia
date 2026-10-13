@@ -13,6 +13,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0202952C.c \\
  *       --func func_0202952C --addr 0x0202952C --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_FadeOutTask  0x020294F4  thumb
  */
 #include "../include/Obj11301.h"
 
@@ -28,12 +31,12 @@ struct Obj;
 extern void *func_020124E8(struct Obj *p);
 struct BigObj;
 extern u32  func_02012A30(const struct BigObj *p);
-extern int func_020294F4(u32 unused, u32 *state, u8 *cfg);
+extern int FIELD_SOUND_SYSTEM_FadeOutTask(u32 unused, u32 *state, u8 *cfg);
 
 u8 *func_0202952C(u8 *p, u32 a)
 {
     u32 r7 = (u32)func_020120F4((const struct Ctx *)p);
-    u8 *r6 = (u8 *)func_020122C0(p, 0, (void *)((u32)func_020294F4), 0x10);
+    u8 *r6 = (u8 *)func_020122C0(p, 0, (void *)((u32)FIELD_SOUND_SYSTEM_FadeOutTask), 0x10);
     u8 *r4 = func_020124E8((struct Obj *)r6);
 
     ((struct Obj11301 *)r4)->f4 = func_02012A30((const struct BigObj *)r7);

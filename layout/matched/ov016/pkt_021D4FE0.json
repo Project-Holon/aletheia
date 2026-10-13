@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D4FEC",
+   "name": "DWCi_CELLlGetState",
    "address": "0x021D4FEC",
    "kind": "game",
    "region": "ov016",

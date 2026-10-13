@@ -1,5 +1,5 @@
 /*
- * function: func_0202BAE8
+ * function: ISS_3DS_SYS_LeaveImpl
  * address: 0x0202BAE8
  * packet: pkt_arm9_0202BAE8
  * region: arm9
@@ -13,9 +13,9 @@
  */
 
 typedef unsigned int  u32;
-void func_0202BAE8(u32 *p);
+void ISS_3DS_SYS_LeaveImpl(u32 *p);
 
-void func_0202BAE8(u32 *p)
+void ISS_3DS_SYS_LeaveImpl(u32 *p)
 {
     if (p[1] != 0) {
         p[1] = 0;

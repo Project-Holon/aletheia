@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020245D4
+ * function: PMSI_PARAM_IsValid
  * address:  0x020245D4
  * packet:   pkt_020245D4
  * region:   arm9
@@ -11,12 +11,12 @@
  * status:   EXACT
  *
  * pmsi_param.c's word-array validator: guards the (category, page) pair
- * against the per-category count, asks func_02024498 how many words the
+ * against the per-category count, asks PMSI_PARAM_GetWordCount how many words the
  * page carries, and runs each word through the same two-arm check
- * func_020246C8 performs on a single word.
+ * PMSI_PARAM_ValidateWord performs on a single word.
  *
  * THE LEVER that closed this (it was DIFF, 132 bytes against 136, for the
- * whole of the previous wave -- see docs/notes/func_020245D4.diff.c.txt):
+ * whole of the previous wave -- see docs/notes/PMSI_PARAM_IsValid.diff.c.txt):
  * BOTH arms of the two-arm check write the `ok = 0; goto ret;` tail out,
  * and the label `setfail` sits INSIDE THE FIRST ARM'S COPY.  That is the
  * mixed case of docs/idioms/two-arms-write-the-tail-out-and-the-third-
@@ -31,19 +31,19 @@
  * `== 0` arm first the two call sites swap and 17 bytes differ.
  *
  * `sel` must be a named local: the guard reads p->f02 once and the same
- * value is handed to func_02024498, which is what keeps r5 live across the
- * func_02024584 call.
+ * value is handed to PMSI_PARAM_GetWordCount, which is what keeps r5 live across the
+ * PMSI_PARAM_GetSentenceCount call.
  *
  * symbols:
- *   func_02024584  0x02024584  thumb
- *   func_02024498  0x02024498  thumb
+ *   PMSI_PARAM_GetSentenceCount  0x02024584  thumb
+ *   PMSI_PARAM_GetWordCount  0x02024498  thumb
  *   sub_02024508   0x02024508  thumb
  *   sub_02024520   0x02024520  thumb
- *   func_020248D8  0x020248D8  thumb
+ *   PMS_WORD_SplitWordId  0x020248D8  thumb
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020245D4.c \
- *       --func func_020245D4 --addr 0x020245D4 --thumb --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/PMSI_PARAM_IsValid.c \
+ *       --func PMSI_PARAM_IsValid --addr 0x020245D4 --thumb --cc 1.1p1
  */
 
 typedef unsigned short u16;
@@ -58,13 +58,13 @@ struct T {
 };
 
 typedef unsigned char  u8;
-extern u8 func_02024584(u32 i);
-extern u32 func_02024498(u32 a0, u32 a1, u32 a2);
+extern u8 PMSI_PARAM_GetSentenceCount(u32 i);
+extern u32 PMSI_PARAM_GetWordCount(u32 a0, u32 a1, u32 a2);
 extern u32 sub_02024508(u32 x);
 extern u32 sub_02024520(u32 x);
-extern int func_020248D8(u32 v, u32 *a1, u32 *a2);
+extern int PMS_WORD_SplitWordId(u32 v, u32 *a1, u32 *a2);
 
-u32 func_020245D4(struct T *p, u32 a1)
+u32 PMSI_PARAM_IsValid(struct T *p, u32 a1)
 {
     u32 ok;
     u32 n;
@@ -76,11 +76,11 @@ u32 func_020245D4(struct T *p, u32 a1)
         goto fail;
     }
     sel = p->f02;
-    if (sel >= func_02024584(p->f00)) {
+    if (sel >= PMSI_PARAM_GetSentenceCount(p->f00)) {
         goto fail;
     }
 
-    n = func_02024498(p->f00, sel, (u16)((a1 & 0x7FFF) | 0x8000));
+    n = PMSI_PARAM_GetWordCount(p->f00, sel, (u16)((a1 & 0x7FFF) | 0x8000));
     ok = 1;
     for (i = 0; i < n; i++) {
         struct T *q = (struct T *)((u16 *)p + i);
@@ -95,7 +95,7 @@ setfail:
             ok = 0;
             goto ret;
         } else {
-            if (func_020248D8(q->f04, &x, &y) != 0) {
+            if (PMS_WORD_SplitWordId(q->f04, &x, &y) != 0) {
                 continue;
             }
             ok = 0;

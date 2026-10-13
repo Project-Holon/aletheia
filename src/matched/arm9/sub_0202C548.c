@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202C5AC  0x0202C5AC  thumb
+ *   ISS_SWITCH_Free  0x0202C5AC  thumb
  *
  * The first of the nine pool-word-and-bx tail calls at 0x0202C548
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), 8 bytes each with no
@@ -27,9 +27,9 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0202C5AC(void *p);
+extern u32 ISS_SWITCH_Free(void *p);
 
 u32 sub_0202C548(void *p)
 {
-    return func_0202C5AC(p);
+    return ISS_SWITCH_Free(p);
 }

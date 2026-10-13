@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202CF98 0x0202CF98 thumb
- *   func_0202CFC0 0x0202CFC0 thumb
- *   func_0202CF8C 0x0202CF8C thumb
+ *   BGWINFRM_GetPos 0x0202CF98 thumb
+ *   BGWINFRM_GetSize 0x0202CFC0 thumb
+ *   BGWINFRM_GetBgFrame 0x0202CF8C thumb
  */
 #include "../include/Obj23825.h"
 #include "../include/Obj23826.h"
@@ -42,19 +42,19 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
-extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
-extern u8 func_0202CF8C(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void BGWINFRM_GetSize(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
+extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
 
 void func_021DD090(Sys *p, unsigned idx)
 {
     unsigned short w;
     unsigned short h;
     signed char pos[2];
-    func_0202CF98(*(struct WinMgr * *)&((struct Obj23825 *)((char *)p->work))->f74, idx, &pos[1], &pos[0]);
-    func_0202CFC0(*(struct WinMgr * *)&((struct Obj23826 *)((char *)p->work))->f74, idx, &w, &h);
+    BGWINFRM_GetPos(*(struct WinMgr * *)&((struct Obj23825 *)((char *)p->work))->f74, idx, &pos[1], &pos[0]);
+    BGWINFRM_GetSize(*(struct WinMgr * *)&((struct Obj23826 *)((char *)p->work))->f74, idx, &w, &h);
     p->work->flag = 1;
-    p->work->id = func_0202CF8C(*(struct WinMgr * *)&((struct Obj23827 *)((char *)p->work))->f74, idx);
+    p->work->id = BGWINFRM_GetBgFrame(*(struct WinMgr * *)&((struct Obj23827 *)((char *)p->work))->f74, idx);
     p->work->lo = 0xD;
     p->work->hi = 0xC;
     p->work->state = 0;

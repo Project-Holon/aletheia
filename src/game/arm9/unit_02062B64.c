@@ -1,6 +1,6 @@
 /*
  * file:     unit_02062B64.c
- * function: func_02062B64
+ * function: NNS_G2dFindBinaryBlock
  * address:  0x02062B64
  * packet:   pkt_0206296C
  * region:   arm9
@@ -19,7 +19,7 @@
  * /NMCR getter in this module is this call plus a per-format offset fixup.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02062B64.c  *       --func func_02062B64 --addr 0x02062B64 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dFindBinaryBlock.c  *       --func NNS_G2dFindBinaryBlock --addr 0x02062B64 --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -42,7 +42,7 @@ struct NNSG2dBinaryFileHeader {
     u16 numBlocks;
 };
 
-void *func_02062B64(struct NNSG2dBinaryFileHeader *pHeader, u32 signature)
+void *NNS_G2dFindBinaryBlock(struct NNSG2dBinaryFileHeader *pHeader, u32 signature)
 {
     struct NNSG2dBinaryBlockHeader *block =
         (struct NNSG2dBinaryBlockHeader *)((u8 *)pHeader + pHeader->headerSize);

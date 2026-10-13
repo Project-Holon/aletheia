@@ -17,7 +17,7 @@
  *   func_021D5B68 0x021D5B68 thumb ov093
  *   func_02204CC0 0x02204CC0 thumb ov094
  *   func_02205F88 0x02205F88 thumb ov094
- *   func_02021848 0x02021848 thumb
+ *   PALANM_RequestFadeOverwrite 0x02021848 thumb
  *   d_0220A386 0x0220A386 data a1
  */
 #include "../include/Obj00168.h"
@@ -36,7 +36,7 @@ struct Slots;
 struct Work;
 extern void func_02204CC0(struct Work *p, const struct Slots *q);
 extern void func_02205F88(char *p);
-extern int func_02021848(void *, u16, u16, s16, u8, u8, u16, void *);
+extern int PALANM_RequestFadeOverwrite(void *, u16, u16, s16, u8, u8, u16, void *);
 extern const Palette d_0220A386[];
 #define INDEX (((Flags *)m)->index)
 #define OBJECT (*(u8 **)(m + INDEX * 4 + 0x2a4))
@@ -63,17 +63,17 @@ void func_022053DC(char *m)
         for (i = 0; i < 4; i++)
             *(u8 *)(m + i + 0x25a) = 0;
         ((struct Obj00168 *)m)->f220 = 0;
-        func_02021848(((struct Obj00168 *)m)->f64, 2, 0x3e00, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
-        func_02021848(((struct Obj00168 *)m)->f64, 8, 0x700, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
+        PALANM_RequestFadeOverwrite(((struct Obj00168 *)m)->f64, 2, 0x3e00, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
+        PALANM_RequestFadeOverwrite(((struct Obj00168 *)m)->f64, 8, 0x700, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
         return;
     }
     if (((struct Obj00168 *)m)->f220 == 1) {
         ((struct Obj00168 *)m)->f25A = 1;
         func_02205F88(m);
-        func_02021848(((struct Obj00168 *)m)->f64, 2, 0x3e00, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
-        func_02021848(((struct Obj00168 *)m)->f64, 8, 0x700, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
+        PALANM_RequestFadeOverwrite(((struct Obj00168 *)m)->f64, 2, 0x3e00, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
+        PALANM_RequestFadeOverwrite(((struct Obj00168 *)m)->f64, 8, 0x700, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
         return;
     }
-    func_02021848(((struct Obj00168 *)m)->f64, 2, 0x3e00, 0, 0, 0, 0, ((struct Obj00168 *)m)->f0);
-    func_02021848(((struct Obj00168 *)m)->f64, 8, 0x700, 0, 0, 0, 0, ((struct Obj00168 *)m)->f0);
+    PALANM_RequestFadeOverwrite(((struct Obj00168 *)m)->f64, 2, 0x3e00, 0, 0, 0, 0, ((struct Obj00168 *)m)->f0);
+    PALANM_RequestFadeOverwrite(((struct Obj00168 *)m)->f64, 8, 0x700, 0, 0, 0, 0, ((struct Obj00168 *)m)->f0);
 }

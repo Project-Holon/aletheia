@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021D775C  0x021D775C  thumb  ov093
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
@@ -34,7 +34,7 @@ typedef struct Rec {
 } Rec;
 
 extern int func_021D775C(int key);
-extern u32 func_0201BEB8(u16 id, u32 bit);
+extern u32 WAZA_TOOL_GetFlag(u16 id, u32 bit);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void *func_021C7CF4(int *p, int i);
@@ -54,7 +54,7 @@ void func_021DFABC(int a, int q, int id)
         return;
     if (func_021D775C(70) != 0)
         return;
-    if (!func_0201BEB8(func_021D775C(18), 0))
+    if (!WAZA_TOOL_GetFlag(func_021D775C(18), 0))
         return;
     r = (Rec *)func_021C88A4((void *)q, 7, id);
     r->f06 = func_021D775C(3);

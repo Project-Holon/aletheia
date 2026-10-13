@@ -1,5 +1,5 @@
 /*
- * function: func_021D8CD0
+ * function: P_STA_RIBBON_UpdateTouch
  * address: 0x021D8CD0
  * packet: pkt_ov131_021D8CD0
  * region: ov131
@@ -17,13 +17,13 @@
  *   void forwarding declaration. 021D9428 forwards target in live r1 to
  *   021D93E4; the original explicitly narrows target to u8 before the call.
  * symbols:
- *   func_021D5A9C 0x021D5A9C thumb ov131
- *   func_021D964C 0x021D964C thumb ov131
- *   func_021D9670 0x021D9670 thumb ov131
- *   func_021D8E24 0x021D8E24 thumb ov131
- *   func_021D9428 0x021D9428 thumb ov131
- *   func_021D949C 0x021D949C thumb ov131
- *   func_021D8F0C 0x021D8F0C thumb ov131
+ *   P_STATUS_SetInputEnable 0x021D5A9C thumb ov131
+ *   P_STA_RIBBON_FreeDetailWindows 0x021D964C thumb ov131
+ *   P_STA_RIBBON_HideDetail 0x021D9670 thumb ov131
+ *   P_STA_RIBBON_GetTouchedRow 0x021D8E24 thumb ov131
+ *   P_STA_RIBBON_GetRowOwnedIndex 0x021D9428 thumb ov131
+ *   P_STA_RIBBON_PrintDetail 0x021D949C thumb ov131
+ *   P_STA_RIBBON_Scroll 0x021D8F0C thumb ov131
  *   func_0204B878 0x0204B878 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_020061E4 0x020061E4 thumb
@@ -36,46 +36,46 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_021D5A9C(char *p, int a);
-extern void func_021D964C(u8 *,u8 *);
-extern void func_021D9670(u8 *,u8 *);
-extern int func_021D8E24(void *unused, u8 *p);
+extern void P_STATUS_SetInputEnable(char *p, int a);
+extern void P_STA_RIBBON_FreeDetailWindows(u8 *,u8 *);
+extern void P_STA_RIBBON_HideDetail(u8 *,u8 *);
+extern int P_STA_RIBBON_GetTouchedRow(void *unused, u8 *p);
 struct Obj;
-extern unsigned int func_021D9428(unsigned char *p, unsigned int target);
-extern void func_021D949C(u8 *,u8 *);
-extern void func_021D8F0C(void *,u8 *,int);
+extern unsigned int P_STA_RIBBON_GetRowOwnedIndex(unsigned char *p, unsigned int target);
+extern void P_STA_RIBBON_PrintDetail(u8 *,u8 *);
+extern void P_STA_RIBBON_Scroll(void *,u8 *,int);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_020061E4(u32 a);
 extern int func_02035C60(void);
 extern int func_02035C38(void);
-void func_021D8CD0(u8 *a,u8 *p)
+void P_STA_RIBBON_UpdateTouch(u8 *a,u8 *p)
 {
     int index, delta, velocity;
     if(((struct Obj00136 *)a)->f24==7) {
-        func_021D5A9C((char *)a,1);
+        P_STATUS_SetInputEnable((char *)a,1);
         func_0204B878(((struct Obj00136 *)a)->f194,9);
         func_0204B3DC(((struct Obj00091 *)p)->f54,0);
         p[0x58]=255;
         p[0x59]=255;
         ((struct Obj00091 *)p)->f68=1;
         a[0x1c]=1;
-        func_021D964C(a,p);
-        func_021D9670(a,p);
+        P_STA_RIBBON_FreeDetailWindows(a,p);
+        P_STA_RIBBON_HideDetail(a,p);
         func_020061E4(1361);
         return;
     }
     if(func_02035C60()==1 && ((struct Obj00136 *)a)->f28>8 && ((struct Obj00136 *)a)->f28<144) {
-        index=func_021D8E24(a,p);
+        index=P_STA_RIBBON_GetTouchedRow(a,p);
         if(index!=-1) {
             p[0x58]=(u8)index;
             ((struct Obj00091 *)p)->f68=1;
-            p[0x59]=func_021D9428(p,(u8)index);
+            p[0x59]=P_STA_RIBBON_GetRowOwnedIndex(p,(u8)index);
             ((struct Obj00091 *)p)->f64=1;
             ((struct Obj00091 *)p)->f5C=0;
             func_0204B3DC(((struct Obj00091 *)p)->f54,0);
-            func_021D964C(a,p);
-            func_021D949C(a,p);
+            P_STA_RIBBON_FreeDetailWindows(a,p);
+            P_STA_RIBBON_PrintDetail(a,p);
         }
         a[0x1c]=1;
         return;
@@ -83,7 +83,7 @@ void func_021D8CD0(u8 *a,u8 *p)
     if(func_02035C38()==1 && ((struct Obj00091 *)p)->f64==1 && ((struct Obj00136 *)a)->f28>8 && ((struct Obj00136 *)a)->f28<144) {
         delta=(s16)(((struct Obj00136 *)a)->f34-((struct Obj00136 *)a)->f2C);
         velocity=delta*2;
-        func_021D8F0C(a,p,delta);
+        P_STA_RIBBON_Scroll(a,p,delta);
         if(velocity>=0 && ((struct Obj00091 *)p)->f5C>0 && velocity<((struct Obj00091 *)p)->f5C) {
             ((struct Obj00091 *)p)->f5C=(int)((u32)((struct Obj00091 *)p)->f5C+(u32)velocity)/2;
             return;
@@ -98,10 +98,10 @@ void func_021D8CD0(u8 *a,u8 *p)
     ((struct Obj00091 *)p)->f64=0;
     if(((struct Obj00091 *)p)->f5C<0) {
         ((struct Obj00091 *)p)->f5C+=1;
-        func_021D8F0C(a,p,(s16)(((struct Obj00091 *)p)->f5C/2));
+        P_STA_RIBBON_Scroll(a,p,(s16)(((struct Obj00091 *)p)->f5C/2));
     }
     if(((struct Obj00091 *)p)->f5C>0) {
         ((struct Obj00091 *)p)->f5C-=1;
-        func_021D8F0C(a,p,(s16)(((struct Obj00091 *)p)->f5C/2));
+        P_STA_RIBBON_Scroll(a,p,(s16)(((struct Obj00091 *)p)->f5C/2));
     }
 }

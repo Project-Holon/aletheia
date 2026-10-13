@@ -1,5 +1,5 @@
 /*
- * function: func_021750D8
+ * function: COLOSSEUM_AssignChoice
  * address: 0x021750D8
  * packet: pkt_ov012_021750D8
  * region: ov012
@@ -11,7 +11,7 @@
  * Two trailing alignment bytes. Duplicated store arms preserve the branch stub.
  */
 typedef unsigned char u8;
-int func_021750D8(u8 *p, int slot, int value)
+int COLOSSEUM_AssignChoice(u8 *p, int slot, int value)
 {
     int i;
     int result;

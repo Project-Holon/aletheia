@@ -8,24 +8,28 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   NNS_SndArcGetSeqArcInfo  0x02074388  arm
+ *   NNS_SndArcGetFileAddress  0x0207466C  arm
  */
 #include "../include/Obj11687.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 
-extern void *func_02074388(int index);
+extern void *NNS_SndArcGetSeqArcInfo(int index);
 extern u32 func_02074FA8(u32, u32, u32);
-extern u32 func_0207466C(u32);
+extern u32 NNS_SndArcGetFileAddress(u32);
 u32 func_02074C70(u32 a, u32 b, u32 c, u32 d, u32 *out) {
-    void *p = func_02074388(a);
+    void *p = NNS_SndArcGetSeqArcInfo(a);
     u32 r;
     if (p == 0) return 3;
     if (b & 8) {
         r = func_02074FA8(((struct Obj11687 *)p)->f0, c, d);
         if (r == 0) return 7;
     } else {
-        r = func_0207466C(((struct Obj11687 *)p)->f0);
+        r = NNS_SndArcGetFileAddress(((struct Obj11687 *)p)->f0);
     }
     if (out != 0) *out = r;
     return 0;

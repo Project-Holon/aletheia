@@ -1,5 +1,5 @@
 /*
- * function: func_0202E80C
+ * function: COMM_PLAYER_SUPPORT_StashMode
  * address:  0x0202E80C
  * packet:   pkt_0202E80C
  * region:   arm9
@@ -15,7 +15,7 @@
  */
 typedef unsigned int u32;
 
-void func_0202E80C(u32 *p)
+void COMM_PLAYER_SUPPORT_StashMode(u32 *p)
 {
     p[2] = p[0];
     p[0] = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0204DA5C
+ * function: CLACT_AllocCharacterTable
  * address:  0x0204DA5C
  * packet:   pkt_0204D768
  * region:   arm9
@@ -9,23 +9,23 @@
  * isa:      arm
  * status:   EXACT
  *
- * Closes one of the two clact.c fan-in-1 blockers of func_0204D7E0
+ * Closes one of the two clact.c fan-in-1 blockers of CLACT_InitResources
  * documented in docs/notes/clact_c_fan_in_1_blockers.c.txt (the other is
- * func_0204DCA8, the packet's next function).
+ * CLACT_AllocPaletteTable, the packet's next function).
  *
  * Allocate `count` 0x40-byte records and initialise each: set bit 31 of
  * the word at +0x3c (a one-bit bitfield, unconditional `bic`/`orr` of the
  * same immediate is the bitfield-store tell), then hand the two
- * two-word sentinel pairs at +0x2c and +0x34 to sub_02034630 (already
+ * two-word sentinel pairs at +0x2c and +0x34 to VMAN_InvalidateHandle (already
  * matched, src/matched/unit_02034630.c).
  *
  * symbols:
  *   s_clact_c     0x020A7F74  data
- *   sub_02034630  0x02034630  arm
+ *   VMAN_InvalidateHandle  0x02034630  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204DA5C.c \
- *       --func func_0204DA5C --addr 0x0204DA5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_AllocCharacterTable.c \
+ *       --func CLACT_AllocCharacterTable --addr 0x0204DA5C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -46,11 +46,11 @@ struct Rec {
 };
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void  sub_02034630(struct Sentinel *p);
+extern void  VMAN_InvalidateHandle(struct Sentinel *p);
 
 extern char s_clact_c[];
 
-void *func_0204DA5C(u32 heapId, u32 count)
+void *CLACT_AllocCharacterTable(u32 heapId, u32 count)
 {
     u32 i;
     struct Rec *arr;
@@ -60,8 +60,8 @@ void *func_0204DA5C(u32 heapId, u32 count)
     for (i = 0; i < count; i++) {
         struct Rec *r = &arr[i];
         r->unk_3c_31 = 1;
-        sub_02034630(&r->a);
-        sub_02034630(&r->b);
+        VMAN_InvalidateHandle(&r->a);
+        VMAN_InvalidateHandle(&r->b);
     }
 
     return arr;

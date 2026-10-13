@@ -1,5 +1,5 @@
 /*
- * function: func_0202BABC
+ * function: ISS_3DS_SYS_EnterImpl
  * address:  0x0202BABC
  * packet:   pkt_0202B9F0
  * region:   arm9
@@ -14,9 +14,10 @@
  * (pkt_0202B9F0) in this wave.  The listing extent runs to 0x0202BAF4
  * because the follower at 0x0202BAE6 is unlabelled, so the verdict is EXACT*.
  * symbols:
- *   func_0202B9E0  0x0202B9E0  thumb
- *   func_0202B9F0  0x0202B9F0  thumb
+ *   ISS_3DS_SYS_SetTableIndex  0x0202B9E0  thumb
+ *   ISS_3DS_SYS_FindTableIndex  0x0202B9F0  thumb
  *   func_0202BB48  0x0202BB48  thumb
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb
  *
  */
 #include "../include/Obj02601.h"
@@ -25,18 +26,18 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 typedef unsigned short u16;
-extern u16 func_02005C44(void);
+extern u16 GFL_USE_GetBgmNo(void);
 struct Obj;
-extern u8 func_0202B9F0(const struct Obj *p, u32 key);
-extern int func_0202B9E0(int a0, int a1);
+extern u8 ISS_3DS_SYS_FindTableIndex(const struct Obj *p, u32 key);
+extern int ISS_3DS_SYS_SetTableIndex(int a0, int a1);
 extern int func_0202BB48(int a0);
 
-void func_0202BABC(u8 *o)
+void ISS_3DS_SYS_EnterImpl(u8 *o)
 {
     if (((struct Obj02601 *)o)->f4 != 0) {
         return;
     }
     ((struct Obj02601 *)o)->f4 = 1;
-    func_0202B9E0((int)o, func_0202B9F0((const struct Obj *)o, func_02005C44()));
+    ISS_3DS_SYS_SetTableIndex((int)o, ISS_3DS_SYS_FindTableIndex((const struct Obj *)o, GFL_USE_GetBgmNo()));
     func_0202BB48((int)o);
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203B2A8
+ * function: GFL_NET_STATE_ChangeParentWait
  * address:  0x0203B2A8
  * packet:   pkt_0203AD8C
  * region:   arm9
@@ -9,9 +9,12 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
  */
 
 typedef unsigned short u16;
 struct NetState;
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
-void func_0203B2A8(int a0){ func_0203AD80((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)0x203B228, (int)0, (int)0x214); }
+extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
+void GFL_NET_STATE_ChangeParentWait(int a0){ GFL_NET_STATE_ChangeStateDebug((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)0x203B228, (int)0, (int)0x214); }

@@ -1,5 +1,5 @@
 /*
- * function: func_02172D14
+ * function: UNION_COMM_ExitCallback
  * address: 0x02172D14
  * packet: pkt_ov012_02172D14
  * region: ov012
@@ -11,4 +11,4 @@
  * extent: existing matched follower ov012_func_02172D20.c
  */
 typedef unsigned char u8;
-void func_02172D14(u8 *p) { p[0x3560] = 5; }
+void UNION_COMM_ExitCallback(u8 *p) { p[0x3560] = 5; }

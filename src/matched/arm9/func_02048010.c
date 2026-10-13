@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02048258  0x02048258  arm
- *   func_02048744  0x02048744  arm
+ *   G3D_UTIL_LoadUnitResourcesFromArchive  0x02048258  arm
+ *   G3D_UTIL_BuildUnitObjectsLoaded  0x02048744  arm
  *
  * g3d_util.c (the __FILE__ word 0x020A7EB8 of this family).  The utility
  * object is 0x218 bytes: resource handle table and status bytes at +0x00 /
@@ -20,7 +20,7 @@
  * {resIdx, resCount, objIdx, objCount}, and the u16 heap id at +0x216.  See
  * docs/families/g3d_util.h.
  *
- * Third twin: the resource loader is func_02048258, which takes a fifth
+ * Third twin: the resource loader is G3D_UTIL_LoadUnitResourcesFromArchive, which takes a fifth
  * argument forwarded from this function's third parameter.
  *
  * Verified with:
@@ -58,8 +58,8 @@ typedef struct {
 
 struct Holder;
 struct Owner;
-extern void func_02048258(struct Owner *owner, u16 index, struct Holder *p, u32 a4, u32 a5);
-extern void func_02048744(Util *u, u16 idx, const Setup *s, u16 heapID);
+extern void G3D_UTIL_LoadUnitResourcesFromArchive(struct Owner *owner, u16 index, struct Holder *p, u32 a4, u32 a5);
+extern void G3D_UTIL_BuildUnitObjectsLoaded(Util *u, u16 idx, const Setup *s, u16 heapID);
 
 u16 func_02048010(Util *util, const Setup *setup, u32 extra)
 {
@@ -73,8 +73,8 @@ u16 func_02048010(Util *util, const Setup *setup, u32 extra)
             util->unit[i].resCount = setup->resCount;
             util->unit[i].objIdx = objIdx;
             util->unit[i].objCount = setup->objCount;
-            func_02048258((struct Owner *)util, i, (struct Holder *)setup, util->heapID, extra);
-            func_02048744(util, i, setup, util->heapID);
+            G3D_UTIL_LoadUnitResourcesFromArchive((struct Owner *)util, i, (struct Holder *)setup, util->heapID, extra);
+            G3D_UTIL_BuildUnitObjectsLoaded(util, i, setup, util->heapID);
             return i;
         }
         resIdx = util->unit[i].resIdx + util->unit[i].resCount;

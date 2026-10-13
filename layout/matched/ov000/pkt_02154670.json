@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02154670",
+   "name": "EVENT_GSYNC_Create",
    "address": "0x02154670",
    "kind": "game",
    "region": "ov000",

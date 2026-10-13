@@ -1,5 +1,5 @@
 /*
- * function: func_02195B38
+ * function: gt2Reject
  * address:  0x02195B38
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern void func_021956F8(void);
 
-void func_02195B38(void)
+void gt2Reject(void)
 {
     func_021956F8();
 }

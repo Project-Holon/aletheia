@@ -18,7 +18,7 @@
  *   func_0216E2E8   0x0216E2E8  thumb  ov010
  *   func_02034A5C  0x02034A5C  arm
  *   func_02034AC4  0x02034AC4  arm
- *   func_0215536C  0x0215536C  thumb  ov009
+ *   GFL_NET_DEVWIFI_GetDeviceTable  0x0215536C  thumb  ov009
  *   func_02177020  0x02177020  thumb  ov014
  *   func_021798D4  0x021798D4  thumb  ov015
  *   ov_id_0A       0x0000000A  data
@@ -145,7 +145,7 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void func_0216E2E8(const char *ctx, u32 id, struct Record *out);
 extern void func_02034A5C(s32 handle);
 extern int func_02034AC4(s32 handle);
-extern void *func_0215536C(void);
+extern void *GFL_NET_DEVWIFI_GetDeviceTable(void);
 extern void *func_02177020(void);
 extern void *func_021798D4(void);
 int func_0200F17C(u32 sel);
@@ -539,19 +539,19 @@ int func_0200F17C(u32 sel)
         func_02034AC4((u32)ov_id_09);
         func_02034AC4((u32)ov_id_0D);
         func_02034AC4((u32)ov_id_72);
-        return (int)func_0215536C();
+        return (int)GFL_NET_DEVWIFI_GetDeviceTable();
     case 1:
         func_02034A5C((u32)ov_id_0A);
         func_02034A5C((u32)ov_id_0B);
         func_02034AC4((u32)ov_id_09);
         func_02034AC4((u32)ov_id_0D);
-        return (int)func_0215536C();
+        return (int)GFL_NET_DEVWIFI_GetDeviceTable();
     case 2:
         func_02034A5C((u32)ov_id_0A);
         func_02034A5C((u32)ov_id_0B);
         func_02034AC4((u32)ov_id_09);
         func_02034AC4((u32)ov_id_0D);
-        return (int)func_0215536C();
+        return (int)GFL_NET_DEVWIFI_GetDeviceTable();
     case 0:
     case 5:
         func_02034AC4((u32)ov_id_0E);

@@ -1,5 +1,5 @@
 /*
- * function: func_02022340
+ * function: WIPE_SYS_MainPanels
  * address:  0x02022340
  * packet:   pkt_02022174
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * One poll step of the dual-screen cluster.  The mode word at +0x00 (the one
- * func_020223C0 wrote) selects which of the two screen slots gets pumped:
+ * WIPE_SYS_SetDivision wrote) selects which of the two screen slots gets pumped:
  * mode 0 pumps both, mode 1 prefers the top slot and falls back to the bottom
  * one, mode 2 the mirror of that.  It reports 1 only once both slots have gone
- * null, which is what func_02022174 tests before running the teardown.
+ * null, which is what WIPE_SYS_Main tests before running the teardown.
  *
  * Three cases starting at zero still compile to a cmp chain, not a halfword
  * table: the table form only wins from four cases up.  The two pump calls are
@@ -27,13 +27,13 @@
  * second branch and swaps the two constant returns, four bytes wrong.
  *
  * symbols:
- *   func_02022390  0x02022390  thumb
+ *   WIPE_SYS_MainPanel  0x02022390  thumb
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022340.c \
- *       --func func_02022340 --addr 0x02022340 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SYS_MainPanels.c \
+ *       --func WIPE_SYS_MainPanels --addr 0x02022340 --cc 1.1p1 --thumb
  */
 typedef unsigned int u32;
 
@@ -43,26 +43,26 @@ struct Cluster {
     void  *bottom;
 };
 
-extern void func_02022390(u32 *obj, void *arg);
+extern void WIPE_SYS_MainPanel(u32 *obj, void *arg);
 
-u32 func_02022340(struct Cluster *p, void *top, void *bottom)
+u32 WIPE_SYS_MainPanels(struct Cluster *p, void *top, void *bottom)
 {
     switch (p->mode) {
     case 0:
-        func_02022390((u32 *)(&p->top), top);
-        func_02022390((u32 *)(&p->bottom), bottom);
+        WIPE_SYS_MainPanel((u32 *)(&p->top), top);
+        WIPE_SYS_MainPanel((u32 *)(&p->bottom), bottom);
         break;
     case 1:
         if (p->top != 0)
-            func_02022390((u32 *)(&p->top), top);
+            WIPE_SYS_MainPanel((u32 *)(&p->top), top);
         else
-            func_02022390((u32 *)(&p->bottom), bottom);
+            WIPE_SYS_MainPanel((u32 *)(&p->bottom), bottom);
         break;
     case 2:
         if (p->bottom != 0)
-            func_02022390((u32 *)(&p->bottom), bottom);
+            WIPE_SYS_MainPanel((u32 *)(&p->bottom), bottom);
         else
-            func_02022390((u32 *)(&p->top), top);
+            WIPE_SYS_MainPanel((u32 *)(&p->top), top);
         break;
     }
     if (p->top == 0 && p->bottom == 0)

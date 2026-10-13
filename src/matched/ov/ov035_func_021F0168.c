@@ -14,7 +14,7 @@
  *   func_02049B40 0x02049B40 arm
  *   func_0201F5DC 0x0201F5DC thumb
  *   func_020450F0 0x020450F0 arm
- *   func_02045790 0x02045790 arm
+ *   BMP_WIN_SetDispHeight 0x02045790 arm
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_02045334 0x02045334 arm
@@ -30,7 +30,7 @@ typedef unsigned char  u8;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct CharBuf;
 struct Descriptor;
-extern void func_02045790(struct Descriptor *p, u8 v);
+extern void BMP_WIN_SetDispHeight(struct Descriptor *p, u8 v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -46,7 +46,7 @@ void func_021F0168(int *p, int a1)
     p[5] = (int)func_0201F5DC((void *)5, 2, 0, a1);
     p[6] = func_020450F0(5, 1, 1, 0x1E, 6, 1, 1);
     p[7] = func_020450F0(5, 1, 0xD, 0x1E, 0xA, 1, 1);
-    func_02045790((struct Descriptor *)p[6], 4);
+    BMP_WIN_SetDispHeight((struct Descriptor *)p[6], 4);
     func_02043B5C((struct CharBuf *)func_02045770((struct Descriptor *)p[6]), 0xF);
     func_02045334((struct Descriptor *)p[6]);
     func_02045374((struct Cfg *)p[6]);

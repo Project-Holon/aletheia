@@ -1,5 +1,5 @@
 /*
- * function: func_02018240
+ * function: POKE_TOOL_FindBoxMoveSlot
  * address:  0x02018240
  * packet:   pkt_02018240
  * region:   arm9
@@ -17,7 +17,7 @@
  * WAS BLOCKED, now resolved (2026-09-22): the only branch to 0x020182A8 in the
  *           image is this function's own call at +0x30, so the `label` class
  *           had no outside witness and this file was capped at MATCH.
- *           src/matched/func_020182A8.c now reproduces that address, so the
+ *           src/matched/POKE_TOOL_ReplaceBoxMoveSlot.c now reproduces that address, so the
  *           site resolves through `matched` and this file is EXACT* with no
  *           edit to its C.
  *
@@ -25,16 +25,16 @@
  *   func_02017DBC  0x02017DBC  thumb
  *   func_02017DE4  0x02017DE4  thumb
  *   func_02017E88  0x02017E88  thumb
- *   func_020182A8  0x020182A8  thumb
+ *   POKE_TOOL_ReplaceBoxMoveSlot  0x020182A8  thumb
  *
  * "Put this move in the first empty slot": walks ids 0x36..0x39 and returns
  * 0xFFFF when no slot was touched, the move when one was filled, and 0xFFFE
  * when the move was already known.  The loop counter is signed (`blt`), unlike
- * the otherwise identical loop in func_020181A0, which is `blo`.
+ * the otherwise identical loop in POKE_TOOL_RecoverBoxAllPP, which is `blo`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02018240.c \
- *       --func func_02018240 --addr 0x02018240 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_TOOL_FindBoxMoveSlot.c \
+ *       --func POKE_TOOL_FindBoxMoveSlot --addr 0x02018240 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -45,9 +45,9 @@ struct Sav;
 extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
-extern void func_020182A8(void *p, u16 move, u8 slot);
+extern void POKE_TOOL_ReplaceBoxMoveSlot(void *p, u16 move, u8 slot);
 
-u32 func_02018240(void *p, u16 move)
+u32 POKE_TOOL_FindBoxMoveSlot(void *p, u16 move)
 {
     u32 r = 0xFFFF;
     u32 t = func_02017DBC(p);
@@ -57,7 +57,7 @@ u32 func_02018240(void *p, u16 move)
         u32 m = (u16)func_02017E88(p, 0x36 + i, 0);
 
         if (m == 0) {
-            func_020182A8(p, move, (u8)i);
+            POKE_TOOL_ReplaceBoxMoveSlot(p, move, (u8)i);
             r = move;
             break;
         }

@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C      0x02146A5C  data
+ *   _G3dSystem      0x02146A5C  data
  *   g_szG3DSystem   0x020A7EA8  data
  *   func_0206E954   0x0206E954  arm
  *   func_0206E964   0x0206E964  arm
  *   func_02030734   0x02030734  arm
- *   func_0206E348   0x0206E348  arm
+ *   NNS_G3dAllocRenderObj   0x0206E348  arm
  *   func_0206A2CC   0x0206A2CC  arm
  *   func_0206A4AC   0x0206A4AC  arm
  *   func_02069D14   0x02069D14  arm
@@ -63,11 +63,11 @@ typedef int s32;
 extern int func_0206E954(int p0);
 extern unsigned char *func_0206E964(unsigned char *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_0206E348(void *);
+extern void *NNS_G3dAllocRenderObj(void *);
 extern void func_0206A2CC(void *, void *);
 extern void func_0206A4AC(void *, void *);
 extern void func_02069D14(void *, void *);
-extern u32 g_02146A5C;
+extern u32 _G3dSystem;
 extern char g_szG3DSystem[];
 
 void *func_02047400(void *a0, u32 n, void *a2)
@@ -102,12 +102,12 @@ have:
 
     if (a2 != 0) z = (u32)func_0206E964(((struct Obj09057 *)a2)->f4);
 
-    obj = func_02030734(*(u16 *)((u8 *)*(void **)&g_02146A5C + 0x18),
+    obj = func_02030734(*(u16 *)((u8 *)*(void **)&_G3dSystem + 0x18),
                         0x10, 0, g_szG3DSystem, 0x608);
     ((struct Obj04073 *)obj)->f0 = 0x7A14;
     ((struct Obj04073 *)obj)->f8 = a0;
     ((struct Obj04073 *)obj)->fC = a2;
-    ((struct Obj04073 *)obj)->f4 = func_0206E348(*(void **)&g_02146A5C);
+    ((struct Obj04073 *)obj)->f4 = NNS_G3dAllocRenderObj(*(void **)&_G3dSystem);
     if (z != 0) {
         func_0206A2CC(q, (void *)z);
         func_0206A4AC(q, (void *)z);

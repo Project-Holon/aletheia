@@ -12,15 +12,15 @@
  * follower: 021B995C is the unlabelled bx-lr stub in the handed extent; final two zero bytes are alignment.
  * prototype: 02005E64/E9C legacy four parameters are never read or forwarded at entry; both first call the argless 02005FBC.
  * symbols:
- * func_02005E50 0x02005E50 thumb
- * func_02005DE4 0x02005DE4 thumb
- * func_02005E64 0x02005E64 thumb
- * func_02005D90 0x02005D90 thumb
+ * GFL_USE_IsBgmFading 0x02005E50 thumb
+ * GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ * GFL_USE_PushBgm 0x02005E64 thumb
+ * GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  * func_0204E720 0x0204E720 arm
  * func_0204E804 0x0204E804 arm
  * func_02005F38 0x02005F38 thumb
- * func_02005E9C 0x02005E9C thumb
- * func_02005DF8 0x02005DF8 thumb
+ * GFL_USE_PopBgm 0x02005E9C thumb
+ * GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  * func_020362DC 0x020362DC arm
  * func_020355D8 0x020355D8 arm
  * func_02035D20 0x02035D20 arm
@@ -40,8 +40,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u32 sounds[];
-extern int func_02005E50(void),func_02005E64(void),func_02005E9C(void),func_02005F38(void),func_0204E804(void);
-extern void func_02005DE4(void*),func_02005D90(u32,u16),func_02005DF8(u32);
+extern int GFL_USE_IsBgmFading(void),GFL_USE_PushBgm(void),GFL_USE_PopBgm(void),func_02005F38(void),func_0204E804(void);
+extern void GFL_USE_SetBgmPlayerParam(void*),GFL_USE_CancelChangeAndPlayBgm(u32,u16),GFL_USE_FadeInBgmFull(u32);
 extern void func_0204E720(u32,int,int,int);
 struct Cfg;
 struct Obj;
@@ -66,11 +66,11 @@ int func_021B97F4(void *unused, u32 *state, void *unused2, char *p)
     case 0:
         flag=1;
         if (((struct Obj26059 *)(*(char * *)&((struct Obj03379 *)p)->f4))->fC && ((struct Obj03379 *)p)->fB0!=7) {
-            if (func_02005E50()) flag=0;
+            if (GFL_USE_IsBgmFading()) flag=0;
             else {
-                func_02005DE4((void *)1);
-                func_02005E64();
-                func_02005D90(*(const u32 *)((u32)sounds+((struct Obj03379 *)p)->fB0*12),0xFFFF);
+                GFL_USE_SetBgmPlayerParam((void *)1);
+                GFL_USE_PushBgm();
+                GFL_USE_CancelChangeAndPlayBgm(*(const u32 *)((u32)sounds+((struct Obj03379 *)p)->fB0*12),0xFFFF);
             }
         }
         if (flag) {func_0204E720(3,16,0,0);*state=1;}
@@ -83,7 +83,7 @@ int func_021B97F4(void *unused, u32 *state, void *unused2, char *p)
         break;
     case 2:
         if (!func_02005F38()) {
-            func_02005E9C();func_02005DE4(0);func_02005DF8(6);*state=3;
+            GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(6);*state=3;
         }
         break;
     case 3:

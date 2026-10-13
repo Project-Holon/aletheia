@@ -1,5 +1,5 @@
 /*
- * function: func_02155BDC
+ * function: DWC_RAP_OnReceiveTimeout
  * address: 0x02155BDC
  * packet: pkt_ov009_02155BDC
  * region: ov009
@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021A8264 0x021A8264 data ov009 a4
- *   func_0216B65C 0x0216B65C arm ov009
- *   func_02155374 0x02155374 thumb ov009
+ *   _pRapWork 0x021A8264 data ov009 a4
+ *   DWC_CloseAllConnectionsHard 0x0216B65C arm ov009
+ *   DWC_RAP_SetState 0x02155374 thumb ov009
  */
 typedef unsigned char u8;
-extern u8 *d_021A8264;
-extern int func_0216B65C(void);
-extern void func_02155374(int);
-void func_02155BDC(unsigned int n)
+extern u8 *_pRapWork;
+extern int DWC_CloseAllConnectionsHard(void);
+extern void DWC_RAP_SetState(int);
+void DWC_RAP_OnReceiveTimeout(unsigned int n)
 {
-    if (n < 2 && d_021A8264[0x7A8]) {
-        func_0216B65C();
-        *(int *)(d_021A8264 + 0x774) = -1;
-        func_02155374(20);
+    if (n < 2 && _pRapWork[0x7A8]) {
+        DWC_CloseAllConnectionsHard();
+        *(int *)(_pRapWork + 0x774) = -1;
+        DWC_RAP_SetState(20);
     }
 }

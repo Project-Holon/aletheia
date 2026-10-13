@@ -1,5 +1,5 @@
 /*
- * function: func_02028DB8
+ * function: FIELD_SOUND_SYSTEM_HasPendingRequest
  * address:  0x02028DB8
  * packet:   pkt_02028B50
  * region:   arm9
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02028D7C  0x02028D7C  thumb
+ *   FIELD_SOUND_SYSTEM_GetReadSlot  0x02028D7C  thumb
  */
 
 typedef unsigned int u32;
 
-extern void *func_02028D7C(void *obj);
+extern void *FIELD_SOUND_SYSTEM_GetReadSlot(void *obj);
 
-int func_02028DB8(void *obj)
+int FIELD_SOUND_SYSTEM_HasPendingRequest(void *obj)
 {
-    return *(u32 *)func_02028D7C(obj) != 0;
+    return *(u32 *)FIELD_SOUND_SYSTEM_GetReadSlot(obj) != 0;
 }

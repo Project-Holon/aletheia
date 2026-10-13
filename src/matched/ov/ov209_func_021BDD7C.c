@@ -32,7 +32,7 @@
  *   func_0201ADE4 0x0201ADE4 thumb
  *   func_0201AE1C 0x0201AE1C thumb
  *   func_0201AE14 0x0201AE14 thumb
- *   func_0204B604 0x0204B604 arm
+ *   CLACT_SetActorFlip 0x0204B604 arm
  *   func_020216D4 0x020216D4 thumb
  */
 #include "../include/Obj08410.h"
@@ -69,7 +69,7 @@ extern void func_0204BA20(struct Actor *a, u32 v);
 extern void *func_0201ADE4(u32,int,u32);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *);
-extern void func_0204B604(struct Actor *actor, u32 which, u32 set);
+extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 void func_021BDD7C(char *p,u16 species)
 {
@@ -121,7 +121,7 @@ void func_021BDD7C(char *p,u16 species)
     func_0204BA20(*(void **)(p+0xa74+index*4),0);
     personal=func_0201ADE4(species,(u16)outForm,0x806b);
     if (species!=0 && func_0201AE1C(personal,0x22)==0)
-        func_0204B604(*(void **)(p+0xa74+index*4),1,1);
+        CLACT_SetActorFlip(*(void **)(p+0xa74+index*4),1,1);
     func_0201AE14(personal);
     func_021BD8D8(p,other,0);
     func_020216D4(((struct Obj08410 *)p)->fC,2,(u16)((base>>5)<<4),0x20);

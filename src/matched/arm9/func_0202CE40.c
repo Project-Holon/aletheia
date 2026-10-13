@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202CE40
+ * function: BGWINFRM_IsMoving
  * address:  0x0202CE40
  * packet:   pkt_0202CE40
  * region:   arm9
@@ -39,7 +39,7 @@ struct WinMgr {
     struct Win *wins;
 };
 
-u32 func_0202CE40(struct WinMgr *mgr, u32 idx)
+u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx)
 {
     return mgr->wins[idx].unk04_13;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B2A20",
+   "name": "VCT_SESSION_FindPeer",
    "address": "0x021B2A20",
    "kind": "game",
    "region": "ov013",

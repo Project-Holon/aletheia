@@ -26,7 +26,7 @@
  *
  * symbols:
  *   g_EnvModule     0x02146954  data
- *   sub_0202FBAC    0x0202FBAC  arm
+ *   GFL_HEAP_GetHeap    0x0202FBAC  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_020303D8.c \
@@ -53,7 +53,7 @@ struct Arena {
 };
 
 extern struct EnvModule g_EnvModule;
-extern void *sub_0202FBAC(u32 idx);
+extern void *GFL_HEAP_GetHeap(u32 idx);
 
 u32 sub_020303D8(u32 heapId)
 {
@@ -64,7 +64,7 @@ u32 sub_020303D8(u32 heapId)
         g_EnvModule.error = 1;
         goto fail;
     }
-    arena = sub_0202FBAC(heapId);
+    arena = GFL_HEAP_GetHeap(heapId);
     if (arena != 0) {
         u32 end = (u32)arena->end;
         g_EnvModule.error = 0;

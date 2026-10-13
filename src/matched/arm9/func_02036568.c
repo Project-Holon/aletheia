@@ -1,5 +1,5 @@
 /*
- * function: func_02036568
+ * function: GFL_NET_RING_BUFF_Peek
  * address:  0x02036568
  * packet:   pkt_02036568
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02036624  0x02036624  arm
+ *   GFL_NET_RING_BUFF_WrapPos  0x02036624  arm
  *
  * wm_icon.c ring reader. Wave 17 lane untried_small, from 25 out: the ring
- * is a const pointer, in this function and in func_02036624's prototype (both
+ * is a const pointer, in this function and in GFL_NET_RING_BUFF_WrapPos's prototype (both
  * only read it). With the read-only qualifier the compiler hoists the
  * loop-bottom bound load above the byte store through dst, as the image does.
- * The write cursor +0x0E stays volatile (the func_02036428 lever).
+ * The write cursor +0x0E stays volatile (the GFL_NET_RING_BUFF_Write lever).
  */
 
 typedef unsigned char  u8;
@@ -31,19 +31,19 @@ typedef struct {
     volatile short tail;
 } NetRingBuff;
 
-extern int func_02036624(void *p, int v);
+extern int GFL_NET_RING_BUFF_WrapPos(void *p, int v);
 
-int func_02036568(const NetRingBuff *r, u8 *dst, int len, int max)
+int GFL_NET_RING_BUFF_Peek(const NetRingBuff *r, u8 *dst, int len, int max)
 {
     int i;
     int n;
 
     n = 0;
     for (i = r->head; i < r->head + len; i++) {
-        if (r->tail == func_02036624((void *)r, i) || n == max) {
+        if (r->tail == GFL_NET_RING_BUFF_WrapPos((void *)r, i) || n == max) {
             return n;
         }
-        dst[n] = r->buf[func_02036624((void *)r, i)];
+        dst[n] = r->buf[GFL_NET_RING_BUFF_WrapPos((void *)r, i)];
         n++;
     }
     return n;

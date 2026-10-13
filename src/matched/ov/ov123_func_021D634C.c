@@ -11,10 +11,10 @@
  * symbols:
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_0204B294 0x0204B294 arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B570 0x0204B570 arm
+ *   CLACT_SetActorAffineMode 0x0204B570 arm
  *   d_021DAACC 0x021DAACC data a4
  */
 #include "../include/Obj02836.h"
@@ -29,10 +29,10 @@ struct Actor;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B570(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 void func_021D634C(u8 *p, unsigned int i)
 {
     struct Point pt;
@@ -40,8 +40,8 @@ void func_021D634C(u8 *p, unsigned int i)
     pt.x = d_021DAACC[i].x; pt.y = d_021DAACC[i].y;
     pt.f4 = i; pt.f6 = d_021DAACC[i].n; pt.f7 = 1;
     ((void **)(p + 0x74))[i] = func_0204B294((void *)((struct Obj02836 *)p)->fC, (u32)((struct Obj02836 *)p)->f38, ((struct Obj02836 *)p)->f20, ((struct Obj02836 *)p)->f54, &pt, 0, ((struct Obj02836 *)p)->f43C4);
-    func_0204B8C4(((void **)(p+0x74))[i],0);
+    CLACT_SetActorAnimFrame(((void **)(p+0x74))[i],0);
     func_0204B92C(((void **)(p+0x74))[i],1);
     func_0204B3DC(((void **)(p+0x74))[i],1);
-    func_0204B570(((void **)(p+0x74))[i],2);
+    CLACT_SetActorAffineMode(((void **)(p+0x74))[i],2);
 }

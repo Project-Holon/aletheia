@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204D500
+ * function: CLACT_UpdateVramAnim
  * address:  0x0204D500
  * packet:   pkt_0204D3C4
  * region:   arm9
@@ -30,8 +30,8 @@
  * would cap that whole range at MATCH for one unattestable word.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204D500.c \
- *       --func sub_0204D500 --addr 0x0204D500 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_UpdateVramAnim.c \
+ *       --func CLACT_UpdateVramAnim --addr 0x0204D500 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -45,7 +45,7 @@ struct Obj {
 
 extern void sub_02064B68(struct Obj *o, void *arg);
 
-void sub_0204D500(struct Obj *o, u32 arg)
+void CLACT_UpdateVramAnim(struct Obj *o, u32 arg)
 {
     sub_02064B68((struct Obj *)(&o->unk_0c), (void *)arg);
 }

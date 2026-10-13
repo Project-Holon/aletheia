@@ -1,5 +1,5 @@
 /*
- * function: sub_020122C0
+ * function: GAME_EVENT_Create
  * address:  0x020122C0
  * packet:   pkt_02012158
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   sub_02030734        0x02030734  arm
- *   sub_020122C0_File   0x020A727C  data
+ *   _GameEventFileName   0x020A727C  data
  *
  * Constructor for a five-word descriptor: allocate the 0x14-byte header off
  * heap 4, fill it with the caller's two handles and a zeroed counter,
@@ -33,8 +33,8 @@
  * to [sp,#4] rather than costing a sixth callee-saved register.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020122C0.c \
- *       --func sub_020122C0 --addr 0x020122C0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_EVENT_Create.c \
+ *       --func GAME_EVENT_Create --addr 0x020122C0 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -50,17 +50,17 @@ struct Desc {
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern const char sub_020122C0_File[];
+extern const char _GameEventFileName[];
 
-struct Desc *sub_020122C0(void *owner, void *a, void *b, u32 size)
+struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size)
 {
     struct Desc *d;
 
-    d = sub_02030734(4, sizeof(struct Desc), 1, sub_020122C0_File, 55);
+    d = sub_02030734(4, sizeof(struct Desc), 1, _GameEventFileName, 55);
     d->unk_00 = a;
     d->unk_04 = b;
     d->unk_08 = 0;
-    d->unk_0c = sub_02030734(4, size, 1, sub_020122C0_File, 59);
+    d->unk_0c = sub_02030734(4, size, 1, _GameEventFileName, 59);
     d->unk_10 = owner;
     return d;
 }

@@ -20,10 +20,11 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data a1
  *   ov114_id 0x00000072 data a1
+ *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
  */
 #include "../include/Obj02854.h"
 typedef unsigned char u8;
-extern void func_02005D28(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void func_021F50EC(u8 *);
 extern void func_021F49A4(void *a0);
 typedef signed int     s32;
@@ -45,7 +46,7 @@ extern const u8 ov067_id[];
 extern const u8 ov114_id[];
 int func_021F47C0(void *ctx, int unused1, int unused2, u8 *p)
 {
-    func_02005D28();
+    GFL_USE_CancelChangeAndStopBgm();
     func_021F50EC(p);
     func_021F49A4(p);
     func_02045C04(((struct Obj02854 *)p)->fB70);

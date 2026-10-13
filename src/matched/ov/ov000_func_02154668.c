@@ -1,5 +1,5 @@
 /*
- * function: func_02154668
+ * function: EVENT_GSYNC_Entry
  * address:  0x02154668
  * packet:   pkt_ov000_02154668
  * region:   ov000
@@ -12,12 +12,12 @@
  * Thumb tail call through r3 (ldr r3, =target; bx r3). Labelled in wave D8.
  *
  * symbols:
- *   func_02154670  0x02154670  thumb ov000
+ *   EVENT_GSYNC_Create  0x02154670  thumb ov000
  */
 
-extern void *func_02154670(void *p);
+extern void *EVENT_GSYNC_Create(void *p);
 
-void *func_02154668(void *p)
+void *EVENT_GSYNC_Entry(void *p)
 {
-    return func_02154670(p);
+    return EVENT_GSYNC_Create(p);
 }

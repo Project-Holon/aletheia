@@ -1,7 +1,7 @@
 /*
  * file:     ica_anime.c
  * unit:     yes
- * function: func_02010D98, func_02010DB4, func_02010DCC, func_02010DF4, func_02010E14, func_02010EA0, sub_02010EB4, func_02010EC0, func_02010EEC, func_02010F18, func_02010F40, func_02010F50, func_02010F7C, func_02010F8C, func_02010F94, func_02010FA0, func_02010FAC, func_02010FB0, func_02010FF4, func_02011014, func_0201102C, func_0201104C, func_020110CC, func_02011168, func_0201119C, func_020111BC, func_020111E8, func_020111EC, func_0201121C, func_02011264, func_0201126C, func_0201127C, func_02011290, func_02011298, func_02011324, func_02011328, func_02011330, func_0201134C, func_0201137C, func_02011398, func_020113B0, func_020113B4, func_020113C4, func_020113D0, func_020113D8, func_020113F0, func_02011400, func_02011410, func_02011428, func_0201147C, func_020114D0, func_02011510, func_02011558, func_02011590, func_020115C0, func_020115EC, func_02011608, func_0201160C, func_02011610, func_02011638, func_02011660, func_02011688, func_020116C0, func_020116E0, func_02011770, func_020117D8, func_0201183C, func_02011B8C, func_02011CF0, func_02011D0C, func_02011D28, func_02011D34, func_02011D40, func_02011D60, func_02011D7C, func_02011D9C, func_02011EAC, func_02011EC0, func_02011EEC, func_02011F24, func_02011F28, func_02011F90, func_02011FB8, func_02011FCC, func_0201205C, func_02012088, func_0201209C, func_020120A4, func_020120B4, func_020120C0, func_020120D8, func_020120F0, func_020120F4, func_020120F8, func_02012104, func_02012108, func_0201210C, func_02012110, func_02012114, func_02012124, func_0201212C, func_02012134, func_02012138, func_0201213C, func_02012144, func_0201214C, func_02012158, func_02012164, func_020121CC, func_02012204, func_02012210, func_02012220, func_02012248, func_02012258, func_02012264, func_020122A4, func_020122B4, func_020122C0, func_02012304, func_02012314, func_0201232C, func_0201235C, func_02012374, func_02012380, func_020123C4, func_020123D8, func_0201240C, func_02012444, func_02012474, func_020124AC, func_020124E4, func_020124E8, func_020124EC, func_020124F0, func_020124F4, func_02012704, func_02012798, func_020127A4, func_020127AC, func_020127B8, func_020127C4, func_020127D0, func_020127E0, func_020127F0, func_02012800, func_0201281C, func_0201283C, func_02012844, func_0201284C, func_02012854, func_02012870, func_02012878, func_02012894, func_0201289C, func_020128B8, func_020128C0, sub_02011292, sub_020113D2
+ * function: func_02010D98, GPOWER_Init, GPOWER_CountDownTimers, GPOWER_ClearAll, func_02010E14, func_02010EA0, GPOWER_GetActiveIdByType, GPOWER_GetMinutesLeftByType, GPOWER_GetSelectedMinutesLeft, func_02010F18, func_02010F40, GPOWER_ClearType, func_02010F7C, func_02010F8C, GPOWER_GetPowerType, GPOWER_GetPowerCost, func_02010FAC, func_02010FB0, func_02010FF4, GPOWER_ApplyFriendshipBonus, func_0201102C, GPOWER_UseHpRestore, GPOWER_UsePpRestore, GPOWER_ApplyExpRate, GPOWER_ApplyPrizeMoney, GPOWER_ApplyCaptureRate, GPOWER_GetSpecialPowerId, VM_Reset, VM_Create, VM_Delete, VM_Init, VM_Start, func_02011290, VM_Control, func_02011324, func_02011328, func_02011330, func_0201134C, VM_PushStack, VM_PopStack, VM_Jump, VM_Call, VM_Return, func_020113D0, func_020113D8, TIMEZONE_GetTimeZoneOfHour, func_02011400, TIMEZONE_IsNight, ICA_ANIME_CreateWithFullBuffer, func_0201147C, ICA_ANIME_CreateFull, func_02011510, func_02011558, func_02011590, ICA_ANIME_IncFrameNoLoop, func_020115EC, ICA_ANIME_GetFrameNum, func_0201160C, func_02011610, func_02011638, ICA_ANIME_GetScale, ICA_ANIME_GetTranslateAt, ICA_ANIME_Clear, ICA_ANIME_LoadHeader, ICA_ANIME_AllocBuffer, ICA_ANIME_SetBuffer, ICA_ANIME_LoadFrames, func_02011B8C, ICA_ANIME_SetCameraPos, ICA_ANIME_SetCameraTarget, GAMESYSTEM_CallIfSet, GAMESYSTEM_ReadTimerTwice, GAMESYSTEM_LeakHeapPenalty, GAMESYSTEM_ProbeHeapCreate, GAMESYSTEM_LeakHeapPenaltyRepeat, GAMESYSTEM_ProcInit, GAMESYSTEM_ProcMain, GAMESYSTEM_ProcEnd, GAMESYSTEM_SetupInitWork, GAMESYSTEM_GetWorkSize, GAMESYSTEM_Init, GAMESYSTEM_Exit, GAMESYSTEM_Setup, GAMESYSTEM_Main, GAMESYSTEM_UpdateAutoComm, GAMESYSTEM_Delete, func_0201209C, GAMESYSTEM_UpdateEventActiveFlag, GAMESYSTEM_CallProc, GAMESYSTEM_CallFieldProc, func_020120D8, GAMESYSTEM_GetProcStatus, func_020120F4, func_020120F8, func_02012104, GAMESYSTEM_SetEvent, func_0201210C, func_02012110, func_02012114, func_02012124, func_0201212C, func_02012134, func_02012138, GAMESYSTEM_SetCommBlocked, GAMESYSTEM_IsCommBlocked, func_0201214C, GAMESYSTEM_SetAlwaysNetFlag, GAMESYSTEM_CanStartAutoComm, func_020121CC, func_02012204, func_02012210, GAMESYSTEM_OnSleep, GAMESYSTEM_RegisterSleepCallback, GAMESYSTEM_ReleaseSleepCallback, GAMESYSTEM_IsSleepBlocked, GAMESYSTEM_RegisterSleepCheck, GAMESYSTEM_ReleaseSleepCheck, func_020122C0, GAME_EVENT_RunFunc, GAME_EVENT_Delete, func_0201232C, func_0201235C, func_02012374, GAME_EVENT_Control, GAME_EVENT_IsRunning, GAME_EVENT_StartByCreator, GAME_EVENT_CallProcSeq, func_02012444, GAME_EVENT_OverlaySeq, func_020124AC, func_020124E4, func_020124E8, func_020124EC, func_020124F0, GAME_DATA_Create, GAME_DATA_Delete, func_02012798, func_020127A4, func_020127AC, func_020127B8, func_020127C4, func_020127D0, func_020127E0, func_020127F0, GAME_DATA_TakeUnionInfo, GAME_DATA_ClearUnionInfo, func_0201283C, func_02012844, func_0201284C, func_02012854, func_02012870, func_02012878, func_02012894, func_0201289C, func_020128B8, func_020128C0, sub_02011292, sub_020113D2
  * address:  0x02010D98
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -17,14 +17,14 @@
  *   _u32_div_f   0x0209C2B0  arm
  *   func_02048F60  0x02048F60  arm
  *   func_020307B0  0x020307B0  arm
- *   func_0201BA34  0x0201BA34  thumb
+ *   POKE_TOOL_HealParty  0x0201BA34  thumb
  *   func_0201AB08  0x0201AB08  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017D30  0x02017D30  thumb
+ *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02017E40  0x02017E40  thumb
- *   func_02017D70  0x02017D70  thumb
- *   func_0201C158  0x0201C158  thumb
+ *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
+ *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
  *   _ll_mul     0x0209C054  arm
  *   _ll_sdiv    0x0209BE5C  arm
  *   MI_CpuFill8        0x02082BCC  arm
@@ -33,7 +33,7 @@
  *   _TimeZoneTable  0x0209DF24  data  a1
  *   _TimeZoneLightTable  0x0209DF10  data  a1
  *   func_02030734   0x02030734  arm
- *   func_02011770  0x02011770  thumb
+ *   ICA_ANIME_AllocBuffer  0x02011770  thumb
  *   _IcaAnimeFileName  0x020A7270  data
  *   func_02049238     0x02049238  arm
  *   _fgr           0x0209BBB0  arm
@@ -55,7 +55,7 @@
  *   func_0207B51C  0x0207B51C  arm
  *   func_0207C9D0  0x0207C9D0  arm
  *   func_0203F0A8  0x0203F0A8  arm
- *   sub_020056A0   0x020056A0  thumb
+ *   GFL_USE_AddMainTask   0x020056A0  thumb
  *   _GameSystemGlobal  0x02146248  data
  *   func_0203064C  0x0203064C  arm
  *   func_020306F0  0x020306F0  arm
@@ -64,35 +64,35 @@
  *   func_02188354  0x02188354  arm  ov230d
  *   func_02188390  0x02188390  arm  ov230d
  *   func_0215FA00  0x0215FA00  thumb  ov010
- *   func_02012088     0x02012088  thumb
+ *   GAMESYSTEM_Delete     0x02012088  thumb
  *   func_020315D4     0x020315D4  arm
  *   func_02087BCC     0x02087BCC  arm
- *   func_02031324  0x02031324  arm
+ *   PROCSYS_Create  0x02031324  arm
  *   func_020261E4  0x020261E4  thumb
- *   func_0202B4BC  0x0202B4BC  thumb
- *   func_020139B0  0x020139B0  thumb
- *   func_0202B4F0  0x0202B4F0  thumb
+ *   ISS_SYS_Create  0x0202B4BC  thumb
+ *   ZONEDATA_Init  0x020139B0  thumb
+ *   ISS_SYS_Delete  0x0202B4F0  thumb
  *   func_02026250  0x02026250  thumb
- *   func_02013A48  0x02013A48  thumb
- *   func_020267BC     0x020267BC  thumb
- *   func_02021438     0x02021438  thumb
- *   func_02012A24  0x02012A24  thumb
+ *   ZONEDATA_Exit  0x02013A48  thumb
+ *   GAME_BEACON_Setup     0x020267BC  thumb
+ *   PALANM_StopTimer     0x02021438  thumb
+ *   GAME_DATA_IsWalkCountEnabled  0x02012A24  thumb
  *   func_02035614  0x02035614  arm
- *   func_020129FC  0x020129FC  thumb
- *   func_0201205C  0x0201205C  thumb
+ *   GAME_DATA_IncWalkCount  0x020129FC  thumb
+ *   GAMESYSTEM_UpdateAutoComm  0x0201205C  thumb
  *   func_0202627C  0x0202627C  thumb
- *   func_02031330  0x02031330  arm
+ *   PROCSYS_Main  0x02031330  arm
  *   func_02012A30  0x02012A30  thumb
- *   func_02028A14  0x02028A14  thumb
- *   func_0202B500  0x0202B500  thumb
- *   func_02021464  0x02021464  thumb
- *   func_0200F7B8  0x0200F7B8  thumb
+ *   FIELD_SOUND_SYSTEM_Update  0x02028A14  thumb
+ *   ISS_SYS_Update  0x0202B500  thumb
+ *   PALANM_UpdateTimer  0x02021464  thumb
+ *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
  *   func_02188BE8     0x02188BE8  thumb  ov021
  *   func_0203133C  0x0203133C  arm
- *   func_02031348  0x02031348  arm
+ *   PROCSYS_Push  0x02031348  arm
  *   ov021_id          0x00000015  data
  *   FieldMapProcData  0x021D359C  data  ov021
- *   func_02012BB0  0x02012BB0  thumb
+ *   GAME_DATA_IsConfigFlagSet  0x02012BB0  thumb
  *   func_02012AC8  0x02012AC8  thumb
  *   func_02013D34  0x02013D34  thumb
  *   func_0200FB24  0x0200FB24  thumb
@@ -115,35 +115,35 @@
  *   func_02008848  0x02008848  thumb
  *   func_0200884C  0x0200884C  thumb
  *   func_02006E40  0x02006E40  thumb
- *   func_02012A60  0x02012A60  thumb
+ *   GAME_DATA_InitPlayerWork  0x02012A60  thumb
  *   func_02008468  0x02008468  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008730  0x02008730  thumb
  *   memcpy         0x02082D44  arm
  *   func_0216237C  0x0216237C  thumb  ov010
  *   func_021623DC  0x021623DC  thumb  ov010
- *   func_02012FE4  0x02012FE4  thumb
+ *   GAME_DATA_GetEventWorkFromSave  0x02012FE4  thumb
  *   func_02159B48  0x02159B48  thumb  ov010
  *   func_020071CC  0x020071CC  thumb
  *   func_0216CC58  0x0216CC58  thumb  ov010
- *   func_02028844  0x02028844  thumb
- *   func_02014428  0x02014428  thumb
+ *   FIELD_SOUND_SYSTEM_Create  0x02028844  thumb
+ *   FIELD_STATUS_Create  0x02014428  thumb
  *   func_02008254  0x02008254  thumb
  *   func_0200873C  0x0200873C  thumb
  *   func_02007AA4  0x02007AA4  thumb
- *   func_020097C4  0x020097C4  thumb
+ *   WIFILIST_Create  0x020097C4  thumb
  *   func_0200BDE4  0x0200BDE4  thumb
  *   func_02161D98  0x02161D98  thumb  ov010
  *   func_0200857C  0x0200857C  thumb
  *   func_020071E4  0x020071E4  thumb
  *   func_0215E31C  0x0215E31C  thumb  ov010
  *   func_0202E43C  0x0202E43C  thumb
- *   func_02012C18  0x02012C18  thumb
- *   func_0202E770  0x0202E770  thumb
- *   func_0202751C  0x0202751C  thumb
+ *   GAME_DATA_LoadFromSave  0x02012C18  thumb
+ *   COMM_PLAYER_SUPPORT_Create  0x0202E770  thumb
+ *   BEACON_STATUS_Create  0x0202751C  thumb
  *   func_021647A0  0x021647A0  thumb  ov010
  *   func_021647D8   0x021647D8  thumb  ov010
- *   func_02027584   0x02027584  thumb
+ *   BEACON_STATUS_Delete   0x02027584  thumb
  *   func_0202E794   0x0202E794  thumb
  *   func_0215E334   0x0215E334  thumb  ov010
  *   func_02006E64   0x02006E64  thumb
@@ -151,10 +151,12 @@
  *   func_0216CCB0   0x0216CCB0  thumb  ov010
  *   func_02159BBC   0x02159BBC  thumb  ov010
  *   func_021623BC   0x021623BC  thumb  ov010
- *   func_02014444   0x02014444  thumb
- *   func_0202889C   0x0202889C  thumb
+ *   FIELD_STATUS_Delete   0x02014444  thumb
+ *   FIELD_SOUND_SYSTEM_Delete   0x0202889C  thumb
  *   func_02161D64  0x02161D64  thumb  ov010
  *   func_02008850  0x02008850  thumb
+ *   GAME_DATA_SetConfigFlag  0x02012BC8  thumb
+ *   GFL_NET_IRC_WIRELESS_IsActive  0x0203DA4C  arm
  */
 #include "btl_setup_types.h"
 
@@ -220,34 +222,7 @@ typedef signed int     s32;
 
 typedef signed long long s64;
 
-typedef int (*ScriptCmdFn)(struct ScriptVm *vm, void *user);
-
-typedef int (*ScriptWaitFn)(struct ScriptVm *vm, void *user);
-
-typedef int (*ScriptHookFn)(struct ScriptVm *vm, void *user, void *arg, u32 op);
-
-typedef struct ScriptVmParams {
-    u16 stack_cap;
-    u16 ring_cap;
-    const ScriptCmdFn *cmds;
-    u32 cmd_count;
-} ScriptVmParams;
-
-typedef struct ScriptVm {
-    ScriptVmParams params;
-    u8 depth;
-    u8 state;
-    u8 ring_depth;
-    u8 pad_0f;
-    ScriptWaitFn wait;
-    u8 *pc;
-    u32 *stack;
-    u32 *ring;
-    void *user;
-    ScriptHookFn hook;
-    void *hook_arg;
-    void *data;
-} ScriptVm;
+#include "script_vm_types.h"
 
 
 struct Vec3 { s32 x; s32 y; s32 z; };
@@ -359,14 +334,14 @@ extern void func_020315D4(struct Proc *proc);
 extern u32 _u32_div_f(u32 dividend, u32 divisor);
 extern void *func_02048F60(u32 arcId, u32 dataId, u32 heapId);
 extern u32 func_020307B0(void *memory);
-extern void func_0201BA34(void *party);
+extern void POKE_TOOL_HealParty(void *party);
 extern u32 func_0201AB08(void *party);
 extern void *func_0201AB28(void *party, u32 slot);
-extern u32 func_02017D30(struct Pokemon *pokemon);
+extern u32 POKE_TOOL_DecodePartyParam(struct Pokemon *pokemon);
 extern u32 func_02017E1C(void *pokemon, u32 param, u32 arg);
 extern void func_02017E40(void *pokemon, u32 param, u32 value);
-extern u32 func_02017D70(struct Pokemon *pokemon, u32 fastMode);
-extern u8 func_0201C158(u16 move, u32 ppUp);
+extern u32 POKE_TOOL_EncodePartyParam(struct Pokemon *pokemon, u32 fastMode);
+extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void func_0203F4CC(struct RtcTime *time);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -380,7 +355,7 @@ extern void func_020520FC(int angleX, int angleY, int angleZ, struct Mtx33 *out)
 extern void func_0207B51C(struct Vec3 *vec, struct Vec3 *mtx, struct Vec3 *out);
 extern void func_0207C9D0(struct Vec3 *lhs, struct Vec3 *rhs, struct Vec3 *out);
 extern u32 func_0203F0A8(void);
-extern void *sub_020056A0(u32 task, u32 work, u32 priority);
+extern void *GFL_USE_AddMainTask(u32 task, u32 work, u32 priority);
 extern void func_0203064C(unsigned int parentHeapId, unsigned int heapId, unsigned int size);
 extern void func_020306F0(unsigned int heapId);
 extern int func_02034AC4(int overlayId);
@@ -393,31 +368,31 @@ extern void *func_0203159C(struct Proc *proc, u32 size, u32 heapId);
 extern struct GameEvent *func_0215FA00(struct GameSystem *gameSystem, u32 initParam);
 extern struct MiscSave *func_02012F08(struct GameData *gameData);
 extern u32 func_0200C258(struct MiscSave *miscSave);
-extern void func_02012088(struct GameSystem *gameSystem);
+extern void GAMESYSTEM_Delete(struct GameSystem *gameSystem);
 extern void func_02087BCC(u32 mode);
-extern struct ProcSys *func_02031324(int heapId);
+extern struct ProcSys *PROCSYS_Create(int heapId);
 extern struct GameComm *func_020261E4(unsigned int heapId, struct GameData *gameData);
-extern void *func_0202B4BC(struct GameData *gameData, unsigned int heapId);
-extern void func_020139B0(u32 heapId);
-extern void func_0202B4F0(void *issSystem);
+extern void *ISS_SYS_Create(struct GameData *gameData, unsigned int heapId);
+extern void ZONEDATA_Init(u32 heapId);
+extern void ISS_SYS_Delete(void *issSystem);
 extern void func_02026250(struct GameComm *gameComm);
-extern void func_02013A48(void);
-extern void func_020267BC(struct GameData *gameData);
-extern void func_02021438(void);
-extern u8 func_02012A24(const struct GameData *gameData);
+extern void ZONEDATA_Exit(void);
+extern void GAME_BEACON_Setup(struct GameData *gameData);
+extern void PALANM_StopTimer(void);
+extern u8 GAME_DATA_IsWalkCountEnabled(const struct GameData *gameData);
 extern void func_02035614(int frames);
-extern u8 func_020129FC(struct GameData *gameData);
-extern void func_0201205C(struct GameSystem *gameSystem);
+extern u8 GAME_DATA_IncWalkCount(struct GameData *gameData);
+extern void GAMESYSTEM_UpdateAutoComm(struct GameSystem *gameSystem);
 extern void func_0202627C(struct GameComm *gameComm);
-extern unsigned int func_02031330(struct ProcSys *procSys);
+extern unsigned int PROCSYS_Main(struct ProcSys *procSys);
 extern struct BgmInfo *func_02012A30(const struct GameData *gameData);
-extern void func_02028A14(struct BgmInfo *bgmInfo);
-extern void func_0202B500(void *issSystem);
-extern void func_02021464(struct GameData *gameData);
-extern u32 func_0200F7B8(u32 mode);
-extern void func_02031348(struct ProcSys *procSys, u32 overlayId, void *procData, void *param);
-extern u32 func_02012BB0(const struct GameData *gameData);
-extern void func_02012BC8(struct GameData *gameData, int on);
+extern void FIELD_SOUND_SYSTEM_Update(struct BgmInfo *bgmInfo);
+extern void ISS_SYS_Update(void *issSystem);
+extern void PALANM_UpdateTimer(struct GameData *gameData);
+extern u32 GFL_NET_ERR_ShowScreen(u32 mode);
+extern void PROCSYS_Push(struct ProcSys *procSys, u32 overlayId, void *procData, void *param);
+extern u32 GAME_DATA_IsConfigFlagSet(const struct GameData *gameData);
+extern void GAME_DATA_SetConfigFlag(struct GameData *gameData, int on);
 extern u16   func_02012AC8(const struct PlayerWork *player);
 extern u32 func_02013D34(u32 zoneId);
 extern u32   func_0200FB24(void);
@@ -438,35 +413,35 @@ extern struct Location *func_02008844(u32 situation);
 extern struct Location *func_02008848(struct Situation *situation);
 extern struct Location *func_0200884C(struct Situation *situation);
 extern struct BagCursor *func_02006E40(u32 heapId);
-extern void func_02012A60(struct PlayerWork *player);
+extern void GAME_DATA_InitPlayerWork(struct PlayerWork *player);
 extern int func_02008468(void);
 extern struct PlayerStatus *func_02012944(struct GameData *gameData);
 extern struct PlayerStatus *func_02008730(struct SaveControl *saveControl);
 extern void *memcpy(void *dst, const void *src, u32 size);
 extern int func_0216237C(int heapId);
 extern void func_021623DC(void *eventData);
-extern void *func_02012FE4(struct SaveControl *saveControl);
+extern void *GAME_DATA_GetEventWorkFromSave(struct SaveControl *saveControl);
 extern u16 *func_02159B48(int heapId);
 extern void *func_020071CC(struct SaveControl *saveControl, u32 blockId);
 extern void *func_0216CC58(int heapId, int count, int saveBlock);
-extern struct BgmInfo *func_02028844(struct GameData *gameData, u32 heapId);
-extern u32   func_02014428(int heapId);
+extern struct BgmInfo *FIELD_SOUND_SYSTEM_Create(struct GameData *gameData, u32 heapId);
+extern u32   FIELD_STATUS_Create(int heapId);
 extern void *func_02008254(u32 heapId);
 extern struct Config *func_0200873C(struct SaveControl *saveControl);
 extern u32 *func_02007AA4(u32 heapId, u32 saveControl);
-extern void *func_020097C4(int heapId);
+extern void *WIFILIST_Create(int heapId);
 extern void func_0200BDE4(void *slot);
 extern void  func_02161D98(void *unionInfo);
 extern void *func_0200857C(u32 heapId);
 extern u8 func_020071E4(const struct SaveControl *saveControl);
 extern void *func_0215E31C(u32 heapId);
 extern void  func_0202E43C(void *rtcWork);
-extern void func_02012C18(struct GameData *gameData);
-extern void *func_0202E770(void *heapId);
-extern u32   func_0202751C(int heapId, u32 flags);
+extern void GAME_DATA_LoadFromSave(struct GameData *gameData);
+extern void *COMM_PLAYER_SUPPORT_Create(void *heapId);
+extern u32   BEACON_STATUS_Create(int heapId, u32 flags);
 extern u8 *func_021647A0(struct GameData *gameData, u32 heapId);
 extern int func_021647D8(int musicalWork);
-extern void func_02027584(u32 itemUseWork);
+extern void BEACON_STATUS_Delete(u32 itemUseWork);
 extern void func_0202E794(void *pmsWork);
 extern void func_0215E334(void *fieldGimmick);
 extern void func_02006E64(struct BagCursor *bagCursor);
@@ -474,8 +449,8 @@ extern void func_02007AC8(void *boxManager);
 extern int func_0216CCB0(int occupyInfo);
 extern void func_02159BBC(void *fieldWork);
 extern int func_021623BC(int eventData);
-extern void func_02014444(u32 moveModelSys);
-extern void func_0202889C(struct BgmInfo *bgmInfo);
+extern void FIELD_STATUS_Delete(u32 moveModelSys);
+extern void FIELD_SOUND_SYSTEM_Delete(struct BgmInfo *bgmInfo);
 extern struct MusicalShot *func_0200A864(struct SaveControl *saveControl);
 extern u16 *func_0200A890(struct MusicalShot *shot);
 extern u8 *func_0200A898(struct MusicalShot *shot);
@@ -483,99 +458,99 @@ extern void func_02082D44(void *dst, const void *src, u32 size);
 extern int func_02161D64(int unionInfo);
 extern u16 *func_02008850(struct Situation *situation);
 int func_02010D98(struct Proc *proc, u32 *seq, void *param, struct SaveScreenWork *work);
-void func_02010DB4(void);
-void func_02010DCC(void);
-void func_02010DF4(void);
-void sub_02010E14(int powerId, const GPowerData *table, int select);
-u8 sub_02010EA0(int powerId, const GPowerData *table);
-u8 sub_02010EB4(int type);
-u32 func_02010EC0(u32 type);
-int func_02010EEC(void);
+void GPOWER_Init(void);
+void GPOWER_CountDownTimers(void);
+void GPOWER_ClearAll(void);
+void GPOWER_Activate(int powerId, const GPowerData *table, int select);
+u8 GPOWER_GetActiveIdOfSameType(int powerId, const GPowerData *table);
+u8 GPOWER_GetActiveIdByType(int type);
+u32 GPOWER_GetMinutesLeftByType(u32 type);
+int GPOWER_GetSelectedMinutesLeft(void);
 u8 func_02010F18(void);
 void func_02010F40(int powerId, const GPowerData *table);
-void func_02010F50(int type);
+void GPOWER_ClearType(int type);
 GPowerData *func_02010F7C(u32 heapId);
 void func_02010F8C(GPowerData *table);
-unsigned int func_02010F94(const GPowerData *table, int powerId);
-unsigned int func_02010FA0(const GPowerData *table, int powerId);
-void sub_02010FAC(void);
+unsigned int GPOWER_GetPowerType(const GPowerData *table, int powerId);
+unsigned int GPOWER_GetPowerCost(const GPowerData *table, int powerId);
+void GPOWER_NotifyTimerUpdate(void);
 u32 func_02010FB0(u32 rate);
 u32 func_02010FF4(u32 steps);
-int func_02011014(int friendship);
+int GPOWER_ApplyFriendshipBonus(int friendship);
 u32 func_0201102C(u32 price);
-u32 func_0201104C(void *party);
-u32 func_020110CC(void *party);
-u32 func_02011168(u32 exp);
-u32 func_0201119C(u32 money);
-s32 func_020111BC(s32 rate);
-u32 func_020111E8(void);
-void func_020111EC(ScriptVm *vm);
-ScriptVm *func_0201121C(u32 heapId, const ScriptVmParams *params);
-void func_02011264(ScriptVm *vm);
-void func_0201126C(ScriptVm *vm, void *user);
-void func_0201127C(ScriptVm *vm, u8 *pc);
-ScriptVm *sub_02011290(ScriptVm *vm);
-int func_02011298(ScriptVm *vm);
-void *sub_02011324(ScriptVm *vm);
-void sub_02011328(ScriptVm *vm, ScriptHookFn hook, void *arg);
+u32 GPOWER_UseHpRestore(void *party);
+u32 GPOWER_UsePpRestore(void *party);
+u32 GPOWER_ApplyExpRate(u32 exp);
+u32 GPOWER_ApplyPrizeMoney(u32 money);
+s32 GPOWER_ApplyCaptureRate(s32 rate);
+u32 GPOWER_GetSpecialPowerId(void);
+void VM_Reset(ScriptVm *vm);
+ScriptVm *VM_Create(u32 heapId, const ScriptVmParams *params);
+void VM_Delete(ScriptVm *vm);
+void VM_Init(ScriptVm *vm, void *user);
+void VM_Start(ScriptVm *vm, u8 *pc);
+ScriptVm *VM_End(ScriptVm *vm);
+int VM_Control(ScriptVm *vm);
+void *VM_GetContext(ScriptVm *vm);
+void VM_SetHook(ScriptVm *vm, ScriptHookFn hook, void *arg);
 u16 func_02011330(ScriptVm *vm);
 u32 func_0201134C(ScriptVm *vm);
-void func_0201137C(ScriptVm *vm, u32 value);
-u32 func_02011398(ScriptVm *vm);
-void func_020113B0(ScriptVm *vm, u8 *pc);
-void func_020113B4(ScriptVm *vm, u8 *pc);
-u8 *func_020113C4(ScriptVm *vm);
+void VM_PushStack(ScriptVm *vm, u32 value);
+u32 VM_PopStack(ScriptVm *vm);
+void VM_Jump(ScriptVm *vm, u8 *pc);
+void VM_Call(ScriptVm *vm, u8 *pc);
+u8 *VM_Return(ScriptVm *vm);
 void func_020113D0(ScriptVm *vm, ScriptWaitFn wait);
 u32 func_020113D8(u32 season);
-int func_020113F0(int season, int hour);
+int TIMEZONE_GetTimeZoneOfHour(int season, int hour);
 u8 func_02011400(int season, int timeZone);
-u32 func_02011410(u32 season);
-struct IcaAnime *func_02011428(u32 heapId, u32 arcId, u32 dataId, void *buffer, u32 bufferSize);
+u32 TIMEZONE_IsNight(u32 season);
+struct IcaAnime *ICA_ANIME_CreateWithFullBuffer(u32 heapId, u32 arcId, u32 dataId, void *buffer, u32 bufferSize);
 struct IcaAnime *func_0201147C(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum, void *buffer, u32 bufferSize);
-struct IcaAnime *func_020114D0(u32 heapId, u32 arcId, u32 dataId);
+struct IcaAnime *ICA_ANIME_CreateFull(u32 heapId, u32 arcId, u32 dataId);
 struct IcaAnime *func_02011510(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum);
 void func_02011558(struct IcaAnime *anime);
 u32 func_02011590(struct IcaAnime *anime, s32 step);
-u32 func_020115C0(struct IcaAnime *anime, s32 step);
+u32 ICA_ANIME_IncFrameNoLoop(struct IcaAnime *anime, s32 step);
 void func_020115EC(struct IcaAnime *anime, s32 frame);
-u32 func_02011608(struct IcaAnime *anime);
+u32 ICA_ANIME_GetFrameNum(struct IcaAnime *anime);
 u32 func_0201160C(struct IcaAnime *anime);
 u32 func_02011610(struct IcaAnime *anime, struct Vec3 *trans);
 u32 func_02011638(struct IcaAnime *anime, struct Vec3 *rot);
-u32 func_02011660(struct IcaAnime *anime, struct Vec3 *scale);
-u32 func_02011688(struct IcaAnime *anime, struct Vec3 *trans, u32 frame);
-void func_020116C0(struct IcaAnime *anime);
-void func_020116E0(struct IcaAnime *anime, u32 arcId, u32 dataId, u32 heapId);
-void func_02011770(struct IcaAnime *anime, int bufFrameNum);
-int func_020117D8(struct IcaAnime *anime, int bufFrameNum, u8 *buffer, int bufferSize);
-void func_0201183C(struct IcaAnime *anime, s32 frame);
+u32 ICA_ANIME_GetScale(struct IcaAnime *anime, struct Vec3 *scale);
+u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *anime, struct Vec3 *trans, u32 frame);
+void ICA_ANIME_Clear(struct IcaAnime *anime);
+void ICA_ANIME_LoadHeader(struct IcaAnime *anime, u32 arcId, u32 dataId, u32 heapId);
+void ICA_ANIME_AllocBuffer(struct IcaAnime *anime, int bufFrameNum);
+int ICA_ANIME_SetBuffer(struct IcaAnime *anime, int bufFrameNum, u8 *buffer, int bufferSize);
+void ICA_ANIME_LoadFrames(struct IcaAnime *anime, s32 frame);
 void func_02011B8C(void *camera, struct IcaAnime *anime);
-void func_02011CF0(void *camera, struct IcaAnime *anime);
-void func_02011D0C(void *camera, struct IcaAnime *anime);
-u32 func_02011D28(u32 (*func)(void));
-void func_02011D34(void);
-void func_02011D40(void);
-void func_02011D60(void);
-void func_02011D7C(void);
-u32 func_02011D9C(struct Proc *proc, u32 *seq, u32 initParam);
-u32 func_02011EAC(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem);
-u32 func_02011EC0(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem);
-struct GameInitWork *func_02011EEC(u32 mode, u16 zoneId, struct Vec3 *position, int direction);
-u32 func_02011F24(void);
-void func_02011F28(struct GameSystem *gameSystem, u16 heapId, u32 initParam);
-void func_02011F90(struct GameSystem *gameSystem);
-void func_02011FB8(struct GameSystem *gameSystem, u16 heapId, u32 initParam);
-int func_02011FCC(struct GameSystem *gameSystem);
-void sub_0201209C(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg);
-void func_020120A4(struct GameSystem *gameSystem);
-void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
-void func_020120C0(struct GameSystem *gameSystem);
+void ICA_ANIME_SetCameraPos(void *camera, struct IcaAnime *anime);
+void ICA_ANIME_SetCameraTarget(void *camera, struct IcaAnime *anime);
+u32 GAMESYSTEM_CallIfSet(u32 (*func)(void));
+void GAMESYSTEM_ReadTimerTwice(void);
+void GAMESYSTEM_LeakHeapPenalty(void);
+void GAMESYSTEM_ProbeHeapCreate(void);
+void GAMESYSTEM_LeakHeapPenaltyRepeat(void);
+u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam);
+u32 GAMESYSTEM_ProcMain(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem);
+u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem);
+struct GameInitWork *GAMESYSTEM_SetupInitWork(u32 mode, u16 zoneId, struct Vec3 *position, int direction);
+u32 GAMESYSTEM_GetWorkSize(void);
+void GAMESYSTEM_Init(struct GameSystem *gameSystem, u16 heapId, u32 initParam);
+void GAMESYSTEM_Exit(struct GameSystem *gameSystem);
+void GAMESYSTEM_Setup(struct GameSystem *gameSystem, u16 heapId, u32 initParam);
+int GAMESYSTEM_Main(struct GameSystem *gameSystem);
+void GAMESYSTEM_SetEventCreator(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg);
+void GAMESYSTEM_UpdateEventActiveFlag(struct GameSystem *gameSystem);
+void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+void GAMESYSTEM_CallFieldProc(struct GameSystem *gameSystem);
 int func_020120D8(struct GameSystem *gameSystem);
-u32 func_020120F0(const struct GameSystem *gameSystem);
+u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 struct GameData *func_020120F4(const struct GameSystem *gameSystem);
 struct PlayerWork *func_020120F8(const struct GameSystem *gameSystem);
 struct GameEvent *func_02012104(const struct GameSystem *gameSystem);
-void func_02012108(struct GameSystem *gameSystem, struct GameEvent *event);
+void GAMESYSTEM_SetEvent(struct GameSystem *gameSystem, struct GameEvent *event);
 void *func_0201210C(const struct GameSystem *gameSystem);
 void func_02012110(struct GameSystem *gameSystem, void *fieldMap);
 u32 func_02012114(const struct GameSystem *gameSystem);
@@ -583,49 +558,49 @@ void func_02012124(struct GameSystem *gameSystem, u32 state);
 u8 func_0201212C(const struct GameSystem *gameSystem);
 void *func_02012134(const struct GameSystem *gameSystem);
 struct GameComm *func_02012138(const struct GameSystem *gameSystem);
-void func_0201213C(struct GameSystem *gameSystem, u32 blocked);
-u8 func_02012144(const struct GameSystem *gameSystem);
+void GAMESYSTEM_SetCommBlocked(struct GameSystem *gameSystem, u32 blocked);
+u8 GAMESYSTEM_IsCommBlocked(const struct GameSystem *gameSystem);
 u32 func_0201214C(const struct GameSystem *gameSystem);
-void func_02012158(struct GameSystem *gameSystem, unsigned int on);
-u32 func_02012164(struct GameSystem *gameSystem);
+void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, unsigned int on);
+u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem);
 u32 func_020121CC(struct GameSystem *gameSystem);
 u32 func_02012204(const struct GameSystem *gameSystem);
 void func_02012210(struct GameSystem *gameSystem);
-void func_02012220(struct GameSystem *gameSystem);
-void func_02012248(struct GameSystem *gameSystem);
-void func_02012258(struct GameSystem *gameSystem);
-int func_02012264(struct GameSystem *gameSystem);
-void func_020122A4(struct GameSystem *gameSystem);
-void func_020122B4(struct GameSystem *gameSystem);
-struct GameEvent *sub_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
-int func_02012304(struct GameEvent *event);
-void func_02012314(struct GameEvent *event);
+void GAMESYSTEM_OnSleep(struct GameSystem *gameSystem);
+void GAMESYSTEM_RegisterSleepCallback(struct GameSystem *gameSystem);
+void GAMESYSTEM_ReleaseSleepCallback(struct GameSystem *gameSystem);
+int GAMESYSTEM_IsSleepBlocked(struct GameSystem *gameSystem);
+void GAMESYSTEM_RegisterSleepCheck(struct GameSystem *gameSystem);
+void GAMESYSTEM_ReleaseSleepCheck(struct GameSystem *gameSystem);
+struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
+int GAME_EVENT_RunFunc(struct GameEvent *event);
+void GAME_EVENT_Delete(struct GameEvent *event);
 void func_0201232C(struct GameEvent *event, GameEventFunc func, u32 workSize);
 void func_0201235C(struct GameEvent *now, struct GameEvent *next);
 void func_02012374(struct GameEvent *parent, struct GameEvent *child);
-int func_02012380(struct GameSystem *gameSystem);
-int func_020123C4(struct GameSystem *gameSystem);
-int func_020123D8(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg);
-int func_0201240C(struct GameEvent *event, u32 *seq, void *work);
+int GAME_EVENT_Control(struct GameSystem *gameSystem);
+int GAME_EVENT_IsRunning(struct GameSystem *gameSystem);
+int GAME_EVENT_StartByCreator(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg);
+int GAME_EVENT_CallProcSeq(struct GameEvent *event, u32 *seq, void *work);
 void func_02012444(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
-int func_02012474(struct GameEvent *event, u32 *seq, void *work);
+int GAME_EVENT_OverlaySeq(struct GameEvent *event, u32 *seq, void *work);
 struct GameEvent *func_020124AC(struct GameSystem *gameSystem, u32 overlayId, GameEventCreatorFn creator, void *arg);
-struct GameSystem *sub_020124E4(struct GameEvent *event);
-void *sub_020124E8(struct GameEvent *event);
-u32 *sub_020124EC(struct GameEvent *event);
-struct GameEvent *sub_020124F0(struct GameEvent *event);
-struct GameData *func_020124F4(u16 heapId);
-void func_02012704(struct GameData *gameData);
+struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
+void *GAME_EVENT_GetWork(struct GameEvent *event);
+u32 *GAME_EVENT_GetSeq(struct GameEvent *event);
+struct GameEvent *GAME_EVENT_GetParent(struct GameEvent *event);
+struct GameData *GAME_DATA_Create(u16 heapId);
+void GAME_DATA_Delete(struct GameData *gameData);
 struct PlayerWork *func_02012798(struct GameData *gameData, int index);
 struct PlayerWork *func_020127A4(struct GameData *gameData);
 void *func_020127AC(struct GameData *gameData, u32 index);
 void *func_020127B8(struct GameData *gameData);
 u8 *func_020127C4(struct GameData *gameData);
-u8 *sub_020127D0(struct GameData *gameData, u32 index);
+u8 *GAME_DATA_GetUnionInfo(struct GameData *gameData, u32 index);
 u16 *func_020127E0(struct GameData *gameData);
 u8 *func_020127F0(struct GameData *gameData);
-void func_02012800(struct GameData *gameData, void *dst);
-void func_0201281C(struct GameData *gameData);
+void GAME_DATA_TakeUnionInfo(struct GameData *gameData, void *dst);
+void GAME_DATA_ClearUnionInfo(struct GameData *gameData);
 u32 func_0201283C(const struct GameData *gameData);
 void *func_02012844(const struct GameData *gameData);
 struct Location *func_0201284C(const struct GameData *gameData);
@@ -667,27 +642,27 @@ int func_02010D98(struct Proc *proc, u32 *seq, void *param, struct SaveScreenWor
  * Zeroes the 0x60-byte array and reinitialises it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010DB4.c \
- *       --func func_02010DB4 --addr 0x02010DB4 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GPOWER_Init.c \
+ *       --func GPOWER_Init --addr 0x02010DB4 --thumb --cc 1.1p1
  */
-void func_02010DB4(void)
+void GPOWER_Init(void)
 {
     MI_CpuFill8(&_GPowerState, 0, sizeof(GPowerState));
-    func_02010DF4();
+    GPOWER_ClearAll();
 }
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010DCC.c \
- *       --func func_02010DCC --addr 0x02010DCC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_CountDownTimers.c \
+ *       --func GPOWER_CountDownTimers --addr 0x02010DCC --cc 1.1p1 --thumb
  *
  * net_save.c: decrement every counter above 1, then tail-call the empty
- * placeholder sub_02010FAC (pool word 0x02010FAD, `matched`).  The counter
+ * placeholder GPOWER_NotifyTimerUpdate (pool word 0x02010FAD, `matched`).  The counter
  * is an enum, which keeps the unfolded pre-loop guard with a plain
- * increment; see func_02010DF4.c and docs/notes/pkt_02010DCC.c.txt.
+ * increment; see GPOWER_ClearAll.c and docs/notes/pkt_02010DCC.c.txt.
  */
-void func_02010DCC(void)
+void GPOWER_CountDownTimers(void)
 {
     GPowerType type;
 
@@ -696,15 +671,15 @@ void func_02010DCC(void)
             _GPowerState.secondsLeft[type]--;
         }
     }
-    sub_02010FAC();
+    GPOWER_NotifyTimerUpdate();
 }
 
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010DF4.c \
- *       --func func_02010DF4 --addr 0x02010DF4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_ClearAll.c \
+ *       --func GPOWER_ClearAll --addr 0x02010DF4 --cc 1.1p1 --thumb
  *
  * net_save.c: clear all thirteen counter slots, then deselect (+0x1c = 0xd,
  * the "none" slot).  Wave 14 closed the residue of
@@ -715,12 +690,12 @@ void func_02010DCC(void)
  * and increments without a truncation pair.  The slot count is an enum
  * constant; 13 is a content constant (docs/families/net_save.h).
  */
-void func_02010DF4(void)
+void GPOWER_ClearAll(void)
 {
     GPowerType type;
 
     for (type = 0; type < GPOWER_TYPE_MAX; type++) {
-        func_02010F50(type);
+        GPOWER_ClearType(type);
     }
     _GPowerState.selectedType = GPOWER_TYPE_MAX;
 }
@@ -748,10 +723,10 @@ void func_02010DF4(void)
  * (the slot count) are content constants.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02010E14.c \
- *       --func sub_02010E14 --addr 0x02010E14 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_Activate.c \
+ *       --func GPOWER_Activate --addr 0x02010E14 --cc 1.1p1 --thumb
  */
-void sub_02010E14(int powerId, const GPowerData *table, int select)
+void GPOWER_Activate(int powerId, const GPowerData *table, int select)
 {
     int type;
 
@@ -771,16 +746,16 @@ void sub_02010E14(int powerId, const GPowerData *table, int select)
     }
     switch (type) {
     case 0:
-        func_02010F50(1);
+        GPOWER_ClearType(1);
         break;
     case 1:
-        func_02010F50(0);
+        GPOWER_ClearType(0);
         break;
     case 7:
-        func_02010F50(8);
+        GPOWER_ClearType(8);
         break;
     case 8:
-        func_02010F50(7);
+        GPOWER_ClearType(7);
         break;
     }
 }
@@ -788,11 +763,11 @@ void sub_02010E14(int powerId, const GPowerData *table, int select)
 
 
 /*
- * The second unlabelled leaf after sub_02010E14 (it saves no lr, so
+ * The second unlabelled leaf after GPOWER_Activate (it saves no lr, so
  * disasm.py never labels it; see docs/idioms/unlabelled-leaf-functions-hide-
  * in-word-runs.md).  It reads the state byte for the record `rec[slot]`
  * names, using the same 0xc-byte record stride and +0xa slot field that
- * sub_02010E14 writes with.
+ * GPOWER_Activate writes with.
  *
  * The pointer must be ADVANCED into its own value first: writing the whole
  * thing as one subscript, `_GPowerState.activeId[rec[slot * 0xc + 0xa]]`, folds the
@@ -803,10 +778,10 @@ void sub_02010E14(int powerId, const GPowerData *table, int select)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02010EA0.c \
- *       --func sub_02010EA0 --addr 0x02010EA0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_GetActiveIdOfSameType.c \
+ *       --func GPOWER_GetActiveIdOfSameType --addr 0x02010EA0 --cc 1.1p1 --thumb
  */
-u8 sub_02010EA0(int powerId, const GPowerData *table)
+u8 GPOWER_GetActiveIdOfSameType(int powerId, const GPowerData *table)
 {
     table = table + powerId;
     return _GPowerState.activeId[table->type];
@@ -814,7 +789,7 @@ u8 sub_02010EA0(int powerId, const GPowerData *table)
 
 
 /*
- * One of the two leaf accessors that follow sub_02010E14 and carry no label
+ * One of the two leaf accessors that follow GPOWER_Activate and carry no label
  * because they save no lr (docs/idioms/unlabelled-leaf-functions-hide-in-
  * word-runs.md).  It reads the state byte of one slot straight out of the
  * thirteen-entry byte table; see docs/families/net_save.h section 4.
@@ -822,10 +797,10 @@ u8 sub_02010EA0(int powerId, const GPowerData *table)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02010EB4.c \
- *       --func sub_02010EB4 --addr 0x02010EB4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_GetActiveIdByType.c \
+ *       --func GPOWER_GetActiveIdByType --addr 0x02010EB4 --cc 1.1p1 --thumb
  */
-u8 sub_02010EB4(int type)
+u8 GPOWER_GetActiveIdByType(int type)
 {
     return _GPowerState.activeId[type];
 }
@@ -835,10 +810,10 @@ u8 sub_02010EB4(int type)
  * Returns 0 for a 0x30 entry, otherwise the counter divided by 0x3c (or 1).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010EC0.c \
- *       --func func_02010EC0 --addr 0x02010EC0 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GPOWER_GetMinutesLeftByType.c \
+ *       --func GPOWER_GetMinutesLeftByType --addr 0x02010EC0 --thumb --cc 1.1p1
  */
-u32 func_02010EC0(u32 type)
+u32 GPOWER_GetMinutesLeftByType(u32 type)
 {
     u32 minutes;
 
@@ -857,10 +832,10 @@ u32 func_02010EC0(u32 type)
  * counter is read as u32.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010EEC.c \
- *       --func func_02010EEC --addr 0x02010EEC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_GetSelectedMinutesLeft.c \
+ *       --func GPOWER_GetSelectedMinutesLeft --addr 0x02010EEC --cc 1.1p1 --thumb
  */
-int func_02010EEC(void)
+int GPOWER_GetSelectedMinutesLeft(void)
 {
     u8 type = _GPowerState.selectedType;
     u32 minutes;
@@ -879,7 +854,7 @@ int func_02010EEC(void)
 
 /*
  * Returns the byte-table entry _GPowerState.activeId of the first of the thirteen counter slots whose value is 1,
- * or 0x30 when none is. The loop index is the Slot enum (as in func_02010DF4): an int index lets
+ * or 0x30 when none is. The loop index is the Slot enum (as in GPOWER_ClearAll): an int index lets
  * mwcc fold the constant entry guard away.
  *
  * Addresses are Black-image addresses.
@@ -904,7 +879,7 @@ u8 func_02010F18(void)
  */
 void func_02010F40(int powerId, const GPowerData *table)
 {
-    func_02010F50(table[powerId].type);
+    GPOWER_ClearType(table[powerId].type);
 }
 
 
@@ -916,10 +891,10 @@ void func_02010F40(int powerId, const GPowerData *table)
  * index is an int.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010F50.c \
- *       --func func_02010F50 --addr 0x02010F50 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_ClearType.c \
+ *       --func GPOWER_ClearType --addr 0x02010F50 --cc 1.1p1 --thumb
  */
-void func_02010F50(int type)
+void GPOWER_ClearType(int type)
 {
     if (type >= GPOWER_TYPE_NONE) {
         return;
@@ -960,7 +935,7 @@ void func_02010F8C(GPowerData *table)
 /*
  * Unlabelled Thumb leaf: byte at +0xa of the 12-byte record idx.
  */
-unsigned int func_02010F94(const GPowerData *table, int powerId)
+unsigned int GPOWER_GetPowerType(const GPowerData *table, int powerId)
 {
     return table[powerId].type;
 }
@@ -970,7 +945,7 @@ unsigned int func_02010F94(const GPowerData *table, int powerId)
 /*
  * Unlabelled Thumb leaf: halfword at +0x2 of the 12-byte record idx.
  */
-unsigned int func_02010FA0(const GPowerData *table, int powerId)
+unsigned int GPOWER_GetPowerCost(const GPowerData *table, int powerId)
 {
     return table[powerId].cost;
 }
@@ -986,10 +961,10 @@ unsigned int func_02010FA0(const GPowerData *table, int powerId)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02010FAC.c \
- *       --func sub_02010FAC --addr 0x02010FAC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_NotifyTimerUpdate.c \
+ *       --func GPOWER_NotifyTimerUpdate --addr 0x02010FAC --cc 1.1p1 --thumb
  */
-void sub_02010FAC(void)
+void GPOWER_NotifyTimerUpdate(void)
 {
 }
 
@@ -1040,7 +1015,7 @@ u32 func_02010FF4(u32 steps)
 }
 
 
-int func_02011014(int friendship)
+int GPOWER_ApplyFriendshipBonus(int friendship)
 {
     if (_GPowerState.activeId[3] != GPOWER_ID_NONE)
         friendship += _GPowerState.value[3];
@@ -1067,24 +1042,24 @@ u32 func_0201102C(u32 price)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201104C.c  *       --func func_0201104C --addr 0x0201104C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_UseHpRestore.c  *       --func GPOWER_UseHpRestore --addr 0x0201104C --cc 1.1p1 --thumb
  *
  * net_save.c, gated on mode byte +0x19 (slot 5): unless the +0xc factor
  * is 999, pick the record func_0201AB08(box) names inside the box
  * (func_0201AB28: box + 8 + idx * 0xdc), and add the +0xc factor to its
- * field 0xa0 clamped to field 0xa1, inside the func_02017D30 /
- * func_02017D70 access bracket; then clear slot 5.  Returns the index, or
+ * field 0xa0 clamped to field 0xa1, inside the POKE_TOOL_DecodePartyParam /
+ * POKE_TOOL_EncodePartyParam access bracket; then clear slot 5.  Returns the index, or
  * 0xff when the mode byte is '0'.
  *
- * Wave 14 closed the entry residue shared with func_020110CC and
- * func_020111BC (pool word loaded into r1 before the parameter copy):
- * it was ARITY, not order.  func_0201BA34, func_0201AB08 (a tail-call
- * forwarder that passes r0 through) and func_02017D30 all take the box
+ * Wave 14 closed the entry residue shared with GPOWER_UsePpRestore and
+ * GPOWER_ApplyCaptureRate (pool word loaded into r1 before the parameter copy):
+ * it was ARITY, not order.  POKE_TOOL_HealParty, func_0201AB08 (a tail-call
+ * forwarder that passes r0 through) and POKE_TOOL_DecodePartyParam all take the box
  * or record pointer, so r0 stays live across the guards.  The record is
  * a separate local from the box parameter (reassigning the parameter
  * swaps r4/r5).
  */
-u32 func_0201104C(void *party)
+u32 GPOWER_UseHpRestore(void *party)
 {
     void *pokemon;
     u32 slot;
@@ -1094,12 +1069,12 @@ u32 func_0201104C(void *party)
 
     if (_GPowerState.activeId[5] != GPOWER_ID_NONE) {
         if (_GPowerState.value[5] == 999) {
-            func_0201BA34(party);
+            POKE_TOOL_HealParty(party);
             slot = 0;
         } else {
             slot = func_0201AB08(party);
             pokemon = func_0201AB28(party, slot);
-            fastMode = func_02017D30(pokemon);
+            fastMode = POKE_TOOL_DecodePartyParam(pokemon);
             maxHp = func_02017E1C(pokemon, 0xa1, 0);
             hp = func_02017E1C(pokemon, 0xa0, 0);
             hp = hp + _GPowerState.value[5];
@@ -1107,9 +1082,9 @@ u32 func_0201104C(void *party)
                 hp = maxHp;
             }
             func_02017E40(pokemon, 0xa0, hp);
-            func_02017D70(pokemon, fastMode);
+            POKE_TOOL_EncodePartyParam(pokemon, fastMode);
         }
-        func_02010F50(5);
+        GPOWER_ClearType(5);
         return slot;
     }
     return 0xff;
@@ -1119,17 +1094,17 @@ u32 func_0201104C(void *party)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020110CC.c  *       --func func_020110CC --addr 0x020110CC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_UsePpRestore.c  *       --func GPOWER_UsePpRestore --addr 0x020110CC --cc 1.1p1 --thumb
  *
  * net_save.c, gated on mode byte +0x1a (slot 6): for each of the record's
  * four slots whose field 0x36+i is set, add the +0xe factor to field
- * 0x3a+i, clamped to func_0201C158(field 0x36+i, field 0x3e+i); inside the
- * func_02017D30 / func_02017D70 access bracket; then clear slot 6.  Same
- * declarations as func_0201104C.c (the callees take the box / record
+ * 0x3a+i, clamped to WAZA_TOOL_GetMaxPP(field 0x36+i, field 0x3e+i); inside the
+ * POKE_TOOL_DecodePartyParam / POKE_TOOL_EncodePartyParam access bracket; then clear slot 6.  Same
+ * declarations as GPOWER_UseHpRestore.c (the callees take the box / record
  * pointer, the record is its own local), which is what closed the
  * entry-order residue of docs/notes/pkt_0201104C.sub_020110CC.c.txt.
  */
-u32 func_020110CC(void *party)
+u32 GPOWER_UsePpRestore(void *party)
 {
     void *pokemon;
     u32 slot;
@@ -1142,11 +1117,11 @@ u32 func_020110CC(void *party)
     if (_GPowerState.activeId[6] != GPOWER_ID_NONE) {
         slot = func_0201AB08(party);
         pokemon = func_0201AB28(party, slot);
-        fastMode = func_02017D30(pokemon);
+        fastMode = POKE_TOOL_DecodePartyParam(pokemon);
         for (i = 0; i < 4; i++) {
             move = func_02017E1C(pokemon, (int)(0x36 + i), (int)0);
             if (move != 0) {
-                maxPp = (u32)func_0201C158(move, (u8)func_02017E1C(pokemon, (int)(0x3e + i), (int)0));
+                maxPp = (u32)WAZA_TOOL_GetMaxPP(move, (u8)func_02017E1C(pokemon, (int)(0x3e + i), (int)0));
                 pp = func_02017E1C(pokemon, (int)(0x3a + i), (int)0);
                 pp += _GPowerState.value[6];
                 if (pp > maxPp) {
@@ -1155,8 +1130,8 @@ u32 func_020110CC(void *party)
                 func_02017E40(pokemon, (int)(0x3a + i), pp);
             }
         }
-        func_02017D70(pokemon, fastMode);
-        func_02010F50(6);
+        POKE_TOOL_EncodePartyParam(pokemon, fastMode);
+        GPOWER_ClearType(6);
         return slot;
     }
     return 0xff;
@@ -1169,10 +1144,10 @@ u32 func_020110CC(void *party)
  * tables; the first arm returns early, the second falls into the shared exit.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02011168.c \
- *       --func func_02011168 --addr 0x02011168 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_ApplyExpRate.c \
+ *       --func GPOWER_ApplyExpRate --addr 0x02011168 --cc 1.1p1 --thumb
  */
-u32 func_02011168(u32 exp)
+u32 GPOWER_ApplyExpRate(u32 exp)
 {
     if (_GPowerState.activeId[7] != GPOWER_ID_NONE)
         return _GPowerState.value[7] * exp / 100;
@@ -1187,10 +1162,10 @@ u32 func_02011168(u32 exp)
  * Same shape as func_02010FF4, mode byte +0x1d, scale +0x14.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201119C.c \
- *       --func func_0201119C --addr 0x0201119C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_ApplyPrizeMoney.c \
+ *       --func GPOWER_ApplyPrizeMoney --addr 0x0201119C --cc 1.1p1 --thumb
  */
-u32 func_0201119C(u32 money)
+u32 GPOWER_ApplyPrizeMoney(u32 money)
 {
     if (_GPowerState.activeId[9] != GPOWER_ID_NONE)
         money = _GPowerState.value[9] * money / 100;
@@ -1201,8 +1176,8 @@ u32 func_0201119C(u32 money)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020111BC.c
- *       --func func_020111BC --addr 0x020111BC --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GPOWER_ApplyCaptureRate.c
+ *       --func GPOWER_ApplyCaptureRate --addr 0x020111BC --cc 1.1p1
  *
  * Scales v by the rate at +0x16 of the second record (v * rate / 100 in
  * 64 bits) unless the mode byte at +0x1e of the first is 0x30.  The 0x30
@@ -1212,7 +1187,7 @@ u32 func_0201119C(u32 money)
  * size but colours the mode load in r3 (r1 is the high half of the
  * result).  See docs/idioms/a-missing-return-hands-back-the-parameter.md.
  */
-s32 func_020111BC(s32 rate)
+s32 GPOWER_ApplyCaptureRate(s32 rate)
 {
     if (_GPowerState.activeId[10] != GPOWER_ID_NONE) {
         return (s64)_GPowerState.value[10] * rate / 100;
@@ -1230,9 +1205,9 @@ s32 func_020111BC(s32 rate)
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_020111E8.c \
- *       --func func_020111E8 --addr 0x020111E8 --cc 1.1p1
+ *       --func GPOWER_GetSpecialPowerId --addr 0x020111E8 --cc 1.1p1
  */
-u32 func_020111E8(void)
+u32 GPOWER_GetSpecialPowerId(void)
 {
     return 0x15;
 }
@@ -1244,27 +1219,27 @@ u32 func_020111E8(void)
  * __FILE__ string this unit's allocation site passes, at 0x020A7268, fixed by
  * the terminator of "net_save.c" at 0x020A725C).
  *
- * func_0201121C is the constructor: it takes a heap id and a 12-byte
- * descriptor { u16 stack_cap; u16 ring_cap; const ScriptCmdFn *cmds;
- * u32 cmd_count; }, allocates the 0x30-byte context plus both arrays behind
+ * VM_Create is the constructor: it takes a heap id and a 12-byte
+ * descriptor { u16 stackCap; u16 ringCap; const ScriptCmdFn *cmds;
+ * u32 cmdCount; }, allocates the 0x30-byte context plus both arrays behind
  * it in one block, copies the descriptor into the head of the context (12
  * bytes, so the copy is an inlined ldm/stm triple,
  * docs/idioms/aggregate-assignment-is-ldm-stm.md), and points +0x1c at the
- * first array and +0x18 one ring_cap past it.  Both capacities are read back
+ * first array and +0x18 one ringCap past it.  Both capacities are read back
  * out of the caller's descriptor, not out of the context that was just
  * written, which is why the second ldrh addresses r5 and not r7.
  *
- * func_020111EC is the reset: program counter, both stack depths, the state
+ * VM_Reset is the reset: program counter, both stack depths, the state
  * byte, the wait callback and the pre-dispatch hook all cleared, and both
  * arrays filled with zero at their declared capacities.  It is the shared
- * prologue of the two entry points in the next unit (func_0201126C and
- * func_0201127C, 0x0201126C and 0x0201127C).
+ * prologue of the two entry points in the next unit (VM_Init and
+ * VM_Start, 0x0201126C and 0x0201127C).
  *
  * The 0x30-byte context is:
- *   +0x00 u16 stack_cap      (0x100 for the field script system)
- *   +0x02 u16 ring_cap       (0x40)
+ *   +0x00 u16 stackCap      (0x100 for the field script system)
+ *   +0x02 u16 ringCap       (0x40)
  *   +0x04 const ScriptCmdFn *cmds
- *   +0x08 u32 cmd_count
+ *   +0x08 u32 cmdCount
  *   +0x0c u8  stack depth
  *   +0x0d u8  state (0 stopped, 1 running, 2 waiting on the callback)
  *   +0x0e u8  ring depth
@@ -1286,38 +1261,38 @@ u32 func_020111E8(void)
  *   python tools/match.py tu --src src/matched/unit_020111EC.c \
  *       --addr 0x020111EC --thumb --cc 1.1p1
  */
-void func_020111EC(ScriptVm *vm)
+void VM_Reset(ScriptVm *vm)
 {
     vm->pc = 0;
-    vm->ring_depth = 0;
+    vm->cmpFlag = 0;
     vm->state = 0;
     vm->wait = 0;
     vm->depth = 0;
-    MI_CpuFill8(vm->stack, 0, vm->params.stack_cap * 4);
-    MI_CpuFill8(vm->ring, 0, vm->params.ring_cap * 4);
+    MI_CpuFill8(vm->stack, 0, vm->params.stackCap * 4);
+    MI_CpuFill8(vm->ring, 0, vm->params.ringCap * 4);
     vm->hook = 0;
-    vm->hook_arg = 0;
+    vm->hookArg = 0;
 }
 
 
 
-ScriptVm *func_0201121C(u32 heapId, const ScriptVmParams *params)
+ScriptVm *VM_Create(u32 heapId, const ScriptVmParams *params)
 {
     u32 size;
     ScriptVm *vm;
 
-    size = params->ring_cap * 4 + sizeof(ScriptVm) + params->stack_cap * 4;
+    size = params->ringCap * 4 + sizeof(ScriptVm) + params->stackCap * 4;
     vm = (ScriptVm *)func_02030734(heapId, size, 0, _VmFileName, 96);
     MI_CpuFill8(vm, 0, size);
     vm->params = *params;
     vm->ring = (u32 *)(vm + 1);
-    vm->stack = vm->ring + params->ring_cap;
+    vm->stack = vm->ring + params->ringCap;
     return vm;
 }
 
 
 
-void func_02011264(ScriptVm *vm)
+void VM_Delete(ScriptVm *vm)
 {
     func_020307B0(vm);
 }
@@ -1325,13 +1300,13 @@ void func_02011264(ScriptVm *vm)
 
 
 /*
- *           sub_02011324, sub_02011328
+ *           VM_GetContext, VM_SetHook
  *
  * The step function of the game's script virtual machine ("vm.c"), plus the
  * four small entry points around it.  The context layout and the
  * constructor are in src/matched/unit_020111EC.c.
  *
- * func_02011298 is the interpreter core, called once per frame by the owner
+ * VM_Control is the interpreter core, called once per frame by the owner
  * of the context:
  *
  *   state 0  stopped, nothing to do
@@ -1366,7 +1341,7 @@ void func_02011264(ScriptVm *vm)
  * once and both tests and calls that register, which a re-read of the field
  * across the call would not reproduce.
  *
- * sub_02011290, sub_02011324 and sub_02011328 carry no label in the
+ * VM_End, VM_GetContext and VM_SetHook carry no label in the
  * generated listing: none of the three saves `lr`, so disasm.py's prologue
  * sweep never fires and their bytes print as a `.word` run
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
@@ -1381,24 +1356,24 @@ void func_02011264(ScriptVm *vm)
  *   python tools/match.py tu --src src/matched/unit_0201126C.c \
  *       --addr 0x0201126C --thumb --cc 1.1p1
  */
-void func_0201126C(ScriptVm *vm, void *user)
+void VM_Init(ScriptVm *vm, void *user)
 {
-    func_020111EC(vm);
+    VM_Reset(vm);
     vm->user = user;
 }
 
 
 
-void func_0201127C(ScriptVm *vm, u8 *pc)
+void VM_Start(ScriptVm *vm, u8 *pc)
 {
-    func_020111EC(vm);
+    VM_Reset(vm);
     vm->pc = pc;
     vm->state = 1;
 }
 
 
 
-ScriptVm *sub_02011290(ScriptVm *vm)
+ScriptVm *VM_End(ScriptVm *vm)
 {
     vm->state = 0;
     vm->pc = 0;
@@ -1406,13 +1381,13 @@ ScriptVm *sub_02011290(ScriptVm *vm)
 }
 
 /*
- * Alternate entry: sub_02011292() enters sub_02011290 two bytes in, after the
+ * Alternate entry: sub_02011292() enters VM_End two bytes in, after the
  * `movs r1, #0`, so the caller's r1 is stored to vm->state and vm->pc.
  */
 
 
 
-int func_02011298(ScriptVm *vm)
+int VM_Control(ScriptVm *vm)
 {
     u32 op;
     ScriptWaitFn wait;
@@ -1438,12 +1413,12 @@ int func_02011298(ScriptVm *vm)
                 return 0;
             }
             op = func_02011330(vm);
-            if (op >= vm->params.cmd_count) {
+            if (op >= vm->params.cmdCount) {
                 vm->state = 0;
                 return 0;
             }
             if (vm->hook != 0) {
-                if (vm->hook(vm, vm->user, vm->hook_arg, op) == 0) {
+                if (vm->hook(vm, vm->user, vm->hookArg, op) == 0) {
                     vm->state = 0;
                     return 0;
                 }
@@ -1463,31 +1438,31 @@ int func_02011298(ScriptVm *vm)
 
 
 
-void *sub_02011324(ScriptVm *vm)
+void *VM_GetContext(ScriptVm *vm)
 {
     return vm->user;
 }
 
 
 
-void sub_02011328(ScriptVm *vm, ScriptHookFn hook, void *arg)
+void VM_SetHook(ScriptVm *vm, ScriptHookFn hook, void *arg)
 {
     vm->hook = hook;
-    vm->hook_arg = arg;
+    vm->hookArg = arg;
 }
 
 
 
 /*
- *           func_020113B0, func_020113B4, func_020113C4
+ *           VM_Jump, VM_Call, VM_Return
  *
  * Seven functions, no external calls at all, over two small structs read and
  * written by cursor.  Two of the seven carry no label in the generated
- * listing at all: func_0201134C and func_020113B0, both leaves whose
+ * listing at all: func_0201134C and VM_Jump, both leaves whose
  * prologue (or total absence of one) saves no `lr`
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * func_020113B0 is four bytes, `str r1, [r0, #0x14]; bx lr`: the plain
- * setter of the +0x14 field that func_020113B4 and func_020113C4 reach only
+ * VM_Jump is four bytes, `str r1, [r0, #0x14]; bx lr`: the plain
+ * setter of the +0x14 field that VM_Call and VM_Return reach only
  * through a history ring.
  *
  * func_02011330 and func_0201134C are a matched pair, a little-endian u16
@@ -1495,24 +1470,24 @@ void sub_02011328(ScriptVm *vm, ScriptHookFn hook, void *arg)
  * func_0201134C carries no label in the generated listing: it opens with
  * `push {r4, r5}`, which saves no `lr`, so disasm.py's prologue sweep never
  * fires on it and its 48 bytes print as a `.word` run between func_02011330
- * and func_0201137C (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ * and VM_PushStack (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * Its four byte reads are built MSB-first through a Horner chain
  * (((0 + b3) << 8 + b2) << 8 + b1) << 8 + b0, which is what the register
  * allocator does with a `for` loop counting down; the two-byte version is
  * small enough that the same loop unrolls into the flat expression used
  * below.
  *
- * func_0201137C and func_02011398 are a fixed-capacity ring: a byte count at
+ * VM_PushStack and VM_PopStack are a fixed-capacity ring: a byte count at
  * +0xC bounded by a halfword capacity at +0x0, backed by a `u32` array
- * pointed to by +0x18.  func_0201137C pushes if there is room and returns
- * whether it did; func_02011398 pops the oldest entry, or 0 if the ring is
+ * pointed to by +0x18.  VM_PushStack pushes if there is room and returns
+ * whether it did; VM_PopStack pops the oldest entry, or 0 if the ring is
  * empty (and leaves the count at 0 rather than going negative).
  *
- * func_020113B4 and func_020113C4 are a different struct's accessors for a
- * plain u32 field at +0x14, the same offset func_020113B0 sets directly:
- * func_020113B4 pushes the field's old value onto a func_0201137C ring
- * before overwriting it with the new one, and func_020113C4 pops a
- * func_02011398 ring back into the field.  Both take the ring struct
+ * VM_Call and VM_Return are a different struct's accessors for a
+ * plain u32 field at +0x14, the same offset VM_Jump sets directly:
+ * VM_Call pushes the field's old value onto a VM_PushStack ring
+ * before overwriting it with the new one, and VM_Return pops a
+ * VM_PopStack ring back into the field.  Both take the ring struct
  * pointer as the same first argument as the field's owner, so the two
  * structs are declared distinctly here (Ring and Cur) even though nothing
  * in this file proves they are not the same struct in the original; only
@@ -1565,16 +1540,16 @@ u32 func_0201134C(ScriptVm *vm)
 
 
 
-void func_0201137C(ScriptVm *vm, u32 value)
+void VM_PushStack(ScriptVm *vm, u32 value)
 {
-    if (vm->depth + 1 < vm->params.stack_cap) {
+    if (vm->depth + 1 < vm->params.stackCap) {
         vm->stack[vm->depth] = value;
         vm->depth = vm->depth + 1;
     }
 }
 
 
-u32 func_02011398(ScriptVm *vm)
+u32 VM_PopStack(ScriptVm *vm)
 {
     if (vm->depth == 0) {
         return 0;
@@ -1585,23 +1560,23 @@ u32 func_02011398(ScriptVm *vm)
 
 
 
-void func_020113B0(ScriptVm *vm, u8 *pc)
+void VM_Jump(ScriptVm *vm, u8 *pc)
 {
     vm->pc = pc;
 }
 
 
-void func_020113B4(ScriptVm *vm, u8 *pc)
+void VM_Call(ScriptVm *vm, u8 *pc)
 {
     u8 *ret = vm->pc;
-    func_0201137C(vm, (u32)ret);
+    VM_PushStack(vm, (u32)ret);
     vm->pc = pc;
 }
 
 
-u8 *func_020113C4(ScriptVm *vm)
+u8 *VM_Return(ScriptVm *vm)
 {
-    vm->pc = (u8 *)func_02011398(vm);
+    vm->pc = (u8 *)VM_PopStack(vm);
     return vm->pc;
 }
 
@@ -1622,7 +1597,7 @@ void func_020113D0(ScriptVm *vm, ScriptWaitFn wait)
 
 /*
  * Fills a 12-byte buffer through func_0203F4CC and tail-hands its own
- * argument and the buffer's first word to func_020113F0, a table lookup
+ * argument and the buffer's first word to TIMEZONE_GetTimeZoneOfHour, a table lookup
  * that is a documented near miss (src/matched/sub_02011410.c's header has
  * the details) and so is declared here only, not defined.
  *
@@ -1637,7 +1612,7 @@ u32 func_020113D8(u32 season)
     struct RtcTime time;
 
     func_0203F4CC(&time);
-    return func_020113F0(season, time.hour);
+    return TIMEZONE_GetTimeZoneOfHour(season, time.hour);
 }
 
 
@@ -1649,7 +1624,7 @@ u32 func_020113D8(u32 season)
  * park (byte-offset arithmetic, docs/notes/pkt_020113F0.c.txt) was capped on
  * the two single-pool rodata tables, which sole-ref/self now carries.
  */
-int func_020113F0(int season, int hour)
+int TIMEZONE_GetTimeZoneOfHour(int season, int hour)
 {
     return _TimeZoneTable[season][hour];
 }
@@ -1675,7 +1650,7 @@ u8 func_02011400(int season, int timeZone)
  *    alignment padding up to the next function, which `one` reports as a
  *    size mismatch and would mark EXACT*.  The code itself is 54/22 bytes.)
  */
-u32 func_02011410(u32 season)
+u32 TIMEZONE_IsNight(u32 season)
 {
     switch (func_020113D8(season)) {
     case 3:
@@ -1694,24 +1669,24 @@ u32 func_02011410(u32 season)
  * class-specific initialiser, then the load call.  Only the load call's
  * result is tested, so the failure path is the plain `return 0` and the
  * success path stores through the sibling and returns the object.  The
- * +0x0c field is re-read after func_020116E0 because the callee sets it.
+ * +0x0c field is re-read after ICA_ANIME_LoadHeader because the callee sets it.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02011428.c \
- *       --func func_02011428 --addr 0x02011428 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ICA_ANIME_CreateWithFullBuffer.c \
+ *       --func ICA_ANIME_CreateWithFullBuffer --addr 0x02011428 --cc 1.1p1 --thumb
  */
-struct IcaAnime *func_02011428(u32 heapId, u32 arcId, u32 dataId, void *buffer, u32 bufferSize)
+struct IcaAnime *ICA_ANIME_CreateWithFullBuffer(u32 heapId, u32 arcId, u32 dataId, void *buffer, u32 bufferSize)
 {
     struct IcaAnime *anime = func_02030734(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0x54);
 
-    func_020116C0(anime);
-    func_020116E0(anime, arcId, dataId, heapId);
-    if (func_020117D8(anime, anime->frameNum, buffer, bufferSize) == 0) {
+    ICA_ANIME_Clear(anime);
+    ICA_ANIME_LoadHeader(anime, arcId, dataId, heapId);
+    if (ICA_ANIME_SetBuffer(anime, anime->frameNum, buffer, bufferSize) == 0) {
         return 0;
     }
-    func_0201183C(anime, 0);
+    ICA_ANIME_LoadFrames(anime, 0);
     return anime;
 }
 
@@ -1719,7 +1694,7 @@ struct IcaAnime *func_02011428(u32 heapId, u32 arcId, u32 dataId, void *buffer, 
 
 
 /*
- * The 0x74-byte sibling of func_02011428 in the same original file: same
+ * The 0x74-byte sibling of ICA_ANIME_CreateWithFullBuffer in the same original file: same
  * allocation, shared init and class initialiser, but the load call forwards
  * the two stacked arguments rather than a field.
  *
@@ -1733,12 +1708,12 @@ struct IcaAnime *func_0201147C(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNu
 {
     struct IcaAnime *anime = func_02030734(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0x74);
 
-    func_020116C0(anime);
-    func_020116E0(anime, arcId, dataId, heapId);
-    if (func_020117D8(anime, bufFrameNum, buffer, bufferSize) == 0) {
+    ICA_ANIME_Clear(anime);
+    ICA_ANIME_LoadHeader(anime, arcId, dataId, heapId);
+    if (ICA_ANIME_SetBuffer(anime, bufFrameNum, buffer, bufferSize) == 0) {
         return 0;
     }
-    func_0201183C(anime, 0);
+    ICA_ANIME_LoadFrames(anime, 0);
     return anime;
 }
 
@@ -1746,25 +1721,25 @@ struct IcaAnime *func_0201147C(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNu
 /*
  * ica_anime.c: the third constructor (line 0x90 of "ica_anime.c").  The
  * object is 0x38 bytes and the four-argument initialiser gets the heap back
- * as its last argument, which is where r3 = r5 comes from.  func_020116C0 gets
+ * as its last argument, which is where r3 = r5 comes from.  ICA_ANIME_Clear gets
  * the object straight from the allocator, which is why no move precedes it.
  *
  * The tail is the pair every one of these constructors ends with -
- * func_02011770(anime, anime->frameNum) and func_0201183C(anime, 0).
+ * ICA_ANIME_AllocBuffer(anime, anime->frameNum) and ICA_ANIME_LoadFrames(anime, 0).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020114D0.c \
- *       --func func_020114D0 --addr 0x020114D0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ICA_ANIME_CreateFull.c \
+ *       --func ICA_ANIME_CreateFull --addr 0x020114D0 --cc 1.1p1 --thumb
  */
-struct IcaAnime *func_020114D0(u32 heapId, u32 arcId, u32 dataId)
+struct IcaAnime *ICA_ANIME_CreateFull(u32 heapId, u32 arcId, u32 dataId)
 {
     struct IcaAnime *anime;
 
     anime = func_02030734(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0x90);
-    func_020116C0(anime);
-    func_020116E0(anime, arcId, dataId, heapId);
-    func_02011770(anime, anime->frameNum);
-    func_0201183C(anime, 0);
+    ICA_ANIME_Clear(anime);
+    ICA_ANIME_LoadHeader(anime, arcId, dataId, heapId);
+    ICA_ANIME_AllocBuffer(anime, anime->frameNum);
+    ICA_ANIME_LoadFrames(anime, 0);
     return anime;
 }
 
@@ -1773,7 +1748,7 @@ struct IcaAnime *func_020114D0(u32 heapId, u32 arcId, u32 dataId)
 /*
  * ica_anime.c, the third constructor of the group: same prologue, same
  * 0x38-byte allocation (a different source line), but the class
- * initialiser is func_02011770 and the result is not tested - it always
+ * initialiser is ICA_ANIME_AllocBuffer and the result is not tested - it always
  * runs the shared teardown initialiser and returns the object.
  *
  * Addresses are Black-image addresses.
@@ -1786,10 +1761,10 @@ struct IcaAnime *func_02011510(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNu
 {
     struct IcaAnime *anime = func_02030734(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0xae);
 
-    func_020116C0(anime);
-    func_020116E0(anime, arcId, dataId, heapId);
-    func_02011770(anime, bufFrameNum);
-    func_0201183C(anime, 0);
+    ICA_ANIME_Clear(anime);
+    ICA_ANIME_LoadHeader(anime, arcId, dataId, heapId);
+    ICA_ANIME_AllocBuffer(anime, bufFrameNum);
+    ICA_ANIME_LoadFrames(anime, 0);
     return anime;
 }
 
@@ -1834,14 +1809,14 @@ void func_02011558(struct IcaAnime *anime)
  *   func_02011590   advance the clock, reset it if the frame count is
  *                   reached, and poke the animation when the new frame falls
  *                   outside [f14, f14 + f18)
- *   func_020115C0   the same advance but returning "already finished" when
+ *   ICA_ANIME_IncFrameNoLoop   the same advance but returning "already finished" when
  *                   the frame at entry is past the count
  *   func_020115EC   set the clock outright
  *   (0x02011608)    getter: +0x0C
  *   (0x0201160C)    getter: +0x10
  *
  * The range check is one disjunction in every case: the original reaches the
- * single `bl func_0201183C` from both compares.
+ * single `bl ICA_ANIME_LoadFrames` from both compares.
  *
  * Signedness: the frame is `f10 >> 12` with an arithmetic shift (asrs), but
  * the compare against f0c is unsigned (bhi/bhs), so f0c is a u32 field while
@@ -1866,12 +1841,12 @@ u32 func_02011590(struct IcaAnime *anime, s32 step)
         looped = 1;
     }
     if (frameIndex < anime->bufTopFrame || (anime->bufTopFrame + anime->bufFrameNum) <= frameIndex)
-        func_0201183C(anime, anime->frame);
+        ICA_ANIME_LoadFrames(anime, anime->frame);
     return looped;
 }
 
 
-u32 func_020115C0(struct IcaAnime *anime, s32 step)
+u32 ICA_ANIME_IncFrameNoLoop(struct IcaAnime *anime, s32 step)
 {
     s32 frameIndex = anime->frame >> 12;
 
@@ -1879,7 +1854,7 @@ u32 func_020115C0(struct IcaAnime *anime, s32 step)
         anime->frame = anime->frame + step;
         frameIndex = anime->frame >> 12;
         if (frameIndex < anime->bufTopFrame || (anime->bufTopFrame + anime->bufFrameNum) <= frameIndex)
-            func_0201183C(anime, anime->frame);
+            ICA_ANIME_LoadFrames(anime, anime->frame);
         return 0;
     }
     return 1;
@@ -1892,12 +1867,12 @@ void func_020115EC(struct IcaAnime *anime, s32 frame)
 
     anime->frame = frame;
     if (frameIndex < anime->bufTopFrame || (anime->bufTopFrame + anime->bufFrameNum) <= frameIndex)
-        func_0201183C(anime, frame);
+        ICA_ANIME_LoadFrames(anime, frame);
 }
 
 
 
-u32 func_02011608(struct IcaAnime *anime)
+u32 ICA_ANIME_GetFrameNum(struct IcaAnime *anime)
 {
     return anime->frameNum;
 }
@@ -1954,7 +1929,7 @@ u32 func_02011638(struct IcaAnime *anime, struct Vec3 *rot)
 }
 
 
-u32 func_02011660(struct IcaAnime *anime, struct Vec3 *scale)
+u32 ICA_ANIME_GetScale(struct IcaAnime *anime, struct Vec3 *scale)
 {
     if (anime->hasScale != 0) {
         *scale = anime->scaleBuf[(anime->frame >> 12) - anime->bufTopFrame];
@@ -1987,10 +1962,10 @@ u32 func_02011660(struct IcaAnime *anime, struct Vec3 *scale)
  *    image's fall-through body and its two epilogues.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02011688.c \
- *       --func func_02011688 --addr 0x02011688 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ICA_ANIME_GetTranslateAt.c \
+ *       --func ICA_ANIME_GetTranslateAt --addr 0x02011688 --cc 1.1p1 --thumb
  */
-u32 func_02011688(struct IcaAnime *anime, struct Vec3 *trans, u32 frame)
+u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *anime, struct Vec3 *trans, u32 frame)
 {
     u32 frameNum = anime->frameNum;
 
@@ -2012,7 +1987,7 @@ u32 func_02011688(struct IcaAnime *anime, struct Vec3 *trans, u32 frame)
 
 
 
-void func_020116C0(struct IcaAnime *anime)
+void ICA_ANIME_Clear(struct IcaAnime *anime)
 {
     anime->heapId = 0;
     anime->arcHandle = 0;
@@ -2049,10 +2024,10 @@ void func_020116C0(struct IcaAnime *anime)
  * allocation exactly.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020116E0.c \
- *       --func func_020116E0 --addr 0x020116E0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ICA_ANIME_LoadHeader.c \
+ *       --func ICA_ANIME_LoadHeader --addr 0x020116E0 --cc 1.1p1 --thumb
  */
-void func_020116E0(struct IcaAnime *anime, u32 arcId, u32 dataId, u32 heapId)
+void ICA_ANIME_LoadHeader(struct IcaAnime *anime, u32 arcId, u32 dataId, u32 heapId)
 {
     u8 channelFlags[4];
     u32 hasScale;
@@ -2075,7 +2050,7 @@ void func_020116E0(struct IcaAnime *anime, u32 arcId, u32 dataId, u32 heapId)
 
 
 
-void func_02011770(struct IcaAnime *anime, int bufFrameNum)
+void ICA_ANIME_AllocBuffer(struct IcaAnime *anime, int bufFrameNum)
 {
     anime->bufFrameNum = bufFrameNum;
     if (anime->hasTrans != 0) {
@@ -2103,10 +2078,10 @@ void func_02011770(struct IcaAnime *anime, int bufFrameNum)
  * the call answers 0.  bufFrameNum is recorded in the object.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020117D8.c \
- *       --func func_020117D8 --addr 0x020117D8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ICA_ANIME_SetBuffer.c \
+ *       --func ICA_ANIME_SetBuffer --addr 0x020117D8 --cc 1.1p1 --thumb
  */
-int func_020117D8(struct IcaAnime *anime, int bufFrameNum, u8 *buffer, int bufferSize)
+int ICA_ANIME_SetBuffer(struct IcaAnime *anime, int bufFrameNum, u8 *buffer, int bufferSize)
 {
     int needSize;
     int trackSize;
@@ -2176,7 +2151,7 @@ int func_020117D8(struct IcaAnime *anime, int bufFrameNum, u8 *buffer, int buffe
  *    there, sharing the alloc's zero), and the loop is `for (; i < ...)`.
  *  - declaration order frameIdx, value, floats, size, offset, index.
  */
-void func_0201183C(struct IcaAnime *anime, s32 frame)
+void ICA_ANIME_LoadFrames(struct IcaAnime *anime, s32 frame)
 {
     s32 frameIdx;
     s32 value;
@@ -2314,10 +2289,10 @@ void func_02011B8C(void *camera, struct IcaAnime *anime)
  * function func_02048AFC together with the original first argument.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02011CF0.c \
- *       --func func_02011CF0 --addr 0x02011CF0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ICA_ANIME_SetCameraPos.c \
+ *       --func ICA_ANIME_SetCameraPos --addr 0x02011CF0 --cc 1.1p1 --thumb
  */
-void func_02011CF0(void *camera, struct IcaAnime *anime)
+void ICA_ANIME_SetCameraPos(void *camera, struct IcaAnime *anime)
 {
     struct Vec3 position;
 
@@ -2328,13 +2303,13 @@ void func_02011CF0(void *camera, struct IcaAnime *anime)
 
 
 /*
- * Identical to func_02011CF0 except for the second callee, func_02048B44.
+ * Identical to ICA_ANIME_SetCameraPos except for the second callee, func_02048B44.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02011D0C.c \
- *       --func func_02011D0C --addr 0x02011D0C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ICA_ANIME_SetCameraTarget.c \
+ *       --func ICA_ANIME_SetCameraTarget --addr 0x02011D0C --cc 1.1p1 --thumb
  */
-void func_02011D0C(void *camera, struct IcaAnime *anime)
+void ICA_ANIME_SetCameraTarget(void *camera, struct IcaAnime *anime)
 {
     struct Vec3 target;
 
@@ -2345,27 +2320,27 @@ void func_02011D0C(void *camera, struct IcaAnime *anime)
 
 
 /*
- * func_02011D28 calls its argument, if not null, purely for effect: the
+ * GAMESYSTEM_CallIfSet calls its argument, if not null, purely for effect: the
  * call falls straight through into `mvns r0, r4` with no branch around it,
  * so the return value is always the bitwise complement of the function
  * pointer itself, never whatever the call returned.
  *
- * func_02011D34 calls func_0203F0A8 twice and returns nothing, a debug
+ * GAMESYSTEM_ReadTimerTwice calls func_0203F0A8 twice and returns nothing, a debug
  * marker pair (begin/end) around nothing in between.
  *
- * func_02011D40 and func_02011D7C, on either side of the function between
+ * GAMESYSTEM_LeakHeapPenalty and GAMESYSTEM_LeakHeapPenaltyRepeat, on either side of the function between
  * this pair, were a documented register-swap near miss on their single
- * `_GameSystemGlobal.tamperCount += 1`; now EXACT (src/matched/func_02011D40.c and
- * src/matched/func_02011D7C.c). The fix was declaring the global as a
+ * `_GameSystemGlobal.tamperCount += 1`; now EXACT (src/matched/GAMESYSTEM_LeakHeapPenalty.c and
+ * src/matched/GAMESYSTEM_LeakHeapPenaltyRepeat.c). The fix was declaring the global as a
  * real struct and using field syntax (`_GameSystemGlobal.tamperCount += 1`) instead
  * of raw pointer-plus-offset arithmetic; not merged into this unit
- * because func_02011D60 between them stays out of the manifest (see
+ * because GAMESYSTEM_ProbeHeapCreate between them stays out of the manifest (see
  * below).
  *
- * The function between them, func_02011D60, reproduces every byte the
+ * The function between them, GAMESYSTEM_ProbeHeapCreate, reproduces every byte the
  * comparison covers, but is left out of the manifest: the listing's extent
  * runs two bytes long across the `00 00` alignment pad in front of
- * func_02011D7C, an `EXACT*` this territory's policy does not accept
+ * GAMESYSTEM_LeakHeapPenaltyRepeat, an `EXACT*` this territory's policy does not accept
  * because the follower carries a real label rather than being the
  * unlabelled-follower case `EXACT*` is meant for.
  *
@@ -2375,7 +2350,7 @@ void func_02011D0C(void *camera, struct IcaAnime *anime)
  *   python tools/match.py tu --src src/matched/unit_02011D28.c \
  *       --addr 0x02011D28 --thumb
  */
-u32 func_02011D28(u32 (*func)(void))
+u32 GAMESYSTEM_CallIfSet(u32 (*func)(void))
 {
     if (func != 0) {
         func();
@@ -2385,7 +2360,7 @@ u32 func_02011D28(u32 (*func)(void))
 
 
 
-void func_02011D34(void)
+void GAMESYSTEM_ReadTimerTwice(void)
 {
     func_0203F0A8();
     func_0203F0A8();
@@ -2394,51 +2369,51 @@ void func_02011D34(void)
 
 
 /*
- * Allocates 0x7F bytes off heap 0 through sub_020056A0.c's allocator
- * wrapper, tagged with func_02011D34's own address (the SDK debug-tag
+ * Allocates 0x7F bytes off heap 0 through GFL_USE_AddMainTask.c's allocator
+ * wrapper, tagged with GAMESYSTEM_ReadTimerTwice's own address (the SDK debug-tag
  * convention: the tag is the calling site, here literally the sibling
  * debug-marker function's address), discards the result, and bumps
  * _GameSystemGlobal.tamperCount. See unit_02011D28.c's header for the sibling
- * func_02011D7C and the documented near miss on this increment.
+ * GAMESYSTEM_LeakHeapPenaltyRepeat and the documented near miss on this increment.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02011D40.c \
- *       --func func_02011D40 --addr 0x02011D40 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GAMESYSTEM_LeakHeapPenalty.c \
+ *       --func GAMESYSTEM_LeakHeapPenalty --addr 0x02011D40 --cc 1.1p1 --thumb
  */
-void func_02011D40(void)
+void GAMESYSTEM_LeakHeapPenalty(void)
 {
-    sub_020056A0((u32)func_02011D34, 0, 0x7f);
+    GFL_USE_AddMainTask((u32)GAMESYSTEM_ReadTimerTwice, 0, 0x7f);
     _GameSystemGlobal.tamperCount += 1;
 }
 
 
-void func_02011D60(void)
+void GAMESYSTEM_ProbeHeapCreate(void)
 {
     func_0203064C(9, 5, 5 << 10);
-    func_02011F24();
+    GAMESYSTEM_GetWorkSize();
     func_020306F0(5);
 }
 
 
 /*
- * Allocates 0x7F bytes off heap 0 through sub_020056A0.c's allocator
- * wrapper, tagged with func_02011D34's own address (the SDK debug-tag
+ * Allocates 0x7F bytes off heap 0 through GFL_USE_AddMainTask.c's allocator
+ * wrapper, tagged with GAMESYSTEM_ReadTimerTwice's own address (the SDK debug-tag
  * convention: the tag is the calling site, here literally the sibling
  * debug-marker function's address), discards the result, and bumps
  * _GameSystemGlobal.tamperCount. See unit_02011D28.c's header for the sibling
- * func_02011D40 (src/matched/func_02011D40.c, converted to EXACT
+ * GAMESYSTEM_LeakHeapPenalty (src/matched/GAMESYSTEM_LeakHeapPenalty.c, converted to EXACT
  * alongside this one) and the formerly-documented near miss on this
  * increment: the `_GameSystemGlobal.tamperCount += 1` register swap resolves when the
  * global is declared as a real struct (`_GameSystemGlobal.tamperCount += 1`) rather
  * than accessed through raw pointer-plus-offset arithmetic.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02011D7C.c \
- *       --func func_02011D7C --addr 0x02011D7C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GAMESYSTEM_LeakHeapPenaltyRepeat.c \
+ *       --func GAMESYSTEM_LeakHeapPenaltyRepeat --addr 0x02011D7C --cc 1.1p1 --thumb
  */
-void func_02011D7C(void)
+void GAMESYSTEM_LeakHeapPenaltyRepeat(void)
 {
-    sub_020056A0((u32)func_02011D34, 0, 0x7f);
+    GFL_USE_AddMainTask((u32)GAMESYSTEM_ReadTimerTwice, 0, 0x7f);
     _GameSystemGlobal.tamperCount += 1;
 }
 
@@ -2448,17 +2423,17 @@ void func_02011D7C(void)
  *           once the ov230d token let the probe targets resolve
  *
  * ica_anime.c: scene bring-up.  Loads overlay 230, runs three checksum
- * probes over this family's own code (func_02011D28 to func_02011D40,
- * func_02011D60, func_02011D7C; each result compared with the complement of
+ * probes over this family's own code (GAMESYSTEM_CallIfSet to GAMESYSTEM_LeakHeapPenalty,
+ * GAMESYSTEM_ProbeHeapCreate, GAMESYSTEM_LeakHeapPenaltyRepeat; each result compared with the complement of
  * the end address), creates three heaps through func_0203064C, allocates
  * the work block and publishes it to _GameSystemGlobal, then, when the probe
  * results do not add up to a multiple of 0x12AF, runs a func_0200C258-counted
- * loop of func_02011D40.
+ * loop of GAMESYSTEM_LeakHeapPenalty.
  *
  * Byte-correct: 272 of 272 bytes, 0 concrete bytes out (match.py one,
  * dsi/1.1p1, 2026-09-24 wave 21 lane H).  The lever that closed it after
  * eight waves at 8 out: the probes' shared start address is held in a u32
- * local (`start = (u32)func_02011D28;`) and cast back at each call
+ * local (`start = (u32)GAMESYSTEM_CallIfSet;`) and cast back at each call
  * (docs/idioms/an-address-held-in-a-u32-local-is-reloaded-at-every-site.md).
  * The local's web spans the second heap call, so the argument 4 there is
  * rematerialised (`movs r2,#4 ... movs r1,#4; lsls r2,r2,#14`) instead of
@@ -2477,7 +2452,7 @@ void func_02011D7C(void)
  * that listing: 25 of 25 sites (ov230_id as overlay_id, func_0215FA00
  * sole-ref/code with the ov010 hint).
  */
-u32 func_02011D9C(struct Proc *proc, u32 *seq, u32 initParam)
+u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam)
 {
     u32 workSize;
     u32 checkSum;
@@ -2488,34 +2463,34 @@ u32 func_02011D9C(struct Proc *proc, u32 *seq, u32 initParam)
     s32 i;
     u32 checkCaller;
 
-    workSize = func_02011F24();
-    checkCaller = (u32)func_02011D28;
+    workSize = GAMESYSTEM_GetWorkSize();
+    checkCaller = (u32)GAMESYSTEM_CallIfSet;
     checkSum = 0xc35ffb;
     func_02034AC4((int)ov230_id);
     intact = 0;
-    if (func_021882A0((void (*)(void))checkCaller, func_02011D40, 0) == ~(u32)func_02011D40)
+    if (func_021882A0((void (*)(void))checkCaller, GAMESYSTEM_LeakHeapPenalty, 0) == ~(u32)GAMESYSTEM_LeakHeapPenalty)
         intact = 1;
     checkSum += intact * 0x47;
     func_0203064C(1, 3, 0xa << 12);
     intact = 1;
-    if (func_02188354((void (*)(void))checkCaller, func_02011D60, 0) != ~(u32)func_02011D60)
+    if (func_02188354((void (*)(void))checkCaller, GAMESYSTEM_ProbeHeapCreate, 0) != ~(u32)GAMESYSTEM_ProbeHeapCreate)
         intact = 0;
     checkPenalty = 0;
     if (intact == 0)
         checkPenalty = 0x191;
     func_0203064C(1, 4, 4 << 14);
-    func_02188390((void (*)(void))checkCaller, func_02011D7C, 0);
+    func_02188390((void (*)(void))checkCaller, GAMESYSTEM_LeakHeapPenaltyRepeat, 0);
     func_0203064C(9, 5, 5 << 10);
     func_02034A5C((s32)ov230_id);
     gameSystem = func_0203159C(proc, workSize, 3);
     MI_CpuFill8(gameSystem, 0, workSize);
     _GameSystemGlobal.gameSystem = gameSystem;
-    func_02011FB8(gameSystem, 3, initParam);
-    func_02012108(gameSystem, func_0215FA00(gameSystem, initParam));
+    GAMESYSTEM_Setup(gameSystem, 3, initParam);
+    GAMESYSTEM_SetEvent(gameSystem, func_0215FA00(gameSystem, initParam));
     if ((checkSum + checkPenalty) % 0x12af != 0) {
         penaltyCount = func_0200C258(func_02012F08(func_020120F4(gameSystem)));
         for (i = 0; i < penaltyCount; i++)
-            func_02011D40();
+            GAMESYSTEM_LeakHeapPenalty();
     }
     return 1;
 }
@@ -2535,12 +2510,12 @@ u32 func_02011D9C(struct Proc *proc, u32 *seq, u32 initParam)
  *           0x02011FCC (144 bytes, packet pkt_02011F28) as an EXACT entry
  *           would close this one; nothing else will.
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02011EAC.c \
- *       --func func_02011EAC --addr 0x02011EAC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GAMESYSTEM_ProcMain.c \
+ *       --func GAMESYSTEM_ProcMain --addr 0x02011EAC --cc 1.1p1 --thumb
  */
-u32 func_02011EAC(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem)
+u32 GAMESYSTEM_ProcMain(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem)
 {
-    if (func_02011FCC(gameSystem) != 0)
+    if (GAMESYSTEM_Main(gameSystem) != 0)
         return 1;
     return 0;
 }
@@ -2549,18 +2524,18 @@ u32 func_02011EAC(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem 
 
 /*
  * Promoted from src/pending/ in the second 0-64 byte band pass (lane 1).  It
- * was parked there on the call to 0x02012088 only; func_02012088 now has an
+ * was parked there on the call to 0x02012088 only; GAMESYSTEM_Delete now has an
  * EXACT entry of its own, so the site resolves through the `matched` class and
  * the file needs no change.  The fourth parameter is moved out of r3 at entry
  * and passed first; then the first parameter; the three func_020306F0 calls
  * with consecutive ids 3, 4, 5 and a final func_02087BCC(0).  Returns 1.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02011EC0.c \
- *       --func func_02011EC0 --addr 0x02011EC0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_ProcEnd.c \
+ *       --func GAMESYSTEM_ProcEnd --addr 0x02011EC0 --cc 1.1p1 --thumb
  */
-u32 func_02011EC0(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem)
+u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem)
 {
-    func_02012088(gameSystem);
+    GAMESYSTEM_Delete(gameSystem);
     func_020315D4(proc);
     func_020306F0(3);
     func_020306F0(4);
@@ -2585,10 +2560,10 @@ u32 func_02011EC0(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem 
  * aggregate assignment (the ldm/stm pair plus the third word).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02011EEC.c \
- *       --func func_02011EEC --addr 0x02011EEC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_SetupInitWork.c \
+ *       --func GAMESYSTEM_SetupInitWork --addr 0x02011EEC --cc 1.1p1 --thumb
  */
-struct GameInitWork *func_02011EEC(u32 mode, u16 zoneId, struct Vec3 *position, int direction)
+struct GameInitWork *GAMESYSTEM_SetupInitWork(u32 mode, u16 zoneId, struct Vec3 *position, int direction)
 {
     MI_CpuFill8(&_GameSystemGlobal.initWork, 0, sizeof(struct GameInitWork));
     _GameSystemGlobal.initWork.mode = mode;
@@ -2613,7 +2588,7 @@ struct GameInitWork *func_02011EEC(u32 mode, u16 zoneId, struct Vec3 *position, 
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02011F24.c  *       --addr 0x02011F24 --thumb
  */
-u32 func_02011F24(void)
+u32 GAMESYSTEM_GetWorkSize(void)
 {
     return sizeof(struct GameSystem);
 }
@@ -2634,25 +2609,25 @@ u32 func_02011F24(void)
  * struct, not raw pointer casts.  EXACT* only because the 2-byte pad at
  * 0x02011F8E runs the extent to 0x02011F90.
  */
-void func_02011F28(struct GameSystem *gameSystem, u16 heapId, u32 initParam)
+void GAMESYSTEM_Init(struct GameSystem *gameSystem, u16 heapId, u32 initParam)
 {
     gameSystem->heapId = heapId;
     gameSystem->initParam = initParam;
-    gameSystem->procSys = func_02031324(gameSystem->heapId);
+    gameSystem->procSys = PROCSYS_Create(gameSystem->heapId);
     gameSystem->procStatus = 0;
     gameSystem->eventCreator = 0;
     gameSystem->eventCreatorArg = 0;
     gameSystem->event = 0;
-    gameSystem->gameData = func_020124F4(gameSystem->heapId);
+    gameSystem->gameData = GAME_DATA_Create(gameSystem->heapId);
     gameSystem->fieldMap = 0;
     gameSystem->gameComm = func_020261E4(gameSystem->heapId, gameSystem->gameData);
     gameSystem->reserved = 0;
-    gameSystem->issSystem = func_0202B4BC(gameSystem->gameData, heapId);
+    gameSystem->issSystem = ISS_SYS_Create(gameSystem->gameData, heapId);
     gameSystem->commBlocked = 0;
     gameSystem->netOffBySleep = 0;
-    func_02012248(gameSystem);
-    func_020122A4(gameSystem);
-    func_020139B0(heapId);
+    GAMESYSTEM_RegisterSleepCallback(gameSystem);
+    GAMESYSTEM_RegisterSleepCheck(gameSystem);
+    ZONEDATA_Init(heapId);
 }
 
 
@@ -2664,23 +2639,23 @@ void func_02011F28(struct GameSystem *gameSystem, u16 heapId, u32 initParam)
  * the two bytes of section padding after the pop.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02011F90.c \
- *       --func func_02011F90 --addr 0x02011F90 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_Exit.c \
+ *       --func GAMESYSTEM_Exit --addr 0x02011F90 --cc 1.1p1 --thumb
  */
-void func_02011F90(struct GameSystem *gameSystem)
+void GAMESYSTEM_Exit(struct GameSystem *gameSystem)
 {
-    func_020122B4(gameSystem);
-    func_02012258(gameSystem);
-    func_0202B4F0(gameSystem->issSystem);
-    func_02012704(gameSystem->gameData);
+    GAMESYSTEM_ReleaseSleepCheck(gameSystem);
+    GAMESYSTEM_ReleaseSleepCallback(gameSystem);
+    ISS_SYS_Delete(gameSystem->issSystem);
+    GAME_DATA_Delete(gameSystem->gameData);
     func_02026250(gameSystem->gameComm);
-    func_02013A48();
+    ZONEDATA_Exit();
 }
 
 
 
 /*
- * The object goes through func_02011F28 with r0-r2 untouched, then one field
+ * The object goes through GAMESYSTEM_Init with r0-r2 untouched, then one field
  * destructor and a global call.
  *
  *           (its only caller in the image is this function) and 0x020267BC at
@@ -2690,14 +2665,14 @@ void func_02011F90(struct GameSystem *gameSystem)
  *           to 0x02011F28.. and is possible - see the note in
  *           docs/notes/pkt_02011F28.c.txt.
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02011FB8.c \
- *       --func func_02011FB8 --addr 0x02011FB8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GAMESYSTEM_Setup.c \
+ *       --func GAMESYSTEM_Setup --addr 0x02011FB8 --cc 1.1p1 --thumb
  */
-void func_02011FB8(struct GameSystem *gameSystem, u16 heapId, u32 initParam)
+void GAMESYSTEM_Setup(struct GameSystem *gameSystem, u16 heapId, u32 initParam)
 {
-    func_02011F28(gameSystem, heapId, initParam);
-    func_020267BC(gameSystem->gameData);
-    func_02021438();
+    GAMESYSTEM_Init(gameSystem, heapId, initParam);
+    GAME_BEACON_Setup(gameSystem->gameData);
+    PALANM_StopTimer();
 }
 
 
@@ -2707,10 +2682,10 @@ void func_02011FB8(struct GameSystem *gameSystem, u16 heapId, u32 initParam)
  * remaining wildcards are call sites whose targets live in OTHER PACKETS and
  * have no witness outside this range:
  *
- *   +0034  bl func_02012380   -> pkt_02012380
+ *   +0034  bl GAME_EVENT_Control   -> pkt_02012380
  *   +003A  bl func_0202627C   -> pkt_0202627C
- *   +0052  bl func_0202B500   -> pkt_0202B500
- *   +0058  bl func_02021464   -> pkt_02021464
+ *   +0052  bl ISS_SYS_Update   -> pkt_0202B500
+ *   +0058  bl PALANM_UpdateTimer   -> pkt_02021464
  *
  * Each reports `no witness outside 02011FCC..02012060`, i.e. the only branch
  * anywhere in the image reaching them is the call in this function, so the
@@ -2729,25 +2704,25 @@ void func_02011FB8(struct GameSystem *gameSystem, u16 heapId, u32 initParam)
  *  - The state word at +0x0c is re-read from memory at each use rather than
  *    cached in a register, so it is spelled as the field every time.
  */
-int func_02011FCC(struct GameSystem *gameSystem)
+int GAMESYSTEM_Main(struct GameSystem *gameSystem)
 {
-    func_020120A4(gameSystem);
-    if (func_02012A24(gameSystem->gameData) != 0)
+    GAMESYSTEM_UpdateEventActiveFlag(gameSystem);
+    if (GAME_DATA_IsWalkCountEnabled(gameSystem->gameData) != 0)
         func_02035614(0x1e);
-    if (func_020129FC(gameSystem->gameData) == 0) {
-        func_020123D8(gameSystem, gameSystem->eventCreator, gameSystem->eventCreatorArg);
-        func_0201205C(gameSystem);
-        func_02012380(gameSystem);
+    if (GAME_DATA_IncWalkCount(gameSystem->gameData) == 0) {
+        GAME_EVENT_StartByCreator(gameSystem, gameSystem->eventCreator, gameSystem->eventCreatorArg);
+        GAMESYSTEM_UpdateAutoComm(gameSystem);
+        GAME_EVENT_Control(gameSystem);
         func_0202627C(gameSystem->gameComm);
     }
-    gameSystem->procStatus = func_02031330(gameSystem->procSys);
-    func_02028A14(func_02012A30(gameSystem->gameData));
-    func_0202B500(gameSystem->issSystem);
-    func_02021464(gameSystem->gameData);
-    if (func_02012A24(gameSystem->gameData) != 0)
+    gameSystem->procStatus = PROCSYS_Main(gameSystem->procSys);
+    FIELD_SOUND_SYSTEM_Update(func_02012A30(gameSystem->gameData));
+    ISS_SYS_Update(gameSystem->issSystem);
+    PALANM_UpdateTimer(gameSystem->gameData);
+    if (GAME_DATA_IsWalkCountEnabled(gameSystem->gameData) != 0)
         func_02035614(0x3c);
     if (gameSystem->procStatus == 2 || gameSystem->procStatus == 0)
-        func_0200F7B8(0);
+        GFL_NET_ERR_ShowScreen(0);
     if (gameSystem->procStatus == 0 && gameSystem->event == 0)
         return 1;
     return 0;
@@ -2764,10 +2739,10 @@ extern int func_02188BE8(void *fieldMap);   /* overlay-resident */
  * the source's nesting says.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201205C.c \
- *       --func func_0201205C --addr 0x0201205C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_UpdateAutoComm.c \
+ *       --func GAMESYSTEM_UpdateAutoComm --addr 0x0201205C --cc 1.1p1 --thumb
  */
-void func_0201205C(struct GameSystem *gameSystem)
+void GAMESYSTEM_UpdateAutoComm(struct GameSystem *gameSystem)
 {
     if (func_020120D8(gameSystem) == 0) {
         if (func_02012114(gameSystem) == 1) {
@@ -2781,42 +2756,42 @@ void func_0201205C(struct GameSystem *gameSystem)
 /*
  * The tail of the packet's small table walkers: two loads off the
  * _GPowerState tables and one store, 18 bytes, every relocation a label outside
- * the range.  It re-verified EXACT after func_02010F50 and func_02010EEC were
+ * the range.  It re-verified EXACT after GPOWER_ClearType and GPOWER_GetSelectedMinutesLeft were
  * filed in pkt_02010EEC (the same two tables), so the entry is a chain payoff.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012088.c \
- *       --func func_02012088 --addr 0x02012088 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_Delete.c \
+ *       --func GAMESYSTEM_Delete --addr 0x02012088 --cc 1.1p1 --thumb
  */
-void func_02012088(struct GameSystem *gameSystem)
+void GAMESYSTEM_Delete(struct GameSystem *gameSystem)
 {
     func_0203133C(gameSystem->procSys);
-    func_02011F90(gameSystem);
+    GAMESYSTEM_Exit(gameSystem);
 }
 
 
 
 
 /*
- * The word pair setter that follows func_02012088's epilogue at 0x0201209A:
+ * The word pair setter that follows GAMESYSTEM_Delete's epilogue at 0x0201209A:
  * two words at +0x10 and +0x14, no prologue, no label.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201209C.c \
- *       --func sub_0201209C --addr 0x0201209C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_SetEventCreator.c \
+ *       --func GAMESYSTEM_SetEventCreator --addr 0x0201209C --cc 1.1p1 --thumb
  */
-void sub_0201209C(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg)
+void GAMESYSTEM_SetEventCreator(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg)
 {
     gameSystem->eventCreator = creator;
     gameSystem->eventCreatorArg = arg;
 }
 
 
-void func_020120A4(struct GameSystem *gameSystem)
+void GAMESYSTEM_UpdateEventActiveFlag(struct GameSystem *gameSystem)
 {
-    gameSystem->eventActive = (u8)func_020123C4(gameSystem);
+    gameSystem->eventActive = (u8)GAME_EVENT_IsRunning(gameSystem);
 }
 
 
@@ -2829,16 +2804,16 @@ void func_020120A4(struct GameSystem *gameSystem)
  * docs/notes/pkt_020120B4.c.txt) is the tail-call-cannot-pass-a-fourth-
  * argument idiom: r1-r3 are passed through untouched, so they cost no
  * instruction, and r3 being live blocks the sibling call.  The arity is
- * independently evidenced by the only caller, func_020120C0, which sets up
+ * independently evidenced by the only caller, GAMESYSTEM_CallFieldProc, which sets up
  * r1, r2 and r3 (r3 = r0) before the bl.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020120B4.c \
- *       --func func_020120B4 --addr 0x020120B4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_CallProc.c \
+ *       --func GAMESYSTEM_CallProc --addr 0x020120B4 --cc 1.1p1 --thumb
  */
-void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param)
+void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param)
 {
-    func_02031348(gameSystem->procSys, overlayId, procData, param);
+    PROCSYS_Push(gameSystem->procSys, overlayId, procData, param);
 }
 
 
@@ -2851,9 +2826,9 @@ void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData,
  * evidence: FieldMapProcData lies in the windows of ov021 (data) and ov114 (bss),
  *           so the ov021 hint needs outside support.  The same call passes
  *           ov021_id (0x15, attested `overlay_id`) and this pointer to the
- *           proc system: func_020120B4 -> func_02031348 -> func_020314F4 ->
- *           func_02031538 stores the id at Proc+4 and the pointer at Proc+0
- *           (ProcData), and func_020315F0 loads overlay Proc+4
+ *           proc system: GAMESYSTEM_CallProc -> PROCSYS_Push -> PROCSYS_PushInternal ->
+ *           PROCSYS_NewProc stores the id at Proc+4 and the pointer at Proc+0
+ *           (ProcData), and PROCSYS_StepProc loads overlay Proc+4
  *           (func_02034AC4) before it calls any ProcData callback.  So ov021
  *           is resident whenever the pointer is dereferenced.  Independently,
  *           ov021's bytes at 0x021D359C are three Thumb pointers
@@ -2864,23 +2839,23 @@ void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData,
  * Four arguments, and the first is the same object twice: the pool words are
  * a small constant 0x15 (an absolute linker symbol, not a literal - see
  * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md, 21 is
- * an overlay id) and the overlay-space address 0x021D359C.  func_020120B4
+ * an overlay id) and the overlay-space address 0x021D359C.  GAMESYSTEM_CallProc
  * itself only reads r0, which is why its ten-byte body says nothing about
  * this call's arity.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020120C0.c \
- *       --func func_020120C0 --addr 0x020120C0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_CallFieldProc.c \
+ *       --func GAMESYSTEM_CallFieldProc --addr 0x020120C0 --cc 1.1p1 --thumb
  */
-void func_020120C0(struct GameSystem *gameSystem)
+void GAMESYSTEM_CallFieldProc(struct GameSystem *gameSystem)
 {
-    func_020120B4(gameSystem, (u32)ov021_id, &FieldMapProcData, gameSystem);
+    GAMESYSTEM_CallProc(gameSystem, (u32)ov021_id, &FieldMapProcData, gameSystem);
 }
 
 
 int func_020120D8(struct GameSystem *gameSystem)
 {
-    if (func_020123C4(gameSystem))
+    if (GAME_EVENT_IsRunning(gameSystem))
         return 1;
     return gameSystem->eventActive;
 }
@@ -2888,16 +2863,16 @@ int func_020120D8(struct GameSystem *gameSystem)
 
 
 /*
- *           func_02012108, func_0201210C, func_02012110, func_02012114,
+ *           GAMESYSTEM_SetEvent, func_0201210C, func_02012110, func_02012114,
  *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           func_0201213C, func_02012144, func_0201214C
+ *           GAMESYSTEM_SetCommBlocked, GAMESYSTEM_IsCommBlocked, func_0201214C
  *
  * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
  * label: every one of them is a two- or three-instruction accessor on a
  * 0x34-byte context record, and the whole run arrives in the listing as .word
  * data between two literal pools.
  *
- * The size of the record is not a guess: func_02011F24 is
+ * The size of the record is not a guess: GAMESYSTEM_GetWorkSize is
  * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
  * src/matched/unit_02011F24.c against the same declaration.  The two byte
  * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
@@ -2906,18 +2881,18 @@ int func_020120D8(struct GameSystem *gameSystem)
  * source.
  *
  * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
+ * first hands +0x1C to func_020127A4 and the second to GAME_DATA_IsConfigFlagSet, and
  * both are ABS32 against a Thumb target, so the pool word is odd.
  *
  * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
- * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
+ * miss.  Its pool word holds 0x02012BC9, and GAME_DATA_SetConfigFlag has no label in the
  * listing (it has no register-saving prologue) and no other reference anywhere
  * in the image, so neither the `label` nor the `literal` class has a witness
  * outside the twelve bytes under test.  Every concrete byte reproduces from
  *
- *     void func_02012158(struct GameSystem *gameSystem, unsigned int on)
+ *     void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, unsigned int on)
  *     {
- *         func_02012BC8(gameSystem->gameData, on);
+ *         GAME_DATA_SetConfigFlag(gameSystem->gameData, on);
  *     }
  *
  * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
@@ -2928,7 +2903,7 @@ int func_020120D8(struct GameSystem *gameSystem)
  *   python tools/match.py tu --src src/matched/unit_020120F0.c \
  *       --addr 0x020120F0 --thumb
  */
-u32 func_020120F0(const struct GameSystem *gameSystem)
+u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem)
 {
     return gameSystem->procStatus;
 }
@@ -2952,7 +2927,7 @@ struct GameEvent *func_02012104(const struct GameSystem *gameSystem)
 }
 
 
-void func_02012108(struct GameSystem *gameSystem, struct GameEvent *event)
+void GAMESYSTEM_SetEvent(struct GameSystem *gameSystem, struct GameEvent *event)
 {
     gameSystem->event = event;
 }
@@ -3003,13 +2978,13 @@ struct GameComm *func_02012138(const struct GameSystem *gameSystem)
 }
 
 
-void func_0201213C(struct GameSystem *gameSystem, u32 blocked)
+void GAMESYSTEM_SetCommBlocked(struct GameSystem *gameSystem, u32 blocked)
 {
     gameSystem->commBlocked = blocked;
 }
 
 
-u8 func_02012144(const struct GameSystem *gameSystem)
+u8 GAMESYSTEM_IsCommBlocked(const struct GameSystem *gameSystem)
 {
     return gameSystem->commBlocked;
 }
@@ -3017,13 +2992,13 @@ u8 func_02012144(const struct GameSystem *gameSystem)
 
 u32 func_0201214C(const struct GameSystem *gameSystem)
 {
-    return func_02012BB0(gameSystem->gameData);
+    return GAME_DATA_IsConfigFlagSet(gameSystem->gameData);
 }
 
 
-void func_02012158(struct GameSystem *gameSystem, unsigned int on)
+void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, unsigned int on)
 {
-    func_02012BC8(gameSystem->gameData, on);
+    GAME_DATA_SetConfigFlag(gameSystem->gameData, on);
 }
 
 
@@ -3040,7 +3015,7 @@ void func_02012158(struct GameSystem *gameSystem, unsigned int on)
  * byte through r1.  `id = func_02012AC8(func_020120F8(p))` then
  * `func_02013D34(id)` closes it.
  */
-u32 func_02012164(struct GameSystem *gameSystem)
+u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem)
 {
     u16 zoneId;
 
@@ -3064,7 +3039,7 @@ u32 func_02012164(struct GameSystem *gameSystem)
 /*
  * Three tests, one epilogue: the handle returned by func_02012138(p) is
  * checked with two externals (both called with it - r0 is not reloaded), then
- * the object is driven through func_02012164 and only a result of exactly 1
+ * the object is driven through GAMESYSTEM_CanStartAutoComm and only a result of exactly 1
  * reaches func_020263D8(handle, 1, p).  The nested ifs are what give all
  * three the same `return 0` at the end.
  *
@@ -3078,7 +3053,7 @@ u32 func_020121CC(struct GameSystem *gameSystem)
 
     if (func_0203CD98() == 0) {
         if (func_02026454(gameComm) == 0) {
-            if (func_02012164(gameSystem) == 1) {
+            if (GAMESYSTEM_CanStartAutoComm(gameSystem) == 1) {
                 func_020263D8(gameComm, 1, gameSystem);
                 return 1;
             }
@@ -3118,8 +3093,8 @@ void func_02012210(struct GameSystem *gameSystem)
 
 /*
  * ica_anime.c: when func_0201214C(p) says yes, stop the playback
- * (func_02012158(p, 0), which is the tail call in the pending file
- * src/pending/func_02012158.c) and set bit 0 of the byte at +0x33.
+ * (GAMESYSTEM_SetAlwaysNetFlag(p, 0), which is the tail call in the pending file
+ * src/pending/GAMESYSTEM_SetAlwaysNetFlag.c) and set bit 0 of the byte at +0x33.
  *
  * The bit update is one expression, `(f & ~1) | 1`: the original loads the
  * byte once, clears with `bics` and sets with `orrs` - two statements would
@@ -3127,13 +3102,13 @@ void func_02012210(struct GameSystem *gameSystem)
  * docs/idioms/an-and-not-is-what-emits-bic.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012220.c \
- *       --func func_02012220 --addr 0x02012220 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_OnSleep.c \
+ *       --func GAMESYSTEM_OnSleep --addr 0x02012220 --cc 1.1p1 --thumb
  */
-void func_02012220(struct GameSystem *gameSystem)
+void GAMESYSTEM_OnSleep(struct GameSystem *gameSystem)
 {
     if (func_0201214C(gameSystem) != 0) {
-        func_02012158(gameSystem, 0);
+        GAMESYSTEM_SetAlwaysNetFlag(gameSystem, 0);
         gameSystem->netOffBySleep = 1;
     }
 }
@@ -3141,7 +3116,7 @@ void func_02012220(struct GameSystem *gameSystem)
 
 
 /*
- * Promoted from src/pending/func_02012248.c.  The C never changed; the ISA
+ * Promoted from src/pending/GAMESYSTEM_RegisterSleepCallback.c.  The C never changed; the ISA
  * on the second symbols line did.  The tail call goes through the pool word
  * 0x02035138, i.e. an ARM target with no Thumb bit - the parked copy
  * declared it `thumb`, so the word match.py looked for was 0x02035139 and
@@ -3154,28 +3129,28 @@ void func_02012220(struct GameSystem *gameSystem)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012248.c \
- *       --func func_02012248 --addr 0x02012248 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_RegisterSleepCallback.c \
+ *       --func GAMESYSTEM_RegisterSleepCallback --addr 0x02012248 --cc 1.1p1 --thumb
  */
-void func_02012248(struct GameSystem *gameSystem)
+void GAMESYSTEM_RegisterSleepCallback(struct GameSystem *gameSystem)
 {
-    func_02035138(func_02012220, gameSystem);
+    func_02035138(GAMESYSTEM_OnSleep, gameSystem);
 }
 
 
-void func_02012258(struct GameSystem *gameSystem)
+void GAMESYSTEM_ReleaseSleepCallback(struct GameSystem *gameSystem)
 {
     func_02035138(0, 0);
 }
 
 
 
-int func_02012264(struct GameSystem *gameSystem)
+int GAMESYSTEM_IsSleepBlocked(struct GameSystem *gameSystem)
 {
     if (func_02026454(func_02012138(gameSystem)) != 0) {
         return 1;
     }
-    if (func_0203DA4C() != 0) {
+    if (GFL_NET_IRC_WIRELESS_IsActive() != 0) {
         return 1;
     }
     if (func_020353B0() != 0) {
@@ -3191,24 +3166,24 @@ int func_02012264(struct GameSystem *gameSystem)
 
 /*
  * Two instructions and a two word pool: the first argument is the address of
- * func_02012264 tagged as a Thumb function pointer (the pool word is 0x02012265,
+ * GAMESYSTEM_IsSleepBlocked tagged as a Thumb function pointer (the pool word is 0x02012265,
  * odd), the second is the caller's own argument, and the tail call is
  * `func_02035064(fn, arg)` with func_02035064 an ARM function.  Declaring the
- * pointer as `func_02012264` rather than writing the literal 0x02012265 is what
- * gets the odd word out of the compiler; func_02012264's own manifest entry is
+ * pointer as `GAMESYSTEM_IsSleepBlocked` rather than writing the literal 0x02012265 is what
+ * gets the odd word out of the compiler; GAMESYSTEM_IsSleepBlocked's own manifest entry is
  * what attests it (`matched x1`).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020122A4.c \
- *       --func func_020122A4 --addr 0x020122A4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_RegisterSleepCheck.c \
+ *       --func GAMESYSTEM_RegisterSleepCheck --addr 0x020122A4 --cc 1.1p1 --thumb
  */
-void func_020122A4(struct GameSystem *gameSystem)
+void GAMESYSTEM_RegisterSleepCheck(struct GameSystem *gameSystem)
 {
-    func_02035064(func_02012264, gameSystem);
+    func_02035064(GAMESYSTEM_IsSleepBlocked, gameSystem);
 }
 
 
-void func_020122B4(struct GameSystem *gameSystem)
+void GAMESYSTEM_ReleaseSleepCheck(struct GameSystem *gameSystem)
 {
     func_02035064(0, 0);
 }
@@ -3236,10 +3211,10 @@ void func_020122B4(struct GameSystem *gameSystem)
  * to [sp,#4] rather than costing a sixth callee-saved register.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020122C0.c \
- *       --func sub_020122C0 --addr 0x020122C0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_EVENT_Create.c \
+ *       --func GAME_EVENT_Create --addr 0x020122C0 --cc 1.1p1 --thumb
  */
-struct GameEvent *sub_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize)
+struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize)
 {
     struct GameEvent *event;
 
@@ -3261,16 +3236,16 @@ struct GameEvent *sub_020122C0(struct GameSystem *gameSystem, struct GameEvent *
  * and the file is EXACT up to the two bytes of section padding after the pop.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012304.c \
- *       --func func_02012304 --addr 0x02012304 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_EVENT_RunFunc.c \
+ *       --func GAME_EVENT_RunFunc --addr 0x02012304 --cc 1.1p1 --thumb
  */
-int func_02012304(struct GameEvent *event)
+int GAME_EVENT_RunFunc(struct GameEvent *event)
 {
     return event->func(event, &event->seq, event->work);
 }
 
 
-void func_02012314(struct GameEvent *event)
+void GAME_EVENT_Delete(struct GameEvent *event)
 {
     void *work = event->work;
     if (work) func_020307B0(work);
@@ -3294,7 +3269,7 @@ void func_0201232C(struct GameEvent *event, GameEventFunc func, u32 workSize)
 /*
  * Reads the object's +0x10 word into a register first, then copies its +0 word
  * out through the caller's pointer and hands that same value to
- * func_02012314, then passes the +0x10 word and the pointer to func_02012108.
+ * GAME_EVENT_Delete, then passes the +0x10 word and the pointer to GAMESYSTEM_SetEvent.
  * Order matters: the +0x10 load is hoisted above the store.
  *
  * Verified with:
@@ -3307,8 +3282,8 @@ void func_0201235C(struct GameEvent *now, struct GameEvent *next)
     struct GameEvent *parent = now->parent;
 
     next->parent = parent;
-    func_02012314(now);
-    func_02012108(gameSystem, next);
+    GAME_EVENT_Delete(now);
+    GAMESYSTEM_SetEvent(gameSystem, next);
 }
 
 
@@ -3328,7 +3303,7 @@ void func_0201235C(struct GameEvent *now, struct GameEvent *next)
 void func_02012374(struct GameEvent *parent, struct GameEvent *child)
 {
     child->parent = parent;
-    func_02012108(parent->gameSystem, child);
+    GAMESYSTEM_SetEvent(parent->gameSystem, child);
 }
 
 
@@ -3340,7 +3315,7 @@ void func_02012374(struct GameEvent *parent, struct GameEvent *child)
  * the compare chain keeps the compare and drops the branch.  An if chain
  * (docs/notes/pkt_02012380.c.txt, 38 out) never emits it.
  */
-int func_02012380(struct GameSystem *gameSystem)
+int GAME_EVENT_Control(struct GameSystem *gameSystem)
 {
     struct GameEvent *event;
     struct GameEvent *parent;
@@ -3349,13 +3324,13 @@ int func_02012380(struct GameSystem *gameSystem)
         event = func_02012104(gameSystem);
         if (event == 0)
             return 0;
-        switch (func_02012304(event)) {
+        switch (GAME_EVENT_RunFunc(event)) {
         case 0:
             return 0;
         case 1:
-            parent = sub_020124F0(event);
-            func_02012314(event);
-            func_02012108(gameSystem, parent);
+            parent = GAME_EVENT_GetParent(event);
+            GAME_EVENT_Delete(event);
+            GAMESYSTEM_SetEvent(gameSystem, parent);
             if (parent == 0)
                 return 1;
             break;
@@ -3367,7 +3342,7 @@ int func_02012380(struct GameSystem *gameSystem)
 
 
 
-int func_020123C4(struct GameSystem *gameSystem)
+int GAME_EVENT_IsRunning(struct GameSystem *gameSystem)
 {
     if (func_02012104(gameSystem) != 0) {
         return 1;
@@ -3380,7 +3355,7 @@ int func_020123C4(struct GameSystem *gameSystem)
 /*
  * The packet's driver: reject when func_02012104 says the object is busy,
  * reject a null callback, run the callback with the object and the second
- * argument, reject a zero result, hand a non-zero result to func_02012108 and
+ * argument, reject a zero result, hand a non-zero result to GAMESYSTEM_SetEvent and
  * report 1.
  *
  * The two spellings differ by four bytes of layout.  Written with the
@@ -3389,7 +3364,7 @@ int func_020123C4(struct GameSystem *gameSystem)
  *     if (func_02012104(o) != 0) return 0;
  *     if (fn == 0) return 0;
  *     r = fn(o, a2);
- *     if (r != 0) { func_02012108(o, r); return 1; }
+ *     if (r != 0) { GAMESYSTEM_SetEvent(o, r); return 1; }
  *     return 0;
  *
  * mwccarm lays the two `movs r0, #0; pop` arms inline and falls through into
@@ -3397,13 +3372,13 @@ int func_020123C4(struct GameSystem *gameSystem)
  * `if (r == 0) return 0; else { ... return 1; }` makes it test `bne` and move
  * the success arm out of line (+0x24 onward), and a `goto fail` spelling
  * reproduces only 44 of the 52 bytes: the goto drops the `adds r1, r0, #0`
- * copy that keeps the callback result live for func_02012108 and reorders the
+ * copy that keeps the callback result live for GAMESYSTEM_SetEvent and reorders the
  * callback call.  The reachable spelling is the plain one.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020123D8.c \
- *       --func func_020123D8 --addr 0x020123D8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_EVENT_StartByCreator.c \
+ *       --func GAME_EVENT_StartByCreator --addr 0x020123D8 --cc 1.1p1 --thumb
  */
-int func_020123D8(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg)
+int GAME_EVENT_StartByCreator(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg)
 {
     struct GameEvent *event;
 
@@ -3413,7 +3388,7 @@ int func_020123D8(struct GameSystem *gameSystem, GameEventCreatorFn creator, voi
         return 0;
     event = creator(gameSystem, arg);
     if (event != 0) {
-        func_02012108(gameSystem, event);
+        GAMESYSTEM_SetEvent(gameSystem, event);
         return 1;
     }
     return 0;
@@ -3422,7 +3397,7 @@ int func_020123D8(struct GameSystem *gameSystem, GameEventCreatorFn creator, voi
 
 
 /*
- * A three-state driver.  sub_020124E4's result is bound before the switch and
+ * A three-state driver.  GAME_EVENT_GetGameSystem's result is bound before the switch and
  * is still live in r0 at the case-0 call, which is why the two loads of the
  * state go to r1 (not r0) and the callee's argument registers are r1, r2, r3
  * with r0 carrying the earlier call's result.  Both arms leave through the
@@ -3431,21 +3406,21 @@ int func_020123D8(struct GameSystem *gameSystem, GameEventCreatorFn creator, voi
  * branching to +0x34, and the function comes out six bytes long with the last
  * two arms shifted.  `!= 0` / `== 0` in case 1 makes no difference.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201240C.c \
- *       --func func_0201240C --addr 0x0201240C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_EVENT_CallProcSeq.c \
+ *       --func GAME_EVENT_CallProcSeq --addr 0x0201240C --cc 1.1p1 --thumb
  */
-int func_0201240C(struct GameEvent *event, u32 *seq, void *work)
+int GAME_EVENT_CallProcSeq(struct GameEvent *event, u32 *seq, void *work)
 {
     struct ProcCallWork *call = work;
-    struct GameSystem *gameSystem = sub_020124E4(event);
+    struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
 
     switch (*seq) {
     case 0:
-        func_020120B4(gameSystem, call->overlayId, call->procData, call->param);
+        GAMESYSTEM_CallProc(gameSystem, call->overlayId, call->procData, call->param);
         *seq = *seq + 1;
         break;
     case 1:
-        if (func_020120F0(gameSystem) == 0)
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0)
             return 1;
         break;
     }
@@ -3457,7 +3432,7 @@ int func_0201240C(struct GameEvent *event, u32 *seq, void *work)
 /*
  * Promoted from src/pending/ in the second 0-64 byte band pass (lane 1).  It
  * sat at MATCH on the pool word at +0x2C, which holds 0x0201240D - the state
- * machine at 0x0201240C with its Thumb bit, handed to sub_020122C0 as a
+ * machine at 0x0201240C with its Thumb bit, handed to GAME_EVENT_Create as a
  * callback.  That word is the only one in the image naming 0x0201240D, and no
  * branch reaches 0x0201240C from outside this range either, so the site needed
  * 0x0201240C to be an EXACT entry of its own; now that it is, the site
@@ -3471,8 +3446,8 @@ void func_02012444(struct GameEvent *parent, u32 overlayId, void *procData, void
     struct GameEvent *event;
     struct ProcCallWork *call;
 
-    event = sub_020122C0(parent->gameSystem, 0, func_0201240C, sizeof(struct ProcCallWork));
-    call = sub_020124E8(event);
+    event = GAME_EVENT_Create(parent->gameSystem, 0, GAME_EVENT_CallProcSeq, sizeof(struct ProcCallWork));
+    call = GAME_EVENT_GetWork(event);
     call->overlayId = overlayId;
     call->procData = procData;
     call->param = param;
@@ -3483,14 +3458,14 @@ void func_02012444(struct GameEvent *parent, u32 overlayId, void *procData, void
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012474.c \
- *       --func func_02012474 --addr 0x02012474 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_EVENT_OverlaySeq.c \
+ *       --func GAME_EVENT_OverlaySeq --addr 0x02012474 --cc 1.1p1 --thumb
  */
-int func_02012474(struct GameEvent *event, u32 *seq, void *work)
+int GAME_EVENT_OverlaySeq(struct GameEvent *event, u32 *seq, void *work)
 {
     struct OverlayEventWork *overlay = work;
 
-    sub_020124E4(event);
+    GAME_EVENT_GetGameSystem(event);
     switch (*seq) {
     case 0:
         func_02012374(event, overlay->event);
@@ -3515,8 +3490,8 @@ struct GameEvent *func_020124AC(struct GameSystem *gameSystem, u32 overlayId, Ga
     struct GameEvent *event;
     struct OverlayEventWork *overlay;
 
-    event = sub_020122C0(gameSystem, 0, func_02012474, sizeof(struct OverlayEventWork));
-    overlay = sub_020124E8(event);
+    event = GAME_EVENT_Create(gameSystem, 0, GAME_EVENT_OverlaySeq, sizeof(struct OverlayEventWork));
+    overlay = GAME_EVENT_GetWork(event);
     overlay->overlayId = overlayId;
     func_02034AC4(overlayId);
     overlay->event = creator(gameSystem, arg);
@@ -3531,32 +3506,32 @@ struct GameEvent *func_020124AC(struct GameSystem *gameSystem, u32 overlayId, Ga
  * Four two-byte leaf accessors in a row on the same object.  None of them
  * saves lr, so disasm.py labels none of them and the whole run prints as a
  * `.byte` blob between two pools; they are only reachable by sweeping
- * addresses.  sub_020124EC returns the address of the embedded sub-object
+ * addresses.  GAME_EVENT_GetSeq returns the address of the embedded sub-object
  * at +8 rather than a stored pointer.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_020124E4.c \
  *       --addr 0x020124E4 --thumb
  */
-struct GameSystem *sub_020124E4(struct GameEvent *event)
+struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event)
 {
     return event->gameSystem;
 }
 
 
-void *sub_020124E8(struct GameEvent *event)
+void *GAME_EVENT_GetWork(struct GameEvent *event)
 {
     return event->work;
 }
 
 
-u32 *sub_020124EC(struct GameEvent *event)
+u32 *GAME_EVENT_GetSeq(struct GameEvent *event)
 {
     return &event->seq;
 }
 
 
-struct GameEvent *sub_020124F0(struct GameEvent *event)
+struct GameEvent *GAME_EVENT_GetParent(struct GameEvent *event)
 {
     return event->parent;
 }
@@ -3574,12 +3549,12 @@ struct GameEvent *sub_020124F0(struct GameEvent *event)
  *           overlay-resident function start is outside its index.
  *           `tu --suggest-split` confirms no cut helps ("best partition:
  *           0 piece(s), 1 function(s) left out") -- the only witnesses are
- *           the calls that need them.  Same wall as src/pending/func_02012704.c
+ *           the calls that need them.  Same wall as src/pending/GAME_DATA_Delete.c
  *           (the matching destructor), which is blocked on five siblings of
  *           these same overlay addresses.
  *           Every one of the 528 concrete bytes is correct; only the four
  *           relocation FIELDS stay wildcarded.
- * The constructor of the big game_data object destroyed by func_02012704.
+ * The constructor of the big game_data object destroyed by GAME_DATA_Delete.
  * 0x6B0 bytes from func_02030734(heap, 0x6B0, 1, "game_data.c", 0xAD); the
  * field offsets are the destructor's, read through a u8 * so the compiler
  * derives them all from the two pooled/scaled bases 0x1C4 (= 0x71 << 2),
@@ -3599,7 +3574,7 @@ struct GameEvent *sub_020124F0(struct GameEvent *event)
  *    0x6B0 into a named `size`, and 300 single mutations of the permuter in
  *    --mode hill ("no single mutation improves") all leave the same seven.
  *    The permuter's --mode anneal found it as `type:p(a0:int->u16)` in 286
- *    compiles; the sibling caller src/matched/func_020082EC.c independently
+ *    compiles; the sibling caller src/matched/CONFIG_Create.c independently
  *    corroborates it, passing `(unsigned short)a0` to the same allocator.
  *
  * 2. THE memcpy ARGUMENTS ARE EVALUATED THROUGH TWO NAMED LOCALS, in the
@@ -3611,10 +3586,10 @@ struct GameEvent *sub_020124F0(struct GameEvent *event)
  *    a-local-is-not.md)
  *
  * Verified with:
- *   python3 tools/match.py one --src src/pending/func_020124F4.c \
- *       --func func_020124F4 --addr 0x020124F4 --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/pending/GAME_DATA_Create.c \
+ *       --func GAME_DATA_Create --addr 0x020124F4 --cc 1.1p1 --thumb
  */
-struct GameData *func_020124F4(u16 heapId)
+struct GameData *GAME_DATA_Create(u16 heapId)
 {
     struct GameData *gameData;
     int i;
@@ -3636,7 +3611,7 @@ struct GameData *func_020124F4(u16 heapId)
     gameData->bagCursor = (u32)func_02006E40(heapId);
 
     for (i = 0; i < 5; i++) {
-        func_02012A60(&gameData->playerWork[i]);
+        GAME_DATA_InitPlayerWork(&gameData->playerWork[i]);
     }
 
     statusSize = func_02008468();
@@ -3645,17 +3620,17 @@ struct GameData *func_020124F4(u16 heapId)
 
     gameData->eventData = eventData = (void *)func_0216237C(heapId);
     func_021623DC(eventData);
-    gameData->eventWork = func_02012FE4(gameData->saveControl);
+    gameData->eventWork = GAME_DATA_GetEventWorkFromSave(gameData->saveControl);
     gameData->fieldWork = (u32)func_02159B48(heapId);
     gameData->occupyInfo = func_0216CC58(heapId, 0x40, (u32)func_020071CC(gameData->saveControl, 0x33));
-    gameData->bgmInfo = (u32)func_02028844(gameData, heapId);
-    gameData->moveModelSys = (void *)func_02014428(heapId);
+    gameData->bgmInfo = (u32)FIELD_SOUND_SYSTEM_Create(gameData, heapId);
+    gameData->moveModelSys = (void *)FIELD_STATUS_Create(heapId);
     gameData->mapMatrix = (u32)func_02008254(heapId);
     gameData->myItem = func_020071CC(gameData->saveControl, 0x19);
     gameData->myParty = func_020071CC(gameData->saveControl, 0x1A);
     gameData->config = func_0200873C(gameData->saveControl);
     gameData->boxManager = (u32)func_02007AA4(heapId, (u32)gameData->saveControl);
-    gameData->wifiList = (u32)func_020097C4(heapId);
+    gameData->wifiList = (u32)WIFILIST_Create(heapId);
 
     for (i = 0; i < 4; i++) {
         func_0200BDE4(gameData->battleRecSlot[i]);
@@ -3671,11 +3646,11 @@ struct GameData *func_020124F4(u16 heapId)
 
     gameData->fieldGimmick = (u32)func_0215E31C(heapId);
     func_0202E43C(gameData->rtcWork);
-    func_02012C18(gameData);
+    GAME_DATA_LoadFromSave(gameData);
     gameData->eventState = 0;
     gameData->currentEvent = 0;
-    gameData->pmsWork = (int)func_0202E770((void *)heapId);
-    gameData->itemUseWork = func_0202751C(heapId, 0x8001);
+    gameData->pmsWork = (int)COMM_PLAYER_SUPPORT_Create((void *)heapId);
+    gameData->itemUseWork = BEACON_STATUS_Create(heapId, 0x8001);
     gameData->musicalWork = (u32)func_021647A0(gameData, heapId);
     gameData->listCursor = 0;
     gameData->externalWork = 0;
@@ -3702,14 +3677,14 @@ struct GameData *func_020124F4(u16 heapId)
  * the same derived-constant chain.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012704.c \
- *       --func func_02012704 --addr 0x02012704 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_DATA_Delete.c \
+ *       --func GAME_DATA_Delete --addr 0x02012704 --cc 1.1p1 --thumb
  */
-void func_02012704(struct GameData *gameData)
+void GAME_DATA_Delete(struct GameData *gameData)
 {
     func_020307B0(gameData->playTime);
     func_021647D8(gameData->musicalWork);
-    func_02027584(gameData->itemUseWork);
+    BEACON_STATUS_Delete(gameData->itemUseWork);
     func_0202E794((void *)gameData->pmsWork);
     func_0215E334((void *)gameData->fieldGimmick);
     func_02006E64((struct BagCursor *)gameData->bagCursor);
@@ -3719,8 +3694,8 @@ void func_02012704(struct GameData *gameData)
     func_0216CCB0((int)gameData->occupyInfo);
     func_02159BBC((void *)gameData->fieldWork);
     func_021623BC((int)gameData->eventData);
-    func_02014444((u32)gameData->moveModelSys);
-    func_0202889C((struct BgmInfo *)gameData->bgmInfo);
+    FIELD_STATUS_Delete((u32)gameData->moveModelSys);
+    FIELD_SOUND_SYSTEM_Delete((struct BgmInfo *)gameData->bgmInfo);
     func_020307B0(gameData);
 }
 
@@ -3785,7 +3760,7 @@ void *func_020127B8(struct GameData *gameData)
  * Promoted from src/pending/func_020127C4.c (was MATCH, blocker 0x020127D0,
  * declared by the naming convention, i.e. ARM).  Two things had to happen:
  * the pool word is 0x020127D1 so the target is Thumb, and
- * src/matched/sub_020127D0.c has to exist as an EXACT entry for the
+ * src/matched/GAME_DATA_GetUnionInfo.c has to exist as an EXACT entry for the
  * `matched` class to reach it - both done, and the C never changed.
  *
  * Addresses are Black-image addresses.
@@ -3796,7 +3771,7 @@ void *func_020127B8(struct GameData *gameData)
  */
 u8 *func_020127C4(struct GameData *gameData)
 {
-    return sub_020127D0(gameData, 1);
+    return GAME_DATA_GetUnionInfo(gameData, 1);
 }
 
 
@@ -3812,10 +3787,10 @@ u8 *func_020127C4(struct GameData *gameData)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020127D0.c \
- *       --func sub_020127D0 --addr 0x020127D0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_DATA_GetUnionInfo.c \
+ *       --func GAME_DATA_GetUnionInfo --addr 0x020127D0 --cc 1.1p1 --thumb
  */
-u8 *sub_020127D0(struct GameData *gameData, u32 index)
+u8 *GAME_DATA_GetUnionInfo(struct GameData *gameData, u32 index)
 {
     return gameData->unionInfo[index];
 }
@@ -3838,10 +3813,10 @@ u8 *func_020127F0(struct GameData *gameData)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012800.c \
- *       --func func_02012800 --addr 0x02012800 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_DATA_TakeUnionInfo.c \
+ *       --func GAME_DATA_TakeUnionInfo --addr 0x02012800 --cc 1.1p1 --thumb
  */
-void func_02012800(struct GameData *gameData, void *dst)
+void GAME_DATA_TakeUnionInfo(struct GameData *gameData, void *dst)
 {
     func_02082D44(dst, gameData->unionInfo[0], sizeof(gameData->unionInfo[0]));
     func_02161D64((int)gameData->unionInfo[0]);
@@ -3851,10 +3826,10 @@ void func_02012800(struct GameData *gameData, void *dst)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201281C.c \
- *       --func func_0201281C --addr 0x0201281C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_DATA_ClearUnionInfo.c \
+ *       --func GAME_DATA_ClearUnionInfo --addr 0x0201281C --cc 1.1p1 --thumb
  */
-void func_0201281C(struct GameData *gameData)
+void GAME_DATA_ClearUnionInfo(struct GameData *gameData)
 {
     MI_CpuFill8(gameData->unionInfo[0], 0, sizeof(gameData->unionInfo[0]));
     func_02161D64((int)gameData->unionInfo[1]);

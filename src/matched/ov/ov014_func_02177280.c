@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_021797A4     0x021797A4  data   a4
- *   d_02179780     0x02179780  data   a1
+ *   g_pWhPipeWork     0x021797A4  data   a4
+ *   sFileNetWhPipe     0x02179780  data   a1
  *   func_02030734  0x02030734  arm
  *   func_0203D798  0x0203D798  arm
  *   func_0208F1B4  0x0208F1B4  arm
@@ -25,8 +25,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern struct W *g_021797A4;
-extern char d_02179780[];
+extern struct W *g_pWhPipeWork;
+extern char sFileNetWhPipe[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0203D798(void);
 extern u16 func_0208F1B4(void);
@@ -40,10 +40,10 @@ int func_02177280(int a, int b, u32 c, int d)
 
     func_0203D798();
     st = func_0203D798();
-    if (((u8 *)g_021797A4) != 0)
+    if (((u8 *)g_pWhPipeWork) != 0)
         return 0;
-    w = func_02030734(a, 0xCF8, 1, d_02179780, 0xed);
-    g_021797A4 = (struct W *)(w);
+    w = func_02030734(a, 0xCF8, 1, sFileNetWhPipe, 0xed);
+    g_pWhPipeWork = (struct W *)(w);
     w[0xCE6] = 0xff;
     if (func_021790E4(a, b, d) == 0)
         return 0;

@@ -12,14 +12,14 @@
  * Tail-calls the release of the handle kept at +0x118.
  *
  * symbols:
- *   func_0202CA0C  0x0202CA0C  thumb
+ *   BGWINFRM_Delete  0x0202CA0C  thumb
  */
 #include "../include/Obj20818.h"
 
 struct WinMgr;
-extern void func_0202CA0C(struct WinMgr *mgr);
+extern void BGWINFRM_Delete(struct WinMgr *mgr);
 
 void func_021BB474(char *p)
 {
-    func_0202CA0C(((struct Obj20818 *)p)->f118);
+    BGWINFRM_Delete(((struct Obj20818 *)p)->f118);
 }

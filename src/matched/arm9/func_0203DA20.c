@@ -1,5 +1,5 @@
 /*
- * function: func_0203DA20
+ * function: GFL_NET_IRC_WIRELESS_DestroyIfIdle
  * address:  0x0203DA20
  * packet:   pkt_0203D7C8
  * region:   arm9
@@ -10,26 +10,27 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469F0  0x021469F0  data
+ *   gNetIrcWirelessLink  0x021469F0  data
+ *   GFL_NET_IRC_WIRELESS_Destroy  0x0203D9EC  arm
  *
- * Calls func_0203D9EC when the net_irc_wireless singleton exists and its
+ * Calls GFL_NET_IRC_WIRELESS_Destroy when the net_irc_wireless singleton exists and its
  * +0x101 byte is clear.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203DA20.c \
- *       --func func_0203DA20 --addr 0x0203DA20 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_IRC_WIRELESS_DestroyIfIdle.c \
+ *       --func GFL_NET_IRC_WIRELESS_DestroyIfIdle --addr 0x0203DA20 --arm --cc 1.1p1
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 g_021469F0[];
+extern u8 gNetIrcWirelessLink[];
 
-extern void func_0203D9EC(void);
+extern void GFL_NET_IRC_WIRELESS_Destroy(void);
 
-void func_0203DA20(void)
+void GFL_NET_IRC_WIRELESS_DestroyIfIdle(void)
 {
-    u8 *p = *(u8 **)g_021469F0;
+    u8 *p = *(u8 **)gNetIrcWirelessLink;
 
     if (p == 0) {
         return;
@@ -37,5 +38,5 @@ void func_0203DA20(void)
     if (p[0x101] != 0) {
         return;
     }
-    func_0203D9EC();
+    GFL_NET_IRC_WIRELESS_Destroy();
 }

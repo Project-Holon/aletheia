@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_0204B878 0x0204B878 arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  */
 #include "../include/Obj02506.h"
 #include "../include/Obj24192.h"
@@ -19,11 +19,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 void func_021B7FD0(u8 *p,int direction)
 {
-    func_0204B8C4(((struct Obj02506 *)p)->f108,0);
-    func_0204B8C4(((struct Obj02506 *)p)->f104,0);
+    CLACT_SetActorAnimFrame(((struct Obj02506 *)p)->f108,0);
+    CLACT_SetActorAnimFrame(((struct Obj02506 *)p)->f104,0);
     if(direction>0) {
         if(((struct Obj24192 *)(*(u8 * *)&((struct Obj02506 *)p)->f0))->f16+4 < ((struct Obj02506 *)p)->f1B8) func_0204B878(((struct Obj02506 *)p)->f104,10);
         else func_0204B878(((struct Obj02506 *)p)->f104,23);

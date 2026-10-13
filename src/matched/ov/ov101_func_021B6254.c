@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0203D0DC 0x0203D0DC arm
+ *   GFL_NET_StartChangeoverChild 0x0203D0DC arm
  */
-extern int func_0203D0DC(int);
+extern int GFL_NET_StartChangeoverChild(int);
 int func_021B6254(int *p)
 {
     if (p[30] != 0) return 1;
     switch(p[17]) {
     case 0:
-        func_0203D0DC(0);
+        GFL_NET_StartChangeoverChild(0);
         p[17] = 1;
         p[33] = 1;
         p[20] = 0;

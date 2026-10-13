@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02007248",
+   "name": "SAVE_CONTROL_ReadRecordFromFlash",
    "address": "0x02007248",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200725C",
+   "name": "SAVE_CONTROL_LoadExtraSave",
    "address": "0x0200725C",
    "kind": "game",
    "region": "arm9",

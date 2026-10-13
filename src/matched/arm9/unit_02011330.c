@@ -8,16 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02011330, func_0201134C, func_0201137C, func_02011398,
- *           func_020113B0, func_020113B4, func_020113C4
+ * function: func_02011330, func_0201134C, VM_PushStack, VM_PopStack,
+ *           VM_Jump, VM_Call, VM_Return
  *
  * Seven functions, no external calls at all, over two small structs read and
  * written by cursor.  Two of the seven carry no label in the generated
- * listing at all: func_0201134C and func_020113B0, both leaves whose
+ * listing at all: func_0201134C and VM_Jump, both leaves whose
  * prologue (or total absence of one) saves no `lr`
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- * func_020113B0 is four bytes, `str r1, [r0, #0x14]; bx lr`: the plain
- * setter of the +0x14 field that func_020113B4 and func_020113C4 reach only
+ * VM_Jump is four bytes, `str r1, [r0, #0x14]; bx lr`: the plain
+ * setter of the +0x14 field that VM_Call and VM_Return reach only
  * through a history ring.
  *
  * func_02011330 and func_0201134C are a matched pair, a little-endian u16
@@ -25,24 +25,24 @@
  * func_0201134C carries no label in the generated listing: it opens with
  * `push {r4, r5}`, which saves no `lr`, so disasm.py's prologue sweep never
  * fires on it and its 48 bytes print as a `.word` run between func_02011330
- * and func_0201137C (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ * and VM_PushStack (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * Its four byte reads are built MSB-first through a Horner chain
  * (((0 + b3) << 8 + b2) << 8 + b1) << 8 + b0, which is what the register
  * allocator does with a `for` loop counting down; the two-byte version is
  * small enough that the same loop unrolls into the flat expression used
  * below.
  *
- * func_0201137C and func_02011398 are a fixed-capacity ring: a byte count at
+ * VM_PushStack and VM_PopStack are a fixed-capacity ring: a byte count at
  * +0xC bounded by a halfword capacity at +0x0, backed by a `u32` array
- * pointed to by +0x18.  func_0201137C pushes if there is room and returns
- * whether it did; func_02011398 pops the oldest entry, or 0 if the ring is
+ * pointed to by +0x18.  VM_PushStack pushes if there is room and returns
+ * whether it did; VM_PopStack pops the oldest entry, or 0 if the ring is
  * empty (and leaves the count at 0 rather than going negative).
  *
- * func_020113B4 and func_020113C4 are a different struct's accessors for a
- * plain u32 field at +0x14, the same offset func_020113B0 sets directly:
- * func_020113B4 pushes the field's old value onto a func_0201137C ring
- * before overwriting it with the new one, and func_020113C4 pops a
- * func_02011398 ring back into the field.  Both take the ring struct
+ * VM_Call and VM_Return are a different struct's accessors for a
+ * plain u32 field at +0x14, the same offset VM_Jump sets directly:
+ * VM_Call pushes the field's old value onto a VM_PushStack ring
+ * before overwriting it with the new one, and VM_Return pops a
+ * VM_PopStack ring back into the field.  Both take the ring struct
  * pointer as the same first argument as the field's owner, so the two
  * structs are declared distinctly here (Ring and Cur) even though nothing
  * in this file proves they are not the same struct in the original; only
@@ -110,7 +110,7 @@ struct Ring {
     u32 *buf;
 };
 
-void func_0201137C(struct Ring *r, u32 v)
+void VM_PushStack(struct Ring *r, u32 v)
 {
     if (r->count + 1 < r->cap) {
         r->buf[r->count] = v;
@@ -118,7 +118,7 @@ void func_0201137C(struct Ring *r, u32 v)
     }
 }
 
-u32 func_02011398(struct Ring *r)
+u32 VM_PopStack(struct Ring *r)
 {
     if (r->count == 0) {
         return 0;
@@ -132,22 +132,22 @@ struct Cur {
     u32 unk14;
 };
 
-void func_020113B0(struct Cur *c, u32 v)
+void VM_Jump(struct Cur *c, u32 v)
 {
     c->unk14 = v;
 }
 
-void func_020113B4(struct Ring *r, u32 v)
+void VM_Call(struct Ring *r, u32 v)
 {
     struct Cur *c = (struct Cur *)r;
     u32 old = c->unk14;
-    func_0201137C(r, old);
+    VM_PushStack(r, old);
     c->unk14 = v;
 }
 
-u32 func_020113C4(struct Ring *r)
+u32 VM_Return(struct Ring *r)
 {
     struct Cur *c = (struct Cur *)r;
-    c->unk14 = func_02011398(r);
+    c->unk14 = VM_PopStack(r);
     return c->unk14;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B83E8",
+   "name": "AOSS_FD_ZERO",
    "address": "0x021B83E8",
    "kind": "game",
    "region": "ov016",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B83F4",
+   "name": "AOSS_FD_SET",
    "address": "0x021B83F4",
    "kind": "game",
    "region": "ov016",

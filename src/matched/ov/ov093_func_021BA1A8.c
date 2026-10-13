@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02013158  0x02013158  thumb
+ *   BTL_SETUP_CheckStatusFlag  0x02013158  thumb
  *
  * blocker: target 0x02013158 has no `func_`/`sub_` label and no outside
  * branch, so the pool relocation cannot be witnessed.  All bytes correct.
  */
 
-int func_02013158(char *base, int m);
+int BTL_SETUP_CheckStatusFlag(char *base, int m);
 
 int func_021BA1A8(char **p, int m)
 {
-    return func_02013158(*p, m);
+    return BTL_SETUP_CheckStatusFlag(*p, m);
 }

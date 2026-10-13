@@ -15,13 +15,16 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0202B438.c \
  *       --func func_0202B438 --addr 0x0202B438 --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   ISS_DUNGEON_SYS_FindRecord  0x0202B374  thumb
  */
 #include "../include/Obj15837.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *func_0202B374(u8 *p, u32 id);
+extern u8 *ISS_DUNGEON_SYS_FindRecord(u8 *p, u32 id);
 
 u32 func_0202B438(u8 *p, u32 id)
 {
@@ -30,5 +33,5 @@ u32 func_0202B438(u8 *p, u32 id)
     if (q == 0) {
         return 0;
     }
-    return func_0202B374(q, id) != 0 ? 1 : 0;
+    return ISS_DUNGEON_SYS_FindRecord(q, id) != 0 ? 1 : 0;
 }

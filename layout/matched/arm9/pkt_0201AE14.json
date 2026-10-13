@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201AE14"
+    "POKE_PERSONAL_Delete"
+   ],
+   "addresses": [
+    "0x0201AE14"
    ]
   },
   {
@@ -33,7 +36,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201AE1C"
+    "POKE_PERSONAL_GetParam"
+   ],
+   "addresses": [
+    "0x0201AE1C"
    ]
   },
   {
@@ -48,8 +54,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201AF6C",
-    "sub_0201AF80"
+    "POKE_PERSONAL_IsPlaceholderAbility",
+    "POKE_PERSONAL_LoadFormTable"
+   ],
+   "addresses": [
+    "0x0201AF6C",
+    "0x0201AF80"
    ]
   },
   {
@@ -64,7 +74,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201AFD4"
+    "POKE_PERSONAL_GetFormDataId"
+   ],
+   "addresses": [
+    "0x0201AFD4"
    ]
   }
  ]

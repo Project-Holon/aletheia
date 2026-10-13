@@ -18,10 +18,10 @@
  *   func_02030734  0x02030734  arm
  *   d_021B9574     0x021B9574  data  ov067  a1
  *   func_0201C450  0x0201C450  thumb
- *   func_0202E940  0x0202E940  thumb
+ *   BLINK_PALANM_Create  0x0202E940  thumb
  *   _s32_div_f     0x0209C0A4  arm
- *   func_0202C9B4  0x0202C9B4  thumb
- *   func_0202CA3C  0x0202CA3C  thumb
+ *   BGWINFRM_Create  0x0202C9B4  thumb
+ *   BGWINFRM_AddFrame  0x0202CA3C  thumb
  *   func_020450F0  0x020450F0  arm
  *   func_02082A90  0x02082A90  arm
  */
@@ -92,9 +92,9 @@ extern const char d_021B9574[];
 struct CodeIn;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0201C450(u16 n, u32 heap);
-extern struct CodeIn *func_0202E940(u16 a0, u16 a1, u32 a2, u16 heap);
-extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
-extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
+extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
+extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02082A90(const void *src, void *dst, u32 size);
 
@@ -110,7 +110,7 @@ S *func_021B7754(Tmpl *tmpl, u32 heap)
     p->f54 = -1;
     p->f58 = -1;
     p->f34 = func_0201C450(0x800, heap);
-    p->f30 = func_0202E940(p->t.f11 << 4, 0x10, p->t.f0, p->f98);
+    p->f30 = BLINK_PALANM_Create(p->t.f11 << 4, 0x10, p->t.f0, p->f98);
     p->f28 = func_02030734(p->f98, p->t.f14 * 8, 1, d_021B9574, 0x104);
     if (p->t.f16 != 0) {
         p->f40 = func_02030734(p->f98, p->t.f16 * 4, 0, d_021B9574, 0x109);
@@ -121,14 +121,14 @@ S *func_021B7754(Tmpl *tmpl, u32 heap)
     p->f45 = p->f44;
     if (p->t.f1 != 0xff)
         p->f44 = p->f44 * 2;
-    p->f3c = func_0202C9B4(2, p->f44, p->f98);
+    p->f3c = BGWINFRM_Create(2, p->f44, p->f98);
     p->f38 = func_02030734(p->f98, p->f44 * 8, 0, d_021B9574, 0x117);
     for (i = 0; i < p->f44; i++) {
         if (p->t.f1 != 0xff && p->f45 <= i) {
-            func_0202CA3C(p->f3c, i, p->t.f1, p->t.f4, p->t.f5);
+            BGWINFRM_AddFrame(p->f3c, i, p->t.f1, p->t.f4, p->t.f5);
             p->f38[i].w = func_020450F0(p->t.f1, p->t.f6, p->t.f7, p->t.f8, p->t.f9, p->t.fa, 1);
         } else {
-            func_0202CA3C(p->f3c, i, p->t.f0, p->t.f4, p->t.f5);
+            BGWINFRM_AddFrame(p->f3c, i, p->t.f0, p->t.f4, p->t.f5);
             p->f38[i].w = func_020450F0(p->t.f0, p->t.f6, p->t.f7, p->t.f8, p->t.f9, p->t.fa, 1);
         }
     }

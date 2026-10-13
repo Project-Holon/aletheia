@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020334E8",
+   "name": "BACKUP_SYSTEM_ReadRecordFromFlash",
    "address": "0x020334E8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02033534",
+   "name": "FLASH_ACCESS_Identify",
    "address": "0x02033534",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    }
   },
   {
-   "name": "func_0203386C",
+   "name": "FLASH_ACCESS_CancelWrite",
    "address": "0x0203386C",
    "kind": "game",
    "region": "arm9",
@@ -53,7 +53,7 @@
    }
   },
   {
-   "name": "func_020338B8",
+   "name": "FLASH_ACCESS_EndAccess",
    "address": "0x020338B8",
    "kind": "game",
    "region": "arm9",

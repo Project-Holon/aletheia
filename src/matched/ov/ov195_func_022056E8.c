@@ -19,7 +19,7 @@
  *   func_02007F1C 0x02007F1C thumb
  *   func_020173EC 0x020173EC thumb
  *   func_02019CE0 0x02019CE0 thumb
- *   func_020178D8 0x020178D8 thumb
+ *   POKE_TOOL_ChangeSpecies 0x020178D8 thumb
  *   func_02017E40 0x02017E40 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_02008F08 0x02008F08 thumb
@@ -58,7 +58,7 @@ extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_020173EC(void);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
-extern void func_020178D8(void *p, u32 a);
+extern void POKE_TOOL_ChangeSpecies(void *p, u32 a);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *, u32, u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -85,7 +85,7 @@ void func_022056E8(u32 *a, char *b)
         return;
     p = (u32)func_02030734(((struct Obj06644 *)b)->f0, func_020173EC(), 1, (const char *)d_02208F40, 0xaf5);
     func_02019CE0((const struct RecDC *)(((struct Obj06644 *)b)->f10), (struct RecDC *)p);
-    func_020178D8((void *)p, 0x124);
+    POKE_TOOL_ChangeSpecies((void *)p, 0x124);
     func_02017E40((void *)p, 0x98, 4);
     func_02017E40((void *)p, 6, 0);
     func_02017E40((void *)p, 0xb, 0);

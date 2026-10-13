@@ -17,8 +17,8 @@
  *   func_02021518  0x02021518  thumb
  *   func_0202155C  0x0202155C  thumb
  *   func_0201C440  0x0201C440  thumb
- *   func_0201C4C8  0x0201C4C8  thumb
- *   func_0201C4DC  0x0201C4DC  thumb
+ *   PRINTSYS_QUE_SetForceQueue  0x0201C4C8  thumb
+ *   PRINTSYS_QUE_SetLimitTick  0x0201C4DC  thumb
  *   func_02188C54  0x02188C54  thumb  ov021
  *   func_021904AC  0x021904AC  thumb  ov021
  *   func_0201DD68  0x0201DD68  thumb
@@ -44,8 +44,8 @@ struct PrintSys;
 extern void *func_02021518(u32 heap);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern u32 func_0201C440(void *p);
-extern void func_0201C4C8(struct PrintSys *p, u32 v);
-extern void func_0201C4DC(struct PrintSys *p, u32 lo, u32 hi);
+extern void PRINTSYS_QUE_SetForceQueue(struct PrintSys *p, u32 v);
+extern void PRINTSYS_QUE_SetLimitTick(struct PrintSys *p, u32 lo, u32 hi);
 extern u32 func_02188C54(u8 *p);
 extern u32 func_021904AC(u8 *p);
 extern void func_0201DD68(void);
@@ -61,8 +61,8 @@ void func_021F2908(char *p)
     func_0202155C((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), 1, 0x1c0, ((struct Obj00007 *)p)->f98);
     func_0202155C((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), 3, 0x200, ((struct Obj00007 *)p)->f98);
     ((struct Obj00007 *)p)->fB4 = func_0201C440((void *)(((struct Obj00007 *)p)->f98));
-    func_0201C4C8((struct PrintSys *)(((struct Obj00007 *)p)->fB4), 1);
-    func_0201C4DC((struct PrintSys *)(((struct Obj00007 *)p)->fB4), 0x1f4, 0);
+    PRINTSYS_QUE_SetForceQueue((struct PrintSys *)(((struct Obj00007 *)p)->fB4), 1);
+    PRINTSYS_QUE_SetLimitTick((struct PrintSys *)(((struct Obj00007 *)p)->fB4), 0x1f4, 0);
     ((struct Obj00007 *)p)->fB0 = func_021904AC((u8 *)func_02188C54((u8 *)(*(u32 *)&((struct Obj00007 *)p)->f8)));
     func_0201DD68();
     ((struct Obj00007 *)p)->f110 = func_0201EC64(((struct Obj00007 *)p)->f98);

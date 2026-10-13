@@ -1,5 +1,5 @@
 /*
- * function: func_020163B0
+ * function: MCSS_SetSysParam
  * address:  0x020163B0
  * packet:   pkt_020163B0
  * region:   arm9
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj15687.h"
 
-void func_020163B0(char *p, int v)
+void MCSS_SetSysParam(char *p, int v)
 {
     ((struct Obj15687 *)p)->f48 = v;
 }

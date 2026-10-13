@@ -1,5 +1,5 @@
 /*
- * function: func_02028A14
+ * function: FIELD_SOUND_SYSTEM_Update
  * address:  0x02028A14
  * packet:   pkt_020289F8
  * region:   arm9
@@ -12,6 +12,9 @@
  * symbols:
  *   g_020A7518  0x020A7518  data
  *   g_020A7554  0x020A7554  data
+ *   PLAYER_VOLUME_FADER_Update  0x0202878C  thumb
+ *   FIELD_SOUND_SYSTEM_ProcessNextRequest  0x02028D54  thumb
+ *   RINGTONE_SYS_Update  0x02029F4C  thumb
  */
 #include "../include/Obj11294.h"
 
@@ -25,18 +28,18 @@ struct T {
     u32 f04;
 };
 
-extern void func_02028D54(int a0);
-extern void func_02029F4C(void *p);
+extern void FIELD_SOUND_SYSTEM_ProcessNextRequest(int a0);
+extern void RINGTONE_SYS_Update(void *p);
 struct Fader;
-extern void func_0202878C(struct Fader *s);
+extern void PLAYER_VOLUME_FADER_Update(struct Fader *s);
 extern u32  g_020A7554[];
 extern u32  g_020A7518[];
 
-void func_02028A14(struct T *p)
+void FIELD_SOUND_SYSTEM_Update(struct T *p)
 {
-    func_02028D54((int)p);
+    FIELD_SOUND_SYSTEM_ProcessNextRequest((int)p);
     ((void (*)(struct T *))g_020A7554[p->f04])(p);
     ((void (*)(struct T *))g_020A7518[p->f04])(p);
-    func_02029F4C(((struct Obj11294 *)p)->fA8);
-    func_0202878C(((struct Obj11294 *)p)->fA4);
+    RINGTONE_SYS_Update(((struct Obj11294 *)p)->fA8);
+    PLAYER_VOLUME_FADER_Update(((struct Obj11294 *)p)->fA4);
 }

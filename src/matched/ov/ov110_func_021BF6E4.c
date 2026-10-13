@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202452C  0x0202452C  thumb
+ *   PMSI_PARAM_GetSentenceType  0x0202452C  thumb
  *
  * Byte-correct but witness-blocked (MATCH).
- * +0008 ABS32 func_0202452C          -> unresolved: 0202452C (arm, from name) has no witness outside 021BF6E4..021BF6F0
+ * +0008 ABS32 PMSI_PARAM_GetSentenceType          -> unresolved: 0202452C (arm, from name) has no witness outside 021BF6E4..021BF6F0
  */
 
 typedef unsigned char u8;
@@ -23,5 +23,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern int func_0202452C(const u16 *p);
-int func_021BF6E4(u8 *p) { return func_0202452C((const u16 *)(p + 8)); }
+extern int PMSI_PARAM_GetSentenceType(const u16 *p);
+int func_021BF6E4(u8 *p) { return PMSI_PARAM_GetSentenceType((const u16 *)(p + 8)); }

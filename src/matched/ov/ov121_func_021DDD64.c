@@ -1,5 +1,5 @@
 /*
- * function: func_021DDD64
+ * function: MYSTERY_ALBUM_SetupIcons
  * address: 0x021DDD64
  * packet: pkt_ov121_021DDD64
  * region: ov121
@@ -14,7 +14,7 @@
  *   `adds r1,r0,r1` join. A base-only inline plus `+ offset` at the call site,
  *   or a ternary on the base, if-converts to a default load plus override and
  *   misschedules the q+0xb0/q+0x98 loads (431 B). The heap stays u16 as in
- *   matched ov121 func_021DBF10 and matched caller func_021DE024: the earlier
+ *   matched ov121 func_021DBF10 and matched caller MYSTERY_ALBUM_SetupTask: the earlier
  *   u32-heap owner gate does not apply.
  * symbols:
  *   func_021DBF10 0x021DBF10 thumb ov121
@@ -26,15 +26,15 @@
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02049E74 0x02049E74 arm
- *   func_0204AA94 0x0204AA94 arm
+ *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   func_02049238 0x02049238 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204ADEC 0x0204ADEC arm
  *   func_02082A48 0x02082A48 arm
- *   func_0204B5F4 0x0204B5F4 arm
- *   func_0204AEF4 0x0204AEF4 arm
+ *   CLACT_SetActorRotation 0x0204B5F4 arm
+ *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   func_0207D63C 0x0207D63C arm
  */
 typedef unsigned char u8;
@@ -52,7 +52,7 @@ extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *,void *,int);
 extern u32 func_020307B0(void *p);
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_0204AA94(int,void *,u32,int,int);
+extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
 extern void func_02049238(void *);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B404(void *,const Point *,u16);
@@ -61,15 +61,15 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204ADEC(u32,void *,u32);
 extern void func_02082A48(u32,void *,u32);
-extern void func_0204B5F4(struct Actor *actor, u16 value);
-extern int func_0204AEF4(u32 idx, u32 alternate);
+extern void CLACT_SetActorRotation(struct Actor *actor, u16 value);
+extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void func_0207D63C(void *,int,int,int,int);
 static inline void *palette(u32 off, int mode)
 {
     if (mode==0) return (void *)(off+0x05000200);
     else return (void *)(off+0x05000600);
 }
-void func_021DDD64(char *p,char *q,u16 heap)
+void MYSTERY_ALBUM_SetupIcons(char *p,char *q,u16 heap)
 {
     void *arc;
     void *allocation;
@@ -86,7 +86,7 @@ void func_021DDD64(char *p,char *q,u16 heap)
     func_02082D44(*(void **)((char *)res+12),palette(offset,*(u32 *)(q+0x98)),96);
     func_020307B0(allocation);
     allocation2=func_02049E74(arc,(int)func_021DBF9C(p),(int)0,(u32)(&res2),*(u16 *)(p+0x118));
-    func_0204AA94(*(int *)(q+8),*(void **)((char *)res2+20),512,0,*(int *)(q+0x98));
+    CLACT_TransferCharacterPart(*(int *)(q+8),*(void **)((char *)res2+20),512,0,*(int *)(q+0x98));
     func_020307B0(allocation2);
     func_02049238(arc);
     pt.x=216; pt.y=22;
@@ -98,11 +98,11 @@ void func_021DDD64(char *p,char *q,u16 heap)
         func_0204ADEC(*(u32 *)(q+16),*(void **)(*(char **)(p+0x140)+12),1);
         func_02082D44(*(void **)(*(char **)(p+0x140)+12),q+0x64,32);
         func_02082A48(0,q+0x44,32);
-        func_0204AA94(*(int *)(q+20),*(void **)(*(char **)(p+0x138)+20),0x1200,0,*(int *)(q+0x98));
-        func_0204B5F4(*(void **)(q+32),0);
+        CLACT_TransferCharacterPart(*(int *)(q+20),*(void **)(*(char **)(p+0x138)+20),0x1200,0,*(int *)(q+0x98));
+        CLACT_SetActorRotation(*(void **)(q+32),0);
         func_0204B3DC(*(void **)(q+32),1);
-        if (*(u32 *)(q+0xa0)<4) dest=(u16 *)((u32)func_0204AEF4(*(u32 *)(q+16),*(u32 *)(q+0x98))+0x05000200);
-        else dest=(u16 *)((u32)func_0204AEF4(*(u32 *)(q+16),*(u32 *)(q+0x98))+0x05000600);
+        if (*(u32 *)(q+0xa0)<4) dest=(u16 *)((u32)CLACT_GetPaletteVramAddress(*(u32 *)(q+16),*(u32 *)(q+0x98))+0x05000200);
+        else dest=(u16 *)((u32)CLACT_GetPaletteVramAddress(*(u32 *)(q+16),*(u32 *)(q+0x98))+0x05000600);
         for(i=0;i<16;i++) dest[i]=*(u16 *)(q+0x44+i*2);
         if (*(u32 *)(q+0xa0)<4)
             func_0207D63C((void *)0x04000050,0,(1<<(u8)*(u32 *)(q+0xa0))|(1<<(u8)*(u32 *)(q+0xa4)),2,12);

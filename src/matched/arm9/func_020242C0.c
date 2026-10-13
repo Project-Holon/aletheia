@@ -1,5 +1,5 @@
 /*
- * function: func_020242C0
+ * function: PMSI_PARAM_InitSentenceId
  * address:  0x020242C0
  * packet:   pkt_020242C0
  * region:   arm9
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020242A4  0x020242A4  thumb
- *   func_02024598  0x02024598  thumb
+ *   PMSI_PARAM_InitSentence  0x020242A4  thumb
+ *   PMSI_PARAM_SetSentenceId  0x02024598  thumb
  */
 
 typedef unsigned int   u32;
-extern void func_020242A4(void *obj, u32 id);
-extern void func_02024598(void *p0, int p1, int p2);
+extern void PMSI_PARAM_InitSentence(void *obj, u32 id);
+extern void PMSI_PARAM_SetSentenceId(void *p0, int p1, int p2);
 
-void func_020242C0(void *a, void *b, void *c)
+void PMSI_PARAM_InitSentenceId(void *a, void *b, void *c)
 {
-    func_020242A4(a, (u32)b);
-    func_02024598(a, (int)b, (int)c);
+    PMSI_PARAM_InitSentence(a, (u32)b);
+    PMSI_PARAM_SetSentenceId(a, (int)b, (int)c);
 }

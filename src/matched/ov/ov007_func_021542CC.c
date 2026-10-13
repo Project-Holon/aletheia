@@ -1,5 +1,5 @@
 /*
- * function: func_021542CC
+ * function: EVENT_BSUBWAY_COMM_CreateEvent
  * address:  0x021542CC
  * packet:   pkt_021542CC
  * region:   ov007
@@ -18,7 +18,7 @@
  *   func_02026454  0x02026454  thumb
  *   func_02026400  0x02026400  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02154310  0x02154310  thumb  ov007
+ *   EVENT_BSUBWAY_COMM_EventMain  0x02154310  thumb  ov007
  */
 
 typedef unsigned char  u8;
@@ -35,15 +35,15 @@ struct Comm;
 u32 func_02026454(void *obj);
 void func_02026400(struct Comm *p);
 void *func_020124E8(struct Obj *p);
-u32 func_02154310(void *obj, u32 *mode, u32 *args);
+u32 EVENT_BSUBWAY_COMM_EventMain(void *obj, u32 *mode, u32 *args);
 
-void *func_021542CC(void *p, int a, int b)
+void *EVENT_BSUBWAY_COMM_CreateEvent(void *p, int a, int b)
 {
     void *r7;
     int *obj;
 
     func_020120F4(p);
-    r7 = func_020122C0(p, 0, func_02154310, 0x10);
+    r7 = func_020122C0(p, 0, EVENT_BSUBWAY_COMM_EventMain, 0x10);
     obj = func_020124E8(r7);
     obj[0] = a;
     obj[1] = (int)p;

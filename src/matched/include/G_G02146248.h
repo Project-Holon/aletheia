@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_G02146248_H
 #define ALETHEIA_G_G02146248_H
-/* g_02146248 (arm9) */
+/* _GameSystemGlobal (arm9) */
 struct G02146248 {
     unsigned int unk00;
     unsigned int unk04;

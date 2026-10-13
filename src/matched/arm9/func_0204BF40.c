@@ -1,5 +1,5 @@
 /*
- * function: func_0204BF40
+ * function: CLACT_EntryOam
  * address:  0x0204BF40
  * packet:   pkt_0204BF40
  * region:   arm9
@@ -27,7 +27,7 @@
  * enough that 1.1p1 predicates it whole
  * (`ldreq`/`lsleq`/`biceq`/`orreq`/`streq`) and needs no such pointer.
  *
- * Signature pinned from src/matched/func_0204BFC4.c, the one filed caller.
+ * Signature pinned from src/matched/CLACT_EntryOamMain.c, the one filed caller.
  *
  * BYTE-CORRECT, PARKED, NOT FILED.  132 bytes, 0 concrete mismatches; the sole
  * unresolved site is the PC24 to func_02063294 at +0x78.  Blocking evidence
@@ -37,8 +37,8 @@
  * func_02063294 unblocks this file with no change to the C.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BF40.c \
- *       --func func_0204BF40 --addr 0x0204BF40 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_EntryOam.c \
+ *       --func CLACT_EntryOam --addr 0x0204BF40 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -53,7 +53,7 @@ struct OamEntry {
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32  func_02063294(struct Win *win, struct OamEntry *entry, u32 mode);
 
-void func_0204BF40(struct Win *win, struct OamEntry *src, u32 mode, u32 pal,
+void CLACT_EntryOam(struct Win *win, struct OamEntry *src, u32 mode, u32 pal,
                    u32 op)
 {
     struct OamEntry ent;

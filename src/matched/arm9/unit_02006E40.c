@@ -11,15 +11,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02006E40, sub_02006E64, sub_02006E7C, sub_02006EA4
+ * function: BGM_INFO_Create, BGM_INFO_Free, BGM_INFO_GetIssMode, BGM_INFO_Load
  *
  * symbols:
- *   sub_02006E40_File  0x020A7048  data
+ *   bgm_info_File  0x020A7048  data
  *   func_02030734      0x02030734  arm
  *   func_020307B0      0x020307B0  arm
  *   func_02048F74      0x02048F74  arm
  *
- * alias: the file identity is in the image.  sub_02006E40 and sub_02006EA4
+ * alias: the file identity is in the image.  BGM_INFO_Create and BGM_INFO_Load
  * both pass 0x020A7048 to the debug allocator at 0x02030734, and the bytes
  * at 0x020A7048 spell "bgm_info.c".  The string before it is "snd_mic.c",
  * whose terminator at 0x020A7045 plus two bytes of padding fixes 0x020A7048
@@ -29,13 +29,13 @@
  *
  * A twelve byte record holding a count and two parallel arrays: a u16 key
  * array at +4 and a u8 value array at +8, both allocated from the same heap
- * by sub_02006EA4 and both freed by sub_02006E64.  sub_02006E7C is the
+ * by BGM_INFO_Load and both freed by BGM_INFO_Free.  BGM_INFO_GetIssMode is the
  * lookup, a linear scan of the key array returning the value at the same
  * index.
  *
  * Two things the bytes settle:
  *
- *  - sub_02006E7C saves r4 and r5 and no lr, so it is a leaf, and it still
+ *  - BGM_INFO_GetIssMode saves r4 and r5 and no lr, so it is a leaf, and it still
  *    carries a label because the sweep accepts `push {r4, r5}` when the
  *    trace reaches it from a branch.  Its loop bound is signed (`ble` on the
  *    guard, `blt` on the back edge) even though the count is a `u8` field,
@@ -70,31 +70,31 @@ struct Sub02006E40Obj {
     u8  *unk08;
 };
 
-extern const char sub_02006E40_File[];
+extern const char bgm_info_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
 
-void sub_02006EA4(struct Sub02006E40Obj *obj, u32 heap);
+void BGM_INFO_Load(struct Sub02006E40Obj *obj, u32 heap);
 
-struct Sub02006E40Obj *sub_02006E40(u32 heap)
+struct Sub02006E40Obj *BGM_INFO_Create(u32 heap)
 {
     struct Sub02006E40Obj *obj = func_02030734(
-        heap, sizeof(struct Sub02006E40Obj), 0, sub_02006E40_File, 0x47);
+        heap, sizeof(struct Sub02006E40Obj), 0, bgm_info_File, 0x47);
 
-    sub_02006EA4(obj, heap);
+    BGM_INFO_Load(obj, heap);
     return obj;
 }
 
-void sub_02006E64(struct Sub02006E40Obj *obj)
+void BGM_INFO_Free(struct Sub02006E40Obj *obj)
 {
     func_020307B0(obj->unk04);
     func_020307B0(obj->unk08);
     func_020307B0(obj);
 }
 
-u8 sub_02006E7C(const struct Sub02006E40Obj *obj, u16 key)
+u8 BGM_INFO_GetIssMode(const struct Sub02006E40Obj *obj, u16 key)
 {
     int i;
 
@@ -106,7 +106,7 @@ u8 sub_02006E7C(const struct Sub02006E40Obj *obj, u16 key)
     return 0;
 }
 
-void sub_02006EA4(struct Sub02006E40Obj *obj, u32 heap)
+void BGM_INFO_Load(struct Sub02006E40Obj *obj, u32 heap)
 {
     int i;
     int k;
@@ -114,9 +114,9 @@ void sub_02006EA4(struct Sub02006E40Obj *obj, u32 heap)
     k = 0;
     func_02048F74(obj, 0x57, 0, k, (u32 *)1);
     k++;
-    obj->unk04 = func_02030734(heap, obj->count * 2, 0, sub_02006E40_File,
+    obj->unk04 = func_02030734(heap, obj->count * 2, 0, bgm_info_File,
                                0xAF);
-    obj->unk08 = func_02030734(heap, obj->count, 0, sub_02006E40_File, 0xB0);
+    obj->unk08 = func_02030734(heap, obj->count, 0, bgm_info_File, 0xB0);
     for (i = 0; i < obj->count; i++) {
         func_02048F74(&obj->unk04[i], 0x57, 0, k, (u32 *)2);
         func_02048F74(&obj->unk08[i], 0x57, 0, k + 2, (u32 *)1);

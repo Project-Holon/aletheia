@@ -1,5 +1,5 @@
 /*
- * function: func_020163C4
+ * function: MCSS_LoadResource
  * address:  0x020163C4
  * packet:   pkt_020163C4
  * region:   arm9
@@ -14,13 +14,19 @@
  * const struct Src *.  Without const, the four constructor call sites
  * load a2 for the first argument before the second; with it the image's
  * order (second-argument base first, then the first, then the out
- * pointer copy) comes out.  History: docs/notes/func_020163C4.c.txt.
+ * pointer copy) comes out.  History: docs/notes/MCSS_LoadResource.c.txt.
  *
  * symbols:
  *   MIi_CpuCopy16  0x02082A60  arm
  *   data_020A72CC  0x020A72CC  data
- *   func_02016880  0x02016880  thumb
- *   func_02016630  0x02016630  thumb
+ *   MCSS_TransTextureTask  0x02016880  thumb
+ *   MCSS_LoadResourceShared  0x02016630  thumb
+ *   MCSS_ApplyMosaic  0x02016C60  thumb
+ *   ARC_UTIL_LoadCellBankFromArchive  0x02049FBC  arm
+ *   ARC_UTIL_LoadMultiCellBankFromArchive  0x0204A03C  arm
+ *   ARC_UTIL_LoadAnimBankFromArchive  0x0204A0BC  arm
+ *   ARC_UTIL_LoadMultiAnimBankFromArchive  0x0204A13C  arm
+ *   MCSS_SetAnimeIndex  0x02016028  thumb
  */
 #include "../include/Obj01018.h"
 
@@ -31,10 +37,10 @@ typedef unsigned int   u32;
 struct Obj_02016880;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
-extern void *func_02049FBC(void *a0, void *a1, u32 a2, void *a3, u32 a4);
-extern void *func_0204A03C(void *a0, void *a1, u32 a2, void *a3, u32 a4);
-extern void *func_0204A0BC(void *a0, void *a1, u32 a2, void *a3, u32 a4);
-extern void *func_0204A13C(void *a0, void *a1, u32 a2, void *a3, u32 a4);
+extern void *ARC_UTIL_LoadCellBankFromArchive(void *a0, void *a1, u32 a2, void *a3, u32 a4);
+extern void *ARC_UTIL_LoadMultiCellBankFromArchive(void *a0, void *a1, u32 a2, void *a3, u32 a4);
+extern void *ARC_UTIL_LoadAnimBankFromArchive(void *a0, void *a1, u32 a2, void *a3, u32 a4);
+extern void *ARC_UTIL_LoadMultiAnimBankFromArchive(void *a0, void *a1, u32 a2, void *a3, u32 a4);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
@@ -42,11 +48,11 @@ struct Task;
 struct Work;
 extern void func_02063790(u32 *p);
 extern void func_020637D4(u32 *p);
-extern void sub_02016028(void *p, u32 flag);
-extern void func_02016C60(struct Work *a0, struct Task *a1);
+extern void MCSS_SetAnimeIndex(void *p, u32 flag);
+extern void MCSS_ApplyMosaic(struct Work *a0, struct Task *a1);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
-extern void func_02016880(void *a0, struct Obj_02016880 *a1);
+extern void MCSS_TransTextureTask(void *a0, struct Obj_02016880 *a1);
 
 extern char data_020A72CC[];
 
@@ -90,9 +96,9 @@ struct Src {
     u32 f20;
 };
 
-extern void func_02016630(struct Ctx *a0, u32 idx, const struct Src *a2);
+extern void MCSS_LoadResourceShared(struct Ctx *a0, u32 idx, const struct Src *a2);
 
-void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2)
+void MCSS_LoadResource(struct Ctx *a0, u32 idx, const struct Src *a2)
 {
     u8 *a1 = (u8 *)a0->f14[idx];
     struct Obj *p;
@@ -111,7 +117,7 @@ void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2)
     }
 
     if (a0->f00 != 0 && a0->f04 == a2->f00) {
-        func_02016630(a0, idx, a2);
+        MCSS_LoadResourceShared(a0, idx, a2);
         return;
     }
 
@@ -119,12 +125,12 @@ void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2)
     func_02063790((u32 *)(a1 + 0x9C));
     func_020637D4((u32 *)(a1 + 0xC0));
 
-    ((struct Obj01018 *)a1)->fC = func_02049FBC(a2->f00, a2->f0c, 0, a1 + 0x10, h);
-    ((struct Obj01018 *)a1)->f1C = func_0204A03C(a2->f00, a2->f10, 1, a1 + 0x20, h);
+    ((struct Obj01018 *)a1)->fC = ARC_UTIL_LoadCellBankFromArchive(a2->f00, a2->f0c, 0, a1 + 0x10, h);
+    ((struct Obj01018 *)a1)->f1C = ARC_UTIL_LoadMultiCellBankFromArchive(a2->f00, a2->f10, 1, a1 + 0x20, h);
     flag = 1;
-    ((struct Obj01018 *)a1)->f14 = func_0204A0BC(a2->f00, a2->f14, 0, a1 + 0x18, h);
-    ((struct Obj01018 *)a1)->f24 = func_0204A13C(a2->f00, a2->f18, 0, a1 + 0x28, h);
-    sub_02016028(a1, 0);
+    ((struct Obj01018 *)a1)->f14 = ARC_UTIL_LoadAnimBankFromArchive(a2->f00, a2->f14, 0, a1 + 0x18, h);
+    ((struct Obj01018 *)a1)->f24 = ARC_UTIL_LoadMultiAnimBankFromArchive(a2->f00, a2->f18, 0, a1 + 0x28, h);
+    MCSS_SetAnimeIndex(a1, 0);
 
     q = func_02048F60((u32)a2->f00, (u32)a2->f1c, h);
     *(u32 * *)&((struct Obj01018 *)a1)->f2C = q;
@@ -165,11 +171,11 @@ void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2)
         }
     }
     if (((*(u32 *)(a1 + (5 << 6)) << 4) >> 0x1C) != 0) {
-        func_02016C60((struct Work *)a1, (struct Task *)p);
+        MCSS_ApplyMosaic((struct Work *)a1, (struct Task *)p);
     }
     if (a0->f08 != 0) {
-        ((struct Obj01018 *)a1)->f0 = func_02030DA8(a0->f08, func_02016880, p, 0);
+        ((struct Obj01018 *)a1)->f0 = func_02030DA8(a0->f08, MCSS_TransTextureTask, p, 0);
     } else {
-        ((struct Obj01018 *)a1)->f0 = func_020056A0(func_02016880, p, 0);
+        ((struct Obj01018 *)a1)->f0 = func_020056A0(MCSS_TransTextureTask, p, 0);
     }
 }

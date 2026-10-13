@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02156D84
+ * function: DWC_RAP_IsDisconnected
  * address:  0x02156D84
  * packet:   pkt_ov009_02156D84
  * region:   ov009
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u8 *g_021A8264;
 
-int func_02156D84(void)
+int DWC_RAP_IsDisconnected(void)
 {
     u8 *g = g_021A8264;
     if (g == 0) {
@@ -38,7 +38,7 @@ int func_02156D84(void)
     return 0;
 }
 
-void func_02156DB0(u32 v)
+void DWC_RAP_StoreErrorOnDisconnect(u32 v)
 {
     g_021A8264[0x7a3] = v;
 }

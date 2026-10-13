@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020179B8",
+   "name": "POKE_TOOL_ChangeBoxForm",
    "address": "0x020179B8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02017BC8",
+   "name": "POKE_TOOL_DeleteMoveSlot",
    "address": "0x02017BC8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02017C50",
+   "name": "POKE_TOOL_UpdateAbilityForSpecies",
    "address": "0x02017C50",
    "kind": "game",
    "region": "arm9",

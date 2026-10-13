@@ -1,5 +1,5 @@
 /*
- * function: func_02155D2C
+ * function: DWC_RAP_EnterConnected
  * address:  0x02155D2C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,16 +12,16 @@
  * Enables slot 9 then calls the wakeup.
  *
  * symbols:
- *   func_02155374  0x02155374  thumb  ov009
- *   func_02155C8C  0x02155C8C  thumb  ov009
+ *   DWC_RAP_SetState  0x02155374  thumb  ov009
+ *   DWC_RAP_SetupRecvTimeouts  0x02155C8C  thumb  ov009
  */
 
-extern void func_02155374(int v);
-extern void func_02155C8C(void);
+extern void DWC_RAP_SetState(int v);
+extern void DWC_RAP_SetupRecvTimeouts(void);
 
-void func_02155D2C(int e)
+void DWC_RAP_EnterConnected(int e)
 {
-    func_02155374(9);
-    func_02155C8C();
+    DWC_RAP_SetState(9);
+    DWC_RAP_SetupRecvTimeouts();
 }
 

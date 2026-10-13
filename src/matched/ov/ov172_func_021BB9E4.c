@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_0204B9A0  0x0204B9A0  arm
- *   func_0204B8C4  0x0204B8C4  arm
+ *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 struct Actor;
 struct Obj;
 extern void func_0204B9A0(struct Actor *a);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 
@@ -38,8 +38,8 @@ void func_021BB9E4(void *a0, char *a1)
     func_0204B9A0(((struct Obj00024 *)a1)->f84);
     func_0204B9A0(((struct Obj00024 *)a1)->f88);
     func_0204B9A0(((struct Obj00024 *)a1)->f8C);
-    func_0204B8C4(((struct Obj00024 *)a1)->f84, 0);
-    func_0204B8C4(((struct Obj00024 *)a1)->f88, 0);
+    CLACT_SetActorAnimFrame(((struct Obj00024 *)a1)->f84, 0);
+    CLACT_SetActorAnimFrame(((struct Obj00024 *)a1)->f88, 0);
     func_0204B92C(((struct Obj00024 *)a1)->f84, 0);
     func_0204B92C(((struct Obj00024 *)a1)->f88, 0);
     func_0204B3DC(((struct Obj00024 *)a1)->f84, 0);

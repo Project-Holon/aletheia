@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02045A90  0x02045A90  arm
- *   sub_0204581C  0x0204581C  arm
- *   sub_02045AFC  0x02045AFC  arm
+ *   STRBUF_GetChars  0x02045A90  arm
+ *   STRBUF_Clear  0x0204581C  arm
+ *   STRBUF_AppendChar  0x02045AFC  arm
  *
  * printsys.c: copies line `n` of a string object into a second, freshly
  * cleared string object and returns whether the line existed.  Phase one skips
@@ -36,9 +36,9 @@ struct StrObj {
 };
 
 struct U16Vec;
-extern u16 *sub_02045A90(struct U16Vec *vec);
-extern void sub_0204581C(struct U16Vec *vec);
-extern void sub_02045AFC(struct U16Vec *vec, u16 value);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
+extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 
 u32 sub_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n)
 {
@@ -46,8 +46,8 @@ u32 sub_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n)
     u16 *p;
     u16 c;
 
-    p = sub_02045A90((struct U16Vec *)src);
-    sub_0204581C((struct U16Vec *)dst);
+    p = STRBUF_GetChars((struct U16Vec *)src);
+    STRBUF_Clear((struct U16Vec *)dst);
     while (n != 0) {
         while ((c = *p) != 0xFFFF && c != 0xFFFE) {
             if (c != 0xF000) {
@@ -67,7 +67,7 @@ u32 sub_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n)
     if (n == 0 && *p != 0xFFFF) {
         while ((c = *p) != 0xFFFF && c != 0xFFFE) {
             if (c != 0xF000) {
-                sub_02045AFC((struct U16Vec *)dst, *p++);
+                STRBUF_AppendChar((struct U16Vec *)dst, *p++);
             } else {
                 if (c == 0xF000) {
                     end = p + 3;
@@ -76,11 +76,11 @@ u32 sub_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n)
                     end = p;
                 }
                 while (p < end) {
-                    sub_02045AFC((struct U16Vec *)dst, *p++);
+                    STRBUF_AppendChar((struct U16Vec *)dst, *p++);
                 }
             }
         }
-        sub_02045AFC((struct U16Vec *)dst, 0xFFFF);
+        STRBUF_AppendChar((struct U16Vec *)dst, 0xFFFF);
         return 1;
     }
     return 0;

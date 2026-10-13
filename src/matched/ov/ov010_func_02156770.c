@@ -15,7 +15,7 @@
  *   func_0201210C  0x0201210C  thumb
  *   func_020295A4  0x020295A4  thumb
  *   func_02012374  0x02012374  thumb
- *   func_020144DC  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02029C64  0x02029C64  thumb
  */
 
@@ -41,7 +41,7 @@ extern u32 func_02012A30(const struct BigObj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern u8 *func_020295A4(u8 *p, u32 a);
-extern int func_020144DC(int a0, int a1);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void *func_02029C64(void *a);
 
 int func_02156770(void *evt, Seq *s)
@@ -59,7 +59,7 @@ int func_02156770(void *evt, Seq *s)
         s->state++;
         break;
     case 2:
-        func_02012374(evt, (struct Evt **)func_020144DC((int)s->f00, (int)x));
+        func_02012374(evt, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)s->f00, (int)x));
         s->state++;
         break;
     case 3:

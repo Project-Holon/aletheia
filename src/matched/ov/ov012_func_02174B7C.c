@@ -1,5 +1,5 @@
 /*
- * function: func_02174B7C
+ * function: COLOSSEUM_NoOp
  * address:  0x02174B7C
  * packet:   pkt_02174B7C
  * region:   ov012
@@ -15,6 +15,6 @@
  *   (none)
  */
 
-void func_02174B7C(void)
+void COLOSSEUM_NoOp(void)
 {
 }

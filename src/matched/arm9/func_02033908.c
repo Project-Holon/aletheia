@@ -1,5 +1,5 @@
 /*
- * function: func_02033908
+ * function: SAVEDATA_CreateTable
  * address:  0x02033908
  * packet:   pkt_02033908
  * region:   arm9
@@ -12,7 +12,7 @@
  * symbols:
  *   g_020A78CC       0x020A78CC  data
  *   func_02030734    0x02030734  arm
- *   func_02033A88    0x02033A88  arm
+ *   SAVEDATA_BuildLayout    0x02033A88  arm
  *   MIi_CpuClear32   0x02082A7C  arm
  *
  * Seven arguments, the last three on the stack.  A 0x1c-byte record is taken
@@ -20,9 +20,9 @@
  * values are stored into it (- / +4 / +0x10 / +8 in that order), a second
  * run of 12 * a2 bytes is taken with tag 0x4f and its address goes to +0x14,
  * the last stack argument to +0x18, and the whole record plus the second
- * stack argument goes to func_02033A88.
+ * stack argument goes to SAVEDATA_BuildLayout.
  *
- * Blocked on: the call to func_02033A88 at +0x98 is the only branch to that
+ * Blocked on: the call to SAVEDATA_BuildLayout at +0x98 is the only branch to that
  * address anywhere in the image, so `label` refuses it (its sole witness is
  * this function's own call site) and the site stays wildcarded.  Every other
  * byte, including the other four relocation sites, is right.  0x02033A88 is
@@ -30,8 +30,8 @@
  * row EXACT with no change to the C.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02033908.c \
- *       --func func_02033908 --addr 0x02033908 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/SAVEDATA_CreateTable.c \
+ *       --func SAVEDATA_CreateTable --addr 0x02033908 --cc 1.1p1 --arm
  */
 #include "../include/Obj01312.h"
 
@@ -42,10 +42,10 @@ extern u32 g_020A78CC[];
 
 extern void *func_02030734(u32 a, u32 b, int c, const char *d, unsigned short e);
 struct Save;
-extern void func_02033A88(struct Save *p, u32 v);
+extern void SAVEDATA_BuildLayout(struct Save *p, u32 v);
 extern void  MIi_CpuClear32(u32 v, void *dst, u32 n);
 
-void *func_02033908(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
+void *SAVEDATA_CreateTable(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
 {
     u8 *p = (u8 *)func_02030734(a0, 0x1c, 0, (const char *)g_020A78CC, 0x49);
 
@@ -56,6 +56,6 @@ void *func_02033908(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
     ((struct Obj01312 *)p)->f8 = a4;
     *(u32 *)&((struct Obj01312 *)p)->f14 = (u32)func_02030734(a0, a2 * 12, 1, (const char *)g_020A78CC, 0x4f);
     ((struct Obj01312 *)p)->f18 = a6;
-    func_02033A88((struct Save *)p, a5);
+    SAVEDATA_BuildLayout((struct Save *)p, a5);
     return p;
 }

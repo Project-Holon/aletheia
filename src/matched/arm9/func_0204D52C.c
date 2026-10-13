@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0204D52C
+ * function: CLACT_ResetCellAnim
  * address:  0x0204D52C
  * packet:   pkt_0204D510
  * region:   arm9
@@ -13,5 +13,5 @@
 
 struct CellAnim;
 extern void func_020643A4(struct CellAnim *anim);
-void func_0204D52C(void *p){ func_020643A4((struct CellAnim *)((char *)p + 0xc)); }
+void CLACT_ResetCellAnim(void *p){ func_020643A4((struct CellAnim *)((char *)p + 0xc)); }
 

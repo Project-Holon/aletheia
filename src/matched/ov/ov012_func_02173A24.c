@@ -1,5 +1,5 @@
 /*
- * function: func_02173A24
+ * function: UNION_COMMAND_RecvPartnerSelectB
  * address: 0x02173A24
  * packet: pkt_ov012_02173A24
  * region: ov012
@@ -20,7 +20,7 @@ struct Link;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(struct Link *p);
-void func_02173A24(u32 a, int b, u32 *c, u8 *p)
+void UNION_COMMAND_RecvPartnerSelectB(u32 a, int b, u32 *c, u8 *p)
 {
     u8 *q = p + 0x2830;
     if (a != func_0203D1A4((struct Link *)func_020399A8())) q[0x2e] = *c;

@@ -11,16 +11,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02085D3C 0x02085D3C arm
+ *   OS_IsRunOnTwl 0x02085D3C arm
  *   MIi_InitWramManager 0x02730468 arm twl
  */
 
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern void MIi_InitWramManager(void);
 
 void MI_InitWramManager(void)
 {
-    if (func_02085D3C()) {
+    if (OS_IsRunOnTwl()) {
         MIi_InitWramManager();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D52D4
+ * function: P_STATUS_CheckKey
  * address: 0x021D52D4
  * packet: pkt_ov131_021D52D4
  * region: ov131
@@ -17,9 +17,9 @@
  * symbols:
  *   func_0203633C 0x0203633C arm
  *   func_020362DC 0x020362DC arm
- *   func_021D5C98 0x021D5C98 thumb ov131
- *   func_021D5B58 0x021D5B58 thumb ov131
- *   func_021D62E4 0x021D62E4 thumb ov131
+ *   P_STATUS_RequestRefresh 0x021D5C98 thumb ov131
+ *   P_STATUS_ChangePokemon 0x021D5B58 thumb ov131
+ *   P_STATUS_CanUseButtons 0x021D62E4 thumb ov131
  *   func_020061E4 0x020061E4 thumb
  *   func_0204B878 0x0204B878 arm
  */
@@ -29,18 +29,18 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern unsigned int func_0203633C(void);
 extern u32 func_020362DC(void);
-extern void func_021D5C98(u8 *p);
-extern int func_021D5B58(u8 *,int);
-extern int func_021D62E4(char *);
+extern void P_STATUS_RequestRefresh(u8 *p);
+extern int P_STATUS_ChangePokemon(u8 *,int);
+extern int P_STATUS_CanUseButtons(char *);
 extern void func_020061E4(u32);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
-int func_021D52D4(char *p)
+int P_STATUS_CheckKey(char *p)
 {
     int max;
     if (func_0203633C() & 0x80) {
-        if (func_021D5B58((u8 *)p,1)==1) {
-            func_021D5C98((u8 *)p);
+        if (P_STATUS_ChangePokemon((u8 *)p,1)==1) {
+            P_STATUS_RequestRefresh((u8 *)p);
             func_0204B878(((struct Obj00039 *)p)->f188,3);
             func_0204B878(((struct Obj00039 *)p)->f18C,10);
             ((struct Obj00039 *)p)->f48=0;
@@ -50,8 +50,8 @@ int func_021D52D4(char *p)
             return 1;
         }
     } else if (func_0203633C() & 0x40) {
-        if (func_021D5B58((u8 *)p,0)==1) {
-            func_021D5C98((u8 *)p);
+        if (P_STATUS_ChangePokemon((u8 *)p,0)==1) {
+            P_STATUS_RequestRefresh((u8 *)p);
             func_0204B878(((struct Obj00039 *)p)->f188,11);
             func_0204B878(((struct Obj00039 *)p)->f18C,2);
             ((struct Obj00039 *)p)->f48=1;
@@ -65,7 +65,7 @@ int func_021D52D4(char *p)
         if (((struct Obj00039 *)p)->f40==0) max=1;
         if (((struct Obj00039 *)p)->f58<max && ((struct Obj00039 *)p)->f38==0) {
             ((struct Obj00039 *)p)->f58=(int)((u32)((struct Obj00039 *)p)->f58+1);
-            func_021D5C98((u8 *)p);
+            P_STATUS_RequestRefresh((u8 *)p);
             func_020061E4(1637);
             ((struct Obj00039 *)p)->f1C=0;
             return 1;
@@ -73,7 +73,7 @@ int func_021D52D4(char *p)
     } else if (func_0203633C() & 0x20) {
         if (((struct Obj00039 *)p)->f58>0 && ((struct Obj00039 *)p)->f38==0) {
             ((struct Obj00039 *)p)->f58=(int)((u32)((struct Obj00039 *)p)->f58-1);
-            func_021D5C98((u8 *)p);
+            P_STATUS_RequestRefresh((u8 *)p);
             func_020061E4(1637);
             ((struct Obj00039 *)p)->f1C=0;
             return 1;
@@ -87,7 +87,7 @@ int func_021D52D4(char *p)
         func_020061E4(1361);
         ((struct Obj00039 *)p)->f1C=0;
         return 1;
-    } else if ((func_020362DC() & 0x400) && func_021D62E4(p)==1) {
+    } else if ((func_020362DC() & 0x400) && P_STATUS_CanUseButtons(p)==1) {
         ((struct Obj00039 *)p)->f54=2;
         (*(u8 **)(p+8))[0x12]=2;
         ((struct Obj00039 *)p)->f50=2;
@@ -96,7 +96,7 @@ int func_021D52D4(char *p)
         func_020061E4(1366);
         ((struct Obj00039 *)p)->f1C=0;
         return 1;
-    } else if ((func_020362DC() & 0x800) && func_021D62E4(p)==1) {
+    } else if ((func_020362DC() & 0x800) && P_STATUS_CanUseButtons(p)==1) {
         if (((struct Obj00039 *)p)->f58<3) {
             if (*(int *)((u32)p+0x60+(u32)((struct Obj00039 *)p)->f58*4)==1) {
                 *(int *)((u32)p+0x60+(u32)((struct Obj00039 *)p)->f58*4)=0;

@@ -36,7 +36,7 @@
  *   func_021BDBB8 0x021BDBB8 thumb
  *   func_021BDC48 0x021BDC48 thumb
  *   func_021BC3A4 0x021BC3A4 thumb
- *   func_02012BF8 0x02012BF8 thumb
+ *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   func_021BDC14 0x021BDC14 thumb
  *   func_021BE840 0x021BE840 thumb
  *   func_021BE82C 0x021BE82C thumb
@@ -104,7 +104,7 @@ extern void func_021BDAD4(void *s, int a);
 extern void func_021BDBB8(void *s, u32 a);
 extern void func_021BDC48(void *s, u32 a);
 extern int func_021BC3A4(int *ctx);
-extern int func_02012BF8(int a, int b);
+extern int GAME_DATA_CheckSaveFlag(int a, int b);
 extern void func_021BDC14(char *p, int b);
 extern int func_021BE840(void *s);
 extern void func_021BE82C(void *s, int a);
@@ -166,7 +166,7 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
             func_021BDBB8(scn, 0);
         }
         func_021BDC48(scn, 0);
-        func_021BDC14(scn, func_02012BF8(func_021BC3A4(ctx), 0x11));
+        func_021BDC14(scn, GAME_DATA_CheckSaveFlag(func_021BC3A4(ctx), 0x11));
         if (func_021BE840(icon) != 2) {
             func_021BE82C(icon, 0);
             func_021BE844(icon);

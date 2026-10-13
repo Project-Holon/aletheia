@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02177C1C",
-    "func_02177C30",
-    "func_02177C3C",
-    "func_02177C44"
+    "NET_WHPIPE_IsStateScanning",
+    "NET_WHPIPE_SendData",
+    "NET_WHPIPE_GetConnectBitmap",
+    "NET_WHPIPE_GetOwnAid"
+   ],
+   "addresses": [
+    "0x02177C1C",
+    "0x02177C30",
+    "0x02177C3C",
+    "0x02177C44"
    ]
   }
  ]

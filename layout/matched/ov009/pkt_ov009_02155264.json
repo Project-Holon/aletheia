@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02155264",
+   "name": "GFL_NET_DEVWIFI_SendMessage",
    "address": "0x02155264",
    "kind": "game",
    "region": "ov009",

@@ -12,7 +12,7 @@
  * symbols:
  *   func_021FFD9C  0x021FFD9C  thumb  ov094
  *   func_021FF0F8  0x021FF0F8  thumb  ov094
- *   func_02014BA8  0x02014BA8  thumb
+ *   MCSS_Exit  0x02014BA8  thumb
  *   func_020307B0  0x020307B0  arm
  */
 typedef enum { KEY_0 } Key;
@@ -33,7 +33,7 @@ typedef struct {
 extern int func_021FFD9C(char *p, int key);
 extern void func_021FF0F8(Work *w, int key);
 typedef unsigned char  u8;
-extern void func_02014BA8(u8 *a0);
+extern void MCSS_Exit(u8 *a0);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
@@ -45,6 +45,6 @@ void func_021FEB78(Work *w)
         if (func_021FFD9C((char *)w, i))
             func_021FF0F8(w, i);
     }
-    func_02014BA8(w->obj);
+    MCSS_Exit(w->obj);
     func_020307B0(w);
 }

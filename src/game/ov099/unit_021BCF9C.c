@@ -38,7 +38,7 @@
  *   func_021BCB70 0x021BCB70 thumb ov099
  *   func_021BC0C4 0x021BC0C4 thumb ov099
  *   func_020399A8  0x020399A8  arm
- *   func_0201A918  0x0201A918  thumb
+ *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
  *   func_0203D3F8  0x0203D3F8  arm
  *   func_021BC090  0x021BC090  thumb  ov099
  *   func_02039C68 0x02039C68 arm
@@ -51,7 +51,7 @@
  *   func_021BBEB4 0x021BBEB4 thumb ov099
  *   func_021BC06C 0x021BC06C thumb ov099
  *   func_021BA874 0x021BA874 thumb ov099
- *   func_0203D7B0 0x0203D7B0 arm
+ *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   func_0203D7BC 0x0203D7BC arm
  */
 #include "work_types.h"
@@ -153,7 +153,7 @@ extern void func_021BBDD0(void *pv, int flag);
 extern int func_021BCB70(void *rules, const struct BigObj *obj, u32_021BD1A4 *mask);
 extern void func_021BC0C4(char *p);
 extern struct Entry *func_020399A8(void);
-extern int func_0201A918(void);
+extern int POKE_REGULATION_GetDataSize(void);
 extern u32_021BD318 func_0203D3F8(u32_021BD318 entry, u32_021BD318 sendID, u32_021BD318 c, u32_021BD318 d, u32_021BD318 e, u32_021BD318 f, u32_021BD318 g, u32_021BD318 h);
 extern void func_021BC090(char *p);
 extern void func_02039C68(struct Link *p, u32_021BD380 lo, u32_021BD380 hi);
@@ -165,7 +165,7 @@ extern void func_021C18C8(char *p, int kind, int value);
 extern void func_021BBEB4(struct O *p, int mask, u32_021BD4A8 a, int mode);
 extern void func_021BC06C(char *);
 extern void func_021BA874(void *, int);
-extern void func_0203D7B0(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern int func_0203D7BC(int);
 int func_021BCF9C(char *p, int v);
 int func_021BCFB4(char *p, int v);
@@ -466,7 +466,7 @@ int func_021BD318(char *p, int v)
         t = 1;
     }
     h = (u32_021BD318)func_020399A8();
-    if (func_0203D3F8(h, 0xFF, 0xA07, func_0201A918(),
+    if (func_0203D3F8(h, 0xFF, 0xA07, POKE_REGULATION_GetDataSize(),
                       *(u32_021BD318 *)((char *)((Ov099Work *)p)->f248 + t * 4 + 0x14), 0, 0, 1) != 0) {
         func_021BAAB8(p, 0x4C, 0);
         func_021BC090(p);
@@ -729,7 +729,7 @@ int func_021BD6D0(char *p, int v)
     int zero;
     if (func_02039CB4((struct Link *)func_020399A8(), 0x19, 10) == 0) return v;
     zero = 0;
-    func_0203D7B0(0);
+    GFL_NET_SetAutoExit(0);
     if (func_0203D378(func_0203D7BC(0)) != 0) {
         func_021BAAB8(p, 0x7c, zero);
     } else {
@@ -747,7 +747,7 @@ int func_021BD6D0(char *p, int v)
 int func_021BD71C(char *p, int v)
 {
     func_021C18C8(p, 1, 2);
-    func_0203D7B0(0);
+    GFL_NET_SetAutoExit(0);
     func_0203D7BC(0);
     ((Ov099Work *)p)->f1CC = 0xa9;
     return v;
@@ -780,7 +780,7 @@ int func_021BD744(char *p, int v)
 int func_021BD778(char *p, int v)
 {
     func_021C18C8(p, 1, 2);
-    func_0203D7B0(0);
+    GFL_NET_SetAutoExit(0);
     func_0203D7BC(0);
     ((Ov099Work *)p)->f1CC = 0x99;
     return v;
@@ -830,7 +830,7 @@ int func_021BD7E0(char *p, int v)
 int func_021BD814(char *p, int v)
 {
     int zero = 0;
-    func_0203D7B0(zero);
+    GFL_NET_SetAutoExit(zero);
     func_0203D7BC(zero);
     ((Ov099Work *)p)->f1E0 = zero;
     ((Ov099Work *)p)->f1CC = 0x91;

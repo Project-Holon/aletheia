@@ -1,5 +1,5 @@
 /*
- * function: sub_020140E8
+ * function: ZONEDATA_IsSeasonArea
  * address:  0x020140E8
  * packet:   pkt_02013ED8
  * region:   arm9
@@ -14,13 +14,13 @@
  * attested by this function's own definition living outside its range).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020140E8.c \
- *       --func sub_020140E8 --addr 0x020140E8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ZONEDATA_IsSeasonArea.c \
+ *       --func ZONEDATA_IsSeasonArea --addr 0x020140E8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
-u32 sub_020140E8(u32 x)
+u32 ZONEDATA_IsSeasonArea(u32 x)
 {
     return x >= 2 && x < 0xD2;
 }

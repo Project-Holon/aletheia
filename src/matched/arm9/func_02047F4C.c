@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02048120  0x02048120  arm
- *   func_02048744  0x02048744  arm
+ *   G3D_UTIL_LoadUnitResources  0x02048120  arm
+ *   G3D_UTIL_BuildUnitObjectsLoaded  0x02048744  arm
  *
  * g3d_util.c (the __FILE__ word 0x020A7EB8 of this family).  The utility
  * object is 0x218 bytes: resource handle table and status bytes at +0x00 /
@@ -20,7 +20,7 @@
  * {resIdx, resCount, objIdx, objCount}, and the u16 heap id at +0x216.  See
  * docs/families/g3d_util.h.
  *
- * Twin of func_02047E88 with the second callee func_02048744 (the object
+ * Twin of func_02047E88 with the second callee G3D_UTIL_BuildUnitObjectsLoaded (the object
  * builder that binds textures itself); same u16 prototype lever.
  *
  * Verified with:
@@ -56,8 +56,8 @@ typedef struct {
     u16   objCount;
 } Setup;
 
-extern void func_02048120(Util *u, u16 idx, const Setup *s, u16 heapID);
-extern void func_02048744(Util *u, u16 idx, const Setup *s, u16 heapID);
+extern void G3D_UTIL_LoadUnitResources(Util *u, u16 idx, const Setup *s, u16 heapID);
+extern void G3D_UTIL_BuildUnitObjectsLoaded(Util *u, u16 idx, const Setup *s, u16 heapID);
 
 u16 func_02047F4C(Util *util, const Setup *setup)
 {
@@ -71,8 +71,8 @@ u16 func_02047F4C(Util *util, const Setup *setup)
             util->unit[i].resCount = setup->resCount;
             util->unit[i].objIdx = objIdx;
             util->unit[i].objCount = setup->objCount;
-            func_02048120(util, i, setup, util->heapID);
-            func_02048744(util, i, setup, util->heapID);
+            G3D_UTIL_LoadUnitResources(util, i, setup, util->heapID);
+            G3D_UTIL_BuildUnitObjectsLoaded(util, i, setup, util->heapID);
             return i;
         }
         resIdx = util->unit[i].resIdx + util->unit[i].resCount;

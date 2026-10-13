@@ -1,5 +1,5 @@
 /*
- * function: func_0202E610
+ * function: SCREENTEX_CaptureDisplay
  * address:  0x0202E610
  * packet:   pkt_0202E560
  * region:   arm9
@@ -17,7 +17,7 @@
  *   blocker: ABS32 0x020A02D0 x3 - no witness outside this range
  *
  * symbols:
- *   g_020A02D0      0x020A02D0  data
+ *   SCREENTEX_CaptureBanks      0x020A02D0  data
  *   GX_GetBankForTex   0x02080C44  arm
  *   GX_SetBankForLCDC  0x0208068C  arm
  *   GX_SetBankForTex   0x02080294  arm
@@ -34,8 +34,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0202E610.c \
- *       --func func_0202E610 --addr 0x0202E610 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/SCREENTEX_CaptureDisplay.c \
+ *       --func SCREENTEX_CaptureDisplay --addr 0x0202E610 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -46,7 +46,7 @@ struct Bank {
     u32 f8;
 };
 
-extern struct Bank g_020A02D0[];
+extern struct Bank SCREENTEX_CaptureBanks[];
 
 extern u32  GX_GetBankForTex(void);
 extern void GX_SetBankForLCDC(u32 a);
@@ -56,13 +56,13 @@ extern void func_02087AE4(void);
 extern void func_02080B98(void);
 extern int func_02080964(void);
 
-void func_0202E610(u32 a0, u32 a1)
+void SCREENTEX_CaptureDisplay(u32 a0, u32 a1)
 {
     u32 prev = GX_GetBankForTex();
     u32 st;
 
-    GX_SetBankForLCDC(g_020A02D0[a0].f0);
-    *(u32 *)0x04000064 = (g_020A02D0[a0].f4 << 16) | 0x80300010;
+    GX_SetBankForLCDC(SCREENTEX_CaptureBanks[a0].f0);
+    *(u32 *)0x04000064 = (SCREENTEX_CaptureBanks[a0].f4 << 16) | 0x80300010;
 
     func_02087AE4();
     func_02087AE4();
@@ -71,7 +71,7 @@ void func_0202E610(u32 a0, u32 a1)
 
     if (a0 != a1) {
         st = func_02080964();
-        MIi_CpuCopyFast(g_020A02D0[a0].f8, g_020A02D0[a1].f8, 0xC << 13);
+        MIi_CpuCopyFast(SCREENTEX_CaptureBanks[a0].f8, SCREENTEX_CaptureBanks[a1].f8, 0xC << 13);
         func_02080B98();
         GX_SetBankForTex(st);
     }

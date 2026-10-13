@@ -15,52 +15,43 @@
  *   func_021E8744  0x021E8744  thumb  ov093
  *   d_021F0630     0x021F0630  data   ov093  a4
  *   func_021D775C  0x021D775C  thumb  ov093
- *   func_0201C1E8  0x0201C1E8  thumb
+ *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
  *   func_021D76BC  0x021D76BC  thumb  ov093
  */
+#include "unit_021DC6EC_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+extern BtlEventHandler d_021F0630[];
 
-extern int func_021D775C(int key);
-extern int func_0201C1E8(int a);
-extern int func_021D76BC(int key, u32 val);
+void func_021DCA98(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+BtlEventHandler *func_021DCACC(u32 *handlerCount);
+void func_021DCAD8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+void func_021DCAE0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
 
-void func_021DCA98(int a, int b, int c)
+/* Prankster: the owner's status moves get one priority step. */
+void func_021DCA98(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
-    u8 v;
+    u8 priority;
 
-    if (c == func_021D775C(3) && func_0201C1E8((u16)func_021D775C(0x12)) == 0) {
-        v = func_021D775C(0x18);
-        func_021D76BC(0x18, v + 1);
+    if (ownerId == func_021D775C(BTL_EVAR_ATTACKER_ID) && WAZA_TOOL_GetDamageType((u16)func_021D775C(BTL_EVAR_MOVE_ID)) == WAZA_DAMAGE_STATUS) {
+        priority = func_021D775C(BTL_EVAR_MOVE_PRIORITY);
+        func_021D76BC(BTL_EVAR_MOVE_PRIORITY, priority + 1);
     }
 }
 
-
-extern int d_021F0630[];
-int *func_021DCACC(int *p);
-
-int *func_021DCACC(int *p)
+BtlEventHandler *func_021DCACC(u32 *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F0630;
 }
 
-
-void func_021E8744(int u, void *a, int b, int d);
-void func_021DCAD8(int u, void *a, int b, int d);
-
-void func_021DCAD8(int u, void *a, int b, int d)
+/* Magic Bounce: the first of its two handlers is the one that Magic Coat uses to reflect a status move. */
+void func_021DCAD8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
-    func_021E8744(u, a, b, d);
+    func_021E8744(factor, flow, ownerId, work);
 }
 
-
-void func_021E8798(int u, void *a, int b, int d);
-void func_021DCAE0(int u, void *a, int b, int d);
-
-void func_021DCAE0(int u, void *a, int b, int d)
+/* Magic Bounce: the second handler is the one that Magic Coat uses to counter a status move aimed at the owner. */
+void func_021DCAE0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
-    func_021E8798(u, a, b, d);
+    func_021E8798(factor, flow, ownerId, work);
 }

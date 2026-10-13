@@ -1,5 +1,5 @@
 /*
- * function: func_0202B770
+ * function: ISS_SYS_LeaveRoad
  * address: 0x0202B770
  * packet: pkt_arm9_0202B770
  * region: arm9
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/arm9/iss_3ds_sys.c and filed here.
  *
  * symbols:
- *   func_0202B204 0x0202B204 thumb
+ *   ISS_ROAD_SYS_Stop 0x0202B204 thumb
  */
 
 #include "../include/Obj02010.h"
 
 typedef unsigned char u8;
-extern void func_0202B204(u8 *p);
-void func_0202B770(u8 *p);
+extern void ISS_ROAD_SYS_Stop(u8 *p);
+void ISS_SYS_LeaveRoad(u8 *p);
 
-void func_0202B770(u8 *p)
+void ISS_SYS_LeaveRoad(u8 *p)
 {
-    func_0202B204((u8 *)((struct Obj02010 *)p)->f14);
+    ISS_ROAD_SYS_Stop((u8 *)((struct Obj02010 *)p)->f14);
 }

@@ -10,17 +10,17 @@
  * status: EXACT*
  * extent: two zero alignment bytes at 0217723A; existing code starts 0217723C.
  * symbols:
- *   func_0203D5D4 0x0203D5D4 arm
- *   func_02010848 0x02010848 thumb
+ *   GFL_NET_GetGameKind 0x0203D5D4 arm
+ *   WIH_DWC_GetAlertLevel 0x02010848 thumb
  *   func_0208EE9C 0x0208EE9C arm
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_0203D5D4(void);
-extern u16 func_02010848(void);
+extern u32 GFL_NET_GetGameKind(void);
+extern u16 WIH_DWC_GetAlertLevel(void);
 extern int func_0208EE9C(void);
 int func_0217721C(void)
 {
-    if (func_0203D5D4() == 3) return 3 - func_02010848();
+    if (GFL_NET_GetGameKind() == 3) return 3 - WIH_DWC_GetAlertLevel();
     return 3 - func_0208EE9C();
 }

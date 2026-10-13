@@ -21,7 +21,7 @@
  * bytes, 0 mismatches.
  *
  * symbols:
- *   g_02148B48    0x02148B48  data
+ *   sOamSoftEmuContext    0x02148B48  data
  *   func_020637BC 0x020637BC  arm
  *   func_020637B4 0x020637B4  arm
  *   func_0206380C 0x0206380C  arm
@@ -50,7 +50,7 @@ struct Ctx {
     int  shcfg;           /* 0x20 */
 };
 
-extern struct Ctx *g_02148B48;
+extern struct Ctx *sOamSoftEmuContext;
 
 extern int func_020637BC(const u32 *p, u32 i);
 extern int func_020637B4(int *p, int i);
@@ -63,7 +63,7 @@ void func_02067BA4(struct Ctx *c)
     struct Ctx *p = c;
     int n;
 
-    g_02148B48 = p;
+    sOamSoftEmuContext = p;
 
     n = p->inner->mode;
     if (n == 0) {
@@ -82,10 +82,10 @@ void func_02067BA4(struct Ctx *c)
         reg[12] = 0;
         reg[0] = 1;
 
-        ta = g_02148B48->ta;
+        ta = sOamSoftEmuContext->ta;
         p->out14 = func_020637BC(ta, 0) ? func_020637B4(ta, 0) : 0;
 
-        tb = g_02148B48->tb;
+        tb = sOamSoftEmuContext->tb;
         p->out18 = func_0206380C(tb, 0) ? func_02063800(tb, 0) : 0;
     } else {
         struct Ctx *t = (struct Ctx *)p->ta;
@@ -97,6 +97,6 @@ void func_02067BA4(struct Ctx *c)
         } else {
             r = 0;
         }
-        g_02148B48->out10 = r;
+        sOamSoftEmuContext->out10 = r;
     }
 }

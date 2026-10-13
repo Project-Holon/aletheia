@@ -10,8 +10,8 @@
  * status: EXACT
  * symbols:
  *   func_021BF7AC 0x021BF7AC thumb ov203
- *   func_02005DF8 0x02005DF8 thumb
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -19,6 +19,6 @@ typedef unsigned int u32;
 struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
 extern int func_021BF7AC(char *,int);
-extern void func_02005DF8(u32 a);
-extern void func_02005E30(u32 a);
-void func_021BEE1C(char *p,int unused,int *s) { int x;x=func_021BF7AC(p,s[1]);if(s[0]==0)func_02005DF8((u16)x);else func_02005E30((u16)x); }
+extern void GFL_USE_FadeInBgmFull(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
+void func_021BEE1C(char *p,int unused,int *s) { int x;x=func_021BF7AC(p,s[1]);if(s[0]==0)GFL_USE_FadeInBgmFull((u16)x);else GFL_USE_FadeOutBgm((u16)x); }

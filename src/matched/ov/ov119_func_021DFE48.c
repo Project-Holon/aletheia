@@ -9,8 +9,8 @@
  * status: EXACT
  * lever: Repeat the message call in each arm; an id local factors the argument loads and is 20 bytes short.
  * symbols:
- *   func_02005D90 0x02005D90 thumb
- *   func_02005DF8 0x02005DF8 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   func_02045CAC 0x02045CAC arm
  *   func_021D8AA8 0x021D8AA8 thumb ov119
  *   func_021D8FA4 0x021D8FA4 thumb ov119
@@ -30,8 +30,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct MsgBank;
 struct WordSet;
-extern void func_02005D90(int,int);
-extern void func_02005DF8(u32 a);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
+extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern int func_021D8AA8(void *);
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
@@ -49,8 +49,8 @@ void func_021DFE48(char *p)
     void *mon;
     int z,state;
     if(((struct Obj00985 *)p)->fF2C<6) return;
-    func_02005D90(0x518,0xffff);
-    func_02005DF8(6);
+    GFL_USE_CancelChangeAndPlayBgm(0x518,0xffff);
+    GFL_USE_FadeInBgmFull(6);
     state=((struct Obj00985 *)p)->f118C;
     if(state==7) func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),153,(void *)(((struct Obj00985 *)p)->f73C));
     else if(state==8) func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),156,(void *)(((struct Obj00985 *)p)->f73C));

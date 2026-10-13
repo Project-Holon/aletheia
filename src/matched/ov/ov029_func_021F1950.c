@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   func_02043598  0x02043598  arm
- *   func_02085D3C  0x02085D3C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_0204B294  0x0204B294  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204BA20  0x0204BA20  arm
@@ -37,7 +37,7 @@ typedef struct {
 } S13Rec;
 
 extern void func_02043598(u32 mask, u32 enable);
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
@@ -64,7 +64,7 @@ void func_021F1950(char *p)
         s.x = d_021F3531[i];
         s.y = d_021F353C[i];
         s.z = d_021F3526[i];
-        if (s.z == 6 && func_02085D3C()) {
+        if (s.z == 6 && OS_IsRunOnTwl()) {
             s.z = 7;
         }
         s.a = 0;

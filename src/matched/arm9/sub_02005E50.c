@@ -2,7 +2,7 @@
  * Matched game function, written from the disassembly in
  * asm/arm9/src/000_02004000.s.
  *
- * function: sub_02005E50
+ * function: GFL_USE_IsBgmFading
  * address:  0x02005E50
  * region:   arm9
  * compiler: 1.1p1
@@ -44,7 +44,7 @@ struct Sub02005E50State {
 
 extern struct Sub02005E50State sub_02005E50_State;
 
-int sub_02005E50(void)
+int GFL_USE_IsBgmFading(void)
 {
     return sub_02005E50_State.unk08 != 0;
 }

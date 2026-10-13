@@ -11,7 +11,7 @@
  * symbols:
  *   func_02030734   0x02030734  arm
  *   func_020307B0   0x020307B0  arm
- *   func_02051C58   0x02051C58  arm
+ *   BUTTON_MAN_ClearSlot   0x02051C58  arm
  *   g_020A7FCC      0x020A7FCC  data
  */
 
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern void *func_02030734(u16 id, u32 size, u32 flags, void *file, u32 line);
 extern u32 func_020307B0(void *p);
-extern void func_02051C58(void *p);
+extern void BUTTON_MAN_ClearSlot(void *p);
 extern int g_020A7FCC;
 
 typedef struct S02051B84 {
@@ -53,7 +53,7 @@ void *func_02051B84(u8 *a0, int a1, int a2, int a3)
         r->f10 = (int)func_02030734((u16)a3, i * 4, 0, &g_020A7FCC, 0x73);
         if (r->f10 != 0) {
             for (j = 0; j < i; j++) {
-                func_02051C58((void *)(r->f10 + j * 4));
+                BUTTON_MAN_ClearSlot((void *)(r->f10 + j * 4));
             }
         } else {
             func_020307B0(r);

@@ -1,5 +1,5 @@
 /*
- * function: func_02045A00
+ * function: STRBUF_SetChars
  * address:  0x02045A00
  * packet:   pkt_02045924
  * region:   arm9
@@ -23,8 +23,8 @@
  * value rather than by re-reading the field, so it is a subtraction on r4.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02045A00.c \
- *       --func func_02045A00 --addr 0x02045A00 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/STRBUF_SetChars.c \
+ *       --func STRBUF_SetChars --addr 0x02045A00 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -40,7 +40,7 @@ struct Buf {
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-void func_02045A00(struct Buf *buf, const void *src, u32 n)
+void STRBUF_SetChars(struct Buf *buf, const void *src, u32 n)
 {
     if (n == 0)
         return;

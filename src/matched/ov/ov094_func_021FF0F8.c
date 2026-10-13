@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_022019F4  0x022019F4  thumb  ov094
- *   func_02015BA4  0x02015BA4  thumb
+ *   MCSS_Del  0x02015BA4  thumb
  *   func_02030EE8  0x02030EE8  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
@@ -31,7 +31,7 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(char *p, int key);
-extern void func_02015BA4(void *obj, void *h);
+extern void MCSS_Del(void *obj, void *h);
 typedef unsigned int   u32;
 struct S02030EE8;
 extern u32 func_02030EE8(struct S02030EE8 *p);
@@ -43,7 +43,7 @@ void func_021FF0F8(Work *w, int key)
 {
     int idx = func_022019F4((char *)w, key);
 
-    func_02015BA4(w->obj, w->e[idx].h);
+    MCSS_Del(w->obj, w->e[idx].h);
     w->e[idx].h = 0;
     if (w->e[idx].task != 0) {
         func_020307B0((void *)func_02030EE8(w->e[idx].task));

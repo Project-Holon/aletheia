@@ -1,5 +1,5 @@
 /*
- * function: func_0202421C
+ * function: PMSI_PARAM_GetUiInputMode
  * address:  0x0202421C
  * packet:   pkt_0202421C
  * region:   arm9
@@ -19,15 +19,15 @@
  *   unit_020355C4  0x020355C4  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202421C.c \
- *       --func func_0202421C --addr 0x0202421C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/PMSI_PARAM_GetUiInputMode.c \
+ *       --func PMSI_PARAM_GetUiInputMode --addr 0x0202421C --thumb --cc 1.1p1
  */
 
 typedef unsigned int u32;
 
 extern u32 unit_020355C4(void);
 
-void func_0202421C(void)
+void PMSI_PARAM_GetUiInputMode(void)
 {
     unit_020355C4();
 }

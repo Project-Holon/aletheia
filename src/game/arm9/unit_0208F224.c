@@ -1,7 +1,7 @@
 /*
  * file:     unit_0208F224.c
  * unit:     yes
- * function: func_0208F224, func_0208F234, func_0208F2A0, func_0208F2E4, func_0208F328, func_0208F370, func_0208F380, func_0208F398, func_0208F400, func_0208F43C, func_0208F480, func_0208F578, func_0208F5C8, func_0208F644, func_0208F654, func_0208F698, func_0208F808, func_0208F84C, func_0208F938
+ * function: func_0208F224, func_0208F234, func_0208F2A0, func_0208F2E4, func_0208F328, WM_Initialize, WM_InitializeForListening, func_0208F398, func_0208F400, WM_End, WM_SetParentParameter, func_0208F578, func_0208F5C8, WM_StartParent, func_0208F654, func_0208F698, func_0208F808, WM_StartConnectEx, WM_Disconnect
  * address:  0x0208F224
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -172,19 +172,19 @@ WMErrCode func_0208F2A0(WMCallbackFunc callback);
 WMErrCode func_0208F2E4(WMCallbackFunc callback);
 WMErrCode func_0208F328(WMCallbackFunc callback);
 WMErrCode WM_Initialize(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo);
-WMErrCode func_0208F380(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, BOOL blink);
+WMErrCode WM_InitializeForListening(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, BOOL blink);
 WMErrCode func_0208F398(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags);
 WMErrCode func_0208F400(WMCallbackFunc callback);
-WMErrCode func_0208F43C(WMCallbackFunc callback);
-WMErrCode func_0208F480(WMCallbackFunc callback, WMParentParam *pparaBuf);
+WMErrCode WM_End(WMCallbackFunc callback);
+WMErrCode WM_SetParentParameter(WMCallbackFunc callback, WMParentParam *pparaBuf);
 BOOL func_0208F578(WMParentParam *param);
 WMErrCode func_0208F5C8(WMCallbackFunc callback, BOOL powerSave);
-int func_0208F644(unsigned char aid);
+int WM_StartParent(unsigned char aid);
 WMErrCode func_0208F654(WMCallbackFunc callback);
 WMErrCode func_0208F698(WMCallbackFunc callback, const WMScanExParam *param);
 WMErrCode func_0208F808(WMCallbackFunc callback);
-WMErrCode func_0208F84C(WMCallbackFunc callback, WMBssDesc *pInfo, u8 *ssid, BOOL powerSave, u16 authMode);
-WMErrCode func_0208F938(WMCallbackFunc callback, u16 aid);
+WMErrCode WM_StartConnectEx(WMCallbackFunc callback, WMBssDesc *pInfo, u8 *ssid, BOOL powerSave, u16 authMode);
+WMErrCode WM_Disconnect(WMCallbackFunc callback, u16 aid);
 
 
 /*
@@ -316,7 +316,7 @@ WMErrCode WM_Initialize(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo)
  * sdk:      WM_InitializeForListening (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F380(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, BOOL blink)
+WMErrCode WM_InitializeForListening(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, BOOL blink)
 {
     u32 miscFlags = 1;
 
@@ -386,7 +386,7 @@ WMErrCode func_0208F400(WMCallbackFunc callback)
  * sdk:      WM_End (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F43C(WMCallbackFunc callback)
+WMErrCode WM_End(WMCallbackFunc callback)
 {
     WMErrCode result;
 
@@ -410,7 +410,7 @@ WMErrCode func_0208F43C(WMCallbackFunc callback)
  * sdk:      WM_SetParentParameter (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F480(WMCallbackFunc callback, WMParentParam *pparaBuf)
+WMErrCode WM_SetParentParameter(WMCallbackFunc callback, WMParentParam *pparaBuf)
 {
     WMErrCode result;
 
@@ -513,7 +513,7 @@ WMErrCode func_0208F5C8(WMCallbackFunc callback, BOOL powerSave)
 /*
  * sdk:      DWC_IsSendableReliable (libdwcmatch.TWL.HYB.a dwc_transport.o)
  */
-int func_0208F644(unsigned char aid)
+int WM_StartParent(unsigned char aid)
 {
     return DWCi_IsSendableReliable(aid, 1);
 }
@@ -638,7 +638,7 @@ WMErrCode func_0208F808(WMCallbackFunc callback)
  * sdk:      WM_StartConnectEx (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F84C(WMCallbackFunc callback, WMBssDesc *pInfo, u8 *ssid, BOOL powerSave, u16 authMode)
+WMErrCode WM_StartConnectEx(WMCallbackFunc callback, WMBssDesc *pInfo, u8 *ssid, BOOL powerSave, u16 authMode)
 {
     WMErrCode result;
     WMArm9Buf *w9b;
@@ -691,7 +691,7 @@ WMErrCode func_0208F84C(WMCallbackFunc callback, WMBssDesc *pInfo, u8 *ssid, BOO
  * sdk:      WM_Disconnect (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F938(WMCallbackFunc callback, u16 aid)
+WMErrCode WM_Disconnect(WMCallbackFunc callback, u16 aid)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();

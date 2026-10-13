@@ -12,12 +12,12 @@
  * sdk:      gsUdpEngineSendMessage (gsudpengine.o)
  *
  * symbols:
- *   func_02180404                  0x02180404  arm ov009
+ *   gsUdpEngineContext                  0x02180404  arm ov009
  *   func_0217D254                  0x0217D254  arm ov009
  *   func_021843E8                  0x021843E8  arm ov009
  *   func_02198620                  0x02198620  arm ov009
  *   func_02184208                  0x02184208  arm ov009
- *   func_02195E48                  0x02195E48  arm ov009
+ *   gt2GetOutgoingBufferSize                  0x02195E48  arm ov009
  *   func_0217EAB0                  0x0217EAB0  arm ov009
  *   memcpy                         0x02092344  arm
  *   func_02195CC0                  0x02195CC0  arm ov009
@@ -64,12 +64,12 @@ typedef struct GSUdpEngineObject {
     unsigned short mLocalPort;
 } GSUdpEngineObject;
 
-extern void *func_02180404(void);
+extern void *gsUdpEngineContext(void);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern void *func_02184208(void *array, int n);
-extern int func_02195E48(const int *p);
+extern int gt2GetOutgoingBufferSize(const int *p);
 extern void *func_0217EAB0(unsigned long size);
 extern void *memcpy(void *dst, const void *src, unsigned int n);
 extern int func_02195CC0(void *connection, unsigned char *message, int len, int reliable);
@@ -90,7 +90,7 @@ int func_02181350(unsigned int theIp, unsigned short thePort, char *theHeader, u
     int aResult;
     char anAddr[22];
 
-    aUdp = func_02180404();
+    aUdp = gsUdpEngineContext();
     if (aUdp->mInitialized == 0) {
         func_0217D254(12, 0, 15, g_021A3B9C);
         return 3;
@@ -111,7 +111,7 @@ int func_02181350(unsigned int theIp, unsigned short thePort, char *theHeader, u
     }
 
     aRemotePeerFound = (GSUdpRemotePeer *)func_02184208(aUdp->mRemotePeers, index);
-    if (aTotalMessageLen > func_02195E48(aRemotePeerFound->mConnection) && theReliable) {
+    if (aTotalMessageLen > gt2GetOutgoingBufferSize(aRemotePeerFound->mConnection) && theReliable) {
         func_0217D254(12, 0, 2, g_021A3C68);
         return 12;
     }

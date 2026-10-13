@@ -1,5 +1,5 @@
 /*
- * function: func_02175F34
+ * function: INTRUDE_COMM_SetMemberEntry
  * address:  0x02175F34
  * packet:   pkt_ov011_02175F34
  * region:   ov011
@@ -18,7 +18,7 @@
  *   func_0200855C  0x0200855C  thumb
  *   func_02008530  0x02008530  thumb
  *   func_021584F4  0x021584F4  thumb  ov010
- *   func_02175EFC  0x02175EFC  thumb  ov011
+ *   INTRUDE_COMM_FillMemberName  0x02175EFC  thumb  ov011
  */
 
 typedef unsigned char  u8;
@@ -45,9 +45,9 @@ extern int func_021583EC(void *a0, int a1);
 extern u8 func_0200855C(const struct Sub0200852CObj *obj);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int    func_021584F4(int a, int b);
-extern void   func_02175EFC(void *w, void *p, u8 i);
+extern void   INTRUDE_COMM_FillMemberName(void *w, void *p, u8 i);
 
-void func_02175F34(void *w, Ent *tbl, u32 arg, int idx)
+void INTRUDE_COMM_SetMemberEntry(void *w, Ent *tbl, u32 arg, int idx)
 {
     int sv;
     Ent *e;
@@ -66,7 +66,7 @@ void func_02175F34(void *w, Ent *tbl, u32 arg, int idx)
         *(Half8 *)e = *src;
         e->f11 = flag;
         e->f12 = arg;
-        func_02175EFC(w, e->f14, idx);
+        INTRUDE_COMM_FillMemberName(w, e->f14, idx);
         e->f10 = 1;
     }
 }

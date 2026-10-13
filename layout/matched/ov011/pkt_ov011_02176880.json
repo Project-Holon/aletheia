@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02176880",
+   "name": "INTRUDE_COMM_GetPartnerRecord",
    "address": "0x02176880",
    "kind": "game",
    "region": "ov011",

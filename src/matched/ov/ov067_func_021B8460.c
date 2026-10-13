@@ -68,7 +68,7 @@
  *   Without the offset local (q only) 3 bytes differ (adds/lsls order swapped). EXACT in --lang c99 and --lang c.
  * symbols:
  *   func_0201C6B4 0x0201C6B4 thumb
- *   func_02035BA4 0x02035BA4 arm
+ *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   func_021B841C 0x021B841C thumb ov067
  *   func_021B92F0 0x021B92F0 thumb ov067
  *   func_021B8EA0 0x021B8EA0 thumb ov067
@@ -101,7 +101,7 @@ struct S {
 };
 struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
-extern int func_02035BA4(const void *p);
+extern int TOUCHPANEL_HitCont(const void *p);
 extern int func_021B841C(u8 *p, int n);
 extern void func_021B92F0(struct S *,u32,u32);
 extern int func_021B8EA0(struct S *);
@@ -119,7 +119,7 @@ int func_021B8460(struct S *s)
  int r,n,v,a; const u8 *q; int o;
  if((int)func_0201C6B4((const struct PrintSys *)s->f34)==0) return 1;
  if(s->f50==3 && s->f70==1) {
-  r=func_02035BA4(s->f2c);
+  r=TOUCHPANEL_HitCont(s->f2c);
   if(s->drag==1) {
    if(s->trigger==0) {
     if(r==-1) {
@@ -142,7 +142,7 @@ int func_021B8460(struct S *s)
  }
  if(s->f69==0) {
   if(s->f68==0) {
-   r=func_02035BA4(s->f2c);
+   r=TOUCHPANEL_HitCont(s->f2c);
    if(r!=-1 && (o=r*8, q=(const u8 *)s->f1c+4, *(u32 *)(q+o)==0) && s->ready==1 && *(u32 *)(q+o)==0 &&
      ((s->f85<0 && s->f87<r)||(s->f85>0 && s->f87>r))) {
     s->ready=0;
@@ -182,7 +182,7 @@ int func_021B8460(struct S *s)
      s->trigger=0;
     }
     if(s->drag==1 && s->count==3) {
-     r=func_02035BA4(s->f2c);
+     r=TOUCHPANEL_HitCont(s->f2c);
      if(r!=-1 && s->f1c[r].f4==0) s->f5c=r;
      s->f70=0;
      s->f87=s->f5c;

@@ -1,5 +1,5 @@
 /*
- * function: func_0203AF40
+ * function: GFL_NET_STATE_DeviceInitialized
  * address:  0x0203AF40
  * packet:   pkt_0203AF40
  * region:   arm9
@@ -15,7 +15,7 @@
  *
  * 1. The r4/r5 swap was an artefact of that attempt's declaration order, not
  *    the real residue.  Declaring the two call results in source order
- *    (`s = func_0203D788()` then `c = func_0203D798()`) puts them in r5/r0
+ *    (`s = GFL_NET_GetSession()` then `c = func_0203D798()`) puts them in r5/r0
  *    exactly as the image does and the swap never appears.  That left a
  *    2-byte residue at +0x54/+0x58, not 10.
  *
@@ -25,7 +25,7 @@
  *    It is not discarded -- it is the callback's ARGUMENT.  Spelling the
  *    field `void (*f2c)(u32)` and writing `p->f2c(func_0203D650())` pins r0
  *    to the argument, so the function pointer has to land in r1.  EXACT.
- *    This is the same shape src/pending/func_0203B52C.c documents for its
+ *    This is the same shape src/pending/GFL_NET_STATE_ChangeoverParentConnectWait.c documents for its
  *    own callback ("takes func_0203D650's return value in r0, which is why
  *    the function pointer is loaded into r1") -- a family idiom, not a
  *    one-off.
@@ -44,13 +44,13 @@
  * record for `cnt = *p++` and `int weight`.
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *   func_0203D798  0x0203D798  arm
- *   func_02037D78  0x02037D78  arm
+ *   GFL_NET_SYSTEM_ResetAll  0x02037D78  arm
  *   func_0203D650  0x0203D650  arm
- *   func_0203AD80  0x0203AD80  arm
+ *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
  *   unk_0203C00C   0x0203C00C  arm
- *   g_021469DC     0x021469DC  data
+ *   _pNetState     0x021469DC  data
  */
 
 #include "../include/G_Sys.h"
@@ -59,7 +59,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern struct Sys *g_021469DC;
+extern struct Sys *_pNetState;
 extern void unk_0203C00C(void);
 
 struct Vt {
@@ -86,24 +86,24 @@ struct Rec {
     void (*f2c)(u32 a);
 };
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 extern void *func_0203D798(void);
-extern void func_02037D78(void);
+extern void GFL_NET_SYSTEM_ResetAll(void);
 extern u32  func_0203D650(void);
 struct NetState;
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
 
-void func_0203AF40(struct Rec *p)
+void GFL_NET_STATE_DeviceInitialized(struct Rec *p)
 {
-    struct Obj *s = func_0203D788();
+    struct Obj *s = GFL_NET_GetSession();
     struct Cur *c = func_0203D798();
 
     if (c->f65 != 1 && c->f65 != 2)
         s->f340->f04(c->f56, s, 0, s->f34c);
-    func_02037D78();
+    GFL_NET_SYSTEM_ResetAll();
     if (p->f2c != 0) {
         p->f2c(func_0203D650());
         p->f2c = 0;
     }
-    func_0203AD80((struct NetState *)(*(u32 *)&g_021469DC), (void *)unk_0203C00C, 0, 0x12f);
+    GFL_NET_STATE_ChangeStateDebug((struct NetState *)(*(u32 *)&_pNetState), (void *)unk_0203C00C, 0, 0x12f);
 }

@@ -10,19 +10,21 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02020CF8, func_02020D0C, func_02020D10, func_02020D18
+ * function: func_02020CF8, func_02020D0C, func_02020D10, BMP_CURSOR_Create
  *
  * symbols:
  *   func_02020D18_File  0x020A73A0  data
+ *   BMP_MENULIST_DrawCursor  0x020206C0  thumb
+ *   BMP_CURSOR_SetTileBitmap  0x02020DC8  thumb
  *
  * func_02020D0C and func_02020D10 carry no label in the generated listing:
  * they are a two-instruction word getter and a two-instruction byte setter
  * with no register-saving prologue, so disasm.py's prologue sweep never
  * fires on them and the listing prints them as a run of data between
- * func_02020CF8 and func_02020D18
+ * func_02020CF8 and BMP_CURSOR_Create
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  *
- * func_02020D18 is a debug-allocator constructor in the
+ * BMP_CURSOR_Create is a debug-allocator constructor in the
  * `sub_02030734(heap, size, count, file, line)` shape documented for
  * playtime.c: it allocates a 12-byte object tagged with the string at
  * 0x020A73A0 and line 0x3a, zeroing the first word when the allocation
@@ -47,13 +49,13 @@ struct Obj {
     void *unk3C;
 };
 
-extern void func_02020DC8(char *p, int a);
-extern void func_020206C0(struct Obj *p);
+extern void BMP_CURSOR_SetTileBitmap(char *p, int a);
+extern void BMP_MENULIST_DrawCursor(struct Obj *p);
 
 void func_02020CF8(struct Obj *p, int heap)
 {
-    func_02020DC8(p->unk3C, heap);
-    func_020206C0(p);
+    BMP_CURSOR_SetTileBitmap(p->unk3C, heap);
+    BMP_MENULIST_DrawCursor(p);
 }
 
 u32 func_02020D0C(u8 *p)
@@ -69,7 +71,7 @@ void func_02020D10(u8 *p, u32 v)
 extern const char func_02020D18_File[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-void *func_02020D18(u32 heap)
+void *BMP_CURSOR_Create(u32 heap)
 {
     void *p = func_02030734((u16)heap, 0xc, 1, func_02020D18_File, 0x3a);
 

@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02030EE8
+ * function: TCBL_IsDeletePending
  *
  * A plain word accessor at offset 0x10. No relocations.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030EE8.c \
- *       --func sub_02030EE8 --addr 0x02030EE8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TCBL_IsDeletePending.c \
+ *       --func TCBL_IsDeletePending --addr 0x02030EE8 --cc 1.1p1
  */
 
 typedef unsigned int u32;
@@ -24,7 +24,7 @@ struct S02030EE8 {
     u32  field10;
 };
 
-u32 sub_02030EE8(struct S02030EE8 *p)
+u32 TCBL_IsDeletePending(struct S02030EE8 *p)
 {
     return p->field10;
 }

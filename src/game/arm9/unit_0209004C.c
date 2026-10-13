@@ -1,7 +1,7 @@
 /*
  * file:     unit_0209004C.c
  * unit:     yes
- * function: func_0209004C, func_0209028C, func_020902D8, func_02090608, func_020906E0, func_02090814, func_020908F8, func_020909C8, func_02090B18, func_02090B6C
+ * function: WM_StartDataSharing, WM_EndDataSharing, WM_StepDataSharing, func_02090608, func_020906E0, func_02090814, func_020908F8, func_020909C8, WM_GetSharedDataAddress, func_02090B6C
  * address:  0x0209004C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -157,7 +157,7 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 WMErrCode WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 dataLength, BOOL doubleMode);
 WMErrCode WM_EndDataSharing(WMDataSharingInfo *dsInfo);
-WMErrCode func_020902D8(WMDataSharingInfo *dsInfo, const u16 *sendData, WMDataSet *receiveData);
+WMErrCode WM_StepDataSharing(WMDataSharingInfo *dsInfo, const u16 *sendData, WMDataSet *receiveData);
 void WmDataSharingSetDataCallback(void *callback);
 void WmDataSharingReceiveCallback_Parent(void *callback);
 void WmDataSharingReceiveCallback_Child(void *callback);
@@ -273,7 +273,7 @@ WMErrCode WM_EndDataSharing(WMDataSharingInfo *dsInfo)
  *           passing the (known zero) aid keeps it live in fp and stops the constant 1
  *           from being pooled there. sendData is const (read-only source, DWARF drops it).
  */
-WMErrCode func_020902D8(WMDataSharingInfo *dsInfo, const u16 *sendData, WMDataSet *receiveData)
+WMErrCode WM_StepDataSharing(WMDataSharingInfo *dsInfo, const u16 *sendData, WMDataSet *receiveData)
 {
     WMErrCode result;
     u16 aid;

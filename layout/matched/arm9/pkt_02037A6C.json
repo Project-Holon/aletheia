@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02037A6C",
+   "name": "GFL_NET_SYSTEM_ConnectToParent",
    "address": "0x02037A6C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02037B08",
+   "name": "GFL_NET_SYSTEM_FreeWork",
    "address": "0x02037B08",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02037BA4",
+   "name": "GFL_NET_SYSTEM_CheckAutoFree",
    "address": "0x02037BA4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02037BE8",
+   "name": "GFL_NET_SYSTEM_ResetMachineBuffer",
    "address": "0x02037BE8",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02037D78",
+   "name": "GFL_NET_SYSTEM_ResetAll",
    "address": "0x02037D78",
    "kind": "game",
    "region": "arm9",

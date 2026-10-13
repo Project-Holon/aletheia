@@ -10,6 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb  arm9
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj24942.h"
@@ -20,12 +21,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_02005E30(u32);
+extern void GFL_USE_FadeOutBgm(u32);
 
 void func_02204DC4(u8 *p, u8 *q)
 {
     if (((struct Obj24942 *)p)->fC != 0) {
-        func_02005E30(0x1e);
+        GFL_USE_FadeOutBgm(0x1e);
     }
     ((struct Obj24943 *)q)->f30 = 1;
 }

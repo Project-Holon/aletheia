@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02050550",
+   "name": "BILLBOARD_ACT_UpdateEntry",
    "address": "0x02050550",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020506B8",
+   "name": "BILLBOARD_ACT_UploadSlotFrame",
    "address": "0x020506B8",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02050738",
+   "name": "BILLBOARD_ACT_UploadSlotPalette",
    "address": "0x02050738",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02050920",
+   "name": "BILLBOARD_ACT_IsControlCommand",
    "address": "0x02050920",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02050944",
+   "name": "BILLBOARD_ACT_RunControlCommand",
    "address": "0x02050944",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020509E8",
+   "name": "BILLBOARD_ACT_CmdSetList",
    "address": "0x020509E8",
    "kind": "game",
    "region": "arm9",

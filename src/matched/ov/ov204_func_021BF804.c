@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02015C30 0x02015C30 thumb
- *   func_02015C48 0x02015C48 thumb
- *   func_02015E04 0x02015E04 thumb
+ *   MCSS_GetPosition 0x02015C30 thumb
+ *   MCSS_SetPosition 0x02015C48 thumb
+ *   MCSS_SetAnmStopFlag 0x02015E04 thumb
 
  */
 
 struct Vec { int v[3]; };
 typedef unsigned int   u32;
-extern void func_02015C30(void *p, u32 *out);
-extern void func_02015C48(void *p, u32 *src);
-extern void func_02015E04(void *);
+extern void MCSS_GetPosition(void *p, u32 *out);
+extern void MCSS_SetPosition(void *p, u32 *src);
+extern void MCSS_SetAnmStopFlag(void *);
 
 int func_021BF804(char *p, unsigned int i, int step, int limit)
 {
@@ -27,7 +27,7 @@ int func_021BF804(char *p, unsigned int i, int step, int limit)
     char *base = p + 8;
     unsigned int off = i * 12;
     int done;
-    func_02015C30(*(void **)(base + off), (u32 *)(&pos));
+    MCSS_GetPosition(*(void **)(base + off), (u32 *)(&pos));
     done = 1;
     pos.v[0] += step;
     if (pos.v[0] != limit)
@@ -37,8 +37,8 @@ int func_021BF804(char *p, unsigned int i, int step, int limit)
         else
             done = 0;
     }
-    func_02015C48(*(void **)(base + off), (u32 *)(&pos));
+    MCSS_SetPosition(*(void **)(base + off), (u32 *)(&pos));
     if (*(unsigned int *)(p + off + 12) == 1)
-        func_02015E04(*(void **)(base + off));
+        MCSS_SetAnmStopFlag(*(void **)(base + off));
     return done;
 }

@@ -9,17 +9,19 @@
  * isa:      arm
  * status:   EXACT
  *
- * Calls func_0217F120 on the block sixteen bytes into the result.
+ * Calls gsiDeleteCriticalSection on the block sixteen bytes into the result.
  *
  * symbols:
+ *   gsiCoreGetManager  0x0217CA20  arm
+ *   gsiDeleteCriticalSection  0x0217F120  arm
 
  */
 
-extern char *func_0217CA20(void);
-extern void func_0217F120(void *p);
+extern char *gsiCoreGetManager(void);
+extern void gsiDeleteCriticalSection(void *p);
 
 void func_0217CA2C(void)
 {
-    func_0217F120(func_0217CA20() + 0x10);
+    gsiDeleteCriticalSection(gsiCoreGetManager() + 0x10);
 }
 

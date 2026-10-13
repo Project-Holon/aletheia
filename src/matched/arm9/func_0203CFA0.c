@@ -1,5 +1,5 @@
 /*
- * function: func_0203CFA0
+ * function: GFL_NET_RequestDisconnect
  * address:  0x0203CFA0
  * packet:   pkt_0203CF5C
  * region:   arm9
@@ -10,13 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
+ *   _pNetState     0x021469DC  data
+ *   GFL_NET_STATE_Main  0x0203B1D8  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203CFA0.c \
- *       --func func_0203CFA0 --addr 0x0203CFA0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_RequestDisconnect.c \
+ *       --func GFL_NET_RequestDisconnect --addr 0x0203CFA0 --cc 1.1p1 --arm
  */
 #include "../include/Obj15976.h"
 
@@ -25,16 +27,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 extern void *func_0203D798(void);
-extern u32 func_0203B1D8(void);
+extern u32 GFL_NET_STATE_Main(void);
 
-void func_0203CFA0(void)
+void GFL_NET_RequestDisconnect(void)
 {
-    u8 *s = func_0203D788();
+    u8 *s = GFL_NET_GetSession();
     u8 *p;
 
-    if (func_0203B1D8() != 0)
+    if (GFL_NET_STATE_Main() != 0)
         return;
     if (s == 0 || ((struct Obj15976 *)s)->f340 == 0)
         return;

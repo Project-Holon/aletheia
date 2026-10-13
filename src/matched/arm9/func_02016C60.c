@@ -1,5 +1,5 @@
 /*
- * function: func_02016C60
+ * function: MCSS_ApplyMosaic
  * address:  0x02016C60
  * packet:   pkt_02016C60
  * region:   arm9
@@ -64,7 +64,7 @@ struct Task
 {
   u8 **f00;
 };
-void func_02016C60(struct Work *a0, struct Task *a1)
+void MCSS_ApplyMosaic(struct Work *a0, struct Task *a1)
 {
   s32 scale;
   u8 *base;

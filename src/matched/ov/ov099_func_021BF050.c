@@ -11,10 +11,10 @@
  *
  *
  * symbols:
- *   func_02156B8C  0x02156B8C  thumb  ov009
+ *   DWC_RAP_GetNewClientAid  0x02156B8C  thumb  ov009
  * True unless the arm9 predicate answers -1.
  *
- * Unblocked by matching func_02156B8C (ov009, EXACT): the +0002 call site now
+ * Unblocked by matching DWC_RAP_GetNewClientAid (ov009, EXACT): the +0002 call site now
  * attests as `matched`.  The old `ov172` hint was simply wrong -- 0x02156B8C
  * is not inside ov172's window; the address is coherent Thumb code in ov009
  * (ov010 holds the tail of another function there).
@@ -31,11 +31,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_02156B8C(void);
+extern int DWC_RAP_GetNewClientAid(void);
 
 BOOL func_021BF050(char *p)
 {
-    if (func_02156B8C() != -1) {
+    if (DWC_RAP_GetNewClientAid() != -1) {
         return 1;
     }
 

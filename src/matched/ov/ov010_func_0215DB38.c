@@ -47,7 +47,7 @@
  *   func_02012124  0x02012124  thumb
  *   func_02012138  0x02012138  thumb
  *   func_02012944  0x02012944  thumb
- *   func_02012F80  0x02012F80  thumb
+ *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   func_020113D0  0x020113D0  thumb
  *   func_02014808  0x02014808  thumb
  *   func_0200FB24  0x0200FB24  thumb
@@ -111,7 +111,7 @@ struct Ctx;
 extern void func_02012124(struct Ctx *p, u32 v);
 extern u32 func_02012138(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
-extern int func_02012F80(char *base);
+extern int GAME_DATA_GetExternalWork(char *base);
 extern void func_020113D0(char *p, int val);
 extern void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern u32 func_0200FB24(void);
@@ -143,7 +143,7 @@ int func_0215DB38(void *c, void *vm)
     busy = 0;
     l = 0;
     if (cmd != 0 && cmd != 0x15) {
-        l = (Link *)func_02012F80(h);
+        l = (Link *)GAME_DATA_GetExternalWork(h);
         if (l->f00 != 0) {
             func_02156BAC(l->f00);
             if (func_02156BCC(l->f00) == 1)

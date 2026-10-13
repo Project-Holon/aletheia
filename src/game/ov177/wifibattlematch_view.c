@@ -15,12 +15,12 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   d_021E8DA0 0x021E8DA0 data a1
@@ -43,7 +43,7 @@
  *   d_021E8B10      0x021E8B10  data
  *   func_0204A48C   0x0204A48C  arm
  *   func_0204B100   0x0204B100  arm
- *   func_0204B270   0x0204B270  arm
+ *   CLACT_SetUnitDefaultRenderer   0x0204B270  arm
  *   func_020434DC   0x020434DC  arm
  *   func_02043598   0x02043598  arm
  *   func_0204B1CC  0x0204B1CC  arm
@@ -101,10 +101,10 @@
  *   func_0204AC18 0x0204AC18 arm
  *   func_0204B294 0x0204B294 arm
  *   func_0204B6F4 0x0204B6F4 arm
- *   func_0202DC08 0x0202DC08 thumb
+ *   PMS_DRAW_Delete 0x0202DC08 thumb
  *   d_021E8CEE 0x021E8CEE data a1
- *   func_0202DBC4 0x0202DBC4 thumb
- *   func_0202DC98 0x0202DC98 thumb
+ *   PMS_DRAW_Main 0x0202DBC4 thumb
+ *   PMS_DRAW_IsPrintEnd 0x0202DC98 thumb
  *   func_020456F8 0x020456F8 arm
  *   func_020452E8 0x020452E8 arm
  *   func_0201C440  0x0201C440  thumb
@@ -143,6 +143,14 @@
  *   func_0202020C  0x0202020C  thumb
  *   func_0201F868  0x0201F868  thumb
  *   func_020200CC  0x020200CC  thumb
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb  arm9
+ *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb  arm9
+ *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb  arm9
+ *   PMS_DRAW_Create  0x0202DB0C  thumb  arm9
+ *   PMS_DRAW_Print  0x0202DC48  thumb  arm9
+ *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb  arm9
+ *   PMS_DRAW_SetPrintColor  0x0202DE64  thumb  arm9
+ *   PMS_DRAW_SetFollowBgScroll  0x0202DE68  thumb  arm9
  */
 #include "../../matched/include/Obj24443.h"
 #include "../../matched/include/Obj24444.h"
@@ -431,12 +439,12 @@ typedef struct {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, u8, u32);
-extern void func_0204335C(unsigned);
+extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(unsigned);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern int func_020056A0(void (*)(int, int *), int *, int);
 extern void func_02030EAC(struct Node *n);
@@ -454,7 +462,7 @@ extern void func_0203F9B4(void);
 extern void func_020419E4(void);
 extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, unsigned int heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern u32 func_0204B1CC(struct Bank *bank);
@@ -521,7 +529,7 @@ extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 func_0200B214(struct Rec1E *p, u32 id, u8 n);
-extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern u32 func_020275E4(void);
 extern u32 func_02027694(void);
 extern u32 func_02027698(void);
@@ -532,23 +540,23 @@ extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned in
 extern u32 func_0201BB5C(u32, u32, u32, u32);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B3B4(struct Obj *p);
-extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
-extern void func_0202DE68(struct PmsDraw *p, u32 v);
-extern void func_0202DE5C(struct PmsDraw *p, u8 v);
+extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
+extern void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *p, u32 v);
+extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern u32 func_0204162C(int);
 extern void func_020410D0(u32, u32, u32, u32, u8, u32, u8, u8, u8, u8);
-extern void func_0202DC08(struct Obj *p);
+extern void PMS_DRAW_Delete(struct Obj *p);
 extern const void *func_020084F4(const void *p);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
-extern void func_0202DE64(struct PmsDraw *p, u16 v);
-extern void func_0202DC48(void *, void *, const void *, unsigned);
-extern void func_0202DBC4(u8 *p);
-extern u32 func_0202DC98(struct Obj0202DC98 *o);
+extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
+extern void PMS_DRAW_Print(void *, void *, const void *, unsigned);
+extern void PMS_DRAW_Main(u8 *p);
+extern u32 PMS_DRAW_IsPrintEnd(struct Obj0202DC98 *o);
 extern void func_020456F8(struct Descriptor *d);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_020061F8(int i);
@@ -556,9 +564,9 @@ extern void *func_0200BAF4(int a0, int a1);
 extern unsigned func_0201AA18(void *party);
 extern void *func_0201AB28(void *p, u32 idx);
 extern unsigned func_02017E1C(void *p, unsigned id, unsigned v);
-extern void *func_020185F4(void *);
+extern void *POKE_TOOL_GetBoxParam(void *);
 extern unsigned func_0201BA68(void *);
-extern int func_0201BBE8(void *a0);
+extern int POKE_TOOL_GetIconPalette(void *a0);
 extern u32 func_0201C440(void *p);
 extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
@@ -701,12 +709,12 @@ int *func_021E5440(unsigned swap, u16 heap)
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)d_021E8B2C);
     func_0204363C(swap);
     func_0204361C();
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     func_0201DD60();
     func_021E5568(p, heap);
     func_021E560C(p + 1, (int)d_021E8B2C, heap);
@@ -856,7 +864,7 @@ void func_021E560C(int *p, int b, int c)
     func_02082BCC((void *)((int)p), 0, 4);
     func_0204A48C((const struct Cfg *)d_021E8B10, b, c);
     p[0] = (int)func_0204B100(0x80, 0, c);
-    func_0204B270((void *)p[0]);
+    CLACT_SetUnitDefaultRenderer((void *)p[0]);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }
@@ -1092,7 +1100,7 @@ void func_021E5980(State *p)
  *   mask-first operand order `0x3e0 & c0` with and without col (94/77, no change).
  *
  * 2026-10-05 (wave D9r lane37): EXACT. Closed with the form of the matched twin ov068 func_021B9D68
- *   (arm9 twin func_0202EA40, blink_palanm.c): f as an s16 local, all six channels as u8 locals extracted
+ *   (arm9 twin BLINK_PALANM_Update, blink_palanm.c): f as an s16 local, all six channels as u8 locals extracted
  *   mask-then-shift, the blends as s32 locals with a u8 cast, and the pack (b << 10) | (r | (g << 5)).
  */
 void func_021E5A30(u32 slot, u16 *out, const u16 *phase, u32 unused, u8 a, u8 b, u16 c0, u16 c1)
@@ -1971,7 +1979,7 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
         species = func_0200B214(rec, 0, i);
         form = func_0200B214(rec, 1, i);
         gender = func_0200B214(rec, 3, i);
-        w->chr[i] = (void *)func_0204A6C8(h, func_0201BABC((u16)(species != 0 ? species : 1), form, gender, 0), 0, w->layer, (heap & 0x7fff) | 0x8000);
+        w->chr[i] = (void *)func_0204A6C8(h, POKE_TOOL_CalcGraphicIndex((u16)(species != 0 ? species : 1), form, gender, 0), 0, w->layer, (heap & 0x7fff) | 0x8000);
     }
     func_02049238(h);
     h = func_020490F4(func_020275E4(), heap);
@@ -2177,9 +2185,9 @@ Work_021E72FC *func_021E7520(const Record *rec, void *a1, void *a2, void *a3, vo
     func_02082BCC(w, 0, 0x9c);
     w->owner = owner;
     w->mode = mode;
-    w->menu = func_0202DB0C((u32)a1, 0, (u32)a4, (u32)a3, 5, 1, heap);
-    func_0202DE68(w->menu, 1);
-    func_0202DE5C(w->menu, 0);
+    w->menu = PMS_DRAW_Create((u32)a1, 0, (u32)a4, (u32)a3, 5, 1, heap);
+    PMS_DRAW_SetFollowBgScroll(w->menu, 1);
+    PMS_DRAW_SetNullColorPalette(w->menu, 0);
     kind = func_021E7CF0(rec->f30, rec->score, rec->f2c);
     alt = 0;
     if (mode - 2 <= 1)
@@ -2241,7 +2249,7 @@ void func_021E7710(char *p)
     }
     func_021E7C14(p);
     func_021E7B44((Work_021E72FC *)p);
-    func_0202DC08(((struct Obj14374 *)p)->f7C);
+    PMS_DRAW_Delete(((struct Obj14374 *)p)->f7C);
     func_02040618(2, 0, -256);
     func_02040618(1, 0, -256);
     func_020307B0(p);
@@ -2390,8 +2398,8 @@ void func_021E78B0(Work_021E72FC *p, const Record *data, unsigned font, void *pr
             color = 0x3C40;
             break;
         case 7:
-            func_0202DE64(p->menu, color);
-            func_0202DC48(p->menu, p->win[j], data->name, 0);
+            PMS_DRAW_SetPrintColor(p->menu, color);
+            PMS_DRAW_Print(p->menu, p->win[j], data->name, 0);
             draw = 0;
             break;
         }
@@ -2439,8 +2447,8 @@ int func_021E7AE0(unsigned char *p, void *mgr)
         if (i != 7) {
             result &= poll_entry(p + i * 8, mgr);
         } else {
-            func_0202DBC4(((struct Obj14375 *)p)->f7C);
-            result &= func_0202DC98(((struct Obj14375 *)p)->f7C);
+            PMS_DRAW_Main(((struct Obj14375 *)p)->f7C);
+            result &= PMS_DRAW_IsPrintEnd(((struct Obj14375 *)p)->f7C);
         }
     }
     return result;
@@ -2711,7 +2719,7 @@ Work_021E7E3C *func_021E7E3C(void *src, void *owner, int unused, unsigned font, 
     for (i = 0; i < (int)func_0201AA18(party); i++) {
         mon = func_0201AB28(party, (int)i);
         if (func_02017E1C(mon, 0xA9, 0) != 0) {
-            work->chr[i] = (void *)func_0204A6C8(handle, func_0201BA68(func_020185F4(mon)), 0, 0, h);
+            work->chr[i] = (void *)func_0204A6C8(handle, func_0201BA68(POKE_TOOL_GetBoxParam(mon)), 0, 0, h);
         }
     }
     func_02049238(handle);
@@ -2730,7 +2738,7 @@ Work_021E7E3C *func_021E7E3C(void *src, void *owner, int unused, unsigned font, 
         if (func_02017E1C(mon, 0xA9, 0) != 0) {
             req.x = i * 0x28 + 0x18;
             work->spr[i] = func_0204B294(owner, (unsigned)(work->chr[i]), (unsigned)work->pal, (unsigned)work->cell, (const Request *)&req, 0, heap);
-            func_0204B6F4(work->spr[i], func_0201BBE8(func_020185F4(mon)), 0);
+            func_0204B6F4(work->spr[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(mon)), 0);
             if (func_02017E1C(mon, 6, 0) != 0) {
                 req2 = req;
                 req2.x += 12;

@@ -1,5 +1,5 @@
 /*
- * function: func_020275E0
+ * function: BEACON_STATUS_DoNothing
  * address:  0x020275E0
  * packet:   pkt_020275E0
  * region:   arm9
@@ -12,6 +12,6 @@
  * Witness leaf for ov119 callers (func_021DCD38, func_021DCF24).
  */
 
-void func_020275E0(void)
+void BEACON_STATUS_DoNothing(void)
 {
 }

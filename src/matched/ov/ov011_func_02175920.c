@@ -1,5 +1,5 @@
 /*
- * function: func_02175920
+ * function: INTRUDE_COMM_SetSessionRequestSendFlag
  * address:  0x02175920
  * packet:   pkt_02175920
  * region:   ov011
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj12430.h"
 
-void func_02175920(void *p)
+void INTRUDE_COMM_SetSessionRequestSendFlag(void *p)
 {
     *(char *)&((struct Obj12430 *)p)->f19A = 1;
 }

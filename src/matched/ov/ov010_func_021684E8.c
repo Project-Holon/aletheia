@@ -21,8 +21,8 @@
  *   func_020186C8  0x020186C8  thumb
  *   _s32_div_f     0x0209C0A4  arm
  *   func_02019C90  0x02019C90  thumb
- *   sub_02045B38   0x02045B38  arm
- *   func_02045F5C  0x02045F5C  arm
+ *   MSGDATA_CreateFromArchive   0x02045B38  arm
+ *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   func_02045C04  0x02045C04  arm
  *   d_02172084     0x02172084  data
  */
@@ -70,8 +70,8 @@ struct MsgData;
 struct Rec;
 extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
-extern struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern u32 func_02045C04(struct Rec *rec);
 extern const u16 d_02172084[];
 
@@ -137,8 +137,8 @@ u32 func_021684E8(BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemI
         out->ability = func_02019C90(out->species, 0, 0x1A);
     }
     out->friendship = friendship;
-    bank = sub_02045B38(0, 2, 0x46, heap);
-    func_02045F5C(bank, out->species, out->nick, 11);
+    bank = MSGDATA_CreateFromArchive(0, 2, 0x46, heap);
+    MSGDATA_ReadUnits(bank, out->species, out->nick, 11);
     func_02045C04(bank);
     return pid;
 }

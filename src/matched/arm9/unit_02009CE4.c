@@ -14,18 +14,25 @@
  * function: sub_02009CE4, sub_02009D08, sub_02009D1C, sub_02009D50
  *
  * symbols:
- *   sub_020071CC           0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock           0x020071CC  thumb
  *   DWC_CheckValidConsole  0x02059760  arm
  *   DWC_CheckHasProfile    0x020597C8  arm
  *   DWC_GetGsProfileId     0x020598EC  arm
+ *   MYSTATUS_GetName  0x020084F4  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   WIFILIST_GetWork  0x02009860  thumb
+ *   WIFILIST_GetFriendInfoField  0x02009864  thumb
+ *   WIFILIST_GetFriendInfo  0x020099D4  thumb
+ *   WIFILIST_IsFriendDataValid  0x02009A1C  thumb
  *
  * alias: the DWC-facing end of wifilist.c.  sub_02009D08 is the one that names
- * the save block: it fetches block id 0x1E out of sub_020071CC and hands it
+ * the save block: it fetches block id 0x1E out of SAVE_CONTROL_GetBlock and hands it
  * straight to the entry accessor of src/matched/unit_02009860.c, so the wifi
  * friend list lives in block 0x1E.
  *
- * sub_02009860, the two-byte `bx lr` in src/matched/unit_02009860.c, is used
- * here the way sub_020084F4 is used in src/matched/unit_02008F48.c: its result
+ * WIFILIST_GetWork, the two-byte `bx lr` in src/matched/unit_02009860.c, is used
+ * here the way MYSTATUS_GetName is used in src/matched/unit_02008F48.c: its result
  * feeds the next call's first argument with no move in between, so it is an
  * identity accessor and is declared with the type that call needs.
  *
@@ -34,13 +41,13 @@
  *
  *   void sub_02009CB0(struct WifiList *obj, void *out)
  *   {
- *       DWC_CreateExchangeToken(sub_02009860(obj), out);
+ *       DWC_CreateExchangeToken(WIFILIST_GetWork(obj), out);
  *   }
  *
  *   void sub_02009CC0(struct WifiList *obj)
  *   {
  *       u8 token[0xC];
- *       void *account = sub_02009860(obj);
+ *       void *account = WIFILIST_GetWork(obj);
  *
  *       sub_02009CB0(obj, token);
  *       DWC_GetGsProfileId(account, token);
@@ -64,7 +71,7 @@
  * docs/idioms/cmp-operand-order-names-the-temporary.md.
  *
  * sub_02009D50's second parameter is dead: nothing in it reads r1, and
- * sub_02009D1C still computes sub_020084F4(p) to pass there.  Leaving the
+ * sub_02009D1C still computes MYSTATUS_GetName(p) to pass there.  Leaving the
  * parameter out moves every argument and the function does not match, so the
  * dead argument is part of the shape.
  *
@@ -80,7 +87,7 @@ typedef unsigned int   u32;
 struct Sub0200852CObj;
 
 struct Sub020071CCCtrl;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 
 extern int  DWC_CheckValidConsole(void *account);
 extern int  DWC_CheckHasProfile(void *account);
@@ -112,21 +119,21 @@ struct Sub020097BCObj {
     u8 unk7C0[4];
 };
 
-extern struct Sub020097BCObj *sub_02009860(struct Sub020097BCObj *obj);
-extern u32   sub_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
-extern int   sub_02009A1C(struct Sub020097BCObj *obj, u32 i);
-extern struct Sub020097BCEnt *sub_020099D4(struct Sub020097BCObj *obj, int i);
+extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
+extern u32   WIFILIST_GetFriendInfoField(const struct Sub020097BCObj *obj, u32 i, u32 field);
+extern int   WIFILIST_IsFriendDataValid(struct Sub020097BCObj *obj, u32 i);
+extern struct Sub020097BCEnt *WIFILIST_GetFriendInfo(struct Sub020097BCObj *obj, int i);
 
-extern u32 sub_02008530(const struct Sub0200852CObj *obj);
-extern u8  sub_02008550(const struct Sub0200852CObj *obj);
-extern const void *sub_020084F4(const void *p);
+extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
+extern u8  MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern const void *MYSTATUS_GetName(const void *p);
 
 int sub_02009D50(struct Sub020097BCObj *obj, const void *unused, u32 id,
                  u32 kind, u32 *out);
 
 u32 sub_02009CE4(struct Sub020097BCObj *obj)
 {
-    void *account = sub_02009860(obj);
+    void *account = WIFILIST_GetWork(obj);
 
     if (DWC_CheckHasProfile(account) != 0) {
         if (DWC_CheckValidConsole(account) != 0) {
@@ -138,19 +145,19 @@ u32 sub_02009CE4(struct Sub020097BCObj *obj)
 
 struct Sub020097BCObj *sub_02009D08(void *sys)
 {
-    struct Sub020097BCObj *obj = sub_020071CC(sys, 0x1E);
+    struct Sub020097BCObj *obj = SAVE_CONTROL_GetBlock(sys, 0x1E);
 
-    sub_020099D4(obj, 0);
+    WIFILIST_GetFriendInfo(obj, 0);
     return obj;
 }
 
 int sub_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p,
                  u32 *out)
 {
-    u32 id = sub_02008530(p);
-    u8 kind = sub_02008550(p);
+    u32 id = MYSTATUS_GetId(p);
+    u8 kind = MYSTATUS_GetOutfitVariant(p);
 
-    return sub_02009D50(obj, sub_020084F4(p), id, kind, out);
+    return sub_02009D50(obj, MYSTATUS_GetName(p), id, kind, out);
 }
 
 int sub_02009D50(struct Sub020097BCObj *obj, const void *unused, u32 id,
@@ -160,10 +167,10 @@ int sub_02009D50(struct Sub020097BCObj *obj, const void *unused, u32 id,
     u32 v;
 
     for (i = 0; i < 0x20; i++) {
-        if (sub_02009A1C(obj, i) == 1) {
-            v = sub_02009864(obj, i, 0);
+        if (WIFILIST_IsFriendDataValid(obj, i) == 1) {
+            v = WIFILIST_GetFriendInfoField(obj, i, 0);
             if (v == id) {
-                v = sub_02009864(obj, i, 9);
+                v = WIFILIST_GetFriendInfoField(obj, i, 9);
                 if (v == kind) {
                     if (out != 0) {
                         *out = i;

@@ -11,9 +11,9 @@
  * symbols:
  *   func_02017E1C 0x02017E1C thumb
  *   func_02049B40 0x02049B40 arm
- *   func_02015C48 0x02015C48 thumb
- *   func_02015EB0 0x02015EB0 thumb
- *   func_02015EA0 0x02015EA0 thumb
+ *   MCSS_SetPosition 0x02015C48 thumb
+ *   MCSS_ResetVanishFlag 0x02015EB0 thumb
+ *   MCSS_SetVanishFlag 0x02015EA0 thumb
  *   func_0201DD78 0x0201DD78 thumb
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
@@ -53,9 +53,9 @@ typedef unsigned int u32;
 typedef signed short s16;
 extern u32 func_02017E1C(void *,u32,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-extern void func_02015C48(void *,u32 *);
-extern void func_02015EB0(void *);
-extern void func_02015EA0(void *);
+extern void MCSS_SetPosition(void *,u32 *);
+extern void MCSS_ResetVanishFlag(void *);
+extern void MCSS_SetVanishFlag(void *);
 extern void func_0201DD78(u32,u32,u32);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Cfg;
@@ -109,10 +109,10 @@ void func_021E219C(char *p,void *mon,int side,int flag)
     v[0]=0xe<<14;
     v[1]=1<<14;
     v[2]=0;
-    func_02015C48(Q[side],v);
-    func_02015EB0(Q[side]);
+    MCSS_SetPosition(Q[side],v);
+    MCSS_ResetVanishFlag(Q[side]);
     if(*(void **)(p+(1-side)*4+0x844))
-        func_02015EA0(*(void **)(p+(1-side)*4+0x844));
+        MCSS_SetVanishFlag(*(void **)(p+(1-side)*4+0x844));
     func_0201DD78(15,2,0);
     i=0;
     P(0x6b4)=(void *)func_020450F0(3,1,0,31,24,14,0);

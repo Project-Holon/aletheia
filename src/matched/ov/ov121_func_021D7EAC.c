@@ -22,8 +22,8 @@
  *   func_021D96C4 0x021D96C4 thumb ov121
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0200A350 0x0200A350 thumb
- *   func_020312CC 0x020312CC arm
+ *   MYSTERY_DATA_IsMainSave 0x0200A350 thumb
+ *   PROCSYS_PushGlobal 0x020312CC arm
  *   func_021D9624 0x021D9624 thumb ov121
  *   func_021D6924 0x021D6924 thumb ov121
  *   func_021D9744 0x021D9744 thumb ov121
@@ -32,11 +32,11 @@
  *   func_021D9FFC 0x021D9FFC thumb ov121
  *   func_0207D63C 0x0207D63C arm
  *   func_0203D34C 0x0203D34C arm
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_021D73DC 0x021D73DC thumb ov121
  *   func_020307B0 0x020307B0 arm
  *   d_021DFB80 0x021DFB80 data a1
- *   d_021D6338 0x021D6338 data ov115 a4
+ *   gNetSaveMainProc 0x021D6338 data ov115 a4
  *   ov115_id 0x00000073 data a1
  */
 #include "../include/Obj00533.h"
@@ -67,8 +67,8 @@ extern void func_021D96C4(u8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
 struct Obj;
-extern int func_0200A350(struct Obj *a0);
-extern void func_020312CC(u32,u32,u32);
+extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
+extern void PROCSYS_PushGlobal(u32,u32,u32);
 extern u8 *func_021D9624(int arg, u16 heap);
 extern void func_021D6924(u16 *p, u16 heap);
 extern unsigned func_021D9744(char *p);
@@ -77,11 +77,11 @@ extern void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap);
 extern void func_021D9FFC(u8 *p, int a, int b);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_0203D34C(u32,u32);
-extern void func_02005D90(int,int);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void func_021D73DC(void *task, u32 *state, u8 *p);
 extern u32 func_020307B0(void *p);
 extern const char d_021DFB80[];
-extern const int d_021D6338[];
+extern const int gNetSaveMainProc[];
 extern char ov115_id[];
 void func_021D7EAC(void *task,u32 *state,u8 *p)
 {
@@ -122,9 +122,9 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         ((struct Obj22861 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f10=0;
         ((struct Obj22862 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f18=0;
         ((struct Obj22863 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->fC=9;
-        if(!func_0200A350(((struct Obj00533 *)p)->f3BC)) ((struct Obj22864 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f14=2;
+        if(!MYSTERY_DATA_IsMainSave(((struct Obj00533 *)p)->f3BC)) ((struct Obj22864 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f14=2;
         else ((struct Obj22865 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f14=0;
-        func_020312CC((u32)ov115_id,(u32)d_021D6338,(u32)((struct Obj00533 *)p)->f3C0);
+        PROCSYS_PushGlobal((u32)ov115_id,(u32)gNetSaveMainProc,(u32)((struct Obj00533 *)p)->f3C0);
         *state=5; return;
     case 5:
         ((struct Obj00533 *)p)->f394=func_021D9624(1,29);
@@ -134,7 +134,7 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         func_021D9FFC(((struct Obj00533 *)p)->f284,10,14);
         func_0207D63C((void *)0x04000050,4,24,15,3);
         func_0203D34C(1,29);
-        func_02005D90(1154,65535);
+        GFL_USE_CancelChangeAndPlayBgm(1154,65535);
         func_021D9288((unsigned int *)(p+312),1);
         *state=4; return;
     case 4:

@@ -16,9 +16,9 @@
  *   func_021EAE64 0x021EAE64 thumb ov093
  *   func_021EAE04 0x021EAE04 thumb ov093
  *   func_021EAECC 0x021EAECC thumb ov093
- *   func_02005E30 0x02005E30 thumb
- *   func_02005CA4 0x02005CA4 thumb
- *   func_02006734 0x02006734 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
+ *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
+ *   PM_VOICE_SetMasterVolume 0x02006734 thumb
  *   func_021F8B10 0x021F8B10 thumb ov094
  *   func_021B92A0 0x021B92A0 thumb ov093
  *   func_021EAE14 0x021EAE14 thumb ov093
@@ -36,9 +36,9 @@ extern void func_021EAE74(char *p, u32 a, u32 b);
 extern int func_021EAE64(void *);
 extern void func_021EAE04(u32 *p);
 extern void func_021EAECC(u8 *p, int v, int w);
-extern void func_02005E30(u32);
-extern void func_02005CA4(int,u32);
-extern void func_02006734(u8);
+extern void GFL_USE_FadeOutBgm(u32);
+extern void GFL_USE_SetPlayersAudible(int,u32);
+extern void PM_VOICE_SetMasterVolume(u8);
 extern int func_021F8B10(void);
 extern void func_021B92A0(u8 *p);
 extern int func_021EAE14(u32 *p);
@@ -78,9 +78,9 @@ void func_021D3FDC(u8 *p, struct Q *q)
             q->flag1 = 1;
             q->state = 1;
             func_021EAECC(*(void **)(p+0x54),q->current,1);
-            func_02005E30(30);
-            func_02005CA4(0,62);
-            func_02006734(0);
+            GFL_USE_FadeOutBgm(30);
+            GFL_USE_SetPlayersAudible(0,62);
+            PM_VOICE_SetMasterVolume(0);
             func_021F8B10();
             func_021B92A0((u8 *)(*(u32 *)p));
             break;
@@ -101,9 +101,9 @@ void func_021D3FDC(u8 *p, struct Q *q)
                 func_021EAE04(*(void **)(p+0x54));
                 q->flag1 = 1;
                 q->state = 1;
-                func_02005E30(30);
-                func_02005CA4(0,62);
-                func_02006734(0);
+                GFL_USE_FadeOutBgm(30);
+                GFL_USE_SetPlayersAudible(0,62);
+                PM_VOICE_SetMasterVolume(0);
                 func_021F8B10();
             }
         }

@@ -11,14 +11,14 @@
  *
  * symbols:
  *   g_021B4BE0     0x021B4BE0  data  a4
- *   func_021B2DD0  0x021B2DD0  arm  ov013
- *   func_021B2A20  0x021B2A20  arm  ov013
- *   func_021B2894  0x021B2894  arm  ov013
- *   func_021B279C  0x021B279C  arm  ov013
- *   func_021B24FC  0x021B24FC  arm  ov013
- *   func_021B2724  0x021B2724  arm  ov013
- *   func_021B25B0  0x021B25B0  arm  ov013
- *   func_021B1F54  0x021B1F54  arm  ov013
+ *   VCT_SESSION_HandleAnnounce  0x021B2DD0  arm  ov013
+ *   VCT_SESSION_FindPeer  0x021B2A20  arm  ov013
+ *   VCT_SESSION_AdvancePhase  0x021B2894  arm  ov013
+ *   VCT_SESSION_GetEventCode  0x021B279C  arm  ov013
+ *   VCT_SESSION_AllocPeer  0x021B24FC  arm  ov013
+ *   VCT_SESSION_InitPeer  0x021B2724  arm  ov013
+ *   VCT_SESSION_SendReply  0x021B25B0  arm  ov013
+ *   VCT_SESSION_FreePeerRecord  0x021B1F54  arm  ov013
  */
 
 struct Node {
@@ -61,19 +61,19 @@ struct Event {
 };
 
 extern struct Pool g_021B4BE0;
-extern int func_021B2DD0(struct Pkt *pkt, struct Event *ev);
+extern int VCT_SESSION_HandleAnnounce(struct Pkt *pkt, struct Event *ev);
 struct N;
-extern struct N *func_021B2A20(int id);
+extern struct N *VCT_SESSION_FindPeer(int id);
 typedef unsigned char  u8;
 struct Ctx;
 struct Msg;
 struct Q;
-extern int func_021B2894(struct Ctx *c, struct Msg *m);
-extern int func_021B279C(u8 *o, struct Q *q);
-extern struct Node *func_021B24FC(unsigned int idx);
-extern void func_021B2724(u8 *p, u8 v);
-extern int func_021B25B0(int a, int b);
-extern int func_021B1F54(struct Node *p);
+extern int VCT_SESSION_AdvancePhase(struct Ctx *c, struct Msg *m);
+extern int VCT_SESSION_GetEventCode(u8 *o, struct Q *q);
+extern struct Node *VCT_SESSION_AllocPeer(unsigned int idx);
+extern void VCT_SESSION_InitPeer(u8 *p, u8 v);
+extern int VCT_SESSION_SendReply(int a, int b);
+extern int VCT_SESSION_FreePeerRecord(struct Node *p);
 
 int func_021B2AA0(struct Pkt *pkt, struct Event *ev)
 {
@@ -82,13 +82,13 @@ int func_021B2AA0(struct Pkt *pkt, struct Event *ev)
 
     if (pkt->f4 == 0xFF) {
         if (pkt->f6 == 4)
-            return func_021B2DD0(pkt, ev);
+            return VCT_SESSION_HandleAnnounce(pkt, ev);
         if (pkt->f6 == 3)
             return 0;
     }
-    node = (struct Node *)func_021B2A20(pkt->f8);
+    node = (struct Node *)VCT_SESSION_FindPeer(pkt->f8);
     if (node) {
-        r = func_021B2894((struct Ctx *)node, (struct Msg *)pkt);
+        r = VCT_SESSION_AdvancePhase((struct Ctx *)node, (struct Msg *)pkt);
         switch (r) {
         case -1:
             return 0;
@@ -98,23 +98,23 @@ int func_021B2AA0(struct Pkt *pkt, struct Event *ev)
             ev->node = node;
             return 1;
         }
-        ev->type = func_021B279C((u8 *)pkt, (struct Q *)node);
+        ev->type = VCT_SESSION_GetEventCode((u8 *)pkt, (struct Q *)node);
         ev->node = node;
         node->fc = r;
         return ev->type != 0;
     }
-    node = func_021B24FC(pkt->f8);
+    node = VCT_SESSION_AllocPeer(pkt->f8);
     if (node == 0) {
-        func_021B2724((u8 *)(&g_021B4BE0.freeList), pkt->f8);
-        func_021B25B0((int)(&g_021B4BE0.freeList), 3);
+        VCT_SESSION_InitPeer((u8 *)(&g_021B4BE0.freeList), pkt->f8);
+        VCT_SESSION_SendReply((int)(&g_021B4BE0.freeList), 3);
         return 0;
     }
-    r = func_021B2894((struct Ctx *)node, (struct Msg *)pkt);
+    r = VCT_SESSION_AdvancePhase((struct Ctx *)node, (struct Msg *)pkt);
     if (r == -2 || r == -1) {
-        func_021B1F54(node);
+        VCT_SESSION_FreePeerRecord(node);
         return 0;
     }
-    ev->type = func_021B279C((u8 *)pkt, (struct Q *)node);
+    ev->type = VCT_SESSION_GetEventCode((u8 *)pkt, (struct Q *)node);
     ev->node = node;
     node->fc = r;
     return ev->type != 0;

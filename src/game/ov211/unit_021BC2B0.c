@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   d_021BC990    0x021BC990 data ov211
  *   func_020419E4 0x020419E4 arm
@@ -43,7 +43,7 @@
  *   tiles 0x020498F4 arm
  *   close 0x02049238 arm
  *   func_02012EBC 0x02012EBC thumb
- *   func_0200725C 0x0200725C thumb
+ *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   func_020073D8 0x020073D8 thumb
  *   func_0200E8D8 0x0200E8D8 thumb
  *   func_0200E8CC 0x0200E8CC thumb
@@ -117,7 +117,7 @@ struct Owner_021BC5B0 { u32_021BC7A0 pad[2]; u32_021BC7A0 state; };
 
 struct Object_021BC5B0 { struct Owner_021BC5B0 *owner; u8 pad[6]; u8 timer,state; };
 
-extern void func_0204335C(u32 keep);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_020419E4(void);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
@@ -138,7 +138,7 @@ extern void screen(void *,u32,u32,u32,u32,u32,u16);
 extern void tiles(void *,u32,u32,u32,u32,u32,u16);
 extern void close(void *);
 extern void *func_02012EBC(struct Big *);
-extern u32_021BC5B0 func_0200725C(struct Ctrl *,u32_021BC5B0,u32_021BC5B0);
+extern u32_021BC5B0 SAVE_CONTROL_LoadExtraSave(struct Ctrl *,u32_021BC5B0,u32_021BC5B0);
 extern void *func_020073D8(struct Sub020073D8Ctrl *,u32_021BC5B0,u32_021BC5B0);
 extern u32_021BC5B0 func_0200E8D8(const void *obj);
 extern void *func_0200E8CC(void *),*func_0200E8D0(void *);
@@ -186,7 +186,7 @@ extern const Config32 d_021BC910, d_021BC930, d_021BC950, d_021BC970, d_021BC8F0
 void func_021BC2B0(void)
 {
     S021BC2B0 buf = d_021BC990;
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)(&buf));
 }
 
@@ -266,7 +266,7 @@ void func_021BC5B0(char *p)
 {
     void *save,*block,*tiles,*palette;
     save=func_02012EBC(*(struct Big **)*(char * *)&((struct Obj10925 *)p)->f0);
-    if(func_0200725C(save,7,0x807e)==1){
+    if(SAVE_CONTROL_LoadExtraSave(save,7,0x807e)==1){
         block=func_020073D8(save,7,0);
         if(block!=0&&func_0200E8D8(block)==1){
             tiles=func_0200E8CC(block);

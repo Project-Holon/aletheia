@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204B560
+ * function: CLACT_GetActorPosAxis
  * address:  0x0204B560
  * packet:   pkt_0204B454
  * region:   arm9
@@ -10,20 +10,20 @@
  * isa:      arm
  * status:   EXACT
  *
- * The read side of src/matched/sub_0204B550.c: one axis of the actor's screen
+ * The read side of src/matched/CLACT_SetActorPosAxis.c: one axis of the actor's screen
  * position, axis 0 being x at +0x0c.  Both arms are a single load, so the body
  * if-converts to `ldrsheq`/`ldrshne`.
  *
  * The `ldrsh` is the signedness tell
  * (docs/idioms/ldrsh-register-offset-is-signedness.md, here in its
  * immediate-offset form): the stored field itself is u16, since
- * src/matched/sub_0204B53C.c reads the same two halfwords with plain `ldrh`,
+ * src/matched/CLACT_GetActorPos.c reads the same two halfwords with plain `ldrh`,
  * so the sign extension belongs to this function's s16 return type and not to
  * the struct.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B560.c \
- *       --func sub_0204B560 --addr 0x0204B560 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetActorPosAxis.c \
+ *       --func CLACT_GetActorPosAxis --addr 0x0204B560 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -41,7 +41,7 @@ struct Actor {
     struct Pt pos;
 };
 
-s16 sub_0204B560(const struct Actor *actor, u32 axis)
+s16 CLACT_GetActorPosAxis(const struct Actor *actor, u32 axis)
 {
     if (axis == 0) {
         return actor->pos.x;

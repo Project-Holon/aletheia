@@ -12,7 +12,7 @@
  * sdk:      gti2CreateSocket (libdwcgsgt2.TWL.HYB.a gt2socket.o)
  *
  * symbols:
- *   func_0217F25C  0x0217F25C  arm  ov009
+ *   SocketStartUp  0x0217F25C  arm  ov009
  *   func_021986C4  0x021986C4  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
  *   func_020923B0  0x020923B0  arm
@@ -62,7 +62,7 @@ struct SOCSockAddrIn {
     unsigned int addr;
 };
 
-extern void func_0217F25C(void);
+extern void SocketStartUp(void);
 extern int func_021986C4(char *string, unsigned int *ip, unsigned short *port);
 extern void *func_0217EAB0(unsigned long size);
 extern void *func_020923B0(void *dst, int c, unsigned int n);
@@ -93,7 +93,7 @@ int func_02197D94(struct GTI2Socket **sock, char *localAddress, int outgoingBuff
     unsigned short port;
     int len;
 
-    func_0217F25C();
+    SocketStartUp();
 
     if (!incomingBufferSize)
         incomingBufferSize = 0x10000;

@@ -12,7 +12,7 @@
  * symbols:
  *   ENV_SetResourceSet  0x020307B0  arm
  *   func_020452E8       0x020452E8  arm
- *   func_0202CA0C       0x0202CA0C  thumb
+ *   BGWINFRM_Delete       0x0202CA0C  thumb
  *   func_0202EA20       0x0202EA20  thumb
  *   func_0201C4C0       0x0201C4C0  thumb
  */
@@ -46,7 +46,7 @@ struct Descriptor;
 struct Obj0202EA20;
 struct PrintSys;
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_0202CA0C(struct WinMgr *mgr);
+extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern u32 func_0202EA20(struct Obj0202EA20 *p);
 extern void func_0201C4C0(struct PrintSys *p);
 
@@ -58,7 +58,7 @@ void func_021B796C(struct S *s)
     for (i = 0; i < s->count44; i++)
         func_020452E8((struct Descriptor *)((int)s->arr38[i].p));
     ENV_SetResourceSet(s->arr38);
-    func_0202CA0C(s->f3c);
+    BGWINFRM_Delete(s->f3c);
     if (s->cnt16 != 0) {
         for (i = 0; i < s->cnt16; i++)
             ENV_SetResourceSet(s->arr40[i]);

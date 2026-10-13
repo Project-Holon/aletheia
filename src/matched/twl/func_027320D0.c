@@ -11,9 +11,9 @@
  *
  * symbols:
  *   OS_GetMacAddress  0x02087C6C  arm
- *   func_021657C8  0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  *   func_021659B4  0x021659B4  arm  ov009
- *   func_02165A4C  0x02165A4C  arm  ov009
+ *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   func_021665CC  0x021665CC  arm  ov009
  *   NWM_End  0x02702A98  arm  twl
  *   NWM_UnloadDevice  0x02702BFC  arm  twl
@@ -50,6 +50,9 @@
  *   WcmNwmcbSetDCFData  0x02732CAC  arm
  *   WcmNwmcbSetDCFDataAsync  0x02732CEC  arm
  *   WcmEditScanExParam  0x02732B70  arm
+ *   WCMi_GetNextScanChannel  0x02165918  arm  ov009
+ *   WCMi_EntryApList  0x02165D04  arm  ov009
+ *   WCMi_GetCpsifWork  0x02166378  arm  ov009
  */
 
 typedef unsigned int u32;
@@ -133,11 +136,11 @@ typedef struct Pkt {
 } Pkt;
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern NetWork *func_021657C8(void);
+extern NetWork *WCMi_GetSystemWork(void);
 extern void func_020862B8(u32 buf, u32 len);
 extern int NWM_StartScanEx(void *cb, void *buf);
 extern u32 NWM_Init(u32 a0, u32 a1, u32 a2);
-extern void func_02165A4C(unsigned char phase);
+extern void WCMi_SetPhase(unsigned char phase);
 extern u32 NWM_LoadDevice(void *arg);
 extern u32 NWM_Close(void *arg);
 extern u32 NWM_SetWEPKey(void *a, u32 b, u32 c, void *d, u32 e);
@@ -147,15 +150,15 @@ extern u32 NWM_GetState(void);
 extern u32 NWM_End(void);
 extern u32 NWM_UnloadDevice(void *arg);
 extern u32 NWM_Disconnect(void *arg);
-extern NetObj *func_02166378(void);
+extern NetObj *WCMi_GetCpsifWork(void);
 extern u32 NWM_SendFrame(void *cb, u32 a, u32 b, u32 c);
 extern void OS_SleepThread(void *queue);
 extern void WcmNwmcbSetDCFDataAsync(void);
 extern u32 NWM_GetAllowedChannel(void);
 extern void func_021659B4(u32 a, void *b, u32 c, u32 d);
 extern void func_021659F8(u32 a, u32 b, u32 c, void *d, u32 e);
-extern void func_02165D04(u32 a, u32 b);
-extern u16 func_02165918(u16 a);
+extern void WCMi_EntryApList(u32 a, u32 b);
+extern u16 WCMi_GetNextScanChannel(u16 a);
 extern void func_020862D4(u32 buf, u32 len);
 extern u32 func_02080D24(u32 x);
 extern u32 NWM_Open(void *arg);
@@ -194,8 +197,8 @@ void WcmNwmcbSetDCFData(u16 *arg);
 extern u8 data_021A1988[];
 extern u8 data_021A1990[];
 
-extern NetWork *func_021657C8(void);
-extern void func_02165A4C(unsigned char phase);
+extern NetWork *WCMi_GetSystemWork(void);
+extern void WCMi_SetPhase(unsigned char phase);
 extern u32 NWM_End(void);
 extern u32 NWM_UnloadDevice(void *arg);
 extern void func_021659B4(u32 a, void *b, u32 c, u32 d);
@@ -211,7 +214,7 @@ void WcmNwmcbCommon(u16 *arg)
     u8 mac[6];
     u32 ret = 13;
     u32 flag;
-    NetWork *w = func_021657C8();
+    NetWork *w = WCMi_GetSystemWork();
 
     switch (arg[1]) {
     case 0:
@@ -221,17 +224,17 @@ void WcmNwmcbCommon(u16 *arg)
             break;
         case 4:
             if (NWM_End() == 0) {
-                func_02165A4C(1);
+                WCMi_SetPhase(1);
                 func_021659B4(0, 0, 0, 768);
                 return;
             }
-            func_02165A4C(11);
+            WCMi_SetPhase(11);
             func_021659B4(7, 0, 0, 777);
             return;
         case 5:
             OS_GetMacAddress(mac);
             func_021665CC(mac);
-            func_02165A4C(3);
+            WCMi_SetPhase(3);
             func_021659B4(0, 0, 0, 790);
             return;
         case 6:
@@ -255,21 +258,21 @@ void WcmNwmcbCommon(u16 *arg)
         case 2:
             return;
         case 6:
-            func_02165A4C(12);
+            WCMi_SetPhase(12);
             func_021659B4(1, w->phase == 5 ? w->buf : 0, 0, 842);
             return;
         case 3:
         default:
-            func_02165A4C(11);
+            WCMi_SetPhase(11);
             func_021659B4(7, w->phase == 5 ? w->buf : 0, 0, 851);
             return;
         }
     case 1:
-        func_02165A4C(12);
+        WCMi_SetPhase(12);
         func_021659B4(1, w->phase == 5 ? w->buf : 0, 0, 882);
         return;
     case 10:
-        func_02165A4C(11);
+        WCMi_SetPhase(11);
         func_021659B4(7, w->phase == 5 ? w->buf : 0, 0, 888);
         return;
     case 2:
@@ -281,7 +284,7 @@ void WcmNwmcbCommon(u16 *arg)
     case 8:
     case 9:
     default:
-        func_02165A4C(11);
+        WCMi_SetPhase(11);
         func_021659B4(7, w->phase == 5 ? w->buf : 0, 0, 901);
         return;
     }

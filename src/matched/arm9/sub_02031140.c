@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02031140
+ * function: TCBL_Destroy
  *
  * symbols:
  *   ENV_SetResourceSet  0x020307B0  arm
@@ -17,12 +17,12 @@
  * pointer stashed at +0x14 of the argument, then with the argument itself.
  * ENV_SetResourceSet is the recovered SDK symbol at 0x020307B0
  * (TwlSDK/libenv.TWL.HYB.a(env_system.o)); this whole packet's accessors
- * (sub_0202FBAC and neighbours) read the resource-set table that
+ * (GFL_HEAP_GetHeap and neighbours) read the resource-set table that
  * ENV_SetResourceSet installs.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02031140.c \
- *       --func sub_02031140 --addr 0x02031140 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TCBL_Destroy.c \
+ *       --func TCBL_Destroy --addr 0x02031140 --cc 1.1p1
  */
 
 struct S02031140 {
@@ -32,7 +32,7 @@ struct S02031140 {
 
 extern void ENV_SetResourceSet(void *p);
 
-void sub_02031140(struct S02031140 *p)
+void TCBL_Destroy(struct S02031140 *p)
 {
     ENV_SetResourceSet(p->field14);
     ENV_SetResourceSet(p);

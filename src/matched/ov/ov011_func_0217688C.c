@@ -1,5 +1,5 @@
 /*
- * function: func_0217688C
+ * function: INTRUDE_COMM_SetPendingValue
  * address:  0x0217688C
  * packet:   pkt_0217688C
  * region:   ov011
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_0217688C(u8 *a0, u8 a1)
+void INTRUDE_COMM_SetPendingValue(u8 *a0, u8 a1)
 {
     a0[0x8E0] = a1;
     a0[0x8E1] = 1;

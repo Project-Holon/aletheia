@@ -19,7 +19,7 @@
  *
  * symbols:
  *   g_EnvModule     0x02146954  data
- *   sub_0202FBAC    0x0202FBAC  arm
+ *   GFL_HEAP_GetHeap    0x0202FBAC  arm
  *   sub_02060E94    0x02060E94  arm
  *
  * Verified with:
@@ -42,7 +42,7 @@ struct EnvEntry {
 };
 
 extern struct EnvModule g_EnvModule;
-extern void *sub_0202FBAC(u32 idx);
+extern void *GFL_HEAP_GetHeap(u32 idx);
 typedef signed int     s32;
 struct Heap;
 extern s32 sub_02060E94(struct Heap *heap, s32 x);
@@ -55,7 +55,7 @@ void *sub_0203038C(u32 heapId)
         goto fail;
     }
     g_EnvModule.error = 0;
-    return (void *)sub_02060E94(sub_0202FBAC(heapId), 4);
+    return (void *)sub_02060E94(GFL_HEAP_GetHeap(heapId), 4);
 
 fail:
     return 0;

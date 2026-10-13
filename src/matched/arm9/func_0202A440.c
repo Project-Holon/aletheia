@@ -23,7 +23,7 @@
  *   func_02045CAC  0x02045CAC  arm
  *   func_02045C04  0x02045C04  arm
  *   func_02082A60  0x02082A60  arm
- *   func_0202428C  0x0202428C  thumb
+ *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -61,7 +61,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_02045C04(struct Rec *rec);
 extern void  func_02082A60(const void *src, void *dest, u32 size);
-extern void  func_0202428C(void *p);
+extern void  PMSI_PARAM_ClearSentence(void *p);
 extern u32 func_020307B0(void *p);
 
 void func_0202A440(u32 id, struct Out *out, u32 heap)
@@ -81,8 +81,8 @@ void func_0202A440(u32 id, struct Out *out, u32 heap)
     func_02045C04(bank);
 
     func_02082A60(t->f04, &out->f0c, 8);
-    func_0202428C(&out->f18);
-    func_0202428C(&out->f20);
+    PMSI_PARAM_ClearSentence(&out->f18);
+    PMSI_PARAM_ClearSentence(&out->f20);
 
     func_020307B0(t);
 }

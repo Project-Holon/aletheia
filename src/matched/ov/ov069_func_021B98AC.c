@@ -23,10 +23,10 @@
  *   func_02049B40  0x02049B40  arm
  *   func_020413B0  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
- *   func_0202C9B4  0x0202C9B4  thumb
- *   func_0202CA3C  0x0202CA3C  thumb
- *   func_0202CB18  0x0202CB18  thumb
- *   func_0202CB4C  0x0202CB4C  thumb
+ *   BGWINFRM_Create  0x0202C9B4  thumb
+ *   BGWINFRM_AddFrame  0x0202CA3C  thumb
+ *   BGWINFRM_SetFrameDataArcHandle  0x0202CB18  thumb
+ *   BGWINFRM_PutFrame  0x0202CB4C  thumb
  *   d_021BA66C     0x021BA66C  data  a4
  */
 #include "../include/Obj06170.h"
@@ -57,10 +57,10 @@ extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
-extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
-extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
-extern void func_0202CB18(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
+extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 
 void func_021B98AC(u8 *p)
 {
@@ -85,10 +85,10 @@ void func_021B98AC(u8 *p)
     func_02049238(arc2);
     func_02049B40(0x17, 5, 0, 0x1E0, 0x20, 0x80);
     func_02049B40(0x17, 5, 4, 0x1E0, 0x20, 0x80);
-    ((struct Obj06170 *)p)->f4 = func_0202C9B4(2, 10, 0x80);
+    ((struct Obj06170 *)p)->f4 = BGWINFRM_Create(2, 10, 0x80);
     for (i = 0; i < 10; i++) {
-        func_0202CA3C(((struct Obj06170 *)p)->f4, i, 1, 0xE, 4);
-        func_0202CB18(((struct Obj06170 *)p)->f4, i, arc, 3, 1);
-        func_0202CB4C(((struct Obj06170 *)p)->f4, i, d_021BA66C[i].x, d_021BA66C[i].y);
+        BGWINFRM_AddFrame(((struct Obj06170 *)p)->f4, i, 1, 0xE, 4);
+        BGWINFRM_SetFrameDataArcHandle(((struct Obj06170 *)p)->f4, i, arc, 3, 1);
+        BGWINFRM_PutFrame(((struct Obj06170 *)p)->f4, i, d_021BA66C[i].x, d_021BA66C[i].y);
     }
 }

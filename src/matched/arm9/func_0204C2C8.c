@@ -1,5 +1,5 @@
 /*
- * function: func_0204C2C8
+ * function: CLACT_CullOam
  * address:  0x0204C2C8
  * packet:   pkt_0204C2C8
  * region:   arm9
@@ -9,10 +9,10 @@
  * isa:      arm
  * status:   EXACT
  *
- * The OAM cull callback func_0204BE38 installs at element +0x40: read the
+ * The OAM cull callback CLACT_SetSurfaceCulling installs at element +0x40: read the
  * element's GXOamAttr attr01 word (+0x38), wrap x (9 bits) and y (8 bits),
  * size the object from the OBJ width/height tables indexed [shape][size],
- * and store func_0204C3CC's verdict into the element's visible flag (+0x30).
+ * and store CLACT_IsRectInView's verdict into the element's visible flag (+0x30).
  * box is the 2x2 matrix plus translation (f10/f14), p the viewport.
  *
  * Lever (wave 16, declaration facts): the two OBJ size tables are
@@ -25,7 +25,7 @@
  * symbols:
  *   tbl_020A17D8   0x020A17D8  data
  *   tbl_020A17F0   0x020A17F0  data
- *   func_0204C3CC  0x0204C3CC  arm
+ *   CLACT_IsRectInView  0x0204C3CC  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -71,7 +71,7 @@ extern const u16 tbl_020A17F0[4][4];
 
 struct C;
 struct M;
-extern int func_0204C3CC(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1, const struct M *m, const struct C *c);
+extern int CLACT_IsRectInView(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1, const struct M *m, const struct C *c);
 
 static inline s32 RepeatX(s16 x)
 {
@@ -96,7 +96,7 @@ static inline u16 SizeY(s32 shape)
     return tbl_020A17D8[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
 }
 
-void func_0204C2C8(struct Elem *e, struct Pair *p, s32 u2, s32 u3, struct Box *box)
+void CLACT_CullOam(struct Elem *e, struct Pair *p, s32 u2, s32 u3, struct Box *box)
 {
     s32 shape = e->oam.attr01 & 0xC000C000;
     s32 x0 = RepeatX(e->oam.x) << 12;
@@ -104,7 +104,7 @@ void func_0204C2C8(struct Elem *e, struct Pair *p, s32 u2, s32 u3, struct Box *b
     s32 y0 = RepeatY(e->oam.y) << 12;
     s32 y1 = (RepeatY(e->oam.y) + SizeY(shape)) << 12;
 
-    e->visible = func_0204C3CC(box->f10 - p->x, box->f14 - p->y,
+    e->visible = CLACT_IsRectInView(box->f10 - p->x, box->f14 - p->y,
                                x0, x1, y0, y1, (const struct M *)box, (const struct C *)p) != 0;
 }
 

@@ -13,7 +13,7 @@
  *   func_021F7D80  0x021F7D80  thumb  ov094
  *   func_021F7E38  0x021F7E38  thumb  ov094
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
- *   func_02031194  0x02031194  arm
+ *   TCBL_DeleteTask  0x02031194  arm
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -24,7 +24,7 @@ extern void func_021F7D80(void *a, int b);
 extern void func_021F7E38(void *a, int b);
 extern int func_021F7EB4(void);
 struct TcblNode;
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 
 void func_021ED724(u32 x, struct S *t)
 {
@@ -39,7 +39,7 @@ void func_021ED724(u32 x, struct S *t)
     case 1:
         if (func_021F7EB4() == 0) {
             (*t->cnt)--;
-            func_02031194((struct TcblNode *)x);
+            TCBL_DeleteTask((struct TcblNode *)x);
         }
         break;
     }

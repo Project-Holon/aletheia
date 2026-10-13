@@ -1,5 +1,5 @@
 /*
- * function: func_02173464
+ * function: INTRUDE_COMM_SyncPlayers
  * address:  0x02173464
  * packet:   pkt_ov011_02173464
  * region:   ov011
@@ -19,7 +19,7 @@
  *   func_021676E4  0x021676E4  thumb  ov010
  *   func_021677E4  0x021677E4  thumb  ov010
  *   func_02167848  0x02167848  thumb  ov010
- *   func_02174F54  0x02174F54  thumb  ov011
+ *   INTRUDE_COMM_StorePlayerRecord  0x02174F54  thumb  ov011
  *
  * Addresses are Black-image addresses.
  */
@@ -66,9 +66,9 @@ extern void func_021676E4(struct Work *w);
 extern int func_021677E4(void *p, int i);
 extern void func_02167848(char *a0, int a1, char *a2);
 struct Ent;
-extern void func_02174F54(u8 *p, int idx, const struct Ent *src, int arg);
+extern void INTRUDE_COMM_StorePlayerRecord(u8 *p, int idx, const struct Ent *src, int arg);
 
-void func_02173464(u8 *a0, Obj *p, int a2)
+void INTRUDE_COMM_SyncPlayers(u8 *a0, Obj *p, int a2)
 {
     int h;
     int me;
@@ -100,7 +100,7 @@ void func_02173464(u8 *a0, Obj *p, int a2)
     for (i = 0; i < 3; i++) {
         if (i != me && (p->mask & (1 << i))) {
             int hi = p->ents[i].hi;
-            func_02174F54((u8 *)p, i, (const struct Ent *)(&p->ents[i]), 0);
+            INTRUDE_COMM_StorePlayerRecord((u8 *)p, i, (const struct Ent *)(&p->ents[i]), 0);
             p->ents[i].hi = hi;
         }
     }

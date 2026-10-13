@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_021469D8   0x021469D8  data
+ *   _pCommandWork   0x021469D8  data
  */
 
 typedef unsigned int u32;
@@ -21,11 +21,11 @@ typedef struct {
     u32 fC;
 } Ent;
 
-extern Ent *g_021469D8;
+extern Ent *_pCommandWork;
 
 void func_0203A574(u32 a, u32 b, u32 c, u32 d)
 {
-    Ent *p = g_021469D8;
+    Ent *p = _pCommandWork;
     int i;
 
     if (p == 0) {
@@ -34,9 +34,9 @@ void func_0203A574(u32 a, u32 b, u32 c, u32 d)
     for (i = 0; i < 4; i++) {
         if (p[i].fC == 0 || p[i].fC == a) {
             p[i].fC = a;
-            g_021469D8[i].f0 = b;
-            g_021469D8[i].f4 = c;
-            g_021469D8[i].f8 = d;
+            _pCommandWork[i].f0 = b;
+            _pCommandWork[i].f4 = c;
+            _pCommandWork[i].f8 = d;
             return;
         }
     }

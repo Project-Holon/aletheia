@@ -31,77 +31,63 @@
  *   func_021C88B4  0x021C88B4  thumb  ov093
  *   func_021B9A24  0x021B9A24  thumb  ov093
  *   func_021E85F8  0x021E85F8  thumb  ov093
- *   sub_0201C1BC   0x0201C1BC  thumb
+ *   WAZA_TOOL_GetCategory   0x0201C1BC  thumb
  *   d_021F0AA0     0x021F0AA0  data   ov093  a4
  *   d_021F0AB8     0x021F0AB8  data   ov093  a4
  */
-#include "../../matched/include/Obj13478.h"
-#include "../../matched/include/Obj21330.h"
-#include "../../matched/include/Obj21331.h"
-#include "../../matched/include/Obj21333.h"
+#include "unit_021DB0E4_types.h"
 
-struct Unk021D62A8;
-struct QS;
-struct QI;
-struct S;
-typedef unsigned char u8;
+/* Ability handlers: Klutz, Sticky Hold, Pressure. */
 
-typedef unsigned short u16;
+#define KLUTZ_EXEMPT_ITEM_COUNT 13
+#define MOVE_NATURAL_GIFT 0x16B
+#define MOVE_TRICK 0x10F
+#define MOVE_SWITCHEROO 0x19F
+#define BTL_FAIL_REASON_ITEM_UNUSABLE 0x13
 
-typedef unsigned int u32;
+/* The work area of a Klutz factor. */
+typedef struct KlutzWork {
+    int skipCheckSet;
+    int pad04;
+    int moveBlocked;
+} KlutzWork;
 
-typedef signed char s8;
+extern int func_021D62C4(struct BtlPokeParam *bpp, int sickId);
+extern u16 func_021D5B40(struct BtlPokeParam *bpp);
+extern u32 WAZA_TOOL_GetCategory(u16 moveId);
+extern int func_0689C8DC(int moveId);
 
-typedef signed short s16;
-
-typedef signed int s32;
-
-extern void *func_021C7CF4(int *p, int i);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern unsigned char func_021D70AC(unsigned char *p);
-extern void func_021D7320(struct QS *p, u32 v);
-extern int func_021D775C(int);
-extern u16 func_021D5B40(struct QI *p);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *,void *);
-extern int func_021D76BC(int key, u32 val);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 v);
-extern void func_021C88B4(void *a, int k, int b);
-extern int func_021B9A24(u32 a, u32 b);
-extern int func_021E85F8(int c);
-extern u32 sub_0201C1BC(u16 move);
-extern int func_0689C8DC(int t);
-int func_021DB650(int a, int b, int c, int d, int e, u8 g);
-void func_021DB6A4(void *a, int b, int c, int *d);
-void func_021DB6C0(void *a,int b,int c,int *d);
-void func_021DB6E4(int a, int b, int c);
-void func_021DB6FC(int a,void *b,int c);
-void func_021DB734(int a, int b, int c, int d);
-void func_021DB774(void *a, void *p, int id, int *s);
-int *func_021DB7DC(int *p);
-void func_021DB7E8(void *a, void *p, int id);
-void func_021DB854(int a,int b,int c,int *d);
-void func_021DB87C(void *a, void *p, int id, int *s);
-int *func_021DB8D0(int *p);
-int *func_021DB8DC(int *p);
-void func_021DB8E8(void *a, void *p, int id);
-void func_021DB93C(int a, int b, int x);
+int func_021DB650(struct BtlEventFactor *other, struct BtlSvFlow *flow, int factorType, int eventId, unsigned short key, u8 ownerId);
+void func_021DB6A4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, KlutzWork *work);
+void func_021DB6C0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, KlutzWork *work);
+void func_021DB6E4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DB6FC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DB734(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, KlutzWork *work);
+void func_021DB774(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, KlutzWork *work);
+const BtlEventHandler *func_021DB7DC(int *handlerCount);
+void func_021DB7E8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DB854(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *messagePending);
+void func_021DB87C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *messagePending);
+const BtlEventHandler *func_021DB8D0(int *handlerCount);
+const BtlEventHandler *func_021DB8DC(int *handlerCount);
+void func_021DB8E8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DB93C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
 extern const u16 d_021F0B78[];
-extern int d_021F0D9C[];
-extern int d_021F0AA0[];
-extern int d_021F0AB8[];
+extern const BtlEventHandler d_021F0D9C[];
+extern const BtlEventHandler d_021F0AA0[];
+extern const BtlEventHandler d_021F0AB8[];
 
 
-int func_021DB650(int a, int b, int c, int d, int e, u8 g)
+/* Klutz skip check: item factors of the holder are skipped, except the items in the exempt list. */
+int func_021DB650(struct BtlEventFactor *other, struct BtlSvFlow *flow, int factorType, int eventId, unsigned short key, u8 ownerId)
 {
     u32 i;
 
-    if (func_021D62C4(func_021C7CF4((int *)b, g), 0x10) != 0)
+    if (func_021D62C4(func_021C7CF4(flow, ownerId), 0x10) != 0)
         return 0;
-    if (c == 5 && g == func_021D70AC((unsigned char *)a)) {
-        for (i = 0; i < 13; i++) {
-            if (e == d_021F0B78[i])
+    if (factorType == 5 && ownerId == func_021D70AC(other)) {
+        for (i = 0; i < KLUTZ_EXEMPT_ITEM_COUNT; i++) {
+            if (key == d_021F0B78[i])
                 return 0;
         }
         return 1;
@@ -110,157 +96,177 @@ int func_021DB650(int a, int b, int c, int d, int e, u8 g)
 }
 
 
-void func_021DB6A4(void *a, int b, int c, int *d)
+void func_021DB6A4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, KlutzWork *work)
 {
-    if (*d == 0) {
-        func_021D7320(a, (u32)func_021DB650);
-        *d = 1;
+    if (work->skipCheckSet == 0) {
+        func_021D7320(factor, (u32)func_021DB650);
+        work->skipCheckSet = 1;
     }
 }
 
 
-void func_021DB6C0(void *a,int b,int c,int *d) { if(c==func_021D775C(2)) func_021DB6A4(a,b,c,d); }
-
-
-/* 021DB6E4  shape F3: gate on func_021D775C(2) then func_021D7324 */
-/*
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r3, r4, r5, lr}; adds r5, r0, #0; movs r0, #2; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021DB6FA; adds r0, r5, #0; bl func_021D7324; pop {r3, r4, r5, pc}.
- */
-void func_021DB6E4(int a, int b, int c)
+void func_021DB6C0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, KlutzWork *work)
 {
-    if (c == func_021D775C(2))
-        func_021D7324(a);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID))
+        func_021DB6A4(factor, flow, pokeId, work);
 }
 
 
-void func_021DB6FC(int a,void *b,int c) { unsigned char *p; if(c==func_021D775C(2) && func_021D5B40(func_021C7CF4(b,c))) { p=func_021C88A4(b,0x21,c); p[4]=c; func_021C88C8(b,p); } }
-
-
-void func_021DB734(int a, int b, int c, int d)
+void func_021DB6E4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(2)) {
-        unsigned short t = (unsigned short)func_021D775C(0x12);
-        ((struct Obj13478 *)d)->f8 = 0;
-        if (t == 0x16b && c == func_021D775C(2))
-            ((struct Obj13478 *)d)->f8 = func_021D76BC(0x22, 0x13);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID))
+        func_021D7324(factor);
+}
+
+
+/* Klutz: tell the server flow that the held item of the holder changed its effect. */
+void func_021DB6FC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+{
+    HandExPokeNotice *cmd;
+
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID) && func_021D5B40(func_021C7CF4(flow, pokeId))) {
+        cmd = func_021C88A4(flow, HANDEX_POKE_NOTICE, pokeId);
+        cmd->pokeId = pokeId;
+        func_021C88C8(flow, cmd);
     }
 }
 
 
-void func_021DB774(void *a, void *p, int id, int *s)
+/* Klutz: Natural Gift fails when the holder uses it. */
+void func_021DB734(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, KlutzWork *work)
 {
-    u8 *r;
-
-    if (id == func_021D775C(2) && s[2] != 0) {
-        func_021D775C(2);
-        r = (u8 *)func_021C88A4(p, 4, id);
-        ((struct Obj21330 *)r)->f0 |= 0x800000;
-        func_021C8838(r + 4, 2, 0x389);
-        func_021C8860((struct S *)(r + 4), id);
-        func_021C8860((struct S *)(r + 4), func_021D775C(0x12));
-        func_021C88C8(p, r);
-        s[2] = 0;
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        unsigned short moveId = (unsigned short)func_021D775C(BTL_EVAR_MOVE_ID);
+        work->moveBlocked = 0;
+        if (moveId == MOVE_NATURAL_GIFT && pokeId == func_021D775C(BTL_EVAR_POKE_ID))
+            work->moveBlocked = func_021D76BC(BTL_EVAR_FAIL_REASON, BTL_FAIL_REASON_ITEM_UNUSABLE);
     }
 }
 
 
-int *func_021DB7DC(int *p)
+/* Klutz: show the message for the blocked move. */
+void func_021DB774(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, KlutzWork *work)
 {
-    *p = 7;
+    HandExMessage *msg;
+
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID) && work->moveBlocked != 0) {
+        func_021D775C(BTL_EVAR_POKE_ID);
+        msg = func_021C88A4(flow, HANDEX_MESSAGE, pokeId);
+        msg->header |= BTL_CMD_FLAG_FROM_ABILITY;
+        func_021C8838(&msg->str, 2, 0x389);
+        func_021C8860(&msg->str, pokeId);
+        func_021C8860(&msg->str, func_021D775C(BTL_EVAR_MOVE_ID));
+        func_021C88C8(flow, msg);
+        work->moveBlocked = 0;
+    }
+}
+
+
+const BtlEventHandler *func_021DB7DC(int *handlerCount)
+{
+    *handlerCount = 7;
     return d_021F0D9C;
 }
 
 
-void func_021DB7E8(void *a, void *p, int id)
+/* Sticky Hold: Trick and Switcheroo against the holder have no effect. */
+void func_021DB7E8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u16 t;
-    u8 *r;
+    u16 moveId;
+    HandExMessage *msg;
 
-    if (id == func_021D775C(4)) {
-        t = func_021D775C(0x12);
-        if (t == 0x10f || t == 0x19f) {
-            if (func_021D76BC(0x40, 1) != 0) {
-                r = (u8 *)func_021C88A4(p, 4, id);
-                ((struct Obj21331 *)r)->f0 |= 0x800000;
-                func_021C8838(r + 4, 2, 0xd2);
-                func_021C8860((struct S *)(r + 4), id);
-                func_021C88C8(p, r);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID)) {
+        moveId = func_021D775C(BTL_EVAR_MOVE_ID);
+        if (moveId == MOVE_TRICK || moveId == MOVE_SWITCHEROO) {
+            if (func_021D76BC(BTL_EVAR_NO_EFFECT_FLAG, 1) != 0) {
+                msg = func_021C88A4(flow, HANDEX_MESSAGE, pokeId);
+                msg->header |= BTL_CMD_FLAG_FROM_ABILITY;
+                func_021C8838(&msg->str, 2, 0xd2);
+                func_021C8860(&msg->str, pokeId);
+                func_021C88C8(flow, msg);
             }
         }
     }
 }
 
 
-void func_021DB854(int a,int b,int c,int *d) { if(c==func_021D775C(2) && func_021D775C(0x2d)==0) *d=func_021D76BC(0x41,1); }
-
-
-void func_021DB87C(void *a, void *p, int id, int *s)
+/* Sticky Hold: block the removal of the item of the holder when another poke causes it. */
+void func_021DB854(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *messagePending)
 {
-    u8 *r;
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID) && func_021D775C(BTL_EVAR_SELF_CAUSED_FLAG) == 0)
+        *messagePending = func_021D76BC(BTL_EVAR_PREVENT_FLAG, 1);
+}
 
-    if (id == func_021D775C(2) && s[0] != 0) {
-        r = (u8 *)func_021C88A4(p, 4, id);
-        ((struct Obj21333 *)r)->f0 |= 0x800000;
-        func_021C8838(r + 4, 2, 0x1ed);
-        func_021C8860((struct S *)(r + 4), id);
-        func_021C88C8(p, r);
-        s[0] = 0;
+
+void func_021DB87C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *messagePending)
+{
+    HandExMessage *msg;
+
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID) && *messagePending != 0) {
+        msg = func_021C88A4(flow, HANDEX_MESSAGE, pokeId);
+        msg->header |= BTL_CMD_FLAG_FROM_ABILITY;
+        func_021C8838(&msg->str, 2, 0x1ed);
+        func_021C8860(&msg->str, pokeId);
+        func_021C88C8(flow, msg);
+        *messagePending = 0;
     }
 }
 
 
-int *func_021DB8D0(int *p)
+const BtlEventHandler *func_021DB8D0(int *handlerCount)
 {
-    *p = 3;
+    *handlerCount = 3;
     return d_021F0AA0;
 }
 
 
-int *func_021DB8DC(int *p)
+const BtlEventHandler *func_021DB8DC(int *handlerCount)
 {
-    *p = 3;
+    *handlerCount = 3;
     return d_021F0AB8;
 }
 
 
-void func_021DB8E8(void *a, void *p, int id)
+/* Pressure: when the poke enters, show the ability window and the message. */
+void func_021DB8E8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 *r;
+    HandExMessage *msg;
 
-    if (id == func_021D775C(2)) {
-        func_021C88B4(p, 2, id);
-        r = (u8 *)func_021C88A4(p, 4, id);
-        func_021C8838(r + 4, 2, 0x1e7);
-        func_021C8860((struct S *)(r + 4), id);
-        func_021C88C8(p, r);
-        func_021C88B4(p, 3, id);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        func_021C88B4(flow, HANDEX_TOKWIN_IN, pokeId);
+        msg = func_021C88A4(flow, HANDEX_MESSAGE, pokeId);
+        func_021C8838(&msg->str, 2, 0x1e7);
+        func_021C8860(&msg->str, pokeId);
+        func_021C88C8(flow, msg);
+        func_021C88B4(flow, HANDEX_TOKWIN_OUT, pokeId);
     }
 }
 
 
-static inline void set8(int k, u8 v)
+static inline void overwriteVarU8(int key, u8 value)
 {
-    func_021D76BC(k, v);
+    func_021D76BC(key, value);
 }
 
 
-void func_021DB93C(int a, int b, int x)
+/* Pressure: a move of an opposing poke costs one more PP. */
+void func_021DB93C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    int ok;
-    u16 t;
+    int extraCost;
+    u16 moveId;
 
-    if (func_021B9A24((u8)func_021D775C(3), x) == 0) {
-        ok = 0;
-        if (func_021E85F8(x) != 0) {
-            ok = 1;
+    if (func_021B9A24((u8)func_021D775C(BTL_EVAR_ATTACKER_ID), pokeId) == 0) {
+        extraCost = 0;
+        if (func_021E85F8(pokeId) != 0) {
+            extraCost = 1;
         } else {
-            t = func_021D775C(0x12);
-            if (sub_0201C1BC(t) == 10)
-                ok = 1;
-            else if (func_0689C8DC(t) != 0)
-                ok = 1;
+            moveId = func_021D775C(BTL_EVAR_MOVE_ID);
+            if (WAZA_TOOL_GetCategory(moveId) == 10)
+                extraCost = 1;
+            else if (func_0689C8DC(moveId) != 0)
+                extraCost = 1;
         }
-        if (ok != 0)
-            set8(0x20, func_021D775C(0x20) + 1);
+        if (extraCost != 0)
+            overwriteVarU8(BTL_EVAR_VOLUME, func_021D775C(BTL_EVAR_VOLUME) + 1);
     }
 }

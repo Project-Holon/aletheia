@@ -1,5 +1,5 @@
 /*
- * function: func_0202C2EC
+ * function: ISS_SWITCH_SET_Create
  * address:  0x0202C2EC
  * packet:   pkt_0202C2EC
  * region:   arm9
@@ -9,21 +9,26 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Closed: func_0202C384 became an EXACT manifest entry, so the matched class attests the call at 0x0202C2F0.
+ * Closed: ISS_SWITCH_SET_Alloc became an EXACT manifest entry, so the matched class attests the call at 0x0202C2F0.
+ *
+ * symbols:
+ *   ISS_SWITCH_SET_Init  0x0202C360  thumb
+ *   ISS_SWITCH_SET_Alloc  0x0202C384  thumb
+ *   ISS_SWITCH_SET_CreateSwitches  0x0202C3A8  thumb
  */
 
 typedef unsigned int u32;
 
-extern void *func_0202C384(void *heap);
+extern void *ISS_SWITCH_SET_Alloc(void *heap);
 struct Obj0202C360;
-extern void func_0202C360(struct Obj0202C360 *p);
-extern void func_0202C3A8(char *p, int a1);
+extern void ISS_SWITCH_SET_Init(struct Obj0202C360 *p);
+extern void ISS_SWITCH_SET_CreateSwitches(char *p, int a1);
 
-u32 func_0202C2EC(void *heap)
+u32 ISS_SWITCH_SET_Create(void *heap)
 {
-    u32 r = (u32)func_0202C384(heap);
+    u32 r = (u32)ISS_SWITCH_SET_Alloc(heap);
 
-    func_0202C360((void *)r);
-    func_0202C3A8((char *)r, (int)heap);
+    ISS_SWITCH_SET_Init((void *)r);
+    ISS_SWITCH_SET_CreateSwitches((char *)r, (int)heap);
     return r;
 }

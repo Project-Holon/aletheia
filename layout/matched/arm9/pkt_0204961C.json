@@ -22,7 +22,7 @@
    ]
   },
   {
-   "name": "sub_02049658",
+   "name": "ARC_UTIL_UploadBgCharFromHandle",
    "address": "0x02049658",
    "kind": "game",
    "region": "arm9",
@@ -34,7 +34,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020498F4",
+   "name": "ARC_UTIL_UploadBgPaletteFromHandle",
    "address": "0x020498F4",
    "kind": "game",
    "region": "arm9",
@@ -57,8 +57,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02049B40",
-    "sub_02049B68"
+    "ARC_UTIL_UploadPaletteFromArchiveWhole",
+    "ARC_UTIL_UploadPaletteFromHandleWhole"
+   ],
+   "addresses": [
+    "0x02049B40",
+    "0x02049B68"
    ]
   }
  ]

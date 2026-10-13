@@ -1,5 +1,5 @@
 /*
- * function: sub_02014264
+ * function: ZONEDATA_SetGameStartLocation
  * address:  0x02014264
  * packet:   pkt_02014264
  * region:   arm9
@@ -23,14 +23,14 @@
  * range.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02014264.c \
- *       --func sub_02014264 --addr 0x02014264 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ZONEDATA_SetGameStartLocation.c \
+ *       --func ZONEDATA_SetGameStartLocation --addr 0x02014264 --cc 1.1p1 --thumb
  */
 
 struct t;
 extern void func_02014204(struct t *p, int id);
 
-void sub_02014264(void *p)
+void ZONEDATA_SetGameStartLocation(void *p)
 {
     func_02014204(p, 0x187);
 }

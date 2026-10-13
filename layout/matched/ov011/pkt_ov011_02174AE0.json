@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02174AE0",
+   "name": "INTRUDE_COMM_UpdateSeasonState",
    "address": "0x02174AE0",
    "kind": "game",
    "region": "ov011",

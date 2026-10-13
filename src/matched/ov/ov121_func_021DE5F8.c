@@ -10,7 +10,7 @@
  * symbols:
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0200FBB0 0x0200FBB0 thumb
- *   func_0200F83C 0x0200F83C thumb
+ *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
  *   func_0200FBA0 0x0200FBA0 thumb
  */
 typedef unsigned char u8;
@@ -18,5 +18,5 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
-extern void func_0200F83C(void),func_0200FBA0(void);
-int func_021DE5F8(void *a0) {int r=0; if(func_0200FB24()) {func_0200FBB0();func_0200F83C();func_0200FBA0();r=1;} return r;}
+extern void GFL_NET_ERR_ShowSimpleScreen(void),func_0200FBA0(void);
+int func_021DE5F8(void *a0) {int r=0; if(func_0200FB24()) {func_0200FBB0();GFL_NET_ERR_ShowSimpleScreen();func_0200FBA0();r=1;} return r;}

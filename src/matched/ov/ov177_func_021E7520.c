@@ -13,6 +13,9 @@
  *   func_021E78B0 0x021E78B0 thumb ov177
  *   func_021E7B68 0x021E7B68 thumb ov177
  *   func_021E7C3C 0x021E7C3C thumb ov177
+ *   PMS_DRAW_Create  0x0202DB0C  thumb  arm9
+ *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb  arm9
+ *   PMS_DRAW_SetFollowBgScroll  0x0202DE68  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,10 +37,10 @@ extern const char d_021E8DBC[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02082BCC(void *, int, u32);
 struct PmsDraw;
-extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
+extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 struct PmsDraw;
-extern void func_0202DE68(struct PmsDraw *p, u32 v);
-extern void func_0202DE5C(struct PmsDraw *p, u8 v);
+extern void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *p, u32 v);
+extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 extern u32 func_021E7CF0(void *, u32, u32);
 extern void func_021E78B0(Work *, const Record *, void *, void *, void *, void *, int, u16);
 struct Sub0200852CObj;
@@ -60,9 +63,9 @@ Work *func_021E7520(const Record *rec, void *a1, void *a2, void *a3, void *a4, v
     func_02082BCC(w, 0, 0x9c);
     w->owner = owner;
     w->mode = mode;
-    w->menu = func_0202DB0C((u32)a1, 0, (u32)a4, (u32)a3, 5, 1, heap);
-    func_0202DE68(w->menu, 1);
-    func_0202DE5C(w->menu, 0);
+    w->menu = PMS_DRAW_Create((u32)a1, 0, (u32)a4, (u32)a3, 5, 1, heap);
+    PMS_DRAW_SetFollowBgScroll(w->menu, 1);
+    PMS_DRAW_SetNullColorPalette(w->menu, 0);
     kind = func_021E7CF0(rec->f30, rec->f28, rec->f2c);
     alt = 0;
     if (mode - 2 <= 1)

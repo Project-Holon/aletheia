@@ -14,7 +14,7 @@
  * symbols:
  *   func_020640B0   0x020640B0  arm
  *   func_020640CC   0x020640CC  arm
- *   g_02148B20      0x02148B20  data
+ *   sCellTransferStateManager      0x02148B20  data
  *
  * Initialise cell `idx` of the bank at 0x02148B20: clear it with
  * func_020640B0, set each of the three channels whose argument is not the
@@ -42,7 +42,7 @@
  * THE 0x30 STRIDE is one `mla`, not a shift and an add: 0x30 is not a power
  * of two, so `mov r4, #0x30` / `mla r4, idx, r4, base` is the whole address
  * computation, and it is the inlined form of the cluster's out-of-line
- * accessor func_02066878 (0x02066878).
+ * accessor NNSi_G2dGetCellTransferState (0x02066878).
  *
  * Verified with:
  *   python3 tools/match.py one --src src/matched/func_02066890.c \
@@ -67,14 +67,14 @@ struct Bank02066890 {
     struct Rec02066890 *recs;
 };
 
-extern struct Bank02066890 g_02148B20;
+extern struct Bank02066890 sCellTransferStateManager;
 extern void func_020640B0(signed int *tbl);
 typedef signed int     s32;
 extern void func_020640CC(s32 *tbl, u32 i, u32 v);
 
 void func_02066890(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
 {
-    struct Rec02066890 *rec = &g_02148B20.recs[idx];
+    struct Rec02066890 *rec = &sCellTransferStateManager.recs[idx];
 
     func_020640B0((int *)rec);
 

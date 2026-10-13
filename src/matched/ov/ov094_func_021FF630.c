@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02015C94  0x02015C94  thumb
+ *   MCSS_GetScale  0x02015C94  thumb
  *   func_021F935C  0x021F935C  thumb  ov094
  *   func_0220074C  0x0220074C  thumb  ov094
  *   func_02200A84  0x02200A84  thumb  ov094
@@ -51,7 +51,7 @@ typedef struct {
 } VecFx32;
 
 extern int func_022019F4(char *p, int key);
-extern void func_02015C94(void *p, u32 *out);
+extern void MCSS_GetScale(void *p, u32 *out);
 extern int func_021F935C(int x);
 extern void func_0220074C(Work *w, int i, int kind, VecFx32 *p, VecFx32 *q, int n,
                           int f48, int f4c, void *fn, void (*cb)(void *), int flip, u8 f50);
@@ -67,7 +67,7 @@ void func_021FF630(Work *w, int i, int kind, VecFx32 *q, int n, int f48, int f4c
         return;
     if (w->e[idx].h == 0)
         return;
-    func_02015C94(w->e[idx].h, (u32 *)(&cur));
+    MCSS_GetScale(w->e[idx].h, (u32 *)(&cur));
     w->cnt[i]++;
     func_0220074C(w, i, kind, &cur, q, n, f48, f4c, (void *)func_02200A84, func_02200B10, 0, w->cnt[i]);
     w->mask |= func_021F935C(i);

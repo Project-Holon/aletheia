@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020339D0",
+   "name": "SAVEDATA_InitBuffer",
    "address": "0x020339D0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02033A3C",
+   "name": "SAVEDATA_QueryBlockSize",
    "address": "0x02033A3C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02033B68",
+   "name": "SAVEDATA_GetBlockOffset",
    "address": "0x02033B68",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02033BAC",
+   "name": "SAVEDATA_GetBlockSize",
    "address": "0x02033BAC",
    "kind": "game",
    "region": "arm9",
@@ -66,8 +66,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02033BF0",
-    "sub_02033BF8"
+    "SAVEDATA_GetTableMax",
+    "SAVEDATA_GetTotalSize"
+   ],
+   "addresses": [
+    "0x02033BF0",
+    "0x02033BF8"
    ]
   },
   {
@@ -82,7 +86,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02033C9C"
+    "AREAMAN_Delete"
+   ],
+   "addresses": [
+    "0x02033C9C"
    ]
   },
   {
@@ -97,11 +104,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020344C4"
+    "AREAMAN_TraceByte"
+   ],
+   "addresses": [
+    "0x020344C4"
    ]
   },
   {
-   "name": "sub_02034508",
+   "name": "AREAMAN_TraceAlloc",
    "address": "0x02034508",
    "kind": "game",
    "region": "arm9",
@@ -113,7 +123,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02034520",
+   "name": "VMAN_GetBankSetSize",
    "address": "0x02034520",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_020213C0
+ * function: PALANM_IsColorCodeKnown
  * address:  0x020213C0
  * packet:   pkt_020213C0
  * region:   arm9
@@ -8,22 +8,22 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * blocker:  +001C ABS32 sub_0209E968_Map       : 0209E968 (data, from header) has no witness outside 020213C0..020213E0
+ * blocker:  +001C ABS32 sPalAnmColorCodeTable       : 0209E968 (data, from header) has no witness outside 020213C0..020213E0
  * symbols:
- *   sub_0209E968_Map  0x0209E968  data
+ *   sPalAnmColorCodeTable  0x0209E968  data
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 sub_0209E968_Map[];
+extern u16 sPalAnmColorCodeTable[];
 
-int func_020213C0(u32 a)
+int PALANM_IsColorCodeKnown(u32 a)
 {
     u32 i;
 
     for (i = 0; i < 0x40; i++)
-        if (sub_0209E968_Map[i] == a)
+        if (sPalAnmColorCodeTable[i] == a)
             return 1;
     return 0;
 }

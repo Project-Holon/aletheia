@@ -1,5 +1,5 @@
 /*
- * function: func_0202B93C
+ * function: ISS_3DS_SYS_SetCamera
  * address:  0x0202B93C
  * packet:   pkt_0202B93C
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202BA9C  0x0202BA9C  thumb
+ *   ISS_3DS_SYS_SetCameraImpl  0x0202BA9C  thumb
  */
 
-extern void func_0202BA9C(char *p, const int *a, const int *b);
+extern void ISS_3DS_SYS_SetCameraImpl(char *p, const int *a, const int *b);
 
-void func_0202B93C(int a, void *b, void *c)
+void ISS_3DS_SYS_SetCamera(int a, void *b, void *c)
 {
-    func_0202BA9C((char *)a, b, c);
+    ISS_3DS_SYS_SetCameraImpl((char *)a, b, c);
 }

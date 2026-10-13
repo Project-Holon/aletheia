@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02051A3C
+ * function: BUTTON_MAN_Func1A3C
  * address:  0x02051A3C
  * packet:   pkt_02051648
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-unsigned int func_02051A3C(int a0, int a1, int a2, int a3){ int t0 = func_020614D4((int)a0, (int)a1, (int)0); return ((unsigned int)((t0 << 0x10)) >> 0xd); }
+unsigned int BUTTON_MAN_Func1A3C(int a0, int a1, int a2, int a3){ int t0 = func_020614D4((int)a0, (int)a1, (int)0); return ((unsigned int)((t0 << 0x10)) >> 0xd); }

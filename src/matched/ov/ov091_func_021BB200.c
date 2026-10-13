@@ -17,7 +17,7 @@
  *   struct Item { int x; int y; u8 pad_08[0x40]; };
  *   struct Owner { u8 pad_00[0x98]; struct Item *items; };
  *   struct Pt { s16 x; s16 y; };
- *   void sub_0204B09C(struct Owner *owner, u32 index, struct Pt *in)
+ *   void CLACT_SetSurfacePos(struct Owner *owner, u32 index, struct Pt *in)
  *   {
  *       int x = in->x;
  *       int y = in->y;

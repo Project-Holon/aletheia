@@ -1,5 +1,5 @@
 /*
- * function: func_0202ABD0
+ * function: ISS_CITY_SYS_FreeUnits
  * address:  0x0202ABD0
  * packet:   pkt_0202AB7C
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0202AF28  0x0202AF28  thumb
+ *   ISS_CITY_UNIT_Delete  0x0202AF28  thumb
  *   sub_020307B0   0x020307B0  arm
  */
 
@@ -22,16 +22,16 @@ struct Obj {
     u8 count;
 };
 
-extern void func_0202AF28(void *item);
+extern void ISS_CITY_UNIT_Delete(void *item);
 extern u32 sub_020307B0(void *p);
 
-void func_0202ABD0(struct Obj *obj)
+void ISS_CITY_SYS_FreeUnits(struct Obj *obj)
 {
     int i;
     int count = obj->count;
 
     for (i = 0; i < count; i++) {
-        func_0202AF28(obj->arr[i]);
+        ISS_CITY_UNIT_Delete(obj->arr[i]);
     }
     sub_020307B0(obj->arr);
     obj->arr = 0;

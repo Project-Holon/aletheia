@@ -1,5 +1,5 @@
 /*
- * function: func_020163B4
+ * function: MCSS_SetSysFlag
  * address:  0x020163B4
  * packet:   pkt_020163B4
  * region:   arm9
@@ -21,7 +21,7 @@ typedef struct {
     unsigned int b1 : 1;
 } Obj;
 
-void func_020163B4(Obj *p, int v)
+void MCSS_SetSysFlag(Obj *p, int v)
 {
     p->b1 = v;
 }

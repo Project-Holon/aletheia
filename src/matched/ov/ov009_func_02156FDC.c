@@ -1,5 +1,5 @@
 /*
- * function: func_02156FDC
+ * function: DWC_RAPCOMMON_Free
  * address:  0x02156FDC
  * packet:   pkt_ov009_02156FDC
  * region:   ov009
@@ -19,7 +19,7 @@
  *   func_02087988  0x02087988  arm
  *   func_0208799C  0x0208799C  arm
  *   func_02060E30  0x02060E30  arm
- *   func_0203C9AC  0x0203C9AC  arm
+ *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  */
 
 #include "../include/G_Obj.h"
@@ -49,9 +49,9 @@ extern u32 func_02087988(void);
 extern void func_0208799C(u32 h);
 struct ExpHeap;
 extern void func_02060E30(struct ExpHeap *heap, void *block);
-extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
+extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 
-void func_02156FDC(u32 a, void *p, int b)
+void DWC_RAPCOMMON_Free(u32 a, void *p, int b)
 {
     u32 h;
 
@@ -66,7 +66,7 @@ void func_02156FDC(u32 a, void *p, int b)
             d_021A8268->f14--;
             return;
         }
-        func_0203C9AC(0, 0, 0, 0x3EE);
+        GFL_NET_STATE_SetError(0, 0, 0, 0x3EE);
         return;
     }
     h = func_02087988();

@@ -17,7 +17,7 @@
  *   func_0219F6C8  0x0219F6C8  arm  ov009
  *   func_0219E900  0x0219E900  arm  ov009
  *   func_0219E9D8  0x0219E9D8  arm  ov009
- *   func_0219E9AC  0x0219E9AC  arm  ov009
+ *   SBServerSetFlags  0x0219E9AC  arm  ov009
  *   func_0219F638  0x0219F638  arm  ov009
  *   func_0217F264  0x0217F264  arm  ov009
  *   func_0217EB2C  0x0217EB2C  arm  ov009
@@ -48,7 +48,7 @@ struct SBL;
 extern int func_0219F6C8(struct SBL *slist, unsigned int ip, unsigned short port);
 extern struct SBServer *func_0219E900(int unused, unsigned int publicip, unsigned short publicport);
 extern int func_0219E9D8(int v);
-extern void func_0219E9AC(unsigned char *p, unsigned char v);
+extern void SBServerSetFlags(unsigned char *p, unsigned char v);
 extern void func_0219F638(struct SBServerList *slist, struct SBServer *server);
 extern unsigned int func_0217F264(void);
 extern int func_0217EB2C(int sock);
@@ -74,7 +74,7 @@ int func_021A1804(SBServerList *slist)
         server = func_0219E900((int)slist, saddr.addr, saddr.port);
         if (func_0219E9D8((int)server))
             return 5;
-        func_0219E9AC((unsigned char *)server, 0x11);
+        SBServerSetFlags((unsigned char *)server, 0x11);
         func_0219F638(slist, server);
     }
     if (func_0217F264() - slist->lanstarttime > 2000) {

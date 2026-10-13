@@ -17,7 +17,7 @@
  *   func_02045730 0x02045730 arm
  *   func_02045770 0x02045770 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_02031194 0x02031194 arm
+ *   TCBL_DeleteTask 0x02031194 arm
  */
 #include "../include/Obj06136.h"
 #include "../include/Obj06137.h"
@@ -37,7 +37,7 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 struct TcblNode;
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 
 void func_021F20E4(void *task, char *q)
 {
@@ -59,6 +59,6 @@ void func_021F20E4(void *task, char *q)
         r = *(int * *)&((struct Obj06136 *)q)->fC;
         if (r != 0)
             (*r)--;
-        func_02031194(task);
+        TCBL_DeleteTask(task);
     }
 }

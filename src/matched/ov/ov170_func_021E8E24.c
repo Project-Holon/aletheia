@@ -13,7 +13,7 @@
  *   func_021ED55C 0x021ED55C thumb ov170
  *   func_020216D4 0x020216D4 thumb
  *   func_020056BC 0x020056BC thumb
- *   func_0202173C 0x0202173C thumb
+ *   PALANM_RequestFade 0x0202173C thumb
  *   func_021DED58 0x021DED58 thumb ov170
  *   func_02007838 0x02007838 thumb
  *   func_021EDAB0 0x021EDAB0 thumb ov170
@@ -29,7 +29,7 @@ extern void func_021ED55C(char **p, int flag);
 struct PalAnmSlot;
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern u32 func_020056BC(void);
-extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
+extern int PALANM_RequestFade(void *, u16, u16, s16, u8, u8, u16, void *);
 extern void func_021DED58(char *, int);
 extern void func_02007838(void *save, u32 box, u8 v);
 extern void func_021EDAB0(char *, int);
@@ -42,7 +42,7 @@ int func_021E8E24(char *p)
     case 0:
         func_021ED55C((char **)p, 0);
         func_020216D4(*(void **)(W + 0x6c), 0, 0, 0x200);
-        func_0202173C(*(void **)(W + 0x6c), 1, 0xc000, 0, 0, 16, 0x7fff, (void *)func_020056BC());
+        PALANM_RequestFade(*(void **)(W + 0x6c), 1, 0xc000, 0, 0, 16, 0x7fff, (void *)func_020056BC());
         ((struct Obj00000 *)p)->f28 = 0x66;
         S++;
         return 3;
@@ -53,7 +53,7 @@ int func_021E8E24(char *p)
         S++;
         break;
     case 2:
-        func_0202173C(*(void **)(W + 0x6c), 1, 0xc000, 0, 16, 0, 0x7fff, (void *)func_020056BC());
+        PALANM_RequestFade(*(void **)(W + 0x6c), 1, 0xc000, 0, 16, 0, 0x7fff, (void *)func_020056BC());
         ((struct Obj00000 *)p)->f28 = 0x66;
         S++;
         return 3;

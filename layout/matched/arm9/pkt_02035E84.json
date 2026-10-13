@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02035E84",
+   "name": "TOUCHPANEL_SetPoint",
    "address": "0x02035E84",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02035EB0",
+   "name": "TOUCHPANEL_SetTrg",
    "address": "0x02035EB0",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02035ECC",
+   "name": "TOUCHPANEL_SetCont",
    "address": "0x02035ECC",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020360A8",
+   "name": "KEY_Main",
    "address": "0x020360A8",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02036254",
+   "name": "KEY_SetRepeatSpeedSys",
    "address": "0x02036254",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02036290",
+   "name": "KEY_SetControlModeTableSys",
    "address": "0x02036290",
    "kind": "game",
    "region": "arm9",

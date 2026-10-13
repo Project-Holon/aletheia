@@ -10,14 +10,14 @@
  * symbols:
  *   func_02213754 0x02213754 thumb ov199
  *   func_02213800 0x02213800 thumb ov199
- *   func_0200F7B8 0x0200F7B8 thumb
+ *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  */
 #include "../include/Obj08367.h"
 struct S;
 extern int func_02213754(struct S *s);
 extern int func_02213800(char *p);
 typedef unsigned int   u32;
-extern u32 func_0200F7B8(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 int func_022126F4(int unused,int *state,int unused2,char *p)
 {
     switch(*state) {
@@ -26,7 +26,7 @@ int func_022126F4(int unused,int *state,int unused2,char *p)
         if(((struct Obj08367 *)p)->f1CC) --((struct Obj08367 *)p)->f1CC;
         {
             int x=func_02213800((char *)(((struct Obj08367 *)p)->f18));
-            if(x==2 || x==0) func_0200F7B8(0);
+            if(x==2 || x==0) GFL_NET_ERR_ShowScreen(0);
         }
         break;
     case 1: return 1;

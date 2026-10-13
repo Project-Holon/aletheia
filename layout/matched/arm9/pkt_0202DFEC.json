@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202DFEC",
+   "name": "PMS_DRAW_CreateDecoActor",
    "address": "0x0202DFEC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202E040",
+   "name": "PMS_DRAW_PlaceDecoActor",
    "address": "0x0202E040",
    "kind": "game",
    "region": "arm9",

@@ -1,7 +1,7 @@
 /*
  * file:     unit_0207AAF8.c
  * unit:     yes
- * function: func_0207AAF8, func_0207AB00, func_0207AB08
+ * function: FSi_ReadDummyCallback, FSi_WriteDummyCallback, FSi_SeekDummyCallback
  * address:  0x0207AAF8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -12,14 +12,14 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-int func_0207AAF8(void);
-int func_0207AB00(void);
-int func_0207AB08(void);
+int FSi_ReadDummyCallback(void);
+int FSi_WriteDummyCallback(void);
+int FSi_SeekDummyCallback(void);
 
 /*
  * sdk:      FSi_ReadDummyCallback (libfs.TWL.HYB.a fs_proc_rom.o, static; no catalog row, named by the ABS32 relocation of its caller)
  */
-int func_0207AAF8(void)
+int FSi_ReadDummyCallback(void)
 {
     return 4;
 }
@@ -27,12 +27,12 @@ int func_0207AAF8(void)
 /*
  * sdk:      FSi_WriteDummyCallback (libfs.TWL.HYB.a fs_proc_rom.o, static; no catalog row, named by the ABS32 relocation of its caller)
  */
-int func_0207AB00(void)
+int FSi_WriteDummyCallback(void)
 {
     return 4;
 }
 
-int func_0207AB08(void)
+int FSi_SeekDummyCallback(void)
 {
     return 0;
 }

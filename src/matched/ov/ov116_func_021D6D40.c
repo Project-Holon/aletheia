@@ -12,7 +12,7 @@
  * blocker: 02012EF0 verified EXACT12 in B10/12EF0-proof.log, no region,
  * fixed dsi/1.1p1 -O4,p Thumb; copied prior 6CBC blocker, owner the integrator.
  *   extern int func_020071CC(void *, int);
- *   int func_02012EF0(void **p) { return func_020071CC(*p, 58); }
+ *   int GAME_DATA_GetSaveBlock3A(void **p) { return func_020071CC(*p, 58); }
  * evidence: 084F4 is bx lr and preserves its incoming pointer in r0;
  * caller consumes it despite the matched callee's void signature.
  * evidence: 08550's matched body returns zero-extended byte +1d;
@@ -26,7 +26,7 @@
  *   func_02012EBC 0x02012EBC thumb
  *   func_02009470 0x02009470 thumb
  *   func_0201283C 0x0201283C thumb
- *   func_02012EF0 0x02012EF0 thumb
+ *   GAME_DATA_GetSaveBlock3A 0x02012EF0 thumb
  *   func_0200E6F0 0x0200E6F0 thumb
  *   func_02082BCC 0x02082BCC arm
  *   func_020084F4 0x020084F4 thumb
@@ -56,7 +56,7 @@ struct Sub02009470Obj;
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern u32 func_0201283C(const struct BigObj *p);
-extern void *func_02012EF0(void **p);
+extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern void *func_0200E6F0(u32);
 extern void func_02082BCC(void *, u8, u32);
 extern const void *func_020084F4(const void *p);
@@ -78,7 +78,7 @@ void func_021D6D40(u8 *p, void *save, void *idx)
     profile = func_02012EBC(save);
     func_02009470(profile);
     func_0201283C(save);
-    n = func_02012EF0(save);
+    n = GAME_DATA_GetSaveBlock3A(save);
     object = func_0200E6F0((u32)profile);
     func_02082BCC(p, 0, 240);
     func_02082D44(func_020084F4(idx), p + 0xb4, 16);

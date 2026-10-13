@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02023AAC
+ * function: WIPE_SUB_ShutterExit
  * address:  0x02023AAC
  * packet:   pkt_02023A50
  * region:   arm9
@@ -13,4 +13,4 @@
 
 struct Obj;
 
-void func_02023AAC(struct Obj *obj){ }
+void WIPE_SUB_ShutterExit(struct Obj *obj){ }

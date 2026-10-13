@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02021ED8   0x02021ED8  thumb
+ *   PALANM_GetFadeRequestBits   0x02021ED8  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02021ED8(const char *ptr);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
 u32 func_02210408(u8 *p)
 {
-    if (func_02021ED8((const char *)(((struct Obj25238 *)p)->f1D8)) == 0) {
+    if (PALANM_GetFadeRequestBits((const char *)(((struct Obj25238 *)p)->f1D8)) == 0) {
         return 0x21;
     }
     return 0x20;

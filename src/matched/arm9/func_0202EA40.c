@@ -1,5 +1,5 @@
 /*
- * function: func_0202EA40
+ * function: BLINK_PALANM_Update
  * address:  0x0202EA40
  * packet:   pkt_0202EA40
  * region:   arm9
@@ -27,7 +27,7 @@
  * `(r << 10) | (g << 5) | bl` evaluates green before blue.
  *
  * EXACT* because the listing extent runs 8 bytes long: the unlabelled leaf
- * at 0x0202EB04 (src/matched/func_0202EB04.c) follows the pool word.
+ * at 0x0202EB04 (src/matched/BLINK_PALANM_ResetPhase.c) follows the pool word.
  */
 
 typedef unsigned char u8;
@@ -49,7 +49,7 @@ struct Row {
 extern s16 g_020A1B38[];
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-s32 func_0202EA40(struct Row *p)
+s32 BLINK_PALANM_Update(struct Row *p)
 {
     s32 scale;
     u32 i;

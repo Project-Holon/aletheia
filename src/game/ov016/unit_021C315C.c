@@ -24,7 +24,7 @@
  *   func_021D5580  0x021D5580  arm  ov016
  *   func_021C11D4  0x021C11D4  arm  ov016
  *   func_021C3358  0x021C3358  arm  ov016
- *   func_021C3280  0x021C3280  arm  ov016
+ *   DWCi_SceneOptMovComm_procScene  0x021C3280  arm  ov016
  */
 typedef unsigned short u16;
 
@@ -44,7 +44,7 @@ extern void func_021D603C(int lcd, int plane);
 extern int func_021D5580(int lcd);
 extern void func_021C11D4(unsigned int v);
 extern void func_021C3358(int state);
-extern void func_021C3280(void);
+extern void DWCi_SceneOptMovComm_procScene(void);
 void func_021C315C(void);
 void func_021C3194(void);
 void func_021C3214(void);
@@ -92,5 +92,5 @@ void func_021C3250(void)
 	if (func_021D5580(0))
 		return;
 	func_021C11D4((unsigned int)func_021C3358);
-	func_021C0E40((unsigned int)func_021C3280);
+	func_021C0E40((unsigned int)DWCi_SceneOptMovComm_procScene);
 }

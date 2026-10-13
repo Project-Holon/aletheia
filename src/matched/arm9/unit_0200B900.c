@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200B900, func_0200B908, func_0200B910, func_0200B91C,
- *           func_0200B928, func_0200B934
+ * function: BATTLE_REC_Decode, BATTLE_REC_Encode, BATTLE_REC_GetWork, BATTLE_REC_GetBody,
+ *           BATTLE_REC_GetHeader, BATTLE_REC_GetHeaderOf
  *
  * 56 bytes, 0x0200B900..0x0200B938, 6 functions, none of which carries a
  * label in the generated listing.
@@ -30,14 +30,14 @@
  * call that names its arguments, even when every one of them is already in
  * the right register, comes out as `push {r3, lr}; blx; pop {r3, pc}`, which
  * is four instructions and eight bytes wrong.  The callers do pass four
- * arguments through func_0200B900 (func_0200B938 sets r0 through r3 before
+ * arguments through BATTLE_REC_Decode (BATTLE_REC_SetData sets r0 through r3 before
  * the `bl`), so the forwarding is real and is simply not expressible here.
  * See docs/idioms/tail-call-is-a-pool-word-and-bx.md.
  *
  * symbols:
  *   func_0203F37C  0x0203F37C  arm
  *   func_0203F328  0x0203F328  arm
- *   gObj_0214616C  0x0214616C  data
+ *   pBattleRec  0x0214616C  data
  */
 
 typedef unsigned char  u8;
@@ -53,34 +53,34 @@ struct ObjC4 {
     u8 unkC4[0x44];
 };
 
-extern struct ObjC4 *gObj_0214616C;
+extern struct ObjC4 *pBattleRec;
 
-void func_0200B900(void *a, u32 b, u32 c)
+void BATTLE_REC_Decode(void *a, u32 b, u32 c)
 {
     func_0203F37C(a, b, c);
 }
 
-void func_0200B908(void *a, u32 b, u32 c)
+void BATTLE_REC_Encode(void *a, u32 b, u32 c)
 {
     func_0203F328(a, b, c);
 }
 
-struct ObjC4 *func_0200B910(void)
+struct ObjC4 *BATTLE_REC_GetWork(void)
 {
-    return gObj_0214616C;
+    return pBattleRec;
 }
 
-u8 *func_0200B91C(void)
+u8 *BATTLE_REC_GetBody(void)
 {
-    return gObj_0214616C->unkC4;
+    return pBattleRec->unkC4;
 }
 
-u8 *func_0200B928(void)
+u8 *BATTLE_REC_GetHeader(void)
 {
-    return gObj_0214616C->unk80;
+    return pBattleRec->unk80;
 }
 
-u8 *func_0200B934(struct ObjC4 *p)
+u8 *BATTLE_REC_GetHeaderOf(struct ObjC4 *p)
 {
     return p->unk80;
 }

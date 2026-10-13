@@ -1,5 +1,5 @@
 /*
- * function: func_02036270
+ * function: KEY_SetRepeatSpeed
  * address:  0x02036270
  * packet:   pkt_02036270
  * region:   arm9
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   KEY_SetRepeatSpeedSys  0x02036254  arm
  */
 
-int func_02036270(int a0, int a1){ int t0, t1; t0 = func_02035224(); t1 = func_02036254((int)t0, (int)a0, (int)a1); return t1; }
+int KEY_SetRepeatSpeed(int a0, int a1){ int t0, t1; t0 = func_02035224(); t1 = KEY_SetRepeatSpeedSys((int)t0, (int)a0, (int)a1); return t1; }

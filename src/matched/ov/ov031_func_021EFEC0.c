@@ -21,10 +21,10 @@
  *   func_021F04EC  0x021F04EC  thumb  ov031
  *   func_021F0378  0x021F0378  thumb  ov031
  *   func_02049238  0x02049238  arm
- *   func_0202DB0C  0x0202DB0C  thumb
- *   func_0202DE5C  0x0202DE5C  thumb
+ *   PMS_DRAW_Create  0x0202DB0C  thumb
+ *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb
  *   func_02026474  0x02026474  thumb
- *   func_02173940  0x02173940  thumb  ov012
+ *   UNION_MAIN_GetAppealNo  0x02173940  thumb  ov012
  *   func_021F09A0  0x021F09A0  thumb  ov031
  *   func_0204B6F4  0x0204B6F4  arm
  *   func_0203D34C  0x0203D34C  arm
@@ -53,10 +53,10 @@ extern void func_021F0490(char *p, u32 heap);
 extern void func_021F04EC(int *p, void *h);
 extern void func_021F0378(u32 *p);
 extern void func_02049238(void *h);
-extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
-extern void func_0202DE5C(struct PmsDraw *p, u8 v);
+extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
+extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 extern u32 func_02026474(void *obj);
-extern u8 func_02173940(u8 *p);
+extern u8 UNION_MAIN_GetAppealNo(u8 *p);
 extern void func_021F09A0(void *a, char *b);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0203D34C(u32 a, u32 b);
@@ -85,11 +85,11 @@ u32 *func_021EFEC0(void *a)
     func_021F04EC((int *)w, h);
     func_021F0378(w);
     func_02049238(h);
-    w[0x1F] = (u32)func_0202DB0C(w[5], 1, w[0x10], w[0x11], 9, 3, 0x15);
-    func_0202DE5C((void *)w[0x1F], 0);
+    w[0x1F] = (u32)PMS_DRAW_Create(w[5], 1, w[0x10], w[0x11], 9, 3, 0x15);
+    PMS_DRAW_SetNullColorPalette((void *)w[0x1F], 0);
     q = (u8 *)func_02026474(s);
     if (q != 0) {
-        *((u8 *)w + 0x30) = func_02173940(q);
+        *((u8 *)w + 0x30) = UNION_MAIN_GetAppealNo(q);
         func_021F09A0(w, (char *)(q + 0x30E0));
         if (*((u8 *)w + 0x30) != 0) {
             for (i = 0; (i < 5) ? 1 : 0; i++) {

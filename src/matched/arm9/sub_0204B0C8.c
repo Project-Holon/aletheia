@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204B0C8
+ * function: CLACT_GetSurfacePos
  * address:  0x0204B0C8
  * packet:   pkt_0204B0C8
  * region:   arm9
@@ -22,8 +22,8 @@
  * point, and the caller gets them as a pair of whole-pixel s16 values.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B0C8.c \
- *       --func sub_0204B0C8 --addr 0x0204B0C8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetSurfacePos.c \
+ *       --func CLACT_GetSurfacePos --addr 0x0204B0C8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -46,7 +46,7 @@ struct Pt {
     s16 y;
 };
 
-void sub_0204B0C8(struct Owner *owner, u32 index, struct Pt *out)
+void CLACT_GetSurfacePos(struct Owner *owner, u32 index, struct Pt *out)
 {
     struct Item *item = &owner->items[index];
 

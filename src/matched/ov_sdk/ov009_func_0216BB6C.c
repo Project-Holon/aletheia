@@ -1,5 +1,5 @@
 /*
- * function: func_0216BB6C
+ * function: DWCi_GT2GetConnectionListIdx
  * address:  0x0216BB6C
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern char g_021AA8A0[];
 
-int func_0216BB6C(void)
+int DWCi_GT2GetConnectionListIdx(void)
 {
     int i;
 

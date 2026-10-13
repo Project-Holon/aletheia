@@ -10,8 +10,8 @@
  * symbols:
  *   func_021BA71C 0x021BA71C thumb ov213
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B800 0x0204B800 arm
+ *   CLACT_SetActorDrawPriority 0x0204B800 arm
  */
 struct Obj;
-extern void *func_021BA71C(char *p, int a, int b, unsigned short c);extern void func_0204B3DC(struct Obj *p, unsigned int v),func_0204B800(void *,unsigned);
-void *func_021BA750(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=206;y=152;}else{x=50;y=40;}v=func_021BA71C(p,x,y,a);func_0204B3DC(v,0);func_0204B800(v,1);return v;}
+extern void *func_021BA71C(char *p, int a, int b, unsigned short c);extern void func_0204B3DC(struct Obj *p, unsigned int v),CLACT_SetActorDrawPriority(void *,unsigned);
+void *func_021BA750(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=206;y=152;}else{x=50;y=40;}v=func_021BA71C(p,x,y,a);func_0204B3DC(v,0);CLACT_SetActorDrawPriority(v,1);return v;}

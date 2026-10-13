@@ -10,11 +10,11 @@
  * status:   EXACT
  * symbols:
  *   func_021F05B4  0x021F05B4  thumb  ov029
- *   func_02026C8C  0x02026C8C  thumb
- *   func_02026CA0  0x02026CA0  thumb
- *   func_02026C78  0x02026C78  thumb
+ *   GAME_BEACON_GetReceiveCount  0x02026C8C  thumb
+ *   GAME_BEACON_GetNextNewLogIndex  0x02026CA0  thumb
+ *   GAME_BEACON_GetLogByReceiveNo  0x02026C78  thumb
  *   func_02165CD8  0x02165CD8  thumb  ov010
- *   func_020215BC  0x020215BC  thumb
+ *   PALANM_CopyToSlot  0x020215BC  thumb
  *   d_021F33CC     0x021F33CC  data  ov029  a4
  */
 #include "../include/Obj00042.h"
@@ -26,11 +26,11 @@ typedef unsigned int u32;
 struct PalAnmSlot;
 extern int func_021F05B4(unsigned char *p);
 struct S;
-extern u32 func_02026C8C(void);
-extern int func_02026CA0(int *p);
-extern void *func_02026C78(int n);
+extern u32 GAME_BEACON_GetReceiveCount(void);
+extern int GAME_BEACON_GetNextNewLogIndex(int *p);
+extern void *GAME_BEACON_GetLogByReceiveNo(int n);
 extern u8 func_02165CD8(struct S *p);
-extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern const int d_021F33CC[];
 
 void func_021F1CD8(char *p)
@@ -48,10 +48,10 @@ void func_021F1CD8(char *p)
     if (func_021F05B4((unsigned char *)p) != 0) {
         return;
     }
-    n = func_02026C8C();
+    n = GAME_BEACON_GetReceiveCount();
     if (((struct Obj00042 *)p)->f450 == 0) {
         tmp = 0;
-        if (func_02026CA0(&tmp) != 30) {
+        if (GAME_BEACON_GetNextNewLogIndex(&tmp) != 30) {
             ((struct Obj00042 *)p)->f450 = 1;
         }
     }
@@ -61,12 +61,12 @@ void func_021F1CD8(char *p)
             break;
         }
         if (n < 0) {
-            func_020215BC((struct PalAnmSlot *)(*(int *)&((struct Obj00042 *)p)->f210), p + 0x1f8, (int)3, (u16)(d_021F33CC[cnt] * 2 + 0x60), 4);
+            PALANM_CopyToSlot((struct PalAnmSlot *)(*(int *)&((struct Obj00042 *)p)->f210), p + 0x1f8, (int)3, (u16)(d_021F33CC[cnt] * 2 + 0x60), 4);
             cnt++;
         } else {
-            e = func_02026C78(n);
+            e = GAME_BEACON_GetLogByReceiveNo(n);
             if (e != 0) {
-                func_020215BC((struct PalAnmSlot *)(*(int *)&((struct Obj00042 *)p)->f210), (u32 *)(p + 0x1b8) + func_02165CD8(e), (int)3,
+                PALANM_CopyToSlot((struct PalAnmSlot *)(*(int *)&((struct Obj00042 *)p)->f210), (u32 *)(p + 0x1b8) + func_02165CD8(e), (int)3,
                               (u16)(d_021F33CC[cnt] * 2 + 0x60), 4);
                 cnt++;
             }

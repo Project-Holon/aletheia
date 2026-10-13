@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   ov177_id 0x000000B1 data
- *   func_02006210 0x02006210 thumb
+ *   GFL_USE_StopAllSe 0x02006210 thumb
  *   func_02034A5C 0x02034A5C arm
  *   func_02034714 0x02034714 arm
  *   d_021E2C74 0x021E2C74 data a4
@@ -24,7 +24,7 @@ extern const char ov177_id[];
 extern void func_02034A5C(int);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 int func_021D429C(int a,int b,int *p,int d)
 {
     int result;
@@ -33,7 +33,7 @@ int func_021D429C(int a,int b,int *p,int d)
     case 0: result=d_021E2C80.close(a,b,p,d); break;
     default: func_02034714(d_021E2DE0,0,d_021E2DE0); break;
     }
-    func_02006210();
+    GFL_USE_StopAllSe();
     func_02034A5C((int)ov177_id);
     return result;
 }

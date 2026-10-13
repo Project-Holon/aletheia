@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02050F4C",
+   "name": "PARTICLE_AllocWorkSlot1",
    "address": "0x02050F4C",
    "kind": "game",
    "region": "arm9",

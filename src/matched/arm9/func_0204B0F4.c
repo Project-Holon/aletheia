@@ -1,5 +1,5 @@
 /*
- * function: func_0204B0F4
+ * function: CLACT_SetRendererCulling
  * address:  0x0204B0F4
  * packet:   pkt_0204B0F4
  * region:   arm9
@@ -8,14 +8,17 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * blocker:  ABS32 func_0204BE38 at +0x08: no branch anywhere outside this range reaches 0x0204BE38
+ * blocker:  ABS32 CLACT_SetSurfaceCulling at +0x08: no branch anywhere outside this range reaches 0x0204BE38
+ *
+ * symbols:
+ *   CLACT_SetSurfaceCulling  0x0204BE38  arm
  */
 
 struct Obj;
-extern void func_0204BE38(struct Obj *obj, int on);
+extern void CLACT_SetSurfaceCulling(struct Obj *obj, int on);
 struct Actor;
 
-void func_0204B0F4(struct Actor *a0, int a1)
+void CLACT_SetRendererCulling(struct Actor *a0, int a1)
 {
-    func_0204BE38((struct Obj *)a0, a1);
+    CLACT_SetSurfaceCulling((struct Obj *)a0, a1);
 }

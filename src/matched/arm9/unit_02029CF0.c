@@ -12,8 +12,8 @@
  *
  * The last function of pkt_020295D8, and not a task at all: it resolves a
  * sequence id for the request and issues one command 5 for it, with the fifth
- * argument 60 or 0 depending on a mode query.  func_02029E74 answers 0xFFFFFFFF
- * when it has no id of its own and func_02029E64 is the fallback.
+ * argument 60 or 0 depending on a mode query.  FIELD_SOUND_SYSTEM_FindZoneBgmOverride answers 0xFFFFFFFF
+ * when it has no id of its own and FIELD_SOUND_SYSTEM_GetZoneBgm is the fallback.
  *
  * The mode test's two arms leave `movs r3, #0x3c` duplicated and cross-jump
  * everything after it, which is what says both the fourth and the fifth
@@ -27,10 +27,10 @@
  *
  * symbols:
  *   func_02012984  0x02012984  thumb
- *   func_020289F8  0x020289F8  thumb
- *   func_02029E58  0x02029E58  thumb
- *   func_02029E64  0x02029E64  thumb
- *   func_02029E74  0x02029E74  thumb
+ *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
+ *   FIELD_SOUND_SYSTEM_GetPlayerObjectCode  0x02029E58  thumb
+ *   FIELD_SOUND_SYSTEM_GetZoneBgm  0x02029E64  thumb
+ *   FIELD_SOUND_SYSTEM_FindZoneBgmOverride  0x02029E74  thumb
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02029CF0.c \
@@ -43,28 +43,28 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct BigObj;
 extern u8 func_02012984(const struct BigObj *p);
-extern u32   func_02029E74(void *a, void *b);
-extern u32 func_02029E64(void *unused, u32 id, u32 which);
-extern int func_02029E58(void *a0);
+extern u32   FIELD_SOUND_SYSTEM_FindZoneBgmOverride(void *a, void *b);
+extern u32 FIELD_SOUND_SYSTEM_GetZoneBgm(void *unused, u32 id, u32 which);
+extern int FIELD_SOUND_SYSTEM_GetPlayerObjectCode(void *a0);
 struct Sys;
-extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
+extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 
 void func_02029CF0(void *sys, void *a, void *b)
 {
     void *pri = (void *)func_02012984(a);
-    u32 id = func_02029E74(a, b);
+    u32 id = FIELD_SOUND_SYSTEM_FindZoneBgmOverride(a, b);
     u16 c;
     u16 v;
 
     if (id == 0xFFFFFFFF) {
-        id = func_02029E64(a, (u32)b, (u32)pri);
+        id = FIELD_SOUND_SYSTEM_GetZoneBgm(a, (u32)b, (u32)pri);
     }
-    if (func_02029E58(a) == 1) {
+    if (FIELD_SOUND_SYSTEM_GetPlayerObjectCode(a) == 1) {
         c = 0x3C;
         v = 0x3C;
     } else {
         c = 0x3C;
         v = 0;
     }
-    func_020289F8(sys, 5, id, c, v);
+    FIELD_SOUND_SYSTEM_PostRequest(sys, 5, id, c, v);
 }

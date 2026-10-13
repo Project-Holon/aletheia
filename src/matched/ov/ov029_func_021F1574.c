@@ -17,7 +17,7 @@
  *   func_0204AF28  0x0204AF28  arm
  *   func_02049F78  0x02049F78  arm
  *   func_020307B0  0x020307B0  arm
- *   func_0203D88C  0x0203D88C  arm
+ *   GFL_NET_RestartWithTimeout  0x0203D88C  arm
  *   func_0203D34C  0x0203D34C  arm
  *   d_021F31C8     0x021F31C8  data  a4
  *   d_021F33CC     0x021F33CC  data  a4
@@ -33,7 +33,7 @@ extern s32 func_0204AF28(void *owner, unsigned int first, unsigned int second, u
 extern void *func_02049F78(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
 extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
-extern void func_0203D88C(u32 a, u32 b);
+extern void GFL_NET_RestartWithTimeout(u32 a, u32 b);
 extern void func_0203D34C(u32 a, u32 b);
 extern const int d_021F31C8[];
 extern const int d_021F33CC[];
@@ -57,6 +57,6 @@ void func_021F1574(char *p, int idx)
         q[0x6e] = base[d_021F33CC[i]];
     }
     func_020307B0((void *)r);
-    func_0203D88C(0xda, 0xe);
+    GFL_NET_RestartWithTimeout(0xda, 0xe);
     func_0203D34C(0, ((struct Obj02749 *)p)->fC);
 }

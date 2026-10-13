@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021731C8",
+   "name": "INTRUDE_COMM_Destroy",
    "address": "0x021731C8",
    "kind": "game",
    "region": "ov011",

@@ -9,7 +9,7 @@
  * status:   EXACT
  * symbols:
  *   d_0220AF20 0x0220AF20 data ov094 a4
- *   func_020066E8 0x020066E8 thumb
+ *   PM_VOICE_FreeBuffers 0x020066E8 thumb
  *   func_021F8B6C 0x021F8B6C thumb ov094
  *   func_020215A0 0x020215A0 thumb
  *   func_02021540 0x02021540 thumb
@@ -28,7 +28,7 @@
  *   func_020307B0 0x020307B0 arm
  */
 extern char *d_0220AF20;
-extern void func_020066E8(void);
+extern void PM_VOICE_FreeBuffers(void);
 extern void func_021F8B6C(void);
 typedef unsigned int   u32;
 struct Node;
@@ -54,7 +54,7 @@ extern u32 func_020307B0(void *p);
 void func_021F7808(void)
 {
     if (d_0220AF20 != 0) {
-        func_020066E8();
+        PM_VOICE_FreeBuffers();
         func_021F8B6C();
         func_020215A0(FIELD(0x18c), 0);
         func_020215A0(FIELD(0x18c), 1);

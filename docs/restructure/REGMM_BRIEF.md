@@ -33,6 +33,13 @@ statement whose only effect is to steer the compiler).
    (../2.0/base..sp2p4), and a few with 1.2. When a function stays flat
    across every C spelling, try `--cc ../2.0/sp2` and `--cc ../1.2/sp3`
    before anything else (arm9 020627F0 and twl 02731920 closed this way).
+7. Function and data order: some vendor objects were built with
+   `-inline deferred`. Then mwccarm emits functions in REVERSE definition
+   order and registers all data (local statics too) before the first
+   function, heap-sorted by size. A file whose .bss/.data order or local
+   static placement will not match in definition order may need its
+   functions in reverse image order plus `-inline deferred` in its header
+   (ov009 unit_021573C4 closed this way).
 
 ## Method
 Use tools/mwccdbg (regalloc, regalloc-replay --renumber, sched, alias): find

@@ -1,8 +1,8 @@
 /*
  * file:     field_menu.c
  * unit:     yes
- * function: func_021A7CE8, func_021A7E3C, func_021A7EB4, func_021A7F38, func_021A80FC, func_021A810C, func_021A811C, func_021A8140, func_021A8198, func_021A81DC, func_021A81EC, func_021A8200, func_021A8214, func_021A8234, func_021A8244, func_021A8268, func_021A8278, func_021A82A8, func_021A82D8, func_021A8324, func_021A834C, func_021A836C, func_021A84A8, func_021A84BC, func_021A8588, func_021A85B4
- * address:  0x021A7CE8
+ * function: func_021A836C, func_021A84A8, func_021A84BC, func_021A8588, func_021A85B4, func_021A87A8, func_021A8840, func_021A8874, func_021A8AFC, func_021A8B18, func_021A8B84, func_021A8BB8, func_021A8D40, func_021A8DD8, func_021A8E10, func_021A8E20, func_021A8E78, func_021A8E80, func_021A8EEC, func_021A8FFC, func_021A9080, func_021A90A4, func_021A90E0, func_021A9154, func_021A926C, func_021A9294, func_021A92A4
+ * address:  0x021A836C
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -11,55 +11,11 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Holds the former field_menu_p01.c (0x021A87A8..0x021A92A4, the tail of field_menu.c).
+ * The file ends at 0x021A92A4; field_encount.c starts at 0x021A9350.
  *
  * symbols:
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_02188D38  0x02188D38  thumb  ov021
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_02185B88  0x02185B88  thumb  ov020
- *   func_0218F0F8  0x0218F0F8  thumb  ov021
- *   func_0218F0A8  0x0218F0A8  thumb  ov021
- *   func_0218F0E8  0x0218F0E8  thumb  ov021
- *   func_021BDCC8  0x021BDCC8  thumb  ov021
- *   func_02029D7C  0x02029D7C  thumb
- *   func_021618E0  0x021618E0  thumb  ov010
- *   func_02012374  0x02012374  thumb
- *   func_021BDD40  0x021BDD40  thumb  ov021
- *   func_021BDD48  0x021BDD48  thumb  ov021
- *   func_021BDD20  0x021BDD20  thumb  ov021
- *   func_021C6E48  0x021C6E48  thumb  ov021
- *   func_021BDD34  0x021BDD34  thumb  ov021
- *   func_0218E160  0x0218E160  thumb  ov021
- *   func_021BDCB8  0x021BDCB8  thumb  ov021
- *   func_020122C0  0x020122C0  thumb
- *   func_020124E8  0x020124E8  thumb
- *   func_02012A30  0x02012A30  thumb
- *   func_021BDC94  0x021BDC94  thumb  ov021
- *   func_02162370  0x02162370  thumb  ov010
- *   func_021A7B10  0x021A7B10  thumb  ov021
- *   func_02029D44  0x02029D44  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3050  0x021A3050  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   func_021A3484  0x021A3484  thumb  ov021
- *   func_0207CEE4  0x0207CEE4  arm
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_02163E58  0x02163E58  thumb  ov010
- *   func_02188C5C  0x02188C5C  thumb  ov021
- *   func_021BB480  0x021BB480  thumb  ov021
- *   func_021A36C8  0x021A36C8  thumb  ov021
- *   func_021B7D38  0x021B7D38  thumb  ov021
- *   func_02188C98  0x02188C98  thumb
- *   func_0218DC6C  0x0218DC6C  thumb
- *   func_0218C7D8  0x0218C7D8  thumb
- *   func_0218C860  0x0218C860  thumb
- *   func_0218C8D8  0x0218C8D8  thumb  ov021
- *   func_0218C88C  0x0218C88C  thumb
- *   func_0218C990  0x0218C990  thumb
- *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_021BE8D4  0x021BE8D4  thumb
  *   func_02030734  0x02030734  arm
  *   d_021DDF94     0x021DDF94  data  ov021  a1
  *   func_02188C80  0x02188C80  thumb  ov021
@@ -112,1140 +68,1150 @@
  *   func_0204B878  0x0204B878  arm
  *   func_021A0FA0  0x021A0FA0  thumb  ov021
  *   func_0201C4E4  0x0201C4E4  thumb
+ *   func_0204B09C  0x0204B09C  arm
+ *   func_0204B454  0x0204B454  arm
+ *   func_02041EE4  0x02041EE4  arm
+ *   func_0207D534  0x0207D534  arm
+ *   d_021D8BBC     0x021D8BBC  data  a4
+ *   d_021D8B5C     0x021D8B5C  data  a4
+ *   d_021D8B7C     0x021D8B7C  data  a4
+ *   d_021D8B44     0x021D8B44  data  a4
+ *   d_021D8C1C     0x021D8C1C  data  a4
+ *   func_0203FCA0  0x0203FCA0  arm
+ *   func_020414EC  0x020414EC  arm
+ *   func_02049B68  0x02049B68  arm
+ *   func_02049658  0x02049658  arm
+ *   func_020498F4  0x020498F4  arm
+ *   func_0204AC18  0x0204AC18  arm
+ *   func_0204A6C8  0x0204A6C8  arm
+ *   func_0204AF28  0x0204AF28  arm
+ *   func_020275E4  0x020275E4  thumb
+ *   func_02027614  0x02027614  thumb
+ *   func_02027618  0x02027618  thumb
+ *   func_0202761C  0x0202761C  thumb
+ *   func_02027620  0x02027620  thumb
+ *   func_0204B100  0x0204B100  arm
+ *   func_0204B034  0x0204B034  arm
+ *   func_0204B258  0x0204B258  arm
+ *   func_0204B294  0x0204B294  arm
+ *   func_0204B954  0x0204B954  arm
+ *   func_0204B92C  0x0204B92C  arm
+ *   func_0204B84C  0x0204B84C  arm
+ *   func_02013CC8  0x02013CC8  thumb
+ *   func_02013CE0  0x02013CE0  thumb
+ *   func_02013D20  0x02013D20  thumb
+ *   func_02012B70  0x02012B70  thumb
+ *   func_020142E8  0x020142E8  thumb
+ *   d_021D8D24  0x021D8D24  data  a4
+ *   func_02045B38  0x02045B38  arm
+ *   d_021D8C0C     0x021D8C0C  data  ov021  a2
+ *   func_020457B0  0x020457B0  arm
+ *   func_020084BC  0x020084BC  thumb
+ *   func_020084F4  0x020084F4  thumb
+ *   func_02045924  0x02045924  arm
+ *   d_021D8B34     0x021D8B34  data  a2
+ *   func_02045EC0  0x02045EC0  arm
+ *   d_021D8CAC     0x021D8CAC  data  ov021  a4
+ *   func_02008550  0x02008550  thumb
+ *   d_021D8B18     0x021D8B18  data  ov021  a1
+ *   func_02045808  0x02045808  arm
+ *   func_02045C04  0x02045C04  arm
+ *   func_0203F684  0x0203F684  arm
+ *   func_0207E5D0  0x0207E5D0  arm
+ *   d_021D8C4C     0x021D8C4C  data  ov021  a1
+ *   d_021D8B26     0x021D8B26  data  ov021  a1
+ *   d_021D8B27     0x021D8B27  data  ov021  a1
+ *   func_020362DC  0x020362DC  arm
+ *   func_0203633C  0x0203633C  arm
+ *   func_020355D8  0x020355D8  arm
+ *   func_02035C08  0x02035C08  arm
+ *   d_021D8C2C     0x021D8C2C  data  ov021  a1
+ *   func_0204B404  0x0204B404  arm
+ *   func_021904AC  0x021904AC  thumb  ov021
+ *   func_020450F0  0x020450F0  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02045770  0x02045770  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_0201C724  0x0201C724  thumb
+ *   func_0204B324  0x0204B324  arm
+ *   func_020452E8  0x020452E8  arm
+ *   func_02045334  0x02045334  arm
+ *   func_02027624  0x02027624  thumb
+ *   func_02027628  0x02027628  thumb
+ *   func_0202762C  0x0202762C  thumb
+ *   func_02049EF4  0x02049EF4  arm
+ *   func_020410D0  0x020410D0  arm
+ *   func_02041B6C  0x02041B6C  arm
  */
-#include "../../matched/include/Obj18069.h"
-#include "../../matched/include/Obj18070.h"
-
-struct Evt;
-struct Obj;
-struct Src;
-struct Desc;
-struct BigObj;
-struct Obj00020;
-struct VecFx32;
-struct W;
-struct Ctx;
-struct Rec44;
-struct Bank;
-struct Node;
-struct PrintSys;
-struct Actor;
 typedef unsigned char u8;
-
 typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed char s8;
+typedef signed short s16;
+typedef signed int s32;
 
-typedef struct FieldMenuWork2 {
-    void *f00;
-    void *f04;
-    void *f08;
-    void *f0C;
-    void *f10;
-    void *f14;
-} FieldMenuWork2;
+extern void func_020061E4(u32 seId);
 
+/* ------------------------------------------------------------------------ */
+/* Field menu (field_menu.c, 0x021A836C..0x021A92A4)                        */
+/* ------------------------------------------------------------------------ */
 
-typedef unsigned int   u32;
+#define FIELD_MENU_ITEM_MAX 7
 
+/* Slot of the back button; it is the last of the seven slots and has no icon. */
+#define FIELD_MENU_ITEM_BACK 6
 
+/* FieldMenuItem.buttonId values with a known meaning. */
+#define FIELD_MENU_BUTTON_PLAYER 4 /* the trainer name button */
+#define FIELD_MENU_BUTTON_EMPTY 7  /* slot without a button */
 
-typedef struct Args {
-    void *f00;
-    void *f04;
-    void *f08;
-    void *f0C;
-    void *f10;
-    void *f14;
-    u8 pad18[0x20 - 0x18];
-    u16 f20;
-    u8 pad22[0x45 - 0x22];
-    u8 f45;
-    u8 pad46[0x48 - 0x46];
-    int f48;
-} Args;
+/* One icon slot: text window, icon resources and the actor that shows it. */
+typedef struct FieldMenuItem {
+    int inUse;
+    void *bmpWin;
+    int buttonId;
+    void *charRes;
+    void *cellRes;
+    u8 cursorX;
+    u8 cursorY;
+    u8 reserved16[2];
+    void *actor;
+} FieldMenuItem;
 
-typedef struct Work {
-    Args *f00;
-    void *f04;
-    void *f08;
-    u8 f0C[0x18 - 0x0C];
-    u16 f18;
-    u8 pad1A[0x38 - 0x1A];
-    int f38;
-} Work;
+/* Work of the sub screen menu (0x138 bytes). */
+typedef struct FieldMenu {
+    u16 heapId;
+    u16 subHeapId;
+    void *fieldMap;
+    void *parent;
+    int state;
+    u32 mapInfo;
+    void *eventWork;
+    void *myStatus;
+    u16 zoneId;
+    u8 cursorCol;
+    u8 cursorRow;
+    u8 pressFrames;
+    u8 layoutType;
+    u8 reserved22[0x24 - 0x22];
+    int cursorDirty;
+    int exitRequested;
+    int keyCursorActive;
+    int chosenButton;
+    FieldMenuItem items[FIELD_MENU_ITEM_MAX];
+    FieldMenuItem *selectedItem;
+    s16 scrollY;
+    u8 reservedFE[0x100 - 0xFE];
+    int scrollDirty;
+    void *palRes;
+    void *charRes;
+    void *cellRes;
+    void *palResB;
+    void *charResB;
+    void *cellResB;
+    void *clactUnit;
+    void *clactSurface;
+    void *cursorActor;
+    void *backActor;
+    void *printQue;
+    void *colorTask;
+    u32 colorPhase;
+} FieldMenu;
 
-typedef signed short   s16;
+/* Values of FieldMenu.state */
+#define FIELD_MENU_STATE_SLIDE_IN 0
+#define FIELD_MENU_STATE_WAIT_PRINT 1
+#define FIELD_MENU_STATE_WAIT_WIPE 2
+#define FIELD_MENU_STATE_IDLE 3
+#define FIELD_MENU_STATE_BACK_ANIM 4
+#define FIELD_MENU_STATE_DECIDE 5
+#define FIELD_MENU_STATE_PRESS_ANIM 6
+#define FIELD_MENU_STATE_NOTIFY_CLOSE 7
+#define FIELD_MENU_STATE_NOTIFY_SELECT 8
+#define FIELD_MENU_STATE_SLIDE_OUT 9
+#define FIELD_MENU_STATE_DONE 10
 
-typedef signed char    s8;
+/* Mode numbers the menu hands to its parent when it ends. */
+#define FIELD_MENU_NEXT_SELECT 3
+#define FIELD_MENU_NEXT_CLOSE 4
 
-typedef struct V {
-    int x;
-    int y;
-    int z;
-} V;
+#define FIELD_MENU_SCROLL_STEP 0x40
+#define FIELD_MENU_SCROLL_HIDDEN 0xC0
 
-typedef signed int     s32;
+/* Layer 6 sits 5 pixels higher than layer 5 (the icon layer). */
+#define FIELD_MENU_LAYER6_OFFSET 5
 
+/* Actors whose screen Y is at or past these limits are hidden while scrolling. */
+#define FIELD_MENU_ICON_CULL_Y 0xD0
+#define FIELD_MENU_CURSOR_CULL_Y 0xD6
 
+#define SE_FIELD_MENU_SLIDE_IN 0x554
+#define SE_FIELD_MENU_CLOSE 0x556
+#define SE_FIELD_MENU_PRESS 0x54C
+#define SE_FIELD_MENU_MOVE 0x548
 
-typedef struct {
-    int pad[3];
-    int fc;
-} R;
+/* Bits of the pad words returned by func_020362DC (pressed) and func_0203633C (repeat). */
+#define FIELD_MENU_PAD_A 0x0001
+#define FIELD_MENU_PAD_B 0x0002
+#define FIELD_MENU_PAD_RIGHT 0x0010
+#define FIELD_MENU_PAD_LEFT 0x0020
+#define FIELD_MENU_PAD_UP 0x0040
+#define FIELD_MENU_PAD_DOWN 0x0080
+#define FIELD_MENU_PAD_X 0x0400
 
-typedef struct {
-    R *f0;
-    int pad[6];
-    int f1c[3];
-    int f28;
-} S_021A8140;
+/* Position on the sub screen, in pixels. */
+typedef struct FieldMenuScreenPos {
+    s16 x;
+    s16 y;
+} FieldMenuScreenPos;
 
+/* Position and display flags for an actor added by func_0204B294. */
+typedef struct FieldMenuActorPos {
+    s16 x;
+    s16 y;
+    s16 z;
+    u8 flip;
+    u8 palOffset;
+} FieldMenuActorPos;
 
-typedef struct Src {
-    void *f00;
-    void *f04;
-    void *f08;
-    void *f0C;
-    u8 pad10[0x3C - 0x10];
-    int f3C;
-    int f40;
-    u8 f44;
-    u8 f45;
-} Src;
+/* Setup record for an actor added by func_0204B324. */
+typedef struct FieldMenuActorSetup {
+    u16 x;
+    u16 y;
+    u16 z;
+    u8 flip;
+    u8 palOffset;
+    u16 bgPriority;
+    u16 reserved0A;
+    u32 scaleX;
+    u32 scaleY;
+    u16 rotation;
+    u16 drawArea;
+} FieldMenuActorSetup;
 
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    int fc;
-    int pad10[10];
-    int f38;
-    int f3c;
-    int f40;
-} R_021A8324;
+/* Rectangle of the actor surface (4 words). */
+typedef struct FieldMenuSurfaceRect {
+    u32 x;
+    u32 y;
+    u32 width;
+    u32 height;
+} FieldMenuSurfaceRect;
 
-typedef struct FieldMenuWork3 {
-    void *f00;
-    void *f04;
-    void *f08;
-    void *f0C;
-    int f10;
-    int f14;
-    u16 f18;
-    u8 f1A;
-    u8 pad1B[0x28 - 0x1B];
-    int f28;
-    u8 f2C[10];
-    u8 f36;
-    u8 pad37[0x38 - 0x37];
-    int f38;
-} FieldMenuWork3;
+/* Ids of the icon resources of one button (d_021D8CAC, per button id). */
+typedef struct FieldMenuIconRes {
+    int charId;
+    int cellId;
+    int animId;
+} FieldMenuIconRes;
 
-typedef struct {
-    FieldMenuWork3 *f0;
-} S_021A7CE8;
+/* Tile position of the text window of one slot (d_021D8B18, per slot). */
+typedef struct FieldMenuWindowPos {
+    u8 tileX;
+    u8 tileY;
+} FieldMenuWindowPos;
 
-typedef struct Item {
-    int f00;
-    void *f04;
-    int f08;
-    void *f0C;
-    void *f10;
-    int f14;
-    void *f18;
-} Item;
+/* Name shown on the player button when the trainer has no name (7 characters). */
+typedef struct FieldMenuName {
+    u16 chars[7];
+} FieldMenuName;
 
-typedef struct Obj {
-    u16 f00;
-    u16 f02;
-    void *f04;
-    int f08;
-    int f0C;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u16 f1C;
-    u8 f1E;
-    u8 f1F;
-    u8 f20;
-    u8 f21;
-    u8 pad22[2];
-    int f24;
-    int f28;
-    int f2C;
-    int f30;
-    Item items[7];
-    int fF8;
-    u16 fFC;
-    u8 padFE[2];
-    int f100;
-    u8 pad104[0x124 - 0x104];
-    u32 f124;
-    u32 f128;
-    void *f12C;
-    void *f130;
-    u32 f134;
-} Obj;
+/* Touch rectangles of the seven slots for func_02035C08. */
+typedef struct FieldMenuTouchTable {
+    u8 rects[32];
+} FieldMenuTouchTable;
 
-typedef struct {
-    u16 h0;
-    u16 pad2;
-    int f4;
-    int f8;
-    int pad[7];
-    int f28;
-} S_021A84A8;
+/* Header and tile map of a loaded screen file. */
+typedef struct FieldMenuScreenData {
+    u8 header[0xC];
+    u16 tiles[0x300];
+} FieldMenuScreenData;
 
-typedef struct FieldMenuWork4 {
-    FieldMenuWork2 *f00;
-    void *f04;
-    void *f08;
-    u8 f0C[0x18 - 0x0C];
-    u16 f18;
-    u8 pad1A[0x34 - 0x1A];
-    Item f34[7];
-    u8 padF8[0x104 - 0xF8];
-    void *f104;
-    void *f108;
-    void *f10C;
-    void *f110;
-    void *f114;
-    void *f118;
-    void *f11C;
-    void *f120;
-    void *f124;
-    void *f128;
-    void *f12C;
-    void *f130;
-} FieldMenuWork4;
+/* Everything FIELD_MENU_CreateItem needs to build one slot. */
+typedef struct FieldMenuItemInit {
+    int buttonId;
+    u8 cursorX;
+    u8 cursorY;
+    u8 winTileX;
+    u8 winTileY;
+    u8 iconX;
+    u8 iconY;
+    u8 reserved0A[2];
+    void *text;
+    void *arcHandle;
+    u32 charId;
+    u32 cellId;
+    u32 animId;
+} FieldMenuItemInit;
 
-typedef struct Sel {
-    u8 pad00[0x14];
-    u8 f14;
-    u8 f15;
-    u8 pad16[2];
-    int f18;
-} Sel;
+struct BgTemplate;
+struct BigObj;
 
-typedef struct FieldMenuWork {
-    u16 f00;
-    u16 f02;
-    void *f04;
-    void *f08;
-    int f0C;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u16 f1C;
-    u8 f1E;
-    u8 f1F;
-    u8 f20;
-    u8 f21;
-    u8 pad22[0x24 - 0x22];
-    int f24;
-    int f28;
-    int f2C;
-    int f30;
-    Item f34[7];
-    Sel *fF8;
-    s16 fFC;
-    u8 padFE[0x100 - 0xFE];
-    int f100;
-    u8 pad104[0x124 - 0x104];
-    u32 f124;
-    u32 f128;
-    void *f12C;
-    void *f130;
-} FieldMenuWork;
-
-extern void *func_02188C58(void *o);
-extern unsigned int func_02188D38(u8 *p);
-extern u16 func_02188C9C(u8 *p);
-extern void func_02185B88(void *p, unsigned int v);
-extern int func_0218F0F8(u8 *a);
-extern void func_0218F0A8(u8 *a);
-extern u32 func_0218F0E8(u8 *a);
-extern void func_021BDCC8(char *a, int *b);
-extern void func_02029D7C(void *a, void *b);
-extern void *func_021618E0(void *a, void *o);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_021BDD40(void *p);
-extern int func_021BDD48(struct Obj *o);
-extern void func_021BDD20(void *p);
-extern int func_021C6E48(void *p);
-extern void func_021BDD34(u8 *p);
-extern int func_0218E160(u32 a);
-extern void func_021BDCB8(u8 *p);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Obj *p);
-extern u32 func_02012A30(const struct BigObj *p);
-extern void *func_021BDC94(void *p);
-extern int func_02162370(int a);
-extern int func_021A7B10(void *a);
-extern void func_02029D44(u32 a, u32 b, u16 c, u8 d);
-extern void func_020061E4(u32 a);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u16 func_021A3050(u8 *p);
-extern void func_021A3038(u8 *, struct VecFx32 *);
-extern u32 func_02188CFC(u8 *p);
-extern void func_021A3484(unsigned char **a, int b, s32 *c);
-extern void func_0207CEE4(int a, V *b, V *c, V *d);
-extern void *func_021A3074(u8 *p);
-extern void func_02163E58(void *p, V *in, int *out);
-extern u32 func_02188C5C(u8 *p);
-extern void *func_021BB480(void *p);
-extern int func_021A36C8(u8 *p, u32 k, void *buf);
-extern void func_021B7D38(void *p, int *in, V *out);
-extern u32 func_02188C98(u8 *p);
-extern u32 func_0218DC6C(u8 *p);
-extern int func_0218C7D8(void *p, int b, int c);
-extern void func_0218C860(int a);
-extern int func_0218C8D8(void *p);
-extern void func_0218C88C(unsigned char *p, int v, int c);
-extern int func_0218C990(unsigned char *p, int v);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern unsigned char *func_020120F8(const struct Ctx *p);
-extern unsigned short func_02012AC8(const struct Rec44 *p);
-extern u32 func_0201296C(const struct BigObj *p);
-extern u8 *func_02012944(void *p);
-extern u32 func_02188C54(u8 *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void *func_02188C80(void *fieldMap);
+extern void *func_020120F4(void *gameSystem);
+extern void *func_020120F8(void *gameSystem);
+extern u16 func_02012AC8(void *playerWork);
+extern void *func_0201296C(void *gameData);
+extern void *func_02012944(void *gameData);
+extern u32 func_02188C54(void *fieldMap);
 extern u8 func_020355C4(void);
-extern void *func_020056A0(void *callback, void *ctx, int a2);
-extern void func_021A8D40(void *unused, struct W *w);
-extern u32 func_0201C440(void *p);
-extern void *func_020490F4(u32 id, u32 heap);
-extern u32 func_021A8B18(void *a, void *b, u32 c);
-extern void func_021A8874(struct Obj *p, void *q, int r, u32 unused);
-extern void func_021A8BB8(struct Obj *p, void *q, int r);
-extern void func_02049238(void *q);
-extern u32 func_02040588(unsigned char, unsigned char);
-extern void func_021A90E0(struct W *w);
-extern void func_021A8DD8(Obj *p);
-extern u8 func_020129C4(const struct BigObj *p);
-extern void func_021A8E20(struct W *w, u32 v);
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void *func_020056A0(void *callback, void *work, int priority);
+extern void *func_0201C440(u32 heapId);
+extern void *func_020490F4(u32 arcId, u32 heapId);
+extern void func_02049238(void *arcHandle);
+extern u32 func_02040588(u8 layer, u8 visible);
+extern u8 func_020129C4(void *gameData);
+extern void func_0204B3DC(void *actor, u32 drawEnable);
 extern void func_0203D34C(u32 a, u32 b);
-extern void func_021A0FB4(u32 *p, u32 a);
-extern void func_021A926C(FieldMenuWork4 *p, Item *it);
-extern void func_02030EAC(struct Node *n);
-extern void func_0204B3B4(FieldMenuWork4 *p);
-extern void func_0204B084(void *p);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204AFD8(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
+extern void func_021A0FB4(void *parent, u32 heapId);
+extern void func_02030EAC(void *tcb);
+extern void func_0204B3B4(void *actor);
+extern void func_0204B084(void *surface);
+extern u32 func_0204B1CC(void *unit);
+extern void func_0204AFD8(void *cellRes);
+extern void func_0204A8D4(void *charRes);
+extern void func_0204ADA4(void *palRes);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_020403F4(u32 i);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void func_020403F4(u32 layer);
+extern void func_0201C6EC(void *printQue);
+extern void func_0201C4C0(void *printQue);
 extern u32 func_020307B0(void *p);
-extern void func_020409B4(u32 index);
-extern u32 func_0201C6B4(const struct PrintSys *p);
-extern void func_021A12D4(u32 *p, u32 x);
-extern void func_021A9294(FieldMenuWork *p, Item *it);
-extern void func_021A87A8(FieldMenuWork *p);
+extern void func_020409B4(u32 layer);
+extern u32 func_0201C6B4(void *printQue);
+extern void func_021A12D4(void *parent, u32 heapId);
 extern u32 func_020221A4(void);
-extern void func_021A8EEC(FieldMenuWork *p);
-extern void func_021A8FFC(struct W *w);
-extern u32 func_0204B98C(struct Actor *a);
-extern void func_021A9080(FieldMenuWork *p, u8 a, u8 b);
-extern void func_0204B878(FieldMenuWork *p, u16 value);
-extern void func_021A0FA0(int *p, int v);
-extern u32 func_0201C4E4(struct PrintSys *ps);
-int func_021A7CE8(void *task, int *state, FieldMenuWork4 *w);
-void *func_021A7E3C(FieldMenuWork2 *a);
-void func_021A7EB4(u8 *p);
-int func_021A7F38(void *task, int *state, Work *w);
-int func_021A80FC(u32 a);
-void func_021A810C(struct Obj00020 *p, struct VecFx32 *out);
-void func_021A811C(u32 a, u32 b);
-void func_021A8140(void *a, V *out);
-void func_021A8198(void *a, V *out);
-u8 func_021A81DC(u32 a);
-u8 func_021A81EC(FieldMenuWork3 *w);
-void func_021A8200(FieldMenuWork3 *w);
-void func_021A8214(S_021A8140 *s);
-void func_021A8234(FieldMenuWork *s);
-int func_021A8244(u32 a);
-int func_021A8268(u32 a);
-void func_021A8278(FieldMenuWork *s);
-void func_021A82A8(FieldMenuWork *s);
-void func_021A82D8(void *a, struct Src **pp);
-void func_021A8324(int a, R_021A8324 **r);
-int func_021A834C(S_021A7CE8 *s);
-Obj *func_021A836C(u16 heap, u16 a1, int a2, void *a3, int a4);
-void func_021A84A8(S_021A84A8 *s);
-void func_021A84BC(FieldMenuWork4 *p);
-int func_021A8588(void);
-u32 func_021A85B4(FieldMenuWork *p);
+extern u32 func_0204B98C(void *actor);
+extern void func_0204B878(void *actor, u16 animSeq);
+extern void func_021A0FA0(void *parent, int mode);
+extern u32 func_0201C4E4(void *printQue);
+extern void func_0204B09C(void *surface, int a, FieldMenuScreenPos *offset);
+extern void func_0204B454(void *actor, FieldMenuScreenPos *out, u16 space);
+extern void func_02041EE4(u32 layer, u32 type, u32 value);
+extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *template, u32 type);
+extern void func_020414EC(u32 layer);
+extern void func_02049B68(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 heapId);
+extern void func_02049658(void *arcHandle, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heapId);
+extern void func_020498F4(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+extern void *func_0204AC18(void *arcHandle, u32 b, u32 c, u32 d, u16 e, u16 f, u16 heapId);
+extern void *func_0204A6C8(void *arcHandle, u32 b, u32 c, u32 d, u16 heapId);
+extern void *func_0204AF28(void *arcHandle, u32 first, u32 second, u32 heapId);
+extern u32 func_020275E4(void);
+extern u32 func_02027614(void);
+extern u32 func_02027618(void);
+extern u32 func_0202761C(u32);
+extern u32 func_02027620(u32);
+extern void *func_0204B100(int count, u8 flag, u32 heapId);
+extern void *func_0204B034(FieldMenuSurfaceRect *rect, u32 a1, u32 heapId);
+extern void func_0204B258(void *unit, void *surface);
+extern void *func_0204B294(void *unit, void *charRes, void *palRes, void *cellRes, const FieldMenuActorPos *pos, u16 space, u16 heapId);
+extern void func_0204B954(void *actor, u32 scale);
+extern void func_0204B92C(void *actor, u32 value);
+extern void func_0204B84C(void *actor, int value);
+extern u32 func_02013CC8(u32 zoneId);
+extern u32 func_02013CE0(u16 zoneId);
+extern u32 func_02013D20(u16 zoneId);
+extern int func_02012B70(void *gameData);
+extern u32 func_020142E8(void *eventWork, s32 flagId);
+extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_020457B0(u32 capacity, u32 heapId);
+extern int func_020084BC(const void *myStatus);
+extern const void *func_020084F4(const void *myStatus);
+extern void func_02045924(void *strbuf, const void *src);
+extern void *func_02045EC0(void *msgBank, u32 index);
+extern u8 func_02008550(const void *myStatus);
+extern void func_02045808(void *strbuf);
+extern u32 func_02045C04(void *msgBank);
+extern short func_0203F684(unsigned short x);
+extern void func_0207E5D0(void *src, u32 off, u32 n);
+extern u32 func_020362DC(void);
+extern unsigned int func_0203633C(void);
+extern void func_020355D8(u8 v);
+extern int func_02035C08(const void *touchTable);
+extern void func_0204B404(void *actor, const FieldMenuScreenPos *delta, u32 which);
+extern u32 func_021904AC(u32 mapInfo);
+extern void *func_020450F0(u32 layer, u32 x, u32 y, u32 tiles, u8 c, u8 d, u8 slot);
+extern void func_02045374(void *bmpWin);
+extern void *func_02045770(void *bmpWin);
+extern void func_02043B5C(void *buf, u8 value);
+extern void func_0201C724(void *printQue, void *buf, u32 b, u32 c, void *text, u32 e, u16 f);
+extern void *func_0204B324(void *unit, void *charRes, void *palRes, void *cellRes, const FieldMenuActorSetup *setup, u16 space, u16 heapId);
+extern unsigned int func_020452E8(void *bmpWin);
+extern void func_02045334(void *bmpWin);
+extern u32 func_02027624(void);
+extern u32 func_02027628(void);
+extern u32 func_0202762C(void);
+extern void *func_02049EF4(void *arcHandle, u32 a, u32 b, void **out, u32 heapId);
+extern void func_020410D0(u32 layer, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void func_02041B6C(u8 layer);
+
+extern const struct BgTemplate d_021D8BBC;
+extern const struct BgTemplate d_021D8B5C;
+extern const struct BgTemplate d_021D8B7C;
+extern const u32 d_021D8B44[];
+extern const FieldMenuSurfaceRect d_021D8C1C;
+extern const int d_021D8D24[][FIELD_MENU_ITEM_MAX];
+extern const FieldMenuName d_021D8C0C;
+extern const u16 d_021D8B34[];
+extern const FieldMenuIconRes d_021D8CAC[];
+extern const FieldMenuWindowPos d_021D8B18[];
+extern u8 d_021D8C4C[][8][4];
+extern u8 d_021D8B26[];
+extern u8 d_021D8B27[];
+extern FieldMenuTouchTable d_021D8C2C;
 extern char d_021DDF94[];
 
-
-
-
-
-
-/*
- * Step machine over the Work step table: each state either stays or loads
- * the next step (func_021A81EC) and advances the index (func_021A8200).
- * Returns 1 once the current step is 8 and the handle reports done.
- */
-int func_021A7CE8(void *task, int *state, FieldMenuWork4 *w)
-{
-    FieldMenuWork2 *a;
-    void *a04;
-    void *obj;
-    void *a08;
-    void *w04;
-    void *h;
-    void *d;
-
-    a = w->f00;
-    a04 = a->f04;
-    obj = a->f0C;
-    a08 = a->f08;
-    w04 = w->f04;
-    h = func_02188C58(obj);
-    d = (void *)func_02188D38(obj);
-    func_02188C9C(obj);
-
-    switch (*state) {
-    case 0:
-        func_02185B88(obj, 1);
-        if (func_0218F0F8(h) == 0) {
-            *state = func_021A81EC((FieldMenuWork3 *)w);
-            func_021A8200((FieldMenuWork3 *)w);
-        } else {
-            func_0218F0A8(h);
-            *state = 9;
-        }
-        break;
-    case 9:
-        if (func_0218F0E8(h) == 0) {
-            *state = func_021A81EC((FieldMenuWork3 *)w);
-            func_021A8200((FieldMenuWork3 *)w);
-        }
-        break;
-    case 1:
-        func_021BDCC8(w->f08, (int *)w->f0C);
-        func_02029D7C(w04, a08);
-        func_021A82D8(task, (struct Src **)w);
-        *state = func_021A81EC((FieldMenuWork3 *)w);
-        func_021A8200((FieldMenuWork3 *)w);
-        break;
-    case 2:
-        func_021A8278((FieldMenuWork *)w);
-        *state = func_021A81EC((FieldMenuWork3 *)w);
-        func_021A8200((FieldMenuWork3 *)w);
-        break;
-    case 3:
-        if (func_021A8244((u32)w) == 1) {
-            *state = func_021A81EC((FieldMenuWork3 *)w);
-            func_021A8200((FieldMenuWork3 *)w);
-        }
-        break;
-    case 4:
-        func_02185B88(obj, 0);
-        func_02012374(task, func_021618E0(a04, obj));
-        if (func_021BDD40(w->f08) != 0 && func_021BDD48(w->f08) != 0) {
-            *state = 10;
-        } else {
-            *state = func_021A81EC((FieldMenuWork3 *)w);
-            func_021A8200((FieldMenuWork3 *)w);
-        }
-        break;
-    case 6:
-        func_021A82A8((FieldMenuWork *)w);
-        *state = func_021A81EC((FieldMenuWork3 *)w);
-        func_021A8200((FieldMenuWork3 *)w);
-        break;
-    case 10:
-        if (w->f18++ > 15) {
-            *state = func_021A81EC((FieldMenuWork3 *)w);
-            func_021A8200((FieldMenuWork3 *)w);
-        }
-        break;
-    case 5:
-        func_021BDD20(w->f08);
-        *state = func_021A81EC((FieldMenuWork3 *)w);
-        func_021A8200((FieldMenuWork3 *)w);
-        break;
-    case 7:
-        if (func_021A8244((u32)w) == 1) {
-            *state = func_021A81EC((FieldMenuWork3 *)w);
-            func_021A8200((FieldMenuWork3 *)w);
-        }
-        break;
-    case 8:
-        break;
-    }
-
-    if (func_021A81DC((u32)w) == 8 && func_021C6E48(d) != 0) {
-        func_021BDD34(w->f08);
-        func_0218E160((u32)h);
-        func_021BDCB8(w->f08);
-        func_021A8234((FieldMenuWork *)w);
-        return 1;
-    }
-    return 0;
-}
-
-
-
-
-
-
-void *func_021A7E3C(FieldMenuWork2 *a)
-{
-    void *task;
-    FieldMenuWork3 *w;
-
-    task = func_020122C0(a->f04, 0, func_021A7F38, 0x3C);
-    w = func_020124E8(task);
-    w->f00 = a;
-    w->f04 = (void *)func_02012A30(a->f08);
-    w->f28 = 0;
-    w->f18 = 0;
-    w->f1A = func_021A80FC((u32)a->f0C);
-    w->f36 = 0;
-    w->f08 = func_021BDC94(a->f0C);
-    w->f0C = a->f10;
-    w->f10 = 0;
-    w->f14 = 1;
-    func_021A811C((u32)a->f0C, (u32)((u8 *)w + 0x1C));
-    func_021A8214((S_021A8140 *)w);
-    func_021A7EB4((u8 *)w);
-    if (func_02162370((int)a->f10) != 0) {
-        w->f38 = 1;
-    } else {
-        w->f38 = 0;
-    }
-    return task;
-}
-
-
-
-
-
-
-void func_021A7EB4(u8 *p)
-{
-    if (func_021A8268((u32)p) != 0) {
-        p[0x2C] = 0;
-        p[0x2D] = 3;
-        p[0x2E] = 1;
-        p[0x2F] = 2;
-        p[0x30] = 5;
-        p[0x31] = 6;
-        p[0x32] = 7;
-        p[0x33] = 8;
-    } else {
-        p[0x2C] = 0;
-        p[0x2D] = 1;
-        p[0x2E] = 2;
-        p[0x2F] = 5;
-        p[0x30] = 6;
-        p[0x31] = 7;
-        p[0x32] = 8;
-    }
-}
-
-
-
-
-
-
-/*
- * Task callback installed by func_021A7E3C: steps through the Work step
- * table like func_021A7CE8, returning 0x21 to run again in the same frame
- * when w->f38 is set, 1 when the last step finishes, 0 otherwise.
- */
-int func_021A7F38(void *task, int *state, Work *w)
-{
-    Args *a;
-    void *a04;
-    void *a08;
-    void *obj;
-    void *w04;
-    void *d;
-
-    a = w->f00;
-    a04 = a->f04;
-    a08 = a->f08;
-    obj = a->f0C;
-    w04 = w->f04;
-    d = (void *)func_02188D38(obj);
-
-    switch (*state) {
-    case 0:
-        func_021BDCC8(w->f08, (int *)w->f0C);
-        *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-        func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-        if (w->f38 != 0) {
-            return 0x21;
-        }
-        break;
-    case 1:
-        func_021BDD20(w->f08);
-        *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-        func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-        if (w->f38 != 0) {
-            return 0x21;
-        }
-        break;
-    case 3:
-        func_021A8278((FieldMenuWork *)((FieldMenuWork4 *)w));
-        *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-        func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-        if (w->f38 != 0) {
-            return 0x21;
-        }
-        break;
-    case 2:
-        if (func_021C6E48(d) == 0) {
-            break;
-        }
-        if (func_021BDD40(w->f08) != 0 && func_021BDD48(w->f08) != 0) {
-            *state = 9;
-        } else {
-            *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-            func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-        }
-        if (w->f38 != 0) {
-            return 0x21;
-        }
-        break;
-    case 4:
-        if (func_021A8244((u32)w) == 1) {
-            *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-            func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-            if (w->f38 != 0) {
-                return 0x21;
-            }
-        }
-        break;
-    case 9:
-        if (w->f18++ > 15) {
-            *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-            func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-            if (w->f38 != 0) {
-                return 0x21;
-            }
-        }
-        break;
-    case 5:
-        func_021A7B10(obj);
-        func_02012374(task, func_021618E0(a04, obj));
-        *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-        func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-        if (w->f38 != 0) {
-            return 0x21;
-        }
-        break;
-    case 6:
-        func_02029D44((u32)w04, (u32)a08, a->f20, a->f45);
-        a->f48 = 1;
-        *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-        func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-        break;
-    case 7:
-        if (func_021A834C((S_021A7CE8 *)w) != 0) {
-            func_020061E4(0x559);
-        }
-        func_021A8324((int)task, (R_021A8324 * *)w);
-        *state = func_021A81EC((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-        func_021A8200((FieldMenuWork3 *)((FieldMenuWork4 *)w));
-        break;
-    case 8:
-        func_021BDD34(w->f08);
-        func_021BDCB8(w->f08);
-        func_021A8234((FieldMenuWork *)((FieldMenuWork4 *)w));
-        return 1;
-    }
-    return 0;
-}
-
-
-
-
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_021A80FC(u32 a)
-{
-return (((u32)func_021A3050(func_02188CB4((struct Obj00020 *)a)) << 24) >> 24);
-}
-
-
-
-
-
-
-void func_021A810C(struct Obj00020 *p, struct VecFx32 *out)
-{
-    func_021A3038((u8 *)func_02188CB4(p), out);
-}
-
-
-
-
-void func_021A811C(u32 a, u32 b)
-{
-if (func_02188CFC((u8 *)a) == 1) {
-    func_021A8198((void *)a, (V *)b);
-    return;
-}
-func_021A8140((void *)a, (V *)b);
-}
-
-
-
-
-
-
-
-void func_021A8140(void *a, V *out)
-{
-    void *ctx;
-    int k;
-    V v0;
-    V v1;
-    V v2;
-    int t;
-
-    ctx = func_02188CB4(a);
-    k = func_021A3050(ctx);
-    func_021A3038(ctx, (struct VecFx32 *)&v0);
-    func_021A3484(ctx, k, (s32 *)(&v1));
-    func_0207CEE4(0x10000, &v1, &v0, &v2);
-    func_02163E58(func_021A3074(ctx), &v2, &t);
-    v2.y = t;
-    *out = v2;
-}
-
-
-
-
-
-
-
-void func_021A8198(void *a, V *out)
-{
-    void *ctx;
-    int k;
-    void *h;
-    V res;
-    int in[2];
-
-    ctx = func_02188CB4(a);
-    k = func_021A3050(ctx);
-    h = func_021BB480((void *)func_02188C5C(a));
-    func_021A36C8(ctx, k, in);
-    func_021B7D38(h, in, &res);
-    *out = res;
-}
-
-
-
-
-
-
-
-u8 func_021A81DC(u32 a)
-{
-return *(u8 *)((u8 *)(((a + *(u8 *)((u8 *)((a + 54)))) + 44)));
-}
-
-
-
-
-
-
-
-/*
- * Unlabelled leaf: the Work step table entry after the current one
- * (step[f36 + 1]); func_021A81DC reads step[f36].
- */
-u8 func_021A81EC(FieldMenuWork3 *w)
-{
-    return w->f2C[(u8)(w->f36 + 1)];
-}
-
-
-
-
-
-
-
-/*
- * Unlabelled leaf: advance the Work step index and clear its frame counter.
- */
-void func_021A8200(FieldMenuWork3 *w)
-{
-    w->f36++;
-    w->f18 = 0;
-}
-
-
-
-
-
-
-
-void func_021A8214(S_021A8140 *s)
-{
-    s->f28 = func_0218C7D8((void *)func_0218DC6C((u8 *)func_02188C98((u8 *)s->f0->fc)), 1, (int)s->f1c);
-}
-
-
-
-
-
-
-void func_021A8234(FieldMenuWork *s)
-{
-    if (s->f28 != 0) {
-        func_0218C860(s->f28);
-    }
-}
-
-
-
-
-
-
-int func_021A8244(u32 a)
-{
-if (func_021A8268(a) == 0) {
-    return 1;
-}
-if (func_0218C8D8((void *)(((struct Obj18069 *)((u8 *)(a)))->f28)) != 0) {
-    return 1;
-}
-return 0;
-}
-
-
-
-
-
-
-int func_021A8268(u32 a)
-{
-if (((struct Obj18070 *)((u8 *)(a)))->f28 != 0) {
-    return 1;
-}
-return 0;
-}
-
-
-
-
-
-
-void func_021A8278(FieldMenuWork *s)
-{
-    u16 v;
-    if (func_021A8268((unsigned int)s)) {
-        func_0218C88C((unsigned char *)s->f28, 0, 0);
-        if (func_0218C990((unsigned char *)s->f28, (int)(&v))) {
-            func_020061E4(v);
-        }
-    }
-}
-
-
-
-
-
-
-void func_021A82A8(FieldMenuWork *s)
-{
-    u16 v;
-    if (func_021A8268((unsigned int)s)) {
-        func_0218C88C((unsigned char *)s->f28, 1, 0);
-        if (func_0218C990((unsigned char *)s->f28, (int)(&v))) {
-            func_020061E4(v);
-        }
-    }
-}
-
-
-
-
-
-
-void func_021A82D8(void *a, struct Src **pp){
-    Src *s;
-    void *r;
-
-    s = *pp;
-    if (s->f40 != 0) {
-        r = (void *)func_021BE92C(s->f04, (int)s->f0C, 3, 0, 0, s->f44, s->f45);
-    } else {
-        r = (void *)func_021BE92C(s->f04, (int)s->f0C, s->f3C, 0, 1, 0, 0);
-    }
-    func_02012374(a, r);
-}
-
-
-
-
-
-void func_021A8324(int a, R_021A8324 **r)
-{
-    R_021A8324 *p = *r;
-    int t;
-    if (p->f40 != 0) {
-        t = func_021BE8D4((void *)p->f4, p->fc, 0, 0);
-    } else {
-        t = func_021BE8D4((void *)p->f4, p->fc, p->f38, 0);
-    }
-    func_02012374((struct Evt *)a, (struct Evt **)t);
-}
-
-
-
-
-
-int func_021A834C(S_021A7CE8 *s)
-{
-    FieldMenuWork3 *p = s->f0;
-    if (func_021A8268((u32)s)) {
-        return 0;
-    }
-    if (p->f38 != 2) {
-        return 1;
-    }
-    return 0;
-}
-
-
-
-
+FieldMenu *func_021A836C(u16 heapId, u16 subHeapId, void *parent, void *fieldMap, int slideIn);
+void func_021A84A8(FieldMenu *menu);
+void func_021A84BC(FieldMenu *menu);
+int func_021A8588(void);
+u32 func_021A85B4(FieldMenu *menu);
+void func_021A87A8(FieldMenu *menu);
+void func_021A8840(FieldMenu *menu);
+void func_021A8874(FieldMenu *menu, void *arcHandle, int layoutType, u32 mapInfo);
+void func_021A8AFC(int heapId, int hideFrame);
+u32 func_021A8B18(void *gameData, void *eventWork, u32 zoneId);
+int func_021A8B84(int layoutType);
+void func_021A8BB8(FieldMenu *menu, void *arcHandle, int layoutType);
+void func_021A8D40(void *taskHandle, FieldMenu *menu);
+void func_021A8DD8(FieldMenu *menu);
+int func_021A8E10(FieldMenu *menu);
+void func_021A8E20(FieldMenu *menu, u32 buttonId);
+int func_021A8E78(u32 col, u32 row);
+u32 func_021A8E80(FieldMenu *menu, u32 dir);
+void func_021A8EEC(FieldMenu *menu);
+void func_021A8FFC(FieldMenu *menu);
+void func_021A9080(FieldMenu *menu, s16 x, s16 y);
+void func_021A90A4(FieldMenu *menu, int back);
+void func_021A90E0(FieldMenu *menu);
+void func_021A9154(FieldMenu *menu, FieldMenuItem *item, const FieldMenuItemInit *init);
+void func_021A926C(FieldMenu *menu, FieldMenuItem *item);
+void func_021A9294(FieldMenu *menu, FieldMenuItem *item);
+void func_021A92A4(u32 heapId, u32 layer);
 
 /*
  * 0x021DDF94 is the "field_menu.c" file-name string; 0x134 is its line.
  */
-Obj *func_021A836C(u16 heap, u16 a1, int a2, void *a3, int a4)
+FieldMenu *func_021A836C(u16 heapId, u16 subHeapId, void *parent, void *fieldMap, int slideIn)
 {
-    Obj *p;
-    u32 x;
-    u32 y;
-    void *q;
-    u32 r;
+    FieldMenu *menu;
+    void *gameSystem;
+    void *gameData;
+    void *arcHandle;
+    u32 layoutType;
 
-    p = func_02030734(heap, 0x138, 0, d_021DDF94, 0x134);
-    x = (u32)func_02188C80(a3);
-    y = (u32)func_020120F4((const struct Ctx *)x);
-    p->f00 = heap;
-    p->f02 = a1;
-    p->f04 = a3;
-    p->f08 = a2;
-    p->f0C = 1;
-    p->f1C = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)x));
-    p->f14 = func_0201296C((const struct BigObj *)y);
-    p->f18 = (u32)func_02012944((void *)y);
-    p->f10 = func_02188C54(a3);
-    p->f1E = 0;
-    p->f1F = 0;
-    p->f24 = p->f2C = func_020355C4() ^ 1;
-    p->fF8 = 0;
-    p->f130 = func_020056A0(func_021A8D40, p, 0);
-    p->f12C = (void *)func_0201C440((void *)p->f00);
-    p->f100 = 0;
-    p->fFC = 0;
-    q = func_020490F4(0x47, p->f02);
-    r = func_021A8B18((void *)y, (void *)p->f14, p->f1C);
-    p->f21 = r;
-    func_021A8874(p, q, r, p->f10);
-    func_021A8BB8(p, q, r);
-    func_02049238(q);
+    menu = func_02030734(heapId, 0x138, 0, d_021DDF94, 0x134);
+    gameSystem = func_02188C80(fieldMap);
+    gameData = func_020120F4(gameSystem);
+    menu->heapId = heapId;
+    menu->subHeapId = subHeapId;
+    menu->fieldMap = fieldMap;
+    menu->parent = parent;
+    menu->state = FIELD_MENU_STATE_WAIT_PRINT;
+    menu->zoneId = func_02012AC8(func_020120F8(gameSystem));
+    menu->eventWork = func_0201296C(gameData);
+    menu->myStatus = func_02012944(gameData);
+    menu->mapInfo = func_02188C54(fieldMap);
+    menu->cursorCol = 0;
+    menu->cursorRow = 0;
+    menu->cursorDirty = menu->keyCursorActive = func_020355C4() ^ 1;
+    menu->selectedItem = 0;
+    menu->colorTask = func_020056A0(func_021A8D40, menu, 0);
+    menu->printQue = func_0201C440(menu->heapId);
+    menu->scrollDirty = 0;
+    menu->scrollY = 0;
+    arcHandle = func_020490F4(0x47, menu->subHeapId);
+    layoutType = func_021A8B18(gameData, menu->eventWork, menu->zoneId);
+    menu->layoutType = layoutType;
+    func_021A8874(menu, arcHandle, layoutType, menu->mapInfo);
+    func_021A8BB8(menu, arcHandle, layoutType);
+    func_02049238(arcHandle);
     func_02040588(1, 1);
-    if (a4 == 1) {
-        p->f1E = 0;
-        p->f1F = 0;
-        p->f24 = 1;
-        func_021A90E0((struct W *)p);
-        func_021A8DD8(p);
+    if (slideIn == 1) {
+        menu->cursorCol = 0;
+        menu->cursorRow = 0;
+        menu->cursorDirty = 1;
+        func_021A90E0(menu);
+        func_021A8DD8(menu);
     } else {
-        func_021A8E20((struct W *)p, func_020129C4((const struct BigObj *)y));
-        p->f24 = 1;
-        if (p->f2C != 0) {
-            func_0204B3DC((struct Obj *)p->f124, 1);
+        func_021A8E20(menu, func_020129C4(gameData));
+        menu->cursorDirty = 1;
+        if (menu->keyCursorActive != 0) {
+            func_0204B3DC(menu->cursorActor, 1);
         } else {
-            func_0204B3DC((struct Obj *)p->f124, 0);
+            func_0204B3DC(menu->cursorActor, 0);
         }
     }
-    func_0203D34C(0, p->f02);
-    return p;
+    func_0203D34C(0, menu->subHeapId);
+    return menu;
 }
 
-
-
-
-void func_021A84A8(S_021A84A8 *s)
+/* Tells the parent the menu is leaving when the player asked to close it. */
+void func_021A84A8(FieldMenu *menu)
 {
-    if (s->f28 == 1) {
-        func_021A0FB4((u32 *)s->f8, s->h0);
+    if (menu->exitRequested == 1) {
+        func_021A0FB4(menu->parent, menu->heapId);
     }
 }
 
-
-
-
-void func_021A84BC(FieldMenuWork4 *p)
+void func_021A84BC(FieldMenu *menu)
 {
     u8 i;
 
-    for (i = 0; i < 7; i++) {
-        func_021A926C(p, &p->f34[i]);
+    for (i = 0; i < FIELD_MENU_ITEM_MAX; i++) {
+        func_021A926C(menu, &menu->items[i]);
     }
-    func_021A84A8((S_021A84A8 *)p);
-    func_02030EAC(p->f130);
-    func_0204B3B4(p->f128);
-    func_0204B3B4(p->f124);
-    func_0204B084(p->f120);
-    func_0204B1CC(p->f11C);
-    func_0204AFD8((u32)p->f10C);
-    func_0204A8D4((u32)p->f108);
-    func_0204ADA4((u32)p->f104);
-    func_0204AFD8((u32)p->f118);
-    func_0204A8D4((u32)p->f114);
-    func_0204ADA4((u32)p->f110);
+    func_021A84A8(menu);
+    func_02030EAC(menu->colorTask);
+    func_0204B3B4(menu->backActor);
+    func_0204B3B4(menu->cursorActor);
+    func_0204B084(menu->clactSurface);
+    func_0204B1CC(menu->clactUnit);
+    func_0204AFD8(menu->cellRes);
+    func_0204A8D4(menu->charRes);
+    func_0204ADA4(menu->palRes);
+    func_0204AFD8(menu->cellResB);
+    func_0204A8D4(menu->charResB);
+    func_0204ADA4(menu->palResB);
     func_02040618(6, 3, 0);
     func_020403F4(7);
     func_020403F4(5);
     func_020403F4(6);
-    func_0201C6EC(p->f12C);
-    func_0201C4C0(p->f12C);
-    func_020307B0(p);
+    func_0201C6EC(menu->printQue);
+    func_0201C4C0(menu->printQue);
+    func_020307B0(menu);
 }
 
-
-
-
+/* Shows the menu BG layers again after a slide or a wipe. */
 int func_021A8588(void)
 {
-func_020409B4(6);
-func_02040588(4, 1);
-func_02040588(5, 1);
-func_02040588(6, 1);
-return func_02040588(7, 1);
+    func_020409B4(6);
+    func_02040588(4, 1);
+    func_02040588(5, 1);
+    func_02040588(6, 1);
+    return func_02040588(7, 1);
 }
 
-
-
-
-u32 func_021A85B4(FieldMenuWork *p)
+/* Per-frame update; returns the print queue state for the parent's main. */
+u32 func_021A85B4(FieldMenu *menu)
 {
     u8 i;
-    s16 v;
-    Sel *s;
+    s16 scrollY;
+    FieldMenuItem *item;
 
-    switch (p->f0C) {
-    case 1:
-        if (func_0201C6B4(p->f12C) == 1) {
-            func_021A12D4(p->f08, p->f02);
-            for (i = 0; i < 7; i++) {
-                func_021A9294(p, &p->f34[i]);
+    switch (menu->state) {
+    case FIELD_MENU_STATE_WAIT_PRINT:
+        if (func_0201C6B4(menu->printQue) == 1) {
+            func_021A12D4(menu->parent, menu->subHeapId);
+            for (i = 0; i < FIELD_MENU_ITEM_MAX; i++) {
+                func_021A9294(menu, &menu->items[i]);
             }
-            if (p->fFC != 0) {
-                func_020061E4(0x554);
-                p->f0C = 0;
+            if (menu->scrollY != 0) {
+                func_020061E4(SE_FIELD_MENU_SLIDE_IN);
+                menu->state = FIELD_MENU_STATE_SLIDE_IN;
             } else {
-                p->f0C = 2;
+                menu->state = FIELD_MENU_STATE_WAIT_WIPE;
                 func_021A8588();
             }
         }
         break;
-    case 0:
-        v = p->fFC;
-        if (v < 0x40) {
-            p->fFC = 0;
-            p->f0C = 3;
+    case FIELD_MENU_STATE_SLIDE_IN:
+        scrollY = menu->scrollY;
+        if (scrollY < FIELD_MENU_SCROLL_STEP) {
+            menu->scrollY = 0;
+            menu->state = FIELD_MENU_STATE_IDLE;
             func_021A8588();
         } else {
-            p->fFC = v - 0x40;
-            func_021A87A8(p);
+            menu->scrollY = scrollY - FIELD_MENU_SCROLL_STEP;
+            func_021A87A8(menu);
         }
-        p->f100 = 1;
+        menu->scrollDirty = 1;
         break;
-    case 2:
+    case FIELD_MENU_STATE_WAIT_WIPE:
         if (func_020221A4() == 1) {
-            func_021A12D4(p->f08, p->f02);
-            p->f0C = 3;
+            func_021A12D4(menu->parent, menu->subHeapId);
+            menu->state = FIELD_MENU_STATE_IDLE;
         }
         break;
-    case 3:
-        func_021A8EEC(p);
-        func_021A8FFC((struct W *)p);
-        func_021A90E0((struct W *)p);
+    case FIELD_MENU_STATE_IDLE:
+        func_021A8EEC(menu);
+        func_021A8FFC(menu);
+        func_021A90E0(menu);
         break;
-    case 4:
-        if (func_0204B98C((struct Actor *)p->f128) != 0) {
+    case FIELD_MENU_STATE_BACK_ANIM:
+        if (func_0204B98C(menu->backActor) != 0) {
             break;
         }
-        p->f0C = 5;
+        menu->state = FIELD_MENU_STATE_DECIDE;
         func_02040588(5, 1);
         func_02040588(6, 1);
         func_02040588(7, 1);
         func_02040588(4, 1);
         break;
-    case 5:
-        if (p->f28 == 1 || p->f1F == 3) {
-            p->f0C = 9;
-            func_020061E4(0x556);
+    case FIELD_MENU_STATE_DECIDE:
+        if (menu->exitRequested == 1 || menu->cursorRow == 3) {
+            menu->state = FIELD_MENU_STATE_SLIDE_OUT;
+            func_020061E4(SE_FIELD_MENU_CLOSE);
             func_02040588(4, 0);
             func_02040588(5, 1);
             func_02040588(6, 1);
             func_02040588(7, 1);
-            func_0204B3DC((struct Obj *)((FieldMenuWork *)p->f128), 0);
+            func_0204B3DC(menu->backActor, 0);
         } else {
-            s = p->fF8;
-            if (s->f18 != 0) {
-                p->f20 = 0;
-                func_021A9080(p, s->f14, s->f15);
-                func_0204B878((FieldMenuWork *)p->f124, 1);
-                func_0204B3DC((struct Obj *)((FieldMenuWork *)p->f124), 1);
-                p->f0C = 6;
-                func_020061E4(0x54C);
+            item = menu->selectedItem;
+            if (item->actor != 0) {
+                menu->pressFrames = 0;
+                func_021A9080(menu, item->cursorX, item->cursorY);
+                func_0204B878(menu->cursorActor, 1);
+                func_0204B3DC(menu->cursorActor, 1);
+                menu->state = FIELD_MENU_STATE_PRESS_ANIM;
+                func_020061E4(SE_FIELD_MENU_PRESS);
             } else {
-                p->f0C = 8;
+                menu->state = FIELD_MENU_STATE_NOTIFY_SELECT;
             }
         }
         break;
-    case 6:
-        p->f20++;
-        if (func_0204B98C((struct Actor *)p->f124) == 0) {
-            p->f0C = 8;
+    case FIELD_MENU_STATE_PRESS_ANIM:
+        menu->pressFrames++;
+        if (func_0204B98C(menu->cursorActor) == 0) {
+            menu->state = FIELD_MENU_STATE_NOTIFY_SELECT;
         }
         break;
-    case 7:
-        func_021A0FA0(p->f08, 4);
-        p->f0C = 10;
+    case FIELD_MENU_STATE_NOTIFY_CLOSE:
+        func_021A0FA0(menu->parent, FIELD_MENU_NEXT_CLOSE);
+        menu->state = FIELD_MENU_STATE_DONE;
         break;
-    case 8:
-        func_021A0FA0(p->f08, 3);
-        p->f0C = 10;
+    case FIELD_MENU_STATE_NOTIFY_SELECT:
+        func_021A0FA0(menu->parent, FIELD_MENU_NEXT_SELECT);
+        menu->state = FIELD_MENU_STATE_DONE;
         break;
-    case 9:
-        if (p->fFC + 0x40 > 0xC0) {
-            p->fFC = 0xC0;
-            p->f0C = 7;
+    case FIELD_MENU_STATE_SLIDE_OUT:
+        if (menu->scrollY + FIELD_MENU_SCROLL_STEP > FIELD_MENU_SCROLL_HIDDEN) {
+            menu->scrollY = FIELD_MENU_SCROLL_HIDDEN;
+            menu->state = FIELD_MENU_STATE_NOTIFY_CLOSE;
         } else {
-            p->fFC += 0x40;
-            func_021A87A8(p);
+            menu->scrollY += FIELD_MENU_SCROLL_STEP;
+            func_021A87A8(menu);
         }
-        p->f100 = 1;
+        menu->scrollDirty = 1;
         break;
     }
-    return func_0201C4E4(p->f12C);
+    return func_0201C4E4(menu->printQue);
+}
+
+/*
+ * Moves the icon surface to the current scroll and hides the icons and the
+ * cursor that have slid below the visible part of the screen.
+ */
+void func_021A87A8(FieldMenu *menu)
+{
+    FieldMenuScreenPos surfaceOffset;
+    FieldMenuScreenPos iconPos;
+    FieldMenuScreenPos cursorPos;
+    u8 i;
+
+    surfaceOffset.x = 0;
+    surfaceOffset.y = -menu->scrollY;
+    func_0204B09C(menu->clactSurface, 0, &surfaceOffset);
+    for (i = 0; i < FIELD_MENU_ITEM_MAX; i++) {
+        if (menu->items[i].actor != 0 && menu->items[i].buttonId != FIELD_MENU_BUTTON_EMPTY) {
+            func_0204B454(menu->items[i].actor, &iconPos, 0);
+            if (iconPos.y < FIELD_MENU_ICON_CULL_Y) {
+                func_0204B3DC(menu->items[i].actor, 1);
+            } else {
+                func_0204B3DC(menu->items[i].actor, 0);
+            }
+        }
+    }
+    func_0204B454(menu->cursorActor, &cursorPos, 0);
+    if (menu->keyCursorActive != 0 && cursorPos.y < FIELD_MENU_CURSOR_CULL_Y) {
+        func_0204B3DC(menu->cursorActor, 1);
+    } else {
+        func_0204B3DC(menu->cursorActor, 0);
+    }
+}
+
+/* Applies the scroll to the BG layers 5 and 6 when it changed. */
+void func_021A8840(FieldMenu *menu)
+{
+    if (menu->scrollDirty == 1) {
+        func_02041EE4(5, 3, -menu->scrollY);
+        func_02041EE4(6, 3, -FIELD_MENU_LAYER6_OFFSET - menu->scrollY);
+        menu->scrollDirty = 0;
+    }
+}
+
+/*
+ * Sets up the BG layers 5 to 7, loads the screen, palette, icon and cursor
+ * resources and creates the cursor and back button actors.
+ */
+void func_021A8874(FieldMenu *menu, void *arcHandle, int layoutType, u32 mapInfo)
+{
+    void *commonArc;
+    u32 cellId;
+    FieldMenuActorPos pos;
+    FieldMenuSurfaceRect surfaceRect;
+
+    func_0207D534((volatile u16 *)0x0400106C, -16);
+    func_0203FCA0(5, &d_021D8BBC, 0);
+    func_02040588(5, 1);
+    func_020414EC(5);
+    func_0203FCA0(6, &d_021D8B5C, 0);
+    func_02040588(6, 1);
+    func_020414EC(6);
+    func_0203FCA0(7, &d_021D8B7C, 0);
+    func_02040588(7, 1);
+    func_020414EC(7);
+    func_02040618(6, 3, -FIELD_MENU_LAYER6_OFFSET);
+    func_02049B68(arcHandle, 0, 4, 0, 0, menu->subHeapId);
+    func_02049658(arcHandle, 2, 5, 0, 0, 0, menu->subHeapId);
+    func_020498F4(arcHandle, d_021D8B44[layoutType], 5, 0, 0, 0, menu->subHeapId);
+    func_020498F4(arcHandle, 0xE, 7, 0, 0, 0, menu->subHeapId);
+    menu->palRes = func_0204AC18(arcHandle, 1, 1, 0, 0, 0xB, menu->heapId);
+    menu->charRes = func_0204A6C8(arcHandle, 0xD, 0, 1, menu->heapId);
+    menu->cellRes = func_0204AF28(arcHandle, 0x1C, 0x26, menu->heapId);
+    commonArc = func_020490F4(func_020275E4(), menu->subHeapId);
+    menu->palResB = func_0204AC18(commonArc, func_02027614(), 1, 0x160, 0, 2, menu->heapId);
+    menu->charResB = func_0204A6C8(commonArc, func_02027618(), 0, 1, menu->heapId);
+    cellId = func_0202761C(0);
+    menu->cellResB = func_0204AF28(commonArc, cellId, func_02027620(0), menu->heapId);
+    func_02049238(commonArc);
+    func_020409B4(5);
+    menu->clactUnit = func_0204B100(8, 0, menu->heapId);
+    surfaceRect = d_021D8C1C;
+    menu->clactSurface = func_0204B034(&surfaceRect, 1, menu->heapId);
+    func_0204B258(menu->clactUnit, menu->clactSurface);
+    pos.x = 0x40;
+    pos.y = 0x2C;
+    pos.z = 0;
+    pos.flip = 0;
+    pos.palOffset = 0;
+    menu->cursorActor = func_0204B294(menu->clactUnit, menu->charRes, menu->palRes, menu->cellRes, &pos, 0, menu->heapId);
+    func_0204B954(menu->cursorActor, 0x1000);
+    func_0204B92C(menu->cursorActor, 1);
+    func_0204B84C(menu->cursorActor, 2);
+    pos.x = 0xE0;
+    pos.y = 0xA8;
+    menu->backActor = func_0204B294(menu->clactUnit, menu->charResB, menu->palResB, menu->cellResB, &pos, 0, menu->heapId);
+    func_0204B954(menu->backActor, 0x1000);
+    func_0204B92C(menu->backActor, 1);
+    func_0204B3DC(menu->backActor, 1);
+    func_0204B954(menu->backActor, 0x2000);
+}
+
+/* Loads the frame screen into the given layer; hideFrame turns layer 4 off. */
+void func_021A8AFC(int heapId, int hideFrame)
+{
+    func_021A92A4(heapId, 4);
+    if (hideFrame != 0) {
+        func_02040588(4, 0);
+    }
+}
+
+/*
+ * Picks the button layout from the story progress: 1 in the early-game
+ * zones, 4 and 5 for the two special states, then 3 and 2 until the two
+ * event flags are set; 0 is the full layout.
+ */
+u32 func_021A8B18(void *gameData, void *eventWork, u32 zoneId)
+{
+    u32 layoutType = 0;
+
+    if (func_02013CC8((u16)zoneId) || func_02013CE0(zoneId)) {
+        layoutType = 1;
+    } else if (func_02013D20(zoneId)) {
+        layoutType = 4;
+    } else if (func_02012B70(gameData)) {
+        layoutType = 5;
+    } else if (!func_020142E8(eventWork, 0x961)) {
+        layoutType = 3;
+    } else if (!func_020142E8(eventWork, 0x962)) {
+        layoutType = 2;
+    }
+    return layoutType;
+}
+
+/* Counts the slots of a layout that hold a button. */
+int func_021A8B84(int layoutType)
+{
+    int i;
+    int count;
+
+    i = 0;
+    count = 0;
+    for (; d_021D8D24[layoutType][i] != 0; i++) {
+        if (d_021D8D24[layoutType][i] != FIELD_MENU_BUTTON_EMPTY) {
+            count++;
+        }
+    }
+    return count;
+}
+
+/* Builds the seven slots of the layout from the button table and the message bank. */
+void func_021A8BB8(FieldMenu *menu, void *arcHandle, int layoutType)
+{
+    void *msgBank;
+    u8 i;
+    u8 j;
+    int buttonId;
+    const int *layoutRow;
+    FieldMenuItemInit init;
+    FieldMenuName nameBuf;
+    FieldMenuName defaultName;
+
+    msgBank = func_02045B38(0, 2, 0x22, menu->subHeapId);
+    for (i = 0; i < FIELD_MENU_ITEM_MAX; i++) {
+        menu->items[i].inUse = 0;
+    }
+    j = 0;
+    layoutRow = d_021D8D24[layoutType];
+    defaultName = d_021D8C0C;
+    for (; j < FIELD_MENU_ITEM_MAX; j++) {
+        buttonId = layoutRow[j];
+        if (buttonId == FIELD_MENU_BUTTON_PLAYER) {
+            init.text = func_020457B0(0x10, menu->subHeapId);
+            if (func_020084BC(menu->myStatus) == 0) {
+                func_02045924(init.text, func_020084F4(menu->myStatus));
+            } else {
+                nameBuf = defaultName;
+                func_02045924(init.text, nameBuf.chars);
+            }
+        } else {
+            init.text = func_02045EC0(msgBank, d_021D8B34[buttonId]);
+        }
+        init.buttonId = buttonId;
+        if (j != FIELD_MENU_ITEM_BACK) {
+            init.cursorX = (j % 2) * 128 + 0x40;
+            init.cursorY = (j / 2) * 0x30 + 0x2C;
+            init.iconX = init.cursorX - 0x20;
+            init.iconY = init.cursorY;
+            init.arcHandle = arcHandle;
+            init.charId = d_021D8CAC[buttonId].charId;
+            init.cellId = d_021D8CAC[buttonId].cellId;
+            init.animId = d_021D8CAC[buttonId].animId;
+            if (buttonId == 3 && func_02008550(menu->myStatus) == 1) {
+                init.charId = 7;
+                init.cellId = 0x16;
+                init.animId = 0x20;
+            }
+            if (buttonId == 2 && func_02008550(menu->myStatus) == 1) {
+                init.charId = 0xC;
+                init.cellId = 0x1B;
+                init.animId = 0x25;
+            }
+        } else {
+            init.cursorX = 0x80;
+            init.cursorY = 0xB4;
+            init.iconX = 0;
+            init.iconY = 0;
+            init.arcHandle = 0;
+            init.charId = 0;
+            init.cellId = 0;
+            init.animId = 0;
+        }
+        init.winTileX = d_021D8B18[j].tileX;
+        init.winTileY = d_021D8B18[j].tileY;
+        func_021A9154(menu, &menu->items[j], &init);
+        func_02045808(init.text);
+    }
+    func_02045C04(msgBank);
+}
+
+/* Task proc: cycles two palette colors of the menu with a sine of the phase counter. */
+void func_021A8D40(void *taskHandle, FieldMenu *menu)
+{
+    s32 wave = func_0203F684((u16)menu->colorPhase) + 0x1000;
+    u16 colors[2];
+
+    colors[1] = (wave * 8 / 0x2000 + 9) | ((0x1F << 10) | ((wave * 5 / 0x2000 + 0x12) << 5));
+    func_0207E5D0(&colors[1], 0x142, 2);
+    colors[0] = (wave * 0x1F / 0x2000) |
+                (((wave * 6 / 0x2000 + 0x19) << 10) | ((wave * 13 / 0x2000 + 0x12) << 5));
+    func_0207E5D0(&colors[0], 0x15E, 2);
+    menu->colorPhase += 6;
+}
+
+/* Puts the menu in its fully scrolled-out state. */
+void func_021A8DD8(FieldMenu *menu)
+{
+    FieldMenuScreenPos offset;
+
+    menu->scrollY = FIELD_MENU_SCROLL_HIDDEN;
+    func_02040618(5, 3, -FIELD_MENU_SCROLL_HIDDEN);
+    func_02040618(6, 3, -(FIELD_MENU_SCROLL_HIDDEN + FIELD_MENU_LAYER6_OFFSET));
+    offset.x = 0;
+    offset.y = FIELD_MENU_SCROLL_HIDDEN;
+    func_0204B09C(menu->clactSurface, 0, &offset);
+}
+
+/* Returns the button id of the selected slot, or 0 when none is selected. */
+int func_021A8E10(FieldMenu *menu)
+{
+    FieldMenuItem *item = menu->selectedItem;
+
+    if (item == 0) {
+        return 0;
+    }
+    return item->buttonId;
+}
+
+/* Moves the cursor to the slot that holds the given button. */
+void func_021A8E20(FieldMenu *menu, u32 buttonId)
+{
+    u8 i;
+    FieldMenuItem *items;
+
+    for (i = 0, items = menu->items; i < FIELD_MENU_ITEM_MAX; i++) {
+        if (menu->items[i].inUse == 1 && buttonId == menu->items[i].buttonId) {
+            menu->cursorCol = i % 2;
+            menu->cursorRow = i / 2;
+            menu->cursorDirty = 1;
+            func_021A9080(menu, items[menu->cursorCol + menu->cursorRow * 2].cursorX, items[menu->cursorCol + menu->cursorRow * 2].cursorY);
+        }
+    }
+}
+
+/* Slot index of a cursor position: two columns per row. */
+int func_021A8E78(u32 col, u32 row)
+{
+    return (col + (row << 1));
+}
+
+/*
+ * Moves the cursor one step in a direction (0 up, 1 down, 2 left, 3 right)
+ * using the transition tables of the layout; returns 1 when it moved.
+ */
+u32 func_021A8E80(FieldMenu *menu, u32 dir)
+{
+    u32 index = func_021A8E78(menu->cursorCol, menu->cursorRow);
+    u32 target = d_021D8C4C[func_021A8B84(menu->layoutType) - 4][index][dir];
+
+    if (index != target) {
+        if (target == 0xFF) {
+            menu->cursorRow = 2;
+            return 1;
+        }
+        if (target == 0xFE) {
+            menu->cursorRow = 1;
+            return 1;
+        }
+        if (target != FIELD_MENU_ITEM_BACK) {
+            menu->cursorCol = d_021D8B26[target * 2];
+        }
+        menu->cursorRow = d_021D8B27[target * 2];
+        return 1;
+    }
+    return 0;
+}
+
+/* Key input: moves the cursor, or selects the slot under it, or closes the menu. */
+void func_021A8EEC(FieldMenu *menu)
+{
+    u32 pressed;
+    u32 repeated;
+
+    pressed = func_020362DC();
+    repeated = func_0203633C();
+    if (menu->keyCursorActive == 0 && (pressed | repeated) != 0) {
+        if ((pressed & FIELD_MENU_PAD_B) || (pressed & FIELD_MENU_PAD_X)) {
+            func_021A90A4(menu, 1);
+            return;
+        }
+        func_020061E4(SE_FIELD_MENU_MOVE);
+        menu->keyCursorActive = 1;
+        menu->selectedItem = 0;
+        menu->cursorDirty = 1;
+        func_0204B3DC(menu->cursorActor, 1);
+        return;
+    }
+    if (repeated & FIELD_MENU_PAD_UP) {
+        if (func_021A8E80(menu, 0) != 0) {
+            menu->cursorDirty = 1;
+            func_020061E4(SE_FIELD_MENU_MOVE);
+        }
+    } else if (repeated & FIELD_MENU_PAD_DOWN) {
+        if (func_021A8E80(menu, 1) != 0) {
+            menu->cursorDirty = 1;
+            func_020061E4(SE_FIELD_MENU_MOVE);
+        }
+    } else if (repeated & FIELD_MENU_PAD_LEFT) {
+        if (func_021A8E80(menu, 2) != 0) {
+            menu->cursorDirty = 1;
+            func_020061E4(SE_FIELD_MENU_MOVE);
+        }
+    } else if (repeated & FIELD_MENU_PAD_RIGHT) {
+        if (func_021A8E80(menu, 3) != 0) {
+            menu->cursorDirty = 1;
+            func_020061E4(SE_FIELD_MENU_MOVE);
+        }
+    } else if ((pressed & FIELD_MENU_PAD_B) || (pressed & FIELD_MENU_PAD_X)) {
+        func_021A90A4(menu, 1);
+    } else if (pressed & FIELD_MENU_PAD_A) {
+        if (menu->items[func_021A8E78(menu->cursorCol, menu->cursorRow)].buttonId != FIELD_MENU_BUTTON_EMPTY) {
+            func_021A90A4(menu, 0);
+            func_020355D8(0);
+        }
+    }
+}
+
+/* Touch input: a tap on a slot moves the cursor there and selects it. */
+void func_021A8FFC(FieldMenu *menu)
+{
+    FieldMenuTouchTable touchTable = d_021D8C2C;
+    int hitSlot = func_02035C08(&touchTable);
+    u32 zero;
+
+    if (hitSlot != -1 && menu->items[hitSlot].buttonId != FIELD_MENU_BUTTON_EMPTY) {
+        menu->cursorCol = hitSlot % 2;
+        menu->cursorRow = hitSlot / 2;
+        zero = 0;
+        menu->keyCursorActive = zero;
+        func_0204B3DC(menu->cursorActor, 0);
+        if (hitSlot == FIELD_MENU_ITEM_BACK) {
+            func_021A90A4(menu, 1);
+            return;
+        }
+        menu->cursorDirty = 1;
+        func_021A90A4(menu, zero);
+        func_020355D8(1);
+    }
+}
+
+/* Moves the cursor actor to a position and restarts the color phase. */
+void func_021A9080(FieldMenu *menu, s16 x, s16 y)
+{
+    FieldMenuScreenPos pos;
+
+    pos.x = x;
+    pos.y = y;
+    func_0204B404(menu->cursorActor, &pos, 0);
+    menu->colorPhase = 0;
+}
+
+/* Starts leaving the menu: back = 1 plays the back button, else the slot is chosen. */
+void func_021A90A4(FieldMenu *menu, int back)
+{
+    if (back == 1) {
+        menu->exitRequested = 1;
+        menu->state = FIELD_MENU_STATE_BACK_ANIM;
+        func_0204B878(menu->backActor, 8);
+    } else {
+        menu->exitRequested = 0;
+        menu->state = FIELD_MENU_STATE_DECIDE;
+        menu->chosenButton = menu->items[func_021A8E78(menu->cursorCol, menu->cursorRow)].buttonId;
+    }
+}
+
+/* Applies a cursor move: selects the new slot and swaps the highlighted icon animation. */
+void func_021A90E0(FieldMenu *menu)
+{
+    FieldMenuItem *previous;
+
+    if (menu->cursorDirty == 1) {
+        previous = menu->selectedItem;
+        menu->selectedItem = &menu->items[menu->cursorCol + menu->cursorRow * 2];
+        func_0204B878(menu->cursorActor, 0);
+        func_021A9080(menu, menu->selectedItem->cursorX, menu->selectedItem->cursorY);
+        if (menu->selectedItem->actor != 0 && menu->keyCursorActive == 1) {
+            func_0204B878(menu->selectedItem->actor, 1);
+        }
+        if (previous != 0 && previous->actor != 0) {
+            func_0204B878(previous->actor, 0);
+        }
+        menu->cursorDirty = 0;
+    }
+}
+
+/* Creates one slot: its text window, icon resources and icon actor. */
+void func_021A9154(FieldMenu *menu, FieldMenuItem *item, const FieldMenuItemInit *init)
+{
+    FieldMenuActorSetup setup;
+    u32 textColor;
+
+    textColor = func_021904AC(func_02188C54(menu->fieldMap));
+    item->inUse = 1;
+    item->buttonId = init->buttonId;
+    item->cursorX = init->cursorX;
+    item->cursorY = init->cursorY;
+    item->bmpWin = func_020450F0(6, init->winTileX, init->winTileY, 8, 2, 0xD, 1);
+    func_02045374(item->bmpWin);
+    func_02043B5C(func_02045770(item->bmpWin), 0);
+    func_0201C724(menu->printQue, func_02045770(item->bmpWin), 2, 1, init->text, textColor, 0x440);
+    if (init->arcHandle != 0) {
+        item->charRes = func_0204A6C8(init->arcHandle, init->charId, 0, 1, menu->heapId);
+        item->cellRes = func_0204AF28(init->arcHandle, init->cellId, init->animId, menu->heapId);
+        setup.x = init->iconX;
+        setup.y = init->iconY;
+        setup.z = 0;
+        setup.flip = 0;
+        setup.palOffset = 0;
+        setup.bgPriority = 0;
+        setup.reserved0A = 0;
+        setup.scaleX = 0x1000;
+        setup.scaleY = 0x1000;
+        setup.rotation = 0;
+        setup.drawArea = 2;
+        item->actor = func_0204B324(menu->clactUnit, item->charRes, menu->palRes, item->cellRes, &setup, 0, menu->heapId);
+        func_0204B954(item->actor, 0x1000);
+        func_0204B92C(item->actor, 1);
+        func_0204B878(item->actor, 0);
+        if (item->buttonId == FIELD_MENU_BUTTON_EMPTY) {
+            func_0204B3DC(item->actor, 0);
+        } else {
+            func_0204B3DC(item->actor, 1);
+        }
+    } else {
+        item->actor = 0;
+    }
+}
+
+/* Frees the window and the icon resources of one slot. */
+void func_021A926C(FieldMenu *menu, FieldMenuItem *item)
+{
+    if (item->inUse == 1) {
+        func_020452E8(item->bmpWin);
+        if (item->actor != 0) {
+            func_0204B3B4(item->actor);
+            func_0204AFD8(item->cellRes);
+            func_0204A8D4(item->charRes);
+        }
+    }
+}
+
+/* Pushes the slot window to the screen once its text is printed. */
+void func_021A9294(FieldMenu *menu, FieldMenuItem *item)
+{
+    if (item->inUse == 1) {
+        func_02045334(item->bmpWin);
+    }
+}
+
+/*
+ * Loads the frame screen file and writes it to a BG layer with palette 3 and
+ * tile base 0x80.
+ * 0x021A8E14 is not a function: it lies inside func_021A8E10 (bytes
+ * 0x021A8E10..0x021A8E1F), the listing has no label there and nothing calls it.
+ * The old src/matched func_021A8E14 (an SDK signature hit on EL_GetLibSize)
+ * matched the tail of func_021A8E10.
+ */
+void func_021A92A4(u32 heapId, u32 layer)
+{
+    FieldMenuScreenData *screen;
+    void *screenBuf;
+    int i;
+    u16 *tiles;
+    void *arcHandle;
+
+    arcHandle = func_020490F4(func_020275E4(), heapId);
+    func_02049B68(arcHandle, func_02027624(), 4, 0x60, 0x20, heapId);
+    func_02049658(arcHandle, func_02027628(), layer, 0x80, 0, 0, heapId);
+    screenBuf = func_02049EF4(arcHandle, func_0202762C(), 0, (void **)&screen, heapId);
+    func_02049238(arcHandle);
+    tiles = screen->tiles;
+    for (i = 0; i < 0x300; i++) {
+        tiles[i] = (tiles[i] + 0x80) | 0x3000;
+    }
+    func_020410D0((u8)layer, 0, 0x15, 0x20, 3, (u32)screen->tiles, 0, 0x15, 0x20, 0x18);
+    func_02041B6C(layer);
+    func_020307B0(screenBuf);
 }

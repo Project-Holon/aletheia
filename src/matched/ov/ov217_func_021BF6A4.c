@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02021ED8  0x02021ED8  thumb
+ *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *
  * Note: the record's +0x3B8 handle is idle.
- * blocker: the only relocation is func_02021ED8 (0x02021ED8), which has no
+ * blocker: the only relocation is PALANM_GetFadeRequestBits (0x02021ED8), which has no
  *            witness outside 021BF6A4..021BF6BC.  Bytes are exact and 24/24
  *            match the listing extent; file the TARGET first (OV-BRIEF rule
  *            10) and this promotes to EXACT with no source change.
@@ -29,10 +29,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_02021ED8(const char *ptr);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 u32 func_021BF6A4(u8 *a0)
 {
-    if (func_02021ED8((const char *)(((struct Obj25929 *)(((u8*)a0)))->f3B8)) == 0) {
+    if (PALANM_GetFadeRequestBits((const char *)(((struct Obj25929 *)(((u8*)a0)))->f3B8)) == 0) {
     return 1;
     }
     return 0;

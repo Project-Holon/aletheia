@@ -33,7 +33,7 @@
  *   func_0203D34C 0x0203D34C arm
  *   func_02012A30 0x02012A30 thumb
  *   func_02028A58 0x02028A58 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_021FEE9C 0x021FEE9C thumb ov186
  *   func_021FEE4C 0x021FEE4C thumb ov186
  *   func_021FE840 0x021FE840 thumb ov186
@@ -90,7 +90,7 @@ extern int func_02034AC4(int),func_0203CD98(void);
 extern void func_0203D34C(u32,u32);
 extern u32 func_02012A30(const struct BigObj *p);
 extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
-extern void func_02005D90(u32,u16);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
 extern void func_021FEE9C(char *p);
 extern void func_021FEE4C(char *p);
 extern void func_021FE840(int,int,int);
@@ -128,7 +128,7 @@ int func_021F90C0(void *obj,int unused,char *q)
     if(func_0203CD98()) func_0203D34C(0,0x5a);
     if(!**(int * *)&((struct Obj24783 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) {
         if(((struct Obj24785 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4!=1) func_02028A58((void *)func_02012A30(((struct Obj24787 *)(*(char * *)&((struct Obj24786 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4),0x40,0);
-    } else func_02005D90(0x484,0xffff);
+    } else GFL_USE_CancelChangeAndPlayBgm(0x484,0xffff);
     if(((struct Obj24788 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4==1) {
         func_021FEE9C((char *)(*(int *)&((struct Obj00387 *)p)->f10));func_021FEE4C((char *)(*(int *)&((struct Obj00387 *)p)->f10));
         func_021FE840(*(int *)&((struct Obj00387 *)p)->fC,3,0);

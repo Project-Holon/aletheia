@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021793F8",
+   "name": "WIH_UpdateScanTimer",
    "address": "0x021793F8",
    "kind": "game",
    "region": "ov014",

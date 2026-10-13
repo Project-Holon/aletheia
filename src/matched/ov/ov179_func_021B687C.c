@@ -12,13 +12,13 @@
  * Entry of the ov179 command table (pool word 0x021B687D at 0x021B6A74).
  *
  * symbols:
- *   func_02005D28  0x02005D28  thumb
+ *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb
  */
 
-extern void func_02005D28(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 
 int func_021B687C(void)
 {
-    func_02005D28();
+    GFL_USE_CancelChangeAndStopBgm();
     return 1;
 }

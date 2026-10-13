@@ -1,7 +1,7 @@
 /*
  * file:     unit_02072F34.c
  * unit:     yes
- * function: func_02072F34, func_02072F48, func_02072F5C, func_02072F88, func_02072FA8, func_02072FC8, func_02072FE8, func_02073018, func_02073038, func_02073058, func_02073078, func_02073098
+ * function: NNS_SndHandleSetSeqPriority, NNS_SndHandleSetPlayerPriority, NNS_SndHandleMoveVolume, NNS_SndHandlePause, NNS_SndHandleSetTrackPause, NNS_SndHandleSetTrackMute, NNS_SndHandleSetTrackVolume, NNS_SndHandleSetTrackPitch, NNS_SndHandleSetTrackPan, NNS_SndHandleSetTrackModDepth, NNS_SndHandleSetTrackModSpeed, NNS_SndHandleStop
  * address:  0x02072F34
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -57,28 +57,28 @@ extern void func_02089454(u8, u32, u32);
 extern void func_02089470(u8, u32, u32);
 extern void func_020893B8(u8, u32);
 extern int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
-void func_02072F34(SndHandle *handle, u8 priority);
-void func_02072F48(SndHandle *handle, u8 priority);
-void func_02072F5C(SndSeqPlayer *volatile *handle, u32 volume, u32 frames);
-void func_02072F88(SndHandle *handle, u32 value);
-void func_02072FA8(SndHandle *handle, u32 trackMask, u32 value);
-void func_02072FC8(SndHandle *handle, u32 trackMask, u32 value);
-void func_02072FE8(SndHandle *handle, u32 trackMask, int volumeIndex);
-void func_02073018(SndHandle *handle, u32 trackMask, u32 value);
-void func_02073038(SndHandle *handle, u32 trackMask, u32 value);
-void func_02073058(SndHandle *handle, u32 trackMask, u32 value);
-void func_02073078(SndHandle *handle, u32 trackMask, u32 value);
-void func_02073098(SndHandle *handle, u32 value);
+void NNS_SndHandleSetSeqPriority(SndHandle *handle, u8 priority);
+void NNS_SndHandleSetPlayerPriority(SndHandle *handle, u8 priority);
+void NNS_SndHandleMoveVolume(SndSeqPlayer *volatile *handle, u32 volume, u32 frames);
+void NNS_SndHandlePause(SndHandle *handle, u32 value);
+void NNS_SndHandleSetTrackPause(SndHandle *handle, u32 trackMask, u32 value);
+void NNS_SndHandleSetTrackMute(SndHandle *handle, u32 trackMask, u32 value);
+void NNS_SndHandleSetTrackVolume(SndHandle *handle, u32 trackMask, int volumeIndex);
+void NNS_SndHandleSetTrackPitch(SndHandle *handle, u32 trackMask, u32 value);
+void NNS_SndHandleSetTrackPan(SndHandle *handle, u32 trackMask, u32 value);
+void NNS_SndHandleSetTrackModDepth(SndHandle *handle, u32 trackMask, u32 value);
+void NNS_SndHandleSetTrackModSpeed(SndHandle *handle, u32 trackMask, u32 value);
+void NNS_SndHandleStop(SndHandle *handle, u32 value);
 extern short g_020A5D08[];
 
 
-void func_02072F34(SndHandle *handle, u8 priority)
+void NNS_SndHandleSetSeqPriority(SndHandle *handle, u8 priority)
 {
     if (handle->player) handle->player->seqPriority = priority;
 }
 
 
-void func_02072F48(SndHandle *handle, u8 priority)
+void NNS_SndHandleSetPlayerPriority(SndHandle *handle, u8 priority)
 {
     if (handle->player) handle->player->playerPriority = priority;
 }
@@ -92,7 +92,7 @@ void func_02072F48(SndHandle *handle, u8 priority)
  * in r3, the register the earlier two-parameter spellings could not reach.
  * The re-load after the null test is the volatile slot.
  */
-void func_02072F5C(SndSeqPlayer *volatile *handle, u32 volume, u32 frames)
+void NNS_SndHandleMoveVolume(SndSeqPlayer *volatile *handle, u32 volume, u32 frames)
 {
     SndSeqPlayer *player;
 
@@ -132,63 +132,63 @@ void func_02072F5C(SndSeqPlayer *volatile *handle, u32 volume, u32 frames)
  *  * Verified with:
  *  *   python tools/match.py tu --src src/pending/unit_02072F88.c --addr 0x02072F88 --arm
  */
-void func_02072F88(SndHandle *handle, u32 value)
+void NNS_SndHandlePause(SndHandle *handle, u32 value)
 {
     if (handle->player == 0) return;
     func_020893E8(handle->player->playerNo, value);
 }
 
 
-void func_02072FA8(SndHandle *handle, u32 trackMask, u32 value)
+void NNS_SndHandleSetTrackPause(SndHandle *handle, u32 trackMask, u32 value)
 {
     if (handle->player == 0) return;
     func_02089580(handle->player->playerNo, trackMask, value);
 }
 
 
-void func_02072FC8(SndHandle *handle, u32 trackMask, u32 value)
+void NNS_SndHandleSetTrackMute(SndHandle *handle, u32 trackMask, u32 value)
 {
     if (handle->player == 0) return;
     func_020895B0(handle->player->playerNo, trackMask, value);
 }
 
 
-void func_02072FE8(SndHandle *handle, u32 trackMask, int volumeIndex)
+void NNS_SndHandleSetTrackVolume(SndHandle *handle, u32 trackMask, int volumeIndex)
 {
     if (handle->player == 0) return;
     func_02089400(handle->player->playerNo, trackMask, g_020A5D08[volumeIndex]);
 }
 
 
-void func_02073018(SndHandle *handle, u32 trackMask, u32 value)
+void NNS_SndHandleSetTrackPitch(SndHandle *handle, u32 trackMask, u32 value)
 {
     if (handle->player == 0) return;
     func_0208941C(handle->player->playerNo, trackMask, value);
 }
 
 
-void func_02073038(SndHandle *handle, u32 trackMask, u32 value)
+void NNS_SndHandleSetTrackPan(SndHandle *handle, u32 trackMask, u32 value)
 {
     if (handle->player == 0) return;
     func_02089438(handle->player->playerNo, trackMask, value);
 }
 
 
-void func_02073058(SndHandle *handle, u32 trackMask, u32 value)
+void NNS_SndHandleSetTrackModDepth(SndHandle *handle, u32 trackMask, u32 value)
 {
     if (handle->player == 0) return;
     func_02089454(handle->player->playerNo, trackMask, value);
 }
 
 
-void func_02073078(SndHandle *handle, u32 trackMask, u32 value)
+void NNS_SndHandleSetTrackModSpeed(SndHandle *handle, u32 trackMask, u32 value)
 {
     if (handle->player == 0) return;
     func_02089470(handle->player->playerNo, trackMask, value);
 }
 
 
-void func_02073098(SndHandle *handle, u32 value)
+void NNS_SndHandleStop(SndHandle *handle, u32 value)
 {
     if (handle->player == 0) return;
     func_020893B8(handle->player->playerNo, value);

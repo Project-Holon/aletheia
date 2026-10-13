@@ -1,5 +1,5 @@
 /*
- * function: func_020366A8
+ * function: GFL_NET_QUEUE_IsEmpty
  * address:  0x020366A8
  * packet:   pkt_020366A8
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020366C0   0x020366C0  arm
+ *   GFL_NET_QUEUE_GetCount   0x020366C0  arm
  */
 
-extern int func_020366C0(char *p);
+extern int GFL_NET_QUEUE_GetCount(char *p);
 
 struct Conn;
 
-int func_020366A8(struct Conn *p)
+int GFL_NET_QUEUE_IsEmpty(struct Conn *p)
 {
-    return func_020366C0((char *)p) == 0;
+    return GFL_NET_QUEUE_GetCount((char *)p) == 0;
 }

@@ -9,6 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * blocker:  02028900 label
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_GetFinalValue  0x02028900  thumb
  */
 
 typedef unsigned char  u8;
@@ -18,9 +21,9 @@ typedef unsigned int   u32;
 
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
-extern void *func_02028900(void *p);
+extern void *FIELD_SOUND_SYSTEM_GetFinalValue(void *p);
 
 void *func_02029DFC(const void *p)
 {
-    return func_02028900((void *)func_02012A30(p));
+    return FIELD_SOUND_SYSTEM_GetFinalValue((void *)func_02012A30(p));
 }

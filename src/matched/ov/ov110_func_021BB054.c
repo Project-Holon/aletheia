@@ -15,7 +15,7 @@
  *   func_021B9A48 0x021B9A48 thumb ov110
  *   func_021B99D8 0x021B99D8 thumb ov110
  *   func_021B6CE0 0x021B6CE0 thumb ov067
- *   func_0204581C 0x0204581C arm
+ *   STRBUF_Clear 0x0204581C arm
  *   func_02045F50 0x02045F50 arm
  *   d_021C375C 0x021C375C data a2
  */
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned u32;
 struct Obj;
 struct U16Vec;
-extern void func_0204581C(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
 extern void func_021BB00C(void *,void *);
 extern u16 func_02045F50(const struct Obj *o);
 extern u16 func_021B99F0(int,int,int);
@@ -46,7 +46,7 @@ int func_021BB054(u8 *p)
         p[0xaf1]=0;
         return 0;
     }
-    func_0204581C(((struct Obj01391 *)p)->fAD0);
+    STRBUF_Clear(((struct Obj01391 *)p)->fAD0);
     func_021BB00C(p,((struct Obj01391 *)p)->fAD0);
     if(id==26) {
         n=func_02045F50(*(void **)(p+0xc+id*4));

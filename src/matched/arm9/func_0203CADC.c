@@ -1,5 +1,5 @@
 /*
- * function: func_0203CADC
+ * function: GFL_NET_STATE_FatalError
  * address:  0x0203CADC
  * packet:   pkt_0203CADC
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Unlabelled ARM assert thunk: tail call func_02034714(g_020A7BA8, 0x8D8, g_020A7C7C), the fall-through failure path after func_0203CA98.
+ * Unlabelled ARM assert thunk: tail call func_02034714(g_020A7BA8, 0x8D8, g_020A7C7C), the fall-through failure path after GFL_NET_STATE_GetError.
  *
  * symbols:
  *   g_020A7BA8     0x020A7BA8  data
@@ -24,7 +24,7 @@ extern u8  g_020A7BA8[];
 extern u8  g_020A7C7C[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-void func_0203CADC(void)
+void GFL_NET_STATE_FatalError(void)
 {
     func_02034714((const char *)((u32)g_020A7BA8), 0x8D8, (const char *)((u32)g_020A7C7C));
 }

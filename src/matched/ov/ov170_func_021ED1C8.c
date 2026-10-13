@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021EC0B0 0x021EC0B0 thumb
- *   func_0204B838 0x0204B838 arm
- *   func_0204B864 0x0204B864 arm
+ *   CLACT_GetActorDrawPriority 0x0204B838 arm
+ *   CLACT_GetActorBgPriority 0x0204B864 arm
  *   func_021EBEE0 0x021EBEE0 thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_021EC08C 0x021EC08C thumb
@@ -43,11 +43,11 @@ typedef struct {
 } Desc;
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
-extern int func_0204B838(int a0);
+extern int CLACT_GetActorDrawPriority(int a0);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;
-extern u32 func_0204B864(u8 *a0);
+extern u32 CLACT_GetActorBgPriority(u8 *a0);
 extern void *func_021EBEE0(char *w, const Desc *s);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
@@ -60,8 +60,8 @@ extern const signed char d_021EFCC8[];
 
 static inline void setup(Desc *dp, void **res)
 {
-    dp->b6 = func_0204B838((int)(*res)) + 1;
-    dp->b7 = func_0204B864(*res);
+    dp->b6 = CLACT_GetActorDrawPriority((int)(*res)) + 1;
+    dp->b7 = CLACT_GetActorBgPriority(*res);
 }
 
 void func_021ED1C8(char *w)
@@ -87,8 +87,8 @@ void func_021ED1C8(char *w)
             func_021EC000(w, j + 0x58, 0);
         }
     } else {
-        int n6 = func_0204B838((int)(((struct Obj08247 *)w)->f9E9C));
-        int n7 = func_0204B864(((struct Obj08247 *)w)->f9E9C);
+        int n6 = CLACT_GetActorDrawPriority((int)(((struct Obj08247 *)w)->f9E9C));
+        int n7 = CLACT_GetActorBgPriority(((struct Obj08247 *)w)->f9E9C);
         for (; j < 8u; j++) {
             func_021EC08C(w, j + 0x58, (short)(xy[1] + d_021EFCD0[j]), (short)(xy[0] + d_021EFCC8[j]), (short)0);
             func_021EC048(w, j + 0x58, n6 + 1);

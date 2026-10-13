@@ -1,5 +1,5 @@
 /*
- * function: func_020312B4
+ * function: PROCSYS_MainGlobal
  * address:  0x020312B4
  * packet:   pkt_020312B4
  * region:   arm9
@@ -11,19 +11,19 @@
  *
  * symbols:
  *   g_02146990    0x02146990  data
- *   func_020313EC  0x020313EC  arm
+ *   PROCSYS_MainInternal  0x020313EC  arm
  *
- * Tail-call forwarder passing g_02146990 to func_020313EC.
+ * Tail-call forwarder passing g_02146990 to PROCSYS_MainInternal.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020312B4.c \
- *       --func func_020312B4 --addr 0x020312B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PROCSYS_MainGlobal.c \
+ *       --func PROCSYS_MainGlobal --addr 0x020312B4 --cc 1.1p1 --arm
  */
 
 extern void *g_02146990;
-extern int func_020313EC(void *arg);
+extern int PROCSYS_MainInternal(void *arg);
 
-int func_020312B4(void)
+int PROCSYS_MainGlobal(void)
 {
-    return func_020313EC(g_02146990);
+    return PROCSYS_MainInternal(g_02146990);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_020222EC
+ * function: WIPE_SYS_Finish
  * address:  0x020222EC
  * packet:   pkt_02022174
  * region:   arm9
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Teardown for the dual-screen text cluster, run by func_02022174 once both
+ * Teardown for the dual-screen text cluster, run by WIPE_SYS_Main once both
  * screen slots have gone null.  It clears the live flag at +0x14C, latches the
- * value func_02022608 returns into the sentinel colour slot at +0x150, and for
+ * value WIPE_SUB_GetEndColor returns into the sentinel colour slot at +0x150, and for
  * each of the two delegates at +0x0C and +0x10 runs the per-screen finaliser
- * func_02022670 on the matching sub-object.
+ * WIPE_SUB_ApplyEndBrightness on the matching sub-object.
  *
  * Two notes on the original's shape.  Both delegate arms retest the *same*
  * field, +0x3C, which is the top sub-object's task handle at 0x14 + 0x28; the
@@ -30,16 +30,16 @@
  * same derivation on line-number arguments.
  *
  * symbols:
- *   g_021467A4     0x021467A4  data
- *   func_02022608  0x02022608  thumb
- *   func_02022670  0x02022670  thumb
- *   func_020226A0  0x020226A0  thumb
+ *   g_wipeSys     0x021467A4  data
+ *   WIPE_SUB_GetEndColor  0x02022608  thumb
+ *   WIPE_SUB_ApplyEndBrightness  0x02022670  thumb
+ *   WIPE_SUB_ClearSys  0x020226A0  thumb
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020222EC.c \
- *       --func func_020222EC --addr 0x020222EC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SYS_Finish.c \
+ *       --func WIPE_SYS_Finish --addr 0x020222EC --cc 1.1p1 --thumb
  */
 
 #include "../include/G_021467A4.h"
@@ -70,27 +70,27 @@ struct G {
     u16         f150;
 };
 
-extern struct G_021467A4 g_021467A4;
+extern struct G_021467A4 g_wipeSys;
 
 struct Obj;
 struct Screen;
-extern u16 func_02022608(struct Obj *p);
-extern void func_02022670(struct Screen *s);
-extern void func_020226A0(u8 *p);
+extern u16 WIPE_SUB_GetEndColor(struct Obj *p);
+extern void WIPE_SUB_ApplyEndBrightness(struct Screen *s);
+extern void WIPE_SUB_ClearSys(u8 *p);
 
-void func_020222EC(struct G *p)
+void WIPE_SYS_Finish(struct G *p)
 {
     p->f14C = 0;
-    p->f150 = func_02022608((struct Obj *)p);
+    p->f150 = WIPE_SUB_GetEndColor((struct Obj *)p);
     if (p->f0C != 0) {
-        func_02022670((struct Screen *)(&p->f14));
+        WIPE_SUB_ApplyEndBrightness((struct Screen *)(&p->f14));
         if (p->f14.f28 == 0)
-            g_021467A4.f14E = 0;
+            g_wipeSys.f14E = 0;
     }
     if (p->f10 != 0) {
-        func_02022670((struct Screen *)(&p->f44));
+        WIPE_SUB_ApplyEndBrightness((struct Screen *)(&p->f44));
         if (p->f14.f28 == 0)
-            g_021467A4.f14F = 0;
+            g_wipeSys.f14F = 0;
     }
-    func_020226A0((u8 *)p);
+    WIPE_SUB_ClearSys((u8 *)p);
 }

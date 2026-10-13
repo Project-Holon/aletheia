@@ -12,7 +12,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  *   d_021F71A4 0x021F71A4 data a2
  */
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0207DC44(int,int,int,int);
 extern void func_0207DD24(u16,int,int,int,int);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(unsigned,unsigned);
 static inline void SetPriority(int priority)
 {
@@ -42,6 +42,6 @@ void func_021F6328(void)
     func_0207DC44(0,0,0,0);
     func_0207DD24(0,0,0x7FFF,63,0);
     *(volatile unsigned *)0x04000580=0xBFFF0000;
-    for(i=0;i<4;i++) func_02046A94((u8)i,d_021F71A4+i*4);
+    for(i=0;i<4;i++) G3D_SYSTEM_SetLight((u8)i,d_021F71A4+i*4);
     func_02046BE0(0,0);
 }

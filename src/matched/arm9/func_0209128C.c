@@ -15,7 +15,7 @@
  * A two-term `&&` condition goes through the short-circuit if-conversion
  * path, which predicates both arms; the redundant second test is folded away
  * afterwards, leaving the single `cmp r0, #0`.  Same shape in 1.1p1 matched
- * code: src/matched/func_02037700.c (`if (a && b) flag = 1;`).
+ * code: src/matched/GFL_NET_SYSTEM_InitDevice.c (`if (a && b) flag = 1;`).
  *
  * symbols:
  *   g_02153B88  0x02153B88  data

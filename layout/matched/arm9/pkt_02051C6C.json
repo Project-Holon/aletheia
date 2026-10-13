@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02051DE8",
+   "name": "BUTTON_MAN_SlotHandlerIdle",
    "address": "0x02051DE8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02051E64",
+   "name": "BUTTON_MAN_SlotSetKind",
    "address": "0x02051E64",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0205207C",
+   "name": "BUTTON_MAN_InitSegment",
    "address": "0x0205207C",
    "kind": "game",
    "region": "arm9",

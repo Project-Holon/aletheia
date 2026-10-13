@@ -12,7 +12,7 @@
  * symbols:
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02017E40  0x02017E40  thumb
- *   func_020185B0  0x020185B0  thumb
+ *   POKE_TOOL_SetNature  0x020185B0  thumb
  *   func_02018A00  0x02018A00  thumb
  *   func_02019C90  0x02019C90  thumb
  *   _s32_div_f     0x0209C0A4  arm
@@ -38,7 +38,7 @@ typedef signed int     s32;
 
 extern u32  func_02017E1C(void *rec, u32 id, u32 slot);
 extern void func_02017E40(void *rec, u32 id, u32 val);
-extern void func_020185B0(void *rec, u32 val);
+extern void POKE_TOOL_SetNature(void *rec, u32 val);
 extern void func_02018A00(void *rec, u32 species, u32 arg);
 extern u32  func_02019C90(u32 species, u16 arg, u32 sel);
 
@@ -75,13 +75,13 @@ void func_0202A9F4(u32 a0, void *rec, u32 a2, u32 a3)
 
     base = 0x24a;
     if (a0 == base && species == base + 0x39) {
-        func_020185B0(rec, 0xd);
+        POKE_TOOL_SetNature(rec, 0xd);
         return;
     }
     base = 0x24b;
     if (a0 == base && species == base + 0x39) {
-        func_020185B0(rec, 0xa);
+        POKE_TOOL_SetNature(rec, 0xa);
         return;
     }
-    func_020185B0(rec, (u8)(((s32)func_02017E1C(rec, 0, 0) >> 8) % 0x19));
+    POKE_TOOL_SetNature(rec, (u8)(((s32)func_02017E1C(rec, 0, 0) >> 8) % 0x19));
 }

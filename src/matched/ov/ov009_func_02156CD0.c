@@ -1,5 +1,5 @@
 /*
- * function: func_02156CD0
+ * function: DWC_RAP_IsStateInSession
  * address:  0x02156CD0
  * packet:   pkt_02156CD0
  * region:   ov009
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern int g_021A8264;
 
-int func_02156CD0(void)
+int DWC_RAP_IsStateInSession(void)
 {
     int *p = (int *)g_021A8264;
 

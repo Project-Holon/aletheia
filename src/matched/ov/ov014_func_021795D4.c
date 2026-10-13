@@ -1,5 +1,5 @@
 /*
- * function: func_021795D4
+ * function: WIH_SetBeaconGameInfo
  * address:  0x021795D4
  * packet:   pkt_ov014_021795D4
  * region:   ov014
@@ -25,7 +25,7 @@ extern u8 *g_021797A8;
 
 extern void func_02090CD4(int a, int b, u16 c, int d, u16 e, int f);
 
-void func_021795D4(int a, int b, int c, int d)
+void WIH_SetBeaconGameInfo(int a, int b, int c, int d)
 {
     if (g_021797A8 != 0 && (unsigned)(*(int *)(g_021797A8 + 0x1E70) - 4) <= 1)
         func_02090CD4(0, a, (u16)b, c, (u16)d, 1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B1688
+ * function: VCT_AUDIO_ConvertPcm16ToPcm8
  * address:  0x021B1688
  * packet:   pkt_021B1688
  * region:   ov013
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_021B1688(unsigned char *dst, short *src, unsigned int n)
+void VCT_AUDIO_ConvertPcm16ToPcm8(unsigned char *dst, short *src, unsigned int n)
 {
     unsigned int i;
 

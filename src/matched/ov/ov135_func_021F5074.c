@@ -16,6 +16,8 @@
  *   func_021F49A8  0x021F49A8  thumb
  *   func_021F4864  0x021F4864  thumb
  *   tbl_02202BB8  0x02202BB8  data
+ *   BG_SYS_ClearMainPlanes  0x020434CC  arm  arm9
+ *   BG_SYS_ClearSubPlanes  0x02043588  arm  arm9
  */
 
 typedef signed char s8;
@@ -39,8 +41,8 @@ typedef struct {
     void *vblank;
 } Work;
 
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 a);
 extern void func_021F4EDC(u8 *p);
@@ -55,8 +57,8 @@ extern const struct DispConfig tbl_02202BB8;
 
 void func_021F5074(Work *p)
 {
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     func_02043534(0);
     func_020435F4(0);
     func_021F4EDC((u8 *)p);

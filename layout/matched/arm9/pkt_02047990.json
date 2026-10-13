@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02047990",
+   "name": "G3D_SYSTEM_SwapBuffersMain",
    "address": "0x02047990",
    "kind": "game",
    "region": "arm9",

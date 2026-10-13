@@ -1,5 +1,5 @@
 /*
- * function: func_0208EAA0
+ * function: WMi_CheckEnableFlag
  * address:  0x0208EAA0
  * packet:   pkt_0208EAA0
  * region:   arm9
@@ -59,7 +59,7 @@ typedef struct WMArm9Buf {
 extern BOOL OS_IsAvailableWireless(void);
 extern BOOL OS_IsForceDisableWireless(void);
 
-BOOL func_0208EAA0(void)
+BOOL WMi_CheckEnableFlag(void)
 {
     if (OS_IsAvailableWireless() == 1 && OS_IsForceDisableWireless() == 0) {
         return 1;

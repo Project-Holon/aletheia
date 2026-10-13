@@ -1,5 +1,5 @@
 /*
- * function: func_02024124
+ * function: PMSI_PARAM_GetWord
  * address:  0x02024124
  * packet:   pkt_02024124
  * region:   arm9
@@ -15,7 +15,7 @@
  *   (none - no relocations)
  */
 
-unsigned int func_02024124(unsigned short *p)
+unsigned int PMSI_PARAM_GetWord(unsigned short *p)
 {
     return p[12];
 }

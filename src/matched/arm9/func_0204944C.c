@@ -14,8 +14,8 @@
  *   func_02034734      0x02034734  arm
  *   func_02078B44      0x02078B44  arm
  *   func_02078B70      0x02078B70  arm
- *   func_0204944C_File 0x020A7EE0  data
- *   func_0204944C_Msg  0x020A7F18  data
+ *   arc_tool_file 0x020A7EE0  data
+ *   arc_tool_msg_member_bounds  0x020A7F18  data
  *
  * Read a window out of the middle of one archive member.  Only the FAT
  * entry's first word is fetched (a 4-byte read, not 8), because the end
@@ -46,8 +46,8 @@ struct ArcFile {
     u16 count;
 };
 
-extern const char func_0204944C_File[];
-extern const char func_0204944C_Msg[];
+extern const char arc_tool_file[];
+extern const char arc_tool_msg_member_bounds[];
 
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
 typedef signed int     s32;
@@ -61,7 +61,7 @@ void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size,
     u32 start;
 
     if (arc->count <= member) {
-        func_02034734(func_0204944C_File, 689, func_0204944C_Msg,
+        func_02034734(arc_tool_file, 689, arc_tool_msg_member_bounds,
                       arc->count, member);
     }
 

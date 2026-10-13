@@ -1,5 +1,5 @@
 /*
- * function: func_02067EB0
+ * function: NNSi_G2dFontGetGlyphIndexFromCMap
  * address:  0x02067EB0
  * packet:   pkt_02067BA4
  * region:   arm9
@@ -36,7 +36,7 @@ struct Struct02067EB0 {
     struct Entry02067EB0 entries[]; /* 0xe */
 };
 
-u32 func_02067EB0(struct Struct02067EB0 *tbl, u32 val)
+u32 NNSi_G2dFontGetGlyphIndexFromCMap(struct Struct02067EB0 *tbl, u32 val)
 {
     u32 ret = 0xFFFF;
     u16 type = tbl->type;

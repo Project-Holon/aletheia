@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_021D6AD4  0x021D6AD4  thumb  ov118
- *   func_02015C30  0x02015C30  thumb
- *   func_02015C48  0x02015C48  thumb
- *   func_02015EB0  0x02015EB0  thumb
- *   func_02015EA0  0x02015EA0  thumb
- *   func_02015E4C  0x02015E4C  thumb
+ *   MCSS_GetPosition  0x02015C30  thumb
+ *   MCSS_SetPosition  0x02015C48  thumb
+ *   MCSS_ResetVanishFlag  0x02015EB0  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
+ *   MCSS_ResetAnmStopFlag  0x02015E4C  thumb
  *   func_021E12AC  0x021E12AC  thumb  ov119
  *   func_021E1098  0x021E1098  thumb  ov119
  *   func_021E36D8  0x021E36D8  thumb  ov119
@@ -37,11 +37,11 @@ typedef struct {
 } Vec;
 
 extern void func_021D6AD4(u8 *p);
-extern void func_02015C30(void *p, u32 *out);
-extern void func_02015C48(void *p, u32 *src);
-extern void func_02015EB0(void *p);
-extern void func_02015EA0(void *p);
-extern void func_02015E4C(void *p);
+extern void MCSS_GetPosition(void *p, u32 *out);
+extern void MCSS_SetPosition(void *p, u32 *src);
+extern void MCSS_ResetVanishFlag(void *p);
+extern void MCSS_SetVanishFlag(void *p);
+extern void MCSS_ResetAnmStopFlag(void *p);
 extern int func_021E12AC(char *p);
 extern void func_021E1098(char *p);
 extern void func_021E36D8(void *p, int a);
@@ -62,11 +62,11 @@ void func_021D6BA4(u8 *p)
         func_021D6AD4(p);
     }
     if (((struct Obj00984 *)p)->f11ED == 0 && FRAME == 6) {
-        func_02015C30((void *)OBJ(0), (u32 *)(&v));
-        func_02015C48((void *)OBJ(2), (u32 *)(&v));
-        func_02015EB0((void *)OBJ(2));
-        func_02015EA0((void *)OBJ(0));
-        func_02015E4C((void *)OBJ(2));
+        MCSS_GetPosition((void *)OBJ(0), (u32 *)(&v));
+        MCSS_SetPosition((void *)OBJ(2), (u32 *)(&v));
+        MCSS_ResetVanishFlag((void *)OBJ(2));
+        MCSS_SetVanishFlag((void *)OBJ(0));
+        MCSS_ResetAnmStopFlag((void *)OBJ(2));
         *(u32 *)SLOT0 = OBJ(2);
     }
     if (FRAME > 0xC8 && func_021E12AC((char *)p) != 0) {

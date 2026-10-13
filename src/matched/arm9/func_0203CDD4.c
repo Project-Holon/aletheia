@@ -1,5 +1,5 @@
 /*
- * function: func_0203CDD4
+ * function: GFL_NET_EndSession
  * address:  0x0203CDD4
  * packet:   pkt_0203CDD4
  * region:   arm9
@@ -48,23 +48,23 @@
  *
  * func_0200F234 is THUMB and reached by `blx`; declaring it arm makes
  * match.py refuse the site outright (it checks the .thumb_func marker).
- * The g_021469E0 store is written g_021469E0[2] rather than
+ * The gGFLNetMain store is written gGFLNetMain[2] rather than
  * *(u32 *)(0x021469E0 + 8): the constant-plus-offset form folds the +8
  * into the pool word and compiles to `str r1, [r0]`.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0203CDD4.c \
- *       --func func_0203CDD4 --addr 0x0203CDD4 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/GFL_NET_EndSession.c \
+ *       --func GFL_NET_EndSession --addr 0x0203CDD4 --cc 1.1p1 --arm
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_020398B4  0x020398B4  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_HANDLE_ExitWork  0x020398B4  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020306F0  0x020306F0  arm
  *   func_02034714  0x02034714  arm
  *   func_02034FB8  0x02034FB8  arm
  *   func_0200F234  0x0200F234  thumb
- *   g_021469E0     0x021469E0  data
+ *   gGFLNetMain     0x021469E0  data
  *   str_020A7CA0   0x020A7CA0  data
  *   str_020A7CE8   0x020A7CE8  data
  */
@@ -75,20 +75,20 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0203D788(void);
-extern void func_020398B4(u8 *p);
+extern void *GFL_NET_GetSession(void);
+extern void GFL_NET_HANDLE_ExitWork(u8 *p);
 extern u32 func_020307B0(void *p);
 extern void func_020306F0(u32 a);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02034FB8(u32 a);
 extern void func_0200F234(u32 a);
-extern struct Singleton g_021469E0;
+extern struct Singleton gGFLNetMain;
 extern char str_020A7CA0[];
 extern char str_020A7CE8[];
 
-void func_0203CDD4(void)
+void GFL_NET_EndSession(void)
 {
-    u8 *s = func_0203D788();
+    u8 *s = GFL_NET_GetSession();
     void (*f)(u32);
     u16 a;
     u16 b;
@@ -108,11 +108,11 @@ void func_0203CDD4(void)
     if (f != 0)
         f(((struct Obj03452 *)s)->f34C);
 
-    func_020398B4(s);
+    GFL_NET_HANDLE_ExitWork(s);
     func_0200F234(m);
     func_020307B0(s);
 
-    ((u32 *)&g_021469E0)[2] = 0;
+    ((u32 *)&gGFLNetMain)[2] = 0;
 
     switch (m) {
     case 1:

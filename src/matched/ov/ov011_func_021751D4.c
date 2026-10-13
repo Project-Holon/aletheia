@@ -1,5 +1,5 @@
 /*
- * function: func_021751D4
+ * function: INTRUDE_COMM_AdjustRemotePosition
  * address:  0x021751D4
  * packet:   pkt_ov011_021751D4
  * region:   ov011
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02175144  0x02175144  thumb ov011
- *   func_02175184  0x02175184  thumb ov011
+ *   INTRUDE_COMM_LookupZonePair  0x02175144  thumb ov011
+ *   INTRUDE_COMM_CompareZonePair  0x02175184  thumb ov011
  *   func_02013D5C  0x02013D5C  thumb
- *   func_021751A8  0x021751A8  thumb ov011
+ *   INTRUDE_COMM_GetRelativeSlot  0x021751A8  thumb ov011
  */
 
 typedef unsigned char u8;
@@ -28,13 +28,13 @@ typedef struct Ent {
     u16 rest : 13;
 } Ent;
 
-int func_02175144(u16 v, u8 *out);
-int func_02175184(u8 *a, u8 *b);
+int INTRUDE_COMM_LookupZonePair(u16 v, u8 *out);
+int INTRUDE_COMM_CompareZonePair(u8 *a, u8 *b);
 typedef unsigned int   u32;
 u32 func_02013D5C(u32 id);
-int func_021751A8(u8 *p, int a);
+int INTRUDE_COMM_GetRelativeSlot(u8 *p, int a);
 
-void func_021751D4(u8 *p, u16 a, int b, Ent *c)
+void INTRUDE_COMM_AdjustRemotePosition(u8 *p, u16 a, int b, Ent *c)
 {
     u8 x[4];
     u8 y[4];
@@ -43,9 +43,9 @@ void func_021751D4(u8 *p, u16 a, int b, Ent *c)
     int k;
     int n;
 
-    func_02175144(a, x);
-    func_02175144(c->f14, y);
-    r = func_02175184(x, y);
+    INTRUDE_COMM_LookupZonePair(a, x);
+    INTRUDE_COMM_LookupZonePair(c->f14, y);
+    r = INTRUDE_COMM_CompareZonePair(x, y);
     switch (r) {
     case 1:
         break;
@@ -54,7 +54,7 @@ void func_021751D4(u8 *p, u16 a, int b, Ent *c)
     case 0:
         if (func_02013D5C(a) != 0) {
             w = c->f4 % 0x400000;
-            k = func_021751A8(p, c->a);
+            k = INTRUDE_COMM_GetRelativeSlot(p, c->a);
             n = p[0x902];
             if (k == n - 1 && w > 0x200000 && b < 0x200000) {
                 c->f4 = w - 0x400000;

@@ -1,7 +1,7 @@
 /*
  * file:     gstats.c
  * unit:     yes
- * function: func_02193D00, func_02193D64, func_02193D80, func_02193EB8, func_02193F00, func_02193FD0, func_02193FE8, func_02193FF4, func_0219405C, func_021940DC, func_02194184, func_02194220, func_02194308, func_021943A4, func_02194494, func_0219451C, func_02194614, func_021946F4, func_02194724, func_02194754, func_021947C0, func_02194834, func_02194890, func_021948F0, func_02194954, func_021949B4, func_02194A14, func_02194A78
+ * function: func_02193D00, func_02193D64, func_02193D80, func_02193EB8, func_02193F00, func_02193FD0, PersistCanReceiveOnSocket, func_02193FF4, func_0219405C, func_021940DC, func_02194184, func_02194220, func_02194308, func_021943A4, func_02194494, func_0219451C, func_02194614, func_021946F4, func_02194724, func_02194754, func_021947C0, func_02194834, func_02194890, func_021948F0, func_02194954, func_021949B4, func_02194A14, func_02194A78
  * address:  0x02193D00
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -28,7 +28,7 @@
  *   func_0217EAE0 0x0217EAE0  arm
  *   g_021A57C8   0x021A57C8  data
  *   g_021ADFE0   0x021ADFE0  data
- *   func_02193FE8  0x02193fe8  arm   ov009
+ *   PersistCanReceiveOnSocket  0x02193fe8  arm   ov009
  *   func_0217EAC8  0x0217eac8  arm   ov009
  *   func_0217EC4C  0x0217ec4c  arm   ov009
  *   func_02194494  0x02194494  arm   ov009
@@ -128,7 +128,7 @@ int func_02193D80(void);
 void func_02193EB8(char *buf, int len);
 char *func_02193F00(char *s, char *key);
 char *func_02193FD0(char *s, char *key);
-int func_02193FE8(int sock);
+int PersistCanReceiveOnSocket(int sock);
 char *func_02193FF4(char *buff, int len);
 int func_0219405C(int reqtype, int localid, int profileid);
 void func_021940DC(char *buf, int len);
@@ -535,7 +535,7 @@ char *func_02193FF4(char *buff, int len)
  * target`, which this compiler emits for a tail call to a callee whose
  * address has to come from a pool.
  */
-int func_02193FE8(int sock)
+int PersistCanReceiveOnSocket(int sock)
 {
     return func_0217EF50(sock);
 }
@@ -608,7 +608,7 @@ int func_02193D80(void)
         return 0;
     if (g_021ADFE0.state != 5)
         return 0;
-    while (func_02193FE8(g_021A57C8.sock)) {
+    while (PersistCanReceiveOnSocket(g_021A57C8.sock)) {
         if (g_021ADFE0.inSize - g_021ADFE0.inLen < 0x80) {
             len = g_021ADFE0.inSize;
             if (len < 0x100) {

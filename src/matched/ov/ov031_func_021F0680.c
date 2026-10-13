@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202DC98  0x0202DC98  thumb
+ *   PMS_DRAW_IsPrintEnd  0x0202DC98  thumb
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
  *   func_02045334  0x02045334  arm
@@ -52,7 +52,7 @@ typedef struct {
 
 struct Obj0202DC98;
 struct PrintSys;
-extern u32 func_0202DC98(struct Obj0202DC98 *o);
+extern u32 PMS_DRAW_IsPrintEnd(struct Obj0202DC98 *o);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
@@ -93,7 +93,7 @@ void func_021F0680(struct Obj *p, B *b)
     flag = 0;
     if (b->m == b->n)
         return;
-    if (func_0202DC98((struct Obj0202DC98 *)p->w7c) == 0)
+    if (PMS_DRAW_IsPrintEnd((struct Obj0202DC98 *)p->w7c) == 0)
         return;
     for (i = 0; i < 3; i++) {
         if (p->b[i] == 1) {

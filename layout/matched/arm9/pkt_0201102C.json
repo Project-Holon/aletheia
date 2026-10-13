@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02011168",
+   "name": "GPOWER_ApplyExpRate",
    "address": "0x02011168",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201119C",
+   "name": "GPOWER_ApplyPrizeMoney",
    "address": "0x0201119C",
    "kind": "game",
    "region": "arm9",

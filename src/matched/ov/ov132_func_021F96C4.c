@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02005D28 0x02005D28 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  */
 #include "../include/Obj23189.h"
-extern void func_02005D28(void);
-void func_021F96C4(char *p){((struct Obj23189 *)p)->f2C=0;func_02005D28();}
+extern void GFL_USE_CancelChangeAndStopBgm(void);
+void func_021F96C4(char *p){((struct Obj23189 *)p)->f2C=0;GFL_USE_CancelChangeAndStopBgm();}

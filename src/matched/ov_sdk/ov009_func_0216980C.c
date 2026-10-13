@@ -18,7 +18,7 @@
  * symbols:
  *   func_0216AA70  0x0216AA70  arm  ov009
  *   func_0216A39C  0x0216A39C  arm  ov009
- *   func_020598EC  0x020598EC  arm
+ *   DWC_GetGsProfileId  0x020598EC  arm
  *   func_02186108  0x02186108  arm  ov009
  *   func_02185FD4  0x02185FD4  arm  ov009
  *   s_bNeedCloseStatsConnection  0x021AA860  data
@@ -50,7 +50,7 @@ typedef struct BuddyStatus {
 extern int func_0216AA70(void);
 extern int func_0216A39C(void);
 struct DWCstAccUserData;
-extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
+extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 extern int func_02186108(void **connection, int profile, int *index);
 struct GPBuddyStatus;
 extern int func_02185FD4(void **connection, int index, struct GPBuddyStatus *status);
@@ -62,7 +62,7 @@ int func_0216980C(void *friendData, BuddyStatus *status)
 	int profileid;
 	if (stpFriendCnt == 0 || !func_0216AA70())
 		return 0;
-	profileid = func_020598EC((struct DWCstAccUserData *)func_0216A39C(), friendData);
+	profileid = DWC_GetGsProfileId((struct DWCstAccUserData *)func_0216A39C(), friendData);
 	if (profileid > 0) {
 		if (func_02186108(stpFriendCnt->connection, profileid, &buddyIdx) != 0)
 			goto end;

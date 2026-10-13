@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0202889C
+ * function: FIELD_SOUND_SYSTEM_Delete
  * address:  0x0202889C
  * packet:   pkt_0202878C
  * region:   arm9
@@ -14,13 +14,13 @@
  * at +0xA8 and the volume fader at +0xA4, and frees the object.
  *
  * symbols:
- *   func_02005D08  0x02005D08  thumb
- *   func_02028784  0x02028784  thumb
- *   func_02029F44  0x02029F44  thumb
+ *   GFL_USE_SetSeqStartFilter  0x02005D08  thumb
+ *   PLAYER_VOLUME_FADER_Delete  0x02028784  thumb
+ *   RINGTONE_SYS_Delete  0x02029F44  thumb
  *   func_020307B0  0x020307B0  arm
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/func_0202889C.c  *       --addr 0x0202889C --thumb
+ *   python tools/match.py tu --src src/matched/FIELD_SOUND_SYSTEM_Delete.c  *       --addr 0x0202889C --thumb
  */
 
 typedef unsigned char  u8;
@@ -42,15 +42,15 @@ struct SoundSys {
     void *ringtone;
 };
 
-extern void func_02005D08(void *fn);
-extern void func_02029F44(void *p);
-extern void func_02028784(void *p);
+extern void GFL_USE_SetSeqStartFilter(void *fn);
+extern void RINGTONE_SYS_Delete(void *p);
+extern void PLAYER_VOLUME_FADER_Delete(void *p);
 extern u32 func_020307B0(void *p);
 
-void func_0202889C(struct SoundSys *s)
+void FIELD_SOUND_SYSTEM_Delete(struct SoundSys *s)
 {
-    func_02005D08(0);
-    func_02029F44(s->ringtone);
-    func_02028784(s->fader);
+    GFL_USE_SetSeqStartFilter(0);
+    RINGTONE_SYS_Delete(s->ringtone);
+    PLAYER_VOLUME_FADER_Delete(s->fader);
     func_020307B0(s);
 }

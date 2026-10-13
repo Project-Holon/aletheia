@@ -15,7 +15,7 @@
  *   func_0204B878  0x0204B878  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B84C  0x0204B84C  arm
- *   func_0204B800  0x0204B800  arm
+ *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   func_020434DC  0x020434DC  arm
  *   func_02043598  0x02043598  arm
  *   d_02186BEC     0x02186BEC  data  ov023  a2
@@ -64,7 +64,7 @@ struct Node;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B84C(u32, int);
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 
@@ -104,7 +104,7 @@ void func_02184D30(Work *p)
         p->a98[i] = (u32)func_0204B294((void *)p->f38, p->f58, p->f54, p->f5C, &pos, 1, 0x28);
         func_0204B92C((struct Obj *)p->a98[i], 1);
         func_0204B878((struct Obj *)p->a98[i], i);
-        func_0204B800((struct Node *)p->a98[i], 1);
+        CLACT_SetActorDrawPriority((struct Node *)p->a98[i], 1);
         func_0204B3DC((struct Obj *)p->a98[i], 0);
     }
     pos.x = 0xD4;

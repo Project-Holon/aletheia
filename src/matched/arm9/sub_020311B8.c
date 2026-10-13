@@ -21,15 +21,15 @@
  *
  * The work area is the row the constructor already reserved unless the caller
  * asks for more than the manager's own stride at +0x04, in which case a block
- * is allocated here and the pointer is parked at +0x10; sub_02030FB4 is the
- * accessor that picks between the two, and sub_02030F70 frees exactly the
+ * is allocated here and the pointer is parked at +0x10; TCBL_GetTaskWork is the
+ * accessor that picks between the two, and TCBL_FreeTask frees exactly the
  * pointer this function may have stored.
  *
  * EXACT*, not EXACT: the eight bytes at 0x02031288 (`str r1, [r0, #0x14]`
  * then `bx lr`, the setter for a node's callback field) save no lr, so
  * disasm.py gives them no label and this function's inferred extent runs past
  * its own two pool words to 0x02031290, where the already-matched veneer
- * src/matched/sub_02031290.c starts
+ * src/matched/TCBL_GetWork.c starts
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  The extra
  * bytes compare equal; seeding 0x02031288 into layout/function_starts.txt is
  * the integrator's call and the witness is the pool that closes this function

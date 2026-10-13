@@ -1,5 +1,5 @@
 /*
- * function: func_02008314
+ * function: CONFIG_Copy
  * address:  0x02008314
  * packet:   pkt_020082EC
  * region:   arm9
@@ -11,7 +11,7 @@
  */
 
 extern void func_02082D44(void *dst, void *src, int n);
-void func_02008314(void *a0, void *a1)
+void CONFIG_Copy(void *a0, void *a1)
 {
     func_02082D44(a0, a1, 4);
 }

@@ -12,7 +12,7 @@
  * sdk:      gsUdpEngineStartTalkingToPeer (gsudpengine.o)
  *
  * symbols:
- *   func_02180404                  0x02180404  arm ov009
+ *   gsUdpEngineContext                  0x02180404  arm ov009
  *   func_0217D254                  0x0217D254  arm ov009
  *   func_021843E8                  0x021843E8  arm ov009
  *   func_02184208                  0x02184208  arm ov009
@@ -74,7 +74,7 @@ typedef struct GT2ConnectionCallbacks {
     void (*ping)(void *, int);
 } GT2ConnectionCallbacks;
 
-extern void *func_02180404(void);
+extern void *gsUdpEngineContext(void);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern void *func_02184208(void *array, int n);
@@ -104,7 +104,7 @@ int func_021810CC(unsigned int theIp, unsigned short thePort, char *theInitMsg, 
     GT2ConnectionCallbacks aCallbacks;
     int index;
 
-    aUdp = func_02180404();
+    aUdp = gsUdpEngineContext();
     if (aUdp->mInitialized == 0) {
         func_0217D254(12, 0, 15, g_021A3B9C);
         return 3;

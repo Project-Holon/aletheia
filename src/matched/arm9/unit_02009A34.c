@@ -18,6 +18,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_0203F4E4  0x0203F4E4  arm
+ *   WIFILIST_IsFriendDataValid  0x02009A1C  thumb
  *
  * alias: wifilist.c's list maintenance.  The two parallel arrays of
  * src/matched/unit_02009860.c hold 32 slots each, an 0x0C-byte DWC friend
@@ -102,7 +103,7 @@ struct Sub0203F4E4Date {
 
 struct RtcDate;
 extern void func_0203F4E4(struct RtcDate *date);
-extern int  sub_02009A1C(struct Sub020097BCObj *obj, u32 i);
+extern int  WIFILIST_IsFriendDataValid(struct Sub020097BCObj *obj, u32 i);
 
 void sub_02009AE4(struct Sub020097BCObj *obj, u32 dest, u32 src);
 void sub_02009B80(struct Sub020097BCObj *obj, int i);
@@ -113,7 +114,7 @@ u32 sub_02009A34(struct Sub020097BCObj *obj)
     u32 count = 0;
 
     for (i = 0; i < 0x20; i++) {
-        if (sub_02009A1C(obj, i) != 0) {
+        if (WIFILIST_IsFriendDataValid(obj, i) != 0) {
             count++;
         }
     }
@@ -126,7 +127,7 @@ u32 sub_02009A54(struct Sub020097BCObj *obj)
     u32 last = 0;
 
     for (i = 0; i < 0x20; i++) {
-        if (sub_02009A1C(obj, i) != 0) {
+        if (WIFILIST_IsFriendDataValid(obj, i) != 0) {
             last = i + 1;
         }
     }
@@ -167,7 +168,7 @@ void sub_02009B3C(struct Sub020097BCObj *obj)
     int j = -1;
 
     for (i = 0; i < 0x20; i++) {
-        if (sub_02009A1C(obj, i) != 0) {
+        if (WIFILIST_IsFriendDataValid(obj, i) != 0) {
             if (j != -1) {
                 sub_02009AE4(obj, j, i);
                 i = -1;

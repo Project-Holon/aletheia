@@ -1,5 +1,5 @@
 /*
- * function: func_02071CDC
+ * function: NNSi_G3dTexMtxScaleRot
  * address:  0x02071CDC
  * packet:   pkt_02071B2C
  * region:   arm9
@@ -59,7 +59,7 @@ struct DST {
 extern void func_0207C930(u32 numer, u32 denom);
 extern u32 func_0207C86C(void);
 
-void func_02071CDC(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxScaleRot(struct DST *d, struct SRC *s)
 {
     s32 e12, f12;
     s32 p, q, r, bd, t;

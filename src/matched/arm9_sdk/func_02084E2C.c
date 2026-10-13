@@ -1,5 +1,5 @@
 /*
- * function: func_02084E2C
+ * function: OS_UnLockCard
  * address:  0x02084E2C
  * packet:   pkt_02084E2C
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern void func_02084E10(void);
 
-asm void func_02084E2C(void)
+asm void OS_UnLockCard(void)
 {
     ldr r1, =func_02084E10
     bx	r1

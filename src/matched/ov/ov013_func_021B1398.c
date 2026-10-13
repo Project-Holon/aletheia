@@ -1,5 +1,5 @@
 /*
- * function: func_021B1398
+ * function: VCT_AUDIO_FlushPendingAll
  * address:  0x021B1398
  * packet:   pkt_ov013_021B1398
  * region:   ov013
@@ -12,7 +12,7 @@
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_021B2FE4  0x021B2FE4  arm  ov013
+ *   VCT_POOL_FreeFrame  0x021B2FE4  arm  ov013
  *   g_021B4B98     0x021B4B98  data  a4
  *   g_021B4BA0     0x021B4BA0  data  a4
  */
@@ -25,7 +25,7 @@ struct Node {
 
 extern int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(int s);
-extern void func_021B2FE4(struct Node *p);
+extern void VCT_POOL_FreeFrame(struct Node *p);
 
 extern struct {
     struct Node *head;
@@ -33,7 +33,7 @@ extern struct {
 } g_021B4B98;
 extern int g_021B4BA0[3];
 
-void func_021B1398(void)
+void VCT_AUDIO_FlushPendingAll(void)
 {
     int s;
     int i;
@@ -45,7 +45,7 @@ void func_021B1398(void)
     while (p != 0) {
         q = p;
         p = p->next;
-        func_021B2FE4(q);
+        VCT_POOL_FreeFrame(q);
     }
     g_021B4B98.head = 0;
     g_021B4B98.tail = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02156C84
+ * function: DWC_RAP_IsUserDataChanged
  * address:  0x02156C84
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern struct _anon_Work *g_021A8264;
 
-unsigned char func_02156C84(void)
+unsigned char DWC_RAP_IsUserDataChanged(void)
 {
     return *(unsigned char *)(((char *)g_021A8264) + 0x7a2);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_020884A4
+ * function: PXI_InitFifo
  * address:  0x020884A4
  * packet:   pkt_020884A4
  * region:   arm9
@@ -76,7 +76,7 @@ extern PXIFifoCallback FifoRecvCallbackTable[32];
 
 void PXIi_HandlerRecvFifoNotEmpty(void);
 
-void func_020884A4(void)
+void PXI_InitFifo(void)
 {
     OSIntrMode enabled;
     int i;

@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_021797A4     0x021797A4  data  a4
+ *   g_pWhPipeWork     0x021797A4  data  a4
  *   func_0203D798  0x0203D798  arm
  *   func_0203F1FC  0x0203F1FC  arm
  */
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern struct W *g_021797A4;
+extern struct W *g_pWhPipeWork;
 void *func_0203D798(void);
 u16 func_0203F1FC(const u8 *src, u32 len);
 
@@ -31,7 +31,7 @@ typedef void (*NotifyFn)(u32 a, u8 *obj, u32 b, u32 c);
 
 int func_0217731C(u8 *obj)
 {
-    u8 *base = ((u8 *)g_021797A4);
+    u8 *base = ((u8 *)g_pWhPipeWork);
     u8 *st = func_0203D798();
     u8 *p;
     int v67;
@@ -50,9 +50,9 @@ int func_0217731C(u8 *obj)
         return 0;
     if (((struct Obj03087 *)p)->f2 != v50)
         return 0;
-    nf = *(NotifyFn *)(((u8 *)g_021797A4) + 0xC38);
+    nf = *(NotifyFn *)(((u8 *)g_pWhPipeWork) + 0xC38);
     if (nf != 0)
-        nf(*(u32 *)(((u8 *)g_021797A4) + 0xC3C), obj, p[4], p[6]);
+        nf(*(u32 *)(((u8 *)g_pWhPipeWork) + 0xC3C), obj, p[4], p[6]);
     fn = *(CheckFn *)&((struct Obj05922 *)st)->f20;
     if (fn != 0) {
         if (fn(v67, p[4], ((struct Obj19327 *)base)->fC64) == 0)

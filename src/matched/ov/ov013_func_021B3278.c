@@ -1,5 +1,5 @@
 /*
- * function: func_021B3278
+ * function: VCT_DSP_HighPassFilter
  * address:  0x021B3278
  * packet:   pkt_ov013_021B3278
  * region:   ov013
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B4C48  0x021B4C48  data  ov013
+ *   gEchoState  0x021B4C48  data  ov013
  */
 
 typedef short s16;
@@ -38,9 +38,9 @@ static inline void CP_WaitDiv(void)
     }
 }
 
-extern s32 d_021B4C48[];
+extern s32 gEchoState[];
 
-s32 func_021B3278(s16 *x, u32 len)
+s32 VCT_DSP_HighPassFilter(s16 *x, u32 len)
 {
     s32 prev;
     u32 i;
@@ -49,9 +49,9 @@ s32 func_021B3278(s16 *x, u32 len)
     s32 t;
 
     t = x[0] * 0xE9F;
-    y = (t + d_021B4C48[1] + d_021B4C48[4] * 0xD3E) >> 12;
-    d_021B4C48[4] = y;
-    d_021B4C48[1] = prev = -t;
+    y = (t + gEchoState[1] + gEchoState[4] * 0xD3E) >> 12;
+    gEchoState[4] = y;
+    gEchoState[1] = prev = -t;
     e = y * y;
     len >>= 1;
     i = 1;
@@ -63,8 +63,8 @@ s32 func_021B3278(s16 *x, u32 len)
             e += y * y;
             prev = -t;
         } while (++i < len);
-        d_021B4C48[1] = prev;
-        d_021B4C48[4] = y;
+        gEchoState[1] = prev;
+        gEchoState[4] = y;
     }
     (x + len)[-1] = y;
     reg_CP_DIVCNT = 1;

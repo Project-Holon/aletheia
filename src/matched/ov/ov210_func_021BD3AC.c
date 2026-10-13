@@ -22,7 +22,7 @@
  *
  * symbols:
  *   func_020061E4  0x020061E4  thumb
- *   func_02006210  0x02006210  thumb
+ *   GFL_USE_StopAllSe  0x02006210  thumb
  *   func_021BCC2C  0x021BCC2C  thumb  ov210
  *   func_021BCF38  0x021BCF38  thumb  ov210
  *   func_021BECF8  0x021BECF8  thumb  ov210
@@ -58,7 +58,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Search;
 extern void func_020061E4(u32 a);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern void func_021BCC2C(char *p);
 extern void func_021BCF38(u8 *p);
 extern void func_021BECF8(void *);
@@ -83,7 +83,7 @@ int func_021BD3AC(unsigned char *p)
         func_021BE820(p);
     }
     if (p[0x2BB] == 0x64)
-        func_02006210();
+        GFL_USE_StopAllSe();
     if (p[0x2BB] == 1) {
         func_021BCF38(p);
         *(int *)(p + 0x2CC) =

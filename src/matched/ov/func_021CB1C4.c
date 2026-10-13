@@ -1,5 +1,5 @@
 /*
- * function: func_021CB1C4
+ * function: DWCi_SceneSetRakuComplete_procScene
  * address:  0x021CB1C4
  * packet:   pkt_021CB1C4
  * region:   ov016
@@ -10,21 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CB1C4   0x021CB1C4  arm
+ *   DWCi_SceneSetRakuComplete_procScene   0x021CB1C4  arm
+ *   DWCi_SceneSetRakuComplete_draw  0x021CB1D4  arm
  *
- * Call func_021CB294, func_021CB1D4.
+ * Call func_021CB294, DWCi_SceneSetRakuComplete_draw.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CB1C4.c \
- *       --func func_021CB1C4 --addr 0x021CB1C4 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetRakuComplete_procScene.c \
+ *       --func DWCi_SceneSetRakuComplete_procScene --addr 0x021CB1C4 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern void func_021CB294(void);
-extern void func_021CB1D4(void);
+extern void DWCi_SceneSetRakuComplete_draw(void);
 
-void func_021CB1C4(void)
+void DWCi_SceneSetRakuComplete_procScene(void)
 {
     func_021CB294();
-    func_021CB1D4();
+    DWCi_SceneSetRakuComplete_draw();
 }

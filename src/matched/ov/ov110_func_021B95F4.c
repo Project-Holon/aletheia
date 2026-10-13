@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020247F0 0x020247F0 thumb
+ *   PMS_WORD_Delete 0x020247F0 thumb
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj22311.h"
-extern void func_020247F0(char *);
+extern void PMS_WORD_Delete(char *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021B95F4(char *a) { if(a) { func_020247F0(*(char * *)&((struct Obj22311 *)a)->f4); func_020307B0(a); } }
+void func_021B95F4(char *a) { if(a) { PMS_WORD_Delete(*(char * *)&((struct Obj22311 *)a)->f4); func_020307B0(a); } }

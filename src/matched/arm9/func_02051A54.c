@@ -1,5 +1,5 @@
 /*
- * function: func_02051A54
+ * function: BUTTON_MAN_AppendList0
  * address:  0x02051A54
  * packet:   pkt_02051A54
  * region:   arm9
@@ -28,7 +28,7 @@
  *
  * symbols:
  *   g_020A8140   0x020A8140  data
- *   g_02146A88   0x02146A88  data
+ *   g_pParticleMan   0x02146A88  data
  */
 #include "../include/Obj11459.h"
 #include "../include/G_02146A88.h"
@@ -38,12 +38,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
-extern struct G_02146A88 *g_02146A88;
+extern struct G_02146A88 *g_pParticleMan;
 
-u32 func_02051A54(u32 a, u32 b)
+u32 BUTTON_MAN_AppendList0(u32 a, u32 b)
 {
     u32 v = g_020A8140(a, b, 0);
-    u8 *base = g_02146A88->base;
+    u8 *base = g_pParticleMan->base;
     u16 n = ((struct Obj11459 *)base)->f25C;
 
     ((struct Obj11459 *)base)->f25C = n + 1;

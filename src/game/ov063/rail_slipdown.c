@@ -32,85 +32,64 @@
  *   func_02030EAC  0x02030EAC  arm
  *   func_020307B0  0x020307B0  arm
  */
-#include "../../matched/include/Obj20594.h"
+#include "../ov021/fldmmdl_rail_types.h"
+#include "rail_slipdown_types.h"
 
-struct Obj00020;
-struct Node;
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
-
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    void *fC;
-    int f10;
-    int f14;
-    int f18;
-    u8 pad[0x64];
-    int f80;
-} W;
-
-typedef unsigned short u16;
-
-extern unsigned short func_02188C84(u8 *p);
-extern u32 func_02188C5C(u8 *p);
-extern void *func_0219E348(void *a);
-extern u32 func_02188CD0(u8 *p);
-extern void *func_02188C58(void *p);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021A2F6C(u32 *p);
-extern int func_0216DB4C(void *a0, int a1);
-extern int func_0216DC98(void *a0, int a1);
-extern void func_0216DAE0(unsigned int *p, unsigned int v);
-extern void func_0216DAF8(void *a0);
-extern u32 func_02188D30(u8 *p);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_02030DA8(u32 owner, void *cb, void *arg, u32 n);
-extern void func_021F377C(void);
-extern void func_02030EAC(struct Node *n);
+extern u16 func_02188C84(void *fieldMap);
+extern struct FieldNogridMapper *func_02188C5C(void *fieldMap);
+extern struct RailWork *func_0219E348(struct Mmdl *mmdl);
+extern struct FieldEffectSys *func_02188CD0(void *fieldMap);
+extern struct FieldCamera *func_02188C58(void *fieldMap);
+extern struct FieldPlayer *func_02188CB4(void *fieldMap);
+extern void func_021A2F6C(struct FieldPlayer *player);
+extern int func_0216DB4C(struct Mmdl *mmdl, int value);
+extern int func_0216DC98(struct Mmdl *mmdl, int value);
+extern void func_0216DAE0(struct Mmdl *mmdl, unsigned int value);
+extern void func_0216DAF8(struct Mmdl *mmdl);
+extern void *func_02188D30(void *fieldMap);
+extern RailSlipdown *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct TcbTask *func_02030DA8(void *tcblSys, void (*func)(void *tcb, RailSlipdown *slipdown), RailSlipdown *arg, u32 priority);
+extern void func_021F377C(void *tcb, RailSlipdown *slipdown);
+extern void func_02030EAC(struct TcbTask *task);
 extern u32 func_020307B0(void *p);
-W *func_021F36C0(int unused, u8 *sys, int c, int d);
-void func_021F3758(u8 *p);
-int func_021F376C(int *p);
+RailSlipdown *func_021F36C0(void *gameSystem, void *fieldMap, struct Mmdl *mmdl, int isPlayer);
+void func_021F3758(RailSlipdown *slipdown);
+int func_021F376C(RailSlipdown *slipdown);
 extern const char d_021F3D80[];
 
-
-W *func_021F36C0(int unused, u8 *sys, int c, int d)
+RailSlipdown *func_021F36C0(void *gameSystem, void *fieldMap, struct Mmdl *mmdl, int isPlayer)
 {
-    W *p;
+    RailSlipdown *slipdown;
 
-    p = func_02030734(func_02188C84(sys), 0x84, 1, d_021F3D80, 0x80);
-    p->f4 = func_02188C5C((u8 *)sys);
-    p->f10 = c;
-    p->f8 = (int)func_0219E348((void *)c);
-    p->f14 = func_02188CD0((u8 *)sys);
-    p->f18 = (int)func_02188C58((void *)sys);
-    if (d != 0) {
-        p->fC = func_02188CB4((void *)sys);
-        func_021A2F6C(p->fC);
+    slipdown = func_02030734(func_02188C84(fieldMap), 0x84, 1, d_021F3D80, 0x80);
+    slipdown->nogridMapper = func_02188C5C(fieldMap);
+    slipdown->mmdl = mmdl;
+    slipdown->railWork = func_0219E348(mmdl);
+    slipdown->effectSys = func_02188CD0(fieldMap);
+    slipdown->camera = func_02188C58(fieldMap);
+    if (isPlayer != 0) {
+        slipdown->player = func_02188CB4(fieldMap);
+        func_021A2F6C(slipdown->player);
     } else {
-        p->fC = 0;
+        slipdown->player = 0;
     }
-    func_0216DB4C((void *)p->f10, 1);
-    func_0216DC98((void *)p->f10, 1);
-    func_0216DAE0((unsigned int *)p->f10, 0);
-    func_0216DAF8((void *)p->f10);
-    p->f80 = func_02030DA8(func_02188D30((u8 *)sys), (void *)func_021F377C, p, 0);
-    return p;
+    func_0216DB4C(slipdown->mmdl, 1);
+    func_0216DC98(slipdown->mmdl, 1);
+    func_0216DAE0(slipdown->mmdl, 0);
+    func_0216DAF8(slipdown->mmdl);
+    slipdown->task = func_02030DA8(func_02188D30(fieldMap), func_021F377C, slipdown, 0);
+    return slipdown;
 }
 
-
-void func_021F3758(u8 *p)
+void func_021F3758(RailSlipdown *slipdown)
 {
-    func_02030EAC((struct Node *)(((struct Obj20594 *)p)->f80));
-    func_020307B0((void *)((u32)p));
+    func_02030EAC(slipdown->task);
+    func_020307B0(slipdown);
 }
 
-int func_021F376C(int *p)
+int func_021F376C(RailSlipdown *slipdown)
 {
-    if (*p == 9) {
+    if (slipdown->state == SLIPDOWN_STATE_DONE) {
         return 1;
     }
     return 0;

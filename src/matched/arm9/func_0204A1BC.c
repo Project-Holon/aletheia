@@ -16,7 +16,7 @@
  *   func_02048F4C  0x02048F4C  arm
  *   func_020834C0  0x020834C0  arm
  *   func_020307B0  0x020307B0  arm
- *   sArcUtil3730   0x020A7F30  data
+ *   arc_util_file   0x020A7F30  data
  *
  * arc_util.c's "open a member and read it" entry.  The three __LINE__
  * constants 1599, 1603 and 1611 are the only three the pool carries, and
@@ -33,7 +33,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u1
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 extern int         func_020834C0(int a0, int a1);
 extern u32 func_020307B0(void *p);
-extern const char  sArcUtil3730[];
+extern const char  arc_util_file[];
 
 int func_0204A1BC(int a0, int a1, int a2, int a3)
 {
@@ -43,14 +43,14 @@ int func_0204A1BC(int a0, int a1, int a2, int a3)
 
     if (a2 != 0) {
         t = func_020490A8(a0, a1);
-        r = (int)func_02030734((u16)((a3 & 0x7fff) | 0x8000), t, 0, sArcUtil3730, 1599);
+        r = (int)func_02030734((u16)((a3 & 0x7fff) | 0x8000), t, 0, arc_util_file, 1599);
     } else {
         t = func_020490A8(a0, a1);
-        r = (int)func_02030734(a3, t, 0, sArcUtil3730, 1603);
+        r = (int)func_02030734(a3, t, 0, arc_util_file, 1603);
     }
     func_02048F4C((void *)r, a0, a1);
     if (a2 != 0) {
-        t2 = (int)func_02030734(a3, ((struct Obj16074 *)r)->f0 >> 8, 0, sArcUtil3730, 1611);
+        t2 = (int)func_02030734(a3, ((struct Obj16074 *)r)->f0 >> 8, 0, arc_util_file, 1611);
         func_020834C0(r, t2);
         func_020307B0((void *)r);
         r = t2;

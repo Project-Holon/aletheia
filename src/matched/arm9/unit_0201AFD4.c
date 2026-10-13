@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201AFD4
+ * function: POKE_PERSONAL_GetFormDataId
  *
  * The species-to-form resolver the three wrappers in
  * src/matched/unit_0201ADA4.c and src/matched/unit_0201ADD0.c open with: it
@@ -17,7 +17,7 @@
  * requested form is inside it, answers with the form's own species-like id.
  *
  * VERSION SENSITIVITY: the guard rejects exactly the two ids 650 and 651,
- * which are the egg and bad-egg entries src/pending/sub_02018E34.c's field
+ * which are the egg and bad-egg entries src/pending/POKE_TOOL_GetBoxValueRaw.c's field
  * map already names, and it spells them as a 16 bit range test.  They are
  * content ids rather than structure offsets, so they are the first thing to
  * re-read for a Pokemon White build; nothing else in this function is
@@ -43,7 +43,9 @@
  * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).
  *
  * symbols:
- *   g_0214652C  0x0214652C  data
+ *   _pPersonalArc  0x0214652C  data
+ *   ARC_TOOL_GetHandleMemberOffset  0x02049578  arm
+ *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201AFD4.c \
@@ -64,22 +66,22 @@ struct Personal {
 };
 
 struct ArcFile;
-extern u32 func_02049578(struct ArcFile *arc, u32 member);
+extern u32 ARC_TOOL_GetHandleMemberOffset(struct ArcFile *arc, u32 member);
 extern void *func_0204960C(void *handle, void *x);
 struct ArcFile;
-extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
+extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
 
-extern void *g_0214652C;
+extern void *_pPersonalArc;
 
-u32 sub_0201AFD4(u32 species, s32 form)
+u32 POKE_PERSONAL_GetFormDataId(u32 species, s32 form)
 {
     struct Personal rec;
 
     if ((u16)(species + 0xFD76) <= 1) {
         return 0;
     }
-    func_0204960C(g_0214652C, (void *)func_02049578(g_0214652C, species));
-    func_020495F4(g_0214652C, 0x3C, &rec);
+    func_0204960C(_pPersonalArc, (void *)ARC_TOOL_GetHandleMemberOffset(_pPersonalArc, species));
+    ARC_TOOL_ReadHandle(_pPersonalArc, 0x3C, &rec);
     if (rec.unk1C == 0 || rec.unk20 <= form || form == 0) {
         return species;
     }

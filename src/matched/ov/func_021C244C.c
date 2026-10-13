@@ -1,5 +1,5 @@
 /*
- * function: func_021C244C
+ * function: DWCi_SceneOptErase1_procScene
  * address:  0x021C244C
  * packet:   pkt_021C20AC
  * region:   ov016
@@ -10,23 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C244C   0x021C244C  arm
+ *   DWCi_SceneOptErase1_procScene   0x021C244C  arm
+ *   DWCi_SceneOptErase1_draw  0x021C2480  arm
  *
- * Call func_021C2460, func_021C2480, func_021C2484.
+ * Call func_021C2460, DWCi_SceneOptErase1_draw, func_021C2484.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C244C.c \
- *       --func func_021C244C --addr 0x021C244C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneOptErase1_procScene.c \
+ *       --func DWCi_SceneOptErase1_procScene --addr 0x021C244C --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern void func_021C2460(void);
-extern void func_021C2480(void);
+extern void DWCi_SceneOptErase1_draw(void);
 extern void func_021C2484(void);
 
-void func_021C244C(void)
+void DWCi_SceneOptErase1_procScene(void)
 {
     func_021C2460();
-    func_021C2480();
+    DWCi_SceneOptErase1_draw();
     func_021C2484();
 }

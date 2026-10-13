@@ -13,7 +13,7 @@
  *   two zero padding bytes at 0x021D4BF2 follow the intended code.
  * symbols:
  *   func_021D4B74  0x021D4B74  thumb  ov122
- *   func_02178118 0x02178118 thumb ov014
+ *   NET_WHPIPE_SetNotifyCallback 0x02178118 thumb ov014
  *   func_021D4B30 0x021D4B30 thumb ov122
  *   func_021D4244 0x021D4244 thumb ov122
  */
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
 struct Comm;
-extern void func_02178118(u32 callback, u32 value);
+extern void NET_WHPIPE_SetNotifyCallback(u32 callback, u32 value);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *);
 extern u32 func_02026454(void *obj);
@@ -33,7 +33,7 @@ void func_021D4B74(char *p)
 {
     ((struct Obj06457 *)p)->f38C = 1;
     func_0202208C(0, 0, 0, 0, 6, 1, ((struct Obj06457 *)p)->fC);
-    func_02178118(0, 0);
+    NET_WHPIPE_SetNotifyCallback(0, 0);
     if (((struct Obj06457 *)p)->f8 == 1 && func_02026454((void *)func_02012138(((struct Obj06457 *)p)->f354)))
         func_02026400((struct Comm *)func_02012138(((struct Obj06457 *)p)->f354));
     func_021D4244(p, (u32)func_021D4B30, 0x35e);

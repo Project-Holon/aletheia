@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021BC3B4  0x021BC3B4  thumb
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_02035D20  0x02035D20  arm
  *   func_021BDC48  0x021BDC48  thumb
  *   func_0204B404  0x0204B404  arm
@@ -30,7 +30,7 @@ typedef signed short   s16;
 struct Obj;
 struct Vec2;
 extern int func_021BC3B4(int *p);
-extern u32  func_02035CB8(u32 *x, u32 *y);
+extern u32  TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_021BDC48(void *scene, u32 on);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -55,7 +55,7 @@ u32 ov208_func_021C6C00(void *a0, u8 *p, int key)
     scene = (void *)func_021BC3B4((int *)key);
     moved = 0;
     if (W(0x69c) != 0) {
-        if (func_02035CB8(&x, &y) == 0) {
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             W(0x69c) = 0;
             func_021BDC48(scene, 1);
         }

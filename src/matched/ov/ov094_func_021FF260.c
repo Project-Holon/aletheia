@@ -13,18 +13,18 @@
  * src/matched/arm9, which closes the former MATCH.
  *
  * Blocker: three unlabelled arm9 Thumb leaves (relocation wildcards, no witness):
- *   func_02015DB0, func_02015DC0, func_02015DD4.  All the integrator's; verified C
+ *   MCSS_SetMepachiFlag, MCSS_ResetMepachiFlag, MCSS_FlipMepachiFlag.  All the integrator's; verified C
  *   (one --thumb, no --region, EXACT each; +0x140 is a register-like word):
  *     struct R { unsigned int : 8; unsigned int f : 1; };
- *     void func_02015DB0(void *p) { *(unsigned int *)((char *)p + 0x140) |= 0x100u; }
- *     void func_02015DC0(void *p) { *(unsigned int *)((char *)p + 0x140) &= ~0x100u; }
- *     void func_02015DD4(void *p) { ((struct R *)((char *)p + 0x140))->f ^= 1; }
+ *     void MCSS_SetMepachiFlag(void *p) { *(unsigned int *)((char *)p + 0x140) |= 0x100u; }
+ *     void MCSS_ResetMepachiFlag(void *p) { *(unsigned int *)((char *)p + 0x140) &= ~0x100u; }
+ *     void MCSS_FlipMepachiFlag(void *p) { ((struct R *)((char *)p + 0x140))->f ^= 1; }
  *   Re-run this file once layout/matched/arm9 shards for all three exist.
  *
  * symbols:
- *   func_02015DB0  0x02015DB0  thumb
- *   func_02015DC0  0x02015DC0  thumb
- *   func_02015DD4  0x02015DD4  thumb
+ *   MCSS_SetMepachiFlag  0x02015DB0  thumb
+ *   MCSS_ResetMepachiFlag  0x02015DC0  thumb
+ *   MCSS_FlipMepachiFlag  0x02015DD4  thumb
  *   func_022019F4  0x022019F4  thumb  ov094
  */
 typedef struct {
@@ -42,9 +42,9 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(char *p, int key);
-extern void func_02015DB0(void *p);
-extern void func_02015DC0(void *p);
-extern void func_02015DD4(void *p);
+extern void MCSS_SetMepachiFlag(void *p);
+extern void MCSS_ResetMepachiFlag(void *p);
+extern void MCSS_FlipMepachiFlag(void *p);
 
 void func_021FF260(Work *w, int key, int mode)
 {
@@ -55,19 +55,19 @@ void func_021FF260(Work *w, int key, int mode)
     if (w->e[idx].h == 0)
         return;
     if (mode == 4) {
-        func_02015DC0(w->e[idx].h);
+        MCSS_ResetMepachiFlag(w->e[idx].h);
         w->e[idx].f0 = 0;
     }
     if (w->e[idx].f0)
         return;
     if (mode == 2) {
-        func_02015DD4(w->e[idx].h);
+        MCSS_FlipMepachiFlag(w->e[idx].h);
     } else if (mode == 1) {
-        func_02015DB0(w->e[idx].h);
+        MCSS_SetMepachiFlag(w->e[idx].h);
     } else if (mode == 3) {
-        func_02015DB0(w->e[idx].h);
+        MCSS_SetMepachiFlag(w->e[idx].h);
         w->e[idx].f0 = 1;
     } else {
-        func_02015DC0(w->e[idx].h);
+        MCSS_ResetMepachiFlag(w->e[idx].h);
     }
 }

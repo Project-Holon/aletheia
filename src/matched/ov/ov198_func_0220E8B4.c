@@ -10,9 +10,9 @@
  * blocker: ARM9 0x02027604 has no witness outside caller; the integrator owns it.
  * Verified scratch one: EXACT 12 bytes, Thumb, dsi/1.1p1 -O4,p.
  * typedef unsigned char u8;
- * extern const u8 d_0209FCEC[];
- * unsigned func_02027604(u8 index){return d_0209FCEC[index];}
- * symbols: d_0209FCEC 0x0209FCEC data a1
+ * extern const u8 _WazaKindPltOffset[];
+ * unsigned func_02027604(u8 index){return _WazaKindPltOffset[index];}
+ * symbols: _WazaKindPltOffset 0x0209FCEC data a1
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02027610 0x02027610 thumb

@@ -19,14 +19,14 @@
  *   func_02045B38  0x02045B38  arm
  *   func_02045CAC  0x02045CAC  arm
  *   func_02045C04  0x02045C04  arm
- *   func_0202435C  0x0202435C  thumb
+ *   PMSI_PARAM_ToString  0x0202435C  thumb
  *   func_02012964  0x02012964  thumb
  *   func_0216DE94  0x0216DE94  thumb
  *   func_0216D88C  0x0216D88C  thumb
  *   func_0219129C  0x0219129C  thumb ov021
  *   func_02168174  0x02168174  thumb
  *
- * evidence: 0x0202435C is an unlabelled ARM9 thunk ("ldr r3, =func_02024368; movs r2, #2; bx r3") that the
+ * evidence: 0x0202435C is an unlabelled ARM9 thunk ("ldr r3, =PMSI_PARAM_ToStringWords; movs r2, #2; bx r3") that the
  * prologue sweep misses; its start is seeded in layout/function_starts.txt
  * from the raw bl sites elsewhere in the image (ov069 0x021BA21A, ov093 0x021D1894, ov010 0x0216C778), so the call
  * attests as `label`.
@@ -70,7 +70,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_02045C04(struct Rec *rec);
-extern void *func_0202435C(void *slots, unsigned int heap);
+extern void *PMSI_PARAM_ToString(void *slots, unsigned int heap);
 extern u32 func_02012964(const struct BigObj *p);
 extern void *func_0216DE94(void *map, u32 id);
 struct Actor;
@@ -97,7 +97,7 @@ int func_021680C8(int a, E *b, int c, int d)
         func_02045CAC((struct MsgBank *)t, b->f1a, (void *)p->f14);
         func_02045C04((struct Rec *)t);
     } else {
-        p->f14 = (int)func_0202435C(&b[c].f18, 4);
+        p->f14 = (int)PMSI_PARAM_ToString(&b[c].f18, 4);
     }
     func_0216D88C((const struct Actor *)func_0216DE94((void *)func_02012964((const struct BigObj *)h), d), (struct VecFx32 *)&p->f4);
     p->f10 = (int)func_0219129C((u8 *)g, 1, (u32)(&p->f4), p->f14, 0, 0);

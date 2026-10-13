@@ -11,8 +11,9 @@
  *
  * symbols:
  *   func_021CB960   0x021CB960  arm
+ *   DWCi_SceneSetSearch_draw  0x021CBAC4  arm
  *
- * Call func_021CBAA0, func_021CBAC4, func_021CBAC8, func_021CB978.
+ * Call func_021CBAA0, DWCi_SceneSetSearch_draw, func_021CBAC8, func_021CB978.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -21,14 +22,14 @@
  */
 
 extern void func_021CBAA0(void);
-extern void func_021CBAC4(void);
+extern void DWCi_SceneSetSearch_draw(void);
 extern void func_021CBAC8(void);
 extern void func_021CB978(void);
 
 void func_021CB960(void)
 {
     func_021CBAA0();
-    func_021CBAC4();
+    DWCi_SceneSetSearch_draw();
     func_021CBAC8();
     func_021CB978();
 }

@@ -15,16 +15,16 @@
  *   word, not a relocation, and needs no witness.
  *
  * symbols:
- *   func_020889F8  0x020889F8  arm twl a2
+ *   RTCEXi_GetCommonCallback  0x020889F8  arm twl a2
  */
 
 typedef unsigned int u32;
 
-extern void *func_020889F8(void);
+extern void *RTCEXi_GetCommonCallback(void);
 
 asm void RTCEXi_CommonCallback(void) {
     stmdb sp!, {r3, lr}
-    bl func_020889F8
+    bl RTCEXi_GetCommonCallback
     ldr r1, [r0, #0x14]
     mov ip, #0
     cmp r1, #0x10

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202AD78
+ * function: ISS_CITY_SYS_GetCurrentUnit
  * address:  0x0202AD78
  * packet:   pkt_0202ACCC
  * region:   arm9
@@ -9,7 +9,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   ISS_CITY_SYS_GetCurrentUnitIndex  0x0202AD88  thumb
  */
 #include "../include/Obj15816.h"
 
-int func_0202AD78(int a0){ int t0 = func_0202AD88(a0); return *(int *)(((char *)(((struct Obj15816 *)((char *)((a0 + 0))))->f14) + ((int)((t0 << 2)) << 0))); }
+int ISS_CITY_SYS_GetCurrentUnit(int a0){ int t0 = ISS_CITY_SYS_GetCurrentUnitIndex(a0); return *(int *)(((char *)(((struct Obj15816 *)((char *)((a0 + 0))))->f14) + ((int)((t0 << 2)) << 0))); }

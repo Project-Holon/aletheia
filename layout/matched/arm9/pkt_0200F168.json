@@ -47,7 +47,7 @@
    ]
   },
   {
-   "name": "sub_0200F6B8",
+   "name": "GFL_NET_ERR_CreateHeap",
    "address": "0x0200F6B8",
    "kind": "game",
    "region": "arm9",
@@ -59,7 +59,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0200F800",
+   "name": "GFL_NET_ERR_RestoreBrightness",
    "address": "0x0200F800",
    "kind": "game",
    "region": "arm9",
@@ -71,7 +71,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0200F824",
+   "name": "GFL_NET_ERR_UpdateNetwork",
    "address": "0x0200F824",
    "kind": "game",
    "region": "arm9",
@@ -83,7 +83,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0200FBA0",
+   "name": "GFL_NET_ERR_ResetState",
    "address": "0x0200FBA0",
    "kind": "game",
    "region": "arm9",

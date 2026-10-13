@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020344C4
+ * function: AREAMAN_TraceByte
  *
  * A single instruction: `bx lr`. An empty function body, kept as a real
  * entry point because it is called through a pointer field elsewhere in
@@ -21,6 +21,6 @@
  *       --addr 0x020344C4 --arm
  */
 
-void sub_020344C4(void)
+void AREAMAN_TraceByte(void)
 {
 }

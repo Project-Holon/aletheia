@@ -12,15 +12,15 @@
  * sdk:      gsUdpEngineInitialize (gsudpengine.o)
  *
  * symbols:
- *   func_02180404                  0x02180404  arm ov009
+ *   gsUdpEngineContext                  0x02180404  arm ov009
  *   func_02198620                  0x02198620  arm ov009
  *   func_02195AB4                  0x02195AB4  arm ov009
  *   func_0217D254                  0x0217D254  arm ov009
  *   func_02184144                  0x02184144  arm ov009
- *   func_02195E68                  0x02195E68  arm ov009
- *   func_02195B20                  0x02195B20  arm ov009
- *   func_02195E38                  0x02195E38  arm ov009
- *   func_02195E40                  0x02195E40  arm ov009
+ *   gt2SetUnrecognizedMessageCallback                  0x02195E68  arm ov009
+ *   gt2Listen                  0x02195B20  arm ov009
+ *   gt2GetLocalIP                  0x02195E38  arm ov009
+ *   gt2GetLocalPort                  0x02195E40  arm ov009
  *   func_0218048C                  0x0218048C  arm ov009
  *   func_02180410                  0x02180410  arm ov009
  *   func_02180BFC                  0x02180BFC  arm ov009
@@ -65,15 +65,15 @@ typedef struct GSUdpEngineObject {
     unsigned short mLocalPort;
 } GSUdpEngineObject;
 
-extern void *func_02180404(void);
+extern void *gsUdpEngineContext(void);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern int func_02195AB4(void **sock, char *addr, int outSize, int inSize, void *callback);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
-extern void func_02195E68(int *p, int v);
-extern void func_02195B20(int *p, int v);
-extern int func_02195E38(const int *p);
-extern unsigned short func_02195E40(const unsigned short *p);
+extern void gt2SetUnrecognizedMessageCallback(int *p, int v);
+extern void gt2Listen(int *p, int v);
+extern int gt2GetLocalIP(const int *p);
+extern unsigned short gt2GetLocalPort(const unsigned short *p);
 extern void func_0218048C(void);
 extern void func_02180410(void *theMsgHandler);
 extern int func_02180BFC(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen);
@@ -95,7 +95,7 @@ int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoin
     int aGt2Result;
     GSUdpEngineObject *aUdp;
 
-    aUdp = func_02180404();
+    aUdp = gsUdpEngineContext();
     if (theIncomingBufSize == 0)
         theIncomingBufSize = 1500;
     if (theOutgoingBufSize == 0)
@@ -128,10 +128,10 @@ int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoin
         return 1;
     }
 
-    func_02195E68(aUdp->mSocket, (int)func_02180BFC);
-    func_02195B20(aUdp->mSocket, (int)func_02180C94);
-    aUdp->mLocalAddr = func_02195E38(aUdp->mSocket);
-    aUdp->mLocalPort = func_02195E40(aUdp->mSocket);
+    gt2SetUnrecognizedMessageCallback(aUdp->mSocket, (int)func_02180BFC);
+    gt2Listen(aUdp->mSocket, (int)func_02180C94);
+    aUdp->mLocalAddr = gt2GetLocalIP(aUdp->mSocket);
+    aUdp->mLocalPort = gt2GetLocalPort(aUdp->mSocket);
     aUdp->mAppPendingConnections = 0;
     aUdp->mInitialized = 1;
     if (theAppUserData)

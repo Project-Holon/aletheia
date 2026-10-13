@@ -14,8 +14,8 @@
  *   func_020355D8 0x020355D8 arm
  *   func_020362DC 0x020362DC arm
  *   func_0203633C 0x0203633C arm
- *   func_02028218 0x02028218 thumb
- *   func_0202822C 0x0202822C thumb
+ *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   func_020061E4 0x020061E4 thumb
  *   d_021BBF9C 0x021BBF9C data a4
  */
@@ -28,8 +28,8 @@ extern void func_020355D8(u8);
 extern unsigned func_020362DC(void),func_0203633C(void);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_02028218(struct Obj *obj, u32 a);
-extern void func_0202822C(char *p, int v);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void func_020061E4(unsigned);
 int func_021BB53C(char *p)
 {
@@ -37,50 +37,50 @@ int func_021BB53C(char *p)
     if(func_020355C4()==0) {
         if(hit>=0 && hit<=1) {
             func_020355D8(1);
-            func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
         }
     } else {
         if(func_020362DC()!=0 && !(func_020362DC()&0x402)) {
             func_020355D8(0);
-            func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
             func_020061E4(0x548);
             return 0;
         }
     }
     if(func_020355C4()==0) {
         if(func_020362DC()&1) {
-            func_0202822C(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            APP_TASKMENU_WIN_SetDecide(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
             func_020061E4(0x54c);
             return 1;
         } else if(func_0203633C()&0x40) {
-            func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
             if(**(u8 * *)&((struct Obj00740 *)p)->f0==0) **(u8 * *)&((struct Obj00740 *)p)->f0=1; else **(u8 * *)&((struct Obj00740 *)p)->f0=0;
-            func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
             func_020061E4(0x548);
         } else if(func_0203633C()&0x80) {
-            func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
             if(**(u8 * *)&((struct Obj00740 *)p)->f0==1) **(u8 * *)&((struct Obj00740 *)p)->f0=0; else **(u8 * *)&((struct Obj00740 *)p)->f0=1;
-            func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
             func_020061E4(0x548);
         } else if(func_0203633C()&0x220) {
             if(**(u8 * *)&((struct Obj00740 *)p)->f0==1) {
-                func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
                 **(u8 * *)&((struct Obj00740 *)p)->f0=0;
-                func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
                 func_020061E4(0x548);
             }
         } else if(func_0203633C()&0x110) {
             if(**(u8 * *)&((struct Obj00740 *)p)->f0==0) {
-                func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
                 **(u8 * *)&((struct Obj00740 *)p)->f0=1;
-                func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
                 func_020061E4(0x548);
             }
         }
     } else if(hit>=0 && hit<=1) {
         **(u8 * *)&((struct Obj00740 *)p)->f0=hit;
-        func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
-        func_0202822C(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+        APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+        APP_TASKMENU_WIN_SetDecide(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
         func_020061E4(0x54c);
         return 1;
     }

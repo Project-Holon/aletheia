@@ -1,5 +1,5 @@
 /*
- * function: func_0203E6C0
+ * function: GFL_NET_LOWER_DATA_Exit
  * address:  0x0203E6C0
  * packet:   pkt_0203E484
  * region:   arm9
@@ -26,7 +26,7 @@ extern char s_020A7E00[];
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_020307B0(void *p);
-void func_0203E6C0(void)
+void GFL_NET_LOWER_DATA_Exit(void)
 {
     u8 i;
     if (g_021469F4 == 0)

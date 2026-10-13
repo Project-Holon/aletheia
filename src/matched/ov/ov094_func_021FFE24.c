@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_022019F4  0x022019F4  thumb  ov094
- *   func_0201624C  0x0201624C  thumb
+ *   MCSS_CreatePaletteCopyTask  0x0201624C  thumb
  */
 
 typedef struct {
@@ -34,7 +34,7 @@ typedef struct {
 
 extern int func_022019F4(char *p, int key);
 typedef unsigned char  u8;
-extern void func_0201624C(u8 *a0, u8 *a1);
+extern void MCSS_CreatePaletteCopyTask(u8 *a0, u8 *a1);
 
 void func_021FFE24(Work *w, int key)
 {
@@ -44,5 +44,5 @@ void func_021FFE24(Work *w, int key)
         return;
     if (w->e[idx].h == 0)
         return;
-    func_0201624C(w->obj, w->e[idx].h);
+    MCSS_CreatePaletteCopyTask(w->obj, w->e[idx].h);
 }

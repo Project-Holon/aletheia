@@ -10,16 +10,17 @@
  * symbols:
  *   d_021B8060 0x021B8060 data a4
  *   d_021B8090 0x021B8090 data a4
+ *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm  arm9
  */
 typedef unsigned int u32;
 struct DispVram;
 extern const struct DispVram d_021B8060;
 extern const struct DispVram d_021B8090;
-extern void func_0204335C(u32);
+extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void func_020433E0(const struct DispVram *);
 void func_021B61D4(int flag)
 {
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     if (flag == 0)
         func_020433E0(&d_021B8060);
     else

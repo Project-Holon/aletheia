@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020111EC, func_0201121C
+ * function: VM_Reset, VM_Create
  * address:  0x020111EC
  * packet:   pkt_020111EC
  * region:   arm9
@@ -13,13 +13,13 @@
  * symbols:
  *   sub_02030734       0x02030734  arm
  *   MI_CpuFill8        0x02082BCC  arm
- *   unit_020111EC_File 0x020A7268  data
+ *   _VmFileName 0x020A7268  data
  *
  * The bottom two functions of the game's script virtual machine ("vm.c", the
  * __FILE__ string this unit's allocation site passes, at 0x020A7268, fixed by
  * the terminator of "net_save.c" at 0x020A725C).
  *
- * func_0201121C is the constructor: it takes a heap id and a 12-byte
+ * VM_Create is the constructor: it takes a heap id and a 12-byte
  * descriptor { u16 stack_cap; u16 ring_cap; const ScriptCmdFn *cmds;
  * u32 cmd_count; }, allocates the 0x30-byte context plus both arrays behind
  * it in one block, copies the descriptor into the head of the context (12
@@ -29,11 +29,11 @@
  * out of the caller's descriptor, not out of the context that was just
  * written, which is why the second ldrh addresses r5 and not r7.
  *
- * func_020111EC is the reset: program counter, both stack depths, the state
+ * VM_Reset is the reset: program counter, both stack depths, the state
  * byte, the wait callback and the pre-dispatch hook all cleared, and both
  * arrays filled with zero at their declared capacities.  It is the shared
- * prologue of the two entry points in the next unit (func_0201126C and
- * func_0201127C, 0x0201126C and 0x0201127C).
+ * prologue of the two entry points in the next unit (VM_Init and
+ * VM_Start, 0x0201126C and 0x0201127C).
  *
  * The 0x30-byte context is:
  *   +0x00 u16 stack_cap      (0x100 for the field script system)
@@ -98,9 +98,9 @@ typedef struct ScriptVm {
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
-extern const char unit_020111EC_File[];
+extern const char _VmFileName[];
 
-void func_020111EC(ScriptVm *vm)
+void VM_Reset(ScriptVm *vm)
 {
     vm->pc = 0;
     vm->ring_depth = 0;
@@ -113,13 +113,13 @@ void func_020111EC(ScriptVm *vm)
     vm->hook_arg = 0;
 }
 
-ScriptVm *func_0201121C(u32 heapId, const ScriptVmParams *params)
+ScriptVm *VM_Create(u32 heapId, const ScriptVmParams *params)
 {
     u32 size;
     ScriptVm *vm;
 
     size = params->ring_cap * 4 + sizeof(ScriptVm) + params->stack_cap * 4;
-    vm = (ScriptVm *)sub_02030734(heapId, size, 0, unit_020111EC_File, 96);
+    vm = (ScriptVm *)sub_02030734(heapId, size, 0, _VmFileName, 96);
     MI_CpuFill8(vm, 0, size);
     vm->params = *params;
     vm->ring = (u32 *)(vm + 1);

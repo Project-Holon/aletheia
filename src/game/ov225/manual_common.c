@@ -89,10 +89,10 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   d_021BBF14 0x021BBF14 data a4
- *   sub_0204B3B4 0x0204B3B4 arm
- *   sub_0204AFD8 0x0204AFD8 arm
- *   sub_0204A8D4 0x0204A8D4 arm
- *   sub_0204ADA4 0x0204ADA4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   func_0204B3F4 0x0204B3F4 arm
  *   func_0203633C 0x0203633C arm
  *   func_020355D8 0x020355D8 arm
@@ -105,28 +105,28 @@
  *   func_0204B404 0x0204B404 arm
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_02028178 0x02028178 thumb
- *   func_02028230 0x02028230 thumb
+ *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
- *   func_020499D4 0x020499D4 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   d_021BBF8C 0x021BBF8C data ov225 a2
  *   d_021BBF94 0x021BBF94 data ov225 a2
  *   func_020414AC 0x020414AC arm
  *   func_02027F60 0x02027F60 thumb
  *   func_02061CA4 0x02061CA4 arm
  *   func_020355C4 0x020355C4 arm
- *   func_02028218 0x02028218 thumb
+ *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  *   sub_02041B6C 0x02041B6C arm
  *   func_02028148 0x02028148 thumb
  *   func_02027FD8 0x02027FD8 thumb
  *   func_02035C08 0x02035C08 arm
  *   func_020362DC 0x020362DC arm
- *   func_0202822C 0x0202822C thumb
- *   func_02035CB8 0x02035CB8 arm
- *   func_0202843C 0x0202843C thumb
- *   func_0202815C 0x0202815C thumb
- *   func_0202804C 0x0202804C thumb
- *   func_02027FEC 0x02027FEC thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
+ *   APP_TASKMENU_WIN_ClearScreen 0x0202843C thumb
+ *   APP_TASKMENU_WIN_DeleteNoClear 0x0202815C thumb
+ *   APP_TASKMENU_WIN_CreateExNoScreen 0x0202804C thumb
+ *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   file_021BC038 0x021BC038 data a1
  *   d_021BBF9C 0x021BBF9C data a4
  */
@@ -477,10 +477,10 @@ extern u32 func_02027620(u32);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *,u32);
-extern void sub_0204B3B4(struct Obj *);
-extern void sub_0204AFD8(u32);
-extern void sub_0204A8D4(u32);
-extern void sub_0204ADA4(u32);
+extern void CLACT_DeleteActor(struct Obj *);
+extern void CLACT_ReleaseCellAnim(u32);
+extern void CLACT_ReleaseCharacter(u32);
+extern void CLACT_ReleasePalette(u32);
 extern u32_021BA508 func_0204B3F4(struct Obj *);
 extern u32_021BA508 func_0203633C(void);
 extern void func_020355D8(u8);
@@ -492,24 +492,24 @@ extern void func_02041EE4(u32_021BA65C, u32_021BA65C, u32_021BA65C);
 extern void func_0204B404(struct Obj *, const struct Vec2_021BA508 *, u32_021BA65C);
 extern u32_021BA760 func_0201C6B4(const struct PrintSys *);
 extern void func_02028178(u8 *p);
-extern u32_021BA760 func_02028230(u8 *);
+extern u32_021BA760 APP_TASKMENU_WIN_IsFinish(u8 *);
 extern void func_02049B68(void *,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u16);
 extern u32_021BA898 func_02049658(void *a, u32_021BA898 b, u32_021BA898 c, u32_021BA898 d, u32_021BA898 e, u32_021BA898 f, u16 g);
-extern u32_021BA898 func_020499D4(void *,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u16);
+extern u32_021BA898 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u16);
 extern void func_020414AC(unsigned);
 extern struct R *func_02027F60(u16, u16, unsigned, unsigned, u16);
 extern int func_02061CA4(void *, unsigned, void *, int);
 extern u8 func_020355C4(void);
-extern void func_02028218(struct Obj *, unsigned);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *, unsigned);
 extern void sub_02041B6C(u32_021BAA44);
 extern void func_02028148(u8 *);
 extern u32_021BAA88 func_02027FD8(struct TaskMenuState *s);
 extern int func_02035C08(const void *);
-extern void func_0202822C(char *p, int v);
-extern void func_0202843C(u8 *);
-extern void func_0202815C(void);
-extern u32_021BB088 *func_0202804C(u32_021BB088 a0, u32_021BB088 a1, u32_021BB088 a2, u32_021BB088 a3, u8 a4, u8 a5, u32_021BB088 a6, u32_021BB088 a7, u16 a8);
-extern u32_021BB088 func_02027FEC(u32_021BB088 a0, u32_021BB088 a1, u32_021BB088 a2, u32_021BB088 a3, u8 a4, u16 a5);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
+extern void APP_TASKMENU_WIN_ClearScreen(u8 *);
+extern void APP_TASKMENU_WIN_DeleteNoClear(void);
+extern u32_021BB088 *APP_TASKMENU_WIN_CreateExNoScreen(u32_021BB088 a0, u32_021BB088 a1, u32_021BB088 a2, u32_021BB088 a3, u8 a4, u8 a5, u32_021BB088 a6, u32_021BB088 a7, u16 a8);
+extern u32_021BB088 APP_TASKMENU_WIN_Create(u32_021BB088 a0, u32_021BB088 a1, u32_021BB088 a2, u32_021BB088 a3, u8 a4, u16 a5);
 void *func_021B9B3C(void *narc, u32 heap);
 void func_021B9BA4(char *p);
 u16 func_021B9BC8(char *p,int index);
@@ -1038,7 +1038,7 @@ void func_021BA41C(char *p)
 
 
 
-void func_021BA4D8(char *p) { u8 i; for(i=0;i<2;i++) sub_0204B3B4(*(struct Obj **)(p+i*4+0x38)); sub_0204AFD8(((struct Obj10984 *)p)->f34); sub_0204A8D4(((struct Obj10984 *)p)->f2C); sub_0204ADA4(((struct Obj10984 *)p)->f30); }
+void func_021BA4D8(char *p) { u8 i; for(i=0;i<2;i++) CLACT_DeleteActor(*(struct Obj **)(p+i*4+0x38)); CLACT_ReleaseCellAnim(((struct Obj10984 *)p)->f34); CLACT_ReleaseCharacter(((struct Obj10984 *)p)->f2C); CLACT_ReleasePalette(((struct Obj10984 *)p)->f30); }
 
 
 
@@ -1208,7 +1208,7 @@ int func_021BA760(char *p)
   if(((struct Obj00601 *)p)->f84==0) {
    if(func_021BAABC(p)) ((struct Obj00601 *)p)->f84=4;
   } else {
-   if(func_02028230(*(u8 **)(p+func_021BB034((u16 **)p)*4+0xc))) {
+   if(APP_TASKMENU_WIN_IsFinish(*(u8 **)(p+func_021BB034((u16 **)p)*4+0xc))) {
     ((struct Obj26184 *)(*(char * *)&((struct Obj00601 *)p)->f0))->f10=1;
     ((struct Obj00601 *)p)->f84=1;
     ((struct Obj00601 *)p)->f90=1;
@@ -1236,7 +1236,7 @@ void func_021BA898(char *p)
     char *parent;
     func_02049B68(((struct Obj26185 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,0,4,0,0x40,((struct Obj26186 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     func_02049658(((struct Obj26187 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,2,4,0,0,0,((struct Obj26188 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
-    func_020499D4(((struct Obj26189 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,5,4,0,0,0,0,((struct Obj26190 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
+    ARC_UTIL_UploadBgPaletteAddFromHandleExt(((struct Obj26189 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,5,4,0,0,0,0,((struct Obj26190 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     *(int *)&((struct Obj00074 *)p)->f54=func_0204AC18(((struct Obj26191 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,1,1,0,0,1,((struct Obj26192 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     *(int *)&((struct Obj00074 *)p)->f50=func_0204A6C8(((struct Obj26193 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,3,0,1,((struct Obj26194 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     *(int *)&((struct Obj00074 *)p)->f58=func_0204AF28(((struct Obj26195 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,7,8,((struct Obj26196 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
@@ -1268,7 +1268,7 @@ void func_021BA9D0(char *p)
     func_02061CA4((void *)31, 186, p + 0x4c, 2);
     func_021BB088(p);
     if (func_020355C4() == 0) {
-        func_02028218(*(struct Obj **)(p + func_021BB034((u16 **)p) * 4 + 0xc), 1);
+        APP_TASKMENU_WIN_SetActive(*(struct Obj **)(p + func_021BB034((u16 **)p) * 4 + 0xc), 1);
         ((struct Obj00074 *)p)->f8C = 0;
     }
 }
@@ -1280,7 +1280,7 @@ void func_021BAA44(struct Work *a0) { sub_02041B6C(4); }
 
 
 
-void func_021BAA50(char *p) { u8 i; func_021BAA88(p); for(i=0;i<8;i++) sub_0204B3B4(*(struct Obj **)(p+i*4+0x60)); sub_0204B3B4(*(struct Obj * *)&((struct Obj08470 *)p)->f5C); sub_0204AFD8(((struct Obj08470 *)p)->f58); sub_0204A8D4(((struct Obj08470 *)p)->f50); sub_0204ADA4(((struct Obj08470 *)p)->f54); }
+void func_021BAA50(char *p) { u8 i; func_021BAA88(p); for(i=0;i<8;i++) CLACT_DeleteActor(*(struct Obj **)(p+i*4+0x60)); CLACT_DeleteActor(*(struct Obj * *)&((struct Obj08470 *)p)->f5C); CLACT_ReleaseCellAnim(((struct Obj08470 *)p)->f58); CLACT_ReleaseCharacter(((struct Obj08470 *)p)->f50); CLACT_ReleasePalette(((struct Obj08470 *)p)->f54); }
 
 
 
@@ -1301,12 +1301,12 @@ int func_021BAABC(char *p)
     if(func_020355C4()==0) {
         if(hit>=0 && hit<count) {
             func_020355D8(1);
-            func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
         }
     } else {
         if(func_020362DC()!=0 && !(func_020362DC()&2)) {
             func_020355D8(0);
-            func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
             ((struct Obj00074 *)p)->f8C=0;
             func_020061E4(0x548);
             return 0;
@@ -1314,13 +1314,13 @@ int func_021BAABC(char *p)
     }
     if(func_020355C4()==0) {
         if(func_020362DC()&1) {
-            func_0202822C(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+            APP_TASKMENU_WIN_SetDecide(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
             func_020061E4(0x54c);
             return 1;
         }
         if(ST->count>1) {
             if(func_0203633C()&0x40) {
-                func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
                 if(ST->selected>ST->top) ST->selected--;
                 else if(ST->count<=6) ST->selected=ST->count-1;
                 else {
@@ -1337,11 +1337,11 @@ int func_021BAABC(char *p)
                     delta[3].y=y;
                     func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C, (const struct Vec2_021BA508 *)(&delta[3]), 1);
                 }
-                func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
                 ((struct Obj00074 *)p)->f8C=0;
                 func_020061E4(0x548);
             } else if(func_0203633C()&0x80) {
-                func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
                 if(ST->selected<last) ST->selected++;
                 else if(ST->count<=6) ST->selected=0;
                 else {
@@ -1355,12 +1355,12 @@ int func_021BAABC(char *p)
                     delta[2].y=y;
                     func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C, (const struct Vec2_021BA508 *)(&delta[2]), 1);
                 }
-                func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
                 ((struct Obj00074 *)p)->f8C=0;
                 func_020061E4(0x548);
             } else if(func_0203633C()&0x220) {
                 if(ST->selected!=0) {
-                    func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+                    APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
                     if(ST->count<=6) ST->selected=0;
                     else {
                         if(ST->top>=6) {ST->top-=6;ST->selected-=6;}
@@ -1371,13 +1371,13 @@ int func_021BAABC(char *p)
                         delta[1].y=y;
                         func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C, (const struct Vec2_021BA508 *)(&delta[1]), 1);
                     }
-                    func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+                    APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
                     ((struct Obj00074 *)p)->f8C=0;
                     func_020061E4(0x548);
                 }
             } else if(func_0203633C()&0x110) {
                 if(ST->selected<ST->count-1) {
-                    func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+                    APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
                     if(ST->count<=6) ST->selected=ST->count-1;
                     else {
                         ST->top+=6;
@@ -1390,7 +1390,7 @@ int func_021BAABC(char *p)
                         delta[0].y=y;
                         func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C, (const struct Vec2_021BA508 *)(&delta[0]), 1);
                     }
-                    func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+                    APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
                     ((struct Obj00074 *)p)->f8C=0;
                     func_020061E4(0x548);
                 }
@@ -1398,9 +1398,9 @@ int func_021BAABC(char *p)
         }
     } else if(hit>=0 && hit<count) {
         ST->selected=ST->top+hit;
-        func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+        APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
         ((struct Obj00074 *)p)->f8C=0;
-        func_0202822C(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+        APP_TASKMENU_WIN_SetDecide(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
         func_020061E4(0x54c);
         return 1;
     }
@@ -1421,11 +1421,11 @@ int func_021BAE2C(char *p)
     struct Vec2_021BAABC click;
     if(func_0204B3F4(*(struct Obj * *)&((struct Obj00074 *)p)->f5C)==0) return 0;
     if(((struct Obj00074 *)p)->f88) {
-        if(func_02035CB8(&dragx,&dragy)) {
+        if(TOUCHPANEL_GetPointCont(&dragx,&dragy)) {
             int offset;
             u16 selection,end;
             func_020355D8(1);
-            func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
             offset=0;
             drag.x=240;
             if(dragy>=8) offset=dragy-8;
@@ -1451,7 +1451,7 @@ int func_021BAE2C(char *p)
             int offset;
             u16 selection,end;
             func_020355D8(1);
-            func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
             offset=0;
             func_020061E4(0x548);
             ((struct Obj00074 *)p)->f88=1;
@@ -1533,7 +1533,7 @@ void func_021BB088(char *p)
     index=(u16)(((struct Obj26217 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC-1);
     if (((struct Obj26218 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC==0) {
         if (*(u8 * *)&((struct Obj00074 *)p)->fC) {
-            func_0202843C(*(u8 * *)&((struct Obj00074 *)p)->fC);
+            APP_TASKMENU_WIN_ClearScreen(*(u8 * *)&((struct Obj00074 *)p)->fC);
             ((struct Obj00074 *)p)->f2C=0;
         }
         index=((struct Obj26219 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC;
@@ -1545,20 +1545,20 @@ void func_021BB088(char *p)
     last=(u8)(first+end-index);
     for(i=last+1;i<=7;i++) {
         if (*(u8 **)(p+i*4+0xc)) {
-            func_0202843C(*(u8 **)(p+i*4+0xc));
+            APP_TASKMENU_WIN_ClearScreen(*(u8 **)(p+i*4+0xc));
             *(u32_021BB088 *)(p+i*4+0x2c)=0;
         }
         func_0204B3DC(*(void **)(p+i*4+0x60),0);
     }
     for(i=first;i<=last;i++) {
-        if (*(u8 **)(p+i*4+0xc)) func_0202815C();
+        if (*(u8 **)(p+i*4+0xc)) APP_TASKMENU_WIN_DeleteNoClear();
         e.resource=func_02045EC0(*(struct MsgBank * *)&((struct Obj26221 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f20,*(u16 *)(*(char * *)&((struct Obj26222 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f8+index*8+2));
         if(i==0 || i==7) e.tag=0x3da3; else e.tag=0x39e3;
         e.flags=0;
         if(((struct Obj00074 *)p)->f94)
-            *(u32_021BB088 **)(p+i*4+0xc)=func_0202804C(*(u32_021BB088 *)&((struct Obj00074 *)p)->f8,(u32_021BB088)&e,2,(u8)(i*3),28,3,0,0,((struct Obj26223 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
+            *(u32_021BB088 **)(p+i*4+0xc)=APP_TASKMENU_WIN_CreateExNoScreen(*(u32_021BB088 *)&((struct Obj00074 *)p)->f8,(u32_021BB088)&e,2,(u8)(i*3),28,3,0,0,((struct Obj26223 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
         else
-            *(u32_021BB088 *)(p+i*4+0xc)=func_02027FEC(*(u32_021BB088 *)&((struct Obj00074 *)p)->f8,(u32_021BB088)&e,2,(u8)(i*3),28,((struct Obj26224 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
+            *(u32_021BB088 *)(p+i*4+0xc)=APP_TASKMENU_WIN_Create(*(u32_021BB088 *)&((struct Obj00074 *)p)->f8,(u32_021BB088)&e,2,(u8)(i*3),28,((struct Obj26224 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
         func_02028178(*(u8 **)(p+i*4+0xc));
         *(u32_021BB088 *)(p+i*4+0x2c)=1;
         func_02045808(e.resource);
@@ -1676,7 +1676,7 @@ int func_021BB31C(char *p)
         if (((struct Obj00691 *)p)->f18==0) {
             if (func_021BB53C(p)) ((struct Obj00691 *)p)->f18=3;
         } else {
-            if (func_02028230((u8 *)(*(char **)(p+0xc+**(u8 * *)&((struct Obj00691 *)p)->f0*4)))) {
+            if (APP_TASKMENU_WIN_IsFinish((u8 *)(*(char **)(p+0xc+**(u8 * *)&((struct Obj00691 *)p)->f0*4)))) {
                 unsigned value;
                 if (**(u8 * *)&((struct Obj00691 *)p)->f0==0) value=2;
                 else if (**(u8 * *)&((struct Obj00691 *)p)->f0==1) value=3;
@@ -1706,7 +1706,7 @@ void func_021BB400(char *p)
 {
     func_02049B68((void *)(((struct Obj26240 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f24), 0, 4, 0, 64, ((struct Obj26241 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f4);
     func_02049658((void *)(((struct Obj26242 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f24), 2, 4, 0, 0, 0, ((struct Obj26243 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f4);
-    func_020499D4((void *)(((struct Obj26244 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f24), 4, 4, 0, 0, 0, 0, ((struct Obj26245 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f4);
+    ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct Obj26244 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f24), 4, 4, 0, 0, 0, 0, ((struct Obj26245 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f4);
     func_021BB458(p);
 }
 
@@ -1724,10 +1724,10 @@ void func_021BB458(char *p)
     entries[1].tag = 0x39e3;
     entries[1].flags = 0;
     for (i = 0; i < 2; i++) {
-        *(unsigned *)(p + i * 4 + 0xc) = func_02027FEC(*(unsigned *)&((struct Obj01596 *)p)->f8, (unsigned)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct Obj26251 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f4);
+        *(unsigned *)(p + i * 4 + 0xc) = APP_TASKMENU_WIN_Create(*(unsigned *)&((struct Obj01596 *)p)->f8, (unsigned)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct Obj26251 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f4);
         func_02045808(entries[i].resource);
     }
-    if (func_020355C4() == 0) func_02028218(*(struct Obj **)(p + *(u8 *)*(char * *)&((struct Obj01596 *)p)->f0 * 4 + 0xc), 1);
+    if (func_020355C4() == 0) APP_TASKMENU_WIN_SetActive(*(struct Obj **)(p + *(u8 *)*(char * *)&((struct Obj01596 *)p)->f0 * 4 + 0xc), 1);
 }
 
 
@@ -1753,50 +1753,50 @@ int func_021BB53C(char *p)
     if(func_020355C4()==0) {
         if(hit>=0 && hit<=1) {
             func_020355D8(1);
-            func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
         }
     } else {
         if(func_020362DC()!=0 && !(func_020362DC()&0x402)) {
             func_020355D8(0);
-            func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
             func_020061E4(0x548);
             return 0;
         }
     }
     if(func_020355C4()==0) {
         if(func_020362DC()&1) {
-            func_0202822C(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            APP_TASKMENU_WIN_SetDecide(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
             func_020061E4(0x54c);
             return 1;
         } else if(func_0203633C()&0x40) {
-            func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
             if(**(u8 * *)&((struct Obj00740 *)p)->f0==0) **(u8 * *)&((struct Obj00740 *)p)->f0=1; else **(u8 * *)&((struct Obj00740 *)p)->f0=0;
-            func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
             func_020061E4(0x548);
         } else if(func_0203633C()&0x80) {
-            func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
             if(**(u8 * *)&((struct Obj00740 *)p)->f0==1) **(u8 * *)&((struct Obj00740 *)p)->f0=0; else **(u8 * *)&((struct Obj00740 *)p)->f0=1;
-            func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
             func_020061E4(0x548);
         } else if(func_0203633C()&0x220) {
             if(**(u8 * *)&((struct Obj00740 *)p)->f0==1) {
-                func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
                 **(u8 * *)&((struct Obj00740 *)p)->f0=0;
-                func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
                 func_020061E4(0x548);
             }
         } else if(func_0203633C()&0x110) {
             if(**(u8 * *)&((struct Obj00740 *)p)->f0==0) {
-                func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
                 **(u8 * *)&((struct Obj00740 *)p)->f0=1;
-                func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
                 func_020061E4(0x548);
             }
         }
     } else if(hit>=0 && hit<=1) {
         **(u8 * *)&((struct Obj00740 *)p)->f0=hit;
-        func_02028218(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
-        func_0202822C(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+        APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+        APP_TASKMENU_WIN_SetDecide(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
         func_020061E4(0x54c);
         return 1;
     }

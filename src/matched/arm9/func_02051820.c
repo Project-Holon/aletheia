@@ -1,5 +1,5 @@
 /*
- * function: func_02051820
+ * function: BUTTON_MAN_GetAngle
  * address:  0x02051820
  * packet:   pkt_02051790
  * region:   arm9
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj16177.h"
 
-short func_02051820(char *p)
+short BUTTON_MAN_GetAngle(char *p)
 {
     return ((struct Obj16177 *)p)->f6C;
 }

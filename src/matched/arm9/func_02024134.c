@@ -1,5 +1,5 @@
 /*
- * function: func_02024134
+ * function: PMSI_PARAM_GetSentence
  * address:  0x02024134
  * packet:   pkt_02024134
  * region:   arm9
@@ -18,7 +18,7 @@
 struct Rec8;
 extern void sub_02024570(struct Rec8 *dst, const struct Rec8 *src);
 
-void func_02024134(char *a, void *b)
+void PMSI_PARAM_GetSentence(char *a, void *b)
 {
     sub_02024570(b, (const struct Rec8 *)(a + 0x10));
 }

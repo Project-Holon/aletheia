@@ -17,12 +17,12 @@
  * Byte-correct (lane B5, run 1).  7 of 14 sites unresolved, no C change helps:
  *   - ov110_id 0x6E: overlay_id refuses, func_02012444 is not in
  *     OVERLAY_ID_CONSUMERS (it stores a1 in a descriptor for the state
- *     machine func_0201240C rather than passing it straight to a loader).
+ *     machine GAME_EVENT_CallProcSeq rather than passing it straight to a loader).
  *   - d_021C39B8: with the ov110 token the hint is "contested" and no
  *     overlay_id site loads ov110; without it, "no witness".  Resolves once
  *     ov110_id does.
  *   - arm9 unlabelled leaves 0x0202411C, 0x02024124, 0x02024128,
- *     0x02024134 (a .word run in asm/arm9/main.s after func_020240FC) and
+ *     0x02024134 (a .word run in asm/arm9/main.s after PMSI_PARAM_Delete) and
  *     0x0200E714: no witness outside this range; each needs its own EXACT
  *     arm9 entry (matched class).
  * Same blocker family as ov010_func_02166908 / ov010_func_0216B004.
@@ -30,16 +30,16 @@
  * symbols:
  *   func_020124E8  0x020124E8  thumb
  *   func_02012444  0x02012444  thumb
- *   func_0202411C  0x0202411C  thumb
- *   func_02024128  0x02024128  thumb
- *   func_02024124  0x02024124  thumb
- *   func_02024134  0x02024134  thumb
+ *   PMSI_PARAM_CheckCanceled  0x0202411C  thumb
+ *   PMSI_PARAM_GetWords  0x02024128  thumb
+ *   PMSI_PARAM_GetWord  0x02024124  thumb
+ *   PMSI_PARAM_GetSentence  0x02024134  thumb
  *   func_020124E4  0x020124E4  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200E6F0  0x0200E6F0  thumb
  *   func_0200E714  0x0200E714  thumb
- *   func_020240FC  0x020240FC  thumb
+ *   PMSI_PARAM_Delete  0x020240FC  thumb
  *   ov110_id       0x0000006E  data   a1
  *   d_021C39B8     0x021C39B8  data   ov110  a4
  
@@ -76,16 +76,16 @@ struct Obj;
 struct Rec0200E714;
 extern void *func_020124E8(struct Obj *p);
 extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
-extern int func_0202411C(unsigned char *p);
-extern void  func_02024128(void *t, Res4 *out);
-extern unsigned int func_02024124(unsigned short *p);
-extern void func_02024134(char *a, void *b);
+extern int PMSI_PARAM_CheckCanceled(unsigned char *p);
+extern void  PMSI_PARAM_GetWords(void *t, Res4 *out);
+extern unsigned int PMSI_PARAM_GetWord(unsigned short *p);
+extern void PMSI_PARAM_GetSentence(char *a, void *b);
 extern void *func_020124E4(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E6F0(u32 a);
 extern void func_0200E714(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src);
-extern void  func_020240FC(void *t);
+extern void  PMSI_PARAM_Delete(void *t);
 
 extern char ov110_id[];
 extern char d_021C39B8[];
@@ -108,18 +108,18 @@ u32 func_02166E50(void *obj, u32 *mode)
         (*mode)++;
         break;
     case 1:
-        if (func_0202411C(t) != 0) {
+        if (PMSI_PARAM_CheckCanceled(t) != 0) {
             done = 0;
         } else {
             if (w->kind == 5) {
-                func_02024128(t, &r4);
+                PMSI_PARAM_GetWords(t, &r4);
                 *w->out0 = r4.a;
                 v = r4.b;
             } else if (w->kind == 4) {
-                *w->out0 = func_02024124(t);
+                *w->out0 = PMSI_PARAM_GetWord(t);
                 v = 0;
             } else {
-                func_02024134(t, &r8);
+                PMSI_PARAM_GetSentence(t, &r8);
                 if (w->f18 != 0) {
                     func_0200E714(func_0200E6F0((u32)func_02012EBC(func_020120F4(func_020124E4(obj)))), w->f14, (struct Rec0200E714 *)(&r8));
                 }
@@ -130,7 +130,7 @@ u32 func_02166E50(void *obj, u32 *mode)
             done = 1;
         }
         *w->done = done;
-        func_020240FC(w->task);
+        PMSI_PARAM_Delete(w->task);
         return 1;
     }
     return 0;

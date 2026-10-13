@@ -1,5 +1,5 @@
 /*
- * function: func_0202751C
+ * function: BEACON_STATUS_Create
  * address:  0x0202751C
  * packet:   pkt_020274C8
  * region:   arm9
@@ -17,7 +17,7 @@
  *   func_02045924       0x02045924  arm
  *   func_02045808       0x02045808  arm
  *   func_02045C04       0x02045C04  arm
- *   sBeaconStatus42     0x020A74D0  data
+ *   beacon_status_File     0x020A74D0  data
  */
 
 typedef unsigned short u16;
@@ -35,21 +35,21 @@ extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_02045C04(struct Rec *rec);
-extern const char sBeaconStatus42[];
+extern const char beacon_status_File[];
 
 typedef struct {
     void *f000[0xb08 / 4];
     void *fb08;
 } Obj;
 
-Obj *func_0202751C(u32 heap, u32 a1)
+Obj *BEACON_STATUS_Create(u32 heap, u32 a1)
 {
     Obj *p;
     void *arc;
     void *msg;
     u16 buf[10];
 
-    p = (Obj *)func_02030734(heap, 0xb10, 1, sBeaconStatus42, 42);
+    p = (Obj *)func_02030734(heap, 0xb10, 1, beacon_status_File, 42);
     p->fb08 = func_020457B0(9, heap);
     arc = func_02045B38(0, 2, 8, a1);
     msg = func_02045EC0(arc, 0x11);

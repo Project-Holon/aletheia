@@ -11,7 +11,7 @@
  * function: sub_0203046C
  *
  * Checked heap-id lookup returning the heap's u16 record field (the one
- * sub_0202FC20 reads, the +0xc halfword of the per-heap record), or 0xffff
+ * GFL_HEAP_GetAllocCount reads, the +0xc halfword of the per-heap record), or 0xffff
  * if the id is out of range; see src/matched/sub_02030428.c for the shared
  * preamble.
  *
@@ -25,14 +25,14 @@
  *    spending a pool word, so the literal in the source really is 0xffff
  *    and the result-code store really does precede it.
  *  - The `lsl #16` / `lsr #16` pair on the success path is the u16 return
- *    type truncating a wider callee result, so sub_0202FC20 must be
+ *    type truncating a wider callee result, so GFL_HEAP_GetAllocCount must be
  *    declared here as returning `int`, not `u16`. src/matched/unit_0202FBAC.c
  *    declares it `u16` (correct for its own body, which returns a halfword
  *    load); the truncation only appears at this call site.
  *
  * symbols:
  *   g_EnvModule     0x02146954  data
- *   sub_0202FC20    0x0202FC20  arm
+ *   GFL_HEAP_GetAllocCount    0x0202FC20  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0203046C.c \
@@ -54,7 +54,7 @@ struct EnvEntry {
 };
 
 extern struct EnvModule g_EnvModule;
-extern u16 sub_0202FC20(u32 idx);
+extern u16 GFL_HEAP_GetAllocCount(u32 idx);
 
 u16 sub_0203046C(u32 heapId)
 {
@@ -64,7 +64,7 @@ u16 sub_0203046C(u32 heapId)
         goto fail;
     }
     g_EnvModule.error = 0;
-    return (int)sub_0202FC20(heapId);
+    return (int)GFL_HEAP_GetAllocCount(heapId);
 
 fail:
     return 0xFFFF;

@@ -1,7 +1,7 @@
 /*
  * file:     procsys.c
  * unit:     yes
- * function: func_0203129C, func_020312B4, func_020312CC, func_020312F8, func_02031324, func_02031330, func_0203133C, func_02031348, func_02031354, func_020313A0, func_020313EC, func_020314B8, func_020314DC, func_020314F4, func_02031538, func_02031590, func_0203159C, func_020315D4, func_020315F0
+ * function: PROCSYS_CreateGlobal, PROCSYS_MainGlobal, PROCSYS_PushGlobal, PROCSYS_ReplaceGlobal, PROCSYS_Create, PROCSYS_Main, func_0203133C, PROCSYS_Push, PROCSYS_CreateInternal, PROCSYS_PushQueued, PROCSYS_MainInternal, func_020314B8, func_020314DC, PROCSYS_PushInternal, PROCSYS_NewProc, PROCSYS_FreeProc, func_0203159C, func_020315D4, PROCSYS_StepProc
  * address:  0x0203129C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -74,92 +74,92 @@ extern void ENV_SetResourceSet(void *p);
 extern u32 func_020307B0(void *p);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
-void func_0203129C(int heapId);
-int func_020312B4(void);
-void func_020312CC(u32 overlayId, const ProcData *data, void *procWork);
-void func_020312F8(u32 overlayId, const ProcData *data, void *procWork);
-void *func_02031324(int heapId);
-unsigned int func_02031330(ProcSys *sys);
-void sub_0203133C(ProcSys *sys);
-void func_02031348(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
-ProcSys *func_02031354(int heapId);
-Proc *func_020313A0(ProcSys *sys);
-u32 func_020313EC(ProcSys *sys);
-void sub_020314B8(ProcSys *sys);
-void sub_020314DC(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
-void func_020314F4(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
-Proc *func_02031538(u32 overlayId, const ProcData *data, void *procWork, u32 heapId);
-void func_02031590(Proc *proc);
+void PROCSYS_CreateGlobal(int heapId);
+int PROCSYS_MainGlobal(void);
+void PROCSYS_PushGlobal(u32 overlayId, const ProcData *data, void *procWork);
+void PROCSYS_ReplaceGlobal(u32 overlayId, const ProcData *data, void *procWork);
+void *PROCSYS_Create(int heapId);
+unsigned int PROCSYS_Main(ProcSys *sys);
+void PROCSYS_Delete(ProcSys *sys);
+void PROCSYS_Push(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
+ProcSys *PROCSYS_CreateInternal(int heapId);
+Proc *PROCSYS_PushQueued(ProcSys *sys);
+u32 PROCSYS_MainInternal(ProcSys *sys);
+void PROCSYS_DeleteInternal(ProcSys *sys);
+void PROCSYS_QueueReplace(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
+void PROCSYS_PushInternal(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
+Proc *PROCSYS_NewProc(u32 overlayId, const ProcData *data, void *procWork, u32 heapId);
+void PROCSYS_FreeProc(Proc *proc);
 void *func_0203159C(Proc *proc, u32 size, u32 heapId);
-void sub_020315D4(Proc *proc);
-u32 func_020315F0(Proc *proc);
+void PROCSYS_FreeProcWork(Proc *proc);
+u32 PROCSYS_StepProc(Proc *proc);
 extern ProcSys *g_ProcSys;
 extern char ProcSys_AllocSiteName[];
 extern const char ProcNew_AllocSiteName[];
 extern const char ProcAllocWork_AllocSiteName[];
 
 
-void func_0203129C(int heapId)
+void PROCSYS_CreateGlobal(int heapId)
 {
-    g_ProcSys = func_02031354(heapId);
+    g_ProcSys = PROCSYS_CreateInternal(heapId);
 }
 
 
 /*
- * Tail-call forwarder passing g_ProcSys to func_020313EC.
+ * Tail-call forwarder passing g_ProcSys to PROCSYS_MainInternal.
  */
-int func_020312B4(void)
+int PROCSYS_MainGlobal(void)
 {
-    return func_020313EC(g_ProcSys);
+    return PROCSYS_MainInternal(g_ProcSys);
 }
 
 
 /*
- * Forwarder: passes the object held in g_ProcSys to func_020314F4 with
+ * Forwarder: passes the object held in g_ProcSys to PROCSYS_PushInternal with
  * the caller's three arguments.  Formerly mislabelled SDK EL_LinkFileEx.
  */
-void func_020312CC(u32 overlayId, const ProcData *data, void *procWork)
+void PROCSYS_PushGlobal(u32 overlayId, const ProcData *data, void *procWork)
 {
-    func_020314F4(g_ProcSys, overlayId, data, procWork);
+    PROCSYS_PushInternal(g_ProcSys, overlayId, data, procWork);
 }
 
 
 /*
- * Forwarder: passes the object held in g_ProcSys to sub_020314DC with
+ * Forwarder: passes the object held in g_ProcSys to PROCSYS_QueueReplace with
  * the caller's three arguments.  Formerly mislabelled SDK EL_LinkFileEx.
  */
-void func_020312F8(u32 overlayId, const ProcData *data, void *procWork)
+void PROCSYS_ReplaceGlobal(u32 overlayId, const ProcData *data, void *procWork)
 {
-    sub_020314DC(g_ProcSys, overlayId, data, procWork);
+    PROCSYS_QueueReplace(g_ProcSys, overlayId, data, procWork);
 }
 
 
-void *func_02031324(int heapId)
+void *PROCSYS_Create(int heapId)
 {
-    return func_02031354(heapId);
+    return PROCSYS_CreateInternal(heapId);
 }
 
 
-unsigned int func_02031330(ProcSys *sys)
+unsigned int PROCSYS_Main(ProcSys *sys)
 {
-    return func_020313EC(sys);
+    return PROCSYS_MainInternal(sys);
 }
 
 
 /*
- * A four-instruction tail call to sub_020314B8, attested by the `matched`
- * class: sub_020314B8's own EXACT entry pins its address, and this call is
+ * A four-instruction tail call to PROCSYS_DeleteInternal, attested by the `matched`
+ * class: PROCSYS_DeleteInternal's own EXACT entry pins its address, and this call is
  * the only branch to it found in the ROM.
  */
-void sub_0203133C(ProcSys *sys)
+void PROCSYS_Delete(ProcSys *sys)
 {
-    sub_020314B8(sys);
+    PROCSYS_DeleteInternal(sys);
 }
 
 
-void func_02031348(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork)
+void PROCSYS_Push(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork)
 {
-    func_020314F4(sys, overlayId, data, procWork);
+    PROCSYS_PushInternal(sys, overlayId, data, procWork);
 }
 
 
@@ -177,7 +177,7 @@ void func_02031348(ProcSys *sys, u32 overlayId, const ProcData *data, void *proc
  * The pool word 0x020A783C is a `literal` site: it appears in ten other
  * pools in the image, e.g. 0x0203158C.
  */
-ProcSys *func_02031354(int heapId)
+ProcSys *PROCSYS_CreateInternal(int heapId)
 {
     ProcSys *sys = func_02030734(heapId, 0x20, 0, (const char *)((int)ProcSys_AllocSiteName), 0xc5);
 
@@ -197,9 +197,9 @@ ProcSys *func_02031354(int heapId)
  * Pushes the queued process on top of the stack as a child of the current
  * one, then clears the queue.
  */
-Proc *func_020313A0(ProcSys *sys)
+Proc *PROCSYS_PushQueued(ProcSys *sys)
 {
-    Proc *child = func_02031538(sys->nextOverlayId, sys->nextData, sys->nextProcWork, sys->heapId);
+    Proc *child = PROCSYS_NewProc(sys->nextOverlayId, sys->nextData, sys->nextProcWork, sys->heapId);
 
     child->prev = sys->current;
     sys->current->next = child;
@@ -216,8 +216,8 @@ Proc *func_020313A0(ProcSys *sys)
 
 /*
  * procsys.c: advance the process chain one frame.  A pending push
- * (pushPending) is applied first (func_020313A0); then the current process
- * runs one step (func_020315F0) and, when it finishes, is freed and replaced
+ * (pushPending) is applied first (PROCSYS_PushQueued); then the current process
+ * runs one step (PROCSYS_StepProc) and, when it finishes, is freed and replaced
  * either by a freshly built process from the queued parameters
  * (replacePending set) or by its parent.  Returns 0 when the stack is empty,
  * 2 when a process just finished, 1 otherwise.
@@ -228,7 +228,7 @@ Proc *func_020313A0(ProcSys *sys)
  * below the compare, which is the image's order (ldr replacePending, cmp,
  * ldr current, ldr prev, beq).
  */
-u32 func_020313EC(ProcSys *sys)
+u32 PROCSYS_MainInternal(ProcSys *sys)
 {
     u32 status;
     Proc *parent;
@@ -237,14 +237,14 @@ u32 func_020313EC(ProcSys *sys)
         return 0;
     }
     if (sys->pushPending != 0) {
-        func_020313A0(sys);
+        PROCSYS_PushQueued(sys);
     }
-    status = func_020315F0(sys->current);
+    status = PROCSYS_StepProc(sys->current);
     if (status == 1) {
         if (sys->replacePending != 0) {
             parent = sys->current->prev;
-            func_02031590(sys->current);
-            sys->current = func_02031538(sys->nextOverlayId, sys->nextData, sys->nextProcWork, sys->heapId);
+            PROCSYS_FreeProc(sys->current);
+            sys->current = PROCSYS_NewProc(sys->nextOverlayId, sys->nextData, sys->nextProcWork, sys->heapId);
             if (parent != 0) {
                 parent->next = sys->current;
             }
@@ -255,7 +255,7 @@ u32 func_020313EC(ProcSys *sys)
             sys->nextProcWork = 0;
         } else {
             parent = sys->current->prev;
-            func_02031590(sys->current);
+            PROCSYS_FreeProc(sys->current);
             sys->current = parent;
             if (parent != 0) {
                 parent->next = 0;
@@ -275,9 +275,9 @@ u32 func_020313EC(ProcSys *sys)
 /*
  * Frees the current process if present, then frees the ProcSys itself
  * (ENV_SetResourceSet is the heap free).  The same shutdown shape as
- * sub_02031140 and sub_020315D4 in the neighbouring packets.
+ * TCBL_Destroy and PROCSYS_FreeProcWork in the neighbouring packets.
  */
-void sub_020314B8(ProcSys *sys)
+void PROCSYS_DeleteInternal(ProcSys *sys)
 {
     if (sys->current != 0) {
         func_020882D0(sys->current);
@@ -294,7 +294,7 @@ void sub_020314B8(ProcSys *sys)
  * (replacePending = 1) and stores the new overlay, data and argument.
  * No relocations.
  */
-void sub_020314DC(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork)
+void PROCSYS_QueueReplace(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork)
 {
     sys->replacePending = 1;
     sys->nextOverlayId = overlayId;
@@ -317,10 +317,10 @@ void sub_020314DC(ProcSys *sys, u32 overlayId, const ProcData *data, void *procW
  * first and the stores in the else arm, the compiler predicates the else
  * arm (movne, four strne, popne) and places it ahead of the call.
  */
-void func_020314F4(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork)
+void PROCSYS_PushInternal(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork)
 {
     if (sys->current == 0) {
-        sys->current = func_02031538(overlayId, data, procWork, sys->heapId);
+        sys->current = PROCSYS_NewProc(overlayId, data, procWork, sys->heapId);
     } else {
         sys->pushPending = 1;
         sys->nextOverlayId = overlayId;
@@ -338,7 +338,7 @@ void func_020314F4(ProcSys *sys, u32 overlayId, const ProcData *data, void *proc
  * __FILE__/__LINE__; 0x162 does not fit an ARM immediate so it costs its own
  * pool word loaded early into ip.
  */
-Proc *func_02031538(u32 overlayId, const ProcData *data, void *procWork, u32 heapId)
+Proc *PROCSYS_NewProc(u32 overlayId, const ProcData *data, void *procWork, u32 heapId)
 {
     Proc *proc;
 
@@ -358,7 +358,7 @@ Proc *func_02031538(u32 overlayId, const ProcData *data, void *procWork, u32 hea
 
 
 
-void func_02031590(Proc *proc)
+void PROCSYS_FreeProc(Proc *proc)
 {
     func_020307B0(proc);
 }
@@ -388,7 +388,7 @@ void *func_0203159C(Proc *proc, u32 size, u32 heapId)
  * Frees the process's work buffer (ENV_SetResourceSet is the heap free) and
  * clears the field.
  */
-void sub_020315D4(Proc *proc)
+void PROCSYS_FreeProcWork(Proc *proc)
 {
     ENV_SetResourceSet(proc->work);
     proc->work = 0;
@@ -404,7 +404,7 @@ void sub_020315D4(Proc *proc)
  * when its phase is done; the sub-sequence counter is passed by address and
  * cleared on every phase change.
  */
-u32 func_020315F0(Proc *proc)
+u32 PROCSYS_StepProc(Proc *proc)
 {
     switch (proc->seq) {
     case 0:

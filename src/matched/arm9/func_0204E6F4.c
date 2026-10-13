@@ -1,5 +1,5 @@
 /*
- * function: func_0204E6F4
+ * function: FADE_SetSpeed
  * address:  0x0204E6F4
  * packet:   pkt_0204E6F4
  * region:   arm9
@@ -16,8 +16,8 @@
  *   g_02146A7C  0x02146A7C  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204E6F4.c \
- *       --func func_0204E6F4 --addr 0x0204E6F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/FADE_SetSpeed.c \
+ *       --func FADE_SetSpeed --addr 0x0204E6F4 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Run0204E720.h"
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 
 extern struct Run0204E720 *g_02146A7C;
 
-void func_0204E6F4(s32 a)
+void FADE_SetSpeed(s32 a)
 {
     g_02146A7C->unk1c = a;
 }

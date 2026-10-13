@@ -8,22 +8,22 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201BEB8, sub_0201BF44, sub_0201BF58
+ * function: WAZA_TOOL_GetFlag, WAZA_TOOL_GetDataFlag, WAZA_TOOL_GetSickCont
  *
  * waza_tool.c: the flag-bit query and the packed triple, each with its own
  * copy of the cache lookup src/matched/unit_0201BD28.c carries.
  *
- * sub_0201BF44 has to stay in this file: the `bl` at 0x0201BF36 is the only
+ * WAZA_TOOL_GetDataFlag has to stay in this file: the `bl` at 0x0201BF36 is the only
  * branch to it in the image, so split off it would have no witness, and kept
  * here the site is the `local` class.
  *
- * sub_0201BF44's early `return r` on the bit being set is not interchangeable
+ * WAZA_TOOL_GetDataFlag's early `return r` on the bit being set is not interchangeable
  * with the `if (... == 0) r = 0;` spelling that reads more naturally: the
  * latter copies the loaded word into a second register and returns through a
  * third, eight bytes of register numbering, while the early return leaves the
  * result in r0 from the `movs r0, #1` the original opens the test with.
  *
- * sub_0201BF58 packs three fields of the record into one halfword of
+ * WAZA_TOOL_GetSickCont packs three fields of the record into one halfword of
  * bitfields on the stack, 4 bits then 6 then 6, and hands the halfword back
  * signed.  Two details are load bearing.  The halfword is never initialised:
  * when the record's +0x0B byte is zero the function returns whatever the
@@ -34,8 +34,8 @@
  * than three separate variables.
  *
  * symbols:
- *   gWazaTool   0x02146530  data
- *   g_02146534  0x02146534  data
+ *   _pWazaTool   0x02146530  data
+ *   _WazaTempData  0x02146534  data
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201BEB8.c  *       --addr 0x0201BEB8 --thumb
@@ -67,43 +67,43 @@ union Packed {
     s16 v;
 };
 
-extern struct WazaTool *gWazaTool;
-extern struct Waza g_02146534;
+extern struct WazaTool *_pWazaTool;
+extern struct Waza _WazaTempData;
 
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 
-u32 sub_0201BF44(const struct Waza *p, u32 bit);
+u32 WAZA_TOOL_GetDataFlag(const struct Waza *p, u32 bit);
 
-u32 sub_0201BEB8(u16 id, u32 bit)
+u32 WAZA_TOOL_GetFlag(u16 id, u32 bit)
 {
     struct Waza *rec;
     s32 i;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (((u16 *)gWazaTool->vals)[i] == 0) {
-                ((u16 *)gWazaTool->vals)[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            if (((u16 *)_pWazaTool->vals)[i] == 0) {
+                ((u16 *)_pWazaTool->vals)[i] = id;
+                func_02048F4C(_pWazaTool->recs[i], 0x15, id);
                 break;
             }
-            if (id == ((u16 *)gWazaTool->vals)[i]) {
+            if (id == ((u16 *)_pWazaTool->vals)[i]) {
                 break;
             }
         }
-        if (i == gWazaTool->count) {
+        if (i == _pWazaTool->count) {
             i--;
-            ((u16 *)gWazaTool->vals)[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+            ((u16 *)_pWazaTool->vals)[i] = id;
+            func_02048F4C(_pWazaTool->recs[i], 0x15, id);
         }
-        rec = gWazaTool->recs[i];
+        rec = _pWazaTool->recs[i];
     } else {
-        rec = &g_02146534;
+        rec = &_WazaTempData;
         func_02048F4C(rec, 0x15, id);
     }
-    return sub_0201BF44(rec, bit);
+    return WAZA_TOOL_GetDataFlag(rec, bit);
 }
 
-u32 sub_0201BF44(const struct Waza *p, u32 bit)
+u32 WAZA_TOOL_GetDataFlag(const struct Waza *p, u32 bit)
 {
     u32 r = 1;
 
@@ -114,31 +114,31 @@ u32 sub_0201BF44(const struct Waza *p, u32 bit)
     return r;
 }
 
-s16 sub_0201BF58(u16 id)
+s16 WAZA_TOOL_GetSickCont(u16 id)
 {
     struct Waza *rec;
     s32 i;
     union Packed u;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (((u16 *)gWazaTool->vals)[i] == 0) {
-                ((u16 *)gWazaTool->vals)[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            if (((u16 *)_pWazaTool->vals)[i] == 0) {
+                ((u16 *)_pWazaTool->vals)[i] = id;
+                func_02048F4C(_pWazaTool->recs[i], 0x15, id);
                 break;
             }
-            if (id == ((u16 *)gWazaTool->vals)[i]) {
+            if (id == ((u16 *)_pWazaTool->vals)[i]) {
                 break;
             }
         }
-        if (i == gWazaTool->count) {
+        if (i == _pWazaTool->count) {
             i--;
-            ((u16 *)gWazaTool->vals)[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+            ((u16 *)_pWazaTool->vals)[i] = id;
+            func_02048F4C(_pWazaTool->recs[i], 0x15, id);
         }
-        rec = gWazaTool->recs[i];
+        rec = _pWazaTool->recs[i];
     } else {
-        rec = &g_02146534;
+        rec = &_WazaTempData;
         func_02048F4C(rec, 0x15, id);
     }
     if (rec->unk0B != 0) {

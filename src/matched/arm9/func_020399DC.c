@@ -1,5 +1,5 @@
 /*
- * function: func_020399DC
+ * function: GFL_NET_HANDLE_GetNegotiationState
  * address:  0x020399DC
  * packet:   pkt_020399DC
  * region:   arm9
@@ -13,7 +13,7 @@
  */
 typedef unsigned char u8;
 struct Entry { u8 bytes[0x50]; };
-int func_020399DC(struct Entry *p)
+int GFL_NET_HANDLE_GetNegotiationState(struct Entry *p)
 {
     if (p) return p->bytes[0x4a];
     return 8;

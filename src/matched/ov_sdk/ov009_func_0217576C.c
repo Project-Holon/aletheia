@@ -12,11 +12,11 @@
  * sdk:      DWCi_SendServerPolling (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
  * symbols:
- *   func_0216BA08                0x0216BA08 arm   ov009
+ *   DWC_IsServerMyself                0x0216BA08 arm   ov009
  *   func_02175F3C                0x02175F3C arm   ov009
  *   func_020870D0                0x020870D0 arm
  *   _ll_udiv                     0x0209C00C arm
- *   func_0216B908                0x0216B908 arm   ov009
+ *   DWC_GetAIDBitmap                0x0216B908 arm   ov009
  *   func_0217603C                0x0217603C arm   ov009
  *   func_0217637C                0x0217637C arm   ov009
  *   func_02176344                0x02176344 arm   ov009
@@ -47,10 +47,10 @@ struct DWCstNodeInfo {
     u16 port;
 };
 
-extern int func_0216BA08(void);
+extern int DWC_IsServerMyself(void);
 extern int func_02175F3C(void);
 extern u64 func_020870D0(void);
-extern int func_0216B908(void);
+extern int DWC_GetAIDBitmap(void);
 extern int func_0217603C(void);
 extern char *func_0217637C(int index);
 extern struct DWCstNodeInfo *func_02176344(void);
@@ -65,7 +65,7 @@ int func_0217576C(int immediate)
     int i;
     u64 tick;
 
-    if (!func_0216BA08())
+    if (!DWC_IsServerMyself())
         return 1;
     if (((struct DWCstMatchControl *)func_02175F3C())->f61c == 0x13 || ((struct DWCstMatchControl *)func_02175F3C())->f61c == 0x14)
         return 1;
@@ -75,7 +75,7 @@ int func_0217576C(int immediate)
             goto done;
     }
     sendData[0] = ((struct DWCstMatchControl *)func_02175F3C())->f678;
-    sendData[1] = func_0216B908();
+    sendData[1] = DWC_GetAIDBitmap();
     sendData[2] = ((struct DWCstMatchControl *)func_02175F3C())->f7c8;
     for (i = 0; i < func_0217603C(); i++) {
         pNodeInfo = (struct DWCstNodeInfo *)func_0217637C(i);

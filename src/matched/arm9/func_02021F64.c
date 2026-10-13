@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * A per-pixel RGB555 alpha-blend loop, same family as func_02021C20 and
- * func_02021BC8: each channel of src[i] is pulled toward the corresponding
+ * A per-pixel RGB555 alpha-blend loop, same family as PALANM_CalcFadeColors and
+ * PALANM_ApplyFade: each channel of src[i] is pulled toward the corresponding
  * channel of `color` by `weight`/16 and the three results repacked into
  * dst[i].  `color` is the fifth argument and arrives on the caller's stack
  * (the entry `add r0,sp,#0x20; ldrh r0,[r0]`).

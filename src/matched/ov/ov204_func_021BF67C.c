@@ -10,12 +10,14 @@
  * status: EXACT
  * symbols:
  *   defaultPos 0x021C08FC data
- *   func_02015CAC 0x02015CAC thumb
- *   func_02015E04 0x02015E04 thumb
+ *   MCSS_SetScale 0x02015CAC thumb
+ *   MCSS_SetAnmStopFlag 0x02015E04 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   func_021BF7F0 0x021BF7F0 thumb ov204
+ *   MCSS_Add  0x020159C8  thumb  arm9
+ *   MCSS_TOOL_MakeAddWorkFromPP  0x02017100  thumb  arm9
  */
 #include "../include/Obj10881.h"
 
@@ -27,11 +29,11 @@ struct Obj;
 struct Rec;
 struct Stats;
 struct Sub150;
-extern void func_02017100(void *p, struct Stats *out, u32 lvl);
+extern void MCSS_TOOL_MakeAddWorkFromPP(void *p, struct Stats *out, u32 lvl);
 extern u32 func_020307B0(void *p);
-extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
-extern void func_02015CAC(void *p, u32 *src);
-extern void func_02015E04(void *);
+extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
+extern void MCSS_SetScale(void *p, u32 *src);
+extern void MCSS_SetAnmStopFlag(void *);
 extern unsigned int func_0203F0A8(void);
 typedef unsigned char  u8;
 extern void func_021BF7F0(u8 *p);
@@ -44,11 +46,11 @@ void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsi
     void *tmp = func_020173F0((unsigned short)species, 0, 0, ((struct Obj10881 *)p)->f0);
     char *base = p + 8;
     unsigned int off = i * 12;
-    func_02017100(tmp, (struct Stats *)data, 0);
+    MCSS_TOOL_MakeAddWorkFromPP(tmp, (struct Stats *)data, 0);
     func_020307B0(tmp);
-    *(void **)(base + off) = func_020159C8(((struct Obj10881 *)p)->f4, a, b, c, (const struct Sub150 *)data);
-    func_02015CAC(*(void **)(base + off), (u32 *)(&pos));
-    func_02015E04(*(void **)(base + off));
+    *(void **)(base + off) = MCSS_Add(((struct Obj10881 *)p)->f4, a, b, c, (const struct Sub150 *)data);
+    MCSS_SetScale(*(void **)(base + off), (u32 *)(&pos));
+    MCSS_SetAnmStopFlag(*(void **)(base + off));
     *(unsigned int *)(p + off + 12) = 0;
     *(unsigned int *)(p + off + 16) = 1;
     ((struct Obj10881 *)p)->f68 = 20 * (unsigned int)(((unsigned long long)func_0203F0A8() * 5) >> 32) + 200;

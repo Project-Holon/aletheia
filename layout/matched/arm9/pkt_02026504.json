@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02026504",
+   "name": "GAME_COMM_PushInfoMessage",
    "address": "0x02026504",
    "kind": "game",
    "region": "arm9",

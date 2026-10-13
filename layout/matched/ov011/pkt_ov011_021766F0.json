@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021766F0",
+   "name": "INTRUDE_LINK_EventMain",
    "address": "0x021766F0",
    "kind": "game",
    "region": "ov011",

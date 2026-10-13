@@ -1,5 +1,5 @@
 /*
- * function: func_02021BC8
+ * function: PALANM_ApplyFade
  * address:  0x02021BC8
  * packet:   pkt_02021B6C
  * region:   arm9
@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02021930   0x02021930  thumb
- *   func_02021C20   0x02021C20  thumb
- *   func_02021CA8   0x02021CA8  thumb
+ *   PALANM_CheckBit   0x02021930  thumb
+ *   PALANM_CalcFadeColors   0x02021C20  thumb
+ *   PALANM_StepFadeValue   0x02021CA8  thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 func_02021930(u32 val, int bit);
+extern u8 PALANM_CheckBit(u32 val, int bit);
 struct C02021C20;
-extern void func_02021C20(u16 *src, u16 *dst, struct C02021C20 *c, u32 count);
+extern void PALANM_CalcFadeColors(u16 *src, u16 *dst, struct C02021C20 *c, u32 count);
 struct S;
-extern void func_02021CA8(u8 *p, u32 idx, struct S *s);
+extern void PALANM_StepFadeValue(u8 *p, u32 idx, struct S *s);
 
 struct S02021BC8 {
     u8  *p0;
@@ -32,20 +32,20 @@ struct S02021BC8 {
     u16  field0xc;
 };
 
-void func_02021BC8(u8 *p, u32 idx, u32 arg)
+void PALANM_ApplyFade(u8 *p, u32 idx, u32 arg)
 {
     u32 i;
     struct S02021BC8 *s = (struct S02021BC8 *)(p + idx * 0x14);
 
     for (i = 0; i < 0x10; i++) {
-        if (func_02021930(s->field0xc, (u16)i)) {
+        if (PALANM_CheckBit(s->field0xc, (u16)i)) {
             u32 off = (i * arg) * 2;
-            func_02021C20((u16 *)(s->p0 + off),
+            PALANM_CalcFadeColors((u16 *)(s->p0 + off),
                           (u16 *)(s->p1 + off),
                           (struct C02021C20 *)((u8 *)s + 0xc),
                           arg);
         }
     }
 
-    func_02021CA8(p, (u8)idx, (struct S *)((u8 *)s + 0xc));
+    PALANM_StepFadeValue(p, (u8)idx, (struct S *)((u8 *)s + 0xc));
 }

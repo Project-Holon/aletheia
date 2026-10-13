@@ -24,7 +24,7 @@
  *   func_02046440  0x02046440  arm
  *   func_02048BC4  0x02048BC4  arm
  *   func_02048C58  0x02048C58  arm
- *   func_02046858  0x02046858  arm
+ *   G3D_SYSTEM_SetProjection  0x02046858  arm
  *   func_02040588  0x02040588  arm
  *   d_021C8810  0x021C8810  data
  *   d_021C896C  0x021C896C  data
@@ -85,8 +85,8 @@
  *   func_02045808  0x02045808  arm
  *   d_021C88B4  0x021C88B4  data
  *   func_02035C08  0x02035C08  arm
- *   func_02035BA4  0x02035BA4  arm
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_HitCont  0x02035BA4  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_020362DC  0x020362DC  arm
  *   func_020061E4  0x020061E4  thumb
  *   func_021C842C  0x021C842C  thumb
@@ -94,8 +94,8 @@
  *   d_021C8808  0x021C8808  data
  *   func_0204B878  0x0204B878  arm
  *   func_020355D8  0x020355D8  arm
- *   func_02012BF8  0x02012BF8  thumb
- *   func_02012BE0  0x02012BE0  thumb
+ *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
+ *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_02012F08  0x02012F08  thumb
  *   func_0200C234  0x0200C234  thumb
@@ -1490,7 +1490,7 @@ extern void func_0204A5AC(void);
 extern void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
 extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
 extern void func_02048C58(struct LightSlot *slots);
-extern void func_02046858(const u32 *src);
+extern void G3D_SYSTEM_SetProjection(const u32 *src);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02048C4C(void *p);
 extern void func_02046788(void);
@@ -1540,15 +1540,15 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
 extern int func_02035C08(const void *rects);
-extern int func_02035BA4(const void *rects);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern int TOUCHPANEL_HitCont(const void *rects);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32 a);
 extern void func_021C842C(Work_021C7E48 *p, int idx);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_020355D8(u8 v);
-extern int func_02012BF8(int a0, int a1);
-extern void func_02012BE0(void *p, u32 a, u32 b);
+extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void *func_02012F08(int *p);
 extern u32 func_0200C234(struct Blk34 *p, u32 bit);
@@ -1671,7 +1671,7 @@ void func_021C76A4(Work_021C76A4 *p)
     cam = d_021C896C;
     cam.f4 = FX_SinCosTable_[0x16C];
     cam.f8 = FX_SinCosTable_[0x16D];
-    func_02046858((const u32 *)(&cam));
+    G3D_SYSTEM_SetProjection((const u32 *)(&cam));
     func_02040588(0, 1);
     *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~(0x2000 | 0x1000)) | 0x8);
 }
@@ -2081,10 +2081,10 @@ int func_021C7E48(Work_021C7E48 *p)
     int c;
 
     ret = func_02035C08(d_021C898C);
-    a = func_02035BA4(d_021C898C);
+    a = TOUCHPANEL_HitCont(d_021C898C);
     b = func_02035C08(d_021C8808);
-    c = func_02035BA4(d_021C8808);
-    func_02035CB8((u32 *)(&x), (u32 *)(&y));
+    c = TOUCHPANEL_HitCont(d_021C8808);
+    TOUCHPANEL_GetPointCont((u32 *)(&x), (u32 *)(&y));
     if (func_020362DC() & 2) {
         func_020061E4(0x551);
         flag = 1;
@@ -2227,10 +2227,10 @@ void func_021C7F2C(Work_021C7EF8 *p, int sel, int flag)
 
 void func_021C8078(Work_021C8078 *p)
 {
-    int v = func_02012BF8((int)p->f108->f4, 0x17) ^ 1;
+    int v = GAME_DATA_CheckSaveFlag((int)p->f108->f4, 0x17) ^ 1;
 
     func_0204B878(p->f58, v + 6);
-    func_02012BE0(p->f108->f4, 0x17, v);
+    GAME_DATA_SetSaveFlag(p->f108->f4, 0x17, v);
     func_020061E4(0x646);
 }
 
@@ -2303,7 +2303,7 @@ void func_021C810C(Work_021C810C *p, int a, int b)
             p->f17C[i] = 0;
         }
     }
-    func_0204B878(p->f58, func_02012BF8((int)p->f108->f4, 0x17) + 6);
+    func_0204B878(p->f58, GAME_DATA_CheckSaveFlag((int)p->f108->f4, 0x17) + 6);
 }
 
 

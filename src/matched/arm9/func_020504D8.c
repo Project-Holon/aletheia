@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02050550  0x02050550  arm
+ *   BILLBOARD_ACT_UpdateEntry  0x02050550  arm
  *
  * Tick every live entry of the 0x28-stride array at o->f18: for each index
  * below the live count at o->f1C, skip the entry whose first word is the
  * sentinel 0xFFFF, otherwise call its per-entry hook (a function pointer at
  * +0x20, taking the owner, the index and the entry's +0x24 word) when one is
- * installed, then hand the entry to func_02050550.
+ * installed, then hand the entry to BILLBOARD_ACT_UpdateEntry.
  *
  * Two shapes are load-bearing:
  *
  *   - The live count is re-read from o->f1C at the BOTTOM of the loop
  *     (`ldrh r0, [r5, #0x1c]` at +0x60) as well as at the top, because the
- *     hook and func_02050550 may both change it.  Caching it in a local gives
+ *     hook and BILLBOARD_ACT_UpdateEntry may both change it.  Caching it in a local gives
  *     one load and a different loop shape.
  *   - The count is a u16 but the comparison is SIGNED (`blt`, and `pople` on
  *     the entry guard), so the index is a plain `int` and the count is
@@ -31,8 +31,8 @@
  * The 0xFFFF sentinel lives in the pool at 0x0205054C rather than as an
  * immediate, which is why r7 is loaded once before the loop.
  *
- * UNBLOCKED 2026-09-21: func_02050550 was filed EXACT
- * (src/matched/func_02050550.c, shard arm9/pkt_02050340.json), so the single
+ * UNBLOCKED 2026-09-21: BILLBOARD_ACT_UpdateEntry was filed EXACT
+ * (src/matched/BILLBOARD_ACT_UpdateEntry.c, shard arm9/pkt_02050340.json), so the single
  * relocation site, the `bl` at +0x5C, is now attested `matched` and this file
  * verifies EXACT unchanged.  No C was altered to promote it.
  *
@@ -62,7 +62,7 @@ struct Owner {
 
 struct Ent;
 struct Own;
-extern void func_02050550(struct Own *o, struct Ent *e);
+extern void BILLBOARD_ACT_UpdateEntry(struct Own *o, struct Ent *e);
 
 void func_020504D8(struct Owner *o)
 {
@@ -79,7 +79,7 @@ void func_020504D8(struct Owner *o)
                 if (e->f20 != 0) {
                     e->f20(o, i, e->f24);
                 }
-                func_02050550((struct Own *)o, (struct Ent *)e);
+                BILLBOARD_ACT_UpdateEntry((struct Own *)o, (struct Ent *)e);
             }
         i++;
     } while (i < o->f1C);

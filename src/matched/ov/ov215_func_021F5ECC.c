@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02005D28  0x02005D28  thumb
- *   func_02005DE4  0x02005DE4  thumb
- *   func_02005E50  0x02005E50  thumb
- *   func_02005E64  0x02005E64  thumb
+ *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb
+ *   GFL_USE_PushBgm  0x02005E64  thumb
  *   func_02005F38  0x02005F38  thumb
- *   func_020063B4  0x020063B4  thumb
+ *   GFL_USE_StepBgmLoad  0x020063B4  thumb
  *   func_021F5FEC  0x021F5FEC  thumb ov215
  */
 #include "../include/Obj04634.h"
@@ -23,12 +23,12 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02005D28(void);
-extern void func_02005DE4(void *p);
-extern int  func_02005E50(void);
-extern int func_02005E64(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int  GFL_USE_IsBgmFading(void);
+extern int GFL_USE_PushBgm(void);
 extern int  func_02005F38(void);
-extern u32 func_020063B4(u8 *a0, u32 *a1, u32 a2);
+extern u32 GFL_USE_StepBgmLoad(u8 *a0, u32 *a1, u32 a2);
 extern void func_021F5FEC(void *, void *);
 
 void func_021F5ECC(u8 *p, u8 *q)
@@ -37,9 +37,9 @@ void func_021F5ECC(u8 *p, u8 *q)
     case 0:
         break;
     case 1:
-        if (func_02005E50() == 0) {
-            func_02005DE4((void *)1);
-            func_02005E64();
+        if (GFL_USE_IsBgmFading() == 0) {
+            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_PushBgm();
             ((struct Obj04634 *)q)->f18 = 0;
         }
         break;
@@ -48,13 +48,13 @@ void func_021F5ECC(u8 *p, u8 *q)
             ((struct Obj04634 *)q)->f18 = 0;
         break;
     case 3:
-        if (func_020063B4((u8 *)0x3F3, (u32 *)(q + 0x24), 0) != 0)
+        if (GFL_USE_StepBgmLoad((u8 *)0x3F3, (u32 *)(q + 0x24), 0) != 0)
             ((struct Obj04634 *)q)->f18 = 4;
         break;
     case 4:
         break;
     case 5:
-        if (func_020063B4((u8 *)0x519, (u32 *)(q + 0x24), 0) != 0)
+        if (GFL_USE_StepBgmLoad((u8 *)0x519, (u32 *)(q + 0x24), 0) != 0)
             ((struct Obj04634 *)q)->f18 = 6;
         break;
     case 6:
@@ -64,8 +64,8 @@ void func_021F5ECC(u8 *p, u8 *q)
         }
         break;
     case 7:
-        if (func_02005E50() == 0) {
-            func_02005D28();
+        if (GFL_USE_IsBgmFading() == 0) {
+            GFL_USE_CancelChangeAndStopBgm();
             ((struct Obj04634 *)q)->f18 = 0;
         }
         break;

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021B61C8  0x021B61C8  thumb  ov070
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_02035C60  0x02035C60  arm
  *   func_021B80C4  0x021B80C4  thumb  ov070
  *   func_0202EDE4  0x0202EDE4  thumb
@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern int func_021B61C8(u8 *p);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int func_02035C60(void);
 struct Obj;
 extern void func_021B80C4(struct Obj *o, int flag);
@@ -38,7 +38,7 @@ u32 func_021B63F8(u8 *p)
     int k;
 
     k = func_021B61C8(p);
-    if (k >= 7 && func_02035CB8(&x, &y) == 1) {
+    if (k >= 7 && TOUCHPANEL_GetPointCont(&x, &y) == 1) {
         if (x >= 0x100 || x < 0xE0)
             return 0;
         if (((struct Obj00002 *)p)->f85C == 0) {

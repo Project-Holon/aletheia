@@ -1,5 +1,5 @@
 /*
- * function: sub_02017CC8
+ * function: POKE_TOOL_UpdateGenderForSpecies
  * address:  0x02017CC8
  * packet:   pkt_02017CC8
  * region:   arm9
@@ -20,8 +20,8 @@
  *   func_02019C54  0x02019C54  thumb
  *   func_0201AE1C  0x0201AE1C  thumb
  *   func_0201AF6C  0x0201AF6C  thumb
- *   func_02017F50  0x02017F50  thumb
- *   func_02017E64  0x02017E64  thumb
+ *   POKE_TOOL_CalcGender  0x02017F50  thumb
+ *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  */
 
 typedef unsigned char  u8;
@@ -33,10 +33,10 @@ extern u32  func_02019C54(void *a0, u16 a1);
 struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern u32  func_0201AF6C(u32 a0);
-extern u8 func_02017F50(u32 a, u16 b, u32 c);
-extern void func_02017E64(void *a0, u32 a1, u32 a2);
+extern u8 POKE_TOOL_CalcGender(u32 a, u16 b, u32 c);
+extern void POKE_TOOL_SetBoxValue(void *a0, u32 a1, u32 a2);
 
-void sub_02017CC8(void *a0, void *a1, void *a2)
+void POKE_TOOL_UpdateGenderForSpecies(void *a0, void *a1, void *a2)
 {
     u32 v = func_02017E88(a0, 0x6f, 0);
     u32 t = func_0201AE1C((const struct Personal *)func_02019C54(a1, v), 0x14);
@@ -45,5 +45,5 @@ void sub_02017CC8(void *a0, void *a1, void *a2)
     if (func_0201AF6C(t) == 1 && w != 0xff) {
         return;
     }
-    func_02017E64(a0, 0x6e, func_02017F50((u32)a1, v, func_02017E88(a0, 0, 0)));
+    POKE_TOOL_SetBoxValue(a0, 0x6e, POKE_TOOL_CalcGender((u32)a1, v, func_02017E88(a0, 0, 0)));
 }

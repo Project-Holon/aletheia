@@ -11,7 +11,7 @@
  *   func_02017E88 0x02017E88 thumb
  *   func_02017DBC 0x02017DBC thumb
  *   func_02017DE4 0x02017DE4 thumb
- *   func_02019D84 0x02019D84 thumb
+ *   POKE_REGULATION_IsInSpeciesTable 0x02019D84 thumb
  *   d_021E7718 0x021E7718 data ov119 a4
  */
 #include "../include/Obj22737.h"
@@ -20,7 +20,7 @@ struct Sav;
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
-extern int func_02019D84(unsigned short);
+extern int POKE_REGULATION_IsInSpeciesTable(unsigned short);
 extern const int d_021E7718[];
 int func_021DD0CC(char *p, int a)
 {
@@ -36,7 +36,7 @@ int func_021DD0CC(char *p, int a)
         }
         func_02017DE4((struct Sav *)a,lock);
         if (r) return 1;
-        if (func_02019D84(v)) return 1;
+        if (POKE_REGULATION_IsInSpeciesTable(v)) return 1;
     }
     return 0;
 }

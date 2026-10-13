@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_022019F4  0x022019F4  thumb  ov094
- *   func_02015E94  0x02015E94  thumb
+ *   MCSS_GetVanishFlag  0x02015E94  thumb
  */
 
 typedef struct {
@@ -30,7 +30,7 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(char *p, int key);
-extern int func_02015E94(void *h);
+extern int MCSS_GetVanishFlag(void *h);
 
 int func_021FF348(Work *w, int key)
 {
@@ -40,5 +40,5 @@ int func_021FF348(Work *w, int key)
         return 0;
     if (w->e[idx].h == 0)
         return 0;
-    return func_02015E94(w->e[idx].h);
+    return MCSS_GetVanishFlag(w->e[idx].h);
 }

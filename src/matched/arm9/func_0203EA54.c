@@ -1,5 +1,5 @@
 /*
- * function: func_0203EA54
+ * function: GFL_NET_LOWER_DATA_IsSendFinished
  * address:  0x0203EA54
  * packet:   pkt_0203EA54
  * region:   arm9
@@ -14,7 +14,7 @@
 
 typedef struct { char pad[0x30]; int state; } Obj;
 extern Obj *g_021469F4;
-int func_0203EA54(void)
+int GFL_NET_LOWER_DATA_IsSendFinished(void)
 {
     if (g_021469F4 == 0)
         return 0;

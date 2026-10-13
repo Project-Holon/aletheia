@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02034AC4",
+   "name": "GF_OVERLAY_Load",
    "address": "0x02034AC4",
    "kind": "game",
    "region": "arm9",

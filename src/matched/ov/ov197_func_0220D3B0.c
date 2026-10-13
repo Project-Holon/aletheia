@@ -12,7 +12,7 @@
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_020221A4 0x020221A4 thumb
- *   func_020221B8 0x020221B8 thumb
+ *   WIPE_SYS_ExeEnd 0x020221B8 thumb
  *   func_0201CE48 0x0201CE48 thumb
  *   func_0220BD14 0x0220BD14 thumb ov197
  *   func_0220C448 0x0220C448 thumb ov197
@@ -39,7 +39,7 @@ struct Node;
 extern unsigned func_0201C6B4(const struct PrintSys *);
 extern void func_0201C6EC(struct PrintSys *);
 extern unsigned func_020221A4(void);
-extern void func_020221B8(void);
+extern void WIPE_SYS_ExeEnd(void);
 extern void func_0201CE48(struct Rec3 *);
 extern void func_0220BD14(char *);
 extern void func_0220C448(char *);
@@ -60,7 +60,7 @@ int func_0220D3B0(struct Node *task, char *p)
             else return 0;
         }
         if (func_020221A4() == 0) {
-            if (((struct Obj25092 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) func_020221B8();
+            if (((struct Obj25092 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) WIPE_SYS_ExeEnd();
             else return 0;
         }
         if (*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C) func_0201CE48(*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C);

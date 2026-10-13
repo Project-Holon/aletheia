@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021F08BC  0x021F08BC  thumb  ov029
- *   func_020215BC  0x020215BC  thumb
+ *   PALANM_CopyToSlot  0x020215BC  thumb
  *   d_021F31A8     0x021F31A8  data  ov029  a1
  */
 
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct PalAnmSlot;
-extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern const u8 d_021F31A8[];
 
 struct W {
@@ -47,6 +47,6 @@ void func_021F08BC(struct W *p, int i, int j, int k)
             b = ((p->unk_272[p->unk_26C[i]][n] >> (m * 5)) & 0x1f) - a;
             p->unk_24E[i][n] |= ((a + b * j / k) & 0x1f) << (m * 5);
         }
-        func_020215BC((struct PalAnmSlot *)p->unk_210, &p->unk_24E[i][n], 1, (u16)(d_021F31A8[i] + (n + 1) * 16), 2);
+        PALANM_CopyToSlot((struct PalAnmSlot *)p->unk_210, &p->unk_24E[i][n], 1, (u16)(d_021F31A8[i] + (n + 1) * 16), 2);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0201F8B8
+ * function: BMP_MENUWORK_FindFreeEntry
  * address:  0x0201F8B8
  * packet:   pkt_0201F5BC
  * region:   arm9
@@ -28,8 +28,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F8B8.c \
- *       --func func_0201F8B8 --addr 0x0201F8B8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_FindFreeEntry.c \
+ *       --func BMP_MENUWORK_FindFreeEntry --addr 0x0201F8B8 --cc 1.1p1 --thumb
  */
 typedef unsigned int u32;
 
@@ -41,7 +41,7 @@ struct Slot {
     u32 tag;
 };
 
-struct Slot *func_0201F8B8(struct Slot *s, u32 *tag_out)
+struct Slot *BMP_MENUWORK_FindFreeEntry(struct Slot *s, u32 *tag_out)
 {
     struct Slot *free_slot;
 

@@ -18,9 +18,9 @@
  *   _fdiv 0x0209CE10 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B5AC 0x0204B5AC arm
+ *   CLACT_SetActorScale 0x0204B5AC arm
  *   func_0204B454 0x0204B454 arm
- *   func_0204B800 0x0204B800 arm
+ *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   func_0204B84C 0x0204B84C arm
  *   func_021BA0AC 0x021BA0AC thumb ov223
  *   d_021BC7F0 0x021BC7F0 data
@@ -56,12 +56,12 @@ extern const u8 d_021BC8C0[3];
 extern void func_0204B3DC(struct Obj *, u32);
 extern void func_0204B404(struct Obj *, const Vec2 *, u32);
 struct Pair;
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 struct Actor;
 struct Node;
 struct PtS;
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_0204B84C(struct Obj *, u32);
 extern int func_021BA0AC(s16 *pos, int *size, u16 a, u16 b, u8 c, u8 d, u8 e, u8 f, u32 duration, u8 amplitude, u32 time);
 void func_021BA2B4(Main *p)
@@ -107,14 +107,14 @@ void func_021BA2B4(Main *p)
                 n1 = t[6];
                 s1.x = s1.y = FIX((float)n1 / 16.0f);
                 func_0204B404(e->f1C, &v1, 1);
-                func_0204B5AC(e->f1C, (struct Pair *)(&s1));
+                CLACT_SetActorScale(e->f1C, (struct Pair *)(&s1));
             } else {
                 Vec2 a1;
                 FxPair b1;
                 res[i] = func_021BA0AC((s16 *)(&a1), (int *)(&b1), t[0], t[1], t[2], t[3], t[6], t[7], t[10], t[12], e->f84);
                 flags[i] = 1;
                 func_0204B404(e->f1C, &a1, 1);
-                func_0204B5AC(e->f1C, (struct Pair *)(&b1));
+                CLACT_SetActorScale(e->f1C, (struct Pair *)(&b1));
             }
             if (e->f84 == 0 && d < 0) {
                 func_0204B3DC(e->f18, 1);
@@ -140,7 +140,7 @@ void func_021BA2B4(Main *p)
             n2 = t[7];
             s2.x = s2.y = FIX((float)n2 / 16.0f);
             func_0204B404(e->f1C, &v2, 1);
-            func_0204B5AC(e->f1C, (struct Pair *)(&s2));
+            CLACT_SetActorScale(e->f1C, (struct Pair *)(&s2));
             if (e->f84 == 0 && d < 0) {
                 e->f84 = t[10] - 1;
                 e->f88 = 1;
@@ -165,14 +165,14 @@ void func_021BA2B4(Main *p)
                 n3 = t[7];
                 s3.x = s3.y = FIX((float)n3 / 16.0f);
                 func_0204B404(e->f1C, &v3, 1);
-                func_0204B5AC(e->f1C, (struct Pair *)(&s3));
+                CLACT_SetActorScale(e->f1C, (struct Pair *)(&s3));
             } else {
                 Vec2 a3;
                 FxPair b3;
                 res[i] = func_021BA0AC((s16 *)(&a3), (int *)(&b3), t[2], t[3], t[4], t[5], t[7], t[8], t[11], t[13], e->f84);
                 flags[i] = 1;
                 func_0204B404(e->f1C, &a3, 1);
-                func_0204B5AC(e->f1C, (struct Pair *)(&b3));
+                CLACT_SetActorScale(e->f1C, (struct Pair *)(&b3));
             }
             if (e->f84 == 0 && d < 0) {
                 e->f84 = t[9] - 1;
@@ -196,7 +196,7 @@ void func_021BA2B4(Main *p)
             n4 = t[8];
             s4.x = s4.y = FIX((float)n4 / 16.0f);
             func_0204B404(e->f1C, &v4, 1);
-            func_0204B5AC(e->f1C, (struct Pair *)(&s4));
+            CLACT_SetActorScale(e->f1C, (struct Pair *)(&s4));
             if (d < 0) {
                 func_0204B84C(e->f1C, 3);
                 e->f84 = t[11] - 1;
@@ -249,7 +249,7 @@ void func_021BA2B4(Main *p)
             if (order[1] != i)
                 pr = 2;
         }
-        func_0204B800((struct Node *)p->ents[i].f1C, pr);
+        CLACT_SetActorDrawPriority((struct Node *)p->ents[i].f1C, pr);
     }
     }
 }

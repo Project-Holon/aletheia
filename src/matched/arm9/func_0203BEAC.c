@@ -1,5 +1,5 @@
 /*
- * function: func_0203BEAC
+ * function: GFL_NET_STATE_IsExitReady
  * address:  0x0203BEAC
  * packet:   pkt_0203B6EC
  * region:   arm9
@@ -25,8 +25,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203BEAC.c \
- *       --func func_0203BEAC --addr 0x0203BEAC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_IsExitReady.c \
+ *       --func GFL_NET_STATE_IsExitReady --addr 0x0203BEAC --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -35,7 +35,7 @@ typedef unsigned short u16;
 extern u16 func_02039338(void);
 extern int func_0203CEAC(int a0);
 
-u32 func_0203BEAC(void)
+u32 GFL_NET_STATE_IsExitReady(void)
 {
     u32 r;
 

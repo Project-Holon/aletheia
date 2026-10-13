@@ -1,5 +1,5 @@
 /*
- * function: func_0204BD64
+ * function: CLACT_ApplyOamManager
  * address:  0x0204BD64
  * packet:   pkt_0204BCF4
  * region:   arm9
@@ -16,7 +16,7 @@
  * in pkt_02063078, claimed by lane-C and far outside this lane.
  *
  * Release one bound 0x20-byte OAM sub-record of a cell actor.  The "bound"
- * flag at +0x1c is the same one func_0204BD3C sets, and an unbound record is
+ * flag at +0x1c is the same one CLACT_InitOamManager sets, and an unbound record is
  * an early return predicated onto the compare (`popeq`).
  *
  * symbols:
@@ -34,7 +34,7 @@ struct Sub {
 struct NNSG2dOamManagerInstance;
 extern void func_0206343C(struct NNSG2dOamManagerInstance *pMan, u32 bound);
 
-void func_0204BD64(struct Sub *s)
+void CLACT_ApplyOamManager(struct Sub *s)
 {
     if (s->bound == 0) {
         return;

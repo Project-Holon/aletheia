@@ -10,7 +10,7 @@
  *
  * symbols:
  *   func_02017E1C   0x02017E1C  thumb
- *   func_02045F5C   0x02045F5C  arm
+ *   MSGDATA_ReadUnits   0x02045F5C  arm
  *   func_0201F41C   0x0201F41C  thumb
  *   g_020A7370      0x020A7370  data
  *
@@ -53,7 +53,7 @@ struct Rec0200E7BC {
 
 extern u32  func_02017E1C(void *mon, u32 id, u32 buf);
 struct MsgData;
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 extern void *g_020A7370;
 
@@ -71,7 +71,7 @@ void func_0200E7BC(struct Rec0200E7BC *o, int idx, void *mon)
     } else {
         u16 buf[12];
 
-        func_02045F5C(g_020A7370, func_02017E1C(mon, 5, 0), buf, 0xb);
+        MSGDATA_ReadUnits(g_020A7370, func_02017E1C(mon, 5, 0), buf, 0xb);
         func_0201F41C(buf, o[idx].name, 0xb);
     }
     o[idx].bits.flag = 1;

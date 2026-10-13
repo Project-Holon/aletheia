@@ -14,7 +14,7 @@
  * function: sub_02009448, sub_02009454, sub_0200945C
  *
  * symbols:
- *   sub_020071CC    0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock    0x020071CC  thumb
  *   MIi_CpuClear32  0x02082A7C  arm
  *
  * alias: the whole of the save block with id 0x23, 0x1338 bytes: the getter,
@@ -41,7 +41,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct Sub020071CCCtrl;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 
 static inline void MI_CpuClear32(void *dest, u32 size)
@@ -57,7 +57,7 @@ struct Sub02009448Obj {
 
 struct Sub02009448Obj *sub_02009448(void *sys)
 {
-    return sub_020071CC(sys, BLOCK_ID);
+    return SAVE_CONTROL_GetBlock(sys, BLOCK_ID);
 }
 
 u32 sub_02009454(void)

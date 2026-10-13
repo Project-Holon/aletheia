@@ -15,7 +15,7 @@
  *   func_021F5C20 0x021F5C20 thumb ov215
  *   func_021F5EB8 0x021F5EB8 thumb ov215
  *   func_0204E720 0x0204E720 arm
- *   func_02031324 0x02031324 arm
+ *   PROCSYS_Create 0x02031324 arm
  *   func_0203D34C 0x0203D34C arm
  * Legacy void allocator/31324 returns consumed; preserve visible heap input.
  */
@@ -29,7 +29,7 @@ extern void func_02082BCC(void *,u32,u32);
 extern void func_021F5C20(int a, char *p);
 extern int func_021F5EB8(int,char *);
 extern void func_0204E720(u32,int,int,int);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 extern void func_0203D34C(u32,u32);
 int func_021F57E0(void *a,int unused,u32 c)
 {
@@ -46,7 +46,7 @@ int func_021F57E0(void *a,int unused,u32 c)
     func_021F5C20(c,p);
     func_021F5EB8(c,p);
     func_0204E720(3,16,16,0);
-    ((struct Obj03371 *)p)->f88=(unsigned int)func_02031324(((struct Obj03371 *)p)->f0);
+    ((struct Obj03371 *)p)->f88=(unsigned int)PROCSYS_Create(((struct Obj03371 *)p)->f0);
     func_0203D34C(0,((struct Obj03371 *)p)->f0);
     return 1;
 }

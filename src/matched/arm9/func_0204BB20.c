@@ -1,5 +1,5 @@
 /*
- * function: func_0204BB20
+ * function: CLACT_SetOamPending
  * address:  0x0204BB20
  * packet:   pkt_0204B954
  * region:   arm9
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A74   0x02146A74  data
+ *   g_ClactSystem   0x02146A74  data
  *
  * Store a word at +0xfc of the cell-actor singleton, silently doing nothing
  * before the system is constructed.  A leaf: the guarded store predicates to
  * `strne` and no lr is saved.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BB20.c \
- *       --func func_0204BB20 --addr 0x0204BB20 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetOamPending.c \
+ *       --func CLACT_SetOamPending --addr 0x0204BB20 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Mgr.h"
@@ -26,11 +26,11 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern struct Mgr *g_02146A74;
+extern struct Mgr *g_ClactSystem;
 
-void func_0204BB20(u32 v)
+void CLACT_SetOamPending(u32 v)
 {
-    if (g_02146A74 != 0) {
-        g_02146A74->unk_0fc = v;
+    if (g_ClactSystem != 0) {
+        g_ClactSystem->unk_0fc = v;
     }
 }

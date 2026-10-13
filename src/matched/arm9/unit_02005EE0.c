@@ -11,13 +11,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02005EE0
+ * function: GFL_USE_SetBgmTrackParams
  *
  * symbols:
- *   sub_0200590C   0x0200590C  thumb
- *   func_02073018  0x02073018  arm
- *   func_02073038  0x02073038  arm
- *   func_02073098  0x02073098  arm
+ *   GFL_USE_GetCurrentSndHandle   0x0200590C  thumb
+ *   NNS_SndHandleSetTrackPitch  0x02073018  arm
+ *   NNS_SndHandleSetTrackPan  0x02073038  arm
+ *   NNS_SndHandleStop  0x02073098  arm
  *
  * Three optional fields of a request, each skipped when the caller passes
  * -1.  The -1 is rebuilt with `movs`/`mvns` before each of the three tests
@@ -28,23 +28,23 @@
 
 typedef unsigned int u32;
 
-extern u32 *sub_0200590C(void);
+extern u32 *GFL_USE_GetCurrentSndHandle(void);
 struct Obj;
-extern void func_02073018(struct Obj *o, u32 v, u32 w);
-extern void func_02073038(struct Obj *o, u32 v, u32 w);
-extern void func_02073098(struct Obj *o, u32 v);
+extern void NNS_SndHandleSetTrackPitch(struct Obj *o, u32 v, u32 w);
+extern void NNS_SndHandleSetTrackPan(struct Obj *o, u32 v, u32 w);
+extern void NNS_SndHandleStop(struct Obj *o, u32 v);
 
-void sub_02005EE0(u32 a, u32 b, u32 c, u32 d)
+void GFL_USE_SetBgmTrackParams(u32 a, u32 b, u32 c, u32 d)
 {
-    u32 *req = sub_0200590C();
+    u32 *req = GFL_USE_GetCurrentSndHandle();
 
     if (b != -1) {
-        func_02073098((struct Obj *)req, b);
+        NNS_SndHandleStop((struct Obj *)req, b);
     }
     if (c != -1) {
-        func_02073018((struct Obj *)req, a, c);
+        NNS_SndHandleSetTrackPitch((struct Obj *)req, a, c);
     }
     if (d != -1) {
-        func_02073038((struct Obj *)req, a, d);
+        NNS_SndHandleSetTrackPan((struct Obj *)req, a, d);
     }
 }

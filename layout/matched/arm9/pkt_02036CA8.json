@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02036CA8",
+   "name": "GFL_NET_WM_ICON_Draw",
    "address": "0x02036CA8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02036D64",
+   "name": "GFL_NET_WM_ICON_GetEngine",
    "address": "0x02036D64",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02036E74",
+   "name": "GFL_NET_WM_ICON_SetLevel",
    "address": "0x02036E74",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02036E80",
+   "name": "GFL_NET_WM_ICON_Delete",
    "address": "0x02036E80",
    "kind": "game",
    "region": "arm9",

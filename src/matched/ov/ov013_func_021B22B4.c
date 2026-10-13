@@ -1,5 +1,5 @@
 /*
- * function: func_021B22B4
+ * function: VCT_SESSION_InitPeerPool
  * address:  0x021B22B4
  * packet:   pkt_ov013_021B22B4
  * region:   ov013
@@ -56,7 +56,7 @@ extern struct Sess g_021B60D8;
 extern void func_02082BCC(void *dst, int data, unsigned long size);
 extern unsigned long long func_020870D0(void);
 
-int func_021B22B4(struct Config *cfg)
+int VCT_SESSION_InitPeerPool(struct Config *cfg)
 {
     unsigned int i;
 

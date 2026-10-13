@@ -15,7 +15,7 @@
  *   func_021B96CC 0x021B96CC thumb ov099
  *   func_0202208C 0x0202208C thumb
  *   func_021BE26C 0x021BE26C thumb ov099
- *   func_0204A698 0x0204A698 arm
+ *   CLACT_FlushOamIfPending 0x0204A698 arm
  *   func_021C1A44 0x021C1A44 thumb ov099
  *   func_021C1AC0 0x021C1AC0 thumb ov099
  *   func_021BA8BC 0x021BA8BC thumb ov099
@@ -29,7 +29,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021BB050 0x021BB050 thumb ov099
  *   func_021BDD0C 0x021BDD0C thumb ov099
- *   func_0203C8A8 0x0203C8A8 arm
+ *   GFL_NET_STATE_WifiStartMatch 0x0203C8A8 arm
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  */
 #include "../include/Obj02802.h"
@@ -39,7 +39,7 @@ extern u32 func_0203D210(void);
 extern int func_021B96CC(int *);
 extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
 extern void func_021BE26C(char *);
-extern void func_0204A698(void);
+extern void CLACT_FlushOamIfPending(void);
 extern int func_021C1A44(char *);
 extern void func_021C1AC0(char *);
 extern int func_021BA8BC(void *);
@@ -55,7 +55,7 @@ extern u32 func_0201F868(void *p);
 extern void func_02082BCC(void *, u32, u32);
 extern void func_021BB050(void *);
 extern void func_021BDD0C(void *, int);
-extern void func_0203C8A8(void);
+extern void GFL_NET_STATE_WifiStartMatch(void);
 extern void func_021BAAB8(char *, int, int);
 int func_021BE9C8(char *p, int v)
 {
@@ -64,7 +64,7 @@ int func_021BE9C8(char *p, int v)
         if (func_021B96CC((int *)(p + 0x274)) == 1) {
             func_0202208C(0, 0, 0, 0, 6, 1, 0x21);
             func_021BE26C(p);
-            func_0204A698();
+            CLACT_FlushOamIfPending();
         }
         if (func_021C1A44(p) == 1) func_021C1AC0(p);
         ((struct Obj02802 *)p)->f198 = (void *)func_021BA8BC(((struct Obj02802 *)p)->f198);
@@ -87,7 +87,7 @@ int func_021BE9C8(char *p, int v)
         func_02082BCC(p + 0x90, 0, 0x20);
         func_021BB050(p);
         func_021BDD0C(p, 0);
-        func_0203C8A8();
+        GFL_NET_STATE_WifiStartMatch();
         func_021BAAB8(p, 0x17, 1);
         ((struct Obj02802 *)p)->f1CC = 5;
     }

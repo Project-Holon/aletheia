@@ -1,5 +1,5 @@
 /*
- * function: func_02195E30
+ * function: gt2GetRemotePort
  * address:  0x02195E30
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Halfword at +4.
  */
 
-unsigned short func_02195E30(const unsigned short *p)
+unsigned short gt2GetRemotePort(const unsigned short *p)
 {
     return p[2];
 }

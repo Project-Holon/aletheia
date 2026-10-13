@@ -1,5 +1,5 @@
 /*
- * function: func_021657C8
+ * function: WCMi_GetSystemWork
  * address:  0x021657C8
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021AA7D4[];
 
-int func_021657C8(void)
+int WCMi_GetSystemWork(void)
 {
     return *(int *)(g_021AA7D4 + 4);
 }

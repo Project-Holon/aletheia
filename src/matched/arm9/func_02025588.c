@@ -12,6 +12,7 @@
  * symbols:
  *   func_02049238  0x02049238  arm
  *   func_020307B0  0x020307B0  arm
+ *   BMP_OAM_ReleaseModeSlots  0x02025B18  thumb
  */
 #include "../include/Obj07093.h"
 
@@ -19,12 +20,12 @@ typedef unsigned int u32;
 
 extern void func_02049238(void *p);
 struct Obj02025774;
-extern void func_02025B18(struct Obj02025774 *p);
+extern void BMP_OAM_ReleaseModeSlots(struct Obj02025774 *p);
 extern u32 func_020307B0(void *p);
 
 void func_02025588(void *p)
 {
     func_02049238(((struct Obj07093 *)p)->f8);
-    func_02025B18(p);
+    BMP_OAM_ReleaseModeSlots(p);
     func_020307B0(p);
 }

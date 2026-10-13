@@ -18,18 +18,19 @@
  *   func_021BE4B4  0x021BE4B4  thumb  ov021
  */
 
-typedef unsigned char u8;
+#include "../unit_021F36C0_types.h"
 
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern int func_021BE6BC(int *p);
-extern void func_021BE4B4(char *p, int i, int j, int v);
+extern u8 *func_021BE674(void *expObj, int unit, int model, int animeIdx);
+extern int func_021BE6BC(u8 *anime);
+extern void func_021BE4B4(void *expObj, int unit, int model, int hidden);
 
-void func_021F39F4(u8 *a, void *p)
+/* Ends the effect once its first anime has stopped: hides the model and clears the flag. */
+void func_021F39F4(Gimmick60Work *work, void *expObj)
 {
-    if (a[1] != 0) {
-        if (func_021BE6BC(func_021BE674(p, 0, 0x14, 0)) != 0) {
-            func_021BE4B4(p, 0, 0x14, 1);
-            a[1] = 0;
+    if (work->effectActive != 0) {
+        if (func_021BE6BC(func_021BE674(expObj, 0, GIMMICK60_EFFECT_MODEL, 0)) != 0) {
+            func_021BE4B4(expObj, 0, GIMMICK60_EFFECT_MODEL, 1);
+            work->effectActive = 0;
         }
     }
 }

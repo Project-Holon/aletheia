@@ -1,5 +1,5 @@
 /*
- * function: func_02174514
+ * function: INTRUDE_COMM_RecvSupportMode
  * address:  0x02174514
  * packet:   pkt_ov011_02174514
  * region:   ov011
@@ -19,10 +19,10 @@
  *   func_02026478  0x02026478  thumb
  *   func_02012F20  0x02012F20  thumb
  *   func_02012B38  0x02012B38  thumb
- *   func_02014484  0x02014484  thumb
- *   func_0202E7E0  0x0202E7E0  thumb
+ *   FIELD_STATUS_GetSeasonDispFlag  0x02014484  thumb
+ *   COMM_PLAYER_SUPPORT_GetMode  0x0202E7E0  thumb
  *   func_02012950  0x02012950  thumb
- *   func_0202E7C4  0x0202E7C4  thumb
+ *   COMM_PLAYER_SUPPORT_SetModeAndCurrent  0x0202E7C4  thumb
  */
 
 typedef unsigned int   u32;
@@ -34,12 +34,12 @@ struct Sub24;
 u32 func_02026478(void *obj);
 int func_02012F20(int a);
 void *func_02012B38(const struct BigObj *p);
-u8 func_02014484(struct Sub02014444Obj *o);
-int func_0202E7E0(int a);
+u8 FIELD_STATUS_GetSeasonDispFlag(struct Sub02014444Obj *o);
+int COMM_PLAYER_SUPPORT_GetMode(int a);
 struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
-void func_0202E7C4(int a, int b, int c);
+void COMM_PLAYER_SUPPORT_SetModeAndCurrent(int a, int b, int c);
 
-void func_02174514(int a, int b, int *c, char *d)
+void INTRUDE_COMM_RecvSupportMode(int a, int b, int *c, char *d)
 {
     int p;
     int q;
@@ -48,10 +48,10 @@ void func_02174514(int a, int b, int *c, char *d)
     p = func_02026478((void *)(((int *)d)[1]));
     q = func_02012F20(p);
     if ((unsigned char)d[0x8fb] & (1 << a)) {
-        if (func_02014484(func_02012B38((const struct BigObj *)p)) == 1) {
-            t = func_0202E7E0(q);
+        if (FIELD_STATUS_GetSeasonDispFlag(func_02012B38((const struct BigObj *)p)) == 1) {
+            t = COMM_PLAYER_SUPPORT_GetMode(q);
             if (t == 0 || t == 3) {
-                func_0202E7C4(q, *c, (int)func_02012950((struct Sub24 *)p, a));
+                COMM_PLAYER_SUPPORT_SetModeAndCurrent(q, *c, (int)func_02012950((struct Sub24 *)p, a));
             }
         }
     }

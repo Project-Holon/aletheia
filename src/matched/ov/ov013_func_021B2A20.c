@@ -1,5 +1,5 @@
 /*
- * function: func_021B2A20
+ * function: VCT_SESSION_FindPeer
  * address:  0x021B2A20
  * packet:   pkt_ov013_021B2A20
  * region:   ov013
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B60D8  0x021B60D8  data  a4
- *   d_021B4BE0  0x021B4BE0  data  a4
+ *   gVctSession  0x021B60D8  data  a4
+ *   gVctPeerPool  0x021B4BE0  data  a4
  *   d_021B4C0C  0x021B4C0C  data  a4
  */
 
@@ -30,17 +30,17 @@ typedef struct {
     u8 id;
 } G;
 
-extern struct Sess d_021B60D8;
-extern G d_021B4BE0;
+extern struct Sess gVctSession;
+extern G gVctPeerPool;
 extern struct N d_021B4C0C;
 
-N *func_021B2A20(int id)
+N *VCT_SESSION_FindPeer(int id)
 {
     N *n;
 
-    n = d_021B4BE0.head;
-    if (((int *)&d_021B60D8)[4] == 2) {
-        if (d_021B4BE0.flag != 0 && d_021B4BE0.id == id)
+    n = gVctPeerPool.head;
+    if (((int *)&gVctSession)[4] == 2) {
+        if (gVctPeerPool.flag != 0 && gVctPeerPool.id == id)
             return &d_021B4C0C;
         return 0;
     }

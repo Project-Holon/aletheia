@@ -2,8 +2,8 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: sub_02035C70, sub_02035CB8, sub_02035CD8, sub_02035D20,
- *           sub_02035D40
+ * function: TOUCHPANEL_GetPointContSys, TOUCHPANEL_GetPointCont, TOUCHPANEL_GetPointTrgSys, TOUCHPANEL_GetPointTrg,
+ *           TOUCHPANEL_HitPoint
  * address:  0x02035C70
  * packet:   pkt_02035C60
  * region:   arm9
@@ -15,26 +15,26 @@
  *
  * symbols:
  *   func_02035224  0x02035224  arm
- *   func_02035750  0x02035750  arm
- *   func_02035760  0x02035760  arm
- *   func_02035780  0x02035780  arm
- *   func_020357A0  0x020357A0  arm
- *   func_020357C0  0x020357C0  arm
- *   func_02035ADC  0x02035ADC  arm
+ *   TOUCHPANEL_GetWork  0x02035750  arm
+ *   TOUCHPANEL_ReadPointX  0x02035760  arm
+ *   TOUCHPANEL_ReadPointY  0x02035780  arm
+ *   TOUCHPANEL_ReadCont  0x020357A0  arm
+ *   TOUCHPANEL_ReadTrg  0x020357C0  arm
+ *   TOUCHPANEL_SearchHitTable  0x02035ADC  arm
  *
  * The singleton-facing half of the 0x02035000 block: every entry point here
  * is the "no context argument" spelling of a worker that lives a little
  * earlier in the file, with func_02035224() supplying the context.
  *
- * sub_02035C70 and sub_02035CD8 are the two two-output readers; they differ
+ * TOUCHPANEL_GetPointContSys and TOUCHPANEL_GetPointTrgSys are the two two-output readers; they differ
  * only in which predicate gates them (0x020357A0 versus 0x020357C0).  Each
  * is called from exactly one place, its own wrapper in this same file, so
  * the two pairs have to live in one unit for those sites to close as
  * `local` (same shape as src/matched/unit_020362BC.c).
  *
- * sub_02035D40 has no label of its own in the listing: it is an unlabelled
- * follower of sub_02035D20 (its prologue saves nothing).  It is the u16
- * narrowing shim in front of func_02035ADC, and it is the pool-word-and-bx
+ * TOUCHPANEL_HitPoint has no label of its own in the listing: it is an unlabelled
+ * follower of TOUCHPANEL_GetPointTrg (its prologue saves nothing).  It is the u16
+ * narrowing shim in front of TOUCHPANEL_SearchHitTable, and it is the pool-word-and-bx
  * tail call idiom, one section per function.
  *
  * Verified with:
@@ -50,50 +50,50 @@ struct Ctx;
 struct R;
 struct UiCtx;
 extern struct UiCtx *func_02035224(void);
-extern int func_02035750(void);
+extern int TOUCHPANEL_GetWork(void);
 struct Kind;
-extern u16 func_02035760(struct Kind *p);
-extern u16 func_02035780(struct Kind *p);
-extern int func_020357A0(struct Kind *p);
-extern u16 func_020357C0(struct Kind *p);
-extern int func_02035ADC(struct R *p, u32 x, u32 y);
+extern u16 TOUCHPANEL_ReadPointX(struct Kind *p);
+extern u16 TOUCHPANEL_ReadPointY(struct Kind *p);
+extern int TOUCHPANEL_ReadCont(struct Kind *p);
+extern u16 TOUCHPANEL_ReadTrg(struct Kind *p);
+extern int TOUCHPANEL_SearchHitTable(struct R *p, u32 x, u32 y);
 
-u32 sub_02035C70(struct Ctx *ctx, u32 *outA, u32 *outB);
-u32 sub_02035CD8(struct Ctx *ctx, u32 *outA, u32 *outB);
+u32 TOUCHPANEL_GetPointContSys(struct Ctx *ctx, u32 *outA, u32 *outB);
+u32 TOUCHPANEL_GetPointTrgSys(struct Ctx *ctx, u32 *outA, u32 *outB);
 
-u32 sub_02035C70(struct Ctx *ctx, u32 *outA, u32 *outB)
+u32 TOUCHPANEL_GetPointContSys(struct Ctx *ctx, u32 *outA, u32 *outB)
 {
-    func_02035750();
-    if (func_020357A0((struct Kind *)ctx) == 0) {
+    TOUCHPANEL_GetWork();
+    if (TOUCHPANEL_ReadCont((struct Kind *)ctx) == 0) {
         return 0;
     }
-    *outA = func_02035760((struct Kind *)ctx);
-    *outB = func_02035780((struct Kind *)ctx);
+    *outA = TOUCHPANEL_ReadPointX((struct Kind *)ctx);
+    *outB = TOUCHPANEL_ReadPointY((struct Kind *)ctx);
     return 1;
 }
 
-u32 sub_02035CB8(u32 *outA, u32 *outB)
+u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB)
 {
-    return sub_02035C70((struct Ctx *)func_02035224(), outA, outB);
+    return TOUCHPANEL_GetPointContSys((struct Ctx *)func_02035224(), outA, outB);
 }
 
-u32 sub_02035CD8(struct Ctx *ctx, u32 *outA, u32 *outB)
+u32 TOUCHPANEL_GetPointTrgSys(struct Ctx *ctx, u32 *outA, u32 *outB)
 {
-    func_02035750();
-    if (func_020357C0((struct Kind *)ctx) == 0) {
+    TOUCHPANEL_GetWork();
+    if (TOUCHPANEL_ReadTrg((struct Kind *)ctx) == 0) {
         return 0;
     }
-    *outA = func_02035760((struct Kind *)ctx);
-    *outB = func_02035780((struct Kind *)ctx);
+    *outA = TOUCHPANEL_ReadPointX((struct Kind *)ctx);
+    *outB = TOUCHPANEL_ReadPointY((struct Kind *)ctx);
     return 1;
 }
 
-u32 sub_02035D20(u32 *outA, u32 *outB)
+u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB)
 {
-    return sub_02035CD8((struct Ctx *)func_02035224(), outA, outB);
+    return TOUCHPANEL_GetPointTrgSys((struct Ctx *)func_02035224(), outA, outB);
 }
 
-u32 sub_02035D40(struct Ctx *ctx, u32 a, u32 b)
+u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b)
 {
-    return (u32)func_02035ADC((struct R *)ctx, (u16)a, (u16)b);
+    return (u32)TOUCHPANEL_SearchHitTable((struct R *)ctx, (u16)a, (u16)b);
 }

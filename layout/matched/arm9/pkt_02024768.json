@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02024768",
+   "name": "PMSI_PARAM_IsSpecialWord",
    "address": "0x02024768",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_020247F0",
+   "name": "PMS_WORD_Delete",
    "address": "0x020247F0",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02024810",
+   "name": "PMS_WORD_GetString",
    "address": "0x02024810",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_020394F0
+ * function: GFL_NET_SYSTEM_SetWaitMode
  * address:  0x020394F0
  * packet:   pkt_020394F0
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_021469D0     0x021469D0  data
+ *   _pNetSys     0x021469D0  data
  *   func_0203D798  0x0203D798  arm
  */
 
@@ -24,20 +24,20 @@ typedef struct {
 } T_0203D798;
 
 extern T_0203D798 *func_0203D798(void);
-extern struct LinkState *g_021469D0;
+extern struct LinkState *_pNetSys;
 
-void func_020394F0(u32 a)
+void GFL_NET_SYSTEM_SetWaitMode(u32 a)
 {
     u8 v = func_0203D798()->f065;
 
     if ((u8)(v + 0xff) > 1) {
         return;
     }
-    g_021469D0->f1AC = a;
+    _pNetSys->f1AC = a;
     if (a == 0) {
         return;
     }
-    g_021469D0->f1B0 = 0;
-    g_021469D0->f1b4 = 0;
-    g_021469D0->f1b8 = 0;
+    _pNetSys->f1B0 = 0;
+    _pNetSys->f1b4 = 0;
+    _pNetSys->f1b8 = 0;
 }

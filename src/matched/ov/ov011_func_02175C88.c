@@ -1,5 +1,5 @@
 /*
- * function: func_02175C88
+ * function: INTRUDE_COMM_StoreResultRecord
  * address:  0x02175C88
  * packet:   pkt_ov011_02175C88
  * region:   ov011
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_02175C78  0x02175C78  thumb  ov011
+ *   INTRUDE_COMM_FindFreeResultSlot  0x02175C78  thumb  ov011
  */
 
 typedef unsigned char u8;
@@ -23,9 +23,9 @@ typedef struct Rec {
 
 typedef signed int     s32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern int func_02175C78(u8 *p, void *b, int c);
+extern int INTRUDE_COMM_FindFreeResultSlot(u8 *p, void *b, int c);
 
-int func_02175C88(u8 *a, Rec *b, int c)
+int INTRUDE_COMM_StoreResultRecord(u8 *a, Rec *b, int c)
 {
     Rec *dst;
     int r;
@@ -35,7 +35,7 @@ int func_02175C88(u8 *a, Rec *b, int c)
         (a + c)[0x197] = 2;
         return 0;
     }
-    r = func_02175C78(a, b, c);
+    r = INTRUDE_COMM_FindFreeResultSlot(a, b, c);
     if (r == 3) {
         (a + c)[0x197] = 2;
         return 0;

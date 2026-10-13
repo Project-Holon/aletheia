@@ -9,14 +9,14 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0204EE0C  0x0204EE0C  arm
- *   func_0204EEC8  0x0204EEC8  arm
+ *   BILLBOARD_FindFreeImage  0x0204EE0C  arm
+ *   BILLBOARD_SetImageFormat  0x0204EEC8  arm
  *
  * billboard.c: take a free slot and fill it from caller-supplied texture
- * sizes, then hand it to func_0204EEC8.  The pure register residue of the
+ * sizes, then hand it to BILLBOARD_SetImageFormat.  The pure register residue of the
  * earlier notes (52 bytes, stride constant in ip instead of r0) was the
  * spelling of the two size fields: `(u32)(u16)f20 << 3` gives the same
- * instructions but a different allocation; the sibling func_0204EE64's
+ * instructions but a different allocation; the sibling BILLBOARD_BindImageResource's
  * `(u32)(f20 << 16) >> 13` is what the image has.
  */
 
@@ -40,22 +40,22 @@ struct Board {
 };
 
 struct Struct_0204EE0C;
-extern int func_0204EE0C(struct Struct_0204EE0C *p, int *out_index);
+extern int BILLBOARD_FindFreeImage(struct Struct_0204EE0C *p, int *out_index);
 typedef signed int     s32;
 struct Cell;
-extern void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c);
+extern void BILLBOARD_SetImageFormat(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c);
 
 int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6)
 {
     u32 idx;
 
-    if (func_0204EE0C((struct Struct_0204EE0C *)b, (int *)(&idx)) == 1) {
+    if (BILLBOARD_FindFreeImage((struct Struct_0204EE0C *)b, (int *)(&idx)) == 1) {
         b->ptr0[idx].f00 = 0;
         b->ptr0[idx].f20 = w;
         b->ptr0[idx].f24 = h;
         b->ptr0[idx].f0c = (u32)(b->ptr0[idx].f20 << 16) >> 13;
         b->ptr0[idx].f10 = (u32)(b->ptr0[idx].f24 << 16) >> 13;
-        func_0204EEC8((struct Cell *)(&b->ptr0[idx]), a3, a4, a5, a6);
+        BILLBOARD_SetImageFormat((struct Cell *)(&b->ptr0[idx]), a3, a4, a5, a6);
     }
     return idx;
 }

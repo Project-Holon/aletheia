@@ -26,7 +26,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_0201C724 0x0201C724 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_02017F00 0x02017F00 thumb
+ *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   func_0201D304 0x0201D304 thumb
  */
 #include "../include/Obj05257.h"
@@ -50,7 +50,7 @@ extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201C724(void *, u32, u32, u32, u32, u32, u16);
 extern u32 func_02017E1C(void *, u32, u32);
-extern u8 func_02017F00(void *);
+extern u8 POKE_TOOL_GetGender(void *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 static inline void print_text(int p, u32 windows, u32 dirty, int i, void *s, int x, int y, u16 color)
 {
@@ -88,7 +88,7 @@ void func_021F6B7C(int p, int i)
     func_02045808(t);
     if (func_02017E1C(*(void **)(mons + mi), 0xad, 0) == 1 &&
         func_02017E1C(*(void **)(mons + mi), 0x4c, 0) == 0) {
-        gender = func_02017F00(*(void **)(mons + mi));
+        gender = POKE_TOOL_GetGender(*(void **)(mons + mi));
         if (gender == 0) print_right(p, windows, dirty, i, window, 0x16, 0x2960);
         else if (gender == 1) print_right(p, windows, dirty, i, window, 0x17, 0x31a0);
     }

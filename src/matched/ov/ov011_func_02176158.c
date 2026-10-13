@@ -1,5 +1,5 @@
 /*
- * function: func_02176158
+ * function: INTRUDE_COMM_SendProposalReplies
  * address: 0x02176158
  * packet: pkt_ov011_02176158
  * region: ov011
@@ -18,13 +18,13 @@
  * header that asks for the double assignment is superseded.
  *
  * symbols:
- *   func_02173E6C 0x02173E6C thumb ov011
+ *   INTRUDE_CMD_SendJoinReply 0x02173E6C thumb ov011
  *   memset 0x02082BCC arm
  */
 typedef unsigned char u8;
-extern int func_02173E6C(int a, int b, int c);
+extern int INTRUDE_CMD_SendJoinReply(int a, int b, int c);
 extern void *memset(void *p, int value, unsigned int size);
-void func_02176158(int a, u8 *p)
+void INTRUDE_COMM_SendProposalReplies(int a, u8 *p)
 {
     unsigned int offset;
     int i;
@@ -34,7 +34,7 @@ void func_02176158(int a, u8 *p)
             offset = i;
             offset = offset * 0x38;
             if (p[0xe8 + offset] != 0) {
-                if (func_02173E6C(a, (int)((p + 0xe8) + offset), i) == 1) {
+                if (INTRUDE_CMD_SendJoinReply(a, (int)((p + 0xe8) + offset), i) == 1) {
                     tmp = p + 0xe8;
                     tmp = tmp + offset;
                     memset(tmp, 0, 0x38);

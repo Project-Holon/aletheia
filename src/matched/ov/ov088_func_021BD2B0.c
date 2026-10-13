@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02007150  0x02007150  thumb
+ *   SAVE_CONTROL_StartSave  0x02007150  thumb
  *   func_02008764  0x02008764  thumb
  *   func_02007210  0x02007210  thumb
  *   func_02007218  0x02007218  thumb
@@ -31,7 +31,7 @@ typedef struct {
     u32 vC;
 } St;
 
-int func_02007150(int a0);
+int SAVE_CONTROL_StartSave(int a0);
 void func_02008764(void *);
 struct Sub020071E4Ctrl;
 u8 func_02007210(const struct Sub020071E4Ctrl *ctrl);
@@ -42,7 +42,7 @@ void func_0200721C(struct Sub020071E4Ctrl *ctrl, u8 v);
 void func_021BD2B0(St *p)
 {
     if (p->s7 != 1) {
-        func_02007150((int)p->h);
+        SAVE_CONTROL_StartSave((int)p->h);
         if (p->s7 == 0) {
             func_02008764(p->h);
             p->v8 = func_02007210(p->h);

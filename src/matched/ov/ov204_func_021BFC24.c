@@ -11,8 +11,8 @@
  *   func_02050B80 0x02050B80 arm
  *   func_02030734 0x02030734 arm
  *   func_02050C04 0x02050C04 arm
- *   func_02051758 0x02051758 arm
- *   func_02051648 0x02051648 arm
+ *   PARTICLE_ReleaseCamera 0x02051758 arm
+ *   PARTICLE_InitCamera 0x02051648 arm
  *   func_0205121C 0x0205121C arm
  *   func_02051230 0x02051230 arm
  *   d_021C0B30 0x021C0B30 data a1
@@ -27,10 +27,10 @@ extern void func_02050B80(unsigned);
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02050C04(int a, int b, int c, int d);
-extern int func_02051758(int a0);
+extern int PARTICLE_ReleaseCamera(int a0);
 struct Dst648;
 struct Src648;
-extern void func_02051648(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
+extern void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
 extern int func_0205121C(unsigned,unsigned,unsigned);
 extern void func_02051230(void *,unsigned,unsigned,unsigned);
 extern const char d_021C0B30[];
@@ -53,8 +53,8 @@ char *func_021BFC24(void *owner,unsigned heap)
     config.f=4096;
     config.g=4194304;
     config.h=4096;
-    func_02051758((int)(((struct Obj03923 *)p)->f8));
-    func_02051648(((struct Obj03923 *)p)->f8,(struct Src648 *)(&config),8192,d_021C0B18,d_021C0B0C,d_021C0B24,((struct Obj03923 *)p)->f0);
+    PARTICLE_ReleaseCamera((int)(((struct Obj03923 *)p)->f8));
+    PARTICLE_InitCamera(((struct Obj03923 *)p)->f8,(struct Src648 *)(&config),8192,d_021C0B18,d_021C0B0C,d_021C0B24,((struct Obj03923 *)p)->f0);
     func_02051230(((struct Obj03923 *)p)->f8,func_0205121C(6,6,((struct Obj03923 *)p)->f0),1,0);
     return p;
 }

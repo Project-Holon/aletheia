@@ -12,7 +12,7 @@
  * DWCi_ProcessMatchPollingPacket: on a client, closes the aids a server poll no longer lists.
  *
  * symbols:
- *   func_0216BA08  0x0216BA08  arm  ov009
+ *   DWC_IsServerMyself  0x0216BA08  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_02176358  0x02176358  arm  ov009
  *   func_0216F014  0x0216F014  arm  ov009
@@ -24,7 +24,7 @@ typedef struct {
     int id;
 } Poll;
 
-extern int func_0216BA08(void);
+extern int DWC_IsServerMyself(void);
 extern int func_02175F3C(void);
 extern void *func_02176358(void);
 extern void func_0216F014(unsigned int bitmap);
@@ -36,7 +36,7 @@ void func_0216F058(const Poll *p)
     int id = p->id;
     int *node;
 
-    if (func_0216BA08() != 0) {
+    if (DWC_IsServerMyself() != 0) {
         return;
     }
     if (id != *(int *)(func_02175F3C() + 0x7c8)) {

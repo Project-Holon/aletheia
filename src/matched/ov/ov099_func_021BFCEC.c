@@ -11,8 +11,8 @@
  *   func_021BFBBC 0x021BFBBC thumb ov099
  *   func_021BA858 0x021BA858 thumb ov099
  *   func_021BA8EC 0x021BA8EC thumb ov099
- *   func_0201FEF4 0x0201FEF4 thumb
- *   func_02156A3C 0x02156A3C thumb ov009
+ *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
+ *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   func_021BA874 0x021BA874 thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  *   func_021BAADC 0x021BAADC thumb ov099
@@ -23,8 +23,8 @@ extern void func_021BFBBC(char *);
 typedef unsigned int   u32;
 extern u32 func_021BA858(char *p);
 extern void func_021BA8EC(char *);
-extern void func_0201FEF4(u8 *o);
-extern int func_02156A3C(void);
+extern void BMP_MENU_DeleteYesNo(u8 *o);
+extern int DWC_RAP_GetTargetFriendIndex(void);
 extern void func_021BA874(char *, int);
 extern void func_021BAAB8(char *, int, int);
 extern void func_021BAADC(char *, int, int);
@@ -36,9 +36,9 @@ int func_021BFCEC(char *p, int ret)
     if (v == -1) {
         if (((struct Obj04416 *)p)->f1355) {
             func_021BA8EC(p);
-            func_0201FEF4(((struct Obj04416 *)p)->f108);
+            BMP_MENU_DeleteYesNo(((struct Obj04416 *)p)->f108);
             ((struct Obj04416 *)p)->f108 = 0;
-            func_021BA874(p, func_02156A3C());
+            func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
             func_021BAAB8(p, 0x10, 0);
             ((struct Obj04416 *)p)->f1E0 = 0x3c;
             ((struct Obj04416 *)p)->f1CC = 0x94;

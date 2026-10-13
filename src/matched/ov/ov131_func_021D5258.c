@@ -1,5 +1,5 @@
 /*
- * function: func_021D5258
+ * function: P_STATUS_ExitMessage
  * address: 0x021D5258
  * packet: pkt_ov131_021D5258
  * region: ov131
@@ -21,7 +21,7 @@ extern void func_0201C4C0(struct PrintSys *p);
 extern unsigned int func_02045C04(struct Rec *rec);
 typedef unsigned int   u32;
 extern u32 func_0201D83C(void *ptr);
-void func_021D5258(char *p)
+void P_STATUS_ExitMessage(char *p)
 {
     func_0201C6EC(((struct Obj08144 *)p)->f84);
     func_0201C4C0(((struct Obj08144 *)p)->f84);

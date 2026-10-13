@@ -14,7 +14,7 @@
  * ours loads the offset into r1 and stores r0. Tried a local, a struct field, unsigned char.
  *
  * symbols:
- *   func_0200B400  0x0200B400  thumb
+ *   BATTLE_REC_AllocWork  0x0200B400  thumb
  *   func_021CBD08  0x021CBD08  thumb  ov021
  *   func_0216CAD4  0x0216CAD4  thumb  ov010
  *   func_0216E8CC  0x0216E8CC  thumb  ov010
@@ -23,7 +23,7 @@
 typedef struct S { char p0[9]; unsigned char k; char p1[0x7CC - 10]; int f; } S;
 
 typedef unsigned int   u32;
-extern void func_0200B400(u32 heap);
+extern void BATTLE_REC_AllocWork(u32 heap);
 typedef unsigned char  u8;
 extern u32 func_021CBD08(u8 *p, int a);
 extern void func_0216CAD4(void *a0, void *a1, void *a2);
@@ -32,7 +32,7 @@ extern int func_0216E8CC(int, int, int);
 void func_0216C640(S *a, int b, int c)
 {
     int t;
-    func_0200B400(4);
+    BATTLE_REC_AllocWork(4);
     t = func_021CBD08((u8 *)a, b);
     a->f = t;
     if (a->k == 3 || a->k == 8) {

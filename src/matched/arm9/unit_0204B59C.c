@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_0204B59C
+ * function: CLACT_SetActorAffineOriginAxis
  * address:  0x0204B59C
  * packet:   pkt_0204B454
  * region:   arm9
@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0204B59C  0x0204B59C  arm
- *   sub_0204B5AC  0x0204B5AC  arm
- *   sub_0204B5C0  0x0204B5C0  arm
+ *   CLACT_SetActorAffineOriginAxis  0x0204B59C  arm
+ *   CLACT_SetActorScale  0x0204B5AC  arm
+ *   CLACT_GetActorScale  0x0204B5C0  arm
  *
  * Three leaf accessors on the display object, 56 bytes end to end with no
  * padding.  Only the first carries a label in the listing: the other two
@@ -22,12 +22,12 @@
  * folded into one unit here rather than three files, which also makes the
  * range self-contained: the unit has no relocation sites at all.
  *
- * sub_0204B59C selects between the +0x10 and +0x12 halfwords on a flag; the
+ * CLACT_SetActorAffineOriginAxis selects between the +0x10 and +0x12 halfwords on a flag; the
  * front end if-converts it to a `strheq`/`strhne` pair with no branch, and
  * the `eq` arm being first is the source order of the `if`
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
- * sub_0204B5AC and sub_0204B5C0 are the setter and getter for the 8-byte
+ * CLACT_SetActorScale and CLACT_GetActorScale are the setter and getter for the 8-byte
  * pair at +0x14.  Both words are loaded before either is stored, which is
  * what two independent field assignments give when neither store can be
  * proved to feed the following load; writing them as one 8-byte struct
@@ -55,7 +55,7 @@ struct Pair {
     u32 y;
 };
 
-void sub_0204B59C(struct Obj *o, signed short v, u32 sel)
+void CLACT_SetActorAffineOriginAxis(struct Obj *o, signed short v, u32 sel)
 {
     if (sel == 0) {
         o->unk_10 = v;
@@ -64,13 +64,13 @@ void sub_0204B59C(struct Obj *o, signed short v, u32 sel)
     }
 }
 
-void sub_0204B5AC(struct Obj *o, const struct Pair *p)
+void CLACT_SetActorScale(struct Obj *o, const struct Pair *p)
 {
     o->unk_14 = p->x;
     o->unk_18 = p->y;
 }
 
-void sub_0204B5C0(const struct Obj *o, struct Pair *p)
+void CLACT_GetActorScale(const struct Obj *o, struct Pair *p)
 {
     p->x = o->unk_14;
     p->y = o->unk_18;

@@ -1,5 +1,5 @@
 /*
- * function: DWCi_TSKlForm
+ * function: NNSi_GfdAllocBlockUnaligned
  * address:  0x02061EA4
  * packet:   pkt_02061EA4
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct Blk;
 extern int func_02061EB8(struct Blk **list, struct Blk **pool, u32 *pRet, u32 size, u32 alignment);
 
-int DWCi_TSKlForm(struct Blk **list, struct Blk **pool, u32 *pRet, u32 size)
+int NNSi_GfdAllocBlockUnaligned(struct Blk **list, struct Blk **pool, u32 *pRet, u32 size)
 {
     return func_02061EB8(list, pool, pRet, size, 0);
 }

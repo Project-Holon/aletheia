@@ -10,9 +10,9 @@
  * status: EXACT
  * volatile: hardware display register 0x04000000 read at 0x021F868C.
  * symbols:
- *   func_02005D28 0x02005D28 thumb
- *   func_02006504 0x02006504 thumb
- *   func_02006518 0x02006518 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
+ *   GFL_USE_StopSeqAndUnload 0x02006504 thumb
+ *   GFL_USE_ClearPreloadedBgmBuffers 0x02006518 thumb
  *   func_0207D534 0x0207D534 arm
  *   func_0207D63C 0x0207D63C arm
  *   func_021F9D08 0x021F9D08 thumb ov132
@@ -47,9 +47,9 @@
 #include "../include/Obj00675.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void func_02005D28(void);
-extern void func_02006504(void);
-extern void func_02006518(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
+extern void GFL_USE_StopSeqAndUnload(void);
+extern void GFL_USE_ClearPreloadedBgmBuffers(void);
 extern void func_0207D534(volatile u16 *,int);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021F9D08(char *);
@@ -89,9 +89,9 @@ extern void func_02049238(void *);
 extern u32 func_020307B0(void *p);
 void func_021F8640(char *p)
 {
-    if(((struct Obj00675 *)p)->f2C==1)func_02005D28();
-    if(((struct Obj00675 *)p)->f28==1)func_02006504();
-    if(((struct Obj00675 *)p)->f24==1)func_02006518();
+    if(((struct Obj00675 *)p)->f2C==1)GFL_USE_CancelChangeAndStopBgm();
+    if(((struct Obj00675 *)p)->f28==1)GFL_USE_StopSeqAndUnload();
+    if(((struct Obj00675 *)p)->f24==1)GFL_USE_ClearPreloadedBgmBuffers();
     func_0207D534((volatile u16 *)0x0400006c,-16);
     func_0207D534((volatile u16 *)0x0400106c,-16);
     func_0207D63C((void *)0x04000050,0,0,31,31);

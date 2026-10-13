@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02031348
+ * function: PROCSYS_Push
  * address:  0x02031348
  * packet:   pkt_02031348
  * region:   arm9
@@ -9,7 +9,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   PROCSYS_PushInternal  0x020314F4  arm
  */
 
-extern void func_020314F4(void);
-void func_02031348(void){ func_020314F4(); }
+extern void PROCSYS_PushInternal(void);
+void PROCSYS_Push(void){ PROCSYS_PushInternal(); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B2958
+ * function: VCT_SESSION_HasNoOtherTalker
  * address:  0x021B2958
  * packet:   pkt_ov013_021B2958
  * region:   ov013
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B4BE0  0x021B4BE0  data  a4
+ *   gVctPeerPool  0x021B4BE0  data  a4
  */
 
 typedef struct N {
@@ -27,13 +27,13 @@ typedef struct {
     N *head;
 } G;
 
-extern G d_021B4BE0;
+extern G gVctPeerPool;
 
-int func_021B2958(N *p)
+int VCT_SESSION_HasNoOtherTalker(N *p)
 {
     N *n;
 
-    n = d_021B4BE0.head;
+    n = gVctPeerPool.head;
     while (n) {
         if (n->a != 0 && n->kind == 2) {
             if (p != n)

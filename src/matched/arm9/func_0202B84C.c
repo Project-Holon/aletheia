@@ -1,5 +1,5 @@
 /*
- * function: func_0202B84C
+ * function: ISS_SYS_SwitchMode
  * address:  0x0202B84C
  * packet:   pkt_0202B84C
  * region:   arm9
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * note:     wave 16: promoted.  0x0209FF8C was never a second table: it is
- *           Data_0209FF88 + 4, the `enter` field of entry v, which the
+ *           ISS_SYS_ModeTable + 4, the `enter` field of entry v, which the
  *           compiler reaches through its own pool word because a register
  *           offset load has no immediate (docs/idioms/
  *           pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md).
  *           One symbol, one struct with both callbacks; the +4 site then
  *           resolves against the attested 0x0209FF88.
  * symbols:
- *   Data_0209FF88  0x0209FF88  data
- *   func_0202B818  0x0202B818  thumb
+ *   ISS_SYS_ModeTable  0x0209FF88  data
+ *   ISS_SYS_GetBgmMode  0x0202B818  thumb
  */
 
 typedef unsigned char u8;
@@ -30,21 +30,21 @@ typedef struct {
     void (*leave)(void *);
 } Entry;
 
-extern const Entry Data_0209FF88[];
+extern const Entry ISS_SYS_ModeTable[];
 struct Obj;
-extern u8 func_0202B818(struct Obj *o);
+extern u8 ISS_SYS_GetBgmMode(struct Obj *o);
 
-void func_0202B84C(void *a)
+void ISS_SYS_SwitchMode(void *a)
 {
-    int v = func_0202B818(a);
+    int v = ISS_SYS_GetBgmMode(a);
     int i;
 
     for (i = 0; i < 9; i++) {
-        if (v != Data_0209FF88[i].id && Data_0209FF88[i].leave != 0) {
-            Data_0209FF88[i].leave(a);
+        if (v != ISS_SYS_ModeTable[i].id && ISS_SYS_ModeTable[i].leave != 0) {
+            ISS_SYS_ModeTable[i].leave(a);
         }
     }
-    if (Data_0209FF88[v].enter != 0) {
-        Data_0209FF88[v].enter(a);
+    if (ISS_SYS_ModeTable[v].enter != 0) {
+        ISS_SYS_ModeTable[v].enter(a);
     }
 }

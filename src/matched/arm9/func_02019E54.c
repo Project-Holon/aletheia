@@ -1,5 +1,5 @@
 /*
- * function: func_02019E54
+ * function: POKE_REGULATION_CheckSelection
  * address:  0x02019E54
  * packet:   pkt_02019D58
  * region:   arm9
@@ -10,27 +10,27 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201A5FC   0x0201A5FC  thumb
+ *   POKE_REGULATION_CheckOrder   0x0201A5FC  thumb
  *
  * Maps a flag word to a small code: the four bits 2, 4, 0x20 and 0x40 all
  * answer 5 (one disjunction, so they share a single exit), then 8, 0x10,
  * 0x100, 0x80 and 1 each answer their own code and zero answers 0.  The
  * query is answered through two stack words whose addresses are passed to
- * func_0201A5FC, and the caller's second and third registers are forwarded
+ * POKE_REGULATION_CheckOrder, and the caller's second and third registers are forwarded
  * unchanged, so the query takes five arguments.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02019E54.c \
- *       --func func_02019E54 --addr 0x02019E54 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_REGULATION_CheckSelection.c \
+ *       --func POKE_REGULATION_CheckSelection --addr 0x02019E54 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
 typedef unsigned char  u8;
-extern int func_0201A5FC(void *a0, void *a1, u8 *a2, char *a3, u32 *a4);
+extern int POKE_REGULATION_CheckOrder(void *a0, void *a1, u8 *a2, char *a3, u32 *a4);
 
-int func_02019E54(u32 a0, u32 a1, u32 a2)
+int POKE_REGULATION_CheckSelection(u32 a0, u32 a1, u32 a2)
 {
     u64 q;
     u32 r;
@@ -38,7 +38,7 @@ int func_02019E54(u32 a0, u32 a1, u32 a2)
     if (a0 == 0)
         return 0;
 
-    func_0201A5FC((void *)a0, (void *)a1, (u8 *)a2, (char *)(&q), &r);
+    POKE_REGULATION_CheckOrder((void *)a0, (void *)a1, (u8 *)a2, (char *)(&q), &r);
     if (r == 0)
         return 0;
 

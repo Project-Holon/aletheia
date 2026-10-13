@@ -9,8 +9,8 @@
  * status: EXACT
  * volatile: Hardware MMIO read/write at 021EEF3A..021EEF78; display and power registers.
  * symbols:
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_020433E0 0x020433E0 arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   func_02045088 0x02045088 arm
@@ -18,11 +18,11 @@
  *   func_02040588 0x02040588 arm
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_0202223C 0x0202223C thumb
- *   func_02022224 0x02022224 thumb
+ *   WIPE_ResetWndMask 0x02022224 thumb
  *   func_021EF0D0 0x021EF0D0 thumb ov107
  *   d_021F6C10 0x021F6C10 data a4
  *   d_021F6B00 0x021F6B00 data a4
@@ -46,9 +46,9 @@ extern const struct Cfg d_020A1448;
 extern const struct DispVram d_021F6C10;
 extern struct DispConfig d_021F6B00;
 extern const struct BgTemplate d_021F6B50,d_021F6B70,d_021F6B90,d_021F6BB0,d_021F6BD0,d_021F6BF0,d_021F6B10,d_021F6B30;
-extern void func_020434CC(void),func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 extern void func_0202223C(u32,u32);
-extern u32 func_02022224(void *);
+extern u32 WIPE_ResetWndMask(void *);
 extern void func_020433E0(const struct DispVram *);
 extern void func_0203F8F4(u16),func_02045088(u16);
 extern void func_0203FC28(struct DispConfig *);
@@ -56,15 +56,15 @@ extern void func_021EF0D0(u32 a, u32 b, u32 c);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0204A48C(const struct Cfg *,u32,u32);
 extern struct Bank *func_0204B100(int,u8,u32);
-extern void func_0204B270(struct Bank *);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
 extern void func_020434DC(u32,u32),func_02043598(u32,u32);
 void func_021EEF28(u8 *p) {
  struct Cfg cfg;
- func_020434CC();func_02043588();
+ BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();
  *(volatile u32 *)0x04000000 &= 0xffffe0ff;
  *(volatile u32 *)0x04001000 &= 0xffffe0ff;
  func_0202223C(0,0);func_0202223C(1,0);
- func_02022224((void *)0);func_02022224((void *)1);
+ WIPE_ResetWndMask((void *)0);WIPE_ResetWndMask((void *)1);
  *(volatile u16 *)0x04000050=0;
  *(volatile u16 *)0x04001050=0;
  *(volatile u16 *)0x04000304 |= 0x8000;
@@ -79,6 +79,6 @@ void func_021EEF28(u8 *p) {
  cfg=d_020A1448;cfg.dimensions[0]=64;
  func_0204A48C(&cfg,(u32)&d_021F6C10,((struct Obj00057 *)p)->f0);
  *(struct Bank * *)&((struct Obj00057 *)p)->f6C=func_0204B100(8,0,((struct Obj00057 *)p)->f0);
- func_0204B270(*(struct Bank * *)&((struct Obj00057 *)p)->f6C);
+ CLACT_SetUnitDefaultRenderer(*(struct Bank * *)&((struct Obj00057 *)p)->f6C);
  func_020434DC(16,1);func_02043598(16,1);
 }

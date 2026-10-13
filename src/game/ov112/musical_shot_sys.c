@@ -38,8 +38,8 @@
  *   func_021F44E8 0x021F44E8 thumb ov112
  *   func_0204A600 0x0204A600 arm
  *   func_0204A648 0x0204A648 arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_020433E0 0x020433E0 arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   func_02045088 0x02045088 arm
@@ -76,7 +76,7 @@
  *   func_021F4280 0x021F4280 thumb ov112
  *   func_02047964 0x02047964 arm
  *   func_020479D8 0x020479D8 arm
- *   func_0204F7DC 0x0204F7DC arm
+ *   BILLBOARD_Draw 0x0204F7DC arm
  *   func_02047970 0x02047970 arm
  *   func_02046440  0x02046440  arm
  *   func_0204044C  0x0204044C  arm
@@ -126,6 +126,7 @@
  *   d_021F8234 0x021F8234 data a4
  *   d_021F824C 0x021F824C data a4
  *   ov132_id 0x84 data
+ *   WIPE_ResetWndMask  0x02022224  thumb  arm9
  */
 #include "../../matched/include/Obj00587.h"
 #include "../../matched/include/Obj08019.h"
@@ -234,10 +235,10 @@ extern void func_021F4350(u8 *p);
 extern int func_021F44E8(u32 *p);
 extern void func_0204A600(void);
 extern void func_0204A648(void);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0202223C(u32 a, u32 color);
-extern u32 func_02022224(void *win);
+extern u32 WIPE_ResetWndMask(void *win);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0203F8F4(u16);
 extern void func_02045088(u16);
@@ -271,7 +272,7 @@ extern void func_021F6F8C(u8 *p);
 extern void func_021F4280(u8 *);
 extern void func_02047964(void);
 extern void func_020479D8(void);
-extern void func_0204F7DC(struct Board *b, struct Camera *cam, struct Lights *lights);
+extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
 extern void func_02047970(void);
 extern void func_02046440(int, int, int, int, int, int, int);
 extern void func_0204044C(u32 mode);
@@ -441,14 +442,14 @@ void func_021F3A4C(void) { func_0204A648(); }
  */
 void func_021F3A54(u8 *p)
 {
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     *(volatile unsigned *)0x04000000 &= 0xffffe0ff;
     *(volatile unsigned *)0x04001000 &= 0xffffe0ff;
     func_0202223C(0,0);
     func_0202223C(1,0);
-    func_02022224(0);
-    func_02022224((void *)1);
+    WIPE_ResetWndMask(0);
+    WIPE_ResetWndMask((void *)1);
     *(volatile u16 *)0x04000304 |= 0x8000;
     func_020433E0((const struct DispVram *)d_021F816C);
     func_0203F8F4(((struct Obj10296 *)p)->f0);
@@ -528,7 +529,7 @@ void func_021F3C50(u8 *p)
     func_021F51F4((void **)(*(u32 *)&((struct Obj02823 *)p)->f20));
     func_021F718C((char *)(((struct Obj02823 *)p)->f2C));
     func_021F6F8C((u8 *)(((struct Obj02823 *)p)->f28));
-    func_0204F7DC((struct Board *)(((struct Obj02823 *)p)->f1C),(struct Camera *)(((struct Obj02823 *)p)->f18),0);
+    BILLBOARD_Draw((struct Board *)(((struct Obj02823 *)p)->f1C),(struct Camera *)(((struct Obj02823 *)p)->f18),0);
     func_021F4280(p);
     func_02047970();
 }

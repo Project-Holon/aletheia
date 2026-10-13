@@ -27,7 +27,7 @@
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   func_0203A574 0x0203A574 arm
  *   d_021E7614 0x021E7614 data a4
- *   func_0203D7B0 0x0203D7B0 arm
+ *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   func_0203D7BC 0x0203D7BC arm
  *   func_020056A0 0x020056A0 thumb
  *   func_021DC500 0x021DC500 thumb ov119
@@ -53,7 +53,7 @@ extern unsigned int func_020173EC(void);
 extern int func_021D8A24(void *);
 extern char ov067_id[],ov114_id[],ov117_id[],ov118_id[];
 extern void func_0204363C(unsigned int swap);
-extern void func_0203D7B0(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern void func_0203D7BC(u8 a0);
 extern void func_02043534(unsigned int planes);
 extern void func_020435F4(unsigned int planes);
@@ -101,7 +101,7 @@ int func_021DC894(int a,int b,char *q,char *p,int n)
     I(0x9c4)=(int)func_0204B100(0x154,0,H(0x5f4));
     if(func_021D8A24(p)) {
         func_0203A574(0xc00,(unsigned)d_021E7614,24,(unsigned)p);
-        func_0203D7B0(1);func_0203D7BC(1);
+        GFL_NET_SetAutoExit(1);func_0203D7BC(1);
     }
     I(0x9c8)=(int)func_020056A0((void (*)(void *, void *))func_021DC500,p,0);
     I(0xf60)=0;

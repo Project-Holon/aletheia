@@ -1,5 +1,5 @@
 /*
- * function: func_02022670
+ * function: WIPE_SUB_ApplyEndBrightness
  * address:  0x02022670
  * packet:   pkt_02022174
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Per-screen finaliser, the mirror of the arming path in func_02022640: it
+ * Per-screen finaliser, the mirror of the arming path in WIPE_SUB_RequestBrightnessReset: it
  * runs only while the screen is in state 1, its resolved sentinel value at
  * +0x24 is the pass-through 0x7FFF or zero, and the second handle at +0x2C is
  * still null.  It then closes the screen's window through the pointer at
@@ -22,13 +22,13 @@
  *
  * symbols:
  *   func_0202223C  0x0202223C  thumb
- *   func_02022224  0x02022224  thumb
+ *   WIPE_ResetWndMask  0x02022224  thumb
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022670.c \
- *       --func func_02022670 --addr 0x02022670 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_ApplyEndBrightness.c \
+ *       --func WIPE_SUB_ApplyEndBrightness --addr 0x02022670 --cc 1.1p1 --thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -45,12 +45,12 @@ struct Screen {
 };
 
 extern void func_0202223C(u32 a, u32 color);
-extern u32 func_02022224(void *win);
+extern u32 WIPE_ResetWndMask(void *win);
 
-void func_02022670(struct Screen *s)
+void WIPE_SUB_ApplyEndBrightness(struct Screen *s)
 {
     if (s->f28 == 1 && (s->f24 == 0x7FFF || s->f24 == 0) && s->f2C == 0) {
         func_0202223C((u32)s->f10, s->f24);
-        func_02022224(s->f10);
+        WIPE_ResetWndMask(s->f10);
     }
 }

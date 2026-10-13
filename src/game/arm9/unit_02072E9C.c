@@ -1,6 +1,6 @@
 /*
  * file:     unit_02072E9C.c
- * function: func_02072E9C
+ * function: NNS_SndHandleInit
  * address:  0x02072E9C
  * packet:   pkt_02072DE8
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  */
 
-void func_02072E9C(void **handle)
+void NNS_SndHandleInit(void **handle)
 {
     *handle = 0;
 }

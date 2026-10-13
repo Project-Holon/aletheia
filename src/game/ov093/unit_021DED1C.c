@@ -13,4 +13,9 @@
  *   d_021F1384 0x021F1384 data a4
  */
 extern int d_021F1384;
-int *func_021DED1C(int *p) { *p=1; return &d_021F1384; }
+
+int *func_021DED1C(int *count)
+{
+    *count = 1;
+    return &d_021F1384;
+}

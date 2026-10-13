@@ -1,5 +1,5 @@
 /*
- * function: func_0202EB04
+ * function: BLINK_PALANM_ResetPhase
  * address:  0x0202EB04
  * packet:   pkt_0202EA40
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * blink_palanm.c: resets the fade phase word at +0x10 of the blink context
- * (the word func_0202EA40 advances by 0x400 per frame).  An unlabelled leaf
- * with no prologue sitting after func_0202EA40's pool word at 0x0202EB00, so
- * the listing folds it into func_0202EA40's extent (204 against the real
+ * (the word BLINK_PALANM_Update advances by 0x400 per frame).  An unlabelled leaf
+ * with no prologue sitting after BLINK_PALANM_Update's pool word at 0x0202EB00, so
+ * the listing folds it into BLINK_PALANM_Update's extent (204 against the real
  * 196); seed 0x0202EB04 into layout/function_starts.txt.
  */
 typedef unsigned short u16;
@@ -27,7 +27,7 @@ struct CodeIn {
     u16   h10;
 };
 
-void func_0202EB04(struct CodeIn *p)
+void BLINK_PALANM_ResetPhase(struct CodeIn *p)
 {
     p->h10 = 0;
 }

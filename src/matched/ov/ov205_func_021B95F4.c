@@ -14,7 +14,7 @@
  *   init 0x021B9E50 data a2
  *   func_020362DC 0x020362DC arm
  *   func_021B9874 0x021B9874 thumb ov205
- *   func_020111E8 0x020111E8 thumb
+ *   GPOWER_GetSpecialPowerId 0x020111E8 thumb
  *   func_0207E468 0x0207E468 arm
  *   func_0204E720 0x0204E720 arm
  *   func_0204E804 0x0204E804 arm
@@ -39,7 +39,7 @@
  *   func_021B9928 0x021B9928 thumb ov205
  *   func_02028484 0x02028484 thumb
  *   func_020310C4 0x020310C4 arm
- *   func_0202F0B0 0x0202F0B0 thumb
+ *   TIME_ICON_Update 0x0202F0B0 thumb
  */
 #include "../include/Obj00419.h"
 #include "../include/Obj25393.h"
@@ -54,7 +54,7 @@ struct Descriptor;
 struct Tcbl;
 extern u32 func_020362DC(void);
 extern void func_021B9874(char *,const char *);
-extern u32 func_020111E8(void);
+extern u32 GPOWER_GetSpecialPowerId(void);
 extern void func_0207E468(void *,u32,u32);
 extern void func_0204E720(u32,int,int,int);
 extern int func_0204E804(void);
@@ -81,7 +81,7 @@ typedef signed int     s32;
 struct Blk;
 extern s32 func_02028484(struct Blk *blk, void *h);
 extern void func_020310C4(struct Tcbl *p);
-extern void func_0202F0B0(u8 *p);
+extern void TIME_ICON_Update(u8 *p);
 typedef enum { ST0=0,ST13=13 } State;
 int func_021B95F4(void *unused,State *state,const char *context,char *p)
 {
@@ -98,7 +98,7 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
         zero=0;
         *(u16 *)0x04000050=zero;
         *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000&0xffffe0ff)|256;
-        if(func_020111E8()==21)mode=3;
+        if(GPOWER_GetSpecialPowerId()==21)mode=3;
         else {func_0207E468(&local,zero,2);mode=12;}
         func_0204E720(mode,16,zero,zero);(*state)++;break;
     }
@@ -149,7 +149,7 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
         if(((struct Obj00419 *)p)->f48>120)(*state)++;
         (((struct Obj00419 *)p)->f48)++;break;
     case 9:
-        if(func_020111E8()==21){ func_0204E720(3,0,16,0); }
+        if(GPOWER_GetSpecialPowerId()==21){ func_0204E720(3,0,16,0); }
         else { func_0204E720(12,0,16,0); }
         (*state)++;break;
     case 10:
@@ -162,6 +162,6 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
         break;
     }
     if(((struct Obj00419 *)p)->f24)func_020310C4(((struct Obj00419 *)p)->f24);
-    if(((struct Obj00419 *)p)->f30)func_0202F0B0(((struct Obj00419 *)p)->f30);
+    if(((struct Obj00419 *)p)->f30)TIME_ICON_Update(((struct Obj00419 *)p)->f30);
     return 0;
 }

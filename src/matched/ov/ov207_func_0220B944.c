@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02021D50 0x02021D50 thumb
+ *   PALANM_TransferPalettes 0x02021D50 thumb
  */
 typedef unsigned int u32;
 struct S02021D50;
-extern void func_02021D50(struct S02021D50 *p);
-void func_0220B944(void *a, u32 *p){if(p[22])func_02021D50((void*)p[22]);}
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
+void func_0220B944(void *a, u32 *p){if(p[22])PALANM_TransferPalettes((void*)p[22]);}

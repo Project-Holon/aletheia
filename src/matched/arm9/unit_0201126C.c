@@ -1,7 +1,7 @@
 /*
  * unit:     yes
- * function: func_0201126C, func_0201127C, sub_02011290, func_02011298,
- *           sub_02011324, sub_02011328
+ * function: VM_Init, VM_Start, VM_End, VM_Control,
+ *           VM_GetContext, VM_SetHook
  * address:  0x0201126C
  * packet:   pkt_020111EC
  * region:   arm9
@@ -12,14 +12,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020111EC  0x020111EC  thumb
+ *   VM_Reset  0x020111EC  thumb
  *   func_02011330  0x02011330  thumb
  *
  * The step function of the game's script virtual machine ("vm.c"), plus the
  * four small entry points around it.  The context layout and the
  * constructor are in src/matched/unit_020111EC.c.
  *
- * func_02011298 is the interpreter core, called once per frame by the owner
+ * VM_Control is the interpreter core, called once per frame by the owner
  * of the context:
  *
  *   state 0  stopped, nothing to do
@@ -54,7 +54,7 @@
  * once and both tests and calls that register, which a re-read of the field
  * across the call would not reproduce.
  *
- * sub_02011290, sub_02011324 and sub_02011328 carry no label in the
+ * VM_End, VM_GetContext and VM_SetHook carry no label in the
  * generated listing: none of the three saves `lr`, so disasm.py's prologue
  * sweep never fires and their bytes print as a `.word` run
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
@@ -103,31 +103,31 @@ typedef struct ScriptVm {
     void *data;
 } ScriptVm;
 
-extern void func_020111EC(ScriptVm *vm);
+extern void VM_Reset(ScriptVm *vm);
 struct Stream;
 extern u16 func_02011330(struct Stream *s);
 
-void func_0201126C(ScriptVm *vm, void *user)
+void VM_Init(ScriptVm *vm, void *user)
 {
-    func_020111EC(vm);
+    VM_Reset(vm);
     vm->user = user;
 }
 
-void func_0201127C(ScriptVm *vm, u8 *pc)
+void VM_Start(ScriptVm *vm, u8 *pc)
 {
-    func_020111EC(vm);
+    VM_Reset(vm);
     vm->pc = pc;
     vm->state = 1;
 }
 
-ScriptVm *sub_02011290(ScriptVm *vm)
+ScriptVm *VM_End(ScriptVm *vm)
 {
     vm->state = 0;
     vm->pc = 0;
     return vm;
 }
 
-int func_02011298(ScriptVm *vm)
+int VM_Control(ScriptVm *vm)
 {
     u32 op;
     ScriptWaitFn wait;
@@ -176,12 +176,12 @@ int func_02011298(ScriptVm *vm)
     return 1;
 }
 
-void *sub_02011324(ScriptVm *vm)
+void *VM_GetContext(ScriptVm *vm)
 {
     return vm->user;
 }
 
-void sub_02011328(ScriptVm *vm, ScriptHookFn hook, void *arg)
+void VM_SetHook(ScriptVm *vm, ScriptHookFn hook, void *arg)
 {
     vm->hook = hook;
     vm->hook_arg = arg;

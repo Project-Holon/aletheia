@@ -22,9 +22,9 @@
  *   _ll_udiv  0x0209C00C  arm
  *   func_02059F54  0x02059F54  arm
  *   func_02178E70  0x02178E70  arm  ov009
- *   func_02178DA4  0x02178DA4  arm  ov009
- *   func_02178EF4  0x02178EF4  arm  ov009
- *   func_02167E94  0x02167E94  arm  ov009
+ *   DWCi_Auth_AbortAuthentication  0x02178DA4  arm  ov009
+ *   DWCi_Auth_ShutdownAuthentication  0x02178EF4  arm  ov009
+ *   DWCi_Np_GetConsoleIdPrefix  0x02167E94  arm  ov009
  *   func_02167E88  0x02167E88  arm  ov009
  *   func_02084F80  0x02084F80  arm
  *   func_02185CB4  0x02185CB4  arm  ov009
@@ -32,7 +32,7 @@
  *   func_02059408  0x02059408  arm
  *   func_02167EA0  0x02167EA0  arm  ov009
  *   func_0216F20C  0x0216F20C  arm  ov009
- *   func_0216BA4C  0x0216BA4C  arm  ov009
+ *   DWCi_GT2Startup  0x0216BA4C  arm  ov009
  *   func_02176AA8  0x02176AA8  arm  ov009
  *   func_02176ABC  0x02176ABC  arm  ov009
  *   func_02185BD8  0x02185BD8  arm  ov009
@@ -44,7 +44,7 @@
  *   func_02059644  0x02059644  arm
  *   func_02059588  0x02059588  arm
  *   OS_GetTick     0x020870D0  arm
- *   func_020590F0  0x020590F0  arm
+ *   DWCi_Acc_SetPlayerId  0x020590F0  arm
  *   func_02178D14  0x02178D14  arm  ov009
  *   func_0205A16C  0x0205A16C  arm
  *   func_0205A1B0  0x0205A1B0  arm
@@ -220,11 +220,11 @@ void func_0216A3B8(int error, int errorCode)
 
 
 /*
- * Clears the word at 0x021AA874 after func_02178DA4 when func_02178E70 reports zero.
+ * Clears the word at 0x021AA874 after DWCi_Auth_AbortAuthentication when func_02178E70 reports zero.
  */
 void func_0216A404(void)
 {
-    if (func_02178E70() == 0) func_02178DA4();
+    if (func_02178E70() == 0) DWCi_Auth_AbortAuthentication();
     g_021AA874 = 0;
 }
 
@@ -245,7 +245,7 @@ void func_0216A404(void)
 void func_0216A42C(void)
 {
     if (g_021AA874 == 0) return;
-    func_02178EF4();
+    DWCi_Auth_ShutdownAuthentication();
     g_021AA874->state = 0;
     g_021AA874->connectFlag = 0;
 }
@@ -307,7 +307,7 @@ void func_0216A4D4(void **pconnection, void *argp, void *unused)
 
     g_021AA874->connectFlag = 0;
 
-    func_02084F80(firstname, sizeof(firstname), "%s:%016llu", func_02167E94(), func_02167E88());
+    func_02084F80(firstname, sizeof(firstname), "%s:%016llu", DWCi_Np_GetConsoleIdPrefix(), func_02167E88());
     gpResult = func_02185CB4(pconnection, 0x704, firstname);
     if (func_0216A460(gpResult))
         return;
@@ -329,7 +329,7 @@ void func_0216A4D4(void **pconnection, void *argp, void *unused)
                 if (func_0216A460(gpResult))
                     return;
                 g_021AA874->callback(0, arg->profile, g_021AA874->param);
-                if (func_0216BA4C())
+                if (DWCi_GT2Startup())
                     return;
                 func_02176AA8(arg->profile);
                 func_02176ABC();
@@ -382,7 +382,7 @@ int func_0216A6F4(void)
             else
                 func_02059588(&g_021AA874->loginId);
         } else {
-            func_020590F0(&g_021AA874->loginId, (u32)((OS_GetTick() * 0x5D588B656C078965ULL + 0x269EC3) >> 32));
+            DWCi_Acc_SetPlayerId(&g_021AA874->loginId, (u32)((OS_GetTick() * 0x5D588B656C078965ULL + 0x269EC3) >> 32));
         }
         func_02059474(&g_021AA874->loginId, g_021AA874->gamecode, g_021AA874->username);
         userid = 0;
@@ -403,7 +403,7 @@ void func_0216A838(void)
 		return;
 	if (func_02178E80()) {
 		func_02178EA0(g_021AA874->authToken, g_021AA874->partnerChallenge);
-		func_02178EF4();
+		DWCi_Auth_ShutdownAuthentication();
 		if (func_020596C8(g_021AA874->userdata)) {
 			func_0216A68C(func_0216A4D4, 2);
 			return;

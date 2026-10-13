@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BC8EC   0x021BC8EC  arm
  *   dat_021DE504    0x021DE504  data
- *   func_021D7744   0x021D7744  arm
+ *   DWCi_TSKlDeleteByIndex   0x021D7744  arm
  *   func_021D6F38   0x021D6F38  arm
  *   func_021D6438   0x021D6438  arm
  *
@@ -20,7 +20,7 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021D7744(unsigned int idx, void *r4);
+extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
 extern void func_021D6F38(unsigned int *obj);
 extern void func_021D6438(void **mem);
 extern unsigned char dat_021DE504[];
@@ -29,7 +29,7 @@ void func_021BC8EC(void)
 {
     unsigned char *g = (unsigned char *)0x021DE504;
 
-    func_021D7744(1, (void *)(**(int **)g));
+    DWCi_TSKlDeleteByIndex(1, (void *)(**(int **)g));
     func_021D6F38((unsigned int *)(*(int *)(*(int *)g + 4)));
     func_021D6438((void **)((int)dat_021DE504));
 }

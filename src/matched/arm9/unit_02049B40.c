@@ -2,7 +2,7 @@
  * A whole translation unit range, matched as one byte range.
  *
  * unit:     yes
- * function: sub_02049B40, sub_02049B68
+ * function: ARC_UTIL_UploadPaletteFromArchiveWhole, ARC_UTIL_UploadPaletteFromHandleWhole
  * address:  0x02049B40
  * packet:   pkt_0204961C
  * region:   arm9
@@ -39,12 +39,12 @@ typedef unsigned int   u32;
 extern void sub_02049B90(u32 a, u32 b, u32 c, u32 zero, u32 d, u32 e, u16 f);
 extern void sub_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 
-void sub_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f)
+void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f)
 {
     sub_02049B90(a, b, c, 0, d, e, f);
 }
 
-void sub_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f)
+void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f)
 {
     sub_02049BDC(a, b, c, 0, d, e, f);
 }

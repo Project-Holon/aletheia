@@ -1,5 +1,5 @@
 /*
- * function: func_020369C8
+ * function: GFL_NET_QUEUE_GetNext
  * address:  0x020369C8
  * packet:   pkt_020367C4
  * region:   arm9
@@ -24,13 +24,13 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020369C8.c \
- *       --func func_020369C8 --addr 0x020369C8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_QUEUE_GetNext.c \
+ *       --func GFL_NET_QUEUE_GetNext --addr 0x020369C8 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
-u32 func_020369C8(u32 *p)
+u32 GFL_NET_QUEUE_GetNext(u32 *p)
 {
     if (p[4] != 0)
         return p[4];

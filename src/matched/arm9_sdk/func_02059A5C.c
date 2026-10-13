@@ -1,5 +1,5 @@
 /*
- * function: func_02059A5C
+ * function: DWC_IsEqualFriendData
  * address:  0x02059A5C
  * packet:   pkt_02059A5C
  * region:   arm9
@@ -25,7 +25,7 @@ extern unsigned long long DWCi_Acc_GetUserId(void *userdata);
 extern unsigned long DWCi_Acc_GetPlayerId(void *userdata);
 extern unsigned long long DWCi_Acc_GetFriendKey(void *data);
 
-int func_02059A5C(void *frienddata1, void *frienddata2)
+int DWC_IsEqualFriendData(void *frienddata1, void *frienddata2)
 {
     unsigned long type1;
     unsigned long type2;

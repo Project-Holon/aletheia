@@ -1,5 +1,5 @@
 /*
- * function: sub_0200F800
+ * function: GFL_NET_ERR_RestoreBrightness
  * address:  0x0200F800
  * packet:   pkt_0200F168
  * region:   arm9
@@ -20,8 +20,8 @@
  * relocation resolution here.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200F800.c \
- *       --func sub_0200F800 --addr 0x0200F800 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_ERR_RestoreBrightness.c \
+ *       --func GFL_NET_ERR_RestoreBrightness --addr 0x0200F800 --cc 1.1p1
  */
 #include "../include/Obj11713.h"
 
@@ -31,7 +31,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_0207D534(volatile u16 *reg, int brightness);
 
-void sub_0200F800(void)
+void GFL_NET_ERR_RestoreBrightness(void)
 {
     u32 *g = (u32 *)0x0214617C;
     func_0207D534((volatile u16 *)0x0400006C, ((struct Obj11713 *)g)->f14);

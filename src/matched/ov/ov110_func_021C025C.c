@@ -12,9 +12,9 @@
  * blocker: ov110 Thumb 0x021C0250 at +006C,+018A,+01A6,+01D2 lacks an outside witness; held while ARM9 also blocks.
  * ABI: 02031330 tail-forwards the full-word result and object argument of matched 020313EC.
  * symbols:
- *   func_02031330 0x02031330 arm
- *   func_02024910 0x02024910 thumb
- *   func_02024464 0x02024464 thumb
+ *   PROCSYS_Main 0x02031330 arm
+ *   PMS_WORD_GetSaveEntry 0x02024910 thumb
+ *   PMSI_PARAM_IsComplete 0x02024464 thumb
  *   func_021C0250 0x021C0250 thumb ov110
  *   func_021C132C 0x021C132C thumb ov110
  *   func_0204E720 0x0204E720 arm
@@ -46,14 +46,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02031330(void *);
+extern u32 PROCSYS_Main(void *);
 typedef signed int     s32;
 struct Cfg;
 struct Descriptor;
 struct PrintSys;
 struct T;
-extern void *func_02024910(char *p, int idx);
-extern int func_02024464(struct T *p, u32 a1);
+extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
+extern int PMSI_PARAM_IsComplete(struct T *p, u32 a1);
 extern void func_021C0250(int *,u8 *,int);
 extern int func_021C132C(void *,u8 *);
 extern void func_0204E720(u32,int,int,int);
@@ -85,11 +85,11 @@ int func_021C025C(void *unused,int *q,void *unused2,u8 *p)
 {
     u32 running;
     void *window;
-    running=func_02031330(*(void **)(p+0xac));
+    running=PROCSYS_Main(*(void **)(p+0xac));
     if(running==1) return 0;
     switch(*q) {
     case 0:
-        if(!func_02024464(func_02024910(*(void **)(p+0x20),0),*(u16 *)(p+4))) {
+        if(!PMSI_PARAM_IsComplete(PMS_WORD_GetSaveEntry(*(void **)(p+0x20),0),*(u16 *)(p+4))) {
             p[0x95]=0;
             func_021C0250(q,p,13);
         } else func_021C0250(q,p,1);

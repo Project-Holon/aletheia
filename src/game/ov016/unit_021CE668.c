@@ -17,7 +17,7 @@
  *   MIi_CpuCopyFast  0x02082B0C  arm
  *   func_021D7680  0x021D7680  arm  ov016
  *   g_021DE630  0x021DE630  data
- *   func_021D7744  0x021D7744  arm  ov016
+ *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
  *   func_021D6438  0x021D6438  arm  ov016
  *   MIi_CpuCopy16  0x02082A60  arm
  *   func_020862F0  0x020862F0  arm
@@ -33,7 +33,7 @@ typedef struct { MemScr *scr; void *src; void *dst; } ScreenBss;
 extern void *func_021D6414(unsigned long size, int alignment);
 extern void MIi_CpuCopyFast(void *srcp, void *destp, unsigned long size);
 extern void *func_021D7680(int kind, void (*func)(void *), void *work, unsigned char prio);
-extern void func_021D7744(unsigned int idx, void *r4);
+extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
 extern void func_021D6438(void **mem);
 extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 extern void func_020862F0(void *startAddr, unsigned long nBytes);
@@ -75,7 +75,7 @@ void func_021CE668(void *scr)
  */
 void func_021CE6C4(void)
 {
-    func_021D7744(1, g_021DE630.scr->task);
+    DWCi_TSKlDeleteByIndex(1, g_021DE630.scr->task);
     func_021D6438((void **)0x021DE630);
 }
 

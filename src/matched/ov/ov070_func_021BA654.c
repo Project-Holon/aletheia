@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_0204B454  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
  */
@@ -21,7 +21,7 @@ typedef struct {
 } Pt;
 
 typedef unsigned int   u32;
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
@@ -35,7 +35,7 @@ void func_021BA654(char *p)
     unsigned w;
     unsigned v;
     Pt pt;
-    if (func_02035CB8(&w, &v) == 1) {
+    if (TOUCHPANEL_GetPointCont(&w, &v) == 1) {
         if (v < 0x1A) {
             v = 0x1A;
         } else if (v > 0x8E) {

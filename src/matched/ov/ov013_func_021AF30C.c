@@ -1,5 +1,5 @@
 /*
- * function: func_021AF30C
+ * function: VCT_MAIN_SetMuted
  * address: 0x021AF30C
  * packet: pkt_ov013_021AF30C
  * region: ov013
@@ -9,25 +9,25 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021B3C80 0x021B3C80 data ov013 a4
- *   func_021B074C 0x021B074C arm ov013
- *   func_021B0614 0x021B0614 arm ov013
+ *   gVctWork 0x021B3C80 data ov013 a4
+ *   VCT_SESSION_RemoveMember 0x021B074C arm ov013
+ *   VCT_SESSION_AddMember 0x021B0614 arm ov013
  */
 
 #include "../include/G_Work.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern struct Work *d_021B3C80;
-extern void func_021B074C(void *);
-extern int func_021B0614(void *);
-void func_021AF30C(int a)
+extern struct Work *gVctWork;
+extern void VCT_SESSION_RemoveMember(void *);
+extern int VCT_SESSION_AddMember(void *);
+void VCT_MAIN_SetMuted(int a)
 {
-    if (((u8 *)d_021B3C80) != 0) {
-        *(u16 *)(((u8 *)d_021B3C80) + 0x19B2) = a;
-        if (*(void **)(((u8 *)d_021B3C80) + 0x1A1C) != 0) {
-            if (a != 0) func_021B074C(*(void **)(((u8 *)d_021B3C80) + 0x1A1C));
-            else func_021B0614(*(void **)(((u8 *)d_021B3C80) + 0x1A1C));
+    if (((u8 *)gVctWork) != 0) {
+        *(u16 *)(((u8 *)gVctWork) + 0x19B2) = a;
+        if (*(void **)(((u8 *)gVctWork) + 0x1A1C) != 0) {
+            if (a != 0) VCT_SESSION_RemoveMember(*(void **)(((u8 *)gVctWork) + 0x1A1C));
+            else VCT_SESSION_AddMember(*(void **)(((u8 *)gVctWork) + 0x1A1C));
         }
     }
 }

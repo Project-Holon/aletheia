@@ -1,5 +1,5 @@
 /*
- * function: func_02046110
+ * function: MSGDATA_LoadBank
  * address:  0x02046110
  * packet:   pkt_02046110
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020495F4  0x020495F4  arm
+ *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *   func_0204960C  0x0204960C  arm
  *
  * msgdata.c: point the MsgData object at the selected language bank.  The
@@ -20,7 +20,7 @@
  * reads the whole bank.
  *
  * The four bytes the earlier notes could not reach (docs/notes/
- * func_02046110.c.txt, pkt_02046110.c.txt) are the `ldreq r0, [r4]`
+ * MSGDATA_LoadBank.c.txt, pkt_02046110.c.txt) are the `ldreq r0, [r4]`
  * reload of the archive pointer in the resident arm.  Every plain spelling
  * CSEs it into the load already made for the offset table; declaring the
  * member `volatile` keeps both loads and leaves every other instruction,
@@ -52,10 +52,10 @@ struct MsgData {
 };
 
 struct ArcFile;
-extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
+extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
 extern void func_0204960C(void *file, u32 pos);
 
-void func_02046110(struct MsgData *msg)
+void MSGDATA_LoadBank(struct MsgData *msg)
 {
     u32 size;
     u32 offset = msg->archive->bankOffset[msg->bankIndex];
@@ -64,8 +64,8 @@ void func_02046110(struct MsgData *msg)
         msg->bank = (u8 *)msg->archive + offset;
     } else {
         func_0204960C(msg->file, msg->baseOffset + offset);
-        func_020495F4(msg->file, 4, &size);
+        ARC_TOOL_ReadHandle(msg->file, 4, &size);
         func_0204960C(msg->file, msg->baseOffset + offset);
-        func_020495F4(msg->file, size, msg->bank);
+        ARC_TOOL_ReadHandle(msg->file, size, msg->bank);
     }
 }

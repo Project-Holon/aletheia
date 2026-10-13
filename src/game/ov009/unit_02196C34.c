@@ -20,7 +20,7 @@
  *   gti2ConnectionError   0x02195ec4 arm ov009
  *   func_02196AF8  0x02196AF8  arm  ov009
  *   func_02196B48  0x02196B48  arm  ov009
- *   func_02196C28  0x02196C28  arm  ov009
+ *   gti2HandlePing  0x02196C28  arm  ov009
  *   func_02196CC8  0x02196CC8  arm  ov009
  *   func_02197D5C  0x02197D5C  arm  ov009
  *   func_02195408  0x02195408  arm  ov009
@@ -184,7 +184,7 @@ extern int func_021951E8(GTI2Connection *c, int latency);
 extern GT2Bool gti2ConnectionError(GTI2Connection *connection, GT2Result result, GT2CloseReason reason);
 extern int func_02196AF8(GTI2Connection *c, unsigned char *msg, int len);
 extern int func_02196B48(GTI2Connection *c, unsigned char *msg, int len);
-extern int func_02196C28(void *connection, unsigned char *message, int len);
+extern int gti2HandlePing(void *connection, unsigned char *message, int len);
 extern int func_02196CC8(GTI2Connection *c);
 extern GTI2Connection *func_02197D5C(GTI2Socket *socket, unsigned int ip, unsigned short port);
 extern int func_02195408(GTI2Socket *socket, GTI2Connection *connection, unsigned int ip,
@@ -345,7 +345,7 @@ int func_02196D00(GTI2Connection *c, int type, unsigned char *message, int len)
 		if (!func_02196B48((GTI2Connection *)c, dataStart, dataLen))
 			return 0;
 	} else if (type == 0x66) {
-		if (!func_02196C28(c, message, len))
+		if (!gti2HandlePing(c, message, len))
 			return 0;
 	} else if (type == 0x67) {
 		if (!func_02196C34((GTI2Connection *)c, dataStart, dataLen))

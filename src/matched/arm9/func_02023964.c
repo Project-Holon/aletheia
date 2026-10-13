@@ -1,5 +1,5 @@
 /*
- * function: func_02023964
+ * function: WIPE_SUB_ShutterInit
  * address:  0x02023964
  * packet:   pkt_02023964
  * region:   arm9
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02022EA0  0x02022EA0  thumb
+ *   WIPE_SUB_InitLineMask  0x02022EA0  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02022F0C  0x02022F0C  thumb
- *   func_02022E20  0x02022E20  thumb
- *   func_02022E88  0x02022E88  thumb
+ *   WIPE_SUB_RequestLineMaskHBlank  0x02022F0C  thumb
+ *   WIPE_SUB_SetupWindow  0x02022E20  thumb
+ *   WIPE_SUB_SetWindowVisibleMode  0x02022E88  thumb
  *
  * The setup of the 0x334-byte scanline wipe object (struct WipeScan in
- * docs/families/wipe_sub.h): clears it through func_02022EA0, fills both
+ * docs/families/wipe_sub.h): clears it through WIPE_SUB_InitLineMask, fills both
  * 0xC0-row tables with 1 or 0 by the descriptor's +6 halfword, stamps ten
  * words at +0x30c..+0x330 in the image's (non-ascending) order, installs
- * the scanline callback through func_02022F0C and arms the window.
+ * the scanline callback through WIPE_SUB_RequestLineMaskHBlank and arms the window.
  *
  * The 2026-09-20 note was two bytes long because it called
- * func_02022F0C(a0, desc, a3): the image passes (a6, w, a7) -- the
+ * WIPE_SUB_RequestLineMaskHBlank(a0, desc, a3): the image passes (a6, w, a7) -- the
  * sp+0x40 and sp+0x44 stack arguments around the object, matching
- * func_02022F0C's own (u32, u8 *, u32) parameter list.  With that call
+ * WIPE_SUB_RequestLineMaskHBlank's own (u32, u8 *, u32) parameter list.  With that call
  * corrected the rest of the note's body compiles byte for byte.
  */
 #include "../include/Obj02305.h"
@@ -39,17 +39,17 @@ struct Desc {
     u16 f06;
 };
 
-extern void func_02022EA0(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void WIPE_SUB_InitLineMask(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void func_02022F0C(u32 a0, u8 *a1, u32 a2);
-extern void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
+extern void WIPE_SUB_RequestLineMaskHBlank(u32 a0, u8 *a1, u32 a2);
+extern void WIPE_SUB_SetupWindow(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
                           u32 a6, u32 a7, u32 a8, u32 a9);
-extern int func_02022E88(int a0, int a1, int a2, int a3);
+extern int WIPE_SUB_SetWindowVisibleMode(int a0, int a1, int a2, int a3);
 
-void func_02023964(u8 *w, struct Desc *d, u32 a2, u32 a3, u32 a4, u32 a5,
+void WIPE_SUB_ShutterInit(u8 *w, struct Desc *d, u32 a2, u32 a3, u32 a4, u32 a5,
                    u32 a6, u32 a7)
 {
-    func_02022EA0(w, a4, 1, 0, 0);
+    WIPE_SUB_InitLineMask(w, a4, 1, 0, 0);
 
     if (d->f06 == 0) {
         MI_CpuFill8(w, 1, 0xC0);
@@ -70,13 +70,13 @@ void func_02023964(u8 *w, struct Desc *d, u32 a2, u32 a3, u32 a4, u32 a5,
     ((struct Obj02305 *)w)->f32C = a5;
     ((struct Obj02305 *)w)->f330 = a6;
 
-    func_02022F0C(a6, w, a7);
+    WIPE_SUB_RequestLineMaskHBlank(a6, w, a7);
 
     if (d->f06 == 1) {
-        func_02022E20(a5, 0x20, 0x3F, 0, a4, 0, 0, 0, 0, d->f06);
+        WIPE_SUB_SetupWindow(a5, 0x20, 0x3F, 0, a4, 0, 0, 0, 0, d->f06);
     } else {
-        func_02022E20(a5, 0x3F, 0x20, 0, a4, 0, 0, 0, 0, d->f06);
+        WIPE_SUB_SetupWindow(a5, 0x3F, 0x20, 0, a4, 0, 0, 0, 0, d->f06);
     }
 
-    func_02022E88(a5, 1, a4, ((struct Obj02305 *)w)->f324);
+    WIPE_SUB_SetWindowVisibleMode(a5, 1, a4, ((struct Obj02305 *)w)->f324);
 }

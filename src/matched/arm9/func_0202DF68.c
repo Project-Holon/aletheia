@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202DF68
+ * function: PMS_DRAW_LoadResources
  * address:  0x0202DF68
  * packet:   pkt_0202DF68
  * region:   arm9
@@ -45,7 +45,7 @@ typedef signed int     s32;
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void  func_02049238(void *h);
 
-void func_0202DF68(u32 *o, u32 a1, u32 heap)
+void PMS_DRAW_LoadResources(u32 *o, u32 a1, u32 heap)
 {
     u32 b0;
     u32 b1;

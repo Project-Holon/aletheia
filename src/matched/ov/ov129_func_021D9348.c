@@ -12,7 +12,7 @@
  *   func_021DA158 0x021DA158 thumb ov129
  *   func_0204B878 0x0204B878 arm
  *   func_0201F35C 0x0201F35C thumb
- *   func_02045AA8 0x02045AA8 arm
+ *   STRBUF_Append 0x02045AA8 arm
  *   func_02045808 0x02045808 arm
  *   func_021D8AF4 0x021D8AF4 thumb ov129
  */
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0201F35C(void *ctx, s32 n, u32 kind, u32 mode, u32 flag);
-extern void func_02045AA8(struct U16Vec *dst, struct U16Vec *src);
+extern void STRBUF_Append(struct U16Vec *dst, struct U16Vec *src);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021D8AF4(char *,int);
 void func_021D9348(char *p)  {
@@ -44,7 +44,7 @@ void func_021D9348(char *p)  {
             func_0204B878((struct Obj *)(((struct Obj06479 *)q)->fC),func_021DA158(1,((struct Obj06479 *)q)->f8));
         }
         func_0201F35C(v,((struct Obj06479 *)q)->f0-1,1,1,1);
-        func_02045AA8((struct U16Vec *)(((struct Obj08137 *)p)->f348),v);
+        STRBUF_Append((struct U16Vec *)(((struct Obj08137 *)p)->f348),v);
     }
     func_02045808(v);
     func_021D8AF4(p,3);

@@ -1,6 +1,6 @@
 /*
  * file:     unit_0219E1EC.c
- * function: func_0219E1EC
+ * function: SBServerGetPublicInetAddress
  * address:  0x0219E1EC
  * packet:   pkt_02155168
  * region:   ov009
@@ -15,7 +15,7 @@
 
 #include "unit_0219E1EC_types.h"
 
-unsigned int func_0219E1EC(const SBServer *server)
+unsigned int SBServerGetPublicInetAddress(const SBServer *server)
 {
     return server->publicip;
 }

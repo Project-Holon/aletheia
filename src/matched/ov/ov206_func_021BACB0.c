@@ -12,7 +12,7 @@
  *   func_021BA960 0x021BA960 thumb
  *   func_021BAA08 0x021BAA08 thumb
  *   func_021BAF7C 0x021BAF7C thumb
- *   func_0201AF80 0x0201AF80 thumb
+ *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_0201EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
@@ -28,7 +28,7 @@ extern void func_021BAA08(int heap, int window, struct MsgBank *bank, void *prin
 extern void func_021BAF7C(char *);
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u16 *func_0201AF80(u32 heap, u16 *countOut);
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_020307B0(void *p);
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
@@ -62,7 +62,7 @@ void func_021BACB0(char *p, int idx)
     }
     c = H(0xc);
     if (W(4) == 0) {
-        unsigned short *tab = func_0201AF80(H(0), 0);
+        unsigned short *tab = POKE_PERSONAL_LoadFormTable(H(0), 0);
         c = tab[H(0xc)];
         func_020307B0(tab);
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_0201FA04
+ * function: BMP_MENU_ProcessInput
  * address:  0x0201FA04
  * packet:   pkt_0201FA04
  * region:   arm9
@@ -12,20 +12,20 @@
  * symbols:
  *   func_020362DC  0x020362DC  arm
  *   func_020061E4  0x020061E4  thumb
- *   func_0201FAD0  0x0201FAD0  thumb
+ *   BMP_MENU_MoveCursor  0x0201FAD0  thumb
  *
  * The menu's per-frame input step.  Field +0x33 is cleared first and holds
  * the direction that was accepted this frame (1..4).  A is a confirm: it
  * plays 0x54C and answers the selected entry's second word.  Any bit in the
  * caller-supplied cancel mask at +0x28 plays 0x551 and answers -2.  The four
- * direction bits each ask func_0201FAD0 to move the cursor with its own
+ * direction bits each ask BMP_MENU_MoveCursor to move the cursor with its own
  * sound id; a successful move records the direction at +0x33.  Every
  * direction path answers -1, and a frame with nothing pressed answers -1 as
  * well, spelled off the last mask constant so it costs no extra byte.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201FA04.c \
- *       --func func_0201FA04 --addr 0x0201FA04 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENU_ProcessInput.c \
+ *       --func BMP_MENU_ProcessInput --addr 0x0201FA04 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -49,9 +49,9 @@ struct Obj {
 
 extern u32  func_020362DC(void);
 extern void func_020061E4(u32 id);
-extern int  func_0201FAD0(struct Obj *o, u32 dir, u32 sound);
+extern int  BMP_MENU_MoveCursor(struct Obj *o, u32 dir, u32 sound);
 
-u32 func_0201FA04(struct Obj *o)
+u32 BMP_MENU_ProcessInput(struct Obj *o)
 {
     u32 keys = func_020362DC();
     u32 one = 1;
@@ -67,25 +67,25 @@ u32 func_0201FA04(struct Obj *o)
         return one - 3;
     }
     if (keys & 0x40) {
-        if (func_0201FAD0(o, 0, 0x548) == 1) {
+        if (BMP_MENU_MoveCursor(o, 0, 0x548) == 1) {
             o->last_dir = (u8)one;
         }
         return -1;
     }
     if (keys & 0x80) {
-        if (func_0201FAD0(o, one, 0x548) == 1) {
+        if (BMP_MENU_MoveCursor(o, one, 0x548) == 1) {
             o->last_dir = 2;
         }
         return -1;
     }
     if (keys & 0x20) {
-        if (func_0201FAD0(o, 2, 0x548) == 1) {
+        if (BMP_MENU_MoveCursor(o, 2, 0x548) == 1) {
             o->last_dir = 3;
         }
         return -1;
     }
     if (keys & 0x10) {
-        if (func_0201FAD0(o, 3, 0x548) == 1) {
+        if (BMP_MENU_MoveCursor(o, 3, 0x548) == 1) {
             o->last_dir = 4;
         }
         return -1;

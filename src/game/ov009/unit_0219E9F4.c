@@ -31,7 +31,7 @@
  *   OS_SPrintf  0x02084F40  arm
  *   func_0219DEE8  0x0219DEE8  arm  ov009
  *   func_0219FFD4  0x0219FFD4  arm  ov009
- *   func_0217F2BC  0x0217F2BC  arm  ov009
+ *   msleep  0x0217F2BC  arm  ov009
  *   g_021A81DC  0x021A81DC  data
  *   g_021A7C90  0x021A7C90  data
  *   g_021A8218  0x021A8218  data
@@ -176,7 +176,7 @@ extern unsigned long strlen(const char *s);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern void func_0219DEE8(char *p, int v);
 extern int func_0219FFD4(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
-extern void func_0217F2BC(unsigned int msec);
+extern void msleep(unsigned int msec);
 extern int func_0217ED38(int a);
 extern int func_021A1620(void *slist, unsigned int ip, unsigned short port, char *data, int len);
 extern int func_021A174C(void *slist, unsigned int ip, unsigned short port, int cookie);
@@ -379,7 +379,7 @@ int func_0219ED80(ServerBrowser *sb, int async, int disconnectOnComplete, unsign
     if (err != 0 || async)
         return err;
     while (sb->list.state == 3 || (sb->engine.querylist.count > 0 && err == 0)) {
-        func_0217F2BC(10);
+        msleep(10);
         err = func_0219EFD0((char *)sb);
     }
     return err;

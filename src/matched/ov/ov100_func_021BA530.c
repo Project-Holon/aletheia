@@ -12,16 +12,16 @@
  * blocker: 0x0203E590 ARM, verified EXACT with one in blocker-1.log.
  *   symbols: d_021469F0 0x021469F0 data a4
  *   extern unsigned char *d_021469F0;
- *   int func_0203E590(void) {
+ *   int GFL_NET_IRC_WIRELESS_GetRetryCountValue(void) {
  *     unsigned char *p=d_021469F0;
  *     if(p==0) return 0;
  *     return p[0x108];
  *   }
- * note 2026-10-04 (wD2 lane18): still MATCH, only unresolved relocations remain: callee func_0203D170 (veneer to 0x0203E590) still has no witness; func_0203E590 filed EXACT as src/matched/arm9/func_0203E590.c, integrator must regenerate labels/manifest so the veneer resolves.
+ * note 2026-10-04 (wD2 lane18): still MATCH, only unresolved relocations remain: callee GFL_NET_IRC_WIRELESS_GetRetryCount (veneer to 0x0203E590) still has no witness; GFL_NET_IRC_WIRELESS_GetRetryCountValue filed EXACT as src/matched/arm9/GFL_NET_IRC_WIRELESS_GetRetryCountValue.c, integrator must regenerate labels/manifest so the veneer resolves.
  * symbols:
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_0203D170 0x0203D170 arm
+ *   GFL_NET_IRC_WIRELESS_GetRetryCount 0x0203D170 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_02045374 0x02045374 arm
  *   func_02045334 0x02045334 arm
@@ -41,7 +41,7 @@ struct MsgBank;
 struct WordSet;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
-extern int func_0203D170(void);
+extern int GFL_NET_IRC_WIRELESS_GetRetryCount(void);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02045334(struct Descriptor *d);
@@ -57,7 +57,7 @@ void func_021BA530(int b,int a) {
  func_02045334((struct Descriptor *)(*(int *)(a+0x280)));
  func_0201F73C((void *)(*(int *)(a+0x280)),0,(unsigned short)(*(int *)(a+0x304)),14);
  func_02045CAC((struct MsgBank *)(*(int *)(a+0x288)),(int)b,(void *)(*(int *)(a+0x294)));
- func_0201EFA4((struct WordSet *)(*(int *)(a+0x28c)),(int)0,(int)func_0203D170(),(int)2,(int)1,(int)1);
+ func_0201EFA4((struct WordSet *)(*(int *)(a+0x28c)),(int)0,(int)GFL_NET_IRC_WIRELESS_GetRetryCount(),(int)2,(int)1,(int)1);
  func_0201F250((struct WordSet *)(*(int *)(a+0x28c)),(void *)(*(int *)(a+0x298)),(void *)(*(int *)(a+0x294)));
  func_0201C7A4(func_02045770((struct Descriptor *)(*(int *)(a+0x280))),0,2,(void *)(*(int *)(a+0x298)),(void *)(*(int *)(a+0x290)));
  func_02045334((struct Descriptor *)(*(int *)(a+0x280)));

@@ -1,5 +1,5 @@
 /*
- * function: func_02156E24
+ * function: DWC_RAPCOMMON_CreateSubHeapUnlimited
  * address:  0x02156E24
  * packet:   pkt_02155168
  * region:   ov009
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Calls func_02156E30 with a zero third argument.
+ * Calls DWC_RAPCOMMON_CreateSubHeap with a zero third argument.
  *
  * symbols:
- *   func_02156E30  0x02156E30  thumb  ov009
+ *   DWC_RAPCOMMON_CreateSubHeap  0x02156E30  thumb  ov009
  */
 
 typedef unsigned int   u32;
-extern void func_02156E30(u32 a, u32 b, u32 c, u32 d);
+extern void DWC_RAPCOMMON_CreateSubHeap(u32 a, u32 b, u32 c, u32 d);
 
-void func_02156E24(int a, int b, int c)
+void DWC_RAPCOMMON_CreateSubHeapUnlimited(int a, int b, int c)
 {
-    func_02156E30(a, b, 0, c);
+    DWC_RAPCOMMON_CreateSubHeap(a, b, 0, c);
 }
 

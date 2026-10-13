@@ -64,7 +64,7 @@
  *   func_02041EE4 0x02041EE4 arm
  *   d_021F8290 0x021F8290 data a1
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
@@ -97,35 +97,35 @@
  *   func_02061C30 0x02061C30 arm
  *   func_0204F638 0x0204F638 arm
  *   func_0204F684 0x0204F684 arm
- *   func_0204F7C4 0x0204F7C4 arm
+ *   BILLBOARD_SetElemRotZ 0x0204F7C4 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_02049030 0x02049030 arm
  *   func_0204EDD0 0x0204EDD0 arm
  *   func_02046DB8 0x02046DB8 arm
- *   func_0204EF58 0x0204EF58 arm
- *   func_0204F428 0x0204F428 arm
+ *   BILLBOARD_AddImage 0x0204EF58 arm
+ *   BILLBOARD_AddElem 0x0204F428 arm
  *   func_0204F720 0x0204F720 arm
  *   d_021F8300 0x021F8300 data a4
- *   func_0204F5A8 0x0204F5A8 arm
- *   func_0204F1A0 0x0204F1A0 arm
+ *   BILLBOARD_FreeElem 0x0204F5A8 arm
+ *   BILLBOARD_ReleaseImageVramIfUsed 0x0204F1A0 arm
  *   func_0204F604 0x0204F604 arm
  *   func_0204F2CC 0x0204F2CC arm
  *   func_0204F32C 0x0204F32C arm
- *   sub_02061CA4 0x02061CA4 arm
+ *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   func_0204A1BC 0x0204A1BC arm
  *   d_021F83B4 0x021F83B4 data a1
  *   sub_02030734 0x02030734 arm
  *   d_021F83C4 0x021F83C4 data a1
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_02019D30 0x02019D30 thumb
  *   func_02019D58 0x02019D58 thumb
- *   func_0202D09C 0x0202D09C thumb
+ *   POKEGRA_GetCbrArcIndex 0x0202D09C thumb
  *   func_0202D0D4 0x0202D0D4 thumb
- *   func_0202D110 0x0202D110 thumb
- *   func_0202D144 0x0202D144 thumb
- *   func_0202D178 0x0202D178 thumb
- *   func_0202D1AC 0x0202D1AC thumb
- *   func_0202D1E0 0x0202D1E0 thumb
+ *   POKEGRA_GetCelArcIndex 0x0202D110 thumb
+ *   POKEGRA_GetAnmArcIndex 0x0202D144 thumb
+ *   POKEGRA_GetMCelArcIndex 0x0202D178 thumb
+ *   POKEGRA_GetMAnmArcIndex 0x0202D1AC thumb
+ *   POKEGRA_GetNcecArcIndex 0x0202D1E0 thumb
  *   d_021F83D4 0x021F83D4 data a1
  *   d_02FFFC3C 0x02FFFC3C data a4
  *   func_020649D4 0x020649D4 arm
@@ -159,14 +159,14 @@
  *   func_0206469C 0x0206469C arm
  *   func_02063790 0x02063790 arm
  *   func_020637D4 0x020637D4 arm
- *   func_02049FBC 0x02049FBC arm
- *   func_0204A03C 0x0204A03C arm
- *   func_0204A0BC 0x0204A0BC arm
- *   func_0204A13C 0x0204A13C arm
+ *   ARC_UTIL_LoadCellBankFromArchive 0x02049FBC arm
+ *   ARC_UTIL_LoadMultiCellBankFromArchive 0x0204A03C arm
+ *   ARC_UTIL_LoadAnimBankFromArchive 0x0204A0BC arm
+ *   ARC_UTIL_LoadMultiAnimBankFromArchive 0x0204A13C arm
  *   func_02048F60 0x02048F60 arm
  *   func_02049DB4 0x02049DB4 arm
  *   func_02049F34 0x02049F34 arm
- *   func_020172D8 0x020172D8 thumb
+ *   MCSS_TOOL_DrawSpindaSpots 0x020172D8 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_02030EAC 0x02030EAC arm
  *   func_02063A54 0x02063A54 arm
@@ -176,11 +176,11 @@
  *   func_02017E1C 0x02017E1C thumb
  *   func_02017EAC 0x02017EAC thumb
  *   d_021F83E4 0x021F83E4 data a4
- *   func_0200C52C 0x0200C52C thumb
- *   func_0200C6D8 0x0200C6D8 thumb
- *   func_0200C6DC 0x0200C6DC thumb
- *   func_0200C5A4 0x0200C5A4 thumb
- *   func_0204913C 0x0204913C arm
+ *   MUSICAL_DIST_SAVE_Create 0x0200C52C thumb
+ *   MUSICAL_DIST_SAVE_GetPayload 0x0200C6D8 thumb
+ *   MUSICAL_DIST_SAVE_GetPayloadSize 0x0200C6DC thumb
+ *   MUSICAL_DIST_SAVE_Delete 0x0200C5A4 thumb
+ *   ARC_TOOL_CreateHandleFromMemory 0x0204913C arm
  *   func_0204A39C 0x0204A39C arm
  *   func_020493D4 0x020493D4 arm
  *   func_0204932C 0x0204932C arm
@@ -586,7 +586,7 @@ extern u8 *func_0202EE8C(u32,void *,u8,u8,u16);
 extern void func_020310C4(struct Tcbl *p);
 extern void func_02041EE4(u32,u32,u32);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -626,32 +626,32 @@ extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_02061C30(void);
 extern void func_0204F638(u8 *,int,struct Trip *);
 extern void func_0204F684(struct Manager0204F684 *,int,const s16 *,const s16 *);
-extern void func_0204F7C4(u8 *,int,u16 *);
+extern void BILLBOARD_SetElemRotZ(u8 *,int,u16 *);
 extern u32 func_02049030(u32 a);
 extern void func_0204EDD0(int,u16 *,u16 *);
 extern void *func_02046DB8(u32,u32);
 extern void func_02046EFC(struct Tagged *p);
-extern u32 func_0204EF58(struct Desc *desc, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
-extern s32_021F4C94 func_0204F428(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
+extern u32 BILLBOARD_AddImage(struct Desc *desc, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern s32_021F4C94 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
 extern void func_0204F720(void *,u32,u32 *);
-extern void func_0204F5A8(void *,u32);
-extern void func_0204F1A0(struct Obj0204F1A0 *a0, u32 a1);
+extern void BILLBOARD_FreeElem(void *,u32);
+extern void BILLBOARD_ReleaseImageVramIfUsed(struct Obj0204F1A0 *a0, u32 a1);
 extern void func_0204F604(void *,u32,u16 *);
 extern void func_0204F2CC(int p0, int p1, int p2);
 extern void func_0204F32C(int p0, int p1, int p2);
-extern s32_021F4DE0 sub_02061CA4(void *p, u32 a, u32 b, s32_021F4DE0 size);
+extern s32_021F4DE0 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32_021F4DE0 size);
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern void *sub_02030734(u32, u32, int, const char *, u16);
-extern void *func_020185F4(void *p);
+extern void *POKE_TOOL_GetBoxParam(void *p);
 extern u32 func_02019D30(u32, u32);
 extern int func_02019D58(u16 a, int b);
-extern int func_0202D09C(u32,u32,u32,u32,u32,u32,u32);
+extern int POKEGRA_GetCbrArcIndex(u32,u32,u32,u32,u32,u32,u32);
 extern int func_0202D0D4(u32,u32,u32,u32,u32,u32,u32);
-extern int func_0202D110(u32,u32,u32,u32,u32,u32,u32);
-extern int func_0202D144(u32,u32,u32,u32,u32,u32,u32);
-extern int func_0202D178(u32,u32,u32,u32,u32,u32,u32);
-extern int func_0202D1AC(u32,u32,u32,u32,u32,u32,u32);
-extern int func_0202D1E0(u32,u32,u32,u32,u32,u32,u32);
+extern int POKEGRA_GetCelArcIndex(u32,u32,u32,u32,u32,u32,u32);
+extern int POKEGRA_GetAnmArcIndex(u32,u32,u32,u32,u32,u32,u32);
+extern int POKEGRA_GetMCelArcIndex(u32,u32,u32,u32,u32,u32,u32);
+extern int POKEGRA_GetMAnmArcIndex(u32,u32,u32,u32,u32,u32,u32);
+extern int POKEGRA_GetNcecArcIndex(u32,u32,u32,u32,u32,u32,u32);
 extern void func_020649D4(char *, int);
 extern void func_0207D7C4(const Vec_021F56BC *a, const Vec_021F56BC *b, const Vec_021F56BC *c, int d, void *e);
 extern void func_0207B67C(const Mtx43 *a, Mtx43 *m);
@@ -670,14 +670,14 @@ extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
 extern void func_0206469C(void *,void *);
 extern void func_02063790(u32 *);
 extern void func_020637D4(u32 *);
-extern void *func_02049FBC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_0204A03C(u32,u32,u32,u32,u16);
-extern void *func_0204A0BC(u32,u32,u32,u32,u16);
-extern void *func_0204A13C(u32,u32,u32,u32,u16);
+extern void *ARC_UTIL_LoadCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadMultiCellBankFromArchive(u32,u32,u32,u32,u16);
+extern void *ARC_UTIL_LoadAnimBankFromArchive(u32,u32,u32,u32,u16);
+extern void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32,u32,u32,u32,u16);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void func_020172D8(u8 *,u32);
+extern void MCSS_TOOL_DrawSpindaSpots(u8 *,u32);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_02030EAC(struct Node *n);
 extern void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out);
@@ -686,14 +686,14 @@ extern int func_020648B4(u32,u32);
 extern void func_02064754(char *,char *,void *,int,void *,int);
 extern u32 func_02017E1C(void *,u32,u32);
 extern u32 func_02017EAC(void *);
-extern struct MusicalDist *func_0200C52C(void *sys, u32 heap);
-extern u32 func_0200C6D8(struct Blk2C *p);
-extern u32 func_0200C6DC(struct Blk2C *p);
-extern void *func_0204913C(void *a0, u32 a1, u32 heap);
+extern struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *sys, u32 heap);
+extern u32 MUSICAL_DIST_SAVE_GetPayload(struct Blk2C *p);
+extern u32 MUSICAL_DIST_SAVE_GetPayloadSize(struct Blk2C *p);
+extern void *ARC_TOOL_CreateHandleFromMemory(void *a0, u32 a1, u32 heap);
 extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
-extern void func_0200C5A4(struct MusicalDist *p);
+extern void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *p);
 u32 func_021F40D0(void *p,u32 i,u16 c);
 void func_021F40F4(u8 *p);
 void func_021F4280(u8 *a0);
@@ -1064,7 +1064,7 @@ void func_021F44F8(u8 *p)
     func_021F4684(d_021F82B8,6,0);
     func_021F4684(d_021F82D8,7,0);
     ((struct Obj00721 *)p)->f48=func_0204B100(8,0,((struct Obj00721 *)p)->f0);
-    func_0204B270(((struct Obj00721 *)p)->f48);
+    CLACT_SetUnitDefaultRenderer(((struct Obj00721 *)p)->f48);
     func_02043598(16,1);
     t=func_020490F4((unsigned int)46,((struct Obj00721 *)p)->f0);
     func_02049B68((void *)((u32)t),4,4,0,0,((struct Obj00721 *)p)->f0);
@@ -1312,7 +1312,7 @@ void func_021F4990(Object_021F4990 *p)
             scale.a=e->a*scale.y;
             scale.b=e->b*scale.x;
             func_0204F684((struct Manager0204F684 *)p->board,e->index,&scale.a,&scale.b);
-            func_0204F7C4(p->board,e->index,&e->angle);
+            BILLBOARD_SetElemRotZ(p->board,e->index,&e->angle);
             p->entries[i].flags.bits.dirty=0;
         }
     }
@@ -1425,7 +1425,7 @@ Entry_021F4B10 *func_021F4B88(Object_021F40D0 *p,int type,u32 id,int *v)
     p->entries[index].data=func_021F4F54(p->table,type);
     data=func_021F4F70((int *)p->entries[index].data);
     func_021F4AC8((u8 *)(&p->entries[index]),&pair.y,&pair.x);
-    p->entries[index].id=func_0204EF58(p->board,id,0,data,pair.y<<5,pair.x<<5);
+    p->entries[index].id=BILLBOARD_AddImage(p->board,id,0,data,pair.y<<5,pair.x<<5);
     p->entries[index].flags |= 16;
     func_021F4C94((Object_021F4C94 *)p, index, (int *)v, pair.y, pair.x);
     return &p->entries[index];
@@ -1457,7 +1457,7 @@ Entry_021F4B10 *func_021F4C1C(Object_021F40D0 *p, int type, u32 id, int *v)
 
 Entry_021F4C94 *func_021F4C94(Object_021F4C94 *p, u16 index, int *v, s16_021F4C94 a, s16_021F4C94 b)
 {
-    p->entries[index].index = func_0204F428(p->board,p->entries[index].id,4096,4096,(struct Vec3 *)v,31,0,0);
+    p->entries[index].index = BILLBOARD_AddElem(p->board,p->entries[index].id,4096,4096,(struct Vec3 *)v,31,0,0);
     func_0204F720(p->board,p->entries[index].index,&d_021F8300);
     p->entries[index].flags = (p->entries[index].flags & ~1) | 1;
     p->entries[index].flags |= 2;
@@ -1476,7 +1476,7 @@ Entry_021F4C94 *func_021F4C94(Object_021F4C94 *p, u16 index, int *v, s16_021F4C9
 
 
 
-void func_021F4D40(u8 *p,u8 *e) { func_0204F5A8(((struct Obj13826 *)p)->f4,((struct Obj05310 *)e)->f8); if (((Bits_021F4D40 *)e)->bit4==1) func_0204F1A0(((struct Obj13826 *)p)->f4,((struct Obj05310 *)e)->f4); ((struct Obj05310 *)e)->f0=((struct Obj05310 *)e)->f0 & ~1; ((struct Obj05310 *)e)->f0=((struct Obj05310 *)e)->f0 & ~2; }
+void func_021F4D40(u8 *p,u8 *e) { BILLBOARD_FreeElem(((struct Obj13826 *)p)->f4,((struct Obj05310 *)e)->f8); if (((Bits_021F4D40 *)e)->bit4==1) BILLBOARD_ReleaseImageVramIfUsed(((struct Obj13826 *)p)->f4,((struct Obj05310 *)e)->f4); ((struct Obj05310 *)e)->f0=((struct Obj05310 *)e)->f0 & ~1; ((struct Obj05310 *)e)->f0=((struct Obj05310 *)e)->f0 & ~2; }
 
 
 
@@ -1488,7 +1488,7 @@ void func_021F4D74(u8 *p, u8 *e, int type, u16 id)
     *(u8 * *)&((struct Obj02168 *)e)->f20 = func_021F4F54(*(u8 * *)&((struct Obj10298 *)p)->fC,type);
     ((struct Obj02168 *)e)->f0 = ((struct Obj02168 *)e)->f0 & ~8;
     func_0204F604(((struct Obj10298 *)p)->f4,((struct Obj02168 *)e)->f8,&id);
-    if (((Bits_021F4D74 *)e)->bit4 == 1) func_0204F1A0(((struct Obj10298 *)p)->f4,((struct Obj02168 *)e)->f4);
+    if (((Bits_021F4D74 *)e)->bit4 == 1) BILLBOARD_ReleaseImageVramIfUsed(((struct Obj10298 *)p)->f4,((struct Obj02168 *)e)->f4);
     ((struct Obj02168 *)e)->f0 = ((struct Obj02168 *)e)->f0 & ~16;
     ((struct Obj02168 *)e)->f4 = id;
     ((struct Obj02168 *)e)->f0 = (((struct Obj02168 *)e)->f0 & ~1) | 1;
@@ -1521,7 +1521,7 @@ void func_021F4DE0(char *p, char *e, void *a2)
     if (!((Bits_021F4DE0 *)e)->bit3) {
         func_0204F2CC((int)(*(void **)(p+4)),*(u32 *)(e+4),(int)(&first));
         func_0204F32C((int)(*(void **)(p+4)),*(u32 *)(e+4),(int)(&second));
-        sub_02061CA4((void *)1,first,(u32)(p+18),((second & 0xffff0000) >> 16) * 8);
+        NNS_GfdRegisterNewVramTransferTask((void *)1,first,(u32)(p+18),((second & 0xffff0000) >> 16) * 8);
         *(u16 *)e |= 8;
     }
 }
@@ -2093,7 +2093,7 @@ void func_021F5518(u8 *p, u32 *out, u32 k)
     u32 a, c, d, flag;
     int b;
     u32 n;
-    func_020185F4(((struct Obj04459 *)p)->f4);
+    POKE_TOOL_GetBoxParam(((struct Obj04459 *)p)->f4);
     a = ((struct Obj04459 *)p)->f8;
     n = func_02019D30(a, p[11]);
     c = p[10];
@@ -2102,13 +2102,13 @@ void func_021F5518(u8 *p, u32 *out, u32 k)
     b = func_02019D58(((struct Obj04459 *)p)->f8, (u8)n);
     if (k == 1) flag = 1;
     out[0] = 52;
-    out[1] = func_0202D09C(out[0],a,b,c,d,flag,0);
+    out[1] = POKEGRA_GetCbrArcIndex(out[0],a,b,c,d,flag,0);
     out[2] = func_0202D0D4(out[0],a,b,c,d,flag,0);
-    out[3] = func_0202D110(out[0],a,b,c,d,flag,0);
-    out[4] = func_0202D144(out[0],a,b,c,d,flag,0);
-    out[5] = func_0202D178(out[0],a,b,c,d,flag,0);
-    out[6] = func_0202D1AC(out[0],a,b,c,d,flag,0);
-    out[7] = func_0202D1E0(out[0],a,b,c,d,flag,0);
+    out[3] = POKEGRA_GetCelArcIndex(out[0],a,b,c,d,flag,0);
+    out[4] = POKEGRA_GetAnmArcIndex(out[0],a,b,c,d,flag,0);
+    out[5] = POKEGRA_GetMCelArcIndex(out[0],a,b,c,d,flag,0);
+    out[6] = POKEGRA_GetMAnmArcIndex(out[0],a,b,c,d,flag,0);
+    out[7] = POKEGRA_GetNcecArcIndex(out[0],a,b,c,d,flag,0);
     out[8] = ((struct Obj04459 *)p)->f10;
 }
 
@@ -2340,7 +2340,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   split of the sy/sx block reproduces it.
  * note (2026-10-05, wave D9r lane 22): 94 -> 0 instruction lines differ; 5 bytes left (two spill slots).
  *   (1) The 0x040004A8 word is the SDK inline G3_TexImageParam with enum parameter types, as in the
- *   matched sibling arm9 func_02014D2C (same renderer: same matrix calls, Pose switch, TexInfo record
+ *   matched sibling arm9 MCSS_Draw (same renderer: same matrix calls, Pose switch, TexInfo record
  *   at obj+0x90 with addr/s/t/fmt/pltt0 at 0/0xC/0x10/0x14/0x1C).  With it, attr spills to sp+0x5C and
  *   &pos stays in r7 across the func_021F660C calls; the frame is 0x254 and the push has no r3.
  *   (2) attr, srcs and a new ctrl (obj+0x28) are plain assignments in the order attr, ctrl, srcs (the
@@ -2369,7 +2369,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   k-loop declaration order.  The pair stays swapped in every variant, so its order is probably fixed by the
  *   colouring tie-break, not by source position of the two expressions.
  * note (2026-10-05, wave D9r lane 90): residue unchanged at 5 bytes (same slot pair).  Compared with the
- *   matched twin arm9 func_02014D2C line by line and tested new forms, each a real compile.  Same 5 bytes:
+ *   matched twin arm9 MCSS_Draw line by line and tested new forms, each a real compile.  Same 5 bytes:
  *   outer i loop as the twin's `i = 0; if (n > 0) do { } while (++i < n);`; a typed MAnim/Frame chain
  *   (`((Obj *)obj)->anim->frames[pose.id]`) instead of the raw obj+0x6C casts; the node as a 0x5C-byte
  *   struct array (`&(*nodes)[idx]`, as the twin); a frame-cells pointer local at the head; a named int
@@ -2497,7 +2497,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   or scheduling off (9 B); head chain through a named `int id = pose.id` (723 B); second rotation rz before rx (652 B);
  *   `Z * cos` operand order (5 B, same).  Also off: opt_unroll_loops, opt_vectorize_loops, opt_findoffsets (5 B).  mwcc
  *   SpillCode.c: spill cost is use count times block weight; earlier lanes' extra-use diagnostics did not move the pair, so
- *   slot order is not cost-driven.  Twin arm9 func_02014D2C re-read: no k-body pr rotation, nothing to borrow.
+ *   slot order is not cost-driven.  Twin arm9 MCSS_Draw re-read: no k-body pr rotation, nothing to borrow.
  * note (pass 2 2026-10-06 P2L09): residue unchanged at 5 bytes; the body is unchanged.  40 real compiles.
  *   Slots low to high of the triple j*8 / cos(pr) / pr (flag 0x3C in all rows unless said):
  *   - `#pragma opt_strength_reduction off`: cos 30, pr 34, j*8 38 (6 B), the same as `long j`.  So strength
@@ -2703,7 +2703,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   split of the sy/sx block reproduces it.
  * note (2026-10-05, wave D9r lane 22): 94 -> 0 instruction lines differ; 5 bytes left (two spill slots).
  *   (1) The 0x040004A8 word is the SDK inline G3_TexImageParam with enum parameter types, as in the
- *   matched sibling arm9 func_02014D2C (same renderer: same matrix calls, Pose switch, TexInfo record
+ *   matched sibling arm9 MCSS_Draw (same renderer: same matrix calls, Pose switch, TexInfo record
  *   at obj+0x90 with addr/s/t/fmt/pltt0 at 0/0xC/0x10/0x14/0x1C).  With it, attr spills to sp+0x5C and
  *   &pos stays in r7 across the func_021F660C calls; the frame is 0x254 and the push has no r3.
  *   (2) attr, srcs and a new ctrl (obj+0x28) are plain assignments in the order attr, ctrl, srcs (the
@@ -2732,7 +2732,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   k-loop declaration order.  The pair stays swapped in every variant, so its order is probably fixed by the
  *   colouring tie-break, not by source position of the two expressions.
  * note (2026-10-05, wave D9r lane 90): residue unchanged at 5 bytes (same slot pair).  Compared with the
- *   matched twin arm9 func_02014D2C line by line and tested new forms, each a real compile.  Same 5 bytes:
+ *   matched twin arm9 MCSS_Draw line by line and tested new forms, each a real compile.  Same 5 bytes:
  *   outer i loop as the twin's `i = 0; if (n > 0) do { } while (++i < n);`; a typed MAnim/Frame chain
  *   (`((Obj *)obj)->anim->frames[pose.id]`) instead of the raw obj+0x6C casts; the node as a 0x5C-byte
  *   struct array (`&(*nodes)[idx]`, as the twin); a frame-cells pointer local at the head; a named int
@@ -2860,7 +2860,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   or scheduling off (9 B); head chain through a named `int id = pose.id` (723 B); second rotation rz before rx (652 B);
  *   `Z * cos` operand order (5 B, same).  Also off: opt_unroll_loops, opt_vectorize_loops, opt_findoffsets (5 B).  mwcc
  *   SpillCode.c: spill cost is use count times block weight; earlier lanes' extra-use diagnostics did not move the pair, so
- *   slot order is not cost-driven.  Twin arm9 func_02014D2C re-read: no k-body pr rotation, nothing to borrow.
+ *   slot order is not cost-driven.  Twin arm9 MCSS_Draw re-read: no k-body pr rotation, nothing to borrow.
  * note (pass 2 2026-10-06 P2L09): residue unchanged at 5 bytes; the body is unchanged.  40 real compiles.
  *   Slots low to high of the triple j*8 / cos(pr) / pr (flag 0x3C in all rows unless said):
  *   - `#pragma opt_strength_reduction off`: cos 30, pr 34, j*8 38 (6 B), the same as `long j`.  So strength
@@ -3359,10 +3359,10 @@ void func_021F63B8(u8 *a,int index,u32 *res,u32 mode)
     ((struct Obj00722 *)q)->fEC |= 4;
     func_02063790((u32 *)(q+144));
     func_020637D4((u32 *)(q+180));
-    ((struct Obj00722 *)q)->f0=func_02049FBC(res[0],res[3],0,(u32)(q+4),((struct Obj00722 *)q)->fF4);
-    ((struct Obj00722 *)q)->f10=func_0204A03C(res[0],res[4],1,(u32)(q+20),((struct Obj00722 *)q)->fF4);
-    ((struct Obj00722 *)q)->f8=func_0204A0BC(res[0],res[5],0,(u32)(q+12),((struct Obj00722 *)q)->fF4);
-    ((struct Obj00722 *)q)->f18=func_0204A13C(res[0],res[6],0,(u32)(q+28),((struct Obj00722 *)q)->fF4);
+    ((struct Obj00722 *)q)->f0=ARC_UTIL_LoadCellBankFromArchive(res[0],res[3],0,(u32)(q+4),((struct Obj00722 *)q)->fF4);
+    ((struct Obj00722 *)q)->f10=ARC_UTIL_LoadMultiCellBankFromArchive(res[0],res[4],1,(u32)(q+20),((struct Obj00722 *)q)->fF4);
+    ((struct Obj00722 *)q)->f8=ARC_UTIL_LoadAnimBankFromArchive(res[0],res[5],0,(u32)(q+12),((struct Obj00722 *)q)->fF4);
+    ((struct Obj00722 *)q)->f18=ARC_UTIL_LoadMultiAnimBankFromArchive(res[0],res[6],0,(u32)(q+28),((struct Obj00722 *)q)->fF4);
     sequence=func_020627D8(*(struct AnimBank * *)&((struct Obj00722 *)q)->f1C,0);
     func_021F659C((char *)q,1);
     func_0206469C((struct Obj0206469C *)(q+40),sequence);
@@ -3377,7 +3377,7 @@ void func_021F63B8(u8 *a,int index,u32 *res,u32 mode)
     job[8]=q;
     job[4]=func_02049DB4(res[0],res[1],1,(u32)job,((struct Obj00722 *)q)->fF4);
     job[5]=func_02049F34(res[0],res[2],(u32)(job+1),(u16)(((struct Obj00722 *)q)->fF4));
-    if(res[7]==6548) func_020172D8(*(u8 * *)&((struct Obj22551 *)((u8 *)job[0]))->f14,res[8]);
+    if(res[7]==6548) MCSS_TOOL_DrawSpindaSpots(*(u8 * *)&((struct Obj22551 *)((u8 *)job[0]))->f14,res[8]);
     if(mode==1) func_020056A0((u32)func_021F6540,(u32)job,0);
     else func_021F6540(0,job);
 }
@@ -3484,8 +3484,8 @@ void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap)
     u8 *q;
     *p = kind;
     if (kind >= 4) {
-        x = func_0200C52C(sys, heap);
-        arc = func_0204913C((void *)func_0200C6D8(x), func_0200C6DC(x), (u16)((heap & 0x7fff) | 0x8000));
+        x = MUSICAL_DIST_SAVE_Create(sys, heap);
+        arc = ARC_TOOL_CreateHandleFromMemory((void *)MUSICAL_DIST_SAVE_GetPayload(x), MUSICAL_DIST_SAVE_GetPayloadSize(x), (u16)((heap & 0x7fff) | 0x8000));
     } else {
         arc = func_020490F4(kind + 0x6f, (u16)((heap & 0x7fff) | 0x8000));
     }
@@ -3508,5 +3508,5 @@ void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap)
     func_0204932C(arc, 3, *(void **)(p + 0x18));
     func_0204932C(arc, 5, *(void **)(p + 0x1c));
     func_02049238(arc);
-    if (kind >= 4) func_0200C5A4(x);
+    if (kind >= 4) MUSICAL_DIST_SAVE_Delete(x);
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021EC338 0x021EC338 thumb
- *   func_0201BBE8 0x0201BBE8 thumb
+ *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   func_021EC428 0x021EC428 thumb
  *   func_020307B0 0x020307B0 arm
  *
@@ -20,7 +20,7 @@
 #include "../include/Obj24003.h"
 
 extern void *func_021EC338(char *p, void *b, void *c);
-extern int func_0201BBE8(void *a);
+extern int POKE_TOOL_GetIconPalette(void *a);
 extern void func_021EC428(char *w, int a, int i, int b);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -31,6 +31,6 @@ void func_021EC45C(unsigned char *p, void *a, int i)
 {
     void *d;
     void *res = func_021EC338(WORK(p), a, &d);
-    func_021EC428(WORK(p), ((struct Obj24003 *)d)->f14, i, func_0201BBE8(a));
+    func_021EC428(WORK(p), ((struct Obj24003 *)d)->f14, i, POKE_TOOL_GetIconPalette(a));
     func_020307B0(res);
 }

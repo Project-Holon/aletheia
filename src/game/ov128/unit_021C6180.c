@@ -40,13 +40,13 @@
  *   func_02045838 0x02045838 arm
  *   func_0201283C 0x0201283C thumb
  *   func_02009860 0x02009860 thumb
- *   func_0205994C 0x0205994C arm
+ *   DWC_CreateFriendKey 0x0205994C arm
  *   func_02009A1C 0x02009A1C thumb
  *   func_021CA014 0x021CA014 thumb ov128
  *   func_02059354 0x02059354 arm
  *   func_0200F43C 0x0200F43C thumb
  *   func_020099C8 0x020099C8 thumb
- *   func_02059980 0x02059980 arm
+ *   DWC_CreateFriendKeyToken 0x02059980 arm
  *   func_02009A00 0x02009A00 thumb
  *   func_02009918 0x02009918 thumb
  *   func_02009864 0x02009864 thumb
@@ -83,7 +83,7 @@
  *   func_0203F9B4  0x0203F9B4  arm
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_0204B034 0x0204B034 arm
  *   func_0204B258 0x0204B258 arm
  *   func_0204A6C8 0x0204A6C8 arm
@@ -159,7 +159,7 @@
  *   func_021CA19C 0x021CA19C thumb ov128
  *   func_0202208C 0x0202208C thumb
  *   func_020221A4 0x020221A4 thumb
- *   func_0202EA40 0x0202EA40 thumb
+ *   BLINK_PALANM_Update 0x0202EA40 thumb
  *   func_0204B98C 0x0204B98C arm
  *   d_021CA4F9 0x021CA4F9 data a1
  *   func_02012944 0x02012944 thumb
@@ -174,7 +174,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_0203633C 0x0203633C arm
  *   func_020061E4 0x020061E4 thumb
- *   func_0202EB04 0x0202EB04 thumb
+ *   BLINK_PALANM_ResetPhase 0x0202EB04 thumb
  *   func_021CA154 0x021CA154 thumb ov128
  *   func_021CA184 0x021CA184 thumb ov128
  *   d_021CA58A 0x021CA58A data a1
@@ -207,26 +207,27 @@
  *   d_021CA7C0 0x021CA7C0 data a4
  *   cb_021CA7C0 0x021CA7C0 data a4
  *   func_0201C6B4 0x0201C6B4 thumb
- *   func_020598C4 0x020598C4 arm
+ *   DWC_GetFriendKey 0x020598C4 arm
  *   d_021CA68C 0x021CA68C data a4
  *   func_021CA2DC 0x021CA2DC thumb ov128
  *   func_021CA42C 0x021CA42C thumb ov128
  *   func_0204B404 0x0204B404 arm
  *   d_021CA6C8 0x021CA6C8 data a2
- *   func_0204B8F4 0x0204B8F4 arm
+ *   CLACT_GetActorAnimFrame 0x0204B8F4 arm
  *   func_021C41BC 0x021C41BC thumb ov127
  *   func_021C40BC 0x021C40BC thumb ov127
  *   func_021C42A8 0x021C42A8 thumb ov127
- *   func_02031324 0x02031324 arm
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Create 0x02031324 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   func_0203133C 0x0203133C arm
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   func_021C8DA0 0x021C8DA0 thumb ov128
  *   func_0216C0C0 0x0216C0C0 thumb ov010
  *   id194 0x000000C2 data
  *   id129 0x00000081 data
  *   d_021F5580 0x021F5580 data ov194 a4
  *   d_021DA62C 0x021DA62C data ov129 a4
+ *   CODEIN_PARAM_Create  0x0202E4EC  thumb  arm9
  */
 #include "../../matched/include/Obj06476.h"
 #include "../../matched/include/Obj03279.h"
@@ -420,13 +421,13 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 extern u32 func_0201283C(const struct BigObj *p);
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
-extern unsigned long long func_0205994C(struct DWCstAccUserData *userdata);
+extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 extern int func_02009A1C(struct Sub020097BCObj *obj, u32 i);
 extern u64 func_021CA014(void *,int *);
 extern int func_02059354(void *,u32,u32);
 extern int func_0200F43C(void *,u32,u32,int *);
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
-extern void func_02059980(void *,u32,u32);
+extern void DWC_CreateFriendKeyToken(void *,u32,u32);
 extern void func_02009A00(struct Sub020097BCObj *obj, int i, void *dest);
 extern void func_02009918(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value);
 extern int func_02009864(const struct Sub020097BCObj *obj, int i, int field);
@@ -460,7 +461,7 @@ extern void func_020403F4(u32 i);
 extern void func_0203F9B4(void);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
 extern void func_0204B258(struct Bank *bank, void *p);
 extern int func_0204A6C8(void *,u32,u32,u32,u32);
@@ -528,7 +529,7 @@ extern int func_021CA084(int *p);
 extern void func_021CA19C(unsigned *p);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern u32 func_020221A4(void);
-extern s32 func_0202EA40(struct Row *p);
+extern s32 BLINK_PALANM_Update(struct Row *p);
 extern u32 func_0204B98C(struct Actor *a);
 extern u8 *func_02012944(void *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -542,7 +543,7 @@ extern void func_021CA16C(u8 *,int);
 extern u32 func_020362DC(void);
 extern u32 func_0203633C(void);
 extern void func_020061E4(u32 a);
-extern void func_0202EB04(struct CodeIn *p);
+extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 extern void func_021CA154(u8 *, int);
 extern void func_021CA184(u8 *, int, int);
 extern int func_02035C08(const void *p);
@@ -568,20 +569,20 @@ extern void func_021CA294(u8 *p, int a);
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_0204B09C(void *, int, Pair *);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
-extern unsigned long long func_020598C4(void *);
+extern unsigned long long DWC_GetFriendKey(void *);
 extern void func_021CA2DC(char *p);
 extern void func_021CA42C(char *);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern u32 func_0204B8F4(struct Obj *);
+extern u32 CLACT_GetActorAnimFrame(struct Obj *);
 extern void func_021C41BC(u8 *p);
 extern void *func_021C40BC(void *, s16 *, int, u32);
 extern void func_021C42A8(struct obj *p, int idx, int a);
-extern void *func_02031324(int);
-extern u32 func_02031330(void *);
+extern void *PROCSYS_Create(int);
+extern u32 PROCSYS_Main(void *);
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_02031348(void *, u32, void *, void *);
+extern void PROCSYS_Push(void *, u32, void *, void *);
 extern char *func_021C8DA0(void *unused, char *q, int mode, int heap);
-extern struct Param *func_0202E4EC(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
+extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
 extern void func_0202E54C(struct Obj0202E54C *p);
 extern int func_0216C0C0(int a0);
 int func_021C6180(void *p,int unused,void *q);
@@ -873,14 +874,14 @@ int func_021C6460(char *p,void *q,u32 arg)
     u64 old,id;
     int valid,result;
     v=(void *)func_0201283C(((struct Obj23065 *)p)->f4);
-    old=func_0205994C((struct DWCstAccUserData *)func_02009860(v));
+    old=DWC_CreateFriendKey((struct DWCstAccUserData *)func_02009860(v));
     for(i=0;i<32;i++) {
         if(func_02009A1C(v,i)==0) {
             id=func_021CA014(q,&valid);
             if(valid==1 && id!=old) {
             if(func_02059354(func_02009860(v),(u32)id,(u32)(id>>32))==0) return 1;
             if(func_0200F43C(v,(u32)id,(u32)(id>>32),&result)==0) return 2;
-            func_02059980(func_020099C8(v,i),(u32)id,(u32)(id>>32));
+            DWC_CreateFriendKeyToken(func_020099C8(v,i),(u32)id,(u32)(id>>32));
             func_02009A00(v,i,(void *)arg);
             func_02009918(v,i,9,2);
             return 0;
@@ -1052,7 +1053,7 @@ void func_021C67A8(char *p,int heap)
     func_0204A48C((const struct Cfg *)(&config),(u32)d_021CA5CC,heap);
     bank=func_0204B100(32,0,heap);
     ((struct Obj01936 *)p)->f138=bank;
-    func_0204B270(bank);
+    CLACT_SetUnitDefaultRenderer(bank);
     ((struct Obj01936 *)p)->f140=func_0204B034(d_021CA7D0,1,heap);
     bank=func_0204B100(18,1,heap);
     ((struct Obj01936 *)p)->f13C=bank;
@@ -1431,7 +1432,7 @@ int func_021C6EC0(u8 *p, u8 *q, u8 *ctx, int heap)
         q[8]=3;
         break;
     case 3:
-        func_0202EA40(*(void **)(ctx+0x184));
+        BLINK_PALANM_Update(*(void **)(ctx+0x184));
         result=func_021C74C4((int *)p,(int *)q,ctx);
         if(result!=0) {
             if(*(u32 *)p==3) func_021CA3A0((char *)ctx);
@@ -1662,7 +1663,7 @@ int func_021C734C(u32 *p, int *q, u8 *ctx)
     }
     if (func_020362DC() & 1) {
         func_020061E4(0x54c);
-        func_0202EB04(((struct Obj00329 *)ctx)->f184);
+        BLINK_PALANM_ResetPhase(((struct Obj00329 *)ctx)->f184);
         return 1;
     }
     if (func_0203633C() & 64) {
@@ -1870,21 +1871,21 @@ int func_021C76F8(u8 *p,u8 *q,u8 *ctx,u16 heap)
         q[8]=2;
         break;
     case 2:
-        func_0202EA40(((struct Obj03809 *)ctx)->f184);
-        func_0202EA40(((struct Obj03809 *)ctx)->f188);
+        BLINK_PALANM_Update(((struct Obj03809 *)ctx)->f184);
+        BLINK_PALANM_Update(((struct Obj03809 *)ctx)->f188);
         switch(func_021C81C8((s16 *)p,q,ctx)) {
         case 0: break;
         case 1:
             func_021C8668(p,q,2);
             func_021CA40C((char *)p,((struct Obj00179 *)p)->f0);
-            func_0202EB04(((struct Obj03809 *)ctx)->f188);
-            func_0202EA40(((struct Obj03809 *)ctx)->f188);
+            BLINK_PALANM_ResetPhase(((struct Obj03809 *)ctx)->f188);
+            BLINK_PALANM_Update(((struct Obj03809 *)ctx)->f188);
             break;
         case 2:
             func_021C8668(p,q,3);
             func_021CA40C((char *)p,((struct Obj00179 *)p)->f0);
-            func_0202EB04(((struct Obj03809 *)ctx)->f188);
-            func_0202EA40(((struct Obj03809 *)ctx)->f188);
+            BLINK_PALANM_ResetPhase(((struct Obj03809 *)ctx)->f188);
+            BLINK_PALANM_Update(((struct Obj03809 *)ctx)->f188);
             break;
         case 3: q[8]=25; break;
         case 4: q[8]=26; break;
@@ -2322,7 +2323,7 @@ int func_021C8354(u8 *p,u8 *q) {if(func_0201C6B4(*(const struct PrintSys * *)&((
 
 
 
-unsigned long long func_021C8388(s16 *p,u8 *q) {u32 base;base=func_0201283C(*(const struct BigObj * *)&((struct Obj10485 *)q)->f4);return func_020598C4(func_020099C8((struct Sub020097BCObj *)base,*(u8 *)(q+24+func_021C87A0(p))));}
+unsigned long long func_021C8388(s16 *p,u8 *q) {u32 base;base=func_0201283C(*(const struct BigObj * *)&((struct Obj10485 *)q)->f4);return DWC_GetFriendKey(func_020099C8((struct Sub020097BCObj *)base,*(u8 *)(q+24+func_021C87A0(p))));}
 
 
 
@@ -2567,7 +2568,7 @@ void func_021C87B0(u8 *p, u8 *a1)
 
 
 
-int func_021C8850(u8 *p, u8 *a1) {u32 n;if(func_0204B98C(*(struct Actor * *)&((struct Obj00179 *)p)->f1A0)==0)return 1;n=func_0204B8F4(*(struct Obj * *)&((struct Obj00179 *)p)->f1A0);if(n-((struct Obj00179 *)p)->f1A8>=2) ((struct Obj00179 *)p)->f1A8=n;return 0;}
+int func_021C8850(u8 *p, u8 *a1) {u32 n;if(func_0204B98C(*(struct Actor * *)&((struct Obj00179 *)p)->f1A0)==0)return 1;n=CLACT_GetActorAnimFrame(*(struct Obj * *)&((struct Obj00179 *)p)->f1A0);if(n-((struct Obj00179 *)p)->f1A8>=2) ((struct Obj00179 *)p)->f1A8=n;return 0;}
 
 
 
@@ -2731,16 +2732,16 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, u16 heap)
         func_02034A5C((u32)id67);
         p[1] = func_021C8DA0(p, (char *)b, 1, heap);
         sizes[0] = 4; sizes[1] = 4; sizes[2] = 4;
-        p[2] = func_0202E4EC(heap, 0, 0, 12, sizes);
+        p[2] = CODEIN_PARAM_Create(heap, 0, 0, 12, sizes);
         func_021C6390(a);
-        p[0] = func_02031324(heap);
-        func_02031348(p[0], (u32)id194, d_021F5580, p[1]);
+        p[0] = PROCSYS_Create(heap);
+        PROCSYS_Push(p[0], (u32)id194, d_021F5580, p[1]);
         b[8] = 1;
         break;
     case 1:
-        if (func_02031330(p[0]) == 0) {
+        if (PROCSYS_Main(p[0]) == 0) {
             if (((struct Obj23097 *)((u8 *)p[1]))->f1C == 0) {
-                func_02031348(p[0], (u32)id129, d_021DA62C, p[2]);
+                PROCSYS_Push(p[0], (u32)id129, d_021DA62C, p[2]);
                 b[8] = 2;
             } else {
                 func_0203133C(p[0]);
@@ -2750,7 +2751,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, u16 heap)
         }
         break;
     case 2:
-        if (func_02031330(p[0]) == 0) {
+        if (PROCSYS_Main(p[0]) == 0) {
             func_0203133C(p[0]);
             func_021C6440(b, ((struct Obj23098 *)((u8 *)p[1]))->f20, ((struct Obj23099 *)((u8 *)p[2]))->f20);
             func_021C6438(b, 0, 7);
@@ -2767,12 +2768,12 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, u16 heap)
         func_02034A5C((u32)id67);
         p[1] = func_021C8DA0(p, (char *)b, 0, heap);
         func_021C6390(a);
-        p[0] = func_02031324(heap);
-        func_02031348(p[0], (u32)id194, d_021F5580, p[1]);
+        p[0] = PROCSYS_Create(heap);
+        PROCSYS_Push(p[0], (u32)id194, d_021F5580, p[1]);
         b[8] = 5;
         break;
     case 5:
-        if (func_02031330(p[0]) == 0) {
+        if (PROCSYS_Main(p[0]) == 0) {
             func_0203133C(p[0]);
             *(int *)b = func_020355C4();
             if (((struct Obj23100 *)((u8 *)p[1]))->f1C == 0) {

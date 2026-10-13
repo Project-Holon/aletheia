@@ -1,5 +1,5 @@
 /*
- * function: func_021CDBB8
+ * function: DWCi_SceneSetUsbCompleteNop
  * address:  0x021CDBB8
  * packet:   pkt_021CC0E4
  * region:   ov016
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CDBB8   0x021CDBB8  arm
+ *   DWCi_SceneSetUsbCompleteNop   0x021CDBB8  arm
  *
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CDBB8.c \
- *       --func func_021CDBB8 --addr 0x021CDBB8 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetUsbCompleteNop.c \
+ *       --func DWCi_SceneSetUsbCompleteNop --addr 0x021CDBB8 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void func_021CDBB8(void)
+void DWCi_SceneSetUsbCompleteNop(void)
 {
 }

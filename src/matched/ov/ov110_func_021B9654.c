@@ -9,23 +9,23 @@
  * status: EXACT
  * blocker: ARM9 0x02024148, unresolved Thumb code witness; the integrator owns.
  *   Verified EXACT in scratch b24148-r1.log:
- *   void *func_02024148(char *p){return *(void **)(p+8);}
+ *   void *PMSI_PARAM_GetSaveWork(char *p){return *(void **)(p+8);}
  * symbols:
- *   func_02024148 0x02024148 thumb
+ *   PMSI_PARAM_GetSaveWork 0x02024148 thumb
  *   func_0200D064 0x0200D064 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Blk37;
-extern void *func_02024148(char *p);
+extern void *PMSI_PARAM_GetSaveWork(char *p);
 extern u32 func_0200D064(struct Blk37 *p, u16 id);
 u32 func_021B9654(u8 *p,const u16 *ids,u32 count,u16 *out)
 {
     void *save;
     u32 n;
     u32 i;
-    save=func_02024148(*(void **)p);
+    save=PMSI_PARAM_GetSaveWork(*(void **)p);
     n=0;
     for(i=0;i<count;i++){
         if(func_0200D064(save,ids[i])){

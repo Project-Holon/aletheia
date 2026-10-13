@@ -1,5 +1,5 @@
 /*
- * function: func_02156B8C
+ * function: DWC_RAP_GetNewClientAid
  * address:  0x02156B8C
  * packet:   pkt_02156B8C
  * region:   ov009
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern int g_021A8264;
 
-int func_02156B8C(void)
+int DWC_RAP_GetNewClientAid(void)
 {
     int *p = (int *)g_021A8264;
 

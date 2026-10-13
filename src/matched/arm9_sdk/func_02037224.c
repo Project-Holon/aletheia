@@ -1,5 +1,5 @@
 /*
- * function: func_02037224
+ * function: GFL_NET_SYSTEM_SetDebugByte
  * address:  0x02037224
  * packet:   pkt_02037224
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 
 extern u8 d_020A7A20;
 
-void func_02037224(u8 v, int b)
+void GFL_NET_SYSTEM_SetDebugByte(u8 v, int b)
 {
     d_020A7A20 = v;
 }

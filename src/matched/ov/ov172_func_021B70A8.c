@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0207C778 0x0207C778 arm
+ *   FX_Inv 0x0207C778 arm
  *   func_0207D59C 0x0207D59C arm
  *   func_020307B0 0x020307B0 arm
  *   func_021BE100 0x021BE100 thumb ov172
@@ -16,7 +16,7 @@
  *   func_020306F0 0x020306F0 arm
  */
 #include "../include/Obj04550.h"
-extern int func_0207C778(int);
+extern int FX_Inv(int);
 extern void func_0207D59C(void *, int *, int, int, int, int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -26,8 +26,8 @@ extern void func_020306F0(unsigned int);
 void func_021B70A8(int unused, char *q)
 {
     int matrix[4];
-    matrix[0] = func_0207C778(4096);
-    matrix[3] = func_0207C778(4096);
+    matrix[0] = FX_Inv(4096);
+    matrix[3] = FX_Inv(4096);
     matrix[1] = 0;
     matrix[2] = 0;
     func_0207D59C((void *)0x04000030, matrix, 0, 0, 0, 0);

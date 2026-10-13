@@ -1,8 +1,8 @@
 /*
  * file:     ircbattlemenu.c
  * unit:     yes
- * function: func_0219728C, func_021973A0, func_0219749C, func_021974A0, func_02197534, func_021975D0, func_02197644, func_02197700, func_02197738, func_02197798, func_021977C0, func_02197800, func_021978AC, func_021978D4, func_021978DC, func_02197AAC, func_02197B5C, func_02197C4C, func_02197C78, func_02197C9C, func_02197CCC, func_02197D3C, func_02197DA0, func_02197DAC, func_02197DCC, func_02197DE8, func_02197DF4, func_02197E10, func_02197E28, func_02197E44, func_02197E78, func_02197E7C, func_02197EB4, func_02197EDC, func_02197F20, func_02197F5C, func_02197F6C, func_02197F90, func_02197F9C, func_02197FA8, func_02197FB4, func_02197FC0, func_0219800C, func_02198060, func_02198074, func_02198088, func_0219809C, func_021980B0, func_021980C4, func_021980DC, func_021980F0, func_02198104, func_0219811C, func_02198134, func_02198148, func_0219815C, func_02198170, func_02198184, func_02198198, func_021981AC, func_021981C4, func_021981DC, func_021981F0, func_02198208, func_0219821C, func_02198234, func_02198248, func_02198260, func_02198278, func_02198290, func_021982A4, func_021982BC, func_021982D4, func_021982EC, func_02198300, func_02198318, func_0219834C, func_02198380, func_02198390, func_021983A0, func_021983B0, func_021983C0, func_021983D0, func_021983E0, func_021983F0, func_02198400, func_02198410, func_02198420, func_02198430, func_02198440, func_02198450, func_02198460, func_02198470, func_02198480, func_02198490, func_021984A0, func_021984B0, func_021984C0, func_0219852C, func_02198550, func_0219862C, func_02198650, func_02198674, func_02198694, func_021986B8, func_021986D8, func_021986F8, func_02198718, func_02198738, func_02198758, func_0219877C, func_021987A0, func_021987C0, func_021987E0, func_02198804, func_02198824, func_02198848, func_02198868, func_02198888, func_021988AC, func_021988D0, func_021988F4, func_02198918, func_0219893C, func_02198960, func_02198978, func_02198998, func_021989A4, func_021989B0, func_021989BC, func_021989C8, func_021989D4, func_021989E0, func_021989EC, func_02198A10, func_02198A58, func_02198A8C, func_02198AD4, func_02198AE8, func_02198AFC, func_02198B10, func_02198B24, func_02198B38, func_02198B4C, func_02198B80, func_02198BA8, func_02198BB8, func_02198BC8, func_02198BD8, func_02198BE8, func_02198BF8, func_02198C08, func_02198C4C, func_02198CA4, func_02198CB4, func_02198CC4, func_02198CD4, func_02198CE4, func_02198CF4, func_02198D04, func_02198D14
- * address:  0x0219728C
+ * function: func_02196030, func_02196034, func_0219603C, func_021961A4, func_02196228, func_02196290, func_021962C4, func_021962F4, func_0219630C, func_02196454, func_0219649C, func_021964B0, func_02196538, func_021966B0, func_021966F0, func_02196768, func_021967BC, func_02196804, func_0219686C, func_021968D8, func_021968DC, func_02196944, func_02196974, func_02196A4C, func_02196A60, func_02196ACC, func_02196B24, func_02196B28, func_02196B7C, func_02196B90, func_02196B94, func_02196BF8, func_02196C68, func_02196CD8, func_02196D20, func_02196D24, func_02196D88, func_02196D94, func_02196E04, func_02196E70, func_02196EC8, func_02196ECC, func_02196F44, func_02196FF0, func_02196FFC, func_02197058, func_0219707C, func_02197190, func_0219728C, func_021973A0, func_0219749C, func_021974A0, func_02197534, func_021975D0, func_02197644, func_02197700, func_02197738, func_02197798, func_021977C0, func_02197800, func_021978AC, func_021978D4, func_021978DC, func_02197AAC, func_02197B5C, func_0219728C, func_021973A0, func_0219749C, func_021974A0, func_02197534, func_021975D0, func_02197644, func_02197700, func_02197738, func_02197798, func_021977C0, func_02197800, func_021978AC, func_021978D4, func_021978DC, func_02197AAC, func_02197B5C
+ * address:  0x02196030
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,62 +13,141 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_020307B0  0x020307B0  arm
+ *   func_020490F4  0x020490F4  arm
+ *   func_02049238  0x02049238  arm  arm9
+ *   func_02082D44  0x02082D44  arm  arm9
+ *   func_020409B4  0x020409B4  arm
+ *   func_020452E8  0x020452E8  arm
+ *   func_020450F0  0x020450F0  arm
+ *   func_02045770  0x02045770  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_02045334  0x02045334  arm
+ *   func_020414EC  0x020414EC  arm
+ *   func_02049B40  0x02049B40  arm
+ *   DC_FlushRange  0x020862F0  arm
+ *   func_02041300  0x02041300  arm
+ *   func_02045374  0x02045374  arm
+ *   func_020456F8  0x020456F8  arm
+ *   func_0203FCA0  0x0203FCA0  arm
+ *   func_020414AC  0x020414AC  arm
+ *   func_02040588  0x02040588  arm
+ *   func_02040C14  0x02040C14  arm
+ *   d_021D40A0     0x021D40A0  data  ov021  a4
+ *   d_021D40C0     0x021D40C0  data  ov021  a4
+ *   d_021D40E0     0x021D40E0  data  ov021  a4
+ *   d_021D4100     0x021D4100  data  ov021  a4
+ *   d_021D4120     0x021D4120  data  ov021  a4
+ *   d_021D4140     0x021D4140  data  ov021  a4
+ *   func_02021518  0x02021518  thumb
+ *   func_0202155C  0x0202155C  thumb
+ *   func_020216D4  0x020216D4  thumb
+ *   func_02021FD8  0x02021FD8  thumb
+ *   func_02021730  0x02021730  thumb
+ *   func_020215A0  0x020215A0  thumb
+ *   func_02021540  0x02021540  thumb
+ *   func_0207E5D0  0x0207E5D0  arm
+ *   func_0207E468  0x0207E468  arm
+ *   func_0202F038  0x0202F038  thumb
+ *   func_0202EE8C  0x0202EE8C  thumb
+ *   func_0201F7A8  0x0201F7A8  thumb
+ *   func_02041B6C  0x02041B6C  arm
+ *   func_0201DD78  0x0201DD78  thumb
+ *   func_02045CAC  0x02045CAC  arm
+ *   func_0201D304  0x0201D304  thumb
+ *   func_0201D42C  0x0201D42C  thumb
+ *   func_0201C7A4  0x0201C7A4  thumb
+ *   func_02051C6C  0x02051C6C  arm
+ *   func_020457B0  0x020457B0  arm
+ *   func_0201D7EC  0x0201D7EC  thumb
+ *   func_02045B38  0x02045B38  arm
+ *   func_02049B68  0x02049B68  arm
+ *   func_02049740  0x02049740  arm
+ *   func_02049990  0x02049990  arm
+ *   func_02049F78  0x02049F78  arm
+ *   func_0201F5DC  0x0201F5DC  thumb
+ *   d_021DDAD4     0x021DDAD4  data  ov021  a2
+ *   func_02051B84  0x02051B84  arm
+ *   d_021D4070     0x021D4070  data  a4
+ *   d_021D4014     0x021D4014  data  a4
+ *   d_021D4024     0x021D4024  data  a4
+ *   d_021D404C     0x021D404C  data  a4
+ *   d_021DDB84     0x021DDB84  data  a4
+ *   func_0201DD68  0x0201DD68  thumb
+ *   func_02040DA8  0x02040DA8  arm
+ *   func_0203FB44  0x0203FB44  arm
+ *   func_020403F4  0x020403F4  arm
+ *   func_02045C04  0x02045C04  arm
+ *   func_0201D83C  0x0201D83C  thumb
+ *   func_02045808  0x02045808  arm
+ *   func_020221A4  0x020221A4  thumb
+ *   func_02155A90  0x02155A90  thumb  ov010
+ *   func_02012138  0x02012138  thumb
+ *   func_02026454  0x02026454  thumb
+ *   func_0202208C  0x0202208C  thumb
+ *   func_02026400  0x02026400  thumb
+ *   func_02155A94  0x02155A94  thumb  ov010
+ *   func_0200873C  0x0200873C  thumb
+ *   func_02008428  0x02008428  thumb
+ *   func_0204B92C  0x0204B92C  arm
+ *   func_0204BA00  0x0204BA00  arm
+ *   func_0204B9A0  0x0204B9A0  arm
+ *   func_02035C60  0x02035C60  arm
+ *   func_020061E4  0x020061E4  thumb
+ *   func_02012934  0x02012934  thumb
+ *   func_0201AA1C  0x0201AA1C  thumb
+ *   func_02051C88  0x02051C88  arm
+ *   d_021D3FE0     0x021D3FE0  data  ov021  a4
+ *   d_021D3FF4     0x021D3FF4  data  ov021  a4
+ *   d_021DDAF4     0x021DDAF4  data  ov021  a4
+ *   func_0200BAC8  0x0200BAC8  thumb
+ *   func_0200BBA8  0x0200BBA8  thumb
+ *   d_021D4080     0x021D4080  data  ov021  a4
+ *   d_021D4034     0x021D4034  data  ov021  a4
+ *   d_021DDB44     0x021DDB44  data  ov021  a4
+ *   d_021D3F9C     0x021D3F9C  data  ov021  a1
+ *   d_021D3FD8     0x021D3FD8  data  ov021  a4
+ *   d_021D4004     0x021D4004  data  ov021  a4
+ *   func_0204A6C8  0x0204A6C8  arm
+ *   func_0204AC18  0x0204AC18  arm
+ *   func_0204AF28  0x0204AF28  arm
+ *   func_0204B3B4  0x0204B3B4  arm
+ *   func_0204B294  0x0204B294  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_0204B688  0x0204B688  arm
+ *   d_021D3FC8     0x021D3FC8  data  ov021  a1
+ *   d_021D3FB0     0x021D3FB0  data  ov021  a1
+ *   d_021D3FA8     0x021D3FA8  data  ov021  a1
+ *   d_021D3FA0     0x021D3FA0  data   a1
+ *   d_021D3F8C     0x021D3F8C  data   a1
+ *   d_021D3F94     0x021D3F94  data   a1
  *   d_021D3FC0     0x021D3FC0  data   a1
  *   d_021D3FD0     0x021D3FD0  data   a1
  *   d_021D3FB8     0x021D3FB8  data   a1
- *   func_02197058  0x02197058  thumb  ov021
- *   func_0204B294  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B688  0x0204B688  arm
  *   d_021D3F98     0x021D3F98  data   a1
  *   d_021D3FA4     0x021D3FA4  data   a1
  *   d_021D3F90     0x021D3F90  data   a1
- *   func_0204B3B4  0x0204B3B4  arm
  *   func_0204ADA4  0x0204ADA4  arm
  *   func_0204A8D4  0x0204A8D4  arm
  *   func_0204AFD8  0x0204AFD8  arm
- *   func_020457B0  0x020457B0  arm
- *   func_02045CAC  0x02045CAC  arm
  *   func_02027778  0x02027778  thumb
  *   func_02027CD8  0x02027CD8  thumb
- *   func_02045808  0x02045808  arm
  *   func_020286C4  0x020286C4  thumb
  *   func_0201CE30  0x0201CE30  thumb
  *   func_0201CE48  0x0201CE48  thumb
  *   func_0201CE38  0x0201CE38  thumb
  *   func_0201CE5C  0x0201CE5C  thumb
- *   func_02035C60  0x02035C60  arm
  *   func_02035C38  0x02035C38  arm
- *   func_020061E4  0x020061E4  thumb
- *   func_020450F0  0x020450F0  arm
- *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_0201DD78  0x0201DD78  thumb
  *   func_02012FFC  0x02012FFC  thumb
  *   func_0201CCE4  0x0201CCE4  thumb
- *   func_0201C7A4  0x0201C7A4  thumb
  *   func_0201F73C  0x0201F73C  thumb
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
- *   func_02041B6C  0x02041B6C  arm
- *   func_02196228  0x02196228  thumb  ov021
  *   func_02041570  0x02041570  arm
- *   func_02196034  0x02196034  thumb  ov021
  *   func_02012DD0  0x02012DD0  thumb
- *   func_0201F7A8  0x0201F7A8  thumb
- *   func_020456F8  0x020456F8  arm
- *   func_02196A60  0x02196A60  thumb  ov021
- *   func_02196804  0x02196804  thumb  ov021
  *   func_02012DAC  0x02012DAC  thumb
- *   func_020414EC  0x020414EC  arm
- *   func_021962F4  0x021962F4  thumb  ov021
- *   func_02196A4C  0x02196A4C  thumb  ov021
  *   func_020279E8  0x020279E8  thumb
  *   func_02027A04  0x02027A04  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_020071F0  0x020071F0  thumb
- *   func_02196290  0x02196290  thumb  ov021
  *   func_02027858  0x02027858  thumb
  *   func_0204A648  0x0204A648  arm
  *   func_0203064C  0x0203064C  arm
@@ -87,18 +166,12 @@
  *   func_0204A48C  0x0204A48C  arm
  *   func_0204B100  0x0204B100  arm
  *   func_020056A0  0x020056A0  thumb
- *   func_0219603C  0x0219603C  thumb  ov021
- *   func_02196538  0x02196538  thumb  ov021
  *   d_021DDBC4     0x021DDBC4  data   ov021  a4
  *   func_02030734  0x02030734  arm
  *   func_0203101C  0x0203101C  arm
  *   func_02028590  0x02028590  thumb
  *   func_0201C440  0x0201C440  thumb
  *   func_02027F60  0x02027F60  thumb
- *   func_02196FFC  0x02196FFC  thumb  ov021
- *   func_0202208C  0x0202208C  thumb
- *   func_021966F0  0x021966F0  thumb  ov021
- *   func_02155A90  0x02155A90  thumb  ov010
  *   func_020120F4  0x020120F4  thumb
  *   func_0207D63C  0x0207D63C  arm
  *   func_0203D34C  0x0203D34C  arm
@@ -111,19 +184,13 @@
  *   func_0201C4E4  0x0201C4E4  thumb
  *   func_0204A600  0x0204A600  arm
  *   func_020121CC  0x020121CC  thumb
- *   func_020221A4  0x020221A4  thumb
  *   func_02012204  0x02012204  thumb
  *   func_0202223C  0x0202223C  thumb
- *   func_02196768  0x02196768  thumb  ov021
  *   func_02155A8C  0x02155A8C  thumb  ov010
- *   func_0202F038  0x0202F038  thumb
- *   func_020307B0  0x020307B0  arm
  *   func_02028604  0x02028604  thumb
  *   func_02031140  0x02031140  arm
- *   func_020403F4  0x020403F4  arm
  *   func_0201C6EC  0x0201C6EC  thumb
  *   func_0201C4C0  0x0201C4C0  thumb
- *   func_020452E8  0x020452E8  arm
  *   func_02028148  0x02028148  thumb
  *   func_02027FD8  0x02027FD8  thumb
  *   func_02030EAC  0x02030EAC  arm
@@ -191,692 +258,1299 @@
  *   func_021BB5C8  0x021BB5C8  thumb  ov021
  *   func_021AC154  0x021AC154  thumb  ov021
  */
-#include "../../matched/include/Obj00094.h"
-#include "../../matched/include/Obj05989.h"
-#include "../../matched/include/Obj00150.h"
-#include "../../matched/include/Obj01495.h"
-#include "../../matched/include/Obj19637.h"
-#include "../../matched/include/Obj17950.h"
-#include "../../matched/include/Obj12072.h"
-#include "../../matched/include/Obj09177.h"
-#include "../../matched/include/Obj12073.h"
-#include "../../matched/include/Obj07465.h"
-#include "../../matched/include/Obj05990.h"
-#include "../../matched/include/Obj05004.h"
-#include "../../matched/include/Obj01032.h"
-#include "../../matched/include/Obj17951.h"
-#include "../../matched/include/Obj17952.h"
-#include "../../matched/include/Obj05005.h"
 
-struct Obj_0219728C;
-struct Actor;
-struct MsgBank;
-struct U16Vec;
-struct TaskMenu;
-struct TaskMenuTmpl;
-struct Ctx;
-struct Rec;
-struct Rec3;
-struct Descriptor;
-struct Cfg;
-struct CharBuf;
-struct Big;
-struct Obj;
-struct Obj0203159C;
-struct DispConfig;
-struct DispVram;
-struct Bank;
-struct R;
-struct Tcbl;
-struct BigObj;
-struct IcaAnime;
-struct PrintSys;
-struct Node;
-struct S02031140;
-struct TaskMenuState;
-struct S020315D4;
-struct VecFx32;
-struct S02030EE8;
 typedef unsigned char  u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int   u32;
-
-typedef struct { u16 a, b, c; u8 d, e; } Rect;
-
-typedef struct { u8 v[5]; } B5;
-
-typedef struct Sub_0219728C {
-    int f0;
-    int f4;
-    int f8;
-    int fC;
-    int f10;
-    int f14;
-    int f18;
-    int f1C;
-    int f20;
-    int f24;
-    int arr[5];
-    u8 pad3C[0x234];
-    void *c[6];
-    u32 x288;
-    void *b[2];
-    void *a[5];
-} Sub_0219728C;
-
-typedef struct {
-    u8 pad0[0x10];
-    u16 f10;
-    u8 pad12[0x26C - 0x12];
-    Sub_0219728C sub;
-} Obj_0219728C;
-
-typedef struct { u8 v[3]; } B3;
-
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    int fC;
-    int f10;
-    int f14;
-    int f18;
-    int f1C;
-    int f20;
-    int f24;
-    int arr[3];
-} Sub_021973A0;
-
 typedef signed short   s16;
-
 typedef signed char    s8;
-
-
-typedef struct { u32 w; u16 h; u16 pad; u32 z; } Ent;
-
-typedef struct Obj {
-    u8 pad0[0x10];
-    u16 x10;
-    u8 pad12[0x16];
-    u32 x28;
-    u8 pad2c[0x294];
-    u32 x2c0;
-    Ent e[2];
-    u32 x2dc;
-} Obj;
-
-typedef struct {
-    u32 x0;
-    u8 x4;
-    Ent *x8;
-    u32 xc;
-    u8 x10;
-    u8 x11;
-    u8 x12;
-    u8 x13;
-} Desc;
-
 typedef signed int     s32;
 
-typedef struct { u32 w[4]; } Q16;
+#include "ircbattlemenu_types.h"
 
-typedef struct IrcTask {
-    int state;
-    int f4;
-    int idx;
-    int fc;
-    u16 *data;
-} IrcTask;
+/* Init data of one cell actor (CLACT_CreateActor). */
+typedef struct ClactActorInit {
+    u16 posX;
+    u16 posY;
+    u16 anim;
+    u8 softPri;
+    u8 bgPri;
+} ClactActorInit;
 
-typedef int BOOL;
+/* Init data of a task menu (TaskMenuInitWork in app_taskmenu.c). */
+typedef struct TaskMenuInit {
+    u32 heapId;
+    u8 itemNum;
+    IrcBattleMenuItem *itemWork;
+    u32 posType;
+    u8 charPosX;
+    u8 charPosY;
+    u8 width;
+    u8 height;
+} TaskMenuInit;
 
-typedef struct { int x, y, z; } Vec;
+typedef struct { u8 v[5]; } ActorRow5;
+typedef struct { u8 v[3]; } ActorRow3;
+typedef struct { u32 w[4]; } DispSetup;
 
-extern void func_02197058(Obj_0219728C *);
-extern struct Obj_0219728C *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B92C(struct Obj_0219728C *, unsigned int);
-extern void func_0204B3DC(struct Obj_0219728C *, unsigned int);
-extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B3B4(struct Sub_0219728C *p);
-extern void func_0204ADA4(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
-extern int func_02027CD8(int a0, int a1);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
-extern u32 func_0201CE30(void *p);
-extern void func_0201CE48(struct Rec3 *p);
-extern void func_0201CE38(void *h);
-extern void func_0201CE5C(struct Rec *p, s32 v);
+/* Partial view: the full type is in ov010 musical_dressup_sys.c. */
+typedef struct IrcBattleEntryWork {
+    u8 padding0[0x4C];
+    void *saveData;                     /* 0x4C */
+    u8 padding50[8];
+    u32 partyMode;                      /* 0x58 */
+} IrcBattleEntryWork;
+
+struct ProcWork;
+struct DispVram;
+struct DispConfig;
+struct ClactSysInit;
+struct GameSystem;
+struct WifiList;
+struct Bmp;
+struct TaskNode;
+
+extern struct ClactActor *func_0204B294(struct ClactUnit *unit, u32 charRes, u32 plttRes, u32 cellRes, const ClactActorInit *init, u16 drawArea, u16 heapId);
+extern void func_0204B92C(struct ClactActor *actor, u32 flag);
+extern void func_0204B3DC(struct ClactActor *actor, u32 flag);
+extern void func_0204B688(struct ClactActor *actor, u32 mode);
+extern void func_0204B3B4(struct ClactActor *actor);
+extern void func_0204ADA4(u32 res);
+extern void func_0204A8D4(u32 res);
+extern void func_0204AFD8(u32 res);
+extern struct StrBuf *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgData *msgData, u32 strId, struct StrBuf *dest);
+extern struct TaskMenuWork *func_02027778(TaskMenuInit *init, struct TaskMenuRes *res);
+extern int func_02027CD8(struct TaskMenuWork *menu, int pos);
+extern void func_02045808(struct StrBuf *str);
+extern void func_020286C4(struct AppKeyCursor *cursor, struct PrintStream *stream, struct BmpWin *win);
+extern u32 func_0201CE30(struct PrintStream *stream);
+extern void func_0201CE48(struct PrintStream *stream);
+extern void func_0201CE38(struct PrintStream *stream);
+extern void func_0201CE5C(struct PrintStream *stream, s32 wait);
 extern int func_02035C60(void);
 extern int func_02035C38(void);
 extern void func_020061E4();
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201DD78(u32, u32, u32);
+extern struct BmpWin *func_020450F0(u32 bgFrame, u32 posX, u32 posY, u32 width, u8 height, u8 palNo, u8 dir);
+extern struct Bmp *func_02045770(struct BmpWin *win);
+extern void func_02043B5C(struct Bmp *bmp, u8 color);
+extern void func_0201DD78(u32 letter, u32 shadow, u32 back);
 extern signed char func_02012FFC(void);
-extern u32 func_0201CCE4(u32, u32, u32, u32, u32, u32, u32, u32, u32, u32);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Cfg *cfg);
-extern void func_02041B6C(u32);
-extern void func_02196228(u8 *p, int flag);
-extern void func_02041570(int channel, u16 val);
-extern void func_02196034(u8 *, void (*)(), u32);
-extern int func_02012DD0(u8 *p);
-extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_020456F8(struct Descriptor *d);
-extern void func_02196A60(u8 *p);
-extern void func_02196804(u8 *p);
-extern int func_02012DAC(int a0);
-extern void func_020414EC(u32);
-extern void func_021962F4(u8 *);
-extern void func_02196A4C(u8 *a);
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8 func_02027A04(const u8 *p);
-extern void *func_02012EBC(struct Big *p);
+extern struct PrintStream *func_0201CCE4(struct BmpWin *win, u32 x, u32 y, struct StrBuf *str, struct GfFont *font, u32 wait, struct Tcbl *tcbl, u32 pri, u32 heapId, u32 back);
+extern void func_0201C7A4(struct Bmp *bmp, s16 x, s16 y, struct StrBuf *str, struct GfFont *font);
+extern void func_0201F73C(struct BmpWin *win, int transfer, int frameChar, int palNo);
+extern void func_02045334(struct BmpWin *win);
+extern void func_02045374(struct BmpWin *win);
+extern void func_02041B6C(u32 frame);
+extern void func_02041570(int frame, u16 value);
+extern int func_02012DD0(struct GameData *gameData);
+extern void func_0201F7A8(struct BmpWin *win, u32 transfer);
+extern void func_020456F8(struct BmpWin *win);
+extern int func_02012DAC(struct GameData *gameData);
+extern void func_020414EC(u32 frame);
+extern u32 func_020279E8(struct TaskMenuWork *menu);
+extern u8 func_02027A04(const struct TaskMenuWork *menu);
+extern void *func_02012EBC(struct GameData *gameData);
 extern u32 func_020071F0(void);
-extern void func_02196290(u8 *);
-extern void func_02027858(struct TaskMenu *m);
+extern void func_02027858(struct TaskMenuWork *menu);
 extern void func_0204A648(void);
-extern void func_0203064C(u32, u32, u32);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *, u32, u32);
+extern void func_0203064C(u32 parentHeap, u32 heapId, u32 size);
+extern void *func_0203159C(struct ProcWork *proc, u32 size, u32 heapId);
+extern void func_02082BCC(void *dest, u32 value, u32 size);
 extern void func_0203F8F4(u16 heapId);
 extern void func_02045088(u16 heapId);
 extern void func_0201DD60(void);
-extern void func_020433E0(const struct DispVram *c);
+extern void func_020433E0(const struct DispVram *vram);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_02043534(u32);
-extern void func_020435F4(u32);
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern u32 func_020056A0(void (*)(void), void *, u32);
-extern void func_0219603C(void *a0);
-extern void func_02196538(u8 *);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_02028590(u32, u32, u32, u32);
-extern u32 func_0201C440(void *p);
-extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern void func_02196FFC(u8 *);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern void func_021966F0(u8 *p);
-extern u32 func_02155A90(u8 *);
-extern void *func_020120F4(const struct Ctx *);
-extern void func_0207D63C(u32, u32, u32, u32, u32);
-extern void func_0203D34C(u32, u32);
-extern u32 func_0201283C(const struct BigObj *p);
-extern u32 func_0201058C(void *key);
-extern void func_02027974(u32);
-extern void func_02028178(u8 *p);
-extern void func_02040618(u32, u32, u32);
-extern void func_020310C4(struct Tcbl *p);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void func_02043534(u32 planes);
+extern void func_020435F4(u32 planes);
+extern void func_0204A48C(const struct ClactSysInit *init, const struct DispVram *vram, u32 heapId);
+extern struct ClactUnit *func_0204B100(int actorMax, u8 pri, u32 heapId);
+extern u32 func_020056A0(void (*task)(void), void *work, u32 pri);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern struct Tcbl *func_0203101C(u16 heapId, u16 tcbHeapId, u32 count, u32 workSize);
+extern struct AppKeyCursor *func_02028590(u32 palNo, u32 isWin, u32 isFrame, u32 heapId);
+extern struct PrintQue *func_0201C440(u32 heapId);
+extern struct TaskMenuRes *func_02027F60(u16 bgFrame, u16 palNo, struct GfFont *font, struct PrintQue *printQue, u16 heapId);
+extern void func_0202208C(u32 pattern0, u32 pattern1, u32 pattern2, u32 color, u32 div, u32 sync, u32 heapId);
+extern struct GameSystem *func_02155A90(IrcBattleEntryWork *entry);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSys);
+extern void func_0207D63C(u32 reg, u32 plane1, u32 plane2, u32 ev1, u32 ev2);
+extern void func_0203D34C(u32 type, u32 heapId);
+extern struct WifiList *func_0201283C(const struct GameData *gameData);
+extern u32 func_0201058C(struct WifiList *wifiList);
+extern void func_02027974(struct TaskMenuWork *menu);
+extern void func_02028178(struct TaskMenuWin *win);
+extern void func_02040618(u32 frame, u32 op, u32 value);
+extern void func_020310C4(struct Tcbl *tcbl);
+extern u32 func_0201C4E4(struct PrintQue *printQue);
 extern void func_0204A600(void);
-extern u32 func_020121CC(struct IcaAnime *p);
+extern u32 func_020121CC(struct GameSystem *gameSys);
 extern u32 func_020221A4(void);
-extern u32 func_02012204(const struct Ctx *p);
-extern void func_0202223C(u32, u32);
-extern void func_02196768(u8 *p);
-extern void func_02155A8C(u8 *, u32);
-extern void func_0202F038(u8 *p);
-extern u32 func_020307B0(void *p);
-extern int func_02028604(int a0);
-extern void func_02031140(struct S02031140 *p);
-extern void func_020403F4(u32);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_020452E8(struct Descriptor *d);
-extern void func_02028148(u8 *p);
-extern u32 func_02027FD8(struct TaskMenuState *s);
-extern void func_02030EAC(struct Node *n);
-extern u32 func_0204B1CC(struct Bank *bank);
+extern u32 func_02012204(const struct GameSystem *gameSys);
+extern void func_0202223C(u32 screen, u32 value);
+extern void func_02155A8C(IrcBattleEntryWork *entry, u32 mode);
+extern void func_0202F038(struct TimeIcon *icon);
+extern u32 func_020307B0(void *ptr);
+extern int func_02028604(struct AppKeyCursor *cursor);
+extern void func_02031140(struct Tcbl *tcbl);
+extern void func_020403F4(u32 frame);
+extern void func_0201C6EC(struct PrintQue *printQue);
+extern void func_0201C4C0(struct PrintQue *printQue);
+extern u32 func_020452E8(struct BmpWin *win);
+extern void func_02028148(struct TaskMenuWin *win);
+extern u32 func_02027FD8(struct TaskMenuRes *res);
+extern void func_02030EAC(struct TaskNode *task);
+extern u32 func_0204B1CC(struct ClactUnit *unit);
 extern void func_0204A5AC(void);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
-extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(u32);
-extern u32 func_0216D520(void *p);
-extern u32 func_0216D528(u32);
-extern u32 func_0216D95C(u32, u32);
-extern void func_0219C5D0(u32 a);
-extern void func_0219D488(u32 a);
-extern void *func_0216D67C(void *a0);
-extern int func_0216D4D4(int a0, int a1);
-extern int func_0216DAA0(void *a0);
-extern void func_0216D758(void *a0);
-extern int func_0216D55C(int a0, int a1);
-extern int func_0216DB10(void *a0);
-extern int func_0216DC4C(void *a0);
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern void func_0216D8B0(u8 *p, u8 *q);
-extern void func_0216D8D0(u8 *p, u8 *q);
-extern void func_0216D8F0(u8 *p, u8 *q);
-extern void func_0216D92C(u8 *, s32 *);
-extern u32 func_0216D4F8(u8 *p);
-extern u16 func_0216D4F4(void *p);
-extern u32 func_0216D514(void *p);
-extern void func_02030DA8(u32, void (*)(), u32 *, u32);
-extern u32 func_02030EE8(struct S02030EE8 *p);
-extern int func_0216D480(char *p);
-extern int func_0216D3CC(int a0);
-extern void func_0216D410(void *a0, u16 a1);
-extern int func_0216D454(int a0, u32 a1, u32 a2, u32 a3);
-extern u16 func_0216D7C4(u8 *p);
-extern u16 func_0216D7D4(u8 *p);
-extern u32 func_0216D57C(void *p, u32 v);
-extern char *func_0216D570(char *p, u32 v);
-extern void func_0216D7C0(void *p, u16 v);
-extern void *func_0216D7C8(void *p, u16 v);
-extern void *func_0216D568(void *p, u32 v);
-extern int func_02163F10(int a0);
-extern void func_0216D5E0(int a0, int a1);
-extern u32 func_0216D674(void *p, u16 v);
-extern u32 func_0216D7CC(u32);
-extern void *func_0216D6BC(u32 heap, u32 size);
-extern void func_02163E7C(int a, int b);
-extern int func_0216D60C(u8 *, u16);
-extern void *func_0216D6D4(void *p);
-extern void func_02163FC0(int a, int dir, int amt);
-extern int func_02164010(int a);
-extern void func_0216D8C0(u32, Vec *);
-extern u32 *func_0216D548(u32 *p, u32 v);
-extern u32 *func_0216D550(u32 *p, u32 v);
-extern u32 func_0216D534(void *p);
-extern u32 func_02188CD0(u8 *p);
-extern u32 func_021BB528(u32, u32, u32, u32);
-extern int func_021BB5C8(u32);
-extern void func_021AC154(u32);
-void func_0219728C(Obj_0219728C *p);
-void func_021973A0(Obj_0219728C *p);
-void func_0219749C(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4);
-void func_021974A0(Sub_0219728C *o);
-void func_02197534(Obj *a);
-int func_021975D0(u8 *p);
-void func_02197644(u8 *a, u32 b);
-void func_02197700(u8 *a);
-void func_02197738(u8 *a);
-void func_02197798(u8 *a);
-void func_021977C0(u8 *a);
-void func_02197800(u8 *a);
-void func_021978AC(u8 *a);
-void func_021978D4(void);
-int func_021978DC(struct Obj0203159C *a, u32 b, u32 c);
-u32 func_02197AAC(u32 r0, u32 r1, u32 r2, u8 *a);
-int func_02197B5C(u32 a, u32 b, u8 *c, u32 *d);
-int func_02197C4C(u32 a, u32 b, u32 c, u32 d);
-void func_02197C78(u32 a);
-int func_02197C9C(u32 a);
-void func_02197CCC(u8 *p, s32 *out);
-void func_02197D3C(u32 p0, u32 p1);
-int func_02197DA0(u32 a);
-void func_02197DAC(void *a);
-void func_02197DCC(void *a, int *b);
-int func_02197DE8(IrcTask *w);
-int func_02197DF4(u32 a);
-int func_02197E10(u32 a, u32 b, u32 c, u32 d);
-int func_02197E28(u32 a, u32 b, u32 c, u32 d);
-int func_02197E44(IrcTask *w);
-int func_02197E78(void);
-int func_02197E7C(int a, int b);
-void func_02197EB4(u32 a);
-u32 func_02197EDC(u8 *p);
-int func_02197F20(u32 a, u32 b, u32 c);
-int func_02197F5C(u32 a, u32 b, u32 c, u32 d);
-int func_02197F6C(u32 a, u32 b);
-u32 func_02197F90(u32 a1);
-u32 func_02197F9C(u32 a1);
-u32 func_02197FA8(u32 a1);
-u32 func_02197FB4(u32 a1);
-void func_02197FC0(u8 *a, u32 b, u32 c, u16 d, u16 e);
-u32 func_0219800C(u8 *p);
-int func_02198060(u32 a);
-int func_02198074(u32 a);
-int func_02198088(u32 a);
-int func_0219809C(u32 a);
-int func_021980B0(u32 a);
-int func_021980C4(u32 a);
-int func_021980DC(u32 a, u32 b, u32 c, u32 d);
-int func_021980F0(u32 a);
-int func_02198104(u32 a);
-int func_0219811C(u32 a);
-int func_02198134(u32 a);
-int func_02198148(u32 a, u32 b, u32 c, u32 d);
-int func_0219815C(u32 a, u32 b, u32 c, u32 d);
-int func_02198170(u32 a, u32 b, u32 c, u32 d);
-int func_02198184(u32 a, u32 b, u32 c, u32 d);
-int func_02198198(u32 a, u32 b, u32 c, u32 d);
-int func_021981AC(u32 a);
-int func_021981C4(u32 a);
-int func_021981DC(u32 a);
-int func_021981F0(u32 a);
-int func_02198208(u32 a, u32 b, u32 c, u32 d);
-int func_0219821C(u32 a);
-int func_02198234(u32 a);
-int func_02198248(u32 a);
-int func_02198260(u32 a);
-int func_02198278(u32 a);
-int func_02198290(u32 a);
-int func_021982A4(u32 a);
-int func_021982BC(u32 a);
-int func_021982D4(u32 a);
-int func_021982EC(u32 a);
-int func_02198300(u32 a);
-void func_02198318(u32 a, u32 b, u16 c, u16 d);
-int func_0219834C(u32 a);
-u32 func_02198380(u32 a1);
-u32 func_02198390(u32 a1);
-u32 func_021983A0(u32 a1);
-u32 func_021983B0(u32 a1);
-u32 func_021983C0(u32 a1);
-u32 func_021983D0(u32 a1);
-u32 func_021983E0(u32 a1);
-u32 func_021983F0(u32 a1);
-u32 func_02198400(u32 a1);
-u32 func_02198410(u32 a1);
-u32 func_02198420(u32 a1);
-u32 func_02198430(u32 a1);
-u32 func_02198440(u32 a1);
-u32 func_02198450(u32 a1);
-u32 func_02198460(u32 a1);
-u32 func_02198470(u32 a1);
-u32 func_02198480(u32 a1);
-u32 func_02198490(u32 a1);
-u32 func_021984A0(u32 a1);
-u32 func_021984B0(u32 a1);
-void func_021984C0(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g, u32 h);
-void func_0219852C(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g);
-int func_02198550(u32 a);
-int func_0219862C(u8 *a);
-int func_02198650(u8 *a);
-int func_02198674(u8 *a);
-int func_02198694(u8 *a);
-int func_021986B8(u8 *a);
-int func_021986D8(u8 *a);
-int func_021986F8(u8 *a);
-int func_02198718(u8 *a);
-int func_02198738(u8 *a);
-int func_02198758(u8 *a);
-int func_0219877C(u8 *a);
-int func_021987A0(u8 *a);
-int func_021987C0(u8 *a);
-int func_021987E0(u8 *a);
-int func_02198804(u8 *a);
-int func_02198824(u8 *a);
-int func_02198848(u8 *a);
-int func_02198868(u8 *a);
-int func_02198888(u8 *a);
-int func_021988AC(u8 *a);
-int func_021988D0(u8 *a);
-int func_021988F4(u8 *a);
-int func_02198918(u8 *a);
-int func_0219893C(u8 *a);
-int func_02198960(u32 a, u32 b);
-int func_02198978(u32 a);
-u32 func_02198998(u32 a1);
-u32 func_021989A4(u32 a1);
-u32 func_021989B0(u32 a1);
-u32 func_021989BC(u32 a1);
-u32 func_021989C8(u32 a1);
-u32 func_021989D4(u32 a1);
-u32 func_021989E0(u32 a1);
-int func_021989EC(u32 a, u32 b, u32 c, u32 d);
-int func_02198A10(u32 a);
-int func_02198A58(u32 a);
-int func_02198A8C(u32 a);
-int func_02198AD4(u32 a, u32 b, u32 c, u32 d);
-int func_02198AE8(u32 a, u32 b, u32 c, u32 d);
-int func_02198AFC(u32 a, u32 b, u32 c, u32 d);
-int func_02198B10(u32 a, u32 b, u32 c, u32 d);
-int func_02198B24(u32 a, u32 b, u32 c, u32 d);
-int func_02198B38(u32 a, u32 b, u32 c, u32 d);
-void func_02198B4C(u32 a, u32 b, u32 a3);
-int func_02198B80(u32 a);
-u32 func_02198BA8(u32 a1);
-u32 func_02198BB8(u32 a1);
-u32 func_02198BC8(u32 a1);
-u32 func_02198BD8(u32 a1);
-u32 func_02198BE8(u32 a1);
-u32 func_02198BF8(u32 a1);
-void func_02198C08(u32 a, u32 b, u32 c, u16 d);
-int func_02198C4C(u32 a, u32 *b);
-u32 func_02198CA4(u32 a1);
-u32 func_02198CB4(u32 a1);
-u32 func_02198CC4(u32 a1);
-u32 func_02198CD4(u32 a1);
-u32 func_02198CE4(u32 a1);
-u32 func_02198CF4(u32 a1);
-u32 func_02198D04(u32 a1);
-u32 func_02198D14(u32 a1);
-extern const B5 d_021D3FC0;
-extern const B5 d_021D3FD0;
-extern const B5 d_021D3FB8;
-extern const B3 d_021D3F98;
-extern const B3 d_021D3FA4;
-extern const B3 d_021D3F90;
+extern void func_020315D4(struct ProcWork *proc);
+extern void func_020306F0(u32 heapId);
+
+
+extern const ActorRow5 d_021D3FC0;
+extern const ActorRow5 d_021D3FD0;
+extern const ActorRow5 d_021D3FB8;
+extern const ActorRow3 d_021D3F98;
+extern const ActorRow3 d_021D3FA4;
+extern const ActorRow3 d_021D3F90;
 extern u8 d_021DDB14[];
-extern const Q16 d_021D4090;
+extern const DispSetup d_021D4090;
 extern u8 d_020A1448[];
 extern u8 d_021DDBC4[];
-extern u8 d_021DDBE0;
-extern int *d_021D5D6C[];
-extern int *d_021DDBD4[];
 
+/* Window description of a button window (position and size in characters). */
+typedef struct IrcBattleWinDesc {
+    u32 posX;
+    u32 posY;
+    u32 width;
+    u32 height;
+} IrcBattleWinDesc;
 
+/* BG layer template (eight settings words, not read here). */
+typedef struct BgTemplate {
+    u32 settings[8];
+} BgTemplate;
 
+/* Message ids of the buttons of a menu. */
+typedef struct MsgIdRow2 { u32 id[2]; } MsgIdRow2;
+typedef struct MsgIdRow4 { u32 id[4]; } MsgIdRow4;
 
+/* Request passed to the cell actor animation: runs callback(work) when the animation ends. */
+typedef struct ClactAnimEndHook {
+    u16 type;
+    IrcBattleMenuWork *work;
+    void (*callback)(IrcBattleMenuWork *work);
+} ClactAnimEndHook;
 
+/* Palette resource data (rawData at +0xC). */
+struct PaletteData {
+    u32 format;
+    u32 isExtended;
+    u32 size;
+    void *rawData;
+};
 
+struct PlttFade;
+struct ArcHandle;
+struct CommSys;
+struct PartyInfo;
 
+extern struct ArcHandle *func_020490F4(u32 arcId, u32 heapId);
+extern void func_02049238(struct ArcHandle *arc);
+extern void func_02082D44(const void *src, void *dst, u32 size);
+extern u32 func_020409B4(u32 bgId);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
+extern void DC_FlushRange(void *p, u32 size);
+extern void func_02041300(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
+extern void func_0203FCA0(unsigned int bgId, const BgTemplate *tmpl, unsigned int type);
+extern void func_020414AC(int bgId);
+extern void func_02040588(unsigned char which, unsigned char enable);
+extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern struct PlttFade *func_02021518(u32 heapId);
+extern void func_0202155C(struct PlttFade *fade, u32 bank, u32 size, u32 heapId);
+extern void func_020216D4(struct PlttFade *fade, u32 bank, u32 offset, u32 size);
+extern void func_02021FD8(struct PlttFade *fade, u32 bank, u32 start, u32 count, u8 weight, u16 color);
+extern u16 *func_02021730(struct PlttFade *fade, int bank);
+extern void func_020215A0(struct PlttFade *fade, u32 bank);
+extern u32 func_02021540(struct PlttFade *fade);
+extern void func_0207E5D0(void *dst, u32 value, u32 size);
+extern void func_0207E468(void *dst, u32 value, u32 size);
+extern struct TimeIcon *func_0202EE8C(struct Tcbl *tcbl, struct BmpWin *win, u8 a, u8 b, u16 heapId);
+extern u32 func_0201D304(struct StrBuf *str, struct GfFont *font, u32 a);
+extern u32 func_0201D42C(struct StrBuf *str, struct GfFont *font);
+extern void func_02051C6C(struct TouchSwitch *touchSw);
+extern struct GfFont *func_0201D7EC(int a, int b, int c, int d, u32 heapId);
+extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_02049B68(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u16 heapId);
+extern u32 func_02049740(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u16 heapId);
+extern u32 func_02049990(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+extern void *func_02049F78(struct ArcHandle *arc, u32 id, struct PaletteData **out, u32 heapId);
+extern u32 func_0201F5DC(u32 a, u32 b, u32 c, u32 heapId);
+extern struct TouchSwitch *func_02051B84(const u8 *table, void (*callback)(u32 index, int event, IrcBattleMenuWork *work), IrcBattleMenuWork *work, int heapId);
+extern s32 func_02051C88(struct TouchSwitch *touchSw);
+extern void func_0201DD68(void);
+extern void func_02040DA8(u32 a, u32 b, u32 c);
+extern void func_0203FB44(u32 a, u32 b, u32 c);
+extern u32 func_02045C04(struct MsgData *msgData);
+extern u32 func_0201D83C(struct GfFont *font);
+extern struct CommSys *func_02012138(const struct GameSystem *gameSys);
+extern u32 func_02026454(struct CommSys *comm);
+extern void func_02026400(struct CommSys *comm);
+extern void *func_02155A94(IrcBattleEntryWork *entry);
+extern struct PartyInfo *func_0200873C(void *sys);
+extern int func_02008428(struct PartyInfo *info);
+extern void *func_02012934(const struct GameData *gameData);
+extern u32 func_0201AA1C(void *party);
+extern void *func_0200BAC8(void *saveData);
+extern u32 func_0200BBA8(void *data);
+extern s32 func_0204A6C8(struct ArcHandle *arc, u32 a, u32 b, u32 c, u16 heapId);
+extern s32 func_0204AC18(struct ArcHandle *arc, u32 a, u32 b, u32 c, u16 d, u16 e, u16 heapId);
+extern s32 func_0204AF28(struct ArcHandle *arc, u32 a, u32 b, u32 heapId);
+extern void func_0204BA00(struct ClactActor *actor, const ClactAnimEndHook *hook);
+extern void func_0204B9A0(struct ClactActor *actor);
+extern const BgTemplate d_021D40A0;
+extern const BgTemplate d_021D40C0;
+extern const BgTemplate d_021D40E0;
+extern const BgTemplate d_021D4100;
+extern const BgTemplate d_021D4120;
+extern const BgTemplate d_021D4140;
+extern const u16 d_021DDAD4[];
+extern const MsgIdRow4 d_021D4070;
+extern int d_021D4014[];
+extern int d_021D4024[];
+extern const u8 d_021D404C[];
+extern IrcBattleWinDesc d_021DDB84[];
+extern const MsgIdRow2 d_021D3FE0;
+extern const u8 d_021D3FF4[];
+extern IrcBattleWinDesc d_021DDAF4[];
+extern const MsgIdRow4 d_021D4080;
+extern const u8 d_021D4034[];
+extern IrcBattleWinDesc d_021DDB44[];
+extern const ActorRow3 d_021D3F9C;
+extern const MsgIdRow2 d_021D3FD8;
+extern const u8 d_021D4004[];
+extern const ActorRow5 d_021D3FC8;
+extern const ActorRow5 d_021D3FB0;
+extern const ActorRow5 d_021D3FA8;
+extern const ActorRow3 d_021D3FA0;
+extern const ActorRow3 d_021D3F8C;
+extern const ActorRow3 d_021D3F94;
 
+void func_02196030(IrcBattleMenuSeqFunc *dest, IrcBattleMenuSeqFunc seq);
+void func_02196034(IrcBattleMenuWork *work, IrcBattleMenuSeqFunc seq, u32 line);
+void func_0219603C(IrcBattleMenuWork *work);
+void func_021961A4(IrcBattleMenuWork *work, u32 bank, u32 rows);
+void func_02196228(IrcBattleMenuWork *work, int isActive);
+void func_02196290(IrcBattleMenuWork *work);
+void func_021962C4(IrcBattleMenuWork *work);
+void func_021962F4(IrcBattleMenuWork *work);
+void func_0219630C(int count, u32 *msgIds, IrcBattleMenuWork *work, IrcBattleWinDesc *descs, int *centerX, int *centerY);
+void func_02196454(IrcBattleMenuWork *work);
+void func_0219649C(u32 index, int event, IrcBattleMenuWork *work);
+void func_021964B0(u16 (*pltt)[16], const u16 *rowOffsets, int rows);
+void func_02196538(IrcBattleMenuWork *work);
+void func_021966B0(IrcBattleMenuWork *work, u32 screenId);
+void func_021966F0(IrcBattleMenuWork *work);
+void func_02196768(IrcBattleMenuWork *work);
+void func_021967BC(IrcBattleMenuWork *work);
+void func_02196804(IrcBattleMenuWork *work);
+void func_0219686C(IrcBattleMenuWork *work);
+void func_021968D8(IrcBattleMenuWork *work);
+void func_021968DC(IrcBattleMenuWork *work);
+void func_02196944(IrcBattleMenuWork *work);
+int func_02196974(u32 index, IrcBattleMenuWork *work);
+void func_02196A4C(IrcBattleMenuWork *work);
+void func_02196A60(IrcBattleMenuWork *work);
+void func_02196ACC(IrcBattleMenuWork *work);
+void func_02196B24(IrcBattleMenuWork *work);
+void func_02196B28(IrcBattleMenuWork *work);
+void func_02196B7C(IrcBattleMenuWork *work);
+void func_02196B90(IrcBattleMenuWork *work);
+void func_02196B94(IrcBattleMenuWork *work);
+int func_02196BF8(u32 index, IrcBattleMenuWork *work);
+void func_02196C68(IrcBattleMenuWork *work);
+void func_02196CD8(IrcBattleMenuWork *work);
+void func_02196D20(IrcBattleMenuWork *work);
+void func_02196D24(IrcBattleMenuWork *work);
+void func_02196D88(IrcBattleMenuWork *work);
+int func_02196D94(u32 index, IrcBattleMenuWork *work);
+void func_02196E04(IrcBattleMenuWork *work);
+void func_02196E70(IrcBattleMenuWork *work);
+void func_02196EC8(IrcBattleMenuWork *work);
+void func_02196ECC(IrcBattleMenuWork *work);
+int func_02196F44(u32 index, IrcBattleMenuWork *work);
+void func_02196FF0(IrcBattleMenuWork *work);
+void func_02196FFC(IrcBattleMenuWork *work);
+void func_02197058(IrcBattleMenuWork *work);
+void func_0219707C(IrcBattleMenuWork *work);
+void func_02197190(IrcBattleMenuWork *work);
+void func_0219728C(IrcBattleMenuWork *work);
+void func_021973A0(IrcBattleMenuWork *work);
+void func_0219749C(IrcBattleMenuWork *work, u32 posX, u32 posY, u32 index, u32 anim);
+void func_021974A0(IrcBattleMenuWork *work);
+void func_02197534(IrcBattleMenuWork *work);
+int func_021975D0(IrcBattleMenuWork *work);
+void func_02197644(IrcBattleMenuWork *work, u32 isInstant);
+void func_02197700(IrcBattleMenuWork *work);
+void func_02197738(IrcBattleMenuWork *work);
+void func_02197798(IrcBattleMenuWork *work);
+void func_021977C0(IrcBattleMenuWork *work);
+void func_02197800(IrcBattleMenuWork *work);
+void func_021978AC(IrcBattleMenuWork *work);
+void func_021978D4(void);
+int func_021978DC(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param);
+u32 func_02197AAC(u32 proc, u32 seq, u32 param, IrcBattleMenuWork *work);
+int func_02197B5C(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param, IrcBattleMenuWork *work);
 
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-void func_0219728C(Obj_0219728C *p)
+/* Stores the current sequence function; SetSeq passes work->seqFunc and the new function. */
+void func_02196030(IrcBattleMenuSeqFunc *dest, IrcBattleMenuSeqFunc seq)
 {
-    B5 x0 = d_021D3FC0;
-    B5 x1 = d_021D3FD0;
-    B5 x2 = d_021D3FB8;
-    Rect r;
-    int i;
+    *dest = seq;
+}
 
-    func_02197058(p);
-    for (i = 0; i < 5; i++) {
-        r.a = x0.v[i];
-        r.b = x1.v[i];
-        r.c = x2.v[i];
-        r.d = 0;
-        r.e = 1;
-        p->sub.arr[i] = (int)func_0204B294((void *)p->sub.f0, p->sub.f10, p->sub.f8, p->sub.f18, &r, 1, p->f10);
-        func_0204B92C((struct Obj_0219728C *)p->sub.arr[i], 0);
-        func_0204B3DC((struct Obj_0219728C *)p->sub.arr[i], 1);
-        func_0204B688((struct Actor *)p->sub.arr[i], 1);
+/* Sets the next sequence function. The line argument is the call site's source line and is not used. */
+void func_02196034(IrcBattleMenuWork *work, IrcBattleMenuSeqFunc seq, u32 line)
+{
+    func_02196030(&work->seqFunc, seq);
+}
+
+/* Sets up the six BG layers of the menu (main 0, 1 and sub 4 to 7) from their templates. */
+void func_0219603C(IrcBattleMenuWork *work)
+{
+    BgTemplate mainBg0;
+    BgTemplate mainBg1;
+    BgTemplate subBg0;
+    BgTemplate subBg1;
+    BgTemplate subBg2;
+    BgTemplate subBg3;
+
+    mainBg0 = d_021D40A0;
+    func_0203FCA0(0, &mainBg0, 0);
+    func_020414AC(0);
+    func_020409B4(0);
+    func_02040588(0, 1);
+    mainBg1 = d_021D40C0;
+    func_0203FCA0(1, &mainBg1, 0);
+    func_020414AC(1);
+    func_020409B4(1);
+    func_02040588(1, 1);
+    subBg0 = d_021D40E0;
+    func_0203FCA0(4, &subBg0, 0);
+    func_02040588(4, 1);
+    func_020409B4(4);
+    subBg1 = d_021D4100;
+    func_0203FCA0(5, &subBg1, 0);
+    func_02040588(5, 1);
+    func_02040C14(5, 0, 1, 0);
+    func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
+    func_020409B4(5);
+    subBg2 = d_021D4120;
+    func_0203FCA0(6, &subBg2, 0);
+    func_02040588(6, 1);
+    func_020409B4(6);
+    subBg3 = d_021D4140;
+    func_0203FCA0(7, &subBg3, 0);
+    func_02040588(7, 1);
+    func_020409B4(7);
+}
+
+/* Loads palette bank "bank" (1: BG, 3: OBJ) through the palette fade system, dimmed over "rows" rows of 16 colors. */
+void func_021961A4(IrcBattleMenuWork *work, u32 bank, u32 rows)
+{
+    struct PlttFade *fade;
+    u32 size;
+    u16 *buf;
+
+    fade = func_02021518(work->heapId);
+    func_0202155C(fade, bank, 0x200, work->heapId);
+    size = rows << 5;
+    func_020216D4(fade, bank, 0, size);
+    func_02021FD8(fade, bank, 0, (rows << 20) >> 16, 6, 0);
+    buf = func_02021730(fade, bank);
+    DC_FlushRange(buf, size);
+    if (bank != 1) {
+        if (bank == 3)
+            func_0207E5D0(buf, 0, size);
+    } else {
+        func_0207E468(buf, 0, size);
+    }
+    func_020215A0(fade, bank);
+    func_02021540(fade);
+}
+
+/* isActive 1: copies the saved palettes to 0x05000600 and 0x05000400 and fades both banks; 0: clears the saved copies. */
+void func_02196228(IrcBattleMenuWork *work, int isActive)
+{
+    if (isActive) {
+        func_02082D44((void *)0x05000600, work->subObjPlttCopy, 0x200);
+        func_02082D44((void *)0x05000400, work->subBgPlttCopy, 0x200);
+        func_021961A4(work, 3, 0xE);
+        func_021961A4(work, 1, 9);
+    } else {
+        func_0207E5D0(work->subObjPlttCopy, 0, 0x1C0);
+        func_0207E468(work->subBgPlttCopy, 0, 0x120);
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021973A0(Obj_0219728C *p)
+/* Deletes the time icon if present and creates a new one on the message window. */
+void func_02196290(IrcBattleMenuWork *work)
 {
-    B3 x0 = d_021D3F98;
-    B3 x1 = d_021D3FA4;
-    B3 x2 = d_021D3F90;
-    Rect r;
+    if (work->timeIcon != 0) {
+        func_0202F038(work->timeIcon);
+        work->timeIcon = 0;
+    }
+    work->timeIcon = func_0202EE8C(work->tcbl, work->msgWin, 15, 16, work->heapId);
+}
+
+/* Deletes the time icon and clears the message window. */
+void func_021962C4(IrcBattleMenuWork *work)
+{
+    if (work->timeIcon != 0) {
+        func_0202F038(work->timeIcon);
+        work->timeIcon = 0;
+    }
+    func_0201F7A8(work->msgWin, 2);
+    func_020456F8(work->msgWin);
+    func_02041B6C(5);
+}
+
+/* Closes the message window. */
+void func_021962F4(IrcBattleMenuWork *work)
+{
+    func_021962C4(work);
+    func_020452E8(work->msgWin);
+    work->msgWin = 0;
+}
+
+/*
+ * Creates "count" button windows on BG 7, each holding the text msgIds[i]
+ * centered on (centerX[i], centerY[i]) when those arrays are given.
+ */
+void func_0219630C(int count, u32 *msgIds, IrcBattleMenuWork *work, IrcBattleWinDesc *descs, int *centerX, int *centerY)
+{
+    int i;
+    int x;
+    int y;
+
+    func_020414EC(7);
+    work->menuWinCount = count;
+    func_02049B40(0x17, 5, 4, 0x100, 0x20, work->heapId);
+    for (i = 0; i < 4; i++) {
+        if (work->menuWins[i] != 0) {
+            func_020456F8(work->menuWins[i]);
+            func_0201F7A8(work->menuWins[i], 2);
+            func_020452E8(work->menuWins[i]);
+        }
+        work->menuWins[i] = 0;
+    }
+    for (i = 0; i < count; i++) {
+        func_0201DD78(15, 2, 0);
+        work->menuWins[i] = func_020450F0(7, (u8)descs[i].posX, (u8)descs[i].posY, (u8)descs[i].width, (u8)descs[i].height, 8, 0);
+        func_02043B5C(func_02045770(work->menuWins[i]), 0);
+        func_02045CAC(work->msgData, msgIds[i], work->message);
+        if (centerX != 0) {
+            x = centerX[i] - (func_0201D304(work->message, work->font, 0) >> 1);
+        } else {
+            x = 0;
+        }
+        if (centerY != 0) {
+            y = centerY[i] - (func_0201D42C(work->message, work->font) >> 1);
+        } else {
+            y = 0;
+        }
+        func_0201C7A4(func_02045770(work->menuWins[i]), x, y, work->message, work->font);
+        func_02045334(work->menuWins[i]);
+        func_02045374(work->menuWins[i]);
+    }
+    if (work->touchSw != 0) {
+        func_02051C6C(work->touchSw);
+    }
+    work->touchSw = 0;
+    func_02041B6C(7);
+    func_02040588(7, 1);
+}
+
+/* Deletes the touch switch and the button windows. */
+void func_02196454(IrcBattleMenuWork *work)
+{
     int i;
 
-    func_02197058(p);
+    if (work->touchSw != 0)
+        func_02051C6C(work->touchSw);
+    work->touchSw = 0;
+    for (i = 0; i < 4; i++) {
+        if (work->menuWins[i] != 0) {
+            func_020456F8(work->menuWins[i]);
+            func_02041B6C(5);
+            func_0201F7A8(work->menuWins[i], 2);
+            func_020452E8(work->menuWins[i]);
+        }
+        work->menuWins[i] = 0;
+    }
+    work->menuWinCount = 0;
+}
+
+/* Touch switch callback: for event 0 forwards the button index to work->touchFunc. */
+void func_0219649C(u32 index, int event, IrcBattleMenuWork *work)
+{
+    if (event == 0 && work->touchFunc != 0 && work->touchFunc(index, work) != 0) {
+        return;
+    }
+}
+
+/* Adds rowOffsets[j] to the r, g and b value of color j of each of "rows" palette rows, clamped to 31. */
+void func_021964B0(u16 (*pltt)[16], const u16 *rowOffsets, int rows)
+{
+    int i;
+    int j;
+    u16 color;
+    u16 red;
+    u16 green;
+    u16 blue;
+
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < 16; j++) {
+            color = pltt[i][j];
+            red = color & 0x1F;
+            green = (color & 0x3E0) >> 5;
+            blue = (color & 0x7C00) >> 10;
+            red += rowOffsets[j];
+            green += rowOffsets[j];
+            blue += rowOffsets[j];
+            if (red > 31) {
+                red = 31;
+            }
+            if (green > 31) {
+                green = 31;
+            }
+            if (blue > 31) {
+                blue = 31;
+            }
+            pltt[i][j] = (blue << 10) + (red + (green << 5));
+        }
+    }
+}
+
+/* Loads the message data, font, menu graphics and palettes; the counterpart of func_02196768. */
+void func_02196538(IrcBattleMenuWork *work)
+{
+    struct ArcHandle *arc;
+    void *plttRes;
+    struct PaletteData *plttData;
+
+    work->isSaveDone = 0;
+    work->message = func_020457B0(0x12C, work->heapId);
+    work->font = func_0201D7EC(0x17, 0, 0, 0, work->heapId);
+    work->msgData = func_02045B38(0, 2, 0x2E, work->heapId);
+    arc = func_020490F4(0x1C, work->heapId);
+    func_02049B68(arc, 1, 0, 0, 0, work->heapId);
+    work->mainBgChar = func_02049740(arc, 6, 0, 0, 0, work->heapId);
+    func_02049990(arc, 0xD, 0, 0, (u16)work->mainBgChar, 0, 0, work->heapId);
+    func_02049238(arc);
+    arc = func_020490F4(0x1D, work->heapId);
+    func_02049B68(arc, 2, 4, 0, 0, work->heapId);
+    plttRes = func_02049F78(arc, 2, &plttData, work->heapId);
+    func_02082D44(plttData->rawData, work->menuPltt, 0x100);
+    func_02082D44(plttData->rawData, work->menuPlttBright, 0x100);
+    func_021964B0(work->menuPlttBright, d_021DDAD4, 8);
+    func_020307B0(plttRes);
+    func_02049B68(arc, 0, 0, 0, 0, work->heapId);
+    work->subBgChar = func_02049740(arc, 4, 4, 0, 0, work->heapId);
+    func_02049990(arc, 9, 4, 0, (u16)work->subBgChar, 0, 0, work->heapId);
+    func_02049990(arc, 0xB, 6, 0, (u16)work->subBgChar, 0, 0, work->heapId);
+    func_02049238(arc);
+    work->winFrameChar = func_0201F5DC(5, 0xC, 0, work->heapId);
+    func_02049B40(0x17, 5, 4, 0x160, 0x20, work->heapId);
+}
+
+/* Loads sub BG 6 screen "screenId" from the menu graphics archive. */
+void func_021966B0(IrcBattleMenuWork *work, u32 screenId)
+{
+    struct ArcHandle *arc;
+
+    arc = func_020490F4(0x1D, work->heapId);
+    func_02049990(arc, screenId, 6, 0, (u16)work->subBgChar, 0, 0, work->heapId);
+    func_02049238(arc);
+    func_02040588(6, 1);
+}
+
+/* Sequence: builds the top menu (four buttons, five actors). */
+void func_021966F0(IrcBattleMenuWork *work)
+{
+    MsgIdRow4 msgIds = d_021D4070;
+
+    func_021966B0(work, 0xB);
+    func_0219707C(work);
+    func_0219630C(4, msgIds.id, work, d_021DDB84, d_021D4014, d_021D4024);
+    work->touchSw = func_02051B84(d_021D404C, func_0219649C, work, work->heapId);
+    work->touchFunc = func_02196974;
+    func_02196034(work, func_02196A4C, 0x340);
+}
+
+/* Frees what func_02196538 loaded and resets the BG layers. */
+void func_02196768(IrcBattleMenuWork *work)
+{
+    u32 frameChar;
+
+    func_0201DD68();
+    func_02196454(work);
+    func_02040DA8(5, 1, 0);
+    frameChar = work->winFrameChar;
+    func_0203FB44(5, (u16)frameChar, (u16)(frameChar >> 16));
+    func_020403F4(5);
+    func_020403F4(4);
+    func_02045C04(work->msgData);
+    func_0201D83C(work->font);
+    func_02045808(work->message);
+    func_02040588(5, 0);
+}
+
+/* Sequence: once the screen fade is done, ends the sequences. */
+void func_021967BC(IrcBattleMenuWork *work)
+{
+    if (func_020221A4()) {
+        if (work->mode != 0xC) {
+            if (func_02026454(func_02012138(func_02155A90(work->param))) == 0)
+                func_02196034(work, 0, 0x361);
+        } else {
+            func_02196034(work, 0, 0x365);
+        }
+    }
+}
+
+/* Sequence: disables auto comm, starts the screen fade and closes the connection unless the user went back. */
+void func_02196804(IrcBattleMenuWork *work)
+{
+    work->noAutoComm = 1;
+    func_0202208C(0, 0, 0, 0, 6, 1, work->heapId);
+    if (work->mode != 0xC) {
+        if (func_02026454(func_02012138(func_02155A90(work->param))) != 0) {
+            func_02026400(func_02012138(func_02155A90(work->param)));
+        }
+    }
+    func_02196034(work, func_021967BC, 0x37C);
+}
+
+/* Animation end hook of the top menu: picks the next sequence from the chosen mode. */
+void func_0219686C(IrcBattleMenuWork *work)
+{
+    if (work->mode == 0xC) {
+        func_02196034(work, func_02196804, 0x38C);
+        return;
+    }
+    if (func_02008428(func_0200873C(func_02155A94(work->param))) == 1) {
+        func_02196034(work, func_02197700, 0x38F);
+        return;
+    }
+    if (work->mode - 6 <= 2) {
+        func_02196034(work, func_02196804, 0x394);
+        return;
+    }
+    func_02196034(work, func_02196A60, 0x397);
+}
+
+/* Sequence: waits for the actor animation. */
+void func_021968D8(IrcBattleMenuWork *work)
+{
+}
+
+/* Sequence: plays the press animation of the touched top menu button, then runs func_0219686C. */
+void func_021968DC(IrcBattleMenuWork *work)
+{
+    ClactAnimEndHook hook;
+    u32 i;
+
+    i = work->touchIndex;
+    hook.type = 0;
+    hook.work = work;
+    hook.callback = func_0219686C;
+    if (i == 5) {
+        i = 0;
+    } else if (i == 6) {
+        i = 1;
+    } else if (i == 7) {
+        i = 3;
+    }
+    func_0204B92C(work->menuActors[i], 1);
+    func_0204BA00(work->menuActors[i], &hook);
+    func_0204B9A0(work->menuActors[i]);
+    func_02196034(work, func_021968D8, 0x3BF);
+}
+
+/* Sequence: after the "not enough Pokemon" message, closes it and returns to touch input. */
+void func_02196944(IrcBattleMenuWork *work)
+{
+    if (func_021975D0(work) != 0 && func_02035C60() != 0) {
+        func_021962F4(work);
+        func_02196034(work, func_02196A4C, 0x3CB);
+    }
+}
+
+/* Touch handler of the top menu: sets the mode from the pressed button. */
+int func_02196974(u32 index, IrcBattleMenuWork *work)
+{
+    int taken = 0;
+
+    work->touchIndex = index;
+    switch (index) {
+    case 0:
+    case 5:
+        func_020061E4(0x73B);
+        func_02196034(work, func_021968DC, 0x3DE);
+        taken = 1;
+        work->mode = 1;
+        break;
+    case 1:
+    case 6:
+        if ((int)func_0201AA1C(func_02012934(work->gameData)) < 2) {
+            func_02045CAC(work->msgData, 0x2C, work->message);
+            func_02197644(work, 0);
+            func_02196034(work, func_02196944, 0x3EA);
+        } else {
+            func_020061E4(0x73B);
+            work->mode = 6;
+            func_02196034(work, func_021968DC, 0x3F0);
+            taken = 1;
+        }
+        break;
+    case 2:
+        func_020061E4(0x73B);
+        work->mode = 8;
+        func_02196034(work, func_021968DC, 0x3F6);
+        taken = 1;
+        break;
+    case 3:
+    case 7:
+        func_020061E4(0x73B);
+        work->mode = 7;
+        func_02196034(work, func_021968DC, 0x3FD);
+        taken = 1;
+        break;
+    case 4:
+        func_020061E4(0x73C);
+        work->mode = 0xC;
+        func_02196034(work, func_021968DC, 0x404);
+        break;
+    }
+    return taken;
+}
+
+/* Sequence: updates the touch switch each frame once the screen fade is done. */
+void func_02196A4C(IrcBattleMenuWork *work)
+{
+    if (func_020221A4() != 0) {
+        func_02051C88(work->touchSw);
+    }
+}
+
+/* Sequence: builds the kind menu (two buttons, three actors). */
+void func_02196A60(IrcBattleMenuWork *work)
+{
+    MsgIdRow2 msgIds = d_021D3FE0;
+
+    func_02197190(work);
+    func_021966B0(work, 0xC);
+    func_0219630C(2, msgIds.id, work, d_021DDAF4, 0, 0);
+    work->touchSw = func_02051B84(d_021D3FF4, func_0219649C, work, work->heapId);
+    work->touchFunc = func_02196BF8;
+    func_02196034(work, func_02196FF0, 0x432);
+}
+
+/* Animation end hook of the kind menu: picks the next menu from the mode and the party check. */
+void func_02196ACC(IrcBattleMenuWork *work)
+{
+    if (work->mode == 5) {
+        if (func_0200BBA8(func_0200BAC8(work->param->saveData)) != 0) {
+            func_02196034(work, func_02196E04, 0x443);
+        } else {
+            func_02196034(work, func_02196804, 0x446);
+        }
+    } else {
+        func_02196034(work, func_02196C68, 0x44D);
+    }
+}
+
+/* Sequence: waits for the actor animation. */
+void func_02196B24(IrcBattleMenuWork *work)
+{
+}
+
+/* Sequence: plays the press animation of the kind menu button, then runs func_02196ACC. */
+void func_02196B28(IrcBattleMenuWork *work)
+{
+    ClactAnimEndHook hook;
+    int i;
+
+    i = 0;
+    if (work->mode == 5) {
+        i = 1;
+    }
+    hook.type = 0;
+    hook.work = work;
+    hook.callback = func_02196ACC;
+    func_0204B92C(work->menuActors[i], 1);
+    func_0204BA00(work->menuActors[i], &hook);
+    func_0204B9A0(work->menuActors[i]);
+    func_02196034(work, func_02196B24, 0x471);
+}
+
+/* Animation end hook of the kind menu back button: returns to the top menu. */
+void func_02196B7C(IrcBattleMenuWork *work)
+{
+    func_02196034(work, func_021966F0, 0x47A);
+}
+
+/* Sequence: waits for the actor animation. */
+void func_02196B90(IrcBattleMenuWork *work)
+{
+}
+
+/* Sequence: plays the press animation of the pressed button, then runs func_02196B7C. */
+void func_02196B94(IrcBattleMenuWork *work)
+{
+    ClactAnimEndHook hook;
+
+    hook.type = 0;
+    hook.work = work;
+    hook.callback = func_02196B7C;
+    func_0204B92C(work->menuActors[work->touchIndex], 1);
+    func_0204BA00(work->menuActors[work->touchIndex], &hook);
+    func_0204B9A0(work->menuActors[work->touchIndex]);
+    func_02196034(work, func_02196B90, 0x492);
+}
+
+/* Touch handler of the kind menu. */
+int func_02196BF8(u32 index, IrcBattleMenuWork *work)
+{
+    int taken = 1;
+
+    work->touchIndex = index;
+    switch (index) {
+    case 0:
+        func_020061E4(0x73B);
+        func_02196034(work, func_02196B28, 0x4A3);
+        break;
+    case 1:
+        func_020061E4(0x73B);
+        work->mode = 5;
+        func_02196034(work, func_02196B28, 0x4A9);
+        break;
+    case 2:
+        func_020061E4(0x73C);
+        work->mode = 0xC;
+        func_02196034(work, func_02196B94, 0x4AF);
+        break;
+    default:
+        taken = 1;
+        break;
+    }
+    return taken;
+}
+
+/* Sequence: builds the rule menu (four buttons, five actors). */
+void func_02196C68(IrcBattleMenuWork *work)
+{
+    MsgIdRow4 msgIds = d_021D4080;
+
+    func_0219728C(work);
+    func_021966B0(work, 0xD);
+    func_0219630C(4, msgIds.id, work, d_021DDB44, 0, 0);
+    work->touchSw = func_02051B84(d_021D4034, func_0219649C, work, work->heapId);
+    work->touchFunc = func_02196F44;
+    func_02196034(work, func_02196FF0, 0x4CC);
+}
+
+/* Animation end hook of the party menu: picks the next menu from the party mode. */
+void func_02196CD8(IrcBattleMenuWork *work)
+{
+    if (work->partyMode == 2) {
+        if (work->mode == 5) {
+            work->mode = 1;
+            func_02196034(work, func_02196A60, 0x4DD);
+        } else {
+            func_02196034(work, func_02196C68, 0x4E1);
+        }
+    } else {
+        func_02196034(work, func_02196804, 0x4E5);
+    }
+}
+
+/* Sequence: waits for the actor animation. */
+void func_02196D20(IrcBattleMenuWork *work)
+{
+}
+
+/* Sequence: plays the press animation of the party menu button, then runs func_02196CD8. */
+void func_02196D24(IrcBattleMenuWork *work)
+{
+    ActorRow3 actorIndex = d_021D3F9C;
+    ClactAnimEndHook hook;
+    int i;
+
+    i = actorIndex.v[work->partyMode];
+    hook.type = 0;
+    hook.work = work;
+    hook.callback = func_02196CD8;
+    func_0204B92C(work->menuActors[i], 1);
+    func_0204BA00(work->menuActors[i], &hook);
+    func_0204B9A0(work->menuActors[i]);
+    func_02196034(work, func_02196D20, 0x504);
+}
+
+/* Sequence: updates the touch switch each frame. */
+void func_02196D88(IrcBattleMenuWork *work)
+{
+    func_02051C88(work->touchSw);
+}
+
+/* Touch handler of the party menu: sets the party mode from the pressed button. */
+int func_02196D94(u32 index, IrcBattleMenuWork *work)
+{
+    int taken = 0;
+
+    work->touchIndex = index;
+    switch (index) {
+    case 1:
+        func_020061E4(0x73B);
+        work->partyMode = 0;
+        func_02196034(work, func_02196D24, 0x524);
+        taken = 1;
+        break;
+    case 0:
+        func_020061E4(0x73B);
+        taken = 1;
+        work->partyMode = 1;
+        func_02196034(work, func_02196D24, 0x52A);
+        break;
+    case 2:
+        func_020061E4(0x73C);
+        work->partyMode = 2;
+        func_02196034(work, func_02196D24, 0x530);
+        break;
+    }
+    return taken;
+}
+
+/* Sequence: builds the party menu (two buttons, three actors). */
+void func_02196E04(IrcBattleMenuWork *work)
+{
+    MsgIdRow2 msgIds = d_021D3FD8;
+
+    func_021973A0(work);
+    func_021966B0(work, 0xD);
+    func_0219630C(2, msgIds.id, work, d_021DDAF4, 0, 0);
+    work->touchSw = func_02051B84(d_021D4004, func_0219649C, work, work->heapId);
+    work->touchFunc = func_02196D94;
+    func_02196034(work, func_02196D88, 0x54D);
+}
+
+/* Animation end hook of the rule menu: picks the next menu from the mode and the party check. */
+void func_02196E70(IrcBattleMenuWork *work)
+{
+    if (work->mode == 0xC) {
+        func_02196034(work, func_02196A60, 0x558);
+    } else {
+        if (func_0200BBA8(func_0200BAC8(work->param->saveData)) != 0) {
+            func_02196034(work, func_02196E04, 0x55D);
+        } else {
+            func_02196034(work, func_02196804, 0x560);
+        }
+    }
+}
+
+/* Sequence: waits for the actor animation. */
+void func_02196EC8(IrcBattleMenuWork *work)
+{
+}
+
+/* Sequence: plays the press animation of the rule menu button for the chosen mode, then runs func_02196E70. */
+void func_02196ECC(IrcBattleMenuWork *work)
+{
+    ClactAnimEndHook hook;
+    int i;
+
+    switch (work->mode) {
+    case 1:
+        i = 0;
+        break;
+    case 2:
+        i = 1;
+        break;
+    case 3:
+        i = 2;
+        break;
+    case 4:
+        i = 3;
+        break;
+    default:
+        i = 4;
+        break;
+    }
+    hook.type = 0;
+    hook.work = work;
+    hook.callback = func_02196E70;
+    func_0204B92C(work->menuActors[i], 1);
+    func_0204BA00(work->menuActors[i], &hook);
+    func_0204B9A0(work->menuActors[i]);
+    func_02196034(work, func_02196EC8, 0x58F);
+}
+
+/* Touch handler of the rule menu: sets the mode (1 to 4, or 12 for back) from the pressed button. */
+int func_02196F44(u32 index, IrcBattleMenuWork *work)
+{
+    int taken = 0;
+
+    work->touchIndex = index;
+    switch (index) {
+    case 0:
+        func_020061E4(0x73B);
+        taken = 1;
+        work->mode = 1;
+        func_02196034(work, func_02196ECC, 0x5B1);
+        break;
+    case 1:
+        func_020061E4(0x73B);
+        work->mode = 2;
+        func_02196034(work, func_02196ECC, 0x5B7);
+        taken = 1;
+        break;
+    case 2:
+        func_020061E4(0x73B);
+        work->mode = 3;
+        func_02196034(work, func_02196ECC, 0x5BD);
+        taken = 1;
+        break;
+    case 3:
+        func_020061E4(0x73B);
+        work->mode = 4;
+        func_02196034(work, func_02196ECC, 0x5C3);
+        taken = 1;
+        break;
+    case 4:
+        func_020061E4(0x73C);
+        work->mode = 0xC;
+        func_02196034(work, func_02196ECC, 0x5C9);
+        break;
+    }
+    return taken;
+}
+
+/* Sequence: updates the touch switch each frame. */
+void func_02196FF0(IrcBattleMenuWork *work)
+{
+    func_02051C88(work->touchSw);
+}
+
+/* Loads the actor resources: character, palette and cell animation (stored in res[3], res[1], res[5]). */
+void func_02196FFC(IrcBattleMenuWork *work)
+{
+    struct ArcHandle *arc;
+
+    arc = func_020490F4(0x1D, work->heapId);
+    work->res[3] = func_0204A6C8(arc, 5, 0, 1, work->heapId);
+    work->res[1] = func_0204AC18(arc, 3, 1, 0, 0, 0xA, work->heapId);
+    work->res[5] = func_0204AF28(arc, 7, 0x10, work->heapId);
+    func_02049238(arc);
+}
+
+/* Deletes the menu actors. */
+void func_02197058(IrcBattleMenuWork *work)
+{
+    int i;
+
+    for (i = 0; i < 5; i++) {
+        if (work->menuActors[i] != 0) {
+            func_0204B3B4(work->menuActors[i]);
+            work->menuActors[i] = 0;
+        }
+    }
+}
+
+/* Creates the five actors of the top menu. */
+void func_0219707C(IrcBattleMenuWork *work)
+{
+    ActorRow5 posX = d_021D3FC8;
+    ActorRow5 posY = d_021D3FB0;
+    ActorRow5 anim = d_021D3FA8;
+    ClactActorInit init;
+    int i;
+
+    func_02197058(work);
+    for (i = 0; i < 5; i++) {
+        init.posX = posX.v[i];
+        init.posY = posY.v[i];
+        init.anim = anim.v[i];
+        init.softPri = 0;
+        init.bgPri = 1;
+        work->menuActors[i] = func_0204B294(work->clactUnit, work->res[3], work->res[1], work->res[5], &init, 1, work->heapId);
+        func_0204B92C(work->menuActors[i], 0);
+        func_0204B3DC(work->menuActors[i], 1);
+        func_0204B688(work->menuActors[i], 1);
+    }
+}
+
+/* Creates the three actors of the kind menu. */
+void func_02197190(IrcBattleMenuWork *work)
+{
+    ActorRow3 posX = d_021D3FA0;
+    ActorRow3 posY = d_021D3F8C;
+    ActorRow3 anim = d_021D3F94;
+    ClactActorInit init;
+    int i;
+
+    func_02197058(work);
     for (i = 0; i < 3; i++) {
-        r.a = x0.v[i];
-        r.b = x1.v[i];
-        r.c = x2.v[i];
-        r.d = 0;
-        r.e = 1;
-        p->sub.arr[i] = (int)func_0204B294((void *)p->sub.f0, p->sub.f10, p->sub.f8, p->sub.f18, &r, 1, p->f10);
-        func_0204B92C((struct Obj_0219728C *)p->sub.arr[i], 0);
-        func_0204B3DC((struct Obj_0219728C *)p->sub.arr[i], 1);
-        func_0204B688((struct Actor *)p->sub.arr[i], 1);
+        init.posX = posX.v[i];
+        init.posY = posY.v[i];
+        init.anim = anim.v[i];
+        init.softPri = 0;
+        init.bgPri = 1;
+        work->menuActors[i] = func_0204B294(work->clactUnit, work->res[3], work->res[1], work->res[5], &init, 1, work->heapId);
+        func_0204B92C(work->menuActors[i], 0);
+        func_0204B3DC(work->menuActors[i], 1);
+        func_0204B688(work->menuActors[i], 1);
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
- * An empty function.
+ * Creates the five actors of the main menu screen from the position and
+ * animation rows d_021D3FC0 (x), d_021D3FD0 (y) and d_021D3FB8 (animation).
  */
-void func_0219749C(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4)
+void func_0219728C(IrcBattleMenuWork *work)
+{
+    ActorRow5 posX = d_021D3FC0;
+    ActorRow5 posY = d_021D3FD0;
+    ActorRow5 anim = d_021D3FB8;
+    ClactActorInit init;
+    int i;
+
+    func_02197058(work);
+    for (i = 0; i < 5; i++) {
+        init.posX = posX.v[i];
+        init.posY = posY.v[i];
+        init.anim = anim.v[i];
+        init.softPri = 0;
+        init.bgPri = 1;
+        work->menuActors[i] = func_0204B294(work->clactUnit, work->res[3], work->res[1], work->res[5], &init, 1, work->heapId);
+        func_0204B92C(work->menuActors[i], 0);
+        func_0204B3DC(work->menuActors[i], 1);
+        func_0204B688(work->menuActors[i], 1);
+    }
+}
+
+/* Same as func_0219728C for the three actors of the second menu screen. */
+void func_021973A0(IrcBattleMenuWork *work)
+{
+    ActorRow3 posX = d_021D3F98;
+    ActorRow3 posY = d_021D3FA4;
+    ActorRow3 anim = d_021D3F90;
+    ClactActorInit init;
+    int i;
+
+    func_02197058(work);
+    for (i = 0; i < 3; i++) {
+        init.posX = posX.v[i];
+        init.posY = posY.v[i];
+        init.anim = anim.v[i];
+        init.softPri = 0;
+        init.bgPri = 1;
+        work->menuActors[i] = func_0204B294(work->clactUnit, work->res[3], work->res[1], work->res[5], &init, 1, work->heapId);
+        func_0204B92C(work->menuActors[i], 0);
+        func_0204B3DC(work->menuActors[i], 1);
+        func_0204B688(work->menuActors[i], 1);
+    }
+}
+
+/* An empty function: the decoration it would create was left out. */
+void func_0219749C(IrcBattleMenuWork *work, u32 posX, u32 posY, u32 index, u32 anim)
 {
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021974A0(Sub_0219728C *o)
+/* Deletes all actors and releases the six cell resources (palette, character, cell animation). */
+void func_021974A0(IrcBattleMenuWork *work)
 {
     int i;
 
     for (i = 0; i < 5; i++) {
-        if (o->a[i] != 0) {
-            func_0204B3B4(o->a[i]);
-            o->a[i] = 0;
+        if (work->menuActors[i] != 0) {
+            func_0204B3B4(work->menuActors[i]);
+            work->menuActors[i] = 0;
         }
     }
     for (i = 0; i < 2; i++) {
-        if (o->b[i] != 0) {
-            func_0204B3B4(o->b[i]);
-            o->b[i] = 0;
+        if (work->extraActors[i] != 0) {
+            func_0204B3B4(work->extraActors[i]);
+            work->extraActors[i] = 0;
         }
     }
     for (i = 0; i < 2; i++) {
-        if (o->c[i] != 0) {
-            func_0204ADA4((u32)o->c[i]);
+        if (work->res[i] != 0) {
+            func_0204ADA4(work->res[i]);
         }
     }
     for (; i < 4; i++) {
-        if (o->c[i] != 0) {
-            func_0204A8D4((u32)o->c[i]);
+        if (work->res[i] != 0) {
+            func_0204A8D4(work->res[i]);
         }
     }
     for (; i < 6; i++) {
-        if (o->c[i] != 0) {
-            func_0204AFD8((u32)o->c[i]);
+        if (work->res[i] != 0) {
+            func_0204AFD8(work->res[i]);
         }
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void func_02197534(Obj *a)
+/* Opens the yes/no task menu (strings 26 and 27). */
+void func_02197534(IrcBattleMenuWork *work)
 {
-    Desc d;
+    TaskMenuInit init;
 
-    d.x0 = a->x10;
-    d.x4 = 2;
-    d.x8 = a->e;
-    d.xc = 1;
-    d.x10 = 0x20;
-    d.x11 = 0xE;
-    d.x12 = 0xD;
-    d.x13 = 3;
-    a->e[0].w = (u32)func_020457B0(100, a->x10);
-    func_02045CAC((struct MsgBank *)a->x28, 26, (void *)a->e[0].w);
-    a->e[0].h = 0x39E3;
-    a->e[1].w = (u32)func_020457B0(100, a->x10);
-    func_02045CAC((struct MsgBank *)a->x28, 27, (void *)a->e[1].w);
-    a->e[1].h = 0x39E3;
-    a->e[0].z = 0;
-    a->e[1].z = 0;
-    a->x2c0 = (u32)func_02027778((struct TaskMenuTmpl *)(&d), (void *)a->x2dc);
-    func_02027CD8(a->x2c0, 1);
-    func_02045808((struct U16Vec *)a->e[0].w);
-    func_02045808((struct U16Vec *)a->e[1].w);
+    init.heapId = work->heapId;
+    init.itemNum = 2;
+    init.itemWork = work->yesNoItems;
+    init.posType = 1;
+    init.charPosX = 0x20;
+    init.charPosY = 0xE;
+    init.width = 0xD;
+    init.height = 3;
+    work->yesNoItems[0].str = func_020457B0(100, work->heapId);
+    func_02045CAC(work->msgData, 26, work->yesNoItems[0].str);
+    work->yesNoItems[0].msgColor = 0x39E3;
+    work->yesNoItems[1].str = func_020457B0(100, work->heapId);
+    func_02045CAC(work->msgData, 27, work->yesNoItems[1].str);
+    work->yesNoItems[1].msgColor = 0x39E3;
+    work->yesNoItems[0].type = 0;
+    work->yesNoItems[1].type = 0;
+    work->yesNoMenu = func_02027778(&init, work->taskMenuRes);
+    func_02027CD8(work->yesNoMenu, 1);
+    func_02045808(work->yesNoItems[0].str);
+    func_02045808(work->yesNoItems[1].str);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
- * Per-frame poll of the object at +0x2B4; returns 1 when it is absent.
- *
- * Addresses are Black-image addresses.
+ * Runs the message print stream; returns 1 when no stream is active.
  */
-int func_021975D0(u8 *p)
+int func_021975D0(IrcBattleMenuWork *work)
 {
-    if (((struct Obj00094 *)p)->f2B4 != 0) {
-        if (((struct Obj00094 *)p)->f2B0 != 0)
-            func_020286C4(((struct Obj00094 *)p)->f2A8, ((struct Obj00094 *)p)->f2B4, ((struct Obj00094 *)p)->f2B0);
-        switch (func_0201CE30(((struct Obj00094 *)p)->f2B4)) {
+    if (work->printStream != 0) {
+        if (work->msgWin != 0)
+            func_020286C4(work->keyCursor, work->printStream, work->msgWin);
+        switch (func_0201CE30(work->printStream)) {
         case 2:
-            func_0201CE48(((struct Obj00094 *)p)->f2B4);
-            ((struct Obj00094 *)p)->f2B4 = 0;
+            func_0201CE48(work->printStream);
+            work->printStream = 0;
             break;
         case 1:
             if (func_02035C60() != 0) {
                 func_020061E4(0x547);
-                func_0201CE38(((struct Obj00094 *)p)->f2B4);
+                func_0201CE38(work->printStream);
             }
             break;
         case 0:
             if (func_02035C38() != 0)
-                func_0201CE5C(((struct Obj00094 *)p)->f2B4, 0);
+                func_0201CE5C(work->printStream, 0);
             break;
         }
         return 0;
@@ -884,310 +1558,195 @@ int func_021975D0(u8 *p)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void func_02197644(u8 *a, u32 b)
+/* Prints work->message in the message window, streamed or at once. */
+void func_02197644(IrcBattleMenuWork *work, u32 isInstant)
 {
-    u32 t;
+    struct BmpWin *win;
 
-    if (*(u32 *)&((struct Obj00094 *)a)->f2B0 == 0) {
-        *(u32 *)&((struct Obj00094 *)a)->f2B0 = func_020450F0(5, 1, 3, 30, 4, 11, 1);
+    if (work->msgWin == 0) {
+        work->msgWin = func_020450F0(5, 1, 3, 30, 4, 11, 1);
     }
-    t = *(u32 *)&((struct Obj00094 *)a)->f2B0;
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)t)), 15);
+    win = work->msgWin;
+    func_02043B5C(func_02045770(win), 15);
     func_0201DD78(1, 2, 15);
-    if (b == 0) {
-        *(u32 *)&((struct Obj00094 *)a)->f2B4 = func_0201CCE4(t, 0, 0, ((struct Obj00094 *)a)->f38, ((struct Obj00094 *)a)->f2C, func_02012FFC(), ((struct Obj00094 *)a)->f2B8, 2, ((struct Obj00094 *)a)->f10, 15);
+    if (isInstant == 0) {
+        work->printStream = func_0201CCE4(win, 0, 0, work->message, work->font, func_02012FFC(), work->tcbl, 2, work->heapId, 15);
     } else {
-        func_0201C7A4((void *)((u32)func_02045770((struct Descriptor *)t)), 0, 0, (void *)(((struct Obj00094 *)a)->f38), (void *)(((struct Obj00094 *)a)->f2C));
-        *(u32 *)&((struct Obj00094 *)a)->f2B4 = 0;
+        func_0201C7A4(func_02045770(win), 0, 0, work->message, work->font);
+        work->printStream = 0;
     }
-    func_0201F73C((void *)t, 1, (u16)((struct Obj00094 *)a)->f3C, 12);
-    func_02045334((struct Descriptor *)t);
-    func_02045374((struct Cfg *)t);
+    func_0201F73C(win, 1, (u16)work->winFrameChar, 12);
+    func_02045334(win);
+    func_02045374(win);
     func_02041B6C(5);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void func_02197700(u8 *a)
+/* Shows the save question (string 25). */
+void func_02197700(IrcBattleMenuWork *work)
 {
-    func_02196228(a, 1);
+    func_02196228(work, 1);
     func_02041570(5, 0);
-    func_02045CAC((struct MsgBank *)(((struct Obj00094 *)a)->f28), 25, (void *)(((struct Obj00094 *)a)->f38));
-    func_02197644(a, 0);
-    func_02196034(a, func_021978AC, 0x761);
+    func_02045CAC(work->msgData, 25, work->message);
+    func_02197644(work, 0);
+    func_02196034(work, func_021978AC, 0x761);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void func_02197738(u8 *a)
+/* Runs the save; when it ends, goes on to the chosen battle mode. */
+void func_02197738(IrcBattleMenuWork *work)
 {
-    if (func_02012DD0(*(u8 * *)&((struct Obj05989 *)a)->f30) == 2) {
-        func_02196228(a, 0);
-        func_0201F7A8((void *)(((struct Obj05989 *)a)->f2B0), 2);
-        func_020456F8((struct Descriptor *)(((struct Obj05989 *)a)->f2B0));
+    if (func_02012DD0(work->gameData) == 2) {
+        func_02196228(work, 0);
+        func_0201F7A8(work->msgWin, 2);
+        func_020456F8(work->msgWin);
         func_02041B6C(5);
-        if (((struct Obj05989 *)a)->f8 == 1) {
-            func_02196034(a, func_02196A60, 0x776);
+        if (work->mode == 1) {
+            func_02196034(work, func_02196A60, 0x776);
         } else {
-            func_02196034(a, func_02196804, 0x779);
+            func_02196034(work, func_02196804, 0x779);
         }
-        ((struct Obj05989 *)a)->f2F8 = 1;
+        work->isSaveDone = 1;
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-void func_02197798(u8 *a)
+/* Waits for the "saving" message, then starts the save. */
+void func_02197798(IrcBattleMenuWork *work)
 {
-    if (func_021975D0(a) != 0) {
-        func_02012DAC(((struct Obj00094 *)a)->f30);
-        func_02196034(a, func_02197738, 0x78E);
+    if (func_021975D0(work) != 0) {
+        func_02012DAC(work->gameData);
+        func_02196034(work, func_02197738, 0x78E);
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021977C0(u8 *a)
+/* Waits for the message and a touch, then leaves the menu (mode 12). */
+void func_021977C0(IrcBattleMenuWork *work)
 {
-    if (func_021975D0(a) != 0 && func_02035C60() != 0) {
-        func_02196228(a, 0);
+    if (func_021975D0(work) != 0 && func_02035C60() != 0) {
+        func_02196228(work, 0);
         func_020414EC(3);
-        func_021962F4(a);
-        ((struct Obj00094 *)a)->f8 = 12;
-        func_02196034(a, func_02196A4C, 0x7a2);
+        func_021962F4(work);
+        work->mode = 12;
+        func_02196034(work, func_02196A4C, 0x7a2);
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-void func_02197800(u8 *a)
+/* Handles the yes/no answer to the save question. */
+void func_02197800(IrcBattleMenuWork *work)
 {
-    if (func_020279E8((struct TaskMenu *)(((struct Obj00094 *)a)->f2C0)) != 0) {
-        if (func_02027A04((const u8 *)(((struct Obj00094 *)a)->f2C0)) == 0) {
-            func_02012EBC((struct Big *)(((struct Obj00094 *)a)->f30));
+    if (func_020279E8(work->yesNoMenu) != 0) {
+        if (func_02027A04(work->yesNoMenu) == 0) {
+            func_02012EBC(work->gameData);
             if (func_020071F0() != 0) {
-                func_02045CAC((struct MsgBank *)(((struct Obj00094 *)a)->f28), 0x2d, (void *)(((struct Obj00094 *)a)->f38));
-                func_02197644(a, 0);
-                func_02196034(a, func_021977C0, 0x7b9);
+                func_02045CAC(work->msgData, 0x2d, work->message);
+                func_02197644(work, 0);
+                func_02196034(work, func_021977C0, 0x7b9);
             } else {
-                func_02045CAC((struct MsgBank *)(((struct Obj00094 *)a)->f28), 0x1c, (void *)(((struct Obj00094 *)a)->f38));
-                func_02197644(a, 1);
-                func_02196290(a);
-                func_02196034(a, func_02197798, 0x7bf);
+                func_02045CAC(work->msgData, 0x1c, work->message);
+                func_02197644(work, 1);
+                func_02196290(work);
+                func_02196034(work, func_02197798, 0x7bf);
             }
         } else {
-            func_02196228(a, 0);
+            func_02196228(work, 0);
             func_020414EC(3);
-            func_021962F4(a);
-            ((struct Obj00094 *)a)->f8 = 12;
-            func_02196034(a, func_02196A4C, 0x7c7);
+            func_021962F4(work);
+            work->mode = 12;
+            func_02196034(work, func_02196A4C, 0x7c7);
         }
-        func_02027858((struct TaskMenu *)(((struct Obj00094 *)a)->f2C0));
-        ((struct Obj00094 *)a)->f2C0 = 0;
+        func_02027858(work->yesNoMenu);
+        work->yesNoMenu = 0;
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021978AC(u8 *a)
+/* Waits for the save question, then opens the yes/no menu. */
+void func_021978AC(IrcBattleMenuWork *work)
 {
-    if (func_021975D0(a) != 0) {
-        func_02197534((Obj *)((struct Obj *)a));
-        func_02196034(a, func_02197800, 0x7DC);
+    if (func_021975D0(work) != 0) {
+        func_02197534(work);
+        func_02196034(work, func_02197800, 0x7DC);
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Untraced thunk: tail call into the ARM9 image.
- *
- * Addresses are Black-image addresses.
- */
+/* VBlank task: tail call into the ARM9 cell actor system. */
 void func_021978D4(void)
 {
     func_0204A648();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021978DC(struct Obj0203159C *a, u32 b, u32 c)
+/* Proc init: heap, display, cell actors, print system, first sequence. */
+int func_021978DC(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param)
 {
-    u8 *w;
+    IrcBattleMenuWork *work;
 
     func_0203064C(1, 0x1f, 0x18000);
-    w = func_0203159C(a, 0x308, 0x1f);
-    func_02082BCC(w, 0, 0x308);
-    ((struct Obj00150 *)w)->f10 = 0x1f;
-    func_0203F8F4(((struct Obj00150 *)w)->f10);
-    func_02045088(((struct Obj00150 *)w)->f10);
+    work = func_0203159C(proc, 0x308, 0x1f);
+    func_02082BCC(work, 0, 0x308);
+    work->heapId = 0x1f;
+    func_0203F8F4(work->heapId);
+    func_02045088(work->heapId);
     func_0201DD60();
     func_020433E0((const struct DispVram *)d_021DDB14);
     {
-        Q16 q = d_021D4090;
-        func_0203FC28((struct DispConfig *)(&q));
+        DispSetup setup = d_021D4090;
+        func_0203FC28((struct DispConfig *)(&setup));
     }
     func_02043534(0);
     func_020435F4(0);
-    func_0204A48C((const struct Cfg *)d_020A1448, (u32)d_021DDB14, ((struct Obj00150 *)w)->f10);
-    ((struct Obj00150 *)w)->f26C = (u32)func_0204B100(0x28, 0, ((struct Obj00150 *)w)->f10);
-    ((struct Obj00150 *)w)->f268 = func_020056A0(func_021978D4, w, 0);
-    func_0219603C(w);
-    func_02196538(w);
-    ((struct Obj00150 *)w)->f2EC = (unsigned int)func_02030734(((struct Obj00150 *)w)->f10, 0x200, 0, (const char *)d_021DDBC4, 0x829);
-    ((struct Obj00150 *)w)->f2F0 = (unsigned int)func_02030734(((struct Obj00150 *)w)->f10, 0x200, 0, (const char *)d_021DDBC4, 0x82A);
-    ((struct Obj00150 *)w)->f2B8 = (u32)func_0203101C(((struct Obj00150 *)w)->f10, ((struct Obj00150 *)w)->f10, 2, 0);
-    ((struct Obj00150 *)w)->f2A8 = func_02028590(0xf, 0, 1, ((struct Obj00150 *)w)->f10);
-    ((struct Obj00150 *)w)->f2BC = func_0201C440((void *)(((struct Obj00150 *)w)->f10));
-    ((struct Obj00150 *)w)->f2DC = (u32)func_02027F60(5, 9, *(u32 *)&((struct Obj00150 *)w)->f2C, ((struct Obj00150 *)w)->f2BC, ((struct Obj00150 *)w)->f10);
-    func_02196FFC(w);
-    func_0219749C(w, 0x39, 0x9a, 0, 10);
-    func_0219749C(w, 0xc8, 0x26, 1, 11);
-    func_0202208C(0, 1, 1, 0, 6, 1, ((struct Obj00150 *)w)->f10);
-    func_02196034(w, func_021966F0, 0x83B);
-    ((struct Obj00150 *)w)->f2E4 = c;
-    ((struct Obj00150 *)w)->f30 = (u32)func_020120F4((const struct Ctx *)func_02155A90((u8 *)((struct Obj00150 *)w)->f2E4));
+    func_0204A48C((const struct ClactSysInit *)d_020A1448, (const struct DispVram *)d_021DDB14, work->heapId);
+    work->clactUnit = func_0204B100(0x28, 0, work->heapId);
+    work->vblankTask = func_020056A0(func_021978D4, work, 0);
+    func_0219603C(work);
+    func_02196538(work);
+    work->subObjPlttCopy = func_02030734(work->heapId, 0x200, 0, (const char *)d_021DDBC4, 0x829);
+    work->subBgPlttCopy = func_02030734(work->heapId, 0x200, 0, (const char *)d_021DDBC4, 0x82A);
+    work->tcbl = func_0203101C(work->heapId, work->heapId, 2, 0);
+    work->keyCursor = func_02028590(0xf, 0, 1, work->heapId);
+    work->printQue = func_0201C440(work->heapId);
+    work->taskMenuRes = func_02027F60(5, 9, work->font, work->printQue, work->heapId);
+    func_02196FFC(work);
+    func_0219749C(work, 0x39, 0x9a, 0, 10);
+    func_0219749C(work, 0xc8, 0x26, 1, 11);
+    func_0202208C(0, 1, 1, 0, 6, 1, work->heapId);
+    func_02196034(work, func_021966F0, 0x83B);
+    work->param = (struct IrcBattleEntryWork *)param;
+    work->gameData = func_020120F4(func_02155A90((IrcBattleEntryWork *)work->param));
     func_0207D63C(0x04001050, 4, 1, 0xf, 4);
-    func_0203D34C(0, ((struct Obj00150 *)w)->f10);
+    func_0203D34C(0, work->heapId);
     func_02043534(0x13);
     func_020435F4(0x17);
     func_0207D63C(0x04000050, 0x10, 3, 9, 0xe);
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-u32 func_02197AAC(u32 r0, u32 r1, u32 r2, u8 *a)
+/* Proc main: runs the current sequence until it clears seqFunc. */
+u32 func_02197AAC(u32 proc, u32 seq, u32 param, IrcBattleMenuWork *work)
 {
     u32 ret;
-    void (*cb)(u8 *);
+    IrcBattleMenuSeqFunc seqFunc;
 
-    cb = *(void (**)(u8 *))a;
+    seqFunc = work->seqFunc;
     ret = 1;
-    func_0201058C((void *)func_0201283C((const struct BigObj *)(((struct Obj01495 *)a)->f30)));
-    if (cb != 0) {
-        cb(a);
+    func_0201058C(func_0201283C(work->gameData));
+    if (seqFunc != 0) {
+        seqFunc(work);
         ret = 0;
     }
-    if (((struct Obj01495 *)a)->f2C0 != 0) {
-        func_02027974(((struct Obj01495 *)a)->f2C0);
+    if (work->yesNoMenu != 0) {
+        func_02027974(work->yesNoMenu);
     }
-    if (((struct Obj01495 *)a)->f2E0 != 0) {
-        func_02028178((u8 *)(((struct Obj01495 *)a)->f2E0));
+    if (work->taskMenuWin != 0) {
+        func_02028178(work->taskMenuWin);
     }
-    func_02040618(4, 3, ((struct Obj01495 *)a)->f2AC);
-    ((struct Obj01495 *)a)->f2AC = ((struct Obj01495 *)a)->f2AC - 1;
-    func_020310C4((struct Tcbl *)(((struct Obj01495 *)a)->f2B8));
-    func_0201C4E4((struct PrintSys *)(((struct Obj01495 *)a)->f2BC));
+    func_02040618(4, 3, work->bgAnimCount);
+    work->bgAnimCount = work->bgAnimCount - 1;
+    func_020310C4(work->tcbl);
+    func_0201C4E4(work->printQue);
     func_0204A600();
-    if (((struct Obj01495 *)a)->f306 == 0) {
-        func_020121CC((struct IcaAnime *)func_02155A90((u8 *)(((struct Obj01495 *)a)->f2E4)));
+    if (work->noAutoComm == 0) {
+        func_020121CC(func_02155A90((IrcBattleEntryWork *)work->param));
     }
     if (func_020221A4() != 0) {
-        if (func_02012204((const struct Ctx *)func_02155A90((u8 *)(((struct Obj01495 *)a)->f2E4))) != 0) {
-            ((struct Obj01495 *)a)->f8 = 12;
+        if (func_02012204(func_02155A90((IrcBattleEntryWork *)work->param)) != 0) {
+            work->mode = 12;
             ret = 1;
             func_0202223C(0, 0);
             func_0202223C(1, 0);
@@ -1196,2703 +1755,47 @@ u32 func_02197AAC(u32 r0, u32 r1, u32 r2, u8 *a)
     return ret;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-int func_02197B5C(u32 a, u32 b, u8 *c, u32 *d)
+/* Proc exit: hands the result to the entry event and frees everything. */
+int func_02197B5C(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param, IrcBattleMenuWork *work)
 {
     if (!func_020221A4()) {
         return 0;
     }
-    func_02196768((u8 *)d);
-    func_02155A8C(c, d[2]);
-    ((struct Obj19637 *)c)->f58 = d[3];
-    if (d[0xBA] != 0) {
-        func_0202F038((u8 *)d[0xBA]);
-        d[0xBA] = 0;
+    func_02196768(work);
+    func_02155A8C(param, work->mode);
+    param->partyMode = work->partyMode;
+    if (work->timeIcon != 0) {
+        func_0202F038(work->timeIcon);
+        work->timeIcon = 0;
     }
-    func_020307B0((void *)d[0xBB]);
-    func_020307B0((void *)d[0xBC]);
-    func_021974A0((Sub_0219728C *)((struct Obj *)d));
-    if (d[0xAD] != 0) {
-        func_0201CE48((struct Rec3 *)d[0xAD]);
+    func_020307B0(work->subObjPlttCopy);
+    func_020307B0(work->subBgPlttCopy);
+    func_021974A0(work);
+    if (work->printStream != 0) {
+        func_0201CE48(work->printStream);
     }
-    func_02028604(d[0xAA]);
-    func_02031140((struct S02031140 *)d[0xAE]);
+    func_02028604(work->keyCursor);
+    func_02031140(work->tcbl);
     func_020403F4(7);
-    func_0201C6EC((struct PrintSys *)d[0xAF]);
-    func_0201C4C0((struct PrintSys *)d[0xAF]);
-    if (d[0xAC] != 0) {
-        func_020452E8((struct Descriptor *)d[0xAC]);
+    func_0201C6EC(work->printQue);
+    func_0201C4C0(work->printQue);
+    if (work->msgWin != 0) {
+        func_020452E8(work->msgWin);
     }
-    if (d[0xB0] != 0) {
-        func_02027858((struct TaskMenu *)d[0xB0]);
-        d[0xB0] = 0;
+    if (work->yesNoMenu != 0) {
+        func_02027858(work->yesNoMenu);
+        work->yesNoMenu = 0;
     }
-    if (d[0xB8] != 0) {
-        func_02028148((u8 *)d[0xB8]);
+    if (work->taskMenuWin != 0) {
+        func_02028148(work->taskMenuWin);
     }
-    func_02027FD8((struct TaskMenuState *)d[0xB7]);
-    func_02030EAC((struct Node *)d[0x9A]);
-    func_0204B1CC((struct Bank *)d[0x9B]);
+    func_02027FD8(work->taskMenuRes);
+    func_02030EAC((struct TaskNode *)work->vblankTask);
+    func_0204B1CC(work->clactUnit);
     func_0204A5AC();
     func_020450C8();
     func_0203F9B4();
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4(proc);
     func_020306F0(0x1f);
     return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_02197C4C(u32 a, u32 b, u32 c, u32 d)
-{
-if (func_0216D520((void *)a) != 0) {
-    func_0219C5D0(a);
-}
-if (func_0216D528(a) != 0) {
-    func_0219D488(a);
-}
-return func_0216D95C(a, 0);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_02197C78(u32 a)
-{
-    if (func_0216D4D4((int)func_0216D67C((void *)a), 4) == 0 && func_0216DAA0((void *)a) != 0) {
-        func_0216D758((void *)a);
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_02197C9C(u32 a)
-{
-if (func_0216DB10((void *)a) != 0) {
-    if (func_0216DC4C((void *)a) == 0) {
-        return 1;
-    }
-}
-if (func_0216D55C(a, 16) != 0) {
-    return 1;
-}
-return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Sums five 12-byte records fetched from the actor at p into out.
- *
- * Addresses are Black-image addresses.
- */
-void func_02197CCC(u8 *p, s32 *out)
-{
-    s32 a[3];
-    s32 b[3];
-    s32 c[3];
-    s32 d[3];
-    s32 e[3];
-
-    func_0216D88C((const struct Actor *)p, (struct VecFx32 *)a);
-    func_0216D8B0(p, (u8 *)b);
-    func_0216D8D0(p, (u8 *)c);
-    func_0216D8F0(p, (u8 *)d);
-    func_0216D92C(p, e);
-    out[0] = a[0] + b[0] + c[0] + d[0] + e[0];
-    out[1] = a[1] + b[1] + c[1] + d[1] + e[1];
-    out[2] = a[2] + b[2] + c[2] + d[2] + e[2];
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_02197D3C(u32 p0, u32 p1)
-{
-    u32 h;
-    u32 *r;
-    u32 n;
-
-    h = (u32)func_0216D67C((void *)p0);
-    r = func_02030734((u16)(0x8000 | (func_0216D4F8((u8 *)h) & 0x7fff)), 0x14, 1, (const char *)&d_021DDBE0, 0x115);
-    n = func_0216D4F4(func_0216D67C((void *)p0)) - 2;
-    func_02030DA8(func_0216D514((void *)h), func_02197DCC, r, n);
-    r[3] = p0;
-    r[4] = p1;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_02197DA0(u32 a)
-{
-return ((struct Obj17950 *)((u8 *)(func_02030EE8((struct S02030EE8 *)a))))->f4;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_02197DAC(void *a)
-{
-    u32 *p;
-
-    p = (u32 *)func_02030EE8(a);
-    func_0216D480((char *)p[3]);
-    func_020307B0(p);
-    func_02030EAC(a);
-}
-
-
-
-
-
-
-
-
-
-
-
-extern int (*const d_021D4A50[])(int *);
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Byte-correct (2026-10-01).  Sole blocker: the ABS32 pool word for the
- * ov021 table is a data start that another overlay mapped over the same
- * window also starts an object at, so the symbols hint is contested.  No C
- * change needed to promote.
- *
- * 2026-10-01: the own-overlay data hint is dropped from symbols: so the
- *   own-window rule (code running in ov021 can only see ov021's bytes in its
- *   window) fixes the overlay; with the hint the tool refused it as contested.
- *
- * Addresses are Black-image addresses.
- */
-void func_02197DCC(void *a, int *b)
-{
-    while (d_021D4A50[*b](b) == 1) {
-    }
-}
-
-
-
-
-
-
-
-
-
-
-int func_02197DE8(IrcTask *w)
-{
-    w->idx = 0;
-    w->state = 1;
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_02197DF4(u32 a)
-{
-if (func_0216D3CC(((struct Obj12072 *)((u8 *)(a)))->fC) == 0) {
-    return 0;
-}
-((struct Obj12072 *)((u8 *)(a)))->f0 = 2;
-return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02197E10(u32 a, u32 b, u32 c, u32 d)
-{
-func_0216D410((void *)(((struct Obj09177 *)((u8 *)(a)))->fC), *(u16 *)((u8 *)(((struct Obj09177 *)((u8 *)(a)))->f10)));
-((struct Obj09177 *)((u8 *)(a)))->f0 = 3;
-return 0;
-}
-
-
-
-
-
-
-
-
-
-
-int func_02197E28(u32 a, u32 b, u32 c, u32 d)
-{
-if (func_0216D454(((struct Obj12073 *)((u8 *)(a)))->fC, b, c, d) == 0) {
-    return 0;
-}
-((struct Obj12073 *)((u8 *)(a)))->f0 = 4;
-return 1;
-}
-
-
-
-
-
-
-
-
-
-int func_02197E44(IrcTask *w)
-{
-    u16 *p = w->data;
-    int i = ++w->idx;
-    if (i < p[1]) {
-        w->state = 1;
-        return 1;
-    }
-    w->data = p + 2;
-    if (p[2] != 0xfe) {
-        w->state = 0;
-        return 1;
-    }
-    w->f4 = 1;
-    w->state = 5;
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-int func_02197E78(void)
-{
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-/*
- * Byte-correct (2026-10-01).  Sole blocker: the ABS32 pool word for the
- * ov021 table is a data start that another overlay mapped over the same
- * window also starts an object at, so the symbols hint is contested.  No C
- * change needed to promote.
- *
- * 2026-10-01: the own-overlay data hint is dropped from symbols: so the
- *   own-window rule (code running in ov021 can only see ov021's bytes in its
- *   window) fixes the overlay; with the hint the tool refused it as contested.
- *
- * Addresses are Black-image addresses.
- */
-int func_02197E7C(int a, int b)
-{
-    int i;
-    int **p;
-    int *q;
-
-    p = d_021D5D6C;
-    do {
-        q = *p;
-        for (i = 0; i < 4; i++) {
-            if (b == q[i]) {
-                return (u16)q[a];
-            }
-        }
-        p++;
-    } while (*p != 0);
-    return b;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-void func_02197EB4(u32 a)
-{
-    u32 r;
-
-    do {
-        r = func_0216D7C4((u8 *)a);
-        if (r == 0xFF) {
-            return;
-        }
-    } while (func_02197F20(a, r, func_0216D7D4((u8 *)a)) != 0);
-}
-
-
-
-
-
-
-
-
-
-
-u32 func_02197EDC(u8 *p)
-{
-    if (func_0216D7C4(p) != 0xff) {
-        func_02197EB4((u32)p);
-        if (func_0216D57C(p, 0x400) == 0) {
-            return 0;
-        }
-    }
-    func_0216D570((char *)p, 0x400);
-    func_0216D7C0(p, 0xff);
-    func_0216D7C8(p, 0);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-extern int (**const d_021D624C[])(u32);
-
-
-
-
-
-
-
-
-
-extern int (**const d_021D5F58[])(u32);
-
-
-
-
-
-
-
-
-
-
-int func_02197F20(u32 a, u32 b, u32 c)
-{
-    if (func_0216D55C(a, 0x2000) != 0) {
-        return d_021D624C[b][c](a);
-    }
-    return d_021D5F58[b][c](a);
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_02197F5C(u32 a, u32 b, u32 c, u32 d)
-{
-func_0216D568((void *)a, (1 << 10));
-return 0;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Promoted from src/pending/: the blocker this file named is filed.
- * func_0216D7CC (0x0216D7CC) is a matched manifest entry, so the `matched`
- * class attests the bl site here and every concrete byte plus every
- * relocation field reproduces.
- *
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_02197F6C(u32 a, u32 b)
-{
-func_0216D5E0(a, ((b << 16) >> 16));
-func_0216D674((void *)a, 0);
-func_02163F10(a);
-return func_0216D7CC(a);
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02197F6C(its own argument 1, 0x0) and returns 0x1.
- */
-u32 func_02197F90(u32 a1)
-{
-    func_02197F6C(a1, 0x0);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02197F6C(its own argument 1, 0x1) and returns 0x1.
- */
-u32 func_02197F9C(u32 a1)
-{
-    func_02197F6C(a1, 0x1);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02197F6C(its own argument 1, 0x2) and returns 0x1.
- */
-u32 func_02197FA8(u32 a1)
-{
-    func_02197F6C(a1, 0x2);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02197F6C(its own argument 1, 0x3) and returns 0x1.
- */
-u32 func_02197FB4(u32 a1)
-{
-    func_02197F6C(a1, 0x3);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-void func_02197FC0(u8 *a, u32 b, u32 c, u16 d, u16 e)
-{
-    u16 *r;
-
-    r = func_0216D6BC((int)a, (u32)12);
-    r[0] = e;
-    r[1] = d;
-    ((struct Obj07465 *)r)->f4 = b;
-    ((struct Obj07465 *)r)->f8 = c;
-    func_02163E7C((int)a, (u16)b);
-    func_0216D60C(a, b);
-    func_0216D674(a, e);
-    func_0216D568(a, 0x20);
-    func_0216D7CC((u32)a);
-}
-
-
-
-
-
-
-
-
-
-
-
-u32 func_0219800C(u8 *p)
-{
-    u8 *h;
-
-    h = func_0216D6D4(p);
-    func_02163FC0((int)p, (u16)(((struct Obj05990 *)h)->f4), (u32)(((struct Obj05990 *)h)->f8));
-    func_02164010((int)p);
-    ((struct Obj05990 *)h)->f2 = ((struct Obj05990 *)h)->f2 - 1;
-    if (((struct Obj05990 *)h)->f2 > 0) {
-        return 0;
-    }
-    func_0216D568(p, 0x440);
-    func_02163F10((int)p);
-    func_0216D674(p, 0);
-    func_0216D7CC((u32)p);
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Pattern-generated from the ov021 family.
- *
- * Addresses are Black-image addresses.
- */
-int func_02198060(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x0, 0x800, 0x20, 0x1);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198074(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x1, 0x800, 0x20, 0x1);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198088(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x2, 0x800, 0x20, 0x1);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_0219809C(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x3, 0x800, 0x20, 0x1);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_021980B0(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x0, 0x1000, 0x10, 0x2);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_021980C4(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x1, 0x1000, 0x10, 0x2);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_021980DC(u32 a, u32 b, u32 c, u32 d)
-{
-func_02197FC0((u8 *)a, 2, (2 << 11), 16, 2);
-return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_021980F0(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x3, 0x1000, 0x10, 0x2);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198104(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x0, 0x2000, 0x8, 0x3);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_0219811C(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x1, 0x2000, 0x8, 0x3);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198134(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x2, 0x2000, 0x8, 0x3);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198148(u32 a, u32 b, u32 c, u32 d)
-{
-func_02197FC0((u8 *)a, 3, (2 << 12), 8, 3);
-return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_0219815C(u32 a, u32 b, u32 c, u32 d)
-{
-func_02197FC0((u8 *)a, 0, (4 << 12), 4, 4);
-return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198170(u32 a, u32 b, u32 c, u32 d)
-{
-func_02197FC0((u8 *)a, 1, (1 << 14), 4, 4);
-return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198184(u32 a, u32 b, u32 c, u32 d)
-{
-func_02197FC0((u8 *)a, 2, (2 << 13), 4, 4);
-return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198198(u32 a, u32 b, u32 c, u32 d)
-{
-func_02197FC0((u8 *)a, 3, (4 << 12), 4, 4);
-return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_021981AC(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x0, 0x8000, 0x2, 0x5);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_021981C4(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x1, 0x8000, 0x2, 0x5);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_021981DC(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x2, 0x8000, 0x2, 0x5);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_021981F0(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x3, 0x8000, 0x2, 0x5);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198208(u32 a, u32 b, u32 c, u32 d)
-{
-func_02197FC0((u8 *)a, 0, (1 << 16), 1, 0);
-return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_0219821C(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x1, 0x10000, 0x1, 0x0);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198234(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x2, 0x10000, 0x1, 0x0);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198248(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x3, 0x10000, 0x1, 0x0);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198260(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x0, 0x4000, 0x4, 0xa);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198278(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x1, 0x4000, 0x4, 0xa);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198290(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x2, 0x4000, 0x4, 0xa);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_021982A4(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x3, 0x4000, 0x4, 0xa);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_021982BC(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x0, 0x1000, 0x10, 0x5);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_021982D4(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x1, 0x1000, 0x10, 0x5);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_021982EC(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x2, 0x1000, 0x10, 0x5);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_02198300(u32 a)
-{
-    func_02197FC0((u8 *)a, 0x3, 0x1000, 0x10, 0x5);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-void func_02198318(u32 a, u32 b, u16 c, u16 d)
-{
-    u16 *p;
-
-    p = func_0216D6BC((u32)a, (u32)12);
-    p[0] = d;
-    p[1] = c;
-    func_0216D5E0((u32)a, (u16)b);
-    func_0216D674((void *)a, d);
-    func_02163F10(a);
-    func_0216D7CC((u32)((u8 *)a));
-}
-
-
-
-
-
-
-
-
-
-
-
-int func_0219834C(u32 a)
-{
-    s16 *p;
-
-    p = func_0216D6D4((void *)a);
-    p[1]--;
-    if (p[1] > 0) {
-        return 0;
-    }
-    func_0216D568((void *)a, 0x400);
-    func_0216D674((void *)a, 0);
-    func_0216D7CC((u32)((u8 *)a));
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x0, 0x20, 0x1) and returns 0x1.
- */
-u32 func_02198380(u32 a1)
-{
-    func_02198318(a1, 0x0, 0x20, 0x1);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x1, 0x20, 0x1) and returns 0x1.
- */
-u32 func_02198390(u32 a1)
-{
-    func_02198318(a1, 0x1, 0x20, 0x1);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x2, 0x20, 0x1) and returns 0x1.
- */
-u32 func_021983A0(u32 a1)
-{
-    func_02198318(a1, 0x2, 0x20, 0x1);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x3, 0x20, 0x1) and returns 0x1.
- */
-u32 func_021983B0(u32 a1)
-{
-    func_02198318(a1, 0x3, 0x20, 0x1);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x0, 0x10, 0x2) and returns 0x1.
- */
-u32 func_021983C0(u32 a1)
-{
-    func_02198318(a1, 0x0, 0x10, 0x2);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x1, 0x10, 0x2) and returns 0x1.
- */
-u32 func_021983D0(u32 a1)
-{
-    func_02198318(a1, 0x1, 0x10, 0x2);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x2, 0x10, 0x2) and returns 0x1.
- */
-u32 func_021983E0(u32 a1)
-{
-    func_02198318(a1, 0x2, 0x10, 0x2);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x3, 0x10, 0x2) and returns 0x1.
- */
-u32 func_021983F0(u32 a1)
-{
-    func_02198318(a1, 0x3, 0x10, 0x2);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x0, 0x8, 0x3) and returns 0x1.
- */
-u32 func_02198400(u32 a1)
-{
-    func_02198318(a1, 0x0, 0x8, 0x3);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x1, 0x8, 0x3) and returns 0x1.
- */
-u32 func_02198410(u32 a1)
-{
-    func_02198318(a1, 0x1, 0x8, 0x3);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x2, 0x8, 0x3) and returns 0x1.
- */
-u32 func_02198420(u32 a1)
-{
-    func_02198318(a1, 0x2, 0x8, 0x3);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x3, 0x8, 0x3) and returns 0x1.
- */
-u32 func_02198430(u32 a1)
-{
-    func_02198318(a1, 0x3, 0x8, 0x3);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x0, 0x4, 0x4) and returns 0x1.
- */
-u32 func_02198440(u32 a1)
-{
-    func_02198318(a1, 0x0, 0x4, 0x4);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x1, 0x4, 0x4) and returns 0x1.
- */
-u32 func_02198450(u32 a1)
-{
-    func_02198318(a1, 0x1, 0x4, 0x4);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x2, 0x4, 0x4) and returns 0x1.
- */
-u32 func_02198460(u32 a1)
-{
-    func_02198318(a1, 0x2, 0x4, 0x4);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x3, 0x4, 0x4) and returns 0x1.
- */
-u32 func_02198470(u32 a1)
-{
-    func_02198318(a1, 0x3, 0x4, 0x4);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x0, 0x2, 0x5) and returns 0x1.
- */
-u32 func_02198480(u32 a1)
-{
-    func_02198318(a1, 0x0, 0x2, 0x5);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x1, 0x2, 0x5) and returns 0x1.
- */
-u32 func_02198490(u32 a1)
-{
-    func_02198318(a1, 0x1, 0x2, 0x5);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x2, 0x2, 0x5) and returns 0x1.
- */
-u32 func_021984A0(u32 a1)
-{
-    func_02198318(a1, 0x2, 0x2, 0x5);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_02198318(its own argument 1, 0x3, 0x2, 0x5) and returns 0x1.
- */
-u32 func_021984B0(u32 a1)
-{
-    func_02198318(a1, 0x3, 0x2, 0x5);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-void func_021984C0(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g, u32 h)
-{
-    u8 *r;
-
-    r = func_0216D6BC((int)a, (u32)16);
-    r[12] = b;
-    ((struct Obj05004 *)r)->f0 = c;
-    r[13] = d;
-    r[14] = e;
-    r[15] = f;
-    ((struct Obj05004 *)r)->f8 = g;
-    if (c == 0) {
-        func_02163F10((int)a);
-    } else {
-        func_02163E7C((int)a, (u16)b);
-    }
-    func_0216D568(a, 0xa0);
-    func_0216D60C((u8 *)((int)a), (u16)b);
-    func_0216D674(a, e);
-    func_0216D7CC((u32)a);
-    if (h != 0) {
-        func_020061E4();
-    }
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-void func_0219852C(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g)
-{
-    func_021984C0(a, b, c, d, e, f, g, 0x55E);
-}
-
-
-
-
-
-
-
-
-
-
-int func_02198550(u32 a)
-{
-    u8 *h;
-
-    h = func_0216D6D4((void *)a);
-    if (((struct Obj01032 *)h)->f0 != 0) {
-        func_02163FC0(a, ((struct Obj01032 *)h)->fC, ((struct Obj01032 *)h)->f0);
-        func_02164010(a);
-        if (((struct Obj01032 *)h)->f4 >= 0x10000) {
-            ((struct Obj01032 *)h)->f4 = 0;
-            func_02163E7C(a, ((struct Obj01032 *)h)->fC);
-            func_0216D568((void *)a, 0x20);
-        }
-        ((struct Obj01032 *)h)->f4 += (((struct Obj01032 *)h)->f0 < 0) ? -((struct Obj01032 *)h)->f0 : ((struct Obj01032 *)h)->f0;
-    }
-    ((struct Obj01032 *)h)->fA += ((struct Obj01032 *)h)->f8;
-    if (((struct Obj01032 *)h)->fA > 0xF00) {
-        ((struct Obj01032 *)h)->fA = 0xF00;
-    }
-    {
-        Vec v;
-        u16 k;
-        int i;
-        k = ((struct Obj01032 *)h)->fA / 256;
-        i = ((struct Obj01032 *)h)->fF;
-        v.x = 0;
-        v.y = d_021DDBD4[i][k];
-        v.z = 0;
-        func_0216D8C0(a, &v);
-    }
-    ((struct Obj01032 *)h)->fD = ((struct Obj01032 *)h)->fD - 1;
-    if (((struct Obj01032 *)h)->fD > 0) {
-        return 0;
-    }
-    {
-        Vec v = { 0, 0, 0 };
-        func_0216D8C0(a, &v);
-    }
-    func_0216D568((void *)a, 0x540);
-    func_02163F10(a);
-    func_0216D674((void *)a, 0);
-    func_0216D7CC((u32)((u8 *)a));
-    func_020061E4(0x67B);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_0219862C(u8 *a)
-{
-    func_0219852C(a, 0, 0x0, 16, 2, 1, 0x100);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_02198650(u8 *a)
-{
-    func_0219852C(a, 1, 0x0, 16, 2, 1, 0x100);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_02198674(u8 *a)
-{
-    func_0219852C(a, 2, 0x0, 16, 2, 1, 0x100);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_02198694(u8 *a)
-{
-    func_0219852C(a, 3, 0x0, 16, 2, 1, 0x100);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_021986B8(u8 *a)
-{
-    func_0219852C(a, 0, 0x0, 8, 3, 1, 0x200);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_021986D8(u8 *a)
-{
-    func_0219852C(a, 1, 0x0, 8, 3, 1, 0x200);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_021986F8(u8 *a)
-{
-    func_0219852C(a, 2, 0x0, 8, 3, 1, 0x200);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_02198718(u8 *a)
-{
-    func_0219852C(a, 3, 0x0, 8, 3, 1, 0x200);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_02198738(u8 *a)
-{
-    func_0219852C(a, 0, 0x2000, 8, 3, 0, 0x200);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_02198758(u8 *a)
-{
-    func_0219852C(a, 1, 0x2000, 8, 3, 0, 0x200);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_0219877C(u8 *a)
-{
-    func_0219852C(a, 2, 0x2000, 8, 3, 0, 0x200);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_021987A0(u8 *a)
-{
-    func_0219852C(a, 3, 0x2000, 8, 3, 0, 0x200);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_021987C0(u8 *a)
-{
-    func_0219852C(a, 0, 0x2000, 16, 3, 0, 0x100);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_021987E0(u8 *a)
-{
-    func_0219852C(a, 1, 0x2000, 16, 3, 0, 0x100);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_02198804(u8 *a)
-{
-    func_0219852C(a, 2, 0x2000, 16, 3, 0, 0x100);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_02198824(u8 *a)
-{
-    func_0219852C(a, 3, 0x2000, 16, 3, 0, 0x100);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_02198848(u8 *a)
-{
-    func_0219852C(a, 2, 0x1000, 16, 2, 0, 0xF0);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_02198868(u8 *a)
-{
-    func_0219852C(a, 3, 0x1000, 16, 2, 0, 0xF0);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_02198888(u8 *a)
-{
-    func_0219852C(a, 2, 0x4000, 12, 3, 0, 0x140);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_021988AC(u8 *a)
-{
-    func_0219852C(a, 3, 0x4000, 12, 3, 0, 0x140);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-int func_021988D0(u8 *a)
-{
-    func_021984C0(a, 0, 0x2000, 24, 3, 0, 0xA0, 0);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-int func_021988F4(u8 *a)
-{
-    func_021984C0(a, 1, 0x2000, 24, 3, 0, 0xA0, 0);
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-int func_02198918(u8 *a)
-{
-    func_021984C0(a, 2, 0x2000, 24, 3, 0, 0xA0, 0);
-    return 1;
-}
-
-
-
-
-
-
-
-int func_0219893C(u8 *a)
-{
-    func_021984C0(a, 3, 0x2000, 24, 3, 0, 0xA0, 0);
-    return 1;
-}
-
-
-
-
-
-
-int func_02198960(u32 a, u32 b)
-{
-((struct Obj17951 *)((u8 *)(func_0216D6BC(a, 4))))->f0 = b;
-return func_0216D7CC((u32)((u8 *)a));
-}
-
-
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-int func_02198978(u32 a)
-{
-    int *p;
-
-    p = (int *)func_0216D6D4((void *)a);
-    if (*p != 0) {
-        *p -= 1;
-        return 0;
-    }
-    func_0216D7CC((u32)((u8 *)a));
-    return 1;
-}
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198960(its own argument 1, 0x1) and returns 0x1.
- */
-u32 func_02198998(u32 a1)
-{
-    func_02198960(a1, 0x1);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198960(its own argument 1, 0x2) and returns 0x1.
- */
-u32 func_021989A4(u32 a1)
-{
-    func_02198960(a1, 0x2);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198960(its own argument 1, 0x4) and returns 0x1.
- */
-u32 func_021989B0(u32 a1)
-{
-    func_02198960(a1, 0x4);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198960(its own argument 1, 0x8) and returns 0x1.
- */
-u32 func_021989BC(u32 a1)
-{
-    func_02198960(a1, 0x8);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-
-/*
- * Calls func_02198960(its own argument 1, 0xf) and returns 0x1.
- */
-u32 func_021989C8(u32 a1)
-{
-    func_02198960(a1, 0xf);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_02198960(its own argument 1, 0x10) and returns 0x1.
- */
-u32 func_021989D4(u32 a1)
-{
-    func_02198960(a1, 0x10);
-
-    return 0x1;
-}
-
-
-
-
-
-
-
-/*
- * Calls func_02198960(its own argument 1, 0x20) and returns 0x1.
- */
-u32 func_021989E0(u32 a1)
-{
-    func_02198960(a1, 0x20);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Promoted from src/pending/: the blocker this file named is filed.
- * func_0216D7CC ((u32)0x0216D7CC) is a matched manifest entry, so the `matched`
- * class attests the bl site here and every concrete byte plus every
- * relocation field reproduces.
- *
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_021989EC(u32 a, u32 b, u32 c, u32 d)
-{
-((struct Obj17952 *)((u8 *)(func_0216D6BC(a, 8))))->f4 = (8 << 13);
-func_0216D674((void *)a, 0);
-func_0216D7CC((u32)((u8 *)a));
-return 1;
-}
-
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-int func_02198A10(u32 a)
-{
-    int *p;
-
-    p = func_0216D6D4((void *)a);
-    p[0] = p[0] + p[1];
-    {
-        Vec v = { 0, 0, 0 };
-        v.y = p[0];
-        func_0216D8C0(a, &v);
-    }
-    if (p[0] / 0x8000 < 0x28) {
-        return 0;
-    }
-    func_0216D7CC((u32)((u8 *)a));
-    return 1;
-}
-
-
-
-
-int func_02198A58(u32 a)
-{
-    u32 *p;
-
-    p = (u32 *)func_0216D6BC(a, 8);
-    p[0] = 0x140000;
-    p[1] = 0xFFFF0000;
-    func_020061E4(0x676);
-    func_0216D674((void *)a, 0);
-    func_0216D7CC((u32)((u8 *)a));
-    return 1;
-}
-
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-int func_02198A8C(u32 a)
-{
-    int *p;
-
-    p = func_0216D6D4((void *)a);
-    p[0] = p[0] + p[1];
-    if (p[0] < 0) {
-        p[0] = 0;
-    }
-    {
-        Vec v = { 0, 0, 0 };
-        v.y = p[0];
-        func_0216D8C0(a, &v);
-    }
-    if (p[0] > 0) {
-        return 0;
-    }
-    func_0216D7CC((u32)((u8 *)a));
-    return 1;
-}
-
-
-
-
-
-
-/*
- * Promoted from src/pending/: the blocker this file named is filed.
- * func_0216D7CC ((u32)((u8 *)0x0216D7CC)) is a matched manifest entry, so the `matched`
- * class attests the bl site here and every concrete byte plus every
- * relocation field reproduces.
- *
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_02198AD4(u32 a, u32 b, u32 c, u32 d)
-{
-func_0216D548((u32 *)a, 4);
-func_0216D7CC((u32)((u8 *)a));
-return 1;
-}
-
-
-
-
-
-
-int func_02198AE8(u32 a, u32 b, u32 c, u32 d)
-{
-func_0216D550((u32 *)a, 4);
-func_0216D7CC((u32)((u8 *)a));
-return 1;
-}
-
-
-
-
-
-
-int func_02198AFC(u32 a, u32 b, u32 c, u32 d)
-{
-func_0216D548((u32 *)a, 8);
-func_0216D7CC((u32)((u8 *)a));
-return 1;
-}
-
-
-
-
-
-
-int func_02198B10(u32 a, u32 b, u32 c, u32 d)
-{
-func_0216D550((u32 *)a, 8);
-func_0216D7CC((u32)((u8 *)a));
-return 1;
-}
-
-
-
-
-
-
-int func_02198B24(u32 a, u32 b, u32 c, u32 d)
-{
-func_0216D548((u32 *)a, 16);
-func_0216D7CC((u32)((u8 *)a));
-return 1;
-}
-
-
-
-
-
-
-int func_02198B38(u32 a, u32 b, u32 c, u32 d)
-{
-func_0216D550((u32 *)a, 16);
-func_0216D7CC((u32)((u8 *)a));
-return 1;
-}
-
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-void func_02198B4C(u32 a, u32 b, u32 a3)
-{
-    u32 *p;
-
-    p = func_0216D6BC(a, 8);
-    p[0] = b;
-    p[1] = func_021BB528(func_02188CD0((u8 *)func_0216D534(func_0216D67C((void *)a))), a, b, 1);
-    func_0216D7CC((u32)((u8 *)a));
-}
-
-
-
-
-
-
-int func_02198B80(u32 a)
-{
-    u32 *p;
-
-    p = func_0216D6D4((void *)a);
-    if (func_021BB5C8(p[1]) == 1) {
-        func_021AC154(p[1]);
-        func_0216D7CC((u32)((u8 *)a));
-        return 1;
-    }
-    return 0;
-}
-
-
-
-
-
-
-/*
- * Calls func_02198B4C(its own argument 1, 0x0, 0x0) and returns 0x0.
- */
-u32 func_02198BA8(u32 a1)
-{
-    func_02198B4C(a1, 0x0, 0x0);
-
-    return 0x0;
-}
-
-
-
-
-
-
-u32 func_02198BB8(u32 a1)
-{
-    func_02198B4C(a1, 0x0, 0x0);
-
-    return 0x0;
-}
-
-
-
-
-
-
-u32 func_02198BC8(u32 a1)
-{
-    func_02198B4C(a1, 0x0, 0x0);
-
-    return 0x0;
-}
-
-
-
-
-
-
-/*
- * Calls func_02198B4C(its own argument 1, 0x1, 0x0) and returns 0x0.
- */
-u32 func_02198BD8(u32 a1)
-{
-    func_02198B4C(a1, 0x1, 0x0);
-
-    return 0x0;
-}
-
-
-
-
-
-
-/*
- * Calls func_02198B4C(its own argument 1, 0x2, 0x0) and returns 0x0.
- */
-u32 func_02198BE8(u32 a1)
-{
-    func_02198B4C(a1, 0x2, 0x0);
-
-    return 0x0;
-}
-
-
-
-
-
-
-/*
- * Calls func_02198B4C(its own argument 1, 0x3, 0x0) and returns 0x0.
- */
-u32 func_02198BF8(u32 a1)
-{
-    func_02198B4C(a1, 0x3, 0x0);
-
-    return 0x0;
-}
-
-
-
-
-void func_02198C08(u32 a, u32 b, u32 c, u16 d)
-{
-    u16 *p;
-
-    p = func_0216D6BC(a, 8);
-    p[0] = b;
-    p[1] = d;
-    p[2] = c;
-    func_02163E7C(a, ((b << 16) >> 16));
-    func_0216D60C((u8 *)a, (u16)b);
-    func_0216D674((void *)a, d);
-    func_0216D568((void *)a, 32);
-    func_0216D7CC((u32)((u8 *)a));
-}
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-int func_02198C4C(u32 a, u32 *b)
-{
-    s16 *p;
-
-    p = func_0216D6D4((void *)a);
-    func_02163FC0(a, ((struct Obj05005 *)p)->f0, b[p[3]]);
-    func_02164010(a);
-    p[3] = p[3] + 1;
-    if (p[3] < p[2]) {
-        return 0;
-    }
-    func_0216D568((void *)a, 1088);
-    func_02163F10(a);
-    func_0216D674((void *)a, 0);
-    func_0216D7CC((u32)((u8 *)a));
-    return 1;
-}
-
-
-
-
-
-
-/*
- * Calls func_02198C08(its own argument 1, 0x0, 0x6, 0x6) and returns 0x1.
- */
-u32 func_02198CA4(u32 a1)
-{
-    func_02198C08(a1, 0x0, 0x6, 0x6);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_02198C08(its own argument 1, 0x1, 0x6, 0x6) and returns 0x1.
- */
-u32 func_02198CB4(u32 a1)
-{
-    func_02198C08(a1, 0x1, 0x6, 0x6);
-
-    return 0x1;
-}
-
-
-
-
-
-
-/*
- * Calls func_02198C08(its own argument 1, 0x2, 0x6, 0x6) and returns 0x1.
- */
-u32 func_02198CC4(u32 a1)
-{
-    func_02198C08(a1, 0x2, 0x6, 0x6);
-
-    return 0x1;
-}
-
-
-
-
-
-/*
- * Calls func_02198C08(its own argument 1, 0x3, 0x6, 0x6) and returns 0x1.
- */
-u32 func_02198CD4(u32 a1)
-{
-    func_02198C08(a1, 0x3, 0x6, 0x6);
-
-    return 0x1;
-}
-
-
-
-
-
-/*
- * Calls func_02198C08(its own argument 1, 0x0, 0x6, 0xb) and returns 0x1.
- */
-u32 func_02198CE4(u32 a1)
-{
-    func_02198C08(a1, 0x0, 0x6, 0xb);
-
-    return 0x1;
-}
-
-
-
-
-
-/*
- * Calls func_02198C08(its own argument 1, 0x1, 0x6, 0xb) and returns 0x1.
- */
-u32 func_02198CF4(u32 a1)
-{
-    func_02198C08(a1, 0x1, 0x6, 0xb);
-
-    return 0x1;
-}
-
-
-
-
-
-/*
- * Calls func_02198C08(its own argument 1, 0x2, 0x6, 0xb) and returns 0x1.
- */
-u32 func_02198D04(u32 a1)
-{
-    func_02198C08(a1, 0x2, 0x6, 0xb);
-
-    return 0x1;
-}
-
-
-
-
-
-/*
- * Calls func_02198C08(its own argument 1, 0x3, 0x6, 0xb) and returns 0x1.
- */
-u32 func_02198D14(u32 a1)
-{
-    func_02198C08(a1, 0x3, 0x6, 0xb);
-
-    return 0x1;
 }

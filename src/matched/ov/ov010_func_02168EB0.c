@@ -9,7 +9,7 @@
  * status: EXACT
  * former blocker: pooled ov220_id is passed to func_02012444 r1, missing from
  * OVERLAY_ID_CONSUMERS. Its matched body stores a1 to payload[0]; matched
- * func_0201240C forwards item[0] as func_020120B4 r1 (known consumer).
+ * GAME_EVENT_CallProcSeq forwards item[0] as GAMESYSTEM_CallProc r1 (known consumer).
  * The ov220 table hint is supported by that load chain; matcher refuses
  * it as contested until the ID site resolves. No code leaf blocks this.
  * symbols:

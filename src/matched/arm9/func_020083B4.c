@@ -1,5 +1,5 @@
 /*
- * function: func_020083B4
+ * function: CONFIG_SetBattleScene
  * address:  0x020083B4
  * packet:   pkt_020083B4
  * region:   arm9
@@ -12,7 +12,7 @@
  * Unlabelled leaf setter on a u16 bitfield word (witness for ov068 callers).
  *
  * symbols:
- *   func_020083B4  0x020083B4  thumb
+ *   CONFIG_SetBattleScene  0x020083B4  thumb
  */
 
 typedef struct {
@@ -24,4 +24,4 @@ typedef struct {
     unsigned short f : 1;
 } BF;
 
-void func_020083B4(BF *p, unsigned int v) { p->d = (unsigned short)v; }
+void CONFIG_SetBattleScene(BF *p, unsigned int v) { p->d = (unsigned short)v; }

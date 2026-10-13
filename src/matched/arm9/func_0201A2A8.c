@@ -17,7 +17,7 @@
  *   func_0201AA18   0x0201AA18  thumb
  *   func_0201AB28   0x0201AB28  thumb
  *   func_02017E1C   0x02017E1C  thumb
- *   func_0201A26C   0x0201A26C  thumb
+ *   POKE_REGULATION_AdjustLevel   0x0201A26C  thumb
  *   func_02019CA0   0x02019CA0  thumb
  *
  * Sweeps the records of the second argument and rewrites those whose 0xA9
@@ -37,7 +37,7 @@ extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u32  func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32  func_02017E1C(void *p, u32 id, u32 v);
-extern u32  func_0201A26C(void *a0, u32 a1);
+extern u32  POKE_REGULATION_AdjustLevel(void *a0, u32 a1);
 extern void func_02019CA0(void *p, u32 v);
 
 void func_0201A2A8(void *a0, void *a1)
@@ -51,7 +51,7 @@ void func_0201A2A8(void *a0, void *a1)
         if (func_02017E1C(e, 0xA9, 0) != 0) {
             u32 w = func_02017E1C(e, 0x9E, 0);
 
-            if (func_0201A26C(a0, w) != w)
+            if (POKE_REGULATION_AdjustLevel(a0, w) != w)
                 func_02019CA0(e, v);
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_0204AB84
+ * function: CLACT_GetCharacterProxy
  * address:  0x0204AB84
  * packet:   pkt_0204A9D0
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A74     0x02146A74  data
+ *   g_ClactSystem     0x02146A74  data
  *
  * Copy the 36-byte header of a 64-byte-stride record out of the actor
  * table hung off the manager's pointer member at +0x10c into the caller's
@@ -23,15 +23,15 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern struct Mgr *g_02146A74;
+extern struct Mgr *g_ClactSystem;
 
 struct Rec {
     u32 w[9];
 };
 
-void func_0204AB84(u32 idx, struct Rec *dst)
+void CLACT_GetCharacterProxy(u32 idx, struct Rec *dst)
 {
-    struct Rec *src = (struct Rec *)(((u8 *)g_02146A74->owner_slots) + idx * 64);
+    struct Rec *src = (struct Rec *)(((u8 *)g_ClactSystem->owner_slots) + idx * 64);
 
     *dst = *src;
 }

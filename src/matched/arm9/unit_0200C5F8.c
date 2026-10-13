@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200C5F8
+ * function: MUSICAL_DIST_SAVE_ProcessApply
  *
  * 0x0200C5F8..0x0200C6D8, 224 bytes, one function.
  *
@@ -35,14 +35,15 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_0204913C  0x0204913C  arm
+ *   ARC_TOOL_CreateHandleFromMemory  0x0204913C  arm
  *   func_0204A39C  0x0204A39C  arm
- *   func_02045C44  0x02045C44  arm
+ *   MSGDATA_CreateFromMemory  0x02045C44  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_02045A38  0x02045A38  arm
  *   func_02045808  0x02045808  arm
  *   func_02045C04  0x02045C04  arm
  *   func_02049238  0x02049238  arm
+ *   MUSICAL_DIST_SAVE_Delete  0x0200C5A4  thumb
  */
 
 typedef unsigned char  u8;
@@ -61,9 +62,9 @@ extern void func_0200A7EC(struct Big *p, u8 value);
 extern u8 *func_0200A7F8(struct Big *p);
 
 extern u32 func_020307B0(void *p);
-extern void *func_0204913C(void *a0, u32 a1, u32 heap);
+extern void *ARC_TOOL_CreateHandleFromMemory(void *a0, u32 a1, u32 heap);
 extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
-extern struct MsgBank *func_02045C44(const void *file, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void  func_02045A38(struct U16Vec *a, u16 *b, u32 c);
 extern void func_02045808(struct U16Vec *vec);
@@ -88,9 +89,9 @@ struct MusicalDist {
     void *unk28;
 };
 
-extern void func_0200C5A4(struct MusicalDist *p);
+extern void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *p);
 
-u32 func_0200C5F8(struct MusicalDist *p)
+u32 MUSICAL_DIST_SAVE_ProcessApply(struct MusicalDist *p)
 {
     u32 loc;
     void *a;
@@ -102,15 +103,15 @@ u32 func_0200C5F8(struct MusicalDist *p)
     switch (p->unk08) {
     case 0:
         if (p->unk1C == 0) {
-            func_0200C5A4(p);
+            MUSICAL_DIST_SAVE_Delete(p);
             return 1;
         }
         a = func_0200A5F8(func_02012EBC(p->unk28));
         func_0200A7EC(a, 1);
-        c = func_0204913C(p->unk24, p->unk0C.unk00,
+        c = ARC_TOOL_CreateHandleFromMemory(p->unk24, p->unk0C.unk00,
                           (u16)((p->unk00 & 0x7FFF) | 0x8000));
         d = func_0204A39C(c, 1, 0, (u16)((p->unk00 & 0x7FFF) | 0x8000), &loc);
-        e = func_02045C44(d, (u16)((p->unk00 & 0x7FFF) | 0x8000));
+        e = MSGDATA_CreateFromMemory(d, (u16)((p->unk00 & 0x7FFF) | 0x8000));
         f = func_02045EC0(e, 0);
         func_02045A38(f, (u16 *)func_0200A7F8(a), 0x25);
         func_02045808(f);
@@ -122,7 +123,7 @@ u32 func_0200C5F8(struct MusicalDist *p)
         break;
     case 1:
         if (func_02012E7C(p->unk28, 6) == 2) {
-            func_0200C5A4(p);
+            MUSICAL_DIST_SAVE_Delete(p);
             return 1;
         }
         break;

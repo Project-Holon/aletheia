@@ -1,5 +1,5 @@
 /*
- * function: func_02022A88
+ * function: WIPE_SUB_FadeStep
  * address:  0x02022A88
  * packet:   pkt_02022940
  * region:   arm9
@@ -23,7 +23,7 @@ struct AnimStep {
     s32 scaled_val;
 };
 
-int func_02022A88(struct AnimStep *p)
+int WIPE_SUB_FadeStep(struct AnimStep *p)
 {
     int ret = 0;
 

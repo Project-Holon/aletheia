@@ -11,14 +11,14 @@
  *
  * symbols:
  *   g_02146A44     0x02146A44  data
- *   func_0203422C  0x0203422C  arm
+ *   AREAMAN_Free  0x0203422C  arm
  *
  * Release one block back to whichever of the two arenas the slot index
  * names.  Slots 0..3 belong to the arena at +0x168 of the singleton hanging
  * off 0x02146A44, slots 4..7 to the one at +0x16c, and any other index is a
  * no-op.  The byte offset is biased by the per-slot base at +0x190 and the
  * byte length rounded up, both converted to 32-byte units before
- * func_0203422C sees them.  The index is not rebased for the second arena:
+ * AREAMAN_Free sees them.  The index is not rebased for the second arena:
  * both arms read unk_190[idx] with the raw index.
  *
  * Codegen note: the round-up flag has to be spelled as the ternary
@@ -44,7 +44,7 @@ extern struct Ctx *g_02146A44;
 
 typedef signed int     s32;
 struct AreaMan;
-extern void func_0203422C(struct AreaMan *p, u32 start, s32 len);
+extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
 void sub_02043094(u32 idx, u32 offset, u32 size)
 {
@@ -55,7 +55,7 @@ void sub_02043094(u32 idx, u32 offset, u32 size)
     case 3:
         {
             u32 count = ((size & 0x1f) ? 1 : 0) + (size >> 5);
-            func_0203422C(g_02146A44->unk_168,
+            AREAMAN_Free(g_02146A44->unk_168,
                           (offset + g_02146A44->unk_190[idx]) >> 5, count);
         }
         break;
@@ -65,7 +65,7 @@ void sub_02043094(u32 idx, u32 offset, u32 size)
     case 7:
         {
             u32 count = ((size & 0x1f) ? 1 : 0) + (size >> 5);
-            func_0203422C(g_02146A44->unk_16c,
+            AREAMAN_Free(g_02146A44->unk_16c,
                           (offset + g_02146A44->unk_190[idx]) >> 5, count);
         }
         break;

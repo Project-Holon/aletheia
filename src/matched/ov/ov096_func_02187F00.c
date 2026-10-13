@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * 2026-10-05 (wD9r lane35): EXACT. Fix: heap is a u16 parameter and the heap-taking callees
- *   (func_02030734, func_020490F4, func_02020F14, func_0201121C, func_0201C328) take u16 heap, the house
+ *   (func_02030734, func_020490F4, func_02020F14, VM_Create, WAZA_TOOL_CreateCache) take u16 heap, the house
  *   heap-id form. With u16 consumers mwcc loads the u16 stack parameter with a word ldr (no add/ldrh) and
  *   the tag pool load is no longer hoisted above the parameter homing.
  * 2026-10-05 (wD9 lane09): still DIFF 14 bytes. Tried an unprototyped alloc callee
@@ -46,10 +46,10 @@
  *   func_02020F14 0x02020F14 thumb
  *   func_021B8588 0x021B8588 thumb ov093
  *   func_021B86B8 0x021B86B8 thumb ov093
- *   func_0201121C 0x0201121C thumb
- *   func_0201126C 0x0201126C thumb
- *   func_0201C408 0x0201C408 thumb
- *   func_0201C328 0x0201C328 thumb
+ *   VM_Create 0x0201121C thumb
+ *   VM_Init 0x0201126C thumb
+ *   WAZA_TOOL_IsCacheCreated 0x0201C408 thumb
+ *   WAZA_TOOL_CreateCache 0x0201C328 thumb
  *   func_0218A41C 0x0218A41C thumb ov096
  *   D_0218A7A0 0x0218A7A0 data
  *   D_0218A574 0x0218A574 data
@@ -65,10 +65,10 @@ extern void *func_020490F4(u32 id, u16 heap);
 extern void *func_02020F14(u16 heap);
 extern u32 func_021B8588(void **p);
 extern void *func_021B86B8(void ***p);
-extern struct ScriptVm *func_0201121C(u32 heapId, const struct ScriptVmParams *params);
-extern void func_0201126C(struct ScriptVm *vm, void *user);
-extern u32 func_0201C408(void);
-extern void func_0201C328(s32 n, u32 heap);
+extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
+extern void VM_Init(struct ScriptVm *vm, void *user);
+extern u32 WAZA_TOOL_IsCacheCreated(void);
+extern void WAZA_TOOL_CreateCache(s32 n, u32 heap);
 extern void func_0218A41C(unsigned int a);
 extern const char D_0218A7A0[];
 extern u8 D_0218A574[];
@@ -87,10 +87,10 @@ void *func_02187F00(void **a, u32 b, u32 c, u32 d, u16 heap)
     *(u32 *)(p + 0xB8) = c;
     *(u32 *)(p + 0x98) = func_021B8588(a);
     *(void **)(p + 0x9C) = func_021B86B8((void ***)a);
-    v = func_0201121C(heap, (const struct ScriptVmParams *)D_0218A574);
-    func_0201126C(v, p);
-    if (func_0201C408() == 0)
-        func_0201C328(0x30, heap);
+    v = VM_Create(heap, (const struct ScriptVmParams *)D_0218A574);
+    VM_Init(v, p);
+    if (WAZA_TOOL_IsCacheCreated() == 0)
+        WAZA_TOOL_CreateCache(0x30, heap);
     func_0218A41C(*(u16 *)(p + 0xA0));
     return v;
 }

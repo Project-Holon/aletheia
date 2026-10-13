@@ -1,5 +1,5 @@
 /*
- * function: func_02156DE0
+ * function: DWC_RAP_SetErrorHookCallback
  * address: 0x02156DE0
  * packet: pkt_ov009_02156DE0
  * region: ov009
@@ -13,7 +13,7 @@
  *   g_021A8264 0x021A8264 data ov009 a4
  */
 extern int *g_021A8264;
-void func_02156DE0(int a, int b)
+void DWC_RAP_SetErrorHookCallback(int a, int b)
 {
     *(int *)((char *)g_021A8264+0x294)=a;
     *(int *)((char *)g_021A8264+0x298)=b;

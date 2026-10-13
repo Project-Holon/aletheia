@@ -1,5 +1,5 @@
 /*
- * function: func_021D8E24
+ * function: P_STA_RIBBON_GetTouchedRow
  * address:  0x021D8E24
  * packet:   pkt_ov131_021D8E24
  * region:   ov131
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D9440  0x021D9440  thumb ov131
- *   func_021D9428  0x021D9428  thumb ov131
+ *   P_STA_RIBBON_GetRowY  0x021D9440  thumb ov131
+ *   P_STA_RIBBON_GetRowOwnedIndex  0x021D9428  thumb ov131
  *   func_02035C08  0x02035C08  arm
  */
 
@@ -26,18 +26,18 @@ typedef struct {
     u8 h;
 } Rect;
 
-extern s16 func_021D9440(u8 *p, u32 target);
-extern u32 func_021D9428(u8 *p, u32 target);
+extern s16 P_STA_RIBBON_GetRowY(u8 *p, u32 target);
+extern u32 P_STA_RIBBON_GetRowOwnedIndex(u8 *p, u32 target);
 extern int func_02035C08(const void *p);
 
-int func_021D8E24(void *unused, u8 *p)
+int P_STA_RIBBON_GetTouchedRow(void *unused, u8 *p)
 {
     Rect r[11];
     u8 i;
     int v;
 
     for (i = 0; i < 10; i++) {
-        v = func_021D9440(p, i);
+        v = P_STA_RIBBON_GetRowY(p, i);
         r[i].w = 8;
         r[i].h = 0x90;
         if (v < 0)
@@ -54,7 +54,7 @@ int func_021D8E24(void *unused, u8 *p)
             r[i].y = v + 0x18;
         if (r[i].x == 0 && r[i].y == 0)
             r[i].x = 0xfd;
-        if (func_021D9428(p, i) == 0xffff)
+        if (P_STA_RIBBON_GetRowOwnedIndex(p, i) == 0xffff)
             r[i].x = 0xfd;
     }
     r[10].x = 0xff;

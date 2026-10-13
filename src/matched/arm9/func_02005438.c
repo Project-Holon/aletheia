@@ -1,5 +1,5 @@
 /*
- * function: func_02005438
+ * function: GFL_USE_CtrdgDummyInit
  * address:  0x02005438
  * packet:   pkt_02005438
  * region:   arm9
@@ -20,13 +20,13 @@
  * is four bytes of code plus its own two-word literal pool.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02005438.c \
- *       --func func_02005438 --addr 0x02005438 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GFL_USE_CtrdgDummyInit.c \
+ *       --func GFL_USE_CtrdgDummyInit --addr 0x02005438 --cc 1.1p1 --thumb
  */
 
 extern void func_020911A0(void);
 
-void func_02005438(void)
+void GFL_USE_CtrdgDummyInit(void)
 {
     func_020911A0();
 }

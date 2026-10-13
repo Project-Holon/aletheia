@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020473EC
+ * function: G3D_SYSTEM_GetPlttDataAddr
  * address:  0x020473EC
  * packet:   pkt_02047260
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj16034.h"
 
-int func_020473EC(int a0){ int t0 = func_02047250(); return (t0 + ((struct Obj16034 *)((char *)(t0)))->f38); }
+int G3D_SYSTEM_GetPlttDataAddr(int a0){ int t0 = func_02047250(); return (t0 + ((struct Obj16034 *)((char *)(t0)))->f38); }

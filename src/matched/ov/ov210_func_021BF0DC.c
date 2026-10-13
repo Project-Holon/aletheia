@@ -12,7 +12,7 @@
  * symbols:
  *   func_0204B100 0x0204B100 arm
  *   func_0204B688 0x0204B688 arm
- *   func_02012BF8 0x02012BF8 thumb
+ *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   func_021C940C 0x021C940C thumb ov212
  *   func_021BEDB8 0x021BEDB8 thumb ov210
  *   func_021BEDF0 0x021BEDF0 thumb ov210
@@ -50,7 +50,7 @@ struct Actor;
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_0204B688(struct Actor *actor, u32 value);
-extern int func_02012BF8(int a0, int a1);
+extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 struct Obj;
 extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
 extern void func_021BEDB8(int p, int i, int v);
@@ -80,7 +80,7 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         p->objs[i] = func_021C940C((u32)p->set, (const u8 *)(&t0), 0x7B);
     }
 
-    if (func_02012BF8((int)(*p->sys), 0x10) == 1)
+    if (GAME_DATA_CheckSaveFlag((int)(*p->sys), 0x10) == 1)
         func_021BEDB8((int)p, 4, 7);
     func_021BEDF0((int)p, 5, 0);
     func_021BEDF0((int)p, 6, 0);

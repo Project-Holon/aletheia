@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0204D478",
+   "name": "CLACT_SetAnimIndex",
    "address": "0x0204D478",
    "kind": "game",
    "region": "arm9",
@@ -30,12 +30,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0204D494",
-    "func_0204D4A4"
+    "CLACT_SetCellAnimIndex",
+    "CLACT_SetMultiCellAnimIndex"
+   ],
+   "addresses": [
+    "0x0204D494",
+    "0x0204D4A4"
    ]
   },
   {
-   "name": "sub_0204D4B4",
+   "name": "CLACT_SetVramAnimIndex",
    "address": "0x0204D4B4",
    "kind": "game",
    "region": "arm9",

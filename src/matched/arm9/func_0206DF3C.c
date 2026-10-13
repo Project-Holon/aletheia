@@ -23,7 +23,7 @@
  * Byte-identical under dsi/1.1p1 as well; pinned ../2.0/sp2 with the cluster.
  *
  * symbols:
- *   g_02148B4C     0x02148B4C  data
+ *   g_renderState     0x02148B4C  data
  *   func_0207BC08  0x0207BC08  arm
  *   func_0207C8A0  0x0207C8A0  arm
  *   func_0207C848  0x0207C848  arm
@@ -70,7 +70,7 @@ typedef struct
   int cmd1;
   MtxFx43 cameraMtx;
 } Glb;
-extern Glb g_02148B4C;
+extern Glb g_renderState;
 extern void func_0207BC08(const VecFx32 *src, const MtxFx43 *m, VecFx32 *dst);
 extern void func_0207C8A0(fx32 d);
 extern fx64c func_0207C848(void);
@@ -92,8 +92,8 @@ int func_0206DF3C(const VecFx32 *pWorld, int *px, int *py)
     const MtxFx44 *m;
     fx32 ty;
 
-    m = &g_02148B4C.prjMtx;
-    func_0207BC08(pWorld, &g_02148B4C.cameraMtx, &vec);   /* MTX_MultVec43 */
+    m = &g_renderState.prjMtx;
+    func_0207BC08(pWorld, &g_renderState.cameraMtx, &vec);   /* MTX_MultVec43 */
 
     {
         fx32 tw = (fx32)(((fx64)vec.x * m->_03 + (fx64)vec.y * m->_13 + (fx64)vec.z * m->_23) >> 12);

@@ -1,5 +1,5 @@
 /*
- * function: func_02178D9C
+ * function: DWCi_MOV_WH_PortReceiveCallback
  * address:  0x02178D9C
  * packet:   pkt_ov014_02178D9C
  * region:   ov014
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 extern struct S *g_021797A8;
 void func_0217814C(int a);
 
-void func_02178D9C(u8 *m)
+void DWCi_MOV_WH_PortReceiveCallback(u8 *m)
 {
     void (*cb)(u32, u32, u32);
 

@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_02148B4C     0x02148B4C  data
+ *   g_renderState     0x02148B4C  data
  *   func_0207BC08  0x0207BC08  arm
  *   func_0207C8A0  0x0207C8A0  arm
  *   func_0207C848  0x0207C848  arm
@@ -80,7 +80,7 @@ extern u32 func_0207C768(u32 a, u32 b);
 extern void *func_0206AE2C(void);
 int func_0206DF3C(const VecFx32_0206DF3C *pWorld, int *px, int *py);
 int func_0206E0C4(int px, int py, VecFx32_0206DF3C *pNear, VecFx32_0206DF3C *pFar);
-extern Glb g_02148B4C;
+extern Glb g_renderState;
 
 inline static fx32 FX_Mul32x64c(fx32 v32, fx64c v64c)
 {
@@ -113,8 +113,8 @@ int func_0206DF3C(const VecFx32_0206DF3C *pWorld, int *px, int *py)
     const MtxFx44_0206DF3C *m;
     fx32 ty;
 
-    m = &g_02148B4C.prjMtx;
-    func_0207BC08(pWorld, &g_02148B4C.cameraMtx, &vec);   /* MTX_MultVec43 */
+    m = &g_renderState.prjMtx;
+    func_0207BC08(pWorld, &g_renderState.cameraMtx, &vec);   /* MTX_MultVec43 */
 
     {
         fx32 tw = (fx32)(((fx64)vec.x * m->_03 + (fx64)vec.y * m->_13 + (fx64)vec.z * m->_23) >> 12);

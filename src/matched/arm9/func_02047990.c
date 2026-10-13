@@ -1,5 +1,5 @@
 /*
- * function: func_02047990
+ * function: G3D_SYSTEM_SwapBuffersMain
  * address:  0x02047990
  * packet:   pkt_02047990
  * region:   arm9
@@ -16,7 +16,7 @@
  * words until NitroMain was seeded in layout/function_starts.txt.
  *
  * symbols:
- *   g_02146A5C  0x02146A5C  data
+ *   _G3dSystem  0x02146A5C  data
  */
 
 typedef unsigned char u8;
@@ -32,16 +32,16 @@ struct Ctx {
     u32 unk_94;
 };
 
-extern struct Ctx *g_02146A5C;
+extern struct Ctx *_G3dSystem;
 
-void func_02047990(void)
+void G3D_SYSTEM_SwapBuffersMain(void)
 {
-    struct Ctx *c = g_02146A5C;
+    struct Ctx *c = _G3dSystem;
 
     if (c == 0)
         return;
     if (c->unk_94 != 1)
         return;
     reg_G3_SWAP_BUFFERS = (c->bufferMode << 1) | c->sortMode;
-    g_02146A5C->unk_94 = 0;
+    _G3dSystem->unk_94 = 0;
 }

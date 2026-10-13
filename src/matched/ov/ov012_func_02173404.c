@@ -1,5 +1,5 @@
 /*
- * function: func_02173404
+ * function: UNION_COMM_ConnectEndCallback
  * address: 0x02173404
  * packet: pkt_ov012_02173404
  * region: ov012
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov012/union_comm.c and filed here.
  */
 
-void func_02173404(void);
+void UNION_COMM_ConnectEndCallback(void);
 
-void func_02173404(void) {}
+void UNION_COMM_ConnectEndCallback(void) {}

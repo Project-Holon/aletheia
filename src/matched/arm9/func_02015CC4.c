@@ -1,5 +1,5 @@
 /*
- * function: func_02015CC4
+ * function: MCSS_GetShadowScale
  * address:  0x02015CC4
  * packet:   pkt_02015CC4
  * region:   arm9
@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-void func_02015CC4(void *p, u32 *out)
+void MCSS_GetShadowScale(void *p, u32 *out)
 {
     out[0] = ((struct Obj08757 *)p)->f128;
     out[1] = ((struct Obj08757 *)p)->f12C;

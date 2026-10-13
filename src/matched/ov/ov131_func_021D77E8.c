@@ -1,5 +1,5 @@
 /*
- * function: func_021D77E8
+ * function: P_STA_SUB_ResetStroke
  * address:  0x021D77E8
  * packet:   pkt_021D77E8
  * region:   ov131
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021D77E8(u8 *p, u32 a, u32 b)
+void P_STA_SUB_ResetStroke(u8 *p, u32 a, u32 b)
 {
     p[0] = 0;
     ((struct Obj06483 *)p)->f4 = 0;

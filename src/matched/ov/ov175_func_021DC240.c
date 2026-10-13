@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201A918  0x0201A918  thumb
+ *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
  *   func_02082D44  0x02082D44  arm
  *
  * Takes and clears the +0x144 block; when there was one, calls
@@ -22,7 +22,7 @@
 
 typedef unsigned long u32;
 
-extern int func_0201A918(void);
+extern int POKE_REGULATION_GetDataSize(void);
 extern void func_02082D44(char *dst, u32 arg, u32 src);
 
 u32 func_021DC240(char *obj, u32 arg)
@@ -31,7 +31,7 @@ u32 func_021DC240(char *obj, u32 arg)
 
     if (v != 0) {
         ((struct Obj14345 *)obj)->f144 = 0;
-        func_02082D44(obj + 0x218, arg, func_0201A918());
+        func_02082D44(obj + 0x218, arg, POKE_REGULATION_GetDataSize());
     }
     return v;
 }

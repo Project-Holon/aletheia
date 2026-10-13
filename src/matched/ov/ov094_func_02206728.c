@@ -14,7 +14,7 @@
  *   func_02045EC0  0x02045EC0  arm
  *   func_02045808  0x02045808  arm
  *   func_0201EC64  0x0201EC64  thumb
- *   func_0201DE00  0x0201DE00  thumb
+ *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   func_0201DD78  0x0201DD78  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
@@ -38,7 +38,7 @@ struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0201DE00(u8 *a, u8 *b, u8 *c);
+extern void GF_FONT_GetTextColor(u8 *a, u8 *b, u8 *c);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -61,7 +61,7 @@ void func_02206728(char *s, char *b)
     h = (int)func_0201EC64(((struct Obj05249 *)s)->f240);
     v = func_020457B0(6, ((struct Obj05249 *)s)->f240);
     w = func_02045EC0(((struct Obj05249 *)s)->f5C, 8);
-    func_0201DE00(&c[2], &c[1], &c[0]);
+    GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     func_0201DD78(1, 2, 0);
     func_0201EFA4((struct WordSet *)h, 0, ((struct Obj21799 *)b)->fC4, 2, 0, 1);
     func_0201F250((struct WordSet *)h, v, w);

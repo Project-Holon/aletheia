@@ -1,5 +1,5 @@
 /*
- * function: func_0217DCA4
+ * function: gsiLargeIntSubDivide
  * address:  0x0217DCA4
  * packet:   pkt_ov009_0217DCA4
  * region:   ov009
@@ -19,11 +19,11 @@
  *
  * symbols:
  *   func_0217D3AC                  0x0217D3AC  arm  ov009
- *   func_0217D3F8                  0x0217D3F8  arm  ov009
+ *   gsiLargeIntTimerExit                  0x0217D3F8  arm  ov009
  *   _ll_udiv                       0x0209C00C  arm
- *   func_0217D750                  0x0217D750  arm  ov009
- *   func_0217D448                  0x0217D448  arm  ov009
- *   func_0217D640                  0x0217D640  arm  ov009
+ *   gsiLargeIntMult                  0x0217D750  arm  ov009
+ *   gsiLargeIntCompare                  0x0217D448  arm  ov009
+ *   gsiLargeIntSub                  0x0217D640  arm  ov009
  */
 
 struct gsLargeInt_s {
@@ -32,18 +32,18 @@ struct gsLargeInt_s {
 };
 
 extern void func_0217D3AC(int id);
-extern void func_0217D3F8(int id);
-extern int func_0217D750(unsigned int *data1, unsigned int length1,
+extern void gsiLargeIntTimerExit(int id);
+extern int gsiLargeIntMult(unsigned int *data1, unsigned int length1,
                          unsigned int *data2, unsigned int length2,
                          unsigned int *dest, unsigned int *lenout,
                          unsigned int maxlen);
-extern int func_0217D448(const unsigned int *a, unsigned int n,
+extern int gsiLargeIntCompare(const unsigned int *a, unsigned int n,
                          const unsigned int *b, unsigned int m);
-extern int func_0217D640(unsigned int *src1, unsigned int length1,
+extern int gsiLargeIntSub(unsigned int *src1, unsigned int length1,
                          unsigned int *src2, unsigned int length2,
                          unsigned int *dest, unsigned int *lenout);
 
-static int func_0217DCA4(unsigned int *src, unsigned int length,
+static int gsiLargeIntSubDivide(unsigned int *src, unsigned int length,
                          unsigned int *divisor, unsigned int dlen,
                          int divisorHighBit, unsigned int *quotient)
 {
@@ -70,22 +70,22 @@ static int func_0217DCA4(unsigned int *src, unsigned int length,
     }
     quotientCopy.mLength = 1;
 
-    if (!func_0217D750(divisor, dlen, quotientCopy.mData, quotientCopy.mLength,
+    if (!gsiLargeIntMult(divisor, dlen, quotientCopy.mData, quotientCopy.mLength,
                        temp.mData, &temp.mLength, 64)) {
-        func_0217D3F8(6);
+        gsiLargeIntTimerExit(6);
         return 0;
     }
-    while (func_0217D448(temp.mData, temp.mLength, src, length) == 1) {
+    while (gsiLargeIntCompare(temp.mData, temp.mLength, src, length) == 1) {
         quotientCopy.mData[0] >>= 1;
-        if (!func_0217D750(divisor, dlen, quotientCopy.mData, quotientCopy.mLength,
+        if (!gsiLargeIntMult(divisor, dlen, quotientCopy.mData, quotientCopy.mLength,
                            temp.mData, &temp.mLength, 64)) {
-            func_0217D3F8(6);
+            gsiLargeIntTimerExit(6);
             return 0;
         }
     }
-    func_0217D640(temp.mData, temp.mLength, src, length, src, &length);
+    gsiLargeIntSub(temp.mData, temp.mLength, src, length, src, &length);
     *quotient = quotientCopy.mData[0];
-    func_0217D3F8(6);
+    gsiLargeIntTimerExit(6);
     return 1;
     }
 }

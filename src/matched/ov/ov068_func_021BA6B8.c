@@ -16,7 +16,7 @@
  *   func_02045808  0x02045808  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_02028148  0x02028148  thumb
- *   func_02027FEC  0x02027FEC  thumb
+ *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb
  */
 #include "../include/Obj06169.h"
 
@@ -32,7 +32,7 @@ struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02028148(u8 *p);
-extern u32  func_02027FEC(u32 a, u8 *b, u8 c, u32 d, u32 e, u32 f);
+extern u32  APP_TASKMENU_WIN_Create(u32 a, u8 *b, u8 c, u32 d, u32 e, u32 f);
 
 void func_021BA6B8(u8 *p, u32 arg)
 {
@@ -49,6 +49,6 @@ void func_021BA6B8(u8 *p, u32 arg)
             func_02028148((u8 *)(*(u32 *)(p + i * 4 + 0x34)));
         }
         *(u32 *)(p + i * 4 + 0x34) =
-            func_02027FEC(((struct Obj06169 *)p)->f14, p + 0x1c + i * 12, i * 9 + 14, 0x15, 9, arg);
+            APP_TASKMENU_WIN_Create(((struct Obj06169 *)p)->f14, p + 0x1c + i * 12, i * 9 + 14, 0x15, 9, arg);
     }
 }

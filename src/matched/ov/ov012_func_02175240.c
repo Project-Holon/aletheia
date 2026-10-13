@@ -12,7 +12,7 @@
  * symbols:
  *   func_020399A8  0x020399A8  arm
  *   func_0203D1A4  0x0203D1A4  arm
- *   func_0201A948  0x0201A948  thumb
+ *   POKEPARTY_Init  0x0201A948  thumb
  */
 
 typedef unsigned char u8;
@@ -23,7 +23,7 @@ extern struct Entry *func_020399A8(void);
 struct Link;
 extern u32 func_0203D1A4(struct Link *p);
 struct Party;
-extern void func_0201A948(struct Party *p);
+extern void POKEPARTY_Init(struct Party *p);
 
 void func_02175240(u8 *a, int b)
 {
@@ -33,7 +33,7 @@ void func_02175240(u8 *a, int b)
     self = func_0203D1A4((struct Link *)((u32)func_020399A8()));
     for (i = 0; i < 4; i++) {
         if (b == 0 || self != i) {
-            func_0201A948(*(void **)(a + i * 4 + 0x148));
+            POKEPARTY_Init(*(void **)(a + i * 4 + 0x148));
         }
         a[i + 0x158] = 0;
     }

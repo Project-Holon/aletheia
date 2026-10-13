@@ -1,5 +1,5 @@
 /*
- * function: func_021D7CAC
+ * function: P_STA_INFO_ShowPage
  * address: 0x021D7CAC
  * packet: pkt_ov131_021D7CAC
  * region: ov131
@@ -11,7 +11,7 @@
  *   reproduce the r4/r5 allocation. first/second keep the complete word
  *   returned by 02017E88. Extent tail 021D7E82..021D7E84 is zero padding.
  * symbols:
- *   func_021D6064 0x021D6064 thumb ov131
+ *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   func_020410D0 0x020410D0 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02040AE0 0x02040AE0 arm
@@ -20,8 +20,8 @@
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02017E88 0x02017E88 thumb
- *   func_0204AB84 0x0204AB84 arm
- *   func_0204B784 0x0204B784 arm
+ *   CLACT_GetCharacterProxy 0x0204AB84 arm
+ *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   func_020275EC 0x020275EC thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B404 0x0204B404 arm
@@ -38,7 +38,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Rec { u32 w[9]; };
 struct Point { s16 x,y; };
-extern void *func_021D6064(u8 *);
+extern void *P_STATUS_GetPokePara(u8 *);
 extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
 struct Cfg;
@@ -50,9 +50,9 @@ extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern u32 func_02017E88(void *,u32,u32);
-extern void func_0204AB84(u32,struct Rec *);
+extern void CLACT_GetCharacterProxy(u32,struct Rec *);
 struct Struct36;
-extern void func_0204B784(char *dst, const struct Struct36 *src);
+extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 extern u8 func_020275EC(int i);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 struct Vec2;
@@ -60,7 +60,7 @@ extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B84C(void *,u32);
 extern void func_0204B878(struct Obj *p, u16 value);
-void func_021D7CAC(u8 *a,u8 *p)
+void P_STA_INFO_ShowPage(u8 *a,u8 *p)
 {
     struct Rec r1,r2;
     struct Point point;
@@ -68,7 +68,7 @@ void func_021D7CAC(u8 *a,u8 *p)
     void *object;
     void *cell;
     u32 first,second;
-    object=func_021D6064(a);
+    object=P_STATUS_GetPokePara(a);
     if(((struct Obj01407 *)a)->f38==0) func_020410D0(2,0,0,32,24,(u32)(*(u8 * *)&((struct Obj05391 *)p)->f4C+12),0,0,32,32);
     else func_020410D0(2,0,0,32,24,(u32)(*(u8 * *)&((struct Obj05391 *)p)->f54+12),0,0,32,32);
     func_02041B6C(2);
@@ -89,8 +89,8 @@ void func_021D7CAC(u8 *a,u8 *p)
     if(((struct Obj01407 *)a)->f38==0) {
         first=func_02017E88(object,174,0);
         second=func_02017E88(object,175,0);
-        func_0204AB84(*(u32 *)((u32)a+first*4u+0x130u),&r1);
-        func_0204B784(((struct Obj01407 *)a)->f198,(const struct Struct36 *)(&r1));
+        CLACT_GetCharacterProxy(*(u32 *)((u32)a+first*4u+0x130u),&r1);
+        CLACT_SetActorImageProxy(((struct Obj01407 *)a)->f198,(const struct Struct36 *)(&r1));
         func_0204B6F4(((struct Obj01407 *)a)->f198,func_020275EC((u8)first),1);
         point.x=96;
         point.y=48;
@@ -98,8 +98,8 @@ void func_021D7CAC(u8 *a,u8 *p)
         func_0204B3DC(((struct Obj01407 *)a)->f198,1);
         func_0204B84C(((struct Obj01407 *)a)->f198,1);
         if(first!=second) {
-            func_0204AB84(*(u32 *)((u32)a+second*4u+0x130u),&r2);
-            func_0204B784(((struct Obj01407 *)a)->f19C,(const struct Struct36 *)(&r2));
+            CLACT_GetCharacterProxy(*(u32 *)((u32)a+second*4u+0x130u),&r2);
+            CLACT_SetActorImageProxy(((struct Obj01407 *)a)->f19C,(const struct Struct36 *)(&r2));
             func_0204B6F4(((struct Obj01407 *)a)->f19C,func_020275EC((u8)second),1);
             point.x=130;
             point.y=48;

@@ -1,5 +1,5 @@
 /*
- * function: func_02012FA4
+ * function: GAME_DATA_SetSymbolMapFlag
  * address:  0x02012FA4
  * packet:   pkt_02012FA4
  * region:   arm9
@@ -12,7 +12,7 @@
  * Unlabelled Thumb leaf: stores a byte at +0x1CF.
  */
 
-void func_02012FA4(char *p, unsigned char v)
+void GAME_DATA_SetSymbolMapFlag(char *p, unsigned char v)
 {
     *(char *)(p + 0x1cf) = v;
 }

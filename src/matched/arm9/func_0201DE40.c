@@ -1,5 +1,5 @@
 /*
- * function: func_0201DE40
+ * function: GF_FONT_DecodeGlyph8x8
  * address:  0x0201DE40
  * packet:   pkt_0201DE40
  * region:   arm9
@@ -14,7 +14,7 @@
  *   g_02146588   0x02146588  data
  *   g_0209E74C   0x0209E74C  data
  *
- * gf_font.c's format-1 glyph decoder, one of the four hooks func_0201DAA4
+ * gf_font.c's format-1 glyph decoder, one of the four hooks GF_FONT_InitStreamedGlyphs
  * installs at f->unk08 (src/pending/sub_0201DAA4.c): the one for format 1
  * with b == 1.
  *
@@ -26,7 +26,7 @@
  * caller's bit depth and is a runtime value, which is why the even and odd
  * reads are the same inlined reader with a constant and a variable count.
  *
- * The reader is the source of sub_0201E4D4 (src/matched/sub_0201E4D4.c), the
+ * The reader is the source of GF_FONT_ReadBits (src/matched/GF_FONT_ReadBits.c), the
  * out-of-line copy of it that sits just past this function, inlined here
  * sixteen times; `static inline` is load-bearing, plain `static` compiles to
  * sixteen `bl`s and 260 bytes.  Its state is the second half of the global at
@@ -53,8 +53,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201DE40.c \
- *       --func func_0201DE40 --addr 0x0201DE40 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GF_FONT_DecodeGlyph8x8.c \
+ *       --func GF_FONT_DecodeGlyph8x8 --addr 0x0201DE40 --cc 1.1p1 --thumb
  *   EXACT, 1672 bytes, 5 relocation sites, all 5 resolved.
  */
 
@@ -111,7 +111,7 @@ static inline u8 read_bits(struct BitReader *r, u8 n)
     return (u8)((lo >> used) | hi);
 }
 
-void func_0201DE40(const u8 *src, u32 n, u16 *dst)
+void GF_FONT_DecodeGlyph8x8(const u8 *src, u32 n, u16 *dst)
 {
     g_02146578.br.src = src;
     g_02146578.br.cur = *src;

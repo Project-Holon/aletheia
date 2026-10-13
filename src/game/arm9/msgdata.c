@@ -1,7 +1,7 @@
 /*
  * file:     msgdata.c
  * unit:     yes
- * function: func_02045B38, func_02045C04, func_02045C44, func_02045CAC, func_02045E04, func_02045E3C, func_02045EC0, func_02045F50, func_02045F5C, func_02046084, func_02046110, sub_02046180, sub_020461B8
+ * function: func_02045B38, func_02045C04, MSGDATA_CreateFromMemory, func_02045CAC, func_02045E04, MSGDATA_DecryptUnits, func_02045EC0, func_02045F50, MSGDATA_ReadUnits, MSGDATA_LoadFileHeader, MSGDATA_LoadBank, MSGDATA_RefreshLanguage, MSGDATA_GetLanguageIndex
  * address:  0x02045B38
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -16,15 +16,15 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   sub_02030734  0x02030734  arm
- *   g_020A7E8C     0x020A7E8C  data
+ *   MSGDATA_AllocSite     0x020A7E8C  data
  *   func_020461B8  0x020461B8  arm
  *   func_020490F4  0x020490F4  arm
- *   func_02049578  0x02049578  arm
+ *   ARC_TOOL_GetHandleMemberOffset  0x02049578  arm
  *   func_02049238  0x02049238  arm
- *   func_0204581C  0x0204581C  arm
+ *   STRBUF_Clear  0x0204581C  arm
  *   func_02045E04  0x02045E04  arm
  *   func_02046180  0x02046180  arm
- *   func_020495F4  0x020495F4  arm
+ *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *   func_0204960C  0x0204960C  arm
  *   sub_02045E3C  0x02045E3C  arm
  *   sub_0204960C  0x0204960C  arm
@@ -33,11 +33,11 @@
  *   func_02082D44  0x02082D44  arm
  *   sub_02046110  0x02046110  arm
  *   sub_020461E4  0x020461E4  arm
- *   sub_020457B0 0x020457B0 arm
- *   sub_020458F8 0x020458F8 arm
- *   sub_02045900 0x02045900 arm
- *   func_02045A00 0x02045A00 arm
- *   sub_02045A90 0x02045A90 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_GetLength 0x020458F8 arm
+ *   STRBUF_Truncate 0x02045900 arm
+ *   STRBUF_SetChars 0x02045A00 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   func_02045A98 0x02045A98 arm
  */
 struct ArcFile;
@@ -117,43 +117,43 @@ extern u32 func_020307B0(void *p);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32 func_02049578(struct ArcFile *arc, u32 member);
+extern u32 ARC_TOOL_GetHandleMemberOffset(struct ArcFile *arc, u32 member);
 extern s32 sub_020461E4(const struct MsgFile *file);
 extern void func_02049238(void *handle);
-extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
+extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
 extern void func_0204960C(void *stream, u32 pos);
-extern void func_0204581C(struct Strbuf *vec);
+extern void STRBUF_Clear(struct Strbuf *vec);
 extern void func_02082D44(const void *src, void *dest, u32 size);
-struct Strbuf *sub_020457B0(u32 capacity, u32 heapId);
-u16 sub_020458F8(struct Strbuf *vec);
-void sub_02045900(struct Strbuf *vec, u32 length);
-void func_02045A00(struct Strbuf *buf, const void *src, u32 n);
-u16 *sub_02045A90(struct Strbuf *vec);
+struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+u16 STRBUF_GetLength(struct Strbuf *vec);
+void STRBUF_Truncate(struct Strbuf *vec, u32 length);
+void STRBUF_SetChars(struct Strbuf *buf, const void *src, u32 n);
+u16 *STRBUF_GetChars(struct Strbuf *vec);
 u16 func_02045A98(void);
-struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 u32 func_02045C04(struct MsgBank *bank);
-struct MsgBank *func_02045C44(const void *file, u32 heapId);
+struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 void func_02045CAC(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-void sub_02045E04(struct Strbuf *str, u32 msgIndex);
-u32 func_02045E3C(u16 *str, u32 count, u32 msgIndex);
-struct Strbuf *sub_02045EC0(struct MsgBank *bank, u32 index);
-u16 sub_02045F50(const struct MsgBank *bank);
-void func_02045F5C(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
-struct MsgFile *func_02046084(void *stream, u32 origin, u16 heapId);
-void func_02046110(struct MsgBankLoad *bank);
-void sub_02046180(struct MsgBank *bank);
-s32 sub_020461B8(const struct MsgFile *file);
-extern char g_020A7E8C[];
+void MSGDATA_DecryptStrbuf(struct Strbuf *str, u32 msgIndex);
+u32 MSGDATA_DecryptUnits(u16 *str, u32 count, u32 msgIndex);
+struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+u16 MSGDATA_GetMessageCount(const struct MsgBank *bank);
+void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
+struct MsgFile *MSGDATA_LoadFileHeader(void *stream, u32 origin, u16 heapId);
+void MSGDATA_LoadBank(struct MsgBankLoad *bank);
+void MSGDATA_RefreshLanguage(struct MsgBank *bank);
+s32 MSGDATA_GetLanguageIndex(const struct MsgFile *file);
+extern char MSGDATA_AllocSite[];
 
 
 
 /*
  * The archive-backed constructor for the message bank whose object layout is
  * pinned by src/matched/unit_02045C44.c, and the reason that object carries
- * both a `stream` handle and a `resident` flag.  func_02045C44 builds a bank
+ * both a `stream` handle and a `resident` flag.  MSGDATA_CreateFromMemory builds a bank
  * over a file the caller already has; this one opens the archive, seeks the
  * member, reads its header and then decides: a resident bank allocates the
- * whole payload up front and calls func_02046110 to index it, a streamed bank
+ * whole payload up front and calls MSGDATA_LoadBank to index it, a streamed bank
  * leaves `base` null and reads entries on demand in func_02045CAC.
  *
  * The allocation tags are 0x68 for the bank and 0x7b for the payload, both
@@ -164,9 +164,9 @@ extern char g_020A7E8C[];
  * which is what pins them as plain literals at the calls rather than named
  * locals.
  *
- * The file offset returned by func_02049578 is bound to a local: the original
+ * The file offset returned by ARC_TOOL_GetHandleMemberOffset is bound to a local: the original
  * spends `mov r1, r0` on it before the store to +0x10, four bytes that vanish
- * if the store's value is re-read from the field for the func_02046084 call
+ * if the store's value is re-read from the field for the MSGDATA_LoadFileHeader call
  * (docs/idioms/cmp-operand-order-names-the-temporary.md, same tell).  The
  * stream handle and the file pointer are not: both are read back from the
  * field and the compiler forwards the store it just made.
@@ -176,27 +176,27 @@ extern char g_020A7E8C[];
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045B38.c \
- *       --func sub_02045B38 --addr 0x02045B38 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_CreateFromArchive.c \
+ *       --func MSGDATA_CreateFromArchive --addr 0x02045B38 --cc 1.1p1 --arm
  */
-struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId)
+struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId)
 {
     struct MsgBank *bank;
     u32 origin;
 
-    bank = (struct MsgBank *)sub_02030734(heapId, 0x1c, 0, g_020A7E8C, 0x68);
+    bank = (struct MsgBank *)sub_02030734(heapId, 0x1c, 0, MSGDATA_AllocSite, 0x68);
     bank->heapId = (u16)heapId;
     bank->stream = func_020490F4(arcId, heapId);
-    origin = func_02049578(bank->stream, fileId);
+    origin = ARC_TOOL_GetHandleMemberOffset(bank->stream, fileId);
     bank->origin = origin;
     bank->resident = (u8)resident;
-    bank->file = func_02046084(bank->stream, origin, bank->heapId);
-    bank->langIndex = sub_020461B8(bank->file);
+    bank->file = MSGDATA_LoadFileHeader(bank->stream, origin, bank->heapId);
+    bank->langIndex = MSGDATA_GetLanguageIndex(bank->file);
 
     if (bank->resident != 0) {
         bank->base = sub_02030734(bank->heapId, bank->file->size, 0,
-                                  g_020A7E8C, 0x7b);
-        func_02046110((struct MsgBankLoad *)bank);
+                                  MSGDATA_AllocSite, 0x7b);
+        MSGDATA_LoadBank((struct MsgBankLoad *)bank);
     } else {
         bank->base = 0;
     }
@@ -237,7 +237,7 @@ u32 func_02045C04(struct MsgBank *bank)
 /*
  * The whole of pkt_02045C44, 448 bytes with both literal pools: the message
  * bank's constructor and its one reader.  Both functions are EXACT
- * individually as well (src/matched/func_02045C44.c and
+ * individually as well (src/matched/MSGDATA_CreateFromMemory.c and
  * src/matched/func_02045CAC.c); this unit is the consolidated shape.
  *
  * The object is 0x1c bytes and its layout is pinned by the pair:
@@ -253,7 +253,7 @@ u32 func_02045C04(struct MsgBank *bank)
  *
  * func_02045CAC has two residency modes.  Resident: the entry descriptor is
  * &((MsgEntry *)(base + 4))[index] and the payload is base + e->off, handed
- * straight to func_02045A00.  Streamed: the descriptor is an 8-byte archive
+ * straight to STRBUF_SetChars.  Streamed: the descriptor is an 8-byte archive
  * read into the cache at +0x8, then a scratch buffer of 2 * e->len bytes is
  * allocated, filled by a second read, consumed and freed.  The allocator
  * heap id for that scratch buffer is (u16)((heapId & 0x7fff) | 0x8000), the
@@ -276,27 +276,27 @@ u32 func_02045C04(struct MsgBank *bank)
  *
  * The fourth argument of sub_02030734 is the BSS provenance object at
  * 0x020A7E8C, not a __FILE__ string: it sits above the arm9 static image
- * end and has 41 pool references image-wide.  In func_02045C44 the
+ * end and has 41 pool references image-wide.  In MSGDATA_CreateFromMemory the
  * allocator's third argument (clear) shares one `mov r5, #0` with the two
  * zero field stores, so it is written as a plain literal at the call rather
- * than bound to a named local (the shape of src/matched/sub_020457B0.c).
+ * than bound to a named local (the shape of src/matched/STRBUF_Create.c).
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02045C44.c \
  *       --addr 0x02045C44 --arm
  */
-struct MsgBank *func_02045C44(const void *file, u32 heapId)
+struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId)
 {
     struct MsgBank *bank;
 
-    bank = (struct MsgBank *)sub_02030734(heapId, 0x1c, 0, g_020A7E8C, 0xa6);
+    bank = (struct MsgBank *)sub_02030734(heapId, 0x1c, 0, MSGDATA_AllocSite, 0xa6);
     bank->heapId = (u16)heapId;
     bank->stream = 0;
     bank->origin = 0;
     bank->resident = 1;
     bank->file = (const struct MsgFile *)file;
-    bank->langIndex = sub_020461B8(bank->file);
-    func_02046110((struct MsgBankLoad *)bank);
+    bank->langIndex = MSGDATA_GetLanguageIndex(bank->file);
+    MSGDATA_LoadBank((struct MsgBankLoad *)bank);
     return bank;
 }
 
@@ -308,17 +308,17 @@ void func_02045CAC(struct MsgBank *bank, u32 index, struct Strbuf *dest)
     struct MsgEntry *entry;
 
     if (index >= bank->file->count) {
-        func_0204581C(dest);
+        STRBUF_Clear(dest);
         return;
     }
 
-    sub_02046180(bank);
+    MSGDATA_RefreshLanguage(bank);
 
     if (bank->resident == 0) {
         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
 
         func_0204960C(bank->stream, pos + (index * 8 + 4));
-        func_020495F4(bank->stream, 8, &bank->cache);
+        ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache);
         entry = &bank->cache;
     } else {
         entry = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
@@ -329,17 +329,17 @@ void func_02045CAC(struct MsgBank *bank, u32 index, struct Strbuf *dest)
 
         size = entry->length * 2;
         encrypted = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000), size,
-                                 0, g_020A7E8C, 0xd6);
+                                 0, MSGDATA_AllocSite, 0xd6);
         if (encrypted != 0) {
             func_0204960C(bank->stream,
                           entry->offset + (bank->origin
                               + bank->file->langOff[bank->langIndex]));
-            func_020495F4(bank->stream, size, encrypted);
-            func_02045A00(dest, encrypted, entry->length);
+            ARC_TOOL_ReadHandle(bank->stream, size, encrypted);
+            STRBUF_SetChars(dest, encrypted, entry->length);
             func_020307B0(encrypted);
         }
     } else {
-        func_02045A00(dest, (u8 *)bank->base + entry->offset, entry->length);
+        STRBUF_SetChars(dest, (u8 *)bank->base + entry->offset, entry->length);
     }
 
     func_02045E04(dest, index);
@@ -348,23 +348,23 @@ void func_02045CAC(struct MsgBank *bank, u32 index, struct Strbuf *dest)
 
 
 /*
- * Advance the object by one: read its current index (sub_020458F8), ask
- * sub_02045E3C for the entry one past it in the list sub_02045A90 returns,
- * and install the answer with sub_02045900.
+ * Advance the object by one: read its current index (STRBUF_GetLength), ask
+ * sub_02045E3C for the entry one past it in the list STRBUF_GetChars returns,
+ * and install the answer with STRBUF_Truncate.
  *
  * Three of the four calls need the object pointer, so it is pinned in r6
  * for the whole body; the incoming second argument survives in r5 across
  * two calls before reaching sub_02045E3C's r2.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045E04.c \
- *       --func sub_02045E04 --addr 0x02045E04 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_DecryptStrbuf.c \
+ *       --func MSGDATA_DecryptStrbuf --addr 0x02045E04 --cc 1.1p1 --arm
  */
-void sub_02045E04(struct Strbuf *str, u32 msgIndex)
+void MSGDATA_DecryptStrbuf(struct Strbuf *str, u32 msgIndex)
 {
-    s32 used = sub_020458F8(str);
+    s32 used = STRBUF_GetLength(str);
 
-    sub_02045900(str, func_02045E3C(sub_02045A90(str), used + 1, msgIndex));
+    STRBUF_Truncate(str, MSGDATA_DecryptUnits(STRBUF_GetChars(str), used + 1, msgIndex));
 }
 
 
@@ -390,10 +390,10 @@ void sub_02045E04(struct Strbuf *str, u32 msgIndex)
  * by a kind word, an argument count and that many argument words).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02045E3C.c \
- *       --func func_02045E3C --addr 0x02045E3C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MSGDATA_DecryptUnits.c \
+ *       --func MSGDATA_DecryptUnits --addr 0x02045E3C --cc 1.1p1
  */
-u32 func_02045E3C(u16 *str, u32 count, u32 msgIndex)
+u32 MSGDATA_DecryptUnits(u16 *str, u32 count, u32 msgIndex)
 {
     u16 eos = func_02045A98();
     u16 key = (u16)((msgIndex + 3) * 0x2983);
@@ -420,27 +420,27 @@ u32 func_02045E3C(u16 *str, u32 count, u32 msgIndex)
  * sub_02045CAC, and returns the allocated buffer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045EC0.c \
- *       --func sub_02045EC0 --addr 0x02045EC0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_AllocString.c \
+ *       --func MSGDATA_AllocString --addr 0x02045EC0 --cc 1.1p1 --arm
  */
-struct Strbuf *sub_02045EC0(struct MsgBank *bank, u32 index)
+struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index)
 {
     struct MsgEntry *entry;
     struct Strbuf *str;
 
-    sub_02046180(bank);
+    MSGDATA_RefreshLanguage(bank);
 
     if (bank->resident == 0) {
         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
 
         func_0204960C(bank->stream, pos + (index * 8 + 4));
-        func_020495F4(bank->stream, 8, &bank->cache);
+        ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache);
         entry = &bank->cache;
     } else {
         entry = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
     }
 
-    str = sub_020457B0(entry->length, bank->heapId);
+    str = STRBUF_Create(entry->length, bank->heapId);
     func_02045CAC(bank, index, str);
     return str;
 }
@@ -458,10 +458,10 @@ struct Strbuf *sub_02045EC0(struct MsgBank *bank, u32 index)
  * (docs/idioms/ldrsh-register-offset-is-signedness.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045F50.c \
- *       --func sub_02045F50 --addr 0x02045F50 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_GetMessageCount.c \
+ *       --func MSGDATA_GetMessageCount --addr 0x02045F50 --cc 1.1p1 --arm
  */
-u16 sub_02045F50(const struct MsgBank *bank)
+u16 MSGDATA_GetMessageCount(const struct MsgBank *bank)
 {
     return bank->file->count;
 }
@@ -471,7 +471,7 @@ u16 sub_02045F50(const struct MsgBank *bank)
 /*
  * msgdata.c: read string msgIndex into str (at most maxLen characters),
  * either from the resident bank (mode != 0) or by seeking the archive file,
- * then decode it in place (func_02045E3C) and terminate it with the EOM
+ * then decode it in place (MSGDATA_DecryptUnits) and terminate it with the EOM
  * code (func_02045A98).
  *
  * The 11-byte scheduling residue of docs/notes/pkt_02045F5C.c.txt was the
@@ -479,18 +479,18 @@ u16 sub_02045F50(const struct MsgBank *bank)
  * compiler predicates the else arm (ldrne/addne/addne/bne) and schedules
  * the file arm's loads in the image's order.
  */
-void func_02045F5C(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen)
+void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen)
 {
     const struct MsgEntry *entry;
     u32 count;
     u32 len;
 
-    sub_02046180(bank);
+    MSGDATA_RefreshLanguage(bank);
 
     if (bank->resident == 0) {
         u32 sectionOffset = bank->file->langOff[bank->langIndex];
         func_0204960C(bank->stream, (bank->origin + sectionOffset) + (msgIndex * 8 + 4));
-        func_020495F4(bank->stream, 8, &bank->cache);
+        ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache);
         entry = &bank->cache;
     } else {
         entry = (const struct MsgEntry *)((u8 *)bank->base + 4 + msgIndex * 8);
@@ -509,7 +509,7 @@ void func_02045F5C(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen)
         {
             u32 sectionOffset = bank->file->langOff[bank->langIndex];
             func_0204960C(bank->stream, (bank->origin + sectionOffset) + entry->offset);
-            func_020495F4(bank->stream, readBytes, str);
+            ARC_TOOL_ReadHandle(bank->stream, readBytes, str);
         }
     } else {
         const u16 *src = (const u16 *)((u8 *)bank->base + entry->offset);
@@ -519,7 +519,7 @@ void func_02045F5C(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen)
         }
     }
 
-    len = func_02045E3C(str, count, msgIndex);
+    len = MSGDATA_DecryptUnits(str, count, msgIndex);
     str[len] = func_02045A98();
 }
 
@@ -552,10 +552,10 @@ void func_02045F5C(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen)
  * block in r1.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02046084.c \
- *       --func func_02046084 --addr 0x02046084 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_LoadFileHeader.c \
+ *       --func MSGDATA_LoadFileHeader --addr 0x02046084 --cc 1.1p1 --arm
  */
-struct MsgFile *func_02046084(void *stream, u32 origin, u16 heapId)
+struct MsgFile *MSGDATA_LoadFileHeader(void *stream, u32 origin, u16 heapId)
 {
     u8 hdr[12];
     struct MsgFileHeader *hp;
@@ -563,12 +563,12 @@ struct MsgFile *func_02046084(void *stream, u32 origin, u16 heapId)
 
     func_0204960C(stream, origin);
     hp = (struct MsgFileHeader *)hdr;
-    func_020495F4(stream, sizeof(struct MsgFileHeader), hp);
+    ARC_TOOL_ReadHandle(stream, sizeof(struct MsgFileHeader), hp);
 
     file = (struct MsgFile *)sub_02030734(heapId, hp->langCount * 4 + 0xc, 0,
-                                          g_020A7E8C, 0x1f3);
+                                          MSGDATA_AllocSite, 0x1f3);
     func_02082D44(hp, file, sizeof(struct MsgFileHeader));
-    func_020495F4(stream, file->langCount * 4, file->langOff);
+    ARC_TOOL_ReadHandle(stream, file->langCount * 4, file->langOff);
     return file;
 }
 
@@ -581,13 +581,13 @@ struct MsgFile *func_02046084(void *stream, u32 origin, u16 heapId)
  * reads the whole bank.
  *
  * The four bytes the earlier notes could not reach (docs/notes/
- * func_02046110.c.txt, pkt_02046110.c.txt) are the `ldreq r0, [r4]`
+ * MSGDATA_LoadBank.c.txt, pkt_02046110.c.txt) are the `ldreq r0, [r4]`
  * reload of the archive pointer in the resident arm.  Every plain spelling
  * CSEs it into the load already made for the offset table; declaring the
  * member `volatile` keeps both loads and leaves every other instruction,
  * the predication included, unchanged.
  */
-void func_02046110(struct MsgBankLoad *bank)
+void MSGDATA_LoadBank(struct MsgBankLoad *bank)
 {
     u32 size;
     u32 sectionOffset = bank->file->langOff[bank->langIndex];
@@ -596,9 +596,9 @@ void func_02046110(struct MsgBankLoad *bank)
         bank->base = (u8 *)bank->file + sectionOffset;
     } else {
         func_0204960C(bank->stream, bank->origin + sectionOffset);
-        func_020495F4(bank->stream, 4, &size);
+        ARC_TOOL_ReadHandle(bank->stream, 4, &size);
         func_0204960C(bank->stream, bank->origin + sectionOffset);
-        func_020495F4(bank->stream, size, bank->base);
+        ARC_TOOL_ReadHandle(bank->stream, size, bank->base);
     }
 }
 
@@ -616,12 +616,12 @@ void func_02046110(struct MsgBankLoad *bank)
  * does.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02046180.c \
- *       --func sub_02046180 --addr 0x02046180 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_RefreshLanguage.c \
+ *       --func MSGDATA_RefreshLanguage --addr 0x02046180 --cc 1.1p1 --arm
  */
-void sub_02046180(struct MsgBank *bank)
+void MSGDATA_RefreshLanguage(struct MsgBank *bank)
 {
-    s32 langIndex = sub_020461B8(bank->file);
+    s32 langIndex = MSGDATA_GetLanguageIndex(bank->file);
 
     if (bank->langIndex == langIndex) {
         return;
@@ -631,7 +631,7 @@ void sub_02046180(struct MsgBank *bank)
         return;
     }
     bank->langIndex = (u8)langIndex;
-    func_02046110((struct MsgBankLoad *)bank);
+    MSGDATA_LoadBank((struct MsgBankLoad *)bank);
 }
 
 
@@ -643,7 +643,7 @@ void sub_02046180(struct MsgBank *bank)
  * The verdict is EXACT*, not EXACT: the next function, the one-byte global
  * setter at 0x020461D4, saves nothing, so disasm.py folds it into this
  * function's extent and the inferred range runs sixteen bytes long.  It is
- * decompiled separately in src/matched/sub_020461D4.c and wants seeding
+ * decompiled separately in src/matched/MSGDATA_SetLanguage.c and wants seeding
  * into layout/function_starts.txt, which is the integrator's file.
  *
  * `movge r0, #0` in place of a branch is the whole `if` body: one
@@ -651,10 +651,10 @@ void sub_02046180(struct MsgBank *bank)
  * both arms fall into the same `pop`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020461B8.c \
- *       --func sub_020461B8 --addr 0x020461B8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_GetLanguageIndex.c \
+ *       --func MSGDATA_GetLanguageIndex --addr 0x020461B8 --cc 1.1p1 --arm
  */
-s32 sub_020461B8(const struct MsgFile *file)
+s32 MSGDATA_GetLanguageIndex(const struct MsgFile *file)
 {
     s32 langIndex = sub_020461E4(file);
 

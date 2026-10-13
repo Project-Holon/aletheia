@@ -11,8 +11,8 @@
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_020120F4 0x020120F4 thumb
- *   func_02031348 0x02031348 arm
- *   func_0200F7B8 0x0200F7B8 thumb
+ *   PROCSYS_Push 0x02031348 arm
+ *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  *   func_021F8F5C 0x021F8F5C thumb ov135
  *   str_02203C34 0x02203C34 data a1
  *   tbl_021D654C 0x021D654C data ov115 a4
@@ -35,8 +35,8 @@ struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, u32, u32);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_02031348(void *, u32, void *, void *);
-extern u32 func_0200F7B8(u32 a0);
+extern void PROCSYS_Push(void *, u32, void *, void *);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern u32 func_021F8F5C(u8 *p);
 extern char str_02203C34[];
 extern u8 tbl_021D654C[];
@@ -52,8 +52,8 @@ int func_021F8DE4(u8 *p)
     r->enabled = 1;
     r->callback = (void (*)(void))func_021F8F5C;
     r->context = p;
-    func_02031348(((struct Obj04527 *)p)->f12F0, (u32)ov115_id, tbl_021D654C, *(Req * *)&((struct Obj04527 *)p)->f10DC);
+    PROCSYS_Push(((struct Obj04527 *)p)->f12F0, (u32)ov115_id, tbl_021D654C, *(Req * *)&((struct Obj04527 *)p)->f10DC);
     ((struct Obj04527 *)p)->f28 = 5;
-    func_0200F7B8(0);
+    GFL_NET_ERR_ShowScreen(0);
     return 2;
 }

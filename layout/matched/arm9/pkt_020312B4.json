@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020312B4",
+   "name": "PROCSYS_MainGlobal",
    "address": "0x020312B4",
    "kind": "game",
    "region": "arm9",

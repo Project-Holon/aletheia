@@ -1,5 +1,5 @@
 /*
- * function: func_0200C52C
+ * function: MUSICAL_DIST_SAVE_Create
  * address:  0x0200C52C
  * packet:   pkt_0200C52C
  * region:   arm9
@@ -15,7 +15,7 @@
  *   func_02030734  0x02030734  arm
  *   func_020072CC  0x020072CC  thumb
  *   func_020073D8  0x020073D8  thumb
- *   g_020A71D4     0x020A71D4  data  a1
+ *   g_MusicalDistSaveFileName     0x020A71D4  data  a1
  *
  * musical_dist_save.c constructor: allocate the 0x2C-byte control block and
  * a 0x20000-byte buffer, load save block 6 into the buffer through the save
@@ -50,7 +50,7 @@ struct MusicalDist {
     void *unk28;
 };
 
-extern const char g_020A71D4[];
+extern const char g_MusicalDistSaveFileName[];
 struct Big;
 struct Sub020073D8Ctrl;
 extern void *func_02012EBC(struct Big *p);
@@ -58,7 +58,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32   func_020072CC(void *sv, u32 id, u32 heap, void *buf, u32 size);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 
-struct MusicalDist *func_0200C52C(void *sys, u32 heap)
+struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *sys, u32 heap)
 {
     void *sv;
     struct MusicalDist *p;
@@ -66,8 +66,8 @@ struct MusicalDist *func_0200C52C(void *sys, u32 heap)
     u8 *z;
 
     sv = func_02012EBC(sys);
-    p = func_02030734(heap, 0x2C, 1, g_020A71D4, 0x4A);
-    p->unk1C = func_02030734(heap, 0x20000, 1, g_020A71D4, 0x4C);
+    p = func_02030734(heap, 0x2C, 1, g_MusicalDistSaveFileName, 0x4A);
+    p->unk1C = func_02030734(heap, 0x20000, 1, g_MusicalDistSaveFileName, 0x4C);
     r = func_020072CC(sv, 6, heap, p->unk1C, 0x20000);
     p->unk00 = heap;
     p->unk28 = sys;

@@ -1,5 +1,5 @@
 /*
- * function: sub_0201B038
+ * function: POKERUS_TryInfectParty
  * address:  0x0201B038
  * packet:   pkt_0201B038
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT*
  * note:     EXACT* only for the two bytes of alignment padding at
  *           0x0201B0FE.  The rare random event that seeds party record
- *           field 0x97 (see docs/notes/sub_0201B038.c.txt for the draws and
+ *           field 0x97 (see docs/notes/POKERUS_TryInfectParty.c.txt for the draws and
  *           the version-sensitive constants 0x4000/0x8000/0xC000, 7, 0xF3,
  *           content values rather than addresses).  Closed in wave 16: the
  *           packed byte is built as `w = v; w |= (u8)(v << 4);` (the copy is
@@ -19,9 +19,9 @@
  *           final lsls/lsrs pair straddle the argument set-up.
  * symbols:
  *   _ull_mul       0x0209C054  arm
- *   sub_0201AA18   0x0201AA18  thumb
- *   sub_0201AB28   0x0201AB28  thumb
- *   sub_0201B220   0x0201B220  thumb
+ *   POKEPARTY_GetCount   0x0201AA18  thumb
+ *   POKEPARTY_GetMember   0x0201AB28  thumb
+ *   POKERUS_GetInfectedMask   0x0201B220  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02017E40  0x02017E40  thumb
  *   func_0203F0A8  0x0203F0A8  arm
@@ -33,11 +33,11 @@ typedef int s32;
 typedef unsigned long long u64;
 extern u32   func_02017E1C(void *mon, u32 id, u32 v);
 extern void  func_02017E40(void *mon, u32 id, u32 v);
-extern u32 sub_0201AA18(void *p);
-extern void *sub_0201AB28(void *p, u32 idx);
-extern u32   sub_0201B220(void *party);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
+extern u32   POKERUS_GetInfectedMask(void *party);
 extern u32   func_0203F0A8(void);
-void sub_0201B038(void *party)
+void POKERUS_TryInfectParty(void *party)
 {
     u32 mask;
     u32 r;
@@ -47,16 +47,16 @@ void sub_0201B038(void *party)
     u32 w;
     u32 n;
 
-    n = sub_0201AA18(party);
+    n = POKEPARTY_GetCount(party);
     r = (u16)((u64)func_0203F0A8() * 0x10000 >> 32);
-    mask = sub_0201B220(party);
+    mask = POKERUS_GetInfectedMask(party);
     if (r == 0x4000 || r == 0x8000 || r == 0xC000) {
         do {
             slot = func_0203F0A8();
             if (n != 0) {
                 slot = (u32)(((u64)slot * n) >> 32);
             }
-            mon = sub_0201AB28(party, slot);
+            mon = POKEPARTY_GetMember(party, slot);
         } while (func_02017E1C(mon, 5, 0) == 0
                  || func_02017E1C(mon, 0x4C, 0) != 0);
         if ((mask & (1 << slot)) != 0) {

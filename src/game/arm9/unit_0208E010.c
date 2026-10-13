@@ -1,7 +1,7 @@
 /*
  * file:     unit_0208E010.c
  * unit:     yes
- * function: WM_Init, func_0208E038, WM_Finish, func_0208E328, func_0208E340, WMi_SendCommand, WMi_SendCommandDirect, func_0208E4BC, WMi_CheckInitialized, WMi_CheckIdle, func_0208E52C, func_0208E5BC, WmClearFifoRecvFlag, WMi_GetStatusAddress, WM_GetAID, WM_GetConnectedAIDs, WMi_RegisterSleepCallback, func_0208EA80, func_0208EA94, func_0208EAA0
+ * function: WM_Init, WmInitCore, WM_Finish, func_0208E328, func_0208E340, WMi_SendCommand, WMi_SendCommandDirect, WMi_GetSystemWork, WMi_CheckInitialized, WMi_CheckIdle, func_0208E52C, func_0208E5BC, WmClearFifoRecvFlag, WMi_GetStatusAddress, WM_GetAID, WM_GetConnectedAIDs, WMi_RegisterSleepCallback, WMi_DeleteSleepCallback, func_0208EA94, WMi_CheckEnableFlag
  * address:  0x0208E010
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -264,13 +264,13 @@ extern void func_0208C86C(void *);
 extern BOOL OS_IsAvailableWireless(void);
 extern BOOL OS_IsForceDisableWireless(void);
 WMErrCode WM_Init(void *wmSysBuf, u16 dmaNo);
-WMErrCode func_0208E038(void *wmSysBuf, u16 dmaNo, u32 bufSize);
+WMErrCode WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize);
 WMErrCode WM_Finish(void);
 void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 u32 *WmGetCommandBuffer4Arm7(void);
 WMErrCode WMi_SendCommand(WMApiid id, u16 paramNum, ...);
 WMErrCode WMi_SendCommandDirect(void *data, u32 length);
-void *func_0208E4BC(void);
+void *WMi_GetSystemWork(void);
 WMErrCode WMi_CheckInitialized(void);
 WMErrCode WMi_CheckIdle(void);
 WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
@@ -280,9 +280,9 @@ WMStatus *WMi_GetStatusAddress(void);
 u16 WM_GetAID(void);
 u16 WM_GetConnectedAIDs(void);
 void WMi_RegisterSleepCallback(void);
-void func_0208EA80(void);
+void WMi_DeleteSleepCallback(void);
 void WmSleepCallback(void *arg);
-BOOL func_0208EAA0(void);
+BOOL WMi_CheckEnableFlag(void);
 extern WmSystemBss g_02153058;
 extern OSMessageQueue bufMsgQ;
 extern void *bufMsg[10];
@@ -319,7 +319,7 @@ WMErrCode WM_Init(void *wmSysBuf, u16 dmaNo)
  *           wm_system.o .bss: wmInitialized (u16) at +0 and wm9buf at +4 share one pool
  *           word; bufMsgQ, bufMsg and fifoBuf each have their own.
  */
-WMErrCode func_0208E038(void *wmSysBuf, u16 dmaNo, u32 bufSize)
+WMErrCode WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize)
 {
     OSIntrMode e;
 
@@ -558,10 +558,10 @@ WMErrCode WMi_SendCommandDirect(void *data, u32 length)
  * Global state member accessor.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0208E4BC.c \
- *       --func func_0208E4BC --addr 0x0208E4BC --arm
+ *   python tools/match.py one --src src/matched/WMi_GetSystemWork.c \
+ *       --func WMi_GetSystemWork --addr 0x0208E4BC --arm
  */
-void *func_0208E4BC(void)
+void *WMi_GetSystemWork(void)
 {
     return data_02153058.val;
 }
@@ -970,7 +970,7 @@ void WMi_RegisterSleepCallback(void)
 
 
 
-void func_0208EA80(void){ func_0208C86C((void *)0x02153060); }
+void WMi_DeleteSleepCallback(void){ func_0208C86C((void *)0x02153060); }
 
 
 
@@ -987,7 +987,7 @@ void WmSleepCallback(void *arg)
  * sdk:      NWMi_CheckEnableFlag (libnwm.TWL.HYB.a(nwm_init.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-BOOL func_0208EAA0(void)
+BOOL WMi_CheckEnableFlag(void)
 {
     if (OS_IsAvailableWireless() == 1 && OS_IsForceDisableWireless() == 0) {
         return 1;

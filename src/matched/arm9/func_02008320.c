@@ -1,5 +1,5 @@
 /*
- * function: func_02008320
+ * function: CONFIG_Init
  * address:  0x02008320
  * packet:   pkt_02008320
  * region:   arm9
@@ -28,7 +28,7 @@ struct Flags02008320 {
 
 extern void func_02082BCC(void *p, int c, u16 n);
 
-void func_02008320(struct Flags02008320 *p)
+void CONFIG_Init(struct Flags02008320 *p)
 {
     func_02082BCC(p, 0, 4);
     p->a = 1;

@@ -12,7 +12,7 @@
  * symbols:
  *   func_021C479C  0x021C479C  thumb  ov111
  *   func_021C60CC  0x021C60CC  thumb  ov111
- *   func_0202DBC4  0x0202DBC4  thumb
+ *   PMS_DRAW_Main  0x0202DBC4  thumb
  *   func_021C6874  0x021C6874  thumb  ov111
  *   func_021C58E0  0x021C58E0  thumb  ov111
  *   func_021C636C  0x021C636C  thumb  ov111
@@ -46,7 +46,7 @@ typedef struct {
 
 extern void func_021C479C(Work *p);
 extern void func_021C60CC(Work *p, void **bg, Info *info);
-extern void func_0202DBC4(u8 *p);
+extern void PMS_DRAW_Main(u8 *p);
 extern void func_021C6874(Work *p, int scroll, int flush, int idx);
 extern void func_021C58E0(Work *p);
 extern void func_021C636C(Work *p, void **bg, Info *info);
@@ -58,7 +58,7 @@ void func_021C47EC(Work *p)
 {
     func_021C479C(p);
     func_021C60CC(p, p->bg, p->info);
-    func_0202DBC4(p->f32B0);
+    PMS_DRAW_Main(p->f32B0);
     if (p->f3034 == 0) {
         func_021C6874(p, p->scroll, 0, 0);
         func_021C58E0(p);

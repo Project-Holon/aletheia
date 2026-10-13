@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204A03C",
+   "name": "ARC_UTIL_LoadMultiCellBankFromArchive",
    "address": "0x0204A03C",
    "kind": "game",
    "region": "arm9",
@@ -30,8 +30,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0204A07C",
-    "func_0204A0BC"
+    "ARC_UTIL_LoadMultiCellBankFromHandle",
+    "ARC_UTIL_LoadAnimBankFromArchive"
+   ],
+   "addresses": [
+    "0x0204A07C",
+    "0x0204A0BC"
    ]
   },
   {
@@ -46,9 +50,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0204A0FC",
-    "func_0204A13C",
-    "func_0204A17C"
+    "ARC_UTIL_LoadAnimBankFromHandle",
+    "ARC_UTIL_LoadMultiAnimBankFromArchive",
+    "ARC_UTIL_LoadMultiAnimBankFromHandle"
+   ],
+   "addresses": [
+    "0x0204A0FC",
+    "0x0204A13C",
+    "0x0204A17C"
    ]
   },
   {
@@ -64,7 +73,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204A48C",
+   "name": "CLACT_InitSystem",
    "address": "0x0204A48C",
    "kind": "game",
    "region": "arm9",
@@ -76,7 +85,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204A5AC",
+   "name": "CLACT_ExitSystem",
    "address": "0x0204A5AC",
    "kind": "game",
    "region": "arm9",
@@ -88,7 +97,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204A8D4",
+   "name": "CLACT_ReleaseCharacter",
    "address": "0x0204A8D4",
    "kind": "game",
    "region": "arm9",
@@ -100,7 +109,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204ABF0",
+   "name": "CLACT_RegisterPalette",
    "address": "0x0204ABF0",
    "kind": "game",
    "region": "arm9",

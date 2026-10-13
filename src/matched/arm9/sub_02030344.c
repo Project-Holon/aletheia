@@ -17,7 +17,7 @@
  *   void *sub_02030344(u32 heapId)
  *
  * The two calls are back to back with no register shuffle between them,
- * which is the nested-call form `sub_02060E6C(sub_0202FBAC(heapId))`
+ * which is the nested-call form `sub_02060E6C(GFL_HEAP_GetHeap(heapId))`
  * rather than a local bound in between; the result is not touched after
  * the second call either, so the function is a plain tail return of it
  * (the `pop` after the `bl` is the one-section-per-function tail form, not
@@ -25,7 +25,7 @@
  *
  * symbols:
  *   g_EnvModule     0x02146954  data
- *   sub_0202FBAC    0x0202FBAC  arm
+ *   GFL_HEAP_GetHeap    0x0202FBAC  arm
  *   sub_02060E6C    0x02060E6C  arm
  *
  * Verified with:
@@ -48,7 +48,7 @@ struct EnvEntry {
 };
 
 extern struct EnvModule g_EnvModule;
-extern void *sub_0202FBAC(u32 idx);
+extern void *GFL_HEAP_GetHeap(u32 idx);
 extern int sub_02060E6C(int *p);
 
 void *sub_02030344(u32 heapId)
@@ -59,7 +59,7 @@ void *sub_02030344(u32 heapId)
         goto fail;
     }
     g_EnvModule.error = 0;
-    return (void *)sub_02060E6C(sub_0202FBAC(heapId));
+    return (void *)sub_02060E6C(GFL_HEAP_GetHeap(heapId));
 
 fail:
     return 0;

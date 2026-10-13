@@ -14,7 +14,7 @@
  *   func_021C6FA0  0x021C6FA0  thumb  ov111
  *   func_020061E4  0x020061E4  thumb
  *   func_020355D8  0x020355D8  arm
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_021C51E4  0x021C51E4  thumb  ov111
  *   func_021C4754  0x021C4754  thumb  ov111
  *   func_021C523C  0x021C523C  thumb  ov111
@@ -73,7 +73,7 @@ extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
 extern void func_020061E4(u32 a);
 extern int func_021C5264(Work *p, int hit);
 extern void func_020355D8(u8 v);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void func_021C51E4(Work *p, int flag);
 extern void func_021C4754(Work *p, int kind);
 extern void func_021C523C(Work *p, int flag);
@@ -95,7 +95,7 @@ int func_021C5280(Work *p, int hit)
         func_020061E4(0x556);
         return 5;
     case 2:
-        func_02035CB8(&p->f32D8, &p->f32DC);
+        TOUCHPANEL_GetPointCont(&p->f32D8, &p->f32DC);
         func_021C6FA0(&p->anim, 6, 0x17, 1);
         return 3;
     case 3:

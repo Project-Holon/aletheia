@@ -1,5 +1,5 @@
 /*
- * function: func_0216B838
+ * function: DWC_GetMyAID
  * address:  0x0216B838
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -13,21 +13,21 @@
  *
  * symbols:
  *   g_021AA878  0x021AA878  data
- *   func_0216C82C  0x0216C82C  arm  ov009
+ *   DWCi_IsGetAIDValid  0x0216C82C  arm  ov009
  *   func_021763AC  0x021763AC  arm  ov009
  */
 
 #include "../include/G_DwcGlobal.h"
 
 extern struct DwcGlobal g_021AA878;
-extern int func_0216C82C(void);
+extern int DWCi_IsGetAIDValid(void);
 extern char *func_021763AC(int pid);
 
-unsigned char func_0216B838(void)
+unsigned char DWC_GetMyAID(void)
 {
     unsigned char *node;
 
-    if (*(char **)(((char *)&g_021AA878) + 4) == 0 || func_0216C82C() == 0) {
+    if (*(char **)(((char *)&g_021AA878) + 4) == 0 || DWCi_IsGetAIDValid() == 0) {
         return 0xff;
     }
     node = (unsigned char *)func_021763AC(*(int *)(*(char **)(((char *)&g_021AA878) + 4) + 0x64));

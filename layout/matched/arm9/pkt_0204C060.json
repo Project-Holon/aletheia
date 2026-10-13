@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204C060",
+   "name": "CLACT_IsAffineCellInView",
    "address": "0x0204C060",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204C660",
+   "name": "CLACT_InitTransferPool",
    "address": "0x0204C660",
    "kind": "game",
    "region": "arm9",

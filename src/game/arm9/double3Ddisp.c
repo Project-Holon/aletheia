@@ -29,7 +29,7 @@
  *   func_020809A0   0x020809A0  arm
  *   func_0208074C   0x0208074C  arm
  *   sBillboard     0x020A7FA4  data
- *   func_0204F27C  0x0204F27C  arm
+ *   BILLBOARD_DeleteAllImages  0x0204F27C  arm
  *   func_020307B0  0x020307B0  arm
  */
 #include "../../matched/include/Obj11443.h"
@@ -93,7 +93,7 @@ extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0207D518(u32 v);
 extern int func_020809A0(void);
 extern void func_0208074C(int sub_obj);
-extern void func_0204F27C(struct Actor *p);
+extern void BILLBOARD_DeleteAllImages(struct Actor *p);
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char double3Ddisp_File[];
@@ -413,7 +413,7 @@ void *func_0204EBD4(u8 *src, void *heap)
  */
 void func_0204ED24(void *p)
 {
-    func_0204F27C(p);
+    BILLBOARD_DeleteAllImages(p);
     func_020307B0(((struct Obj11443 *)p)->f8);
     func_020307B0(((struct Obj11443 *)p)->f4);
     func_020307B0(p);

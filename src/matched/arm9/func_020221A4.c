@@ -16,12 +16,12 @@
  * literal pools; see
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
  *
- * It deliberately does not share a file with func_02022174 above it: a unit
+ * It deliberately does not share a file with WIPE_SYS_Main above it: a unit
  * records only its start address, and this address has 111 call sites that
  * need a manifest entry here.
  *
  * symbols:
- *   g_021467A4  0x021467A4  data
+ *   g_wipeSys  0x021467A4  data
  *
  * Addresses are Black-image addresses.
  *
@@ -36,11 +36,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern struct G_021467A4 g_021467A4;
+extern struct G_021467A4 g_wipeSys;
 
 u32 func_020221A4(void)
 {
-    if (g_021467A4.f14C == 0)
+    if (g_wipeSys.f14C == 0)
         return 1;
     return 0;
 }

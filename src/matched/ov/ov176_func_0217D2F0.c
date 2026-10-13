@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * blocker:  byte-correct, but the calls to func_0200BAC8 and func_0201A918
+ * blocker:  byte-correct, but the calls to func_0200BAC8 and POKE_REGULATION_GetDataSize
  *           have no witness outside this range. Both are unlabelled Thumb
  *           leaf code in arm9 that disasm.py emitted as `.word` runs
  *           (0200BAC8 is inside a `0x21314B01` word block, 0201A918 inside a
@@ -27,7 +27,7 @@
  *   func_0200E6FC  0x0200E6FC  thumb
  *   func_0200BAC8  0x0200BAC8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
- *   func_0201A918  0x0201A918  thumb
+ *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_0200E918  0x0200E918  thumb
  *   func_0200B078  0x0200B078  thumb
@@ -51,7 +51,7 @@ extern void *func_0200E6E8(u32 a);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern void *func_0200BAC8(void *p);
 extern void *func_0200BAF4(int a0, int a1);
-extern int func_0201A918(void);
+extern int POKE_REGULATION_GetDataSize(void);
 extern u32 func_020307B0(void *p);
 extern u8 func_0200E918(const u8 *base, u32 idx);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
@@ -68,7 +68,7 @@ void func_0217D2F0(u8 *p, u8 *q)
     func_02087C6C(p + 0x20);
     func_0200E6FC(func_0200E6E8((u32)func_02012EBC((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
     a = (u32)func_0200BAF4((int)func_0200BAC8(func_02012EBC((struct Big *)r)), 0x8056);
-    func_02082D44(a, p + 0xd4, func_0201A918());
+    func_02082D44(a, p + 0xd4, POKE_REGULATION_GetDataSize());
     func_020307B0((void *)a);
     ((struct Obj06578 *)p)->f28 = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 1);
     ((struct Obj06578 *)p)->f2C = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 2);

@@ -16,7 +16,7 @@
  *   func_0201C7A4 0x0201C7A4 thumb
  *   func_020255A0 0x020255A0 thumb
  *   func_020257D0 0x020257D0 thumb
- *   func_0202597C 0x0202597C thumb
+ *   BMP_OAM_SetObjMode 0x0202597C thumb
  *   func_020437AC 0x020437AC arm
  *   func_02045808 0x02045808 arm
  */
@@ -43,7 +43,7 @@ extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 struct Param;
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void func_020257D0(struct Obj *o);
-extern void func_0202597C(u8 *g, u32 a);
+extern void BMP_OAM_SetObjMode(u8 *g, u32 a);
 extern void func_020437AC(struct Obj020437AC *p);
 extern void func_02045808(struct U16Vec *vec);
 void func_021E111C(const Object *object,Index index,int x,int y)
@@ -76,7 +76,7 @@ void func_021E111C(const Object *object,Index index,int x,int y)
         grid=func_020255A0(object->f300,(const struct Param *)(&desc));
         *slot=grid;
         func_020257D0((struct Obj *)((int)grid));
-        func_0202597C((u8 *)((int)*slot),1);
+        BMP_OAM_SetObjMode((u8 *)((int)*slot),1);
     }
     func_020437AC((struct Obj020437AC *)handle);
     func_02045808((struct U16Vec *)source);

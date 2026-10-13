@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B0D18.c
  * unit:     yes
- * function: func_021B0D18, func_021B0F38, func_021B111C, func_021B11E8, func_021B12FC, func_021B133C, func_021B1398, func_021B1404
+ * function: VCT_AUDIO_EncodeSendFrame, VCT_AUDIO_ReceiveFrame, VCT_AUDIO_DecodePendingFrames, VCT_AUDIO_SendFrameStep, VCT_AUDIO_ResetPendingList, VCT_AUDIO_FlushPendingSlot, VCT_AUDIO_FlushPendingAll, VCT_AUDIO_QueuePending
  * address:  0x021B0D18
  * region:   ov013
  * compiler: dsi/1.1p1
@@ -17,193 +17,84 @@
  *   d_021B3C84  0x021B3C84  data  ov013  a4
  *   d_021B3C24  0x021B3C24  data  ov013  a4
  *   d_021B3C94  0x021B3C94  data  ov013  a4
- *   d_021B60D8  0x021B60D8  data  ov013  a1
- *   func_021B3278  0x021B3278  arm  ov013
- *   func_021B3604  0x021B3604  arm  ov013
- *   func_021B3084  0x021B3084  arm  ov013
- *   func_021B04A8  0x021B04A8  arm  ov013
- *   func_021B1588  0x021B1588  arm  ov013
- *   func_021B1688  0x021B1688  arm  ov013
+ *   gVctSession  0x021B60D8  data  ov013  a1
+ *   VCT_DSP_HighPassFilter  0x021B3278  arm  ov013
+ *   VCT_DSP_SuppressEchoWithReference  0x021B3604  arm  ov013
+ *   VCT_DSP_UpdateVoiceGate  0x021B3084  arm  ov013
+ *   VCT_ADPCM_EncodePacket  0x021B04A8  arm  ov013
+ *   VCT_AUDIO_EncodeMuLaw  0x021B1588  arm  ov013
+ *   VCT_AUDIO_ConvertPcm16ToPcm8  0x021B1688  arm  ov013
  *   func_02080D24  0x02080D24  arm
  *   d_021B3CBC  0x021B3CBC  data  ov013  a4
  *   d_021B3AD0  0x021B3AD0  data  ov013  a1
  *   func_021B2FB0  0x021B2FB0  arm  ov013
- *   func_021B1720  0x021B1720  arm  ov013
- *   func_021B1790  0x021B1790  arm  ov013
- *   func_021B1B94  0x021B1B94  arm  ov013
- *   func_021B2FE4  0x021B2FE4  arm  ov013
+ *   VCT_AUDIO_FlushReadyQueue  0x021B1720  arm  ov013
+ *   VCT_AUDIO_FlushAllReadyQueues  0x021B1790  arm  ov013
+ *   VCT_AUDIO_TrackPacketTiming  0x021B1B94  arm  ov013
+ *   VCT_POOL_FreeFrame  0x021B2FE4  arm  ov013
  *   func_02082D44  0x02082D44  arm
- *   func_021B1488  0x021B1488  arm  ov013
- *   func_021B1498  0x021B1498  arm  ov013
- *   func_021B14A8  0x021B14A8  arm  ov013
- *   func_021B043C  0x021B043C  arm  ov013
- *   func_021B1634  0x021B1634  arm  ov013
- *   func_021B16B4  0x021B16B4  arm  ov013
- *   func_021B14F8  0x021B14F8  arm  ov013
- *   func_021B1810  0x021B1810  arm  ov013
+ *   VCT_AUDIO_GetPendingHead  0x021B1488  arm  ov013
+ *   VCT_AUDIO_GetPendingCount  0x021B1498  arm  ov013
+ *   VCT_AUDIO_FindPending  0x021B14A8  arm  ov013
+ *   VCT_ADPCM_DecodePacket  0x021B043C  arm  ov013
+ *   VCT_AUDIO_DecodeMuLaw  0x021B1634  arm  ov013
+ *   VCT_AUDIO_ConvertPcm8ToPcm16  0x021B16B4  arm  ov013
+ *   VCT_AUDIO_UnlinkPending  0x021B14F8  arm  ov013
+ *   VCT_AUDIO_InsertReadyPacket  0x021B1810  arm  ov013
  *   func_02087988  0x02087988  arm
  *   func_0208799C  0x0208799C  arm
- *   d_021B3ADA  0x021B3ADA  data  ov013  a1
+ *   gVctSendSchedule  0x021B3ADA  data  ov013  a1
  *   func_02177044  0x02177044  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021B4B98     0x021B4B98  data  a4
  *   g_021B4BA0     0x021B4BA0  data  a4
+ *   gVctPendingList  0x021B4B98  data
+ *   gVctPendingCount  0x021B4BA0  data
  */
+#include "vct_types.h"
+
 #define reg_SQRTCNT     (*(volatile u16 *)0x040002B0)
 #define reg_SQRT_RESULT (*(volatile u32 *)0x040002B4)
 #define reg_SQRT_PARAM  (*(volatile u32 *)0x040002B8)
-struct Pkt;
-struct Src;
-struct AdpcmState;
-typedef unsigned char u8;
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef struct Frame_021B0D18 {
-    u8 pad0[4];
-    u8 f4;
-    volatile u8 f5;
-    u8 pad6[6];
-    u8 data[0x460 - 0xc];
-} Frame_021B0D18;
-
-typedef struct Ctx42C0 {
-    u8 pad0[0x8c0];
-    int f8C0;
-    u32 f8C4;
-    struct Frame_021B0D18 *f8C8;
-    u32 f8CC;
-    int f8D0;
-    int f8D4;
-} Ctx42C0;
-
-typedef enum { FlagClear=0, FlagSet=1 } Flag;
-
-typedef struct Ctx3C84 {
-    u32 f0;
-    u32 f4;
-    volatile u32 f8;
-    u32 fC;
-    u16 f10;
-    u8 f12;
-    u8 pad13;
-    volatile u32 f14;
-    u32 f18;
-    int f1C;
-    u32 f20;
-    u32 f24;
-    int f28;
-} Ctx3C84;
-
-typedef struct AdpcmHdr { short pred; u8 index; u8 zero; } AdpcmHdr;
-
-typedef struct AdpcmState { short pred; u8 index; } AdpcmState;
-
-typedef unsigned long long u64;
-
-typedef struct {
-    u32 f0;
-    u8 f4;
-    u8 f5;
-    u16 f6;
-    u32 f8;
-    u8 data[1];
-} Frame_021B0F38;
-
-typedef struct {
-    u8 pad0[0x24];
-    int f24;
-    u8 pad28[0x8];
-    u32 f30;
-    u32 f34;
-    u32 f38;
-    u8 pad3C[0x10];
-    u32 f4C;
-    u8 pad50[0x1c];
-    u32 f6C;
-    u8 pad70[0x94 - 0x70];
-} Chan;
-
-typedef struct {
-    u8 a;
-    u8 b;
-} SizeEnt;
-
-typedef struct Voice {
-    u32 f0;
-    struct Voice *prev;
-    struct Voice *next;
-    int fC;
-    u8 f10;
-    u8 f11;
-    u8 pad12[2];
-    u32 f14;
-    u32 f18;
-    u8 buf[0x45c - 0x1c];
-    u32 f45C;
-    u32 f460;
-    u64 tick;
-    u32 f46C;
-    u32 f470;
-    void *f474;
-} Voice;
-
-typedef struct Ctx60D8 {
-    u8 f0;
-    u8 pad1[0xf];
-    int f10;
-} Ctx60D8;
-
-extern int func_021B3278(short *p, u32 n);
-extern void func_021B3604(short *p, u32 n, u32 sq);
-extern int func_021B3084(u32 x, u32 sq, u8 *z);
-extern void func_021B04A8(AdpcmHdr *a, void *b, int n, AdpcmState *c, int mode);
-extern void func_021B1588(unsigned char *dst, const short *src, unsigned int n);
-extern void func_021B1688(u8 *dst, short *src, u32 n);
-extern u8 func_02080D24(u32 x);
-extern Voice *func_021B2FB0(void);
-extern void func_021B1720(u32 x);
-extern void func_021B1790(void);
-extern int func_021B1B94(struct Src *s, struct Pkt *pkt);
-extern void func_021B2FE4(Voice *v);
-extern void func_02082D44(void *src, void *dst, u32 n);
-extern Voice *func_021B1488(void);
-extern int func_021B1498(unsigned int i);
-extern Voice *func_021B14A8();
-extern void func_021B043C(struct AdpcmState *hdr, void *dst, int n, int mode);
-extern void func_021B1634(unsigned char *src, short *dst, unsigned int n);
-extern void func_021B16B4(signed char *src, short *dst, unsigned int n, int fmt);
-extern u32 func_021B14F8(Voice *n);
-extern int func_021B1810(Voice *n, u32 idx);
+extern int VCT_DSP_HighPassFilter(short *samples, u32 byteCount);
+extern void VCT_DSP_SuppressEchoWithReference(short *samples, u32 byteCount, u32 rms);
+extern int VCT_DSP_UpdateVoiceGate(u32 energy, u32 rms, u8 *outFlag);
+extern void VCT_ADPCM_EncodePacket(AdpcmHeader *header, void *dst, int sampleCount, AdpcmState *state, int mode);
+extern void VCT_AUDIO_EncodeMuLaw(unsigned char *dst, const short *src, unsigned int sampleCount);
+extern void VCT_AUDIO_ConvertPcm16ToPcm8(u8 *dst, short *src, u32 sampleCount);
+extern u8 func_02080D24(u32 mask);
+extern VctRxPacket *func_021B2FB0(void);
+extern void VCT_AUDIO_FlushReadyQueue(u32 slot);
+extern void VCT_AUDIO_FlushAllReadyQueues(void);
+extern int VCT_AUDIO_TrackPacketTiming(VctReceiveSource *source, VctRxPacket *packet);
+extern void VCT_POOL_FreeFrame(VctRxPacket *packet);
+extern void func_02082D44(void *src, void *dst, u32 size);
+extern VctRxPacket *VCT_AUDIO_GetPendingHead(void);
+extern int VCT_AUDIO_GetPendingCount(unsigned int slot);
+extern VctRxPacket *VCT_AUDIO_FindPending(u32 slot);
+extern void VCT_ADPCM_DecodePacket(AdpcmState *state, void *dst, int sampleCount, int mode);
+extern void VCT_AUDIO_DecodeMuLaw(unsigned char *src, short *dst, unsigned int sampleCount);
+extern void VCT_AUDIO_ConvertPcm8ToPcm16(signed char *src, short *dst, unsigned int sampleCount, int mode);
+extern u32 VCT_AUDIO_UnlinkPending(VctRxPacket *packet);
+extern int VCT_AUDIO_InsertReadyPacket(VctRxPacket *packet, u32 slot);
 extern int func_02087988(void);
 extern void func_0208799C(int);
 extern int func_02177044(unsigned char aid, void *buffer, int size);
 extern int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(int s);
-Frame_021B0D18 *func_021B0D18(void);
-int func_021B0F38(u32 id, Frame_021B0F38 *hdr, u32 size, u64 tick);
-int func_021B111C(void);
-int func_021B11E8(void);
-void func_021B12FC(void);
-void func_021B133C(unsigned int n);
-void func_021B1398(void);
-int func_021B1404(Voice *n);
-extern Ctx42C0 d_021B42C0;
-extern Ctx3C84 d_021B3C84;
-extern u32 d_021B3C24;
-extern u8 d_021B3C94[];
-extern Ctx60D8 d_021B60D8;
-extern Chan d_021B3CBC[3];
-extern SizeEnt d_021B3AD0[];
-extern u8 d_021B3ADA[][3];
-extern struct {
-    Voice *head;
-    Voice *tail;
-} g_021B4B98;
-extern int g_021B4BA0[3];
+VctAudioFrame *VCT_AUDIO_EncodeSendFrame(void);
+int VCT_AUDIO_ReceiveFrame(u32 senderAid, VctAudioFrame *frame, u32 size, u64 arrivalTick);
+int VCT_AUDIO_DecodePendingFrames(void);
+int VCT_AUDIO_SendFrameStep(void);
+void VCT_AUDIO_ResetPendingList(void);
+void VCT_AUDIO_FlushPendingSlot(unsigned int slot);
+void VCT_AUDIO_FlushPendingAll(void);
+int VCT_AUDIO_QueuePending(VctRxPacket *packet);
+/* d_021B3C94 is d_021B3C84 + 0x10 (adpcmPredictor): the pool word names it separately. */
+extern AdpcmState d_021B3C94;
+extern u8 gVctSendSchedule[][3];
 
 
 
@@ -244,7 +135,7 @@ extern int g_021B4BA0[3];
  *   the ctx and the 42C0 frames/counters, with `Ctx42C0 *w = &big.w` for the 42C0 side, puts both reset blocks in
  *   original order (frame and ctx in one object: unknown frame offset vs ctx+8 is a same-object alias), but the
  *   backend then drops the first `f8CC = f4` store and swaps str f8D4/cmp (72 B). Keeping that store needs the id
- *   load to alias (id inside the struct: 12 B, but d_021B60D8 is used by many other TUs and TU B's bss ends at
+ *   load to alias (id inside the struct: 12 B, but gVctSession is used by many other TUs and TU B's bss ends at
  *   4B98, so not plausible). (2) volatile flags, opt_pointer_analysis off (on segfaults the compiler),
  *   c99_alias_by_type, opt_scalarize/decomposeaggregates, scheduling off, static/defined globals, `f = 0` init,
  *   inline helpers under opt_propagation off, named `u32 *req`, 0F38 Frame layout: all 10 B or worse.
@@ -256,158 +147,159 @@ extern int g_021B4BA0[3];
  *   reads. Two volatile accesses keep their source order, so the f8 reset store stays after strb f5.
  *   Volatile on f8/f14 alone (P3L11 a1) or on f5 alone stays 10 B; both sides are needed.
  */
-Frame_021B0D18 *func_021B0D18(void)
+VctAudioFrame *VCT_AUDIO_EncodeSendFrame(void)
 {
-    u8 *p;
-    Frame_021B0D18 *f;
-    int x;
-    u32 sq;
+    u8 *samples;
+    VctAudioFrame *frame;
+    int energy;
+    u32 rms;
     int mode;
-    u32 diff;
+    u32 pending;
 
-    mode = d_021B3C84.f1C;
-    diff = d_021B42C0.f8C4 - d_021B42C0.f8C0;
-    if (diff > 1) {
-        d_021B42C0.f8C0 = d_021B42C0.f8C4 - 1;
-        diff = 1;
+    mode = d_021B3C84.codecMode;
+    pending = d_021B42C0.writeCount - d_021B42C0.readCount;
+    if (pending > 1) {
+        d_021B42C0.readCount = d_021B42C0.writeCount - 1;
+        pending = 1;
     }
-    if (diff == 0)
+    if (pending == 0)
         return 0;
 
-    f = (Frame_021B0D18 *)((u8 *)&d_021B42C0 + ((d_021B42C0.f8C0 & 1) ? 0 : 0x460));
-    p = f->data;
+    /* byte offset form kept: frames[idx] indexing changes the code (DIFF). */
+    frame = (VctAudioFrame *)((u8 *)&d_021B42C0 + ((d_021B42C0.readCount & 1) ? 0 : sizeof(VctAudioFrame)));
+    samples = frame->data;
     if (mode >= 2)
-        p += 4;
+        samples += 4;
 
-    x = func_021B3278((short *)p, d_021B3C84.f24);
+    energy = VCT_DSP_HighPassFilter((short *)samples, d_021B3C84.frameBytes);
     reg_SQRTCNT = 0;
-    reg_SQRT_PARAM = x;
+    reg_SQRT_PARAM = energy;
     while (reg_SQRTCNT & 0x8000)
         ;
-    sq = reg_SQRT_RESULT;
+    rms = reg_SQRT_RESULT;
 
-    if (d_021B3C84.f18 != 0)
-        func_021B3604((short *)p, d_021B3C84.f24, sq);
+    if (d_021B3C84.echoSuppressEnabled != 0)
+        VCT_DSP_SuppressEchoWithReference((short *)samples, d_021B3C84.frameBytes, rms);
 
-    f->f5 = mode;
+    frame->flags = mode;
     if (d_021B3C24 != 0) {
-        switch (d_021B3C84.f28 = func_021B3084(x, sq, 0)) {
+        switch (d_021B3C84.lastGateResult = VCT_DSP_UpdateVoiceGate(energy, rms, 0)) {
         case 0:
-            d_021B42C0.f8C0++;
+            d_021B42C0.readCount++;
             return 0;
         case 1:
-            f->f5 |= 0x80;
+            frame->flags |= 0x80;
             break;
         case 3:
-            f->f4 = 0x41;
+            frame->type = 0x41;
             break;
         }
     }
-    if (d_021B3C24 == 0 && d_021B3C84.f8 != 0) {
-        f->f5 |= 0x80;
-        d_021B3C84.f8 = 0;
+    if (d_021B3C24 == 0 && d_021B3C84.markerRequestNoVad != 0) {
+        frame->flags |= 0x80;
+        d_021B3C84.markerRequestNoVad = 0;
     }
-    if (d_021B3C84.f14 != 0) {
-        f->f5 |= 0x80;
-        d_021B3C84.f14 = 0;
+    if (d_021B3C84.markerRequest != 0) {
+        frame->flags |= 0x80;
+        d_021B3C84.markerRequest = 0;
     }
 
     if (mode >= 2) {
-        if (f->f5 & 0x80) {
-            d_021B3C84.f10 = 0;
-            d_021B3C84.f12 = 0;
+        if (frame->flags & 0x80) {
+            d_021B3C84.adpcmPredictor = 0;
+            d_021B3C84.adpcmStepIndex = 0;
         }
-        func_021B04A8((AdpcmHdr *)(p - 4), p, d_021B3C84.f24 >> 1, (AdpcmState *)d_021B3C94, mode);
+        VCT_ADPCM_EncodePacket((AdpcmHeader *)(samples - 4), samples, d_021B3C84.frameBytes >> 1, &d_021B3C94, mode);
     } else if (mode == 1) {
-        func_021B1588(p, (short *)p, d_021B3C84.f24 >> 1);
+        VCT_AUDIO_EncodeMuLaw(samples, (short *)samples, d_021B3C84.frameBytes >> 1);
     } else if (mode == 0) {
-        func_021B1688(p, (short *)p, d_021B3C84.f24 >> 1);
+        VCT_AUDIO_ConvertPcm16ToPcm8(samples, (short *)samples, d_021B3C84.frameBytes >> 1);
     }
 
-    d_021B42C0.f8CC = d_021B3C84.f4;
-    d_021B42C0.f8CC = d_021B3C84.f4 & ~(1 << d_021B60D8.f0);
-    d_021B42C0.f8D4 = func_02080D24(d_021B42C0.f8CC) - 1;
-    if (d_021B42C0.f8D4 > 7)
+    d_021B42C0.pendingMask = d_021B3C84.memberMask;
+    d_021B42C0.pendingMask = d_021B3C84.memberMask & ~(1 << gVctSession.localId);
+    d_021B42C0.scheduleRow = func_02080D24(d_021B42C0.pendingMask) - 1;
+    if (d_021B42C0.scheduleRow > 7)
         return 0;
-    d_021B42C0.f8D0 = 0;
-    return f;
+    d_021B42C0.scheduleStep = 0;
+    return frame;
 }
 
 
 
 
 /*
- * The last two arguments are one u64 (an OS tick, stored to v+0x464):
- * split across r3 and the stack, which is what pulls the high word into a
- * register at entry.
+ * The last two arguments are one u64 (an OS tick, stored to the packet's
+ * arrivalTick): split across r3 and the stack, which is what pulls the high
+ * word into a register at entry.
  */
-int func_021B0F38(u32 id, Frame_021B0F38 *hdr, u32 size, u64 tick)
+int VCT_AUDIO_ReceiveFrame(u32 senderAid, VctAudioFrame *frame, u32 size, u64 arrivalTick)
 {
-    Voice *v;
-    Chan *ch;
+    VctRxPacket *packet;
+    VctReceiveSource *source;
     int mode;
     u32 i;
     u8 *dst;
 
-    ch = 0;
-    if (d_021B3C84.f20 == 0)
+    source = 0;
+    if (d_021B3C84.memberCount == 0)
         return 0;
 
     for (i = 0; i < 3; i++) {
-        if (id == d_021B3CBC[i].f38) {
-            ch = &d_021B3CBC[i];
+        if (senderAid == d_021B3CBC[i].peerAid) {
+            source = &d_021B3CBC[i];
             break;
         }
     }
-    if (ch == 0)
+    if (source == 0)
         return 0;
 
-    if (hdr->f4 == 0x41) {
-        ch->f30 = hdr->f6;
-        ch->f4C = 0;
-        ch->f6C = 1;
+    if (frame->type == 0x41) {
+        source->noiseLevel = frame->seq;
+        source->timestamp0 = 0;
+        source->count = 1;
         return 0;
     }
-    if (hdr->f4 != 0x40)
+    if (frame->type != 0x40)
         return 0;
 
-    mode = hdr->f5 & 0x7f;
-    ch->f24 = mode;
+    mode = frame->flags & 0x7f;
+    source->codecMode = mode;
     if (mode >= 5)
         return 0;
-    if (size != d_021B3AD0[mode].a * 0x44 + d_021B3AD0[mode].b + 0xc)
+    if (size != d_021B3AD0[mode].blocks * 0x44 + d_021B3AD0[mode].extraBytes + 0xc)
         return 0;
-    if ((d_021B3C84.f4 & (id != 0 ? 1 << id : 1)) == 0)
+    if ((d_021B3C84.memberMask & (senderAid != 0 ? 1 << senderAid : 1)) == 0)
         return 0;
 
-    if ((v = func_021B2FB0()) == 0) {
-        func_021B1720(ch->f34);
-        func_021B133C(ch->f34);
-        if ((v = func_021B2FB0()) == 0) {
-            func_021B1790();
-            func_021B1398();
-            v = func_021B2FB0();
+    if ((packet = func_021B2FB0()) == 0) {
+        VCT_AUDIO_FlushReadyQueue(source->queueIndex);
+        VCT_AUDIO_FlushPendingSlot(source->queueIndex);
+        if ((packet = func_021B2FB0()) == 0) {
+            VCT_AUDIO_FlushAllReadyQueues();
+            VCT_AUDIO_FlushPendingAll();
+            packet = func_021B2FB0();
         }
-        if (v == 0)
+        if (packet == 0)
             return 0;
     }
 
-    dst = &v->buf[sizeof(v->buf)] - (size - 0xc);
-    func_02082D44(hdr->data, dst, size - 0xc);
-    v->f11 = ch->f34;
-    v->fC = mode;
-    v->f474 = dst;
-    v->f14 = size - 0xc;
-    v->tick = tick;
-    v->f10 = id;
-    v->f45C = hdr->f5 & 0x80;
-    v->f460 = hdr->f8;
-    v->f18 = hdr->f6;
-    if (func_021B1B94((struct Src *)ch, (struct Pkt *)v) == 0) {
-        func_021B2FE4(v);
+    dst = &packet->buffer[sizeof(packet->buffer)] - (size - 0xc);
+    func_02082D44(frame->data, dst, size - 0xc);
+    packet->queueIndex = source->queueIndex;
+    packet->codecMode = mode;
+    packet->payload = dst;
+    packet->payloadSize = size - 0xc;
+    packet->arrivalTick = arrivalTick;
+    packet->senderAid = senderAid;
+    packet->marker = frame->flags & 0x80;
+    packet->timestamp = frame->timestamp;
+    packet->seq = frame->seq;
+    if (VCT_AUDIO_TrackPacketTiming(source, packet) == 0) {
+        VCT_POOL_FreeFrame(packet);
         return 0;
     }
-    func_021B1404(v);
+    VCT_AUDIO_QueuePending(packet);
     return 1;
 }
 
@@ -415,50 +307,50 @@ int func_021B0F38(u32 id, Frame_021B0F38 *hdr, u32 size, u64 tick)
 
 
 /*
- * The three sample converters are passed q->fC as a fourth argument: the
- * original keeps the format in r3 across the argument set-up of all three
- * calls, which only a live fourth argument reproduces (a plain local or
- * the bare field lands in r0).
+ * The three sample converters are passed packet->codecMode as a fourth
+ * argument: the original keeps the format in r3 across the argument set-up
+ * of all three calls, which only a live fourth argument reproduces (a plain
+ * local or the bare field lands in r0).
  */
-int func_021B111C(void)
+int VCT_AUDIO_DecodePendingFrames(void)
 {
-    Voice *v;
+    VctRxPacket *head;
     int i;
-    int n;
-    u32 id;
+    int count;
+    u32 slot;
     int irq;
-    Voice *q;
-    int fmt;
+    VctRxPacket *packet;
+    int mode;
 
-    v = func_021B1488();
-    if (v == 0)
+    head = VCT_AUDIO_GetPendingHead();
+    if (head == 0)
         return 0;
 
     irq = func_02087988();
-    id = v->f11;
-    n = func_021B1498(id);
-    for (i = 0; i < n; i++) {
-        q = func_021B14A8(id);
-        fmt = q->fC;
-        if (fmt >= 2)
-            func_021B043C(q->f474, q->buf, q->f14, fmt);
-        else if (fmt == 1)
-            func_021B1634(q->f474, (short int *)q->buf, q->f14);
+    slot = head->queueIndex;
+    count = VCT_AUDIO_GetPendingCount(slot);
+    for (i = 0; i < count; i++) {
+        packet = VCT_AUDIO_FindPending(slot);
+        mode = packet->codecMode;
+        if (mode >= 2)
+            VCT_ADPCM_DecodePacket(packet->payload, packet->buffer, packet->payloadSize, mode);
+        else if (mode == 1)
+            VCT_AUDIO_DecodeMuLaw(packet->payload, (short int *)packet->buffer, packet->payloadSize);
         else
-            func_021B16B4(q->f474, (short int *)q->buf, q->f14, fmt);
-        q->f474 = q->buf;
-        func_021B14F8(q);
-        if (func_021B1810(q, q->f11) < 0)
-            func_021B2FE4(q);
+            VCT_AUDIO_ConvertPcm8ToPcm16(packet->payload, (short int *)packet->buffer, packet->payloadSize, mode);
+        packet->payload = packet->buffer;
+        VCT_AUDIO_UnlinkPending(packet);
+        if (VCT_AUDIO_InsertReadyPacket(packet, packet->queueIndex) < 0)
+            VCT_POOL_FreeFrame(packet);
     }
     func_0208799C(irq);
-    return n;
+    return count;
 }
 
 
 
 
-static inline u32 clz32(u32 x)
+static inline u32 countLeadingZeros(u32 x)
 {
     asm { clz x, x }
     return x;
@@ -467,38 +359,38 @@ static inline u32 clz32(u32 x)
 
 
 
-int func_021B11E8(void)
+int VCT_AUDIO_SendFrameStep(void)
 {
     int i;
     int count;
     u32 mask;
-    u32 z;
+    u32 zeros;
 
-    if (d_021B3C84.f20 == 0)
+    if (d_021B3C84.memberCount == 0)
         return 1;
 
-    if (d_021B42C0.f8C8 == 0) {
-        d_021B42C0.f8C8 = func_021B0D18();
-        if (d_021B42C0.f8C8 != 0 && d_021B3C84.f18 != 0)
+    if (d_021B42C0.sendFrame == 0) {
+        d_021B42C0.sendFrame = VCT_AUDIO_EncodeSendFrame();
+        if (d_021B42C0.sendFrame != 0 && d_021B3C84.echoSuppressEnabled != 0)
             return 0;
         return 1;
     }
 
     count = 1;
-    if (d_021B60D8.f10 == 2)
-        count = d_021B3ADA[d_021B42C0.f8D4][d_021B42C0.f8D0++];
+    if (gVctSession.mode == 2)
+        count = gVctSendSchedule[d_021B42C0.scheduleRow][d_021B42C0.scheduleStep++];
 
     for (i = 0; i < count; i++) {
-        mask = d_021B42C0.f8CC;
-        z = clz32(mask);
-        if (z == 32)
+        mask = d_021B42C0.pendingMask;
+        zeros = countLeadingZeros(mask);
+        if (zeros == 32)
             break;
-        d_021B42C0.f8CC = mask & ~(0x80000000 >> z);
-        func_02177044((u8)(31 - z), d_021B42C0.f8C8, d_021B3C84.fC);
-        if (d_021B42C0.f8CC == 0) {
-            d_021B42C0.f8C0++;
-            d_021B42C0.f8C8 = 0;
-            d_021B42C0.f8CC = 0;
+        d_021B42C0.pendingMask = mask & ~(0x80000000 >> zeros);
+        func_02177044((u8)(31 - zeros), d_021B42C0.sendFrame, d_021B3C84.packetBytes);
+        if (d_021B42C0.pendingMask == 0) {
+            d_021B42C0.readCount++;
+            d_021B42C0.sendFrame = 0;
+            d_021B42C0.pendingMask = 0;
             break;
         }
     }
@@ -509,82 +401,82 @@ int func_021B11E8(void)
 
 
 
-void func_021B12FC(void)
+void VCT_AUDIO_ResetPendingList(void)
 {
-    int s;
+    int irq;
     int i;
 
-    s = OS_DisableInterrupts();
-    g_021B4B98.tail = 0;
-    g_021B4B98.head = 0;
+    irq = OS_DisableInterrupts();
+    gVctPendingList.tail = 0;
+    gVctPendingList.head = 0;
     for (i = 0; i < 3; i++) {
-        g_021B4BA0[i] = 0;
+        gVctPendingCount[i] = 0;
     }
-    OS_RestoreInterrupts(s);
+    OS_RestoreInterrupts(irq);
 }
 
 
 
 
 
-void func_021B133C(unsigned int n)
+void VCT_AUDIO_FlushPendingSlot(unsigned int slot)
 {
-    int s;
-    Voice *p;
+    int irq;
+    VctRxPacket *packet;
 
-    s = OS_DisableInterrupts();
-    while ((p = func_021B14A8(n)) != 0) {
-        func_021B14F8(p);
-        func_021B2FE4(p);
+    irq = OS_DisableInterrupts();
+    while ((packet = VCT_AUDIO_FindPending(slot)) != 0) {
+        VCT_AUDIO_UnlinkPending(packet);
+        VCT_POOL_FreeFrame(packet);
     }
-    g_021B4BA0[n] = 0;
-    OS_RestoreInterrupts(s);
+    gVctPendingCount[slot] = 0;
+    OS_RestoreInterrupts(irq);
 }
 
 
 
 
-void func_021B1398(void)
+void VCT_AUDIO_FlushPendingAll(void)
 {
-    int s;
+    int irq;
     int i;
-    Voice *p;
-    Voice *q;
+    VctRxPacket *packet;
+    VctRxPacket *current;
 
-    s = OS_DisableInterrupts();
-    p = g_021B4B98.head;
-    while (p != 0) {
-        q = p;
-        p = p->next;
-        func_021B2FE4(q);
+    irq = OS_DisableInterrupts();
+    packet = gVctPendingList.head;
+    while (packet != 0) {
+        current = packet;
+        packet = packet->next;
+        VCT_POOL_FreeFrame(current);
     }
-    g_021B4B98.head = 0;
-    g_021B4B98.tail = 0;
+    gVctPendingList.head = 0;
+    gVctPendingList.tail = 0;
     for (i = 0; i < 3; i++) {
-        g_021B4BA0[i] = 0;
+        gVctPendingCount[i] = 0;
     }
-    OS_RestoreInterrupts(s);
+    OS_RestoreInterrupts(irq);
 }
 
 
 
-int func_021B1404(Voice *n)
+int VCT_AUDIO_QueuePending(VctRxPacket *packet)
 {
-    int s;
+    int irq;
 
-    s = OS_DisableInterrupts();
-    if (g_021B4B98.head == 0) {
-        g_021B4B98.head = n;
-        n->prev = 0;
-        g_021B4B98.head->next = 0;
-        g_021B4B98.tail = g_021B4B98.head;
+    irq = OS_DisableInterrupts();
+    if (gVctPendingList.head == 0) {
+        gVctPendingList.head = packet;
+        packet->prev = 0;
+        gVctPendingList.head->next = 0;
+        gVctPendingList.tail = gVctPendingList.head;
     } else {
-        n->prev = g_021B4B98.tail;
-        n->next = 0;
-        g_021B4B98.tail->next = n;
-        g_021B4B98.tail = n;
+        packet->prev = gVctPendingList.tail;
+        packet->next = 0;
+        gVctPendingList.tail->next = packet;
+        gVctPendingList.tail = packet;
     }
-    g_021B4BA0[n->f11]++;
-    OS_RestoreInterrupts(s);
-    return g_021B4BA0[n->f11];
+    gVctPendingCount[packet->queueIndex]++;
+    OS_RestoreInterrupts(irq);
+    return gVctPendingCount[packet->queueIndex];
 }

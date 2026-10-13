@@ -14,9 +14,9 @@
  *   func_02074CD0  0x02074CD0  arm
  *   func_020733DC  0x020733DC  arm
  *   func_020733E8  0x020733E8  arm
- *   func_02072F48  0x02072F48  arm
- *   func_02072F88  0x02072F88  arm
- *   func_020730DC  0x020730DC  arm
+ *   NNS_SndHandleSetPlayerPriority  0x02072F48  arm
+ *   NNS_SndHandlePause  0x02072F88  arm
+ *   NNS_SndHandleSetSweep  0x020730DC  arm
  *
  * The four-step open/bind path behind func_02075618 and func_02075698: take a
  * voice handle (func_02073344), read its slot (func_020734AC), load the wave
@@ -65,9 +65,9 @@ extern void *func_020734AC(s32 idx, void *owner);
 extern u32   func_02074CD0(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern void  func_020733DC(void *h);
 extern void func_020733E8(struct Obj *o, const void *seqBase, u32 seqOffset, const void *bankData);
-extern void func_02072F48(struct Obj *o, u8 v);
-extern void func_02072F88(struct Obj *o, u32 v);
-extern void func_020730DC(struct Obj *o, u32 a, u32 b);
+extern void NNS_SndHandleSetPlayerPriority(struct Obj *o, u8 v);
+extern void NNS_SndHandlePause(struct Obj *o, u32 v);
+extern void NNS_SndHandleSetSweep(struct Obj *o, u32 a, u32 b);
 
 u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3)
 {
@@ -88,8 +88,8 @@ u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3
     }
 
     func_020733E8(h, (u32 *)(s1 + ((struct Obj16687 *)s1)->f18), ((struct Obj08953 *)s0)->f0, (const void *)slot);
-    func_02072F48((struct Obj *)a0, s0[6]);
-    func_02072F88((struct Obj *)a0, s0[7]);
-    func_020730DC((struct Obj *)a0, s2, s3);
+    NNS_SndHandleSetPlayerPriority((struct Obj *)a0, s0[6]);
+    NNS_SndHandlePause((struct Obj *)a0, s0[7]);
+    NNS_SndHandleSetSweep((struct Obj *)a0, s2, s3);
     return 1;
 }

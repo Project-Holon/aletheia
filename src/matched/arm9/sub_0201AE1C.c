@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201AE1C
+ * function: POKE_PERSONAL_GetParam
  *
  * poke_personal.c's 44 field getter over the 0x3C byte personal record, cut
  * out of src/matched/unit_0201AE14.c so that it has a manifest entry of its
@@ -23,9 +23,9 @@
  * fan-in: it is the field selector the whole poke_* region reads the personal
  * record through, so it is exactly the address that wants an entry.
  *
- * Splitting costs nothing here: sub_0201AE14 (the record destructor, four
+ * Splitting costs nothing here: POKE_PERSONAL_Delete (the record destructor, four
  * bytes of code and a pool word) keeps the start address and therefore keeps
- * its entry, sub_0201AF6C and sub_0201AF80 move into
+ * its entry, POKE_PERSONAL_IsPlaceholderAbility and POKE_PERSONAL_LoadFormTable move into
  * src/matched/unit_0201AF6C.c which starts at the address of the first of
  * them, and this function holds no relocation at all, so no cut can take a
  * witness away from anybody.
@@ -34,7 +34,7 @@
  * VERSION SENSITIVITY, read this before porting to Pokemon White
  * ---------------------------------------------------------------------------
  * The 44 case ids are an interface rather than content: they are the field
- * selector the whole region uses, and src/matched/sub_02018A7C.c reads the
+ * selector the whole region uses, and src/matched/POKE_TOOL_CalcParam.c reads the
  * same record through ids of its own.  The field offsets are structure and
  * will not move; the ids will not either unless a field is added, which is
  * exactly the kind of thing a version diff does, so the map below is the thing
@@ -79,7 +79,7 @@
  * needs none, because `ldrh` reaches 62.
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/sub_0201AE1C.c \
+ *   python tools/match.py tu --src src/matched/POKE_PERSONAL_GetParam.c \
  *       --addr 0x0201AE1C --thumb
  */
 
@@ -135,7 +135,7 @@ struct Personal {
     u32 unk38;
 };
 
-u32 sub_0201AE1C(const struct Personal *p, u32 field)
+u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field)
 {
     switch (field) {
     case 0:  return p->unk00;

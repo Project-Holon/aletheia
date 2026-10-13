@@ -1,5 +1,5 @@
 /*
- * function: func_020335AC
+ * function: FLASH_ACCESS_Write
  * address:  0x020335AC
  * packet:   pkt_02033534
  * region:   arm9
@@ -15,21 +15,21 @@
  * `literal` class (the word 0x020337B8 appears in the callee's own pool).
  *
  * symbols:
- *   func_020336B8  0x020336B8  arm
- *   func_020337B8  0x020337B8  arm
+ *   FLASH_ACCESS_StartWrite  0x020336B8  arm
+ *   FLASH_ACCESS_PollWrite  0x020337B8  arm
  */
 
 typedef unsigned int u32;
 
-extern int func_020336B8(u32 a0, u32 a1, u32 a2, void *a3);
-extern u32 func_020337B8(u32 a, u32 *b, u32 c);
+extern int FLASH_ACCESS_StartWrite(u32 a0, u32 a1, u32 a2, void *a3);
+extern u32 FLASH_ACCESS_PollWrite(u32 a, u32 *b, u32 c);
 
-u32 func_020335AC(u32 a, u32 b, u32 c, u32 d)
+u32 FLASH_ACCESS_Write(u32 a, u32 b, u32 c, u32 d)
 {
     u32 v;
-    u32 h = func_020336B8(a, b, c, (void *)d);
+    u32 h = FLASH_ACCESS_StartWrite(a, b, c, (void *)d);
 
-    while (func_020337B8(h, &v, d) == 0) {
+    while (FLASH_ACCESS_PollWrite(h, &v, d) == 0) {
         ;
     }
     return v;

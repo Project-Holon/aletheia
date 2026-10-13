@@ -18,10 +18,10 @@
  *   func_021EAF50 0x021EAF50 thumb ov093
  *   func_021EA614 0x021EA614 thumb ov093
  *   func_021EA710 0x021EA710 thumb ov093
- *   func_02005D90 0x02005D90 thumb
- *   func_02005E30 0x02005E30 thumb
- *   func_02005E50 0x02005E50 thumb
- *   func_02005D28 0x02005D28 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  */
 #include "../include/Obj00066.h"
 typedef unsigned char u8;
@@ -39,10 +39,10 @@ extern void func_021EAF18(struct L *p, int kind, int id);
 extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA710(u32 *p);
-extern void func_02005D90(u16, u16);
-extern void func_02005E30(u32);
-extern int func_02005E50(void);
-extern void func_02005D28(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(u16, u16);
+extern void GFL_USE_FadeOutBgm(u32);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 int func_021D1290(u8 *p, int *state, void *a2)
 {
     int idx;
@@ -69,10 +69,10 @@ int func_021D1290(u8 *p, int *state, void *a2)
             func_021EAF50((struct L *)(p + 0x58), func_021B904C(((struct Obj00066 *)p)->f0, 1));
         func_021EA614(((struct Obj00066 *)p)->f54, (struct H *)(p + 0x58));
         if (mode == 1) {
-            func_02005D90(func_021B86DC(((struct Obj00066 *)p)->f0), 0xFFFF);
+            GFL_USE_CancelChangeAndPlayBgm(func_021B86DC(((struct Obj00066 *)p)->f0), 0xFFFF);
             (*state)++;
         } else {
-            func_02005E30(0x1E);
+            GFL_USE_FadeOutBgm(0x1E);
             *state += 2;
         }
         break;
@@ -85,8 +85,8 @@ int func_021D1290(u8 *p, int *state, void *a2)
             (*state)++;
         break;
     case 3:
-        if (func_02005E50() == 0) {
-            func_02005D28();
+        if (GFL_USE_IsBgmFading() == 0) {
+            GFL_USE_CancelChangeAndStopBgm();
             return 1;
         }
         break;

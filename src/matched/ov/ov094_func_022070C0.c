@@ -27,7 +27,7 @@
  *   func_02018584 0x02018584 thumb
  *   func_021B8724 0x021B8724 thumb ov093
  *   func_021D5864 0x021D5864 thumb ov093
- *   func_02017F00 0x02017F00 thumb
+ *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   func_021D6314 0x021D6314 thumb ov093
  *   func_021E8A78 0x021E8A78 thumb ov093
  *   func_021D62A8 0x021D62A8 thumb ov093
@@ -54,7 +54,7 @@ extern u16 func_021D5444(struct QF *p);
 extern u32 func_02018584(u16, u16, u16);
 extern int func_021B8724(char *p, void *m);
 extern void *func_021D5864(struct Work *p);
-extern u8 func_02017F00(void *);
+extern u8 POKE_TOOL_GetGender(void *);
 typedef struct { u32 v; } Word;
 extern Word func_021D6314(void *, int);
 extern int func_021E8A78(Word);
@@ -94,7 +94,7 @@ void func_022070C0(W *p, void *a, void *q, int mode, int i)
     p->rows[i].seen = func_021B8724(a, q);
     species = func_021D5444(q);
     if (species != 32 && species != 29)
-        p->rows[i].sex = func_02017F00(func_021D5864(q));
+        p->rows[i].sex = POKE_TOOL_GetGender(func_021D5864(q));
     else
         p->rows[i].sex = 2;
     if (func_021E8A78(func_021D6314(q, 5)) == 1 && func_021D62A8(q) == 5)

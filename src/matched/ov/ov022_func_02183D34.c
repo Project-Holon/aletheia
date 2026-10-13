@@ -11,12 +11,12 @@
  * Callee's filed definition says void; original caller reads r0 at
  * 02183D42, and ov012 callee leaves func_0203D4D0 result live.
  * symbols:
- *   func_02173F20 0x02173F20 thumb ov012
+ *   UNION_COMMAND_SendAppSetting 0x02173F20 thumb ov012
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_02173F20(void *p, u32 a);
+extern u32 UNION_COMMAND_SendAppSetting(void *p, u32 a);
 void func_02183D34(u8 *p)
 {
-    if (p[12] != 0 && func_02173F20(p, p[12]) == 1) p[12] = 0;
+    if (p[12] != 0 && UNION_COMMAND_SendAppSetting(p, p[12]) == 1) p[12] = 0;
 }

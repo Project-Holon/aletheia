@@ -13,7 +13,7 @@
  *   func_020260F0 0x020260F0 thumb
  *   func_020355D8 0x020355D8 arm
  *   func_02027778 0x02027778 thumb
- *   func_02027CFC 0x02027CFC thumb
+ *   APP_TASKMENU_SetCursorPos 0x02027CFC thumb
  *
  * Opens the two-item yes/no task menu (items at work+0x184) with cursor sel.
  */
@@ -39,7 +39,7 @@ extern void func_020355D8(u8 v);
 struct TaskMenu;
 struct TaskMenuTmpl;
 extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
-extern void func_02027CFC(u8 *p, int sel);
+extern void APP_TASKMENU_SetCursorPos(u8 *p, int sel);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
@@ -59,5 +59,5 @@ void func_021DCF58(unsigned char *p, int sel)
     else
         func_020355D8(1);
     *(void **)(WORK(p) + 0x1A0) = func_02027778((struct TaskMenuTmpl *)(&t), *(void **)(WORK(p) + 0x19C));
-    func_02027CFC(*(void **)(WORK(p) + 0x1A0), sel);
+    APP_TASKMENU_SetCursorPos(*(void **)(WORK(p) + 0x1A0), sel);
 }

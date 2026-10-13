@@ -11,7 +11,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02014388  0x02014388  thumb
+ *   ZONEDATA_GetEventFlagAddress  0x02014388  thumb
  *
  * Test one flag in a bitmap: the lookup at 0x02014388 resolves the flag id
  * to the byte that holds it, and this function picks the bit out of that
@@ -42,11 +42,11 @@ typedef unsigned char u8;
 typedef signed int    s32;
 typedef unsigned int  u32;
 
-extern u8 *func_02014388(void *bitmap, s32 id);
+extern u8 *ZONEDATA_GetEventFlagAddress(void *bitmap, s32 id);
 
 u32 func_020142E8(void *bitmap, s32 id)
 {
-    u8 *byte = func_02014388(bitmap, id);
+    u8 *byte = ZONEDATA_GetEventFlagAddress(bitmap, id);
 
     if (byte != 0) {
         if ((*byte & (1 << (id % 8))) != 0) {

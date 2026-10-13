@@ -16,6 +16,7 @@
  *   func_02009290 0x02009290 thumb
  *   func_020092F8 0x020092F8 thumb
  *   func_020093D4 0x020093D4 thumb
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb  arm9
  */
 #include "../include/Obj01736.h"
 typedef unsigned short u16;
@@ -33,7 +34,7 @@ extern u8 *func_02009290(struct Sub02009210Obj *obj);
 extern void func_02082D44(void *,void *,int);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02019CA0(void *p, u32 v);
-extern void *func_020185F4(void *p);
+extern void *POKE_TOOL_GetBoxParam(void *p);
 struct Sub02007454Entry;
 extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
@@ -65,7 +66,7 @@ void func_021D7224(char *p)
             }
             func_02019CA0(q,n);
         }
-        func_020074D8(((struct Obj01736 *)p)->f24,(const struct Sub02007454Entry *)((int)func_020185F4(q)));
+        func_020074D8(((struct Obj01736 *)p)->f24,(const struct Sub02007454Entry *)((int)POKE_TOOL_GetBoxParam(q)));
         ((struct Obj01736 *)p)->fC=q;
         func_020092F8(g,0);
         func_020093D4(g,((struct Obj01736 *)p)->f7C);

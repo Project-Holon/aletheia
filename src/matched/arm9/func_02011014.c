@@ -1,5 +1,5 @@
 /*
- * function: func_02011014
+ * function: GPOWER_ApplyFriendshipBonus
  * address:  0x02011014
  * packet:   pkt_02011014
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern unsigned char g_02146208[];
 extern unsigned char g_02146228[];
-int func_02011014(int a0)
+int GPOWER_ApplyFriendshipBonus(int a0)
 {
     if (g_02146208[0x17] != 0x30)
         a0 += *(unsigned short *)(g_02146228 + 8);

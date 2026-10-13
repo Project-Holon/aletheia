@@ -22,7 +22,7 @@
  *   func_021DC6A4 0x021DC6A4 thumb ov175
  *   func_021DC6D0 0x021DC6D0 thumb ov175
  *   func_021DC6FC 0x021DC6FC thumb ov175
- *   func_0203C9AC 0x0203C9AC arm
+ *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   func_0200FA84 0x0200FA84 thumb
  *   func_0200B1A8 0x0200B1A8 thumb
  *   _u32_div_f 0x0209C2B0 arm
@@ -47,7 +47,7 @@ extern int func_021DC5AC(const unsigned int *,unsigned int);
 extern void func_021DC6A4(u8 *,int);
 extern void func_021DC6D0(u8 *,int);
 extern void func_021DC6FC(void *p, u32 kind);
-extern void func_0203C9AC(int,u32,u32,u32);
+extern void GFL_NET_STATE_SetError(int,u32,u32,u32);
 extern void func_0200FA84(void);
 struct Reg2;
 extern unsigned int func_0200B1A8(struct Reg2 *);
@@ -82,7 +82,7 @@ int func_021DC338(u8 *p)
         break;
     case 4:
         func_021C5AB8();
-        if((((struct Obj00841 *)p)->f1A0)++>7200) {func_0203C9AC(0,0,0,0x3f7);func_021DC6D0(p,8);}
+        if((((struct Obj00841 *)p)->f1A0)++>7200) {GFL_NET_STATE_SetError(0,0,0,0x3f7);func_021DC6D0(p,8);}
         if(d_021E4B80[0]==0) {
             if(func_021C5E14((u32 *)(p+0x1444),(u32 *)(p+0x1448))==1) {
                 percent=_u32_div_f(((struct Obj00841 *)p)->f1444*100,((struct Obj00841 *)p)->f1448);
@@ -106,7 +106,7 @@ int func_021DC338(u8 *p)
     case 8:((struct Obj00841 *)p)->f1458=0;return 3;
     case 100:
         func_021C5AB8();
-        if((((struct Obj00841 *)p)->f1A0)++>7200) {func_0203C9AC(0,0,0,0x3f7);func_021DC6D0(p,8);}
+        if((((struct Obj00841 *)p)->f1A0)++>7200) {GFL_NET_STATE_SetError(0,0,0,0x3f7);func_021DC6D0(p,8);}
         if(*(u32 *)(d_021E4B80+4)!=0) {
             if(*(u32 *)(d_021E4B80+4)==8)func_0200FA84();
             else func_021DC6A4(p,8);

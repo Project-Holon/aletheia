@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Four-step open path, each step gated on its predecessor's result and each
- * early exit answering 0: resolve the media handle (func_02074388), take the
- * object the handle points at and look up its record (func_0207466C), bind the
+ * early exit answering 0: resolve the media handle (NNS_SndArcGetSeqArcInfo), take the
+ * object the handle points at and look up its record (NNS_SndArcGetFileAddress), bind the
  * record to the caller's key (func_02075B54), then hand seven values to
  * func_02075794 - the caller's first argument, three fields of the record
  * (bytes at +9 and +8, the halfword at +4) and four words parked on the stack
@@ -30,8 +30,8 @@
  * see docs/families/cluster_02074A34.h.
  *
  * symbols:
- *   func_02074388  0x02074388  arm
- *   func_0207466C  0x0207466C  arm
+ *   NNS_SndArcGetSeqArcInfo  0x02074388  arm
+ *   NNS_SndArcGetFileAddress  0x0207466C  arm
  *   func_02075B54  0x02075B54  arm
  *   func_02075794  0x02075794  arm
  */
@@ -42,8 +42,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern void *func_02074388(int index);
-extern u32   func_0207466C(u32 a);
+extern void *NNS_SndArcGetSeqArcInfo(int index);
+extern u32   NNS_SndArcGetFileAddress(u32 a);
 struct Entry;
 struct Table;
 extern struct Entry *func_02075B54(struct Table *t, int idx);
@@ -55,12 +55,12 @@ u32 func_02075618(u32 a, u32 b, u32 c)
     u32 q;
     u8 *st;
 
-    r = (u8 *)func_02074388(b);
+    r = (u8 *)NNS_SndArcGetSeqArcInfo(b);
     if (r == 0) {
         return 0;
     }
 
-    q = func_0207466C(((struct Obj16685 *)r)->f0);
+    q = NNS_SndArcGetFileAddress(((struct Obj16685 *)r)->f0);
     if (q == 0) {
         return 0;
     }

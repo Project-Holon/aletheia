@@ -14,7 +14,7 @@
  *
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_021657C8  0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   _s32_div_f  0x0209C0A4  arm
  *   g_021AA814  0x021AA814  data ov009
@@ -43,7 +43,7 @@ typedef struct WCMWork_02166804 {
 } WCMWork_02166804;
 
 extern unsigned long OS_DisableInterrupts(void);
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void _s32_div_f();
 int func_02166680(unsigned char *a, unsigned char *b, unsigned int n);
@@ -86,7 +86,7 @@ WMLinkLevel func_021666C8(void)
     WMLinkLevel ret;
 
     e = OS_DisableInterrupts();
-    w = (WCMWork_021666C8 *)func_021657C8();
+    w = (WCMWork_021666C8 *)WCMi_GetSystemWork();
     ret = WM_LINK_LEVEL_0;
     if (w != 0 && w->phase == 9) {
         ret = func_02166710(func_02166784());
@@ -105,7 +105,7 @@ WMLinkLevel func_02166710(unsigned char rssi)
 {
     WCMWork_02166710 *w;
 
-    w = (WCMWork_02166710 *)func_021657C8();
+    w = (WCMWork_02166710 *)WCMi_GetSystemWork();
     switch (w->deviceId) {
     case 1:
     default:
@@ -170,7 +170,7 @@ void func_02166804(unsigned char rssi)
     WCMWork_02166804 *w;
     int raw;
 
-    w = (WCMWork_02166804 *)func_021657C8();
+    w = (WCMWork_02166804 *)WCMi_GetSystemWork();
     switch (w->deviceId) {
     case 1:
     default:

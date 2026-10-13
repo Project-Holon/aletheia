@@ -1,5 +1,5 @@
 /*
- * function: func_02026680
+ * function: GAME_COMM_ClearInfoMessages
  * address:  0x02026680
  * packet:   pkt_02026680
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef struct { u8 b0 : 1; u8 rest : 7; u8 pad[0xb]; } E;
 
-void func_02026680(u8 *p)
+void GAME_COMM_ClearInfoMessages(u8 *p)
 {
     int i;
     for (i = 0; i < 6; i++) {

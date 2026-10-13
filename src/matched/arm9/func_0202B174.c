@@ -1,5 +1,5 @@
 /*
- * function: func_0202B174
+ * function: ISS_CITY_UNIT_GetCenterZ
  * address:  0x0202B174
  * packet:   pkt_0202AF74
  * region:   arm9
@@ -20,7 +20,7 @@ extern double _s32_to_double(s32 v);
 extern double func_0209AC04(double a, double b);
 extern s32    _d2s(double d);
 
-s32 func_0202B174(u32 *a0)
+s32 ISS_CITY_UNIT_GetCenterZ(u32 *a0)
 {
     return _d2s(func_0209AC04(8.0, _s32_to_double((s32)(a0[3] << 4))));
 }

@@ -26,7 +26,7 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02028590 0x02028590 thumb
- *   func_0202EF60 0x0202EF60 thumb
+ *   TIME_ICON_Alloc 0x0202EF60 thumb
  */
 #include "../include/Obj01008.h"
 typedef unsigned int u32;
@@ -57,7 +57,7 @@ extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void *func_02028590(u32,u32,u32,u32);
-extern struct Obj *func_0202EF60(u32 heap);
+extern struct Obj *TIME_ICON_Alloc(u32 heap);
 char *func_021BF0A0(u16 heap)
 {
     char *p;
@@ -79,6 +79,6 @@ char *func_021BF0A0(u16 heap)
     func_02045334(obj);func_02045374(obj);func_02041B6C(func_02045730(obj));
     ((struct Obj01008 *)p)->f1C=(void *)func_020450F0(1,1,19,30,4,10,1);
     ((struct Obj01008 *)p)->f20=func_02028590(15,1,1,((struct Obj01008 *)p)->f0);
-    ((struct Obj01008 *)p)->f44=func_0202EF60(((struct Obj01008 *)p)->f0);
+    ((struct Obj01008 *)p)->f44=TIME_ICON_Alloc(((struct Obj01008 *)p)->f0);
     return p;
 }

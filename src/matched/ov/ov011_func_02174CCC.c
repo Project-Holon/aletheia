@@ -1,5 +1,5 @@
 /*
- * function: func_02174CCC
+ * function: INTRUDE_COMM_UpdatePageRequests
  * address:  0x02174CCC
  * packet:   pkt_ov011_02174CCC
  * region:   ov011
@@ -15,10 +15,10 @@
  * symbols:
  *   func_02026478  0x02026478  thumb
  *   func_020127C4  0x020127C4  thumb
- *   func_02174734  0x02174734  thumb ov011
- *   func_02174D5C  0x02174D5C  thumb ov011
- *   func_021748CC  0x021748CC  thumb ov011
- *   func_02174954  0x02174954  thumb ov011
+ *   INTRUDE_COMM_SendUnionInfo  0x02174734  thumb ov011
+ *   INTRUDE_COMM_BuildSymbolPage  0x02174D5C  thumb ov011
+ *   INTRUDE_COMM_SendSymbolPage  0x021748CC  thumb ov011
+ *   INTRUDE_COMM_SendAreaNotice  0x02174954  thumb ov011
  */
 #include "../include/Obj04951.h"
 
@@ -26,12 +26,12 @@ typedef unsigned int   u32;
 u32 func_02026478(void *obj);
 unsigned char *func_020127C4(void *p);
 typedef unsigned char  u8;
-int func_02174734(char *p, int b, void *c);
-void func_02174D5C(int *p, const u8 *q);
-int func_021748CC(char *p, int a);
-u32 func_02174954(u32 p);
+int INTRUDE_COMM_SendUnionInfo(char *p, int b, void *c);
+void INTRUDE_COMM_BuildSymbolPage(int *p, const u8 *q);
+int INTRUDE_COMM_SendSymbolPage(char *p, int a);
+u32 INTRUDE_COMM_SendAreaNotice(u32 p);
 
-void func_02174CCC(unsigned char *p)
+void INTRUDE_COMM_UpdatePageRequests(unsigned char *p)
 {
     unsigned char i;
     unsigned char *e;
@@ -40,7 +40,7 @@ void func_02174CCC(unsigned char *p)
 
     h = func_02026478((void *)(((struct Obj04951 *)p)->f4));
     if (p[0x908] != 0) {
-        if (func_02174734((char *)p, p[0x908], (void *)func_020127C4((void *)h)) == 1) {
+        if (INTRUDE_COMM_SendUnionInfo((char *)p, p[0x908], (void *)func_020127C4((void *)h)) == 1) {
             p[0x908] = 0;
         }
     }
@@ -48,14 +48,14 @@ void func_02174CCC(unsigned char *p)
     for (i = 0; i < 3; i++) {
         q = p + i * 4;
         if (q[0x8D5] == 1) {
-            func_02174D5C((int *)p, e + i * 4);
-            if (func_021748CC((char *)p, i) == 1) {
+            INTRUDE_COMM_BuildSymbolPage((int *)p, e + i * 4);
+            if (INTRUDE_COMM_SendSymbolPage((char *)p, i) == 1) {
                 q[0x8D5] = 0;
             }
         }
     }
     if (p[0x8E1] == 1) {
-        if (func_02174954((u32)(p + 0x8E0)) == 1) {
+        if (INTRUDE_COMM_SendAreaNotice((u32)(p + 0x8E0)) == 1) {
             p[0x8E1] = 0;
         }
     }

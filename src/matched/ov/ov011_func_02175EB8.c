@@ -1,5 +1,5 @@
 /*
- * function: func_02175EB8
+ * function: INTRUDE_COMM_IsResultConfirmed
  * address: 0x02175EB8
  * packet: pkt_ov011_02175EB8
  * region: ov011
@@ -15,7 +15,7 @@
  */
 typedef unsigned char u8;
 extern u8 *func_02175BCC(u8 *p);
-int func_02175EB8(void *p)
+int INTRUDE_COMM_IsResultConfirmed(void *p)
 {
     u8 *r;
     r = (u8 *)func_02175BCC(p);

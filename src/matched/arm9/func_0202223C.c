@@ -12,14 +12,14 @@
  *
  * symbols:
  *   g_021468E4     0x021468E4  data
- *   func_020222CC  0x020222CC  thumb
+ *   WIPE_SetBrightness  0x020222CC  thumb
  *
  * Maps two sentinel colour values (0xFFFF, "read back the last value
  * written"; 0x7FFF, "white") to two hardware-register-friendly constants
- * and forwards to func_020222CC, which selects one of two hardware
+ * and forwards to WIPE_SetBrightness, which selects one of two hardware
  * addresses from its first argument and ignores the colour entirely
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-
- * leftovers.md; func_020222CC's own file spells this out).
+ * leftovers.md; WIPE_SetBrightness's own file spells this out).
  *
  * The sentinel readback is `g_021468E4.f10`, a halfword sixteen bytes into
  * a fixed object.  Writing it as `*(u16 *)(0x021468E4 + 0x10)` folds the
@@ -43,7 +43,7 @@ typedef unsigned int   u32;
 typedef unsigned short u16;
 typedef unsigned char  u8;
 
-extern void func_020222CC(u32 which, int brightness);
+extern void WIPE_SetBrightness(u32 which, int brightness);
 
 extern struct G_021468E4 g_021468E4;
 
@@ -57,5 +57,5 @@ void func_0202223C(u32 a, u32 color)
     } else {
         color = ~(u32)0xF;
     }
-    func_020222CC(a, color);
+    WIPE_SetBrightness(a, color);
 }

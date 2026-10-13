@@ -10,19 +10,19 @@
  * 2026-10-05 (D8 lane19): re-verified, status unchanged; sole blocker is arm9 callee 0x0200B98C (no witness outside the caller). Needs a label seed. Source is byte-correct; no C change possible.
  * lever: Write the zero halfwords in source order p+0x40 then p+0x42; the reversed spelling exchanged those two store addresses.
  * blocker: ARM9 0200B98C lacks outside code-start witness at +0104. TU --suggest-split leaves caller out. Scratch B98C-one.log EXACT 172 bytes, terminal exit 0.
- * blocker-symbols: func_0200B98C_Table 0x0209DDCC data a4
+ * blocker-symbols: BattleRecModeTable 0x0209DDCC data a4
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
- * extern const u16 func_0200B98C_Table[];
- * u64 func_0200B98C(char *p,int selector,int index) {
+ * extern const u16 BattleRecModeTable[];
+ * u64 BATTLE_REC_GetHeaderParam(char *p,int selector,int index) {
  *     int i;
  *     u16 v;
  *     switch(selector) {
  *     case 0: v=((u16 *)p)[index];if(v>0x289)return 0;return v;
  *     case 1: return *(u8 *)(p+index+0x18)&0x7f;
  *     case 2: v=*(u16 *)(p+0x24);if(v>0x270f)return 0x270f;return v;
- *     case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==func_0200B98C_Table[i])return i;return 0;
+ *     case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==BattleRecModeTable[i])return i;return 0;
  *     case 4: return *(u64 *)(p+0x38);
  *     case 5: return *(u8 *)(p+0x2a);
  *     case 6: return (*(u8 *)(p+index+0x18)&0x80)>>7;
@@ -38,8 +38,8 @@
  *   func_021FE7B0 0x021FE7B0 thumb ov186
  *   func_021D7540 0x021D7540 thumb ov125
  *   func_02082BCC 0x02082BCC arm
- *   func_0200B928 0x0200B928 thumb
- *   func_0200B98C 0x0200B98C thumb
+ *   BATTLE_REC_GetHeader 0x0200B928 thumb
+ *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   func_021FF54C 0x021FF54C thumb ov186
  *   func_021FF648 0x021FF648 thumb ov186
  *   func_02035C60 0x02035C60 arm
@@ -61,8 +61,8 @@ extern void func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
 extern int func_021D7540(void *a, int x, int mode, u16 *state, u16 *b, u16 c);
 extern void func_02082BCC(void *,int,unsigned);
-extern u8 *func_0200B928(void);
-extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
+extern u8 *BATTLE_REC_GetHeader(void);
+extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern void func_021FF54C(char *p, int kind, const int *values);
 extern int func_021FF648(char *);
 extern int func_02035C60(void);
@@ -99,7 +99,7 @@ void func_021E2C2C(int *task,unsigned *state,char *p)
         ++*(int *)(p+0x44);break;
     case 4:
         func_02082BCC(&cfg,0,8);
-        cfg.wide=func_0200B98C(func_0200B928(),4,0);
+        cfg.wide=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
         func_021FF54C(*(char **)(*(char **)(p+0x3c)+12),8,(const int *)(&cfg));
         func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x13f);
         *(int *)(p+0x48)=0;++*(int *)(p+0x44);++*state;break;

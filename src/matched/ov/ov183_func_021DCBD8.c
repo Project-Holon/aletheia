@@ -10,12 +10,12 @@
  * status: EXACT
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
  * blocker: 0x0200B98C arm9 thumb, no witness outside caller; prior verified Thumb EXACT copied from ov183_func_021DF838.c; not recompiled (integrator-owned ARM9).
- * blocker-symbols: func_0200B98C_Table 0x0209DDCC data a4
+ * blocker-symbols: BattleRecModeTable 0x0209DDCC data a4
  *   typedef unsigned char u8;
  *   typedef unsigned short u16;
  *   typedef unsigned long long u64;
- *   extern const u16 func_0200B98C_Table[];
- *   u64 func_0200B98C(char *p, int selector, int index)
+ *   extern const u16 BattleRecModeTable[];
+ *   u64 BATTLE_REC_GetHeaderParam(char *p, int selector, int index)
  *   {
  *       int i;
  *       u16 v;
@@ -32,7 +32,7 @@
  *           return v;
  *       case 3:
  *           for (i = 0; i < 0x29; i++) {
- *               if (*(u16 *)(p + 0x26) == func_0200B98C_Table[i]) return i;
+ *               if (*(u16 *)(p + 0x26) == BattleRecModeTable[i]) return i;
  *           }
  *           return 0;
  *       case 4:
@@ -58,8 +58,8 @@
  *   func_0201BCB4 0x0201BCB4 thumb
  *   func_0204AF28 0x0204AF28 arm
  *   func_021DD228 0x021DD228 thumb ov183
- *   func_0200B98C 0x0200B98C thumb
- *   func_0201BABC 0x0201BABC thumb
+ *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_0204B294 0x0204B294 arm
@@ -83,8 +83,8 @@ extern int func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern int func_021DD228(void *);
-extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
-extern u32 func_0201BABC(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
+extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02082BCC(void *,int,unsigned);
 extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
@@ -118,9 +118,9 @@ void func_021DCBD8(char *p,void *manager,void *party,u16 heap)
     do {
         for(i=start;i<end;i++) {
             species[n]=255;
-            v=func_0200B98C(party,0,i);
-            f=func_0200B98C(party,1,i);
-            h=func_0200B98C(party,6,i);
+            v=BATTLE_REC_GetHeaderParam(party,0,i);
+            f=BATTLE_REC_GetHeaderParam(party,1,i);
+            h=BATTLE_REC_GetHeaderParam(party,6,i);
             if(v) {species[n]=v;forms[n]=f;half[n]=h;n++;}
         }
         for(i=n;i<end;i++) {species[n]=0;forms[n]=0;half[n]=0;n++;}
@@ -138,7 +138,7 @@ void func_021DCBD8(char *p,void *manager,void *party,u16 heap)
         v2=species[j];
         if(v2) {
             h2=half[j];f2=forms[j];
-            *(u32 *)(slot+0x50)=func_0204A6C8(archive,func_0201BABC(v2,f2,h2,0),0,0,heap);
+            *(u32 *)(slot+0x50)=func_0204A6C8(archive,POKE_TOOL_CalcGraphicIndex(v2,f2,h2,0),0,0,heap);
             func_02082BCC(&pos,0,8);
             pos.x=coords[j].x+8;pos.y=coords[j].y-12;pos.z=1;pos.a=12-count;
             *(void **)(p+count*4+0x80)=func_0204B294(manager,(u32)(*(void **)(slot+0x50)),(u32)(*(void **)(p+0x48)),(u32)(*(void **)(p+0x4c)),&pos,0,heap);

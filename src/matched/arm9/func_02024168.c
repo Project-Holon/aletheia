@@ -1,5 +1,5 @@
 /*
- * function: func_02024168
+ * function: PMSI_PARAM_GetResult
  * address:  0x02024168
  * packet:   pkt_02024168
  * region:   arm9
@@ -19,7 +19,7 @@ typedef struct Pair { u16 x,y; } Pair;
 typedef struct Input {
     u8 mode; u8 pad01[15]; u16 values10[4]; u16 values18[2];
 } Input;
-void func_02024168(const Input *p,u16 *a,u16 *b) {
+void PMSI_PARAM_GetResult(const Input *p,u16 *a,u16 *b) {
     Pair v;
     switch(p->mode) {
     case 0: a[0]=p->values18[0]; break;

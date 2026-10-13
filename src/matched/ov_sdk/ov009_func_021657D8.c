@@ -1,5 +1,5 @@
 /*
- * function: func_021657D8
+ * function: WcmConfigure
  * address:  0x021657D8
  * packet:   pkt_ov009_021657D8
  * region:   ov009
@@ -38,7 +38,7 @@ extern struct WcmState {
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 
-void func_021657D8(WCMConfig *config, void (*notify)(void *))
+void WcmConfigure(WCMConfig *config, void (*notify)(void *))
 {
     if (config == 0) {
         g_021AA7D4.wcmw->config.dmano = 3;

@@ -29,7 +29,7 @@
  *   func_02183F40 0x02183F40 thumb ov168
  *   func_021844C8 0x021844C8 thumb ov168
  *   func_02183D4C 0x02183D4C thumb ov168
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   d_02184A20 0x02184A20 data a4
  */
 #include "../include/Obj02210.h"
@@ -59,7 +59,7 @@ extern void func_02183D0C(int *,int,int);
 extern void func_02183F40(void *unused, char *p);
 extern void func_021844C8(int event, char *p);
 extern void func_02183D4C(int a, int *state);
-extern void func_02005E30(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
 enum Result {DONE=1};
 enum Result func_02183B60(void *obj)
 {
@@ -83,6 +83,6 @@ enum Result func_02183B60(void *obj)
     func_02183FC4((char *)p,((struct Obj02210 *)((unsigned)p))->f14C);
     func_02184398((u8 *)(p+0xf8),((struct Obj02210 *)((unsigned)p))->f14C,(int)func_021844C8,(int)p);
     func_02183D0C((int *)((unsigned)p+0x130),(int)p,(int)func_02183D4C);
-    func_02005E30(10);
+    GFL_USE_FadeOutBgm(10);
     return result;
 }

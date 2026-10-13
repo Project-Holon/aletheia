@@ -1,5 +1,5 @@
 /*
- * function: func_021B1588
+ * function: VCT_AUDIO_EncodeMuLaw
  * address: 0x021B1588
  * packet: pkt_ov013_021B1588
  * region: ov013
@@ -20,11 +20,11 @@
  *   dst[i] = uval ^ mask. With the inline helpers, the mask and the segment
  *   counter swapped registers (r5/r6).
  * symbols:
- *   d_021B3C28 0x021B3C28 data a4
+ *   gVctMuLawSegmentEnds 0x021B3C28 data a4
  */
-extern const int d_021B3C28[8];
+extern const int gVctMuLawSegmentEnds[8];
 
-void func_021B1588(unsigned char *dst, const short *src, unsigned int n)
+void VCT_AUDIO_EncodeMuLaw(unsigned char *dst, const short *src, unsigned int n)
 {
     unsigned int i;
 
@@ -42,7 +42,7 @@ void func_021B1588(unsigned char *dst, const short *src, unsigned int n)
         }
         if (s > 8159)
             s = 8159;
-        tab = d_021B3C28;
+        tab = gVctMuLawSegmentEnds;
         for (seg = 0; seg < 8; seg++)
             if (s + 0x21 <= *tab++)
                 goto found;

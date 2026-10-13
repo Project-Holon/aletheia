@@ -11,20 +11,20 @@
  *
  * symbols:
  *   func_021F0C70  0x021F0C70  thumb
- *   func_0202846C  0x0202846C  thumb
+ *   APP_TASKMENU_WIN_IsUpdateTrans  0x0202846C  thumb
  *   func_02028178  0x02028178  thumb
- *   func_0202824C  0x0202824C  thumb
- *   func_0202822C  0x0202822C  thumb
+ *   APP_TASKMENU_WIN_IsTouch  0x0202824C  thumb
+ *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
  *   func_021F0DD8  0x021F0DD8  thumb  ov032
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_0202846C(u8 *p);
+extern u32 APP_TASKMENU_WIN_IsUpdateTrans(u8 *p);
 extern void func_02028178(u8 *p);
-extern u32 func_0202824C(void **p);
-extern void func_0202822C(char *p, int v);
+extern u32 APP_TASKMENU_WIN_IsTouch(void **p);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void func_021F0DD8(unsigned int a);
 
 int func_021F0C70(char *p, int flag)
@@ -43,18 +43,18 @@ int func_021F0C70(char *p, int flag)
         n = 2;
     }
     for (i = 0; i < n; i++) {
-        if (func_0202846C(*(u8 **)(q + i * 16)) == 1) {
+        if (APP_TASKMENU_WIN_IsUpdateTrans(*(u8 **)(q + i * 16)) == 1) {
             func_02028178((u8 *)(*(u32 *)(q + i * 16)));
             return -1;
         }
     }
     for (i = 0; i < n; i++) {
-        if (func_0202824C((void **)(*(u32 **)(q + i * 16))) != 0) {
+        if (APP_TASKMENU_WIN_IsTouch((void **)(*(u32 **)(q + i * 16))) != 0) {
             if (i < n - 1) {
                 func_021F0DD8(0x54c);
                 s = i;
             } else {
-                func_0202822C(*(char **)(q + i * 16), 1);
+                APP_TASKMENU_WIN_SetDecide(*(char **)(q + i * 16), 1);
                 func_021F0DD8(0x54c);
                 s = i;
             }

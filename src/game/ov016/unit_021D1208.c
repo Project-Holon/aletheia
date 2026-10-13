@@ -42,7 +42,7 @@
  *   DWCi_TSKlDelete   0x021D7724 arm
  *   MemWin            0x021DE658 data
  *   func_0207D6C0  0x0207D6C0  arm
- *   func_021D771C  0x021D771C  arm  ov016
+ *   DWCi_TSKlSetParam  0x021D771C  arm  ov016
  *   func_021D5250  0x021D5250  arm  ov016
  *   func_021D7680  0x021D7680  arm  ov016
  *   func_021D7724  0x021D7724  arm  ov016
@@ -60,7 +60,7 @@
  *   func_021D60EC  0x021D60EC  arm  ov016
  *   g_021DAA18  0x021DAA18  data
  *   g_021DAA16  0x021DAA16  data
- *   func_021D4FEC  0x021D4FEC  arm  ov016
+ *   DWCi_CELLlGetState  0x021D4FEC  arm  ov016
  *   func_021D4FF4  0x021D4FF4  arm  ov016
  *   func_021D4FE0  0x021D4FE0  arm  ov016
  *   func_021D52D4  0x021D52D4  arm  ov016
@@ -141,7 +141,7 @@ extern void taskV(void *task);
 extern void taskMove(void *task);
 void DWCi_TSKlDelete(int kind, void *task);
 extern void func_0207D6C0(u32_021D1598 addr, int brightness);
-extern void func_021D771C(char *p, unsigned int v);
+extern void DWCi_TSKlSetParam(char *p, unsigned int v);
 extern void func_021D5250(void *cell, int idx, int *x, int *y);
 extern void *func_021D7680(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
 extern void func_021D7724(int kind, void *task);
@@ -151,7 +151,7 @@ extern int func_021D6824(unsigned int f);
 extern void func_021D5118(void *cell, int idx, int x, int y);
 extern void func_021D5FF4(int x0, int y0, int x1, int y1, RectT *r);
 extern void func_021D60EC(int a, int b, RectT *r);
-extern unsigned char func_021D4FEC(char *p);
+extern unsigned char DWCi_CELLlGetState(char *p);
 extern void func_021D4FF4(void *cell, int idx, Eff eff, int affine);
 extern char *func_021D4FE0(char *p, unsigned int i);
 extern void func_021D52D4();
@@ -311,7 +311,7 @@ void func_021D1598(void *task)
     func_0207D6C0(0x04000050, g_021DE658->count);
     if (g_021DE658->count > -12)
         return;
-    func_021D771C(task, (unsigned int)func_021D15F0);
+    DWCi_TSKlSetParam(task, (unsigned int)func_021D15F0);
 }
 
 
@@ -470,7 +470,7 @@ void func_021D19F4(void *cell, int y)
     int cy;
     int i;
 
-    num = func_021D4FEC(cell);
+    num = DWCi_CELLlGetState(cell);
     for (i = 0; i < num; i++) {
         func_021D5250(cell, i, &x, &cy);
         if (cy >= y && cy < 192)
@@ -527,9 +527,9 @@ void func_021D1B78(void *task)
     if (y < 192)
         return;
     if (g_021DE658->dark != 0)
-        func_021D771C(task, (unsigned int)func_021D1C04);
+        DWCi_TSKlSetParam(task, (unsigned int)func_021D1C04);
     else
-        func_021D771C(task, (unsigned int)func_021D1C5C);
+        DWCi_TSKlSetParam(task, (unsigned int)func_021D1C5C);
 }
 
 
@@ -544,7 +544,7 @@ void func_021D1C04(void *task)
     func_0207D6C0(0x04000050, g_021DE658->count);
     if (g_021DE658->count < 0)
         return;
-    func_021D771C(task, (unsigned int)func_021D1C5C);
+    DWCi_TSKlSetParam(task, (unsigned int)func_021D1C5C);
 }
 
 

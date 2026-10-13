@@ -1,5 +1,5 @@
 /*
- * function: func_021CD67C
+ * function: DWCi_SceneSetTestCompletet_procScene
  * address:  0x021CD67C
  * packet:   pkt_021CD3EC
  * region:   ov016
@@ -10,21 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CD67C   0x021CD67C  arm
+ *   DWCi_SceneSetTestCompletet_procScene   0x021CD67C  arm
+ *   DWCi_SceneSetTestCompletet_draw  0x021CD68C  arm
  *
- * Call func_021CD79C, func_021CD68C.
+ * Call func_021CD79C, DWCi_SceneSetTestCompletet_draw.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CD67C.c \
- *       --func func_021CD67C --addr 0x021CD67C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetTestCompletet_procScene.c \
+ *       --func DWCi_SceneSetTestCompletet_procScene --addr 0x021CD67C --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern void func_021CD79C(void);
-extern void func_021CD68C(void);
+extern void DWCi_SceneSetTestCompletet_draw(void);
 
-void func_021CD67C(void)
+void DWCi_SceneSetTestCompletet_procScene(void)
 {
     func_021CD79C();
-    func_021CD68C();
+    DWCi_SceneSetTestCompletet_draw();
 }

@@ -10,18 +10,19 @@
  * status:   EXACT
  *
  * symbols:
+ *   BGWINFRM_PutFrame  0x0202CB4C  thumb  arm9
  *
- * Forward the word at +0x74 plus constants to func_0202CB4C.
+ * Forward the word at +0x74 plus constants to BGWINFRM_PutFrame.
  */
 #include "../include/Obj18534.h"
 
 typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 
 void func_021EF670(char *p)
 {
-    func_0202CB4C(*(struct WinMgr * *)&((struct Obj18534 *)p)->f74, 0xa, 0, 0x15);
+    BGWINFRM_PutFrame(*(struct WinMgr * *)&((struct Obj18534 *)p)->f74, 0xa, 0, 0x15);
 }
 

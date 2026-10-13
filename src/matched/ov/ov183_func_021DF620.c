@@ -13,17 +13,17 @@
  * gives the three 36-byte buffers at sp+7c, sp+58, sp+34.
  * symbols:
  *   func_0204B3F4 0x0204B3F4 arm
- *   func_0204B7C8 0x0204B7C8 arm
+ *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   func_0204B714 0x0204B714 arm
- *   func_0204B784 0x0204B784 arm
+ *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_020490F4 0x020490F4 arm
  *   func_021DF838 0x021DF838 thumb ov183
- *   func_0201BABC 0x0201BABC thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_02049E74 0x02049E74 arm
  *   func_0204A9D0 0x0204A9D0 arm
- *   func_0204AB84 0x0204AB84 arm
+ *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   func_0201BB5C 0x0201BB5C thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02049238 0x02049238 arm
@@ -40,17 +40,17 @@ struct Struct36;
 struct Sub0204A9D0;
 extern u32 func_0204B3F4(struct Obj *p);
 extern u32 func_0204B714(struct Obj *o);
-extern void func_0204B7C8(const char *src, struct Struct36 *dst);
-extern void func_0204B784(char *dst, const struct Struct36 *src);
+extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
+extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 struct Obj;
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021DF838(int,char *);
-extern u32 func_0201BABC(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
 extern void *func_02049E74(void *,u32,u32,u32,u16);
 extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
-extern void func_0204AB84(u32,struct Rec *);
+extern void CLACT_GetCharacterProxy(u32,struct Rec *);
 extern u32 func_020307B0(void *p);
 extern void func_02049238(void *);
 void func_021DF620(struct State *p,int first,short step,u16 heap)
@@ -68,18 +68,18 @@ void func_021DF620(struct State *p,int first,short step,u16 heap)
             if(step==1 && i!=4) {
                 src=p->sprites[i+1][j]; dst=p->sprites[i][j];
                 if(func_0204B3F4((struct Obj *)src)) {
-                    func_0204B7C8(src,(struct Struct36 *)(&forward));
+                    CLACT_GetActorImageProxy(src,(struct Struct36 *)(&forward));
                     value=func_0204B714((struct Obj *)src);
-                    func_0204B784(dst,(const struct Struct36 *)(&forward));
+                    CLACT_SetActorImageProxy(dst,(const struct Struct36 *)(&forward));
                     func_0204B6F4((struct Obj *)dst,value,0);
                     func_0204B3DC((struct Obj *)dst,1);
                 } else func_0204B3DC((struct Obj *)dst,0);
             } else if(step==-1 && i!=4) {
                 src=p->sprites[3-i][j]; dst=p->sprites[4-i][j];
                 if(func_0204B3F4((struct Obj *)src)) {
-                    func_0204B7C8(src,(struct Struct36 *)(&back));
+                    CLACT_GetActorImageProxy(src,(struct Struct36 *)(&back));
                     value=func_0204B714((struct Obj *)src);
-                    func_0204B784(dst,(const struct Struct36 *)(&back));
+                    CLACT_SetActorImageProxy(dst,(const struct Struct36 *)(&back));
                     func_0204B6F4((struct Obj *)dst,value,0);
                     func_0204B3DC((struct Obj *)dst,1);
                 } else func_0204B3DC((struct Obj *)dst,0);
@@ -93,10 +93,10 @@ void func_021DF620(struct State *p,int first,short step,u16 heap)
         if(step==1) i=4; else if(step==-1) i=0;
         func_021DF838((int)((u32)p->source+(i+first)*0xc4),(char *)&entries);
         if(entries.species[j]) {
-            handle=func_02049E74(archive,func_0201BABC(entries.species[j],entries.form[j],entries.gender[j],0),0,(u32)&data,mode);
+            handle=func_02049E74(archive,POKE_TOOL_CalcGraphicIndex(entries.species[j],entries.form[j],entries.gender[j],0),0,(u32)&data,mode);
             func_0204A9D0(p->indices[p->cursor][j],(struct Sub0204A9D0 *)data);
-            func_0204AB84(p->indices[p->cursor][j],&loaded);
-            func_0204B784(p->sprites[i][j],(const struct Struct36 *)(&loaded));
+            CLACT_GetCharacterProxy(p->indices[p->cursor][j],&loaded);
+            CLACT_SetActorImageProxy(p->sprites[i][j],(const struct Struct36 *)(&loaded));
             func_0204B6F4((struct Obj *)p->sprites[i][j],func_0201BB5C(entries.species[j],entries.form[j],entries.gender[j],0),0);
             func_020307B0(handle);
             func_0204B3DC((struct Obj *)p->sprites[i][j],1);

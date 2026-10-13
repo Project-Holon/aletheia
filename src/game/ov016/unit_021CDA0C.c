@@ -1,7 +1,7 @@
 /*
  * file:     unit_021CDA0C.c
  * unit:     yes
- * function: func_021CDA0C, func_021CDA10
+ * function: DWCi_SceneSetTestConfNopA, DWCi_SceneSetTestConfNopB
  * address:  0x021CDA0C
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -12,10 +12,10 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-void func_021CDA0C(void);
-void func_021CDA10(void);
+void DWCi_SceneSetTestConfNopA(void);
+void DWCi_SceneSetTestConfNopB(void);
 
-void func_021CDA0C(void)
+void DWCi_SceneSetTestConfNopA(void)
 {
 }
 
@@ -24,9 +24,9 @@ void func_021CDA0C(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CDA10.c \
- *       --func func_021CDA10 --addr 0x021CDA10 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetTestConfNopB.c \
+ *       --func DWCi_SceneSetTestConfNopB --addr 0x021CDA10 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021CDA10(void)
+void DWCi_SceneSetTestConfNopB(void)
 {
 }

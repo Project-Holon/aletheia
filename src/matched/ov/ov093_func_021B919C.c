@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201119C  0x0201119C  thumb
+ *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *
  * The extent runs long because the follower func_021B91E4 has no label
  * (already filed as ov093_func_021B91E4.c).
@@ -32,7 +32,7 @@ typedef struct {
     u8 g : 1;
 } B;
 
-extern u32 func_0201119C(u32 v);
+extern u32 GPOWER_ApplyPrizeMoney(u32 v);
 
 u32 func_021B919C(u8 *p)
 {
@@ -40,7 +40,7 @@ u32 func_021B919C(u8 *p)
         if (((B *)p)->g) {
             ((struct Obj06219 *)p)->f430 = ((struct Obj06219 *)p)->f430 << 1;
         }
-        ((struct Obj06219 *)p)->f430 = func_0201119C(((struct Obj06219 *)p)->f430);
+        ((struct Obj06219 *)p)->f430 = GPOWER_ApplyPrizeMoney(((struct Obj06219 *)p)->f430);
         ((B *)p)->d = 1;
     }
     return ((struct Obj06219 *)p)->f430;

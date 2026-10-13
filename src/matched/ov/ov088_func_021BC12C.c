@@ -19,13 +19,13 @@
  *   func_021BD25C  0x021BD25C  thumb  ov088
  *   func_02007220  0x02007220  thumb
  *   func_0200846C  0x0200846C  thumb
- *   func_020082EC  0x020082EC  thumb
+ *   CONFIG_Create  0x020082EC  thumb
  *   func_0216BFD4  0x0216BFD4  thumb  ov010
- *   func_02031324  0x02031324  arm
+ *   PROCSYS_Create  0x02031324  arm
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_02005A98  0x02005A98  thumb
- *   func_020069D4  0x020069D4  thumb
+ *   GFL_USE_LoadWaveArcSet  0x02005A98  thumb
+ *   PM_VOICE_Prepare  0x020069D4  thumb
  *   ov194_id       0x000000C2  data
  *   ov204_id       0x000000CC  data
  *   d_021F557C     0x021F557C  data  ov194  a4
@@ -47,13 +47,13 @@ extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *func_021BD25C(int a, int b);
 extern void *func_02007220(struct Sub020071E4Ctrl *ctrl);
 extern void *func_0200846C(int a0);
-extern void *func_020082EC(int a0);
+extern void *CONFIG_Create(int a0);
 extern int *func_0216BFD4(unsigned short a0, int a1, short a2, short a3, int s0, int s1, int s2);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 extern int func_02034AC4(signed int id);
 extern void func_02034A5C(int handle);
-extern struct Sub02005A98Hdr *func_02005A98(const u32 *a0, u32 a1);
-extern int func_020069D4(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
+extern struct Sub02005A98Hdr *GFL_USE_LoadWaveArcSet(const u32 *a0, u32 a1);
+extern int PM_VOICE_Prepare(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
 extern u8 ov194_id[];
 extern u8 ov204_id[];
 extern u32 d_021F557C;
@@ -75,12 +75,12 @@ int func_021BC12C(struct Obj0203159C *a0)
     ((struct Obj00964 *)w)->f2C = (u32)func_021BD25C(1, (int)sys);
     func_02007220(sys);
     ((struct Obj00964 *)w)->f54 = (u32)func_0200846C(1);
-    ((struct Obj00964 *)w)->f58 = (u32)func_020082EC(1);
+    ((struct Obj00964 *)w)->f58 = (u32)CONFIG_Create(1);
     ((struct Obj00964 *)w)->f0 = 0;
     ((struct Obj00964 *)w)->f4 = ((struct Obj00964 *)w)->f58;
     ((struct Obj00964 *)w)->f8 = ((struct Obj00964 *)w)->f54;
     ((struct Obj00964 *)w)->f28 = (u32)func_0216BFD4(1, 0, 0, 0, 7, 0, 0);
-    ((struct Obj00964 *)w)->f30 = (unsigned int)func_02031324(1);
+    ((struct Obj00964 *)w)->f30 = (unsigned int)PROCSYS_Create(1);
 
     id = ov194_id;
     func_02034AC4((int)id);
@@ -95,8 +95,8 @@ int func_021BC12C(struct Obj0203159C *a0)
         buf[n1 + i] = d_021BFD30[i];
     func_02034A5C((int)ov204_id);
 
-    ((struct Obj00964 *)w)->f34 = (u32)func_02005A98(buf, n1 + n2);
-    r = func_020069D4(0x23c, 0, 0x40, 0, 0, 0, 0, 0);
+    ((struct Obj00964 *)w)->f34 = (u32)GFL_USE_LoadWaveArcSet(buf, n1 + n2);
+    r = PM_VOICE_Prepare(0x23c, 0, 0x40, 0, 0, 0, 0, 0);
     ((struct Obj00964 *)w)->f50 = r;
     ((struct Obj00964 *)w)->f10 = ((struct Obj00964 *)w)->f54;
     ((struct Obj00964 *)w)->f14 = ((struct Obj00964 *)w)->f58;

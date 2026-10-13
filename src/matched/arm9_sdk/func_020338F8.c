@@ -1,5 +1,5 @@
 /*
- * function: func_020338F8
+ * function: FLASH_ACCESS_GetBusyFlag
  * address:  0x020338F8
  * packet:   pkt_0203331C
  * region:   arm9
@@ -15,13 +15,13 @@
  *   g_02146998  0x02146998  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020338F8.c \
- *       --func func_020338F8 --addr 0x020338F8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/FLASH_ACCESS_GetBusyFlag.c \
+ *       --func FLASH_ACCESS_GetBusyFlag --addr 0x020338F8 --cc 1.1p1 --arm
  */
 
 extern void *g_02146998;
 
-void *func_020338F8(void)
+void *FLASH_ACCESS_GetBusyFlag(void)
 {
     return g_02146998;
 }

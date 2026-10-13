@@ -1,5 +1,5 @@
 /*
- * function: func_021D6810
+ * function: P_STA_SUB_CreateObjects
  * address: 0x021D6810
  * packet: pkt_ov131_021D6810
  * region: ov131
@@ -24,7 +24,7 @@ extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,c
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern const u8 d_021DC158[];
 extern const u8 d_021DC160[];
-void func_021D6810(u8 *a,u8 *p) {
+void P_STA_SUB_CreateObjects(u8 *a,u8 *p) {
     ObjPos pos[4];
     u8 i;
     u32 *e;

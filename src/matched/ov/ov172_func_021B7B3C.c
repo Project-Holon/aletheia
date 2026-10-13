@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021BE100  0x021BE100  thumb  ov172
- *   func_02085D3C  0x02085D3C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_021B7B5C  0x021B7B5C  arm    ov172
  *
  * Addresses are Black-image addresses.
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern int func_021BE100(void);
-extern int func_02085D3C(int a);
+extern int OS_IsRunOnTwl(int a);
 extern void func_021B7B5C(int a, int b, int c);
 
 void func_021B7B3C(int x, int y, int z)
@@ -34,7 +34,7 @@ void func_021B7B3C(int x, int y, int z)
     if (r != 1) {
         return;
     }
-    r = func_02085D3C(r);
+    r = OS_IsRunOnTwl(r);
     if (r != 1) {
         return;
     }

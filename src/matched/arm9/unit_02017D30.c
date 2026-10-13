@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02017D30, func_02017D70, func_02017DBC, func_02017DE4
+ * function: POKE_TOOL_DecodePartyParam, POKE_TOOL_EncodePartyParam, func_02017DBC, func_02017DE4
  *
  * symbols:
  *   func_02019A50  0x02019A50  thumb
@@ -33,7 +33,7 @@ struct Sav {
     u8  unk88[0x54];
 };
 
-u32 func_02017D30(struct Sav *p)
+u32 POKE_TOOL_DecodePartyParam(struct Sav *p)
 {
     u32 r = 0;
 
@@ -47,7 +47,7 @@ u32 func_02017D30(struct Sav *p)
     return r;
 }
 
-u32 func_02017D70(struct Sav *p, u32 f)
+u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f)
 {
     u32 r = 0;
 

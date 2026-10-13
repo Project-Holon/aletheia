@@ -16,14 +16,14 @@
  *   func_021D49C4  0x021D49C4  thumb  ov118
  *   func_021D49F4  0x021D49F4  thumb  ov118
  *   func_021D4A48  0x021D4A48  thumb  ov118
- *   func_02015F50  0x02015F50  thumb
- *   func_02015EA0  0x02015EA0  thumb
- *   func_02015EB0  0x02015EB0  thumb
- *   func_02015E4C  0x02015E4C  thumb
- *   func_02015C30  0x02015C30  thumb
- *   func_02015C48  0x02015C48  thumb
- *   func_02015C94  0x02015C94  thumb
- *   func_02015CAC  0x02015CAC  thumb
+ *   MCSS_SetPaletteFade  0x02015F50  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
+ *   MCSS_ResetVanishFlag  0x02015EB0  thumb
+ *   MCSS_ResetAnmStopFlag  0x02015E4C  thumb
+ *   MCSS_GetPosition  0x02015C30  thumb
+ *   MCSS_SetPosition  0x02015C48  thumb
+ *   MCSS_GetScale  0x02015C94  thumb
+ *   MCSS_SetScale  0x02015CAC  thumb
  *   func_020515CC  0x020515CC  arm
  *   func_0202208C  0x0202208C  thumb
  *   func_020307B0  0x020307B0  arm
@@ -38,7 +38,7 @@
  *   _dflt          0x0209B750  arm
  *   _dmul          0x0209B2E8  arm
  *   _dfix          0x0209C508  arm
- *   func_02015E04  0x02015E04  thumb
+ *   MCSS_SetAnmStopFlag  0x02015E04  thumb
  *   func_021DFC68  0x021DFC68  thumb  ov119
  *   func_021E3230  0x021E3230  thumb  ov119
  *   func_021D8E84  0x021D8E84  thumb  ov119
@@ -61,14 +61,14 @@ extern void func_021D43C8(void *);
 extern void func_021D49C4(void *);
 extern void func_021D49F4(void *obj, int on);
 extern void func_021D4A48(void *, int);
-extern void func_02015F50(u32, u32, u32, s32, u32);
-extern void func_02015EA0(u32);
-extern void func_02015EB0(u32);
-extern void func_02015E4C(void *p);
-extern void func_02015C30(void *p, u32 *out);
-extern void func_02015C48(u32, Vec *);
-extern void func_02015C94(u32, Vec *);
-extern void func_02015CAC(u32, void *);
+extern void MCSS_SetPaletteFade(u32, u32, u32, s32, u32);
+extern void MCSS_SetVanishFlag(u32);
+extern void MCSS_ResetVanishFlag(u32);
+extern void MCSS_ResetAnmStopFlag(void *p);
+extern void MCSS_GetPosition(void *p, u32 *out);
+extern void MCSS_SetPosition(u32, Vec *);
+extern void MCSS_GetScale(u32, Vec *);
+extern void MCSS_SetScale(u32, void *);
 extern int func_020515CC(u32, int, void *, void *);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_020307B0(u32);
@@ -97,10 +97,10 @@ void func_021D4C40(u8 *p)
 
     func_021DFA60(FRAME);
     if (FRAME == func_021D4480(1)) {
-        func_02015F50(OBJ(0), 8, 8, 0, 0xFFFF);
+        MCSS_SetPaletteFade(OBJ(0), 8, 8, 0, 0xFFFF);
     }
     if (FRAME == func_021D4480(2)) {
-        func_02015F50(OBJ(0), 0x10, 0x10, 0, 0xFFFF);
+        MCSS_SetPaletteFade(OBJ(0), 0x10, 0x10, 0, 0xFFFF);
     }
     if (FRAME == func_021D4480(3)) {
         func_021D43C8(p);
@@ -111,7 +111,7 @@ void func_021D4C40(u8 *p)
         func_021E7208(p, 0x18);
     }
     if (FRAME == func_021D4480(4)) {
-        func_02015EA0(OBJ(0));
+        MCSS_SetVanishFlag(OBJ(0));
     }
     if (FRAME == func_021D4480(0x356)) {
         func_020515CC(WORK[0], 10, 0, p);
@@ -159,38 +159,38 @@ void func_021D4C40(u8 *p)
         func_021D8E84(p, (int)func_021D49C4);
     }
     if (FRAME == func_021D4480(0x14A)) {
-        func_02015EB0(OBJ(2));
+        MCSS_ResetVanishFlag(OBJ(2));
         v1.x = -0x32000;
         v1.y = -0x96000;
         v1.z = 0xA000;
-        func_02015C48(OBJ(2), &v1);
+        MCSS_SetPosition(OBJ(2), &v1);
         v1.x = -0x32000;
         v1.y = -0x37000;
         v1.z = 0xA000;
         func_021DFD24(SLOT0);
         SLOT0 = func_021DFB84(OBJ(2), func_021D4480(0xF), &v1, HEAP);
-        func_02015E04(OBJ(2));
-        func_02015C94(OBJ(2), &v1);
+        MCSS_SetAnmStopFlag(OBJ(2));
+        MCSS_GetScale(OBJ(2), &v1);
         v1.x *= 1.2;
         v1.y *= 1.2;
-        func_02015CAC(OBJ(2), &v1);
+        MCSS_SetScale(OBJ(2), &v1);
     }
     if (FRAME == func_021D4480(0x14B)) {
-        func_02015EB0(OBJ(3));
+        MCSS_ResetVanishFlag(OBJ(3));
         v2.x = 0x3C000;
         v2.y = 0x50000;
         v2.z = -0xA000;
-        func_02015C48(OBJ(3), &v2);
+        MCSS_SetPosition(OBJ(3), &v2);
         v2.x = 0x3C000;
         v2.y = 0x5000;
         v2.z = -0xA000;
         func_021DFD24(SLOT1);
         SLOT1 = func_021DFB84(OBJ(3), func_021D4480(0xF), &v2, HEAP);
-        func_02015E04(OBJ(3));
-        func_02015C94(OBJ(3), &v2);
+        MCSS_SetAnmStopFlag(OBJ(3));
+        MCSS_GetScale(OBJ(3), &v2);
         v2.x *= 1.2;
         v2.y *= 1.2;
-        func_02015CAC(OBJ(3), &v2);
+        MCSS_SetScale(OBJ(3), &v2);
     }
     if (FRAME == func_021D4480(0x154)) {
         v3.x = -0x32000;
@@ -223,37 +223,37 @@ void func_021D4C40(u8 *p)
     if (FRAME == func_021D4480(0x1B2)) {
         func_020307B0(SLOT0);
         SLOT0 = 0;
-        func_02015EB0(OBJ(0));
-        func_02015F50(OBJ(0), 0, 0, 0, 0x7FFF);
+        MCSS_ResetVanishFlag(OBJ(0));
+        MCSS_SetPaletteFade(OBJ(0), 0, 0, 0, 0x7FFF);
         v5.x = -0x96000;
         v5.y = 0x5000;
         v5.z = -0xA000;
-        func_02015C48(OBJ(0), &v5);
+        MCSS_SetPosition(OBJ(0), &v5);
         v5.x = 0x3C000;
         v5.y = 0x5000;
         v5.z = -0xA000;
         func_021DFD24(SLOT0);
         SLOT0 = func_021DFB84(OBJ(0), func_021D4480(0x67), &v5, HEAP);
-        func_02015C94(OBJ(0), &v5);
+        MCSS_GetScale(OBJ(0), &v5);
         v5.x *= 1.2;
         v5.y *= 1.2;
-        func_02015CAC(OBJ(0), &v5);
+        MCSS_SetScale(OBJ(0), &v5);
         func_020307B0(SLOT1);
         SLOT1 = 0;
-        func_02015EB0(OBJ(1));
+        MCSS_ResetVanishFlag(OBJ(1));
         v6.x = 0x96000;
         v6.y = -0x37000;
         v6.z = 0xA000;
-        func_02015C48(OBJ(1), &v6);
+        MCSS_SetPosition(OBJ(1), &v6);
         v6.x = -0x2D000;
         v6.y = -0x37000;
         v6.z = 0xA000;
         func_021DFD24(SLOT1);
         SLOT1 = func_021DFB84(OBJ(1), func_021D4480(0x67), &v6, HEAP);
-        func_02015C94(OBJ(1), &v6);
+        MCSS_GetScale(OBJ(1), &v6);
         v6.x *= 1.2;
         v6.y *= 1.2;
-        func_02015CAC(OBJ(1), &v6);
+        MCSS_SetScale(OBJ(1), &v6);
         *(u16 *)(SLOT0 + 0x16) = 1;
         *(u16 *)(SLOT1 + 0x16) = 1;
     }
@@ -279,19 +279,19 @@ void func_021D4C40(u8 *p)
     }
     func_021D4480(0x48B);
     if (FRAME == func_021D4480(0x48B + 3)) {
-        func_02015EB0(OBJ(3));
+        MCSS_ResetVanishFlag(OBJ(3));
         v8.x = 0;
         v8.y = -0x17000;
         v8.z = 0xA000;
-        func_02015C48(OBJ(3), &v8);
-        func_02015E04(OBJ(3));
-        func_02015F50(OBJ(3), 0x10, 0x10, 0, 0x7FFF);
+        MCSS_SetPosition(OBJ(3), &v8);
+        MCSS_SetAnmStopFlag(OBJ(3));
+        MCSS_SetPaletteFade(OBJ(3), 0x10, 0x10, 0, 0x7FFF);
     }
     if (FRAME == func_021D4480(0x48F)) {
-        func_02015F50(OBJ(3), 8, 8, 0, 0x7FFF);
+        MCSS_SetPaletteFade(OBJ(3), 8, 8, 0, 0x7FFF);
     }
     if (FRAME == func_021D4480(0x490)) {
-        func_02015F50(OBJ(3), 0, 0, 0, 0x7FFF);
+        MCSS_SetPaletteFade(OBJ(3), 0, 0, 0, 0x7FFF);
     }
     if (FRAME == func_021D4480(0x28B)) {
         func_0202208C(0, 0, 0, 0x7FFF, func_021D4480(0xA), 1, HEAP);

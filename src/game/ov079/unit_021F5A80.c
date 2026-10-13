@@ -21,72 +21,60 @@
  *   func_021F5620  0x021F5620  thumb  ov077
  *   func_021F5B24  0x021F5B24  thumb  ov079
  */
-#include "../../matched/include/Obj13219.h"
+#include "../ov077/enceff_base_types.h"
+#include "../ov077/enceff_grid_types.h"
 
-struct Vec;
-struct Param;
-typedef struct { int x,y,z; } Vec;
+struct GameSystem;
+struct FieldMap;
 
-typedef unsigned int   u32;
+extern struct EncEffWork *func_02189A08(struct FieldMap *fieldMap);
+extern void func_021CF580(struct EncEffWork *eff);
+extern void *func_021F5260(void *gameSystem, const VecFx32 *cameraPos, void *build, void *draw);
+extern void func_021F582C(EncEffGridWork *work);
+extern void *func_021F5620(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
+extern int func_021F5B24(EncEffGridCell *cell);
+void *func_021F5A80(void *gameSystem, struct FieldMap *fieldMap);
+void func_021F5ABC(void *gameSystem);
+void func_021F5AE4(EncEffGridWork *work);
+extern const VecFx32 d_021F5B70;
 
-typedef unsigned char  u8;
-
-typedef struct {
-    int w;
-    int h;
-    int z;
-    void (*step)(void *);
-    int (*done)(void *);
-} Cfg;
-
-typedef unsigned short u16;
-
-extern int func_02189A08(unsigned char *p);
-extern void func_021CF580(void *);
-extern void *func_021F5260(void *a, struct Vec *src, u32 b, u32 c);
-extern void func_021F582C(u8 *p);
-extern void *func_021F5620(void *task, const struct Param *p, int flag);
-extern int func_021F5B24(int *o);
-void *func_021F5A80(void *p, int b);
-void func_021F5ABC(void *a);
-void func_021F5AE4(u8 *w);
-extern const Vec d_021F5B70;
-
-void *func_021F5A80(void *p, int b) {
-    Vec v = d_021F5B70;
-    func_021CF580((void *)func_02189A08((unsigned char *)b));
-    return func_021F5260(p, (struct Vec *)(&v), (u32)((void (*)(void))func_021F5ABC), (u32)func_021F582C);
+void *func_021F5A80(void *gameSystem, struct FieldMap *fieldMap) {
+    VecFx32 cameraPos = d_021F5B70;
+    func_021CF580(func_02189A08(fieldMap));
+    return func_021F5260(gameSystem, &cameraPos, func_021F5ABC, func_021F582C);
 }
 
 
-void func_021F5ABC(void *a)
+void func_021F5ABC(void *gameSystem)
 {
-    Cfg c;
+    EncEffGridParam param;
 
-    c.w = 4;
-    c.h = 4;
-    c.z = 0;
-    c.step = (void (*)(void *))func_021F5AE4;
-    c.done = (int (*)(void *))func_021F5B24;
-    func_021F5620(a, (const struct Param *)(&c), 0);
+    param.cellWidth = 4;
+    param.cellHeight = 4;
+    param.initCallback = 0;
+    param.stepCallback = func_021F5AE4;
+    param.cellCallback = func_021F5B24;
+    func_021F5620(gameSystem, &param, 0);
 }
 
 
 /*
+ * Step callback: starts one more cell every frame, in cell order.
+ *
  * Addresses are Black-image addresses.
  */
-void func_021F5AE4(u8 *w)
+void func_021F5AE4(EncEffGridWork *work)
 {
-    int *c = (int *)(w + 0x3000);
-    int n = ((struct Obj13219 *)w)->f3008 * ((struct Obj13219 *)w)->f300A;
+    EncEffGridStepState *step = &work->step;
+    int cellCount = work->cols * work->rows;
 
-    if (c[0] < n) {
-        if (c[1] == 0) {
-            *(int *)(w + c[0] * 64 + 0x34) = 1;
-            c[0]++;
-            c[1] = 0;
+    if (step->nextCell < cellCount) {
+        if (step->delay == 0) {
+            work->cell[step->nextCell].active = 1;
+            step->nextCell++;
+            step->delay = 0;
         } else {
-            c[1]--;
+            step->delay--;
         }
     }
 }

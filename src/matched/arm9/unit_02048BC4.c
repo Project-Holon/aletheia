@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02048BC4_File  0x020A7ED4  data
+ *   g3d_light_file  0x020A7ED4  data
  *   func_02030734       0x02030734  arm
  *
  * g3d_light.c's light-set builder, 0x02048BC4-0x02048C48 plus its one pool
@@ -69,7 +69,7 @@ struct LightSet {
     u8               count;
 };
 
-extern const char func_02048BC4_File[];
+extern const char g3d_light_file[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -79,7 +79,7 @@ struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap)
     int i;
 
     out = (struct LightSlot *)func_02030734(heap, 0x20, 1,
-                                            func_02048BC4_File, 43);
+                                            g3d_light_file, 43);
     for (i = 0; i < s->count; i++) {
         struct LightRec *r = &s->recs[i];
         u32 slot = r->slot;

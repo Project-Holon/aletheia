@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02046858  0x02046858  arm
- *   func_02046B40  0x02046B40  arm
+ *   G3D_SYSTEM_SetProjection  0x02046858  arm
+ *   G3D_SYSTEM_SetLookAt  0x02046B40  arm
  *
  * g3d_light.c's accessor run, 0x02048AD0-0x02048BC4.  Seventeen functions,
  * fifteen of them `bx lr` leaves that save no lr and therefore carry no
@@ -74,13 +74,13 @@ struct Light {
     VecFx32 unk38;
 };
 
-extern void func_02046858(const u32 *src);
-extern void func_02046B40(u8 *a0);
+extern void G3D_SYSTEM_SetProjection(const u32 *src);
+extern void G3D_SYSTEM_SetLookAt(u8 *a0);
 
 void func_02048AD0(struct Light *l)
 {
-    func_02046858((const u32 *)l);
-    func_02046B40((u8 *)(&l->unk20));
+    G3D_SYSTEM_SetProjection((const u32 *)l);
+    G3D_SYSTEM_SetLookAt((u8 *)(&l->unk20));
 }
 
 void func_02048AE8(struct Light *l, VecFx32 *out)
@@ -148,22 +148,22 @@ void func_02048B94(struct Light *l, u32 v)
     l->unk08 = v;
 }
 
-void func_02048B9C(struct Light *l, u32 *out)
+void G3D_CAMERA_GetNearClipAlt(struct Light *l, u32 *out)
 {
     *out = l->unk04;
 }
 
-void func_02048BA8(struct Light *l, u32 v)
+void G3D_CAMERA_SetNearClipAlt(struct Light *l, u32 v)
 {
     l->unk04 = v;
 }
 
-void func_02048BB0(struct Light *l, u32 *out)
+void G3D_CAMERA_GetFarClipAlt(struct Light *l, u32 *out)
 {
     *out = l->unk08;
 }
 
-void func_02048BBC(struct Light *l, u32 v)
+void G3D_CAMERA_SetFarClipAlt(struct Light *l, u32 v)
 {
     l->unk08 = v;
 }

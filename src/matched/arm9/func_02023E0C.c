@@ -1,5 +1,5 @@
 /*
- * function: func_02023E0C
+ * function: BRIGHTNESS_ChangeStep
  * address:  0x02023E0C
  * packet:   pkt_02023E0C
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * wipe_sub.c: the per-frame step of the brightness/blend interpolation
- * record that func_02023E9C arms (docs/families/wipe_sub.h, struct Interp).
+ * record that BRIGHTNESS_ChangeInit arms (docs/families/wipe_sub.h, struct Interp).
  * It advances the record's running position f1a towards the target f0a by
  * the per-step delta f14 scaled by the sign f10, pushes the result to the
  * hardware register of whichever engine the f04 bit mask selects, and
@@ -66,7 +66,7 @@
  * r1,r1,#0x10 / asrs r1,r1,#0x10` narrows v alone.  The engine register
  * words are the plain constants 0x04000050 and 0x04001050; the second is
  * NOT 0x04001000 + 0x50 computed at run time, as src/pending/
- * func_02023EF4.c's header already records for the sibling.
+ * BRIGHTNESS_ChangeRequest.c's header already records for the sibling.
  *
  * The two arms of the engine select tail-merge onto one call site, which
  * is what the image's shared `movs r2,#0x1a / ldrsh / ldr r1,[r4] / blx`
@@ -78,8 +78,8 @@
  * or a flag bit.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02023E0C.c \
- *       --func func_02023E0C --addr 0x02023E0C --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/matched/BRIGHTNESS_ChangeStep.c \
+ *       --func BRIGHTNESS_ChangeStep --addr 0x02023E0C --cc 1.1p1 --thumb
  *
  * symbols:
  *   func_0207D658  0x0207D658  arm
@@ -110,7 +110,7 @@ struct Anim {
 
 extern void func_0207D658(u32 addr, int plane, int brightness);
 
-void func_02023E0C(struct Anim *p)
+void BRIGHTNESS_ChangeStep(struct Anim *p)
 {
     s8  step;
     int v;

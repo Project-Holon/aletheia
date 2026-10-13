@@ -1,5 +1,5 @@
 /*
- * function: func_0203A458
+ * function: GFL_NET_HANDLE_SetAllTimingValue
  * address:  0x0203A458
  * packet:   pkt_0203A458
  * region:   arm9
@@ -20,14 +20,14 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A458.c \
- *       --func func_0203A458 --addr 0x0203A458 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_SetAllTimingValue.c \
+ *       --func GFL_NET_HANDLE_SetAllTimingValue --addr 0x0203A458 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-void func_0203A458(u8 *a0, u32 a1)
+void GFL_NET_HANDLE_SetAllTimingValue(u8 *a0, u32 a1)
 {
     int i;
 

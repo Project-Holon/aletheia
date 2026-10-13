@@ -1,5 +1,5 @@
 /*
- * function: func_020882C0
+ * function: OSi_DisableInterruptsAndHalt
  * address:  0x020882C0
  * packet:   pkt_020882C0
  * region:   arm9
@@ -17,7 +17,7 @@
 extern void func_02087988(void);
 extern void func_020882D0(void);
 
-void func_020882C0(void)
+void OSi_DisableInterruptsAndHalt(void)
 {
     func_02087988();
     while (1) {

@@ -11,7 +11,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Five leaves after func_0201BBE8.  The first returns 0.  The other four read
+ * Five leaves after POKE_TOOL_GetIconPalette.  The first returns 0.  The other four read
  * the OBJ character mapping bits of DISPCNT (bit 4, 1D mapping, and bits
  * 20..21, the 1D boundary) for the main engine (0x04000000) or the sub engine
  * (0x04001000) and turn the 32/64/128 KB boundary into a shift: 2/4/6 and

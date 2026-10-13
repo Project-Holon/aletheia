@@ -20,7 +20,7 @@
  *   ov208_func_021C5F34  0x021C5F34  thumb  ov208
  *   func_021C80AC        0x021C80AC  thumb
  *   func_021C80CC        0x021C80CC  thumb
- *   func_02015C48        0x02015C48  thumb
+ *   MCSS_SetPosition        0x02015C48  thumb
  *   func_021C50F8        0x021C50F8  thumb
  *   func_021C7D80        0x021C7D80  thumb
  *   func_021C5CF0        0x021C5CF0  thumb
@@ -62,7 +62,7 @@ typedef struct {
 extern void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev);
 extern void func_021C80AC(int a, int b, int c);
 extern void func_021C80CC(void *u, int k, VecF *v);
-extern void func_02015C48(void *p, u32 *src);
+extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_021C50F8(u32 obj, Vec *out);
 extern void func_021C7D80(void *a0, u8 *p, void *ctx);
 extern void func_021C5CF0(void *a0, u8 *p, void *ctx);
@@ -111,21 +111,21 @@ void ov208_func_021C6E98(void *a0, u8 *p, void *ctx)
             if (H(0x548) >= 2) {
                 if (W(0x94) != 0) {
                     func_021C80AC((int)(p + 0x94), 1, (int)(&u));
-                    func_02015C48((void *)W(0x94), (u32 *)(&u));
+                    MCSS_SetPosition((void *)W(0x94), (u32 *)(&u));
                 }
                 if (W(0xd8) != 0) {
                     func_021C80AC((int)(p + 0xd8), 1, (int)(&u));
-                    func_02015C48((void *)W(0xd8), (u32 *)(&u));
+                    MCSS_SetPosition((void *)W(0xd8), (u32 *)(&u));
                 }
                 idx = W(0x124) != 0 ? 2 : 3;
                 func_021C50F8(*(u32 *)(p + idx * 0x44 + 0xc), &u);
                 if (W(0xc) != 0) {
                     func_021C80AC((int)(p + 0xc), 2, (int)(&u));
-                    func_02015C48((void *)W(0xc), (u32 *)(&u));
+                    MCSS_SetPosition((void *)W(0xc), (u32 *)(&u));
                 }
                 if (W(0x50) != 0) {
                     func_021C80AC((int)(p + 0x50), 2, (int)(&u));
-                    func_02015C48((void *)W(0x50), (u32 *)(&u));
+                    MCSS_SetPosition((void *)W(0x50), (u32 *)(&u));
                 }
                 func_021C7D80(a0, p, ctx);
                 func_021C5CF0(a0, p, ctx);
@@ -150,7 +150,7 @@ void ov208_func_021C6E98(void *a0, u8 *p, void *ctx)
                 v.x = FX_F32_TO_FX32(x);
                 v.y = FX_F32_TO_FX32(y);
                 v.z = FX_F32_TO_FX32(a.z);
-                func_02015C48((void *)W(0xc), (u32 *)(&v));
+                MCSS_SetPosition((void *)W(0xc), (u32 *)(&v));
             }
             if (W(0x50) != 0) {
                 func_021C80CC(p + 0x50, 3, &a);
@@ -160,7 +160,7 @@ void ov208_func_021C6E98(void *a0, u8 *p, void *ctx)
                 v.x = FX_F32_TO_FX32(x);
                 v.y = FX_F32_TO_FX32(y);
                 v.z = FX_F32_TO_FX32(a.z);
-                func_02015C48((void *)W(0x50), (u32 *)(&v));
+                MCSS_SetPosition((void *)W(0x50), (u32 *)(&v));
             }
             if (W(0x94) != 0) {
                 func_021C80CC(p + 0x94, 3, &c);
@@ -170,7 +170,7 @@ void ov208_func_021C6E98(void *a0, u8 *p, void *ctx)
                 w.x = FX_F32_TO_FX32(x);
                 w.y = FX_F32_TO_FX32(y);
                 w.z = FX_F32_TO_FX32(d.z);
-                func_02015C48((void *)W(0x94), (u32 *)(&w));
+                MCSS_SetPosition((void *)W(0x94), (u32 *)(&w));
             }
             if (W(0xd8) != 0) {
                 func_021C80CC(p + 0xd8, 3, &c);
@@ -180,7 +180,7 @@ void ov208_func_021C6E98(void *a0, u8 *p, void *ctx)
                 w.x = FX_F32_TO_FX32(x);
                 w.y = FX_F32_TO_FX32(y);
                 w.z = FX_F32_TO_FX32(d.z);
-                func_02015C48((void *)W(0xd8), (u32 *)(&w));
+                MCSS_SetPosition((void *)W(0xd8), (u32 *)(&w));
             }
         }
     }

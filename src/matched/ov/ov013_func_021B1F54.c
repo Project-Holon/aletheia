@@ -1,5 +1,5 @@
 /*
- * function: func_021B1F54
+ * function: VCT_SESSION_FreePeerRecord
  * address:  0x021B1F54
  * packet:   pkt_ov013_021B1F54
  * region:   ov013
@@ -40,7 +40,7 @@ struct Pool {
 extern struct Pool g_021B4BE0;
 extern struct Sess g_021B60D8;
 
-int func_021B1F54(struct Node *p)
+int VCT_SESSION_FreePeerRecord(struct Node *p)
 {
     struct Node *prev = 0;
     struct Node *cur = g_021B4BE0.activeHead;

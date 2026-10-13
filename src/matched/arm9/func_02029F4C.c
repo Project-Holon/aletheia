@@ -1,5 +1,5 @@
 /*
- * function: func_02029F4C
+ * function: RINGTONE_SYS_Update
  * address:  0x02029F4C
  * packet:   pkt_02029F4C
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202A0E8  0x0202A0E8  thumb
+ *   RINGTONE_SYS_HandleRingTimeout  0x0202A0E8  thumb
  */
 
 typedef unsigned int   u32;
-extern void func_0202A0E8(u32 *p);
+extern void RINGTONE_SYS_HandleRingTimeout(u32 *p);
 
-void func_02029F4C(void *p)
+void RINGTONE_SYS_Update(void *p)
 {
-    func_0202A0E8(p);
+    RINGTONE_SYS_HandleRingTimeout(p);
 }

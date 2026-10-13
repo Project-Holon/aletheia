@@ -10,7 +10,7 @@
  * lever: signed int locals with the witnessed byte return prevent index-minus-one hoisting.
  * prototype: C23B8 forwards the visible index to 56860 and returns its pointer.
  * symbols:
- *   func_0201AC80 0x0201AC80 thumb
+ *   POKEPARTY_GetAliveNonEggCount 0x0201AC80 thumb
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  *   func_021C23B8 0x021C23B8 thumb ov099
  *   func_021BDD48 0x021BDD48 thumb ov099
@@ -26,7 +26,7 @@
  */
 #include "../include/Obj03224.h"
 typedef unsigned short u16;
-extern unsigned func_0201AC80(void *);
+extern unsigned POKEPARTY_GetAliveNonEggCount(void *);
 extern void func_021BAAB8(char *, int, int);
 extern int func_021C23B8(int i);
 extern unsigned char func_021BDD48(char *, void *);
@@ -45,7 +45,7 @@ int func_021C0E60(char *p, int ret)
     void *state;
     int kind, value, flag;
     index = ((struct Obj03224 *)p)->f242;
-    func_0201AC80(((struct Obj03224 *)p)->fC8);
+    POKEPARTY_GetAliveNonEggCount(((struct Obj03224 *)p)->fC8);
     if (((struct Obj03224 *)p)->f242 == 0) {
         func_021BAAB8(p, 0x4a, 0);
         ((struct Obj03224 *)p)->f1CC = 21;

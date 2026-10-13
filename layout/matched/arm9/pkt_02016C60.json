@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02016C60",
+   "name": "MCSS_ApplyMosaic",
    "address": "0x02016C60",
    "kind": "game",
    "region": "arm9",

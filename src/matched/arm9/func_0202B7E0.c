@@ -1,5 +1,5 @@
 /*
- * function: func_0202B7E0
+ * function: ISS_SYS_OnZoneChangeSwitch
  * address:  0x0202B7E0
  * packet:   pkt_0202B7BC
  * region:   arm9
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 
 extern void sub_0202C0C8(void *p);
 
-void func_0202B7E0(u8 *p, u32 b)
+void ISS_SYS_OnZoneChangeSwitch(u8 *p, u32 b)
 {
     sub_0202C0C8(((struct Obj08804 *)p)->f20);
 }

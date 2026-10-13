@@ -1,6 +1,6 @@
 /*
  * file:     unit_021D4FEC.c
- * function: func_021D4FEC
+ * function: DWCi_CELLlGetState
  * address:  0x021D4FEC
  * packet:   pkt_021D4FE0
  * region:   ov016
@@ -11,18 +11,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D4FEC   0x021D4FEC  arm
+ *   DWCi_CELLlGetState   0x021D4FEC  arm
  *
  * Byte at +0x0c of the argument.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D4FEC.c \
- *       --func func_021D4FEC --addr 0x021D4FEC --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_CELLlGetState.c \
+ *       --func DWCi_CELLlGetState --addr 0x021D4FEC --region ov016 --cc dsi/1.1p1 --arm
  */
-#include "../../matched/include/Obj18403.h"
 
-unsigned char func_021D4FEC(char *p)
+/* Cell object of the DWC GUI cell list (cell.o); only the state byte is read here. */
+typedef struct CellObj {
+    unsigned char pad00[0x0C];
+    unsigned char state;
+} CellObj;
+
+unsigned char DWCi_CELLlGetState(CellObj *cell)
 {
-    return ((struct Obj18403 *)p)->fC;
+    return cell->state;
 }

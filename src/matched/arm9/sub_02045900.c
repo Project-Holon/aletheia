@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02045900
+ * function: STRBUF_Truncate
  *
  * symbols:
  *   g_020A7E7C  0x020A7E7C  data
@@ -25,7 +25,7 @@
  * signed `int` index produces `lt` instead.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045900.c  *       --func sub_02045900 --addr 0x02045900 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/STRBUF_Truncate.c  *       --func STRBUF_Truncate --addr 0x02045900 --cc 1.1p1 --arm
  */
 
 #include "../include/G_AllocStamp.h"
@@ -35,10 +35,10 @@ typedef unsigned int u32;
 
 /*
  * The object's tail is one u16 array based at +0x8, not a scalar stamp
- * followed by a separate entry array: sub_02045900 indexes it from zero
- * with `add r3, r0, r1, lsl #1` / `strh r2, [r3, #8]`, and sub_02045838
+ * followed by a separate entry array: STRBUF_Truncate indexes it from zero
+ * with `add r3, r0, r1, lsl #1` / `strh r2, [r3, #8]`, and STRBUF_Copy
  * copies (used + 1) halfwords starting at +0x8. Slot 0 is the stamp
- * sub_020457B0 seeds from g_020A7E7C; slots 1.. are the payload.
+ * STRBUF_Create seeds from g_020A7E7C; slots 1.. are the payload.
  */
 struct U16Vec {
     u16 capacity;
@@ -49,7 +49,7 @@ struct U16Vec {
 
 /*
  * The global based at 0x020A7E7C is one small object, not two independent
- * words: sub_020457B0 loads 0x020A7E80 out of a pool as the allocator's
+ * words: STRBUF_Create loads 0x020A7E80 out of a pool as the allocator's
  * fourth argument, and that word is this symbol plus four
  * (docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md).
  * Reading it as a separate object splits one symbol into two and loses
@@ -59,7 +59,7 @@ struct U16Vec {
 
 extern struct AllocStamp g_020A7E7C;
 
-void sub_02045900(struct U16Vec *vec, u32 index)
+void STRBUF_Truncate(struct U16Vec *vec, u32 index)
 {
     if (index < vec->used) {
         vec->slots[index] = g_020A7E7C.value;

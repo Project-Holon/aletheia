@@ -1,5 +1,5 @@
 /*
- * function: func_02025358
+ * function: ACTOR_TOOL_Delete
  * address:  0x02025358
  * packet:   pkt_02025358
  * region:   arm9
@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02025358(void *p)
+void ACTOR_TOOL_Delete(void *p)
 {
     func_020307B0(p);
 }

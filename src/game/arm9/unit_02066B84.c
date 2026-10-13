@@ -21,7 +21,7 @@
  *   tbl_020A181C    0x020A181C  data
  *   g_02148B2C      0x02148B2C  data
  *   g_020A8218 0x020A8218 data
- *   g_02148B48      0x02148B48  data
+ *   sOamSoftEmuContext      0x02148B48  data
  *   g_020A18AC      0x020A18AC  data
  *   func_02067B50   0x02067B50  arm
  *   func_02067B64   0x02067B64  arm
@@ -189,7 +189,7 @@ extern const u32 tbl_020A1824[8];              /* GetNumTexChar_::texSize_ */
 extern const GXTexSizeS tbl_020A1844[3][4];    /* gxTexSizeSTbl */
 extern const GXTexSizeT tbl_020A1874[3][4];    /* gxTexSizeTTbl */
 extern const GXTexFmt tbl_020A181C[2];         /* pltFmtTbl */
-extern NNSG2dRndCoreInstance *g_02148B48;     /* pTheInstance_ */
+extern NNSG2dRndCoreInstance *sOamSoftEmuContext;     /* pTheInstance_ */
 extern fx32 g_020A8218;
 extern const MtxFx32 g_020A18AC;              /* mtxIdentity_ */
 
@@ -663,7 +663,7 @@ void func_02066E30(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u3
  * position back as fx32, undo the double-affine centring, rotate it by the
  * 2x2 SR matrix, apply the renderer's affine overwrite mode, correct for the
  * rotation centre (NNSi_G2dAdjustDifferenceOfRotateOrientation) and add the
- * base translation.  g_02148B48 is pTheInstance_; the two u16 [3][4] tables
+ * base translation.  sOamSoftEmuContext is pTheInstance_; the two u16 [3][4] tables
  * are NNSi_objSizeWTbl / NNSi_objSizeHTbl.  Only caller: func_02067340
  * (DrawCellToSurface2D_).
  *
@@ -695,8 +695,8 @@ void func_02067080(const MtxFx22 *pMtxSR, GXOamAttr *pOam, NNSG2dFVec2 *pBaseTra
     NNSi_G2dRemovePositionAdjustmentFromDoubleAffineOBJ(pOam, &objTrans);
     MulMtx22(pMtxSR, &objTrans, &objTrans);
 
-    if (g_02148B48->affineOverwriteMode != 0) {
-        if (g_02148B48->affineOverwriteMode == 2) {
+    if (sOamSoftEmuContext->affineOverwriteMode != 0) {
+        if (sOamSoftEmuContext->affineOverwriteMode == 2) {
             effectTypeAfter = GX_OAM_EFFECT_AFFINE_DOUBLE;
         } else {
             effectTypeAfter = GX_OAM_EFFECT_AFFINE;
@@ -718,8 +718,8 @@ void func_02067080(const MtxFx22 *pMtxSR, GXOamAttr *pOam, NNSG2dFVec2 *pBaseTra
 
 static inline const MtxFx32 *RndCoreGetCurrentMtx_(void)
 {
-    if (g_02148B48->pCurrentMxt) {
-        return g_02148B48->pCurrentMxt;
+    if (sOamSoftEmuContext->pCurrentMxt) {
+        return sOamSoftEmuContext->pCurrentMxt;
     } else {
         return &g_020A18AC;
     }
@@ -758,7 +758,7 @@ static inline void NNS_G2dCopyCellAsOamAttr(const NNSG2dCellData *pCell, u16 idx
 static inline void HandleCellOamBackFunc_(DrawOamCB pFunc, const NNSG2dCellData *pCell, u16 oamIdx)
 {
     if (pFunc) {
-        (*pFunc)(g_02148B48, pCell, oamIdx);
+        (*pFunc)(sOamSoftEmuContext, pCell, oamIdx);
     }
 }
 
@@ -801,11 +801,11 @@ static inline u16 LoadMtxCacheAsAffineParams_(NNSG2dRndCore2DMtxCache *pMtxCache
     if (!IsMtxCacheRegisteredAsAffineParams_(affineIdx)) {
         {
             if (type == OAM_FLIP_NONE) {
-                affineIdx = (*g_02148B48->pFuncOamAffineRegister)(&pMtxCache->m22);
+                affineIdx = (*sOamSoftEmuContext->pFuncOamAffineRegister)(&pMtxCache->m22);
             } else {
                 MtxFx22 mtxTemp;
                 MakeFlipMtx_(&pMtxCache->m22, &mtxTemp, type);
-                affineIdx = (*g_02148B48->pFuncOamAffineRegister)(&mtxTemp);
+                affineIdx = (*sOamSoftEmuContext->pFuncOamAffineRegister)(&mtxTemp);
             }
 
             SetMtxCacheAffineIndex_(pMtxCache, pSurface->type, type, affineIdx);
@@ -818,8 +818,8 @@ static inline u16 LoadMtxCacheAsAffineParams_(NNSG2dRndCore2DMtxCache *pMtxCache
 static inline void OverwriteOamFlipFlag_(GXOamAttr *pOam)
 {
     {
-        const BOOL bFlipH = func_02067B50((const struct G2dOamState *)g_02148B48) ^ NNSi_G2dGetOamFlipH(pOam);
-        const BOOL bFlipV = func_02067B64((const struct G2dOamState *)g_02148B48) ^ NNSi_G2dGetOamFlipV(pOam);
+        const BOOL bFlipH = func_02067B50((const struct G2dOamState *)sOamSoftEmuContext) ^ NNSi_G2dGetOamFlipH(pOam);
+        const BOOL bFlipV = func_02067B64((const struct G2dOamState *)sOamSoftEmuContext) ^ NNSi_G2dGetOamFlipV(pOam);
 
         pOam->attr01 &= ~0x10000000;
         pOam->attr01 |= bFlipH << 28;
@@ -831,16 +831,16 @@ static inline void OverwriteOamFlipFlag_(GXOamAttr *pOam)
 
 static inline void DoFlipTransforme_(GXOamAttr *pOam, NNSG2dFVec2 *pBaseTrans)
 {
-    if (g_02148B48->flipFlag != 0) {
+    if (sOamSoftEmuContext->flipFlag != 0) {
         const GXOamShape shape = NNS_G2dGetOAMSize(pOam);
 
         OverwriteOamFlipFlag_(pOam);
 
-        if (func_02067B50((const struct G2dOamState *)g_02148B48)) {
+        if (func_02067B50((const struct G2dOamState *)sOamSoftEmuContext)) {
             pOam->x = -pOam->x - NNS_G2dGetOamSizeX(&shape);
         }
 
-        if (func_02067B64((const struct G2dOamState *)g_02148B48)) {
+        if (func_02067B64((const struct G2dOamState *)sOamSoftEmuContext)) {
             pOam->y = (u8)(-pOam->y - NNS_G2dGetOamSizeY(&shape));
         }
     }
@@ -852,7 +852,7 @@ static inline void DoFlipTransforme_(GXOamAttr *pOam, NNSG2dFVec2 *pBaseTrans)
 
 /*
  * NitroSystem g2d DrawCellToSurface2D_ (g2d_RendererCore.c): the 2D (OAM)
- * cell draw loop.  g_02148B48 is pTheInstance_ (NNSG2dRndCoreInstance),
+ * cell draw loop.  sOamSoftEmuContext is pTheInstance_ (NNSG2dRndCoreInstance),
  * g_020A18AC mtxIdentity_, func_02067080 DoAffineTransforme_,
  * func_02067B50 / func_02067B64 NNS_G2dIsRndCoreFlipH / FlipV, the two
  * u16 [3][4] tables NNSi_objSizeWTbl / NNSi_objSizeHTbl.
@@ -880,20 +880,20 @@ void func_02067340(const NNSG2dRndCoreSurface *pSurface, const NNSG2dCellData *p
     baseTrans.y -= pSurface->viewRect.posTopLeft.y;
 
     {
-        const u32 baseCharOffset = g_02148B48->base2DCharOffset;
-        const BOOL bAffined = IsRndCore2DAffineTransformed_(g_02148B48);
+        const u32 baseCharOffset = sOamSoftEmuContext->base2DCharOffset;
+        const BOOL bAffined = IsRndCore2DAffineTransformed_(sOamSoftEmuContext);
 
         u16 i;
-        GXOamAttr *pTempOam = &g_02148B48->currentOam;
+        GXOamAttr *pTempOam = &sOamSoftEmuContext->currentOam;
         u16 oamAffinIdx = 0xFFFE;
 
         for (i = 0; i < pCell->numOAMAttrs; i++) {
-            g_02148B48->bDrawEnable = 1;
+            sOamSoftEmuContext->bDrawEnable = 1;
             NNS_G2dCopyCellAsOamAttr(pCell, i, pTempOam);
 
             HandleCellOamBackFunc_(pSurface->pBeforeDrawOamBackFunc, pCell, i);
 
-            if (!g_02148B48->bDrawEnable) {
+            if (!sOamSoftEmuContext->bDrawEnable) {
                 continue;
             }
 
@@ -901,7 +901,7 @@ void func_02067340(const NNSG2dRndCoreSurface *pSurface, const NNSG2dCellData *p
 
             if (bAffined) {
                 oamAffinIdx =
-                    LoadMtxCacheAsAffineParams_(g_02148B48->pCurrentMtxCacheFor2D,
+                    LoadMtxCacheAsAffineParams_(sOamSoftEmuContext->pCurrentMtxCacheFor2D,
                                                 pSurface,
                                                 (OAM_FLIP)((NNSi_G2dGetOamFlipV(pTempOam) << 1) | NNSi_G2dGetOamFlipH(pTempOam)));
                 NNSi_G2dGetMtxRS(pCurrMtx, &mtxSR);
@@ -911,7 +911,7 @@ void func_02067340(const NNSG2dRndCoreSurface *pSurface, const NNSG2dCellData *p
                 DoFlipTransforme_(pTempOam, &baseTrans);
             }
 
-            if (1 != (*g_02148B48->pFuncOamRegister)(pTempOam, oamAffinIdx, 0)) {
+            if (1 != (*sOamSoftEmuContext->pFuncOamRegister)(pTempOam, oamAffinIdx, 0)) {
                 return;
             }
 
@@ -945,7 +945,7 @@ static inline int OamY(const GXOamAttr *oam)
 
 static inline u16 PosX_(const GXOamAttr *oam, GXOamShape shape)
 {
-    if (func_02067B50((const struct G2dOamState *)g_02148B48)) {
+    if (func_02067B50((const struct G2dOamState *)sOamSoftEmuContext)) {
         int x = OamX(oam);
         return -(x + *(u16 *)((u8 *)tbl_020A17F0 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2));
     } else
@@ -955,7 +955,7 @@ static inline u16 PosX_(const GXOamAttr *oam, GXOamShape shape)
 
 static inline u16 PosY_(const GXOamAttr *oam, GXOamShape shape)
 {
-    if (func_02067B64((const struct G2dOamState *)g_02148B48)) {
+    if (func_02067B64((const struct G2dOamState *)sOamSoftEmuContext)) {
         int y = OamY(oam);
         return -(y + *(u16 *)((u8 *)tbl_020A17D8 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2));
     } else
@@ -988,23 +988,23 @@ static inline u16 PosY_(const GXOamAttr *oam, GXOamShape shape)
  */
 void func_0206775C(GXOamAttr *oam)
 {
-    func_0207D8E0(g_02148B48->mtx);
-    if (g_02148B48->flipFlag != 0) {
+    func_0207D8E0(sOamSoftEmuContext->mtx);
+    if (sOamSoftEmuContext->flipFlag != 0) {
         GXOamShape shape = G2_GetOBJShape(oam);
         s16 x = PosX_(oam, shape);
         s16 y = PosY_(oam, shape);
         int hf; u32 vf;
         hf = oam->flipH;
-        hf = func_02067B50((const struct G2dOamState *)g_02148B48) ^ hf;
+        hf = func_02067B50((const struct G2dOamState *)sOamSoftEmuContext) ^ hf;
         vf = oam->flipV;
-        vf = func_02067B64((const struct G2dOamState *)g_02148B48) ^ vf;
+        vf = func_02067B64((const struct G2dOamState *)sOamSoftEmuContext) ^ vf;
         oam->attr01 &= ~0x10000000;
         oam->attr01 |= hf << 28;
         oam->attr01 &= ~0x20000000;
         oam->attr01 |= vf << 29;
-        func_02066E30(x, y, -1, oam, (u32)g_02148B48->pImgProxy + 0xc, g_02148B48->baseTexAddr3D, g_02148B48->basePltAddr3D);
+        func_02066E30(x, y, -1, oam, (u32)sOamSoftEmuContext->pImgProxy + 0xc, sOamSoftEmuContext->baseTexAddr3D, sOamSoftEmuContext->basePltAddr3D);
     } else {
-        func_02066E30(OamX(oam), OamY(oam), -1, oam, (u32)g_02148B48->pImgProxy + 0xc, g_02148B48->baseTexAddr3D, g_02148B48->basePltAddr3D);
+        func_02066E30(OamX(oam), OamY(oam), -1, oam, (u32)sOamSoftEmuContext->pImgProxy + 0xc, sOamSoftEmuContext->baseTexAddr3D, sOamSoftEmuContext->basePltAddr3D);
     }
 }
 
@@ -1030,7 +1030,7 @@ void func_0206775C(GXOamAttr *oam)
  *   docs/notes/pkt_02066E30.c.txt records how close that row now is.
  *
  * Two levers, both needed:
- *   - the gate store `g_02148B48->gate = 1;` must precede the read of
+ *   - the gate store `sOamSoftEmuContext->gate = 1;` must precede the read of
  *     `lst->rows`, or the row base is loaded first and the first 0x10
  *     bytes of the loop body permute.
  *   - the entry test is `lst->count <= i` on the ZERO counter, not
@@ -1039,16 +1039,16 @@ void func_0206775C(GXOamAttr *oam)
  */
 void func_02067998(const NNSG2dRndCoreSurface *pSurface, const NNSG2dCellData *pCell)
 {
-    NNSG2dRndCoreInstance *pRnd = g_02148B48;
+    NNSG2dRndCoreInstance *pRnd = sOamSoftEmuContext;
     u16 i;
 
     for (i = 0; i < pCell->numOAMAttrs; i++) {
-        g_02148B48->bDrawEnable = 1;
+        sOamSoftEmuContext->bDrawEnable = 1;
         NNS_G2dCopyCellAsOamAttr(pCell, i, &pRnd->currentOam);
 
         HandleCellOamBackFunc_(pSurface->pBeforeDrawOamBackFunc, pCell, i);
 
-        if (g_02148B48->bDrawEnable != 0)
+        if (sOamSoftEmuContext->bDrawEnable != 0)
             func_0206775C(&pRnd->currentOam);
 
         HandleCellOamBackFunc_(pSurface->pAfterDrawOamBackFunc, pCell, i);

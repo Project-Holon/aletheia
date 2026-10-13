@@ -43,7 +43,7 @@
  *   func_02017588 0x02017588 thumb
  *   func_02017E40 0x02017E40 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_02017FA8 0x02017FA8 thumb
+ *   POKE_TOOL_SetDefaultMoves 0x02017FA8 thumb
  *   func_0201808C 0x0201808C thumb
  *   func_020180F4 0x020180F4 thumb
  *   func_02018A00 0x02018A00 thumb
@@ -59,8 +59,8 @@
  *   func_02017EAC 0x02017EAC thumb
  *   func_0202D0D4 0x0202D0D4 thumb
  *   func_02049F78 0x02049F78 arm
- *   func_020185F4 0x020185F4 thumb
- *   func_0202D6F4 0x0202D6F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
+ *   POKEGRA_LoadCharDataPP 0x0202D6F4 thumb
  *   func_02049238 0x02049238 arm
  *   d_021DFBB0 0x021DFBB0 data a4
  *   d_021DFA14 0x021DFA14 data a4
@@ -197,7 +197,7 @@ extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_02017FA8(void *p);
+extern u32 POKE_TOOL_SetDefaultMoves(void *p);
 extern u32 func_0201808C(void *p, u32 move);
 extern void func_020180F4(void *p, int move);
 extern void func_02018A00(void *p, u32 species, u32 arg);
@@ -213,8 +213,8 @@ extern int func_0202D060(void);
 extern u32 func_02017EAC(void *p);
 extern s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void *func_020185F4(void *p);
-extern u32 func_0202D6F4(void *a0, void *mon, u32 a2, u32 a3);
+extern void *POKE_TOOL_GetBoxParam(void *p);
+extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
 extern void func_02049238(void *p);
 
 struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
@@ -351,7 +351,7 @@ struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
             }
             func_02017588(mon, r->species, level, id64, ivs, rnd);
             func_02017E40(mon, 6, r->f10);
-            func_02017FA8(mon);
+            POKE_TOOL_SetDefaultMoves(mon);
             for (i = 0; i < 4; i++) {
                 u16 m = mv[i];
                 if (m != 0 && m < 0x230) {
@@ -457,7 +457,7 @@ struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
             a3 = func_02017E1C(res, 0x6e, 0);
             idx = func_0202D0D4(a0, a1, a2, a3, func_02017EAC(res), 0, func_02017E1C(res, 0x4c, 0));
             out->f13C = func_02049F78(arc, idx, (u32)(&out->f140), out->heap);
-            out->f134 = (u32)func_0202D6F4(&out->f138, func_020185F4(res), 0, out->heap);
+            out->f134 = (u32)POKEGRA_LoadCharDataPP(&out->f138, POKE_TOOL_GetBoxParam(res), 0, out->heap);
             func_020307B0(res);
             func_02049238(arc);
         }

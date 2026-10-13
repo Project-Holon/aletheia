@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_021797A4     0x021797A4  data   a4
+ *   g_pWhPipeWork     0x021797A4  data   a4
  *   func_0203CD98  0x0203CD98  arm
  *   func_0203D798  0x0203D798  arm
  *   func_02088234  0x02088234  arm
  *   func_02082D44  0x02082D44  arm
- *   func_02177D58  0x02177D58  thumb  ov014
+ *   NET_WHPIPE_SetBeaconGameInfo  0x02177D58  thumb  ov014
  */
 #include "../include/Obj07354.h"
 #include "../include/Obj09380.h"
@@ -25,12 +25,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern struct W *g_021797A4;
+extern struct W *g_pWhPipeWork;
 extern int func_0203CD98(void);
 extern void *func_0203D798(void);
 extern void func_02088234(void);
 extern void func_02082D44(void *src, void *dst, int n);
-extern void func_02177D58(u8 *buf, u32 len);
+extern void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len);
 
 typedef int (*SizeFn)(u32 a);
 typedef u32 (*DataFn)(u32 a);
@@ -45,7 +45,7 @@ void func_0217778C(void)
 
     if (func_0203CD98() == 0)
         return;
-    w = ((u8 *)g_021797A4);
+    w = ((u8 *)g_pWhPipeWork);
     st = func_0203D798();
     sfn = *(SizeFn *)&((struct Obj09380 *)st)->f1C;
     if (sfn == 0)
@@ -61,5 +61,5 @@ void func_0217778C(void)
     e[5] = 0;
     e[7] = w[0xCEA];
     func_02082D44((void *)(*(DataFn *)(st + 0x18))(((struct Obj09381 *)w)->fC64), e + 8, n);
-    func_02177D58(w + 0xC6E, 0x70);
+    NET_WHPIPE_SetBeaconGameInfo(w + 0xC6E, 0x70);
 }

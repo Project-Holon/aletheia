@@ -1,5 +1,5 @@
 /*
- * function: func_0202B914
+ * function: ISS_3DS_SYS_SetVolume
  * address:  0x0202B914
  * packet:   pkt_0202B7BC
  * region:   arm9
@@ -13,8 +13,8 @@
  * relocations; pure.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B914.c \
- *       --func func_0202B914 --addr 0x0202B914 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_3DS_SYS_SetVolume.c \
+ *       --func ISS_3DS_SYS_SetVolume --addr 0x0202B914 --thumb --cc 1.1p1
  */
 #include "../include/Obj15845.h"
 
@@ -23,7 +23,7 @@ typedef unsigned int  u32;
 
 struct Obj;
 
-void func_0202B914(struct Obj *o, u32 v)
+void ISS_3DS_SYS_SetVolume(struct Obj *o, u32 v)
 {
     if (v > 0x7f) {
         v = 0x7f;

@@ -10,7 +10,7 @@
  * status: EXACT
  *
  * 2026-10-05: func_02035C60 is declared int here (as in ov173 func_021B68C8): the listing tests r0 after it,
- * but its matched arm9 definition is void (tail call of func_02035C48, which returns a value).
+ * but its matched arm9 definition is void (tail call of TOUCHPANEL_GetTrgSys, which returns a value).
  */
 typedef unsigned int u32;
 extern u32 func_0201CE30(void *p);

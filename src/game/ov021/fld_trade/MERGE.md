@@ -34,3 +34,7 @@ translation units where func_02030734 (asm-only, no C definition) was declared w
 parameter or plain `a` in func_021CBFB0 (no narrowing), `heap & 0xFFFF`, `(u16)heap`, `heap % 65536` at the call,
 u16 heap parameter (ldrh, add r4,sp), `register u16` copy (narrows at entry), optimization_level 1 on func_021CBFB0
 (no CSE but scheduling differs, 24 bytes off). Keep the two parts.
+
+CL125b (2026-10-13): split along the __FILE__ anchors into fld_trade.c, scrcmd_palpark.c, party_select_list.c,
+field_bbd_color.c, unit_021CD2A4.c (name-input event), unit_021CD400.c (zone area lookup) and comm_entry_menu.c. Each file
+declares func_02030734 its own way, so the heap boundary above is now a file boundary. All seven EXACT.

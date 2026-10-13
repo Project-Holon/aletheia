@@ -12,6 +12,7 @@
  * symbols:
  *   DSP_SendDataCore  0x0270502C  arm
  *   DSP_RecvDataCore  0x0270505C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -21,16 +22,16 @@ typedef struct Sys {
     u32 pad0[0x1a];
     u32 mask;
 } Sys;
-extern s32 func_02085D3C(void);
+extern s32 OS_IsRunOnTwl(void);
 extern void DSP_SendDataCore(u32 ch, u32 v);
 extern u16 DSP_RecvDataCore(u32 ch);
 void DSP_StopDSPComponent(void)
 {
     (*(Sys **)0x027344AC)->mask = 0;
-    if (func_02085D3C() == 1) {
+    if (OS_IsRunOnTwl() == 1) {
         DSP_SendDataCore(2, 0x8000);
     }
-    if (func_02085D3C() == 1) {
+    if (OS_IsRunOnTwl() == 1) {
         DSP_RecvDataCore(2);
     }
 }

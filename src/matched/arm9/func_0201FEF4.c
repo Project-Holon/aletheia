@@ -1,5 +1,5 @@
 /*
- * function: func_0201FEF4
+ * function: BMP_MENU_DeleteYesNo
  * address:  0x0201FEF4
  * packet:   pkt_0201F93C
  * region:   arm9
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   BMP_MENU_Delete  0x0201F9E8  thumb
  */
 #include "../include/Obj02993.h"
 
@@ -24,9 +27,9 @@ extern u32 func_0201F868(void *p);
 struct Descriptor;
 extern u32 func_020452E8(struct Descriptor *d);
 struct Obj;
-extern void func_0201F9E8(struct Obj *o, u8 *out);
+extern void BMP_MENU_Delete(struct Obj *o, u8 *out);
 
-void func_0201FEF4(u8 *o)
+void BMP_MENU_DeleteYesNo(u8 *o)
 {
     func_0201C6EC((struct PrintSys *)(((struct Obj02993 *)o)->f18));
     func_0201C4C0((struct PrintSys *)(((struct Obj02993 *)o)->f18));
@@ -35,5 +38,5 @@ void func_0201FEF4(u8 *o)
     func_0201D83C(((struct Obj02993 *)o)->f1C);
     func_0201F868(((struct Obj02993 *)o)->f0);
     func_020452E8(((struct Obj02993 *)o)->f4);
-    func_0201F9E8((struct Obj *)o, 0);
+    BMP_MENU_Delete((struct Obj *)o, 0);
 }

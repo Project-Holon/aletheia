@@ -1,5 +1,5 @@
 /*
- * function: func_021763BC
+ * function: INTRUDE_COMM_ResetOutcomes
  * address:  0x021763BC
  * packet:   pkt_ov011_021763BC
  * region:   ov011
@@ -22,7 +22,7 @@ typedef unsigned int  u32;
 
 extern void func_021763D8(u8 *p, u32 key);
 
-void func_021763BC(u8 *p)
+void INTRUDE_COMM_ResetOutcomes(u8 *p)
 {
     int i;
 

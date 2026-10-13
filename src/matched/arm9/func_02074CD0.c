@@ -8,10 +8,10 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_020743EC  0x020743EC  arm
- *   func_0207466C  0x0207466C  arm
+ *   NNS_SndArcGetBankInfo  0x020743EC  arm
+ *   NNS_SndArcGetFileAddress  0x0207466C  arm
  *   func_02075014  0x02075014  arm
- *   func_02074450  0x02074450  arm
+ *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
  *   func_02074E10  0x02074E10  arm
  *   func_02075404  0x02075404  arm
  *   func_0208A2BC  0x0208A2BC  arm
@@ -29,7 +29,7 @@
  * shape.  The image's `ldrne r2, [sp, #4]` at 0x02074DD0 was never a
  * scratch register choice: it loads `sub` straight into the third argument
  * register for the call, and the `cmpne r2, #0` guard reads it from there.
- * Every other lever (the union header, one-argument func_02074450, the
+ * Every other lever (the union header, one-argument NNS_SndArcGetWaveArcInfo, the
  * func_02074E10 result returned as is, the int counter, the ../2.0/sp2 pin)
  * is documented in docs/notes/pkt_02074CD0.c.txt.
  *
@@ -48,10 +48,10 @@ union Hdr {
     struct { unsigned v : 24; unsigned flag : 1; unsigned rest : 7; } b;
 };
 
-extern void *func_020743EC(int index);
-extern u32   func_0207466C(u32 a);
+extern void *NNS_SndArcGetBankInfo(int index);
+extern u32   NNS_SndArcGetFileAddress(u32 a);
 extern u32   func_02075014(u32 a, u32 b, u32 c);
-extern void *func_02074450(int index);
+extern void *NNS_SndArcGetWaveArcInfo(int index);
 extern u32   func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern u32   func_02075404(u32 a, u32 b, u32 c, u32 d, u32 *heap);
 extern void  func_0208A2BC(u32 bank, u32 i, u32 waveArc);
@@ -66,20 +66,20 @@ u32 func_02074CD0(u32 a, u32 flags, u32 c, u32 d, u32 *out)
     u32 sub;
     u32 r;
 
-    g = func_020743EC(a);
+    g = NNS_SndArcGetBankInfo(a);
     if (g == 0) return 4;
 
     if (flags & 2) {
         bank = func_02075014(g->f0, c, d);
         if (bank == 0) return 8;
     } else {
-        bank = func_0207466C(g->f0);
+        bank = NNS_SndArcGetFileAddress(g->f0);
     }
 
     want = flags & 4;
     for (i = 0; i < 4; i++) {
         if (g->slot[i] != 0xffff) {
-            o = func_02074450(g->slot[i]);
+            o = NNS_SndArcGetWaveArcInfo(g->slot[i]);
             if (o == 0) return 5;
             r = func_02074E10(g->slot[i], flags, c, d, &sub);
             if (r != 0) return r;

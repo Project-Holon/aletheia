@@ -14,7 +14,7 @@
  *
  * symbols:
  *   DWCi_GetMatchCnt  0x02175F3C arm
- *   func_0216BA08  0x0216BA08  arm  ov009
+ *   DWC_IsServerMyself  0x0216BA08  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_0217695C  0x0217695C  arm  ov009
  *   func_02175F4C  0x02175F4C  arm  ov009
@@ -23,7 +23,7 @@
  *   DWC_GetState                    0x0216B994 arm
  *   MI_CpuCopy8                     0x02082D44 arm
  *   DWCi_ProcessRecvMatchCommand    0x021702A0 arm
- *   func_0216B994                0x0216B994 arm   ov009
+ *   DWC_GetState                0x0216B994 arm   ov009
  *   func_02082D44                0x02082D44 arm
  *   func_020949F4                0x020949F4 arm
  *   func_021702A0                0x021702A0 arm   ov009
@@ -191,7 +191,7 @@ struct DWCstBinaryMessage_02174ED0 {
 };
 
 extern struct DWCstMatchControl * DWCi_GetMatchCnt(void);
-extern int func_0216BA08(void);
+extern int DWC_IsServerMyself(void);
 extern int func_02175F3C(void);
 extern int func_0217695C(void);
 extern void func_02175F4C(int status);
@@ -201,7 +201,7 @@ extern int DWC_GetState(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern int DWCi_ProcessRecvMatchCommand(unsigned char command, int srcPid,
     unsigned long srcIP, unsigned short srcPort, unsigned long *data, int len);
-extern int func_0216B994(void);
+extern int DWC_GetState(void);
 extern void func_02082D44(void *srcp, void *dstp, u32 size);
 extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern int func_021702A0(u8 command, int srcPid, u32 srcIP, u16 srcPort, u32 *data, int len);
@@ -228,7 +228,7 @@ void func_02174D28(int cookie)
 {
     int nnError;
 
-    if (func_0216BA08() == 0 && ((MatchCnt *)func_02175F3C())->f57C != 0)
+    if (DWC_IsServerMyself() == 0 && ((MatchCnt *)func_02175F3C())->f57C != 0)
         return;
     if (((MatchCnt *)func_02175F3C())->f61C == 1) {
         if (func_0217695C() == 0)
@@ -285,8 +285,8 @@ void func_02174ED0(char *data, int len)
     int boolResult;
     int offset = 0;
 
-    if (func_0216B994() != 4) {
-        if (func_0216B994() != 5)
+    if (DWC_GetState() != 4) {
+        if (DWC_GetState() != 5)
             return;
         if (DWCi_GetMatchCnt()->qr2MatchType != 2 && DWCi_GetMatchCnt()->qr2MatchType != 3)
             return;

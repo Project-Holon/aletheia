@@ -1,5 +1,5 @@
 /*
- * function: func_0216B65C
+ * function: DWC_CloseAllConnectionsHard
  * address:  0x0216B65C
  * packet:   pkt_ov009_0216B65C
  * region:   ov009
@@ -17,15 +17,15 @@
  *   func_0217603C                0x0217603C arm   ov009
  *   func_0216F20C                0x0216F20C arm   ov009
  *   DWCi_NNFreeNegotiateList     0x02176B34 arm   ov009
- *   func_0216BC84                0x0216BC84 arm   ov009
+ *   DWCi_SetState                0x0216BC84 arm   ov009
  *   DWCi_ClearQR2Key             0x0216EC18 arm   ov009
  *   func_0217601C                0x0217601C arm   ov009
  *   func_02175F4C                0x02175F4C arm   ov009
  *   func_0216F6C0                0x0216F6C0 arm   ov009
  *   func_02195DE4                0x02195DE4 arm   ov009
  *   func_0217637C                0x0217637C arm   ov009
- *   func_0216C230                0x0216C230 arm   ov009
- *   func_0216B994                0x0216B994 arm   ov009
+ *   DWCi_GT2ClosedProcess                0x0216C230 arm   ov009
+ *   DWC_GetState                0x0216B994 arm   ov009
  *   g_021AA878                   0x021AA878 data
  *   g_021AA8A0                   0x021AA8A0 data
  */
@@ -63,17 +63,17 @@ extern int func_0217603C(void);
 struct GTI2Connection;
 extern int func_0216F20C(int status);
 extern void DWCi_NNFreeNegotiateList(void);
-extern void func_0216BC84(int state);
+extern void DWCi_SetState(int state);
 extern void DWCi_ClearQR2Key(void);
 extern void func_0217601C(void);
 extern void func_02175F4C(int state);
 extern void func_0216F6C0(void);
 extern void func_02195DE4(int *p);
 extern char *func_0217637C(int index);
-extern void func_0216C230(struct GTI2Connection *connection, int reason, int isPseudClose, unsigned char closeAid);
-extern int func_0216B994(void);
+extern void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason, int isPseudClose, unsigned char closeAid);
+extern int DWC_GetState(void);
 
-int func_0216B65C(void)
+int DWC_CloseAllConnectionsHard(void)
 {
     struct DWCstNodeInfo *pNodeInfo;
     int i;
@@ -95,7 +95,7 @@ int func_0216B65C(void)
         func_0217603C();
         func_0216F20C(1);
         DWCi_NNFreeNegotiateList();
-        func_0216BC84(3);
+        DWCi_SetState(3);
         DWCi_ClearQR2Key();
         func_0217601C();
         func_02175F4C(0);
@@ -108,16 +108,16 @@ int func_0216B65C(void)
         for (i = 0; i < func_0217603C(); i++) {
             pNodeInfo = (struct DWCstNodeInfo *)func_0217637C(i);
             if (pNodeInfo->profileID != ((struct DWCControl *)g_021AA878.st)->myProfileID)
-                func_0216C230(0, 0, 1, pNodeInfo->aid);
+                DWCi_GT2ClosedProcess(0, 0, 1, pNodeInfo->aid);
         }
     }
     ((struct DWCControl *)g_021AA878.st)->f2d = 0;
     func_0217601C();
     func_02175F4C(0);
     func_0216F6C0();
-    if (func_0216B994() != 3) {
+    if (DWC_GetState() != 3) {
         DWCi_NNFreeNegotiateList();
-        func_0216BC84(3);
+        DWCi_SetState(3);
         DWCi_ClearQR2Key();
     }
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0216BBCC
+ * function: DWCi_GetGT2ConnectionByIdx
  * address:  0x0216BBCC
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern int g_021AA8A0[];
 
-int *func_0216BBCC(int i)
+int *DWCi_GetGT2ConnectionByIdx(int i)
 {
     return &g_021AA8A0[i];
 }

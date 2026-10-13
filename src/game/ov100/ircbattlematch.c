@@ -14,7 +14,7 @@
  *
  * symbols:
  *   d_021BB800  0x021BB800  data  a4
- *   func_0203D0D0 0x0203D0D0 arm
+ *   GFL_NET_IRC_WIRELESS_Exit 0x0203D0D0 arm
  *   func_0203CEAC 0x0203CEAC arm
  *   func_020221A4 0x020221A4 thumb
  *   func_02021518  0x02021518  thumb
@@ -37,7 +37,7 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B570 0x0204B570 arm
+ *   CLACT_SetActorAffineMode 0x0204B570 arm
  *   func_0204B454 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  *   func_02080D24 0x02080D24 arm
@@ -54,15 +54,15 @@
  *   func_0203EFC8 0x0203EFC8 arm
  *   func_02035C60 0x02035C60 arm
  *   func_02039CB4 0x02039CB4 arm
- *   func_0203D7B0 0x0203D7B0 arm
+ *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   func_0203D7BC 0x0203D7BC arm
  *   func_020061E4 0x020061E4 thumb
  *   func_02039C68 0x02039C68 arm
  *   d_021BB664 0x021BB664 data a4
  *   d_021BB678 0x021BB678 data a4
  *   func_0201AA50 0x0201AA50 thumb
- *   func_0201BA34 0x0201BA34 thumb
- *   func_0201A918 0x0201A918 thumb
+ *   POKE_TOOL_HealParty 0x0201BA34 thumb
+ *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_0203D3F8 0x0203D3F8 arm
  *   func_0203D3A8 0x0203D3A8 arm
  *   func_02087C6C 0x02087C6C arm
@@ -79,7 +79,7 @@
  *   func_0201DD68 0x0201DD68 thumb
  *   func_0203A574 0x0203A574 arm
  *   d_021BB6C0 0x021BB6C0 data a4
- *   func_0203D0B8 0x0203D0B8 arm
+ *   GFL_NET_IRC_WIRELESS_GetMacAddress 0x0203D0B8 arm
  *   func_020433E0 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_02043534 0x02043534 arm
@@ -112,7 +112,7 @@
  *   func_02009A34 0x02009A34 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_0203D170 0x0203D170 arm
+ *   GFL_NET_IRC_WIRELESS_GetRetryCount 0x0203D170 arm
  *   func_020452E8 0x020452E8 arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   func_02045088 0x02045088 arm
@@ -146,9 +146,9 @@
  *   func_0204E804 0x0204E804 arm
  *   d_021BB83C 0x021BB83C data a4
  *   func_0203CBAC 0x0203CBAC arm
- *   func_0203D0C4 0x0203D0C4 arm
- *   func_0203D164 0x0203D164 arm
- *   func_0203D0AC 0x0203D0AC arm
+ *   GFL_NET_IRC_WIRELESS_SetSessionParam 0x0203D0C4 arm
+ *   GFL_NET_IRC_WIRELESS_SetRetryRequest 0x0203D164 arm
+ *   GFL_NET_SetGameKindOverride 0x0203D0AC arm
  *   func_02040DA8 0x02040DA8 arm
  *   func_0203FB44 0x0203FB44 arm
  *   func_020403F4 0x020403F4 arm
@@ -158,19 +158,19 @@
  *   func_02027FD8 0x02027FD8 thumb
  *   func_0203CD98 0x0203CD98 arm
  *   func_021799C0 0x021799C0 thumb ov015
- *   func_0203D060 0x0203D060 arm
- *   func_0203D158 0x0203D158 arm
+ *   GFL_NET_StartChangeoverEx 0x0203D060 arm
+ *   GFL_NET_IRC_WIRELESS_Step 0x0203D158 arm
  *   d_021BB674 0x021BB674 data a4
  *   func_02051C6C 0x02051C6C arm
  *   d_021BB688 0x021BB688 data a4
  *   d_021BB668 0x021BB668 data a4
- *   func_0204B898 0x0204B898 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   func_0204B878 0x0204B878 arm
  *   d_021BB660 0x021BB660 data a4
  *   func_0204BA00 0x0204BA00 arm
  *   d_021BB69C 0x021BB69C data a4
  *   d_021BB68C 0x021BB68C data a4
- *   func_020399DC 0x020399DC arm
+ *   GFL_NET_HANDLE_GetNegotiationState 0x020399DC arm
  *   d_021BB804 0x021BB804 data a4
  *   func_0203064C  0x0203064C  arm
  *   func_0203159C  0x0203159C  arm
@@ -320,7 +320,7 @@ struct Req {
 
 struct Task { u16 state,pad; int context; void (*callback)(int); };
 
-extern void func_0203D0D0(void);
+extern void GFL_NET_IRC_WIRELESS_Exit(void);
 extern int func_0203CEAC(int a0);
 extern u32 func_020221A4(void);
 extern void *func_02021518(u32 heap);
@@ -343,7 +343,7 @@ extern void func_02049238(void *);
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void func_0204B570(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern unsigned char func_02080D24(unsigned x);
@@ -360,13 +360,13 @@ extern unsigned func_0203D378(void);
 extern s32_021B9950 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern int func_02035C60(void);
 extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
-extern void func_0203D7B0(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern void func_0203D7BC(u8 a0);
 extern void func_020061E4(u32 a);
 extern void func_02039C68(struct Link *,unsigned int,unsigned int);
 extern u32 func_0201AA50(void *p);
-extern void func_0201BA34(void *party);
-extern int func_0201A918(void);
+extern void POKE_TOOL_HealParty(void *party);
+extern int POKE_REGULATION_GetDataSize(void);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_02087C6C(void *);
@@ -381,7 +381,7 @@ extern void func_02041B6C(u32 bit);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0201DD68(void);
 extern void func_0203A574(unsigned,unsigned,unsigned,unsigned);
-extern void func_0203D0B8(void *,int);
+extern void GFL_NET_IRC_WIRELESS_GetMacAddress(void *,int);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_02043534(u32 planes);
@@ -406,7 +406,7 @@ extern void func_02045334(struct Descriptor *);
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern int func_0203D170(void);
+extern int GFL_NET_IRC_WIRELESS_GetRetryCount(void);
 extern u32 func_020452E8(struct Descriptor *d);
 extern void func_0203F8F4(u16),func_02045088(u16);
 extern void func_0201DD60(void);
@@ -430,9 +430,9 @@ extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern u32 func_020307B0(void *p);
 extern int func_0204E804(void);
 extern void func_0203CBAC(struct Req *,u32,u32);
-extern void func_0203D0C4(u32);
-extern void func_0203D164(int);
-extern void func_0203D0AC(int);
+extern void GFL_NET_IRC_WIRELESS_SetSessionParam(u32);
+extern void GFL_NET_IRC_WIRELESS_SetRetryRequest(int);
+extern void GFL_NET_SetGameKindOverride(int);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020403F4(u32 i);
@@ -442,13 +442,13 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern u32 func_02027FD8(struct TaskMenuState *s);
 extern int func_0203CD98(void);
 extern void func_021799C0(int a);
-extern void func_0203D060(u32 a, u32 b, u32 c);
-extern int func_0203D158(void);
+extern void GFL_NET_StartChangeoverEx(u32 a, u32 b, u32 c);
+extern int GFL_NET_IRC_WIRELESS_Step(void);
 extern void func_02051C6C(void *p);
-extern u16 func_0204B898(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
-extern int func_020399DC(struct Entry *);
+extern int GFL_NET_HANDLE_GetNegotiationState(struct Entry *);
 extern void func_0203064C(unsigned int, unsigned int, unsigned int);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(int, int, int);
@@ -584,7 +584,7 @@ int func_021B95AC(int a, int b)
 
 void func_021B95B8(u8 *p, u32 v) { ((struct Obj22063 *)p)->f248 = v; }
 
-int func_021B95C0(u8 *p) { *(int *)(((struct Obj22064 *)p)->f244+0x1c)=12; func_0203D0D0(); return func_0203CEAC(0); }
+int func_021B95C0(u8 *p) { *(int *)(((struct Obj22064 *)p)->f244+0x1c)=12; GFL_NET_IRC_WIRELESS_Exit(); return func_0203CEAC(0); }
 
 /*
  * Extent remainder: two-byte alignment padding.
@@ -646,7 +646,7 @@ void func_021B974C(int a,int b,int c,int d,int e)
   *(int *)(a+0x2c8+d*4)=(int)func_0204B294((void *)((struct Obj06361 *)a)->f2B4,((struct Obj06361 *)a)->f2BC,((struct Obj06361 *)a)->f2B8,((struct Obj06361 *)a)->f2C0,&p,0,((struct Obj06361 *)a)->f278);
   func_0204B92C((struct Obj *)*(int *)(a+0x2c8+d*4),1);
   func_0204B3DC((struct Obj *)*(int *)(a+0x2c8+d*4),1);
-  func_0204B570((struct Actor *)(*(int *)(a+0x2c8+d*4)),2);
+  CLACT_SetActorAffineMode((struct Actor *)(*(int *)(a+0x2c8+d*4)),2);
  }
 }
 
@@ -760,7 +760,7 @@ void func_021B99F4(unsigned a)
 void func_021B9A1C(unsigned a)
 {
  if(func_02039CB4((struct Link *)func_020399A8(),0x7f,12)!=0) {
-  func_0203D7B0(0); func_0203D7BC(0);
+  GFL_NET_SetAutoExit(0); func_0203D7BC(0);
   ((struct Obj22074 *)a)->fCAC=0;
   func_021B95B8((unsigned char *)a,(unsigned)func_021B99F4);
  }
@@ -799,8 +799,8 @@ void func_021B9AD8(int a)
   switch(((struct Obj22075 *)a)->f24C) {
   case 7: func_021B95B8((u8 *)a,(u32)func_021B9A54); return;
   case 1: case 2: case 3: case 4:
-   func_0201BA34((void *)((*(int **)(a+0x244))[2]));
-   func_0201BA34((void *)((*(int **)(a+0x244))[3]));
+   POKE_TOOL_HealParty((void *)((*(int **)(a+0x244))[2]));
+   POKE_TOOL_HealParty((void *)((*(int **)(a+0x244))[3]));
    switch(func_021B9AB4(a)) {
     case 0: break;
     case 1: (*(int **)(a+0x244))[7]=1; break;
@@ -817,7 +817,7 @@ void func_021B9B7C(int a)
  int k=12;
  if(func_02039CB4((struct Link *)func_020399A8(),0x7e,k)!=0) {
   int p=(int)func_020399A8();
-  int q=func_0201A918();
+  int q=POKE_REGULATION_GetDataSize();
   if(func_0203D3F8(p,0xff,0xc02,q,(*(int **)(a+0x244))[1],0,0,1)!=0) {
    func_02039C68((struct Link *)func_020399A8(),0x7a,k);
    func_021B95B8((u8 *)a,(u32)func_021B9AD8);
@@ -980,7 +980,7 @@ void func_021B9F80(unsigned a)
 {
  func_0203A574(0xc00,(unsigned)d_021BB6C0,6,a);
  func_02039C68((struct Link *)func_020399A8(),0x78,12);
- func_0203D7B0(1);func_0203D7BC(1);
+ GFL_NET_SetAutoExit(1);func_0203D7BC(1);
  func_021B95B8((unsigned char *)a,(unsigned)func_021B9EF8);
 }
 
@@ -989,7 +989,7 @@ void func_021B9FBC(int a) {
   char *p;
   int i=0;
   p=(char *)(a+0x260);
-  for(;i<4;i++) func_0203D0B8(p+i*6,i);
+  for(;i<4;i++) GFL_NET_IRC_WIRELESS_GetMacAddress(p+i*6,i);
  }
  func_021B95B8((u8 *)a,(u32)func_021B9F80);
 }
@@ -1104,7 +1104,7 @@ void func_021BA454(int text,int a) {
 
 /*
  *   veneer evidence cannot attest the target. the integrator owns the ARM9 fix.
- * note 2026-10-04 (wD2 lane18): still MATCH, only unresolved relocations remain: callee func_0203D170 (veneer to 0x0203E590) still has no witness; func_0203E590 filed EXACT as src/matched/arm9/func_0203E590.c, integrator must regenerate labels/manifest so the veneer resolves.
+ * note 2026-10-04 (wD2 lane18): still MATCH, only unresolved relocations remain: callee GFL_NET_IRC_WIRELESS_GetRetryCount (veneer to 0x0203E590) still has no witness; GFL_NET_IRC_WIRELESS_GetRetryCountValue filed EXACT as src/matched/arm9/GFL_NET_IRC_WIRELESS_GetRetryCountValue.c, integrator must regenerate labels/manifest so the veneer resolves.
  */
 void func_021BA530(int b,int a) {
  if(*(int *)(a+0x280)==0) *(int *)(a+0x280)=(int)func_020450F0((int)5,(int)1,(int)8,(int)23,4,13,0);
@@ -1113,7 +1113,7 @@ void func_021BA530(int b,int a) {
  func_02045334((struct Descriptor *)(*(int *)(a+0x280)));
  func_0201F73C((void *)(*(int *)(a+0x280)),0,(unsigned short)(*(int *)(a+0x304)),14);
  func_02045CAC((struct MsgBank *)(*(int *)(a+0x288)),(int)b,(void *)(*(int *)(a+0x294)));
- func_0201EFA4((struct WordSet *)(*(int *)(a+0x28c)),(int)0,(int)func_0203D170(),(int)2,(int)1,(int)1);
+ func_0201EFA4((struct WordSet *)(*(int *)(a+0x28c)),(int)0,(int)GFL_NET_IRC_WIRELESS_GetRetryCount(),(int)2,(int)1,(int)1);
  func_0201F250((struct WordSet *)(*(int *)(a+0x28c)),(void *)(*(int *)(a+0x298)),(void *)(*(int *)(a+0x294)));
  func_0201C7A4(func_02045770((struct Descriptor *)(*(int *)(a+0x280))),0,2,(void *)(*(int *)(a+0x298)),(void *)(*(int *)(a+0x290)));
  func_02045334((struct Descriptor *)(*(int *)(a+0x280)));
@@ -1227,13 +1227,13 @@ int func_021BAAEC(int a,int b) {
  *   D0C4 tail-forwards r0 unchanged; full DA68 body reads only that u32,
  *   copies it unchanged to singleton+74, no arithmetic or narrowing.
  *   scratch-only DA68 one --arm (no region), fixed flags: EXACT20, literal15.
- *   Verified C (not filed ARM9): extern unsigned char *g_021469F0;
- *   void func_0203DA68(unsigned int value) {
- *       *(unsigned int *)(g_021469F0+0x74)=value;
+ *   Verified C (not filed ARM9): extern unsigned char *gNetIrcWirelessLink;
+ *   void GFL_NET_IRC_WIRELESS_SetSessionParamValue(unsigned int value) {
+ *       *(unsigned int *)(gNetIrcWirelessLink+0x74)=value;
  *   }
  *   caller-only TU suggest-split MATCH256: two witnesses, both inside this
  *   sole function; zero viable pieces. Do not file overlay leaves while capped.
- * note 2026-10-04 (wD2 lane18): still MATCH, only unresolved relocations remain: callee func_0203D0C4 (veneer to 0x0203DA68) still has no witness; func_0203DA68 filed EXACT as src/matched/arm9/func_0203DA68.c, integrator must regenerate labels so the veneer resolves.
+ * note 2026-10-04 (wD2 lane18): still MATCH, only unresolved relocations remain: callee GFL_NET_IRC_WIRELESS_SetSessionParam (veneer to 0x0203DA68) still has no witness; GFL_NET_IRC_WIRELESS_SetSessionParamValue filed EXACT as src/matched/arm9/GFL_NET_IRC_WIRELESS_SetSessionParamValue.c, integrator must regenerate labels so the veneer resolves.
  */
 void func_021BAB08(int p)
 {
@@ -1283,17 +1283,17 @@ void func_021BAB08(int p)
     func_0203CBAC(&req,0,p);
     switch(*(int *)(p+0x24c)) {
     case 10:
-        func_0203D0C4((u32)func_021BAAEC);
-        func_0203D164(1);
-        func_0203D0AC(17);
+        GFL_NET_IRC_WIRELESS_SetSessionParam((u32)func_021BAAEC);
+        GFL_NET_IRC_WIRELESS_SetRetryRequest(1);
+        GFL_NET_SetGameKindOverride(17);
         break;
     case 9:
-        func_0203D0C4((u32)func_021BAAEC);
-        func_0203D164(zero);
-        func_0203D0AC(17);
+        GFL_NET_IRC_WIRELESS_SetSessionParam((u32)func_021BAAEC);
+        GFL_NET_IRC_WIRELESS_SetRetryRequest(zero);
+        GFL_NET_SetGameKindOverride(17);
         break;
     case 5:
-        func_0203D0AC(37);
+        GFL_NET_SetGameKindOverride(37);
         break;
     }
     func_021BA290(p,0);
@@ -1326,7 +1326,7 @@ void func_021BAC08(int a) {
 void func_021BAC80(int a) {
  if(func_0203CD98()==1) {
   switch(((struct Obj22085 *)a)->f24C) { case 9: case 10: func_021799C0((int)func_021BAAEC); break; }
-  func_0203D060((u32)func_021B9FBC,(u32)func_021B9FF4,(u32)func_021B9848);
+  GFL_NET_StartChangeoverEx((u32)func_021B9FBC,(u32)func_021B9FF4,(u32)func_021B9848);
   func_021B95B8((u8 *)a,(u32)func_021BB270);
  }
 }
@@ -1370,7 +1370,7 @@ void func_021BAD78(unsigned a)
 }
 
 void func_021BADB0(int a) {
- if(func_0203D158()!=0) { func_021B95B8((u8 *)a,(u32)func_021BAD78); return; }
+ if(GFL_NET_IRC_WIRELESS_Step()!=0) { func_021B95B8((u8 *)a,(u32)func_021BAD78); return; }
  if(func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj07964 *)a)->fCC0))!=0) {
   func_02027A04(*(const u8 * *)&((struct Obj07964 *)a)->fCC0);
   func_02027858((struct TaskMenu *)(*(int *)&((struct Obj07964 *)a)->fCC0));
@@ -1481,7 +1481,7 @@ void func_021BB058(int a) {
 }
 
 void func_021BB0C4(int a) {
- switch(func_0204B898(((struct Obj10219 *)a)->f2C8)) {
+ switch(CLACT_GetActorAnimSeq(((struct Obj10219 *)a)->f2C8)) {
  case 8:
   func_0204B878(((struct Obj10219 *)a)->f2C8,11);
   func_021B9800(a,200,38,0);
@@ -1493,7 +1493,7 @@ void func_021BB0C4(int a) {
 }
 
 void func_021BB10C(int a) {
- switch(func_0204B898(((struct Obj10220 *)a)->f2D0)) {
+ switch(CLACT_GetActorAnimSeq(((struct Obj10220 *)a)->f2D0)) {
  case 9:
   func_0204B878(((struct Obj10220 *)a)->f2D0,10);
   func_021B9800(a,57,154,2);
@@ -1582,7 +1582,7 @@ void func_021BB270(int p)
             *(int *)(p+0xc84)=0;
         }
     }
-    if(func_0203CD98() && func_020399DC(func_020399A8())==7) {
+    if(func_0203CD98() && GFL_NET_HANDLE_GetNegotiationState(func_020399A8())==7) {
         func_021B95B8((u8 *)p,(u32)func_021BB154);
         return;
     }
@@ -1601,9 +1601,9 @@ void func_021BB270(int p)
         }
     }
     if(*(int *)(p+0x24c)==9) {
-        if(*(int *)(p+0xce8)!=func_0203D170()) {
+        if(*(int *)(p+0xce8)!=GFL_NET_IRC_WIRELESS_GetRetryCount()) {
             func_021BA530(0x27,p);
-            *(int *)(p+0xce8)=func_0203D170();
+            *(int *)(p+0xce8)=GFL_NET_IRC_WIRELESS_GetRetryCount();
         }
         if(*(int *)(p+0xce8)>0 && *(int *)(p+0xcbc)==1) {
             func_02027858(*(struct TaskMenu **)(p+0xcc0));
@@ -1628,7 +1628,7 @@ int func_021BB414(struct Obj0203159C *a, int b, int c)
     ((struct Obj00178 *)a)->fCB4 =
         (int)func_02030734(((struct Obj00178 *)a)->f278, 0x200, 0, (const char *)0x021BB8AC, 0xb07);
     func_021BA780((char *)a);
-    func_0203D0D0();
+    GFL_NET_IRC_WIRELESS_Exit();
     func_0207D63C(0x04000050, 0x10, 3, 9, 0xe);
     return 1;
 }

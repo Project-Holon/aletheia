@@ -23,7 +23,7 @@
  *   func_0201283C  0x0201283C  thumb
  *   func_0201058C  0x0201058C  thumb
  *   func_02012A30  0x02012A30  thumb
- *   func_02028A64  0x02028A64  thumb
+ *   FIELD_SOUND_SYSTEM_StartRingtone  0x02028A64  thumb
  *   func_02028A70  0x02028A70  thumb
  *   func_021F1BBC  0x021F1BBC  thumb  ov029
  *   func_021F1A64  0x021F1A64  thumb  ov029
@@ -54,7 +54,7 @@ extern u32 func_0201058C(void *key);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
 struct SoundSys;
-extern void func_02028A64(struct SoundSys *sys);
+extern void FIELD_SOUND_SYSTEM_StartRingtone(struct SoundSys *sys);
 extern void func_02028A70(struct SoundSys *sys);
 extern void func_021F1BBC(char *p);
 extern void func_021F1A64(char *p, int flag);
@@ -97,7 +97,7 @@ void func_021F2848(u8 *p, u8 v)
                     p[0x462] = 1;
                     func_021F06B8(p, 1, 1);
                 }
-                func_02028A64(snd);
+                FIELD_SOUND_SYSTEM_StartRingtone(snd);
             } else if ((keys & 8) == 0 && p[0x462] != 0) {
                 func_02028A70(snd);
                 p[0x462] = 0;

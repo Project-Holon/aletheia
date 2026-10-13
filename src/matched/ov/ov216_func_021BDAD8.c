@@ -13,7 +13,7 @@
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
  *   func_02045334  0x02045334  arm
- *   func_02031194  0x02031194  arm
+ *   TCBL_DeleteTask  0x02031194  arm
  */
 #include "../include/Obj06711.h"
 #include "../include/Obj25799.h"
@@ -27,7 +27,7 @@ struct PrintSys;
 struct TcblNode;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *x);
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 
 void func_021BDAD8(int a, int **b)
 {
@@ -43,6 +43,6 @@ void func_021BDAD8(int a, int **b)
     if (s[4] == 0) {
         if (b[2])
             --*(int *)b[2];
-        func_02031194((struct TcblNode *)a);
+        TCBL_DeleteTask((struct TcblNode *)a);
     }
 }

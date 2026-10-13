@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B1688",
+   "name": "VCT_AUDIO_ConvertPcm16ToPcm8",
    "address": "0x021B1688",
    "kind": "game",
    "region": "ov013",

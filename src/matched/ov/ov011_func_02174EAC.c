@@ -1,5 +1,5 @@
 /*
- * function: func_02174EAC
+ * function: INTRUDE_COMM_ApplyPlayerBeacon
  * address:  0x02174EAC
  * packet:   pkt_ov011_02174EAC
  * region:   ov011
@@ -16,10 +16,10 @@
  *   func_02008494  0x02008494  thumb
  *   func_020127AC  0x020127AC  thumb
  *   func_02082D44  0x02082D44  arm
- *   func_02012BA4  0x02012BA4  thumb
- *   func_02174F54  0x02174F54  thumb ov011
+ *   GAME_DATA_SetSlotFlag  0x02012BA4  thumb
+ *   INTRUDE_COMM_StorePlayerRecord  0x02174F54  thumb ov011
  *   func_02039338  0x02039338  arm
- *   func_020266D4  0x020266D4  thumb
+ *   GAME_COMM_PushPlayerMessage  0x020266D4  thumb
  *
  * Blocker: byte-correct; 0x02008494 is an unlabelled arm9 Thumb thunk
  * (ldr r3,=target; movs r2,#0x20; bx r3), no witness outside the range.
@@ -46,15 +46,15 @@ void func_02008494(void *src, void *dst);
 void *func_020127AC(struct SaveBlock *p, unsigned int idx);
 void func_02082D44(u8 *a, int b, int c);
 struct BigObj;
-void func_02012BA4(struct BigObj *p, int i, u8 v);
+void GAME_DATA_SetSlotFlag(struct BigObj *p, int i, u8 v);
 struct Ent;
-void func_02174F54(u8 *p, int idx, const struct Ent *src, int arg);
+void INTRUDE_COMM_StorePlayerRecord(u8 *p, int idx, const struct Ent *src, int arg);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 u16 func_02039338(void);
-void func_020266D4(u32 a, u32 b);
+void GAME_COMM_PushPlayerMessage(u32 a, u32 b);
 
-void func_02174EAC(u8 *p, int idx, u8 *q)
+void INTRUDE_COMM_ApplyPlayerBeacon(u8 *p, int idx, u8 *q)
 {
     int x;
     int ctx;
@@ -74,10 +74,10 @@ void func_02174EAC(u8 *p, int idx, u8 *q)
 skip:
     func_02008494(q, (void *)a);
     func_02082D44(q + 0x20, (int)func_020127AC((struct SaveBlock *)ctx, idx), 0x10);
-    func_02012BA4((struct BigObj *)ctx, idx, ((Q *)(q + 0x4A))->hi);
-    func_02174F54(p, idx, (const struct Ent *)(q + 0x30), 1);
+    GAME_DATA_SetSlotFlag((struct BigObj *)ctx, idx, ((Q *)(q + 0x4A))->hi);
+    INTRUDE_COMM_StorePlayerRecord(p, idx, (const struct Ent *)(q + 0x30), 1);
     p[0x8FB] |= (u8)(1 << idx);
     if (flag == 1 && idx != func_02039338()) {
-        func_020266D4(((struct Obj00269 *)p)->f4, idx);
+        GAME_COMM_PushPlayerMessage(((struct Obj00269 *)p)->f4, idx);
     }
 }

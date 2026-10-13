@@ -17,7 +17,7 @@
  *   func_021BE6E8  0x021BE6E8  thumb  ov021
  *   func_021BE674  0x021BE674  thumb  ov021
  *   func_021BE748  0x021BE748  thumb  ov021
- *   func_02006210  0x02006210  thumb
+ *   GFL_USE_StopAllSe  0x02006210  thumb
  *   func_020061E4  0x020061E4  thumb
  *   func_0204E720  0x0204E720  arm
  *   func_0204E804  0x0204E804  arm
@@ -37,7 +37,7 @@ extern int *func_021897BC(char *p, int idx);
 extern int func_021BE6E8(int a, int b, int c, int d);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern int func_021BE748(u32 a);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern void func_020061E4(u32 a);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
@@ -56,19 +56,19 @@ int func_021F384C(void *task, int *st)
     v = func_021BE6E8(s, 0, 0, 0);
     lim = func_021BE748((u32)func_021BE674((char *)s, 0, 0, 0));
     if (v >= 0 && w[2] == 0) {
-        func_02006210();
+        GFL_USE_StopAllSe();
         func_020061E4(0x7D0);
         w[2] = 1;
     } else if (v >= 0x83000 && w[3] == 0) {
-        func_02006210();
+        GFL_USE_StopAllSe();
         func_020061E4(0x7CB);
         w[3] = 1;
     } else if (v >= 0x6C000 && w[4] == 0) {
-        func_02006210();
+        GFL_USE_StopAllSe();
         func_020061E4(0x7CC);
         w[4] = 1;
     } else if (v >= 0xFA000 && w[5] == 0) {
-        func_02006210();
+        GFL_USE_StopAllSe();
         func_020061E4(0x7F2);
         w[5] = 1;
     }

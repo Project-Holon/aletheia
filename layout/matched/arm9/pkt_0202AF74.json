@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202AF74",
+   "name": "ISS_CITY_UNIT_CalcVolumeFromAxes",
    "address": "0x0202AF74",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B0A4",
+   "name": "ISS_CITY_UNIT_FindStepX",
    "address": "0x0202B0A4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B0D4",
+   "name": "ISS_CITY_UNIT_FindStepY",
    "address": "0x0202B0D4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B104",
+   "name": "ISS_CITY_UNIT_FindStepZ",
    "address": "0x0202B104",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B134",
+   "name": "ISS_CITY_UNIT_GetCenterX",
    "address": "0x0202B134",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B154",
+   "name": "ISS_CITY_UNIT_GetCenterY",
    "address": "0x0202B154",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B174",
+   "name": "ISS_CITY_UNIT_GetCenterZ",
    "address": "0x0202B174",
    "kind": "game",
    "region": "arm9",

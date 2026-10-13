@@ -1,5 +1,5 @@
 /*
- * function: func_0215631C
+ * function: DWC_RAP_OnVchatStopped
  * address:  0x0215631C
  * packet:   pkt_0215631C
  * region:   ov009
@@ -12,7 +12,7 @@
  * Clears the word at 0x76C of the ov009 work block.
  *
  * symbols:
- *   d_021A8264  0x021A8264  data  ov009  a4
+ *   _pRapWork  0x021A8264  data  ov009  a4
  */
 
 typedef unsigned char  u8;
@@ -28,9 +28,9 @@ typedef struct {
     char pad7A6[0x7AC - 0x7A6];
 } G;
 
-extern G *d_021A8264;
+extern G *_pRapWork;
 
-void func_0215631C(void)
+void DWC_RAP_OnVchatStopped(void)
 {
-    d_021A8264->f76c = 0;
+    _pRapWork->f76c = 0;
 }

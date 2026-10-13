@@ -44,7 +44,7 @@
  * pass 3 2026-10-06 P3L08 (3 compiles): EXACT. h is a u16 local (the table halfword) and
  * hi = (u32)h >> 3 keeps lsrs. mwcc keeps the u16 stack parameter f load behind the spill
  * store of a narrow local, but hoists it above the spill of a u32 local (docs/idioms
- * a-u16-stack-parameter-passed-to-a-u16-callee-stays-behind-a-spill-store.md, sub_0201B2B0
+ * a-u16-stack-parameter-passed-to-a-u16-callee-stays-behind-a-spill-store.md, SHINKA_CHECK_CheckEvolution
  * pidHigh; a-reload-kept-below-outgoing-stack-stores-is-a-narrow-local.md for the (u32) widen).
  * The earlier u16 h try (154 B) used h >> 3, which promotes to int and gives asrs.
  * symbols:

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02085D88",
+   "name": "OSi_IsRunOnTwl",
    "address": "0x02085D88",
    "kind": "game",
    "region": "arm9",

@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *
  * Resolves a slot index to one of the nine 0x50-byte entries at +0x70 of
- * func_0203D788()'s record.  0xff is the "own slot" spelling and names entry
+ * GFL_NET_GetSession()'s record.  0xff is the "own slot" spelling and names entry
  * 8, which is why it is a separate constant add and not a folded index; every
  * other index is bounds-checked against nine and scaled with an `mla`,
  * 0x50 being too awkward for a shift pair.
  *
- * The record's own +0x340 field (see src/matched/sub_02039338.c) is exactly
+ * The record's own +0x340 field (see src/matched/GFL_NET_SYSTEM_GetCurrentAid.c) is exactly
  * where this table ends: 0x70 + 9 * 0x50.
  *
  * Verified with:
@@ -38,11 +38,11 @@ struct Owner {
     struct Entry table[9];
 };
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 
 struct Entry *sub_0203996C(s32 idx)
 {
-    struct Owner *owner = func_0203D788();
+    struct Owner *owner = GFL_NET_GetSession();
 
     if (owner != 0) {
         if (idx == 0xff) {

@@ -8,11 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02029C38, func_02029C64
+ * function: FIELD_SOUND_SYSTEM_WaitSettledTask, func_02029C64
  *
  * Part of the (task body, task spawner) family that makes up the tail of
  * field_sound_system.c.  The body waits until the system's mode word leaves the set
- * src/matched/func_02028988.c accepts, then reports done.
+ * src/matched/FIELD_SOUND_SYSTEM_IsStateActive.c accepts, then reports done.
  *
  * The pair is one file on purpose.  The spawner's only reference to the body
  * is an ABS32 pool word, and a pool word is not a branch, so the body has no
@@ -22,6 +22,9 @@
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02029C38.c  *       --addr 0x02029C38 --thumb
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_IsStateActive  0x02028988  thumb
  */
 
 typedef unsigned short u16;
@@ -41,15 +44,15 @@ struct Ctx;
 struct Desc;
 struct Obj;
 struct Sys;
-extern u32 func_02028988(struct Sys *s);
+extern u32 FIELD_SOUND_SYSTEM_IsStateActive(struct Sys *s);
 
-u32 func_02029C38(void *task, u32 *state, struct Work *work)
+u32 FIELD_SOUND_SYSTEM_WaitSettledTask(void *task, u32 *state, struct Work *work)
 {
     void *sys = work->unk04;
 
     switch (*state) {
     case 0:
-        if (func_02028988(sys) == 0) {
+        if (FIELD_SOUND_SYSTEM_IsStateActive(sys) == 0) {
             (*state)++;
         }
         break;
@@ -68,7 +71,7 @@ extern unsigned int func_02012A30(const struct BigObj *a);
 void *func_02029C64(void *a)
 {
     void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029C38, 0x10);
+    void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_WaitSettledTask, 0x10);
     struct Work *work = func_020124E8(task);
 
     work->unk04 = (void *)func_02012A30(x);

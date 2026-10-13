@@ -1,5 +1,5 @@
 /*
- * function: func_0203A7EC
+ * function: GFL_NET_COMMAND_IsCommandValid
  * address:  0x0203A7EC
  * packet:   pkt_0203A7EC
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203A70C   0x0203A70C  arm
+ *   GFL_NET_COMMAND_GetRecvFunc   0x0203A70C  arm
  */
 
-extern int func_0203A70C(unsigned int idx);
+extern int GFL_NET_COMMAND_GetRecvFunc(unsigned int idx);
 
-int func_0203A7EC(unsigned int idx)
+int GFL_NET_COMMAND_IsCommandValid(unsigned int idx)
 {
-    return func_0203A70C(idx) != 0;
+    return GFL_NET_COMMAND_GetRecvFunc(idx) != 0;
 }

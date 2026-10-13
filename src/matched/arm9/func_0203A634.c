@@ -1,5 +1,5 @@
 /*
- * function: func_0203A634
+ * function: GFL_NET_COMMAND_GetHeaderSize
  * address:  0x0203A634
  * packet:   pkt_0203A574
  * region:   arm9
@@ -22,8 +22,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A634.c \
- *       --func func_0203A634 --addr 0x0203A634 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_COMMAND_GetHeaderSize.c \
+ *       --func GFL_NET_COMMAND_GetHeaderSize --addr 0x0203A634 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -31,7 +31,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern u16 func_02039338(void);
 
-u32 func_0203A634(u32 a0)
+u32 GFL_NET_COMMAND_GetHeaderSize(u32 a0)
 {
     if (a0 == 0xFF)
         return 1;

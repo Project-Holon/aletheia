@@ -11,11 +11,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020064B8
+ * function: GFL_USE_ReplaceWaveData
  *
  * symbols:
- *   func_02074450  0x02074450  arm
- *   func_0207466C  0x0207466C  arm
+ *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
+ *   NNS_SndArcGetFileAddress  0x0207466C  arm
  *   func_0208A640  0x0208A640  arm
  *   func_0208A674  0x0208A674  arm
  *
@@ -38,21 +38,21 @@ struct Sub020064B8Head {
     u32 unk03 : 8;
 };
 
-extern void *func_02074450(int index);
-extern u32 func_0207466C(u32 idx);
+extern void *NNS_SndArcGetWaveArcInfo(int index);
+extern u32 NNS_SndArcGetFileAddress(u32 idx);
 extern void func_0208A640(u32 *a, u32 b, u32 c);
 extern u32  func_0208A674(u32 a, u32 b);
 
-int sub_020064B8(u32 a, u32 b, u32 c, u32 d)
+int GFL_USE_ReplaceWaveData(u32 a, u32 b, u32 c, u32 d)
 {
     struct Sub020064B8Head *p;
     u32 *q;
 
-    p = func_02074450(a);
+    p = NNS_SndArcGetWaveArcInfo(a);
     if (p == 0) {
         return 0;
     }
-    q = (u32 *)func_0207466C(p->unk00);
+    q = (u32 *)NNS_SndArcGetFileAddress(p->unk00);
     if (q == 0) {
         return 0;
     }

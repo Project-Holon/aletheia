@@ -1,5 +1,5 @@
 /*
- * function: func_020590A4
+ * function: DWCi_Acc_GetPlayerId
  * address:  0x020590A4
  * packet:   pkt_020590A4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_020590A4(int *p)
+int DWCi_Acc_GetPlayerId(int *p)
 {
     return p[2];
 }

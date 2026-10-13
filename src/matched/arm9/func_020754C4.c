@@ -8,9 +8,9 @@
  * isa:      arm
  * status:   EXACT
  *
- * Walk the 32 slots of the current archive (func_020742FC is called for its
- * side effect only): for every slot record func_020744B4 hands back, apply
- * its count byte and +2 halfword (func_02072DB0 / func_02072DD0), and when
+ * Walk the 32 slots of the current archive (NNS_SndArcGetCurrent is called for its
+ * side effect only): for every slot record NNS_SndArcGetPlayerInfo hands back, apply
+ * its count byte and +2 halfword (NNS_SndPlayerSetPlayableSeqCount / NNS_SndPlayerSetAllocatableChannel), and when
  * both the record's +4 payload and the argument are non-null, register the
  * payload count times with func_02072DE8, failing out on the first refusal.
  *
@@ -28,10 +28,10 @@
  *   dsi/1.1p1 152 bytes DIFF).
  *
  * symbols:
- *   func_020742FC  0x020742FC  arm
- *   func_020744B4  0x020744B4  arm
- *   func_02072DB0  0x02072DB0  arm
- *   func_02072DD0  0x02072DD0  arm
+ *   NNS_SndArcGetCurrent  0x020742FC  arm
+ *   NNS_SndArcGetPlayerInfo  0x020744B4  arm
+ *   NNS_SndPlayerSetPlayableSeqCount  0x02072DB0  arm
+ *   NNS_SndPlayerSetAllocatableChannel  0x02072DD0  arm
  *   func_02072DE8  0x02072DE8  arm
  */
 typedef unsigned char  u8;
@@ -46,10 +46,10 @@ typedef struct {
 } Ent;
 
 struct Global;
-extern struct Global *func_020742FC(void);
-extern void *func_020744B4(int index);
-extern void  func_02072DB0(int idx, int v);
-extern void func_02072DD0(u32 idx, u32 val);
+extern struct Global *NNS_SndArcGetCurrent(void);
+extern void *NNS_SndArcGetPlayerInfo(int index);
+extern void  NNS_SndPlayerSetPlayableSeqCount(int idx, int v);
+extern void NNS_SndPlayerSetAllocatableChannel(u32 idx, u32 val);
 extern u32   func_02072DE8(int idx, u32 a, void *src);
 
 u32 func_020754C4(u32 a)
@@ -58,13 +58,13 @@ u32 func_020754C4(u32 a)
     Ent *e;
     int j;
 
-    func_020742FC();
+    NNS_SndArcGetCurrent();
     for (i = 0; i < 32; i++) {
-        e = func_020744B4(i);
+        e = NNS_SndArcGetPlayerInfo(i);
         if (e == 0)
             continue;
-        func_02072DB0(i, e->count);
-        func_02072DD0(i, e->h2);
+        NNS_SndPlayerSetPlayableSeqCount(i, e->count);
+        NNS_SndPlayerSetAllocatableChannel(i, e->h2);
         if (e->data != 0 && a != 0) {
             for (j = 0; j < e->count; j++) {
                 if (func_02072DE8(i, a, e->data) == 0)

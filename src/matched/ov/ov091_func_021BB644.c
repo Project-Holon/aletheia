@@ -17,7 +17,7 @@
  *   func_0201CE48 0x0201CE48 thumb
  *   func_02045808 0x02045808 arm
  *   func_02045770 0x02045770 arm
- *   func_0202865C 0x0202865C thumb
+ *   APP_KEYCURSOR_Animate 0x0202865C thumb
  *   func_02045334 0x02045334 arm
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_02045374 0x02045374 arm
@@ -50,7 +50,7 @@ extern void func_0201CE48(struct Rec3 *p);
 extern void func_02045808(struct U16Vec *vec);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0202865C(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
+extern void APP_KEYCURSOR_Animate(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
 extern void func_02045334(struct Descriptor *d);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045374(struct Cfg *cfg);
@@ -71,7 +71,7 @@ void func_021BB644(u8 *p,u8 *s)
                 W(0xc)=0;
                 func_02045808((struct U16Vec *)W(0x10));
             } else {
-                func_0202865C((struct Ctx *)W(0x14),(const struct Bmp *)((u32)func_02045770((struct Descriptor *)W(4))),15);
+                APP_KEYCURSOR_Animate((struct Ctx *)W(0x14),(const struct Bmp *)((u32)func_02045770((struct Descriptor *)W(4))),15);
                 func_02045334((struct Descriptor *)W(4));
             }
         }

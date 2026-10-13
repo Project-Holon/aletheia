@@ -36,11 +36,11 @@
  *   func_021D51D4 0x021D51D4 thumb ov120
  *   func_021D52D4 0x021D52D4 thumb ov120
  *   func_021D5208 0x021D5208 thumb ov120
- *   func_0202822C 0x0202822C thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   func_02035C08 0x02035C08 arm
  *   func_021D6E70 0x021D6E70 thumb ov120
- *   func_02035BA4 0x02035BA4 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_HitCont 0x02035BA4 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021D7374 0x021D7374 thumb ov120
  *   func_021D82A8 0x021D82A8 thumb ov120
  *   func_021D72A0 0x021D72A0 thumb ov120
@@ -100,11 +100,11 @@ extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D51D4(u8 *p);
 extern void func_021D52D4(u8 *p);
 extern void func_021D5208(u8 *p);
-extern void func_0202822C(char *p, int v);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern int func_02035C08(const void *t);
 extern void func_021D6E70(void *unused, int *p, int n);
-extern int func_02035BA4(const void *t);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern int TOUCHPANEL_HitCont(const void *t);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int func_021D7374(char *p, int y, int count);
 extern void func_021D82A8(char *p, void *q, int start);
 extern void func_021D72A0(u8 *p, void *list, int n);
@@ -204,7 +204,7 @@ void func_021D5334(Ctx *p)
     }
     if (func_020362DC() == 8) {
         func_020061E4(0x54C);
-        func_0202822C(p->f34, 1);
+        APP_TASKMENU_WIN_SetDecide(p->f34, 1);
         func_021D4244((int *)p, (int)func_021D52D4, 0x766);
         return;
     }
@@ -212,7 +212,7 @@ void func_021D5334(Ctx *p)
     switch (sel) {
     case 3:
         func_020061E4(0x54C);
-        func_0202822C(p->f34, 1);
+        APP_TASKMENU_WIN_SetDecide(p->f34, 1);
         func_021D4244((int *)p, (int)func_021D52D4, 0x770);
         return;
     case 2:
@@ -234,9 +234,9 @@ void func_021D5334(Ctx *p)
         func_021D4244((int *)p, (int)func_021D51D4, 0x78B);
         return;
     }
-    if (func_02035BA4(d_021D88C8) != 0)
+    if (TOUCHPANEL_HitCont(d_021D88C8) != 0)
         goto end;
-    if (func_02035CB8((u32 *)(&x), (u32 *)(&y)) == 1) {
+    if (TOUCHPANEL_GetPointCont((u32 *)(&x), (u32 *)(&y)) == 1) {
         r = func_021D7374((char *)p->f3C, y, p->f150);
         if (p->f158 != r) {
             p->f158 = r;

@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * GSISocketSelect: the DWC build implements the select probe through the SOC
- * poll wrapper (func_0215FBCC) rather than select(2).  Build a one-entry
+ * poll wrapper (SOC_Poll) rather than select(2).  Build a one-entry
  * pollfd, request read (POLLIN 0x1) and/or write (POLLOUT 0x8) per the
  * non-NULL out-flags, poll with a zero timeout, then publish each flag from
  * the result: read tests 0x41, write 0x8, except 0x20.  A negative poll
  * result returns -1 with no flags touched.
  *
  * symbols:
- *   func_0215FBCC  0x0215FBCC  arm  ov009
+ *   SOC_Poll  0x0215FBCC  arm  ov009
  */
 
 typedef struct {
@@ -26,7 +26,7 @@ typedef struct {
     short revents;
 } GSPollFd;
 
-extern int func_0215FBCC(GSPollFd *fds, int nfds, int timeout, int flags);
+extern int SOC_Poll(GSPollFd *fds, int nfds, int timeout, int flags);
 
 int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag)
 {
@@ -41,7 +41,7 @@ int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theEx
         pfd.events |= 8;
     pfd.revents = 0;
 
-    result = func_0215FBCC(&pfd, 1, 0, 0);
+    result = SOC_Poll(&pfd, 1, 0, 0);
     if (result < 0)
         return -1;
 

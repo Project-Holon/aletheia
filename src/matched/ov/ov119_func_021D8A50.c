@@ -8,28 +8,28 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02005E30 0x02005E30 thumb
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005E64 0x02005E64 thumb
- *   func_02005D90 0x02005D90 thumb
- *   func_02005DF8 0x02005DF8 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_PushBgm 0x02005E64 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  */
 #include "../include/Obj00001.h"
 typedef unsigned int   u32;
-extern void func_02005E30(u32 a);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
-extern void func_02005D90(int,int);
-extern void func_02005DF8(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
+extern void GFL_USE_FadeInBgmFull(u32 a);
 void func_021D8A50(void *p) {
  int v;
  if(((struct Obj00001 *)p)->f1094!=0) {
  v=++((struct Obj00001 *)p)->f1094;
- if(v==2) {func_02005E30(6); return;}
+ if(v==2) {GFL_USE_FadeOutBgm(6); return;}
  if(v==8) {
- func_02005DE4((void *)1); func_02005E64();
+ GFL_USE_SetBgmPlayerParam((void *)1); GFL_USE_PushBgm();
  ++((struct Obj00001 *)p)->f11F8;
- func_02005D90(0x3f3,0xffff); func_02005DF8(1);
+ GFL_USE_CancelChangeAndPlayBgm(0x3f3,0xffff); GFL_USE_FadeInBgmFull(1);
  ((struct Obj00001 *)p)->f1094=0;
  }
  }

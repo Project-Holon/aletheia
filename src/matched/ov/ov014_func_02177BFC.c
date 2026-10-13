@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Unlabelled Thumb leaf (prints as .word data in ov014.s), the sole blocker
- * of ov011 func_02173368 +004A: writes the byte at +0x54 through its second
+ * of ov011 INTRUDE_COMM_ScanCallback +004A: writes the byte at +0x54 through its second
  * argument and returns the address of +0x58.
  *
  * Addresses are Black-image addresses.

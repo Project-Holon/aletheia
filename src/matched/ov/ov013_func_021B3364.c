@@ -1,5 +1,5 @@
 /*
- * function: func_021B3364
+ * function: VCT_DSP_InitEchoState
  * address:  0x021B3364
  * packet:   pkt_ov013_021B3364
  * region:   ov013
@@ -10,35 +10,35 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B4C48  0x021B4C48  data  a4
- *   d_021B3C60  0x021B3C60  data  a2
- *   d_021B50CC  0x021B50CC  data  a2
- *   d_021B4C74  0x021B4C74  data  a4
- *   d_021B4C5C  0x021B4C5C  data  a4
+ *   gEchoState  0x021B4C48  data  a4
+ *   gEchoDefaultCoeffs  0x021B3C60  data  a2
+ *   gEchoRing  0x021B50CC  data  a2
+ *   gEchoFirDelayAlias  0x021B4C74  data  a4
+ *   gEchoFirCoeffsAlias  0x021B4C5C  data  a4
  */
 
 #include "../include/G_021B4C48.h"
 
 typedef short s16;
 
-extern struct G_021B4C48 d_021B4C48;
-extern s16 d_021B3C60[];
-extern s16 d_021B50CC[];
-extern int d_021B4C74[];
-extern int d_021B4C5C[];
+extern struct G_021B4C48 gEchoState;
+extern s16 gEchoDefaultCoeffs[];
+extern s16 gEchoRing[];
+extern int gEchoFirDelayAlias[];
+extern int gEchoFirCoeffsAlias[];
 
-void func_021B3364(void)
+void VCT_DSP_InitEchoState(void)
 {
     int i;
     s16 *src;
 
-    src = d_021B3C60;
-    ((int *)&d_021B4C48)[3] = 0;
-    ((int *)&d_021B4C48)[2] = 0x19D;
+    src = gEchoDefaultCoeffs;
+    ((int *)&gEchoState)[3] = 0;
+    ((int *)&gEchoState)[2] = 0x19D;
     for (i = 0; i < 0x800; i++)
-        d_021B50CC[i] = 0;
+        gEchoRing[i] = 0;
     for (i = 0; i < 6; i++) {
-        d_021B4C74[i] = 0;
-        d_021B4C5C[i] = src[i];
+        gEchoFirDelayAlias[i] = 0;
+        gEchoFirCoeffsAlias[i] = src[i];
     }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02005328",
+   "name": "GFL_USE_InitSdk",
    "address": "0x02005328",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    }
   },
   {
-   "name": "func_020053EC",
+   "name": "GFL_USE_PollPowerExit",
    "address": "0x020053EC",
    "kind": "game",
    "region": "arm9",

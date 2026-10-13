@@ -27,12 +27,12 @@
  *   func_0204047C 0x0204047C arm
  *   func_02040618 0x02040618 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_02006210 0x02006210 thumb
+ *   GFL_USE_StopAllSe 0x02006210 thumb
  *   func_021F8694 0x021F8694 thumb ov094
  *   func_021FFD9C 0x021FFD9C thumb ov094
  *   func_021FFF38 0x021FFF38 thumb ov094
  *   func_02040588 0x02040588 arm
- *   func_0201127C 0x0201127C thumb
+ *   VM_Start 0x0201127C thumb
  *   func_02048F60 0x02048F60 arm
  *   func_021FF374 0x021FF374 thumb ov094
  */
@@ -97,12 +97,12 @@ extern void func_021EB2A8(const u8 *a);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0207D63C(int, int, int, int, int);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern int func_021F8694(void);
 extern int func_021FFD9C(char *p, int key);
 extern int func_021FFF38(char *p, int key);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
+extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 extern void func_021FF374(void *, int, int);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 
@@ -154,7 +154,7 @@ int func_021FC448(void *a, State *s)
         s->flags.bit.b5 = 0;
     }
     if (s->flags.bit.b12)
-        func_02006210();
+        GFL_USE_StopAllSe();
     v = 0;
     if (func_021FFD9C((char *)func_021F8694(), s->fdc) != 0) {
         id = s->h258;
@@ -174,7 +174,7 @@ int func_021FC448(void *a, State *s)
         func_02040588(2, 0);
         func_02040588(3, 0);
         s->f4 = 0;
-        func_0201127C(a, (u8 *)(s->f1e8 + *(int *)(p + off)));
+        VM_Start(a, (u8 *)(s->f1e8 + *(int *)(p + off)));
         return 1;
     }
     b = s->flags.bit.b17;
@@ -186,7 +186,7 @@ int func_021FC448(void *a, State *s)
         s->flags.bit.b6 = 1;
         s->f4 = 0;
         s->flags.bit.b17 = 0;
-        func_0201127C(a, (u8 *)(p + ((struct Obj13598 *)p)->f4));
+        VM_Start(a, (u8 *)(p + ((struct Obj13598 *)p)->f4));
         return 1;
     }
     id2 = s->h258;
@@ -200,7 +200,7 @@ int func_021FC448(void *a, State *s)
         s->flags.bit.b6 = 1;
         s->f4 = 0;
         s->flags.bit.b17 = 0;
-        func_0201127C(a, (u8 *)(p + ((struct Obj13598 *)p)->f4));
+        VM_Start(a, (u8 *)(p + ((struct Obj13598 *)p)->f4));
         return 1;
     }
     if (id2 != 0x27e) {

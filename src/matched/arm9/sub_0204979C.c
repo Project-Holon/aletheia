@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204979C
+ * function: ARC_UTIL_RegisterObjChar
  * address:  0x0204979C
  * packet:   pkt_0204968C
  * region:   arm9
@@ -38,8 +38,8 @@
  * with the unconditional one.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204979C.c \
- *       --func sub_0204979C --addr 0x0204979C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_UTIL_RegisterObjChar.c \
+ *       --func ARC_UTIL_RegisterObjChar --addr 0x0204979C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -57,7 +57,7 @@ struct NitroFileHeader;
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern u32 func_02040B58(u32 index, const void *src, u32 size);
 
-u32 sub_0204979C(void *buf, u32 a1, u32 a2)
+u32 ARC_UTIL_RegisterObjChar(void *buf, u32 a1, u32 a2)
 {
     struct Res *res;
     s32 slot;

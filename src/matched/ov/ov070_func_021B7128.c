@@ -13,7 +13,7 @@
  *   func_021B61B8  0x021B61B8  thumb  ov070
  *   func_021B616C  0x021B616C  thumb  ov070
  *   func_02020FE4  0x02020FE4  thumb
- *   func_020213E0  0x020213E0  thumb
+ *   PALANM_IsOutsideReservedIdRange  0x020213E0  thumb
  *   func_0202136C  0x0202136C  thumb
  *   func_021B6100  0x021B6100  thumb  ov070
  *   func_02045CAC  0x02045CAC  arm
@@ -56,7 +56,7 @@ extern unsigned int func_02020FE4(u16 id, unsigned int sel, u16 heap);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct WordSet;
-extern u32 func_020213E0(u16 v);
+extern u32 PALANM_IsOutsideReservedIdRange(u16 v);
 extern unsigned int func_0202136C(u16 v);
 extern void func_021B6100(char *p, int k);
 struct MsgBank;
@@ -84,7 +84,7 @@ void func_021B7128(Obj *o)
         o->f84C = *p;
     s = o->f010;
     if (s == 2) {
-        if (func_02020FE4(o->f84C, 3, o->f544) == 0 && func_020213E0(o->f84C) == 1) {
+        if (func_02020FE4(o->f84C, 3, o->f544) == 0 && PALANM_IsOutsideReservedIdRange(o->f84C) == 1) {
             if (func_0202136C(o->f84C) != 0)
                 o->f844 = 0x12;
             else

@@ -1,5 +1,5 @@
 /*
- * function: func_02076B8C
+ * function: CARD_TryWaitBackupAsync
  * address:  0x02076B8C
  * packet:   pkt_02076B8C
  * region:   arm9
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern int func_02076070(void);
 
-u32 func_02076B8C(void)
+u32 CARD_TryWaitBackupAsync(void)
 {
     return func_02076070();
 }

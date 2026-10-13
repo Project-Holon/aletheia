@@ -1,5 +1,5 @@
 /*
- * function: func_02154CC8
+ * function: EVENT_BATTLE_REC_SAVE_ProcExit
  * address:  0x02154CC8
  * packet:   pkt_02154CA0
  * region:   ov008
@@ -29,7 +29,7 @@ extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
 
-int func_02154CC8(void *a0, int a1, char *a2, int *a3)
+int EVENT_BATTLE_REC_SAVE_ProcExit(void *a0, int a1, char *a2, int *a3)
 {
     if (((struct Obj18645 *)a2)->f14 == 1) {
         if (func_0200FB24() != 0)

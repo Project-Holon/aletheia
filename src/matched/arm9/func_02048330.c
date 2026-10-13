@@ -1,5 +1,5 @@
 /*
- * function: func_02048330
+ * function: G3D_UTIL_BuildUnitObjects
  * address:  0x02048330
  * packet:   pkt_02048330
  * region:   arm9
@@ -12,7 +12,7 @@
  * symbols:
  *   func_02046F50  0x02046F50  arm
  *   func_02046FF8  0x02046FF8  arm
- *   func_02047348  0x02047348  arm
+ *   G3D_SYSTEM_IsTextureInVram  0x02047348  arm
  *   func_02047400  0x02047400  arm
  *   func_02047564  0x02047564  arm
  *   func_0204767C  0x0204767C  arm
@@ -20,11 +20,11 @@
  *   func_020307B0  0x020307B0  arm
  *   g3d_util_file  0x020A7EB8  data
  *   func_02046DB8  0x02046DB8  arm
- *   func_02046E90  0x02046E90  arm
+ *   G3D_SYSTEM_CreateResourcePath  0x02046E90  arm
  *   func_02046C94  0x02046C94  arm
  *   func_02046CE0  0x02046CE0  arm
  *   func_02048F60  0x02048F60  arm
- *   func_02048F9C  0x02048F9C  arm
+ *   ARC_TOOL_LoadMemberFromPath  0x02048F9C  arm
  *
  * g3d_util.c (the __FILE__ word 0x020A7EB8 of this family).  The utility
  * object is 0x218 bytes: resource handle table and status bytes at +0x00 /
@@ -48,11 +48,11 @@
  * is what keeps the model handle in its stack home [sp,#0x14] and the
  * texture handle in fp without a copy.  With a helper that returns the
  * handle the compiler adds a register copy after each inlined switch
- * (1048 bytes).  The switch is the one func_02048120 carries, __LINE__ 342
+ * (1048 bytes).  The switch is the one G3D_UTIL_LoadUnitResources carries, __LINE__ 342
  * and 355 (the second copy derives 355 from the live constant 1 with rsb).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02048330.c --func func_02048330 --addr 0x02048330 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_BuildUnitObjects.c --func G3D_UTIL_BuildUnitObjects --addr 0x02048330 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -114,14 +114,14 @@ struct Layer;
 struct S02046CE0;
 struct Tagged;
 extern void *func_02046DB8(u32 a0, u32 a1);
-extern void *func_02046E90(u32 a0, u32 a1);
+extern void *G3D_SYSTEM_CreateResourcePath(u32 a0, u32 a1);
 extern int func_02046C94(void);
 extern void func_02046CE0(struct S02046CE0 *out, u32 *tag);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
-extern void *func_02048F9C(const char *path, u32 a, u32 heap);
+extern void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 a, u32 heap);
 extern u32 func_02046F50(struct Tagged *p, u32 sel);
 extern int func_02046FF8(int *self);
-extern int func_02047348(struct Layer *layer);
+extern int G3D_SYSTEM_IsTextureInVram(struct Layer *layer);
 extern void *func_02047400(void *a0, u32 n, void *a2);
 extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
 extern void *func_0204767C(u32 a0, u32 *a1, int a2);
@@ -133,7 +133,7 @@ static inline void createRes(Util *util, const ResSetup *rs, void **out)
         *out = func_02046DB8(rs->arc, rs->dat);
         break;
     case 1:
-        *out = func_02046E90(rs->arc, rs->dat);
+        *out = G3D_SYSTEM_CreateResourcePath(rs->arc, rs->dat);
         break;
     case 2:
         *out = func_02030734(util->heapID, func_02046C94(), 0, g3d_util_file, 342);
@@ -141,7 +141,7 @@ static inline void createRes(Util *util, const ResSetup *rs, void **out)
         break;
     case 3:
         *out = func_02030734(util->heapID, func_02046C94(), 0, g3d_util_file, 355);
-        func_02046CE0(*out, func_02048F9C((const char *)rs->arc, rs->dat, util->heapID));
+        func_02046CE0(*out, ARC_TOOL_LoadMemberFromPath((const char *)rs->arc, rs->dat, util->heapID));
         break;
     }
 }
@@ -158,7 +158,7 @@ static inline int getRes(Util *util, u16 resIdx, u16 idx, const Setup *setup, vo
     }
 }
 
-void func_02048330(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
+void G3D_UTIL_BuildUnitObjects(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
 {
     u16 resIdx = util->unit[unitIdx].resIdx;
     u16 objIdx = util->unit[unitIdx].objIdx;
@@ -187,7 +187,7 @@ void func_02048330(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
             }
         } else {
             tex = mdl;
-            if (func_02047348(mdl) == 0)
+            if (G3D_SYSTEM_IsTextureInVram(mdl) == 0)
                 func_02046FF8(mdl);
         }
         rnd = func_02047400(mdl, os->mdlDatIdx, tex);

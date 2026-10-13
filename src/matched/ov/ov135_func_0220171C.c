@@ -16,8 +16,8 @@
  *   func_022024B0 0x022024B0 thumb ov135
  *   func_02201B44 0x02201B44 thumb ov135
  *   func_021F513C 0x021F513C thumb ov135
- *   func_0203CA04 0x0203CA04 arm
- *   func_0203C968 0x0203C968 arm
+ *   GFL_NET_STATE_SetWifiError 0x0203CA04 arm
+ *   GFL_NET_STATE_ClearErrorMode 0x0203C968 arm
  */
 #include "../include/Obj01943.h"
 #include "../include/Obj23444.h"
@@ -32,9 +32,9 @@ extern void func_022024B0(void *obj, u8 *p);
 extern void func_02201B44(u8 *,void *,u8 *,void *);
 extern void func_021F513C(u8 *p);
 extern u32 func_0200FBB0(void);
-extern void func_0203CA04(void);
+extern void GFL_NET_STATE_SetWifiError(void);
 extern void func_0200FBA0(void);
-extern void func_0203C968(void);
+extern void GFL_NET_STATE_ClearErrorMode(void);
 int func_0220171C(u8 *p)
 {
     int r;
@@ -64,7 +64,7 @@ int func_0220171C(u8 *p)
         case -15: case -14: case -2:
             ((struct Obj01943 *)p)->f38=r;
             ((struct Obj01943 *)p)->f28=0x2B;
-            func_0200FBB0(); func_0203CA04(); func_0200FBA0(); func_0203C968();
+            func_0200FBB0(); GFL_NET_STATE_SetWifiError(); func_0200FBA0(); GFL_NET_STATE_ClearErrorMode();
             break;
         case -13:
             func_021F513C(p);

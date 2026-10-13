@@ -8,14 +8,14 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020457A0
+ * function: STRBUF_SetEosChar
  *
  * symbols:
  *   g_020A7E7C  0x020A7E7C  data
  *
  * Setter for the allocator family's global u16 stamp at 0x020A7E7C: the
  * value every object of this family copies into its own +0x8 field when
- * it is constructed (sub_020457B0) or reset (sub_0204581C). Those two
+ * it is constructed (STRBUF_Create) or reset (STRBUF_Clear). Those two
  * functions are its readers, and their literal pools at 0x02045804 and
  * 0x02045834 are the outside witnesses for this file's own pool word,
  * which is why the three are kept in separate files rather than folded
@@ -24,12 +24,12 @@
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
  *
  * 0x020A7E7C sits immediately before the __FILE__ string at 0x020A7E80
- * that sub_020457B0 passes to the allocator, so it is the last word of
+ * that STRBUF_Create passes to the allocator, so it is the last word of
  * data before the packed string area.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020457A0.c \
- *       --func sub_020457A0 --addr 0x020457A0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/STRBUF_SetEosChar.c \
+ *       --func STRBUF_SetEosChar --addr 0x020457A0 --cc 1.1p1 --arm
  */
 
 #include "../include/G_AllocStamp.h"
@@ -38,7 +38,7 @@ typedef unsigned short u16;
 
 /*
  * The global based at 0x020A7E7C is one small object, not two independent
- * words: sub_020457B0 loads 0x020A7E80 out of a pool as the allocator's
+ * words: STRBUF_Create loads 0x020A7E80 out of a pool as the allocator's
  * fourth argument, and that word is this symbol plus four
  * (docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md).
  * Reading it as a separate object splits one symbol into two and loses
@@ -48,7 +48,7 @@ typedef unsigned short u16;
 
 extern struct AllocStamp g_020A7E7C;
 
-void sub_020457A0(u16 stamp)
+void STRBUF_SetEosChar(u16 stamp)
 {
     g_020A7E7C.value = stamp;
 }

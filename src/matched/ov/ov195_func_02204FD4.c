@@ -15,16 +15,16 @@
  *
  * symbols:
  *   func_02204F24  0x02204F24  thumb
- *   func_02005D90  0x02005D90  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  */
 extern void func_02204F24(int, int *);
-extern void func_02005D90(int, int);
+extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 
 void func_02204FD4(int a, int *p)
 {
     if (p[0xc] == 4) {
         func_02204F24(a, p);
-        func_02005D90(0x515, 0xffff);
+        GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
         p[0xc] = 9;
     }
 }

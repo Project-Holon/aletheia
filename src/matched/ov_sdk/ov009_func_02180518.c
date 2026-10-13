@@ -12,9 +12,9 @@
  * sdk:      gsUdpClosedRoutingCB (gsudpengine.o)
  *
  * symbols:
- *   func_02180404                  0x02180404  arm ov009
- *   func_02195E28                  0x02195E28  arm ov009
- *   func_02195E30                  0x02195E30  arm ov009
+ *   gsUdpEngineContext                  0x02180404  arm ov009
+ *   gt2GetRemoteIP                  0x02195E28  arm ov009
+ *   gt2GetRemotePort                  0x02195E30  arm ov009
  *   func_02198620                  0x02198620  arm ov009
  *   func_0217D254                  0x0217D254  arm ov009
  *   func_02184200                  0x02184200  arm ov009
@@ -61,9 +61,9 @@ typedef struct GSUdpEngineObject {
     unsigned short mLocalPort;
 } GSUdpEngineObject;
 
-extern void *func_02180404(void);
-extern int func_02195E28(const int *p);
-extern unsigned short func_02195E30(const unsigned short *p);
+extern void *gsUdpEngineContext(void);
+extern int gt2GetRemoteIP(const int *p);
+extern unsigned short gt2GetRemotePort(const unsigned short *p);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_02184200(const int *p);
@@ -85,7 +85,7 @@ void func_02180518(void *theConnection, int reason)
     char anAddr[22];
     GSUdpMsgHandler *aHandler;
 
-    aUdp = func_02180404();
+    aUdp = gsUdpEngineContext();
     if (reason == 2 || reason == 3)
         aReason = 2;
     else if (reason == 4)
@@ -94,20 +94,20 @@ void func_02180518(void *theConnection, int reason)
         aReason = reason;
 
     func_0217D254(12, 0, 16, g_021A38A8,
-        func_02198620(func_02195E28(theConnection), func_02195E30(theConnection), anAddr));
+        func_02198620(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
 
     len = func_02184200(aUdp->mMsgHandlers);
     for (index = 0; index < len; index++) {
         aHandler = (GSUdpMsgHandler *)func_02184208(aUdp->mMsgHandlers, index);
         if (aHandler->mClosed) {
             func_0217D254(12, 0, 16, g_021A38D0);
-            aHandler->mClosed(func_02195E28(theConnection), func_02195E30(theConnection), aReason, aHandler->mUserData);
+            aHandler->mClosed(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), aReason, aHandler->mUserData);
         }
     }
 
     if (aUdp->mAppClosed) {
         func_0217D254(12, 0, 16, g_021A390C);
-        aUdp->mAppClosed(func_02195E28(theConnection), func_02195E30(theConnection), aReason, aUdp->mAppUserData);
+        aUdp->mAppClosed(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), aReason, aUdp->mAppUserData);
     }
 
     aRemotePeer.mConnection = theConnection;

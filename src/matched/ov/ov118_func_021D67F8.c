@@ -17,7 +17,7 @@
  *   func_021DFB84  0x021DFB84  thumb  ov119
  *   func_02015F2C  0x02015F2C  thumb
  *   func_021DFD0C  0x021DFD0C  thumb  ov119
- *   func_02015F50  0x02015F50  thumb
+ *   MCSS_SetPaletteFade  0x02015F50  thumb
  *   func_021E106C  0x021E106C  thumb  ov119
  *   func_02040EBC  0x02040EBC  arm
  *   func_021D8E84  0x021D8E84  thumb  ov119
@@ -47,7 +47,7 @@ extern void func_021DFD24(u32 *p);
 extern void *func_021DFB84(void *a0, void *a1, void *a2, u32 heapId);
 extern void func_02015F2C(u32 obj, void *arg, void (*cb)(void), int a);
 extern void func_021DFD0C(char *p);
-extern void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
+extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 extern void func_021E106C(char *p);
 extern void func_02040EBC(u32 a0, u32 a1);
 extern void func_021D8E84(void *p, int next);
@@ -80,7 +80,7 @@ void func_021D67F8(u8 *p)
     func_021DFD24((u32 *)SLOT1);
     SLOT1 = (u32)func_021DFB84((void *)OBJ(1), (void *)func_021D6734(0x54), &b, HEAP);
     func_02015F2C(OBJ(0), p, (void (*)(void))func_021DFD0C, 1);
-    func_02015F50((struct McssFade *)OBJ(1), 0, 0x10, (s8)(func_021D6734(0xE) / 16), 0);
+    MCSS_SetPaletteFade((struct McssFade *)OBJ(1), 0, 0x10, (s8)(func_021D6734(0xE) / 16), 0);
     func_021E106C((char *)p);
     func_02040EBC(1, 0);
     func_02040EBC(5, 0);

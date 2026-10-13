@@ -14,15 +14,15 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_020334CC  0x020334CC  arm
+ *   BACKUP_SYSTEM_ReadFlash  0x020334CC  arm
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_020307B0  0x020307B0  arm
  *   d_021DFF60     0x021DFF60  data a1
- *   func_02033494  0x02033494  arm
- *   func_020334B0  0x020334B0  arm
+ *   BACKUP_SYSTEM_WriteFlashAsync  0x02033494  arm
+ *   BACKUP_SYSTEM_CheckFlashAsync  0x020334B0  arm
  *   func_020071CC 0x020071CC thumb
- *   func_0200A50C 0x0200A50C thumb
- *   func_0200A4B8 0x0200A4B8 thumb
+ *   MYSTERY_DATA_DecryptBuffer 0x0200A50C thumb
+ *   MYSTERY_DATA_EncryptBuffer 0x0200A4B8 thumb
  */
 #include "../../matched/include/Obj04656.h"
 #include "../../matched/include/Obj14811.h"
@@ -40,15 +40,15 @@ typedef unsigned int u32;
 struct Blk { u32 w[51]; };
 
 extern void *func_02030734(u32 heap,u32 size,int clear,const char *site,u16 tag);
-extern int func_020334CC(u32 a, u32 b, u32 c);
+extern int BACKUP_SYSTEM_ReadFlash(u32 a, u32 b, u32 c);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_02082D44(const void *src,void *dest,u32 size);
 extern u32 func_020307B0(void *p);
-extern u16 func_02033494(u32, void *, u32);
-extern int func_020334B0(u16, u16 *);
+extern u16 BACKUP_SYSTEM_WriteFlashAsync(u32, void *, u32);
+extern int BACKUP_SYSTEM_CheckFlashAsync(u16, u16 *);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void func_0200A50C(void *base, u32 kind);
-extern void func_0200A4B8(void *base, u32 kind);
+extern void MYSTERY_DATA_DecryptBuffer(void *base, u32 kind);
+extern void MYSTERY_DATA_EncryptBuffer(void *base, u32 kind);
 void *func_021DFC20(u32 heap);
 void func_021DFDB8(void *p);
 void func_021DFDC0(u8 *p);
@@ -87,8 +87,8 @@ void *func_021DFC20(u32 heap)
         ok[i]=0;
         bad[i]=0;
     }
-    ok[0]=func_020334CC(0x7F800,(u32)buf[0],0x374);
-    ok[1]=func_020334CC(0x7FC00,(u32)buf[1],0x374);
+    ok[0]=BACKUP_SYSTEM_ReadFlash(0x7F800,(u32)buf[0],0x374);
+    ok[1]=BACKUP_SYSTEM_ReadFlash(0x7FC00,(u32)buf[1],0x374);
     for(i=0;i<2;i++){
         if(ok[i]==1){
             p=buf[i];
@@ -128,7 +128,7 @@ void *func_021DFC20(u32 heap)
  * Unlabelled leaf in ov228 (it saves nothing; the listing prints it as
  * .word data after pool_021DFDB4): a one-argument forwarding tail call to
  * the heap free func_020307B0, `ldr r3, [pc]; bx r3` plus the pool word.
- * Its caller is arm9 func_0200A3D0 (mystery_data.c), whose MATCH park names
+ * Its caller is arm9 MYSTERY_DATA_Unload (mystery_data.c), whose MATCH park names
  * this address as its only unwitnessed call.  Integrator: seed ov228
  * 0x021DFDB8.
  */
@@ -152,7 +152,7 @@ void func_021DFDC0(u8 *p)
 
 
 /*
- * Unblocked: func_02033494/020334B0 have no traced func_ start (they are
+ * Unblocked: BACKUP_SYSTEM_WriteFlashAsync/020334B0 have no traced func_ start (they are
  * ARM tail-call accessors that save no lr), so they are invisible to
  * `sole-ref/code`; both were matched at 0x02033494 and 0x020334B0 and now
  * attest this file's two calls on the `matched` class.
@@ -165,12 +165,12 @@ int func_021DFE00(u8 *p)
     case 0:
     case 2:
         ((struct Obj02268 *)p)->f37C =
-            func_02033494(p[0x37A] == 0 ? 0x7F800 : 0x7FC00, p, 0x374);
+            BACKUP_SYSTEM_WriteFlashAsync(p[0x37A] == 0 ? 0x7F800 : 0x7FC00, p, 0x374);
         p[0x379] = p[0x379] + 1;
         break;
     case 1:
     case 3:
-        if (func_020334B0(((struct Obj02268 *)p)->f37C, &v) == 1) {
+        if (BACKUP_SYSTEM_CheckFlashAsync(((struct Obj02268 *)p)->f37C, &v) == 1) {
             p[0x37A] = p[0x37A] ^ 1;
             p[0x379] = p[0x379] + 1;
         }
@@ -186,7 +186,7 @@ int func_021DFE00(u8 *p)
 
 /*
  * Unlabelled leaf in ov228: returns the byte at +0x378 of the overlay's
- * work object (0x378 built as 0xDE << 2).  Caller: arm9 sub_0200A358
+ * work object (0x378 built as 0xDE << 2).  Caller: arm9 MYSTERY_DATA_Load
  * (mystery_data.c).  Integrator: seed ov228 0x021DFE90.
  */
 u8 func_021DFE90(u8 *p)
@@ -216,12 +216,12 @@ void func_021DFEB0(char *p, void *ctrl)
     int j;
     buf = func_020071CC(ctrl, 0x22);
     src = (u8 *)p + 0xC;
-    func_0200A50C(buf, 1);
-    func_0200A50C(src, 0);
+    MYSTERY_DATA_DecryptBuffer(buf, 1);
+    MYSTERY_DATA_DecryptBuffer(src, 0);
     for (i = 0; i < 256; i++)
         buf[i] = src[i];
     for (j = 0; j < 3; j++)
         *(struct Blk *)(buf + 0x100 + j * 0xCC) = *(struct Blk *)(src + 0x100 + j * 0xCC);
-    func_0200A4B8(buf, 1);
-    func_0200A4B8(src, 0);
+    MYSTERY_DATA_EncryptBuffer(buf, 1);
+    MYSTERY_DATA_EncryptBuffer(src, 0);
 }

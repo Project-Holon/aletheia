@@ -14,7 +14,7 @@
  *   func_02053A60   0x02053A60  arm
  *   func_020583CC   0x020583CC  arm
  *
- * Promote-first callee of src/pending/func_020515B4.c (parks lane 2).
+ * Promote-first callee of src/pending/PARTICLE_StartEffect.c (parks lane 2).
  * Pops one node off the list at p+0x10, runs the loader for the node and
  * (p->f28 + (arg1 << 5), arg2), then hands the node to func_020583CC; the
  * node is discarded when bit 14 of the word at *(node->f20) is set.

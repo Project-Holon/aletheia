@@ -1,5 +1,5 @@
 /*
- * function: func_02021728
+ * function: PALANM_GetDefaultWork
  * address:  0x02021728
  * packet:   pkt_02021728
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
-int func_02021728(char *p, int i)
+int PALANM_GetDefaultWork(char *p, int i)
 {
     return *(int *)(p + i * 0x14);
 }

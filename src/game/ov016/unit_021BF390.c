@@ -68,6 +68,7 @@
  *   touch                            0x021BFCF8  arm
  *   touchRelease                     0x021BFB38  arm
  *   touchTriger                      0x021BF988  arm
+ *   DWCi_TSKlSetParam  0x021D771C  arm
  */
 typedef _Bool bool;
 
@@ -158,7 +159,7 @@ extern bool DWCi_TPlCheck(RECT *r);
 extern bool DWCi_TPlCheckRelease(RECT *r);
 extern bool DWCi_TPlCheckTrigger(RECT *r);
 extern void func_021D4F60(u8 *p);
-extern void func_021D771C(char *p, unsigned int v);
+extern void DWCi_TSKlSetParam(char *p, unsigned int v);
 void DWCi_KB10lInit(void);
 void func_021BF6B0(void);
 unsigned char func_021BF6E0(void);
@@ -313,7 +314,7 @@ void DWCi_KB10lInit(void)
 void func_021BF6B0(void)
 {
     func_021D4F60((u8 *)(*(int *)(*(char **)0x021DE560 + 0x58)));
-    func_021D771C((char *)(*(int *)(*(char **)0x021DE560 + 0x5c)), (unsigned int)((void *)0x021C0528));
+    DWCi_TSKlSetParam((char *)(*(int *)(*(char **)0x021DE560 + 0x5c)), (unsigned int)((void *)0x021C0528));
 }
 
 unsigned char func_021BF6E0(void)

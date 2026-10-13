@@ -12,7 +12,7 @@
  * symbols:
  *   func_0215A5F4  0x0215A5F4  thumb  ov010
  *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012F80  0x02012F80  thumb
+ *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   func_021CD688  0x021CD688  thumb  ov021
  *   func_021FC804  0x021FC804  thumb  ov132
  *   func_021CD5A4  0x021CD5A4  thumb  ov021
@@ -32,7 +32,7 @@ struct W {
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *p);
-extern int func_02012F80(char *base);
+extern int GAME_DATA_GetExternalWork(char *base);
 extern u32 func_021CD688(u8 *p);
 extern void func_021FC804(char *p);
 extern u32 func_021CD5A4(u32 *p);
@@ -44,7 +44,7 @@ int func_0215E010(void *a, void *b)
     int v;
 
     func_0215A5F4(b);
-    w = (struct W *)func_02012F80(func_0215A5E4(b));
+    w = (struct W *)GAME_DATA_GetExternalWork(func_0215A5E4(b));
     r = 0;
     switch (func_021CD688(w->f8)) {
     case 1:

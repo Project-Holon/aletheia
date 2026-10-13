@@ -42,7 +42,7 @@
  *   func_0217E40C 0x0217E40C thumb ov176
  *   func_0217E414 0x0217E414 thumb ov176
  *   func_0200B1A8 0x0200B1A8 thumb
- *   func_0200B480 0x0200B480 thumb
+ *   BATTLE_REC_ClearWork 0x0200B480 thumb
  *   func_0200E904 0x0200E904 thumb
  *   func_0200B1F8 0x0200B1F8 thumb
  *   func_0200B1E0 0x0200B1E0 thumb
@@ -90,7 +90,7 @@ extern u32 func_020362DC(void);
 extern void func_0217E40C(int *);
 extern int func_0217E414(char *);
 extern u32 func_0200B1A8(struct Reg2 *p);
-extern void func_0200B480(void);
+extern void BATTLE_REC_ClearWork(void);
 extern void func_0200E904(void *);
 extern void func_0200B1F8(struct Rec1E *p);
 extern void func_0200B1E0(struct Rec160 *arr, u32 index, const struct Rec160 *src);
@@ -152,7 +152,7 @@ void func_0217BBDC(int *sys,u32 *state,u8 *p)
             }else *state=26;
         }else *state=25;
         break;
-    case 22:func_0200B480();func_0217CFE8(p,10,2);*state=31;func_021E8AB4((u32)sys,23);break;
+    case 22:BATTLE_REC_ClearWork();func_0217CFE8(p,10,2);*state=31;func_021E8AB4((u32)sys,23);break;
     case 23:{
         void *base=func_0200B358(func_02012EBC(((struct Obj00053 *)p)->f1B8));
         void *entry=func_0200B204(base,1);

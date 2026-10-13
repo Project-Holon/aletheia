@@ -10,8 +10,8 @@
  * status: EXACT*
  * EXACT* tail: two zero alignment bytes after the function.
  * symbols:
- *   sub_02045374 0x02045374 arm
- *   sub_02045730 0x02045730 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   sub_02041B6C 0x02041B6C arm
  */
 typedef unsigned char u8;
@@ -20,7 +20,7 @@ typedef short s16;
 typedef unsigned int u32;
 struct Descriptor;
 struct Cfg;
-extern void sub_02045374(struct Cfg *);
-extern u8 sub_02045730(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void sub_02041B6C(u32);
-void func_0220B07C(void **p) { sub_02045374((struct Cfg *)*p); sub_02041B6C(sub_02045730((struct Descriptor *)*p)); }
+void func_0220B07C(void **p) { BMP_WIN_MakeScreen((struct Cfg *)*p); sub_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)*p)); }

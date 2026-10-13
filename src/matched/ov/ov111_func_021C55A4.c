@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_02035C08  0x02035C08  arm
- *   func_02035BA4  0x02035BA4  arm
+ *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   func_02035C60  0x02035C60  arm
  *   func_02035D20  0x02035D20  arm
  *   func_02035C38  0x02035C38  arm
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_021C6874  0x021C6874  thumb  ov111
  *   func_020061E4  0x020061E4  thumb
  *   d_021C8544     0x021C8544  data  a1
@@ -41,11 +41,11 @@ typedef struct {
 } Work;
 
 extern int func_02035C08(const void *rect);
-extern int func_02035BA4(const void *p);
+extern int TOUCHPANEL_HitCont(const void *p);
 extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *x, u32 *y);
 extern int func_02035C38(void);
-extern u32 func_02035CB8(u32 *x, u32 *y);
+extern u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
 extern void func_021C6874(Work *p, int scroll, int flush, int idx);
 extern void func_020061E4(u32 a);
 extern const u8 d_021C8544[];
@@ -58,14 +58,14 @@ void func_021C55A4(Work *p)
     if (!func_02035C08(d_021C8544)) {
         p->b330E = 1;
     }
-    if (p->b330E != 0 && !func_02035BA4(d_021C8544)) {
+    if (p->b330E != 0 && !TOUCHPANEL_HitCont(d_021C8544)) {
         if (func_02035C60()) {
             func_02035D20(&x, &y);
             p->grabY = y;
             p->grabScroll = p->scroll;
         }
         if (func_02035C38()) {
-            func_02035CB8(&x, &y);
+            TOUCHPANEL_GetPointCont(&x, &y);
             p->scroll = p->grabScroll - (p->grabY - y);
         }
         lim = -(p->rows - 4) << 4;

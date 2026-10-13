@@ -1,5 +1,5 @@
 /*
- * function: func_02027A20
+ * function: APP_TASKMENU_IsDecide
  * address:  0x02027A20
  * packet:   pkt_02027A20
  * region:   arm9
@@ -14,7 +14,7 @@
  */
 #include "../include/Obj15770.h"
 
-unsigned func_02027A20(char *p)
+unsigned APP_TASKMENU_IsDecide(char *p)
 {
     return ((struct Obj15770 *)p)->fC;
 }

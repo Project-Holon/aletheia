@@ -12,7 +12,7 @@
  * symbols:
  *   d_021F3B88     0x021F3B88  data  ov093
  *   func_02039CB4  0x02039CB4  arm
- *   func_0203A424  0x0203A424  arm
+ *   GFL_NET_HANDLE_SetUserInfo  0x0203A424  arm
  */
 
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ struct S {
 extern struct S *d_021F3B88;
 struct Link;
 extern unsigned int func_02039CB4(struct Link *a0, unsigned int a1, unsigned int a2);
-extern void func_0203A424(char *p, int a, int b, int c);
+extern void GFL_NET_HANDLE_SetUserInfo(char *p, int a, int b, int c);
 
 int func_021D4B18(int a)
 {
@@ -47,7 +47,7 @@ int func_021D4B18(int a)
                 return r;
             }
         } else {
-            func_0203A424(p->f00, a, 1, p->f08);
+            GFL_NET_HANDLE_SetUserInfo(p->f00, a, 1, p->f08);
         }
         return 0;
     }

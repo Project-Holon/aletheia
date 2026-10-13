@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02007168",
+   "name": "SAVE_CONTROL_MainSave",
    "address": "0x02007168",
    "kind": "game",
    "region": "arm9",

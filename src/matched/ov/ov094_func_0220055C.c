@@ -13,18 +13,18 @@
  * src/matched/arm9, which closes the former MATCH.
  *
  * symbols:
- *   func_02016394  0x02016394  thumb
+ *   MCSS_SetWorkFlag  0x02016394  thumb
  *   func_021F8710  0x021F8710  thumb  ov094
  *   func_022019F4  0x022019F4  thumb  ov094
  *
- * blocker: unlabelled arm9 Thumb leaf func_02016394 (the integrator's; no witness outside
+ * blocker: unlabelled arm9 Thumb leaf MCSS_SetWorkFlag (the integrator's; no witness outside
  *   0220055C..022005C2). Every concrete byte matches (MATCH*, the extent's 2 extra bytes
  *   are the pad); only the final bl relocation stays wildcarded.
  *   Verified C (match.py one, --thumb, no --region, dsi/1.1p1 -O4,p), EXACT, 28 bytes:
  *
  *     typedef struct { char pad[0x140]; unsigned int lo : 30; unsigned int f : 1;
  *                      unsigned int hi : 1; } S;
- *     void func_02016394(S *s, int f)        // 0x02016394
+ *     void MCSS_SetWorkFlag(S *s, int f)        // 0x02016394
  *     {
  *         s->f = f;
  *     }
@@ -49,7 +49,7 @@ typedef struct {
 
 extern int func_022019F4(char *p, int key);
 extern int func_021F8710(void);
-extern void func_02016394(void *h, int flag);
+extern void MCSS_SetWorkFlag(void *h, int flag);
 
 void func_0220055C(Work *w, int key, int mode)
 {
@@ -85,5 +85,5 @@ void func_0220055C(Work *w, int key, int mode)
             break;
         }
     }
-    func_02016394(w->e[i].h, f);
+    MCSS_SetWorkFlag(w->e[i].h, f);
 }

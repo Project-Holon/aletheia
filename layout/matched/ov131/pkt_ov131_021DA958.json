@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DA958",
+   "name": "P_STA_SKILL_UpdateInput",
    "address": "0x021DA958",
    "kind": "game",
    "region": "ov131",

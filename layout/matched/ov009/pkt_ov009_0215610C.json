@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215610C",
+   "name": "DWC_RAP_CanSendToAllPeers",
    "address": "0x0215610C",
    "kind": "game",
    "region": "ov009",

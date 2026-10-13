@@ -1,5 +1,5 @@
 /*
- * function: func_02015EC4
+ * function: MCSS_FlipVanishFlag
  * address:  0x02015EC4
  * packet:   pkt_02015EC4
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct {
     unsigned int hi : 20;
 } R;
 
-void func_02015EC4(R *p)
+void MCSS_FlipVanishFlag(R *p)
 {
     p->b = p->b ^ 1;
 }

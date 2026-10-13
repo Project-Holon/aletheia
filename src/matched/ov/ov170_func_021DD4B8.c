@@ -19,7 +19,7 @@
  *   func_02017988 0x02017988 thumb
  *   func_0200CA1C 0x0200CA1C thumb
  *   func_0200CFA0 0x0200CFA0 thumb
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_0200752C 0x0200752C thumb
  */
 extern int func_021DD684(unsigned char *,unsigned);
@@ -35,7 +35,7 @@ struct Sub02007454Entry;
 extern u32 func_02017988(void *p, u32 a);
 extern void *func_0200CA1C(void *);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
-extern void *func_020185F4(void *);
+extern void *POKE_TOOL_GetBoxParam(void *);
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 void func_021DD4B8(unsigned char *p,unsigned a,unsigned b)
 {
@@ -48,7 +48,7 @@ void func_021DD4B8(unsigned char *p,unsigned a,unsigned b)
         func_021DD8A8(p,a);
         func_0200CFA0(func_0200CA1C((*(void ***)p)[0]),m);
     }
-    func_0200752C((*(void ***)p)[1],box,func_020185F4(m));
+    func_0200752C((*(void ***)p)[1],box,POKE_TOOL_GetBoxParam(m));
     func_021DD314((char **)p,p[0x14],a);
     func_021EDAB0((char *)p,box);
     func_021EDB34((char *)p,box);

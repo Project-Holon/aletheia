@@ -1,5 +1,5 @@
 /*
- * function: func_0203D844
+ * function: GFL_NET_CopyInitParam
  * address:  0x0203D844
  * packet:   pkt_0203D7C8
  * region:   arm9
@@ -12,17 +12,20 @@
  * Copies 0x70 bytes from the net context into the destination.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D844.c \
- *       --func func_0203D844 --addr 0x0203D844 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_CopyInitParam.c \
+ *       --func GFL_NET_CopyInitParam --addr 0x0203D844 --arm --cc 1.1p1
+ *
+ * symbols:
+ *   GFL_NET_GetSession  0x0203D788  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 extern void func_02082D44(void *dst, const void *src, u32 size);
 
-void func_0203D844(void *dst)
+void GFL_NET_CopyInitParam(void *dst)
 {
-    func_02082D44(dst, func_0203D788(), 0x70);
+    func_02082D44(dst, GFL_NET_GetSession(), 0x70);
 }

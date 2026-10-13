@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * note: twelve-byte tail forwarder (pool word and bx) to func_020212E4 with
- *   the second argument; witness for ov131 func_021DB140 (bl at +0x13A),
+ *   the second argument; witness for ov131 P_STA_SKILL_HandleTouchForget (bl at +0x13A),
  *   whose call supplies a pointer, a halfword and a second halfword.
  * symbols:
  *   func_020212E4  0x020212E4  thumb

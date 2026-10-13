@@ -1,5 +1,5 @@
 /*
- * function: func_021DBE98
+ * function: P_STA_OAM_SwapInts
  * address: 0x021DBE98
  * packet: pkt_ov131_021DBE98
  * region: ov131
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021DBE98(int *a, int *b) {
+void P_STA_OAM_SwapInts(int *a, int *b) {
  int t = *a;
  *a = *b;
  *b = t;

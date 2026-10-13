@@ -27,112 +27,103 @@
  *   d_021F06E0     0x021F06E0  data   ov093  a4
  *   d_021F06D8     0x021F06D8  data   ov093  a4
  */
-typedef unsigned char u8;
+#include "unit_021DB0E4_types.h"
 
-typedef unsigned short u16;
+/* Ability handlers: Magic Guard, Stench, Shadow Tag, Arena Trap, and the table getter of Magnet Pull. */
 
-typedef unsigned int u32;
+#define ABILITY_SHADOW_TAG 0x17
+#define STENCH_FLINCH_CHANCE 10
+#define OPPONENT_ID_BUFFER_SIZE 4
 
-typedef signed char s8;
+const BtlEventHandler *func_021DB9AC(int *handlerCount);
+void func_021DB9B8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DB9D0(int *handlerCount);
+void func_021DB9DC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DBA00(int *handlerCount);
+void func_021DBA0C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DBA74(int *handlerCount);
+void func_021DBA80(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DBAE4(int *handlerCount);
+extern const BtlEventHandler d_021F06F8[];
+extern const BtlEventHandler d_021F06E8[];
+extern const BtlEventHandler d_021F06F0[];
+extern const BtlEventHandler d_021F06E0[];
+extern const BtlEventHandler d_021F06D8[];
 
-typedef signed short s16;
-
-typedef signed int s32;
-
-extern int func_021D775C(int);
-extern int func_021D76BC(int,unsigned int);
-extern int func_021B9A24(unsigned int a, unsigned int b);
-extern int func_021C7D00(u8 *p, int b);
-extern u8 func_021C7F68(int *p, int b, u8 *out);
-extern void *func_021C7CF4(int *p, int i);
-extern int func_021D59B4(u8 *p, int k);
-extern int func_021C8234(u8 *p, int i);
-int *func_021DB9AC(int *p);
-void func_021DB9B8(int a, int b, int c);
-int *func_021DB9D0(int *p);
-void func_021DB9DC(int a,int b,int c);
-int *func_021DBA00(int *p);
-void func_021DBA0C(int a, int p, int x);
-int *func_021DBA74(int *p);
-void func_021DBA80(int a, int p, int x);
-int *func_021DBAE4(int *p);
-extern int d_021F06F8;
-extern int d_021F06E8;
-extern int d_021F06F0[];
-extern int d_021F06E0[];
-extern int d_021F06D8[];
-
-
-
-int *func_021DB9AC(int *p) { *p=1; return &d_021F06F8; }
-
-
-
-
-/* 021DB9B8  shape F1: gate on func_021D775C(4) */
-/*
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #4; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021DB9CE; movs r0, #0x51; movs r1, #0; bl func_021D76BC; pop {r4, pc}.
- */
-void func_021DB9B8(int a, int b, int c)
+const BtlEventHandler *func_021DB9AC(int *handlerCount)
 {
-    if (c == func_021D775C(4))
-        func_021D76BC(0x51, 0);
+    *handlerCount = 1;
+    return d_021F06F8;
 }
 
 
-
-int *func_021DB9D0(int *p)
+/* Magic Guard: when the holder is the target, clear the effect flag. */
+void func_021DB9B8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    *p = 1;
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID))
+        func_021D76BC(BTL_EVAR_EFFECT_FLAG, 0);
+}
+
+
+const BtlEventHandler *func_021DB9D0(int *handlerCount)
+{
+    *handlerCount = 1;
     return d_021F06F0;
 }
 
 
-
-void func_021DB9DC(int a,int b,int c) { if(c==func_021D775C(3) && (unsigned char)func_021D775C(0x25)==0) func_021D76BC(0x26,10); }
-
-
-
-int *func_021DBA00(int *p) { *p=1; return &d_021F06E8; }
-
-
-
-
-void func_021DBA0C(int a, int p, int x)
+/* Stench: when the holder attacks and the move has no flinch chance of its own, give it the Stench chance. */
+void func_021DB9DC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 buf[4];
-    u32 n;
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID) && (unsigned char)func_021D775C(BTL_EVAR_FLINCH_BASE_CHANCE) == 0)
+        func_021D76BC(BTL_EVAR_FLINCH_CHANCE, STENCH_FLINCH_CHANCE);
+}
+
+
+const BtlEventHandler *func_021DBA00(int *handlerCount)
+{
+    *handlerCount = 1;
+    return d_021F06E8;
+}
+
+
+/* Shadow Tag: opposing pokes cannot escape, unless one of them has Shadow Tag too. */
+void func_021DBA0C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+{
+    u8 opponentIds[OPPONENT_ID_BUFFER_SIZE];
+    u32 opponentCount;
     u8 i;
 
-    if (func_021B9A24((u8)func_021D775C(2), (int)x) == 0) {
-        n = func_021C7F68((int *)p, (u16)(func_021C7D00((u8 *)p, x) | 0x100), buf);
-        for (i = 0; i < n; i++) {
-            if (func_021D59B4(func_021C7CF4((int *)p, buf[i]), 0x11) == 0x17)
+    if (func_021B9A24((u8)func_021D775C(BTL_EVAR_POKE_ID), pokeId) == 0) {
+        opponentCount = func_021C7F68(flow, (u16)(func_021C7D00(flow, pokeId) | 0x100), opponentIds);
+        for (i = 0; i < opponentCount; i++) {
+            if (func_021D59B4(func_021C7CF4(flow, opponentIds[i]), BPP_VALUE_CURRENT_ABILITY) == ABILITY_SHADOW_TAG)
                 return;
         }
-        func_021D76BC(0x41, 1);
+        func_021D76BC(BTL_EVAR_PREVENT_FLAG, 1);
     }
 }
 
 
-int *func_021DBA74(int *p)
+const BtlEventHandler *func_021DBA74(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F06E0;
 }
 
 
-void func_021DBA80(int a, int p, int x)
+/* Arena Trap: opposing pokes cannot escape while one of them passes the ground check. */
+void func_021DBA80(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 buf[4];
-    u32 n;
+    u8 opponentIds[OPPONENT_ID_BUFFER_SIZE];
+    u32 opponentCount;
     u8 i;
 
-    if (func_021B9A24((u8)func_021D775C(2), x) == 0) {
-        n = func_021C7F68((int *)p, (u16)(func_021C7D00((u8 *)p, x) | 0x100), buf);
-        for (i = 0; i < n; i++) {
-            if (func_021C8234((u8 *)p, buf[i]) == 0) {
-                func_021D76BC(0x41, 1);
+    if (func_021B9A24((u8)func_021D775C(BTL_EVAR_POKE_ID), pokeId) == 0) {
+        opponentCount = func_021C7F68(flow, (u16)(func_021C7D00(flow, pokeId) | 0x100), opponentIds);
+        for (i = 0; i < opponentCount; i++) {
+            if (func_021C8234(flow, opponentIds[i]) == 0) {
+                func_021D76BC(BTL_EVAR_PREVENT_FLAG, 1);
                 return;
             }
         }
@@ -140,8 +131,8 @@ void func_021DBA80(int a, int p, int x)
 }
 
 
-int *func_021DBAE4(int *p)
+const BtlEventHandler *func_021DBAE4(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F06D8;
 }

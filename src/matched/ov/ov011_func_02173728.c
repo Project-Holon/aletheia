@@ -1,5 +1,5 @@
 /*
- * function: func_02173728
+ * function: INTRUDE_COMM_RecvMemberCount
  * address: 0x02173728
  * packet: pkt_ov011_02173728
  * region: ov011
@@ -25,7 +25,7 @@ extern struct Entry *func_020399A8(void);
 extern unsigned int func_0203D1A4(struct Link *);
 struct BigObj;
 extern void func_02012B4C(struct BigObj *p, u8 v);
-void func_02173728(unsigned int a, int b, u8 *c, u8 *d)
+void INTRUDE_COMM_RecvMemberCount(unsigned int a, int b, u8 *c, u8 *d)
 {
     void *h;
     unsigned int n;

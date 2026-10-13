@@ -15,7 +15,7 @@
  *   func_02045374  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
- *   func_020278F4  0x020278F4  thumb
+ *   APP_TASKMENU_TransWinAfterPrint  0x020278F4  thumb
  *   func_020061E4  0x020061E4  thumb
  *   func_0201F7A8  0x0201F7A8  thumb
  *   func_021852F4  0x021852F4  thumb  ov023
@@ -45,7 +45,7 @@ struct Cfg;
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 a);
-extern void func_020278F4(u8 *p);
+extern void APP_TASKMENU_TransWinAfterPrint(u8 *p);
 extern void func_020061E4(u32 a);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_021852F4(void *p, int flag);
@@ -63,14 +63,14 @@ int func_02185454(char *p, int x)
     ((Bits *)(p + 0x4210))->mid = 0;
     if (((struct Obj02741 *)p)->f4217 == 2 && func_02039338() != 0) {
         func_02185354(p);
-        func_020278F4(((struct Obj02741 *)p)->f178);
+        APP_TASKMENU_TransWinAfterPrint(((struct Obj02741 *)p)->f178);
         if (func_021864A8(p))
             func_020061E4(0x54b);
         return x;
     }
     if (func_02039338() == 0 && ((struct Obj02741 *)p)->f9280 != 0) {
         func_02185354(p);
-        func_020278F4(((struct Obj02741 *)p)->f178);
+        APP_TASKMENU_TransWinAfterPrint(((struct Obj02741 *)p)->f178);
         return x;
     }
     switch (func_02186660(p)) {

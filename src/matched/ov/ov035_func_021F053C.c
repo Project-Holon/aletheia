@@ -12,7 +12,7 @@
  * symbols:
  *   func_021F053C 0x021F053C thumb
  *   func_020456F8 0x020456F8 arm
- *   func_02045788 0x02045788 arm
+ *   BMP_WIN_SetPosY 0x02045788 arm
  *   func_02045334 0x02045334 arm
  *   func_02045374 0x02045374 arm
  *   func_021F0254 0x021F0254 thumb ov035
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 struct Cfg;
 struct Descriptor;
 extern void func_020456F8(struct Descriptor *d);
-extern void func_02045788(struct Descriptor *p, u8 v);
+extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
@@ -42,7 +42,7 @@ int func_021F053C(char *p)
     case 0:
         func_020456F8((struct Descriptor *)(((struct Obj02755 *)p)->f18));
         func_020456F8((struct Descriptor *)(((struct Obj02755 *)p)->f1C));
-        func_02045788((struct Descriptor *)(((struct Obj02755 *)p)->f1C), 6);
+        BMP_WIN_SetPosY((struct Descriptor *)(((struct Obj02755 *)p)->f1C), 6);
         func_02045334((struct Descriptor *)((struct Obj02755 *)p)->f1C);
         func_02045374((struct Cfg *)(((struct Obj02755 *)p)->f1C));
         func_021F0254(p, ((struct Obj02755 *)p)->f1C, 4);

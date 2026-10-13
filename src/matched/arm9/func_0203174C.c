@@ -1,5 +1,5 @@
 /*
- * function: func_0203174C
+ * function: BACKUP_SYSTEM_CreateCore
  * address:  0x0203174C
  * packet:   pkt_0203174C
  * region:   arm9
@@ -11,18 +11,18 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02033908  0x02033908  arm
+ *   SAVEDATA_CreateTable  0x02033908  arm
  *   func_02033BF8  0x02033BF8  arm
- *   func_02033410  0x02033410  arm
- *   func_020319C0  0x020319C0  arm
+ *   BACKUP_SYSTEM_FillBlockAreas  0x02033410  arm
+ *   BACKUP_SYSTEM_ClearWork  0x020319C0  arm
  *   func_02034714  0x02034714  arm
  *   str_020A7848   0x020A7848  data
  *   str_020A7858   0x020A7858  data
  *   str_020A7868   0x020A7868  data
- *   g_02146994     0x02146994  data
+ *   svsys     0x02146994  data
  *
  * backup_system.c.  The save-block constructor; its already-matched caller
- * src/matched/func_0203192C.c fixes the five-argument signature.  The
+ * src/matched/BACKUP_SYSTEM_Create.c fixes the five-argument signature.  The
  * allocator func_02030734 takes (heap, size, align, __FILE__, __LINE__)
  * with the line on the stack: 0x10e, 0x125 and 0x131.  0x154 is the block
  * size, kept live in sb, and the second assert's line 0x116 is derived from
@@ -78,24 +78,24 @@ struct Blk {
 extern void *func_02030734(u16 heap, u32 size, u32 align, const u8 *file,
                            u32 line);
 struct Obj02033410;
-extern void *func_02033908(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void *SAVEDATA_CreateTable(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 struct Obj02033BF0;
 extern u32 func_02033BF8(struct Obj02033BF0 *p);
-extern void func_02033410(struct Obj02033410 *p, u32 val);
-extern void func_020319C0(u8 *p);
+extern void BACKUP_SYSTEM_FillBlockAreas(struct Obj02033410 *p, u32 val);
+extern void BACKUP_SYSTEM_ClearWork(u8 *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const u8 str_020A7848[];
 extern const u8 str_020A7858[];
 extern const u8 str_020A7868[];
-extern struct SaveMain *g_02146994;
+extern struct SaveMain *svsys;
 
-struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
+struct Blk *BACKUP_SYSTEM_CreateCore(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
 {
     struct Blk *b;
     u32 n;
     void *tbl;
 
-    if ((*(u32 *)&g_02146994) == 0)
+    if ((*(u32 *)&svsys) == 0)
         func_02034714((const char *)str_020A7848, 0x10c, (const char *)str_020A7858);
 
     b = (struct Blk *)func_02030734(heap, 0x154, 1, str_020A7848, 0x10e);
@@ -118,7 +118,7 @@ struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
 
     b->f138 = (u32)func_02030734(heap, b->f13c, 1, str_020A7848,
                                  0x125);
-    tbl = func_02033908((u16)heap, in->f00, in->f04, b->f08, 0x10, 4, b->f140);
+    tbl = SAVEDATA_CreateTable((u16)heap, in->f00, in->f04, b->f08, 0x10, 4, b->f140);
     b->f2c = (u32)tbl;
     b->f30 = func_02033BF8(tbl);
     if (c != 0) {
@@ -133,8 +133,8 @@ struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
     b->f28 = 0;
     b->f24 = 0;
     if (e == 1)
-        func_020319C0((u8 *)b);
+        BACKUP_SYSTEM_ClearWork((u8 *)b);
     else
-        func_02033410((struct Obj02033410 *)b, 1);
+        BACKUP_SYSTEM_FillBlockAreas((struct Obj02033410 *)b, 1);
     return b;
 }

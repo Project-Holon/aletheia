@@ -13,15 +13,12 @@
  *   func_02047A60  0x02047A60  arm
  *   d_021F38C4     0x021F38C4  data
  */
-#include "../../../matched/include/Obj09853.h"
+#include "../unit_021F36C0_types.h"
 
-struct Arg;
-extern void func_02047A60(void *a0, struct Arg *a1);
-extern int d_021F38C4;
-
-void func_021F3858(int a, int b, char *c)
+/* Draw the three objects of the scene with the same position, scale and rotation. */
+void func_021F3858(void *unused, struct FieldMap *fieldMap, ModelScene *scene)
 {
-    func_02047A60(((struct Obj09853 *)c)->f38, (struct Arg *)(&d_021F38C4));
-    func_02047A60(((struct Obj09853 *)c)->f3C, (struct Arg *)(&d_021F38C4));
-    func_02047A60(((struct Obj09853 *)c)->f40, (struct Arg *)(&d_021F38C4));
+    func_02047A60(scene->object[0], &d_021F38C4);
+    func_02047A60(scene->object[1], &d_021F38C4);
+    func_02047A60(scene->object[2], &d_021F38C4);
 }

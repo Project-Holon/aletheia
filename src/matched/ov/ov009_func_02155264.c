@@ -1,5 +1,5 @@
 /*
- * function: func_02155264
+ * function: GFL_NET_DEVWIFI_SendMessage
  * address: 0x02155264
  * packet: pkt_ov009_02155264
  * region: ov009
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02155B14 0x02155B14 thumb ov009
+ *   DWC_RAP_SendMessage 0x02155B14 thumb ov009
  */
-extern int func_02155B14(int, int);
-int func_02155264(int a, int b, int c, void (*cb)(int))
+extern int DWC_RAP_SendMessage(int, int);
+int GFL_NET_DEVWIFI_SendMessage(int a, int b, int c, void (*cb)(int))
 {
-    if (func_02155B14(a, b)) {
+    if (DWC_RAP_SendMessage(a, b)) {
         if (cb) cb(1);
         return 1;
     }

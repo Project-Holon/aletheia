@@ -44,7 +44,7 @@
  *   func_021E8338 0x021E8338 thumb ov177
  *   func_021E8420 0x021E8420 thumb ov177
  *   func_0200BAF4 0x0200BAF4 thumb
- *   func_0201A918 0x0201A918 thumb
+ *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02008468  0x02008468  thumb
  *   func_02087C6C  0x02087C6C  arm
@@ -82,7 +82,7 @@
  *   func_021E8AA8 0x021E8AA8 thumb ov177
  *   func_0200E9F4 0x0200E9F4 thumb
  *   func_0200EA00 0x0200EA00 thumb
- *   func_0200DFD8 0x0200DFD8 thumb
+ *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
  *   func_021E5D68 0x021E5D68 thumb ov177
  *   func_0200EA08 0x0200EA08 thumb
  *   func_021E5EF8 0x021E5EF8 thumb ov177
@@ -177,7 +177,7 @@ extern void func_021E82BC(char *);
 extern int func_021E8338(void *);
 extern int func_021E8420(void *);
 extern void *func_0200BAF4(int,int);
-extern int func_0201A918(void);
+extern int POKE_REGULATION_GetDataSize(void);
 extern u32 func_020307B0(void *p);
 extern int func_02008468(void);
 extern void func_02087C6C(void *p);
@@ -213,7 +213,7 @@ extern int func_02012DD0(u8 *p);
 extern void func_021E8AA8(int);
 extern void *func_0200E9F4(void *);
 extern int func_0200EA00(int p);
-extern u16 func_0200DFD8(Row *, int, int);
+extern u16 BSUBWAY_SAVEDATA_GetStat(Row *, int, int);
 extern char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
 extern int func_0200EA08(int p);
 extern void func_021E5EF8(void *p);
@@ -389,7 +389,7 @@ int func_0217D2B0(u8 *p){return func_021E8420(((struct Obj24426 *)p)->f18);}
 
 
 
-void func_0217D2BC(u8 *p,const void *q) {void *v;v=func_0200BAF4((int)func_0200BAC8(func_02012EBC(((struct Obj00053 *)p)->f1B8)),((struct Obj00053 *)p)->f1C8);func_02082D44(v,q,func_0201A918());func_020307B0(v);}
+void func_0217D2BC(u8 *p,const void *q) {void *v;v=func_0200BAF4((int)func_0200BAC8(func_02012EBC(((struct Obj00053 *)p)->f1B8)),((struct Obj00053 *)p)->f1C8);func_02082D44(v,q,POKE_REGULATION_GetDataSize());func_020307B0(v);}
 
 
 
@@ -416,7 +416,7 @@ void func_0217D2F0(u8 *p, u8 *q)
     func_02087C6C(p + 0x20);
     func_0200E6FC(func_0200E6E8((u32)func_02012EBC((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
     a = (u32)func_0200BAF4((int)func_0200BAC8(func_02012EBC((struct Big *)r)), 0x8056);
-    func_02082D44((void *)a, p + 0xd4, func_0201A918());
+    func_02082D44((void *)a, p + 0xd4, POKE_REGULATION_GetDataSize());
     func_020307B0((void *)a);
     ((struct Obj06578 *)p)->f28 = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 1);
     ((struct Obj06578 *)p)->f2C = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 2);
@@ -746,9 +746,9 @@ void func_0217DC28(int *p)
             func_02082BCC(&rec, 0, 0xac);
             func_02082D44(func_0200B074(obj), &rec, 0x92);
             table = (u16 (*)[3])func_0200EA00((int)stats);
-            rec.a0 = func_0200DFD8(table, 10, 0);
-            total = func_0200DFD8(table, 10, 1);
-            rec.v.total = total + func_0200DFD8(table, 10, 2);
+            rec.a0 = BSUBWAY_SAVEDATA_GetStat(table, 10, 0);
+            total = BSUBWAY_SAVEDATA_GetStat(table, 10, 1);
+            rec.v.total = total + BSUBWAY_SAVEDATA_GetStat(table, 10, 2);
             rec.user = (u8 *)func_02008554((const struct Sub0200852CObj *)win);
             a = func_0200B078(obj, 6); b = func_0200B078(obj, 5); c = func_0200B078(obj, 4);
             rec.color0 = ((u32)c << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);

@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02069C00",
+   "name": "NNSi_G2dReadCharUTF16",
    "address": "0x02069C00",
    "kind": "game",
    "region": "arm9",

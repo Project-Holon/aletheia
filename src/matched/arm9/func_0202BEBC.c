@@ -1,5 +1,5 @@
 /*
- * function: func_0202BEBC
+ * function: ISS_ZONE_SYS_Update
  * address:  0x0202BEBC
  * packet:   pkt_0202BEBC
  * region:   arm9
@@ -9,11 +9,14 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Calls func_0202BFF0 when the object's +0 word is set.
+ * Calls ISS_ZONE_SYS_StepFade when the object's +0 word is set.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BEBC.c \
- *       --func func_0202BEBC --addr 0x0202BEBC --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_ZONE_SYS_Update.c \
+ *       --func ISS_ZONE_SYS_Update --addr 0x0202BEBC --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   ISS_ZONE_SYS_StepFade  0x0202BFF0  thumb
  */
 #include "../include/Obj02602.h"
 
@@ -21,11 +24,11 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct Obj;
-extern void func_0202BFF0(struct Obj *o);
+extern void ISS_ZONE_SYS_StepFade(struct Obj *o);
 
-void func_0202BEBC(u8 *p)
+void ISS_ZONE_SYS_Update(u8 *p)
 {
     if (((struct Obj02602 *)p)->f0 != 0) {
-        func_0202BFF0((struct Obj *)p);
+        ISS_ZONE_SYS_StepFade((struct Obj *)p);
     }
 }

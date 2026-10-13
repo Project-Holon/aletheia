@@ -1,5 +1,5 @@
 /*
- * function: func_021B1634
+ * function: VCT_AUDIO_DecodeMuLaw
  * address:  0x021B1634
  * packet:   pkt_ov013_021B1634
  * region:   ov013
@@ -13,7 +13,7 @@
 
  */
 
-void func_021B1634(unsigned char *src, short *dst, unsigned int n)
+void VCT_AUDIO_DecodeMuLaw(unsigned char *src, short *dst, unsigned int n)
 {
     unsigned int i;
 

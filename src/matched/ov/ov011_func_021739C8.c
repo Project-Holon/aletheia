@@ -1,5 +1,5 @@
 /*
- * function: func_021739C8
+ * function: INTRUDE_COMM_RecvTimeoutWarning
  * address: 0x021739C8
  * packet: pkt_ov011_021739C8
  * region: ov011
@@ -14,9 +14,9 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021739C8(int a, int b, int c, u8 *p);
+void INTRUDE_COMM_RecvTimeoutWarning(int a, int b, int c, u8 *p);
 
-void func_021739C8(int a, int b, int c, u8 *p)
+void INTRUDE_COMM_RecvTimeoutWarning(int a, int b, int c, u8 *p)
 {
     u32 *w = (u32 *)(p + 0x940);
     *w = (*w & 0x7fffffff) | 0x80000000;

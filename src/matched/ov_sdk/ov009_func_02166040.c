@@ -1,5 +1,5 @@
 /*
- * function: func_02166040
+ * function: WCMi_BssDescCopy
  * address:  0x02166040
  * packet:   pkt_ov009_02166040
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      WCMi_BssDescCopy (libwcm.TWL.HYB.a(aplist.o))
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  *   func_02082AC0  0x02082AC0  arm
  *   func_02082B0C  0x02082B0C  arm
  *   func_02082E74  0x02082E74  arm
@@ -53,13 +53,13 @@ typedef struct WCMWork {
     u8 deviceId;            /* +0x12df */
 } WCMWork;
 
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 extern void func_02082AC0(u32 data, void *destp, u32 size);
 extern void func_02082B0C(const void *srcp, void *destp, u32 size);
 extern int func_02082E74(const void *mem1, const void *mem2, u32 size);
 extern void func_02082EA4(const void *srcp, void *destp, u32 size);
 
-void func_02166040(WCMBssDesc *srcBssDesc, WCMBssDesc *destBssDesc)
+void WCMi_BssDescCopy(WCMBssDesc *srcBssDesc, WCMBssDesc *destBssDesc)
 {
     WCMWork *w;
     u8 *pSrc;
@@ -69,7 +69,7 @@ void func_02166040(WCMBssDesc *srcBssDesc, WCMBssDesc *destBssDesc)
     u8 id;
     u8 len;
 
-    w = (WCMWork *)func_021657C8();
+    w = (WCMWork *)WCMi_GetSystemWork();
     func_02082AC0(0, destBssDesc, sizeof(WCMBssDesc));
     func_02082B0C(srcBssDesc, destBssDesc, 0x40);
     destBssDesc->elementCount = 0;

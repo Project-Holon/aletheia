@@ -1,5 +1,5 @@
 /*
- * function: func_0203EE18
+ * function: GFL_NET_LOWER_DATA_RecvControl
  * address:  0x0203EE18
  * packet:   pkt_0203EE18
  * region:   arm9
@@ -59,7 +59,7 @@ struct Link;
 extern u32 func_0203D1A4(struct Link *p);
 extern void *func_0203D798(void);
 
-void func_0203EE18(u32 idx, u32 a1, struct Cmd *pVal, u32 a3, u32 a4)
+void GFL_NET_LOWER_DATA_RecvControl(u32 idx, u32 a1, struct Cmd *pVal, u32 a3, u32 a4)
 {
     struct Obj7 *r7;
 

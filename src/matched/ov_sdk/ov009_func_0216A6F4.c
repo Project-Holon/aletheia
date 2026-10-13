@@ -19,7 +19,7 @@
  *   func_02059644  0x02059644  arm
  *   func_02059588  0x02059588  arm
  *   OS_GetTick     0x020870D0  arm
- *   func_020590F0  0x020590F0  arm
+ *   DWCi_Acc_SetPlayerId  0x020590F0  arm
  *   func_02178D14  0x02178D14  arm  ov009
  *   func_0205A16C  0x0205A16C  arm
  *   func_0205A1B0  0x0205A1B0  arm
@@ -67,7 +67,7 @@ extern int func_020596B0(void *loginid);
 extern int func_02059644(struct DWCstAccLoginId *loginid);
 extern void func_02059588(struct DWCstAccLoginId *loginid);
 extern u64 OS_GetTick(void);
-extern void func_020590F0(int *p, int v);
+extern void DWCi_Acc_SetPlayerId(int *p, int v);
 extern int func_02178D14(unsigned short *ingamesn, char *gsbrcd, unsigned long long userid, void *(*allocator)(unsigned long, long), void (*deallocator)(unsigned long, void *, long));
 extern void *func_0205A16C(u32, long);
 extern void func_0205A1B0(u32, void *, long);
@@ -86,7 +86,7 @@ int func_0216A6F4(void)
             else
                 func_02059588((struct DWCstAccLoginId *)(&g_021AA874->loginId));
         } else {
-            func_020590F0((int *)(&g_021AA874->loginId), (u32)((OS_GetTick() * 0x5D588B656C078965ULL + 0x269EC3) >> 32));
+            DWCi_Acc_SetPlayerId((int *)(&g_021AA874->loginId), (u32)((OS_GetTick() * 0x5D588B656C078965ULL + 0x269EC3) >> 32));
         }
         func_02059474((struct DWCstAccLoginId *)(&g_021AA874->loginId), g_021AA874->gamecode, g_021AA874->username);
         userid = 0;

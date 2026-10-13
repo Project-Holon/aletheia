@@ -58,6 +58,7 @@
  *   button                           0x021C4C18  arm
  *   DWCi_SNDlStop                    0x021D0014  arm
  *   Choose                           0x021DE5CC  data
+ *   DWCi_IPTlUpdate  0x021D656C  arm
  */
 #include "../../matched/include/G_SCENESETAOSSBUTT_BSS.h"
 
@@ -85,7 +86,7 @@ extern void func_021C0E50(unsigned int a, unsigned int b);
 extern void func_021C0E40(unsigned int v);
 extern void func_021CC998();
 extern void func_021C4EC8();
-extern void func_021D656C(void);
+extern void DWCi_IPTlUpdate(void);
 extern void func_021D75D0(int);
 extern void func_021C4BDC(void);
 extern void func_021C4C18(void);
@@ -151,7 +152,7 @@ void func_021C4D04(void)
 
 void func_021C4DE4(void)
 {
-    func_021D656C();
+    DWCi_IPTlUpdate();
     func_021D75D0(0);
     func_021C4BDC();
     func_021C4C18();

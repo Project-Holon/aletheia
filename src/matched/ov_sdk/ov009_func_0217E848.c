@@ -1,5 +1,5 @@
 /*
- * function: func_0217E848
+ * function: gsLargeIntSetFromHexString
  * address:  0x0217E848
  * packet:   pkt_ov009_0217E848
  * region:   ov009
@@ -29,7 +29,7 @@ extern int func_0208CF34(const char *src, const char *fmt, ...);
 extern char g_021A3728[];
 extern char g_021A3720[];
 
-int func_0217E848(struct gsLargeInt_s *lint, char *hexstream)
+int gsLargeIntSetFromHexString(struct gsLargeInt_s *lint, char *hexstream)
 {
     unsigned int *writePos = lint->mData;
     unsigned int temp;

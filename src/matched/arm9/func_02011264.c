@@ -1,5 +1,5 @@
 /*
- * function: func_02011264
+ * function: VM_Delete
  * address:  0x02011264
  * packet:   pkt_02011264
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02011264(void *ptr)
+void VM_Delete(void *ptr)
 {
     func_020307B0(ptr);
 }

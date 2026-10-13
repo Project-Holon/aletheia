@@ -1,7 +1,7 @@
 /*
  * file:     button_man.c
  * unit:     yes
- * function: func_02051788, func_02051790, func_020517A4, func_020517B4, func_020517D0, func_020517D8, func_020517E0, func_020517E8, func_020517F0, func_02051800, func_02051808, func_02051818, func_02051820, func_02051830, func_02051838, func_02051880, func_0205189C, func_020518A4, func_020518AC, func_020519C4, func_020519E4, func_02051A04, func_02051A24, func_02051A2C, func_02051A34, func_02051A3C, func_02051A54, func_02051AA0, func_02051AB8, func_02051B04, func_02051B0C, func_02051B84, func_02051C58, func_02051C6C, func_02051C88, func_02051DE8, func_02051E10, func_02051E64, func_02051E74, func_02051F1C, func_02051F34, func_0205207C, func_020520A4, func_020520FC, func_020521BC, func_02052274, func_020522E4
+ * function: func_02051788, BUTTON_MAN_GetPos, BUTTON_MAN_SetPos, BUTTON_MAN_GetRot, BUTTON_MAN_GetScaleX, BUTTON_MAN_SetScaleX, BUTTON_MAN_GetScaleY, BUTTON_MAN_SetScaleY, BUTTON_MAN_GetOffsetX, BUTTON_MAN_SetOffsetX, BUTTON_MAN_GetOffsetY, BUTTON_MAN_SetOffsetY, BUTTON_MAN_GetAngle, BUTTON_MAN_GetAlpha, BUTTON_MAN_SetEmitterPos, BUTTON_MAN_SetRot, BUTTON_MAN_SetAngle, BUTTON_MAN_SetAlpha, BUTTON_MAN_FindRowData, BUTTON_MAN_SetRow2, BUTTON_MAN_SetRow3Half, BUTTON_MAN_SetRow5, BUTTON_MAN_SetCallback, BUTTON_MAN_SetUserData, BUTTON_MAN_GetUserData, BUTTON_MAN_Func1A3C, BUTTON_MAN_AppendList0, BUTTON_MAN_Func1AA0, BUTTON_MAN_AppendList1, func_02051B04, BUTTON_MAN_CallHandlerById, func_02051B84, BUTTON_MAN_ClearSlot, func_02051C6C, func_02051C88, BUTTON_MAN_SlotHandlerIdle, BUTTON_MAN_SlotHandlerPressed, BUTTON_MAN_SlotSetKind, func_02051E74, BUTTON_MAN_InitSphere, BUTTON_MAN_SegmentSphereTest, BUTTON_MAN_InitSegment, func_020520A4, func_020520FC, func_020521BC, BUTTON_MAN_ConvertUcs2ToSjis, BUTTON_MAN_Ucs2CharToSjis
  * address:  0x02051788
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -25,7 +25,7 @@
  *   func_02058204  0x02058204  arm
  *   func_020582CC  0x020582CC  arm
  *   g_020A8140   0x020A8140  data
- *   g_02146A88   0x02146A88  data
+ *   g_pParticleMan   0x02146A88  data
  *   g_020A8148   0x020A8148  data
  *   func_0207E1F8  0x0207E1F8  arm
  *   func_0207E24C  0x0207E24C  arm
@@ -40,12 +40,12 @@
  *   g_020A7FCC      0x020A7FCC  data
  *   g_020A15E8    0x020A15E8  data
  *   func_02035C38 0x02035C38  arm
- *   func_02035BA4 0x02035BA4  arm
+ *   TOUCHPANEL_HitCont 0x02035BA4  arm
  *   func_02035C08 0x02035C08  arm
  *   func_02035C60 0x02035C60  arm
  *   MTX_Rot22_       0x0207AD64  thumb
  *   MTX_ScaleApply22 0x0207AD70  arm
- *   func_0207C778    0x0207C778  arm
+ *   FX_Inv    0x0207C778  arm
  *   tbl_020A1B38     0x020A1B38  data
  *   VEC_Subtract    0x0207CA00  arm
  *   VEC_DotProduct  0x0207CA68  arm
@@ -60,186 +60,125 @@
  *   FX_Atan2Idx    0x0207CFB8  arm
  *   func_02045A98  0x02045A98  arm
  */
-#include "../../matched/include/Obj16168.h"
-#include "../../matched/include/Obj16169.h"
-#include "../../matched/include/Obj16170.h"
-#include "../../matched/include/Obj16171.h"
-#include "../../matched/include/Obj16172.h"
-#include "../../matched/include/Obj16173.h"
-#include "../../matched/include/Obj16174.h"
-#include "../../matched/include/Obj16175.h"
-#include "../../matched/include/Obj16176.h"
-#include "../../matched/include/Obj16177.h"
-#include "../../matched/include/Obj16178.h"
-#include "../../matched/include/Obj16187.h"
-#include "../../matched/include/Obj16190.h"
-#include "../../matched/include/Obj16192.h"
-#include "../../matched/include/Obj11459.h"
-#include "../../matched/include/Obj11460.h"
-#include "../../matched/include/Obj16194.h"
-#include "../../matched/include/Obj08875.h"
-#include "../../matched/include/Obj16196.h"
-#include "../../matched/include/Obj04767.h"
-#include "../../matched/include/Obj16198.h"
-
-struct A;
-struct B;
-struct C;
-struct Obj;
-struct S;
-struct Src;
-typedef struct {
-    int x, y, z;
-} Vec;
-
-typedef struct {
-    short x, y, z;
-} Vec16;
-
-typedef unsigned int u32;
-
-typedef struct { u32 x, y, z; } VecFx32;
-
-struct ParticleInner {
-    u32     f00;
-    VecFx32 pos;            /* +0x04 */
-};
-
-struct ParticleBlk {
-    struct ParticleInner *inner;    /* +0x00, re-read per statement */
-};
-
-struct ParticleEmitter {
-    char                pad00[0x20];
-    struct ParticleBlk *blk;        /* +0x20 */
-    char                pad24[0x04];
-    VecFx32             pos;        /* +0x28 */
-};
-
+typedef unsigned char  u8;
 typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
+typedef long long      s64;
 
-struct Vec3_02051788 {
-    u16 x;
-    u16 y;
-    u16 z;
-};
+typedef struct {
+    s32 x, y, z;
+} Vec3;
 
-struct Obj_02051880 {
-    char pad[0x50];
-    u16 x;
-    u16 y;
-    u16 z;
-};
+typedef struct {
+    u16 x, y, z;
+} Vec3U16;
 
-struct Obj_0205189C {
-    char pad[0x6c];
-    u32 f6c;
-};
+typedef struct {
+    s32 m[4];
+} Mtx22;
 
-struct Obj_020518A4 {
-    char pad[0x70];
-    u16 f70;
-};
+typedef struct {
+    s32 m[9];
+} Mtx33;
 
+/* Segment p0 -> dir with a capsule radius. */
+typedef struct {
+    Vec3 p0;
+    Vec3 dir;
+    s32  radius;
+} Seg;
+
+typedef struct {
+    Vec3 c;
+    s32  r;
+} Sphere;
+
+/* Result block of the segment-versus-sphere test. */
+typedef struct {
+    u32  hit;
+    Vec3 n;
+    s32  d;
+} HitInfo;
+
+/* 8-byte row of the table at Obj3D.blk->ents; fn is the row's handler. */
 struct Ent {
     void *fn;
     void *data;
 };
 
+struct BlkInner {
+    u8   pad00[0x04];
+    Vec3 pos;               /* +0x04 */
+};
+
 struct Blk {
-    char pad[0x18];
-    struct Ent *ents;
+    struct BlkInner *inner; /* +0x00, re-read per statement */
+    u8               pad04[0x14];
+    struct Ent      *ents;  /* +0x18 */
+    u16              count; /* +0x1C */
+};
+
+/* The 3D object the accessors at 0x02051788..0x02051B04 work on. */
+struct Obj3D {
+    u8      pad00[0x20];
+    struct Blk *blk;        /* +0x20 */
+    u8      pad24[0x04];
+    Vec3    emitPos;        /* +0x28 */
+    Vec3    pos;            /* +0x34 */
+    u8      pad40[0x10];
+    Vec3U16 rot;            /* +0x50 */
+    u8      pad56[0x06];
+    s32     scaleX;
+    s32     scaleY;
+    s32     offsetX;
+    s32     offsetY;
+    s32     angle;
+    u16     alpha;
+    u8      pad72[0x1E];
+    s32     callback;
+    s32     userData;
+};
+
+/* Pair of handle lists the two append functions fill. */
+struct HandleLists {
+    u8  pad00[0x58];
+    u32 list0[0x40];        /* +0x58 */
+    u32 list1[0x40];        /* +0x158 */
+    u8  pad258[0x04];
+    u16 count0;             /* +0x25C */
+    u16 count1;             /* +0x25E */
+};
+
+struct SysCtx {
+    u8                 pad00[0x44];
+    struct HandleLists *base;  /* +0x44 */
+};
+
+struct Slot {
+    u8  kind;               /* index into g_020A15E8: 0 idle, 1 pressed */
+    u8  state;
     u16 count;
 };
 
-typedef unsigned char  u8;
-
-struct S12 {
-    u32 a;
-    u32 b;
-    u32 c;
+struct ButtonMan {
+    u8          *rects;     /* +0x00, 4-byte entries ended by 0xFF */
+    u32          n;         /* +0x04 */
+    void       (*cb)(s32, s32, s32);  /* +0x08 */
+    s32          arg;       /* +0x0C */
+    struct Slot *slots;     /* +0x10 */
 };
 
-struct Ctx_02051788 {
-    u8   pad_00[0x44];
-    u8  *base;      /* 0x44 */
-};
-
-typedef struct S02051B84 {
-    u8 *f00;
-    int f04;
-    int f08;
-    int f0c;
-    int f10;
-} S02051B84;
-
-typedef signed int     s32;
-
-typedef signed short   s16_02051C88;
-
-struct Slot { u8 kind; u8 state; u8 pad[2]; };
-
-struct Ctx_02051C88 {
-    s32   f00;            /* 0x00 */
-    u32   n;              /* 0x04 */
-    void (*cb)(s32, s32, s32);  /* 0x08 */
-    s32   arg;            /* 0x0c */
-    struct Slot *slots;   /* 0x10 */
-};
-
-typedef signed short  s16_02051E74;
-
-struct Mtx22 {
-    s32 m[4];
-    u8 pad_10[0x80];
-    int f90;
-};
-
-struct Vec { int x, y, z; };
-
-struct Ball_02051F1C {
-    struct Vec p;
-    int radius;
-    u8 pad_10[0x84];
-    int f94;
-};
-
-struct Vec3_02051C88 { int x; int y; int z; };
-
-struct Seg {
-    struct Vec3_02051C88 p0;   /* 0x00 */
-    struct Vec3_02051C88 dir;  /* 0x0c */
-    u32 pad18;
-};
-
-struct Ball_02051F34 {
-    struct Vec3_02051C88 c;    /* 0x00 */
-    int r;            /* 0x0c */
-};
-
-struct Out {
-    u32 hit;          /* 0x00 */
-    struct Vec3_02051C88 n;    /* 0x04 */
-    int d;            /* 0x10 */
-};
-
-typedef long long s64;
-
-typedef short s16_020520FC;
-
-struct Mtx33 {
-    int m[9];
-};
-
-typedef short s16_020521BC;
-
-extern void func_02057EF8(struct A *a, struct B *b);
-extern void func_02057F8C(struct A *a, struct S *s, int unused, struct C *c);
-extern void func_020580A8(struct Obj *o, u8 *dst);
-extern void func_02058180(struct A *a, struct B *b, volatile int *c);
-extern void func_02058204(struct Obj *o, struct Src *s, int *dst);
-extern void func_020582CC(struct Obj *o, void *s, int *dst);
+/* Rows of the 3D rig; only their addresses are compared. */
+extern void func_02057EF8(void *a, void *b);
+extern void func_02057F8C(void *a, void *s, int unused, void *c);
+extern void func_020580A8(void *o, u8 *dst);
+extern void func_02058180(void *a, void *b, int *c);
+extern void func_02058204(void *o, void *s, int *dst);
+extern void func_020582CC(void *o, void *s, int *dst);
 extern u32 func_020616CC(u32 size, u32 flag, u32 dir);
+extern int func_020614D4(int a, int b, int c);
 extern void *func_0207E1F8(void);
 extern void *func_0207E24C(void);
 extern void *func_0207E2A0(void);
@@ -251,381 +190,191 @@ extern void *func_0207E388(void);
 extern void *func_02030734(u16 id, u32 size, u32 flags, void *file, u32 line);
 extern u32 func_020307B0(void *p);
 extern s32 func_02035C38(void);
-extern int func_02035BA4(const void *p);
+extern int TOUCHPANEL_HitCont(const void *p);
 extern int func_02035C08(const void *p);
 extern s32 func_02035C60(void);
-extern void MTX_Rot22_(struct Mtx22 *mtx, s32 sinVal, s32 cosVal);
-extern void MTX_ScaleApply22(const struct Mtx22 *src, struct Mtx22 *dst, s32 x, s32 y);
-extern long func_0207C778(long v);
-extern void VEC_Subtract(const struct Vec3_02051C88 *a, const struct Vec3_02051C88 *b, struct Vec3_02051C88 *d);
-extern int  VEC_DotProduct(const struct Vec3_02051C88 *a, const struct Vec3_02051C88 *b);
-extern int  VEC_Mag(const struct Vec3_02051C88 *v);
-extern void VEC_Normalize(const struct Vec3_02051C88 *v, struct Vec3_02051C88 *d);
+extern void MTX_Rot22_(Mtx22 *mtx, s32 sinVal, s32 cosVal);
+extern void MTX_ScaleApply22(const Mtx22 *src, Mtx22 *dst, s32 x, s32 y);
+extern long FX_Inv(long v);
+extern void VEC_Subtract(const Vec3 *a, const Vec3 *b, Vec3 *d);
+extern int  VEC_DotProduct(const Vec3 *a, const Vec3 *b);
+extern int  VEC_Mag(const Vec3 *v);
+extern void VEC_Normalize(const Vec3 *v, Vec3 *d);
 extern int  FX_Div(int a, int b);
-extern void MTX_Identity33_(struct Mtx33 *m);
-extern void MTX_RotX33_(struct Mtx33 *m, s16_020520FC sinv, s16_020520FC cosv);
-extern void MTX_RotY33_(struct Mtx33 *m, s16_020520FC sinv, s16_020520FC cosv);
-extern void MTX_RotZ33_(struct Mtx33 *m, s16_020520FC sinv, s16_020520FC cosv);
-extern void MTX_Concat33(const struct Mtx33 *a, const struct Mtx33 *b,
-                         struct Mtx33 *dst);
+extern void MTX_Identity33_(Mtx33 *m);
+extern void MTX_RotX33_(Mtx33 *m, s16 sinv, s16 cosv);
+extern void MTX_RotY33_(Mtx33 *m, s16 sinv, s16 cosv);
+extern void MTX_RotZ33_(Mtx33 *m, s16 sinv, s16 cosv);
+extern void MTX_Concat33(const Mtx33 *a, const Mtx33 *b, Mtx33 *dst);
 extern int  FX_Atan2Idx(int y, int x);
 extern u16 func_02045A98(void);
-int func_02051788(char *p);
-void func_02051790(char *p, Vec *out);
-void func_020517A4(char *p, const Vec *v);
-void func_020517B4(char *p, Vec16 *out);
-int func_020517D0(char *p);
-void func_020517D8(char *p, int v);
-int func_020517E0(char *p);
-void func_020517E8(char *p, int v);
-short func_020517F0(char *p);
-void func_02051800(char *p, int v);
-short func_02051808(char *p);
-void func_02051818(char *p, int v);
-short func_02051820(char *p);
-unsigned short func_02051830(char *p);
-void func_02051838(struct ParticleEmitter *e, const VecFx32 *q);
-void func_02051880(struct Obj_02051880 *o, const struct Vec3_02051788 *v);
-void func_0205189C(struct Obj_0205189C *o, u32 v);
-void func_020518A4(struct Obj_020518A4 *o, u16 v);
-void *func_020518AC(void *obj, int kind);
-void func_020519C4(void *p, struct S12 *q);
-void func_020519E4(void *p, u16 *q);
-void func_02051A04(void *p, struct S12 *q);
-void func_02051A24(void *p, int v);
-void func_02051A2C(void *p, int v);
-int func_02051A34(void *p);
-unsigned int func_02051A3C(int a0, int a1, int a2, int a3);
-u32 func_02051A54(u32 a, u32 b);
-int func_02051AA0(int a, int b);
-u32 func_02051AB8(u32 a, u32 b);
+
+extern struct SysCtx *g_pParticleMan;
+extern char g_020A7FCC[];
+extern s16 tbl_020A1B38[];
+extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
+extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
+extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
+
+int func_02051788(struct Obj3D *p);
+void BUTTON_MAN_GetPos(struct Obj3D *p, Vec3 *out);
+void BUTTON_MAN_SetPos(struct Obj3D *p, const Vec3 *v);
+void BUTTON_MAN_GetRot(struct Obj3D *p, Vec3U16 *out);
+int BUTTON_MAN_GetScaleX(struct Obj3D *p);
+void BUTTON_MAN_SetScaleX(struct Obj3D *p, int v);
+int BUTTON_MAN_GetScaleY(struct Obj3D *p);
+void BUTTON_MAN_SetScaleY(struct Obj3D *p, int v);
+short BUTTON_MAN_GetOffsetX(struct Obj3D *p);
+void BUTTON_MAN_SetOffsetX(struct Obj3D *p, int v);
+short BUTTON_MAN_GetOffsetY(struct Obj3D *p);
+void BUTTON_MAN_SetOffsetY(struct Obj3D *p, int v);
+short BUTTON_MAN_GetAngle(struct Obj3D *p);
+unsigned short BUTTON_MAN_GetAlpha(struct Obj3D *p);
+void BUTTON_MAN_SetEmitterPos(struct Obj3D *e, const Vec3 *q);
+void BUTTON_MAN_SetRot(struct Obj3D *o, const Vec3U16 *v);
+void BUTTON_MAN_SetAngle(struct Obj3D *o, u32 v);
+void BUTTON_MAN_SetAlpha(struct Obj3D *o, u16 v);
+void *BUTTON_MAN_FindRowData(struct Obj3D *obj, int kind);
+void BUTTON_MAN_SetRow2(struct Obj3D *p, Vec3 *q);
+void BUTTON_MAN_SetRow3Half(struct Obj3D *p, u16 *q);
+void BUTTON_MAN_SetRow5(struct Obj3D *p, Vec3 *q);
+void BUTTON_MAN_SetCallback(struct Obj3D *p, int v);
+void BUTTON_MAN_SetUserData(struct Obj3D *p, int v);
+int BUTTON_MAN_GetUserData(struct Obj3D *p);
+unsigned int BUTTON_MAN_Func1A3C(int a0, int a1, int a2, int a3);
+u32 BUTTON_MAN_AppendList0(u32 a, u32 b);
+int BUTTON_MAN_Func1AA0(int a, int b);
+u32 BUTTON_MAN_AppendList1(u32 a, u32 b);
 u16 func_02051B04(void *res);
-int func_02051B0C(int i);
-void *func_02051B84(u8 *a0, int a1, int a2, int a3);
-void func_02051C58(void *p0);
-void func_02051C6C(void *p);
-s32 func_02051C88(struct Ctx_02051C88 *c);
-int func_02051DE8(void *p, int a, int b);
-int func_02051E10(char *p, u32 x);
-void func_02051E64(void *p, int a);
-void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
-void func_02051F1C(struct Ball_02051F1C *dst, struct Vec *src, unsigned radius);
-u32 func_02051F34(struct Seg *seg, struct Ball_02051F34 *b, struct Out *out);
-void func_0205207C(char *p, struct S12 *q, struct S12 *r, u32 v);
-void func_020520A4(const struct Vec3_02051C88 *v, int s, struct Vec3_02051C88 *dst);
-void func_020520FC(int ax, int ay, int az, struct Mtx33 *dst);
-void func_020521BC(const struct Vec3_02051C88 *v, struct Mtx33 *dst);
-void func_02052274(u8 *a, u8 *b, u32 n);
-int func_020522E4(u16 *src, char *dst, u32 *stop);
-extern struct Ctx_02051788 *g_02146A88;
-extern int g_020A7FCC;
-extern s16_02051E74 tbl_020A1B38[];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+int BUTTON_MAN_CallHandlerById(int i);
+struct ButtonMan *func_02051B84(u8 *rects, void (*cb)(s32, s32, s32), s32 arg, int heap);
+void BUTTON_MAN_ClearSlot(struct Slot *slot);
+void func_02051C6C(struct ButtonMan *bm);
+s32 func_02051C88(struct ButtonMan *c);
+int BUTTON_MAN_SlotHandlerIdle(struct Slot *p, int a, int b);
+int BUTTON_MAN_SlotHandlerPressed(struct Slot *p, u32 x);
+void BUTTON_MAN_SlotSetKind(struct Slot *p, int a);
+void func_02051E74(Mtx22 *mtx, u32 ang, long scaleX, long scaleY, u8 mode);
+void BUTTON_MAN_InitSphere(Sphere *dst, Vec3 *src, unsigned radius);
+u32 BUTTON_MAN_SegmentSphereTest(Seg *seg, Sphere *b, HitInfo *out);
+void BUTTON_MAN_InitSegment(Seg *p, Vec3 *q, Vec3 *r, u32 v);
+void func_020520A4(const Vec3 *v, int s, Vec3 *dst);
+void func_020520FC(int ax, int ay, int az, Mtx33 *dst);
+void func_020521BC(const Vec3 *v, Mtx33 *dst);
+void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32 n);
+int BUTTON_MAN_Ucs2CharToSjis(u16 *src, char *dst, u32 *stop);
 
 /*
  * Returns the word at offset 0x20. Filed as the witness for ov094 func_021FA458.
  */
-int func_02051788(char *p)
+int func_02051788(struct Obj3D *p)
 {
-    return ((struct Obj16168 *)p)->f20;
+    return (int)p->blk;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Copies the vector at offset 0x34 out. Filed as the witness for ov094 func_021FD1CC.
  */
-void func_02051790(char *p, Vec *out)
+void BUTTON_MAN_GetPos(struct Obj3D *p, Vec3 *out)
 {
-    *out = *(Vec *)(p + 0x34);
+    *out = p->pos;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Stores a vector at offset 0x34. Filed as the witness for ov094 func_021FD1CC.
  */
-void func_020517A4(char *p, const Vec *v)
+void BUTTON_MAN_SetPos(struct Obj3D *p, const Vec3 *v)
 {
-    *(Vec *)(p + 0x34) = *v;
+    p->pos = *v;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Copies the three halfwords at offset 0x50 out. Filed as the witness for ov094 func_021FD1CC.
  */
-void func_020517B4(char *p, Vec16 *out)
+void BUTTON_MAN_GetRot(struct Obj3D *p, Vec3U16 *out)
 {
-    *out = *(Vec16 *)(p + 0x50);
+    *out = p->rot;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Returns the word at offset 0x5c. Filed as the witness for ov094 func_021FD1CC.
  */
-int func_020517D0(char *p)
+int BUTTON_MAN_GetScaleX(struct Obj3D *p)
 {
-    return ((struct Obj16169 *)p)->f5C;
+    return p->scaleX;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Stores the word at offset 0x5c. Filed as the witness for ov094 func_021FD1CC.
  */
-void func_020517D8(char *p, int v)
+void BUTTON_MAN_SetScaleX(struct Obj3D *p, int v)
 {
-    ((struct Obj16170 *)p)->f5C = v;
+    p->scaleX = v;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Returns the word at offset 0x60. Filed as the witness for ov094 func_021FD1CC.
  */
-int func_020517E0(char *p)
+int BUTTON_MAN_GetScaleY(struct Obj3D *p)
 {
-    return ((struct Obj16171 *)p)->f60;
+    return p->scaleY;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Stores the word at offset 0x60. Filed as the witness for ov094 func_021FD1CC.
  */
-void func_020517E8(char *p, int v)
+void BUTTON_MAN_SetScaleY(struct Obj3D *p, int v)
 {
-    ((struct Obj16172 *)p)->f60 = v;
+    p->scaleY = v;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Returns the word at offset 0x64 as a short. Filed as the witness for ov094 func_021FD1CC.
  */
-short func_020517F0(char *p)
+short BUTTON_MAN_GetOffsetX(struct Obj3D *p)
 {
-    return ((struct Obj16173 *)p)->f64;
+    return p->offsetX;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Stores the word at offset 0x64. Filed as the witness for ov094 func_021FD1CC.
  */
-void func_02051800(char *p, int v)
+void BUTTON_MAN_SetOffsetX(struct Obj3D *p, int v)
 {
-    ((struct Obj16174 *)p)->f64 = v;
+    p->offsetX = v;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Returns the word at offset 0x68 as a short. Filed as the witness for ov094 func_021FD1CC.
  */
-short func_02051808(char *p)
+short BUTTON_MAN_GetOffsetY(struct Obj3D *p)
 {
-    return ((struct Obj16175 *)p)->f68;
+    return p->offsetY;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Stores the word at offset 0x68. Filed as the witness for ov094 func_021FD1CC.
  */
-void func_02051818(char *p, int v)
+void BUTTON_MAN_SetOffsetY(struct Obj3D *p, int v)
 {
-    ((struct Obj16176 *)p)->f68 = v;
+    p->offsetY = v;
 }
-
-
-
-
-
-
-
-
 
 /*
  * Returns the word at offset 0x6c as a short. Filed as the witness for ov094 func_021FD1CC.
  */
-short func_02051820(char *p)
+short BUTTON_MAN_GetAngle(struct Obj3D *p)
 {
-    return ((struct Obj16177 *)p)->f6C;
+    return p->angle;
 }
-
-
-
-
-
-
-
 
 /*
  * Returns the halfword at offset 0x70. Filed as the witness for ov094 func_021FD1CC.
  */
-unsigned short func_02051830(char *p)
+unsigned short BUTTON_MAN_GetAlpha(struct Obj3D *p)
 {
-    return ((struct Obj16178 *)p)->f70;
+    return p->alpha;
 }
-
-
-
-
-
-
 
 /*
  * particle.c (wave 13): the emitter's three-word position at +0x28..+0x30 is
@@ -644,67 +393,43 @@ unsigned short func_02051830(char *p)
  * differently; plain non-const spellings keep the q reads in place and merge
  * two of them into an ldm (68 bytes).
  */
-void func_02051838(struct ParticleEmitter *e, const VecFx32 *q)
+void BUTTON_MAN_SetEmitterPos(struct Obj3D *e, const Vec3 *q)
 {
-    e->pos.x = q->x + e->blk->inner->pos.x;
-    e->pos.y = q->y + e->blk->inner->pos.y;
-    e->pos.z = q->z + e->blk->inner->pos.z;
+    e->emitPos.x = q->x + e->blk->inner->pos.x;
+    e->emitPos.y = q->y + e->blk->inner->pos.y;
+    e->emitPos.z = q->z + e->blk->inner->pos.z;
 }
 
-
-
-
-
-
-
-
 /*
- * Setter on the same object as its packet-mate src/matched/func_020518AC.c:
+ * Setter on the same object as its packet-mate src/matched/BUTTON_MAN_FindRowData.c:
  * copies a three-component 16-bit vector into the object's 0x50..0x54
  * triple.  The three loads come out ahead of the three stores, which is the
  * plain field-by-field spelling; a struct assignment would be ldm/stm.
  */
-void func_02051880(struct Obj_02051880 *o, const struct Vec3_02051788 *v)
+void BUTTON_MAN_SetRot(struct Obj3D *o, const Vec3U16 *v)
 {
-    o->x = v->x;
-    o->y = v->y;
-    o->z = v->z;
+    o->rot.x = v->x;
+    o->rot.y = v->y;
+    o->rot.z = v->z;
 }
-
-
-
-
-
-
 
 /*
  * Word setter on the same object as its packet-mate
- * src/matched/func_020518AC.c: stores the argument into field 0x6c.
+ * src/matched/BUTTON_MAN_FindRowData.c: stores the argument into field 0x6c.
  */
-void func_0205189C(struct Obj_0205189C *o, u32 v)
+void BUTTON_MAN_SetAngle(struct Obj3D *o, u32 v)
 {
-    o->f6c = v;
+    o->angle = v;
 }
-
-
-
-
-
-
 
 /*
  * Halfword setter on the same object as its packet-mate
- * src/matched/func_020518AC.c: stores the argument into field 0x70.
+ * src/matched/BUTTON_MAN_FindRowData.c: stores the argument into field 0x70.
  */
-void func_020518A4(struct Obj_020518A4 *o, u16 v)
+void BUTTON_MAN_SetAlpha(struct Obj3D *o, u16 v)
 {
-    o->f70 = v;
+    o->alpha = v;
 }
-
-
-
-
-
 
 /*
  * Linear search of the block at obj+0x20 for the first 8-byte entry whose
@@ -722,12 +447,12 @@ void func_020518A4(struct Obj_020518A4 *o, u16 v)
  * shorter and every branch target shifts.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020518AC.c \
- *       --func func_020518AC --addr 0x020518AC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_FindRowData.c \
+ *       --func BUTTON_MAN_FindRowData --addr 0x020518AC --cc 1.1p1 --arm
  */
-void *func_020518AC(void *obj, int kind)
+void *BUTTON_MAN_FindRowData(struct Obj3D *obj, int kind)
 {
-    struct Blk *b = *(struct Blk * *)&((struct Obj16187 *)obj)->f20;
+    struct Blk *b = obj->blk;
     int i;
     int n = b->count;
 
@@ -770,124 +495,92 @@ void *func_020518AC(void *obj, int kind)
     return 0;
 }
 
-
-
-
-
-
 /*
- * Copies a 12-byte record into the slot func_020518AC hands back for class 2.
+ * Copies a 12-byte record into the slot BUTTON_MAN_FindRowData hands back for class 2.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020519C4.c \
- *       --func func_020519C4 --addr 0x020519C4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_SetRow2.c \
+ *       --func BUTTON_MAN_SetRow2 --addr 0x020519C4 --cc 1.1p1 --arm
  */
-void func_020519C4(void *p, struct S12 *q)
+void BUTTON_MAN_SetRow2(struct Obj3D *p, Vec3 *q)
 {
-    struct S12 *r = func_020518AC(p, 2);
+    Vec3 *r = BUTTON_MAN_FindRowData(p, 2);
 
     if (r != 0)
         *r = *q;
 }
-
-
-
-
-
 
 /*
  * The class-3 slot carries only a halfword at +2.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020519E4.c \
- *       --func func_020519E4 --addr 0x020519E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_SetRow3Half.c \
+ *       --func BUTTON_MAN_SetRow3Half --addr 0x020519E4 --cc 1.1p1 --arm
  */
-void func_020519E4(void *p, u16 *q)
+void BUTTON_MAN_SetRow3Half(struct Obj3D *p, u16 *q)
 {
-    char *r = func_020518AC(p, 3);
+    u16 *r = BUTTON_MAN_FindRowData(p, 3);
 
     if (r != 0)
-        ((struct Obj16190 *)r)->f2 = *q;
+        r[1] = *q;
 }
 
-
-
-
-
-
 /*
- * Same 12-byte copy as func_020519C4, out of the class-5 slot.
+ * Same 12-byte copy as BUTTON_MAN_SetRow2, out of the class-5 slot.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051A04.c \
- *       --func func_02051A04 --addr 0x02051A04 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_SetRow5.c \
+ *       --func BUTTON_MAN_SetRow5 --addr 0x02051A04 --cc 1.1p1 --arm
  */
-void func_02051A04(void *p, struct S12 *q)
+void BUTTON_MAN_SetRow5(struct Obj3D *p, Vec3 *q)
 {
-    struct S12 *r = func_020518AC(p, 5);
+    Vec3 *r = BUTTON_MAN_FindRowData(p, 5);
 
     if (r != 0)
         *r = *q;
 }
 
-
-
-
-
-
 /*
  * Unlabelled ARM leaf in the ARM9 module: an 8-byte store helper,
- * `p[0x90/4] = v`. With func_02051A2C (the +0x94 twin) it is the storage
+ * `p[0x90/4] = v`. With BUTTON_MAN_SetUserData (the +0x94 twin) it is the storage
  * setter pair the ov118 functions func_021D6EAC/func_021D6F0C call.
  *
  * Addresses are Black-image addresses.
  */
-void func_02051A24(void *p, int v)
+void BUTTON_MAN_SetCallback(struct Obj3D *p, int v)
 {
-    ((struct Mtx22 *)p)->f90 = v;
+    p->callback = v;
 }
-
-
-
-
 
 /*
  * Unlabelled ARM leaf in the ARM9 module: an 8-byte store helper,
- * `p[0x94/4] = v`. The +0x94 twin of func_02051A24.
+ * `p[0x94/4] = v`. The +0x94 twin of BUTTON_MAN_SetCallback.
  *
  * Addresses are Black-image addresses.
  */
-void func_02051A2C(void *p, int v)
+void BUTTON_MAN_SetUserData(struct Obj3D *p, int v)
 {
-    ((struct Obj16192 *)p)->f94 = v;
+    p->userData = v;
 }
-
-
-
-
 
 /*
  * Unlabelled ARM leaf in the ARM9 module: an 8-byte load helper,
- * `return p[0x94/4]`. The getter half of func_02051A2C.
+ * `return p[0x94/4]`. The getter half of BUTTON_MAN_SetUserData.
  *
  * Addresses are Black-image addresses.
  */
-int func_02051A34(void *p)
+int BUTTON_MAN_GetUserData(struct Obj3D *p)
 {
-    return ((struct Ball_02051F1C *)p)->f94;
+    return p->userData;
 }
 
+/*
+ * Calls func_020614D4 with a constant 0 as its third argument and returns the
+ * low halfword of the result scaled by eight (a2 and a3 are unused).
+ */
+unsigned int BUTTON_MAN_Func1A3C(int a0, int a1, int a2, int a3)
+{
+    int t0 = func_020614D4(a0, a1, 0);
 
-
-
-unsigned int func_02051A3C(int a0, int a1, int a2, int a3){ int t0 = func_020614D4((int)a0, (int)a1, (int)0); return ((unsigned int)((t0 << 0x10)) >> 0xd); }
-
-
-
-
-
-extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
-
-
-
-
+    return (unsigned int)(t0 << 16) >> 13;
+}
 
 /*
  * The caller's registered handler (the function pointer in the clact.c global
@@ -907,64 +600,46 @@ extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
  * The twin at 0x02051AB8 is the same shape over the parallel table 0x100
  * higher (count at +0x25e, elements at +0x158).
  */
-u32 func_02051A54(u32 a, u32 b)
+u32 BUTTON_MAN_AppendList0(u32 a, u32 b)
 {
     u32 v = g_020A8140(a, b, 0);
-    u8 *base = g_02146A88->base;
-    u16 n = ((struct Obj11459 *)base)->f25C;
+    struct HandleLists *base = g_pParticleMan->base;
+    u16 n = base->count0;
 
-    ((struct Obj11459 *)base)->f25C = n + 1;
-    *(u32 *)(base + 0x58 + n * 4) = v;
+    base->count0 = n + 1;
+    base->list0[n] = v;
 
     return (u16)v * 8;
 }
 
-
-
-
-
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051AA0.c \
- *       --func func_02051AA0 --addr 0x02051AA0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_Func1AA0.c \
+ *       --func BUTTON_MAN_Func1AA0 --addr 0x02051AA0 --cc 1.1p1 --arm
  */
-int func_02051AA0(int a, int b)
+int BUTTON_MAN_Func1AA0(int a, int b)
 {
     return (u16)func_020616CC(a, b, 1) << 3;
 }
 
-
-
-
-
-extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
-
-
-
-
-
 /*
- * Byte-for-byte the twin of func_02051A54 over the second table: same
+ * Byte-for-byte the twin of BUTTON_MAN_AppendList0 over the second table: same
  * indirect call through the handler at 0x020A8140 (two arguments forwarded,
  * a literal 0 in r2), same append-and-count shape, but the count halfword is
  * at base+0x25e and the elements at base+0x158, i.e. the parallel table 0x100
  * bytes higher with its own counter.
  */
-u32 func_02051AB8(u32 a, u32 b)
+u32 BUTTON_MAN_AppendList1(u32 a, u32 b)
 {
     u32 v = g_020A8148(a, b, 0);
-    u8 *base = g_02146A88->base;
-    u16 n = ((struct Obj11460 *)base)->f25E;
+    struct HandleLists *base = g_pParticleMan->base;
+    u16 n = base->count1;
 
-    ((struct Obj11460 *)base)->f25E = n + 1;
-    *(u32 *)(base + 0x158 + n * 4) = v;
+    base->count1 = n + 1;
+    base->list1[n] = v;
 
     return (u16)v * 8;
 }
-
-
-
-
 
 /*
  * ARM leaf, seeded 2026-09-27 from the ov195 call site 0x02208954
@@ -974,12 +649,8 @@ u32 func_02051AB8(u32 a, u32 b)
  */
 u16 func_02051B04(void *res)
 {
-    return ((struct Obj16194 *)res)->f8;
+    return ((u16 *)res)[4];
 }
-
-
-
-
 
 /*
  * Eight-way dispatch on a button-man handler id: each of the eight ids tail
@@ -994,10 +665,10 @@ u16 func_02051B04(void *res)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051B0C.c \
- *       --func func_02051B0C --addr 0x02051B0C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_CallHandlerById.c \
+ *       --func BUTTON_MAN_CallHandlerById --addr 0x02051B0C --cc 1.1p1 --arm
  */
-int func_02051B0C(int i)
+int BUTTON_MAN_CallHandlerById(int i)
 {
     switch (i) {
     case 0: return (int)func_0207E1F8();
@@ -1012,32 +683,28 @@ int func_02051B0C(int i)
     return 0;
 }
 
-
-
-
-
-void *func_02051B84(u8 *a0, int a1, int a2, int a3)
+struct ButtonMan *func_02051B84(u8 *rects, void (*cb)(s32, s32, s32), s32 arg, int heap)
 {
-    S02051B84 *r;
+    struct ButtonMan *r;
     int i = 0;
     unsigned j;
 
     while (i < 0xff) {
-        if (a0[i * 4] == 0xff) {
+        if (rects[i * 4] == 0xff) {
             break;
         }
         i++;
     }
-    r = (S02051B84 *)func_02030734((u16)a3, 0x14, 0, &g_020A7FCC, 0x6b);
+    r = func_02030734((u16)heap, 0x14, 0, g_020A7FCC, 0x6b);
     if (r != 0) {
-        r->f00 = a0;
-        r->f04 = i;
-        r->f08 = a1;
-        r->f0c = a2;
-        r->f10 = (int)func_02030734((u16)a3, i * 4, 0, &g_020A7FCC, 0x73);
-        if (r->f10 != 0) {
+        r->rects = rects;
+        r->n = i;
+        r->cb = cb;
+        r->arg = arg;
+        r->slots = func_02030734((u16)heap, i * 4, 0, g_020A7FCC, 0x73);
+        if (r->slots != 0) {
             for (j = 0; j < i; j++) {
-                func_02051C58((void *)(r->f10 + j * 4));
+                BUTTON_MAN_ClearSlot(&r->slots[j]);
             }
         } else {
             func_020307B0(r);
@@ -1047,34 +714,23 @@ void *func_02051B84(u8 *a0, int a1, int a2, int a3)
     return r;
 }
 
-
-
-
-
-void func_02051C58(void *p0){ ((struct Obj08875 *)p0)->f0 = (unsigned char)0; ((struct Obj08875 *)p0)->f1 = (unsigned char)0; ((struct Obj08875 *)p0)->f2 = (unsigned short)0; }
-
-
-
-
+void BUTTON_MAN_ClearSlot(struct Slot *slot)
+{
+    slot->kind = 0;
+    slot->state = 0;
+    slot->count = 0;
+}
 
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02051C6C.c \
  *       --func func_02051C6C --addr 0x02051C6C --cc 1.1p1 --arm
  */
-void func_02051C6C(void *p)
+void func_02051C6C(struct ButtonMan *bm)
 {
-    func_020307B0((void *)((struct Obj16196 *)p)->f10);
-    func_020307B0(p);
+    func_020307B0(bm->slots);
+    func_020307B0(bm);
 }
-
-
-
-
-extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
-
-
-
 
 /*
  * The per-frame slot refresh: every slot state byte is rewritten to
@@ -1091,7 +747,7 @@ extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
  * `long i, j` in 0x02048744).  The unsigned compare against the s32 slot
  * indices is kept, which is what holds the fourth 1 in fp.
  */
-s32 func_02051C88(struct Ctx_02051C88 *c)
+s32 func_02051C88(struct ButtonMan *c)
 {
     s32 a;
     s32 b;
@@ -1102,8 +758,8 @@ s32 func_02051C88(struct Ctx_02051C88 *c)
     a = 0;
     h = func_02035C38();
     if (h != 0) {
-        a = func_02035BA4((const void *)c->f00);
-        b = func_02035C08((const void *)c->f00);
+        a = TOUCHPANEL_HitCont(c->rects);
+        b = func_02035C08(c->rects);
         sel = func_02035C60();
 
         for (i = 0; i < c->n; i++) {
@@ -1130,71 +786,59 @@ s32 func_02051C88(struct Ctx_02051C88 *c)
     return ret;
 }
 
-
-
-
 /*
  * The conjunction shares one exit; `*(u8 *)(p+1)` is the armed flag the
  * 0x02051E10 sibling also tests.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051DE8.c \
- *       --func func_02051DE8 --addr 0x02051DE8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_SlotHandlerIdle.c \
+ *       --func BUTTON_MAN_SlotHandlerIdle --addr 0x02051DE8 --cc 1.1p1 --arm
  */
-int func_02051DE8(void *p, int a, int b)
+int BUTTON_MAN_SlotHandlerIdle(struct Slot *p, int a, int b)
 {
-    if (((struct Obj04767 *)p)->f1 == 0 || b == 0)
+    if (p->state == 0 || b == 0)
         return -1;
-    func_02051E64(p, 1);
+    BUTTON_MAN_SlotSetKind(p, 1);
     return 0;
 }
-
-
-
 
 /*
  * State-machine step over a small ARM struct: if the flag byte at +1 is set,
  * bump the halfword at +2 while it is below 0xFFFF and report state 2;
- * otherwise it clears the second argument's slot through func_02051E64 and
+ * otherwise it clears the second argument's slot through BUTTON_MAN_SlotSetKind and
  * reports 1 or 3 depending on whether the incoming second argument was zero.
  * The shared `mov r1, #0` before the compare is the constant both arms pass.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051E10.c \
- *       --func func_02051E10 --addr 0x02051E10 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_SlotHandlerPressed.c \
+ *       --func BUTTON_MAN_SlotHandlerPressed --addr 0x02051E10 --cc 1.1p1 --arm
  */
-int func_02051E10(char *p, u32 x)
+int BUTTON_MAN_SlotHandlerPressed(struct Slot *p, u32 x)
 {
-    if (((struct Obj04767 *)p)->f1 != 0) {
-        u16 v = ((struct Obj04767 *)p)->f2;
+    if (p->state != 0) {
+        u16 v = p->count;
 
         if (v < 0xFFFF)
-            ((struct Obj04767 *)p)->f2 = (u16)(v + 1);
+            p->count = (u16)(v + 1);
         return 2;
     }
     if (x != 0) {
-        func_02051E64(p, 0);
+        BUTTON_MAN_SlotSetKind(p, 0);
         return 3;
     }
-    func_02051E64(p, 0);
+    BUTTON_MAN_SlotSetKind(p, 0);
     return 1;
 }
 
-
-
-
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051E64.c \
- *       --func func_02051E64 --addr 0x02051E64 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_SlotSetKind.c \
+ *       --func BUTTON_MAN_SlotSetKind --addr 0x02051E64 --cc 1.1p1 --arm
  */
-void func_02051E64(void *p, int a)
+void BUTTON_MAN_SlotSetKind(struct Slot *p, int a)
 {
-    ((struct Obj04767 *)p)->f0 = (unsigned char)a;
-    ((struct Obj04767 *)p)->f2 = 0;
+    p->kind = (u8)a;
+    p->count = 0;
 }
-
-
-
 
 /*
  * Scaled 2x2 rotation: convert the angle to a 16-bit turn fraction (mode 1:
@@ -1210,7 +854,7 @@ void func_02051E64(void *p, int a)
  * register residue) and the table as the extern data symbol; the old
  * "label wall" on MTX_Rot22_/MTX_ScaleApply22 is now carried by the sdk class.
  */
-void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode)
+void func_02051E74(Mtx22 *mtx, u32 ang, long scaleX, long scaleY, u8 mode)
 {
     if (mode == 1)
         ang = (u16)((ang * 0xFFFF) >> 8);
@@ -1218,24 +862,19 @@ void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u
         ang = (u16)((ang * 0xFFFF) / 360);
 
     MTX_Rot22_(mtx, tbl_020A1B38[((s32)ang >> 4) * 2], tbl_020A1B38[((s32)ang >> 4) * 2 + 1]);
-    MTX_ScaleApply22(mtx, mtx, func_0207C778((long int)v1), func_0207C778((long int)v2));
+    MTX_ScaleApply22(mtx, mtx, FX_Inv(scaleX), FX_Inv(scaleY));
 }
 
-
-
-void func_02051F1C(struct Ball_02051F1C *dst, struct Vec *src, unsigned radius)
+void BUTTON_MAN_InitSphere(Sphere *dst, Vec3 *src, unsigned radius)
 {
-    dst->p = *src;
-    dst->radius = radius;
+    dst->c = *src;
+    dst->r = radius;
 }
-
-
-
 
 /*
  * Segment-versus-sphere test: project the ball's centre onto the segment
  * p0 -> dir (t = FX_Div(dot(d, c - p0), dot(d, d)), d = dir - p0); on the
- * segment compare the distance against b->r + seg->pad18, off it compare the
+ * segment compare the distance against b->r + seg->radius, off it compare the
  * distance to the far end and then to p0 against b->r.  Fills a 20-byte
  * { hit, normal, dist } block copied to *out when out is non-null; returns hit.
  * Compiler pin dsi/1.1p1 (a PART 1 math helper of cluster_02051E64).
@@ -1245,12 +884,12 @@ void func_02051F1C(struct Ball_02051F1C *dst, struct Vec *src, unsigned radius)
  * AFTER the limit is loaded (`d = VEC_Mag(..); lim = ..; res.d = d;`).
  * Comparing res.d itself reloads it from the stack at the join.
  */
-u32 func_02051F34(struct Seg *seg, struct Ball_02051F34 *b, struct Out *out)
+u32 BUTTON_MAN_SegmentSphereTest(Seg *seg, Sphere *b, HitInfo *out)
 {
-    struct Out  res;    /* sp+0x24: res.hit, n, d -- copied out as one block */
-    struct Vec3_02051C88 sd;     /* sp+0x18 */
-    struct Vec3_02051C88 bc;     /* sp+0x0c */
-    struct Vec3_02051C88 tmp;    /* sp+0x00 */
+    HitInfo      res;    /* sp+0x24: res.hit, n, d -- copied out as one block */
+    Vec3 sd;     /* sp+0x18 */
+    Vec3 bc;     /* sp+0x0c */
+    Vec3 tmp;    /* sp+0x00 */
     int t;
     int d;
     int lim;
@@ -1264,7 +903,7 @@ u32 func_02051F34(struct Seg *seg, struct Ball_02051F34 *b, struct Out *out)
         func_020520A4(&sd, t, &sd);
         VEC_Subtract(&sd, &bc, &tmp);
         d = VEC_Mag(&tmp);
-        lim = b->r + seg->pad18;
+        lim = b->r + seg->radius;
         res.d = d;
     } else {
         VEC_Subtract(&b->c, &seg->dir, &tmp);
@@ -1290,23 +929,17 @@ done:
     return res.hit;
 }
 
-
-
-
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0205207C.c \
- *       --func func_0205207C --addr 0x0205207C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_InitSegment.c \
+ *       --func BUTTON_MAN_InitSegment --addr 0x0205207C --cc 1.1p1 --arm
  */
-void func_0205207C(char *p, struct S12 *q, struct S12 *r, u32 v)
+void BUTTON_MAN_InitSegment(Seg *p, Vec3 *q, Vec3 *r, u32 v)
 {
-    *(struct S12 *)p = *q;
-    *(struct S12 *)(p + 12) = *r;
-    ((struct Obj16198 *)p)->f18 = v;
+    p->p0 = *q;
+    p->dir = *r;
+    p->radius = v;
 }
-
-
-
 
 /*
  * VEC_MultAdd-style scale: dst = v * s in 1.19.12 fixed point, component by
@@ -1328,15 +961,12 @@ void func_0205207C(char *p, struct S12 *q, struct S12 *r, u32 v)
  *   python tools/match.py one --src src/matched/func_020520A4.c \
  *       --func func_020520A4 --addr 0x020520A4 --cc 1.1p1 --arm
  */
-void func_020520A4(const struct Vec3_02051C88 *v, int s, struct Vec3_02051C88 *dst)
+void func_020520A4(const Vec3 *v, int s, Vec3 *dst)
 {
     dst->x = (int)((((s64)v->x * s) + 0x800) >> 12);
     dst->y = (int)((((s64)v->y * s) + 0x800) >> 12);
     dst->z = (int)((((s64)v->z * s) + 0x800) >> 12);
 }
-
-
-
 
 /*
  * Build a 3x3 rotation matrix from three angles, composed X, then Y, then Z.
@@ -1363,9 +993,9 @@ void func_020520A4(const struct Vec3_02051C88 *v, int s, struct Vec3_02051C88 *d
  *
  * Addresses are Black-image addresses.
  */
-void func_020520FC(int ax, int ay, int az, struct Mtx33 *dst)
+void func_020520FC(int ax, int ay, int az, Mtx33 *dst)
 {
-    struct Mtx33 tmp;
+    Mtx33 tmp;
     int i;
 
     MTX_Identity33_(dst);
@@ -1381,9 +1011,6 @@ void func_020520FC(int ax, int ay, int az, struct Mtx33 *dst)
     MTX_RotZ33_(&tmp, tbl_020A1B38[2 * i], tbl_020A1B38[2 * i + 1]);
     MTX_Concat33(dst, &tmp, dst);
 }
-
-
-
 
 /*
  * Turn a direction vector into a look-at rotation matrix: pitch about X, yaw
@@ -1414,11 +1041,11 @@ void func_020520FC(int ax, int ay, int az, struct Mtx33 *dst)
  *
  * Addresses are Black-image addresses.
  */
-void func_020521BC(const struct Vec3_02051C88 *v, struct Mtx33 *dst)
+void func_020521BC(const Vec3 *v, Mtx33 *dst)
 {
-    struct Vec3_02051C88  flat;
-    struct Mtx33 mx;
-    struct Mtx33 my;
+    Vec3         flat;
+    Mtx33        mx;
+    Mtx33        my;
     int          i;
     int          run;
 
@@ -1435,11 +1062,9 @@ void func_020521BC(const struct Vec3_02051C88 *v, struct Mtx33 *dst)
     MTX_Concat33(&mx, &my, dst);
 }
 
-
-
 /*
  * Convert a run of n wide characters at `a` into the narrow buffer at `b`,
- * stopping early when the converter raises its flag.  func_020522E4 is the
+ * stopping early when the converter raises its flag.  BUTTON_MAN_Ucs2CharToSjis is the
  * per-character encoder next door; it returns 1 when it wrote two bytes and
  * something else when it wrote one, and it reports "stop" by storing 1 into
  * the scratch word it is handed.
@@ -1471,10 +1096,10 @@ void func_020521BC(const struct Vec3_02051C88 *v, struct Mtx33 *dst)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02052274.c \
- *       --func func_02052274 --addr 0x02052274 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_ConvertUcs2ToSjis.c \
+ *       --func BUTTON_MAN_ConvertUcs2ToSjis --addr 0x02052274 --cc 1.1p1 --arm
  */
-void func_02052274(u8 *a, u8 *b, u32 n)
+void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32 n)
 {
     u32 scratch;
     u32 z;
@@ -1488,7 +1113,7 @@ void func_02052274(u8 *a, u8 *b, u32 n)
     z = i;
     do {
         scratch = z;
-        if (func_020522E4((u16 *)(a + i * 2), (char *)(b + j), &scratch) == 1)
+        if (BUTTON_MAN_Ucs2CharToSjis((u16 *)(a + i * 2), (char *)(b + j), &scratch) == 1)
             j += 2;
         else
             j += 1;
@@ -1498,10 +1123,8 @@ void func_02052274(u8 *a, u8 *b, u32 n)
     } while (i < n);
 }
 
-
-
 /*
- * The per-character encoder behind func_02052274: one UCS-2 code unit to
+ * The per-character encoder behind BUTTON_MAN_ConvertUcs2ToSjis: one UCS-2 code unit to
  * Shift-JIS.  The terminator (func_02045A98's value) writes a NUL and raises
  * *stop; printable ASCII is copied; hiragana, both katakana runs and the
  * full-width A-Z, a-z and 0-9 are offset into their Shift-JIS rows and
@@ -1514,7 +1137,7 @@ void func_02052274(u8 *a, u8 *b, u32 n)
  * result `two` is declared BEFORE the character (declaration order decides
  * the r4/r5 colours).  dsi/1.1p1; 1.2 and 2.0 are 170-220 bytes longer.
  */
-int func_020522E4(u16 *src, char *dst, u32 *stop)
+int BUTTON_MAN_Ucs2CharToSjis(u16 *src, char *dst, u32 *stop)
 {
     int two = 0;
     u16 c = *src;

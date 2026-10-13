@@ -21,74 +21,65 @@
  *   func_021F5620  0x021F5620  thumb  ov077
  *   func_021F5B44  0x021F5B44  thumb  ov080
  */
-#include "../../matched/include/Obj09916.h"
+#include "../ov077/enceff_base_types.h"
+#include "../ov077/enceff_grid_types.h"
 
-struct Vec;
-struct Param;
-typedef struct { int x,y,z; } Vec;
+extern void func_021CF580(struct EncEffWork *eff);
+extern struct GameEvent *func_021F5260(struct GameSystem *gameSystem, VecFx32 *cameraPos,
+                                       struct GameEvent *(*start)(struct GameSystem *gameSystem),
+                                       void (*draw)(EncEffGridWork *work));
+extern void func_021F582C(EncEffGridWork *work);
+extern void *func_021F5620(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
+extern int func_021F5B44(EncEffGridCell *cell);
+struct GameEvent *func_021F5A80(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+struct GameEvent *func_021F5ABC(struct GameSystem *gameSystem);
+void func_021F5AE8(EncEffGridWork *work);
+extern const VecFx32 d_021F5B64;
 
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
-typedef struct {
-    int w;
-    int h;
-    void (*init)(void *);
-    void (*step)(void *);
-    int (*done)(void *);
-} Cfg;
-
-typedef unsigned short u16;
-
-extern int func_02189A08(unsigned char *p);
-extern void func_021CF580(void *);
-extern void *func_021F5260(void *a, struct Vec *src, u32 b, u32 c);
-extern void func_021F582C(u8 *p);
-extern void *func_021F5620(void *task, const struct Param *p, int flag);
-extern int func_021F5B44(int *o);
-void *func_021F5A80(void *p, int b);
-void func_021F5ABC(void *a);
-void func_021F5AE8(u8 *w);
-extern const Vec d_021F5B64;
-
-void *func_021F5A80(void *p, int b) {
-    Vec v = d_021F5B64;
-    func_021CF580((void *)func_02189A08((unsigned char *)b));
-    return func_021F5260(p, (struct Vec *)(&v), (u32)((void (*)(void))func_021F5ABC), (u32)func_021F582C);
+/*
+ * Encounter effect of overlay 0x50: the screen picture is cut into 2x2 tile
+ * cells and the cells turn over column by column. Builder of the effect table:
+ * loads the helper overlays, then starts the screen texture effect.
+ */
+struct GameEvent *func_021F5A80(struct GameSystem *gameSystem, struct FieldMap *fieldMap) {
+    VecFx32 cameraPos = d_021F5B64;
+    func_021CF580(func_02189A08(fieldMap));
+    return func_021F5260(gameSystem, &cameraPos, func_021F5ABC, func_021F582C);
 }
 
 
-void func_021F5ABC(void *a)
+/* Start function of the screen texture effect: creates the cell grid. */
+struct GameEvent *func_021F5ABC(struct GameSystem *gameSystem)
 {
-    Cfg c;
+    EncEffGridParam param;
 
-    c.w = 2;
-    c.h = 2;
-    c.init = 0;
-    c.step = (void (*)(void *))func_021F5AE8;
-    c.done = (int (*)(void *))func_021F5B44;
-    func_021F5620(a, (const struct Param *)(&c), 1);
+    param.cellWidth = 2;
+    param.cellHeight = 2;
+    param.initCallback = 0;
+    param.stepCallback = func_021F5AE8;
+    param.cellCallback = func_021F5B44;
+    return func_021F5620(gameSystem, &param, 1);
 }
 
 
 /*
  * Addresses are Black-image addresses.
  */
-void func_021F5AE8(u8 *w)
+/* Step callback: every second frame the next column of cells starts to turn. */
+void func_021F5AE8(EncEffGridWork *work)
 {
-    int *c = (int *)(w + 0x3000);
+    EncEffGridStepState *step = &work->step;
 
-    if (c[0] < ((struct Obj09916 *)w)->f3008) {
-        if (c[1] == 0) {
-            int i;
+    if (step->nextCell < work->cols) {
+        if (step->delay == 0) {
+            int row;
 
-            for (i = 0; i < ((struct Obj09916 *)w)->f300A; i++)
-                *(int *)(w + (c[0] + i * ((struct Obj09916 *)w)->f3008) * 64 + 0x34) = 1;
-            c[0]++;
-            c[1] = 1;
+            for (row = 0; row < work->rows; row++)
+                work->cell[step->nextCell + row * work->cols].active = 1;
+            step->nextCell++;
+            step->delay = 1;
         } else {
-            c[1]--;
+            step->delay--;
         }
     }
 }

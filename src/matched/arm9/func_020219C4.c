@@ -1,5 +1,5 @@
 /*
- * function: func_020219C4
+ * function: PALANM_SetFadeParam
  * address:  0x020219C4
  * packet:   pkt_02021984
  * region:   arm9
@@ -44,7 +44,7 @@ struct S020219C4 {
     u16 pad6 : 5;
 };
 
-void func_020219C4(struct S020219C4 *s, u16 f0, s32 a, u8 b, u8 c, u16 d)
+void PALANM_SetFadeParam(struct S020219C4 *s, u16 f0, s32 a, u8 b, u8 c, u16 d)
 {
     u8 n;
 

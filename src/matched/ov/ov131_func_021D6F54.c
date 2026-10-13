@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021D6F54,func_021D703C
+ * function: P_STA_SUB_UpdatePet,P_STA_SUB_StartPetReaction
  * address: 0x021D6F54
  * packet: pkt_ov131_021D6F54
  * region: ov131
@@ -13,59 +13,59 @@
  * semantic: unsigned full-word state dispatch guarded at six by the
  *   original; byte counters compared directly. No signed arithmetic.
  * symbols:
- *   func_021D703C 0x021D703C thumb ov131
- *   func_021D7060 0x021D7060 thumb ov131
- *   func_021D708C 0x021D708C thumb ov131
- *   func_021D7248 0x021D7248 thumb ov131
- *   func_021D72E8 0x021D72E8 thumb ov131
- *   func_02015E4C 0x02015E4C thumb
+ *   P_STA_SUB_StartPetReaction 0x021D703C thumb ov131
+ *   P_STA_SUB_StepPetTimer 0x021D7060 thumb ov131
+ *   P_STA_SUB_PetWiggle 0x021D708C thumb ov131
+ *   P_STA_SUB_PetHop 0x021D7248 thumb ov131
+ *   P_STA_SUB_PetRise 0x021D72E8 thumb ov131
+ *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
  */
 #include "../include/Obj01740.h"
 #include "../include/Obj05387.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021D703C(void *,u8 *);
-extern int func_021D7060(void *,u8 *,u8 *);
-extern int func_021D708C(u8 *,u8 *);
-extern int func_021D7248(u8 *,u8 *);
-extern int func_021D72E8(u8 *,u8 *,int);
-extern void func_02015E4C(void *);
-void func_021D6F54(u8 *p,u8 *q)
+extern void P_STA_SUB_StartPetReaction(void *,u8 *);
+extern int P_STA_SUB_StepPetTimer(void *,u8 *,u8 *);
+extern int P_STA_SUB_PetWiggle(u8 *,u8 *);
+extern int P_STA_SUB_PetHop(u8 *,u8 *);
+extern int P_STA_SUB_PetRise(u8 *,u8 *,int);
+extern void MCSS_ResetAnmStopFlag(void *);
+void P_STA_SUB_UpdatePet(u8 *p,u8 *q)
 {
     switch(((struct Obj01740 *)q)->f5C) {
     case 0:
-        if(q[0x78]>10) {((struct Obj01740 *)q)->f5C=1;func_021D703C(p,q);}
-        if(q[0x80]>10) {((struct Obj01740 *)q)->f5C=2;func_021D703C(p,q);}
-        if(q[0x88]>20) {((struct Obj01740 *)q)->f5C=3;func_021D703C(p,q);}
+        if(q[0x78]>10) {((struct Obj01740 *)q)->f5C=1;P_STA_SUB_StartPetReaction(p,q);}
+        if(q[0x80]>10) {((struct Obj01740 *)q)->f5C=2;P_STA_SUB_StartPetReaction(p,q);}
+        if(q[0x88]>20) {((struct Obj01740 *)q)->f5C=3;P_STA_SUB_StartPetReaction(p,q);}
         break;
     case 1:
-        func_021D708C(p,q);
-        if(func_021D7060(p,q,q+0x78)==0) ((struct Obj01740 *)q)->f5C=4;
+        P_STA_SUB_PetWiggle(p,q);
+        if(P_STA_SUB_StepPetTimer(p,q,q+0x78)==0) ((struct Obj01740 *)q)->f5C=4;
         break;
     case 4:
-        if(func_021D708C(p,q)==1) ((struct Obj01740 *)q)->f5C=0;
+        if(P_STA_SUB_PetWiggle(p,q)==1) ((struct Obj01740 *)q)->f5C=0;
         break;
     case 2:
-        func_021D7248(p,q);
-        if(func_021D7060(p,q,q+0x80)==0) ((struct Obj01740 *)q)->f5C=5;
+        P_STA_SUB_PetHop(p,q);
+        if(P_STA_SUB_StepPetTimer(p,q,q+0x80)==0) ((struct Obj01740 *)q)->f5C=5;
         break;
     case 5:
-        if(func_021D7248(p,q)==1) ((struct Obj01740 *)q)->f5C=0;
+        if(P_STA_SUB_PetHop(p,q)==1) ((struct Obj01740 *)q)->f5C=0;
         break;
     case 3:
-        func_021D72E8(p,q,1);
-        if(func_021D7060(p,q,q+0x88)==0) ((struct Obj01740 *)q)->f5C=6;
+        P_STA_SUB_PetRise(p,q,1);
+        if(P_STA_SUB_StepPetTimer(p,q,q+0x88)==0) ((struct Obj01740 *)q)->f5C=6;
         break;
     case 6:
-        if(func_021D72E8(p,q,0)==1) {
-            func_02015E4C(((struct Obj01740 *)q)->f0);
+        if(P_STA_SUB_PetRise(p,q,0)==1) {
+            MCSS_ResetAnmStopFlag(((struct Obj01740 *)q)->f0);
             ((struct Obj01740 *)q)->f5C=0;
         }
         break;
     }
 }
 typedef unsigned short u16;
-void func_021D703C(void *unused,u8 *q)
+void P_STA_SUB_StartPetReaction(void *unused,u8 *q)
 {
     ((struct Obj05387 *)q)->f58=1;
     ((struct Obj05387 *)q)->f64=0;

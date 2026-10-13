@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0202C6A0, func_0202C6AC
+ * function: ISS_SWITCH_SetOnState, ISS_SWITCH_SetOffState
  *
  * symbols:
  *   sub_0202C6BC  0x0202C6BC  thumb
@@ -22,7 +22,7 @@
  * only through sub_0202C570 and sub_0202C578's pool-word-and-bx tail
  * calls (src/matched/unit_0202C548.c). Neither carries a
  * register-saving prologue, so neither is in the worklist's function
- * list; both sit exactly between func_0202C688's last instruction and
+ * list; both sit exactly between ISS_SWITCH_StartFadeOut's last instruction and
  * sub_0202C6B8's label.
  *
  * Verified with:
@@ -35,12 +35,12 @@ typedef unsigned int u32;
 struct Obj0202C6B8;
 extern struct Obj0202C6B8 *sub_0202C6BC(struct Obj0202C6B8 *p, u32 v);
 
-u32 func_0202C6A0(void *p)
+u32 ISS_SWITCH_SetOnState(void *p)
 {
     return (u32)sub_0202C6BC(p, 0);
 }
 
-u32 func_0202C6AC(void *p)
+u32 ISS_SWITCH_SetOffState(void *p)
 {
     return (u32)sub_0202C6BC(p, 1);
 }

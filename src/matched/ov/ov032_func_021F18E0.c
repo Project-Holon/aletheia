@@ -14,7 +14,7 @@
  *   func_021F1930 0x021F1930 thumb
  *   func_021F05E8 0x021F05E8 thumb
  *   func_020311B8 0x020311B8 arm
- *   func_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02045838 0x02045838 arm
  */
@@ -28,7 +28,7 @@ extern void func_021F1930(void *task, u8 *s);
 extern void func_021F05E8(u8 *p, int a, u32 b);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
-extern void *func_02031290(struct S02030FB4 *p);
+extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
 struct U16Vec;
 extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
@@ -37,7 +37,7 @@ void func_021F18E0(char *p, u32 a, int *c)
 {
     u8 *r;
 
-    r = func_02031290(func_020311B8(*(u32 *)&((struct Obj00007 *)p)->fA0, (void *)func_021F1930, 0x10, 0));
+    r = TCBL_GetWork(func_020311B8(*(u32 *)&((struct Obj00007 *)p)->fA0, (void *)func_021F1930, 0x10, 0));
     func_02082BCC(r, 0, 0x10);
     func_02045838((struct U16Vec *)(*(u32 *)&((struct Obj00007 *)p)->f120), (struct U16Vec *)a);
     *(char * *)&((struct Obj09798 *)r)->f8 = p;

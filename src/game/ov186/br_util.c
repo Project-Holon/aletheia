@@ -52,10 +52,10 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_020437AC 0x020437AC arm
  *   func_021FC0C8 0x021FC0C8 thumb ov186
- *   func_02006254 0x02006254 thumb
+ *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   func_020061E4 0x020061E4 thumb
- *   func_02035BA4 0x02035BA4 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_HitCont 0x02035BA4 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   d_02200AF0 0x02200AF0 data a4
  *   func_020437D4 0x020437D4 arm
  *   func_02082A90 0x02082A90 arm
@@ -65,12 +65,12 @@
  *   func_021FBDA4  0x021FBDA4  thumb  ov186
  *   func_021FC214 0x021FC214 thumb ov186
  *   func_021FC21C 0x021FC21C thumb ov186
- *   func_0202DB0C 0x0202DB0C thumb
- *   func_0202DCFC 0x0202DCFC thumb
- *   func_0202DE5C 0x0202DE5C thumb
- *   func_0202DE64 0x0202DE64 thumb
- *   func_0202DC60 0x0202DC60 thumb
- *   func_0200D6D0 0x0200D6D0 thumb
+ *   PMS_DRAW_Create 0x0202DB0C thumb
+ *   PMS_DRAW_SetDecoPriority 0x0202DCFC thumb
+ *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
+ *   PMS_DRAW_SetPrintColor 0x0202DE64 thumb
+ *   PMS_DRAW_PrintOffset 0x0202DC60 thumb
+ *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   func_0200D6EC 0x0200D6EC thumb
  *   func_0200D6FC 0x0200D6FC thumb
  *   func_0200D70C 0x0200D70C thumb
@@ -93,7 +93,7 @@
  *   func_0201BC3C 0x0201BC3C thumb
  *   func_0201BC40 0x0201BC40 thumb
  *   func_0201BCB4 0x0201BCB4 thumb
- *   func_0201BABC 0x0201BABC thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0201BB5C 0x0201BB5C thumb
  *   func_0204ACEC 0x0204ACEC arm
  *   func_0204AF28 0x0204AF28 arm
@@ -106,8 +106,8 @@
  *   func_0204ADA4 0x0204ADA4 arm
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204AFD8 0x0204AFD8 arm
- *   func_0202DC08 0x0202DC08 thumb
- *   func_0202DBC4 0x0202DBC4 thumb
+ *   PMS_DRAW_Delete 0x0202DC08 thumb
+ *   PMS_DRAW_Main 0x0202DBC4 thumb
  *   func_0204B878 0x0204B878 arm
  *   func_0204B404 0x0204B404 arm
  *   d_02200AD0 0x02200AD0 data a4
@@ -123,21 +123,21 @@
  *   func_0207C768 0x0207C768 arm
  *   func_02021518 0x02021518 thumb
  *   func_0202155C 0x0202155C thumb
- *   func_02021EE4 0x02021EE4 thumb
+ *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   d_02200D6C 0x02200D6C data a1
  *   func_020215A0 0x020215A0 thumb
  *   func_02021540 0x02021540 thumb
  *   func_020216D4 0x020216D4 thumb
- *   func_02022004 0x02022004 thumb
- *   func_02021F08 0x02021F08 thumb
- *   func_02021D50 0x02021D50 thumb
+ *   PALANM_BlendChannelMask 0x02022004 thumb
+ *   PALANM_RequestFullTransfer 0x02021F08 thumb
+ *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_0207D63C 0x0207D63C arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
- *   func_02021660 0x02021660 thumb
+ *   PALANM_LoadHandlePaletteToSlotAt 0x02021660 thumb
  *   func_0204E720 0x0204E720 arm
  *   func_0204E804 0x0204E804 arm
- *   func_0204E6E0 0x0204E6E0 arm
+ *   FADE_GetSpeed 0x0204E6E0 arm
  *   func_0209C0A4 0x0209C0A4 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   func_021FEEF4 0x021FEEF4 thumb ov186
@@ -304,10 +304,10 @@ extern unsigned func_021FC20C(char *p);
 extern void func_0204B3B4(struct Obj *p);
 extern void func_020437AC(struct Obj020437AC *p);
 extern void func_021FC0C8(char *p, unsigned i);
-extern int func_02006254(u32 a);
+extern int GFL_USE_IsSeqPlaying(u32 a);
 extern void func_020061E4(u32 a);
-extern int func_02035BA4(const void *);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern int TOUCHPANEL_HitCont(const void *);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02082A90(void *,const void *,unsigned);
 extern int func_02035C08(const void *);
@@ -316,12 +316,12 @@ extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern void func_021FBDA4(int a, unsigned mode);
 extern int func_021FC214(char *);
 extern int func_021FC21C(char *p);
-extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
-extern void func_0202DCFC(struct Obj0202DCC4 *p, u32 i, u32 val);
-extern void func_0202DE5C(struct PmsDraw *p, u8 v);
-extern void func_0202DE64(struct PmsDraw *p, u16 v);
-extern void func_0202DC60(struct Obj *p, u32 a, void *w, u32 i, u32 e);
-extern void *func_0200D6D0(const void *,u32);
+extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
+extern void PMS_DRAW_SetDecoPriority(struct Obj0202DCC4 *p, u32 i, u32 val);
+extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
+extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
+extern void PMS_DRAW_PrintOffset(struct Obj *p, u32 a, void *w, u32 i, u32 e);
+extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 extern u32 func_0200D6EC(struct RecGet *p);
 extern u32 func_0200D6FC(struct RecGet *p);
 extern u32 func_0200D70C(struct RecGet *p);
@@ -344,7 +344,7 @@ extern void func_02049238(void *);
 extern int func_0201BC3C(void);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
-extern u32 func_0201BABC(u32,u32,u32,u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32);
 extern u32 func_0201BB5C(u32,u32,u32,u32);
 extern int func_0204ACEC(void *,u32,u32,u32,u16);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
@@ -354,28 +354,28 @@ extern void *func_0204B6F4(void *,u32,u32);
 extern void func_0204ADA4(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
-extern void func_0202DC08(struct Obj *p);
-extern void func_0202DBC4(u8 *);
+extern void PMS_DRAW_Delete(struct Obj *p);
+extern void PMS_DRAW_Main(u8 *);
 extern void func_0204B878(struct Obj *,u16);
 extern void func_0204B404(void *,const ShortPair *,u16);
 extern long func_0207CBD0(const VecFx32 *);
 extern u32 func_0207C768(u32,u32);
 extern void *func_02021518(unsigned);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void func_020215A0(struct PalAnmSlot *,u32);
 extern void func_02021540(void *);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern void func_02022004(unsigned, unsigned, unsigned short, unsigned, unsigned);
-extern void func_02021F08(struct Obj02021F08 *o, int v);
-extern void func_02021D50(struct S02021D50 *p);
+extern void PALANM_BlendChannelMask(unsigned, unsigned, unsigned short, unsigned, unsigned);
+extern void PALANM_RequestFullTransfer(struct Obj02021F08 *o, int v);
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void func_0207D63C(unsigned, int, int, int, int);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
-extern void func_02021660(struct PalAnmSlot *,void *,u32,u32,u32,u32,u16,u16);
+extern void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *,void *,u32,u32,u32,u32,u16,u16);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
-extern int func_0204E6E0(void);
+extern int FADE_GetSpeed(void);
 extern int func_0209C0A4(int,int);
 extern u32 _u32_div_f(u32,u32);
 extern void func_021FEEF4(char *, int, char *, const char *, unsigned);
@@ -734,7 +734,7 @@ void func_021FCD0C(char *p)
         ((struct Obj00048 *)p)->f4C=func_021FCEDC(p);
         if(((struct Obj00048 *)p)->f4C) {
             if(((int (*)(char *,int))*(int *)(p+0x50))(p,((struct Obj00048 *)p)->f4C)) {
-                if(func_02006254(0x6FE)==0) func_020061E4(0x6FE);
+                if(GFL_USE_IsSeqPlaying(0x6FE)==0) func_020061E4(0x6FE);
                 func_021FCE60(p,((struct Obj00048 *)p)->f42);
             }
             if(((struct Obj00048 *)p)->f4D) {
@@ -873,8 +873,8 @@ int func_021FCEDC(char *p)
     int x,y;
     int direction=0;
     int delta,absolute;
-    if(func_02035BA4(d_02200AF0)!=-1) {
-        func_02035CB8((u32 *)(&x),(u32 *)(&y));
+    if(TOUCHPANEL_HitCont(d_02200AF0)!=-1) {
+        TOUCHPANEL_GetPointCont((u32 *)(&x),(u32 *)(&y));
         if(((struct Obj00048 *)p)->f84==0) {((struct Obj00048 *)p)->f84=1;((struct Obj00048 *)p)->f88=y;}
         else {
             delta=y-((struct Obj00048 *)p)->f88;
@@ -1359,8 +1359,8 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
     func_02082BCC(p,0,0x44);
     *(char **)(p+0x1c)=q;
     font=(void *)func_021FC20C(q);
-    *(void **)(p+0x20)=func_0202DB0C((u32)a2,0,(u32)a3,(u32)font,7,1,heap);
-    func_0202DCFC(*(void **)(p+0x20),0,1);
+    *(void **)(p+0x20)=PMS_DRAW_Create((u32)a2,0,(u32)a3,(u32)font,7,1,heap);
+    PMS_DRAW_SetDecoPriority(*(void **)(p+0x20),0,1);
     func_021FB964(*(void **)(p+0x1c),8,heap);
     bank=(void *)(u32)func_021FC214(q);
     words=(void *)(u32)func_021FC21C(q);
@@ -1376,7 +1376,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             void *name;
             void *msg;
             text=func_020457B0(0x80,(u16)heap);
-            name=func_0200D6D0(prof,heap);
+            name=GDS_PROFILE_CreateNameStr(prof,heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             func_0201EE0C(words,0,name,func_0200D6EC(prof),1,2);
             func_0201F250(words,text,msg);
@@ -1434,9 +1434,9 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
                 func_021FC868(*(void **)(p+i*4),8,1,0);
             } else {
                 Pair_021FD110 c=d_02200B6C;
-                func_0202DE5C(*(void **)(p+0x20),0);
-                func_0202DE64(*(void **)(p+0x20),0x3da0);
-                func_0202DC60(*(void **)(p+0x20),(u32)(*(void **)(*(char **)(p+i*4)+0xc)),rec,0,(u32)(&c));
+                PMS_DRAW_SetNullColorPalette(*(void **)(p+0x20),0);
+                PMS_DRAW_SetPrintColor(*(void **)(p+0x20),0x3da0);
+                PMS_DRAW_PrintOffset(*(void **)(p+0x20),(u32)(*(void **)(*(char **)(p+i*4)+0xc)),rec,0,(u32)(&c));
                 ready=0;
             }
             break;
@@ -1463,7 +1463,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
         h=func_020490F4(7,hf);
         *(int *)(p+0x2c)=func_0204ACEC(h,func_0201BC3C(),0,0x80,hf);
         *(int *)(p+0x34)=func_0204AF28(h,func_0201BC40(),func_0201BCB4(),(u16)hf);
-        *(int *)(p+0x30)=func_0204A6C8(h,func_0201BABC(B,C,D,A),0,0,hf);
+        *(int *)(p+0x30)=func_0204A6C8(h,POKE_TOOL_CalcGraphicIndex(B,C,D,A),0,0,hf);
         func_02049238(h);
         func_02082BCC(&r,0,8);
         r.x=0x4b;r.y=0x40;r.z=1;
@@ -1521,7 +1521,7 @@ void func_021FD640(int *p)
     if(p[10]) {func_0204B3B4((struct Obj *)p[10]);func_0204ADA4(p[14]);func_0204A8D4(p[15]);func_0204AFD8(p[16]);}
     if(p[9]) {func_0204B3B4((struct Obj *)p[9]);func_0204ADA4(p[11]);func_0204A8D4(p[12]);func_0204AFD8(p[13]);}
     for(i=0;i<7;i++) if(p[i]) {func_021FC734((void *)p[i]);p[i]=0;}
-    func_0202DC08((struct Obj *)p[8]);func_021FBDA4(p[7],8);func_020307B0(p);func_020409B4(1);
+    PMS_DRAW_Delete((struct Obj *)p[8]);func_021FBDA4(p[7],8);func_020307B0(p);func_020409B4(1);
 }
 
 
@@ -1533,7 +1533,7 @@ int func_021FD6B0(u8 *p)
     int result=1;
     int i;
     for(i=0;i<7;i++)if(*(void **)((u32)p+(u32)i*4)!=0)result &=func_021FC830(*(void **)((u32)p+(u32)i*4));
-    func_0202DBC4(*(u8 * *)&((struct Obj24841 *)p)->f20);
+    PMS_DRAW_Main(*(u8 * *)&((struct Obj24841 *)p)->f20);
     return result;
 }
 
@@ -2269,7 +2269,7 @@ int *func_021FE6C0(unsigned heap)
     func_0202155C((void *)p[8], 2, 0x1C0, heap);
     func_0202155C((void *)p[8], 1, 0x200, heap);
     func_0202155C((void *)p[8], 3, 0x1C0, heap);
-    func_02021EE4((void *)p[8], 1);
+    PALANM_SetAutoTransfer((void *)p[8], 1);
     return p;
 }
 
@@ -2353,11 +2353,11 @@ void func_021FE7F4(char *p,u16 value) { ((struct Obj24849 *)p)->f24=value; }
 void func_021FE7F8(char *p, int mask)
 {
     if (mask & 1)
-        func_02022004(*(unsigned *)&((struct Obj05507 *)p)->f20, 0, 0xBFFF, 16, ((struct Obj05507 *)p)->f24);
+        PALANM_BlendChannelMask(*(unsigned *)&((struct Obj05507 *)p)->f20, 0, 0xBFFF, 16, ((struct Obj05507 *)p)->f24);
     if (mask & 2)
-        func_02022004(*(unsigned *)&((struct Obj05507 *)p)->f20, 1, 0xBFFF, 16, ((struct Obj05507 *)p)->f24);
-    func_02021F08(((struct Obj05507 *)p)->f20, 1);
-    func_02021D50(((struct Obj05507 *)p)->f20);
+        PALANM_BlendChannelMask(*(unsigned *)&((struct Obj05507 *)p)->f20, 1, 0xBFFF, 16, ((struct Obj05507 *)p)->f24);
+    PALANM_RequestFullTransfer(((struct Obj05507 *)p)->f20, 1);
+    PALANM_TransferPalettes(((struct Obj05507 *)p)->f20);
 }
 
 
@@ -2392,7 +2392,7 @@ void func_021FE840(int unused, int mask, int value)
 
 
 
-void func_021FE8E8(char *p,void *arc,u32 file,u32 idx,u32 off,u32 count,u16 tag) { func_02021660(*(struct PalAnmSlot * *)&((struct Obj24850 *)p)->f20,arc,file,tag,idx,count,off,0); }
+void func_021FE8E8(char *p,void *arc,u32 file,u32 idx,u32 off,u32 count,u16 tag) { PALANM_LoadHandlePaletteToSlotAt(*(struct PalAnmSlot * *)&((struct Obj24850 *)p)->f20,arc,file,tag,idx,count,off,0); }
 
 
 
@@ -2487,7 +2487,7 @@ int func_021FE9D4(char *p,int *state)
         if(((struct Obj01285 *)p)->f4&2)func_0207D63C(0x04001050,3,7,a,b);
         ((struct Obj01285 *)p)->f10=0;
         duration=((struct Obj01285 *)p)->f18;
-        if(duration==0)duration=func_0209C0A4(16,func_0204E6E0());
+        if(duration==0)duration=func_0209C0A4(16,FADE_GetSpeed());
         ((struct Obj01285 *)p)->f14=duration;
         *state=1;
         break;
@@ -2527,9 +2527,9 @@ int func_021FEB1C(char *p,int *state)
         int duration;
         *(u32 *)(p+0x10)=0;
         duration=*(int *)(p+0x18);
-        if(duration==0)duration=func_0209C0A4(16,func_0204E6E0());
+        if(duration==0)duration=func_0209C0A4(16,FADE_GetSpeed());
         *(u32 *)(p+0x14)=duration;
-        func_02021F08(*(struct Obj02021F08 **)(p+0x20),1);
+        PALANM_RequestFullTransfer(*(struct Obj02021F08 **)(p+0x20),1);
         *state=1;
         break;
     }
@@ -2538,18 +2538,18 @@ int func_021FEB1C(char *p,int *state)
         if(*(int *)(p+8)==0)value=(u8)(16-_u32_div_f(*(u32 *)(p+0x10)<<4,*(u32 *)(p+0x14)));
         else if(*(int *)(p+8)==1)value=(u8)_u32_div_f(*(u32 *)(p+0x10)<<4,*(u32 *)(p+0x14));
         if(*(int *)(p+4)==15) {
-            func_02022004(*(u32 *)(p+0x20),1,0x3000,value,0xffff);
+            PALANM_BlendChannelMask(*(u32 *)(p+0x20),1,0x3000,value,0xffff);
         } else {
             if(*(int *)(p+4)&1) {
-                func_02022004(*(u32 *)(p+0x20),2,0x3fff,value,*(u16 *)(p+0x24));
-                func_02022004(*(u32 *)(p+0x20),0,0xbfff,value,*(u16 *)(p+0x24));
+                PALANM_BlendChannelMask(*(u32 *)(p+0x20),2,0x3fff,value,*(u16 *)(p+0x24));
+                PALANM_BlendChannelMask(*(u32 *)(p+0x20),0,0xbfff,value,*(u16 *)(p+0x24));
             }
             if(*(int *)(p+4)&2) {
-                func_02022004(*(u32 *)(p+0x20),3,0x3fff,value,*(u16 *)(p+0x24));
-                func_02022004(*(u32 *)(p+0x20),1,0xbfff,value,*(u16 *)(p+0x24));
+                PALANM_BlendChannelMask(*(u32 *)(p+0x20),3,0x3fff,value,*(u16 *)(p+0x24));
+                PALANM_BlendChannelMask(*(u32 *)(p+0x20),1,0xbfff,value,*(u16 *)(p+0x24));
             }
         }
-        func_02021D50(*(struct S02021D50 **)(p+0x20));
+        PALANM_TransferPalettes(*(struct S02021D50 **)(p+0x20));
         if((*(u32 *)(p+0x10))++ >= *(u32 *)(p+0x14))*state=2;
         break;
     }
@@ -2579,7 +2579,7 @@ int func_021FEC14(char *p,int *state)
         func_0207D63C(0x04001050,3,7,a,b);
         ((struct Obj01426 *)p)->f10=0;
         duration=((struct Obj01426 *)p)->f18;
-        if(duration==0)duration=func_0209C0A4(16,func_0204E6E0());
+        if(duration==0)duration=func_0209C0A4(16,FADE_GetSpeed());
         ((struct Obj01426 *)p)->f14=duration;
         *state=1;
         break;

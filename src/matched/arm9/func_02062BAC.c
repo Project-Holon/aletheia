@@ -16,7 +16,7 @@
  * a leaf with no relocation sites at all -- the only address it ever adds is
  * its own argument.
  *
- * Neighbour of src/matched/func_02062B64.c, which is the block-chain lookup
+ * Neighbour of src/matched/NNS_G2dFindBinaryBlock.c, which is the block-chain lookup
  * for the same NITRO file format; this is what the caller runs over the block
  * that lookup returns.
  *

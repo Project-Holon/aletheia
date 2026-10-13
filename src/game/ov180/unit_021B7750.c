@@ -58,13 +58,13 @@
  *   func_020434DC 0x020434DC arm
  *   func_021B73B0 0x021B73B0 thumb ov180
  *   func_0204B034 0x0204B034 arm
- *   func_0204B0F4 0x0204B0F4 arm
+ *   CLACT_SetRendererCulling 0x0204B0F4 arm
  *   func_0204B258 0x0204B258 arm
  *   func_02008550 0x02008550 thumb
- *   func_0202DA04 0x0202DA04 thumb
- *   func_0202DA48 0x0202DA48 thumb
- *   func_0202DA18 0x0202DA18 thumb
- *   func_0202DA6C 0x0202DA6C thumb
+ *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
+ *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
+ *   POKEGRA_RegisterTrainerPalette 0x0202DA18 thumb
+ *   POKEGRA_RegisterTrainerCellAnim 0x0202DA6C thumb
  *   d_021B82B4 0x021B82B4 data a4
  *   d_021B8204 0x021B8204 data a4
  *   d_021B81EC 0x021B81EC data a4
@@ -172,13 +172,13 @@ extern u32 func_0204EA38(void);
 extern void func_020434DC(u32,u32);
 extern void func_021B73B0(char *p);
 extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
-extern void func_0204B0F4(struct Actor *a0, int a1);
+extern void CLACT_SetRendererCulling(struct Actor *a0, int a1);
 extern void func_0204B258(struct Bank *,void *);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern int func_0202DA04(int);
-extern u32 func_0202DA48(u32,u32,u32,u32);
-extern s32 func_0202DA18(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern int func_0202DA6C(int a0, int a1, int a2, unsigned short a3);
+extern int POKEGRA_OpenTrainerHandle(int);
+extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
+extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern int POKEGRA_RegisterTrainerCellAnim(int a0, int a1, int a2, unsigned short a3);
 extern void func_0204B084(void *);
 void func_021B7750(char *p);
 void func_021B7798(int *p, int n);
@@ -369,8 +369,8 @@ void func_021B7D44(int *p)
 void func_021B7D5C(void *p) { if(func_0204EA38()==1) func_020434DC(16,0); else func_020434DC(16,1); func_021B73B0(p); }
 
 /*
- *   src/matched/arm9/unit_0204B22C.c defines sub_0204B258 but its function:
- *   line lists only sub_0204B22C. the integrator must add the missing unit entry.
+ *   src/matched/arm9/unit_0204B22C.c defines CLACT_SetUnitRenderer but its function:
+ *   line lists only CLACT_SetUnitDrawEnable. the integrator must add the missing unit entry.
  *   Scratch one --arm, dsi/1.1p1 -O4,p -lang c99: EXACT, 24 bytes, no sites.
  *   Verified C:
  *   typedef unsigned char u8;
@@ -394,7 +394,7 @@ void func_021B7D80(char *p) {
     func_021B7C78(p);
     s=d_021B82B4;
     *(struct Actor **)(p+0x9118)=(struct Actor *)func_0204B034((u8 *)&s,2,141);
-    func_0204B0F4(*(struct Actor **)(p+0x9118),1);
+    CLACT_SetRendererCulling(*(struct Actor **)(p+0x9118),1);
     func_0204B258(*(struct Bank **)(p+0x9044),*(void **)(p+0x9118));
     *(u32 *)(p+0x9064)=(u32)func_021B75A4(p,d_021B8204);
     *(u32 *)(p+0x9068)=(u32)func_021B75A4(p,((char *)&d_021B81EC));
@@ -406,13 +406,13 @@ void func_021B7D80(char *p) {
     func_02049238(h);
     mode=1;
     if(!func_02008550((const struct Sub0200852CObj *)(*(struct Player **)(*(char **)p+4)))) mode=0;
-    h=(u8 *)func_0202DA04(0x808d);
-    *(u32 *)(p+0x90d8)=func_0202DA48((u32)h,mode,0,141);
-    *(u32 *)(p+0x90f4)=func_0202DA18((u32)h,mode,0,192,141);
-    *(int *)(p+0x910c)=func_0202DA6C(mode,2,0,141);
-    *(u32 *)(p+0x90dc)=func_0202DA48((u32)h,mode,1,141);
-    *(u32 *)(p+0x90f8)=func_0202DA18((u32)h,mode,1,96,141);
-    *(int *)(p+0x9110)=func_0202DA6C(mode,0,1,141);
+    h=(u8 *)POKEGRA_OpenTrainerHandle(0x808d);
+    *(u32 *)(p+0x90d8)=POKEGRA_RegisterTrainerCgr((u32)h,mode,0,141);
+    *(u32 *)(p+0x90f4)=POKEGRA_RegisterTrainerPalette((u32)h,mode,0,192,141);
+    *(int *)(p+0x910c)=POKEGRA_RegisterTrainerCellAnim(mode,2,0,141);
+    *(u32 *)(p+0x90dc)=POKEGRA_RegisterTrainerCgr((u32)h,mode,1,141);
+    *(u32 *)(p+0x90f8)=POKEGRA_RegisterTrainerPalette((u32)h,mode,1,96,141);
+    *(int *)(p+0x9110)=POKEGRA_RegisterTrainerCellAnim(mode,0,1,141);
     func_02049238(h);
     *(u32 *)(p+0x905c)=(u32)func_021B75A4(p,d_021B824C);
     *(u32 *)(p+0x9060)=(u32)func_021B75A4(p,d_021B8264);

@@ -1,5 +1,5 @@
 /*
- * function: func_02173AC4
+ * function: UNION_COMMAND_RecvPartnerMode
  * address: 0x02173AC4
  * packet: pkt_ov012_02173AC4
  * region: ov012
@@ -21,7 +21,7 @@ typedef struct { u8 pad[0x5a]; u8 low:2; u8 mode:2; u8 high:4; } Sub;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(struct Link *p);
-void func_02173AC4(u32 a, int b, u32 *c, u8 *p)
+void UNION_COMMAND_RecvPartnerMode(u32 a, int b, u32 *c, u8 *p)
 {
     Sub *q = (Sub *)(p + 0x2830);
     if (a != func_0203D1A4((struct Link *)func_020399A8())) q->mode = (u8)*c;

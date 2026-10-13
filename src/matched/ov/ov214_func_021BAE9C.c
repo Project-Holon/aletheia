@@ -13,7 +13,7 @@
  *   func_02030734 0x02030734 arm
  *   func_02030CBC 0x02030CBC arm
  *   func_02021518 0x02021518 thumb
- *   func_02021EE4 0x02021EE4 thumb
+ *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   func_0202155C 0x0202155C thumb
  *   func_020216D4 0x020216D4 thumb
  *   site 0x021BB658 data ov214
@@ -28,7 +28,7 @@ struct Obj02021EE4;
 struct PalAnmSlot;
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void *func_02021518(u32);
-extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern const char site[];
@@ -37,7 +37,7 @@ void func_021BAE9C(int unused,char *p)
     ((struct Obj00182 *)p)->f2DC=func_02030734(((struct Obj00182 *)p)->f0,func_02030CB0(2),1,site,2403);
     ((struct Obj00182 *)p)->f2D8=func_02030CBC(2,((struct Obj00182 *)p)->f2DC);
     ((struct Obj00182 *)p)->f2E0=func_02021518(((struct Obj00182 *)p)->f0);
-    func_02021EE4(((struct Obj00182 *)p)->f2E0,1);
+    PALANM_SetAutoTransfer(((struct Obj00182 *)p)->f2E0,1);
     func_0202155C(((struct Obj00182 *)p)->f2E0,0,448,((struct Obj00182 *)p)->f0);
     func_0202155C(((struct Obj00182 *)p)->f2E0,2,448,((struct Obj00182 *)p)->f0);
     func_020216D4(((struct Obj00182 *)p)->f2E0,0,0,448);

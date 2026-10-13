@@ -1,5 +1,5 @@
 /*
- * function: func_02013E90
+ * function: ZONEDATA_IsSameMatrixGroup
  * address:  0x02013E90
  * packet:   pkt_02013E90
  * region:   arm9
@@ -30,15 +30,15 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013E90.c \
- *       --func func_02013E90 --addr 0x02013E90 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ZONEDATA_IsSameMatrixGroup.c \
+ *       --func ZONEDATA_IsSameMatrixGroup --addr 0x02013E90 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
 extern u32 func_02013B44(u32 id);
 
-u32 func_02013E90(u32 a, u32 b)
+u32 ZONEDATA_IsSameMatrixGroup(u32 a, u32 b)
 {
     u32 ga = func_02013B44(a);
     u32 gb = func_02013B44(b);

@@ -1,5 +1,5 @@
 /*
- * function: func_02174954
+ * function: INTRUDE_COMM_SendAreaNotice
  * address: 0x02174954
  * packet: pkt_ov011_02174954
  * region: ov011
@@ -10,19 +10,19 @@
  * status: EXACT
  * lever: caller consumes the live r0 result of legacy void forwarders.
  * symbols:
- *   func_021736D8 0x021736D8 thumb ov011
+ *   INTRUDE_COMM_IsLinked 0x021736D8 thumb ov011
  *   func_020399A8 0x020399A8 arm
  *   func_0203D3A8 0x0203D3A8 arm
  */
 typedef unsigned int u32;
-int func_021736D8(void);
+int INTRUDE_COMM_IsLinked(void);
 struct Entry;
 struct Entry *func_020399A8(void);
 typedef unsigned short u16;
 int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
-u32 func_02174954(u32 p)
+u32 INTRUDE_COMM_SendAreaNotice(u32 p)
 {
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
     return func_0203D3A8((struct Entry *)((u32)func_020399A8()), 0x22a, 4, p);

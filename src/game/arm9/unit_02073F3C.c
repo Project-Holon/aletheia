@@ -117,7 +117,7 @@ extern struct Arc *ptr_0214EA50;
  * The mask arm must be written condition-first (`if (f2c >= 0) m = 1u << f2c;
  * else m = 0;`) to give the image's `movge r0,#1` / `lslge r2,r0,r1` /
  * `movlt r2,#0`, the same lever docs/notes/pkt_02073BF0.c.txt records for
- * func_02073EE4; f2c is therefore signed.
+ * NNS_SndStartTimer; f2c is therefore signed.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02073F3C.c \
@@ -143,7 +143,7 @@ void func_02073F3C(void)
 
 /*
  * The archive open path.  The second parameter is the archive's path string
- * (the only caller, func_02005B24, loads 0x020A7010 into r1) and it is
+ * (the only caller, GFL_USE_InitSound, loads 0x020A7010 into r1) and it is
  * forwarded untouched to func_020788D8(&c->f7c, path), which moves r1 into r0
  * for its own lookup.  Keeping r1 live across the four zero stores is what
  * parks the zero in ip; the earlier DIFF (docs/notes/pkt_02073F3C.c.txt) had

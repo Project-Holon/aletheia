@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02037234",
+   "name": "GFL_NET_SYSTEM_InitRecvState",
    "address": "0x02037234",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02037258",
+   "name": "GFL_NET_SYSTEM_GetSendSize",
    "address": "0x02037258",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02037A44",
+   "name": "GFL_NET_SYSTEM_SetDeviceMode",
    "address": "0x02037A44",
    "kind": "game",
    "region": "arm9",

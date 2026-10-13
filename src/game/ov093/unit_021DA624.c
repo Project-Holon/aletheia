@@ -37,10 +37,10 @@
  *   d_021F0730 0x021F0730 data a4
  *   d_021F0798 0x021F0798 data a4
  *   d_021F0790 0x021F0790 data a4
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   d_021F09D0     0x021F09D0  data   ov093  a4
  *   d_021F0A10 0x021F0A10 data a4
- *   func_0201C314   0x0201C314  thumb
+ *   WAZA_TOOL_IsDamaging   0x0201C314  thumb
  *   d_021F0788     0x021F0788  data   ov093  a4
  *   func_021D5BB0 0x021D5BB0 thumb ov093
  *   d_021F0B94 0x021F0B94 data a4
@@ -55,950 +55,675 @@
  *   d_021F07E8 0x021F07E8 data a4
  *   d_021F0A28     0x021F0A28  data   ov093  a4
  */
-#include "../../matched/include/Obj10060.h"
-#include "../../matched/include/Obj21303.h"
-#include "../../matched/include/Obj04368.h"
-#include "../../matched/include/Obj06256.h"
-#include "../../matched/include/Obj21310.h"
-#include "../../matched/include/Obj21314.h"
-#include "../../matched/include/Obj21317.h"
-#include "../../matched/include/Obj13469.h"
-#include "../../matched/include/Obj13470.h"
-#include "../../matched/include/Obj13471.h"
+#include "unit_021DA624_types.h"
 
-struct QI;
-struct S;
-struct UtilWork;
-struct Unk021D62A8;
-typedef unsigned char u8;
+void func_021DA624(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+BtlEventHandler *func_021DA6D4(int *handlerCount);
+BtlEventHandler *func_021DA6E0(int *handlerCount);
+void func_021DA6EC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DA748(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void func_021DA780(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void func_021DA7DC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DA808(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DA820(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+BtlEventHandler *func_021DA838(int *handlerCount);
+void func_021DA844(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DA868(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+BtlEventHandler *func_021DA89C(int *handlerCount);
+int func_021DA8A8(struct BtlSvFlow *flow, int pokeId, int moveType);
+void func_021DA8DC(struct BtlSvFlow *flow, int pokeId, int divisor);
+void func_021DA96C(struct BtlSvFlow *flow, int pokeId, u32 statId, int amount);
+void func_021DA9E0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DAA70(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DAA94(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+BtlEventHandler *func_021DAAB4(int *handlerCount);
+void func_021DAAC0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+BtlEventHandler *func_021DAAE0(int *handlerCount);
+void func_021DAAEC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+BtlEventHandler *func_021DAB0C(int *handlerCount);
+BtlEventHandler *func_021DAB18(int *handlerCount);
+void func_021DAB24(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DAB48(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+BtlEventHandler *func_021DAB6C(int *handlerCount);
+void func_021DAB78(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+BtlEventHandler *func_021DABE8(int *handlerCount);
+void func_021DABF4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void func_021DAC1C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void func_021DAC6C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+BtlEventHandler *func_021DAC84(int *handlerCount);
+void func_021DAC90(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+BtlEventHandler *func_021DAD20(int *handlerCount);
+void func_021DAD2C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void func_021DAD58(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void func_021DAD84(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void func_021DADD8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+BtlEventHandler *func_021DADF8(int *handlerCount);
+void func_021DAE04(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void func_021DAE38(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void func_021DAE94(struct BtlEventFactor *factor);
+void func_021DAEA4(struct BtlEventFactor *factor);
+void func_021DAEAC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+int func_021DAEC4(struct BtlEventFactor *other, void *context, int factorType, int eventId, u16 key, u8 ownerId);
+BtlEventHandler *func_021DAED8(int *handlerCount);
+void func_021DAEE4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DAF1C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DAF58(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+BtlEventHandler *func_021DB000(int *handlerCount);
+void func_021DB00C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+BtlEventHandler *func_021DB0D0(int *handlerCount);
+void func_021DB0DC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int unusedArg);
+extern void func_021E8878(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int unusedArg);
 
-typedef unsigned short u16;
+/* Handler tables: pairs of an event id and the function that answers it. */
+extern BtlEventHandler d_021F09B0[], d_021F0B00[];
+extern BtlEventHandler d_021F0B18[];
+extern BtlEventHandler d_021F0B30[];
+extern BtlEventHandler d_021F0730[];
+extern BtlEventHandler d_021F0798[];
+extern BtlEventHandler d_021F0790[];
+extern BtlEventHandler d_021F09D0[];
+extern BtlEventHandler d_021F0A10[];
+extern BtlEventHandler d_021F0788[];
+extern BtlEventHandler d_021F0B94[];
+extern BtlEventHandler d_021F0660[];
+extern BtlEventHandler d_021F0BD4[];
+extern BtlEventHandler d_021F0A28[];
+extern BtlEventHandler d_021F07E8[];
 
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-extern int func_021D775C(int);
-extern u8 func_021C7D54(u8 *p, u8 *k, u8 *out);
-extern void *func_021C7CF4(int *p, int i);
-extern u16 func_021D5B40(struct QI *p);
-extern u32 func_021D78AC(u32);
-extern void func_021C88B4(void *, int, int);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C8838(void *, int, int);
-extern void func_021C8860(struct S *p, u32 val);
-extern void func_021C88C8(void *, void *);
-extern int func_021D76BC(int key, u32 val);
-extern int func_021D5B48(u8 *p);
-extern void func_021D7704(int, int);
-extern int func_021D7B08(int a, int b);
-extern int func_021D7B74(u8 *p, u32 k);
-extern int func_021D5D14(s8 *p, int i, int sign);
-extern u32 func_0201BEB8(u16 id, u32 bit);
-u32 func_0201C314(void *p);
-extern int func_021D5BB0(struct UtilWork *,unsigned int);
-void func_021D7320(void *p, u32 v);
-extern void func_021D7324();
-extern int func_021D5BDC(struct UtilWork *,unsigned int);
-extern int func_021C7D00(u8 *p, int b);
-extern u8 func_021C7F68(int *p, int b, u8 *out);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-void func_021E8878(int a, int b, int c, int d);
-void func_021DA624(int a, void *b, int c);
-int *func_021DA6D4(int *p);
-int *func_021DA6E0(int *p);
-void func_021DA6EC(int a, int b, int c);
-void func_021DA748(int a, int *b, int c, int *d);
-void func_021DA780(int a, int b, int c, int *d);
-void func_021DA7DC(int a, int b, int c);
-void func_021DA808(int a, int b, int c);
-void func_021DA820(int a, int b, int c);
-int *func_021DA838(int *p);
-void func_021DA844(int a, int b, int c);
-void func_021DA868(int a, int b, int c);
-int *func_021DA89C(int *p);
-int func_021DA8A8(int a, int b, int c);
-void func_021DA8DC(int a, int b, int c);
-void func_021DA96C(void *a, int id, u32 e, int d);
-void func_021DA9E0(int unused, void *a, int id);
-void func_021DAA70(int a, int b, int c);
-void func_021DAA94(int a, int b, int c);
-void *func_021DAAB4(int *p);
-void func_021DAAC0(int a, int b, int c);
-void *func_021DAAE0(int *p);
-void func_021DAAEC(int a, int b, int c);
-void *func_021DAB0C(int *p);
-void *func_021DAB18(int *p);
-void func_021DAB24(int a, void *b, int c);
-void func_021DAB48(int a, int b, int c);
-void *func_021DAB6C(int *p);
-void func_021DAB78(int unused, void *a, int id);
-int *func_021DABE8(int *p);
-void func_021DABF4(int a, int b, int c, int *d);
-void func_021DAC1C(int unused, void *a, int id, int *f);
-void func_021DAC6C(int a, int b, int c, int *d);
-const unsigned int *func_021DAC84(int *n);
-void func_021DAC90(void *a, int b, int c);
-int *func_021DAD20(int *p);
-void func_021DAD2C(int a, int b, int c, int *d);
-void func_021DAD58(int a, int *b, int c, int *d);
-void func_021DAD84(int unused, void *a, int id, int *f);
-void func_021DADD8(int a, int b, int c, int *d);
-const unsigned int *func_021DADF8(int *n);
-void func_021DAE04(int a, int b, int c, int *d);
-void func_021DAE38(int unused, void *a, int id, int *f);
-void func_021DAE94(void *p);
-void func_021DAEA4(u8 *p);
-void func_021DAEAC(int a, int b, int c);
-int func_021DAEC4(int a, int b, int c, int d, unsigned short e);
-int *func_021DAED8(int *p);
-void func_021DAEE4(int a, int *b, int c);
-void func_021DAF1C(int a, int *b, int c);
-void func_021DAF58(int unused, void *a, int id);
-int *func_021DB000(int *p);
-void func_021DB00C(int a, void *b, int c);
-void *func_021DB0D0(int *p);
-void func_021DB0DC(int a, int b, int c, int d);
-extern int d_021F09B0, d_021F0B00;
-extern int d_021F0B18[];
-extern unsigned char d_021F0B30[];
-extern unsigned char d_021F0730[];
-extern unsigned char d_021F0798[];
-extern unsigned char d_021F0790[];
-extern int d_021F09D0[];
-extern const unsigned int d_021F0A10[];
-extern int d_021F0788[];
-extern const unsigned int d_021F0B94[];
-extern int d_021F0660[];
-extern int d_021F0BD4[];
-extern int d_021F0A28[];
-extern u8 d_021F07E8[];
-
-
-
-
-
-
-void func_021DA624(int a, void *b, int c)
+/* Frisk: on entry, shows the held item of one opposing Pokemon chosen at random. */
+void func_021DA624(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u16 values[4];
-    u8 buf[4];
-    u8 n;
-    u8 count;
+    u16 itemIds[4];
+    u8 targetIds[4];
+    u8 targetCount;
+    u8 itemCount;
     u8 i;
     u8 choice;
-    u8 *p;
-    void *q;
-    if (c != func_021D775C(2)) return;
-    n = func_021C7D54(b, (u8 *)c, buf);
-    count = 0;
-    for (i = 0; i < n; i++) {
-        q = func_021C7CF4(b, buf[i]);
-        values[count] = func_021D5B40(q);
-        if (values[count] != 0) count++;
+    BtlMessageCmd *cmd;
+    struct BtlPokeParam *target;
+    if (pokeId != func_021D775C(BTL_EVAR_POKE_ID)) return;
+    targetCount = func_021C7D54(flow, pokeId, targetIds);
+    itemCount = 0;
+    for (i = 0; i < targetCount; i++) {
+        target = func_021C7CF4(flow, targetIds[i]);
+        itemIds[itemCount] = func_021D5B40(target);
+        if (itemIds[itemCount] != 0) itemCount++;
     }
-    if (count == 0) return;
-    choice = func_021D78AC(count);
-    func_021C88B4(b, 2, c);
-    p = func_021C88A4(b, 4, c);
-    func_021C8838(p + 4, 2, 0x1b7);
-    func_021C8860((struct S *)(p + 4), c);
-    func_021C8860((struct S *)(p + 4), values[choice]);
-    func_021C88C8(b, p);
-    func_021C88B4(b, 3, c);
+    if (itemCount == 0) return;
+    choice = func_021D78AC(itemCount);
+    func_021C88B4(flow, BTL_ABILITY_POPUP_OPEN, pokeId);
+    cmd = func_021C88A4(flow, BTL_CMD_MESSAGE, pokeId);
+    func_021C8838(&cmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_FRISK_ITEM);
+    func_021C8860(&cmd->strParam, pokeId);
+    func_021C8860(&cmd->strParam, itemIds[choice]);
+    func_021C88C8(flow, cmd);
+    func_021C88B4(flow, BTL_ABILITY_POPUP_CLOSE, pokeId);
 }
 
+BtlEventHandler *func_021DA6D4(int *handlerCount) { *handlerCount = 2; return d_021F09B0; }
 
+BtlEventHandler *func_021DA6E0(int *handlerCount) { *handlerCount = 3; return d_021F0B00; }
 
-
-
-
-int *func_021DA6D4(int *p) { *p = 2; return &d_021F09B0; }
-
-
-
-
-
-
-int *func_021DA6E0(int *p) { *p = 3; return &d_021F0B00; }
-
-
-
-
-
-
-
-void func_021DA6EC(int a, int b, int c)
+/* Sturdy: a one-hit knockout move against the owner has no effect. */
+void func_021DA6EC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 *p;
-    int m = 4;
+    BtlMessageCmd *cmd;
 
-    if (c != func_021D775C(4))
+    if (pokeId != func_021D775C(BTL_EVAR_DEFENDER_ID))
         return;
-    if (func_021D76BC(0x41, 1) == 0)
+    if (func_021D76BC(BTL_EVAR_PREVENT_FLAG, 1) == 0)
         return;
-    func_021C88B4((void *)b, 2, c);
-    p = func_021C88A4((char *)b, m, c);
-    func_021C8838(p + 4, 2, 0xd2);
-    func_021C8860((struct S *)(p + 4), c);
-    func_021C88C8((void *)b, p);
-    func_021C88B4((void *)b, 3, c);
+    func_021C88B4(flow, BTL_ABILITY_POPUP_OPEN, pokeId);
+    cmd = func_021C88A4(flow, BTL_CMD_MESSAGE, pokeId);
+    func_021C8838(&cmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_ABILITY_NO_EFFECT);
+    func_021C8860(&cmd->strParam, pokeId);
+    func_021C88C8(flow, cmd);
+    func_021C88B4(flow, BTL_ABILITY_POPUP_CLOSE, pokeId);
 }
 
-
-
-
-
-
-
-/*
- * extent: trailing two-byte alignment padding.
- */
-void func_021DA748(int a, int *b, int c, int *d)
+/* Sturdy: at full HP the owner survives a knockout blow; work[0] tells the message handler. */
+void func_021DA748(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    int k = 4;
-    if (c == func_021D775C(k)) {
-        if (func_021D5B48(func_021C7CF4(b, c)) != 0) {
-            *d = func_021D76BC(0x3a, k);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID)) {
+        if (func_021D5B48(func_021C7CF4(flow, pokeId)) != 0) {
+            *work = func_021D76BC(BTL_EVAR_ENDURE_REASON, BTL_ENDURE_REASON_STURDY);
             return;
         }
-        *d = 0;
+        *work = 0;
     }
 }
 
-
-
-
-
-
-
-void func_021DA780(int a, int b, int c, int *d)
+/* Sturdy: shows the message after the owner has endured a blow. */
+void func_021DA780(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    u8 *p;
+    BtlMessageCmd *cmd;
 
-    if (c != func_021D775C(2))
+    if (pokeId != func_021D775C(BTL_EVAR_POKE_ID))
         return;
-    if (*d == 0)
+    if (*work == 0)
         return;
-    func_021C88B4((void *)b, 2, c);
-    p = func_021C88A4((char *)b, 4, c);
-    func_021C8838(p + 4, 2, 0x202);
-    func_021C8860((struct S *)(p + 4), c);
-    func_021C88C8((void *)b, p);
-    func_021C88B4((void *)b, 3, c);
-    *d = 0;
+    func_021C88B4(flow, BTL_ABILITY_POPUP_OPEN, pokeId);
+    cmd = func_021C88A4(flow, BTL_CMD_MESSAGE, pokeId);
+    func_021C8838(&cmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_STURDY_ENDURE);
+    func_021C8860(&cmd->strParam, pokeId);
+    func_021C88C8(flow, cmd);
+    func_021C88B4(flow, BTL_ABILITY_POPUP_CLOSE, pokeId);
+    *work = 0;
 }
 
-
-
-
-
-
-
-void func_021DA7DC(int a, int b, int c)
+/* Unaware: the attacker ignores the defender's defense boosts, the defender ignores the attacker's attack boosts. */
+void func_021DA7DC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(3)) {
-        func_021D76BC(0x28, 6);
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID)) {
+        func_021D76BC(BTL_EVAR_DEFENSE_STAGE, BTL_STAT_STAGE_NEUTRAL);
         return;
     }
-    if (c == func_021D775C(4))
-        func_021D76BC(0x27, 6);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID))
+        func_021D76BC(BTL_EVAR_ATTACK_STAGE, BTL_STAT_STAGE_NEUTRAL);
 }
 
-
-
-
-
-
-
-/* 021DA808  shape F1: gate on func_021D775C(4) */
-/*
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #4; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021DA81E; movs r0, #0x51; movs r1, #1; bl func_021D76BC; pop {r4, pc}.
- */
-void func_021DA808(int a, int b, int c)
+/* Unaware: when the owner defends, sets the generic flag (ignores the attacker's accuracy boosts). */
+void func_021DA808(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(4))
-        func_021D76BC(0x51, 1);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID))
+        func_021D76BC(BTL_EVAR_GENERIC_FLAG, 1);
 }
 
-
-
-
-
-/* 021DA820  shape F1: gate on func_021D775C(3) */
-void func_021DA820(int a, int b, int c)
+/* Unaware: when the owner attacks, sets the generic flag (ignores the defender's evasion boosts). */
+void func_021DA820(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(3))
-        func_021D76BC(0x51, 1);
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID))
+        func_021D76BC(BTL_EVAR_GENERIC_FLAG, 1);
 }
 
-
-
-
-int *func_021DA838(int *p)
+BtlEventHandler *func_021DA838(int *handlerCount)
 {
-    *p = 3;
+    *handlerCount = 3;
     return d_021F0B18;
 }
 
-
-
-
-void func_021DA844(int a, int b, int c)
+/* Heatproof: fire moves against the owner lose half their power. */
+void func_021DA844(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    int k = 4;
-    if (c == func_021D775C(k) && func_021D775C(0x16) == 9)
-        func_021D7704(0x31, k << 9);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID) && func_021D775C(BTL_EVAR_MOVE_TYPE) == POKETYPE_FIRE)
+        func_021D7704(BTL_EVAR_POWER_RATIO, BTL_RATIO_0_5);
 }
 
-
-
-
-
-void func_021DA868(int a, int b, int c)
+/* Heatproof: burn damage to the owner is halved (at least 1). */
+void func_021DA868(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    int t;
+    int damage;
 
-    if (c != func_021D775C(2))
+    if (pokeId != func_021D775C(BTL_EVAR_POKE_ID))
         return;
-    if (func_021D775C(0x1d) != 4)
+    if (func_021D775C(BTL_EVAR_SICK_ID) != BTL_SICK_BURN)
         return;
-    t = func_021D775C(0x32);
-    func_021D76BC(0x32, func_021D7B08(t / 2, 1));
+    damage = func_021D775C(BTL_EVAR_DAMAGE);
+    func_021D76BC(BTL_EVAR_DAMAGE, func_021D7B08(damage / 2, 1));
 }
 
-
-
-
-
-int *func_021DA89C(int *p)
+BtlEventHandler *func_021DA89C(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F09D0;
 }
 
-
-
-
-
-int func_021DA8A8(int a, int b, int c)
+/* Absorb abilities: nonzero when a move of moveType from another Pokemon hits the owner and is nullified. */
+int func_021DA8A8(struct BtlSvFlow *flow, int pokeId, int moveType)
 {
-    if (b == func_021D775C(4) && b != func_021D775C(3) && c == func_021D775C(0x16))
-        return func_021D76BC(0x40, 1);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID) && pokeId != func_021D775C(BTL_EVAR_ATTACKER_ID) && moveType == func_021D775C(BTL_EVAR_MOVE_TYPE))
+        return func_021D76BC(BTL_EVAR_NO_EFFECT_FLAG, 1);
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-void func_021DA8DC(int a, int b, int c)
+/* Absorb abilities: restore 1/divisor of the owner's HP, or show "no effect" at full HP. */
+void func_021DA8DC(struct BtlSvFlow *flow, int pokeId, int divisor)
 {
-    void *m;
-    u8 *p;
-    u8 *q;
+    struct BtlPokeParam *owner;
+    BtlRecoverHpCmd *recoverCmd;
+    BtlMessageCmd *messageCmd;
 
-    m = func_021C7CF4((int *)a, b);
-    if (func_021D5B48(m) == 0) {
-        p = func_021C88A4((char *)a, 5, b);
-        p[6] = b;
-        ((struct Obj10060 *)p)->f4 = func_021D7B74(m, c);
-        ((struct Obj10060 *)p)->f0 |= 2 << 22;
-        func_021C8838(p + 8, 2, 0x183);
-        func_021C8860((struct S *)(p + 8), b);
-        func_021C88C8((void *)a, p);
+    owner = func_021C7CF4(flow, pokeId);
+    if (func_021D5B48(owner) == 0) {
+        recoverCmd = func_021C88A4(flow, BTL_CMD_RECOVER_HP, pokeId);
+        recoverCmd->pokeId = pokeId;
+        recoverCmd->amount = func_021D7B74(owner, divisor);
+        recoverCmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
+        func_021C8838(&recoverCmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_ABSORB_RECOVER_HP);
+        func_021C8860(&recoverCmd->strParam, pokeId);
+        func_021C88C8(flow, recoverCmd);
     } else {
-        q = func_021C88A4((char *)a, 4, b);
-        func_021C8838(q + 4, 2, 0xd2);
-        func_021C8860((struct S *)(q + 4), b);
-        ((struct Obj21303 *)q)->f0 |= 2 << 22;
-        func_021C88C8((void *)a, q);
+        messageCmd = func_021C88A4(flow, BTL_CMD_MESSAGE, pokeId);
+        func_021C8838(&messageCmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_ABILITY_NO_EFFECT);
+        func_021C8860(&messageCmd->strParam, pokeId);
+        messageCmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
+        func_021C88C8(flow, messageCmd);
     }
-    func_021D76BC(0x51, 1);
+    func_021D76BC(BTL_EVAR_GENERIC_FLAG, 1);
 }
 
-
-
-
-
-
-
-
-
-
-void func_021DA96C(void *a, int id, u32 e, int d)
+/* Absorb abilities: raise a stat of the owner, or show "no effect" when it cannot rise. */
+void func_021DA96C(struct BtlSvFlow *flow, int pokeId, u32 statId, int amount)
 {
-    u8 *r;
+    BtlRankCmd *rankCmd;
+    BtlMessageCmd *messageCmd;
 
-    if (func_021D5D14(func_021C7CF4(a, id), e, d) != 0) {
-        r = (u8 *)func_021C88A4(a, 14, id);
-        r[0xf] = 1;
-        r[0x10] = id;
-        r[0xe] = 1;
-        ((struct Obj04368 *)r)->f4 = e;
-        r[0xc] = d;
-        ((struct Obj04368 *)r)->f0 |= 0x800000;
-        func_021C88C8(a, r);
+    if (func_021D5D14(func_021C7CF4(flow, pokeId), statId, amount) != 0) {
+        rankCmd = func_021C88A4(flow, BTL_CMD_RANK, pokeId);
+        rankCmd->targetCount = 1;
+        rankCmd->targets[0] = pokeId;
+        rankCmd->showMessage = 1;
+        rankCmd->statId = statId;
+        rankCmd->amount = amount;
+        rankCmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
+        func_021C88C8(flow, rankCmd);
     } else {
-        r = (u8 *)func_021C88A4(a, 4, id);
-        func_021C8838(r + 4, 2, 0xd2);
-        func_021C8860((struct S *)(r + 4), id);
-        ((struct Obj04368 *)r)->f0 |= 0x800000;
-        func_021C88C8(a, r);
+        messageCmd = func_021C88A4(flow, BTL_CMD_MESSAGE, pokeId);
+        func_021C8838(&messageCmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_ABILITY_NO_EFFECT);
+        func_021C8860(&messageCmd->strParam, pokeId);
+        messageCmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
+        func_021C88C8(flow, messageCmd);
     }
 }
 
-
-
-
-
-
-
-
-
-void func_021DA9E0(int unused, void *a, int id)
+/* Dry Skin: sun hurts the owner by 1/8, rain restores 1/8. */
+void func_021DA9E0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 *r;
-    void *m;
-    u8 c;
+    BtlDamageCmd *damageCmd;
+    BtlRecoverHpCmd *recoverCmd;
+    struct BtlPokeParam *owner;
+    u8 weather;
 
-    if (id == func_021D775C(2)) {
-        m = func_021C7CF4(a, id);
-        c = func_021D775C(0x39);
-        if (c == 1) {
-            func_021C88B4(a, 2, id);
-            r = (u8 *)func_021C88A4(a, 7, id);
-            r[6] = id;
-            ((struct Obj06256 *)r)->f4 = func_021D7B74(m, 8);
-            func_021C88C8(a, r);
-            func_021C88B4(a, 3, id);
-        } else if (c == 2) {
-            r = (u8 *)func_021C88A4(a, 5, id);
-            ((struct Obj06256 *)r)->f0 |= 0x800000;
-            r[6] = id;
-            ((struct Obj06256 *)r)->f4 = func_021D7B74(m, 8);
-            func_021C88C8(a, r);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        owner = func_021C7CF4(flow, pokeId);
+        weather = func_021D775C(BTL_EVAR_WEATHER);
+        if (weather == BTL_WEATHER_SUN) {
+            func_021C88B4(flow, BTL_ABILITY_POPUP_OPEN, pokeId);
+            damageCmd = func_021C88A4(flow, BTL_CMD_DAMAGE, pokeId);
+            damageCmd->pokeId = pokeId;
+            damageCmd->amount = func_021D7B74(owner, 8);
+            func_021C88C8(flow, damageCmd);
+            func_021C88B4(flow, BTL_ABILITY_POPUP_CLOSE, pokeId);
+        } else if (weather == BTL_WEATHER_RAIN) {
+            recoverCmd = func_021C88A4(flow, BTL_CMD_RECOVER_HP, pokeId);
+            recoverCmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
+            recoverCmd->pokeId = pokeId;
+            recoverCmd->amount = func_021D7B74(owner, 8);
+            func_021C88C8(flow, recoverCmd);
         }
     }
 }
 
-
-
-
-
-
-
-
-
-void func_021DAA70(int a, int b, int c)
+/* Dry Skin: fire moves against the owner gain 1.25 times power. */
+void func_021DAA70(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(4) && func_021D775C(0x16) == 9)
-        func_021D7704(0x31, 5 << 10);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID) && func_021D775C(BTL_EVAR_MOVE_TYPE) == POKETYPE_FIRE)
+        func_021D7704(BTL_EVAR_POWER_RATIO, BTL_RATIO_1_25);
 }
 
-
-
-
-
-
-
-
-
-/*
- * extent: includes store-and-return followers 021DAAB4.
- */
-void func_021DAA94(int a, int b, int c)
+/* Dry Skin: absorbs water moves and restores 1/4 of the HP. */
+void func_021DAA94(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (func_021DA8A8(b, c, 10))
-        func_021DA8DC(b, c, 4);
+    if (func_021DA8A8(flow, pokeId, POKETYPE_WATER))
+        func_021DA8DC(flow, pokeId, 4);
 }
 
-
-
-
-
-
-
-
-
-void *func_021DAAB4(int *p)
+BtlEventHandler *func_021DAAB4(int *handlerCount)
 {
-    *p = 3;
+    *handlerCount = 3;
     return d_021F0B30;
 }
 
-
-
-
-
-
-
-
-
-/*
- * extent: includes store-and-return followers 021DAAE0.
- */
-void func_021DAAC0(int a, int b, int c)
+/* Water Absorb: absorbs water moves and restores 1/4 of the HP. */
+void func_021DAAC0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (func_021DA8A8(b, c, 10))
-        func_021DA8DC(b, c, 4);
+    if (func_021DA8A8(flow, pokeId, POKETYPE_WATER))
+        func_021DA8DC(flow, pokeId, 4);
 }
 
-
-
-
-
-
-
-
-
-void *func_021DAAE0(int *p)
+BtlEventHandler *func_021DAAE0(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F0730;
 }
 
-
-
-
-
-
-
-
-
-/*
- * extent: includes store-and-return followers 021DAB0C, 021DAB18.
- */
-void func_021DAAEC(int a, int b, int c)
+/* Volt Absorb: absorbs electric moves and restores 1/4 of the HP. */
+void func_021DAAEC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (func_021DA8A8(b, c, 12))
-        func_021DA8DC(b, c, 4);
+    if (func_021DA8A8(flow, pokeId, POKETYPE_ELECTRIC))
+        func_021DA8DC(flow, pokeId, 4);
 }
 
-
-
-
-
-
-
-
-
-void *func_021DAB0C(int *p)
+/* Volt Absorb's table is the second row after the start of Motor Drive's table object. */
+BtlEventHandler *func_021DAB0C(int *handlerCount)
 {
-    *p = 1;
-    return d_021F0798 + 8;
+    *handlerCount = 1;
+    return d_021F0798 + 1;
 }
 
-
-
-
-
-
-
-
-
-void *func_021DAB18(int *p)
+BtlEventHandler *func_021DAB18(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F0798;
 }
 
-
-
-
-
-
-
-
-void func_021DAB24(int a, void *b, int c)
+/* Motor Drive: absorbs electric moves and raises Speed by one stage. */
+void func_021DAB24(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (func_021DA8A8((int)b, c, 0xc))
-        func_021DA96C(b, c, 5, 1);
+    if (func_021DA8A8(flow, pokeId, POKETYPE_ELECTRIC))
+        func_021DA96C(flow, pokeId, BTL_STAT_SPEED, 1);
 }
 
-
-
-
-
-
-
-
-/*
- * extent: includes store-and-return followers 021DAB6C.
- */
-void func_021DAB48(int a, int b, int c)
+/* Scrappy: the owner's attacks ignore the immunity of Ghost types. */
+void func_021DAB48(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(3) && func_021D775C(0x15) == 7)
-        func_021D76BC(0x4b, 1);
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID) && func_021D775C(BTL_EVAR_DEFENDER_TYPE) == POKETYPE_GHOST)
+        func_021D76BC(BTL_EVAR_IGNORE_IMMUNITY_FLAG, 1);
 }
 
-
-
-
-
-
-
-
-void *func_021DAB6C(int *p)
+BtlEventHandler *func_021DAB6C(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F0790;
 }
 
-
-
-
-
-
-void func_021DAB78(int unused, void *a, int id)
+/* Soundproof: sound moves against the owner have no effect. */
+void func_021DAB78(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 *r;
+    BtlMessageCmd *cmd;
 
-    if (id == func_021D775C(4)) {
-        if (func_0201BEB8(func_021D775C(0x12), 8) != 0 && func_021D76BC(0x40, 1) != 0) {
-            func_021C88B4(a, 2, id);
-            r = (u8 *)func_021C88A4(a, 4, id);
-            func_021C8838(r + 4, 2, 0xd2);
-            func_021C8860((struct S *)(r + 4), id);
-            func_021C88C8(a, r);
-            func_021C88B4(a, 3, id);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID)) {
+        if (WAZA_TOOL_GetFlag(func_021D775C(BTL_EVAR_MOVE_ID), BTL_WAZA_FLAG_SOUND) != 0 && func_021D76BC(BTL_EVAR_NO_EFFECT_FLAG, 1) != 0) {
+            func_021C88B4(flow, BTL_ABILITY_POPUP_OPEN, pokeId);
+            cmd = func_021C88A4(flow, BTL_CMD_MESSAGE, pokeId);
+            func_021C8838(&cmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_ABILITY_NO_EFFECT);
+            func_021C8860(&cmd->strParam, pokeId);
+            func_021C88C8(flow, cmd);
+            func_021C88B4(flow, BTL_ABILITY_POPUP_CLOSE, pokeId);
         }
     }
 }
 
-
-
-
-
-int *func_021DABE8(int *p)
+BtlEventHandler *func_021DABE8(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F0788;
 }
 
-
-
-
-
-void func_021DABF4(int a, int b, int c, int *d)
+/* Levitate: sets the generic flag once for the owner; work[0] gets the result. */
+void func_021DABF4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    int k;
-    if (c == func_021D775C(2)) {
-        k = 0x51;
-        if (func_021D775C(k) == 0)
-            *d = func_021D76BC(k, 1);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        if (func_021D775C(BTL_EVAR_GENERIC_FLAG) == 0)
+            *work = func_021D76BC(BTL_EVAR_GENERIC_FLAG, 1);
     }
 }
 
-
-
-
-
-
-
-
-void func_021DAC1C(int unused, void *a, int id, int *f)
+/* Levitate: shows "no effect" once when the flag was set. */
+void func_021DAC1C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    u8 *r;
+    BtlMessageCmd *cmd;
 
-    if (id == func_021D775C(2) && *f != 0) {
-        r = (u8 *)func_021C88A4(a, 4, id);
-        ((struct Obj21310 *)r)->f0 |= 0x800000;
-        func_021C8838(r + 4, 2, 0xd2);
-        func_021C8860((struct S *)(r + 4), id);
-        func_021C88C8(a, r);
-        *f = 0;
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID) && *work != 0) {
+        cmd = func_021C88A4(flow, BTL_CMD_MESSAGE, pokeId);
+        cmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
+        func_021C8838(&cmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_ABILITY_NO_EFFECT);
+        func_021C8860(&cmd->strParam, pokeId);
+        func_021C88C8(flow, cmd);
+        *work = 0;
     }
 }
 
-
-
-
-
-
-
-void func_021DAC6C(int a, int b, int c, int *d) { if (c == func_021D775C(2)) *d = 0; }
-
-
-
-
-
-
-
-const unsigned int *func_021DAC84(int *n) { *n = 3; return d_021F0A10; }
-
-
-
-
-
-
-/*
- * Gate on func_021D775C(4) then a re-test on func_021D775C(3); the
- * func_021C7CF4(b, c) call's value is dropped, only the (u16) of
- * func_021D775C(0x12) is kept.  Five more rejections, then the 2-event,
- * record, 3-event tail.  The trailing event's constant 3 is live across the
- * whole body, which is why the image keeps it in r7.
- */
-void func_021DAC90(void *a, int b, int c)
+/* Levitate: clears the flag when the owner's event ends. */
+void func_021DAC6C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    void *q;
-    u16 v;
-
-    if (c != func_021D775C(4))
-        return;
-    if (c == func_021D775C(3))
-        return;
-    func_021C7CF4((int *)b, c);
-    v = (u16)func_021D775C(0x12);
-    if (func_0201C314((void *)v) == 0)
-        return;
-    if (v == 0xa5)
-        return;
-    if (func_021D775C(0x38) > 3)
-        return;
-    if (func_021D76BC(0x40, 1) == 0)
-        return;
-    func_021C88B4((void *)b, 2, c);
-    q = func_021C88A4((char *)b, 4, c);
-    func_021C8838((u8 *)q + 4, 2, 0xd2);
-    func_021C8860((struct S *)((u8 *)q + 4), c);
-    func_021C88C8((void *)b, q);
-    func_021C88B4((void *)b, 3, c);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID))
+        *work = 0;
 }
 
-
-
-
-int *func_021DAD20(int *p)
+BtlEventHandler *func_021DAC84(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 3;
+    return d_021F0A10;
+}
+
+/* Wonder Guard: damaging moves from another Pokemon that are not super effective have no effect. */
+void func_021DAC90(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+{
+    BtlMessageCmd *cmd;
+    struct BtlPokeParam *defender;
+    u16 moveId;
+
+    if (pokeId != func_021D775C(BTL_EVAR_DEFENDER_ID))
+        return;
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID))
+        return;
+    defender = func_021C7CF4(flow, pokeId);
+    moveId = func_021D775C(BTL_EVAR_MOVE_ID);
+    if (WAZA_TOOL_IsDamaging(moveId) == 0)
+        return;
+    if (moveId == BTL_MOVE_STRUGGLE)
+        return;
+    if (func_021D775C(BTL_EVAR_TYPE_AFFINITY) > BTL_AFFINITY_NEUTRAL)
+        return;
+    if (func_021D76BC(BTL_EVAR_NO_EFFECT_FLAG, 1) == 0)
+        return;
+    func_021C88B4(flow, BTL_ABILITY_POPUP_OPEN, pokeId);
+    cmd = func_021C88A4(flow, BTL_CMD_MESSAGE, pokeId);
+    func_021C8838(&cmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_ABILITY_NO_EFFECT);
+    func_021C8860(&cmd->strParam, pokeId);
+    func_021C88C8(flow, cmd);
+    func_021C88B4(flow, BTL_ABILITY_POPUP_CLOSE, pokeId);
+}
+
+BtlEventHandler *func_021DAD20(int *handlerCount)
+{
+    *handlerCount = 1;
     return d_021F0660;
 }
 
-
-
-
-void func_021DAD2C(int a, int b, int c, int *d) { if (c == func_021D775C(2)) { if (*d != 0) { d[1] = func_021D76BC(34,19); *d = 0; } else *d = 1; } }
-
-
-
-
-
-/*
- * interface: func_021C7CF4 uses its live r0 result and visibly loaded r1;
- * its own legacy file declares void and one parameter. Preserve this
- * caller's observed result and two-argument setup without editing callee.
- */
-void func_021DAD58(int a, int *b, int c, int *d) { if (c == func_021D775C(2)) { if (func_021D5BB0(func_021C7CF4(b,c),0)) *d = 1; } }
-
-
-
-
-
-
-void func_021DAD84(int unused, void *a, int id, int *f)
+/* Truant: every other turn the owner loafs; work[0] is the loafing flag, work[1] the fail result. */
+void func_021DAD2C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    u8 *r;
-
-    if (id == func_021D775C(2) && f[1] != 0) {
-        r = (u8 *)func_021C88A4(a, 4, id);
-        ((struct Obj21314 *)r)->f0 |= 0x800000;
-        func_021C8838(r + 4, 2, 0x1bd);
-        func_021C8860((struct S *)(r + 4), id);
-        func_021C88C8(a, r);
-        f[1] = 0;
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        if (*work != 0) {
+            work[1] = func_021D76BC(BTL_EVAR_FAIL_REASON, BTL_FAIL_REASON_ABILITY);
+            *work = 0;
+        } else
+            *work = 1;
     }
 }
 
-
-
-
-
-void func_021DADD8(int a, int b, int c, int *d) { if (c == func_021D775C(2) && func_021D775C(12) == 7) *d = 0; }
-
-
-
-
-
-const unsigned int *func_021DADF8(int *n) { *n = 4; return d_021F0B94; }
-
-
-
-
-
-void func_021DAE04(int a, int b, int c, int *d) { unsigned short k; k = func_021D775C(18); *d = 0; if (k == 153 || k == 120) { if (func_021D775C(34) == 0) { *d = func_021D76BC(34,19); d[1] = k; } } }
-
-
-
-
-
-
-void func_021DAE38(int unused, void *a, int id, int *f)
+/* Truant: starts loafing for the next turn after the owner acted. */
+void func_021DAD58(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    u8 *r;
-    u32 k;
-
-    if (*f != 0) {
-        k = (u8)func_021D775C(2);
-        r = (u8 *)func_021C88A4(a, 4, id);
-        ((struct Obj21317 *)r)->f0 |= 0x800000;
-        func_021C8838(r + 4, 2, 0x389);
-        func_021C8860((struct S *)(r + 4), k);
-        func_021C8860((struct S *)(r + 4), f[1]);
-        func_021C88C8(a, r);
-        *f = 0;
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        if (func_021D5BB0(func_021C7CF4(flow, pokeId), 0))
+            *work = 1;
     }
 }
 
-
-void func_021DAE94(void *p)
+/* Truant: shows the loafing message when the fail result is set. */
+void func_021DAD84(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    func_021D7320(p, (u32)func_021DAEC4);
+    BtlMessageCmd *cmd;
+
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID) && work[1] != 0) {
+        cmd = func_021C88A4(flow, BTL_CMD_MESSAGE, pokeId);
+        cmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
+        func_021C8838(&cmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_TRUANT_LOAFING);
+        func_021C8860(&cmd->strParam, pokeId);
+        func_021C88C8(flow, cmd);
+        work[1] = 0;
+    }
 }
 
-
-void func_021DAEA4(u8 *p)
+/* Truant: clears the loafing flag when the event variable 12 is 7. */
+void func_021DADD8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    func_021D7324(p);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID) && func_021D775C(12) == 7)
+        *work = 0;
 }
 
-
-
-/* 021DAEAC  shape F3: gate on func_021D775C(2) then func_021D7324 */
-/*
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r3, r4, r5, lr}; adds r5, r0, #0; movs r0, #2; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021DAEC2; adds r0, r5, #0; bl func_021D7324; pop {r3, r4, r5, pc}.
- */
-void func_021DAEAC(int a, int b, int c)
+BtlEventHandler *func_021DADF8(int *handlerCount)
 {
-    if (c == func_021D775C(2))
-        func_021D7324(a);
+    *handlerCount = 4;
+    return d_021F0B94;
 }
 
-
-
-int func_021DAEC4(int a, int b, int c, int d, unsigned short e)
+/* Damp: Explosion and Self-Destruct fail; work[0] is the fail result, work[1] the move. */
+void func_021DAE04(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    if (c == 4 && e == 0x6A) {
+    u16 moveId;
+    moveId = func_021D775C(BTL_EVAR_MOVE_ID);
+    *work = 0;
+    if (moveId == BTL_MOVE_EXPLOSION || moveId == BTL_MOVE_SELF_DESTRUCT) {
+        if (func_021D775C(BTL_EVAR_FAIL_REASON) == 0) {
+            *work = func_021D76BC(BTL_EVAR_FAIL_REASON, BTL_FAIL_REASON_ABILITY);
+            work[1] = moveId;
+        }
+    }
+}
+
+/* Damp: shows the message that names the owner and the blocked move. */
+void func_021DAE38(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
+{
+    BtlMessageCmd *cmd;
+    u32 ownerId;
+
+    if (*work != 0) {
+        ownerId = (u8)func_021D775C(BTL_EVAR_POKE_ID);
+        cmd = func_021C88A4(flow, BTL_CMD_MESSAGE, pokeId);
+        cmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
+        func_021C8838(&cmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_DAMP_BLOCK);
+        func_021C8860(&cmd->strParam, ownerId);
+        func_021C8860(&cmd->strParam, work[1]);
+        func_021C88C8(flow, cmd);
+        *work = 0;
+    }
+}
+
+/* Damp: while the owner is on the field, Aftermath is blocked. */
+void func_021DAE94(struct BtlEventFactor *factor)
+{
+    func_021D7320(factor, func_021DAEC4);
+}
+
+/* Damp: removes the skip check. */
+void func_021DAEA4(struct BtlEventFactor *factor)
+{
+    func_021D7324(factor);
+}
+
+/* Damp: removes the skip check when the owner's event comes. */
+void func_021DAEAC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+{
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID))
+        func_021D7324(factor);
+}
+
+/* Damp: skip check that blocks the factors of the Aftermath ability. */
+int func_021DAEC4(struct BtlEventFactor *other, void *context, int factorType, int eventId, u16 key, u8 ownerId)
+{
+    if (factorType == BTL_EVENT_TYPE_ABILITY && key == ABILITY_AFTERMATH) {
         return 1;
     }
     return 0;
 }
 
-
-
-int *func_021DAED8(int *p)
+BtlEventHandler *func_021DAED8(int *handlerCount)
 {
-    *p = 5;
+    *handlerCount = 5;
     return d_021F0BD4;
 }
 
-
-
-
-void func_021DAEE4(int a, int *b, int c) { if (c == func_021D775C(3) && func_021D5BDC(func_021C7CF4(b,c),13) && func_021D775C(22) == 9) func_021D7704(53,6144); }
-
-
-
-
-
-/*
- * interface: func_021C7CF4 uses its live r0 result and visibly loaded r1;
- * its own legacy file declares void and one parameter. Preserve this
- * caller's observed result and two-argument setup without editing callee.
- */
-void func_021DAF1C(int a, int *b, int c) { char *p; if (c == func_021D775C(2) && func_021D5BDC(func_021C7CF4(b,c),13)) { p = func_021C88A4((char *)b,24,c); p[8] = c; ((struct Obj13469 *)p)->f4 = 13; func_021C88C8((char *)b,p); } }
-
-
-
-
-
-void func_021DAF58(int unused, void *a, int id)
+/* Flash Fire: after absorbing fire, the owner's fire moves gain 1.5 times power. */
+void func_021DAEE4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 *r;
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID) && func_021D5BDC(func_021C7CF4(flow, pokeId), BTL_CONT_FLAG_FLASH_FIRE) && func_021D775C(BTL_EVAR_MOVE_TYPE) == POKETYPE_FIRE)
+        func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_1_5);
+}
 
-    if (func_021DA8A8((int)a, id, 9) != 0) {
-        func_021C88B4(a, 2, id);
-        if (func_021D5BDC(func_021C7CF4(a, id), 13) == 0) {
-            r = (u8 *)func_021C88A4(a, 4, id);
-            func_021C8838(r + 4, 2, 0x1ab);
-            func_021C8860((struct S *)(r + 4), id);
-            func_021C88C8(a, r);
-            r = (u8 *)func_021C88A4(a, 0x17, id);
-            r[8] = id;
-            ((struct Obj13470 *)r)->f4 = 13;
-            func_021C88C8(a, r);
-        } else {
-            r = (u8 *)func_021C88A4(a, 4, id);
-            func_021C8838(r + 4, 2, 0xd2);
-            func_021C8860((struct S *)(r + 4), id);
-            func_021C88C8(a, r);
-        }
-        func_021C88B4(a, 3, id);
+/* Flash Fire: clears the absorbed-fire flag of the owner. */
+void func_021DAF1C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+{
+    BtlContFlagCmd *cmd;
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID) && func_021D5BDC(func_021C7CF4(flow, pokeId), BTL_CONT_FLAG_FLASH_FIRE)) {
+        cmd = func_021C88A4(flow, BTL_CMD_CLEAR_CONT_FLAG, pokeId);
+        cmd->pokeId = pokeId;
+        cmd->flagIndex = BTL_CONT_FLAG_FLASH_FIRE;
+        func_021C88C8(flow, cmd);
     }
 }
 
-
-
-
-int *func_021DB000(int *p)
+/* Flash Fire: absorbs fire moves; the first time it also sets the absorbed-fire flag. */
+void func_021DAF58(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    *p = 3;
+    BtlMessageCmd *messageCmd;
+    BtlContFlagCmd *flagCmd;
+
+    if (func_021DA8A8(flow, pokeId, POKETYPE_FIRE) != 0) {
+        func_021C88B4(flow, BTL_ABILITY_POPUP_OPEN, pokeId);
+        if (func_021D5BDC(func_021C7CF4(flow, pokeId), BTL_CONT_FLAG_FLASH_FIRE) == 0) {
+            messageCmd = func_021C88A4(flow, BTL_CMD_MESSAGE, pokeId);
+            func_021C8838(&messageCmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_FLASH_FIRE_ABSORB);
+            func_021C8860(&messageCmd->strParam, pokeId);
+            func_021C88C8(flow, messageCmd);
+            flagCmd = func_021C88A4(flow, BTL_CMD_SET_CONT_FLAG, pokeId);
+            flagCmd->pokeId = pokeId;
+            flagCmd->flagIndex = BTL_CONT_FLAG_FLASH_FIRE;
+            func_021C88C8(flow, flagCmd);
+        } else {
+            messageCmd = func_021C88A4(flow, BTL_CMD_MESSAGE, pokeId);
+            func_021C8838(&messageCmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_ABILITY_NO_EFFECT);
+            func_021C8860(&messageCmd->strParam, pokeId);
+            func_021C88C8(flow, messageCmd);
+        }
+        func_021C88B4(flow, BTL_ABILITY_POPUP_CLOSE, pokeId);
+    }
+}
+
+BtlEventHandler *func_021DB000(int *handlerCount)
+{
+    *handlerCount = 3;
     return d_021F0A28;
 }
 
-
-
-
-/*
- * The unit includes the store-return follower; labelled 021DB0DC is excluded.
- * An 8-bit candidate count keeps its immediate spill/reload; m precedes n
- * in the declaration list to place those spills at +8 and +4 respectively.
- */
-void func_021DB00C(int a, void *b, int c)
+/* Bad Dreams: hurts every sleeping opposing Pokemon by 1/8 of its HP. */
+void func_021DB00C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 list[4];
-    void *m;
-    u8 n;
-    int flag;
-    u8 *r;
+    u8 victimIds[4];
+    struct BtlPokeParam *victim;
+    u8 victimCount;
+    int popupOpen;
+    BtlDamageCmd *cmd;
     u8 i;
-    if (c == func_021D775C(2)) {
-        flag = 0;
-        n = func_021C7F68(b, (u16)(func_021C7D00(b, c) | 0x100), list);
-        for (i = 0; i < n; i++) {
-            m = func_021C7CF4(b, list[i]);
-            if (func_021D62C4(m, 2)) {
-                if (!flag) {
-                    flag = 1;
-                    func_021C88B4(b, 2, c);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        popupOpen = 0;
+        victimCount = func_021C7F68(flow, func_021C7D00(flow, pokeId) | 0x100, victimIds);
+        for (i = 0; i < victimCount; i++) {
+            victim = func_021C7CF4(flow, victimIds[i]);
+            if (func_021D62C4(victim, BTL_SICK_SLEEP)) {
+                if (!popupOpen) {
+                    popupOpen = 1;
+                    func_021C88B4(flow, BTL_ABILITY_POPUP_OPEN, pokeId);
                 }
-                r = (u8 *)func_021C88A4(b, 7, c);
-                r[6] = list[i];
-                ((struct Obj13471 *)r)->f4 = func_021D7B74(m, 8);
-                func_021C8838(r + 12, 2, 0x1e4);
-                func_021C8860((struct S *)(r + 12), list[i]);
-                func_021C88C8(b, r);
+                cmd = func_021C88A4(flow, BTL_CMD_DAMAGE, pokeId);
+                cmd->pokeId = victimIds[i];
+                cmd->amount = func_021D7B74(victim, 8);
+                func_021C8838(&cmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_BAD_DREAMS_HURT);
+                func_021C8860(&cmd->strParam, victimIds[i]);
+                func_021C88C8(flow, cmd);
             }
         }
-        if (flag) func_021C88B4(b, 3, c);
+        if (popupOpen) func_021C88B4(flow, BTL_ABILITY_POPUP_CLOSE, pokeId);
     }
 }
 
+BtlEventHandler *func_021DB0D0(int *handlerCount) { *handlerCount = 1; return d_021F07E8; }
 
-
-void *func_021DB0D0(int *p) { *p = 1; return d_021F07E8; }
-
-
-void func_021DB0DC(int a, int b, int c, int d)
+/* Run Away: the first handler of its table; belongs to unit_021DB0E4.c. */
+void func_021DB0DC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int unusedArg)
 {
-    func_021E8878(a, b, c, d);
+    func_021E8878(factor, flow, pokeId, unusedArg);
 }

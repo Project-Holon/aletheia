@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D29C  0x0203D29C  arm
+ *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
  *   func_021D8E84  0x021D8E84  thumb  ov119
  *   func_021DE3E8  0x021DE3E8  thumb  ov119
  */
 #include "../include/Obj22743.h"
 
 typedef unsigned int   u32;
-extern u32 func_0203D29C(void);
+extern u32 GFL_NET_IsNetTypeWifi(void);
 extern void func_021D8E84(void *p, int next);
 extern void func_021DE3E8(char *p);
 
@@ -25,7 +25,7 @@ void func_021DE3BC(char *p)
 {
     int lim;
     lim = 3;
-    if (func_0203D29C() != 0) {
+    if (GFL_NET_IsNetTypeWifi() != 0) {
         lim = 10;
     }
     if (((struct Obj22743 *)p)->fF2C > lim) {

@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469E0  0x021469E0  data
+ *   gGFLNetMain  0x021469E0  data
  *
  * Accessor for the +8 handle of the singleton at 0x021469E0, with the null
  * case spelled out.  The `moveq r0, #0` is a no-op on the value it guards,
@@ -35,12 +35,12 @@
 
 typedef unsigned char u8;
 
-extern struct Singleton g_021469E0;
+extern struct Singleton gGFLNetMain;
 
 void *func_0203D798(void)
 {
-    if (g_021469E0.unk_08 == 0) {
+    if (gGFLNetMain.unk_08 == 0) {
         return 0;
     }
-    return g_021469E0.unk_08;
+    return gGFLNetMain.unk_08;
 }

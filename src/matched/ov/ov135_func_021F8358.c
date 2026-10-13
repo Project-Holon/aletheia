@@ -18,6 +18,7 @@
  *   func_02202670  0x02202670  thumb
  *   func_021F91A0  0x021F91A0  thumb
  *   func_021F7F80  0x021F7F80  thumb
+ *   POKE_TOOL_CalcBoxLevel  0x02018438  thumb  arm9
  */
 
 typedef signed char s8;
@@ -42,7 +43,7 @@ struct U16Vec;
 struct WordSet;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern u32 func_02018438(void *p);
+extern u32 POKE_TOOL_CalcBoxLevel(void *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 func_02202670(u32 a, u32 b, u32 c, u32 d);
@@ -68,7 +69,7 @@ void func_021F8358(void *bank, void *ws, void **win, void *mon, MonTag *out, voi
     tmp = func_020457B0(0xB, 0x48);
     func_02017E88(mon, 0x73, (u32)name);
     form = func_02017E88(mon, 0x6E, 0) + 1;
-    gender = func_02018438(mon);
+    gender = POKE_TOOL_CalcBoxLevel(mon);
     has = func_02017E88(mon, 0xAD, 0);
     title = func_02045EC0(bank, 0x6E);
     func_0201EFA4(ws, 3, gender, 3, 0, 1);

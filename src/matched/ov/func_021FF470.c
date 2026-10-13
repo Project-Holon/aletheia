@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02015FF0  0x02015FF0  thumb
+ *   MCSS_SetShadowVanishFlag  0x02015FF0  thumb
  *   func_022019F4  0x022019F4  thumb  ov094
  *
  * Byte-identical to the original; parked because the +0014 call to 0x02015FF0
@@ -21,7 +21,7 @@
 
 
 extern int  func_022019F4(char *p, int key);
-extern void func_02015FF0(char *p, int v);
+extern void MCSS_SetShadowVanishFlag(char *p, int v);
 
 void func_021FF470(char *p, int key, void *v)
 {
@@ -33,6 +33,6 @@ void func_021FF470(char *p, int key, void *v)
     e = p + i * 0x5c;
     if (((struct Obj12219 *)e)->f8 == 0)
         return;
-    func_02015FF0((char *)(((struct Obj12219 *)e)->f8), (int)v);
+    MCSS_SetShadowVanishFlag((char *)(((struct Obj12219 *)e)->f8), (int)v);
 }
 

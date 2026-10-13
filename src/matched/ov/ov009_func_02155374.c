@@ -1,5 +1,5 @@
 /*
- * function: func_02155374
+ * function: DWC_RAP_SetState
  * address:  0x02155374
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern struct _anon_Work *g_021A8264;
 
-void func_02155374(int v)
+void DWC_RAP_SetState(int v)
 {
     *(int *)(((char *)g_021A8264) + 0x754) = v;
 }

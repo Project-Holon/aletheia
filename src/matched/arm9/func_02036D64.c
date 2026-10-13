@@ -1,5 +1,5 @@
 /*
- * function: func_02036D64
+ * function: GFL_NET_WM_ICON_GetEngine
  * address:  0x02036D64
  * packet:   pkt_02036CA8
  * region:   arm9
@@ -14,7 +14,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_02036D64(u8 *p)
+u32 GFL_NET_WM_ICON_GetEngine(u8 *p)
 {
     switch (p[0xd]) {
     case 1:

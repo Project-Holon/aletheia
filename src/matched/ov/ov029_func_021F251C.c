@@ -54,11 +54,11 @@
  *   func_021F15FC  0x021F15FC  thumb  ov029
  *   func_021F0A0C  0x021F0A0C  thumb  ov029
  *   func_02021518  0x02021518  thumb
- *   func_02021EE4  0x02021EE4  thumb
+ *   PALANM_SetAutoTransfer  0x02021EE4  thumb
  *   func_0202155C  0x0202155C  thumb
  *   func_020216D4  0x020216D4  thumb
  *   func_021F0DB4  0x021F0DB4  thumb  ov029
- *   func_02021D50  0x02021D50  thumb
+ *   PALANM_TransferPalettes  0x02021D50  thumb
  *   func_020056A0  0x020056A0  thumb
  *   func_021F2508  0x021F2508  thumb  ov029
  *   func_02035010  0x02035010  arm
@@ -105,11 +105,11 @@ extern int func_021F23CC(u8 *p, int a);
 extern void func_021F15FC(char *p, int flag);
 extern void func_021F0A0C(u8 *p);
 extern void *func_02021518(u32 heap);
-extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void func_021F0DB4(char *p, int mode);
-extern void func_02021D50(struct S02021D50 *p);
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern int func_020056A0(void *callback, void *ctx, int a2);
 extern void func_021F2508(void *task, char *p);
 extern void func_02035010(u32 a, u32 b);
@@ -159,13 +159,13 @@ void func_021F251C(u8 *p, int a1, int a2, int a3, int e)
     func_021F0A0C(p);
     *(int *)(p + 0x210) = (int)func_02021518(0x70);
     t = 1;
-    func_02021EE4((struct Obj02021EE4 *)(*(int *)(p + 0x210)), 1);
+    PALANM_SetAutoTransfer((struct Obj02021EE4 *)(*(int *)(p + 0x210)), 1);
     func_0202155C((struct PalAnmSlot *)(*(int *)(p + 0x210)), 3, 0x1C0, 0x70);
     func_0202155C((struct PalAnmSlot *)(*(int *)(p + 0x210)), 1, 0x1C0, 0x70);
     func_020216D4((struct PalAnmSlot *)(*(int *)(p + 0x210)), 3, 0, 0x1C0);
     func_020216D4((struct PalAnmSlot *)(*(int *)(p + 0x210)), 1, 0, 0x1C0);
     func_021F0DB4((char *)p, p[0x45A]);
-    func_02021D50((struct S02021D50 *)(*(int *)(p + 0x210)));
+    PALANM_TransferPalettes((struct S02021D50 *)(*(int *)(p + 0x210)));
     *(int *)(p + 0x208) = func_020056A0((void *)func_021F2508, p, 1);
     func_02035010((u32)((void *)func_021F24C0), (u32)p);
     func_02035040((u32)((void *)func_021F24FC), (u32)p);

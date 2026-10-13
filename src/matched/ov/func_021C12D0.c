@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   sub_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *
  * When the arm9 call answers what the fifth argument expects, sets one byte of
  * the fourth argument's block, 0x1355 bytes in.
@@ -22,11 +22,11 @@ typedef unsigned long  u32;
 typedef int BOOL;
 
 struct Entry;
-extern struct Entry *sub_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 void func_021C12D0(int a, int b, int c, u8 *d, int e)
 {
-    if ((int)sub_020399A8() == e) {
+    if ((int)GFL_NET_HANDLE_GetCurrentHandle() == e) {
         d[0x1355] = 1;
     }
 }

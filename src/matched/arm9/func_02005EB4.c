@@ -1,5 +1,5 @@
 /*
- * function: func_02005EB4
+ * function: GFL_USE_SetBgmAudibleTracks
  * address:  0x02005EB4
  * packet:   pkt_02005EB4
  * region:   arm9
@@ -11,8 +11,9 @@
  * blocker:  02072FC8 (arm) reached only by the `blx` inside this function
  *
  * symbols:
- *   func_02072FA8  0x02072FA8  arm
- *   func_02072FC8  0x02072FC8  arm
+ *   NNS_SndHandleSetTrackPause  0x02072FA8  arm
+ *   NNS_SndHandleSetTrackMute  0x02072FC8  arm
+ *   GFL_USE_GetCurrentSndHandle  0x0200590C  thumb
  *
  * Unregister one event from the connection slot's event list: the key handed
  * back is the one's complement of the argument, truncated to 16 bits by the
@@ -22,24 +23,24 @@
  * before the first call instead of being rematerialised.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02005EB4.c \
- *       --func func_02005EB4 --addr 0x02005EB4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_USE_SetBgmAudibleTracks.c \
+ *       --func GFL_USE_SetBgmAudibleTracks --addr 0x02005EB4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 *sub_0200590C(void);
+extern u32 *GFL_USE_GetCurrentSndHandle(void);
 struct Obj;
-extern void   func_02072FA8(struct Obj *slot, u32 key, u32 f);
-extern void   func_02072FC8(struct Obj *slot, u32 key, u32 f);
+extern void   NNS_SndHandleSetTrackPause(struct Obj *slot, u32 key, u32 f);
+extern void   NNS_SndHandleSetTrackMute(struct Obj *slot, u32 key, u32 f);
 
-void func_02005EB4(u32 a0)
+void GFL_USE_SetBgmAudibleTracks(u32 a0)
 {
     u16 key = (u16)(a0 ^ 0xFFFF);
 
-    func_02072FA8((struct Obj *)sub_0200590C(), 0xFFFF, 0);
+    NNS_SndHandleSetTrackPause((struct Obj *)GFL_USE_GetCurrentSndHandle(), 0xFFFF, 0);
     if (key != 0) {
-        func_02072FC8((struct Obj *)sub_0200590C(), key, 1);
+        NNS_SndHandleSetTrackMute((struct Obj *)GFL_USE_GetCurrentSndHandle(), key, 1);
     }
 }

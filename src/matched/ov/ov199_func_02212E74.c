@@ -22,7 +22,7 @@
  *   func_022133E4 0x022133E4 thumb ov199
  *   func_0201A354 0x0201A354 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_020130DC 0x020130DC thumb
+ *   BTL_SETUP_FreeSlots 0x020130DC thumb
  *   func_02213808 0x02213808 thumb ov199
  */
 #include "../include/Obj01007.h"
@@ -49,7 +49,7 @@ extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern void func_022133E4(u8 *p, void *party1, void *party2, u8 *save, void *reg, int setting, u8 *record, void *other, int mode);
 extern void *func_0201A354(int,int);
 extern u32 func_020307B0(void *p);
-extern void func_020130DC(void *);
+extern void BTL_SETUP_FreeSlots(void *);
 extern void func_02213808(char *p, int value);
 int func_02212E74(void *manager, u8 *arg, u8 *p)
 {
@@ -78,7 +78,7 @@ int func_02212E74(void *manager, u8 *arg, u8 *p)
         if (state == 0) func_022133E4(p + 0x1d0,((struct Obj01007 *)p)->f30,((struct Obj01007 *)p)->f34,((struct Obj01007 *)p)->f2C,created,0,record,p + 0x1b4,2);
         func_020307B0(created);
     }
-    func_020130DC(((struct Obj03909 *)arg)->f4);
+    BTL_SETUP_FreeSlots(((struct Obj03909 *)arg)->f4);
     func_020307B0(((struct Obj03909 *)arg)->f4);
     func_020307B0(((struct Obj03909 *)arg)->f8);
     func_020307B0(arg);

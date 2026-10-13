@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_0203C3B4  0x0203C3B4  arm
- *   func_0203B2D0  0x0203B2D0  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_STATE_WifiEnterLoginDefault  0x0203C3B4  arm
+ *   GFL_NET_STATE_InitParent  0x0203B2D0  arm
  */
 #include "../include/Obj11372.h"
 
@@ -20,22 +20,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern void *func_0203D788(void);
-extern void func_0203C3B4(void);
-extern void func_0203B2D0(u32 a);
+extern void *GFL_NET_GetSession(void);
+extern void GFL_NET_STATE_WifiEnterLoginDefault(void);
+extern void GFL_NET_STATE_InitParent(u32 a);
 
 void func_0203D01C(void)
 {
-    u8 *s = func_0203D788();
+    u8 *s = GFL_NET_GetSession();
 
     switch (s[0x65]) {
     case 1:
     case 2:
-        func_0203C3B4();
+        GFL_NET_STATE_WifiEnterLoginDefault();
         return;
     case 0:
     case 5:
-        func_0203B2D0(((struct Obj11372 *)s)->f56);
+        GFL_NET_STATE_InitParent(((struct Obj11372 *)s)->f56);
         return;
     default:
         return;

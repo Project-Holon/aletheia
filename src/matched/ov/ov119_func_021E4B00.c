@@ -18,13 +18,13 @@
  *   func_021E49DC 0x021E49DC thumb ov119
  *   func_021E4AD0 0x021E4AD0 thumb ov119
  *   func_021E496C 0x021E496C thumb ov119
- *   func_0204B7C8 0x0204B7C8 arm
+ *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   func_021D8AF4 0x021D8AF4 thumb ov119
  *   func_021D8B0C 0x021D8B0C thumb ov119
  *   func_0204B454 0x0204B454 arm
  *   func_02061CA4 0x02061CA4 arm
  *   func_02082D44 0x02082D44 arm
- *   func_0201BBE8 0x0201BBE8 thumb
+ *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_02017E88 0x02017E88 thumb
@@ -46,7 +46,7 @@ struct Struct36;
 extern char *func_021E49DC(int a, int b, char *p);
 extern void func_021E4AD0(char *p, int a1, int a2, int a3, int a4, int a5);
 extern void func_021E496C(int x, int y, u16 *out);
-extern void func_0204B7C8(const char *src, struct Struct36 *dst);
+extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern int func_021D8AF4(int, char *);
 extern int func_021D8B0C(int, int);
 struct Actor;
@@ -55,7 +55,7 @@ extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void func_02082D44(int src, int dst, int n);
-extern int func_0201BBE8(void *a0);
+extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
@@ -98,7 +98,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
             *(u8 *)(p + row * 5 + j + 0xd18) = b2;
             *(u8 *)(p + row * 5 + j + 0xd54) = b3;
             func_021E496C(a, j, pos);
-            func_0204B7C8(*(void **)(p + row * 20 + j * 4 + 0xac0), (struct Struct36 *)(&info));
+            CLACT_GetActorImageProxy(*(void **)(p + row * 20 + j * 4 + 0xac0), (struct Struct36 *)(&info));
             n = func_021D8AF4(a, p);
             idx = func_021D8B0C(a, j);
             idx += n * 30;
@@ -113,7 +113,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
                 func_02082D44(*(int *)&((struct Obj00001 *)p)->f1184 + idx * 0x200, vram + info.c, 0x200);
             }
             func_021E4AD0(p, a, j, rec, kind, row);
-            func_0204B6F4(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), func_0201BBE8((void *)rec), 1);
+            func_0204B6F4(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), POKE_TOOL_GetIconPalette((void *)rec), 1);
             func_0204B92C(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 0);
             func_0204B3DC(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 1);
         }

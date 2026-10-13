@@ -1,5 +1,5 @@
 /*
- * function: func_02035C20
+ * function: TOUCHPANEL_GetContSys
  * address:  0x02035C20
  * packet:   pkt_02035C20
  * region:   arm9
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035750   0x02035750  arm
- *   func_020357A0   0x020357A0  arm
+ *   TOUCHPANEL_GetWork   0x02035750  arm
+ *   TOUCHPANEL_ReadCont   0x020357A0  arm
  */
 
-extern int func_02035750(void);
+extern int TOUCHPANEL_GetWork(void);
 struct Kind;
-extern int func_020357A0(struct Kind *p);
+extern int TOUCHPANEL_ReadCont(struct Kind *p);
 
-int func_02035C20(const void *p)
+int TOUCHPANEL_GetContSys(const void *p)
 {
-    func_02035750();
-    return func_020357A0((struct Kind *)p);
+    TOUCHPANEL_GetWork();
+    return TOUCHPANEL_ReadCont((struct Kind *)p);
 }

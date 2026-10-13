@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02071DD4
+ * function: NNSi_G3dTexMtxRot
  * address:  0x02071DD4
  * packet:   pkt_02071DD4
  * region:   arm9
@@ -66,7 +66,7 @@ struct DST {
 extern void func_0207C930(u32 numer, u32 denom);
 extern u32 func_0207C86C(void);
 
-void func_02071DD4(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxRot(struct DST *d, struct SRC *s)
 {
     s32 e12, f12;
     s32 t;
@@ -99,7 +99,7 @@ void func_02071DD4(struct DST *d, struct SRC *s)
     d->f10 = ((0 - (s32)s->f20) * t) >> 12;
 }
 
-void func_02071EAC(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxScale(struct DST *d, struct SRC *s)
 {
     s32 a, b;
 

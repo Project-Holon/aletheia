@@ -1,5 +1,5 @@
 /*
- * function: func_021B26DC
+ * function: VCT_SESSION_BroadcastState
  * address:  0x021B26DC
  * packet:   pkt_ov013_021B26DC
  * region:   ov013
@@ -11,23 +11,23 @@
  *
  * symbols:
  *   d_021B4C0C  0x021B4C0C  data  ov013  a4
- *   func_021B2848  0x021B2848  arm  ov013
- *   func_021B2620  0x021B2620  arm  ov013
+ *   VCT_SESSION_InitPacketHeader  0x021B2848  arm  ov013
+ *   VCT_SESSION_BroadcastPacket  0x021B2620  arm  ov013
  */
 
 typedef unsigned char u8;
 
 extern char d_021B4C0C;
 struct Msg;
-extern int func_021B2848(u8 *o, struct Msg *p, int n);
-extern int func_021B2620(int *o, u8 *p);
+extern int VCT_SESSION_InitPacketHeader(u8 *o, struct Msg *p, int n);
+extern int VCT_SESSION_BroadcastPacket(int *o, u8 *p);
 
-void func_021B26DC(int x)
+void VCT_SESSION_BroadcastState(int x)
 {
     u8 buf[16];
 
     buf[4] = 0xff;
-    func_021B2848((u8 *)(&d_021B4C0C), (struct Msg *)buf, 4);
+    VCT_SESSION_InitPacketHeader((u8 *)(&d_021B4C0C), (struct Msg *)buf, 4);
     buf[10] = x;
-    func_021B2620((int *)(&d_021B4C0C), buf);
+    VCT_SESSION_BroadcastPacket((int *)(&d_021B4C0C), buf);
 }

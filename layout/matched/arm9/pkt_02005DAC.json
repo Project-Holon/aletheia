@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02005DAC"
+    "GFL_USE_PlayFanfare"
+   ],
+   "addresses": [
+    "0x02005DAC"
    ]
   },
   {
@@ -33,8 +36,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02005DF8",
-    "sub_02005E04"
+    "GFL_USE_FadeInBgmFull",
+    "GFL_USE_FadeInBgm"
+   ],
+   "addresses": [
+    "0x02005DF8",
+    "0x02005E04"
    ]
   },
   {
@@ -49,7 +56,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02005E30"
+    "GFL_USE_FadeOutBgm"
+   ],
+   "addresses": [
+    "0x02005E30"
    ]
   }
  ]

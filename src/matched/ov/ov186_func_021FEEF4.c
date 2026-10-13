@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * ABI: sub_0204B294 returns the allocated object pointer in r0.
+ * ABI: CLACT_CreateActor returns the allocated object pointer in r0.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_021FC124 0x021FC124 thumb ov186
@@ -17,11 +17,11 @@
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   sub_0204B294 0x0204B294 arm
- *   sub_0204B570 0x0204B570 arm
- *   sub_0204B5D4 0x0204B5D4 arm
- *   sub_0204B688 0x0204B688 arm
- *   sub_0204B3DC 0x0204B3DC arm
+ *   CLACT_CreateActor 0x0204B294 arm
+ *   CLACT_SetActorAffineMode 0x0204B570 arm
+ *   CLACT_SetActorScaleAxis 0x0204B5D4 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   d_02200D88 0x02200D88 data a4
  */
 #include "../include/Obj02527.h"
@@ -36,11 +36,11 @@ struct Obj;
 extern void func_02082BCC(void *,u32,u32);
 extern int func_021FC124(char *,int,Triple *);
 extern void sub_02034714(const char *,u32,const char *);
-extern struct Obj *sub_0204B294(void *owner,u32 i,u32 j,u32 k,const void *position,u16 space,u16 heap);
-extern void sub_0204B570(struct Actor *,u32);
-extern void sub_0204B5D4(struct Actor *,u32,u32);
-extern void sub_0204B688(struct Actor *,u32);
-extern void sub_0204B3DC(struct Obj *,u32);
+extern struct Obj *CLACT_CreateActor(void *owner,u32 i,u32 j,u32 k,const void *position,u16 space,u16 heap);
+extern void CLACT_SetActorAffineMode(struct Actor *,u32);
+extern void CLACT_SetActorScaleAxis(struct Actor *,u32,u32);
+extern void CLACT_SetActorObjMode(struct Actor *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern const char d_02200D88[];
 static inline int roundFixed(int x)
 {
@@ -66,10 +66,10 @@ void func_021FEEF4(char *p,u32 owner,char *resources,const Config *config,u16 he
     ((struct Obj02527 *)p)->f8=roundFixed(request.x);
     ((struct Obj02527 *)p)->fC=roundFixed(request.y);
     *(int *)&((struct Obj02527 *)p)->f14=config->z;
-    *(u32 *)&((struct Obj02527 *)p)->f4=(u32)sub_0204B294((void *)owner,triple.y,triple.z,triple.x,&request,((struct Obj02527 *)p)->f44,heap);
-    sub_0204B570(*(struct Actor * *)&((struct Obj02527 *)p)->f4,2);
-    sub_0204B5D4(*(struct Actor * *)&((struct Obj02527 *)p)->f4,((struct Obj02527 *)p)->f14,0);
-    sub_0204B688(*(struct Actor * *)&((struct Obj02527 *)p)->f4,0);
-    sub_0204B3DC(*(struct Obj * *)&((struct Obj02527 *)p)->f4,0);
+    *(u32 *)&((struct Obj02527 *)p)->f4=(u32)CLACT_CreateActor((void *)owner,triple.y,triple.z,triple.x,&request,((struct Obj02527 *)p)->f44,heap);
+    CLACT_SetActorAffineMode(*(struct Actor * *)&((struct Obj02527 *)p)->f4,2);
+    CLACT_SetActorScaleAxis(*(struct Actor * *)&((struct Obj02527 *)p)->f4,((struct Obj02527 *)p)->f14,0);
+    CLACT_SetActorObjMode(*(struct Actor * *)&((struct Obj02527 *)p)->f4,0);
+    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj02527 *)p)->f4,0);
     ((struct Obj02527 *)p)->f0=1;
 }

@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204B5D4"
+    "CLACT_SetActorScaleAxis"
+   ],
+   "addresses": [
+    "0x0204B5D4"
    ]
   },
   {
@@ -33,11 +36,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204B5F4"
+    "CLACT_SetActorRotation"
+   ],
+   "addresses": [
+    "0x0204B5F4"
    ]
   },
   {
-   "name": "sub_0204B658",
+   "name": "CLACT_GetActorFlip",
    "address": "0x0204B658",
    "kind": "game",
    "region": "arm9",
@@ -60,7 +66,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204B688"
+    "CLACT_SetActorObjMode"
+   ],
+   "addresses": [
+    "0x0204B688"
    ]
   }
  ]

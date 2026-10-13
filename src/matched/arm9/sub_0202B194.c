@@ -1,5 +1,5 @@
 /*
- * function: func_0202B194
+ * function: ISS_CITY_UNIT_Interpolate
  * address:  0x0202B194
  * packet:   pkt_0202AFFC
  * region:   arm9
@@ -14,7 +14,7 @@
 
 typedef int s32;
 
-s32 func_0202B194(s32 a, s32 b, s32 c, s32 d, s32 e)
+s32 ISS_CITY_UNIT_Interpolate(s32 a, s32 b, s32 c, s32 d, s32 e)
 {
     return b + (d - b) * (e - a) / (c - a);
 }

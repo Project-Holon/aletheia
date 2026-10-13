@@ -1,5 +1,5 @@
 /*
- * function: func_0203E9DC
+ * function: GFL_NET_LOWER_DATA_GetPostRecvSize
  * address:  0x0203E9DC
  * packet:   pkt_0203E484
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT*
  * symbols:
- *   g_021469F0      0x021469F0  data
+ *   gNetIrcWirelessLink      0x021469F0  data
  *   g_021469F4      0x021469F4  data
  *   s_020A7D34      0x020A7D34  data
  *   s_020A7D4C      0x020A7D4C  data
@@ -22,7 +22,7 @@
 #include "../include/G_Ctx.h"
 
 typedef unsigned char u8;
-extern struct Ctx *g_021469F0;
+extern struct Ctx *gNetIrcWirelessLink;
 extern int *g_021469F4;
 extern char s_020A7D34[];
 extern char s_020A7D4C[];
@@ -32,7 +32,7 @@ extern char s_020A7DA0[];
 extern char s_020A7E00[];
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-int func_0203E9DC(unsigned int idx)
+int GFL_NET_LOWER_DATA_GetPostRecvSize(unsigned int idx)
 {
     if (g_021469F4 == 0)
         func_02034714(s_020A7D74, 0x105, s_020A7DA0);

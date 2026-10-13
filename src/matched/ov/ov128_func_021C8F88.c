@@ -25,14 +25,14 @@
  *   Remaining 22 B: pure colour swap, classes {10, i} and {2, text} swapped (orig r5/r4, build r4/r5).
  *   Tried, no change: u8 heap, text/i decl order, w1 inline, x decl order, long i/x/n, six pragmas
  *   (propagation worse), pal/gfx swap 28, t before call 98, w1 late 39, u32/u8 i 146/130, i<13 24.
- *   Twin search: grep func_0205994C / func_021CA4B4 / func_02045AFC in src/matched/ov: no loop twin.
+ *   Twin search: grep DWC_CreateFriendKey / func_021CA4B4 / STRBUF_AppendChar in src/matched/ov: no loop twin.
  *   Idioms checked: two-long-lived-values-in-each-others-registers (no applicable form),
  *   a-long-index-colours-apart-from-an-int (22), a-colour-swap-...-opt-lifetimes-off (22),
  *   a-loop-counter-zero-before-an-offset-assignment (n/a).
  *   final push 2026-10-05 G5L9 (40 compiles, all 22 B, same pure swap): the (u16) cast on the
  *   third blit argument is dropped (callee takes u16; same bytes, now plain). Tried, no change:
  *   block-scoped t/x/i, declarations at the point of use, u8* text, key decl first/last, i/x
- *   first, func_02045AFC u16 value, func_021C63AC with u8 fourth parameter, func_02045738 as u8
+ *   first, STRBUF_AppendChar u16 value, func_021C63AC with u8 fourth parameter, func_02045738 as u8
  *   (same bytes) with n u32/int/u8, named constants ten/two (int, u8; with opt_propagation off 449 B),
  *   constants as locals in both orders, text/buf2/key as declaration initialisers (30 B, only slot
  *   order moves), inline put()/blit() helpers, struct view of p (two windows), i++ as body statement
@@ -60,11 +60,11 @@
  *   func_020457B0 0x020457B0 arm
  *   func_0201283C 0x0201283C thumb
  *   func_02009860 0x02009860 thumb
- *   func_0205994C 0x0205994C arm
+ *   DWC_CreateFriendKey 0x0205994C arm
  *   func_02045CAC 0x02045CAC arm
  *   func_02045738 0x02045738 arm
- *   func_0204581C 0x0204581C arm
- *   func_02045AFC 0x02045AFC arm
+ *   STRBUF_Clear 0x0204581C arm
+ *   STRBUF_AppendChar 0x02045AFC arm
  *   func_02045808 0x02045808 arm
  *   func_02049EF4 0x02049EF4 arm
  *   _ll_udiv 0x0209C00C arm
@@ -89,11 +89,11 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u32 func_0201283C(const struct BigObj *p);
 struct Sub020097BCObj;
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
-extern unsigned long long func_0205994C(struct DWCstAccUserData *userdata);
+extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u8 func_02045738(struct Descriptor *p);
-extern void func_0204581C(struct U16Vec *vec);
-extern void func_02045AFC(struct U16Vec *vec, u16 value);
+extern void STRBUF_Clear(struct U16Vec *vec);
+extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 extern void func_02045808(struct U16Vec *vec);
 extern void *func_02049EF4(void *arc, u32 id, u32 comp, void **out, u16 heap);
 static inline u8 *second(u8 *p)
@@ -116,7 +116,7 @@ void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
     func_021C63AC(ctx, (u32 *)(p + 8), 3, 9, 6, 0xe, 2, 10, 0xf1, 0);
     text = (u32)func_020457B0(0xc0, heap);
     buf2 = func_020457B0(0x80, heap);
-    key = func_0205994C((struct DWCstAccUserData *)func_02009860((void *)func_0201283C(*(void **)(q + 4))));
+    key = DWC_CreateFriendKey((struct DWCstAccUserData *)func_02009860((void *)func_0201283C(*(void **)(q + 4))));
     if (key != 0) {
         func_02045CAC(*(void **)(ctx + 4), 0x35, (void *)text);
         func_021B6AE4(p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
@@ -128,8 +128,8 @@ void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
         n = func_02045738(*(void **)(p + 8));
         w1 = second(p);
         for (i = 1; i <= 12; i++) {
-            func_0204581C((void *)text);
-            func_02045AFC((void *)text, t.v[key % 10]);
+            STRBUF_Clear((void *)text);
+            STRBUF_AppendChar((void *)text, t.v[key % 10]);
             func_021B6AE4(w1, (void *)gfx, (n - i) * 8 - x + 1, 0, text, pal, 0x3c40, 0);
             if (i % 4 == 0)
                 x += 8;

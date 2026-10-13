@@ -11,18 +11,20 @@
  *
  * symbols:
  *   func_021D4A54  0x021D4A54  thumb  ov118
+ *   BUTTON_MAN_SetCallback  0x02051A24  arm  arm9
+ *   BUTTON_MAN_SetUserData  0x02051A2C  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
 extern u32 func_02051774(void);
-extern void func_02051A2C(void *p, int v);
-extern void func_02051A24(void *p, int v);
+extern void BUTTON_MAN_SetUserData(void *p, int v);
+extern void BUTTON_MAN_SetCallback(void *p, int v);
 extern void func_021D4A54(void *obj, int on);
 
 void func_021D4A94(void *p)
 {
-    func_02051A2C(p, func_02051774());
-    func_02051A24(p, (int)func_021D4A54);
+    BUTTON_MAN_SetUserData(p, func_02051774());
+    BUTTON_MAN_SetCallback(p, (int)func_021D4A54);
 }

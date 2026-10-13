@@ -1,5 +1,5 @@
 /*
- * function: func_02173D7C
+ * function: UNION_COMMAND_RecvAppEntryRefused
  * address: 0x02173D7C
  * packet: pkt_ov012_02173D7C
  * region: ov012
@@ -13,6 +13,6 @@
  */
 
 typedef unsigned char u8;
-void func_02173D7C(int a, int b, int c, u8 *p);
+void UNION_COMMAND_RecvAppEntryRefused(int a, int b, int c, u8 *p);
 
-void func_02173D7C(int a, int b, int c, u8 *p) { p[0x282b] = 2; }
+void UNION_COMMAND_RecvAppEntryRefused(int a, int b, int c, u8 *p) { p[0x282b] = 2; }

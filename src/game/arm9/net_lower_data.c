@@ -1,7 +1,7 @@
 /*
  * file:     net_lower_data.c
  * unit:     yes
- * function: func_0203E5F8, func_0203E6C0, func_0203E758, func_0203E808, func_0203E8C8, func_0203E96C, func_0203E9DC, func_0203EA54, func_0203EA70, func_0203EA9C, func_0203EC04, func_0203EC7C, func_0203ECD8, func_0203ED84, func_0203EE18
+ * function: GFL_NET_LOWER_DATA_Init, GFL_NET_LOWER_DATA_Exit, GFL_NET_LOWER_DATA_SetSendData, GFL_NET_LOWER_DATA_CreatePostWork, GFL_NET_LOWER_DATA_DeletePostWork, GFL_NET_LOWER_DATA_GetPostBuffer, GFL_NET_LOWER_DATA_GetPostRecvSize, GFL_NET_LOWER_DATA_IsSendFinished, GFL_NET_LOWER_DATA_IsPostComplete, GFL_NET_LOWER_DATA_MainSend, GFL_NET_LOWER_DATA_SendChunk, GFL_NET_LOWER_DATA_GetPostEndAddress, GFL_NET_LOWER_DATA_RecvChunk, GFL_NET_LOWER_DATA_SendControl, GFL_NET_LOWER_DATA_RecvControl
  * address:  0x0203E5F8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,429 +10,438 @@
  * isa:      arm
  * status:   EXACT
  *
- * Merged by hand from net_lower_data_p01..p05 and the members func_0203EA54 and
- * func_0203EA70, with one struct per object (LowData, LowRec, LowCtx).
+ * Merged by hand from net_lower_data_p01..p05 and the members GFL_NET_LOWER_DATA_IsSendFinished and
+ * GFL_NET_LOWER_DATA_IsPostComplete, with one struct per object (NetLdataWork, NetLdataPostWork, GFLNetInitializeStruct).
  *
  * symbols:
- *   g_021469F4      0x021469F4  data
- *   s_020A7D74      0x020A7D74  data
- *   s_020A7D88      0x020A7D88  data
- *   s_020A7DA0      0x020A7DA0  data
- *   s_020A7DD8      0x020A7DD8  data
- *   s_020A7DB8      0x020A7DB8  data
- *   s_020A7E00      0x020A7E00  data
- *   s_020A7E28      0x020A7E28  data
+ *   _pNetLdataWork      0x021469F4  data
+ *   sSrcFileName      0x020A7D74  data
+ *   sAssertWorkIsNull      0x020A7D88  data
+ *   sAssertWorkNotNull      0x020A7DA0  data
+ *   sAssertPostWorkIsNull      0x020A7DD8  data
+ *   sAssertSendDataIsNull      0x020A7DB8  data
+ *   sAssertPostWorkNotNull      0x020A7E00  data
+ *   sMsgPostBufferTooSmall      0x020A7E28  data
  *   func_0203CD98   0x0203CD98  arm
  *   func_0203D798   0x0203D798  arm
- *   func_02038D4C   0x02038D4C  arm
- *   func_02038D30   0x02038D30  arm
+ *   GFL_NET_SYSTEM_GetParentRingDataSize   0x02038D4C  arm
+ *   GFL_NET_SYSTEM_GetChildRingDataSize   0x02038D30  arm
  *   func_020399A8   0x020399A8  arm
  *   func_0203D1A4   0x0203D1A4  arm
  *   func_02034734   0x02034734  arm
  */
-struct Entry;
-struct Link;
+struct GFLNetHandle;
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-/* One transfer record, 0x48 bytes, allocated per slot. */
-struct LowRec {
-    u32 base;
-    u32 unk_04;
-    u32 unk_08;
-    u32 unk_0c;
-    u8  done : 1;
-    u8  owned : 1;
+#include "net_types.h"
+
+#define NET_LDATA_MAX_POST_WORK    8
+#define NET_LDATA_NETID_SERVER     0xff
+#define NET_LDATA_WORK_SIZE        0x48
+/* Each post work is allocated with 0x48 bytes although only the first 0x14 are used. */
+#define NET_LDATA_POST_WORK_SIZE   0x48
+#define NET_LDATA_HEADER_SIZE      0x10
+#define NET_LDATA_CMD_DATA         0xe
+#define NET_LDATA_CMD_CONTROL      0xf
+
+/* Control packet kinds (NetLdataCommand.kind). */
+#define NET_LDATA_CTRL_START       0
+#define NET_LDATA_CTRL_END         1
+#define NET_LDATA_CTRL_ACK         2
+
+/* Receive side of one sender: the buffer the sender's data is collected in. */
+struct NetLdataPostWork {
+    u32 buf;
+    u32 bufSize;
+    u32 totalSize;
+    u32 recvSize;
+    u8  complete : 1;
+    u8  ownsBuf : 1;
 };
 
-/* The block g_021469F4 points to, 0x48 bytes. */
-struct LowData {
-    struct LowRec *rec[8];
-    u32 unk_20;
-    u32 unk_24;
-    u8  unk_28;
+/* The block _pNetLdataWork points to, NET_LDATA_WORK_SIZE bytes (send state plus one post work per sender). */
+struct NetLdataWork {
+    struct NetLdataPostWork *postWork[NET_LDATA_MAX_POST_WORK];
+    u32 sendData;
+    u32 sendSize;
+    u8  sendTarget;
     u8  pad_29[3];
-    u32 unk_2c;
-    u32 unk_30;
-    u32 unk_34;
-    u32 unk_38;
-    u32 unk_3c;
-    u32 unk_40;
-    u32 unk_44;
+    u32 isParent;
+    u32 sendFinished;
+    u32 startPending;
+    u32 ackMode;
+    u32 sendArmed;
+    u32 ackPending;
+    u32 sentSize;
 };
 
-/* The link context func_0203D798 returns. */
-struct LowCtx {
-    u8  pad_00[0x61];
-    u8  unk_61;
-    u8  pad_62[2];
-    u8  unk_64;
-    u8  pad_65[7];
-    u16 unk_6c;
+/* Control packet: the kind and the total size of the transfer. */
+struct NetLdataCommand {
+    u32 kind : 2;
+    u32 size : 30;
 };
 
-struct Cmd {
-    u32 cmd : 2;
-    u32 data : 30;
-};
-
-extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02034734(const char *file, u32 line, const char *msg, ...);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+extern void func_02034714(const char *file, u32 line, const char *expr);
+extern void func_02034734(const char *file, u32 line, const char *fmt, ...);
+extern void *func_02030734(u32 heapId, u32 size, int clearFlag, const char *file, u16 line);
+extern u32 func_020307B0(void *block);
 extern int  func_0203CD98(void);
-extern void *func_0203D798(void);
-extern int  func_02038D4C(void);
-extern int  func_02038D30(void);
-extern struct Entry *func_0203996C(s32 idx);
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(struct Link *p);
-extern u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern char s_020A7D74[];
-extern char s_020A7D88[];
-extern char s_020A7DA0[];
-extern char s_020A7DD8[];
-extern char s_020A7DB8[];
-extern char s_020A7E00[];
-extern char s_020A7E28[];
-extern struct LowData *g_021469F4;
-void func_0203E5F8(int a0, int a1);
-void func_0203E6C0(void);
-void func_0203E758(int a0, int a1, int a2, int a3);
-void func_0203E808(u32 a0, int a1, u32 a2, u32 a3);
-void func_0203E8C8(int idx);
-int func_0203E96C(unsigned int idx);
-int func_0203E9DC(unsigned int idx);
-int func_0203EA54(void);
-int func_0203EA70(unsigned int idx);
-void func_0203EA9C(void);
-u32 func_0203EC04(int a0);
-u32 func_0203EC7C(u32 idx);
-void func_0203ECD8(u32 idx, u32 delta, u32 a2, u32 a3, u32 who);
-int func_0203ED84(int a0);
-void func_0203EE18(u32 idx, u32 a1, struct Cmd *pVal, u32 a3, u32 a4);
+extern GFLNetInitializeStruct *func_0203D798(void);
+extern int  GFL_NET_SYSTEM_GetParentRingDataSize(void);
+extern int  GFL_NET_SYSTEM_GetChildRingDataSize(void);
+extern struct GFLNetHandle *func_0203996C(s32 netId);
+extern struct GFLNetHandle *func_020399A8(void);
+extern u32 func_0203D1A4(struct GFLNetHandle *pNet);
+extern u32 func_0203D4D0(struct GFLNetHandle *pNet, u32 sendTarget, u32 code, u32 size, u32 data, u32 bFast, u32 bRepeat, u32 bSendBuff);
+extern char sSrcFileName[];
+extern char sAssertWorkIsNull[];
+extern char sAssertWorkNotNull[];
+extern char sAssertSendDataIsNull[];
+extern char sAssertPostWorkIsNull[];
+extern char sAssertPostWorkNotNull[];
+extern char sMsgPostBufferTooSmall[];
+extern struct NetLdataWork *_pNetLdataWork;
+void GFL_NET_LOWER_DATA_Init(int heapId, int ackMode);
+void GFL_NET_LOWER_DATA_Exit(void);
+void GFL_NET_LOWER_DATA_SetSendData(int sendData, int sendSize, int sendTarget, int isParent);
+void GFL_NET_LOWER_DATA_CreatePostWork(u32 bufSize, int netId, u32 heapId, u32 buf);
+void GFL_NET_LOWER_DATA_DeletePostWork(int netId);
+int GFL_NET_LOWER_DATA_GetPostBuffer(unsigned int netId);
+int GFL_NET_LOWER_DATA_GetPostRecvSize(unsigned int netId);
+int GFL_NET_LOWER_DATA_IsSendFinished(void);
+int GFL_NET_LOWER_DATA_IsPostComplete(unsigned int netId);
+void GFL_NET_LOWER_DATA_MainSend(void);
+u32 GFL_NET_LOWER_DATA_SendChunk(int size);
+u32 GFL_NET_LOWER_DATA_GetPostEndAddress(u32 netId);
+void GFL_NET_LOWER_DATA_RecvChunk(u32 netId, u32 size, u32 pData, u32 pWork, u32 pNetHandle);
+int GFL_NET_LOWER_DATA_SendControl(int kind);
+void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand *pData, u32 pWork, u32 pNetHandle);
 
 
-void func_0203E5F8(int a0, int a1)
+/* Allocate the work block and clear it. ackMode 1: the sender waits for an ack after each chunk. */
+void GFL_NET_LOWER_DATA_Init(int heapId, int ackMode)
 {
     u8 i;
-    if (g_021469F4 != 0)
-        func_02034714(s_020A7D74, 0x65, s_020A7D88);
-    g_021469F4 = (struct LowData *)func_02030734(a0, 0x48, 1, s_020A7D74, 0x67);
-    g_021469F4->unk_20 = 0;
-    g_021469F4->unk_24 = 0;
-    g_021469F4->unk_44 = 0;
-    g_021469F4->unk_30 = 0;
-    g_021469F4->unk_34 = 0;
-    g_021469F4->unk_38 = a1;
-    g_021469F4->unk_3c = 1;
-    g_021469F4->unk_40 = 0;
-    for (i = 0; i < 8; i++)
-        g_021469F4->rec[i] = 0;
+    if (_pNetLdataWork != 0)
+        func_02034714(sSrcFileName, 0x65, sAssertWorkIsNull);
+    _pNetLdataWork = (struct NetLdataWork *)func_02030734(heapId, NET_LDATA_WORK_SIZE, 1, sSrcFileName, 0x67);
+    _pNetLdataWork->sendData = 0;
+    _pNetLdataWork->sendSize = 0;
+    _pNetLdataWork->sentSize = 0;
+    _pNetLdataWork->sendFinished = 0;
+    _pNetLdataWork->startPending = 0;
+    _pNetLdataWork->ackMode = ackMode;
+    _pNetLdataWork->sendArmed = 1;
+    _pNetLdataWork->ackPending = 0;
+    for (i = 0; i < NET_LDATA_MAX_POST_WORK; i++)
+        _pNetLdataWork->postWork[i] = 0;
 }
 
 
-void func_0203E6C0(void)
+/* Free every post work (and the buffers they own), then the work block. */
+void GFL_NET_LOWER_DATA_Exit(void)
 {
     u8 i;
-    if (g_021469F4 == 0)
-        func_02034714(s_020A7D74, 0x81, s_020A7DA0);
-    for (i = 0; i < 8; i++) {
-        struct LowRec *p = g_021469F4->rec[i];
-        if (p == 0)
+    if (_pNetLdataWork == 0)
+        func_02034714(sSrcFileName, 0x81, sAssertWorkNotNull);
+    for (i = 0; i < NET_LDATA_MAX_POST_WORK; i++) {
+        struct NetLdataPostWork *postWork = _pNetLdataWork->postWork[i];
+        if (postWork == 0)
             continue;
-        if (p->owned == 1)
-            func_020307B0((void *)p->base);
-        func_020307B0(g_021469F4->rec[i]);
+        if (postWork->ownsBuf == 1)
+            func_020307B0((void *)postWork->buf);
+        func_020307B0(_pNetLdataWork->postWork[i]);
     }
-    func_020307B0(g_021469F4);
-    g_021469F4 = 0;
+    func_020307B0(_pNetLdataWork);
+    _pNetLdataWork = 0;
 }
 
 
-void func_0203E758(int a0, int a1, int a2, int a3)
+/* Queue a transfer: the pump (GFL_NET_LOWER_DATA_MainSend) sends the start packet, the chunks, then the end packet. */
+void GFL_NET_LOWER_DATA_SetSendData(int sendData, int sendSize, int sendTarget, int isParent)
 {
-    if (g_021469F4 == 0)
-        func_02034714(s_020A7D74, 0x9f, s_020A7DA0);
-    if (g_021469F4->unk_20 != 0)
-        func_02034714(s_020A7D74, 0xa0, s_020A7DB8);
-    g_021469F4->unk_20 = a0;
-    g_021469F4->unk_24 = a1;
-    g_021469F4->unk_28 = (u8)a2;
-    g_021469F4->unk_2c = a3;
-    g_021469F4->unk_44 = 0;
-    g_021469F4->unk_34 = 1;
-    g_021469F4->unk_30 = 0;
+    if (_pNetLdataWork == 0)
+        func_02034714(sSrcFileName, 0x9f, sAssertWorkNotNull);
+    if (_pNetLdataWork->sendData != 0)
+        func_02034714(sSrcFileName, 0xa0, sAssertSendDataIsNull);
+    _pNetLdataWork->sendData = sendData;
+    _pNetLdataWork->sendSize = sendSize;
+    _pNetLdataWork->sendTarget = (u8)sendTarget;
+    _pNetLdataWork->isParent = isParent;
+    _pNetLdataWork->sentSize = 0;
+    _pNetLdataWork->startPending = 1;
+    _pNetLdataWork->sendFinished = 0;
 }
 
 
-void func_0203E808(u32 a0, int a1, u32 a2, u32 a3)
+/* Create the post work of sender netId; buf (bufSize bytes) is supplied by the caller and not owned. */
+void GFL_NET_LOWER_DATA_CreatePostWork(u32 bufSize, int netId, u32 heapId, u32 buf)
 {
-    if (g_021469F4 == 0)
-        func_02034714(s_020A7D74, 0xcf, s_020A7DA0);
-    if (g_021469F4->rec[a1] != 0)
-        func_02034714(s_020A7D74, 0xd0, s_020A7DD8);
-    g_021469F4->rec[a1] = (struct LowRec *)func_02030734(a2, 0x48, 1, s_020A7D74, 0xd2);
-    g_021469F4->rec[a1]->base = a3;
-    g_021469F4->rec[a1]->unk_04 = a0;
-    g_021469F4->rec[a1]->owned = 0;
+    if (_pNetLdataWork == 0)
+        func_02034714(sSrcFileName, 0xcf, sAssertWorkNotNull);
+    if (_pNetLdataWork->postWork[netId] != 0)
+        func_02034714(sSrcFileName, 0xd0, sAssertPostWorkIsNull);
+    _pNetLdataWork->postWork[netId] = (struct NetLdataPostWork *)func_02030734(heapId, NET_LDATA_POST_WORK_SIZE, 1, sSrcFileName, 0xd2);
+    _pNetLdataWork->postWork[netId]->buf = buf;
+    _pNetLdataWork->postWork[netId]->bufSize = bufSize;
+    _pNetLdataWork->postWork[netId]->ownsBuf = 0;
 }
 
 
-void func_0203E8C8(int idx)
+void GFL_NET_LOWER_DATA_DeletePostWork(int netId)
 {
-    struct LowRec *p;
-    if (g_021469F4 == 0)
-        func_02034714(s_020A7D74, 0xe2, s_020A7DA0);
-    if (g_021469F4->rec[idx] == 0)
-        func_02034714(s_020A7D74, 0xe3, s_020A7E00);
-    p = g_021469F4->rec[idx];
-    if (p->owned == 1)
-        func_020307B0((void *)p->base);
-    func_020307B0(g_021469F4->rec[idx]);
-    g_021469F4->rec[idx] = 0;
+    struct NetLdataPostWork *postWork;
+    if (_pNetLdataWork == 0)
+        func_02034714(sSrcFileName, 0xe2, sAssertWorkNotNull);
+    if (_pNetLdataWork->postWork[netId] == 0)
+        func_02034714(sSrcFileName, 0xe3, sAssertPostWorkNotNull);
+    postWork = _pNetLdataWork->postWork[netId];
+    if (postWork->ownsBuf == 1)
+        func_020307B0((void *)postWork->buf);
+    func_020307B0(_pNetLdataWork->postWork[netId]);
+    _pNetLdataWork->postWork[netId] = 0;
 }
 
 
-int func_0203E96C(unsigned int idx)
+/* Receive buffer of sender netId. */
+int GFL_NET_LOWER_DATA_GetPostBuffer(unsigned int netId)
 {
-    if (g_021469F4 == 0)
-        func_02034714(s_020A7D74, 0xf6, s_020A7DA0);
-    if (g_021469F4->rec[idx] == 0)
-        func_02034714(s_020A7D74, 0xf7, s_020A7E00);
-    return g_021469F4->rec[idx]->base;
+    if (_pNetLdataWork == 0)
+        func_02034714(sSrcFileName, 0xf6, sAssertWorkNotNull);
+    if (_pNetLdataWork->postWork[netId] == 0)
+        func_02034714(sSrcFileName, 0xf7, sAssertPostWorkNotNull);
+    return _pNetLdataWork->postWork[netId]->buf;
 }
 
-int func_0203E9DC(unsigned int idx)
+/* Number of bytes received so far from sender netId. */
+int GFL_NET_LOWER_DATA_GetPostRecvSize(unsigned int netId)
 {
-    if (g_021469F4 == 0)
-        func_02034714(s_020A7D74, 0x105, s_020A7DA0);
-    if (g_021469F4->rec[idx] == 0)
-        func_02034714(s_020A7D74, 0x106, s_020A7E00);
-    return g_021469F4->rec[idx]->unk_0c;
+    if (_pNetLdataWork == 0)
+        func_02034714(sSrcFileName, 0x105, sAssertWorkNotNull);
+    if (_pNetLdataWork->postWork[netId] == 0)
+        func_02034714(sSrcFileName, 0x106, sAssertPostWorkNotNull);
+    return _pNetLdataWork->postWork[netId]->recvSize;
 }
 
-int func_0203EA54(void)
+/* 1 once the end packet of the queued transfer was sent. */
+int GFL_NET_LOWER_DATA_IsSendFinished(void)
 {
-    if (g_021469F4 == 0)
+    if (_pNetLdataWork == 0)
         return 0;
-    return g_021469F4->unk_30;
+    return _pNetLdataWork->sendFinished;
 }
 
-int func_0203EA70(unsigned int idx)
+/* 1 once the transfer from sender netId is complete. */
+int GFL_NET_LOWER_DATA_IsPostComplete(unsigned int netId)
 {
-    struct LowRec *p;
-    if (g_021469F4 == 0 || (p = g_021469F4->rec[idx]) == 0)
+    struct NetLdataPostWork *postWork;
+    if (_pNetLdataWork == 0 || (postWork = _pNetLdataWork->postWork[netId]) == 0)
         return 0;
-    return p->done;
+    return postWork->complete;
 }
 
 
 /*
- * net_lower_data.c's per-frame pump over the transfer block g_021469F4
- * points to: while the block is live (+0x20) and the link reports state 1,
- * either flush the pending first packet (+0x34, func_0203ED84(0)), or, while
- * the sent count +0x44 is below the total +0x24 and sending is armed (+0x3C),
- * send as many bytes as the link window allows (ctx +0x6C or +0x61 minus the
- * in-flight count, less a 0x10 header, clamped to what remains) through
- * func_0203EC04, or, once everything is sent, post the end packet
- * (func_0203ED84(1)) once; then post a pending ack (+0x40, func_0203ED84(2)).
+ * Per-frame send pump over the work block: while a transfer is queued
+ * (sendData set) and the link is in state 1, either send the pending start
+ * packet (startPending), or, while sentSize is below sendSize and sending is
+ * armed, send as many bytes as the link window allows (parentSendSize or
+ * childSendSize minus the in-flight count, less a 0x10 byte header, clamped
+ * to what remains) through GFL_NET_LOWER_DATA_SendChunk, or, once everything is sent, send
+ * the end packet once. Then send a pending ack (ackPending).
  */
-void func_0203EA9C(void)
+void GFL_NET_LOWER_DATA_MainSend(void)
 {
-    struct LowCtx *ctx;
-    int d;
+    GFLNetInitializeStruct *netInit;
+    int chunkSize;
 
-    if (g_021469F4 == 0 || g_021469F4->unk_20 == 0) {
+    if (_pNetLdataWork == 0 || _pNetLdataWork->sendData == 0) {
         return;
     }
     if (func_0203CD98() != 1) {
         return;
     }
-    if (g_021469F4->unk_34 == 1) {
-        if (func_0203ED84(0) == 1) {
-            g_021469F4->unk_34 = 0;
+    if (_pNetLdataWork->startPending == 1) {
+        if (GFL_NET_LOWER_DATA_SendControl(NET_LDATA_CTRL_START) == 1) {
+            _pNetLdataWork->startPending = 0;
         }
-    } else if (g_021469F4->unk_44 < g_021469F4->unk_24) {
-        if (g_021469F4->unk_3c == 1) {
-            ctx = func_0203D798();
-            if (g_021469F4->unk_2c == 1) {
-                d = ctx->unk_6c - func_02038D4C();
+    } else if (_pNetLdataWork->sentSize < _pNetLdataWork->sendSize) {
+        if (_pNetLdataWork->sendArmed == 1) {
+            netInit = func_0203D798();
+            if (_pNetLdataWork->isParent == 1) {
+                chunkSize = netInit->parentSendSize - GFL_NET_SYSTEM_GetParentRingDataSize();
             } else {
-                d = ctx->unk_61 - func_02038D30();
+                chunkSize = netInit->childSendSize - GFL_NET_SYSTEM_GetChildRingDataSize();
             }
-            d -= 0x10;
-            if (d > 0x10) {
-                if (g_021469F4->unk_44 + d > g_021469F4->unk_24) {
-                    d = g_021469F4->unk_24 - g_021469F4->unk_44;
+            chunkSize -= NET_LDATA_HEADER_SIZE;
+            if (chunkSize > 0x10) {
+                if (_pNetLdataWork->sentSize + chunkSize > _pNetLdataWork->sendSize) {
+                    chunkSize = _pNetLdataWork->sendSize - _pNetLdataWork->sentSize;
                 }
-                if (func_0203EC04(d) == 1) {
-                    g_021469F4->unk_44 += d;
-                    if (g_021469F4->unk_38 == 1) {
-                        g_021469F4->unk_3c = 0;
+                if (GFL_NET_LOWER_DATA_SendChunk(chunkSize) == 1) {
+                    _pNetLdataWork->sentSize += chunkSize;
+                    if (_pNetLdataWork->ackMode == 1) {
+                        _pNetLdataWork->sendArmed = 0;
                     }
                 }
             }
         }
-    } else if (g_021469F4->unk_30 == 0) {
-        if (func_0203ED84(1) == 1) {
-            g_021469F4->unk_30 = 1;
-            g_021469F4->unk_20 = 0;
+    } else if (_pNetLdataWork->sendFinished == 0) {
+        if (GFL_NET_LOWER_DATA_SendControl(NET_LDATA_CTRL_END) == 1) {
+            _pNetLdataWork->sendFinished = 1;
+            _pNetLdataWork->sendData = 0;
         }
     }
-    if (g_021469F4->unk_40 == 1) {
-        if (func_0203ED84(2) == 1) {
-            g_021469F4->unk_40 = 0;
+    if (_pNetLdataWork->ackPending == 1) {
+        if (GFL_NET_LOWER_DATA_SendControl(NET_LDATA_CTRL_ACK) == 1) {
+            _pNetLdataWork->ackPending = 0;
         }
     }
 }
 
-u32 func_0203EC04(int a0)
+/* Send the next size bytes of the queued data as one data packet. */
+u32 GFL_NET_LOWER_DATA_SendChunk(int size)
 {
-    int a = g_021469F4->unk_2c;
-    int b = g_021469F4->unk_20;
-    int c = g_021469F4->unk_44;
-    int v = b + c;
-    int t;
-    if (a == 1)
-        t = (int)func_0203996C(0xff);
+    int isParent = _pNetLdataWork->isParent;
+    int sendData = _pNetLdataWork->sendData;
+    int sentSize = _pNetLdataWork->sentSize;
+    int dataAddr = sendData + sentSize;
+    struct GFLNetHandle *handle;
+    if (isParent == 1)
+        handle = func_0203996C(NET_LDATA_NETID_SERVER);
     else
-        t = (int)func_020399A8();
-    return func_0203D4D0(t, g_021469F4->unk_28, 0xe, a0, v, 0, 1, 1);
+        handle = func_020399A8();
+    return func_0203D4D0(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_DATA, size, dataAddr, 0, 1, 1);
 }
 
 
 /*
- * End offset (+0x00 base plus +0x0C length) of record idx (0xFF meaning 0)
- * in the table g_021469F4 points to, re-checked after func_0203D798; 0 when
- * the table or record is missing.
+ * End address (buffer plus received size) of sender netId's post work (0xff
+ * means 0), re-checked after func_0203D798; 0 when the work block or the post
+ * work is missing. The first guard is a wrapping positive test whose failure
+ * falls through to the single trailing return 0.
  */
-/*
- * net_lower_data.c: end offset (+0x00 base plus +0x0C length) of record
- * idx (0xFF meaning 0) in the table g_021469F4 points to, re-checked after
- * func_0203D798; 0 when the table or record is missing.  Same double guard
- * as the matched func_0203ECD8, but the FIRST guard is a wrapping positive
- * test (`!= 0 && != 0`) whose failure falls through to the one trailing
- * return 0, which is the shared null-exit block the earlier note wanted.
- */
-u32 func_0203EC7C(u32 idx)
+u32 GFL_NET_LOWER_DATA_GetPostEndAddress(u32 netId)
 {
-    struct LowRec *rec;
-    if (idx == 0xff) {
-        idx = 0;
+    struct NetLdataPostWork *postWork;
+    if (netId == NET_LDATA_NETID_SERVER) {
+        netId = 0;
     }
-    if (g_021469F4 != 0 && g_021469F4->rec[idx] != 0) {
+    if (_pNetLdataWork != 0 && _pNetLdataWork->postWork[netId] != 0) {
         func_0203D798();
-        if (g_021469F4 == 0 || g_021469F4->rec[idx] == 0) {
+        if (_pNetLdataWork == 0 || _pNetLdataWork->postWork[netId] == 0) {
             return 0;
         }
-        rec = g_021469F4->rec[idx];
-        return rec->base + rec->unk_0c;
+        postWork = _pNetLdataWork->postWork[netId];
+        return postWork->buf + postWork->recvSize;
     }
     return 0;
 }
 
 
 /*
- * Credit `delta` to the score record of player `idx` (0xff meaning "me",
- * folded to slot 0 on entry).  The global is re-read after every call
- * because each callee may publish a new table.
+ * Data packet callback: add size to the received count of sender netId (0xff
+ * folds to slot 0). The global is re-read after every call because each
+ * callee may publish a new work block.
  */
-void func_0203ECD8(u32 idx, u32 delta, u32 a2, u32 a3, u32 who)
+void GFL_NET_LOWER_DATA_RecvChunk(u32 netId, u32 size, u32 pData, u32 pWork, u32 pNetHandle)
 {
-    struct LowCtx *ctx;
-    struct LowRec *rec;
+    GFLNetInitializeStruct *netInit;
+    struct NetLdataPostWork *postWork;
 
-    if (idx == 0xff) {
-        idx = 0;
+    if (netId == NET_LDATA_NETID_SERVER) {
+        netId = 0;
     }
-    if (g_021469F4 == 0 || g_021469F4->rec[idx] == 0) {
+    if (_pNetLdataWork == 0 || _pNetLdataWork->postWork[netId] == 0) {
         return;
     }
 
-    ctx = func_0203D798();
+    netInit = func_0203D798();
 
-    if (g_021469F4 == 0 || g_021469F4->rec[idx] == 0) {
+    if (_pNetLdataWork == 0 || _pNetLdataWork->postWork[netId] == 0) {
         return;
     }
 
-    if ((u32)func_020399A8() != who && ctx->unk_64 == 0) {
+    if ((u32)func_020399A8() != pNetHandle && netInit->bMPMode == 0) {
         return;
     }
 
-    rec = g_021469F4->rec[idx];
-    rec->unk_0c += delta;
+    postWork = _pNetLdataWork->postWork[netId];
+    postWork->recvSize += size;
 
-    if (g_021469F4->unk_38 != 1) {
+    if (_pNetLdataWork->ackMode != 1) {
         return;
     }
 
-    if (idx != func_0203D1A4((struct Link *)((u32)func_020399A8()))) {
-        g_021469F4->unk_40 = 1;
+    if (netId != func_0203D1A4(func_020399A8())) {
+        _pNetLdataWork->ackPending = 1;
     }
 }
 
-int func_0203ED84(int a0)
+/* Send a control packet (kind NET_LDATA_CTRL_*) carrying the total size. */
+int GFL_NET_LOWER_DATA_SendControl(int kind)
 {
-    struct Cmd sv;
-    int t;
-    if (g_021469F4->unk_2c == 1)
-        t = (int)func_0203996C(0xff);
+    struct NetLdataCommand header;
+    struct GFLNetHandle *handle;
+    if (_pNetLdataWork->isParent == 1)
+        handle = func_0203996C(NET_LDATA_NETID_SERVER);
     else
-        t = (int)func_020399A8();
-    sv.cmd = a0;
-    sv.data = g_021469F4->unk_24;
-    return func_0203D4D0(t, g_021469F4->unk_28, 0xf, 4, (u32)(&sv), 0, 1, 0);
+        handle = func_020399A8();
+    header.kind = kind;
+    header.size = _pNetLdataWork->sendSize;
+    return func_0203D4D0(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_CONTROL, 4, (u32)(&header), 0, 1, 0);
 }
 
 
 /*
- *           --suggest-split offers nothing (single function, the one
- *           unresolved site's only witness is inside this range).
+ * Control packet callback: start (set up the post work of sender netId for
+ * a transfer of pData->size bytes), end (mark the post work complete when all
+ * bytes arrived) or ack (re-arm the sender).
  */
-void func_0203EE18(u32 idx, u32 a1, struct Cmd *pVal, u32 a3, u32 a4)
+void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand *pData, u32 pWork, u32 pNetHandle)
 {
-    struct LowCtx *r7;
+    GFLNetInitializeStruct *netInit;
 
-    if (idx == 0xff) {
-        idx = 0;
+    if (netId == NET_LDATA_NETID_SERVER) {
+        netId = 0;
     }
-    if (g_021469F4 == 0 || g_021469F4->rec[idx] == 0) {
+    if (_pNetLdataWork == 0 || _pNetLdataWork->postWork[netId] == 0) {
         return;
     }
 
-    r7 = func_0203D798();
-    if (g_021469F4 == 0 || g_021469F4->rec[idx] == 0) {
+    netInit = func_0203D798();
+    if (_pNetLdataWork == 0 || _pNetLdataWork->postWork[netId] == 0) {
         return;
     }
 
-    if (a4 != (u32)func_020399A8()) {
-        if (r7->unk_64 == 0) {
+    if (pNetHandle != (u32)func_020399A8()) {
+        if (netInit->bMPMode == 0) {
             return;
         }
     }
 
-    switch (pVal->cmd) {
-    case 0:
-        if (g_021469F4->rec[idx]->unk_04 < pVal->data) {
-            func_02034734(s_020A7D74, 543, s_020A7E28, g_021469F4->rec[idx]->unk_04, pVal->data);
+    switch (pData->kind) {
+    case NET_LDATA_CTRL_START:
+        if (_pNetLdataWork->postWork[netId]->bufSize < pData->size) {
+            func_02034734(sSrcFileName, 543, sMsgPostBufferTooSmall, _pNetLdataWork->postWork[netId]->bufSize, pData->size);
         }
-        g_021469F4->rec[idx]->unk_08 = pVal->data;
-        g_021469F4->rec[idx]->unk_0c = 0;
-        g_021469F4->rec[idx]->done = 0;
+        _pNetLdataWork->postWork[netId]->totalSize = pData->size;
+        _pNetLdataWork->postWork[netId]->recvSize = 0;
+        _pNetLdataWork->postWork[netId]->complete = 0;
         break;
 
-    case 1:
-        if (g_021469F4->rec[idx]->unk_0c == g_021469F4->rec[idx]->unk_08) {
-            g_021469F4->rec[idx]->done = 1;
+    case NET_LDATA_CTRL_END:
+        if (_pNetLdataWork->postWork[netId]->recvSize == _pNetLdataWork->postWork[netId]->totalSize) {
+            _pNetLdataWork->postWork[netId]->complete = 1;
         }
         break;
 
-    case 2:
-        if (idx != func_0203D1A4((struct Link *)((u32)func_020399A8()))) {
-            g_021469F4->unk_3c = 1;
+    case NET_LDATA_CTRL_ACK:
+        if (netId != func_0203D1A4(func_020399A8())) {
+            _pNetLdataWork->sendArmed = 1;
         }
         break;
     }

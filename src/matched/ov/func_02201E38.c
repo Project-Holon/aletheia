@@ -14,8 +14,8 @@
  *   func_02201B18  0x02201B18  thumb  ov135
  *   func_0200FBB0  0x0200FBB0  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
- *   func_0203CA04  0x0203CA04  arm
- *   func_0203C968  0x0203C968  arm
+ *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
+ *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
  *   func_021C866C  0x021C866C  arm
  *   func_021C86A8  0x021C86A8  arm
  *
@@ -51,8 +51,8 @@ extern void func_021F513C(u8 *p);
 extern void func_02201B18(u8 *p);
 extern u32 func_0200FBB0(void);
 extern void func_0200FBA0(void);
-extern void func_0203CA04(void);
-extern void func_0203C968(void);
+extern void GFL_NET_STATE_SetWifiError(void);
+extern void GFL_NET_STATE_ClearErrorMode(void);
 
 int func_02201E38(u8 *p)
 {
@@ -73,9 +73,9 @@ int func_02201E38(u8 *p)
             ((struct Obj07256 *)p)->f38 = n;
             ((struct Obj07256 *)p)->f28 = 0x2b;
             func_0200FBB0();
-            func_0203CA04();
+            GFL_NET_STATE_SetWifiError();
             func_0200FBA0();
-            func_0203C968();
+            GFL_NET_STATE_ClearErrorMode();
             break;
         case 0:
         case 1:

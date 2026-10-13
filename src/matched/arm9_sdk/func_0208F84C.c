@@ -1,5 +1,5 @@
 /*
- * function: func_0208F84C
+ * function: WM_StartConnectEx
  * address:  0x0208F84C
  * packet:   pkt_0208F84C
  * region:   arm9
@@ -92,7 +92,7 @@ extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern WMErrCode WMi_SendCommandDirect(void *data, u32 length);
 
-WMErrCode func_0208F84C(WMCallbackFunc callback, WMBssDesc *pInfo, u8 *ssid, BOOL powerSave, u16 authMode)
+WMErrCode WM_StartConnectEx(WMCallbackFunc callback, WMBssDesc *pInfo, u8 *ssid, BOOL powerSave, u16 authMode)
 {
     WMErrCode result;
     WMArm9Buf *w9b;

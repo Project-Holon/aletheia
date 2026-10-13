@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202DC60
+ * function: PMS_DRAW_PrintOffset
  * address:  0x0202DC60
  * packet:   pkt_0202DC60
  * region:   arm9
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The forwarding shim in front of func_0202E1F0: it copies four of the
+ * The forwarding shim in front of PMS_DRAW_PrintElem: it copies four of the
  * object's own fields into the callee's five stack arguments and clears
  * the selection word at +0x28 afterwards.
  *
@@ -29,11 +29,11 @@
  * call, so the parameters are u32.
  *
  * symbols:
- *   func_0202E1F0  0x0202E1F0  thumb
+ *   PMS_DRAW_PrintElem  0x0202E1F0  thumb
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0202DC60.c \
- *       --func func_0202DC60 --addr 0x0202DC60 --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/matched/PMS_DRAW_PrintOffset.c \
+ *       --func PMS_DRAW_PrintOffset --addr 0x0202DC60 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -54,12 +54,12 @@ struct Obj {
     u8    f31;
 };
 
-extern void func_0202E1F0(u8 *e, void *a1, u32 a2, u32 a3,
+extern void PMS_DRAW_PrintElem(u8 *e, void *a1, u32 a2, u32 a3,
                           void *w, u32 c0, u32 c1, u32 c2, u32 c3);
 
-void func_0202DC60(struct Obj *p, u32 a, void *w, u32 i, u32 e)
+void PMS_DRAW_PrintOffset(struct Obj *p, u32 a, void *w, u32 i, u32 e)
 {
-    func_0202E1F0(p->f0c + i * 0x28, p->f08, p->f04, a, w,
+    PMS_DRAW_PrintElem(p->f0c + i * 0x28, p->f08, p->f04, a, w,
                   e, p->f24, p->f31, p->f00);
     p->f28 = 0;
 }

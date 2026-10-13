@@ -1,5 +1,5 @@
 /*
- * function: func_02019388
+ * function: POKE_TOOL_SetBoxValueRaw
  * address:  0x02019388
  * packet:   pkt_02019388
  * region:   arm9
@@ -12,10 +12,10 @@
  * 1736 bytes, one function, 178 case jump table.
  *
  * The write accessor over the encrypted block area of the 0xDC byte record,
- * and the largest of poke_tool.c's get/set dispatcher quartet.  func_02019308
- * (src/matched/sub_02019308.c) owns the party-area ids 0x9D to 0xA8 and
- * forwards everything else here; the reader twin is func_02018E34
- * (src/pending/sub_02018E34.c), whose header carries the full field map.  The
+ * and the largest of poke_tool.c's get/set dispatcher quartet.  POKE_TOOL_SetPartyValueRaw
+ * (src/matched/POKE_TOOL_SetPartyValueRaw.c) owns the party-area ids 0x9D to 0xA8 and
+ * forwards everything else here; the reader twin is POKE_TOOL_GetBoxValueRaw
+ * (src/pending/POKE_TOOL_GetBoxValueRaw.c), whose header carries the full field map.  The
  * two dispatchers agree field for field, so only what is specific to writing
  * is repeated below.
  *
@@ -97,11 +97,12 @@
  * number to re-read.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/sub_02019388.c \
- *       --func func_02019388 --addr 0x02019388 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/POKE_TOOL_SetBoxValueRaw.c \
+ *       --func POKE_TOOL_SetBoxValueRaw --addr 0x02019388 --cc 1.1p1
  *
  * symbols:
  *   func_02045A38  0x02045A38  arm
+ *   POKE_TOOL_CalcGender  0x02017F50  thumb
  */
 typedef unsigned char      u8;
 typedef unsigned short     u16;
@@ -181,13 +182,13 @@ struct BlockD {
 };
 
 extern void *func_02019C38(struct Mon *p, u32 pid, u32 n);
-extern u8   func_02017F50(u32 species, u16 form, u32 pid);
+extern u8   POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
 extern u32  func_02019ABC(struct Mon *p);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 struct U16Vec;
 extern void func_02045A38(struct U16Vec *src, u16 *dest, u32 n);
 
-void func_02019388(struct Mon *p, u32 id, u32 v)
+void POKE_TOOL_SetBoxValueRaw(struct Mon *p, u32 id, u32 v)
 {
     struct BlockA *a = (struct BlockA *)func_02019C38(p, p->unk00, 0);
     struct BlockB *b = (struct BlockB *)func_02019C38(p, p->unk00, 1);
@@ -335,7 +336,7 @@ void func_02019388(struct Mon *p, u32 id, u32 v)
         break;
     case 0x6D: b->f0 = (u8)v; break;
     case 0x6E:
-        b->f1 = func_02017F50(a->species, b->f2, p->unk00);
+        b->f1 = POKE_TOOL_CalcGender(a->species, b->f2, p->unk00);
         break;
     case 0x6F: b->f2 = (u8)v; break;
     case 0x70: b->unk19 = (u8)v; break;

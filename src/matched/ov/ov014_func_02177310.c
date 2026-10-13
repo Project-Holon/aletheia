@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_021797A4  0x021797A4  data  a4
+ *   g_pWhPipeWork  0x021797A4  data  a4
  */
 
 typedef unsigned int u32;

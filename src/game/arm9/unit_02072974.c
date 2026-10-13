@@ -1,7 +1,7 @@
 /*
  * file:     unit_02072974.c
  * unit:     yes
- * function: func_02072974, func_020729A4
+ * function: SND_CHANNEL_UnlockChannels, SND_CHANNEL_ClearClaimedMask
  * address:  0x02072974
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -19,8 +19,8 @@
 typedef unsigned int u32;
 
 extern void func_020895F8(u32 channelMask, u32 flags);
-void func_02072974(u32 channelMask);
-void func_020729A4(u32 channelMask);
+void SND_CHANNEL_UnlockChannels(u32 channelMask);
+void SND_CHANNEL_ClearClaimedMask(u32 channelMask);
 extern u32  g_0214DEC0[];
 
 
@@ -29,10 +29,10 @@ extern u32  g_0214DEC0[];
  * from the word at g_0214DEC0 + 8.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02072974.c \
- *       --func func_02072974 --addr 0x02072974 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/SND_CHANNEL_UnlockChannels.c \
+ *       --func SND_CHANNEL_UnlockChannels --addr 0x02072974 --cc 1.1p1 --arm
  */
-void func_02072974(u32 channelMask)
+void SND_CHANNEL_UnlockChannels(u32 channelMask)
 {
     if (channelMask == 0) {
         return;
@@ -44,12 +44,12 @@ void func_02072974(u32 channelMask)
 
 /*
  * Clears a mask out of the FIRST word of the channel-allocator global
- * (g_0214DEC0+0), a different word from func_02072974's +0x08 and from
- * func_02072A08's +0x04.
+ * (g_0214DEC0+0), a different word from SND_CHANNEL_UnlockChannels's +0x08 and from
+ * NNS_SndWaveOutFreeChannel's +0x04.
  *
  * The parameter is already a MASK, not an index: the image complements the
  * PARAMETER itself (`mvn r0, r0` at 0x020729A8) before the load, whereas
- * func_02072A08's free-by-index complements a shifted 1 (`mvn r0, r2, lsl r0`).
+ * NNS_SndWaveOutFreeChannel's free-by-index complements a shifted 1 (`mvn r0, r2, lsl r0`).
  * That one instruction is the whole distinction between the two functions.
  *
  * NO PIN NEEDED: EXACT under both dsi/1.1p1 and ../2.0/sp2 (the base pool word
@@ -65,10 +65,10 @@ void func_02072974(u32 channelMask)
  * range) and the verdict is EXACT.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020729A4.c \
- *       --func func_020729A4 --addr 0x020729A4 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/SND_CHANNEL_ClearClaimedMask.c \
+ *       --func SND_CHANNEL_ClearClaimedMask --addr 0x020729A4 --cc 1.1p1 --arm
  */
-void func_020729A4(u32 channelMask)
+void SND_CHANNEL_ClearClaimedMask(u32 channelMask)
 {
     g_0214DEC0[0] &= ~channelMask;
 }

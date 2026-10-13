@@ -11,7 +11,7 @@
  * The u16 target parameter fixes the otherwise swapped home stores at +6/+8.
  * symbols:
  *   sub_020311B8 0x020311B8 arm
- *   sub_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021BED94 0x021BED94 thumb
  *   func_021BF7AC 0x021BF7AC thumb
@@ -31,7 +31,7 @@ struct S02030FB4;
 struct Owner { u8 pad[0x20]; struct Tcbl *manager; };
 struct Work { struct Owner *owner; u8 state,kind,target,pad; int duration,start,end,current,step; };
 extern struct TcblNode *sub_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
-extern void *sub_02031290(struct S02030FB4 *);
+extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void func_02082BCC(void *,u32,u32);
 extern void func_021BED94(struct TcblNode *p, char *q);
 extern int func_021BF7AC(char *p, int v);
@@ -42,7 +42,7 @@ void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int 
     struct Work *work;
     float a,b,c;
     int final;
-    work=sub_02031290((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BED94,0x1c,0));
+    work=TCBL_GetWork((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BED94,0x1c,0));
     func_02082BCC(work,0,0x1c);
     work->owner=owner;
     work->kind=kind;

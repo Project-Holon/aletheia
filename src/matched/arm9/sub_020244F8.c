@@ -1,5 +1,5 @@
 /*
- * function: func_020244F8
+ * function: PMSI_PARAM_IsDecoWordAt
  * address:  0x020244F8
  * packet:   pkt_02024368
  * region:   arm9
@@ -24,7 +24,7 @@ struct Container {
 
 extern u32 sub_02024508(u32 x);
 
-u32 func_020244F8(struct Container *p, u32 idx)
+u32 PMSI_PARAM_IsDecoWordAt(struct Container *p, u32 idx)
 {
     return sub_02024508(p->arr[idx]);
 }

@@ -11,7 +11,7 @@
  * symbols:
  *   func_021F133C  0x021F133C  thumb  ov029
  *   func_0204B404  0x0204B404  arm
- *   func_0204B800  0x0204B800  arm
+ *   CLACT_SetActorDrawPriority  0x0204B800  arm
  */
 
 extern int func_021F133C(char *p, int v, int *o1, int *o2);
@@ -20,7 +20,7 @@ struct Node;
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 
 void func_021F20AC(char *p)
 {
@@ -37,7 +37,7 @@ void func_021F20AC(char *p)
             s[1] = b + 0xf;
             func_0204B404((struct Obj *)(*(int *)(p + i * 4 + 0x158)), (const struct Vec2 *)s, 0);
             a += 0x20;
-            func_0204B800((struct Node *)(*(int *)(p + i * 4 + 0x158)), (a / 8) & 0xff);
+            CLACT_SetActorDrawPriority((struct Node *)(*(int *)(p + i * 4 + 0x158)), (a / 8) & 0xff);
         } else {
             s[0] = -0x40;
             s[1] = 0;

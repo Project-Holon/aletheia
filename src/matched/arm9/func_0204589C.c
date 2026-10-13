@@ -1,5 +1,5 @@
 /*
- * function: func_0204589C
+ * function: STRBUF_IsEqual
  * address:  0x0204589C
  * packet:   pkt_0204589C
  * region:   arm9
@@ -31,11 +31,11 @@
  * The 0x020A7E7C ABS32 sits in this function's own pool (0x020458F4, inside
  * the compared range) and resolves off the `literal` class: the same word is
  * in the pools of the already-matched func_02045924, func_02045994 and
- * sub_020457A0.
+ * STRBUF_SetEosChar.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204589C.c \
- *       --func func_0204589C --addr 0x0204589C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/STRBUF_IsEqual.c \
+ *       --func STRBUF_IsEqual --addr 0x0204589C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -49,7 +49,7 @@ struct Buf {
 
 extern u16 sStrbufEnd;
 
-int func_0204589C(struct Buf *a, struct Buf *b)
+int STRBUF_IsEqual(struct Buf *a, struct Buf *b)
 {
     int i = 0;
 

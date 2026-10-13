@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215539C",
+   "name": "DWC_RAP_CreateWork",
    "address": "0x0215539C",
    "kind": "game",
    "region": "ov009",

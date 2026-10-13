@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201AD88
+ * function: POKE_PERSONAL_OpenHandle
  *
  * The lazy constructor for the static handle at 0x0214652C that
  * src/matched/unit_0201ADA4.c and src/matched/unit_0201ADD0.c thread every
@@ -21,7 +21,7 @@
  * for a call that happens later.
  *
  * symbols:
- *   g_0214652C  0x0214652C  data
+ *   _pPersonalArc  0x0214652C  data
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201AD88.c \
@@ -31,11 +31,11 @@
 typedef unsigned int u32;
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void *g_0214652C;
+extern void *_pPersonalArc;
 
-void sub_0201AD88(u32 heap)
+void POKE_PERSONAL_OpenHandle(u32 heap)
 {
-    if (g_0214652C == 0) {
-        g_0214652C = func_020490F4(0x10, heap);
+    if (_pPersonalArc == 0) {
+        _pPersonalArc = func_020490F4(0x10, heap);
     }
 }

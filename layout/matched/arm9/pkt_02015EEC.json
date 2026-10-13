@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02015EEC",
+   "name": "MCSS_GetAnimSeqNum",
    "address": "0x02015EEC",
    "kind": "game",
    "region": "arm9",

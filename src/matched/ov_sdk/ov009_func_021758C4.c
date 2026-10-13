@@ -26,7 +26,7 @@
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_0216F20C  0x0216F20C  arm  ov009
  *   func_02175EB4  0x02175EB4  arm  ov009
- *   func_0216B838  0x0216B838  arm  ov009
+ *   DWC_GetMyAID  0x0216B838  arm  ov009
  *   func_0216CB90  0x0216CB90  arm  ov009
  *   func_02176410  0x02176410  arm  ov009
  *   func_0216FF2C  0x0216FF2C  arm  ov009
@@ -67,7 +67,7 @@ extern char *func_0217637C(int index);
 extern int func_02175F3C(void);
 extern int func_0216F20C(int status);
 extern int func_02175EB4(void);
-extern u8 func_0216B838(void);
+extern u8 DWC_GetMyAID(void);
 extern int func_0216CB90(void);
 extern char *func_02176410(unsigned char aid);
 extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
@@ -98,7 +98,7 @@ static int func_021758C4(u8 AID, int suspend, int immediate)
         func_0216F20C(-1);
     bitmap = ((DWCstMatchControl *)func_02175F3C())->suspendBitmap;
     if (!func_02175EB4())
-        bitmap &= ~(result << func_0216B838());
+        bitmap &= ~(result << DWC_GetMyAID());
     sm = func_0216CB90();
     bRet = 1;
     if (!((suspend && sm) || (!suspend && !sm)))

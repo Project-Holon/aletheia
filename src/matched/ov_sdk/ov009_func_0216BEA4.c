@@ -1,5 +1,5 @@
 /*
- * function: func_0216BEA4
+ * function: DWCi_CloseConnectionHard
  * address:  0x0216BEA4
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -16,7 +16,7 @@
  *   func_02059F38  0x02059F38  arm
  *   func_0216BAF4  0x0216BAF4  arm  ov009
  *   func_02176410  0x02176410  arm  ov009
- *   func_0216C230  0x0216C230  arm  ov009
+ *   DWCi_GT2ClosedProcess  0x0216C230  arm  ov009
  *   func_02195DC4  0x02195DC4  arm  ov009
  */
 
@@ -27,10 +27,10 @@ extern int func_02059F38(void);
 struct GTI2Connection;
 extern int func_0216BAF4(int aid);
 extern char *func_02176410(unsigned char aid);
-extern void func_0216C230(struct GTI2Connection *connection, int reason, int isPseudClose, unsigned char closeAid);
+extern void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason, int isPseudClose, unsigned char closeAid);
 extern void func_02195DC4(int conn);
 
-int func_0216BEA4(unsigned char aid)
+int DWCi_CloseConnectionHard(unsigned char aid)
 {
     int conn;
     unsigned char *node;
@@ -46,7 +46,7 @@ int func_0216BEA4(unsigned char aid)
         if (node == 0) {
             return -2;
         }
-        func_0216C230(0, 0, 1, node[0x16]);
+        DWCi_GT2ClosedProcess(0, 0, 1, node[0x16]);
         return 0;
     }
     func_02195DC4(conn);

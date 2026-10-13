@@ -14,7 +14,7 @@
  *   func_02045770 0x02045770 arm
  *   func_020437DC 0x020437DC arm
  *   func_020437E4 0x020437E4 arm
- *   func_02043994 0x02043994 arm
+ *   BMP_GetTileBytes 0x02043994 arm
  *   func_02043678 0x02043678 arm
  *   d_021DFBA0 0x021DFBA0 data a4
  */
@@ -31,7 +31,7 @@ extern void func_02082BCC(void *,int,int);
 extern void *func_02045770(struct Descriptor *p);
 extern u16 func_020437DC(const struct Bmp *bmp);
 extern u16 func_020437E4(const struct Bmp *bmp);
-extern u8 func_02043994(struct Bmp *b);
+extern u8 BMP_GetTileBytes(struct Bmp *b);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 void *func_021DA338(char *p,u16 heap)
 {
@@ -45,7 +45,7 @@ void *func_021DA338(char *p,u16 heap)
         void *win=func_02045770(*(void **)(*(char **)(p+16+i*4)+12));
         u32 x=func_020437DC(win);
         u32 y=func_020437E4(win);
-        u32 type=func_02043994(win);
+        u32 type=BMP_GetTileBytes(win);
         *(void **)(out+i*4+8)=func_02043678(x/8,y/8,type,heap);
     }
     return out;

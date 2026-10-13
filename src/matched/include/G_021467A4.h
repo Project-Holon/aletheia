@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_021467A4_H
 #define ALETHEIA_G_021467A4_H
-/* g_021467A4 (arm9) */
+/* g_wipeSys (arm9) */
 struct G_021467A4 {
     unsigned char pad_0[0x4];
     void *f04;

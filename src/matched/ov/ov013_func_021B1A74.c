@@ -1,5 +1,5 @@
 /*
- * function: func_021B1A74
+ * function: VCT_AUDIO_SetLastPacket
  * address:  0x021B1A74
  * packet:   pkt_021B1A74
  * region:   ov013
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B2FE4  0x021B2FE4  arm  ov013
- *   func_021B1944  0x021B1944  arm  ov013
+ *   VCT_POOL_FreeFrame  0x021B2FE4  arm  ov013
+ *   VCT_AUDIO_PopReadyPacket  0x021B1944  arm  ov013
  */
 #include "../include/Obj07348.h"
 
-extern void func_021B2FE4(void *p);
+extern void VCT_POOL_FreeFrame(void *p);
 typedef unsigned int   u32;
 struct Node;
-extern struct Node *func_021B1944(u32 t);
+extern struct Node *VCT_AUDIO_PopReadyPacket(u32 t);
 
-void func_021B1A74(char *p, int a1)
+void VCT_AUDIO_SetLastPacket(char *p, int a1)
 {
     if (((struct Obj07348 *)p)->f3C)
-        func_021B2FE4(((struct Obj07348 *)p)->f3C);
+        VCT_POOL_FreeFrame(((struct Obj07348 *)p)->f3C);
     *(int *)&((struct Obj07348 *)p)->f3C = a1;
-    func_021B1944((u32)(((struct Obj07348 *)p)->f34));
+    VCT_AUDIO_PopReadyPacket((u32)(((struct Obj07348 *)p)->f34));
 }

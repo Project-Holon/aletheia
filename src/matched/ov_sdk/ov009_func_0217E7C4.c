@@ -1,5 +1,5 @@
 /*
- * function: func_0217E7C4
+ * function: gsiLargeIntInverseMod
  * address:  0x0217E7C4
  * packet:   pkt_ov009_0217E7C4
  * region:   ov009
@@ -20,7 +20,7 @@ struct gsLargeInt_s {
     unsigned int mData[64];
 };
 
-int func_0217E7C4(struct gsLargeInt_s *mod, unsigned int *dest)
+int gsiLargeIntInverseMod(struct gsLargeInt_s *mod, unsigned int *dest)
 {
     unsigned long long x = 2;
     unsigned long long y = 1;

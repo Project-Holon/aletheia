@@ -1,5 +1,5 @@
 /*
- * function: func_0206A67C
+ * function: G3D_TEX_ClearDictDoneFlags
  * address:  0x0206A67C
  * packet:   pkt_0206A67C
  * region:   arm9
@@ -34,8 +34,8 @@
  *      folds to `andne r0, r0, #0xfe`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206A67C.c \
- *       --func func_0206A67C --addr 0x0206A67C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_TEX_ClearDictDoneFlags.c \
+ *       --func G3D_TEX_ClearDictDoneFlags --addr 0x0206A67C --cc 1.1p1 --arm
  */
 #include "../include/Obj07044.h"
 #include "../include/Obj16557.h"
@@ -53,7 +53,7 @@ typedef struct {
     u16 tbl;
 } Ent;
 
-void func_0206A67C(char *h)
+void G3D_TEX_ClearDictDoneFlags(char *h)
 {
     char *base;
     Ent  *e1;

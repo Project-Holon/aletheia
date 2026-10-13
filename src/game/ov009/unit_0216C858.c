@@ -34,9 +34,9 @@
  *   func_0219F058  0x0219F058  arm  ov009
  *   func_0219E120  0x0219E120  arm  ov009
  *   func_02175FB8  0x02175FB8  arm  ov009
- *   func_0216B908  0x0216B908  arm  ov009
+ *   DWC_GetAIDBitmap  0x0216B908  arm  ov009
  *   func_02175EB4  0x02175EB4  arm  ov009
- *   func_0216B838  0x0216B838  arm  ov009
+ *   DWC_GetMyAID  0x0216B838  arm  ov009
  *   func_02175F1C  0x02175F1C  arm  ov009
  *   func_02175F4C  0x02175F4C  arm  ov009
  *   func_02082BCC  0x02082BCC  arm
@@ -45,7 +45,7 @@
  *   func_02173B18  0x02173B18  arm  ov009
  *   func_0216F388  0x0216F388  arm  ov009
  *   func_02195E60  0x02195E60  arm  ov009
- *   func_02195E40  0x02195E40  arm  ov009
+ *   gt2GetLocalPort  0x02195E40  arm  ov009
  *   func_0219AEB4  0x0219AEB4  arm  ov009
  *   func_0219B540  0x0219B540  arm  ov009
  *   func_02173E30  0x02173E30  arm  ov009
@@ -201,9 +201,9 @@ extern char *func_02094798(char *dst, const char *src);
 extern void func_0219D158(int keyid, char *key);
 extern int func_02059F38(void);
 extern unsigned char func_02175FB8(void);
-extern int func_0216B908(void);
+extern int DWC_GetAIDBitmap(void);
 extern int func_02175EB4(void);
-extern unsigned char func_0216B838(void);
+extern unsigned char DWC_GetMyAID(void);
 extern void func_02175F1C(int a0);
 extern void func_02175F4C(int a0);
 extern void func_0217601C(void);
@@ -211,7 +211,7 @@ extern void func_0217653C(void);
 extern void func_02173B18(void);
 extern int func_0216F388(int a0);
 extern int func_02195E60(const int *p);
-extern unsigned short func_02195E40(const unsigned short *p);
+extern unsigned short gt2GetLocalPort(const unsigned short *p);
 extern int func_02173E30(int error);
 extern void func_0219B1AC(void *qrec, void *cb);
 extern void func_0219B134(void *qrec, void *cb);
@@ -776,12 +776,12 @@ int func_0216CB90(void)
     if (!func_02175FB8())
         return 0;
     bitmap = DWCi_GetMatchCnt()->suspendBitmap;
-    bitmap &= func_0216B908();
+    bitmap &= DWC_GetAIDBitmap();
     if (!func_02175EB4())
-        bitmap &= ~(1 << func_0216B838());
-    if ((bitmap ^ func_0216B908()) == 0)
+        bitmap &= ~(1 << DWC_GetMyAID());
+    if ((bitmap ^ DWC_GetAIDBitmap()) == 0)
         bNew = 1;
-    else if ((bitmap & func_0216B908()) == 0)
+    else if ((bitmap & DWC_GetAIDBitmap()) == 0)
         bNew = 0;
     if (bNew != -1)
         DWCi_GetMatchCnt()->suspendMatch = bNew == 1;
@@ -877,7 +877,7 @@ int func_0216CD8C(int profileID)
     for (i = 0; i < 1; i++) {
         qr2Error = func_0219AEB4(&DWCi_GetMatchCnt()->qr2Obj,
                                  func_02195E60(*DWCi_GetMatchCnt()->pGt2Socket),
-                                 func_02195E40(*DWCi_GetMatchCnt()->pGt2Socket),
+                                 gt2GetLocalPort(*DWCi_GetMatchCnt()->pGt2Socket),
                                  DWCi_GetMatchCnt()->gameName,
                                  DWCi_GetMatchCnt()->secretKey,
                                  1, 1,

@@ -15,12 +15,12 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   d_021F73E0 0x021F73E0 data a4
@@ -42,7 +42,7 @@
  *   func_020419E4 0x020419E4 arm
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_0204B1CC 0x0204B1CC arm
@@ -79,25 +79,25 @@
  *   func_021F7110 0x021F7110 thumb ov215
  *   func_02006984 0x02006984 thumb
  *   func_02006650 0x02006650 thumb
- *   func_02014C08 0x02014C08 thumb
- *   func_02014D2C 0x02014D2C thumb
- *   func_02015EA0 0x02015EA0 thumb
- *   func_02015F50 0x02015F50 thumb
- *   func_0201600C 0x0201600C thumb
- *   func_02014B08 0x02014B08 thumb
- *   func_02016020 0x02016020 thumb
- *   func_02015BF0 0x02015BF0 thumb
- *   func_02014BA8 0x02014BA8 thumb
+ *   MCSS_Main 0x02014C08 thumb
+ *   MCSS_Draw 0x02014D2C thumb
+ *   MCSS_SetVanishFlag 0x02015EA0 thumb
+ *   MCSS_SetPaletteFade 0x02015F50 thumb
+ *   MCSS_CheckPaletteFade 0x0201600C thumb
+ *   MCSS_Init 0x02014B08 thumb
+ *   MCSS_SetTextureTransAdrs 0x02016020 thumb
+ *   MCSS_SetOrthoMode 0x02015BF0 thumb
+ *   MCSS_Exit 0x02014BA8 thumb
  *   table_021F7384 0x021F7384 data a4
- *   func_02017270 0x02017270 thumb
- *   func_02015FF0 0x02015FF0 thumb
- *   func_02015C48 0x02015C48 thumb
- *   func_02015CAC 0x02015CAC thumb
- *   func_02015F0C 0x02015F0C thumb
- *   func_02015F1C 0x02015F1C thumb
- *   func_02015F14 0x02015F14 thumb
- *   func_02015C78 0x02015C78 thumb
- *   func_02015E04 0x02015E04 thumb
+ *   MCSS_TOOL_AddPokeMcss 0x02017270 thumb
+ *   MCSS_SetShadowVanishFlag 0x02015FF0 thumb
+ *   MCSS_SetPosition 0x02015C48 thumb
+ *   MCSS_SetScale 0x02015CAC thumb
+ *   MCSS_GetSizeY 0x02015F0C thumb
+ *   MCSS_GetOfsY 0x02015F1C thumb
+ *   MCSS_GetOfsX 0x02015F14 thumb
+ *   MCSS_SetOfsPosition 0x02015C78 thumb
+ *   MCSS_SetAnmStopFlag 0x02015E04 thumb
  *   _fgr 0x0209BBB0 arm
  *   _ffltu 0x0209BE04 arm
  *   _fflt 0x0209BDBC arm
@@ -106,16 +106,16 @@
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _fdiv 0x0209CE10 arm
- *   sub_02015BA4 0x02015BA4 thumb
- *   func_02016028 0x02016028 thumb
- *   func_02015EE8 0x02015EE8 thumb
+ *   MCSS_Del 0x02015BA4 thumb
+ *   MCSS_SetAnimeIndex 0x02016028 thumb
+ *   MCSS_GetAnimCtrl 0x02015EE8 thumb
  *   func_02064CBC 0x02064CBC arm
- *   func_02015E4C 0x02015E4C thumb
+ *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
  *   func_02063000 0x02063000 arm
- *   func_020173B4 0x020173B4 thumb
- *   func_02015FAC 0x02015FAC thumb
- *   func_02015FBC 0x02015FBC thumb
- *   func_02015EB0 0x02015EB0 thumb
+ *   MCSS_TOOL_SetAnimeStopCallback 0x020173B4 thumb
+ *   MCSS_GetAlpha 0x02015FAC thumb
+ *   MCSS_SetAlpha 0x02015FBC thumb
+ *   MCSS_ResetVanishFlag 0x02015EB0 thumb
  *   func_02050B80 0x02050B80 arm
  *   func_02050C04 0x02050C04 arm
  *   func_0205121C 0x0205121C arm
@@ -123,8 +123,8 @@
  *   func_02051230 0x02051230 arm
  *   d_021F7300 0x021F7300 data a4
  *   func_02050ED4 0x02050ED4 arm
- *   func_020515B4 0x020515B4 arm
- *   func_02051620 0x02051620 arm
+ *   PARTICLE_StartEffect 0x020515B4 arm
+ *   PARTICLE_KillAllEffects 0x02051620 arm
  *   d_021F73B4 0x021F73B4 data a4
  *   func_02050BE8 0x02050BE8 arm
  *   func_02046BE0 0x02046BE0 arm
@@ -220,12 +220,12 @@ typedef struct { int x,y,z; } Vec_021F6D7C;
 
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void func_02082BCC(void *,int,int);
-extern void func_0204335C(u32 keep);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(unsigned);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void *func_020056A0(void (*)(int,char *),char *,unsigned);
 extern void func_02030EAC(struct Node *n);
@@ -243,7 +243,7 @@ extern void func_0203F9B4(void);
 extern void func_020419E4(void);
 extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern u32 func_0204B1CC(struct Bank *bank);
@@ -273,45 +273,45 @@ extern int func_021F7100(char *);
 extern void func_021F7110(char *);
 extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
 extern int func_02006650(void);
-extern void func_02014C08(char *);
-extern void func_02014D2C(struct McssSys *);
-extern void func_02015EA0(void *);
-extern void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
-extern int func_0201600C(void *);
-extern void *func_02014B08(u32 id, void *heap);
-extern void func_02016020(void *, unsigned int);
-extern void func_02015BF0(void *);
-extern void func_02014BA8(u8 *);
-extern void *func_02017270(void *,void *,u32,u32,u32,u32);
-extern void func_02015FF0(char *,int);
-extern void func_02015C48(void *,u32 *);
-extern void func_02015CAC(void *,u32 *);
-extern u16 func_02015F0C(void *);
-extern s16 func_02015F1C(void *);
-extern s16 func_02015F14(void *);
-extern void func_02015C78(void *,u32 *);
-extern void func_02015E04(void *);
-extern void sub_02015BA4(void *,void *);
+extern void MCSS_Main(char *);
+extern void MCSS_Draw(struct McssSys *);
+extern void MCSS_SetVanishFlag(void *);
+extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
+extern int MCSS_CheckPaletteFade(void *);
+extern void *MCSS_Init(u32 id, void *heap);
+extern void MCSS_SetTextureTransAdrs(void *, unsigned int);
+extern void MCSS_SetOrthoMode(void *);
+extern void MCSS_Exit(u8 *);
+extern void *MCSS_TOOL_AddPokeMcss(void *,void *,u32,u32,u32,u32);
+extern void MCSS_SetShadowVanishFlag(char *,int);
+extern void MCSS_SetPosition(void *,u32 *);
+extern void MCSS_SetScale(void *,u32 *);
+extern u16 MCSS_GetSizeY(void *);
+extern s16 MCSS_GetOfsY(void *);
+extern s16 MCSS_GetOfsX(void *);
+extern void MCSS_SetOfsPosition(void *,u32 *);
+extern void MCSS_SetAnmStopFlag(void *);
+extern void MCSS_Del(void *,void *);
 /* Legacy 020173B4 inputs r1-r3 are replaced by its body; full forwarding
  * 02015F2C supplies fixed member, one, original p and callback to 02063000.
  * It reads no caller r1-r3. 02016028 retains live incoming flag in r1. */
-extern void func_02016028(void *,unsigned);
-extern void *func_02015EE8(void *);
+extern void MCSS_SetAnimeIndex(void *,unsigned);
+extern void *MCSS_GetAnimCtrl(void *);
 extern void func_02064CBC(struct Obj *x);
-extern void func_02015E4C(void *);
+extern void MCSS_ResetAnmStopFlag(void *);
 extern void func_02063000(int p0, int p1, int p2, int p3);
-extern int func_020173B4(int a0);
-extern u8 func_02015FAC(struct Data *);
-extern void func_02015FBC(char *,int);
-extern void func_02015EB0(void *);
+extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
+extern u8 MCSS_GetAlpha(struct Data *);
+extern void MCSS_SetAlpha(char *,int);
+extern void MCSS_ResetVanishFlag(void *);
 extern void func_02050B80(unsigned);
 extern int func_02050C04(int,int,int,int);
 extern int func_0205121C(unsigned,unsigned,unsigned);
 extern u16 func_02051B04(void *);
 extern void func_02051230(void *,unsigned,unsigned,unsigned);
 extern void func_02050ED4(void);
-extern int func_020515B4(void *p, int b, int c);
-extern void func_02051620(void *);
+extern int PARTICLE_StartEffect(void *p, int b, int c);
+extern void PARTICLE_KillAllEffects(void *);
 extern void func_02050BE8(void);
 extern void func_02046BE0(unsigned,unsigned);
 extern struct Util *func_02047CFC(u16,u16,u16);
@@ -409,12 +409,12 @@ char *func_021F63CC(unsigned mode,u16 heap)
     *(volatile u16 *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &=0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &=0xFFFF1FFF;
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)d_021F71C4);
     func_0204363C(mode);
     func_0204361C();
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     func_0201DD60();
     func_021F651C(p,heap);
     func_021F65C0((unsigned char *)(p+4),(int)d_021F71C4,heap);
@@ -559,7 +559,7 @@ void func_021F65C0(unsigned char *p, int a, u32 b)
     func_02082BCC(p, 0, 4);
     func_0204A48C((const struct Cfg *)0x021F7188, a, b);
     ((struct Obj14709 *)p)->f0 = func_0204B100(0x80, 0, b);
-    func_0204B270(((struct Obj14709 *)p)->f0);
+    CLACT_SetUnitDefaultRenderer(((struct Obj14709 *)p)->f0);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }
@@ -792,7 +792,7 @@ void func_021F67E0(char *p)
     case 9:break;
     }
     func_021F6D1C(p);
-    func_02014C08(*(char * *)&((struct Obj01083 *)p)->f30);
+    MCSS_Main(*(char * *)&((struct Obj01083 *)p)->f30);
     func_021F6E5C(*(char * *)&((struct Obj01083 *)p)->f44);
     func_021F7048(p);
 }
@@ -803,7 +803,7 @@ void func_021F67E0(char *p)
 
 
 
-void func_021F6A24(char *p){func_02014D2C(*(struct McssSys * *)&((struct Obj06708 *)p)->f30);func_021F6F24(p);func_021F6EE4(*(char * *)&((struct Obj06708 *)p)->f44);}
+void func_021F6A24(char *p){MCSS_Draw(*(struct McssSys * *)&((struct Obj06708 *)p)->f30);func_021F6F24(p);func_021F6EE4(*(char * *)&((struct Obj06708 *)p)->f44);}
 
 
 
@@ -836,8 +836,8 @@ void func_021F6A48(char *p,int a)
     *(int *)(p + 4) = a;
     func_021F6AEC(p);
     func_021F6CCC(p,0,0);
-    func_02015EA0(*(void **)(p + 0x34));
-    func_02015F50(*(struct McssFade **)(p + 0x34),16,16,0,32767);
+    MCSS_SetVanishFlag(*(void **)(p + 0x34));
+    MCSS_SetPaletteFade(*(struct McssFade **)(p + 0x34),16,16,0,32767);
     *(int *)(p + 0xC) = 5;
 }
 
@@ -849,7 +849,7 @@ void func_021F6A48(char *p,int a)
 /*
  * trailing: existing followers 021F6A98/6AA4 unit and 021F6AB4 shard.
  */
-int func_021F6A84(char *p){if(func_0201600C(((struct Obj25758 *)p)->f34)==0)return 1;return 0;}
+int func_021F6A84(char *p){if(MCSS_CheckPaletteFade(((struct Obj25758 *)p)->f34)==0)return 1;return 0;}
 
 
 
@@ -885,9 +885,9 @@ void func_021F6AB4(void)
 
 void func_021F6AB8(char *p)
 {
-    *(void **)(p + 0x30) = func_02014B08(1, (void *)(*(unsigned short *)p));
-    func_02016020(*(void **)(p + 0x30), 3 << 16);
-    func_02015BF0(*(void **)(p + 0x30));
+    *(void **)(p + 0x30) = MCSS_Init(1, (void *)(*(unsigned short *)p));
+    MCSS_SetTextureTransAdrs(*(void **)(p + 0x30), 3 << 16);
+    MCSS_SetOrthoMode(*(void **)(p + 0x30));
     *(unsigned int *)(p + 0x3c) = 0;
     *(unsigned char *)(p + 0x40) = 0;
 }
@@ -897,7 +897,7 @@ void func_021F6AB8(char *p)
 
 
 
-void func_021F6AE0(char *p){func_02014BA8(*(u8 * *)&((struct Obj25760 *)p)->f30);}
+void func_021F6AE0(char *p){MCSS_Exit(*(u8 * *)&((struct Obj25760 *)p)->f30);}
 
 
 
@@ -913,8 +913,8 @@ void func_021F6AEC(char *p)
     u32 species;
     u8 i=0;
     float angle,y,x;
-    ((struct Obj02262 *)p)->f34=func_02017270(((struct Obj02262 *)p)->f30,((struct Obj02262 *)p)->f4,0,0,0xfff42000,0xffce0000);
-    func_02015FF0(*(char * *)&((struct Obj02262 *)p)->f34,1);
+    ((struct Obj02262 *)p)->f34=MCSS_TOOL_AddPokeMcss(((struct Obj02262 *)p)->f30,((struct Obj02262 *)p)->f4,0,0,0xfff42000,0xffce0000);
+    MCSS_SetShadowVanishFlag(*(char * *)&((struct Obj02262 *)p)->f34,1);
     species=func_02017E1C(((struct Obj02262 *)p)->f4,171,0);
     if(species!=650){
         for(;i<4;i++){
@@ -922,22 +922,22 @@ void func_021F6AEC(char *p)
                 trans.x=FIX(table_021F7384[i].x);
                 trans.y=FIX(table_021F7384[i].y);
                 trans.z=0xffce0000;
-                func_02015C48(((struct Obj02262 *)p)->f34,(u32 *)&trans);
+                MCSS_SetPosition(((struct Obj02262 *)p)->f34,(u32 *)&trans);
                 break;
             }
         }
     }
     scale.x=65536;scale.y=65536;scale.z=4096;
-    func_02015CAC(((struct Obj02262 *)p)->f34,(u32 *)&scale);
-    angle=(float)func_02015F0C(((struct Obj02262 *)p)->f34);
-    y=(float)func_02015F1C(((struct Obj02262 *)p)->f34);
-    x=(float)func_02015F14(((struct Obj02262 *)p)->f34);
+    MCSS_SetScale(((struct Obj02262 *)p)->f34,(u32 *)&scale);
+    angle=(float)MCSS_GetSizeY(((struct Obj02262 *)p)->f34);
+    y=(float)MCSS_GetOfsY(((struct Obj02262 *)p)->f34);
+    x=(float)MCSS_GetOfsX(((struct Obj02262 *)p)->f34);
     if(angle>96.0f)angle=96.0f;
     y=(96.0f-angle)/2.0f+y;
     x=0.0f-x;
     delta.x=FIX(x);delta.y=FIX(y);delta.z=0;
-    func_02015C78(((struct Obj02262 *)p)->f34,(u32 *)&delta);
-    func_02015E04(((struct Obj02262 *)p)->f34);
+    MCSS_SetOfsPosition(((struct Obj02262 *)p)->f34,(u32 *)&delta);
+    MCSS_SetAnmStopFlag(((struct Obj02262 *)p)->f34);
 }
 
 
@@ -948,7 +948,7 @@ void func_021F6AEC(char *p)
 /*
  * trailing: existing follower 021F6CC0 in its own matched shard.
  */
-void func_021F6CAC(char *p){func_02015EA0(((struct Obj10941 *)p)->f34);sub_02015BA4(((struct Obj10941 *)p)->f30,((struct Obj10941 *)p)->f34);}
+void func_021F6CAC(char *p){MCSS_SetVanishFlag(((struct Obj10941 *)p)->f34);MCSS_Del(((struct Obj10941 *)p)->f30,((struct Obj10941 *)p)->f34);}
 
 
 
@@ -958,7 +958,7 @@ void func_021F6CAC(char *p){func_02015EA0(((struct Obj10941 *)p)->f34);sub_02015
 /*
  * leaf: sole overlay blocker of 021F67E0; tail-call pool ends at 021F6CCC.
  */
-void func_021F6CC0(char *p){func_02015EA0(((struct Obj25761 *)p)->f34);}
+void func_021F6CC0(char *p){MCSS_SetVanishFlag(((struct Obj25761 *)p)->f34);}
 
 
 
@@ -968,14 +968,14 @@ void func_021F6CC0(char *p){func_02015EA0(((struct Obj25761 *)p)->f34);}
 void func_021F6CCC(char *p,unsigned flag,int enable)
 {
     void *obj;
-    func_02016028(((struct Obj06707 *)p)->f34,flag);
-    obj=func_02015EE8(((struct Obj06707 *)p)->f34);
+    MCSS_SetAnimeIndex(((struct Obj06707 *)p)->f34,flag);
+    obj=MCSS_GetAnimCtrl(((struct Obj06707 *)p)->f34);
     func_02064CBC(obj);
-    func_02015E4C(((struct Obj06707 *)p)->f34);
+    MCSS_ResetAnmStopFlag(((struct Obj06707 *)p)->f34);
     if(enable) {
         func_02063000((int)obj,1,(int)p,(int)func_021F6D0C);
         ((struct Obj06707 *)p)->f38=0;
-    } else func_020173B4((int)(((struct Obj06707 *)p)->f34));
+    } else MCSS_TOOL_SetAnimeStopCallback((int)(((struct Obj06707 *)p)->f34));
 }
 
 
@@ -990,7 +990,7 @@ void func_021F6CCC(char *p,unsigned flag,int enable)
  */
 int func_021F6D0C(char *a)
 {
-    func_02015E04((void *)(((struct Obj14711 *)a)->f34));
+    MCSS_SetAnmStopFlag((void *)(((struct Obj14711 *)a)->f34));
     ((struct Obj14711 *)a)->f38 = 1;
     return 1;
 }
@@ -1000,26 +1000,26 @@ int func_021F6D0C(char *a)
 
 
 
-void func_021F6D1C(char *p){u8 n;if(((struct Obj05551 *)p)->f3C){n=func_02015FAC(*(struct Data * *)&((struct Obj05551 *)p)->f34);if(n>((struct Obj05551 *)p)->f40)n--;else n++;func_02015FBC(*(char * *)&((struct Obj05551 *)p)->f34,n);if(n==((struct Obj05551 *)p)->f40)((struct Obj05551 *)p)->f3C=0;}}
+void func_021F6D1C(char *p){u8 n;if(((struct Obj05551 *)p)->f3C){n=MCSS_GetAlpha(*(struct Data * *)&((struct Obj05551 *)p)->f34);if(n>((struct Obj05551 *)p)->f40)n--;else n++;MCSS_SetAlpha(*(char * *)&((struct Obj05551 *)p)->f34,n);if(n==((struct Obj05551 *)p)->f40)((struct Obj05551 *)p)->f3C=0;}}
 
 
 
 
 
 
-void func_021F6D58(char *p){func_02015E04(((struct Obj14712 *)p)->f34);func_02015F50(*(struct McssFade * *)&((struct Obj14712 *)p)->f34,0,16,0,32767);}
+void func_021F6D58(char *p){MCSS_SetAnmStopFlag(((struct Obj14712 *)p)->f34);MCSS_SetPaletteFade(*(struct McssFade * *)&((struct Obj14712 *)p)->f34,0,16,0,32767);}
 
 
 
 
 
-int func_021F6D7C(char *p){if(func_0201600C(((struct Obj25762 *)p)->f34)==0)return 1;return 0;}
+int func_021F6D7C(char *p){if(MCSS_CheckPaletteFade(((struct Obj25762 *)p)->f34)==0)return 1;return 0;}
 
 
 
 
 
-void func_021F6D90(char *p){func_02015EB0(((struct Obj14713 *)p)->f34);func_02015F50(*(struct McssFade * *)&((struct Obj14713 *)p)->f34,16,0,2,32767);}
+void func_021F6D90(char *p){MCSS_ResetVanishFlag(((struct Obj14713 *)p)->f34);MCSS_SetPaletteFade(*(struct McssFade * *)&((struct Obj14713 *)p)->f34,16,0,2,32767);}
 
 
 
@@ -1075,13 +1075,13 @@ void func_021F6E5C(char *p)
             u16 frame=((struct Obj02263 *)p)->f0;
             u16 key=*(u16 *)(table+(int)index*4);
             if (frame!=key) break;
-            func_020515B4(*(void **)(p+*(unsigned char *)(table+index*4+2)*0x4808+0x480c),*(unsigned char *)(table+index*4+3),(int)(&v));
+            PARTICLE_StartEffect(*(void **)(p+*(unsigned char *)(table+index*4+2)*0x4808+0x480c),*(unsigned char *)(table+index*4+3),(int)(&v));
             (((struct Obj02263 *)p)->f2)++;
         }
         (((struct Obj02263 *)p)->f0)++;
     }
     if (((struct Obj02263 *)p)->f4818>=0) {
-        if (((struct Obj02263 *)p)->f4818==0) func_02051620(((struct Obj02263 *)p)->f480C);
+        if (((struct Obj02263 *)p)->f4818==0) PARTICLE_KillAllEffects(((struct Obj02263 *)p)->f480C);
         (((struct Obj02263 *)p)->f4818)--;
     }
 }

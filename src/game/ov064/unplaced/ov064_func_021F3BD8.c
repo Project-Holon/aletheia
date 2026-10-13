@@ -17,23 +17,21 @@
  *   func_021BE6BC  0x021BE6BC  thumb  ov021
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
+#include "../unit_021F36C0_types.h"
 
-struct Ctx;
-struct Obj;
-extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(int *p);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern int func_021BE6BC(int *p);
+extern void *func_020124E4(void *event);
+extern void *func_0201210C(void *gameSystem);
+extern void *func_02188D2C(void *fieldMap);
+extern void *func_021BE674(void *expObj, int unit, unsigned int model, int animeIdx);
+extern int func_021BE6BC(void *anime);
 
-int func_021F3BD8(void *task)
+/* Event: ends once the first anime of the arc model has stopped. */
+int func_021F3BD8(void *event, int *unusedSeq)
 {
-    int s;
+    void *expObj;
 
-    s = func_02188D2C(func_0201210C(func_020124E4(task)));
-    if (func_021BE6BC(func_021BE674((char *)s, 0, 1, 0)) != 0) {
+    expObj = func_02188D2C(func_0201210C(func_020124E4(event)));
+    if (func_021BE6BC(func_021BE674(expObj, 0, GIMMICK64_ARC_MODEL, 0)) != 0) {
         return 1;
     }
     return 0;

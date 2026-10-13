@@ -1,5 +1,5 @@
 /*
- * function: func_020111BC
+ * function: GPOWER_ApplyCaptureRate
  * address:  0x020111BC
  * packet:   pkt_0201104C
  * region:   arm9
@@ -16,8 +16,8 @@
  *   _ll_sdiv    0x0209BE5C  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020111BC.c
- *       --func func_020111BC --addr 0x020111BC --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GPOWER_ApplyCaptureRate.c
+ *       --func GPOWER_ApplyCaptureRate --addr 0x020111BC --cc 1.1p1
  *
  * Scales v by the rate at +0x16 of the second record (v * rate / 100 in
  * 64 bits) unless the mode byte at +0x1e of the first is 0x30.  The 0x30
@@ -36,7 +36,7 @@ typedef signed long long s64;
 extern u8 g_02146208[];
 extern u8 g_02146228[];
 
-s32 func_020111BC(s32 v)
+s32 GPOWER_ApplyCaptureRate(s32 v)
 {
     if (g_02146208[0x1e] != 0x30) {
         return (s64)*(u16 *)(g_02146228 + 0x16) * v / 100;

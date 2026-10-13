@@ -1,7 +1,7 @@
 /*
  * file:     mcss.c
  * unit:     yes
- * function: func_02014910, func_0201493C, func_02014A10, func_02014A20, func_02014A80, func_02014B08, func_02014BA8, func_02014C08, func_02014CB8, func_02014CD4, func_02014CEC, func_02014CF0, func_02014CF8, func_02014D2C, func_020155A0, func_020159C8, func_02015BA4, func_02015BF0, func_02015C00, func_02015C0C, func_02015C1C, func_02015C30, func_02015C48, func_02015C60, func_02015C78, func_02015C94, func_02015CAC, func_02015CC4, func_02015CDC, func_02015CF8, func_02015D14, func_02015D30, func_02015D4C, func_02015D64, func_02015D80, func_02015D88, func_02015D94, func_02015DB0, func_02015DC0, func_02015DD4, func_02015DF8, func_02015E04, func_02015E28, func_02015E4C, func_02015E70, func_02015E94, func_02015EA0, func_02015EB0, func_02015EC4, func_02015EE8, func_02015EEC, func_02015EF4, func_02015EFC, func_02015F04, func_02015F0C, func_02015F14, func_02015F1C, func_02015F24, func_02015F2C, func_02015F40, func_02015F50, func_02015FAC, func_02015FBC, func_02015FD4, func_02015FF0, func_0201600C, func_02016020, func_02016024, func_02016028, func_02016068, sub_02016078, func_020160C0, func_020160C4, func_020160CC, func_020160D4, func_0201624C, func_02016374, func_02016380, func_02016394, func_020163B0, func_020163B4, func_020163C4, func_02016630, func_02016880, func_0201691C, func_02016984, func_020169D4, func_020169E8, func_02016BA0, func_02016C0C, func_02016C38, func_02016C60, func_02016FC8, func_02017100, func_02017114, func_02017168, func_02017214, func_02017270, func_020172AC, func_020172BC, func_020172D8, func_020173B4, sub_020173C8
+ * function: func_02014910, func_0201493C, func_02014A10, func_02014A20, func_02014A80, MCSS_Init, MCSS_Exit, MCSS_Main, MCSS_OpenHandle, MCSS_CloseHandle, MCSS_SetTaskSystem, MCSS_SetLoadHook, MCSS_ReloadResource, MCSS_Draw, MCSS_DrawShadow, MCSS_Add, MCSS_Del, MCSS_SetOrthoMode, MCSS_ResetOrthoMode, MCSS_SetOrthoBillboardFlag, MCSS_ResetOrthoBillboardFlag, MCSS_GetPosition, MCSS_SetPosition, MCSS_GetOfsPosition, MCSS_SetOfsPosition, MCSS_GetScale, MCSS_SetScale, MCSS_GetShadowScale, MCSS_SetShadowScale, MCSS_GetRotate, MCSS_SetRotate, MCSS_SetOfsScale, MCSS_GetDrawScale, MCSS_SetDrawScale, MCSS_SetShadowRotateX, MCSS_SetShadowRotateZ, MCSS_SetShadowOffset, MCSS_SetMepachiFlag, MCSS_ResetMepachiFlag, MCSS_FlipMepachiFlag, MCSS_GetAnmStopFlag, MCSS_SetAnmStopFlag, MCSS_SetAnmStopFlagAlways, MCSS_ResetAnmStopFlag, MCSS_ResetAnmStopFlagAlways, MCSS_GetVanishFlag, MCSS_SetVanishFlag, MCSS_ResetVanishFlag, MCSS_FlipVanishFlag, MCSS_GetAnimCtrl, MCSS_GetAnimSeqNum, MCSS_GetStopCellNum, MCSS_GetStopCellIndex, MCSS_GetSizeX, MCSS_GetSizeY, MCSS_GetOfsX, MCSS_GetOfsY, MCSS_GetStopCellFlags, func_02015F2C, MCSS_SetCellCallback, MCSS_SetPaletteFade, MCSS_GetAlpha, MCSS_SetAlpha, MCSS_SetShadowAlpha, MCSS_SetShadowVanishFlag, MCSS_CheckPaletteFade, MCSS_SetTextureTransAdrs, MCSS_SetPaletteTransAdrs, MCSS_SetAnimeIndex, MCSS_GetMosaic, MCSS_SetMosaic, MCSS_SetGlobalScale, MCSS_SetAnimeSpeed, MCSS_GetAnimSeqNumEx, MCSS_CreatePaletteTransTask, MCSS_CreatePaletteCopyTask, MCSS_RestartAnime, MCSS_RequestAnimeStopAtStart, MCSS_SetWorkFlag, MCSS_SetSysParam, MCSS_SetSysFlag, MCSS_LoadResource, MCSS_LoadResourceShared, MCSS_TransTextureTask, MCSS_TransPaletteTask, MCSS_InitAnimCtrl, MCSS_InitEdgeColor, MCSS_UpdatePaletteFade, MCSS_FreeResource, MCSS_DeleteTextureTask, MCSS_DeletePaletteTask, MCSS_ApplyMosaic, MCSS_MulVecMtx44, MCSS_TOOL_MakeAddWorkFromPP, MCSS_TOOL_MakeAddWorkFromPPP, MCSS_TOOL_MakeAddWorkFromParam, MCSS_TOOL_MakeAddWorkFromTrainer, MCSS_TOOL_AddPokeMcss, MCSS_TOOL_SetSpindaSpotHook, MCSS_TOOL_SpindaSpotHook, MCSS_TOOL_DrawSpindaSpots, MCSS_TOOL_SetAnimeStopCallback, MCSS_TOOL_AnimeStopCallback
  * address:  0x02014910
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -29,15 +29,15 @@
  *   func_02049F34     0x02049F34  arm
  *   func_020056A0     0x020056A0  thumb
  *   sFileMcss  0x020A72CC  data
- *   func_02014CD4   0x02014CD4  thumb
+ *   MCSS_CloseHandle   0x02014CD4  thumb
  *   func_02030EE8   0x02030EE8  arm
  *   func_020307B0   0x020307B0  arm
  *   func_02030EAC   0x02030EAC  arm
- *   func_02015BA4   0x02015BA4  thumb
- *   func_02016374  0x02016374  thumb
+ *   MCSS_Del   0x02015BA4  thumb
+ *   MCSS_RestartAnime  0x02016374  thumb
  *   func_020490F4         0x020490F4  arm
  *   ENV_SetResourceSet_2  0x02049238  arm
- *   func_02016BA0  0x02016BA0  thumb
+ *   MCSS_FreeResource  0x02016BA0  thumb
  *   func_0206DB80    0x0206DB80  arm
  *   MTX_Inverse43    0x0207B67C  arm
  *   MI_Copy36B       0x02082B60  arm
@@ -51,16 +51,16 @@
  *   sub_0207C768     0x0207C768  arm
  *   g_02148B98       0x02148B98  data
  *   g_02148B54       0x02148B54  data
- *   g_02148D8C       0x02148D8C  data
- *   g_02148D98       0x02148D98  data
- *   g_02148DA4       0x02148DA4  data
+ *   SCREENTEX_CameraPositionOut       0x02148D8C  data
+ *   SCREENTEX_CameraTargetOut       0x02148D98  data
+ *   SCREENTEX_CameraUpOut       0x02148DA4  data
  *   FX_SinCosTable_  0x020A1B38  data
  *   d_0209E090       0x0209E090  data
  *   d_0209E09C       0x0209E09C  data
  *   G3i_FrustumW_    0x0207D760  arm
- *   func_02016C0C  0x02016C0C  thumb
+ *   MCSS_DeleteTextureTask  0x02016C0C  thumb
  *   func_02063000  0x02063000  arm
- *   func_02064D70  0x02064D70  arm
+ *   NNSi_G2dMCEnumAnimBank  0x02064D70  arm
  *   func_020627D8  0x020627D8  arm
  *   func_0206469C  0x0206469C  arm
  *   func_02021F64  0x02021F64  thumb
@@ -75,22 +75,32 @@
  *   func_0209AB80   0x0209AB80  arm
  *   _d2s            0x0209C508  arm
  *   func_0202D060  0x0202D060  thumb
- *   func_0202D09C  0x0202D09C  thumb
+ *   POKEGRA_GetCbrArcIndex  0x0202D09C  thumb
  *   func_0202D0D4  0x0202D0D4  thumb
- *   func_0202D110  0x0202D110  thumb
- *   func_0202D144  0x0202D144  thumb
- *   func_0202D178  0x0202D178  thumb
- *   func_0202D1AC  0x0202D1AC  thumb
- *   func_0202D1E0  0x0202D1E0  thumb
- *   func_0202D5CC  0x0202D5CC  thumb
- *   func_0202D5F8  0x0202D5F8  thumb
- *   func_0202D61C  0x0202D61C  thumb
- *   func_0202D640  0x0202D640  thumb
- *   func_0202D664  0x0202D664  thumb
- *   func_0202D688  0x0202D688  thumb
- *   func_0202D6AC  0x0202D6AC  thumb
- *   func_0202D6D0  0x0202D6D0  thumb
+ *   POKEGRA_GetCelArcIndex  0x0202D110  thumb
+ *   POKEGRA_GetAnmArcIndex  0x0202D144  thumb
+ *   POKEGRA_GetMCelArcIndex  0x0202D178  thumb
+ *   POKEGRA_GetMAnmArcIndex  0x0202D1AC  thumb
+ *   POKEGRA_GetNcecArcIndex  0x0202D1E0  thumb
+ *   POKEGRA_GetTrainerArcID  0x0202D5CC  thumb
+ *   POKEGRA_GetTrainerCbrArcIndex  0x0202D5F8  thumb
+ *   POKEGRA_GetTrainerPalArcIndex  0x0202D61C  thumb
+ *   POKEGRA_GetTrainerCelArcIndex  0x0202D640  thumb
+ *   POKEGRA_GetTrainerAnmArcIndex  0x0202D664  thumb
+ *   POKEGRA_GetTrainerMCelArcIndex  0x0202D688  thumb
+ *   POKEGRA_GetTrainerMAnmArcIndex  0x0202D6AC  thumb
+ *   POKEGRA_GetTrainerNcecArcIndex  0x0202D6D0  thumb
  *   sSpindaSpotCoords  0x020A72D4  data
+ *   POKE_TOOL_IsBoxShiny  0x02017EB4  thumb
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
+ *   ARC_UTIL_LoadCellBankFromArchive  0x02049FBC  arm
+ *   ARC_UTIL_LoadCellBankFromHandle  0x02049FFC  arm
+ *   ARC_UTIL_LoadMultiCellBankFromArchive  0x0204A03C  arm
+ *   ARC_UTIL_LoadMultiCellBankFromHandle  0x0204A07C  arm
+ *   ARC_UTIL_LoadAnimBankFromArchive  0x0204A0BC  arm
+ *   ARC_UTIL_LoadAnimBankFromHandle  0x0204A0FC  arm
+ *   ARC_UTIL_LoadMultiAnimBankFromArchive  0x0204A13C  arm
+ *   ARC_UTIL_LoadMultiAnimBankFromHandle  0x0204A17C  arm
  */
 
 #define REG_MTX_MODE     (*(vu32 *)0x04000440)
@@ -450,16 +460,16 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_020637D4(u32 *proxy);
 extern void *func_02049F34(u32 arcId, u32 member, McssPlttData **out, u32 heap);
 extern void *func_020056A0(void *fn, void *work, u32 priority);
-extern void func_02014CD4(McssSys *sys);
+extern void MCSS_CloseHandle(McssSys *sys);
 extern void *func_02030EE8(void *task);
 extern u32 func_020307B0(void *p);
 extern void func_02030EAC(void *task);
-extern void func_02015BA4(McssSys *sys, McssWork *work);
+extern void MCSS_Del(McssSys *sys, McssWork *work);
 extern void func_020649D4(McssAnimCtrl *ctrl, fx32 speed);
-extern void func_02016374(McssWork *work);
+extern void MCSS_RestartAnime(McssWork *work);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void  ENV_SetResourceSet_2(void *arcHandle);
-extern void func_02016BA0(McssWork *work);
+extern void MCSS_FreeResource(McssWork *work);
 extern void func_0206DB80(void);
 extern int  MTX_Inverse43(const MtxFx43 *src, MtxFx43 *dst);
 extern void MI_Copy36B(const void *src, void *dst);
@@ -474,9 +484,9 @@ extern void G3_MultMtx44(const MtxFx44 *m);
 extern u32 sub_0207C768(u32 value, u32 divisor);
 extern void G3i_FrustumW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f,
                           fx32 scaleW, int draw, void *mtx);
-extern void func_02016C0C(void *taskHandle);
+extern void MCSS_DeleteTextureTask(void *taskHandle);
 extern void func_02063000(int p0, int p1, int p2, int p3);
-extern void func_02064D70(void *, void *, unsigned);
+extern void NNSi_G2dMCEnumAnimBank(void *, void *, unsigned);
 extern void *func_020627D8(struct AnimBank *bank, u32 idx);
 extern void func_0206469C(McssAnimCtrl *ctrl, void *seq);
 extern void *func_02030DA8(void *taskSys, void *callback, void *work, int priority);
@@ -484,16 +494,16 @@ extern void  func_02021F64(void *src, void *dst, u16 count, int fadeLevel, u16 f
 extern void  func_02082A60(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void func_02064CBC(McssAnimCtrl *ctrl);
-extern void *func_02049FBC(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
-extern void *func_0204A03C(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
-extern void *func_0204A0BC(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
-extern void *func_0204A13C(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
+extern void *ARC_UTIL_LoadCellBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
+extern void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
+extern void *ARC_UTIL_LoadAnimBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
+extern void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
 extern void *func_02049DB4(u32 arcId, u32 member, u32 flag, McssTransTask *out, u16 heap);
 extern void func_02063790(u32 *vramAddr);
-extern void *func_02049FFC(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
-extern void *func_0204A07C(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
-extern void *func_0204A0FC(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
-extern void *func_0204A17C(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
+extern void *ARC_UTIL_LoadCellBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
+extern void *ARC_UTIL_LoadMultiCellBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
+extern void *ARC_UTIL_LoadAnimBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
+extern void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
 extern void *func_02049250(void *arcHandle, u32 member, u32 heap);
 extern void *func_02049DF4(void *arcHandle, u32 member, u32 flag, McssTransTask *out, u16 heap);
 extern void *func_02049F78(void *arcHandle, u32 member, McssPlttData **out, u32 heap);
@@ -505,135 +515,135 @@ extern double _s32_to_double(s32 v);
 extern double func_0209AB80(double base, double exponent);
 extern s32 _d2s(double d);
 extern int func_0202D060(void);
-extern s32 func_0202D09C(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+extern s32 POKEGRA_GetCbrArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
 extern s32 func_0202D0D4(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
-extern s32 func_0202D110(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
-extern s32 func_0202D144(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
-extern s32 func_0202D178(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
-extern s32 func_0202D1AC(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
-extern s32 func_0202D1E0(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
-extern u32 func_0202D5CC(u32 a);
-extern u32 func_0202D5F8(u32 id, u32 flags);
-extern u32 func_0202D61C(u32 id, u32 flags);
-extern u32 func_0202D640(u32 id, u32 flags);
-extern u32 func_0202D664(u32 id, u32 flags);
-extern u32 func_0202D688(u32 id, u32 flags);
-extern u32 func_0202D6AC(u32 id, u32 flags);
-extern u32 func_0202D6D0(u32 id, u32 flags);
+extern s32 POKEGRA_GetCelArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+extern s32 POKEGRA_GetAnmArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+extern s32 POKEGRA_GetMCelArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+extern s32 POKEGRA_GetMAnmArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+extern s32 POKEGRA_GetNcecArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+extern u32 POKEGRA_GetTrainerArcID(u32 a);
+extern u32 POKEGRA_GetTrainerCbrArcIndex(u32 id, u32 flags);
+extern u32 POKEGRA_GetTrainerPalArcIndex(u32 id, u32 flags);
+extern u32 POKEGRA_GetTrainerCelArcIndex(u32 id, u32 flags);
+extern u32 POKEGRA_GetTrainerAnmArcIndex(u32 id, u32 flags);
+extern u32 POKEGRA_GetTrainerMCelArcIndex(u32 id, u32 flags);
+extern u32 POKEGRA_GetTrainerMAnmArcIndex(u32 id, u32 flags);
+extern u32 POKEGRA_GetTrainerNcecArcIndex(u32 id, u32 flags);
 void *func_02014910(void *anime, int slot, int config, int target);
 void func_0201493C(u32 zoneId, u32 hour, u32 minute, u32 lightTableId, u32 season, u16 *outColors, u16 heapId);
 u16 func_02014A10(u32 index);
 void *func_02014A20(u32 archive, u32 member, u32 *countOut, u32 heap);
 void func_02014A80(u8 *table, u32 count, s32 time, u32 season, u16 *out);
-McssSys *func_02014B08(u32 maxCount, u32 heapId);
-void func_02014BA8(McssSys *sys);
-void func_02014C08(McssSys *sys);
-void sub_02014CB8(McssSys *sys, u32 arcId);
-void sub_02014CD4(McssSys *sys);
-void func_02014CEC(McssSys *sys, void *taskSys);
-void sub_02014CF0(McssSys *sys, McssLoadHook hook, u32 hookWork);
-void sub_02014CF8(McssSys *sys, McssWork *work, const McssAddWork *addWork);
-void func_02014D2C(McssSys *sys);
-void func_020155A0(McssSys *sys, McssWork *work, fx32 x, fx32 y, fx32 width, fx32 height, fx32 s, fx32 t, McssPose *pose, u16 *frameIndex, McssPlttProxy *shadowPltt, int cellId, int ortho, u32 *depth, u8 flip);
-McssWork *func_020159C8(McssSys *sys, fx32 x, fx32 y, fx32 z, const McssAddWork *addWork);
-void sub_02015BA4(McssSys *sys, McssWork *work);
-void sub_02015BF0(McssSys *sys);
-void sub_02015C00(McssSys *sys);
-void sub_02015C0C(McssWork *work);
-void sub_02015C1C(McssWork *work);
-void func_02015C30(McssWork *work, u32 *out);
-void func_02015C48(McssWork *work, u32 *src);
-void func_02015C60(McssWork *work, u32 *out);
-void func_02015C78(McssWork *work, u32 *src);
-void func_02015C94(McssWork *work, u32 *out);
-void func_02015CAC(McssWork *work, u32 *src);
-void func_02015CC4(McssWork *work, u32 *out);
-void func_02015CDC(McssWork *work, u32 *src);
-void func_02015CF8(McssWork *work, u32 *out);
-void func_02015D14(McssWork *work, u32 *src);
-void func_02015D30(McssWork *work, u32 *src);
-void func_02015D4C(McssWork *work, u32 *out);
-void func_02015D64(McssWork *work, u32 *src);
-void func_02015D80(McssWork *work, u16 rotX);
-void func_02015D88(McssWork *work, u16 rotZ);
-void func_02015D94(McssWork *work, int *src);
-void func_02015DB0(McssWork *work);
-void func_02015DC0(McssWork *work);
-void func_02015DD4(McssWork *work);
-int func_02015DF8(McssWork *work);
-void func_02015E04(McssWork *work);
-void func_02015E28(McssWork *work);
-void func_02015E4C(McssWork *work);
-void func_02015E70(McssWork *work);
-int func_02015E94(McssWork *work);
-void func_02015EA0(McssWork *work);
-void func_02015EB0(McssWork *work);
-void func_02015EC4(McssWork *work);
-void *func_02015EE8(McssWork *work);
-u16 func_02015EEC(McssWork *work);
-u8 func_02015EF4(McssWork *work);
-u8 func_02015EFC(McssWork *work, u8 i);
-u16 func_02015F04(McssWork *work);
-u16 func_02015F0C(McssWork *work);
-s16 func_02015F14(McssWork *work);
-s16 func_02015F1C(McssWork *work);
-u8 func_02015F24(McssWork *work);
+McssSys *MCSS_Init(u32 maxCount, u32 heapId);
+void MCSS_Exit(McssSys *sys);
+void MCSS_Main(McssSys *sys);
+void MCSS_OpenHandle(McssSys *sys, u32 arcId);
+void MCSS_CloseHandle(McssSys *sys);
+void MCSS_SetTaskSystem(McssSys *sys, void *taskSys);
+void MCSS_SetLoadHook(McssSys *sys, McssLoadHook hook, u32 hookWork);
+void MCSS_ReloadResource(McssSys *sys, McssWork *work, const McssAddWork *addWork);
+void MCSS_Draw(McssSys *sys);
+void MCSS_DrawShadow(McssSys *sys, McssWork *work, fx32 x, fx32 y, fx32 width, fx32 height, fx32 s, fx32 t, McssPose *pose, u16 *frameIndex, McssPlttProxy *shadowPltt, int cellId, int ortho, u32 *depth, u8 flip);
+McssWork *MCSS_Add(McssSys *sys, fx32 x, fx32 y, fx32 z, const McssAddWork *addWork);
+void MCSS_Del(McssSys *sys, McssWork *work);
+void MCSS_SetOrthoMode(McssSys *sys);
+void MCSS_ResetOrthoMode(McssSys *sys);
+void MCSS_SetOrthoBillboardFlag(McssWork *work);
+void MCSS_ResetOrthoBillboardFlag(McssWork *work);
+void MCSS_GetPosition(McssWork *work, u32 *out);
+void MCSS_SetPosition(McssWork *work, u32 *src);
+void MCSS_GetOfsPosition(McssWork *work, u32 *out);
+void MCSS_SetOfsPosition(McssWork *work, u32 *src);
+void MCSS_GetScale(McssWork *work, u32 *out);
+void MCSS_SetScale(McssWork *work, u32 *src);
+void MCSS_GetShadowScale(McssWork *work, u32 *out);
+void MCSS_SetShadowScale(McssWork *work, u32 *src);
+void MCSS_GetRotate(McssWork *work, u32 *out);
+void MCSS_SetRotate(McssWork *work, u32 *src);
+void MCSS_SetOfsScale(McssWork *work, u32 *src);
+void MCSS_GetDrawScale(McssWork *work, u32 *out);
+void MCSS_SetDrawScale(McssWork *work, u32 *src);
+void MCSS_SetShadowRotateX(McssWork *work, u16 rotX);
+void MCSS_SetShadowRotateZ(McssWork *work, u16 rotZ);
+void MCSS_SetShadowOffset(McssWork *work, int *src);
+void MCSS_SetMepachiFlag(McssWork *work);
+void MCSS_ResetMepachiFlag(McssWork *work);
+void MCSS_FlipMepachiFlag(McssWork *work);
+int MCSS_GetAnmStopFlag(McssWork *work);
+void MCSS_SetAnmStopFlag(McssWork *work);
+void MCSS_SetAnmStopFlagAlways(McssWork *work);
+void MCSS_ResetAnmStopFlag(McssWork *work);
+void MCSS_ResetAnmStopFlagAlways(McssWork *work);
+int MCSS_GetVanishFlag(McssWork *work);
+void MCSS_SetVanishFlag(McssWork *work);
+void MCSS_ResetVanishFlag(McssWork *work);
+void MCSS_FlipVanishFlag(McssWork *work);
+void *MCSS_GetAnimCtrl(McssWork *work);
+u16 MCSS_GetAnimSeqNum(McssWork *work);
+u8 MCSS_GetStopCellNum(McssWork *work);
+u8 MCSS_GetStopCellIndex(McssWork *work, u8 i);
+u16 MCSS_GetSizeX(McssWork *work);
+u16 MCSS_GetSizeY(McssWork *work);
+s16 MCSS_GetOfsX(McssWork *work);
+s16 MCSS_GetOfsY(McssWork *work);
+u8 MCSS_GetStopCellFlags(McssWork *work);
 void sub_02015F2C(McssWork *work, u32 callback, u32 callbackWork);
-void func_02015F40(McssWork *work, unsigned flags, void *callback);
-void func_02015F50(McssWork *work, u32 start, u32 end, s32 wait, u32 color);
-u8 func_02015FAC(McssWork *work);
-void func_02015FBC(McssWork *work, int alpha);
-void func_02015FD4(McssWork *work, int alpha);
-void func_02015FF0(McssWork *work, int flag);
-int func_0201600C(McssWork *work);
-void func_02016020(McssSys *sys, u32 adrs);
-void func_02016024(McssSys *sys, unsigned int adrs);
-void sub_02016028(McssWork *work, u32 animeIndex);
-u8 func_02016068(McssWork *work);
-void sub_02016078(McssSys *sys, McssWork *work, int mosaic);
-void func_020160C0(McssSys *sys, unsigned int scale);
-void func_020160C4(McssWork *work, int speed);
-u16 func_020160CC(McssWork *work);
-void func_020160D4(McssSys *sys, McssWork *work, u16 fadeLevel, int fadeColor);
-void func_0201624C(McssSys *sys, McssWork *work);
-void sub_02016374(McssWork *work);
-void sub_02016380(McssWork *work);
-void func_02016394(McssWork *work, int flag);
-void func_020163B0(McssSys *sys, int depthStep);
-void func_020163B4(McssSys *sys, int flag);
-void func_020163C4(McssSys *sys, u32 index, const McssAddWork *addWork);
-void func_02016630(McssSys *sys, u32 index, const McssAddWork *addWork);
-void func_02016880(void *taskHandle, McssTransTask *task);
-void func_0201691C(void *taskHandle, McssTransTask *task);
-void func_02016984(McssWork *work, int kind);
-void sub_020169D4(void);
-void func_020169E8(McssSys *sys, McssWork *work);
-void sub_02016BA0(McssWork *work);
-void sub_02016C0C(void *taskHandle);
-void func_02016C38(void *taskHandle);
-void func_02016C60(McssWork *work, McssTransTask *task);
-void func_02016FC8(const VecFx32 *v, const MtxFx44 *mtx, VecFx32 *dst, s32 *w);
-void func_02017100(void *pp, McssAddWork *out, u32 direction);
-void func_02017114(void *pokemon, McssAddWork *out, u32 direction);
-void func_02017168(u32 species, u32 form, u32 gender, u32 isShiny, u32 isEgg, McssAddWork *out, u32 direction);
-void func_02017214(void *trainerClass, McssAddWork *out, void *trainerGender);
-McssWork *func_02017270(McssSys *sys, void *pp, u32 direction, fx32 x, fx32 y, fx32 z);
-void func_020172AC(McssSys *sys, u32 personality);
-u32 func_020172BC(const McssAddWork *addWork, McssTransTask *task, u32 personality);
-void func_020172D8(u8 *pixels, u32 personality);
-int func_020173B4(McssWork *work);
-void sub_020173C8(McssWork *work);
+void MCSS_SetCellCallback(McssWork *work, unsigned flags, void *callback);
+void MCSS_SetPaletteFade(McssWork *work, u32 start, u32 end, s32 wait, u32 color);
+u8 MCSS_GetAlpha(McssWork *work);
+void MCSS_SetAlpha(McssWork *work, int alpha);
+void MCSS_SetShadowAlpha(McssWork *work, int alpha);
+void MCSS_SetShadowVanishFlag(McssWork *work, int flag);
+int MCSS_CheckPaletteFade(McssWork *work);
+void MCSS_SetTextureTransAdrs(McssSys *sys, u32 adrs);
+void MCSS_SetPaletteTransAdrs(McssSys *sys, unsigned int adrs);
+void MCSS_SetAnimeIndex(McssWork *work, u32 animeIndex);
+u8 MCSS_GetMosaic(McssWork *work);
+void MCSS_SetMosaic(McssSys *sys, McssWork *work, int mosaic);
+void MCSS_SetGlobalScale(McssSys *sys, unsigned int scale);
+void MCSS_SetAnimeSpeed(McssWork *work, int speed);
+u16 MCSS_GetAnimSeqNumEx(McssWork *work);
+void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, int fadeColor);
+void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work);
+void MCSS_RestartAnime(McssWork *work);
+void MCSS_RequestAnimeStopAtStart(McssWork *work);
+void MCSS_SetWorkFlag(McssWork *work, int flag);
+void MCSS_SetSysParam(McssSys *sys, int depthStep);
+void MCSS_SetSysFlag(McssSys *sys, int flag);
+void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork);
+void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork);
+void MCSS_TransTextureTask(void *taskHandle, McssTransTask *task);
+void MCSS_TransPaletteTask(void *taskHandle, McssTransTask *task);
+void MCSS_InitAnimCtrl(McssWork *work, int kind);
+void MCSS_InitEdgeColor(void);
+void MCSS_UpdatePaletteFade(McssSys *sys, McssWork *work);
+void MCSS_FreeResource(McssWork *work);
+void MCSS_DeleteTextureTask(void *taskHandle);
+void MCSS_DeletePaletteTask(void *taskHandle);
+void MCSS_ApplyMosaic(McssWork *work, McssTransTask *task);
+void MCSS_MulVecMtx44(const VecFx32 *v, const MtxFx44 *mtx, VecFx32 *dst, s32 *w);
+void MCSS_TOOL_MakeAddWorkFromPP(void *pp, McssAddWork *out, u32 direction);
+void MCSS_TOOL_MakeAddWorkFromPPP(void *pokemon, McssAddWork *out, u32 direction);
+void MCSS_TOOL_MakeAddWorkFromParam(u32 species, u32 form, u32 gender, u32 isShiny, u32 isEgg, McssAddWork *out, u32 direction);
+void MCSS_TOOL_MakeAddWorkFromTrainer(void *trainerClass, McssAddWork *out, void *trainerGender);
+McssWork *MCSS_TOOL_AddPokeMcss(McssSys *sys, void *pp, u32 direction, fx32 x, fx32 y, fx32 z);
+void MCSS_TOOL_SetSpindaSpotHook(McssSys *sys, u32 personality);
+u32 MCSS_TOOL_SpindaSpotHook(const McssAddWork *addWork, McssTransTask *task, u32 personality);
+void MCSS_TOOL_DrawSpindaSpots(u8 *pixels, u32 personality);
+int MCSS_TOOL_SetAnimeStopCallback(McssWork *work);
+void MCSS_TOOL_AnimeStopCallback(McssWork *work);
 u32 func_02017E1C(void *p, u32 id, u32 v);
 u32 func_02017E88(void *p, u32 id, u32 v);
-u32 func_02017EB4(void *p);
-void *func_020185F4(void *p);
+u32 POKE_TOOL_IsBoxShiny(void *p);
+void *POKE_TOOL_GetBoxParam(void *p);
 extern u32 sub_0209E054_Map[];
 extern const char sFileMcss[];
 extern MtxFx43 g_02148B98;
 extern MtxFx44 g_02148B54;
-extern VecFx32 g_02148D8C;
-extern VecFx32 g_02148D98;
-extern VecFx32 g_02148DA4;
+extern VecFx32 SCREENTEX_CameraPositionOut;
+extern VecFx32 SCREENTEX_CameraTargetOut;
+extern VecFx32 SCREENTEX_CameraUpOut;
 extern s16 FX_SinCosTable_[];
 extern const VecFx32 d_0209E090;
 extern const VecFx32 d_0209E09C;
@@ -801,7 +811,7 @@ void func_02014A80(u8 *table, u32 count, s32 time, u32 season, u16 *out)
 }
 
 
-McssSys *func_02014B08(u32 maxCount, u32 heapId)
+McssSys *MCSS_Init(u32 maxCount, u32 heapId)
 {
     McssSys *sys;
     McssTransTask *task;
@@ -821,7 +831,7 @@ McssSys *func_02014B08(u32 maxCount, u32 heapId)
     task->plttProxyOut = &sys->shadowPltt;
     task->plttDest = 0x1100;
     task->plttBuf = func_02049F34(0xb, 0x58, &task->plttData, (u16)subHeapId);
-    sys->shadowPlttTask = func_020056A0((void *)func_02016880, task, 0);
+    sys->shadowPlttTask = func_020056A0((void *)MCSS_TransTextureTask, task, 0);
     return sys;
 }
 
@@ -830,17 +840,17 @@ McssSys *func_02014B08(u32 maxCount, u32 heapId)
  * Tear-down of a "list of arrays" record: close the open sub-object at +0xC
  * (three frees through the handle returned by func_02030EE8, then the handle
  * itself), then walk the +0x14 array of +0x10 entries and release each live
- * one through func_02015BA4, finally the array and the record itself.
+ * one through MCSS_Del, finally the array and the record itself.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02014BA8.c \
- *       --func func_02014BA8 --addr 0x02014BA8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MCSS_Exit.c \
+ *       --func MCSS_Exit --addr 0x02014BA8 --cc 1.1p1 --thumb
  */
-void func_02014BA8(McssSys *sys)
+void MCSS_Exit(McssSys *sys)
 {
     int i;
 
-    func_02014CD4(sys);
+    MCSS_CloseHandle(sys);
     if (sys->shadowPlttTask != 0) {
         McssTransTask *task = func_02030EE8(sys->shadowPlttTask);
 
@@ -855,7 +865,7 @@ void func_02014BA8(McssSys *sys)
         McssWork *work = works[i];
 
         if (work != 0) {
-            func_02015BA4(sys, work);
+            MCSS_Del(sys, work);
         }
     }
     func_020307B0(sys->works);
@@ -871,7 +881,7 @@ void func_02014BA8(McssSys *sys)
  * a single byte, which is the tell the brief names: a residue nothing in
  * the body reaches lives in the DECLARATIONS.
  *
- * THE LEVER IS func_02016374's ARITY.  The original leaves the slot
+ * THE LEVER IS MCSS_RestartAnime's ARITY.  The original leaves the slot
  * pointer live in r0 through the third bit test:
  *
  *     02014C7C  ldr r0, [r5, #0x14]     ; the slot array
@@ -881,24 +891,24 @@ void func_02014BA8(McssSys *sys)
  *     ...
  *     02014C8C  bl  #0x2016374          ; called with r0 already set
  *
- * Declared `void func_02016374(void)` the compiler has no reason to keep
+ * Declared `void MCSS_RestartAnime(void)` the compiler has no reason to keep
  * the slot in r0, puts the flag word there instead and the six
  * instructions at +0x0076..+0x0080 come out with r0 and r1 swapped, the
- * whole 7-byte residue.  Declared `func_02016374(char *w)` and CALLED
+ * whole 7-byte residue.  Declared `MCSS_RestartAnime(char *w)` and CALLED
  * with the slot, the allocation the image shows is the only legal one and
  * every byte closes.  This confirms the prototype
- * docs/families/mcss.h already carried (`void func_02016374(struct
+ * docs/families/mcss.h already carried (`void MCSS_RestartAnime(struct
  * McssWork *work)`), which the note had not applied at the call site.
  *
  * The 0x020169E8 site resolves through sole-ref/code (and, since
- * src/matched/func_020169E8.c was filed in the same pass, through
+ * src/matched/MCSS_UpdatePaletteFade.c was filed in the same pass, through
  * `matched` as well).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02014C08.c \
- *       --func func_02014C08 --addr 0x02014C08 --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/matched/MCSS_Main.c \
+ *       --func MCSS_Main --addr 0x02014C08 --cc 1.1p1 --thumb
  */
-void func_02014C08(McssSys *sys)
+void MCSS_Main(McssSys *sys)
 {
     int i;
 
@@ -908,9 +918,9 @@ void func_02014C08(McssSys *sys)
         if (sys->works[i]->flags.bits.anmStopFlag == 0)
             func_020649D4(&sys->works[i]->animCtrl, sys->works[i]->animeSpeed);
         if (sys->works[i]->flags.bits.paletteFadeFlag != 0)
-            func_020169E8(sys, sys->works[i]);
+            MCSS_UpdatePaletteFade(sys, sys->works[i]);
         if (sys->works[i]->requestFlags.bits.stopAtStart == 1) {
-            func_02016374(sys->works[i]);
+            MCSS_RestartAnime(sys->works[i]);
             func_020649D4(&sys->works[i]->animCtrl, 0);
             sys->works[i]->requestFlags.raw &= ~1u;
         }
@@ -921,10 +931,10 @@ void func_02014C08(McssSys *sys)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * alias: an acquire/release pair on the same object. sub_02014CB8 only
+ * alias: an acquire/release pair on the same object. MCSS_OpenHandle only
  * acts the first time (its own field at +0 is the guard); it records the
  * argument at +4 and installs whatever func_020490F4 returns at +0.
- * sub_02014CD4 is the release: if +0 is set it tears it down and clears
+ * MCSS_CloseHandle is the release: if +0 is set it tears it down and clears
  * both fields.
  *
  * ENV_SetResourceSet_2 is not the same call site as
@@ -948,7 +958,7 @@ void func_02014C08(McssSys *sys)
  *   python tools/match.py tu --src src/matched/unit_02014CB8.c \
  *       --addr 0x02014CB8 --thumb
  */
-void sub_02014CB8(McssSys *sys, u32 arcId)
+void MCSS_OpenHandle(McssSys *sys, u32 arcId)
 {
     if (sys->arcHandle == 0) {
         sys->arcId = arcId;
@@ -957,7 +967,7 @@ void sub_02014CB8(McssSys *sys, u32 arcId)
 }
 
 
-void sub_02014CD4(McssSys *sys)
+void MCSS_CloseHandle(McssSys *sys)
 {
     if (sys->arcHandle != 0) {
         ENV_SetResourceSet_2(sys->arcHandle);
@@ -967,7 +977,7 @@ void sub_02014CD4(McssSys *sys)
 }
 
 
-void func_02014CEC(McssSys *sys, void *taskSys)
+void MCSS_SetTaskSystem(McssSys *sys, void *taskSys)
 {
     sys->taskSys = taskSys;
 }
@@ -981,10 +991,10 @@ void func_02014CEC(McssSys *sys, void *taskSys)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02014CF0.c \
- *       --func sub_02014CF0 --addr 0x02014CF0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MCSS_SetLoadHook.c \
+ *       --func MCSS_SetLoadHook --addr 0x02014CF0 --cc 1.1p1 --thumb
  */
-void sub_02014CF0(McssSys *sys, McssLoadHook hook, u32 hookWork)
+void MCSS_SetLoadHook(McssSys *sys, McssLoadHook hook, u32 hookWork)
 {
     sys->loadHook = hook;
     sys->loadHookWork = hookWork;
@@ -992,21 +1002,21 @@ void sub_02014CF0(McssSys *sys, McssLoadHook hook, u32 hookWork)
 
 
 /*
- * Prepares b (a validation call, func_02016BA0), copies a 0x24-byte record
+ * Prepares b (a validation call, MCSS_FreeResource), copies a 0x24-byte record
  * from c into b's field at +0x150 (the inlined ldm/stm loop plus one trailing
  * word is docs/idioms/aggregate-assignment-is-ldm-stm.md), then forwards a,
  * a pointer field of b at +0x148, and the original record pointer c to
- * func_020163C4.
+ * MCSS_LoadResource.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02014CF8.c \
- *       --func sub_02014CF8 --addr 0x02014CF8 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MCSS_ReloadResource.c \
+ *       --func MCSS_ReloadResource --addr 0x02014CF8 --thumb --cc 1.1p1
  */
-void sub_02014CF8(McssSys *sys, McssWork *work, const McssAddWork *addWork)
+void MCSS_ReloadResource(McssSys *sys, McssWork *work, const McssAddWork *addWork)
 {
-    func_02016BA0(work);
+    MCSS_FreeResource(work);
     work->addWork = *addWork;
-    func_020163C4(sys, work->index, addWork);
+    MCSS_LoadResource(sys, work->index, addWork);
 }
 
 
@@ -1049,13 +1059,13 @@ static inline void G3_TexImageParam(GXTexFmt texFmt, GXTexGen texGen, GXTexSizeS
 static inline void G3_StoreMtx(int num) { REG_MTX_STORE = (u32)num; }
 
 
-/* func_02014D2C is one function over 0x02014D2C..0x020155A0.  The labels
+/* MCSS_Draw is one function over 0x02014D2C..0x020155A0.  The labels
  * func_02014D90 (0x02014D90) and func_02015590 (0x02015590) are not
  * function starts: they are the targets of two long-branch bl pairs inside
  * it (the shared epilogue and the outer loop head). */
 /*
  * Verified with:
- *   python tools/match.py tu --src src/matched/func_02014D2C.c \
+ *   python tools/match.py tu --src src/matched/MCSS_Draw.c \
  *       --addr 0x02014D2C --thumb
  *
  * The mcss.c frame walker, ONE function over 0x02014D2C..0x020155A0
@@ -1063,7 +1073,7 @@ static inline void G3_StoreMtx(int num) { REG_MTX_STORE = (u32)num; }
  * are the targets of two bl instructions the compiler emits as long
  * branches (0x02014D74 to the shared epilogue, 0x0201558C back to the
  * outer loop head), both beyond Thumb b reach.  They are not listed on the
- * function line (alternate labels of func_02014D2C, no start of their own).
+ * function line (alternate labels of MCSS_Draw, no start of their own).
  *
  * The lever that closed it (wave 15, from 43 bytes out): the texture
  * parameter write is the SDK inline G3_TexImageParam with the SDK's ENUM
@@ -1075,7 +1085,7 @@ static inline void G3_StoreMtx(int num) { REG_MTX_STORE = (u32)num; }
  * See docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md.
  * History: docs/notes/pkt_02014D2C_boundary.c.txt.
  */
-void func_02014D2C(McssSys *sys)
+void MCSS_Draw(McssSys *sys)
 {
     McssPose pose;
     McssPose part;
@@ -1125,7 +1135,7 @@ void func_02014D2C(McssSys *sys)
         work = sys->works[workIdx];
         texImage = &work->texImage;
         if (billboard == 0) {
-            G3_LookAt(&g_02148D8C, &g_02148D98, &g_02148DA4, 0);
+            G3_LookAt(&SCREENTEX_CameraPositionOut, &SCREENTEX_CameraTargetOut, &SCREENTEX_CameraUpOut, 0);
         } else {
             VecFx32 camPos = { 0, 0, 0 };
             VecFx32 camUp = d_0209E090;
@@ -1169,7 +1179,7 @@ void func_02014D2C(McssSys *sys)
             scaleY = FX_MUL(work->scale.y, work->shadowScale.y);
             MTX_Copy43To44_(&g_02148B98, &viewMtx);
             MTX_Concat44(&viewMtx, &g_02148B54, &viewMtx);
-            func_02016FC8(&pos, &viewMtx, &pos, &projW);
+            MCSS_MulVecMtx44(&pos, &viewMtx, &pos, &projW);
             pos.x = FX_MUL(sub_0207C768(pos.x, projW), 0x80000);
             pos.y = FX_MUL(sub_0207C768(pos.y, projW), 0x60000);
             pos.z = -pos.z;
@@ -1195,7 +1205,7 @@ void func_02014D2C(McssSys *sys)
             flip++;
         }
         G3_StoreMtx(29);
-        G3_LookAt(&g_02148D8C, &g_02148D98, &g_02148DA4, 0);
+        G3_LookAt(&SCREENTEX_CameraPositionOut, &SCREENTEX_CameraTargetOut, &SCREENTEX_CameraUpOut, 0);
         G3_Translate(work->position.x + work->ofsPosition.x + work->shadowOffset.x, work->position.y + work->shadowOffset.y,
                      work->position.z + work->ofsPosition.z + work->shadowOffset.z);
         sinIdx = work->shadowRotX >> 4;
@@ -1209,7 +1219,7 @@ void func_02014D2C(McssSys *sys)
                  FX_MUL(FX_MUL(FX_MUL(pose.sy, work->ofsScale.y), work->drawScale.y), work->shadowScale.y),
                  0x1000);
         G3_StoreMtx(30);
-        sub_020169D4();
+        MCSS_InitEdgeColor();
         G3_TexImageParam(texImage->fmt, GX_TEXGEN_TEXCOORD, texImage->sizeS, texImage->sizeT, GX_TEXREPEAT_ST, GX_TEXFLIP_ST, texImage->pltt0, texImage->vramAddr[0]);
         for (cellIdx = 0; cellIdx < work->cellCtrl.anim->frames[pose.index].count; cellIdx++) {
             McssCellNode *node;
@@ -1247,17 +1257,17 @@ void func_02014D2C(McssSys *sys)
             rec = &work->cellHeader->cells[part.index];
             if (rec->eye.w != 0 && work->flags.bits.mepachiDrawLast == 0) {
                 if (work->flags.bits.mepachiFlag) {
-                    func_020155A0(sys, work, rec->eye.x, rec->eye.y, rec->eye.w, rec->eye.h, rec->eye.s, rec->eye.t + rec->eye.h, &part, &pose.index, &sys->shadowPltt, cellId, billboard, &depth, flip);
+                    MCSS_DrawShadow(sys, work, rec->eye.x, rec->eye.y, rec->eye.w, rec->eye.h, rec->eye.s, rec->eye.t + rec->eye.h, &part, &pose.index, &sys->shadowPltt, cellId, billboard, &depth, flip);
                 } else {
-                    func_020155A0(sys, work, rec->eye.x, rec->eye.y, rec->eye.w, rec->eye.h, rec->eye.s, rec->eye.t, &part, &pose.index, &sys->shadowPltt, cellId, billboard, &depth, flip);
+                    MCSS_DrawShadow(sys, work, rec->eye.x, rec->eye.y, rec->eye.w, rec->eye.h, rec->eye.s, rec->eye.t, &part, &pose.index, &sys->shadowPltt, cellId, billboard, &depth, flip);
                 }
             }
-            func_020155A0(sys, work, rec->body.x, rec->body.y, rec->body.w, rec->body.h, rec->body.s, rec->body.t, &part, &pose.index, &sys->shadowPltt, cellId, billboard, &depth, flip);
+            MCSS_DrawShadow(sys, work, rec->body.x, rec->body.y, rec->body.w, rec->body.h, rec->body.s, rec->body.t, &part, &pose.index, &sys->shadowPltt, cellId, billboard, &depth, flip);
             if (rec->eye.w != 0 && work->flags.bits.mepachiDrawLast == 1) {
                 if (work->flags.bits.mepachiFlag) {
-                    func_020155A0(sys, work, rec->eye.x, rec->eye.y, rec->eye.w, rec->eye.h, rec->eye.s, rec->eye.t + rec->eye.h, &part, &pose.index, &sys->shadowPltt, cellId, billboard, &depth, flip);
+                    MCSS_DrawShadow(sys, work, rec->eye.x, rec->eye.y, rec->eye.w, rec->eye.h, rec->eye.s, rec->eye.t + rec->eye.h, &part, &pose.index, &sys->shadowPltt, cellId, billboard, &depth, flip);
                 } else {
-                    func_020155A0(sys, work, rec->eye.x, rec->eye.y, rec->eye.w, rec->eye.h, rec->eye.s, rec->eye.t, &part, &pose.index, &sys->shadowPltt, cellId, billboard, &depth, flip);
+                    MCSS_DrawShadow(sys, work, rec->eye.x, rec->eye.y, rec->eye.w, rec->eye.h, rec->eye.s, rec->eye.t, &part, &pose.index, &sys->shadowPltt, cellId, billboard, &depth, flip);
                 }
             }
         }
@@ -1302,7 +1312,7 @@ void func_02014D2C(McssSys *sys)
  *     bytes over four tails that 547 hill and 2000 anneal permuter compiles
  *     could not move, closed by the declaration alone (wave-10 lesson).
  */
-void func_020155A0(McssSys *sys, McssWork *work, fx32 x, fx32 y,
+void MCSS_DrawShadow(McssSys *sys, McssWork *work, fx32 x, fx32 y,
                    fx32 width, fx32 height, fx32 s, fx32 t,
                    McssPose *pose, u16 *frameIndex, McssPlttProxy *shadowPltt, int cellId,
                    int ortho, u32 *depth, u8 flip)
@@ -1501,9 +1511,9 @@ void func_020155A0(McssSys *sys, McssWork *work, fx32 x, fx32 y,
  * fixed-point 1.0 (0x1000), a bitfield value or the source line number.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/sub_020159C8.c  *       --func func_020159C8 --addr 0x020159C8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MCSS_Add.c  *       --func MCSS_Add --addr 0x020159C8 --cc 1.1p1
  */
-McssWork *func_020159C8(McssSys *sys, fx32 x, fx32 y, fx32 z, const McssAddWork *addWork)
+McssWork *MCSS_Add(McssSys *sys, fx32 x, fx32 y, fx32 z, const McssAddWork *addWork)
 {
     s32 i;
 
@@ -1540,7 +1550,7 @@ McssWork *func_020159C8(McssSys *sys, fx32 x, fx32 y, fx32 z, const McssAddWork 
             sys->works[i]->addWork = *addWork;
             sys->works[i]->animeSpeed = 0x1000;
             sys->works[i]->flags.bits.orthoBillboardFlag = 1;
-            func_020163C4(sys, i, addWork);
+            MCSS_LoadResource(sys, i, addWork);
             break;
         }
     }
@@ -1551,48 +1561,48 @@ McssWork *func_020159C8(McssSys *sys, fx32 x, fx32 y, fx32 z, const McssAddWork 
 /*
  * A whole translation unit, matched as one byte range.
  *
- *           sub_02015C1C
+ *           MCSS_ResetOrthoBillboardFlag
  *
- * alias: sub_02015BA4 tears down an object: it calls func_02016BA0(obj), then
+ * alias: MCSS_Del tears down an object: it calls MCSS_FreeResource(obj), then
  * for each of the three word fields at +0, +4 and +8 that is non-zero it
  * passes that field's *value* (not the object) to a cleanup call
- * (func_02016C0C for +0, func_02016C38 for +4 and +8) and zeroes the field;
+ * (MCSS_DeleteTextureTask for +0, MCSS_DeletePaletteTask for +4 and +8) and zeroes the field;
  * it then clears a slot this object owns in an array reached through
  * sys->+0x14, indexed by the object's own field at +0x148, and finally
  * hands the object to func_020307B0 through an interworking blx.
  *
  * The four followers are unlabelled leaf accessors on the same class of
  * object, found in the .word run disasm.py left undecoded immediately
- * after sub_02015BA4 (its prologue has no register-saving push that a
+ * after MCSS_Del (its prologue has no register-saving push that a
  * two-word bit-flag accessor shares); see
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md. Two work a
- * flag at +0x2c: sub_02015BF0 clears then re-sets bit 0 (a clear/set pair
+ * flag at +0x2c: MCSS_SetOrthoMode clears then re-sets bit 0 (a clear/set pair
  * rather than a plain |=, which is what tells apart the extra bics), and
- * sub_02015C00 only clears it. The other two work a flag at +0x140, too far
+ * MCSS_ResetOrthoMode only clears it. The other two work a flag at +0x140, too far
  * from the object base for an immediate str, which is why the compiler
  * computes the offset into a register instead of folding it into the
- * instruction: sub_02015C0C sets bit 0x1D (0x20000000) and sub_02015C1C
+ * instruction: MCSS_SetOrthoBillboardFlag sets bit 0x1D (0x20000000) and MCSS_ResetOrthoBillboardFlag
  * clears it via the pool word 0xDFFFFFFF immediately after it.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02015BA4.c \
  *       --addr 0x02015BA4 --thumb
  */
-void sub_02015BA4(McssSys *sys, McssWork *work)
+void MCSS_Del(McssSys *sys, McssWork *work)
 {
     u32 index;
     McssWork **works;
-    func_02016BA0(work);
+    MCSS_FreeResource(work);
     if (work->textureTask != 0) {
-        func_02016C0C(work->textureTask);
+        MCSS_DeleteTextureTask(work->textureTask);
         work->textureTask = 0;
     }
     if (work->fadeTask != 0) {
-        func_02016C38(work->fadeTask);
+        MCSS_DeletePaletteTask(work->fadeTask);
         work->fadeTask = 0;
     }
     if (work->paletteTask != 0) {
-        func_02016C38(work->paletteTask);
+        MCSS_DeletePaletteTask(work->paletteTask);
         work->paletteTask = 0;
     }
     index = work->index;
@@ -1602,26 +1612,26 @@ void sub_02015BA4(McssSys *sys, McssWork *work)
 }
 
 
-void sub_02015BF0(McssSys *sys)
+void MCSS_SetOrthoMode(McssSys *sys)
 {
     sys->flags.raw &= ~1;
     sys->flags.raw |= 1;
 }
 
 
-void sub_02015C00(McssSys *sys)
+void MCSS_ResetOrthoMode(McssSys *sys)
 {
     sys->flags.raw &= ~1;
 }
 
 
-void sub_02015C0C(McssWork *work)
+void MCSS_SetOrthoBillboardFlag(McssWork *work)
 {
     work->flags.raw |= 0x20000000;
 }
 
 
-void sub_02015C1C(McssWork *work)
+void MCSS_ResetOrthoBillboardFlag(McssWork *work)
 {
     work->flags.raw &= ~0x20000000;
 }
@@ -1630,12 +1640,12 @@ void sub_02015C1C(McssWork *work)
 /*
  * Unlabelled Thumb leaf in the ARM9 module (saves nothing, so disasm.py emits
  * it as a run of .word). Copies three words out of the structure at +0xE0.
- * The inverse of func_02015C48; in the ov118 event state machine
+ * The inverse of MCSS_SetPosition; in the ov118 event state machine
  * (0x021D7130) it is the out-direction marshaller.
  *
  * Addresses are Black-image addresses.
  */
-void func_02015C30(McssWork *work, u32 *out)
+void MCSS_GetPosition(McssWork *work, u32 *out)
 {
     out[0] = work->position.x;
     out[1] = work->position.y;
@@ -1645,12 +1655,12 @@ void func_02015C30(McssWork *work, u32 *out)
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words into the
- * structure at +0xE0. The inverse of func_02015C30; in the ov118 event state
+ * structure at +0xE0. The inverse of MCSS_GetPosition; in the ov118 event state
  * machine (0x021D7130) and func_021D6E04 it is the in-direction marshaller.
  *
  * Addresses are Black-image addresses.
  */
-void func_02015C48(McssWork *work, u32 *src)
+void MCSS_SetPosition(McssWork *work, u32 *src)
 {
     work->position.x = src[0];
     work->position.y = src[1];
@@ -1659,12 +1669,12 @@ void func_02015C48(McssWork *work, u32 *src)
 
 
 /*
- * Unlabelled Thumb leaf in the ARM9 module. Copies three words out of +0x11C. Twin of func_02015C78.
+ * Unlabelled Thumb leaf in the ARM9 module. Copies three words out of +0x11C. Twin of MCSS_SetOfsPosition.
  * Filed as the witness for an ov094 caller.
  *
  * Addresses are Black-image addresses.
  */
-void func_02015C60(McssWork *work, u32 *out)
+void MCSS_GetOfsPosition(McssWork *work, u32 *out)
 {
     out[0] = work->ofsPosition.x;
     out[1] = work->ofsPosition.y;
@@ -1674,12 +1684,12 @@ void func_02015C60(McssWork *work, u32 *out)
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Copies three words
- * into the structure at +0x11C; same shape as func_02015C48 further
+ * into the structure at +0x11C; same shape as MCSS_SetPosition further
  * back.
  *
  * Addresses are Black-image addresses.
  */
-void func_02015C78(McssWork *work, u32 *src)
+void MCSS_SetOfsPosition(McssWork *work, u32 *src)
 {
     work->ofsPosition.x = src[0];
     work->ofsPosition.y = src[1];
@@ -1689,12 +1699,12 @@ void func_02015C78(McssWork *work, u32 *src)
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words out of the
- * structure at +0xEC. The inverse of func_02015CAC; same shape as
- * func_02015C30 one word-group further along.
+ * structure at +0xEC. The inverse of MCSS_SetScale; same shape as
+ * MCSS_GetPosition one word-group further along.
  *
  * Addresses are Black-image addresses.
  */
-void func_02015C94(McssWork *work, u32 *out)
+void MCSS_GetScale(McssWork *work, u32 *out)
 {
     out[0] = work->scale.x;
     out[1] = work->scale.y;
@@ -1704,11 +1714,11 @@ void func_02015C94(McssWork *work, u32 *out)
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words into the
- * structure at +0xEC. The inverse of func_02015C94.
+ * structure at +0xEC. The inverse of MCSS_GetScale.
  *
  * Addresses are Black-image addresses.
  */
-void func_02015CAC(McssWork *work, u32 *src)
+void MCSS_SetScale(McssWork *work, u32 *src)
 {
     work->scale.x = src[0];
     work->scale.y = src[1];
@@ -1722,7 +1732,7 @@ void func_02015CAC(McssWork *work, u32 *src)
  *
  * Addresses are Black-image addresses.
  */
-void func_02015CC4(McssWork *work, u32 *out)
+void MCSS_GetShadowScale(McssWork *work, u32 *out)
 {
     out[0] = work->shadowScale.x;
     out[1] = work->shadowScale.y;
@@ -1731,12 +1741,12 @@ void func_02015CC4(McssWork *work, u32 *out)
 
 
 /*
- * Unlabelled Thumb leaf in the ARM9 module. Copies three words into +0x128. Inverse of func_02015CC4.
+ * Unlabelled Thumb leaf in the ARM9 module. Copies three words into +0x128. Inverse of MCSS_GetShadowScale.
  * Filed as the witness for an ov094 caller.
  *
  * Addresses are Black-image addresses.
  */
-void func_02015CDC(McssWork *work, u32 *src)
+void MCSS_SetShadowScale(McssWork *work, u32 *src)
 {
     work->shadowScale.x = src[0];
     work->shadowScale.y = src[1];
@@ -1750,7 +1760,7 @@ void func_02015CDC(McssWork *work, u32 *src)
  *
  * Addresses are Black-image addresses.
  */
-void func_02015CF8(McssWork *work, u32 *out)
+void MCSS_GetRotate(McssWork *work, u32 *out)
 {
     out[0] = work->rotate.x;
     out[1] = work->rotate.y;
@@ -1759,12 +1769,12 @@ void func_02015CF8(McssWork *work, u32 *out)
 
 
 /*
- * Unlabelled Thumb leaf in the ARM9 module. Copies three words into +0xF8. Inverse of func_02015CF8.
+ * Unlabelled Thumb leaf in the ARM9 module. Copies three words into +0xF8. Inverse of MCSS_GetRotate.
  * Filed as the witness for an ov094 caller.
  *
  * Addresses are Black-image addresses.
  */
-void func_02015D14(McssWork *work, u32 *src)
+void MCSS_SetRotate(McssWork *work, u32 *src)
 {
     work->rotate.x = src[0];
     work->rotate.y = src[1];
@@ -1778,7 +1788,7 @@ void func_02015D14(McssWork *work, u32 *src)
  *
  * Addresses are Black-image addresses.
  */
-void func_02015D30(McssWork *work, u32 *src)
+void MCSS_SetOfsScale(McssWork *work, u32 *src)
 {
     work->ofsScale.x = src[0];
     work->ofsScale.y = src[1];
@@ -1792,7 +1802,7 @@ void func_02015D30(McssWork *work, u32 *src)
  *
  * Addresses are Black-image addresses.
  */
-void func_02015D4C(McssWork *work, u32 *out)
+void MCSS_GetDrawScale(McssWork *work, u32 *out)
 {
     out[0] = work->drawScale.x;
     out[1] = work->drawScale.y;
@@ -1801,12 +1811,12 @@ void func_02015D4C(McssWork *work, u32 *out)
 
 
 /*
- * Unlabelled Thumb leaf in the ARM9 module. Copies three words into +0x110. Inverse of func_02015D4C.
+ * Unlabelled Thumb leaf in the ARM9 module. Copies three words into +0x110. Inverse of MCSS_GetDrawScale.
  * Filed as the witness for an ov094 caller.
  *
  * Addresses are Black-image addresses.
  */
-void func_02015D64(McssWork *work, u32 *src)
+void MCSS_SetDrawScale(McssWork *work, u32 *src)
 {
     work->drawScale.x = src[0];
     work->drawScale.y = src[1];
@@ -1815,10 +1825,10 @@ void func_02015D64(McssWork *work, u32 *src)
 
 
 /*
- * note: halfword setter at +0x178; called from ov131 func_021D785C (bl at
+ * note: halfword setter at +0x178; called from ov131 P_STA_SUB_CreateMcss (bl at
  *   +0x78 and +0xB6) with the pooled full-width value 0xD555.
  */
-void func_02015D80(McssWork *work, u16 rotX)
+void MCSS_SetShadowRotateX(McssWork *work, u16 rotX)
 {
     work->shadowRotX = rotX;
 }
@@ -1830,7 +1840,7 @@ void func_02015D80(McssWork *work, u16 rotX)
  *
  * Addresses are Black-image addresses.
  */
-void func_02015D88(McssWork *work, u16 rotZ)
+void MCSS_SetShadowRotateZ(McssWork *work, u16 rotZ)
 {
     work->shadowRotZ = rotZ;
 }
@@ -1842,7 +1852,7 @@ void func_02015D88(McssWork *work, u16 rotZ)
  *
  * Addresses are Black-image addresses.
  */
-void func_02015D94(McssWork *work, int *src)
+void MCSS_SetShadowOffset(McssWork *work, int *src)
 {
     work->shadowOffset.x = src[0];
     work->shadowOffset.y = src[1];
@@ -1856,7 +1866,7 @@ void func_02015D94(McssWork *work, int *src)
  *
  * Addresses are Black-image addresses.
  */
-void func_02015DB0(McssWork *work)
+void MCSS_SetMepachiFlag(McssWork *work)
 {
     work->flags.raw |= 0x100u;
 }
@@ -1868,7 +1878,7 @@ void func_02015DB0(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_02015DC0(McssWork *work)
+void MCSS_ResetMepachiFlag(McssWork *work)
 {
     work->flags.raw &= ~0x100u;
 }
@@ -1880,7 +1890,7 @@ void func_02015DC0(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_02015DD4(McssWork *work)
+void MCSS_FlipMepachiFlag(McssWork *work)
 {
     work->flags.bits.mepachiFlag ^= 1;
 }
@@ -1892,7 +1902,7 @@ void func_02015DD4(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-int func_02015DF8(McssWork *work)
+int MCSS_GetAnmStopFlag(McssWork *work)
 {
     return work->flags.bits.anmStopFlag;
 }
@@ -1903,11 +1913,11 @@ int func_02015DF8(McssWork *work)
  * bitfield at bits 9..10 of the register at +0x140 with 1. The access is
  * non-volatile in the original: mwcc reads the word once and reinserts the
  * field without a reload (a `volatile` spelling forces a second `ldr` and
- * diverges). Pairs with func_02015E4C, which clears bit 9.
+ * diverges). Pairs with MCSS_ResetAnmStopFlag, which clears bit 9.
  *
  * Addresses are Black-image addresses.
  */
-void func_02015E04(McssWork *work)
+void MCSS_SetAnmStopFlag(McssWork *work)
 {
     work->flags.bits.anmStopFlag |= 1;
 }
@@ -1919,7 +1929,7 @@ void func_02015E04(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_02015E28(McssWork *work)
+void MCSS_SetAnmStopFlagAlways(McssWork *work)
 {
     work->flags.bits.anmStopFlag |= 2;
 }
@@ -1928,11 +1938,11 @@ void func_02015E28(McssWork *work)
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Compound-AND of the 2-bit
  * bitfield at bits 9..10 of the register at +0x140 with ~1 (clears bit 9).
- * Same non-volatile codegen lever as func_02015E04.
+ * Same non-volatile codegen lever as MCSS_SetAnmStopFlag.
  *
  * Addresses are Black-image addresses.
  */
-void func_02015E4C(McssWork *work)
+void MCSS_ResetAnmStopFlag(McssWork *work)
 {
     work->flags.bits.anmStopFlag &= ~1u;
 }
@@ -1944,7 +1954,7 @@ void func_02015E4C(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_02015E70(McssWork *work)
+void MCSS_ResetAnmStopFlagAlways(McssWork *work)
 {
     work->flags.bits.anmStopFlag &= ~2u;
 }
@@ -1956,7 +1966,7 @@ void func_02015E70(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-int func_02015E94(McssWork *work)
+int MCSS_GetVanishFlag(McssWork *work)
 {
     return work->flags.bits.vanishFlag;
 }
@@ -1964,11 +1974,11 @@ int func_02015E94(McssWork *work)
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module. Sets bit 11 (0x800) of the
- * 32-bit register at +0x140. Pairs with func_02015EB0, which clears it.
+ * 32-bit register at +0x140. Pairs with MCSS_ResetVanishFlag, which clears it.
  *
  * Addresses are Black-image addresses.
  */
-void func_02015EA0(McssWork *work)
+void MCSS_SetVanishFlag(McssWork *work)
 {
     /* stand-in: volatile keeps the word read-modify-write of the original */
     *(volatile u32 *)&work->flags.raw |= 0x800u;
@@ -1979,14 +1989,14 @@ void func_02015EA0(McssWork *work)
  * Unlabelled Thumb leaf in the ARM9 module (saves nothing, so disasm.py emits
  * it as a run of .word; the live bytes decode as Thumb). Clears bit 11
  * (0x800) of the 32-bit field at +0x140. This is one of the pair
- * func_02015EA0/func_02015EB0 that set and clear the same bit; it is called
+ * MCSS_SetVanishFlag/MCSS_ResetVanishFlag that set and clear the same bit; it is called
  * from the ov118 event state machine at 0x021D7130 and from
  * func_021D6E04, and is an image-wide-only reference target (no func_ label),
  * so matching it supplies the `matched` witness those callers lack.
  *
  * Addresses are Black-image addresses.
  */
-void func_02015EB0(McssWork *work)
+void MCSS_ResetVanishFlag(McssWork *work)
 {
     /* stand-in: volatile keeps the word read-modify-write of the original */
     *(volatile u32 *)&work->flags.raw &= 0xFFFFF7FFu;
@@ -1999,7 +2009,7 @@ void func_02015EB0(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_02015EC4(McssWork *work)
+void MCSS_FlipVanishFlag(McssWork *work)
 {
     work->flags.bits.vanishFlag = work->flags.bits.vanishFlag ^ 1;
 }
@@ -2011,25 +2021,25 @@ void func_02015EC4(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void *func_02015EE8(McssWork *work)
+void *MCSS_GetAnimCtrl(McssWork *work)
 {
     return &work->animCtrl;
 }
 
 
-u16 func_02015EEC(McssWork *work)
+u16 MCSS_GetAnimSeqNum(McssWork *work)
 {
     return *(u16 *)work->multiCellAnimBank;
 }
 
 
-u8 func_02015EF4(McssWork *work)
+u8 MCSS_GetStopCellNum(McssWork *work)
 {
     return work->stopCellTable[0];
 }
 
 
-u8 func_02015EFC(McssWork *work, u8 i)
+u8 MCSS_GetStopCellIndex(McssWork *work, u8 i)
 {
     return (work->stopCellTable + i)[2];
 }
@@ -2040,7 +2050,7 @@ u8 func_02015EFC(McssWork *work, u8 i)
  * +4 of the table the word at +0x2C points to (`ldrh` proves unsigned).
  * Witness for the call from ov119 func_021E33FC at 0x021E3520.
  */
-u16 func_02015F04(McssWork *work)
+u16 MCSS_GetSizeX(McssWork *work)
 {
     return work->cellHeader->sizeX;
 }
@@ -2052,7 +2062,7 @@ u16 func_02015F04(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-u16 func_02015F0C(McssWork *work)
+u16 MCSS_GetSizeY(McssWork *work)
 {
     return work->cellHeader->sizeY;
 }
@@ -2065,7 +2075,7 @@ u16 func_02015F0C(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-s16 func_02015F14(McssWork *work)
+s16 MCSS_GetOfsX(McssWork *work)
 {
     return work->cellHeader->ofsX;
 }
@@ -2074,11 +2084,11 @@ s16 func_02015F14(McssWork *work)
 /*
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Reads the s16 at
  * +0xA of the table the word at +0x2C points to; sibling of
- * func_02015F14.
+ * MCSS_GetOfsX.
  *
  * Addresses are Black-image addresses.
  */
-s16 func_02015F1C(McssWork *work)
+s16 MCSS_GetOfsY(McssWork *work)
 {
     return work->cellHeader->ofsY;
 }
@@ -2090,7 +2100,7 @@ s16 func_02015F1C(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-u8 func_02015F24(McssWork *work)
+u8 MCSS_GetStopCellFlags(McssWork *work)
 {
     return work->stopCellTable[1];
 }
@@ -2115,9 +2125,9 @@ void sub_02015F2C(McssWork *work, u32 callback, u32 callbackWork)
 }
 
 
-void func_02015F40(McssWork *work, unsigned flags, void *callback)
+void MCSS_SetCellCallback(McssWork *work, unsigned flags, void *callback)
 {
-    func_02064D70(&work->cellCtrl, callback, flags);
+    NNSi_G2dMCEnumAnimBank(&work->cellCtrl, callback, flags);
 }
 
 
@@ -2138,7 +2148,7 @@ void func_02015F40(McssWork *work, unsigned flags, void *callback)
  *
  * Addresses are Black-image addresses.
  */
-void func_02015F50(McssWork *work, u32 start, u32 end, s32 wait, u32 color)
+void MCSS_SetPaletteFade(McssWork *work, u32 start, u32 end, s32 wait, u32 color)
 {
     work->flags.raw |= 0x1000;
     work->fadeStart = start;
@@ -2164,7 +2174,7 @@ void func_02015F50(McssWork *work, u32 start, u32 end, s32 wait, u32 color)
  *
  * Addresses are Black-image addresses.
  */
-u8 func_02015FAC(McssWork *work)
+u8 MCSS_GetAlpha(McssWork *work)
 {
     return work->flags.bits.alpha;
 }
@@ -2175,18 +2185,18 @@ u8 func_02015FAC(McssWork *work)
  * witness (ov117 func_021D49F4): the low byte of the word at +0x140.
  * Addresses are Black-image addresses.
  */
-void func_02015FBC(McssWork *work, int alpha)
+void MCSS_SetAlpha(McssWork *work, int alpha)
 {
     work->flags.raw = (work->flags.raw & ~0xFF) | (unsigned char)alpha;
 }
 
 
 /*
- * Unlabelled leaf accessor, the follower of func_02015FBC: a 9-bit field at
- * bit 14 of the word at +0x140. Labelled so that func_02015FBC's extent ends
+ * Unlabelled leaf accessor, the follower of MCSS_SetAlpha: a 9-bit field at
+ * bit 14 of the word at +0x140. Labelled so that MCSS_SetAlpha's extent ends
  * at its own bx lr. Addresses are Black-image addresses.
  */
-void func_02015FD4(McssWork *work, int alpha)
+void MCSS_SetShadowAlpha(McssWork *work, int alpha)
 {
     work->flags.raw = (work->flags.raw & 0xFF803FFF) | ((alpha & 0x1FF) << 14);
 }
@@ -2196,7 +2206,7 @@ void func_02015FD4(McssWork *work, int alpha)
  * Unlabelled leaf accessor matched to give overlay call sites a `matched`
  * witness.  Addresses are Black-image addresses.
  */
-void func_02015FF0(McssWork *work, int flag)
+void MCSS_SetShadowVanishFlag(McssWork *work, int flag)
 {
     work->flags.raw = (work->flags.raw & 0xFF7FFFFF) | ((flag & 1) << 23);
 }
@@ -2204,12 +2214,12 @@ void func_02015FF0(McssWork *work, int flag)
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Tests bit 12 of the
- * flag word at +0x140 (the bit func_02015F50 sets). A one-bit bitfield
+ * flag word at +0x140 (the bit MCSS_SetPaletteFade sets). A one-bit bitfield
  * keeps the original's lsls/lsrs pair; a mask would fold to `ands`.
  *
  * Addresses are Black-image addresses.
  */
-int func_0201600C(McssWork *work)
+int MCSS_CheckPaletteFade(McssWork *work)
 {
     if (work->flags.bits.paletteFadeFlag) {
         return 1;
@@ -2224,13 +2234,13 @@ int func_0201600C(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_02016020(McssSys *sys, u32 adrs)
+void MCSS_SetTextureTransAdrs(McssSys *sys, u32 adrs)
 {
     sys->texTransAdrs = adrs;
 }
 
 
-void func_02016024(McssSys *sys, unsigned int adrs)
+void MCSS_SetPaletteTransAdrs(McssSys *sys, unsigned int adrs)
 {
     sys->plttTransAdrs = adrs;
 }
@@ -2245,23 +2255,23 @@ void func_02016024(McssSys *sys, unsigned int adrs)
  * lsls/lsrs #0x10 pair in the original is exactly that narrowing cast in
  * the callee, not something the caller is trusted to have done), releases
  * the handle at +0x98 through func_020307B0 if one is set, calls
- * func_02016984(a, 1), passes the derived value into func_0206469C on the
+ * MCSS_InitAnimCtrl(a, 1), passes the derived value into func_0206469C on the
  * member at +0x34, then clears bit 0 of the word at +0x144.
  *
- * Every concrete byte matches; func_02016984 (0x02016984, later in this
+ * Every concrete byte matches; MCSS_InitAnimCtrl (0x02016984, later in this
  * same packet, not yet matched) is called from exactly this one site in
  * the whole ROM, so that relocation stays unresolved under the honesty
  * rule.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02016028.c \
- *       --func sub_02016028 --addr 0x02016028 --cc 1.1p1
+ *   python tools/match.py one --src src/pending/MCSS_SetAnimeIndex.c \
+ *       --func MCSS_SetAnimeIndex --addr 0x02016028 --cc 1.1p1
  *
- * The `matched` class does not reach it: func_02016984 is not matched, so
+ * The `matched` class does not reach it: MCSS_InitAnimCtrl is not matched, so
  * no EXACT entry covers that address. Closes to EXACT the day it is
  * matched, or gets a second caller elsewhere in the image.
  */
-void sub_02016028(McssWork *work, u32 animeIndex)
+void MCSS_SetAnimeIndex(McssWork *work, u32 animeIndex)
 {
     void *seq = func_020627D8(work->multiCellAnimBank, (u16)animeIndex);
 
@@ -2269,7 +2279,7 @@ void sub_02016028(McssWork *work, u32 animeIndex)
         func_020307B0(work->animWork);
     }
 
-    func_02016984(work, 1);
+    MCSS_InitAnimCtrl(work, 1);
     func_0206469C(&work->animCtrl, seq);
     work->requestFlags.raw &= ~1u;
 }
@@ -2281,7 +2291,7 @@ void sub_02016028(McssWork *work, u32 animeIndex)
  *
  * Addresses are Black-image addresses.
  */
-u8 func_02016068(McssWork *work)
+u8 MCSS_GetMosaic(McssWork *work)
 {
     return work->flags.bits.mosaic;
 }
@@ -2291,8 +2301,8 @@ u8 func_02016068(McssWork *work)
  * Updates a packed 4-bit mode field at b+0x140 (bits 24-27 of that word;
  * see docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md) if
  * the caller's requested mode (clamped to 15) differs from the current
- * one, then reinitialises through func_02016BA0 and forwards a nested
- * word and struct pointer into func_020163C4. The bitfield pointer is
+ * one, then reinitialises through MCSS_FreeResource and forwards a nested
+ * word and struct pointer into MCSS_LoadResource. The bitfield pointer is
  * recomputed fresh for the store rather than kept in a local across the
  * clamp branch: the original re-issues the same "5 << 6" multiply instead
  * of reusing the register from the read, the same shape as
@@ -2303,29 +2313,29 @@ u8 func_02016068(McssWork *work)
  * not a byte difference.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02016078.c \
- *       --func sub_02016078 --addr 0x02016078 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MCSS_SetMosaic.c \
+ *       --func MCSS_SetMosaic --addr 0x02016078 --cc 1.1p1
  */
-void sub_02016078(McssSys *sys, McssWork *work, int mosaic)
+void MCSS_SetMosaic(McssSys *sys, McssWork *work, int mosaic)
 {
     if (work->flags.bits.mosaic != (u32)mosaic) {
         if (mosaic > 15) {
             mosaic = 15;
         }
         work->flags.bits.mosaic = mosaic;
-        func_02016BA0(work);
-        func_020163C4(sys, work->index, &work->addWork);
+        MCSS_FreeResource(work);
+        MCSS_LoadResource(sys, work->index, &work->addWork);
     }
 }
 
 
-void func_020160C0(McssSys *sys, unsigned int scale)
+void MCSS_SetGlobalScale(McssSys *sys, unsigned int scale)
 {
     sys->globalScale = scale;
 }
 
 
-void func_020160C4(McssWork *work, int speed)
+void MCSS_SetAnimeSpeed(McssWork *work, int speed)
 {
     work->animeSpeed = speed;
 }
@@ -2337,7 +2347,7 @@ void func_020160C4(McssWork *work, int speed)
  *
  * Addresses are Black-image addresses.
  */
-u16 func_020160CC(McssWork *work)
+u16 MCSS_GetAnimSeqNumEx(McssWork *work)
 {
     return *(u16 *)work->multiCellAnimBank;
 }
@@ -2347,7 +2357,7 @@ u16 func_020160CC(McssWork *work)
  * mcss.c: builds the per-scene fade/transition context.  Three debug
  * allocations out of the heap named by the u16 at +0x14c (masked to
  * 0x7fff and forced into the 0x8000 bank), then a palette blend and a
- * copy, and finally either a task registration (func_0201691C as the
+ * copy, and finally either a task registration (MCSS_TransPaletteTask as the
  * callback, through the owner-aware path or the plain one) or, if the
  * caller has already set the "skip" bit at +0x140, an immediate teardown
  * of everything just allocated.  Either way the done bit 0x10000000 is
@@ -2355,12 +2365,12 @@ u16 func_020160CC(McssWork *work)
  *
  * The three heap ids are recomputed rather than cached: each is a fresh
  * `ldr`+lsls/lsrs of the int field at +0x14c, so the field is an `int`
- * truncated at the call, not a u16 member (see func_02016984 in this
+ * truncated at the call, not a u16 member (see MCSS_InitAnimCtrl in this
  * same file).  The two __LINE__ pool words 0x761 and 0x769 are the
  * consecutive-line idiom: 0x76e is derived from 0x769 with `adds #5`.
  *
  * Closed in the second pass (2026-09-22) from the 12-byte prologue-spill
- * near miss in docs/notes/func_020160D4.c.txt.  The lever is the THIRD
+ * near miss in docs/notes/MCSS_CreatePaletteTransTask.c.txt.  The lever is the THIRD
  * PARAMETER'S TYPE: `u16 a2`, not `int a2`.
  *
  * That note's own list had tried `u16` on a3 (which made it worse, 168
@@ -2374,14 +2384,14 @@ u16 func_020160CC(McssWork *work)
  * lever" guess (make a2 reach a call earlier) was not needed.
  *
  * This is also a data point for the family: the value at +0x13C that
- * func_020169E8 hands to func_02021F64 as `(u16)` is 16-bit AT THE
+ * MCSS_UpdatePaletteFade hands to func_02021F64 as `(u16)` is 16-bit AT THE
  * PARAMETER here, not only at the call.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020160D4.c \
- *       --func func_020160D4 --addr 0x020160D4 --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/matched/MCSS_CreatePaletteTransTask.c \
+ *       --func MCSS_CreatePaletteTransTask --addr 0x020160D4 --cc 1.1p1 --thumb
  */
-void func_020160D4(McssSys *sys, McssWork *work, u16 fadeLevel, int fadeColor)
+void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, int fadeColor)
 {
     McssTransTask *task;
 
@@ -2414,16 +2424,16 @@ void func_020160D4(McssSys *sys, McssWork *work, u16 fadeLevel, int fadeColor)
                   work->plttCurrent, work->plttByteSize);
 
     if (work->paletteTask != 0) {
-        func_02016C38(work->paletteTask);
+        MCSS_DeletePaletteTask(work->paletteTask);
         work->paletteTask = 0;
     }
 
     if (work->flags.bits.paletteFadeFlag == 0) {
         if (sys->taskSys != 0) {
             work->paletteTask = func_02030DA8(sys->taskSys,
-                                             func_0201691C, task, 0);
+                                             MCSS_TransPaletteTask, task, 0);
         } else {
-            work->paletteTask = func_020056A0(func_0201691C, task, 0);
+            work->paletteTask = func_020056A0(MCSS_TransPaletteTask, task, 0);
         }
     } else {
         func_020307B0(task->plttData->data);
@@ -2435,7 +2445,7 @@ void func_020160D4(McssSys *sys, McssWork *work, u16 fadeLevel, int fadeColor)
 }
 
 
-void func_0201624C(McssSys *sys, McssWork *work)
+void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
 {
     McssTransTask *task;
     u32 hasTaskSys;
@@ -2462,14 +2472,14 @@ void func_0201624C(McssSys *sys, McssWork *work)
     MIi_CpuCopy16(work->plttOriginal, task->plttData->data, work->plttByteSize);
 
     if (work->paletteTask != 0) {
-        func_02016C38(work->paletteTask);
+        MCSS_DeletePaletteTask(work->paletteTask);
         work->paletteTask = (void *)hasTaskSys;
     }
 
     if (sys->taskSys != 0) {
-        handle = func_02030DA8(sys->taskSys, func_0201691C, task, 0);
+        handle = func_02030DA8(sys->taskSys, MCSS_TransPaletteTask, task, 0);
     } else {
-        handle = func_020056A0(func_0201691C, task, 0);
+        handle = func_020056A0(MCSS_TransPaletteTask, task, 0);
     }
     work->paletteTask = handle;
 
@@ -2486,9 +2496,9 @@ void func_0201624C(McssSys *sys, McssWork *work)
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/unit_02016374.c \
- *       --func sub_02016374 --addr 0x02016374 --cc 1.1p1 --thumb
+ *       --func MCSS_RestartAnime --addr 0x02016374 --cc 1.1p1 --thumb
  */
-void sub_02016374(McssWork *work)
+void MCSS_RestartAnime(McssWork *work)
 {
     func_02064CBC(&work->animCtrl);
 }
@@ -2498,15 +2508,15 @@ void sub_02016374(McssWork *work)
  * Set bit 0 of the word at +0x144: read, clear, set, write back.  The two
  * `movs r1, #1` are the two separate constants of the `& ~1` / `| 1` pair
  * (Thumb has no ORR immediate, so both go through r1).  Entry attested by
- * the pool word 0x02016381 in sub_020173C8's own pool.
+ * the pool word 0x02016381 in MCSS_TOOL_AnimeStopCallback's own pool.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02016380.c \
- *       --func sub_02016380 --addr 0x02016380 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MCSS_RequestAnimeStopAtStart.c \
+ *       --func MCSS_RequestAnimeStopAtStart --addr 0x02016380 --cc 1.1p1 --thumb
  */
-void sub_02016380(McssWork *work)
+void MCSS_RequestAnimeStopAtStart(McssWork *work)
 {
     u32 flags = work->requestFlags.raw;
     flags = flags & ~1u;
@@ -2521,7 +2531,7 @@ void sub_02016380(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_02016394(McssWork *work, int flag)
+void MCSS_SetWorkFlag(McssWork *work, int flag)
 {
     work->flags.bits.mepachiDrawLast = flag;
 }
@@ -2533,7 +2543,7 @@ void func_02016394(McssWork *work, int flag)
  *
  * Addresses are Black-image addresses.
  */
-void func_020163B0(McssSys *sys, int depthStep)
+void MCSS_SetSysParam(McssSys *sys, int depthStep)
 {
     sys->depthStep = depthStep;
 }
@@ -2545,7 +2555,7 @@ void func_020163B0(McssSys *sys, int depthStep)
  *
  * Addresses are Black-image addresses.
  */
-void func_020163B4(McssSys *sys, int flag)
+void MCSS_SetSysFlag(McssSys *sys, int flag)
 {
     sys->flags.bits.nearDepthRange = flag;
 }
@@ -2557,9 +2567,9 @@ void func_020163B4(McssSys *sys, int flag)
  * const McssAddWork *.  Without const, the four constructor call sites
  * load a2 for the first argument before the second; with it the image's
  * order (second-argument base first, then the first, then the out
- * pointer copy) comes out.  History: docs/notes/func_020163C4.c.txt.
+ * pointer copy) comes out.  History: docs/notes/MCSS_LoadResource.c.txt.
  */
-void func_020163C4(McssSys *sys, u32 index, const McssAddWork *addWork)
+void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork)
 {
     McssWork *work = sys->works[index];
     McssTransTask *task;
@@ -2578,7 +2588,7 @@ void func_020163C4(McssSys *sys, u32 index, const McssAddWork *addWork)
     }
 
     if (sys->arcHandle != 0 && sys->arcId == addWork->arcId) {
-        func_02016630(sys, index, addWork);
+        MCSS_LoadResourceShared(sys, index, addWork);
         return;
     }
 
@@ -2586,12 +2596,12 @@ void func_020163C4(McssSys *sys, u32 index, const McssAddWork *addWork)
     func_02063790((u32 *)&work->texImage);
     func_020637D4((u32 *)&work->plttProxy);
 
-    work->cellFile = func_02049FBC(addWork->arcId, addWork->cellMember, 0, &work->cellBank, heap);
-    work->cellAnimFile = func_0204A03C(addWork->arcId, addWork->cellAnimMember, 1, &work->cellAnimBank, heap);
+    work->cellFile = ARC_UTIL_LoadCellBankFromArchive(addWork->arcId, addWork->cellMember, 0, &work->cellBank, heap);
+    work->cellAnimFile = ARC_UTIL_LoadMultiCellBankFromArchive(addWork->arcId, addWork->cellAnimMember, 1, &work->cellAnimBank, heap);
     flag = 1;
-    work->multiCellFile = func_0204A0BC(addWork->arcId, addWork->multiCellMember, 0, &work->multiCellBank, heap);
-    work->multiCellAnimFile = func_0204A13C(addWork->arcId, addWork->multiCellAnimMember, 0, &work->multiCellAnimBank, heap);
-    sub_02016028(work, 0);
+    work->multiCellFile = ARC_UTIL_LoadAnimBankFromArchive(addWork->arcId, addWork->multiCellMember, 0, &work->multiCellBank, heap);
+    work->multiCellAnimFile = ARC_UTIL_LoadMultiAnimBankFromArchive(addWork->arcId, addWork->multiCellAnimMember, 0, &work->multiCellAnimBank, heap);
+    MCSS_SetAnimeIndex(work, 0);
 
     cellHeader = func_02048F60(addWork->arcId, addWork->cellHeaderMember, heap);
     work->cellHeader = cellHeader;
@@ -2632,24 +2642,24 @@ void func_020163C4(McssSys *sys, u32 index, const McssAddWork *addWork)
         }
     }
     if (work->flags.bits.mosaic != 0) {
-        func_02016C60(work, task);
+        MCSS_ApplyMosaic(work, task);
     }
     if (sys->taskSys != 0) {
-        work->textureTask = func_02030DA8(sys->taskSys, func_02016880, task, 0);
+        work->textureTask = func_02030DA8(sys->taskSys, MCSS_TransTextureTask, task, 0);
     } else {
-        work->textureTask = func_020056A0(func_02016880, task, 0);
+        work->textureTask = func_020056A0(MCSS_TransTextureTask, task, 0);
     }
 }
 
 
 /*
- * The mcss.c rebind routine (line 0x8AB), twin of func_020163C4.  Closed
+ * The mcss.c rebind routine (line 0x8AB), twin of MCSS_LoadResource.  Closed
  * in wave 15 from 21 bytes out by the same declaration: the descriptor
  * parameter is const McssAddWork *, which fixes the argument load order
  * at every constructor call site.  History:
- * docs/notes/func_02016630.c.txt.
+ * docs/notes/MCSS_LoadResourceShared.c.txt.
  */
-void func_02016630(McssSys *sys, u32 index, const McssAddWork *addWork)
+void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork)
 {
     McssWork *work = sys->works[index];
     void *arcHandle;
@@ -2662,17 +2672,17 @@ void func_02016630(McssSys *sys, u32 index, const McssAddWork *addWork)
     func_02063790((u32 *)&work->texImage);
     func_020637D4((u32 *)&work->plttProxy);
 
-    work->cellFile = func_02049FFC(arcHandle, addWork->cellMember, 0,
+    work->cellFile = ARC_UTIL_LoadCellBankFromHandle(arcHandle, addWork->cellMember, 0,
                                    &work->cellBank,
                                    (u16)work->heapId);
-    work->cellAnimFile = func_0204A07C(arcHandle, addWork->cellAnimMember, 1, &work->cellAnimBank,
+    work->cellAnimFile = ARC_UTIL_LoadMultiCellBankFromHandle(arcHandle, addWork->cellAnimMember, 1, &work->cellAnimBank,
                                        (u16)work->heapId);
     flag = 1;
-    work->multiCellFile = func_0204A0FC(arcHandle, addWork->multiCellMember, 0, &work->multiCellBank,
+    work->multiCellFile = ARC_UTIL_LoadAnimBankFromHandle(arcHandle, addWork->multiCellMember, 0, &work->multiCellBank,
                                         (u16)work->heapId);
-    work->multiCellAnimFile = func_0204A17C(arcHandle, addWork->multiCellAnimMember, 0, &work->multiCellAnimBank,
+    work->multiCellAnimFile = ARC_UTIL_LoadMultiAnimBankFromHandle(arcHandle, addWork->multiCellAnimMember, 0, &work->multiCellAnimBank,
                                             (u16)work->heapId);
-    sub_02016028(work, 0);
+    MCSS_SetAnimeIndex(work, 0);
 
     cellHeader = func_02049250(arcHandle, addWork->cellHeaderMember, (u16)work->heapId);
     work->cellHeader = cellHeader;
@@ -2713,17 +2723,17 @@ void func_02016630(McssSys *sys, u32 index, const McssAddWork *addWork)
         }
     }
     if (work->flags.bits.mosaic != 0) {
-        func_02016C60(work, task);
+        MCSS_ApplyMosaic(work, task);
     }
     if (sys->taskSys != 0) {
-        work->textureTask = func_02030DA8(sys->taskSys, func_02016880, task, 0);
+        work->textureTask = func_02030DA8(sys->taskSys, MCSS_TransTextureTask, task, 0);
     } else {
-        work->textureTask = func_020056A0(func_02016880, task, 0);
+        work->textureTask = func_020056A0(MCSS_TransTextureTask, task, 0);
     }
 }
 
 
-void func_02016880(void *taskHandle, McssTransTask *task)
+void MCSS_TransTextureTask(void *taskHandle, McssTransTask *task)
 {
     if (task->hasTaskSys == 0) {
         u32 scanline = *(volatile u16 *)0x04000006;
@@ -2754,7 +2764,7 @@ void func_02016880(void *taskHandle, McssTransTask *task)
 }
 
 
-void func_0201691C(void *taskHandle, McssTransTask *task)
+void MCSS_TransPaletteTask(void *taskHandle, McssTransTask *task)
 {
     if (task->hasTaskSys == 0) {
         u32 scanline = *(volatile u16 *)0x04000006;
@@ -2792,10 +2802,10 @@ void func_0201691C(void *taskHandle, McssTransTask *task)
  * compared range, which is what attests the site through the `literal` class.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02016984.c \
- *       --func func_02016984 --addr 0x02016984 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MCSS_InitAnimCtrl.c \
+ *       --func MCSS_InitAnimCtrl --addr 0x02016984 --cc 1.1p1 --thumb
  */
-void func_02016984(McssWork *work, int kind)
+void MCSS_InitAnimCtrl(McssWork *work, int kind)
 {
     work->animWork = func_02030734((unsigned short)work->heapId,
                                    func_020648B4(work->multiCellBank, kind),
@@ -2815,9 +2825,9 @@ void func_02016984(McssWork *work, int kind)
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/unit_020169D4.c \
- *       --func sub_020169D4 --addr 0x020169D4 --cc 1.1p1 --thumb
+ *       --func MCSS_InitEdgeColor --addr 0x020169D4 --cc 1.1p1 --thumb
  */
-void sub_020169D4(void)
+void MCSS_InitEdgeColor(void)
 {
     u32 v = 0x4210FFFF;
     *(volatile u32 *)0x040004C0 = v;
@@ -2827,7 +2837,7 @@ void sub_020169D4(void)
 
 /*
  * Closed in the second pass (2026-09-22) from the 4-byte near miss in
- * docs/notes/func_020169E8.c.txt.  The residue was NOT the pool-word
+ * docs/notes/MCSS_UpdatePaletteFade.c.txt.  The residue was NOT the pool-word
  * shape that note predicted; it was two misreadings of the image:
  *
  *   1. the flag mask is 0xFFFFEFFF (bit 12), not 0xEFFFFFFF (bit 28).
@@ -2842,10 +2852,10 @@ void sub_020169D4(void)
  *      word was a symptom, not the cause.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020169E8.c \
- *       --func func_020169E8 --addr 0x020169E8 --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/matched/MCSS_UpdatePaletteFade.c \
+ *       --func MCSS_UpdatePaletteFade --addr 0x020169E8 --cc 1.1p1 --thumb
  */
-void func_020169E8(McssSys *sys, McssWork *work)
+void MCSS_UpdatePaletteFade(McssSys *sys, McssWork *work)
 {
     McssTransTask *task;
     u32 flag;
@@ -2883,14 +2893,14 @@ void func_020169E8(McssSys *sys, McssWork *work)
     }
 
     if (work->fadeTask != 0) {
-        func_02016C38(work->fadeTask);
+        MCSS_DeletePaletteTask(work->fadeTask);
         work->fadeTask = 0;
     }
 
     if (sys->taskSys != 0) {
-        handle = func_02030DA8(sys->taskSys, func_0201691C, task, 0);
+        handle = func_02030DA8(sys->taskSys, MCSS_TransPaletteTask, task, 0);
     } else {
-        handle = func_020056A0(func_0201691C, task, 0);
+        handle = func_020056A0(MCSS_TransPaletteTask, task, 0);
     }
     work->fadeTask = handle;
 
@@ -2925,18 +2935,18 @@ dec:
  * A whole translation unit, matched as one byte range.
  *
  * alias: a teardown chain on the same object class as unit_02015BA4.c.
- * sub_02016BA0 releases eight pointer fields of the object through
+ * MCSS_FreeResource releases eight pointer fields of the object through
  * func_020307B0 (a generic release call reached by blx, so it is ARM),
  * zeroes three of them (+0x98, +0xd4, +0xd8, all past the immediate str
  * reach so the compiler adds the offset into a register first), then
  * zeroes the other four (+0xc, +0x1c, +0x14, +0x24, +0x2c) and, if the
- * object's own field at +0 is non-zero, recurses into sub_02016C0C with
- * that field's value before zeroing it too. sub_02016C0C turns an id into
+ * object's own field at +0 is non-zero, recurses into MCSS_DeleteTextureTask with
+ * that field's value before zeroing it too. MCSS_DeleteTextureTask turns an id into
  * an object through func_02030EE8, releases one or two of the object's own
  * pointer fields the same way, releases the object itself, and finally
  * releases the id through func_02030EAC.
  *
- * The immediate follower, sub_02016C38 (38 bytes, same shape over a third
+ * The immediate follower, MCSS_DeletePaletteTask (38 bytes, same shape over a third
  * field, one level of extra indirection), is a documented near miss: this
  * front end assigns it only two callee-saved registers (padding a filler
  * into r3) where the original spends three (r4, r5, r6), so the second
@@ -2947,7 +2957,7 @@ dec:
  *   python tools/match.py tu --src src/matched/unit_02016BA0.c \
  *       --addr 0x02016BA0 --thumb
  */
-void sub_02016BA0(McssWork *work)
+void MCSS_FreeResource(McssWork *work)
 {
     func_020307B0(work->cellFile);
     func_020307B0(work->cellAnimFile);
@@ -2970,14 +2980,14 @@ void sub_02016BA0(McssWork *work)
         work->multiCellAnimFile = 0;
         work->cellHeader = 0;
         if (task != 0) {
-            func_02016C0C(task);
+            MCSS_DeleteTextureTask(task);
             work->textureTask = 0;
         }
     }
 }
 
 
-void sub_02016C0C(void *taskHandle)
+void MCSS_DeleteTextureTask(void *taskHandle)
 {
     McssTransTask *task = func_02030EE8(taskHandle);
 
@@ -2992,7 +3002,7 @@ void sub_02016C0C(void *taskHandle)
 }
 
 
-void func_02016C38(void *taskHandle)
+void MCSS_DeletePaletteTask(void *taskHandle)
 {
     McssTransTask *task = func_02030EE8(taskHandle);
     func_020307B0(task->plttData->data);
@@ -3013,7 +3023,7 @@ void func_02016C38(void *taskHandle)
  * the pointer in r1 and both zeros in r0, as the image has them.
  * History: docs/notes/pkt_02016C60.c.txt.
  */
-void func_02016C60(McssWork *work, McssTransTask *task)
+void MCSS_ApplyMosaic(McssWork *work, McssTransTask *task)
 {
   s32 rowBytes;
   u8 *pixels;
@@ -3327,7 +3337,7 @@ void func_02016C60(McssWork *work, McssTransTask *task)
  * Verified with
  *   python tools/match.py tu --src src/matched/unit_02016FC8.c  *       --addr 0x02016FC8 --thumb
  */
-void func_02016FC8(const VecFx32 *v, const MtxFx44 *mtx,
+void MCSS_MulVecMtx44(const VecFx32 *v, const MtxFx44 *mtx,
                    VecFx32 *dst, s32 *w)
 {
     s32 vx;
@@ -3356,62 +3366,62 @@ void func_02016FC8(const VecFx32 *v, const MtxFx44 *mtx,
 
 /*
  * The first of two parallel fillers of the same nine word record.
- * func_02017168 builds it from the five values func_02017114 reads out of the
+ * MCSS_TOOL_MakeAddWorkFromParam builds it from the five values MCSS_TOOL_MakeAddWorkFromPPP reads out of the
  * save block and writes 0 into the last word; its twin at 0x02017214 builds
  * the same record from a pair of pointers and writes 1, so that word is the
  * tag saying which of the two produced it.  The twin is parked in
  * src/pending/unit_02017214.c: it is the only caller of six of its eight
  * callees.
  *
- * func_02017100 passes its first argument through func_020185F4 rather than
+ * MCSS_TOOL_MakeAddWorkFromPP passes its first argument through POKE_TOOL_GetBoxParam rather than
  * holding it in a callee-saved register, which is only possible because that
  * function returns its argument: it is the two byte `bx lr` at 0x020185F4 that
  * src/matched/unit_020185F0.c matches as an empty hook.  Written as a void
- * call followed by func_02017114(p, ...) the first argument would have to be
+ * call followed by MCSS_TOOL_MakeAddWorkFromPPP(p, ...) the first argument would have to be
  * saved across it and the function grows a register.
  */
-void func_02017100(void *pp, McssAddWork *out, u32 direction)
+void MCSS_TOOL_MakeAddWorkFromPP(void *pp, McssAddWork *out, u32 direction)
 {
-    func_02017114(func_020185F4(pp), out, direction);
+    MCSS_TOOL_MakeAddWorkFromPPP(POKE_TOOL_GetBoxParam(pp), out, direction);
 }
 
 
-void func_02017114(void *pokemon, McssAddWork *out, u32 direction)
+void MCSS_TOOL_MakeAddWorkFromPPP(void *pokemon, McssAddWork *out, u32 direction)
 {
     u32 species = func_02017E88(pokemon, 5, 0);
     u32 form = func_02017E88(pokemon, 0x6F, 0);
     u32 gender = func_02017E88(pokemon, 0x6E, 0);
-    u32 isShiny = func_02017EB4(pokemon);
+    u32 isShiny = POKE_TOOL_IsBoxShiny(pokemon);
     u32 isEgg = func_02017E88(pokemon, 0x4C, 0);
 
-    func_02017168(species, form, gender, isShiny, isEgg, out, direction);
+    MCSS_TOOL_MakeAddWorkFromParam(species, form, gender, isShiny, isEgg, out, direction);
 }
 
 
-void func_02017168(u32 species, u32 form, u32 gender, u32 isShiny, u32 isEgg, McssAddWork *out,
+void MCSS_TOOL_MakeAddWorkFromParam(u32 species, u32 form, u32 gender, u32 isShiny, u32 isEgg, McssAddWork *out,
                    u32 direction)
 {
     out->arcId = func_0202D060();
-    out->textureMember = func_0202D09C(out->arcId, species, form, gender, isShiny, direction, isEgg);
+    out->textureMember = POKEGRA_GetCbrArcIndex(out->arcId, species, form, gender, isShiny, direction, isEgg);
     out->paletteMember = func_0202D0D4(out->arcId, species, form, gender, isShiny, direction, isEgg);
-    out->cellMember = func_0202D110(out->arcId, species, form, gender, isShiny, direction, isEgg);
-    out->cellAnimMember = func_0202D144(out->arcId, species, form, gender, isShiny, direction, isEgg);
-    out->multiCellMember = func_0202D178(out->arcId, species, form, gender, isShiny, direction, isEgg);
-    out->multiCellAnimMember = func_0202D1AC(out->arcId, species, form, gender, isShiny, direction, isEgg);
-    out->cellHeaderMember = func_0202D1E0(out->arcId, species, form, gender, isShiny, direction, isEgg);
+    out->cellMember = POKEGRA_GetCelArcIndex(out->arcId, species, form, gender, isShiny, direction, isEgg);
+    out->cellAnimMember = POKEGRA_GetAnmArcIndex(out->arcId, species, form, gender, isShiny, direction, isEgg);
+    out->multiCellMember = POKEGRA_GetMCelArcIndex(out->arcId, species, form, gender, isShiny, direction, isEgg);
+    out->multiCellAnimMember = POKEGRA_GetMAnmArcIndex(out->arcId, species, form, gender, isShiny, direction, isEgg);
+    out->cellHeaderMember = POKEGRA_GetNcecArcIndex(out->arcId, species, form, gender, isShiny, direction, isEgg);
     out->heapMode = 0;
 }
 
 
 /*
  * Promoted from src/pending/ during a shard verify sweep: all six of its
- * previously witness-less callees (func_0202D5F8, func_0202D640,
- * func_0202D664, func_0202D688, func_0202D6AC, func_0202D6D0) are now
+ * previously witness-less callees (POKEGRA_GetTrainerCbrArcIndex, POKEGRA_GetTrainerCelArcIndex,
+ * POKEGRA_GetTrainerAnmArcIndex, POKEGRA_GetTrainerMCelArcIndex, POKEGRA_GetTrainerMAnmArcIndex, POKEGRA_GetTrainerNcecArcIndex) are now
  * EXACT matched entries elsewhere in the tree, so the `matched` class
  * resolves every site that was stuck wildcarded and this closes to
  * EXACT with no change to the C.
  *
- * This is the twin of func_02017168 in src/matched/unit_02017100.c: the
+ * This is the twin of MCSS_TOOL_MakeAddWorkFromParam in src/matched/unit_02017100.c: the
  * same nine word record, built from a pair of pointers instead of from
  * five save block fields, with 1 in the last word where the other
  * writes 0.
@@ -3420,32 +3430,32 @@ void func_02017168(u32 species, u32 form, u32 gender, u32 isShiny, u32 isEgg, Mc
  *   python tools/match.py tu --src src/matched/unit_02017214.c \
  *       --addr 0x02017214 --thumb
  */
-void func_02017214(void *trainerClass, McssAddWork *out, void *trainerGender)
+void MCSS_TOOL_MakeAddWorkFromTrainer(void *trainerClass, McssAddWork *out, void *trainerGender)
 {
-    out->arcId = func_0202D5CC((u32)trainerGender);
-    out->textureMember = func_0202D5F8((u32)trainerClass, (u32)trainerGender);
-    out->paletteMember = func_0202D61C((u32)trainerClass, (u32)trainerGender);
-    out->cellMember = func_0202D640((u32)trainerClass, (u32)trainerGender);
-    out->cellAnimMember = func_0202D664((u32)trainerClass, (u32)trainerGender);
-    out->multiCellMember = func_0202D688((u32)trainerClass, (u32)trainerGender);
-    out->multiCellAnimMember = func_0202D6AC((u32)trainerClass, (u32)trainerGender);
-    out->cellHeaderMember = func_0202D6D0((u32)trainerClass, (u32)trainerGender);
+    out->arcId = POKEGRA_GetTrainerArcID((u32)trainerGender);
+    out->textureMember = POKEGRA_GetTrainerCbrArcIndex((u32)trainerClass, (u32)trainerGender);
+    out->paletteMember = POKEGRA_GetTrainerPalArcIndex((u32)trainerClass, (u32)trainerGender);
+    out->cellMember = POKEGRA_GetTrainerCelArcIndex((u32)trainerClass, (u32)trainerGender);
+    out->cellAnimMember = POKEGRA_GetTrainerAnmArcIndex((u32)trainerClass, (u32)trainerGender);
+    out->multiCellMember = POKEGRA_GetTrainerMCelArcIndex((u32)trainerClass, (u32)trainerGender);
+    out->multiCellAnimMember = POKEGRA_GetTrainerMAnmArcIndex((u32)trainerClass, (u32)trainerGender);
+    out->cellHeaderMember = POKEGRA_GetTrainerNcecArcIndex((u32)trainerClass, (u32)trainerGender);
     out->heapMode = 1;
 }
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02017270.c \
- *       --func func_02017270 --addr 0x02017270 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MCSS_TOOL_AddPokeMcss.c \
+ *       --func MCSS_TOOL_AddPokeMcss --addr 0x02017270 --cc 1.1p1 --thumb
  */
-McssWork *func_02017270(McssSys *sys, void *pp, u32 direction, fx32 x, fx32 y, fx32 z)
+McssWork *MCSS_TOOL_AddPokeMcss(McssSys *sys, void *pp, u32 direction, fx32 x, fx32 y, fx32 z)
 {
     McssAddWork addWork;
 
-    func_020172AC(sys, func_02017E1C(pp, 0, 0));
-    func_02017100(pp, &addWork, direction);
-    return func_020159C8(sys, x, y, z, &addWork);
+    MCSS_TOOL_SetSpindaSpotHook(sys, func_02017E1C(pp, 0, 0));
+    MCSS_TOOL_MakeAddWorkFromPP(pp, &addWork, direction);
+    return MCSS_Add(sys, x, y, z, &addWork);
 }
 
 
@@ -3453,36 +3463,36 @@ McssWork *func_02017270(McssSys *sys, void *pp, u32 direction, fx32 x, fx32 y, f
  * A four-instruction tail call: the second argument is replaced by a function
  * pointer (the pool word 0x020172BD, the Thumb bit set), the first and third
  * pass through, and the target is loaded from the pool and branched to with
- * `bx r3`.  The callee is the label-less Thumb leaf src/matched/sub_02014CF0.c.
+ * `bx r3`.  The callee is the label-less Thumb leaf src/matched/MCSS_SetLoadHook.c.
  *
- * The `symbols:` line is load-bearing.  Without it the name `func_02014CF0`
+ * The `symbols:` line is load-bearing.  Without it the name `MCSS_SetLoadHook`
  * carries the address but the naming convention can only guess the ISA, and
  * an address no `func_` label was traced at is guessed ARM -- so the site
  * was reported as "02014CF0 (arm, from name) has no witness" and the file sat
- * at MATCH, because sub_02014CF0 is a Thumb manifest entry and the `matched`
+ * at MATCH, because MCSS_SetLoadHook is a Thumb manifest entry and the `matched`
  * class refuses an ISA that does not agree with it.  Declaring the ISA
  * explicitly (origin "header") resolves the word to 0x02014CF1, which is what
  * the image holds.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020172AC.c \
- *       --func func_020172AC --addr 0x020172AC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MCSS_TOOL_SetSpindaSpotHook.c \
+ *       --func MCSS_TOOL_SetSpindaSpotHook --addr 0x020172AC --cc 1.1p1 --thumb
  */
-void func_020172AC(McssSys *sys, u32 personality)
+void MCSS_TOOL_SetSpindaSpotHook(McssSys *sys, u32 personality)
 {
-    sub_02014CF0(sys, func_020172BC, personality);
+    MCSS_SetLoadHook(sys, MCSS_TOOL_SpindaSpotHook, personality);
 }
 
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020172BC.c \
- *       --func func_020172BC --addr 0x020172BC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MCSS_TOOL_SpindaSpotHook.c \
+ *       --func MCSS_TOOL_SpindaSpotHook --addr 0x020172BC --cc 1.1p1 --thumb
  */
-u32 func_020172BC(const McssAddWork *addWork, McssTransTask *task, u32 personality)
+u32 MCSS_TOOL_SpindaSpotHook(const McssAddWork *addWork, McssTransTask *task, u32 personality)
 {
     if (addWork->cellHeaderMember == 0x1994) {
-        func_020172D8(task->texData->rawData, personality);
+        MCSS_TOOL_DrawSpindaSpots(task->texData->rawData, personality);
     }
     return 1;
 }
@@ -3496,10 +3506,10 @@ u32 func_020172BC(const McssAddWork *addWork, McssTransTask *task, u32 personali
  * bytes out) that no declaration order, scope, type or permuter run moved.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020172D8.c \
- *       --func func_020172D8 --addr 0x020172D8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MCSS_TOOL_DrawSpindaSpots.c \
+ *       --func MCSS_TOOL_DrawSpindaSpots --addr 0x020172D8 --cc 1.1p1 --thumb
  */
-void func_020172D8(u8 *pixels, u32 personality)
+void MCSS_TOOL_DrawSpindaSpots(u8 *pixels, u32 personality)
 {
     const u8 *spotTable;
     s32 spotSet;
@@ -3544,22 +3554,22 @@ void func_020172D8(u8 *pixels, u32 personality)
 }
 
 
-int func_020173B4(McssWork *work){ int ret = func_02015F2C((int)work, (int)(work + 0), (int)0x20173C9, (int)1); return ret; }
+int MCSS_TOOL_SetAnimeStopCallback(McssWork *work){ int ret = func_02015F2C((int)work, (int)(work + 0), (int)0x20173C9, (int)1); return ret; }
 
 
 /*
  * A four-byte tail call: the pool word 0x02016381 (Thumb) is loaded and
- * `bx r3` jumps with the incoming r0 untouched, i.e. sub_02016380 itself.
+ * `bx r3` jumps with the incoming r0 untouched, i.e. MCSS_RequestAnimeStopAtStart itself.
  * Its witness is the EXACT entry for 0x02016380 in this same shard - the
  * `matched` class - which is what makes the pool word resolve.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020173C8.c \
- *       --func sub_020173C8 --addr 0x020173C8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MCSS_TOOL_AnimeStopCallback.c \
+ *       --func MCSS_TOOL_AnimeStopCallback --addr 0x020173C8 --cc 1.1p1 --thumb
  */
-void sub_020173C8(McssWork *work)
+void MCSS_TOOL_AnimeStopCallback(McssWork *work)
 {
-    sub_02016380(work);
+    MCSS_RequestAnimeStopAtStart(work);
 }

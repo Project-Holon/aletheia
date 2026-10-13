@@ -1,5 +1,5 @@
 /*
- * function: func_0217449C
+ * function: INTRUDE_COMM_RecvPeerFlags
  * address: 0x0217449C
  * packet: pkt_ov011_0217449C
  * region: ov011
@@ -20,7 +20,7 @@ struct Entry;
 struct Entry *func_020399A8(void);
 struct Link;
 u32 func_0203D1A4(struct Link *p);
-void func_0217449C(int a, int b, u8 *c, u8 *p)
+void INTRUDE_COMM_RecvPeerFlags(int a, int b, u8 *c, u8 *p)
 {
     if (a != func_0203D1A4((struct Link *)((u32)func_020399A8()))) {
         ((F93F *)(p + 0x93f))->flags |= *c;

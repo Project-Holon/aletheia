@@ -17,11 +17,11 @@
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_02045334 0x02045334 arm
  *   func_020056EC 0x020056EC thumb
- *   func_0204B95C 0x0204B95C arm
+ *   CLACT_StartActorAnim 0x0204B95C arm
  *   func_0204B9A0 0x0204B9A0 arm
  *   func_0204B98C 0x0204B98C arm
- *   func_0204B918 0x0204B918 arm
- *   func_0204B974 0x0204B974 arm
+ *   CLACT_GetActorAnimSeqCount 0x0204B918 arm
+ *   CLACT_StopActorAnim 0x0204B974 arm
  *   d_021B7485 0x021B7485 data a1
  *   d_021B7481 0x021B7481 data a1
  */
@@ -40,12 +40,12 @@ extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_02045334(struct Descriptor *d);
 extern unsigned func_020056EC(unsigned);
 struct Actor;
-extern void func_0204B95C(struct Actor *a);
+extern void CLACT_StartActorAnim(struct Actor *a);
 extern void func_0204B9A0(struct Actor *a);
-extern void func_0204B974(struct Actor *a);
+extern void CLACT_StopActorAnim(struct Actor *a);
 extern u32 func_0204B98C(struct Actor *a);
 struct Obj;
-extern u16 func_0204B918(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
 extern const u8 d_021B7485[],d_021B7481[];
 void func_021B6D3C(u8 *p,u8 *q)
 {
@@ -102,15 +102,15 @@ void func_021B6D3C(u8 *p,u8 *q)
     }
     ((struct Obj00185 *)q)->f30+=(u16)(func_020056EC(2)+1);
     if(((struct Obj00185 *)q)->f30>=150) {
-        func_0204B95C(((struct Obj00185 *)q)->f28);
+        CLACT_StartActorAnim(((struct Obj00185 *)q)->f28);
         func_0204B9A0(((struct Obj00185 *)q)->f28);
         ((struct Obj00185 *)q)->f30=0;
     }
     if(((struct Obj00185 *)q)->f34==1 || ((struct Obj00185 *)q)->f38!=0) {
-        if(func_0204B98C(((struct Obj00185 *)q)->f2C)==0) func_0204B95C(((struct Obj00185 *)q)->f2C);
+        if(func_0204B98C(((struct Obj00185 *)q)->f2C)==0) CLACT_StartActorAnim(((struct Obj00185 *)q)->f2C);
     } else {
-        if(func_0204B98C(((struct Obj00185 *)q)->f2C)==1 && func_0204B918(((struct Obj00185 *)q)->f2C)==0)
-            func_0204B974(((struct Obj00185 *)q)->f2C);
+        if(func_0204B98C(((struct Obj00185 *)q)->f2C)==1 && CLACT_GetActorAnimSeqCount(((struct Obj00185 *)q)->f2C)==0)
+            CLACT_StopActorAnim(((struct Obj00185 *)q)->f2C);
     }
     if(((struct Obj00185 *)q)->f38!=0) (((struct Obj00185 *)q)->f38)--;
 }

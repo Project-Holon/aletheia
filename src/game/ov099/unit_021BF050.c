@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02156B8C  0x02156B8C  thumb  ov009
- *   func_0203C3EC  0x0203C3EC  arm
+ *   DWC_RAP_GetNewClientAid  0x02156B8C  thumb  ov009
+ *   GFL_NET_STATE_GetWifiState  0x0203C3EC  arm
  *   func_021BE788 0x021BE788 thumb ov099
  *   func_0203EFC8 0x0203EFC8 arm
  *   func_021BE2A8 0x021BE2A8 thumb ov099
@@ -28,18 +28,18 @@
  *   func_021BB2B0  0x021BB2B0  thumb  ov099
  *   func_021B98E4  0x021B98E4  thumb  ov099
  *   func_020221A4 0x020221A4 thumb
- *   func_0203CB00 0x0203CB00 arm
- *   func_0203C9AC 0x0203C9AC arm
- *   func_0203C554 0x0203C554 arm
+ *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
+ *   GFL_NET_STATE_SetError 0x0203C9AC arm
+ *   GFL_NET_STATE_WifiDisconnect 0x0203C554 arm
  *   func_020362DC 0x020362DC arm
- *   func_0203D7B0 0x0203D7B0 arm
+ *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   func_0203D7BC 0x0203D7BC arm
  *   func_02005728 0x02005728 thumb
  *   func_0200616C 0x0200616C thumb
- *   func_02156A3C 0x02156A3C thumb ov009
- *   func_02156BC4 0x02156BC4 thumb ov009
- *   func_02156BA8 0x02156BA8 thumb ov009
- *   func_02156B70 0x02156B70 thumb ov009
+ *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
+ *   DWC_RAP_SetVchatEnabled 0x02156BC4 thumb ov009
+ *   DWC_RAP_GetCanceledPeerIndex 0x02156BA8 thumb ov009
+ *   DWC_RAP_GetVchatEnabled 0x02156B70 thumb ov009
  *   func_021BE900 0x021BE900 thumb ov099
  *   func_021BA874 0x021BA874 thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
@@ -66,16 +66,16 @@
  *   func_020399A8 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  *   func_02009B80 0x02009B80 thumb
- *   func_02156B68 0x02156B68 thumb ov009
+ *   DWC_RAP_GetVchatState 0x02156B68 thumb ov009
  *   func_021BE3CC 0x021BE3CC thumb ov099
  *   func_021BA828 0x021BA828 thumb ov099
  *   func_021BA858 0x021BA858 thumb ov099
- *   func_0201FEF4 0x0201FEF4 thumb
+ *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  *   func_0203D3A8 0x0203D3A8 arm
- *   func_021563EC 0x021563EC thumb ov009
+ *   DWC_RAP_IsVchatActive 0x021563EC thumb ov009
  *   func_02039CB4 0x02039CB4 arm
- *   func_020399EC 0x020399EC arm
- *   func_021563D0 0x021563D0 thumb ov009
+ *   GFL_NET_HANDLE_GetNegotiationNum 0x020399EC arm
+ *   DWC_RAP_StopVchat 0x021563D0 thumb ov009
  *   func_021BDD0C 0x021BDD0C thumb ov099
  *   func_021B96CC 0x021B96CC thumb ov099
  *   func_021B9AE0 0x021B9AE0 thumb ov099
@@ -84,7 +84,7 @@
  *   func_021BA8BC 0x021BA8BC thumb ov099
  *   func_0202020C 0x0202020C thumb
  *   func_0201F868 0x0201F868 thumb
- *   func_0201AC80 0x0201AC80 thumb
+ *   POKEPARTY_GetAliveNonEggCount 0x0201AC80 thumb
  *   func_020200CC 0x020200CC thumb
  *   func_021BB954 0x021BB954 thumb ov099
  *   func_021BDDD0 0x021BDDD0 thumb ov099
@@ -100,8 +100,8 @@
  *   func_021BDD98 0x021BDD98 thumb ov099
  *   func_021BCC4C  0x021BCC4C  thumb  ov099
  *   func_021BDDF4  0x021BDDF4  thumb  ov099
- *   func_02156D5C 0x02156D5C thumb ov009
- *   func_0203C5EC 0x0203C5EC arm
+ *   DWC_RAP_GetResult 0x02156D5C thumb ov009
+ *   GFL_NET_STATE_IsWifiDisconnectFinal 0x0203C5EC arm
  *   func_021BE6E4 0x021BE6E4 thumb ov099
  *   func_021BA7D8 0x021BA7D8 thumb ov099
  *   func_020399B8 0x020399B8 arm
@@ -109,7 +109,7 @@
  *   func_0203D1A4 0x0203D1A4 arm
  *   func_02039ACC 0x02039ACC arm
  *   func_0200ED48 0x0200ED48 thumb
- *   sub_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_021BCC58  0x021BCC58  thumb  ov099
  *   func_021BCBD8 0x021BCBD8 thumb ov099
  *   func_0203D378 0x0203D378 arm
@@ -159,16 +159,16 @@
  *   func_021BE4BC 0x021BE4BC thumb ov099
  *   func_020099E4  0x020099E4  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
- *   func_02156860  0x02156860  thumb  ov009
- *   func_02156874  0x02156874  thumb  ov009
+ *   DWC_RAP_GetFriendStatusData  0x02156860  thumb  ov009
+ *   DWC_RAP_GetFriendStatus  0x02156874  thumb  ov009
  *   sub_0203C2B0  0x0203C2B0  arm
  *   func_021B98F8  0x021B98F8  thumb  ov099
- *   func_02005F24 0x02005F24 thumb
- *   func_02005CBC  0x02005CBC  thumb
- *   func_02006734  0x02006734  thumb
+ *   GFL_USE_SetBgmTrackVolume 0x02005F24 thumb
+ *   GFL_USE_SetPlayerVolumes  0x02005CBC  thumb
+ *   PM_VOICE_SetMasterVolume  0x02006734  thumb
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
- *   func_0203D668 0x0203D668 arm
+ *   GFL_NET_SetUserArg 0x0203D668 arm
  *   func_021BCB8C 0x021BCB8C thumb ov099
  *   func_02012934 0x02012934 thumb
  *   func_0201283C 0x0201283C thumb
@@ -178,14 +178,14 @@
  *   func_021BDE94 0x021BDE94 thumb ov099
  *   func_021BE6F0 0x021BE6F0 thumb ov099
  *   func_0203D34C 0x0203D34C arm
- *   func_02157170 0x02157170 thumb ov009
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   func_021BC0C4 0x021BC0C4 thumb ov099
  *   func_021BB0B4 0x021BB0B4 thumb ov099
  *   func_0202223C 0x0202223C thumb
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0202208C 0x0202208C thumb
  *   func_0204A600 0x0204A600 arm
- *   func_0201DE00 0x0201DE00 thumb
+ *   GF_FONT_GetTextColor 0x0201DE00 thumb
  *   func_020310C4 0x020310C4 arm
  *   func_0201C4E4 0x0201C4E4 thumb
  *   d_021C3C0C 0x021C3C0C data a4
@@ -558,8 +558,8 @@ typedef struct {
     u8 b0:1, b1:1, b2:1, b3:1, b4:1, b5:1, b6:1, b7:1;
 } S_021C2850;
 
-extern int func_02156B8C(void);
-extern int func_0203C3EC(void);
+extern int DWC_RAP_GetNewClientAid(void);
+extern int GFL_NET_STATE_GetWifiState(void);
 extern int func_021BE788(char *);
 extern s32_021BF084 func_0203EFC8(const u8 *a, const u8 *b, unsigned int n);
 extern void *func_021BE2A8(char *,int);
@@ -573,18 +573,18 @@ extern int func_021BE7EC(char *p);
 extern void func_021BB2B0(char *p, int v);
 extern void func_021B98E4(int a, u8 *b);
 extern u32_021BF2C4 func_020221A4(void);
-extern int func_0203CB00(void);
-extern void func_0203C9AC(int, u32_021BF2C4, u32_021BF2C4, u32_021BF2C4);
-extern void func_0203C554(u32_021BF2C4 a);
+extern int GFL_NET_STATE_IsFatalError(void);
+extern void GFL_NET_STATE_SetError(int, u32_021BF2C4, u32_021BF2C4, u32_021BF2C4);
+extern void GFL_NET_STATE_WifiDisconnect(u32_021BF2C4 a);
 extern u32_021BF2C4 func_020362DC(void);
-extern void func_0203D7B0(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern void func_0203D7BC(u8 a0);
 extern u32_021BF2C4 func_02005728(u32_021BF2C4);
 extern void func_0200616C(void *arg, int i);
-extern int func_02156A3C(void);
-extern void func_02156BC4(int);
-extern int func_02156BA8(void);
-extern s16 func_02156B70(void);
+extern int DWC_RAP_GetTargetFriendIndex(void);
+extern void DWC_RAP_SetVchatEnabled(int);
+extern int DWC_RAP_GetCanceledPeerIndex(void);
+extern s16 DWC_RAP_GetVchatEnabled(void);
 extern void func_021BE900(char *);
 extern void func_021BA874(char *, int);
 extern void func_021BAAB8(char *, int, int);
@@ -611,16 +611,16 @@ extern void func_021BA8EC(char *);
 extern struct Entry *func_020399A8(void);
 extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 extern void func_02009B80(struct Sub020097BCObj *obj, int i);
-extern int func_02156B68(char *);
+extern int DWC_RAP_GetVchatState(char *);
 extern void func_021BE3CC(char *p, int a, u8 b, u8 c, u32_021BFBBC d, int e);
 extern void func_021BA828(char *);
 extern u32 func_021BA858(char *p);
-extern void func_0201FEF4(u8 *o);
+extern void BMP_MENU_DeleteYesNo(u8 *o);
 extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
-extern int func_021563EC(void);
+extern int DWC_RAP_IsVchatActive(void);
 extern unsigned func_02039CB4(struct Link *,unsigned,unsigned);
-extern int func_020399EC(void);
-extern void func_021563D0(void);
+extern int GFL_NET_HANDLE_GetNegotiationNum(void);
+extern void DWC_RAP_StopVchat(void);
 extern void func_021BDD0C(void *p, int on);
 extern int func_021B96CC(int *p);
 extern void func_021B9AE0(void *w, u8 *s);
@@ -629,7 +629,7 @@ extern void func_021BAD50(int a);
 extern int func_021BA8BC(void *p);
 extern void func_0202020C(struct Obj *,u16 *,u16 *);
 extern u32_021C0290 func_0201F868(void *p);
-extern u32_021C02C8 func_0201AC80(void *);
+extern u32_021C02C8 POKEPARTY_GetAliveNonEggCount(void *);
 extern int func_020200CC(struct Obj *);
 extern void func_021BB954(char *, int);
 extern int func_021BDDD0(char *);
@@ -643,8 +643,8 @@ extern void func_021BAD74(char *);
 extern int func_021BDD98(int);
 extern void func_021BCC4C(void *a);
 extern int func_021BDDF4(char *p);
-extern unsigned func_02156D5C(void);
-extern int func_0203C5EC(void);
+extern unsigned DWC_RAP_GetResult(void);
+extern int GFL_NET_STATE_IsWifiDisconnectFinal(void);
 extern void func_021BE6E4(char *);
 extern void func_021BA7D8(void *p);
 extern u32 func_020399B8(u8 *p);
@@ -656,7 +656,7 @@ extern void func_02008494(void *, void *);
 extern void *func_0200ED48(void *);
 extern u32_021C1288 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200ED54(struct L0200ED54 *l, u32_021C1288 val);
-extern struct Entry *sub_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void func_021BCC58(char *p, u32_021C1334 x);
 extern int func_02008468(void);
 extern u8 *func_02012944(void *p);
@@ -710,16 +710,16 @@ extern void func_0201C7A4(void *, s16_021C2274, s16_021C2274, void *, void *);
 extern void func_021BE4BC(char *p, int a, int b, int c, int d, unsigned int e, int f);
 extern void func_020099E4(struct Sub020097BCObj *obj, int i, void *dest);
 extern void func_0201EE0C(struct WordSet *p, u32_021C1A44 i, const void *src, u32_021C1A44 n, u32_021C1A44 f, u32_021C1A44 c);
-extern int func_02156860(int i);
-extern unsigned char func_02156874(int i);
+extern int DWC_RAP_GetFriendStatusData(int i);
+extern unsigned char DWC_RAP_GetFriendStatus(int i);
 extern int sub_0203C2B0(int a);
 extern void func_021B98F8(char *p, int b);
-extern void func_02005F24(u32_021C2438 a0, u32_021C2438 a1);
-extern void func_02005CBC(u32_021C24A4 value, u32_021C24A4 mask);
-extern void func_02006734(int v);
+extern void GFL_USE_SetBgmTrackVolume(u32_021C2438 a0, u32_021C2438 a1);
+extern void GFL_USE_SetPlayerVolumes(u32_021C24A4 value, u32_021C24A4 mask);
+extern void PM_VOICE_SetMasterVolume(int v);
 extern void func_0203064C(u32_021C24F0, u32_021C24F0, u32_021C24F0);
 extern void *func_0203159C(struct Obj0203159C *obj, u32_021C24F0 size, u32_021C24F0 heap);
-extern void func_0203D668(u32_021C24F0);
+extern void GFL_NET_SetUserArg(u32_021C24F0);
 extern int func_021BCB8C(void *);
 extern void *func_02012934(const struct BigObj *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
@@ -728,14 +728,14 @@ extern void func_021BB1A8(char *);
 extern void func_021BDE94(char *);
 extern void func_021BE6F0(char *, int, int);
 extern void func_0203D34C(u32_021C24F0, u32_021C24F0);
-extern int func_02157170(int,int);
+extern int DWC_RAPCOMMON_HandleNetError(int,int);
 extern unsigned int func_0200FB24(void);
 extern void func_021BC0C4(char *);
 extern void func_021BB0B4(char *);
 extern void func_0202223C(unsigned int,unsigned int);
 extern void func_0202208C(void *,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int);
 extern void func_0204A600(void *);
-extern void func_0201DE00(u8 *,u8 *,u8 *);
+extern void GF_FONT_GetTextColor(u8 *,u8 *,u8 *);
 extern void func_020310C4(struct Tcbl *p);
 extern u32_021C2604 func_0201C4E4(struct PrintSys *ps);
 extern void func_021BA7F8(char *);
@@ -909,7 +909,7 @@ extern const Handler d_021C3C0C[];
 /*
  * True unless the arm9 predicate answers -1.
  *
- * Unblocked by matching func_02156B8C (ov009, EXACT): the +0002 call site now
+ * Unblocked by matching DWC_RAP_GetNewClientAid (ov009, EXACT): the +0002 call site now
  * attests as `matched`.  The old `ov172` hint was simply wrong -- 0x02156B8C
  * is not inside ov172's window; the address is coherent Thumb code in ov009
  * (ov010 holds the tail of another function there).
@@ -919,7 +919,7 @@ extern const Handler d_021C3C0C[];
  */
 BOOL func_021BF050(char *p)
 {
-    if (func_02156B8C() != -1) {
+    if (DWC_RAP_GetNewClientAid() != -1) {
         return 1;
     }
 
@@ -937,12 +937,12 @@ BOOL func_021BF050(char *p)
 
 
 /*
- * Channel-id predicate: true when func_0203C3EC() answers 3, 4 or 5.
+ * Channel-id predicate: true when GFL_NET_STATE_GetWifiState() answers 3, 4 or 5.
  * `push {r3, lr}; blx; cmp r0, #3; beq; cmp r0, #4; beq; cmp r0, #5; bne;
  * movs r0, #1; pop; movs r0, #0; pop`.
  *
  * Now EXACT*.  The old blocker (0x0203C3EC had no witness) is gone: it was
- * matched in arm9 (src/matched/func_0203C3EC.c, shard pkt_0203C3EC), so
+ * matched in arm9 (src/matched/GFL_NET_STATE_GetWifiState.c, shard pkt_0203C3EC), so
  * `attest_matched` resolves the BLX field.  The remaining residue was codegen:
  * the old `v == 3 || v == 4 || v == 5` source folded to a range test, and a
  * chain of separate `if`s oriented the true arm last.  A bare `switch (v)`
@@ -952,7 +952,7 @@ BOOL func_021BF050(char *p)
  */
 BOOL func_021BF068(char *a0)
 {
-    int v = func_0203C3EC();
+    int v = GFL_NET_STATE_GetWifiState();
 
     switch (v) {
     case 3:
@@ -1147,10 +1147,10 @@ void func_021BF29C(char *p)
  *   ov099_func_021BFB04.c, itself copied from ov099_func_021BEB68.c
  *   (leaf-cb00-r1.log).
  *   extern char *d_021469DC;
- *   extern void func_0203CADC(void);
- *   int func_0203CB00(void) {
+ *   extern void GFL_NET_STATE_FatalError(void);
+ *   int GFL_NET_STATE_IsFatalError(void) {
  *       if (d_021469DC != 0) {
- *           if (*(void **)(d_021469DC + 8) == (void *)func_0203CADC) return 1;
+ *           if (*(void **)(d_021469DC + 8) == (void *)GFL_NET_STATE_FatalError) return 1;
  *       }
  *       return 0;
  *   }
@@ -1167,23 +1167,23 @@ int func_021BF2C4(char *p, int ret)
     void *record;
     *(u8 *)(p + 0x1356) = 0;
     if (func_020221A4() == 0) return ret;
-    if (func_0203CB00()) { func_021BE900(p); return ret; }
+    if (GFL_NET_STATE_IsFatalError()) { func_021BE900(p); return ret; }
     if (*(int *)(p + 0x1f0) != -1) {
-        if (++*(int *)(p + 0x1c8) > 0xe10) { func_0203C9AC(0, 0, 0, 0x3f1); return ret; }
+        if (++*(int *)(p + 0x1c8) > 0xe10) { GFL_NET_STATE_SetError(0, 0, 0, 0x3f1); return ret; }
     }
-    if (func_0203C3EC() == 4) {
-        func_021BA874(p, func_02156A3C());
+    if (GFL_NET_STATE_GetWifiState() == 4) {
+        func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
         func_021BAAB8(p, 15, 0);
         *(int *)(p + 0x1cc) = 21;
         func_021C18C8(p, 1, 2);
-        func_0203C554(1);
+        GFL_NET_STATE_WifiDisconnect(1);
         return ret;
     }
     func_021BF280(p, (void *)33);
     func_021C1BEC((u8 *)p);
     func_021B9B54(p + 0x274);
     if (func_021B98FC(p + 0x274) == 0) {
-        if (func_02156B8C() == -1 && (func_020362DC() & 0x400)) {
+        if (DWC_RAP_GetNewClientAid() == -1 && (func_020362DC() & 0x400)) {
             if (func_021C1968((Work *)p)) func_021BAADC(p, 57, 0);
             else func_021BAADC(p, 58, 0);
             func_020061E4(0x54c);
@@ -1215,34 +1215,34 @@ int func_021BF2C4(char *p, int ret)
     }
     if (func_021BF03C(p) && *(int *)(p + 0x1f0) != -1) {
         func_0200616C((void *)0x806, 0);
-        func_0203D7B0(1);
+        GFL_NET_SetAutoExit(1);
         func_0203D7BC(1);
         *(int *)(p + 0x1cc) = 40;
         return ret;
     }
-    if (*(int *)(p + 0x1f0) == -1 && func_02156B8C() != -1) {
-        index = func_02156B8C();
+    if (*(int *)(p + 0x1f0) == -1 && DWC_RAP_GetNewClientAid() != -1) {
+        index = DWC_RAP_GetNewClientAid();
         *(int *)(p + 0x1f0) = index;
         func_021BA874(p, index);
         if (!*(u8 *)(p + 0x1351)) func_021BAAB8(p, 46, 0);
         *(int *)(p + 0x1c8) = 0;
-    } else if (*(int *)(p + 0x1f0) != -1 && func_02156B8C() == -1) {
-        func_02156BC4(0);
+    } else if (*(int *)(p + 0x1f0) != -1 && DWC_RAP_GetNewClientAid() == -1) {
+        DWC_RAP_SetVchatEnabled(0);
         func_021C2864(*(void **)(p + 8), func_021C27E0((S_021C27E0 *)(*(void **)(p + 8))));
         func_021BA874(p, *(int *)(p + 0x1f0));
         func_021BAAB8(p, 15, 0);
-        func_0203C554(1);
+        GFL_NET_STATE_WifiDisconnect(1);
         *(int *)(p + 0x1cc) = 19;
         return ret;
     }
     if (func_021BF068(p) && *(int *)(p + 0x1f0) != -1) {
-        func_021BA874(p, func_02156BA8());
+        func_021BA874(p, DWC_RAP_GetCanceledPeerIndex());
         func_021BAAB8(p, 15, 0);
         *(int *)(p + 0x1cc) = 19;
         return ret;
     }
-    if (func_02156B70() == 1 && func_02156B8C() == -1) {
-        func_02156BC4(0);
+    if (DWC_RAP_GetVchatEnabled() == 1 && DWC_RAP_GetNewClientAid() == -1) {
+        DWC_RAP_SetVchatEnabled(0);
         func_021C2864(*(void **)(p + 8), func_021C27E0((S_021C27E0 *)(*(void **)(p + 8))));
     }
     kind = func_021BDD48(p, *(void **)(p + 8));
@@ -1307,7 +1307,7 @@ int func_021BF6E0(char *p,int ret)
     unsigned action=0,kind;
     int index;
     if(((Ov099Work *)p)->f1F0!=-1){
-        if(++((Ov099Work *)p)->f1C8>0xe10){func_0203C9AC(0,0,0,0x3f1);return ret;}
+        if(++((Ov099Work *)p)->f1C8>0xe10){GFL_NET_STATE_SetError(0,0,0,0x3f1);return ret;}
     }
     func_021BA928(p);
     ((Ov099Work *)p)->f1356=0;
@@ -1316,25 +1316,25 @@ int func_021BF6E0(char *p,int ret)
     func_021B9B54(p+0x274);
     if(func_021BF03C(p) && ((Ov099Work *)p)->f1F0!=-1){
         func_0200616C((void *)0x806,0);
-        func_0203D7B0(1);
+        GFL_NET_SetAutoExit(1);
         func_0203D7BC(1);
         ((Ov099Work *)p)->f1CC=40;
         return ret;
     }
     if(func_021BF068(p) && ((Ov099Work *)p)->f1F0!=-1){
-        func_021BA874(p,func_02156BA8());
+        func_021BA874(p,DWC_RAP_GetCanceledPeerIndex());
         func_021BAAB8(p,15,0);
         ((Ov099Work *)p)->f1CC=19;
         return ret;
     }
-    if(((Ov099Work *)p)->f1F0==-1 && func_02156B8C()!=-1){
-        index=func_02156B8C();
+    if(((Ov099Work *)p)->f1F0==-1 && DWC_RAP_GetNewClientAid()!=-1){
+        index=DWC_RAP_GetNewClientAid();
         ((Ov099Work *)p)->f1F0=index;
         func_021BA874(p,index);
         if(!((Ov099Work *)p)->f1351)func_021BAAB8(p,46,0);
         ((Ov099Work *)p)->f1C8=0;
-    }else if(func_02156BA8()!=-1){
-        func_021BA874(p,func_02156BA8());
+    }else if(DWC_RAP_GetCanceledPeerIndex()!=-1){
+        func_021BA874(p,DWC_RAP_GetCanceledPeerIndex());
         func_021BAAB8(p,15,0);
         ((Ov099Work *)p)->f1CC=19;
         return ret;
@@ -1455,10 +1455,10 @@ int func_021BFA28(char *p, int ret)
     if (((Ov099Work *)p)->f1C4 < 0) {
         ((Ov099Work *)p)->f1CC = 0x3d;
     } else if (v != 1 && v != 2) {
-        func_021BA874(p, func_02156A3C());
+        func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
         func_021BAAB8(p, 0xd, 0);
         ((Ov099Work *)p)->f1CC = 0x13;
-    } else if (func_0203C3EC() == 1) {
+    } else if (GFL_NET_STATE_GetWifiState() == 1) {
         func_021BA8EC(p);
         func_021C282C(((Ov099Work *)p)->f8);
         ((Ov099Work *)p)->f1351 = 0;
@@ -1484,7 +1484,7 @@ int func_021BFA28(char *p, int ret)
  * Extent ends with two-byte alignment padding at 0x021BFB02.
  */
 int func_021BFAD0(char *p,int ret) {
- func_021BA874(p,func_02156A3C());
+ func_021BA874(p,DWC_RAP_GetTargetFriendIndex());
  func_021BAAB8(p,11,0);
  func_021C18C8(p,4,4);
  ((Ov099Work *)p)->f1CC=15;
@@ -1502,11 +1502,11 @@ int func_021BFAD0(char *p,int ret) {
 
 int func_021BFB04(char *p, int ret)
 {
-    if (func_0203CB00()) {
+    if (GFL_NET_STATE_IsFatalError()) {
         func_021BE900(p);
         return ret;
     }
-    if (func_02156A3C() < 0) {
+    if (DWC_RAP_GetTargetFriendIndex() < 0) {
         func_021BAAB8(p, 0x10, 0);
         *(int *)(p + 0x1cc) = 0x13;
         return ret;
@@ -1537,7 +1537,7 @@ int func_021BFB04(char *p, int ret)
 
 int func_021BFB90(char *p, int ret) {
  func_02039C68((struct Link *)func_020399A8(),19,10);
- func_02009B80(((Ov099Work *)p)->f4,func_02156A3C());
+ func_02009B80(((Ov099Work *)p)->f4,DWC_RAP_GetTargetFriendIndex());
  ((Ov099Work *)p)->f1CC=149;
  return ret;
 }
@@ -1553,7 +1553,7 @@ int func_021BFB90(char *p, int ret) {
 
 void func_021BFBBC(char *p)
 {
-    if (func_02156B68(p)) {
+    if (DWC_RAP_GetVchatState(p)) {
         func_021BE3CC(p + 0x898, 1, 2, 1, 0x3c, 0);
     } else {
         func_021BE3CC(p + 0x898, 1, 2, 1, 0x33, 0);
@@ -1571,7 +1571,7 @@ void func_021BFBBC(char *p)
 
 int func_021BFC04(char *p, int ret)
 {
-    void *s = (void *)func_021C23B8(func_02156A3C());
+    void *s = (void *)func_021C23B8(DWC_RAP_GetTargetFriendIndex());
     func_021BDD48(p, s);
     func_021BDD54(p, s);
     func_021BF280(p, (void *)0x21);
@@ -1581,7 +1581,7 @@ int func_021BFC04(char *p, int ret)
         ((Ov099Work *)p)->f1CC = 0x11;
     } else if (((Ov099Work *)p)->f1355) {
         func_021BA8EC(p);
-        func_021BA874(p, func_02156A3C());
+        func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
         func_021BAAB8(p, 0x10, 0);
         ((Ov099Work *)p)->f1E0 = 0x3c;
         ((Ov099Work *)p)->f1CC = 0x94;
@@ -1606,7 +1606,7 @@ int func_021BFC94(char *p, int ret)
     if (func_021BA928(p)) {
         if (((Ov099Work *)p)->f1355) {
             func_021BA8EC(p);
-            func_021BA874(p, func_02156A3C());
+            func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
             func_021BAAB8(p, 0x10, 0);
             ((Ov099Work *)p)->f1E0 = 0x3c;
             ((Ov099Work *)p)->f1CC = 0x94;
@@ -1634,9 +1634,9 @@ int func_021BFCEC(char *p, int ret)
     if (v == -1) {
         if (((Ov099Work *)p)->f1355) {
             func_021BA8EC(p);
-            func_0201FEF4(((Ov099Work *)p)->f108);
+            BMP_MENU_DeleteYesNo(((Ov099Work *)p)->f108);
             ((Ov099Work *)p)->f108 = 0;
-            func_021BA874(p, func_02156A3C());
+            func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
             func_021BAAB8(p, 0x10, 0);
             ((Ov099Work *)p)->f1E0 = 0x3c;
             ((Ov099Work *)p)->f1CC = 0x94;
@@ -1679,7 +1679,7 @@ int func_021BFD68(char *p, int ret)
  * Extent ends with two-byte alignment padding at 0x021BFDCE.
  */
 int func_021BFDA8(char *p, int ret) {
- if (!func_021563EC()) { func_02039C68((struct Link *)func_020399A8(),24,10); ((Ov099Work *)p)->f1CC=172; }
+ if (!DWC_RAP_IsVchatActive()) { func_02039C68((struct Link *)func_020399A8(),24,10); ((Ov099Work *)p)->f1CC=172; }
  return ret;
 }
 
@@ -1692,16 +1692,16 @@ int func_021BFDA8(char *p, int ret) {
 
 int func_021BFDD0(char *p,int ret) {
     ((Ov099Work *)p)->f1355=0;
-    if(func_02039CB4((struct Link *)func_020399A8(),18,10) || func_020399EC()!=2) {
+    if(func_02039CB4((struct Link *)func_020399A8(),18,10) || GFL_NET_HANDLE_GetNegotiationNum()!=2) {
         if((unsigned)(((Ov099Work *)p)->f135C-3)<=1){
-            func_021563D0();
+            DWC_RAP_StopVchat();
             func_021C24A4((Work_021C24A4 *)p,127);
             func_021BA8EC(p);
             func_021C18C8(p,3,3);
             ((Ov099Work *)p)->f1CC=154;
         } else {
             func_021C18C8(p,1,2);
-            func_0203D7B0(0); func_0203D7BC(0);
+            GFL_NET_SetAutoExit(0); func_0203D7BC(0);
             func_02039C68((struct Link *)func_020399A8(),21,10);
             ((Ov099Work *)p)->f1CC=159;
         }
@@ -1717,8 +1717,8 @@ int func_021BFDD0(char *p,int ret) {
 
 
 int func_021BFE54(char *p, int ret) {
-    if (func_02039CB4((struct Link *)func_020399A8(),21,10) || func_020399EC()!=2) {
-        func_0203C554(1);
+    if (func_02039CB4((struct Link *)func_020399A8(),21,10) || GFL_NET_HANDLE_GetNegotiationNum()!=2) {
+        GFL_NET_STATE_WifiDisconnect(1);
         ((Ov099Work *)p)->f1F0=-1;
         ((Ov099Work *)p)->f1E0=20;
         func_021BA8EC(p);
@@ -1750,13 +1750,13 @@ int func_021BFE9C(char *p,int ret) {
 
 int func_021BFED0(char *p,int ret)
 {
-    if(func_0203CB00()){func_021BE900(p);return ret;}
+    if(GFL_NET_STATE_IsFatalError()){func_021BE900(p);return ret;}
     if(func_021BDD48(p,*(void **)(p+8))!=1)func_021C18C8(p,1,2);
     if(!func_021BA928(p)){*(int *)(p+0x1e0)=30;return ret;}
     --*(int *)(p+0x1e0);
     if((func_020362DC()&3)||!*(int *)(p+0x1e0)){
         func_021BA8EC(p);
-        func_0203C554(1);
+        GFL_NET_STATE_WifiDisconnect(1);
         func_021BDD0C(p,0);
         if(!func_021B96CC((int *)(p+0x274))){
             *(int *)(p+0x1e0)=20;
@@ -1783,7 +1783,7 @@ int func_021BFF9C(char *p, int ret) {
     if (func_020362DC() & 3) {
         func_021BA8EC(p);
         func_021C18C8(p, 1, 2);
-        func_0203C554(1);
+        GFL_NET_STATE_WifiDisconnect(1);
         ((Ov099Work *)p)->f1E0=20;
         ((Ov099Work *)p)->f1CC=57;
     }
@@ -1800,7 +1800,7 @@ int func_021BFFE0(char *p,int ret) {
     func_021B9AE0(p+0x274,func_021BE2A8(p,func_021B97F4(p+0x274)));
     func_021BA8EC(p);
     func_021C18C8(p,1,2);
-    func_0203C554(1);
+    GFL_NET_STATE_WifiDisconnect(1);
     func_021BDD0C(p,0);
     if(!func_021B96CC((int *)(p+0x274))){
         ((Ov099Work *)p)->f1CC=func_021BE4F0(p,0);
@@ -1820,12 +1820,12 @@ int func_021BFFE0(char *p,int ret) {
 /*
  * extent: lead is 188 bytes; 021C0134, 021C0138, 021C013C are Thumb return-second-argument
  *   followers, each 08 1c 70 47 (adds r0,r1,#0; bx lr), not padding. ARM9 cap forbids filing them.
- *   g_021469DC 0x021469DC data resolves, func_0203CADC 0x0203CADC arm remains unresolved.
+ *   _pNetState 0x021469DC data resolves, GFL_NET_STATE_FatalError 0x0203CADC arm remains unresolved.
  *   typedef struct { int pad[2]; void (*callback)(void); } Object;
- *   extern Object *g_021469DC;
- *   extern void func_0203CADC(void);
- *   int func_0203CB00(void) {
- *       if(g_021469DC && g_021469DC->callback==func_0203CADC)return 1;
+ *   extern Object *_pNetState;
+ *   extern void GFL_NET_STATE_FatalError(void);
+ *   int GFL_NET_STATE_IsFatalError(void) {
+ *       if(_pNetState && _pNetState->callback==GFL_NET_STATE_FatalError)return 1;
  *       return 0;
  *   }
  *   file_020A7BA8 0x020A7BA8 data; message_020A7C7C 0x020A7C7C data;
@@ -1833,21 +1833,21 @@ int func_021BFFE0(char *p,int ret) {
  *   extern const char file_020A7BA8[];
  *   extern const char message_020A7C7C[];
  *   extern void func_02034714(const char *,unsigned,const char *);
- *   void func_0203CADC(void) {
+ *   void GFL_NET_STATE_FatalError(void) {
  *       func_02034714(file_020A7BA8,0x8d8,message_020A7C7C);
  *   }
  * diagnosis: caller-only tu --suggest-split MATCH 188 bytes; no viable split.
  */
 int func_021C0078(char *p,int ret)
 {
-    if(func_0203CB00()){func_021BE900(p);return ret;}
+    if(GFL_NET_STATE_IsFatalError()){func_021BE900(p);return ret;}
     if(!func_021BA928(p)){*(int *)(p+0x1e0)=30;return ret;}
     --*(int *)(p+0x1e0);
     if((func_020362DC()&3)||!*(int *)(p+0x1e0)){
         func_021B9AE0(p+0x274,func_021BE2A8(p,func_021B97F4(p+0x274)));
         func_021BA8EC(p);
         func_021C18C8(p,1,2);
-        func_0203C554(1);
+        GFL_NET_STATE_WifiDisconnect(1);
         func_021BDD0C(p,0);
         if(!func_021B96CC((int *)(p+0x274))){
             *(int *)(p+0x1cc)=func_021BE4F0(p,0);
@@ -1947,14 +1947,14 @@ int func_021C01A0(char *p, int v)
 int func_021C01CC(char *p,int ret) {
     int r=func_021BA858(p);
     func_021B9B64(p+0x274);
-    if(((Ov099Work *)p)->f1F0==-1 && func_02156B8C()!=-1){
-        if(r==-1){func_0201FEF4((u8 *)((int)((Ov099Work *)p)->f108)); ((Ov099Work *)p)->f108=0;}
+    if(((Ov099Work *)p)->f1F0==-1 && DWC_RAP_GetNewClientAid()!=-1){
+        if(r==-1){BMP_MENU_DeleteYesNo((u8 *)((int)((Ov099Work *)p)->f108)); ((Ov099Work *)p)->f108=0;}
         r=1;
     }
     if(r==-1)return ret;
     if(r==0){
         func_021C18C8(p,1,2);
-        func_0203C554(1);
+        GFL_NET_STATE_WifiDisconnect(1);
         func_021BDD0C(p,0);
         func_021C2408(p);
         ((Ov099Work *)p)->f1CC=11;
@@ -2029,7 +2029,7 @@ int func_021C02C8(char *p, int ret)
 {
     u32_021C02C8 choice;
     u8 *q;
-    func_0201AC80(((struct Obj00008 *)p)->fC8);
+    POKEPARTY_GetAliveNonEggCount(((struct Obj00008 *)p)->fC8);
     func_021B9B64(p + 0x274);
     if (!func_021BA928((struct W *)p)) return ret;
     choice = func_020200CC(*(struct Obj * *)&((struct Obj00008 *)p)->fBC);
@@ -2240,7 +2240,7 @@ int func_021C0618(char *p,int ret) {
     if (!func_021BA928(p,ret)) return ret;
     if(func_020362DC()) {
         func_021BA8EC(p);
-        func_0203C554(1);
+        GFL_NET_STATE_WifiDisconnect(1);
         func_021C18C8(p,1,2);
         ((Ov099Work *)p)->f1F0=-1;
         func_021C2408(p);
@@ -2254,7 +2254,7 @@ int func_021C0618(char *p,int ret) {
 
 
 
-int func_021C0664(char *p,int ret){func_021BA8EC(p);func_0203C554(1);func_021C18C8(p,1,2);((Ov099Work *)p)->f1F0=-1;func_021C2408(p);((Ov099Work *)p)->f1CC=11;return ret;}
+int func_021C0664(char *p,int ret){func_021BA8EC(p);GFL_NET_STATE_WifiDisconnect(1);func_021C18C8(p,1,2);((Ov099Work *)p)->f1F0=-1;func_021C2408(p);((Ov099Work *)p)->f1CC=11;return ret;}
 
 
 
@@ -2373,10 +2373,10 @@ int func_021C0750(char *p, int ret)
 /*
  *   ov099_func_021BEB68.c (leaf-cb00-r1.log); no retry of the integrator's blocker.
  *   extern char *d_021469DC;
- *   extern void func_0203CADC(void);
- *   int func_0203CB00(void) {
+ *   extern void GFL_NET_STATE_FatalError(void);
+ *   int GFL_NET_STATE_IsFatalError(void) {
  *       if (d_021469DC != 0) {
- *           if (*(void **)(d_021469DC + 8) == (void *)func_0203CADC) return 1;
+ *           if (*(void **)(d_021469DC + 8) == (void *)GFL_NET_STATE_FatalError) return 1;
  *       }
  *       return 0;
  *   }
@@ -2391,7 +2391,7 @@ int func_021C0858(char *p,int ret) {
     void *q; unsigned r; int v;
     char *st;
     st=p+0x24c;
-    if(func_0203CB00()){func_021BE900(p);return ret;}
+    if(GFL_NET_STATE_IsFatalError()){func_021BE900(p);return ret;}
     q=func_021BE2A8(p,func_021B97F4((char *)(p+0x274)));
     if(!func_021BA928(p))return ret;
     r=func_021BDD48(p, (struct S *)st);
@@ -2432,7 +2432,7 @@ int func_021C08F8(char *p)
     n = func_021B97F4((char *)(p + off));
     *(u16 *)(p + (off - 0x32)) = n;
     if (n != 0) {
-        func_0201AC80(((Ov099Work *)p)->fC8);
+        POKEPARTY_GetAliveNonEggCount(((Ov099Work *)p)->fC8);
         index = n - 1;
         state = (struct S *)func_021C23B8(index);
         kind = func_021BDD48(p, state);
@@ -2492,7 +2492,7 @@ int func_021C09C0(char *p, int ret)
     Off_021C09C0 off;
     u32 counter;
     func_021BA928((char *)((struct W *)p));
-    if (func_02156B8C() != -1) ((Ov099Work *)p)->f1CC = 11;
+    if (DWC_RAP_GetNewClientAid() != -1) ((Ov099Work *)p)->f1CC = 11;
     off = K242;
     if (func_021C23C0((void *)(*(u16 *)(p + off) - 1)) == 0) {
         func_021BA874(p, *(u16 *)(p + off) - 1);
@@ -2553,10 +2553,10 @@ int func_021C0A94(char *p,int ret) {
 /*
  *   021C0B16 is the only open site, every other relocation resolves.
  *   extern char *d_021469DC;
- *   extern void func_0203CADC(void);
- *   int func_0203CB00(void) {
+ *   extern void GFL_NET_STATE_FatalError(void);
+ *   int GFL_NET_STATE_IsFatalError(void) {
  *       if (d_021469DC != 0) {
- *           if (*(void **)(d_021469DC + 8) == (void *)func_0203CADC) return 1;
+ *           if (*(void **)(d_021469DC + 8) == (void *)GFL_NET_STATE_FatalError) return 1;
  *       }
  *       return 0;
  *   }
@@ -2578,7 +2578,7 @@ int func_021C0AEC(char *p, int ret)
     choice = func_020200CC(*(struct Obj **)(p + 0xbc));
     n = func_021B97F4((char *)(p + 0x274));
     q = func_021BE2A8(p, n);
-    if (func_0203CB00()) {
+    if (GFL_NET_STATE_IsFatalError()) {
         *(int *)(p + 0x1a4) = func_021BA8BC(*(void **)(p + 0x1a4));
         func_0202020C(*(struct Obj **)(p + 0xbc), 0, 0);
         func_0201F868(*(void **)(p + 0xb8));
@@ -2641,12 +2641,12 @@ int func_021C0AEC(char *p, int ret)
 
 /*
  * Unblocked (was MATCH on one witness).
- * +0008 ABS32 func_02156BC4          -> resolved as `matched` by
+ * +0008 ABS32 DWC_RAP_SetVchatEnabled          -> resolved as `matched` by
  * src/matched/ov009_func_02156BC4.c after fixing the ISA/region hint: the
  * target is Thumb code in ov009 (ov010 decodes to a pop with no push), declared
- * as `func_02156BC4 0x02156BC4 thumb ov009` below.
+ * as `DWC_RAP_SetVchatEnabled 0x02156BC4 thumb ov009` below.
  */
-void func_021C0C7C(void) { func_02156BC4(0); }
+void func_021C0C7C(void) { DWC_RAP_SetVchatEnabled(0); }
 
 
 
@@ -2682,7 +2682,7 @@ int func_021C0C88(char *p, int v)
     t = func_021B97F4((char *)(p + 0x274));
     *(u16 *)(p + 0x242) = t;
     r7 = (int)func_021BE2A8(p, t);
-    if (func_0203CB00()) {
+    if (GFL_NET_STATE_IsFatalError()) {
         *(u32_021C0C88 *)(p + 0x1a4) = func_021BA8BC((void *)(*(u32_021C0C88 *)(p + 0x1a4)));
         func_0202020C((struct Obj *)(*(u32_021C0C88 *)(p + 0xbc)), 0, 0);
         func_0201F868((void *)(*(u32_021C0C88 *)(p + 0xb8)));
@@ -2761,7 +2761,7 @@ int func_021C0E60(char *p, int ret)
     void *state;
     int kind, value, flag;
     index = ((Ov099Work *)p)->f242;
-    func_0201AC80(((Ov099Work *)p)->fC8);
+    POKEPARTY_GetAliveNonEggCount(((Ov099Work *)p)->fC8);
     if (((Ov099Work *)p)->f242 == 0) {
         func_021BAAB8(p, 0x4a, 0);
         ((Ov099Work *)p)->f1CC = 21;
@@ -2803,7 +2803,7 @@ int func_021C0E60(char *p, int ret)
 
 /*
  *   extern char *d_021469DC;
- *   int func_0203C5EC(void) { return *(unsigned char *)(d_021469DC + 0x4a); }
+ *   int GFL_NET_STATE_IsWifiDisconnectFinal(void) { return *(unsigned char *)(d_021469DC + 0x4a); }
  *   but its function: header lists only CF4; no duplicate leaf permitted.
  * extent-policy: no follower C filed while ARM9 also blocks this caller.
  * extent: 236-byte lead followed by two 4-byte return-r1 stubs at 105C/1060.
@@ -2817,19 +2817,19 @@ int func_021C0F70(char *p, int ret)
         selection = func_021BE2A8(p, func_021B97F4((char *)(p + 0x274)));
         if (selection) func_021B9AE0(p + 0x274, selection);
         *(int *)(p + 0x1cc) = 61;
-    } else if (func_0203C3EC() == 5) {
-        func_021BA874(p, func_02156A3C());
+    } else if (GFL_NET_STATE_GetWifiState() == 5) {
+        func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
         func_021BAAB8(p, 15, 0);
         *(int *)(p + 0x1cc) = 19;
-    } else if (func_02156D5C() == 5) {
-        func_021BA874(p, func_02156A3C());
+    } else if (DWC_RAP_GetResult() == 5) {
+        func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
         func_021BAAB8(p, 12, 0);
         *(int *)(p + 0x1cc) = 19;
-    } else if (func_02156D5C() == 4 || func_0203C5EC() != 0) {
-        func_021BA874(p, func_02156A3C());
+    } else if (DWC_RAP_GetResult() == 4 || GFL_NET_STATE_IsWifiDisconnectFinal() != 0) {
+        func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
         func_021BAAB8(p, 15, 0);
         *(int *)(p + 0x1cc) = 19;
-    } else if (func_0203C3EC() == 1) {
+    } else if (GFL_NET_STATE_GetWifiState() == 1) {
         func_021C282C(*(unsigned char **)(p + 8));
         func_021BE6E4(p);
         func_021BDD48(p, (struct S *)(*(void **)(p + 8)));
@@ -2837,7 +2837,7 @@ int func_021C0F70(char *p, int ret)
         func_021BA8EC(p);
         func_021BA7D8(p);
         *(int *)(p + 0x1e0) = 30;
-        func_0203D7B0(1);
+        GFL_NET_SetAutoExit(1);
         func_0203D7BC(1);
     }
     return ret;
@@ -2861,7 +2861,7 @@ int func_021C1060(int a, int b) { return b; }
 int func_021C1064(char *p,int ret) {
     func_021C19A8(p);
     func_021C18C8(p,1,2);
-    func_0203C554(1);
+    GFL_NET_STATE_WifiDisconnect(1);
     ((Ov099Work *)p)->f1F0=-1;
     ((Ov099Work *)p)->f1CC=11;
     func_021C2408(p);
@@ -2887,19 +2887,19 @@ int func_021C10A8(char *p, int ret)
     int zero = 0;
     void *s;
     if (func_02006224(0) != 0) return ret;
-    if (func_021C23C0((void *)func_02156A3C()) == 0) {
+    if (func_021C23C0((void *)DWC_RAP_GetTargetFriendIndex()) == 0) {
         func_021BA874(p, ((Ov099Work *)p)->f1F0);
         func_021BAAB8(p, 15, zero);
         ((Ov099Work *)p)->f1CC = 19;
         return ret;
     }
-    s = (void *)func_021C23B8(func_02156A3C());
+    s = (void *)func_021C23B8(DWC_RAP_GetTargetFriendIndex());
     func_021BDD48(p, ((Ov099Work *)p)->f8);
     func_021BDD48(p, s);
     func_021C27E0((S_021C27E0 *)(((Ov099Work *)p)->f8));
-    ((Ov099Work *)p)->f242 = func_02156A3C() + 1;
+    ((Ov099Work *)p)->f242 = DWC_RAP_GetTargetFriendIndex() + 1;
     if (((Ov099Work *)p)->f1351 == 0) {
-        func_021BA874(p, func_02156A3C());
+        func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
         func_021BAAB8(p, 8, zero);
     }
     func_021BA7D8(p);
@@ -2913,12 +2913,12 @@ int func_021C10A8(char *p, int ret)
 
 int func_021C1154(char *p)
 {
-    if (func_0203C3EC() >= 3) {
+    if (GFL_NET_STATE_GetWifiState() >= 3) {
         func_021BA874(p, *(int *)(p + 0x1f0));
         func_021BAAB8(p, 15, 0);
         *(int *)(p + 0x1cc) = 19;
     } else {
-        if (func_0203CB00() != 0) func_021BE900(p);
+        if (GFL_NET_STATE_IsFatalError() != 0) func_021BE900(p);
         else return 0;
     }
     *(unsigned short *)(p + 0x244) = 0;
@@ -2931,13 +2931,13 @@ int func_021C1154(char *p)
 /*
  * extent: 021C1286..021C1288 is two zero alignment bytes.
  *   extern char *d_021469DC;
- *   int func_0203C5EC(void) { return *(unsigned char *)(d_021469DC + 0x4a); }
+ *   int GFL_NET_STATE_IsWifiDisconnectFinal(void) { return *(unsigned char *)(d_021469DC + 0x4a); }
  * prototype: 399A8 leaves a live pointer consumed by 399B8, 39C68 and 3D1A4.
  */
 int func_021C11A0(char *p, int ret)
 {
     func_021BA928(p);
-    if (func_0203C3EC() >= 4 || func_0203C5EC() != 0) {
+    if (GFL_NET_STATE_GetWifiState() >= 4 || GFL_NET_STATE_IsWifiDisconnectFinal() != 0) {
         if (*(u16 *)(p + 0x244) != 0) {
             func_021BAAB8(p, 0x44, 0);
         } else {
@@ -2960,7 +2960,7 @@ int func_021C11A0(char *p, int ret)
         } else if (*(int *)(p + 0x1e0) == 1) {
             if (func_0203D1A4((struct Link *)func_020399A8()) != 0) {
                 if (func_02039ACC() == 1) *(int *)(p + 0x1e0) = 0;
-            } else if (func_020399EC() != 0 && func_02039ACC() == 1) {
+            } else if (GFL_NET_HANDLE_GetNegotiationNum() != 0 && func_02039ACC() == 1) {
                 *(int *)(p + 0x1e0) = 0;
             }
         }
@@ -2998,7 +2998,7 @@ void func_021C12CC(void) {}
 
 void func_021C12D0(int a, int b, int c, u8 *d, int e)
 {
-    if ((int)sub_020399A8() == e) {
+    if ((int)GFL_NET_HANDLE_GetCurrentHandle() == e) {
         d[0x1355] = 1;
     }
 }
@@ -3125,7 +3125,7 @@ int func_021C143C(char *p, int ret)
                 func_02039C68((struct Link *)func_020399A8(), 15, 10);
                 ((Ov099Work *)p)->f1CC = 44;
             } else {
-                func_021BA874(p, func_02156A3C());
+                func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
                 func_021BAAB8(p, 13, 0);
                 ((Ov099Work *)p)->f1CC = 19;
             }
@@ -3145,7 +3145,7 @@ int func_021C14A8(char *p, int ret)
 {
     if (func_021C1154(p) == 0) {
         if (func_02039CB4((struct Link *)func_020399A8(), 15, 10) != 0) {
-            func_0203D7B0(1);
+            GFL_NET_SetAutoExit(1);
             func_0203D7BC(1);
             func_02039C68((struct Link *)func_020399A8(), 18, 10);
             ((Ov099Work *)p)->f1CC = 45;
@@ -3192,7 +3192,7 @@ int func_021C1510(char *p, int ret)
             if (func_021C14EC(p) == 1) {
                 func_0200F4E4(func_020099C8((struct Sub020097BCObj *)func_0201283C(((Ov099Work *)p)->fC4), 0));
                 func_021BA8EC(p);
-                s = (void *)func_021C23B8(func_02156A3C());
+                s = (void *)func_021C23B8(DWC_RAP_GetTargetFriendIndex());
                 func_021BDD48(p, s);
                 count = func_021BDD54(p, s);
                 if (count == 3) {
@@ -3332,7 +3332,7 @@ int func_021C16EC(char *p,int ret){if(!func_021BA928(p))return ret;if(--((Ov099W
 int func_021C1724(char *p, int ret)
 {
     if (func_02039CB4((struct Link *)func_020399A8(), 16, 10) == 0) return ret;
-    func_0203D7B0(0);
+    GFL_NET_SetAutoExit(0);
     func_0203D7BC(1);
     if (func_021BA928(p) != 0) {
         func_021BA828(p);
@@ -3363,7 +3363,7 @@ int func_021C1768(char *p, int ret)
         ((Ov099Work *)p)->f1E0 = 30;
     } else {
         func_021BA8EC(p);
-        func_0203C554(1);
+        GFL_NET_STATE_WifiDisconnect(1);
         ((Ov099Work *)p)->f1E0 = 20;
         ((Ov099Work *)p)->f1CC = 57;
     }
@@ -3449,7 +3449,7 @@ void func_021C18C8(char *p, int kind, int value)
 {
     if ((u8 *)((Ov099Work *)p)->f8 != 0) {
         if (kind == 1 && value == 2) func_021C282C((u8 *)((Ov099Work *)p)->f8);
-        if (kind == 4 && value < 3) func_02009B80(((Ov099Work *)p)->f4, func_02156A3C());
+        if (kind == 4 && value < 3) func_02009B80(((Ov099Work *)p)->f4, DWC_RAP_GetTargetFriendIndex());
         func_021C1908(p, kind, value);
         func_021BE6E4(p);
     }
@@ -4306,12 +4306,12 @@ void func_021C2370(Work_021C1A44 *w, int id)
 
 /*
  * Unblocked (was MATCH on one witness).
- * +0004 ABS32 func_02156860          -> resolved as `matched` by
+ * +0004 ABS32 DWC_RAP_GetFriendStatusData          -> resolved as `matched` by
  * src/matched/ov009_func_02156860.c after fixing the ISA/region hint: the
  * target is Thumb code in ov009 (ov010 opens with adds r3,r7,#0 and an
- * immediate branch), declared as `func_02156860 0x02156860 thumb ov009` below.
+ * immediate branch), declared as `DWC_RAP_GetFriendStatusData 0x02156860 thumb ov009` below.
  */
-int func_021C23B8(int i) { return func_02156860(i); }
+int func_021C23B8(int i) { return DWC_RAP_GetFriendStatusData(i); }
 
 
 
@@ -4327,7 +4327,7 @@ int func_021C23B8(int i) { return func_02156860(i); }
  */
 unsigned char func_021C23C0(void *a)
 {
-    return func_02156874((int)a);
+    return DWC_RAP_GetFriendStatus((int)a);
 }
 
 
@@ -4420,11 +4420,11 @@ int func_021C2438(char *p)
             delta = start - ((Ov099Work *)p)->f1341;
             if (delta < 0) ((Ov099Work *)p)->f1340 = start + (-delta / 6) * remaining;
             else ((Ov099Work *)p)->f1340 = start - (delta / 6) * remaining;
-            func_02005F24(0xffff, ((Ov099Work *)p)->f1340);
+            GFL_USE_SetBgmTrackVolume(0xffff, ((Ov099Work *)p)->f1340);
             return 0;
         }
         ((Ov099Work *)p)->f1340 = ((Ov099Work *)p)->f1342;
-        func_02005F24(0xffff, ((Ov099Work *)p)->f1342);
+        GFL_USE_SetBgmTrackVolume(0xffff, ((Ov099Work *)p)->f1342);
     }
     return 1;
 }
@@ -4443,8 +4443,8 @@ void func_021C24A4(Work_021C24A4 *w, int v)
         w->f1341 = w->f1340;
         w->f1343 = 6;
         w->f1342 = v;
-        func_02005CBC(v, 0x3f);
-        func_02006734(v);
+        GFL_USE_SetPlayerVolumes(v, 0x3f);
+        PM_VOICE_SetMasterVolume(v);
     }
 }
 
@@ -4484,7 +4484,7 @@ int func_021C24F0(void *obj, int unused, char *args)
     func_0203064C(1, 0x8021, 0xa4000);
     p = func_0203159C(obj, 0x1360, 0x21);
     func_02082BCC(p, 0, 0x1360);
-    func_0203D668((u32_021C24F0)p);
+    GFL_NET_SetUserArg((u32_021C24F0)p);
     ((struct Obj01386 *)p)->f8 = ((struct Obj02804 *)args)->f0;
     ((struct Obj01386 *)p)->fC0 = ((struct Obj02804 *)args)->f8;
     *(u32_021C24F0 *)&((struct Obj01386 *)p)->fC4 = ((struct Obj02804 *)args)->f4;
@@ -4529,9 +4529,9 @@ int func_021C2604(int task,int *state,int unused,char *p) {
  u8 r,g,b;
  Handler fn;
  if(func_0203CD98()!=0) {
-  switch(func_02157170(1,1)) {
+  switch(DWC_RAPCOMMON_HandleNetError(1,1)) {
    case 4:
-    func_021BC0C4(p);func_021BB0B4(p);func_0203D7B0(0);func_0203D7BC(0);func_021C18C8(p,1,2);
+    func_021BC0C4(p);func_021BB0B4(p);GFL_NET_SetAutoExit(0);func_0203D7BC(0);func_021C18C8(p,1,2);
     ((Ov099Work *)p)->f1E0=20;((Ov099Work *)p)->f1CC=0x39;return 0;
    case 2:
     func_0202223C(0,0);func_0202223C(1,0);((Ov099Work *)p)->f1D0=1;return 1;
@@ -4546,7 +4546,7 @@ int func_021C2604(int task,int *state,int unused,char *p) {
  }
  if(((Ov099Work *)p)->f110!=0) func_0204A600(((Ov099Work *)p)->f110);
  if(((Ov099Work *)p)->f1B8!=0) {
-  func_0201DE00(&r,&g,&b);func_0201DD78(1,2,15);func_020310C4(((Ov099Work *)p)->f1C0);func_0201DD78(r,g,b);func_0201C4E4(((Ov099Work *)p)->f1B8);
+  GF_FONT_GetTextColor(&r,&g,&b);func_0201DD78(1,2,15);func_020310C4(((Ov099Work *)p)->f1C0);func_0201DD78(r,g,b);func_0201C4E4(((Ov099Work *)p)->f1B8);
  }
  if(((Ov099Work *)p)->f1B4!=0) func_0201C4E4(((Ov099Work *)p)->f1B4);
  func_021C2438(p);return 0;
@@ -4574,7 +4574,7 @@ int func_021C2724(void *task, int unused, char *output, char *p)
     func_021BDF7C(p);
     ((struct Obj06360 *)output)->f47 = ((struct Obj03736 *)p)->f242;
     ((struct Obj06360 *)output)->fC = ((struct Obj03736 *)p)->f1D0;
-    if (func_0203CD98()) ((struct Obj06360 *)output)->f10 = func_02156A3C();
+    if (func_0203CD98()) ((struct Obj06360 *)output)->f10 = DWC_RAP_GetTargetFriendIndex();
     func_021BCBB0(((struct Obj03736 *)p)->fCC);
     func_021BB224(p);
     func_020315D4(task);

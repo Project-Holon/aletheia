@@ -13,7 +13,7 @@
  *   d_021C3900 0x021C3900 data a1
  *   func_02035C08 0x02035C08 arm
  *   func_02035D20 0x02035D20 arm
- *   func_02035D40 0x02035D40 arm
+ *   TOUCHPANEL_HitPoint 0x02035D40 arm
  *   func_021BACDC 0x021BACDC thumb ov110
  *   func_020061E4 0x020061E4 thumb
  *   func_021BAD14 0x021BAD14 thumb ov110
@@ -30,7 +30,7 @@ extern const struct Box d_021C39A8;
 extern const struct Box d_021C3900[];
 extern int func_02035C08(const void *p);
 extern u32 func_02035D20(u32 *, u32 *);
-extern u32 func_02035D40(struct Ctx *, u32, u32);
+extern u32 TOUCHPANEL_HitPoint(struct Ctx *, u32, u32);
 extern int func_021BACDC(u8 *p, int unused, unsigned n);
 extern void func_020061E4(u32);
 extern void func_021BAD14(u8 *, u32);
@@ -70,7 +70,7 @@ int func_021BEF4C(u8 *p)
         for (inner = 0; inner < 2; inner++) {
             box.b[2] = 112 * inner + 16;
             box.b[3] = box.b[2] + 102;
-            if (func_02035D40((struct Ctx *)&box, x, y) != (u32)-1) {
+            if (TOUCHPANEL_HitPoint((struct Ctx *)&box, x, y) != (u32)-1) {
                 ((struct Obj00493 *)p)->f62 = index;
                 p[90] = inner;
                 p[91] = outer;

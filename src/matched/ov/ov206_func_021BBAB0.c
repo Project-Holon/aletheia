@@ -12,7 +12,7 @@
  *   func_021BC0B0 0x021BC0B0 thumb ov206
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204B294 0x0204B294 arm
- *   func_0204B800 0x0204B800 arm
+ *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   func_0204B688 0x0204B688 arm
  *   func_021BBC04 0x021BBC04 thumb ov206
  */
@@ -54,7 +54,7 @@ struct Obj;
 extern struct Obj *func_0204B294(void *a, unsigned int b, unsigned int c, unsigned int d, const void *pt, u16 f, u16 g);
 struct Actor;
 struct Node;
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_021BBC04(S *p);
 void func_021BBAB0(S *p, u32 a, u32 b, u32 idx)
@@ -85,7 +85,7 @@ void func_021BBAB0(S *p, u32 a, u32 b, u32 idx)
         p->a188[idx] = (u32)func_0204B294((void *)p->f24, p->a174[idx], p->f17c, p->f180, &pt, flag2, p->id);
     else
         p->a188[idx] = (u32)func_0204B294((void *)p->f24, p->a174[idx], p->f17c, p->f184, &pt, flag2, p->id);
-    func_0204B800((void *)p->a188[idx], 1);
+    CLACT_SetActorDrawPriority((void *)p->a188[idx], 1);
     func_0204B688((void *)p->a188[idx], 1);
     func_021BBC04(p);
 }

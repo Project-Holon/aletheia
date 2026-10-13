@@ -14,8 +14,8 @@
  *   func_02017E1C 0x02017E1C thumb
  *   func_02018584 0x02018584 thumb
  *   func_0200CED4 0x0200CED4 thumb
- *   func_02017F00 0x02017F00 thumb
- *   func_02017F90 0x02017F90 thumb
+ *   POKE_TOOL_GetGender 0x02017F00 thumb
+ *   POKE_TOOL_GetStatusCondition 0x02017F90 thumb
  *   func_02208814 0x02208814 thumb ov094
  *   func_022079C0 0x022079C0 thumb ov094
  *   func_02208D50 0x02208D50 thumb ov094
@@ -35,8 +35,8 @@ extern u32 func_02017E1C(void *, u32, u32);
 extern u32 func_02018584(u16, u16, u16);
 struct Blk37;
 extern u32 func_0200CED4(struct Blk37 *p, u16 id);
-extern u8 func_02017F00(void *);
-extern u32 func_02017F90(void *);
+extern u8 POKE_TOOL_GetGender(void *);
+extern u32 POKE_TOOL_GetStatusCondition(void *);
 extern void func_02208814(struct O *obj, int k, int idx);
 extern void func_022079C0(char *, int, Pt *);
 extern void func_02208D50(W *, int, int);
@@ -71,10 +71,10 @@ void func_02207288(W *p, void *a, void *q, int mode, int i)
     species = func_02017E1C(q, 5, 0);
     p->rows[i].seen = func_0200CED4(a, species);
     if (species != 32 && species != 29)
-        p->rows[i].sex = func_02017F00(q);
+        p->rows[i].sex = POKE_TOOL_GetGender(q);
     else
         p->rows[i].sex = 2;
-    func_02208814((O *)p, func_02017F90(q), i);
+    func_02208814((O *)p, POKE_TOOL_GetStatusCondition(q), i);
     func_022079C0((char *)p, i, 0);
     func_02208D50((W *)p, i, 1);
     func_0220793C((char *)((S *)&p->rows[i]));

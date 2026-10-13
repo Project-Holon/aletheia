@@ -1,5 +1,5 @@
 /*
- * function: func_0217F124
+ * function: gsiStringToInt64
  * address:  0x0217F124
  * packet:   pkt_0217F124
  * region:   ov009
@@ -23,7 +23,7 @@
 
 extern long long func_020964F4(unsigned int a0);
 
-long long func_0217F124(unsigned int a0)
+long long gsiStringToInt64(unsigned int a0)
 {
     return func_020964F4(a0);
 }

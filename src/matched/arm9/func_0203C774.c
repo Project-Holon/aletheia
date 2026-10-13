@@ -1,5 +1,5 @@
 /*
- * function: func_0203C774
+ * function: GFL_NET_STATE_WifiLogout
  * address:  0x0203C774
  * packet:   pkt_0203C65C
  * region:   arm9
@@ -10,13 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
+ *   _pNetState     0x021469DC  data
+ *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C774.c \
- *       --func func_0203C774 --addr 0x0203C774 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiLogout.c \
+ *       --func GFL_NET_STATE_WifiLogout --addr 0x0203C774 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Sys.h"
@@ -25,24 +27,24 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern struct Sys *g_021469DC;
+extern struct Sys *_pNetState;
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 struct NetState;
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
 extern int func_020351A0(u32 v);
 
-void func_0203C774(u32 v)
+void GFL_NET_STATE_WifiLogout(u32 v)
 {
     u8 *s;
 
-    if (((u8 *)g_021469DC) == 0)
+    if (((u8 *)_pNetState) == 0)
         return;
 
-    s = func_0203D788();
+    s = GFL_NET_GetSession();
     func_020351A0(1);
-    *(u32 *)(((u8 *)g_021469DC) + 0x28) = v;
+    *(u32 *)(((u8 *)_pNetState) + 0x28) = v;
     (*(void (**)(u32, u32))(*(u32 *)(s + 0x340) + 0x54))(1, 0);
 
-    func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203C710, 5, 0x719);
+    GFL_NET_STATE_ChangeStateDebug((struct NetState *)((u8 *)_pNetState), (void *)0x0203C710, 5, 0x719);
 }

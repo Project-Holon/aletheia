@@ -1,5 +1,5 @@
 /*
- * function: func_02036CA8
+ * function: GFL_NET_WM_ICON_Draw
  * address:  0x02036CA8
  * packet:   pkt_02036CA8
  * region:   arm9
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02036D64  0x02036D64  arm
- *   func_02036DC8  0x02036DC8  arm
+ *   GFL_NET_WM_ICON_GetEngine  0x02036D64  arm
+ *   GFL_NET_WM_ICON_GetCharName  0x02036DC8  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02036CA8.c  *       --func func_02036CA8 --addr 0x02036CA8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_WM_ICON_Draw.c  *       --func GFL_NET_WM_ICON_Draw --addr 0x02036CA8 --cc 1.1p1 --arm
  *
  * wm_icon.c: write the wireless icon's two 16x16 OAM entries into main
  * (0x07000000) or sub (0x07000400) OAM, and hide the pair at the previous
@@ -64,17 +64,17 @@ struct Icon {
     GXOamAttr *f10;
 };
 
-extern u32 func_02036D64(u8 *p);
-extern u32 func_02036DC8(u32 engine, u32 b);
+extern u32 GFL_NET_WM_ICON_GetEngine(u8 *p);
+extern u32 GFL_NET_WM_ICON_GetCharName(u32 engine, u32 b);
 
-void func_02036CA8(struct Icon *c)
+void GFL_NET_WM_ICON_Draw(struct Icon *c)
 {
     u32 mode;
     u32 name;
     GXOamAttr *oam;
 
-    mode = func_02036D64((u8 *)c);
-    name = func_02036DC8(mode, c->f00);
+    mode = GFL_NET_WM_ICON_GetEngine((u8 *)c);
+    name = GFL_NET_WM_ICON_GetCharName(mode, c->f00);
     if (mode == 1) {
         oam = (GXOamAttr *)0x07000000;
     } else {

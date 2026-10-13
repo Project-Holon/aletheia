@@ -5,7 +5,7 @@
  *
  * unit:     yes
  * address:  0x02008EF8
- * function: sub_02008EF8
+ * function: MAIL_IsDesignValid
  * packet:   pkt_02008A34
  * region:   arm9
  * compiler: 1.1p1
@@ -48,7 +48,7 @@ struct Sub02008F80Obj {
     u8 unk07;
 };
 
-int sub_02008EF8(const struct Sub02008F80Obj *obj)
+int MAIL_IsDesignValid(const struct Sub02008F80Obj *obj)
 {
     if (obj->unk07 <= 0xB) {
         return 1;

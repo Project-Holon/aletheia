@@ -1,5 +1,5 @@
 /*
- * function: sub_020498F4
+ * function: ARC_UTIL_UploadBgPaletteFromHandle
  * address:  0x020498F4
  * packet:   pkt_0204961C
  * region:   arm9
@@ -13,7 +13,7 @@
  *   sub_0204A380   0x0204A380  arm
  *   sub_02049A18   0x02049A18  arm
  *
- * The same two-step shape as sub_02049658, but the handle lookup forces
+ * The same two-step shape as ARC_UTIL_UploadBgCharFromHandle, but the handle lookup forces
  * the top bit of its u16 selector on: `(g & 0x7fff) | 0x8000`.  0x7fff
  * does not fit an ARM rotated immediate, so it costs a pool word, while
  * 0x8000 is `orr r2, r2, #0x8000` in one instruction; the `lsl #16` /
@@ -26,8 +26,8 @@
  * lands between the two stack stores rather than before them.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020498F4.c \
- *       --func sub_020498F4 --addr 0x020498F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_UTIL_UploadBgPaletteFromHandle.c \
+ *       --func ARC_UTIL_UploadBgPaletteFromHandle --addr 0x020498F4 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -36,7 +36,7 @@ typedef unsigned int   u32;
 extern void *sub_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
 extern u32 sub_02049A18(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag);
 
-void sub_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
+void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
 {
     sub_02049A18(sub_0204A380(a, b, f, (u16)((g & 0x7fff) | 0x8000)),
                  c, d, 0, e, 0);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202B93C",
+   "name": "ISS_3DS_SYS_SetCamera",
    "address": "0x0202B93C",
    "kind": "game",
    "region": "arm9",

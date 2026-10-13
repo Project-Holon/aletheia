@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021730F8",
+   "name": "UNION_COMM_StoreBeacon",
    "address": "0x021730F8",
    "kind": "game",
    "region": "ov012",

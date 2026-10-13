@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202708C  0x0202708C  thumb
+ *   GAME_BEACON_IsSpecialPokemon  0x0202708C  thumb
  *   func_02165104  0x02165104  thumb  ov010
  *   func_02165094  0x02165094  thumb  ov010
  */
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0202708C();
+extern int GAME_BEACON_IsSpecialPokemon();
 extern int func_02165104();
 extern int func_02165094();
 
@@ -28,7 +28,7 @@ int func_0216505C(int a0)
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_0202708C(a0);
+    a0 = GAME_BEACON_IsSpecialPokemon(a0);
 loc_02165064:
     if (a0 == 0) goto loc_02165070;
 loc_02165068:

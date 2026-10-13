@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02028C50
+ * function: FIELD_SOUND_SYSTEM_IsSoundRecordChainValid
  * address:  0x02028C50
  * packet:   pkt_02028C50
  * region:   arm9
@@ -11,10 +11,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02074324  0x02074324  arm
- *   func_0207466C  0x0207466C  arm
- *   func_020743EC  0x020743EC  arm
- *   func_02074450  0x02074450  arm
+ *   NNS_SndArcGetSeqInfo  0x02074324  arm
+ *   NNS_SndArcGetFileAddress  0x0207466C  arm
+ *   NNS_SndArcGetBankInfo  0x020743EC  arm
+ *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
  */
 
 typedef unsigned short u16;
@@ -34,30 +34,30 @@ struct EntryC {
     u32 f00 : 24;
 };
 
-extern void *func_02074324(int index);
-extern u32 func_0207466C(u32 idx);
-extern void *func_020743EC(int index);
-extern struct EntryC *func_02074450(u32 id);
+extern void *NNS_SndArcGetSeqInfo(int index);
+extern u32 NNS_SndArcGetFileAddress(u32 idx);
+extern void *NNS_SndArcGetBankInfo(int index);
+extern struct EntryC *NNS_SndArcGetWaveArcInfo(u32 id);
 
-u32 func_02028C50(int index)
+u32 FIELD_SOUND_SYSTEM_IsSoundRecordChainValid(int index)
 {
     struct EntryA *a;
     int i;
     struct EntryB *b;
 
-    a = func_02074324(index);
-    if (func_0207466C(a->f00) == 0) {
+    a = NNS_SndArcGetSeqInfo(index);
+    if (NNS_SndArcGetFileAddress(a->f00) == 0) {
         return 0;
     }
 
-    b = func_020743EC(a->f04);
-    if (func_0207466C(b->f00) == 0) {
+    b = NNS_SndArcGetBankInfo(a->f04);
+    if (NNS_SndArcGetFileAddress(b->f00) == 0) {
         return 0;
     }
 
     for (i = 0; i < 4; i++) {
         if (b->f04[i] != 0xffff) {
-            if (func_0207466C(func_02074450(b->f04[i])->f00) == 0) {
+            if (NNS_SndArcGetFileAddress(NNS_SndArcGetWaveArcInfo(b->f04[i])->f00) == 0) {
                 return 0;
             }
         }

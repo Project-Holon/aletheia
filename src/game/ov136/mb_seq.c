@@ -53,7 +53,7 @@
  *   d_021C7D68 0x021C7D68 data a4
  *   func_021C5C84  0x021C5C84  thumb
  *   d_021C7D78 0x021C7D78 data a4
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   d_021C7D7C 0x021C7D7C data a4
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_02025DE8 0x02025DE8 thumb
@@ -71,7 +71,7 @@
  *   func_02027974  0x02027974  thumb
  *   func_020279E8  0x020279E8  thumb
  *   func_02027A04  0x02027A04  thumb
- *   func_0202CC70  0x0202CC70  thumb
+ *   BGWINFRM_HideFrame  0x0202CC70  thumb
  *   func_021C5B30 0x021C5B30 thumb
  *   func_021C61CC 0x021C61CC thumb
  *   func_021C62F4 0x021C62F4 thumb
@@ -86,12 +86,12 @@
  *   func_021C5D68 0x021C5D68 thumb
  *   func_021C6374 0x021C6374 thumb
  *   func_02008FC8 0x02008FC8 thumb
- *   func_02024450 0x02024450 thumb
+ *   PMSI_PARAM_IsEnabled 0x02024450 thumb
  *   func_020414EC 0x020414EC arm
  *   func_0200902C 0x0200902C thumb
- *   func_02031348  0x02031348  arm
+ *   PROCSYS_Push  0x02031348  arm
  *   ov091_id 0x0000005B data
- *   d_021BED00 0x021BED00 data ov091 a4
+ *   gPartyListProcData 0x021BED00 data ov091 a4
  *   func_0202138C  0x0202138C  thumb
  *   func_021C3CC0  0x021C3CC0  thumb
  *   d_021C7D5C 0x021C7D5C data a4
@@ -107,6 +107,9 @@
  *   func_0202616C  0x0202616C  thumb
  *   func_021C66CC 0x021C66CC thumb
  *   d_021C7E14 0x021C7E14 data a4
+ *   BGWINFRM_GetPos  0x0202CF98  thumb  arm9
+ *   BGWINFRM_GetSize  0x0202CFC0  thumb  arm9
+ *   PMS_DRAW_Clear  0x0202DC9C  thumb  arm9
  */
 #include "ov136_types.h"
 
@@ -203,7 +206,7 @@ extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *);
 extern void func_02027858(struct TaskMenu *m);
 extern int func_021C5C84(u8 *p);
-extern unsigned int func_02031330(void *p);
+extern unsigned int PROCSYS_Main(void *p);
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_021C66A0(u8 *p, int i, u32 v);
 extern int func_02025DE8(struct Sound *obj);
@@ -221,27 +224,27 @@ extern void func_021C6884(u8 *);
 extern void func_021C630C(u8 *p, unsigned int i);
 extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
 extern u16 func_020213AC(u32);
-extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 extern void func_021C61D0(void *);
 extern u32 func_0204B98C(struct Actor *a);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021C5974(u8 *);
-extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
+extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void BGWINFRM_GetSize(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
 extern void func_021C670C(u8 *p, int i, int on);
 extern void func_0207D63C(void *, int, int, int, int);
 extern void func_021C5D68(u8 *);
 extern void func_021C6374(u8 *);
 extern struct Sub02008F80Entry *func_02008FC8(struct Sub02008F80Obj *obj, u32 i);
-extern int func_02024450(const u16 *p);
-extern void func_0202DC9C(struct Obj0202DC98 *o, int i, u32 a1);
+extern int PMSI_PARAM_IsEnabled(const u16 *p);
+extern void PMS_DRAW_Clear(struct Obj0202DC98 *o, int i, u32 a1);
 extern void func_020414EC(u32);
 extern void *func_0201292C(const struct BigObj *p);
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 extern void func_0200902C(struct Sub02008F80Obj *arr, u32 unused, int i);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0200CA1C(void *a);
-extern void func_02031348(void *, u32, const void *, void *);
+extern void PROCSYS_Push(void *, u32, const void *, void *);
 extern u8 func_0202138C(u16 v);
 extern void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
 extern u32 func_021C3E00(u32 *p);
@@ -316,7 +319,7 @@ extern const char d_021C7F04[];
 extern const struct HandlerPair d_021C7D68[];
 extern const struct StateEnt d_021C7D78[];
 extern const struct StateCall d_021C7D7C[];
-extern const u8 d_021BED00[];
+extern const u8 gPartyListProcData[];
 extern u8 ov091_id[];
 extern const u8 d_021C7D5C[];
 extern const u8 d_021C7E2C[];
@@ -463,7 +466,7 @@ int func_021C6BD8(u8 *p)
 
 int func_021C6BF0(u8 *p)
 {
-    if (func_02031330(((struct MbSeqCtx *)p)->f30) == 1) return 7;
+    if (PROCSYS_Main(((struct MbSeqCtx *)p)->f30) == 1) return 7;
     *(int *)&((struct MbSeqCtx *)p)->f28 = d_021C7D7C[*(int *)&((struct MbSeqCtx *)p)->f14].call(p);
     return d_021C7D7C[*(int *)&((struct MbSeqCtx *)p)->f14].result;
 }
@@ -687,7 +690,7 @@ int func_021C6EA4(u8 *p)
     case 3:
         func_021C5B30(p);
         func_021C62F4(p);
-        func_0202CC70(**(void ** *)&((struct MbSeqCtx *)p)->f8, 10);
+        BGWINFRM_HideFrame(**(void ** *)&((struct MbSeqCtx *)p)->f8, 10);
         func_021C7298(*(u8 * *)&((struct MbSeqCtx *)p)->f8, 0);
         func_021C66B8(*(u8 * *)&((struct MbSeqCtx *)p)->f8, 2, 1);
         return 9;
@@ -734,7 +737,7 @@ int func_021C6FD4(u8 *p)
     func_021C7360(p);
     func_021C76D0(p, func_020260E0(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f294));
     func_021C61D0(((struct MbSeqCtx *)p)->f8);
-    func_0202CC70(**(void ** *)&((struct MbSeqCtx *)p)->f8, 10);
+    BGWINFRM_HideFrame(**(void ** *)&((struct MbSeqCtx *)p)->f8, 10);
     func_021C66B8(((struct MbSeqCtx *)p)->f8, 2, 1);
     func_021C7298(((struct MbSeqCtx *)p)->f8, 0);
     return 9;
@@ -925,7 +928,7 @@ int func_021C70EC(struct MbSeqCtx *p)
 int func_021C7110(u8 *p)
 {
     func_021C62F4(p);
-    func_0202CC70(**(void ** *)&((struct MbSeqCtx *)p)->f8, 10);
+    BGWINFRM_HideFrame(**(void ** *)&((struct MbSeqCtx *)p)->f8, 10);
     func_021C76D0(p, func_020260E0(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f294));
     func_021C66B8(*(u8 * *)&((struct MbSeqCtx *)p)->f8, 2, 1);
     func_021C7298(*(u8 * *)&((struct MbSeqCtx *)p)->f8, 0);
@@ -1017,8 +1020,8 @@ int func_021C71D0(u8 *p, int v, int w)
 {
     struct Temp { s8 b, a; u16 c, d; } t;
     struct Control *q;
-    func_0202CF98(**(void ** *)&((struct MbSeqCtx *)p)->f8, v, &t.a, &t.b);
-    func_0202CFC0(**(void ** *)&((struct MbSeqCtx *)p)->f8, v, &t.d, &t.c);
+    BGWINFRM_GetPos(**(void ** *)&((struct MbSeqCtx *)p)->f8, v, &t.a, &t.b);
+    BGWINFRM_GetSize(**(void ** *)&((struct MbSeqCtx *)p)->f8, v, &t.d, &t.c);
     q = (struct Control *)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + 0x300);
     q->enabled = 1;
     q->mode = 2;
@@ -1136,11 +1139,11 @@ void func_021C7350(u8 *p)
 
 
 /*
- *   2026-10-02: src/matched/arm9/func_02024450.c exists (EXACT) but has no shard yet.
+ *   2026-10-02: src/matched/arm9/PMSI_PARAM_IsEnabled.c exists (EXACT) but has no shard yet.
  *   After the integrator runs manifest on it, re-run: expect EXACT.
  *   Verified Thumb C is preserved here; ARM9 filing belongs to the integrator.
  *   typedef unsigned short u16;
- *   int func_02024450(const u16 *p)
+ *   int PMSI_PARAM_IsEnabled(const u16 *p)
  *   {
  *       if (*p != 0xFFFF) return 1;
  *       return 0;
@@ -1150,12 +1153,12 @@ void func_021C7360(u8 *p)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        if (func_02024450((const u16 *)func_02008FC8(*(void **)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + p[0x1F]*4 + 0x298), (u8)i)) != 0) {
-            func_0202DC9C(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f35C, (u8)i, (int)0);
+        if (PMSI_PARAM_IsEnabled((const u16 *)func_02008FC8(*(void **)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + p[0x1F]*4 + 0x298), (u8)i)) != 0) {
+            PMS_DRAW_Clear(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f35C, (u8)i, (int)0);
         }
     }
     if (((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f364 != 0) {
-        func_0202DC9C(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f35C, (u8)i, (int)0);
+        PMS_DRAW_Clear(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f35C, (u8)i, (int)0);
     }
     func_020414EC(4);
     func_020414EC(5);
@@ -1240,7 +1243,7 @@ int func_021C7494(u8 *p)
 {
     u32 v = ((struct Bf7 *)(p + 0x21))->v;
     ((struct MbSeqCtx_f10 *)((struct MbSeqCtx *)p)->f10)->f3C = v;
-    func_02031348(((struct MbSeqCtx *)p)->f30, (u32)ov091_id, d_021BED00, ((struct MbSeqCtx *)p)->f10);
+    PROCSYS_Push(((struct MbSeqCtx *)p)->f30, (u32)ov091_id, gPartyListProcData, ((struct MbSeqCtx *)p)->f10);
     return 0;
 }
 
@@ -1302,7 +1305,7 @@ int func_021C74F8(struct MbSeqCtx *p)
 int func_021C7504(u8 *p)
 {
     ((struct MbSeqCtx *)p)->f10 = (void *)func_021C3CC0(**(void ** *)&((struct MbSeqCtx *)p)->f4, 2, ((struct Bf7 *)(p + 0x21))->v, func_0202138C(((struct MbSeqCtx *)p)->f22), 0x65);
-    func_02031348(((struct MbSeqCtx *)p)->f30, (u32)-1, d_021C7D5C, ((struct MbSeqCtx *)p)->f10);
+    PROCSYS_Push(((struct MbSeqCtx *)p)->f30, (u32)-1, d_021C7D5C, ((struct MbSeqCtx *)p)->f10);
     return 0;
 }
 
@@ -1352,7 +1355,7 @@ void func_021C758C(u8 *p)
     n=((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f2FE;
     if(((struct MbSeqCtx *)p)->f1C>n) { ((struct MbSeqCtx *)p)->f1C=n; p[30]=0; }
     func_021C5C00(p);
-    func_0202CC70(**(void ** *)&((struct MbSeqCtx *)p)->f8,10);
+    BGWINFRM_HideFrame(**(void ** *)&((struct MbSeqCtx *)p)->f8,10);
     func_021C630C(p,1);
     func_021C71A8((char *)p,1,18);
 }

@@ -16,26 +16,23 @@
  *   func_021DDCD8   0x021DDCD8  thumb
  * Leaf with no calls and no pool; 9 instructions, 20 bytes: push {r4, lr}; sub sp, #8; movs r4, #7; str r4, [sp]; movs r4, #0; str r4, [sp, #4]; bl func_021DDCD8; add sp, #8; pop {r4, pc}.
  */
+#include "unit_021DDC44_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
+extern int func_021DDCD8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work, u8 moveType, int ignoreAffinity);
+extern int d_021F181C[];
 
-/* 021DDC44  shape F2: two stack constants (7, 0) */
-void func_021DDC44(int a, int b, int c, int d)
+void func_021DDC44(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+int *func_021DDC58(int *handlerCount);
+
+/* Kasib Berry: halves a Ghost hit that is super effective. */
+void func_021DDC44(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    func_021DDCD8(a, b, c, d, 7, 0);
+    func_021DDCD8(factor, flow, pokeId, work, POKETYPE_GHOST, 0);
 }
 
-
-extern int d_021F181C[];
-int *func_021DDC58(int *p);
-
-int *func_021DDC58(int *p)
+/* Handler table getter of Haban Berry. */
+int *func_021DDC58(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F181C;
 }

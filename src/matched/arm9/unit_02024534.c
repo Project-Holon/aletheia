@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02024534
+ * function: PMSI_PARAM_Compare
  * address:  0x02024534
  * packet:   pkt_02024534
  * region:   arm9
@@ -19,7 +19,7 @@ struct Data {
     u16 c[2];
 };
 
-int func_02024534(const struct Data *p1, const struct Data *p2)
+int PMSI_PARAM_Compare(const struct Data *p1, const struct Data *p2)
 {
     int i;
 

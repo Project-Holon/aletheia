@@ -1,5 +1,5 @@
 /*
- * function: func_020274F8
+ * function: GAME_BEACON_ClearFlags
  * address:  0x020274F8
  * packet:   pkt_020274B4
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_02146940  0x02146940  data
+ *   GAME_BEACON_Work  0x02146940  data
  */
 
 typedef unsigned char u8;
@@ -22,13 +22,13 @@ struct BeaconSys {
     u32 field_BA4;
 };
 
-extern struct BeaconSys *g_02146940;
+extern struct BeaconSys *GAME_BEACON_Work;
 
-void func_020274F8(void)
+void GAME_BEACON_ClearFlags(void)
 {
-    if (g_02146940 != 0) {
-        g_02146940->field_BA4 = 0;
-        g_02146940->field_62 = 0;
-        g_02146940->field_BA4 = 0;
+    if (GAME_BEACON_Work != 0) {
+        GAME_BEACON_Work->field_BA4 = 0;
+        GAME_BEACON_Work->field_62 = 0;
+        GAME_BEACON_Work->field_BA4 = 0;
     }
 }

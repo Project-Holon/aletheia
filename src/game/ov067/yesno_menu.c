@@ -1,0 +1,528 @@
+/*
+ * file:     yesno_menu.c
+ * unit:     yes
+ * function: func_021B6DC0, func_021B709C, func_021B70F4, func_021B72DC, func_021B7378, func_021B76B0, func_021B76C8, func_021B7718
+ * address:  0x021B6DC0
+ * region:   ov067
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_020490F4  0x020490F4  arm
+ *   func_02049238  0x02049238  arm
+ *   func_02049B68  0x02049B68  arm
+ *   func_02049740  0x02049740  arm
+ *   func_0203FB44 0x0203FB44 arm
+ *   func_020413B0  0x020413B0  arm
+ *   func_020409B4  0x020409B4  arm
+ *   func_0204B92C  0x0204B92C  arm
+ *   func_0204B3B4 0x0204B3B4 arm
+ *   func_02035D20  0x02035D20  arm
+ *   func_020355D8  0x020355D8  arm
+ *   func_020362DC  0x020362DC  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_0204B84C  0x0204B84C  arm
+ *   func_020061E4 0x020061E4 thumb
+ *   func_02045770  0x02045770  arm
+ *   func_0201C724  0x0201C724  thumb
+ *   func_0201D304  0x0201D304  thumb
+ *   d_021B9564     0x021B9564  data  a1
+ *   func_020414AC  0x020414AC  arm
+ *   func_020493D4  0x020493D4  arm
+ *   func_0204932C  0x0204932C  arm
+ *   func_02062A98  0x02062A98  arm
+ *   func_020498F4  0x020498F4  arm
+ *   func_02040588  0x02040588  arm
+ *   func_02049B40  0x02049B40  arm
+ *   func_020450F0  0x020450F0  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_020434DC  0x020434DC  arm
+ *   func_02043598  0x02043598  arm
+ *   func_020452E8  0x020452E8  arm
+ *   func_0204B404  0x0204B404  arm
+ *   func_0201C6C4  0x0201C6C4  thumb
+ *   func_02045334  0x02045334  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02045730  0x02045730  arm
+ *   func_02041B6C  0x02041B6C  arm
+ *   func_020355C4  0x020355C4  arm
+ *   d_021B94C4     0x021B94C4  data  a1
+ *   TOUCHPANEL_HitPoint  0x02035D40  arm
+ *   d_021B94D0     0x021B94D0  data  a2
+ *   d_021B94B8  0x021B94B8  data  a1
+ *   d_021B94BC  0x021B94BC  data  a1
+ *   func_02061CA4  0x02061CA4  arm
+ *   func_021B6208  0x021B6208  thumb
+ *   func_021B6284  0x021B6284  thumb
+ *   func_021B629C  0x021B629C  thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed short s16;
+typedef signed int s32;
+
+#include "ui_scene_types.h"
+#include "yesno_menu_types.h"
+
+/* Size of YesNoMenu, allocated and cleared by YESNO_MENU_Create. */
+#define YESNO_MENU_SIZE 0xcc
+
+/* Number of button actors (two answers, each with a plain and a lit look). */
+#define YESNO_MENU_BUTTON_COUNT 4
+
+/* Number of steps in the flash table d_021B94D0. */
+#define YESNO_MENU_FLASH_STEPS 10
+
+/* Pad keys as func_020362DC reports them. */
+#define YESNO_MENU_KEY_A 0x1
+#define YESNO_MENU_KEY_B 0x2
+#define YESNO_MENU_KEY_UP 0x40
+#define YESNO_MENU_KEY_DOWN 0x80
+
+/* Input mode of func_020355C4 / func_020355D8. */
+#define YESNO_MENU_INPUT_KEYS 0
+#define YESNO_MENU_INPUT_TOUCH 1
+
+/* Sound effect ids. */
+#define YESNO_MENU_SE_CURSOR 0x548
+#define YESNO_MENU_SE_DECIDE 0x54d
+#define YESNO_MENU_SE_CANCEL 0x552
+
+struct CharBuf;
+struct StrBuf;
+
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_02082BCC(void *p, u32 v, u32 n);
+extern u32 func_020307B0(void *p);
+extern void *func_020490F4(u32 id, u32 heap);
+extern void func_02049238(void *arc);
+extern void func_02049B68(void *arc, u32 plttId, u32 target, u32 offset, u32 size, u32 heapId);
+extern u32 func_02049740(void *arc, u32 charId, u32 layer, u32 offset, u32 size, u32 heapId);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void func_020413B0(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
+extern void func_020409B4(u8 layer);
+extern void func_0204B92C(struct Actor *actor, u32 value);
+extern void func_0204B3B4(struct Actor *actor);
+extern u32 func_02035D20(u32 *touchX, u32 *touchY);
+extern void func_020355D8(u8 inputMode);
+extern u32 func_020362DC(void);
+extern void func_020061E4(u32 seId);
+extern struct CharBuf *func_02045770(struct TextWindow *window);
+extern void func_0201C724(struct PrintSys *printer, struct CharBuf *chars, s16 x, s16 y, struct StrBuf *text, u32 fontId, u16 color);
+extern void func_0204B3DC(struct Actor *actor, u32 value);
+extern void func_0204B84C(struct Actor *actor, unsigned int priority);
+extern u32 func_0201D304(struct StrBuf *text, u32 fontId, u32 spacing);
+extern void func_020414AC(u32 layer);
+extern u32 func_020493D4(void *arc, u32 member);
+extern void func_0204932C(void *arc, u32 member, void *dest);
+extern s32 func_02062A98(void *file, void **out);
+extern void func_020498F4(void *arc, u32 mapId, u32 layer, u32 tileOffset, u32 size, u32 blockOffset, u16 heapId);
+extern void func_02040588(unsigned char layer, unsigned char enable);
+extern void func_02049B40(u32 arcId, u32 plttId, u32 target, u32 offset, u32 size, u16 heapId);
+extern struct TextWindow *func_020450F0(u32 layer, u32 x, u32 y, u32 tiles, u8 height, u8 plttSlot, u8 flags);
+extern void func_02043B5C(struct CharBuf *chars, u8 fill);
+extern void func_020434DC(u32 mask, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
+extern u32 func_020452E8(struct TextWindow *window);
+extern void func_0204B404(struct Actor *actor, YesNoPoint *pos, u16 screen);
+extern u32 func_0201C6C4(struct PrintSys *printer, struct CharBuf *chars);
+extern void func_02045334(struct TextWindow *window);
+extern void func_02045374(struct TextWindow *window);
+extern u8 func_02045730(struct TextWindow *window);
+extern void func_02041B6C(u32 bit);
+extern u8 func_020355C4(void);
+extern int TOUCHPANEL_HitPoint(YesNoTouchTable *table, u32 x, u32 y);
+extern s32 func_02061CA4(u32 region, u32 offset, const void *src, s32 size);
+void func_021B6208(ActorGfxSet *out, ActorGfxDesc *desc, void *actorSys, u16 heapId);
+void func_021B6284(ActorGfxSet *gfx);
+struct Actor *func_021B629C(ActorGfxSet *gfx, void *actorSys, u16 x, u16 y, u8 animIndex, u16 heapId);
+YesNoMenu *func_021B6DC0(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, u32 fontId, struct PrintSys *printer);
+void func_021B709C(YesNoMenu *menu);
+void func_021B70F4(YesNoMenu *menu, struct StrBuf *upperText, struct StrBuf *lowerText);
+void func_021B72DC(YesNoMenu *menu);
+void func_021B7378(YesNoMenu *menu);
+int func_021B76B0(YesNoMenu *menu);
+u8 func_021B76C8(u32 cursorIndex, u32 buttonIndex, u32 axis);
+void func_021B7718(int target, u8 slot, void *colors);
+extern const char d_021B9564[];
+extern const YesNoTouchTable d_021B94C4;
+extern const YesNoFlashStep d_021B94D0[YESNO_MENU_FLASH_STEPS];
+extern const YesNoCursorOrigin d_021B94B8;
+extern const YesNoButtonOffsets d_021B94BC;
+
+
+YesNoMenu *func_021B6DC0(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, u32 fontId, struct PrintSys *printer)
+{
+    ActorGfxDesc desc;
+    PlttFile *plttFile;
+    u16 *colors;
+    void *arc;
+    void *file;
+    u32 plttTarget;
+    YesNoMenu *menu;
+    u8 i;
+    u8 j;
+    u32 isSubScreen;
+
+    menu = func_02030734(heapId, YESNO_MENU_SIZE, 0, d_021B9564, 0xd3);
+    plttTarget = 0;
+    func_02082BCC(menu, 0, YESNO_MENU_SIZE);
+    menu->heapId = heapId;
+    menu->actorSys = actorSys;
+    menu->fontId = fontId;
+    menu->printer = printer;
+    if (textBgLayer > 3)
+        plttTarget = 4;
+    menu->plttTarget = plttTarget;
+    menu->buttonBgLayer = textBgLayer + 1;
+    menu->textBgLayer = textBgLayer;
+    menu->buttonPriority = actorPriority + 1;
+    menu->actorPriority = actorPriority;
+    menu->yesPlttSlot = plttSlot;
+    menu->noPlttSlot = plttSlot + 1;
+    menu->textPlttSlot = plttSlot + 2;
+    isSubScreen = 0;
+    if (textBgLayer > 3)
+        isSubScreen = 1;
+    menu->isSubScreen = isSubScreen;
+    menu->actorPlttSlot = actorPlttSlot;
+    func_020414AC(menu->buttonBgLayer);
+    func_020414AC(menu->textBgLayer);
+    menu->state = YESNO_MENU_STATE_IDLE;
+    menu->answer = YESNO_MENU_ANSWER_PENDING;
+    menu->cursorIndex = 0;
+    arc = func_020490F4(0x53, menu->heapId);
+    file = func_02030734(menu->heapId, func_020493D4(arc, 0xa3), 0, d_021B9564, 0x10d);
+    func_0204932C(arc, 0xa3, file);
+    func_02062A98(file, (void **)(&plttFile));
+    colors = plttFile->colors[0];
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 16; j++) {
+            menu->palette[i][j] = colors[(i + 1) * 16 + j];
+        }
+    }
+    func_020307B0(file);
+    func_02049B68(arc, 0xa3, menu->plttTarget, menu->yesPlttSlot << 5, 0x40, menu->heapId);
+    menu->buttonTileAlloc = func_02049740(arc, 0xa4, menu->buttonBgLayer, 0x1a0, 0, menu->heapId);
+    func_020498F4(arc, 0xa5, menu->buttonBgLayer, (u16)menu->buttonTileAlloc, 0x600, 0, menu->heapId);
+    func_020413B0(menu->buttonBgLayer, 0, 0, 0x20, 0xb, menu->yesPlttSlot);
+    func_020413B0(menu->buttonBgLayer, 0, 0xb, 0x20, 0xd, menu->noPlttSlot);
+    func_020409B4(menu->buttonBgLayer);
+    func_02049238(arc);
+    func_021B7718(menu->plttTarget, menu->yesPlttSlot, menu->palette);
+    func_021B7718(menu->plttTarget, menu->noPlttSlot, menu->palette);
+    func_02040588(menu->buttonBgLayer, 0);
+    func_02049B40(0x17, 5, menu->plttTarget, menu->textPlttSlot << 5, 0x20, menu->heapId);
+    menu->windowUpper = func_020450F0(menu->textBgLayer, 0, 5, 0x20, 6, menu->textPlttSlot, 1);
+    func_02043B5C(func_02045770(menu->windowUpper), 0);
+    menu->windowLower = func_020450F0(menu->textBgLayer, 0, 0xb, 0x20, 6, menu->textPlttSlot, 1);
+    func_02043B5C(func_02045770(menu->windowLower), 0);
+    func_02040588(menu->textBgLayer, 0);
+    desc.screen = menu->isSubScreen;
+    desc.flags = 0;
+    desc.arcId = 0xb;
+    desc.charId = 0x74;
+    desc.plttId = 0x77;
+    desc.cellId = 0x78;
+    desc.animId = 0x79;
+    desc.plttSlot = menu->actorPlttSlot;
+    desc.charBase = 0;
+    desc.charSize = 5;
+    func_021B6208(&menu->gfx, &desc, menu->actorSys, menu->heapId);
+    for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
+        menu->buttonActors[i] = func_021B629C(&menu->gfx, menu->actorSys, func_021B76C8(menu->cursorIndex, i, 0),
+                                              func_021B76C8(menu->cursorIndex, i, 1), i, menu->heapId);
+        func_0204B84C(menu->buttonActors[i], menu->actorPriority);
+        func_0204B3DC(menu->buttonActors[i], 0);
+        func_0204B92C(menu->buttonActors[i], 0);
+    }
+    if (menu->isSubScreen == 0)
+        func_020434DC(0x10, 1);
+    else
+        func_02043598(0x10, 1);
+    return menu;
+}
+
+
+void func_021B709C(YesNoMenu *menu)
+{
+    u8 i;
+    u32 tileAlloc;
+
+    for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
+        func_0204B3B4(menu->buttonActors[i]);
+    }
+    func_021B6284(&menu->gfx);
+    func_020452E8(menu->windowUpper);
+    func_020452E8(menu->windowLower);
+    tileAlloc = menu->buttonTileAlloc;
+    func_0203FB44(menu->buttonBgLayer, (u16)tileAlloc, (u16)(tileAlloc >> 16));
+    func_020307B0(menu);
+}
+
+
+/* Shows the menu: places the buttons, prints the two texts centered in their windows and resets the answer. */
+void func_021B70F4(YesNoMenu *menu, struct StrBuf *upperText, struct StrBuf *lowerText)
+{
+    YesNoPoint pos;
+    u8 i;
+    u32 textWidth;
+    struct TextWindow *window;
+
+    menu->state = YESNO_MENU_STATE_OPENING;
+    menu->answer = YESNO_MENU_ANSWER_PENDING;
+    menu->cursorIndex = 0;
+    for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
+        pos.x = func_021B76C8(menu->cursorIndex, i, 0);
+        pos.y = func_021B76C8(menu->cursorIndex, i, 1);
+        func_0204B404(menu->buttonActors[i], &pos, menu->isSubScreen);
+    }
+    func_021B7718(menu->plttTarget, menu->yesPlttSlot, menu->palette);
+    func_021B7718(menu->plttTarget, menu->noPlttSlot, menu->palette);
+    func_02040588(menu->buttonBgLayer, 1);
+    func_02043B5C(func_02045770(menu->windowUpper), 0);
+    func_02043B5C(func_02045770(menu->windowLower), 0);
+    textWidth = func_0201D304(upperText, menu->fontId, 0);
+    func_0201C724(menu->printer, func_02045770(menu->windowUpper), (u16)((0x100 - textWidth) / 2), 0x10, upperText, menu->fontId, 0x3c40);
+    textWidth = func_0201D304(lowerText, menu->fontId, 0);
+    func_0201C724(menu->printer, func_02045770(menu->windowLower), (u16)((0x100 - textWidth) / 2), 0x10, lowerText, menu->fontId, 0x3c40);
+    menu->upperDone = 0;
+    menu->lowerDone = 0;
+    func_02040588(menu->textBgLayer, 1);
+    if (menu->upperDone == 0 && func_0201C6C4(menu->printer, func_02045770(menu->windowUpper)) == 0) {
+        window = menu->windowUpper;
+        func_02045334(window);
+        func_02045374(window);
+        func_02041B6C(func_02045730(window));
+        menu->upperDone = 1;
+    }
+    if (menu->lowerDone == 0 && func_0201C6C4(menu->printer, func_02045770(menu->windowLower)) == 0) {
+        window = menu->windowLower;
+        func_02045334(window);
+        func_02045374(window);
+        func_02041B6C(func_02045730(window));
+        menu->lowerDone = 1;
+    }
+    if (func_020355C4() == YESNO_MENU_INPUT_KEYS) {
+        for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
+            func_0204B3DC(menu->buttonActors[i], 1);
+            func_0204B92C(menu->buttonActors[i], 1);
+        }
+    }
+}
+
+
+/* Hides the menu again and clears the state. */
+void func_021B72DC(YesNoMenu *menu)
+{
+    struct TextWindow *window;
+    u8 i;
+
+    func_02040588(menu->buttonBgLayer, 0);
+    func_02040588(menu->textBgLayer, 0);
+    func_02043B5C(func_02045770(menu->windowUpper), 0);
+    func_02043B5C(func_02045770(menu->windowLower), 0);
+    window = menu->windowUpper;
+    func_02045334(window);
+    func_02045374(window);
+    func_02041B6C(func_02045730(window));
+    window = menu->windowLower;
+    func_02045334(window);
+    func_02045374(window);
+    func_02041B6C(func_02045730(window));
+    for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
+        func_0204B3DC(menu->buttonActors[i], 0);
+        func_0204B92C(menu->buttonActors[i], 0);
+    }
+    menu->state = YESNO_MENU_STATE_IDLE;
+}
+
+
+/* Runs one frame: reads keys and touch, picks the answer and plays the flash of the pressed button. */
+void func_021B7378(YesNoMenu *menu)
+{
+    YesNoTouchTable hitTable;
+    u32 touchX;
+    u32 touchY;
+    YesNoPoint pos;
+    int redrawPalette;
+    int touched;
+    int handled;
+    u32 keys;
+    int cursorMoved;
+    u8 i;
+    struct TextWindow *window;
+
+    redrawPalette = 0;
+    keys = func_020362DC();
+    touched = func_02035D20(&touchX, &touchY);
+    switch (menu->state) {
+    case YESNO_MENU_STATE_IDLE:
+        break;
+    case YESNO_MENU_STATE_OPENING:
+        menu->state = YESNO_MENU_STATE_WAIT_INPUT;
+        break;
+    case YESNO_MENU_STATE_WAIT_INPUT:
+        handled = 0;
+        if (keys & YESNO_MENU_KEY_B) {
+            func_020061E4(YESNO_MENU_SE_CANCEL);
+            menu->answer = YESNO_MENU_ANSWER_NO;
+            handled = 1;
+            func_020355D8(YESNO_MENU_INPUT_KEYS);
+        }
+        if (!handled && func_020355C4() == YESNO_MENU_INPUT_KEYS && keys != 0) {
+            cursorMoved = 0;
+            if (keys & YESNO_MENU_KEY_A) {
+                if (menu->cursorIndex == 0) {
+                    func_020061E4(YESNO_MENU_SE_DECIDE);
+                    menu->answer = YESNO_MENU_ANSWER_YES;
+                } else {
+                    func_020061E4(YESNO_MENU_SE_CANCEL);
+                    menu->answer = YESNO_MENU_ANSWER_NO;
+                }
+                handled = 1;
+            } else if (keys & YESNO_MENU_KEY_UP) {
+                if (menu->cursorIndex != 0) {
+                    menu->cursorIndex = 0;
+                    cursorMoved = 1;
+                }
+            } else if (keys & YESNO_MENU_KEY_DOWN) {
+                if (menu->cursorIndex != 1) {
+                    menu->cursorIndex = 1;
+                    cursorMoved = 1;
+                }
+            }
+            if (cursorMoved) {
+                for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
+                    pos.x = func_021B76C8(menu->cursorIndex, i, 0);
+                    pos.y = func_021B76C8(menu->cursorIndex, i, 1);
+                    func_0204B404(menu->buttonActors[i], &pos, menu->isSubScreen);
+                }
+                func_020061E4(YESNO_MENU_SE_CURSOR);
+            }
+        }
+        if (!handled && touched != 0) {
+            int hit;
+            hitTable = d_021B94C4;
+            hit = TOUCHPANEL_HitPoint(&hitTable, touchX, touchY);
+            if (hit != -1) {
+                if (hit == 0) {
+                    func_020061E4(YESNO_MENU_SE_DECIDE);
+                    menu->answer = YESNO_MENU_ANSWER_YES;
+                } else if (hit == 1) {
+                    func_020061E4(YESNO_MENU_SE_CANCEL);
+                    menu->answer = YESNO_MENU_ANSWER_NO;
+                }
+                handled = 1;
+                func_020355D8(YESNO_MENU_INPUT_TOUCH);
+            }
+        }
+        if (!handled && func_020355C4() == YESNO_MENU_INPUT_TOUCH && keys != 0) {
+            for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
+                func_0204B3DC(menu->buttonActors[i], 1);
+                func_0204B92C(menu->buttonActors[i], 1);
+            }
+            func_020061E4(YESNO_MENU_SE_CURSOR);
+            func_020355D8(YESNO_MENU_INPUT_KEYS);
+        }
+        if (handled) {
+            for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
+                func_0204B3DC(menu->buttonActors[i], 0);
+                func_0204B92C(menu->buttonActors[i], 0);
+            }
+            menu->state = YESNO_MENU_STATE_FLASH;
+            menu->palAnimIndex = 0;
+            menu->palAnimFrame = 1;
+            menu->palAnimStep = 1;
+        }
+        break;
+    case YESNO_MENU_STATE_FLASH:
+        if (menu->palAnimStep < YESNO_MENU_FLASH_STEPS) {
+            if (menu->palAnimFrame == d_021B94D0[menu->palAnimStep].frame) {
+                menu->palAnimIndex = d_021B94D0[menu->palAnimStep].palIndex;
+                redrawPalette = 1;
+                menu->palAnimStep++;
+            }
+            menu->palAnimFrame++;
+        } else {
+            menu->state = YESNO_MENU_STATE_DONE;
+        }
+        break;
+    case YESNO_MENU_STATE_DONE:
+        break;
+    }
+    if (menu->state != YESNO_MENU_STATE_IDLE) {
+        if (menu->upperDone == 0 && func_0201C6C4(menu->printer, func_02045770(menu->windowUpper)) == 0) {
+            window = menu->windowUpper;
+            func_02045334(window);
+            func_02045374(window);
+            func_02041B6C(func_02045730(window));
+            menu->upperDone = 1;
+        }
+        if (menu->lowerDone == 0 && func_0201C6C4(menu->printer, func_02045770(menu->windowLower)) == 0) {
+            window = menu->windowLower;
+            func_02045334(window);
+            func_02045374(window);
+            func_02041B6C(func_02045730(window));
+            menu->lowerDone = 1;
+        }
+    }
+    if (redrawPalette) {
+        func_021B7718(menu->plttTarget, menu->answer == YESNO_MENU_ANSWER_YES ? menu->yesPlttSlot : menu->noPlttSlot, menu->palette[menu->palAnimIndex]);
+    }
+}
+
+
+/* Returns the answer once the flash is over (or the menu is idle), else YESNO_MENU_ANSWER_PENDING. */
+int func_021B76B0(YesNoMenu *menu)
+{
+    if (menu->state != YESNO_MENU_STATE_IDLE && menu->state != YESNO_MENU_STATE_DONE)
+        return YESNO_MENU_ANSWER_PENDING;
+    return menu->answer;
+}
+
+
+/* Button position on screen: origin of the cursor position plus the offset of the button. axis 0 is x, 1 is y. */
+u8 func_021B76C8(u32 cursorIndex, u32 buttonIndex, u32 axis)
+{
+    YesNoCursorOrigin origin = d_021B94B8;
+    YesNoButtonOffsets offsets = d_021B94BC;
+    return origin.v[cursorIndex][axis] + offsets.v[buttonIndex][axis];
+}
+
+
+/* Copies one 16-color row into the palette slot of the target (main/sub, background/actor). */
+void func_021B7718(int target, u8 slot, void *colors)
+{
+    int region;
+
+    switch (target) {
+    case 0:
+        region = 0xf;
+        break;
+    case 1:
+        region = 0xe;
+        break;
+    case 4:
+        region = 0x1f;
+        break;
+    case 5:
+        region = 0x1e;
+        break;
+    case 2:
+    case 3:
+        return;
+    default:
+        return;
+    }
+    func_02061CA4(region, slot << 5, colors, 0x20);
+}

@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02005E9C 0x02005E9C thumb
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005DF8 0x02005DF8 thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   func_02049B40 0x02049B40 arm
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
@@ -59,7 +59,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  *   d_021F71A4 0x021F71A4 data a2
  */
@@ -95,9 +95,9 @@ typedef unsigned char u8;
 
 typedef signed int     s32;
 
-extern int func_02005E9C(void);
-extern void func_02005DE4(void *p);
-extern void func_02005DF8(u32 a);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 extern void *func_02045770(struct Descriptor *);
@@ -141,7 +141,7 @@ extern struct BmpMenu *func_0201FDA0(const struct WinDat *,unsigned short,unsign
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0207DC44(int,int,int,int);
 extern void func_0207DD24(u16,int,int,int,int);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(unsigned,unsigned);
 void func_021F604C(void);
 void func_021F6060(int unused,char *p);
@@ -161,9 +161,9 @@ extern const u16 d_021F71A4[];
 
 void func_021F604C(void)
 {
-    func_02005E9C();
-    func_02005DE4(0);
-    func_02005DF8(0x3c);
+    GFL_USE_PopBgm();
+    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_FadeInBgmFull(0x3c);
 }
 
 void func_021F6060(int unused,char *p)
@@ -317,6 +317,6 @@ void func_021F6328(void)
     func_0207DC44(0,0,0,0);
     func_0207DD24(0,0,0x7FFF,63,0);
     *(volatile unsigned *)0x04000580=0xBFFF0000;
-    for(i=0;i<4;i++) func_02046A94((u8)i,d_021F71A4+i*4);
+    for(i=0;i<4;i++) G3D_SYSTEM_SetLight((u8)i,d_021F71A4+i*4);
     func_02046BE0(0,0);
 }

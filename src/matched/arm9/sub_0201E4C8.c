@@ -1,5 +1,5 @@
 /*
- * function: func_0201E4C8
+ * function: GF_FONT_InitBitReader
  * address:  0x0201E4C8
  * packet:   pkt_0201E4C8
  * region:   arm9
@@ -25,7 +25,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201E4C8.c \
- *       --func func_0201E4C8 --addr 0x0201E4C8 --cc 1.1p1 --thumb
+ *       --func GF_FONT_InitBitReader --addr 0x0201E4C8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -37,7 +37,7 @@ struct BitReader {
     u8        cur;
 };
 
-void func_0201E4C8(struct BitReader *b, const u8 *p)
+void GF_FONT_InitBitReader(struct BitReader *b, const u8 *p)
 {
     b->src = p;
     b->cur = p[0];

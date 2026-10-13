@@ -1,5 +1,5 @@
 /*
- * function: func_021B6178
+ * function: DWC_RAPUTIL_Main
  * address:  0x021B6178
  * packet:   pkt_021B6178
  * region:   ov016
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021B6100  0x021B6100  thumb
+ *   DWC_RAPUTIL_RunUtility  0x021B6100  thumb
  */
 
-void func_021B6100(int x);
+void DWC_RAPUTIL_RunUtility(int x);
 
-int func_021B6178(void)
+int DWC_RAPUTIL_Main(void)
 {
-    func_021B6100(0xf);
+    DWC_RAPUTIL_RunUtility(0xf);
     return 1;
 }

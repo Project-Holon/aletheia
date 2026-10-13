@@ -10,7 +10,7 @@
  * status: EXACT
  * Width: original narrows state to u8 before 0220B760; extern preserves caller truncation despite owner u32 state.
  * symbols:
- *   func_02021ED8 0x02021ED8 thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   func_02025DE8 0x02025DE8 thumb
  *   func_02211970 0x02211970 thumb ov198
  *   func_0220B760 0x0220B760 thumb ov198
@@ -24,12 +24,12 @@ extern int func_02025DE8(struct Sound *);
 extern void func_02211970(u8 **,u32);
 extern void func_0220B760(u8 *p, unsigned int state);
 extern u32 func_02210F1C(u8 *p);
-extern u32 func_02021ED8(const char *);
+extern u32 PALANM_GetFadeRequestBits(const char *);
 int func_0220FED0(u8 *p)
 {
     u32 sel;
     u8 value;
-    if(func_02021ED8(*(const char * *)&((struct Obj08361 *)p)->f1D8)!=0)return 25;
+    if(PALANM_GetFadeRequestBits(*(const char * *)&((struct Obj08361 *)p)->f1D8)!=0)return 25;
     sel=func_02025DE8(*(struct Sound * *)&((struct Obj08361 *)p)->f2184);
     switch(sel){
     case 0: case 1: case 2: case 3: case 4:

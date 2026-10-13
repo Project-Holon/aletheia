@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202B944
+ * function: ISS_3DS_SYS_ClearTable
  * address:  0x0202B944
  * packet:   pkt_0202B7D4
  * region:   arm9
@@ -17,15 +17,15 @@
  * a field this far out rather than anything hand written. No relocation.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202B944.c \
- *       --func sub_0202B944 --addr 0x0202B944 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_3DS_SYS_ClearTable.c \
+ *       --func ISS_3DS_SYS_ClearTable --addr 0x0202B944 --cc 1.1p1 --thumb
  */
 #include "../include/Obj01019.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void sub_0202B944(void *obj)
+void ISS_3DS_SYS_ClearTable(void *obj)
 {
     ((struct Obj01019 *)obj)->f264 = 0;
     ((struct Obj01019 *)obj)->f268 = 0;

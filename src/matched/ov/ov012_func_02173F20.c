@@ -1,5 +1,5 @@
 /*
- * function: func_02173F20
+ * function: UNION_COMMAND_SendAppSetting
  * address: 0x02173F20
  * packet: pkt_ov012_02173F20
  * region: ov012
@@ -18,7 +18,7 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D4D0(u32, u32, u32, u32, u32, u32, u32, u32);
 extern u32 func_021840A8(u32);
-u32 func_02173F20(void *p, u32 a)
+u32 UNION_COMMAND_SendAppSetting(void *p, u32 a)
 {
     u32 entry;
     u32 size;

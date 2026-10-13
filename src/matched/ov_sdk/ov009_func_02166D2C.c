@@ -12,7 +12,7 @@
  * sdk:      WCMi_WmifSetDCFData (libwcm.TWL.HYB.a wmif.o)
  *
  * symbols:
- *   func_02166378  0x02166378  arm  ov009
+ *   WCMi_GetCpsifWork  0x02166378  arm  ov009
  *   func_0208FF0C  0x0208FF0C  arm
  *   OS_SleepThread  0x020857B0  arm
  *   func_02167DE0  0x02167DE0  arm  ov009
@@ -30,7 +30,7 @@ typedef struct WCMCpsifWork {
     void (*callback)(long);
 } WCMCpsifWork;
 
-extern void *func_02166378(void);
+extern void *WCMi_GetCpsifWork(void);
 extern long func_0208FF0C(void (*callback)(void *), unsigned char *destAdr, unsigned short *sendData, unsigned short sendDataSize);
 extern void OS_SleepThread(void *queue);
 extern void func_02167DE0(void *arg);
@@ -41,7 +41,7 @@ long func_02166D2C(unsigned char *dstAddr, unsigned short *buf, unsigned short l
     WCMCpsifWork *wcmiw;
     long wmResult;
 
-    wcmiw = func_02166378();
+    wcmiw = WCMi_GetCpsifWork();
     if (callback == 0) {
         wmResult = func_0208FF0C(func_02167DE0, dstAddr, buf, len);
     } else {

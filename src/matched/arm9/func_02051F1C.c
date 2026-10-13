@@ -1,5 +1,5 @@
 /*
- * function: func_02051F1C
+ * function: BUTTON_MAN_InitSphere
  * address:  0x02051F1C
  * packet:   pkt_02051F1C
  * region:   arm9
@@ -12,7 +12,7 @@
  */
 struct Vec { int x, y, z; };
 struct Ball { struct Vec p; int radius; };
-void func_02051F1C(struct Ball *dst, struct Vec *src, unsigned radius)
+void BUTTON_MAN_InitSphere(struct Ball *dst, struct Vec *src, unsigned radius)
 {
     dst->p = *src;
     dst->radius = radius;

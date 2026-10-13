@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   g_02146A88      0x02146A88  data
+ *   g_pParticleMan      0x02146A88  data
  *   func_02050DB8   0x02050DB8  arm
  *   func_020307B0   0x020307B0  arm
  *
@@ -29,7 +29,7 @@
 
 typedef unsigned int u32;
 
-extern struct G_02146A88 *g_02146A88;
+extern struct G_02146A88 *g_pParticleMan;
 typedef unsigned char  u8;
 extern void func_02050DB8(u8 *p);
 extern u32 func_020307B0(void *p);
@@ -39,11 +39,11 @@ void func_02050ED4(void)
     int i;
 
     for (i = 0; i < 16; i++) {
-        u32 v = ((u32 *)g_02146A88)[i];
+        u32 v = ((u32 *)g_pParticleMan)[i];
 
         if (v != 0)
             func_02050DB8((u8 *)v);
     }
-    func_020307B0((void *)((u32)((u32 *)g_02146A88)));
-    g_02146A88 = 0;
+    func_020307B0((void *)((u32)((u32 *)g_pParticleMan)));
+    g_pParticleMan = 0;
 }

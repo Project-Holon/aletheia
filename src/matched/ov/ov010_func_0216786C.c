@@ -20,7 +20,7 @@
  *   func_020127A4  0x020127A4  thumb
  *   func_02012B28  0x02012B28  thumb
  *   func_02012B38  0x02012B38  thumb
- *   func_02014484  0x02014484  thumb
+ *   FIELD_STATUS_GetSeasonDispFlag  0x02014484  thumb
  *   func_02012114  0x02012114  thumb
  *   func_0201210C  0x0201210C  thumb
  *   func_02188BE8  0x02188BE8  thumb  ov021
@@ -78,7 +78,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u32 func_02012B28(const struct Rec44 *p);
 extern void *func_02012B38(const struct BigObj *p);
-extern u8 func_02014484(struct Sub02014444Obj *o);
+extern u8 FIELD_STATUS_GetSeasonDispFlag(struct Sub02014444Obj *o);
 extern u32 func_02012114(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188BE8(void *proc);
@@ -112,7 +112,7 @@ int func_0216786C(Work *w, Report *out)
         return 0;
     pl = func_020127A4(ctx);
     dir = func_02012B28(pl);
-    if (func_02014484(func_02012B38(ctx)) == 2) {
+    if (FIELD_STATUS_GetSeasonDispFlag(func_02012B38(ctx)) == 2) {
         zone = last->zone;
         pos = last->pos;
         flag = 1;

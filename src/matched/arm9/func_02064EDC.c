@@ -1,5 +1,5 @@
 /*
- * function: func_02064EDC
+ * function: NNSi_G2dMCMLoadCurrentMtxToCache
  * address:  0x02064EDC
  * packet:   pkt_02064B68
  * region:   arm9
@@ -180,7 +180,7 @@ static inline BOOL NNSi_G2dMCMShouldCurrentMtxBeLoadedToMtxCache(void)
                   pCurrMtxState->stateType == 2);
 }
 
-void func_02064EDC(void)
+void NNSi_G2dMCMLoadCurrentMtxToCache(void)
 {
     if (NNSi_G2dMCMShouldCurrentMtxBeLoadedToMtxCache()) {
         MCMMtxState *pCurrentState = GetCuurentMtxState_();

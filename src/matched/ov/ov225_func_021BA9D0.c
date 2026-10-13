@@ -16,7 +16,7 @@
  *   func_021BB088 0x021BB088 thumb ov225
  *   func_020355C4 0x020355C4 arm
  *   func_021BB034 0x021BB034 thumb ov225
- *   func_02028218 0x02028218 thumb
+ *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  */
 #include "../include/Obj00074.h"
 #include "../include/Obj26197.h"
@@ -32,7 +32,7 @@ extern int func_02061CA4(void *, unsigned, void *, int);
 extern void func_021BB088(char *);
 extern u8 func_020355C4(void);
 extern u16 func_021BB034(u16 **);
-extern void func_02028218(struct Obj *, unsigned);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *, unsigned);
 void func_021BA9D0(char *p)
 {
     func_020414AC(5);
@@ -42,7 +42,7 @@ void func_021BA9D0(char *p)
     func_02061CA4((void *)31, 186, p + 0x4c, 2);
     func_021BB088(p);
     if (func_020355C4() == 0) {
-        func_02028218(*(struct Obj **)(p + func_021BB034((u16 **)p) * 4 + 0xc), 1);
+        APP_TASKMENU_WIN_SetActive(*(struct Obj **)(p + func_021BB034((u16 **)p) * 4 + 0xc), 1);
         ((struct Obj00074 *)p)->f8C = 0;
     }
 }

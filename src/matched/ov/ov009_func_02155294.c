@@ -1,5 +1,5 @@
 /*
- * function: func_02155294
+ * function: GFL_NET_DEVWIFI_IsConnected
  * address:  0x02155294
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,14 +12,14 @@
  * False when the word call returns -1.
  *
  * symbols:
- *   func_021562EC  0x021562EC  thumb  ov009
+ *   DWC_RAP_GetMyAidIfConnected  0x021562EC  thumb  ov009
  */
 
-extern int func_021562EC(void);
+extern int DWC_RAP_GetMyAidIfConnected(void);
 
-int func_02155294(void)
+int GFL_NET_DEVWIFI_IsConnected(void)
 {
-    if (func_021562EC() != -1) {
+    if (DWC_RAP_GetMyAidIfConnected() != -1) {
         return 1;
     }
 

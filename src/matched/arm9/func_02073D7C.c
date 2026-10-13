@@ -21,10 +21,10 @@
  *
  * symbols:
  *   g_0214E9FC     0x0214E9FC  data
- *   func_02075C08  0x02075C08  arm
- *   func_02075C20  0x02075C20  arm
+ *   NNS_SndFaderUpdate  0x02075C08  arm
+ *   NNS_SndFaderIsFinished  0x02075C20  arm
  *   func_02073DFC  0x02073DFC  arm
- *   func_02075BD4  0x02075BD4  arm
+ *   NNS_SndFaderGet  0x02075BD4  arm
  *   func_02089638  0x02089638  arm
  */
 
@@ -39,10 +39,10 @@ typedef struct St St;
 extern struct St g_0214E9FC;
 struct LerpObj;
 struct Obj;
-extern void func_02075C08(struct LerpObj *obj);
-extern int func_02075C20(struct LerpObj *obj);
+extern void NNS_SndFaderUpdate(struct LerpObj *obj);
+extern int NNS_SndFaderIsFinished(struct LerpObj *obj);
 extern void func_02073DFC(void);
-extern s32 func_02075BD4(struct Obj *o);
+extern s32 NNS_SndFaderGet(struct Obj *o);
 extern void func_02089638(u32 a, s32 b, s32 c);
 
 void func_02073D7C(void)
@@ -58,14 +58,14 @@ void func_02073D7C(void)
         return;
     }
 
-    func_02075C08((struct LerpObj *)s->f3c);
+    NNS_SndFaderUpdate((struct LerpObj *)s->f3c);
 
-    if (s->f4c != 0 && func_02075C20((struct LerpObj *)s->f3c) != 0) {
+    if (s->f4c != 0 && NNS_SndFaderIsFinished((struct LerpObj *)s->f3c) != 0) {
         func_02073DFC();
         return;
     }
 
-    v = func_02075BD4((struct Obj *)s->f3c) >> 8;
+    v = NNS_SndFaderGet((struct Obj *)s->f3c) >> 8;
     if (v == s->f50) {
         return;
     }

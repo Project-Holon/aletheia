@@ -153,12 +153,12 @@
  *   func_021FC6A4 0x021FC6A4 thumb ov186
  *   func_021FC868 0x021FC868 thumb ov186
  *   func_021FC7C4 0x021FC7C4 thumb ov186
- *   func_0202DB0C 0x0202DB0C thumb
- *   func_0202DCFC 0x0202DCFC thumb
- *   func_0202DE5C 0x0202DE5C thumb
- *   func_0202DE64 0x0202DE64 thumb
- *   func_0202DC60 0x0202DC60 thumb
- *   func_0200D6D0 0x0200D6D0 thumb
+ *   PMS_DRAW_Create 0x0202DB0C thumb
+ *   PMS_DRAW_SetDecoPriority 0x0202DCFC thumb
+ *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
+ *   PMS_DRAW_SetPrintColor 0x0202DE64 thumb
+ *   PMS_DRAW_PrintOffset 0x0202DC60 thumb
+ *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   func_0200D6EC 0x0200D6EC thumb
  *   func_0200D6FC 0x0200D6FC thumb
  *   func_0200D70C 0x0200D70C thumb
@@ -183,7 +183,7 @@
  *   func_0201BC3C 0x0201BC3C thumb
  *   func_0201BC40 0x0201BC40 thumb
  *   func_0201BCB4 0x0201BCB4 thumb
- *   func_0201BABC 0x0201BABC thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0201BB5C 0x0201BB5C thumb
  *   func_0204ACEC 0x0204ACEC arm
  *   func_0204AF28 0x0204AF28 arm
@@ -227,12 +227,12 @@ extern void func_021FB964(void *,u32,u16);
 extern void *func_021FC6A4(u16,unsigned,u16,u16,u8,u8,void *,u16);
 extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
 extern void func_021FC7C4(char *p, void *text, void *font, unsigned short value);
-extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
-extern void func_0202DCFC(struct Obj0202DCC4 *p, u32 i, u32 val);
-extern void func_0202DE5C(struct PmsDraw *p, u8 v);
-extern void func_0202DE64(struct PmsDraw *p, u16 v);
-extern void func_0202DC60(struct Obj *p, u32 a, void *w, u32 i, u32 e);
-extern void *func_0200D6D0(const void *,u32);
+extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
+extern void PMS_DRAW_SetDecoPriority(struct Obj0202DCC4 *p, u32 i, u32 val);
+extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
+extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
+extern void PMS_DRAW_PrintOffset(struct Obj *p, u32 a, void *w, u32 i, u32 e);
+extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 extern u32 func_0200D6EC(struct RecGet *p);
 extern u32 func_0200D6FC(struct RecGet *p);
 extern u32 func_0200D70C(struct RecGet *p);
@@ -256,7 +256,7 @@ extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void *func_020490F4(u32,u16);
 extern void func_02049238(void *);
 extern int func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
-extern u32 func_0201BABC(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
 extern int func_0204ACEC(void *,u32,u32,u32,u16);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
@@ -279,8 +279,8 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
     func_02082BCC(p,0,0x44);
     *(char **)(p+0x1c)=q;
     font=(void *)func_021FC20C(q);
-    *(void **)(p+0x20)=func_0202DB0C((u32)a2,0,(u32)a3,(u32)font,7,1,heap);
-    func_0202DCFC(*(void **)(p+0x20),0,1);
+    *(void **)(p+0x20)=PMS_DRAW_Create((u32)a2,0,(u32)a3,(u32)font,7,1,heap);
+    PMS_DRAW_SetDecoPriority(*(void **)(p+0x20),0,1);
     func_021FB964(*(void **)(p+0x1c),8,heap);
     bank=(void *)(u32)func_021FC214(q);
     words=(void *)(u32)func_021FC21C(q);
@@ -296,7 +296,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             void *name;
             void *msg;
             text=func_020457B0(0x80,(u16)heap);
-            name=func_0200D6D0(prof,heap);
+            name=GDS_PROFILE_CreateNameStr(prof,heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             func_0201EE0C(words,0,name,func_0200D6EC(prof),1,2);
             func_0201F250(words,text,msg);
@@ -354,9 +354,9 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
                 func_021FC868(*(void **)(p+i*4),8,1,0);
             } else {
                 Pair c=d_02200B6C;
-                func_0202DE5C(*(void **)(p+0x20),0);
-                func_0202DE64(*(void **)(p+0x20),0x3da0);
-                func_0202DC60(*(void **)(p+0x20),(u32)(*(void **)(*(char **)(p+i*4)+0xc)),rec,0,(u32)(&c));
+                PMS_DRAW_SetNullColorPalette(*(void **)(p+0x20),0);
+                PMS_DRAW_SetPrintColor(*(void **)(p+0x20),0x3da0);
+                PMS_DRAW_PrintOffset(*(void **)(p+0x20),(u32)(*(void **)(*(char **)(p+i*4)+0xc)),rec,0,(u32)(&c));
                 ready=0;
             }
             break;
@@ -383,7 +383,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
         h=func_020490F4(7,hf);
         *(int *)(p+0x2c)=func_0204ACEC(h,func_0201BC3C(),0,0x80,hf);
         *(int *)(p+0x34)=func_0204AF28(h,func_0201BC40(),func_0201BCB4(),(u16)hf);
-        *(int *)(p+0x30)=func_0204A6C8(h,func_0201BABC(B,C,D,A),0,0,hf);
+        *(int *)(p+0x30)=func_0204A6C8(h,POKE_TOOL_CalcGraphicIndex(B,C,D,A),0,0,hf);
         func_02049238(h);
         func_02082BCC(&r,0,8);
         r.x=0x4b;r.y=0x40;r.z=1;

@@ -1,5 +1,5 @@
 /*
- * function: func_02085D88
+ * function: OSi_IsRunOnTwl
  * address:  0x02085D88
  * packet:   pkt_02085D88
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern int OS_IsRunOnTwl(void);
 
-int func_02085D88(void)
+int OSi_IsRunOnTwl(void)
 {
     return OS_IsRunOnTwl();
 }

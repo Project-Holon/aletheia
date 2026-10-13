@@ -21,8 +21,8 @@
  *   func_021DFF18  0x021DFF18  thumb  ov228
  *   func_02034A5C  0x02034A5C  arm
  *   func_02007230  0x02007230  thumb
- *   func_0200725C  0x0200725C  thumb
- *   func_02007400  0x02007400  thumb
+ *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
+ *   SAVE_CONTROL_EraseExtraSave  0x02007400  thumb
  *   func_020072A4  0x020072A4  thumb
  *   func_0200566C  0x0200566C  thumb
  *   func_02087BCC  0x02087BCC  arm
@@ -55,8 +55,8 @@ extern int func_02034AC4(s32 handle);
 extern void func_021DFF18(u32 heap);
 extern void func_02034A5C(s32 handle);
 extern void *func_02007230(struct Sub020071E4Ctrl *ctrl);
-extern u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
-extern void func_02007400(char *a0, u32 a1, u32 a2);
+extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
+extern void SAVE_CONTROL_EraseExtraSave(char *a0, u32 a1, u32 a2);
 extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern void func_0200566C(void);
 extern void func_02087BCC(u32 parameter);
@@ -76,8 +76,8 @@ void func_021BCE80(u8 *p, int *a1)
         func_02034A5C((u32)ov228_id);
         func_02007230(r);
         for (i = 0; i < 9; i++) {
-            if (func_0200725C(r, i, 0x81) == 1)
-                func_02007400(r, i, 0x81);
+            if (SAVE_CONTROL_LoadExtraSave(r, i, 0x81) == 1)
+                SAVE_CONTROL_EraseExtraSave(r, i, 0x81);
             func_020072A4(r, i);
         }
         func_0200566C();

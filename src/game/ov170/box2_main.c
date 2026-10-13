@@ -66,12 +66,12 @@
  *   func_020260F0 0x020260F0 thumb
  *   func_020355D8 0x020355D8 arm
  *   func_02027778 0x02027778 thumb
- *   func_02027CFC 0x02027CFC thumb
+ *   APP_TASKMENU_SetCursorPos 0x02027CFC thumb
  *   func_021EBFCC 0x021EBFCC thumb
  *   func_021EBFEC 0x021EBFEC thumb
- *   func_0202CF98 0x0202CF98 thumb
- *   func_0202CFC0 0x0202CFC0 thumb
- *   func_0202CF8C 0x0202CF8C thumb
+ *   BGWINFRM_GetPos 0x0202CF98 thumb
+ *   BGWINFRM_GetSize 0x0202CFC0 thumb
+ *   BGWINFRM_GetBgFrame 0x0202CF8C thumb
  *   func_021EE038  0x021EE038  thumb  ov170
  *   func_021EF660  0x021EF660  thumb  ov170
  *   func_021EBFA8 0x021EBFA8 thumb
@@ -91,7 +91,7 @@
  *   func_020185F0 0x020185F0 thumb
  *   func_021EDAB0 0x021EDAB0 thumb ov170
  *   func_0201747C 0x0201747C thumb
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_020075B0 0x020075B0 thumb
  *   func_0201AB48 0x0201AB48 thumb
  *   func_0201A98C 0x0201A98C thumb
@@ -102,14 +102,14 @@
  *   func_0200CA1C 0x0200CA1C thumb
  *   func_0200CFA0 0x0200CFA0 thumb
  *   func_02007610 0x02007610 thumb
- *   func_020179B8  0x020179B8  thumb
+ *   POKE_TOOL_ChangeBoxForm  0x020179B8  thumb
  *   func_02019CF8 0x02019CF8 thumb
  *   func_02019D00 0x02019D00 thumb
  *   func_021EC48C 0x021EC48C thumb ov170
- *   func_02017D30  0x02017D30  thumb
+ *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   func_020185C4  0x020185C4  thumb
- *   func_02017D70  0x02017D70  thumb
- *   func_0201AF80 0x0201AF80 thumb
+ *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
+ *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   func_0200CA38 0x0200CA38 thumb
  *   func_020092AC 0x020092AC thumb
  *   func_021EC7B8 0x021EC7B8 thumb
@@ -135,20 +135,20 @@
  *   func_021ED310 0x021ED310 thumb ov170
  *   func_02049DB4  0x02049DB4  arm
  *   func_02040B1C  0x02040B1C  arm
- *   func_02049EB4 0x02049EB4 arm
+ *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
  *   func_02041090 0x02041090 arm
  *   func_02041300 0x02041300 arm
  *   func_021EB7E8 0x021EB7E8 thumb
  *   func_021EE224 0x021EE224 thumb
  *   func_021EE234 0x021EE234 thumb
  *   func_021EE244 0x021EE244 thumb
- *   func_02021640 0x02021640 thumb
+ *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   func_0200781C  0x0200781C  thumb  ov170
- *   func_020185A0 0x020185A0 thumb
- *   func_02017F08 0x02017F08 thumb
- *   func_02017EB4 0x02017EB4 thumb
- *   func_0201B268 0x0201B268 thumb
- *   func_0201B28C 0x0201B28C thumb
+ *   POKE_TOOL_GetBoxNature 0x020185A0 thumb
+ *   POKE_TOOL_GetBoxGender 0x02017F08 thumb
+ *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
+ *   POKERUS_IsBoxInfected 0x0201B268 thumb
+ *   POKERUS_IsBoxCured 0x0201B28C thumb
  *   func_021ECCCC  0x021ECCCC  thumb  ov170
  *   func_021ED028  0x021ED028  thumb  ov170
  *   func_021EB2A4  0x021EB2A4  thumb  ov170
@@ -160,10 +160,10 @@
  *   _s32_div_f 0x0209C0A4 arm
  *   d_021EF798 0x021EF798 data a1
  *   func_021EF224  0x021EF224  thumb  ov170
- *   func_02031348 0x02031348 arm
- *   d_021DC800 0x021DC800 data a4 ov131
+ *   PROCSYS_Push 0x02031348 arm
+ *   gPokeStatusProcData 0x021DC800 data a4 ov131
  *   ov131_id 0x00000083 data a1
- *   func_0202E474  0x0202E474  thumb
+ *   BAG_PARAM_Create  0x0202E474  thumb
  *   d_021BB96C     0x021BB96C  data  ov170  a4
  *   ov070_id       0x00000046  data
  *   func_02012EBC 0x02012EBC thumb
@@ -176,9 +176,9 @@
  *   func_0216C0C0 0x0216C0C0 thumb ov010
  *   func_020061E4 0x020061E4 thumb
  *   func_020260E4 0x020260E4 thumb
- *   func_0202CE40 0x0202CE40 thumb
+ *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   func_02035C38 0x02035C38 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021E00C4 0x021E00C4 thumb
  *   func_021E0128 0x021E0128 thumb
  *   func_021E01C4 0x021E01C4 thumb
@@ -216,6 +216,7 @@
  *   func_021EF480 0x021EF480 thumb
  *   d_021EF7B4 0x021EF7B4 data a1
  *   d_021EF79C 0x021EF79C data a1
+ *   POKE_TOOL_SetBoxValue  0x02017E64  thumb  arm9
  */
 #include "box2_types.h"
 #include "../../matched/include/Obj18439.h"
@@ -562,12 +563,12 @@ extern u32 func_02027FD8(struct TaskMenuState *s);
 extern u32 func_020260F0(struct Sound *obj);
 extern void func_020355D8(u8 v);
 extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
-extern void func_02027CFC(u8 *p, int sel);
+extern void APP_TASKMENU_SetCursorPos(u8 *p, int sel);
 extern void func_021EBFCC(char *p, int i, int v);
 extern u32 func_021EBFEC(char *p, int i);
-extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
-extern u8 func_0202CF8C(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void BGWINFRM_GetSize(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
+extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
 extern void func_021EE038(char *, int, int, int);
 extern void func_021EF660(struct WinMgr *mgr);
 extern void func_021EBFA8(char *p, int i, int v);
@@ -585,13 +586,13 @@ extern void *func_0201AB28(void *party, unsigned i);
 extern unsigned func_02017E1C(void *p, unsigned id, unsigned v);
 extern unsigned func_02017E88(void *p, unsigned id, unsigned v);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
-extern void func_02017E64(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern int func_020185F0(void *p);
 extern void func_02007664(void *save, u32 box, u32 slot);
 extern u32 func_0201A9C8(struct Party *p, s32 idx);
 extern void func_021EDAB0(char *p, int i);
 extern void *func_0201747C(struct Mon *p, u32 heap);
-extern void *func_020185F4(void *);
+extern void *POKE_TOOL_GetBoxParam(void *);
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 extern void func_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
@@ -602,14 +603,14 @@ extern u32 func_02017988(void *p, u32 a);
 extern void *func_0200CA1C(void *);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern void func_02007610(void *save, unsigned b1, unsigned a, unsigned b2, unsigned c);
-extern int func_020179B8(int a0, int a1);
+extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
 extern u16 func_02019CF8(u32 item);
 extern u32 func_02019D00(u32 item);
 extern void func_021EC48C(unsigned char *p, int box, int pos, int win);
-extern u32 func_02017D30(struct Sav *p);
+extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern void func_020185C4(void *p);
-extern u32 func_02017D70(struct Sav *p, u32 f);
-extern u16 *func_0201AF80(u32 heap, u16 *countOut);
+extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_0200CA38(struct Blk37 *);
 extern u32 func_020092AC(const u8 *bits, int n);
 extern void func_021EC7B8(char *p, int i, unsigned j, int flag);
@@ -634,20 +635,20 @@ extern void func_021ED14C(int a, int b, int c);
 extern void func_021ED310(char *w);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
-extern void *func_02049EB4(u32,u32,u32,u32,u16);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32,u32,u32,u32,u16);
 extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_02041300(u32,int,u8,int,u8,u8,u8);
 extern void func_021EB7E8(char **p, unsigned box, int i);
 extern void func_021EE224(char *p, int i, int v);
 extern int func_021EE234(int *a, int i);
 extern void func_021EE244(char *p, int i, int flag);
-extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern unsigned char func_0200781C(int save, unsigned int box);
-extern unsigned char func_020185A0(void *mon);
-extern unsigned char func_02017F08(void *mon);
-extern u32 func_02017EB4(void *p);
-extern u32 func_0201B268(void *mon);
-extern u32 func_0201B28C(void *mon);
+extern unsigned char POKE_TOOL_GetBoxNature(void *mon);
+extern unsigned char POKE_TOOL_GetBoxGender(void *mon);
+extern u32 POKE_TOOL_IsBoxShiny(void *p);
+extern u32 POKERUS_IsBoxInfected(void *mon);
+extern u32 POKERUS_IsBoxCured(void *mon);
 extern void func_021ECCCC(char *p, void **mon, int index);
 extern void func_021ED028(char *p, unsigned char *q);
 extern void func_021EB2A4(u8 *p, int a);
@@ -657,20 +658,20 @@ extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern void func_021EB324(char *w);
 extern void func_021ED6E4(char **p, int v);
 extern int func_021EF224(int, int);
-extern void func_02031348(void *p, int a, const void *b, void *c);
-extern void *func_0202E474(const struct BigObj *a0, int a1, int a2, int a3);
+extern void PROCSYS_Push(void *p, int a, const void *b, void *c);
+extern void *BAG_PARAM_Create(const struct BigObj *a0, int a1, int a2, int a3);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *sys);
 extern void func_0200785C(void *save, unsigned box, void *dest);
 extern int *func_0216BFD4(unsigned short a0, int a1, short a2, short a3, int s0, int s1, int s2);
 extern void func_02007898(void *save, u32 box, const void *src);
 extern int func_0216C0C0(int);
-extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
+extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
 extern int func_021E01C4(char *p);
 extern int func_021EF5C4(struct WinMgr *mgr);
 extern int func_02035C38(void);
 extern void func_021EF57C(struct WinMgr *mgr);
-extern unsigned func_02035CB8(unsigned *outA, unsigned *outB);
+extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
 extern int func_021EF770(struct WinMgr *mgr);
 extern void func_021EF75C(struct WinMgr *mgr);
 extern void func_020061E4(unsigned se);
@@ -816,7 +817,7 @@ extern const struct BgTemplate d_021EF8AC;
 extern const struct BgTemplate d_021EF84C;
 extern const char d_021F1400[];
 extern const unsigned char d_021EF798[];
-extern const unsigned d_021DC800[];
+extern const unsigned gPokeStatusProcData[];
 extern const char ov131_id[];
 extern u8 ov070_id[];
 extern const unsigned d_021F5580[];
@@ -1251,7 +1252,7 @@ void func_021DCF58(unsigned char *p, int sel)
     else
         func_020355D8(1);
     *(void **)(WORK(p) + 0x1A0) = func_02027778((struct TaskMenuTmpl *)(&t), *(void **)(WORK(p) + 0x19C));
-    func_02027CFC(*(void **)(WORK(p) + 0x1A0), sel);
+    APP_TASKMENU_SetCursorPos(*(void **)(WORK(p) + 0x1A0), sel);
 }
 
 
@@ -1309,10 +1310,10 @@ void func_021DD090(Sys *p, unsigned idx)
     unsigned short w;
     unsigned short h;
     signed char pos[2];
-    func_0202CF98(*(struct WinMgr * *)&((struct Obj23825 *)((char *)p->work))->f74, idx, &pos[1], &pos[0]);
-    func_0202CFC0(*(struct WinMgr * *)&((struct Obj23826 *)((char *)p->work))->f74, idx, &w, &h);
+    BGWINFRM_GetPos(*(struct WinMgr * *)&((struct Obj23825 *)((char *)p->work))->f74, idx, &pos[1], &pos[0]);
+    BGWINFRM_GetSize(*(struct WinMgr * *)&((struct Obj23826 *)((char *)p->work))->f74, idx, &w, &h);
     p->work->flag = 1;
-    p->work->id = func_0202CF8C(*(struct WinMgr * *)&((struct Obj23827 *)((char *)p->work))->f74, idx);
+    p->work->id = BGWINFRM_GetBgFrame(*(struct WinMgr * *)&((struct Obj23827 *)((char *)p->work))->f74, idx);
     p->work->lo = 0xD;
     p->work->hi = 0xC;
     p->work->state = 0;
@@ -1464,7 +1465,7 @@ void func_021DD2B4(int a, int b, int c, int d, int e)
 {
     int r = func_021DD2D0((void ***)a, c, b);
     if (r)
-        func_02017E64((void *)r, d, e);
+        POKE_TOOL_SetBoxValue((void *)r, d, e);
 }
 
 
@@ -1521,7 +1522,7 @@ void func_021DD330(unsigned char *p,unsigned short *q,unsigned short *t)
     if (q[0] == 0x24) box=p[0x17]; else box=p[0x14];
     m=func_0201747C((struct Mon *)func_021DD2D0((void ***)p,box,q[2]),0x804c);
     slot=t[2]-30;
-    func_020075B0((*(void ***)p)[1],box,q[2],func_020185F4(func_0201AB28((*(void ***)p)[2],slot)));
+    func_020075B0((*(void ***)p)[1],box,q[2],POKE_TOOL_GetBoxParam(func_0201AB28((*(void ***)p)[2],slot)));
     func_0201AB48((*(void ***)p)[2],slot,m);
     func_020307B0(m);
     func_021EDAB0((char *)p,box);
@@ -1555,7 +1556,7 @@ void func_021DD39C(unsigned char *p, unsigned short *q)
  */
 void func_021DD3DC(char *p, unsigned char *a)
 {
-    int x = (int)func_020185F4(func_0201AB28(*(void **)(*(int *)&((BoxTask *)p)->f0 + 8),
+    int x = (int)POKE_TOOL_GetBoxParam(func_0201AB28(*(void **)(*(int *)&((BoxTask *)p)->f0 + 8),
                                         ((struct Obj09221 *)a)->f4 - 0x1e));
     func_020075B0((void *)(*(int *)(*(int *)&((BoxTask *)p)->f0 + 4)), ((BoxTask *)p)->f14,
                   ((struct Obj09221 *)a)->f2, (const struct Sub020075B0Entry *)x);
@@ -1638,7 +1639,7 @@ void func_021DD4B8(unsigned char *p,unsigned a,unsigned b)
         func_021DD8A8((void **)p,a);
         func_0200CFA0(func_0200CA1C((*(void ***)p)[0]),m);
     }
-    func_0200752C((*(void ***)p)[1],box,func_020185F4(m));
+    func_0200752C((*(void ***)p)[1],box,POKE_TOOL_GetBoxParam(m));
     func_021DD314((char **)p,p[0x14],a);
     func_021EDAB0((char *)p,box);
     func_021EDB34((char *)p,box);
@@ -1761,7 +1762,7 @@ void func_021DD6E8(void **pp, void *a, u32 b)
 {
     void *r;
 
-    func_020179B8((int)a, b);
+    POKE_TOOL_ChangeBoxForm((int)a, b);
     r = func_0201747C(a, 0x4c);
     func_0200CFA0(func_0200CA1C((void *)(*(u32 *)*pp)), r);
     func_020307B0(r);
@@ -1878,9 +1879,9 @@ void func_021DD8A8(void **pp, u32 idx)
     if (idx < 0x1e)
         return;
     h = func_0201AB28(((struct Obj18451 *)((char *)*pp))->f8, idx - 0x1e);
-    v = func_02017D30(h);
+    v = POKE_TOOL_DecodePartyParam(h);
     func_020185C4(h);
-    func_02017D70(h, v);
+    POKE_TOOL_EncodePartyParam(h, v);
 }
 
 
@@ -1894,7 +1895,7 @@ void func_021DD8A8(void **pp, u32 idx)
 
 
 
-void func_021DD8D0(char *p) { *(u16 * *)&((struct Obj23832 *)(*(char * *)&((BoxTask *)p)->f2C))->f180=func_0201AF80(76,0);((struct Obj23834 *)(*(char * *)&((BoxTask *)p)->f2C))->f17C=func_0200CA38(func_0200CA1C(**(void ** *)&((BoxTask *)p)->f0)); }
+void func_021DD8D0(char *p) { *(u16 * *)&((struct Obj23832 *)(*(char * *)&((BoxTask *)p)->f2C))->f180=POKE_PERSONAL_LoadFormTable(76,0);((struct Obj23834 *)(*(char * *)&((BoxTask *)p)->f2C))->f17C=func_0200CA38(func_0200CA1C(**(void ** *)&((BoxTask *)p)->f0)); }
 
 
 
@@ -3051,7 +3052,7 @@ void func_021DEB90(void *unused, void *unused2, int x, u32 base, u32 pal)
     u16 *src;
     u32 cur,high;
     u8 col;
-    handle=func_02049EB4(116,13,1,(u32)&sheet,76);
+    handle=ARC_UTIL_LoadPaletteDataFromArchive(116,13,1,(u32)&sheet,76);
     data=(u32)sheet+12;
     row=0;
     high=pal<<12;
@@ -3174,7 +3175,7 @@ void func_021DED58(char *p, int a)
     }
     WORK(p)->flip ^= 1;
     func_021DEB40((unsigned int)p, a, (void *)offset);
-    func_02021640(*(void **)((char *)WORK(p) + 0x6C), 0x74, a + 0x26, 0x4C, 0, 0x20, bank << 4);
+    PALANM_LoadArcPaletteToSlot(*(void **)((char *)WORK(p) + 0x6C), 0x74, a + 0x26, 0x4C, 0, 0x20, bank << 4);
     func_021DEB90(p, (void *)a, WORK(p)->box, offset, bank);
     func_02041B6C(3);
 }
@@ -3216,21 +3217,21 @@ Summary *func_021DEDD8(void *mon)
         s->cC = func_02017E88(mon, 0xAE, 0);
         s->cD = func_02017E88(mon, 0xAF, 0);
         s->cE = func_02017E88(mon, 0xA, 0);
-        s->cF = func_020185A0(mon);
+        s->cF = POKE_TOOL_GetBoxNature(mon);
         s->item = func_02017E88(mon, 0xB, 0);
         s->level = func_02017E88(mon, 0x9E, 0);
         s->egg = (unsigned char)func_02017E88(mon, 0x4C, 0);
         if (s->egg == 0)
-            s->gender = func_02017F08(mon);
+            s->gender = POKE_TOOL_GetBoxGender(mon);
         else
             s->gender = 0;
-        if (func_02017EB4(mon) == 1)
+        if (POKE_TOOL_IsBoxShiny(mon) == 1)
             s->shiny = 1;
         else
             s->shiny = 0;
-        if (func_0201B268(mon) == 1)
+        if (POKERUS_IsBoxInfected(mon) == 1)
             s->mark = 1;
-        else if (func_0201B28C(mon) == 1)
+        else if (POKERUS_IsBoxCured(mon) == 1)
             s->mark = 2;
         else
             s->mark = 0;
@@ -3563,7 +3564,7 @@ int func_021DF288(char *p)
     } else {
         r->mode = 0;
     }
-    func_02031348(((BoxTask *)p)->f4, (int)ov131_id, d_021DC800, r);
+    PROCSYS_Push(((BoxTask *)p)->f4, (int)ov131_id, gPokeStatusProcData, r);
     *(Request_021DF040 * *)&((BoxTask *)p)->fC = r;
     return 0;
 }
@@ -3597,9 +3598,9 @@ int func_021DF324(char *p)
 
 int func_021DF348(void **p)
 {
-    void *r = func_0202E474((const struct BigObj *)(*(u32 *)p[0]), 0, 2, 0x4b);
+    void *r = BAG_PARAM_Create((const struct BigObj *)(*(u32 *)p[0]), 0, 2, 0x4b);
 
-    func_02031348(p[1], (u32)ov070_id, (void *)0x021bb96c, r);
+    PROCSYS_Push(p[1], (u32)ov070_id, (void *)0x021bb96c, r);
     p[3] = r;
     return 0;
 }
@@ -3624,7 +3625,7 @@ int func_021DF378(char *p)
 
 
 /*
- * data: callback descriptor belongs to ov194 loaded by func_02031348.
+ * data: callback descriptor belongs to ov194 loaded by PROCSYS_Push.
  */
 int func_021DF38C(char *p)
 {
@@ -3635,7 +3636,7 @@ int func_021DF38C(char *p)
     r->text = func_020457B0(20, 0x4B);
     func_0200785C((*(void ***)p)[1], ((BoxTask *)p)->f14, r->text);
     r->task = func_0216BFD4(0x4B, 2, 0, 0, 8, (int)r->text, value);
-    func_02031348(((BoxTask *)p)->f4, (int)ov194_id, d_021F5580, r->task);
+    PROCSYS_Push(((BoxTask *)p)->f4, (int)ov194_id, d_021F5580, r->task);
     *(Request_021DF378 * *)&((BoxTask *)p)->fC = r;
     return 0;
 }
@@ -3673,7 +3674,7 @@ int func_021DF484(unsigned char *p)
         b->state = 1;
         break;
     case 1:
-        if (func_02035CB8(&x, &y) == 0) {
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             *(unsigned char *)(WORK(p) + 0xA171) = 0;
             b->timer = 0;
             r = 0xFF;
@@ -3800,7 +3801,7 @@ int func_021DF484(unsigned char *p)
             b->timer = 0x10;
             b->state = 1;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 7:
@@ -3808,25 +3809,25 @@ int func_021DF484(unsigned char *p)
             b->timer = 0x10;
             b->state = 1;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 8:
         if (func_021E1A28((char *)p) == 0)
             b->state = 1;
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 9:
         if (func_021E19D4((char *)p) == 0)
             b->state = 1;
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 10:
         if (func_021E01C4((char *)p) == 0)
             b->state = 1;
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 11:
@@ -3840,13 +3841,13 @@ int func_021DF484(unsigned char *p)
             func_020061E4(0x669);
             b->state = 0xC;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 12:
         if (busy == 0)
             b->state = 1;
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 13:
@@ -3858,7 +3859,7 @@ int func_021DF484(unsigned char *p)
             func_020061E4(0x669);
             b->state = 0xA;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 16:
@@ -3904,7 +3905,7 @@ int func_021DFA30(unsigned char *p)
     unsigned x;
     unsigned y;
     if (b->state != 0xA && b->state != 0xB && b->state != 0xE) {
-        if (func_0202CE40(MGR(p), 9) == 1)
+        if (BGWINFRM_IsMoving(MGR(p), 9) == 1)
             busy = func_021E01C4((char *)p);
     }
     r = func_021EF5C4(MGR(p));
@@ -3915,7 +3916,7 @@ int func_021DFA30(unsigned char *p)
         b->state = 1;
         break;
     case 1:
-        if (func_02035CB8(&x, &y) == 0) {
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             *(unsigned char *)(WORK(p) + 0xA171) = 0;
             r = 0xFF;
             if (func_021EF770(MGR(p)) == 1) {
@@ -4056,7 +4057,7 @@ int func_021DFA30(unsigned char *p)
             b->timer = 0x10;
             b->state = 1;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 7:
@@ -4064,25 +4065,25 @@ int func_021DFA30(unsigned char *p)
             b->timer = 0x10;
             b->state = 1;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 8:
         if (func_021E1A28((char *)p) == 0)
             b->state = 1;
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 9:
         if (func_021E19D4((char *)p) == 0)
             b->state = 1;
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 10:
         if (func_021E01C4((char *)p) == 0)
             b->state = 1;
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 11:
@@ -4096,7 +4097,7 @@ int func_021DFA30(unsigned char *p)
             func_020061E4(0x669);
             b->state = 0xC;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 12:
@@ -4104,7 +4105,7 @@ int func_021DFA30(unsigned char *p)
             p[0x1A] = 2;
             b->state = 1;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 13:
@@ -4116,7 +4117,7 @@ int func_021DFA30(unsigned char *p)
             func_020061E4(0x669);
             b->state = 0xA;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 14:

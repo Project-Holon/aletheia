@@ -1,5 +1,5 @@
 /*
- * function: func_0203B228
+ * function: GFL_NET_STATE_ParentWait
  * address: 0x0203B228
  * packet: pkt_arm9_0203B228
  * region: arm9
@@ -12,8 +12,8 @@
  * Function with no listing label, matched inside src/game/arm9/net_state_p16.c and filed here.
  */
 
-void func_0203B228(void);
+void GFL_NET_STATE_ParentWait(void);
 
-void func_0203B228(void)
+void GFL_NET_STATE_ParentWait(void)
 {
 }

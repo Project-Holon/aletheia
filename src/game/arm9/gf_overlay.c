@@ -1,7 +1,7 @@
 /*
  * file:     gf_overlay.c
  * unit:     yes
- * function: sub_02034768, func_020348A4, func_02034900, func_02034978, func_0203499C, func_02034A3C, func_02034A5C, func_02034AC4, func_02034BB0, sub_02034CBC, sub_02034D08, func_02034D60, func_02034DC4
+ * function: sub_02034768, func_020348A4, sub_02034900, func_02034978, func_0203499C, func_02034A3C, func_02034A5C, func_02034AC4, func_02034BB0, GF_OVERLAY_GetSlots, GF_OVERLAY_GetSlotCount, GF_OVERLAY_GetArea, GF_OVERLAY_GetRamRange
  * address:  0x02034768
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -17,32 +17,32 @@
  *   func_0207FDCC  0x0207FDCC  arm
  *   func_0207D4B0  0x0207D4B0  arm
  *   func_0207D534  0x0207D534  arm
- *   func_0204E130  0x0204E130  arm
+ *   TEXTPRINT_Init  0x0204E130  arm
  *   func_02043678  0x02043678  arm
- *   sub_02043B5C   0x02043B5C  arm
- *   g_021469AC   0x021469AC  data
- *   str_020A796C  0x020A796C  data
- *   func_0204E328 0x0204E328  arm
+ *   BMP_Clear   0x02043B5C  arm
+ *   _DebugConsole   0x021469AC  data
+ *   _NewlineStr  0x020A796C  data
+ *   TEXTPRINT_PrintText 0x0204E328  arm
  *   G2_GetBG0ScrPtr   0x0207DF60  arm
  *   func_020437D4     0x020437D4  arm
  *   DC_FlushRange     0x020862F0  arm
  *   GXS_LoadBG0Char   0x0207EE68  arm
  *   OS_Terminate      0x02088234  arm
- *   func_02034768  0x02034768  arm
- *   func_02034900  0x02034900  arm
+ *   sub_02034768  0x02034768  arm
+ *   sub_02034900  0x02034900  arm
  *   func_02030734   0x02030734  arm
  *   MIi_CpuClear32  0x02082A7C  arm
- *   unk_021469B8    0x021469B8  data
- *   s_FileName      0x020A7970  data
+ *   _pOverlayTables    0x021469B8  data
+ *   _FileName      0x020A7970  data
  *   func_020792B8  0x020792B8  arm
- *   func_02034D60  0x02034D60  arm
- *   func_02034CBC  0x02034CBC  arm
- *   func_02034D08  0x02034D08  arm
+ *   GF_OVERLAY_GetArea  0x02034D60  arm
+ *   GF_OVERLAY_GetSlots  0x02034CBC  arm
+ *   GF_OVERLAY_GetSlotCount  0x02034D08  arm
  *   sub_02034714         0x02034714  arm
  *   FS_SetDefaultDMA     0x0207AC64  arm
  *   FS_LoadOverlay       0x02079264  arm
- *   s_Expr0              0x020A7980  data
- *   func_02034DC4  0x02034DC4  arm
+ *   _AssertExprZero              0x020A7980  data
+ *   GF_OVERLAY_GetRamRange  0x02034DC4  arm
  *   FS_LoadOverlayInfo           0x02078D34  arm
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
  */
@@ -56,7 +56,6 @@
 #define BG_PLTT_2    (*(vu16 *)0x05000004)
 struct Bmp;
 struct CharBuf;
-struct Obj02034A3C;
 typedef unsigned char      u8;
 
 typedef unsigned short     u16;
@@ -67,111 +66,93 @@ typedef volatile u16       vu16;
 
 typedef volatile u32       vu32;
 
-struct Console {
-    struct Bmp *chars; /* 0x0 */
-    u16   x;       /* 0x4 */
-    u16   y;       /* 0x6 */
-    u8    unk8;    /* 0x8 */
-    u8    unk9;    /* 0x9 */
-    u8    fg : 4;  /* 0xA */
-    u8    bg : 4;
-    u8    unkB;    /* 0xB */
+struct DebugConsole {
+    struct Bmp *charBitmap; /* 0x0 */
+    u16   cursorX;      /* 0x4 */
+    u16   cursorY;      /* 0x6 */
+    u8    advanceX;     /* 0x8 */
+    u8    advanceY;     /* 0x9 */
+    u8    fgColor : 4;  /* 0xA */
+    u8    bgColor : 4;
+    u8    flags;        /* 0xB */
 };
 
 typedef signed int    s32;
 
-struct Registration {
+/* One loaded-overlay record: the overlay id it holds and whether it is live. */
+struct OverlaySlot {
     s32 handle;
     s32 state;
 };
 
-struct AreaMan {
-    u8 n0;
-    u8 n1;
-    u8 n2;
+/*
+ * The singleton behind the three overlay tables.  Table 0 serves overlays
+ * placed in main RAM, table 1 those placed in the ITCM window
+ * (0x01000000..0x02000000), table 2 those in the TWL autoload window.
+ */
+struct OverlayTables {
+    u8 mainCount;
+    u8 itcmCount;
+    u8 twlCount;
     u8 pad03;
-    struct Registration *t0;
-    struct Registration *t1;
-    struct Registration *t2;
-};
-
-struct Obj02034A3C {
-    u32 unk00;
-    u32 unk04;
-};
-
-struct AreaTables {
-    u32   unk0;
-    void *t0;
-    void *t1;
-    void *t2;
-};
-
-struct AreaCounts {
-    u8 n0;
-    u8 n1;
-    u8 n2;
+    struct OverlaySlot *mainSlots;
+    struct OverlaySlot *itcmSlots;
+    struct OverlaySlot *twlSlots;
 };
 
 struct OverlayInfo {
     u32 id;
-    u32 ram_address;
-    u32 ram_size;
-    u32 bss_size;
-    u32 sinit_init;
-    u32 sinit_init_end;
-    u32 file_id;
+    u32 ramAddress;
+    u32 ramSize;
+    u32 bssSize;
+    u32 sinitInit;
+    u32 sinitInitEnd;
+    u32 fileId;
     u32 compressed;
-    u32 unk20;
-    u32 unk24;
-    u32 unk28;
+    u32 fileArchive;
+    u32 fileIndex;
+    u32 procTarget;
 };
 
 extern int func_020808F4(void);
-extern void  func_0207FDCC(u32 a);
+extern void  func_0207FDCC(u32 enable);
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void  func_0204E130(u32 a);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-extern void sub_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0204E328(const char *s, struct Console *d);
+extern void  TEXTPRINT_Init(u32 fontId);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heapId);
+extern void BMP_Clear(struct CharBuf *buf, u8 fillValue);
+extern void TEXTPRINT_PrintText(const char *text, struct DebugConsole *console);
 extern u16 *G2_GetBG0ScrPtr(void);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void DC_FlushRange(void *addr, u32 size);
 extern void GXS_LoadBG0Char(const void *src, u32 offset, u32 size);
 extern void OS_Terminate(void);
-extern void func_02034768(void);
-extern void func_02034900(void);
-extern void sub_020346EC(u32 a, u32 b, u32 c);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void sub_020346EC(u32 initFn, u32 printFn, u32 dieFn);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void  MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern int func_020792B8(u32 a, u32 b);
-extern void *func_02034CBC(int i);
-extern int func_02034D60(u32 id);
-extern u8 func_02034D08(int i);
+extern int func_020792B8(u32 target, u32 id);
 extern void sub_02034714(const char *file, u32 line, const char *expr);
 extern int FS_SetDefaultDMA(int dma);
 extern int FS_LoadOverlay(int target, s32 handle);
-extern int func_02034DC4(u32 id, u32 *start, u32 *end);
 extern int FS_LoadOverlayInfo(struct OverlayInfo *info, u32 target, u32 id);
 void sub_02034768(void);
-void func_020348A4(char *s);
+void func_020348A4(char *text);
 void sub_02034900(void);
 void sub_02034978(void);
-void sub_0203499C(u32 heap, int n0, int n1, int n2);
-void sub_02034A3C(struct Obj02034A3C *p);
-void sub_02034A5C(s32 handle);
-int sub_02034AC4(s32 handle);
-int sub_02034BB0(s32 handle);
-void *sub_02034CBC(int i);
-u8 sub_02034D08(int i);
-int sub_02034D60(u32 id);
-int sub_02034DC4(u32 id, u32 *start, u32 *end);
-extern struct Console g_021469AC;
-extern const char str_020A796C[];
-extern struct AreaMan *unk_021469B8;
-extern const char s_FileName[];
-extern const char s_Expr0[];
+void GF_OVERLAY_Init(u32 heapId, int mainCount, int itcmCount, int twlCount);
+void GF_OVERLAY_ReleaseSlot(struct OverlaySlot *slot);
+void GF_OVERLAY_Unload(s32 handle);
+int GF_OVERLAY_Load(s32 handle);
+int GF_OVERLAY_CheckRangeFree(s32 handle);
+void *GF_OVERLAY_GetSlots(int area);
+u8 GF_OVERLAY_GetSlotCount(int area);
+int GF_OVERLAY_GetArea(u32 id);
+int GF_OVERLAY_GetRamRange(u32 id, u32 *start, u32 *end);
+extern struct DebugConsole _DebugConsole;
+extern const char _NewlineStr[];
+extern struct OverlayTables *_pOverlayTables;
+extern const char _FileName[];
+extern const char _AssertExprZero[];
 extern const unsigned char SDK_AUTOLOAD_MAIN_TWL_START[];
 
 
@@ -195,7 +176,7 @@ extern const unsigned char SDK_AUTOLOAD_MAIN_TWL_START[];
  *   - the first two BG palette entries become white (0x7FFF) and the panic
  *     text colour (0x60E1);
  *   - a 0x20x8 4bpp character buffer is allocated, published at
- *     unk_021469AC, and cleared to pixel value 2.
+ *     _DebugConsole.charBitmap, and cleared to pixel value 2.
  *
  * Two shapes here are compiler idiom rather than source:
  *
@@ -221,10 +202,10 @@ extern const unsigned char SDK_AUTOLOAD_MAIN_TWL_START[];
  */
 void sub_02034768(void)
 {
-    u16 ime;
-    void *chars;
+    u16 savedIme;
+    void *charBuf;
 
-    ime = REG_IME;
+    savedIme = REG_IME;
     REG_IME = 0;
 
     REG_DISPCNT = REG_DISPCNT & ~0x1f00;
@@ -249,19 +230,19 @@ void sub_02034768(void)
     BG_PLTT_1 = 0x7fff;
     BG_PLTT_2 = 0x60e1;
 
-    func_0204E130(0);
+    TEXTPRINT_Init(0);
 
-    chars = func_02043678(0x20, 8, 0x20, 0);
-    g_021469AC.chars = chars;
-    g_021469AC.x = 0;
-    g_021469AC.y = 0;
-    g_021469AC.unk8 = 1;
-    g_021469AC.unk9 = 1;
-    g_021469AC.fg = 1;
-    g_021469AC.bg = 2;
-    g_021469AC.unkB = 0;
+    charBuf = func_02043678(0x20, 8, 0x20, 0);
+    _DebugConsole.charBitmap = charBuf;
+    _DebugConsole.cursorX = 0;
+    _DebugConsole.cursorY = 0;
+    _DebugConsole.advanceX = 1;
+    _DebugConsole.advanceY = 1;
+    _DebugConsole.fgColor = 1;
+    _DebugConsole.bgColor = 2;
+    _DebugConsole.flags = 0;
 
-    sub_02043B5C(chars, 2);
+    BMP_Clear(charBuf, 2);
 }
 
 
@@ -275,23 +256,23 @@ void sub_02034768(void)
  *           --suggest-split offers nothing (single function, both
  *           unresolved sites' only witnesses are inside this range).
  *           witness outside 020348A4..02034900; both of this site's calls to
- *           func_0204E328 are inside this function. Every concrete byte of the
+ *           TEXTPRINT_PrintText are inside this function. Every concrete byte of the
  *           body reproduces.
  */
-void func_020348A4(char *s)
+void func_020348A4(char *text)
 {
-    int f;
+    int hasNewline;
 
-    func_0204E328(s, &g_021469AC);
-    f = 0;
-    while (*s != 0) {
-        if (*s++ == '\n') {
-            f = 1;
+    TEXTPRINT_PrintText(text, &_DebugConsole);
+    hasNewline = 0;
+    while (*text != 0) {
+        if (*text++ == '\n') {
+            hasNewline = 1;
             break;
         }
     }
-    if (f == 0) {
-        func_0204E328(str_020A796C, &g_021469AC);
+    if (hasNewline == 0) {
+        TEXTPRINT_PrintText(_NewlineStr, &_DebugConsole);
     }
 }
 
@@ -321,26 +302,26 @@ void func_020348A4(char *s)
  */
 void sub_02034900(void)
 {
-    u16 *p;
-    int j;
-    int i;
-    int n;
-    void *src;
+    u16 *screenMap;
+    int col;
+    int row;
+    int tile;
+    void *charData;
 
-    p = G2_GetBG0ScrPtr();
+    screenMap = G2_GetBG0ScrPtr();
 
-    n = 0;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 0x20; j++) {
-            p[j] = n;
-            n++;
+    tile = 0;
+    for (row = 0; row < 8; row++) {
+        for (col = 0; col < 0x20; col++) {
+            screenMap[col] = tile;
+            tile++;
         }
-        p += 0x20;
+        screenMap += 0x20;
     }
 
-    src = func_020437D4(g_021469AC.chars);
-    DC_FlushRange(src, 0x2000);
-    GXS_LoadBG0Char(src, 0, 0x2000);
+    charData = func_020437D4(_DebugConsole.charBitmap);
+    DC_FlushRange(charData, 0x2000);
+    GXS_LoadBG0Char(charData, 0, 0x2000);
     OS_Terminate();
 }
 
@@ -368,7 +349,7 @@ void sub_02034900(void)
  */
 void sub_02034978(void)
 {
-    sub_020346EC((u32)func_02034768, (u32)func_020348A4, (u32)func_02034900);
+    sub_020346EC((u32)sub_02034768, (u32)func_020348A4, (u32)sub_02034900);
 }
 
 
@@ -379,14 +360,14 @@ void sub_02034978(void)
 
 
 /*
- * gf_overlay.c's constructor: allocate the singleton sub_02034CBC and
- * sub_02034D08 read, one 0x10-byte header followed by the three
- * registration tables laid end to end, zero it, then record the three table
+ * gf_overlay.c's constructor: allocate the singleton GF_OVERLAY_GetSlots and
+ * GF_OVERLAY_GetSlotCount read, one 0x10-byte header followed by the three
+ * overlay slot tables laid end to end, zero it, then record the three table
  * lengths at +0/+1/+2 and the three table bases at +4/+8/+0xc.
  *
  * Every store to the singleton is preceded by a fresh `ldr r0, [r7]` because
  * the object being written is reached through the global pointer itself: the
- * compiler cannot prove `p->t0 = ...` does not land on `unk_021469B8`, so it
+ * compiler cannot prove `tables->mainSlots = ...` does not land on `_pOverlayTables`, so it
  * reloads the pointer before each store.  The allocation size is spelled out
  * twice rather than kept in a local, which is why only the `<< 3` is common
  * subexpression eliminated and the `+ 0x10` is recomputed for the clear.
@@ -394,27 +375,27 @@ void sub_02034978(void)
  * The file string is "gf_overlay.c" and the debug line is 108.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203499C.c \
- *       --func sub_0203499C --addr 0x0203499C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_Init.c \
+ *       --func GF_OVERLAY_Init --addr 0x0203499C --cc 1.1p1 --arm
  */
-void sub_0203499C(u32 heap, int n0, int n1, int n2)
+void GF_OVERLAY_Init(u32 heapId, int mainCount, int itcmCount, int twlCount)
 {
-    struct AreaMan *p;
-    int count;
+    struct OverlayTables *tables;
+    int totalSlots;
 
-    count = n0 + n1 + n2;
+    totalSlots = mainCount + itcmCount + twlCount;
 
-    p = func_02030734(heap, count * sizeof(struct Registration) + sizeof(struct AreaMan), 0,
-                      s_FileName, 108);
-    unk_021469B8 = p;
-    MIi_CpuClear32(0, p, count * sizeof(struct Registration) + sizeof(struct AreaMan));
+    tables = func_02030734(heapId, totalSlots * sizeof(struct OverlaySlot) + sizeof(struct OverlayTables), 0,
+                      _FileName, 108);
+    _pOverlayTables = tables;
+    MIi_CpuClear32(0, tables, totalSlots * sizeof(struct OverlaySlot) + sizeof(struct OverlayTables));
 
-    unk_021469B8->n0 = n0;
-    unk_021469B8->n1 = n1;
-    unk_021469B8->n2 = n2;
-    unk_021469B8->t0 = (struct Registration *)(unk_021469B8 + 1);
-    unk_021469B8->t1 = unk_021469B8->t0 + n0;
-    unk_021469B8->t2 = unk_021469B8->t1 + n1;
+    _pOverlayTables->mainCount = mainCount;
+    _pOverlayTables->itcmCount = itcmCount;
+    _pOverlayTables->twlCount = twlCount;
+    _pOverlayTables->mainSlots = (struct OverlaySlot *)(_pOverlayTables + 1);
+    _pOverlayTables->itcmSlots = _pOverlayTables->mainSlots + mainCount;
+    _pOverlayTables->twlSlots = _pOverlayTables->itcmSlots + itcmCount;
 }
 
 
@@ -434,25 +415,25 @@ void sub_0203499C(u32 heap, int n0, int n1, int n2)
  * src/matched/unit_02079164.c attested its own callee.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034A3C.c \
- *       --func sub_02034A3C --addr 0x02034A3C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_ReleaseSlot.c \
+ *       --func GF_OVERLAY_ReleaseSlot --addr 0x02034A3C --cc 1.1p1 --arm
  */
-void sub_02034A3C(struct Obj02034A3C *p)
+void GF_OVERLAY_ReleaseSlot(struct OverlaySlot *slot)
 {
-    func_020792B8(0, p->unk00);
-    p->unk04 = 0;
+    func_020792B8(0, slot->handle);
+    slot->state = 0;
 }
 
 
 
 
 /*
- * Release the registration a handle owns.  -1 is the "no handle" value and
+ * Release the slot an overlay handle owns.  -1 is the "no handle" value and
  * returns at once; otherwise the handle is resolved to its area index
- * (func_02034D60), which selects the eight-byte registration table
- * (func_02034CBC) and its live length (func_02034D08), and the first
+ * (GF_OVERLAY_GetArea), which selects the eight-byte slot table
+ * (GF_OVERLAY_GetSlots) and its live length (GF_OVERLAY_GetSlotCount), and the first
  * entry whose state word at +4 is 1 and whose handle at +0 is the one asked
- * for is handed to sub_02034A3C.  At most one entry matches, so the scan
+ * for is handed to GF_OVERLAY_ReleaseSlot.  At most one entry matches, so the scan
  * returns rather than breaking.
  *
  * The second field load is spelled off the table base with the scaled index
@@ -460,34 +441,34 @@ void sub_02034A3C(struct Obj02034A3C *p)
  * in r2: writing both halves of the condition against the same `&table[i]`
  * local costs a `ldr r1, [r2]` instead and is a byte difference.
  *
- * The PC24 at +0x50 (sub_02034A3C) has no `label` witness: the `bl` at
+ * The PC24 at +0x50 (GF_OVERLAY_ReleaseSlot) has no `label` witness: the `bl` at
  * 0x02034AAC inside this function is 0x02034A3C's only reference anywhere
  * in the image.  It resolves on class `matched` now that
- * src/matched/sub_02034A3C.c is EXACT, which in turn waited on
+ * src/matched/GF_OVERLAY_ReleaseSlot.c is EXACT, which in turn waited on
  * src/matched/func_020792B8.c and src/matched/unit_02079164.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034A5C.c \
- *       --func sub_02034A5C --addr 0x02034A5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_Unload.c \
+ *       --func GF_OVERLAY_Unload --addr 0x02034A5C --cc 1.1p1 --arm
  */
-void sub_02034A5C(s32 handle)
+void GF_OVERLAY_Unload(s32 handle)
 {
     s32 area;
-    struct Registration *table;
-    s32 count;
-    s32 i;
+    struct OverlaySlot *slots;
+    s32 slotCount;
+    s32 index;
 
     if (handle == -1) {
         return;
     }
 
-    area = func_02034D60(handle);
-    table = func_02034CBC(area);
-    count = func_02034D08(area);
+    area = GF_OVERLAY_GetArea(handle);
+    slots = GF_OVERLAY_GetSlots(area);
+    slotCount = GF_OVERLAY_GetSlotCount(area);
 
-    for (i = 0; i < count; i++) {
-        if (table[i].state == 1 && handle == table[i].handle) {
-            sub_02034A3C((struct Obj02034A3C *)(&table[i]));
+    for (index = 0; index < slotCount; index++) {
+        if (slots[index].state == 1 && handle == slots[index].handle) {
+            GF_OVERLAY_ReleaseSlot(&slots[index]);
             return;
         }
     }
@@ -496,65 +477,65 @@ void sub_02034A5C(s32 handle)
 
 
 
-int sub_02034AC4(s32 handle)
+int GF_OVERLAY_Load(s32 handle)
 {
-    int which;
-    int oldDMA = -1;
-    struct Registration *table;
-    int count;
-    int i;
-    int success;
-    int ret;
+    int area;
+    int oldDma = -1;
+    struct OverlaySlot *slots;
+    int slotCount;
+    int index;
+    int loaded;
+    int result;
 
-    if (handle == oldDMA) {
+    if (handle == oldDma) {
         return 1;
     }
 
-    if (sub_02034BB0(handle) == 0) {
+    if (GF_OVERLAY_CheckRangeFree(handle) == 0) {
         return 0;
     }
 
-    which = func_02034D60(handle);
-    table = func_02034CBC(which);
-    count = func_02034D08(which);
+    area = GF_OVERLAY_GetArea(handle);
+    slots = GF_OVERLAY_GetSlots(area);
+    slotCount = GF_OVERLAY_GetSlotCount(area);
 
-    for (i = 0; i < count; i++) {
-        struct Registration *entry = &table[i];
-        if (entry->state == 0) {
-            entry->state = 1;
-            entry->handle = handle;
+    for (index = 0; index < slotCount; index++) {
+        struct OverlaySlot *slot = &slots[index];
+        if (slot->state == 0) {
+            slot->state = 1;
+            slot->handle = handle;
             break;
         }
     }
 
-    if (i >= count) {
-        sub_02034714(s_FileName, 267, s_Expr0);
+    if (index >= slotCount) {
+        sub_02034714(_FileName, 267, _AssertExprZero);
         return 0;
     }
 
-    which--;
-    if ((u32)which <= 1) {
-        oldDMA = FS_SetDefaultDMA(-1);
+    area--;
+    if ((u32)area <= 1) {
+        oldDma = FS_SetDefaultDMA(-1);
     }
 
-    success = FS_LoadOverlay(0, handle);
+    loaded = FS_LoadOverlay(0, handle);
 
-    if ((u32)which <= 1) {
-        FS_SetDefaultDMA(oldDMA);
+    if ((u32)area <= 1) {
+        FS_SetDefaultDMA(oldDma);
     }
 
-    ret = 0;
-    if (success != 0) {
-        ret = 1;
+    result = 0;
+    if (loaded != 0) {
+        result = 1;
     }
-    return ret;
+    return result;
 }
 
 
 
 
 /*
- * The admission test sub_02034AC4 runs before it claims a slot: an overlay
+ * The admission test GF_OVERLAY_Load runs before it claims a slot: an overlay
  * may only be loaded if its RAM footprint is disjoint from every overlay
  * already live in the same table.  An overlay whose header cannot be read
  * is refused outright; an overlap is the GF_ASSERT(0) at gf_overlay.c:330
@@ -569,35 +550,35 @@ int sub_02034AC4(s32 handle)
  * order, the later declaration taking the lower address.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034BB0.c \
- *       --func sub_02034BB0 --addr 0x02034BB0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_CheckRangeFree.c \
+ *       --func GF_OVERLAY_CheckRangeFree --addr 0x02034BB0 --cc 1.1p1 --arm
  */
-int sub_02034BB0(s32 handle)
+int GF_OVERLAY_CheckRangeFree(s32 handle)
 {
     u32 start;
     u32 end;
-    u32 other_start;
-    u32 other_end;
-    int which;
-    struct Registration *table;
-    int count;
-    int i;
+    u32 otherStart;
+    u32 otherEnd;
+    int area;
+    struct OverlaySlot *slots;
+    int slotCount;
+    int index;
 
-    if (func_02034DC4(handle, &start, &end) == 0) {
+    if (GF_OVERLAY_GetRamRange(handle, &start, &end) == 0) {
         return 0;
     }
 
-    which = func_02034D60(handle);
-    table = func_02034CBC(which);
-    count = func_02034D08(which);
+    area = GF_OVERLAY_GetArea(handle);
+    slots = GF_OVERLAY_GetSlots(area);
+    slotCount = GF_OVERLAY_GetSlotCount(area);
 
-    for (i = 0; i < count; i++) {
-        if (table[i].state == 1) {
-            if (func_02034DC4(table[i].handle, &other_start, &other_end) == 1) {
-                if ((start >= other_start && start < other_end) ||
-                    (end > other_start && end <= other_end) ||
-                    (start <= other_start && end >= other_end)) {
-                    sub_02034714(s_FileName, 330, s_Expr0);
+    for (index = 0; index < slotCount; index++) {
+        if (slots[index].state == 1) {
+            if (GF_OVERLAY_GetRamRange(slots[index].handle, &otherStart, &otherEnd) == 1) {
+                if ((start >= otherStart && start < otherEnd) ||
+                    (end > otherStart && end <= otherEnd) ||
+                    (start <= otherStart && end >= otherEnd)) {
+                    sub_02034714(_FileName, 330, _AssertExprZero);
                     return 0;
                 }
             }
@@ -609,7 +590,7 @@ int sub_02034BB0(s32 handle)
 
 
 /*
- * Selects one of three registration tables out of the areaman singleton by
+ * Selects one of three overlay slot tables out of the overlay-tables singleton by
  * a small index.  The singleton holds the three table pointers at +4, +8
  * and +0xc; an out-of-range index yields the same table as index 0, which
  * is why the compiler cross-jumps the default return onto case 0's block
@@ -617,44 +598,44 @@ int sub_02034BB0(s32 handle)
  * block of its own.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034CBC.c \
- *       --func sub_02034CBC --addr 0x02034CBC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_GetSlots.c \
+ *       --func GF_OVERLAY_GetSlots --addr 0x02034CBC --cc 1.1p1 --arm
  */
-void *sub_02034CBC(int i)
+void *GF_OVERLAY_GetSlots(int area)
 {
-    switch (i) {
+    switch (area) {
     default:
     case 0:
-        return unk_021469B8->t0;
+        return _pOverlayTables->mainSlots;
     case 1:
-        return unk_021469B8->t1;
+        return _pOverlayTables->itcmSlots;
     case 2:
-        return unk_021469B8->t2;
+        return _pOverlayTables->twlSlots;
     }
 }
 
 
 
 /*
- * The live-length companion of sub_02034CBC: the same three-way index, but
- * reading the three `u8` counts packed at the head of the areaman singleton
+ * The live-length companion of GF_OVERLAY_GetSlots: the same three-way index, but
+ * reading the three `u8` counts packed at the head of the overlay-tables singleton
  * rather than the table pointers at +4/+8/+0xc.  Here the default is its own
  * arm returning 0, so the `cmp r0, #0` block is distinct and the dispatch
  * chain ends in an explicit `b` to the zero tail instead of cross-jumping.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034D08.c \
- *       --func sub_02034D08 --addr 0x02034D08 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_GetSlotCount.c \
+ *       --func GF_OVERLAY_GetSlotCount --addr 0x02034D08 --cc 1.1p1 --arm
  */
-u8 sub_02034D08(int i)
+u8 GF_OVERLAY_GetSlotCount(int area)
 {
-    switch (i) {
+    switch (area) {
     case 0:
-        return unk_021469B8->n0;
+        return _pOverlayTables->mainCount;
     case 1:
-        return unk_021469B8->n1;
+        return _pOverlayTables->itcmCount;
     case 2:
-        return unk_021469B8->n2;
+        return _pOverlayTables->twlCount;
     }
     return 0;
 }
@@ -663,14 +644,14 @@ u8 sub_02034D08(int i)
 
 
 /*
- * Maps an overlay id onto the areaman table index that owns it: the
- * overlay header's ram_address (+4) inside 0x01000000..0x02000000 is
+ * Maps an overlay id onto the overlay table index that owns it: the
+ * overlay header's ramAddress (+4) inside 0x01000000..0x02000000 is
  * table 1, inside the arm9_autoload1_main_twl window (its base up to
  * base + 0x4000) is table 2, anything else is 0.  The two range guards
  * are sequential, so each `hs` arm carries its own epilogue.
  *
  * Shape notes:
- *  - `id = info.ram_address;` reuses the parameter; a fresh local puts
+ *  - `id = info.ramAddress;` reuses the parameter; a fresh local puts
  *    the load in r1 and shifts every compare by a register.
  *  - The window base is the linker region symbol cast to an integer.  The
  *    image pools 0x02FE0000 in r1 and derives the bound with
@@ -679,25 +660,25 @@ u8 sub_02034D08(int i)
  *    registers but folds base + 0x4000 into a second relocated pool word
  *    (104 bytes).  Only the integer cast keeps both the add and the
  *    colouring (u32 and unsigned long both EXACT).  Same region symbol as
- *    src/matched/func_0200520C.c and src/matched/sub_02030534.c.
+ *    src/matched/GFL_USE_VBlankHandler.c and src/matched/GFL_HEAP_InitSystemHeap.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034D60.c \
- *       --func sub_02034D60 --addr 0x02034D60 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_GetArea.c \
+ *       --func GF_OVERLAY_GetArea --addr 0x02034D60 --cc 1.1p1 --arm
  */
-int sub_02034D60(u32 id)
+int GF_OVERLAY_GetArea(u32 id)
 {
-    struct OverlayInfo info;
-    u32 lo;
+    struct OverlayInfo overlayInfo;
+    u32 twlBase;
 
-    FS_LoadOverlayInfo(&info, 0, id);
+    FS_LoadOverlayInfo(&overlayInfo, 0, id);
 
-    id = info.ram_address;
+    id = overlayInfo.ramAddress;
     if (id <= 0x02000000 && id >= 0x01000000) {
         return 1;
     }
-    lo = (u32)SDK_AUTOLOAD_MAIN_TWL_START;
-    if (id <= lo + 0x4000 && id >= lo) {
+    twlBase = (u32)SDK_AUTOLOAD_MAIN_TWL_START;
+    if (id <= twlBase + 0x4000 && id >= twlBase) {
         return 2;
     }
     return 0;
@@ -716,20 +697,20 @@ int sub_02034D60(u32 id)
  * both the `target` argument and the failure return need it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034DC4.c \
- *       --func sub_02034DC4 --addr 0x02034DC4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_GetRamRange.c \
+ *       --func GF_OVERLAY_GetRamRange --addr 0x02034DC4 --cc 1.1p1 --arm
  */
-int sub_02034DC4(u32 id, u32 *start, u32 *end)
+int GF_OVERLAY_GetRamRange(u32 id, u32 *start, u32 *end)
 {
-    struct OverlayInfo info;
-    u32 addr;
+    struct OverlayInfo overlayInfo;
+    u32 ramStart;
 
-    if (FS_LoadOverlayInfo(&info, 0, id) == 0) {
+    if (FS_LoadOverlayInfo(&overlayInfo, 0, id) == 0) {
         return 0;
     }
 
-    addr = info.ram_address;
-    *start = addr;
-    *end = addr + (info.ram_size + info.bss_size);
+    ramStart = overlayInfo.ramAddress;
+    *start = ramStart;
+    *end = ramStart + (overlayInfo.ramSize + overlayInfo.bssSize);
     return 1;
 }

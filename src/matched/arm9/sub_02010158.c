@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_0202EB0C  0x0202EB0C  thumb
- *   g_0214617C     0x0214617C  data
- *   tbl_0209DEB0   0x0209DEB0  data  a2
- *   tbl_0209DED0   0x0209DED0  data  a2
+ *   gNetErrWork     0x0214617C  data
+ *   sNetErrMessageIdsDS   0x0209DEB0  data  a2
+ *   sNetErrMessageIdsTwl   0x0209DED0  data  a2
  *
  * The error-code mapper of net_err.c: a reason code at obj+0xc (obj is the
  * 16-byte block the module keeps at 0x0214617C+0x48) in 0x3EE..0x3F7 maps to
@@ -30,9 +30,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_0202EB0C(void);
-extern u8  g_0214617C[];
-extern const u16 tbl_0209DEB0[];
-extern const u16 tbl_0209DED0[];
+extern u8  gNetErrWork[];
+extern const u16 sNetErrMessageIdsDS[];
+extern const u16 sNetErrMessageIdsTwl[];
 
 u32 sub_02010158(u8 *obj, u32 a)
 {
@@ -54,15 +54,15 @@ u32 sub_02010158(u8 *obj, u32 a)
         return 0x28;
     }
     if (func_0202EB0C() != 0) {
-        v = *(u32 *)(g_0214617C + 0x60);
+        v = *(u32 *)(gNetErrWork + 0x60);
         if (v >= 0x10) {
             return 0xb;
         }
-        return tbl_0209DED0[v];
+        return sNetErrMessageIdsTwl[v];
     }
-    v = *(u32 *)(g_0214617C + 0x60);
+    v = *(u32 *)(gNetErrWork + 0x60);
     if (v >= 0x10) {
         return 0xb;
     }
-    return tbl_0209DEB0[v];
+    return sNetErrMessageIdsDS[v];
 }

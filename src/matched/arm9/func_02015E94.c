@@ -1,5 +1,5 @@
 /*
- * function: func_02015E94
+ * function: MCSS_GetVanishFlag
  * address:  0x02015E94
  * packet:   pkt_02015E94
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct {
     unsigned int hi : 20;
 } R;
 
-int func_02015E94(R *p)
+int MCSS_GetVanishFlag(R *p)
 {
     return p->b;
 }

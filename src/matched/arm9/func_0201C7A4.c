@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045A90  0x02045A90  arm
- *   sub_0201C808   0x0201C808  thumb
- *   func_0201C8BC  0x0201C8BC  thumb
- *   g_0214655C     0x0214655C  data
+ *   STRBUF_GetChars  0x02045A90  arm
+ *   PRINTSYS_SetupJob   0x0201C808  thumb
+ *   PRINTSYS_RunJob  0x0201C8BC  thumb
+ *   _PrintJobWork     0x0214655C  data
  *
  * A printsys entry point: builds the shared print request in the static
- * scratch through sub_0201C808 and hands it to func_0201C8BC with the
- * string object.  The leading func_02045A90(s) call's result is unused.
+ * scratch through PRINTSYS_SetupJob and hands it to PRINTSYS_RunJob with the
+ * string object.  The leading STRBUF_GetChars(s) call's result is unused.
  *
  * Withdrawn 2026-09-24 (wave 20, lane 20G): the ../2.0/sp2 pin is retired.
  * The scratch address is held as an integer, a u32 local assigned
- * (u32)&g_0214655C and cast back at each site, matching func_0201C7D0.c.
+ * (u32)&_PrintJobWork and cast back at each site, matching func_0201C7D0.c.
  * Spelled this way, dsi/1.1p1 caches the address in a callee-saved
  * register and copies it into r0 at each site, byte-exact under the
  * default compiler.
@@ -34,20 +34,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern struct Scratch g_0214655C;
+extern struct Scratch _PrintJobWork;
 
 struct U16Vec;
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 struct PrintCtx;
-extern void sub_0201C808(struct PrintCtx *p, void *w, void *x, u32 y, s16 z);
-extern void func_0201C8BC(u8 *a0, int a1);
+extern void PRINTSYS_SetupJob(struct PrintCtx *p, void *w, void *x, u32 y, s16 z);
+extern void PRINTSYS_RunJob(u8 *a0, int a1);
 
 void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w)
 {
     u32 base;
 
-    func_02045A90(s);
-    base = (u32)&g_0214655C;
-    sub_0201C808((struct PrintCtx *)base, w, x, y, z);
-    func_0201C8BC((u8 *)((struct Scratch *)base), (int)s);
+    STRBUF_GetChars(s);
+    base = (u32)&_PrintJobWork;
+    PRINTSYS_SetupJob((struct PrintCtx *)base, w, x, y, z);
+    PRINTSYS_RunJob((u8 *)((struct Scratch *)base), (int)s);
 }

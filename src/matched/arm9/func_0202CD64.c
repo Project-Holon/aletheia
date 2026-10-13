@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202CD64
+ * function: BGWINFRM_StartMove
  * address:  0x0202CD64
  * packet:   pkt_0202CC70
  * region:   arm9
@@ -13,7 +13,7 @@
  * bgwinfrm.c.  Arms the scroll animation on one window record: stores the
  * per-frame delta pair and the frame count, sets the 3-bit unk04_13 field
  * to 1, and raises the manager's top bit at offset 6.  Same struct Win as
- * src/matched/func_0202CDD4.c, same struct WinMgr as
+ * src/matched/BGWINFRM_UpdateMove.c, same struct WinMgr as
  * src/matched/sub_0202CB4C.c.
  */
 
@@ -48,7 +48,7 @@ struct WinMgr {
     u16 unk06_15:1;
 };
 
-void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames)
+void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames)
 {
     struct Win *win = &mgr->wins[idx];
 

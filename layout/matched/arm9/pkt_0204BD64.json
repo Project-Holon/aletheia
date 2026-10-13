@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204C6E4",
+   "name": "CLACT_ExitTransferPool",
    "address": "0x0204C6E4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204C718",
+   "name": "CLACT_AllocTransferEntries",
    "address": "0x0204C718",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204C788",
+   "name": "CLACT_FreeTransferEntries",
    "address": "0x0204C788",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204C804",
+   "name": "CLACT_GetFreeTransferEntry",
    "address": "0x0204C804",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204C83C",
+   "name": "CLACT_RequestTransfer",
    "address": "0x0204C83C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204C8A4",
+   "name": "CLACT_SetTransferEntry",
    "address": "0x0204C8A4",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204C8B8",
+   "name": "CLACT_ExecuteTransfer",
    "address": "0x0204C8B8",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204C8E4",
+   "name": "CLACT_GetFreeActor",
    "address": "0x0204C8E4",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_02021930
+ * function: PALANM_CheckBit
  * address:  0x02021930
  * packet:   pkt_0202173E
  * region:   arm9
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u8 func_02021930(u32 val, int bit)
+u8 PALANM_CheckBit(u32 val, int bit)
 {
     u8 ret;
 

@@ -18,22 +18,40 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02008F80",
-    "sub_02008F84",
-    "sub_02008F88",
-    "sub_02008F9C",
-    "sub_02008FA0",
-    "sub_02008FA4",
-    "sub_02008FA8",
-    "sub_02008FB0",
-    "sub_02008FB4",
-    "sub_02008FB8",
-    "sub_02008FBC",
-    "sub_02008FC0",
-    "sub_02008FC4",
-    "sub_02008FC8",
-    "sub_02008FD8",
-    "sub_02008FEC"
+    "MAIL_GetWriterId",
+    "MAIL_GetWriterName",
+    "MAIL_SetWriterName",
+    "MAIL_GetGender",
+    "MAIL_SetGender",
+    "MAIL_GetDesign",
+    "MAIL_SetDesign",
+    "MAIL_GetLanguage",
+    "MAIL_SetLanguage",
+    "MAIL_GetVersion",
+    "MAIL_SetVersion",
+    "MAIL_GetMessageId",
+    "MAIL_SetMessageId",
+    "MAIL_GetMessage",
+    "MAIL_SetMessage",
+    "MAIL_GetBox"
+   ],
+   "addresses": [
+    "0x02008F80",
+    "0x02008F84",
+    "0x02008F88",
+    "0x02008F9C",
+    "0x02008FA0",
+    "0x02008FA4",
+    "0x02008FA8",
+    "0x02008FB0",
+    "0x02008FB4",
+    "0x02008FB8",
+    "0x02008FBC",
+    "0x02008FC0",
+    "0x02008FC4",
+    "0x02008FC8",
+    "0x02008FD8",
+    "0x02008FEC"
    ]
   },
   {
@@ -48,8 +66,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02008FFC",
-    "sub_02009004"
+    "MAIL_GetBoxSize",
+    "MAIL_InitBox"
+   ],
+   "addresses": [
+    "0x02008FFC",
+    "0x02009004"
    ]
   },
   {
@@ -64,8 +86,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200902C",
-    "sub_0200903C"
+    "MAIL_ClearSlot",
+    "MAIL_SetSlot"
+   ],
+   "addresses": [
+    "0x0200902C",
+    "0x0200903C"
    ]
   },
   {
@@ -80,9 +106,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02009050",
-    "sub_02009074",
-    "sub_020090A0"
+    "MAIL_CreateSlotCopy",
+    "MAIL_FindEmptySlotInRange",
+    "MAIL_GetSlot"
+   ],
+   "addresses": [
+    "0x02009050",
+    "0x02009074",
+    "0x020090A0"
    ]
   },
   {

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02029B5C, func_02029BCC
+ * function: FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask, FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask
  *
  * Part of the (task body, task spawner) family that makes up the tail of
  * field_sound_system.c.  A four state body whose first state picks command 2 or command 3 by asking
@@ -24,6 +24,10 @@
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02029B5C.c  *       --addr 0x02029B5C --thumb
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_GetQueueDepth  0x020288C4  thumb
+ *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
  */
 
 typedef unsigned short u16;
@@ -44,20 +48,20 @@ struct Ctx;
 struct Desc;
 struct Obj;
 struct Sys;
-extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
+extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 extern u32 func_020289B8(struct Sys *s);
-extern s32 func_020288C4(struct Sys *s);
+extern s32 FIELD_SOUND_SYSTEM_GetQueueDepth(struct Sys *s);
 
-u32 func_02029B5C(void *task, u32 *state, struct Work *work)
+u32 FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask(void *task, u32 *state, struct Work *work)
 {
     void *sys = work->unk04;
 
     switch (*state) {
     case 0:
-        if (func_020288C4(sys) == 0) {
-            func_020289F8(sys, 3, 0, 6, 0);
+        if (FIELD_SOUND_SYSTEM_GetQueueDepth(sys) == 0) {
+            FIELD_SOUND_SYSTEM_PostRequest(sys, 3, 0, 6, 0);
         } else {
-            func_020289F8(sys, 2, 0, 6, 0);
+            FIELD_SOUND_SYSTEM_PostRequest(sys, 2, 0, 6, 0);
         }
         (*state)++;
         break;
@@ -67,7 +71,7 @@ u32 func_02029B5C(void *task, u32 *state, struct Work *work)
         }
         break;
     case 2:
-        func_020289F8(sys, 7, work->unk08, 0, 0);
+        FIELD_SOUND_SYSTEM_PostRequest(sys, 7, work->unk08, 0, 0);
         (*state)++;
         break;
     case 3:
@@ -82,10 +86,10 @@ extern void *func_020124E8(struct Obj *p);
 struct BigObj;
 extern unsigned int func_02012A30(const struct BigObj *p);
 
-void *func_02029BCC(void *a, u32 b)
+void *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(void *a, u32 b)
 {
     void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029B5C, 0x10);
+    void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask, 0x10);
     struct Work *work = func_020124E8(task);
 
     work->unk04 = (void *)func_02012A30(x);

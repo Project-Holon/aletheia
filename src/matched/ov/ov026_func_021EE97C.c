@@ -16,7 +16,7 @@
  *   func_021A2640 0x021A2640 thumb ov021
  *   func_021A26C4 0x021A26C4 thumb ov021
  *   func_021A21E0 0x021A21E0 thumb ov021
- *   func_0204B908 0x0204B908 arm
+ *   CLACT_SetActorAnimIndex 0x0204B908 arm
  */
 
 typedef signed short s16;
@@ -33,7 +33,7 @@ struct PtS;
 extern void func_021A2640(unsigned char *, struct PtS *);
 extern int func_021A26C4(u32 a, u32 b);
 extern void func_021A21E0(u32 *p);
-extern void func_0204B908(int, int);
+extern void CLACT_SetActorAnimIndex(int, int);
 
 void func_021EE97C(int a)
 {
@@ -55,7 +55,7 @@ void func_021EE97C(int a)
             } else {
                 p[3] = 1;
                 p[0] = 4;
-                func_0204B908(h, 3);
+                CLACT_SetActorAnimIndex(h, 3);
             }
         }
         func_021A26C4(a, (u32)(&pt));

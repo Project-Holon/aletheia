@@ -18,7 +18,7 @@
  *   func_020409B4 0x020409B4 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204B908 0x0204B908 arm
+ *   CLACT_SetActorAnimIndex 0x0204B908 arm
  *   d_021D4CF4 0x021D4CF4 data a4
  *   d_021D4CA4 0x021D4CA4 data a4
  *   d_021D4D4C 0x021D4D4C data a1
@@ -46,7 +46,7 @@ extern void func_020409B4(u32);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 void func_021D49C8(char *p, u32 n)
 {
     u16 *q;
@@ -74,10 +74,10 @@ void func_021D49C8(char *p, u32 n)
     func_0204B404(((struct Obj00122 *)p)->f5C, (const struct Vec2 *)(&delta), 1);
     if (n == 10) {
         func_0204B92C(((struct Obj00122 *)p)->f5C, 0);
-        func_0204B908((int)(((struct Obj00122 *)p)->f5C), 1);
+        CLACT_SetActorAnimIndex((int)(((struct Obj00122 *)p)->f5C), 1);
     } else if (n == 11) {
         func_0204B92C(((struct Obj00122 *)p)->f5C, 0);
-        func_0204B908((int)(((struct Obj00122 *)p)->f5C), 0);
+        CLACT_SetActorAnimIndex((int)(((struct Obj00122 *)p)->f5C), 0);
     } else {
         func_0204B92C(((struct Obj00122 *)p)->f5C, 1);
     }

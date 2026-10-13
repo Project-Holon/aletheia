@@ -1,5 +1,5 @@
 /*
- * function: func_0215F7E8
+ * function: SOC_SetResolver
  * address:  0x0215F7E8
  * packet:   pkt_ov009_0215F7E8
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern int func_0215EEE0(unsigned long dns1, unsigned long dns2);
 
-int func_0215F7E8(unsigned long *dns1, unsigned long *dns2)
+int SOC_SetResolver(unsigned long *dns1, unsigned long *dns2)
 {
 	return func_0215EEE0(SWAP32(*dns1), SWAP32(*dns2));
 }

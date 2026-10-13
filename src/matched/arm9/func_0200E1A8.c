@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_0209DE90     0x0209DE90  data
+ *   sSymbolBandRanges     0x0209DE90  data
  *   func_0200E06C  0x0200E06C  thumb
  *   func_0200E0E8  0x0200E0E8  thumb
  *   func_0200E124  0x0200E124  thumb
@@ -30,7 +30,7 @@
  * first three fields fold into one store, the fourth and the fifth each get
  * their own.
  *
- * g_0209DE90 is the { u16 a; u16 b; } record table of
+ * sSymbolBandRanges is the { u16 a; u16 b; } record table of
  * src/matched/func_0200E124.c; this function reads BOTH fields of the same
  * row (a into the stack slot at sp+0xC, b into r7), so the two pool words
  * 0x0209DE90 and 0x0209DE92 are one symbol at two field offsets, not two
@@ -63,7 +63,7 @@ struct Entry {
     u32 f29 : 3;
 };
 
-extern struct Rec g_0209DE90[];
+extern struct Rec sSymbolBandRanges[];
 
 struct Slot;
 extern void func_0200E06C(char *p);
@@ -80,8 +80,8 @@ void func_0200E1A8(void *p, u16 a1, u16 a2, u8 a3, u8 a4, u8 a5, u32 kind)
 
     func_0200E06C(p);
     k = kind;
-    cap = g_0209DE90[k].a;
-    lim = g_0209DE90[k].b;
+    cap = sSymbolBandRanges[k].a;
+    lim = sSymbolBandRanges[k].b;
     slot = func_0200E0E8(p, k);
     if (slot == 0xFFFF) {
         func_0200E124(p, cap);

@@ -14,7 +14,7 @@
  *   func_0203FCA0 0x0203FCA0 arm
  *   sub_02040588 0x02040588 arm
  *   func_0207D63C 0x0207D63C arm
- *   sub_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   d_021C366C 0x021C366C data a4
  *   d_021C36D8 0x021C36D8 data ov217
  *   d_021C36F8 0x021C36F8 data ov217
@@ -33,7 +33,7 @@ extern void func_0204044C(u32);
 extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
 extern void sub_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(u32 *, u32, u32, int, int);
-extern void sub_02045088(u16);
+extern void BMP_WIN_Init(u16);
 void func_021BFFC8(char *p)
 {
     func_0203FC28(&d_021C366C);
@@ -52,5 +52,5 @@ void func_021BFFC8(char *p)
     sub_02040588(3, 1);
     func_0207D63C((u32 *)0x04001050, 2, 1, 7, 15);
     func_0207D63C((u32 *)0x04000050, 4, 2, 16, 5);
-    sub_02045088(((struct Obj25959 *)p)->f4);
+    BMP_WIN_Init(((struct Obj25959 *)p)->f4);
 }

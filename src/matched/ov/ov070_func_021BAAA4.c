@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_020499D4  0x020499D4  arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandleExt  0x020499D4  arm
  *   func_02049238  0x02049238  arm
  */
 #include "../include/Obj06176.h"
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 
 extern void *func_020490F4(u32 id, u32 heap);
-extern u32 func_020499D4(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void func_02049238(void *);
 
 void func_021BAAA4(int p, int mode)
@@ -28,9 +28,9 @@ void func_021BAAA4(int p, int mode)
     void *h = func_020490F4(0x58, ((struct Obj06176 *)p)->f544);
 
     if (mode != 2) {
-        func_020499D4(h, 0x17, 5, 0, (u16)((struct Obj06176 *)p)->f800, 0, 0, ((struct Obj06176 *)p)->f544);
+        ARC_UTIL_UploadBgPaletteAddFromHandleExt(h, 0x17, 5, 0, (u16)((struct Obj06176 *)p)->f800, 0, 0, ((struct Obj06176 *)p)->f544);
     } else {
-        func_020499D4(h, 0x18, 5, 0, (u16)((struct Obj06176 *)p)->f800, 0, 0, ((struct Obj06176 *)p)->f544);
+        ARC_UTIL_UploadBgPaletteAddFromHandleExt(h, 0x18, 5, 0, (u16)((struct Obj06176 *)p)->f800, 0, 0, ((struct Obj06176 *)p)->f544);
     }
     func_02049238(h);
 }

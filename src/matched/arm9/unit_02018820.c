@@ -8,10 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02018820
+ * function: POKE_TOOL_GetHiddenPowerPower
  *
  * Folds the six ids 0x46 to 0x4B, the six 5 bit fields of substruct B +0x10
- * that func_02018E34 reads, into a 0 to 63 index on bit 1 of each and scales
+ * that POKE_TOOL_GetBoxValueRaw reads, into a 0 to 63 index on bit 1 of each and scales
  * it to 30..70.  Its neighbour func_02018790 is the same fold on bit 0 with a
  * table lookup at the end, and the two are the pair a Hidden Power power and
  * type are computed with.
@@ -21,7 +21,7 @@
  * is the pool word under test, so it caps at MATCH however it is written; and
  * func_020188AC, immediately after, is an eight byte
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md thunk whose pool word is the
- * only reference to func_020188B4 in the image, so it caps too.  Both are
+ * only reference to POKE_TOOL_CheckBoxTmCompat in the image, so it caps too.  Both are
  * byte-correct and neither can be cut free; this middle function is what is
  * left, and it is clean.
  *
@@ -46,7 +46,7 @@ typedef unsigned int u32;
 
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 
-u32 func_02018820(void *p)
+u32 POKE_TOOL_GetHiddenPowerPower(void *p)
 {
     u32 n = 0;
 

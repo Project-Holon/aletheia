@@ -41,12 +41,12 @@
  *   func_02080294  0x02080294  arm
  *   func_02046DB8  0x02046DB8  arm
  *   func_02188C84  0x02188C84  thumb  ov021
- *   func_0202E560  0x0202E560  thumb
+ *   SCREENTEX_Create  0x0202E560  thumb
  *   func_02047400  0x02047400  arm
  *   func_02047564  0x02047564  arm
  *   func_0204767C  0x0204767C  arm
  *   func_020477A4  0x020477A4  arm
- *   func_0202E610  0x0202E610  thumb
+ *   SCREENTEX_CaptureDisplay  0x0202E610  thumb
  *   func_021899F0  0x021899F0  thumb  ov021
  *   func_021899F8  0x021899F8  thumb  ov021
  *   func_02047888  0x02047888  arm
@@ -101,12 +101,12 @@ extern u16 func_02080C44(void);
 extern void func_02080294(u32 bank);
 extern void *func_02046DB8(u32 a0, u32 a1);
 extern u16 func_02188C84(u8 *p);
-extern void *func_0202E560(u32 heap, u32 sel);
+extern void *SCREENTEX_Create(u32 heap, u32 sel);
 extern void *func_02047400(void *a0, u32 n, void *a2);
 extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
 extern void *func_0204767C(u32 a0, u32 *a1, int a2);
 extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
-extern void func_0202E610(u32 a0, u32 a1);
+extern void SCREENTEX_CaptureDisplay(u32 a0, u32 a1);
 extern u32 func_021899F0(u8 *p);
 extern void func_021899F8(u8 *p, u32 v);
 extern int func_02047888(int *a, int idx, int *out);
@@ -157,12 +157,12 @@ int func_021F5334(void *task, int *st)
         }
         w->f14 = func_02046DB8(0x81, w->f2C);
         w->f1C = func_02046DB8(0x81, w->f30);
-        w->f18 = func_0202E560(func_02188C84(w->f4), 3);
+        w->f18 = SCREENTEX_Create(func_02188C84(w->f4), 3);
         w->f20 = func_02047400(w->f14, 0, w->f18);
         w->f24 = func_02047564(w->f20, w->f1C, 0);
         w->f28 = func_0204767C((u32)w->f20, (u32 *)(&w->f24), 1);
         func_020477A4(w->f28, 0);
-        func_0202E610(3, 3);
+        SCREENTEX_CaptureDisplay(3, 3);
         w->f10 = func_021899F0(w->f4);
         func_021899F8(w->f4, 2);
         w->f38 = 0;

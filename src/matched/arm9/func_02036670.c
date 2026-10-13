@@ -1,5 +1,5 @@
 /*
- * function: func_02036670
+ * function: GFL_NET_QUEUE_GetFreeNode
  * address:  0x02036670
  * packet:   pkt_02036670
  * region:   arm9
@@ -18,8 +18,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02036670.c \
- *       --func func_02036670 --addr 0x02036670 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_QUEUE_GetFreeNode.c \
+ *       --func GFL_NET_QUEUE_GetFreeNode --addr 0x02036670 --cc 1.1p1 --arm
  */
 #include "../include/Obj15902.h"
 
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef signed int     s32;
 typedef unsigned int   u32;
 
-u8 *func_02036670(u32 *p)
+u8 *GFL_NET_QUEUE_GetFreeNode(u32 *p)
 {
     u8  *q;
     s32  i;

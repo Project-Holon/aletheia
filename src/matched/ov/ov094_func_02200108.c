@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_022019F4  0x022019F4  thumb  ov094
- *   func_020172AC  0x020172AC  thumb
- *   func_02016078  0x02016078  thumb
+ *   MCSS_TOOL_SetSpindaSpotHook  0x020172AC  thumb
+ *   MCSS_SetMosaic  0x02016078  thumb
  */
 
 typedef struct {
@@ -34,8 +34,8 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(char *p, int key);
-extern void func_020172AC(int a0, int a1);
-extern void func_02016078(void *obj, void *h, int v);
+extern void MCSS_TOOL_SetSpindaSpotHook(int a0, int a1);
+extern void MCSS_SetMosaic(void *obj, void *h, int v);
 
 void func_02200108(Work *w, int key, int v)
 {
@@ -45,6 +45,6 @@ void func_02200108(Work *w, int key, int v)
         return;
     if (w->e[idx].h == 0)
         return;
-    func_020172AC((int)w->obj, w->e[idx].k34);
-    func_02016078(w->obj, w->e[idx].h, v);
+    MCSS_TOOL_SetSpindaSpotHook((int)w->obj, w->e[idx].k34);
+    MCSS_SetMosaic(w->obj, w->e[idx].h, v);
 }

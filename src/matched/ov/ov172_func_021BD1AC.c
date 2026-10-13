@@ -32,7 +32,7 @@
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -64,7 +64,7 @@ extern void func_02028A70(struct SoundSys *sys);
 extern u32 func_020450F0(u32, u32, u32, u32, u8, u8, u8);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02005D90(u32, u32);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 #define W(o) (*(u32 *)(self + (o)))
 #define B(o) (*(u8 *)(self + (o)))
 #define H(o) (*(u16 *)(self + (o)))
@@ -137,5 +137,5 @@ void func_021BD1AC(char *self)
     }
     B(0x1b4) = 0;
     B(0x1b5) = 0;
-    func_02005D90(0x3e9, 0xffff);
+    GFL_USE_CancelChangeAndPlayBgm(0x3e9, 0xffff);
 }

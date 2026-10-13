@@ -11,9 +11,9 @@
  *   BLDCNT halfwords at 04000050 and 04001050 are reset at 9CEC/9CF2.
  * abi: F7C4 live return is the bit test from its tail target ARM9 24158.
  * symbols:
- *   func_0204335C 0x0204335C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_020490F4 0x020490F4 arm
  *   func_021BA070 0x021BA070 thumb ov110
  *   func_021B9F34 0x021B9F34 thumb ov110
@@ -61,9 +61,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0204335C(unsigned);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearGraphicsMemory(unsigned);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021BA070(u8 *);
 extern void func_021B9F34(u8 *p, void *archive);
@@ -102,9 +102,9 @@ void func_021B9CE4(void *unused,u8 *p) {
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04000000 &= ~0xe000;
     *(volatile u32 *)0x04001000 &= ~0xe000;
-    func_0204335C(0);
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearGraphicsMemory(0);
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     *(volatile u32 *)0x04000000 &= ~0x1f00;
     *(volatile u32 *)0x04001000 &= ~0x1f00;
     h=func_020490F4(43,42);

@@ -1,5 +1,5 @@
 /*
- * function: func_021D91F0
+ * function: P_STA_RIBBON_DrawRow
  * address: 0x021D91F0
  * packet: pkt_ov131_021D91F0
  * region: ov131
@@ -20,7 +20,7 @@
  *   func_0201DD68 0x0201DD68 thumb
  *   func_02045808 0x02045808 arm
  *   func_0201ED04 0x0201ED04 thumb
- *   func_021DBCF4 0x021DBCF4 thumb ov131
+ *   P_STA_OAM_TransferBitmap 0x021DBCF4 thumb ov131
  */
 #include "../include/Obj06484.h"
 #include "../include/Obj10516.h"
@@ -47,8 +47,8 @@ extern void func_0201C7A4(void *,s16,s16,void *,void *);
 extern void func_0201DD68(void);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
-extern void func_021DBCF4(u8 *p);
-void func_021D91F0(u8 *a,u8 *p,u8 *entry)
+extern void P_STA_OAM_TransferBitmap(u8 *p);
+void P_STA_RIBBON_DrawRow(u8 *a,u8 *p,u8 *entry)
 {
     u8 *record;
     u8 *pixels;
@@ -73,5 +73,5 @@ void func_021D91F0(u8 *a,u8 *p,u8 *entry)
     func_02045808(text);
     func_02045808(buffer);
     func_0201ED04(object);
-    func_021DBCF4(((struct Obj06484 *)entry)->f10);
+    P_STA_OAM_TransferBitmap(((struct Obj06484 *)entry)->f10);
 }

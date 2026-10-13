@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D24C",
+   "name": "GFL_NET_SetTimeout",
    "address": "0x0203D24C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D26C",
+   "name": "GFL_NET_IsNetTypeBeacon",
    "address": "0x0203D26C",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D29C",
+   "name": "GFL_NET_IsNetTypeWifi",
    "address": "0x0203D29C",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D2CC",
+   "name": "GFL_NET_RestartByNetType",
    "address": "0x0203D2CC",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D394",
+   "name": "GFL_NET_IsHandleReady",
    "address": "0x0203D394",
    "kind": "game",
    "region": "arm9",

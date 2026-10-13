@@ -1,5 +1,5 @@
 /*
- * function: func_02013284
+ * function: BTL_SETUP_SetTrainer
  * address:  0x02013284
  * packet:   pkt_02013284
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02012984   0x02012984  thumb
- *   func_02013234   0x02013234  thumb
+ *   BTL_SETUP_CreateTrainerData   0x02013234  thumb
  *   func_0201A920   0x0201A920  thumb
  *   func_0202A3FC   0x0202A3FC  thumb
  *   func_0202A440   0x0202A440  thumb
@@ -20,7 +20,7 @@
  *
  * btl_setup.c.  The sub-block filler, and the most-called function of the
  * family: every builder in the range (func_02013610, func_02013644,
- * func_02013678, func_020136AC, func_020136E0, func_02013734, func_02013810,
+ * func_02013678, func_020136AC, func_020136E0, func_02013734, BTL_SETUP_SetupCommAiMulti,
  * all EXACT) calls it once or three times.  It lazily fills two slots - the
  * caller's own out-pointer and the object's +0x48 array entry - then, only if
  * the value argument is non-zero, binds them together and picks the object's
@@ -65,8 +65,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013284.c \
- *       --func func_02013284 --addr 0x02013284 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetTrainer.c \
+ *       --func BTL_SETUP_SetTrainer --addr 0x02013284 --cc 1.1p1 --thumb
  */
 #include "../include/Obj00155.h"
 
@@ -78,14 +78,14 @@ struct BigObj;
 struct Out;
 struct Party;
 extern struct Party *func_0201A920(u32 heap);
-extern void *func_02013234(u32 heap);
+extern void *BTL_SETUP_CreateTrainerData(u32 heap);
 extern void func_0202A440(u32 id, struct Out *out, u32 heap);
 extern void func_0202A4B4(u32 a, u32 b, u32 c);
 extern u8 func_02012984(const struct BigObj *p);
 extern void func_0216AAE4(u32 a, u32 b, u32 c);
 extern u8 func_0202A3FC(u32 key);
 
-void func_02013284(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h)
+void BTL_SETUP_SetTrainer(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h)
 {
     u8 *base;
     u32 off;
@@ -96,7 +96,7 @@ void func_02013284(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h)
     off = n * 4;
     base = o + 0x48;
     if (*(u32 *)(base + off) == 0) {
-        *(u32 *)(base + off) = (u32)func_02013234(h);
+        *(u32 *)(base + off) = (u32)BTL_SETUP_CreateTrainerData(h);
     }
     if (v == 0) {
         return;

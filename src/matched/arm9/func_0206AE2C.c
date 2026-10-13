@@ -25,7 +25,7 @@
  * a second caller turns up in an overlay.
  *
  * symbols:
- *   g_02148B4C   0x02148B4C  data
+ *   g_renderState   0x02148B4C  data
  *   g_02148D4C   0x02148D4C  data
  *   func_0206AAD4  0x0206AAD4  arm
  *   func_0206AD20  0x0206AD20  arm
@@ -39,7 +39,7 @@
 
 typedef unsigned int u32;
 
-extern u32  g_02148B4C[];
+extern u32  g_renderState[];
 extern char g_02148D4C[];
 
 extern u32 *func_0206AAD4(void);
@@ -53,12 +53,12 @@ void *func_0206AE2C(void)
     void *a;
     void *b;
 
-    if ((g_02148B4C[0x3f] & 0x40) == 0) {
+    if ((g_renderState[0x3f] & 0x40) == 0) {
         a = func_0206AAD4();
         b = func_0206AD20();
         func_0207B5C0(a, buf);
         func_0207BE14(b, buf, g_02148D4C);
-        g_02148B4C[0x3f] |= 0x40;
+        g_renderState[0x3f] |= 0x40;
     }
     return g_02148D4C;
 }

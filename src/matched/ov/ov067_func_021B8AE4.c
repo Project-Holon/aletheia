@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02035BA4  0x02035BA4  arm
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_HitCont  0x02035BA4  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_021B8A88  0x021B8A88  thumb
  *   func_0202EE0C  0x0202EE0C  thumb
  */
@@ -33,8 +33,8 @@ struct S {
     u8 f7f;
 };
 
-extern int func_02035BA4(const void *p);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern int TOUCHPANEL_HitCont(const void *p);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void func_021B8A88(u8 *p, u8 *a, u8 *b);
 extern u32 func_0202EE0C(u32 a, u32 b, u32 c, u32 d, u32 e);
 
@@ -45,8 +45,8 @@ int func_021B8AE4(struct S *s, unsigned int v)
     unsigned int lo, hi;
 
     if (s->f7f == 1) {
-        if (func_02035BA4(&s->f74) != -1) {
-            func_02035CB8((u32 *)(&o1), (u32 *)(&o2));
+        if (TOUCHPANEL_HitCont(&s->f74) != -1) {
+            TOUCHPANEL_GetPointCont((u32 *)(&o1), (u32 *)(&o2));
             return o2;
         }
         return v;

@@ -11,13 +11,13 @@
  * blocked:  
  *
  * symbols:
- *   func_0202CA0C  0x0202CA0C  thumb
+ *   BGWINFRM_Delete  0x0202CA0C  thumb
  */
 
 struct WinMgr;
-extern void func_0202CA0C(struct WinMgr *mgr);
+extern void BGWINFRM_Delete(struct WinMgr *mgr);
 
 void func_021F75E0(int *p)
 {
-    func_0202CA0C((struct WinMgr *)p[2]);
+    BGWINFRM_Delete((struct WinMgr *)p[2]);
 }

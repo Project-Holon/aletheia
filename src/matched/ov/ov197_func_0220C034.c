@@ -17,12 +17,12 @@
  *   func_0220C40C 0x0220C40C thumb ov197
  *   func_0220C68C 0x0220C68C thumb ov197
  *   func_0220C6D0 0x0220C6D0 thumb ov197
- *   sub_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern void func_0220C06C(char *),func_0220C0B4(char *),func_0220C27C(char *),func_0220C304(char *),func_0220C40C(char *),func_0220C68C(char *),func_0220C6D0(char *);
-extern void sub_02043598(u32,u32);
-void func_0220C034(char *p) { func_0220C06C(p); func_0220C0B4(p); func_0220C27C(p); func_0220C304(p); func_0220C40C(p); func_0220C68C(p); func_0220C6D0(p); sub_02043598(16,1); }
+extern void BG_SYS_SetSubPlaneVisible(u32,u32);
+void func_0220C034(char *p) { func_0220C06C(p); func_0220C0B4(p); func_0220C27C(p); func_0220C304(p); func_0220C40C(p); func_0220C68C(p); func_0220C6D0(p); BG_SYS_SetSubPlaneVisible(16,1); }

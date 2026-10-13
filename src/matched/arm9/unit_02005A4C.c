@@ -11,12 +11,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02005A4C
+ * function: GFL_USE_PopSndSlot
  *
  * symbols:
- *   sub_02005A4C_Cur    0x020AA1AC  data
- *   sub_02005A4C_Table  0x020AA1B8  data
- *   sub_02005858        0x02005858  thumb
+ *   _SndStack    0x020AA1AC  data
+ *   _SndSlots  0x020AA1B8  data
+ *   GFL_USE_EndSndSlot        0x02005858  thumb
  *   func_02074894       0x02074894  arm
  *   func_02074AC4       0x02074AC4  arm
  *
@@ -54,31 +54,31 @@ struct Sub02005A4CCur {
     u32 **unk08;
 };
 
-extern struct Sub02005A4CCur  sub_02005A4C_Cur;
-extern struct Sub02005A4CSlot sub_02005A4C_Table[];
+extern struct Sub02005A4CCur  _SndStack;
+extern struct Sub02005A4CSlot _SndSlots[];
 
-extern void sub_02005858(void);
+extern void GFL_USE_EndSndSlot(void);
 struct S;
 extern int  func_02074894(struct S *a);
 extern u32 func_02074AC4(u32 a, u32 b, u32 c);
 
-int sub_02005A4C(void)
+int GFL_USE_PopSndSlot(void)
 {
     struct Sub02005A4CSlot *slot;
     int i;
     u16 v;
 
-    if (sub_02005A4C_Cur.index <= 0) {
+    if (_SndStack.index <= 0) {
         return 0;
     }
-    sub_02005858();
-    i = sub_02005A4C_Cur.index - 1;
-    slot = &sub_02005A4C_Table[i];
+    GFL_USE_EndSndSlot();
+    i = _SndStack.index - 1;
+    slot = &_SndSlots[i];
     v = slot->unk04;
-    sub_02005A4C_Cur.index = i;
+    _SndStack.index = i;
     if (v != 0xFFFF) {
-        func_02074AC4(v, 6, (u32)(*sub_02005A4C_Cur.unk08));
-        slot->unk18 = func_02074894((struct S *)*sub_02005A4C_Cur.unk08);
+        func_02074AC4(v, 6, (u32)(*_SndStack.unk08));
+        slot->unk18 = func_02074894((struct S *)*_SndStack.unk08);
     }
     return 1;
 }

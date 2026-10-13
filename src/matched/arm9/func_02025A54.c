@@ -1,5 +1,5 @@
 /*
- * function: func_02025A54
+ * function: BMP_OAM_SetPalette
  * address:  0x02025A54
  * packet:   pkt_0202590C
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 
-void func_02025A54(u8 *g, u32 a)
+void BMP_OAM_SetPalette(u8 *g, u32 a)
 {
     int i;
     int j;

@@ -46,7 +46,7 @@
  * 0x0209E288 is a table.
  *
  * symbols:
- *   func_02018790_Table  0x0209E288  data
+ *   sHiddenPowerTypes  0x0209E288  data
  *   _u32_div_f           0x0209C2B0  arm
  */
 
@@ -54,7 +54,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern const u8 func_02018790_Table[];
+extern const u8 sHiddenPowerTypes[];
 
 u32 func_02018790(void *p)
 {
@@ -82,5 +82,5 @@ u32 func_02018790(void *p)
     while (n > 16) {
         n -= 16;
     }
-    return func_02018790_Table[n];
+    return sHiddenPowerTypes[n];
 }

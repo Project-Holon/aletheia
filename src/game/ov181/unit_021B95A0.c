@@ -24,20 +24,20 @@
  *   func_020435F4  0x020435F4  arm
  *   func_0204363C  0x0204363C  arm
  *   func_0207D534  0x0207D534  arm
- *   func_02005DAC  0x02005DAC  thumb
+ *   GFL_USE_PlayFanfare  0x02005DAC  thumb
  *   ov067_id       0x00000043  data
  *   func_020221A4  0x020221A4  thumb
- *   sub_02005E50 0x02005E50 thumb
- *   sub_02005F38 0x02005F38 thumb
- *   sub_02005D28 0x02005D28 thumb
- *   sub_02043534 0x02043534 arm
- *   sub_020435F4 0x020435F4 arm
- *   sub_02034A5C 0x02034A5C arm
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
+ *   GF_OVERLAY_Unload 0x02034A5C arm
  *   overlay_id 0x00000043 data a1
  *   func_02005F38 0x02005F38 thumb
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   d_021BABD0 0x021BABD0 data a4
- *   func_0204335C  0x0204335C  arm
+ *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   func_020433E0  0x020433E0  arm
  *   d_021BABFC     0x021BABFC  data  a4
  *   func_0203F8F4 0x0203F8F4 arm
@@ -241,14 +241,14 @@ extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 planes);
 extern void func_0204363C(u32 swap);
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void func_02005DAC(void *arg);
+extern void GFL_USE_PlayFanfare(void *arg);
 extern u32 func_020221A4(void);
-extern int sub_02005E50(void),sub_02005F38(void);
-extern void sub_02005D28(void);
-extern void sub_02043534(u32),sub_020435F4(u32),sub_02034A5C(int);
+extern int GFL_USE_IsBgmFading(void),GFL_USE_IsBgmPlaying(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
+extern void BG_SYS_SetMainVisiblePlanes(u32),BG_SYS_SetSubVisiblePlanes(u32),GF_OVERLAY_Unload(int);
 extern int func_02005F38(void);
-extern void func_02005E30(u32);
-extern void func_0204335C(u32 keep);
+extern void GFL_USE_FadeOutBgm(u32);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0203F8F4(unsigned short);
 extern void func_0203FC28(struct DispConfig *cfg);
@@ -450,7 +450,7 @@ int func_021B9630(u8 *p)
     func_021B9E14((char *)p);
     func_021B9D04((char *)p);
     func_021B9AF8((char *)p);
-    func_02005DAC((void *)0x3f8);
+    GFL_USE_PlayFanfare((void *)0x3f8);
     return 3;
 }
 
@@ -467,12 +467,12 @@ int func_021B96B0(char *p)
 
 
 int func_021B96C8(char *p) {
-if(sub_02005E50()==1)return 2;
-if(sub_02005F38()==1)sub_02005D28();
+if(GFL_USE_IsBgmFading()==1)return 2;
+if(GFL_USE_IsBgmPlaying()==1)GFL_USE_CancelChangeAndStopBgm();
 func_021B9B10(p);func_021B9D20(p);func_021B9F1C(p);func_021B9DB0(p);func_021B9B6C(p);func_021B99CC();
 func_0207D534((volatile u16 *)0x0400006c,-16);func_0207D534((volatile u16 *)0x0400106c,-16);
 *(volatile u16 *)0x04000050=0;*(volatile u16 *)0x04001050=0;
-sub_02043534(0);sub_020435F4(0);sub_02034A5C((int)overlay_id);return 5;
+BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);GF_OVERLAY_Unload((int)overlay_id);return 5;
 }
 
 
@@ -538,7 +538,7 @@ int func_021B97BC(char *p) {
     case 2: if(func_021BA5E8(p)==0) ((struct Obj01003 *)p)->f2EC=0; break;
     case 3: if(func_021BA6F0(p)==0) ((struct Obj01003 *)p)->f2EC=0; break;
     case 5:
-        if(func_02005F38()==1) func_02005E30(64);
+        if(func_02005F38()==1) GFL_USE_FadeOutBgm(64);
         return func_021BA2AC((u8 *)p,2);
     }
     func_021BA390(p);
@@ -550,7 +550,7 @@ int func_021B97BC(char *p) {
 
 void func_021B98F4(void)
 {
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)d_021BABFC);
 }
 

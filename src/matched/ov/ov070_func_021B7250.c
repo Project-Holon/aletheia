@@ -13,7 +13,7 @@
  *   func_0201C6B4  0x0201C6B4  thumb
  *   func_02035C38  0x02035C38  arm
  *   func_02051C88  0x02051C88  arm
- *   func_0202EA40  0x0202EA40  thumb
+ *   BLINK_PALANM_Update  0x0202EA40  thumb
  *   func_021B63F8  0x021B63F8  thumb  ov070
  *   func_021B6138  0x021B6138  thumb  ov070
  *   func_020355C4  0x020355C4  arm
@@ -85,7 +85,7 @@ typedef unsigned char  u8;
 struct Ctx;
 extern s32 func_02051C88(struct Ctx *c);
 struct Row;
-extern s32 func_0202EA40(struct Row *p);
+extern s32 BLINK_PALANM_Update(struct Row *p);
 extern u32 func_021B63F8(u8 *p);
 extern void func_021B6138(char *p);
 extern u8 func_020355C4(void);
@@ -124,7 +124,7 @@ void func_021B7250(Obj *o)
     if (func_02035C38() == 0)
         o->f85C = 0;
     func_02051C88(o->f694);
-    func_0202EA40(o->f850);
+    BLINK_PALANM_Update(o->f850);
     if (o->f4F8 != func_021B7250)
         return;
     if (func_021B63F8((u8 *)o) != 0) {

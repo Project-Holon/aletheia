@@ -73,7 +73,7 @@
  *   func_020403F4 0x020403F4 arm
  *   func_02045C04 0x02045C04 arm
  *   func_02045808 0x02045808 arm
- *   func_02178118 0x02178118 thumb ov014
+ *   NET_WHPIPE_SetNotifyCallback 0x02178118 thumb ov014
  *   func_0204BA00 0x0204BA00 arm
  *   func_0204B9A0 0x0204B9A0 arm
  *   func_02158630 0x02158630 thumb ov010
@@ -87,10 +87,10 @@
  *   data_021D5710 0x021D5710 data a4
  *   func_020221A4 0x020221A4 thumb
  *   func_02051C88 0x02051C88 arm
- *   func_0204B898 0x0204B898 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   func_0204B878 0x0204B878 arm
  *   func_0203D798 0x0203D798 arm
- *   func_0203CF3C 0x0203CF3C arm
+ *   GFL_NET_GetScanResultMac 0x0203CF3C arm
  *   func_0203CF10 0x0203CF10 arm
  *   func_02045994 0x02045994 arm
  *   func_0204B3F4 0x0204B3F4 arm
@@ -127,6 +127,9 @@
  *   func_020121CC 0x020121CC thumb
  *   func_02012204 0x02012204 thumb
  *   func_0202223C 0x0202223C thumb
+ *   GAME_BEACON_GetNextNewLogIndex  0x02026CA0  thumb  arm9
+ *   FIELD_SOUND_SYSTEM_StartRingtone  0x02028A64  thumb  arm9
+ *   COMM_PLAYER_SUPPORT_GetRecordFieldPtr  0x0202E930  thumb  arm9
  */
 #include "../../matched/include/Obj01404.h"
 #include "../../matched/include/Obj02472.h"
@@ -266,30 +269,30 @@ extern unsigned int func_020221A4(void);
 extern unsigned int func_02012138(const struct Ctx *p);
 extern u32 func_02026454(void *obj);
 extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
-extern void func_02178118(u32 callback, u32 value);
+extern void NET_WHPIPE_SetNotifyCallback(u32 callback, u32 value);
 extern void func_02026400(struct Comm *p);
 extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
 extern void func_0204B9A0(struct Actor *a);
 extern int func_02158630(int a);
 extern void func_020061E4(u32 a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern int func_02026CA0(int *);
+extern int GAME_BEACON_GetNextNewLogIndex(int *);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern int func_02158678(void *p);
 extern int func_021586C8(int, int);
 extern int func_02051C88(void *);
-extern u16 func_0204B898(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void *func_0203D798(void);
-extern void *func_0203CF3C(u32);
+extern void *GFL_NET_GetScanResultMac(u32);
 extern u32 func_0201283C(const struct BigObj *p);
 extern int func_020107FC(void *);
 extern u32 func_0203CF10(u32 a);
-extern u16 *func_0202E930(void *);
+extern u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(void *);
 extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 extern u32 func_0204B3F4(struct Obj *p);
 extern unsigned int func_02012A30(const struct BigObj *);
-extern void func_02028A64(struct SoundSys *sys);
+extern void FIELD_SOUND_SYSTEM_StartRingtone(struct SoundSys *sys);
 extern void func_02028A70(struct SoundSys *sys);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_0204A648(void);
@@ -727,7 +730,7 @@ void func_021D4B74(char *p)
 {
     ((struct Obj06457 *)p)->f38C = 1;
     func_0202208C(0, 0, 0, 0, 6, 1, ((struct Obj06457 *)p)->fC);
-    func_02178118(0, 0);
+    NET_WHPIPE_SetNotifyCallback(0, 0);
     if (((struct Obj06457 *)p)->f8 == 1 && func_02026454((void *)func_02012138(((struct Obj06457 *)p)->f354)))
         func_02026400((struct Comm *)func_02012138(((struct Obj06457 *)p)->f354));
     func_021D4244(p, (u32)func_021D4B30, 0x35e);
@@ -846,7 +849,7 @@ void func_021D4D98(char *p)
     mode = func_02158630(object);
     if (!((struct Obj00265 *)p)->f374) {
         scratch = 0;
-        if (func_02026CA0(&scratch) != 30) ((struct Obj00265 *)p)->f374 = 1;
+        if (GAME_BEACON_GetNextNewLogIndex(&scratch) != 30) ((struct Obj00265 *)p)->f374 = 1;
     }
     if (((struct Obj00265 *)p)->f36C != ((struct Obj00265 *)p)->f370) force = 1;
     if (((struct Obj00265 *)p)->f368 != ((struct Obj00265 *)p)->f364) force = 1;
@@ -926,13 +929,13 @@ void func_021D4FE4(char *p) {if(func_020221A4())func_02051C88(((struct Obj00265 
  *     u8 langIndex;
  *     u8 resident;
  * };
- * extern char g_020A7E8C[];
+ * extern char MSGDATA_AllocSite[];
  * extern void *sub_02030734(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
- * extern void func_020495F4(void *,u32,void *);
+ * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
- * extern void func_0204581C(void *);
- * extern void func_02045A00(void *,const void *,u16);
+ * extern void STRBUF_Clear(void *);
+ * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
  * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
@@ -940,14 +943,14 @@ void func_021D4FE4(char *p) {if(func_020221A4())func_02051C88(((struct Obj00265 
  *     u32 size;
  *     struct MsgEntry *e;
  *     if (index >= bank->file->count) {
- *         func_0204581C(dest);
+ *         STRBUF_Clear(dest);
  *         return;
  *     }
  *     func_02046180(bank);
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *         func_0204960C(bank->stream,pos + (index * 8 + 4));
- *         func_020495F4(bank->stream,8,&bank->cache);
+ *         ARC_TOOL_ReadHandle(bank->stream,8,&bank->cache);
  *         e = &bank->cache;
  *     } else {
  *         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
@@ -956,17 +959,17 @@ void func_021D4FE4(char *p) {if(func_020221A4())func_02051C88(((struct Obj00265 
  *         void *buf;
  *         size = e->len * 2;
  *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
- *                            0,g_020A7E8C,0xd6);
+ *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
- *             func_020495F4(bank->stream,size,buf);
- *             func_02045A00(dest,buf,e->len);
+ *             ARC_TOOL_ReadHandle(bank->stream,size,buf);
+ *             STRBUF_SetChars(dest,buf,e->len);
  *             func_020307B0(buf);
  *         }
  *     } else {
- *         func_02045A00(dest,(u8 *)bank->base + e->off,e->len);
+ *         STRBUF_SetChars(dest,(u8 *)bank->base + e->off,e->len);
  *     }
  *     func_02045E04(dest,index);
  * }
@@ -983,14 +986,14 @@ void func_021D503C(char *p)
     switch (func_02158630(func_02012138(((struct Obj00265 *)p)->f354))) {
     case 0:
     case 1:
-        if (func_0204B898(((struct Obj00265 *)p)->f390) == 20) {
+        if (CLACT_GetActorAnimSeq(((struct Obj00265 *)p)->f390) == 20) {
             func_0204B92C(((struct Obj00265 *)p)->f390, 0);
             func_0204B878(((struct Obj00265 *)p)->f390, 12);
         }
         break;
     case 2:
     case 3:
-        if (func_0204B898(((struct Obj00265 *)p)->f390) == 12) {
+        if (CLACT_GetActorAnimSeq(((struct Obj00265 *)p)->f390) == 12) {
             func_0204B92C(((struct Obj00265 *)p)->f390, 1);
             func_0204B878(((struct Obj00265 *)p)->f390, 20);
         }
@@ -1000,7 +1003,7 @@ void func_021D503C(char *p)
 
 
 
-void func_021D50B4(char *p,u32 n) {void *q;func_0203D798();q=func_0203CF3C(n);((struct Obj22932 *)(*(char * *)&((struct Obj13965 *)p)->f344))->f10=2;func_02082D44(q,*(char * *)&((struct Obj13965 *)p)->f344+20,6);}
+void func_021D50B4(char *p,u32 n) {void *q;func_0203D798();q=GFL_NET_GetScanResultMac(n);((struct Obj22932 *)(*(char * *)&((struct Obj13965 *)p)->f344))->f10=2;func_02082D44(q,*(char * *)&((struct Obj13965 *)p)->f344+20,6);}
 
 
 void func_021D50DC(char *p) {u8 buf[6]={0};func_0203D798();((struct Obj22933 *)(*(char * *)&((struct Obj13966 *)p)->f344))->f10=1;func_02082D44(buf,*(char * *)&((struct Obj13966 *)p)->f344+20,6);}
@@ -1014,9 +1017,9 @@ void func_021D5110(char *p)
     if (index != -1) {
         record = (void *)func_0203CF10(index);
         text = func_020457B0(200, ((struct Obj00208 *)p)->fC);
-        func_02045994(text, func_0202E930(record), 8);
+        func_02045994(text, COMM_PLAYER_SUPPORT_GetRecordFieldPtr(record), 8);
         if (!func_0204B3F4(((struct Obj00208 *)p)->f3A0)) {
-            func_02045994(((struct Obj00208 *)p)->f58, func_0202E930(record), 8);
+            func_02045994(((struct Obj00208 *)p)->f58, COMM_PLAYER_SUPPORT_GetRecordFieldPtr(record), 8);
             func_02043B5C(func_02045770(((struct Obj00208 *)p)->f3C), 0);
             func_0201C7D0(func_02045770(((struct Obj00208 *)p)->f3C), 0, 0, ((struct Obj00208 *)p)->f58, ((struct Obj00208 *)p)->f4C, 0x39e3);
             func_02045334(((struct Obj00208 *)p)->f3C);
@@ -1026,10 +1029,10 @@ void func_021D5110(char *p)
             func_021D50B4(p, index);
         }
         func_02045808(text);
-        func_02028A64((struct SoundSys *)func_02012A30(((struct Obj00208 *)p)->f350));
-        if (func_0204B898(((struct Obj00208 *)p)->f39C) == 15)
+        FIELD_SOUND_SYSTEM_StartRingtone((struct SoundSys *)func_02012A30(((struct Obj00208 *)p)->f350));
+        if (CLACT_GetActorAnimSeq(((struct Obj00208 *)p)->f39C) == 15)
             func_0204B878(((struct Obj00208 *)p)->f39C, 16);
-        if (func_0204B898(((struct Obj00208 *)p)->f394) == 11) {
+        if (CLACT_GetActorAnimSeq(((struct Obj00208 *)p)->f394) == 11) {
             func_0204B92C(((struct Obj00208 *)p)->f394, 1);
             func_0204B878(((struct Obj00208 *)p)->f394, 19);
         }
@@ -1039,11 +1042,11 @@ void func_021D5110(char *p)
         func_02043B5C(func_02045770(((struct Obj00208 *)p)->f3C), 0);
         func_02045334(((struct Obj00208 *)p)->f3C);
         func_021D50DC(p);
-        if (func_0204B898(((struct Obj00208 *)p)->f394) == 19) {
+        if (CLACT_GetActorAnimSeq(((struct Obj00208 *)p)->f394) == 19) {
             func_0204B92C(((struct Obj00208 *)p)->f394, 0);
             func_0204B878(((struct Obj00208 *)p)->f394, 11);
         }
-        if (func_0204B898(((struct Obj00208 *)p)->f39C) == 16)
+        if (CLACT_GetActorAnimSeq(((struct Obj00208 *)p)->f39C) == 16)
             func_0204B878(((struct Obj00208 *)p)->f39C, 15);
     }
 }
@@ -1133,7 +1136,7 @@ int func_021D5370(void *owner, void *unused, char *args)
     ((struct Obj22934 *)(*(char * *)&((struct Obj00073 *)p)->f344))->f10 = 1;
     ((struct Obj22935 *)(*(char * *)&((struct Obj00073 *)p)->f344))->fC = ((struct Obj00073 *)p)->f350;
     func_0203D34C(0, ((struct Obj00073 *)p)->fC);
-    if (func_0203CD98()) func_02178118((u32)func_021D5278, (u32)p);
+    if (func_0203CD98()) NET_WHPIPE_SetNotifyCallback((u32)func_021D5278, (u32)p);
     func_020355D8(1);
     return 1;
 }

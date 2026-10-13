@@ -1,5 +1,5 @@
 /*
- * function: func_020275D0
+ * function: BEACON_STATUS_GetViewFlags
  * address:  0x020275D0
  * packet:   pkt_020275D0
  * region:   arm9
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void *func_020275D0(char *p) { return p + 0xb0c; }
+void *BEACON_STATUS_GetViewFlags(char *p) { return p + 0xb0c; }

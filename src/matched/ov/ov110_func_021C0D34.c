@@ -16,8 +16,8 @@
  *
  * symbols:
  *   func_0204B3F4 0x0204B3F4 arm
- *   func_0204B560 0x0204B560 arm
- *   func_0204B550 0x0204B550 arm
+ *   CLACT_GetActorPosAxis 0x0204B560 arm
+ *   CLACT_SetActorPosAxis 0x0204B550 arm
  */
 #include "../include/Obj05300.h"
 typedef signed short   s16;
@@ -25,8 +25,8 @@ typedef unsigned int   u32;
 struct Actor;
 struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
-extern s16 func_0204B560(const struct Actor *actor, u32 axis);
-extern void func_0204B550(struct Actor *actor, signed short value, u32 axis);
+extern s16 CLACT_GetActorPosAxis(const struct Actor *actor, u32 axis);
+extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 void func_021C0D34(char *p,int force) {
     int n,index,y,a,b,t;
     short pos;
@@ -34,7 +34,7 @@ void func_021C0D34(char *p,int force) {
     n=((struct Obj05300 *)p)->f98-2;
     index=((struct Obj05300 *)p)->f96;
     if(!force) {
-        y=func_0204B560(((struct Obj05300 *)p)->f8,1);
+        y=CLACT_GetActorPosAxis(((struct Obj05300 *)p)->f8,1);
         t=137*index/n;
         a=t+16;
         b=137*(index+1)/n+16;
@@ -49,5 +49,5 @@ void func_021C0D34(char *p,int force) {
         pos=t+16+137/(n*2);
         if(pos>152) pos=152;
     }
-    func_0204B550(((struct Obj05300 *)p)->f8,pos,1);
+    CLACT_SetActorPosAxis(((struct Obj05300 *)p)->f8,pos,1);
 }

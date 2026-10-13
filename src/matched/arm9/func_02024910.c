@@ -1,5 +1,5 @@
 /*
- * function: func_02024910
+ * function: PMS_WORD_GetSaveEntry
  * address:  0x02024910
  * packet:   pkt_02024910
  * region:   arm9
@@ -15,7 +15,7 @@
  *   (none - no relocations)
  */
 
-void *func_02024910(char *p, int idx)
+void *PMS_WORD_GetSaveEntry(char *p, int idx)
 {
     return p + 8 + idx * 8;
 }

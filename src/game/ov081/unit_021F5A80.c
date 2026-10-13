@@ -21,162 +21,147 @@
  *   func_021F5620  0x021F5620  thumb  ov077
  *   func_021F5CA0  0x021F5CA0  thumb  ov081
  */
-#include "../../matched/include/Obj03673.h"
-#include "../../matched/include/Obj06199.h"
-#include "../../matched/include/Obj20797.h"
-#include "../../matched/include/Obj20798.h"
-#include "../../matched/include/Obj13220.h"
-#include "../../matched/include/Obj20799.h"
+#include "../ov077/enceff_base_types.h"
+#include "../ov077/enceff_grid_types.h"
+#include "unit_021F5A80_types.h"
 
-struct Vec;
-struct Param;
-typedef struct { int x,y,z; } Vec;
+extern void func_021CF580(struct EncEffWork *eff);
+extern struct GameEvent *func_021F5260(struct GameSystem *gameSystem, VecFx32 *cameraPos,
+                                       struct GameEvent *(*start)(struct GameSystem *gameSystem),
+                                       void (*draw)(EncEffGridWork *work));
+extern void func_021F582C(EncEffGridWork *work);
+extern void *func_021F5620(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
+extern void func_021F5CA0(EncEffGridWork *work);
+struct GameEvent *func_021F5A80(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+struct GameEvent *func_021F5ABC(struct GameSystem *gameSystem);
+void func_021F5AEC(EncEffGridWork *work);
+void func_021F5B30(EncEffGridWork *work);
+int func_021F5B94(EncEffGridCell *cell);
+int func_021F5BCC(int cellIndex, EncEffSpreadState *spread);
+void func_021F5BFC(EncEffGridWork *work, int x, int y);
+void func_021F5C3C(EncEffGridWork *work, int cellIndex);
+extern const VecFx32 d_021F5D00;
 
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
-
-typedef struct {
-    int w;
-    int h;
-    void (*init)(void *);
-    void (*step)(void *);
-    int (*done)(void *);
-} Cfg;
-
-typedef unsigned short u16;
-
-extern int func_02189A08(unsigned char *p);
-extern void func_021CF580(void *);
-extern void *func_021F5260(void *a, struct Vec *src, u32 b, u32 c);
-extern void func_021F582C(u8 *p);
-extern void *func_021F5620(void *task, const struct Param *p, int flag);
-extern void func_021F5CA0(u8 *w);
-void *func_021F5A80(void *p, int b);
-void func_021F5ABC(void *a);
-void func_021F5AEC(u8 *w);
-void func_021F5B30(u8 *w);
-int func_021F5B94(int *o);
-int func_021F5BCC(int a, u32 p);
-void func_021F5BFC(u8 *w, int x, int y);
-void func_021F5C3C(u8 *w, int k);
-extern const Vec d_021F5D00;
-
-void *func_021F5A80(void *p, int b) {
-    Vec v = d_021F5D00;
-    func_021CF580((void *)func_02189A08((unsigned char *)b));
-    return func_021F5260(p, (struct Vec *)(&v), (u32)((void (*)(void))func_021F5ABC), (u32)func_021F582C);
+/*
+ * Encounter effect of overlay 0x51: the screen picture is cut into 2x2 tile
+ * cells that start in waves spreading from three seed cells. Builder of the
+ * effect table: loads the helper overlays, then starts the screen texture effect.
+ */
+struct GameEvent *func_021F5A80(struct GameSystem *gameSystem, struct FieldMap *fieldMap) {
+    VecFx32 cameraPos = d_021F5D00;
+    func_021CF580(func_02189A08(fieldMap));
+    return func_021F5260(gameSystem, &cameraPos, func_021F5ABC, func_021F582C);
 }
 
 
-void func_021F5ABC(void *a)
+struct GameEvent *func_021F5ABC(struct GameSystem *gameSystem)
 {
-    Cfg c;
+    EncEffGridParam param;
 
-    c.w = 2;
-    c.h = 2;
-    c.init = (void (*)(void *))func_021F5AEC;
-    c.step = (void (*)(void *))func_021F5B30;
-    c.done = (int (*)(void *))func_021F5B94;
-    func_021F5620(a, (const struct Param *)(&c), 1);
+    param.cellWidth = 2;
+    param.cellHeight = 2;
+    param.initCallback = func_021F5AEC;
+    param.stepCallback = func_021F5B30;
+    param.cellCallback = func_021F5B94;
+    return func_021F5620(gameSystem, &param, 1);
 }
 
 
 /*
  * Addresses are Black-image addresses.
  */
-void func_021F5AEC(u8 *w)
+void func_021F5AEC(EncEffGridWork *work)
 {
-    u8 *t = w + 0x300C;
+    EncEffSpreadState *spread = ENCEFF_SPREAD_STATE(work);
 
-    ((struct Obj03673 *)t)->f182 = 0;
-    ((struct Obj03673 *)t)->f180 = 0;
-    ((struct Obj03673 *)t)->fC0 = 0x33;
-    (((struct Obj03673 *)t)->f182)++;
-    ((struct Obj03673 *)t)->fC2 = 0x95;
-    (((struct Obj03673 *)t)->f182)++;
-    ((struct Obj03673 *)t)->fC4 = 0x5B;
-    (((struct Obj03673 *)t)->f182)++;
+    spread->nextCount = 0;
+    spread->waveCount = 0;
+    spread->next[0] = 0x33;
+    spread->nextCount++;
+    spread->next[1] = 0x95;
+    spread->nextCount++;
+    spread->next[2] = 0x5B;
+    spread->nextCount++;
 }
 
 
-void func_021F5B30(u8 *w)
+void func_021F5B30(EncEffGridWork *work)
 {
-    int *c = (int *)(w + 0x3000);
-    u8 *t = w + 0x300C;
+    EncEffGridStepState *step = &work->step;
+    EncEffSpreadState *spread = ENCEFF_SPREAD_STATE(work);
 
-    if (c[0] < ((struct Obj06199 *)w)->f3008 * ((struct Obj06199 *)w)->f300A) {
-        if (c[1] == 0) {
+    if (step->nextCell < work->cols * work->rows) {
+        if (step->delay == 0) {
             int i;
 
-            for (i = 0; i < ((struct Obj20797 *)t)->f180; i++)
-                func_021F5C3C(w, *(u16 *)(t + i * 2));
-            func_021F5CA0(w);
-            c[1] = 1;
+            for (i = 0; i < spread->waveCount; i++)
+                func_021F5C3C(work, spread->wave[i]);
+            func_021F5CA0(work);
+            step->delay = 1;
         } else {
-            c[1]--;
+            step->delay--;
         }
     }
 }
 
-int func_021F5B94(int *o)
+int func_021F5B94(EncEffGridCell *cell)
 {
-    if (o[0] < 0x100000) {
-        int a = o[0];
-        int b = o[9];
+    if (cell->pos.x < 0x100000) {
+        int x = cell->pos.x;
+        int velocityX = cell->velocityX;
 
-        o[2] = 0x1000;
-        o[0] = a + b;
-        o[9] = b + 0x1000;
-        if (o[7] < 0x8000)
-            o[7] += 0x200;
+        cell->pos.z = 0x1000;
+        cell->pos.x = x + velocityX;
+        cell->velocityX = velocityX + 0x1000;
+        if (cell->angleY < 0x8000)
+            cell->angleY += 0x200;
         else
-            o[7] = 0x8000;
+            cell->angleY = 0x8000;
     } else {
-        o[14] = 1;
+        cell->finished = 1;
     }
-    return o[14];
+    return cell->finished;
 }
 
 /*
  * Lever: declare index before bound to put index in r3 and bound in r4.
  */
-int func_021F5BCC(int a, u32 p) {
+int func_021F5BCC(int cellIndex, EncEffSpreadState *spread) {
     int i;
-    int n = ((struct Obj20798 *)p)->f182;
-    for (i=0; i<n; i++) {
-        if (a == *(u16 *)(p+i*2+0xC0)) return 1;
+    int count = spread->nextCount;
+    for (i=0; i<count; i++) {
+        if (cellIndex == spread->next[i]) return 1;
     }
     return 0;
 }
 
 
-void func_021F5BFC(u8 *w, int x, int y)
+void func_021F5BFC(EncEffGridWork *work, int x, int y)
 {
-    u8 *t = w + 0x300C;
-    int k = x + y * ((struct Obj20799 *)w)->f3008;
+    EncEffSpreadState *spread = ENCEFF_SPREAD_STATE(work);
+    int cellIndex = x + y * work->cols;
 
-    if (*(int *)(w + k * 64 + 0x34) == 0) {
-        if (func_021F5BCC(k, (u32)t) == 0) {
-            *(u16 *)(t + 0xC0 + ((struct Obj13220 *)t)->f182 * 2) = k;
-            (((struct Obj13220 *)t)->f182)++;
+    if (work->cell[cellIndex].active == 0) {
+        if (func_021F5BCC(cellIndex, spread) == 0) {
+            spread->next[spread->nextCount] = cellIndex;
+            spread->nextCount++;
         }
     }
 }
 
 
-void func_021F5C3C(u8 *w, int k)
+void func_021F5C3C(EncEffGridWork *work, int cellIndex)
 {
-    int wd = ((struct Obj06199 *)w)->f3008;
-    int x = k % wd;
-    int y = k / wd;
+    int cols = work->cols;
+    int x = cellIndex % cols;
+    int y = cellIndex / cols;
 
     if (y - 1 >= 0)
-        func_021F5BFC(w, x, y - 1);
-    if (x + 1 < ((struct Obj06199 *)w)->f3008)
-        func_021F5BFC(w, x + 1, y);
-    if (y + 1 < ((struct Obj06199 *)w)->f300A)
-        func_021F5BFC(w, x, y + 1);
+        func_021F5BFC(work, x, y - 1);
+    if (x + 1 < work->cols)
+        func_021F5BFC(work, x + 1, y);
+    if (y + 1 < work->rows)
+        func_021F5BFC(work, x, y + 1);
     if (x - 1 >= 0)
-        func_021F5BFC(w, x - 1, y);
+        func_021F5BFC(work, x - 1, y);
 }

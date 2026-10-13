@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02028A50, func_02028A58, func_02028A64, func_02028A70
+ * function: FIELD_SOUND_SYSTEM_Reset, func_02028A58, FIELD_SOUND_SYSTEM_StartRingtone, func_02028A70
  *
  * Four forwarding thunks in field_sound_system.c, each a pool word and a `bx`
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  The last three first
@@ -29,29 +29,29 @@
  * ARITY: a thunk that moves no argument register says nothing about how many
  * arguments it forwards
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
- * func_02028A58 is written with the three parameters func_02028794 takes,
+ * func_02028A58 is written with the three parameters PLAYER_VOLUME_FADER_SetTarget takes,
  * because src/matched/unit_0202878C.c fixes that signature; the other three
  * are written with one argument each, which is the conservative reading and
  * compiles to the same bytes as any other arity.
  *
- * func_02028A50 is why this file exists as its own unit: it is the only caller
- * of func_02028D2C reachable from src/matched/unit_020298E0.c, whose third
+ * FIELD_SOUND_SYSTEM_Reset is why this file exists as its own unit: it is the only caller
+ * of FIELD_SOUND_SYSTEM_DrainAndInit reachable from src/matched/unit_020298E0.c, whose third
  * state hands a resource off through it, and that file has no other witness
  * for 0x02028A50.
  *
  * symbols:
- *   func_02028794  0x02028794  thumb
- *   func_02028D2C  0x02028D2C  thumb
- *   func_02029F54  0x02029F54  thumb
- *   func_02029F60  0x02029F60  thumb
+ *   PLAYER_VOLUME_FADER_SetTarget  0x02028794  thumb
+ *   FIELD_SOUND_SYSTEM_DrainAndInit  0x02028D2C  thumb
+ *   RINGTONE_SYS_Start  0x02029F54  thumb
+ *   RINGTONE_SYS_Stop  0x02029F60  thumb
  *
  * Wave 26 closed it.  All four pool words are the only reference in the image
  * to their target, so the `label` class sees nothing and no cut helps; the way
  * through was to decompile the three targets that live outside this packet.
- * func_02028D2C is now src/matched/func_02028D2C.c (pkt_02028B50),
- * func_02029F54 and func_02029F60 are src/matched/unit_02029F54.c and
+ * FIELD_SOUND_SYSTEM_DrainAndInit is now src/matched/FIELD_SOUND_SYSTEM_DrainAndInit.c (pkt_02028B50),
+ * RINGTONE_SYS_Start and RINGTONE_SYS_Stop are src/matched/unit_02029F54.c and
  * src/matched/unit_02029F60.c (pkt_02029F4C), and all three resolve `matched`;
- * func_02028794 resolves `matched` off src/matched/unit_0202878C.c.  That also
+ * PLAYER_VOLUME_FADER_SetTarget resolves `matched` off src/matched/unit_0202878C.c.  That also
  * lifts the cap this file placed on src/pending/unit_020298E0.c.
  *
  * Verified with:
@@ -71,27 +71,27 @@ struct SoundSys {
 };
 
 struct Sys;
-extern void func_02028D2C(struct Sys *s, void *desc);
-extern void func_02028794(struct Fader *s, u8 level, u16 frames);
-extern void func_02029F54(void *p);
-extern void func_02029F60(void *p);
+extern void FIELD_SOUND_SYSTEM_DrainAndInit(struct Sys *s, void *desc);
+extern void PLAYER_VOLUME_FADER_SetTarget(struct Fader *s, u8 level, u16 frames);
+extern void RINGTONE_SYS_Start(void *p);
+extern void RINGTONE_SYS_Stop(void *p);
 
-void func_02028A50(void *sys, void *res)
+void FIELD_SOUND_SYSTEM_Reset(void *sys, void *res)
 {
-    func_02028D2C(sys, res);
+    FIELD_SOUND_SYSTEM_DrainAndInit(sys, res);
 }
 
 void func_02028A58(struct SoundSys *sys, u8 level, u16 frames)
 {
-    func_02028794(sys->fader, level, frames);
+    PLAYER_VOLUME_FADER_SetTarget(sys->fader, level, frames);
 }
 
-void func_02028A64(struct SoundSys *sys)
+void FIELD_SOUND_SYSTEM_StartRingtone(struct SoundSys *sys)
 {
-    func_02029F54(sys->ringtone);
+    RINGTONE_SYS_Start(sys->ringtone);
 }
 
 void func_02028A70(struct SoundSys *sys)
 {
-    func_02029F60(sys->ringtone);
+    RINGTONE_SYS_Stop(sys->ringtone);
 }

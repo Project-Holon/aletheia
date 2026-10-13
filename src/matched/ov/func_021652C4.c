@@ -13,9 +13,9 @@
  * re-submit the record at the shared globals pointer.
  *
  * symbols:
- *   func_02027060   0x02027060  thumb
- *   func_02026FB8   0x02026FB8  thumb
- *   g_02146940      0x02146940  data
+ *   GAME_BEACON_CheckActionPriority   0x02027060  thumb
+ *   GAME_BEACON_RequestSend   0x02026FB8  thumb
+ *   GAME_BEACON_Work      0x02146940  data
  *   func_021652EC   0x021652EC  thumb  ov010
  */
 
@@ -23,17 +23,17 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02027060(u32 a);
-extern void func_02026FB8(void *);
-extern char *g_02146940;
+extern u32 GAME_BEACON_CheckActionPriority(u32 a);
+extern void GAME_BEACON_RequestSend(void *);
+extern char *GAME_BEACON_Work;
 struct Obj;
 extern void func_021652EC(struct Obj *p, u32 v);
 
 void func_021652C4(void *a0)
 {
-    if (func_02027060(0x12)) {
-        func_021652EC((struct Obj *)(g_02146940 + 4), (u32)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x12)) {
+        func_021652EC((struct Obj *)(GAME_BEACON_Work + 4), (u32)a0);
+        GAME_BEACON_RequestSend(GAME_BEACON_Work + 4);
     }
 }
 

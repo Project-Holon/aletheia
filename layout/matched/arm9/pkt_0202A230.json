@@ -96,7 +96,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202AB28",
+   "name": "ISS_CITY_SYS_Delete",
    "address": "0x0202AB28",
    "kind": "game",
    "region": "arm9",

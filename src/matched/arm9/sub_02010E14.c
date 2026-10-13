@@ -1,5 +1,5 @@
 /*
- * function: sub_02010E14
+ * function: GPOWER_Activate
  * address:  0x02010E14
  * packet:   pkt_02010DB4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02010F50  0x02010F50  thumb
+ *   GPOWER_ClearType  0x02010F50  thumb
  *   g_0214621C     0x0214621C  data
  *   g_021461E8     0x021461E8  data
  *   g_0214622A     0x0214622A  data
@@ -36,8 +36,8 @@
  * (the slot count) are content constants.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02010E14.c \
- *       --func sub_02010E14 --addr 0x02010E14 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_Activate.c \
+ *       --func GPOWER_Activate --addr 0x02010E14 --cc 1.1p1 --thumb
  */
 #include "../include/Obj08965.h"
 
@@ -45,13 +45,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02010F50(int idx);
+extern void GPOWER_ClearType(int idx);
 extern u8  g_0214621C[];
 extern u32 g_021461E8[];
 extern u8  g_0214622A[];
 extern u8  g_02146228[];
 
-void sub_02010E14(int slot, u8 *rec, int select)
+void GPOWER_Activate(int slot, u8 *rec, int select)
 {
     int k;
 
@@ -71,16 +71,16 @@ void sub_02010E14(int slot, u8 *rec, int select)
     }
     switch (k) {
     case 0:
-        func_02010F50(1);
+        GPOWER_ClearType(1);
         break;
     case 1:
-        func_02010F50(0);
+        GPOWER_ClearType(0);
         break;
     case 7:
-        func_02010F50(8);
+        GPOWER_ClearType(8);
         break;
     case 8:
-        func_02010F50(7);
+        GPOWER_ClearType(7);
         break;
     }
 }

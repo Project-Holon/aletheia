@@ -11,35 +11,35 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02005DF8, sub_02005E04
+ * function: GFL_USE_FadeInBgmFull, GFL_USE_FadeInBgm
  *
  * symbols:
  *   sub_02005E04_State  0x020AA260  data
- *   sub_02005FBC        0x02005FBC  thumb
- *   sub_0200590C        0x0200590C  thumb
- *   func_02072F5C       0x02072F5C  arm
+ *   GFL_USE_FlushBgmChange        0x02005FBC  thumb
+ *   GFL_USE_GetCurrentSndHandle        0x0200590C  thumb
+ *   NNS_SndHandleMoveVolume       0x02072F5C  arm
  *
  * Two of the five functions of the range the header of
- * src/matched/unit_02005DAC.c recorded as a near miss.  sub_02005E04 sets the
+ * src/matched/unit_02005DAC.c recorded as a near miss.  GFL_USE_FadeInBgm sets the
  * link's two power levels and remembers the first of them in the state block;
- * sub_02005DF8 is the twelve byte forwarder that supplies the fixed second
+ * GFL_USE_FadeInBgmFull is the twelve byte forwarder that supplies the fixed second
  * argument 0x7F.
  *
  * Why this is its own byte range, and where the file boundary comes from.
- * func_02072F5C is reached from exactly three `blx` sites in the whole image:
- * 0x02005E16 and 0x02005E22 inside sub_02005E04, and 0x02005E40 inside
- * sub_02005E30.  Matched as one range with sub_02005E30 all three witnesses
+ * NNS_SndHandleMoveVolume is reached from exactly three `blx` sites in the whole image:
+ * 0x02005E16 and 0x02005E22 inside GFL_USE_FadeInBgm, and 0x02005E40 inside
+ * GFL_USE_FadeOutBgm.  Matched as one range with GFL_USE_FadeOutBgm all three witnesses
  * are inside the bytes under test, the honesty rule discards them all and the
  * range caps at MATCH.  Cut here, each of the two files is the other's
  * witness and both come out EXACT: this file's two sites attest
  * src/matched/unit_02005E30.c and that file's one site attests these two.
- * The cut cannot go anywhere else, because sub_02005DF8's pool word is the
- * only reference to sub_02005E04 in the image, so those two have to share a
+ * The cut cannot go anywhere else, because GFL_USE_FadeInBgmFull's pool word is the
+ * only reference to GFL_USE_FadeInBgm in the image, so those two have to share a
  * range and be `local` to each other.  See
  * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, and
  * `python tools/match.py tu --suggest-split`, which is what found the cut.
  *
- * sub_02005DE4, the function immediately before this range, stays open and is
+ * GFL_USE_SetBgmPlayerParam, the function immediately before this range, stays open and is
  * deliberately not in this file.  It is the only caller of 0x02072E8C
  * anywhere in the image, so the single witness for that call is the call
  * itself: no cut can put it outside the range under test, and the address is
@@ -62,22 +62,22 @@ struct Sub02005E04State {
 
 extern struct Sub02005E04State sub_02005E04_State;
 
-extern void sub_02005FBC(void);
-extern u32 *sub_0200590C(void);
+extern void GFL_USE_FlushBgmChange(void);
+extern u32 *GFL_USE_GetCurrentSndHandle(void);
 struct Obj02072F5C;
-extern void func_02072F5C(struct Obj02072F5C * volatile *pp, u32 a, u32 b);
+extern void NNS_SndHandleMoveVolume(struct Obj02072F5C * volatile *pp, u32 a, u32 b);
 
-void sub_02005E04(u32 a, u32 b);
+void GFL_USE_FadeInBgm(u32 a, u32 b);
 
-void sub_02005DF8(u32 a)
+void GFL_USE_FadeInBgmFull(u32 a)
 {
-    sub_02005E04(a, 0x7F);
+    GFL_USE_FadeInBgm(a, 0x7F);
 }
 
-void sub_02005E04(u32 a, u32 b)
+void GFL_USE_FadeInBgm(u32 a, u32 b)
 {
-    sub_02005FBC();
-    func_02072F5C((struct Obj02072F5C * volatile*)sub_0200590C(), 0, 0);
-    func_02072F5C((struct Obj02072F5C * volatile*)sub_0200590C(), b, a);
+    GFL_USE_FlushBgmChange();
+    NNS_SndHandleMoveVolume((struct Obj02072F5C * volatile*)GFL_USE_GetCurrentSndHandle(), 0, 0);
+    NNS_SndHandleMoveVolume((struct Obj02072F5C * volatile*)GFL_USE_GetCurrentSndHandle(), b, a);
     sub_02005E04_State.unk08 = a;
 }

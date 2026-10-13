@@ -18,14 +18,24 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02026454",
-    "sub_02026460",
-    "sub_02026474",
-    "sub_02026478",
-    "sub_0202647C",
-    "sub_02026480",
-    "sub_02026484",
-    "sub_0202648C"
+    "GAME_COMM_GetKind",
+    "GAME_COMM_IsTransition",
+    "GAME_COMM_GetWork",
+    "GAME_COMM_GetGameData",
+    "GAME_COMM_GetLastKind",
+    "GAME_COMM_SetCounter",
+    "GAME_COMM_ClearCounter",
+    "GAME_COMM_GetCounter"
+   ],
+   "addresses": [
+    "0x02026454",
+    "0x02026460",
+    "0x02026474",
+    "0x02026478",
+    "0x0202647C",
+    "0x02026480",
+    "0x02026484",
+    "0x0202648C"
    ]
   },
   {
@@ -40,13 +50,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02026490",
-    "sub_02026498",
-    "sub_020264AC"
+    "GAME_COMM_SetSeqState",
+    "GAME_COMM_SetNotifyFlag",
+    "GAME_COMM_GetNotifyFlag"
+   ],
+   "addresses": [
+    "0x02026490",
+    "0x02026498",
+    "0x020264AC"
    ]
   },
   {
-   "name": "sub_020266AC",
+   "name": "GAME_COMM_PushPairMessage",
    "address": "0x020266AC",
    "kind": "game",
    "region": "arm9",
@@ -58,7 +73,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020266C0",
+   "name": "GAME_COMM_PushPalaceMessage",
    "address": "0x020266C0",
    "kind": "game",
    "region": "arm9",
@@ -70,7 +85,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020266D4",
+   "name": "GAME_COMM_PushPlayerMessage",
    "address": "0x020266D4",
    "kind": "game",
    "region": "arm9",

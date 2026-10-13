@@ -10,22 +10,22 @@
  * status: EXACT
  * symbols:
  *   func_0217814C 0x0217814C thumb ov014
- *   func_0217945C 0x0217945C thumb ov014
+ *   DWCi_MOV_WH_StateInEndKeyShare 0x0217945C thumb ov014
  *   func_021784F0 0x021784F0 thumb ov014
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_0217814C(int);
-extern void func_0217945C(void);
+extern void DWCi_MOV_WH_StateInEndKeyShare(void);
 extern int func_021784F0(void);
 void func_021784D0(void *arg)
 {
     int result = ((u16 *)arg)[1];
     if (result != 0) {
         func_0217814C(result);
-        func_0217945C();
+        DWCi_MOV_WH_StateInEndKeyShare();
         return;
     }
     if (func_021784F0() == 0)
-        func_0217945C();
+        DWCi_MOV_WH_StateInEndKeyShare();
 }

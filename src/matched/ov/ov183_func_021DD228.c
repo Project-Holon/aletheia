@@ -9,12 +9,12 @@
  * status: EXACT*
  * 2026-10-05 (D8 lane19): re-verified, status unchanged; sole blocker is arm9 callee 0x0200B98C (no witness outside the caller). Needs a label seed. Source is byte-correct; no C change possible.
  * blocker: 0x0200B98C arm9 thumb, no witness outside caller; verified Thumb EXACT C copied from ov183_func_021DCBD8.c (original ov183_func_021DF838.c), integrator-owned.
- * blocker-symbols: func_0200B98C_Table 0x0209DDCC data a4
+ * blocker-symbols: BattleRecModeTable 0x0209DDCC data a4
  *   typedef unsigned char u8;
  *   typedef unsigned short u16;
  *   typedef unsigned long long u64;
- *   extern const u16 func_0200B98C_Table[];
- *   u64 func_0200B98C(char *p, int selector, int index)
+ *   extern const u16 BattleRecModeTable[];
+ *   u64 BATTLE_REC_GetHeaderParam(char *p, int selector, int index)
  *   {
  *       int i;
  *       u16 v;
@@ -30,7 +30,7 @@
  *           return v;
  *       case 3:
  *           for (i = 0; i < 0x29; i++) {
- *               if (*(u16 *)(p + 0x26) == func_0200B98C_Table[i]) return i;
+ *               if (*(u16 *)(p + 0x26) == BattleRecModeTable[i]) return i;
  *           }
  *           return 0;
  *       case 4: return *(u64 *)(p + 0x38);
@@ -41,11 +41,11 @@
  *       }
  *   }
  * symbols:
- *   func_0200B98C 0x0200B98C thumb
+ *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
-int func_021DD228(void *p) { switch((int)func_0200B98C(p,3,0)) { case 16: case 17: case 18: case 19: case 22: return 1; case 20: case 21: default: return 0; } }
+extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
+int func_021DD228(void *p) { switch((int)BATTLE_REC_GetHeaderParam(p,3,0)) { case 16: case 17: case 18: case 19: case 22: return 1; case 20: case 21: default: return 0; } }

@@ -1,5 +1,5 @@
 /*
- * function: sub_02032970
+ * function: BACKUP_SYSTEM_InitSaveSeq
  * address:  0x02032970
  * packet:   pkt_020328E0
  * region:   arm9
@@ -19,7 +19,7 @@
  * 0x02034F84.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02032970.c  *       --func sub_02032970 --addr 0x02032970 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_InitSaveSeq.c  *       --func BACKUP_SYSTEM_InitSaveSeq --addr 0x02032970 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -46,7 +46,7 @@ struct SaveBackup {
 
 extern void func_02034F84(u32 bit);
 
-void sub_02032970(struct SaveBackup *p, u32 flag)
+void BACKUP_SYSTEM_InitSaveSeq(struct SaveBackup *p, u32 flag)
 {
     u32 gen;
 

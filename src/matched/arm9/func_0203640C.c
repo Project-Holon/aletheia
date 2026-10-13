@@ -1,5 +1,5 @@
 /*
- * function: func_0203640C
+ * function: GFL_NET_RING_BUFF_Init
  * address:  0x0203640C
  * packet:   pkt_0203640C
  * region:   arm9
@@ -19,8 +19,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203640C.c \
- *       --func func_0203640C --addr 0x0203640C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_RING_BUFF_Init.c \
+ *       --func GFL_NET_RING_BUFF_Init --addr 0x0203640C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -35,7 +35,7 @@ struct Rec {
     u16 unkE;
 };
 
-void func_0203640C(struct Rec *p, u32 a, int b)
+void GFL_NET_RING_BUFF_Init(struct Rec *p, u32 a, int b)
 {
     p->unk0 = a;
     p->unk4 = (short)b;

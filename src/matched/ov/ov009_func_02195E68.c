@@ -1,5 +1,5 @@
 /*
- * function: func_02195E68
+ * function: gt2SetUnrecognizedMessageCallback
  * address:  0x02195E68
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Stores a word at +0x30.
  */
 
-void func_02195E68(int *p, int v)
+void gt2SetUnrecognizedMessageCallback(int *p, int v)
 {
     p[0xc] = v;
 }

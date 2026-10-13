@@ -1,5 +1,5 @@
 /*
- * function: func_02156F50
+ * function: DWC_RAPCOMMON_SetHeapTag
  * address:  0x02156F50
  * packet:   pkt_02156F50
  * region:   ov009
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 
 extern struct Obj *d_021A8268;
 
-void func_02156F50(int a)
+void DWC_RAPCOMMON_SetHeapTag(int a)
 {
     *(u16 *)(((char *)d_021A8268) + 0x20) = a;
 }

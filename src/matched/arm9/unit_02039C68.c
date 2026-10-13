@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: sub_02039C68, sub_02039CA0, sub_02039CB4
+ * function: GFL_NET_HANDLE_SetTimingSyncRange, sub_02039CA0, GFL_NET_HANDLE_IsTimingSyncRange
  * address:  0x02039C68
  * packet:   pkt_020399B8
  * region:   arm9
@@ -13,14 +13,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020395EC  0x020395EC  arm
+ *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
  *
  * The setter and the two matchers for the packed 16-bit key at +0x44/+0x46
  * of the link record: the key is always assembled as `lo + (hi << 8)` from a
  * pair of separate arguments rather than passed whole.
  *
  * sub_02039CA0 has no label in the listing: it is a leaf that saves nothing,
- * so disasm.py prints it inside sub_02039C68's extent (see
+ * so disasm.py prints it inside GFL_NET_HANDLE_SetTimingSyncRange's extent (see
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Keeping the
  * three in one unit is what reproduces its bytes at all.
  *
@@ -42,9 +42,9 @@ struct Link {
 };
 
 struct Entry;
-extern int func_020395EC(struct Entry *a);
+extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
 
-void sub_02039C68(struct Link *p, u32 lo, u32 hi)
+void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi)
 {
     if (p == 0) {
         return;
@@ -53,7 +53,7 @@ void sub_02039C68(struct Link *p, u32 lo, u32 hi)
     p->unk46 = lo + (hi << 8);
     p->unk48 = 0xff;
 
-    if (func_020395EC((struct Entry *)p) == 0xff) {
+    if (GFL_NET_HANDLE_GetNetHandleID((struct Entry *)p) == 0xff) {
         p->unk49 = 0;
     } else {
         p->unk49 = 1;
@@ -65,7 +65,7 @@ u32 sub_02039CA0(struct Link *p, u32 key)
     return p->unk44 == key;
 }
 
-u32 sub_02039CB4(struct Link *p, u32 lo, u32 hi)
+u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 lo, u32 hi)
 {
     if (p == 0) {
         return 1;

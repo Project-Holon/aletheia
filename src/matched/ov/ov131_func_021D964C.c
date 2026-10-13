@@ -1,5 +1,5 @@
 /*
- * function: func_021D964C
+ * function: P_STA_RIBBON_FreeDetailWindows
  * address: 0x021D964C
  * packet: pkt_ov131_021D964C
  * region: ov131
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 func_020452E8(struct Descriptor *d);
-void func_021D964C(u8 *a,u8 *p)
+void P_STA_RIBBON_FreeDetailWindows(u8 *a,u8 *p)
 {
     if(((struct Obj05394 *)p)->f20!=0) {
         func_020452E8(((struct Obj05394 *)p)->f20);

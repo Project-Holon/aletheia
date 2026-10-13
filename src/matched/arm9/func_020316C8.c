@@ -1,5 +1,5 @@
 /*
- * function: func_020316C8
+ * function: BACKUP_SYSTEM_Init
  * address:  0x020316C8
  * packet:   pkt_020315F0
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * Blocked at MATCH on the `label`/`matched` classes: all 124 concrete bytes
  * of the body reproduce and 6 of 7 relocation sites resolve, but
- * func_02033534 (PC24 at +0x6c) has exactly one branch reference image-wide
+ * FLASH_ACCESS_Identify (PC24 at +0x6c) has exactly one branch reference image-wide
  * and it is this call, so the site has no witness outside 020316C8..0203174C
  * and no cut frees it.  Filing 0x02033534 as an EXACT manifest entry promotes
  * this file with no change to the C.
@@ -30,13 +30,13 @@
  *   func_02030734  0x02030734  arm
  *   func_02082A7C  0x02082A7C  arm
  *   func_020819B8  0x020819B8  arm
- *   func_02033534  0x02033534  arm
+ *   FLASH_ACCESS_Identify  0x02033534  arm
  *   str_020A7848   0x020A7848  data
- *   g_02146994     0x02146994  data
+ *   svsys     0x02146994  data
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020316C8.c \
- *       --func func_020316C8 --addr 0x020316C8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/BACKUP_SYSTEM_Init.c \
+ *       --func BACKUP_SYSTEM_Init --addr 0x020316C8 --cc 1.1p1 --arm
  */
 #include "../include/Obj15875.h"
 
@@ -49,19 +49,19 @@ extern void *func_02030734(u32 heap, u32 size, int align, const char *file,
 extern void func_02082A7C(u32 a, void *p, u32 n);
 struct MATHCRC16Table;
 extern void func_020819B8(struct MATHCRC16Table *table, u16 poly);
-extern int func_02033534(u32 a);
+extern int FLASH_ACCESS_Identify(u32 a);
 extern const u8 str_020A7848[];
-extern u8 *g_02146994;
+extern u8 *svsys;
 
-void func_020316C8(u32 a0, u32 a1, u32 a2)
+void BACKUP_SYSTEM_Init(u32 a0, u32 a1, u32 a2)
 {
     u8 *p = func_02030734((u16)a0, 0x210, 0, (const char *)str_020A7848, 0xdf);
 
-    g_02146994 = p;
+    svsys = p;
     func_02082A7C(0, p, 0x210);
-    func_020819B8((struct MATHCRC16Table *)(g_02146994 + 4), 0x1100 - 0xdf);
-    *(u32 *)(g_02146994 + 0x204) = a1;
-    p = g_02146994;
+    func_020819B8((struct MATHCRC16Table *)(svsys + 4), 0x1100 - 0xdf);
+    *(u32 *)(svsys + 0x204) = a1;
+    p = svsys;
     ((struct Obj15875 *)p)->f208 = a2;
-    *(u32 *)g_02146994 = func_02033534((u32)p);
+    *(u32 *)svsys = FLASH_ACCESS_Identify((u32)p);
 }

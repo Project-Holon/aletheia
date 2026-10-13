@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02005C18
+ * function: GFL_USE_ClearSndHeap
  *
  * symbols:
  *   sub_02005C18_State  0x020AA260  data
@@ -40,7 +40,7 @@ extern struct Sub02005C18State sub_02005C18_State;
 
 extern void func_02074758(void **a0);
 
-void sub_02005C18(void)
+void GFL_USE_ClearSndHeap(void)
 {
     func_02074758((void **)sub_02005C18_State.unk10);
 }

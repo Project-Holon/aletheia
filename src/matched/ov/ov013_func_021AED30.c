@@ -1,5 +1,5 @@
 /*
- * function: func_021AED30
+ * function: VCT_MAIN_OnEventPair
  * address:  0x021AED30
  * packet:   pkt_ov013_021AED30
  * region:   ov013
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B2180  0x021B2180  arm  ov013
- *   func_021B0614  0x021B0614  arm  ov013
- *   func_021B1F54  0x021B1F54  arm  ov013
- *   func_021AEDEC  0x021AEDEC  thumb  ov013
- *   d_021B3C80     0x021B3C80  data  ov013
+ *   VCT_SESSION_SendPeerReply  0x021B2180  arm  ov013
+ *   VCT_SESSION_AddMember  0x021B0614  arm  ov013
+ *   VCT_SESSION_FreePeerRecord  0x021B1F54  arm  ov013
+ *   VCT_MAIN_ReleasePeer  0x021AEDEC  thumb  ov013
+ *   gVctWork     0x021B3C80  data  ov013
  */
 
 typedef unsigned char u8;
@@ -28,53 +28,53 @@ struct W {
     u32 f1A1C;
 };
 
-extern struct W *d_021B3C80;
+extern struct W *gVctWork;
 
 struct Node;
-extern int func_021B2180(int a, int b);
-extern int func_021B0614(void *p);
-extern int func_021B1F54(struct Node *p);
-extern void func_021AEDEC(struct Node *p);
+extern int VCT_SESSION_SendPeerReply(int a, int b);
+extern int VCT_SESSION_AddMember(void *p);
+extern int VCT_SESSION_FreePeerRecord(struct Node *p);
+extern void VCT_MAIN_ReleasePeer(struct Node *p);
 
-void func_021AED30(int a, int code, u32 *p)
+void VCT_MAIN_OnEventPair(int a, int code, u32 *p)
 {
     switch (code) {
     case 1:
-        if (d_021B3C80->f1A1C != 0) {
-            func_021B2180((int)p, 3);
-            func_021B1F54((struct Node *)p);
+        if (gVctWork->f1A1C != 0) {
+            VCT_SESSION_SendPeerReply((int)p, 3);
+            VCT_SESSION_FreePeerRecord((struct Node *)p);
             return;
         }
-        d_021B3C80->f1A1C = (u32)p;
+        gVctWork->f1A1C = (u32)p;
         return;
     case 8:
-        func_021B2180((int)p, 0);
-        func_021AEDEC((struct Node *)p);
+        VCT_SESSION_SendPeerReply((int)p, 0);
+        VCT_MAIN_ReleasePeer((struct Node *)p);
         return;
     case 9:
-        func_021AEDEC((struct Node *)p);
+        VCT_MAIN_ReleasePeer((struct Node *)p);
         return;
     case 4:
-        func_021B2180((int)p, 4);
-        func_021AEDEC((struct Node *)p);
+        VCT_SESSION_SendPeerReply((int)p, 4);
+        VCT_MAIN_ReleasePeer((struct Node *)p);
         return;
     case 7:
-        if (*p != d_021B3C80->f19A8) {
-            func_021AEDEC((struct Node *)p);
+        if (*p != gVctWork->f19A8) {
+            VCT_MAIN_ReleasePeer((struct Node *)p);
             return;
         }
-        if (func_021B0614(p) != 0) {
-            d_021B3C80->f19AC = 2;
+        if (VCT_SESSION_AddMember(p) != 0) {
+            gVctWork->f19AC = 2;
             return;
         }
         break;
     case 2:
-        func_021AEDEC((struct Node *)p);
+        VCT_MAIN_ReleasePeer((struct Node *)p);
         return;
     case 3:
     case 11:
     case 12:
-        func_021AEDEC((struct Node *)p);
+        VCT_MAIN_ReleasePeer((struct Node *)p);
         break;
     }
 }

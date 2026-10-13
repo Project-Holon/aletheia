@@ -18,9 +18,9 @@
  *   func_0218A494 0x0218A494 thumb ov096
  *   func_0218A528 0x0218A528 thumb ov096
  *   func_0218A384 0x0218A384 thumb ov096
- *   func_0201127C 0x0201127C thumb
+ *   VM_Start 0x0201127C thumb
  *   func_02011290 0x02011290 thumb
- *   func_02011298 0x02011298 thumb
+ *   VM_Control 0x02011298 thumb
  *   func_020870D0 0x020870D0 arm
  */
 typedef unsigned char u8;
@@ -38,9 +38,9 @@ extern int func_021B9A6C(int, u32);
 extern void *func_0218A494(u8 *);
 extern void func_0218A528(u8 *);
 extern int func_0218A384(Obj *, int, int);
-extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
+extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
-extern int func_02011298(struct ScriptVm *vm);
+extern int VM_Control(struct ScriptVm *vm);
 extern u64 func_020870D0(void);
 void func_021885BC(int a, Obj *b)
 {
@@ -52,7 +52,7 @@ void func_021885BC(int a, Obj *b)
             } else {
                 b->move = func_021D54C0(b->fbc, b->index);
                 b->script = func_0218A494((u8 *)b);
-                func_0201127C((struct ScriptVm *)a, b->script);
+                VM_Start((struct ScriptVm *)a, b->script);
             }
             b->state++;
         case 1:
@@ -63,7 +63,7 @@ void func_021885BC(int a, Obj *b)
                 b->script = 0;
             }
             if (b->move != 0) {
-                func_02011298((struct ScriptVm *)a);
+                VM_Control((struct ScriptVm *)a);
                 if (b->flags & 1) {
                     b->flags &= ~16;
                     func_0218A528((u8 *)b);

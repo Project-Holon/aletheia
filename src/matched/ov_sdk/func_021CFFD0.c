@@ -11,8 +11,9 @@
  *
  * symbols:
  *   func_021CFFD0   0x021CFFD0  arm
+ *   NNS_SndHandleSetSeqPriority  0x02072F34  arm  arm9
  *
- * Tail-call func_02072F34 with the global object +0xa0 and the argument.
+ * Tail-call NNS_SndHandleSetSeqPriority with the global object +0xa0 and the argument.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -20,9 +21,9 @@
  *       --func func_021CFFD0 --addr 0x021CFFD0 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_02072F34(char *, unsigned int);
+extern void NNS_SndHandleSetSeqPriority(char *, unsigned int);
 
 void func_021CFFD0(unsigned int v)
 {
-    func_02072F34(*(char **)0x021DE648 + 0xa0, v);
+    NNS_SndHandleSetSeqPriority(*(char **)0x021DE648 + 0xa0, v);
 }

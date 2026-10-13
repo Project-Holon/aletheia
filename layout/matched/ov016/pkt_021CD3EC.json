@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CD3EC",
+   "name": "DWCi_SceneSetTest_procScene",
    "address": "0x021CD3EC",
    "kind": "game",
    "region": "ov016",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CD67C",
+   "name": "DWCi_SceneSetTestCompletet_procScene",
    "address": "0x021CD67C",
    "kind": "game",
    "region": "ov016",
@@ -36,7 +36,7 @@
    }
   },
   {
-   "name": "func_021CDBA8",
+   "name": "DWCi_SceneSetUsbCompleteCallback",
    "address": "0x021CDBA8",
    "kind": "game",
    "region": "ov016",
@@ -53,7 +53,7 @@
    }
   },
   {
-   "name": "func_021CDE6C",
+   "name": "DWCi_SceneSetUsbReadyUpdate",
    "address": "0x021CDE6C",
    "kind": "game",
    "region": "ov016",

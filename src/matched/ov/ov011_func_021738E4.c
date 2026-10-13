@@ -1,5 +1,5 @@
 /*
- * function: func_021738E4
+ * function: INTRUDE_COMM_SendPeerLeft
  * address:  0x021738E4
  * packet:   pkt_ov011_021738E4
  * region:   ov011
@@ -10,31 +10,31 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021736D8  0x021736D8  thumb ov011
+ *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
  *   func_02039338  0x02039338  arm
  *   func_020399A8  0x020399A8  arm
- *   func_021738BC  0x021738BC  thumb ov011
+ *   INTRUDE_COMM_RecvPeerLeft  0x021738BC  thumb ov011
  *   func_0203D3A8  0x0203D3A8  arm
  */
 
 typedef unsigned short u16;
 
-int func_021736D8(void);
+int INTRUDE_COMM_IsLinked(void);
 struct Entry;
 u16 func_02039338(void);
 struct Entry *func_020399A8(void);
 typedef unsigned char  u8;
-void func_021738BC(int a, int b, int *c, u8 *d, void *e);
+void INTRUDE_COMM_RecvPeerLeft(int a, int b, int *c, u8 *d, void *e);
 typedef unsigned int   u32;
 int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 
-int func_021738E4(void *a, int b)
+int INTRUDE_COMM_SendPeerLeft(void *a, int b)
 {
     int h;
 
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         h = func_02039338();
-        func_021738BC(h, 4, &b, (u8 *)a, func_020399A8());
+        INTRUDE_COMM_RecvPeerLeft(h, 4, &b, (u8 *)a, func_020399A8());
         return 1;
     }
     return func_0203D3A8(func_020399A8(), 0x204, 4, (u32)(&b));

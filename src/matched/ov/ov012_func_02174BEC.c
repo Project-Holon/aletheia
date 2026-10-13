@@ -1,5 +1,5 @@
 /*
- * function: func_02174BEC
+ * function: COLOSSEUM_RecvTrainerCard
  * address:  0x02174BEC
  * packet:   pkt_ov012_02174BEC
  * region:   ov012
@@ -26,7 +26,7 @@ struct Link;
 extern u32 func_0203D1A4(struct Link *p);
 extern void func_02082D44(void *src, void *dst, u32 n);
 
-void func_02174BEC(u32 a, u32 b, void *c, u8 *d)
+void COLOSSEUM_RecvTrainerCard(u32 a, u32 b, void *c, u8 *d)
 {
     u8 *w = *(u8 * *)&((struct Obj19278 *)d)->f355C;
 

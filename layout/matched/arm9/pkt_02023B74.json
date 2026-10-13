@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02023B74",
+   "name": "WIPE_SUB_SetWindowInside",
    "address": "0x02023B74",
    "kind": "game",
    "region": "arm9",

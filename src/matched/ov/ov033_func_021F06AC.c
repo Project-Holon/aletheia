@@ -15,7 +15,7 @@
  *   func_020414AC 0x020414AC arm
  *   func_02040618 0x02040618 arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_02043598 0x02043598 arm
  *   d_021F0DF0 0x021F0DF0 data ov033 a4
  */
@@ -39,7 +39,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_02043598(unsigned, unsigned);
 
 void func_021F06AC(char *p)
@@ -60,6 +60,6 @@ void func_021F06AC(char *p)
         func_02040618(id, 3, 0);
     }
     ((struct Obj09802 *)p)->fC = func_0204B100(8, 0, ((struct Obj09802 *)p)->f0);
-    func_0204B270(((struct Obj09802 *)p)->fC);
+    CLACT_SetUnitDefaultRenderer(((struct Obj09802 *)p)->fC);
     func_02043598(0x10, 1);
 }

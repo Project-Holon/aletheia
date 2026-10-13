@@ -12,8 +12,8 @@
  * symbols:
  *   func_021C6FA0  0x021C6FA0  thumb  ov111
  *   func_020061E4  0x020061E4  thumb
- *   func_02012BF8  0x02012BF8  thumb
- *   func_02012BE0  0x02012BE0  thumb
+ *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
+ *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -58,8 +58,8 @@ typedef struct {
 
 extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
 extern void func_020061E4(u32 a);
-extern int func_02012BF8(int a0, int a1);
-extern void func_02012BE0(void *p, u32 a, u32 b);
+extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
 void func_021C513C(Work *p)
 {
@@ -67,12 +67,12 @@ void func_021C513C(Work *p)
 
     func_020061E4(0x646);
     if (p->f3034 == 0) {
-        v = func_02012BF8((int)p->args->f4, 0x15) ^ 1;
+        v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x15) ^ 1;
         func_021C6FA0(&p->anim, 7, v + 6, 1);
-        func_02012BE0(p->args->f4, 0x15, v);
+        GAME_DATA_SetSaveFlag(p->args->f4, 0x15, v);
     } else {
-        v = func_02012BF8((int)p->args->f4, 0x16) ^ 1;
+        v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x16) ^ 1;
         func_021C6FA0(&p->anim, 7, v + 6, 1);
-        func_02012BE0(p->args->f4, 0x16, v);
+        GAME_DATA_SetSaveFlag(p->args->f4, 0x16, v);
     }
 }

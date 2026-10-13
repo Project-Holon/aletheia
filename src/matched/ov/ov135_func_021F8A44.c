@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02005D90  0x02005D90  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   func_021F4EC0  0x021F4EC0  thumb
  */
 
@@ -28,12 +28,12 @@ typedef struct {
     u16 xEB2;
 } Work;
 
-extern void func_02005D90(u32 a, u32 b);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
 extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 
 int func_021F8A44(Work *p)
 {
-    func_02005D90(0x486, 0xFFFF);
+    GFL_USE_CancelChangeAndPlayBgm(0x486, 0xFFFF);
     p->x28 = 1;
     p->xEB2 = 1;
     p->x30 = 0;

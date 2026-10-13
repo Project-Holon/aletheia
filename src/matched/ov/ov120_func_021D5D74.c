@@ -17,7 +17,7 @@
  *   func_021D5F98 0x021D5F98 thumb ov120
  *   func_021D7858 0x021D7858 thumb ov120
  *   func_0203CD98 0x0203CD98 arm
- *   func_02157170 0x02157170 thumb ov009
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   func_021D5BEC 0x021D5BEC thumb ov120
  *   func_0202223C 0x0202223C thumb
  *   func_0200F7DC 0x0200F7DC thumb
@@ -34,7 +34,7 @@ extern void func_02027974(void *);
 extern void func_021D5F98(u8 *p);
 extern void func_021D7858(u8 *p);
 extern int func_0203CD98(void);
-extern int func_02157170(int a0, int a1);
+extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
 extern void func_021D5BEC(u8 *);
 extern void func_0202223C(u32, u32);
 extern void func_0200F7DC(void);
@@ -58,7 +58,7 @@ int func_021D5D74(int a, int b, int c, u8 *p)
     func_021D7858(((struct Obj01056 *)p)->f40);
     if (func_0203CD98()) {
         if (func_0200FB24()) {
-            switch (func_02157170(1, 1)) {
+            switch (DWC_RAPCOMMON_HandleNetError(1, 1)) {
             case 0: break;
             case 1:
             case 4:

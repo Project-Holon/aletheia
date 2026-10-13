@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202C5AC
+ * function: ISS_SWITCH_Free
  * address:  0x0202C5AC
  * packet:   pkt_0202C4CC
  * region:   arm9
@@ -23,14 +23,14 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0202C5AC.c \
- *       --func func_0202C5AC --addr 0x0202C5AC --cc 1.1p1 --thumb
+ *       --func ISS_SWITCH_Free --addr 0x0202C5AC --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
 extern u32 func_020307B0(void *p);
 
-u32 func_0202C5AC(void *p)
+u32 ISS_SWITCH_Free(void *p)
 {
     return func_020307B0(p);
 }

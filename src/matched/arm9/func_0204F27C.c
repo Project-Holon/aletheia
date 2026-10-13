@@ -1,5 +1,5 @@
 /*
- * function: func_0204F27C
+ * function: BILLBOARD_DeleteAllImages
  * address:  0x0204F27C
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204F150  0x0204F150  arm
+ *   BILLBOARD_DeleteImage  0x0204F150  arm
  *
  * Walk the actor's u16 count at +0xc and release every entry.  The count is
- * re-read on each iteration because func_0204F150 may change it.  The
+ * re-read on each iteration because BILLBOARD_DeleteImage may change it.  The
  * comparison comes out signed (blt, not blo) because the u16 count promotes
  * to int against an s32 counter.
  */
@@ -27,13 +27,13 @@ struct Actor {
     u16 count;
 };
 
-extern void func_0204F150(u8 *a0, int i);
+extern void BILLBOARD_DeleteImage(u8 *a0, int i);
 
-void func_0204F27C(struct Actor *p)
+void BILLBOARD_DeleteAllImages(struct Actor *p)
 {
     s32 i;
 
     for (i = 0; i < p->count; i++) {
-        func_0204F150((u8 *)p, i);
+        BILLBOARD_DeleteImage((u8 *)p, i);
     }
 }

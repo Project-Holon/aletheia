@@ -1,5 +1,5 @@
 /*
- * function: func_02005440
+ * function: GFL_USE_OnPreExit
  * address:  0x02005440
  * packet:   pkt_02005438
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  * blocker:  02005454
  * symbols:
- *   g_020A9E80      0x020A9E80  data
+ *   _PreExitState      0x020A9E80  data
  *   func_02005454   0x02005454  arm
  */
 
-extern int g_020A9E80;
+extern int _PreExitState;
 extern void func_02005454(int v);
-void func_02005440(void)
+void GFL_USE_OnPreExit(void)
 {
     func_02005454(0);
-    g_020A9E80 = 1;
+    _PreExitState = 1;
 }

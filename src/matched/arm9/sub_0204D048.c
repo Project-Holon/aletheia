@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204D048
+ * function: CLACT_CreateActorFull
  * address:  0x0204D048
  * packet:   pkt_0204CA74
  * region:   arm9
@@ -11,20 +11,20 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0204CFDC  0x0204CFDC  arm
- *   sub_0204B59C  0x0204B59C  arm
- *   sub_0204B5D4  0x0204B5D4  arm
- *   sub_0204B5F4  0x0204B5F4  arm
- *   sub_0204B570  0x0204B570  arm
+ *   CLACT_CreateActorCore  0x0204CFDC  arm
+ *   CLACT_SetActorAffineOriginAxis  0x0204B59C  arm
+ *   CLACT_SetActorScaleAxis  0x0204B5D4  arm
+ *   CLACT_SetActorRotation  0x0204B5F4  arm
+ *   CLACT_SetActorAffineMode  0x0204B570  arm
  *
- * Build the object with sub_0204CFDC, then apply the six remaining fields
- * of the request to it: two axes share sub_0204B59C and two more share
- * sub_0204B5D4, selected by a trailing 0/1 argument, and the last two are
+ * Build the object with CLACT_CreateActorCore, then apply the six remaining fields
+ * of the request to it: two axes share CLACT_SetActorAffineOriginAxis and two more share
+ * CLACT_SetActorScaleAxis, selected by a trailing 0/1 argument, and the last two are
  * plain halfwords.
  *
  * The fifth argument is forwarded untouched: `ldrh r4, [sp, #0x18]` reads
  * this function's own stack argument (six pushed registers above it) and
- * `str r4, [sp]` writes it straight back out as sub_0204CFDC's, with r0-r3
+ * `str r4, [sp]` writes it straight back out as CLACT_CreateActorCore's, with r0-r3
  * never disturbed in between.
  *
  * The literals 0 and 1 are each materialised once, into r5 and r4, and
@@ -44,8 +44,8 @@
  * that entry.  The C in this file is unchanged.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D048.c \
- *       --func sub_0204D048 --addr 0x0204D048 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_CreateActorFull.c \
+ *       --func CLACT_CreateActorFull --addr 0x0204D048 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -67,24 +67,24 @@ struct Req {
     u16  unk_16;
 };
 
-extern struct Obj *sub_0204CFDC(void *owner, const struct Req *r, void *c, u32 space,
+extern struct Obj *CLACT_CreateActorCore(void *owner, const struct Req *r, void *c, u32 space,
                                 u16 e);
-extern void sub_0204B59C(struct Obj *o, s16 value, u32 axis);
+extern void CLACT_SetActorAffineOriginAxis(struct Obj *o, s16 value, u32 axis);
 struct Actor;
-extern void sub_0204B5D4(struct Actor *actor, u32 value, u32 which);
-extern void sub_0204B5F4(struct Actor *actor, u16 value);
+extern void CLACT_SetActorScaleAxis(struct Actor *actor, u32 value, u32 which);
+extern void CLACT_SetActorRotation(struct Actor *actor, u16 value);
 struct Actor;
-extern void sub_0204B570(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 
-struct Obj *sub_0204D048(void *owner, const struct Req *r, void *c, u32 space, u16 e)
+struct Obj *CLACT_CreateActorFull(void *owner, const struct Req *r, void *c, u32 space, u16 e)
 {
-    struct Obj *o = sub_0204CFDC(owner, r, c, space, e);
+    struct Obj *o = CLACT_CreateActorCore(owner, r, c, space, e);
 
-    sub_0204B59C(o, r->unk_08, 0);
-    sub_0204B59C(o, r->unk_08, 1);
-    sub_0204B5D4((struct Actor *)o, r->unk_0c, 0);
-    sub_0204B5D4((struct Actor *)o, r->unk_10, 1);
-    sub_0204B5F4((struct Actor *)o, r->unk_14);
-    sub_0204B570((struct Actor *)o, r->unk_16);
+    CLACT_SetActorAffineOriginAxis(o, r->unk_08, 0);
+    CLACT_SetActorAffineOriginAxis(o, r->unk_08, 1);
+    CLACT_SetActorScaleAxis((struct Actor *)o, r->unk_0c, 0);
+    CLACT_SetActorScaleAxis((struct Actor *)o, r->unk_10, 1);
+    CLACT_SetActorRotation((struct Actor *)o, r->unk_14);
+    CLACT_SetActorAffineMode((struct Actor *)o, r->unk_16);
     return o;
 }

@@ -49,7 +49,7 @@
  *   func_020215A0 0x020215A0 thumb
  *   func_02021540 0x02021540 thumb
  *   func_020056BC 0x020056BC thumb
- *   func_0202173C 0x0202173C thumb
+ *   PALANM_RequestFade 0x0202173C thumb
  *   func_0207D63C 0x0207D63C arm
  *   func_02045B38 0x02045B38 arm
  *   func_0201D7EC 0x0201D7EC thumb
@@ -61,7 +61,7 @@
  *   func_0201ED04 0x0201ED04 thumb
  *   func_0201D83C 0x0201D83C thumb
  *   func_02045C04 0x02045C04 arm
- *   func_0201AF80 0x0201AF80 thumb
+ *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02041EE4 0x02041EE4 arm
  *   func_0200CA8C 0x0200CA8C thumb
@@ -94,7 +94,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   func_021BC2FC 0x021BC2FC thumb ov209
  *   func_021BC2B0 0x021BC2B0 thumb ov209
- *   func_02021ED8 0x02021ED8 thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   func_021B7A64 0x021B7A64 thumb ov067
  *   func_021B7AB0 0x021B7AB0 thumb ov067
  *   func_021BE658 0x021BE658 thumb ov209
@@ -108,8 +108,8 @@
  *   func_021B9280 0x021B9280 thumb ov067
  *   func_020216D4 0x020216D4 thumb
  *   func_0200CA78 0x0200CA78 thumb
- *   func_02012BF8 0x02012BF8 thumb
- *   func_02012BE0 0x02012BE0 thumb
+ *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
  *   func_02045088 0x02045088 arm
  *   func_020450F0 0x020450F0 arm
  *   d_021BE990 0x021BE990 data a1
@@ -138,13 +138,13 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_021B9394 0x021B9394 thumb ov067
  *   func_0204A5AC 0x0204A5AC arm
- *   func_0204B944 0x0204B944 arm
- *   func_0204B8D4 0x0204B8D4 arm
+ *   CLACT_GetActorAutoAnim 0x0204B944 arm
+ *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   func_0204A600 0x0204A600 arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   func_0204B878 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204B898 0x0204B898 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   func_0204B98C 0x0204B98C arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B3F4 0x0204B3F4 arm
@@ -158,7 +158,7 @@
  *   func_0204ABF0 0x0204ABF0 arm
  *   func_0204ACEC 0x0204ACEC arm
  *   func_0204AF28 0x0204AF28 arm
- *   func_0201BABC 0x0201BABC thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0201BC3C 0x0201BC3C thumb
  *   func_0201BC40 0x0201BC40 thumb
  *   func_0201BC78 0x0201BC78 thumb
@@ -190,11 +190,11 @@
  *   func_0201ADE4 0x0201ADE4 thumb
  *   func_0201AE1C 0x0201AE1C thumb
  *   func_0201AE14 0x0201AE14 thumb
- *   func_0204B604 0x0204B604 arm
+ *   CLACT_SetActorFlip 0x0204B604 arm
  *   d_021BE9A4 0x021BE9A4 data a4
  *   func_02049E74 0x02049E74 arm
- *   func_0204B7F0 0x0204B7F0 arm
- *   func_0204AA94 0x0204AA94 arm
+ *   CLACT_GetActorCharacterIndex 0x0204B7F0 arm
+ *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   func_0201BB5C 0x0201BB5C thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_021B8AE4 0x021B8AE4 thumb ov067
@@ -342,7 +342,7 @@ extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap)
 extern void func_020215A0(struct PalAnmSlot *,unsigned);
 extern void func_02021540(struct PalAnmSlot *);
 extern u32 func_020056BC(void);
-extern int func_0202173C(void *, u16, u16, short, u8, u8, u16, void *);
+extern int PALANM_RequestFade(void *, u16, u16, short, u8, u8, u16, void *);
 extern void func_0207D63C(void *,unsigned,unsigned,unsigned,unsigned);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
@@ -354,7 +354,7 @@ extern void func_0201C4C0(struct PrintSys *);
 extern void func_0201ED04(struct WordSet *);
 extern void func_0201D83C(void *);
 extern void func_02045C04(struct Rec *);
-extern u16 *func_0201AF80(u32 heap, u16 *countOut);
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_020307B0(void *p);
 extern void func_02041EE4(u32, u32, u32);
 extern u16 func_0200CA8C(struct Blk37 *p);
@@ -380,7 +380,7 @@ extern void func_0203D34C(u32, u32);
 extern void func_021BC370(void);
 extern void func_021BC298(char *);
 extern void func_021BC2E4(char *);
-extern u32 func_02021ED8(const char *);
+extern u32 PALANM_GetFadeRequestBits(const char *);
 extern void func_02034A5C(int);
 extern void func_021BC2FC(char *);
 extern void func_021BC2B0(char *);
@@ -397,8 +397,8 @@ extern void func_0200CA5C(struct Blk37 *p, u32 v);
 extern void func_021B9280(u8 *p, int a, u32 b);
 extern void func_020216D4(struct PalAnmSlot *, unsigned, unsigned, unsigned);
 extern void func_0200CA78(void *,u16);
-extern int func_02012BF8(int, int);
-extern void func_02012BE0(void *, unsigned, unsigned);
+extern int GAME_DATA_CheckSaveFlag(int, int);
+extern void GAME_DATA_SetSaveFlag(void *, unsigned, unsigned);
 extern void func_02045088(unsigned short);
 extern unsigned func_020450F0(unsigned, unsigned, unsigned, unsigned, u8, u8, u8);
 extern u32 func_020452E8(struct Descriptor *d);
@@ -426,13 +426,13 @@ extern u16 func_0200CF54(struct Blk37 *p, u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern unsigned func_021B9394(char *);
 extern void func_0204A5AC(void);
-extern u32 func_0204B944(struct Actor *);
-extern void func_0204B8D4(struct Obj *,u32);
+extern u32 CLACT_GetActorAutoAnim(struct Actor *);
+extern void CLACT_AddActorAnimFrame(struct Obj *,u32);
 extern void func_0204A600(void);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *,unsigned int);
-extern u16 func_0204B898(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern u32 func_0204B98C(struct Actor *);
 extern void func_0204B3DC(struct Obj *,u32);
 extern u32 func_0204B3F4(struct Obj *);
@@ -445,7 +445,7 @@ extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern u32 func_0201BABC(u32, u32, u32, u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
 extern int func_0201BC3C(void);
 extern int func_0201BC40(void);
 extern int func_0201BC78(void);
@@ -475,10 +475,10 @@ extern u32 func_0202D898(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern void *func_0201ADE4(u32,int,u32);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *);
-extern void func_0204B604(struct Actor *actor, u32 which, u32 set);
+extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern u16 func_0204B7F0(u8 *);
-extern void func_0204AA94(int,void *,unsigned,int,int);
+extern u16 CLACT_GetActorCharacterIndex(u8 *);
+extern void CLACT_TransferCharacterPart(int,void *,unsigned,int,int);
 extern unsigned func_0201BB5C(unsigned,unsigned,unsigned,unsigned);
 extern void func_0204B6F4(struct Obj *,unsigned,unsigned);
 extern int func_021B8AE4(struct S *s, unsigned int v);
@@ -660,13 +660,13 @@ void func_021BC730(char *p, u8 a, u8 b)
 {
     void *ctx;
     ctx = (void *)func_020056BC();
-    func_0202173C(((struct Obj00088 *)p)->fC, 1, 0xBFFF, -14, a, b, 0, ctx);
+    PALANM_RequestFade(((struct Obj00088 *)p)->fC, 1, 0xBFFF, -14, a, b, 0, ctx);
     ctx = (void *)func_020056BC();
-    func_0202173C(((struct Obj00088 *)p)->fC, 2, 0xFFEF, -14, a, b, 0, ctx);
+    PALANM_RequestFade(((struct Obj00088 *)p)->fC, 2, 0xFFEF, -14, a, b, 0, ctx);
     ctx = (void *)func_020056BC();
-    func_0202173C(((struct Obj00088 *)p)->fC, 4, 0xF878, -14, a, b, 0, ctx);
+    PALANM_RequestFade(((struct Obj00088 *)p)->fC, 4, 0xF878, -14, a, b, 0, ctx);
     ctx = (void *)func_020056BC();
-    func_0202173C(((struct Obj00088 *)p)->fC, 8, 0xBFFF, -14, a, b, 0, ctx);
+    PALANM_RequestFade(((struct Obj00088 *)p)->fC, 8, 0xBFFF, -14, a, b, 0, ctx);
 }
 
 
@@ -728,7 +728,7 @@ void func_021BC868(char *p){func_02045808(*(struct U16Vec * *)&((struct Obj00088
 
 
 
-void func_021BC88C(char *p) { ((struct Obj00123 *)p)->fC38=func_0201AF80(107,0); }
+void func_021BC88C(char *p) { ((struct Obj00123 *)p)->fC38=POKE_PERSONAL_LoadFormTable(107,0); }
 
 
 
@@ -911,7 +911,7 @@ int func_021BCC94(char *p)
  */
 int func_021BCD48(char *p)
 {
-    if (func_021BC91C(p) == 1 || func_02021ED8(*(char * *)&((struct Obj00088 *)p)->fC) != 0) return 1;
+    if (func_021BC91C(p) == 1 || PALANM_GetFadeRequestBits(*(char * *)&((struct Obj00088 *)p)->fC) != 0) return 1;
     func_021BC2FC(p);
     func_021BC2B0(p);
     func_021BC810();
@@ -934,7 +934,7 @@ int func_021BCD48(char *p)
 
 
 
-int func_021BCDE0(char *p) { if(func_02021ED8(*(char * *)&((struct Obj14668 *)p)->fC)==0)return ((struct Obj14668 *)p)->f1C;return 2; }
+int func_021BCDE0(char *p) { if(PALANM_GetFadeRequestBits(*(char * *)&((struct Obj14668 *)p)->fC)==0)return ((struct Obj14668 *)p)->f1C;return 2; }
 
 
 
@@ -955,7 +955,7 @@ int func_021BCDF8(char *p)
         }
         break;
     case 1:
-        if (func_02021ED8(*(char * *)&((struct Obj00088 *)p)->fC) == 0) {
+        if (PALANM_GetFadeRequestBits(*(char * *)&((struct Obj00088 *)p)->fC) == 0) {
             func_0207D534((unsigned short *)0x0400006c, 0);
             func_0207D534((unsigned short *)0x0400106c, 0);
             func_021BC730(p, step = 16, 0);
@@ -965,7 +965,7 @@ int func_021BCDF8(char *p)
         }
         break;
     case 2:
-        if (func_021BC91C(p) == 0 && func_02021ED8(*(char * *)&((struct Obj00088 *)p)->fC) == 0) {
+        if (func_021BC91C(p) == 0 && PALANM_GetFadeRequestBits(*(char * *)&((struct Obj00088 *)p)->fC) == 0) {
             ((struct Obj00088 *)p)->fC30 = 0;
             return 4;
         }
@@ -1145,11 +1145,11 @@ int func_021BD340(char *a, int arg)
  */
 void func_021BD354(char *p)
 {
-    if (func_02012BF8(**(int * *)&((struct Obj10912 *)p)->f0, 15) == 1) {
-        func_02012BE0(**(void ** *)&((struct Obj10912 *)p)->f0, 15, 0);
+    if (GAME_DATA_CheckSaveFlag(**(int * *)&((struct Obj10912 *)p)->f0, 15) == 1) {
+        GAME_DATA_SetSaveFlag(**(void ** *)&((struct Obj10912 *)p)->f0, 15, 0);
         func_021BD890(p, 5, 6);
     } else {
-        func_02012BE0(**(void ** *)&((struct Obj10912 *)p)->f0, 15, 1);
+        GAME_DATA_SetSaveFlag(**(void ** *)&((struct Obj10912 *)p)->f0, 15, 1);
         func_021BD890(p, 5, 7);
     }
 }
@@ -1379,7 +1379,7 @@ void func_021BD824(char *a)
 
 
 
-void func_021BD838(char *p) {u32 i;for(i=0;i<60;i++) {if(*(void **)(p+i*4+0xa74)) {if(func_0204B944(*(struct Actor **)(p+i*4+0xa74))!=1) func_0204B8D4(*(struct Obj **)(p+i*4+0xa74),0x1000);}}func_0204A600();}
+void func_021BD838(char *p) {u32 i;for(i=0;i<60;i++) {if(*(void **)(p+i*4+0xa74)) {if(CLACT_GetActorAutoAnim(*(struct Actor **)(p+i*4+0xa74))!=1) CLACT_AddActorAnimFrame(*(struct Obj **)(p+i*4+0xa74),0x1000);}}func_0204A600();}
 
 
 
@@ -1388,7 +1388,7 @@ void func_021BD838(char *p) {u32 i;for(i=0;i<60;i++) {if(*(void **)(p+i*4+0xa74)
 
 void func_021BD86C(char *p, int idx, int v)
 {
-    func_0204B8C4(*(void **)(p + 0xa74 + idx * 4), 0);
+    CLACT_SetActorAnimFrame(*(void **)(p + 0xa74 + idx * 4), 0);
     func_0204B878(*(void **)(p + 0xa74 + idx * 4), (unsigned short)v);
 }
 
@@ -1405,7 +1405,7 @@ void func_021BD890(char *p,int idx,int value) {func_021BD86C(p,idx,value);func_0
 
 int func_021BD8B0(char *a, int b)
 {
-    return func_0204B898((struct Obj *)(*(int *)(a + b * 4 + 0xa74)));
+    return CLACT_GetActorAnimSeq((struct Obj *)(*(int *)(a + b * 4 + 0xa74)));
 }
 
 
@@ -1489,7 +1489,7 @@ void func_021BD9B4(struct R_021BD3E0 *p)
     pb = &p->b[0];
     pc = &p->c[0];
     for (i = 0; i < 0x10; i++)
-        arr[i] = func_0204A6C8((void *)h2, func_0201BABC(0, 0, 0, 0), 0, 0, 0x6b);
+        arr[i] = func_0204A6C8((void *)h2, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 0, 0x6b);
     *pb = func_0204ACEC((void *)h2, func_0201BC3C(), 0, 0x80, 0x6b);
     a = func_0201BC40();
     *pc = func_0204AF28((void *)h2, a, func_0201BCB4(), 0x6b);
@@ -1498,7 +1498,7 @@ void func_021BD9B4(struct R_021BD3E0 *p)
     pb = &p->b[1];
     pc = &p->c[1];
     for (i = 0; i < 0x10; i++)
-        arr[i] = func_0204A6C8((void *)h2, func_0201BABC(0, 0, 0, 0), 0, 1, 0x6b);
+        arr[i] = func_0204A6C8((void *)h2, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 1, 0x6b);
     *pb = func_0204ACEC((void *)h2, func_0201BC3C(), 1, 0, 0x6b);
     a = func_0201BC78();
     *pc = func_0204AF28((void *)h2, a, func_0201BCEC(), 0x6b);
@@ -1552,7 +1552,7 @@ void func_021BDC08(char *p)
     if (((struct Obj25573 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f8 == 1) {
         func_021BD8D8(p, 8, 0);
         func_021BD8D8(p, 5, 0);
-    } else if (func_02012BF8(**(int * *)&((struct Obj04617 *)p)->f0, 15) == 1)
+    } else if (GAME_DATA_CheckSaveFlag(**(int * *)&((struct Obj04617 *)p)->f0, 15) == 1)
         func_021BD890(p, 5, 7);
 }
 
@@ -1619,7 +1619,7 @@ void func_021BDD7C(char *p,u16 species)
     func_0204BA20(*(void **)(p+0xa74+index*4),0);
     personal=func_0201ADE4(species,(u16)outForm,0x806b);
     if (species!=0 && func_0201AE1C(personal,0x22)==0)
-        func_0204B604(*(void **)(p+0xa74+index*4),1,1);
+        CLACT_SetActorFlip(*(void **)(p+0xa74+index*4),1,1);
     func_0201AE14(personal);
     func_021BD8D8(p,other,0);
     func_020216D4(((struct Obj08410 *)p)->fC,2,(u16)((base>>5)<<4),0x20);
@@ -1678,13 +1678,13 @@ void func_021BE1B8(char *p, int index, unsigned species, u16 form, u16 half, int
     unsigned saved;
     owner=func_020490F4(7,0x806b);
     saved=half;
-    data=func_02049E74((void *)((unsigned)owner),func_0201BABC(species,form,saved,0),0,(unsigned)&out,0x806b);
+    data=func_02049E74((void *)((unsigned)owner),POKE_TOOL_CalcGraphicIndex(species,form,saved,0),0,(unsigned)&out,0x806b);
     if (mode==1) {
         slot=(struct Obj **)(p+0xa74+index*4);
-        func_0204AA94(func_0204B7F0((u8 *)*slot),out->f14,1024,0,0);
+        CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex((u8 *)*slot),out->f14,1024,0,0);
     } else {
         slot=(struct Obj **)(p+0xa74+index*4);
-        func_0204AA94(func_0204B7F0((u8 *)*slot),out->f14,1024,0,1);
+        CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex((u8 *)*slot),out->f14,1024,0,1);
     }
     func_020307B0(data);
     func_02049238(owner);

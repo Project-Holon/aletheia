@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0204AC18",
+   "name": "CLACT_RegisterPaletteEx",
    "address": "0x0204AC18",
    "kind": "game",
    "region": "arm9",

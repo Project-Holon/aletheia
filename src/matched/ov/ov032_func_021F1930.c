@@ -14,7 +14,7 @@
  *   func_021F0B80 0x021F0B80 thumb
  *   func_021F178C 0x021F178C thumb
  *   func_021F0BA8 0x021F0BA8 thumb
- *   func_02031194 0x02031194 arm
+ *   TCBL_DeleteTask 0x02031194 arm
  */
 #include "../include/Obj02751.h"
 #include "../include/Obj20431.h"
@@ -26,7 +26,7 @@ extern void func_021F0B80(char *p, void *t, unsigned a);
 extern void func_021F178C(char *this, u8 a, int *p);
 extern int func_021F0BA8(u8 *s);
 struct TcblNode;
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 
 void func_021F1930(void *task, u8 *s)
 {
@@ -49,7 +49,7 @@ void func_021F1930(void *task, u8 *s)
         return;
     default:
         (**(int * *)&((struct Obj02751 *)s)->fC)--;
-        func_02031194(task);
+        TCBL_DeleteTask(task);
         return;
     }
 }

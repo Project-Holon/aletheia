@@ -17,11 +17,11 @@
  *   func_020399A8 0x020399A8 arm
  *   func_0203D3A8 0x0203D3A8 arm
  *   func_021BCBD8 0x021BCBD8 thumb ov099
- *   sub_020399A8  0x020399A8  arm
- *   sub_02039C68  0x02039C68  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   func_02039CB4 0x02039CB4 arm
  *   func_021C18C8 0x021C18C8 thumb ov099
- *   func_0203D7B0 0x0203D7B0 arm
+ *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   func_0203D7BC 0x0203D7BC arm
  *   func_0203D378 0x0203D378 arm
  *   func_021BAAB8 0x021BAAB8 thumb ov099
@@ -49,15 +49,15 @@
  *   func_020099C8  0x020099C8  thumb
  *   func_02009C24  0x02009C24  thumb
  *   func_0203CBAC  0x0203CBAC  arm
- *   func_0203D844  0x0203D844  arm
- *   func_02085D3C  0x02085D3C  arm
+ *   GFL_NET_CopyInitParam  0x0203D844  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   d_021C3B9C     0x021C3B9C  data
  *   func_021C27D0  0x021C27D0  thumb
  *   func_021C27D8  0x021C27D8  thumb
  *   func_0201293C 0x0201293C thumb
  *   func_02012934 0x02012934 thumb
  *   func_0201AA1C 0x0201AA1C thumb
- *   func_0203D644 0x0203D644 arm
+ *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   func_02030EAC 0x02030EAC arm
  *   func_02043534 0x02043534 arm
  *   func_020435F4 0x020435F4 arm
@@ -86,7 +86,7 @@
  *   func_0201ED04 0x0201ED04 thumb
  *   func_0201D83C 0x0201D83C thumb
  *   func_0204A648 0x0204A648 arm
- *   sub_020433E0  0x020433E0  arm
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   data_021C3AA0  0x021C3AA0  data
  *   func_0203F8F4 0x0203F8F4 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -131,14 +131,14 @@
  *   d_021C375C  0x021C375C  data  a4
  *   d_021C3AA0  0x021C3AA0  data  a4
  *   func_021C24D4 0x021C24D4 thumb ov099
- *   func_02156A3C 0x02156A3C thumb ov009
+ *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   func_02009B80 0x02009B80 thumb
- *   func_02156D84 0x02156D84 thumb ov009
- *   func_021563D0 0x021563D0 thumb ov009
- *   func_02005C4C 0x02005C4C thumb
- *   func_02005D90 0x02005D90 thumb
+ *   DWC_RAP_IsDisconnected 0x02156D84 thumb ov009
+ *   DWC_RAP_StopVchat 0x021563D0 thumb ov009
+ *   GFL_USE_GetTargetBgmNo 0x02005C4C thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   sub_0204047C  0x0204047C  arm
- *   func_0215683C  0x0215683C  thumb  ov009
+ *   DWC_RAP_SetOwnStatus  0x0215683C  thumb  ov009
  *   func_02012944 0x02012944 thumb
  *   func_02008550 0x02008550 thumb
  *   func_02008554 0x02008554 thumb
@@ -156,24 +156,24 @@
  *   func_021BA8BC  0x021BA8BC  thumb  ov099
  *   func_0203CEAC 0x0203CEAC arm
  *   func_0203D210 0x0203D210 arm
- *   func_0204A698 0x0204A698 arm
+ *   CLACT_FlushOamIfPending 0x0204A698 arm
  *   func_020452E8 0x020452E8 arm
  *   func_0202020C 0x0202020C thumb
  *   func_0201F868 0x0201F868 thumb
  *   func_021BB050 0x021BB050 thumb ov099
- *   func_0203C8A8 0x0203C8A8 arm
- *   func_02156C84 0x02156C84 thumb ov009
- *   func_0203C600 0x0203C600 arm
- *   func_0203CB00 0x0203CB00 arm
- *   func_0203C3EC 0x0203C3EC arm
+ *   GFL_NET_STATE_WifiStartMatch 0x0203C8A8 arm
+ *   DWC_RAP_IsUserDataChanged 0x02156C84 thumb ov009
+ *   GFL_NET_STATE_IsWifiLoginState 0x0203C600 arm
+ *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
+ *   GFL_NET_STATE_GetWifiState 0x0203C3EC arm
  *   func_02012DAC 0x02012DAC thumb
  *   func_02012DD0 0x02012DD0 thumb
- *   func_02156C98 0x02156C98 thumb ov009
+ *   DWC_RAP_ClearUserDataChanged 0x02156C98 thumb ov009
  *   func_0201A570 0x0201A570 thumb
- *   func_0203C628 0x0203C628 arm
- *   func_0203C5EC 0x0203C5EC arm
+ *   GFL_NET_STATE_IsWifiLoginOrConnected 0x0203C628 arm
+ *   GFL_NET_STATE_IsWifiDisconnectFinal 0x0203C5EC arm
  *   func_0203D1C0 0x0203D1C0 arm
- *   func_0203C554 0x0203C554 arm
+ *   GFL_NET_STATE_WifiDisconnect 0x0203C554 arm
  *   func_0202EB0C 0x0202EB0C thumb
  *   func_021BAB04 0x021BAB04 thumb ov099
  *   func_02009A34 0x02009A34 thumb
@@ -182,7 +182,7 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_02045334 0x02045334 arm
  *   func_0201F73C 0x0201F73C thumb
- *   func_02155664 0x02155664 thumb ov009
+ *   DWC_RAP_SetAcceptFriendCallback 0x02155664 thumb ov009
  *   func_021C19A8 0x021C19A8 thumb ov099
  *   func_021C0290 0x021C0290 thumb ov099
  *   func_02009A54 0x02009A54 thumb
@@ -384,11 +384,11 @@ extern void func_021C2864(void *, u8);
 extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(struct Entry *a, u32_021BD8D8 b, u32_021BD8D8 c, u32_021BD8D8 d);
 extern unsigned int func_021BCBD8(char *p, int m);
-extern struct Entry *sub_020399A8(void);
-extern void sub_02039C68(struct Link *a, unsigned int b, unsigned int c);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
 extern u32_021BD9B4 func_02039CB4(struct Link *, u32_021BD9B4, u32_021BD9B4);
 extern void func_021C18C8(char *p, int kind, int value);
-extern void func_0203D7B0(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern int func_0203D7BC(int);
 extern int func_0203D378();
 extern void func_021BAAB8(char *, int, int);
@@ -414,15 +414,15 @@ extern u32_021BDCD0 func_0201283C(const struct BigObj *p);
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
 extern void func_02009C24(struct Sub020097BCObj *obj, int src, int dest);
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern void func_0203CBAC(struct Req *req, u32_021BDD0C a2, u32_021BDD0C a3);
-extern void func_0203D844(void *dst);
+extern void GFL_NET_CopyInitParam(void *dst);
 extern u8 func_021C27D0(S_021BDD48 *s);
 extern u8 func_021C27D8(S_021BDD48 *s);
 extern u32_021BDDD0 func_0201293C(const struct BigObj *p);
 extern void *func_02012934(const struct BigObj *p);
 extern u32_021BDDD0 func_0201AA1C(void *);
-extern void func_0203D644(int);
+extern void GFL_NET_SetWaitMode(int);
 extern void func_02030EAC(struct Node *n);
 extern void func_02043534(u32_021BDE94);
 extern void func_020435F4(u32_021BDE94);
@@ -451,7 +451,7 @@ extern unsigned int func_02045C04(struct Rec *rec);
 extern unsigned int func_0201ED04(struct WordSet *p);
 extern u32_021BDF7C func_0201D83C(void *ptr);
 extern void func_0204A648(void);
-extern void sub_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203F8F4(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32_021BE040 bgId, const struct BgTemplate *tmpl, u32_021BE040 type);
@@ -483,14 +483,14 @@ extern struct Bank *func_0204B100(int count, u8 flag, u32_021BE5B8 heapId);
 extern struct Obj *func_0204B034(u8 *a0, u32_021BE5B8 a1, u32_021BE5B8 heap);
 extern void func_0204B258(struct Bank *bank, void *p);
 extern void func_021C24D4(u8 *p, int v);
-extern int func_02156A3C(void);
+extern int DWC_RAP_GetTargetFriendIndex(void);
 extern void func_02009B80(struct Sub020097BCObj *obj, int i);
-extern int func_02156D84(void);
-extern void func_021563D0(void);
-extern u32_021BE600 func_02005C4C(void);
-extern void func_02005D90(int, int);
+extern int DWC_RAP_IsDisconnected(void);
+extern void DWC_RAP_StopVchat(void);
+extern u32_021BE600 GFL_USE_GetTargetBgmNo(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 extern void sub_0204047C(int idx, unsigned short val);
-extern int func_0215683C(char *a, int b);
+extern int DWC_RAP_SetOwnStatus(char *a, int b);
 extern u8 *func_02012944(void *);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
@@ -508,24 +508,24 @@ extern void func_02009918(struct Sub020097BCObj *obj, u32_021BE7EC i, u32_021BE7
 extern int func_021BA8BC(void *p);
 extern int func_0203CEAC(int a0);
 extern u32_021BE9C8 func_0203D210(void);
-extern void func_0204A698(void);
+extern void CLACT_FlushOamIfPending(void);
 extern u32_021BE9C8 func_020452E8(struct Descriptor *d);
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 extern u32_021BE9C8 func_0201F868(void *p);
 extern void func_021BB050(void *);
-extern void func_0203C8A8(void);
-extern unsigned char func_02156C84(void);
-extern int func_0203C600(void);
-extern int func_0203CB00(void);
-extern int func_0203C3EC(void);
+extern void GFL_NET_STATE_WifiStartMatch(void);
+extern unsigned char DWC_RAP_IsUserDataChanged(void);
+extern int GFL_NET_STATE_IsWifiLoginState(void);
+extern int GFL_NET_STATE_IsFatalError(void);
+extern int GFL_NET_STATE_GetWifiState(void);
 extern int func_02012DAC(int a0);
 extern int func_02012DD0(u8 *p);
-extern void func_02156C98(int v);
+extern void DWC_RAP_ClearUserDataChanged(int v);
 extern void func_0201A570(void *);
-extern int func_0203C628(void);
-extern int func_0203C5EC(void);
+extern int GFL_NET_STATE_IsWifiLoginOrConnected(void);
+extern int GFL_NET_STATE_IsWifiDisconnectFinal(void);
 extern u32_021BEC60 func_0203D1C0(u32_021BEC60 index);
-extern void func_0203C554(u32_021BEC60 a);
+extern void GFL_NET_STATE_WifiDisconnect(u32_021BEC60 a);
 extern unsigned int func_0202EB0C(void);
 extern void func_021BAB04(void *p, int message);
 extern u32_021BED3C func_02009A34(struct Sub020097BCObj *obj);
@@ -534,7 +534,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern void func_02155664(void (*callback)(void));
+extern void DWC_RAP_SetAcceptFriendCallback(void (*callback)(void));
 extern void func_021C19A8(char *);
 extern void func_021C0290(char *);
 extern u32_021BEEBC func_02009A54(struct Sub020097BCObj *obj);
@@ -671,7 +671,7 @@ int func_021BD97C(char *p, int v)
  */
 int func_021BD994(void *v, int b)
 {
-    sub_02039C68((struct Link *)sub_020399A8(), 0x1B, 0x0A);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1B, 0x0A);
     ((Ov099Work *)v)->f1CC = 0x8B;
 
     return b;
@@ -695,7 +695,7 @@ int func_021BD9F4(char *p, int v)
     func_021C18C8(p, 1, 2);
     zero = 0;
     ((Ov099Work *)p)->f135C = zero;
-    func_0203D7B0(0);
+    GFL_NET_SetAutoExit(0);
     if (func_0203D378(func_0203D7BC(0)) != 0) {
         func_021BAAB8(p, 0x73, zero);
     } else {
@@ -871,14 +871,14 @@ void func_021BDCF4(int a, int b, char *p)
 
 void func_021BDD0C(void *p, int on)
 {
-    if (func_02085D3C())
+    if (OS_IsRunOnTwl())
         d_021C3B9C.f48 = 0x79000;
     else
         d_021C3B9C.f48 = 0x5e400;
     if (on)
         func_0203CBAC((struct Req *)(&d_021C3B9C), 0, (u32_021BDD0C)p);
     else
-        func_0203D844(&d_021C3B9C);
+        GFL_NET_CopyInitParam(&d_021C3B9C);
 }
 
 
@@ -987,10 +987,10 @@ int func_021BDDF4(char *p) {
 void func_021BDE30(void *p, int kind, int value)
 {
     if (kind == 1) {
-        func_0203D644(0);
+        GFL_NET_SetWaitMode(0);
         func_021BDD0C(p, 0);
     } else {
-        if (func_021BDDB4(kind, (void *)value)) func_0203D644(1);
+        if (func_021BDDB4(kind, (void *)value)) GFL_NET_SetWaitMode(1);
     }
     switch (kind) {
     case 2:
@@ -1077,7 +1077,7 @@ void func_021BE028(void)
 
 void func_021BE030(void)
 {
-    sub_020433E0((const struct DispVram *)data_021C3AA0);
+    BG_SYS_SetVramBanks((const struct DispVram *)data_021C3AA0);
 }
 
 
@@ -1369,9 +1369,9 @@ int func_021BE600(char *p, int ret)
 {
     if (((struct Obj22044 *)((char *)((Ov099Work *)p)->f248))->fC) {
         func_021C24D4((u8 *)p, 4);
-        func_02009B80(((Ov099Work *)p)->f4, func_02156A3C());
-        if ((unsigned)(((Ov099Work *)p)->f135C - 3) <= 1 && !func_02156D84()) {
-            func_021563D0();
+        func_02009B80(((Ov099Work *)p)->f4, DWC_RAP_GetTargetFriendIndex());
+        if ((unsigned)(((Ov099Work *)p)->f135C - 3) <= 1 && !DWC_RAP_IsDisconnected()) {
+            DWC_RAP_StopVchat();
             func_021BEEBC(p);
             ((Ov099Work *)p)->f242 = ((struct Obj22045 *)((char *)((Ov099Work *)p)->f248))->f47;
             func_021C18C8(p, 4, 3);
@@ -1385,7 +1385,7 @@ int func_021BE600(char *p, int ret)
         ((Ov099Work *)p)->f1CC = 9;
         func_021C24D4((u8 *)p, 1);
     }
-    if (func_02005C4C() != 0x424) func_02005D90(0x424, 0xffff);
+    if (GFL_USE_GetTargetBgmNo() != 0x424) GFL_USE_CancelChangeAndPlayBgm(0x424, 0xffff);
     return ret;
 }
 
@@ -1411,7 +1411,7 @@ int func_021BE6B0(S *s, int b)
  */
 void func_021BE6E4(char *s)
 {
-    func_0215683C(((Ov099Work *)s)->f8, 0x20);
+    DWC_RAP_SetOwnStatus(((Ov099Work *)s)->f8, 0x20);
 }
 
 
@@ -1572,7 +1572,7 @@ int func_021BE9C8(char *p, int v)
         if (func_021B96CC((int *)(p + 0x274)) == 1) {
             func_0202208C(0, 0, 0, 0, 6, 1, 0x21);
             func_021BE26C(p);
-            func_0204A698();
+            CLACT_FlushOamIfPending();
         }
         if (func_021C1A44(p) == 1) func_021C1AC0(p);
         ((Ov099Work *)p)->f198 = (void *)func_021BA8BC(((Ov099Work *)p)->f198);
@@ -1595,7 +1595,7 @@ int func_021BE9C8(char *p, int v)
         func_02082BCC(p + 0x90, 0, 0x20);
         func_021BB050(p);
         func_021BDD0C(p, 0);
-        func_0203C8A8();
+        GFL_NET_STATE_WifiStartMatch();
         func_021BAAB8(p, 0x17, 1);
         ((Ov099Work *)p)->f1CC = 5;
     }
@@ -1606,11 +1606,11 @@ int func_021BE9C8(char *p, int v)
 int func_021BEAEC(char *p, int ret)
 {
     if (!func_021BA928(p, ret)) return ret;
-    if (func_02156C84()) {
+    if (DWC_RAP_IsUserDataChanged()) {
         *(int *)(p + 0x1cc) = 0x3c;
         func_021BAAB8(p, 0x1e, 1);
     }
-    if (func_0203C600()) {
+    if (GFL_NET_STATE_IsWifiLoginState()) {
         if (*(int *)(p + 0x1e8)) {
             *(int *)(p + 0x1cc) = 7;
         } else {
@@ -1619,7 +1619,7 @@ int func_021BEAEC(char *p, int ret)
             *(int *)(p + 0x1cc) = func_021BE4F0(p, 0);
         }
     } else {
-        if (func_0203CB00() || func_0203C3EC() == 3) func_021BE900(p);
+        if (GFL_NET_STATE_IsFatalError() || GFL_NET_STATE_GetWifiState() == 3) func_021BE900(p);
     }
     return ret;
 }
@@ -1628,15 +1628,15 @@ int func_021BEAEC(char *p, int ret)
 /*
  * extent: 126 bytes code followed by two zero alignment bytes.
  *   extern char *d_021469DC;
- *   extern void func_0203C0F4(void);
- *   int func_0203C600(void) {
- *       return *(void **)(d_021469DC + 8) == (void *)func_0203C0F4;
+ *   extern void GFL_NET_STATE_WifiLoginMain(void);
+ *   int GFL_NET_STATE_IsWifiLoginState(void) {
+ *       return *(void **)(d_021469DC + 8) == (void *)GFL_NET_STATE_WifiLoginMain;
  *   }
  *   extern char *d_021469DC;
- *   extern void func_0203CADC(void);
- *   int func_0203CB00(void) {
+ *   extern void GFL_NET_STATE_FatalError(void);
+ *   int GFL_NET_STATE_IsFatalError(void) {
  *       if (d_021469DC != 0) {
- *           if (*(void **)(d_021469DC + 8) == (void *)func_0203CADC) return 1;
+ *           if (*(void **)(d_021469DC + 8) == (void *)GFL_NET_STATE_FatalError) return 1;
  *       }
  *       return 0;
  *   }
@@ -1644,12 +1644,12 @@ int func_021BEAEC(char *p, int ret)
 int func_021BEB68(char *p, int ret)
 {
     if (!func_021BA928(p, ret)) return ret;
-    if (func_02156C84()) {
+    if (DWC_RAP_IsUserDataChanged()) {
         func_02012DAC((int)(*(void **)(p + 0xc4)));
         *(int *)(p + 0x1cc) = 0x3e;
         return ret;
     }
-    if (func_0203C600()) {
+    if (GFL_NET_STATE_IsWifiLoginState()) {
         if (*(int *)(p + 0x1e8)) {
             *(int *)(p + 0x1cc) = 7;
         } else {
@@ -1658,7 +1658,7 @@ int func_021BEB68(char *p, int ret)
             *(int *)(p + 0x1cc) = func_021BE4F0(p, 0);
         }
     } else {
-        if (func_0203CB00() || func_0203C3EC() == 3) func_021BE900(p);
+        if (GFL_NET_STATE_IsFatalError() || GFL_NET_STATE_GetWifiState() == 3) func_021BE900(p);
     }
     return ret;
 }
@@ -1667,18 +1667,18 @@ int func_021BEB68(char *p, int ret)
 int func_021BEBE8(char *p, int result)
 {
     int v;
-    if (func_02156C84()) {
+    if (DWC_RAP_IsUserDataChanged()) {
         v = func_02012DD0(*(u8 **)(p + 0xc4));
         switch (v) {
         default:
-            func_02156C98(v);
+            DWC_RAP_ClearUserDataChanged(v);
             break;
         case 0:
         case 1:
             return result;
         }
     }
-    if (func_0203C600()) {
+    if (GFL_NET_STATE_IsWifiLoginState()) {
         if (*(int *)(p + 0x1e8) != 0) {
             *(int *)(p + 0x1cc) = 7;
         } else {
@@ -1686,7 +1686,7 @@ int func_021BEBE8(char *p, int result)
             func_021BE788(p);
             *(int *)(p + 0x1cc) = func_021BE4F0(p, 0);
         }
-    } else if (func_0203CB00() || func_0203C3EC() == 3) {
+    } else if (GFL_NET_STATE_IsFatalError() || GFL_NET_STATE_GetWifiState() == 3) {
         func_021BE900(p);
     }
     return result;
@@ -1703,16 +1703,16 @@ int func_021BEC60(char *p, int ret)
         func_0201A570(*(void **)(p + 0x1344));
         *(void **)(p + 0x1344) = 0;
     }
-    if (func_0203CB00() || func_0203C3EC() == 3) {
+    if (GFL_NET_STATE_IsFatalError() || GFL_NET_STATE_GetWifiState() == 3) {
         func_021BE900(p);
     } else {
-        if (func_0203C628()) {
+        if (GFL_NET_STATE_IsWifiLoginOrConnected()) {
             if (func_021B96CC((int *)(p + 0x274)) == 1) func_021BE26C(p);
             *(int *)(p + 0x1cc) = func_021BE4F0(p, 0);
             goto done;
         } else {
-            if (func_0203C3EC() < 4 && !func_0203C5EC() && func_0203D1C0(0xff)) goto done;
-            func_0203C554(1);
+            if (GFL_NET_STATE_GetWifiState() < 4 && !GFL_NET_STATE_IsWifiDisconnectFinal() && func_0203D1C0(0xff)) goto done;
+            GFL_NET_STATE_WifiDisconnect(1);
             if (func_021B96CC((int *)(p + 0x274)) == 1) func_021BE26C(p);
         }
         *(int *)(p + 0x1cc) = func_021BE4F0(p, 0);
@@ -1791,7 +1791,7 @@ BOOL func_021BEE64(void *a, char *b)
 
 
 int func_021BEE94(u32_021BEE94 p, int a) {
-    if (!func_0203CB00() && !func_0203C628()) return a;
+    if (!GFL_NET_STATE_IsFatalError() && !GFL_NET_STATE_IsWifiLoginOrConnected()) return a;
     *(u32_021BEE94 *)(p+460) = 10;
     return a;
 }
@@ -1804,7 +1804,7 @@ void func_021BEEBC(char *p)
 {
     void *h;
     int kind, enabled;
-    func_02155664((void (*)(void))func_021BEE64);
+    DWC_RAP_SetAcceptFriendCallback((void (*)(void))func_021BEE64);
     h=func_020490F4(33,33);
     func_021C19A8(p);
     func_021C0290(p);
@@ -1844,7 +1844,7 @@ int func_021BF000(char *p,int ret) {
  func_021BDE30(p,1,2);
  ((Ov099Work *)p)->f1CC=11;
  func_021C2408(p);
- func_0203D7B0(0);
+ GFL_NET_SetAutoExit(0);
  func_0203D7BC(0);
  return ret;
 }

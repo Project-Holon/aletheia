@@ -18,11 +18,11 @@
  *   func_021C8838   0x021C8838  thumb ov093
  *   func_021C8860   0x021C8860  thumb ov093
  *   func_021C88C8   0x021C88C8  thumb ov093
- *   func_020213C0   0x020213C0  thumb
+ *   PALANM_IsColorCodeKnown   0x020213C0  thumb
  *
  * Gate on func_021D775C(3) and on func_021D775C(0x46) being zero, then the
  * (u8) of func_021D775C(4) keys func_021C7CF4 and the (u16) of
- * func_021D5B40 is the value func_020213C0 must accept.  Both truncations
+ * func_021D5B40 is the value PALANM_IsColorCodeKnown must accept.  Both truncations
  * are materialised in the image, so both callees are declared int.
  */
 #include "../include/Obj12159.h"
@@ -38,7 +38,7 @@ int func_021D775C(int a);
 void *func_021C7CF4(int *p, int i);
 struct QI;
 u16 func_021D5B40(struct QI *p);
-int func_020213C0(u32 a);
+int PALANM_IsColorCodeKnown(u32 a);
 void *func_021C88A4(char *p, int a, int b);
 void func_021C8838(void *p, int a, int b);
 struct S;
@@ -57,7 +57,7 @@ void func_021E7554(void *a, int b, int c)
         return;
     k = (u8)func_021D775C(4);
     v = (u16)(int)func_021D5B40(func_021C7CF4((int *)b, k));
-    if (func_020213C0(v) == 0)
+    if (PALANM_IsColorCodeKnown(v) == 0)
         return;
     p = func_021C88A4((char *)b, 0x20, c);
     ((struct Obj12159 *)p)->f6 = k;

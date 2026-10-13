@@ -47,133 +47,112 @@
  *   func_021A3044  0x021A3044  thumb  ov021
  *   func_021BE6CC  0x021BE6CC  thumb  ov021
  */
-struct Big;
-struct Ctx;
-struct Rec94;
-struct Desc;
-struct Obj;
-struct Obj00020;
-struct VecFx32;
-typedef unsigned short u16;
+#include "unit_021F36C0_types.h"
 
-typedef struct {
-    int a;
-    int b;
-    int c;
-} V;
+struct GameEvent;
 
-typedef unsigned char  u8;
-
-typedef unsigned int u32;
-
-typedef signed int     s32;
-
-extern int func_02188D2C(int *p);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void  func_021BE760(void *p, void *a, int b);
-extern int func_021BE480(char *p, unsigned i, int j);
-extern void func_021BE4A4(char *p, int i, int j, int v);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern void func_021BE6B8(unsigned char *p, int v);
-extern void func_021BE6B0(unsigned char *p, int v);
-extern int *func_021897BC(char *, int);
-extern void func_021897A0(u8 *, int);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern void func_021BE418(u8 *, u16);
-extern void func_021BE580(void *);
-extern void *func_0201210C(const struct Ctx *p);
-extern void  func_021BE700(void *p, int i, int j, int k, int flag);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_02188D2C(void *fieldMap);
+extern u16 func_02188C84(u8 *fieldMap);
+extern void *func_02189764(unsigned char *fieldMap, int id, int a, int size);
+extern void  func_021BE760(void *expObj, void *unitDesc, int b);
+extern VecFx32 *func_021BE480(void *expObj, unsigned unit, int model);
+extern void func_021BE4A4(void *expObj, int unit, int model, int visible);
+extern void *func_021BE674(void *expObj, int unit, unsigned int model, int animeIdx);
+extern void func_021BE6B8(unsigned char *anime, int loop);
+extern void func_021BE6B0(unsigned char *anime, int paused);
+extern void *func_021897BC(void *fieldMap, int id);
+extern void func_021897A0(void *fieldMap, int id);
+extern void func_021BE418(u8 *expObj, u16 unit);
+extern void func_021BE580(void *expObj);
+extern void *func_0201210C(void *gameSystem);
+extern void  func_021BE700(void *expObj, int unit, int model, int animeIdx, int enabled);
+extern struct GameEvent *func_020122C0(void *owner, void *a, void *eventFunc, u32 size);
 extern void *func_020124E4(struct Obj *p);
-extern void *func_02188C58(void *p);
-extern u32 func_0218EC5C(u8 *p);
-extern void func_0218EC54(u8 *p);
-extern void func_0218EC30(u32 a, int v);
-extern void func_020061E4(u32 a);
-extern int func_021BE6BC(int *p);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_021A3044(u8 *p, void *v);
-extern void func_021BE6CC(int a, int b, int c, int d, int e);
-void func_021F36C0(void *a0);
-void func_021F3740(u8 *p);
-void func_021F3764(void *p);
-void func_021F3770(void *a0, int a1);
-int func_021F37F0(void *a, int *b);
-int func_021F390C(int *p);
-void func_021F392C(void *p);
+extern void *func_02188C58(void *fieldMap);
+extern u32 func_0218EC5C(u8 *camera);
+extern void func_0218EC54(u8 *camera);
+extern void func_0218EC30(u8 *camera, int target);
+extern void func_020061E4(u32 seId);
+extern int func_021BE6BC(void *anime);
+extern void *func_02188CB4(void *fieldMap);
+extern void func_021A3038(unsigned char *player, VecFx32 *out);
+extern void func_021A3044(u8 *player, VecFx32 *pos);
+extern void func_021BE6CC(void *expObj, int unit, int model, int animeIdx, int frame);
+void func_021F36C0(void *fieldMap);
+void func_021F3740(u8 *fieldMap);
+void func_021F3764(void *fieldMap);
+void func_021F3770(void *gameSystem, int isDescending);
+int func_021F37F0(void *event, int *seq);
+int func_021F390C(Gimmick44Work *work);
+void func_021F392C(void *expObj);
 extern int d_021F39E8;
-extern V d_021F3A1C;
+extern VecFx32 d_021F3A1C;
 
 
-void func_021F36C0(void *a0)
+void func_021F36C0(void *fieldMap)
 {
-    void *r6;
-    V *e;
-    void *b;
-    int i;
+    void *expObj;
+    VecFx32 *modelPos;
+    void *anime;
+    int animeIdx;
 
-    r6 = (void *)func_02188D2C(a0);
-    func_02189764(a0, 1, func_02188C84(a0), 0x14);
-    func_021BE760(r6, &d_021F39E8, 0);
-    e = (V *)func_021BE480(r6, 0, 0);
-    *e = d_021F3A1C;
-    func_021BE4A4(r6, 0, 0, 1);
-    for (i = 0; i < 2; i++) {
-        b = func_021BE674(r6, 0, (int)0, (u16)i);
-        func_021BE6B8(b, 0);
-        func_021BE6B0(b, 1);
+    expObj = func_02188D2C(fieldMap);
+    func_02189764(fieldMap, 1, func_02188C84(fieldMap), sizeof(Gimmick44Work));
+    func_021BE760(expObj, &d_021F39E8, 0);
+    modelPos = func_021BE480(expObj, 0, 0);
+    *modelPos = d_021F3A1C;
+    func_021BE4A4(expObj, 0, 0, 1);
+    for (animeIdx = 0; animeIdx < 2; animeIdx++) {
+        anime = func_021BE674(expObj, 0, 0, (u16)animeIdx);
+        func_021BE6B8(anime, 0);
+        func_021BE6B0(anime, 1);
     }
-    func_021F392C(r6);
+    func_021F392C(expObj);
 }
 
-void func_021F3740(u8 *p)
+void func_021F3740(u8 *fieldMap)
 {
-    int x = func_02188D2C((int *)p);
-    func_021897BC((char *)p, 1);
-    func_021897A0(p, 1);
-    func_021BE418((u8 *)x, 0);
-}
-
-
-void func_021F3764(void *p)
-{
-    func_021BE580((void *)func_02188D2C(p));
+    void *expObj = func_02188D2C(fieldMap);
+    func_021897BC(fieldMap, 1);
+    func_021897A0(fieldMap, 1);
+    func_021BE418(expObj, 0);
 }
 
 
-void func_021F3770(void *a0, int a1)
+void func_021F3764(void *fieldMap)
 {
-    void *r6;
-    int *r4;
-    void *x;
-    int d;
+    func_021BE580(func_02188D2C(fieldMap));
+}
 
-    r6 = func_0201210C(a0);
-    r4 = func_021897BC(r6, 1);
-    r4[4] = a1;
-    if (a1) {
-        r4[0] = 0;
-        r4[1] = -0x50000;
+
+void func_021F3770(void *gameSystem, int isDescending)
+{
+    void *fieldMap;
+    Gimmick44Work *work;
+    void *expObj;
+    int step;
+
+    fieldMap = func_0201210C(gameSystem);
+    work = func_021897BC(fieldMap, 1);
+    work->isDescending = isDescending;
+    if (isDescending) {
+        work->curY = 0;
+        work->goalY = -0x50000;
     } else {
-        r4[0] = -0x50000;
-        r4[1] = 0;
-        x = (void *)func_02188D2C(r6);
-        func_021BE700(x, 0, 0, 0, 1);
-        func_021BE700(x, 0, 0, 1, 0);
+        work->curY = -0x50000;
+        work->goalY = 0;
+        expObj = func_02188D2C(fieldMap);
+        func_021BE700(expObj, 0, 0, 0, 1);
+        func_021BE700(expObj, 0, 0, 1, 0);
     }
-    d = r4[1] - r4[0];
-    if (d < 0) {
-        d = -0x2000;
+    step = work->goalY - work->curY;
+    if (step < 0) {
+        step = -0x2000;
     } else {
-        d = 0x2000;
+        step = 0x2000;
     }
-    r4[2] = d;
-    func_020122C0(a0, 0, func_021F37F0, 0);
+    work->stepY = step;
+    func_020122C0(gameSystem, 0, func_021F37F0, 0);
 }
 
 
@@ -181,56 +160,56 @@ void func_021F3770(void *a0, int a1)
  * Once filed EXACT* because the extent ran into the unlabelled leaf func_021F390C
  * (filed as ov044_func_021F390C.c).
  */
-int func_021F37F0(void *a, int *b)
+int func_021F37F0(void *event, int *seq)
 {
-    void *s;
-    void *r;
-    int *w;
-    u32 h;
-    void *c;
-    int v[3];
+    void *fieldMap;
+    void *expObj;
+    Gimmick44Work *work;
+    u8 *camera;
+    void *player;
+    VecFx32 pos;
 
-    s = func_0201210C(func_020124E4(a));
-    r = (void *)func_02188D2C(s);
-    w = func_021897BC(s, 1);
-    h = (u32)func_02188C58(s);
-    switch (*b) {
+    fieldMap = func_0201210C(func_020124E4(event));
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    camera = func_02188C58(fieldMap);
+    switch (*seq) {
     case 0:
-        if (w[4] != 0) {
-            w[3] = func_0218EC5C((u8 *)h);
-            func_0218EC54((u8 *)h);
+        if (work->isDescending != 0) {
+            work->savedCameraTarget = func_0218EC5C(camera);
+            func_0218EC54(camera);
         }
-        func_020061E4(w[4] == 0 ? 0x6da : 0x6ca);
-        (*b)++;
+        func_020061E4(work->isDescending == 0 ? 0x6da : 0x6ca);
+        (*seq)++;
         break;
     case 1:
-        w[0] += w[2];
-        if (func_021F390C(w)) {
-            w[0] = w[1];
-            if (w[4] == 0) {
+        work->curY += work->stepY;
+        if (func_021F390C(work)) {
+            work->curY = work->goalY;
+            if (work->isDescending == 0) {
                 func_020061E4(0x6cb);
             }
-            (*b)++;
+            (*seq)++;
         }
-        ((int *)func_021BE480(r, 0, 0))[1] = w[0];
-        c = func_02188CB4((void *)s);
-        func_021A3038(c, (struct VecFx32 *)v);
-        v[1] = w[0];
-        func_021A3044(c, v);
+        func_021BE480(expObj, 0, 0)->y = work->curY;
+        player = func_02188CB4(fieldMap);
+        func_021A3038(player, &pos);
+        pos.y = work->curY;
+        func_021A3044(player, &pos);
         break;
     case 2:
-        if (w[4] != 0) {
+        if (work->isDescending != 0) {
             return 1;
         }
-        if (w[3] != 0) {
-            func_0218EC30(h, w[3]);
+        if (work->savedCameraTarget != 0) {
+            func_0218EC30(camera, work->savedCameraTarget);
         }
-        func_021BE6B0(func_021BE674(r, 0, 0, 0), 0);
-        (*b)++;
+        func_021BE6B0(func_021BE674(expObj, 0, 0, 0), 0);
+        (*seq)++;
         break;
     case 3:
-        if (func_021BE6BC(func_021BE674(r, 0, 0, 0))) {
-            func_021F392C(r);
+        if (func_021BE6BC(func_021BE674(expObj, 0, 0, 0))) {
+            func_021F392C(expObj);
             return 1;
         }
         break;
@@ -241,14 +220,14 @@ int func_021F37F0(void *a, int *b)
 /*
  * Unlabelled leaf called only from func_021F37F0.
  */
-int func_021F390C(int *p)
+int func_021F390C(Gimmick44Work *work)
 {
-    if (p[2] < 0) {
-        if (p[1] >= p[0]) {
+    if (work->stepY < 0) {
+        if (work->goalY >= work->curY) {
             return 1;
         }
     } else {
-        if (p[1] <= p[0]) {
+        if (work->goalY <= work->curY) {
             return 1;
         }
     }
@@ -256,11 +235,13 @@ int func_021F390C(int *p)
 }
 
 
-void func_021F392C(void *p)
+void func_021F392C(void *expObj)
 {
-    func_021BE700(p, 0, 0, 1, 1);
-    func_021BE700(p, 0, 0, 0, 0);
-    func_021BE6CC((int)p, 0, 0, 1, 0);
-    p = func_021BE674(p, 0, 0, 1);
-    func_021BE6B0(p, 1);
+    void *anime;
+
+    func_021BE700(expObj, 0, 0, 1, 1);
+    func_021BE700(expObj, 0, 0, 0, 0);
+    func_021BE6CC(expObj, 0, 0, 1, 0);
+    anime = func_021BE674(expObj, 0, 0, 1);
+    func_021BE6B0(anime, 1);
 }

@@ -16,12 +16,12 @@
  * symbols:
  *   func_021F8694  0x021F8694  thumb  ov094
  *   func_022003C4  0x022003C4  thumb  ov094
- *   func_0202142C  0x0202142C  thumb
+ *   PALANM_GetPairedCodeForFirst  0x0202142C  thumb
  */
 #include "../include/Obj00325.h"
 extern int func_021F8694(void);
 extern int func_022003C4(char *p, int key);
-extern unsigned short func_0202142C(int a0);
+extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
 
 unsigned int func_021FE38C(char *p, unsigned int k)
 {
@@ -33,7 +33,7 @@ unsigned int func_021FE38C(char *p, unsigned int k)
     else if (mode != 8)
         v = func_022003C4((char *)func_021F8694(), mode);
     else
-        v = func_0202142C(((struct Obj00325 *)p)->f254);
+        v = PALANM_GetPairedCodeForFirst(((struct Obj00325 *)p)->f254);
     if (v == 0 || v > 0x19)
         v = 4;
     v--;

@@ -1,7 +1,7 @@
 /*
  * file:     pokeparty.c
  * unit:     yes
- * function: func_0201A920, func_0201A948, func_0201A954, func_0201A98C, func_0201A9C8, func_0201AA14, func_0201AA18, func_0201AA1C, func_0201AA50, func_0201AA88, func_0201AAD4, func_0201AB08, func_0201AB18, func_0201AB28, func_0201AB34, func_0201AB48, func_0201AB8C, func_0201AC2C, func_0201AC44, func_0201AC80, func_0201ACC4, func_0201ACDC, func_0201AD0C, func_0201AD18, func_0201AD40, func_0201AD58, func_0201AD88, func_0201ADA4, func_0201ADD0, func_0201ADE4, func_0201AE14, func_0201AE1C, func_0201AF6C, func_0201AF80, func_0201AFD4, func_0201B038, func_0201B100, func_0201B170, func_0201B220, func_0201B25C, func_0201B268, func_0201B280, func_0201B28C, func_0201B2B0, func_0201B718, func_0201B764, func_0201B774, func_0201B7A0, func_0201B7B4, func_0201B7EC, func_0201B818, func_0201B850, func_0201B920, func_0201B970, func_0201B9F0, func_0201BA34, func_0201BA68, func_0201BABC, func_0201BB5C, func_0201BBE8, func_0201BC3C, func_0201BC40, func_0201BC78, func_0201BCB4, func_0201BCEC, func_0201BD28, func_0201BDB4, sub_0201BEB8, sub_0201BF44, sub_0201BF58, func_0201C020, func_0201C0BC, func_0201C158, func_0201C184, func_0201C1BC, func_0201C1C8, func_0201C1D8, func_0201C1E8, func_0201C1F4, func_0201C284, func_0201C314, func_0201C328, func_0201C3C0, func_0201C41C, func_0201C440, func_0201C450, func_0201C4C0, func_0201C4C8, func_0201C4DC, func_0201C4E4, sub_0201C6B4, sub_0201C6C4, sub_0201C6EC, sub_0201C6FC, sub_0201C724, sub_0201C758, func_0201C7A4, func_0201C7D0, func_0201C808, func_0201C8A4, func_0201C8BC, func_0201C974, func_0201CA2C, func_0201CA78, func_0201CAC8, func_0201CC34, func_0201CCE4, func_0201CD10, func_0201CDF4, func_0201CE0C, func_0201CE20, func_0201CE30, func_0201CE34, func_0201CE38, func_0201CE48, func_0201CE5C, func_0201CE8C, func_0201CEB8
+ * function: func_0201A920, POKEPARTY_Init, func_0201A954, func_0201A98C, func_0201A9C8, func_0201AA14, func_0201AA18, func_0201AA1C, func_0201AA50, func_0201AA88, func_0201AAD4, func_0201AB08, POKEPARTY_FindFirstNonEgg, func_0201AB28, POKEPARTY_IsMemberBattleReady, func_0201AB48, func_0201AB8C, func_0201AC2C, POKEPARTY_HasSpecies, POKEPARTY_GetAliveNonEggCount, POKEPARTY_GetSlotFlag, POKEPARTY_SetSlotFlag, func_0201AD0C, POKEPARTY_IsBattleReady, POKEPARTY_IsNotEgg, POKEPARTY_FindFirst, POKE_PERSONAL_OpenHandle, POKE_PERSONAL_LoadData, func_0201ADD0, func_0201ADE4, func_0201AE14, func_0201AE1C, func_0201AF6C, POKE_PERSONAL_LoadFormTable, POKE_PERSONAL_GetFormDataId, POKERUS_TryInfectParty, POKERUS_DecreaseDays, POKERUS_SpreadParty, POKERUS_GetInfectedMask, POKERUS_IsInfected, POKERUS_IsBoxInfected, POKERUS_IsCured, POKERUS_IsBoxCured, func_0201B2B0, SHINKA_CHECK_GetRowParam, SHINKA_CHECK_LoadData, SHINKA_CHECK_KnowsMove, NATSUKI_Calc, NATSUKI_CalcUseItem, func_0201B7EC, NATSUKI_CalcParty, NATSUKI_Apply, POKE_TOOL_IsPPRestorable, POKE_TOOL_RestorePP, func_0201B9F0, POKE_TOOL_HealParty, func_0201BA68, POKE_TOOL_CalcGraphicIndex, func_0201BB5C, POKE_TOOL_GetIconPalette, func_0201BC3C, func_0201BC40, func_0201BC78, func_0201BCB4, func_0201BCEC, func_0201BD28, WAZA_TOOL_GetDataParam, WAZA_TOOL_GetFlag, WAZA_TOOL_GetDataFlag, WAZA_TOOL_GetSickCont, WAZA_TOOL_GetRankEffectCount, WAZA_TOOL_GetRankEffect, WAZA_TOOL_GetMaxPP, WAZA_TOOL_GetWeather, WAZA_TOOL_GetCategory, WAZA_TOOL_GetType, WAZA_TOOL_GetPower, WAZA_TOOL_GetDamageType, WAZA_TOOL_IsAlwaysHit, WAZA_TOOL_IsAlwaysCritical, WAZA_TOOL_IsDamaging, WAZA_TOOL_CreateCache, WAZA_TOOL_DeleteCache, PRINTSYS_Init, func_0201C440, func_0201C450, func_0201C4C0, PRINTSYS_QUE_SetForceQueue, PRINTSYS_QUE_SetLimitTick, func_0201C4E4, PRINTSYS_QUE_IsFinished, PRINTSYS_QUE_IsExistTarget, PRINTSYS_QUE_Clear, PRINTSYS_PrintQue, PRINTSYS_PrintQueColor, PRINTSYS_SubmitJob, func_0201C7A4, func_0201C7D0, PRINTSYS_SetupJob, PRINTSYS_SetJobColor, PRINTSYS_RunJob, PRINTSYS_PrintStep, PRINTSYS_PutGlyph4bpp, PRINTSYS_PutGlyph8bpp, PRINTSYS_ProcGeneralTag, PRINTSYS_ProcColorTag, func_0201CCE4, func_0201CD10, PRINTSYS_SplitWait, PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun, func_0201CE30, func_0201CE34, func_0201CE38, func_0201CE48, func_0201CE5C, func_0201CE8C, func_0201CEB8
  * address:  0x0201A920
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -20,13 +20,13 @@
  *   func_02030734 0x02030734  arm
  *   func_020307B0   0x020307B0  arm
  *   pokeparty_File  0x020A7304  data
- *   sub_020071CC  0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   _pPersonalArc  0x0214652C  data
  *   poke_personal_File  0x020A7310  data
  *   func_0204A39C  0x0204A39C  arm
  *   func_0203F0A8  0x0203F0A8  arm
  *   func_02020FE4   0x02020FE4  thumb
- *   func_02011410   0x02011410  thumb
+ *   TIMEZONE_IsNight   0x02011410  thumb
  *   shinka_check_File 0x020A7330 data  a1
  *   _IceRockZones      0x020A7320  data  a2
  *   _MossRockZones      0x020A7322  data  a2
@@ -38,27 +38,35 @@
  *   _NatsukiWalkDeltas     0x0209E465  data  a1
  *   _NatsukiPartyDeltas     0x0209E462  data
  *   func_02013E4C   0x02013E4C  thumb
- *   func_02011014   0x02011014  thumb
+ *   GPOWER_ApplyFriendshipBonus   0x02011014  thumb
  *   _IconPaletteTable  0x0209E474  data
  *   _pWazaTool   0x02146530  data
  *   _WazaTempData  0x02146534  data
  *   waza_tool_File  0x020A7340  data
  *   _pGlyphBmp         0x02146558  data
  *   printsys_File   0x020A734C  data
- *   func_0201DE00  0x0201DE00  thumb
- *   func_0201DE18  0x0201DE18  thumb
+ *   GF_FONT_GetTextColor  0x0201DE00  thumb
+ *   GF_FONT_IsTextColorDifferent  0x0201DE18  thumb
  *   func_0201DD78  0x0201DD78  thumb
  *   func_020870D0  0x020870D0  arm
  *   func_0201D7C4  0x0201D7C4  thumb
  *   _PrintJobWork   0x0214655C  data
- *   func_02045A90  0x02045A90  arm
+ *   STRBUF_GetChars  0x02045A90  arm
  *   func_0201D26C  0x0201D26C  thumb
  *   func_020437DC  0x020437DC  arm
  *   func_02045770  0x02045770  arm
  *   func_020311B8  0x020311B8  arm
- *   func_02031290  0x02031290  arm
+ *   TCBL_GetWork  0x02031290  arm
  *   func_0201CEE0  0x0201CEE0  thumb
  *   func_02019C90 0x02019C90 thumb
+ *   POKE_TOOL_ClearPartyParam  0x02017528  thumb
+ *   GF_FONT_ReadGlyph  0x0201DB04  thumb
+ *   TCBL_DeleteTask  0x02031194  arm
+ *   BMP_GetTileBytes  0x02043994  arm
+ *   BMP_BlitPaletteOffset  0x02043AAC  arm
+ *   STRBUF_SetEosChar  0x020457A0  arm
+ *   ARC_TOOL_GetHandleMemberOffset  0x02049578  arm
+ *   ARC_TOOL_ReadHandle  0x020495F4  arm
  */
 #define REG_DISPCNT      (*(volatile u32 *)0x04000000)
 #define REG_DB_DISPCNT   (*(volatile u32 *)0x04001000)
@@ -318,26 +326,26 @@ extern void  func_02017E40(struct PokemonParam *pp, u32 id, u32 value);
 extern void *func_02030734(u32 heap, u32 size, int fromTail, const char *file, u16 line);
 extern u32   func_020307B0(void *ptr);
 extern void  MIi_CpuClearFast(u32 value, void *dest, u32 size);
-extern void  func_02017528(struct PokemonParam *pp);
-extern void *sub_020071CC(struct SaveControl *save, u32 blockId);
+extern void  POKE_TOOL_ClearPartyParam(struct PokemonParam *pp);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 extern struct ArcHandle *func_020490F4(unsigned int arcId, unsigned int heap);
-extern u32   func_02049578(struct ArcHandle *arc, u32 dataId);
+extern u32   ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 dataId);
 extern void  func_0204960C(struct ArcHandle *arc, u32 offset);
-extern void  func_020495F4(struct ArcHandle *arc, u32 size, void *dst);
+extern void  ARC_TOOL_ReadHandle(struct ArcHandle *arc, u32 size, void *dst);
 extern void *func_0204A39C(struct ArcHandle *arc, int dataId, int fromTail, u32 heap, u32 *sizeOut);
 extern u32   func_0203F0A8(void);
 extern u32   func_02020FE4(u32 item, u32 param, u16 heap);
-extern u32   func_02011410(u32 timezone);
+extern u32   TIMEZONE_IsNight(u32 timezone);
 extern void  func_0204932C(struct ArcHandle *arc, u32 dataId, void *dst);
 extern u32   func_02013E4C(u32 zoneId);
-extern int   func_02011014(int delta);
+extern int   GPOWER_ApplyFriendshipBonus(int delta);
 extern u32   func_02017DBC(struct BoxPokemon *box);
 extern u32   func_02017DE4(struct BoxPokemon *box, u32 wasDecoded);
 extern u32   func_020490A8(u32 arcId, u32 dataId);
-extern void  func_020457A0(u16 eosChar);
+extern void  STRBUF_SetEosChar(u16 eosChar);
 extern struct Bmp *func_02043678(u32 widthTiles, u32 heightTiles, u32 tileBytes, u32 heap);
-extern void  func_0201DE00(u8 *letter, u8 *shadow, u8 *background);
-extern u32   func_0201DE18(u32 letter, u32 shadow, u32 background);
+extern void  GF_FONT_GetTextColor(u8 *letter, u8 *shadow, u8 *background);
+extern u32   GF_FONT_IsTextColorDifferent(u32 letter, u32 shadow, u32 background);
 extern void  func_0201DD78(u32 letter, u32 shadow, u32 background);
 extern u64   func_020870D0(void);
 extern struct PrintCtx *func_0201D7C4(struct PrintQueue *queue, struct PrintCtx *job);
@@ -345,142 +353,142 @@ extern int   func_0203D1B4(void);
 extern u32   func_0201D6B8(struct Strbuf *str);
 extern u32   func_0201D6C4(const struct PrintQueue *queue);
 extern void  func_0201D6D8(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
-extern u16  *func_02045A90(struct Strbuf *str);
-extern u8    func_02043994(struct Bmp *bmp);
+extern u16  *STRBUF_GetChars(struct Strbuf *str);
+extern u8    BMP_GetTileBytes(struct Bmp *bmp);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void  func_020439A0(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 width, u32 height, u32 colorKey);
-extern void  func_0201DB04(struct GfFont *font, u16 code, void *dst, void *metrics);
-extern void  func_02043AAC(struct Bmp *src, u32 dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height, u16 colorKey, u16 shift);
+extern void  GF_FONT_ReadGlyph(struct GfFont *font, u16 code, void *dst, void *metrics);
+extern void  BMP_BlitPaletteOffset(struct Bmp *src, u32 dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height, u16 colorKey, u16 shift);
 extern u32   func_0201D26C(u16 *str, void *font, u32 spacing, u16 **next);
 extern u16   func_020437DC(const struct Bmp *bmp);
 extern struct Bmp *func_02045770(struct BmpWin *win);
 extern struct TcblNode *func_020311B8(struct Tcbl *tcbl, void *func, u32 workSize, u32 priority);
-extern void *func_02031290(struct TcblNode *task);
+extern void *TCBL_GetWork(struct TcblNode *task);
 extern void  func_0201CEE0(void *task, struct TextPrinter *printer);
-extern void  func_02031194(struct TcblNode *task);
+extern void  TCBL_DeleteTask(struct TcblNode *task);
 extern signed char func_02013080(u32 speed);
 u32 func_02019C90(u16 species, u16 form, u32 field);
-struct Party *sub_0201A920(u32 heap);
-void sub_0201A948(struct Party *party);
-void sub_0201A954(struct Party *party, s32 capacity);
-u32 sub_0201A98C(struct Party *party, const struct PokemonParam *member);
-u32 sub_0201A9C8(struct Party *party, s32 pos);
-u32 sub_0201AA14(const struct Party *party);
-u32 sub_0201AA18(const struct Party *party);
-u32 sub_0201AA1C(struct Party *party);
-u32 sub_0201AA50(struct Party *party);
-u32 sub_0201AA88(struct Party *party);
-u32 sub_0201AAD4(struct Party *party);
-u32 sub_0201AB08(struct Party *party);
-u32 sub_0201AB18(struct Party *party);
-struct PokemonParam *sub_0201AB28(struct Party *party, u32 pos);
-u32 sub_0201AB34(struct Party *party, u32 pos);
-void sub_0201AB48(struct Party *party, u32 pos, const struct PokemonParam *member);
-u32 sub_0201AB8C(struct Party *party, u32 pos1, u32 pos2, u32 heap);
-void sub_0201AC2C(const struct Party *src, struct Party *dst);
-u32 sub_0201AC44(struct Party *party, u32 species);
-u32 sub_0201AC80(struct Party *party);
-int sub_0201ACC4(const struct Party *party, u32 pos);
-void sub_0201ACDC(struct Party *party, u32 pos, u32 set);
-struct Party *sub_0201AD0C(struct SaveControl *save);
-u32 sub_0201AD18(struct PokemonParam *member);
-u32 sub_0201AD40(struct PokemonParam *member);
-u32 sub_0201AD58(struct Party *party, PartyMemberPredicate pred);
-void sub_0201AD88(u32 heap);
-void sub_0201ADA4(u32 species, int form, void *dst);
-void sub_0201ADD0(u32 species, int form, void *dst);
-struct PersonalData *sub_0201ADE4(u32 species, int form, u32 heap);
-void sub_0201AE14(struct PersonalData *data);
-u32 sub_0201AE1C(const struct PersonalData *data, u32 field);
-u32 sub_0201AF6C(u32 ability);
-u16 *sub_0201AF80(u32 heap, u16 *countOut);
-u32 sub_0201AFD4(u32 species, s32 form);
-void sub_0201B038(struct Party *party);
-void sub_0201B100(struct Party *party, s32 days);
-void sub_0201B170(struct Party *party);
-u32 sub_0201B220(struct Party *party);
-u32 sub_0201B25C(struct PokemonParam *pp);
-u32 sub_0201B268(struct BoxPokemon *box);
-u32 sub_0201B280(struct PokemonParam *pp);
-u32 sub_0201B28C(struct BoxPokemon *box);
-u32 sub_0201B2B0(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg, u8 timezone, u32 *methodOut, u16 heap);
-struct ArcHandle *sub_0201B70C(u32 heap);
-u32 sub_0201B718(struct ArcHandle *arc, u32 species, u32 rowIndex, u32 field);
-void sub_0201B764(u32 species, struct EvolutionRow *rows);
-u32 sub_0201B774(struct PokemonParam *pp, u32 move);
-void func_0201B7A0(struct PokemonParam *pp, int type, int zoneId, u16 heap);
-void func_0201B7B4(struct PokemonParam *pp, int item, u16 zoneId, u16 heap);
+struct Party *POKEPARTY_Create(u32 heap);
+void POKEPARTY_Init(struct Party *party);
+void POKEPARTY_InitEx(struct Party *party, s32 capacity);
+u32 POKEPARTY_Add(struct Party *party, const struct PokemonParam *member);
+u32 POKEPARTY_RemoveMember(struct Party *party, s32 pos);
+u32 POKEPARTY_GetCapacity(const struct Party *party);
+u32 POKEPARTY_GetCount(const struct Party *party);
+u32 POKEPARTY_GetNonEggCount(struct Party *party);
+u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
+u32 POKEPARTY_GetEggCount(struct Party *party);
+u32 POKEPARTY_GetBadEggCount(struct Party *party);
+u32 POKEPARTY_FindFirstBattleReady(struct Party *party);
+u32 POKEPARTY_FindFirstNonEgg(struct Party *party);
+struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+u32 POKEPARTY_IsMemberBattleReady(struct Party *party, u32 pos);
+void POKEPARTY_SetMember(struct Party *party, u32 pos, const struct PokemonParam *member);
+u32 POKEPARTY_SwapMembers(struct Party *party, u32 pos1, u32 pos2, u32 heap);
+void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
+u32 POKEPARTY_HasSpecies(struct Party *party, u32 species);
+u32 POKEPARTY_GetAliveNonEggCount(struct Party *party);
+int POKEPARTY_GetSlotFlag(const struct Party *party, u32 pos);
+void POKEPARTY_SetSlotFlag(struct Party *party, u32 pos, u32 set);
+struct Party *POKEPARTY_GetSaveData(struct SaveControl *save);
+u32 POKEPARTY_IsBattleReady(struct PokemonParam *member);
+u32 POKEPARTY_IsNotEgg(struct PokemonParam *member);
+u32 POKEPARTY_FindFirst(struct Party *party, PartyMemberPredicate pred);
+void POKE_PERSONAL_OpenHandle(u32 heap);
+void POKE_PERSONAL_LoadData(u32 species, int form, void *dst);
+void POKE_PERSONAL_LoadDataDirect(u32 species, int form, void *dst);
+struct PersonalData *POKE_PERSONAL_Create(u32 species, int form, u32 heap);
+void POKE_PERSONAL_Delete(struct PersonalData *data);
+u32 POKE_PERSONAL_GetParam(const struct PersonalData *data, u32 field);
+u32 POKE_PERSONAL_IsPlaceholderAbility(u32 ability);
+u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
+u32 POKE_PERSONAL_GetFormDataId(u32 species, s32 form);
+void POKERUS_TryInfectParty(struct Party *party);
+void POKERUS_DecreaseDays(struct Party *party, s32 days);
+void POKERUS_SpreadParty(struct Party *party);
+u32 POKERUS_GetInfectedMask(struct Party *party);
+u32 POKERUS_IsInfected(struct PokemonParam *pp);
+u32 POKERUS_IsBoxInfected(struct BoxPokemon *box);
+u32 POKERUS_IsCured(struct PokemonParam *pp);
+u32 POKERUS_IsBoxCured(struct BoxPokemon *box);
+u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg, u8 timezone, u32 *methodOut, u16 heap);
+struct ArcHandle *SHINKA_CHECK_OpenHandle(u32 heap);
+u32 SHINKA_CHECK_GetRowParam(struct ArcHandle *arc, u32 species, u32 rowIndex, u32 field);
+void SHINKA_CHECK_LoadData(u32 species, struct EvolutionRow *rows);
+u32 SHINKA_CHECK_KnowsMove(struct PokemonParam *pp, u32 move);
+void NATSUKI_Calc(struct PokemonParam *pp, int type, int zoneId, u16 heap);
+void NATSUKI_CalcUseItem(struct PokemonParam *pp, int item, u16 zoneId, u16 heap);
 void func_0201B7EC(struct PokemonParam *pp, int zoneId, u16 heap);
-void func_0201B818(struct Party *party, int zoneId, u16 heap);
-void sub_0201B850(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 heap);
-u8 sub_0201B920(struct PokemonParam *pp, u32 slot);
-u32 sub_0201B970(struct PokemonParam *pp, u32 slot, u32 amount);
-void sub_0201B9F0(struct PokemonParam *pp);
-void sub_0201BA34(struct Party *party);
-u32 sub_0201BA68(struct BoxPokemon *box);
-u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
-u32 sub_0201BB5C(u32 species, u32 form, u32 female, u32 isEgg);
-u32 sub_0201BBE8(struct BoxPokemon *box);
+void NATSUKI_CalcParty(struct Party *party, int zoneId, u16 heap);
+void NATSUKI_Apply(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 heap);
+u8 POKE_TOOL_IsPPRestorable(struct PokemonParam *pp, u32 slot);
+u32 POKE_TOOL_RestorePP(struct PokemonParam *pp, u32 slot, u32 amount);
+void POKE_TOOL_HealFull(struct PokemonParam *pp);
+void POKE_TOOL_HealParty(struct Party *party);
+u32 POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box);
+u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
+u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 female, u32 isEgg);
+u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box);
 int func_0201BC3C(void);
 int func_0201BC40(void);
 int func_0201BC78(void);
 int func_0201BCB4(void);
 int func_0201BCEC(void);
 u32 sub_0201BD28(u16 move, u32 param);
-u32 sub_0201BDB4(const struct WazaData *data, u32 param);
-u32 sub_0201BEB8(u16 move, u32 flag);
-u32 sub_0201BF44(const struct WazaData *data, u32 flag);
-s16 sub_0201BF58(u16 move);
-u8 sub_0201C020(u16 move);
-u8 sub_0201C0BC(u16 move, u32 index, s32 *value);
-u8 sub_0201C158(u16 move, u32 ppUp);
-u32 sub_0201C184(int item);
-u32 sub_0201C1BC(u16 move);
-u8 sub_0201C1C8(u16 move);
-u16 sub_0201C1D8(u16 move);
-int func_0201C1E8(u16 move);
-u32 sub_0201C1F4(u16 move);
-u32 sub_0201C284(u16 move);
-u32 sub_0201C314(u16 move);
-void sub_0201C328(s32 count, u32 heap);
-void sub_0201C3C0(void);
-u32 sub_0201C408(void);
-void sub_0201C41C(u32 heap);
-struct PrintQueue *sub_0201C440(u32 heap);
-struct PrintQueue *sub_0201C450(u16 bufSize, u32 heap);
-void sub_0201C4C0(struct PrintQueue *queue);
-void sub_0201C4C8(struct PrintQueue *queue, u32 forceQueue);
-void sub_0201C4DC(struct PrintQueue *queue, u32 tickLow, u32 tickHigh);
+u32 WAZA_TOOL_GetDataParam(const struct WazaData *data, u32 param);
+u32 WAZA_TOOL_GetFlag(u16 move, u32 flag);
+u32 WAZA_TOOL_GetDataFlag(const struct WazaData *data, u32 flag);
+s16 WAZA_TOOL_GetSickCont(u16 move);
+u8 WAZA_TOOL_GetRankEffectCount(u16 move);
+u8 WAZA_TOOL_GetRankEffect(u16 move, u32 index, s32 *value);
+u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
+u32 WAZA_TOOL_GetWeather(int item);
+u32 WAZA_TOOL_GetCategory(u16 move);
+u8 WAZA_TOOL_GetType(u16 move);
+u16 WAZA_TOOL_GetPower(u16 move);
+int WAZA_TOOL_GetDamageType(u16 move);
+u32 WAZA_TOOL_IsAlwaysHit(u16 move);
+u32 WAZA_TOOL_IsAlwaysCritical(u16 move);
+u32 WAZA_TOOL_IsDamaging(u16 move);
+void WAZA_TOOL_CreateCache(s32 count, u32 heap);
+void WAZA_TOOL_DeleteCache(void);
+u32 WAZA_TOOL_IsCacheCreated(void);
+void PRINTSYS_Init(u32 heap);
+struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
+struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 bufSize, u32 heap);
+void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+void PRINTSYS_QUE_SetForceQueue(struct PrintQueue *queue, u32 forceQueue);
+void PRINTSYS_QUE_SetLimitTick(struct PrintQueue *queue, u32 tickLow, u32 tickHigh);
 u32 func_0201C4E4(struct PrintQueue *queue);
-u32 sub_0201C6B4(const struct PrintQueue *queue);
-u32 sub_0201C6C4(struct PrintQueue *queue, struct Bmp *bmp);
-void sub_0201C6EC(struct PrintQueue *queue);
-void sub_0201C6FC(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
-void sub_0201C724(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-void sub_0201C758(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
+u32 PRINTSYS_QUE_IsFinished(const struct PrintQueue *queue);
+u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
+void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
 void func_0201C7A4(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
 void func_0201C7D0(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-void sub_0201C808(struct PrintCtx *job, struct GfFont *font, struct Bmp *bmp, u32 x, s16 y);
-void sub_0201C8A4(struct PrintCtx *job, u16 color);
-void func_0201C8BC(struct PrintCtx *job, struct Strbuf *str);
-u16 *func_0201C974(struct PrintCtx *job, u16 *cursor, u32 stopAtPause);
-void sub_0201CA2C(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo);
-void sub_0201CA78(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo);
-u16 *func_0201CAC8(struct PrintCtx *job, u16 *cursor);
-u16 *func_0201CC34(struct PrintCtx *job, u16 *cursor);
+void PRINTSYS_SetupJob(struct PrintCtx *job, struct GfFont *font, struct Bmp *bmp, u32 x, s16 y);
+void PRINTSYS_SetJobColor(struct PrintCtx *job, u16 color);
+void PRINTSYS_RunJob(struct PrintCtx *job, struct Strbuf *str);
+u16 *PRINTSYS_PrintStep(struct PrintCtx *job, u16 *cursor, u32 stopAtPause);
+void PRINTSYS_PutGlyph4bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo);
+void PRINTSYS_PutGlyph8bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo);
+u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor);
+u16 *PRINTSYS_ProcColorTag(struct PrintCtx *job, u16 *cursor);
 void func_0201CCE4(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
 struct TextPrinter *func_0201CD10(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u32 heap, u16 fillColor, PrintCallback callback);
-void sub_0201CDF4(int wait, u8 *speed);
-void sub_0201CE0C(struct TextPrinter *printer);
-void sub_0201CE20(struct TextPrinter *printer);
-u32 sub_0201CE30(const struct TextPrinter *printer);
-u32 sub_0201CE34(const struct TextPrinter *printer);
-void sub_0201CE38(struct TextPrinter *printer);
-void sub_0201CE48(struct TextPrinter *printer);
-void sub_0201CE5C(struct TextPrinter *printer, s32 wait);
-void sub_0201CE8C(struct TextPrinter *printer, s32 wait);
-void sub_0201CEB8(struct TextPrinter *printer);
-u32 sub_0201CED4(const struct TextPrinter *printer);
+void PRINTSYS_SplitWait(int wait, u8 *speed);
+void PRINTSYS_PrintStreamStop(struct TextPrinter *printer);
+void PRINTSYS_PrintStreamRun(struct TextPrinter *printer);
+u32 PRINTSYS_PrintStreamGetState(const struct TextPrinter *printer);
+u32 PRINTSYS_PrintStreamGetWaitKind(const struct TextPrinter *printer);
+void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
+void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait);
+void PRINTSYS_PrintStreamSetSpeed(struct TextPrinter *printer, s32 wait);
+void PRINTSYS_PrintStreamResetSpeed(struct TextPrinter *printer);
+u32 PRINTSYS_PrintStreamIsOverrideSpeed(const struct TextPrinter *printer);
 extern const char pokeparty_File[];
 extern struct ArcHandle *_pPersonalArc;
 extern const char poke_personal_File[];
@@ -510,7 +518,7 @@ extern struct PrintCtx _PrintJobWork;
 
 
 /*
- *           sub_0201A9C8
+ *           POKEPARTY_RemoveMember
  *
  * pokeparty.c: the container's constructor, its initialiser, and the add and
  * remove operations.  The allocation at 0x0201A930 names the file itself, the
@@ -528,16 +536,16 @@ extern struct PrintCtx _PrintJobWork;
  * `sizeof(struct Party)` for the clear and the allocation is what puts that
  * one constant in the pool for both uses.
  *
- * sub_0201A948 is the six-slot spelling of sub_0201A954 and is a bare tail
+ * POKEPARTY_Init is the six-slot spelling of POKEPARTY_InitEx and is a bare tail
  * call, three instructions and a pool word
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
  *
- * sub_0201A98C's guard is an early return on the full container: the
+ * POKEPARTY_Add's guard is an early return on the full container: the
  * conditional branch is taken into the body, so the fall-through arm is the
  * failure the source wrote first
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
- * sub_0201A9C8 compacts the array by copying each record down one slot, and
+ * POKEPARTY_RemoveMember compacts the array by copying each record down one slot, and
  * its loop bound re-reads `p->count` on every iteration rather than caching
  * it, which is visible as the `ldr`/`subs #1` pair inside the loop.
  *
@@ -545,12 +553,12 @@ extern struct PrintCtx _PrintJobWork;
  *   python tools/match.py tu --src src/matched/unit_0201A920.c \
  *       --addr 0x0201A920 --thumb
  */
-struct Party *sub_0201A920(u32 heap)
+struct Party *POKEPARTY_Create(u32 heap)
 {
     struct Party *party = (struct Party *)func_02030734(heap, sizeof(struct Party), 0,
                                                    pokeparty_File, 65);
 
-    sub_0201A948(party);
+    POKEPARTY_Init(party);
     return party;
 }
 
@@ -563,9 +571,9 @@ struct Party *sub_0201A920(u32 heap)
 
 
 
-void sub_0201A948(struct Party *party)
+void POKEPARTY_Init(struct Party *party)
 {
-    sub_0201A954(party, 6);
+    POKEPARTY_InitEx(party, 6);
 }
 
 
@@ -573,7 +581,7 @@ void sub_0201A948(struct Party *party)
 
 
 
-void sub_0201A954(struct Party *party, s32 capacity)
+void POKEPARTY_InitEx(struct Party *party, s32 capacity)
 {
     s32 i;
 
@@ -582,7 +590,7 @@ void sub_0201A954(struct Party *party, s32 capacity)
     party->count = 0;
     party->slotFlags = 0;
     for (i = 0; i < 6; i++) {
-        func_02017528(&party->members[i]);
+        POKE_TOOL_ClearPartyParam(&party->members[i]);
     }
 }
 
@@ -591,13 +599,13 @@ void sub_0201A954(struct Party *party, s32 capacity)
 
 
 
-u32 sub_0201A98C(struct Party *party, const struct PokemonParam *member)
+u32 POKEPARTY_Add(struct Party *party, const struct PokemonParam *member)
 {
     if (party->count >= party->capacity) {
         return 0;
     }
     party->members[party->count] = *member;
-    sub_0201ACDC(party, party->count, 1);
+    POKEPARTY_SetSlotFlag(party, party->count, 1);
     party->count = party->count + 1;
     return 1;
 }
@@ -607,14 +615,14 @@ u32 sub_0201A98C(struct Party *party, const struct PokemonParam *member)
 
 
 
-u32 sub_0201A9C8(struct Party *party, s32 pos)
+u32 POKEPARTY_RemoveMember(struct Party *party, s32 pos)
 {
     s32 i;
 
     for (i = pos; i < party->count - 1; i++) {
         party->members[i] = party->members[i + 1];
     }
-    func_02017528(&party->members[i]);
+    POKE_TOOL_ClearPartyParam(&party->members[i]);
     party->count = party->count - 1;
     return 1;
 }
@@ -629,15 +637,15 @@ u32 sub_0201A9C8(struct Party *party, s32 pos)
  * A whole translation unit, matched as one byte range.
  *
  * Two plain word getters, four bytes each: the object's first word and the
- * word at +4.  Both are called from sub_0201AA1C (0x0201AA1C, still open)
- * and sub_0201AA18 is also called from the unit at 0x0201AC2C, which is
+ * word at +4.  Both are called from POKEPARTY_GetNonEggCount (0x0201AA1C, still open)
+ * and POKEPARTY_GetCount is also called from the unit at 0x0201AC2C, which is
  * where the concrete relocations against it are attested from.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201AA14.c \
  *       --addr 0x0201AA14 --thumb
  */
-u32 sub_0201AA14(const struct Party *party)
+u32 POKEPARTY_GetCapacity(const struct Party *party)
 {
     return party->capacity;
 }
@@ -648,7 +656,7 @@ u32 sub_0201AA14(const struct Party *party)
 
 
 
-u32 sub_0201AA18(const struct Party *party)
+u32 POKEPARTY_GetCount(const struct Party *party)
 {
     return party->count;
 }
@@ -660,12 +668,12 @@ u32 sub_0201AA18(const struct Party *party)
 
 
 /*
- *           sub_0201AB08, sub_0201AB18
+ *           POKEPARTY_FindFirstBattleReady, POKEPARTY_FindFirstNonEgg
  *
  * Four counters over the 0xDC-byte-record array container of
  * src/matched/unit_0201AB28.c and src/matched/unit_0201AC2C.c, plus the two
- * predicate-passing wrappers in front of the search routine sub_0201AD58.
- * Each counter walks 0 to sub_0201AA18(p) and tests one or two fields of the
+ * predicate-passing wrappers in front of the search routine POKEPARTY_FindFirst.
+ * Each counter walks 0 to POKEPARTY_GetCount(p) and tests one or two fields of the
  * entry through the getter func_02017E1C.
  *
  * The two sixteen-byte functions at 0x0201AB08 and 0x0201AB18 are not linker
@@ -681,11 +689,11 @@ u32 sub_0201AA18(const struct Party *party)
  * count, which is the only thing that puts the index in r4 and the count in
  * r5 (docs/idioms/declaration-order-decides-which-register-a-local-gets.md);
  * the initialising assignments stay in the original's order, count first,
- * and are unaffected.  sub_0201AA50 is the exception and wants the other
+ * and are unaffected.  POKEPARTY_GetBattleReadyCount is the exception and wants the other
  * order, because there the element count lives in r7 rather than on the
  * stack.
  *
- * sub_0201AA50 really does call sub_0201AB28 twice with the same arguments
+ * POKEPARTY_GetBattleReadyCount really does call POKEPARTY_GetMember twice with the same arguments
  * and drops the first result.  A call is never dead-code eliminated by this
  * front end, so the discarded one is in the source; it is not a scheduling
  * artefact of the surviving call.
@@ -694,15 +702,15 @@ u32 sub_0201AA18(const struct Party *party)
  *   python tools/match.py tu --src src/matched/unit_0201AA1C.c \
  *       --addr 0x0201AA1C --thumb
  */
-u32 sub_0201AA1C(struct Party *party)
+u32 POKEPARTY_GetNonEggCount(struct Party *party)
 {
     s32 i;
     u32 total = 0;
     s32 memberCount;
 
-    memberCount = sub_0201AA18(party);
+    memberCount = POKEPARTY_GetCount(party);
     for (i = 0; i < memberCount; i++) {
-        void *member = sub_0201AB28(party, i);
+        void *member = POKEPARTY_GetMember(party, i);
 
         if (func_02017E1C(member, 0x4C, 0) != 1) {
             total++;
@@ -717,16 +725,16 @@ u32 sub_0201AA1C(struct Party *party)
 
 
 
-u32 sub_0201AA50(struct Party *party)
+u32 POKEPARTY_GetBattleReadyCount(struct Party *party)
 {
     u32 total = 0;
     s32 memberCount;
     s32 i;
 
-    memberCount = sub_0201AA18(party);
+    memberCount = POKEPARTY_GetCount(party);
     for (i = 0; i < memberCount; i++) {
-        sub_0201AB28(party, i);
-        if (sub_0201AD18(sub_0201AB28(party, i)) != 0) {
+        POKEPARTY_GetMember(party, i);
+        if (POKEPARTY_IsBattleReady(POKEPARTY_GetMember(party, i)) != 0) {
             total++;
         }
     }
@@ -739,15 +747,15 @@ u32 sub_0201AA50(struct Party *party)
 
 
 
-u32 sub_0201AA88(struct Party *party)
+u32 POKEPARTY_GetEggCount(struct Party *party)
 {
     s32 i;
     u32 total = 0;
     s32 memberCount;
 
-    memberCount = sub_0201AA18(party);
+    memberCount = POKEPARTY_GetCount(party);
     for (i = 0; i < memberCount; i++) {
-        void *member = sub_0201AB28(party, i);
+        void *member = POKEPARTY_GetMember(party, i);
         u32 isEgg = func_02017E1C(member, 0x4C, 0);
         u32 isBadEgg = func_02017E1C(member, 3, 0);
 
@@ -764,15 +772,15 @@ u32 sub_0201AA88(struct Party *party)
 
 
 
-u32 sub_0201AAD4(struct Party *party)
+u32 POKEPARTY_GetBadEggCount(struct Party *party)
 {
     s32 i;
     u32 total = 0;
     s32 memberCount;
 
-    memberCount = sub_0201AA18(party);
+    memberCount = POKEPARTY_GetCount(party);
     for (i = 0; i < memberCount; i++) {
-        void *member = sub_0201AB28(party, i);
+        void *member = POKEPARTY_GetMember(party, i);
 
         if (func_02017E1C(member, 3, 0) == 1) {
             total++;
@@ -787,9 +795,9 @@ u32 sub_0201AAD4(struct Party *party)
 
 
 
-u32 sub_0201AB08(struct Party *party)
+u32 POKEPARTY_FindFirstBattleReady(struct Party *party)
 {
-    return sub_0201AD58(party, sub_0201AD18);
+    return POKEPARTY_FindFirst(party, POKEPARTY_IsBattleReady);
 }
 
 
@@ -798,9 +806,9 @@ u32 sub_0201AB08(struct Party *party)
 
 
 
-u32 sub_0201AB18(struct Party *party)
+u32 POKEPARTY_FindFirstNonEgg(struct Party *party)
 {
-    return sub_0201AD58(party, sub_0201AD40);
+    return POKEPARTY_FindFirst(party, POKEPARTY_IsNotEgg);
 }
 
 
@@ -813,15 +821,15 @@ u32 sub_0201AB18(struct Party *party)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * sub_0201AB28 is the index calculator this whole neighbourhood shares: an
+ * POKEPARTY_GetMember is the index calculator this whole neighbourhood shares: an
  * entry of an array of 0xDC-byte records starting eight bytes into the
- * object.  sub_0201AB34 looks the entry up and, if it is non-null (in
+ * object.  POKEPARTY_IsMemberBattleReady looks the entry up and, if it is non-null (in
  * practice it always is; the check reads as a defensive null guard rather
- * than a reachable branch), tail-hands it to sub_0201AD18 (0x0201AC2C..,
+ * than a reachable branch), tail-hands it to POKEPARTY_IsBattleReady (0x0201AC2C..,
  * still open at the time of writing but pinned as an extern here since a
  * `label` witness for it exists outside this range).
  *
- * Immediately in front of sub_0201AB28, at 0x0201AB08..0x0201AB28, are two
+ * Immediately in front of POKEPARTY_GetMember, at 0x0201AB08..0x0201AB28, are two
  * back to back linker long-branch veneers (`ldr r1,[pc,#4]; ldr r3,[pc,#8];
  * bx r3` plus two pool words each) that this file does not claim; see
  * docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md
@@ -832,7 +840,7 @@ u32 sub_0201AB18(struct Party *party)
  *   python tools/match.py tu --src src/matched/unit_0201AB28.c \
  *       --addr 0x0201AB28 --thumb
  */
-struct PokemonParam *sub_0201AB28(struct Party *party, u32 pos)
+struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos)
 {
     return &party->members[pos];
 }
@@ -844,12 +852,12 @@ struct PokemonParam *sub_0201AB28(struct Party *party, u32 pos)
 
 
 
-u32 sub_0201AB34(struct Party *party, u32 pos)
+u32 POKEPARTY_IsMemberBattleReady(struct Party *party, u32 pos)
 {
-    struct PokemonParam *member = sub_0201AB28(party, pos);
+    struct PokemonParam *member = POKEPARTY_GetMember(party, pos);
 
     if (member != 0) {
-        return sub_0201AD18(member);
+        return POKEPARTY_IsBattleReady(member);
     }
     return 0;
 }
@@ -865,7 +873,7 @@ u32 sub_0201AB34(struct Party *party, u32 pos)
  * pokeparty.c: the store-at-index and swap-two-indices operations on the
  * party container, an array of 0xDC byte records eight bytes into the object
  * with a running count at +0x04.  The file name is the image's own: the debug
- * allocator call in sub_0201AB8C passes 0x020A7304, which spells
+ * allocator call in POKEPARTY_SwapMembers passes 0x020A7304, which spells
  * "pokeparty.c", and its neighbours in the string area are
  * "poke_regulation.c" and "poke_personal.c".
  *
@@ -877,13 +885,13 @@ u32 sub_0201AB34(struct Party *party, u32 pos)
  * one-aligned declaration gives a byte loop of 0xDC iterations, the same
  * shape with completely different bytes.
  *
- * sub_0201AB48 reads field 0xA9 (the "slot is occupied" derived id, see
- * src/pending/sub_02018E34.c) out of the destination slot before the copy and
+ * POKEPARTY_SetMember reads field 0xA9 (the "slot is occupied" derived id, see
+ * src/pending/POKE_TOOL_GetBoxValueRaw.c) out of the destination slot before the copy and
  * out of the source after it, and adds the difference to the count, so the
  * count stays right whether the write fills an empty slot or overwrites a
  * full one.
  *
- * Two spellings in sub_0201AB48 are load bearing and neither is obvious.  The
+ * Two spellings in POKEPARTY_SetMember are load bearing and neither is obvious.  The
  * destination of the copy is written as byte arithmetic,
  * `(u8 *)p + idx * sizeof(rec) + 8`, while the getter's argument is the
  * ordinary `&p->mon[idx]`: written the same way twice the compiler common
@@ -896,16 +904,16 @@ u32 sub_0201AB34(struct Party *party, u32 pos)
  * past the copy loop (the mirror of
  * docs/idioms/cmp-operand-order-names-the-temporary.md).
  *
- * sub_0201AB8C swaps two slots through a heap-allocated temporary of exactly
+ * POKEPARTY_SwapMembers swaps two slots through a heap-allocated temporary of exactly
  * one record, then swaps the two slots' 0x1B-keyed side values through
- * sub_0201ACC4 / sub_0201ACDC (src/matched/unit_0201AC2C.c).  It returns 0
+ * POKEPARTY_GetSlotFlag / POKEPARTY_SetSlotFlag (src/matched/unit_0201AC2C.c).  It returns 0
  * unconditionally.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201AB48.c \
  *       --addr 0x0201AB48 --thumb
  */
-void sub_0201AB48(struct Party *party, u32 pos, const struct PokemonParam *member)
+void POKEPARTY_SetMember(struct Party *party, u32 pos, const struct PokemonParam *member)
 {
     u32 before = func_02017E1C(&party->members[pos], 0xA9, 0);
     u32 delta = before - func_02017E1C((void *)member, 0xA9, 0);
@@ -919,7 +927,7 @@ void sub_0201AB48(struct Party *party, u32 pos, const struct PokemonParam *membe
 
 
 
-u32 sub_0201AB8C(struct Party *party, u32 pos1, u32 pos2, u32 heap)
+u32 POKEPARTY_SwapMembers(struct Party *party, u32 pos1, u32 pos2, u32 heap)
 {
     u32 flags1;
     u32 flags2;
@@ -930,10 +938,10 @@ u32 sub_0201AB8C(struct Party *party, u32 pos1, u32 pos2, u32 heap)
     party->members[pos1] = party->members[pos2];
     party->members[pos2] = *tmp;
     func_020307B0(tmp);
-    flags1 = sub_0201ACC4(party, pos1);
-    flags2 = sub_0201ACC4(party, pos2);
-    sub_0201ACDC(party, pos1, flags2);
-    sub_0201ACDC(party, pos2, flags1);
+    flags1 = POKEPARTY_GetSlotFlag(party, pos1);
+    flags2 = POKEPARTY_GetSlotFlag(party, pos2);
+    POKEPARTY_SetSlotFlag(party, pos1, flags2);
+    POKEPARTY_SetSlotFlag(party, pos2, flags1);
     return 0;
 }
 
@@ -946,46 +954,46 @@ u32 sub_0201AB8C(struct Party *party, u32 pos1, u32 pos2, u32 heap)
 /*
  * A whole translation unit, matched as one byte range.
  *
- *           sub_0201ACDC, sub_0201AD0C, sub_0201AD18, sub_0201AD40,
- *           sub_0201AD58
+ *           POKEPARTY_SetSlotFlag, POKEPARTY_GetSaveData, POKEPARTY_IsBattleReady, POKEPARTY_IsNotEgg,
+ *           POKEPARTY_FindFirst
  *
  * Nine functions over a 0xDC-byte-record array container (the same array
- * sub_0201AB28, in unit_0201AB28.c, indexes), all going through
+ * POKEPARTY_GetMember, in unit_0201AB28.c, indexes), all going through
  * func_02017E1C, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
  * this file leaves as an unresolved extern because its own definition is
  * still open elsewhere in the image.
  *
- * sub_0201AC2C copies the whole 0x534-byte container by value; declaring the
+ * POKEPARTY_Copy copies the whole 0x534-byte container by value; declaring the
  * two pointers `(const struct Rec534 *src, struct Rec534 *dst)`, in that
  * argument order, is what gets the `ldm`/`stm` loop's read and write sides
  * right (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md; the record
  * is declared as a `u32` array so it is four-aligned rather than one-aligned,
  * which is what selects the register loop over a byte loop).
  *
- * sub_0201AC44 and sub_0201AC80 both walk the record array with a signed
+ * POKEPARTY_HasSpecies and POKEPARTY_GetAliveNonEggCount both walk the record array with a signed
  * loop counter (the original's `blt`/`ble` fix that, not `blo`/`bls`), the
  * first hunting for one whose entry's id-5 getter matches a target and
  * returning whether the loop ran out, the second counting entries that pass
- * one predicate and fail a second.  sub_0201AC80's `s32 n, i, count` layout
+ * one predicate and fail a second.  POKEPARTY_GetAliveNonEggCount's `s32 n, i, count` layout
  * matters for register allocation, not just its value:
  * docs/idioms/declaration-order-decides-which-register-a-local-gets.md is
  * the general rule and it is `i` declared before `n` here, `count`
  * initialised to zero on the same line as `i`.
  *
- * sub_0201ACC4 is a plain bit test on a byte 0x530 into the object.
- * sub_0201ACDC sets or clears one bit of the same byte depending on a mode
+ * POKEPARTY_GetSlotFlag is a plain bit test on a byte 0x530 into the object.
+ * POKEPARTY_SetSlotFlag sets or clears one bit of the same byte depending on a mode
  * argument; writing the two branches as `x = x | mask` / `x = x & ~mask`
  * over a double array-indexed expression (not a named pointer hoisted above
  * the `if`) is what keeps the address computation inside each arm instead of
  * being shared ahead of the branch.
  *
- * sub_0201AD0C is a 12-byte pool-word-and-bx tail call
+ * POKEPARTY_GetSaveData is a 12-byte pool-word-and-bx tail call
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) forwarding into
- * sub_020071CC (declared and used the same way in
+ * SAVE_CONTROL_GetBlock (declared and used the same way in
  * src/matched/unit_0200E884.c) with a literal id of 0x1A.
  *
- * sub_0201AD18 and sub_0201AD40 are both single-guard wrappers around
- * func_02017E1C.  sub_0201AD18's `a != 1 && b != 0` failing to `return 0` is
+ * POKEPARTY_IsBattleReady and POKEPARTY_IsNotEgg are both single-guard wrappers around
+ * func_02017E1C.  POKEPARTY_IsBattleReady's `a != 1 && b != 0` failing to `return 0` is
  * the guard-chain-shares-one-exit-block shape
  * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md)
  * applied to a genuine conjunction rather than the more common early-return
@@ -997,16 +1005,16 @@ u32 sub_0201AB8C(struct Party *party, u32 pos1, u32 pos2, u32 heap)
  * the observed shape has both comparisons branching to one identical exit,
  * which only the `&&`-guards-the-good-path phrasing produces.
  *
- * sub_0201AD58 is a linear search over the record array taking a function
+ * POKEPARTY_FindFirst is a linear search over the record array taking a function
  * pointer predicate, returning the index of the first match or the count if
- * none matched; `s32 i` declared before `s32 n = sub_0201AA18(p)` is again
+ * none matched; `s32 i` declared before `s32 n = POKEPARTY_GetCount(p)` is again
  * the register-order tell.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201AC2C.c \
  *       --addr 0x0201AC2C --thumb
  */
-void sub_0201AC2C(const struct Party *src, struct Party *dst)
+void POKEPARTY_Copy(const struct Party *src, struct Party *dst)
 {
     *dst = *src;
 }
@@ -1019,7 +1027,7 @@ void sub_0201AC2C(const struct Party *src, struct Party *dst)
 
 
 
-u32 sub_0201AC44(struct Party *party, u32 species)
+u32 POKEPARTY_HasSpecies(struct Party *party, u32 species)
 {
     s32 i;
 
@@ -1044,13 +1052,13 @@ u32 sub_0201AC44(struct Party *party, u32 species)
 
 
 
-u32 sub_0201AC80(struct Party *party)
+u32 POKEPARTY_GetAliveNonEggCount(struct Party *party)
 {
-    s32 memberCount = sub_0201AA18(party);
+    s32 memberCount = POKEPARTY_GetCount(party);
     s32 i, total = 0;
 
     for (i = 0; i < memberCount; i++) {
-        struct PokemonParam *member = sub_0201AB28(party, i);
+        struct PokemonParam *member = POKEPARTY_GetMember(party, i);
 
         if (func_02017E1C(member, 0xA0, 0)) {
             if (!func_02017E1C(member, 0x4C, 0)) {
@@ -1069,7 +1077,7 @@ u32 sub_0201AC80(struct Party *party)
 
 
 
-int sub_0201ACC4(const struct Party *party, u32 pos)
+int POKEPARTY_GetSlotFlag(const struct Party *party, u32 pos)
 {
     u8 flags = party->slotFlags;
 
@@ -1087,7 +1095,7 @@ int sub_0201ACC4(const struct Party *party, u32 pos)
 
 
 
-void sub_0201ACDC(struct Party *party, u32 pos, u32 set)
+void POKEPARTY_SetSlotFlag(struct Party *party, u32 pos, u32 set)
 {
     if (set == 1) {
         party->slotFlags = party->slotFlags | (1u << pos);
@@ -1104,9 +1112,9 @@ void sub_0201ACDC(struct Party *party, u32 pos, u32 set)
 
 
 
-struct Party *sub_0201AD0C(struct SaveControl *save)
+struct Party *POKEPARTY_GetSaveData(struct SaveControl *save)
 {
-    return sub_020071CC(save, 0x1A);
+    return SAVE_CONTROL_GetBlock(save, 0x1A);
 }
 
 
@@ -1117,7 +1125,7 @@ struct Party *sub_0201AD0C(struct SaveControl *save)
 
 
 
-u32 sub_0201AD18(struct PokemonParam *member)
+u32 POKEPARTY_IsBattleReady(struct PokemonParam *member)
 {
     u32 isEgg = func_02017E1C(member, 0x4C, 0);
     u32 hp = func_02017E1C(member, 0xA0, 0);
@@ -1136,7 +1144,7 @@ u32 sub_0201AD18(struct PokemonParam *member)
 
 
 
-u32 sub_0201AD40(struct PokemonParam *member)
+u32 POKEPARTY_IsNotEgg(struct PokemonParam *member)
 {
     u32 result = 0;
 
@@ -1154,13 +1162,13 @@ u32 sub_0201AD40(struct PokemonParam *member)
 
 
 
-u32 sub_0201AD58(struct Party *party, PartyMemberPredicate pred)
+u32 POKEPARTY_FindFirst(struct Party *party, PartyMemberPredicate pred)
 {
     s32 i;
-    s32 memberCount = sub_0201AA18(party);
+    s32 memberCount = POKEPARTY_GetCount(party);
 
     for (i = 0; i < memberCount; i++) {
-        struct PokemonParam *member = sub_0201AB28(party, i);
+        struct PokemonParam *member = POKEPARTY_GetMember(party, i);
 
         if (pred(member)) {
             return i;
@@ -1192,7 +1200,7 @@ u32 sub_0201AD58(struct Party *party, PartyMemberPredicate pred)
  *   python tools/match.py tu --src src/matched/unit_0201AD88.c \
  *       --addr 0x0201AD88 --thumb
  */
-void sub_0201AD88(u32 heap)
+void POKE_PERSONAL_OpenHandle(u32 heap)
 {
     if (_pPersonalArc == 0) {
         _pPersonalArc = func_020490F4(0x10, heap);
@@ -1208,12 +1216,12 @@ void sub_0201AD88(u32 heap)
 
 
 /*
- * A three-parameter wrapper: calls sub_0201AFD4(a, b) (0x0201AFD4, still
+ * A three-parameter wrapper: calls POKE_PERSONAL_GetFormDataId(a, b) (0x0201AFD4, still
  * open) and threads its result through two handler calls keyed off a static
  * handle at 0x0214652C, then hands the third parameter off to a third
  * handler with a literal id of 0x3C.  Kept as its own file rather than
- * merged with the neighbouring sub_0201ADD0/sub_0201ADE4
- * (src/matched/unit_0201ADD0.c) because both of those call sub_0201AFD4 as
+ * merged with the neighbouring POKE_PERSONAL_LoadDataDirect/POKE_PERSONAL_Create
+ * (src/matched/unit_0201ADD0.c) because both of those call POKE_PERSONAL_GetFormDataId as
  * well; one range holding all three calls has none of them attested and
  * caps at MATCH (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
  * With this function alone, the other two callers are outside the range and
@@ -1223,13 +1231,13 @@ void sub_0201AD88(u32 heap)
  *   python tools/match.py tu --src src/matched/unit_0201ADA4.c \
  *       --addr 0x0201ADA4 --thumb
  */
-void sub_0201ADA4(u32 species, int form, void *dst)
+void POKE_PERSONAL_LoadData(u32 species, int form, void *dst)
 {
-    u32 dataId = sub_0201AFD4(species, form);
+    u32 dataId = POKE_PERSONAL_GetFormDataId(species, form);
 
-    dataId = func_02049578(_pPersonalArc, dataId);
+    dataId = ARC_TOOL_GetHandleMemberOffset(_pPersonalArc, dataId);
     func_0204960C(_pPersonalArc, dataId);
-    func_020495F4(_pPersonalArc, 0x3C, dst);
+    ARC_TOOL_ReadHandle(_pPersonalArc, 0x3C, dst);
 }
 
 
@@ -1243,11 +1251,11 @@ void sub_0201ADA4(u32 species, int form, void *dst)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * sub_0201ADD0 is a second, smaller wrapper around sub_0201AFD4 (see
+ * POKE_PERSONAL_LoadDataDirect is a second, smaller wrapper around POKE_PERSONAL_GetFormDataId (see
  * src/matched/unit_0201ADA4.c for why it is not merged with that file); here
  * the result goes straight to one handler call with a literal id of 0x12.
  *
- * sub_0201ADE4 constructs an object from the debug allocator,
+ * POKE_PERSONAL_Create constructs an object from the debug allocator,
  * func_02030734(heap, size, zero, file, tag), with the __FILE__
  * argument an ABS32 into the packed string area rather than a locally
  * emitted string (docs/idioms/file-string-is-an-abs32-into-the-string-area.md).
@@ -1257,16 +1265,16 @@ void sub_0201ADA4(u32 species, int form, void *dst)
  * and "shinka_check.c" starting at 0x020A72E4, which is the strongest single
  * clue to this packet's subsystem: species/personal-data records, not the
  * WCM/NHTTP wireless code the neighbouring packets' sdk_calls hint at.  It
- * then forwards to sub_0201ADA4 (src/matched/unit_0201ADA4.c) and returns the
+ * then forwards to POKE_PERSONAL_LoadData (src/matched/unit_0201ADA4.c) and returns the
  * newly allocated object.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201ADD0.c \
  *       --addr 0x0201ADD0 --thumb
  */
-void sub_0201ADD0(u32 species, int form, void *dst)
+void POKE_PERSONAL_LoadDataDirect(u32 species, int form, void *dst)
 {
-    u32 dataId = sub_0201AFD4(species, form);
+    u32 dataId = POKE_PERSONAL_GetFormDataId(species, form);
 
     func_02048F4C(dst, 0x12, dataId);
 }
@@ -1279,11 +1287,11 @@ void sub_0201ADD0(u32 species, int form, void *dst)
 
 
 
-struct PersonalData *sub_0201ADE4(u32 species, int form, u32 heap)
+struct PersonalData *POKE_PERSONAL_Create(u32 species, int form, u32 heap)
 {
     struct PersonalData *data = func_02030734(heap, 0x3C, 0, poke_personal_File, 0x76);
 
-    sub_0201ADA4(species, form, data);
+    POKE_PERSONAL_LoadData(species, form, data);
     return data;
 }
 
@@ -1299,7 +1307,7 @@ struct PersonalData *sub_0201ADE4(u32 species, int form, u32 heap)
  * poke_personal.c's record destructor: four bytes of code and one pool word,
  * a tail call with no argument set-up at all
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  It abuts
- * src/matched/unit_0201ADD0.c on the left, whose sub_0201ADE4 carries the
+ * src/matched/unit_0201ADD0.c on the left, whose POKE_PERSONAL_Create carries the
  * "poke_personal.c" file string.
  *
  * This file used to hold the whole middle of poke_personal.c
@@ -1309,7 +1317,7 @@ struct PersonalData *sub_0201ADE4(u32 species, int form, u32 heap)
  * personal record through, gets a manifest entry of its own instead of being
  * an interior function with no attestable address
  * (docs/idioms/a-unit-attests-only-its-own-start-address.md).  The other two
- * pieces are src/matched/sub_0201AE1C.c and src/matched/unit_0201AF6C.c; the
+ * pieces are src/matched/POKE_PERSONAL_GetParam.c and src/matched/unit_0201AF6C.c; the
  * C in all three is unchanged, only the file boundaries moved, and no
  * relocation crosses a new boundary.
  *
@@ -1317,7 +1325,7 @@ struct PersonalData *sub_0201ADE4(u32 species, int form, u32 heap)
  *   python tools/match.py tu --src src/matched/unit_0201AE14.c \
  *       --addr 0x0201AE14 --thumb
  */
-void sub_0201AE14(struct PersonalData *data)
+void POKE_PERSONAL_Delete(struct PersonalData *data)
 {
     func_020307B0(data);
 }
@@ -1344,9 +1352,9 @@ void sub_0201AE14(struct PersonalData *data)
  * fan-in: it is the field selector the whole poke_* region reads the personal
  * record through, so it is exactly the address that wants an entry.
  *
- * Splitting costs nothing here: sub_0201AE14 (the record destructor, four
+ * Splitting costs nothing here: POKE_PERSONAL_Delete (the record destructor, four
  * bytes of code and a pool word) keeps the start address and therefore keeps
- * its entry, sub_0201AF6C and sub_0201AF80 move into
+ * its entry, POKE_PERSONAL_IsPlaceholderAbility and POKE_PERSONAL_LoadFormTable move into
  * src/matched/unit_0201AF6C.c which starts at the address of the first of
  * them, and this function holds no relocation at all, so no cut can take a
  * witness away from anybody.
@@ -1355,7 +1363,7 @@ void sub_0201AE14(struct PersonalData *data)
  * VERSION SENSITIVITY, read this before porting to Pokemon White
  * ---------------------------------------------------------------------------
  * The 44 case ids are an interface rather than content: they are the field
- * selector the whole region uses, and src/matched/sub_02018A7C.c reads the
+ * selector the whole region uses, and src/matched/POKE_TOOL_CalcParam.c reads the
  * same record through ids of its own.  The field offsets are structure and
  * will not move; the ids will not either unless a field is added, which is
  * exactly the kind of thing a version diff does, so the map below is the thing
@@ -1400,10 +1408,10 @@ void sub_0201AE14(struct PersonalData *data)
  * needs none, because `ldrh` reaches 62.
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/sub_0201AE1C.c \
+ *   python tools/match.py tu --src src/matched/POKE_PERSONAL_GetParam.c \
  *       --addr 0x0201AE1C --thumb
  */
-u32 sub_0201AE1C(const struct PersonalData *data, u32 field)
+u32 POKE_PERSONAL_GetParam(const struct PersonalData *data, u32 field)
 {
     switch (field) {
     case 0:  return data->baseHp;
@@ -1463,12 +1471,12 @@ u32 sub_0201AE1C(const struct PersonalData *data, u32 field)
 /*
  * The tail of poke_personal.c: the "is this a placeholder ability id"
  * predicate and the form-table loader.  Cut out of
- * src/matched/unit_0201AE14.c together with src/matched/sub_0201AE1C.c so
+ * src/matched/unit_0201AE14.c together with src/matched/POKE_PERSONAL_GetParam.c so
  * that the 44 field getter at 0x0201AE1C gets a manifest entry of its own
  * (docs/idioms/a-unit-attests-only-its-own-start-address.md).  The C is
  * unchanged; only the file boundary moved.  This file still starts at the
  * address of its own first function, so it loses no entry by the same rule:
- * sub_0201AF80 was already an interior function of unit_0201AE14.c.
+ * POKE_PERSONAL_LoadFormTable was already an interior function of unit_0201AE14.c.
  *
  * ---------------------------------------------------------------------------
  * VERSION SENSITIVITY, read this before porting to Pokemon White
@@ -1476,14 +1484,14 @@ u32 sub_0201AE1C(const struct PersonalData *data, u32 field)
  * Three content constants live here and every one of them is a number the
  * game's data, not its structure, decides:
  *
- *   0x29C (668)  sub_0201AF80's archive member id, the form table.  It is the
+ *   0x29C (668)  POKE_PERSONAL_LoadFormTable's archive member id, the form table.  It is the
  *                index of one member inside the handle at 0x0214652C, so it
  *                moves if the archive is repacked; IRAO is expected to share
  *                the packing but this is the first thing to re-read.
- *   999          sub_0201AF80's "no entry" sentinel in that form table.  It is
+ *   999          POKE_PERSONAL_LoadFormTable's "no entry" sentinel in that form table.  It is
  *                a species-space sentinel, not a count, and it is what the
  *                entry count is measured against.
- *   0, 0xFE,0xFF sub_0201AF6C's three accepted ids.  The callers (0x02017D00,
+ *   0, 0xFE,0xFF POKE_PERSONAL_IsPlaceholderAbility's three accepted ids.  The callers (0x02017D00,
  *                0x0201860E, 0x020186AE, 0x020186FE, 0x02018718) all feed it a
  *                value read out of the personal record, so these are content
  *                ids in the same space as the record's own fields.
@@ -1491,7 +1499,7 @@ u32 sub_0201AE1C(const struct PersonalData *data, u32 field)
  * ---------------------------------------------------------------------------
  * THE TWO FUNCTIONS
  * ---------------------------------------------------------------------------
- * sub_0201AF6C is a disjunction and not a conjunction.  The `beq` from the
+ * POKE_PERSONAL_IsPlaceholderAbility is a disjunction and not a conjunction.  The `beq` from the
  * first test lands on the `movs r0, #1` that the second test's `bhi` falls
  * through to, and the `movs r0, #0` is out of line behind it; written
  * `if (v != 0 && v - 0xFE > 1) return 0;` every byte is still right and the
@@ -1499,7 +1507,7 @@ u32 sub_0201AE1C(const struct PersonalData *data, u32 field)
  * (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md,
  * docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
- * sub_0201AF80 narrows the byte length the archive hands back to a halfword
+ * POKE_PERSONAL_LoadFormTable narrows the byte length the archive hands back to a halfword
  * count with a single `lsls #0xf` / `lsrs #0x10` pair.  The amounts are
  * unequal, so it is a cast folded with a shift and not a bitfield: 32 - 16 is
  * the width and 15 - 16 is the shift, i.e. `(u16)(len >> 1)`
@@ -1513,7 +1521,7 @@ u32 sub_0201AE1C(const struct PersonalData *data, u32 field)
  *   python tools/match.py tu --src src/matched/unit_0201AF6C.c \
  *       --addr 0x0201AF6C --thumb
  */
-u32 sub_0201AF6C(u32 ability)
+u32 POKE_PERSONAL_IsPlaceholderAbility(u32 ability)
 {
     if (ability == 0 || ability - 0xFE <= 1) {
         return 1;
@@ -1529,7 +1537,7 @@ u32 sub_0201AF6C(u32 ability)
 
 
 
-u16 *sub_0201AF80(u32 heap, u16 *countOut)
+u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut)
 {
     u32 size;
     u16 *table;
@@ -1567,7 +1575,7 @@ u16 *sub_0201AF80(u32 heap, u16 *countOut)
  * requested form is inside it, answers with the form's own species-like id.
  *
  * VERSION SENSITIVITY: the guard rejects exactly the two ids 650 and 651,
- * which are the egg and bad-egg entries src/pending/sub_02018E34.c's field
+ * which are the egg and bad-egg entries src/pending/POKE_TOOL_GetBoxValueRaw.c's field
  * map already names, and it spells them as a 16 bit range test.  They are
  * content ids rather than structure offsets, so they are the first thing to
  * re-read for a Pokemon White build; nothing else in this function is
@@ -1596,15 +1604,15 @@ u16 *sub_0201AF80(u32 heap, u16 *countOut)
  *   python tools/match.py tu --src src/matched/unit_0201AFD4.c \
  *       --addr 0x0201AFD4 --thumb
  */
-u32 sub_0201AFD4(u32 species, s32 form)
+u32 POKE_PERSONAL_GetFormDataId(u32 species, s32 form)
 {
     struct PersonalData data;
 
     if ((u16)(species + 0xFD76) <= 1) {
         return 0;
     }
-    func_0204960C(_pPersonalArc, func_02049578(_pPersonalArc, species));
-    func_020495F4(_pPersonalArc, 0x3C, &data);
+    func_0204960C(_pPersonalArc, ARC_TOOL_GetHandleMemberOffset(_pPersonalArc, species));
+    ARC_TOOL_ReadHandle(_pPersonalArc, 0x3C, &data);
     if (data.formStatsIndex == 0 || data.formCount <= form || form == 0) {
         return species;
     }
@@ -1621,7 +1629,7 @@ u32 sub_0201AFD4(u32 species, s32 form)
 /*
  * note:     EXACT* only for the two bytes of alignment padding at
  *           0x0201B0FE.  The rare random event that seeds party record
- *           field 0x97 (see docs/notes/sub_0201B038.c.txt for the draws and
+ *           field 0x97 (see docs/notes/POKERUS_TryInfectParty.c.txt for the draws and
  *           the version-sensitive constants 0x4000/0x8000/0xC000, 7, 0xF3,
  *           content values rather than addresses).  Closed in wave 16: the
  *           packed byte is built as `w = v; w |= (u8)(v << 4);` (the copy is
@@ -1629,7 +1637,7 @@ u32 sub_0201AFD4(u32 species, s32 form)
  *           truncations are written inside the call argument, which lets the
  *           final lsls/lsrs pair straddle the argument set-up.
  */
-void sub_0201B038(struct Party *party)
+void POKERUS_TryInfectParty(struct Party *party)
 {
     u32 infectedMask;
     u32 chance;
@@ -1639,16 +1647,16 @@ void sub_0201B038(struct Party *party)
     u32 pokerus;
     u32 memberCount;
 
-    memberCount = sub_0201AA18(party);
+    memberCount = POKEPARTY_GetCount(party);
     chance = (u16)((u64)func_0203F0A8() * 0x10000 >> 32);
-    infectedMask = sub_0201B220(party);
+    infectedMask = POKERUS_GetInfectedMask(party);
     if (chance == 0x4000 || chance == 0x8000 || chance == 0xC000) {
         do {
             slot = func_0203F0A8();
             if (memberCount != 0) {
                 slot = (u32)(((u64)slot * memberCount) >> 32);
             }
-            member = sub_0201AB28(party, slot);
+            member = POKEPARTY_GetMember(party, slot);
         } while (func_02017E1C(member, 5, 0) == 0
                  || func_02017E1C(member, 0x4C, 0) != 0);
         if ((infectedMask & (1 << slot)) != 0) {
@@ -1676,14 +1684,14 @@ void sub_0201B038(struct Party *party)
  * A whole translation unit, matched as one byte range.
  *
  * The two writers of the packed byte field id 0x97 that
- * src/matched/unit_0201B220.c reads: sub_0201B100 counts its low nibble down
- * across the whole party, and sub_0201B170 spreads it to the neighbouring
+ * src/matched/unit_0201B220.c reads: POKERUS_DecreaseDays counts its low nibble down
+ * across the whole party, and POKERUS_SpreadParty spreads it to the neighbouring
  * slots one time in three.
  *
- * sub_0201B100 walks every occupied slot, clears the low nibble outright when
+ * POKERUS_DecreaseDays walks every occupied slot, clears the low nibble outright when
  * the amount to subtract is larger than it or larger than 4, subtracts it
  * otherwise, and forces 0x10 when the whole byte comes out zero so that the
- * high nibble stays distinguishable from "never set".  sub_0201B170 copies a
+ * high nibble stays distinguishable from "never set".  POKERUS_SpreadParty copies a
  * slot's byte into the slot before and the slot after it whenever theirs has
  * no high nibble, and advances the index an extra step when it wrote forwards
  * so that a value cannot propagate down the party in one pass.
@@ -1693,19 +1701,19 @@ void sub_0201B038(struct Party *party)
  * ---------------------------------------------------------------------------
  * No species, item or move id.  What is content shaped:
  *
- *   4      sub_0201B100's threshold: an amount above it always clears the
+ *   4      POKERUS_DecreaseDays's threshold: an amount above it always clears the
  *          nibble instead of subtracting, so it is a rule about the field's
  *          range rather than about its layout.
  *   0x10   the value written when the subtraction leaves zero, i.e. the low
  *          nibble empty and the high nibble at one.
- *   3      sub_0201B170's odds, one call in three.
+ *   3      POKERUS_SpreadParty's odds, one call in three.
  *   0xF, 0xF0   the two nibble masks, the field's own layout.
- *   0x97, 5   party record ids in src/matched/sub_02018DB4.c's space.
+ *   0x97, 5   party record ids in src/matched/POKE_TOOL_GetPartyValueRaw.c's space.
  *
  * ---------------------------------------------------------------------------
  * NOTES
  * ---------------------------------------------------------------------------
- * sub_0201B170's odds are a 64 bit multiply and not a modulo:
+ * POKERUS_SpreadParty's odds are a 64 bit multiply and not a modulo:
  * `(u64)rand() * 3 >> 32` puts the answer in the `_ull_mul` call's **r1**, and
  * the `movs r1, #0` in front of the call is the draw's high half rather than a
  * second argument.  See
@@ -1718,7 +1726,7 @@ void sub_0201B038(struct Party *party)
  * why the decrement lands after the loop's own entry guard rather than before
  * it.  Writing the guard and the local out by hand costs six bytes.
  *
- * sub_0201B100's two arms are not spelled the same way.  The masking arm is a
+ * POKERUS_DecreaseDays's two arms are not spelled the same way.  The masking arm is a
  * compound assignment, `v &= 0xF0`, and the subtracting arm carries an explicit
  * `(u8)` cast; written with the cast on both, the two truncations cross-jump
  * into one block that both arms branch to and the function is four bytes
@@ -1727,7 +1735,7 @@ void sub_0201B038(struct Party *party)
  * seen on a local rather than on a field: the compound form is the one that
  * does not materialise a fresh truncation.
  *
- * Both loop counters are signed, and in sub_0201B100 the amount and the
+ * Both loop counters are signed, and in POKERUS_DecreaseDays the amount and the
  * extracted nibble are signed too: the comparisons are `blt` and `ble`, not
  * `blo` and `bls`.
  *
@@ -1735,7 +1743,7 @@ void sub_0201B038(struct Party *party)
  *   python tools/match.py tu --src src/matched/unit_0201B100.c \
  *       --addr 0x0201B100 --thumb
  */
-void sub_0201B100(struct Party *party, s32 days)
+void POKERUS_DecreaseDays(struct Party *party, s32 days)
 {
     s32 memberCount;
     struct PokemonParam *member;
@@ -1743,9 +1751,9 @@ void sub_0201B100(struct Party *party, s32 days)
     u8 pokerus;
     s32 daysLeft;
 
-    memberCount = sub_0201AA18(party);
+    memberCount = POKEPARTY_GetCount(party);
     for (i = 0; i < memberCount; i++) {
-        member = sub_0201AB28(party, i);
+        member = POKEPARTY_GetMember(party, i);
         if (func_02017E1C(member, 5, 0) == 0) {
             continue;
         }
@@ -1773,7 +1781,7 @@ void sub_0201B100(struct Party *party, s32 days)
 
 
 
-void sub_0201B170(struct Party *party)
+void POKERUS_SpreadParty(struct Party *party)
 {
     s32 i;
     struct PokemonParam *member;
@@ -1781,12 +1789,12 @@ void sub_0201B170(struct Party *party)
     u8 pokerus;
     s32 memberCount;
 
-    memberCount = sub_0201AA18(party);
+    memberCount = POKEPARTY_GetCount(party);
     if ((u32)((u64)func_0203F0A8() * 3 >> 32) != 0) {
         return;
     }
     for (i = 0; i < memberCount; i++) {
-        member = sub_0201AB28(party, i);
+        member = POKEPARTY_GetMember(party, i);
         if (func_02017E1C(member, 5, 0) == 0) {
             continue;
         }
@@ -1795,13 +1803,13 @@ void sub_0201B170(struct Party *party)
             continue;
         }
         if (i != 0) {
-            neighbor = sub_0201AB28(party, i - 1);
+            neighbor = POKEPARTY_GetMember(party, i - 1);
             if ((func_02017E1C(neighbor, 0x97, 0) & 0xF0) == 0) {
                 func_02017E40(neighbor, 0x97, pokerus);
             }
         }
         if (i < memberCount - 1) {
-            neighbor = sub_0201AB28(party, i + 1);
+            neighbor = POKEPARTY_GetMember(party, i + 1);
             if ((func_02017E1C(neighbor, 0x97, 0) & 0xF0) == 0) {
                 func_02017E40(neighbor, 0x97, pokerus);
                 i++;
@@ -1820,23 +1828,23 @@ void sub_0201B170(struct Party *party)
 /*
  * A whole translation unit, matched as one byte range.
  *
- *           sub_0201B28C
+ *           POKERUS_IsBoxCured
  *
  * Five readers of one packed byte field, id 0x97 of the party record, whose
  * two nibbles are written by the loop at 0x0201B0DC in the same file.
  *
- * sub_0201B220 answers a bitmask of the party slots whose field is non zero,
+ * POKERUS_GetInfectedMask answers a bitmask of the party slots whose field is non zero,
  * one bit per slot, and is the value the code at 0x0201B056 tests before it
- * writes a new one.  sub_0201B268 asks whether the low nibble is set and
- * sub_0201B28C whether the high nibble is set and the low one is not;
- * sub_0201B25C and sub_0201B280 are their two-instruction wrappers over
+ * writes a new one.  POKERUS_IsBoxInfected asks whether the low nibble is set and
+ * POKERUS_IsBoxCured whether the high nibble is set and the low one is not;
+ * POKERUS_IsInfected and POKERUS_IsCured are their two-instruction wrappers over
  * func_020185F0.
  *
  * ---------------------------------------------------------------------------
  * VERSION SENSITIVITY, read this before porting to Pokemon White
  * ---------------------------------------------------------------------------
  * No species, item or move id appears here.  0x97 is a party record id in
- * src/matched/sub_02018DB4.c's space, and the two nibble masks 0xF and 0xF0
+ * src/matched/POKE_TOOL_GetPartyValueRaw.c's space, and the two nibble masks 0xF and 0xF0
  * are the field's own layout.  What is worth re-reading for IRAO is the
  * meaning rather than the numbers: the field is a counter in the low nibble
  * and a flag set in the high one, and a version that widened either would
@@ -1845,7 +1853,7 @@ void sub_0201B170(struct Party *party)
  * ---------------------------------------------------------------------------
  * NOTES
  * ---------------------------------------------------------------------------
- * sub_0201B220 assigns the mask before it asks for the party count, which is
+ * POKERUS_GetInfectedMask assigns the mask before it asks for the party count, which is
  * what keeps the zero a `movs` in the prologue and lets the loop index take a
  * second `movs` after the call rather than a pool word
  * (docs/idioms/assign-the-loop-counter-before-the-loop-bound-or-zero-costs-a-pool-word.md).
@@ -1854,8 +1862,8 @@ void sub_0201B170(struct Party *party)
  * temporary instead, the truncation cannot sink and the tail of the loop comes
  * out with every register moved.
  *
- * sub_0201B28C reads the field into a `u8` local and tests it twice, so the
- * constant is the `tst`'s first operand and the field its second; sub_0201B268
+ * POKERUS_IsBoxCured reads the field into a `u8` local and tests it twice, so the
+ * constant is the `tst`'s first operand and the field its second; POKERUS_IsBoxInfected
  * tests the call result directly and gets the other operand order.  That one
  * byte is the only difference between the two shapes, and it is the same tell
  * docs/idioms/cmp-operand-order-names-the-temporary.md records for `cmp`.
@@ -1864,16 +1872,16 @@ void sub_0201B170(struct Party *party)
  *   python tools/match.py tu --src src/matched/unit_0201B220.c \
  *       --addr 0x0201B220 --thumb
  */
-u32 sub_0201B220(struct Party *party)
+u32 POKERUS_GetInfectedMask(struct Party *party)
 {
     s32 i;
     u32 infectedMask;
     s32 memberCount;
 
     infectedMask = 0;
-    memberCount = sub_0201AA18(party);
+    memberCount = POKEPARTY_GetCount(party);
     for (i = 0; i < memberCount; i++) {
-        if (func_02017E1C(sub_0201AB28(party, i), 0x97, 0) != 0) {
+        if (func_02017E1C(POKEPARTY_GetMember(party, i), 0x97, 0) != 0) {
             infectedMask |= (u8)(1 << i);
         }
     }
@@ -1887,9 +1895,9 @@ u32 sub_0201B220(struct Party *party)
 
 
 
-u32 sub_0201B25C(struct PokemonParam *pp)
+u32 POKERUS_IsInfected(struct PokemonParam *pp)
 {
-    return sub_0201B268(func_020185F0(pp));
+    return POKERUS_IsBoxInfected(func_020185F0(pp));
 }
 
 
@@ -1899,7 +1907,7 @@ u32 sub_0201B25C(struct PokemonParam *pp)
 
 
 
-u32 sub_0201B268(struct BoxPokemon *box)
+u32 POKERUS_IsBoxInfected(struct BoxPokemon *box)
 {
     u32 result;
 
@@ -1917,9 +1925,9 @@ u32 sub_0201B268(struct BoxPokemon *box)
 
 
 
-u32 sub_0201B280(struct PokemonParam *pp)
+u32 POKERUS_IsCured(struct PokemonParam *pp)
 {
-    return sub_0201B28C(func_020185F0(pp));
+    return POKERUS_IsBoxCured(func_020185F0(pp));
 }
 
 
@@ -1929,7 +1937,7 @@ u32 sub_0201B280(struct PokemonParam *pp)
 
 
 
-u32 sub_0201B28C(struct BoxPokemon *box)
+u32 POKERUS_IsBoxCured(struct BoxPokemon *box)
 {
     u32 result;
     u8 pokerus;
@@ -1963,17 +1971,17 @@ u32 sub_0201B28C(struct BoxPokemon *box)
  *
  * shinka_check.c (the string at 0x020A7330), the evolution checker: the
  * egg/everstone gate, then the 0x2A-byte evolution record (seven six-byte
- * rows, sub_0201B764) walked under a switch on the context (0 level up,
+ * rows, SHINKA_CHECK_LoadData) walked under a switch on the context (0 level up,
  * 1 trade, 2 and 3 item use); the first row that fires gives the target
  * species and its method goes to *methodOut (method 15 writes 15 and gives
- * no species).  docs/notes/sub_0201B2B0.c.txt holds the method map and the
+ * no species).  docs/notes/SHINKA_CHECK_CheckEvolution.c.txt holds the method map and the
  * history.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201B2B0.c \
- *       --func sub_0201B2B0 --addr 0x0201B2B0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SHINKA_CHECK_CheckEvolution.c \
+ *       --func SHINKA_CHECK_CheckEvolution --addr 0x0201B2B0 --cc 1.1p1 --thumb
  */
-u32 sub_0201B2B0(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg,
+u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg,
                  u8 timezone, u32 *methodOut, u16 heap)
 {
     u32 unusedMethod;
@@ -2012,7 +2020,7 @@ u32 sub_0201B2B0(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg
     }
     i = 0;
     rows = func_02030734(heap, 0x2A, 0, (const char *)shinka_check_File, 0x6A);
-    sub_0201B764(species, rows);
+    SHINKA_CHECK_LoadData(species, rows);
 
     switch (mode) {
     case 0:
@@ -2027,12 +2035,12 @@ u32 sub_0201B2B0(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg
                 }
                 break;
             case 2:
-                if (func_02011410(timezone) == 0 && friendship >= 220) {
+                if (TIMEZONE_IsNight(timezone) == 0 && friendship >= 220) {
                     result = row->species;
                 }
                 break;
             case 3:
-                if (func_02011410(timezone) == 1 && friendship >= 220) {
+                if (TIMEZONE_IsNight(timezone) == 1 && friendship >= 220) {
                     result = row->species;
                 }
                 break;
@@ -2089,22 +2097,22 @@ u32 sub_0201B2B0(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg
                 }
                 break;
             case 19:
-                if (func_02011410(timezone) == 0 && heldItem == row->param) {
+                if (TIMEZONE_IsNight(timezone) == 0 && heldItem == row->param) {
                     result = row->species;
                 }
                 break;
             case 20:
-                if (func_02011410(timezone) == 1 && heldItem == row->param) {
+                if (TIMEZONE_IsNight(timezone) == 1 && heldItem == row->param) {
                     result = row->species;
                 }
                 break;
             case 21:
-                if (sub_0201B774(pp, row->param) == 1) {
+                if (SHINKA_CHECK_KnowsMove(pp, row->param) == 1) {
                     result = row->species;
                 }
                 break;
             case 22:
-                if (party != 0 && sub_0201AC44(party, row->param) == 1) {
+                if (party != 0 && POKEPARTY_HasSpecies(party, row->param) == 1) {
                     result = row->species;
                 }
                 break;
@@ -2228,7 +2236,7 @@ u32 sub_0201B2B0(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg
  * src/matched/unit_0201BD28.c's waza_tool.c names 0x15 and
  * src/matched/unit_0201ADD0.c's poke_personal.c names 0x12.  The record is
  * 0x2C bytes: seven six byte rows and a trailing halfword, and the three
- * halfwords of a row are what sub_0201B718's three arm switch selects between,
+ * halfwords of a row are what SHINKA_CHECK_GetRowParam's three arm switch selects between,
  * which is how the row layout is readable at all.
  *
  * ---------------------------------------------------------------------------
@@ -2242,22 +2250,22 @@ u32 sub_0201B2B0(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg
  *          size fixes it.  A White build that gave a species an eighth
  *          evolution would change this record size and every one of these
  *          four functions with it.
- *   0x36, 0x3A   sub_0201B774's move id range: the four move slots of the
- *          party record, in src/matched/sub_02018DB4.c's id space.  Structure
+ *   0x36, 0x3A   SHINKA_CHECK_KnowsMove's move id range: the four move slots of the
+ *          party record, in src/matched/POKE_TOOL_GetPartyValueRaw.c's id space.  Structure
  *          rather than content, but listed because the loop bound is written
  *          as the literal 0x3A and not as "0x36 + 4".
  *
  * ---------------------------------------------------------------------------
  * NOTES
  * ---------------------------------------------------------------------------
- * sub_0201B70C and sub_0201B764 are tail calls and nothing else, eight bytes
+ * SHINKA_CHECK_OpenHandle and SHINKA_CHECK_LoadData are tail calls and nothing else, eight bytes
  * of code and a pool word each
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  Neither could pass a
  * fourth argument even if it wanted to, because r3 carries the target
- * (docs/idioms/a-tail-call-cannot-pass-a-fourth-argument.md); sub_0201B764
+ * (docs/idioms/a-tail-call-cannot-pass-a-fourth-argument.md); SHINKA_CHECK_LoadData
  * passes exactly three and is at the limit.
  *
- * sub_0201B718's switch is a `cmp`/`beq` chain and not a jump table even
+ * SHINKA_CHECK_GetRowParam's switch is a `cmp`/`beq` chain and not a jump table even
  * though its three labels are dense from zero, which is the count and not the
  * density deciding it
  * (docs/idioms/empty-switch-arms-are-what-make-the-table.md records the
@@ -2266,7 +2274,7 @@ u32 sub_0201B2B0(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg
  * row with a register offset off r6 while `case 1` and `case 2` rebuild
  * `sp + 2` and `sp + 4`: that is the member offset, not a second pointer.
  *
- * sub_0201B774 keeps its answer in a stack slot carved out by the `r3` of the
+ * SHINKA_CHECK_KnowsMove keeps its answer in a stack slot carved out by the `r3` of the
  * prologue's `push`, and the third argument's zero is common
  * subexpression eliminated into r7 for the whole loop, which is why the
  * literal has to stay a literal at the call site rather than becoming a named
@@ -2276,7 +2284,7 @@ u32 sub_0201B2B0(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg
  *   python tools/match.py tu --src src/matched/unit_0201B70C.c \
  *       --addr 0x0201B70C --thumb
  */
-struct ArcHandle *sub_0201B70C(u32 heap)
+struct ArcHandle *SHINKA_CHECK_OpenHandle(u32 heap)
 {
     return func_020490F4(0x13, heap);
 }
@@ -2288,7 +2296,7 @@ struct ArcHandle *sub_0201B70C(u32 heap)
 
 
 
-u32 sub_0201B718(struct ArcHandle *arc, u32 species, u32 rowIndex, u32 field)
+u32 SHINKA_CHECK_GetRowParam(struct ArcHandle *arc, u32 species, u32 rowIndex, u32 field)
 {
     struct EvolutionData data;
 
@@ -2311,7 +2319,7 @@ u32 sub_0201B718(struct ArcHandle *arc, u32 species, u32 rowIndex, u32 field)
 
 
 
-void sub_0201B764(u32 species, struct EvolutionRow *rows)
+void SHINKA_CHECK_LoadData(u32 species, struct EvolutionRow *rows)
 {
     func_02048F4C(rows, 0x13, species);
 }
@@ -2323,7 +2331,7 @@ void sub_0201B764(u32 species, struct EvolutionRow *rows)
 
 
 
-u32 sub_0201B774(struct PokemonParam *pp, u32 move)
+u32 SHINKA_CHECK_KnowsMove(struct PokemonParam *pp, u32 move)
 {
     u32 found;
     s32 i;
@@ -2349,7 +2357,7 @@ u32 sub_0201B774(struct PokemonParam *pp, u32 move)
  *           at 0x0201B7B0, inside the compared range; every concrete byte is
  *           right.
  *
- * A three-byte-stride table entry is handed to func_0201B850 along with the
+ * A three-byte-stride table entry is handed to NATSUKI_Apply along with the
  * caller's own third and fourth arguments.  Those two are forwarded
  * unchanged - they are already in r2/r3 - so no instruction moves them, and
  * that is also why the call is a real `bl` rather than a tail call: a Thumb
@@ -2358,12 +2366,12 @@ u32 sub_0201B774(struct PokemonParam *pp, u32 move)
  * own pool word at 0x0201B7B0.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0201B7A0.c \
- *       --func func_0201B7A0 --addr 0x0201B7A0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/NATSUKI_Calc.c \
+ *       --func NATSUKI_Calc --addr 0x0201B7A0 --cc 1.1p1 --thumb
  */
-void func_0201B7A0(struct PokemonParam *pp, int type, int zoneId, u16 heap)
+void NATSUKI_Calc(struct PokemonParam *pp, int type, int zoneId, u16 heap)
 {
-    sub_0201B850(pp, &_NatsukiDeltaTable[type * 3], zoneId, heap);
+    NATSUKI_Apply(pp, &_NatsukiDeltaTable[type * 3], zoneId, heap);
 }
 
 
@@ -2379,15 +2387,15 @@ void func_0201B7A0(struct PokemonParam *pp, int type, int zoneId, u16 heap)
 
 /*
  * Three bytes are built one selector at a time - selectors 0x3C, 0x3D, 0x3E
- * - and the three-byte buffer is then handed to func_0201B850 along with
+ * - and the three-byte buffer is then handed to NATSUKI_Apply along with
  * the caller's own second and fourth arguments.  No literal pool: the only
  * pointers are the two call targets.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201B7B4.c \
- *       --func func_0201B7B4 --addr 0x0201B7B4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/NATSUKI_CalcUseItem.c \
+ *       --func NATSUKI_CalcUseItem --addr 0x0201B7B4 --cc 1.1p1 --thumb
  */
-void func_0201B7B4(struct PokemonParam *pp, int item, u16 zoneId, u16 heap)
+void NATSUKI_CalcUseItem(struct PokemonParam *pp, int item, u16 zoneId, u16 heap)
 {
     u8 deltas[3];
     int i;
@@ -2395,7 +2403,7 @@ void func_0201B7B4(struct PokemonParam *pp, int item, u16 zoneId, u16 heap)
     for (i = 0; i < 3; i++) {
         deltas[i] = (u8)func_02020FE4(item, (u16)(i + 0x3C), heap);
     }
-    sub_0201B850(pp, (const s8 *)deltas, zoneId, heap);
+    NATSUKI_Apply(pp, (const s8 *)deltas, zoneId, heap);
 }
 
 
@@ -2410,8 +2418,8 @@ void func_0201B7B4(struct PokemonParam *pp, int item, u16 zoneId, u16 heap)
 
 
 /*
- * shinka_check.c.  The coin-flip sibling of func_0201B7A0 / func_0201B818:
- * on an even draw below 2, hand the fixed row _NatsukiWalkDeltas to func_0201B850.
+ * shinka_check.c.  The coin-flip sibling of NATSUKI_Calc / NATSUKI_CalcParty:
+ * on an even draw below 2, hand the fixed row _NatsukiWalkDeltas to NATSUKI_Apply.
  *
  * The `movs r1,#0 / lsls r1,r1,#1 / lsrs r0,r0,#31 / orrs` run that four
  * waves read as a scheduling tie of two u32 shifts is the high word of a
@@ -2429,7 +2437,7 @@ void func_0201B7B4(struct PokemonParam *pp, int item, u16 zoneId, u16 heap)
 void func_0201B7EC(struct PokemonParam *pp, int zoneId, u16 heap)
 {
     if ((u32)((u64)func_0203F0A8() * 2 >> 32) % 2 == 0) {
-        sub_0201B850(pp, _NatsukiWalkDeltas, zoneId, heap);
+        NATSUKI_Apply(pp, _NatsukiWalkDeltas, zoneId, heap);
     }
 }
 
@@ -2450,7 +2458,7 @@ void func_0201B7EC(struct PokemonParam *pp, int zoneId, u16 heap)
  *           at 0x0201B84C, inside the compared range.  The site resolves as
  *           `sole-ref` instead, so the entry is EXACT and not MATCH.
  *
- * for (i = 0; i < count(a0); i++) func_0201B850(entry(a0, i), &_NatsukiPartyDeltas,
+ * for (i = 0; i < count(a0); i++) NATSUKI_Apply(entry(a0, i), &_NatsukiPartyDeltas,
  * a1, a2); - the entry pointer the loop computes is what feeds the second
  * call's first argument, which is why no `r0 = a0` copy appears in front of
  * it (the returned r0 is already the argument), and the bound is
@@ -2459,15 +2467,15 @@ void func_0201B7EC(struct PokemonParam *pp, int zoneId, u16 heap)
  * 0x0201B84C, behind the C0 46 alignment filler at 0x0201B84A.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201B818.c \
- *       --func func_0201B818 --addr 0x0201B818 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/NATSUKI_CalcParty.c \
+ *       --func NATSUKI_CalcParty --addr 0x0201B818 --cc 1.1p1 --thumb
  */
-void func_0201B818(struct Party *party, int zoneId, u16 heap)
+void NATSUKI_CalcParty(struct Party *party, int zoneId, u16 heap)
 {
     int i;
 
-    for (i = 0; i < (int)sub_0201AA18(party); i++) {
-        sub_0201B850(sub_0201AB28(party, i), _NatsukiPartyDeltas, zoneId, heap);
+    for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
+        NATSUKI_Apply(POKEPARTY_GetMember(party, i), _NatsukiPartyDeltas, zoneId, heap);
     }
 }
 
@@ -2503,12 +2511,12 @@ void func_0201B818(struct Party *party, int zoneId, u16 heap)
  * kind and is content numbering too.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/sub_0201B850.c \
- *       --func sub_0201B850 --addr 0x0201B850 --cc 1.1p1 --thumb
- *   python tools/match.py tu --src src/matched/sub_0201B850.c \
+ *   python tools/match.py one --src src/matched/NATSUKI_Apply.c \
+ *       --func NATSUKI_Apply --addr 0x0201B850 --cc 1.1p1 --thumb
+ *   python tools/match.py tu --src src/matched/NATSUKI_Apply.c \
  *       --addr 0x0201B850 --thumb
  */
-void sub_0201B850(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 heap)
+void NATSUKI_Apply(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 heap)
 {
     int placeId;
     u32 species;
@@ -2546,7 +2554,7 @@ void sub_0201B850(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 hea
     if (delta > 0 && holdEffect == 0x35) {
         delta = delta * 150 / 100;
     }
-    friendship = friendship + func_02011014(delta);
+    friendship = friendship + GPOWER_ApplyFriendshipBonus(delta);
     if (friendship < 0) {
         friendship = 0;
     }
@@ -2582,9 +2590,9 @@ void sub_0201B850(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 hea
  * below it.
  *
  * It stands alone rather than inside a unit with its neighbours because
- * sub_0201B970, which sits immediately after it, is a documented near miss
- * (docs/notes/sub_0201B970.c.txt) and a range cannot be committed while any
- * part of it is short of EXACT.  Its own single caller, sub_0201B9F0 at
+ * POKE_TOOL_RestorePP, which sits immediately after it, is a documented near miss
+ * (docs/notes/POKE_TOOL_RestorePP.c.txt) and a range cannot be committed while any
+ * part of it is short of EXACT.  Its own single caller, POKE_TOOL_HealFull at
  * 0x0201BA18, is parked in src/pending/unit_0201B9F0.c and resolves this
  * address through the `matched` class off this entry.
  *
@@ -2592,7 +2600,7 @@ void sub_0201B850(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 hea
  * VERSION SENSITIVITY, read this before porting to Pokemon White
  * ---------------------------------------------------------------------------
  * No species, item or move id appears here.  0x36, 0x3A and 0x3E are party
- * record ids in src/matched/sub_02018DB4.c's space, and the three are written
+ * record ids in src/matched/POKE_TOOL_GetPartyValueRaw.c's space, and the three are written
  * out as three separate literals rather than derived from one base, so a
  * version that inserted a field into that id space would move all three
  * independently.
@@ -2616,10 +2624,10 @@ void sub_0201B850(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 hea
  * not a separate pointer.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/sub_0201B920.c \
- *       --func sub_0201B920 --addr 0x0201B920 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/POKE_TOOL_IsPPRestorable.c \
+ *       --func POKE_TOOL_IsPPRestorable --addr 0x0201B920 --cc 1.1p1
  */
-u8 sub_0201B920(struct PokemonParam *pp, u32 slot)
+u8 POKE_TOOL_IsPPRestorable(struct PokemonParam *pp, u32 slot)
 {
     u16 move;
     u8 curPP;
@@ -2633,7 +2641,7 @@ u8 sub_0201B920(struct PokemonParam *pp, u32 slot)
     }
     curPP = (u8)func_02017E1C(pp, slot + 0x3A, 0);
     ppUp = (u8)func_02017E1C(pp, slot + 0x3E, 0);
-    if (curPP < sub_0201C158(move, ppUp)) {
+    if (curPP < WAZA_TOOL_GetMaxPP(move, ppUp)) {
         result = 1;
     }
     return result;
@@ -2659,7 +2667,7 @@ u8 sub_0201B920(struct PokemonParam *pp, u32 slot)
  *
  * pokeparty.c.  Restore PP to one move slot: read the move (0x36 + slot),
  * its current PP (0x3A + slot) and its PP ups (0x3E + slot), ask
- * sub_0201C158 for the slot's maximum, and if the slot is short either fill
+ * WAZA_TOOL_GetMaxPP for the slot's maximum, and if the slot is short either fill
  * it (amount 0x7F) or add `amount` and clamp at the maximum.
  *
  * The last register copy (`adds r2, r4, #0` ahead of func_02017E40, the new
@@ -2667,15 +2675,15 @@ u8 sub_0201B920(struct PokemonParam *pp, u32 slot)
  * `pp += (u8)amount`: the spelled-out `pp = (u8)(pp + (u8)amount)` starts a
  * new value that coalesces straight into the argument register (wave 15;
  * docs/idioms/compound-assignment-rereads-the-field-plain-assignment-reuses-
- * the-cached-load.md is the same lever on a field).  sub_0201C158 returns a
+ * the-cached-load.md is the same lever on a field).  WAZA_TOOL_GetMaxPP returns a
  * u8, so `max` is u8 (wave 14).  The dead store `id = slot` is the image's
  * `str r0, [sp]` before the add.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201B970.c \
- *       --func sub_0201B970 --addr 0x0201B970 --thumb
+ *   python tools/match.py one --src src/matched/POKE_TOOL_RestorePP.c \
+ *       --func POKE_TOOL_RestorePP --addr 0x0201B970 --thumb
  */
-u32 sub_0201B970(struct PokemonParam *pp, u32 slot, u32 amount)
+u32 POKE_TOOL_RestorePP(struct PokemonParam *pp, u32 slot, u32 amount)
 {
     u16 move;
     u32 ppId;
@@ -2690,7 +2698,7 @@ u32 sub_0201B970(struct PokemonParam *pp, u32 slot, u32 amount)
     ppId = slot + 0x3A;
     curPP = (u8)func_02017E1C(pp, ppId, 0);
     ppUp = func_02017E1C(pp, slot + 0x3E, 0);
-    maxPP = sub_0201C158(move, (u8)ppUp);
+    maxPP = WAZA_TOOL_GetMaxPP(move, (u8)ppUp);
     if (curPP < maxPP) {
         if (amount == 0x7F) {
             curPP = maxPP;
@@ -2720,15 +2728,15 @@ u32 sub_0201B970(struct PokemonParam *pp, u32 slot, u32 amount)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * pokeparty.c's healer: sub_0201B9F0 restores one Pokemon (current HP to its
+ * pokeparty.c's healer: POKE_TOOL_HealFull restores one Pokemon (current HP to its
  * maximum, status to zero, and every move slot that is short of PP back to
- * full), and sub_0201BA34 runs it over every occupied slot of a party.
- * sub_0201BA34 is the packet's only entry point, reached from 0x02011062.
+ * full), and POKE_TOOL_HealParty runs it over every occupied slot of a party.
+ * POKE_TOOL_HealParty is the packet's only entry point, reached from 0x02011062.
  *
  * Both of its calls into the neighbouring functions resolve, and the second one
  * is the interesting one.  0x0201B920 is covered by src/matched/
  * unit_0201B920.c, so the `matched` class would carry it on its own;
- * 0x0201B970 is a near miss (docs/notes/sub_0201B970.c.txt) and has no matched
+ * 0x0201B970 is a near miss (docs/notes/POKE_TOOL_RestorePP.c.txt) and has no matched
  * entry at all, and the only `bl` to it inside arm9_main is the one in this
  * file.  What attests it is an overlay: ov118 branches to 0x0201B970 at
  * 0x021BE4D0, and to 0x0201B920 at 0x021BDF2A, and those are real instructions
@@ -2740,9 +2748,9 @@ u32 sub_0201B970(struct PokemonParam *pp, u32 slot, u32 amount)
  * VERSION SENSITIVITY, read this before porting to Pokemon White
  * ---------------------------------------------------------------------------
  * No species, item or move id.  0x7F is the "fill the slot" sentinel
- * sub_0201B970 tests for and has to stay in step with it; 4 is the move slot
+ * POKE_TOOL_RestorePP tests for and has to stay in step with it; 4 is the move slot
  * count written out as the loop bound; 0xA9, 0xA0, 0xA1 and 0x9D are party
- * record ids in src/matched/sub_02018DB4.c's space.
+ * record ids in src/matched/POKE_TOOL_GetPartyValueRaw.c's space.
  *
  * ---------------------------------------------------------------------------
  * NOTES
@@ -2752,7 +2760,7 @@ u32 sub_0201B970(struct PokemonParam *pp, u32 slot, u32 amount)
  * is the site where the inline spelling is the right one
  * (docs/idioms/an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md).
  *
- * sub_0201B9F0's `for` runs 0 to 3 with no entry guard, because the compiler
+ * POKE_TOOL_HealFull's `for` runs 0 to 3 with no entry guard, because the compiler
  * can see the bound; the 0x7F is hoisted into r6 in front of the loop and the
  * index's zero is set before the two writes that precede it.
  *
@@ -2760,15 +2768,15 @@ u32 sub_0201B970(struct PokemonParam *pp, u32 slot, u32 amount)
  *   python tools/match.py tu --src src/matched/unit_0201B9F0.c \
  *       --addr 0x0201B9F0 --thumb
  */
-void sub_0201B9F0(struct PokemonParam *pp)
+void POKE_TOOL_HealFull(struct PokemonParam *pp)
 {
     s32 i;
 
     func_02017E40(pp, 0xA0, func_02017E1C(pp, 0xA1, 0));
     func_02017E40(pp, 0x9D, 0);
     for (i = 0; i < 4; i++) {
-        if (sub_0201B920(pp, i) == 1) {
-            sub_0201B970(pp, i, 0x7F);
+        if (POKE_TOOL_IsPPRestorable(pp, i) == 1) {
+            POKE_TOOL_RestorePP(pp, i, 0x7F);
         }
     }
 }
@@ -2784,17 +2792,17 @@ void sub_0201B9F0(struct PokemonParam *pp)
 
 
 
-void sub_0201BA34(struct Party *party)
+void POKE_TOOL_HealParty(struct Party *party)
 {
     s32 memberCount;
     s32 i;
     struct PokemonParam *member;
 
-    memberCount = sub_0201AA18(party);
+    memberCount = POKEPARTY_GetCount(party);
     for (i = 0; i < memberCount; i++) {
-        member = sub_0201AB28(party, i);
+        member = POKEPARTY_GetMember(party, i);
         if (func_02017E1C(member, 0xA9, 0) != 0) {
-            sub_0201B9F0(member);
+            POKE_TOOL_HealFull(member);
         }
     }
 }
@@ -2813,18 +2821,18 @@ void sub_0201BA34(struct Party *party)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * The graphics index of a Pokemon: sub_0201BA68 unpacks the four values that
- * decide it out of the record and sub_0201BABC turns them into a member number
- * of archive 7.  The pair that follows them, sub_0201BB5C and sub_0201BBE8, is
+ * The graphics index of a Pokemon: POKE_TOOL_GetGraphicIndex unpacks the four values that
+ * decide it out of the record and POKE_TOOL_CalcGraphicIndex turns them into a member number
+ * of archive 7.  The pair that follows them, POKE_TOOL_CalcIconPalette and POKE_TOOL_GetIconPalette, is
  * the same index arithmetic over a different table and is parked in
  * src/pending/unit_0201BB5C.c because that table has no witness; the cut
  * between the two pairs is what lets this half land
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
  *
- * sub_0201BA68 brackets its four reads with func_02017DBC and func_02017DE4,
+ * POKE_TOOL_GetGraphicIndex brackets its four reads with func_02017DBC and func_02017DE4,
  * which is the pair the region uses around a run of raw field reads; that is
  * why the reads here are func_02017E88 and not the func_02017E1C of
- * src/matched/sub_02018A7C.c.  The fourth read is written inline as the call's
+ * src/matched/POKE_TOOL_CalcParam.c.  The fourth read is written inline as the call's
  * fourth argument rather than bound to a local, which is what puts it in r3
  * with the other three already in place.
  *
@@ -2870,7 +2878,7 @@ void sub_0201BA34(struct Party *party)
  *   python tools/match.py tu --src src/matched/unit_0201BA68.c \
  *       --addr 0x0201BA68 --thumb
  */
-u32 sub_0201BA68(struct BoxPokemon *box)
+u32 POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box)
 {
     u32 wasDecoded;
     u32 species;
@@ -2882,7 +2890,7 @@ u32 sub_0201BA68(struct BoxPokemon *box)
     species = func_02017E88(box, 5, 0);
     form = func_02017E88(box, 0x6F, 0);
     gender = func_02017E88(box, 0x6E, 0);
-    index = sub_0201BABC(species, form, gender, func_02017E88(box, 0x4C, 0));
+    index = POKE_TOOL_CalcGraphicIndex(species, form, gender, func_02017E88(box, 0x4C, 0));
     func_02017DE4(box, wasDecoded);
     return index;
 }
@@ -2898,7 +2906,7 @@ u32 sub_0201BA68(struct BoxPokemon *box)
 
 
 
-u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg)
+u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg)
 {
     u32 firstFormIndex;
     u32 formsShared;
@@ -2953,7 +2961,7 @@ u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg)
  *
  * The nibble-table twin of src/matched/unit_0201BA68.c: the same egg and
  * alternate-form index arithmetic, indexing a packed table of two four bit
- * values per entry instead of an archive.  sub_0201BBE8 unpacks the four
+ * values per entry instead of an archive.  POKE_TOOL_GetIconPalette unpacks the four
  * inputs out of a Pokemon record, bracketed by the func_02017DBC /
  * func_02017DE4 pair, and hands them over.
  *
@@ -2973,8 +2981,8 @@ u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg)
  * data object, so the site now resolves as `sole-ref` and the unit is EXACT.
  * The old "WHY IT IS CAPPED" reading below is kept only as history.
  *
- * The cut between this pair and sub_0201BA68/sub_0201BABC is what let those
- * two land EXACT.  sub_0201BB5C is reached only from 0x0201BC34, inside this
+ * The cut between this pair and POKE_TOOL_GetGraphicIndex/POKE_TOOL_CalcGraphicIndex is what let those
+ * two land EXACT.  POKE_TOOL_CalcIconPalette is reached only from 0x0201BC34, inside this
  * range, so that call is the `local` class and needs no evidence.
  *
  * ---------------------------------------------------------------------------
@@ -3003,7 +3011,7 @@ u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg)
  *   python tools/match.py tu --src src/pending/unit_0201BB5C.c \
  *       --addr 0x0201BB5C --thumb
  */
-u32 sub_0201BB5C(u32 species, u32 form, u32 female, u32 isEgg)
+u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 female, u32 isEgg)
 {
     u32 firstFormIndex;
     u32 formsShared;
@@ -3041,7 +3049,7 @@ u32 sub_0201BB5C(u32 species, u32 form, u32 female, u32 isEgg)
 
 
 
-u32 sub_0201BBE8(struct BoxPokemon *box)
+u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box)
 {
     u32 wasDecoded;
     u32 species;
@@ -3055,7 +3063,7 @@ u32 sub_0201BBE8(struct BoxPokemon *box)
     gender = func_02017E88(box, 0x6E, 0);
     isEgg = func_02017E88(box, 0x4C, 0);
     func_02017DE4(box, wasDecoded);
-    return sub_0201BB5C(species, form, gender, isEgg);
+    return POKE_TOOL_CalcIconPalette(species, form, gender, isEgg);
 }
 
 
@@ -3072,7 +3080,7 @@ u32 sub_0201BBE8(struct BoxPokemon *box)
 /*
  *           func_0201BCEC
  *
- * Five leaves after func_0201BBE8.  The first returns 0.  The other four read
+ * Five leaves after POKE_TOOL_GetIconPalette.  The first returns 0.  The other four read
  * the OBJ character mapping bits of DISPCNT (bit 4, 1D mapping, and bits
  * 20..21, the 1D boundary) for the main engine (0x04000000) or the sub engine
  * (0x04001000) and turn the 32/64/128 KB boundary into a shift: 2/4/6 and
@@ -3191,10 +3199,10 @@ int func_0201BCEC(void)
  * slot it picks is empty or is holding a different move, and falls back to
  * the single record buffer at 0x02146534 when the cache has not been built.
  * The slot search, the "cache full, reuse the last slot" fixup and the load
- * are the same three blocks sub_0201C1F4 and sub_0201C020 repeat for their
+ * are the same three blocks WAZA_TOOL_IsAlwaysHit and WAZA_TOOL_GetRankEffectCount repeat for their
  * own records.
  *
- * sub_0201BDB4 has to stay in this file.  The `bl` at 0x0201BDA6 is the only
+ * WAZA_TOOL_GetDataParam has to stay in this file.  The `bl` at 0x0201BDA6 is the only
  * branch to it anywhere in the image, so split off it would have no witness
  * at all; kept here the site is the `local` class and needs none
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md, read the
@@ -3253,7 +3261,7 @@ u32 sub_0201BD28(u16 move, u32 param)
         data = &_WazaTempData;
         func_02048F4C(data, 0x15, move);
     }
-    return sub_0201BDB4(data, param);
+    return WAZA_TOOL_GetDataParam(data, param);
 }
 
 
@@ -3267,7 +3275,7 @@ u32 sub_0201BD28(u16 move, u32 param)
 
 
 
-u32 sub_0201BDB4(const struct WazaData *data, u32 param)
+u32 WAZA_TOOL_GetDataParam(const struct WazaData *data, u32 param)
 {
     u32 value;
 
@@ -3339,7 +3347,7 @@ u32 sub_0201BDB4(const struct WazaData *data, u32 param)
 
 
 
-u32 sub_0201BEB8(u16 move, u32 flag)
+u32 WAZA_TOOL_GetFlag(u16 move, u32 flag)
 {
     struct WazaData *data;
     s32 i;
@@ -3365,7 +3373,7 @@ u32 sub_0201BEB8(u16 move, u32 flag)
         data = &_WazaTempData;
         func_02048F4C(data, 0x15, move);
     }
-    return sub_0201BF44(data, flag);
+    return WAZA_TOOL_GetDataFlag(data, flag);
 }
 
 
@@ -3377,7 +3385,7 @@ u32 sub_0201BEB8(u16 move, u32 flag)
 
 
 
-u32 sub_0201BF44(const struct WazaData *data, u32 flag)
+u32 WAZA_TOOL_GetDataFlag(const struct WazaData *data, u32 flag)
 {
     u32 result = 1;
 
@@ -3397,7 +3405,7 @@ u32 sub_0201BF44(const struct WazaData *data, u32 flag)
 
 
 
-s16 sub_0201BF58(u16 move)
+s16 WAZA_TOOL_GetSickCont(u16 move)
 {
     struct WazaData *data;
     s32 i;
@@ -3444,8 +3452,8 @@ s16 sub_0201BF58(u16 move)
 /*
  * waza_tool.c: two more readers over a move record, each with its own copy of
  * the cache lookup src/matched/unit_0201BD28.c and
- * src/matched/unit_0201C1F4.c also carry.  sub_0201C020 counts how many of
- * the three bytes at +0x15 are set; sub_0201C0BC hands one of the three
+ * src/matched/unit_0201C1F4.c also carry.  WAZA_TOOL_GetRankEffectCount counts how many of
+ * the three bytes at +0x15 are set; WAZA_TOOL_GetRankEffect hands one of the three
  * signed bytes at +0x18 back through an out-parameter, or zero when the
  * matching +0x15 byte is clear.
  *
@@ -3457,7 +3465,7 @@ s16 sub_0201BF58(u16 move)
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201C020.c  *       --addr 0x0201C020 --thumb
  */
-u8 sub_0201C020(u16 move)
+u8 WAZA_TOOL_GetRankEffectCount(u16 move)
 {
     struct WazaData *data;
     s32 i;
@@ -3503,7 +3511,7 @@ u8 sub_0201C020(u16 move)
 
 
 
-u8 sub_0201C0BC(u16 move, u32 index, s32 *value)
+u8 WAZA_TOOL_GetRankEffect(u16 move, u32 index, s32 *value)
 {
     struct WazaData *data;
     s32 i;
@@ -3552,7 +3560,7 @@ u8 sub_0201C0BC(u16 move, u32 index, s32 *value)
  * waza_tool.c: the effective PP calculation, a four-entry id translation and
  * one more named field read.
  *
- * sub_0201C158 is the function src/pending/sub_02018E34.c's field map calls
+ * WAZA_TOOL_GetMaxPP is the function src/pending/POKE_TOOL_GetBoxValueRaw.c's field map calls
  * for ids 0x42 to 0x45: base PP (field 5 of the move record, through
  * src/matched/unit_0201BD28.c) plus base * 20 * ppUp / 100, with ppUp clamped
  * to 3 and every intermediate truncated to u8.  The two `muls` are one
@@ -3566,7 +3574,7 @@ u8 sub_0201C0BC(u16 move, u32 index, s32 *value)
  * still right and the call goes to _u32_div_f instead, which is a different
  * address and a DIFF.
  *
- * sub_0201C184 is a sparse four-case switch, which this front end lowers as a
+ * WAZA_TOOL_GetWeather is a sparse four-case switch, which this front end lowers as a
  * binary search rather than a table: `> 0xF1`, then `< 0xF0`, then the two
  * equality tests.  The bodies are still emitted in source order, so the arms
  * are written 0xF0, 0xF1, 0xC9, 0x102 even though the comparisons are in
@@ -3579,14 +3587,14 @@ u8 sub_0201C0BC(u16 move, u32 index, s32 *value)
  * which shares Black's numbering, but they are the constants to re-read first
  * if a White build diverges here.
  *
- * sub_0201C1BC is an unlabelled tail call, three instructions and two pool
+ * WAZA_TOOL_GetCategory is an unlabelled tail call, three instructions and two pool
  * words (docs/idioms/tail-call-is-a-pool-word-and-bx.md), reading field 1.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201C158.c \
  *       --addr 0x0201C158 --thumb
  */
-u8 sub_0201C158(u16 move, u32 ppUp)
+u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp)
 {
     u8 basePP;
 
@@ -3606,7 +3614,7 @@ u8 sub_0201C158(u16 move, u32 ppUp)
 
 
 
-u32 sub_0201C184(int item)
+u32 WAZA_TOOL_GetWeather(int item)
 {
     switch (item) {
     case 0xF0:  return 2;
@@ -3626,7 +3634,7 @@ u32 sub_0201C184(int item)
 
 
 
-u32 sub_0201C1BC(u16 move)
+u32 WAZA_TOOL_GetCategory(u16 move)
 {
     return sub_0201BD28(move, 1);
 }
@@ -3650,7 +3658,7 @@ u32 sub_0201C1BC(u16 move)
  *   python tools/match.py tu --src src/matched/unit_0201C1C8.c \
  *       --addr 0x0201C1C8 --thumb
  */
-u8 sub_0201C1C8(u16 move)
+u8 WAZA_TOOL_GetType(u16 move)
 {
     return (u8)sub_0201BD28(move, 0);
 }
@@ -3663,7 +3671,7 @@ u8 sub_0201C1C8(u16 move)
 
 
 
-u16 sub_0201C1D8(u16 move)
+u16 WAZA_TOOL_GetPower(u16 move)
 {
     return (u16)sub_0201BD28(move, 3);
 }
@@ -3679,7 +3687,7 @@ u16 sub_0201C1D8(u16 move)
 /*
  * Tail call with argument 2. Filed as the witness for ov094 func_021F7C2C.
  */
-int func_0201C1E8(u16 move)
+int WAZA_TOOL_GetDamageType(u16 move)
 {
     return sub_0201BD28(move, 2);
 }
@@ -3713,7 +3721,7 @@ int func_0201C1E8(u16 move)
  *   python tools/match.py tu --src src/matched/unit_0201C1F4.c \
  *       --addr 0x0201C1F4 --thumb
  */
-u32 sub_0201C1F4(u16 move)
+u32 WAZA_TOOL_IsAlwaysHit(u16 move)
 {
     struct WazaData *data;
     s32 i;
@@ -3753,7 +3761,7 @@ u32 sub_0201C1F4(u16 move)
 
 
 
-u32 sub_0201C284(u16 move)
+u32 WAZA_TOOL_IsAlwaysCritical(u16 move)
 {
     struct WazaData *data;
     s32 i;
@@ -3800,7 +3808,7 @@ u32 sub_0201C284(u16 move)
  *   python tools/match.py tu --src src/matched/unit_0201C314.c \
  *       --addr 0x0201C314 --thumb
  */
-u32 sub_0201C314(u16 move)
+u32 WAZA_TOOL_IsDamaging(u16 move)
 {
     if (sub_0201BD28(move, 3) == 0) {
         return 0;
@@ -3817,11 +3825,11 @@ u32 sub_0201C314(u16 move)
 
 /*
  * waza_tool.c: the module's constructor, its destructor, its "is it up"
- * predicate, and (folded back in this run) sub_0201C41C, which resets
+ * predicate, and (folded back in this run) PRINTSYS_Init, which resets
  * something with 0xFFFF and hands func_02043678's result to the static at
- * 0x02146558.  sub_0201C41C used to be cut out into src/pending/sub_0201C41C.c
- * because its one call, to func_020457A0, had no witness anywhere in the
- * image; func_020457A0 is now EXACT in src/matched/sub_020457A0.c, giving the
+ * 0x02146558.  PRINTSYS_Init used to be cut out into src/pending/PRINTSYS_Init.c
+ * because its one call, to STRBUF_SetEosChar, had no witness anywhere in the
+ * image; STRBUF_SetEosChar is now EXACT in src/matched/STRBUF_SetEosChar.c, giving the
  * `matched` class a witness, so the range folds back into one unit.  The file
  * name is the image's own, 0x020A7340 spelling "waza_tool.c" between
  * "shinka_check.c" and "printsys.c".
@@ -3836,7 +3844,7 @@ u32 sub_0201C314(u16 move)
  * (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md is the
  * case where it is the other way round).
  *
- * sub_0201C408 is an unlabelled follower: eight halfwords with no prologue
+ * WAZA_TOOL_IsCacheCreated is an unlabelled follower: eight halfwords with no prologue
  * sitting between two literal pools, which the listing prints as `.word` data
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Its `!= 0`
  * arm is the fall-through, so the source returns 1 first
@@ -3846,7 +3854,7 @@ u32 sub_0201C314(u16 move)
  *   python tools/match.py tu --src src/matched/unit_0201C328.c \
  *       --addr 0x0201C328 --thumb
  */
-void sub_0201C328(s32 count, u32 heap)
+void WAZA_TOOL_CreateCache(s32 count, u32 heap)
 {
     s32 i;
 
@@ -3873,7 +3881,7 @@ void sub_0201C328(s32 count, u32 heap)
 
 
 
-void sub_0201C3C0(void)
+void WAZA_TOOL_DeleteCache(void)
 {
     s32 i;
 
@@ -3895,7 +3903,7 @@ void sub_0201C3C0(void)
 
 
 
-u32 sub_0201C408(void)
+u32 WAZA_TOOL_IsCacheCreated(void)
 {
     if (_pWazaTool != 0) {
         return 1;
@@ -3910,9 +3918,9 @@ u32 sub_0201C408(void)
 
 
 
-void sub_0201C41C(u32 heap)
+void PRINTSYS_Init(u32 heap)
 {
-    func_020457A0(0xFFFF);
+    STRBUF_SetEosChar(0xFFFF);
     _pGlyphBmp = func_02043678(2, 2, 0x20, heap);
 }
 
@@ -3927,7 +3935,7 @@ void sub_0201C41C(u32 heap)
  * A 12-byte pool-word-and-bx tail call
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), swapping its own
  * parameter into the callee's second argument slot and passing the literal
- * 0x400 as the first: `sub_0201C450(0x400, p)`.  sub_0201C450 (0x0201C450)
+ * 0x400 as the first: `PRINTSYS_QUE_CreateEx(0x400, p)`.  PRINTSYS_QUE_CreateEx (0x0201C450)
  * is a bigger constructor with an inline division-by-multiplication trick
  * and is left as an unresolved extern; only its address is needed here.
  *
@@ -3935,9 +3943,9 @@ void sub_0201C41C(u32 heap)
  *   python tools/match.py tu --src src/matched/unit_0201C440.c \
  *       --addr 0x0201C440 --thumb
  */
-struct PrintQueue *sub_0201C440(u32 heap)
+struct PrintQueue *PRINTSYS_QUE_Create(u32 heap)
 {
-    return sub_0201C450(0x400, heap);
+    return PRINTSYS_QUE_CreateEx(0x400, heap);
 }
 
 
@@ -3963,7 +3971,7 @@ struct PrintQueue *sub_0201C440(u32 heap)
  * already holds zero.  See
  * docs/idioms/a-u64-field-store-picks-a-different-scratch-register.md.
  *
- * sub_0201C4DC writes the two halves of that u64 separately, which is what
+ * PRINTSYS_QUE_SetLimitTick writes the two halves of that u64 separately, which is what
  * fixes the field as a union of the 64 bit value and a two-word struct rather
  * than a plain `u64` (docs/idioms/long-long-aligns-to-four.md is why +8 is a
  * legal offset for it at all).
@@ -3980,7 +3988,7 @@ struct PrintQueue *sub_0201C440(u32 heap)
  *   python tools/match.py tu --src src/matched/unit_0201C450.c \
  *       --addr 0x0201C450 --thumb
  */
-struct PrintQueue *sub_0201C450(u16 bufSize, u32 heap)
+struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 bufSize, u32 heap)
 {
     u16 allocSize = bufSize + 0x1C;
     struct PrintQueue *queue;
@@ -4008,7 +4016,7 @@ struct PrintQueue *sub_0201C450(u16 bufSize, u32 heap)
 
 
 
-void sub_0201C4C0(struct PrintQueue *queue)
+void PRINTSYS_QUE_Delete(struct PrintQueue *queue)
 {
     func_020307B0(queue);
 }
@@ -4019,7 +4027,7 @@ void sub_0201C4C0(struct PrintQueue *queue)
 
 
 
-void sub_0201C4C8(struct PrintQueue *queue, u32 forceQueue)
+void PRINTSYS_QUE_SetForceQueue(struct PrintQueue *queue, u32 forceQueue)
 {
     queue->state.raw = (queue->state.raw & ~0xF0u) | (u8)((u8)forceQueue << 4);
 }
@@ -4030,7 +4038,7 @@ void sub_0201C4C8(struct PrintQueue *queue, u32 forceQueue)
 
 
 
-void sub_0201C4DC(struct PrintQueue *queue, u32 tickLow, u32 tickHigh)
+void PRINTSYS_QUE_SetLimitTick(struct PrintQueue *queue, u32 tickLow, u32 tickHigh)
 {
     queue->limitTicks.half.low = tickLow;
     queue->limitTicks.half.high = tickHigh;
@@ -4067,7 +4075,7 @@ static inline u16 PrintQueue_WrapOffset(struct PrintQueue *queue, u16 offset)
  *
  * printsys.c: the per-frame print pump.  Bumps the frame counter at +6,
  * saves the current text colour, applies the head request's colour when its
- * 4-bit kind is 0 or 2, then runs glyphs through func_0201C974 until the
+ * 4-bit kind is 0 or 2, then runs glyphs through PRINTSYS_PrintStep until the
  * string ends or the tick budget at +8 (func_020870D0 is OS_GetTick) runs
  * out.  On string end it pops the request (func_0201D7C4) and moves the
  * glyph cursor to the next record's text in the byte ring at +0x18,
@@ -4080,7 +4088,7 @@ static inline u16 PrintQueue_WrapOffset(struct PrintQueue *queue, u16 offset)
  * `off + 0x1C` in place and hoists the ring-size load between the two
  * shifts; the named-local spelling keeps the image's
  * `lsls r0, r7 / lsrs r1, r0 / ldrh r0, [r5, #4]` order.  History in
- * docs/notes/sub_0201C4E4.c.txt.
+ * docs/notes/PRINTSYS_QUE_Main.c.txt.
  */
 u32 func_0201C4E4(struct PrintQueue *queue)
 {
@@ -4105,7 +4113,7 @@ u32 func_0201C4E4(struct PrintQueue *queue)
     if (queue->job == 0) {
         return 1;
     }
-    func_0201DE00(&color[2], &color[1], &color[0]);
+    GF_FONT_GetTextColor(&color[2], &color[1], &color[0]);
     savedColor = (u16)(((color[2] & 0x1F) << 10) | ((color[1] & 0x1F) << 5) |
                   (color[0] & 0x1F));
     applyColor = 0;
@@ -4116,7 +4124,7 @@ u32 func_0201C4E4(struct PrintQueue *queue)
         applyColor = 1;
     }
     if (applyColor != 0) {
-        if (func_0201DE18(letter, shadow, background) != 0) {
+        if (GF_FONT_IsTextColorDifferent(letter, shadow, background) != 0) {
             func_0201DD78(letter, shadow, background);
         }
     }
@@ -4128,13 +4136,13 @@ u32 func_0201C4E4(struct PrintQueue *queue)
                 jobLetter = (u8)((queue->job->activeColor >> 10) & 0x1F);
                 jobShadow = (u8)((queue->job->activeColor >> 5) & 0x1F);
                 jobBackground = (u8)(queue->job->activeColor & 0x1F);
-                if (func_0201DE18(jobLetter, jobShadow, jobBackground) != 0) {
+                if (GF_FONT_IsTextColorDifferent(jobLetter, jobShadow, jobBackground) != 0) {
                     func_0201DD78(jobLetter, jobShadow, jobBackground);
                 }
                 queue->job->pos.bits.colorMode = 2;
             }
             while (queue->cursor[0] != 0xFFFF) {
-                queue->cursor = func_0201C974(queue->job, queue->cursor, 1);
+                queue->cursor = PRINTSYS_PrintStep(queue->job, queue->cursor, 1);
                 if (func_020870D0() - startTick > queue->limitTicks.value) {
                     timedOut = 1;
                     break;
@@ -4167,7 +4175,7 @@ u32 func_0201C4E4(struct PrintQueue *queue)
 
 
 
-u32 sub_0201C6B4(const struct PrintQueue *queue)
+u32 PRINTSYS_QUE_IsFinished(const struct PrintQueue *queue)
 {
     if (queue->job == 0) {
         return 1;
@@ -4179,7 +4187,7 @@ u32 sub_0201C6B4(const struct PrintQueue *queue)
 
 
 
-u32 sub_0201C6C4(struct PrintQueue *queue, struct Bmp *bmp)
+u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp)
 {
     struct PrintCtx *job = queue->job;
 
@@ -4198,7 +4206,7 @@ u32 sub_0201C6C4(struct PrintQueue *queue, struct Bmp *bmp)
 
 
 
-void sub_0201C6EC(struct PrintQueue *queue)
+void PRINTSYS_QUE_Clear(struct PrintQueue *queue)
 {
     queue->head = 0;
     queue->tail = queue->capacity;
@@ -4216,16 +4224,16 @@ void sub_0201C6EC(struct PrintQueue *queue)
  * note:     168 bytes, three functions
  *
  * printsys.c's two public print entry points and the dispatcher they share.
- * sub_0201C758 decides between drawing straight away and queueing the request
+ * PRINTSYS_SubmitJob decides between drawing straight away and queueing the request
  * into the ring: when the module is not busy and the flags nibble in the byte
- * at +7 is clear it calls sub_0201C8BC directly, otherwise it queues with
+ * at +7 is clear it calls PRINTSYS_RunJob directly, otherwise it queues with
  * func_0201D6D8 provided the request fits in the free space func_0201D6C4
  * reports.
  *
  * Why it is capped: the `bl` at 0x0201C79C is the only branch to func_0201D6D8
  * anywhere in the image, and no pool word holds the address either, so the
  * `label` class has no witness once the compared range holds that call.  No
- * cut helps, because the range cannot be made smaller than sub_0201C758 and
+ * cut helps, because the range cannot be made smaller than PRINTSYS_SubmitJob and
  * the call is inside it.  The `matched` class would carry it, but
  * func_0201D6D8 is not matched: it is EXACT only in a range that also holds
  * func_0201D768, and func_0201D768 is four bytes short (the original spills
@@ -4236,7 +4244,7 @@ void sub_0201C6EC(struct PrintQueue *queue)
  * It closes the day func_0201D768's register allocation is reproduced, which
  * makes func_0201D6D8 an EXACT entry and the `matched` class applies.
  *
- * sub_0201C758's busy test is normalised to 0 or 1 before it is used, which is
+ * PRINTSYS_SubmitJob's busy test is normalised to 0 or 1 before it is used, which is
  * what a `!= 0` assigned to a local gives; the flags nibble is read as a four
  * bit unsigned bitfield, `((u32)((u8 *)p)[7] << 24) >> 28`, the same spelling
  * src/matched/unit_0201CE5C.c needs for a one bit field.
@@ -4247,35 +4255,35 @@ void sub_0201C6EC(struct PrintQueue *queue)
  *   python tools/match.py tu --src src/pending/unit_0201C6FC.c \
  *       --addr 0x0201C6FC --thumb
  */
-void sub_0201C6FC(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font)
+void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font)
 {
-    sub_0201C808(&_PrintJobWork, font, bmp, x, y);
-    sub_0201C758(queue, &_PrintJobWork, str);
+    PRINTSYS_SetupJob(&_PrintJobWork, font, bmp, x, y);
+    PRINTSYS_SubmitJob(queue, &_PrintJobWork, str);
 }
 
 
 
 
 
-void sub_0201C724(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font,
+void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font,
                   u16 color)
 {
-    sub_0201C808(&_PrintJobWork, font, bmp, x, y);
-    sub_0201C8A4(&_PrintJobWork, color);
-    sub_0201C758(queue, &_PrintJobWork, str);
+    PRINTSYS_SetupJob(&_PrintJobWork, font, bmp, x, y);
+    PRINTSYS_SetJobColor(&_PrintJobWork, color);
+    PRINTSYS_SubmitJob(queue, &_PrintJobWork, str);
 }
 
 
 
 
 
-void sub_0201C758(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str)
+void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str)
 {
     u32 busy = func_0203D1B4() != 0;
     u32 size;
 
     if (busy == 0 && queue->state.bits.forceQueue == 0) {
-        func_0201C8BC(job, str);
+        PRINTSYS_RunJob(job, str);
         return;
     }
     size = func_0201D6B8(str);
@@ -4291,8 +4299,8 @@ void sub_0201C758(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf 
 
 /*
  * A printsys entry point: builds the shared print request in the static
- * scratch through sub_0201C808 and hands it to func_0201C8BC with the
- * string object.  The leading func_02045A90(s) call's result is unused.
+ * scratch through PRINTSYS_SetupJob and hands it to PRINTSYS_RunJob with the
+ * string object.  The leading STRBUF_GetChars(s) call's result is unused.
  *
  * Withdrawn 2026-09-24 (wave 20, lane 20G): the ../2.0/sp2 pin is retired.
  * The scratch address is held as an integer, a u32 local assigned
@@ -4305,10 +4313,10 @@ void func_0201C7A4(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfF
 {
     u32 jobAddr;
 
-    func_02045A90(str);
+    STRBUF_GetChars(str);
     jobAddr = (u32)&_PrintJobWork;
-    sub_0201C808((struct PrintCtx *)jobAddr, font, bmp, x, y);
-    func_0201C8BC((struct PrintCtx *)jobAddr, str);
+    PRINTSYS_SetupJob((struct PrintCtx *)jobAddr, font, bmp, x, y);
+    PRINTSYS_RunJob((struct PrintCtx *)jobAddr, str);
 }
 
 
@@ -4318,9 +4326,9 @@ void func_0201C7A4(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfF
 
 /*
  * A printsys entry point: the func_0201C7A4 body plus a
- * sub_0201C8A4(scratch, v) step between building the shared print request
- * in the static scratch and handing it to func_0201C8BC.  The leading
- * func_02045A90(s) call's result is unused.
+ * PRINTSYS_SetJobColor(scratch, v) step between building the shared print request
+ * in the static scratch and handing it to PRINTSYS_RunJob.  The leading
+ * STRBUF_GetChars(s) call's result is unused.
  *
  * What closed it (wave 20): the scratch address is held as an integer, a
  * u32 local assigned (u32)&_PrintJobWork and cast back at each of the three
@@ -4336,11 +4344,11 @@ void func_0201C7D0(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfF
 {
     u32 jobAddr;
 
-    func_02045A90(str);
+    STRBUF_GetChars(str);
     jobAddr = (u32)&_PrintJobWork;
-    sub_0201C808((struct PrintCtx *)jobAddr, font, bmp, x, y);
-    sub_0201C8A4((struct PrintCtx *)jobAddr, color);
-    func_0201C8BC((struct PrintCtx *)jobAddr, str);
+    PRINTSYS_SetupJob((struct PrintCtx *)jobAddr, font, bmp, x, y);
+    PRINTSYS_SetJobColor((struct PrintCtx *)jobAddr, color);
+    PRINTSYS_RunJob((struct PrintCtx *)jobAddr, str);
 }
 
 
@@ -4362,7 +4370,7 @@ void func_0201C7D0(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfF
  * own literal pool, so `literal` discards both witnesses under the honesty
  * rule and no cut helps.  The `matched` class covers 0x0201CA2C now
  * (src/matched/unit_0201CA2C.c) but not 0x0201CA78, which is parked in
- * src/pending/sub_0201CA78.c for a reason of its own.  This file graduates
+ * src/pending/PRINTSYS_PutGlyph8bpp.c for a reason of its own.  This file graduates
  * with that one.
  *
  * Two details worth keeping.  The three edits of the word at +4 are plain
@@ -4377,18 +4385,18 @@ void func_0201C7D0(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfF
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py tu --src src/pending/sub_0201C808.c \
+ *   python tools/match.py tu --src src/pending/PRINTSYS_SetupJob.c \
  *       --addr 0x0201C808 --thumb
  */
-void sub_0201C808(struct PrintCtx *job, struct GfFont *font, struct Bmp *bmp, u32 x, s16 y)
+void PRINTSYS_SetupJob(struct PrintCtx *job, struct GfFont *font, struct Bmp *bmp, u32 x, s16 y)
 {
     u8 color[3];
 
     job->bmp = bmp;
-    if (func_02043994(bmp) == 0x20) {
-        job->blitGlyph = sub_0201CA2C;
+    if (BMP_GetTileBytes(bmp) == 0x20) {
+        job->blitGlyph = PRINTSYS_PutGlyph4bpp;
     } else {
-        job->blitGlyph = sub_0201CA78;
+        job->blitGlyph = PRINTSYS_PutGlyph8bpp;
     }
     job->font = font;
     job->penX = x;
@@ -4396,7 +4404,7 @@ void sub_0201C808(struct PrintCtx *job, struct GfFont *font, struct Bmp *bmp, u3
     job->penY = y;
     job->pos.raw = (job->pos.raw & 0xFFF003FFu) | ((job->penY & 0x3FF) << 10);
     job->pos.raw = (job->pos.raw & 0xFF0FFFFFu) | (1u << 20);
-    func_0201DE00(&color[2], &color[1], &color[0]);
+    GF_FONT_GetTextColor(&color[2], &color[1], &color[0]);
     job->textColor = (u16)(((color[2] & 0x1F) << 10) | ((color[1] & 0x1F) << 5)
                      | (color[0] & 0x1F));
     job->activeColor = job->textColor;
@@ -4419,7 +4427,7 @@ void sub_0201C808(struct PrintCtx *job, struct GfFont *font, struct Bmp *bmp, u3
  *   python tools/match.py tu --src src/matched/unit_0201C8A4.c \
  *       --addr 0x0201C8A4 --thumb
  */
-void sub_0201C8A4(struct PrintCtx *job, u16 color)
+void PRINTSYS_SetJobColor(struct PrintCtx *job, u16 color)
 {
     job->activeColor = color;
     job->pos.raw = (job->pos.raw & ~0xF00000u) | (1u << 20);
@@ -4431,10 +4439,10 @@ void sub_0201C8A4(struct PrintCtx *job, u16 color)
 
 /*
  * printsys.c: if the 4-bit field at bits 20..23 of PrintCtx+0x04 is 1,
- * split the packed 5/5/5 triple at +0x0E and pass it to func_0201DE18; on a
- * nonzero result fill buf through func_0201DE00, pass the triple to
+ * split the packed 5/5/5 triple at +0x0E and pass it to GF_FONT_IsTextColorDifferent; on a
+ * nonzero result fill buf through GF_FONT_GetTextColor, pass the triple to
  * func_0201DD78 and set done; then set the field to 2.  Render glyphs
- * through func_0201C974 until 0xFFFF, and if done, pass buf back to
+ * through PRINTSYS_PrintStep until 0xFFFF, and if done, pass buf back to
  * func_0201DD78.
  *
  * Two facts the bytes pin (docs/notes/pkt_0201C8BC.c.txt has the history):
@@ -4456,9 +4464,9 @@ void sub_0201C8A4(struct PrintCtx *job, u16 color)
  * hi and mid are int (the u8 truncation is in the expression), lo is u8:
  * that is what puts hi in r7, mid in r6 and lo in the [sp] spill slot.
  */
-void func_0201C8BC(struct PrintCtx *job, struct Strbuf *str)
+void PRINTSYS_RunJob(struct PrintCtx *job, struct Strbuf *str)
 {
-    u16 *cursor = (u16 *)func_02045A90(str);
+    u16 *cursor = (u16 *)STRBUF_GetChars(str);
     u8 savedColor[3];
     u8 changed = 0;
     int letter;
@@ -4474,15 +4482,15 @@ void func_0201C8BC(struct PrintCtx *job, struct Strbuf *str)
         letter = (u8)((color >> 10) & 0x1F);
         shadow = (u8)((color >> 5) & 0x1F);
         background = (u8)(color & 0x1F);
-        if (func_0201DE18(letter, shadow, background) != 0) {
-            func_0201DE00(&savedColor[2], &savedColor[1], &savedColor[0]);
+        if (GF_FONT_IsTextColorDifferent(letter, shadow, background) != 0) {
+            GF_FONT_GetTextColor(&savedColor[2], &savedColor[1], &savedColor[0]);
             func_0201DD78((int)letter, (int)shadow, (int)background);
             changed = 1;
         }
         job->pos.raw = (job->pos.raw & 0xFF0FFFFF) | 0x200000;
     }
     while (*cursor != 0xFFFF) {
-        cursor = (u16 *)func_0201C974(job, cursor, 1);
+        cursor = (u16 *)PRINTSYS_PrintStep(job, cursor, 1);
     }
     if (changed) {
         func_0201DD78((int)savedColor[2], (int)savedColor[1], (int)savedColor[0]);
@@ -4534,7 +4542,7 @@ void func_0201C8BC(struct PrintCtx *job, struct Strbuf *str)
  * it.  That is an inlined code-fetch helper, and collapsing it to a plain
  * `k = (u8)(p[1] >> 8)` loses the `bne`/`movs #0xff` pair.
  */
-u16 *func_0201C974(struct PrintCtx *job, u16 *cursor, u32 stopAtPause)
+u16 *PRINTSYS_PrintStep(struct PrintCtx *job, u16 *cursor, u32 stopAtPause)
 {
     u8 glyphInfo[4];
     s16 *penY = &job->penY;
@@ -4562,10 +4570,10 @@ u16 *func_0201C974(struct PrintCtx *job, u16 *cursor, u32 stopAtPause)
             }
             switch (tag) {
             case 0xBD:
-                cursor = func_0201CAC8(job, cursor);
+                cursor = PRINTSYS_ProcGeneralTag(job, cursor);
                 break;
             case 0xFF:
-                cursor = func_0201CC34(job, cursor);
+                cursor = PRINTSYS_ProcColorTag(job, cursor);
                 break;
             case 0xBE:
                 if (stopAtPause != 0) {
@@ -4600,15 +4608,15 @@ u16 *func_0201C974(struct PrintCtx *job, u16 *cursor, u32 stopAtPause)
 
 /*
  * One of the two printsys.c glyph blitters, both of which forward the caller's
- * pen record to func_0201DB04 and then hand the result to a renderer reached
+ * pen record to GF_FONT_ReadGlyph and then hand the result to a renderer reached
  * through the module object at 0x02146558.  The pair is cut here rather than
- * matched as one range because func_0201DB04 is reached from exactly two places
+ * matched as one range because GF_FONT_ReadGlyph is reached from exactly two places
  * in the image, 0x0201CA4C and 0x0201CA98, one in each function: matched
  * together neither site has a witness, matched apart each is the other's `label`
  * witness.  That is
  * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.
  *
- * Its sibling at 0x0201CA78 stays parked (src/pending/sub_0201CA78.c): it calls
+ * Its sibling at 0x0201CA78 stays parked (src/pending/PRINTSYS_PutGlyph8bpp.c): it calls
  * 0x02043AAC, and 0x0201CABC is the only branch to that address anywhere in the
  * image, so no cut reaches it.
  *
@@ -4621,9 +4629,9 @@ u16 *func_0201C974(struct PrintCtx *job, u16 *cursor, u32 stopAtPause)
  *   python tools/match.py tu --src src/matched/unit_0201CA2C.c \
  *       --addr 0x0201CA2C --thumb
  */
-void sub_0201CA2C(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo)
+void PRINTSYS_PutGlyph4bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo)
 {
-    func_0201DB04(font, code, func_020437D4(_pGlyphBmp), (void *)glyphInfo);
+    GF_FONT_ReadGlyph(font, code, func_020437D4(_pGlyphBmp), (void *)glyphInfo);
     func_020439A0(_pGlyphBmp, bmp, 0, 0, x + glyphInfo[0], y, glyphInfo[1], glyphInfo[3], 0);
 }
 
@@ -4636,7 +4644,7 @@ void sub_0201CA2C(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, 
  *
  * note:     80 bytes including two pool words, one function
  *
- * printsys.c's second glyph blitter, the twin of sub_0201CA2C in
+ * printsys.c's second glyph blitter, the twin of PRINTSYS_PutGlyph4bpp in
  * src/matched/unit_0201CA2C.c.  The two differ only in which renderer they
  * call and in the two extra stack arguments this one passes, 0xF and 0.
  *
@@ -4645,8 +4653,8 @@ void sub_0201CA2C(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, 
  * branch in all 242 regions, and no pool word holds the address either.  The
  * `label` class therefore has no witness once the compared range holds that
  * call, and no cut helps, because the range cannot be smaller than this one
- * function.  Cutting it away from sub_0201CA2C is what let that function come
- * out EXACT, since the two are the only callers of func_0201DB04 and each is
+ * function.  Cutting it away from PRINTSYS_PutGlyph4bpp is what let that function come
+ * out EXACT, since the two are the only callers of GF_FONT_ReadGlyph and each is
  * now the other's witness
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
  *
@@ -4656,13 +4664,13 @@ void sub_0201CA2C(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, 
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py tu --src src/pending/sub_0201CA78.c \
+ *   python tools/match.py tu --src src/pending/PRINTSYS_PutGlyph8bpp.c \
  *       --addr 0x0201CA78 --thumb
  */
-void sub_0201CA78(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo)
+void PRINTSYS_PutGlyph8bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo)
 {
-    func_0201DB04(font, code, func_020437D4(_pGlyphBmp), (void *)glyphInfo);
-    func_02043AAC(_pGlyphBmp, (u32)bmp, 0, 0, x + glyphInfo[0], y, glyphInfo[1], glyphInfo[3], 0xF, 0);
+    GF_FONT_ReadGlyph(font, code, func_020437D4(_pGlyphBmp), (void *)glyphInfo);
+    BMP_BlitPaletteOffset(_pGlyphBmp, (u32)bmp, 0, 0, x + glyphInfo[0], y, glyphInfo[1], glyphInfo[3], 0xF, 0);
 }
 
 
@@ -4672,8 +4680,8 @@ void sub_0201CA78(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, 
 /*
  * printsys.c: applies one 0xF000 control block whose code byte is 0xBD -- the
  * "set colour / align line" family -- and steps the cursor past the block.
- * Called from exactly one place image-wide, 0x0201C9D0 inside func_0201C974,
- * which is why func_0201C974 resolved that call `sole-ref/code` until this
+ * Called from exactly one place image-wide, 0x0201C9D0 inside PRINTSYS_PrintStep,
+ * which is why PRINTSYS_PrintStep resolved that call `sole-ref/code` until this
  * file existed; it is `matched` now.
  *
  * The dispatch is a DENSE switch on a 7-entry PC-relative halfword table at
@@ -4700,15 +4708,15 @@ void sub_0201CA78(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, 
  *
  * Also corrected against docs/families/printsys.h as it stood: the measuring
  * arms (cases 2 and 3) hand func_020437DC the handle at PrintCtx+0x14, not
- * +0x18; +0x18 is the renderer hook func_0201C974 calls through.  And
+ * +0x18; +0x18 is the renderer hook PRINTSYS_PrintStep calls through.  And
  * PrintCtx+0x04 is a SIGNED 10-BIT BITFIELD (`lsls #0x16 / asrs #0x16`), not
- * a u32 flag word -- the same fact src/matched/func_0201C974.c records.
+ * a u32 flag word -- the same fact src/matched/PRINTSYS_PrintStep.c records.
  *
  * Case order in the source is 0, 1, 3, 2, 4, 5, 6: the table's displacements
  * put case 3's body (0x0201CB7E) before case 2's (0x0201CBB6), and this
  * compiler emits switch arms in source order.
  */
-u16 *func_0201CAC8(struct PrintCtx *job, u16 *cursor)
+u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor)
 {
     u32 background;
     u16 code = *cursor;
@@ -4787,7 +4795,7 @@ u16 *func_0201CAC8(struct PrintCtx *job, u16 *cursor)
 
 
 
-u16 *func_0201CC34(struct PrintCtx *job, u16 *cursor)
+u16 *PRINTSYS_ProcColorTag(struct PrintCtx *job, u16 *cursor)
 {
     u16 tag;
     u8 paletteRow;
@@ -4840,14 +4848,14 @@ void func_0201CCE4(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct 
 /*
  * The printsys text-record constructor: registers func_0201CEE0 as a
  * task with a 0x50-byte work area, builds the PrintCtx at +0x34 through
- * func_0201C808, splits the signed speed argument into the sign/magnitude
+ * PRINTSYS_SetupJob, splits the signed speed argument into the sign/magnitude
  * pairs at +0x18..+0x1D, and initialises every other field of struct Rec
  * (the same layout src/matched/func_0201CEE0.c consumes).  Returns the
  * record.
  *
  * The two-load swap the notes carried at +0x28/+0x30 (a4 read before a1)
  * was a declaration fact, not a scheduling one:
- *  - func_0201C808's real prototype (src/matched/sub_0201C808.c) is
+ *  - PRINTSYS_SetupJob's real prototype (src/matched/PRINTSYS_SetupJob.c) is
  *    (struct PrintCtx *, void *, void *, s16, s16), so a1 and a2 are s16
  *    parameters here;
  *  - the byte stored to +0x20 is the tenth argument declared `u16 a9`.
@@ -4867,11 +4875,11 @@ struct TextPrinter *func_0201CD10(struct BmpWin *win, s16 x, s16 y, struct Strbu
 
     bmp = func_02045770(win);
     task = func_020311B8(tcbl, (void *)func_0201CEE0, 0x50, priority);
-    printer = func_02031290(task);
+    printer = TCBL_GetWork(task);
 
     printer->task = task;
-    sub_0201C808(&printer->ctx, font, bmp, x, y);
-    sub_0201CDF4(wait, speed);
+    PRINTSYS_SetupJob(&printer->ctx, font, bmp, x, y);
+    PRINTSYS_SplitWait(wait, speed);
     printer->defaultGlyphs = speed[1];
     {
         u8 waitFrames = speed[0];
@@ -4884,7 +4892,7 @@ struct TextPrinter *func_0201CD10(struct BmpWin *win, s16 x, s16 y, struct Strbu
         printer->overrideGlyphs = glyphs;
         printer->glyphsPerTick = glyphs;
     }
-    printer->cursor = func_02045A90(str);
+    printer->cursor = STRBUF_GetChars(str);
     printer->waitCounter = 0;
     printer->callback = callback;
     printer->initialCallbackArg = 0;
@@ -4910,15 +4918,15 @@ struct TextPrinter *func_0201CD10(struct BmpWin *win, s16 x, s16 y, struct Strbu
 /*
  * A whole translation unit, matched as one byte range.
  *
- *           sub_0201CE34, sub_0201CE38, sub_0201CE48
+ *           PRINTSYS_PrintStreamGetWaitKind, PRINTSYS_PrintStreamReleasePause, PRINTSYS_PrintStreamDelete
  *
- * sub_0201CDF4 splits a signed delta into a sign-magnitude pair of output
+ * PRINTSYS_SplitWait splits a signed delta into a sign-magnitude pair of output
  * bytes: byte[1]=1 and byte[0]=the value when it is non-negative, byte[1]=
  * the absolute value and byte[0]=0 when it is negative.  The two branches
  * store to the two bytes in opposite order from each other, which is what
  * the original does and is not an artefact of how it is written.
  *
- * sub_0201CE0C, sub_0201CE20 and sub_0201CE38 are three single-bit
+ * PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun and PRINTSYS_PrintStreamReleasePause are three single-bit
  * operations on a byte at offset 0x22 of an object: set bit 0 (written
  * through a redundant clear-then-set, `(x & ~1) | 1`, rather than a plain
  * `x |= 1`, which is what the bytes show), clear bit 0, and set bit 2 with
@@ -4927,22 +4935,22 @@ struct TextPrinter *func_0201CD10(struct BmpWin *win, s16 x, s16 y, struct Strbu
  * what keeps the load address and the store address computed independently
  * the way the original does it.
  *
- * sub_0201CE30 and sub_0201CE34 are the two four-byte word getters this
+ * PRINTSYS_PrintStreamGetState and PRINTSYS_PrintStreamGetWaitKind are the two four-byte word getters this
  * neighbourhood keeps reusing (the same shape as
  * src/matched/unit_0201AA14.c's pair); disasm.py's prologue sweep does not
  * label either of them, since a two-instruction leaf saves nothing
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md), so both were
  * read directly out of the `.word` run the listing prints between
- * sub_0201CE20 and sub_0201CE38.
+ * PRINTSYS_PrintStreamRun and PRINTSYS_PrintStreamReleasePause.
  *
- * sub_0201CE48 frees and clears an owned pointer at offset 0x10 if it is
+ * PRINTSYS_PrintStreamDelete frees and clears an owned pointer at offset 0x10 if it is
  * non-null.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201CDF4.c \
  *       --addr 0x0201CDF4 --thumb
  */
-void sub_0201CDF4(int wait, u8 *speed)
+void PRINTSYS_SplitWait(int wait, u8 *speed)
 {
     if (wait >= 0) {
         speed[1] = 1;
@@ -4955,45 +4963,45 @@ void sub_0201CDF4(int wait, u8 *speed)
 
 
 
-void sub_0201CE0C(struct TextPrinter *printer)
+void PRINTSYS_PrintStreamStop(struct TextPrinter *printer)
 {
     printer->flags.raw = (printer->flags.raw & ~1u) | 1u;
 }
 
 
 
-void sub_0201CE20(struct TextPrinter *printer)
+void PRINTSYS_PrintStreamRun(struct TextPrinter *printer)
 {
     printer->flags.raw = printer->flags.raw & ~1u;
 }
 
 
 
-u32 sub_0201CE30(const struct TextPrinter *printer)
+u32 PRINTSYS_PrintStreamGetState(const struct TextPrinter *printer)
 {
     return printer->state;
 }
 
 
 
-u32 sub_0201CE34(const struct TextPrinter *printer)
+u32 PRINTSYS_PrintStreamGetWaitKind(const struct TextPrinter *printer)
 {
     return printer->waitKind;
 }
 
 
 
-void sub_0201CE38(struct TextPrinter *printer)
+void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer)
 {
     printer->flags.raw = printer->flags.raw | 4u;
 }
 
 
 
-void sub_0201CE48(struct TextPrinter *printer)
+void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer)
 {
     if (printer->task != 0) {
-        func_02031194(printer->task);
+        TCBL_DeleteTask(printer->task);
         printer->task = 0;
     }
 }
@@ -5005,12 +5013,12 @@ void sub_0201CE48(struct TextPrinter *printer)
  * continuing its run of single-bit edits of the flag byte at +0x22: this
  * range sets bit 4 and bit 3, clears bit 3, and reads bit 3 back.
  *
- * sub_0201CE5C lowers a level-like byte at +0x1E and, when the new value is
- * zero, replaces the pair at +0x1C/+0x1D through sub_0201CE8C with whatever
- * func_02013080(2) returns.  sub_0201CEB8 is the undo: it clears the bit and
+ * PRINTSYS_PrintStreamShortWait lowers a level-like byte at +0x1E and, when the new value is
+ * zero, replaces the pair at +0x1C/+0x1D through PRINTSYS_PrintStreamSetSpeed with whatever
+ * func_02013080(2) returns.  PRINTSYS_PrintStreamResetSpeed is the undo: it clears the bit and
  * restores the pair from the backup at +0x18/+0x19.
  *
- * sub_0201CED4 is an unlabelled follower, eight bytes with no prologue.  It
+ * PRINTSYS_PrintStreamIsOverrideSpeed is an unlabelled follower, eight bytes with no prologue.  It
  * reads bit 3 as a `lsls #0x1C` / `lsrs #0x1F` pair, which is the bitfield
  * extraction shape of
  * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md rather than
@@ -5027,30 +5035,30 @@ void sub_0201CE48(struct TextPrinter *printer)
  *   python tools/match.py tu --src src/matched/unit_0201CE5C.c \
  *       --addr 0x0201CE5C --thumb
  */
-void sub_0201CE5C(struct TextPrinter *printer, s32 wait)
+void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait)
 {
     if (wait < printer->waitCounter) {
         printer->waitCounter = (u8)wait;
         if (wait == 0) {
-            sub_0201CE8C(printer, func_02013080(2));
+            PRINTSYS_PrintStreamSetSpeed(printer, func_02013080(2));
             printer->flags.raw = 0x10u | printer->flags.raw;
         }
     }
 }
 
 
-void sub_0201CE8C(struct TextPrinter *printer, s32 wait)
+void PRINTSYS_PrintStreamSetSpeed(struct TextPrinter *printer, s32 wait)
 {
     u8 speed[2];
 
-    sub_0201CDF4(wait, speed);
+    PRINTSYS_SplitWait(wait, speed);
     printer->overrideGlyphs = speed[1];
     printer->overrideWait = speed[0];
     printer->flags.raw = 8u | printer->flags.raw;
 }
 
 
-void sub_0201CEB8(struct TextPrinter *printer)
+void PRINTSYS_PrintStreamResetSpeed(struct TextPrinter *printer)
 {
     printer->flags.raw = printer->flags.raw & ~8u;
     printer->overrideGlyphs = printer->defaultGlyphs;
@@ -5058,7 +5066,7 @@ void sub_0201CEB8(struct TextPrinter *printer)
 }
 
 
-u32 sub_0201CED4(const struct TextPrinter *printer)
+u32 PRINTSYS_PrintStreamIsOverrideSpeed(const struct TextPrinter *printer)
 {
     return ((u32)printer->flags.raw << 28) >> 31;
 }

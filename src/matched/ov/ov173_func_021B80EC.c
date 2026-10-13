@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202822C 0x0202822C thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  */
-extern void func_0202822C(char *,int);
-int func_021B80EC(char *p,unsigned short id) {unsigned short *q=(unsigned short *)(p+0x1d0);q[5]=1;q[3]=1;q[4]=id;func_0202822C(*(char **)((unsigned)p+q[3]*4+0x220),1);return 13;}
+extern void APP_TASKMENU_WIN_SetDecide(char *,int);
+int func_021B80EC(char *p,unsigned short id) {unsigned short *q=(unsigned short *)(p+0x1d0);q[5]=1;q[3]=1;q[4]=id;APP_TASKMENU_WIN_SetDecide(*(char **)((unsigned)p+q[3]*4+0x220),1);return 13;}

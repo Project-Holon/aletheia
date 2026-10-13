@@ -1,5 +1,5 @@
 /*
- * function: func_021734E0
+ * function: UNION_COMM_InitSituation
  * address: 0x021734E0
  * packet: pkt_ov012_021734E0
  * region: ov012
@@ -21,4 +21,4 @@ typedef struct Work { struct { void *f0; } *head; } Work;
 extern void func_02082BCC(void *p,u32 v,u32 n);
 extern u32 func_020056EC(u32 range);
 extern void func_02173524(Work *w,u8 *p);
-void func_021734E0(Work *w) { u8 *p; p=(u8 *)w+0x2830; func_02082BCC(p,0,0x7c); ((struct Obj09357 *)p)->fC=func_020056EC(0xffff); p[0xf]=1; p[1]=2; func_02173524(w,p+0x14); }
+void UNION_COMM_InitSituation(Work *w) { u8 *p; p=(u8 *)w+0x2830; func_02082BCC(p,0,0x7c); ((struct Obj09357 *)p)->fC=func_020056EC(0xffff); p[0xf]=1; p[1]=2; func_02173524(w,p+0x14); }

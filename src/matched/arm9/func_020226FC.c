@@ -8,21 +8,21 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_020226FC
+ * function: WIPE_SUB_PatternFadeIn
  *
  * symbols:
- *   func_020229A4  0x020229A4  thumb
- *   func_02022A44  0x02022A44  thumb
+ *   WIPE_SUB_FadeStart  0x020229A4  thumb
+ *   WIPE_SUB_FadeMain  0x02022A44  thumb
  *
- * Same shape as func_020226E0 in src/matched/unit_020226A0.c, and kept in
- * its own file for the same reason: its calls to func_020229A4 and
- * func_02022A44 have to stay outside that unit's compared range to attest
+ * Same shape as WIPE_SUB_PatternFadeOut in src/matched/unit_020226A0.c, and kept in
+ * its own file for the same reason: its calls to WIPE_SUB_FadeStart and
+ * WIPE_SUB_FadeMain have to stay outside that unit's compared range to attest
  * its calls, and vice versa.  Sets the flag pair at +0x28 and +0x2c to
- * (0, 1) instead of (1, 1) and calls func_020229A4(p, 0).
+ * (0, 1) instead of (1, 1) and calls WIPE_SUB_FadeStart(p, 0).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020226FC.c \
- *       --func func_020226FC --addr 0x020226FC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_PatternFadeIn.c \
+ *       --func WIPE_SUB_PatternFadeIn --addr 0x020226FC --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -37,16 +37,16 @@ struct Obj {
 };
 
 struct Task;
-extern void func_020229A4(struct Task *t, u32 dir);
-extern u32 func_02022A44(struct Task *t);
+extern void WIPE_SUB_FadeStart(struct Task *t, u32 dir);
+extern u32 WIPE_SUB_FadeMain(struct Task *t);
 
-u32 func_020226FC(struct Obj *p)
+u32 WIPE_SUB_PatternFadeIn(struct Obj *p)
 {
     if (p->unk0C == 0) {
         p->unk28 = 0;
         p->unk2C = 1;
-        func_020229A4((struct Task *)p, 0);
+        WIPE_SUB_FadeStart((struct Task *)p, 0);
         return 0;
     }
-    return func_02022A44((struct Task *)p);
+    return WIPE_SUB_FadeMain((struct Task *)p);
 }

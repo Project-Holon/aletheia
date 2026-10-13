@@ -9,21 +9,21 @@
  * status: EXACT*
  * extent: 021BD396 two-byte alignment padding before 021BD398.
  * symbols:
- *   func_02012BF8 0x02012BF8 thumb
- *   func_02012BE0 0x02012BE0 thumb
+ *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
  *   func_021BD890 0x021BD890 thumb ov209
  */
 #include "../include/Obj10912.h"
-extern int func_02012BF8(int, int);
-extern void func_02012BE0(void *, unsigned, unsigned);
+extern int GAME_DATA_CheckSaveFlag(int, int);
+extern void GAME_DATA_SetSaveFlag(void *, unsigned, unsigned);
 extern void func_021BD890(char *, int, int);
 void func_021BD354(char *p)
 {
-    if (func_02012BF8(**(int * *)&((struct Obj10912 *)p)->f0, 15) == 1) {
-        func_02012BE0(**(void ** *)&((struct Obj10912 *)p)->f0, 15, 0);
+    if (GAME_DATA_CheckSaveFlag(**(int * *)&((struct Obj10912 *)p)->f0, 15) == 1) {
+        GAME_DATA_SetSaveFlag(**(void ** *)&((struct Obj10912 *)p)->f0, 15, 0);
         func_021BD890(p, 5, 6);
     } else {
-        func_02012BE0(**(void ** *)&((struct Obj10912 *)p)->f0, 15, 1);
+        GAME_DATA_SetSaveFlag(**(void ** *)&((struct Obj10912 *)p)->f0, 15, 1);
         func_021BD890(p, 5, 7);
     }
 }

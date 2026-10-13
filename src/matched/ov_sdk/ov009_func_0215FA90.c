@@ -1,5 +1,5 @@
 /*
- * function: func_0215FA90
+ * function: SOC_Cleanup
  * address:  0x0215FA90
  * packet:   pkt_ov009_0215F8FC
  * region:   ov009
@@ -15,7 +15,7 @@
 
 extern int func_0215EBF0(void);
 
-int func_0215FA90(void)
+int SOC_Cleanup(void)
 {
     return func_0215EBF0();
 }

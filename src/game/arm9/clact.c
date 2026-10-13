@@ -1,7 +1,7 @@
 /*
  * file:     clact.c
  * unit:     yes
- * function: sub_0204A48C, sub_0204A5AC, func_0204A600, func_0204A648, func_0204A698, sub_0204A6C8, func_0204A7A0, sub_0204A8D4, func_0204A9D0, func_0204AA94, func_0204AB84, func_0204ABBC, sub_0204ABF0, sub_0204AC18, func_0204ACEC, sub_0204ADA4, sub_0204ADEC, sub_0204AEC0, sub_0204AF28, sub_0204AFD8, func_0204B034, func_0204B084, func_0204B09C, sub_0204B0C8, func_0204B0F4, sub_0204B100, sub_0204B1CC, sub_0204B22C, sub_0204B248, sub_0204B258, sub_0204B270, sub_0204B294, func_0204B324, sub_0204B3B4, sub_0204B3DC, sub_0204B3F4, sub_0204B404, sub_0204B454, sub_0204B49C, sub_0204B4EC, sub_0204B528, sub_0204B53C, sub_0204B550, sub_0204B560, sub_0204B570, sub_0204B59C, func_0204B5AC, sub_0204B5C0, sub_0204B5D4, sub_0204B5E4, sub_0204B5F4, sub_0204B5FC, func_0204B604, sub_0204B658, sub_0204B688, sub_0204B6E4, sub_0204B6F4, sub_0204B714, sub_0204B728, func_0204B764, func_0204B784, func_0204B7C8, func_0204B7F0, func_0204B7F8, func_0204B800, func_0204B838, func_0204B84C, func_0204B864, sub_0204B878, sub_0204B898, sub_0204B8A0, sub_0204B8C4, sub_0204B8D4, sub_0204B8F4, func_0204B908, sub_0204B918, sub_0204B92C, sub_0204B944, func_0204B954, func_0204B95C, func_0204B974, func_0204B98C, func_0204B9A0, func_0204B9C4, func_0204BA00, func_0204BA10, func_0204BA20, func_0204BA38, func_0204BA7C, func_0204BAEC, func_0204BB04, func_0204BB20, func_0204BB38, func_0204BB54, func_0204BB8C, func_0204BBC8, func_0204BC40, func_0204BC94, func_0204BCD8, func_0204BCF4, func_0204BD18, func_0204BD3C, func_0204BD64, func_0204BD7C, func_0204BD94, func_0204BE28, func_0204BE38, func_0204BE84, func_0204BF28, func_0204BF40, func_0204BFC4, func_0204BFF4, func_0204C024, func_0204C040, func_0204C060, func_0204C214, func_0204C2C8, func_0204C3CC, func_0204C660, func_0204C6E4, func_0204C718, func_0204C788, func_0204C7A4, func_0204C804, func_0204C83C, func_0204C8A4, func_0204C8B8, sub_0204C8E4, func_0204C944, func_0204C98C, func_0204CA30, sub_0204CA74, sub_0204CAAC, sub_0204CAE4, func_0204CB44, func_0204CBB0, func_0204CC6C, sub_0204CEB4, sub_0204CED8, sub_0204CF40, sub_0204CF74, sub_0204CFA4, sub_0204CFDC, sub_0204D048, sub_0204D0C4, sub_0204D104, sub_0204D134, sub_0204D158, func_0204D18C, func_0204D224, func_0204D2C8, sub_0204D2DC, sub_0204D300, func_0204D324, sub_0204D340, sub_0204D360, sub_0204D380, sub_0204D3A0, sub_0204D3C4, sub_0204D410, sub_0204D444, sub_0204D478, sub_0204D4B4, sub_0204D4C4, sub_0204D500, func_0204D494, func_0204D4A4, func_0204D510, func_0204D52C, func_0204D53C, func_0204D54C, func_0204D564, func_0204D5CC, func_0204D634, func_0204D69C, func_0204D6D4, func_0204D70C, func_0204D744, func_0204D750, func_0204D75C, func_0204D768, func_0204D7C4, func_0204D7E0, func_0204D8AC, func_0204D9B4, func_0204D9D4, func_0204DA5C, func_0204DACC, func_0204DC64, func_0204DC70, func_0204DCA8, func_0204DD08, func_0204DEE8, func_0204E010, func_0204E01C, func_0204E074, func_0204E0C4, func_0204E0D0
+ * function: CLACT_InitSystem, CLACT_ExitSystem, func_0204A600, func_0204A648, CLACT_FlushOamIfPending, CLACT_RegisterCharacter, CLACT_RegisterEmptyCharacter, CLACT_ReleaseCharacter, func_0204A9D0, CLACT_TransferCharacterPart, CLACT_GetCharacterProxy, func_0204ABBC, CLACT_RegisterPalette, CLACT_RegisterPaletteEx, func_0204ACEC, CLACT_ReleasePalette, CLACT_TransferPalette, CLACT_GetPaletteProxy, CLACT_RegisterCellAnim, CLACT_ReleaseCellAnim, func_0204B034, func_0204B084, func_0204B09C, CLACT_GetSurfacePos, CLACT_SetRendererCulling, CLACT_CreateUnit, CLACT_DeleteUnit, CLACT_SetUnitDrawEnable, CLACT_GetUnitDrawEnable, CLACT_SetUnitRenderer, CLACT_SetUnitDefaultRenderer, CLACT_CreateActor, func_0204B324, CLACT_DeleteActor, CLACT_SetActorDrawEnable, CLACT_GetActorDrawEnable, CLACT_AddActorSurfacePos, CLACT_GetActorSurfacePos, CLACT_SetActorSurfacePosAxis, CLACT_GetActorSurfacePosAxis, CLACT_SetActorPos, CLACT_GetActorPos, CLACT_SetActorPosAxis, CLACT_GetActorPosAxis, CLACT_SetActorAffineMode, CLACT_SetActorAffineOriginAxis, CLACT_SetActorScale, CLACT_GetActorScale, CLACT_SetActorScaleAxis, CLACT_GetActorScaleAxis, CLACT_SetActorRotation, CLACT_GetActorRotation, CLACT_SetActorFlip, CLACT_GetActorFlip, CLACT_SetActorObjMode, CLACT_GetActorObjMode, CLACT_SetActorPaletteOffset, CLACT_GetActorPaletteOffset, CLACT_SetActorPaletteProxy, CLACT_GetActorPaletteProxy, CLACT_SetActorImageProxy, CLACT_GetActorImageProxy, CLACT_GetActorCharacterIndex, CLACT_GetActorPaletteIndex, CLACT_SetActorDrawPriority, CLACT_GetActorDrawPriority, func_0204B84C, CLACT_GetActorBgPriority, CLACT_SetActorAnimSeq, CLACT_GetActorAnimSeq, CLACT_ChangeActorAnimSeq, CLACT_SetActorAnimFrame, CLACT_AddActorAnimFrame, CLACT_GetActorAnimFrame, CLACT_SetActorAnimIndex, CLACT_GetActorAnimSeqCount, CLACT_SetActorAutoAnim, CLACT_GetActorAutoAnim, func_0204B954, CLACT_StartActorAnim, CLACT_StopActorAnim, func_0204B98C, func_0204B9A0, CLACT_SetActorAnimLoopCount, func_0204BA00, CLACT_ResetActorAnimCommand, func_0204BA20, CLACT_InitDefaultRenderer, CLACT_SetOamOffsets, CLACT_SetSystemActive, CLACT_IsSystemActive, CLACT_SetOamPending, CLACT_IsOamPending, CLACT_ResetOamIfPending, CLACT_DrawAllUnits, CLACT_LinkUnit, CLACT_UnlinkUnit, CLACT_InitOamManagers, CLACT_ExitOamManagers, CLACT_ApplyOamManagers, CLACT_ResetOamManagers, CLACT_InitOamManager, CLACT_ApplyOamManager, CLACT_ResetOamManager, CLACT_InitRenderer, CLACT_ExitRenderer, CLACT_SetSurfaceCulling, CLACT_InitSurface, CLACT_SetSurfaceType, CLACT_EntryOam, CLACT_EntryOamMain, CLACT_EntryOamSub, CLACT_SetOamManagerMainParam, CLACT_SetOamManagerSubParam, CLACT_IsAffineCellInView, CLACT_IsCellInView, CLACT_CullOam, CLACT_IsRectInView, CLACT_InitTransferPool, CLACT_ExitTransferPool, CLACT_AllocTransferEntries, CLACT_FreeTransferEntries, CLACT_ExecuteTransfers, CLACT_GetFreeTransferEntry, CLACT_RequestTransfer, CLACT_SetTransferEntry, CLACT_ExecuteTransfer, CLACT_GetFreeActor, CLACT_DrawUnit, CLACT_LinkActor, CLACT_UnlinkActor, CLACT_FindActorBefore, CLACT_FindActorAfter, CLACT_ClearActor, CLACT_DrawActor, CLACT_SetupActorDraw, CLACT_ApplyActorTransform, CLACT_UpdateActorAutoAnim, CLACT_ApplyActorInit, CLACT_ApplyActorResources, CLACT_GetSurfaceOrigin, CLACT_InitActorRequest, CLACT_CreateActorCore, CLACT_CreateActorFull, CLACT_InitAnimCtl, CLACT_ExitAnimCtl, CLACT_GetAnimCtlKind, CLACT_InitCellAnimCtl, CLACT_InitMultiCellAnimCtl, CLACT_InitVramAnimCtl, CLACT_ExitCellAnimCtl, CLACT_ExitMultiCellAnimCtl, CLACT_ExitVramAnimCtl, CLACT_SetAnimSeq, CLACT_SetCellAnimSeq, CLACT_SetMultiCellAnimSeq, CLACT_SetVramAnimSeq, CLACT_SetAnimFrame, CLACT_AddAnimFrame, CLACT_GetAnimCtrl, CLACT_GetAnimObject, CLACT_SetAnimIndex, CLACT_SetVramAnimIndex, CLACT_UpdateAnim, CLACT_UpdateVramAnim, CLACT_SetCellAnimIndex, CLACT_SetMultiCellAnimIndex, CLACT_ResetAnim, CLACT_ResetCellAnim, CLACT_ResetMultiCellAnim, CLACT_ResetVramAnim, CLACT_GetCellUserAttr, CLACT_GetMultiCellUserAttr, CLACT_GetVramCellUserAttr, CLACT_GetCellUserAttrTable, CLACT_GetMultiCellUserAttrTable, CLACT_GetVramCellUserAttrTable, CLACT_GetCellBankCount, CLACT_GetMultiCellBankCount, CLACT_GetVramCellBankCount, CLACT_ApplyAnimCommand, CLACT_ResetAnimCommand, CLACT_InitResources, CLACT_ExitResources, CLACT_IsVramTypeCompatible, CLACT_LoadArchiveData, CLACT_AllocCharacterTable, CLACT_SetupCharacterVram, CLACT_FreeCharacterTable, CLACT_UpdateObjMapping, CLACT_AllocPaletteTable, CLACT_TransferPaletteData, CLACT_TransferPaletteDataEx, CLACT_FreePaletteTable, CLACT_AllocCellAnimTable, CLACT_LoadCellAnimBanks, CLACT_FreeCellAnimTable, CLACT_SetupCharacter
  * address:  0x0204A48C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,14 +13,14 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_02146A74     0x02146A74  data
+ *   g_ClactSystem     0x02146A74  data
  *   s_clact_c      0x020A7F74  data
  *   sub_02030734   0x02030734  arm
  *   sub_020307B0   0x020307B0  arm
  *   func_02066998 0x02066998 arm
- *   g_020A1430     0x020A1430  data
- *   sub_02034640  0x02034640  arm
- *   sub_020346B8  0x020346B8  arm
+ *   g_ClactEmptyCharTemplate     0x020A1430  data
+ *   VMAN_IsHandleInvalid  0x02034640  arm
+ *   VMAN_Free  0x020346B8  arm
  *   func_020637BC   0x020637BC  arm
  *   func_020637B4   0x020637B4  arm
  *   func_0207E780   0x0207E780  arm
@@ -38,17 +38,17 @@
  *   func_02065AA8   0x02065AA8  arm
  *   func_02065B64   0x02065B64  arm
  *   func_02065B74  0x02065B74  arm
- *   g_020A1418     0x020A1418  data
- *   g_020A13F4     0x020A13F4  data
- *   g_020A1388     0x020A1388  data
+ *   g_ClactSurfaceFuncTable     0x020A1418  data
+ *   g_ClactSurfaceModeTable     0x020A13F4  data
+ *   g_ClactSurfaceTypeTable     0x020A1388  data
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_02063294  0x02063294  arm
  *   func_02063378  0x02063378  arm
  *   tbl_020A17D8   0x020A17D8  data
  *   tbl_020A17F0   0x020A17F0  data
- *   func_02066934  0x02066934  arm
+ *   NNS_G2dInitCellTransferStateManager  0x02066934  arm
  *   MI_CpuFill8    0x02082BCC  arm
- *   g_020A138C     0x020A138C  data
+ *   g_ClactTransferFuncs     0x020A138C  data
  *   DC_FlushRange  0x020862F0  arm
  *   sub_02034714  0x02034714  arm
  *   s_clact_assert_expr 0x020A7F7C data
@@ -62,14 +62,14 @@
  *   _ffix          0x0209C494  arm
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
- *   gUnk_020A1394  0x020A1394  data
+ *   g_ClactAnimFuncTable  0x020A1394  data
  *   sub_020627D8  0x020627D8  arm
  *   sub_0206428C  0x0206428C  arm
  *   func_02066AE0  0x02066AE0  arm
  *   func_020642C8  0x020642C8  arm
  *   func_020648B4  0x020648B4  arm
  *   func_02064754  0x02064754  arm
- *   sub_02066B38  0x02066B38  arm
+ *   NNSi_G2dResetCellTransferState  0x02066B38  arm
  *   sub_0206434C  0x0206434C  arm
  *   sub_0206469C  0x0206469C  arm
  *   sub_02064364   0x02064364  arm
@@ -79,16 +79,16 @@
  *   gUnk_020A7F3C  0x020A7F3C  data
  *   sub_020643C4   0x020643C4  arm
  *   sub_02064B68  0x02064B68  arm
- *   g_DispatchTable_0204D510  0x020A7F48  data
+ *   g_ClactAnimResetFuncs  0x020A7F48  data
  *   func_020643A4  0x020643A4  arm
  *   func_02063000  0x02063000  arm
  *   func_02063018  0x02063018  arm
- *   func_02034558  0x02034558  arm
- *   func_020345DC  0x020345DC  arm
+ *   VMAN_Create  0x02034558  arm
+ *   VMAN_Delete  0x020345DC  arm
  *   func_020834C0  0x020834C0  arm
- *   sub_02034630  0x02034630  arm
+ *   VMAN_InvalidateHandle  0x02034630  arm
  *   func_02063790    0x02063790  arm
- *   func_02034660    0x02034660  arm
+ *   VMAN_Alloc    0x02034660  arm
  *   func_020346D8    0x020346D8  arm
  *   func_02063828    0x02063828  arm
  *   func_02063A54    0x02063A54  arm
@@ -105,6 +105,8 @@
  *   func_02062820  0x02062820  arm
  *   func_02062670  0x02062670  arm
  *   func_02062A00  0x02062A00  arm
+ *   SYSTEMFONT_Load  0x020461F4  arm
+ *   NNSi_G2dMCAnimUpdateBank  0x02064C10  arm
  */
 
 #define CONV(d, v) do { s32 _t = (s16)(v); if (_t > 0) { (d) = (f32)(_t << 12) + 0.5f; } else { (d) = (f32)(_t << 12) - 0.5f; } } while (0)
@@ -552,8 +554,8 @@ extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
 extern void  MI_CpuFill8(void *dst, int fill, u32 size);
 extern u32 sub_020307B0(void *p);
 extern void func_02066998(void);
-extern int sub_02034640(struct VramBlock *p);
-extern void sub_020346B8(struct VramAllocator *owner, struct VramBlock *p);
+extern int VMAN_IsHandleInvalid(struct VramBlock *p);
+extern void VMAN_Free(struct VramAllocator *owner, struct VramBlock *p);
 extern int func_020637BC(const u32 *p, u32 i);
 extern int func_020637B4(int *p, int i);
 extern void DC_FlushRange(void *a, u32 b);
@@ -576,7 +578,7 @@ extern void func_02065B74(struct Surface *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32  func_02063294(struct OamManager *win, struct OamEntry *entry, u32 mode);
 extern void func_02063378(struct OamManager *a0, u32 a1);
-extern void  func_02066934(struct VramTransferTask *recs, u32 n, void *cb);
+extern void  NNS_G2dInitCellTransferStateManager(struct VramTransferTask *recs, u32 n, void *cb);
 extern void sub_02034714(const char *file, u32 line, const char *expr);
 extern void MI_CpuFill8(void *dst, int value, u32 len);
 extern void func_02063790(u32 *p);
@@ -599,7 +601,7 @@ extern void func_020642C8(char *self, int a1, struct G2dDataBank *c, int d, int 
 extern int func_020648B4(struct G2dDataBank *mc_bank, u32 b);
 extern void func_02064754(char *o, void *buf, void *set, void *a3, struct G2dDataBank *bank, int kind);
 extern void sub_0206469C(struct MultiCellAnim *o, void *bank);
-extern void sub_02066B38(u32 idx);
+extern void NNSi_G2dResetCellTransferState(u32 idx);
 extern void  sub_0206434C(u8 *r, void *v);
 extern void sub_02064364(struct CellAnim *anim, s32 frames);
 extern void sub_020649D4(char *self, int a1);
@@ -608,14 +610,14 @@ extern void sub_02064AB4(char *self, unsigned int i);
 extern void sub_020643C4(struct MultiCellAnim *mca, u32 value);
 extern void sub_02064B68(u8 *o, void *arg);
 extern void func_020643A4(struct CellAnim *anim);
-extern void func_02064C10(struct CellXferState *x);
+extern void NNSi_G2dMCAnimUpdateBank(struct CellXferState *x);
 extern void func_02063000(int p0, int p1, int p2, int p3);
 extern void func_02063018(struct CellAnim *anim, u32 a, u32 b, u16 tag);
-extern struct VramAllocator *func_02034558(u32 heapId, u32 kind, u32 flags, u32 base, u32 b);
-extern void func_020345DC(struct VramAllocator *obj);
+extern struct VramAllocator *VMAN_Create(u32 heapId, u32 kind, u32 flags, u32 base, u32 b);
+extern void VMAN_Delete(struct VramAllocator *obj);
 extern void func_020834C0(const void *src, void *dest);
-extern void  sub_02034630(struct VramBlock *p);
-extern int func_02034660(u8 *p, u32 a, void **out);
+extern void  VMAN_InvalidateHandle(struct VramBlock *p);
+extern int VMAN_Alloc(u8 *p, u32 a, void **out);
 extern u32 func_020346D8(struct VramAllocator *a, u32 *b);
 extern void func_02063828(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
 extern void func_02063A54(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
@@ -633,247 +635,247 @@ extern void func_02063F4C(struct PaletteData *self, struct PaletteCompInfo *list
 extern int func_02062820(int a, struct G2dDataBank **out);
 extern s32 func_02062670(void *handle, struct G2dDataBank **slot);
 extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
-extern void  func_020461F4(u32 a);
-void sub_0204A48C(const struct SysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
-void sub_0204A5AC(void);
+extern void  SYSTEMFONT_Load(u32 a);
+void CLACT_InitSystem(const struct SysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
+void CLACT_ExitSystem(void);
 void func_0204A600(void);
 void func_0204A648(void);
-void func_0204A698(void);
-s32 sub_0204A6C8(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id);
-s32 func_0204A7A0(u32 size, u32 vram_mode, u16 heapId);
-void sub_0204A8D4(u32 idx);
+void CLACT_FlushOamIfPending(void);
+s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id);
+s32 CLACT_RegisterEmptyCharacter(u32 size, u32 vram_mode, u16 heapId);
+void CLACT_ReleaseCharacter(u32 idx);
 void func_0204A9D0(int idx, struct CharData *char_data);
-void func_0204AA94(int idx, void *src, u32 size, int offset, int target);
-void func_0204AB84(u32 idx, struct ImageProxy *out);
+void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int target);
+void CLACT_GetCharacterProxy(u32 idx, struct ImageProxy *out);
 int func_0204ABBC(u32 idx, u32 flag);
-s32 sub_0204ABF0(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
-s32 sub_0204AC18(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
+s32 CLACT_RegisterPalette(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
+s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
 int func_0204ACEC(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
-void sub_0204ADA4(u32 idx);
-void sub_0204ADEC(u32 idx, struct PaletteData *dest, u32 count, u32 size);
-void sub_0204AEC0(u32 idx, struct PaletteProxy *dest);
-int sub_0204AEF4(u32 idx, u32 alternate);
-s32 sub_0204AF28(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id);
-void sub_0204AFD8(u32 idx);
+void CLACT_ReleasePalette(u32 idx);
+void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count, u32 size);
+void CLACT_GetPaletteProxy(u32 idx, struct PaletteProxy *dest);
+int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
+s32 CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id);
+void CLACT_ReleaseCellAnim(u32 idx);
 struct Renderer *func_0204B034(const struct SurfaceInit *inits, u32 count, u32 heap_id);
 void func_0204B084(struct Renderer *renderer);
 void func_0204B09C(struct Renderer *renderer, int idx, struct Vec2 *pos);
-void sub_0204B0C8(struct Renderer *renderer, u32 surface_idx, struct Vec2 *out);
-void func_0204B0F4(struct Renderer *renderer, int enable);
-struct Unit *sub_0204B100(int count, u8 priority, u32 heapId);
-u32 sub_0204B1CC(struct Unit *unit);
-void sub_0204B22C(struct Unit *unit, u32 enable);
-u32 sub_0204B248(struct Unit *unit);
-void sub_0204B258(struct Unit *unit, void *renderer);
-void sub_0204B270(struct Unit *unit);
-struct Actor *sub_0204B294(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
+void CLACT_GetSurfacePos(struct Renderer *renderer, u32 surface_idx, struct Vec2 *out);
+void CLACT_SetRendererCulling(struct Renderer *renderer, int enable);
+struct Unit *CLACT_CreateUnit(int count, u8 priority, u32 heapId);
+u32 CLACT_DeleteUnit(struct Unit *unit);
+void CLACT_SetUnitDrawEnable(struct Unit *unit, u32 enable);
+u32 CLACT_GetUnitDrawEnable(struct Unit *unit);
+void CLACT_SetUnitRenderer(struct Unit *unit, void *renderer);
+void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
+struct Actor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
 struct Actor *func_0204B324(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
-void sub_0204B3B4(struct Actor *actor);
-void sub_0204B3DC(struct Actor *actor, u32 value);
-u32 sub_0204B3F4(struct Actor *actor);
-void sub_0204B404(struct Actor *actor, const struct Vec2 *delta, u32 which);
-void sub_0204B454(struct Actor *actor, struct Vec2 *out, u16 space);
-void sub_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis);
-s16 sub_0204B4EC(struct Actor *actor, u32 space, u32 axis);
-void sub_0204B528(struct Actor *actor, const struct Pt16 *pos);
-void sub_0204B53C(const struct Actor *actor, struct Pt16 *out);
-void sub_0204B550(struct Actor *actor, signed short value, u32 axis);
-s16 sub_0204B560(const struct Actor *actor, u32 axis);
-void sub_0204B570(struct Actor *actor, u32 value);
-void sub_0204B588(struct Actor *actor, const struct Pt16 *origin);
-void sub_0204B59C(struct Actor *actor, signed short value, u32 axis);
-void func_0204B5AC(struct Actor *actor, struct Pair32 *src);
-void sub_0204B5C0(const struct Actor *actor, struct Pair32 *out_scale);
-void sub_0204B5D4(struct Actor *actor, u32 value, u32 which);
-u32 sub_0204B5E4(const struct Actor *actor, u32 which);
-void sub_0204B5F4(struct Actor *actor, u16 value);
-u16 sub_0204B5FC(const struct Actor *actor);
-void func_0204B604(struct Actor *actor, u32 which, u32 set);
-u32 sub_0204B658(const struct Actor *actor, u32 which);
-void sub_0204B688(struct Actor *actor, u32 value);
-u32 sub_0204B6E4(const struct Actor *actor);
-void sub_0204B6F4(struct Actor *actor, u32 offset, u32 pltt_op);
-u32 sub_0204B714(struct Actor *actor);
-void sub_0204B728(struct Actor *actor, const struct PaletteProxy *proxy);
-void func_0204B764(const char *actor_base, struct PaletteProxy *dst);
-void func_0204B784(char *actor_base, const struct ImageProxy *proxy);
-void func_0204B7C8(const char *actor_base, struct ImageProxy *dst);
-u16 func_0204B7F0(struct Actor *actor);
-u16 func_0204B7F8(struct Actor *actor);
-void func_0204B800(struct Actor *actor, u32 priority);
-int func_0204B838(struct Actor *actor);
+void CLACT_DeleteActor(struct Actor *actor);
+void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
+u32 CLACT_GetActorDrawEnable(struct Actor *actor);
+void CLACT_AddActorSurfacePos(struct Actor *actor, const struct Vec2 *delta, u32 which);
+void CLACT_GetActorSurfacePos(struct Actor *actor, struct Vec2 *out, u16 space);
+void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
+s16 CLACT_GetActorSurfacePosAxis(struct Actor *actor, u32 space, u32 axis);
+void CLACT_SetActorPos(struct Actor *actor, const struct Pt16 *pos);
+void CLACT_GetActorPos(const struct Actor *actor, struct Pt16 *out);
+void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
+s16 CLACT_GetActorPosAxis(const struct Actor *actor, u32 axis);
+void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
+void CLACT_SetActorAffineOrigin(struct Actor *actor, const struct Pt16 *origin);
+void CLACT_SetActorAffineOriginAxis(struct Actor *actor, signed short value, u32 axis);
+void CLACT_SetActorScale(struct Actor *actor, struct Pair32 *src);
+void CLACT_GetActorScale(const struct Actor *actor, struct Pair32 *out_scale);
+void CLACT_SetActorScaleAxis(struct Actor *actor, u32 value, u32 which);
+u32 CLACT_GetActorScaleAxis(const struct Actor *actor, u32 which);
+void CLACT_SetActorRotation(struct Actor *actor, u16 value);
+u16 CLACT_GetActorRotation(const struct Actor *actor);
+void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
+u32 CLACT_GetActorFlip(const struct Actor *actor, u32 which);
+void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+u32 CLACT_GetActorObjMode(const struct Actor *actor);
+void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
+u32 CLACT_GetActorPaletteOffset(struct Actor *actor);
+void CLACT_SetActorPaletteProxy(struct Actor *actor, const struct PaletteProxy *proxy);
+void CLACT_GetActorPaletteProxy(const char *actor_base, struct PaletteProxy *dst);
+void CLACT_SetActorImageProxy(char *actor_base, const struct ImageProxy *proxy);
+void CLACT_GetActorImageProxy(const char *actor_base, struct ImageProxy *dst);
+u16 CLACT_GetActorCharacterIndex(struct Actor *actor);
+u16 CLACT_GetActorPaletteIndex(struct Actor *actor);
+void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority);
+int CLACT_GetActorDrawPriority(struct Actor *actor);
 void func_0204B84C(struct Actor *actor, unsigned int priority);
-u32 func_0204B864(struct Actor *actor);
-void sub_0204B878(struct Actor *actor, u16 value);
-u16 sub_0204B898(struct Actor *actor);
-void sub_0204B8A0(struct Actor *actor, u16 anim_seq);
-void sub_0204B8C4(struct Actor *actor, u32 frame);
-void sub_0204B8D4(struct Actor *actor, u32 frames);
-u32 sub_0204B8F4(struct Actor *actor);
-void func_0204B908(struct Actor *actor, u32 anim_idx);
-u16 sub_0204B918(struct Actor *actor);
-void sub_0204B92C(struct Actor *actor, u32 enable);
-u32 sub_0204B944(struct Actor *actor);
+u32 CLACT_GetActorBgPriority(struct Actor *actor);
+void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
+u16 CLACT_GetActorAnimSeq(struct Actor *actor);
+void CLACT_ChangeActorAnimSeq(struct Actor *actor, u16 anim_seq);
+void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame);
+void CLACT_AddActorAnimFrame(struct Actor *actor, u32 frames);
+u32 CLACT_GetActorAnimFrame(struct Actor *actor);
+void CLACT_SetActorAnimIndex(struct Actor *actor, u32 anim_idx);
+u16 CLACT_GetActorAnimSeqCount(struct Actor *actor);
+void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
+u32 CLACT_GetActorAutoAnim(struct Actor *actor);
 void func_0204B954(struct Actor *actor, u32 speed);
-void func_0204B95C(struct Actor *actor);
-void func_0204B974(struct Actor *actor);
+void CLACT_StartActorAnim(struct Actor *actor);
+void CLACT_StopActorAnim(struct Actor *actor);
 u32 func_0204B98C(struct Actor *actor);
 void func_0204B9A0(struct Actor *actor);
-void func_0204B9C4(struct Actor *actor, u32 loop_limit);
+void CLACT_SetActorAnimLoopCount(struct Actor *actor, u32 loop_limit);
 void func_0204BA00(struct Actor *actor, const struct Cmd *cmd);
-void func_0204BA10(struct Actor *actor);
+void CLACT_ResetActorAnimCommand(struct Actor *actor);
 void func_0204BA20(struct Actor *actor, u32 visible);
-void func_0204BA38(struct Renderer *renderer, const s16 *src, u32 heap_id);
-void func_0204BA7C(u32 pltt_proxy, u16 base_offset, u32 pltt_op);
-void func_0204BAEC(u32 active);
-u32 func_0204BB04(void);
-void func_0204BB20(u32 pending);
-u32 func_0204BB38(void);
-void func_0204BB54(void);
-void func_0204BB8C(void);
-void func_0204BBC8(struct Unit *unit);
-void func_0204BC40(struct Unit *unit);
-void func_0204BC94(struct OamManagers *oam_managers, u32 main_base, u32 main_count, u32 sub_base, u8 sub_count);
-void func_0204BCD8(struct OamManagers *oam_managers);
-void func_0204BCF4(struct OamManagers *oam_managers);
-void func_0204BD18(struct OamManagers *oam_managers);
-void func_0204BD3C(struct OamManager *oam_manager, int base, int count, int screen);
-void func_0204BD64(struct OamManager *oam_manager);
-void func_0204BD7C(struct OamManager *oam_manager);
-void func_0204BD94(struct Renderer *renderer, const struct SurfaceInit *inits, int count, u32 heap_id);
-void func_0204BE28(struct Renderer *renderer);
-void func_0204BE38(struct Renderer *renderer, int enable);
-void func_0204BE84(struct Surface *surface, const struct SurfaceInit *init);
-void func_0204BF28(struct Surface *surface, u32 idx);
-void func_0204BF40(struct OamManager *oam_manager, struct OamEntry *src_entry, u32 mode, u32 pltt_offset, u32 pltt_op);
-void func_0204BFC4(struct OamEntry *entry, u32 mode);
-void func_0204BFF4(struct OamEntry *entry, u32 mode);
-void func_0204C024(u32 value);
-void func_0204C040(u32 value);
-int func_0204C060(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view);
-int func_0204C214(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view);
-void func_0204C2C8(struct Surface *surface, struct ViewRect *view, s32 unused_arg2, s32 unused_arg3, struct Affine2D *affine);
-int func_0204C3CC(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1, const struct Affine2D *affine, const struct ViewRect *view);
-void func_0204C660(struct TransferPool *pool, u8 count, u32 heapId);
-void func_0204C6E4(struct TransferPool *pool);
-void func_0204C718(struct TransferPool *pool, u32 count, u32 heapId);
-void func_0204C788(struct TransferPool *pool);
-void func_0204C7A4(struct TransferPool *pool);
-struct TransferEntry *func_0204C804(struct TransferPool *pool);
-u32 func_0204C83C(u32 kind, u32 dest, u32 src, u32 size);
-void func_0204C8A4(struct TransferEntry *entry, u32 entry_kind, u32 dest, u32 src, u32 size);
-void func_0204C8B8(struct TransferEntry *entry);
-struct Actor *sub_0204C8E4(struct Unit *unit);
-void func_0204C944(struct Unit *unit);
-void func_0204C98C(struct Unit *unit, struct Actor *actor);
-void func_0204CA30(struct Unit *unit, struct Actor *actor);
-void *sub_0204CA74(struct Actor *head, u32 priority);
-struct Actor *sub_0204CAAC(struct Actor *head, u32 priority);
-void sub_0204CAE4(struct Actor *actor);
-void func_0204CB44(struct Actor *actor, struct Renderer *renderer);
-void func_0204CBB0(struct Actor *actor, struct Renderer *renderer);
-void func_0204CC6C(struct Actor *actor);
-void sub_0204CEB4(struct Actor *actor);
-void sub_0204CED8(struct Actor *actor, const struct ActorInit *init, u32 space);
-void sub_0204CF40(struct Actor *actor, const struct ActorReq *req);
-void sub_0204CF74(struct Actor *actor, u32 surface_idx, u16 *out);
-void sub_0204CFA4(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct G2dDataBank *anim_bank);
-struct Actor *sub_0204CFDC(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id);
-struct Actor *sub_0204D048(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id);
-void sub_0204D0C4(struct AnimCtl *anim_ctl, void *req, u32 heap_id);
-void sub_0204D104(struct AnimCtl *anim_ctl);
-s32 sub_0204D134(const struct ActorReq *req);
-void sub_0204D158(struct AnimCtl *anim_ctl, const struct ActorReq *req);
-void func_0204D18C(struct AnimCtl *anim_ctl, const struct ActorReq *req);
-void func_0204D224(struct AnimCtl *anim_ctl, const struct ActorReq *req, u32 heap_id);
-void func_0204D2C8(void *anim);
-void sub_0204D2DC(struct AnimCtl *anim_ctl);
-void sub_0204D300(struct AnimCtl *anim_ctl);
-void func_0204D324(struct AnimCtl *anim_ctl, u32 anim_seq);
-void sub_0204D340(struct AnimCtl *anim_ctl, u32 idx);
-void sub_0204D360(struct AnimCtl *anim_ctl, u32 idx);
-void sub_0204D380(struct AnimCtl *anim_ctl, u32 idx);
-void sub_0204D3A0(struct AnimCtl *anim_ctl, u32 value);
-void *sub_0204D3C4(struct AnimCtl *anim_ctl, u32 speed);
-void sub_0204D3E0(struct AnimCtl *anim_ctl, s32 frames);
-void sub_0204D3F0(struct AnimCtl *anim_ctl, s32 frames);
-void sub_0204D400(struct AnimCtl *anim_ctl, s32 frames);
-struct AnimCtrl *sub_0204D410(struct AnimCtl *anim_ctl);
-void *sub_0204D42C(struct AnimCtl *anim_ctl);
-void *sub_0204D434(struct AnimCtl *anim_ctl);
-void *sub_0204D43C(struct AnimCtl *anim_ctl);
-struct AnimCtrl *sub_0204D444(struct AnimCtl *anim_ctl);
-void *sub_0204D460(struct AnimCtl *anim_ctl);
-void *sub_0204D468(struct AnimCtl *anim_ctl);
-void *sub_0204D470(struct AnimCtl *anim_ctl);
-void *sub_0204D478(struct AnimCtl *anim_ctl, u32 anim_idx);
-void func_0204D494(u8 *anim_base, u32 frame);
-void func_0204D4A4(u8 *anim_base, u32 frame);
-void sub_0204D4B4(struct AnimCtl *anim_ctl, u32 frame);
-void sub_0204D4C4(struct AnimCtl *anim_ctl, u32 frames);
-void sub_0204D4E0(struct AnimCtl *anim_ctl, u32 value);
-void sub_0204D4F0(struct AnimCtl *anim_ctl, u32 value);
-void sub_0204D500(struct AnimCtl *anim_ctl, u32 target);
-void func_0204D510(struct AnimCtl *anim_ctl);
-void func_0204D52C(void *anim_base);
-void func_0204D53C(u8 *a0);
-void func_0204D54C(void *anim_base);
-void *func_0204D564(struct AnimCtl *anim_ctl, u32 idx);
-void *func_0204D5CC(struct AnimCtl *anim_ctl, u32 idx);
-void *func_0204D634(struct AnimCtl *anim_ctl, u32 idx);
-UserAttrTable *func_0204D69C(struct AnimCtl *anim_ctl);
-UserAttrTable *func_0204D6D4(struct AnimCtl *anim_ctl);
-UserAttrTable *func_0204D70C(struct AnimCtl *anim_ctl);
-u16 func_0204D744(struct AnimCtl *anim_ctl);
-u16 func_0204D750(struct AnimCtl *anim_ctl);
-u16 func_0204D75C(struct AnimCtl *anim_ctl);
-void func_0204D768(struct AnimCtl *anim_ctl, const struct Cmd *cmd);
-void func_0204D7C4(struct AnimCtl *anim_ctl);
-void func_0204D7E0(struct Res *res, u32 heapId, const struct DispVramCfg *cfg, const struct Caps *caps);
-void func_0204D8AC(struct Res *res);
-u32 func_0204D9B4(u32 mode, u32 bank_idx);
-void *func_0204D9D4(void *archive, u32 file_idx, u32 compressed, u32 heapId);
-void *func_0204DA5C(u32 heapId, u32 count);
-void func_0204DACC(struct Res *res, u32 idx, struct CharData *char_data, struct CharXferInfo *xfer_override, u32 vram_mode);
-void func_0204DC64(void *chars);
-void func_0204DC70(struct CharData *char_data, int screen);
-void *func_0204DCA8(u32 heapId, u32 count);
-void func_0204DD08(struct Res *res, int idx, void *file, void *vram_mode, u32 vram_offset, u16 first_color, u16 color_count);
-void func_0204DEE8(struct Res *res, int idx, void *file, void *vram_mode, u32 vram_offset);
-void func_0204E010(void *pltts);
-struct CellSlot *func_0204E01C(u32 heap_id, u32 count);
-s32 func_0204E074(struct Res *res, s32 idx, void *cell_file, void *anim_file);
-void func_0204E0C4(void *cells);
-void func_0204E0D0(struct Res *res, s32 idx, u32 handle, u32 vram_mode, u32 xfer_info);
-extern struct Sys *g_02146A74;
+void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 heap_id);
+void CLACT_SetOamOffsets(u32 pltt_proxy, u16 base_offset, u32 pltt_op);
+void CLACT_SetSystemActive(u32 active);
+u32 CLACT_IsSystemActive(void);
+void CLACT_SetOamPending(u32 pending);
+u32 CLACT_IsOamPending(void);
+void CLACT_ResetOamIfPending(void);
+void CLACT_DrawAllUnits(void);
+void CLACT_LinkUnit(struct Unit *unit);
+void CLACT_UnlinkUnit(struct Unit *unit);
+void CLACT_InitOamManagers(struct OamManagers *oam_managers, u32 main_base, u32 main_count, u32 sub_base, u8 sub_count);
+void CLACT_ExitOamManagers(struct OamManagers *oam_managers);
+void CLACT_ApplyOamManagers(struct OamManagers *oam_managers);
+void CLACT_ResetOamManagers(struct OamManagers *oam_managers);
+void CLACT_InitOamManager(struct OamManager *oam_manager, int base, int count, int screen);
+void CLACT_ApplyOamManager(struct OamManager *oam_manager);
+void CLACT_ResetOamManager(struct OamManager *oam_manager);
+void CLACT_InitRenderer(struct Renderer *renderer, const struct SurfaceInit *inits, int count, u32 heap_id);
+void CLACT_ExitRenderer(struct Renderer *renderer);
+void CLACT_SetSurfaceCulling(struct Renderer *renderer, int enable);
+void CLACT_InitSurface(struct Surface *surface, const struct SurfaceInit *init);
+void CLACT_SetSurfaceType(struct Surface *surface, u32 idx);
+void CLACT_EntryOam(struct OamManager *oam_manager, struct OamEntry *src_entry, u32 mode, u32 pltt_offset, u32 pltt_op);
+void CLACT_EntryOamMain(struct OamEntry *entry, u32 mode);
+void CLACT_EntryOamSub(struct OamEntry *entry, u32 mode);
+void CLACT_SetOamManagerMainParam(u32 value);
+void CLACT_SetOamManagerSubParam(u32 value);
+int CLACT_IsAffineCellInView(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view);
+int CLACT_IsCellInView(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view);
+void CLACT_CullOam(struct Surface *surface, struct ViewRect *view, s32 unused_arg2, s32 unused_arg3, struct Affine2D *affine);
+int CLACT_IsRectInView(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1, const struct Affine2D *affine, const struct ViewRect *view);
+void CLACT_InitTransferPool(struct TransferPool *pool, u8 count, u32 heapId);
+void CLACT_ExitTransferPool(struct TransferPool *pool);
+void CLACT_AllocTransferEntries(struct TransferPool *pool, u32 count, u32 heapId);
+void CLACT_FreeTransferEntries(struct TransferPool *pool);
+void CLACT_ExecuteTransfers(struct TransferPool *pool);
+struct TransferEntry *CLACT_GetFreeTransferEntry(struct TransferPool *pool);
+u32 CLACT_RequestTransfer(u32 kind, u32 dest, u32 src, u32 size);
+void CLACT_SetTransferEntry(struct TransferEntry *entry, u32 entry_kind, u32 dest, u32 src, u32 size);
+void CLACT_ExecuteTransfer(struct TransferEntry *entry);
+struct Actor *CLACT_GetFreeActor(struct Unit *unit);
+void CLACT_DrawUnit(struct Unit *unit);
+void CLACT_LinkActor(struct Unit *unit, struct Actor *actor);
+void CLACT_UnlinkActor(struct Unit *unit, struct Actor *actor);
+void *CLACT_FindActorBefore(struct Actor *head, u32 priority);
+struct Actor *CLACT_FindActorAfter(struct Actor *head, u32 priority);
+void CLACT_ClearActor(struct Actor *actor);
+void CLACT_DrawActor(struct Actor *actor, struct Renderer *renderer);
+void CLACT_SetupActorDraw(struct Actor *actor, struct Renderer *renderer);
+void CLACT_ApplyActorTransform(struct Actor *actor);
+void CLACT_UpdateActorAutoAnim(struct Actor *actor);
+void CLACT_ApplyActorInit(struct Actor *actor, const struct ActorInit *init, u32 space);
+void CLACT_ApplyActorResources(struct Actor *actor, const struct ActorReq *req);
+void CLACT_GetSurfaceOrigin(struct Actor *actor, u32 surface_idx, u16 *out);
+void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct G2dDataBank *anim_bank);
+struct Actor *CLACT_CreateActorCore(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id);
+struct Actor *CLACT_CreateActorFull(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id);
+void CLACT_InitAnimCtl(struct AnimCtl *anim_ctl, void *req, u32 heap_id);
+void CLACT_ExitAnimCtl(struct AnimCtl *anim_ctl);
+s32 CLACT_GetAnimCtlKind(const struct ActorReq *req);
+void CLACT_InitCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req);
+void CLACT_InitMultiCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req);
+void CLACT_InitVramAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req, u32 heap_id);
+void CLACT_ExitCellAnimCtl(void *anim);
+void CLACT_ExitMultiCellAnimCtl(struct AnimCtl *anim_ctl);
+void CLACT_ExitVramAnimCtl(struct AnimCtl *anim_ctl);
+void CLACT_SetAnimSeq(struct AnimCtl *anim_ctl, u32 anim_seq);
+void CLACT_SetCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx);
+void CLACT_SetMultiCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx);
+void CLACT_SetVramAnimSeq(struct AnimCtl *anim_ctl, u32 idx);
+void CLACT_SetAnimFrame(struct AnimCtl *anim_ctl, u32 value);
+void *CLACT_AddAnimFrame(struct AnimCtl *anim_ctl, u32 speed);
+void CLACT_AddCellAnimFrame(struct AnimCtl *anim_ctl, s32 frames);
+void CLACT_AddMultiCellAnimFrame(struct AnimCtl *anim_ctl, s32 frames);
+void CLACT_AddVramAnimFrame(struct AnimCtl *anim_ctl, s32 frames);
+struct AnimCtrl *CLACT_GetAnimCtrl(struct AnimCtl *anim_ctl);
+void *CLACT_GetCellAnimCtrl(struct AnimCtl *anim_ctl);
+void *CLACT_GetMultiCellAnimCtrl(struct AnimCtl *anim_ctl);
+void *CLACT_GetVramAnimCtrl(struct AnimCtl *anim_ctl);
+struct AnimCtrl *CLACT_GetAnimObject(struct AnimCtl *anim_ctl);
+void *CLACT_GetCellAnimObject(struct AnimCtl *anim_ctl);
+void *CLACT_GetMultiCellAnimObject(struct AnimCtl *anim_ctl);
+void *CLACT_GetVramAnimObject(struct AnimCtl *anim_ctl);
+void *CLACT_SetAnimIndex(struct AnimCtl *anim_ctl, u32 anim_idx);
+void CLACT_SetCellAnimIndex(u8 *anim_base, u32 frame);
+void CLACT_SetMultiCellAnimIndex(u8 *anim_base, u32 frame);
+void CLACT_SetVramAnimIndex(struct AnimCtl *anim_ctl, u32 frame);
+void CLACT_UpdateAnim(struct AnimCtl *anim_ctl, u32 frames);
+void CLACT_UpdateCellAnim(struct AnimCtl *anim_ctl, u32 value);
+void CLACT_UpdateMultiCellAnim(struct AnimCtl *anim_ctl, u32 value);
+void CLACT_UpdateVramAnim(struct AnimCtl *anim_ctl, u32 target);
+void CLACT_ResetAnim(struct AnimCtl *anim_ctl);
+void CLACT_ResetCellAnim(void *anim_base);
+void CLACT_ResetMultiCellAnim(u8 *a0);
+void CLACT_ResetVramAnim(void *anim_base);
+void *CLACT_GetCellUserAttr(struct AnimCtl *anim_ctl, u32 idx);
+void *CLACT_GetMultiCellUserAttr(struct AnimCtl *anim_ctl, u32 idx);
+void *CLACT_GetVramCellUserAttr(struct AnimCtl *anim_ctl, u32 idx);
+UserAttrTable *CLACT_GetCellUserAttrTable(struct AnimCtl *anim_ctl);
+UserAttrTable *CLACT_GetMultiCellUserAttrTable(struct AnimCtl *anim_ctl);
+UserAttrTable *CLACT_GetVramCellUserAttrTable(struct AnimCtl *anim_ctl);
+u16 CLACT_GetCellBankCount(struct AnimCtl *anim_ctl);
+u16 CLACT_GetMultiCellBankCount(struct AnimCtl *anim_ctl);
+u16 CLACT_GetVramCellBankCount(struct AnimCtl *anim_ctl);
+void CLACT_ApplyAnimCommand(struct AnimCtl *anim_ctl, const struct Cmd *cmd);
+void CLACT_ResetAnimCommand(struct AnimCtl *anim_ctl);
+void CLACT_InitResources(struct Res *res, u32 heapId, const struct DispVramCfg *cfg, const struct Caps *caps);
+void CLACT_ExitResources(struct Res *res);
+u32 CLACT_IsVramTypeCompatible(u32 mode, u32 bank_idx);
+void *CLACT_LoadArchiveData(void *archive, u32 file_idx, u32 compressed, u32 heapId);
+void *CLACT_AllocCharacterTable(u32 heapId, u32 count);
+void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_data, struct CharXferInfo *xfer_override, u32 vram_mode);
+void CLACT_FreeCharacterTable(void *chars);
+void CLACT_UpdateObjMapping(struct CharData *char_data, int screen);
+void *CLACT_AllocPaletteTable(u32 heapId, u32 count);
+void CLACT_TransferPaletteData(struct Res *res, int idx, void *file, void *vram_mode, u32 vram_offset, u16 first_color, u16 color_count);
+void CLACT_TransferPaletteDataEx(struct Res *res, int idx, void *file, void *vram_mode, u32 vram_offset);
+void CLACT_FreePaletteTable(void *pltts);
+struct CellSlot *CLACT_AllocCellAnimTable(u32 heap_id, u32 count);
+s32 CLACT_LoadCellAnimBanks(struct Res *res, s32 idx, void *cell_file, void *anim_file);
+void CLACT_FreeCellAnimTable(void *cells);
+void CLACT_SetupCharacter(struct Res *res, s32 idx, u32 handle, u32 vram_mode, u32 xfer_info);
+extern struct Sys *g_ClactSystem;
 extern const char s_clact_c[];
-extern const struct CharData g_020A1430;
+extern const struct CharData g_ClactEmptyCharTemplate;
 extern struct ClactTables g_020A7F3C;
-extern SurfaceFuncs  g_020A1418[];
-extern u32  g_020A13F4[];
-extern u16 g_020A1388[];
+extern SurfaceFuncs  g_ClactSurfaceFuncTable[];
+extern u32  g_ClactSurfaceModeTable[];
+extern u16 g_ClactSurfaceTypeTable[];
 extern const u16 tbl_020A17D8[4][4];
 extern const u16 tbl_020A17F0[4][4];
 extern const char s_clact_assert_expr[];
 extern s16 g_020A1B38[];
 extern AnimUpdateFn const gUnk_020A7F3C[];
-extern AnimResetFn g_DispatchTable_0204D510[];
+extern AnimResetFn g_ClactAnimResetFuncs[];
 
 
 
 /*
  * Blocked at MATCH: all 288 concrete bytes are correct and seven of the ten
- * relocation sites now resolve.  func_0204BA38 (+0x00C0) was closed by wave
- * 20C (src/matched/func_0204BA38.c).  The other three are each byte-correct
+ * relocation sites now resolve.  CLACT_InitDefaultRenderer (+0x00C0) was closed by wave
+ * 20C (src/matched/CLACT_InitDefaultRenderer.c).  The other three are each byte-correct
  * in src/pending/ but capped at MATCH by a fan-in-1 extern of their own, so
  * this file needs three `matched` entries that do not exist yet:
- *   func_0204D7E0 (+0x0090) waits on 0x02034558, 0x0204DA5C and 0x0204DCA8
- *   func_0204BC94 (+0x00AC) waits on func_0204BD3C, which waits on 0x02063138
- *   func_0204C660 (+0x00D8) waits on 0x02066934
+ *   CLACT_InitResources (+0x0090) waits on 0x02034558, 0x0204DA5C and 0x0204DCA8
+ *   CLACT_InitOamManagers (+0x00AC) waits on CLACT_InitOamManager, which waits on 0x02063138
+ *   CLACT_InitTransferPool (+0x00D8) waits on 0x02066934
  * All four of those addresses sit outside clact.c.
  *
  * Bring up the single global cell-actor system behind 0x02146A74, the exact
- * inverse of src/pending/sub_0204A5AC.c: one 0x124-byte allocation, zeroed,
+ * inverse of src/pending/CLACT_ExitSystem.c: one 0x124-byte allocation, zeroed,
  * then each of the four embedded sub-objects at +0x00, +0x40, +0x0e0 and
  * +0x104 initialised from the caller's config record, the two-entry u16 table
  * at +0xf0 cleared, and the system enabled.  The __FILE__ pointer is the same
@@ -893,16 +895,16 @@ extern AnimResetFn g_DispatchTable_0204D510[];
  * last two calls the same way.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204A48C.c \
- *       --func sub_0204A48C --addr 0x0204A48C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_InitSystem.c \
+ *       --func CLACT_InitSystem --addr 0x0204A48C --cc 1.1p1 --arm
  */
-void sub_0204A48C(const struct SysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId)
+void CLACT_InitSystem(const struct SysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId)
 {
     u16 dims[6];
     int i;
 
-    g_02146A74 = sub_02030734(heapId, sizeof(struct Sys), 0, s_clact_c, 0x28f);
-    MI_CpuFill8(g_02146A74, 0, sizeof(struct Sys));
+    g_ClactSystem = sub_02030734(heapId, sizeof(struct Sys), 0, s_clact_c, 0x28f);
+    MI_CpuFill8(g_ClactSystem, 0, sizeof(struct Sys));
 
     dims[0] = cfg->n_chars;
     dims[1] = cfg->n_pltts;
@@ -911,32 +913,32 @@ void sub_0204A48C(const struct SysInit *cfg, const struct DispVramCfg *res_cfg, 
     dims[4] = cfg->n_main_blocks;
     dims[5] = cfg->n_sub_blocks;
 
-    func_0204D7E0(&g_02146A74->res, heapId, res_cfg, (const struct Caps *)dims);
-    func_0204BC94(&g_02146A74->oam_mgrs, cfg->oam_main_base, cfg->oam_main_count, cfg->oam_sub_base,
+    CLACT_InitResources(&g_ClactSystem->res, heapId, res_cfg, (const struct Caps *)dims);
+    CLACT_InitOamManagers(&g_ClactSystem->oam_mgrs, cfg->oam_main_base, cfg->oam_main_count, cfg->oam_sub_base,
                   cfg->oam_sub_count);
-    func_0204BA38(&g_02146A74->renderer, cfg->surface_pos, heapId);
-    func_0204C660(&g_02146A74->transfer, cfg->n_transfers, heapId);
+    CLACT_InitDefaultRenderer(&g_ClactSystem->renderer, cfg->surface_pos, heapId);
+    CLACT_InitTransferPool(&g_ClactSystem->transfer, cfg->n_transfers, heapId);
 
     for (i = 0; i < 2; i++) {
-        g_02146A74->pltt_base[i] = 0;
+        g_ClactSystem->pltt_base[i] = 0;
     }
 
-    func_0204BAEC(1);
-    func_0204BB20(1);
+    CLACT_SetSystemActive(1);
+    CLACT_SetOamPending(1);
 }
 
 
 
 /*
- * Was blocked at MATCH pending func_0204D8AC (+0x003C), which was itself
- * capped at MATCH behind func_020345DC.  Both are now `matched`
- * (src/matched/func_0204D8AC.c, src/matched/func_020345DC.c), closing the
+ * Was blocked at MATCH pending CLACT_ExitResources (+0x003C), which was itself
+ * capped at MATCH behind VMAN_Delete.  Both are now `matched`
+ * (src/matched/CLACT_ExitResources.c, src/matched/VMAN_Delete.c), closing the
  * cell-actor system destructor.
  *
  * Tear down the single global cell-actor system behind 0x02146A74.  The block
  * is one allocation with four embedded sub-objects at +0x00, +0x40, +0x0e0 and
  * +0x104, each released by its own finaliser, after which the block is freed
- * and the global cleared.  src/matched/sub_0204B270.c points a unit at
+ * and the global cleared.  src/matched/CLACT_SetUnitDefaultRenderer.c points a unit at
  * +0x40 of the same block, so that sub-object is the shared default.
  *
  * The global is re-read from the pool word before every call because each
@@ -945,24 +947,24 @@ void sub_0204A48C(const struct SysInit *cfg, const struct DispVramCfg *res_cfg, 
  * which is about the opposite case), it is just an extern the compiler cannot
  * see through.
  *
- * The zero passed to func_0204BAEC and the null stored back at the end are the
+ * The zero passed to CLACT_SetSystemActive and the null stored back at the end are the
  * same register: the constant is materialised once into r5 and the argument
  * copied off it
  * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204A5AC.c \
- *       --func sub_0204A5AC --addr 0x0204A5AC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_ExitSystem.c \
+ *       --func CLACT_ExitSystem --addr 0x0204A5AC --cc 1.1p1 --arm
  */
-void sub_0204A5AC(void)
+void CLACT_ExitSystem(void)
 {
-    func_0204BAEC(0);
-    func_0204BCD8(&g_02146A74->oam_mgrs);
-    func_0204BE28(&g_02146A74->renderer);
-    func_0204C6E4(&g_02146A74->transfer);
-    func_0204D8AC((struct Res *)((u8 *)g_02146A74 + 0x104));
-    sub_020307B0(g_02146A74);
-    g_02146A74 = 0;
+    CLACT_SetSystemActive(0);
+    CLACT_ExitOamManagers(&g_ClactSystem->oam_mgrs);
+    CLACT_ExitRenderer(&g_ClactSystem->renderer);
+    CLACT_ExitTransferPool(&g_ClactSystem->transfer);
+    CLACT_ExitResources((struct Res *)((u8 *)g_ClactSystem + 0x104));
+    sub_020307B0(g_ClactSystem);
+    g_ClactSystem = 0;
 }
 
 
@@ -972,22 +974,22 @@ void sub_0204A5AC(void)
  */
 void func_0204A600(void)
 {
-    struct Sys *sys = g_02146A74;
+    struct Sys *sys = g_ClactSystem;
 
     if (sys == 0) {
         return;
     }
 
-    func_0204BAEC(0);
-    func_0204BB54();
-    func_0204BB8C();
+    CLACT_SetSystemActive(0);
+    CLACT_ResetOamIfPending();
+    CLACT_DrawAllUnits();
 
-    sys = g_02146A74;
+    sys = g_ClactSystem;
     if (sys->transfer.ready != 0) {
         func_02066998();
     }
 
-    func_0204BAEC(1);
+    CLACT_SetSystemActive(1);
 }
 
 
@@ -1000,7 +1002,7 @@ void func_0204A600(void)
  * sub-object is released, and the flag goes back to 1.
  *
  * The 0x0204BCF4 call site resolves off the `label` class (its own
- * src/pending/func_0204BCF4.c is capped, but the branch has witnesses outside
+ * src/pending/CLACT_ApplyOamManagers.c is capped, but the branch has witnesses outside
  * this range), so this file is EXACT.
  *
  * Verified with:
@@ -1009,17 +1011,17 @@ void func_0204A600(void)
  */
 void func_0204A648(void)
 {
-    if (g_02146A74 == 0)
+    if (g_ClactSystem == 0)
         return;
-    if (func_0204BB04() == 0)
+    if (CLACT_IsSystemActive() == 0)
         return;
 
-    func_0204BCF4(&g_02146A74->oam_mgrs);
+    CLACT_ApplyOamManagers(&g_ClactSystem->oam_mgrs);
 
-    if (g_02146A74->transfer.ready != 0)
-        func_0204C7A4(&g_02146A74->transfer);
+    if (g_ClactSystem->transfer.ready != 0)
+        CLACT_ExecuteTransfers(&g_ClactSystem->transfer);
 
-    func_0204BB20(1);
+    CLACT_SetOamPending(1);
 }
 
 
@@ -1028,14 +1030,14 @@ void func_0204A648(void)
  * Cell-actor latch-only tick: latch off, flush the actor unit list, latch
  * back on.  No render update compared with func_0204A600.
  */
-void func_0204A698(void)
+void CLACT_FlushOamIfPending(void)
 {
-    if (g_02146A74 == 0) {
+    if (g_ClactSystem == 0) {
         return;
     }
-    func_0204BAEC(0);
-    func_0204BB54();
-    func_0204BAEC(1);
+    CLACT_SetSystemActive(0);
+    CLACT_ResetOamIfPending();
+    CLACT_SetSystemActive(1);
 }
 
 
@@ -1044,11 +1046,11 @@ void func_0204A698(void)
  * Claims the first entry of the display-object table (0x40-byte slots at
  * +0x08 of the owner block, 0x104 into the object at 0x02146A74) whose
  * pending bit (bit 31 of +0x3c) is set, loads the object for it through
- * func_0204D9D4, publishes it with func_0204E0D0, frees the handle, then
+ * CLACT_LoadArchiveData, publishes it with CLACT_SetupCharacter, frees the handle, then
  * clears +0x24 and bit 0 of +0x3c.  Returns the slot index, or -1 when
- * nothing was waiting.  Sibling of func_0204A7A0.
+ * nothing was waiting.  Sibling of CLACT_RegisterEmptyCharacter.
  *
- * Shape notes (docs/notes/sub_0204A6C8.c.txt has the full history):
+ * Shape notes (docs/notes/CLACT_RegisterCharacter.c.txt has the full history):
  *  - `count` is volatile (reread every iteration), `sys` is kept live for
  *    the slot address, and the not-found exit falls out of the loop past a
  *    goto.
@@ -1060,9 +1062,9 @@ void func_0204A698(void)
  *    docs/idioms/an-inverted-guard-returns-the-compare-constant-register.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204A6C8.c  *       --func sub_0204A6C8 --addr 0x0204A6C8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_RegisterCharacter.c  *       --func CLACT_RegisterCharacter --addr 0x0204A6C8 --cc 1.1p1 --arm
  */
-s32 sub_0204A6C8(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id)
+s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id)
 {
     struct Sys   *sys;
     struct Res *res;
@@ -1070,7 +1072,7 @@ s32 sub_0204A6C8(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16
     u32 i;
     u32 file;
 
-    sys   = g_02146A74;
+    sys   = g_ClactSystem;
     res = &sys->res;
 
     for (i = 0; i < res->n_chars; i++) {
@@ -1083,9 +1085,9 @@ s32 sub_0204A6C8(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16
 found:
     if (i != (u32)-1) {
         slot   = &sys->res.chars[i];
-        file = (u32)func_0204D9D4(archive, file_idx, compressed, (u16)((heap_id & 0x7fff) | 0x8000));
+        file = (u32)CLACT_LoadArchiveData(archive, file_idx, compressed, (u16)((heap_id & 0x7fff) | 0x8000));
 
-        func_0204E0D0(&g_02146A74->res, i, file, vram_mode, 0);
+        CLACT_SetupCharacter(&g_ClactSystem->res, i, file, vram_mode, 0);
         sub_020307B0((void *)file);
 
         slot->data = 0;
@@ -1099,11 +1101,11 @@ found:
 
 /*
  * Claims the first busy cell (bit 31 of +0x3c) of the singleton's table at
- * +0x104, like its sibling sub_0204A6C8, but builds a fresh character
+ * +0x104, like its sibling CLACT_RegisterCharacter, but builds a fresh character
  * record: the 0x18-byte template at 0x020A1430 is copied to the stack, the
  * DISPCNT OBJ-mapping bits and the size patched in, and the sixth word
  * holds a scratch block from sub_02030734 (clact.c, line 0x3c8) that is
- * registered through func_0204DACC and freed at the end.  Returns the cell
+ * registered through CLACT_SetupCharacterVram and freed at the end.  Returns the cell
  * index, or -1 when none is found.
  *
  * Shape notes:
@@ -1119,9 +1121,9 @@ found:
  *    docs/idioms/an-inverted-guard-returns-the-compare-constant-register.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204A7A0.c  *       --func func_0204A7A0 --addr 0x0204A7A0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_RegisterEmptyCharacter.c  *       --func CLACT_RegisterEmptyCharacter --addr 0x0204A7A0 --cc 1.1p1 --arm
  */
-s32 func_0204A7A0(u32 size, u32 vram_mode, u16 heapId)
+s32 CLACT_RegisterEmptyCharacter(u32 size, u32 vram_mode, u16 heapId)
 {
     struct Sys   *sys;
     struct Res *res;
@@ -1129,7 +1131,7 @@ s32 func_0204A7A0(u32 size, u32 vram_mode, u16 heapId)
     u32 i;
     struct CharData char_data;
 
-    sys   = g_02146A74;
+    sys   = g_ClactSystem;
     res = &sys->res;
 
     for (i = 0; i < res->n_chars; i++) {
@@ -1142,12 +1144,12 @@ s32 func_0204A7A0(u32 size, u32 vram_mode, u16 heapId)
 found:
     if (i != (u32)-1) {
         slot = &sys->res.chars[i];
-        char_data = g_020A1430;
+        char_data = g_ClactEmptyCharTemplate;
         char_data.mapping = *(volatile u32 *)0x04000000 & 0x00300010;
         char_data.size = size;
         char_data.raw = sub_02030734((u16)((heapId & 0x7fff) | 0x8000), size, 1, s_clact_c, 0x3c8);
 
-        func_0204DACC((struct Res *)(&g_02146A74->res), i, (struct CharData *)(&char_data), 0, vram_mode);
+        CLACT_SetupCharacterVram((struct Res *)(&g_ClactSystem->res), i, (struct CharData *)(&char_data), 0, vram_mode);
 
         slot->free = 0;
         slot->data = 0;
@@ -1163,14 +1165,14 @@ found:
 /*
  * Retire one slot of the 0x40-byte table at +0x10c of the singleton behind
  * 0x02146A74.  The two eight-byte sub-objects at +0x2c and +0x34 are returned
- * to their owners (+0x104 and +0x108) unless sub_02034640 says they are
+ * to their owners (+0x104 and +0x108) unless VMAN_IsHandleInvalid says they are
  * already detached, the payload at +0x24 is released, and the flag word at
  * +0x3c ends as "top bit set, everything else clear".
  *
- * Nothing is cached: every one of the eleven accesses reloads g_02146A74 and
+ * Nothing is cached: every one of the eleven accesses reloads g_ClactSystem and
  * re-indexes, because each intervening store may alias the global pointer
  * (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md read from
- * the other side, the same shape as src/matched/sub_0204ADA4.c).  The payload
+ * the other side, the same shape as src/matched/CLACT_ReleasePalette.c).  The payload
  * pointer is the one exception: it is bound to a local, which is why the `bl`
  * to sub_020307B0 needs no load in front of it.
  *
@@ -1180,55 +1182,55 @@ found:
  * The other two writes confirm the partition: `bic`+`orr` with 0x80000000 is
  * an assignment to the one-bit field at bit 31, and `and #0x80000001` is an
  * assignment of zero to the thirty-bit field between them.  Field order is
- * LSB first, as in sub_0204ADA4.c.
+ * LSB first, as in CLACT_ReleasePalette.c.
  *
  * The release is the fall-through and the flag clear is the `else`, so the
  * guard is spelled `== 0` and the short arm is left to be if-converted into
  * `bicne`/`strne` (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204A8D4.c \
- *       --func sub_0204A8D4 --addr 0x0204A8D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ReleaseCharacter.c \
+ *       --func CLACT_ReleaseCharacter --addr 0x0204A8D4 --cc 1.1p1 --arm
  */
-void sub_0204A8D4(u32 idx)
+void CLACT_ReleaseCharacter(u32 idx)
 {
     void *payload;
 
-    if (sub_02034640((struct VramBlock *)(&g_02146A74->res.chars[idx].main_block)) == 0) {
-        sub_020346B8(g_02146A74->res.vram_main, (struct VramBlock *)(&g_02146A74->res.chars[idx].main_block));
+    if (VMAN_IsHandleInvalid((struct VramBlock *)(&g_ClactSystem->res.chars[idx].main_block)) == 0) {
+        VMAN_Free(g_ClactSystem->res.vram_main, (struct VramBlock *)(&g_ClactSystem->res.chars[idx].main_block));
     }
 
-    if (sub_02034640((struct VramBlock *)(&g_02146A74->res.chars[idx].sub_block)) == 0) {
-        sub_020346B8(g_02146A74->res.vram_sub, (struct VramBlock *)(&g_02146A74->res.chars[idx].sub_block));
+    if (VMAN_IsHandleInvalid((struct VramBlock *)(&g_ClactSystem->res.chars[idx].sub_block)) == 0) {
+        VMAN_Free(g_ClactSystem->res.vram_sub, (struct VramBlock *)(&g_ClactSystem->res.chars[idx].sub_block));
     }
 
-    payload = g_02146A74->res.chars[idx].data;
+    payload = g_ClactSystem->res.chars[idx].data;
     if (payload != 0) {
-        if (g_02146A74->res.chars[idx].data_shared == 0) {
+        if (g_ClactSystem->res.chars[idx].data_shared == 0) {
             sub_020307B0(payload);
         } else {
-            g_02146A74->res.chars[idx].data_shared = 0;
+            g_ClactSystem->res.chars[idx].data_shared = 0;
         }
-        g_02146A74->res.chars[idx].data = 0;
+        g_ClactSystem->res.chars[idx].data = 0;
     }
 
-    g_02146A74->res.chars[idx].free = 1;
-    g_02146A74->res.chars[idx].vram_size = 0;
+    g_ClactSystem->res.chars[idx].free = 1;
+    g_ClactSystem->res.chars[idx].vram_size = 0;
 }
 
 
 
 void func_0204A9D0(int idx, struct CharData *char_data)
 {
-    if (func_020637BC((const u32 *)((u32)g_02146A74->res.chars + (idx << 6)), 1) != 0) {
-        void *vram_addr = (void *)func_020637B4((int *)((u32)g_02146A74->res.chars + (idx << 6)), 1);
+    if (func_020637BC((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
+        void *vram_addr = (void *)func_020637B4((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1);
         DC_FlushRange((void *)char_data->raw, char_data->size);
         func_0207E780((void *)char_data->raw, vram_addr, char_data->size);
     }
-    if (func_020637BC((const u32 *)((u32)g_02146A74->res.chars + (idx << 6)), 2) == 0)
+    if (func_020637BC((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2) == 0)
         return;
     {
-        void *vram_addr = (void *)func_020637B4((int *)((u32)g_02146A74->res.chars + (idx << 6)), 2);
+        void *vram_addr = (void *)func_020637B4((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2);
         DC_FlushRange((void *)char_data->raw, char_data->size);
         func_0207E804((void *)char_data->raw, vram_addr, char_data->size);
     }
@@ -1236,20 +1238,20 @@ void func_0204A9D0(int idx, struct CharData *char_data)
 
 
 
-void func_0204AA94(int idx, void *src, u32 size, int offset, int target)
+void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int target)
 {
     if (target == 0 || target == 2) {
-        if (func_020637BC((const u32 *)((u32)g_02146A74->res.chars + (idx << 6)), 1) != 0) {
-            void *vram_addr = (void *)func_020637B4((int *)((u32)g_02146A74->res.chars + (idx << 6)), 1);
+        if (func_020637BC((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
+            void *vram_addr = (void *)func_020637B4((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1);
             DC_FlushRange(src, size);
             func_0207E780(src, (char *)vram_addr + offset, size);
         }
     }
     if (target == 1 || target == 2) {
-        if (func_020637BC((const u32 *)((u32)g_02146A74->res.chars + (idx << 6)), 2) == 0)
+        if (func_020637BC((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2) == 0)
             return;
         {
-            void *vram_addr = (void *)func_020637B4((int *)((u32)g_02146A74->res.chars + (idx << 6)), 2);
+            void *vram_addr = (void *)func_020637B4((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2);
             DC_FlushRange(src, size);
             func_0207E804(src, (char *)vram_addr + offset, size);
         }
@@ -1264,9 +1266,9 @@ void func_0204AA94(int idx, void *src, u32 size, int offset, int target)
  * buffer.  The whole copy is one aggregate assignment: two ldm/stm pairs
  * of four registers and a trailing word.
  */
-void func_0204AB84(u32 idx, struct ImageProxy *out)
+void CLACT_GetCharacterProxy(u32 idx, struct ImageProxy *out)
 {
-    struct ImageProxy *slot_proxy = (struct ImageProxy *)((u8 *)g_02146A74->res.chars + idx * 64);
+    struct ImageProxy *slot_proxy = (struct ImageProxy *)((u8 *)g_ClactSystem->res.chars + idx * 64);
 
     *out = *slot_proxy;
 }
@@ -1285,14 +1287,14 @@ int func_0204ABBC(u32 idx, u32 flag)
     if (flag != 0) {
         mode = 2;
     }
-    func_0204AB84(idx, &buf);
+    CLACT_GetCharacterProxy(idx, &buf);
     return func_020637B4((int *)(&buf), mode);
 }
 
 
 
 /*
- * The short-form entry point of sub_0204AC18: same call with the two
+ * The short-form entry point of CLACT_RegisterPaletteEx: same call with the two
  * optional halfword parameters defaulted to zero.
  *
  * All the frame does is rebuild the stack half of the argument list.  The
@@ -1304,12 +1306,12 @@ int func_0204ABBC(u32 idx, u32 flag)
  * that parameter as a halfword rather than a word.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204ABF0.c \
- *       --func sub_0204ABF0 --addr 0x0204ABF0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_RegisterPalette.c \
+ *       --func CLACT_RegisterPalette --addr 0x0204ABF0 --cc 1.1p1 --arm
  */
-s32 sub_0204ABF0(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id)
+s32 CLACT_RegisterPalette(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id)
 {
-    return sub_0204AC18(archive, file_idx, vram_mode, vram_offset, 0, 0, heap_id);
+    return CLACT_RegisterPaletteEx(archive, file_idx, vram_mode, vram_offset, 0, 0, heap_id);
 }
 
 
@@ -1319,13 +1321,13 @@ s32 sub_0204ABF0(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u1
  *           and no manifest entry covers it yet.  File 0x0204DD08 first and
  *           this graduates with no change to its C.
  */
-s32 sub_0204AC18(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id)
+s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id)
 {
     struct Res *res;
     u32 i;
     u32 file;
 
-    res = &g_02146A74->res;
+    res = &g_ClactSystem->res;
 
     for (i = 0; i < res->n_pltts; i++) {
         if (res->pltts[i].free != 0) {
@@ -1341,7 +1343,7 @@ found:
 
     file = (u32)func_02049250(archive, file_idx, (u16)((heap_id & 0x7fff) | 0x8000));
 
-    func_0204DD08((struct Res *)(&g_02146A74->res), i, (void *)file, (void *)vram_mode, vram_offset, first_color, color_count);
+    CLACT_TransferPaletteData((struct Res *)(&g_ClactSystem->res), i, (void *)file, (void *)vram_mode, vram_offset, first_color, color_count);
     sub_020307B0((void *)file);
 
     return i;
@@ -1384,7 +1386,7 @@ found:
  */
 int func_0204ACEC(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id)
 {
-    struct Res *res = &g_02146A74->res;
+    struct Res *res = &g_ClactSystem->res;
     u32 i;
     void *file;
     struct PlttSlot *slots;
@@ -1399,7 +1401,7 @@ found:
     if (i == (u32)-1)
         return (int)i;
     file = func_02049250(archive, file_idx, (u16)((heap_id & 0x7fff) | 0x8000));
-    func_0204DEE8((struct Res *)(&g_02146A74->res), i, file, (void *)vram_mode, vram_offset);
+    CLACT_TransferPaletteDataEx((struct Res *)(&g_ClactSystem->res), i, file, (void *)vram_mode, vram_offset);
     sub_020307B0(file);
     return (int)i;
 }
@@ -1414,7 +1416,7 @@ found:
  * The two statements do not share one address computation, even though
  * there is no call between them: the `str` of the first statement may
  * alias the global pointer itself, so the compiler has to reload
- * g_02146A74 and re-index before the second
+ * g_ClactSystem and re-index before the second
  * (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md, read
  * from the other side).  The index multiply is a real `mul` by a
  * register-held 0x18, not a shift pair, because 24 is not a power of two.
@@ -1425,13 +1427,13 @@ found:
  * 1 does not collapse the two.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204ADA4.c \
- *       --func sub_0204ADA4 --addr 0x0204ADA4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ReleasePalette.c \
+ *       --func CLACT_ReleasePalette --addr 0x0204ADA4 --cc 1.1p1 --arm
  */
-void sub_0204ADA4(u32 idx)
+void CLACT_ReleasePalette(u32 idx)
 {
-    g_02146A74->res.pltts[idx].free = 1;
-    g_02146A74->res.pltts[idx].size = 0;
+    g_ClactSystem->res.pltts[idx].free = 1;
+    g_ClactSystem->res.pltts[idx].size = 0;
 }
 
 
@@ -1457,7 +1459,7 @@ void sub_0204ADA4(u32 idx)
  * parameter as a register-allocation device for this rewrite, not as
  * evidence about the function's real arity.
  */
-void sub_0204ADEC(u32 idx, struct PaletteData *dest, u32 count, u32 size)
+void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count, u32 size)
 {
     size = count << 5;
 
@@ -1465,15 +1467,15 @@ void sub_0204ADEC(u32 idx, struct PaletteData *dest, u32 count, u32 size)
         size = dest->size;
     }
 
-    if (func_0206380C((char *)(&g_02146A74->res.pltts[idx]), 1) != 0) {
-        void *src = (void *)func_02063800((char *)(&g_02146A74->res.pltts[idx]), 1);
+    if (func_0206380C((char *)(&g_ClactSystem->res.pltts[idx]), 1) != 0) {
+        void *src = (void *)func_02063800((char *)(&g_ClactSystem->res.pltts[idx]), 1);
 
         DC_FlushRange((void *)dest->raw, size);
         func_0207E51C((void *)dest->raw, src, size);
     }
 
-    if (func_0206380C((char *)(&g_02146A74->res.pltts[idx]), 2) != 0) {
-        void *src = (void *)func_02063800((char *)(&g_02146A74->res.pltts[idx]), 2);
+    if (func_0206380C((char *)(&g_ClactSystem->res.pltts[idx]), 2) != 0) {
+        void *src = (void *)func_02063800((char *)(&g_ClactSystem->res.pltts[idx]), 2);
 
         DC_FlushRange((void *)dest->raw, size);
         func_0207E5D0((void *)dest->raw, src, size);
@@ -1483,26 +1485,26 @@ void sub_0204ADEC(u32 idx, struct PaletteData *dest, u32 count, u32 size)
 
 
 /*
- * A getter and its one caller.  sub_0204AEC0 copies the 0x14-byte record
+ * A getter and its one caller.  CLACT_GetPaletteProxy copies the 0x14-byte record
  * out of slot `idx` of the 0x18-byte-stride table at +0x110 of the
  * singleton behind 0x02146A74; the copy is an inlined `ldm`/`stm` pair plus
  * a trailing word, which is what a whole-struct assignment of this size
  * compiles to (docs/idioms/aggregate-assignment-is-ldm-stm.md).
- * sub_0204AEF4 takes that copy on its own stack and submits it to
+ * CLACT_GetPaletteVramAddress takes that copy on its own stack and submits it to
  * func_02063800 under selector 1 or 2.
  *
- * Kept as one unit so the `bl` at sub_0204AEF4+0x1c is `local`:
- * sub_0204AEF4 is sub_0204AEC0's only caller image-wide, so split into two
+ * Kept as one unit so the `bl` at CLACT_GetPaletteVramAddress+0x1c is `local`:
+ * CLACT_GetPaletteVramAddress is CLACT_GetPaletteProxy's only caller image-wide, so split into two
  * files the site would have no witness of any class.
  */
-void sub_0204AEC0(u32 idx, struct PaletteProxy *dest)
+void CLACT_GetPaletteProxy(u32 idx, struct PaletteProxy *dest)
 {
-    *dest = g_02146A74->res.pltts[idx].proxy;
+    *dest = g_ClactSystem->res.pltts[idx].proxy;
 }
 
 
 
-int sub_0204AEF4(u32 idx, u32 alternate)
+int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate)
 {
     struct PaletteProxy record;
     u32 selector;
@@ -1512,7 +1514,7 @@ int sub_0204AEF4(u32 idx, u32 alternate)
         selector = 2;
     }
 
-    sub_0204AEC0(idx, &record);
+    CLACT_GetPaletteProxy(idx, &record);
     return func_02063800((char *)(&record), selector);
 }
 
@@ -1522,7 +1524,7 @@ int sub_0204AEF4(u32 idx, u32 alternate)
  * Claim the first live slot of the 0x14-byte entry pool that lives at
  * +0x104 of the singleton behind 0x02146A74, build its two handles through
  * func_02049250 (same owner and same mode for both, second argument
- * differing), publish the pair with func_0204E074 and hand the slot index
+ * differing), publish the pair with CLACT_LoadCellAnimBanks and hand the slot index
  * back.
  *
  * The scan is an inlined helper, which is what puts the "not found" answer
@@ -1541,18 +1543,18 @@ int sub_0204AEF4(u32 idx, u32 alternate)
  * must also be the guard-plus-do-while form: a plain `for` hoists the
  * entries load above the guard.
  *
- * Previously capped at MATCH: the PC24 at +0xa0 (func_0204E074) had no
+ * Previously capped at MATCH: the PC24 at +0xa0 (CLACT_LoadCellAnimBanks) had no
  * witness outside 0204AF28..0204AFD8, this function being 0x0204E074's only
- * caller image-wide.  src/matched/func_0204E074.c now reproduces that range
+ * caller image-wide.  src/matched/CLACT_LoadCellAnimBanks.c now reproduces that range
  * EXACT, so the site resolves in the `matched` class and the file is EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204AF28.c \
- *       --func sub_0204AF28 --addr 0x0204AF28 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_RegisterCellAnim.c \
+ *       --func CLACT_RegisterCellAnim --addr 0x0204AF28 --cc 1.1p1 --arm
  */
-s32 sub_0204AF28(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id)
+s32 CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id)
 {
-    struct Res *res = &g_02146A74->res;
+    struct Res *res = &g_ClactSystem->res;
     struct CellSlot *slot;
     s32 idx;
 
@@ -1570,12 +1572,12 @@ s32 sub_0204AF28(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_i
     }
     idx = -1;
 found:
-    slot = &g_02146A74->res.cells[idx];
+    slot = &g_ClactSystem->res.cells[idx];
 
     slot->cell_file = func_02049250(archive, cell_file_idx, heap_id);
     slot->anim_file = func_02049250(archive, anim_file_idx, heap_id);
 
-    func_0204E074(&g_02146A74->res, idx, slot->cell_file, slot->anim_file);
+    CLACT_LoadCellAnimBanks(&g_ClactSystem->res, idx, slot->cell_file, slot->anim_file);
 
     return idx;
 }
@@ -1589,19 +1591,19 @@ found:
  *
  * The entry address is bound to a named local (r4) and survives both
  * calls, so neither the global nor the index multiply is recomputed after
- * the first store, unlike sub_0204ADA4 next door
+ * the first store, unlike CLACT_ReleasePalette next door
  * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
  * The first load reads through the register-offset form `ldr r0,[r2,r1]`
  * before the `add` that materialises the cursor; that is scheduling, not
  * a second addressing mode in the source.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204AFD8.c \
- *       --func sub_0204AFD8 --addr 0x0204AFD8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ReleaseCellAnim.c \
+ *       --func CLACT_ReleaseCellAnim --addr 0x0204AFD8 --cc 1.1p1 --arm
  */
-void sub_0204AFD8(u32 idx)
+void CLACT_ReleaseCellAnim(u32 idx)
 {
-    struct CellSlot *slot = &g_02146A74->res.cells[idx];
+    struct CellSlot *slot = &g_ClactSystem->res.cells[idx];
 
     if (slot->cell_file != 0) {
         sub_020307B0(slot->cell_file);
@@ -1635,7 +1637,7 @@ struct Renderer *func_0204B034(const struct SurfaceInit *inits, u32 count, u32 h
 {
     struct Renderer *renderer = sub_02030734(heap_id, sizeof(struct Renderer), 0, s_clact_c, 0x633);
 
-    func_0204BD94(renderer, inits, count, heap_id);
+    CLACT_InitRenderer(renderer, inits, count, heap_id);
     return renderer;
 }
 
@@ -1643,7 +1645,7 @@ struct Renderer *func_0204B034(const struct SurfaceInit *inits, u32 count, u32 h
 
 void func_0204B084(struct Renderer *renderer)
 {
-    func_0204BE28(renderer);
+    CLACT_ExitRenderer(renderer);
     sub_020307B0(renderer);
 }
 
@@ -1678,10 +1680,10 @@ void func_0204B09C(struct Renderer *renderer, int idx, struct Vec2 *pos)
  * point, and the caller gets them as a pair of whole-pixel s16 values.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B0C8.c \
- *       --func sub_0204B0C8 --addr 0x0204B0C8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetSurfacePos.c \
+ *       --func CLACT_GetSurfacePos --addr 0x0204B0C8 --cc 1.1p1 --arm
  */
-void sub_0204B0C8(struct Renderer *renderer, u32 surface_idx, struct Vec2 *out)
+void CLACT_GetSurfacePos(struct Renderer *renderer, u32 surface_idx, struct Vec2 *out)
 {
     struct Surface *surface = &renderer->surfaces[surface_idx];
 
@@ -1691,22 +1693,22 @@ void sub_0204B0C8(struct Renderer *renderer, u32 surface_idx, struct Vec2 *out)
 
 
 
-void func_0204B0F4(struct Renderer *renderer, int enable)
+void CLACT_SetRendererCulling(struct Renderer *renderer, int enable)
 {
-    func_0204BE38(renderer, enable);
+    CLACT_SetSurfaceCulling(renderer, enable);
 }
 
 
 
 /*
  * The cell-actor unit constructor.  The __FILE__ pointer is the same
- * s_clact_c 0x020A7F74 that src/matched/func_0204D9D4.c pins, so this whole
+ * s_clact_c 0x020A7F74 that src/matched/CLACT_LoadArchiveData.c pins, so this whole
  * 0x0204Bxxx run is clact.c.
  *
  * Allocate the 0x18-byte unit header, zero it, allocate `count` 0xE4-byte
  * actor records behind it, record the count at +0x0c and the caller's flag at
- * +0x0f, run each record through sub_0204CAE4, then the three unit-wide
- * initialisers.  src/matched/sub_0204B1CC.c is the exact inverse.
+ * +0x0f, run each record through CLACT_ClearActor, then the three unit-wide
+ * initialisers.  src/matched/CLACT_DeleteUnit.c is the exact inverse.
  *
  * The two allocation sites are one pool word apart in the source's line
  * numbering: 0x6eb is materialised from the literal pool and 0x6ef is derived
@@ -1720,10 +1722,10 @@ void func_0204B0F4(struct Renderer *renderer, int enable)
  * function-scope local, not declared inside the `for`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B100.c \
- *       --func sub_0204B100 --addr 0x0204B100 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_CreateUnit.c \
+ *       --func CLACT_CreateUnit --addr 0x0204B100 --cc 1.1p1 --arm
  */
-struct Unit *sub_0204B100(int count, u8 priority, u32 heapId)
+struct Unit *CLACT_CreateUnit(int count, u8 priority, u32 heapId)
 {
     struct Unit *unit;
     int          i;
@@ -1737,12 +1739,12 @@ struct Unit *sub_0204B100(int count, u8 priority, u32 heapId)
     unit->priority = priority;
 
     for (i = 0; i < count; i++) {
-        sub_0204CAE4(&unit->actors[i]);
+        CLACT_ClearActor(&unit->actors[i]);
     }
 
-    sub_0204B270(unit);
-    sub_0204B22C(unit, 1);
-    func_0204BBC8(unit);
+    CLACT_SetUnitDefaultRenderer(unit);
+    CLACT_SetUnitDrawEnable(unit, 1);
+    CLACT_LinkUnit(unit);
 
     return unit;
 }
@@ -1750,29 +1752,29 @@ struct Unit *sub_0204B100(int count, u8 priority, u32 heapId)
 
 
 /*
- * The inverse of src/matched/sub_0204B100.c: quiesce the cell-actor unit,
+ * The inverse of src/matched/CLACT_CreateUnit.c: quiesce the cell-actor unit,
  * tear down every live actor record, then free the record array and the unit
  * header.  An actor counts as live when its first word (the resource handle
- * src/matched/sub_0204B3B4.c hands back) is non-null.
+ * src/matched/CLACT_DeleteActor.c hands back) is non-null.
  *
- * `unit->count` is re-read on every iteration because sub_0204B3B4 is opaque
+ * `unit->count` is re-read on every iteration because CLACT_DeleteActor is opaque
  * to the compiler, so the bound has to stay the field access in the `for`
  * condition rather than a local; the entry test at the top is the compiler's
  * own loop rotation of that same read, not a separate guard.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B1CC.c \
- *       --func sub_0204B1CC --addr 0x0204B1CC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_DeleteUnit.c \
+ *       --func CLACT_DeleteUnit --addr 0x0204B1CC --cc 1.1p1 --arm
  */
-u32 sub_0204B1CC(struct Unit *unit)
+u32 CLACT_DeleteUnit(struct Unit *unit)
 {
     int i;
 
-    func_0204BC40(unit);
+    CLACT_UnlinkUnit(unit);
 
     for (i = 0; i < unit->count; i++) {
         if (unit->actors[i].next != 0) {
-            sub_0204B3B4(&unit->actors[i]);
+            CLACT_DeleteActor(&unit->actors[i]);
         }
     }
 
@@ -1791,8 +1793,8 @@ u32 sub_0204B1CC(struct Unit *unit)
  * layout/function_starts.txt.
  *
  * The byte at +0x0e is two 4-bit unsigned bitfields.  The low nibble is a
- * source selector paired with the pointer at +0x08: sub_0204B270 sets it to 0
- * for the shared default at g_02146A74 + 0x40, and 0x0204B258 sets it to 1
+ * source selector paired with the pointer at +0x08: CLACT_SetUnitDefaultRenderer sets it to 0
+ * for the shared default at g_ClactSystem + 0x40, and 0x0204B258 sets it to 1
  * for a caller-supplied pointer.  The high nibble is written by 0x0204B22C
  * and read back by 0x0204B248, and never appears next to the pointer, so it
  * is an independent mode.
@@ -1806,21 +1808,21 @@ u32 sub_0204B1CC(struct Unit *unit)
  *   python tools/match.py tu --src src/matched/unit_0204B22C.c \
  *       --addr 0x0204B22C --cc 1.1p1 --arm
  */
-void sub_0204B22C(struct Unit *unit, u32 enable)
+void CLACT_SetUnitDrawEnable(struct Unit *unit, u32 enable)
 {
     unit->draw_enable = enable;
 }
 
 
 
-u32 sub_0204B248(struct Unit *unit)
+u32 CLACT_GetUnitDrawEnable(struct Unit *unit)
 {
     return unit->draw_enable;
 }
 
 
 
-void sub_0204B258(struct Unit *unit, void *renderer)
+void CLACT_SetUnitRenderer(struct Unit *unit, void *renderer)
 {
     unit->renderer = renderer;
     unit->source = 1;
@@ -1829,18 +1831,18 @@ void sub_0204B258(struct Unit *unit, void *renderer)
 
 
 /*
- * The companion of sub_0204B258 in src/matched/unit_0204B22C.c: point the
+ * The companion of CLACT_SetUnitRenderer in src/matched/unit_0204B22C.c: point the
  * unit at the shared default block 0x40 bytes into whatever 0x02146A74 holds
  * and clear the low nibble of the flag byte at +0x0e back to source 0, where
- * sub_0204B258 sets it to 1 for a caller-supplied pointer.
+ * CLACT_SetUnitRenderer sets it to 1 for a caller-supplied pointer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B270.c \
- *       --func sub_0204B270 --addr 0x0204B270 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetUnitDefaultRenderer.c \
+ *       --func CLACT_SetUnitDefaultRenderer --addr 0x0204B270 --cc 1.1p1 --arm
  */
-void sub_0204B270(struct Unit *unit)
+void CLACT_SetUnitDefaultRenderer(struct Unit *unit)
 {
-    unit->renderer = &g_02146A74->renderer;
+    unit->renderer = &g_ClactSystem->renderer;
     unit->source = 0;
 }
 
@@ -1859,7 +1861,7 @@ void sub_0204B270(struct Unit *unit)
  * addressing as `add r3, r3, ip, lsl #6`.
  *
  * The `lsl #16` / `lsr #16` pairs on the two index arguments are the
- * narrowing casts sub_0204CFA4's u16 parameters force at the call site,
+ * narrowing casts CLACT_InitActorRequest's u16 parameters force at the call site,
  * not evidence that this function's own parameters are u16: the same
  * values are used untruncated as table indices a few instructions
  * earlier.  Reading them the other way (declaring the parameters u16)
@@ -1869,26 +1871,26 @@ void sub_0204B270(struct Unit *unit)
  * `ldrh`, which is what names those two u16.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B294.c \
- *       --func sub_0204B294 --addr 0x0204B294 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_CreateActor.c \
+ *       --func CLACT_CreateActor --addr 0x0204B294 --cc 1.1p1 --arm
  */
-struct Actor *sub_0204B294(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx,
+struct Actor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx,
                         const struct ActorInit *init, u16 space, u16 heap_id)
 {
     struct ActorReq req;
 
-    sub_0204CFA4(&req, char_idx, pltt_idx, &g_02146A74->res.chars[char_idx], &g_02146A74->res.pltts[pltt_idx],
-                 g_02146A74->res.cells[cell_idx].cell_bank, g_02146A74->res.cells[cell_idx].anim_bank);
-    return sub_0204CFDC(unit, init, &req, space, heap_id);
+    CLACT_InitActorRequest(&req, char_idx, pltt_idx, &g_ClactSystem->res.chars[char_idx], &g_ClactSystem->res.pltts[pltt_idx],
+                 g_ClactSystem->res.cells[cell_idx].cell_bank, g_ClactSystem->res.cells[cell_idx].anim_bank);
+    return CLACT_CreateActorCore(unit, init, &req, space, heap_id);
 }
 
 
 
 /*
- * Same request-builder shape as sub_0204B294: a 0x20-byte request is staged
+ * Same request-builder shape as CLACT_CreateActor: a 0x20-byte request is staged
  * on the stack from three of the singleton's parallel tables (0x40-byte
  * records at +0x10c, 0x18-byte records at +0x110, 0x14-byte records at
- * +0x114), then dispatched by sub_0204D048, which is sub_0204CFDC's
+ * +0x114), then dispatched by CLACT_CreateActorFull, which is CLACT_CreateActorCore's
  * five-argument sibling.
  *
  * The last two arguments come back off the caller's own stack with `ldrh`,
@@ -1902,33 +1904,33 @@ struct Actor *func_0204B324(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 c
 {
     struct ActorReq req;
 
-    sub_0204CFA4((&req), char_idx, pltt_idx, (&g_02146A74->res.chars[char_idx]), (&g_02146A74->res.pltts[pltt_idx]),
-                 g_02146A74->res.cells[cell_idx].cell_bank, g_02146A74->res.cells[cell_idx].anim_bank);
-    return sub_0204D048(unit, init, &req, space, heap_id);
+    CLACT_InitActorRequest((&req), char_idx, pltt_idx, (&g_ClactSystem->res.chars[char_idx]), (&g_ClactSystem->res.pltts[pltt_idx]),
+                 g_ClactSystem->res.cells[cell_idx].cell_bank, g_ClactSystem->res.cells[cell_idx].anim_bank);
+    return CLACT_CreateActorFull(unit, init, &req, space, heap_id);
 }
 
 
 
 /*
  * Tear-down for the 0x0204Bxxx object: hand the handle at +8 and the owner
- * to func_0204CA30, run the embedded sub-object at +0x68 through
- * sub_0204D104, then sub_0204CAE4 on the owner.
+ * to CLACT_UnlinkActor, run the embedded sub-object at +0x68 through
+ * CLACT_ExitAnimCtl, then CLACT_ClearActor on the owner.
  *
  * This file was parked at MATCH on the PC24 site at +0x18: this is
  * 0x0204D104's only caller image-wide, and 0x0204D104 was itself stuck
  * because its handler table 0x020A13D0 appears in no other literal pool.
  * 0x020A13D0 is row 5 of the one array based at 0x020A1394, which is pooled
- * at 0x0204D490; src/matched/sub_0204D104.c is now EXACT and attests this
+ * at 0x0204D490; src/matched/CLACT_ExitAnimCtl.c is now EXACT and attests this
  * site `matched`.  The C here is unchanged.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B3B4.c  *       --func sub_0204B3B4 --addr 0x0204B3B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_DeleteActor.c  *       --func CLACT_DeleteActor --addr 0x0204B3B4 --cc 1.1p1 --arm
  */
-void sub_0204B3B4(struct Actor *actor)
+void CLACT_DeleteActor(struct Actor *actor)
 {
-    func_0204CA30(actor->owner, actor);
-    sub_0204D104((&actor->ctl));
-    sub_0204CAE4(actor);
+    CLACT_UnlinkActor(actor->owner, actor);
+    CLACT_ExitAnimCtl((&actor->ctl));
+    CLACT_ClearActor(actor);
 }
 
 
@@ -1940,56 +1942,56 @@ void sub_0204B3B4(struct Actor *actor)
  * handle at +8, a packed flag word at +0x60 and an embedded sub-object at
  * +0x68 that the 0x0204Cxxx/0x0204Dxxx layer operates on.
  *
- *   sub_0204B3DC  set bit 26 of the flag word at +0x60.
- *   sub_0204B3F4  read it back.  Saves no lr, so disasm.py never labels it.
- *   sub_0204B404  move by a delta: ask sub_0204CF74 for the current
+ *   CLACT_SetActorDrawEnable  set bit 26 of the flag word at +0x60.
+ *   CLACT_GetActorDrawEnable  read it back.  Saves no lr, so disasm.py never labels it.
+ *   CLACT_AddActorSurfacePos  move by a delta: ask CLACT_GetSurfaceOrigin for the current
  *                 position into a scratch pair, add the caller's s16 x/y
  *                 pair to it in a second scratch pair, and hand that to
- *                 sub_0204B528.
+ *                 CLACT_SetActorPos.
  *
  * The two 4-byte scratch pairs sit at sp+0 and sp+4; the later declaration
  * takes the lower stack address, so `pos` is declared before `dest`.
  *
  * The range deliberately starts at 0x0204B3DC rather than at this file's
- * real first function, sub_0204B3B4: that one's call to sub_0204D104 has
+ * real first function, CLACT_DeleteActor: that one's call to CLACT_ExitAnimCtl has
  * no witness anywhere in the image, so including it caps the whole unit at
- * MATCH.  --suggest-split names this exact cut; sub_0204B3B4 is parked in
- * src/pending/sub_0204B3B4.c.
+ * MATCH.  --suggest-split names this exact cut; CLACT_DeleteActor is parked in
+ * src/pending/CLACT_DeleteActor.c.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0204B3DC.c \
  *       --addr 0x0204B3DC --arm
  */
-void sub_0204B3DC(struct Actor *actor, u32 value)
+void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value)
 {
     actor->enabled = value;
 }
 
 
 
-u32 sub_0204B3F4(struct Actor *actor)
+u32 CLACT_GetActorDrawEnable(struct Actor *actor)
 {
     return actor->enabled;
 }
 
 
 
-void sub_0204B404(struct Actor *actor, const struct Vec2 *delta, u32 which)
+void CLACT_AddActorSurfacePos(struct Actor *actor, const struct Vec2 *delta, u32 which)
 {
     struct Vec2 pos;
     struct Vec2 dest;
 
-    sub_0204CF74(actor, which, (u16 *)(&pos));
+    CLACT_GetSurfaceOrigin(actor, which, (u16 *)(&pos));
     dest.x = delta->x + pos.x;
     dest.y = delta->y + pos.y;
-    sub_0204B528(actor, (const struct Pt16 *)(&dest));
+    CLACT_SetActorPos(actor, (const struct Pt16 *)(&dest));
 }
 
 
 
 /*
  * Read the actor's screen position back in the coordinate space named by
- * `space`: sub_0204CF74 fills in that space's origin, src/matched/sub_0204B53C.c
+ * `space`: CLACT_GetSurfaceOrigin fills in that space's origin, src/matched/CLACT_GetActorPos.c
  * fills in the absolute position, and the difference is written back over the
  * caller's buffer in place.
  *
@@ -1997,15 +1999,15 @@ void sub_0204B404(struct Actor *actor, const struct Vec2 *delta, u32 which)
  * explicit `sub sp`, which is what a single four-byte local costs here.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B454.c \
- *       --func sub_0204B454 --addr 0x0204B454 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetActorSurfacePos.c \
+ *       --func CLACT_GetActorSurfacePos --addr 0x0204B454 --cc 1.1p1 --arm
  */
-void sub_0204B454(struct Actor *actor, struct Vec2 *out, u16 space)
+void CLACT_GetActorSurfacePos(struct Actor *actor, struct Vec2 *out, u16 space)
 {
     struct Vec2 origin;
 
-    sub_0204CF74(actor, space, (u16 *)&origin);
-    sub_0204B53C(actor, (struct Pt16 *)out);
+    CLACT_GetSurfaceOrigin(actor, space, (u16 *)&origin);
+    CLACT_GetActorPos(actor, (struct Pt16 *)out);
 
     out->x = out->x - origin.x;
     out->y = out->y - origin.y;
@@ -2014,22 +2016,22 @@ void sub_0204B454(struct Actor *actor, struct Vec2 *out, u16 space)
 
 
 /*
- * The write side of src/matched/sub_0204B4EC.c: set one axis of the actor's
+ * The write side of src/matched/CLACT_GetActorSurfacePosAxis.c: set one axis of the actor's
  * position, given in the coordinate space named by `space`.
  *
  * THE LEVER (wave 18, lane ties_b; it was DIFF 76/80 for four waves,
- * docs/notes/sub_0204B49C.c.txt): the origin is added to the s16 parameter
+ * docs/notes/CLACT_SetActorSurfacePosAxis.c.txt): the origin is added to the s16 parameter
  * by COMPOUND assignment in each arm, `value += origin.x;`. The image keeps
  * the narrowed sum in the parameter's home register r6 and copies it into r1
  * for the call; `value = value + origin.x` (or a fresh local, or one
  * expression) lets 1.1p1 narrow straight into r1 and elide the copy, four
  * bytes short.
  */
-void sub_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis)
+void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis)
 {
     struct Vec2 origin;
 
-    sub_0204CF74(actor, space, (unsigned short *)&origin);
+    CLACT_GetSurfaceOrigin(actor, space, (unsigned short *)&origin);
 
     if (axis == 0) {
         value += origin.x;
@@ -2037,27 +2039,27 @@ void sub_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis)
         value += origin.y;
     }
 
-    sub_0204B550(actor, value, axis);
+    CLACT_SetActorPosAxis(actor, value, axis);
 }
 
 
 
 /*
- * The read side of src/matched/sub_0204B49C.c: one axis of the actor's
+ * The read side of src/matched/CLACT_SetActorSurfacePosAxis.c: one axis of the actor's
  * position, expressed in the coordinate space named by `space`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B4EC.c \
- *       --func sub_0204B4EC --addr 0x0204B4EC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetActorSurfacePosAxis.c \
+ *       --func CLACT_GetActorSurfacePosAxis --addr 0x0204B4EC --cc 1.1p1 --arm
  */
-s16 sub_0204B4EC(struct Actor *actor, u32 space, u32 axis)
+s16 CLACT_GetActorSurfacePosAxis(struct Actor *actor, u32 space, u32 axis)
 {
     struct Vec2 origin;
     s16        pos_value;
     s16        origin_value;
 
-    sub_0204CF74(actor, space, (unsigned short *)&origin);
-    pos_value = sub_0204B560(actor, axis);
+    CLACT_GetSurfaceOrigin(actor, space, (unsigned short *)&origin);
+    pos_value = CLACT_GetActorPosAxis(actor, axis);
 
     if (axis == 0) {
         origin_value = origin.x;
@@ -2078,10 +2080,10 @@ s16 sub_0204B4EC(struct Actor *actor, u32 space, u32 axis)
  * out two halfword moves instead.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B528.c \
- *       --func sub_0204B528 --addr 0x0204B528 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorPos.c \
+ *       --func CLACT_SetActorPos --addr 0x0204B528 --cc 1.1p1 --arm
  */
-void sub_0204B528(struct Actor *actor, const struct Pt16 *pos)
+void CLACT_SetActorPos(struct Actor *actor, const struct Pt16 *pos)
 {
     actor->pos.x = pos->x;
     actor->pos.y = pos->y;
@@ -2090,14 +2092,14 @@ void sub_0204B528(struct Actor *actor, const struct Pt16 *pos)
 
 
 /*
- * The read side of src/matched/sub_0204B528.c: copy the actor's screen
+ * The read side of src/matched/CLACT_SetActorPos.c: copy the actor's screen
  * position pair out of +0x0c/+0x0e, field by field.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B53C.c \
- *       --func sub_0204B53C --addr 0x0204B53C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetActorPos.c \
+ *       --func CLACT_GetActorPos --addr 0x0204B53C --cc 1.1p1 --arm
  */
-void sub_0204B53C(const struct Actor *actor, struct Pt16 *out)
+void CLACT_GetActorPos(const struct Actor *actor, struct Pt16 *out)
 {
     out->x = actor->pos.x;
     out->y = actor->pos.y;
@@ -2112,10 +2114,10 @@ void sub_0204B53C(const struct Actor *actor, struct Pt16 *out)
  * branch at all.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B550.c \
- *       --func sub_0204B550 --addr 0x0204B550 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorPosAxis.c \
+ *       --func CLACT_SetActorPosAxis --addr 0x0204B550 --cc 1.1p1 --arm
  */
-void sub_0204B550(struct Actor *actor, signed short value, u32 axis)
+void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis)
 {
     if (axis == 0) {
         actor->pos.x = value;
@@ -2127,22 +2129,22 @@ void sub_0204B550(struct Actor *actor, signed short value, u32 axis)
 
 
 /*
- * The read side of src/matched/sub_0204B550.c: one axis of the actor's screen
+ * The read side of src/matched/CLACT_SetActorPosAxis.c: one axis of the actor's screen
  * position, axis 0 being x at +0x0c.  Both arms are a single load, so the body
  * if-converts to `ldrsheq`/`ldrshne`.
  *
  * The `ldrsh` is the signedness tell
  * (docs/idioms/ldrsh-register-offset-is-signedness.md, here in its
  * immediate-offset form): the stored field itself is u16, since
- * src/matched/sub_0204B53C.c reads the same two halfwords with plain `ldrh`,
+ * src/matched/CLACT_GetActorPos.c reads the same two halfwords with plain `ldrh`,
  * so the sign extension belongs to this function's s16 return type and not to
  * the struct.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B560.c \
- *       --func sub_0204B560 --addr 0x0204B560 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetActorPosAxis.c \
+ *       --func CLACT_GetActorPosAxis --addr 0x0204B560 --cc 1.1p1 --arm
  */
-s16 sub_0204B560(const struct Actor *actor, u32 axis)
+s16 CLACT_GetActorPosAxis(const struct Actor *actor, u32 axis)
 {
     if (axis == 0) {
         return actor->pos.x;
@@ -2159,13 +2161,13 @@ s16 sub_0204B560(const struct Actor *actor, u32 axis)
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); it is a seed
  * for layout/function_starts.txt.
  *
- * sub_0204B570 writes a two-bit field at bits 18..19 of the u32 flag word at
+ * CLACT_SetActorAffineMode writes a two-bit field at bits 18..19 of the u32 flag word at
  * +0x60.  The base type has to be u32, not u8 as in
  * src/matched/unit_0204B22C.c: a u8-based bitfield would truncate the
  * incoming value with an `and r1, r1, #0xff` first, and there is no such
  * instruction here.
  *
- * 0x0204B588 is the +0x10 twin of src/matched/sub_0204B528.c, so the actor
+ * 0x0204B588 is the +0x10 twin of src/matched/CLACT_SetActorPos.c, so the actor
  * carries two halfword pairs, the screen position at +0x0c and this second
  * pair at +0x10.
  *
@@ -2173,14 +2175,14 @@ s16 sub_0204B560(const struct Actor *actor, u32 axis)
  *   python tools/match.py tu --src src/matched/unit_0204B570.c \
  *       --addr 0x0204B570 --cc 1.1p1 --arm
  */
-void sub_0204B570(struct Actor *actor, u32 value)
+void CLACT_SetActorAffineMode(struct Actor *actor, u32 value)
 {
     actor->affine_mode = value;
 }
 
 
 
-void sub_0204B588(struct Actor *actor, const struct Pt16 *origin)
+void CLACT_SetActorAffineOrigin(struct Actor *actor, const struct Pt16 *origin)
 {
     actor->origin.x = origin->x;
     actor->origin.y = origin->y;
@@ -2196,12 +2198,12 @@ void sub_0204B588(struct Actor *actor, const struct Pt16 *origin)
  * folded into one unit here rather than three files, which also makes the
  * range self-contained: the unit has no relocation sites at all.
  *
- * sub_0204B59C selects between the +0x10 and +0x12 halfwords on a flag; the
+ * CLACT_SetActorAffineOriginAxis selects between the +0x10 and +0x12 halfwords on a flag; the
  * front end if-converts it to a `strheq`/`strhne` pair with no branch, and
  * the `eq` arm being first is the source order of the `if`
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
- * func_0204B5AC and sub_0204B5C0 are the setter and getter for the 8-byte
+ * CLACT_SetActorScale and CLACT_GetActorScale are the setter and getter for the 8-byte
  * pair at +0x14.  Both words are loaded before either is stored, which is
  * what two independent field assignments give when neither store can be
  * proved to feed the following load; writing them as one 8-byte struct
@@ -2211,7 +2213,7 @@ void sub_0204B588(struct Actor *actor, const struct Pt16 *origin)
  *   python tools/match.py tu --src src/matched/unit_0204B59C.c \
  *       --addr 0x0204B59C --arm
  */
-void sub_0204B59C(struct Actor *actor, signed short value, u32 axis)
+void CLACT_SetActorAffineOriginAxis(struct Actor *actor, signed short value, u32 axis)
 {
     if (axis == 0) {
         actor->origin.x = value;
@@ -2226,7 +2228,7 @@ void sub_0204B59C(struct Actor *actor, signed short value, u32 axis)
  * Unlabelled ARM leaf: copy two words from src into the pair at +0x14/+0x18
  * of dst.  `ldr r2,[r1]; ldr r1,[r1,#4]; str r2,[r0,#0x14]; str r1,[r0,#0x18]`.
  */
-void func_0204B5AC(struct Actor *actor, struct Pair32 *src)
+void CLACT_SetActorScale(struct Actor *actor, struct Pair32 *src)
 {
     struct Pair32 scale_copy = *src;
 
@@ -2235,7 +2237,7 @@ void func_0204B5AC(struct Actor *actor, struct Pair32 *src)
 
 
 
-void sub_0204B5C0(const struct Actor *actor, struct Pair32 *out_scale)
+void CLACT_GetActorScale(const struct Actor *actor, struct Pair32 *out_scale)
 {
     out_scale->x = actor->scale.x;
     out_scale->y = actor->scale.y;
@@ -2249,14 +2251,14 @@ void sub_0204B5C0(const struct Actor *actor, struct Pair32 *out_scale)
  * is a seed for layout/function_starts.txt.
  *
  * Both bodies if-convert to a single predicated memory access, the same shape
- * as src/matched/sub_0204B550.c and src/matched/sub_0204B560.c have for the
+ * as src/matched/CLACT_SetActorPosAxis.c and src/matched/CLACT_GetActorPosAxis.c have for the
  * halfword pair at +0x0c.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0204B5D4.c \
  *       --addr 0x0204B5D4 --cc 1.1p1 --arm
  */
-void sub_0204B5D4(struct Actor *actor, u32 value, u32 which)
+void CLACT_SetActorScaleAxis(struct Actor *actor, u32 value, u32 which)
 {
     if (which == 0) {
         actor->scale.x = value;
@@ -2267,7 +2269,7 @@ void sub_0204B5D4(struct Actor *actor, u32 value, u32 which)
 
 
 
-u32 sub_0204B5E4(const struct Actor *actor, u32 which)
+u32 CLACT_GetActorScaleAxis(const struct Actor *actor, u32 which)
 {
     if (which == 0) {
         return actor->scale.x;
@@ -2286,21 +2288,21 @@ u32 sub_0204B5E4(const struct Actor *actor, u32 which)
  *
  * The unit deliberately stops here rather than running on to the end of the
  * listing extent at 0x0204B658.  The next leaf, 0x0204B604, is a closed near
- * miss recorded in docs/notes/func_0204B604.c.txt, and folding it in would put
+ * miss recorded in docs/notes/CLACT_SetActorFlip.c.txt, and folding it in would put
  * this range back to DIFF.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0204B5F4.c \
  *       --addr 0x0204B5F4 --cc 1.1p1 --arm
  */
-void sub_0204B5F4(struct Actor *actor, u16 value)
+void CLACT_SetActorRotation(struct Actor *actor, u16 value)
 {
     actor->angle = value;
 }
 
 
 
-u16 sub_0204B5FC(const struct Actor *actor)
+u16 CLACT_GetActorRotation(const struct Actor *actor)
 {
     return actor->angle;
 }
@@ -2308,15 +2310,15 @@ u16 sub_0204B5FC(const struct Actor *actor)
 
 
 /*
- * The setter side of sub_0204B658 (src/matched/sub_0204B658.c): sets or
+ * The setter side of CLACT_GetActorFlip (src/matched/CLACT_GetActorFlip.c): sets or
  * clears bit `which` of the two-bit field `flip` at bits 20..21 of the flag
  * word at +0x60.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204B604.c \
- *       --func func_0204B604 --addr 0x0204B604 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorFlip.c \
+ *       --func CLACT_SetActorFlip --addr 0x0204B604 --cc 1.1p1 --arm
  */
-void func_0204B604(struct Actor *actor, u32 which, u32 set)
+void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set)
 {
     u32 mask = (which == 0) ? 1 : 2;
 
@@ -2331,7 +2333,7 @@ void func_0204B604(struct Actor *actor, u32 which, u32 set)
 
 
 /*
- * The test side of func_0204B604 in src/matched/unit_0204B5F4.c: is bit
+ * The test side of CLACT_SetActorFlip in src/matched/unit_0204B5F4.c: is bit
  * `which` of the two-bit field at bits 20..21 of the flag word at +0x60 set.
  *
  * The mask is not built into a register here the way the setter builds it.
@@ -2342,10 +2344,10 @@ void func_0204B604(struct Actor *actor, u32 which, u32 set)
  * assigned in both arms, not a returned expression.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B658.c \
- *       --func sub_0204B658 --addr 0x0204B658 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetActorFlip.c \
+ *       --func CLACT_GetActorFlip --addr 0x0204B658 --cc 1.1p1 --arm
  */
-u32 sub_0204B658(const struct Actor *actor, u32 which)
+u32 CLACT_GetActorFlip(const struct Actor *actor, u32 which)
 {
     u32 result = 0;
 
@@ -2394,7 +2396,7 @@ u32 sub_0204B658(const struct Actor *actor, u32 which)
  *   python tools/match.py tu --src src/matched/unit_0204B688.c \
  *       --addr 0x0204B688 --cc 1.1p1 --arm
  */
-void sub_0204B688(struct Actor *actor, u32 value)
+void CLACT_SetActorObjMode(struct Actor *actor, u32 value)
 {
     actor->obj_mode = value;
 
@@ -2410,7 +2412,7 @@ void sub_0204B688(struct Actor *actor, u32 value)
 
 
 
-u32 sub_0204B6E4(const struct Actor *actor)
+u32 CLACT_GetActorObjMode(const struct Actor *actor)
 {
     return actor->obj_mode;
 }
@@ -2424,9 +2426,9 @@ u32 sub_0204B6E4(const struct Actor *actor)
  * at bits 0-11 (untouched here), a 4-bit field at bits 12-15, 15 pad bits,
  * and a 1-bit flag at bit 31.
  *
- *   sub_0204B6F4  set the 4-bit field and the top flag bit together (one
+ *   CLACT_SetActorPaletteOffset  set the 4-bit field and the top flag bit together (one
  *                 read-modify-write of the whole word).
- *   sub_0204B714  read the 4-bit field back out.
+ *   CLACT_GetActorPaletteOffset  read the 4-bit field back out.
  *
  * The setter's double shift (`lsl r1,r1,#28` then `orr r1,r3,r1,lsr#16`) is
  * the compiler's general bitfield-store formula, value << (32-width) then
@@ -2443,7 +2445,7 @@ u32 sub_0204B6E4(const struct Actor *actor)
  *   python tools/match.py tu --src src/matched/unit_0204B6F4.c \
  *       --addr 0x0204B6F4 --arm
  */
-void sub_0204B6F4(struct Actor *actor, u32 offset, u32 pltt_op)
+void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op)
 {
     actor->pltt_offset = offset;
     actor->pltt_op = pltt_op;
@@ -2451,7 +2453,7 @@ void sub_0204B6F4(struct Actor *actor, u32 offset, u32 pltt_op)
 
 
 
-u32 sub_0204B714(struct Actor *actor)
+u32 CLACT_GetActorPaletteOffset(struct Actor *actor)
 {
     return (unsigned char)actor->pltt_offset;
 }
@@ -2472,7 +2474,7 @@ u32 sub_0204B714(struct Actor *actor)
  * (`add ip, r5, #0x40`) before the source block load, and with `const` it
  * emits the `ldm r4!, {r0, r1, r2, r3}` first, which is the original's
  * order.  That is the whole content of the DIFF recorded in
- * docs/notes/sub_0204B728.c.txt, and the reason nine non-const spellings
+ * docs/notes/CLACT_SetActorPaletteProxy.c.txt, and the reason nine non-const spellings
  * there all failed identically.  See
  * docs/idioms/const-source-pointer-schedules-the-block-load-first.md.
  *
@@ -2481,10 +2483,10 @@ u32 sub_0204B714(struct Actor *actor)
  * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B728.c \
- *       --func sub_0204B728 --addr 0x0204B728 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorPaletteProxy.c \
+ *       --func CLACT_SetActorPaletteProxy --addr 0x0204B728 --cc 1.1p1 --arm
  */
-void sub_0204B728(struct Actor *actor, const struct PaletteProxy *proxy)
+void CLACT_SetActorPaletteProxy(struct Actor *actor, const struct PaletteProxy *proxy)
 {
     func_0206380C((char *)proxy, 1);
     func_0206380C((char *)proxy, 2);
@@ -2528,7 +2530,7 @@ static inline void copy_inline2(struct ImageProxy *dst, const struct ImageProxy 
  *   python tools/match.py tu --src src/matched/unit_0204B764.c \
  *       --addr 0x0204B764 --arm
  */
-void func_0204B764(const char *actor_base, struct PaletteProxy *dst)
+void CLACT_GetActorPaletteProxy(const char *actor_base, struct PaletteProxy *dst)
 {
     const struct PaletteProxy *proxy = (const struct PaletteProxy *)(actor_base + 0x40);
     *dst = *proxy;
@@ -2536,7 +2538,7 @@ void func_0204B764(const char *actor_base, struct PaletteProxy *dst)
 
 
 
-void func_0204B784(char *actor_base, const struct ImageProxy *proxy)
+void CLACT_SetActorImageProxy(char *actor_base, const struct ImageProxy *proxy)
 {
     struct ImageProxy copy;
     func_020637BC((void *)proxy, 1);
@@ -2547,7 +2549,7 @@ void func_0204B784(char *actor_base, const struct ImageProxy *proxy)
 
 
 
-void func_0204B7C8(const char *actor_base, struct ImageProxy *dst)
+void CLACT_GetActorImageProxy(const char *actor_base, struct ImageProxy *dst)
 {
     const struct ImageProxy *proxy = (const struct ImageProxy *)(actor_base + 0x1c);
     *dst = *proxy;
@@ -2559,9 +2561,9 @@ void func_0204B7C8(const char *actor_base, struct ImageProxy *dst)
  * u16 field read at +0x5c.  Unlabelled in the current listings: the prologue
  * saves nothing, so disasm.py never auto-labelled it (see
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  It sits
- * between the literal pool of func_0204B7C8 and func_0204B800.
+ * between the literal pool of CLACT_GetActorImageProxy and CLACT_SetActorDrawPriority.
  */
-u16 func_0204B7F0(struct Actor *actor)
+u16 CLACT_GetActorCharacterIndex(struct Actor *actor)
 {
     return actor->char_idx;
 }
@@ -2569,10 +2571,10 @@ u16 func_0204B7F0(struct Actor *actor)
 
 
 /*
- * Same as func_0204B7F0 one field up, at +0x5e.  Unlabelled leaf for the
+ * Same as CLACT_GetActorCharacterIndex one field up, at +0x5e.  Unlabelled leaf for the
  * same reason.
  */
-u16 func_0204B7F8(struct Actor *actor)
+u16 CLACT_GetActorPaletteIndex(struct Actor *actor)
 {
     return actor->pltt_idx;
 }
@@ -2583,16 +2585,16 @@ u16 func_0204B7F8(struct Actor *actor)
  * Field at +0x60 is an 8-bit bitfield in a whole word: the original is a
  * word load, and/bic/orr, word store, never a ldrb/strb.
  */
-void func_0204B800(struct Actor *actor, u32 priority)
+void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority)
 {
     actor->draw_priority = priority;
-    func_0204CA30(actor->owner, actor);
-    func_0204C98C(actor->owner, actor);
+    CLACT_UnlinkActor(actor->owner, actor);
+    CLACT_LinkActor(actor->owner, actor);
 }
 
 
 
-int func_0204B838(struct Actor *actor)
+int CLACT_GetActorDrawPriority(struct Actor *actor)
 {
     return (u8)actor->draw_priority & 0xff;
 }
@@ -2606,7 +2608,7 @@ void func_0204B84C(struct Actor *actor, unsigned int priority)
 
 
 
-u32 func_0204B864(struct Actor *actor)
+u32 CLACT_GetActorBgPriority(struct Actor *actor)
 {
     return (u8)actor->bg_priority;
 }
@@ -2615,26 +2617,26 @@ u32 func_0204B864(struct Actor *actor)
 
 /*
  * Stores a 16-bit value at +0x5a of the object, then runs the sub-object at
- * +0x68 through func_0204D324 and re-runs the owner through func_0204B95C.
- * The same +0x68 sub-object is the one sub_0204B3B4 hands to sub_0204D104.
+ * +0x68 through CLACT_SetAnimSeq and re-runs the owner through CLACT_StartActorAnim.
+ * The same +0x68 sub-object is the one CLACT_DeleteActor hands to CLACT_ExitAnimCtl.
  *
- * This file was parked at MATCH: sub_0204B878 is 0x0204D324's only caller
+ * This file was parked at MATCH: CLACT_SetActorAnimSeq is 0x0204D324's only caller
  * image-wide, so the PC24 site at +0x10 could only ever be attested by an
  * EXACT entry for 0x0204D324 itself, and that function looked unattestable
  * in turn because its handler-table pool word 0x020A13B8 appears in no
  * other literal pool.  It is not a table address: it is row 3 of the one
  * eight-by-three array based at 0x020A1394, which is pooled at 0x0204D490
- * as well.  src/matched/func_0204D324.c carries the reasoning; with that
+ * as well.  src/matched/CLACT_SetAnimSeq.c carries the reasoning; with that
  * entry EXACT this site resolves `matched` and nothing here changed.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B878.c  *       --func sub_0204B878 --addr 0x0204B878 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorAnimSeq.c  *       --func CLACT_SetActorAnimSeq --addr 0x0204B878 --cc 1.1p1 --arm
  */
-void sub_0204B878(struct Actor *actor, u16 value)
+void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value)
 {
     actor->anim_seq = value;
-    func_0204D324((&actor->ctl), value);
-    func_0204B95C(actor);
+    CLACT_SetAnimSeq((&actor->ctl), value);
+    CLACT_StartActorAnim(actor);
 }
 
 
@@ -2646,11 +2648,11 @@ void sub_0204B878(struct Actor *actor, u16 value)
  * +0x60 (see src/matched/unit_0204B3DC.c and unit_0204B92C.c).  The state
  * this corner of the file owns is the u16 at +0x5a:
  *
- *   sub_0204B898  read it.  Saves no lr, so disasm.py never labels it.
- *   sub_0204B8A0  the guarded write: do nothing when the value is
- *                 unchanged, otherwise hand it to sub_0204B878 (which
+ *   CLACT_GetActorAnimSeq  read it.  Saves no lr, so disasm.py never labels it.
+ *   CLACT_ChangeActorAnimSeq  the guarded write: do nothing when the value is
+ *                 unchanged, otherwise hand it to CLACT_SetActorAnimSeq (which
  *                 stores it and pushes it down into the 0x0204Dxxx layer)
- *                 and re-run func_0204B95C on top.
+ *                 and re-run CLACT_StartActorAnim on top.
  *
  * The `cmp r1, r2` operand order is the tell that the incoming value is
  * the left operand of the comparison and the field the right one
@@ -2663,34 +2665,34 @@ void sub_0204B878(struct Actor *actor, u16 value)
  * point that has no caller anywhere else in the image, so they are capped
  * at MATCH and parked in src/pending/, next to the 0x0204B878 that an
  * earlier wave parked there for the same reason.  0x0204B8F4,
- * the other clean one, is in src/matched/sub_0204B8F4.c; it is not
+ * the other clean one, is in src/matched/CLACT_GetActorAnimFrame.c; it is not
  * contiguous with this pair.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0204B898.c \
  *       --addr 0x0204B898 --arm
  */
-u16 sub_0204B898(struct Actor *actor)
+u16 CLACT_GetActorAnimSeq(struct Actor *actor)
 {
     return actor->anim_seq;
 }
 
 
 
-void sub_0204B8A0(struct Actor *actor, u16 anim_seq)
+void CLACT_ChangeActorAnimSeq(struct Actor *actor, u16 anim_seq)
 {
     if (anim_seq == actor->anim_seq) {
         return;
     }
-    sub_0204B878(actor, anim_seq);
-    func_0204B95C(actor);
+    CLACT_SetActorAnimSeq(actor, anim_seq);
+    CLACT_StartActorAnim(actor);
 }
 
 
 
 /*
  * Forward the sub-object embedded at +0x68 of the 0x0204Bxxx object to
- * sub_0204D3A0.  A pool word and a `bx ip`, never a displacement branch,
+ * CLACT_SetAnimFrame.  A pool word and a `bx ip`, never a displacement branch,
  * because each function is its own section
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
  *
@@ -2700,41 +2702,41 @@ void sub_0204B8A0(struct Actor *actor, u16 anim_seq)
  * decompiled to EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B8C4.c  *       --func sub_0204B8C4 --addr 0x0204B8C4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorAnimFrame.c  *       --func CLACT_SetActorAnimFrame --addr 0x0204B8C4 --cc 1.1p1 --arm
  */
-void sub_0204B8C4(struct Actor *actor, u32 frame)
+void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame)
 {
-    sub_0204D3A0((&actor->ctl), frame);
+    CLACT_SetAnimFrame((&actor->ctl), frame);
 }
 
 
 
 /*
- * Run sub_0204D4C4 over the sub-object embedded at +0x68 of the
- * 0x0204Bxxx object, then sub_0204D3C4 on it with 0x1000.  The address
+ * Run CLACT_UpdateAnim over the sub-object embedded at +0x68 of the
+ * 0x0204Bxxx object, then CLACT_AddAnimFrame on it with 0x1000.  The address
  * is recomputed with a second `add r0, r4, #0x68` rather than kept in a
  * register across the call
  * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
  *
- * Was capped at MATCH: sub_0204D4C4 is called from this one site and
+ * Was capped at MATCH: CLACT_UpdateAnim is called from this one site and
  * nowhere else in the image, so its PC24 had no outside witness, and
- * sub_0204D3C4 resolved fine (label).  0x0204D4C4 is now the lead function
+ * CLACT_AddAnimFrame resolved fine (label).  0x0204D4C4 is now the lead function
  * of src/matched/unit_0204D4C4.c and this site resolves `matched` against
  * it.  The C in this file is unchanged.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B8D4.c  *       --func sub_0204B8D4 --addr 0x0204B8D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_AddActorAnimFrame.c  *       --func CLACT_AddActorAnimFrame --addr 0x0204B8D4 --cc 1.1p1 --arm
  */
-void sub_0204B8D4(struct Actor *actor, u32 frames)
+void CLACT_AddActorAnimFrame(struct Actor *actor, u32 frames)
 {
-    sub_0204D4C4((&actor->ctl), frames);
-    sub_0204D3C4((&actor->ctl), 0x1000);
+    CLACT_UpdateAnim((&actor->ctl), frames);
+    CLACT_AddAnimFrame((&actor->ctl), 0x1000);
 }
 
 
 
 /*
- * Read +0x10 of the record sub_0204D444 hands back for the sub-object
+ * Read +0x10 of the record CLACT_GetAnimObject hands back for the sub-object
  * embedded at +0x68 of the 0x0204Bxxx object (see
  * src/matched/unit_0204B898.c for the family).  The call result is
  * dereferenced in place, so no register is spent copying it
@@ -2746,25 +2748,25 @@ void sub_0204B8D4(struct Actor *actor, u32 frames)
  * layout/function_starts.txt.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B8F4.c \
- *       --func sub_0204B8F4 --addr 0x0204B8F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetActorAnimFrame.c \
+ *       --func CLACT_GetActorAnimFrame --addr 0x0204B8F4 --cc 1.1p1 --arm
  */
-u32 sub_0204B8F4(struct Actor *actor)
+u32 CLACT_GetActorAnimFrame(struct Actor *actor)
 {
-    return sub_0204D444(&actor->ctl)->frame;
+    return CLACT_GetAnimObject(&actor->ctl)->frame;
 }
 
 
 
-void func_0204B908(struct Actor *actor, u32 anim_idx)
+void CLACT_SetActorAnimIndex(struct Actor *actor, u32 anim_idx)
 {
-    sub_0204D478(&actor->ctl, anim_idx);
+    CLACT_SetAnimIndex(&actor->ctl, anim_idx);
 }
 
 
 
 /*
- * Hand the record sub_0204D444 returns for the sub-object at +0x68
+ * Hand the record CLACT_GetAnimObject returns for the sub-object at +0x68
  * straight to sub_02062F1C: a plain forwarding call whose argument is
  * already in r0
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
@@ -2772,15 +2774,15 @@ void func_0204B908(struct Actor *actor, u32 anim_idx)
  * / 0x0204Dxxx layer.
  *
  * Byte-correct, capped at MATCH: 0x02062F1C is called from this one site
- * and nowhere else in the image.  sub_0204D444 resolves fine (label).
+ * and nowhere else in the image.  CLACT_GetAnimObject resolves fine (label).
  * It unsticks when 0x02062F1C is itself decompiled to EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B918.c  *       --func sub_0204B918 --addr 0x0204B918 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetActorAnimSeqCount.c  *       --func CLACT_GetActorAnimSeqCount --addr 0x0204B918 --cc 1.1p1 --arm
  */
-u16 sub_0204B918(struct Actor *actor)
+u16 CLACT_GetActorAnimSeqCount(struct Actor *actor)
 {
-    return sub_02062F1C(sub_0204D444(&actor->ctl));
+    return sub_02062F1C(CLACT_GetAnimObject(&actor->ctl));
 }
 
 
@@ -2796,14 +2798,14 @@ u16 sub_0204B918(struct Actor *actor)
  *   python tools/match.py tu --src src/matched/unit_0204B92C.c \
  *       --addr 0x0204B92C --arm
  */
-void sub_0204B92C(struct Actor *actor, u32 enable)
+void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable)
 {
     actor->auto_anim = enable;
 }
 
 
 
-u32 sub_0204B944(struct Actor *actor)
+u32 CLACT_GetActorAutoAnim(struct Actor *actor)
 {
     return actor->auto_anim;
 }
@@ -2829,47 +2831,47 @@ void func_0204B954(struct Actor *actor, u32 speed)
 
 
 /*
- * Set the flag at +0x0c of the animation record sub_0204D410 selects out of
- * the cell actor's +0x68 sub-object.  func_0204B974 next door is the same
+ * Set the flag at +0x0c of the animation record CLACT_GetAnimCtrl selects out of
+ * the cell actor's +0x68 sub-object.  CLACT_StopActorAnim next door is the same
  * function storing 0 instead of 1.
  *
  * The store goes through the callee's return value, not through the actor, so
  * the actor pointer is dead after the call and nothing is saved across it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204B95C.c \
- *       --func func_0204B95C --addr 0x0204B95C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_StartActorAnim.c \
+ *       --func CLACT_StartActorAnim --addr 0x0204B95C --cc 1.1p1 --arm
  */
-void func_0204B95C(struct Actor *actor)
+void CLACT_StartActorAnim(struct Actor *actor)
 {
-    sub_0204D410(&actor->ctl)->active = 1;
+    CLACT_GetAnimCtrl(&actor->ctl)->active = 1;
 }
 
 
 
 /*
- * Set the flag at +0x0c of the animation record sub_0204D410 selects out of
- * the cell actor's +0x68 sub-object.  func_0204B95C next door is the same
+ * Set the flag at +0x0c of the animation record CLACT_GetAnimCtrl selects out of
+ * the cell actor's +0x68 sub-object.  CLACT_StartActorAnim next door is the same
  * function storing 1 instead of 0.
  *
  * The store goes through the callee's return value, not through the actor, so
  * the actor pointer is dead after the call and nothing is saved across it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204B974.c \
- *       --func func_0204B974 --addr 0x0204B974 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_StopActorAnim.c \
+ *       --func CLACT_StopActorAnim --addr 0x0204B974 --cc 1.1p1 --arm
  */
-void func_0204B974(struct Actor *actor)
+void CLACT_StopActorAnim(struct Actor *actor)
 {
-    sub_0204D410(&actor->ctl)->active = 0;
+    CLACT_GetAnimCtrl(&actor->ctl)->active = 0;
 }
 
 
 
 /*
- * Read the u32 at +0x0c of the record sub_0204D444 selects out of the cell
- * actor's +0x68 sub-object.  The pair func_0204B95C / func_0204B974 writes the
- * same field through sub_0204D410's record instead.
+ * Read the u32 at +0x0c of the record CLACT_GetAnimObject selects out of the cell
+ * actor's +0x68 sub-object.  The pair CLACT_StartActorAnim / CLACT_StopActorAnim writes the
+ * same field through CLACT_GetAnimCtrl's record instead.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0204B98C.c \
@@ -2877,20 +2879,20 @@ void func_0204B974(struct Actor *actor)
  */
 u32 func_0204B98C(struct Actor *actor)
 {
-    return sub_0204D444(&actor->ctl)->active;
+    return CLACT_GetAnimObject(&actor->ctl)->active;
 }
 
 
 
 /*
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at +0x001C
- * (the call to func_0204D510) has no witness of any class.  0x0204D510 has
+ * (the call to CLACT_ResetAnim) has no witness of any class.  0x0204D510 has
  * exactly one branch reference image wide and it is that call, so no cut frees
  * it; the only unblock is a `matched` entry at 0x0204D510, which sits in
  * pkt_0204D4B0, outside this packet.
  *
- * func_0204B95C followed by a restart of the animation.  The actor pointer
- * has to survive the first call, so unlike func_0204B95C this one spends r4
+ * CLACT_StartActorAnim followed by a restart of the animation.  The actor pointer
+ * has to survive the first call, so unlike CLACT_StartActorAnim this one spends r4
  * and re-materialises `&actor->ctl` for the second call.
  *
  * Verified with:
@@ -2899,8 +2901,8 @@ u32 func_0204B98C(struct Actor *actor)
  */
 void func_0204B9A0(struct Actor *actor)
 {
-    sub_0204D410(&actor->ctl)->active = 1;
-    func_0204D510(&actor->ctl);
+    CLACT_GetAnimCtrl(&actor->ctl)->active = 1;
+    CLACT_ResetAnim(&actor->ctl);
 }
 
 
@@ -2913,7 +2915,7 @@ void func_0204B9A0(struct Actor *actor)
  * folded into this unit because that is the only way they get a manifest
  * entry at all; neither can ever be attested by the `label` class.
  *
- * func_0204B9C4 stores a 4-bit field into the actor's +0x60 word and then
+ * CLACT_SetActorAnimLoopCount stores a 4-bit field into the actor's +0x60 word and then
  * pushes the same value into the animation record.  The field is a bitfield,
  * not a mask-and-shift: `lsl #0x1c` followed by `orr ..., lsr #1` is the
  * compiler's insert sequence for width 4 at bit offset 27, where an explicit
@@ -2924,7 +2926,7 @@ void func_0204B9A0(struct Actor *actor)
  * what makes the compiler predicate all three stores off the single `cmp r4,
  * #0` instead of branching.
  *
- * func_0204BA00 and func_0204BA10 are tail-call thunks that only re-base the
+ * func_0204BA00 and CLACT_ResetActorAnimCommand are tail-call thunks that only re-base the
  * actor pointer onto its +0x68 sub-object.  Each is a pool word and a `bx`,
  * never a displacement branch, because every function gets its own section
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
@@ -2933,13 +2935,13 @@ void func_0204B9A0(struct Actor *actor)
  *   python tools/match.py tu --src src/matched/unit_0204B9C4.c \
  *       --addr 0x0204B9C4 --cc 1.1p1 --arm
  */
-void func_0204B9C4(struct Actor *actor, u32 loop_limit)
+void CLACT_SetActorAnimLoopCount(struct Actor *actor, u32 loop_limit)
 {
     struct AnimCtrl *anim_ctrl;
 
     actor->loop_limit = loop_limit;
 
-    anim_ctrl = sub_0204D410(&actor->ctl);
+    anim_ctrl = CLACT_GetAnimCtrl(&actor->ctl);
     if (loop_limit == 0) {
         anim_ctrl->loop_count = 0;
         anim_ctrl->loop_limit = 0;
@@ -2952,14 +2954,14 @@ void func_0204B9C4(struct Actor *actor, u32 loop_limit)
 
 void func_0204BA00(struct Actor *actor, const struct Cmd *cmd)
 {
-    func_0204D768(&actor->ctl, cmd);
+    CLACT_ApplyAnimCommand(&actor->ctl, cmd);
 }
 
 
 
-void func_0204BA10(struct Actor *actor)
+void CLACT_ResetActorAnimCommand(struct Actor *actor)
 {
-    func_0204D7C4(&actor->ctl);
+    CLACT_ResetAnimCommand(&actor->ctl);
 }
 
 
@@ -2992,12 +2994,12 @@ void func_0204BA20(struct Actor *actor, u32 visible)
 
 /*
  * Copy two signed halfword pairs from the caller's array into clact.c's
- * static two-record scratch block and hand the block to func_0204BD94.
+ * static two-record scratch block and hand the block to CLACT_InitRenderer.
  *
  * The two pool words 0x020A7F3C and 0x020A7F54 are one symbol, not two: the
  * stores reach the record array as +0x18/+0x1a/+0x28/+0x2a off the base, so
  * the scratch block is the tail of the same static object whose first 0x18
- * bytes are the six function pointers sub_0204D4E0..func_0204D54C that
+ * bytes are the six function pointers CLACT_UpdateCellAnim..CLACT_ResetVramAnim that
  * 0x0204D4DC also loads
  * (docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md).
  * Reading them as two objects splits the symbol and loses the relocation.
@@ -3007,17 +3009,17 @@ void func_0204BA20(struct Actor *actor, u32 visible)
  * form of the same tell).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BA38.c \
- *       --func func_0204BA38 --addr 0x0204BA38 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_InitDefaultRenderer.c \
+ *       --func CLACT_InitDefaultRenderer --addr 0x0204BA38 --cc 1.1p1 --arm
  */
-void func_0204BA38(struct Renderer *renderer, const s16 *src, u32 heap_id)
+void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 heap_id)
 {
     g_020A7F3C.default_surfaces[0].x = src[0];
     g_020A7F3C.default_surfaces[0].y = src[1];
     g_020A7F3C.default_surfaces[1].x = src[2];
     g_020A7F3C.default_surfaces[1].y = src[3];
 
-    func_0204BD94(renderer, g_020A7F3C.default_surfaces, 2, heap_id);
+    CLACT_InitRenderer(renderer, g_020A7F3C.default_surfaces, 2, heap_id);
 }
 
 
@@ -3039,18 +3041,18 @@ void func_0204BA38(struct Renderer *renderer, const s16 *src, u32 heap_id)
  * it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BA7C.c \
- *       --func func_0204BA7C --addr 0x0204BA7C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetOamOffsets.c \
+ *       --func CLACT_SetOamOffsets --addr 0x0204BA7C --cc 1.1p1 --arm
  */
-void func_0204BA7C(u32 pltt_proxy, u16 base_offset, u32 pltt_op)
+void CLACT_SetOamOffsets(u32 pltt_proxy, u16 base_offset, u32 pltt_op)
 {
-    g_02146A74->pltt_base[0] = (u32)func_02063800((char *)pltt_proxy, (u32)1) >> 5;
-    g_02146A74->pltt_base[1] = (u32)func_02063800((char *)pltt_proxy, (u32)2) >> 5;
+    g_ClactSystem->pltt_base[0] = (u32)func_02063800((char *)pltt_proxy, (u32)1) >> 5;
+    g_ClactSystem->pltt_base[1] = (u32)func_02063800((char *)pltt_proxy, (u32)2) >> 5;
 
-    g_02146A74->pltt_base[0] += base_offset;
-    g_02146A74->pltt_base[1] += base_offset;
+    g_ClactSystem->pltt_base[0] += base_offset;
+    g_ClactSystem->pltt_base[1] += base_offset;
 
-    g_02146A74->pltt_op = pltt_op;
+    g_ClactSystem->pltt_op = pltt_op;
 }
 
 
@@ -3061,33 +3063,33 @@ void func_0204BA7C(u32 pltt_proxy, u16 base_offset, u32 pltt_op)
  * `strne` and no lr is saved.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BAEC.c \
- *       --func func_0204BAEC --addr 0x0204BAEC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetSystemActive.c \
+ *       --func CLACT_SetSystemActive --addr 0x0204BAEC --cc 1.1p1 --arm
  */
-void func_0204BAEC(u32 active)
+void CLACT_SetSystemActive(u32 active)
 {
-    if (g_02146A74 != 0) {
-        g_02146A74->active = active;
+    if (g_ClactSystem != 0) {
+        g_ClactSystem->active = active;
     }
 }
 
 
 
 /*
- * The reader for the word func_0204BAEC writes, returning 0 before the system
+ * The reader for the word CLACT_SetSystemActive writes, returning 0 before the system
  * is constructed.  Both arms are predicated off the null test (`ldrne` and
  * `moveq` into the same register), which is why this has to be written as one
  * `if`/`else` over two returns rather than an early return followed by the
  * load.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BB04.c \
- *       --func func_0204BB04 --addr 0x0204BB04 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_IsSystemActive.c \
+ *       --func CLACT_IsSystemActive --addr 0x0204BB04 --cc 1.1p1 --arm
  */
-u32 func_0204BB04(void)
+u32 CLACT_IsSystemActive(void)
 {
-    if (g_02146A74 != 0) {
-        return g_02146A74->active;
+    if (g_ClactSystem != 0) {
+        return g_ClactSystem->active;
     } else {
         return 0;
     }
@@ -3101,33 +3103,33 @@ u32 func_0204BB04(void)
  * `strne` and no lr is saved.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BB20.c \
- *       --func func_0204BB20 --addr 0x0204BB20 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetOamPending.c \
+ *       --func CLACT_SetOamPending --addr 0x0204BB20 --cc 1.1p1 --arm
  */
-void func_0204BB20(u32 pending)
+void CLACT_SetOamPending(u32 pending)
 {
-    if (g_02146A74 != 0) {
-        g_02146A74->oam_pending = pending;
+    if (g_ClactSystem != 0) {
+        g_ClactSystem->oam_pending = pending;
     }
 }
 
 
 
 /*
- * The reader for the word func_0204BB20 writes, returning 0 before the system
+ * The reader for the word CLACT_SetOamPending writes, returning 0 before the system
  * is constructed.  Both arms are predicated off the null test (`ldrne` and
  * `moveq` into the same register), which is why this has to be written as one
  * `if`/`else` over two returns rather than an early return followed by the
  * load.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BB38.c \
- *       --func func_0204BB38 --addr 0x0204BB38 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_IsOamPending.c \
+ *       --func CLACT_IsOamPending --addr 0x0204BB38 --cc 1.1p1 --arm
  */
-u32 func_0204BB38(void)
+u32 CLACT_IsOamPending(void)
 {
-    if (g_02146A74 != 0) {
-        return g_02146A74->oam_pending;
+    if (g_ClactSystem != 0) {
+        return g_ClactSystem->oam_pending;
     } else {
         return 0;
     }
@@ -3144,61 +3146,61 @@ u32 func_0204BB38(void)
  * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md
  * is the opposite shape: one shared exit block).  The address of the global
  * is held in r4 across both calls, but the pointer itself is re-read for the
- * third call because func_0204BB38 may have stored to it.
+ * third call because CLACT_IsOamPending may have stored to it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BB54.c \
- *       --func func_0204BB54 --addr 0x0204BB54 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ResetOamIfPending.c \
+ *       --func CLACT_ResetOamIfPending --addr 0x0204BB54 --cc 1.1p1 --arm
  */
-void func_0204BB54(void)
+void CLACT_ResetOamIfPending(void)
 {
-    if (g_02146A74 == 0) {
+    if (g_ClactSystem == 0) {
         return;
     }
-    if (func_0204BB38() == 0) {
+    if (CLACT_IsOamPending() == 0) {
         return;
     }
 
-    func_0204BD18(&g_02146A74->oam_mgrs);
-    func_0204BB20(0);
+    CLACT_ResetOamManagers(&g_ClactSystem->oam_mgrs);
+    CLACT_SetOamPending(0);
 }
 
 
 
 /*
  * Blocked at MATCH: all 60 concrete bytes are correct, but the PC24 at +0x001C
- * (the call to func_0204C944) has no witness of any class.  0x0204C944 has
+ * (the call to CLACT_DrawUnit) has no witness of any class.  0x0204C944 has
  * exactly one branch reference image wide and it is that call, so no cut frees
  * it; the only unblock is a `matched` entry at 0x0204C944, which sits in the
  * packet after pkt_0204BD64.
  *
- * Walk the singleton's unit ring at +0x100 and run func_0204C944 over every
- * member.  The ring is the one src/matched/func_0204BBC8.c builds, so the
+ * Walk the singleton's unit ring at +0x100 and run CLACT_DrawUnit over every
+ * member.  The ring is the one src/matched/CLACT_LinkUnit.c builds, so the
  * walk is a do/while around the head test rather than a null-terminated
  * list.
  *
- * Unlike func_0204BBC8's insertion walk, this one needs no `goto`: the call
+ * Unlike CLACT_LinkUnit's insertion walk, this one needs no `goto`: the call
  * in the body is an optimisation barrier, so the compiler neither rotates the
  * loop nor hoists the `->head` reload, and the structured form already
  * reproduces the re-read at +0x20.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204BB8C.c \
- *       --func func_0204BB8C --addr 0x0204BB8C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_DrawAllUnits.c \
+ *       --func CLACT_DrawAllUnits --addr 0x0204BB8C --cc 1.1p1 --arm
  */
-void func_0204BB8C(void)
+void CLACT_DrawAllUnits(void)
 {
     struct Unit *unit;
 
-    unit = g_02146A74->units;
+    unit = g_ClactSystem->units;
     if (unit == 0) {
         return;
     }
 
     do {
-        func_0204C944(unit);
+        CLACT_DrawUnit(unit);
         unit = unit->next;
-    } while (unit != g_02146A74->units);
+    } while (unit != g_ClactSystem->units);
 }
 
 
@@ -3207,7 +3209,7 @@ void func_0204BB8C(void)
  * Link a cell-actor unit into the singleton's priority-ordered ring at
  * +0x100.  The ring is circular and doubly linked through +0x10 (next) and
  * +0x14 (prev); the sort key is the u8 at +0x0f that
- * src/matched/sub_0204B100.c stores from its caller's flag.
+ * src/matched/CLACT_CreateUnit.c stores from its caller's flag.
  *
  * Empty ring: the unit becomes the head and both of its own links point at
  * itself.  The three stores are written through the global each time, which
@@ -3224,28 +3226,28 @@ void func_0204BB8C(void)
  * docs/idioms/a-reloaded-loop-invariant-means-the-loop-was-not-rotated.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BBC8.c \
- *       --func func_0204BBC8 --addr 0x0204BBC8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_LinkUnit.c \
+ *       --func CLACT_LinkUnit --addr 0x0204BBC8 --cc 1.1p1 --arm
  */
-void func_0204BBC8(struct Unit *unit)
+void CLACT_LinkUnit(struct Unit *unit)
 {
     struct Unit *cursor;
     struct Unit *prev_unit;
 
-    if (g_02146A74->units == 0) {
-        g_02146A74->units = unit;
-        g_02146A74->units->next = unit;
-        g_02146A74->units->prev = unit;
+    if (g_ClactSystem->units == 0) {
+        g_ClactSystem->units = unit;
+        g_ClactSystem->units->next = unit;
+        g_ClactSystem->units->prev = unit;
         return;
     }
 
-    cursor = g_02146A74->units;
+    cursor = g_ClactSystem->units;
 loop:
     if (cursor->priority > unit->priority) {
         goto found;
     }
     cursor = cursor->next;
-    if (cursor != g_02146A74->units) {
+    if (cursor != g_ClactSystem->units) {
         goto loop;
     }
 found:
@@ -3260,7 +3262,7 @@ found:
 
 
 /*
- * The inverse of src/matched/func_0204BBC8.c: unlink a cell-actor unit from
+ * The inverse of src/matched/CLACT_LinkUnit.c: unlink a cell-actor unit from
  * the singleton's ring at +0x100 and NULL both of its own links.  When the
  * unit being removed is the head, the head moves to its successor, or to
  * NULL when the unit was the only member.
@@ -3276,16 +3278,16 @@ found:
  * twice and `unit->prev` twice.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BC40.c \
- *       --func func_0204BC40 --addr 0x0204BC40 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_UnlinkUnit.c \
+ *       --func CLACT_UnlinkUnit --addr 0x0204BC40 --cc 1.1p1 --arm
  */
-void func_0204BC40(struct Unit *unit)
+void CLACT_UnlinkUnit(struct Unit *unit)
 {
-    if (g_02146A74->units == unit) {
+    if (g_ClactSystem->units == unit) {
         if (unit->next == unit) {
-            g_02146A74->units = 0;
+            g_ClactSystem->units = 0;
         } else {
-            g_02146A74->units = unit->next;
+            g_ClactSystem->units = unit->next;
         }
     }
 
@@ -3300,10 +3302,10 @@ void func_0204BC40(struct Unit *unit)
 /*
  * Blocked at MATCH: all 68 concrete bytes are correct and the call to
  * func_02063078 resolves off the second call site in
- * src/matched/func_0204BCD8.c, but the two PC24 sites at +0x0028 and +0x003C
- * (the calls to func_0204BD3C) have no witness outside this range: those two
+ * src/matched/CLACT_ExitOamManagers.c, but the two PC24 sites at +0x0028 and +0x003C
+ * (the calls to CLACT_InitOamManager) have no witness outside this range: those two
  * calls are the only branch references to 0x0204BD3C image wide.  No cut frees
- * them, and src/pending/func_0204BD3C.c cannot supply a `matched` entry
+ * them, and src/pending/CLACT_InitOamManager.c cannot supply a `matched` entry
  * because it is itself capped at MATCH by func_02063138, a fan-in-1 extern.
  *
  * Bind both of a cell actor's 0x20-byte OAM sub-records to their hardware
@@ -3319,35 +3321,35 @@ void func_0204BC40(struct Unit *unit)
  * subscript &oam_managers->mgr[1], not a running cursor.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204BC94.c \
- *       --func func_0204BC94 --addr 0x0204BC94 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_InitOamManagers.c \
+ *       --func CLACT_InitOamManagers --addr 0x0204BC94 --cc 1.1p1 --arm
  */
-void func_0204BC94(struct OamManagers *oam_managers, u32 main_base, u32 main_count, u32 sub_base, u8 sub_count)
+void CLACT_InitOamManagers(struct OamManagers *oam_managers, u32 main_base, u32 main_count, u32 sub_base, u8 sub_count)
 {
     func_02063078();
-    func_0204BD3C(&oam_managers->mgr[0], main_base, main_count, 0);
-    func_0204BD3C(&oam_managers->mgr[1], sub_base, sub_count, 1);
+    CLACT_InitOamManager(&oam_managers->mgr[0], main_base, main_count, 0);
+    CLACT_InitOamManager(&oam_managers->mgr[1], sub_base, sub_count, 1);
 }
 
 
 
 /*
  * Release both of a cell actor's 0x20-byte OAM sub-records and then flush the
- * hardware tables.  The pair-wise loops live in func_0204BD18 and
- * func_0204BCF4; this is only the ordering.
+ * hardware tables.  The pair-wise loops live in CLACT_ResetOamManagers and
+ * CLACT_ApplyOamManagers; this is only the ordering.
  *
  * The actor pointer is saved in r4 across the first call and restored for the
  * second; the third call takes no argument at all, so r0 still carries
- * func_0204BCF4's return value when it is made.
+ * CLACT_ApplyOamManagers's return value when it is made.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BCD8.c \
- *       --func func_0204BCD8 --addr 0x0204BCD8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ExitOamManagers.c \
+ *       --func CLACT_ExitOamManagers --addr 0x0204BCD8 --cc 1.1p1 --arm
  */
-void func_0204BCD8(struct OamManagers *oam_managers)
+void CLACT_ExitOamManagers(struct OamManagers *oam_managers)
 {
-    func_0204BD18(oam_managers);
-    func_0204BCF4(oam_managers);
+    CLACT_ResetOamManagers(oam_managers);
+    CLACT_ApplyOamManagers(oam_managers);
     func_02063078();
 }
 
@@ -3355,20 +3357,20 @@ void func_0204BCD8(struct OamManagers *oam_managers)
 
 /*
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at
- * +0x0010 (the call to func_0204BD64) has no witness of any class.  Its only
+ * +0x0010 (the call to CLACT_ApplyOamManager) has no witness of any class.  Its only
  * caller image wide is that call, so no cut frees it; the unblock is a
  * `matched` entry at 0x0204BD64, and that file is itself capped on 0x0206343C
  * (508 bytes, pkt_02063078, claimed by lane-C).  Chain capped for this pass.
  *
- * Run func_0204BD64 over both of a cell actor's 0x20-byte OAM sub-records.
- * func_0204BD18 next door is the same loop against func_0204BD7C.
+ * Run CLACT_ApplyOamManager over both of a cell actor's 0x20-byte OAM sub-records.
+ * CLACT_ResetOamManagers next door is the same loop against CLACT_ResetOamManager.
  */
-void func_0204BCF4(struct OamManagers *oam_managers)
+void CLACT_ApplyOamManagers(struct OamManagers *oam_managers)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        func_0204BD64(&oam_managers->mgr[i]);
+        CLACT_ApplyOamManager(&oam_managers->mgr[i]);
     }
 }
 
@@ -3376,24 +3378,24 @@ void func_0204BCF4(struct OamManagers *oam_managers)
 
 /*
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at
- * +0x0010 (the call to func_0204BD7C) has no witness of any class.  Its only
+ * +0x0010 (the call to CLACT_ResetOamManager) has no witness of any class.  Its only
  * caller image wide is that call, and that file is itself capped on 0x02063640
  * (316 bytes, pkt_02063640, claimed by lane-C).  Chain capped for this pass.
  *
- * Run func_0204BD7C over both of a cell actor's 0x20-byte OAM sub-records.
+ * Run CLACT_ResetOamManager over both of a cell actor's 0x20-byte OAM sub-records.
  */
-void func_0204BD18(struct OamManagers *oam_managers)
+void CLACT_ResetOamManagers(struct OamManagers *oam_managers)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        func_0204BD7C(&oam_managers->mgr[i]);
+        CLACT_ResetOamManager(&oam_managers->mgr[i]);
     }
 }
 
 
 
-void func_0204BD3C(struct OamManager *oam_manager, int base, int count, int screen)
+void CLACT_InitOamManager(struct OamManager *oam_manager, int base, int count, int screen)
 {
     if (count == 0) {
         oam_manager->bound = 0;
@@ -3414,10 +3416,10 @@ void func_0204BD3C(struct OamManager *oam_manager, int base, int count, int scre
  * in pkt_02063078, claimed by lane-C and far outside this lane.
  *
  * Release one bound 0x20-byte OAM sub-record of a cell actor.  The "bound"
- * flag at +0x1c is the same one func_0204BD3C sets, and an unbound record is
+ * flag at +0x1c is the same one CLACT_InitOamManager sets, and an unbound record is
  * an early return predicated onto the compare (`popeq`).
  */
-void func_0204BD64(struct OamManager *oam_manager)
+void CLACT_ApplyOamManager(struct OamManager *oam_manager)
 {
     if (oam_manager->bound == 0) {
         return;
@@ -3437,12 +3439,12 @@ void func_0204BD64(struct OamManager *oam_manager)
  * claimed by lane-C.
  *
  * Release one bound 0x20-byte OAM sub-record of a cell actor.  The "bound"
- * flag at +0x1c is the same one func_0204BD3C sets, and an unbound record is
+ * flag at +0x1c is the same one CLACT_InitOamManager sets, and an unbound record is
  * an early return predicated onto the compare (`popeq`).  The r1 read at the
  * call is a leftover, not an argument: 0x02063640 overwrites r1 at +0x1C with
  * `ldrh r1, [r5, #8]` before any use (docs/notes/func_02063640.c.txt).
  */
-void func_0204BD7C(struct OamManager *oam_manager)
+void CLACT_ResetOamManager(struct OamManager *oam_manager)
 {
     if (oam_manager->bound == 0) {
         return;
@@ -3456,7 +3458,7 @@ void func_0204BD7C(struct OamManager *oam_manager)
 
 /*
  *           this body (the tool prints "no witness outside 0204BD94..0204BE2C");
- *           func_0204BE84 lives in pkt_0204BE84, which is not this lane's.
+ *           CLACT_InitSurface lives in pkt_0204BE84, which is not this lane's.
  *
  * Byte-identical at 148 bytes; only the two PC24 call fields at +0x14 and
  * +0x68 stay wildcarded.  The 0x020A7F74 pool word is ABS32 into the string
@@ -3467,7 +3469,7 @@ void func_0204BD7C(struct OamManager *oam_manager)
  * `blo` back-edge.  Adding an explicit `if (count <= 0) return;` in front of
  * the loop emits BOTH `pople` and `popls` and costs four bytes of layout.
  */
-void func_0204BD94(struct Renderer *renderer, const struct SurfaceInit *inits, int count, u32 heap_id)
+void CLACT_InitRenderer(struct Renderer *renderer, const struct SurfaceInit *inits, int count, u32 heap_id)
 {
     u32 i;
 
@@ -3476,14 +3478,14 @@ void func_0204BD94(struct Renderer *renderer, const struct SurfaceInit *inits, i
     renderer->surfaces = sub_02030734(heap_id, count * sizeof(struct Surface), 0, s_clact_c, 0xfc7);
     renderer->n_surfaces = count;
     for (i = 0; i < count; i++) {
-        func_0204BE84(&renderer->surfaces[i], &inits[i]);
+        CLACT_InitSurface(&renderer->surfaces[i], &inits[i]);
         func_02065B64(renderer, &renderer->surfaces[i]);
     }
 }
 
 
 
-void func_0204BE28(struct Renderer *renderer){ sub_020307B0(renderer->surfaces); }
+void CLACT_ExitRenderer(struct Renderer *renderer){ sub_020307B0(renderer->surfaces); }
 
 
 
@@ -3504,7 +3506,7 @@ void func_0204BE28(struct Renderer *renderer){ sub_020307B0(renderer->surfaces);
 
 /*
  * Culling on/off for a 0x48-stride element array (the same surfaces/n_surfaces pair
- * func_0204BD94 allocates): enable != 0 installs func_0204C2C8 as each element's
+ * CLACT_InitRenderer allocates): enable != 0 installs CLACT_CullOam as each element's
  * +0x40 callback, enable == 0 sets renderer->cull_reset = 1 and clears the callbacks.  Reached
  * only through a pool word at 0x0204B0FC; the pool word 0x0204C2C8 resolves
  * sole-ref/code.
@@ -3512,13 +3514,13 @@ void func_0204BE28(struct Renderer *renderer){ sub_020307B0(renderer->surfaces);
  * Two levers, both needed: the non-zero arm first (`if (enable != 0)`), and `i`
  * declared before `fn` (found by trying both orders).
  */
-void func_0204BE38(struct Renderer *renderer, int enable)
+void CLACT_SetSurfaceCulling(struct Renderer *renderer, int enable)
 {
     u32 i;
     OamCullFn cull_fn;
 
     if (enable != 0) {
-        cull_fn = func_0204C2C8;
+        cull_fn = CLACT_CullOam;
     } else {
         renderer->cull_reset = 1;
         cull_fn = 0;
@@ -3541,7 +3543,7 @@ void func_0204BE38(struct Renderer *renderer, int enable)
 /*
  * Wave 15 (register-tie lane).  Three facts closed the 104-byte residue of
  * docs/notes/pkt_0204BE84.c.txt:
- *  - func_0204BF28 takes TWO arguments (surface, init->type): its body is
+ *  - CLACT_SetSurfaceType takes TWO arguments (surface, init->type): its body is
  *    `surface->type = tbl_020A1388[idx]`, and the image's `ldr r1, [r4, #8]`
  *    inside the store block is that argument, not an early load of the
  *    table index.  The "missing mov r0, r5" of the older note follows.
@@ -3552,10 +3554,10 @@ void func_0204BE38(struct Renderer *renderer, int enable)
  *    f0, f2, f6, f4 load order and the r2/r3 pair.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BE84.c \
- *       --func func_0204BE84 --addr 0x0204BE84 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_InitSurface.c \
+ *       --func CLACT_InitSurface --addr 0x0204BE84 --cc 1.1p1 --arm
  */
-void func_0204BE84(struct Surface *surface, const struct SurfaceInit *init)
+void CLACT_InitSurface(struct Surface *surface, const struct SurfaceInit *init)
 {
     SurfaceFuncs funcs;
     s16 init_h;
@@ -3568,9 +3570,9 @@ void func_0204BE84(struct Surface *surface, const struct SurfaceInit *init)
     surface->y = (int)init_y << 12;
     surface->width = (int)init->w << 12;
     surface->height = (int)init_h << 12;
-    func_0204BF28(surface, init->type);
-    funcs = g_020A1418[init->type];
-    funcs.extra_func = g_020A13F4[init->extra_func_sel];
+    CLACT_SetSurfaceType(surface, init->type);
+    funcs = g_ClactSurfaceFuncTable[init->type];
+    funcs.extra_func = g_ClactSurfaceModeTable[init->extra_func_sel];
     surface->oam_func = (int)funcs.oam_func;
     surface->affine_func = (int)funcs.affine_func;
     surface->extra_func = (int)funcs.extra_func;
@@ -3593,15 +3595,15 @@ void func_0204BE84(struct Surface *surface, const struct SurfaceInit *init)
  * word inside this function is that address's only occurrence image wide.
  * The escape that unblocked 0x0204C83C in this same region (decompile the
  * target to EXACT and cite it as a `matched` witness) does not exist here:
- * nothing compiles a data table.  Same wall as src/matched/func_0204C8B8.c
+ * nothing compiles a data table.  Same wall as src/matched/CLACT_ExecuteTransfer.c
  * and docs/notes/clact_c_fan_in_1_blockers.c.txt describe for 0x020A138C.
  *
  * Store the u16 entry `idx` of the table at 0x020A1388 into the caller's
  * word at +0x14, zero-extended.
  */
-void func_0204BF28(struct Surface *surface, u32 idx)
+void CLACT_SetSurfaceType(struct Surface *surface, u32 idx)
 {
-    surface->type = g_020A1388[idx];
+    surface->type = g_ClactSurfaceTypeTable[idx];
 }
 
 
@@ -3629,7 +3631,7 @@ void func_0204BF28(struct Surface *surface, u32 idx)
  * enough that 1.1p1 predicates it whole
  * (`ldreq`/`lsleq`/`biceq`/`orreq`/`streq`) and needs no such pointer.
  *
- * Signature pinned from src/matched/func_0204BFC4.c, the one filed caller.
+ * Signature pinned from src/matched/CLACT_EntryOamMain.c, the one filed caller.
  *
  * BYTE-CORRECT, PARKED, NOT FILED.  132 bytes, 0 concrete mismatches; the sole
  * unresolved site is the PC24 to func_02063294 at +0x78.  Blocking evidence
@@ -3639,10 +3641,10 @@ void func_0204BF28(struct Surface *surface, u32 idx)
  * func_02063294 unblocks this file with no change to the C_0204BE38.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BF40.c \
- *       --func func_0204BF40 --addr 0x0204BF40 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_EntryOam.c \
+ *       --func CLACT_EntryOam --addr 0x0204BF40 --cc 1.1p1 --arm
  */
-void func_0204BF40(struct OamManager *oam_manager, struct OamEntry *src_entry, u32 mode, u32 pltt_offset,
+void CLACT_EntryOam(struct OamManager *oam_manager, struct OamEntry *src_entry, u32 mode, u32 pltt_offset,
                    u32 pltt_op)
 {
     struct OamEntry entry_copy;
@@ -3676,9 +3678,9 @@ void func_0204BF40(struct OamManager *oam_manager, struct OamEntry *src_entry, u
  * Forward one command at the manager itself: the manager is the command
  * block, its u16 at +0xf0 is the id and the word at +0xf4 the payload.
  */
-void func_0204BFC4(struct OamEntry *entry, u32 mode)
+void CLACT_EntryOamMain(struct OamEntry *entry, u32 mode)
 {
-    func_0204BF40(&g_02146A74->oam_mgrs.mgr[0], entry, mode, g_02146A74->pltt_base[0], g_02146A74->pltt_op);
+    CLACT_EntryOam(&g_ClactSystem->oam_mgrs.mgr[0], entry, mode, g_ClactSystem->pltt_base[0], g_ClactSystem->pltt_op);
 }
 
 
@@ -3691,13 +3693,13 @@ void func_0204BFC4(struct OamEntry *entry, u32 mode)
 
 
 /*
- * Same forward as func_0204BFC4, but aimed at the sub-command block at
+ * Same forward as CLACT_EntryOamMain, but aimed at the sub-command block at
  * +0x20 of the manager, whose id and payload sit at +0xf2 / +0xf4.
  */
-void func_0204BFF4(struct OamEntry *entry, u32 mode)
+void CLACT_EntryOamSub(struct OamEntry *entry, u32 mode)
 {
-    func_0204BF40(&g_02146A74->oam_mgrs.mgr[1], entry, mode,
-                  g_02146A74->pltt_base[1], g_02146A74->pltt_op);
+    CLACT_EntryOam(&g_ClactSystem->oam_mgrs.mgr[1], entry, mode,
+                  g_ClactSystem->pltt_base[1], g_ClactSystem->pltt_op);
 }
 
 
@@ -3713,9 +3715,9 @@ void func_0204BFF4(struct OamEntry *entry, u32 mode)
  * loaded, its value passed as the first argument, and the callee reached with
  * the compiler's usual `ldr ip, [pc, #4]` / `bx ip` plus a second pool word.
  */
-void func_0204C024(u32 value)
+void CLACT_SetOamManagerMainParam(u32 value)
 {
-    func_02063378(&g_02146A74->oam_mgrs.mgr[0], value);
+    func_02063378(&g_ClactSystem->oam_mgrs.mgr[0], value);
 }
 
 
@@ -3726,16 +3728,16 @@ void func_0204C024(u32 value)
 
 
 /*
- * Same forward as func_0204C024 but aimed at the sub-block at +0x20.
+ * Same forward as CLACT_SetOamManagerMainParam but aimed at the sub-block at +0x20.
  *
  * Unlabelled in the current listings: the prologue saves nothing, so
  * disasm.py never auto-labelled it (see
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  The
  * function starts at the computed address and its body ends at 0x0204C060.
  */
-void func_0204C040(u32 value)
+void CLACT_SetOamManagerSubParam(u32 value)
 {
-    func_02063378(&g_02146A74->oam_mgrs.mgr[1], value);
+    func_02063378(&g_ClactSystem->oam_mgrs.mgr[1], value);
 }
 
 
@@ -3745,7 +3747,7 @@ void func_0204C040(u32 value)
 
 
 /*
- * The 2x2-matrix sibling of func_0204C214 (see docs/notes/pkt_0204C060.c.txt):
+ * The 2x2-matrix sibling of CLACT_IsCellInView (see docs/notes/pkt_0204C060.c.txt):
  * transform the sprite's four half-extents through the caller's 2x2 matrix in
  * 20.12 fixed point, translate by the camera delta, take the min/max of each
  * axis and cull against the viewport.
@@ -3764,10 +3766,10 @@ void func_0204C040(u32 value)
  *    image keeps `and #0x3f` + `lsl #2` + `and #0xff`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C060.c \
- *       --func func_0204C060 --addr 0x0204C060 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_IsAffineCellInView.c \
+ *       --func CLACT_IsAffineCellInView --addr 0x0204C060 --cc 1.1p1 --arm
  */
-int func_0204C060(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view)
+int CLACT_IsAffineCellInView(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view)
 {
     u16 attr = cell->attr;
     s32 size_bits = (s32)(u8)(attr & 0x3f);
@@ -3822,9 +3824,9 @@ int func_0204C060(struct CellData *cell, struct Affine2D *affine, struct ViewRec
 
 
 /*
- * The axis-aligned sibling of func_0204C060 (clact.c): take the sprite's four
+ * The axis-aligned sibling of CLACT_IsAffineCellInView (clact.c): take the sprite's four
  * half-extents in 20.12 fixed point, translate by the camera delta and cull
- * against the viewport.  Where func_0204C060 runs the extents through a 2x2
+ * against the viewport.  Where CLACT_IsAffineCellInView runs the extents through a 2x2
  * matrix, this one adds the deltas straight to them.  No relocations.
  *
  * Four levers, all measured against the image (docs/notes/pkt_0204C060.c.txt
@@ -3839,7 +3841,7 @@ int func_0204C060(struct CellData *cell, struct Affine2D *affine, struct ViewRec
  *    makes the compiler interleave the adds with the branches (115 out).
  *  - The extraction must go through an explicit u8 narrowing of the MASK,
  *    `(s32)(u8)(w & 0x3f)` then `(m6 << 2) & 0xff`, exactly as
- *    func_0204C060 documents.  Every spelling that masks first and narrows
+ *    CLACT_IsAffineCellInView documents.  Every spelling that masks first and narrows
  *    the SHIFTED value -- `(u8)((w & 0x3f) << 2)`, `((w & 0x3f) << 2) & 0xff`,
  *    the u32 and the `* 4` forms -- lets 1.1p1 prove the field contiguous and
  *    fuse it into `lsl #26` + `lsr #24`, where the image keeps
@@ -3848,10 +3850,10 @@ int func_0204C060(struct CellData *cell, struct Affine2D *affine, struct ViewRec
  *    which is the "residue is in the reading, not the allocation" signature.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0204C214.c \
- *       --func func_0204C214 --addr 0x0204C214 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/CLACT_IsCellInView.c \
+ *       --func CLACT_IsCellInView --addr 0x0204C214 --cc 1.1p1 --arm
  */
-int func_0204C214(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view)
+int CLACT_IsCellInView(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view)
 {
     u16 attr = cell->attr;
     s32 size_bits = (s32)(u8)(attr & 0x3f);
@@ -3933,10 +3935,10 @@ static inline u16 SizeY(s32 shape)
 
 
 /*
- * The OAM cull callback func_0204BE38 installs at element +0x40: read the
+ * The OAM cull callback CLACT_SetSurfaceCulling installs at element +0x40: read the
  * element's GXOamAttr attr01 word (+0x38), wrap x (9 bits) and y (8 bits),
  * size the object from the OBJ width/height tables indexed [shape][size],
- * and store func_0204C3CC's verdict into the element's visible flag (+0x30).
+ * and store CLACT_IsRectInView's verdict into the element's visible flag (+0x30).
  * affine is the 2x2 matrix plus translation (tx/ty), view the viewport.
  *
  * Lever (wave 16, declaration facts): the two OBJ size tables are
@@ -3946,7 +3948,7 @@ static inline u16 SizeY(s32 shape)
  * p parameter is wrong (264 bytes); const on box and on the callee's
  * pointer parameters is neutral.
  */
-void func_0204C2C8(struct Surface *surface, struct ViewRect *view, s32 unused_arg2, s32 unused_arg3, struct Affine2D *affine)
+void CLACT_CullOam(struct Surface *surface, struct ViewRect *view, s32 unused_arg2, s32 unused_arg3, struct Affine2D *affine)
 {
     s32 shape = surface->oam.attr01 & 0xC000C000;
     s32 x0 = RepeatX(surface->oam.x) << 12;
@@ -3954,7 +3956,7 @@ void func_0204C2C8(struct Surface *surface, struct ViewRect *view, s32 unused_ar
     s32 y0 = RepeatY(surface->oam.y) << 12;
     s32 y1 = (RepeatY(surface->oam.y) + SizeY(shape)) << 12;
 
-    surface->visible = func_0204C3CC(affine->tx - view->x, affine->ty - view->y,
+    surface->visible = CLACT_IsRectInView(affine->tx - view->x, affine->ty - view->y,
                                x0, x1, y0, y1, affine, view) != 0;
 }
 
@@ -3988,7 +3990,7 @@ void func_0204C2C8(struct Surface *surface, struct ViewRect *view, s32 unused_ar
 
 
 /*
- * The 2x2-matrix cull test behind func_0204C2C8 (its only caller): transform
+ * The 2x2-matrix cull test behind CLACT_CullOam (its only caller): transform
  * the four corners (x0,y0) (x0,y1) (x1,y0) (x1,y1) of an OAM rectangle through
  * the matrix affine (20.12, rounded +0x800), take min/max per axis, translate by the
  * camera delta (dx, dy) and test against the viewport view->width / view->height.  Eight
@@ -3997,7 +3999,7 @@ void func_0204C2C8(struct Surface *surface, struct ViewRect *view, s32 unused_ar
  * Levers, all measured (wave 10):
  *  - the four translated bounds are added EAGERLY as statements
  *    (`minx += dx; maxx += dx; miny += dy; maxy += dy;`) before the `&&`
- *    chain, same lever as func_0204C214; inline in the chain: 41-66 out.
+ *    chain, same lever as CLACT_IsCellInView; inline in the chain: 41-66 out.
  *  - declaration order `maxx, minx, maxy, miny` and the seed order
  *    `min = p; max = p;` put the minimum in p's register and the maximum in
  *    the copy (r4/lr, sb/r7), as the image has it; any other order swaps the
@@ -4006,7 +4008,7 @@ void func_0204C2C8(struct Surface *surface, struct ViewRect *view, s32 unused_ar
  *  - the umull/mla (not smull) products from the second use of each
  *    coordinate on are the CSE'd `(s64)` sign halves, not a different macro.
  */
-int func_0204C3CC(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1,
+int CLACT_IsRectInView(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1,
                   const struct Affine2D *affine, const struct ViewRect *view)
 {
     s32 maxx, minx, maxy, miny;
@@ -4047,13 +4049,13 @@ int func_0204C3CC(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1,
  *
  * Blocked at MATCH: all 132 concrete bytes are correct and four of the five
  * relocation sites resolve, but the PC24 at +0x0054 (the call to
- * func_02066934) has no witness of any class.  0x02066934 has exactly one
+ * NNS_G2dInitCellTransferStateManager) has no witness of any class.  0x02066934 has exactly one
  * branch reference image wide and it is that call, so no cut frees it; the
  * only unblock is a `matched` entry at 0x02066934, far outside clact.c.
  *
  * Construct a pool of `count` 0x30-byte records: allocate the array, hand it to
- * func_02066934 with func_0204C83C as the per-record callback, build the
- * parallel 0x10-byte entry array through func_0204C718, and mark the object
+ * NNS_G2dInitCellTransferStateManager with CLACT_RequestTransfer as the per-record callback, build the
+ * parallel 0x10-byte entry array through CLACT_AllocTransferEntries, and mark the object
  * constructed.  A zero capacity leaves the object unconstructed and is the
  * predicated early return off the `movs` that loads the count.
  *
@@ -4062,19 +4064,19 @@ int func_0204C3CC(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1,
  * two, and 0x30 is not.
  *
  * The allocation result is bound to a local, stored, and then passed on: the
- * call to func_02066934 reuses the value in r0 instead of reloading +0x00,
+ * call to NNS_G2dInitCellTransferStateManager reuses the value in r0 instead of reloading +0x00,
  * which is what the named temporary produces
  * (docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md).
  *
- * func_0204C83C is passed as data, so the relocation is an ABS32 into the
+ * CLACT_RequestTransfer is passed as data, so the relocation is an ABS32 into the
  * code section; it is an ordinary extern declared at its own address, not a
  * veneer.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204C660.c \
- *       --func func_0204C660 --addr 0x0204C660 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_InitTransferPool.c \
+ *       --func CLACT_InitTransferPool --addr 0x0204C660 --cc 1.1p1 --arm
  */
-void func_0204C660(struct TransferPool *pool, u8 count, u32 heapId)
+void CLACT_InitTransferPool(struct TransferPool *pool, u8 count, u32 heapId)
 {
     struct VramTransferTask *tasks;
 
@@ -4087,8 +4089,8 @@ void func_0204C660(struct TransferPool *pool, u8 count, u32 heapId)
     tasks = sub_02030734(heapId, count * sizeof(struct VramTransferTask), 0, s_clact_c, 0x1337);
     pool->tasks = tasks;
 
-    func_02066934(tasks, count, func_0204C83C);
-    func_0204C718((struct TransferPool *)pool, count, heapId);
+    NNS_G2dInitCellTransferStateManager(tasks, count, CLACT_RequestTransfer);
+    CLACT_AllocTransferEntries((struct TransferPool *)pool, count, heapId);
 
     pool->ready = 1;
 }
@@ -4098,22 +4100,22 @@ void func_0204C660(struct TransferPool *pool, u8 count, u32 heapId)
 
 
 /*
- * The inverse of src/matched/func_0204C660.c: release the 0x30-byte record
+ * The inverse of src/matched/CLACT_InitTransferPool.c: release the 0x30-byte record
  * array, drop the free-list built over it, and clear the constructed flag at
  * +0x0c.  An unconstructed object is an early return predicated onto the
  * entry compare.
  *
  * The zero is materialised once into a callee-saved register and used for
  * both stores, because the second store lands after the call to
- * func_0204C788; that is also what forces the store to +0x00 to be written
+ * CLACT_FreeTransferEntries; that is also what forces the store to +0x00 to be written
  * before the call rather than after
  * (docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C6E4.c \
- *       --func func_0204C6E4 --addr 0x0204C6E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ExitTransferPool.c \
+ *       --func CLACT_ExitTransferPool --addr 0x0204C6E4 --cc 1.1p1 --arm
  */
-void func_0204C6E4(struct TransferPool *pool)
+void CLACT_ExitTransferPool(struct TransferPool *pool)
 {
     if (pool->ready == 0) {
         return;
@@ -4121,7 +4123,7 @@ void func_0204C6E4(struct TransferPool *pool)
 
     sub_020307B0(pool->tasks);
     pool->tasks = 0;
-    func_0204C788((struct TransferPool *)pool);
+    CLACT_FreeTransferEntries((struct TransferPool *)pool);
     pool->ready = 0;
 }
 
@@ -4144,10 +4146,10 @@ void func_0204C6E4(struct TransferPool *pool)
  * zero and the 0x10 are hoisted into callee-saved registers for the loop.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C718.c \
- *       --func func_0204C718 --addr 0x0204C718 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_AllocTransferEntries.c \
+ *       --func CLACT_AllocTransferEntries --addr 0x0204C718 --cc 1.1p1 --arm
  */
-void func_0204C718(struct TransferPool *pool, u32 count, u32 heapId)
+void CLACT_AllocTransferEntries(struct TransferPool *pool, u32 count, u32 heapId)
 {
     u32 i;
 
@@ -4163,15 +4165,15 @@ void func_0204C718(struct TransferPool *pool, u32 count, u32 heapId)
 
 
 /*
- * Release the 0x10-byte entry array func_0204C718 allocates at +0x04 and NULL
+ * Release the 0x10-byte entry array CLACT_AllocTransferEntries allocates at +0x04 and NULL
  * the pointer.  The pointer has to survive the free call, so the object is
  * kept in r4 and the store is written after it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C788.c \
- *       --func func_0204C788 --addr 0x0204C788 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_FreeTransferEntries.c \
+ *       --func CLACT_FreeTransferEntries --addr 0x0204C788 --cc 1.1p1 --arm
  */
-void func_0204C788(struct TransferPool *pool)
+void CLACT_FreeTransferEntries(struct TransferPool *pool)
 {
     sub_020307B0(pool->entries);
     pool->entries = 0;
@@ -4182,33 +4184,33 @@ void func_0204C788(struct TransferPool *pool)
 
 /*
  * Blocked at MATCH: all 96 concrete bytes are correct, but the PC24 at
- * +0x0034 (the call to func_0204C8B8) has no witness of any class.
+ * +0x0034 (the call to CLACT_ExecuteTransfer) has no witness of any class.
  * 0x0204C8B8 has exactly one branch reference image wide and it is that
  * call, so no cut frees it; the unblock is a `matched` entry at 0x0204C8B8,
- * which src/pending/func_0204C8B8.c cannot supply, being itself byte-correct
+ * which src/pending/CLACT_ExecuteTransfer.c cannot supply, being itself byte-correct
  * but capped at MATCH by the handler table at 0x020A138C having no second
  * pool word anywhere in the image.
  *
  * Tear down every live entry of a 16-byte-record table: the record count is
  * at +0x08 and the array base at +0x04, and a record is live when its first
- * word is non-null.  Each live record is handed to func_0204C8B8 and then
+ * word is non-null.  Each live record is handed to CLACT_ExecuteTransfer and then
  * zeroed.
  *
- * The array base is re-read from +0x04 on both sides of the func_0204C8B8
+ * The array base is re-read from +0x04 on both sides of the CLACT_ExecuteTransfer
  * call, which is what fixes it as a field load rather than a cached local:
  * the callee may move the table.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204C7A4.c \
- *       --func func_0204C7A4 --addr 0x0204C7A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_ExecuteTransfers.c \
+ *       --func CLACT_ExecuteTransfers --addr 0x0204C7A4 --cc 1.1p1 --arm
  */
-void func_0204C7A4(struct TransferPool *pool)
+void CLACT_ExecuteTransfers(struct TransferPool *pool)
 {
     u32 i;
 
     for (i = 0; i < pool->count; i++) {
         if (pool->entries[i].src != 0) {
-            func_0204C8B8((struct TransferEntry *)(&pool->entries[i]));
+            CLACT_ExecuteTransfer((struct TransferEntry *)(&pool->entries[i]));
             MI_CpuFill8(&pool->entries[i], 0, sizeof(struct TransferEntry));
         }
     }
@@ -4230,10 +4232,10 @@ void func_0204C7A4(struct TransferPool *pool)
  * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C804.c \
- *       --func func_0204C804 --addr 0x0204C804 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetFreeTransferEntry.c \
+ *       --func CLACT_GetFreeTransferEntry --addr 0x0204C804 --cc 1.1p1 --arm
  */
-struct TransferEntry *func_0204C804(struct TransferPool *pool)
+struct TransferEntry *CLACT_GetFreeTransferEntry(struct TransferPool *pool)
 {
     u32 i;
 
@@ -4250,7 +4252,7 @@ struct TransferEntry *func_0204C804(struct TransferPool *pool)
 
 
 /*
- * The per-record callback src/matched/func_0204C660.c hands to func_02066934,
+ * The per-record callback src/matched/CLACT_InitTransferPool.c hands to NNS_G2dInitCellTransferStateManager,
  * which is why its address only ever appears as a pool word and never as a
  * branch target.
  *
@@ -4260,20 +4262,20 @@ struct TransferEntry *func_0204C804(struct TransferPool *pool)
  * on the fall-through.  Giving it a default value in the C adds that `mov`
  * and four bytes, so the original's C had an `if`/`else if` with no `else`.
  *
- * The handle passed to func_0204C8A4 is func_0204C804's return value left in
+ * The handle passed to CLACT_SetTransferEntry is CLACT_GetFreeTransferEntry's return value left in
  * r0, not a reload; the selector chain in between touches only r4 and the
  * flags.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C83C.c \
- *       --func func_0204C83C --addr 0x0204C83C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_RequestTransfer.c \
+ *       --func CLACT_RequestTransfer --addr 0x0204C83C --cc 1.1p1 --arm
  */
-u32 func_0204C83C(u32 kind, u32 dest, u32 src, u32 size)
+u32 CLACT_RequestTransfer(u32 kind, u32 dest, u32 src, u32 size)
 {
     void *entry;
     u32   entry_kind;
 
-    entry = func_0204C804(&g_02146A74->transfer);
+    entry = CLACT_GetFreeTransferEntry(&g_ClactSystem->transfer);
 
     if (kind == 0x13) {
         entry_kind = 0;
@@ -4282,7 +4284,7 @@ u32 func_0204C83C(u32 kind, u32 dest, u32 src, u32 size)
     }
 
     if (size != 0) {
-        func_0204C8A4(entry, entry_kind, dest, src, size);
+        CLACT_SetTransferEntry(entry, entry_kind, dest, src, size);
     }
 
     return 1;
@@ -4301,10 +4303,10 @@ u32 func_0204C83C(u32 kind, u32 dest, u32 src, u32 size)
  * address order would fuse three of them instead and change the encoding.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C8A4.c \
- *       --func func_0204C8A4 --addr 0x0204C8A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetTransferEntry.c \
+ *       --func CLACT_SetTransferEntry --addr 0x0204C8A4 --cc 1.1p1 --arm
  */
-void func_0204C8A4(struct TransferEntry *entry, u32 entry_kind, u32 dest, u32 src, u32 size)
+void CLACT_SetTransferEntry(struct TransferEntry *entry, u32 entry_kind, u32 dest, u32 src, u32 size)
 {
     entry->kind = entry_kind;
     entry->src = (void *)src;
@@ -4315,7 +4317,7 @@ void func_0204C8A4(struct TransferEntry *entry, u32 entry_kind, u32 dest, u32 sr
 
 
 
-extern void (*g_020A138C[])(void *src, u32 arg, u32 size);
+extern void (*g_ClactTransferFuncs[])(void *src, u32 arg, u32 size);
 
 
 
@@ -4339,17 +4341,17 @@ extern void (*g_020A138C[])(void *src, u32 arg, u32 size);
  * copy: the first and third are loaded a second time here because
  * DC_FlushRange may have written them.
  *
- * This function is the sole blocker for src/pending/func_0204C7A4.c, whose
+ * This function is the sole blocker for src/pending/CLACT_ExecuteTransfers.c, whose
  * only call to it is the one branch reference it has image wide.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204C8B8.c \
- *       --func func_0204C8B8 --addr 0x0204C8B8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_ExecuteTransfer.c \
+ *       --func CLACT_ExecuteTransfer --addr 0x0204C8B8 --cc 1.1p1 --arm
  */
-void func_0204C8B8(struct TransferEntry *entry)
+void CLACT_ExecuteTransfer(struct TransferEntry *entry)
 {
     DC_FlushRange(entry->src, entry->size);
-    g_020A138C[entry->kind](entry->src, entry->dest, entry->size);
+    g_ClactTransferFuncs[entry->kind](entry->src, entry->dest, entry->size);
 }
 
 
@@ -4381,10 +4383,10 @@ void func_0204C8B8(struct TransferEntry *entry)
  * docs/idioms/an-assert-expression-string-rides-the-file-name-symbol.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204C8E4.c \
- *       --func sub_0204C8E4 --addr 0x0204C8E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetFreeActor.c \
+ *       --func CLACT_GetFreeActor --addr 0x0204C8E4 --cc 1.1p1 --arm
  */
-struct Actor *sub_0204C8E4(struct Unit *unit)
+struct Actor *CLACT_GetFreeActor(struct Unit *unit)
 {
     int i;
 
@@ -4402,26 +4404,26 @@ struct Actor *sub_0204C8E4(struct Unit *unit)
 
 
 /*
- * Blocked at MATCH: all 72 concrete bytes are correct and sub_0204CEB4
- * resolves `matched`, but the call to func_0204CB44 (+0x0028) has no
+ * Blocked at MATCH: all 72 concrete bytes are correct and CLACT_UpdateActorAutoAnim
+ * resolves `matched`, but the call to CLACT_DrawActor (+0x0028) has no
  * witness: 0204CB44 has exactly one branch reference image wide, this
- * call, so no cut frees it. func_0204C944 itself was the blocker named in
- * docs/notes/clact_c_fan_in_1_blockers.c.txt for func_0204BB8C; closing it
+ * call, so no cut frees it. CLACT_DrawUnit itself was the blocker named in
+ * docs/notes/clact_c_fan_in_1_blockers.c.txt for CLACT_DrawAllUnits; closing it
  * only traded one fan-in-1 blocker for another one level down
- * (func_0204CB44, 108 bytes, not otherwise investigated here).
+ * (CLACT_DrawActor, 108 bytes, not otherwise investigated here).
  *
  * Guarded by the top nibble of the byte at +0xe (the low nibble is never
  * tested here, hence the `lsl #0x18; lsrs #0x1c` rather than a plain
  * `ldrb`/`ands`) and by the ring head at +0x04 being non-null. Then walk
  * that ring (the node's own +0x00 is its `next`, same shape as
- * func_0204BB8C's unit ring) running func_0204CB44 and sub_0204CEB4 (the
- * latter already matched, src/matched/sub_0204CEB4.c) over every member.
+ * CLACT_DrawAllUnits's unit ring) running CLACT_DrawActor and CLACT_UpdateActorAutoAnim (the
+ * latter already matched, src/matched/CLACT_UpdateActorAutoAnim.c) over every member.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C944.c \
- *       --func func_0204C944 --addr 0x0204C944 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_DrawUnit.c \
+ *       --func CLACT_DrawUnit --addr 0x0204C944 --cc 1.1p1 --arm
  */
-void func_0204C944(struct Unit *unit)
+void CLACT_DrawUnit(struct Unit *unit)
 {
     struct Actor *actor;
 
@@ -4435,8 +4437,8 @@ void func_0204C944(struct Unit *unit)
     }
 
     do {
-        func_0204CB44(actor, unit->renderer);
-        sub_0204CEB4(actor);
+        CLACT_DrawActor(actor, unit->renderer);
+        CLACT_UpdateActorAutoAnim(actor);
         actor = actor->next;
     } while (actor != unit->head);
 }
@@ -4449,13 +4451,13 @@ void func_0204C944(struct Unit *unit)
  * at unit+4 and whose links are {next @0, prev @4}.  The empty list seeds a
  * self-loop; a first key below the head's key goes in front of the tail;
  * otherwise the average of the head and tail keys picks the half to search
- * and sub_0204CA74/sub_0204CAAC return the node to insert after.
+ * and CLACT_FindActorBefore/CLACT_FindActorAfter return the node to insert after.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C98C.c \
- *       --func func_0204C98C --addr 0x0204C98C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/CLACT_LinkActor.c \
+ *       --func CLACT_LinkActor --addr 0x0204C98C --cc 1.1p1
  */
-void func_0204C98C(struct Unit *unit, struct Actor *actor)
+void CLACT_LinkActor(struct Unit *unit, struct Actor *actor)
 {
     struct Actor *insert_after;
 
@@ -4466,8 +4468,8 @@ void func_0204C98C(struct Unit *unit, struct Actor *actor)
         return;
     }
     {
-        u32 priority = func_0204B838(actor);
-        u32 head_priority = func_0204B838(unit->head);
+        u32 priority = CLACT_GetActorDrawPriority(actor);
+        u32 head_priority = CLACT_GetActorDrawPriority(unit->head);
         u32 tail_priority;
         u8  mid_priority;
 
@@ -4475,12 +4477,12 @@ void func_0204C98C(struct Unit *unit, struct Actor *actor)
             insert_after = unit->head->prev;
             unit->head = actor;
         } else {
-            tail_priority = func_0204B838(unit->head->prev);
+            tail_priority = CLACT_GetActorDrawPriority(unit->head->prev);
             mid_priority = (u8)((int)(head_priority + tail_priority) / 2);
             if (mid_priority >= priority) {
-                insert_after = sub_0204CA74(unit->head, priority);
+                insert_after = CLACT_FindActorBefore(unit->head, priority);
             } else {
-                insert_after = sub_0204CAAC(unit->head->prev, priority);
+                insert_after = CLACT_FindActorAfter(unit->head->prev, priority);
             }
         }
     }
@@ -4500,7 +4502,7 @@ void func_0204C98C(struct Unit *unit, struct Actor *actor)
  * arms of that inner if write the head, which is why the store is a
  * conditional pair rather than one unconditional store.
  */
-void func_0204CA30(struct Unit *unit, struct Actor *actor)
+void CLACT_UnlinkActor(struct Unit *unit, struct Actor *actor)
 {
     if (unit->head == actor) {
         if (actor->next == actor) {
@@ -4529,19 +4531,19 @@ void func_0204CA30(struct Unit *unit, struct Actor *actor)
  * hit arm is two predicated instructions, `ldrhi` and `pophi`, so it never
  * reaches the shared tail.
  *
- * Its mirror image sub_0204CAAC walks the same list forwards, returns the
+ * Its mirror image CLACT_FindActorAfter walks the same list forwards, returns the
  * node instead of the payload and inverts the condition.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CA74.c \
- *       --func sub_0204CA74 --addr 0x0204CA74 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_FindActorBefore.c \
+ *       --func CLACT_FindActorBefore --addr 0x0204CA74 --cc 1.1p1 --arm
  */
-void *sub_0204CA74(struct Actor *head, u32 priority)
+void *CLACT_FindActorBefore(struct Actor *head, u32 priority)
 {
     struct Actor *cur = head;
 
     do {
-        if (func_0204B838(cur) > priority) {
+        if (CLACT_GetActorDrawPriority(cur) > priority) {
             return cur->prev;
         }
         cur = cur->next;
@@ -4559,7 +4561,7 @@ void *sub_0204CA74(struct Actor *head, u32 priority)
  * not sort above `key`, falling back on the head's `prev` when the walk
  * comes all the way round.
  *
- * Where sub_0204CA74 returns a payload, this one returns the node itself,
+ * Where CLACT_FindActorBefore returns a payload, this one returns the node itself,
  * which is the whole difference between `ldrhi r0, [r4, #4]` there and
  * `movls r0, r4` here.  The polarity is the other way round too: `ls`, the
  * complement of the sibling's `hi`.
@@ -4568,15 +4570,15 @@ void *sub_0204CA74(struct Actor *head, u32 priority)
  * its own `bl 0x204b838` and its own copy of the loop.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CAAC.c \
- *       --func sub_0204CAAC --addr 0x0204CAAC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_FindActorAfter.c \
+ *       --func CLACT_FindActorAfter --addr 0x0204CAAC --cc 1.1p1 --arm
  */
-struct Actor *sub_0204CAAC(struct Actor *head, u32 priority)
+struct Actor *CLACT_FindActorAfter(struct Actor *head, u32 priority)
 {
     struct Actor *cur = head;
 
     do {
-        if (func_0204B838(cur) <= priority) {
+        if (CLACT_GetActorDrawPriority(cur) <= priority) {
             return cur;
         }
         cur = cur->prev;
@@ -4607,10 +4609,10 @@ struct Actor *sub_0204CAAC(struct Actor *head, u32 priority)
  * the source.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CAE4.c \
- *       --func sub_0204CAE4 --addr 0x0204CAE4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ClearActor.c \
+ *       --func CLACT_ClearActor --addr 0x0204CAE4 --cc 1.1p1 --arm
  */
-void sub_0204CAE4(struct Actor *actor)
+void CLACT_ClearActor(struct Actor *actor)
 {
     MI_CpuFill8(actor, 0, 0xe4);
     actor->auto_anim_speed = 0x1000;
@@ -4635,9 +4637,9 @@ void sub_0204CAE4(struct Actor *actor)
  *
  *   func_02066748  0x02066748   12 bytes  -- veneer, resolves `veneer`
  *   func_02065BD0  0x02065BD0  168 bytes  -- OPEN, docs/notes/func_02065BD0.c.txt
- *   func_0204CBB0  0x0204CBB0  188 bytes  -- closed, resolves `matched`
- *   func_0204BA7C  0x0204BA7C  112 bytes  -- closed, resolves `matched`
- *   func_0204CC6C  0x0204CC6C  584 bytes  -- OPEN, soft-float, multi-function
+ *   CLACT_SetupActorDraw  0x0204CBB0  188 bytes  -- closed, resolves `matched`
+ *   CLACT_SetOamOffsets  0x0204BA7C  112 bytes  -- closed, resolves `matched`
+ *   CLACT_ApplyActorTransform  0x0204CC6C  584 bytes  -- OPEN, soft-float, multi-function
  *   func_02065C78  0x02065C78  108 bytes  -- closed, resolves `matched`
  *
  * func_02066748 is not decompilable and never will be.  It is a twelve-byte
@@ -4653,32 +4655,32 @@ void sub_0204CAE4(struct Actor *actor)
  *
  * What remains is func_02065BD0, a 24-byte codegen near miss over one
  * zero-register allocation (the note names every spelling tried), and
- * func_0204CC6C, 584 bytes of soft-float record publishing that nobody has
+ * CLACT_ApplyActorTransform, 584 bytes of soft-float record publishing that nobody has
  * attempted yet.  This function is itself the sole blocker for
- * src/pending/func_0204C944.c, which is the sole blocker named in
- * docs/notes/clact_c_fan_in_1_blockers.c.txt for src/pending/func_0204BB8C.c,
+ * src/pending/CLACT_DrawUnit.c, which is the sole blocker named in
+ * docs/notes/clact_c_fan_in_1_blockers.c.txt for src/pending/CLACT_DrawAllUnits.c,
  * which is one of the two blockers of src/pending/func_0204A600.c (the other
  * is 0x02066998).
  *
  * Per-element teardown.  Guarded by bit 26 of the flag word at +0x60; the
- * two values handed to func_0204BA7C are bits 12-15 (narrowed to u8, which
+ * two values handed to CLACT_SetOamOffsets are bits 12-15 (narrowed to u8, which
  * is what the otherwise redundant `and r1, r1, #0xff` after the shift pair
  * records) and bit 31 of the same word, read through one load.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204CB44.c \
- *       --func func_0204CB44 --addr 0x0204CB44 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_DrawActor.c \
+ *       --func CLACT_DrawActor --addr 0x0204CB44 --cc 1.1p1 --arm
  */
-void func_0204CB44(struct Actor *actor, struct Renderer *renderer)
+void CLACT_DrawActor(struct Actor *actor, struct Renderer *renderer)
 {
     if (actor->enabled == 0)
         return;
 
     func_02066748((int *)renderer, (int)&actor->image, (int)&actor->palette);
     func_02065BD0(renderer);
-    func_0204CBB0(actor, renderer);
-    func_0204BA7C((u32)&actor->palette, (u8)actor->pltt_offset, actor->pltt_op);
-    func_0204CC6C(actor);
+    CLACT_SetupActorDraw(actor, renderer);
+    CLACT_SetOamOffsets((u32)&actor->palette, (u8)actor->pltt_offset, actor->pltt_op);
+    CLACT_ApplyActorTransform(actor);
     func_02065C78();
 }
 
@@ -4699,13 +4701,13 @@ void func_0204CB44(struct Actor *actor, struct Renderer *renderer)
  * docs/idioms/a-cast-between-two-complements-is-what-keeps-both-mvns.md.
  *
  * Decompiled so that it becomes a `matched` witness for the call at
- * 0x0204CB44+0x3c (src/pending/func_0204CB44.c).
+ * 0x0204CB44+0x3c (src/pending/CLACT_DrawActor.c).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204CBB0.c \
- *       --func func_0204CBB0 --addr 0x0204CBB0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetupActorDraw.c \
+ *       --func CLACT_SetupActorDraw --addr 0x0204CBB0 --cc 1.1p1 --arm
  */
-void func_0204CBB0(struct Actor *actor, struct Renderer *renderer)
+void CLACT_SetupActorDraw(struct Actor *actor, struct Renderer *renderer)
 {
     u32 flip_x, flip_y, flags;
     int inv_mask;
@@ -4714,8 +4716,8 @@ void func_0204CBB0(struct Actor *actor, struct Renderer *renderer)
     func_02067AB8(renderer, actor->affine_mode);
 
     if (actor->affine_mode == 0) {
-        flip_x = sub_0204B658(actor, 0);
-        flip_y = sub_0204B658(actor, 1);
+        flip_x = CLACT_GetActorFlip(actor, 0);
+        flip_y = CLACT_GetActorFlip(actor, 1);
         func_02067B78(renderer, flip_y, flip_x);
     }
 
@@ -4746,7 +4748,7 @@ void func_0204CBB0(struct Actor *actor, struct Renderer *renderer)
  * Each has exactly one branch reference image-wide and it is the call in this
  * function, so `label` cannot see them and a single function cannot be split.
  * Closing all three turns this file EXACT and makes it the `matched` witness
- * that src/pending/func_0204CB44.c's last open site needs.
+ * that src/pending/CLACT_DrawActor.c's last open site needs.
  *
  * What it does.  Publishes the cell actor's two coordinate pairs into the
  * render state.  Each s16 field is converted with the same inlined helper:
@@ -4768,7 +4770,7 @@ void func_0204CBB0(struct Actor *actor, struct Renderer *renderer)
  * (this file was matched earlier as `0.5f - t' / `t += 0.5f' against swapped
  * _fsub/_fadd addresses; 0x0209C95C is the add, 0x0209CB8C the subtract).
  */
-void func_0204CC6C(struct Actor *actor)
+void CLACT_ApplyActorTransform(struct Actor *actor)
 {
     f32 y_f, x_f;
     s32 trig_idx;
@@ -4812,13 +4814,13 @@ void func_0204CC6C(struct Actor *actor)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204CC6C.c \
- *       --func func_0204CC6C --addr 0x0204CC6C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_ApplyActorTransform.c \
+ *       --func CLACT_ApplyActorTransform --addr 0x0204CC6C --cc 1.1p1 --arm
  */
 
 
 /*
- * Run the object through sub_0204B8D4, but only when the flag word at +0x60
+ * Run the object through CLACT_AddActorAnimFrame, but only when the flag word at +0x60
  * has its seventh bit set.
  *
  * `lsl #6; lsr #31` with nothing that could be a type conversion is a
@@ -4833,18 +4835,18 @@ void func_0204CC6C(struct Actor *actor)
  * is why the comparison survives as an explicit `cmp r1, #1` instead of
  * folding into the shift's flags.
  *
- * sub_0204B8D4 takes one argument; the `ldr r1, [r0, #0x54]` that precedes
+ * CLACT_AddActorAnimFrame takes one argument; the `ldr r1, [r0, #0x54]` that precedes
  * the call is a second, forwarded value this function reads but that callee
- * ignores (src/pending/sub_0204B8D4.c).
+ * ignores (src/pending/CLACT_AddActorAnimFrame.c).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CEB4.c \
- *       --func sub_0204CEB4 --addr 0x0204CEB4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_UpdateActorAutoAnim.c \
+ *       --func CLACT_UpdateActorAutoAnim --addr 0x0204CEB4 --cc 1.1p1 --arm
  */
-void sub_0204CEB4(struct Actor *actor)
+void CLACT_UpdateActorAutoAnim(struct Actor *actor)
 {
     if (actor->auto_anim == 1) {
-        sub_0204B8D4(actor, actor->auto_anim_speed);
+        CLACT_AddActorAnimFrame(actor, actor->auto_anim_speed);
     }
 }
 
@@ -4855,7 +4857,7 @@ void sub_0204CEB4(struct Actor *actor)
  * +0 and +2 are the two axes of the same setter, selected by a trailing
  * 0/1; the byte at +6 replaces the low eight bits of the flag word at
  * +0x60; the byte at +7 and the halfword at +4 go to their own setters, and
- * func_0204B95C commits the result.
+ * CLACT_StartActorAnim commits the result.
  *
  * `ldrsh` with no immediate offset form is the only evidence that the first
  * two fields are `s16` rather than `u16`
@@ -4867,17 +4869,17 @@ void sub_0204CEB4(struct Actor *actor)
  * eight: the value comes from an `ldrb`, so nothing has to mask it first.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CED8.c \
- *       --func sub_0204CED8 --addr 0x0204CED8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ApplyActorInit.c \
+ *       --func CLACT_ApplyActorInit --addr 0x0204CED8 --cc 1.1p1 --arm
  */
-void sub_0204CED8(struct Actor *actor, const struct ActorInit *init, u32 space)
+void CLACT_ApplyActorInit(struct Actor *actor, const struct ActorInit *init, u32 space)
 {
-    sub_0204B49C(actor, init->x, space, 0);
-    sub_0204B49C(actor, init->y, space, 1);
+    CLACT_SetActorSurfacePosAxis(actor, init->x, space, 0);
+    CLACT_SetActorSurfacePosAxis(actor, init->y, space, 1);
     actor->draw_priority = init->draw_priority;
     func_0204B84C(actor, init->bg_priority);
-    sub_0204B878(actor, init->anim_seq);
-    func_0204B95C(actor);
+    CLACT_SetActorAnimSeq(actor, init->anim_seq);
+    CLACT_StartActorAnim(actor);
 }
 
 
@@ -4895,19 +4897,19 @@ void sub_0204CED8(struct Actor *actor, const struct ActorInit *init, u32 space)
  * that address's only branch site anywhere in the image, so `label` has
  * nothing outside the compared range to point at, and the two functions are
  * not contiguous, so no unit can make the site `local` either.  0x0204B728
- * is now EXACT in src/matched/sub_0204B728.c (the blocker there was one
+ * is now EXACT in src/matched/CLACT_SetActorPaletteProxy.c (the blocker there was one
  * `const` on the source pointer of its closing struct assignment, see
  * docs/idioms/const-source-pointer-schedules-the-block-load-first.md), and
  * the site resolves `matched` against it.  The C in this file is unchanged.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CF40.c \
- *       --func sub_0204CF40 --addr 0x0204CF40 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ApplyActorResources.c \
+ *       --func CLACT_ApplyActorResources --addr 0x0204CF40 --cc 1.1p1 --arm
  */
-void sub_0204CF40(struct Actor *actor, const struct ActorReq *req)
+void CLACT_ApplyActorResources(struct Actor *actor, const struct ActorReq *req)
 {
-    func_0204B784((char *)actor, (const struct ImageProxy *)req->char_slot);
-    sub_0204B728(actor, (const struct PaletteProxy *)req->pltt_slot);
+    CLACT_SetActorImageProxy((char *)actor, (const struct ImageProxy *)req->char_slot);
+    CLACT_SetActorPaletteProxy(actor, (const struct PaletteProxy *)req->pltt_slot);
     actor->char_idx = req->char_idx;
     actor->pltt_idx = req->pltt_idx;
 }
@@ -4925,17 +4927,17 @@ void sub_0204CF40(struct Actor *actor, const struct ActorReq *req)
  * with no branch anywhere.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CF74.c \
- *       --func sub_0204CF74 --addr 0x0204CF74 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetSurfaceOrigin.c \
+ *       --func CLACT_GetSurfaceOrigin --addr 0x0204CF74 --cc 1.1p1 --arm
  */
-void sub_0204CF74(struct Actor *actor, u32 surface_idx, u16 *out)
+void CLACT_GetSurfaceOrigin(struct Actor *actor, u32 surface_idx, u16 *out)
 {
     if (surface_idx == 0xFFFF) {
         out[0] = 0;
         out[1] = 0;
         return;
     }
-    sub_0204B0C8(actor->owner->renderer, surface_idx, (struct Vec2 *)out);
+    CLACT_GetSurfacePos(actor->owner->renderer, surface_idx, (struct Vec2 *)out);
 }
 
 
@@ -4953,10 +4955,10 @@ void sub_0204CF74(struct Actor *actor, u32 surface_idx, u16 *out)
  * (docs/idioms/aggregate-assignment-is-ldm-stm.md describes the other case).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CFA4.c \
- *       --func sub_0204CFA4 --addr 0x0204CFA4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_InitActorRequest.c \
+ *       --func CLACT_InitActorRequest --addr 0x0204CFA4 --cc 1.1p1 --arm
  */
-void sub_0204CFA4(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct G2dDataBank *anim_bank)
+void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct G2dDataBank *anim_bank)
 {
     req->char_idx = char_idx;
     req->pltt_idx = pltt_idx;
@@ -4987,30 +4989,30 @@ void sub_0204CFA4(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharS
  * entry to act as a `matched` witness; all three now have one and the C in
  * this file is unchanged.
  *
- *   0x0204C8E4, the allocator, is src/matched/sub_0204C8E4.c.  Its own
+ *   0x0204C8E4, the allocator, is src/matched/CLACT_GetFreeActor.c.  Its own
  *     blocker was the GF_ASSERT expression string, folded onto the
  *     file-name symbol
  *     (docs/idioms/an-assert-expression-string-rides-the-file-name-symbol.md).
- *   0x0204D0C4, the sub-object initialiser, is src/matched/sub_0204D0C4.c.
+ *   0x0204D0C4, the sub-object initialiser, is src/matched/CLACT_InitAnimCtl.c.
  *     Its handler table 0x020A13DC is row 6 of the array based at
  *     0x020A1394, not a symbol of its own.
- *   0x0204CF40 is src/matched/sub_0204CF40.c, which unstuck once
+ *   0x0204CF40 is src/matched/CLACT_ApplyActorResources.c, which unstuck once
  *     0x0204B728 landed (one `const` on a struct assignment's source).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CFDC.c \
- *       --func sub_0204CFDC --addr 0x0204CFDC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_CreateActorCore.c \
+ *       --func CLACT_CreateActorCore --addr 0x0204CFDC --cc 1.1p1 --arm
  */
-struct Actor *sub_0204CFDC(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id)
+struct Actor *CLACT_CreateActorCore(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id)
 {
-    struct Actor *actor = sub_0204C8E4(unit);
+    struct Actor *actor = CLACT_GetFreeActor(unit);
 
     actor->owner = unit;
-    sub_0204D0C4(&actor->ctl, req, heap_id);
-    sub_0204CED8(actor, init, space);
-    sub_0204CF40(actor, req);
-    func_0204C98C(unit, actor);
-    sub_0204B3DC(actor, 1);
+    CLACT_InitAnimCtl(&actor->ctl, req, heap_id);
+    CLACT_ApplyActorInit(actor, init, space);
+    CLACT_ApplyActorResources(actor, req);
+    CLACT_LinkActor(unit, actor);
+    CLACT_SetActorDrawEnable(actor, 1);
     return actor;
 }
 
@@ -5020,14 +5022,14 @@ struct Actor *sub_0204CFDC(struct Unit *unit, const struct ActorInit *init, stru
 
 
 /*
- * Build the object with sub_0204CFDC, then apply the six remaining fields
- * of the request to it: two axes share sub_0204B59C and two more share
- * sub_0204B5D4, selected by a trailing 0/1 argument, and the last two are
+ * Build the object with CLACT_CreateActorCore, then apply the six remaining fields
+ * of the request to it: two axes share CLACT_SetActorAffineOriginAxis and two more share
+ * CLACT_SetActorScaleAxis, selected by a trailing 0/1 argument, and the last two are
  * plain halfwords.
  *
  * The fifth argument is forwarded untouched: `ldrh r4, [sp, #0x18]` reads
  * this function's own stack argument (six pushed registers above it) and
- * `str r4, [sp]` writes it straight back out as sub_0204CFDC's, with r0-r3
+ * `str r4, [sp]` writes it straight back out as CLACT_CreateActorCore's, with r0-r3
  * never disturbed in between.
  *
  * The literals 0 and 1 are each materialised once, into r5 and r4, and
@@ -5047,19 +5049,19 @@ struct Actor *sub_0204CFDC(struct Unit *unit, const struct ActorInit *init, stru
  * that entry.  The C in this file is unchanged.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D048.c \
- *       --func sub_0204D048 --addr 0x0204D048 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_CreateActorFull.c \
+ *       --func CLACT_CreateActorFull --addr 0x0204D048 --cc 1.1p1 --arm
  */
-struct Actor *sub_0204D048(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id)
+struct Actor *CLACT_CreateActorFull(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id)
 {
-    struct Actor *actor = sub_0204CFDC(unit, init, req, space, heap_id);
+    struct Actor *actor = CLACT_CreateActorCore(unit, init, req, space, heap_id);
 
-    sub_0204B59C(actor, init->origin_x, 0);
-    sub_0204B59C(actor, init->origin_x, 1);
-    sub_0204B5D4(actor, init->scale_x, 0);
-    sub_0204B5D4(actor, init->scale_y, 1);
-    sub_0204B5F4(actor, init->rotation);
-    sub_0204B570(actor, init->affine_mode);
+    CLACT_SetActorAffineOriginAxis(actor, init->origin_x, 0);
+    CLACT_SetActorAffineOriginAxis(actor, init->origin_x, 1);
+    CLACT_SetActorScaleAxis(actor, init->scale_x, 0);
+    CLACT_SetActorScaleAxis(actor, init->scale_y, 1);
+    CLACT_SetActorRotation(actor, init->rotation);
+    CLACT_SetActorAffineMode(actor, init->affine_mode);
     return actor;
 }
 
@@ -5067,7 +5069,7 @@ struct Actor *sub_0204D048(struct Unit *unit, const struct ActorInit *init, stru
 
 
 
-extern void *(*const gUnk_020A1394[][3])();
+extern void *(*const g_ClactAnimFuncTable[][3])();
 
 
 
@@ -5077,7 +5079,7 @@ extern void *(*const gUnk_020A1394[][3])();
 /*
  * Constructor for the 0x7c-byte sub-object embedded at +0x68 of the
  * 0x0204Bxxx owner, and the counterpart of the destructor at 0x0204D104:
- * derive the kind tag from the request with sub_0204D134, stamp it into
+ * derive the kind tag from the request with CLACT_GetAnimCtlKind, stamp it into
  * word 0, then run row 6 of the handler table at 0x020A1394 with the object
  * and the two forwarded arguments.
  *
@@ -5087,19 +5089,19 @@ extern void *(*const gUnk_020A1394[][3])();
  * the last position that still precedes the call.
  *
  * The table is row 6 of the one eight-by-three array based at 0x020A1394;
- * see src/matched/func_0204D324.c for the row map and why the base rather
+ * see src/matched/CLACT_SetAnimSeq.c for the row map and why the base rather
  * than the row is the relocation's symbol.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D0C4.c \
- *       --func sub_0204D0C4 --addr 0x0204D0C4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_InitAnimCtl.c \
+ *       --func CLACT_InitAnimCtl --addr 0x0204D0C4 --cc 1.1p1 --arm
  */
-void sub_0204D0C4(struct AnimCtl *anim_ctl, void *req, u32 heap_id)
+void CLACT_InitAnimCtl(struct AnimCtl *anim_ctl, void *req, u32 heap_id)
 {
-    u32 kind = sub_0204D134(req);
+    u32 kind = CLACT_GetAnimCtlKind(req);
 
     anim_ctl->kind = kind;
-    gUnk_020A1394[6][kind](anim_ctl, req, heap_id);
+    g_ClactAnimFuncTable[6][kind](anim_ctl, req, heap_id);
 }
 
 
@@ -5111,9 +5113,9 @@ void sub_0204D0C4(struct AnimCtl *anim_ctl, void *req, u32 heap_id)
 
 
 
-void sub_0204D104(struct AnimCtl *anim_ctl)
+void CLACT_ExitAnimCtl(struct AnimCtl *anim_ctl)
 {
-    gUnk_020A1394[5][anim_ctl->kind](anim_ctl);
+    g_ClactAnimFuncTable[5][anim_ctl->kind](anim_ctl);
     MI_CpuFill8(anim_ctl, 0, 0x7c);
 }
 
@@ -5123,7 +5125,7 @@ void sub_0204D104(struct AnimCtl *anim_ctl)
 
 
 /*
- * Classify a request into the small index the sibling sub_0204D0C4 uses to
+ * Classify a request into the small index the sibling CLACT_InitAnimCtl uses to
  * pick a handler out of its table: 1 if the pointer at +0x1c is set, else 2
  * if the one at +0x14 is, else 0.  A leaf with no prologue at all, so
  * disasm.py never labelled it.
@@ -5136,10 +5138,10 @@ void sub_0204D104(struct AnimCtl *anim_ctl)
  * read in reverse, the result here is not initialised first).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D134.c \
- *       --func sub_0204D134 --addr 0x0204D134 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetAnimCtlKind.c \
+ *       --func CLACT_GetAnimCtlKind --addr 0x0204D134 --cc 1.1p1 --arm
  */
-s32 sub_0204D134(const struct ActorReq *req)
+s32 CLACT_GetAnimCtlKind(const struct ActorReq *req)
 {
     if (req->xfer_chars != 0) {
         return 1;
@@ -5166,15 +5168,15 @@ s32 sub_0204D134(const struct ActorReq *req)
  * without the `const`).
  *
  * sub_020627D8 is called here with an explicit zero in r1, where
- * src/matched/sub_0204D340.c leaves r1 untouched: the two call sites
+ * src/matched/CLACT_SetCellAnimSeq.c leaves r1 untouched: the two call sites
  * disagree about the arity, and the zero is written out only because this
  * one needs it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D158.c \
- *       --func sub_0204D158 --addr 0x0204D158 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_InitCellAnimCtl.c \
+ *       --func CLACT_InitCellAnimCtl --addr 0x0204D158 --cc 1.1p1 --arm
  */
-void sub_0204D158(struct AnimCtl *anim_ctl, const struct ActorReq *req)
+void CLACT_InitCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req)
 {
     anim_ctl->cell_bank = req->cell_bank;
     anim_ctl->anim_bank = req->anim_bank;
@@ -5192,14 +5194,14 @@ void sub_0204D158(struct AnimCtl *anim_ctl, const struct ActorReq *req)
  * close with `const struct ActorReq *req`.  The read-only source pointer lets the
  * parameter copy of anim_ctl be scheduled before the loads, freeing r0 for the
  * stmib pair {r0, r1}.  The rest is the 2026-09-22 source from
- * docs/notes/pkt_0204D18C.func_0204D224.c.txt: the nested t1/t0 block
+ * docs/notes/pkt_0204D18C.CLACT_InitVramAnimCtl.c.txt: the nested t1/t0 block
  * (descending loads) for the stmib, and `two - 3` for the -1 argument.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D18C.c \
- *       --func func_0204D18C --addr 0x0204D18C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_InitMultiCellAnimCtl.c \
+ *       --func CLACT_InitMultiCellAnimCtl --addr 0x0204D18C --cc 1.1p1 --arm
  */
-void func_0204D18C(struct AnimCtl *anim_ctl, const struct ActorReq *req)
+void CLACT_InitMultiCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req)
 {
     u32 zero = 0;
     u32 two;
@@ -5230,9 +5232,9 @@ void func_0204D18C(struct AnimCtl *anim_ctl, const struct ActorReq *req)
 /*
  * Record constructor in clact.c.  Wave 15 (register-tie lane): EXACT* (the
  * listing extent runs over the unlabelled fill leaf 0x0204D2C8, filed as
- * src/matched/func_0204D2C8.c).  Two facts closed it:
+ * src/matched/CLACT_ExitCellAnimCtl.c).  Two facts closed it:
  *  - the older 2-byte "best source" in
- *    docs/notes/pkt_0204D18C.func_0204D224.c.txt stored req->mc_bank into +0x04
+ *    docs/notes/pkt_0204D18C.CLACT_InitVramAnimCtl.c.txt stored req->mc_bank into +0x04
  *    and req->cell_bank into +0x70, which is NOT what the image does (image: +0x04
  *    gets cell_bank, +0x70 gets mc_bank).  The honest residue with the image's
  *    pairing was 9 bytes.
@@ -5242,10 +5244,10 @@ void func_0204D18C(struct AnimCtl *anim_ctl, const struct ActorReq *req)
  *    The `volatile` device on +0x04 is no longer needed.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D224.c \
- *       --func func_0204D224 --addr 0x0204D224 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_InitVramAnimCtl.c \
+ *       --func CLACT_InitVramAnimCtl --addr 0x0204D224 --cc 1.1p1 --arm
  */
-void func_0204D224(struct AnimCtl *anim_ctl, const struct ActorReq *req, u32 heap_id)
+void CLACT_InitVramAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req, u32 heap_id)
 {
     anim_ctl->cell_bank = req->cell_bank;
     anim_ctl->anim_bank = req->anim_bank;
@@ -5263,16 +5265,16 @@ void func_0204D224(struct AnimCtl *anim_ctl, const struct ActorReq *req, u32 hea
 
 
 /*
- * Unlabelled leaf after func_0204D224 in clact.c: clears the 0x7c-byte
- * animation sub-object (the same fill sub_0204D2DC ends with), as a tail
- * call.  Filed as the witness that turns func_0204D224's EXACT* into EXACT
+ * Unlabelled leaf after CLACT_InitVramAnimCtl in clact.c: clears the 0x7c-byte
+ * animation sub-object (the same fill CLACT_ExitMultiCellAnimCtl ends with), as a tail
+ * call.  Filed as the witness that turns CLACT_InitVramAnimCtl's EXACT* into EXACT
  * once 0x0204D2C8 is seeded.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D2C8.c \
- *       --func func_0204D2C8 --addr 0x0204D2C8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ExitCellAnimCtl.c \
+ *       --func CLACT_ExitCellAnimCtl --addr 0x0204D2C8 --cc 1.1p1 --arm
  */
-void func_0204D2C8(void *anim)
+void CLACT_ExitCellAnimCtl(void *anim)
 {
     MI_CpuFill8(anim, 0, 0x7c);
 }
@@ -5287,21 +5289,21 @@ void func_0204D2C8(void *anim)
  * object: release the sub-resource whose handle lives at +0x64, then wipe
  * the whole record.  0x02082BCC is the SDK's byte fill (dest, value,
  * length); the 0x7c length is the object's own size, which the sibling
- * sub_0204D300 repeats verbatim for the +0x78 variant.
+ * CLACT_ExitVramAnimCtl repeats verbatim for the +0x78 variant.
  *
  * Was capped at MATCH: the PC24 site at +0x0c names 0x02066B38 and this is
  * that address's only branch site anywhere in the image, so `label` has
  * nothing to point at and no split can create one from a single function.
- * 0x02066B38 is now EXACT in src/matched/sub_02066B38.c and the site
+ * 0x02066B38 is now EXACT in src/matched/NNSi_G2dResetCellTransferState.c and the site
  * resolves `matched` against it.  The C in this file is unchanged.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D2DC.c \
- *       --func sub_0204D2DC --addr 0x0204D2DC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ExitMultiCellAnimCtl.c \
+ *       --func CLACT_ExitMultiCellAnimCtl --addr 0x0204D2DC --cc 1.1p1 --arm
  */
-void sub_0204D2DC(struct AnimCtl *anim_ctl)
+void CLACT_ExitMultiCellAnimCtl(struct AnimCtl *anim_ctl)
 {
-    sub_02066B38((u32)anim_ctl->xfer_handle);
+    NNSi_G2dResetCellTransferState((u32)anim_ctl->xfer_handle);
     MI_CpuFill8(anim_ctl, 0, 0x7c);
 }
 
@@ -5311,16 +5313,16 @@ void sub_0204D2DC(struct AnimCtl *anim_ctl)
 
 
 /*
- * The sibling of sub_0204D2DC: same destructor shape for the variant whose
+ * The sibling of CLACT_ExitMultiCellAnimCtl: same destructor shape for the variant whose
  * owned resource hangs off +0x78 and is freed through the heap entry point
  * at 0x020307B0 rather than 0x02066B38.  The trailing wipe is the same
  * 0x7c-byte object fill.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D300.c \
- *       --func sub_0204D300 --addr 0x0204D300 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ExitVramAnimCtl.c \
+ *       --func CLACT_ExitVramAnimCtl --addr 0x0204D300 --cc 1.1p1 --arm
  */
-void sub_0204D300(struct AnimCtl *anim_ctl)
+void CLACT_ExitVramAnimCtl(struct AnimCtl *anim_ctl)
 {
     sub_020307B0(anim_ctl->mc_work);
     MI_CpuFill8(anim_ctl, 0, 0x7c);
@@ -5357,9 +5359,9 @@ void sub_0204D300(struct AnimCtl *anim_ctl)
  *   row 0  0x020A1394   pooled at 0x0204D490
  *   row 1  0x020A13A0   pooled at 0x0204D45C
  *   row 3  0x020A13B8   pooled here
- *   row 5  0x020A13D0   pooled at 0x0204D130  (sub_0204D104)
+ *   row 5  0x020A13D0   pooled at 0x0204D130  (CLACT_ExitAnimCtl)
  *   row 6  0x020A13DC   pooled at 0x0204D100
- *   row 7  0x020A13E8   pooled at 0x0204D428  (sub_0204D410)
+ *   row 7  0x020A13E8   pooled at 0x0204D428  (CLACT_GetAnimCtrl)
  *   row 10 0x020A140C   pooled at 0x0204D3C4  (unit_0204D3C4.c)
  *
  * Declared that way the relocation names the array's base, 0x020A1394, and
@@ -5369,12 +5371,12 @@ void sub_0204D300(struct AnimCtl *anim_ctl)
  * See docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D324.c \
- *       --func func_0204D324 --addr 0x0204D324 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetAnimSeq.c \
+ *       --func CLACT_SetAnimSeq --addr 0x0204D324 --cc 1.1p1 --arm
  */
-void func_0204D324(struct AnimCtl *anim_ctl, u32 anim_seq)
+void CLACT_SetAnimSeq(struct AnimCtl *anim_ctl, u32 anim_seq)
 {
-    gUnk_020A1394[3][anim_ctl->kind](anim_ctl, anim_seq);
+    g_ClactAnimFuncTable[3][anim_ctl->kind](anim_ctl, anim_seq);
 }
 
 
@@ -5385,16 +5387,16 @@ void func_0204D324(struct AnimCtl *anim_ctl, u32 anim_seq)
 /*
  * One of this family's per-slot "apply" hooks: take the handle at +8,
  * resolve it through sub_020627D8, and feed the result to sub_0206434C
- * together with the embedded record at +0xc.  sub_0204D360 is a
+ * together with the embedded record at +0xc.  CLACT_SetMultiCellAnimSeq is a
  * byte-for-byte duplicate of this function at a different address (the two
  * differ only in their PC24 displacements), which is what a pair of
  * distinct table slots sharing one body looks like when neither was folded.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D340.c \
- *       --func sub_0204D340 --addr 0x0204D340 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetCellAnimSeq.c \
+ *       --func CLACT_SetCellAnimSeq --addr 0x0204D340 --cc 1.1p1 --arm
  */
-void sub_0204D340(struct AnimCtl *anim_ctl, u32 idx)
+void CLACT_SetCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 {
     sub_0206434C(anim_ctl->anim, sub_020627D8(anim_ctl->anim_bank, idx));
 }
@@ -5405,16 +5407,16 @@ void sub_0204D340(struct AnimCtl *anim_ctl, u32 idx)
 
 
 /*
- * The second copy of sub_0204D340: same body, same two callees, emitted
+ * The second copy of CLACT_SetCellAnimSeq: same body, same two callees, emitted
  * again thirty-two bytes later.  Two adjacent dispatch-table slots each got
  * their own definition and nothing folded them, so the only difference
  * between the two functions in the image is the PC24 displacement.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D360.c \
- *       --func sub_0204D360 --addr 0x0204D360 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetMultiCellAnimSeq.c \
+ *       --func CLACT_SetMultiCellAnimSeq --addr 0x0204D360 --cc 1.1p1 --arm
  */
-void sub_0204D360(struct AnimCtl *anim_ctl, u32 idx)
+void CLACT_SetMultiCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 {
     sub_0206434C(anim_ctl->anim, sub_020627D8(anim_ctl->anim_bank, idx));
 }
@@ -5425,16 +5427,16 @@ void sub_0204D360(struct AnimCtl *anim_ctl, u32 idx)
 
 
 /*
- * The third member of the sub_0204D340 / sub_0204D360 trio, reading the
+ * The third member of the CLACT_SetCellAnimSeq / CLACT_SetMultiCellAnimSeq trio, reading the
  * handle from +0x74 instead of +8 and finishing in sub_0206469C instead of
  * sub_0206434C.  The shared middle step, sub_020627D8 on the handle, is
  * what says these three are the same operation over different slots.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D380.c \
- *       --func sub_0204D380 --addr 0x0204D380 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetVramAnimSeq.c \
+ *       --func CLACT_SetVramAnimSeq --addr 0x0204D380 --cc 1.1p1 --arm
  */
-void sub_0204D380(struct AnimCtl *anim_ctl, u32 idx)
+void CLACT_SetVramAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 {
     sub_0206469C((struct MultiCellAnim *)anim_ctl->anim, sub_020627D8(anim_ctl->mc_anim_bank, idx));
 }
@@ -5444,8 +5446,8 @@ void sub_0204D380(struct AnimCtl *anim_ctl, u32 idx)
 
 
 /*
- * Set the +0x10 field of the record sub_0204D410 resolves for this object,
- * then re-run the object through the sub_0204D3C4 dispatcher with a zero
+ * Set the +0x10 field of the record CLACT_GetAnimCtrl resolves for this object,
+ * then re-run the object through the CLACT_AddAnimFrame dispatcher with a zero
  * second argument.  Both callees are themselves index-dispatch thunks
  * (`ldr r3,[r0]; ldr r2,[table, r3 lsl 2]; blx r2`), so this function is
  * the C-visible half of a virtual pair.
@@ -5454,17 +5456,17 @@ void sub_0204D380(struct AnimCtl *anim_ctl, u32 idx)
  * recomputed, which is what forces the four-register push: r4 holds the
  * incoming second argument over the same call.
  *
- * This is the missing witness for src/pending/sub_0204B8C4.c, whose only
+ * This is the missing witness for src/pending/CLACT_SetActorAnimFrame.c, whose only
  * unresolved site is the ABS32 pool word naming 0x0204D3A0.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D3A0.c \
- *       --func sub_0204D3A0 --addr 0x0204D3A0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetAnimFrame.c \
+ *       --func CLACT_SetAnimFrame --addr 0x0204D3A0 --cc 1.1p1 --arm
  */
-void sub_0204D3A0(struct AnimCtl *anim_ctl, u32 value)
+void CLACT_SetAnimFrame(struct AnimCtl *anim_ctl, u32 value)
 {
-    sub_0204D410(anim_ctl)->frame = value;
-    sub_0204D3C4(anim_ctl, 0);
+    CLACT_GetAnimCtrl(anim_ctl)->frame = value;
+    CLACT_AddAnimFrame(anim_ctl, 0);
 }
 
 
@@ -5476,25 +5478,16 @@ void sub_0204D3A0(struct AnimCtl *anim_ctl, u32 value)
 
 
 
-void *sub_0204D3C4(struct AnimCtl *anim_ctl, u32 speed)
+void *CLACT_AddAnimFrame(struct AnimCtl *anim_ctl, u32 speed)
 {
-    return gUnk_020A1394[10][anim_ctl->kind](anim_ctl, speed);
+    return g_ClactAnimFuncTable[10][anim_ctl->kind](anim_ctl, speed);
 }
 
 
 
 
 
-void sub_0204D3E0(struct AnimCtl *anim_ctl, s32 frames)
-{
-    sub_02064364((struct CellAnim *)(anim_ctl->anim), frames);
-}
-
-
-
-
-
-void sub_0204D3F0(struct AnimCtl *anim_ctl, s32 frames)
+void CLACT_AddCellAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
 {
     sub_02064364((struct CellAnim *)(anim_ctl->anim), frames);
 }
@@ -5503,7 +5496,16 @@ void sub_0204D3F0(struct AnimCtl *anim_ctl, s32 frames)
 
 
 
-void sub_0204D400(struct AnimCtl *anim_ctl, s32 frames)
+void CLACT_AddMultiCellAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
+{
+    sub_02064364((struct CellAnim *)(anim_ctl->anim), frames);
+}
+
+
+
+
+
+void CLACT_AddVramAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
 {
     sub_020649D4((char *)anim_ctl->anim, frames);
 }
@@ -5530,21 +5532,21 @@ void sub_0204D400(struct AnimCtl *anim_ctl, s32 frames)
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
  * `blx` plus `push {r3, lr}` rather than a tail `bx` is the ordinary
  * non-tail form: the result is returned unchanged, which is what lets
- * sub_0204D3A0 write through it directly.
+ * CLACT_SetAnimFrame write through it directly.
  *
  * This file was parked at MATCH* while 0x020A13E8 was read as a table
  * object of its own, which left the ABS32 without a witness.  It is row 7
  * of the one eight-by-three array based at 0x020A1394; see
- * src/matched/func_0204D324.c for the row map and the reasoning.  The base
+ * src/matched/CLACT_SetAnimSeq.c for the row map and the reasoning.  The base
  * is attested `literal` by the pool word at 0x0204D490, outside this range.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0204D410.c \
  *       --addr 0x0204D410 --arm
  */
-struct AnimCtrl *sub_0204D410(struct AnimCtl *anim_ctl)
+struct AnimCtrl *CLACT_GetAnimCtrl(struct AnimCtl *anim_ctl)
 {
-    return gUnk_020A1394[7][anim_ctl->kind](anim_ctl);
+    return g_ClactAnimFuncTable[7][anim_ctl->kind](anim_ctl);
 }
 
 
@@ -5552,17 +5554,7 @@ struct AnimCtrl *sub_0204D410(struct AnimCtl *anim_ctl)
 
 
 
-void *sub_0204D42C(struct AnimCtl *anim_ctl)
-{
-    return anim_ctl->anim;
-}
-
-
-
-
-
-
-void *sub_0204D434(struct AnimCtl *anim_ctl)
+void *CLACT_GetCellAnimCtrl(struct AnimCtl *anim_ctl)
 {
     return anim_ctl->anim;
 }
@@ -5572,7 +5564,17 @@ void *sub_0204D434(struct AnimCtl *anim_ctl)
 
 
 
-void *sub_0204D43C(struct AnimCtl *anim_ctl)
+void *CLACT_GetMultiCellAnimCtrl(struct AnimCtl *anim_ctl)
+{
+    return anim_ctl->anim;
+}
+
+
+
+
+
+
+void *CLACT_GetVramAnimCtrl(struct AnimCtl *anim_ctl)
 {
     return anim_ctl->anim;
 }
@@ -5589,15 +5591,15 @@ void *sub_0204D43C(struct AnimCtl *anim_ctl)
  * adjustment.  Three unlabelled leaves folded into the unit with the thunk.
  *
  * The base is attested `literal` by the pool word at 0x0204D490, outside
- * this range; see src/matched/func_0204D324.c for the row map.
+ * this range; see src/matched/CLACT_SetAnimSeq.c for the row map.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0204D444.c \
  *       --addr 0x0204D444 --arm
  */
-struct AnimCtrl *sub_0204D444(struct AnimCtl *anim_ctl)
+struct AnimCtrl *CLACT_GetAnimObject(struct AnimCtl *anim_ctl)
 {
-    return gUnk_020A1394[1][anim_ctl->kind](anim_ctl);
+    return g_ClactAnimFuncTable[1][anim_ctl->kind](anim_ctl);
 }
 
 
@@ -5605,17 +5607,7 @@ struct AnimCtrl *sub_0204D444(struct AnimCtl *anim_ctl)
 
 
 
-void *sub_0204D460(struct AnimCtl *anim_ctl)
-{
-    return anim_ctl->anim;
-}
-
-
-
-
-
-
-void *sub_0204D468(struct AnimCtl *anim_ctl)
+void *CLACT_GetCellAnimObject(struct AnimCtl *anim_ctl)
 {
     return anim_ctl->anim;
 }
@@ -5625,7 +5617,17 @@ void *sub_0204D468(struct AnimCtl *anim_ctl)
 
 
 
-void *sub_0204D470(struct AnimCtl *anim_ctl)
+void *CLACT_GetMultiCellAnimObject(struct AnimCtl *anim_ctl)
+{
+    return anim_ctl->anim;
+}
+
+
+
+
+
+
+void *CLACT_GetVramAnimObject(struct AnimCtl *anim_ctl)
 {
     return anim_ctl->anim;
 }
@@ -5647,7 +5649,7 @@ void *sub_0204D470(struct AnimCtl *anim_ctl)
 /*
  * Row 0 of the eight-by-three handler table at 0x020A1394, the same shape as
  * src/matched/unit_0204D410.c (row 7), src/matched/unit_0204D444.c (row 1)
- * and src/matched/func_0204D324.c (row 3, and the row map).  Every concrete
+ * and src/matched/CLACT_SetAnimSeq.c (row 3, and the row map).  Every concrete
  * byte is reproduced; the single unresolved site is the ABS32 in the pool.
  *
  * Blocked on: evidence class `literal`, and it can never be satisfied.  For
@@ -5661,16 +5663,16 @@ void *sub_0204D470(struct AnimCtl *anim_ctl)
  *
  * The arity comes from the register pair, not from the call: the original
  * takes the kind in r3 and the table base in r2, which is the two-parameter
- * allocation (compare src/matched/func_0204D324.c).  The one-parameter
+ * allocation (compare src/matched/CLACT_SetAnimSeq.c).  The one-parameter
  * spelling allocates r2 then r1 and is a four-instruction diff.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204D478.c \
- *       --func sub_0204D478 --addr 0x0204D478 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_SetAnimIndex.c \
+ *       --func CLACT_SetAnimIndex --addr 0x0204D478 --cc 1.1p1 --arm
  */
-void *sub_0204D478(struct AnimCtl *anim_ctl, u32 anim_idx)
+void *CLACT_SetAnimIndex(struct AnimCtl *anim_ctl, u32 anim_idx)
 {
-    return gUnk_020A1394[0][anim_ctl->kind](anim_ctl, anim_idx);
+    return g_ClactAnimFuncTable[0][anim_ctl->kind](anim_ctl, anim_idx);
 }
 
 
@@ -5688,7 +5690,7 @@ void *sub_0204D478(struct AnimCtl *anim_ctl, u32 anim_idx)
  * Two identical tail calls to the same callee with the argument biased by
  * 0xc.  Unlabelled leaves; the range 0x0204D494..0x0204D4B4 is contiguous.
  */
-void func_0204D494(u8 *anim_base, u32 frame)
+void CLACT_SetCellAnimIndex(u8 *anim_base, u32 frame)
 {
     func_02064384((struct CellAnim *)(anim_base + 0xc), frame);
 }
@@ -5704,7 +5706,7 @@ void func_0204D494(u8 *anim_base, u32 frame)
 
 
 
-void func_0204D4A4(u8 *anim_base, u32 frame)
+void CLACT_SetMultiCellAnimIndex(u8 *anim_base, u32 frame)
 {
     func_02064384((struct CellAnim *)(anim_base + 0xc), frame);
 }
@@ -5725,7 +5727,7 @@ void func_0204D4A4(u8 *anim_base, u32 frame)
  *           pkt_02064934 lane, so the sole ABS32 site now resolves `matched`.
  *
  * The third row-0 handler of the table at 0x020A1394 (row map in
- * src/matched/func_0204D324.c).  Same shape as the two in
+ * src/matched/CLACT_SetAnimSeq.c).  Same shape as the two in
  * src/matched/unit_0204D494.c, tail calling the +0xc subobject through a pool
  * word, but to a different target.  It saves nothing, so disasm.py gives it
  * no label.
@@ -5739,10 +5741,10 @@ void func_0204D4A4(u8 *anim_base, u32 frame)
  * as `label` if an overlay turns out to call it directly.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204D4B4.c \
- *       --func sub_0204D4B4 --addr 0x0204D4B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_SetVramAnimIndex.c \
+ *       --func CLACT_SetVramAnimIndex --addr 0x0204D4B4 --cc 1.1p1 --arm
  */
-void sub_0204D4B4(struct AnimCtl *anim_ctl, u32 frame)
+void CLACT_SetVramAnimIndex(struct AnimCtl *anim_ctl, u32 frame)
 {
     sub_02064AB4((char *)anim_ctl->anim, frame);
 }
@@ -5771,17 +5773,17 @@ void sub_0204D4B4(struct AnimCtl *anim_ctl, u32 frame)
  * src/matched/unit_0204D410.c allocates r2 then r1
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
  *
- * The third handler, sub_0204D500 at 0x0204D500, is deliberately left out
+ * The third handler, CLACT_UpdateVramAnim at 0x0204D500, is deliberately left out
  * of the range: its tail-call target 0x02064B68 is named only by its own
  * pool word, so including it caps the whole unit at MATCH.  It is parked
- * byte-correct in src/pending/sub_0204D500.c, and it graduates when
+ * byte-correct in src/pending/CLACT_UpdateVramAnim.c, and it graduates when
  * 0x02064B68 does (docs/notes/sub_02064B68.c.txt).
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0204D4C4.c \
  *       --addr 0x0204D4C4 --arm
  */
-void sub_0204D4C4(struct AnimCtl *anim_ctl, u32 frames)
+void CLACT_UpdateAnim(struct AnimCtl *anim_ctl, u32 frames)
 {
     gUnk_020A7F3C[anim_ctl->kind](anim_ctl, frames);
 }
@@ -5795,7 +5797,7 @@ void sub_0204D4C4(struct AnimCtl *anim_ctl, u32 frames)
 
 
 
-void sub_0204D4E0(struct AnimCtl *anim_ctl, u32 value)
+void CLACT_UpdateCellAnim(struct AnimCtl *anim_ctl, u32 value)
 {
     sub_020643C4((struct MultiCellAnim *)(anim_ctl->anim), value);
 }
@@ -5809,7 +5811,7 @@ void sub_0204D4E0(struct AnimCtl *anim_ctl, u32 value)
 
 
 
-void sub_0204D4F0(struct AnimCtl *anim_ctl, u32 value)
+void CLACT_UpdateMultiCellAnim(struct AnimCtl *anim_ctl, u32 value)
 {
     sub_020643C4((struct MultiCellAnim *)(anim_ctl->anim), value);
 }
@@ -5840,10 +5842,10 @@ void sub_0204D4F0(struct AnimCtl *anim_ctl, u32 value)
  * would cap that whole range at MATCH for one unattestable word.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204D500.c \
- *       --func sub_0204D500 --addr 0x0204D500 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_UpdateVramAnim.c \
+ *       --func CLACT_UpdateVramAnim --addr 0x0204D500 --cc 1.1p1 --arm
  */
-void sub_0204D500(struct AnimCtl *anim_ctl, u32 target)
+void CLACT_UpdateVramAnim(struct AnimCtl *anim_ctl, u32 target)
 {
     sub_02064B68((anim_ctl->anim), (void *)target);
 }
@@ -5868,12 +5870,12 @@ void sub_0204D500(struct AnimCtl *anim_ctl, u32 target)
  * stays MATCH regardless of the C.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204D510.c \
- *       --func func_0204D510 --addr 0x0204D510 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_ResetAnim.c \
+ *       --func CLACT_ResetAnim --addr 0x0204D510 --cc 1.1p1 --arm
  */
-void func_0204D510(struct AnimCtl *anim_ctl)
+void CLACT_ResetAnim(struct AnimCtl *anim_ctl)
 {
-    g_DispatchTable_0204D510[anim_ctl->kind](anim_ctl);
+    g_ClactAnimResetFuncs[anim_ctl->kind](anim_ctl);
 }
 
 
@@ -5883,7 +5885,7 @@ void func_0204D510(struct AnimCtl *anim_ctl)
 
 
 
-void func_0204D52C(void *anim_base){ func_020643A4((struct CellAnim *)((char *)anim_base + 0xc)); }
+void CLACT_ResetCellAnim(void *anim_base){ func_020643A4((struct CellAnim *)((char *)anim_base + 0xc)); }
 
 
 
@@ -5894,7 +5896,7 @@ void func_0204D52C(void *anim_base){ func_020643A4((struct CellAnim *)((char *)a
 /*
  * The same 0xc-biased tail call to the other callee of the pair.
  */
-void func_0204D53C(u8 *anim_base)
+void CLACT_ResetMultiCellAnim(u8 *anim_base)
 {
     func_020643A4((struct CellAnim *)(anim_base + 0xc));
 }
@@ -5905,8 +5907,8 @@ void func_0204D53C(u8 *anim_base)
 
 
 /*
- * Tear the actor down and release the sub-object at +0x40: func_0204D52C on
- * the actor itself, then func_02064C10 on the tail.
+ * Tear the actor down and release the sub-object at +0x40: CLACT_ResetCellAnim on
+ * the actor itself, then NNSi_G2dMCAnimUpdateBank on the tail.
  *
  * Both call sites resolve from `matched` witnesses, which is what this file
  * waited for while it sat parked in src/pending/ with both PC24s wildcarded.
@@ -5917,41 +5919,20 @@ void func_0204D53C(u8 *anim_base)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D54C.c \
- *       --func func_0204D54C --addr 0x0204D54C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ResetVramAnim.c \
+ *       --func CLACT_ResetVramAnim --addr 0x0204D54C --cc 1.1p1 --arm
  */
-void func_0204D54C(void *anim_base)
+void CLACT_ResetVramAnim(void *anim_base)
 {
-    func_0204D52C(anim_base);
-    func_02064C10((struct CellXferState *)((u8 *)anim_base + 0x40));
+    CLACT_ResetCellAnim(anim_base);
+    NNSi_G2dMCAnimUpdateBank((struct CellXferState *)((u8 *)anim_base + 0x40));
 }
 
 
 
 
 
-void *func_0204D564(struct AnimCtl *anim_ctl, u32 idx)
-{
-    UserExtBlock *block = anim_ctl->anim_bank->user_ext;
-    UserAttrTable *table;
-    if (block == 0 || block->tag != 0x55414154) {
-        block = 0;
-    }
-    table = block != 0 ? &block->tbl : 0;
-    if (table != 0) {
-        if ((u16)idx < table->count) {
-            return table->items + (u16)idx * 12;
-        }
-        return 0;
-    }
-    return 0;
-}
-
-
-
-
-
-void *func_0204D5CC(struct AnimCtl *anim_ctl, u32 idx)
+void *CLACT_GetCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
 {
     UserExtBlock *block = anim_ctl->anim_bank->user_ext;
     UserAttrTable *table;
@@ -5972,7 +5953,28 @@ void *func_0204D5CC(struct AnimCtl *anim_ctl, u32 idx)
 
 
 
-void *func_0204D634(struct AnimCtl *anim_ctl, u32 idx)
+void *CLACT_GetMultiCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
+{
+    UserExtBlock *block = anim_ctl->anim_bank->user_ext;
+    UserAttrTable *table;
+    if (block == 0 || block->tag != 0x55414154) {
+        block = 0;
+    }
+    table = block != 0 ? &block->tbl : 0;
+    if (table != 0) {
+        if ((u16)idx < table->count) {
+            return table->items + (u16)idx * 12;
+        }
+        return 0;
+    }
+    return 0;
+}
+
+
+
+
+
+void *CLACT_GetVramCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
 {
     UserExtBlock *block = anim_ctl->mc_anim_bank->user_ext;
     UserAttrTable *table;
@@ -5993,7 +5995,7 @@ void *func_0204D634(struct AnimCtl *anim_ctl, u32 idx)
 
 
 
-UserAttrTable *func_0204D69C(struct AnimCtl *anim_ctl)
+UserAttrTable *CLACT_GetCellUserAttrTable(struct AnimCtl *anim_ctl)
 {
     UserExtBlock *block = anim_ctl->cell_bank->user_ext;
     if (block == 0 || block->tag != 0x55434154) {
@@ -6006,7 +6008,7 @@ UserAttrTable *func_0204D69C(struct AnimCtl *anim_ctl)
 
 
 
-UserAttrTable *func_0204D6D4(struct AnimCtl *anim_ctl)
+UserAttrTable *CLACT_GetMultiCellUserAttrTable(struct AnimCtl *anim_ctl)
 {
     UserExtBlock *block = anim_ctl->cell_bank->user_ext;
     if (block == 0 || block->tag != 0x55434154) {
@@ -6019,7 +6021,7 @@ UserAttrTable *func_0204D6D4(struct AnimCtl *anim_ctl)
 
 
 
-UserAttrTable *func_0204D70C(struct AnimCtl *anim_ctl)
+UserAttrTable *CLACT_GetVramCellUserAttrTable(struct AnimCtl *anim_ctl)
 {
     UserExtBlock *block = anim_ctl->mc_bank->mc_user_ext;
     if (block == 0 || block->tag != 0x55434154) {
@@ -6032,7 +6034,7 @@ UserAttrTable *func_0204D70C(struct AnimCtl *anim_ctl)
 
 
 
-u16 func_0204D744(struct AnimCtl *anim_ctl)
+u16 CLACT_GetCellBankCount(struct AnimCtl *anim_ctl)
 {
     return *(u16 *)anim_ctl->anim_bank;
 }
@@ -6041,7 +6043,7 @@ u16 func_0204D744(struct AnimCtl *anim_ctl)
 
 
 
-u16 func_0204D750(struct AnimCtl *anim_ctl)
+u16 CLACT_GetMultiCellBankCount(struct AnimCtl *anim_ctl)
 {
     return *(u16 *)anim_ctl->anim_bank;
 }
@@ -6050,7 +6052,7 @@ u16 func_0204D750(struct AnimCtl *anim_ctl)
 
 
 
-u16 func_0204D75C(struct AnimCtl *anim_ctl)
+u16 CLACT_GetVramCellBankCount(struct AnimCtl *anim_ctl)
 {
     return *(u16 *)anim_ctl->mc_anim_bank;
 }
@@ -6088,12 +6090,12 @@ u16 func_0204D75C(struct AnimCtl *anim_ctl)
  * and four.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D768.c \
- *       --func func_0204D768 --addr 0x0204D768 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ApplyAnimCommand.c \
+ *       --func CLACT_ApplyAnimCommand --addr 0x0204D768 --cc 1.1p1 --arm
  */
-void func_0204D768(struct AnimCtl *anim_ctl, const struct Cmd *cmd)
+void CLACT_ApplyAnimCommand(struct AnimCtl *anim_ctl, const struct Cmd *cmd)
 {
-    void *anim_ctrl = sub_0204D410(anim_ctl);
+    void *anim_ctrl = CLACT_GetAnimCtrl(anim_ctl);
 
     switch (cmd->op) {
     case 0:
@@ -6122,19 +6124,19 @@ void func_0204D768(struct AnimCtl *anim_ctl, const struct Cmd *cmd)
 
 /*
  * Reset the animation handle behind the cell actor's +0x68 sub-object: the
- * all-zero form of the case-0 arm of func_0204D768 next door.
+ * all-zero form of the case-0 arm of CLACT_ApplyAnimCommand next door.
  *
  * The three zero arguments are one `mov r1, #0` and two register copies, not
  * three `mov`s of an immediate
  * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D7C4.c \
- *       --func func_0204D7C4 --addr 0x0204D7C4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ResetAnimCommand.c \
+ *       --func CLACT_ResetAnimCommand --addr 0x0204D7C4 --cc 1.1p1 --arm
  */
-void func_0204D7C4(struct AnimCtl *anim_ctl)
+void CLACT_ResetAnimCommand(struct AnimCtl *anim_ctl)
 {
-    func_02063000((int)sub_0204D410(anim_ctl), 0, 0, 0);
+    func_02063000((int)CLACT_GetAnimCtrl(anim_ctl), 0, 0, 0);
 }
 
 
@@ -6150,46 +6152,46 @@ void func_0204D7C4(struct AnimCtl *anim_ctl)
 
 
 /*
- * Blocked at MATCH: all 204 concrete bytes are correct; func_0204DA5C,
- * func_0204DCA8 and func_0204E01C all now resolve `matched` off their own
- * manifest entries (src/matched/func_0204DA5C.c, func_0204DCA8.c). Only
- * func_02034558 (+0x0038 and +0x005C) is left, and it cannot reach EXACT
- * from here: see docs/notes/func_02034558.c.txt. Its only two branch
+ * Blocked at MATCH: all 204 concrete bytes are correct; CLACT_AllocCharacterTable,
+ * CLACT_AllocPaletteTable and CLACT_AllocCellAnimTable all now resolve `matched` off their own
+ * manifest entries (src/matched/CLACT_AllocCharacterTable.c, CLACT_AllocPaletteTable.c). Only
+ * VMAN_Create (+0x0038 and +0x005C) is left, and it cannot reach EXACT
+ * from here: see docs/notes/VMAN_Create.c.txt. Its only two branch
  * references image wide are the two calls in this function, so no cut
  * frees it, and decompiling it does not help either, since it is itself
- * blocked by sub_02034520's unwitnessed g_FlagTable literal, one level
+ * blocked by VMAN_GetBankSetSize's unwitnessed g_FlagTable literal, one level
  * further down.
  *
  * Build the cell-actor system's five resource managers out of the caller's
  * config and capacity records, then keep a copy of the six capacities in the
  * output block at +0x14..+0x1e.
  *
- * The first two managers are the same func_02034558 with a different pair of
+ * The first two managers are the same VMAN_Create with a different pair of
  * config words; its fifth argument goes through the four-byte stack slot the
  * prologue reserves, which is the whole reason for the `sub sp, sp, #4`.  The
  * shared constant 1 is hoisted into r8 rather than re-materialised at each
  * call, because both calls want it in r1 and nothing in between clobbers it.
  *
- * The two capacities that reach func_02034558 are scaled by 32 with a plain
+ * The two capacities that reach VMAN_Create are scaled by 32 with a plain
  * `lsl` on the zero-extended halfword; the six stores at the end are six
  * separate `strh`, not an aggregate copy, so they are written as six field
  * assignments (docs/idioms/aggregate-assignment-is-ldm-stm.md is the shape
  * that would have collapsed them).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204D7E0.c \
- *       --func func_0204D7E0 --addr 0x0204D7E0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_InitResources.c \
+ *       --func CLACT_InitResources --addr 0x0204D7E0 --cc 1.1p1 --arm
  */
-void func_0204D7E0(struct Res *res, u32 heapId, const struct DispVramCfg *cfg,
+void CLACT_InitResources(struct Res *res, u32 heapId, const struct DispVramCfg *cfg,
                    const struct Caps *caps)
 {
-    res->vram_main    = func_02034558(heapId, 1, cfg->main_obj_bank, caps->n_main_blocks << 5,
+    res->vram_main    = VMAN_Create(heapId, 1, cfg->main_obj_bank, caps->n_main_blocks << 5,
                                   cfg->main_obj_mapping);
-    res->vram_sub = func_02034558(heapId, 1, cfg->sub_obj_bank, caps->n_sub_blocks << 5,
+    res->vram_sub = VMAN_Create(heapId, 1, cfg->sub_obj_bank, caps->n_sub_blocks << 5,
                                   cfg->sub_obj_mapping);
-    res->chars     = func_0204DA5C(heapId, caps->n_chars);
-    res->pltts     = func_0204DCA8(heapId, caps->n_pltts);
-    res->cells  = func_0204E01C(heapId, caps->n_cells);
+    res->chars     = CLACT_AllocCharacterTable(heapId, caps->n_chars);
+    res->pltts     = CLACT_AllocPaletteTable(heapId, caps->n_pltts);
+    res->cells  = CLACT_AllocCellAnimTable(heapId, caps->n_cells);
 
     res->n_chars     = caps->n_chars;
     res->n_pltts     = caps->n_pltts;
@@ -6213,16 +6215,16 @@ void func_0204D7E0(struct Res *res, u32 heapId, const struct DispVramCfg *cfg,
 
 /*
  * Was blocked at MATCH: all 264 concrete bytes were correct and the two PC24
- * sites at +0x00E0 and +0x00E8, both calls to func_020345DC, had no witness
+ * sites at +0x00E0 and +0x00E8, both calls to VMAN_Delete, had no witness
  * of any class (those two calls were its only branch references image
- * wide).  Unblocked by src/matched/func_020345DC.c, now a `matched` witness.
+ * wide).  Unblocked by src/matched/VMAN_Delete.c, now a `matched` witness.
  *
- * The inverse of src/pending/func_0204D7E0.c: release every live entry of the
+ * The inverse of src/pending/CLACT_InitResources.c: release every live entry of the
  * three parallel tables, then the tables themselves and the two heaps, and
  * NULL all five pointers.  This block is the tail of the singleton, at
  * +0x104, which is why the three per-entry finalisers take a bare index and
- * find the table through the global themselves (src/matched/sub_0204A8D4.c,
- * sub_0204ADA4.c and sub_0204AFD8.c).
+ * find the table through the global themselves (src/matched/CLACT_ReleaseCharacter.c,
+ * CLACT_ReleasePalette.c and CLACT_ReleaseCellAnim.c).
  *
  * The liveness tests are the same three fields those finalisers write: the
  * one-bit field at bit 31 of +0x3c of the 0x40-byte record, the whole word at
@@ -6237,36 +6239,36 @@ void func_0204D7E0(struct Res *res, u32 heapId, const struct DispVramCfg *cfg,
  * 0x18; only the 0x40 stride folds into `add r0, r0, r4, lsl #6`.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204D8AC.c \
- *       --func func_0204D8AC --addr 0x0204D8AC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_ExitResources.c \
+ *       --func CLACT_ExitResources --addr 0x0204D8AC --cc 1.1p1 --arm
  */
-void func_0204D8AC(struct Res *res)
+void CLACT_ExitResources(struct Res *res)
 {
     u32 i;
 
     for (i = 0; i < res->n_chars; i++) {
         if (res->chars[i].free == 0) {
-            sub_0204A8D4(i);
+            CLACT_ReleaseCharacter(i);
         }
     }
 
     for (i = 0; i < res->n_cells; i++) {
         if (res->cells[i].free == 0) {
-            sub_0204AFD8(i);
+            CLACT_ReleaseCellAnim(i);
         }
     }
 
     for (i = 0; i < res->n_pltts; i++) {
         if (res->pltts[i].free == 0) {
-            sub_0204ADA4(i);
+            CLACT_ReleasePalette(i);
         }
     }
 
-    func_0204DC64(res->chars);
-    func_0204E010(res->pltts);
-    func_0204E0C4(res->cells);
-    func_020345DC(res->vram_sub);
-    func_020345DC(res->vram_main);
+    CLACT_FreeCharacterTable(res->chars);
+    CLACT_FreePaletteTable(res->pltts);
+    CLACT_FreeCellAnimTable(res->cells);
+    VMAN_Delete(res->vram_sub);
+    VMAN_Delete(res->vram_main);
 
     res->vram_main    = 0;
     res->vram_sub = 0;
@@ -6298,10 +6300,10 @@ void func_0204D8AC(struct Res *res)
  * like once it is short enough not to branch.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D9B4.c \
- *       --func func_0204D9B4 --addr 0x0204D9B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_IsVramTypeCompatible.c \
+ *       --func CLACT_IsVramTypeCompatible --addr 0x0204D9B4 --cc 1.1p1 --arm
  */
-u32 func_0204D9B4(u32 mode, u32 bank_idx)
+u32 CLACT_IsVramTypeCompatible(u32 mode, u32 bank_idx)
 {
     if (mode == 2 || bank_idx == 2) {
         return 1;
@@ -6350,10 +6352,10 @@ u32 func_0204D9B4(u32 mode, u32 bank_idx)
  * recomputed.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D9D4.c \
- *       --func func_0204D9D4 --addr 0x0204D9D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_LoadArchiveData.c \
+ *       --func CLACT_LoadArchiveData --addr 0x0204D9D4 --cc 1.1p1 --arm
  */
-void *func_0204D9D4(void *archive, u32 file_idx, u32 compressed, u32 heapId)
+void *CLACT_LoadArchiveData(void *archive, u32 file_idx, u32 compressed, u32 heapId)
 {
     void *out;
     struct CompHeader *packed;
@@ -6384,21 +6386,21 @@ void *func_0204D9D4(void *archive, u32 file_idx, u32 compressed, u32 heapId)
 
 
 /*
- * Closes one of the two clact.c fan-in-1 blockers of func_0204D7E0
+ * Closes one of the two clact.c fan-in-1 blockers of CLACT_InitResources
  * documented in docs/notes/clact_c_fan_in_1_blockers.c.txt (the other is
- * func_0204DCA8, the packet's next function).
+ * CLACT_AllocPaletteTable, the packet's next function).
  *
  * Allocate `count` 0x40-byte records and initialise each: set bit 31 of
  * the word at +0x3c (a one-bit bitfield, unconditional `bic`/`orr` of the
  * same immediate is the bitfield-store tell), then hand the two
- * two-word sentinel pairs at +0x2c and +0x34 to sub_02034630 (already
+ * two-word sentinel pairs at +0x2c and +0x34 to VMAN_InvalidateHandle (already
  * matched, src/matched/unit_02034630.c).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204DA5C.c \
- *       --func func_0204DA5C --addr 0x0204DA5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_AllocCharacterTable.c \
+ *       --func CLACT_AllocCharacterTable --addr 0x0204DA5C --cc 1.1p1 --arm
  */
-void *func_0204DA5C(u32 heapId, u32 count)
+void *CLACT_AllocCharacterTable(u32 heapId, u32 count)
 {
     u32 i;
     struct CharSlot *slots;
@@ -6408,8 +6410,8 @@ void *func_0204DA5C(u32 heapId, u32 count)
     for (i = 0; i < count; i++) {
         struct CharSlot *slot = &slots[i];
         slot->free = 1;
-        sub_02034630(&slot->main_block);
-        sub_02034630(&slot->sub_block);
+        VMAN_InvalidateHandle(&slot->main_block);
+        VMAN_InvalidateHandle(&slot->sub_block);
     }
 
     return slots;
@@ -6434,14 +6436,14 @@ void *func_0204DA5C(u32 heapId, u32 count)
  * flag set. func_02063790 resets the cell's three-word handle triple, then
  * each half (the +0x2C descriptor against bank +0x00 and kind 1, the +0x34
  * descriptor against bank +0x04 and kind 2) is uploaded only when
- * func_0204D9B4 admits the mode pair and func_02034660 finds the resource:
- * func_020346D8 turns the descriptor into a byte offset, func_0204DC70
+ * CLACT_IsVramTypeCompatible admits the mode pair and VMAN_Alloc finds the resource:
+ * func_020346D8 turns the descriptor into a byte offset, CLACT_UpdateObjMapping
  * selects the VRAM window, and one of the three upload entries is chosen by
  * the override flag and, failing that, by the sink's own +0x08 selector.
  * Finally the sink pointer is published at +0x28 (null when not overridden)
  * and the key is packed into the low 31 bits of the word at +0x3C.
  */
-void func_0204DACC(struct Res *res, u32 idx, struct CharData *char_data, struct CharXferInfo *xfer_override,
+void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_data, struct CharXferInfo *xfer_override,
                    u32 vram_mode)
 {
     struct CharSlot *slot;
@@ -6464,11 +6466,11 @@ void func_0204DACC(struct Res *res, u32 idx, struct CharData *char_data, struct 
 
     func_02063790((u32 *)slot);
 
-    if (func_0204D9B4(vram_mode, 0) != 0) {
-        if (func_02034660((u8 *)res->vram_main, vram_size, (void **)&slot->main_block) != 0) {
+    if (CLACT_IsVramTypeCompatible(vram_mode, 0) != 0) {
+        if (VMAN_Alloc((u8 *)res->vram_main, vram_size, (void **)&slot->main_block) != 0) {
             vram_offset = func_020346D8((struct VramAllocator *)res->vram_main, (u32 *)&slot->main_block);
             vram_kind = 1;
-            func_0204DC70((struct CharData *)char_data, (int)vram_kind);
+            CLACT_UpdateObjMapping((struct CharData *)char_data, (int)vram_kind);
             if (has_override != 0) {
                 func_02063C80((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
             } else if (char_data->mapping != 0) {
@@ -6479,11 +6481,11 @@ void func_0204DACC(struct Res *res, u32 idx, struct CharData *char_data, struct 
         }
     }
 
-    if (func_0204D9B4(vram_mode, 1) != 0) {
-        if (func_02034660((u8 *)res->vram_sub, vram_size, (void **)&slot->sub_block) != 0) {
+    if (CLACT_IsVramTypeCompatible(vram_mode, 1) != 0) {
+        if (VMAN_Alloc((u8 *)res->vram_sub, vram_size, (void **)&slot->sub_block) != 0) {
             vram_offset = func_020346D8((struct VramAllocator *)res->vram_sub, (u32 *)&slot->sub_block);
             vram_kind = 2;
-            func_0204DC70((struct CharData *)char_data, (int)vram_kind);
+            CLACT_UpdateObjMapping((struct CharData *)char_data, (int)vram_kind);
             if (has_override != 0) {
                 func_02063C80((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
             } else if (char_data->mapping != 0) {
@@ -6510,7 +6512,7 @@ void func_0204DACC(struct Res *res, u32 idx, struct CharData *char_data, struct 
 
 
 
-void func_0204DC64(void *chars)
+void CLACT_FreeCharacterTable(void *chars)
 {
     sub_020307B0(chars);
 }
@@ -6526,7 +6528,7 @@ void func_0204DC64(void *chars)
 
 
 
-void func_0204DC70(struct CharData *char_data, int screen)
+void CLACT_UpdateObjMapping(struct CharData *char_data, int screen)
 {
     u32 mapping_bits = (screen == 1) ? (*(vu32 *)0x04000000 & 0x00300010) : (*(vu32 *)0x04001000 & 0x00300010);
     if (char_data->mapping != mapping_bits) {
@@ -6544,24 +6546,24 @@ void func_0204DC70(struct CharData *char_data, int screen)
 
 
 /*
- * Closes the other of the two clact.c fan-in-1 blockers of func_0204D7E0
+ * Closes the other of the two clact.c fan-in-1 blockers of CLACT_InitResources
  * documented in docs/notes/clact_c_fan_in_1_blockers.c.txt (the other is
- * func_0204DA5C, this packet's previous function).
+ * CLACT_AllocCharacterTable, this packet's previous function).
  *
  * Allocate `count` 0x18-byte records and set bit 31 of the word at +0x14
  * of each (a one-bit bitfield; the unconditional `bic`/`orr` pair of the
  * same immediate is the bitfield-store tell, same shape as
- * func_0204DA5C's +0x3c field).
+ * CLACT_AllocCharacterTable's +0x3c field).
  *
  * The record size 0x18 is a real `mul` against a register, not a shift
  * pair, because 0x18 is not a power of two; the per-record address inside
  * the loop is then one `mla`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204DCA8.c \
- *       --func func_0204DCA8 --addr 0x0204DCA8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_AllocPaletteTable.c \
+ *       --func CLACT_AllocPaletteTable --addr 0x0204DCA8 --cc 1.1p1 --arm
  */
-void *func_0204DCA8(u32 heapId, u32 count)
+void *CLACT_AllocPaletteTable(u32 heapId, u32 count)
 {
     u32 i;
     struct PlttSlot *slots;
@@ -6588,9 +6590,9 @@ void *func_0204DCA8(u32 heapId, u32 count)
  * (the +0x08 byte count / +0x0c data word pair, a palette-shaped record) by
  * `head` 32-byte blocks from the front and to `tail` blocks, clamp it to the
  * layer limit, re-upload for one or both engines, then store the surviving
- * byte count into the entry's bits 0..30.  Sole caller: sub_0204AC18.
+ * byte count into the entry's bits 0..30.  Sole caller: CLACT_RegisterPaletteEx.
  *
- * The C body is docs/notes/func_0204DD08.c.txt's (476 against 480 there),
+ * The C body is docs/notes/CLACT_TransferPaletteData.c.txt's (476 against 480 there),
  * closed in wave 10 by two levers:
  *  - THE MATERIALISED `lsl r0, r3, #5`.  The head block's offset is a named
  *    64-BIT local, `unsigned long long ofs = head * 32;`, used by the add and
@@ -6607,7 +6609,7 @@ void *func_0204DCA8(u32 heapId, u32 count)
  *    local before the OR (`u32 free_bit = slot->bits & 0x80000000;`), which is what
  *    loads +0x14 before pltt_data->size.
  */
-void func_0204DD08(struct Res *res, int idx, void *file, void *vram_mode,
+void CLACT_TransferPaletteData(struct Res *res, int idx, void *file, void *vram_mode,
                   u32 vram_offset, u16 first_color, u16 color_count)
 {
     struct PaletteData *pltt_data;
@@ -6658,13 +6660,13 @@ void func_0204DD08(struct Res *res, int idx, void *file, void *vram_mode,
         }
     }
 
-    if (func_0204D9B4((u32)vram_mode, 0)) {
+    if (CLACT_IsVramTypeCompatible((u32)vram_mode, 0)) {
         saved_state = func_02080C34();
         if (extended) func_0208068C();
         func_02063E54(pltt_data, vram_offset, 1, (struct PlttSlot *)(slots + slot_off));
         if (extended) func_020801F8(saved_state);
     }
-    if (func_0204D9B4((u32)vram_mode, 1)) {
+    if (CLACT_IsVramTypeCompatible((u32)vram_mode, 1)) {
         saved_state = func_02080C74();
         if (extended) func_0208068C();
         func_02063E54(pltt_data, vram_offset, 2, (struct PlttSlot *)(slots + slot_off));
@@ -6686,8 +6688,8 @@ void func_0204DD08(struct Res *res, int idx, void *file, void *vram_mode,
 
 
 /*
- * The one-surface sibling of func_0204DD08 (same entry table, same 0x200
- * large-layer split, same bracketed double upload through func_0204D9B4's
+ * The one-surface sibling of CLACT_TransferPaletteData (same entry table, same 0x200
+ * large-layer split, same bracketed double upload through CLACT_IsVramTypeCompatible's
  * engine select), uploading through func_02063F4C instead of func_02063E54.
  * Returns nothing: the trailing read-modify-write leaves r0 as garbage.
  *
@@ -6697,9 +6699,9 @@ void func_0204DD08(struct Res *res, int idx, void *file, void *vram_mode,
  * (`if (size < 0x200) flag = 0; else {...}`), which is what orders the
  * predicated `movlo sl,#0` before `movhs sl,#1`.  Either alone leaves 4-6
  * bytes out.  `off = idx * sizeof(struct PlttSlot)` as a byte-offset local and
- * the entry re-derived from res->pltts at the end are func_0204DD08's pins.
+ * the entry re-derived from res->pltts at the end are CLACT_TransferPaletteData's pins.
  */
-void func_0204DEE8(struct Res *res, int idx, void *file, void *vram_mode, u32 vram_offset)
+void CLACT_TransferPaletteDataEx(struct Res *res, int idx, void *file, void *vram_mode, u32 vram_offset)
 {
     void *pltt_data;
     void *pltt_hdr;
@@ -6723,13 +6725,13 @@ void func_0204DEE8(struct Res *res, int idx, void *file, void *vram_mode, u32 vr
     }
     func_020637D4((u32 *)slot);
 
-    if (func_0204D9B4((u32)vram_mode, 0)) {
+    if (CLACT_IsVramTypeCompatible((u32)vram_mode, 0)) {
         saved_state = func_02080C34();
         if (extended) func_0208068C();
         func_02063F4C(pltt_data, pltt_hdr, vram_offset, 1, (struct PaletteProxy *)slot);
         if (extended) func_020801F8(saved_state);
     }
-    if (func_0204D9B4((u32)vram_mode, 1)) {
+    if (CLACT_IsVramTypeCompatible((u32)vram_mode, 1)) {
         saved_state = func_02080C74();
         if (extended) func_0208068C();
         func_02063F4C(pltt_data, pltt_hdr, vram_offset, 2, (struct PaletteProxy *)slot);
@@ -6746,7 +6748,7 @@ void func_0204DEE8(struct Res *res, int idx, void *file, void *vram_mode, u32 vr
 
 
 
-void func_0204E010(void *pltts)
+void CLACT_FreePaletteTable(void *pltts)
 {
     sub_020307B0(pltts);
 }
@@ -6770,10 +6772,10 @@ void func_0204E010(void *pltts)
  * never as a literal __FILE__.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204E01C.c \
- *       --func func_0204E01C --addr 0x0204E01C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_AllocCellAnimTable.c \
+ *       --func CLACT_AllocCellAnimTable --addr 0x0204E01C --cc 1.1p1 --arm
  */
-struct CellSlot *func_0204E01C(u32 heap_id, u32 count)
+struct CellSlot *CLACT_AllocCellAnimTable(u32 heap_id, u32 count)
 {
     struct CellSlot *slots;
     u32 i;
@@ -6817,10 +6819,10 @@ struct CellSlot *func_0204E01C(u32 heap_id, u32 count)
  * happens when it is live across the call as a plain value.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204E074.c \
- *       --func func_0204E074 --addr 0x0204E074 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_LoadCellAnimBanks.c \
+ *       --func CLACT_LoadCellAnimBanks --addr 0x0204E074 --cc 1.1p1 --arm
  */
-s32 func_0204E074(struct Res *res, s32 idx, void *cell_file, void *anim_file)
+s32 CLACT_LoadCellAnimBanks(struct Res *res, s32 idx, void *cell_file, void *anim_file)
 {
     struct CellSlot *slot = &res->cells[idx];
 
@@ -6840,7 +6842,7 @@ s32 func_0204E074(struct Res *res, s32 idx, void *cell_file, void *anim_file)
 
 
 
-void func_0204E0C4(void *cells)
+void CLACT_FreeCellAnimTable(void *cells)
 {
     sub_020307B0(cells);
 }
@@ -6854,7 +6856,7 @@ void func_0204E0C4(void *cells)
 
 /*
  * Resolve a handle through func_02062A00 into a stack temporary and, only
- * on success, hand it to func_0204DACC together with the two stacked
+ * on success, hand it to CLACT_SetupCharacterVram together with the two stacked
  * arguments, then clear bit 31 of +0x3c in the 0x40-byte slot `idx` of the
  * table at `res->chars`.
  *
@@ -6862,7 +6864,7 @@ void func_0204E0C4(void *cells)
  * sp, #4` before the first call and the `ldr r2, [sp, #4]` after it are the
  * out-parameter, and the `ldr r3, [sp, #0x18]` is the caller's fifth
  * argument being reloaded from the incoming stack area, which fixes the
- * arity at five.  Argument four reaches func_0204DACC's own stack slot and
+ * arity at five.  Argument four reaches CLACT_SetupCharacterVram's own stack slot and
  * argument five reaches its r3, so the two are swapped relative to this
  * function's own signature; that is the original's order, not a slip.
  *
@@ -6874,16 +6876,16 @@ void func_0204E0C4(void *cells)
  * #6` once with an immediate-offset load and store.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204E0D0.c \
- *       --func func_0204E0D0 --addr 0x0204E0D0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetupCharacter.c \
+ *       --func CLACT_SetupCharacter --addr 0x0204E0D0 --cc 1.1p1 --arm
  */
-void func_0204E0D0(struct Res *res, s32 idx, u32 handle, u32 vram_mode, u32 xfer_info)
+void CLACT_SetupCharacter(struct Res *res, s32 idx, u32 handle, u32 vram_mode, u32 xfer_info)
 {
     u32 char_data_addr;
     struct CharSlot *slot;
 
     if (func_02062A00((struct NitroFileHeader *)handle, (void **)(&char_data_addr)) != 0) {
-        func_0204DACC((struct Res *)res, idx, (struct CharData *)char_data_addr, (struct CharXferInfo *)xfer_info, vram_mode);
+        CLACT_SetupCharacterVram((struct Res *)res, idx, (struct CharData *)char_data_addr, (struct CharXferInfo *)xfer_info, vram_mode);
         slot = &res->chars[idx];
         slot->free = 0;
     }

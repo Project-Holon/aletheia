@@ -13,18 +13,21 @@
  *   func_020399A8  0x020399A8  arm
  *   func_02039CB4  0x02039CB4  arm
  */
-#include "../../../matched/include/Obj20845.h"
+struct NetHandle;
+extern struct NetHandle *func_020399A8(void);
+extern unsigned int func_02039CB4(struct NetHandle *handle, unsigned int syncNo, unsigned int syncGroup);
 
-struct Entry;
-extern struct Entry *func_020399A8(void);
-struct Link;
-extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
+typedef struct PartyListCommWork {
+    unsigned char unusedHead[0x62];
+    unsigned char syncStep;
+    unsigned char commFinished;
+} PartyListCommWork;
 
-int func_021B61FC(int a, int b)
+int func_021B61FC(PartyListCommWork *work, int syncNo)
 {
-    if (func_02039CB4((struct Link *)func_020399A8(), b, 0x2d) == 1)
+    if (func_02039CB4(func_020399A8(), syncNo, 0x2d) == 1)
         return 1;
-    if (((struct Obj20845 *)a)->f63 == 1)
+    if (work->commFinished == 1)
         return 1;
     return 0;
 }

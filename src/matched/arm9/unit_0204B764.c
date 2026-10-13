@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: func_0204B764, func_0204B784, func_0204B7C8
+ * function: CLACT_GetActorPaletteProxy, CLACT_SetActorImageProxy, CLACT_GetActorImageProxy
  * address:  0x0204B764
  * packet:   pkt_0204B764
  * region:   arm9
@@ -54,13 +54,13 @@ static inline void copy_inline2(Struct36 *dst, const Struct36 *src) {
     *dst = *src;
 }
 
-void func_0204B764(const char *src, Struct20 *dst)
+void CLACT_GetActorPaletteProxy(const char *src, Struct20 *dst)
 {
     const Struct20 *s = (const Struct20 *)(src + 0x40);
     *dst = *s;
 }
 
-void func_0204B784(char *dst, const Struct36 *src)
+void CLACT_SetActorImageProxy(char *dst, const Struct36 *src)
 {
     Struct36 s;
     func_020637BC((void *)src, 1);
@@ -69,7 +69,7 @@ void func_0204B784(char *dst, const Struct36 *src)
     *(Struct36 *)(dst + 0x1c) = s;
 }
 
-void func_0204B7C8(const char *src, Struct36 *dst)
+void CLACT_GetActorImageProxy(const char *src, Struct36 *dst)
 {
     const Struct36 *s = (const Struct36 *)(src + 0x1c);
     *dst = *s;

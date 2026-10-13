@@ -1,5 +1,5 @@
 /*
- * function: func_02072EC8
+ * function: NNS_SndPlayerGetActiveSeqCount
  * address:  0x02072EC8
  * packet:   pkt_02072EA8
  * region:   arm9
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 
 extern u8 g_0214E46C[];
 
-u16 func_02072EC8(u32 idx)
+u16 NNS_SndPlayerGetActiveSeqCount(u32 idx)
 {
     return *(u16 *)(g_0214E46C + idx * 0x24);
 }

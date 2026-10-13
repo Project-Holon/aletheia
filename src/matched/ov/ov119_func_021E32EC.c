@@ -16,8 +16,8 @@
  *   func_02047964  0x02047964  arm
  *   func_02048AD0  0x02048AD0  arm
  *   func_020479D8  0x020479D8  arm
- *   func_02051534  0x02051534  arm
- *   func_02051574  0x02051574  arm
+ *   PARTICLE_DrawAllSystems  0x02051534  arm
+ *   PARTICLE_UpdateAllSystems  0x02051574  arm
  *   func_02047A60  0x02047A60  arm
  *   func_02011590  0x02011590  thumb
  *   d_021E7AC8  0x021E7AC8  data a4
@@ -59,8 +59,8 @@ extern int func_02047910(void *a, int idx, int amount);
 extern void func_02047964(void);
 extern void func_02048AD0(struct Light *l);
 extern void func_020479D8(void);
-extern int func_02051534(void);
-extern int func_02051574(void);
+extern int PARTICLE_DrawAllSystems(void);
+extern int PARTICLE_UpdateAllSystems(void);
 typedef signed int     s32;
 struct Arg;
 struct IcaAnime;
@@ -90,8 +90,8 @@ void func_021E32EC(char *p)
     func_02048AD0(((struct Obj00907 *)p)->f83C);
     func_020479D8();
     if (((struct Obj00907 *)p)->fC != 0) {
-        func_02051534();
-        func_02051574();
+        PARTICLE_DrawAllSystems();
+        PARTICLE_UpdateAllSystems();
     }
     if (((struct Obj00907 *)p)->f824 != 0xFFFF)
         func_02047A60((void *)func_02048A18(((struct Obj00907 *)p)->f820, ((struct Obj00907 *)p)->f824), (struct Arg *)buf);

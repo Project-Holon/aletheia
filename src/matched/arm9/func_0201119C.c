@@ -1,5 +1,5 @@
 /*
- * function: func_0201119C
+ * function: GPOWER_ApplyPrizeMoney
  * address:  0x0201119C
  * packet:   pkt_0201102C
  * region:   arm9
@@ -17,8 +17,8 @@
  * Same shape as func_02010FF4, mode byte +0x1d, scale +0x14.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201119C.c \
- *       --func func_0201119C --addr 0x0201119C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_ApplyPrizeMoney.c \
+ *       --func GPOWER_ApplyPrizeMoney --addr 0x0201119C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 extern u8 g_02146208[];
 extern u8 g_02146228[];
 
-u32 func_0201119C(u32 v)
+u32 GPOWER_ApplyPrizeMoney(u32 v)
 {
     if (g_02146208[0x1d] != 0x30)
         v = *(u16 *)(g_02146228 + 0x14) * v / 100;

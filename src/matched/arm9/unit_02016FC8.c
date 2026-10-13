@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02016FC8
+ * function: MCSS_MulVecMtx44
  *
  * 310 bytes, one function, and two bytes of linker fill after it before the
  * next function at 0x02017100; the range this entry owns is 0x02016FC8 plus
@@ -97,7 +97,7 @@ struct MtxFx44 {
     s32 m[4][4];
 };
 
-void func_02016FC8(const struct VecFx32 *v, const struct MtxFx44 *mtx,
+void MCSS_MulVecMtx44(const struct VecFx32 *v, const struct MtxFx44 *mtx,
                    struct VecFx32 *dst, s32 *w)
 {
     s32 vx;

@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02015E04  0x02015E04  thumb
+ *   MCSS_SetAnmStopFlag  0x02015E04  thumb
  */
 #include "../include/Obj13907.h"
 
 typedef unsigned int u32;
 
-extern void func_02015E04(void *p);
+extern void MCSS_SetAnmStopFlag(void *p);
 
 void func_021DFD0C(char *p)
 {
-    func_02015E04((void *)(((struct Obj13907 *)p)->f844));
+    MCSS_SetAnmStopFlag((void *)(((struct Obj13907 *)p)->f844));
     ((struct Obj13907 *)p)->f854 = 1;
 }

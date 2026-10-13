@@ -1,5 +1,5 @@
 /*
- * function: func_02048744
+ * function: G3D_UTIL_BuildUnitObjectsLoaded
  * address:  0x02048744
  * packet:   pkt_02048330
  * region:   arm9
@@ -12,7 +12,7 @@
  * symbols:
  *   func_02046F50  0x02046F50  arm
  *   func_02046FF8  0x02046FF8  arm
- *   func_02047348  0x02047348  arm
+ *   G3D_SYSTEM_IsTextureInVram  0x02047348  arm
  *   func_02047400  0x02047400  arm
  *   func_02047564  0x02047564  arm
  *   func_0204767C  0x0204767C  arm
@@ -20,12 +20,12 @@
  *   func_020307B0  0x020307B0  arm
  *   g3d_util_file  0x020A7EB8  data
  *
- * g3d_util.c, same utility object as func_02048330 (see that file and
+ * g3d_util.c, same utility object as G3D_UTIL_BuildUnitObjects (see that file and
  * docs/families/g3d_util.h).  Build the render objects of one unit whose
  * resources are already loaded: per object, mark the model resource used,
  * resolve the texture resource (mark it used when func_02046F50 reports type
  * 1, else release it through func_02046FF8; a shared model/texture resource is
- * released when func_02047348 reports 0), create the render object, allocate
+ * released when G3D_SYSTEM_IsTextureInVram reports 0), create the render object, allocate
  * and fill its animation array (0xff = no animation), bind them into the
  * object slot, and free the array.
  *
@@ -91,7 +91,7 @@ struct Layer;
 struct Tagged;
 extern u32 func_02046F50(struct Tagged *p, u32 sel);
 extern int func_02046FF8(int *self);
-extern int func_02047348(struct Layer *layer);
+extern int G3D_SYSTEM_IsTextureInVram(struct Layer *layer);
 extern void *func_02047400(void *a0, u32 n, void *a2);
 extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
 extern void *func_0204767C(u32 a0, u32 *a1, int a2);
@@ -107,7 +107,7 @@ static inline void *useRes(Util *util, u16 resIdx, u16 idx)
     return util->res[resIdx + idx];
 }
 
-void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
+void G3D_UTIL_BuildUnitObjectsLoaded(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
 {
     u16 resIdx = util->unit[unitIdx].resIdx;
     u16 objIdx = util->unit[unitIdx].objIdx;
@@ -132,7 +132,7 @@ void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
             }
         } else {
             tex = mdl;
-            if (func_02047348(mdl) == 0)
+            if (G3D_SYSTEM_IsTextureInVram(mdl) == 0)
                 func_02046FF8(mdl);
         }
         rnd = func_02047400(mdl, os->mdlDatIdx, tex);

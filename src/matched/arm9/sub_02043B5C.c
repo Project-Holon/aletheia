@@ -1,5 +1,5 @@
 /*
- * function: sub_02043B5C
+ * function: BMP_Clear
  * address:  0x02043B5C
  * packet:   pkt_020437D4
  * region:   arm9
@@ -32,7 +32,7 @@ struct CharBuf {
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
-void sub_02043B5C(struct CharBuf *buf, u8 value)
+void BMP_Clear(struct CharBuf *buf, u8 value)
 {
     u32 size = ((u32)buf->width >> 3) * ((u32)buf->height >> 3) * buf->tileSize;
 

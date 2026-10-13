@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202CA0C",
+   "name": "BGWINFRM_Delete",
    "address": "0x0202CA0C",
    "kind": "game",
    "region": "arm9",

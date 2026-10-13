@@ -1,5 +1,5 @@
 /*
- * function: func_021661F0
+ * function: WCMi_GetGameInfo
  * address:  0x021661F0
  * packet:   pkt_ov009_021661F0
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      WCMi_GetGameInfo (libwcm.TWL.HYB.a aplist.o)
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   NWM_GetVenderInfoElements  0x02703250  arm  twl
  *   @12437         0x021A19B0  data
@@ -52,13 +52,13 @@ typedef struct WCMWork {
     unsigned char deviceId;
 } WCMWork;
 
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 extern int OS_IsRunOnTwl(void);
 extern NWMInfoElements *NWM_GetVenderInfoElements();
 
-WMGameInfo *func_021661F0(WCMBssDesc *bssDesc)
+WMGameInfo *WCMi_GetGameInfo(WCMBssDesc *bssDesc)
 {
-    WCMWork *w = (WCMWork *)func_021657C8();
+    WCMWork *w = (WCMWork *)WCMi_GetSystemWork();
     NWMInfoElements *elem;
     WMGameInfo *gameInfo;
     unsigned char tag[4] = { 0x00, 0x09, 0xBF, 0x00 };

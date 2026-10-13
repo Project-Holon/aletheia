@@ -18,7 +18,7 @@
  *   func_02082B0C  0x02082B0C  arm
  *   func_021841A0  0x021841A0  thumb  ov022
  *   func_0203996C  0x0203996C  arm
- *   func_0203AA94  0x0203AA94  arm
+ *   GFL_NET_COMMAND_SetSendSlot  0x0203AA94  arm
  */
 #include "../include/Obj01674.h"
 
@@ -34,7 +34,7 @@ extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02082B0C(u32 src, char *dst, u32 n);
 extern unsigned char func_021841A0(unsigned char *p);
 extern struct Entry *func_0203996C(s32 idx);
-extern u32 func_0203AA94(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern u32 GFL_NET_COMMAND_SetSendSlot(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 
 u32 func_021844D8(char *p, int x, int y)
 {
@@ -53,5 +53,5 @@ u32 func_021844D8(char *p, int x, int y)
     ((struct Obj01674 *)p)->f7EB8 = sum;
     ((struct Obj01674 *)p)->f7EBC = x;
     c = (u32)func_021841A0((unsigned char *)(*(u32 *)*(u32 * *)&((struct Obj01674 *)p)->f4));
-    return func_0203AA94((u32)func_0203996C(0xff), c, 0x2900, 0x3f0, (u32)(p + 0x7ad0));
+    return GFL_NET_COMMAND_SetSendSlot((u32)func_0203996C(0xff), c, 0x2900, 0x3f0, (u32)(p + 0x7ad0));
 }

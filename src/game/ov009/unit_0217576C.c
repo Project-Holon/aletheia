@@ -14,9 +14,9 @@
  * the match control block accessors.
  *
  * symbols:
- *   func_0216BA08                0x0216BA08 arm   ov009
+ *   DWC_IsServerMyself                0x0216BA08 arm   ov009
  *   func_02175F3C                0x02175F3C arm   ov009
- *   func_0216B908                0x0216B908 arm   ov009
+ *   DWC_GetAIDBitmap                0x0216B908 arm   ov009
  *   func_0217603C                0x0217603C arm   ov009
  *   func_0217637C                0x0217637C arm   ov009
  *   func_02176344                0x02176344 arm   ov009
@@ -24,7 +24,7 @@
  *   func_021719A4                0x021719A4 arm   ov009
  *   func_0216F20C  0x0216F20C  arm  ov009
  *   func_02175EB4  0x02175EB4  arm  ov009
- *   func_0216B838  0x0216B838  arm  ov009
+ *   DWC_GetMyAID  0x0216B838  arm  ov009
  *   func_0216CB90  0x0216CB90  arm  ov009
  *   func_02176410  0x02176410  arm  ov009
  *   func_0219F00C                0x0219F00C arm   ov009
@@ -56,13 +56,13 @@
 
 extern struct NNThinkGlobal g_021AAA20;
 
-extern int func_0216BA08(void);
+extern int DWC_IsServerMyself(void);
 extern u64 OS_GetTick(void);
-extern int func_0216B908(void);
+extern int DWC_GetAIDBitmap(void);
 extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const u32 *data, int len);
 extern int func_021719A4(int error);
 extern int func_0216F20C(int status);
-extern u8 func_0216B838(void);
+extern u8 DWC_GetMyAID(void);
 extern int func_0216CB90(void);
 extern void func_0219F00C(void *p);
 extern int func_02171C08(int delay, int init, int resendPid);
@@ -130,7 +130,7 @@ int func_0217576C(int immediate)
     int i;
     u64 tick;
 
-    if (!func_0216BA08())
+    if (!DWC_IsServerMyself())
         return 1;
     if (func_02175F3C()->state == 0x13 || func_02175F3C()->state == 0x14)
         return 1;
@@ -140,7 +140,7 @@ int func_0217576C(int immediate)
             goto done;
     }
     sendData[0] = func_02175F3C()->profileID;
-    sendData[1] = func_0216B908();
+    sendData[1] = DWC_GetAIDBitmap();
     sendData[2] = func_02175F3C()->flag7c8;
     for (i = 0; i < func_0217603C(); i++) {
         pNodeInfo = func_0217637C(i);
@@ -181,7 +181,7 @@ static int func_021758C4(u8 AID, int suspend, int immediate)
         func_0216F20C(-1);
     bitmap = func_02175F3C()->suspendBitmap;
     if (!func_02175EB4())
-        bitmap &= ~(result << func_0216B838());
+        bitmap &= ~(result << DWC_GetMyAID());
     sm = func_0216CB90();
     bRet = 1;
     if (!((suspend && sm) || (!suspend && !sm)))
@@ -360,7 +360,7 @@ static int func_02175D10(int suspend)
  */
 int func_02175EB4(void)
 {
-    if (func_0216BA08()) {
+    if (DWC_IsServerMyself()) {
         if (func_02175F3C()->state == 13 || func_02175F3C()->state == 22)
             return 1;
         return 0;
@@ -782,7 +782,7 @@ int func_021767F4(void)
     if (func_02175F3C()->flag7d4 == 0) {
         return 0;
     }
-    if (func_0216BA08() != 0 &&
+    if (DWC_IsServerMyself() != 0 &&
         (func_02175F3C()->qr2MatchTypeExt == 1 || func_02175F3C()->qr2MatchTypeExt == 3 || func_02175F3C()->qr2MatchTypeExt == 2) &&
         func_021767E4() == 0) {
         return 1;
@@ -812,7 +812,7 @@ void func_0217689C(void)
     if (func_02175F3C()->suspendRequest == 0xff)
         return;
     if (func_02175F3C()->suspendRequest == 1)
-        func_02175F3C()->suspendBitmap = func_0216B908();
+        func_02175F3C()->suspendBitmap = DWC_GetAIDBitmap();
     else
         func_02175F3C()->suspendBitmap = 0;
     func_021768EC(0);

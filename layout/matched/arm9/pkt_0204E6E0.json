@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204E6E0",
+   "name": "FADE_GetSpeed",
    "address": "0x0204E6E0",
    "kind": "sdk",
    "region": "arm9",

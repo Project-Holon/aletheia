@@ -1,7 +1,7 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * function: func_02028E0C
+ * function: FIELD_SOUND_SYSTEM_EnqueueRequest
  * address:  0x02028E0C
  * packet:   pkt_02028DCC
  * region:   arm9
@@ -12,8 +12,8 @@
  * status:   EXACT
  *
  * Blocked at MATCH: all 60 concrete bytes are right; the runtime divide
- * resolves `runtime`, and the only open site is func_02028E48, whose sole
- * branch reference image-wide is this call.  src/pending/func_02028E48.c is
+ * resolves `runtime`, and the only open site is FIELD_SOUND_SYSTEM_IsRequestKindAccepted, whose sole
+ * branch reference image-wide is this call.  src/pending/FIELD_SOUND_SYSTEM_IsRequestKindAccepted.c is
  * byte-correct and capped by the table at 0x0209FD90, so this file is capped
  * with it.
  *
@@ -30,12 +30,12 @@
  * (docs/idioms/runtime-helper-reloc.md).
  *
  * symbols:
- *   func_02028E48  0x02028E48  thumb
+ *   FIELD_SOUND_SYSTEM_IsRequestKindAccepted  0x02028E48  thumb
  *   _s32_div_f     0x0209C0A4  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02028E0C.c \
- *       --func func_02028E0C --addr 0x02028E0C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/FIELD_SOUND_SYSTEM_EnqueueRequest.c \
+ *       --func FIELD_SOUND_SYSTEM_EnqueueRequest --addr 0x02028E0C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -57,14 +57,14 @@ struct Sys {
     u8         head;        /* 0xa1 */
 };
 
-extern u32 func_02028E48(struct Sys *s, u32 kind);
+extern u32 FIELD_SOUND_SYSTEM_IsRequestKindAccepted(struct Sys *s, u32 kind);
 
-void func_02028E0C(struct Sys *s, struct Cmd *cmd)
+void FIELD_SOUND_SYSTEM_EnqueueRequest(struct Sys *s, struct Cmd *cmd)
 {
     s32 n;
 
     n = s->head;
-    if (func_02028E48(s, cmd->unk00) == 0) {
+    if (FIELD_SOUND_SYSTEM_IsRequestKindAccepted(s, cmd->unk00) == 0) {
         return;
     }
     if (s->queue[n].unk00 != 0) {

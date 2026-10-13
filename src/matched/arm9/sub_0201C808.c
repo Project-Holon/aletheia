@@ -1,7 +1,7 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * function: sub_0201C808
+ * function: PRINTSYS_SetupJob
  * address:  0x0201C808
  * note:     156 bytes including five pool words, one function
  * region:   arm9
@@ -20,7 +20,7 @@
  * own literal pool, so `literal` discards both witnesses under the honesty
  * rule and no cut helps.  The `matched` class covers 0x0201CA2C now
  * (src/matched/unit_0201CA2C.c) but not 0x0201CA78, which is parked in
- * src/pending/sub_0201CA78.c for a reason of its own.  This file graduates
+ * src/pending/PRINTSYS_PutGlyph8bpp.c for a reason of its own.  This file graduates
  * with that one.
  *
  * Two details worth keeping.  The three edits of the word at +4 are plain
@@ -35,8 +35,14 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py tu --src src/pending/sub_0201C808.c \
+ *   python tools/match.py tu --src src/pending/PRINTSYS_SetupJob.c \
  *       --addr 0x0201C808 --thumb
+ *
+ * symbols:
+ *   GF_FONT_GetTextColor  0x0201DE00  thumb
+ *   BMP_GetTileBytes  0x02043994  arm
+ *   PRINTSYS_PutGlyph4bpp  0x0201CA2C  thumb
+ *   PRINTSYS_PutGlyph8bpp  0x0201CA78  thumb
  */
 
 typedef unsigned char  u8;
@@ -59,20 +65,20 @@ struct PrintCtx {
 
 typedef signed int     s32;
 struct Bmp;
-extern u8 func_02043994(struct Bmp *b);
-extern void func_0201DE00(u8 *r, u8 *g, u8 *b);
-extern void sub_0201CA2C(void *a, s32 b, u32 c, u32 d, u16 e, const u8 *f);
-extern void sub_0201CA78(void *a, s32 b, u32 c, u32 d, u16 e, const u8 *f);
+extern u8 BMP_GetTileBytes(struct Bmp *b);
+extern void GF_FONT_GetTextColor(u8 *r, u8 *g, u8 *b);
+extern void PRINTSYS_PutGlyph4bpp(void *a, s32 b, u32 c, u32 d, u16 e, const u8 *f);
+extern void PRINTSYS_PutGlyph8bpp(void *a, s32 b, u32 c, u32 d, u16 e, const u8 *f);
 
-void sub_0201C808(struct PrintCtx *p, void *w, void *x, u32 y, s16 z)
+void PRINTSYS_SetupJob(struct PrintCtx *p, void *w, void *x, u32 y, s16 z)
 {
     u8 t[3];
 
     p->unk14 = x;
-    if (func_02043994(x) == 0x20) {
-        p->unk18 = (void *)sub_0201CA2C;
+    if (BMP_GetTileBytes(x) == 0x20) {
+        p->unk18 = (void *)PRINTSYS_PutGlyph4bpp;
     } else {
-        p->unk18 = (void *)sub_0201CA78;
+        p->unk18 = (void *)PRINTSYS_PutGlyph8bpp;
     }
     p->unk10 = w;
     p->unk00 = y;
@@ -80,7 +86,7 @@ void sub_0201C808(struct PrintCtx *p, void *w, void *x, u32 y, s16 z)
     p->unk02 = z;
     p->unk04 = (p->unk04 & 0xFFF003FFu) | ((p->unk02 & 0x3FF) << 10);
     p->unk04 = (p->unk04 & 0xFF0FFFFFu) | (1u << 20);
-    func_0201DE00(&t[2], &t[1], &t[0]);
+    GF_FONT_GetTextColor(&t[2], &t[1], &t[0]);
     p->unk0C = (u16)(((t[2] & 0x1F) << 10) | ((t[1] & 0x1F) << 5)
                      | (t[0] & 0x1F));
     p->unk0E = p->unk0C;

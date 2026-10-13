@@ -1,5 +1,5 @@
 /*
- * function: func_0200837C
+ * function: CONFIG_SetTextSpeed
  * address:  0x0200837C
  * packet:   pkt_0200837C
  * region:   arm9
@@ -12,7 +12,7 @@
  * Unlabelled leaf setter on a u16 bitfield word (witness for ov068 callers).
  *
  * symbols:
- *   func_0200837C  0x0200837C  thumb
+ *   CONFIG_SetTextSpeed  0x0200837C  thumb
  */
 
 typedef struct {
@@ -24,4 +24,4 @@ typedef struct {
     unsigned short f : 1;
 } BF;
 
-void func_0200837C(BF *p, unsigned int v) { p->a = (unsigned short)v; }
+void CONFIG_SetTextSpeed(BF *p, unsigned int v) { p->a = (unsigned short)v; }

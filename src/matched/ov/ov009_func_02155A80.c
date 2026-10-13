@@ -1,5 +1,5 @@
 /*
- * function: func_02155A80
+ * function: DWC_RAP_SendPacket
  * address:  0x02155A80
  * packet:   pkt_ov009_02155A80
  * region:   ov009
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021A8264     0x021A8264  data  ov009  a4
+ *   _pRapWork     0x021A8264  data  ov009  a4
  *   func_02082D44  0x02082D44  arm
- *   func_0216B908  0x0216B908  arm
+ *   DWC_GetAIDBitmap  0x0216B908  arm
  *   func_02176FD4  0x02176FD4  arm
  */
 
@@ -30,27 +30,27 @@ typedef struct {
     u8 cnt;             /* 0x79c */
 } G;
 
-extern G *d_021A8264;
+extern G *_pRapWork;
 void func_02082D44(void *src, void *dst, int n);
-int func_0216B908(void);
+int DWC_GetAIDBitmap(void);
 unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size);
 
-int func_02155A80(void *src, int len, int c)
+int DWC_RAP_SendPacket(void *src, int len, int c)
 {
     int r;
 
     if (len >= 0x100)
         return 0;
-    if (d_021A8264->busy != 0)
+    if (_pRapWork->busy != 0)
         return 0;
-    d_021A8264->hdr = c | (d_021A8264->v794 << 8);
-    d_021A8264->cnt = d_021A8264->cnt + 1;
-    ((u8 *)d_021A8264)[2] = d_021A8264->cnt;
-    func_02082D44(src, (char *)d_021A8264 + 4, len);
-    d_021A8264->busy = 1;
-    r = (u16)func_0216B908();
-    if (r != func_02176FD4(r, d_021A8264, len + 4)) {
-        d_021A8264->busy = 0;
+    _pRapWork->hdr = c | (_pRapWork->v794 << 8);
+    _pRapWork->cnt = _pRapWork->cnt + 1;
+    ((u8 *)_pRapWork)[2] = _pRapWork->cnt;
+    func_02082D44(src, (char *)_pRapWork + 4, len);
+    _pRapWork->busy = 1;
+    r = (u16)DWC_GetAIDBitmap();
+    if (r != func_02176FD4(r, _pRapWork, len + 4)) {
+        _pRapWork->busy = 0;
         return 0;
     }
     return 1;

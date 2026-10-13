@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B3018.c
  * unit:     yes
- * function: func_021B3018, func_021B3064, func_021B3084, func_021B3250, func_021B3278, func_021B3364, func_021B33E0, func_021B33F8, func_021B3604, func_021B3624, func_021B370C, func_021B3844, func_021B386C, func_021B38B0, func_021B3924
+ * function: VCT_DSP_ResetVoiceGate, VCT_DSP_SetVoiceGateConfig, VCT_DSP_UpdateVoiceGate, VCT_DSP_InitVoiceGateDefaults, VCT_DSP_HighPassFilter, VCT_DSP_InitEchoState, VCT_DSP_SetEchoReference, VCT_DSP_SuppressEcho, VCT_DSP_SuppressEchoWithReference, VCT_DSP_MixSaturated, VCT_Init, VCT_Exit, VCT_Update, VCT_ReceiveFrame, VCT_ParseFrame
  * address:  0x021B3018
  * region:   ov013
  * compiler: dsi/1.1p1
@@ -13,33 +13,35 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   d_021B4C38     0x021B4C38  data a4
- *   d_021B4C2C     0x021B4C2C  data a4
- *   d_021B3C50     0x021B3C50  data a4
+ *   gVoiceGateEnergyRing     0x021B4C38  data a4
+ *   gVoiceGateState     0x021B4C2C  data a4
+ *   gVoiceGateConfig     0x021B3C50  data a4
  *   func_02082D44  0x02082D44  arm
- *   d_021B4C48     0x021B4C48  data ov013
- *   d_021B3C60     0x021B3C60  data a2
- *   d_021B50CC     0x021B50CC  data a2
- *   d_021B4C74     0x021B4C74  data a4
- *   d_021B4C5C     0x021B4C5C  data a4
+ *   gEchoState     0x021B4C48  data ov013
+ *   gEchoDefaultCoeffs     0x021B3C60  data a2
+ *   gEchoRing     0x021B50CC  data a2
+ *   gEchoFirDelayAlias     0x021B4C74  data a4
+ *   gEchoFirCoeffsAlias     0x021B4C5C  data a4
  *   MIi_CpuCopyFast 0x02082B0C  arm
- *   d_021B4C8C     0x021B4C8C  data a4
+ *   gEchoReferenceFrame     0x021B4C8C  data a4
  *   OSi_ReferSymbol  0x02004EB0  arm
  *   d_02005108     0x02005108  data
  *   func_02082BCC  0x02082BCC  arm
  *   d_021B60CC     0x021B60CC  data ov013
- *   d_021B60D8     0x021B60D8  data ov013
- *   func_021B0508  0x021B0508  arm ov013
- *   func_021B22B4  0x021B22B4  arm ov013
- *   func_021B23C8  0x021B23C8  arm ov013
- *   func_021B2ED8  0x021B2ED8  arm ov013
- *   func_021B2F98  0x021B2F98  arm ov013
- *   func_021B0600  0x021B0600  arm ov013
+ *   gVctSession     0x021B60D8  data ov013
+ *   VCT_SESSION_Init  0x021B0508  arm ov013
+ *   VCT_SESSION_InitPeerPool  0x021B22B4  arm ov013
+ *   VCT_SESSION_ClearPeerLists  0x021B23C8  arm ov013
+ *   VCT_POOL_InitFrames  0x021B2ED8  arm ov013
+ *   VCT_POOL_Reset  0x021B2F98  arm ov013
+ *   VCT_SESSION_ClearMemberCount  0x021B0600  arm ov013
  *   func_021B23E0  0x021B23E0  arm ov013
- *   func_021B11E8  0x021B11E8  arm ov013
- *   func_021B111C  0x021B111C  arm ov013
+ *   VCT_AUDIO_SendFrameStep  0x021B11E8  arm ov013
+ *   VCT_AUDIO_DecodePendingFrames  0x021B111C  arm ov013
+ *   VCT_AUDIO_ReceiveFrame  0x021B0F38  arm
+ *   VCT_SESSION_HandlePacket  0x021B2488  arm
  */
-#include "unit_021B3018_types.h"
+#include "vct_types.h"
 
 #define reg_CP_SQRTCNT      (*(volatile u16 *)0x040002B0)
 #define reg_CP_SQRT_RESULT  (*(volatile u32 *)0x040002B4)
@@ -48,88 +50,68 @@
 #define reg_CP_DIV_NUMER    (*(u64 *)0x04000290)
 #define reg_CP_DIV_DENOM    (*(u64 *)0x04000298)
 #define reg_CP_DIV_RESULT_L (*(volatile u32 *)0x040002A0)
-struct Config;
-struct E;
-typedef enum { CountZero } Count;
-
-typedef struct {
-    int f0;
-    int f4;
-    int f8;
-    u8  fc;
-    u8  fd, fe, ff;
-    int f10;
-    int f14;
-    int f18;
-    int f1c;
-} Param;
-
-typedef struct {
-    unsigned int magic;
-    unsigned char type;
-} Hdr_021B3924;
+/* Lever: the enum constant gives the hangover count its own type, so the cast to short keeps the smulbb. */
+typedef enum { HangoverFramesDefault } HangoverFrames;
 
 extern void func_02082D44(void *dst, void *src, int n);
 extern void MIi_CpuCopyFast(void *src, void *dst, u32 n);
 extern void OSi_ReferSymbol(const void *symbol);
 extern void func_02082BCC(void *dst, int c, int n);
-extern int  func_021B0508(void);
-extern int func_021B22B4(struct Config *cfg);
-extern void func_021B23C8(void);
-extern int func_021B2ED8(struct E *a, u32 b);
-extern void func_021B2F98(void);
-extern void func_021B0600(void);
+extern int  VCT_SESSION_Init(void);
+extern int VCT_SESSION_InitPeerPool(VctInitParams *params);
+extern void VCT_SESSION_ClearPeerLists(void);
+extern int VCT_POOL_InitFrames(VctRxPacket *buffer, u32 size);
+extern void VCT_POOL_Reset(void);
+extern void VCT_SESSION_ClearMemberCount(void);
 extern void func_021B23E0(void);
-extern int func_021B11E8(void);
-extern int func_021B111C(void);
+extern int VCT_AUDIO_SendFrameStep(void);
+extern int VCT_AUDIO_DecodePendingFrames(void);
 extern unsigned long long func_020870D0(void);
-extern int func_021B0F38(int a0, Hdr_021B3924 *h, int a2, unsigned long long t);
-extern int func_021B2488(int a, unsigned char *p, int len, int x);
-void func_021B3018(void);
-void func_021B3064(void *p);
-u32 func_021B3084(u32 x, u32 sq, u8 *out);
-void func_021B3250(void);
-s32 func_021B3278(s16 *x, u32 len);
-void func_021B3364(void);
-void func_021B33E0(void *a, u32 b);
-void func_021B33F8(s16 *a, s16 *b, u32 n, u32 thr);
-void func_021B3604(short *a, unsigned int b, unsigned int c);
-void func_021B3624(s16 *a, s16 *b, s16 *d, u32 len);
-int func_021B370C(Param *p);
-void func_021B3844(void);
-void func_021B386C(void);
-int func_021B38B0(int a, int b, int c);
-int func_021B3924(int a0, Hdr_021B3924 *h, int a2, int *a3);
-extern u32 d_021B4C38[];
-extern VadState d_021B4C2C;
-extern struct G_021B4C48 d_021B4C48;
-extern s16 d_021B3C60[];
-extern s16 d_021B50CC[];
-extern int d_021B4C74[];
-extern int d_021B4C5C[];
-extern short d_021B4C8C[];
+extern int VCT_AUDIO_ReceiveFrame(int senderId, VctAudioFrame *frame, int length, unsigned long long tick);
+extern int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEvent *event);
+void VCT_DSP_ResetVoiceGate(void);
+void VCT_DSP_SetVoiceGateConfig(void *config);
+u32 VCT_DSP_UpdateVoiceGate(u32 energy, u32 level, u8 *levelOut);
+void VCT_DSP_InitVoiceGateDefaults(void);
+s32 VCT_DSP_HighPassFilter(s16 *samples, u32 byteCount);
+void VCT_DSP_InitEchoState(void);
+void VCT_DSP_SetEchoReference(void *frame, u32 byteCount);
+void VCT_DSP_SuppressEcho(s16 *mic, s16 *reference, u32 byteCount, u32 threshold);
+void VCT_DSP_SuppressEchoWithReference(short *mic, unsigned int byteCount, unsigned int threshold);
+void VCT_DSP_MixSaturated(s16 *srcA, s16 *srcB, s16 *dst, u32 byteCount);
+int VCT_Init(VctInitParams *params);
+void VCT_Exit(void);
+void VCT_Update(void);
+int VCT_ReceiveFrame(int senderId, VctFrameHeader *frame, int length);
+int VCT_ParseFrame(int senderId, VctFrameHeader *header, int length, VctEvent *eventOut);
+extern u32 gVoiceGateEnergyRing[];
+extern VoiceGateState gVoiceGateState;
+extern struct EchoState gEchoState;
+extern s16 gEchoDefaultCoeffs[];
+extern s16 gEchoRing[];
+extern int gEchoFirDelayAlias[];
+extern int gEchoFirCoeffsAlias[];
+extern short gEchoReferenceFrame[];
 extern char d_02005108[];
-extern struct G_021B60CC d_021B60CC;
-extern u8   d_021B60D8[];
 
 
-void func_021B3018(void)
+void VCT_DSP_ResetVoiceGate(void)
 {
     int i;
-    for (i = 0; i < 4; i++) d_021B4C38[i] = 0x1000000;
-    d_021B4C2C.f4 = 0;
-    d_021B4C2C.f0 = 0;
-    VAD_CFG.f0 = 0;
-    VAD_CFG.f4 = 0;
-    d_021B4C2C.f8 = 0;
+    for (i = 0; i < 4; i++) gVoiceGateEnergyRing[i] = 0x1000000;
+    gVoiceGateState.ringIndex = 0;
+    gVoiceGateState.threshold = 0;
+    VAD_CFG.voiceActive = 0;
+    VAD_CFG.lastLevel = 0;
+    gVoiceGateState.quietFrames = 0;
 }
 
 
-void func_021B3064(void *p)
+void VCT_DSP_SetVoiceGateConfig(void *config)
 {
-    if (!p)
+    if (!config)
         return;
-    func_02082D44(&d_021B3C50, p, 0x10);
+    func_02082D44(&gVoiceGateConfig, config, 0x10);
 }
 
 
@@ -148,82 +130,82 @@ static inline void CP_WaitSqrt(void)
 
 
 /*
- * Voice-activity gate. d_021B4C38 is a 4-entry ring of energies; the hardware
- * sqrt of the ring mean is compared with a threshold (d_021B4C2C.f0). Returns
+ * Voice-activity gate. gVoiceGateEnergyRing is a 4-entry ring of energies; the hardware
+ * sqrt of the ring mean is compared with a threshold (gVoiceGateState.threshold). Returns
  * 0/1 (idle: start), 2 (active), 3 (active timed out).
- * Lever: d_021B3C50 is declared u8 (under four bytes), so every access to it is
- * in the compiler's unknown-memory set and the f4 store of d_021B4C2C stays
- * before the d_021B3C50 store, as in the original. VadCfg is the view of it.
+ * Lever: gVoiceGateConfig is declared u8 (under four bytes), so every access to it is
+ * in the compiler's unknown-memory set and the ringIndex store of gVoiceGateState stays
+ * before the gVoiceGateConfig store, as in the original. VadCfg is the view of it.
  */
 #pragma opt_propagation off
 
-u32 func_021B3084(u32 x, u32 sq, u8 *out)
+u32 VCT_DSP_UpdateVoiceGate(u32 energy, u32 level, u8 *levelOut)
 {
-    u32 ret;
-    u32 sum;
+    u32 result;
+    u32 energySum;
     int i;
-    u32 root;
+    u32 rootMean;
 
-    VAD_CFG.f4 = sq >> 8;
-    if (out != 0)
-        *out = sq >> 8;
-    if (VAD_CFG.f0 == 0) {
-        i = sum = 0;
+    VAD_CFG.lastLevel = level >> 8;
+    if (levelOut != 0)
+        *levelOut = level >> 8;
+    if (VAD_CFG.voiceActive == 0) {
+        i = energySum = 0;
         do {
-            sum += d_021B4C38[i];
+            energySum += gVoiceGateEnergyRing[i];
             i++;
         } while (i < 4);
-        CP_SetSqrt32(sum >> 2);
+        CP_SetSqrt32(energySum >> 2);
         CP_WaitSqrt();
-        root = reg_CP_SQRT_RESULT;
-        if (sq != 0 && sq >= (root << 1)) {
-            u32 sum2;
+        rootMean = reg_CP_SQRT_RESULT;
+        if (level != 0 && level >= (rootMean << 1)) {
+            u32 energySum2;
             u32 j;
-            VadState *p;
-            u32 thr;
+            VoiceGateState *state;
+            u32 threshold;
 
-            j = sum2 = 0;
+            j = energySum2 = 0;
             do {
-                sum2 += d_021B4C38[j];
+                energySum2 += gVoiceGateEnergyRing[j];
                 j++;
             } while (j < 4);
-            CP_SetSqrt32(sum2 >> 2);
+            CP_SetSqrt32(energySum2 >> 2);
             CP_WaitSqrt();
-            thr = (reg_CP_SQRT_RESULT * 3) >> 1;
-            p = &d_021B4C2C;
-            p->f0 = thr;
-            d_021B4C2C.f4 = 0;
-            VAD_CFG.f0 = 1;
-            ret = 1;
+            threshold = (reg_CP_SQRT_RESULT * 3) >> 1;
+            state = &gVoiceGateState;
+            state->threshold = threshold;
+            gVoiceGateState.ringIndex = 0;
+            VAD_CFG.voiceActive = 1;
+            result = 1;
         } else {
-            ret = 0;
+            result = 0;
         }
-        d_021B4C38[d_021B4C2C.f4] = x;
-        d_021B4C2C.f4 = (d_021B4C2C.f4 + 1) & 3;
+        gVoiceGateEnergyRing[gVoiceGateState.ringIndex] = energy;
+        gVoiceGateState.ringIndex = (gVoiceGateState.ringIndex + 1) & 3;
     } else {
-        d_021B4C38[d_021B4C2C.f4] = x;
-        d_021B4C2C.f4 = (d_021B4C2C.f4 + 1) & 3;
-        i = sum = 0;
+        gVoiceGateEnergyRing[gVoiceGateState.ringIndex] = energy;
+        gVoiceGateState.ringIndex = (gVoiceGateState.ringIndex + 1) & 3;
+        i = energySum = 0;
         do {
-            sum += d_021B4C38[i];
+            energySum += gVoiceGateEnergyRing[i];
             i++;
         } while (i < 4);
-        CP_SetSqrt32(sum >> 2);
+        CP_SetSqrt32(energySum >> 2);
         CP_WaitSqrt();
-        if (reg_CP_SQRT_RESULT <= d_021B4C2C.f0) {
-            d_021B4C2C.f8++;
-            if (d_021B4C2C.f8 > VAD_CFG.f8) {
-                VAD_CFG.f0 = 0;
-                d_021B4C2C.f8 = 0;
-                d_021B4C2C.f4 = 0;
+        if (reg_CP_SQRT_RESULT <= gVoiceGateState.threshold) {
+            gVoiceGateState.quietFrames++;
+            if (gVoiceGateState.quietFrames > VAD_CFG.hangoverFrames) {
+                VAD_CFG.voiceActive = 0;
+                gVoiceGateState.quietFrames = 0;
+                gVoiceGateState.ringIndex = 0;
                 return 3;
             }
         } else {
-            d_021B4C2C.f8 = 0;
+            gVoiceGateState.quietFrames = 0;
         }
-        ret = 2;
+        result = 2;
     }
-    return ret;
+    return result;
 }
 
 #pragma opt_propagation reset
@@ -233,13 +215,13 @@ u32 func_021B3084(u32 x, u32 sq, u8 *out)
 /*
  * lever: enum count cast to short preserves the smulbb; short local folded 15*68.
  */
-void func_021B3250(void)
+void VCT_DSP_InitVoiceGateDefaults(void)
 {
-    Count n=15;
-    short stride=68;
-    VAD_CFG.f8=n;
-    VAD_CFG.fC=(short)n*stride;
-    func_021B3018();
+    HangoverFrames hangover=15;
+    short frameBytes=68;
+    VAD_CFG.hangoverFrames=hangover;
+    VAD_CFG.hangoverBytes=(short)hangover*frameBytes;
+    VCT_DSP_ResetVoiceGate();
 }
 
 
@@ -264,36 +246,36 @@ static inline void CP_WaitDiv(void)
 
 
 
-s32 func_021B3278(s16 *x, u32 len)
+s32 VCT_DSP_HighPassFilter(s16 *samples, u32 length)
 {
-    s32 prev;
+    s32 prevInput;
     u32 i;
-    s64 e;
-    s32 y;
-    s32 t;
+    s64 energy;
+    s32 output;
+    s32 scaled;
 
-    t = x[0] * 0xE9F;
-    y = (t + d_021B4C48.hp_prev + d_021B4C48.hp_y * 0xD3E) >> 12;
-    d_021B4C48.hp_y = y;
-    d_021B4C48.hp_prev = prev = -t;
-    e = y * y;
-    len >>= 1;
+    scaled = samples[0] * 0xE9F;
+    output = (scaled + gEchoState.highPassPrevInput + gEchoState.highPassPrevOutput * 0xD3E) >> 12;
+    gEchoState.highPassPrevOutput = output;
+    gEchoState.highPassPrevInput = prevInput = -scaled;
+    energy = output * output;
+    length >>= 1;
     i = 1;
-    if (len > 1) {
+    if (length > 1) {
         do {
-            t = x[i] * 0xE9F;
-            x[i - 1] = y;
-            y = (t + prev + y * 0xD3E) >> 12;
-            e += y * y;
-            prev = -t;
-        } while (++i < len);
-        d_021B4C48.hp_prev = prev;
-        d_021B4C48.hp_y = y;
+            scaled = samples[i] * 0xE9F;
+            samples[i - 1] = output;
+            output = (scaled + prevInput + output * 0xD3E) >> 12;
+            energy += output * output;
+            prevInput = -scaled;
+        } while (++i < length);
+        gEchoState.highPassPrevInput = prevInput;
+        gEchoState.highPassPrevOutput = output;
     }
-    (x + len)[-1] = y;
+    (samples + length)[-1] = output;
     reg_CP_DIVCNT = 1;
-    reg_CP_DIV_NUMER = e;
-    reg_CP_DIV_DENOM = len;
+    reg_CP_DIV_NUMER = energy;
+    reg_CP_DIV_DENOM = length;
     CP_WaitDiv();
     return reg_CP_DIV_RESULT_L;
 }
@@ -301,28 +283,28 @@ s32 func_021B3278(s16 *x, u32 len)
 
 
 
-void func_021B3364(void)
+void VCT_DSP_InitEchoState(void)
 {
     int i;
-    s16 *src;
+    s16 *defaultCoeffs;
 
-    src = d_021B3C60;
-    d_021B4C48.wr = 0;
-    d_021B4C48.rd = 0x19D;
+    defaultCoeffs = gEchoDefaultCoeffs;
+    gEchoState.ringWriteIndex = 0;
+    gEchoState.ringReadIndex = 0x19D;
     for (i = 0; i < 0x800; i++)
-        d_021B50CC[i] = 0;
+        gEchoRing[i] = 0;
     for (i = 0; i < 6; i++) {
-        d_021B4C74[i] = 0;
-        d_021B4C5C[i] = src[i];
+        gEchoFirDelayAlias[i] = 0;
+        gEchoFirCoeffsAlias[i] = defaultCoeffs[i];
     }
 }
 
 
 
 
-void func_021B33E0(void *a, u32 b)
+void VCT_DSP_SetEchoReference(void *frame, u32 byteCount)
 {
-    MIi_CpuCopyFast(a, d_021B4C8C, b);
+    MIi_CpuCopyFast(frame, gEchoReferenceFrame, byteCount);
 }
 
 
@@ -339,7 +321,7 @@ void func_021B33E0(void *a, u32 b)
  *
  * note (2026-10-05, wave P4 lane S4, pengy share, approved for this function):
  *   Semantics recovered from the listing: a 6-tap FIR over the state at
- *   d_021B4C48 (ring index [2],[3] masked 0x7FF, coefficients [5..10], delay line
+ *   gEchoState (ring index [2],[3] masked 0x7FF, coefficients [5..10], delay line
  *   [11..16]) that filters b[], leaves b[i] = a[i], sums squares into an s64, then
  *   divides by n/2 (DIVCNT mode 1), takes the hardware sqrt, and scales a[] by an
  *   attenuation shift kept in the halfword at state[0] (0 when 3*rms < 2*thr,
@@ -382,7 +364,7 @@ void func_021B33E0(void *a, u32 b)
  *   (att hoisted into the preheader after the guard); ours gives `addeq` because the explicit
  *   `if (n != 0) { sh = att; do ... }` form is the only one that put the load after the guard.
  *   Causes found: (1) the state and the ring buffer are ONE object: a struct with s16 buf[] at +0x484
- *   and a local `ring = d_021B4C48.buf` (pool word sym+0x484 reloaded per use, w load after the ring
+ *   and a local `ring = gEchoState.ringBuf` (pool word sym+0x484 reloaded per use, w load after the ring
  *   store, w spilled at its definition, frame 0x10, push list and slots as the original). Separate
  *   externs let the scheduler hoist the w load above the ring store and raised the pressure.
  *   (2) first tap written `d5 * c10 + d4 * c9` (mwcc fuses the left product into mla). (3) per-function
@@ -393,76 +375,76 @@ void func_021B33E0(void *a, u32 b)
  *   pragma (no-op on ARM), pointer locals for state/ring, named products, store before the taps,
  *   in-loop shift read under common_subs off (18 B).
  */
-void func_021B33F8(s16 *a, s16 *b, u32 n, u32 thr)
+void VCT_DSP_SuppressEcho(s16 *mic, s16 *reference, u32 count, u32 threshold)
 {
-    s16 *ring = d_021B4C48.buf;
-    s64 e;
+    s16 *ring = gEchoState.ringBuf;
+    s64 energy;
     u32 rms;
-    s32 acc;
-    s32 w;
-    s32 v;
+    s32 sum;
+    s32 readIndex;
+    s32 writeIndex;
     u32 i;
-    s32 r;
-    s32 sh;
-    s32 d0, d1, d2, d3, d4, d5;
+    s32 filtered;
+    s32 shift;
+    s32 tap0, tap1, tap2, tap3, tap4, tap5;
 
-    e = 0;
-    n >>= 1;
-    for (i = 0; i < n; i++) {
-        v = d_021B4C48.wr;
-        ring[v] = b[i];
-        w = d_021B4C48.rd;
-        d_021B4C48.x[0] = ring[w];
-        d5 = d_021B4C48.x[5];
-        acc = d5 * d_021B4C48.c[5] + d_021B4C48.x[4] * d_021B4C48.c[4];
-        d_021B4C48.x[5] = d_021B4C48.x[4];
-        d3 = d_021B4C48.x[3];
-        acc += d3 * d_021B4C48.c[3];
-        d_021B4C48.x[4] = d3;
-        d2 = d_021B4C48.x[2];
-        acc += d2 * d_021B4C48.c[2];
-        d_021B4C48.x[3] = d2;
-        d1 = d_021B4C48.x[1];
-        acc += d1 * d_021B4C48.c[1];
-        d_021B4C48.x[2] = d1;
-        d0 = d_021B4C48.x[0];
-        acc += d0 * d_021B4C48.c[0];
-        d_021B4C48.x[1] = d0;
-        if (acc > 0x3FFF8000)
-            acc = 0x3FFF8000;
-        else if (acc < (s32)0xC0000000)
-            acc = (s32)0xC0000000;
-        d_021B4C48.wr = (v + 1) & (0x3FFF8000 >> 19);
-        d_021B4C48.rd = (w + 1) & (0x3FFF8000 >> 19);
-        b[i] = acc >> 15;
-        r = b[i];
-        b[i] = a[i];
-        e += r * r;
+    energy = 0;
+    count >>= 1;
+    for (i = 0; i < count; i++) {
+        writeIndex = gEchoState.ringWriteIndex;
+        ring[writeIndex] = reference[i];
+        readIndex = gEchoState.ringReadIndex;
+        gEchoState.firDelay[0] = ring[readIndex];
+        tap5 = gEchoState.firDelay[5];
+        sum = tap5 * gEchoState.firCoeffs[5] + gEchoState.firDelay[4] * gEchoState.firCoeffs[4];
+        gEchoState.firDelay[5] = gEchoState.firDelay[4];
+        tap3 = gEchoState.firDelay[3];
+        sum += tap3 * gEchoState.firCoeffs[3];
+        gEchoState.firDelay[4] = tap3;
+        tap2 = gEchoState.firDelay[2];
+        sum += tap2 * gEchoState.firCoeffs[2];
+        gEchoState.firDelay[3] = tap2;
+        tap1 = gEchoState.firDelay[1];
+        sum += tap1 * gEchoState.firCoeffs[1];
+        gEchoState.firDelay[2] = tap1;
+        tap0 = gEchoState.firDelay[0];
+        sum += tap0 * gEchoState.firCoeffs[0];
+        gEchoState.firDelay[1] = tap0;
+        if (sum > 0x3FFF8000)
+            sum = 0x3FFF8000;
+        else if (sum < (s32)0xC0000000)
+            sum = (s32)0xC0000000;
+        gEchoState.ringWriteIndex = (writeIndex + 1) & (0x3FFF8000 >> 19);
+        gEchoState.ringReadIndex = (readIndex + 1) & (0x3FFF8000 >> 19);
+        reference[i] = sum >> 15;
+        filtered = reference[i];
+        reference[i] = mic[i];
+        energy += filtered * filtered;
     }
     reg_CP_DIVCNT = 1;
-    reg_CP_DIV_NUMER = e;
-    reg_CP_DIV_DENOM = n;
+    reg_CP_DIV_NUMER = energy;
+    reg_CP_DIV_DENOM = count;
     while (reg_CP_DIVCNT & 0x8000) {
     }
     CP_SetSqrt32(reg_CP_DIV_RESULT_L);
     while (reg_CP_SQRTCNT & 0x8000) {
     }
     rms = reg_CP_SQRT_RESULT;
-    if (rms * 3 < thr * 2) {
-        d_021B4C48.att = 0;
+    if (rms * 3 < threshold * 2) {
+        gEchoState.attenuationShift = 0;
         return;
     }
-    if (thr < rms)
-        d_021B4C48.att = 4;
-    if (d_021B4C48.att < 4)
-        d_021B4C48.att = d_021B4C48.att + 1;
+    if (threshold < rms)
+        gEchoState.attenuationShift = 4;
+    if (gEchoState.attenuationShift < 4)
+        gEchoState.attenuationShift = gEchoState.attenuationShift + 1;
     i = 0;
-    if (i < n) {
-        sh = d_021B4C48.att;
+    if (i < count) {
+        shift = gEchoState.attenuationShift;
         do {
-            a[i] >>= sh;
+            mic[i] >>= shift;
             i++;
-        } while (i < n);
+        } while (i < count);
     }
 }
 
@@ -474,35 +456,35 @@ void func_021B33F8(s16 *a, s16 *b, u32 n, u32 thr)
 
 
 
-void func_021B3604(short *a, unsigned int b, unsigned int c)
+void VCT_DSP_SuppressEchoWithReference(short *mic, unsigned int byteCount, unsigned int threshold)
 {
-    func_021B33F8(a,d_021B4C8C,b,c);
+    VCT_DSP_SuppressEcho(mic,gEchoReferenceFrame,byteCount,threshold);
 }
 
 
 
 
 
-void func_021B3624(s16 *a, s16 *b, s16 *d, u32 len)
+void VCT_DSP_MixSaturated(s16 *srcA, s16 *srcB, s16 *dst, u32 byteCount)
 {
     u32 i;
-    u32 n;
-    s32 v;
+    u32 count;
+    s32 sum;
 
-    n = len >> 1;
-    for (i = 0; i < n; i += 4) {
-        v = a[i] + b[i];
-        if (v > 0x7fff) v = 0x7fff; else if (v < -0x8000) v = -0x8000;
-        d[i] = v;
-        v = a[i + 1] + b[i + 1];
-        if (v > 0x7fff) v = 0x7fff; else if (v < -0x8000) v = -0x8000;
-        d[i + 1] = v;
-        v = a[i + 2] + b[i + 2];
-        if (v > 0x7fff) v = 0x7fff; else if (v < -0x8000) v = -0x8000;
-        d[i + 2] = v;
-        v = a[i + 3] + b[i + 3];
-        if (v > 0x7fff) v = 0x7fff; else if (v < -0x8000) v = -0x8000;
-        d[i + 3] = v;
+    count = byteCount >> 1;
+    for (i = 0; i < count; i += 4) {
+        sum = srcA[i] + srcB[i];
+        if (sum > 0x7fff) sum = 0x7fff; else if (sum < -0x8000) sum = -0x8000;
+        dst[i] = sum;
+        sum = srcA[i + 1] + srcB[i + 1];
+        if (sum > 0x7fff) sum = 0x7fff; else if (sum < -0x8000) sum = -0x8000;
+        dst[i + 1] = sum;
+        sum = srcA[i + 2] + srcB[i + 2];
+        if (sum > 0x7fff) sum = 0x7fff; else if (sum < -0x8000) sum = -0x8000;
+        dst[i + 2] = sum;
+        sum = srcA[i + 3] + srcB[i + 3];
+        if (sum > 0x7fff) sum = 0x7fff; else if (sum < -0x8000) sum = -0x8000;
+        dst[i + 3] = sum;
     }
 }
 
@@ -510,43 +492,43 @@ void func_021B3624(s16 *a, s16 *b, s16 *d, u32 len)
 
 
 
-int func_021B370C(Param *p)
+int VCT_Init(VctInitParams *params)
 {
     OSi_ReferSymbol(d_02005108);
-    if (p == 0)
+    if (params == 0)
         return 0;
-    if (d_021B60CC.f8 != 0)
+    if (d_021B60CC.initialized != 0)
         return 1;
-    if (p->f8 != 1 && p->f8 != 2 && p->f8 != 3)
+    if (params->mode != 1 && params->mode != 2 && params->mode != 3)
         return 0;
-    if (p->f18 == 0)
+    if (params->eventCallback == 0)
         return 0;
-    if (p->f10 == 0 || p->f14 == 0)
+    if (params->frameBuffer == 0 || params->frameBufferSize == 0)
         return 0;
-    if (p->f10 % 32 != 0)
+    if (params->frameBuffer % 32 != 0)
         return 0;
-    func_02082BCC(d_021B60D8, 0, 0x18);
-    d_021B60CC.fn = (void (*)(int, int, int, int))p->f18;
-    d_021B60CC.arg = p->f1c;
-    d_021B60CC.f1C = p->f8;
-    d_021B60CC.f18 = 0;
-    if (p->fc >= 0x20)
+    func_02082BCC(&gVctSession, 0, sizeof(VctSession));
+    d_021B60CC.session.eventCallback = params->eventCallback;
+    d_021B60CC.session.callbackArg = params->callbackArg;
+    d_021B60CC.session.mode = params->mode;
+    d_021B60CC.session.sharedSession = 0;
+    if (params->localId >= 0x20)
         return 0;
-    d_021B60CC.fC = p->fc;
-    if (func_021B2ED8((struct E *)p->f10, p->f14) == 0) {
-        func_021B2F98();
-        return 0;
-    }
-    if (func_021B22B4((struct Config *)p) == 0) {
-        func_021B2F98();
+    d_021B60CC.session.localId = params->localId;
+    if (VCT_POOL_InitFrames((VctRxPacket *)params->frameBuffer, params->frameBufferSize) == 0) {
+        VCT_POOL_Reset();
         return 0;
     }
-    if (func_021B0508() != 0) {
-        d_021B60CC.f8 = 1;
+    if (VCT_SESSION_InitPeerPool(params) == 0) {
+        VCT_POOL_Reset();
+        return 0;
+    }
+    if (VCT_SESSION_Init() != 0) {
+        d_021B60CC.initialized = 1;
         return 1;
     }
-    func_021B23C8();
-    func_021B2F98();
+    VCT_SESSION_ClearPeerLists();
+    VCT_POOL_Reset();
     return 0;
 }
 
@@ -554,39 +536,39 @@ int func_021B370C(Param *p)
 
 
 
-void func_021B3844(void)
+void VCT_Exit(void)
 {
-    func_021B0600();
-    func_021B23C8();
-    func_021B2F98();
-    d_021B60CC.f1C = 0;
-    d_021B60CC.f8 = 0;
+    VCT_SESSION_ClearMemberCount();
+    VCT_SESSION_ClearPeerLists();
+    VCT_POOL_Reset();
+    d_021B60CC.session.mode = 0;
+    d_021B60CC.initialized = 0;
 }
 
 
 
-void func_021B386C(void)
+void VCT_Update(void)
 {
-    if (d_021B60CC.f8 == 0)
+    if (d_021B60CC.initialized == 0)
         return;
-    d_021B60CC.f0++;
-    if ((d_021B60CC.f0 & 0xf) == 0)
+    d_021B60CC.tickCount++;
+    if ((d_021B60CC.tickCount & 0xf) == 0)
         func_021B23E0();
-    if (func_021B11E8())
-        func_021B111C();
+    if (VCT_AUDIO_SendFrameStep())
+        VCT_AUDIO_DecodePendingFrames();
 }
 
 
 
-int func_021B38B0(int a, int b, int c)
+int VCT_ReceiveFrame(int senderId, VctFrameHeader *frame, int length)
 {
-    int out[2];
+    VctEvent event;
 
-    switch (func_021B3924(a, (Hdr_021B3924 *)b, c, out)) {
+    switch (VCT_ParseFrame(senderId, frame, length, &event)) {
     case 0:
         break;
     case 1:
-        d_021B60CC.fn(a, out[0], out[1], d_021B60CC.arg);
+        d_021B60CC.session.eventCallback(senderId, event.code, event.peer, d_021B60CC.session.callbackArg);
         return 1;
     case 2:
         return 0;
@@ -598,26 +580,26 @@ int func_021B38B0(int a, int b, int c)
 #pragma opt_common_subs off
 
 
-int func_021B3924(int a0, Hdr_021B3924 *h, int a2, int *a3)
+int VCT_ParseFrame(int senderId, VctFrameHeader *header, int length, VctEvent *eventOut)
 {
-    unsigned long long t;
+    unsigned long long tick;
 
-    if (h == 0)
+    if (header == 0)
         return 0;
-    if (h->magic != 0x5F564354)
+    if (header->magic != 0x5F564354)
         return 2;
-    if (d_021B60CC.f1C == 0 || d_021B60CC.f8 == 0)
+    if (d_021B60CC.session.mode == 0 || d_021B60CC.initialized == 0)
         return 0;
-    a3[0] = 0;
-    a3[1] = 0;
-    t = func_020870D0();
-    if ((h->type & 0xf0) == 0x40) {
-        d_021B60CC.f4++;
-        func_021B0F38(a0, h, a2, t);
+    eventOut->code = 0;
+    eventOut->peer = 0;
+    tick = func_020870D0();
+    if ((header->type & 0xf0) == 0x40) {
+        d_021B60CC.audioFrameCount++;
+        VCT_AUDIO_ReceiveFrame(senderId, (VctAudioFrame *)header, length, tick);
         return 0;
     }
-    if (h->type == 0 || h->type == 0xff)
-        return func_021B2488(a0, (unsigned char *)h, a2, (int)a3) != 0;
+    if (header->type == 0 || header->type == 0xff)
+        return VCT_SESSION_HandlePacket(senderId, (VctPacket *)header, length, eventOut) != 0;
     return 0;
 }
 

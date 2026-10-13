@@ -11,13 +11,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02006B20, sub_02006B3C, sub_02006B5C, sub_02006B78,
- *           sub_02006B94, sub_02006BB4, sub_02006BD0, sub_02006BE0,
- *           sub_02006C00
+ * function: PM_VOICE_GetVolume, PM_VOICE_GetFrequency, PM_VOICE_GetData, PM_VOICE_GetDataSize,
+ *           PM_VOICE_GetSampleRate, PM_VOICE_StopSlot, sub_02006BD0, PM_VOICE_ReverseBytes,
+ *           PM_VOICE_GetCryIndex
  *
  * symbols:
  *   sub_02006B20_Table  0x02140488  data
- *   func_02006948       0x02006948  thumb
+ *   PM_VOICE_Stop       0x02006948  thumb
  *
  * Nine consecutive functions of the sound channel file.  The object is a
  * table of 0x34 byte channel records at 0x02140488, seventeen literal pools
@@ -28,20 +28,20 @@
  * that saves nothing has no prologue for disasm.py's sweep to fire on and
  * lands in the listing as a run of `.word`s:
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  They are
- * sub_02006B20, sub_02006B3C, sub_02006B5C, sub_02006B78, sub_02006B94,
- * sub_02006BD0 and sub_02006C00.
+ * PM_VOICE_GetVolume, PM_VOICE_GetFrequency, PM_VOICE_GetData, PM_VOICE_GetDataSize, PM_VOICE_GetSampleRate,
+ * sub_02006BD0 and PM_VOICE_GetCryIndex.
  *
  * Three details pin the source:
  *
- *  - sub_02006B20 returns the field at +0x1C with a register offset `ldrsb`,
+ *  - PM_VOICE_GetVolume returns the field at +0x1C with a register offset `ldrsb`,
  *    which is the only evidence anywhere in the range that the field is
  *    signed: docs/idioms/ldrsh-register-offset-is-signedness.md.  The
- *    neighbouring 0x1D is read the same way by sub_02006A8C above.
- *  - sub_02006BB4 computes `&Table[i]` only inside the `if`, where every
+ *    neighbouring 0x1D is read the same way by PM_VOICE_AddVolume above.
+ *  - PM_VOICE_StopSlot computes `&Table[i]` only inside the `if`, where every
  *    other function in the run computes it before the test.  That is the
  *    difference between subscripting the table twice and binding a local
  *    pointer first, and it is two instructions.
- *  - sub_02006C00's guard is `if (species < 1 && species > 649)`, with a
+ *  - PM_VOICE_GetCryIndex's guard is `if (species < 1 && species > 649)`, with a
  *    conjunction and not a disjunction.  For unsigned operands that is
  *    unsatisfiable, so the `*out = 1` arm is dead code, but it is what the
  *    bytes say: `cmp r0, #1` / `bhs` and `cmp r0, r3` / `bls` both branch
@@ -56,15 +56,15 @@
  * failure; every one of them is blocked by the honesty rule, and the census
  * is from `tu --suggest-split`.
  *
- *   0x02006A64  40 bytes.  `label`: func_02006868 has one witness image wide
+ *   0x02006A64  40 bytes.  `label`: PM_VOICE_StartChannels has one witness image wide
  *               and it is the `bl` at 0x02006A70 inside this very function.
  *               No cut can free it.
- *   0x02006A8C  96 bytes.  `label`: func_02072C18 has two witnesses image
+ *   0x02006A8C  96 bytes.  `label`: NNS_SndWaveOutSetVolume has two witnesses image
  *               wide, 0x02006AB8 and 0x02006AE2, and both are inside this one
  *               function, so the pairwise split of
  *               docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md
  *               does not reach it.
- *   0x02006AEC  52 bytes.  The same shape one function later: func_02072C40
+ *   0x02006AEC  52 bytes.  The same shape one function later: NNS_SndWaveOutSetSpeed
  *               has exactly two witnesses, 0x02006B04 and 0x02006B16, both
  *               inside it.
  *   0x02006C2C  128 bytes.  `label`: func_02007B64 and func_02007B68 have one
@@ -116,9 +116,9 @@ struct Sub02006B20Chan {
 extern struct Sub02006B20Chan sub_02006B20_Table[];
 
 struct Sub02006948;
-extern void func_02006948(struct Sub02006948 *chan);
+extern void PM_VOICE_Stop(struct Sub02006948 *chan);
 
-s8 sub_02006B20(u32 i)
+s8 PM_VOICE_GetVolume(u32 i)
 {
     struct Sub02006B20Chan *chan = &sub_02006B20_Table[i];
 
@@ -128,7 +128,7 @@ s8 sub_02006B20(u32 i)
     return chan->unk1C;
 }
 
-u32 sub_02006B3C(u32 i)
+u32 PM_VOICE_GetFrequency(u32 i)
 {
     struct Sub02006B20Chan *chan = &sub_02006B20_Table[i];
 
@@ -138,7 +138,7 @@ u32 sub_02006B3C(u32 i)
     return chan->unk20;
 }
 
-u32 sub_02006B5C(u32 i)
+u32 PM_VOICE_GetData(u32 i)
 {
     struct Sub02006B20Chan *chan = &sub_02006B20_Table[i];
 
@@ -148,7 +148,7 @@ u32 sub_02006B5C(u32 i)
     return chan->unk10;
 }
 
-u32 sub_02006B78(u32 i)
+u32 PM_VOICE_GetDataSize(u32 i)
 {
     struct Sub02006B20Chan *chan = &sub_02006B20_Table[i];
 
@@ -158,7 +158,7 @@ u32 sub_02006B78(u32 i)
     return chan->unk08;
 }
 
-u32 sub_02006B94(u32 i)
+u32 PM_VOICE_GetSampleRate(u32 i)
 {
     struct Sub02006B20Chan *chan = &sub_02006B20_Table[i];
 
@@ -168,10 +168,10 @@ u32 sub_02006B94(u32 i)
     return chan->unk0C;
 }
 
-void sub_02006BB4(u32 i)
+void PM_VOICE_StopSlot(u32 i)
 {
     if (sub_02006B20_Table[i].unk00 == 1) {
-        func_02006948((struct Sub02006948 *)&sub_02006B20_Table[i]);
+        PM_VOICE_Stop((struct Sub02006948 *)&sub_02006B20_Table[i]);
     }
 }
 
@@ -180,7 +180,7 @@ u32 sub_02006BD0(u32 i)
     return sub_02006B20_Table[i].unk00;
 }
 
-void sub_02006BE0(u8 *p, u32 n)
+void PM_VOICE_ReverseBytes(u8 *p, u32 n)
 {
     u32 i;
 
@@ -192,7 +192,7 @@ void sub_02006BE0(u8 *p, u32 n)
     }
 }
 
-void sub_02006C00(u32 species, u32 form, u32 *out)
+void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *out)
 {
     if (species < 1 && species > 649) {
         *out = 1;

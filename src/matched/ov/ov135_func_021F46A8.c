@@ -12,9 +12,9 @@
  *   func_0203CD98 0x0203CD98 arm
  *   func_0205D074 0x0205D074 arm
  *   func_021F4EB4 0x021F4EB4 thumb ov135
- *   func_020370F4 0x020370F4 arm
+ *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
  *   func_021C7C1C 0x021C7C1C arm ov114
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   func_02030D28 0x02030D28 arm
  *   func_02202770 0x02202770 thumb ov135
  *   func_021F49A8 0x021F49A8 thumb ov135
@@ -34,9 +34,9 @@ extern int func_0203CD98(void);
 struct Ctx;
 extern int func_0205D074(void);
 extern int func_021F4EB4(void);
-extern u32 func_020370F4(u32);
+extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
 extern void func_021C7C1C(void);
-extern u32 func_02031330(void *);
+extern u32 PROCSYS_Main(void *);
 extern void func_02030D28(struct Ctx *c);
 extern void func_02202770(void *);
 extern void func_021F49A8(void);
@@ -49,10 +49,10 @@ int func_021F46A8(void *unused0, int *state, void *unused2, u8 *p)
 {
     if (func_0203CD98() != 0) {
         func_0205D074();
-        func_020370F4(func_021F4EB4());
+        GFL_NET_WM_ICON_EasySetLevel(func_021F4EB4());
     }
     func_021C7C1C();
-    ((struct Obj02853 *)p)->f12F4 = func_02031330(((struct Obj02853 *)p)->f12F0);
+    ((struct Obj02853 *)p)->f12F4 = PROCSYS_Main(((struct Obj02853 *)p)->f12F0);
     func_02030D28(((struct Obj02853 *)p)->fF94);
     func_02202770(p + 0xfa0);
     switch (*state) {

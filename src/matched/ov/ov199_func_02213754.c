@@ -12,8 +12,8 @@
  * gives the lone branch to the next instruction; the case 1 second veneer
  * argument is written `f10 + 4 + (f1a << 4)` so its add follows the first load.
  * symbols:
- *   func_02031330 0x02031330 arm
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Main 0x02031330 arm
+ *   PROCSYS_Push 0x02031348 arm
  */
 
 typedef struct S {
@@ -30,8 +30,8 @@ typedef struct S {
     int f1c;
 } S;
 
-extern int func_02031330(int);
-extern int func_02031348(int, int, int, int);
+extern int PROCSYS_Main(int);
+extern int PROCSYS_Push(int, int, int, int);
 
 int func_02213754(S *s)
 {
@@ -48,7 +48,7 @@ int func_02213754(S *s)
             s->f4 = r(s, s->f8, s->fc);
         else
             s->f4 = 0;
-        func_02031348(s->f0,
+        PROCSYS_Push(s->f0,
                         *(int *)((char *)s->f10 + (s->f1a << 4)),
                         *(int *)((char *)s->f10 + 4 + (s->f1a << 4)),
                         s->f4);
@@ -56,7 +56,7 @@ int func_02213754(S *s)
         break;
     }
     case 2:
-        s->f1c = func_02031330(s->f0);
+        s->f1c = PROCSYS_Main(s->f0);
         if (s->f1c == 0)
             s->f1b = 3;
         break;

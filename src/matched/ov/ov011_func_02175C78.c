@@ -1,5 +1,5 @@
 /*
- * function: func_02175C78
+ * function: INTRUDE_COMM_FindFreeResultSlot
  * address: 0x02175C78
  * packet: pkt_ov011_02175C78
  * region: ov011
@@ -10,7 +10,7 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-int func_02175C78(u8 *p, void *b, int c)
+int INTRUDE_COMM_FindFreeResultSlot(u8 *p, void *b, int c)
 {
     if (p[0xe0] == 4) return 0;
     return 3;

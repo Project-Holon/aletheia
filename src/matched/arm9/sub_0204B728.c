@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204B728
+ * function: CLACT_SetActorPaletteProxy
  * address:  0x0204B728
  * packet:   pkt_0204B728
  * region:   arm9
@@ -26,7 +26,7 @@
  * (`add ip, r5, #0x40`) before the source block load, and with `const` it
  * emits the `ldm r4!, {r0, r1, r2, r3}` first, which is the original's
  * order.  That is the whole content of the DIFF recorded in
- * docs/notes/sub_0204B728.c.txt, and the reason nine non-const spellings
+ * docs/notes/CLACT_SetActorPaletteProxy.c.txt, and the reason nine non-const spellings
  * there all failed identically.  See
  * docs/idioms/const-source-pointer-schedules-the-block-load-first.md.
  *
@@ -35,8 +35,8 @@
  * (docs/idioms/aggregate-assignment-is-ldm-stm.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B728.c \
- *       --func sub_0204B728 --addr 0x0204B728 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorPaletteProxy.c \
+ *       --func CLACT_SetActorPaletteProxy --addr 0x0204B728 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -53,7 +53,7 @@ struct Obj {
 
 extern int sub_0206380C(char *p, int i);
 
-void sub_0204B728(struct Obj *o, const struct Xform *m)
+void CLACT_SetActorPaletteProxy(struct Obj *o, const struct Xform *m)
 {
     sub_0206380C((char *)m, 1);
     sub_0206380C((char *)m, 2);

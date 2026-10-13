@@ -1,5 +1,5 @@
 /*
- * function: func_02015D80
+ * function: MCSS_SetShadowRotateX
  * address:  0x02015D80
  * packet:   pkt_02015D80
  * region:   arm9
@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note: halfword setter at +0x178; called from ov131 func_021D785C (bl at
+ * note: halfword setter at +0x178; called from ov131 P_STA_SUB_CreateMcss (bl at
  *   +0x78 and +0xB6) with the pooled full-width value 0xD555.
  */
 #include "../include/Obj15659.h"
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_02015D80(u8 *p, u16 v)
+void MCSS_SetShadowRotateX(u8 *p, u16 v)
 {
     ((struct Obj15659 *)p)->f178 = v;
 }

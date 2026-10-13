@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0204B838
+ * function: CLACT_GetActorDrawPriority
  * address:  0x0204B838
  * packet:   pkt_0204B764
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj16082.h"
 
-int func_0204B838(int a0){ return (((unsigned int)((((struct Obj16082 *)((char *)(a0)))->f60 << 0x18)) >> 0x18) & 0xff); }
+int CLACT_GetActorDrawPriority(int a0){ return (((unsigned int)((((struct Obj16082 *)((char *)(a0)))->f60 << 0x18)) >> 0x18) & 0xff); }

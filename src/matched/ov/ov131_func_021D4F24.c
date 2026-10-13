@@ -1,5 +1,5 @@
 /*
- * function: func_021D4F24
+ * function: P_STATUS_DeleteObjResource
  * address: 0x021D4F24
  * packet: pkt_ov131_021D4F24
  * region: ov131
@@ -9,10 +9,10 @@
  * status: EXACT*
  * extent: Two trailing zero alignment bytes at 0x021D4FBA.
  * symbols:
- *   func_021D8904 0x021D8904 thumb ov131
- *   func_021D9A04 0x021D9A04 thumb ov131
- *   func_021D7BF0 0x021D7BF0 thumb ov131
- *   func_021D6808 0x021D6808 thumb ov131
+ *   P_STA_RIBBON_FreeArcGraphics 0x021D8904 thumb ov131
+ *   P_STA_SKILL_Exit 0x021D9A04 thumb ov131
+ *   P_STA_INFO_FreeResources 0x021D7BF0 thumb ov131
+ *   P_STA_SUB_Exit 0x021D6808 thumb ov131
  *   func_0204ADA4 0x0204ADA4 arm
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204AFD8 0x0204AFD8 arm
@@ -20,21 +20,21 @@
 #include "../include/Obj08143.h"
 typedef unsigned char u8;
 struct S;
-extern void func_021D8904(void *a, struct S *s);
-extern void func_021D9A04(u8 *a, u8 *p);
-extern void func_021D7BF0(void *a, unsigned char *p);
-extern void func_021D6808(void *,void *);
+extern void P_STA_RIBBON_FreeArcGraphics(void *a, struct S *s);
+extern void P_STA_SKILL_Exit(u8 *a, u8 *p);
+extern void P_STA_INFO_FreeResources(void *a, unsigned char *p);
+extern void P_STA_SUB_Exit(void *,void *);
 typedef unsigned int   u32;
 extern void func_0204ADA4(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
-void func_021D4F24(char *p)
+void P_STATUS_DeleteObjResource(char *p)
 {
     u8 i;
-    func_021D8904(p,((struct Obj08143 *)p)->f94);
-    func_021D9A04((u8 *)p,((struct Obj08143 *)p)->f90);
-    func_021D7BF0(p,((struct Obj08143 *)p)->f8C);
-    func_021D6808(p,((struct Obj08143 *)p)->f88);
+    P_STA_RIBBON_FreeArcGraphics(p,((struct Obj08143 *)p)->f94);
+    P_STA_SKILL_Exit((u8 *)p,((struct Obj08143 *)p)->f90);
+    P_STA_INFO_FreeResources(p,((struct Obj08143 *)p)->f8C);
+    P_STA_SUB_Exit(p,((struct Obj08143 *)p)->f88);
     for(i=0;i<=11;i++) func_0204ADA4((u32)(*(void **)(p+i*4+0x98)));
     for(i=12;i<=24;i++) func_0204A8D4((u32)(*(void **)(p+i*4+0x98)));
     for(i=25;i<=37;i++) func_0204AFD8((u32)(*(void **)(p+i*4+0x98)));

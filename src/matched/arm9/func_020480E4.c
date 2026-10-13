@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02048918  0x02048918  arm
- *   func_020482B4  0x020482B4  arm
+ *   G3D_UTIL_FreeUnitObjects  0x02048918  arm
+ *   G3D_UTIL_FreeUnitResources  0x020482B4  arm
  *
  * PARKED AT MATCH.  Every one of the 60 concrete bytes is right; the PC24 at
  * +0x000C is wildcarded because 0x02048918 has exactly one branch reference
@@ -20,7 +20,7 @@
  * unsticks the moment 0x02048918 (220 bytes, packet pkt_02048330) is itself
  * EXACT -- the `matched` class then resolves it with no change to this C.
  * The sibling site, the call to 0x020482B4 at +0x0018, resolves today
- * (`matched`, src/matched/func_020482B4.c).
+ * (`matched`, src/matched/G3D_UTIL_FreeUnitResources.c).
  *
  * Seed one OAM slot of a cell actor and stamp four -1 halfwords into the
  * 8-byte record the actor keeps for it: the two calls initialise the slot and
@@ -50,14 +50,14 @@ struct Ctx {
     struct Ent e[1];
 };
 
-extern void func_02048918(struct Ctx *c, u32 i);
+extern void G3D_UTIL_FreeUnitObjects(struct Ctx *c, u32 i);
 struct Owner;
-extern void func_020482B4(struct Owner *owner, u32 index);
+extern void G3D_UTIL_FreeUnitResources(struct Owner *owner, u32 index);
 
 void func_020480E4(struct Ctx *c, u32 i)
 {
-    func_02048918(c, i);
-    func_020482B4((struct Owner *)c, i);
+    G3D_UTIL_FreeUnitObjects(c, i);
+    G3D_UTIL_FreeUnitResources((struct Owner *)c, i);
     c->e[i].a = -1;
     c->e[i].b = -1;
     c->e[i].c = -1;

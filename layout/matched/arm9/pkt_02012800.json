@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02012800",
+   "name": "GAME_DATA_TakeUnionInfo",
    "address": "0x02012800",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201281C",
+   "name": "GAME_DATA_ClearUnionInfo",
    "address": "0x0201281C",
    "kind": "game",
    "region": "arm9",

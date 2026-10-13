@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02016374
+ * function: MCSS_RestartAnime
  *
  * symbols:
  *   func_02064CBC  0x02064CBC  arm
@@ -21,7 +21,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/unit_02016374.c \
- *       --func sub_02016374 --addr 0x02016374 --cc 1.1p1 --thumb
+ *       --func MCSS_RestartAnime --addr 0x02016374 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -29,7 +29,7 @@ typedef unsigned char u8;
 struct Obj;
 extern void func_02064CBC(struct Obj *x);
 
-void sub_02016374(void *obj)
+void MCSS_RestartAnime(void *obj)
 {
     func_02064CBC((struct Obj *)((u8 *)obj + 0x34));
 }

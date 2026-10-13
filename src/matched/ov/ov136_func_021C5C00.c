@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202CC70 0x0202CC70 thumb
- *   func_0202CC58 0x0202CC58 thumb
+ *   BGWINFRM_HideFrame 0x0202CC70 thumb
+ *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  *   func_021C6028 0x021C6028 thumb ov136
  */
 #include "../include/Obj03302.h"
@@ -17,8 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct WinMgr;
-extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
-extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
 extern void func_021C6028(u8 *p, u32 a1, int idx, int sel);
 void func_021C5C00(u8 *p)
 {
@@ -31,10 +31,10 @@ void func_021C5C00(u8 *p)
     row = *(u8 * *)&((struct Obj03302 *)p)->f8+0x2e8+offset;
     offset += 2;
     for (i=0;i<10;i++) {
-        if(row[i]==255) func_0202CC70(**(void ** *)&((struct Obj03302 *)p)->f8,idx);
+        if(row[i]==255) BGWINFRM_HideFrame(**(void ** *)&((struct Obj03302 *)p)->f8,idx);
         else {
             func_021C6028(p,idx,offset,row[i]);
-            func_0202CC58(**(void ** *)&((struct Obj03302 *)p)->f8,idx);
+            BGWINFRM_ShowFrame(**(void ** *)&((struct Obj03302 *)p)->f8,idx);
         }
         offset++;
         idx++;

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_020113C4  0x020113C4  thumb
+ *   VM_Return  0x020113C4  thumb
  */
 typedef struct {
     int pad0;
@@ -34,7 +34,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 struct Ring;
-extern u32 func_020113C4(struct Ring *r);
+extern u32 VM_Return(struct Ring *r);
 
 int func_021FC2DC(int a, State *s)
 {
@@ -47,6 +47,6 @@ int func_021FC2DC(int a, State *s)
     s->fe0 = s->a1[n];
     s->f1e8 = (void *)s->a2[n];
     s->f4 = s->a3[n];
-    func_020113C4((struct Ring *)a);
+    VM_Return((struct Ring *)a);
     return s->f23c;
 }

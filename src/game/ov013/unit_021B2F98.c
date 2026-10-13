@@ -14,18 +14,11 @@
  *   d_021B4C24 0x021B4C24 data
 */
 
-typedef struct E E;
+#include "vct_types.h"
 
-typedef struct {
-    E *cur;
-    E *buf;
-} G;
-
-extern G d_021B4C24;
-
+/* Forget the frame buffer area of the frame pool. */
 void DWCi_InitReliableQueue(void)
 {
-    d_021B4C24.cur = 0;
-    d_021B4C24.buf = 0;
+    d_021B4C24.freeHead = 0;
+    d_021B4C24.base = 0;
 }
-

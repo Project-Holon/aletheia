@@ -1,5 +1,5 @@
 /*
- * function: func_02015C48
+ * function: MCSS_SetPosition
  * address:  0x02015C48
  * packet:   pkt_02015C48
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words into the
- * structure at +0xE0. The inverse of func_02015C30; in the ov118 event state
+ * structure at +0xE0. The inverse of MCSS_GetPosition; in the ov118 event state
  * machine (0x021D7130) and func_021D6E04 it is the in-direction marshaller.
  *
  * Addresses are Black-image addresses.
@@ -19,7 +19,7 @@
 
 typedef unsigned int u32;
 
-void func_02015C48(void *p, u32 *src)
+void MCSS_SetPosition(void *p, u32 *src)
 {
     ((struct Obj00933 *)p)->fE0 = src[0];
     ((struct Obj00933 *)p)->fE4 = src[1];

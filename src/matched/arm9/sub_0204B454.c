@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204B454
+ * function: CLACT_GetActorSurfacePos
  * address:  0x0204B454
  * packet:   pkt_0204B454
  * region:   arm9
@@ -11,11 +11,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204CF74  0x0204CF74  arm
- *   sub_0204B53C   0x0204B53C  arm
+ *   CLACT_GetSurfaceOrigin  0x0204CF74  arm
+ *   CLACT_GetActorPos   0x0204B53C  arm
  *
  * Read the actor's screen position back in the coordinate space named by
- * `space`: func_0204CF74 fills in that space's origin, src/matched/sub_0204B53C.c
+ * `space`: CLACT_GetSurfaceOrigin fills in that space's origin, src/matched/CLACT_GetActorPos.c
  * fills in the absolute position, and the difference is written back over the
  * caller's buffer in place.
  *
@@ -23,8 +23,8 @@
  * explicit `sub sp`, which is what a single four-byte local costs here.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B454.c \
- *       --func sub_0204B454 --addr 0x0204B454 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetActorSurfacePos.c \
+ *       --func CLACT_GetActorSurfacePos --addr 0x0204B454 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -48,15 +48,15 @@ struct Actor {
 };
 
 struct Obj;
-extern void func_0204CF74(struct Obj *actor, u32 space, u16 *out);
-extern void sub_0204B53C(const struct Actor *actor, struct Pt *out);
+extern void CLACT_GetSurfaceOrigin(struct Obj *actor, u32 space, u16 *out);
+extern void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out);
 
-void sub_0204B454(struct Actor *actor, struct PtS *out, u16 space)
+void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space)
 {
     struct PtS origin;
 
-    func_0204CF74((struct Obj *)actor, space, (u16 *)&origin);
-    sub_0204B53C(actor, (struct Pt *)out);
+    CLACT_GetSurfaceOrigin((struct Obj *)actor, space, (u16 *)&origin);
+    CLACT_GetActorPos(actor, (struct Pt *)out);
 
     out->x = out->x - origin.x;
     out->y = out->y - origin.y;

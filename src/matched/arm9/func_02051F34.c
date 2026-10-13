@@ -1,5 +1,5 @@
 /*
- * function: func_02051F34
+ * function: BUTTON_MAN_SegmentSphereTest
  * address:  0x02051F34
  * packet:   pkt_02051E74
  * region:   arm9
@@ -57,7 +57,7 @@ extern void VEC_Normalize(const struct Vec3 *v, struct Vec3 *d);
 extern int  FX_Div(int a, int b);
 extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *d);
 
-u32 func_02051F34(struct Seg *seg, struct Ball *b, struct Out *out)
+u32 BUTTON_MAN_SegmentSphereTest(struct Seg *seg, struct Ball *b, struct Out *out)
 {
     struct Out  res;    /* sp+0x24: res.hit, n, d -- copied out as one block */
     struct Vec3 sd;     /* sp+0x18 */

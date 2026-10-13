@@ -1,5 +1,5 @@
 /*
- * function: func_0203A28C
+ * function: GFL_NET_HANDLE_SetBitMask
  * address:  0x0203A28C
  * packet:   pkt_0203A28C
  * region:   arm9
@@ -16,7 +16,7 @@
  *
  * Set or clear one bit of the 16-bit slot mask, reporting at line 0x391 (913)
  * when the bit index is the 0xFF sentinel.  This is the write half of
- * func_0203A2F0's read (line 0x3AB), sharing its file/message pair.
+ * GFL_NET_HANDLE_IsBitSet's read (line 0x3AB), sharing its file/message pair.
  *
  * The mask is a u16 throughout, which is what the `lsl #0x10` / `lsr #16`
  * pairs around every store of it are: `1 << idx` is built in a word, narrowed
@@ -32,8 +32,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A28C.c \
- *       --func func_0203A28C --addr 0x0203A28C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_SetBitMask.c \
+ *       --func GFL_NET_HANDLE_SetBitMask --addr 0x0203A28C --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -43,7 +43,7 @@ extern void func_02034714(const char *file, u32 line, const char *msg);
 extern const char file_020A7A68[];
 extern const char file_020A7AB0[];
 
-u16 func_0203A28C(u16 mask, u32 idx, u32 set)
+u16 GFL_NET_HANDLE_SetBitMask(u16 mask, u32 idx, u32 set)
 {
     if (idx == 0xFF)
         func_02034714(file_020A7A68, 0x391, file_020A7AB0);

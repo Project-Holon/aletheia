@@ -1,5 +1,5 @@
 /*
- * function: func_02173984
+ * function: UNION_COMMAND_GetRecvBuffer
  * address: 0x02173984
  * packet: pkt_ov012_02173984
  * region: ov012
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02175624[];
-u8 *func_02173984(int a, u8 *b, int c)
+u8 *UNION_COMMAND_GetRecvBuffer(int a, u8 *b, int c)
 {
     if (c > 0x800) func_02034714(d_02175624, 0, d_02175624);
     return b + 4 + a * 0x800;

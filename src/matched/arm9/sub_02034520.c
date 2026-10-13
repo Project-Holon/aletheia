@@ -1,5 +1,5 @@
 /*
- * function: sub_02034520
+ * function: VMAN_GetBankSetSize
  * address:  0x02034520
  * packet:   pkt_020339D0
  * region:   arm9
@@ -21,8 +21,8 @@
  * honesty rule.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02034520.c \
- *       --func sub_02034520 --addr 0x02034520 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/VMAN_GetBankSetSize.c \
+ *       --func VMAN_GetBankSetSize --addr 0x02034520 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -34,7 +34,7 @@ struct FlagEntry {
 
 extern const struct FlagEntry g_FlagTable[9];
 
-u32 sub_02034520(u32 flags)
+u32 VMAN_GetBankSetSize(u32 flags)
 {
     u32 i;
     u32 sum = 0;

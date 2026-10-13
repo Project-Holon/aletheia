@@ -1,5 +1,5 @@
 /*
- * function: func_021DBF94
+ * function: P_STA_RIBBON_GetRibbonDescMsg
  * address: 0x021DBF94
  * packet: pkt_ov131_021DBF94
  * region: ov131
@@ -12,6 +12,6 @@
  */
 struct R { unsigned short v; unsigned char pad[14]; };
 extern struct R d_021DC302[];
-unsigned int func_021DBF94(int i) {
+unsigned int P_STA_RIBBON_GetRibbonDescMsg(int i) {
  return d_021DC302[i].v;
 }

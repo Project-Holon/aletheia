@@ -18,15 +18,26 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020742E4",
-    "func_020742FC",
-    "func_0207430C",
-    "func_02074324",
-    "func_02074388",
-    "func_020743EC",
-    "func_02074450",
-    "func_020744B4",
-    "func_02074518"
+    "NNS_SndArcSetCurrent",
+    "NNS_SndArcGetCurrent",
+    "NNS_SndArcGetSeqParam",
+    "NNS_SndArcGetSeqInfo",
+    "NNS_SndArcGetSeqArcInfo",
+    "NNS_SndArcGetBankInfo",
+    "NNS_SndArcGetWaveArcInfo",
+    "NNS_SndArcGetPlayerInfo",
+    "NNS_SndArcGetGroupInfo"
+   ],
+   "addresses": [
+    "0x020742E4",
+    "0x020742FC",
+    "0x0207430C",
+    "0x02074324",
+    "0x02074388",
+    "0x020743EC",
+    "0x02074450",
+    "0x020744B4",
+    "0x02074518"
    ]
   }
  ]

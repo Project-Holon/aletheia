@@ -11,13 +11,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02007CB0, sub_02007CB8, sub_02007CC8, sub_02007D00,
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
+ * function: MYITEM_SAVEDATA_GetSize, MYITEM_SAVEDATA_Init, MYITEM_SAVEDATA_CopyPocket, MYITEM_SAVEDATA_GetPocket,
+ *           MYITEM_SAVEDATA_GetPocketOfItem, MYITEM_SAVEDATA_FindAddSlot, MYITEM_SAVEDATA_FindAddSlotForItem, MYITEM_SAVEDATA_CanAddItem,
+ *           MYITEM_SAVEDATA_AddItem, MYITEM_SAVEDATA_FindRemoveSlot, MYITEM_SAVEDATA_FindItemSlot, MYITEM_SAVEDATA_RemoveItem,
+ *           MYITEM_SAVEDATA_HasItem, MYITEM_SAVEDATA_CountUsedSlots, MYITEM_SAVEDATA_CountUsedSlotsInPocket, MYITEM_SAVEDATA_GetItemQuantity,
+ *           MYITEM_SAVEDATA_SwapSlots, MYITEM_SAVEDATA_MoveLastUsedToFront, MYITEM_SAVEDATA_ClearEmptyQuantities, MYITEM_SAVEDATA_CompactPocket,
+ *           MYITEM_SAVEDATA_SortPocketById, MYITEM_SAVEDATA_SortPocketByItemOrder, MYITEM_SAVEDATA_CompactAllPockets, MYITEM_SAVEDATA_GetSlot,
+ *           MYITEM_SAVEDATA_GetMaxStack
  *
  * symbols:
  *   MI_CpuCopy8    0x02082D44  arm
@@ -28,12 +28,12 @@
  *
  * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
  * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
+ * file boundary at the low end is the block file opening idiom: MYITEM_SAVEDATA_GetSize
+ * returns 0x9C0 and MYITEM_SAVEDATA_Init fills exactly 0x9C0 bytes with zero, and the
  * function before it belongs to "perapvoice.c".
  *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
+ * The five arrays are named by the two switches, MYITEM_SAVEDATA_GetPocket and the
+ * unlabelled MYITEM_SAVEDATA_GetSlot, which agree entry for entry:
  *
  *   id 0   offset 0x000   0x136 entries
  *   id 4   offset 0x4D8   0x053 entries
@@ -46,34 +46,34 @@
  * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
  * that order is the order the source wrote the case labels in, so it is kept
  * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
+ * MYITEM_SAVEDATA_GetSlot reads an uninitialised count on an unknown id: the dispatch
  * chain branches past the merged tail rather than into it, which is the
  * reading in docs/idioms/switch-arms-tail-merge.md.
  *
  * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
+ * they save no lr.  MYITEM_SAVEDATA_GetSlot is the largest of them, 96 bytes of switch
  * plus table plus pool sitting between two literal pools in the listing.
  *
  * What the range teaches:
  *
- *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
- *    pointer to sub_02007D6C after having already used that pointer for
+ *  - MYITEM_SAVEDATA_FindAddSlotForItem, MYITEM_SAVEDATA_AddItem and MYITEM_SAVEDATA_RemoveItem pass the address of a local
+ *    pointer to MYITEM_SAVEDATA_GetPocketOfItem after having already used that pointer for
  *    something else, and the compiler gives both uses the same stack slot.
  *    Writing them as two variables produces two slots and moves every offset
  *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in sub_02008058 and its two siblings is assigned after
+ *  - the loop bound in MYITEM_SAVEDATA_CompactPocket and its two siblings is assigned after
  *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
  *    Written the other way round the compiler has no zero in hand at the
  *    point it needs one and materialises it from a literal pool, which costs
  *    four bytes of pool the original does not have.
- *  - sub_020080FC compares two calls to func_0202130C.  The first result is
+ *  - MYITEM_SAVEDATA_SortPocketByItemOrder compares two calls to func_0202130C.  The first result is
  *    spilled across the second call and the comparison comes out `cmp r1, r0`
  *    with the spilled operand first, which is the same tell
  *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
  *    spill is forced by the second call rather than by a named local, so the
  *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
+ *  - MYITEM_SAVEDATA_FindRemoveSlot returns `&arr[i]` from a second `return` statement rather
+ *    than through a merged local.  MYITEM_SAVEDATA_FindAddSlot, ten functions earlier, does
  *    use the merged form, and the difference is visible: the merged form
  *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
  */
@@ -96,36 +96,36 @@ extern u32 func_02020FE4(void *a, u32 sel, u32 id);
 extern u32 func_02021288(u32 a);
 extern u32 func_0202130C(u32 id);
 
-u32 sub_02007D00(u8 *base, u32 id, void **pp, u32 *pn);
-u32 sub_02007D6C(u8 *base, u32 a, void **pp, u32 *pn, u16 d);
-struct Item *sub_02007D94(struct Item *arr, u32 n, u16 id, u16 qty, u16 max);
-struct Item *sub_02007DF8(u8 *base, u16 id, u16 qty, u16 d);
-struct Item *sub_02007ECC(struct Item *arr, u32 n, u16 id, u16 qty);
-struct Item *sub_02007EF8(u8 *base, u16 id, u16 qty, u16 d);
-u32 sub_02007F7C(const struct Item *arr, u32 n);
-void sub_02007FD0(struct Item *a, struct Item *b);
-void sub_02007FF4(struct Item *arr, u32 n);
-void sub_02008038(struct Item *arr, u32 n);
-void sub_02008058(struct Item *arr, u32 n);
-void sub_020080A0(struct Item *arr, u32 n);
-void sub_020080FC(struct Item *arr, u32 n);
+u32 MYITEM_SAVEDATA_GetPocket(u8 *base, u32 id, void **pp, u32 *pn);
+u32 MYITEM_SAVEDATA_GetPocketOfItem(u8 *base, u32 a, void **pp, u32 *pn, u16 d);
+struct Item *MYITEM_SAVEDATA_FindAddSlot(struct Item *arr, u32 n, u16 id, u16 qty, u16 max);
+struct Item *MYITEM_SAVEDATA_FindAddSlotForItem(u8 *base, u16 id, u16 qty, u16 d);
+struct Item *MYITEM_SAVEDATA_FindRemoveSlot(struct Item *arr, u32 n, u16 id, u16 qty);
+struct Item *MYITEM_SAVEDATA_FindItemSlot(u8 *base, u16 id, u16 qty, u16 d);
+u32 MYITEM_SAVEDATA_CountUsedSlots(const struct Item *arr, u32 n);
+void MYITEM_SAVEDATA_SwapSlots(struct Item *a, struct Item *b);
+void MYITEM_SAVEDATA_MoveLastUsedToFront(struct Item *arr, u32 n);
+void MYITEM_SAVEDATA_ClearEmptyQuantities(struct Item *arr, u32 n);
+void MYITEM_SAVEDATA_CompactPocket(struct Item *arr, u32 n);
+void MYITEM_SAVEDATA_SortPocketById(struct Item *arr, u32 n);
+void MYITEM_SAVEDATA_SortPocketByItemOrder(struct Item *arr, u32 n);
 
-u32 sub_02007CB0(void)
+u32 MYITEM_SAVEDATA_GetSize(void)
 {
     return 0x9C0;
 }
 
-void sub_02007CB8(void *p)
+void MYITEM_SAVEDATA_Init(void *p)
 {
     MI_CpuFill8(p, 0, 0x9C0);
 }
 
-void sub_02007CC8(u8 *base, void *buf, u32 id, int save)
+void MYITEM_SAVEDATA_CopyPocket(u8 *base, void *buf, u32 id, int save)
 {
     void *p;
     u32 n;
 
-    sub_02007D00(base, id, &p, &n);
+    MYITEM_SAVEDATA_GetPocket(base, id, &p, &n);
     if (save) {
         MI_CpuCopy8(p, buf, n * 4);
     } else {
@@ -133,7 +133,7 @@ void sub_02007CC8(u8 *base, void *buf, u32 id, int save)
     }
 }
 
-u32 sub_02007D00(u8 *base, u32 id, void **pp, u32 *pn)
+u32 MYITEM_SAVEDATA_GetPocket(u8 *base, u32 id, void **pp, u32 *pn)
 {
     switch (id) {
     case 4:
@@ -163,15 +163,15 @@ u32 sub_02007D00(u8 *base, u32 id, void **pp, u32 *pn)
     return id;
 }
 
-u32 sub_02007D6C(u8 *base, u32 a, void **pp, u32 *pn, u16 d)
+u32 MYITEM_SAVEDATA_GetPocketOfItem(u8 *base, u32 a, void **pp, u32 *pn, u16 d)
 {
     u32 id = func_02020FE4((void *)a, 5, d);
 
-    sub_02007D00(base, id, pp, pn);
+    MYITEM_SAVEDATA_GetPocket(base, id, pp, pn);
     return id;
 }
 
-struct Item *sub_02007D94(struct Item *arr, u32 n, u16 id, u16 qty, u16 max)
+struct Item *MYITEM_SAVEDATA_FindAddSlot(struct Item *arr, u32 n, u16 id, u16 qty, u16 max)
 {
     u32 i;
     u32 free = -1;
@@ -195,26 +195,26 @@ struct Item *sub_02007D94(struct Item *arr, u32 n, u16 id, u16 qty, u16 max)
     return &arr[free];
 }
 
-struct Item *sub_02007DF8(u8 *base, u16 id, u16 qty, u16 d)
+struct Item *MYITEM_SAVEDATA_FindAddSlotForItem(u8 *base, u16 id, u16 qty, u16 d)
 {
     void *p;
     u32 n;
 
-    if (sub_02007D6C(base, id, &p, &n, d) == 2) {
-        return sub_02007D94(p, n, id, qty, 1);
+    if (MYITEM_SAVEDATA_GetPocketOfItem(base, id, &p, &n, d) == 2) {
+        return MYITEM_SAVEDATA_FindAddSlot(p, n, id, qty, 1);
     }
-    return sub_02007D94(p, n, id, qty, 999);
+    return MYITEM_SAVEDATA_FindAddSlot(p, n, id, qty, 999);
 }
 
-u32 sub_02007E3C(u8 *base, u16 id, u16 qty, u16 d)
+u32 MYITEM_SAVEDATA_CanAddItem(u8 *base, u16 id, u16 qty, u16 d)
 {
-    if (sub_02007DF8(base, id, qty, d) != NULL) {
+    if (MYITEM_SAVEDATA_FindAddSlotForItem(base, id, qty, d) != NULL) {
         return 1;
     }
     return 0;
 }
 
-u32 sub_02007E50(u8 *base, u16 id, u16 qty, u16 d)
+u32 MYITEM_SAVEDATA_AddItem(u8 *base, u16 id, u16 qty, u16 d)
 {
     void *p;
     u32 n;
@@ -223,27 +223,27 @@ u32 sub_02007E50(u8 *base, u16 id, u16 qty, u16 d)
     u16 old;
     u32 kind;
 
-    p = sub_02007DF8(base, id, qty, d);
+    p = MYITEM_SAVEDATA_FindAddSlotForItem(base, id, qty, d);
     if (p == NULL) {
         return 0;
     }
     old = ((struct Item *)p)->qty;
     ((struct Item *)p)->id = id;
     ((struct Item *)p)->qty = (u16)(((struct Item *)p)->qty + qty);
-    kind = sub_02007D6C(base, id, &p, &n, d);
+    kind = MYITEM_SAVEDATA_GetPocketOfItem(base, id, &p, &n, d);
     if (kind == 3) {
-        sub_020080A0(p, n);
+        MYITEM_SAVEDATA_SortPocketById(p, n);
     } else if (kind == 2) {
-        sub_020080FC(p, n);
+        MYITEM_SAVEDATA_SortPocketByItemOrder(p, n);
     } else if (old == 0) {
-        sub_02007D00(base, kind, &q, &m);
-        m = sub_02007F7C(q, m);
-        sub_02007FF4(q, m);
+        MYITEM_SAVEDATA_GetPocket(base, kind, &q, &m);
+        m = MYITEM_SAVEDATA_CountUsedSlots(q, m);
+        MYITEM_SAVEDATA_MoveLastUsedToFront(q, m);
     }
     return 1;
 }
 
-struct Item *sub_02007ECC(struct Item *arr, u32 n, u16 id, u16 qty)
+struct Item *MYITEM_SAVEDATA_FindRemoveSlot(struct Item *arr, u32 n, u16 id, u16 qty)
 {
     u32 i;
 
@@ -258,21 +258,21 @@ struct Item *sub_02007ECC(struct Item *arr, u32 n, u16 id, u16 qty)
     return NULL;
 }
 
-struct Item *sub_02007EF8(u8 *base, u16 id, u16 qty, u16 d)
+struct Item *MYITEM_SAVEDATA_FindItemSlot(u8 *base, u16 id, u16 qty, u16 d)
 {
     void *p;
     u32 n;
 
-    sub_02007D6C(base, id, &p, &n, d);
-    return sub_02007ECC(p, n, id, qty);
+    MYITEM_SAVEDATA_GetPocketOfItem(base, id, &p, &n, d);
+    return MYITEM_SAVEDATA_FindRemoveSlot(p, n, id, qty);
 }
 
-u32 sub_02007F1C(u8 *base, u16 id, u16 qty, u16 d)
+u32 MYITEM_SAVEDATA_RemoveItem(u8 *base, u16 id, u16 qty, u16 d)
 {
     void *p;
     u32 n;
 
-    p = sub_02007EF8(base, id, qty, d);
+    p = MYITEM_SAVEDATA_FindItemSlot(base, id, qty, d);
     if (p == NULL) {
         return 0;
     }
@@ -280,20 +280,20 @@ u32 sub_02007F1C(u8 *base, u16 id, u16 qty, u16 d)
     if (((struct Item *)p)->qty == 0) {
         ((struct Item *)p)->id = 0;
     }
-    sub_02007D6C(base, id, &p, &n, d);
-    sub_02008058(p, n);
+    MYITEM_SAVEDATA_GetPocketOfItem(base, id, &p, &n, d);
+    MYITEM_SAVEDATA_CompactPocket(p, n);
     return 1;
 }
 
-u32 sub_02007F68(u8 *base, u16 id, u16 qty, u16 d)
+u32 MYITEM_SAVEDATA_HasItem(u8 *base, u16 id, u16 qty, u16 d)
 {
-    if (sub_02007EF8(base, id, qty, d) != NULL) {
+    if (MYITEM_SAVEDATA_FindItemSlot(base, id, qty, d) != NULL) {
         return 1;
     }
     return 0;
 }
 
-u32 sub_02007F7C(const struct Item *arr, u32 n)
+u32 MYITEM_SAVEDATA_CountUsedSlots(const struct Item *arr, u32 n)
 {
     u32 c = 0;
     u32 i;
@@ -308,18 +308,18 @@ u32 sub_02007F7C(const struct Item *arr, u32 n)
     return c;
 }
 
-u32 sub_02007FA0(u8 *base, u32 id)
+u32 MYITEM_SAVEDATA_CountUsedSlotsInPocket(u8 *base, u32 id)
 {
     void *p;
     u32 n;
 
-    sub_02007D00(base, id, &p, &n);
-    return sub_02007F7C(p, n);
+    MYITEM_SAVEDATA_GetPocket(base, id, &p, &n);
+    return MYITEM_SAVEDATA_CountUsedSlots(p, n);
 }
 
-u32 sub_02007FB8(u8 *base, u16 id, u16 d)
+u32 MYITEM_SAVEDATA_GetItemQuantity(u8 *base, u16 id, u16 d)
 {
-    struct Item *e = sub_02007EF8(base, id, 1, d);
+    struct Item *e = MYITEM_SAVEDATA_FindItemSlot(base, id, 1, d);
 
     if (e == NULL) {
         return 0;
@@ -327,7 +327,7 @@ u32 sub_02007FB8(u8 *base, u16 id, u16 d)
     return e->qty;
 }
 
-void sub_02007FD0(struct Item *a, struct Item *b)
+void MYITEM_SAVEDATA_SwapSlots(struct Item *a, struct Item *b)
 {
     struct Item t;
 
@@ -336,7 +336,7 @@ void sub_02007FD0(struct Item *a, struct Item *b)
     *b = t;
 }
 
-void sub_02007FF4(struct Item *arr, u32 n)
+void MYITEM_SAVEDATA_MoveLastUsedToFront(struct Item *arr, u32 n)
 {
     struct Item t;
     int i;
@@ -355,7 +355,7 @@ void sub_02007FF4(struct Item *arr, u32 n)
     MI_CpuCopy8(&t, arr, sizeof(struct Item));
 }
 
-void sub_02008038(struct Item *arr, u32 n)
+void MYITEM_SAVEDATA_ClearEmptyQuantities(struct Item *arr, u32 n)
 {
     u32 i;
 
@@ -366,75 +366,75 @@ void sub_02008038(struct Item *arr, u32 n)
     }
 }
 
-void sub_02008058(struct Item *arr, u32 n)
+void MYITEM_SAVEDATA_CompactPocket(struct Item *arr, u32 n)
 {
     u32 lim;
     u32 i;
     u32 j;
 
-    sub_02008038(arr, n);
+    MYITEM_SAVEDATA_ClearEmptyQuantities(arr, n);
     for (i = 0, lim = n - 1; i < lim; i++) {
         for (j = i + 1; j < n; j++) {
             if (arr[i].qty == 0) {
-                sub_02007FD0(&arr[i], &arr[j]);
+                MYITEM_SAVEDATA_SwapSlots(&arr[i], &arr[j]);
             }
         }
     }
 }
 
-void sub_020080A0(struct Item *arr, u32 n)
+void MYITEM_SAVEDATA_SortPocketById(struct Item *arr, u32 n)
 {
     u32 lim;
     u32 i;
     u32 j;
 
-    sub_02008038(arr, n);
+    MYITEM_SAVEDATA_ClearEmptyQuantities(arr, n);
     for (i = 0, lim = n - 1; i < lim; i++) {
         for (j = i + 1; j < n; j++) {
             if (arr[i].qty == 0 ||
                 (arr[j].qty != 0 && arr[i].id > arr[j].id)) {
-                sub_02007FD0(&arr[i], &arr[j]);
+                MYITEM_SAVEDATA_SwapSlots(&arr[i], &arr[j]);
             }
         }
     }
 }
 
-void sub_020080FC(struct Item *arr, u32 n)
+void MYITEM_SAVEDATA_SortPocketByItemOrder(struct Item *arr, u32 n)
 {
     u32 lim;
     u32 i;
     u32 j;
 
-    sub_02008038(arr, n);
+    MYITEM_SAVEDATA_ClearEmptyQuantities(arr, n);
     for (i = 0, lim = n - 1; i < lim; i++) {
         for (j = i + 1; j < n; j++) {
             if (arr[i].qty == 0 ||
                 (arr[j].qty != 0 &&
                  func_0202130C(arr[i].id) > func_0202130C(arr[j].id))) {
-                sub_02007FD0(&arr[i], &arr[j]);
+                MYITEM_SAVEDATA_SwapSlots(&arr[i], &arr[j]);
             }
         }
     }
 }
 
-void sub_0200816C(u8 *base)
+void MYITEM_SAVEDATA_CompactAllPockets(u8 *base)
 {
     void *p;
     u32 n;
 
-    sub_02007D00(base, 4, &p, &n);
-    sub_02008058(p, n);
-    sub_02007D00(base, 0, &p, &n);
-    sub_02008058(p, n);
-    sub_02007D00(base, 3, &p, &n);
-    sub_02008058(p, n);
-    sub_02007D00(base, 1, &p, &n);
-    sub_02008058(p, n);
-    sub_02007D00(base, 2, &p, &n);
-    sub_02008058(p, n);
+    MYITEM_SAVEDATA_GetPocket(base, 4, &p, &n);
+    MYITEM_SAVEDATA_CompactPocket(p, n);
+    MYITEM_SAVEDATA_GetPocket(base, 0, &p, &n);
+    MYITEM_SAVEDATA_CompactPocket(p, n);
+    MYITEM_SAVEDATA_GetPocket(base, 3, &p, &n);
+    MYITEM_SAVEDATA_CompactPocket(p, n);
+    MYITEM_SAVEDATA_GetPocket(base, 1, &p, &n);
+    MYITEM_SAVEDATA_CompactPocket(p, n);
+    MYITEM_SAVEDATA_GetPocket(base, 2, &p, &n);
+    MYITEM_SAVEDATA_CompactPocket(p, n);
 }
 
-struct Item *sub_020081DC(u8 *base, u32 id, u32 index)
+struct Item *MYITEM_SAVEDATA_GetSlot(u8 *base, u32 id, u32 index)
 {
     u32 n;
 
@@ -465,7 +465,7 @@ struct Item *sub_020081DC(u8 *base, u32 id, u32 index)
     return (struct Item *)(base + index * 4);
 }
 
-u32 sub_0200823C(u32 a)
+u32 MYITEM_SAVEDATA_GetMaxStack(u32 a)
 {
     if (func_02021288(a) == 1) {
         return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_02013158
+ * function: BTL_SETUP_CheckStatusFlag
  * address:  0x02013158
  * packet:   pkt_02013158
  * region:   arm9
@@ -12,11 +12,11 @@
  * Unlabelled leaf accessor: returns m & *(u16 *)(base + 0x82).
  *
  * symbols:
- *   func_02013158  0x02013158  thumb
+ *   BTL_SETUP_CheckStatusFlag  0x02013158  thumb
  */
 #include "../include/Obj15643.h"
 
-int func_02013158(char *base, int m)
+int BTL_SETUP_CheckStatusFlag(char *base, int m)
 {
     return ((struct Obj15643 *)base)->f82 & m;
 }

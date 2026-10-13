@@ -9,11 +9,11 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_0200C52C 0x0200C52C thumb
- *   func_0200C6D8 0x0200C6D8 thumb
- *   func_0200C6DC 0x0200C6DC thumb
- *   func_0200C5A4 0x0200C5A4 thumb
- *   func_0204913C 0x0204913C arm
+ *   MUSICAL_DIST_SAVE_Create 0x0200C52C thumb
+ *   MUSICAL_DIST_SAVE_GetPayload 0x0200C6D8 thumb
+ *   MUSICAL_DIST_SAVE_GetPayloadSize 0x0200C6DC thumb
+ *   MUSICAL_DIST_SAVE_Delete 0x0200C5A4 thumb
+ *   ARC_TOOL_CreateHandleFromMemory 0x0204913C arm
  *   func_020490F4 0x020490F4 arm
  *   func_0204A39C 0x0204A39C arm
  *   func_020493D4 0x020493D4 arm
@@ -29,16 +29,16 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 struct ArcFile;
 struct Blk2C;
 struct MusicalDist;
-extern struct MusicalDist *func_0200C52C(void *sys, u32 heap);
-extern u32 func_0200C6D8(struct Blk2C *p);
-extern u32 func_0200C6DC(struct Blk2C *p);
-extern void *func_0204913C(void *a0, u32 a1, u32 heap);
+extern struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *sys, u32 heap);
+extern u32 MUSICAL_DIST_SAVE_GetPayload(struct Blk2C *p);
+extern u32 MUSICAL_DIST_SAVE_GetPayloadSize(struct Blk2C *p);
+extern void *ARC_TOOL_CreateHandleFromMemory(void *a0, u32 a1, u32 heap);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
 extern void func_02049238(void *arc);
-extern void func_0200C5A4(struct MusicalDist *p);
+extern void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *p);
 void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap)
 {
     void *x;
@@ -47,8 +47,8 @@ void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap)
     u8 *q;
     *p = kind;
     if (kind >= 4) {
-        x = func_0200C52C(sys, heap);
-        arc = func_0204913C((void *)func_0200C6D8(x), func_0200C6DC(x), (u16)((heap & 0x7fff) | 0x8000));
+        x = MUSICAL_DIST_SAVE_Create(sys, heap);
+        arc = ARC_TOOL_CreateHandleFromMemory((void *)MUSICAL_DIST_SAVE_GetPayload(x), MUSICAL_DIST_SAVE_GetPayloadSize(x), (u16)((heap & 0x7fff) | 0x8000));
     } else {
         arc = func_020490F4(kind + 0x6f, (u16)((heap & 0x7fff) | 0x8000));
     }
@@ -71,5 +71,5 @@ void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap)
     func_0204932C(arc, 3, *(void **)(p + 0x18));
     func_0204932C(arc, 5, *(void **)(p + 0x1c));
     func_02049238(arc);
-    if (kind >= 4) func_0200C5A4(x);
+    if (kind >= 4) MUSICAL_DIST_SAVE_Delete(x);
 }

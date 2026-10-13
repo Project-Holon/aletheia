@@ -1,5 +1,5 @@
 /*
- * function: func_02175C04
+ * function: INTRUDE_COMM_SetSessionReadyBit
  * address:  0x02175C04
  * packet:   pkt_02175C04
  * region:   ov011
@@ -19,7 +19,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-void func_02175C04(u8 *o, u32 bit)
+void INTRUDE_COMM_SetSessionReadyBit(u8 *o, u32 bit)
 {
     if (o[0xe0] == 4) {
         o[0x19f] |= (u8)(1 << bit);

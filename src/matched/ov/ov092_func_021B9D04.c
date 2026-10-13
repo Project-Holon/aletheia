@@ -8,25 +8,27 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02017F9C 0x02017F9C thumb
+ *   POKE_TOOL_SetStatusCondition 0x02017F9C thumb
+ *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb  arm9
+ *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb  arm9
  * extent: code ends at 0x021B9D44; remaining handed extent is rodata.
  */
 typedef unsigned int u32;
 struct Sav;
-extern u32 func_02017D30(struct Sav *p);
-extern u32 func_02017D70(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
-extern void func_02017F9C(void *p, u32 v);
+extern void POKE_TOOL_SetStatusCondition(void *p, u32 v);
 void func_021B9D04(void *p)
 {
     u32 saved;
     u32 zero;
-    saved = func_02017D30(p);
+    saved = POKE_TOOL_DecodePartyParam(p);
     zero = 0;
     if (func_02017E1C(p, 0x98, 0) == 14) {
         func_02017E40(p, 0xa0, func_02017E1C(p, 0xa1, zero));
-        func_02017F9C(p, zero);
+        POKE_TOOL_SetStatusCondition(p, zero);
     }
-    func_02017D70(p, saved);
+    POKE_TOOL_EncodePartyParam(p, saved);
 }

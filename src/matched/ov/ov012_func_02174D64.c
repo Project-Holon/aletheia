@@ -1,5 +1,5 @@
 /*
- * function: func_02174D64
+ * function: COLOSSEUM_RecvParty
  * address: 0x02174D64
  * packet: pkt_ov012_02174D64
  * region: ov012
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02082D44(void *,void *,u32);
-void func_02174D64(u32 a, u32 b, void *c, u8 *d)
+void COLOSSEUM_RecvParty(u32 a, u32 b, void *c, u8 *d)
 {
     u8 *w = *(u8 * *)&((struct Obj19288 *)d)->f355C;
     if (w == 0) return;

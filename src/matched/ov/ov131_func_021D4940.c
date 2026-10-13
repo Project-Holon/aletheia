@@ -1,5 +1,5 @@
 /*
- * function: func_021D4940
+ * function: P_STATUS_InitBgLayer
  * address: 0x021D4940
  * packet: pkt_ov131_021D4940
  * region: ov131
@@ -20,7 +20,7 @@ extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(u32 which, unsigned char enable);
 extern void func_020414AC(u32);
 extern void func_020409B4(u32);
-void func_021D4940(struct BgConfig *cfg,u32 bg,u32 mode)
+void P_STATUS_InitBgLayer(struct BgConfig *cfg,u32 bg,u32 mode)
 {
     func_0203FCA0(bg,(const struct BgTemplate *)cfg,mode);
     func_02040588(bg,1);

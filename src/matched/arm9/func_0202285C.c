@@ -8,22 +8,22 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0202285C
+ * function: WIPE_SUB_PatternCircleOut
  *
  * symbols:
- *   func_020222A8  0x020222A8  thumb
- *   func_020235F0  0x020235F0  thumb
- *   func_0202363C  0x0202363C  thumb
+ *   WIPE_SetBackColor  0x020222A8  thumb
+ *   WIPE_SUB_CircleStart  0x020235F0  thumb
+ *   WIPE_SUB_CircleMain  0x0202363C  thumb
  *
- * Same shape as src/matched/func_02022804.c, but the helper pair is
- * func_020235F0 / func_0202363C instead of func_02023464 / func_020234C0;
+ * Same shape as src/matched/WIPE_SUB_PatternBoxOpenOut.c, but the helper pair is
+ * WIPE_SUB_CircleStart / WIPE_SUB_CircleMain instead of WIPE_SUB_BoxStart / WIPE_SUB_BoxMain;
  * kept in its own file for the same reason (the sibling calls to the
  * shared helpers have to stay outside the compared range to attest them).
  * Sets the flag pair to (1, 0) and stashes the constant 0x0209F6B8.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202285C.c \
- *       --func func_0202285C --addr 0x0202285C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_PatternCircleOut.c \
+ *       --func WIPE_SUB_PatternCircleOut --addr 0x0202285C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -40,20 +40,20 @@ struct Obj {
     u32 unk2C;
 };
 
-extern void func_020222A8(u32 a);
+extern void WIPE_SetBackColor(u32 a);
 struct S;
-extern void func_020235F0(struct S *p, u32 a1);
+extern void WIPE_SUB_CircleStart(struct S *p, u32 a1);
 struct Rec;
-extern u32 func_0202363C(struct Rec *r);
+extern u32 WIPE_SUB_CircleMain(struct Rec *r);
 
-void func_0202285C(struct Obj *p)
+void WIPE_SUB_PatternCircleOut(struct Obj *p)
 {
     if (p->unk0C == 0) {
-        func_020222A8(p->unk24);
-        func_020235F0((struct S *)p, 0x0209F6B8);
+        WIPE_SetBackColor(p->unk24);
+        WIPE_SUB_CircleStart((struct S *)p, 0x0209F6B8);
         p->unk28 = 1;
         p->unk2C = 0;
         return;
     }
-    func_0202363C((struct Rec *)p);
+    WIPE_SUB_CircleMain((struct Rec *)p);
 }

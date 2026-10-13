@@ -2,8 +2,8 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: sub_020362EC, sub_0203630C, sub_0203631C, sub_0203633C,
- *           sub_0203634C, sub_02036370
+ * function: KEY_GetContSys, KEY_GetCont, KEY_GetRepeatSys, KEY_GetRepeat,
+ *           KEY_GetRepeatSpeedSys, KEY_GetRepeatSpeed
  * address:  0x020362EC
  * packet:   pkt_020362EC
  * region:   arm9
@@ -21,7 +21,7 @@
  * unit_020362BC.c opens: each picks one of two key masks out of the record
  * func_0203521C returns, keyed on the one-byte mode tag at +0x3d of the
  * context, and each is paired with a no-context wrapper that supplies the
- * context from func_02035224().  sub_0203634C is the two-output form and
+ * context from func_02035224().  KEY_GetRepeatSpeedSys is the two-output form and
  * reads the same field pair for either mode.
  *
  * The three workers have no caller but their own wrapper in this file, so
@@ -58,11 +58,11 @@ extern u32 func_0203521C(u32 *p);
 struct UiCtx;
 extern struct UiCtx *func_02035224(void);
 
-u32 sub_020362EC(struct Ctx *ctx);
-u32 sub_0203631C(struct Ctx *ctx);
-void sub_0203634C(struct Ctx *ctx, u32 *outA, u32 *outB);
+u32 KEY_GetContSys(struct Ctx *ctx);
+u32 KEY_GetRepeatSys(struct Ctx *ctx);
+void KEY_GetRepeatSpeedSys(struct Ctx *ctx, u32 *outA, u32 *outB);
 
-u32 sub_020362EC(struct Ctx *ctx)
+u32 KEY_GetContSys(struct Ctx *ctx)
 {
     struct Rec *rec = (struct Rec *)func_0203521C((u32 *)ctx);
 
@@ -72,12 +72,12 @@ u32 sub_020362EC(struct Ctx *ctx)
     return rec->unk_18;
 }
 
-u32 sub_0203630C(void)
+u32 KEY_GetCont(void)
 {
-    return sub_020362EC((struct Ctx *)func_02035224());
+    return KEY_GetContSys((struct Ctx *)func_02035224());
 }
 
-u32 sub_0203631C(struct Ctx *ctx)
+u32 KEY_GetRepeatSys(struct Ctx *ctx)
 {
     struct Rec *rec = (struct Rec *)func_0203521C((u32 *)ctx);
 
@@ -87,12 +87,12 @@ u32 sub_0203631C(struct Ctx *ctx)
     return rec->unk_20;
 }
 
-u32 sub_0203633C(void)
+u32 KEY_GetRepeat(void)
 {
-    return sub_0203631C((struct Ctx *)func_02035224());
+    return KEY_GetRepeatSys((struct Ctx *)func_02035224());
 }
 
-void sub_0203634C(struct Ctx *ctx, u32 *outA, u32 *outB)
+void KEY_GetRepeatSpeedSys(struct Ctx *ctx, u32 *outA, u32 *outB)
 {
     struct Rec *rec = (struct Rec *)func_0203521C((u32 *)ctx);
 
@@ -100,7 +100,7 @@ void sub_0203634C(struct Ctx *ctx, u32 *outA, u32 *outB)
     *outB = rec->unk_44;
 }
 
-void sub_02036370(u32 *outA, u32 *outB)
+void KEY_GetRepeatSpeed(u32 *outA, u32 *outB)
 {
-    sub_0203634C((struct Ctx *)func_02035224(), outA, outB);
+    KEY_GetRepeatSpeedSys((struct Ctx *)func_02035224(), outA, outB);
 }

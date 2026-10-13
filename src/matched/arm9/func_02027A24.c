@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02027A24
+ * function: APP_TASKMENU_CreateWindows
  * address:  0x02027A24
  * packet:   pkt_02027A24
  * region:   arm9
@@ -12,10 +12,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   sub_020450F0   0x020450F0  arm
- *   func_020282D8  0x020282D8  thumb
+ *   BMP_WIN_Create   0x020450F0  arm
+ *   APP_TASKMENU_DrawWinFrame  0x020282D8  thumb
  *   func_02045770  0x02045770  arm
- *   sub_0201C724   0x0201C724  thumb
+ *   PRINTSYS_PrintQueColor   0x0201C724  thumb
  *   func_02045334  0x02045334  arm
  *   func_02045374  0x02045374  arm
  *   func_02045730  0x02045730  arm
@@ -24,7 +24,7 @@
  * Build the o->count BG layers of a multi-row menu, one per iteration: the
  * layer handle goes into o->layers[i], the per-row descriptor lives in the
  * 0xc-byte array at o->rows[i], and the same four-call teardown quartet that
- * func_0202800C runs once per object runs once per layer here.
+ * APP_TASKMENU_WIN_CreateEx runs once per object runs once per layer here.
  *
  * The flag at +0x2c picks between a plain origin (+0x30, +0x31) and one
  * inset by +0x32 / (+0x33 * +0x24); both arms narrow to u8, which is what
@@ -68,18 +68,18 @@ struct Obj {
     struct Glyph *glyph;
 };
 
-extern u32   sub_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d,
+extern u32   BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d,
                           u8 slot);
-extern void  func_020282D8(u32 bg, struct Cfg *c, u32 d);
+extern void  APP_TASKMENU_DrawWinFrame(u32 bg, struct Cfg *c, u32 d);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *bg);
-extern void sub_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void  func_02045334(struct Descriptor *bg);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void  func_02041B6C(u32 bit);
 
-void func_02027A24(struct Obj *o, struct Cfg *cfg)
+void APP_TASKMENU_CreateWindows(struct Obj *o, struct Cfg *cfg)
 {
     u32 ox;
     u32 oy;
@@ -96,13 +96,13 @@ void func_02027A24(struct Obj *o, struct Cfg *cfg)
         oy = (u8)(o->y0 - o->dy * o->count);
     }
     for (i = 0; i < o->count; i++) {
-        o->layers[i] = sub_020450F0((u8)o->glyph->f00, ox,
+        o->layers[i] = BMP_WIN_Create((u8)o->glyph->f00, ox,
                                     (u8)(oy + i * o->dy), o->dx,
                                     o->dy, (u8)(o->glyph->f02 + 1), 1);
-        func_020282D8(o->layers[i], cfg, o->rows[i].f08);
+        APP_TASKMENU_DrawWinFrame(o->layers[i], cfg, o->rows[i].f08);
         rows = o->rows;
         row = &rows[i];
-        sub_0201C724((void *)cfg->f14, (u32)func_02045770((struct Descriptor *)o->layers[i]), 0xa, 6,
+        PRINTSYS_PrintQueColor((void *)cfg->f14, (u32)func_02045770((struct Descriptor *)o->layers[i]), 0xa, 6,
                      rows[i].f00, cfg->f10, row->f04);
         bg = o->layers[i];
         func_02045334((struct Descriptor *)bg);

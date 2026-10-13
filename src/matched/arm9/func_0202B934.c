@@ -13,14 +13,14 @@
  * (wave A1, lane 13).
  *
  * symbols:
- *   func_0202BA7C  0x0202BA7C  thumb
+ *   ISS_3DS_SYS_SetSourcePosImpl  0x0202BA7C  thumb
  */
 
 typedef struct { int x, y, z; } V3;
 
-extern void func_0202BA7C(void *m, int i, const V3 *v);
+extern void ISS_3DS_SYS_SetSourcePosImpl(void *m, int i, const V3 *v);
 
 void func_0202B934(void *m, int i, const V3 *v)
 {
-    func_0202BA7C(m, i, v);
+    ISS_3DS_SYS_SetSourcePosImpl(m, i, v);
 }

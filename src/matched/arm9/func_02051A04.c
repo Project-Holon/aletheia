@@ -1,5 +1,5 @@
 /*
- * function: func_02051A04
+ * function: BUTTON_MAN_SetRow5
  * address:  0x02051A04
  * packet:   pkt_02051838
  * region:   arm9
@@ -9,10 +9,13 @@
  * isa:      arm
  * status:   EXACT
  *
- * Same 12-byte copy as func_020519C4, out of the class-5 slot.
+ * Same 12-byte copy as BUTTON_MAN_SetRow2, out of the class-5 slot.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051A04.c \
- *       --func func_02051A04 --addr 0x02051A04 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_SetRow5.c \
+ *       --func BUTTON_MAN_SetRow5 --addr 0x02051A04 --cc 1.1p1 --arm
+ *
+ * symbols:
+ *   BUTTON_MAN_FindRowData  0x020518AC  arm
  */
 
 typedef unsigned int u32;
@@ -23,11 +26,11 @@ struct S12 {
     u32 c;
 };
 
-extern void *func_020518AC(void *obj, int kind);
+extern void *BUTTON_MAN_FindRowData(void *obj, int kind);
 
-void func_02051A04(void *p, struct S12 *q)
+void BUTTON_MAN_SetRow5(void *p, struct S12 *q)
 {
-    struct S12 *r = func_020518AC(p, 5);
+    struct S12 *r = BUTTON_MAN_FindRowData(p, 5);
 
     if (r != 0)
         *r = *q;

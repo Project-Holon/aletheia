@@ -23,6 +23,9 @@
  *   func_021FC008  0x021FC008  thumb
  *   func_021FBEB8  0x021FBEB8  thumb
  *   func_021F4FF4  0x021F4FF4  thumb
+ *   BGWINFRM_SetFrameDataArc  0x0202CAE4  thumb  arm9
+ *   BGWINFRM_PutFrame  0x0202CB4C  thumb  arm9
+ *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb  arm9
  */
 
 typedef signed char s8;
@@ -68,14 +71,14 @@ extern const Span tbl_022033F8[];
 extern const u32 tbl_02203440[];
 extern const Cell tbl_022032C6[];
 
-extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
-extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
+extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void func_021F9260(Obj *p, u32 mode);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void func_021FBE84(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g);
 extern int func_021FC008(void *p, u32 a);
 extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
@@ -88,8 +91,8 @@ int func_021FB800(Obj *p)
     int i;
     u16 color;
 
-    func_0202CAE4(p->mgr, 0, 0x60, 0x1A, 1);
-    func_0202CF84(p->mgr, 0);
+    BGWINFRM_SetFrameDataArc(p->mgr, 0, 0x60, 0x1A, 1);
+    BGWINFRM_GetFrameBuffer(p->mgr, 0);
     func_021F9260(p, 5);
     func_02082BCC(p->flags, 1, 0x1A);
     func_021FBE84(p->mgr, p->bank, p->strs[0], p->layout + 0x74, 2, 0x3DC2, p->g);
@@ -104,7 +107,7 @@ int func_021FB800(Obj *p)
         func_021FBE84(p->mgr, p->bank, p->strs[i], tbl_02203440[tbl_022033F8[p->layout].first + i - 1], 5, color, p->g);
     }
     func_021FBEB8(p->mgr, p->bank, p->strs[14], 0x4A, p->g);
-    func_0202CB4C(p->mgr, 0, 0x10, 0);
+    BGWINFRM_PutFrame(p->mgr, 0, 0x10, 0);
     func_0204B878((struct Obj *)p->cursor, 4);
     if (p->start < 0) {
         p->pos = 0;

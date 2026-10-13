@@ -1,7 +1,7 @@
 /*
  * file:     unit_021542C0.c
  * unit:     yes
- * function: func_021542C0, func_02154668
+ * function: func_021542C0, EVENT_GSYNC_Entry
  * address:  0x021542C0
  * region:   ov000
  * compiler: dsi/1.1p1
@@ -17,19 +17,19 @@
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb  ov021
  *   func_02012374  0x02012374  thumb
- *   func_020144DC  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02082BCC  0x02082BCC  arm
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
- *   func_02005C44  0x02005C44  thumb
- *   func_02005C18  0x02005C18  thumb
- *   func_02005B24  0x02005B24  thumb
- *   func_02005D90  0x02005D90  thumb
- *   func_02005DF8  0x02005DF8  thumb
- *   func_020145CC  0x020145CC  thumb
- *   func_02005E9C  0x02005E9C  thumb
- *   func_02005DE4  0x02005DE4  thumb
- *   func_02005E64  0x02005E64  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb
+ *   GFL_USE_ClearSndHeap  0x02005C18  thumb
+ *   GFL_USE_InitSound  0x02005B24  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
+ *   GFL_USE_PopBgm  0x02005E9C  thumb
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_PushBgm  0x02005E64  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_02009448  0x02009448  thumb
@@ -43,7 +43,7 @@
  *   func_02012444  0x02012444  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   func_0200FB38  0x0200FB38  thumb
- *   func_0200F7B8  0x0200F7B8  thumb
+ *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
  *   func_020121CC  0x020121CC  thumb
  *   ov123_id       0x0000007B  data   a1
  *   ov016_id       0x00000010  data   a1
@@ -52,10 +52,10 @@
  *   d_021DA674     0x021DA674  data   ov123  a4
  *   d_021DA838     0x021DA838  data   ov123  a4
  *   d_021D77B8     0x021D77B8  data   ov016  a4
- *   d_021D6338     0x021D6338  data   ov115  a4
- *   d_021D654C     0x021D654C  data   ov115  a4
+ *   gNetSaveMainProc     0x021D6338  data   ov115  a4
+ *   gNetSaveRetryProc     0x021D654C  data   ov115  a4
  *   d_021EF78C     0x021EF78C  data   ov170  a4
- *   func_02154670  0x02154670  thumb ov000
+ *   EVENT_GSYNC_Create  0x02154670  thumb ov000
  */
 struct GameSystem;
 struct GameEvent;
@@ -141,19 +141,19 @@ extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
 extern int func_021BE8D4(void *gameSystem, int fieldMap, int sel, int d);
 extern int func_021BE92C(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
 extern void func_02012374(struct GameEvent *event, struct GameEvent **newEvent);
-extern int func_020144DC(int gameSystem, int fieldMap);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
 extern void  func_02082BCC(void *dst, int value, int size);
-extern void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
-extern u32 func_020120F0(const struct GameSystem *gameSystem);
-extern u16 func_02005C44(void);
-extern void  func_02005C18(void);
-extern void  func_02005B24(void);
-extern void  func_02005D90(u32 bgmNo, u32 fadeTarget);
-extern void func_02005DF8(u32 frames);
-extern void *func_020145CC(void *gameSystem);
-extern int func_02005E9C(void);
-extern void func_02005DE4(void *param);
-extern int func_02005E64(void);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void  GFL_USE_ClearSndHeap(void);
+extern void  GFL_USE_InitSound(void);
+extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
+extern void GFL_USE_FadeInBgmFull(u32 frames);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_SetBgmPlayerParam(void *param);
+extern int GFL_USE_PushBgm(void);
 extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
 extern struct SaveControl *func_02012EBC(struct GameData *gameData);
 extern struct WifiList *func_02009448(void *saveControl);
@@ -167,11 +167,11 @@ extern struct Config *func_0200873C(void *saveControl);
 extern void func_02012444(struct GameEvent *event, u32 overlayId, u32 procData, u32 param);
 extern u32 func_0200FB24(void);
 extern void  func_0200FB38(void);
-extern u32 func_0200F7B8(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern u32 func_020121CC(struct GameSystem *gameSystem);
-extern void *func_02154670(void *gameSystem);
+extern void *EVENT_GSYNC_Create(void *gameSystem);
 u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work);
-void *func_02154668(void *gameSystem);
+void *EVENT_GSYNC_Entry(void *gameSystem);
 extern char ov123_id[];
 extern char ov016_id[];
 extern char ov115_id[];
@@ -179,8 +179,8 @@ extern char ov170_id[];
 extern char d_021DA674[];
 extern char d_021DA838[];
 extern char d_021D77B8[];
-extern char d_021D6338[];
-extern char d_021D654C[];
+extern char gNetSaveMainProc[];
+extern char gNetSaveRetryProc[];
 extern char d_021EF78C[];
 
 
@@ -196,18 +196,18 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         (*seq)++;
         break;
     case 1:
-        func_02012374(event, (struct GameEvent **)func_020144DC((int)gameSystem, fieldMap));
+        func_02012374(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, fieldMap));
         work->returnToMenu = 0;
         *seq = 2;
         break;
     case 2:
         func_02082BCC(work->syncParam, 0, 0x44);
         work->syncResult = 0;
-        func_020120B4(gameSystem, (u32)ov123_id, d_021DA674, work);
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov123_id, d_021DA674, work);
         (*seq)++;
         break;
     case 3:
-        if (func_020120F0(gameSystem) == 0) {
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
             if (work->menuResult == 2)
                 *seq = 16;
             else if (work->menuResult == 3)
@@ -220,13 +220,13 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         (*seq)++;
         break;
     case 6:
-        work->savedBgmNo = func_02005C44();
-        func_02005C18();
-        func_020120B4(gameSystem, (u32)ov016_id, d_021D77B8, work);
+        work->savedBgmNo = GFL_USE_GetBgmNo();
+        GFL_USE_ClearSndHeap();
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov016_id, d_021D77B8, work);
         (*seq)++;
         break;
     case 7:
-        if (func_020120F0(gameSystem) == 0)
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0)
             *seq = 14;
         break;
     case 14:
@@ -236,9 +236,9 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
             *regIme = 1;
             (void)prevIme;
         }
-        func_02005B24();
-        func_02005D90(work->savedBgmNo, 0xFFFF);
-        func_02005DF8(0x3C);
+        GFL_USE_InitSound();
+        GFL_USE_CancelChangeAndPlayBgm(work->savedBgmNo, 0xFFFF);
+        GFL_USE_FadeInBgmFull(0x3C);
         *seq = 15;
         break;
     case 15:
@@ -246,7 +246,7 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         *seq = 2;
         break;
     case 10:
-        func_02012374(event, func_020145CC(gameSystem));
+        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         (*seq)++;
         break;
     case 11:
@@ -255,9 +255,9 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         break;
     case 12:
         if (work->bgmPushed) {
-            func_02005E9C();
-            func_02005DE4(0);
-            func_02005DF8(0x3C);
+            GFL_USE_PopBgm();
+            GFL_USE_SetBgmPlayerParam(0);
+            GFL_USE_FadeInBgmFull(0x3C);
             work->bgmPushed = 0;
         }
         (*seq)++;
@@ -271,19 +271,19 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
             *seq = 19;
         } else {
             work->login.useSaveData = 0;
-            func_02005DE4((void *)1);
-            func_02005E64();
+            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_PushBgm();
             work->bgmPushed = 1;
             (*seq)++;
         }
         break;
     case 17:
         work->login.saveData = work->loginSaveData;
-        func_020120B4(gameSystem, (u32)ov115_id, d_021D6338, &work->login);
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov115_id, gNetSaveMainProc, &work->login);
         (*seq)++;
         break;
     case 18:
-        if (func_020120F0(gameSystem) == 0) {
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
             if (work->login.result == 1) {
                 *seq = 10;
             } else {
@@ -298,11 +298,11 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         }
         break;
     case 19:
-        func_020120B4(gameSystem, (u32)ov123_id, d_021DA838, work);
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov123_id, d_021DA838, work);
         (*seq)++;
         break;
     case 20:
-        if (func_020120F0(gameSystem) == 0) {
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
             if (work->menuResult == 1) {
                 work->returnToMenu = 0;
                 *seq = 2;
@@ -334,7 +334,7 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
     case 22:
         if (func_0200FB24()) {
             func_0200FB38();
-            func_0200F7B8(0);
+            GFL_NET_ERR_ShowScreen(0);
             work->login.useSaveData = 1;
             *seq = 17;
         } else {
@@ -358,19 +358,19 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         work->confirm.gameData = func_020120F4(gameSystem);
         work->confirm.loginType = 1;
         work->confirm.loginOption = 0;
-        func_020120B4(gameSystem, (u32)ov115_id, d_021D654C, &work->confirm);
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov115_id, gNetSaveRetryProc, &work->confirm);
         (*seq)++;
         break;
     case 24:
-        if (func_020120F0(gameSystem) == 0) {
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
             func_020121CC(gameSystem);
             *(vu16 *)0x04000304 |= 0x8000;  /* POWCNT1: swap the two screens */
             work->returnToMenu = 0;
             *seq = 2;
             if (work->bgmPushed) {
-                func_02005E9C();
-                func_02005DE4(0);
-                func_02005DF8(0x3C);
+                GFL_USE_PopBgm();
+                GFL_USE_SetBgmPlayerParam(0);
+                GFL_USE_FadeInBgmFull(0x3C);
                 work->bgmPushed = 0;
             }
         }
@@ -384,7 +384,7 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
  * Thumb tail call through r3 (ldr r3, =target; bx r3). Labelled in wave D8.
  * Overlay entry point: forwards to the event constructor.
  */
-void *func_02154668(void *gameSystem)
+void *EVENT_GSYNC_Entry(void *gameSystem)
 {
-    return func_02154670(gameSystem);
+    return EVENT_GSYNC_Create(gameSystem);
 }

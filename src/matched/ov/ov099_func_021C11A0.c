@@ -10,13 +10,13 @@
  * extent: 021C1286..021C1288 is two zero alignment bytes.
  * blocker: 0x0203C5EC ARM verified EXACT 20 bytes in blocker-c5ec-one.log.
  *   extern char *d_021469DC;
- *   int func_0203C5EC(void) { return *(unsigned char *)(d_021469DC + 0x4a); }
+ *   int GFL_NET_STATE_IsWifiDisconnectFinal(void) { return *(unsigned char *)(d_021469DC + 0x4a); }
  *   symbols: d_021469DC 0x021469DC data a4.
  * prototype: 399A8 leaves a live pointer consumed by 399B8, 39C68 and 3D1A4.
  * symbols:
  *   func_021BA928 0x021BA928 thumb ov099
- *   func_0203C3EC 0x0203C3EC arm
- *   func_0203C5EC 0x0203C5EC arm
+ *   GFL_NET_STATE_GetWifiState 0x0203C3EC arm
+ *   GFL_NET_STATE_IsWifiDisconnectFinal 0x0203C5EC arm
  *   func_021BA874 0x021BA874 thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  *   func_021C1154 0x021C1154 thumb ov099
@@ -27,12 +27,12 @@
  *   func_021BC090 0x021BC090 thumb ov099
  *   func_0203D1A4 0x0203D1A4 arm
  *   func_02039ACC 0x02039ACC arm
- *   func_020399EC 0x020399EC arm
+ *   GFL_NET_HANDLE_GetNegotiationNum 0x020399EC arm
  */
 typedef unsigned short u16;
 extern int func_021BA928(void *);
-extern int func_0203C3EC(void);
-extern int func_0203C5EC(void);
+extern int GFL_NET_STATE_GetWifiState(void);
+extern int GFL_NET_STATE_IsWifiDisconnectFinal(void);
 extern void func_021BA874(void *, int);
 extern void func_021BAAB8(char *, int, int);
 extern int func_021C1154(char *);
@@ -47,11 +47,11 @@ extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
 extern void func_021BC090(void *);
 extern u32 func_0203D1A4(struct Link *p);
 extern int func_02039ACC(void);
-extern int func_020399EC(void);
+extern int GFL_NET_HANDLE_GetNegotiationNum(void);
 int func_021C11A0(char *p, int ret)
 {
     func_021BA928(p);
-    if (func_0203C3EC() >= 4 || func_0203C5EC() != 0) {
+    if (GFL_NET_STATE_GetWifiState() >= 4 || GFL_NET_STATE_IsWifiDisconnectFinal() != 0) {
         if (*(u16 *)(p + 0x244) != 0) {
             func_021BAAB8(p, 0x44, 0);
         } else {
@@ -74,7 +74,7 @@ int func_021C11A0(char *p, int ret)
         } else if (*(int *)(p + 0x1e0) == 1) {
             if (func_0203D1A4((struct Link *)func_020399A8()) != 0) {
                 if (func_02039ACC() == 1) *(int *)(p + 0x1e0) = 0;
-            } else if (func_020399EC() != 0 && func_02039ACC() == 1) {
+            } else if (GFL_NET_HANDLE_GetNegotiationNum() != 0 && func_02039ACC() == 1) {
                 *(int *)(p + 0x1e0) = 0;
             }
         }

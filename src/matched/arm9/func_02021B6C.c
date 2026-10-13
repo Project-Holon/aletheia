@@ -1,5 +1,5 @@
 /*
- * function: func_02021B6C
+ * function: PALANM_StepFadeWait
  * address:  0x02021B6C
  * packet:   pkt_02021B6C
  * region:   arm9
@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02021930   0x02021930  thumb
- *   func_02021BC8   0x02021BC8  thumb
+ *   PALANM_CheckBit   0x02021930  thumb
+ *   PALANM_ApplyFade   0x02021BC8  thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 func_02021930(u32 val, int bit);
-extern void func_02021BC8(u8 *p, u32 idx, u32 arg);
+extern u8 PALANM_CheckBit(u32 val, int bit);
+extern void PALANM_ApplyFade(u8 *p, u32 idx, u32 arg);
 
 struct S02021B6C {
     u8 pad0[0xe];
@@ -35,11 +35,11 @@ struct S02021B6C_hdr {
     u16 flags118 : 14;
 };
 
-void func_02021B6C(u8 *p, u32 idx, u32 arg)
+void PALANM_StepFadeWait(u8 *p, u32 idx, u32 arg)
 {
     struct S02021B6C_hdr *hdr = (struct S02021B6C_hdr *)(p + 0x118);
 
-    if (func_02021930(hdr->flags118, idx) == 0) {
+    if (PALANM_CheckBit(hdr->flags118, idx) == 0) {
         return;
     }
 
@@ -50,7 +50,7 @@ void func_02021B6C(u8 *p, u32 idx, u32 arg)
             s->cur = s->cur + 1;
         } else {
             s->cur = 0;
-            func_02021BC8(p, idx, arg);
+            PALANM_ApplyFade(p, idx, arg);
         }
     }
 }

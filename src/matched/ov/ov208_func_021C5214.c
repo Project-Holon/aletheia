@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02015EE8  0x02015EE8  thumb
- *   func_02015E04  0x02015E04  thumb
+ *   MCSS_GetAnimCtrl  0x02015EE8  thumb
+ *   MCSS_SetAnmStopFlag  0x02015E04  thumb
  *   func_02064CBC  0x02064CBC  arm
  */
 
@@ -29,8 +29,8 @@ struct Ov208Anm {
     struct Ov208AnmState *state;
 };
 
-extern void *func_02015EE8(void *p);
-extern void func_02015E04(void *p);
+extern void *MCSS_GetAnimCtrl(void *p);
+extern void MCSS_SetAnmStopFlag(void *p);
 struct Obj;
 extern void func_02064CBC(struct Obj *x);
 
@@ -39,9 +39,9 @@ void ov208_func_021C5214(struct Ov208Anm *p)
     void *anm;
 
     if (p->obj != 0 && p->state != 0) {
-        anm = func_02015EE8((void *)p->obj);
+        anm = MCSS_GetAnimCtrl((void *)p->obj);
         if (p->state->active != 0) {
-            func_02015E04((void *)p->obj);
+            MCSS_SetAnmStopFlag((void *)p->obj);
             func_02064CBC(anm);
             p->state->active = 0;
         }

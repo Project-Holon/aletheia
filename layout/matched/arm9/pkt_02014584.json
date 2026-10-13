@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02014584",
+   "name": "FIELD_STATUS_FieldOpenEvent",
    "address": "0x02014584",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020145CC",
+   "name": "FIELD_STATUS_CreateFieldOpenEvent",
    "address": "0x020145CC",
    "kind": "game",
    "region": "arm9",

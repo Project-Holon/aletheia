@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203666C
+ * function: GFL_NET_RING_BUFF_EndChange
  * address:  0x0203666C
  * packet:   pkt_020363B8
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_0203666C(void){ }
+void GFL_NET_RING_BUFF_EndChange(void){ }

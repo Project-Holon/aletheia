@@ -1,5 +1,5 @@
 /*
- * function: func_0202E8D8
+ * function: COMM_PLAYER_SUPPORT_FindPeerRecord
  * address:  0x0202E8D8
  * packet:   pkt_0202E8D8
  * region:   arm9
@@ -25,8 +25,8 @@
  * veneer with no label of its own.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202E8D8.c \
- *       --func func_0202E8D8 --addr 0x0202E8D8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/COMM_PLAYER_SUPPORT_FindPeerRecord.c \
+ *       --func COMM_PLAYER_SUPPORT_FindPeerRecord --addr 0x0202E8D8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int   u32;
@@ -34,7 +34,7 @@ struct Sub0200852CObj;
 struct Sub020097BCObj;
 extern int func_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32 *out);
 
-int func_0202E8D8(char *a0, int a1, char *a2)
+int COMM_PLAYER_SUPPORT_FindPeerRecord(char *a0, int a1, char *a2)
 {
     unsigned char i;
     unsigned char j;

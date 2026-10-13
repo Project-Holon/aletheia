@@ -13,7 +13,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  *   d_021C8164 0x021C8164 data a2
  */
@@ -29,7 +29,7 @@ extern void func_020434DC(unsigned,unsigned);
 extern void func_0207DC44(int,int,int,int);
 extern void func_0207DD24(u16,int,int,int,int);
 typedef unsigned int   u32;
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(unsigned,unsigned);
 extern const u16 d_021C8164[][4];
 void func_021BCD68(void)
@@ -45,6 +45,6 @@ void func_021BCD68(void)
     func_0207DC44(0,0,0,0);
     func_0207DD24(0,0,0x7fff,0x3f,0);
     *(volatile unsigned *)0x04000580=0xbfff0000;
-    for(i=0;i<4;i++)func_02046A94((unsigned char)i,d_021C8164[i]);
+    for(i=0;i<4;i++)G3D_SYSTEM_SetLight((unsigned char)i,d_021C8164[i]);
     func_02046BE0(0,0);
 }

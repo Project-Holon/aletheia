@@ -1,5 +1,5 @@
 /*
- * function: func_021C73C0
+ * function: DWCi_SceneSetEditAddress_procScene
  * address:  0x021C73C0
  * packet:   pkt_021C73C0
  * region:   ov016
@@ -10,21 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C73C0   0x021C73C0  arm
+ *   DWCi_SceneSetEditAddress_procScene   0x021C73C0  arm
+ *   DWCi_SceneSetEditAddress_draw  0x021C7718  arm
  *
- * Call func_021C73D0, func_021C7718.
+ * Call func_021C73D0, DWCi_SceneSetEditAddress_draw.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C73C0.c \
- *       --func func_021C73C0 --addr 0x021C73C0 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetEditAddress_procScene.c \
+ *       --func DWCi_SceneSetEditAddress_procScene --addr 0x021C73C0 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern void func_021C73D0(void);
-extern void func_021C7718(void);
+extern void DWCi_SceneSetEditAddress_draw(void);
 
-void func_021C73C0(void)
+void DWCi_SceneSetEditAddress_procScene(void)
 {
     func_021C73D0();
-    func_021C7718();
+    DWCi_SceneSetEditAddress_draw();
 }

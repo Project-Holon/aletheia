@@ -1,5 +1,5 @@
 /*
- * function: func_021767F0
+ * function: INTRUDE_COMM_GetMarkerPosForPartner
  * address:  0x021767F0
  * packet:   pkt_ov011_021767F0
  * region:   ov011
@@ -12,7 +12,7 @@
  * symbols:
  *   func_02158344  0x02158344  thumb  ov010
  *   func_02012B58  0x02012B58  thumb
- *   d_02176FD8     0x02176FD8  data  ov011  a4
+ *   sLinkMarkerPosTemplate     0x02176FD8  data  ov011  a4
  */
 
 typedef unsigned char  u8;
@@ -32,12 +32,12 @@ typedef struct {
     u32 w8;
 } Cs;
 
-extern Cs   d_02176FD8;
+extern Cs   sLinkMarkerPosTemplate;
 extern int func_02158344(int a0);
 struct BigObj;
 extern u8 func_02012B58(const struct BigObj *p);
 
-void func_021767F0(void *a, void *b, Cs *c)
+void INTRUDE_COMM_GetMarkerPosForPartner(void *a, void *b, Cs *c)
 {
     Rec *r;
     int d;
@@ -51,6 +51,6 @@ void func_021767F0(void *a, void *b, Cs *c)
             d += r->f902;
         }
     }
-    *c = d_02176FD8;
+    *c = sLinkMarkerPosTemplate;
     c->w0 += d << 22;
 }

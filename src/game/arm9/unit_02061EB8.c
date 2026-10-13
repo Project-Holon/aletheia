@@ -19,7 +19,7 @@
  * two pool words), one struct HeapB for g_02146BB0.
  *
  * symbols:
- *   func_02061D0C  0x02061D0C  arm
+ *   NNSi_GfdMergeAdjacentFreeBlocks  0x02061D0C  arm
  *   g_02146B94   0x02146B94  data
  *   g_020A8140   0x020A8140  data
  *   g_020A8144   0x020A8144  data
@@ -29,8 +29,8 @@
  *   g_02146B94_blk  0x02146B94  data
  *   g_020A17A8      0x020A17A8  data
  *   func_02061DF0   0x02061DF0  arm
- *   func_02061DFC   0x02061DFC  arm
- *   func_02061E48   0x02061E48  arm
+ *   NNSi_GfdInitBlockPool   0x02061DFC  arm
+ *   NNSi_GfdAddBlock   0x02061E48  arm
  *   g_02146BB0       0x02146BB0  data
  *   g_020A8148       0x020A8148  data
  *   g_020A814C       0x020A814C  data
@@ -107,11 +107,11 @@ struct HeapB
   u32 f10;
 };
 
-extern u32 func_02061D0C(void *head1, void *head2, struct Range *range);
+extern u32 NNSi_GfdMergeAdjacentFreeBlocks(void *head1, void *head2, struct Range *range);
 extern u32 func_02061EA4(u32 a, u32 b, u32 *out, u32 size);
 extern void func_02061DF0(u32 *head);
-extern struct Node02061DFC *func_02061DFC(struct Node02061DFC *arr, u32 count);
-extern u32 func_02061E48(struct List02061E48 *list, struct Pool02061E48 *pool, u32 d0, u32 d1);
+extern struct Node02061DFC *NNSi_GfdInitBlockPool(struct Node02061DFC *arr, u32 count);
+extern u32 NNSi_GfdAddBlock(struct List02061E48 *list, struct Pool02061E48 *pool, u32 d0, u32 d1);
 BOOL func_02061EB8(Blk **list, Blk **pool, u32 *pRet, u32 size, u32 alignment);
 void func_02061FF8(u32 *pp, u32 *arg);
 int func_0206207C(void *headp, void *freep, int a2, int a3);
@@ -284,7 +284,7 @@ void func_02061FF8(u32 *pp, u32 *arg)
         u32 buf[2];
         buf[0] = n->f00;
         buf[1] = n->f00 + n->f04;
-        if (func_02061D0C(pp, arg, (struct Range *)buf) != 0) {
+        if (NNSi_GfdMergeAdjacentFreeBlocks(pp, arg, (struct Range *)buf) != 0) {
             n->f00 = buf[0];
             n->f04 = buf[1] - buf[0];
             n = *(Node02061FF8 * *)&((struct Obj03022 *)pp)->f0;
@@ -308,7 +308,7 @@ int func_0206207C(void *headp, void *freep, int a2, int a3)
 
     buf[0] = a2;
     buf[1] = a2 + a3;
-    func_02061D0C(headp, freep, (struct Range *)buf);
+    NNSi_GfdMergeAdjacentFreeBlocks(headp, freep, (struct Range *)buf);
     x = *(Node0206207C * *)&((struct Obj03466 *)freep)->f0;
     if (x != 0) {
         *(Node0206207C * *)&((struct Obj03466 *)freep)->f0 = x->f0c;
@@ -538,26 +538,26 @@ void func_02062270(u32 a, u32 b, u32 c, u32 d)
 
     func_02061DF0(&g_02146B94.head_a);
     func_02061DF0(&g_02146B98);
-    g_02146B94_blk.pool = (u32)func_02061DFC((struct Node02061DFC *)g_02146B94_blk.f14, g_02146B94_blk.f18 >> 4);
+    g_02146B94_blk.pool = (u32)NNSi_GfdInitBlockPool((struct Node02061DFC *)g_02146B94_blk.f14, g_02146B94_blk.f18 >> 4);
 
     if (t.r[0].acc8 != 0)
-        func_02061E48((struct List02061E48 *)(&g_02146B98), (struct Pool02061E48 *)(&g_02146B9C), 0, t.r[0].acc8);
+        NNSi_GfdAddBlock((struct List02061E48 *)(&g_02146B98), (struct Pool02061E48 *)(&g_02146B9C), 0, t.r[0].acc8);
     {
         u32 a = t.r[0].acc8;
         if (t.r[0].acc4 != 0)
-            func_02061E48((struct List02061E48 *)(&g_02146B94), (struct Pool02061E48 *)(&g_02146B9C), a, t.r[0].acc4);
+            NNSi_GfdAddBlock((struct List02061E48 *)(&g_02146B94), (struct Pool02061E48 *)(&g_02146B9C), a, t.r[0].acc4);
     }
     if (t.r[2].acc8 != 0)
-        func_02061E48((struct List02061E48 *)(&g_02146B98), (struct Pool02061E48 *)(&g_02146B9C), 0x40000, t.r[2].acc8);
+        NNSi_GfdAddBlock((struct List02061E48 *)(&g_02146B98), (struct Pool02061E48 *)(&g_02146B9C), 0x40000, t.r[2].acc8);
     {
         u32 a = t.r[2].acc8;
         if (t.r[2].acc4 != 0)
-            func_02061E48((struct List02061E48 *)(&g_02146B94), (struct Pool02061E48 *)(&g_02146B9C), 0x40000 + a, t.r[2].acc4);
+            NNSi_GfdAddBlock((struct List02061E48 *)(&g_02146B94), (struct Pool02061E48 *)(&g_02146B9C), 0x40000 + a, t.r[2].acc4);
     }
     if (t.r[3].acc4 != 0)
-        func_02061E48((struct List02061E48 *)(&g_02146B94), (struct Pool02061E48 *)(&g_02146B9C), 0x60000, t.r[3].acc4);
+        NNSi_GfdAddBlock((struct List02061E48 *)(&g_02146B94), (struct Pool02061E48 *)(&g_02146B9C), 0x60000, t.r[3].acc4);
     if (t.r[1].acc4 != 0)
-        func_02061E48((struct List02061E48 *)(&g_02146B94), (struct Pool02061E48 *)(&g_02146B9C), 0x20000 + half, t.r[1].acc4);
+        NNSi_GfdAddBlock((struct List02061E48 *)(&g_02146B94), (struct Pool02061E48 *)(&g_02146B9C), 0x20000 + half, t.r[1].acc4);
 
     func_02061FF8(&g_02146B94.head_a, &g_02146B9C);
     func_02061FF8(&g_02146B98, &g_02146B9C);
@@ -669,8 +669,8 @@ int func_02062594(u32 id)
 
 void func_020625D8(void)
 {
-    g_02146BB0_blk.pool = (u32)func_02061DFC((struct Node02061DFC *)g_02146BB0_blk.f0c, g_02146BB0_blk.f10 >> 4);
+    g_02146BB0_blk.pool = (u32)NNSi_GfdInitBlockPool((struct Node02061DFC *)g_02146BB0_blk.f0c, g_02146BB0_blk.f10 >> 4);
     func_02061DF0(&g_02146BB0.head);
-    func_02061E48((struct List02061E48 *)(&g_02146BB0), (struct Pool02061E48 *)(&g_02146BB4), 0, g_02146BB0_blk.f08);
+    NNSi_GfdAddBlock((struct List02061E48 *)(&g_02146BB0), (struct Pool02061E48 *)(&g_02146BB4), 0, g_02146BB0_blk.f08);
     func_02061FF8(&g_02146BB0.head, &g_02146BB4);
 }

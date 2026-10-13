@@ -1,5 +1,5 @@
 /*
- * function: func_02156A3C
+ * function: DWC_RAP_GetTargetFriendIndex
  * address:  0x02156A3C
  * packet:   pkt_ov009_02156A3C
  * region:   ov009
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf after func_02156888's pool (no lr save, so disasm.py
+ * Unlabelled leaf after DWC_RAP_StartFriendMatch's pool (no lr save, so disasm.py
  * never labels it).
  *
  * symbols:
- *   d_021A8264     0x021A8264  data  ov009  a4
+ *   _pRapWork     0x021A8264  data  ov009  a4
  */
 
 typedef struct {
@@ -21,11 +21,11 @@ typedef struct {
     int aid;            /* 0x770 */
 } G;
 
-extern G *d_021A8264;
+extern G *_pRapWork;
 
-int func_02156A3C(void)
+int DWC_RAP_GetTargetFriendIndex(void)
 {
-    if (d_021A8264 != 0)
-        return d_021A8264->aid;
+    if (_pRapWork != 0)
+        return _pRapWork->aid;
     return -1;
 }

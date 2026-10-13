@@ -12,9 +12,9 @@
  * sdk:      gsUdpConnectedRoutingCB (gsudpengine.o)
  *
  * symbols:
- *   func_02180404                  0x02180404  arm ov009
- *   func_02195E28                  0x02195E28  arm ov009
- *   func_02195E30                  0x02195E30  arm ov009
+ *   gsUdpEngineContext                  0x02180404  arm ov009
+ *   gt2GetRemoteIP                  0x02195E28  arm ov009
+ *   gt2GetRemotePort                  0x02195E30  arm ov009
  *   func_021843E8                  0x021843E8  arm ov009
  *   func_02198620                  0x02198620  arm ov009
  *   func_0217D254                  0x0217D254  arm ov009
@@ -63,9 +63,9 @@ typedef struct GSUdpEngineObject {
     unsigned short mLocalPort;
 } GSUdpEngineObject;
 
-extern void *func_02180404(void);
-extern int func_02195E28(const int *p);
-extern unsigned short func_02195E30(const unsigned short *p);
+extern void *gsUdpEngineContext(void);
+extern int gt2GetRemoteIP(const int *p);
+extern unsigned short gt2GetRemotePort(const unsigned short *p);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
@@ -85,7 +85,7 @@ void func_021806A8(void *theConnection, int theResult)
     int aCode;
     char anAddr[22];
 
-    aUdp = func_02180404();
+    aUdp = gsUdpEngineContext();
     switch (theResult) {
     case 7:
         aCode = 7;
@@ -108,12 +108,12 @@ void func_021806A8(void *theConnection, int theResult)
         int aRemotePeerIdx;
         GSUdpRemotePeer aRemotePeer;
 
-        aRemotePeer.mAddr = func_02195E28(theConnection);
-        aRemotePeer.mPort = func_02195E30(theConnection);
+        aRemotePeer.mAddr = gt2GetRemoteIP(theConnection);
+        aRemotePeer.mPort = gt2GetRemotePort(theConnection);
         aRemotePeerIdx = func_021843E8(aUdp->mRemotePeers, &aRemotePeer, func_02180448, 0, 0);
         if (aRemotePeerIdx != -1) {
             func_0217D254(12, 0, 16, g_021A393C,
-                func_02198620(func_02195E28(theConnection), func_02195E30(theConnection), anAddr));
+                func_02198620(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
             func_0218437C((int)aUdp->mRemotePeers, aRemotePeerIdx);
         }
     }
@@ -125,13 +125,13 @@ void func_021806A8(void *theConnection, int theResult)
         GSUdpMsgHandler *aTempHandler;
 
         aTempHandler = (GSUdpMsgHandler *)func_02184208(aUdp->mMsgHandlers, aIndex);
-        aRemotePeer.mAddr = func_02195E28(theConnection);
-        aRemotePeer.mPort = func_02195E30(theConnection);
+        aRemotePeer.mAddr = gt2GetRemoteIP(theConnection);
+        aRemotePeer.mPort = gt2GetRemotePort(theConnection);
         aRemotePeerIdx = func_021843E8(aTempHandler->mPendingConnections, &aRemotePeer, func_02180448, 0, 0);
         if (aRemotePeerIdx != -1) {
             if (aTempHandler->mConnected) {
                 func_0217D254(12, 0, 16, g_021A3964);
-                aTempHandler->mConnected(func_02195E28(theConnection), func_02195E30(theConnection),
+                aTempHandler->mConnected(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection),
                     aCode, (theResult == 2) ? 1 : 0, aTempHandler->mUserData);
             }
             func_0218437C((int)aTempHandler->mPendingConnections, aRemotePeerIdx);
@@ -142,7 +142,7 @@ void func_021806A8(void *theConnection, int theResult)
     if (aUdp->mAppPendingConnections > 0) {
         if (aUdp->mAppConnected) {
             func_0217D254(12, 0, 16, g_021A399C);
-            aUdp->mAppConnected(func_02195E28(theConnection), func_02195E30(theConnection),
+            aUdp->mAppConnected(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection),
                 aCode, (theResult == 2) ? 1 : 0, aUdp->mAppUserData);
         }
         aUdp->mAppPendingConnections--;

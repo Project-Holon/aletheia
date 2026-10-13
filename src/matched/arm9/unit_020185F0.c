@@ -8,9 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_020185F0, func_020185F4, func_020185F8
+ * function: func_020185F0, POKE_TOOL_GetBoxParam, POKE_TOOL_GetGenderRatioClass
  *
- * func_020185F0 and func_020185F4 are a bare `bx lr` padded to four bytes,
+ * func_020185F0 and POKE_TOOL_GetBoxParam are a bare `bx lr` padded to four bytes,
  * which is `void f(void) {}`: a hook that was never filled in.  Neither
  * carries a label in the generated listing.  func_020185F0 is reached from
  * func_02019B58, which is what attests the pair's addresses.
@@ -34,12 +34,12 @@ void func_020185F0(void)
 {
 }
 
-void *func_020185F4(void *p)
+void *POKE_TOOL_GetBoxParam(void *p)
 {
     return p;
 }
 
-u32 func_020185F8(int a, int b, int c)
+u32 POKE_TOOL_GetGenderRatioClass(int a, int b, int c)
 {
     u32 r = 8;
     u8 n = (u8)func_0201AE1C(func_02019C54(a, b), 0x14);

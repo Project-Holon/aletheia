@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02029354",
+   "name": "FIELD_SOUND_SYSTEM_DiscardRequest",
    "address": "0x02029354",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02029364",
+   "name": "FIELD_SOUND_SYSTEM_FinishRequest",
    "address": "0x02029364",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02029374",
+   "name": "FIELD_SOUND_SYSTEM_FadeInCurrentBgm",
    "address": "0x02029374",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202938C",
+   "name": "FIELD_SOUND_SYSTEM_FadeOutCurrentBgm",
    "address": "0x0202938C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02029408",
+   "name": "FIELD_SOUND_SYSTEM_StartLoadingRequestedBgm",
    "address": "0x02029408",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02029434",
+   "name": "FIELD_SOUND_SYSTEM_StepBgmLoading",
    "address": "0x02029434",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202945C",
+   "name": "FIELD_SOUND_SYSTEM_PlayRequestedBgmNow",
    "address": "0x0202945C",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202947C",
+   "name": "FIELD_SOUND_SYSTEM_IsSaving",
    "address": "0x0202947C",
    "kind": "game",
    "region": "arm9",

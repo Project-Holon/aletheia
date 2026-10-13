@@ -11,7 +11,7 @@
  * symbols:
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02021640 0x02021640 thumb
+ *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   func_02049B68 0x02049B68 arm
  *   func_0204ABF0 0x0204ABF0 arm
  *   func_0204A6C8 0x0204A6C8 arm
@@ -26,7 +26,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 typedef signed int     s32;
 struct PalAnmSlot;
-extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern int func_0204ABF0(void *,u32,u32,u32,u16);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
@@ -39,7 +39,7 @@ void func_021D9890(char *p)
     void *arc=((struct Obj02483 *)p)->f258;
     func_02049658(arc,6,1,0,0,0,50);
     func_020498F4(arc,10,1,0,0,0,50);
-    func_02021640(pal,59,1,50,0,64,0);
+    PALANM_LoadArcPaletteToSlot(pal,59,1,50,0,64,0);
     func_02049658(arc,7,5,0,0,0,50);
     func_020498F4(arc,11,5,0,0,0,50);
     func_02049B68(arc,2,4,0,0,50);

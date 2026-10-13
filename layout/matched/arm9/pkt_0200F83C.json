@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200F83C",
+   "name": "GFL_NET_ERR_ShowSimpleScreen",
    "address": "0x0200F83C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0200FA84",
+   "name": "GFL_NET_ERR_HaltIfActive",
    "address": "0x0200FA84",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0200FA94",
+   "name": "GFL_NET_ERR_DrawAndHang",
    "address": "0x0200FA94",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_0200FB24",
+   "name": "GFL_NET_ERR_GetErrorLevel",
    "address": "0x0200FB24",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0200FB6C",
+   "name": "GFL_NET_ERR_ExitAndHalt",
    "address": "0x0200FB6C",
    "kind": "game",
    "region": "arm9",

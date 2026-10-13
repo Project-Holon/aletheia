@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0201134C  0x0201134C  thumb
- *   func_0202142C  0x0202142C  thumb
+ *   PALANM_GetPairedCodeForFirst  0x0202142C  thumb
  *   func_0206DF3C  0x0206DF3C  arm
  *   func_021F8694  0x021F8694  thumb  ov094
  *   func_021F86F0  0x021F86F0  thumb  ov094
@@ -38,7 +38,7 @@ typedef struct {
 
 struct Cursor;
 extern unsigned int func_0201134C(struct Cursor *p);
-extern unsigned short func_0202142C(int a0);
+extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
 extern void func_0206DF3C(Pt *p, int *a, int *b);
 extern int func_021F8694(void);
 extern int func_021F86F0(void);
@@ -64,7 +64,7 @@ int func_021FC148(struct Cursor *a, State *s)
     pt.x += dx;
     pt.y += dy;
     func_0206DF3C(&pt, &o1, &o2);
-    m = func_0202142C(s->f254);
+    m = PALANM_GetPairedCodeForFirst(s->f254);
     m = (m == 0 || m > 0x19) ? 4 : m;
     m = (m == 0x19) ? 0x11 : m;
     m *= 2;

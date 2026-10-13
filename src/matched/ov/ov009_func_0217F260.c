@@ -1,5 +1,5 @@
 /*
- * function: func_0217F260
+ * function: SocketShutDown
  * address:  0x0217F260
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,6 +12,6 @@
  * Empty stub; nothing but a return.
  */
 
-void func_0217F260(void)
+void SocketShutDown(void)
 {
 }

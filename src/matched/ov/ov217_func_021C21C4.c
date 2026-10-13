@@ -14,11 +14,11 @@
  * symbols:
  *   func_0204B404 0x0204B404 arm
  *   func_0204B878 0x0204B878 arm
- *   func_0204B8C4 0x0204B8C4 arm
- *   func_0204B9C4 0x0204B9C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
+ *   CLACT_SetActorAnimLoopCount 0x0204B9C4 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B954 0x0204B954 arm
- *   func_0204B95C 0x0204B95C arm
+ *   CLACT_StartActorAnim 0x0204B95C arm
  *   func_0204B3DC 0x0204B3DC arm
  */
 #include "../include/Obj06719.h"
@@ -31,11 +31,11 @@ struct Obj;
 struct Actor;
 extern void func_0204B404(struct Obj *,const struct Vec2 *,u32);
 extern void func_0204B878(struct Obj *,u16);
-extern void func_0204B8C4(struct Obj *,u32);
-extern void func_0204B9C4(struct Actor *,u32);
+extern void CLACT_SetActorAnimFrame(struct Obj *,u32);
+extern void CLACT_SetActorAnimLoopCount(struct Actor *,u32);
 extern void func_0204B92C(struct Obj *,u32);
 extern void func_0204B954(struct Actor *,u32);
-extern void func_0204B95C(struct Actor *);
+extern void CLACT_StartActorAnim(struct Actor *);
 extern void func_0204B3DC(struct Obj *,u32);
 void func_021C21C4(u8 *p,int index)
 {
@@ -54,10 +54,10 @@ void func_021C21C4(u8 *p,int index)
     }
     func_0204B404(obj,&point,((struct Obj06719 *)p)->f14);
     func_0204B878(obj,palette);
-    func_0204B8C4(obj,0);
-    func_0204B9C4((struct Actor *)obj,1);
+    CLACT_SetActorAnimFrame(obj,0);
+    CLACT_SetActorAnimLoopCount((struct Actor *)obj,1);
     func_0204B92C(obj,1);
     func_0204B954((struct Actor *)obj,0x12000);
-    func_0204B95C((struct Actor *)obj);
+    CLACT_StartActorAnim((struct Actor *)obj);
     func_0204B3DC(obj,1);
 }

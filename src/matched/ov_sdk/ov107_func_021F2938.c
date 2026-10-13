@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02077EB8 0x02077EB8 arm
- *   func_02085D3C 0x02085D3C arm
+ *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_02075E04 0x02075E04 arm
  *   func_020788AC 0x020788AC arm
  *   func_02078964 0x02078964 arm
@@ -62,7 +62,7 @@ extern char g_021F6E4C[];
 
 struct FSArchive;
 extern struct FSArchive *func_02077EB8(const char *name, int name_len);
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern RomHeader *func_02075E04(void);
 extern void func_020788AC(void *file);
 extern int func_02078964(void *file, void *arc, u32 top, u32 bottom, u32 id);
@@ -89,7 +89,7 @@ void func_021F2938(TaskInfo *p_task)
     if (arc == 0) {
         arc = p_list->arc_pointer;
     }
-    if (func_02085D3C() && arc == func_02077EB8(g_021F6E4C, 3)) {
+    if (OS_IsRunOnTwl() && arc == func_02077EB8(g_021F6E4C, 3)) {
         header = func_02075E04();
         boundary_ntr = header->ntr_off + header->ntr_len;
         boundary_ltd = header->ltd_off + header->ltd_len;

@@ -11,20 +11,20 @@
  *
  * symbols:
  *   func_021656A0 0x021656A0 arm
- *   func_02164EE0 0x02164EE0 arm
- *   func_02165088 0x02165088 arm
- *   func_02165204 0x02165204 arm
- *   func_02165478 0x02165478 arm
- *   func_02165560 0x02165560 arm
+ *   WCM_Finish 0x02164EE0 arm
+ *   WCM_CleanupAsync 0x02165088 arm
+ *   WCM_EndSearchAsync 0x02165204 arm
+ *   WCM_DisconnectAsync 0x02165478 arm
+ *   WCM_TerminateAsync 0x02165560 arm
  *   func_0205C2E4 0x0205C2E4 arm
  */
 
 extern int func_021656A0(void);
-extern void func_02164EE0(void);
-extern void func_02165088(void);
-extern void func_02165204(void);
-extern void func_02165478(void);
-extern void func_02165560(void);
+extern void WCM_Finish(void);
+extern void WCM_CleanupAsync(void);
+extern void WCM_EndSearchAsync(void);
+extern void WCM_DisconnectAsync(void);
+extern void WCM_TerminateAsync(void);
 extern void func_0205C2E4(int error);
 
 int DisConnectAP(void)
@@ -33,19 +33,19 @@ int DisConnectAP(void)
     case 0:
         return 1;
     case 1:
-        func_02164EE0();
+        WCM_Finish();
         break;
     case 3:
-        func_02165088();
+        WCM_CleanupAsync();
         break;
     case 6:
-        func_02165204();
+        WCM_EndSearchAsync();
         break;
     case 9:
-        func_02165478();
+        WCM_DisconnectAsync();
         break;
     case 12:
-        func_02165560();
+        WCM_TerminateAsync();
         break;
     case 11:
         func_0205C2E4(0);

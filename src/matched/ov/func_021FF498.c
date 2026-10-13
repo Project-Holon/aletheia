@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020160C4  0x020160C4  thumb
+ *   MCSS_SetAnimeSpeed  0x020160C4  thumb
  *   func_022019F4  0x022019F4  thumb  ov094
  *
  * Byte-identical to the original; parked because the call to 0x020160C4
@@ -21,7 +21,7 @@
 
 
 extern int  func_022019F4(char *p, int key);
-extern void func_020160C4(char *p, int v);
+extern void MCSS_SetAnimeSpeed(char *p, int v);
 
 void func_021FF498(char *p, int key, void *v)
 {
@@ -33,6 +33,6 @@ void func_021FF498(char *p, int key, void *v)
     e = p + i * 0x5c;
     if (((struct Obj12220 *)e)->f8 == 0)
         return;
-    func_020160C4((char *)(((struct Obj12220 *)e)->f8), (int)v);
+    MCSS_SetAnimeSpeed((char *)(((struct Obj12220 *)e)->f8), (int)v);
 }
 

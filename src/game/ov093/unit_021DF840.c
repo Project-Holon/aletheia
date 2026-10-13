@@ -17,41 +17,38 @@
  *   d_021F15BC     0x021F15BC  data   ov093  a4
  *   d_021F1484     0x021F1484  data   ov093  a4
  */
-void func_021DF93C(int, int, int, int);
-void func_021DF840(int a, int b, int c);
-int *func_021DF84C(int *p);
-void func_021DF858(int a, int b, int c);
-int *func_021DF864(int *p);
-extern int d_021F15BC[];
-extern int d_021F1484[];
+#include "unit_021DF3A4_types.h"
 
+extern const BtlEventHandler d_021F15BC[];
+extern const BtlEventHandler d_021F1484[];
 
-void func_021DF840(int a, int b, int c)
+void func_021DF840(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF84C(int *handlerCount);
+void func_021DF858(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF864(int *handlerCount);
+
+/* Never-Melt Ice. */
+void func_021DF840(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 14);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_ICE);
 }
 
-
-int *func_021DF84C(int *p)
+/* Spell Tag. */
+const BtlEventHandler *func_021DF84C(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F15BC;
 }
 
-
-void func_021DF858(int a, int b, int c)
+/* Spell Tag. */
+void func_021DF858(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 7);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_GHOST);
 }
 
-
-/*
- * omits func_02048B6C from function: and its shard. tu --suggest-split leaves caller OUT.
- * typedef unsigned int u32;
- * void func_02048B6C(char *p,const u32 *in) {*(u32 *)(p+0x18)=*in;}
- */
-int *func_021DF864(int *p)
+/* Twisted Spoon. */
+const BtlEventHandler *func_021DF864(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F1484;
 }

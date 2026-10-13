@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_0204B22C
+ * function: CLACT_SetUnitDrawEnable
  * address:  0x0204B22C
  * packet:   pkt_0204B0C8
  * region:   arm9
@@ -18,8 +18,8 @@
  * layout/function_starts.txt.
  *
  * The byte at +0x0e is two 4-bit unsigned bitfields.  The low nibble is a
- * source selector paired with the pointer at +0x08: sub_0204B270 sets it to 0
- * for the shared default at g_02146A74 + 0x40, and 0x0204B258 sets it to 1
+ * source selector paired with the pointer at +0x08: CLACT_SetUnitDefaultRenderer sets it to 0
+ * for the shared default at g_ClactSystem + 0x40, and 0x0204B258 sets it to 1
  * for a caller-supplied pointer.  The high nibble is written by 0x0204B22C
  * and read back by 0x0204B248, and never appears next to the pointer, so it
  * is an independent mode.
@@ -46,17 +46,17 @@ struct Bank {
     u8    pad_0f[9];
 };
 
-void sub_0204B22C(struct Bank *bank, u32 mode)
+void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode)
 {
     bank->mode = mode;
 }
 
-u32 sub_0204B248(struct Bank *bank)
+u32 CLACT_GetUnitDrawEnable(struct Bank *bank)
 {
     return bank->mode;
 }
 
-void sub_0204B258(struct Bank *bank, void *p)
+void CLACT_SetUnitRenderer(struct Bank *bank, void *p)
 {
     bank->unk_08 = p;
     bank->source = 1;

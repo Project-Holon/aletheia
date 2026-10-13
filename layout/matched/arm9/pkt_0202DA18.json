@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202DA18",
+   "name": "POKEGRA_RegisterTrainerPalette",
    "address": "0x0202DA18",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202DA48",
+   "name": "POKEGRA_RegisterTrainerCgr",
    "address": "0x0202DA48",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202DA6C",
+   "name": "POKEGRA_RegisterTrainerCellAnim",
    "address": "0x0202DA6C",
    "kind": "game",
    "region": "arm9",

@@ -18,13 +18,13 @@
  *   adds #0xE0; flagged for the integrator as an odd but listing-forced form.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_020113F0 0x020113F0 thumb
+ *   TIMEZONE_GetTimeZoneOfHour 0x020113F0 thumb
  *   func_021BE7A8 0x021BE7A8 thumb ov203
  *   FX_Div 0x0207C768 arm
  *   _ll_mul 0x0209C054 arm
  *   func_02048A24 0x02048A24 arm
- *   func_02048B9C 0x02048B9C arm
- *   func_02048BB0 0x02048BB0 arm
+ *   G3D_CAMERA_GetNearClipAlt 0x02048B9C arm
+ *   G3D_CAMERA_GetFarClipAlt 0x02048BB0 arm
  *   func_021BE63C 0x021BE63C thumb ov203
  *   func_021BE920 0x021BE920 thumb ov203
  *   func_021BE938 0x021BE938 thumb ov203
@@ -99,12 +99,12 @@ struct Context;
 struct G3dSys;
 struct Light;
 struct Record;
-extern int func_020113F0(int row, int col);
+extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
 extern u32 func_021BE7A8(u32 id);
 extern fx32 FX_Div(fx32, fx32);
 extern void *func_02048A24(int, int, int, int, int, int, int, int, VecFx32 *, VecFx32 *, VecFx32 *, int);
-extern void func_02048B9C(struct Light *l, u32 *out);
-extern void func_02048BB0(struct Light *l, u32 *out);
+extern void G3D_CAMERA_GetNearClipAlt(struct Light *l, u32 *out);
+extern void G3D_CAMERA_GetFarClipAlt(struct Light *l, u32 *out);
 extern void func_021BE63C(struct Context *ctx, struct Config *cfg, const struct Record *record, u16 heap);
 extern u32 func_021BE920(u32);
 extern int func_021BE938(void *a);
@@ -157,7 +157,7 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     ctx->f78 = ctx->id;
     ctx->b80 = cfg->fc;
     ctx->f7c = cfg->f8;
-    ctx->b81 = func_020113F0((u8)cfg->sec, (u8)cfg->fd);
+    ctx->b81 = TIMEZONE_GetTimeZoneOfHour((u8)cfg->sec, (u8)cfg->fd);
     ctx->b82 = cfg->bit7;
     ctx->b83 = cfg->fd;
     ctx->b84 = cfg->fe;
@@ -179,8 +179,8 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     left = -FX_Div(FX_Mul(FX_Div(w, d), s), c);
     ctx->f20 = func_02048A24(1, top, bottom, left, right, near, mid, far,
                              &d_021BFCE0, &d_021BFCD4, &d_021BFCEC, heap);
-    func_02048B9C(ctx->f20, &ctx->f24);
-    func_02048BB0(ctx->f20, &ctx->f28);
+    G3D_CAMERA_GetNearClipAlt(ctx->f20, &ctx->f24);
+    G3D_CAMERA_GetFarClipAlt(ctx->f20, &ctx->f28);
     func_021BE63C((struct Context *)ctx, (struct Config *)cfg, (const struct Record *)ctx->f74, heap);
     ctx->f14 = func_021BE920(ctx->id);
     ctx->f10 = func_021BE938((void *)ctx->id);

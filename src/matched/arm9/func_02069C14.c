@@ -1,5 +1,5 @@
 /*
- * function: func_02069C14
+ * function: GetTaggedPayloadSize
  * address:  0x02069C14
  * packet:   pkt_020694D8
  * region:   arm9
@@ -25,7 +25,7 @@ typedef struct Node {
     u8 n18;
 } Node;
 
-u32 func_02069C14(const u8 *tag, const Node *n)
+u32 GetTaggedPayloadSize(const u8 *tag, const Node *n)
 {
     if (tag == 0 || n == 0) return 0;
     switch (*tag) {

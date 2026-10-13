@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201DE00, func_0201DE18
+ * function: GF_FONT_GetTextColor, GF_FONT_IsTextColorDifferent
  *
  * symbols:
  *   g_02146578   0x02146578  data
@@ -16,7 +16,7 @@
  * The current text colour, read back and compared.  g_02146578 is the three
  * bytes func_0201DD78 stores the last requested colour into.
  *
- * func_0201DE18 returns 1 when the colour differs, and its shape is the
+ * GF_FONT_IsTextColorDifferent returns 1 when the colour differs, and its shape is the
  * disjunction form rather than the conjunction: the first two comparisons branch
  * to one shared `movs r0, #1` block and only the last one branches past it,
  * which is what `if (r != c[0] || g != c[1] || b != c[2]) return 1;` gives.
@@ -38,14 +38,14 @@ typedef unsigned int   u32;
 
 extern struct FontState g_02146578;
 
-void func_0201DE00(u8 *r, u8 *g, u8 *b)
+void GF_FONT_GetTextColor(u8 *r, u8 *g, u8 *b)
 {
     *r = ((u8 *)&g_02146578)[0];
     *g = ((u8 *)&g_02146578)[1];
     *b = ((u8 *)&g_02146578)[2];
 }
 
-u32 func_0201DE18(u32 r, u32 g, u32 b)
+u32 GF_FONT_IsTextColorDifferent(u32 r, u32 g, u32 b)
 {
     if (r != ((u8 *)&g_02146578)[0] || g != ((u8 *)&g_02146578)[1] || b != ((u8 *)&g_02146578)[2]) {
         return 1;

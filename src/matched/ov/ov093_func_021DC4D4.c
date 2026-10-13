@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021D775C  0x021D775C  thumb  ov093
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   func_021D85C0  0x021D85C0  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021D7D18  0x021D7D18  thumb  ov093
@@ -24,7 +24,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern u32 func_0201BEB8(u16 id, u32 bit);
+extern u32 WAZA_TOOL_GetFlag(u16 id, u32 bit);
 extern int func_021D85C0(int a, u32 b);
 extern void *func_021C88A4(char *p, int a, int b);
 extern u32 func_021D7D18(int x);
@@ -39,7 +39,7 @@ void func_021DC4D4(int u, void *a, int b)
     if (b == func_021D775C(3)
         && func_021D775C(0x46) == 0
         && func_021D775C(0x47) == 0
-        && func_0201BEB8(func_021D775C(0x12), 0) != 0
+        && WAZA_TOOL_GetFlag(func_021D775C(0x12), 0) != 0
         && func_021D85C0((int)a, 0x1e) != 0) {
         e = func_021C88A4(a, 0xc, b);
         ((struct Obj06260 *)e)->f0 |= 2 << 22;

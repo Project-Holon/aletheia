@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_020353B0",
+   "name": "UI_IsPowerConnected",
    "address": "0x020353B0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020353C8",
+   "name": "UI_RunWakePoweredHook",
    "address": "0x020353C8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020353F8",
+   "name": "UI_IsSleepInhibited",
    "address": "0x020353F8",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02035428",
+   "name": "UI_SetBottomBackLight",
    "address": "0x02035428",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0203545C",
+   "name": "UI_ServiceLidSleep",
    "address": "0x0203545C",
    "kind": "game",
    "region": "arm9",
@@ -83,18 +83,28 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020355C4",
-    "sub_020355D8",
-    "sub_020355EC",
-    "sub_020355F8",
-    "sub_0203560C",
-    "sub_02035614",
-    "sub_02035630",
-    "sub_02035648"
+    "UI_GetInputMode",
+    "UI_SetInputMode",
+    "UI_ClearPendingInputFlagOf",
+    "UI_SetFrameRateOf",
+    "UI_GetFrameRateOf",
+    "UI_SetFrameRate",
+    "UI_GetFrameRate",
+    "UI_ClearPendingInputFlag"
+   ],
+   "addresses": [
+    "0x020355C4",
+    "0x020355D8",
+    "0x020355EC",
+    "0x020355F8",
+    "0x0203560C",
+    "0x02035614",
+    "0x02035630",
+    "0x02035648"
    ]
   },
   {
-   "name": "sub_02035660",
+   "name": "UI_ChangeFrameRate",
    "address": "0x02035660",
    "kind": "game",
    "region": "arm9",

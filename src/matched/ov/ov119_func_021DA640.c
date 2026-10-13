@@ -18,7 +18,7 @@
  *   func_021D8C84 0x021D8C84 thumb ov119
  *   func_021D8B38 0x021D8B38 thumb ov119
  *   func_020355C4 0x020355C4 arm
- *   func_02027A08 0x02027A08 thumb
+ *   APP_TASKMENU_SetCursorActive 0x02027A08 thumb
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DA318 0x021DA318 thumb ov119
  *   d_021E7594 0x021E7594 data a4
@@ -41,7 +41,7 @@ extern void func_021D8C84(void *);
 typedef unsigned char  u8;
 extern void func_021D8B38(char *p);
 extern u8 func_020355C4(void);
-extern u32 func_02027A08(struct TaskMenu *tm, u32 arg);
+extern u32 APP_TASKMENU_SetCursorActive(struct TaskMenu *tm, u32 arg);
 extern void func_021D8E84(void *,int);
 extern void func_021DA318(char *p);
 void func_021DA640(char *p) {
@@ -61,7 +61,7 @@ void func_021DA640(char *p) {
     func_0204B3DC((struct Obj *)((struct Obj02826 *)p)->fF04,0);
     func_021D8C84(p);
     func_021D8B38(p);
-    if(func_020355C4()) func_02027A08((struct TaskMenu *)(((struct Obj02826 *)p)->f64C),zero);
-    else func_02027A08((struct TaskMenu *)(((struct Obj02826 *)p)->f64C),1);
+    if(func_020355C4()) APP_TASKMENU_SetCursorActive((struct TaskMenu *)(((struct Obj02826 *)p)->f64C),zero);
+    else APP_TASKMENU_SetCursorActive((struct TaskMenu *)(((struct Obj02826 *)p)->f64C),1);
     func_021D8E84(p,(int)func_021DA318);
 }

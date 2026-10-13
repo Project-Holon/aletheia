@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_0204A600 0x0204A600 arm
- *   func_0202EA40 0x0202EA40 thumb
+ *   BLINK_PALANM_Update 0x0202EA40 thumb
  *   func_021D75F4 0x021D75F4 thumb ov120
  */
 #include "../include/Obj04488.h"
@@ -20,6 +20,6 @@ typedef unsigned int u32;
 extern void func_0204A600(void);
 struct Row;
 typedef signed int     s32;
-extern s32 func_0202EA40(struct Row *p);
+extern s32 BLINK_PALANM_Update(struct Row *p);
 extern void func_021D75F4(char *p);
-void func_021D5F98(u8 *p){func_0204A600();if(((struct Obj04488 *)p)->fF8)func_0202EA40(((struct Obj04488 *)p)->fF8);if(((struct Obj04488 *)p)->fFC)func_0202EA40(((struct Obj04488 *)p)->fFC);func_021D75F4((char *)p);}
+void func_021D5F98(u8 *p){func_0204A600();if(((struct Obj04488 *)p)->fF8)BLINK_PALANM_Update(((struct Obj04488 *)p)->fF8);if(((struct Obj04488 *)p)->fFC)BLINK_PALANM_Update(((struct Obj04488 *)p)->fFC);func_021D75F4((char *)p);}

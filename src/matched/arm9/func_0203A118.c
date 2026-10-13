@@ -1,5 +1,5 @@
 /*
- * function: func_0203A118
+ * function: GFL_NET_HANDLE_SetNegotiationEnd
  * address:  0x0203A118
  * packet:   pkt_0203A118
  * region:   arm9
@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   GFL_NET_GetSession  0x0203D788  arm
  *
  * Conditional state repair: when the context's +0x352 flag is clear the
  * object's +0x4A state is only pushed to 7 if it is not already 5, otherwise
@@ -20,19 +21,19 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A118.c \
- *       --func func_0203A118 --addr 0x0203A118 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_SetNegotiationEnd.c \
+ *       --func GFL_NET_HANDLE_SetNegotiationEnd --addr 0x0203A118 --cc 1.1p1 --arm
  */
 #include "../include/Obj15952.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 
-void func_0203A118(u8 *p)
+void GFL_NET_HANDLE_SetNegotiationEnd(u8 *p)
 {
-    if (((struct Obj15952 *)((char *)func_0203D788()))->f352 == 0) {
+    if (((struct Obj15952 *)((char *)GFL_NET_GetSession()))->f352 == 0) {
         if (p[0x4A] != 5)
             p[0x4A] = 7;
     } else {

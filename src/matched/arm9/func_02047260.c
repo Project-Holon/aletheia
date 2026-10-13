@@ -1,5 +1,5 @@
 /*
- * function: func_02047260
+ * function: G3D_SYSTEM_AllocTexVramKeys
  * address:  0x02047260
  * packet:   pkt_02047260
  * region:   arm9
@@ -20,8 +20,8 @@
  * report is a bare zero.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02047260.c \
- *       --func func_02047260 --addr 0x02047260 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_AllocTexVramKeys.c \
+ *       --func G3D_SYSTEM_AllocTexVramKeys --addr 0x02047260 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -31,7 +31,7 @@ extern u32 (*g_020A8140)(void *p, u32 mode, u32 a2);
 extern int func_02069FD0(int p);
 extern int func_02069FE4(int p);
 
-int func_02047260(u32 a0, u32 *a1, u32 *a2)
+int G3D_SYSTEM_AllocTexVramKeys(u32 a0, u32 *a1, u32 *a2)
 {
     void *p = (void *)func_02069FD0(a0);
     void *q = (void *)func_02069FE4(a0);

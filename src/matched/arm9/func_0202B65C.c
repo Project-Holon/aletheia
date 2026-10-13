@@ -1,5 +1,5 @@
 /*
- * function: func_0202B65C
+ * function: ISS_SYS_Create3ds
  * address:  0x0202B65C
  * packet:   pkt_0202B59C
  * region:   arm9
@@ -8,13 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
- * closed:   blocker func_0202B59C.c is now a manifest entry (matched class)
+ * closed:   blocker ISS_SYS_Setup.c is now a manifest entry (matched class)
  *
  * Builds the +0x24 sub-object from the object's u16 id.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B65C.c \
- *       --func func_0202B65C --addr 0x0202B65C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SYS_Create3ds.c \
+ *       --func ISS_SYS_Create3ds --addr 0x0202B65C --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   ISS_3DS_SYS_Create  0x0202B894  thumb
  */
 #include "../include/Obj00563.h"
 
@@ -24,9 +27,9 @@ typedef unsigned int   u32;
 
 struct Obj;
 
-extern u8 *func_0202B894(u32 id);
+extern u8 *ISS_3DS_SYS_Create(u32 id);
 
-void func_0202B65C(struct Obj *o)
+void ISS_SYS_Create3ds(struct Obj *o)
 {
-    ((struct Obj00563 *)o)->f24 = (u32)func_0202B894(((struct Obj00563 *)o)->f0);
+    ((struct Obj00563 *)o)->f24 = (u32)ISS_3DS_SYS_Create(((struct Obj00563 *)o)->f0);
 }

@@ -20,7 +20,7 @@
  *   func_021DCE80  0x021DCE80  thumb  ov170
  *   func_021DCDD8  0x021DCDD8  thumb  ov170
  *   func_021DCB48  0x021DCB48  thumb  ov170
- *   func_02036270  0x02036270  arm
+ *   KEY_SetRepeatSpeed  0x02036270  arm
  *   func_02049238  0x02049238  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020306F0  0x020306F0  arm
@@ -44,7 +44,7 @@ extern void func_021DD8F8(char *p);
 extern void func_021DCE80(char *p);
 extern void func_021DCDD8(int *p);
 extern void func_021DCB48(void *p);
-extern int func_02036270(int a0, int a1);
+extern int KEY_SetRepeatSpeed(int a0, int a1);
 extern void func_02049238(u32 a);
 extern u32 func_020307B0(void *p);
 extern void func_020306F0(unsigned int a);
@@ -65,7 +65,7 @@ int func_021E1F90(u8 *p)
     func_021DCE80((char *)p);
     func_021DCDD8((int *)p);
     func_021DCB48(p);
-    func_02036270(*(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x4c), *(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x50));
+    KEY_SetRepeatSpeed(*(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x4c), *(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x50));
     func_02049238(*(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x1b0));
     func_020307B0(((struct Obj00000 *)p)->f2C);
     func_020306F0(0x4c);

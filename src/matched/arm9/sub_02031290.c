@@ -8,19 +8,19 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02031290
+ * function: TCBL_GetWork
  *
  * symbols:
- *   sub_02030FB4  0x02030FB4  arm
+ *   TCBL_GetTaskWork  0x02030FB4  arm
  *
- * A four-instruction tail call to sub_02030FB4 (src/matched/sub_02030FB4.c,
+ * A four-instruction tail call to TCBL_GetTaskWork (src/matched/TCBL_GetTaskWork.c,
  * this same packet), one section back. The mwccarm one-section-per-function
  * rule means even a same-file neighbour is reached through a pool word and
  * `bx`; see docs/idioms/tail-call-is-a-pool-word-and-bx.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02031290.c \
- *       --func sub_02031290 --addr 0x02031290 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TCBL_GetWork.c \
+ *       --func TCBL_GetWork --addr 0x02031290 --cc 1.1p1
  */
 
 struct S02030FB4 {
@@ -30,9 +30,9 @@ struct S02030FB4 {
     char  embedded[1];
 };
 
-extern void *sub_02030FB4(struct S02030FB4 *p);
+extern void *TCBL_GetTaskWork(struct S02030FB4 *p);
 
-void *sub_02031290(struct S02030FB4 *p)
+void *TCBL_GetWork(struct S02030FB4 *p)
 {
-    return sub_02030FB4(p);
+    return TCBL_GetTaskWork(p);
 }

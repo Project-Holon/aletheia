@@ -12,22 +12,27 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0200A0E4.c \\
  *       --func func_0200A0E4 --addr 0x0200A0E4 --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   MYSTERY_DATA_CheckCardExist  0x02009F50  thumb
+ *   MYSTERY_DATA_Encrypt  0x0200A480  thumb
+ *   MYSTERY_DATA_Decrypt  0x0200A49C  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct Obj;
-extern void func_0200A49C(struct Obj *p);
-extern int func_02009F50(char *p, unsigned int idx);
-extern void func_0200A480(struct Obj *p);
+extern void MYSTERY_DATA_Decrypt(struct Obj *p);
+extern int MYSTERY_DATA_CheckCardExist(char *p, unsigned int idx);
+extern void MYSTERY_DATA_Encrypt(struct Obj *p);
 
 u32 func_0200A0E4(u8 *p, u32 a)
 {
     u32 r;
 
-    func_0200A49C((struct Obj *)p);
-    r = func_02009F50((char *)p, a);
-    func_0200A480((struct Obj *)p);
+    MYSTERY_DATA_Decrypt((struct Obj *)p);
+    r = MYSTERY_DATA_CheckCardExist((char *)p, a);
+    MYSTERY_DATA_Encrypt((struct Obj *)p);
     return r;
 }

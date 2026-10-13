@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02007374",
+   "name": "SAVE_CONTROL_BeginExtraSaveWrite",
    "address": "0x02007374",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020073B0",
+   "name": "SAVE_CONTROL_StepExtraSaveWrite",
    "address": "0x020073B0",
    "kind": "game",
    "region": "arm9",

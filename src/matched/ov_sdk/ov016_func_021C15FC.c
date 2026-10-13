@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021DE594  0x021DE594  data
+ *   gRakuStatus  0x021DE594  data
 */
 
 typedef struct {
@@ -19,9 +19,9 @@ typedef struct {
     int c;
 } Cfg3;
 
-extern int *g_021DE594;
+extern int *gRakuStatus;
 
 void cbConfig(Cfg3 *cfg)
 {
-    *(Cfg3 *)g_021DE594 = *cfg;
+    *(Cfg3 *)gRakuStatus = *cfg;
 }

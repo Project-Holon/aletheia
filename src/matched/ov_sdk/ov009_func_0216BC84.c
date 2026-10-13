@@ -1,5 +1,5 @@
 /*
- * function: func_0216BC84
+ * function: DWCi_SetState
  * address:  0x0216BC84
  * packet:   pkt_02155168
  * region:   ov009
@@ -21,7 +21,7 @@
 
 extern struct DwcGlobal g_021AA878;
 
-void func_0216BC84(int v)
+void DWCi_SetState(int v)
 {
     char *p = *(char **)(((char *)&g_021AA878) + 4);
 

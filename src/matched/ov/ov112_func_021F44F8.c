@@ -11,7 +11,7 @@
  * symbols:
  *   func_021F4684 0x021F4684 thumb ov112
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_02043598 0x02043598 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -45,7 +45,7 @@ extern const u32 d_021F8298[],d_021F82B8[],d_021F82D8[];
 extern void func_021F4684(const void *,u32,u32);
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_02043598(u32,u32);
 extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
@@ -78,7 +78,7 @@ void func_021F44F8(u8 *p)
     func_021F4684(d_021F82B8,6,0);
     func_021F4684(d_021F82D8,7,0);
     ((struct Obj00721 *)p)->f48=func_0204B100(8,0,((struct Obj00721 *)p)->f0);
-    func_0204B270(((struct Obj00721 *)p)->f48);
+    CLACT_SetUnitDefaultRenderer(((struct Obj00721 *)p)->f48);
     func_02043598(16,1);
     t=func_020490F4((unsigned int)46,((struct Obj00721 *)p)->f0);
     func_02049B68((void *)((u32)t),4,4,0,0,((struct Obj00721 *)p)->f0);

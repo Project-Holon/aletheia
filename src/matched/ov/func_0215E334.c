@@ -14,7 +14,7 @@
  *
  * Thumb tail call into ENV_SetResourceSet (ARM, 0x020307B0): `ldr r3,
  * [pc, #0]; bx r3` plus the pool word, the shape of the arm9 copy
- * func_02011264.  Unlabelled in the listing (no prologue, called only from
+ * VM_Delete.  Unlabelled in the listing (no prologue, called only from
  * arm9), so it is emitted as data words.
  */
 

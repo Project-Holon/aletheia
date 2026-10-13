@@ -1,5 +1,5 @@
 /*
- * function: func_02013128
+ * function: BTL_SETUP_SetParty
  * address:  0x02013128
  * packet:   pkt_02013128
  * region:   arm9
@@ -23,7 +23,7 @@
 struct Rec534;
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 
-void func_02013128(void *p, void *src, int i)
+void BTL_SETUP_SetParty(void *p, void *src, int i)
 {
     func_0201AC2C(src, ((void **)((char *)p + 0x24))[i]);
 }

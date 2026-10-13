@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 02043588 has no resolved witness; the integrator unit src/matched/arm9/unit_02043570.c contains its body but omits func_02043588 from its function value. No ARM9 source/shard filed. Standalone scratch one fixed flags ARM EXACT (16 bytes, 2/2): extern void func_02043558(void),func_02043570(void); void func_02043588(void) { func_02043558();func_02043570(); }
+ * blocker: ARM9 02043588 has no resolved witness; the integrator unit src/matched/arm9/unit_02043570.c contains its body but omits BG_SYS_ClearSubPlanes from its function value. No ARM9 source/shard filed. Standalone scratch one fixed flags ARM EXACT (16 bytes, 2/2): extern void BG_SYS_ClearSubBgPlanes(void),BG_SYS_ClearSubObjPlane(void); void BG_SYS_ClearSubPlanes(void) { BG_SYS_ClearSubBgPlanes();BG_SYS_ClearSubObjPlane(); }
  * checks: 1 owner files/readers retained; 2 ov220 neighbours read, no resource twin; 3 u16 variant unchanged47; nonconst resources47->MATCH; 4 enum/hardware/const-record/table-field idioms read; 5 directory/neighbours reread. TU --suggest-split MATCH, no viable piece, sole ARM9 blocker retained.
  * lever: enum counter with unsigned do-while retains the original single-iteration BG loop; nonconst Resources extern keeps outgoing stack stores before the three resource loads (const gave47 concrete bytes).
  * volatile: 021B965C BLDCNT write; 021B9660/966A hardware DISPCNT reads.
@@ -28,9 +28,9 @@
  * func_021B99DC 0x021B99DC thumb ov220
  * func_021B9B64 0x021B9B64 thumb ov220
  * func_021B9CBC 0x021B9CBC thumb ov220
- * func_02043588 0x02043588 arm
+ * BG_SYS_ClearSubPlanes 0x02043588 arm
  * func_0207D518 0x0207D518 arm
- * func_02043558 0x02043558 arm
+ * BG_SYS_ClearSubBgPlanes 0x02043558 arm
  * func_0203FCA0 0x0203FCA0 arm
  * func_020414AC 0x020414AC arm
  * func_02040588 0x02040588 arm
@@ -43,7 +43,7 @@
  * func_020409B4 0x020409B4 arm
  * func_0204E720 0x0204E720 arm
  * func_0203D34C 0x0203D34C arm
- * func_02005E30 0x02005E30 thumb
+ * GFL_USE_FadeOutBgm 0x02005E30 thumb
  * bgtable 0x021BA370 data a4
  * resources 0x021BA4E0 data a4
  */
@@ -73,11 +73,11 @@ extern void func_021B9960(u16*);
 extern void func_021B99DC(char*);
 extern void func_021B9B64(char*);
 extern void func_021B9CBC(struct Obj *p);
-extern void func_02043588(void),func_02043558(void),func_0207D518(int);
+extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D518(int);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
-extern void func_02043598(u32,u32),func_020409B4(u32),func_0203D34C(u32,u32),func_02005E30(u32);
+extern void func_02043598(u32,u32),func_020409B4(u32),func_0203D34C(u32,u32),GFL_USE_FadeOutBgm(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void*,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -110,7 +110,7 @@ int func_021B95A0(void *host,void *unused,void *args)
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 |= 0x10000;
-    func_02043588();func_0207D518(0);func_02043558();
+    BG_SYS_ClearSubPlanes();func_0207D518(0);BG_SYS_ClearSubBgPlanes();
     i=0;
     do {
         const struct Row *r=(const struct Row *)((u32)bgtable+i*44);
@@ -127,6 +127,6 @@ int func_021B95A0(void *host,void *unused,void *args)
     func_02049658(owner,resources[variant].b,4,0,0,0,heap);
     func_020498F4(owner,resources[variant].c,4,0,0,0,heap);
     func_02049238(owner);func_020409B4(4);func_0204E720(3,16,16,0);func_0203D34C(0,*(u16 *)p);
-    if (*(u32 *)(*(char **)(p+4)+0xC) && *(u32 *)(p+0xB0)!=7) func_02005E30(6);
+    if (*(u32 *)(*(char **)(p+4)+0xC) && *(u32 *)(p+0xB0)!=7) GFL_USE_FadeOutBgm(6);
     return 1;
 }

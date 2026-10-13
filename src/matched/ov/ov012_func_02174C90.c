@@ -1,5 +1,5 @@
 /*
- * function: func_02174C90
+ * function: COLOSSEUM_SendPackage
  * address: 0x02174C90
  * packet: pkt_ov012_02174C90
  * region: ov012
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
-u32 func_02174C90(u32 a)
+u32 COLOSSEUM_SendPackage(u32 a)
 {
     return func_0203D3F8((u32)func_020399A8(),255,0x1503,20,a,0,1,1);
 }

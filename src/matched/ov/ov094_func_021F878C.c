@@ -14,8 +14,8 @@
  *   func_022088F4  0x022088F4  thumb  ov094
  *   func_02208900  0x02208900  thumb  ov094
  *   func_0220893C  0x0220893C  thumb  ov094
- *   func_02005E9C  0x02005E9C  thumb
- *   func_02005D90  0x02005D90  thumb
+ *   GFL_USE_PopBgm  0x02005E9C  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,15 +24,15 @@ extern char *d_0220AF20;
 extern int func_022088F4(u32 obj);
 extern void func_02208900(u32 obj, u32 v);
 extern void func_0220893C(u32 obj, u32 v);
-extern int func_02005E9C(void);
-extern void func_02005D90(u32 a, u16 b);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u16 b);
 
 void func_021F878C(u32 a)
 {
     if (func_022088F4(*(u32 *)(d_0220AF20 + 0x1A4))) {
         func_02208900(*(u32 *)(d_0220AF20 + 0x1A4), 0);
-        func_02005E9C();
+        GFL_USE_PopBgm();
     }
     func_0220893C(*(u32 *)(d_0220AF20 + 0x1A4), 1);
-    func_02005D90(a, 0xFFFF);
+    GFL_USE_CancelChangeAndPlayBgm(a, 0xFFFF);
 }

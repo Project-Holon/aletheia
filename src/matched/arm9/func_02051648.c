@@ -1,5 +1,5 @@
 /*
- * function: func_02051648
+ * function: PARTICLE_InitCamera
  * address:  0x02051648
  * packet:   pkt_02051648
  * region:   arm9
@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_02048A24  0x02048A24  arm
- *   g_020A1590     0x020A1590  data
- *   g_020A1584     0x020A1584  data
- *   g_020A1578     0x020A1578  data
+ *   sDefaultCameraPos     0x020A1590  data
+ *   sDefaultCameraTarget     0x020A1584  data
+ *   sDefaultCameraUp     0x020A1578  data
  *
  * Constructor for the 0x25c-byte emitter record: defaults the three pointer
  * arguments, zeroes three words, stores the id halfword, stamps the 0x25b
  * byte from the source record or from zero, then hands twelve arguments to
  * func_02048A24 and stores its return at +0x20.
  *
- * CLOSES the 268/272 near miss written up in docs/notes/func_02051648.c.txt,
+ * CLOSES the 268/272 near miss written up in docs/notes/PARTICLE_InitCamera.c.txt,
  * whose whole residue was one missing `mov r0, #0`: the compiler kept the
  * prologue's live zero across the branch and reused it for the null arm's
  * first two statements, where the image re-materialises it.
@@ -46,8 +46,8 @@
  *     (docs/families/particle.h records this tell for the whole family).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051648.c \
- *       --func func_02051648 --addr 0x02051648 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_InitCamera.c \
+ *       --func PARTICLE_InitCamera --addr 0x02051648 --cc 1.1p1 --arm
  *   EXACT, 272 bytes, 5 relocation sites, all resolved (label x2, literal x3).
  */
 
@@ -59,9 +59,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern struct G_020A1590 g_020A1590;
-extern struct G_020A1584 g_020A1584;
-extern struct G_020A1578 g_020A1578;
+extern struct G_020A1590 sDefaultCameraPos;
+extern struct G_020A1584 sDefaultCameraTarget;
+extern struct G_020A1578 sDefaultCameraUp;
 
 extern int func_02048A24(int a0, int a1, int a2, int a3, int a4, int a5,
                          int a6, int a7, int a8, int a9, int a10, int a11);
@@ -81,17 +81,17 @@ struct Dst648 {
     u8  f25b;
 };
 
-void func_02051648(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3,
+void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3,
                    int *a4, int *a5, u32 a6)
 {
-    if (a3 == 0) a3 = &(*(int *)&g_020A1590);
-    if (a4 == 0) a4 = &(*(int *)&g_020A1584);
+    if (a3 == 0) a3 = &(*(int *)&sDefaultCameraPos);
+    if (a4 == 0) a4 = &(*(int *)&sDefaultCameraTarget);
 
     this->f24 = 0;
     this->f28 = 0;
     this->f2c = 0;
 
-    if (a5 == 0) a5 = &(*(int *)&g_020A1578);
+    if (a5 == 0) a5 = &(*(int *)&sDefaultCameraUp);
 
     this->f30 = a2;
 

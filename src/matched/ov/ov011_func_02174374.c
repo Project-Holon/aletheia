@@ -1,5 +1,5 @@
 /*
- * function: func_02174374
+ * function: INTRUDE_CMD_SendProfile
  * address:  0x02174374
  * packet:   pkt_ov011_02174374
  * region:   ov011
@@ -12,7 +12,7 @@
  * symbols:
  *   func_02026478  0x02026478  thumb
  *   func_020127B8  0x020127B8  thumb
- *   func_021736D8  0x021736D8  thumb ov011
+ *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
  *   func_020399A8  0x020399A8  arm
  *   func_0203D3A8  0x0203D3A8  arm
  */
@@ -21,18 +21,18 @@ typedef unsigned short u16;
 
 unsigned int func_02026478(void *obj);
 void *func_020127B8(void *p);
-int func_021736D8(void);
+int INTRUDE_COMM_IsLinked(void);
 typedef unsigned int   u32;
 struct Entry;
 struct Entry *func_020399A8(void);
 int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 
-int func_02174374(int *a)
+int INTRUDE_CMD_SendProfile(int *a)
 {
     int r;
 
     r = (int)func_020127B8((void *)func_02026478((void *)a[1]));
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }
     return func_0203D3A8(func_020399A8(), 0x21c, 0x10, r);

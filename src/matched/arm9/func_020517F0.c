@@ -1,5 +1,5 @@
 /*
- * function: func_020517F0
+ * function: BUTTON_MAN_GetOffsetX
  * address:  0x020517F0
  * packet:   pkt_02051790
  * region:   arm9
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj16173.h"
 
-short func_020517F0(char *p)
+short BUTTON_MAN_GetOffsetX(char *p)
 {
     return ((struct Obj16173 *)p)->f64;
 }

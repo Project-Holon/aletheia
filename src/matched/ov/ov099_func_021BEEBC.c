@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: a named enabled result before kind initialization preserves call/store scheduling.
  * symbols:
- *   func_02155664 0x02155664 thumb ov009
+ *   DWC_RAP_SetAcceptFriendCallback 0x02155664 thumb ov009
  *   func_021BEE64 0x021BEE64 thumb ov099
  *   func_020490F4 0x020490F4 arm
  *   func_021C19A8 0x021C19A8 thumb ov099
@@ -43,7 +43,7 @@ typedef unsigned int   u32;
 struct Descriptor;
 struct Obj;
 struct Sub020097BCObj;
-extern void func_02155664(void (*callback)(void));
+extern void DWC_RAP_SetAcceptFriendCallback(void (*callback)(void));
 struct Sub0200852CObj;
 extern int func_021BEE64(void *a, char *b);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -74,7 +74,7 @@ void func_021BEEBC(char *p)
 {
     void *h;
     int kind, enabled;
-    func_02155664((void (*)(void))func_021BEE64);
+    DWC_RAP_SetAcceptFriendCallback((void (*)(void))func_021BEE64);
     h=func_020490F4(33,33);
     func_021C19A8(p);
     func_021C0290(p);

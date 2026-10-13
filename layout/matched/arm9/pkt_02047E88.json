@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02048258",
+   "name": "G3D_UTIL_LoadUnitResourcesFromArchive",
    "address": "0x02048258",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020482B4",
+   "name": "G3D_UTIL_FreeUnitResources",
    "address": "0x020482B4",
    "kind": "game",
    "region": "arm9",

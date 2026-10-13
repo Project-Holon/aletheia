@@ -12,7 +12,7 @@
  * symbols:
  *   func_02026478  0x02026478  thumb
  *   func_02012B58  0x02012B58  thumb
- *   func_021751D4  0x021751D4  thumb ov011
+ *   INTRUDE_COMM_AdjustRemotePosition  0x021751D4  thumb ov011
  */
 #include "../include/Obj12425.h"
 #include "../include/Obj19182.h"
@@ -29,7 +29,7 @@ struct BigObj;
 struct Ent;
 u32 func_02026478(void *obj);
 u8 func_02012B58(const struct BigObj *p);
-void func_021751D4(u8 *p, u16 a, int b, struct Ent *c);
+void INTRUDE_COMM_AdjustRemotePosition(u8 *p, u16 a, int b, struct Ent *c);
 
 void func_02175274(u8 *p, int arg)
 {
@@ -47,7 +47,7 @@ void func_02175274(u8 *p, int arg)
         if ((p[0x8FB] & (1 << i)) && i != n) {
             e = arr + i * 0x1C;
             *(C12 *)(e + 4) = *(C12 *)(p + 0xE4 + i * 0x14);
-            func_021751D4(p, ((struct Obj19182 *)h)->f14, arg, (struct Ent *)e);
+            INTRUDE_COMM_AdjustRemotePosition(p, ((struct Obj19182 *)h)->f14, arg, (struct Ent *)e);
         }
     }
 }

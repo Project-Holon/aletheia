@@ -1,6 +1,6 @@
 /*
  * file:     unit_021C3514.c
- * function: func_021C3514
+ * function: DWCi_SceneOptMovComplete_draw
  * address:  0x021C3514
  * packet:   pkt_021C1CF8
  * region:   ov016
@@ -11,16 +11,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C3514   0x021C3514  arm
+ *   DWCi_SceneOptMovComplete_draw   0x021C3514  arm
  *
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C3514.c \
- *       --func func_021C3514 --addr 0x021C3514 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneOptMovComplete_draw.c \
+ *       --func DWCi_SceneOptMovComplete_draw --addr 0x021C3514 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void func_021C3514(void)
+void DWCi_SceneOptMovComplete_draw(void)
 {
 }

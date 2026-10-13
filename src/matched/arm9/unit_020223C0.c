@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020223C0, sub_02022424
+ * function: WIPE_SYS_SetDivision, sub_02022424
  * address:  0x020223C0
  * packet:   pkt_02022174
  * region:   arm9
@@ -39,7 +39,7 @@ struct Mode {
 
 static void sub_02022424(struct Mode *p, u32 kind, u32 a, u32 b);
 
-void func_020223C0(u32 mode, struct Mode *p)
+void WIPE_SYS_SetDivision(u32 mode, struct Mode *p)
 {
     switch (mode) {
     case 0:

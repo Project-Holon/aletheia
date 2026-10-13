@@ -14,7 +14,7 @@
  *   func_021F0FE8  0x021F0FE8  thumb  ov032
  *   func_02165CC0  0x02165CC0  thumb  ov010
  *   func_02021F64  0x02021F64  thumb
- *   func_020215BC  0x020215BC  thumb
+ *   PALANM_CopyToSlot  0x020215BC  thumb
  */
 #include "../include/Obj00007.h"
 
@@ -26,7 +26,7 @@ extern int func_021F0FE8(int a);
 struct PalAnmSlot;
 extern void func_02165CC0(int a0, int a1);
 extern void func_02021F64(u16 *, u16 *, int, u8, u16);
-extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
 void func_021F1004(char *p, u8 *q, int r)
 {
@@ -43,5 +43,5 @@ void func_021F1004(char *p, u8 *q, int r)
     a[2] = t[b + 2];
     func_02165CC0((int)(&a[3]), r);
     func_02021F64(&a[3], &a[4], 1, 3, 0);
-    func_020215BC((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)p)->fAC), a, 3, (u16)((q[0] + 4) * 16 + 1), 10);
+    PALANM_CopyToSlot((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)p)->fAC), a, 3, (u16)((q[0] + 4) * 16 + 1), 10);
 }

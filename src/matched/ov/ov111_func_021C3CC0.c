@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020434CC  0x020434CC  arm
- *   func_02043588  0x02043588  arm
+ *   BG_SYS_ClearMainPlanes  0x020434CC  arm
+ *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   func_0202223C  0x0202223C  thumb
- *   func_02022224  0x02022224  thumb
+ *   WIPE_ResetWndMask  0x02022224  thumb
  *   func_0203064C  0x0203064C  arm
  *   func_0203159C  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
@@ -22,7 +22,7 @@
  *   func_0203D1B4  0x0203D1B4  arm
  *   func_0203F8F4  0x0203F8F4  arm
  *   func_020433E0  0x020433E0  arm
- *   func_0202DB0C  0x0202DB0C  thumb
+ *   PMS_DRAW_Create  0x0202DB0C  thumb
  *   func_020056A0  0x020056A0  thumb
  *   func_0203101C  0x0203101C  arm
  *   func_0203D34C  0x0203D34C  arm
@@ -116,11 +116,11 @@ typedef struct {
     u8 pad32D6[0x3310 - 0x32D6];
 } Work;
 
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0202223C(u32 a, u32 b);
 struct PmsDraw;
-extern u32 func_02022224(void *win);
+extern u32 WIPE_ResetWndMask(void *win);
 extern void func_0203064C(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
@@ -132,7 +132,7 @@ extern int func_0203D1B4(void);
 extern void func_0203F8F4(u16 heap);
 struct DispVram;
 extern void func_020433E0(const struct DispVram *c);
-extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
+extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work *), void *ctx, int pri);
 extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0203D34C(u32 a, u32 b);
@@ -156,14 +156,14 @@ int func_021C3CC0(void *man, int *state, Args *args)
     int i;
     u16 mask;
 
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     *(volatile u32 *)0x04000000 &= ~0x1F00;
     *(volatile u32 *)0x04001000 &= ~0x1F00;
     func_0202223C(0, 0);
     func_0202223C(1, 0);
-    func_02022224(0);
-    func_02022224((void *)1);
+    WIPE_ResetWndMask(0);
+    WIPE_ResetWndMask((void *)1);
     func_0203064C(1, 0x27, 0x50000);
     p = func_0203159C(man, sizeof(Work), 0x27);
     func_02082BCC(p, 0, sizeof(Work));
@@ -200,7 +200,7 @@ int func_021C3CC0(void *man, int *state, Args *args)
     func_021C6804(p, p->args->info);
     func_021C6E8C(&p->anim);
     func_021C6000(p);
-    p->f32B0 = func_0202DB0C((u32)p->anim.f4, 1, (u32)p->f32CC, (u32)p->f31FC, 8, 1, 0x27);
+    p->f32B0 = PMS_DRAW_Create((u32)p->anim.f4, 1, (u32)p->f32CC, (u32)p->f31FC, 8, 1, 0x27);
     func_021C6D98(p, p->bg[4], 1, p->f320C);
     if (p->args->f14 == 2) {
         p->args->f14 = 0;

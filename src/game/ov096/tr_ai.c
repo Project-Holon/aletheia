@@ -18,10 +18,10 @@
  *   func_02020F14 0x02020F14 thumb
  *   func_021B8588 0x021B8588 thumb ov093
  *   func_021B86B8 0x021B86B8 thumb ov093
- *   func_0201121C 0x0201121C thumb
- *   func_0201126C 0x0201126C thumb
- *   func_0201C408 0x0201C408 thumb
- *   func_0201C328 0x0201C328 thumb
+ *   VM_Create 0x0201121C thumb
+ *   VM_Init 0x0201126C thumb
+ *   WAZA_TOOL_IsCacheCreated 0x0201C408 thumb
+ *   WAZA_TOOL_CreateCache 0x0201C328 thumb
  *   D_0218A7A0 0x0218A7A0 data
  *   D_0218A574 0x0218A574 data
  *   func_02011324 0x02011324 thumb
@@ -30,8 +30,8 @@
  *   _ull_mul 0x0209C054 arm
  *   func_02049238 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02011264 0x02011264 thumb
- *   func_0201C3C0 0x0201C3C0 thumb
+ *   VM_Delete 0x02011264 thumb
+ *   WAZA_TOOL_DeleteCache 0x0201C3C0 thumb
  *   func_021D5448 0x021D5448 thumb ov093
  *   func_020870D0 0x020870D0 arm
  *   func_021D54C0 0x021D54C0 thumb ov093
@@ -40,9 +40,9 @@
  *   func_021B8CE8 0x021B8CE8 thumb ov093
  *   func_021D5584 0x021D5584 thumb ov093
  *   func_0218A528 0x0218A528 thumb ov096
- *   func_0201127C 0x0201127C thumb
+ *   VM_Start 0x0201127C thumb
  *   func_02011290 0x02011290 thumb
- *   func_02011298 0x02011298 thumb
+ *   VM_Control 0x02011298 thumb
  *   func_0201134C  0x0201134C  thumb
  *   func_021D5C44  0x021D5C44  thumb  ov093
  *   func_021D62A8  0x021D62A8  thumb  ov093
@@ -51,12 +51,12 @@
  *   func_021E8A78  0x021E8A78  thumb  ov093
  *   func_021D5BDC  0x021D5BDC  thumb  ov093
  *   func_021C82D0  0x021C82D0  thumb  ov093
- *   func_020113B0  0x020113B0  thumb
+ *   VM_Jump  0x020113B0  thumb
  *   func_021C8138 0x021C8138 thumb ov093
  *   func_021D57FC  0x021D57FC  thumb  ov093
  *   func_021E8CFC  0x021E8CFC  thumb  ov093
  *   func_021E8D04  0x021E8D04  thumb  ov093
- *   func_0201C1D8 0x0201C1D8 thumb
+ *   WAZA_TOOL_GetPower 0x0201C1D8 thumb
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021C7E14 0x021C7E14 thumb ov093
  *   func_021D67A8  0x021D67A8  thumb  ov093
@@ -92,6 +92,7 @@
  *   func_02021014  0x02021014  thumb
  *   D_0218A7C0 0x0218A7C0 data a4
  *   func_02049250  0x02049250  arm
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb  arm9
  */
 #include "../../matched/include/Obj00067.h"
 #include "../../matched/include/Obj13649.h"
@@ -346,17 +347,17 @@ extern void *func_020490F4(u32 id, u16 heap);
 extern void *func_02020F14(u16 heap);
 extern u32 func_021B8588(void **p);
 extern void *func_021B86B8(void ***p);
-extern struct ScriptVm *func_0201121C(u32 heapId, const struct ScriptVmParams *params);
-extern void func_0201126C(struct ScriptVm *vm, void *user);
-extern u32 func_0201C408(void);
-extern void func_0201C328(s32_02187F00 n, u32 heap);
+extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
+extern void VM_Init(struct ScriptVm *vm, void *user);
+extern u32 WAZA_TOOL_IsCacheCreated(void);
+extern void WAZA_TOOL_CreateCache(s32_02187F00 n, u32 heap);
 extern void *func_02011324(struct ScriptVm *vm);
 extern int func_021D5B68(void *m);
 extern u32 func_0203F0A8(void);
 extern void func_02049238(void *);
 extern u32 func_020307B0(void *p);
-extern void func_02011264(void *);
-extern void func_0201C3C0(void);
+extern void VM_Delete(void *);
+extern void WAZA_TOOL_DeleteCache(void);
 extern u8 func_021D5448(struct QG *p);
 extern u64 func_020870D0(void);
 extern u16 func_021D54C0(u8 *p, int i);
@@ -365,9 +366,9 @@ extern u8 func_021B8DE4(char *p, int i);
 extern int func_021B8CE8(int, int, int);
 extern u8 func_021D5584(struct UtilWork *p, u32 i);
 extern void func_0218A528(u8 *);
-extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
+extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
-extern int func_02011298(struct ScriptVm *vm);
+extern int VM_Control(struct ScriptVm *vm);
 extern u32 func_0201134C(struct Cursor *p);
 extern int func_021D5C44(struct Rat *p);
 extern int func_021D62A8(struct Unk021D62A8 *p);
@@ -376,12 +377,12 @@ extern Slot_02187F00 func_021D6314(void *, int);
 extern int func_021E8A78(Slot_02187F00);
 extern int func_021D5BDC(struct UtilWork *p, u32 n);
 extern int func_021C82D0(int unused, unsigned int v, int k);
-extern void func_020113B0(struct Cur *c, u32 v);
+extern void VM_Jump(struct Cur *c, u32 v);
 extern unsigned short func_021C8138(struct Q7 *);
 extern u16 func_021D57FC(void *p);
 extern u8 func_021E8CFC(s32_02188CA0 v);
 extern int func_021E8D04(int x);
-extern u16 func_0201C1D8(void *p);
+extern u16 WAZA_TOOL_GetPower(void *p);
 extern u8 func_021D5440(u8 *);
 extern u16 func_021C7E14(u8 *p, u8 a, u8 b, u32 c, int e0, int e1);
 extern u16 func_021D67A8(struct QL *p);
@@ -412,7 +413,7 @@ extern u32 func_02019C90(u16, u16, u32);
 extern u8 *func_021B98AC(char *const *q, u8 b);
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_0201BD28(int, int);
-extern int func_0201BEB8(int, int);
+extern int WAZA_TOOL_GetFlag(int, int);
 extern int func_02020F20(int, int, u16);
 extern u32 func_02021014(struct Rec *p, u32 sel);
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
@@ -600,10 +601,10 @@ void *func_02187F00(void **a, u32 b, u32 c, u32 d, u16 heap)
     *(u32 *)(p + 0xB8) = c;
     *(u32 *)(p + 0x98) = func_021B8588(a);
     *(void **)(p + 0x9C) = func_021B86B8((void ***)a);
-    v = func_0201121C(heap, (const struct ScriptVmParams *)D_0218A574);
-    func_0201126C(v, p);
-    if (func_0201C408() == 0)
-        func_0201C328(0x30, heap);
+    v = VM_Create(heap, (const struct ScriptVmParams *)D_0218A574);
+    VM_Init(v, p);
+    if (WAZA_TOOL_IsCacheCreated() == 0)
+        WAZA_TOOL_CreateCache(0x30, heap);
     func_0218A41C(*(u16 *)(p + 0xA0));
     return v;
 }
@@ -660,8 +661,8 @@ void func_02188080(void *a)
     func_02049238(((struct Obj13649 *)p)->fA4);
     func_02049238(((struct Obj13649 *)p)->fA8);
     func_020307B0(p);
-    func_02011264(a);
-    if (func_0201C408() == 1) func_0201C3C0();
+    VM_Delete(a);
+    if (WAZA_TOOL_IsCacheCreated() == 1) WAZA_TOOL_DeleteCache();
     func_0218A458();
 }
 
@@ -949,7 +950,7 @@ void func_021885BC(int a, Obj_021885BC *b)
             } else {
                 b->move = func_021D54C0(b->fbc, b->index);
                 b->script = func_0218A494((u8 *)b);
-                func_0201127C((struct ScriptVm *)a, b->script);
+                VM_Start((struct ScriptVm *)a, b->script);
             }
             b->state++;
         case 1:
@@ -960,7 +961,7 @@ void func_021885BC(int a, Obj_021885BC *b)
                 b->script = 0;
             }
             if (b->move != 0) {
-                func_02011298((struct ScriptVm *)a);
+                VM_Control((struct ScriptVm *)a);
                 if (b->flags & 1) {
                     b->flags &= ~16;
                     func_0218A528((u8 *)b);
@@ -1514,7 +1515,7 @@ int func_02188B1C(struct Cursor *a, int b)
     do {
         v = p[i] | (p[i + 1] << 16);
         if (((struct Obj13651 *)b)->f38 == v) {
-            func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
+            VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
             break;
         }
         i += 2;
@@ -1543,7 +1544,7 @@ int func_02188B64(struct Cursor *a, int b)
             return ((struct Obj10175 *)b)->fC4;
         i += 2;
     } while (v != -1);
-    func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
+    VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
     return ((struct Obj10175 *)b)->fC4;
 }
 
@@ -1573,7 +1574,7 @@ int func_02188BB0(struct Cursor *a, Conn_02188284 *b)
             break;
     }
     if (i < func_021D5448((struct QG *)b->fbc))
-        func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
+        VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
     return b->fc4;
 }
 
@@ -1599,7 +1600,7 @@ int func_02188C1C(struct Cursor *a, Conn_02188284 *b)
             break;
     }
     if (i == func_021D5448((struct QG *)b->fbc))
-        func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
+        VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
     return b->fc4;
 }
 
@@ -1662,7 +1663,7 @@ int func_02188CA0(struct Cursor *a, Conn_02188CA0 *b)
 
 
 
-int func_02188D48(int a, unsigned char *b) { ((struct Obj10177 *)b)->f38=func_0201C1D8((void *)(((struct Obj10177 *)b)->f2)); return ((struct Obj10177 *)b)->fC4; }
+int func_02188D48(int a, unsigned char *b) { ((struct Obj10177 *)b)->f38=WAZA_TOOL_GetPower((void *)(((struct Obj10177 *)b)->f2)); return ((struct Obj10177 *)b)->fC4; }
 
 
 
@@ -2386,7 +2387,7 @@ u32 func_02189548(struct Cursor *x, u8 *p)
 
 int func_02189590(struct Cursor *a, u8 *b)
 {
-    u32 t; t = func_0201134C(a); func_020113B0((struct Cur *)a, *(u32 *)&((struct Obj00005 *)a)->f14 + t); return ((struct Obj21964 *)b)->fC4;
+    u32 t; t = func_0201134C(a); VM_Jump((struct Cur *)a, *(u32 *)&((struct Obj00005 *)a)->f14 + t); return ((struct Obj21964 *)b)->fC4;
 }
 
 
@@ -2539,7 +2540,7 @@ int func_02189718(struct Cursor *a, int b) {
     s = func_0218A160((u8 *)b, r7);
     t = func_0218A2FC((u8 *)b, s);
     if (func_021D5BDC((struct UtilWork *)t, 13)) {
-        func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r6);
+        VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r6);
     }
     return ((struct Obj21969 *)b)->fC4;
 }
@@ -2563,7 +2564,7 @@ int func_02189758(struct Cursor *a, int b) {
     s = func_0218A160((u8 *)b, r0);
     t = func_0218A2FC((u8 *)b, s);
     if (r6 == func_021D5B40((struct QI *)t)) {
-        func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r7);
+        VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r7);
     }
     return ((struct Obj21970 *)b)->fC4;
 }
@@ -2718,7 +2719,7 @@ int func_021899DC(struct Cursor *a, int b) {
     t = func_0218A160((u8 *)b, r4);
     s = func_0218A2FC((u8 *)b, t);
     if (func_021D5478((struct Work *)s) >= func_021D5448((struct QG *)s) && func_021D5448((struct QG *)s) > 1) {
-        func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r7);
+        VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r7);
     }
     return ((struct Obj21972 *)b)->fC4;
 }
@@ -2820,7 +2821,7 @@ int func_02189AC0(struct Cursor *a, Obj_02189AC0 *b) {
         func_021D5440(r6);
         if (func_021D5B68(r6) == 0) {
             if (func_0218A390((u8 *)((int)b), r6, b->fc0, c) > base) {
-                func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + x);
+                VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + x);
                 break;
             }
         }
@@ -2851,7 +2852,7 @@ int func_02189B78(struct Cursor *a, Obj_02189B78 *b) {
         c7 = func_021D5440(b->fbc);
         c2 = func_021D5440(b->fc0);
         if ((u32)(func_021C7DAC((u8 *)b->fb4, c7, c2, c6) - 4) <= 1) {
-            func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r);
+            VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r);
             break;
         }
     }
@@ -2887,7 +2888,7 @@ int func_02189BFC(struct Cursor *a, int b)
     z = func_021D5440(*(u8 * *)&((struct Obj06344 *)b)->fC0);
     r = func_021C7E14((u8 *)(((struct Obj06344 *)b)->fB4), y, z, x, 1, t1);
     if (w < r)
-        func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + t2);
+        VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + t2);
     return ((struct Obj06344 *)b)->fC4;
 }
 
@@ -3131,7 +3132,7 @@ int func_02189ED0(struct Cursor *a, u8 *b)
 
 int func_02189EF8(struct Cursor *a, u8 *b)
 {
-    int t; u32 n; u8 s; t = func_0201134C(a); n = func_0201134C(a); s = func_0218A160(b,t); if (func_021D6D7C(func_0218A2FC(b,s))) func_020113B0((struct Cur *)a, *(u32 *)&((struct Obj00005 *)a)->f14 + n); return ((struct Obj21978 *)b)->fC4;
+    int t; u32 n; u8 s; t = func_0201134C(a); n = func_0201134C(a); s = func_0218A160(b,t); if (func_021D6D7C(func_0218A2FC(b,s))) VM_Jump((struct Cur *)a, *(u32 *)&((struct Obj00005 *)a)->f14 + n); return ((struct Obj21978 *)b)->fC4;
 }
 
 
@@ -3248,7 +3249,7 @@ int func_02189FC0(struct Cursor *a, u8 *b)
     }
     if (flag == 1)
         return func_021895AC((u8 *)a, b);
-    func_020113B0((struct Cur *)a, (u32)((u8 *)base + (base[m] | (base[m + 1] << 16))));
+    VM_Jump((struct Cur *)a, (u32)((u8 *)base + (base[m] | (base[m + 1] << 16))));
     return ((struct Obj13669 *)b)->fC4;
 }
 
@@ -3269,7 +3270,7 @@ int func_0218A034(struct Cursor *a, u8 *b)
     t = func_0201134C(a);
     n = func_0201134C(a);
     if (func_021C82F4(((struct Obj13671 *)b)->fB4, func_0218A160(b, t), 3) != 0)
-        func_020113B0((struct Cur *)a, (u32)(*(u8 * *)&((struct Obj00005 *)a)->f14 + n));
+        VM_Jump((struct Cur *)a, (u32)(*(u8 * *)&((struct Obj00005 *)a)->f14 + n));
     return ((struct Obj13671 *)b)->fC4;
 }
 
@@ -3374,7 +3375,7 @@ int func_0218A0F4(u8 *a, int op, int x, int y, int z)
         break;
     }
     if (r == 1)
-        func_020113B0((struct Cur *)a, (u32)(*(u8 * *)&((struct Obj00005 *)a)->f14 + z));
+        VM_Jump((struct Cur *)a, (u32)(*(u8 * *)&((struct Obj00005 *)a)->f14 + z));
     return r;
 }
 
@@ -3559,7 +3560,7 @@ int func_0218A378(void *a, int b, int c) { return func_0201BD28(b, c); }
 
 
 
-int func_0218A384(void *a, int b, int c) { return func_0201BEB8(b, c); }
+int func_0218A384(void *a, int b, int c) { return WAZA_TOOL_GetFlag(b, c); }
 
 
 

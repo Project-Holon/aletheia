@@ -1,5 +1,5 @@
 /*
- * function: func_02006948
+ * function: PM_VOICE_Stop
  * address:  0x02006948
  * packet:   pkt_02006948
  * region:   arm9
@@ -20,7 +20,7 @@
  *   func_02072BDC  0x02072BDC  arm
  *   func_02072D20  0x02072D20  arm
  *   func_02072A88  0x02072A88  arm
- *   func_020067A4  0x020067A4  thumb
+ *   PM_VOICE_ResetParams  0x020067A4  thumb
  *
  * Tear down one voice: three calls on the object's object pointer at +0x14,
  * the same three on the second one at +0x18 when +0x2C is 1, then clear the
@@ -29,8 +29,8 @@
  * the field again rather than caching it in a local.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02006948.c \
- *       --func func_02006948 --addr 0x02006948 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PM_VOICE_Stop.c \
+ *       --func PM_VOICE_Stop --addr 0x02006948 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -54,9 +54,9 @@ extern void func_02072BDC(u32 a);
 extern void func_02072D20(u32 a);
 extern void func_02072A88(u32 *a);
 struct Sub02006544Entry;
-extern void func_020067A4(struct Sub02006544Entry *p);
+extern void PM_VOICE_ResetParams(struct Sub02006544Entry *p);
 
-void func_02006948(struct Sub02006948 *p)
+void PM_VOICE_Stop(struct Sub02006948 *p)
 {
     func_02072BDC(p->unk14);
     func_02072D20(p->unk14);
@@ -67,5 +67,5 @@ void func_02006948(struct Sub02006948 *p)
         func_02072A88((u32 *)p->unk18);
     }
     p->unk00 = 0;
-    func_020067A4((struct Sub02006544Entry *)p);
+    PM_VOICE_ResetParams((struct Sub02006544Entry *)p);
 }

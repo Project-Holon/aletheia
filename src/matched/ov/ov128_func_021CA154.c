@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021CA124  0x021CA124  thumb
- *   func_0202EB04  0x0202EB04  thumb
+ *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -24,10 +24,10 @@ typedef signed int     s32;
 
 struct CodeIn;
 extern void func_021CA124(u32 a, u32 b);
-extern void func_0202EB04(struct CodeIn *p);
+extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 
 void func_021CA154(u8 *p, int a)
 {
     func_021CA124(a, 1);
-    func_0202EB04(((struct Obj00329 *)p)->f184);
+    BLINK_PALANM_ResetPhase(((struct Obj00329 *)p)->f184);
 }

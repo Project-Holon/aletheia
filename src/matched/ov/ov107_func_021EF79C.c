@@ -13,10 +13,10 @@
  *   func_02178E84 0x02178E84 thumb ov014
  *   func_02179498 0x02179498 thumb ov014
  *   func_021F0DB4 0x021F0DB4 thumb ov107
- *   func_02179158 0x02179158 thumb ov014
+ *   WIH_FreeWork 0x02179158 thumb ov014
  *   func_021790E4 0x021790E4 thumb ov014
- *   func_02037010 0x02037010 arm
- *   func_02037118 0x02037118 arm
+ *   GFL_NET_WM_ICON_EasyStart 0x02037010 arm
+ *   GFL_NET_WM_ICON_EasySetScreen 0x02037118 arm
  *   func_020351F8 0x020351F8 arm
  *   func_02012944 0x02012944 thumb
  *   func_021EF96C 0x021EF96C thumb ov107
@@ -36,8 +36,8 @@
  *   func_021EFC10 0x021EFC10 thumb ov107
  *   func_021EFCA8 0x021EFCA8 thumb ov107
  *   func_0208EE9C 0x0208EE9C arm
- *   func_020370F4 0x020370F4 arm
- *   func_02037154 0x02037154 arm
+ *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
+ *   GFL_NET_WM_ICON_EasyMain 0x02037154 arm
  *   d_021F6EA0 0x021F6EA0 data a4
  */
 #include "../include/Obj00072.h"
@@ -47,9 +47,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_02178E4C(void),func_02178E84(void),func_02179498(void);
-extern void func_021F0DB4(void),func_02179158(void);
+extern void func_021F0DB4(void),WIH_FreeWork(void);
 extern int func_021790E4(u32,int,int);
-extern void func_02037010(u32,u32,u32,u32),func_02037118(u32,u32);
+extern void GFL_NET_WM_ICON_EasyStart(u32,u32,u32,u32),GFL_NET_WM_ICON_EasySetScreen(u32,u32);
 extern void func_020351F8(u32 a, u32 b);
 struct Sub0200852CObj;
 extern u8 *func_02012944(void *p);
@@ -67,8 +67,8 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_02179570(void (*cb)(int));
 extern int func_021EFC10(void);
 extern int func_0208EE9C(void);
-extern u32 func_020370F4(u32);
-extern void func_02037154(void);
+extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
+extern void GFL_NET_WM_ICON_EasyMain(void);
 extern struct Counter d_021F6EA0;
 extern void func_021EFCA8(u8 *p);
 int func_021EF79C(u8 *p)
@@ -76,15 +76,15 @@ int func_021EF79C(u8 *p)
  void *q;
  if(func_02178E4C()==9 || func_02178E4C()==10){
   ((struct Obj00072 *)p)->f30=0;((struct Obj00072 *)p)->f14=1;
-  if(func_02179498()==1){func_021F0DB4();func_02179158();return 1;}return 0;
+  if(func_02179498()==1){func_021F0DB4();WIH_FreeWork();return 1;}return 0;
  }
  switch(p[0x24]){
  case 0:
   *(int *)(((u8 *)&d_021F6EA0)+8)=0;((struct Obj00072 *)p)->f1C=1;
   func_021790E4(((struct Obj00072 *)p)->f0,(int)func_021EFC10,0);
-  func_02037010(240,0,0,((struct Obj00072 *)p)->f0);
-  if(p[0x28]==0)func_02037118(0,((struct Obj00072 *)p)->f0);
-  else func_02037118(1,((struct Obj00072 *)p)->f0);
+  GFL_NET_WM_ICON_EasyStart(240,0,0,((struct Obj00072 *)p)->f0);
+  if(p[0x28]==0)GFL_NET_WM_ICON_EasySetScreen(0,((struct Obj00072 *)p)->f0);
+  else GFL_NET_WM_ICON_EasySetScreen(1,((struct Obj00072 *)p)->f0);
   p[0x24]=1;func_020351F8((u32)func_021EFCA8,(u32)p);break;
  case 1:
   if(func_02178E4C()==1 && func_02178E84()==1)p[0x24]=2;break;
@@ -109,7 +109,7 @@ int func_021EF79C(u8 *p)
  case 5:((struct Obj00072 *)p)->f30=1;p[0x24]=6;break;
  case 8:p[0x24]=6;break;
  case 6:*(int *)(((u8 *)&d_021F6EA0)+8)=0;func_02179570((void (*)(int))((int (*)(int))func_021EFC10));((struct Obj00072 *)p)->f1C=0;p[0x24]=7;break;
- case 7:if(*(int *)(((u8 *)&d_021F6EA0)+8)==1){func_020351F8(0,0);func_02179158();return 1;}break;
+ case 7:if(*(int *)(((u8 *)&d_021F6EA0)+8)==1){func_020351F8(0,0);WIH_FreeWork();return 1;}break;
  }
- func_020370F4(3-func_0208EE9C());func_02037154();return 0;
+ GFL_NET_WM_ICON_EasySetLevel(3-func_0208EE9C());GFL_NET_WM_ICON_EasyMain();return 0;
 }

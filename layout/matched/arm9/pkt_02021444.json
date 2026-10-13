@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02021548",
+   "name": "PALANM_SetSlotBuffers",
    "address": "0x02021548",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020215BC",
+   "name": "PALANM_CopyToSlot",
    "address": "0x020215BC",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020215EC",
+   "name": "PALANM_LoadArcPaletteToSlotAt",
    "address": "0x020215EC",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02021640",
+   "name": "PALANM_LoadArcPaletteToSlot",
    "address": "0x02021640",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02021660",
+   "name": "PALANM_LoadHandlePaletteToSlotAt",
    "address": "0x02021660",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020216B4",
+   "name": "PALANM_LoadHandlePaletteToSlot",
    "address": "0x020216B4",
    "kind": "game",
    "region": "arm9",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0205987C",
+   "name": "DWCi_Acc_ClearDirty",
    "address": "0x0205987C",
    "kind": "sdk",
    "region": "arm9",

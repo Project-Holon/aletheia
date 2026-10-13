@@ -1,5 +1,5 @@
 /*
- * function: func_0202E0E0
+ * function: PMS_DRAW_UpdateElem
  * address:  0x0202E0E0
  * packet:   pkt_0202E0E0
  * region:   arm9
@@ -64,7 +64,7 @@ extern u32 func_02041664(u8 channel);
 extern void func_0204B53C(const struct Actor *actor, struct Pt *out);
 extern void func_0204B528(struct Actor *actor, const struct Pt *src);
 
-int func_0202E0E0(struct Obj0202E0E0 *a0, void *a1, int a2)
+int PMS_DRAW_UpdateElem(struct Obj0202E0E0 *a0, void *a1, int a2)
 {
     int ret;
     s32 i;

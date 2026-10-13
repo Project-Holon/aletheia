@@ -1,5 +1,5 @@
 /*
- * function: func_021D8FAC
+ * function: P_STA_RIBBON_Show
  * address: 0x021D8FAC
  * packet: pkt_ov131_021D8FAC
  * region: ov131
@@ -16,10 +16,10 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_02040AE0 0x02040AE0 arm
  *   func_0204B878 0x0204B878 arm
- *   func_021D9440 0x021D9440 thumb ov131
- *   func_021DBE2C 0x021DBE2C thumb ov131
- *   func_021DBCA4 0x021DBCA4 thumb ov131
- *   func_021DBCF4 0x021DBCF4 thumb ov131
+ *   P_STA_RIBBON_GetRowY 0x021D9440 thumb ov131
+ *   P_STA_OAM_SetBitmapActorsPos 0x021DBE2C thumb ov131
+ *   P_STA_OAM_SetBitmapActorsEnabled 0x021DBCA4 thumb ov131
+ *   P_STA_OAM_TransferBitmap 0x021DBCF4 thumb ov131
  */
 #include "../include/Obj01548.h"
 #include "../include/Obj23149.h"
@@ -35,11 +35,11 @@ extern void func_02041B6C(u32);
 struct Obj;
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern s16 func_021D9440(u8 *,u32);
-extern void func_021DBE2C(u8 *,s16,s16);
-extern void func_021DBCA4(u8 *,int);
-extern void func_021DBCF4(u8 *p);
-void func_021D8FAC(u8 *a,u8 *p)
+extern s16 P_STA_RIBBON_GetRowY(u8 *,u32);
+extern void P_STA_OAM_SetBitmapActorsPos(u8 *,s16,s16);
+extern void P_STA_OAM_SetBitmapActorsEnabled(u8 *,int);
+extern void P_STA_OAM_TransferBitmap(u8 *p);
+void P_STA_RIBBON_Show(u8 *a,u8 *p)
 {
     u8 i;
     u16 value;
@@ -51,11 +51,11 @@ void func_021D8FAC(u8 *a,u8 *p)
     func_02041B6C(5);
     for(i=0;i<10;i++) {
         value=((struct List *)p)->entries[i].id;
-        func_021DBE2C(((struct List *)p)->entries[i].object,8,func_021D9440(p,i));
+        P_STA_OAM_SetBitmapActorsPos(((struct List *)p)->entries[i].object,8,P_STA_RIBBON_GetRowY(p,i));
         if(value!=0xffff) {
-            func_021DBCA4(((struct List *)p)->entries[i].object,1);
-            func_021DBCF4(((struct List *)p)->entries[i].object);
-        } else func_021DBCA4(((struct List *)p)->entries[i].object,0);
+            P_STA_OAM_SetBitmapActorsEnabled(((struct List *)p)->entries[i].object,1);
+            P_STA_OAM_TransferBitmap(((struct List *)p)->entries[i].object);
+        } else P_STA_OAM_SetBitmapActorsEnabled(((struct List *)p)->entries[i].object,0);
     }
     ((struct Obj01548 *)p)->f14=0;
     p[0x58]=255;

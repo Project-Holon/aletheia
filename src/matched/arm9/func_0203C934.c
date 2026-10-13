@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203C934
+ * function: GFL_NET_STATE_NoProc
  * address:  0x0203C934
  * packet:   pkt_0203C304
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_0203C934(void){ }
+void GFL_NET_STATE_NoProc(void){ }

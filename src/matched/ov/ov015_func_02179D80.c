@@ -27,7 +27,7 @@
  *   func_02179FC4        0x02179FC4  arm    ov015
  *   func_0217A134        0x0217A134  arm    ov015
  *   func_02179B24        0x02179B24  thumb  ov015
- *   func_0203A338        0x0203A338  arm
+ *   GFL_NET_HANDLE_RemoveHandle        0x0203A338  arm
  *   _u32_div_f           0x0209C2B0  arm
  */
 
@@ -49,7 +49,7 @@ extern void IRC_SetRecvCallback(void (*cb)(u8 *, u32, u32));
 extern void func_02179FC4(void);
 extern void func_0217A134(void);
 extern int func_02179B24(void);
-extern void func_0203A338(u32 a0);
+extern void GFL_NET_HANDLE_RemoveHandle(u32 a0);
 
 #define W(off) (*(u32 *)(w + (off)))
 #define B(off) (w[(off)])
@@ -96,7 +96,7 @@ void func_02179D80(void)
             }
             B(0xDD) = 0;
             B(0xE5) = 1;
-            func_0203A338(1 - func_02179B24());
+            GFL_NET_HANDLE_RemoveHandle(1 - func_02179B24());
             func_0217A134();
         } else {
             if (IRC_IsConnect() != 0)
@@ -109,7 +109,7 @@ void func_02179D80(void)
             B(0xDD) = 0;
             B(0xE5) = 1;
             W(0xC0) = 0xFFFF;
-            func_0203A338(1 - func_02179B24());
+            GFL_NET_HANDLE_RemoveHandle(1 - func_02179B24());
             func_0217A134();
         }
     }

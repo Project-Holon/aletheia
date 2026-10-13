@@ -18,8 +18,8 @@
  *
  * symbols:
  *   func_0217D3AC                  0x0217D3AC  arm  ov009
- *   func_0217D3F8                  0x0217D3F8  arm  ov009
- *   func_0217D508                  0x0217D508  arm  ov009
+ *   gsiLargeIntTimerExit                  0x0217D3F8  arm  ov009
+ *   gsiLargeIntAdd                  0x0217D508  arm  ov009
  *   func_0217D904                  0x0217D904  arm  ov009
  */
 
@@ -29,8 +29,8 @@ struct gsLargeInt_s {
 };
 
 extern void func_0217D3AC(int id);
-extern void func_0217D3F8(int id);
-extern int func_0217D508(unsigned int *data1, unsigned int length1,
+extern void gsiLargeIntTimerExit(int id);
+extern int gsiLargeIntAdd(unsigned int *data1, unsigned int length1,
                          unsigned int *data2, unsigned int length2,
                          unsigned int *dest, unsigned int *lenout,
                          unsigned int maxlen);
@@ -80,9 +80,9 @@ int func_0217DE94(const struct gsLargeInt_s *lint, struct gsLargeInt_s *mod,
     }
 
     squareLen = (unsigned int)(len * 2);
-    func_0217D508(otherSums, squareLen, squareSums, squareLen, squareSums, &squareLen, 128);
+    gsiLargeIntAdd(otherSums, squareLen, squareSums, squareLen, squareSums, &squareLen, 128);
     result = func_0217D904(squareSums, squareLen, mod, 0, dest);
-    func_0217D3F8(7);
+    gsiLargeIntTimerExit(7);
     return result;
     }
 }

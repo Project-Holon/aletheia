@@ -19,8 +19,8 @@
  *   func_021E3208  0x021E3208  thumb  ov119
  *   func_021D8FA4  0x021D8FA4  thumb  ov119
  *   func_021E36C8  0x021E36C8  thumb  ov119
- *   func_02015C94  0x02015C94  thumb
- *   func_02015EA0  0x02015EA0  thumb
+ *   MCSS_GetScale  0x02015C94  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
  *   func_021E3070  0x021E3070  thumb  ov119
  *   func_021E2EFC  0x021E2EFC  thumb  ov119
  *   func_021D4484  0x021D4484  thumb  ov117
@@ -49,8 +49,8 @@ extern void func_021E5284(char *p, int mode);
 extern void func_021E3208(void *p, int a);
 extern void *func_021D8FA4(void *, int);
 extern void func_021E36C8(void *p, int a, int b, void *mon, int c);
-extern void func_02015C94(void *p, u32 *out);
-extern void func_02015EA0(void *p);
+extern void MCSS_GetScale(void *p, u32 *out);
+extern void MCSS_SetVanishFlag(void *p);
 extern void func_021E3070(void *w);
 extern void func_021E2EFC(char *p);
 extern void func_021D4484(u8 *p, u32 v);
@@ -77,10 +77,10 @@ void func_021D4BF4(u8 *p)
     func_021E36C8(p, 1, 0, func_021D8FA4(p, 1), 1);
     func_021E36C8(p, 2, 0, func_021D8FA4(p, 0), 1);
     func_021E36C8(p, 3, 1, func_021D8FA4(p, 1), 1);
-    func_02015C94((void *)OBJ(3), (u32 *)(WORK + 0x54));
-    func_02015EA0((void *)OBJ(1));
-    func_02015EA0((void *)OBJ(2));
-    func_02015EA0((void *)OBJ(3));
+    MCSS_GetScale((void *)OBJ(3), (u32 *)(WORK + 0x54));
+    MCSS_SetVanishFlag((void *)OBJ(1));
+    MCSS_SetVanishFlag((void *)OBJ(2));
+    MCSS_SetVanishFlag((void *)OBJ(3));
     func_021E3070(WORK);
     func_021E2EFC((char *)WORK);
     func_021D4484(p, 0);

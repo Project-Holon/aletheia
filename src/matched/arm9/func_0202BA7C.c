@@ -1,5 +1,5 @@
 /*
- * function: func_0202BA7C
+ * function: ISS_3DS_SYS_SetSourcePosImpl
  * address:  0x0202BA7C
  * packet:   pkt_0202BA7C
  * region:   arm9
@@ -24,7 +24,7 @@ static inline void V3_Set(V3 *d, int x, int y, int z)
     d->z = z;
 }
 
-void func_0202BA7C(M *m, int i, const V3 *v)
+void ISS_3DS_SYS_SetSourcePosImpl(M *m, int i, const V3 *v)
 {
     E *e = &m->e[i];
 

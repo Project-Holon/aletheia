@@ -17,8 +17,8 @@
  * into u16 locals; that form is not needed.
  * symbols:
  *   func_02034714  0x02034714  arm
- *   func_02013B5C  0x02013B5C  thumb
- *   func_02013B68  0x02013B68  thumb
+ *   ZONEDATA_GetScriptArcId  0x02013B5C  thumb
+ *   ZONEDATA_GetMsgArcId  0x02013B68  thumb
  *   d_021701A8     0x021701A8  data  a4
  *   d_02172898     0x02172898  data  ov010  a1
  */
@@ -28,8 +28,8 @@ struct E { u16 lo, hi, a, b, c; };
 
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u32 func_02013B5C(u32 id);
-extern u16 func_02013B68(u16);
+extern u32 ZONEDATA_GetScriptArcId(u32 id);
+extern u16 ZONEDATA_GetMsgArcId(u16);
 extern const struct E d_021701A8[];
 extern char d_02172898[];
 
@@ -50,8 +50,8 @@ u16 func_02158CD0(unsigned k, unsigned v, u16 *o1, u16 *o2, u16 *o3)
         return v - t[i].lo;
     }
     if (v >= 1) {
-        u16 x = (u16)func_02013B5C((u16)k);
-        u16 y = func_02013B68(k);
+        u16 x = (u16)ZONEDATA_GetScriptArcId((u16)k);
+        u16 y = ZONEDATA_GetMsgArcId(k);
         *o1 = x;
         *o2 = 3;
         *o3 = y;

@@ -1,5 +1,5 @@
 /*
- * function: sub_0204AC18
+ * function: CLACT_RegisterPaletteEx
  * address:  0x0204AC18
  * packet:   pkt_0204AC18
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02049250  0x02049250  arm
- *   func_0204DD08  0x0204DD08  arm
+ *   CLACT_TransferPaletteData  0x0204DD08  arm
  *   func_020307B0  0x020307B0  arm
  *   unk_02146A74   0x02146A74  data
   *
@@ -57,10 +57,10 @@ extern struct Sys *unk_02146A74;
 struct ArcFile;
 struct Holder;
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern void func_0204DD08(struct Holder *h, int idx, void *src, void *sel, u32 size, u16 head, u16 tail);
+extern void CLACT_TransferPaletteData(struct Holder *h, int idx, void *src, void *sel, u32 size, u16 head, u16 tail);
 extern u32 func_020307B0(void *p);
 
-s32 sub_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g)
+s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g)
 {
     struct Owner *owner;
     u32 i;
@@ -82,7 +82,7 @@ found:
 
     handle = (u32)func_02049250(a, b, (u16)((g & 0x7fff) | 0x8000));
 
-    func_0204DD08((struct Holder *)(&unk_02146A74->owner), i, (void *)handle, (void *)c, d, e, f);
+    CLACT_TransferPaletteData((struct Holder *)(&unk_02146A74->owner), i, (void *)handle, (void *)c, d, e, f);
     func_020307B0((void *)handle);
 
     return i;

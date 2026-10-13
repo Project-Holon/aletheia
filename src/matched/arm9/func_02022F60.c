@@ -1,5 +1,5 @@
 /*
- * function: func_02022F60
+ * function: WIPE_SUB_LineMaskHBlank
  * address:  0x02022F60
  * packet:   pkt_02022F60
  * region:   arm9
@@ -93,7 +93,7 @@ static inline void Apply(struct S *p, struct Half *h, int n)
     }
 }
 
-void func_02022F60(struct S *p)
+void WIPE_SUB_LineMaskHBlank(struct S *p)
 {
     int n;
     struct Half *h;

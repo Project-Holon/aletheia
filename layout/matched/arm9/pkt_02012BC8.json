@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02008450",
+   "name": "CONFIG_SetBattleFlag",
    "address": "0x02008450",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02012BC8",
+   "name": "GAME_DATA_SetConfigFlag",
    "address": "0x02012BC8",
    "kind": "game",
    "region": "arm9",

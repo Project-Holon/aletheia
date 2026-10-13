@@ -22,8 +22,8 @@
  *   func_02040618 0x02040618 arm
  *   func_0204A648 0x0204A648 arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_020433E0 0x020433E0 arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   func_02045088 0x02045088 arm
@@ -31,7 +31,7 @@
  *   func_0207D63C 0x0207D63C arm
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_02043598 0x02043598 arm
  *   d_021D4CC4 0x021D4CC4 data a4
  *   d_021D4BF4 0x021D4BF4 data a4
@@ -79,14 +79,14 @@
  *   func_0201DD68 0x0201DD68 thumb
  *   d_021D4BE4 0x021D4BE4 data a1
  *   func_02035C08 0x02035C08 arm
- *   func_0202822C 0x0202822C thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   func_02012204 0x02012204 thumb
  *   func_0204B878 0x0204B878 arm
  *   func_02061CA4 0x02061CA4 arm
  *   func_02030734 0x02030734 arm
  *   func_02041090 0x02041090 arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B908 0x0204B908 arm
+ *   CLACT_SetActorAnimIndex 0x0204B908 arm
  *   d_021D4CF4 0x021D4CF4 data a4
  *   d_021D4CA4 0x021D4CA4 data a4
  *   d_021D4D4C 0x021D4D4C data a1
@@ -98,6 +98,12 @@
  *   func_0200854C 0x0200854C thumb
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
+ *   WIPE_ResetWndMask  0x02022224  thumb  arm9
+ *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb  arm9
+ *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb  arm9
+ *   APP_TASKMENU_WIN_ResetDecide  0x020282A4  thumb  arm9
+ *   APP_TASKMENU_WIN_ClearScreen  0x0202843C  thumb  arm9
+ *   APP_TASKMENU_WIN_TransChar  0x02028454  thumb  arm9
  */
 #include "../../matched/include/Obj00068.h"
 #include "../../matched/include/Obj00991.h"
@@ -151,7 +157,7 @@ extern void func_0203D34C(unsigned,unsigned);
 extern void func_02030EAC(struct Node *);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern u32 func_020221A4(void);
-extern u32 func_02028230(u8 *p);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern u32 func_020362DC(void);
 extern void func_02041B6C(u32 bit);
 extern u32 func_0201C4E4(struct PrintSys *ps);
@@ -159,21 +165,21 @@ extern void func_0204A600(void);
 extern void func_02028178(u8 *p);
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_02045334(struct Descriptor *d);
-extern void func_020282A4(struct Obj *obj);
-extern void func_0202843C(u8 *p);
-extern void func_02028454(u8 *p);
+extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
+extern void APP_TASKMENU_WIN_ClearScreen(u8 *p);
+extern void APP_TASKMENU_WIN_TransChar(u8 *p);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0204A648(void);
-extern void func_0204361C(void), func_020434CC(void), func_02043588(void);
+extern void func_0204361C(void), BG_SYS_ClearMainPlanes(void), BG_SYS_ClearSubPlanes(void);
 extern void func_0202223C(u32, u32);
-extern u32 func_02022224(void *);
+extern u32 WIPE_ResetWndMask(void *);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0203F8F4(u16), func_02045088(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_02043598(u32, u32);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
@@ -217,7 +223,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_0201F73C(void *, int, int, int);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02027FEC(u32, u32, u32, u32, u8, u16);
+extern u32 APP_TASKMENU_WIN_Create(u32, u32, u32, u32, u8, u16);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02028148(u8 *p);
 extern unsigned int func_02027FD8(struct TaskMenuState *s);
@@ -226,7 +232,7 @@ extern unsigned int func_020452E8(struct Descriptor *d);
 extern unsigned int func_02045C04(struct Rec *rec);
 extern u32 func_0201D83C(void *ptr);
 extern int func_02035C08(const void *p);
-extern void func_0202822C(char *p, int v);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void func_020061E4(u32 a);
 extern u32 func_02012204(const struct Ctx *p);
 extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -235,7 +241,7 @@ extern int func_02061CA4(void *, u32, u32, int);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02041090(u32, u32, u32, u32, u8, u8);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *func_0200846C(int a0);
@@ -301,7 +307,7 @@ int func_021D42A0(char *p)
         if(func_020221A4()==1) ((struct Obj00122 *)p)->f10=4;
         break;
     case 2:
-        if(func_02028230(((struct Obj00122 *)p)->f40)==1) {
+        if(APP_TASKMENU_WIN_IsFinish(((struct Obj00122 *)p)->f40)==1) {
             func_0202208C((void *)4,0,0,0,6,1,((struct Obj00122 *)p)->f0);
             ((struct Obj00122 *)p)->f10=3;
         }
@@ -320,25 +326,25 @@ int func_021D42A0(char *p)
     if(((struct Obj00122 *)p)->f38) func_02028178(((struct Obj00122 *)p)->f38);
     func_02028178(((struct Obj00122 *)p)->f40);
     if(((struct Obj00122 *)p)->f1C==1 && func_0201C6B4(((struct Obj00122 *)p)->f30)==1 &&
-       (func_02028230(((struct Obj00122 *)p)->f3C)==1 || func_02028230(((struct Obj00122 *)p)->f38)==1 || ((struct Obj00122 *)p)->fC==1)) {
+       (APP_TASKMENU_WIN_IsFinish(((struct Obj00122 *)p)->f3C)==1 || APP_TASKMENU_WIN_IsFinish(((struct Obj00122 *)p)->f38)==1 || ((struct Obj00122 *)p)->fC==1)) {
         func_02045334(((struct Obj00122 *)p)->f20);
         func_02045334(((struct Obj00122 *)p)->f24);
         ((struct Obj00122 *)p)->f1C=0;
         ((struct Obj00122 *)p)->fC=0;
         func_021D49C8(p,((struct Obj00122 *)p)->f18);
         if(((struct Obj00122 *)p)->f18==11) {
-            func_020282A4(((struct Obj00122 *)p)->f3C);
-            func_0202843C(((struct Obj00122 *)p)->f3C);
+            APP_TASKMENU_WIN_ResetDecide(((struct Obj00122 *)p)->f3C);
+            APP_TASKMENU_WIN_ClearScreen(((struct Obj00122 *)p)->f3C);
         } else {
-            func_02028454(((struct Obj00122 *)p)->f3C);
-            func_020282A4(((struct Obj00122 *)p)->f3C);
+            APP_TASKMENU_WIN_TransChar(((struct Obj00122 *)p)->f3C);
+            APP_TASKMENU_WIN_ResetDecide(((struct Obj00122 *)p)->f3C);
         }
         if(((struct Obj00122 *)p)->f18==0) {
-            func_020282A4(((struct Obj00122 *)p)->f38);
-            func_0202843C(((struct Obj00122 *)p)->f38);
+            APP_TASKMENU_WIN_ResetDecide(((struct Obj00122 *)p)->f38);
+            APP_TASKMENU_WIN_ClearScreen(((struct Obj00122 *)p)->f38);
         } else {
-            func_02028454(((struct Obj00122 *)p)->f38);
-            func_020282A4(((struct Obj00122 *)p)->f38);
+            APP_TASKMENU_WIN_TransChar(((struct Obj00122 *)p)->f38);
+            APP_TASKMENU_WIN_ResetDecide(((struct Obj00122 *)p)->f38);
         }
     }
     func_02040618(7,5,1);
@@ -378,14 +384,14 @@ void func_021D43F8(char *p)
 {
     Config cfg;
     func_0204361C();
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     visible(0);
     subvisible(0);
     func_0202223C(0, 0);
     func_0202223C(1, 0);
-    func_02022224(0);
-    func_02022224((void *)1);
+    WIPE_ResetWndMask(0);
+    WIPE_ResetWndMask((void *)1);
     *(volatile u16 *)0x04000304 |= 0x8000;
     func_020433E0((const struct DispVram *)d_021D4CC4);
     func_0203F8F4(((struct Obj00068 *)p)->f0);
@@ -400,7 +406,7 @@ void func_021D43F8(char *p)
     cfg.h = 0x40;
     func_0204A48C((const struct Cfg *)(&cfg), (u32)d_021D4CC4, ((struct Obj00068 *)p)->f0);
     ((struct Obj00068 *)p)->f4C = func_0204B100(0x30, 0, ((struct Obj00068 *)p)->f0);
-    func_0204B270(((struct Obj00068 *)p)->f4C);
+    CLACT_SetUnitDefaultRenderer(((struct Obj00068 *)p)->f4C);
     func_02043598(0x10, 1);
 }
 
@@ -479,16 +485,16 @@ void func_021D46BC(char *p)
     req.text = (u32)func_02045EC0(((struct Obj00068 *)p)->f2C, 24);
     req.color = 0x39e3;
     req.flag = 0;
-    ((struct Obj00068 *)p)->f3C = func_02027FEC(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 11, 21, 11, ((struct Obj00068 *)p)->f0);
+    ((struct Obj00068 *)p)->f3C = APP_TASKMENU_WIN_Create(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 11, 21, 11, ((struct Obj00068 *)p)->f0);
     func_02045808((void *)req.text);
     req.text = (u32)func_02045EC0(((struct Obj00068 *)p)->f2C, 26);
-    *(u32 *)&((struct Obj00068 *)p)->f38 = func_02027FEC(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 0, 21, 11, ((struct Obj00068 *)p)->f0);
+    *(u32 *)&((struct Obj00068 *)p)->f38 = APP_TASKMENU_WIN_Create(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 0, 21, 11, ((struct Obj00068 *)p)->f0);
     func_02045808((void *)req.text);
     req.text = (u32)func_02045EC0(((struct Obj00068 *)p)->f2C, 25);
     req.flag = 1;
-    ((struct Obj00068 *)p)->f40 = func_02027FEC(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 22, 21, 10, ((struct Obj00068 *)p)->f0);
+    ((struct Obj00068 *)p)->f40 = APP_TASKMENU_WIN_Create(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 22, 21, 10, ((struct Obj00068 *)p)->f0);
     func_02045808((void *)req.text);
-    func_0202843C(*(u8 * *)&((struct Obj00068 *)p)->f38);
+    APP_TASKMENU_WIN_ClearScreen(*(u8 * *)&((struct Obj00068 *)p)->f38);
     *(u16 *)0x050005e2 = 0;
 }
 
@@ -519,7 +525,7 @@ void func_021D48A4(char *p)
         if (((struct Obj00122 *)p)->f18 != 0) {
             (((struct Obj00122 *)p)->f18)--;
             func_021D4940(p,((struct Obj00122 *)p)->f18);
-            func_0202822C(((struct Obj00122 *)p)->f38,1);
+            APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f38,1);
             func_020061E4(0x54c);
         }
         break;
@@ -527,18 +533,18 @@ void func_021D48A4(char *p)
         if (((struct Obj00122 *)p)->f18 < 11) {
             (((struct Obj00122 *)p)->f18)++;
             func_021D4940(p,((struct Obj00122 *)p)->f18);
-            func_0202822C(((struct Obj00122 *)p)->f3C,1);
+            APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f3C,1);
             func_020061E4(0x54c);
         }
         break;
     case 2:
-        func_0202822C(((struct Obj00122 *)p)->f40,1);
+        APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f40,1);
         *(int *)&((struct Obj00122 *)p)->f10 = 2;
         func_020061E4(0x551);
         break;
     }
     if (func_02012204(((struct Obj22992 *)(*(char * *)&((struct Obj00122 *)p)->f4))->f4) == 1) {
-        func_0202822C(((struct Obj00122 *)p)->f40,1);
+        APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f40,1);
         *(int *)&((struct Obj00122 *)p)->f10 = 2;
     }
 }
@@ -592,10 +598,10 @@ void func_021D49C8(char *p, u32 n)
     func_0204B404(((struct Obj00122 *)p)->f5C, (const struct Vec2 *)(&delta), 1);
     if (n == 10) {
         func_0204B92C(((struct Obj00122 *)p)->f5C, 0);
-        func_0204B908((int)(((struct Obj00122 *)p)->f5C), 1);
+        CLACT_SetActorAnimIndex((int)(((struct Obj00122 *)p)->f5C), 1);
     } else if (n == 11) {
         func_0204B92C(((struct Obj00122 *)p)->f5C, 0);
-        func_0204B908((int)(((struct Obj00122 *)p)->f5C), 0);
+        CLACT_SetActorAnimIndex((int)(((struct Obj00122 *)p)->f5C), 0);
     } else {
         func_0204B92C(((struct Obj00122 *)p)->f5C, 1);
     }

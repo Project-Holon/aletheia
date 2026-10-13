@@ -12,7 +12,7 @@
  *
  * Allocates and fills the 0x1c-byte time_icon record.  The heap id is the
  * fifth (stack) argument and is re-read from its slot for the second use
- * (it is also what func_0202EECC's u16 tail parameter receives), so it is
+ * (it is also what TIME_ICON_Init's u16 tail parameter receives), so it is
  * spelled `volatile u16`.  When the optional owner a0 is non-null the
  * record is registered with func_02030DA8 against the tag 0x0202F099 and
  * that call's result lands at +0; otherwise +0 is zeroed.
@@ -25,7 +25,7 @@
  *   unk_0202F099   0x0202F099  data
  *   func_02030734  0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
- *   func_0202EECC  0x0202EECC  thumb
+ *   TIME_ICON_Init  0x0202EECC  thumb
  */
 #include "../include/Obj06927.h"
 
@@ -38,14 +38,14 @@ extern u8   unk_0202F099[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   func_02030DA8(void *owner, u8 *tag, void *p, u32 a3);
-extern void  func_0202EECC(u8 *p, void *a1, u8 a2, u8 a3, u16 a4);
+extern void  TIME_ICON_Init(u8 *p, void *a1, u8 a2, u8 a3, u16 a4);
 
 u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap)
 {
     u8 *p;
 
     p = (u8 *)func_02030734(heap, 0x1c, 0, g_020A7814, 0x49);
-    func_0202EECC(p, a1, a2, a3, heap);
+    TIME_ICON_Init(p, a1, a2, a3, heap);
     if (owner != 0) {
         ((struct Obj06927 *)p)->f0 = func_02030DA8(owner, unk_0202F099, p, 0);
     } else {

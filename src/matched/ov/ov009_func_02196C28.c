@@ -1,5 +1,5 @@
 /*
- * function: func_02196C28
+ * function: gti2HandlePing
  * address:  0x02196C28
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern int func_02197BA4(void *connection, unsigned char *message, int len);
 
-int func_02196C28(void *connection, unsigned char *message, int len)
+int gti2HandlePing(void *connection, unsigned char *message, int len)
 {
     return func_02197BA4(connection, message, len);
 }

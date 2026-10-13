@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0202CFC0 0x0202CFC0 thumb
+ *   BGWINFRM_GetSize 0x0202CFC0 thumb
  *   func_021EB6D8 0x021EB6D8 thumb
- *   func_0202CE50 0x0202CE50 thumb
+ *   BGWINFRM_ChangePalette 0x0202CE50 thumb
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_021EAAE4 0x021EAAE4 thumb
@@ -28,9 +28,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 struct WinMgr;
-extern void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
+extern void BGWINFRM_GetSize(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
 extern void func_021EB6D8(int a, int b, int c, int d);
-extern void func_0202CE50(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
+extern void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
@@ -45,14 +45,14 @@ void func_021EB988(char *p, Ent *e, unsigned n)
     unsigned short w;
     unsigned short h;
     unsigned i = 0;
-    func_0202CFC0(MGR(p), 0, &w, &h);
+    BGWINFRM_GetSize(MGR(p), 0, &w, &h);
     for (i = 0; i < n; i++) {
         Ent *x = &e[n - 1 - i];
         if (x->b == 0)
             func_021EB6D8((int)p, 0x13 - i, x->a, 0);
         else
             func_021EB6D8((int)p, 0x13 - i, x->a, 1);
-        func_0202CE50(MGR(p), 5 - i, 0, 0, w, h, 0xC);
+        BGWINFRM_ChangePalette(MGR(p), 5 - i, 0, 0, w, h, 0xC);
     }
     for (; n < 6; n++) {
         unsigned k = 0x13 - n;

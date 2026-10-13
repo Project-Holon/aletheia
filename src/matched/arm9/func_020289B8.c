@@ -17,7 +17,7 @@
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
  * symbols:
- *   func_02028DB8  0x02028DB8  thumb
+ *   FIELD_SOUND_SYSTEM_HasPendingRequest  0x02028DB8  thumb
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/func_020289B8.c  *       --addr 0x020289B8 --thumb
@@ -36,11 +36,11 @@ struct Sys {
     u32 unk20;
 };
 
-extern int func_02028DB8(void *obj);
+extern int FIELD_SOUND_SYSTEM_HasPendingRequest(void *obj);
 
 u32 func_020289B8(struct Sys *s)
 {
-    if (func_02028DB8(s) == 0 && s->unk1C == 0) {
+    if (FIELD_SOUND_SYSTEM_HasPendingRequest(s) == 0 && s->unk1C == 0) {
         return 0;
     }
     return 1;

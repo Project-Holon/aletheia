@@ -1,5 +1,5 @@
 /*
- * function: func_020445F4
+ * function: BMP_Blit4bppToVram
  * address:  0x020445F4
  * packet:   pkt_020445F4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * bmp.c blit worker, 4bpp tiled source onto a 4bpp tiled destination that
- * is written a HALFWORD at a time (func_02044D88's read-modify-write
+ * is written a HALFWORD at a time (BMP_FillRect4bppVram's read-modify-write
  * store), with an optional colour key (0xFFFF = none).  Reached from the
  * blit dispatcher func_020439A0's kind == 2 arm, whose shift pairs give
  * the narrow parameter types (x, y, w, h u16; dx, dy s16); the key is
@@ -35,7 +35,7 @@ typedef signed int     s32;
 
 struct Surf { u8 *pixels; u16 width; u16 height; };
 
-void func_020445F4(struct Surf *src, struct Surf *dst, u16 x, u16 y, s16 dx, s16 dy, u16 w, u16 h, u16 key)
+void BMP_Blit4bppToVram(struct Surf *src, struct Surf *dst, u16 x, u16 y, s16 dx, s16 dy, u16 w, u16 h, u16 key)
 {
     s32 xend, yend, srow, drow;
     s32 i, j, di, dj;

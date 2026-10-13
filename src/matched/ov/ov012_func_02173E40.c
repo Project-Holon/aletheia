@@ -1,5 +1,5 @@
 /*
- * function: func_02173E40
+ * function: UNION_COMMAND_RecvAppQuitAccept
  * address:  0x02173E40
  * packet:   pkt_ov012_02173E40
  * region:   ov012
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02183F7C(u8 *p);
 
-void func_02173E40(int a, int b, int c, u8 *p)
+void UNION_COMMAND_RecvAppQuitAccept(int a, int b, int c, u8 *p)
 {
     u8 *q;
     q = *(u8 * *)&((struct Obj19265 *)p)->f3528;

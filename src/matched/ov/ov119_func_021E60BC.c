@@ -21,7 +21,7 @@
  * symbols:
  *   func_02017E1C 0x02017E1C thumb
  *   func_02017EAC 0x02017EAC thumb
- *   func_0201B280 0x0201B280 thumb
+ *   POKERUS_IsCured 0x0201B280 thumb
  *   func_020275E4 0x020275E4 thumb
  *   func_02027748 0x02027748 thumb
  *   func_0202774C 0x0202774C thumb
@@ -46,7 +46,7 @@ extern const Coords d_021E7EC4;
 extern const States d_021E7F84;
 extern u32 func_02017E1C(void *,u32,u32);
 extern u32 func_02017EAC(void *);
-extern u32 func_0201B280(void *);
+extern u32 POKERUS_IsCured(void *);
 extern u32 func_020275E4(void);
 extern int func_02027748(void);
 extern int func_0202774C(int);
@@ -77,7 +77,7 @@ void func_021E60BC(char *p,void *mon,int flag)
     in.f18=func_02027754(2);
     in.b1c=13; in.b1d=0; in.b1e=1;
     if (!flag && func_02017EAC(mon)) bits|=64;
-    if (func_0201B280(mon)) bits|=128;
+    if (POKERUS_IsCured(mon)) bits|=128;
     if (!((struct Obj00001 *)p)->f99C) {
         func_021B6208((void *)(p+0x98c),&in,((struct Obj00001 *)p)->f9C4,((struct Obj00001 *)p)->f5F4);
         ((struct Obj00001 *)p)->f99C=1;

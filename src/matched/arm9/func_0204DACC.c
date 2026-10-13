@@ -1,5 +1,5 @@
 /*
- * function: func_0204DACC
+ * function: CLACT_SetupCharacterVram
  * address:  0x0204DACC
  * packet:   pkt_0204DACC
  * region:   arm9
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_02063790    0x02063790  arm
- *   func_0204D9B4    0x0204D9B4  arm
- *   func_02034660    0x02034660  arm
+ *   CLACT_IsVramTypeCompatible    0x0204D9B4  arm
+ *   VMAN_Alloc    0x02034660  arm
  *   func_020346D8    0x020346D8  arm
- *   func_0204DC70    0x0204DC70  arm
+ *   CLACT_UpdateObjMapping    0x0204DC70  arm
  *   func_02063828    0x02063828  arm
  *   func_02063A54    0x02063A54  arm
  *   func_02063C80    0x02063C80  arm
@@ -26,8 +26,8 @@
  * flag set. func_02063790 resets the cell's three-word handle triple, then
  * each half (the +0x2C descriptor against bank +0x00 and kind 1, the +0x34
  * descriptor against bank +0x04 and kind 2) is uploaded only when
- * func_0204D9B4 admits the mode pair and func_02034660 finds the resource:
- * func_020346D8 turns the descriptor into a byte offset, func_0204DC70
+ * CLACT_IsVramTypeCompatible admits the mode pair and VMAN_Alloc finds the resource:
+ * func_020346D8 turns the descriptor into a byte offset, CLACT_UpdateObjMapping
  * selects the VRAM window, and one of the three upload entries is chosen by
  * the override flag and, failing that, by the sink's own +0x08 selector.
  * Finally the sink pointer is published at +0x28 (null when not overridden)
@@ -63,15 +63,15 @@ struct Item020346D8;
 struct Out;
 struct TargetStruct;
 extern void func_02063790(u32 *p);
-extern u32 func_0204D9B4(u32 a, u32 b);
-extern int func_02034660(u8 *p, u32 a, void **out);
+extern u32 CLACT_IsVramTypeCompatible(u32 a, u32 b);
+extern int VMAN_Alloc(u8 *p, u32 a, void **out);
 extern u32 func_020346D8(struct Item020346D8 *a, u32 *b);
-extern void func_0204DC70(struct TargetStruct *obj, int which);
+extern void CLACT_UpdateObjMapping(struct TargetStruct *obj, int which);
 extern void func_02063828(struct Res *r, u32 dst, int mode, struct Out *out);
 extern void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out);
 extern void func_02063C80(struct Res *r, u32 dst, int mode, struct Out *out);
 
-void func_0204DACC(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr,
+void CLACT_SetupCharacterVram(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr,
                    u32 mode)
 {
     u8 *cell;
@@ -94,11 +94,11 @@ void func_0204DACC(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr,
 
     func_02063790((u32 *)cell);
 
-    if (func_0204D9B4(mode, 0) != 0) {
-        if (func_02034660((u8 *)r->f00, key, (void **)(cell + 0x2c)) != 0) {
+    if (CLACT_IsVramTypeCompatible(mode, 0) != 0) {
+        if (VMAN_Alloc((u8 *)r->f00, key, (void **)(cell + 0x2c)) != 0) {
             off = func_020346D8((struct Item020346D8 *)r->f00, (u32 *)(cell + 0x2c));
             kind = 1;
-            func_0204DC70((struct TargetStruct *)s, (int)kind);
+            CLACT_UpdateObjMapping((struct TargetStruct *)s, (int)kind);
             if (ovrd != 0) {
                 func_02063C80((struct Res *)s, off, (int)kind, (struct Out *)cell);
             } else if (s->f08 != 0) {
@@ -109,11 +109,11 @@ void func_0204DACC(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr,
         }
     }
 
-    if (func_0204D9B4(mode, 1) != 0) {
-        if (func_02034660((u8 *)r->f04, key, (void **)(cell + 0x34)) != 0) {
+    if (CLACT_IsVramTypeCompatible(mode, 1) != 0) {
+        if (VMAN_Alloc((u8 *)r->f04, key, (void **)(cell + 0x34)) != 0) {
             off = func_020346D8((struct Item020346D8 *)r->f04, (u32 *)(cell + 0x34));
             kind = 2;
-            func_0204DC70((struct TargetStruct *)s, (int)kind);
+            CLACT_UpdateObjMapping((struct TargetStruct *)s, (int)kind);
             if (ovrd != 0) {
                 func_02063C80((struct Res *)s, off, (int)kind, (struct Out *)cell);
             } else if (s->f08 != 0) {

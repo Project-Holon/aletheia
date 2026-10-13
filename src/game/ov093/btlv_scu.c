@@ -21,15 +21,15 @@
  *   func_0201C440  0x0201C440  thumb  arm9
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_020215EC 0x020215EC thumb
- *   func_020215BC 0x020215BC thumb
+ *   PALANM_LoadArcPaletteToSlotAt 0x020215EC thumb
+ *   PALANM_CopyToSlot 0x020215BC thumb
  *   func_02041300 0x02041300 arm
  *   func_02040C14 0x02040C14 arm
  *   func_0204989C 0x0204989C arm
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
  *   func_02045374 0x02045374 arm
- *   func_020454E0 0x020454E0 arm
+ *   BMP_WIN_DrawFrame 0x020454E0 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_02045334 0x02045334 arm
  *   func_021ED76C 0x021ED76C thumb ov093
@@ -96,268 +96,224 @@
  *   d_021F3900  0x021F3900  data  a4
  *   d_021F38B8  0x021F38B8  data  a4
  */
-#include "../../matched/include/Obj21579.h"
-#include "../../matched/include/Obj00969.h"
-#include "../../matched/include/Obj00970.h"
-#include "../../matched/include/G__anon_V.h"
-#include "../../matched/include/Obj05226.h"
-#include "../../matched/include/Obj05227.h"
-#include "../../matched/include/Obj07850.h"
-#include "../../matched/include/Obj10117.h"
-#include "../../matched/include/Obj00765.h"
-#include "../../matched/include/Obj02793.h"
-#include "../../matched/include/Obj07851.h"
-#include "../../matched/include/Obj00579.h"
-#include "../../matched/include/Obj01695.h"
-#include "../../matched/include/Obj00406.h"
-#include "../../matched/include/Obj01377.h"
+#include "btlv_scu_types.h"
 
-struct BgTemplate;
-struct S;
-struct Cfg;
-struct CharBuf;
-struct Descriptor;
 struct PalAnmSlot;
-struct PrintSys;
-struct U16Vec;
-struct E;
-struct Work;
-struct T;
-typedef unsigned char u8;
+struct BgTemplate;
 
-typedef unsigned int u32;
+/* Master brightness register of the main engine. */
+#define REG_MASTER_BRIGHT_MAIN ((volatile u16 *)0x0400006c)
 
-typedef unsigned short u16;
-
-struct L {
-    u16 id;
-    u8 k;
+/* Message record built for the view (home file not known, see misplaced). */
+struct BtlvMessage {
+    u16 msgId;
+    u8 param;
     u8 kind : 4;
-    u8 n : 4;
-    u32 v[8];
+    u8 argCount : 4;
+    u32 args[8];
 };
 
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-typedef struct {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u32 pad0c[3];
-    u32 f18;
-    u32 pad1c[6];
-    u32 f34;
-    u32 f38;
-    u32 f3c;
-} Obj;
-
-typedef int (*Cb)(int *, u8 *);
-
-typedef struct {
-    u32 pad[0x38];
-    int (*cb1)(void *, u32);   /* 0xe0 */
-    int (*cb2)(void *, u32);   /* 0xe4 */
-    u32 arg;                   /* 0xe8 */
-    u32 obj;                   /* 0xec */
-} CbSlot;
-
-struct S { int h, x, y, dx, dy; u8 state, cnt; };
+/* First words of the battle view core (btlv_core.c owns the full layout). */
+struct BtlvCoreHead {
+    u32 reserved0;
+    u8 *client;
+};
 
 extern u32 func_021CD9E0(u8 *);
 extern void func_020061E4(u32 a);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern int func_020457B0(int, int);
-extern u32 func_0201C440(void *p);
+extern struct MsgBuf *func_020457B0(int, int);
+extern struct PrintSys *func_0201C440(u32 heapId);
 extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
 extern int func_021F86E0(void);
-extern void func_020215EC(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
-extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
+extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void func_02041300(u32, int, int, int, u8, u8, u8);
 extern void func_02040C14(u32, u32, u32, u32);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
-extern void func_02045374(struct Cfg *cfg);
-extern void func_020454E0(struct Cfg *cfg, u16 base, u32 pal);
+extern struct BmpWin *func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct CharBuf *func_02045770(struct BmpWin *win);
+extern void func_02045374(struct BmpWin *win);
+extern void BMP_WIN_DrawFrame(struct BmpWin *win, u16 base, u32 pal);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-extern void func_021ED76C(struct S *s, int a);
-extern void func_021ED930(char *s);
-extern void func_021EDB3C(struct S *s, char *a1);
+extern void func_02045334(struct BmpWin *win);
+extern void func_021ED76C(BtlvScuWinSlide *slide, struct BmpWin *win);
+extern void func_021ED930(BtlvScu *scu);
+extern void func_021EDB3C(BtlvScu *scu, u32 tile);
 extern void func_020409B4(u32 index);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_02049238(void *h);
-extern void func_021EDBE8(char *s);
-extern void func_021ED988(u8 *p);
-extern u32 func_020452E8(struct Descriptor *d);
+extern void func_021EDBE8(BtlvScu *scu);
+extern void func_021ED988(BtlvScu *scu);
+extern u32 func_020452E8(struct BmpWin *win);
 extern void func_020403F4(u32 i);
-extern void func_0201C4C0(struct PrintSys *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void func_0201C4C0(struct PrintSys *printer);
+extern void func_02045808(struct MsgBuf *buf);
 extern u32 func_020307B0(void *p);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020414EC(u32 i);
-extern void *func_021B86B8(void ***);
-extern u32 func_021B8588(void **p);
-extern int func_021B86C8(unsigned char **p);
-extern int func_021EBED4(int *, u8 *);
-extern int func_021EBF20(int *, u8 *);
+extern int func_021B86B8(struct BtlContext *);
+extern u32 func_021B8588(struct BtlContext *);
+extern int func_021B86C8(struct BtlContext *);
+extern int func_021EBED4(int *, BtlvScu *);
+extern int func_021EBF20(int *, BtlvScu *);
 extern int func_0207D55C(volatile u16 *);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern u8 func_021B8ED8(u8 *p, u8 k);
-extern u8 *func_021B98AC(char *const *q, u8 b);
-extern void *func_021D5864(struct Work *p);
-extern void func_021F7EE8(void *, int);
-extern void func_021EDA04(struct E *e);
+extern u8 func_021B8ED8(struct BtlContext *, u8 side);
+extern struct BtlPokeParam *func_021B98AC(struct BtlMonTable *, u8 monIdx);
+extern void *func_021D5864(struct BtlPokeParam *mon);
+extern void func_021F7EE8(void *sprite, int side);
+extern void func_021EDA04(BtlvScuMonSlot *slot);
 extern int func_021F7EB4(void);
-extern u8 func_021D5440(u8 *p);
-extern void func_021ED798(struct S *s);
-extern int func_021ED814(struct S *);
+extern u8 func_021D5440(struct BtlPokeParam *mon);
+extern void func_021ED798(BtlvScuWinSlide *slide);
+extern int func_021ED814(BtlvScuWinSlide *slide);
 extern void func_021F7A28(int, u32);
-extern void func_021EEE24(u32, u32, u32, ...);
-extern void func_021ECEB8(u8 *, u32, u16, u32);
-extern int func_021ECF68(struct T *p);
+extern void func_021EEE24(struct MsgBuf *, u32, u32, ...);
+extern void func_021ECEB8(BtlvScu *, struct MsgBuf *, u16, u32);
+extern int func_021ECF68(BtlvScu *scu);
 extern void func_021F7998(u32);
-extern int func_021BA1A8(char **p, int m);
-extern u8 func_021B8DE4(char *p, int i);
-extern u16 func_021BA020(char *, int);
+extern int func_021BA1A8(struct BtlContext *, int mask);
+extern u8 func_021B8DE4(struct BtlContext *, int i);
+extern u16 func_021BA020(struct BtlContext *, int);
 extern void func_021F7F58(int, u32, u32, u32, u32);
-extern void func_021EE104(u8 *, u32 *, u32, u32, u32);
+extern void func_021EE104(BtlvScu *, u32 *, u32, u32, u32);
 extern void func_021F823C(u32 *);
-extern u8 func_021B8FF4(u8 *);
+extern u8 func_021B8FF4(struct BtlContext *);
 extern void func_021F8260(u32);
 extern int func_021F827C(u32);
-extern u8 func_021B8BEC(u8 *, u32, u8);
-extern u8 func_021B8C50(char **p, u32 v, int k);
-extern u8 func_021B8E70(u8 *, u32);
-void func_021EAF00(u8 *p, int a);
-void func_021EAF18(struct L *p, int kind, int id);
-void func_021EAF50(struct L *p, u32 val);
-/* 021EAF78 strb r1,[r0,#2] */ void func_021EAF78(u8 *p, u8 v);
-u8 *func_021EAF7C(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u8 e2, int heap);
-void func_021EB028(u8 *p);
-u16 func_021EB1D8(u8 *a, u32 id, u32 b, u32 c);
-void func_021EB234(Obj *p);
-void func_021EB2A8(const u8 *a);
+extern u8 func_021B8BEC(struct BtlContext *, u32, u8);
+extern u8 func_021B8C50(struct BtlContext *, u32 v, int k);
+extern u8 func_021B8E70(struct BtlContext *, u32);
+void func_021EAF00(struct BtlvCoreHead *core, int a);
+void func_021EAF18(struct BtlvMessage *msg, int kind, int id);
+void func_021EAF50(struct BtlvMessage *msg, u32 val);
+/* 021EAF78 strb r1,[r0,#2] */ void func_021EAF78(struct BtlvMessage *msg, u8 param);
+BtlvScu *func_021EAF7C(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, void *fontMain, void *fontSub, u8 clientIndex, int heapId);
+void func_021EB028(BtlvScu *scu);
+u16 func_021EB1D8(BtlvScu *scu, u32 arcId, u32 fileId, u32 layer);
+void func_021EB234(BtlvScu *scu);
+void func_021EB2A8(const BtlvScu *scu);
 u32 func_021EB318(void);
-void func_021EB32C(u8 *p, u32 flag);
-int func_021EB52C(CbSlot *s);
-void func_021EB584(int a);
-int func_021EB5B4(u8 *p, int *state, u8 *src, u8 n);
-int func_021EB660(u8 *p, int *state);
-int func_021EB670(u8 *p, int *state);
-int func_021EB680(u8 *p, int *state);
-int func_021EB690(int *state, u8 *p);
-int func_021EB820(u8 *a);
-int func_021EB870(int *state, u8 *p);
-int func_021EBAC0(int *a, u8 *b);
-int func_021EBB20(int *state, u8 *p);
-int func_021EBD90(int *a, u8 *b);
-int func_021EBDDC(int *a, u8 *b);
-int func_021EBE28(int *a, u8 *b);
-int func_021EBE88(int *a, u8 *b);
+void func_021EB32C(BtlvScu *scu, u32 quickMode);
+int func_021EB52C(BtlvScu *scu);
+void func_021EB584(int speed);
+int func_021EB5B4(BtlvScu *scu, int *state, u8 *sides, u8 count);
+int func_021EB660(BtlvScu *scu, int *state);
+int func_021EB670(BtlvScu *scu, int *state);
+int func_021EB680(BtlvScu *scu, int *state);
+int func_021EB690(int *state, BtlvScu *scu);
+int func_021EB820(BtlvScu *scu);
+int func_021EB870(int *state, BtlvScu *scu);
+int func_021EBAC0(int *state, BtlvScu *scu);
+int func_021EBB20(int *state, BtlvScu *scu);
+int func_021EBD90(int *state, BtlvScu *scu);
+int func_021EBDDC(int *state, BtlvScu *scu);
+int func_021EBE28(int *state, BtlvScu *scu);
+int func_021EBE88(int *state, BtlvScu *scu);
 extern u8 d_021F3AD0[];
-extern struct _anon_V d_021F3970;
-extern const struct BgTemplate d_021F3930, d_021F3950;
+extern const struct BgTemplate d_021F3930, d_021F3950, d_021F3970;
 extern u8 d_021F38AC[];
 extern u8 d_021F38AE[];
 extern u8 d_021F38B2[];
+extern int (*const d_021F38E8[][2])(BtlvScu *, int *);
+extern int (*const d_021F38D0[])(BtlvScu *, int *);
+extern int (*const d_021F38DC[])(BtlvScu *, int *);
+extern int (*const d_021F3900[][2])(BtlvScu *, int *);
+extern int (*const d_021F38B8[])(BtlvScu *, int *);
 
-void func_021EAF00(u8 *p, int a)
+void func_021EAF00(struct BtlvCoreHead *core, int a)
 {
-    if (func_021CD9E0(*(u8 * *)&((struct Obj21579 *)p)->f4) == 0)
+    if (func_021CD9E0(core->client) == 0)
         func_020061E4(a);
 }
 
-void func_021EAF18(struct L *p, int kind, int id)
+void func_021EAF18(struct BtlvMessage *msg, int kind, int id)
 {
     u32 i;
     for (i = 0; i < 8; i++)
-        p->v[i] = 0;
-    p->n = 0;
-    p->id = id;
-    p->kind = kind;
-    p->k = 0x50;
+        msg->args[i] = 0;
+    msg->argCount = 0;
+    msg->msgId = id;
+    msg->kind = kind;
+    msg->param = 0x50;
 }
 
-void func_021EAF50(struct L *p, u32 val)
+void func_021EAF50(struct BtlvMessage *msg, u32 val)
 {
-    u32 n = p->n;
+    u32 n = msg->argCount;
     if (n < 8) {
-        p->n = n + 1;
-        p->v[n] = val;
+        msg->argCount = n + 1;
+        msg->args[n] = val;
     }
 }
 
 
 /* 021EAF78  strb r1,[r0,#2] */
 /*
- * Stores the second argument (a u8) into the field at #2.
+ * Stores the second argument (a u8) into the param field at #2.
  */
-void func_021EAF78(u8 *p, u8 v) { p[2] = v; }
+void func_021EAF78(struct BtlvMessage *msg, u8 param) { msg->param = param; }
 
 
-u8 *func_021EAF7C(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u8 e2, int heap)
+BtlvScu *func_021EAF7C(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, void *fontMain, void *fontSub, u8 clientIndex, int heapId)
 {
-    u8 *p;
-    p = func_02030734(heap, 0x180, 1, (const char *)d_021F3AD0, 0x151);
-    ((struct Obj00969 *)p)->f130 = a;
-    ((struct Obj00969 *)p)->f134 = b;
-    ((struct Obj00969 *)p)->f138 = c;
-    ((struct Obj00969 *)p)->f13C = heap;
-    p[0x140] = e2;
-    ((struct Obj00969 *)p)->f24 = e0;
-    ((struct Obj00969 *)p)->f28 = e1;
-    p[0x150] = 0;
-    ((struct Obj00969 *)p)->f30 = 0;
-    ((struct Obj00969 *)p)->f2C = d;
-    ((struct Obj00969 *)p)->f34 = func_020457B0(0x400, heap);
-    ((struct Obj00969 *)p)->f38 = func_020457B0(0x180, heap);
-    ((struct Obj00969 *)p)->f3C = func_020457B0(0x180, heap);
-    p[0x14e] = 0;
-    ((struct Obj00969 *)p)->fD8 = 0;
-    ((struct Obj00969 *)p)->f18 = func_0201C440((void *)(((struct Obj00969 *)p)->f13C));
-    ((struct Obj00969 *)p)->f1C = ((struct Obj00969 *)p)->f0;
-    p[0x20] = 0;
-    return p;
+    BtlvScu *scu;
+    scu = func_02030734(heapId, 0x180, 1, (const char *)d_021F3AD0, 0x151);
+    scu->core = core;
+    scu->context = context;
+    scu->monTable = monTable;
+    scu->heapId = heapId;
+    scu->clientIndex = clientIndex;
+    scu->fontMain = fontMain;
+    scu->fontSub = fontSub;
+    scu->quickMode = 0;
+    scu->taskHandle = 0;
+    scu->taskSys = taskSys;
+    scu->textBuf = func_020457B0(0x400, heapId);
+    scu->wordBuf0 = func_020457B0(0x180, heapId);
+    scu->wordBuf1 = func_020457B0(0x180, heapId);
+    scu->busyFlag = 0;
+    scu->cmdResult = 0;
+    scu->printer = func_0201C440(scu->heapId);
+    scu->msgWinCopy = scu->msgWin;
+    scu->lineIndex = 0;
+    return scu;
 }
 
 
-void func_021EB028(u8 *p)
+void func_021EB028(BtlvScu *scu)
 {
     u16 zero;
-    u32 tile;
+    u32 frameTile;
     func_0203FCA0(1, &d_021F3930, 0);
     func_0203FCA0(2, &d_021F3950, 0);
-    func_0203FCA0(3, &(*(struct BgTemplate *)&d_021F3970), 0);
-    func_020215EC((struct PalAnmSlot *)func_021F86E0(), 0xb, 0x5a, ((struct Obj00970 *)p)->f13C, 0, 0x20, 0, 0);
-    func_020215EC((struct PalAnmSlot *)func_021F86E0(), 0xb, 0xd6, ((struct Obj00970 *)p)->f13C, 0, 0x60, 0x10, 0x10);
+    func_0203FCA0(3, &d_021F3970, 0);
+    PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)func_021F86E0(), 0xb, 0x5a, scu->heapId, 0, 0x20, 0, 0);
+    PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)func_021F86E0(), 0xb, 0xd6, scu->heapId, 0, 0x60, 0x10, 0x10);
     zero = 0;
-    func_020215BC((struct PalAnmSlot *)func_021F86E0(), &zero, 0, 0, 2);
+    PALANM_CopyToSlot((struct PalAnmSlot *)func_021F86E0(), &zero, 0, 0, 2);
     func_02041300(1, 0, 0, 0, 0x20, 0x20, 0x11);
     func_02040C14(1, 0, 1, 0);
-    tile = func_021EB1D8(p, 0xb, 0x59, 1);
-    *(u32 *)&((struct Obj00970 *)p)->f14 = func_021EB1D8(p, 0xb, 0xd5, 3);
-    func_0204989C(0xb, 0xd7, 2, 0, 0, 0, ((struct Obj00970 *)p)->f13C);
-    func_0204989C(0xb, 0xd8, 3, 0, 0, 0, ((struct Obj00970 *)p)->f13C);
-    ((struct Obj00970 *)p)->f0 = (void *)func_020450F0(1, 1, 0x13, 0x1e, 4, 0, 0);
-    ((struct Obj00970 *)p)->f4 = func_02045770(((struct Obj00970 *)p)->f0);
-    func_02045374(((struct Obj00970 *)p)->f0);
-    func_020454E0(((struct Obj00970 *)p)->f0, tile, 0);
-    func_02043B5C(((struct Obj00970 *)p)->f4, 0xc);
-    func_02045334(((struct Obj00970 *)p)->f0);
-    ((struct Obj00970 *)p)->f10 = func_021EB1D8(p, 0xb, 0xdd, 3);
-    ((struct Obj00970 *)p)->f8 = (void *)func_020450F0(3, 0x15, 0x25, 0xa, 0xc, 3, 0);
-    ((struct Obj00970 *)p)->fC = func_02045770(((struct Obj00970 *)p)->f8);
-    func_021ED76C((struct S *)(p + 0x154), (int)(((struct Obj00970 *)p)->f0));
-    func_021ED930((char *)p);
-    func_021EDB3C((struct S *)p, ((struct Obj00970 *)p)->f14);
+    frameTile = func_021EB1D8(scu, 0xb, 0x59, 1);
+    scu->msgTile = func_021EB1D8(scu, 0xb, 0xd5, 3);
+    func_0204989C(0xb, 0xd7, 2, 0, 0, 0, scu->heapId);
+    func_0204989C(0xb, 0xd8, 3, 0, 0, 0, scu->heapId);
+    scu->msgWin = func_020450F0(1, 1, 0x13, 0x1e, 4, 0, 0);
+    scu->msgWinChars = func_02045770(scu->msgWin);
+    func_02045374(scu->msgWin);
+    BMP_WIN_DrawFrame(scu->msgWin, frameTile, 0);
+    func_02043B5C(scu->msgWinChars, 0xc);
+    func_02045334(scu->msgWin);
+    scu->nameTile = func_021EB1D8(scu, 0xb, 0xdd, 3);
+    scu->nameWin = func_020450F0(3, 0x15, 0x25, 0xa, 0xc, 3, 0);
+    scu->nameWinChars = func_02045770(scu->nameWin);
+    func_021ED76C(&scu->slide, scu->msgWin);
+    func_021ED930(scu);
+    func_021EDB3C(scu, scu->msgTile);
     func_020409B4(1);
     func_020409B4(2);
     func_020409B4(3);
@@ -369,61 +325,61 @@ void func_021EB028(u8 *p)
 }
 
 
-u16 func_021EB1D8(u8 *a, u32 id, u32 b, u32 c)
+u16 func_021EB1D8(BtlvScu *scu, u32 arcId, u32 fileId, u32 layer)
 {
-    void *h = func_020490F4(id, (u16)((((struct Obj00970 *)a)->f13C & 0x7fff) | 0x8000));
-    u32 r = func_02049740(h, b, c, 0, 0, (u16)((((struct Obj00970 *)a)->f13C & 0x7fff) | 0x8000));
+    void *handle = func_020490F4(arcId, (u16)((scu->heapId & 0x7fff) | 0x8000));
+    u32 tileOffset = func_02049740(handle, fileId, layer, 0, 0, (u16)((scu->heapId & 0x7fff) | 0x8000));
 
-    func_02049238(h);
-    return (u16)r;
+    func_02049238(handle);
+    return (u16)tileOffset;
 }
 
 
-void func_021EB234(Obj *p)
+void func_021EB234(BtlvScu *scu)
 {
-    func_021EDBE8((char *)p);
-    func_021ED988((u8 *)p);
-    if (p->f08 != 0) {
-        func_020452E8((struct Descriptor *)p->f08);
-        p->f08 = 0;
+    func_021EDBE8(scu);
+    func_021ED988(scu);
+    if (scu->nameWin != 0) {
+        func_020452E8(scu->nameWin);
+        scu->nameWin = 0;
     }
-    if (p->f00 != 0) {
-        func_020452E8((struct Descriptor *)p->f00);
-        p->f00 = 0;
+    if (scu->msgWin != 0) {
+        func_020452E8(scu->msgWin);
+        scu->msgWin = 0;
     }
     func_020403F4(1);
     func_020403F4(2);
     func_020403F4(3);
-    if (p->f18 != 0) {
-        func_0201C4C0((struct PrintSys *)p->f18);
-        p->f18 = 0;
+    if (scu->printer != 0) {
+        func_0201C4C0(scu->printer);
+        scu->printer = 0;
     }
-    if (p->f3c != 0) {
-        func_02045808((struct U16Vec *)p->f3c);
-        p->f3c = 0;
+    if (scu->wordBuf1 != 0) {
+        func_02045808(scu->wordBuf1);
+        scu->wordBuf1 = 0;
     }
-    if (p->f38 != 0) {
-        func_02045808((struct U16Vec *)p->f38);
-        p->f38 = 0;
+    if (scu->wordBuf0 != 0) {
+        func_02045808(scu->wordBuf0);
+        scu->wordBuf0 = 0;
     }
-    func_02045808((struct U16Vec *)p->f34);
-    func_020307B0(p);
+    func_02045808(scu->textBuf);
+    func_020307B0(scu);
 }
 
 
 /*
- * Lever: the parameter is const u8 *; without const the ldrh of the heap
+ * Lever: the parameter is const BtlvScu *; without const the ldrh of the heap
  * halfword schedules after the second zero stack store (DIFF, 19 lines).
  */
-void func_021EB2A8(const u8 *a)
+void func_021EB2A8(const BtlvScu *scu)
 {
-    void *h = func_020490F4(0xb, (u16)((((struct Obj05226 *)a)->f13C & 0x7fff) | 0x8000));
+    void *handle = func_020490F4(0xb, (u16)((scu->heapId & 0x7fff) | 0x8000));
 
-    func_02049658(h, 0xd5, 3, ((struct Obj05226 *)a)->f14, 0, 0, ((struct Obj05226 *)a)->f13C);
-    func_02049658(h, 0xdd, 3, ((struct Obj05226 *)a)->f10, 0, 0, ((struct Obj05226 *)a)->f13C);
-    func_02049238(h);
+    func_02049658(handle, 0xd5, 3, scu->msgTile, 0, 0, scu->heapId);
+    func_02049658(handle, 0xdd, 3, scu->nameTile, 0, 0, scu->heapId);
+    func_02049238(handle);
     func_020414EC(3);
-    func_0204989C(0xb, 0xd8, 3, 0, 0, 0, ((struct Obj05226 *)a)->f13C);
+    func_0204989C(0xb, 0xd8, 3, 0, 0, 0, scu->heapId);
 }
 
 
@@ -432,63 +388,63 @@ void func_021EB2A8(const u8 *a)
  */
 u32 func_021EB318(void) { if (func_0204E804() == 0) return 1; return 0; }
 
-static inline void set(u8 *p, Cb cb)
+static inline void BTLV_SCU_SetProc(BtlvScu *scu, BtlvScuProc proc)
 {
-    ((struct Obj07850 *)p)->fE0 = 0;
-    *(Cb *)&((struct Obj07850 *)p)->fE4 = cb;
-    *(u8 * *)&((struct Obj07850 *)p)->fE8 = p;
-    ((struct Obj07850 *)p)->fEC = 0;
+    scu->preProc = 0;
+    scu->mainProc = proc;
+    scu->procScu = scu;
+    scu->procState = 0;
 }
 
-void func_021EB32C(u8 *p, u32 flag)
+void func_021EB32C(BtlvScu *scu, u32 quickMode)
 {
-    int type = (int)func_021B86B8(*(void *** *)&((struct Obj05227 *)p)->f134);
-    p[0x14f] = 0;
-    p[0x150] = flag;
-    switch (func_021B8588(((struct Obj05227 *)p)->f134)) {
+    int battleType = func_021B86B8(scu->context);
+    scu->phase = 0;
+    scu->quickMode = quickMode;
+    switch (func_021B8588(scu->context)) {
     case 0:
-        switch (type) {
-        default: case 0: case 4: set(p, func_021EB690); return;
-        case 1: case 2: set(p, func_021EB870); return;
-        case 3: set(p, func_021EBAC0); return;
+        switch (battleType) {
+        default: case 0: case 4: BTLV_SCU_SetProc(scu, func_021EB690); return;
+        case 1: case 2: BTLV_SCU_SetProc(scu, func_021EB870); return;
+        case 3: BTLV_SCU_SetProc(scu, func_021EBAC0); return;
         }
     case 1:
-        switch (type) {
-        case 0: set(p, func_021EBB20); return;
+        switch (battleType) {
+        case 0: BTLV_SCU_SetProc(scu, func_021EBB20); return;
         case 3:
-            if (!func_021B86C8((unsigned char **)(*(u8 * *)&((struct Obj05227 *)p)->f134))) set(p, func_021EBE28);
-            else set(p, func_021EBE88);
+            if (!func_021B86C8(scu->context)) BTLV_SCU_SetProc(scu, func_021EBE28);
+            else BTLV_SCU_SetProc(scu, func_021EBE88);
             return;
         case 1: case 2:
-            if (!func_021B86C8((unsigned char **)(*(u8 * *)&((struct Obj05227 *)p)->f134))) set(p, func_021EBD90);
-            else set(p, func_021EBDDC);
+            if (!func_021B86C8(scu->context)) BTLV_SCU_SetProc(scu, func_021EBD90);
+            else BTLV_SCU_SetProc(scu, func_021EBDDC);
             return;
         }
         break;
     case 2:
-        if (type != 3) set(p, func_021EBED4);
-        else set(p, func_021EBF20);
+        if (battleType != 3) BTLV_SCU_SetProc(scu, func_021EBED4);
+        else BTLV_SCU_SetProc(scu, func_021EBF20);
         return;
     case 3:
-        if (type != 3) set(p, func_021EBED4);
-        else set(p, func_021EBF20);
+        if (battleType != 3) BTLV_SCU_SetProc(scu, func_021EBED4);
+        else BTLV_SCU_SetProc(scu, func_021EBF20);
         return;
     }
 }
 
 
-int func_021EB52C(CbSlot *s)
+int func_021EB52C(BtlvScu *scu)
 {
-    if (s->cb1 != 0) {
-        if (s->cb1(&s->obj, s->arg) != 0) {
-            s->cb1 = 0;
-            s->obj = 0;
+    if (scu->preProc != 0) {
+        if (scu->preProc(&scu->procState, scu->procScu) != 0) {
+            scu->preProc = 0;
+            scu->procState = 0;
         }
         return 0;
     }
-    if (s->cb2 != 0) {
-        if (s->cb2(&s->obj, s->arg) != 0) {
-            s->cb2 = 0;
+    if (scu->mainProc != 0) {
+        if (scu->mainProc(&scu->procState, scu->procScu) != 0) {
+            scu->mainProc = 0;
             return 1;
         }
         return 0;
@@ -496,32 +452,32 @@ int func_021EB52C(CbSlot *s)
     return 1;
 }
 
-void func_021EB584(int a)
+void func_021EB584(int speed)
 {
-    if (func_0207D55C((volatile u16 *)0x0400006c) <= 0)
-        func_0204E720(3, 0x10, 0, a);
+    if (func_0207D55C(REG_MASTER_BRIGHT_MAIN) <= 0)
+        func_0204E720(3, 0x10, 0, speed);
     else
-        func_0204E720(0xc, 0x10, 0, a);
+        func_0204E720(0xc, 0x10, 0, speed);
 }
 
-int func_021EB5B4(u8 *p, int *state, u8 *src, u8 n)
+int func_021EB5B4(BtlvScu *scu, int *state, u8 *sides, u8 count)
 {
     switch (*state) {
     case 0: {
-        u32 c;
+        u32 side;
         u32 i;
-        u8 k;
-        for (i = 0; i < n; i++) {
-            c = src[i];
-            k = func_021B8ED8(*(u8 * *)&((struct Obj10117 *)p)->f134, c);
-            func_021F7EE8(func_021D5864((struct Work *)func_021B98AC(*(char *const * *)&((struct Obj10117 *)p)->f138, k)), c);
-            func_021EDA04((struct E *)(p + 0x48 + k * 12));
+        u8 monIdx;
+        for (i = 0; i < count; i++) {
+            side = sides[i];
+            monIdx = func_021B8ED8(scu->context, side);
+            func_021F7EE8(func_021D5864(func_021B98AC(scu->monTable, monIdx)), side);
+            func_021EDA04(&scu->monSlots[monIdx]);
         }
         *state = *state + 1;
         break;
     }
     case 1:
-        if (p[0x150] != 0)
+        if (scu->quickMode != 0)
             return 1;
         func_021EB584(-3);
         *state = *state + 1;
@@ -534,88 +490,88 @@ int func_021EB5B4(u8 *p, int *state, u8 *src, u8 n)
     return 0;
 }
 
-int func_021EB660(u8 *p, int *state)
+int func_021EB660(BtlvScu *scu, int *state)
 {
-    return func_021EB5B4(p, state, d_021F38AC, 2);
+    return func_021EB5B4(scu, state, d_021F38AC, 2);
 }
 
-int func_021EB670(u8 *p, int *state)
+int func_021EB670(BtlvScu *scu, int *state)
 {
-    return func_021EB5B4(p, state, d_021F38AE, 4);
+    return func_021EB5B4(scu, state, d_021F38AE, 4);
 }
 
-int func_021EB680(u8 *p, int *state)
+int func_021EB680(BtlvScu *scu, int *state)
 {
-    return func_021EB5B4(p, state, d_021F38B2, 6);
+    return func_021EB5B4(scu, state, d_021F38B2, 6);
 }
 
-int func_021EB690(int *state, u8 *p)
+int func_021EB690(int *state, BtlvScu *scu)
 {
-    u8 *b = p + 0xf0;
-    if (p[0x150]) return func_021EB660(p, state);
+    BtlvScuIntroState *intro = &scu->intro;
+    if (scu->quickMode) return func_021EB660(scu, state);
     switch (*state) {
     case 0:
-        b[5] = 1;
-        b[4] = func_021B8ED8(*(u8 * *)&((struct Obj02793 *)p)->f134, b[5]);
-        *(u8 * *)&((struct Obj00765 *)b)->f0 = func_021B98AC(*(char *const * *)&((struct Obj02793 *)p)->f138, b[4]);
-        b[6] = func_021D5440(*(u8 * *)&((struct Obj00765 *)b)->f0);
-        func_021ED798((struct S *)(p + 0x154));
+        intro->single.side = 1;
+        intro->single.monIdx = func_021B8ED8(scu->context, intro->single.side);
+        intro->single.mon = func_021B98AC(scu->monTable, intro->single.monIdx);
+        intro->single.monId = func_021D5440(intro->single.mon);
+        func_021ED798(&scu->slide);
         (*state)++;
         break;
     case 1:
-        if (func_021ED814((struct S *)(p + 0x154))) {
-            func_021F7EE8(func_021D5864(((struct Obj00765 *)b)->f0), b[5]);
-            func_021F7A28(b[5], 0x231);
+        if (func_021ED814(&scu->slide)) {
+            func_021F7EE8(func_021D5864(intro->single.mon), intro->single.side);
+            func_021F7A28(intro->single.side, 0x231);
             func_021EB584(2);
             (*state)++;
         }
         break;
     case 2:
         if (!func_021F7EB4()) {
-            func_021EEE24(((struct Obj02793 *)p)->f34, func_021EB820(p), 1, b[6]);
-            func_021ECEB8(p, ((struct Obj02793 *)p)->f34, 0x50, 0);
+            func_021EEE24(scu->textBuf, func_021EB820(scu), 1, intro->single.monId);
+            func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
         break;
     case 3:
-        if (func_021ECF68((struct T *)p)) {
-            func_021EDA04((struct E *)(p + 0x48 + b[4] * 12));
-            func_021ED798((struct S *)(p + 0x154));
+        if (func_021ECF68(scu)) {
+            func_021EDA04(&scu->monSlots[intro->single.monIdx]);
+            func_021ED798(&scu->slide);
             (*state)++;
         }
         break;
     case 4:
-        if (func_021ED814((struct S *)(p + 0x154))) {
-            if ((int)func_021B86B8(*(void *** *)&((struct Obj02793 *)p)->f134) == 4) func_021F7998(0x23c);
+        if (func_021ED814(&scu->slide)) {
+            if (func_021B86B8(scu->context) == 4) func_021F7998(0x23c);
             else func_021F7998(0x232);
             (*state)++;
         }
         break;
     case 5:
         if (!func_021F7EB4()) {
-            b[5] = 0;
-            b[4] = func_021B8ED8(*(u8 * *)&((struct Obj02793 *)p)->f134, b[5]);
-            *(u8 * *)&((struct Obj00765 *)b)->f0 = func_021B98AC(*(char *const * *)&((struct Obj02793 *)p)->f138, b[4]);
-            b[6] = func_021D5440(*(u8 * *)&((struct Obj00765 *)b)->f0);
-            func_021F7EE8(func_021D5864(((struct Obj00765 *)b)->f0), b[5]);
+            intro->single.side = 0;
+            intro->single.monIdx = func_021B8ED8(scu->context, intro->single.side);
+            intro->single.mon = func_021B98AC(scu->monTable, intro->single.monIdx);
+            intro->single.monId = func_021D5440(intro->single.mon);
+            func_021F7EE8(func_021D5864(intro->single.mon), intro->single.side);
             func_021F7998(0x234);
-            func_021EEE24(((struct Obj02793 *)p)->f34, 11, 1, b[6]);
-            func_021ECEB8(p, ((struct Obj02793 *)p)->f34, 0x50, 0);
+            func_021EEE24(scu->textBuf, 11, 1, intro->single.monId);
+            func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
         break;
     case 6:
-        if (func_021ECF68((struct T *)p)) {
-            func_021ED798((struct S *)(p + 0x154));
+        if (func_021ECF68(scu)) {
+            func_021ED798(&scu->slide);
             (*state)++;
         }
         break;
     case 7:
-        if (func_021ED814((struct S *)(p + 0x154))) (*state)++;
+        if (func_021ED814(&scu->slide)) (*state)++;
         break;
     case 8:
         if (!func_021F7EB4()) {
-            func_021EDA04((struct E *)(p + 0x48 + b[4] * 12));
+            func_021EDA04(&scu->monSlots[intro->single.monIdx]);
             return 1;
         }
         break;
@@ -624,120 +580,120 @@ int func_021EB690(int *state, u8 *p)
 }
 
 
-int func_021EB820(u8 *a)
+int func_021EB820(BtlvScu *scu)
 {
-    if (func_021BA1A8(((struct Obj07851 *)a)->f134, 4) != 0) {
+    if (func_021BA1A8(scu->context, 4) != 0) {
         return 6;
     }
-    if (func_021BA1A8(((struct Obj07851 *)a)->f134, 8) != 0) {
+    if (func_021BA1A8(scu->context, 8) != 0) {
         return 3;
     }
-    if (func_021BA1A8(((struct Obj07851 *)a)->f134, 0x80) != 0) {
+    if (func_021BA1A8(scu->context, 0x80) != 0) {
         return 4;
     }
-    if (func_021BA1A8(((struct Obj07851 *)a)->f134, 0x10) != 0) {
+    if (func_021BA1A8(scu->context, 0x10) != 0) {
         return 5;
     }
     return 1;
 }
 
-int func_021EB870(int *state, u8 *p)
+int func_021EB870(int *state, BtlvScu *scu)
 {
-    u8 *b = p + 0xf0;
-    u32 buf1[7];
-    u32 buf2[7];
-    u32 a, i;
-    if (p[0x150]) return func_021EB660(p, state);
+    BtlvScuIntroState *intro = &scu->intro;
+    u32 introArgs[7];
+    u32 sendOutArgs[7];
+    u32 side, trainerIdx;
+    if (scu->quickMode) return func_021EB660(scu, state);
     switch (*state) {
     case 0:
-        a = func_021B8ED8(*(u8 * *)&((struct Obj01695 *)p)->f134, 1);
-        i = func_021B8DE4((char *)(*(u8 * *)&((struct Obj01695 *)p)->f134), a);
-        func_021F7F58(func_021BA020(*(char * *)&((struct Obj01695 *)p)->f134, i), 9, 0, 0, 0);
-        b[5] = 1;
-        b[7] = i;
-        b[4] = a;
-        *(u8 * *)&((struct Obj00579 *)b)->f0 = func_021B98AC(*(char *const * *)&((struct Obj01695 *)p)->f138, b[4]);
-        b[6] = func_021D5440(*(u8 * *)&((struct Obj00579 *)b)->f0);
-        func_021ED798((struct S *)(p + 0x154));
+        side = func_021B8ED8(scu->context, 1);
+        trainerIdx = func_021B8DE4(scu->context, side);
+        func_021F7F58(func_021BA020(scu->context, trainerIdx), 9, 0, 0, 0);
+        intro->single.side = 1;
+        intro->single.trainerIdx = trainerIdx;
+        intro->single.monIdx = side;
+        intro->single.mon = func_021B98AC(scu->monTable, intro->single.monIdx);
+        intro->single.monId = func_021D5440(intro->single.mon);
+        func_021ED798(&scu->slide);
         (*state)++;
         break;
     case 1:
-        if (func_021ED814((struct S *)(p + 0x154))) {
-            func_021F7A28(b[5], 0x237);
+        if (func_021ED814(&scu->slide)) {
+            func_021F7A28(intro->single.side, 0x237);
             func_021EB584(2);
             (*state)++;
         }
         break;
     case 2:
         if (!func_021F7EB4()) {
-            func_021EE104(p, buf1, b[7], 4, 1);
-            func_021F823C(buf1);
-            func_021EEE24(((struct Obj01695 *)p)->f34, 7, 1, b[7]);
-            func_021ECEB8(p, ((struct Obj01695 *)p)->f34, 0x50, 0);
+            func_021EE104(scu, introArgs, intro->single.trainerIdx, 4, 1);
+            func_021F823C(introArgs);
+            func_021EEE24(scu->textBuf, 7, 1, intro->single.trainerIdx);
+            func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
         break;
     case 3:
-        if (func_021ECF68((struct T *)p)) {
-            func_021F7A28(b[5], 0x238);
-            func_021ED798((struct S *)(p + 0x154));
+        if (func_021ECF68(scu)) {
+            func_021F7A28(intro->single.side, 0x238);
+            func_021ED798(&scu->slide);
             (*state)++;
         }
         break;
     case 4:
-        if (func_021ED814((struct S *)(p + 0x154)) && !func_021F7EB4()) {
-            func_021EEE24(((struct Obj01695 *)p)->f34, 14, 2, 1, b[6]);
-            func_021ECEB8(p, ((struct Obj01695 *)p)->f34, 0x50, 0);
+        if (func_021ED814(&scu->slide) && !func_021F7EB4()) {
+            func_021EEE24(scu->textBuf, 14, 2, 1, intro->single.monId);
+            func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
         break;
     case 5:
-        if (func_021ECF68((struct T *)p)) {
-            func_021F7EE8(func_021D5864(((struct Obj00579 *)b)->f0), b[5]);
-            func_021F7A28(b[5], 0x239);
+        if (func_021ECF68(scu)) {
+            func_021F7EE8(func_021D5864(intro->single.mon), intro->single.side);
+            func_021F7A28(intro->single.side, 0x239);
             func_021F8260(1);
-            func_021ED798((struct S *)(p + 0x154));
+            func_021ED798(&scu->slide);
             (*state)++;
         }
         break;
     case 6:
-        if (func_021ED814((struct S *)(p + 0x154)) && !func_021F7EB4()) {
-            func_021EE104(p, buf2, func_021B8FF4(*(u8 * *)&((struct Obj01695 *)p)->f134), 4, 0);
-            func_021F823C(buf2);
+        if (func_021ED814(&scu->slide) && !func_021F7EB4()) {
+            func_021EE104(scu, sendOutArgs, func_021B8FF4(scu->context), 4, 0);
+            func_021F823C(sendOutArgs);
             (*state)++;
         }
         break;
     case 7:
-        func_021EDA04((struct E *)(p + 0x48 + b[4] * 12));
+        func_021EDA04(&scu->monSlots[intro->single.monIdx]);
         func_021F7998(0x232);
         (*state)++;
         break;
     case 8:
         if (!func_021F7EB4() && !func_021F827C(0)) {
-            b[5] = 0;
-            b[4] = func_021B8ED8(*(u8 * *)&((struct Obj01695 *)p)->f134, b[5]);
-            *(u8 * *)&((struct Obj00579 *)b)->f0 = func_021B98AC(*(char *const * *)&((struct Obj01695 *)p)->f138, b[4]);
-            b[6] = func_021D5440(*(u8 * *)&((struct Obj00579 *)b)->f0);
-            func_021F7EE8(func_021D5864(((struct Obj00579 *)b)->f0), b[5]);
+            intro->single.side = 0;
+            intro->single.monIdx = func_021B8ED8(scu->context, intro->single.side);
+            intro->single.mon = func_021B98AC(scu->monTable, intro->single.monIdx);
+            intro->single.monId = func_021D5440(intro->single.mon);
+            func_021F7EE8(func_021D5864(intro->single.mon), intro->single.side);
             func_021F7998(0x234);
-            func_021EEE24(((struct Obj01695 *)p)->f34, 11, 1, b[6]);
-            func_021ECEB8(p, ((struct Obj01695 *)p)->f34, 0x50, 0);
+            func_021EEE24(scu->textBuf, 11, 1, intro->single.monId);
+            func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
         break;
     case 9:
-        if (func_021ECF68((struct T *)p)) {
+        if (func_021ECF68(scu)) {
             func_021F8260(0);
-            func_021ED798((struct S *)(p + 0x154));
+            func_021ED798(&scu->slide);
             (*state)++;
         }
         break;
     case 10:
-        if (func_021ED814((struct S *)(p + 0x154))) (*state)++;
+        if (func_021ED814(&scu->slide)) (*state)++;
         break;
     case 11:
         if (!func_021F7EB4()) {
-            func_021EDA04((struct E *)(p + 0x48 + b[4] * 12));
+            func_021EDA04(&scu->monSlots[intro->single.monIdx]);
             return 1;
         }
         break;
@@ -745,18 +701,16 @@ int func_021EB870(int *state, u8 *p)
     return 0;
 }
 
-extern int (*const d_021F38E8[][2])(u8 *, int *);
 
 
-
-int func_021EBAC0(int *a, u8 *b)
+int func_021EBAC0(int *state, BtlvScu *scu)
 {
-    if (b[0x150] != 0)
-        return func_021EB660(b, a);
-    if (b[0x14f] < 3) {
-        if (d_021F38E8[b[0x14f]][func_021B8FF4(*(u8 **)(b + 0x134))](b, a) != 0) {
-            b[0x14f] = b[0x14f] + 1;
-            *a = 0;
+    if (scu->quickMode != 0)
+        return func_021EB660(scu, state);
+    if (scu->phase < 3) {
+        if (d_021F38E8[scu->phase][func_021B8FF4(scu->context)](scu, state) != 0) {
+            scu->phase = scu->phase + 1;
+            *state = 0;
         }
         return 0;
     }
@@ -769,91 +723,89 @@ int func_021EBAC0(int *a, u8 *b)
  * integer temporary gave 620 and lost the index spill; pointer lvalues gave
  * EXACT 624 bytes. Evidence: B10/BB20-r1.log through BB20-r3.log.
  */
-int func_021EBB20(int *state, u8 *p)
+int func_021EBB20(int *state, BtlvScu *scu)
 {
-    u8 *b = p + 0xf0;
-    u32 a;
+    BtlvScuIntroState *intro = &scu->intro;
+    u32 side;
     unsigned i;
-    u8 *q;
-    if (p[0x150]) return func_021EB670(p, state);
+    if (scu->quickMode) return func_021EB670(scu, state);
     switch (*state) {
     case 0:
-        a = func_021B8BEC(*(u8 * *)&((struct Obj01377 *)p)->f134, p[0x140], 0);
-        b[10] = func_021B8C50(((struct Obj01377 *)p)->f134, a, 0);
-        *(u8 * *)&((struct Obj00406 *)b)->f0 = func_021B98AC(*(char *const * *)&((struct Obj01377 *)p)->f138, b[10]);
-        b[8] = func_021D5440(*(u8 * *)&((struct Obj00406 *)b)->f0);
-        b[11] = func_021B8C50(((struct Obj01377 *)p)->f134, a, 1);
-        *(u8 * *)&((struct Obj00406 *)b)->f4 = func_021B98AC(*(char *const * *)&((struct Obj01377 *)p)->f138, b[11]);
-        b[9] = func_021D5440(*(u8 * *)&((struct Obj00406 *)b)->f4);
-        func_021ED798((struct S *)(p + 0x154));
+        side = func_021B8BEC(scu->context, scu->clientIndex, 0);
+        intro->dbl.monIdx[0] = func_021B8C50(scu->context, side, 0);
+        intro->dbl.mon[0] = func_021B98AC(scu->monTable, intro->dbl.monIdx[0]);
+        intro->dbl.monId[0] = func_021D5440(intro->dbl.mon[0]);
+        intro->dbl.monIdx[1] = func_021B8C50(scu->context, side, 1);
+        intro->dbl.mon[1] = func_021B98AC(scu->monTable, intro->dbl.monIdx[1]);
+        intro->dbl.monId[1] = func_021D5440(intro->dbl.mon[1]);
+        func_021ED798(&scu->slide);
         (*state)++;
         break;
     case 1:
-        if (func_021ED814((struct S *)(p + 0x154))) {
-            a = func_021B8E70(*(u8 * *)&((struct Obj01377 *)p)->f134, b[10]);
-            func_021F7EE8(func_021D5864(((struct Obj00406 *)b)->f0), a);
+        if (func_021ED814(&scu->slide)) {
+            side = func_021B8E70(scu->context, intro->dbl.monIdx[0]);
+            func_021F7EE8(func_021D5864(intro->dbl.mon[0]), side);
             (*state)++;
         }
         break;
     case 2:
         if (!func_021F7EB4()) {
-            a = func_021B8E70(*(u8 * *)&((struct Obj01377 *)p)->f134, b[11]);
-            func_021F7EE8(func_021D5864(((struct Obj00406 *)b)->f4), a);
-            func_021F7A28(a, 0x231);
+            side = func_021B8E70(scu->context, intro->dbl.monIdx[1]);
+            func_021F7EE8(func_021D5864(intro->dbl.mon[1]), side);
+            func_021F7A28(side, 0x231);
             func_021EB584(2);
             (*state)++;
         }
         break;
     case 3:
         if (!func_021F7EB4()) {
-            func_021EEE24(((struct Obj01377 *)p)->f34, 2, 2, b[8], b[9]);
-            func_021ECEB8(p, ((struct Obj01377 *)p)->f34, 0x50, 0);
+            func_021EEE24(scu->textBuf, 2, 2, intro->dbl.monId[0], intro->dbl.monId[1]);
+            func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
         break;
     case 4:
-        if (func_021ECF68((struct T *)p)) {
-            func_021EDA04((struct E *)(p + 0x48 + b[10] * 12));
-            func_021EDA04((struct E *)(p + 0x48 + b[11] * 12));
-            func_021ED798((struct S *)(p + 0x154));
+        if (func_021ECF68(scu)) {
+            func_021EDA04(&scu->monSlots[intro->dbl.monIdx[0]]);
+            func_021EDA04(&scu->monSlots[intro->dbl.monIdx[1]]);
+            func_021ED798(&scu->slide);
             (*state)++;
         }
         break;
     case 5:
-        if (func_021ED814((struct S *)(p + 0x154))) {
+        if (func_021ED814(&scu->slide)) {
             func_021F7998(0x232);
             (*state)++;
         }
         break;
     case 6:
         if (!func_021F7EB4()) {
-            b[12] = 2;
-            b[13] = 4;
-            b[15] = func_021B8FF4(*(u8 * *)&((struct Obj01377 *)p)->f134);
+            intro->dbl.side[0] = 2;
+            intro->dbl.side[1] = 4;
+            intro->dbl.localSide = func_021B8FF4(scu->context);
             for (i = 0; i < 2; i++) {
-                q = b + i;
-                q[10] = func_021B8ED8(*(u8 * *)&((struct Obj01377 *)p)->f134, q[12]);
-                ((u8 **)b)[i] = (u8 *)func_021B98AC(*(char *const * *)&((struct Obj01377 *)p)->f138, q[10]);
-                if (((u8 **)b)[i]) q[8] = func_021D5440(((u8 **)b)[i]);
+                intro->dbl.monIdx[i] = func_021B8ED8(scu->context, intro->dbl.side[i]);
+                intro->dbl.mon[i] = func_021B98AC(scu->monTable, intro->dbl.monIdx[i]);
+                if (intro->dbl.mon[i]) intro->dbl.monId[i] = func_021D5440(intro->dbl.mon[i]);
             }
-            func_021F7EE8(func_021D5864(((struct Obj00406 *)b)->f0), b[12]);
-            func_021F7EE8(func_021D5864(((struct Obj00406 *)b)->f4), b[13]);
+            func_021F7EE8(func_021D5864(intro->dbl.mon[0]), intro->dbl.side[0]);
+            func_021F7EE8(func_021D5864(intro->dbl.mon[1]), intro->dbl.side[1]);
             func_021F7998(0x234);
-            func_021EEE24(((struct Obj01377 *)p)->f34, 12, 2, b[8], b[9]);
-            func_021ECEB8(p, ((struct Obj01377 *)p)->f34, 0x50, 0);
+            func_021EEE24(scu->textBuf, 12, 2, intro->dbl.monId[0], intro->dbl.monId[1]);
+            func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
         break;
     case 7:
-        if (func_021ECF68((struct T *)p)) {
-            func_021ED798((struct S *)(p + 0x154));
+        if (func_021ECF68(scu)) {
+            func_021ED798(&scu->slide);
             (*state)++;
         }
         break;
     case 8:
-        if (func_021ED814((struct S *)(p + 0x154)) && !func_021F7EB4()) {
-            func_021EDA04((struct E *)(p + 0x48 + b[10] * 12));
-            func_021EDA04((struct E *)(p + 0x48 + b[11] * 12));
+        if (func_021ED814(&scu->slide) && !func_021F7EB4()) {
+            func_021EDA04(&scu->monSlots[intro->dbl.monIdx[0]]);
+            func_021EDA04(&scu->monSlots[intro->dbl.monIdx[1]]);
             (*state)++;
         }
         break;
@@ -864,72 +816,64 @@ int func_021EBB20(int *state, u8 *p)
     return 0;
 }
 
-extern int (*const d_021F38D0[])(u8 *, int *);
 
 
-
-int func_021EBD90(int *a, u8 *b)
+int func_021EBD90(int *state, BtlvScu *scu)
 {
-    if (b[0x150] != 0)
-        return func_021EB670(b, a);
-    if (b[0x14f] < 3) {
-        if (d_021F38D0[b[0x14f]](b, a) != 0) {
-            b[0x14f] = b[0x14f] + 1;
-            *a = 0;
+    if (scu->quickMode != 0)
+        return func_021EB670(scu, state);
+    if (scu->phase < 3) {
+        if (d_021F38D0[scu->phase](scu, state) != 0) {
+            scu->phase = scu->phase + 1;
+            *state = 0;
         }
         return 0;
     }
     return 1;
 }
 
-extern int (*const d_021F38DC[])(u8 *, int *);
 
 
-
-int func_021EBDDC(int *a, u8 *b)
+int func_021EBDDC(int *state, BtlvScu *scu)
 {
-    if (b[0x150] != 0)
-        return func_021EB670(b, a);
-    if (b[0x14f] < 3) {
-        if (d_021F38DC[b[0x14f]](b, a) != 0) {
-            b[0x14f] = b[0x14f] + 1;
-            *a = 0;
+    if (scu->quickMode != 0)
+        return func_021EB670(scu, state);
+    if (scu->phase < 3) {
+        if (d_021F38DC[scu->phase](scu, state) != 0) {
+            scu->phase = scu->phase + 1;
+            *state = 0;
         }
         return 0;
     }
     return 1;
 }
 
-extern int (*const d_021F3900[][2])(u8 *, int *);
 
 
-
-int func_021EBE28(int *a, u8 *b)
+int func_021EBE28(int *state, BtlvScu *scu)
 {
-    if (b[0x150] != 0)
-        return func_021EB670(b, a);
-    if (b[0x14f] < 3) {
-        if (d_021F3900[b[0x14f]][func_021B8FF4(*(u8 **)(b + 0x134))](b, a) != 0) {
-            b[0x14f] = b[0x14f] + 1;
-            *a = 0;
+    if (scu->quickMode != 0)
+        return func_021EB670(scu, state);
+    if (scu->phase < 3) {
+        if (d_021F3900[scu->phase][func_021B8FF4(scu->context)](scu, state) != 0) {
+            scu->phase = scu->phase + 1;
+            *state = 0;
         }
         return 0;
     }
     return 1;
 }
 
-extern int (*const d_021F38B8[])(u8 *, int *);
 
 
-
-int func_021EBE88(int *a, u8 *b)
+int func_021EBE88(int *state, BtlvScu *scu)
 {
-    if (b[0x150] != 0)
-        return func_021EB670(b, a);
-    if (b[0x14f] < 3) {
-        if (d_021F38B8[b[0x14f]](b, a) != 0) {
-            b[0x14f] = b[0x14f] + 1;
-            *a = 0;
+    if (scu->quickMode != 0)
+        return func_021EB670(scu, state);
+    if (scu->phase < 3) {
+        if (d_021F38B8[scu->phase](scu, state) != 0) {
+            scu->phase = scu->phase + 1;
+            *state = 0;
         }
         return 0;
     }

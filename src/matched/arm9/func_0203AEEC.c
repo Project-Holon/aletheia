@@ -1,5 +1,5 @@
 /*
- * function: func_0203AEEC
+ * function: GFL_NET_STATE_FreeWork
  * address:  0x0203AEEC
  * packet:   pkt_0203AEEC
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_0203A53C  0x0203A53C  arm
- *   func_020370C8  0x020370C8  arm
- *   func_02037B08  0x02037B08  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_COMMAND_Exit  0x0203A53C  arm
+ *   GFL_NET_WM_ICON_EasyEnd  0x020370C8  arm
+ *   GFL_NET_SYSTEM_FreeWork  0x02037B08  arm
  *   func_020307B0  0x020307B0  arm
  *
  * Shuts the network down when the transport's +0x74 virtual answers non-zero:
@@ -26,28 +26,28 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203AEEC.c \
- *       --func func_0203AEEC --addr 0x0203AEEC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_FreeWork.c \
+ *       --func GFL_NET_STATE_FreeWork --addr 0x0203AEEC --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_0203D788(void);
-extern void  func_0203A53C(void);
-extern void  func_020370C8(void);
-extern void  func_02037B08(void);
+extern void *GFL_NET_GetSession(void);
+extern void  GFL_NET_COMMAND_Exit(void);
+extern void  GFL_NET_WM_ICON_EasyEnd(void);
+extern void  GFL_NET_SYSTEM_FreeWork(void);
 extern u32 func_020307B0(void *p);
 
-void func_0203AEEC(u8 *p)
+void GFL_NET_STATE_FreeWork(u8 *p)
 {
     void (*f)(void);
 
-    if (((u32 (*)(void))*(u32 *)(*(u32 *)((char *)func_0203D788() + 0x340) + 0x74))() == 0)
+    if (((u32 (*)(void))*(u32 *)(*(u32 *)((char *)GFL_NET_GetSession() + 0x340) + 0x74))() == 0)
         return;
-    func_0203A53C();
-    func_020370C8();
-    func_02037B08();
+    GFL_NET_COMMAND_Exit();
+    GFL_NET_WM_ICON_EasyEnd();
+    GFL_NET_SYSTEM_FreeWork();
     f = (void (*)(void))*(u32 *)(*(u32 *)((char *)(0x21469DC)) + 0x28);
     func_020307B0((void *)*(u32 *)((char *)(0x21469DC)));
     *(u32 *)((char *)(0x21469DC)) = 0;

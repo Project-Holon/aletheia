@@ -12,7 +12,7 @@
  * sdk:      gsCoreIsShutdown (gscore.o)
  *
  * symbols:
- *   func_0217CA20                  0x0217CA20  arm ov009
+ *   gsiCoreGetManager                  0x0217CA20  arm ov009
  */
 
 typedef struct GSCoreMgr {
@@ -21,11 +21,11 @@ typedef struct GSCoreMgr {
     int b0c;
 } GSCoreMgr;
 
-extern void *func_0217CA20(void);
+extern void *gsiCoreGetManager(void);
 
 int func_0217CE1C(void)
 {
-    GSCoreMgr *aCore = func_0217CA20();
+    GSCoreMgr *aCore = gsiCoreGetManager();
     if (aCore->b0c != 0)
         return 1;
     if (aCore->a0 == 0)

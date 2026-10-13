@@ -1,6 +1,6 @@
 /*
  * file:     unit_02085B94.c
- * function: func_02085B94
+ * function: OS_SetThreadUserParameter
  * address:  0x02085B94
  * packet:   pkt_02085B94
  * region:   arm9
@@ -12,7 +12,7 @@
  */
 #include "../../matched/include/Obj16692.h"
 
-void func_02085B94(char *thread, int parameter)
+void OS_SetThreadUserParameter(char *thread, int parameter)
 {
     ((struct Obj16692 *)thread)->fB4 = parameter;
 }

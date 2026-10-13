@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_021797A4     0x021797A4  data   a4
+ *   g_pWhPipeWork     0x021797A4  data   a4
  *   func_02178E4C  0x02178E4C  thumb  ov014
  *   func_02179498  0x02179498  thumb  ov014
  *   func_0217727C  0x0217727C  thumb  ov014
@@ -20,7 +20,7 @@
 
 typedef unsigned char u8;
 
-extern struct W *g_021797A4;
+extern struct W *g_pWhPipeWork;
 extern int func_02178E4C(void);
 extern int func_02179498(void);
 typedef unsigned int   u32;
@@ -31,10 +31,10 @@ void func_02177614(u8 *p)
 {
     if (func_02178E4C() == 1 && func_02179498() != 0) {
         p[0xCF5] = 0xFF;
-        func_0217727C((u32 *)((u8 *)g_021797A4), (u32)func_02177660);
+        func_0217727C((u32 *)((u8 *)g_pWhPipeWork), (u32)func_02177660);
     }
     if (func_02178E4C() == 9) {
         p[0xCF5] = 0xFF;
-        func_0217727C((u32 *)((u8 *)g_021797A4), (u32)func_02177660);
+        func_0217727C((u32 *)((u8 *)g_pWhPipeWork), (u32)func_02177660);
     }
 }

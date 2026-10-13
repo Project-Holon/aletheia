@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * lever: 02045874 takes the source and heap, forwarding r1 unchanged to its allocator.
- * evidence: matched arm9/sub_02045874.c; original 021FAC58 loads heap into r1,
+ * evidence: matched arm9/STRBUF_Clone.c; original 021FAC58 loads heap into r1,
  * then loads source into r0 at021FAC5A before storing heap and calling021FAC62.
  * symbols:
  *   func_02034714 0x02034714 arm

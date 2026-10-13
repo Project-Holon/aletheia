@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146940  0x02146940  data
+ *   GAME_BEACON_Work  0x02146940  data
  *   func_02012EBC    0x02012EBC  thumb
  *   func_0200C0F0    0x0200C0F0  thumb
  *   func_02045A98    0x02045A98  arm
@@ -33,7 +33,7 @@ struct Outer {
     struct Inner in;
 };
 
-extern struct Outer *g_02146940;
+extern struct Outer *GAME_BEACON_Work;
 
 struct Big;
 extern void *func_02012EBC(struct Big *p);
@@ -44,7 +44,7 @@ extern u16 *func_0200C1F4(struct Blk34 *p);
 
 void func_02027198(void)
 {
-    struct Outer *g = g_02146940;
+    struct Outer *g = GAME_BEACON_Work;
     struct Inner *in;
     u16 *q;
     u32 v;

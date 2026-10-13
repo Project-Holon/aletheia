@@ -1,5 +1,5 @@
 /*
- * function: func_02173EEC
+ * function: UNION_COMMAND_RecvAppSetting
  * address:  0x02173EEC
  * packet:   pkt_ov012_02173EEC
  * region:   ov012
@@ -22,7 +22,7 @@ extern u32 func_0203D378(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02183F98(void *p, const void *value);
 
-void func_02173EEC(int a, int b, void *value, u8 *p)
+void UNION_COMMAND_RecvAppSetting(int a, int b, void *value, u8 *p)
 {
     u8 *q;
     if (func_0203D378() != 1) {

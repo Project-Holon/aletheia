@@ -12,7 +12,7 @@
  * symbols:
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021B9A24  0x021B9A24  thumb  ov093
- *   func_0201C314  0x0201C314  thumb
+ *   WAZA_TOOL_IsDamaging  0x0201C314  thumb
  *   func_021D76BC  0x021D76BC  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
@@ -25,7 +25,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
 extern int func_021B9A24(u32 a, u32 b);
-extern u32 func_0201C314(u16 id);
+extern u32 WAZA_TOOL_IsDamaging(u16 id);
 extern int func_021D76BC(int key, u32 val);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
@@ -41,7 +41,7 @@ void func_021DC2A0(int u, void *a, u32 b)
         c = func_021D775C(3);
         if (func_021B9A24(b, c) != 0
             && b != c
-            && func_0201C314(func_021D775C(0x12)) != 0
+            && WAZA_TOOL_IsDamaging(func_021D775C(0x12)) != 0
             && func_021D76BC(0x40, 1) != 0) {
             e = func_021C88A4(a, 4, b);
             ((struct Obj21343 *)e)->f0 |= 1 << 23;

@@ -1,5 +1,5 @@
 /*
- * function: func_0200A21C
+ * function: MYSTERY_DATA_CheckPacketCrc
  * address:  0x0200A21C
  * packet:   pkt_0200A21C
  * region:   arm9
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 
-int func_0200A21C(u8 *obj)
+int MYSTERY_DATA_CheckPacketCrc(u8 *obj)
 {
     int i;
     u32 limit = 0x2d0;

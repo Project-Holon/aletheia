@@ -1,5 +1,5 @@
 /*
- * function: func_0204F7DC
+ * function: BILLBOARD_Draw
  * address:  0x0204F7DC
  * packet:   pkt_0204F7DC
  * region:   arm9
@@ -21,8 +21,8 @@
  *   VEC_Normalize      0x0207CCA4  arm
  *   MTX_Identity33_    0x0207ADC4  arm
  *   MTX_RotY33_        0x0207AF1C  thumb
- *   func_02048C80      0x02048C80  arm
- *   func_02048CCC      0x02048CCC  arm
+ *   G3D_LIGHT_GetSlotColor      0x02048C80  arm
+ *   G3D_LIGHT_GetSlotFlags      0x02048CCC  arm
  *   FX_Div             0x0207C768  arm
  *   G3_MultTransMtx33  0x0207D950  arm
  *   G3_RotZ            0x0207D888  arm
@@ -43,7 +43,7 @@
  * swaps the mul/ldrsh destinations); a SEPARATE counter j for the light
  * loop (sharing i puts i in the lowest spill slot); declaration order
  * scale, s1/s0/t1/t0, i, j, nx/ny/nz fixes the remaining spill slots.
- * func_02048C80/CCC take a u8 index here (`and r1, r8, #0xff`).
+ * G3D_LIGHT_GetSlotColor/CCC take a u8 index here (`and r1, r8, #0xff`).
  */
 
 typedef unsigned char  u8;
@@ -166,9 +166,9 @@ extern void func_02048B30(struct Camera *cam, VecFx32 *out);
 struct Lights;
 struct LightSlot;
 struct Rgb555;
-extern void func_02048C80(struct LightSlot *slots, u8 i, struct Rgb555 *out);
+extern void G3D_LIGHT_GetSlotColor(struct LightSlot *slots, u8 i, struct Rgb555 *out);
 struct LightSlot;
-extern void func_02048CCC(struct LightSlot *slots, u8 i, u16 *out);
+extern void G3D_LIGHT_GetSlotFlags(struct LightSlot *slots, u8 i, u16 *out);
 
 struct Slot {
     u32 f00;
@@ -234,7 +234,7 @@ struct Board {
 struct Quad { fx16 y0, y1, x0, x1; };
 extern const struct Quad gBillboardQuad[];
 
-void func_0204F7DC(struct Board *b, struct Camera *cam, struct Lights *lights)
+void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights)
 {
     MtxFx33 rot[4];
     VecFx32 camPos;
@@ -290,8 +290,8 @@ void func_0204F7DC(struct Board *b, struct Camera *cam, struct Lights *lights)
 
     if (lights != 0) {
         for (j = 0; j < 4; j++) {
-            func_02048C80((struct LightSlot *)lights, j, (struct Rgb555 *)(&lvec));
-            func_02048CCC((struct LightSlot *)lights, j, &lcol);
+            G3D_LIGHT_GetSlotColor((struct LightSlot *)lights, j, (struct Rgb555 *)(&lvec));
+            G3D_LIGHT_GetSlotFlags((struct LightSlot *)lights, j, &lcol);
             G3_LightVector(j, lvec.x, lvec.y, lvec.z);
             G3_LightColor(j, lcol);
         }

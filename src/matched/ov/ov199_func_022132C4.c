@@ -27,6 +27,9 @@
  *   func_0200BA68 0x0200BA68 thumb
  *   ov093_id 0x0000005D data a1
  *   d_02213D04 0x02213D04 data ov199 a1
+ *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
+ *   BTL_SETUP_InitWithSlots  0x020138C4  thumb  arm9
  */
 typedef signed int     s32;
 typedef unsigned short u16;
@@ -37,12 +40,12 @@ extern void func_02082BCC(void *, int, unsigned int);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern void func_020130C4(u8 *p);
-extern void func_020138C4(char *, void *, int);
+extern void BTL_SETUP_InitWithSlots(char *, void *, int);
 extern void func_0200BA58(void);
 extern void func_0200BA68(void);
 extern void func_021EEEA8(void *p, u32 c);
-extern void func_02005D28(void);
-extern void func_02005D90(unsigned short, int);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(unsigned short, int);
 extern const char d_02213D04[];
 extern const char ov093_id[];
 void *func_022132C4(void *unused, int heap, char *p)
@@ -51,13 +54,13 @@ void *func_022132C4(void *unused, int heap, char *p)
     func_02082BCC(work, 0, 0xf0);
     func_02034AC4((s32)ov093_id);
     func_020130C4((u8 *)work);
-    func_020138C4(work, *(void **)(p + 4), heap);
+    BTL_SETUP_InitWithSlots(work, *(void **)(p + 4), heap);
     func_02034A5C((s32)ov093_id);
     func_0200BA58();
     func_021EEEA8(work, heap);
     func_0200BA68();
     func_02034AC4((s32)ov093_id);
-    func_02005D28();
-    func_02005D90(*(unsigned short *)(work + 0x18), 0xffff);
+    GFL_USE_CancelChangeAndStopBgm();
+    GFL_USE_CancelChangeAndPlayBgm(*(unsigned short *)(work + 0x18), 0xffff);
     return work;
 }

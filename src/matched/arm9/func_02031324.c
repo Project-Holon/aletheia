@@ -1,5 +1,5 @@
 /*
- * function: func_02031324
+ * function: PROCSYS_Create
  * address:  0x02031324
  * packet:   pkt_02031324
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02031354  0x02031354  arm
+ *   PROCSYS_CreateInternal  0x02031354  arm
  */
 
-extern void *func_02031354(int a0);
+extern void *PROCSYS_CreateInternal(int a0);
 
-void *func_02031324(int a0)
+void *PROCSYS_Create(int a0)
 {
-    return func_02031354(a0);
+    return PROCSYS_CreateInternal(a0);
 }

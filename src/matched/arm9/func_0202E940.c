@@ -1,5 +1,5 @@
 /*
- * function: func_0202E940
+ * function: BLINK_PALANM_Create
  * address:  0x0202E940
  * packet:   pkt_0202E940
  * region:   arm9
@@ -40,7 +40,7 @@ struct CodeIn {
     u16 h18;      /* 0x18 */
 };
 
-struct CodeIn *func_0202E940(u16 a0, u16 a1, u32 a2, u16 heap)
+struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap)
 {
     struct CodeIn *p;
 

@@ -8,10 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201C450, sub_0201C4C0, sub_0201C4C8, sub_0201C4DC
+ * function: PRINTSYS_QUE_CreateEx, PRINTSYS_QUE_Delete, PRINTSYS_QUE_SetForceQueue, PRINTSYS_QUE_SetLimitTick
  *
  * symbols:
- *   sub_0201C450_File   0x020A734C  data
+ *   printsys_File   0x020A734C  data
  *
  * The head of printsys.c: the module constructor and three accessors on the
  * object it builds.  The file identity is in the image, the same way
@@ -28,7 +28,7 @@
  * already holds zero.  See
  * docs/idioms/a-u64-field-store-picks-a-different-scratch-register.md.
  *
- * sub_0201C4DC writes the two halves of that u64 separately, which is what
+ * PRINTSYS_QUE_SetLimitTick writes the two halves of that u64 separately, which is what
  * fixes the field as a union of the 64 bit value and a two-word struct rather
  * than a plain `u64` (docs/idioms/long-long-aligns-to-four.md is why +8 is a
  * legal offset for it at all).
@@ -51,7 +51,7 @@ typedef unsigned short     u16;
 typedef unsigned int       u32;
 typedef unsigned long long u64;
 
-extern const char sub_0201C450_File[];
+extern const char printsys_File[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 
@@ -74,7 +74,7 @@ struct PrintSys {
     void *unk14;
 };
 
-void *sub_0201C450(u16 n, u32 heap)
+void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap)
 {
     u16 v = n + 0x1C;
     struct PrintSys *p;
@@ -82,7 +82,7 @@ void *sub_0201C450(u16 n, u32 heap)
     while (v % 4 != 0) {
         v++;
     }
-    p = func_02030734(heap, v + 0x18, 0, sub_0201C450_File, 287);
+    p = func_02030734(heap, v + 0x18, 0, printsys_File, 287);
     p->unk04 = n;
     p->unk08.v = 0x1130;
     p->unk10 = 0;
@@ -95,17 +95,17 @@ void *sub_0201C450(u16 n, u32 heap)
     return p;
 }
 
-void sub_0201C4C0(struct PrintSys *p)
+void PRINTSYS_QUE_Delete(struct PrintSys *p)
 {
     func_020307B0(p);
 }
 
-void sub_0201C4C8(struct PrintSys *p, u32 v)
+void PRINTSYS_QUE_SetForceQueue(struct PrintSys *p, u32 v)
 {
     ((u8 *)p)[7] = (((u8 *)p)[7] & ~0xF0u) | (u8)((u8)v << 4);
 }
 
-void sub_0201C4DC(struct PrintSys *p, u32 lo, u32 hi)
+void PRINTSYS_QUE_SetLimitTick(struct PrintSys *p, u32 lo, u32 hi)
 {
     p->unk08.w.lo = lo;
     p->unk08.w.hi = hi;

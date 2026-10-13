@@ -64,7 +64,7 @@
  *   func_0207D63C 0x0207D63C arm
  *   func_02041EE4 0x02041EE4 arm
  *   func_020490F4 0x020490F4 arm
- *   func_020499D4 0x020499D4 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   func_02049238 0x02049238 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_021BF7D4 0x021BF7D4 thumb ov110
@@ -75,24 +75,24 @@
  *   func_0201C724 0x0201C724 thumb
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_0204B3F4 0x0204B3F4 arm
- *   func_0204B898 0x0204B898 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   func_0204B98C 0x0204B98C arm
  *   d_021C3C58 0x021C3C58 data a1
- *   func_02020D18 0x02020D18 thumb
- *   func_0202C9B4 0x0202C9B4 thumb
- *   func_0202CA0C 0x0202CA0C thumb
+ *   BMP_CURSOR_Create 0x02020D18 thumb
+ *   BGWINFRM_Create 0x0202C9B4 thumb
+ *   BGWINFRM_Delete 0x0202CA0C thumb
  *   func_02030EAC 0x02030EAC arm
- *   func_02020D3C 0x02020D3C thumb
+ *   BMP_CURSOR_Delete 0x02020D3C thumb
  *   func_021BC068 0x021BC068 thumb ov110
  *   func_021BC120 0x021BC120 thumb ov110
  *   func_021BC160 0x021BC160 thumb ov110
  *   func_021BC23C 0x021BC23C thumb ov110
  *   func_021BC1B8 0x021BC1B8 thumb ov110
- *   func_0202CA3C 0x0202CA3C thumb
- *   func_0202CB18 0x0202CB18 thumb
- *   func_0202CB4C 0x0202CB4C thumb
- *   func_0202CEBC 0x0202CEBC thumb
- *   func_0202CC58 0x0202CC58 thumb
+ *   BGWINFRM_AddFrame 0x0202CA3C thumb
+ *   BGWINFRM_SetFrameDataArcHandle 0x0202CB18 thumb
+ *   BGWINFRM_PutFrame 0x0202CB4C thumb
+ *   BGWINFRM_PutBmpWin 0x0202CEBC thumb
+ *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  */
 #include "../../matched/include/Obj03751.h"
 #include "../../matched/include/Obj03752.h"
@@ -193,7 +193,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(void *, int, int, int, int);
 extern void func_02041EE4(u32,u32,u32);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32 func_020499D4(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void func_02049238(void *);
 extern void func_02041B6C(unsigned);
 extern void func_021BF7D4(u8 *p, void *q);
@@ -204,23 +204,23 @@ extern void func_021BF814(u8 *p, u32 a, int b);
 extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern u32 func_0204B3F4(struct Obj *p);
-extern u16 func_0204B898(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern u32 func_0204B98C(struct Actor *a);
-extern void *func_02020D18(unsigned);
-extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
-extern void func_0202CA0C(struct WinMgr *mgr);
+extern void *BMP_CURSOR_Create(unsigned);
+extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
+extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern void func_02030EAC(struct Node *n);
-extern void func_02020D3C(struct D *p);
+extern void BMP_CURSOR_Delete(struct D *p);
 extern void func_021BC068(u8 *,void *);
 extern void func_021BC120(u8 *);
 extern void func_021BC160(void *);
 extern void func_021BC23C(void *);
 extern void func_021BC1B8(u8 *);
-extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
-extern void func_0202CB18(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
-extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
+extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
 u8 func_021BB280(u32 i);
 u8 *func_021BB290(u32 a,u8 *b,u32 c);
 void func_021BB2CC(u8 *p);
@@ -580,10 +580,10 @@ void func_021BB8D8(u8 *p)
     int i;
     handle = func_020490F4(43, 42);
     if (func_021BF6DC(*(u8 * *)&((struct Obj10275 *)p)->f4) == 0) {
-        func_020499D4(handle, 27, 1, 0, 0, 0, 0, 42);
+        ARC_UTIL_UploadBgPaletteAddFromHandleExt(handle, 27, 1, 0, 0, 0, 0, 42);
         for (i = 0; i < 12; i++) func_02045374(*(void **)(p + 0x60 + i * 4));
     } else {
-        func_020499D4(handle, 26, 1, 0, 0, 0, 0, 42);
+        ARC_UTIL_UploadBgPaletteAddFromHandleExt(handle, 26, 1, 0, 0, 0, 0, 42);
         func_02045374(((struct Obj10275 *)p)->f90);
         func_02045374(((struct Obj10275 *)p)->f94);
     }
@@ -711,7 +711,7 @@ void func_021BBB84(u8 *p, unsigned index)
 
 int func_021BBC10(u8 *p)
 {
-    u16 state = func_0204B898(((struct Obj04446 *)p)->f54);
+    u16 state = CLACT_GetActorAnimSeq(((struct Obj04446 *)p)->f54);
     if (state != 31 && state != 30) return 1;
     if (func_0204B98C(((struct Obj04446 *)p)->f54) == 0) {
         func_0204B3DC(((struct Obj04446 *)p)->f54, ((struct Obj04446 *)p)->f58);
@@ -736,23 +736,23 @@ u8 *func_021BBC5C(void *a, u8 *b, void *c)
     ((struct Obj01392 *)p)->f1A4 = 0;
     ((struct Obj01392 *)p)->f30 = func_020457B0(128, 42);
     ((struct Obj01392 *)p)->f2C = func_02045B38(0, 2, 146, 42);
-    ((struct Obj01392 *)p)->f34 = func_02020D18(42);
+    ((struct Obj01392 *)p)->f34 = BMP_CURSOR_Create(42);
     ((struct Obj01392 *)p)->f198 = 0;
     ((struct Obj01392 *)p)->f19A = 0;
     ((struct Obj01392 *)p)->f1A8 = 0;
     ((struct Obj01392 *)p)->f1AC = 0;
     ((struct Obj01392 *)p)->f1B0 = 0;
-    ((struct Obj01392 *)p)->f1B4 = func_0202C9B4(1, 1, 42);
+    ((struct Obj01392 *)p)->f1B4 = BGWINFRM_Create(1, 1, 42);
     return p;
 }
 
 
 void func_021BBCF0(u8 *p)
 {
-    func_0202CA0C(((struct Obj01248 *)p)->f1B4);
+    BGWINFRM_Delete(((struct Obj01248 *)p)->f1B4);
     if (((struct Obj01248 *)p)->f1B0) func_02030EAC(((struct Obj01248 *)p)->f1B0);
     if (((struct Obj01248 *)p)->f1A4) func_02030EAC(((struct Obj01248 *)p)->f1A4);
-    if (((struct Obj01248 *)p)->f34) func_02020D3C(((struct Obj01248 *)p)->f34);
+    if (((struct Obj01248 *)p)->f34) BMP_CURSOR_Delete(((struct Obj01248 *)p)->f34);
     if (((struct Obj01248 *)p)->f14) func_0204B3B4(((struct Obj01248 *)p)->f14);
     if (((struct Obj01248 *)p)->f18) func_0204B3B4(((struct Obj01248 *)p)->f18);
     if (((struct Obj01248 *)p)->f2C) func_02045C04(((struct Obj01248 *)p)->f2C);
@@ -783,10 +783,10 @@ void func_021BBD60(u8 *p,u32 a)
     func_021BC160(p);
     func_021BC23C(p);
     func_021BC1B8(p);
-    func_0202CA3C(((struct Obj01922 *)p)->f1B4,0,0,32,6);
-    func_0202CB18(((struct Obj01922 *)p)->f1B4,0,(void *)a,25,0);
-    func_0202CB4C(((struct Obj01922 *)p)->f1B4,0,0,0);
-    func_0202CEBC(((struct Obj01922 *)p)->f1B4,0,((struct Obj01922 *)p)->fC);
-    func_0202CC58(((struct Obj01922 *)p)->f1B4,0);
+    BGWINFRM_AddFrame(((struct Obj01922 *)p)->f1B4,0,0,32,6);
+    BGWINFRM_SetFrameDataArcHandle(((struct Obj01922 *)p)->f1B4,0,(void *)a,25,0);
+    BGWINFRM_PutFrame(((struct Obj01922 *)p)->f1B4,0,0,0);
+    BGWINFRM_PutBmpWin(((struct Obj01922 *)p)->f1B4,0,((struct Obj01922 *)p)->fC);
+    BGWINFRM_ShowFrame(((struct Obj01922 *)p)->f1B4,0);
     ((struct Obj01922 *)p)->f1B8=0;
 }

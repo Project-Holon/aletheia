@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203D578",
+   "name": "GFL_NET_IsSendQueueEntryOfHandle",
    "address": "0x0203D578",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D5D4",
+   "name": "GFL_NET_GetGameKind",
    "address": "0x0203D5D4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D5EC",
+   "name": "GFL_NET_GetWifiUserData",
    "address": "0x0203D5EC",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D610",
+   "name": "GFL_NET_GetFriendList",
    "address": "0x0203D610",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D634",
+   "name": "GFL_NET_GetFriendListNum",
    "address": "0x0203D634",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D668",
+   "name": "GFL_NET_SetUserArg",
    "address": "0x0203D668",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D6BC",
+   "name": "GFL_NET_GetChildSendSize",
    "address": "0x0203D6BC",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D700",
+   "name": "GFL_NET_CallDeviceReadyFunc",
    "address": "0x0203D700",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D720",
+   "name": "GFL_NET_CallErrorStateFunc",
    "address": "0x0203D720",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D754",
+   "name": "GFL_NET_CallStateChangeFunc",
    "address": "0x0203D754",
    "kind": "game",
    "region": "arm9",

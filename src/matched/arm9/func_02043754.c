@@ -1,5 +1,5 @@
 /*
- * function: func_02043754
+ * function: BMP_CreateFromVram
  * address:  0x02043754
  * packet:   pkt_0204361C
  * region:   arm9
@@ -21,7 +21,7 @@
  *   bmp_File       0x020A7E68  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02043754.c  *       --func func_02043754 --addr 0x02043754 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_CreateFromVram.c  *       --func BMP_CreateFromVram --addr 0x02043754 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -39,7 +39,7 @@ extern const char bmp_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-struct Bmp *func_02043754(void *pixels, u32 width, u32 height, u32 depth,
+struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth,
                             u16 heap)
 {
     struct Bmp *bmp;

@@ -29,12 +29,12 @@
  *   func_021EAF50 0x021EAF50 thumb ov093
  *   func_021EA614 0x021EA614 thumb ov093
  *   func_021EA720 0x021EA720 thumb ov093
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005E64 0x02005E64 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_PushBgm 0x02005E64 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_021EA710 0x021EA710 thumb ov093
  *   func_02005F38 0x02005F38 thumb
- *   func_02005E9C 0x02005E9C thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
  *   func_021BA238 0x021BA238 thumb ov093
@@ -85,12 +85,12 @@ extern void func_021EAF18(struct L *p, int kind, int id);
 extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA720(u32 *p);
-extern void func_02005DE4(void *);
-extern int func_02005E64(void);
-extern void func_02005D90(u32, u32);
+extern void GFL_USE_SetBgmPlayerParam(void *);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern int func_021EA710(u32 *p);
 extern int func_02005F38(void);
-extern int func_02005E9C(void);
+extern int GFL_USE_PopBgm(void);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_021BA238(char *p, void *m);
@@ -166,13 +166,13 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
         break;
     case 7:
         if (func_021EA720(((struct Obj00268 *)p)->f54)) {
-            func_02005DE4((void *)1);
-            func_02005E64();
-            func_02005D90(0x515, 0xffff);
+            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_PushBgm();
+            GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
         }
         if (func_021EA710(((struct Obj00268 *)p)->f54) && !func_02005F38()) {
-            func_02005E9C();
-            func_02005DE4(0);
+            GFL_USE_PopBgm();
+            GFL_USE_SetBgmPlayerParam(0);
             d_021F3B64.counter = 0;
             *state = 8;
         }

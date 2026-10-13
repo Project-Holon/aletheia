@@ -12,15 +12,15 @@
  *   func_022056B4  0x022056B4  thumb  ov094
  *   func_022043C0  0x022043C0  thumb  ov094
  *   func_02204960  0x02204960  thumb  ov094
- *   func_0202173C  0x0202173C  thumb
+ *   PALANM_RequestFade  0x0202173C  thumb
  *   func_02030734  0x02030734  arm
  *   func_021F8A78  0x021F8A78  thumb  ov094
  *   func_02205E30  0x02205E30  thumb  ov094
  *   func_02205AB8  0x02205AB8  thumb  ov094
  *   func_02030DA8  0x02030DA8  arm
  *   func_0220684C  0x0220684C  thumb  ov094
- *   func_02021848  0x02021848  thumb
- *   func_0204B248  0x0204B248  arm
+ *   PALANM_RequestFadeOverwrite  0x02021848  thumb
+ *   CLACT_GetUnitDrawEnable  0x0204B248  arm
  *   func_0204B22C  0x0204B22C  arm
  *   func_022067E8  0x022067E8  thumb  ov094
  *   func_021F8A40  0x021F8A40  thumb  ov094
@@ -155,8 +155,8 @@ struct Work;
 extern void func_022056B4(struct Main *m);
 extern void func_022043C0(struct Main *m, int a1, int a2, int a3, int a4);
 extern void func_02204960(struct Main *m, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
-extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
-extern int func_02021848(void *, u16, u16, s16, u8, u8, u16, void *);
+extern int PALANM_RequestFade(void *, u16, u16, s16, u8, u8, u16, void *);
+extern int PALANM_RequestFadeOverwrite(void *, u16, u16, s16, u8, u8, u16, void *);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
 struct Ctx;
@@ -164,7 +164,7 @@ extern void func_0220684C(char *p, int a, int b);
 extern void func_021F8A78(void);
 extern void func_02205E30(char *);
 extern void func_02205AB8(char *);
-extern u32 func_0204B248(struct Bank *bank);
+extern u32 CLACT_GetUnitDrawEnable(struct Bank *bank);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern void func_022067E8(char *);
 extern void func_021F8A40(int);
@@ -225,7 +225,7 @@ void func_0220270C(char *s, int mode, void *arg)
         if (S_INT(0x58) == 0) {
             func_022043C0((struct Main *)s, 0x3000, 0x3000, 0, 0x98);
             func_02204960((struct Main *)s, -1, 0, 0, 0, 0, 2, 1);
-            func_0202173C(S_PTR(0x64), 2, 3, 1, 12, 12, 0x842, S_PTR(0));
+            PALANM_RequestFade(S_PTR(0x64), 2, 3, 1, 12, 12, 0x842, S_PTR(0));
         } else {
             t = func_02030734(HEAP(s), 0x24, 1, d_0220AEB0, 0x549);
             F68_(s).b0 = 1;
@@ -240,8 +240,8 @@ void func_0220270C(char *s, int mode, void *arg)
                 t->f20 = S_INT(0x58);
                 func_0220684C(s, (int)func_02030DA8(S_PTR(0), (void (*)(void *, void *))func_02203C2C, t, 1), (int)func_022043AC);
             }
-            func_02021848(S_PTR(0x64), 2, 3, 1, 0, 12, 0x842, S_PTR(0));
-            if (func_0204B248(S_PTR(0x17c)) != 0) {
+            PALANM_RequestFadeOverwrite(S_PTR(0x64), 2, 3, 1, 0, 12, 0x842, S_PTR(0));
+            if (CLACT_GetUnitDrawEnable(S_PTR(0x17c)) != 0) {
                 F68_(s).b5 = 0;
                 F68_(s).b9 = 15;
                 F68_(s).b13 = 1;

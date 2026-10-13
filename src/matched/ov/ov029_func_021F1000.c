@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02021ED8  0x02021ED8  thumb
+ *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  */
 #include "../include/Obj20391.h"
 
 typedef unsigned int   u32;
-extern u32 func_02021ED8(const char *ptr);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
 int func_021F1000(char *p)
 {
-    return func_02021ED8((const char *)(((struct Obj20391 *)p)->f210));
+    return PALANM_GetFadeRequestBits((const char *)(((struct Obj20391 *)p)->f210));
 }

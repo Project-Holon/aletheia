@@ -21,93 +21,84 @@
  *   d_021F1414     0x021F1414  data    a4
  *   d_021F141C     0x021F141C  data   ov093  a4
  */
-extern int func_021D775C(int key);
-extern void func_021D7704(int key, int m);
-extern int func_021DD008(int a);
-void func_021DF8E8(int a, int b, int c);
-int *func_021DF8F4(int *p);
-void func_021DF900(int a, int b, int c);
-int *func_021DF90C(int *p);
-void func_021DF918(int a, int b, int c);
-int *func_021DF924(int *p);
-void func_021DF930(int a, int b, int c);
-void func_021DF93C(int a, int b, int c, int d);
-int *func_021DF968(int *p);
-extern int d_021F1544[];
-extern int d_021F14DC[];
-extern int d_021F1414[];
-extern int d_021F141C[];
+#include "unit_021DF3A4_types.h"
 
+extern const BtlEventHandler d_021F1544[];
+extern const BtlEventHandler d_021F14DC[];
+extern const BtlEventHandler d_021F1414[];
+extern const BtlEventHandler d_021F141C[];
 
+void func_021DF8E8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF8F4(int *handlerCount);
+void func_021DF900(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF90C(int *handlerCount);
+void func_021DF918(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF924(int *handlerCount);
+void func_021DF930(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DF93C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int moveType);
+const BtlEventHandler *func_021DF968(int *handlerCount);
 
-
-void func_021DF8E8(int a, int b, int c)
+/* Rock Incense. */
+void func_021DF8E8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 5);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_ROCK);
 }
 
-
-
-
-int *func_021DF8F4(int *p)
+/* Sea Incense. */
+const BtlEventHandler *func_021DF8F4(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F1544;
 }
 
-
-
-
-void func_021DF900(int a, int b, int c)
+/* Sea Incense. */
+void func_021DF900(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 10);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_WATER);
 }
 
-
-
-int *func_021DF90C(int *p)
+/* Wave Incense. */
+const BtlEventHandler *func_021DF90C(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F14DC;
 }
 
-
-
-void func_021DF918(int a, int b, int c)
+/* Wave Incense. */
+void func_021DF918(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 10);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_WATER);
 }
 
-
-int *func_021DF924(int *p)
+/* Rose Incense. */
+const BtlEventHandler *func_021DF924(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F1414;
 }
 
-
-void func_021DF930(int a, int b, int c)
+/* Rose Incense. */
+void func_021DF930(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 0xb);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_GRASS);
 }
-
-
-
-void func_021DF93C(int a, int b, int c, int d)
-{
-    if (c != func_021D775C(3))
-        return;
-    if (d != func_021D775C(22))
-        return;
-    func_021D7704(49, func_021DD008(a));
-}
-
 
 /*
- * sdk:      sciGetServiceUrl (libdwcgssc.TWL.HYB.a(sciinterface.o))
+ * Type boost items: when the holder attacks with a move of the given type,
+ * scale the move power by the ratio that the item parameter gives.
  */
-int *func_021DF968(int *p)
+void func_021DF93C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int moveType)
 {
-    *p = 1;
+    if (pokeId != func_021D775C(BTL_EVAR_ATTACKER_ID))
+        return;
+    if (moveType != func_021D775C(BTL_EVAR_MOVE_TYPE))
+        return;
+    func_021D7704(BTL_EVAR_MOVE_POWER_RATIO, func_021DD008(factor));
+}
+
+/* Lustrous Orb. */
+const BtlEventHandler *func_021DF968(int *handlerCount)
+{
+    *handlerCount = 1;
     return d_021F141C;
 }

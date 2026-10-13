@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021552AC",
-    "func_021552C4",
-    "func_021552CC",
-    "func_021552D4"
+    "GFL_NET_DEVWIFI_IsOffline",
+    "GFL_NET_DEVWIFI_IsIdle",
+    "GFL_NET_DEVWIFI_GetAidBitmap",
+    "GFL_NET_DEVWIFI_GetMyAid"
+   ],
+   "addresses": [
+    "0x021552AC",
+    "0x021552C4",
+    "0x021552CC",
+    "0x021552D4"
    ]
   }
  ]

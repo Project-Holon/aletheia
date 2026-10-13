@@ -16,8 +16,8 @@
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204AC18 0x0204AC18 arm
  *   func_0204AF28 0x0204AF28 arm
- *   func_0202E940 0x0202E940 thumb
- *   func_0202E9AC 0x0202E9AC thumb
+ *   BLINK_PALANM_Create 0x0202E940 thumb
+ *   BLINK_PALANM_LoadPalettes 0x0202E9AC thumb
  *   func_02049238 0x02049238 arm
  *   func_0207D63C 0x0207D63C arm
  */
@@ -34,8 +34,8 @@ extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 struct CodeIn;
-extern struct CodeIn *func_0202E940(u16 a0, u16 a1, u32 a2, u16 heap);
-extern void func_0202E9AC(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
+extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
+extern void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
 extern void func_02049238(void *);
 extern void func_0207D63C(void *,int,int,int,int);
 void func_021D6568(u8 *p)
@@ -61,10 +61,10 @@ void func_021D6568(u8 *p)
     ((struct Obj00218 *)p)->f2C=(void *)func_0204A6C8(t,7,0,0,((struct Obj00218 *)p)->fF4);
     ((struct Obj00218 *)p)->f1C=(void *)func_0204AC18(t,2,0,0,0,8,((struct Obj00218 *)p)->fF4);
     ((struct Obj00218 *)p)->f78=(void *)func_0204AF28(t,11,23,((struct Obj00218 *)p)->fF4);
-    ((struct Obj00218 *)p)->fF8=func_0202E940(0,16,0,((struct Obj00218 *)p)->fF4);
-    func_0202E9AC(((struct Obj00218 *)p)->fF8,t,1,0,16);
-    ((struct Obj00218 *)p)->fFC=func_0202E940(0,16,7,((struct Obj00218 *)p)->fF4);
-    func_0202E9AC(((struct Obj00218 *)p)->fFC,t,1,0,16);
+    ((struct Obj00218 *)p)->fF8=BLINK_PALANM_Create(0,16,0,((struct Obj00218 *)p)->fF4);
+    BLINK_PALANM_LoadPalettes(((struct Obj00218 *)p)->fF8,t,1,0,16);
+    ((struct Obj00218 *)p)->fFC=BLINK_PALANM_Create(0,16,7,((struct Obj00218 *)p)->fF4);
+    BLINK_PALANM_LoadPalettes(((struct Obj00218 *)p)->fFC,t,1,0,16);
     func_02049238(t);
     t=func_020490F4((u32)((void *)32),((struct Obj00218 *)p)->fF4);
     for(i=0;i<16;i++) {

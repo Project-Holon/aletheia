@@ -12,12 +12,12 @@
  * Allocate the 0x38-byte link work, clear its first two words, attach
  * it to the save handle and load overlays 132 and 112.
  *
- * The call to arm9 0x02012F74 (the +0x6A8 setter beside func_02012F80)
+ * The call to arm9 0x02012F74 (the +0x6A8 setter beside GAME_DATA_GetExternalWork)
  * resolves since seeds_2 labelled and matched it (src/matched/unit_02012F68.c).
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02012F74  0x02012F74  thumb
+ *   GAME_DATA_SetExternalWork  0x02012F74  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   ov132_id       0x00000084  data
  *   ov112_id       0x00000070  data
@@ -41,7 +41,7 @@ extern const char d_02172914[];
 
 typedef signed int     s32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02012F74(void *h, void *w);
+extern void GAME_DATA_SetExternalWork(void *h, void *w);
 extern int func_02034AC4(s32 handle);
 
 void func_0215DDC8(void *unused, void *h)
@@ -50,7 +50,7 @@ void func_0215DDC8(void *unused, void *h)
 
     w->f00 = 0;
     w->f04 = 0;
-    func_02012F74(h, w);
+    GAME_DATA_SetExternalWork(h, w);
     func_02034AC4((u32)ov132_id);
     func_02034AC4((u32)ov112_id);
 }

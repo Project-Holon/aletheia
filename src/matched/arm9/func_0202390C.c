@@ -1,5 +1,5 @@
 /*
- * function: func_0202390C
+ * function: WIPE_SUB_ShutterMain
  * address:  0x0202390C
  * packet:   pkt_0202384C
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02023A50  0x02023A50  thumb
- *   func_02023AAC  0x02023AAC  thumb
- *   func_02022DCC  0x02022DCC  thumb
+ *   WIPE_SUB_ShutterStep  0x02023A50  thumb
+ *   WIPE_SUB_ShutterExit  0x02023AAC  thumb
+ *   WIPE_SUB_RequestWindowEnd  0x02022DCC  thumb
  *   func_020307B0  0x020307B0  arm
  *
  * The per-frame step of a wipe task, the third of the family's four
- * identical phase machines (func_02022A44, func_020234C0, this one and
- * func_020238B4): the same switch over the task's +0x0c, the same
+ * identical phase machines (WIPE_SUB_FadeMain, WIPE_SUB_BoxMain, this one and
+ * WIPE_SUB_ShutterStart): the same switch over the task's +0x0c, the same
  * sub-object slot at +0x14, the same terminal phase 3.
  *
  * The two far fields at +0x324 and +0x32c are past every Thumb immediate
@@ -26,9 +26,9 @@
  * (docs/idioms/thumb-immediate-reach-costs-an-adds.md); reading them as
  * two separate far offsets would cost a second pool word.
  *
- * THE LEVER, and it is shared with func_02022A44, func_0202390C and
- * func_020234C0 (all three sat at exactly two bytes out until it was
- * found; func_0202363C in src/matched had it right all along and is where
+ * THE LEVER, and it is shared with WIPE_SUB_FadeMain, WIPE_SUB_ShutterMain and
+ * WIPE_SUB_BoxMain (all three sat at exactly two bytes out until it was
+ * found; WIPE_SUB_CircleMain in src/matched had it right all along and is where
  * it was read from).  Phase 2 assigns the result variable 1 as well,
  * immediately before its `break`:
  *
@@ -49,8 +49,8 @@
  * added empty case -- is the same two bytes out or worse.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202390C.c \
- *       --func func_0202390C --addr 0x0202390C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_ShutterMain.c \
+ *       --func WIPE_SUB_ShutterMain --addr 0x0202390C --cc 1.1p1 --thumb
  */
 
 typedef unsigned int  u32;
@@ -72,12 +72,12 @@ struct Task {
 };
 
 struct Wipe;
-extern u32 func_02023A50(struct Wipe *w);
-extern void func_02023AAC(struct Obj *obj);
-extern void func_02022DCC(u32 a0, void *a1, u32 a2);
+extern u32 WIPE_SUB_ShutterStep(struct Wipe *w);
+extern void WIPE_SUB_ShutterExit(struct Obj *obj);
+extern void WIPE_SUB_RequestWindowEnd(u32 a0, void *a1, u32 a2);
 extern u32 func_020307B0(void *p);
 
-u32 func_0202390C(struct Task *t)
+u32 WIPE_SUB_ShutterMain(struct Task *t)
 {
     struct Obj *obj;
     u32         ret;
@@ -87,13 +87,13 @@ u32 func_0202390C(struct Task *t)
 
     switch (t->phase) {
     case 1:
-        if (func_02023A50((struct Wipe *)obj) == 1) {
-            func_02022DCC(obj->f324, (void *)obj->f32c, t->f10);
+        if (WIPE_SUB_ShutterStep((struct Wipe *)obj) == 1) {
+            WIPE_SUB_RequestWindowEnd(obj->f324, (void *)obj->f32c, t->f10);
             t->phase = t->phase + 1;
         }
         break;
     case 2:
-        func_02023AAC(obj);
+        WIPE_SUB_ShutterExit(obj);
         func_020307B0(t->obj);
         t->phase = t->phase + 1;
         t->obj = 0;

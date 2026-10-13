@@ -14,7 +14,7 @@
  *           the section whatever the range).  Every concrete byte is right:
  *           56 bytes, 3 calls resolved, 1 ABS32 wildcarded.
  * symbols:
- *   g_0209DDA0      0x0209DDA0  data
+ *   RECORD_FoldPairTable      0x0209DDA0  data
  */
 
 typedef unsigned short u16;
@@ -25,7 +25,7 @@ struct Entry02008E30 {
     u16 b;
 };
 
-extern struct Entry02008E30 g_0209DDA0[5];
+extern struct Entry02008E30 RECORD_FoldPairTable[5];
 struct Sub02008C20Obj;
 extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
 extern u32 func_02008D58(struct Sub02008C20Obj *obj, int i, u32 limit);
@@ -36,9 +36,9 @@ void func_02008E30(void *a0)
     u32 i;
 
     for (i = 0; i < 5; i++) {
-        u16 b = g_0209DDA0[i].b;
+        u16 b = RECORD_FoldPairTable[i].b;
 
-        func_02008D58(a0, g_0209DDA0[i].a, func_02008DFC(a0, b));
+        func_02008D58(a0, RECORD_FoldPairTable[i].a, func_02008DFC(a0, b));
         func_02008D1C(a0, b, 0);
     }
 }

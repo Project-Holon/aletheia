@@ -17,7 +17,7 @@
  *   func_021B9C88 0x021B9C88 thumb ov218
  *   func_021B9898 0x021B9898 thumb ov218
  *   func_0204E804 0x0204E804 arm
- *   func_02024004 0x02024004 thumb
+ *   BRIGHTNESS_IsFinished 0x02024004 thumb
  *   func_0201F048 0x0201F048 thumb
  *   tbl_021BAC80 0x021BAC80 data ov218 a4
  */
@@ -35,7 +35,7 @@ extern int func_021B9C00(char *p);
 extern u32 func_021B9C88(char *p);
 extern struct TaskMenu *func_021B9898(void *arg, struct MsgBank *bank, u32 heap);
 extern int func_0204E804(void);
-extern int func_02024004(int a);
+extern int BRIGHTNESS_IsFinished(int a);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern int tbl_021BAC80[];
 u32 func_021BA0B0(u8 *a, u8 *b)
@@ -48,7 +48,7 @@ u32 func_021BA0B0(u8 *a, u8 *b)
         break;
     case 1:
         if (func_0204E804() == 1) break;
-        if (func_02024004(1) == 0) break;
+        if (BRIGHTNESS_IsFinished(1) == 0) break;
         func_0201F048((struct WordSet *)(*(u32 *)(*(u8 **)(b + 0x28) + 0x14)), 0, tbl_021BAC80[*(int *)(b + 0x30)]);
         func_021B9B78((char *)(*(u8 **)(b + 0x28)), 0xEA);
         goto tail;

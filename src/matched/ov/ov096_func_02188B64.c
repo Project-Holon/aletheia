@@ -10,7 +10,7 @@
  * status:   EXACT*
  * symbols:
  *   func_0201134C  0x0201134C  thumb
- *   func_020113B0  0x020113B0  thumb
+ *   VM_Jump  0x020113B0  thumb
  */
 #include "../include/Obj00005.h"
 #include "../include/Obj10175.h"
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 struct Cursor;
 extern u32 func_0201134C(struct Cursor *p);
 struct Cur;
-extern void func_020113B0(struct Cur *c, u32 v);
+extern void VM_Jump(struct Cur *c, u32 v);
 
 int func_02188B64(struct Cursor *a, int b)
 {
@@ -40,6 +40,6 @@ int func_02188B64(struct Cursor *a, int b)
             return ((struct Obj10175 *)b)->fC4;
         i += 2;
     } while (v != -1);
-    func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
+    VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
     return ((struct Obj10175 *)b)->fC4;
 }

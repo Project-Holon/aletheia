@@ -1,5 +1,5 @@
 /*
- * function: func_020482B4
+ * function: G3D_UTIL_FreeUnitResources
  * address:  0x020482B4
  * packet:   pkt_02047E88
  * region:   arm9
@@ -20,12 +20,12 @@
  * func_02046F50 with mode 2 and, only when it answers exactly one,
  * func_020470D0, and finally func_02046EFC on the element either way.
  *
- * The same signed count and `blt` back edge as func_02048258, and the same
+ * The same signed count and `blt` back edge as G3D_UTIL_LoadUnitResourcesFromArchive, and the same
  * re-read of the owner's element pointer per iteration.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020482B4.c \
- *       --func func_020482B4 --addr 0x020482B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_FreeUnitResources.c \
+ *       --func G3D_UTIL_FreeUnitResources --addr 0x020482B4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -48,7 +48,7 @@ extern u32 func_02046F50(struct Tagged *p, u32 sel);
 extern int func_020470D0(u32 *p);
 extern void func_02046EFC(struct Tagged *p);
 
-void func_020482B4(struct Owner *owner, u32 index)
+void G3D_UTIL_FreeUnitResources(struct Owner *owner, u32 index)
 {
     struct Slot *slot = (struct Slot *)((u8 *)owner + index * 8);
     u16 count = slot->unk_18;

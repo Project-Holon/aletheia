@@ -1,5 +1,5 @@
 /*
- * function: func_021DBCF4
+ * function: P_STA_OAM_TransferBitmap
  * address: 0x021DBCF4
  * packet: pkt_ov131_021DBCF4
  * region: ov131
@@ -32,7 +32,7 @@ extern u16 func_020437E4(const struct Bmp *bmp);
 extern int func_0204ABBC(u32 idx, u32 flag);
 extern void func_0207E780(void *,void *,u32);
 extern void func_0207E804(void *,void *,u32);
-void func_021DBCF4(u8 *p)
+void P_STA_OAM_TransferBitmap(u8 *p)
 {
     u8 *dst0;
     int c,r;

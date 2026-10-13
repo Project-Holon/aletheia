@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0203115C
+ * function: TCBL_DeleteAllTasks
  * address:  0x0203115C
  * packet:   pkt_0203115C
  * region:   arm9
@@ -11,23 +11,23 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02030F70  0x02030F70  arm
+ *   TCBL_FreeTask  0x02030F70  arm
  *
  * Destroy every node still registered with the manager.  The walk cursor at
- * +0x30 is published on each step for the same reason sub_020310C4 publishes
- * it: a callback destroying itself through sub_02031194 compares against it.
+ * +0x30 is published on each step for the same reason TCBL_Main publishes
+ * it: a callback destroying itself through TCBL_DeleteTask compares against it.
  *
- * The successor is read out before the call because sub_02030F70 unlinks the
+ * The successor is read out before the call because TCBL_FreeTask unlinks the
  * node and pushes it on the free list, so its own +0x08 is no longer the
  * list's.  The cursor store follows the advance rather than preceding it,
  * which is what puts `mov r0, r5` before `str r5, [r6, #0x30]`.
  *
- * Unlike sub_020310C4 the cursor is not cleared on exit: the loop leaves the
+ * Unlike TCBL_Main the cursor is not cleared on exit: the loop leaves the
  * sentinel's own address parked there.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203115C.c \
- *       --func sub_0203115C --addr 0x0203115C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCBL_DeleteAllTasks.c \
+ *       --func TCBL_DeleteAllTasks --addr 0x0203115C --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -60,9 +60,9 @@ struct Tcbl {
     struct TcblNode *freeHead;
 };
 
-extern void sub_02030F70(struct TcblNode *n);
+extern void TCBL_FreeTask(struct TcblNode *n);
 
-void sub_0203115C(struct Tcbl *p)
+void TCBL_DeleteAllTasks(struct Tcbl *p)
 {
     struct TcblNode *s;
     struct TcblNode *cur;
@@ -73,7 +73,7 @@ void sub_0203115C(struct Tcbl *p)
     p->cursor = cur;
     while (cur != s) {
         next = cur->next;
-        sub_02030F70(cur);
+        TCBL_FreeTask(cur);
         cur = next;
         p->cursor = next;
     }

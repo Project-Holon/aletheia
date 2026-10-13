@@ -1,5 +1,5 @@
 /*
- * function: func_02189644
+ * function: gpiSendOrBufferChar
  * address:  0x02189644
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Constant zero.
  */
 
-int func_02189644(void)
+int gpiSendOrBufferChar(void)
 {
     return 0;
 }

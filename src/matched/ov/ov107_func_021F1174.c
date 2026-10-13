@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203E758 0x0203E758 arm
+ *   GFL_NET_LOWER_DATA_SetSendData 0x0203E758 arm
  */
-extern void func_0203E758(int,int,int,int);
-void func_021F1174(int a,int b,int c) { func_0203E758(b,c,2,1); }
+extern void GFL_NET_LOWER_DATA_SetSendData(int,int,int,int);
+void func_021F1174(int a,int b,int c) { GFL_NET_LOWER_DATA_SetSendData(b,c,2,1); }

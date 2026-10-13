@@ -16,7 +16,7 @@
  *   func_02004490  0x02004490  thumb
  *   func_02087988  0x02087988  arm twl
  *   func_0208799C  0x0208799C  arm twl
- *   func_02088498  0x02088498  arm twl
+ *   PXI_Init  0x02088498  arm twl
  *   func_020885A0  0x020885A0  arm twl
  *   func_020885EC  0x020885EC  arm twl
  *   func_0208C848  0x0208C848  arm twl
@@ -63,7 +63,7 @@ extern u32 DAT_0273448c[];
 extern void func_02004490(u32);
 extern u32 func_02087988(void);
 extern void func_0208799C(u32);
-extern void func_02088498(void);
+extern void PXI_Init(void);
 extern void func_020885A0(u32, void (*)(u32, u32, u32));
 extern u32 func_020885EC(u32, u32);
 extern void func_0208C848(u32 *, u32);
@@ -81,7 +81,7 @@ void SNDEXi_Init(void) {
     DAT_02734450.state = 1;
     func_0208799C(irq);
     SetSndexWork(0, 0, 0, 0);
-    func_02088498();
+    PXI_Init();
     while (func_020885EC(0x18, 1) == 0) {
         func_02004490(10);
     }

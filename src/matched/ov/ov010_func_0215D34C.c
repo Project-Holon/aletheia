@@ -35,7 +35,7 @@
  * prototype is the one six matched files already use, so the callee is declared as its callers see it.
  * Tried and inert: pragmas (six, all 27 B), `*c->pc++` (31 B), pc pointer local (27 B), reversed
  * declaration order (40 B), `u8 d` (165 B), `u32 link` (10 B).
- * Callee arity: func_02158F58 returns a+0x18 (result ignored); func_02012F44 is void in its matched
+ * Callee arity: func_02158F58 returns a+0x18 (result ignored); GAME_DATA_GetSaveBlock2A is void in its matched
  * file but its result (sv) is used here, so the caller treats it as returning a pointer.
  * No void-return problem found on the other callees.
  * symbols:
@@ -45,7 +45,7 @@
  *   func_0201210C  0x0201210C  thumb
  *   func_02158F58  0x02158F58  thumb  ov010
  *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02012F80  0x02012F80  thumb
+ *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
@@ -53,7 +53,7 @@
  *   func_0215898C  0x0215898C  thumb  ov010
  *   func_02012A30  0x02012A30  thumb
  *   func_02011290  0x02011290  thumb
- *   func_02012F44  0x02012F44  thumb
+ *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   func_02030734  0x02030734  arm
  *   func_0200A640  0x0200A640  thumb
  *   func_02014808  0x02014808  thumb
@@ -102,7 +102,7 @@ struct ScriptVm;
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02158F58(int a0);
 extern u16 func_02159B10(Ctx *c, void *vm);
-extern int func_02012F80(char *base);
+extern int GAME_DATA_GetExternalWork(char *base);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
@@ -111,7 +111,7 @@ extern void *func_02155A98(void *a, void *b, u8 c, u32 d, struct Link *link);
 extern void func_0215898C(void *a, void *task);
 extern u32 func_02012A30(const struct BigObj *p);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
-extern void *func_02012F44(void *sys);
+extern void *GAME_DATA_GetSaveBlock2A(void *sys);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0200A640(void *sv);
 extern void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
@@ -140,7 +140,7 @@ int func_0215D34C(Ctx *c, void *vm)
     mode = *c->pc;
     c->pc++;
     if (mode <= 1) {
-        void *link = (void *)func_02012F80(sys);
+        void *link = (void *)GAME_DATA_GetExternalWork(sys);
         u32 d;
         void *task;
         Starter *s;
@@ -157,7 +157,7 @@ int func_0215D34C(Ctx *c, void *vm)
         func_02011290((struct ScriptVm *)c);
         return 1;
     } else {
-        void *sv = func_02012F44(sys);
+        void *sv = GAME_DATA_GetSaveBlock2A(sys);
         Box *box;
 
         box = func_02030734(4, sizeof(Box), 1, d_02172914, 0xA9);

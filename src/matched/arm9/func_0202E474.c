@@ -1,5 +1,5 @@
 /*
- * function: func_0202E474
+ * function: BAG_PARAM_Create
  * address:  0x0202E474
  * packet:   pkt_0202E474
  * region:   arm9
@@ -11,6 +11,7 @@
  *
  * symbols:
  *   data_020A77C4  0x020A77C4  data
+ *   GAME_DATA_GetMapMatrix  0x02012924  thumb
  *
  * Allocates and fills one record of a per-something description list,
  * followed by eight "read the sub-object" calls.  The fifth argument to
@@ -26,8 +27,8 @@
  * name run whose start is pinned by the terminator of the string before it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202E474.c \
- *       --func func_0202E474 --addr 0x0202E474 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BAG_PARAM_Create.c \
+ *       --func BAG_PARAM_Create --addr 0x0202E474 --cc 1.1p1 --thumb
  */
 #include "../include/Obj04060.h"
 
@@ -40,7 +41,7 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_02030734(unsigned int a0, unsigned int a1, int a2, const char *a3, unsigned short a4);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u8 *func_02012944(void *p);
-extern unsigned int func_02012924(const struct BigObj *p);
+extern unsigned int GAME_DATA_GetMapMatrix(const struct BigObj *p);
 extern void *func_0201292C(const struct BigObj *p);
 extern void  func_02082D44(void *src, void *dst, int n);
 extern void *func_020127A4(struct SaveBlock *p);
@@ -50,7 +51,7 @@ extern u32 func_02012B28(const struct Rec44 *p);
 
 extern char data_020A77C4[];
 
-void *func_0202E474(const struct BigObj *a0, int a1, int a2, int a3)
+void *BAG_PARAM_Create(const struct BigObj *a0, int a1, int a2, int a3)
 {
     int   v = (int)func_02012EBC((struct Big *)a0);
     char *p = func_02030734(a3, 0x3c, 1, data_020A77C4, 0x37);
@@ -58,7 +59,7 @@ void *func_0202E474(const struct BigObj *a0, int a1, int a2, int a3)
     ((struct Obj04060 *)p)->f0 = (int)a0;
     ((struct Obj04060 *)p)->f4 = (int)func_0200873C((void *)v);
     ((struct Obj04060 *)p)->f8 = (int)func_02012944((void *)a0);
-    ((struct Obj04060 *)p)->fC = func_02012924(a0);
+    ((struct Obj04060 *)p)->fC = GAME_DATA_GetMapMatrix(a0);
     ((struct Obj04060 *)p)->f10 = func_0201292C((const struct BigObj *)a0);
     if (a1 != 0) {
         func_02082D44((void *)a1, p + 0x14, 0x18);

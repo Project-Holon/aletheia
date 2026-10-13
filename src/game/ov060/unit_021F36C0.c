@@ -33,7 +33,7 @@
  *   _s32_div_f  0x0209C0A4  arm
  *   func_02012B80  0x02012B80  thumb
  *   func_02012B58  0x02012B58  thumb
- *   func_02012B40  0x02012B40  thumb
+ *   GAME_DATA_GetEnterMode  0x02012B40  thumb
  *   func_020127B8  0x020127B8  thumb
  *   func_020127AC  0x020127AC  thumb
  *   func_0200BDF8  0x0200BDF8  thumb
@@ -46,273 +46,238 @@
  *   func_021BE6B0  0x021BE6B0  thumb  ov021
  *   func_021BE6CC  0x021BE6CC  thumb  ov021
  */
-struct Big;
-struct Ctx;
-struct BigObj;
-struct Rec1B0;
-struct SaveBlock;
-typedef unsigned int u32;
+#include "unit_021F36C0_types.h"
+#include "../ov011/intrude_comm_types.h"
 
-typedef unsigned short u16;
+struct GameData;
+struct GameSystem;
+struct GameComm;
+struct BattleRec;
 
-typedef unsigned char  u8;
-
-typedef struct {
-    u16 lo : 3;
-} Bf;
-
-typedef struct V {
-    int a;
-    int b;
-    int c;
-} V;
-
-extern u16 func_02188C84(u8 *p);
-extern int func_02188D2C(int *p);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern u32 func_02012138(const struct Ctx *a);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void func_021BE310(void *a, void *b, int c);
-extern void func_021BE418(unsigned char *p, unsigned short i);
-extern void func_021897A0(unsigned char *p, int id);
-extern int *func_021897BC(char *p, int idx);
-extern void func_021BE580(void *p);
-extern void func_021F39F4(u8 *a, void *b);
-extern V *func_021BE480(void *p, int i, u16 j);
-extern void func_021BE4A4(char *p, int i, int j, int v);
-extern void func_021BE4B4(void *p, int i, u16 j, int v);
-extern u8 func_02012B80(const struct BigObj *p);
-extern u8 func_02012B58(const struct BigObj *p);
-extern u8 func_02012B40(const struct BigObj *p);
-extern void *func_020127B8(void *p);
-extern void *func_020127AC(struct SaveBlock *p, u32 idx);
-extern u16 func_0200BDF8(struct Rec1B0 *p);
-extern u16 func_0200BDFC(struct Rec1B0 *p);
-extern unsigned int func_02026454(void *p);
-extern u32 func_02026474(void *obj);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern u8 *func_021BE674(void *p, int i, int j, u16 k);
-extern void func_021BE6B8(u8 *p, int v);
-extern void func_021BE6B0(u8 *p, int v);
-extern void func_021BE6CC(int a, int b, int c, int d, int e);
-void func_021F36C0(void *a);
-void func_021F3724(unsigned char *p);
-void func_021F374C(void *o);
-void func_021F37B8(char *p, V *v);
-int func_021F37D8(void *p);
-void func_021F37E4(u8 *out, void *b, void *c, void *d);
-void func_021F3850(char *p);
-int func_021F3870(int x);
-u8 func_021F3880(void *a, void *b, void *unused);
-void *func_021F3938(void *p);
-void func_021F3950(void *unused, void *p);
-void func_021F399C(u8 *o, void *p, V *v);
+extern u16 func_02188C84(void *fieldMap);
+extern void *func_02188D2C(void *fieldMap);
+extern struct GameSystem *func_02188C80(void *fieldMap);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern u8 *func_02012EC4(struct GameData *gameData);
+extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
+extern Gimmick60Work *func_02189764(void *fieldMap, int id, int heapId, int size);
+extern void func_021BE310(void *expObj, void *unitDesc, int b);
+extern void func_021BE418(void *expObj, unsigned short unit);
+extern void func_021897A0(void *fieldMap, int id);
+extern Gimmick60Work *func_021897BC(void *fieldMap, int idx);
+extern void func_021BE580(void *expObj);
+extern void func_021F39F4(Gimmick60Work *work, void *expObj);
+extern VecFx32 *func_021BE480(void *expObj, int unit, u16 model);
+extern void func_021BE4A4(void *expObj, int unit, int model, int visible);
+extern void func_021BE4B4(void *expObj, int unit, u16 model, int hidden);
+extern u8 func_02012B80(const struct GameData *gameData);
+extern u8 func_02012B58(const struct GameData *gameData);
+extern u8 GAME_DATA_GetEnterMode(const struct GameData *gameData);
+extern void *func_020127B8(struct GameData *gameData);
+extern void *func_020127AC(struct GameData *gameData, u32 slot);
+extern u16 func_0200BDF8(struct BattleRec *record);
+extern u16 func_0200BDFC(struct BattleRec *record);
+extern unsigned int func_02026454(struct GameComm *gameComm);
+extern IntrudeCommSys *func_02026474(struct GameComm *gameComm);
+extern void func_021BE700(void *expObj, int unit, int model, int animeIdx, int enabled);
+extern u8 *func_021BE674(void *expObj, int unit, int model, u16 animeIdx);
+extern void func_021BE6B8(u8 *anime, int loop);
+extern void func_021BE6B0(u8 *anime, int paused);
+extern void func_021BE6CC(void *expObj, int unit, int model, int animeIdx, int frame);
+void func_021F36C0(void *fieldMap);
+void func_021F3724(void *fieldMap);
+void func_021F374C(void *fieldMap);
+void func_021F37B8(void *fieldMap, VecFx32 *pos);
+int func_021F37D8(void *fieldMap);
+void func_021F37E4(Gimmick60Work *work, void *fieldMap, struct GameData *gameData, IntrudeCommSys *commSys);
+void func_021F3850(void *expObj);
+int func_021F3870(int count);
+u8 func_021F3880(struct GameData *gameData, void *expObj, IntrudeCommSys *unusedCommSys);
+IntrudeCommSys *func_021F3938(struct GameComm *gameComm);
+void func_021F3950(void *unused, void *expObj);
+void func_021F399C(Gimmick60Work *work, void *expObj, VecFx32 *pos);
 extern char d_021F3A34[];
 
-
-
-
-void func_021F36C0(void *a)
+void func_021F36C0(void *fieldMap)
 {
-    u32 r6;
-    void *s;
-    u32 c;
-    u32 h;
-    void *v;
-    void *o;
+    u32 heapId;
+    void *expObj;
+    struct GameSystem *gameSystem;
+    struct GameData *gameData;
+    IntrudeCommSys *commSys;
+    Gimmick60Work *work;
 
-    r6 = func_02188C84(a);
-    s = (void *)func_02188D2C(a);
-    c = (u32)func_02188C80(a);
-    h = (u32)func_020120F4((const struct Ctx *)c);
-    func_02012EC4((struct Big *)h);
-    v = func_021F3938((void *)func_02012138((const struct Ctx *)c));
-    o = func_02189764(a, 0, r6, 4);
-    func_021BE310(s, d_021F3A34, 0);
-    func_021F37E4(o, a, (void *)h, v);
-    func_021F3950(o, s);
+    heapId = func_02188C84(fieldMap);
+    expObj = func_02188D2C(fieldMap);
+    gameSystem = func_02188C80(fieldMap);
+    gameData = func_020120F4(gameSystem);
+    func_02012EC4(gameData);
+    commSys = func_021F3938(func_02012138(gameSystem));
+    work = func_02189764(fieldMap, 0, heapId, 4);
+    func_021BE310(expObj, d_021F3A34, 0);
+    func_021F37E4(work, fieldMap, gameData, commSys);
+    func_021F3950(work, expObj);
 }
 
-
-
-
-void func_021F3724(unsigned char *p)
+void func_021F3724(void *fieldMap)
 {
-    func_02012EC4(func_020120F4(func_02188C80(p)));
-    func_021BE418((unsigned char *)func_02188D2C((int *)p), 0);
-    func_021897A0(p, 0);
+    func_02012EC4(func_020120F4(func_02188C80(fieldMap)));
+    func_021BE418(func_02188D2C(fieldMap), 0);
+    func_021897A0(fieldMap, 0);
 }
 
-
-
-
-void func_021F374C(void *o)
+void func_021F374C(void *fieldMap)
 {
-    u32 c;
-    u32 h;
-    void *s;
-    u8 *q;
-    void *v;
+    struct GameSystem *gameSystem;
+    struct GameData *gameData;
+    void *expObj;
+    Gimmick60Work *work;
+    IntrudeCommSys *commSys;
 
-    c = (u32)func_02188C80(o);
-    h = (u32)func_020120F4((const struct Ctx *)c);
-    func_02012EC4((struct Big *)h);
-    s = (void *)func_02188D2C(o);
-    q = (u8 *)func_021897BC(o, 0);
-    v = func_021F3938((void *)func_02012138((const struct Ctx *)c));
-    if (v != 0) {
-        if (((Bf *)((u8 *)v + 0x86))->lo != *q) {
-            func_021F3850((char *)s);
-            *q = func_021F3880((void *)h, s, v);
+    gameSystem = func_02188C80(fieldMap);
+    gameData = func_020120F4(gameSystem);
+    func_02012EC4(gameData);
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 0);
+    commSys = func_021F3938(func_02012138(gameSystem));
+    if (commSys != 0) {
+        if (commSys->localPeer.intrudeId != work->shownIntrudeId) {
+            func_021F3850(expObj);
+            work->shownIntrudeId = func_021F3880(gameData, expObj, commSys);
         }
     }
-    func_021BE580(s);
-    if (q[1] != 0) {
-        func_021F39F4(q, s);
+    func_021BE580(expObj);
+    if (work->effectActive != 0) {
+        func_021F39F4(work, expObj);
     }
 }
 
-
-
-void func_021F37B8(char *p, V *v)
+/* Shows the effect model at pos; the sub display polls func_021F37D8 until it ends. */
+void func_021F37B8(void *fieldMap, VecFx32 *pos)
 {
-    unsigned char *o;
-    void *s;
-    o = (unsigned char *)func_021897BC(p, 0);
-    s = (void *)func_02188D2C((int *)p);
-    func_021F399C(o, s, v);
+    Gimmick60Work *work;
+    void *expObj;
+
+    work = func_021897BC(fieldMap, 0);
+    expObj = func_02188D2C(fieldMap);
+    func_021F399C(work, expObj, pos);
 }
 
-int func_021F37D8(void *p)
+/* Returns nonzero while the effect model plays. */
+int func_021F37D8(void *fieldMap)
 {
-    return *(unsigned char *)((char *)func_021897BC(p, 0) + 1);
+    return func_021897BC(fieldMap, 0)->effectActive;
 }
 
-
-
-
-void func_021F37E4(u8 *out, void *b, void *c, void *d)
+/* Hides every model, then shows the gauges of the visited player. */
+void func_021F37E4(Gimmick60Work *work, void *fieldMap, struct GameData *gameData, IntrudeCommSys *commSys)
 {
-    void *s;
-    int i;
-    V *p;
+    void *expObj;
+    int model;
+    VecFx32 *pos;
 
-    s = (void *)func_02188D2C(b);
-    for (i = 0; i < 0x15; i++) {
-        p = func_021BE480(s, 0, i);
-        p->a = 0x1F8000;
-        p->b = 0x20000;
-        p->c = 0x1B8000;
-        func_021BE4A4(s, 0, (u16)i, 1);
-        func_021BE4B4(s, 0, i, 1);
+    expObj = func_02188D2C(fieldMap);
+    for (model = 0; model < GIMMICK60_MODEL_COUNT; model++) {
+        pos = func_021BE480(expObj, 0, model);
+        pos->x = 0x1F8000;
+        pos->y = 0x20000;
+        pos->z = 0x1B8000;
+        func_021BE4A4(expObj, 0, (u16)model, 1);
+        func_021BE4B4(expObj, 0, model, 1);
     }
-    *out = func_021F3880(c, s, d);
+    work->shownIntrudeId = func_021F3880(gameData, expObj, commSys);
 }
 
-
-
-
-void func_021F3850(char *p)
+void func_021F3850(void *expObj)
 {
-    int i;
+    int model;
 
-    for (i = 0; i < 0x14; i++) {
-        func_021BE4B4(p, 0, (u16)i, 1);
+    for (model = 0; model < GIMMICK60_GAUGE_MODEL_COUNT; model++) {
+        func_021BE4B4(expObj, 0, (u16)model, 1);
     }
 }
 
-
-
-int func_021F3870(int x)
+/* One gauge step per three counts, at most the last step. */
+int func_021F3870(int count)
 {
-    int r = x / 3;
+    int step = count / 3;
 
-    if (r > 9) {
-        r = 9;
+    if (step > GIMMICK60_GAUGE_STEP_COUNT - 1) {
+        step = GIMMICK60_GAUGE_STEP_COUNT - 1;
     }
-    return r;
+    return step;
 }
 
-
-
-
-u8 func_021F3880(void *a, void *b, void *unused)
+/* Shows one step of each gauge row in the column of the visited player.
+ * Returns the intrude ID that is shown. */
+u8 func_021F3880(struct GameData *gameData, void *expObj, IntrudeCommSys *unusedCommSys)
 {
-    int r6;
-    int r4;
-    int r5;
-    int r7;
-    int e;
-    V *p;
+    int intrudeId;
+    int column;
+    int highStep;
+    int lowStep;
+    struct BattleRec *record;
+    VecFx32 *pos;
 
-    r6 = func_02012B80(a);
-    r4 = r6 - func_02012B58(a);
-    if (r4 < 0) {
-        r4 += func_02012B40(a);
+    intrudeId = func_02012B80(gameData);
+    column = intrudeId - func_02012B58(gameData);
+    if (column < 0) {
+        column += GAME_DATA_GetEnterMode(gameData);
     }
-    if (r6 == func_02012B58(a)) {
-        e = (int)func_020127B8(a);
+    if (intrudeId == func_02012B58(gameData)) {
+        record = func_020127B8(gameData);
     } else {
-        e = (int)func_020127AC(a, r6);
+        record = func_020127AC(gameData, intrudeId);
     }
-    r7 = e;
-    r5 = func_021F3870(func_0200BDF8((struct Rec1B0 *)r7));
-    r7 = func_021F3870(func_0200BDFC((struct Rec1B0 *)r7));
-    p = func_021BE480(b, 0, r5 + 10);
-    r4 = (r4 << 22) + 0x1F8000;
-    p->a = r4;
-    p->b = 0x20000;
-    p->c = 0x1B8000;
-    p = func_021BE480(b, 0, r7);
-    p->a = r4;
-    p->b = 0x20000;
-    p->c = 0x1B8000;
-    func_021BE4B4(b, 0, (u16)(r5 + 10), 0);
-    func_021BE4B4(b, 0, (u16)r7, 0);
-    return r6;
+    highStep = func_021F3870(func_0200BDF8(record));
+    lowStep = func_021F3870(func_0200BDFC(record));
+    pos = func_021BE480(expObj, 0, highStep + GIMMICK60_GAUGE_STEP_COUNT);
+    column = (column << 22) + 0x1F8000;
+    pos->x = column;
+    pos->y = 0x20000;
+    pos->z = 0x1B8000;
+    pos = func_021BE480(expObj, 0, lowStep);
+    pos->x = column;
+    pos->y = 0x20000;
+    pos->z = 0x1B8000;
+    func_021BE4B4(expObj, 0, (u16)(highStep + GIMMICK60_GAUGE_STEP_COUNT), 0);
+    func_021BE4B4(expObj, 0, (u16)lowStep, 0);
+    return intrudeId;
 }
 
-
-
-
-void *func_021F3938(void *p)
+/* The intrude communication work, or 0 when the game comm is of another kind. */
+IntrudeCommSys *func_021F3938(struct GameComm *gameComm)
 {
-    if (func_02026454(p) == 2) {
-        return (void *)func_02026474(p);
+    if (func_02026454(gameComm) == 2) {
+        return func_02026474(gameComm);
     }
     return 0;
 }
 
-
-
-
-void func_021F3950(void *unused, void *p)
+/* Hides the effect model and sets its animes to run once. */
+void func_021F3950(void *unused, void *expObj)
 {
-    int i;
-    u8 *e;
+    int animeIdx;
+    u8 *anime;
 
-    func_021BE4B4(p, 0, 0x14, 1);
-    for (i = 0; i < 3; i++) {
-        func_021BE700(p, 0, 0x14, (u16)i, 1);
-        e = func_021BE674(p, 0, 0x14, (u16)i);
-        func_021BE6B8(e, 0);
-        func_021BE6B0(e, 0);
+    func_021BE4B4(expObj, 0, GIMMICK60_EFFECT_MODEL, 1);
+    for (animeIdx = 0; animeIdx < GIMMICK60_EFFECT_ANIME_COUNT; animeIdx++) {
+        func_021BE700(expObj, 0, GIMMICK60_EFFECT_MODEL, (u16)animeIdx, 1);
+        anime = func_021BE674(expObj, 0, GIMMICK60_EFFECT_MODEL, (u16)animeIdx);
+        func_021BE6B8(anime, 0);
+        func_021BE6B0(anime, 0);
     }
 }
 
-
-
-
-void func_021F399C(u8 *o, void *p, V *v)
+/* Moves the effect model to pos, restarts its animes and shows it. */
+void func_021F399C(Gimmick60Work *work, void *expObj, VecFx32 *pos)
 {
-    int i;
+    int animeIdx;
 
-    func_021BE4B4(p, 0, 0x14, 0);
-    for (i = 0; i < 3; i++) {
-        func_021BE6CC((int)p, 0, 0x14, (u16)i, 0);
+    func_021BE4B4(expObj, 0, GIMMICK60_EFFECT_MODEL, 0);
+    for (animeIdx = 0; animeIdx < GIMMICK60_EFFECT_ANIME_COUNT; animeIdx++) {
+        func_021BE6CC(expObj, 0, GIMMICK60_EFFECT_MODEL, (u16)animeIdx, 0);
     }
-    *func_021BE480(p, 0, 0x14) = *v;
-    o[1] = 1;
+    *func_021BE480(expObj, 0, GIMMICK60_EFFECT_MODEL) = *pos;
+    work->effectActive = 1;
 }

@@ -14,20 +14,22 @@
  *   d_021F1444     0x021F1444  data   ov093  a4
  *   func_021DF93C  0x021DF93C  thumb  ov093
  */
+#include "unit_021DF3A4_types.h"
 
-void func_021DF93C(int, int, int, int);
+extern const BtlEventHandler d_021F1444[];
 
-void func_021DF7A0(int a, int b, int c)
+void func_021DF7A0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF7AC(int *handlerCount);
+
+/* Metal Coat. */
+void func_021DF7A0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 8);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_STEEL);
 }
 
-
-extern int d_021F1444[];
-int *func_021DF7AC(int *p);
-
-int *func_021DF7AC(int *p)
+/* Mystic Water. */
+const BtlEventHandler *func_021DF7AC(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F1444;
 }

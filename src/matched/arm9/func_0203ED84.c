@@ -1,5 +1,5 @@
 /*
- * function: func_0203ED84
+ * function: GFL_NET_LOWER_DATA_SendControl
  * address:  0x0203ED84
  * packet:   pkt_0203EC7C
  * region:   arm9
@@ -25,7 +25,7 @@ extern struct Entry *func_0203996C(s32 idx);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-int func_0203ED84(int a0)
+int GFL_NET_LOWER_DATA_SendControl(int a0)
 {
     struct S sv;
     int t;

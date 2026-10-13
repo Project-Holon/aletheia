@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Handler row 0 of the 3D-rig table searched by func_020518AC: adds the three
+ * Handler row 0 of the 3D-rig table searched by BUTTON_MAN_FindRowData: adds the three
  * s16 components of o to dst[0..2].  Same compiler as its sibling
  * func_02058204 (1.1p1 merges the first two loads into an ldm).  The middle
  * argument is unused but kept for the handler signature func_02058204 has.

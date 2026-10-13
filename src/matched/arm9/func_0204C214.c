@@ -1,5 +1,5 @@
 /*
- * function: func_0204C214
+ * function: CLACT_IsCellInView
  * address:  0x0204C214
  * packet:   pkt_0204C214
  * region:   arm9
@@ -9,9 +9,9 @@
  * isa:      arm
  * status:   EXACT
  *
- * The axis-aligned sibling of func_0204C060 (clact.c): take the sprite's four
+ * The axis-aligned sibling of CLACT_IsAffineCellInView (clact.c): take the sprite's four
  * half-extents in 20.12 fixed point, translate by the camera delta and cull
- * against the viewport.  Where func_0204C060 runs the extents through a 2x2
+ * against the viewport.  Where CLACT_IsAffineCellInView runs the extents through a 2x2
  * matrix, this one adds the deltas straight to them.  No relocations.
  *
  * Four levers, all measured against the image (docs/notes/pkt_0204C060.c.txt
@@ -26,7 +26,7 @@
  *    makes the compiler interleave the adds with the branches (115 out).
  *  - The extraction must go through an explicit u8 narrowing of the MASK,
  *    `(s32)(u8)(w & 0x3f)` then `(m6 << 2) & 0xff`, exactly as
- *    func_0204C060 documents.  Every spelling that masks first and narrows
+ *    CLACT_IsAffineCellInView documents.  Every spelling that masks first and narrows
  *    the SHIFTED value -- `(u8)((w & 0x3f) << 2)`, `((w & 0x3f) << 2) & 0xff`,
  *    the u32 and the `* 4` forms -- lets 1.1p1 prove the field contiguous and
  *    fuse it into `lsl #26` + `lsr #24`, where the image keeps
@@ -35,8 +35,8 @@
  *    which is the "residue is in the reading, not the allocation" signature.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0204C214.c \
- *       --func func_0204C214 --addr 0x0204C214 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/CLACT_IsCellInView.c \
+ *       --func CLACT_IsCellInView --addr 0x0204C214 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -49,7 +49,7 @@ struct A { u16 f00; u16 f02; u16 f04; u16 f06; s16 f08; s16 f0a; s16 f0c; s16 f0
 struct B { u8 pad_00[0x10]; s32 f10; s32 f14; };
 struct C { s32 f00; s32 f04; s32 f08; s32 f0c; };
 
-int func_0204C214(struct A *a, struct B *b, struct C *c)
+int CLACT_IsCellInView(struct A *a, struct B *b, struct C *c)
 {
     u16 w = a->f02;
     s32 m6 = (s32)(u8)(w & 0x3f);

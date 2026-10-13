@@ -26,11 +26,11 @@
  *   func_020457B0 0x020457B0 arm
  *   func_0201283C 0x0201283C thumb
  *   func_02009860 0x02009860 thumb
- *   func_0205994C 0x0205994C arm
+ *   DWC_CreateFriendKey 0x0205994C arm
  *   func_02045CAC 0x02045CAC arm
  *   func_02045738 0x02045738 arm
- *   func_0204581C 0x0204581C arm
- *   func_02045AFC 0x02045AFC arm
+ *   STRBUF_Clear 0x0204581C arm
+ *   STRBUF_AppendChar 0x02045AFC arm
  *   func_02045808 0x02045808 arm
  *   func_02049EF4 0x02049EF4 arm
  *   _ll_udiv 0x0209C00C arm
@@ -71,10 +71,10 @@
  *   func_021C6C20 0x021C6C20 thumb ov128
  *   func_02045334 0x02045334 arm
  *   func_02025C88 0x02025C88 thumb
- *   func_0202DA04 0x0202DA04 thumb
- *   func_0202DA48 0x0202DA48 thumb
- *   func_0202DA18 0x0202DA18 thumb
- *   func_0202DA6C 0x0202DA6C thumb
+ *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
+ *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
+ *   POKEGRA_RegisterTrainerPalette 0x0202DA18 thumb
+ *   POKEGRA_RegisterTrainerCellAnim 0x0202DA6C thumb
  *   func_02049238 0x02049238 arm
  *   func_0204B294 0x0204B294 arm
  *   d_021CA640 0x021CA640 data a2
@@ -87,16 +87,16 @@
  *   d_021CA5A2 0x021CA5A2 data a2
  *   func_0201F250 0x0201F250 thumb
  *   func_02045A98 0x02045A98 arm
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   _ull_mul 0x0209C054 arm
  *   func_02035C60 0x02035C60 arm
- *   func_0202E940 0x0202E940 thumb
- *   func_0202E9AC 0x0202E9AC thumb
+ *   BLINK_PALANM_Create 0x0202E940 thumb
+ *   BLINK_PALANM_LoadPalettes 0x0202E9AC thumb
  *   func_0202EA20  0x0202EA20  thumb
  *   func_020413B0 0x020413B0 arm
- *   func_0202EB04  0x0202EB04  thumb
+ *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
  *   func_020355C4 0x020355C4 arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   func_0204B878 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0207D658 0x0207D658 arm
@@ -192,11 +192,11 @@ extern void func_021C63AC(void *, u32 *, u32, u32, u8, u8, u8, u8, u32, u8);
 extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
-extern unsigned long long func_0205994C(struct DWCstAccUserData *userdata);
+extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u8 func_02045738(struct Descriptor *p);
-extern void func_0204581C(struct U16Vec *vec);
-extern void func_02045AFC(struct U16Vec *vec, u16 value);
+extern void STRBUF_Clear(struct U16Vec *vec);
+extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 extern void func_02045808(struct U16Vec *vec);
 extern void *func_02049EF4(void *arc, u32 id, u32 comp, void **out, u16 heap);
 extern u32 func_020452E8(struct Descriptor *d);
@@ -227,24 +227,24 @@ extern void func_021C6C94(char **,int);
 extern int func_021C6C20(u8 *,u8 *,int);
 extern void func_02045334(struct Descriptor *);
 extern u32 func_02025C88(u32);
-extern int func_0202DA04(int);
-extern u32 func_0202DA48(u32,u32,u32,u32);
-extern s32 func_0202DA18(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern int func_0202DA6C(int a0, int a1, int a2, unsigned short a3);
+extern int POKEGRA_OpenTrainerHandle(int);
+extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
+extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern int POKEGRA_RegisterTrainerCellAnim(int a0, int a1, int a2, unsigned short a3);
 extern void func_02049238(void *);
 extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u16 func_02045A98(void);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern int func_02035C60(void);
-extern struct CodeIn *func_0202E940(u16 a0, u16 a1, u32 a2, u16 heap);
-extern void func_0202E9AC(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
+extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
+extern void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
 extern u32 func_0202EA20(struct Obj0202EA20 *p);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_0202EB04(struct CodeIn *p);
+extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 extern u8 func_020355C4(void);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0207D658(u32,int,int);
@@ -451,14 +451,14 @@ static inline u8 *second(u8 *p)
  *   Remaining 22 B: pure colour swap, classes {10, i} and {2, text} swapped (orig r5/r4, build r4/r5).
  *   Tried, no change: u8 heap, text/i decl order, w1 inline, x decl order, long i/x/n, six pragmas
  *   (propagation worse), pal/gfx swap 28, t before call 98, w1 late 39, u32/u8 i 146/130, i<13 24.
- *   Twin search: grep func_0205994C / func_021CA4B4 / func_02045AFC in src/matched/ov: no loop twin.
+ *   Twin search: grep DWC_CreateFriendKey / func_021CA4B4 / STRBUF_AppendChar in src/matched/ov: no loop twin.
  *   Idioms checked: two-long-lived-values-in-each-others-registers (no applicable form),
  *   a-long-index-colours-apart-from-an-int (22), a-colour-swap-...-opt-lifetimes-off (22),
  *   a-loop-counter-zero-before-an-offset-assignment (n/a).
  *   final push 2026-10-05 G5L9 (40 compiles, all 22 B, same pure swap): the (u16) cast on the
  *   third blit argument is dropped (callee takes u16; same bytes, now plain). Tried, no change:
  *   block-scoped t/x/i, declarations at the point of use, u8* text, key decl first/last, i/x
- *   first, func_02045AFC u16 value, func_021C63AC with u8 fourth parameter, func_02045738 as u8
+ *   first, STRBUF_AppendChar u16 value, func_021C63AC with u8 fourth parameter, func_02045738 as u8
  *   (same bytes) with n u32/int/u8, named constants ten/two (int, u8; with opt_propagation off 449 B),
  *   constants as locals in both orders, text/buf2/key as declaration initialisers (30 B, only slot
  *   order moves), inline put()/blit() helpers, struct view of p (two windows), i++ as body statement
@@ -496,7 +496,7 @@ void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
     func_021C63AC(ctx, (u32 *)(p + 8), 3, 9, 6, 0xe, 2, 10, 0xf1, 0);
     text = (u32)func_020457B0(0xc0, heap);
     buf2 = func_020457B0(0x80, heap);
-    key = func_0205994C((struct DWCstAccUserData *)func_02009860((void *)func_0201283C(*(void **)(q + 4))));
+    key = DWC_CreateFriendKey((struct DWCstAccUserData *)func_02009860((void *)func_0201283C(*(void **)(q + 4))));
     if (key != 0) {
         func_02045CAC(*(void **)(ctx + 4), 0x35, (void *)text);
         func_021B6AE4(p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
@@ -508,8 +508,8 @@ void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
         n = func_02045738(*(void **)(p + 8));
         w1 = second(p);
         for (i = 1; i <= 12; i++) {
-            func_0204581C((void *)text);
-            func_02045AFC((void *)text, t.v[key % 10]);
+            STRBUF_Clear((void *)text);
+            STRBUF_AppendChar((void *)text, t.v[key % 10]);
             func_021B6AE4(w1, (void *)gfx, (n - i) * 8 - x + 1, 0, text, pal, 0x3c40, 0);
             if (i % 4 == 0)
                 x += 8;
@@ -850,10 +850,10 @@ void func_021C991C(u8 *p,u8 *q,u8 *ctx,u16 heap)
     for(i=0;i<10;i++) func_021CA4B4(*(char **)(p+i*8+0x128));
     bounds=d_021CA640;
     id=func_02025C88(func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),8));
-    archive=func_0202DA04(heap);
-    ((struct Obj00773 *)p)->f17C=func_0202DA48(archive,id,0,heap);
-    ((struct Obj00773 *)p)->f180=func_0202DA18(archive,id,0,192,heap);
-    ((struct Obj00773 *)p)->f184=func_0202DA6C(id,2,0,heap);
+    archive=POKEGRA_OpenTrainerHandle(heap);
+    ((struct Obj00773 *)p)->f17C=POKEGRA_RegisterTrainerCgr(archive,id,0,heap);
+    ((struct Obj00773 *)p)->f180=POKEGRA_RegisterTrainerPalette(archive,id,0,192,heap);
+    ((struct Obj00773 *)p)->f184=POKEGRA_RegisterTrainerCellAnim(id,2,0,heap);
     func_02049238((void *)archive);
     ((struct Obj00773 *)p)->f178=(u32)func_0204B294((void *)((struct Obj00329 *)ctx)->f138,((struct Obj00773 *)p)->f17C,
         ((struct Obj00773 *)p)->f180,((struct Obj00773 *)p)->f184,&bounds,0,heap);
@@ -1082,7 +1082,7 @@ void func_021C9FC8(u8 *p,void *unused,u8 *q,u32 item,int x,int y,int color)
 u64 func_021CA014(void *p,int *ok)
 {
     u16 end=func_02045A98();
-    u16 *text=func_02045A90(p);
+    u16 *text=STRBUF_GetChars(p);
     u64 value;
     u16 i;
     u16 digit;
@@ -1116,10 +1116,10 @@ int func_021CA084(int *p) { if(func_02035C60()==1) {func_020355D8(1);*p=1;return
 
 void func_021CA0BC(u8 *p,u16 heap)
 {
-    ((struct Obj03812 *)p)->f184=func_0202E940(48,16,0,heap);
-    func_0202E9AC(((struct Obj03812 *)p)->f184,*(u8 * *)&((struct Obj03812 *)p)->f8,0,32,48);
-    ((struct Obj03812 *)p)->f188=func_0202E940(16,16,0xfffe,heap);
-    func_0202E9AC(((struct Obj03812 *)p)->f188,*(u8 * *)&((struct Obj03812 *)p)->f8,2,0,16);
+    ((struct Obj03812 *)p)->f184=BLINK_PALANM_Create(48,16,0,heap);
+    BLINK_PALANM_LoadPalettes(((struct Obj03812 *)p)->f184,*(u8 * *)&((struct Obj03812 *)p)->f8,0,32,48);
+    ((struct Obj03812 *)p)->f188=BLINK_PALANM_Create(16,16,0xfffe,heap);
+    BLINK_PALANM_LoadPalettes(((struct Obj03812 *)p)->f188,*(u8 * *)&((struct Obj03812 *)p)->f8,2,0,16);
 }
 
 
@@ -1141,7 +1141,7 @@ void func_021CA124(u32 a,u32 b) {func_020413B0(2,2,(a+1)*5,28,4,b);func_02041B6C
 void func_021CA154(u8 *p, int a)
 {
     func_021CA124(a, 1);
-    func_0202EB04(((struct Obj00329 *)p)->f184);
+    BLINK_PALANM_ResetPhase(((struct Obj00329 *)p)->f184);
 }
 
 
@@ -1150,7 +1150,7 @@ void func_021CA154(u8 *p, int a)
 void func_021CA16C(u8 *p, int a)
 {
     func_021CA124(a, 3);
-    func_0202EB04(((struct Obj00329 *)p)->f184);
+    BLINK_PALANM_ResetPhase(((struct Obj00329 *)p)->f184);
 }
 
 
@@ -1233,7 +1233,7 @@ void func_021CA25C(u32 a,u32 b) {func_020413B0(2,(a>>2)*14+2,(a&3)*4+4,14,4,b);f
 void func_021CA294(u8 *p, int a)
 {
     func_021CA25C(a, 1);
-    func_0202EB04(((struct Obj14051 *)p)->f184);
+    BLINK_PALANM_ResetPhase(((struct Obj14051 *)p)->f184);
 }
 
 
@@ -1242,7 +1242,7 @@ void func_021CA294(u8 *p, int a)
 void func_021CA2AC(u8 *p, int a)
 {
     func_021CA25C(a, 3);
-    func_0202EB04(((struct Obj14051 *)p)->f184);
+    BLINK_PALANM_ResetPhase(((struct Obj14051 *)p)->f184);
 }
 
 
@@ -1311,11 +1311,11 @@ int func_021CA320(char *p)  {
 
 
 
-void func_021CA3A0(char *p) {func_0204B8C4(((struct Obj03813 *)p)->f164,0);func_0204B878(((struct Obj03813 *)p)->f164,9);func_0204B92C(((struct Obj03813 *)p)->f164,1);}
+void func_021CA3A0(char *p) {CLACT_SetActorAnimFrame(((struct Obj03813 *)p)->f164,0);func_0204B878(((struct Obj03813 *)p)->f164,9);func_0204B92C(((struct Obj03813 *)p)->f164,1);}
 
 
 
-void func_021CA3C4(char *p) {func_0204B8C4(((struct Obj03813 *)p)->f168,0);func_0204B878(((struct Obj03813 *)p)->f168,8);func_0204B92C(((struct Obj03813 *)p)->f168,1);}
+void func_021CA3C4(char *p) {CLACT_SetActorAnimFrame(((struct Obj03813 *)p)->f168,0);func_0204B878(((struct Obj03813 *)p)->f168,8);func_0204B92C(((struct Obj03813 *)p)->f168,1);}
 
 
 
@@ -1323,7 +1323,7 @@ void func_021CA3E8(int a) {if(a==1)func_0207D658(0x04000050,28,0);else func_0207
 
 
 
-void func_021CA40C(char *p, int n) {func_0204B8C4(((struct Obj00179 *)p)->f1A4,0);func_0204B878(((struct Obj00179 *)p)->f1A4,n+2);}
+void func_021CA40C(char *p, int n) {CLACT_SetActorAnimFrame(((struct Obj00179 *)p)->f1A4,0);func_0204B878(((struct Obj00179 *)p)->f1A4,n+2);}
 
 
 

@@ -14,7 +14,7 @@
  * the spilled result as in the image.
  *
  * symbols:
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_0203630C  0x0203630C  arm
  *   func_020362DC  0x020362DC  arm
  *   func_0203633C  0x0203633C  arm
@@ -43,7 +43,7 @@ typedef struct {
     int f2f4;
 } S;
 
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern unsigned int func_0203630C(void);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203633C(void);
@@ -69,7 +69,7 @@ int func_021B9C7C(void *a, S *p)
     ret = 0;
     sel = 0xffff;
     p->f2e4 = ret;
-    touch = func_02035CB8(&x, &y);
+    touch = TOUCHPANEL_GetPointCont(&x, &y);
     if (p->f2dc == 0) {
         if (x < 0x18 || x > 0xe0) {
             touch = 0;

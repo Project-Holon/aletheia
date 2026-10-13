@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * Callback adapter: unpacks a two-word argument block and tail-calls
- * func_02154BF8 (docs/idioms/tail-call-is-a-pool-word-and-bx.md). Region
+ * EVENT_WIFICLUB_Create (docs/idioms/tail-call-is-a-pool-word-and-bx.md). Region
  * ov006: the only overlay mapped at this address; Thumb code directly after
- * the pool word of func_02154BF8, which is also its tail-call target.
+ * the pool word of EVENT_WIFICLUB_Create, which is also its tail-call target.
  * ov021 func_021B4C54 passes it as a function pointer together with the block
  * {func_0201210C(..), 0} (wave A1 witness).
  *
  * symbols:
- *   func_02154BF8  0x02154BF8  thumb  ov006
+ *   EVENT_WIFICLUB_Create  0x02154BF8  thumb  ov006
  * Addresses are Black-image addresses.
  */
 
@@ -26,10 +26,10 @@ typedef struct Pair {
     int b;
 } Pair;
 
-extern int func_02154BF8(int gameSystem, int b, int c);
+extern int EVENT_WIFICLUB_Create(int gameSystem, int b, int c);
 
 /* Overlay entry point: unpacks the request pair and creates the event. */
 int func_02154C20(int gameSystem, Pair *request)
 {
-    return func_02154BF8(gameSystem, request->a, request->b);
+    return EVENT_WIFICLUB_Create(gameSystem, request->a, request->b);
 }

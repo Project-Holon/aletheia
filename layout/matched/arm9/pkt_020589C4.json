@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020589C4",
+   "name": "DWCi_BACKUPlGetWifi",
    "address": "0x020589C4",
    "kind": "game",
    "region": "arm9",

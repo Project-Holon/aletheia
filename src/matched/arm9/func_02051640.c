@@ -1,5 +1,5 @@
 /*
- * function: func_02051640
+ * function: PARTICLE_GetWorkBase
  * address:  0x02051640
  * packet:   pkt_02051640
  * region:   arm9
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj01319.h"
 
-void *func_02051640(char *p)
+void *PARTICLE_GetWorkBase(char *p)
 {
     return ((struct Obj01319 *)p)->fC;
 }

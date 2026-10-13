@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_0202B7B8
+ * function: ISS_SYS_OnZoneChangeRoad
  * address:  0x0202B7B8
  * packet:   pkt_0202B4BC
  * region:   arm9
@@ -18,10 +18,10 @@
  * situation with a longer body).
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/sub_0202B7B8.c \
+ *   python tools/match.py tu --src src/matched/ISS_SYS_OnZoneChangeRoad.c \
  *       --addr 0x0202B7B8 --thumb
  */
 
-void sub_0202B7B8(void)
+void ISS_SYS_OnZoneChangeRoad(void)
 {
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020159C8  0x020159C8  thumb
+ *   MCSS_Add  0x020159C8  thumb
  *   func_022006A0  0x022006A0  thumb  ov094
  *   func_022006B4  0x022006B4  thumb  ov094
  *   func_022018A8  0x022018A8  thumb  ov094
@@ -35,7 +35,7 @@ typedef struct { u32 x, y, z; } Vec;
 struct Obj;
 struct Rec;
 struct Sub150;
-extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
+extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
 extern void func_022006A0(void *p, void *out, int key);
 extern void func_022006B4(Work *w, int key);
 extern void func_022018A8(void *obj, void *out, int idx);
@@ -55,7 +55,7 @@ void func_021FF088(Work *w, void *src, int key)
         w->e[i].k48 = key;
         func_022006A0(src, buf, key);
         func_022018A8(w, &v, key);
-        w->e[i].h = func_020159C8(w->obj, v.x, v.y, v.z, (const struct Sub150 *)buf);
+        w->e[i].h = MCSS_Add(w->obj, v.x, v.y, v.z, (const struct Sub150 *)buf);
         func_022006B4(w, key);
     }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02035760",
+   "name": "TOUCHPANEL_ReadPointX",
    "address": "0x02035760",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02035780",
+   "name": "TOUCHPANEL_ReadPointY",
    "address": "0x02035780",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020357A0",
+   "name": "TOUCHPANEL_ReadCont",
    "address": "0x020357A0",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020357C0",
+   "name": "TOUCHPANEL_ReadTrg",
    "address": "0x020357C0",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02035A60",
+   "name": "TOUCHPANEL_Main",
    "address": "0x02035A60",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02035A70",
+   "name": "TOUCHPANEL_HitCircle",
    "address": "0x02035A70",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02035AA4",
+   "name": "TOUCHPANEL_HitRect",
    "address": "0x02035AA4",
    "kind": "game",
    "region": "arm9",

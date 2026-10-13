@@ -17,7 +17,7 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_020457B0  0x020457B0  arm
  *   func_02028470  0x02028470  thumb
- *   func_02045778  0x02045778  arm
+ *   BMP_WIN_GetPalette  0x02045778  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   func_02045770  0x02045770  arm
  *   func_02043B5C  0x02043B5C  arm
@@ -39,7 +39,7 @@ struct Descriptor;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02028470(u8 *p, u32 v);
-extern u8 func_02045778(struct Descriptor *p);
+extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
@@ -65,7 +65,7 @@ void func_021BA1C4(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u16 s2)
     ((struct Obj01227 *)p)->f24 = s1;
     ((struct Obj01227 *)p)->f28 = 0;
     func_02028470(p + 0x2c, 0x406);
-    func_0201F73C((void *)(((struct Obj01227 *)p)->f10), 2, 1, func_02045778((struct Descriptor *)a1));
+    func_0201F73C((void *)(((struct Obj01227 *)p)->f10), 2, 1, BMP_WIN_GetPalette((struct Descriptor *)a1));
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01227 *)p)->f10)), (u8)((struct Obj01227 *)p)->f18);
     w = ((struct Obj01227 *)p)->f10;
     func_02045334((struct Descriptor *)w);

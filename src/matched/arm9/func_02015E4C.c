@@ -1,5 +1,5 @@
 /*
- * function: func_02015E4C
+ * function: MCSS_ResetAnmStopFlag
  * address:  0x02015E4C
  * packet:   pkt_02015E4C
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * Unlabelled Thumb leaf in the ARM9 module. Compound-AND of the 2-bit
  * bitfield at bits 9..10 of the register at +0x140 with ~1 (clears bit 9).
- * Same non-volatile codegen lever as func_02015E04.
+ * Same non-volatile codegen lever as MCSS_SetAnmStopFlag.
  *
  * Addresses are Black-image addresses.
  */
@@ -23,7 +23,7 @@ struct Reg02015E4C {
     unsigned int f : 2;
 };
 
-void func_02015E4C(void *p)
+void MCSS_ResetAnmStopFlag(void *p)
 {
     ((struct Reg02015E4C *)((char *)p + 0x140))->f &= ~1u;
 }

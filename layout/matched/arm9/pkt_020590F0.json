@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020590F0",
-    "func_020590F8",
-    "func_02059100"
+    "DWCi_Acc_SetPlayerId",
+    "DWCi_Acc_SetFriendKey",
+    "DWCi_Acc_SetGsProfileId"
+   ],
+   "addresses": [
+    "0x020590F0",
+    "0x020590F8",
+    "0x02059100"
    ]
   }
  ]

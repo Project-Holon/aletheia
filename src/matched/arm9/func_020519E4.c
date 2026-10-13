@@ -1,5 +1,5 @@
 /*
- * function: func_020519E4
+ * function: BUTTON_MAN_SetRow3Half
  * address:  0x020519E4
  * packet:   pkt_02051838
  * region:   arm9
@@ -11,18 +11,21 @@
  *
  * The class-3 slot carries only a halfword at +2.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020519E4.c \
- *       --func func_020519E4 --addr 0x020519E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_SetRow3Half.c \
+ *       --func BUTTON_MAN_SetRow3Half --addr 0x020519E4 --cc 1.1p1 --arm
+ *
+ * symbols:
+ *   BUTTON_MAN_FindRowData  0x020518AC  arm
  */
 #include "../include/Obj16190.h"
 
 typedef unsigned short u16;
 
-extern void *func_020518AC(void *obj, int kind);
+extern void *BUTTON_MAN_FindRowData(void *obj, int kind);
 
-void func_020519E4(void *p, u16 *q)
+void BUTTON_MAN_SetRow3Half(void *p, u16 *q)
 {
-    char *r = func_020518AC(p, 3);
+    char *r = BUTTON_MAN_FindRowData(p, 3);
 
     if (r != 0)
         ((struct Obj16190 *)r)->f2 = *q;

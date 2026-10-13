@@ -11,6 +11,7 @@
  *
  * symbols:
  *   func_021BF308  0x021BF308  arm  ov114
+ *   GFL_NET_STATE_SetError  0x0203C9AC  arm  arm9
  *
  * Unlinks the record's +0x0c owner from list class 2, keyed 0x3f6.  Both
  * early exits are the ELSE arm of their test, which sinks each tiny return
@@ -21,7 +22,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021BF308(int);
-extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
+extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 
 int func_021B9748(u8 *p)
 {
@@ -30,7 +31,7 @@ int func_021B9748(u8 *p)
     if (p != 0) {
         h = func_021BF308(((struct Obj22571 *)p)->fC);
         if (h != 0) {
-            func_0203C9AC(h, 2, h, 0x3f6);
+            GFL_NET_STATE_SetError(h, 2, h, 0x3f6);
             return h;
         }
         return 0;

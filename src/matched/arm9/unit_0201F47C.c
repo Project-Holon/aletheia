@@ -30,6 +30,9 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201F47C.c \
  *       --addr 0x0201F47C --thumb
+ *
+ * symbols:
+ *   STRBUF_GetChars  0x02045A90  arm
  */
 
 typedef unsigned short u16;
@@ -37,11 +40,11 @@ typedef unsigned int   u32;
 
 struct U16Vec;
 extern u16 func_020458F8(struct U16Vec *vec);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 
 u32 func_0201F47C(void *s)
 {
-    if (func_020458F8(s) != 0 && *func_02045A90(s) == 0xF100) {
+    if (func_020458F8(s) != 0 && *STRBUF_GetChars(s) == 0xF100) {
         return 1;
     }
     return 0;

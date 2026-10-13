@@ -1,5 +1,5 @@
 /*
- * function: func_0200A094
+ * function: MYSTERY_DATA_DeleteCard
  * address:  0x0200A094
  * packet:   pkt_0200A034
  * region:   arm9
@@ -8,25 +8,32 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   MYSTERY_DATA_CloseCardGap  0x02009F7C  thumb
+ *   MYSTERY_DATA_GetCardMax  0x0200A400  thumb
+ *   MYSTERY_DATA_GetCardSlot  0x0200A43C  thumb
+ *   MYSTERY_DATA_Encrypt  0x0200A480  thumb
+ *   MYSTERY_DATA_Decrypt  0x0200A49C  thumb
  */
 #include "../include/Obj15580.h"
 
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Obj;
-extern u32 func_0200A400(struct Obj *obj);
-extern void func_0200A49C(struct Obj *obj);
-extern void *func_0200A43C(struct Obj *obj, u32 index);
-extern void func_02009F7C(void *p, unsigned int i);
-extern void func_0200A480(struct Obj *obj);
-void func_0200A094(void *p, unsigned int idx)
+extern u32 MYSTERY_DATA_GetCardMax(struct Obj *obj);
+extern void MYSTERY_DATA_Decrypt(struct Obj *obj);
+extern void *MYSTERY_DATA_GetCardSlot(struct Obj *obj, u32 index);
+extern void MYSTERY_DATA_CloseCardGap(void *p, unsigned int i);
+extern void MYSTERY_DATA_Encrypt(struct Obj *obj);
+void MYSTERY_DATA_DeleteCard(void *p, unsigned int idx)
 {
-    unsigned int n = (unsigned int)func_0200A400(p);
-    func_0200A49C(p);
+    unsigned int n = (unsigned int)MYSTERY_DATA_GetCardMax(p);
+    MYSTERY_DATA_Decrypt(p);
     if (idx < n) {
-        void *slot = func_0200A43C(p, idx);
+        void *slot = MYSTERY_DATA_GetCardSlot(p, idx);
         ((struct Obj15580 *)slot)->fB3 = 0;
-        func_02009F7C(p, idx);
+        MYSTERY_DATA_CloseCardGap(p, idx);
     }
-    func_0200A480(p);
+    MYSTERY_DATA_Encrypt(p);
 }

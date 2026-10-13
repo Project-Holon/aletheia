@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02156F50",
+   "name": "DWC_RAPCOMMON_SetHeapTag",
    "address": "0x02156F50",
    "kind": "game",
    "region": "ov009",

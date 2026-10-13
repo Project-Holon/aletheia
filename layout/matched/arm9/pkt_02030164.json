@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02030164",
+   "name": "GFL_HEAP_FreeMemory",
    "address": "0x02030164",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02030238",
+   "name": "GFL_HEAP_InitAllocator",
    "address": "0x02030238",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_020472F8
+ * function: G3D_SYSTEM_AllocPlttVramKey
  * address:  0x020472F8
  * packet:   pkt_02047260
  * region:   arm9
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   g_020A8148     0x020A8148  data
- *   func_0206A110  0x0206A110  arm
+ *   NNS_G3dPlttGetRequiredSize  0x0206A110  arm
  *
- * Open one layer: ask func_0206A110 for the layer's handle (a zero handle
+ * Open one layer: ask NNS_G3dPlttGetRequiredSize for the layer's handle (a zero handle
  * is the failure path and answers 1), then call the current handler out of
  * the function pointer at 0x020A8148 with the handle, the layer's bit
  * 0x8000 of the halfword at +0x20 and a zero, and store what it returns
@@ -25,8 +25,8 @@
  * plain `mov r0, #1`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020472F8.c \
- *       --func func_020472F8 --addr 0x020472F8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_AllocPlttVramKey.c \
+ *       --func G3D_SYSTEM_AllocPlttVramKey --addr 0x020472F8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -41,13 +41,13 @@ struct Layer {
 };
 
 extern u32 (*g_020A8148)(u32 handle, u32 flags, u32 zero);
-extern int func_0206A110(int p);
+extern int NNS_G3dPlttGetRequiredSize(int p);
 
-int func_020472F8(struct Layer *layer, u32 *out)
+int G3D_SYSTEM_AllocPlttVramKey(struct Layer *layer, u32 *out)
 {
     u32 h;
 
-    h = func_0206A110((int)layer);
+    h = NNS_G3dPlttGetRequiredSize((int)layer);
     if (h == 0)
         goto ret1;
 

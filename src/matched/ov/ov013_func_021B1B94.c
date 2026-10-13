@@ -1,5 +1,5 @@
 /*
- * function: func_021B1B94
+ * function: VCT_AUDIO_TrackPacketTiming
  * address:  0x021B1B94
  * packet:   pkt_ov013_021B1B94
  * region:   ov013
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * RTP receive bookkeeping: sequence check (func_021B1AC0), interarrival
+ * RTP receive bookkeeping: sequence check (VCT_AUDIO_UpdateSequence), interarrival
  * jitter (J += (|D| - J) / 16), playout-time and drift tracking. The
  * constants are OS ticks (OS_MilliSecondsToTicks folded): 0x8B18 = 68 ms,
  * 0x7FD88 ~ 1 s, 0x134DF = 151 ms, 0x68520 = 816 ms, 0x8701 = 66 ms.
@@ -18,8 +18,8 @@
  * the one in `s->lo`.
  *
  * symbols:
- *   func_021B1AA0  0x021B1AA0  arm  ov013
- *   func_021B1AC0  0x021B1AC0  arm  ov013
+ *   VCT_AUDIO_InitSequence  0x021B1AA0  arm  ov013
+ *   VCT_AUDIO_UpdateSequence  0x021B1AC0  arm  ov013
  *   func_020870D0  0x020870D0  arm
  */
 
@@ -65,11 +65,11 @@ struct Pkt {
     unsigned long long play;    /* 0x46C */
 };
 
-extern void func_021B1AA0(char *p, unsigned short v);
-extern int func_021B1AC0(char *p, char *pkt, unsigned short seq);
+extern void VCT_AUDIO_InitSequence(char *p, unsigned short v);
+extern int VCT_AUDIO_UpdateSequence(char *p, char *pkt, unsigned short seq);
 extern unsigned long long func_020870D0(void);
 
-int func_021B1B94(struct Src *s, struct Pkt *pkt)
+int VCT_AUDIO_TrackPacketTiming(struct Src *s, struct Pkt *pkt)
 {
     int transit;
     int flag = 0;
@@ -80,9 +80,9 @@ int func_021B1B94(struct Src *s, struct Pkt *pkt)
     unsigned long long now;
 
     if (s->probation != 0) {
-        func_021B1AA0((char *)s, pkt->seq);
+        VCT_AUDIO_InitSequence((char *)s, pkt->seq);
     } else {
-        if (!func_021B1AC0((char *)s, (char *)pkt, pkt->seq)) {
+        if (!VCT_AUDIO_UpdateSequence((char *)s, (char *)pkt, pkt->seq)) {
             s->dropped++;
             return flag;
         }

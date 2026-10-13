@@ -1,7 +1,7 @@
 /*
  * file:     pm_voice.c
  * unit:     yes
- * function: func_02005BC0, sub_02005C18, func_02005C28, func_02005C3C, func_02005C44, func_02005C4C, func_02005C64, func_02005C8C, func_02005CA4, func_02005CBC, func_02005CE0, func_02005D08, func_02005D14, func_02005D28, func_02005D34, func_02005D90, func_02005DA4, func_02005DAC, func_02005DE4, func_02005DF8, func_02005E04, func_02005E30, func_02005E50, func_02005E64, func_02005E9C, func_02005EB4, func_02005EE0, func_02005F24, sub_02005F38, sub_02005F5C, sub_02005F70, sub_02005F90, func_02005FF4, func_02006118, func_02006138, func_02006148, func_0200616C, func_020061A4, func_020061E4, func_020061F0, func_020061F8, func_02006210, func_02006224, func_02006238, func_02006254, func_02006268, func_020062BC, func_02006300, func_02006368, func_02006394, func_020063B4, func_02006448, func_020064B8, func_020064F4, func_02006504, func_02006518, func_02006544, func_020065D8, func_020065FC, func_02006650, func_02006674, func_020066E8, func_02006734, func_02006740, func_0200674C, func_02006768, func_020067A4, func_020067D0, func_020067E0, func_02006868, func_02006948, func_02006984, func_020069D4, func_02006A64, func_02006A8C, func_02006AEC, func_02006B20, func_02006BB4, func_02006BD0, func_02006BE0, func_02006C00, func_02006C2C, func_02006CAC, func_02006CBC, sub_02006D44, sub_02006D64, sub_02006D94, func_02006DAC, func_02006DD8, func_02006E18, func_02006E2C
+ * function: GFL_USE_UpdateSound, GFL_USE_ClearSndHeap, GFL_USE_SetStereoOutput, GFL_USE_GetBgmHandle, GFL_USE_GetBgmNo, GFL_USE_GetTargetBgmNo, func_02005C64, func_02005C8C, GFL_USE_SetPlayersAudible, GFL_USE_SetPlayerVolumes, GFL_USE_IsSeqStartAllowed, GFL_USE_SetSeqStartFilter, GFL_USE_StopBgm, GFL_USE_CancelChangeAndStopBgm, GFL_USE_PlayBgm, GFL_USE_CancelChangeAndPlayBgm, GFL_USE_ChangeBgm, GFL_USE_PlayFanfare, GFL_USE_SetBgmPlayerParam, GFL_USE_FadeInBgmFull, func_02005E04, GFL_USE_FadeOutBgm, GFL_USE_IsBgmFading, GFL_USE_PushBgm, GFL_USE_PopBgm, GFL_USE_SetBgmAudibleTracks, GFL_USE_SetBgmTrackParams, GFL_USE_SetBgmTrackVolume, GFL_USE_IsBgmPlaying, GFL_USE_CancelChangeDefaultFade, GFL_USE_BeginBgmChange, GFL_USE_CancelBgmChange, GFL_USE_UpdateBgmChange, GFL_USE_InitSeSlots, GFL_USE_GetSeHandle, func_02006148, func_0200616C, func_020061A4, func_020061E4, func_020061F0, func_020061F8, GFL_USE_StopAllSe, func_02006224, func_02006238, GFL_USE_IsSeqPlaying, GFL_USE_SetSeSlotParams, GFL_USE_SetSeSlotVolume, func_02006300, GFL_USE_StopLoaderThread, func_02006394, GFL_USE_StepBgmLoad, GFL_USE_InstallBgmBuffers, GFL_USE_ReplaceWaveData, GFL_USE_StartSeq, GFL_USE_StopSeqAndUnload, GFL_USE_ClearPreloadedBgmBuffers, PM_VOICE_Init, func_020065D8, PM_VOICE_StopFinished, func_02006650, PM_VOICE_AllocBuffers, PM_VOICE_FreeBuffers, PM_VOICE_SetMasterVolume, PM_VOICE_ResetMasterVolume, PM_VOICE_ScaleVolume, PM_VOICE_NextSlot, PM_VOICE_ResetParams, PM_VOICE_ClearSlot, PM_VOICE_LoadWave, PM_VOICE_StartChannels, PM_VOICE_Stop, func_02006984, PM_VOICE_Prepare, PM_VOICE_Start, func_02006A8C, PM_VOICE_AddFrequency, func_02006B20, PM_VOICE_StopSlot, func_02006BD0, PM_VOICE_ReverseBytes, PM_VOICE_GetCryIndex, PM_VOICE_PrepareCry, func_02006CAC, func_02006CBC, SND_MIC_Exit, SND_MIC_AddElapsed, SND_MIC_IsLimitReached, func_02006DAC, func_02006DD8, func_02006E18, SND_MIC_GetBufferAligned
  * address:  0x02005BC0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -16,60 +16,60 @@
  * symbols:
  *   func_02072758  0x02072758  arm
  *   func_020727B4  0x020727B4  arm
- *   func_02073108  0x02073108  arm
+ *   NNS_SndHandleReadTrackInfo  0x02073108  arm
  *   func_02074758       0x02074758  arm
  *   func_02072794  0x02072794  arm
- *   sub_020058D0  0x020058D0  thumb
- *   sub_0200590C  0x0200590C  thumb
+ *   GFL_USE_GetCurrentBgmId  0x020058D0  thumb
+ *   GFL_USE_GetCurrentSndHandle  0x0200590C  thumb
  *   func_0208574C       0x0208574C  arm
- *   sub_020059C8        0x020059C8  thumb
- *   func_02072D98       0x02072D98  arm
+ *   GFL_USE_UnloadBgmData        0x020059C8  thumb
+ *   NNS_SndPlayerSetPlayerVolume       0x02072D98  arm
  *   func_02072E7C       0x02072E7C  arm
- *   sub_02005924   0x02005924  thumb
+ *   GFL_USE_LoadBgmData   0x02005924  thumb
  *   func_020755A8  0x020755A8  arm
- *   func_02072F5C       0x02072F5C  arm
- *   func_02072FA8  0x02072FA8  arm
- *   func_02072FC8  0x02072FC8  arm
- *   func_02073018  0x02073018  arm
- *   func_02073038  0x02073038  arm
- *   func_02073098  0x02073098  arm
- *   func_02072FE8  0x02072FE8  arm
- *   sub_02006368        0x02006368  thumb
+ *   NNS_SndHandleMoveVolume       0x02072F5C  arm
+ *   NNS_SndHandleSetTrackPause  0x02072FA8  arm
+ *   NNS_SndHandleSetTrackMute  0x02072FC8  arm
+ *   NNS_SndHandleSetTrackPitch  0x02073018  arm
+ *   NNS_SndHandleSetTrackPan  0x02073038  arm
+ *   NNS_SndHandleStop  0x02073098  arm
+ *   NNS_SndHandleSetTrackVolume  0x02072FE8  arm
+ *   GFL_USE_StopLoaderThread        0x02006368  thumb
  *   func_02072EE0       0x02072EE0  arm
- *   func_02072F34       0x02072F34  arm
- *   sub_0200597C        0x0200597C  thumb
- *   sub_020059A0        0x020059A0  thumb
- *   func_020746B0       0x020746B0  arm
- *   func_02072E9C       0x02072E9C  arm
+ *   NNS_SndHandleSetSeqPriority       0x02072F34  arm
+ *   GFL_USE_SaveSeqBankState        0x0200597C  thumb
+ *   GFL_USE_FinishBgmLoad        0x020059A0  thumb
+ *   NNS_SndArcSetReadChunkSize       0x020746B0  arm
+ *   NNS_SndHandleInit       0x02072E9C  arm
  *   func_02085A38       0x02085A38  arm
- *   func_0207430C  0x0207430C  arm
+ *   NNS_SndArcGetSeqParam  0x0207430C  arm
  *   func_02075560       0x02075560  arm
- *   func_02072EC8  0x02072EC8  arm
+ *   NNS_SndPlayerGetActiveSeqCount  0x02072EC8  arm
  *   func_020853C0        0x020853C0  arm
  *   func_02074AC4        0x02074AC4  arm
  *   func_02085868        0x02085868  arm
  *   func_020855BC  0x020855BC  arm
- *   func_02074324  0x02074324  arm
- *   func_020743EC  0x020743EC  arm
+ *   NNS_SndArcGetSeqInfo  0x02074324  arm
+ *   NNS_SndArcGetBankInfo  0x020743EC  arm
  *   func_02074A98  0x02074A98  arm
- *   func_02074694  0x02074694  arm
- *   func_02074450  0x02074450  arm
- *   func_0207466C  0x0207466C  arm
+ *   NNS_SndArcSetFileAddress  0x02074694  arm
+ *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
+ *   NNS_SndArcGetFileAddress  0x0207466C  arm
  *   func_0208A640  0x0208A640  arm
  *   func_0208A674  0x0208A674  arm
  *   func_02030734       0x02030734  arm
- *   func_02072CC4       0x02072CC4  arm
+ *   NNS_SndWaveOutIsPlaying       0x02072CC4  arm
  *   func_020307B0       0x020307B0  arm
- *   func_02072A44  0x02072A44  arm
+ *   NNS_SndWaveOutAllocChannel  0x02072A44  arm
  *   func_02072AA0  0x02072AA0  arm
- *   func_0207457C  0x0207457C  arm
- *   func_020745A4  0x020745A4  arm
- *   func_0208A638  0x0208A638  arm
+ *   NNS_SndArcGetFileSize  0x0207457C  arm
+ *   NNS_SndArcReadFile  0x020745A4  arm
+ *   SNDi_GetBankWaveArcTable  0x0208A638  arm
  *   func_02072BDC  0x02072BDC  arm
  *   func_02072D20  0x02072D20  arm
  *   func_02072A88  0x02072A88  arm
- *   func_02072C18  0x02072C18  arm
- *   func_02072C40  0x02072C40  arm
+ *   NNS_SndWaveOutSetVolume  0x02072C18  arm
+ *   NNS_SndWaveOutSetSpeed  0x02072C40  arm
  *   func_020056EC  0x020056EC  thumb
  *   func_02007B50  0x02007B50  thumb
  *   func_02007B64  0x02007B64  thumb
@@ -81,7 +81,7 @@
  *   func_0208BEF0  0x0208BEF0  arm
  *   func_0208BF38  0x0208BF38  arm
  *   func_0208B24C  0x0208B24C  arm
- *   func_02085D3C  0x02085D3C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   SNDEXi_SetIirFilter  0x027047C0  arm  twl
  *   _SndState           0x020AA260  data
  *   _SndTrackInfo       0x020AA414  data
@@ -95,6 +95,11 @@
  *   _SndMicFile         0x020A703C  data
  *   _MicIirFilter       0x020A7030  data
  *   _SndMic             0x02146164  data
+ *   NNS_SndHandleSetTrackModDepth  0x02073058  arm
+ *   NNS_SndHandleSetTrackModSpeed  0x02073078  arm
+ *   GFL_USE_GetSndStackDepth  0x02005900  thumb
+ *   GFL_USE_PushSndSlot  0x02005A00  thumb
+ *   GFL_USE_PopSndSlot  0x02005A4C  thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -273,37 +278,37 @@ struct SndMic {
 /* Calls into the sound library and the sound archive reader (ARM code). */
 extern void  func_02072758(void);
 extern u32   func_020727B4(void);
-extern int   func_02073108(struct SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo);
+extern int   NNS_SndHandleReadTrackInfo(struct SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo);
 extern void  func_02074758(struct SndHeap *heap);
 extern void  func_02072794(u32 monoFlag);
-extern void  func_02072D98(u32 playerNo, u32 volume);
+extern void  NNS_SndPlayerSetPlayerVolume(u32 playerNo, u32 volume);
 extern void  func_02072E7C(struct SndHandle *handle, int fadeFrames);
 extern void  func_02072E8C(struct SndHandle *handle, u32 value);
-extern void  func_02072F5C(struct SndHandle *handle, u32 volume, u32 frames);
-extern void  func_02072F34(struct SndHandle *handle, int volume);
-extern void  func_02072FA8(struct SndHandle *handle, u32 trackMask, u32 mute);
-extern void  func_02072FC8(struct SndHandle *handle, u32 trackMask, u32 mute);
-extern void  func_02072FE8(struct SndHandle *handle, u32 trackMask, int volumeIndex);
-extern void  func_02073018(struct SndHandle *handle, u32 trackMask, u32 pitch);
-extern void  func_02073038(struct SndHandle *handle, u32 trackMask, u32 pan);
-extern void  func_02073058(struct SndHandle *handle, u32 trackMask, u32 depth);
-extern void  func_02073078(struct SndHandle *handle, u32 trackMask, u32 speed);
-extern void  func_02073098(struct SndHandle *handle, u32 tempoRatio);
+extern void  NNS_SndHandleMoveVolume(struct SndHandle *handle, u32 volume, u32 frames);
+extern void  NNS_SndHandleSetSeqPriority(struct SndHandle *handle, int volume);
+extern void  NNS_SndHandleSetTrackPause(struct SndHandle *handle, u32 trackMask, u32 mute);
+extern void  NNS_SndHandleSetTrackMute(struct SndHandle *handle, u32 trackMask, u32 mute);
+extern void  NNS_SndHandleSetTrackVolume(struct SndHandle *handle, u32 trackMask, int volumeIndex);
+extern void  NNS_SndHandleSetTrackPitch(struct SndHandle *handle, u32 trackMask, u32 pitch);
+extern void  NNS_SndHandleSetTrackPan(struct SndHandle *handle, u32 trackMask, u32 pan);
+extern void  NNS_SndHandleSetTrackModDepth(struct SndHandle *handle, u32 trackMask, u32 depth);
+extern void  NNS_SndHandleSetTrackModSpeed(struct SndHandle *handle, u32 trackMask, u32 speed);
+extern void  NNS_SndHandleStop(struct SndHandle *handle, u32 tempoRatio);
 extern s32   func_02072EE0(u32 seqNo);
-extern void  func_02072E9C(struct SndHandle *handle);
-extern u16   func_02072EC8(u32 playerNo);
-extern void  func_020746B0(int loadFlags);
+extern void  NNS_SndHandleInit(struct SndHandle *handle);
+extern u16   NNS_SndPlayerGetActiveSeqCount(u32 playerNo);
+extern void  NNS_SndArcSetReadChunkSize(int loadFlags);
 extern void  func_02085A38(u32 msec);
-extern struct SndArcSeqEntry  *func_02074324(int seqNo);
-extern struct SndArcBankEntry *func_020743EC(int bankNo);
-extern struct SndArcWaveArcEntry *func_02074450(int waveArcNo);
-extern u8   *func_0207430C(int seqNo);
+extern struct SndArcSeqEntry  *NNS_SndArcGetSeqInfo(int seqNo);
+extern struct SndArcBankEntry *NNS_SndArcGetBankInfo(int bankNo);
+extern struct SndArcWaveArcEntry *NNS_SndArcGetWaveArcInfo(int waveArcNo);
+extern u8   *NNS_SndArcGetSeqParam(int seqNo);
 extern u32   func_02075560(struct SndHandle *handle, u32 seqNo);
 extern u32   func_020755A8(struct SndHandle *handle, int playerNo, int bankNo, int priority, u32 seqNo);
 extern u32   func_02074AC4(u32 seqNo, u32 loadFlags, struct SndHeap *heap);
 extern u32   func_02074A98(u32 waveArcNo, struct SndHeap *heap);
-extern void  func_02074694(u32 fileId, u32 address);
-extern u32   func_0207466C(u32 fileId);
+extern void  NNS_SndArcSetFileAddress(u32 fileId, u32 address);
+extern u32   NNS_SndArcGetFileAddress(u32 fileId);
 extern void  func_0208A640(u32 *waveArc, u32 waveIndex, u32 address);
 extern u32   func_0208A674(u32 waveArc, u32 waveIndex);
 extern void  func_020853C0(u32 *thread, void (*entry)(void *), void *arg,
@@ -313,32 +318,32 @@ extern void  func_020855BC(void *thread);
 extern int   func_0208574C(void *thread);
 
 /* Calls into gfl_use.c (sound heap stack). */
-extern u16   sub_020058D0(void);
-extern struct SndHandle *sub_0200590C(void);
-extern int   sub_02005924(u32 bgmNo);
-extern void  sub_020059C8(void);
-extern void  sub_0200597C(void);
-extern int   sub_020059A0(u32 bgmNo);
-extern int   sub_02005A00(void);
-extern int   sub_02005900(void);
-extern int   sub_02005A4C(void);
+extern u16   GFL_USE_GetCurrentBgmId(void);
+extern struct SndHandle *GFL_USE_GetCurrentSndHandle(void);
+extern int   GFL_USE_LoadBgmData(u32 bgmNo);
+extern void  GFL_USE_UnloadBgmData(void);
+extern void  GFL_USE_SaveSeqBankState(void);
+extern int   GFL_USE_FinishBgmLoad(u32 bgmNo);
+extern int   GFL_USE_PushSndSlot(void);
+extern int   GFL_USE_GetSndStackDepth(void);
+extern int   GFL_USE_PopSndSlot(void);
 
 /* Calls into the voice channel layer and the other data readers. */
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern void  func_020307B0(void *block);
-extern int   func_02072CC4(struct SndChannel *channel);
-extern struct SndChannel *func_02072A44(u32 channelNo);
+extern int   NNS_SndWaveOutIsPlaying(struct SndChannel *channel);
+extern struct SndChannel *NNS_SndWaveOutAllocChannel(u32 channelNo);
 extern int   func_02072AA0(struct SndChannel *channel, u32 format, void *data,
                            u32 loopFlag, u32 start, u32 end, u32 sampleRate,
                            u8 volume, u32 frequency, u8 pan);
-extern u32   func_0207457C(u32 fileId);
-extern int   func_020745A4(u32 fileId, void *dst, int length, u32 offset);
-extern void *func_0208A638(char *file);
+extern u32   NNS_SndArcGetFileSize(u32 fileId);
+extern int   NNS_SndArcReadFile(u32 fileId, void *dst, int length, u32 offset);
+extern void *SNDi_GetBankWaveArcTable(char *file);
 extern void  func_02072BDC(struct SndChannel *channel);
 extern void  func_02072D20(struct SndChannel *channel);
 extern void  func_02072A88(struct SndChannel *channel);
-extern void  func_02072C18(struct SndChannel *channel, u32 volume);
-extern void  func_02072C40(struct SndChannel *channel, u32 frequency);
+extern void  NNS_SndWaveOutSetVolume(struct SndChannel *channel, u32 volume);
+extern void  NNS_SndWaveOutSetSpeed(struct SndChannel *channel, u32 frequency);
 extern u32   func_020056EC(u32 limit);
 extern u32   func_02007B50(void *perapVoice);
 extern u8   *func_02007B64(struct PerapVoice *perapVoice);
@@ -350,122 +355,122 @@ extern void  func_02082BCC(void *p, u32 value, u32 size);
 extern unsigned int func_0208BEF0(unsigned int on);
 extern unsigned int func_0208BF38(unsigned int gain);
 extern void  func_0208B24C(void);
-extern int   func_02085D3C(void);
+extern int   OS_IsRunOnTwl(void);
 extern void  SNDEXi_SetIirFilter(u32 index, u8 *coefficients);
 extern void  PM_SetAmp(u32 on);
 extern u32   MIC_AdjustLimitedSampling(const struct MICAutoParam *param);
 extern void  func_02007BD0(struct PerapVoice *perapVoice, const void *src);
 
 /* sound manager (continues the code of gfl_use.c) */
-void func_02005BC0(void);
-void sub_02005C18(void);
-void func_02005C28(u32 mode);
-struct SndHandle *sub_02005C3C(void);
-u16 sub_02005C44(void);
-u32 sub_02005C4C(void);
-int sub_02005C64(void);
-int sub_02005C8C(void);
-void sub_02005CA4(int enable, u32 playerMask);
-void sub_02005CBC(u32 volume, u32 playerMask);
-int sub_02005CE0(u32 seqNo);
-void sub_02005D08(int (*filter)(u32 seqNo));
-void sub_02005D14(void);
-void sub_02005D28(void);
-u32 func_02005D34(u32 bgmNo, u32 trackMask);
-void ArrayDeleteAt(u32 bgmNo, u32 trackMask);
-void func_02005DA4(unsigned int bgmNo, unsigned short trackMask, int fadeOutFrames, int fadeInFrames);
-void sub_02005DAC(u32 seqNo);
-void func_02005DE4(u32 value);
-void sub_02005DF8(u32 frames);
-void sub_02005E04(u32 frames, u32 volume);
-void sub_02005E30(u32 frames);
-int sub_02005E50(void);
-int func_02005E64(void);
-int func_02005E9C(void);
-void func_02005EB4(u32 trackMask);
-void sub_02005EE0(u32 trackMask, u32 tempoRatio, u32 pitch, u32 pan);
-void func_02005F24(u32 trackMask, u32 volumeIndex);
-int sub_02005F38(void);
-void sub_02005F5C(void);
-void sub_02005F70(u32 bgmNo, u16 trackMask, int fadeOutFrames, int fadeInFrames);
-void sub_02005F90(void);
-void sub_02005FBC(void);
-void sub_02005FF4(void);
-void sub_02006118(void);
-struct SndHandle *sub_02006138(int slot);
+void GFL_USE_UpdateSound(void);
+void GFL_USE_ClearSndHeap(void);
+void GFL_USE_SetStereoOutput(u32 mode);
+struct SndHandle *GFL_USE_GetBgmHandle(void);
+u16 GFL_USE_GetBgmNo(void);
+u32 GFL_USE_GetTargetBgmNo(void);
+int GFL_USE_IsLoaderBusy(void);
+int GFL_USE_IsCardIrqEnabled(void);
+void GFL_USE_SetPlayersAudible(int enable, u32 playerMask);
+void GFL_USE_SetPlayerVolumes(u32 volume, u32 playerMask);
+int GFL_USE_IsSeqStartAllowed(u32 seqNo);
+void GFL_USE_SetSeqStartFilter(int (*filter)(u32 seqNo));
+void GFL_USE_StopBgm(void);
+void GFL_USE_CancelChangeAndStopBgm(void);
+u32 GFL_USE_PlayBgm(u32 bgmNo, u32 trackMask);
+void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
+void GFL_USE_ChangeBgm(unsigned int bgmNo, unsigned short trackMask, int fadeOutFrames, int fadeInFrames);
+void GFL_USE_PlayFanfare(u32 seqNo);
+void GFL_USE_SetBgmPlayerParam(u32 value);
+void GFL_USE_FadeInBgmFull(u32 frames);
+void GFL_USE_FadeInBgm(u32 frames, u32 volume);
+void GFL_USE_FadeOutBgm(u32 frames);
+int GFL_USE_IsBgmFading(void);
+int GFL_USE_PushBgm(void);
+int GFL_USE_PopBgm(void);
+void GFL_USE_SetBgmAudibleTracks(u32 trackMask);
+void GFL_USE_SetBgmTrackParams(u32 trackMask, u32 tempoRatio, u32 pitch, u32 pan);
+void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volumeIndex);
+int GFL_USE_IsBgmPlaying(void);
+void GFL_USE_CancelChangeDefaultFade(void);
+void GFL_USE_BeginBgmChange(u32 bgmNo, u16 trackMask, int fadeOutFrames, int fadeInFrames);
+void GFL_USE_CancelBgmChange(void);
+void GFL_USE_FlushBgmChange(void);
+void GFL_USE_UpdateBgmChange(void);
+void GFL_USE_InitSeSlots(void);
+struct SndHandle *GFL_USE_GetSeHandle(int slot);
 int func_02006148(u32 seqNo);
-void sub_0200616C(u32 seqNo, int slot);
-void sub_020061A4(u32 seqNo, u32 volume);
-void sub_020061E4(u32 seqNo);
-void sub_020061F0(u32 seqNo, u32 volume);
-void sub_020061F8(int slot);
-void sub_02006210(void);
+void GFL_USE_PlaySeInSlot(u32 seqNo, int slot);
+void GFL_USE_PlaySe(u32 seqNo, u32 volume);
+void GFL_USE_PlaySeDefaultVolume(u32 seqNo);
+void GFL_USE_PlaySeWithVolume(u32 seqNo, u32 volume);
+void GFL_USE_StopSeSlot(int slot);
+void GFL_USE_StopAllSe(void);
 int func_02006224(u32 slot);
-int sub_02006238(void);
-int sub_02006254(u32 seqNo);
-void sub_02006268(int slot, u32 tempoRatio, u32 pitch, u32 pan);
-void sub_020062BC(int slot, u32 volume);
-void sub_020062D8(void *arg);
-void sub_020062EC(void *arg);
-void sub_02006300(u32 bgmNo, int mode);
-void func_02006368(void);
-int sub_02006394(void);
-u32 func_020063B4(u32 bgmNo, u32 *step, u32 abort);
-int func_02006448(u32 seqAddr, u32 bankAddr, u32 bgmNo);
-int sub_020064B8(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 srcWaveIndex);
-void sub_020064F4(u32 seqNo);
-void sub_02006504(void);
-void sub_02006518(void);
+int GFL_USE_IsAnySeBusy(void);
+int GFL_USE_IsSeqPlaying(u32 seqNo);
+void GFL_USE_SetSeSlotParams(int slot, u32 tempoRatio, u32 pitch, u32 pan);
+void GFL_USE_SetSeSlotVolume(int slot, u32 volume);
+void GFL_USE_LoaderThreadSeqBank(void *arg);
+void GFL_USE_LoaderThreadWaves(void *arg);
+void GFL_USE_StartLoaderThread(u32 bgmNo, int mode);
+void GFL_USE_StopLoaderThread(void);
+int GFL_USE_IsLoaderDone(void);
+u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort);
+int GFL_USE_InstallBgmBuffers(u32 seqAddr, u32 bankAddr, u32 bgmNo);
+int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 srcWaveIndex);
+void GFL_USE_StartSeq(u32 seqNo);
+void GFL_USE_StopSeqAndUnload(void);
+void GFL_USE_ClearPreloadedBgmBuffers(void);
 
 /* voice mixer */
-void func_02006544(u16 heapId,
+void PM_VOICE_Init(u16 heapId,
                    void (*resolveCallback)(u32 species, u32 form, u32 *waveId),
                    u32 (*prepareCallback)(u32 species, u32 form, void **recordedVoice,
                                           u8 **data, u32 *dataSize, u32 *sampleRate,
                                           u32 *frequency, s8 *volume));
-void sub_020065D8(void);
-void sub_020065FC(void);
-int sub_02006650(void);
-void sub_02006674(int extraVoices, u32 heapId);
-void sub_020066E8(void);
-void sub_02006734(u8 volume);
-void sub_02006740(void);
-u8 sub_0200674C(u8 volume);
-u16 sub_02006768(void);
-void sub_020067A4(struct PmVoice *voice);
-void sub_020067D0(struct PmVoice *voice);
-int sub_020067E0(struct PmVoice *voice, u32 waveId);
-int sub_02006868(struct PmVoice *voice);
-void func_02006948(struct PmVoice *voice);
+void PM_VOICE_StopAll(void);
+void PM_VOICE_StopFinished(void);
+int PM_VOICE_IsAnyActive(void);
+void PM_VOICE_AllocBuffers(int extraVoices, u32 heapId);
+void PM_VOICE_FreeBuffers(void);
+void PM_VOICE_SetMasterVolume(u8 volume);
+void PM_VOICE_ResetMasterVolume(void);
+u8 PM_VOICE_ScaleVolume(u8 volume);
+u16 PM_VOICE_NextSlot(void);
+void PM_VOICE_ResetParams(struct PmVoice *voice);
+void PM_VOICE_ClearSlot(struct PmVoice *voice);
+int PM_VOICE_LoadWave(struct PmVoice *voice, u32 waveId);
+int PM_VOICE_StartChannels(struct PmVoice *voice);
+void PM_VOICE_Stop(struct PmVoice *voice);
 u32 func_02006984(u32 species, u32 form, u32 pan, u32 dual,
                   u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void **recordedVoice);
-int func_020069D4(int species, int form, int pan, int dual,
+int PM_VOICE_Prepare(int species, int form, int pan, int dual,
                   int volumeBiasB, int frequencyOffsetB, int reverse, void **recordedVoice);
-int func_02006A64(u32 slot);
+int PM_VOICE_Start(u32 slot);
 void func_02006A8C(u32 slot, int delta);
-void func_02006AEC(u32 slot, u32 delta);
-s8 sub_02006B20(u32 slot);
-u32 sub_02006B3C(u32 slot);
-u8 *sub_02006B5C(u32 slot);
-u32 sub_02006B78(u32 slot);
-u32 sub_02006B94(u32 slot);
-void sub_02006BB4(u32 slot);
+void PM_VOICE_AddFrequency(u32 slot, u32 delta);
+s8 PM_VOICE_GetVolume(u32 slot);
+u32 PM_VOICE_GetFrequency(u32 slot);
+u8 *PM_VOICE_GetData(u32 slot);
+u32 PM_VOICE_GetDataSize(u32 slot);
+u32 PM_VOICE_GetSampleRate(u32 slot);
+void PM_VOICE_StopSlot(u32 slot);
 u32 sub_02006BD0(u32 slot);
-void sub_02006BE0(u8 *bytes, u32 count);
-void sub_02006C00(u32 species, u32 form, u32 *cryIndex);
-u32 func_02006C2C(u32 species, u32 form, void **recordedVoice, u8 **data,
+void PM_VOICE_ReverseBytes(u8 *bytes, u32 count);
+void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *cryIndex);
+u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **recordedVoice, u8 **data,
                   u32 *dataSize, u32 *sampleRate, u32 *frequency, s8 *volume);
-void sub_02006CAC(struct SaveBlock **out);
+void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out);
 
 /* microphone (snd_mic.c part of this file) */
 void func_02006CBC(u16 heapId);
-void sub_02006D44(void);
-void sub_02006D64(u32 ticks);
-u32 sub_02006D94(void);
-u32 sub_02006DAC(const struct MICAutoParam *param);
-u32 sub_02006DD8(MICCallback callback, void *arg);
+void SND_MIC_Exit(void);
+void SND_MIC_AddElapsed(u32 ticks);
+u32 SND_MIC_IsLimitReached(void);
+u32 SND_MIC_StartSampling(const struct MICAutoParam *param);
+u32 SND_MIC_StartRecording(MICCallback callback, void *arg);
 void func_02006E18(struct PerapVoice *perapVoice);
-void *sub_02006E2C(void);
+void *SND_MIC_GetBufferAligned(void);
 
 extern struct SndState _SndState;
 extern struct SNDTrackInfo _SndTrackInfo[];
@@ -491,19 +496,19 @@ extern struct SndMic *_SndMic;
  * which a named local suppresses. The delay counter is read into a local so
  * the load is reused by the store.
  */
-void func_02005BC0(void)
+void GFL_USE_UpdateSound(void)
 {
     struct SndHandle *handle;
     int trackNo;
     u32 remaining;
 
-    sub_02005FF4();
+    GFL_USE_UpdateBgmChange();
     func_02072758();
     func_020727B4();
-    handle = sub_02005C3C();
+    handle = GFL_USE_GetBgmHandle();
     _SndState.activeMask = 0;
     for (trackNo = 0; trackNo < 0x10; trackNo++) {
-        if (func_02073108(handle, trackNo, &_SndTrackInfo[trackNo]) == 1) {
+        if (NNS_SndHandleReadTrackInfo(handle, trackNo, &_SndTrackInfo[trackNo]) == 1) {
             _SndState.activeMask |= (u16)(1 << trackNo);
         }
     }
@@ -518,7 +523,7 @@ void func_02005BC0(void)
  * literal pool and branches with bx, because a direct branch cannot change
  * instruction set or reach another section.
  */
-void sub_02005C18(void)
+void GFL_USE_ClearSndHeap(void)
 {
     func_02074758(_SndState.heap);
 }
@@ -528,33 +533,33 @@ void sub_02005C18(void)
  * the literal 1. A `v = 1; if (mode == 1) v = 0;` form allocates a second
  * register and moves every byte.
  */
-void func_02005C28(u32 mode)
+void GFL_USE_SetStereoOutput(u32 mode)
 {
     func_02072794(mode != 1);
 }
 
 /* Two eight byte forwarders (ldr r3, [pc]; bx r3). */
-struct SndHandle *sub_02005C3C(void)
+struct SndHandle *GFL_USE_GetBgmHandle(void)
 {
-    return sub_0200590C();
+    return GFL_USE_GetCurrentSndHandle();
 }
 
-u16 sub_02005C44(void)
+u16 GFL_USE_GetBgmNo(void)
 {
-    return sub_020058D0();
+    return GFL_USE_GetCurrentBgmId();
 }
 
 /* BGM that is playing, or the one a pending change will start. */
-u32 sub_02005C4C(void)
+u32 GFL_USE_GetTargetBgmNo(void)
 {
     if (_SndState.changeActive == 0) {
-        return sub_020058D0();
+        return GFL_USE_GetCurrentBgmId();
     }
     return _SndState.changeBgm;
 }
 
 /* 1 while the loader thread was started and still runs. */
-int sub_02005C64(void)
+int GFL_USE_IsLoaderBusy(void)
 {
     if (_SndState.loaderThread == 0) {
         return 0;
@@ -569,7 +574,7 @@ int sub_02005C64(void)
  * Reads the interrupt enable register (0x04000210) and reports bit 19, the
  * card transfer interrupt. The mask is built with movs/lsls, not loaded.
  */
-int sub_02005C8C(void)
+int GFL_USE_IsCardIrqEnabled(void)
 {
     if (*(volatile u32 *)0x04000210 & 0x80000) {
         return 1;
@@ -578,35 +583,35 @@ int sub_02005C8C(void)
 }
 
 /*
- * Full or zero volume for a set of the five players. sub_02005CA4 forwards
+ * Full or zero volume for a set of the five players. GFL_USE_SetPlayersAudible forwards
  * its second argument without touching it, and both arms call the same
  * function with a different first argument; computing the argument first
  * would fold the two calls into one and make the function shorter.
  */
-void sub_02005CA4(int enable, u32 playerMask)
+void GFL_USE_SetPlayersAudible(int enable, u32 playerMask)
 {
     if (enable == 1) {
-        sub_02005CBC(SND_VOLUME_MAX, playerMask);
+        GFL_USE_SetPlayerVolumes(SND_VOLUME_MAX, playerMask);
     } else {
-        sub_02005CBC(0, playerMask);
+        GFL_USE_SetPlayerVolumes(0, playerMask);
     }
 }
 
-void sub_02005CBC(u32 volume, u32 playerMask)
+void GFL_USE_SetPlayerVolumes(u32 volume, u32 playerMask)
 {
     int playerNo;
 
     for (playerNo = 0; playerNo < 5; playerNo++) {
         if ((1 << playerNo) & playerMask) {
-            func_02072D98(playerNo, volume);
+            NNS_SndPlayerSetPlayerVolume(playerNo, volume);
         }
     }
 }
 
 /* Asks the start filter (when one is set) whether a sequence may start. */
-int sub_02005CE0(u32 seqNo)
+int GFL_USE_IsSeqStartAllowed(u32 seqNo)
 {
-    if (sub_02005C64() == 0) {
+    if (GFL_USE_IsLoaderBusy() == 0) {
         return 1;
     }
     if (_SndState.startFilter == 0) {
@@ -615,22 +620,22 @@ int sub_02005CE0(u32 seqNo)
     return _SndState.startFilter(seqNo);
 }
 
-void sub_02005D08(int (*filter)(u32 seqNo))
+void GFL_USE_SetSeqStartFilter(int (*filter)(u32 seqNo))
 {
     _SndState.startFilter = filter;
 }
 
 /* Stop the BGM at once and drop its data from the sound heap. */
-void sub_02005D14(void)
+void GFL_USE_StopBgm(void)
 {
-    func_02072E7C(sub_0200590C(), 0);
-    sub_020059C8();
+    func_02072E7C(GFL_USE_GetCurrentSndHandle(), 0);
+    GFL_USE_UnloadBgmData();
 }
 
-void sub_02005D28(void)
+void GFL_USE_CancelChangeAndStopBgm(void)
 {
-    sub_02005F90();
-    sub_02005D14();
+    GFL_USE_CancelBgmChange();
+    GFL_USE_StopBgm();
 }
 
 /*
@@ -642,40 +647,40 @@ void sub_02005D28(void)
  * The third failure return reads the zero local that the two -1 arguments
  * were derived from instead of rematerialising `movs r0, #0`.
  */
-u32 func_02005D34(u32 bgmNo, u32 trackMask)
+u32 GFL_USE_PlayBgm(u32 bgmNo, u32 trackMask)
 {
     u32 started;
     int zero;
 
     zero = 0;
-    if (sub_02005CE0(bgmNo) == 0) {
+    if (GFL_USE_IsSeqStartAllowed(bgmNo) == 0) {
         return 0;
     }
-    sub_02005D14();
-    if (sub_02005924(bgmNo) == 0) {
+    GFL_USE_StopBgm();
+    if (GFL_USE_LoadBgmData(bgmNo) == 0) {
         return 0;
     }
-    started = func_020755A8(sub_0200590C(), SND_PLAYER_BGM, -1, -1, bgmNo);
+    started = func_020755A8(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_BGM, -1, -1, bgmNo);
     if (started == 0) {
         return zero;
     }
     if (trackMask != 0xFFFF) {
-        func_02005EB4(trackMask);
+        GFL_USE_SetBgmAudibleTracks(trackMask);
     }
     return started;
 }
 
-void ArrayDeleteAt(u32 bgmNo, u32 trackMask)
+void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask)
 {
-    sub_02005F90();
-    func_02005D34(bgmNo, trackMask);
+    GFL_USE_CancelBgmChange();
+    GFL_USE_PlayBgm(bgmNo, trackMask);
 }
 
-/* Starts a timed BGM change: the same four arguments as sub_02005F70. */
-void func_02005DA4(unsigned int bgmNo, unsigned short trackMask,
+/* Starts a timed BGM change: the same four arguments as GFL_USE_BeginBgmChange. */
+void GFL_USE_ChangeBgm(unsigned int bgmNo, unsigned short trackMask,
                    int fadeOutFrames, int fadeInFrames)
 {
-    sub_02005F70(bgmNo, trackMask, fadeOutFrames, fadeInFrames);
+    GFL_USE_BeginBgmChange(bgmNo, trackMask, fadeOutFrames, fadeInFrames);
 }
 
 /*
@@ -685,45 +690,45 @@ void func_02005DA4(unsigned int bgmNo, unsigned short trackMask,
  * (movs r1, #6; subs r2, r1, #7; adds r3, r2, #0), a peephole that says
  * nothing about the source.
  */
-void sub_02005DAC(u32 seqNo)
+void GFL_USE_PlayFanfare(u32 seqNo)
 {
-    sub_02005F90();
-    if (sub_02005CE0(seqNo) == 0) {
+    GFL_USE_CancelBgmChange();
+    if (GFL_USE_IsSeqStartAllowed(seqNo) == 0) {
         return;
     }
-    sub_02005D14();
-    if (sub_02005924(seqNo) == 0) {
+    GFL_USE_StopBgm();
+    if (GFL_USE_LoadBgmData(seqNo) == 0) {
         return;
     }
-    func_020755A8(sub_0200590C(), SND_PLAYER_FANFARE, -1, -1, seqNo);
+    func_020755A8(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_FANFARE, -1, -1, seqNo);
 }
 
-void func_02005DE4(u32 value)
+void GFL_USE_SetBgmPlayerParam(u32 value)
 {
-    sub_02005FBC();
-    func_02072E8C(sub_0200590C(), value);
+    GFL_USE_FlushBgmChange();
+    func_02072E8C(GFL_USE_GetCurrentSndHandle(), value);
 }
 
 /* Fade in to full volume over `frames`. */
-void sub_02005DF8(u32 frames)
+void GFL_USE_FadeInBgmFull(u32 frames)
 {
-    sub_02005E04(frames, SND_VOLUME_MAX);
+    GFL_USE_FadeInBgm(frames, SND_VOLUME_MAX);
 }
 
 /* Set the volume to zero, then fade up to `volume` over `frames`. */
-void sub_02005E04(u32 frames, u32 volume)
+void GFL_USE_FadeInBgm(u32 frames, u32 volume)
 {
-    sub_02005FBC();
-    func_02072F5C(sub_0200590C(), 0, 0);
-    func_02072F5C(sub_0200590C(), volume, frames);
+    GFL_USE_FlushBgmChange();
+    NNS_SndHandleMoveVolume(GFL_USE_GetCurrentSndHandle(), 0, 0);
+    NNS_SndHandleMoveVolume(GFL_USE_GetCurrentSndHandle(), volume, frames);
     _SndState.countdown = frames;
 }
 
 /* Fade out to zero over `frames`. */
-void sub_02005E30(u32 frames)
+void GFL_USE_FadeOutBgm(u32 frames)
 {
-    sub_02005FBC();
-    func_02072F5C(sub_0200590C(), 0, frames);
+    GFL_USE_FlushBgmChange();
+    NNS_SndHandleMoveVolume(GFL_USE_GetCurrentSndHandle(), 0, frames);
     _SndState.countdown = frames;
 }
 
@@ -731,31 +736,31 @@ void sub_02005E30(u32 frames)
  * Boolean for `countdown != 0`: in Thumb a two exit branch shape, since
  * there is no conditional move.
  */
-int sub_02005E50(void)
+int GFL_USE_IsBgmFading(void)
 {
     return _SndState.countdown != 0;
 }
 
 /* Reset track mute and modulation, then push a level on the sound heap stack. */
-int func_02005E64(void)
+int GFL_USE_PushBgm(void)
 {
-    sub_02005FBC();
-    func_02072FA8(sub_0200590C(), SND_TRACKS_ALL, 0);
-    func_02073058(sub_0200590C(), SND_TRACKS_ALL, 0);
-    func_02073078(sub_0200590C(), SND_TRACKS_ALL, 0x10);
-    return sub_02005A00();
+    GFL_USE_FlushBgmChange();
+    NNS_SndHandleSetTrackPause(GFL_USE_GetCurrentSndHandle(), SND_TRACKS_ALL, 0);
+    NNS_SndHandleSetTrackModDepth(GFL_USE_GetCurrentSndHandle(), SND_TRACKS_ALL, 0);
+    NNS_SndHandleSetTrackModSpeed(GFL_USE_GetCurrentSndHandle(), SND_TRACKS_ALL, 0x10);
+    return GFL_USE_PushSndSlot();
 }
 
 /* Pop a level (stopping the BGM first) when the stack holds more than one. */
-int func_02005E9C(void)
+int GFL_USE_PopBgm(void)
 {
     int depth;
 
-    sub_02005FBC();
-    depth = sub_02005900();
+    GFL_USE_FlushBgmChange();
+    depth = GFL_USE_GetSndStackDepth();
     if (depth != 0) {
-        sub_02005D14();
-        return sub_02005A4C();
+        GFL_USE_StopBgm();
+        return GFL_USE_PopSndSlot();
     }
     return depth;
 }
@@ -766,13 +771,13 @@ int func_02005E9C(void)
  * bits (lsls #16 / lsrs #16). 0xFFFF is a pool word, loaded once into a
  * callee-saved register and reused as the first call's second argument.
  */
-void func_02005EB4(u32 trackMask)
+void GFL_USE_SetBgmAudibleTracks(u32 trackMask)
 {
     u16 muteMask = (u16)(trackMask ^ 0xFFFF);
 
-    func_02072FA8(sub_0200590C(), 0xFFFF, 0);
+    NNS_SndHandleSetTrackPause(GFL_USE_GetCurrentSndHandle(), 0xFFFF, 0);
     if (muteMask != 0) {
-        func_02072FC8(sub_0200590C(), muteMask, 1);
+        NNS_SndHandleSetTrackMute(GFL_USE_GetCurrentSndHandle(), muteMask, 1);
     }
 }
 
@@ -781,40 +786,40 @@ void func_02005EB4(u32 trackMask)
  * rebuilt before each test (movs/mvns) rather than held in a register, as an
  * inline constant in three comparisons would be.
  */
-void sub_02005EE0(u32 trackMask, u32 tempoRatio, u32 pitch, u32 pan)
+void GFL_USE_SetBgmTrackParams(u32 trackMask, u32 tempoRatio, u32 pitch, u32 pan)
 {
-    struct SndHandle *handle = sub_0200590C();
+    struct SndHandle *handle = GFL_USE_GetCurrentSndHandle();
 
     if (tempoRatio != -1) {
-        func_02073098(handle, tempoRatio);
+        NNS_SndHandleStop(handle, tempoRatio);
     }
     if (pitch != -1) {
-        func_02073018(handle, trackMask, pitch);
+        NNS_SndHandleSetTrackPitch(handle, trackMask, pitch);
     }
     if (pan != -1) {
-        func_02073038(handle, trackMask, pan);
+        NNS_SndHandleSetTrackPan(handle, trackMask, pan);
     }
 }
 
 /*
- * The handle from sub_0200590C stays in r0 across the two parameter moves,
+ * The handle from GFL_USE_GetCurrentSndHandle stays in r0 across the two parameter moves,
  * which is why the two `adds rN, rN, #0` copies come after the call.
  */
-void func_02005F24(u32 trackMask, u32 volumeIndex)
+void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volumeIndex)
 {
-    func_02072FE8(sub_0200590C(), trackMask, (int)volumeIndex);
+    NNS_SndHandleSetTrackVolume(GFL_USE_GetCurrentSndHandle(), trackMask, (int)volumeIndex);
 }
 
 /*
  * Nonzero when a BGM is current and the sound library counts the sequence
  * as playing.
  */
-int sub_02005F38(void)
+int GFL_USE_IsBgmPlaying(void)
 {
-    if (sub_020058D0() == 0) {
+    if (GFL_USE_GetCurrentBgmId() == 0) {
         return 0;
     }
-    if (func_02072EE0(sub_020058D0()) != 0) {
+    if (func_02072EE0(GFL_USE_GetCurrentBgmId()) != 0) {
         return 1;
     }
     return 0;
@@ -822,62 +827,62 @@ int sub_02005F38(void)
 
 /*
  * Cancel the pending change and restore the default 60 frame fades. The tail
- * call to sub_02005F90 goes through a pool word and bx even though the
+ * call to GFL_USE_CancelBgmChange goes through a pool word and bx even though the
  * target is in the same file: one section per function.
  */
-void sub_02005F5C(void)
+void GFL_USE_CancelChangeDefaultFade(void)
 {
     _SndState.fadeInFrames = 60;
     _SndState.fadeOutFrames = 60;
-    sub_02005F90();
+    GFL_USE_CancelBgmChange();
 }
 
 /* Queue a change to `bgmNo`: fade the current BGM out, load, fade the new one in. */
-void sub_02005F70(u32 bgmNo, u16 trackMask, int fadeOutFrames, int fadeInFrames)
+void GFL_USE_BeginBgmChange(u32 bgmNo, u16 trackMask, int fadeOutFrames, int fadeInFrames)
 {
     _SndState.changeTrackMask = trackMask;
     _SndState.changeBgm = bgmNo;
     _SndState.fadeInFrames = fadeInFrames;
     _SndState.fadeOutFrames = fadeOutFrames;
     _SndState.fadeCounter = fadeOutFrames;
-    sub_02006368();
+    GFL_USE_StopLoaderThread();
     _SndState.changePhase = BGM_CHANGE_FADE;
     _SndState.changeActive = 1;
 }
 
 /* Drop any pending change and put the volume back to maximum. */
-void sub_02005F90(void)
+void GFL_USE_CancelBgmChange(void)
 {
     _SndState.changeActive = 0;
     _SndState.changeTrackMask = 0xFFFF;
     _SndState.changeBgm = 0;
     _SndState.fadeCounter = 0;
-    func_02072F34(sub_0200590C(), SND_VOLUME_MAX);
+    NNS_SndHandleSetSeqPriority(GFL_USE_GetCurrentSndHandle(), SND_VOLUME_MAX);
     _SndState.changePhase = BGM_CHANGE_FADE;
-    sub_02006368();
+    GFL_USE_StopLoaderThread();
 }
 
 /* Finish a pending change at once: wait for the loader, start the BGM, clear the request. */
-void sub_02005FBC(void)
+void GFL_USE_FlushBgmChange(void)
 {
     u32 bgmNo;
 
     if (_SndState.changeActive != 1) {
         return;
     }
-    bgmNo = sub_020058D0();
+    bgmNo = GFL_USE_GetCurrentBgmId();
     if (bgmNo != _SndState.changeBgm) {
         while (_SndState.changePhase != BGM_CHANGE_FADE) {
-            sub_02005FF4();
+            GFL_USE_UpdateBgmChange();
         }
-        ArrayDeleteAt(_SndState.changeBgm, _SndState.changeTrackMask);
+        GFL_USE_CancelChangeAndPlayBgm(_SndState.changeBgm, _SndState.changeTrackMask);
     }
-    sub_02005F90();
+    GFL_USE_CancelBgmChange();
 }
 
 /*
  * Advance the BGM change by one step per call (the state machine that
- * func_02005BC0 runs every frame).
+ * GFL_USE_UpdateSound runs every frame).
  *
  * BGM_CHANGE_FADE: when another BGM is playing, ramp the volume down over
  * fadeOutFrames (fadeCounter * 0x7F / fadeOutFrames); at zero, stop it,
@@ -892,10 +897,10 @@ void sub_02005FBC(void)
  * BGM_CHANGE_LOAD_WAVE: when it is done, record the BGM, start playing it
  * (volume stays zero) and return to the fade phase for the fade in.
  */
-void sub_02005FF4(void)
+void GFL_USE_UpdateBgmChange(void)
 {
-    struct SndHandle *handle = sub_0200590C();
-    u16 bgmNo = sub_020058D0();
+    struct SndHandle *handle = GFL_USE_GetCurrentSndHandle();
+    u16 bgmNo = GFL_USE_GetCurrentBgmId();
 
     if (_SndState.changeActive == 0) {
         return;
@@ -906,47 +911,47 @@ void sub_02005FF4(void)
             if (bgmNo != _SndState.changeBgm) {
                 if (_SndState.fadeCounter != 0) {
                     _SndState.fadeCounter--;
-                    func_02072F34(handle, _SndState.fadeCounter * SND_VOLUME_MAX /
+                    NNS_SndHandleSetSeqPriority(handle, _SndState.fadeCounter * SND_VOLUME_MAX /
                                           _SndState.fadeOutFrames);
                     return;
                 }
-                func_02072F34(handle, 0);
+                NNS_SndHandleSetSeqPriority(handle, 0);
             } else {
                 if (_SndState.fadeCounter < _SndState.fadeInFrames) {
                     _SndState.fadeCounter++;
-                    func_02072F34(handle, _SndState.fadeCounter * SND_VOLUME_MAX /
+                    NNS_SndHandleSetSeqPriority(handle, _SndState.fadeCounter * SND_VOLUME_MAX /
                                           _SndState.fadeInFrames);
                     return;
                 }
-                sub_02005F90();
+                GFL_USE_CancelBgmChange();
                 return;
             }
         }
-        sub_02005D14();
+        GFL_USE_StopBgm();
         if (_SndState.changeBgm == 0) {
-            sub_02005F90();
+            GFL_USE_CancelBgmChange();
             return;
         }
-        func_020746B0(0x1300);
-        sub_02006300(_SndState.changeBgm, 0);
+        NNS_SndArcSetReadChunkSize(0x1300);
+        GFL_USE_StartLoaderThread(_SndState.changeBgm, 0);
         _SndState.fadeCounter = 0;
         _SndState.changePhase = BGM_CHANGE_LOAD_SEQ;
         return;
     case BGM_CHANGE_LOAD_SEQ:
-        if (sub_02006394() == 1) {
-            sub_0200597C();
-            sub_02006300(_SndState.changeBgm, 1);
+        if (GFL_USE_IsLoaderDone() == 1) {
+            GFL_USE_SaveSeqBankState();
+            GFL_USE_StartLoaderThread(_SndState.changeBgm, 1);
             _SndState.changePhase = BGM_CHANGE_LOAD_WAVE;
             return;
         }
         func_02085A38(1);
         return;
     case BGM_CHANGE_LOAD_WAVE:
-        if (sub_02006394() == 1) {
-            func_020746B0(0);
-            sub_020059A0(_SndState.changeBgm);
-            func_020755A8(sub_0200590C(), SND_PLAYER_BGM, -1, -1, _SndState.changeBgm);
-            func_02072F34(handle, 0);
+        if (GFL_USE_IsLoaderDone() == 1) {
+            NNS_SndArcSetReadChunkSize(0);
+            GFL_USE_FinishBgmLoad(_SndState.changeBgm);
+            func_020755A8(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_BGM, -1, -1, _SndState.changeBgm);
+            NNS_SndHandleSetSeqPriority(handle, 0);
             _SndState.changePhase = BGM_CHANGE_FADE;
             return;
         }
@@ -956,18 +961,18 @@ void sub_02005FF4(void)
 }
 
 /* Clear the five sound effect slots. */
-void sub_02006118(void)
+void GFL_USE_InitSeSlots(void)
 {
     int slot;
 
     for (slot = 0; slot < SND_SE_SLOT_COUNT; slot++) {
         _SeSlots[slot].seqNo = 0;
-        func_02072E9C(&_SeSlots[slot].handle);
+        NNS_SndHandleInit(&_SeSlots[slot].handle);
     }
 }
 
 /* No prologue: lsls, adds, adds, bx lr. */
-struct SndHandle *sub_02006138(int slot)
+struct SndHandle *GFL_USE_GetSeHandle(int slot)
 {
     return &_SeSlots[slot].handle;
 }
@@ -991,16 +996,16 @@ int func_02006148(u32 seqNo)
 fail:
     return 1;
 ok:
-    return func_0207430C(seqNo)[5] - 1;
+    return NNS_SndArcGetSeqParam(seqNo)[5] - 1;
 }
 
 /*
  * Start a sound effect in a given slot (player slot + 1) and remember the
  * sequence number on success.
  */
-void sub_0200616C(u32 seqNo, int slot)
+void GFL_USE_PlaySeInSlot(u32 seqNo, int slot)
 {
-    if (sub_02005CE0(seqNo) == 0) {
+    if (GFL_USE_IsSeqStartAllowed(seqNo) == 0) {
         return;
     }
     _SeSlots[slot].seqNo = 0;
@@ -1010,11 +1015,11 @@ void sub_0200616C(u32 seqNo, int slot)
 }
 
 /* Start a sound effect in its own slot; a volume below 0x80 is applied after the start. */
-void sub_020061A4(u32 seqNo, u32 volume)
+void GFL_USE_PlaySe(u32 seqNo, u32 volume)
 {
     int slot;
 
-    if (sub_02005CE0(seqNo) == 0) {
+    if (GFL_USE_IsSeqStartAllowed(seqNo) == 0) {
         return;
     }
     slot = func_02006148(seqNo);
@@ -1024,36 +1029,36 @@ void sub_020061A4(u32 seqNo, u32 volume)
     }
     _SeSlots[slot].seqNo = seqNo;
     if (volume < 0x80) {
-        sub_020062BC(slot, volume);
+        GFL_USE_SetSeSlotVolume(slot, volume);
     }
 }
 
 /*
- * sub_020061E4 and sub_020061F0 both tail call sub_020061A4 through the same
+ * GFL_USE_PlaySeDefaultVolume and GFL_USE_PlaySeWithVolume both tail call GFL_USE_PlaySe through the same
  * pool word: the first supplies -1 as the volume, the second passes both of
  * its arguments through.
  */
-void sub_020061E4(u32 seqNo)
+void GFL_USE_PlaySeDefaultVolume(u32 seqNo)
 {
-    sub_020061A4(seqNo, -1);
+    GFL_USE_PlaySe(seqNo, -1);
 }
 
-void sub_020061F0(u32 seqNo, u32 volume)
+void GFL_USE_PlaySeWithVolume(u32 seqNo, u32 volume)
 {
-    sub_020061A4(seqNo, volume);
+    GFL_USE_PlaySe(seqNo, volume);
 }
 
-void sub_020061F8(int slot)
+void GFL_USE_StopSeSlot(int slot)
 {
     func_02072E7C(&_SeSlots[slot].handle, 0);
 }
 
-void sub_02006210(void)
+void GFL_USE_StopAllSe(void)
 {
     int slot;
 
     for (slot = 0; slot < SND_SE_SLOT_COUNT; slot++) {
-        sub_020061F8(slot);
+        GFL_USE_StopSeSlot(slot);
     }
 }
 
@@ -1063,10 +1068,10 @@ void sub_02006210(void)
  */
 int func_02006224(u32 slot)
 {
-    return func_02072EC8(slot + 1) != 0;
+    return NNS_SndPlayerGetActiveSeqCount(slot + 1) != 0;
 }
 
-int sub_02006238(void)
+int GFL_USE_IsAnySeBusy(void)
 {
     int slot;
 
@@ -1078,7 +1083,7 @@ int sub_02006238(void)
     return 0;
 }
 
-int sub_02006254(u32 seqNo)
+int GFL_USE_IsSeqPlaying(u32 seqNo)
 {
     if (func_02072EE0(seqNo) != 0) {
         return 1;
@@ -1087,25 +1092,25 @@ int sub_02006254(u32 seqNo)
 }
 
 /* Optional tempo, pitch and pan of a sound effect slot; -1 leaves a setting alone. */
-void sub_02006268(int slot, u32 tempoRatio, u32 pitch, u32 pan)
+void GFL_USE_SetSeSlotParams(int slot, u32 tempoRatio, u32 pitch, u32 pan)
 {
     if (tempoRatio != -1) {
-        func_02073098(&_SeSlots[slot].handle, tempoRatio);
+        NNS_SndHandleStop(&_SeSlots[slot].handle, tempoRatio);
     }
     if (pitch != -1) {
-        func_02073018(&_SeSlots[slot].handle, 0xFFFF, pitch);
+        NNS_SndHandleSetTrackPitch(&_SeSlots[slot].handle, 0xFFFF, pitch);
     }
     if (pan != -1) {
-        func_02073038(&_SeSlots[slot].handle, 0xFFFF, pan);
+        NNS_SndHandleSetTrackPan(&_SeSlots[slot].handle, 0xFFFF, pan);
     }
 }
 
-void sub_020062BC(int slot, u32 volume)
+void GFL_USE_SetSeSlotVolume(int slot, u32 volume)
 {
     if (volume > SND_VOLUME_MAX) {
         volume = SND_VOLUME_MAX;
     }
-    func_02072F34(&_SeSlots[slot].handle, volume);
+    NNS_SndHandleSetSeqPriority(&_SeSlots[slot].handle, volume);
 }
 
 /*
@@ -1113,14 +1118,14 @@ void sub_020062BC(int slot, u32 volume)
  * are six instructions: read the sequence number the argument points at and
  * tail call the archive load with load flags 3 (sequence and bank) or 4
  * (wave archives). Their only references are the two pool words of
- * sub_02006300 below.
+ * GFL_USE_StartLoaderThread below.
  */
-void sub_020062D8(void *arg)
+void GFL_USE_LoaderThreadSeqBank(void *arg)
 {
     func_02074AC4(*(u32 *)arg, 3, _SndState.heap);
 }
 
-void sub_020062EC(void *arg)
+void GFL_USE_LoaderThreadWaves(void *arg)
 {
     func_02074AC4(*(u32 *)arg, 4, _SndState.heap);
 }
@@ -1131,17 +1136,17 @@ void sub_020062EC(void *arg)
  * 0x020AA9B4 (0x400 bytes), the priority is 0x11. The thread argument is the
  * address of loaderSeqNo, the word just written.
  */
-void sub_02006300(u32 bgmNo, int mode)
+void GFL_USE_StartLoaderThread(u32 bgmNo, int mode)
 {
     _SndState.loaderSeqNo = bgmNo;
-    sub_02006368();
+    GFL_USE_StopLoaderThread();
     switch (mode) {
     case 0:
-        func_020853C0(_WorkerThread, sub_020062D8, &_SndState.loaderSeqNo,
+        func_020853C0(_WorkerThread, GFL_USE_LoaderThreadSeqBank, &_SndState.loaderSeqNo,
                       _SndHeapBuf, 0x400, 0x11);
         break;
     case 1:
-        func_020853C0(_WorkerThread, sub_020062EC, &_SndState.loaderSeqNo,
+        func_020853C0(_WorkerThread, GFL_USE_LoaderThreadWaves, &_SndState.loaderSeqNo,
                       _SndHeapBuf, 0x400, 0x11);
         break;
     }
@@ -1150,7 +1155,7 @@ void sub_02006300(u32 bgmNo, int mode)
 }
 
 /* Destroy the loader thread when it was started and has not finished. */
-void func_02006368(void)
+void GFL_USE_StopLoaderThread(void)
 {
     if (_SndState.loaderThread != 0) {
         if (func_0208574C(_WorkerThread) == 0) {
@@ -1161,7 +1166,7 @@ void func_02006368(void)
 }
 
 /* 1 when the loader thread finished; a thread that was never started counts as finished. */
-int sub_02006394(void)
+int GFL_USE_IsLoaderDone(void)
 {
     if (_SndState.loaderThread == 0) {
         return 1;
@@ -1183,37 +1188,37 @@ int sub_02006394(void)
  *
  * In state 2 the two -1 arguments come from `zero - 1` (the compiler keeps
  * the zero in r6), and the second argument of the start call is the
- * leftover result of sub_0200590C, which takes none.
+ * leftover result of GFL_USE_GetCurrentSndHandle, which takes none.
  */
-u32 func_020063B4(u32 bgmNo, u32 *step, u32 abort)
+u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort)
 {
     if (abort == 1) {
-        sub_02005D14();
-        sub_02006368();
+        GFL_USE_StopBgm();
+        GFL_USE_StopLoaderThread();
         *step = 0;
     } else {
         switch (*step) {
         case 0:
-            func_020746B0(0x1300);
-            sub_02006300(bgmNo, 0);
+            NNS_SndArcSetReadChunkSize(0x1300);
+            GFL_USE_StartLoaderThread(bgmNo, 0);
             (*step)++;
             break;
         case 1:
-            if (sub_02006394() == 1) {
-                sub_0200597C();
-                sub_02006300(bgmNo, 1);
+            if (GFL_USE_IsLoaderDone() == 1) {
+                GFL_USE_SaveSeqBankState();
+                GFL_USE_StartLoaderThread(bgmNo, 1);
                 (*step)++;
             } else {
                 func_02085A38(2);
             }
             break;
         case 2:
-            if (sub_02006394() == 1) {
+            if (GFL_USE_IsLoaderDone() == 1) {
                 s32 zero = 0;
 
-                func_020746B0(0);
-                sub_020059A0(bgmNo);
-                func_020755A8(sub_0200590C(), 0, zero - 1, zero - 1, bgmNo);
+                NNS_SndArcSetReadChunkSize(0);
+                GFL_USE_FinishBgmLoad(bgmNo);
+                func_020755A8(GFL_USE_GetCurrentSndHandle(), 0, zero - 1, zero - 1, bgmNo);
                 (*step)++;
                 return 1;
             }
@@ -1238,7 +1243,7 @@ u32 func_020063B4(u32 bgmNo, u32 *step, u32 abort)
  * passed to the bank lookup. The first member of the bank entry is a full
  * 32 bit load.
  */
-int func_02006448(u32 seqAddr, u32 bankAddr, u32 bgmNo)
+int GFL_USE_InstallBgmBuffers(u32 seqAddr, u32 bankAddr, u32 bgmNo)
 {
     struct SndArcSeqEntry *seq;
     struct SndArcBankEntry *bank;
@@ -1247,12 +1252,12 @@ int func_02006448(u32 seqAddr, u32 bankAddr, u32 bgmNo)
     u32 bankFileId;
     int i;
 
-    seq = func_02074324(bgmNo);
+    seq = NNS_SndArcGetSeqInfo(bgmNo);
     seqFileId = seq->fileId;
     bankNo = seq->bankNo;
-    bank = func_020743EC(bankNo);
+    bank = NNS_SndArcGetBankInfo(bankNo);
     bankFileId = bank->fileId;
-    sub_0200597C();
+    GFL_USE_SaveSeqBankState();
     for (i = 0; i < 4; i++) {
         if (bank->waveArc[i] != 0xFFFF) {
             if (func_02074A98(bank->waveArc[i], _SndState.heap) == 0) {
@@ -1260,9 +1265,9 @@ int func_02006448(u32 seqAddr, u32 bankAddr, u32 bgmNo)
             }
         }
     }
-    func_02074694(bankFileId, bankAddr);
-    func_02074694(seqFileId, seqAddr);
-    sub_020059A0(bgmNo);
+    NNS_SndArcSetFileAddress(bankFileId, bankAddr);
+    NNS_SndArcSetFileAddress(seqFileId, seqAddr);
+    GFL_USE_FinishBgmLoad(bgmNo);
     return 1;
 }
 
@@ -1271,16 +1276,16 @@ int func_02006448(u32 seqAddr, u32 bankAddr, u32 bgmNo)
  * another archive's data. The file id is a 24 bit unsigned bitfield (a
  * lsls #8 / lsrs #8 pair); `& 0xFFFFFF` would load a pool word instead.
  */
-int sub_020064B8(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 srcWaveIndex)
+int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 srcWaveIndex)
 {
     struct SndArcWaveArcEntry *entry;
     u32 *waveArcData;
 
-    entry = func_02074450(waveArcNo);
+    entry = NNS_SndArcGetWaveArcInfo(waveArcNo);
     if (entry == 0) {
         return 0;
     }
-    waveArcData = (u32 *)func_0207466C(entry->fileId);
+    waveArcData = (u32 *)NNS_SndArcGetFileAddress(entry->fileId);
     if (waveArcData == 0) {
         return 0;
     }
@@ -1289,31 +1294,31 @@ int sub_020064B8(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 srcWaveIndex)
 }
 
 /* Start a sequence on the current handle. */
-void sub_020064F4(u32 seqNo)
+void GFL_USE_StartSeq(u32 seqNo)
 {
-    func_02075560(sub_0200590C(), seqNo);
+    func_02075560(GFL_USE_GetCurrentSndHandle(), seqNo);
 }
 
-/* Same body as sub_02005D14: stop the current sequence and drop its data. */
-void sub_02006504(void)
+/* Same body as GFL_USE_StopBgm: stop the current sequence and drop its data. */
+void GFL_USE_StopSeqAndUnload(void)
 {
-    func_02072E7C(sub_0200590C(), 0);
-    sub_020059C8();
+    func_02072E7C(GFL_USE_GetCurrentSndHandle(), 0);
+    GFL_USE_UnloadBgmData();
 }
 
 /*
- * Forget the buffers that func_02006448 installed for SEQ_PRELOADED_BGM:
+ * Forget the buffers that GFL_USE_InstallBgmBuffers installed for SEQ_PRELOADED_BGM:
  * the bank file's data address and the sequence file's data address are
  * set to zero. 0x3F2 is past the Thumb movs immediate range, so it arrives
  * in r4 through a pool word and is used twice from there.
  */
-void sub_02006518(void)
+void GFL_USE_ClearPreloadedBgmBuffers(void)
 {
-    u32 bankFileId = func_020743EC(SEQ_PRELOADED_BGM)->fileId;
-    u32 seqFileId = func_02074324(SEQ_PRELOADED_BGM)->fileId;
+    u32 bankFileId = NNS_SndArcGetBankInfo(SEQ_PRELOADED_BGM)->fileId;
+    u32 seqFileId = NNS_SndArcGetSeqInfo(SEQ_PRELOADED_BGM)->fileId;
 
-    func_02074694(bankFileId, 0);
-    func_02074694(seqFileId, 0);
+    NNS_SndArcSetFileAddress(bankFileId, 0);
+    NNS_SndArcSetFileAddress(seqFileId, 0);
 }
 
 /*
@@ -1324,7 +1329,7 @@ void sub_02006518(void)
  * bits), and reset the voice. Voice 0 also gets the static buffer as its
  * buffer and its sample data pointer. One voice is in use afterwards.
  */
-void func_02006544(u16 heapId,
+void PM_VOICE_Init(u16 heapId,
                    void (*resolveCallback)(u32 species, u32 form, u32 *waveId),
                    u32 (*prepareCallback)(u32 species, u32 form, void **recordedVoice,
                                           u8 **data, u32 *dataSize, u32 *sampleRate,
@@ -1340,7 +1345,7 @@ void func_02006544(u16 heapId,
         voice->active = 0;
         voice->channelNoA = (u8)_VoiceChannelTable[i].channelA;
         voice->channelNoB = (u8)_VoiceChannelTable[i].channelB;
-        sub_020067D0(voice);
+        PM_VOICE_ClearSlot(voice);
         if (i == 0) {
             voice->buffer = _VoiceBuffer0;
             voice->data = _VoiceBuffer0;
@@ -1353,7 +1358,7 @@ void func_02006544(u16 heapId,
 }
 
 /* Stop every voice that is active. */
-void sub_020065D8(void)
+void PM_VOICE_StopAll(void)
 {
     int i;
 
@@ -1361,13 +1366,13 @@ void sub_020065D8(void)
         struct PmVoice *voice = &_VoiceSystem.voices[i];
 
         if (voice->active == 1) {
-            func_02006948(voice);
+            PM_VOICE_Stop(voice);
         }
     }
 }
 
 /* Stop the voices whose hardware channels have gone silent. */
-void sub_020065FC(void)
+void PM_VOICE_StopFinished(void)
 {
     struct PmVoice *voice;
     int i;
@@ -1377,20 +1382,20 @@ void sub_020065FC(void)
     for (i = 0; i < _VoiceSystem.count; i++) {
         voice = &_VoiceSystem.voices[i];
         if (voice->active == 1) {
-            busyA = func_02072CC4(voice->channelA);
+            busyA = NNS_SndWaveOutIsPlaying(voice->channelA);
             if (voice->dual == 1) {
-                busyB = func_02072CC4(voice->channelB);
+                busyB = NNS_SndWaveOutIsPlaying(voice->channelB);
             } else {
                 busyB = 0;
             }
             if (busyA == 0 && busyB == 0) {
-                func_02006948(voice);
+                PM_VOICE_Stop(voice);
             }
         }
     }
 }
 
-int sub_02006650(void)
+int PM_VOICE_IsAnyActive(void)
 {
     int i;
 
@@ -1407,12 +1412,12 @@ int sub_02006650(void)
  * keeps the static buffer). The site string passed to the allocator is the
  * file name "pm_voice.c" with line 0x105.
  */
-void sub_02006674(int extraVoices, u32 heapId)
+void PM_VOICE_AllocBuffers(int extraVoices, u32 heapId)
 {
     struct PmVoice *voice;
     int i;
 
-    sub_020065D8();
+    PM_VOICE_StopAll();
     if (extraVoices > 2) {
         extraVoices = 2;
     }
@@ -1431,29 +1436,29 @@ void sub_02006674(int extraVoices, u32 heapId)
 }
 
 /* Stop all voices and free the buffers that were allocated. */
-void sub_020066E8(void)
+void PM_VOICE_FreeBuffers(void)
 {
     struct PmVoice *voice;
     int i;
 
-    sub_020065D8();
+    PM_VOICE_StopAll();
     for (i = 0; i < _VoiceSystem.count; i++) {
         voice = &_VoiceSystem.voices[i];
         if (voice->buffer != 0 && voice->ownsBuffer == 1) {
             func_020307B0(voice->buffer);
-            sub_020067D0(voice);
+            PM_VOICE_ClearSlot(voice);
         }
     }
     _VoiceSystem.count = 1;
     _VoiceSystem.current = 0;
 }
 
-void sub_02006734(u8 volume)
+void PM_VOICE_SetMasterVolume(u8 volume)
 {
     _VoiceSystem.masterVolume = volume;
 }
 
-void sub_02006740(void)
+void PM_VOICE_ResetMasterVolume(void)
 {
     _VoiceSystem.masterVolume = SND_VOLUME_MAX;
 }
@@ -1462,13 +1467,13 @@ void sub_02006740(void)
  * Scale a volume by the master volume. Both operands promote to int, so the
  * signed division helper (_s32_div_f) is called.
  */
-u8 sub_0200674C(u8 volume)
+u8 PM_VOICE_ScaleVolume(u8 volume)
 {
     return (u8)(volume * _VoiceSystem.masterVolume / SND_VOLUME_MAX);
 }
 
 /* Round robin: stop the voice in the current slot, advance, return the slot. */
-u16 sub_02006768(void)
+u16 PM_VOICE_NextSlot(void)
 {
     struct PmVoice *voice;
     u16 slot;
@@ -1476,7 +1481,7 @@ u16 sub_02006768(void)
     slot = _VoiceSystem.current;
     voice = &_VoiceSystem.voices[slot];
     if (voice->active == 1) {
-        func_02006948(voice);
+        PM_VOICE_Stop(voice);
     }
     if (_VoiceSystem.current < _VoiceSystem.count - 1) {
         _VoiceSystem.current = _VoiceSystem.current + 1;
@@ -1487,7 +1492,7 @@ u16 sub_02006768(void)
 }
 
 /* Back to the idle parameters; the buffer stays. */
-void sub_020067A4(struct PmVoice *voice)
+void PM_VOICE_ResetParams(struct PmVoice *voice)
 {
     voice->dataSize = 0;
     voice->volume = 0;
@@ -1501,11 +1506,11 @@ void sub_020067A4(struct PmVoice *voice)
 }
 
 /* Forget the buffer too, then reset the parameters (a two store tail call). */
-void sub_020067D0(struct PmVoice *voice)
+void PM_VOICE_ClearSlot(struct PmVoice *voice)
 {
     voice->buffer = 0;
     voice->ownsBuffer = 0;
-    sub_020067A4(voice);
+    PM_VOICE_ResetParams(voice);
 }
 
 /*
@@ -1519,7 +1524,7 @@ void sub_020067D0(struct PmVoice *voice)
  * clock times 0x8000); only its low word is in a literal pool because the
  * high word 0x7F fits a movs.
  */
-int sub_020067E0(struct PmVoice *voice, u32 waveId)
+int PM_VOICE_LoadWave(struct PmVoice *voice, u32 waveId)
 {
     struct SndArcWaveArcEntry *entry;
     struct PmWaveFile *file;
@@ -1528,15 +1533,15 @@ int sub_020067E0(struct PmVoice *voice, u32 waveId)
     u32 waveBytes;
     int bytesRead;
 
-    entry = func_02074450(waveId);
+    entry = NNS_SndArcGetWaveArcInfo(waveId);
     if (entry == 0) {
         return 0;
     }
-    fileSize = func_0207457C(entry->fileId);
+    fileSize = NNS_SndArcGetFileSize(entry->fileId);
     if (fileSize == 0) {
         return 0;
     }
-    bytesRead = func_020745A4(entry->fileId, voice->buffer, fileSize, 0);
+    bytesRead = NNS_SndArcReadFile(entry->fileId, voice->buffer, fileSize, 0);
     if (bytesRead == -1) {
         return 0;
     }
@@ -1545,7 +1550,7 @@ int sub_020067E0(struct PmVoice *voice, u32 waveId)
     }
     file = voice->buffer;
     wave = (struct PmWave *)((u8 *)file + file->waveOffset);
-    func_0208A638((char *)file);
+    SNDi_GetBankWaveArcTable((char *)file);
     waveBytes = file->fileSize - file->waveOffset;
     voice->data = (u8 *)wave + 0xC;
     voice->dataSize = waveBytes - 0xC;
@@ -1561,7 +1566,7 @@ int sub_020067E0(struct PmVoice *voice, u32 waveId)
  * The two channel numbers are the two 4-bit fields of the byte at +0x1E,
  * read with lsls #0x1C / lsrs #0x1C and lsls #0x18 / lsrs #0x1C.
  */
-int sub_02006868(struct PmVoice *voice)
+int PM_VOICE_StartChannels(struct PmVoice *voice)
 {
     int volumeB;
 
@@ -1571,17 +1576,17 @@ int sub_02006868(struct PmVoice *voice)
     if (voice->dataSize == 0) {
         return 0;
     }
-    voice->channelA = func_02072A44(voice->channelNoA);
+    voice->channelA = NNS_SndWaveOutAllocChannel(voice->channelNoA);
     if (voice->channelA == 0) {
         return 0;
     }
     if (func_02072AA0(voice->channelA, 0, voice->data, 0, 0, voice->dataSize,
-                      voice->sampleRate, sub_0200674C(voice->volume),
+                      voice->sampleRate, PM_VOICE_ScaleVolume(voice->volume),
                       voice->frequency, voice->pan) == 0) {
         return 0;
     }
     if (voice->dual == 1) {
-        voice->channelB = func_02072A44(voice->channelNoB);
+        voice->channelB = NNS_SndWaveOutAllocChannel(voice->channelNoB);
         if (voice->channelB == 0) {
             return 0;
         }
@@ -1593,7 +1598,7 @@ int sub_02006868(struct PmVoice *voice)
             volumeB = SND_VOLUME_MAX;
         }
         if (func_02072AA0(voice->channelB, 0, voice->data, 0, 0, voice->dataSize,
-                          voice->sampleRate, sub_0200674C((u8)volumeB),
+                          voice->sampleRate, PM_VOICE_ScaleVolume((u8)volumeB),
                           voice->frequency + voice->frequencyOffsetB,
                           voice->pan) == 0) {
             return 0;
@@ -1609,7 +1614,7 @@ int sub_02006868(struct PmVoice *voice)
  * word and reset the parameters. The channel field is read again before each
  * call because the callees are extern and may write it back.
  */
-void func_02006948(struct PmVoice *voice)
+void PM_VOICE_Stop(struct PmVoice *voice)
 {
     func_02072BDC(voice->channelA);
     func_02072D20(voice->channelA);
@@ -1620,7 +1625,7 @@ void func_02006948(struct PmVoice *voice)
         func_02072A88(voice->channelB);
     }
     voice->active = 0;
-    sub_020067A4(voice);
+    PM_VOICE_ResetParams(voice);
 }
 
 /*
@@ -1637,15 +1642,15 @@ u32 func_02006984(u32 species, u32 form, u32 pan, u32 dual,
 {
     u32 slot;
 
-    if (sub_02005C64() == 1) {
+    if (GFL_USE_IsLoaderBusy() == 1) {
         slot = 2;
         do {
             func_02085A38(slot);
-        } while (sub_02005C64() == 1);
+        } while (GFL_USE_IsLoaderBusy() == 1);
     }
-    slot = (u16)func_020069D4(species, form, pan, dual, volumeBiasB,
+    slot = (u16)PM_VOICE_Prepare(species, form, pan, dual, volumeBiasB,
                               frequencyOffsetB, reverse, recordedVoice);
-    func_02006A64(slot);
+    PM_VOICE_Start(slot);
     return slot;
 }
 
@@ -1659,7 +1664,7 @@ u32 func_02006984(u32 species, u32 form, u32 pan, u32 dual,
  * The state is an extern struct whose callback slots are called through the
  * fields. The index goes through a stack slot because it is the return value.
  */
-int func_020069D4(int species, int form, int pan, int dual,
+int PM_VOICE_Prepare(int species, int form, int pan, int dual,
                   int volumeBiasB, int frequencyOffsetB, int reverse,
                   void **recordedVoice)
 {
@@ -1668,16 +1673,16 @@ int func_020069D4(int species, int form, int pan, int dual,
     struct PmVoice *voice;
 
     _VoiceSystem.resolveCallback(species, form, &waveId);
-    slot = sub_02006768();
+    slot = PM_VOICE_NextSlot();
     voice = &_VoiceSystem.voices[slot];
     if (voice->active == 1)
-        func_02006948(voice);
+        PM_VOICE_Stop(voice);
     if (_VoiceSystem.prepareCallback(species, form, recordedVoice, &voice->data,
                                      &voice->dataSize, &voice->sampleRate,
                                      &voice->frequency, &voice->volume) == 0)
-        sub_020067E0(voice, waveId);
+        PM_VOICE_LoadWave(voice, waveId);
     if (reverse != 0)
-        sub_02006BE0(voice->data, voice->dataSize);
+        PM_VOICE_ReverseBytes(voice->data, voice->dataSize);
     voice->pan = pan;
     voice->dual = dual;
     voice->volumeBiasB = volumeBiasB;
@@ -1689,10 +1694,10 @@ int func_020069D4(int species, int form, int pan, int dual,
  * Start the voice in `slot`; when the channels cannot be opened free the
  * slot and return 0. The slot address is spelled twice, once per call.
  */
-int func_02006A64(u32 slot)
+int PM_VOICE_Start(u32 slot)
 {
-    if (sub_02006868(&_VoiceSystem.voices[slot]) == 0) {
-        func_02006948(&_VoiceSystem.voices[slot]);
+    if (PM_VOICE_StartChannels(&_VoiceSystem.voices[slot]) == 0) {
+        PM_VOICE_Stop(&_VoiceSystem.voices[slot]);
         return 0;
     }
     return 1;
@@ -1722,7 +1727,7 @@ void func_02006A8C(u32 slot, int delta)
         volume = SND_VOLUME_MAX;
     }
     voice->volume = volume;
-    func_02072C18(voice->channelA, sub_0200674C(voice->volume));
+    NNS_SndWaveOutSetVolume(voice->channelA, PM_VOICE_ScaleVolume(voice->volume));
     if (voice->dual == 1) {
         volume = voice->volume + voice->volumeBiasB;
         if (volume < 0) {
@@ -1731,7 +1736,7 @@ void func_02006A8C(u32 slot, int delta)
         if (volume > SND_VOLUME_MAX) {
             volume = SND_VOLUME_MAX;
         }
-        func_02072C18(voice->channelA, sub_0200674C((u8)volume));
+        NNS_SndWaveOutSetVolume(voice->channelA, PM_VOICE_ScaleVolume((u8)volume));
     }
 }
 
@@ -1740,7 +1745,7 @@ void func_02006A8C(u32 slot, int delta)
  * stored value is passed to the first call; the second call re-reads the
  * frequency and adds the channel B offset.
  */
-void func_02006AEC(u32 slot, u32 delta)
+void PM_VOICE_AddFrequency(u32 slot, u32 delta)
 {
     struct PmVoice *voice;
     u32 frequency;
@@ -1751,9 +1756,9 @@ void func_02006AEC(u32 slot, u32 delta)
     }
     frequency = voice->frequency + delta;
     voice->frequency = frequency;
-    func_02072C40(voice->channelA, frequency);
+    NNS_SndWaveOutSetSpeed(voice->channelA, frequency);
     if (voice->dual == 1) {
-        func_02072C40(voice->channelB, voice->frequency + voice->frequencyOffsetB);
+        NNS_SndWaveOutSetSpeed(voice->channelB, voice->frequency + voice->frequencyOffsetB);
     }
 }
 
@@ -1761,12 +1766,12 @@ void func_02006AEC(u32 slot, u32 delta)
  * Getters over the 0x34 byte voice records; most return an idle value for a
  * voice that is not active. None of them saves a register, so the listing
  * does not label them. The index arithmetic is a `muls` by 0x34 (not a
- * power of two). sub_02006B20 reads the s8 volume with a register offset
- * ldrsb, the evidence that the field is signed. sub_02006BB4 computes the
+ * power of two). PM_VOICE_GetVolume reads the s8 volume with a register offset
+ * ldrsb, the evidence that the field is signed. PM_VOICE_StopSlot computes the
  * slot address only inside the if, where the other functions compute it
  * before the test.
  */
-s8 sub_02006B20(u32 slot)
+s8 PM_VOICE_GetVolume(u32 slot)
 {
     struct PmVoice *voice = &_VoiceSystem.voices[slot];
 
@@ -1776,7 +1781,7 @@ s8 sub_02006B20(u32 slot)
     return voice->volume;
 }
 
-u32 sub_02006B3C(u32 slot)
+u32 PM_VOICE_GetFrequency(u32 slot)
 {
     struct PmVoice *voice = &_VoiceSystem.voices[slot];
 
@@ -1786,7 +1791,7 @@ u32 sub_02006B3C(u32 slot)
     return voice->frequency;
 }
 
-u8 *sub_02006B5C(u32 slot)
+u8 *PM_VOICE_GetData(u32 slot)
 {
     struct PmVoice *voice = &_VoiceSystem.voices[slot];
 
@@ -1796,7 +1801,7 @@ u8 *sub_02006B5C(u32 slot)
     return voice->data;
 }
 
-u32 sub_02006B78(u32 slot)
+u32 PM_VOICE_GetDataSize(u32 slot)
 {
     struct PmVoice *voice = &_VoiceSystem.voices[slot];
 
@@ -1806,7 +1811,7 @@ u32 sub_02006B78(u32 slot)
     return voice->dataSize;
 }
 
-u32 sub_02006B94(u32 slot)
+u32 PM_VOICE_GetSampleRate(u32 slot)
 {
     struct PmVoice *voice = &_VoiceSystem.voices[slot];
 
@@ -1816,10 +1821,10 @@ u32 sub_02006B94(u32 slot)
     return voice->sampleRate;
 }
 
-void sub_02006BB4(u32 slot)
+void PM_VOICE_StopSlot(u32 slot)
 {
     if (_VoiceSystem.voices[slot].active == 1) {
-        func_02006948(&_VoiceSystem.voices[slot]);
+        PM_VOICE_Stop(&_VoiceSystem.voices[slot]);
     }
 }
 
@@ -1829,7 +1834,7 @@ u32 sub_02006BD0(u32 slot)
 }
 
 /* Reverse `count` bytes in place. */
-void sub_02006BE0(u8 *bytes, u32 count)
+void PM_VOICE_ReverseBytes(u8 *bytes, u32 count)
 {
     u32 i;
 
@@ -1849,7 +1854,7 @@ void sub_02006BE0(u8 *bytes, u32 count)
  * say so (`cmp r0, #1` / `bhs` and `cmp r0, r3` / `bls` both branch past
  * it). Written with `||` the two branches invert.
  */
-void sub_02006C00(u32 species, u32 form, u32 *cryIndex)
+void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *cryIndex)
 {
     if (species < 1 && species > 649) {
         *cryIndex = 1;
@@ -1873,7 +1878,7 @@ void sub_02006C00(u32 species, u32 form, u32 *cryIndex)
  * The literal 441 is rematerialised as 194 + 247 off the register that
  * holds the archive id. Content constants (441, 652) are Black-image values.
  */
-u32 func_02006C2C(u32 species, u32 form, void **recordedVoice, u8 **data,
+u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **recordedVoice, u8 **data,
                   u32 *dataSize, u32 *sampleRate, u32 *frequency, s8 *volume)
 {
     u16 record[2];
@@ -1899,7 +1904,7 @@ u32 func_02006C2C(u32 species, u32 form, void **recordedVoice, u8 **data,
  * singleton getter, never reading r0, so the call is nested and the result
  * of func_02007B44 is stored through the argument.
  */
-void sub_02006CAC(struct SaveBlock **out)
+void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out)
 {
     *out = func_02007B44(func_020070A4());
 }
@@ -1925,7 +1930,7 @@ void func_02006CBC(u16 heapId)
     func_0208BF38(2);
     mic->status.word = (mic->status.word & ~1u) | 1u;
     func_0208B24C();
-    if (func_02085D3C() == 1) {
+    if (OS_IsRunOnTwl() == 1) {
         SNDEXi_SetIirFilter(0, _MicIirFilter);
     }
     _SndMic = mic;
@@ -1940,7 +1945,7 @@ void func_02006CBC(u16 heapId)
  * The range starts at 0x02006D44 because 0x02006D3C is a linker veneer
  * (ldr pc, [pc, #-4]) over 0x027047C0.
  */
-void sub_02006D44(void)
+void SND_MIC_Exit(void)
 {
     PM_SetAmp(0);
     func_020307B0(_SndMic->sampleBuffer);
@@ -1948,19 +1953,19 @@ void sub_02006D44(void)
 }
 
 /* Add `ticks` to the recorded time while recording and below the limit. */
-void sub_02006D64(u32 ticks)
+void SND_MIC_AddElapsed(u32 ticks)
 {
     struct SndMic *mic = _SndMic;
 
     if (mic->status.bits.recording) {
-        if (sub_02006D94() == 0) {
+        if (SND_MIC_IsLimitReached() == 0) {
             mic->status.bits.elapsed += ticks;
         }
     }
 }
 
 /* 1 once more than 180 ticks were recorded. */
-u32 sub_02006D94(void)
+u32 SND_MIC_IsLimitReached(void)
 {
     if (_SndMic->status.bits.elapsed > 0xB4) {
         return 1;
@@ -1976,7 +1981,7 @@ u32 sub_02006D94(void)
  * assignment of the seven word request (three ldm/stm pairs and a trailing
  * ldr/str).
  */
-u32 sub_02006DAC(const struct MICAutoParam *param)
+u32 SND_MIC_StartSampling(const struct MICAutoParam *param)
 {
     u32 result = MIC_AdjustLimitedSampling(param);
 
@@ -1992,12 +1997,12 @@ u32 sub_02006DAC(const struct MICAutoParam *param)
  * twice because Thumb has no immediate bic, and the compiler does not fold
  * it, so the guard is in the source.
  */
-u32 sub_02006DD8(MICCallback callback, void *arg)
+u32 SND_MIC_StartRecording(MICCallback callback, void *arg)
 {
     struct MICAutoParam param;
 
     param.type = 2;
-    param.buffer = sub_02006E2C();
+    param.buffer = SND_MIC_GetBufferAligned();
     param.size = 0x1FF4;
     if (param.size & 0x1F) {
         param.size &= ~0x1Fu;
@@ -2006,13 +2011,13 @@ u32 sub_02006DD8(MICCallback callback, void *arg)
     param.loop_enable = 0;
     param.full_callback = callback;
     param.full_arg = arg;
-    return sub_02006DAC(&param);
+    return SND_MIC_StartSampling(&param);
 }
 
 /* Copy the recorded buffer into a Perap voice (Chatot) record. */
 void func_02006E18(struct PerapVoice *perapVoice)
 {
-    void *buffer = sub_02006E2C();
+    void *buffer = SND_MIC_GetBufferAligned();
 
     func_02007BD0(perapVoice, buffer);
 }
@@ -2022,7 +2027,7 @@ void func_02006E18(struct PerapVoice *perapVoice)
  * materialised in r1 and applied with bics (Thumb has no immediate bic);
  * the compiler hoists the movs above both loads.
  */
-void *sub_02006E2C(void)
+void *SND_MIC_GetBufferAligned(void)
 {
     return (void *)(((u32)_SndMic->sampleBuffer + 0x1F) & ~0x1Fu);
 }

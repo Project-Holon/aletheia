@@ -19,9 +19,9 @@
  *   func_02166CD0  0x02166CD0  thumb  ov010
  *   func_021BA774  0x021BA774  thumb  ov072
  *   func_0204B294  0x0204B294  arm
- *   func_0204B570  0x0204B570  arm
+ *   CLACT_SetActorAffineMode  0x0204B570  arm
  *   func_0204B84C  0x0204B84C  arm
- *   func_0204B800  0x0204B800  arm
+ *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   func_021BAE44  0x021BAE44  thumb  ov072
  */
 typedef unsigned char u8;
@@ -57,9 +57,9 @@ struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Actor;
 struct Node;
-extern void func_0204B570(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern void func_0204B84C(int obj, int v);
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_021BAE44(W *p);
 
 void func_021BA86C(W *p, int a, int b, int c, int s0, int s1, int s2, void *s3, u16 s4, int s5)
@@ -126,9 +126,9 @@ void func_021BA86C(W *p, int a, int b, int c, int s0, int s1, int s2, void *s3, 
         pos.x = func_021BA774((char *)p, 2);
         pos.y = func_021BA774((char *)p, 3);
         p->obj = (int)func_0204B294((void *)c, s0, s2, s1, &pos, 0, s4);
-        func_0204B570((struct Actor *)p->obj, 2);
+        CLACT_SetActorAffineMode((struct Actor *)p->obj, 2);
         func_0204B84C(p->obj, 2);
-        func_0204B800((struct Node *)p->obj, 4);
+        CLACT_SetActorDrawPriority((struct Node *)p->obj, 4);
     }
     func_021BAE44(p);
 }

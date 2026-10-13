@@ -9,9 +9,6 @@
  * isa:      thumb
  * status:   EXACT
  *
- * `for (i = 0, n = 0; ...)` (not `n = 0;` before the loop) is what lets the
- * constant zero live in r4 across the calls and seeds `i` from it.
- *
  * symbols:
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
@@ -20,72 +17,75 @@
  *   func_02190844  0x02190844  thumb  ov021
  *   func_021F556C  0x021F556C  thumb  ov083
  *   func_02010EB4  0x02010EB4  thumb
- *   func_02010EC0  0x02010EC0  thumb
+ *   GPOWER_GetMinutesLeftByType  0x02010EC0  thumb
  */
-#include "../../../matched/include/Obj00815.h"
-
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-struct Big;
-extern void *func_02012EBC(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
-struct Rec1B0;
-extern u8 func_0200BF10(struct Rec1B0 *p);
-struct MsgBank;
-struct Slot;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_02190844(struct Slot **p, int x, int y, u32 z);
-extern void  func_021F556C(char *p, u32 a1, u32 a2, int a3, u8 a4);
-extern u8 func_02010EB4(int k);
-extern u32 func_02010EC0(u32 i);
+#include "../unit_021F5260_types.h"
 
-void func_021F55D4(char *p)
+struct SaveControl;
+struct GPowerSave;
+struct MsgData;
+struct Strbuf;
+struct InfoMsgWin;
+
+extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern struct GPowerSave *func_0200BE48(struct SaveControl *saveControl);
+extern u8 func_0200BF10(struct GPowerSave *gpowerSave);
+extern void func_02045CAC(struct MsgData *msgData, u32 msgId, struct Strbuf *dst);
+extern void func_02190844(struct InfoMsgWin *win, int x, int y, struct Strbuf *str);
+extern void func_021F556C(GPowerListWork *work, struct Strbuf *templateStr, u32 powerId, int minutes, u8 row);
+extern u8 func_02010EB4(int type);
+extern u32 GPOWER_GetMinutesLeftByType(u32 type);
+
+void func_021F55D4(GPowerListWork *work)
 {
-    u8 vals[13];
+    u8 powerIds[13];
     u8 order[13];
-    u16 keys[13];
-    void *x;
-    u8 c;
+    u16 minutesLeft[13];
+    struct GPowerSave *gpowerSave;
+    u8 powerId;
     u8 i;
     u8 j;
-    u8 n;
-    u8 t;
+    u8 count;
+    u8 swapTmp;
 
-    x = func_0200BE48(func_02012EBC(((struct Obj00815 *)p)->fC));
-    func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 4, (void *)(((struct Obj00815 *)p)->f34));
-    func_02190844((struct Slot **)(((struct Obj00815 *)p)->f18), 0, 0, ((struct Obj00815 *)p)->f34);
-    func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 6, (void *)(((struct Obj00815 *)p)->f34));
-    c = (int)func_0200BF10(x);
-    if (c != 0x30) {
-        func_021F556C(p, ((struct Obj00815 *)p)->f34, c, 0, 1);
+    gpowerSave = func_0200BE48(func_02012EBC(work->gameData));
+    func_02045CAC(work->msgData, 4, work->templateStr);
+    func_02190844(work->infoMsgWin, 0, 0, work->templateStr);
+    func_02045CAC(work->msgData, 6, work->templateStr);
+    powerId = (int)func_0200BF10(gpowerSave);
+    if (powerId != GPOWER_ID_NONE) {
+        func_021F556C(work, work->templateStr, powerId, 0, 1);
     }
-    func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 5, (void *)(((struct Obj00815 *)p)->f34));
-    func_02190844((struct Slot **)(((struct Obj00815 *)p)->f18), 0, 0x30, ((struct Obj00815 *)p)->f34);
-    func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 7, (void *)(((struct Obj00815 *)p)->f34));
+    func_02045CAC(work->msgData, 5, work->templateStr);
+    func_02190844(work->infoMsgWin, 0, 0x30, work->templateStr);
+    func_02045CAC(work->msgData, 7, work->templateStr);
 
-    for (i = 0, n = 0; i < 13; i++) {
+    /* The `for (i = 0, count = 0; ...)` form (not `count = 0;` before the loop) keeps the constant zero in r4 across the calls and seeds i from it. */
+    for (i = 0, count = 0; i < 13; i++) {
         order[i] = i;
-        c = (int)func_02010EB4((u8)i);
-        if (c != 0x30) {
-            keys[n] = func_02010EC0(i);
-            vals[n] = c;
-            n++;
+        powerId = (int)func_02010EB4((u8)i);
+        if (powerId != GPOWER_ID_NONE) {
+            minutesLeft[count] = GPOWER_GetMinutesLeftByType(i);
+            powerIds[count] = powerId;
+            count++;
         }
     }
 
-    for (i = 0; i < n - 1; i++) {
-        for (j = n - 1; j > i; j--) {
-            if (keys[order[j - 1]] > keys[order[j]]) {
-                t = order[j];
+    for (i = 0; i < count - 1; i++) {
+        for (j = count - 1; j > i; j--) {
+            if (minutesLeft[order[j - 1]] > minutesLeft[order[j]]) {
+                swapTmp = order[j];
                 order[j] = order[j - 1];
-                order[j - 1] = t;
+                order[j - 1] = swapTmp;
             }
         }
     }
 
-    for (i = 0; i < n; i++) {
-        func_021F556C(p, ((struct Obj00815 *)p)->f34, vals[order[i]], keys[order[i]], i + 4);
+    for (i = 0; i < count; i++) {
+        func_021F556C(work, work->templateStr, powerIds[order[i]], minutesLeft[order[i]], i + 4);
     }
 }

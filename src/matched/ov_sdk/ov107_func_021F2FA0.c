@@ -17,7 +17,7 @@
  *          `_start_AutoloadDoneCallback` (0x02004EA8) is declared a function so its
  *          ABS32 pool word resolves.  The +0x0140 callee CARDi_GetOwnSignature
  *          (0x020773D0, a getter returning g_0215086C) is filed as
- *          src/matched/arm9/func_020773D0.c, which made all 43 relocations resolve.
+ *          src/matched/arm9/CARDi_GetRomCacheBuffer.c, which made all 43 relocations resolve.
  *
  * sdk:      MB_ReadSegment (libmb.TWL.HYB.a mb_fileinfo.o)
  *

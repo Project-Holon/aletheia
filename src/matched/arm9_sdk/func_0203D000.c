@@ -9,17 +9,17 @@
  * isa:      arm
  * status:   EXACT
  *
- * Tail-call wrapper: func_0203B0C4(p, 0), the twin of func_0203CFF0.
+ * Tail-call wrapper: GFL_NET_STATE_ConnectMacAddress(p, 0), the twin of GFL_NET_ConnectMacAddressParent.
  * NOTE: layout/symbols_sdk.txt lists this address as FATFS_FormatDrive
  * (thumb), a false signature match: the bytes are ARM.
  *
  * symbols:
- *   func_0203B0C4  0x0203B0C4  arm
+ *   GFL_NET_STATE_ConnectMacAddress  0x0203B0C4  arm
  */
 
-extern void func_0203B0C4(int a0, int a1);
+extern void GFL_NET_STATE_ConnectMacAddress(int a0, int a1);
 
 void func_0203D000(void *p)
 {
-    func_0203B0C4((int)p, 0);
+    GFL_NET_STATE_ConnectMacAddress((int)p, 0);
 }

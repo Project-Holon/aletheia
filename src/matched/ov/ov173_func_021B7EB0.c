@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: padding at 0x021B7F4E; separate follower func_021B7F50 at 0x021B7F50.
  * symbols:
- *   func_02027FEC 0x02027FEC thumb
+ *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   func_02028148 0x02028148 thumb
  *   func_02026124 0x02026124 thumb
  *   func_0202614C 0x0202614C thumb
@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02027FEC(u32, u32, u32, u32, u8, u16);
+extern u32 APP_TASKMENU_WIN_Create(u32, u32, u32, u32, u8, u16);
 struct Sound;
 extern void func_02028148(u8 *p);
 extern void func_02026124(struct Sound *obj, u32 idx);
@@ -29,8 +29,8 @@ void func_021B7EB0(char *p, int flag)
 {
     if (flag == 1) {
         if (*(u32 *)&((struct Obj00362 *)p)->f220 == 0) {
-            *(u32 *)&((struct Obj00362 *)p)->f220 = func_02027FEC(((struct Obj00362 *)p)->f1DC, (u32)(p + 0x1e4), 13, 21, 9, 0x4f);
-            *(u32 *)&((struct Obj00362 *)p)->f224 = func_02027FEC(((struct Obj00362 *)p)->f1DC, (u32)(p + 0x1f0), 22, 21, 9, 0x4f);
+            *(u32 *)&((struct Obj00362 *)p)->f220 = APP_TASKMENU_WIN_Create(((struct Obj00362 *)p)->f1DC, (u32)(p + 0x1e4), 13, 21, 9, 0x4f);
+            *(u32 *)&((struct Obj00362 *)p)->f224 = APP_TASKMENU_WIN_Create(((struct Obj00362 *)p)->f1DC, (u32)(p + 0x1f0), 22, 21, 9, 0x4f);
             func_0202614C(((struct Obj00362 *)p)->f1C8, 8);
             ((struct Obj00362 *)p)->f1CE = 1;
             return;

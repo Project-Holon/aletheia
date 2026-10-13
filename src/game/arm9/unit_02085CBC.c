@@ -1,7 +1,7 @@
 /*
  * file:     unit_02085CBC.c
  * unit:     yes
- * function: func_02085CBC, func_02085D0C, func_02085D24, func_02085D3C
+ * function: func_02085CBC, func_02085D0C, func_02085D24, OS_IsRunOnTwl
  * address:  0x02085CBC
  * region:   arm9
  * compiler: dsi/1.1p1

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02011298  0x02011298  thumb
+ *   VM_Control  0x02011298  thumb
  *   func_02158CB4  0x02158CB4  thumb  ov010
  */
 #include "../include/Obj00105.h"
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct ScriptVm;
-extern int func_02011298(struct ScriptVm *vm);
+extern int VM_Control(struct ScriptVm *vm);
 extern int func_02158CB4(int a0);
 
 int func_0215882C(int a0)
@@ -40,7 +40,7 @@ t6 = ((struct Obj12028 *)t7)->f4;
     if (t6 == 0) goto loc_02158856;
 loc_0215883C:
 a0 = t6 + 0;
-    a0 = func_02011298((struct ScriptVm *)a0);
+    a0 = VM_Control((struct ScriptVm *)a0);
 loc_02158842:
     if (a0 != 0) goto loc_02158856;
 loc_02158846:

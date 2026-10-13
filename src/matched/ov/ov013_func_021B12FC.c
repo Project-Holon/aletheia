@@ -1,5 +1,5 @@
 /*
- * function: func_021B12FC
+ * function: VCT_AUDIO_ResetPendingList
  * address:  0x021B12FC
  * packet:   pkt_ov013_021B12FC
  * region:   ov013
@@ -25,7 +25,7 @@ extern struct {
 } g_021B4B98;
 extern int g_021B4BA0[3];
 
-void func_021B12FC(void)
+void VCT_AUDIO_ResetPendingList(void)
 {
     int s;
     int i;

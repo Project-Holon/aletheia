@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02175D20",
-    "func_02175D2C"
+    "INTRUDE_COMM_ClearJoinStatus",
+    "INTRUDE_COMM_SetJoinStatus"
+   ],
+   "addresses": [
+    "0x02175D20",
+    "0x02175D2C"
    ]
   }
  ]

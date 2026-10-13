@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021570B8",
+   "name": "DWC_RAPCOMMON_DestroyHeap",
    "address": "0x021570B8",
    "kind": "game",
    "region": "ov009",

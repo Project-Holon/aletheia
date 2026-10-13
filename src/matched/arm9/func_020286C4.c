@@ -11,12 +11,12 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0201CE30   0x0201CE30  thumb
+ *   PRINTSYS_PrintStreamGetState   0x0201CE30  thumb
  *   func_020362DC  0x020362DC  arm
  *   func_02035C60  0x02035C60  arm
  *   func_02045770  0x02045770  arm
- *   func_02028618  0x02028618  thumb
- *   func_0202865C  0x0202865C  thumb
+ *   APP_KEYCURSOR_DrawMark  0x02028618  thumb
+ *   APP_KEYCURSOR_Animate  0x0202865C  thumb
  *   func_02045334  0x02045334  arm
  */
 
@@ -35,19 +35,19 @@ struct Ctx {
     u16   f08;
 };
 
-extern u32   sub_0201CE30(void *p);
+extern u32   PRINTSYS_PrintStreamGetState(void *p);
 extern u32   func_020362DC(void);
 extern int func_02035C60(void);
 struct Bmp;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02028618(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
-extern void func_0202865C(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
+extern void APP_KEYCURSOR_DrawMark(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
+extern void APP_KEYCURSOR_Animate(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
 extern void func_02045334(struct Descriptor *d);
 
 void func_020286C4(struct Ctx *ctx, void *p, void *cell)
 {
-    u32 mode = sub_0201CE30(p);
+    u32 mode = PRINTSYS_PrintStreamGetState(p);
 
     switch (mode) {
     case 2:
@@ -67,14 +67,14 @@ void func_020286C4(struct Ctx *ctx, void *p, void *cell)
         }
         if (r != 0) {
             ctx->f06 = 1;
-            func_02028618(ctx, func_02045770(cell), ctx->f08);
+            APP_KEYCURSOR_DrawMark(ctx, func_02045770(cell), ctx->f08);
             func_02045334(cell);
             return;
         }
         if (ctx->f06 != 0) {
             return;
         }
-        func_0202865C(ctx, func_02045770(cell), ctx->f08);
+        APP_KEYCURSOR_Animate(ctx, func_02045770(cell), ctx->f08);
         func_02045334(cell);
         return;
     }

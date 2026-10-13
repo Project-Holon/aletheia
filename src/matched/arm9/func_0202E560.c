@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202E560
+ * function: SCREENTEX_Create
  * address:  0x0202E560
  * packet:   pkt_0202E560
  * region:   arm9
@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A033C     0x020A033C  data
- *   g_020A77E0     0x020A77E0  data
+ *   SCREENTEX_WorkTemplate     0x020A033C  data
+ *   screentex_File     0x020A77E0  data
  *   func_02030734  0x02030734  arm
  *   func_02046C94  0x02046C94  arm
  *   func_02046C9C  0x02046C9C  arm
@@ -43,15 +43,15 @@
  * loads the same template, to reach EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0202E560.c \
- *       --func func_0202E560 --addr 0x0202E560 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/SCREENTEX_Create.c \
+ *       --func SCREENTEX_Create --addr 0x0202E560 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 typedef int s32;
 
-extern char g_020A033C[];
-extern char g_020A77E0[];
+extern char SCREENTEX_WorkTemplate[];
+extern char screentex_File[];
 
 typedef unsigned short u16;
 extern int func_02046C94(void);
@@ -64,7 +64,7 @@ extern int func_02069FD0(int p);
 extern u16 func_02080C44(void);
 extern void func_02069FF8(char *p, int a, int b);
 
-void *func_0202E560(u32 heap, u32 sel)
+void *SCREENTEX_Create(u32 heap, u32 sel)
 {
     void *blk;
     void *buf;
@@ -73,9 +73,9 @@ void *func_0202E560(u32 heap, u32 sel)
     u32 bank;
     u32 acc;
 
-    blk = func_02030734(heap, func_02046C94(), 0, g_020A77E0, 0x3b);
-    buf = func_02030734(heap, 0x8c, 0, g_020A77E0, 0x3c);
-    func_02082D44(g_020A033C, buf, 0x8c);
+    blk = func_02030734(heap, func_02046C94(), 0, screentex_File, 0x3b);
+    buf = func_02030734(heap, 0x8c, 0, screentex_File, 0x3c);
+    func_02082D44(SCREENTEX_WorkTemplate, buf, 0x8c);
     func_02046C9C(blk, 2, (u32)buf);
     tex = func_0206E964(buf);
     size = func_02069FD0((int)tex);

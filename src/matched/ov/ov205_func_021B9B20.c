@@ -11,7 +11,7 @@
  *   func_02088864 0x02088864 arm
  *   func_02012934 0x02012934 thumb
  *   func_02012EBC 0x02012EBC thumb
- *   func_0200725C 0x0200725C thumb
+ *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   func_020073D8 0x020073D8 thumb
  *   func_020071F0 0x020071F0 thumb
  *   func_0200EBD0 0x0200EBD0 thumb
@@ -30,7 +30,7 @@ struct Sub020071E4Ctrl;
 struct Sub020073D8Ctrl;
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_02012EBC(struct Big *p);
-extern u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
+extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
 extern void func_0200EBD0(struct Obj *obj, void *a1, void *date, u32 heap);
@@ -42,7 +42,7 @@ void func_021B9B20(char *p)
     func_02088864((struct RTCDate *)date);
     object=func_02012934(((struct Obj08386 *)p)->f4);
     save=func_02012EBC(((struct Obj08386 *)p)->f4);
-    func_0200725C(save,8,4);
+    SAVE_CONTROL_LoadExtraSave(save,8,4);
     record=func_020073D8(save,8,0);
     if(func_020071F0(save)==0) {
         func_0200EBD0(record,object,date,4);

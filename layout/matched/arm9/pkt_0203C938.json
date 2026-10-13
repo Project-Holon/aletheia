@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203C938",
+   "name": "GFL_NET_STATE_SetErrorMode",
    "address": "0x0203C938",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203C968",
+   "name": "GFL_NET_STATE_ClearErrorMode",
    "address": "0x0203C968",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203C990",
+   "name": "GFL_NET_STATE_GetErrorMode",
    "address": "0x0203C990",
    "kind": "game",
    "region": "arm9",

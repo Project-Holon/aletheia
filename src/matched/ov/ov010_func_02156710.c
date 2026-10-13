@@ -12,10 +12,10 @@
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_02012A30  0x02012A30  thumb
- *   func_02029690  0x02029690  thumb
+ *   FIELD_SOUND_SYSTEM_StartPopTask  0x02029690  thumb
  *   func_02012374  0x02012374  thumb
- *   func_020145CC  0x020145CC  thumb
- *   func_02029CC0  0x02029CC0  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
+ *   FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask  0x02029CC0  thumb
  */
 
 typedef unsigned char u8;
@@ -39,27 +39,27 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012A30(const struct BigObj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_02029690(void *a, u32 b, u32 c);
-extern void *func_020145CC(void *a);
-extern void *func_02029CC0(void *a);
+extern void *FIELD_SOUND_SYSTEM_StartPopTask(void *a, u32 b, u32 c);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a);
+extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *a);
 
 int func_02156710(void *evt, Seq *s)
 {
     func_02012A30(func_020120F4(s->f00));
     switch (s->state) {
     case 0:
-        func_02012374(evt, func_02029690(s->f00, 0, 0x3C));
+        func_02012374(evt, FIELD_SOUND_SYSTEM_StartPopTask(s->f00, 0, 0x3C));
         s->state++;
         break;
     case 1:
-        func_02012374(evt, func_020145CC(s->f00));
+        func_02012374(evt, FIELD_STATUS_CreateFieldOpenEvent(s->f00));
         s->state++;
         break;
     case 2:
         s->state++;
         break;
     case 3:
-        func_02012374(evt, func_02029CC0(s->f00));
+        func_02012374(evt, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(s->f00));
         s->state++;
         break;
     case 4:

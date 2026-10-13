@@ -1,7 +1,7 @@
 /*
  * file:     unit_02075BD4.c
  * unit:     yes
- * function: func_02075BD4, func_02075C08, func_02075C20
+ * function: NNS_SndFaderGet, NNS_SndFaderUpdate, NNS_SndFaderIsFinished
  * address:  0x02075BD4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -24,7 +24,7 @@ typedef struct SndFader {
     s32 duration;
 } SndFader;
 
-s32 func_02075BD4(SndFader *fader)
+s32 NNS_SndFaderGet(SndFader *fader)
 {
     if (fader->step >= fader->duration)
         return fader->target;
@@ -32,7 +32,7 @@ s32 func_02075BD4(SndFader *fader)
 }
 
 
-void func_02075C08(SndFader *fader)
+void NNS_SndFaderUpdate(SndFader *fader)
 {
     if (fader->step < fader->duration) {
         fader->step++;
@@ -40,7 +40,7 @@ void func_02075C08(SndFader *fader)
 }
 
 
-int func_02075C20(SndFader *fader)
+int NNS_SndFaderIsFinished(SndFader *fader)
 {
     if (fader->step >= fader->duration) {
         return 1;

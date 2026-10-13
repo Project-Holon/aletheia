@@ -1,5 +1,5 @@
 /*
- * function: func_02022640
+ * function: WIPE_SUB_RequestBrightnessReset
  * address:  0x02022640
  * packet:   pkt_02022174
  * region:   arm9
@@ -19,13 +19,13 @@
  *
  * symbols:
  *   func_020056A0  0x020056A0  thumb
- *   func_0202262C  0x0202262C  thumb
+ *   WIPE_SUB_ResetBrightnessTask  0x0202262C  thumb
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022640.c \
- *       --func func_02022640 --addr 0x02022640 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_RequestBrightnessReset.c \
+ *       --func WIPE_SUB_RequestBrightnessReset --addr 0x02022640 --cc 1.1p1 --thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -43,10 +43,10 @@ struct Screen {
 
 extern void func_020056A0(Task fn, void *arg, u32 prio);
 struct Q;
-extern void func_0202262C(void *obj, struct Q *q);
+extern void WIPE_SUB_ResetBrightnessTask(void *obj, struct Q *q);
 
-void func_02022640(struct Screen *s)
+void WIPE_SUB_RequestBrightnessReset(struct Screen *s)
 {
     if (s->f28 == 0 && (s->f24 == 0x7FFF || s->f24 == 0) && s->f2C == 0)
-        func_020056A0((Task)func_0202262C, s, 1 << 10);
+        func_020056A0((Task)WIPE_SUB_ResetBrightnessTask, s, 1 << 10);
 }

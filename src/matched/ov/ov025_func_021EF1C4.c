@@ -15,8 +15,8 @@
  *   func_021A2654  0x021A2654  thumb  ov021
  *   func_021A26C4  0x021A26C4  thumb  ov021
  *   func_021A21E0  0x021A21E0  thumb  ov021
- *   func_0204B908  0x0204B908  arm
- *   func_0204B918  0x0204B918  arm
+ *   CLACT_SetActorAnimIndex  0x0204B908  arm
+ *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
  */
 
 typedef unsigned short u16;
@@ -35,9 +35,9 @@ extern void func_021A2640(unsigned char *, struct PtS *);
 extern void func_021A2654(int obj, unsigned short *src);
 extern int func_021A26C4(u32 a, u32 b);
 extern void func_021A21E0(u32 *p);
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 struct Obj;
-extern u16 func_0204B918(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
 
 void func_021EF1C4(int a)
 {
@@ -55,7 +55,7 @@ void func_021EF1C4(int a)
             p[0] = (p[6] % 4) * 2 + 8;
             p[4] = 2;
             p[2] = 2;
-            func_0204B908(h, (u16)(func_0204B918((struct Obj *)h) + 3));
+            CLACT_SetActorAnimIndex(h, (u16)(CLACT_GetActorAnimSeqCount((struct Obj *)h) + 3));
             return;
         }
         pt.x = pt.x + (s16)p[4];

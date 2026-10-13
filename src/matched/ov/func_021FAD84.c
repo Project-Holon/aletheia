@@ -10,6 +10,8 @@
  * status:   EXACT
  *
  * symbols:
+ *   BGWINFRM_HideFrame  0x0202CC70  thumb  arm9
+ *   BGWINFRM_IsMoving  0x0202CE40  thumb  arm9
  *
 
  *
@@ -23,13 +25,13 @@ typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
 struct WinMgr;
-extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
-extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
+extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 
 int func_021FAD84(u8 *p)
 {
-    if (func_0202CE40(*(struct WinMgr * *)&((struct Obj07245 *)p)->f18, 0) == 0) {
-        func_0202CC70(*(struct WinMgr * *)&((struct Obj07245 *)p)->f18, 0);
+    if (BGWINFRM_IsMoving(*(struct WinMgr * *)&((struct Obj07245 *)p)->f18, 0) == 0) {
+        BGWINFRM_HideFrame(*(struct WinMgr * *)&((struct Obj07245 *)p)->f18, 0);
         ((struct Obj07245 *)p)->f48 = ((struct Obj07245 *)p)->f4C;
     }
     return -1;

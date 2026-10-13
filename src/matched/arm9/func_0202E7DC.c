@@ -1,5 +1,5 @@
 /*
- * function: func_0202E7DC
+ * function: COMM_PLAYER_SUPPORT_GetCurrent
  * address:  0x0202E7DC
  * packet:   pkt_0202E7DC
  * region:   arm9
@@ -13,10 +13,10 @@
  * witness.  Addresses are Black-image addresses.
  *
  * symbols:
- *   func_0202E7DC  0x0202E7DC  thumb
+ *   COMM_PLAYER_SUPPORT_GetCurrent  0x0202E7DC  thumb
  */
 
-char *func_0202E7DC(char *p)
+char *COMM_PLAYER_SUPPORT_GetCurrent(char *p)
 {
     return p + 0xc;
 }

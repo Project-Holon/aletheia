@@ -1,5 +1,5 @@
 /*
- * function: func_0202C140
+ * function: ISS_SWITCH_SYS_Free
  * address:  0x0202C140
  * packet:   pkt_0202C124
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_0202C140(void *ptr)
+void ISS_SWITCH_SYS_Free(void *ptr)
 {
     func_020307B0(ptr);
 }

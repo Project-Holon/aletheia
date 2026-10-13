@@ -1,5 +1,5 @@
 /*
- * function: func_021DB9FC
+ * function: P_STA_SKILL_HideSlot
  * address:  0x021DB9FC
  * packet:   pkt_021DB9FC
  * region:   ov131
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 
-void func_021DB9FC(void *a, void *b, u8 *p)
+void P_STA_SKILL_HideSlot(void *a, void *b, u8 *p)
 {
     func_0204B3DC(((struct Obj14078 *)p)->f8, 0);
     func_0204B3DC(((struct Obj14078 *)p)->fC, 0);

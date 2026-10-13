@@ -15,7 +15,7 @@
  * Blocker (MATCH): the arm9 Thumb callee 0x02012FA4 has no func_ label
  * and no matched file (seed).
  *
- * 2026-10-05: byte-identical; the wildcard is arm9 func_02012FA4 (new matched/arm9 file, EXACT, this lane); needs its shard.
+ * 2026-10-05: byte-identical; the wildcard is arm9 GAME_DATA_SetSymbolMapFlag (new matched/arm9 file, EXACT, this lane); needs its shard.
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
@@ -29,7 +29,7 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_021BE8D4  0x021BE8D4  thumb
  *   func_021665D0  0x021665D0  thumb  ov010
- *   func_02012FA4  0x02012FA4  thumb
+ *   GAME_DATA_SetSymbolMapFlag  0x02012FA4  thumb
  *   func_021854B0  0x021854B0  thumb
  *   func_0219C630  0x0219C630  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb
@@ -68,7 +68,7 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_020061E4(u32 se);
 extern void *func_021BE8D4(void *sys, void *proc, u32 a, u32 b);
 extern int func_021665D0(int a0, int a1);
-extern void func_02012FA4(char *p, unsigned char v);
+extern void GAME_DATA_SetSymbolMapFlag(char *p, unsigned char v);
 extern void *func_021854B0(void *sys, void *proc, u32 id, void *pos, u32 flag);
 extern int func_0219C630(void *map);
 extern void *func_021BE92C(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
@@ -110,7 +110,7 @@ int func_0216B3EC(void *evt, u32 *state, Work *w)
         break;
     case 3:
         w->f04 = func_021665D0((int)sys, w->f16);
-        func_02012FA4(ctx, w->f16);
+        GAME_DATA_SetSymbolMapFlag(ctx, w->f16);
         func_02012374(evt, func_021854B0(sys, proc, w->f04, w->f08, w->f14));
         (*state)++;
         break;

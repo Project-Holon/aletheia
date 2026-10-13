@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204BCF4",
+   "name": "CLACT_ApplyOamManagers",
    "address": "0x0204BCF4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BD18",
+   "name": "CLACT_ResetOamManagers",
    "address": "0x0204BD18",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BD3C",
+   "name": "CLACT_InitOamManager",
    "address": "0x0204BD3C",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BD64",
+   "name": "CLACT_ApplyOamManager",
    "address": "0x0204BD64",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BD7C",
+   "name": "CLACT_ResetOamManager",
    "address": "0x0204BD7C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BD94",
+   "name": "CLACT_InitRenderer",
    "address": "0x0204BD94",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204BE28",
+   "name": "CLACT_ExitRenderer",
    "address": "0x0204BE28",
    "kind": "game",
    "region": "arm9",

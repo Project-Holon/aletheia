@@ -13,8 +13,8 @@
  * symbols:
  *   func_0207D4B0  0x0207D4B0  arm
  *   func_0207D518  0x0207D518  arm
- *   func_0204349C  0x0204349C  arm
- *   func_02043558  0x02043558  arm
+ *   BG_SYS_ClearMainBgPlanes  0x0204349C  arm
+ *   BG_SYS_ClearSubBgPlanes  0x02043558  arm
  *
  * TU: bg_sys.c (the initialiser at 0x0203FCA0 is the next function up).
  *
@@ -41,8 +41,8 @@ struct DispConfig {
 
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0207D518(u32 a);
-extern void func_0204349C(void);
-extern void func_02043558(void);
+extern void BG_SYS_ClearMainBgPlanes(void);
+extern void BG_SYS_ClearSubBgPlanes(void);
 
 void func_0203FC28(struct DispConfig *cfg)
 {
@@ -50,6 +50,6 @@ void func_0203FC28(struct DispConfig *cfg)
     func_0207D518(cfg->unk_08);
     REG_DISPCNT &= ~0x38000000;
     REG_DISPCNT &= ~0x07000000;
-    func_0204349C();
-    func_02043558();
+    BG_SYS_ClearMainBgPlanes();
+    BG_SYS_ClearSubBgPlanes();
 }

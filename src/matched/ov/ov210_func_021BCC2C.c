@@ -12,7 +12,7 @@
  * symbols:
  *   func_02041090 0x02041090 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_02012BF8 0x02012BF8 thumb
+ *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   func_021BEDB8 0x021BEDB8 thumb ov210
  *   func_021BEE80 0x021BEE80 thumb ov210
  */
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 extern void func_02041090(u32, u32, u32, u32, u8, u8);
 extern void func_02041B6C(u32);
-extern int func_02012BF8(int, int);
+extern int GAME_DATA_CheckSaveFlag(int, int);
 extern void func_021BEDB8(int p, int i, int v);
 extern void func_021BEE80(int p, int i, unsigned v);
 void func_021BCC2C(char *p)
@@ -30,7 +30,7 @@ void func_021BCC2C(char *p)
     func_02041B6C(1);
     func_021BEDB8((int)p, 2, 15);
     func_021BEDB8((int)p, 3, 14);
-    if (func_02012BF8(**(int * *)&((struct Obj14672 *)p)->f0, 16) == 1)
+    if (GAME_DATA_CheckSaveFlag(**(int * *)&((struct Obj14672 *)p)->f0, 16) == 1)
         func_021BEDB8((int)p, 4, 22);
     else
         func_021BEDB8((int)p, 4, 21);

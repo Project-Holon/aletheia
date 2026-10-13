@@ -13,10 +13,10 @@
  *   func_020362DC  0x020362DC  arm
  *   func_0203633C  0x0203633C  arm
  *   func_020061E4  0x020061E4  thumb
- *   func_02020970  0x02020970  thumb
+ *   BMP_MENULIST_MoveCursor  0x02020970  thumb
  *
  * The per-frame key handler of the menu-cursor object built by
- * func_0201FF30: same shape as func_0201FA04 one block down, over the wider
+ * func_0201FF30: same shape as BMP_MENU_ProcessInput one block down, over the wider
  * struct that unit_020206C0.c already spells out.  Sound ids 0x54C / 0x551 /
  * 0x548 sit in the trailing pool.
  *
@@ -32,7 +32,7 @@
  * the L and R shoulder buttons (0x200, 0x100), not up/down (0x40, 0x80).
  * With the right constants the 0x40 test becomes a plain `tst` by itself,
  * and the switch closes once case 0 and default share one arm.
- * func_02020970's prototype is the EXACT one (u8 scalar parameters).
+ * BMP_MENULIST_MoveCursor's prototype is the EXACT one (u8 scalar parameters).
  */
 
 typedef unsigned char  u8;
@@ -65,7 +65,7 @@ struct Obj {
 extern u32  func_020362DC(void);
 extern unsigned int func_0203633C(void);
 extern void func_020061E4(u32 id);
-extern u32  func_02020970(struct Obj *o, u8 a, u8 b, u8 c);
+extern u32  BMP_MENULIST_MoveCursor(struct Obj *o, u8 a, u8 b, u8 c);
 
 s32 func_020200CC(struct Obj *o)
 {
@@ -87,14 +87,14 @@ s32 func_020200CC(struct Obj *o)
         }
     }
     if (held & 0x40) {
-        if (func_02020970(o, 1, 1, 0) == 0) {
+        if (BMP_MENULIST_MoveCursor(o, 1, 1, 0) == 0) {
             func_020061E4(0x548);
             o->f47 = 1;
         }
         return -1;
     }
     if (held & 0x80) {
-        if (func_02020970(o, 1, 1, 1) == 0) {
+        if (BMP_MENULIST_MoveCursor(o, 1, 1, 1) == 0) {
             func_020061E4(0x548);
             o->f47 = 2;
         }
@@ -118,14 +118,14 @@ s32 func_020200CC(struct Obj *o)
             break;
         }
         if (h != 0) {
-            if (func_02020970(o, 1, (u8)o->f12, 0) == 0) {
+            if (BMP_MENULIST_MoveCursor(o, 1, (u8)o->f12, 0) == 0) {
                 func_020061E4(0x548);
                 o->f47 = 3;
             }
             return -1;
         }
         if (v != 0) {
-            if (func_02020970(o, 1, (u8)o->f12, 1) == 0) {
+            if (BMP_MENULIST_MoveCursor(o, 1, (u8)o->f12, 1) == 0) {
                 func_020061E4(0x548);
                 o->f47 = 4;
             }

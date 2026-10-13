@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02015F50",
+   "name": "MCSS_SetPaletteFade",
    "address": "0x02015F50",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201600C",
+   "name": "MCSS_CheckPaletteFade",
    "address": "0x0201600C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02016020",
+   "name": "MCSS_SetTextureTransAdrs",
    "address": "0x02016020",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_02071EAC
+ * function: NNSi_G3dTexMtxScale
  * address:  0x02071EAC
  * packet:   pkt_02071DD4
  * region:   arm9
@@ -32,7 +32,7 @@ struct Struct02071EAC_Arg {
     s32 unk34;
 };
 
-void func_02071EAC(struct Struct02071EAC_Arg *dst, struct Struct02071EAC_Arg *src)
+void NNSi_G3dTexMtxScale(struct Struct02071EAC_Arg *dst, struct Struct02071EAC_Arg *src)
 {
     dst->unk00 = src->unk18;
     dst->unk14 = src->unk1c;

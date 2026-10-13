@@ -13,7 +13,7 @@
  *   func_0203159C 0x0203159C arm
  *   func_02082AC0 0x02082AC0 arm
  *   func_021C409C 0x021C409C thumb ov136
- *   func_02031324 0x02031324 arm
+ *   PROCSYS_Create 0x02031324 arm
  */
 #include "../include/Obj08196.h"
 #include "../include/Obj08197.h"
@@ -26,7 +26,7 @@ struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082AC0(unsigned, void *, unsigned);
 extern void *func_021C409C(void *, unsigned);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 int func_021C3E3C(void *a, void *b, u8 *p)
 {
     u8 *q;
@@ -38,6 +38,6 @@ int func_021C3E3C(void *a, void *b, u8 *p)
     if (((struct Obj08196 *)p)->f0 == 1) (*(u8 **)(q + 0x10))[0xB] = p[0xF];
     if ((*(u8 **)(q + 0x10))[0xB] >= 0xC) (*(u8 **)(q + 0x10))[0xB] = 0;
     ((struct Obj23488 *)(*(u8 * *)&((struct Obj08197 *)q)->f10))->f0 = ((struct Obj08196 *)p)->f0;
-    ((struct Obj08197 *)q)->f1C = func_02031324(0x63);
+    ((struct Obj08197 *)q)->f1C = PROCSYS_Create(0x63);
     return 1;
 }

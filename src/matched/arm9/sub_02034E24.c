@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * BLOCKER (re-derived after 0x020357E0 was filed in pkt_020357E0): the
- * two capped sites this file used to name -- func_02035EE8 and
- * func_020357E0 -- both resolve now (`matched`), and 9 of the 10
+ * two capped sites this file used to name -- KEY_Create and
+ * TOUCHPANEL_Create -- both resolve now (`matched`), and 9 of the 10
  * relocation sites are closed.  The single remaining one is
  *
  *   +00CC ABS32 s_UiFile  0x020A7984 (data, declared in symbols)
@@ -28,8 +28,8 @@
  * symbols:
  *   func_02030734    0x02030734  arm
  *   MI_CpuFill8      0x02082BCC  arm
- *   func_02035EE8    0x02035EE8  arm
- *   func_020357E0    0x020357E0  arm
+ *   KEY_Create    0x02035EE8  arm
+ *   TOUCHPANEL_Create    0x020357E0  arm
  *   PM_GetBackLight  0x0208BFD0  arm
  *   func_02034F84    0x02034F84  arm
  *   func_0203516C    0x0203516C  arm
@@ -43,7 +43,7 @@
  *
  * Note this is a different translation unit from the rest of pkt_02034978:
  * the debug file string here is "ui.c" at 0x020A7984, not the
- * "gf_overlay.c" at 0x020A7970 that sub_0203499C and sub_02034BB0 use.  The
+ * "gf_overlay.c" at 0x020A7970 that GF_OVERLAY_Init and GF_OVERLAY_CheckRangeFree use.  The
  * boundary between the two units falls between 0x02034DC4 and 0x02034E24.
  *
  * The two mode tests are sequential `if`s, not an if/else chain: mode 0 only
@@ -96,8 +96,8 @@ extern const char s_UiFile[];
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
-extern void *func_02035EE8(u32 heap);
-extern void *func_020357E0(u32 heap);
+extern void *KEY_Create(u32 heap);
+extern void *TOUCHPANEL_Create(u32 heap);
 extern void  PM_GetBackLight(u32 *top, u32 *bottom);
 extern void  func_02034F84(u32 x);
 extern void  func_0203516C(u32 x);
@@ -111,8 +111,8 @@ void sub_02034E24(u32 heap, u8 mode)
     p = func_02030734(heap, sizeof(struct UiCtx), 0, s_UiFile, 58);
     MI_CpuFill8(p, 0, sizeof(struct UiCtx));
 
-    p->unk00 = func_02035EE8(heap);
-    p->unk04 = func_020357E0(heap);
+    p->unk00 = KEY_Create(heap);
+    p->unk04 = TOUCHPANEL_Create(heap);
 
     p->unk3C = 0;
     p->unk3D = 0x3C;

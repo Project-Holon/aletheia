@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021D4490  0x021D4490  thumb  ov118
- *   func_02016028  0x02016028  thumb
- *   func_02015C48  0x02015C48  thumb
+ *   MCSS_SetAnimeIndex  0x02016028  thumb
+ *   MCSS_SetPosition  0x02015C48  thumb
  *   func_021D4484  0x021D4484  thumb  ov118
  *   func_021D8E84  0x021D8E84  thumb  ov119
  *   func_021D449C  0x021D449C  thumb  ov118
@@ -31,8 +31,8 @@ typedef struct {
 } Vec;
 
 extern void func_021D4490(u8 *p);
-extern void func_02016028(void *a, u32 flag);
-extern void func_02015C48(void *p, u32 *src);
+extern void MCSS_SetAnimeIndex(void *a, u32 flag);
+extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_021D4484(u8 *p, u32 v);
 extern void func_021D8E84(void *p, int next);
 extern void func_021D449C(u8 *p);
@@ -42,10 +42,10 @@ void func_021D4AB4(u8 *p)
 {
     func_021D4490(p);
     ((struct Obj08049 *)p)->f854 = 1;
-    func_02016028((void *)(((struct Obj08049 *)p)->f844), 0);
+    MCSS_SetAnimeIndex((void *)(((struct Obj08049 *)p)->f844), 0);
     if (((struct Obj08049 *)p)->f118C == 6) {
         Vec v = d_021D7C90;
-        func_02015C48((void *)(((struct Obj08049 *)p)->f844), (u32 *)(&v));
+        MCSS_SetPosition((void *)(((struct Obj08049 *)p)->f844), (u32 *)(&v));
     }
     func_021D4484(p, 0);
     func_021D8E84(p, (int)func_021D449C);

@@ -1,5 +1,5 @@
 /*
- * function: func_0201BBE8
+ * function: POKE_TOOL_GetIconPalette
  * address:  0x0201BBE8
  * packet:   pkt_0201BB5C
  * region:   arm9
@@ -25,8 +25,8 @@
  * `bl` and the function keeps a real epilogue.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201BBE8.c \
- *       --func func_0201BBE8 --addr 0x0201BBE8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_TOOL_GetIconPalette.c \
+ *       --func POKE_TOOL_GetIconPalette --addr 0x0201BBE8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -37,7 +37,7 @@ extern u32  func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
 
-int func_0201BBE8(void *a0)
+int POKE_TOOL_GetIconPalette(void *a0)
 {
     int f = func_02017DBC(a0);
     u32 a = func_02017E88(a0, 5, 0);

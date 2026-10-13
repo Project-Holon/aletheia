@@ -18,7 +18,7 @@
  *   func_0201D7EC 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_0201C440 0x0201C440 thumb
- *   func_02031324 0x02031324 arm
+ *   PROCSYS_Create 0x02031324 arm
  *   func_021C0490 0x021C0490 thumb ov110
  */
 #include "../include/Obj01713.h"
@@ -39,7 +39,7 @@ extern void *func_02024988(int a0);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_0201C440(void *p);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 extern void func_021C0490(u8 *);
 int func_021C0134(void *owner,int unused,void **input) {
     u8 *p;
@@ -56,7 +56,7 @@ int func_021C0134(void *owner,int unused,void **input) {
     ((struct Obj01713 *)p)->f58=func_0201D7EC(23,0,0,0,((struct Obj01713 *)p)->f4);
     ((struct Obj01713 *)p)->f60=func_02045B38(0,2,146,((struct Obj01713 *)p)->f4);
     ((struct Obj01713 *)p)->f5C=(void *)func_0201C440((void *)(((struct Obj01713 *)p)->f4));
-    ((struct Obj01713 *)p)->fAC=func_02031324(((struct Obj01713 *)p)->f4);
+    ((struct Obj01713 *)p)->fAC=PROCSYS_Create(((struct Obj01713 *)p)->f4);
     ((struct Obj01713 *)p)->f94=255;
     ((struct Obj01713 *)p)->f95=255;
     func_021C0490(p);

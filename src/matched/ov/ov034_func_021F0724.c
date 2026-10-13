@@ -17,7 +17,7 @@
  *   func_0204B100 0x0204B100 arm
  *   func_020490F4 0x020490F4 arm
  *   func_0201AB28 0x0201AB28 thumb
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_0201BA68 0x0201BA68 thumb
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0201BC3C 0x0201BC3C thumb
@@ -29,7 +29,7 @@
  *   func_0204AC18 0x0204AC18 arm
  *   func_0204B294 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0201BBE8 0x0201BBE8 thumb
+ *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_02043598 0x02043598 arm
  *   d_021F0A60    0x021F0A60 data a2
@@ -59,7 +59,7 @@ extern unsigned int func_0201AA18(void *);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_0201AB28(void *list, u32 i);
-extern void *func_020185F4(void *a);
+extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32 func_0201BA68(void *mon);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int func_0201BC3C(void);
@@ -72,7 +72,7 @@ extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern int func_0201BBE8(void *a0);
+extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_02043598(u32 mask, u32 enable);
 
@@ -93,7 +93,7 @@ void func_021F0724(int *p)
     p[0x14] = (int)func_0204B100(0x10, 0, ((struct Obj00166 *)p)->f12C);
     h = func_020490F4(7, ((struct Obj00166 *)p)->f12C);
     for (i = 0; i < n; i++)
-        p[0x25 + i] = func_0204A6C8(h, func_0201BA68(func_020185F4(func_0201AB28(list, i))), 0, 1,
+        p[0x25 + i] = func_0204A6C8(h, func_0201BA68(POKE_TOOL_GetBoxParam(func_0201AB28(list, i))), 0, 1,
                                     ((struct Obj00166 *)p)->f12C);
     p[0x34] = func_0204ACEC(h, func_0201BC3C(), 1, 0, ((struct Obj00166 *)p)->f12C);
     t = func_0201BC40();
@@ -111,7 +111,7 @@ void func_021F0724(int *p)
                                     ((struct Obj00166 *)p)->f12C);
         func_0204B3DC((struct Obj *)p[0x15 + i], 0);
         r.x += 0x20;
-        func_0204B6F4((struct Obj *)p[0x15 + i], func_0201BBE8(func_020185F4(e)), 1);
+        func_0204B6F4((struct Obj *)p[0x15 + i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(e)), 1);
     }
     r = d_021F0A60[1];
     for (i = 6; i <= 15; i++) {

@@ -1,5 +1,5 @@
 /*
- * function: sub_0204A6C8
+ * function: CLACT_RegisterCharacter
  * address:  0x0204A6C8
  * packet:   pkt_0204A6C8
  * region:   arm9
@@ -11,18 +11,18 @@
  *
  * symbols:
  *   unk_02146A74   0x02146A74  data
- *   func_0204D9D4  0x0204D9D4  arm
- *   func_0204E0D0  0x0204E0D0  arm
+ *   CLACT_LoadArchiveData  0x0204D9D4  arm
+ *   CLACT_SetupCharacter  0x0204E0D0  arm
  *   func_020307B0  0x020307B0  arm
  *
  * Claims the first entry of the display-object table (0x40-byte slots at
  * +0x08 of the owner block, 0x104 into the object at 0x02146A74) whose
  * pending bit (bit 31 of +0x3c) is set, loads the object for it through
- * func_0204D9D4, publishes it with func_0204E0D0, frees the handle, then
+ * CLACT_LoadArchiveData, publishes it with CLACT_SetupCharacter, frees the handle, then
  * clears +0x24 and bit 0 of +0x3c.  Returns the slot index, or -1 when
- * nothing was waiting.  Sibling of func_0204A7A0.
+ * nothing was waiting.  Sibling of CLACT_RegisterEmptyCharacter.
  *
- * Shape notes (docs/notes/sub_0204A6C8.c.txt has the full history):
+ * Shape notes (docs/notes/CLACT_RegisterCharacter.c.txt has the full history):
  *  - `count` is volatile (reread every iteration), `sys` is kept live for
  *    the slot address, and the not-found exit falls out of the loop past a
  *    goto.
@@ -34,7 +34,7 @@
  *    docs/idioms/an-inverted-guard-returns-the-compare-constant-register.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204A6C8.c  *       --func sub_0204A6C8 --addr 0x0204A6C8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_RegisterCharacter.c  *       --func CLACT_RegisterCharacter --addr 0x0204A6C8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -53,11 +53,11 @@ struct Owner {
 };
 struct Sys { u8 pad_00[0x104]; struct Owner owner; };
 extern struct Sys *unk_02146A74;
-extern void *func_0204D9D4(void *owner, u32 which, u32 compressed, u32 heapId);
-extern void func_0204E0D0(struct Owner *owner, s32 idx, u32 handle, u32 a3, u32 a4);
+extern void *CLACT_LoadArchiveData(void *owner, u32 which, u32 compressed, u32 heapId);
+extern void CLACT_SetupCharacter(struct Owner *owner, s32 idx, u32 handle, u32 a3, u32 a4);
 extern u32 func_020307B0(void *p);
 
-s32 sub_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags)
+s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags)
 {
     struct Sys   *sys;
     struct Owner *owner;
@@ -78,9 +78,9 @@ s32 sub_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags)
 found:
     if (i != (u32)-1) {
         slot   = &sys->owner.slots[i];
-        handle = (u32)func_0204D9D4(a, b, c, (u16)((flags & 0x7fff) | 0x8000));
+        handle = (u32)CLACT_LoadArchiveData(a, b, c, (u16)((flags & 0x7fff) | 0x8000));
 
-        func_0204E0D0(&unk_02146A74->owner, i, handle, a3, 0);
+        CLACT_SetupCharacter(&unk_02146A74->owner, i, handle, a3, 0);
         func_020307B0((void *)handle);
 
         slot->unk_24 = 0;

@@ -12,7 +12,7 @@
  *   func_0203CD98 0x0203CD98 arm
  *   func_0203A574 0x0203A574 arm
  *   func_021799C0 0x021799C0 thumb ov015
- *   func_0203D0DC 0x0203D0DC arm
+ *   GFL_NET_StartChangeoverChild 0x0203D0DC arm
  *   func_0203D1B4 0x0203D1B4 arm
  *   d_0217E564 0x0217E564 data a4
  *   d_0217E630 0x0217E630 data a4
@@ -25,7 +25,7 @@ extern int func_0203CD98(void);
 typedef unsigned int   u32;
 extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern void func_021799C0(int);
-extern int func_0203D0DC(int a0);
+extern int GFL_NET_StartChangeoverChild(int a0);
 extern int func_0203D1B4(void);
 extern const unsigned d_0217E564[];
 extern int d_0217E630;
@@ -49,7 +49,7 @@ int func_0217E0B0(unsigned *p)
         *p = 3;
         break;
     case 3:
-        func_0203D0DC(0);
+        GFL_NET_StartChangeoverChild(0);
         *p = 4;
         break;
     case 4:

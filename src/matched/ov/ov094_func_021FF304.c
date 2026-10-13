@@ -13,18 +13,18 @@
  * src/matched/arm9, which closes the former MATCH.
  *
  * Blocker: two unlabelled arm9 Thumb leaves (relocation wildcards, no witness):
- *   func_02015E28 (0x02015E28) and func_02015E70 (0x02015E70).  Both are the integrator's;
+ *   MCSS_SetAnmStopFlagAlways (0x02015E28) and MCSS_ResetAnmStopFlagAlways (0x02015E70).  Both are the integrator's;
  *   verified C (one --thumb, no --region, EXACT each):
  *     struct R { unsigned int : 9; unsigned int f : 2; };
- *     void func_02015E28(void *p) { ((struct R *)((char *)p + 0x140))->f |= 2; }
- *     void func_02015E70(void *p) { ((struct R *)((char *)p + 0x140))->f &= ~2u; }
+ *     void MCSS_SetAnmStopFlagAlways(void *p) { ((struct R *)((char *)p + 0x140))->f |= 2; }
+ *     void MCSS_ResetAnmStopFlagAlways(void *p) { ((struct R *)((char *)p + 0x140))->f &= ~2u; }
  *   Re-run this file once layout/matched/arm9 shards for both exist.
  *
  * symbols:
- *   func_02015E04  0x02015E04  thumb
- *   func_02015E28  0x02015E28  thumb
- *   func_02015E70  0x02015E70  thumb
- *   func_02015E4C  0x02015E4C  thumb
+ *   MCSS_SetAnmStopFlag  0x02015E04  thumb
+ *   MCSS_SetAnmStopFlagAlways  0x02015E28  thumb
+ *   MCSS_ResetAnmStopFlagAlways  0x02015E70  thumb
+ *   MCSS_ResetAnmStopFlag  0x02015E4C  thumb
  *   func_022019F4  0x022019F4  thumb  ov094
  */
 typedef struct {
@@ -38,10 +38,10 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(char *p, int key);
-extern void func_02015E04(void *p);
-extern void func_02015E28(void *p);
-extern void func_02015E70(void *p);
-extern void func_02015E4C(void *p);
+extern void MCSS_SetAnmStopFlag(void *p);
+extern void MCSS_SetAnmStopFlagAlways(void *p);
+extern void MCSS_ResetAnmStopFlagAlways(void *p);
+extern void MCSS_ResetAnmStopFlag(void *p);
 
 void func_021FF304(Work *w, int key, int mode)
 {
@@ -52,11 +52,11 @@ void func_021FF304(Work *w, int key, int mode)
     if (w->e[idx].h == 0)
         return;
     if (mode == 1)
-        func_02015E04(w->e[idx].h);
+        MCSS_SetAnmStopFlag(w->e[idx].h);
     else if (mode == 2)
-        func_02015E28(w->e[idx].h);
+        MCSS_SetAnmStopFlagAlways(w->e[idx].h);
     else if (mode == 3)
-        func_02015E70(w->e[idx].h);
+        MCSS_ResetAnmStopFlagAlways(w->e[idx].h);
     else
-        func_02015E4C(w->e[idx].h);
+        MCSS_ResetAnmStopFlag(w->e[idx].h);
 }

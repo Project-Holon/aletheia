@@ -1,5 +1,5 @@
 /*
- * function: func_02175FB8
+ * function: INTRUDE_COMM_IsJoinRequestValid
  * address:  0x02175FB8
  * packet:   pkt_ov011_02175FB8
  * region:   ov011
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021756B0  0x021756B0  thumb  ov011
+ *   INTRUDE_COMM_IsValidObjCode  0x021756B0  thumb  ov011
  *   func_021756D0  0x021756D0  thumb  ov011
  */
 
@@ -34,10 +34,10 @@ typedef struct {
     u16 h16;
 } Rec;
 
-extern int func_021756B0(int value);
+extern int INTRUDE_COMM_IsValidObjCode(int value);
 extern int func_021756D0(u32 a);
 
-int func_02175FB8(void *unused, Rec *p)
+int INTRUDE_COMM_IsJoinRequestValid(void *unused, Rec *p)
 {
     int i;
 
@@ -46,7 +46,7 @@ int func_02175FB8(void *unused, Rec *p)
     }
     for (i = 0; i < 3; i++) {
         if (p->b10[i] >= 5) return 0;
-        if (func_021756B0(p->h0a[i]) == 0) return 0;
+        if (INTRUDE_COMM_IsValidObjCode(p->h0a[i]) == 0) return 0;
     }
     for (i = 0; i < 2; i++) {
         if (p->t == 3) {

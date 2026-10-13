@@ -28,6 +28,8 @@
  *   g_021DB8D4  0x021DB8D4  data
  *   func_021D7724  0x021D7724  arm  ov016
  *   func_021D6438  0x021D6438  arm  ov016
+ *   NNS_SndHandleSetSeqPriority  0x02072F34  arm  arm9
+ *   NNS_SndHandleSetTrackPitch  0x02073018  arm  arm9
  */
 struct Obj;
 typedef struct SND {
@@ -54,8 +56,8 @@ extern void func_021D0034(void);
 extern void func_021D7724(int kind, void *task);
 extern void func_021D6438(void **mem);
 extern u32 func_02075618(u32 a, u32 b, u32 c);
-extern void func_02072F34(char *, unsigned int);
-extern void func_02073018(struct Obj *o, u32 v, u32 w);
+extern void NNS_SndHandleSetSeqPriority(char *, unsigned int);
+extern void NNS_SndHandleSetTrackPitch(struct Obj *o, u32 v, u32 w);
 extern void func_02072E7C(void **r0, int fadeFrame);
 void func_021CFEBC(void);
 void func_021CFF80(void);
@@ -113,7 +115,7 @@ void func_021CFFAC(unsigned int v)
 
 
 /*
- * Tail-call func_02072F34 with the global object +0xa0 and the argument.
+ * Tail-call NNS_SndHandleSetSeqPriority with the global object +0xa0 and the argument.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -122,14 +124,14 @@ void func_021CFFAC(unsigned int v)
  */
 void func_021CFFD0(unsigned int v)
 {
-    func_02072F34(*(char **)0x021DE648 + 0xa0, v);
+    NNS_SndHandleSetSeqPriority(*(char **)0x021DE648 + 0xa0, v);
 }
 
 
 
 
 /*
- * Tail-call func_02073018 with the global object +0xa0 and two arguments.
+ * Tail-call NNS_SndHandleSetTrackPitch with the global object +0xa0 and two arguments.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -138,7 +140,7 @@ void func_021CFFD0(unsigned int v)
  */
 void func_021CFFF0(unsigned int a, unsigned int b)
 {
-    func_02073018((struct Obj *)(*(char **)0x021DE648 + 0xa0), a, b);
+    NNS_SndHandleSetTrackPitch((struct Obj *)(*(char **)0x021DE648 + 0xa0), a, b);
 }
 
 

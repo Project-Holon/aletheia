@@ -1,5 +1,5 @@
 /*
- * function: func_02172EEC
+ * function: UNION_COMM_UpdateConnectSync
  * address:  0x02172EEC
  * packet:   pkt_ov012_02172EEC
  * region:   ov012
@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   func_0200FB24  0x0200FB24  thumb
- *   func_021739CC  0x021739CC  thumb  ov012
+ *   UNION_COMMAND_SendConnectSync  0x021739CC  thumb  ov012
  *   func_02080D24  0x02080D24  arm
  *   func_0203D1B4  0x0203D1B4  arm
  *   func_0203D7BC  0x0203D7BC  arm
@@ -34,14 +34,14 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
-extern int func_021739CC(void);
+extern int UNION_COMMAND_SendConnectSync(void);
 extern int func_02080D24(u8 a);
 extern int func_0203D1B4(void);
 extern void func_0203D7BC(u8 a0);
 extern u32 func_0203D378(void);
 extern void func_02172D38(u8 *p);
 
-void func_02172EEC(Work *w)
+void UNION_COMM_UpdateConnectSync(Work *w)
 {
     Sub *s = &w->sub;
 
@@ -53,7 +53,7 @@ void func_02172EEC(Work *w)
     }
     switch (s->step) {
     case 0:
-        if (func_021739CC() == 1) {
+        if (UNION_COMMAND_SendConnectSync() == 1) {
             s->step++;
         }
         break;

@@ -14,7 +14,7 @@
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D5444  0x021D5444  thumb  ov093
- *   func_0201C1E8  0x0201C1E8  thumb
+ *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
  *   func_021D7704  0x021D7704  thumb  ov093
  *   d_021F18D4     0x021F18D4  data   a4
  */
@@ -27,7 +27,7 @@ extern int func_021D775C(int k);
 extern void *func_021C7CF4(int *p, int i);
 struct QF;
 extern u16 func_021D5444(struct QF *p);
-extern int func_0201C1E8(int a);
+extern int WAZA_TOOL_GetDamageType(int a);
 extern void func_021D7704(int key, int m);
 extern int d_021F18D4;
 
@@ -35,7 +35,7 @@ void func_021DE8FC(int u, int a, int b)
 {
     if (b == func_021D775C(3)) {
         if ((u32)func_021D5444(func_021C7CF4((int *)a, b)) - 0x68 <= 1) {
-            if (func_0201C1E8((u16)func_021D775C(0x12)) == 1)
+            if (WAZA_TOOL_GetDamageType((u16)func_021D775C(0x12)) == 1)
                 func_021D7704(0x35, 2 << 12);
         }
     }

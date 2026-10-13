@@ -29,60 +29,56 @@
  *   func_021BE700  0x021BE700  thumb  ov021
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
+#include "../unit_021F36C0_types.h"
 
-typedef struct {
-    int a;
-    int b;
-    int c;
-} V3;
+struct GameSystem;
+struct GameData;
+struct EventData;
+struct ConnectData;
 
-typedef unsigned int   u32;
-struct BigObj;
-struct Ctx;
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012844(const struct BigObj *p);
-extern u16 func_02162560(u8 *p);
-extern u16 func_02188C84(u8 *p);
-extern int func_02188D2C(int *p);
-extern void func_021BE4B4(char *p, int i, int j, int v);
-extern void *func_021625CC(char *p, unsigned i);
-extern u8 func_021626E8(u8 *p);
-extern void func_02162A64(const void *p, V3 *out);
-extern u16 func_02188C9C(u8 *p);
-extern void *func_021BE480(int a, int b, u16 c);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern void func_021BE700(int a, int b, u16 c, u16 d, int e);
+extern struct GameSystem *func_02188C80(void *fieldMap);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct EventData *func_02012844(const struct GameData *gameData);
+extern u16 func_02162560(struct EventData *eventData);
+extern u16 func_02188C84(void *fieldMap);
+extern void *func_02188D2C(void *fieldMap);
+extern void func_021BE4B4(void *expObj, int unit, int model, int hidden);
+extern struct ConnectData *func_021625CC(struct EventData *eventData, unsigned index);
+extern u8 func_021626E8(struct ConnectData *connect);
+extern void func_02162A64(struct ConnectData *connect, VecFx32 *out);
+extern u16 func_02188C9C(void *fieldMap);
+extern VecFx32 *func_021BE480(void *expObj, int unit, u16 model);
+extern void *func_021BE674(void *expObj, int unit, unsigned int model, int animeIdx);
+extern void func_021BE700(void *expObj, int unit, u16 model, u16 animeIdx, int enabled);
 
-void func_021F388C(int *o, int a)
+/* Shows a marker model (1..8) at the center of each map connection of exit type 6 and hides the others. */
+void func_021F388C(Gimmick61Work *unusedWork, void *fieldMap)
 {
-    int h;
-    int n;
-    int s;
+    struct EventData *eventData;
+    int connectCount;
+    void *expObj;
     int i;
-    void *e;
-    V3 v;
+    struct ConnectData *connect;
+    VecFx32 pos;
 
-    h = func_02012844(func_020120F4(func_02188C80((void *)a)));
-    n = func_02162560((u8 *)h);
-    func_02188C84((u8 *)a);
-    s = func_02188D2C((int *)a);
-    for (i = 0; i < 8; i++) {
-        func_021BE4B4((char *)s, 0, (u16)(i + 1), 1);
+    eventData = func_02012844(func_020120F4(func_02188C80(fieldMap)));
+    connectCount = func_02162560(eventData);
+    func_02188C84(fieldMap);
+    expObj = func_02188D2C(fieldMap);
+    for (i = 0; i < GIMMICK61_MARKER_MAX; i++) {
+        func_021BE4B4(expObj, 0, (u16)(i + 1), 1);
     }
-    for (i = 0; i < n; i++) {
-        e = func_021625CC((char *)h, (u16)i);
-        if (e != 0 && func_021626E8(e) == 6) {
-            func_02162A64(e, &v);
-            if (func_02188C9C((u8 *)a) == 0x12E) {
-                v.b -= 0x2000;
+    for (i = 0; i < connectCount; i++) {
+        connect = func_021625CC(eventData, (u16)i);
+        if (connect != 0 && func_021626E8(connect) == GIMMICK61_MARKER_EXIT_TYPE) {
+            func_02162A64(connect, &pos);
+            if (func_02188C9C(fieldMap) == GIMMICK61_LOWERED_ZONE_ID) {
+                pos.y -= 0x2000;
             }
-            func_021BE4B4((char *)s, 0, (u16)(i + 1), 0);
-            *(V3 *)func_021BE480(s, 0, i + 1) = v;
-            func_021BE674((char *)s, 0, (u16)(i + 1), (u16)0);
-            func_021BE700(s, 0, i + 1, 0, 1);
+            func_021BE4B4(expObj, 0, (u16)(i + 1), 0);
+            *func_021BE480(expObj, 0, i + 1) = pos;
+            func_021BE674(expObj, 0, (u16)(i + 1), (u16)0);
+            func_021BE700(expObj, 0, i + 1, 0, 1);
         }
     }
 }

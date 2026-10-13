@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02028F30",
+   "name": "FIELD_SOUND_SYSTEM_SetMode2",
    "address": "0x02028F30",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02028F48",
+   "name": "FIELD_SOUND_SYSTEM_SetMode3",
    "address": "0x02028F48",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02028F60",
+   "name": "FIELD_SOUND_SYSTEM_SetMode4",
    "address": "0x02028F60",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02028F7C",
+   "name": "FIELD_SOUND_SYSTEM_SetMode5",
    "address": "0x02028F7C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02028F9C",
+   "name": "FIELD_SOUND_SYSTEM_SetMode6",
    "address": "0x02028F9C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02028FB8",
+   "name": "FIELD_SOUND_SYSTEM_SetMode7",
    "address": "0x02028FB8",
    "kind": "game",
    "region": "arm9",

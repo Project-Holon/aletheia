@@ -8,23 +8,23 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02023F60 0x02023F60 thumb
- *   func_02031194 0x02031194 arm
+ *   BRIGHTNESS_Set 0x02023F60 thumb
+ *   TCBL_DeleteTask 0x02031194 arm
  *   func_021BEFC4 0x021BEFC4 thumb ov203
  */
 #include "../include/Obj01291.h"
 #include "../include/Obj25324.h"
 typedef unsigned int   u32;
-extern void func_02023F60(u32 a0, u32 a1, u32 mask);
+extern void BRIGHTNESS_Set(u32 a0, u32 a1, u32 mask);
 struct Owner;
 struct TcblNode;
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 extern void func_021BEFC4(struct Owner *owner, int mask, int kind, int start, int end, int duration, int *counter);
 void func_021BF1CC(void *task,char *work)
 {
     if(((struct Obj25324 *)(*(char * *)&((struct Obj01291 *)work)->f0))->fC) {
-        func_02023F60(((struct Obj01291 *)work)->fB,((struct Obj01291 *)work)->f1C,((struct Obj01291 *)work)->f18);
-        func_02031194(task);return;
+        BRIGHTNESS_Set(((struct Obj01291 *)work)->fB,((struct Obj01291 *)work)->f1C,((struct Obj01291 *)work)->f18);
+        TCBL_DeleteTask(task);return;
     }
     switch(((struct Obj01291 *)work)->f8) {
     case 0:
@@ -37,6 +37,6 @@ void func_021BF1CC(void *task,char *work)
         if(((struct Obj01291 *)work)->f14) return;
         break;
     }
-    func_02023F60(((struct Obj01291 *)work)->fB,((struct Obj01291 *)work)->f1C,((struct Obj01291 *)work)->f18);
-    func_02031194(task);
+    BRIGHTNESS_Set(((struct Obj01291 *)work)->fB,((struct Obj01291 *)work)->f1C,((struct Obj01291 *)work)->f18);
+    TCBL_DeleteTask(task);
 }

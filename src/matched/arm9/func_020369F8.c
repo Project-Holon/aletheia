@@ -1,5 +1,5 @@
 /*
- * function: func_020369F8
+ * function: GFL_NET_QUEUE_RemoveNext
  * address:  0x020369F8
  * packet:   pkt_020369F8
  * region:   arm9
@@ -16,7 +16,7 @@
  *   str_020A79C4  0x020A79C4  data
  *   str_020A79EC  0x020A79EC  data
  *   func_02034714 0x02034714  arm
- *   func_020366FC 0x020366FC  arm
+ *   GFL_NET_QUEUE_PopList 0x020366FC  arm
  */
 #include "../include/Obj11349.h"
 
@@ -26,18 +26,18 @@ typedef unsigned int  u32;
 extern const u8 str_020A79C4[];
 extern const u8 str_020A79EC[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u32 func_020366FC(u32 *p);
+extern u32 GFL_NET_QUEUE_PopList(u32 *p);
 
-void func_020369F8(u8 *p)
+void GFL_NET_QUEUE_RemoveNext(u8 *p)
 {
     if (((struct Obj11349 *)p)->f10 != 0) {
         ((struct Obj11349 *)p)->f10 = 0;
         return;
     }
-    if (func_020366FC((u32 *)p) != 0) {
+    if (GFL_NET_QUEUE_PopList((u32 *)p) != 0) {
         return;
     }
-    if (func_020366FC((u32 *)(p + 8)) != 0) {
+    if (GFL_NET_QUEUE_PopList((u32 *)(p + 8)) != 0) {
         return;
     }
     func_02034714((const char *)str_020A79C4, 0x12f, (const char *)str_020A79EC);

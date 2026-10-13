@@ -1,5 +1,5 @@
 /*
- * function: sub_0204B294
+ * function: CLACT_CreateActor
  * address:  0x0204B294
  * packet:   pkt_0204B0C8
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A74     0x02146A74  data
- *   sub_0204CFA4   0x0204CFA4  arm
- *   sub_0204CFDC   0x0204CFDC  arm
+ *   g_ClactSystem     0x02146A74  data
+ *   CLACT_InitActorRequest   0x0204CFA4  arm
+ *   CLACT_CreateActorCore   0x0204CFDC  arm
  *
  * Build a 0x20-byte request on the stack out of three of the singleton's
  * parallel tables, then dispatch it.  The singleton at 0x02146A74 carries
@@ -26,7 +26,7 @@
  * addressing as `add r3, r3, ip, lsl #6`.
  *
  * The `lsl #16` / `lsr #16` pairs on the two index arguments are the
- * narrowing casts sub_0204CFA4's u16 parameters force at the call site,
+ * narrowing casts CLACT_InitActorRequest's u16 parameters force at the call site,
  * not evidence that this function's own parameters are u16: the same
  * values are used untruncated as table indices a few instructions
  * earlier.  Reading them the other way (declaring the parameters u16)
@@ -36,8 +36,8 @@
  * `ldrh`, which is what names those two u16.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B294.c \
- *       --func sub_0204B294 --addr 0x0204B294 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_CreateActor.c \
+ *       --func CLACT_CreateActor --addr 0x0204B294 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Mgr.h"
@@ -65,21 +65,21 @@ struct Request {
     u8 b[0x20];
 };
 
-extern struct Mgr *g_02146A74;
+extern struct Mgr *g_ClactSystem;
 
 struct Req;
 struct Obj;
-extern void sub_0204CFA4(struct Req *out, u16 i, u16 j, u32 c,
+extern void CLACT_InitActorRequest(struct Req *out, u16 i, u16 j, u32 c,
                          u32 a, u32 x, u32 y);
-extern struct Obj *sub_0204CFDC(void *owner, const struct Req *position,
+extern struct Obj *CLACT_CreateActorCore(void *owner, const struct Req *position,
                                void *req, u32 space, u16 heap);
 
-struct Obj *sub_0204B294(void *owner, u32 i, u32 j, u32 k,
+struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k,
                         const void *position, u16 f, u16 g)
 {
     struct Request req;
 
-    sub_0204CFA4((struct Req *)&req, i, j, (u32)&((struct RecC *)g_02146A74->owner_slots)[i], (u32)&g_02146A74->owner_slots2[j],
-                 g_02146A74->tb[k].unk_08, g_02146A74->tb[k].unk_0c);
-    return sub_0204CFDC(owner, position, &req, f, g);
+    CLACT_InitActorRequest((struct Req *)&req, i, j, (u32)&((struct RecC *)g_ClactSystem->owner_slots)[i], (u32)&g_ClactSystem->owner_slots2[j],
+                 g_ClactSystem->tb[k].unk_08, g_ClactSystem->tb[k].unk_0c);
+    return CLACT_CreateActorCore(owner, position, &req, f, g);
 }

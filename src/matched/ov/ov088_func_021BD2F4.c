@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02031E70  0x02031E70  arm
- *   func_02007168  0x02007168  thumb
+ *   BACKUP_SYSTEM_IsFlashBusy  0x02031E70  arm
+ *   SAVE_CONTROL_MainSave  0x02007168  thumb
  *   func_02007214  0x02007214  thumb
  *   func_0200721C  0x0200721C  thumb
  */
@@ -29,9 +29,9 @@ typedef struct {
     u32 vC;
 } St;
 
-extern int func_02031E70(void);
+extern int BACKUP_SYSTEM_IsFlashBusy(void);
 struct Sub02007168;
-extern u32 func_02007168(struct Sub02007168 *p);
+extern u32 SAVE_CONTROL_MainSave(struct Sub02007168 *p);
 extern void func_02007214(void *, u32);
 extern void func_0200721C(void *, u32);
 
@@ -43,12 +43,12 @@ u32 func_021BD2F4(St *p)
         return 2;
     switch (p->s4) {
     case 1:
-        if (p->s6 == 1 && func_02031E70() == 0) {
+        if (p->s6 == 1 && BACKUP_SYSTEM_IsFlashBusy() == 0) {
             p->s5 = p->s4;
             p->s4 = 2;
             return 0;
         }
-        r = func_02007168(p->h);
+        r = SAVE_CONTROL_MainSave(p->h);
         if (r - 2 <= 1) {
             p->s4 = 3;
             func_02007214(p->h, p->v8);

@@ -10,7 +10,7 @@
  * status: EXACT*
  * EXACT* tail: two zero alignment bytes after the function.
  * symbols:
- *   sub_02007F68 0x02007F68 thumb
+ *   MYITEM_SAVEDATA_HasItem 0x02007F68 thumb
  */
 #include "../include/Obj06648.h"
 #include "../include/Obj14544.h"
@@ -18,5 +18,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern u32 sub_02007F68(u8 *,u16,u16,u16);
-int func_0220B9A4(char *p) { char *q; if(((struct Obj06648 *)p)->f540==0) return 0; q=*(char * *)&((struct Obj06648 *)p)->f0; if(sub_02007F68(*(u8 * *)&((struct Obj14544 *)q)->f0,((struct Obj06648 *)p)->f540,1,((struct Obj14544 *)q)->fC)==0) { ((struct Obj06648 *)p)->f540=0; ((struct Obj06648 *)p)->f542=0; return 0; } return 1; }
+extern u32 MYITEM_SAVEDATA_HasItem(u8 *,u16,u16,u16);
+int func_0220B9A4(char *p) { char *q; if(((struct Obj06648 *)p)->f540==0) return 0; q=*(char * *)&((struct Obj06648 *)p)->f0; if(MYITEM_SAVEDATA_HasItem(*(u8 * *)&((struct Obj14544 *)q)->f0,((struct Obj06648 *)p)->f540,1,((struct Obj14544 *)q)->fC)==0) { ((struct Obj06648 *)p)->f540=0; ((struct Obj06648 *)p)->f542=0; return 0; } return 1; }

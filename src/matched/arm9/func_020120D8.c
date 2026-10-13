@@ -8,13 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   GAME_EVENT_IsRunning  0x020123C4  thumb
  */
 #include "../include/Obj15623.h"
 
-extern int func_020123C4(void *p);
+extern int GAME_EVENT_IsRunning(void *p);
 int func_020120D8(char *p)
 {
-    if (func_020123C4(p))
+    if (GAME_EVENT_IsRunning(p))
         return 1;
     return ((struct Obj15623 *)p)->f31;
 }

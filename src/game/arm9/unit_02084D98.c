@@ -1,6 +1,6 @@
 /*
  * file:     unit_02084D98.c
- * function: func_02084D98
+ * function: OS_UnLockCartridge
  * address:  0x02084D98
  * packet:   pkt_02084D98
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 extern s32 func_02084D78(u16 lockID);
 
 /* hand-written in the original: ldr r1, =target; bx r1 stub, a compiled tail call uses ip */
-asm void func_02084D98(int lockID)
+asm void OS_UnLockCartridge(int lockID)
 {
     ldr r1, =func_02084D78
     bx r1

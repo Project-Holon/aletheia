@@ -28,6 +28,7 @@
  *   func_020181F4  0x020181F4  thumb
  *   _ll_mul        0x0209C054  arm
  *   _s32_div_f     0x0209C0A4  arm
+ *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *
  * tr_tool.c: build a trainer's party.  Loads the trainer record (0x14
  * bytes) and its party table (up to 6 entries) from the archive, then per
@@ -114,7 +115,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_02045C04(struct MsgBank *rec);
 extern void  func_02082A60(const void *src, void *dest, u32 size);
-extern void  func_0202428C(void *p);
+extern void  PMSI_PARAM_ClearSentence(void *p);
 void func_0202A440(u32 id, struct Out *out, u16 heap);
 
 /*
@@ -140,8 +141,8 @@ void func_0202A440(u32 id, struct Out *out, u16 heap)
     func_02045C04(bank);
 
     func_02082A60(t->f04, &out->f0c, 8);
-    func_0202428C(&out->f18);
-    func_0202428C(&out->f20);
+    PMSI_PARAM_ClearSentence(&out->f18);
+    PMSI_PARAM_ClearSentence(&out->f20);
 
     func_020307B0(t);
 }

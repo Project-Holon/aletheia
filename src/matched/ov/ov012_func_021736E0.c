@@ -9,31 +9,31 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0203D5AC  0x0203D5AC  arm
+ *   GFL_NET_SetGameKind  0x0203D5AC  arm
  */
 
-extern void func_0203D5AC(int a, int b);
+extern void GFL_NET_SetGameKind(int a, int b);
 
 void func_021736E0(unsigned int x)
 {
     switch (x) {
     case 0x14:
-        func_0203D5AC(0x17, 5);
+        GFL_NET_SetGameKind(0x17, 5);
         break;
     case 0x15:
-        func_0203D5AC(0x18, 5);
+        GFL_NET_SetGameKind(0x18, 5);
         break;
     case 0x16:
-        func_0203D5AC(0x19, 5);
+        GFL_NET_SetGameKind(0x19, 5);
         break;
     case 0x17:
-        func_0203D5AC(0x1a, 5);
+        GFL_NET_SetGameKind(0x1a, 5);
         break;
     case 3:
-        func_0203D5AC(0x16, 5);
+        GFL_NET_SetGameKind(0x16, 5);
         break;
     case 0x19:
-        func_0203D5AC(0x1b, 5);
+        GFL_NET_SetGameKind(0x1b, 5);
         break;
     }
 }

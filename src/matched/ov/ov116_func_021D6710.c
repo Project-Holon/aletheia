@@ -35,6 +35,13 @@
  *   func_021C8FA8 0x021C8FA8 arm ov114
  *   func_0204E720 0x0204E720 arm
  *   func_0204E804 0x0204E804 arm
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb  arm9
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb  arm9
+ *   GFL_USE_PushBgm  0x02005E64  thumb  arm9
+ *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb  arm9
  */
 #include "../include/Obj00671.h"
 #include "../include/Obj22612.h"
@@ -47,12 +54,12 @@ typedef signed int     s32;
 extern int func_021D696C(u8 *,int);
 extern int func_021D7158(u8 *p);
 extern u32 func_0200FB24(void);
-extern int func_02005E50(void);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
-extern void func_02005D90(int,int);
-extern void func_02005DF8(unsigned);
-extern void func_02005E30(u32 a);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
+extern void GFL_USE_FadeInBgmFull(unsigned);
+extern void GFL_USE_FadeOutBgm(u32 a);
 extern void func_021D737C(u8 *);
 extern void func_021D7B70(u8 *,u32);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
@@ -63,7 +70,7 @@ extern void func_021D8190(u8 *p);
 extern void func_021D6B88(u8 *,void *,int);
 extern int func_021D6C50(u8 *,unsigned),func_021D6D18(u8 *,u8 *),func_021D7424(u8 *,int),func_021D7AC8(u8 *);
 extern void func_021D6CBC(u8 *,void *,u8 *),func_021D7AA8(u8 *),func_021D7C58(u8 *),func_021D73E0(u8 *);
-extern u32 func_0200F7B8(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern int func_021D7B00(u8 *);
 extern int func_021D7B64(u8 *);
 extern void func_021D7038(u8 *),func_021C8FA8(void),func_021D7CF4(u8 *);
@@ -74,8 +81,8 @@ int func_021D6710(void *a,int *state,int b,u8 *p)
         if(func_021D7158(p+0x182c)!=0 || func_0200FB24()!=0) *state=20;
     }
     switch(*state) {
-    case 0: func_02005E30(6); ++*state; break;
-    case 1: if(func_02005E50()==0) { func_02005DE4((void *)1); func_02005E64(); func_02005D90(1153,65535); func_02005DF8(6); ++*state; } break;
+    case 0: GFL_USE_FadeOutBgm(6); ++*state; break;
+    case 1: if(GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPlayerParam((void *)1); GFL_USE_PushBgm(); GFL_USE_CancelChangeAndPlayBgm(1153,65535); GFL_USE_FadeInBgmFull(6); ++*state; } break;
     case 2: func_021D737C(p); ++*state; break;
     case 3: if(func_021D73D4(p)==0) ++*state; else { ((struct Obj22612 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=2; *state=17; } break;
     case 4: func_021D7B70(p+4,125); func_0204E720(3,16,0,1); ++*state; break;
@@ -90,9 +97,9 @@ int func_021D6710(void *a,int *state,int b,u8 *p)
     case 13: v=func_021D7424(p,125); if(v==1) { ((struct Obj22613 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=0; ++*state; } else if(v==2) { ((struct Obj22614 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=2; ++*state; } break;
     case 14: func_021D7AA8(p); func_0204E720(3,0,16,1); ++*state; break;
     case 15: if(func_021D7AC8(p)!=0 && func_0204E804()==0) { func_021D7C58(p+4); ++*state; } break;
-    case 16: if(func_0200F7B8(0)==0) func_021D73E0(p); ++*state; break;
-    case 17: func_02005E30(6); ++*state; break;
-    case 18: if(func_02005E50()==0) ++*state; break;
+    case 16: if(GFL_NET_ERR_ShowScreen(0)==0) func_021D73E0(p); ++*state; break;
+    case 17: GFL_USE_FadeOutBgm(6); ++*state; break;
+    case 18: if(GFL_USE_IsBgmFading()==0) ++*state; break;
     case 19: return 1;
     case 20: if(func_021D7B00(p)!=0) *state=21; else *state=14; func_021D7038(p+0x1610); break;
     case 21: if(func_021D7B64(p)!=0) *state=14; break;

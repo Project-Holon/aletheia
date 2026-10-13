@@ -11,14 +11,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200C6D8, func_0200C6DC, func_0200C6E4, func_0200C6EC,
+ * function: MUSICAL_DIST_SAVE_GetPayload, MUSICAL_DIST_SAVE_GetPayloadSize, MUSICAL_DIST_SAVE_GetBlockSize, func_0200C6EC,
  *           func_0200C6F0, func_0200C720
  *
  * 96 bytes, 0x0200C6D8..0x0200C738, 6 functions, none of which carries a
  * label in the generated listing.
  *
  * alias: this range is inside "musical_dist_save.c".  The constructor of the
- * file, func_0200C52C, loads 0x020A71D4 as the file-name argument to the
+ * file, MUSICAL_DIST_SAVE_Create, loads 0x020A71D4 as the file-name argument to the
  * debug allocator at 0x02030734, and the bytes at 0x020A71D4 spell
  * "musical_dist_save.c"; the string before it is "battle_rec.c", whose
  * terminator at 0x020A71DF fixes that start.  That is the fourth original
@@ -27,7 +27,7 @@
  * `func_<address>` names, because the file identity is attested and the
  * individual entry points are not.
  *
- * The two getters at the top reach the 0x2C-byte object func_0200C52C
+ * The two getters at the top reach the 0x2C-byte object MUSICAL_DIST_SAVE_Create
  * allocates; func_0200C6F0 works on a 0x2000-byte buffer instead, comparing
  * the 0x20 bytes at +0x1FE0 against a cleared stack copy of the same length,
  * which is a "is this record still blank" test.  func_0200C6EC is `bx lr` and
@@ -61,17 +61,17 @@ struct Buf2000 {
     u8 unk1FE0[0x20];
 };
 
-u32 func_0200C6D8(struct Blk2C *p)
+u32 MUSICAL_DIST_SAVE_GetPayload(struct Blk2C *p)
 {
     return p->unk24;
 }
 
-u32 func_0200C6DC(struct Blk2C *p)
+u32 MUSICAL_DIST_SAVE_GetPayloadSize(struct Blk2C *p)
 {
     return *p->unk20;
 }
 
-u32 func_0200C6E4(void)
+u32 MUSICAL_DIST_SAVE_GetBlockSize(void)
 {
     return 0x2600;
 }

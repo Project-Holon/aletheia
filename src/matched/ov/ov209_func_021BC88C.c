@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201AF80 0x0201AF80 thumb
+ *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  */
 #include "../include/Obj00123.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 *func_0201AF80(u32 heap, u16 *countOut);
-void func_021BC88C(char *p) { ((struct Obj00123 *)p)->fC38=func_0201AF80(107,0); }
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
+void func_021BC88C(char *p) { ((struct Obj00123 *)p)->fC38=POKE_PERSONAL_LoadFormTable(107,0); }

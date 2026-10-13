@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * ARM tail call: ldr ip, =target; bx ip (the form mwcc emits, as in ov009 func_0216F008.c).
+ * ARM tail call: ldr ip, =target; bx ip (the form mwcc emits, as in ov009 DWCi_ProcessMatchSynPacketSub.c).
  *
  * symbols:
  *   func_02085A38  0x02085A38  arm

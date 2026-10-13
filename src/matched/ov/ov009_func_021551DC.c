@@ -1,5 +1,5 @@
 /*
- * function: func_021551DC
+ * function: GFL_NET_DEVWIFI_UpdateDisconnect
  * address:  0x021551DC
  * packet:   pkt_02155168
  * region:   ov009
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Null-pointer guard through func_02156690, then either func_02156730 or func_0215592C.
+ * Null-pointer guard through DWC_RAP_ProgressDisconnect, then either DWC_RAP_ResetToIdle or DWC_RAP_RunStateMachine.
  *
  * symbols:
- *   func_02156690  0x02156690  thumb  ov009
- *   func_02156730  0x02156730  thumb  ov009
- *   func_0215592C  0x0215592C  thumb  ov009
+ *   DWC_RAP_ProgressDisconnect  0x02156690  thumb  ov009
+ *   DWC_RAP_ResetToIdle  0x02156730  thumb  ov009
+ *   DWC_RAP_RunStateMachine  0x0215592C  thumb  ov009
 
  */
 
@@ -24,18 +24,18 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021551DC(void *p)
+int GFL_NET_DEVWIFI_UpdateDisconnect(void *p)
 {
-    int func_02156690(int);
-    int func_02156730(void);
-    int func_0215592C(int a);
+    int DWC_RAP_ProgressDisconnect(int);
+    int DWC_RAP_ResetToIdle(void);
+    int DWC_RAP_RunStateMachine(int a);
     int t;
     if (p == 0) t = 1;
     else t = 0;
-    if (func_02156690(t)) {
-        func_02156730();
+    if (DWC_RAP_ProgressDisconnect(t)) {
+        DWC_RAP_ResetToIdle();
         return 1;
     }
-    func_0215592C((int)p);
+    DWC_RAP_RunStateMachine((int)p);
     return 1;
 }

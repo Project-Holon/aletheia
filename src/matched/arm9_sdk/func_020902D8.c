@@ -1,5 +1,5 @@
 /*
- * function: func_020902D8
+ * function: WM_StepDataSharing
  * address:  0x020902D8
  * packet:   pkt_020902D8
  * region:   arm9
@@ -82,7 +82,7 @@ extern void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, BOOL delayed);
 extern void WmDataSharingReceiveData(WMDataSharingInfo *dsInfo, u16 aid, u16 *data);
 extern void WmDataSharingSetDataCallback(void *callback);
 
-WMErrCode func_020902D8(WMDataSharingInfo *dsInfo, const u16 *sendData, WMDataSet *receiveData)
+WMErrCode WM_StepDataSharing(WMDataSharingInfo *dsInfo, const u16 *sendData, WMDataSet *receiveData)
 {
     WMErrCode result;
     u16 aid;

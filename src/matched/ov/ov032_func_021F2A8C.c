@@ -14,8 +14,8 @@
  *   func_021F2A8C  0x021F2A8C  thumb
  *   func_0203FCA0  0x0203FCA0  arm
  *   func_02082A7C  0x02082A7C  arm
- *   func_020216B4  0x020216B4  thumb
- *   func_02021640  0x02021640  thumb
+ *   PALANM_LoadHandlePaletteToSlot  0x020216B4  thumb
+ *   PALANM_LoadArcPaletteToSlot  0x02021640  thumb
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   func_0207D63C  0x0207D63C  arm
@@ -35,8 +35,8 @@ struct BgTemplate;
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 struct PalAnmSlot;
-extern void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
@@ -59,8 +59,8 @@ void func_021F2A8C(u8 *p, void *h)
     func_02082A7C(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
-    func_020216B4((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), (void *)h, 0x13, ((struct Obj00007 *)p)->f96, 1, 0x1a0, 0);
-    func_02021640((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), 0x17, 5, ((struct Obj00007 *)p)->f96, 1, 0x20, 0xd0);
+    PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), (void *)h, 0x13, ((struct Obj00007 *)p)->f96, 1, 0x1a0, 0);
+    PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), 0x17, 5, ((struct Obj00007 *)p)->f96, 1, 0x20, 0xd0);
     func_02049658((void *)h, 0x14, 7, 0, 0, 1, ((struct Obj00007 *)p)->f96);
     func_020498F4((void *)h, 0x15, 5, 0, 0x800, 1, ((struct Obj00007 *)p)->f96);
     func_020498F4((void *)h, 0x16, 6, 0, 0x800, 1, ((struct Obj00007 *)p)->f96);

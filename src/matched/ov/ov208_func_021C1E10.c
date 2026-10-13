@@ -17,7 +17,7 @@
  *   func_021C1F50  0x021C1F50  thumb  ov208
  *   func_0204B878  0x0204B878  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_0204B8C4  0x0204B8C4  arm
+ *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   func_021BDC48  0x021BDC48  thumb  ov208
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_021C0CCC  0x021C0CCC  thumb  ov208
@@ -48,7 +48,7 @@ extern void func_021C1F50(u16 *heap, u8 *p, int key);
 extern void func_0204B878(u32 obj, u32 anim);
 struct Obj;
 extern void func_0204B92C(struct Obj *obj, u32 v);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_021BDC48(void *s, u32 on);
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 extern void func_021C0CCC(u16 *heap, u8 *p, int key);
@@ -85,7 +85,7 @@ void func_021C1E10(u16 *heap, u8 *p, int key, int dir, int touch)
     }
     func_0204B878(OBJ(p[0xd8]), anim);
     func_0204B92C((struct Obj *)OBJ(other), 0);
-    func_0204B8C4((struct Obj *)OBJ(other), 0);
+    CLACT_SetActorAnimFrame((struct Obj *)OBJ(other), 0);
     func_021BDC48(s, 0);
     if (touch == 1) {
         func_0204B3DC((struct Obj *)W(0xcc), 0);

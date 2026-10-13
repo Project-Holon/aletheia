@@ -11,7 +11,7 @@
  *
  * Opens one 0x28-byte group header of the two-level cell-array shape: clears
  * the header's first word, stores the cell pointer at +0x04, sets the "in use"
- * word at +0x08 and tail-calls func_02064140 on the SRT block at +0x0c.
+ * word at +0x08 and tail-calls NNSi_G2dSrtcInitControl on the SRT block at +0x0c.
  * func_02064754 drives it once per group.
  *
  * PIN ../2.0/sp2: the tail-call scheduling form of the "kept constants" tell.
@@ -28,17 +28,17 @@
  * mismatches.
  *
  * symbols:
- *   func_02064140  0x02064140  arm
+ *   NNSi_G2dSrtcInitControl  0x02064140  arm
  */
 #include "../include/Obj07023.h"
 typedef unsigned int u32;
 struct O02064140;
-extern void func_02064140(struct O02064140 *o, u32 a);
+extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 
 void func_02064178(char *o, u32 a)
 {
     *(u32 *)&((struct Obj07023 *)o)->f0 = 0;
     ((struct Obj07023 *)o)->f4 = a;
     ((struct Obj07023 *)o)->f8 = 1;
-    func_02064140((struct O02064140 *)(o + 0xc), 1);
+    NNSi_G2dSrtcInitControl((struct O02064140 *)(o + 0xc), 1);
 }

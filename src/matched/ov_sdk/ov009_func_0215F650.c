@@ -1,5 +1,5 @@
 /*
- * function: func_0215F650
+ * function: SOC_GetHostByName
  * address:  0x0215F650
  * packet:   pkt_ov009_0215F650
  * region:   ov009
@@ -44,7 +44,7 @@ extern unsigned char *g_021AA4D4[2];
 extern HostEnt g_021AA4DC;
 extern char g_021AA544[0x101];
 
-HostEnt *func_0215F650(const char *name)
+HostEnt *SOC_GetHostByName(const char *name)
 {
 	unsigned long h;
 

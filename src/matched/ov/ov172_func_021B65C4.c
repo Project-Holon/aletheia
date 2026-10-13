@@ -12,7 +12,7 @@
  * Release the word at +0x48 through 0x0203D7FC and clear it.
  *
  * symbols:
- *   func_0203D7FC  0x0203D7FC  arm
+ *   GFL_NET_FreeAligned  0x0203D7FC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0203D7FC(void *p);
+extern void GFL_NET_FreeAligned(void *p);
 
 void func_021B65C4(void *p)
 {
     u32 v = ((struct Obj02504 *)p)->f48;
     if (v != 0) {
-        func_0203D7FC((void *)v);
+        GFL_NET_FreeAligned((void *)v);
         ((struct Obj02504 *)p)->f48 = 0;
     }
 }

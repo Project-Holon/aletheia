@@ -1,5 +1,5 @@
 /*
- * function: func_02195B20
+ * function: gt2Listen
  * address:  0x02195B20
  * packet:   pkt_ov009_02195B20
  * region:   ov009
@@ -19,12 +19,12 @@
  * not rewrite that packet's shard.
  *
  * symbols:
- *   func_02198020  0x02198020  arm
+ *   gti2SetConnectAttemptCallback  0x02198020  arm
  */
 
-extern void func_02198020(int *p, int v);
+extern void gti2SetConnectAttemptCallback(int *p, int v);
 
-void func_02195B20(int *p, int v)
+void gt2Listen(int *p, int v)
 {
-    func_02198020(p, v);
+    gti2SetConnectAttemptCallback(p, v);
 }

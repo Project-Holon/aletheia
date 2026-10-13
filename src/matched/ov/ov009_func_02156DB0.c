@@ -1,5 +1,5 @@
 /*
- * function: func_02156DB0
+ * function: DWC_RAP_StoreErrorOnDisconnect
  * address: 0x02156DB0
  * packet: pkt_ov009_02156DB0
  * region: ov009
@@ -17,10 +17,10 @@
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
-void func_02156DB0(u32 v);
+void DWC_RAP_StoreErrorOnDisconnect(u32 v);
 extern u8 *g_021A8264;
 
-void func_02156DB0(u32 v)
+void DWC_RAP_StoreErrorOnDisconnect(u32 v)
 {
     g_021A8264[0x7a3] = v;
 }

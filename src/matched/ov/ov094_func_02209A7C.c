@@ -16,7 +16,7 @@
  *   func_0204A6C8  0x0204A6C8  arm
  *   func_0204AF28  0x0204AF28  arm
  *   func_0204AC18  0x0204AC18  arm
- *   func_0204AEF4  0x0204AEF4  arm
+ *   CLACT_GetPaletteVramAddress  0x0204AEF4  arm
  *   func_020216D4  0x020216D4  thumb
  *   func_0204B100  0x0204B100  arm
  *   func_02049238  0x02049238  arm
@@ -47,7 +47,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern int func_0204AEF4(u32 idx, u32 alternate);
+extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
@@ -67,7 +67,7 @@ W *func_02209A7C(void *a0, u32 b, u16 heap)
     w->h0c = func_0204A6C8(a, 0xd9, 0, 1, heap);
     w->h14 = func_0204AF28(a, 0xdb, 0xdc, heap);
     w->h10 = func_0204AC18(a, 0xda, 1, (u16)(b << 5), 0, 1, heap);
-    func_020216D4(a0, 3, (u16)(func_0204AEF4(w->h10, 1) >> 1), 0x20);
+    func_020216D4(a0, 3, (u16)(CLACT_GetPaletteVramAddress(w->h10, 1) >> 1), 0x20);
     w->h0 = (int)func_0204B100(1, 0, heap);
     func_02049238(a);
     w->task = func_02030DA8(func_021F86D4(), func_02209CC4, w, 0);

@@ -11,8 +11,8 @@
  *
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_021657C8  0x021657C8  arm  ov009
- *   func_02165A4C  0x02165A4C  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
+ *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   NWM_SetWEPKey  0x027034C0  arm  twl
  *   NWM_SetWPAPSK  0x02703960  arm  twl
  *   WcmNwmcbCommon  0x027320D0  arm  twl
@@ -48,6 +48,9 @@
  *   WcmNwmcbSetDCFData  0x02732CAC  arm
  *   WcmNwmcbSetDCFDataAsync  0x02732CEC  arm
  *   WcmEditScanExParam  0x02732B70  arm
+ *   WCMi_GetNextScanChannel  0x02165918  arm  ov009
+ *   WCMi_EntryApList  0x02165D04  arm  ov009
+ *   WCMi_GetCpsifWork  0x02166378  arm  ov009
  */
 
 typedef unsigned int u32;
@@ -131,11 +134,11 @@ typedef struct Pkt {
 } Pkt;
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern NetWork *func_021657C8(void);
+extern NetWork *WCMi_GetSystemWork(void);
 extern void func_020862B8(u32 buf, u32 len);
 extern int NWM_StartScanEx(void *cb, void *buf);
 extern u32 NWM_Init(u32 a0, u32 a1, u32 a2);
-extern void func_02165A4C(unsigned char phase);
+extern void WCMi_SetPhase(unsigned char phase);
 extern u32 NWM_LoadDevice(void *arg);
 extern u32 NWM_Close(void *arg);
 extern u32 NWM_SetWEPKey(void *a, u32 b, u32 c, void *d, u32 e);
@@ -145,15 +148,15 @@ extern u32 NWM_GetState(void);
 extern u32 NWM_End(void);
 extern u32 NWM_UnloadDevice(void *arg);
 extern u32 NWM_Disconnect(void *arg);
-extern NetObj *func_02166378(void);
+extern NetObj *WCMi_GetCpsifWork(void);
 extern u32 NWM_SendFrame(void *cb, u32 a, u32 b, u32 c);
 extern void OS_SleepThread(void *queue);
 extern void WcmNwmcbSetDCFDataAsync(void);
 extern u32 NWM_GetAllowedChannel(void);
 extern void func_021659B4(u32 a, void *b, u32 c, u32 d);
 extern void func_021659F8(u32 a, u32 b, u32 c, void *d, u32 e);
-extern void func_02165D04(u32 a, u32 b);
-extern u16 func_02165918(u16 a);
+extern void WCMi_EntryApList(u32 a, u32 b);
+extern u16 WCMi_GetNextScanChannel(u16 a);
 extern void func_020862D4(u32 buf, u32 len);
 extern u32 func_02080D24(u32 x);
 extern u32 NWM_Open(void *arg);
@@ -193,15 +196,15 @@ extern u8 data_021A1988[];
 extern u8 data_021A1990[];
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern NetWork *func_021657C8(void);
-extern void func_02165A4C(unsigned char phase);
+extern NetWork *WCMi_GetSystemWork(void);
+extern void WCMi_SetPhase(unsigned char phase);
 extern u32 NWM_SetWEPKey(void *a, u32 b, u32 c, void *d, u32 e);
 extern u32 NWM_SetWPAPSK(void *a, void *b);
 void WcmNwmcbCommon(u16 *arg);
 
 u32 WCMi_NwmifConnectAsync(void)
 {
-    NetWork *w = func_021657C8();
+    NetWork *w = WCMi_GetSystemWork();
     JoinReq req;
     u32 ret;
     u32 flag;
@@ -228,14 +231,14 @@ u32 WCMi_NwmifConnectAsync(void)
     }
     switch (ret) {
     case 2:
-        func_02165A4C(8);
+        WCMi_SetPhase(8);
         w->phase = 5;
         break;
     case 6:
         return 4;
     case 3:
     default:
-        func_02165A4C(11);
+        WCMi_SetPhase(11);
         return 7;
     }
     return 3;

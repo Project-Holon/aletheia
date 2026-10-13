@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202BFF0",
+   "name": "ISS_ZONE_SYS_StepFade",
    "address": "0x0202BFF0",
    "kind": "game",
    "region": "arm9",

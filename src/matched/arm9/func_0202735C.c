@@ -10,7 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146940     0x02146940  data
+ *   GAME_BEACON_Work     0x02146940  data
+ *   GAME_BEACON_SetInfoZone  0x0202737C  thumb
  */
 
 typedef unsigned char  u8;
@@ -18,11 +19,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 
-extern char *g_02146940;
-extern void func_0202737C(u32 *p, u32 a1, u32 a2);
+extern char *GAME_BEACON_Work;
+extern void GAME_BEACON_SetInfoZone(u32 *p, u32 a1, u32 a2);
 
 void func_0202735C(u32 a0, u32 a1)
 {
-    func_0202737C((u32 *)(g_02146940 + 4), a0, a1);
-    *(u8 *)(g_02146940 + 0x62) = 1;
+    GAME_BEACON_SetInfoZone((u32 *)(GAME_BEACON_Work + 4), a0, a1);
+    *(u8 *)(GAME_BEACON_Work + 0x62) = 1;
 }

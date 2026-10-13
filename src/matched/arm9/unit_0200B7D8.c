@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200B7D8
+ * function: BATTLE_REC_MakeHeader
  *
  * 176 bytes, 0x0200B7D8..0x0200B888, one function, which carries a label in
  * the generated listing.
@@ -19,7 +19,7 @@
  * alias: inside "battle_rec.c".  It builds the 0x44-byte battle header out of
  * the party records that live at +0xC3C of the 0x17E0-byte second half of the
  * record.  The layout, four sides of three or two of six, comes from
- * func_0200B784, and the group stride 0x2A4 is six 0x70-byte entries plus a
+ * BATTLE_REC_GetModeLayout, and the group stride 0x2A4 is six 0x70-byte entries plus a
  * word.  An entry is skipped when either of two bits is set, and those two
  * bitfield reads are the only evidence in the image for those field widths.
  *
@@ -29,18 +29,19 @@
  * the explicit `& 0x7F` on a field that is already five bits wide is what puts
  * the `movs r1, #0x7f` / `ands` pair there, and dropping it loses four bytes.
  *
- * This range starts at 0x0200B7D8 rather than at func_0200B784, which is its
+ * This range starts at 0x0200B7D8 rather than at BATTLE_REC_GetModeLayout, which is its
  * only caller, because 0x0209DDCC is named by exactly two literal pool words
- * in the whole image: this function's at 0x0200B880 and func_0200B784's at
+ * in the whole image: this function's at 0x0200B880 and BATTLE_REC_GetModeLayout's at
  * 0x0200B7D4.  One range holding both has no witness for the table at all.
  * Cut between them and each pool word attests the other file.  See
  * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.  The call
- * to func_0200B784 survives the cut because three overlay branches reach that
+ * to BATTLE_REC_GetModeLayout survives the cut because three overlay branches reach that
  * address from outside this region.
  *
  * symbols:
  *   MI_CpuFill8          0x02082BCC  arm
- *   func_0200B784_Table  0x0209DDCC  data
+ *   BattleRecModeTable  0x0209DDCC  data
+ *   BATTLE_REC_GetModeLayout  0x0200B784  thumb
  */
 
 typedef unsigned char  u8;
@@ -49,9 +50,9 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
-extern void func_0200B784(u16 mode, s32 *sides, s32 *members);
+extern void BATTLE_REC_GetModeLayout(u16 mode, s32 *sides, s32 *members);
 
-extern const u16 func_0200B784_Table[];
+extern const u16 BattleRecModeTable[];
 
 struct QRec {
     u16 unk00[0x0C];
@@ -98,7 +99,7 @@ struct RecC4 {
     u16 unk17DE;
 };
 
-void func_0200B7D8(void *h, struct QRec *q, const struct RecC4 *src, u32 mode,
+void BATTLE_REC_MakeHeader(void *h, struct QRec *q, const struct RecC4 *src, u32 mode,
                    u32 e)
 {
     s32 nsides;
@@ -110,8 +111,8 @@ void func_0200B7D8(void *h, struct QRec *q, const struct RecC4 *src, u32 mode,
 
     k = 0;
     MI_CpuFill8(q, 0, sizeof(struct QRec));
-    kind = func_0200B784_Table[mode];
-    func_0200B784(kind, &nsides, &nmembers);
+    kind = BattleRecModeTable[mode];
+    BATTLE_REC_GetModeLayout(kind, &nsides, &nmembers);
     for (i = 0; i < nsides; i++) {
         for (j = 0; j < nmembers; j++) {
             const struct Ent70 *t = &src->unkC3C[i].ent[j];

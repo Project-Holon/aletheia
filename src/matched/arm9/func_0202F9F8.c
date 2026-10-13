@@ -22,7 +22,7 @@
  *   d_021BD574     0x021BD574  data
  *   g_02146948     0x02146948  data
  *   g_02146948_arg 0x02146948  data
- *   func_020312CC  0x020312CC  arm
+ *   PROCSYS_PushGlobal  0x020312CC  arm
  *
  * time_icon.c.  A five-state proc driver, the net_save.c shape of
  * src/pending/func_02010AC4.c: state 0 starts overlay 0x58's proc on
@@ -58,13 +58,13 @@ extern u8 d_021BD574[];
 extern struct G_02146948 g_02146948;
 extern struct G_02146948 g_02146948_arg;
 
-extern void func_020312CC(u32 ovl, u32 proc, u32 arg);
+extern void PROCSYS_PushGlobal(u32 ovl, u32 proc, u32 arg);
 
 int func_0202F9F8(void *unused, u32 *state)
 {
     switch (*state) {
     case 0:
-        func_020312CC((u32)ov088_id, (u32)d_021BD8E8, (u32)&g_02146948.f04);
+        PROCSYS_PushGlobal((u32)ov088_id, (u32)d_021BD8E8, (u32)&g_02146948.f04);
         *state = 1;
         break;
     case 1:
@@ -72,14 +72,14 @@ int func_0202F9F8(void *unused, u32 *state)
         g_02146948.f00 = 0;
         g_02146948.f02 = 1;
         g_02146948.f03 = 0;
-        func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)((u8 *)&g_02146948_arg));
+        PROCSYS_PushGlobal((u32)ov179_id, (u32)d_021B68D8, (u32)((u8 *)&g_02146948_arg));
         *state = 2;
         break;
     case 2:
         if (g_02146948.f03 == 0) {
             g_02146948.f00 = 1;
             g_02146948.f03 = 0;
-            func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)((u8 *)&g_02146948_arg));
+            PROCSYS_PushGlobal((u32)ov179_id, (u32)d_021B68D8, (u32)((u8 *)&g_02146948_arg));
             *state = 3;
             break;
         }
@@ -88,11 +88,11 @@ int func_0202F9F8(void *unused, u32 *state)
     case 3:
         g_02146948.f00 = 2;
         g_02146948.f03 = 0;
-        func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)((u8 *)&g_02146948_arg));
+        PROCSYS_PushGlobal((u32)ov179_id, (u32)d_021B68D8, (u32)((u8 *)&g_02146948_arg));
         *state = 4;
         break;
     case 4:
-        func_020312CC((u32)ov088_id, (u32)d_021BD574, 0);
+        PROCSYS_PushGlobal((u32)ov088_id, (u32)d_021BD574, 0);
         *state = 0;
         break;
     }

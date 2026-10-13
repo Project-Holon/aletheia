@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202A01C
+ * function: RINGTONE_SYS_StopRing
  * address:  0x0202A01C
  * packet:   pkt_02029F4C
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj15806.h"
 
-int func_0202A01C(int a0){ int t0; t0 = func_020061F8((int)4); ((struct Obj15806 *)((char *)((a0 + 0))))->f4 = (unsigned short)0; return 0; }
+int RINGTONE_SYS_StopRing(int a0){ int t0; t0 = func_020061F8((int)4); ((struct Obj15806 *)((char *)((a0 + 0))))->f4 = (unsigned short)0; return 0; }

@@ -1,7 +1,7 @@
 /*
  * file:     unit_0206EA58.c
  * unit:     yes
- * function: func_0206EA58, func_0206EACC
+ * function: NNSi_G3dTexPatAnmGetFrameValue, NNSi_G3dTexPatAnmGetTrackByIdx
  * address:  0x0206EA58
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -31,13 +31,13 @@ typedef struct {
     u16 ofsEntry;
 } TexPatAnmBlock;
 
-u16 *func_0206EA58(u16 *pPatAnm, u32 trackIdx, u32 frame);
-unsigned char *func_0206EACC(void *pPatAnm, u32 trackIdx);
+u16 *NNSi_G3dTexPatAnmGetFrameValue(u16 *pPatAnm, u32 trackIdx, u32 frame);
+unsigned char *NNSi_G3dTexPatAnmGetTrackByIdx(void *pPatAnm, u32 trackIdx);
 
 /*
  * NNSi_G3dTexPatAnmGetFrameValue shape. Bucket search in a texture pattern
  * animation track: the signed halfword at +4 of the track
- * func_0206EACC returns scales the key, the result is a fixed-point index, and
+ * NNSi_G3dTexPatAnmGetTrackByIdx returns scales the key, the result is a fixed-point index, and
  * the two walks that follow step it down over entries >= v and then up over
  * entries <= v, returning the entry address.
  *
@@ -46,12 +46,12 @@ unsigned char *func_0206EACC(void *pPatAnm, u32 trackIdx);
  * the compiler produces for a conjunction whose second term loads.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206EA58.c \
- *       --func func_0206EA58 --addr 0x0206EA58 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G3dTexPatAnmGetFrameValue.c \
+ *       --func NNSi_G3dTexPatAnmGetFrameValue --addr 0x0206EA58 --cc 1.1p1 --arm
  */
-u16 *func_0206EA58(u16 *pPatAnm, u32 trackIdx, u32 frame)
+u16 *NNSi_G3dTexPatAnmGetFrameValue(u16 *pPatAnm, u32 trackIdx, u32 frame)
 {
-    u8 *pTrack = func_0206EACC(pPatAnm, trackIdx);
+    u8 *pTrack = NNSi_G3dTexPatAnmGetTrackByIdx(pPatAnm, trackIdx);
     s16 ratio = ((TexPatAnmTrack *)pTrack)->ratioDataFrame;
     u8 *pFrameValues = (u8 *)pPatAnm + ((TexPatAnmTrack *)pTrack)->ofsFrameValue;
     u32 valueIdx = (u32)(ratio * frame) >> 12;
@@ -75,10 +75,10 @@ u16 *func_0206EA58(u16 *pPatAnm, u32 trackIdx, u32 frame)
  * predicates the body (see docs/idioms/a-factored-tail-lets-the-compiler-predicate-the-arms.md);
  * as gotos the original's `beq`/`bcs` branches survive.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206EACC.c \
- *       --func func_0206EACC --addr 0x0206EACC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G3dTexPatAnmGetTrackByIdx.c \
+ *       --func NNSi_G3dTexPatAnmGetTrackByIdx --addr 0x0206EACC --cc 1.1p1 --arm
  */
-unsigned char *func_0206EACC(void *pPatAnm, u32 trackIdx)
+unsigned char *NNSi_G3dTexPatAnmGetTrackByIdx(void *pPatAnm, u32 trackIdx)
 {
     unsigned char *pDict = (unsigned char *)pPatAnm + 12;
     u16 ofsEntry;

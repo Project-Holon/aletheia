@@ -16,26 +16,23 @@
  *   func_021DDCD8   0x021DDCD8  thumb
  * Leaf with no calls and no pool; 9 instructions, 20 bytes: push {r4, lr}; sub sp, #8; movs r4, #0xf; str r4, [sp]; movs r4, #0; str r4, [sp, #4]; bl func_021DDCD8; add sp, #8; pop {r4, pc}.
  */
+#include "unit_021DDC44_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
+extern int func_021DDCD8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work, u8 moveType, int ignoreAffinity);
+extern int d_021F182C[];
 
-/* 021DDC64  shape F2: two stack constants (0xf, 0) */
-void func_021DDC64(int a, int b, int c, int d)
+void func_021DDC64(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+int *func_021DDC78(int *handlerCount);
+
+/* Haban Berry: halves a Dragon-type hit that is super effective. */
+void func_021DDC64(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work)
 {
-    func_021DDCD8(a, b, c, d, 0xf, 0);
+    func_021DDCD8(factor, flow, pokeId, work, POKETYPE_DRAGON, 0);
 }
 
-
-extern int d_021F182C[];
-int *func_021DDC78(int *p);
-
-int *func_021DDC78(int *p)
+/* Handler table getter of Colbur Berry. */
+int *func_021DDC78(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F182C;
 }

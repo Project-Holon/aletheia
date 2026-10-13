@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203D8F0",
+   "name": "GFL_NET_IRC_WIRELESS_Create",
    "address": "0x0203D8F0",
    "kind": "game",
    "region": "arm9",

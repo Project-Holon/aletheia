@@ -1,5 +1,5 @@
 /*
- * function: func_021D9734
+ * function: P_STA_SKILL_Delete
  * address: 0x021D9734
  * packet: pkt_ov131_021D9734
  * region: ov131
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021D9734(u8 *a,u8 *p)
+void P_STA_SKILL_Delete(u8 *a,u8 *p)
 {
     func_020307B0(p);
 }

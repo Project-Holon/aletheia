@@ -10,8 +10,8 @@
  * volatile: hardware read-modify-writes at 0x021F3A64, 0x021F3A6E,
  *   0x021F3A94 (0x04000000, 0x04001000, 0x04000304).
  * symbols:
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_020433E0 0x020433E0 arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   func_02045088 0x02045088 arm
@@ -21,16 +21,17 @@
  *   d_021F816C 0x021F816C data a4
  *   d_021F815C 0x021F815C data a4
  *   d_020A1448 0x020A1448 data a4
+ *   WIPE_ResetWndMask  0x02022224  thumb  arm9
  */
 #include "../include/Obj10296.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 typedef unsigned int   u32;
 extern void func_0202223C(u32 a, u32 color);
 struct Cfg;
-extern u32 func_02022224(void *win);
+extern u32 WIPE_ResetWndMask(void *win);
 struct DispConfig;
 struct DispVram;
 extern void func_020433E0(const struct DispVram *c);
@@ -42,14 +43,14 @@ extern void func_020434DC(u32 mask, u32 enable);
 extern char d_021F816C[],d_021F815C[],d_020A1448[];
 void func_021F3A54(u8 *p)
 {
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     *(volatile unsigned *)0x04000000 &= 0xffffe0ff;
     *(volatile unsigned *)0x04001000 &= 0xffffe0ff;
     func_0202223C(0,0);
     func_0202223C(1,0);
-    func_02022224(0);
-    func_02022224((void *)1);
+    WIPE_ResetWndMask(0);
+    WIPE_ResetWndMask((void *)1);
     *(volatile u16 *)0x04000304 |= 0x8000;
     func_020433E0((const struct DispVram *)d_021F816C);
     func_0203F8F4(((struct Obj10296 *)p)->f0);

@@ -1,7 +1,7 @@
 /*
  * file:     unit_021542C0.c
  * unit:     yes
- * function: func_021542C0, func_0215437C
+ * function: func_021542C0, EVENT_MENUPROC_Create
  * address:  0x021542C0
  * region:   ov003
  * compiler: dsi/1.1p1
@@ -15,16 +15,16 @@
  * symbols:
  *   func_02012138  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02005C44  0x02005C44  thumb
- *   func_02005E30  0x02005E30  thumb
- *   func_020144DC  0x020144DC  thumb
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02012374  0x02012374  thumb
  *   func_020120F4  0x020120F4  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
- *   func_02005D90  0x02005D90  thumb
- *   func_02005DF8  0x02005DF8  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_02026400  0x02026400  thumb
  *   func_020124E8  0x020124E8  thumb
@@ -56,21 +56,21 @@ typedef struct MenuProcEventWork {
 
 extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
 extern u32 func_02026454(void *gameComm);
-extern u16 func_02005C44(void);
-extern void func_02005E30(u32 frames);
-extern int func_020144DC(int gameSystem, int fieldMap);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_FadeOutBgm(u32 frames);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
 extern void func_02012374(struct GameEvent *event, struct GameEvent **newEvent);
 extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
-extern u32 func_020120F0(const struct GameSystem *gameSystem);
-extern void  func_02005D90(u32 bgmNo, u32 fadeTarget);
-extern void func_02005DF8(u32 frames);
-extern void *func_020145CC(void *gameSystem);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
+extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
+extern void GFL_USE_FadeInBgmFull(u32 frames);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
 void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
 void func_02026400(struct GameComm *gameComm);
 void *func_020124E8(struct GameEvent *event);
 u32 func_021542C0(struct GameEvent *event, u32 *seq, MenuProcEventWork *work);
-void *func_0215437C(void *gameSystem, int fieldMap, int procKind);
+void *EVENT_MENUPROC_Create(void *gameSystem, int fieldMap, int procKind);
 
 
 u32 func_021542C0(struct GameEvent *event, u32 *seq, MenuProcEventWork *work)
@@ -80,32 +80,32 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, MenuProcEventWork *work)
     switch (*seq) {
     case 0:
         if (func_02026454(func_02012138(gameSystem)) == 0) {
-            work->savedBgmNo = func_02005C44();
-            func_02005E30(6);
+            work->savedBgmNo = GFL_USE_GetBgmNo();
+            GFL_USE_FadeOutBgm(6);
             (*seq)++;
         }
         break;
     case 1:
-        func_02012374(event, (struct GameEvent **)func_020144DC((int)gameSystem, work->fieldMap));
+        func_02012374(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, work->fieldMap));
         *seq = 2;
         break;
     case 2:
         work->param.gameData = func_020120F4(gameSystem);
         work->param.procKind = work->procKind;
-        func_020120B4(gameSystem, (u32)-1, (void *)0x0209DEFC, &work->param);
+        GAMESYSTEM_CallProc(gameSystem, (u32)-1, (void *)0x0209DEFC, &work->param);
         (*seq)++;
         break;
     case 3:
-        if (func_020120F0(gameSystem) == 0)
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0)
             (*seq)++;
         break;
     case 4:
         (*seq)++;
         break;
     case 5:
-        func_02005D90(work->savedBgmNo, 0xFFFF);
-        func_02005DF8(0x3C);
-        func_02012374(event, func_020145CC(gameSystem));
+        GFL_USE_CancelChangeAndPlayBgm(work->savedBgmNo, 0xFFFF);
+        GFL_USE_FadeInBgmFull(0x3C);
+        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         (*seq)++;
         break;
     case 6:
@@ -118,7 +118,7 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, MenuProcEventWork *work)
 /*
  * Allocator + guard + three-field link setup.
  */
-void *func_0215437C(void *gameSystem, int fieldMap, int procKind)
+void *EVENT_MENUPROC_Create(void *gameSystem, int fieldMap, int procKind)
 {
     void *event = func_020122C0(gameSystem, 0, func_021542C0, 0x1C);
     MenuProcEventWork *work;

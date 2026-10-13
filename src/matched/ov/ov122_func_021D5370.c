@@ -35,7 +35,7 @@
  *   func_0203D34C 0x0203D34C arm
  *   func_0203CD98 0x0203CD98 arm
  *   func_021D5278 0x021D5278 thumb ov122
- *   func_02178118 0x02178118 thumb ov014
+ *   NET_WHPIPE_SetNotifyCallback 0x02178118 thumb ov014
  *   func_020355D8 0x020355D8 arm
  *   data_021D58B0 0x021D58B0 data a4
  *   data_021D5770 0x021D5770 data a4
@@ -89,7 +89,7 @@ extern void *func_0203D798(void);
 extern void func_0203D34C(u32, u32);
 extern int func_0203CD98(void);
 extern void func_021D5278(void *, const char *, int, int);
-extern void func_02178118(u32, u32);
+extern void NET_WHPIPE_SetNotifyCallback(u32, u32);
 extern void func_020355D8(u8);
 int func_021D5370(void *owner, void *unused, char *args)
 {
@@ -130,7 +130,7 @@ int func_021D5370(void *owner, void *unused, char *args)
     ((struct Obj22934 *)(*(char * *)&((struct Obj00073 *)p)->f344))->f10 = 1;
     ((struct Obj22935 *)(*(char * *)&((struct Obj00073 *)p)->f344))->fC = ((struct Obj00073 *)p)->f350;
     func_0203D34C(0, ((struct Obj00073 *)p)->fC);
-    if (func_0203CD98()) func_02178118((u32)func_021D5278, (u32)p);
+    if (func_0203CD98()) NET_WHPIPE_SetNotifyCallback((u32)func_021D5278, (u32)p);
     func_020355D8(1);
     return 1;
 }

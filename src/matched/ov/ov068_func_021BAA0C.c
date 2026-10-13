@@ -13,7 +13,7 @@
  *   func_02040804  0x02040804  arm
  *   func_020413B0  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_0204B8A0  0x0204B8A0  arm
+ *   CLACT_ChangeActorAnimSeq  0x0204B8A0  arm
  *   func_021BB0AC  0x021BB0AC  thumb  ov068
  *   d_021BB538     0x021BB538  data  a1
  *   d_021BB704     0x021BB704  data  a4
@@ -37,7 +37,7 @@ extern u32 func_02040804(u32 layer);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 struct Obj;
-extern void func_0204B8A0(struct Obj *p, u16 v);
+extern void CLACT_ChangeActorAnimSeq(struct Obj *p, u16 v);
 extern int  func_021BB0AC(u8 *p, int i);
 extern const u8 d_021BB538[];
 extern u32  d_021BB704[][6];
@@ -83,14 +83,14 @@ void func_021BAA0C(u8 *p, int flag)
     for (i = 0; i < 11; i++) {
         if (((struct Obj00103 *)p)->f4 == d_021BB704[i][0] && flag) {
             if (func_021BB0AC(p + 0x44, i))
-                func_0204B8A0(*(void **)(p + i * 4 + 8), 3);
+                CLACT_ChangeActorAnimSeq(*(void **)(p + i * 4 + 8), 3);
             else
-                func_0204B8A0(*(void **)(p + i * 4 + 8), 2);
+                CLACT_ChangeActorAnimSeq(*(void **)(p + i * 4 + 8), 2);
         } else {
             if (func_021BB0AC(p + 0x44, i))
-                func_0204B8A0(*(void **)(p + i * 4 + 8), 0);
+                CLACT_ChangeActorAnimSeq(*(void **)(p + i * 4 + 8), 0);
             else
-                func_0204B8A0(*(void **)(p + i * 4 + 8), 1);
+                CLACT_ChangeActorAnimSeq(*(void **)(p + i * 4 + 8), 1);
         }
     }
 }

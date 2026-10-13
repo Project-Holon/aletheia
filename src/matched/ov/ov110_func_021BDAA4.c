@@ -13,8 +13,8 @@
  *   func_02035C60 0x02035C60 arm
  *   func_02035C08 0x02035C08 arm
  *   func_02035D20 0x02035D20 arm
- *   func_02035D40 0x02035D40 arm
- *   func_02024158 0x02024158 thumb
+ *   TOUCHPANEL_HitPoint 0x02035D40 arm
+ *   PMSI_PARAM_HasInitialSentence 0x02024158 thumb
  *   func_021BABE8 0x021BABE8 thumb ov110
  *   func_021BAC00 0x021BAC00 thumb ov110
  */
@@ -27,9 +27,9 @@ extern int func_02035C60(void);
 extern int func_02035C08(const void *p);
 struct Ctx;
 extern unsigned int func_02035D20(unsigned int *outA, unsigned int *outB);
-extern unsigned int func_02035D40(struct Ctx *ctx, unsigned int a, unsigned int b);
+extern unsigned int TOUCHPANEL_HitPoint(struct Ctx *ctx, unsigned int a, unsigned int b);
 typedef unsigned int   u32;
-extern u32 func_02024158(const u8 *p);
+extern u32 PMSI_PARAM_HasInitialSentence(const u8 *p);
 extern int func_021BABE8(u8 *p);
 extern void func_021BAC00(u8 *p, u8 *b, u8 n);
 int func_021BDAA4(u8 *p) {
@@ -39,11 +39,11 @@ int func_021BDAA4(u8 *p) {
  if(!func_02035C60()) return -1;
  result=func_02035C08(&d_021C395C);
  if(result!=-1) {
-  if(func_02024158((const u8 *)(((struct Obj10282 *)p)->f0))) { if((unsigned)(result-2)<=3) result=-1; return result; }
+  if(PMSI_PARAM_HasInitialSentence((const u8 *)(((struct Obj10282 *)p)->f0))) { if((unsigned)(result-2)<=3) result=-1; return result; }
   return result;
  }
  count=func_021BABE8(((struct Obj10282 *)p)->f14);
  func_02035D20((unsigned int *)(&x),(unsigned int *)(&y));
- for(i=0;i<count;i++) { func_021BAC00(((struct Obj10282 *)p)->f14,(u8 *)(&box),i); if(func_02035D40((struct Ctx *)(&box),x,y)!=-1) return i+6; }
+ for(i=0;i<count;i++) { func_021BAC00(((struct Obj10282 *)p)->f14,(u8 *)(&box),i); if(TOUCHPANEL_HitPoint((struct Ctx *)(&box),x,y)!=-1) return i+6; }
  return -1;
 }

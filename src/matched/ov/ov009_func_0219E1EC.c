@@ -1,5 +1,5 @@
 /*
- * function: func_0219E1EC
+ * function: SBServerGetPublicInetAddress
  * address:  0x0219E1EC
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * First word of the object.
  */
 
-int func_0219E1EC(const int *p)
+int SBServerGetPublicInetAddress(const int *p)
 {
     return *p;
 }

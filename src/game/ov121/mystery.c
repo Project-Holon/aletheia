@@ -17,7 +17,7 @@
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_020124F4 0x020124F4 thumb
+ *   GAME_DATA_Create 0x020124F4 thumb
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200A300 0x0200A300 thumb
  *   func_021D9624 0x021D9624 thumb ov121
@@ -30,7 +30,7 @@
  *   func_021D9CA4 0x021D9CA4 thumb ov121
  *   func_021D9FFC 0x021D9FFC thumb ov121
  *   func_021DE2A0 0x021DE2A0 thumb ov121
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   ov114_id 0x00000072 data
  *   func_021DE2F0 0x021DE2F0 thumb ov121
  *   func_021D9E04 0x021D9E04 thumb ov121
@@ -101,28 +101,28 @@
  *   func_020362DC 0x020362DC arm
  *   func_0203F4E4 0x0203F4E4 arm
  *   func_021D9750 0x021D9750 thumb ov121
- *   func_0200A2B8 0x0200A2B8 thumb
- *   func_0200A2D8 0x0200A2D8 thumb
+ *   MYSTERY_DATA_SaveStart 0x0200A2B8 thumb
+ *   MYSTERY_DATA_SaveMain 0x0200A2D8 thumb
  *   func_021D9790 0x021D9790 thumb ov121
  *   func_021DCFC8 0x021DCFC8 thumb ov121
  *   func_021DD24C 0x021DD24C thumb ov121
- *   func_021DE0AC 0x021DE0AC thumb ov121
- *   func_021DD9CC 0x021DD9CC thumb ov121
- *   func_021DDF5C 0x021DDF5C thumb ov121
- *   func_021DE014 0x021DE014 thumb ov121
+ *   MYSTERY_ALBUM_RequestSetup 0x021DE0AC thumb ov121
+ *   MYSTERY_ALBUM_StepIntro 0x021DD9CC thumb ov121
+ *   MYSTERY_ALBUM_StartIntro 0x021DDF5C thumb ov121
+ *   MYSTERY_ALBUM_IsIntroIdle 0x021DE014 thumb ov121
  *   func_0207D63C 0x0207D63C arm
  *   func_021DAC18 0x021DAC18 thumb ov121
  *   func_021DAEF0 0x021DAEF0 thumb ov121
  *   func_021DB008 0x021DB008 thumb ov121
  *   func_021DAE1C 0x021DAE1C thumb ov121
  *   func_021DAFCC 0x021DAFCC thumb ov121
- *   func_0200A0C8 0x0200A0C8 thumb
- *   func_0200A350 0x0200A350 thumb
- *   func_020312CC 0x020312CC arm
+ *   MYSTERY_DATA_HasCardSpace 0x0200A0C8 thumb
+ *   MYSTERY_DATA_IsMainSave 0x0200A350 thumb
+ *   PROCSYS_PushGlobal 0x020312CC arm
  *   func_0203D34C 0x0203D34C arm
- *   d_021D6338 0x021D6338 data ov115 a4
+ *   gNetSaveMainProc 0x021D6338 data ov115 a4
  *   ov115_id 0x00000073 data a1
- *   func_021DD980 0x021DD980 thumb ov121
+ *   MYSTERY_ALBUM_Delete 0x021DD980 thumb ov121
  *   func_021DD1FC 0x021DD1FC thumb ov121
  *   func_021DA8B8 0x021DA8B8 thumb ov121
  *   func_021DA038 0x021DA038 thumb ov121
@@ -149,7 +149,7 @@
  *   func_020186C8 0x020186C8 thumb
  *   func_02017588 0x02017588 thumb
  *   func_02017E40 0x02017E40 thumb
- *   func_02017FA8 0x02017FA8 thumb
+ *   POKE_TOOL_SetDefaultMoves 0x02017FA8 thumb
  *   func_0201808C 0x0201808C thumb
  *   func_020180F4 0x020180F4 thumb
  *   func_02018A00 0x02018A00 thumb
@@ -162,7 +162,7 @@
  *   func_020185C4 0x020185C4 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_0202D7C8 0x0202D7C8 thumb
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_0202D8D0 0x0202D8D0 thumb
  *   func_0202D9A4 0x0202D9A4 thumb
  *   func_0202D934 0x0202D934 thumb
@@ -175,7 +175,7 @@
  *   d_0209DF0C 0x0209DF0C data
  *   g_020A7370 0x020A7370 data a4
  *   func_021DAB50 0x021DAB50 thumb ov121
- *   func_0204B49C 0x0204B49C arm
+ *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
  *   func_020061E4 0x020061E4 thumb
  *   _u32_div_f 0x0209C2B0 arm
  *   func_0204B404 0x0204B404 arm
@@ -192,15 +192,22 @@
  *   func_021DA958 0x021DA958 thumb ov121
  *   func_02025588 0x02025588 thumb
  *   func_021DA9F8 0x021DA9F8 thumb ov121
- *   func_0202D6F4 0x0202D6F4 thumb
- *   func_0202D214 0x0202D214 thumb
- *   func_0200A21C 0x0200A21C thumb
+ *   POKEGRA_LoadCharDataPP 0x0202D6F4 thumb
+ *   POKEGRA_ConvertCharTo2D 0x0202D214 thumb
+ *   MYSTERY_DATA_CheckPacketCrc 0x0200A21C thumb
  *   func_020434DC 0x020434DC arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  *   d_021DF5E4 0x021DF5E4 data a4
+ *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb  arm9
+ *   MYSTERY_DATA_AddCard  0x0200A034  thumb  arm9
+ *   MYSTERY_DATA_IsEventFlag  0x0200A1A8  thumb  arm9
+ *   MYSTERY_DATA_SetEventFlag  0x0200A1E4  thumb  arm9
+ *   MYSTERY_DATA_GetCardSlotNum  0x0200A348  thumb  arm9
+ *   GAME_DATA_Delete  0x02012704  thumb  arm9
  */
 #include "../../matched/include/Obj02176.h"
 #include "../../matched/include/Obj01402.h"
@@ -319,7 +326,7 @@ extern int func_02034AC4(int id);
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *, int, int);
-extern void *func_020124F4(u16 id);
+extern void *GAME_DATA_Create(u16 id);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200A300(void *, void *, void *);
 extern u8 *func_021D9624(int arg, u16 heap);
@@ -332,7 +339,7 @@ extern void *func_021DA854(void *, void *, u16);
 extern void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap);
 extern void func_021D9FFC(u8 *p, int a, int b);
 extern void *func_021DE2A0(void *arg, int heap);
-extern void func_02005D90(int, int);
+extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 extern void func_021DE2F0(u8 *p);
 extern void func_021D9E04(u8 *p);
 extern void func_021DA890(void *);
@@ -342,12 +349,12 @@ extern void func_0201C4C0(struct PrintSys *p);
 extern u32 func_0201D83C(void *ptr);
 extern void func_021D96C4(u8 *p);
 extern void func_0200A338(void *);
-extern void func_02012704(u8 *p);
+extern void GAME_DATA_Delete(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
 extern void func_02087BCC(u32 parameter);
 extern void func_02034A5C(int);
-extern void func_02005D28(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void func_021DE300(char *p);
 extern void func_021DA898(char *p);
 extern void func_021D9718(u8 *p);
@@ -391,7 +398,7 @@ extern void func_021D9F08(u8 *,int,int,int);
 extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
-extern void func_02005E30(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
 extern void func_021DE308(char *,unsigned);
 extern int func_021DE3E0(void *);
 extern int func_021DE4DC(u8 *p, void *a, u32 b);
@@ -404,35 +411,35 @@ extern int func_021DA178(char *);
 extern unsigned func_021D9FF8(u8 *p);
 extern u32 func_020362DC(void);
 extern void func_0203F4E4(struct RtcDate *date);
-extern int func_0200A1A8(char *p, unsigned int bit);
-extern int func_0200A034(void *p, void *arg);
-extern void func_0200A1E4(void *p, unsigned int idx);
-extern u32 func_0200A0C8(u8 *p);
-extern u32 func_0200A348(struct Obj *);
+extern int MYSTERY_DATA_IsEventFlag(char *p, unsigned int bit);
+extern int MYSTERY_DATA_AddCard(void *p, void *arg);
+extern void MYSTERY_DATA_SetEventFlag(void *p, unsigned int idx);
+extern u32 MYSTERY_DATA_HasCardSpace(u8 *p);
+extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern int func_0200A104(char *p, unsigned int idx);
-extern int func_0200A350(struct Obj *a0);
+extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
 extern int func_0202EB44(void);
 extern void *func_021DE4D8(char *p);
 extern void func_021DA84C(u8 *p, u32 i, u32 value);
 extern void func_021D9750(u8 *p);
-extern void func_0200A2B8(void *a0, int a1);
-extern int func_0200A2D8(void *a0, int a1);
+extern void MYSTERY_DATA_SaveStart(void *a0, int a1);
+extern int MYSTERY_DATA_SaveMain(void *a0, int a1);
 extern void func_021D9790(char *p);
 extern void *func_021DCFC8(Desc_021D7814 *,u16);
 extern void *func_021DD24C(void *,void *,void *,u16);
-extern void func_021DE0AC(u8 *p, u32 b);
-extern void func_021DD9CC(char *p);
-extern void func_021DDF5C(u8 *p);
-extern int func_021DE014(char *p);
+extern void MYSTERY_ALBUM_RequestSetup(u8 *p, u32 b);
+extern void MYSTERY_ALBUM_StepIntro(char *p);
+extern void MYSTERY_ALBUM_StartIntro(u8 *p);
+extern int MYSTERY_ALBUM_IsIntroIdle(char *p);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void *func_021DAC18(Desc_021D7B4C *,int);
 extern void func_021DAEF0(struct Obj *obj);
 extern int func_021DB008(char *p);
 extern void func_021DAE1C(struct Obj *obj);
 extern void func_021DAFCC(char *p);
-extern void func_020312CC(u32,u32,u32);
+extern void PROCSYS_PushGlobal(u32,u32,u32);
 extern void func_0203D34C(u32,u32);
-extern void func_021DD980(char *);
+extern void MYSTERY_ALBUM_Delete(char *);
 extern void func_021DD1FC(void **);
 extern void func_021DA8B8(u32 *p);
 extern void *func_021DA038(Config_021D8138 *, int);
@@ -458,7 +465,7 @@ extern void *func_020173F0(u16,u16,u32,u32,u32);
 extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *,u32,u32);
-extern u32 func_02017FA8(void *);
+extern u32 POKE_TOOL_SetDefaultMoves(void *);
 extern u32 func_0201808C(void *,u32);
 extern void func_020180F4(void *p, int move);
 extern void func_02018A00(void *,u32,u32);
@@ -471,7 +478,7 @@ extern void func_0202F2AC(void *,u32,u32,u32,u32);
 extern void func_020185C4(void *);
 extern u32 func_02017E1C(void *,u32,u32);
 extern int func_0202D7C8(int);
-extern void *func_020185F4(void *);
+extern void *POKE_TOOL_GetBoxParam(void *);
 extern int func_0202D8D0(int,void *,int,int,u16,u16);
 extern u32 func_0202D9A4(u32,u32,u32,u32,u16);
 extern int func_0202D934(int,void *,int,int,u16);
@@ -479,7 +486,7 @@ extern u32 func_02020E60(u32 item, u32 which);
 extern void func_02082A48(u32,void *,u32);
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
-extern void func_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis);
+extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void func_020061E4(u32 a);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B53C(const struct Actor *actor, struct Pt *out);
@@ -495,13 +502,13 @@ extern void func_021DA978(char *p);
 extern void func_021DA958(unsigned char *p);
 extern void func_02025588(void *);
 extern int func_021DA9F8(u8 *p);
-extern u32 func_0202D6F4(void *a0, void *mon, u32 a2, u32 a3);
-extern void func_0202D214(void *,u16);
-extern int func_0200A21C(u8 *obj);
+extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
+extern void POKEGRA_ConvertCharTo2D(void *,u16);
+extern int MYSTERY_DATA_CheckPacketCrc(u8 *obj);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0207DC44(int,int,int,int);
 extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(u32 a, u32 b);
 int func_021D6660(void *a, u32 b, u32 c);
 int func_021D67D4(void *a, int b, int c, char *p);
@@ -564,7 +571,7 @@ void func_021D9580(void);
 extern char ov114_id[];
 extern char ov_id[];
 extern const char d_021DFB80[];
-extern const int d_021D6338[];
+extern const int gNetSaveMainProc[];
 extern char ov115_id[];
 extern const Config_021D83DC d_021DF544;
 extern const u16 d_021DF4F2[];
@@ -586,7 +593,7 @@ int func_021D6660(void *a, u32 b, u32 c)
     p = func_0203159C(a, 0x69C, 29);
     func_02082BCC(p, 0, 0x69C);
     *(u32 *)(p + 0x3B4) = c;
-    *(void **)(p + 0x3B8) = func_020124F4(29);
+    *(void **)(p + 0x3B8) = GAME_DATA_Create(29);
     *(void **)(p + 0x3BC) = func_0200A300(func_02012EBC(*(void **)(p + 0x3B8)), (void *)1, (void *)29);
     *(u8 **)(p + 0x394) = func_021D9624(1, 29);
     func_021D6924((u16 *)(p + 0x390), 29);
@@ -603,7 +610,7 @@ int func_021D6660(void *a, u32 b, u32 c)
     func_021D91BC(p + 0x138, p + 0x294, 29);
     func_021D9254((char *)p + 0x138, 0);
     func_021D9288((unsigned int *)(p + 0x138), 1);
-    func_02005D90(1154, 0xFFFF);
+    GFL_USE_CancelChangeAndPlayBgm(1154, 0xFFFF);
     return 1;
 }
 
@@ -626,12 +633,12 @@ int func_021D67D4(void *a, int b, int c, char *p)
     func_021D6948(p + 0x390);
     func_021D96C4(((struct Obj02176 *)p)->f394);
     func_0200A338(((struct Obj02176 *)p)->f3BC);
-    func_02012704(((struct Obj02176 *)p)->f3B8);
+    GAME_DATA_Delete(((struct Obj02176 *)p)->f3B8);
     func_020315D4(a);
     func_020306F0(29);
     func_02087BCC(0);
     func_02034A5C((int)ov_id);
-    func_02005D28();
+    GFL_USE_CancelChangeAndStopBgm();
     return 1;
 }
 
@@ -938,7 +945,7 @@ void func_021D6DB4(void *a, int *state)
 void func_021D6DF4(void *a, int *state)
 {
     switch (*state) {
-    case 0: func_0204E720(12, 0, 16, 0); func_02005E30(8); *state = 1; break;
+    case 0: func_0204E720(12, 0, 16, 0); GFL_USE_FadeOutBgm(8); *state = 1; break;
     case 1: if (!func_0204E804()) *state = 2; break;
     case 2: func_021DA8B0(a, (u32)func_021D80C0); break;
     }
@@ -964,15 +971,15 @@ void func_021D6E3C(void *task,u32 *state,u8 *p)
         if(v==0) {
             all=1;
             func_021D8380((char *)p);
-            flag=(func_0200A0C8(P(956))==0);
+            flag=(MYSTERY_DATA_HasCardSpace(P(956))==0);
             if(flag) {
-                for(i=0;i<func_0200A348(P(956));i++) {
+                for(i=0;i<MYSTERY_DATA_GetCardSlotNum(P(956));i++) {
                     if(func_0200A104(P(956),i)) all=0;
                 }
             }
             if(flag) {
                 if(all) {
-                    if(func_0200A350(P(956))==0) id=146;
+                    if(MYSTERY_DATA_IsMainSave(P(956))==0) id=146;
                     else id=137;
                     func_021D9F08(P(644),W(932),id,1);
                     func_021DA8C0(task,0);*state=19;
@@ -1177,11 +1184,11 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
             func_021D8198((char *)p);
             if(v==0) {
                 func_021D8380((char *)p);
-                if(((Flag *)(p+1152))->bit && func_0200A1A8(P(956),((struct Obj13939 *)p)->f47C)) {*state=11;break;}
+                if(((Flag *)(p+1152))->bit && MYSTERY_DATA_IsEventFlag(P(956),((struct Obj13939 *)p)->f47C)) {*state=11;break;}
                 func_0203F4E4((struct RtcDate *)(&date));
                 W(1144)=(((u32)date.y+2000)<<16)|(((u32)date.m<<24)>>16)|(u8)date.d;
-                func_0200A034(P(956),p+972);
-                func_0200A1E4(P(956),((struct Obj13939 *)p)->f47C);
+                MYSTERY_DATA_AddCard(P(956),p+972);
+                MYSTERY_DATA_SetEventFlag(P(956),((struct Obj13939 *)p)->f47C);
                 func_021DA8B0(task,(u32)func_021D7814);
             } else if(v==1) *state=5;
         }
@@ -1243,11 +1250,11 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         if (func_021D8D18((char *)(p+12))) *state=4;
         break;
     case 4:
-        func_0200A2B8(((struct Obj00297 *)p)->f3BC,(int)(((struct Obj00297 *)p)->f3B8));
+        MYSTERY_DATA_SaveStart(((struct Obj00297 *)p)->f3BC,(int)(((struct Obj00297 *)p)->f3B8));
         *state=5;
         break;
     case 5:
-        if (func_0200A2D8(((struct Obj00297 *)p)->f3BC,(int)(((struct Obj00297 *)p)->f3B8))==2) *state=6;
+        if (MYSTERY_DATA_SaveMain(((struct Obj00297 *)p)->f3BC,(int)(((struct Obj00297 *)p)->f3B8))==2) *state=6;
         break;
     case 6:
         func_021D8C1C(p+12,1);
@@ -1296,17 +1303,17 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         d.w[11]=((struct Obj00297 *)p)->f3A8;
         ((struct Obj00297 *)p)->f4=func_021DCFC8(&d,29);
         ((struct Obj00297 *)p)->f0=func_021DD24C(p+972,((struct Obj00297 *)p)->f4,((struct Obj00297 *)p)->f3B8,29);
-        func_021DE0AC(((struct Obj00297 *)p)->f0,0);
+        MYSTERY_ALBUM_RequestSetup(((struct Obj00297 *)p)->f0,0);
         *state=13;
         break;
     case 13:
-        func_021DD9CC(((struct Obj00297 *)p)->f0);
-        func_021DDF5C(((struct Obj00297 *)p)->f0);
+        MYSTERY_ALBUM_StepIntro(((struct Obj00297 *)p)->f0);
+        MYSTERY_ALBUM_StartIntro(((struct Obj00297 *)p)->f0);
         *state=14;
         break;
     case 14:
-        func_021DD9CC(((struct Obj00297 *)p)->f0);
-        if (func_021DE014(((struct Obj00297 *)p)->f0)) {
+        MYSTERY_ALBUM_StepIntro(((struct Obj00297 *)p)->f0);
+        if (MYSTERY_ALBUM_IsIntroIdle(((struct Obj00297 *)p)->f0)) {
             ((struct Obj00297 *)p)->f3C4=0;
             *state=15;
         }
@@ -1466,7 +1473,7 @@ void func_021D7CF4(void *task,u32 *state,u8 *p)
         *state=8;
         break;
     case 7:
-        ((struct Obj00827 *)p)->f3C8=(void *)func_0200A0C8(((struct Obj00827 *)p)->f3BC);
+        ((struct Obj00827 *)p)->f3C8=(void *)MYSTERY_DATA_HasCardSpace(((struct Obj00827 *)p)->f3BC);
         func_021DA8B0(task,(u32)func_021D6E3C);
         break;
     case 8:
@@ -1517,9 +1524,9 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         ((struct Obj22861 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f10=0;
         ((struct Obj22862 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f18=0;
         ((struct Obj22863 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->fC=9;
-        if(!func_0200A350(((struct Obj00533 *)p)->f3BC)) ((struct Obj22864 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f14=2;
+        if(!MYSTERY_DATA_IsMainSave(((struct Obj00533 *)p)->f3BC)) ((struct Obj22864 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f14=2;
         else ((struct Obj22865 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f14=0;
-        func_020312CC((u32)ov115_id,(u32)d_021D6338,(u32)((struct Obj00533 *)p)->f3C0);
+        PROCSYS_PushGlobal((u32)ov115_id,(u32)gNetSaveMainProc,(u32)((struct Obj00533 *)p)->f3C0);
         *state=5; return;
     case 5:
         ((struct Obj00533 *)p)->f394=func_021D9624(1,29);
@@ -1529,7 +1536,7 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         func_021D9FFC(((struct Obj00533 *)p)->f284,10,14);
         func_0207D63C((void *)0x04000050,4,24,15,3);
         func_0203D34C(1,29);
-        func_02005D90(1154,65535);
+        GFL_USE_CancelChangeAndPlayBgm(1154,65535);
         func_021D9288((unsigned int *)(p+312),1);
         *state=4; return;
     case 4:
@@ -1552,7 +1559,7 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
 
 void func_021D80C0(void *p,int n,char *q) {
  func_021D8198(q);func_021D8380(q);func_021D849C(q);
- if(*(char * *)&((struct Obj00326 *)q)->f0) {func_021DD980(*(char * *)&((struct Obj00326 *)q)->f0);func_021DD1FC(*(void ** *)&((struct Obj00326 *)q)->f4);}
+ if(*(char * *)&((struct Obj00326 *)q)->f0) {MYSTERY_ALBUM_Delete(*(char * *)&((struct Obj00326 *)q)->f0);func_021DD1FC(*(void ** *)&((struct Obj00326 *)q)->f4);}
  func_021DA8B8(p);
 }
 
@@ -1858,7 +1865,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
             else if(desc[55]==2) random=func_020186C8(otId,(u16)species,desc[28],gender,selector,1);
         }
         func_02017588(allocated,H(26),level,id,packed,random);
-        func_02017E40(allocated,6,H(16));func_02017FA8(allocated);
+        func_02017E40(allocated,6,H(16));POKE_TOOL_SetDefaultMoves(allocated);
         for(i=0;i<4;i++) {
             value=*(u16 *)((u8 *)&work.move[0]+i*2);
             if(value!=0 && value<560 && func_0201808C(allocated,value)==65535) func_020180F4(allocated,value);
@@ -1906,11 +1913,11 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         goto image;
     image:
         arc=func_0202D7C8(heap);
-        O(12)=func_0202D8D0((int)arc,func_020185F4(mon),0,0,448,heap);
+        O(12)=func_0202D8D0((int)arc,POKE_TOOL_GetBoxParam(mon),0,0,448,heap);
         clamp=0;
-        O(20)=func_0202D9A4((u32)func_020185F4(mon),0,2,0,heap);
-        O(16)=func_0202D934((int)arc,func_020185F4(mon),0,0,heap);
-        OH(296)=func_021D94C4((int)func_020185F4(mon),heap)-48;
+        O(20)=func_0202D9A4((u32)POKE_TOOL_GetBoxParam(mon),0,2,0,heap);
+        O(16)=func_0202D934((int)arc,POKE_TOOL_GetBoxParam(mon),0,0,heap);
+        OH(296)=func_021D94C4((int)POKE_TOOL_GetBoxParam(mon),heap)-48;
         if(*(s16 *)(out+296)>48) clamp=48;
         else if(*(s16 *)(out+296)>=0) clamp=*(s16 *)(out+296);
         OH(296)=clamp;
@@ -2074,7 +2081,7 @@ void func_021D8D1C(u8 *p)
         break;
     case 4:
         y=((214-((struct Obj00498 *)p)->f128)*((struct Obj00498 *)p)->f18)/60u-96;
-        func_0204B49C(((struct Obj00498 *)p)->f4,y,0,1);
+        CLACT_SetActorSurfacePosAxis(((struct Obj00498 *)p)->f4,y,0,1);
         if(y>=-48 && y<=192) func_0204B3DC(((struct Obj00498 *)p)->f4,1);
         if((((struct Obj00498 *)p)->f18)++>=60) {
             func_020061E4(1649);
@@ -2379,8 +2386,8 @@ unsigned func_021D94C4(int id,int heap)
     void *allocation;
     u8 *table;
     heap=(heap&32767)|32768;
-    allocation=(void *)func_0202D6F4(&object,(void *)id,(int)0,(u16)heap);
-    func_0202D214(object,heap);
+    allocation=(void *)POKEGRA_LoadCharDataPP(&object,(void *)id,(int)0,(u16)heap);
+    POKEGRA_ConvertCharTo2D(object,heap);
     for(row=11;row>=0;row--) {
         for(col=0;col<12;col++) {
             unsigned *p=(unsigned *)(*(u8 * *)&((struct Obj13942 *)object)->f14+(row*12+col)*32);
@@ -2400,7 +2407,7 @@ unsigned func_021D94C4(int id,int heap)
 
 
 int func_021D9554(char *p,int n) {
- if(func_0200A21C((u8 *)p)!=0 && n==0 && (((struct Obj13943 *)p)->fCC==0 || (((struct Obj13943 *)p)->fCC&0x200000)!=0)) return 1;
+ if(MYSTERY_DATA_CheckPacketCrc((u8 *)p)!=0 && n==0 && (((struct Obj13943 *)p)->fCC==0 || (((struct Obj13943 *)p)->fCC&0x200000)!=0)) return 1;
  return 0;
 }
 
@@ -2421,6 +2428,6 @@ void func_021D9580(void)
     func_0207DC44(0,0,0,0);
     func_0207DD24(0,0,32767,63,0);
     *(volatile unsigned *)0x04000580=0xBFFF0000;
-    for(i=0;i<4;i++) func_02046A94((u8)i,(const u16 *)(d_021DF5E4+i*2));
+    for(i=0;i<4;i++) G3D_SYSTEM_SetLight((u8)i,(const u16 *)(d_021DF5E4+i*2));
     func_02046BE0(0,0);
 }

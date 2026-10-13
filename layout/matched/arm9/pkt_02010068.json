@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02010068",
+   "name": "GFL_NET_ERR_LoadScreenGraphics",
    "address": "0x02010068",
    "kind": "game",
    "region": "arm9",
@@ -80,12 +80,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201042C",
-    "func_02010444"
+    "WIH_DWC_PauseTimers",
+    "WIH_DWC_ResumeTimers"
+   ],
+   "addresses": [
+    "0x0201042C",
+    "0x02010444"
    ]
   },
   {
-   "name": "func_0201057C",
+   "name": "WIH_DWC_IsPrivacyBeacon",
    "address": "0x0201057C",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_02015C30
+ * function: MCSS_GetPosition
  * address:  0x02015C30
  * packet:   pkt_02015C30
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * Unlabelled Thumb leaf in the ARM9 module (saves nothing, so disasm.py emits
  * it as a run of .word). Copies three words out of the structure at +0xE0.
- * The inverse of func_02015C48; in the ov118 event state machine
+ * The inverse of MCSS_SetPosition; in the ov118 event state machine
  * (0x021D7130) it is the out-direction marshaller.
  *
  * Addresses are Black-image addresses.
@@ -20,7 +20,7 @@
 
 typedef unsigned int u32;
 
-void func_02015C30(void *p, u32 *out)
+void MCSS_GetPosition(void *p, u32 *out)
 {
     out[0] = ((struct Obj08751 *)p)->fE0;
     out[1] = ((struct Obj08751 *)p)->fE4;

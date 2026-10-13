@@ -1,5 +1,5 @@
 /*
- * function: func_021AFFE4
+ * function: VCT_ADPCM_Decode2Bit
  * address:  0x021AFFE4
  * packet:   pkt_ov013_021AFFE4
  * region:   ov013
@@ -11,12 +11,12 @@
  *
  * 2-bit ADPCM decoder: n source bytes, low pair first, to 4n s16 samples,
  * with the predictor and step index carried in *st (the 4-bit IMA twin is
- * func_021AF340). Index table (s8[4]) at 0x021B3A00, step table (s16[89])
+ * VCT_ADPCM_Decode4Bit). Index table (s8[4]) at 0x021B3A00, step table (s16[89])
  * at 0x021B3A1C.
  *
  * symbols:
- *   d_021B3A00     0x021B3A00  data  ov013  a1
- *   d_021B3A1C     0x021B3A1C  data  ov013  a2
+ *   gAdpcmIndexTable2     0x021B3A00  data  ov013  a1
+ *   gAdpcmStepTable     0x021B3A1C  data  ov013  a2
  */
 
 typedef unsigned char u8;
@@ -29,8 +29,8 @@ typedef struct AdpcmState {
     u8 index;
 } AdpcmState;
 
-extern const s8 d_021B3A00[4];
-extern const s16 d_021B3A1C[89];
+extern const s8 gAdpcmIndexTable2[4];
+extern const s16 gAdpcmStepTable[89];
 
 static inline s16 Adpcm2DecodeCode(AdpcmState *st, int code)
 {
@@ -40,7 +40,7 @@ static inline s16 Adpcm2DecodeCode(AdpcmState *st, int code)
 
     idx = st->index;
     pred = st->pred;
-    diff = d_021B3A1C[idx];
+    diff = gAdpcmStepTable[idx];
     if (!(code & 1)) {
         diff = 0;
     }
@@ -55,7 +55,7 @@ static inline s16 Adpcm2DecodeCode(AdpcmState *st, int code)
             pred = 32767;
         }
     }
-    idx += d_021B3A00[code];
+    idx += gAdpcmIndexTable2[code];
     if (idx < 0) {
         idx = 0;
     } else if (idx > 88) {
@@ -66,7 +66,7 @@ static inline s16 Adpcm2DecodeCode(AdpcmState *st, int code)
     return (s16)pred;
 }
 
-void func_021AFFE4(const u8 *src, s16 *dst, u32 n, AdpcmState *st)
+void VCT_ADPCM_Decode2Bit(const u8 *src, s16 *dst, u32 n, AdpcmState *st)
 {
     u32 i;
 

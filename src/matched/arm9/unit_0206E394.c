@@ -20,7 +20,7 @@
  *   func_0206E484  bits 6..7     (mask 0x000000c0, shift 6)
  *   func_0206E4FC  bits 24..29   (mask 0x3f000000, shift 24)
  *   func_0206E574  bits 16..20   (mask 0x001f0000, shift 16)
- * func_0206E5EC (already EXACT, next packet boundary) loops func_0206E4FC.
+ * NNS_G3dMdlSetMdlPolygonIDAll (already EXACT, next packet boundary) loops func_0206E4FC.
  *
  * Two shape notes that cost the derivation real time:
  *  - Every NULL arm shares ONE tail (`n = 0` at the very end), so each early

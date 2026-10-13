@@ -1,6 +1,6 @@
 /*
  * file:     unit_020889F8.c
- * function: func_020889F8
+ * function: RTCEXi_GetCommonCallback
  * address:  0x020889F8
  * packet:   pkt_020889F8
  * region:   arm9
@@ -12,7 +12,7 @@
  *
  * Unlabelled 12-byte ARM pointer thunk in a .word run:
  *   ldr r0, [pc, #0]; bx lr; .word func_0215142C
- * Same shape as func_0208B7B0 and, for the same reason, witnessable only as a
+ * Same shape as MICEXi_GetLimitedSamplingCallback and, for the same reason, witnessable only as a
  * `matched` entry.  It unblocks the TWL park src/pending/RTCEXi_CommonCallback.c.
  * The pointer word resolves `literal x1` against the duplicate 0x0215142C
  * word at 0x02088EE8.
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 
 extern void func_0215142C(void);
 
-void *func_020889F8(void)
+void *RTCEXi_GetCommonCallback(void)
 {
     return (void *)func_0215142C;
 }

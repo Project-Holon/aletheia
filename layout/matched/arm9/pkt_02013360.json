@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02013360",
+   "name": "BTL_SETUP_InitCommon",
    "address": "0x02013360",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020134F4",
+   "name": "BTL_SETUP_SetupTrainerBase",
    "address": "0x020134F4",
    "kind": "game",
    "region": "arm9",

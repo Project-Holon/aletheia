@@ -11,7 +11,7 @@
  *
  * Script command: reads a selector and two words, maps the selector
  * (0 -> 4, 1 -> 5, else 0), then opens overlay 0x46 over a work built
- * from func_0202E474 with an 8-byte hand-off record.
+ * from BAG_PARAM_Create with an 8-byte hand-off record.
  *
  * 2026-10-05 (wave D9): EXACT. The ov070 token on the d_021BB96C data line
  * (the proc table lives in ov070, the overlay this function opens) gave the
@@ -24,7 +24,7 @@
  *   func_02159B10  0x02159B10  thumb  ov010
  *   func_02159AE8  0x02159AE8  thumb  ov010
  *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0202E474  0x0202E474  thumb
+ *   BAG_PARAM_Create  0x0202E474  thumb
  *   func_02030734  0x02030734  arm
  *   func_0215C63C  0x0215C63C  thumb  ov010
  *   func_0215C700  0x0215C700  thumb  ov010
@@ -44,7 +44,7 @@ struct Pair;
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *vm);
 struct BigObj;
-extern void *func_0202E474(const struct BigObj *a0, int a1, int a2, int a3);
+extern void *BAG_PARAM_Create(const struct BigObj *a0, int a1, int a2, int a3);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_0215C63C(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
 extern void func_0215C700(struct Pair *p);
@@ -72,7 +72,7 @@ int func_0215C72C(void *c, void *vm)
         k = 5;
     else
         k = 0;
-    work = func_0202E474((const struct BigObj *)func_0215A5E4(vm), 0, k, 4);
+    work = BAG_PARAM_Create((const struct BigObj *)func_0215A5E4(vm), 0, k, 4);
     h = func_02030734(4, 8, 1, d_021728F0, 0x118);
     h[0] = a;
     h[1] = b;

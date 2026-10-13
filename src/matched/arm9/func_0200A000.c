@@ -9,25 +9,31 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   MYSTERY_DATA_GetCardPtr  0x02009FD4  thumb
+ *   MYSTERY_DATA_GetCardMax  0x0200A400  thumb
+ *   MYSTERY_DATA_Encrypt  0x0200A480  thumb
+ *   MYSTERY_DATA_Decrypt  0x0200A49C  thumb
  */
 
 struct Obj;
-extern unsigned int func_0200A400(struct Obj *p);
-extern void func_0200A49C(struct Obj *p);
-extern void func_0200A480(struct Obj *p);
-extern void *func_02009FD4(char *p, unsigned int idx);
+extern unsigned int MYSTERY_DATA_GetCardMax(struct Obj *p);
+extern void MYSTERY_DATA_Decrypt(struct Obj *p);
+extern void MYSTERY_DATA_Encrypt(struct Obj *p);
+extern void *MYSTERY_DATA_GetCardPtr(char *p, unsigned int idx);
 extern void func_02082D44(void *dst, void *src, int n);
 int func_0200A000(char *p, int idx, void *buf)
 {
     char *e;
     int r = 0;
-    func_0200A400((struct Obj *)p);
-    func_0200A49C((struct Obj *)p);
-    e = (char *)func_02009FD4(p, idx);
+    MYSTERY_DATA_GetCardMax((struct Obj *)p);
+    MYSTERY_DATA_Decrypt((struct Obj *)p);
+    e = (char *)MYSTERY_DATA_GetCardPtr(p, idx);
     if (e != 0) {
         func_02082D44(e, buf, 0xcc);
         r = 1;
     }
-    func_0200A480((struct Obj *)p);
+    MYSTERY_DATA_Encrypt((struct Obj *)p);
     return r;
 }

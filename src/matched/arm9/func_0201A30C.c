@@ -1,5 +1,5 @@
 /*
- * function: func_0201A30C
+ * function: POKE_REGULATION_ResetPartyNicknames
  * address:  0x0201A30C
  * packet:   pkt_02019D58
  * region:   arm9
@@ -25,8 +25,8 @@
  * condition.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A30C.c \
- *       --func func_0201A30C --addr 0x0201A30C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_REGULATION_ResetPartyNicknames.c \
+ *       --func POKE_REGULATION_ResetPartyNicknames --addr 0x0201A30C --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -38,7 +38,7 @@ extern void *func_0201AB28(void *p, u32 idx);
 extern u32  func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02019B58(void *p);
 
-void func_0201A30C(void *a0, void *a1, u32 c)
+void POKE_REGULATION_ResetPartyNicknames(void *a0, void *a1, u32 c)
 {
     int i;
 

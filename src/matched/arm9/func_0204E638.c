@@ -1,5 +1,5 @@
 /*
- * function: func_0204E638
+ * function: FADE_Update
  * address:  0x0204E638
  * packet:   pkt_0204E638
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   g_02146A7C     0x02146A7C  data
- *   func_0204E824  0x0204E824  arm
+ *   FADE_ApplyBrightness  0x0204E824  arm
  */
 
 #include "../include/G_Run0204E720.h"
@@ -21,9 +21,9 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 extern struct Run0204E720 *g_02146A7C;
-extern void func_0204E824(void);
+extern void FADE_ApplyBrightness(void);
 
-void func_0204E638(void)
+void FADE_Update(void)
 {
     if (g_02146A7C == 0) {
         return;
@@ -41,7 +41,7 @@ void func_0204E638(void)
         (g_02146A7C->unk08 <= g_02146A7C->unk0c && g_02146A7C->unk18 < 0)) {
         g_02146A7C->unk08 = g_02146A7C->unk0c;
     }
-    func_0204E824();
+    FADE_ApplyBrightness();
     if (g_02146A7C->unk08 == g_02146A7C->unk0c) {
         g_02146A7C->unk00 = 0;
     }

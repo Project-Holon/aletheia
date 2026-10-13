@@ -1,5 +1,5 @@
 /*
- * function: func_020070C8
+ * function: SAVE_CONTROL_Reload
  * address:  0x020070C8
  * packet:   pkt_020070C8
  * region:   arm9
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02031AE0  0x02031AE0  arm
+ *   BACKUP_SYSTEM_Load  0x02031AE0  arm
  *   func_0200A5F8  0x0200A5F8  thumb
  *   func_0200A7EC  0x0200A7EC  thumb
  *   func_02008784  0x02008784  thumb
- *   func_0200725C  0x0200725C  thumb
+ *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   func_020072A4  0x020072A4  thumb
  *   func_020087C0  0x020087C0  thumb
  *
@@ -26,7 +26,7 @@
  * lands on the shared `adds r0, r7, #0` instead of straight on the pop.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020070C8.c  *       --func func_020070C8 --addr 0x020070C8 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/SAVE_CONTROL_Reload.c  *       --func SAVE_CONTROL_Reload --addr 0x020070C8 --thumb --cc 1.1p1
  */
 #include "../include/Obj00370.h"
 
@@ -34,22 +34,22 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct State;
-extern int  func_02031AE0(struct State *v, u32 mode);
+extern int  BACKUP_SYSTEM_Load(struct State *v, u32 mode);
 extern void *func_0200A5F8(void *self);
 struct Big;
 extern void func_0200A7EC(struct Big *h, u8 v);
 extern int func_02008784(void *sys, u32 index);
 struct Ctrl;
-extern u32  func_0200725C(struct Ctrl *self, u32 a, u8 heap);
+extern u32  SAVE_CONTROL_LoadExtraSave(struct Ctrl *self, u32 a, u8 heap);
 struct Sub020072A4Ctrl;
 extern void func_020072A4(struct Sub020072A4Ctrl *self, u32 a);
 extern void func_020087C0(void *sys, u32 index);
 
 typedef enum { BIT_0, BIT_MAX = 9 } Bit;
 
-int func_020070C8(char *self)
+int SAVE_CONTROL_Reload(char *self)
 {
-    int t = func_02031AE0(*(struct State * *)&((struct Obj00370 *)self)->f10, 1);
+    int t = BACKUP_SYSTEM_Load(*(struct State * *)&((struct Obj00370 *)self)->f10, 1);
     void *h;
     Bit i;
 
@@ -61,7 +61,7 @@ int func_020070C8(char *self)
         h = func_0200A5F8(self);
         func_0200A7EC(h, 0);
         if (func_02008784(self, 6) == 1) {
-            int r = func_0200725C((struct Ctrl *)self, 6, 1);
+            int r = SAVE_CONTROL_LoadExtraSave((struct Ctrl *)self, 6, 1);
 
             func_020072A4((struct Sub020072A4Ctrl *)self, 6);
             if (r != 1 && r != 2)

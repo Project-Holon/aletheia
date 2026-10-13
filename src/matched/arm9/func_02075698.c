@@ -29,8 +29,8 @@
  *   func_02074BEC  0x02074BEC  arm
  *   func_020733DC  0x020733DC  arm
  *   func_020733E8  0x020733E8  arm
- *   func_02072F48  0x02072F48  arm
- *   func_02072F88  0x02072F88  arm
+ *   NNS_SndHandleSetPlayerPriority  0x02072F48  arm
+ *   NNS_SndHandlePause  0x02072F88  arm
  *   func_020730B8  0x020730B8  arm
  */
 #include "../include/Obj16686.h"
@@ -46,8 +46,8 @@ extern u32   func_02074CD0(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern void  func_020733DC(void *h);
 extern void func_020733E8(struct Obj *o, const void *seqBase, u32 seqOffset, const void *bankData);
-extern void func_02072F48(struct Obj *o, u8 v);
-extern void func_02072F88(struct Obj *o, u32 v);
+extern void NNS_SndHandleSetPlayerPriority(struct Obj *o, u8 v);
+extern void NNS_SndHandlePause(struct Obj *o, u32 v);
 extern void  func_020730B8(u32 a, u32 b);
 
 u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1)
@@ -71,8 +71,8 @@ u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1)
         return 0;
     }
     func_020733E8(h, (u32 *)(blk + ((struct Obj16686 *)blk)->f18), 0, (const void *)slot);
-    func_02072F48((struct Obj *)a0, s0[6]);
-    func_02072F88((struct Obj *)a0, s0[7]);
+    NNS_SndHandleSetPlayerPriority((struct Obj *)a0, s0[6]);
+    NNS_SndHandlePause((struct Obj *)a0, s0[7]);
     func_020730B8(a0, s1);
     return 1;
 }

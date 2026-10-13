@@ -1,5 +1,5 @@
 /*
- * function: func_0208FDEC
+ * function: WM_EndMP
  * address:  0x0208FDEC
  * packet:   pkt_0208FDEC
  * region:   arm9
@@ -71,7 +71,7 @@ extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 
-WMErrCode func_0208FDEC(WMCallbackFunc callback)
+WMErrCode WM_EndMP(WMCallbackFunc callback)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();

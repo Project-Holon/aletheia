@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021736D8  0x021736D8  thumb ov011
+ *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
  *   func_020399A8  0x020399A8  arm
  *   func_0203D3F8  0x0203D3F8  arm
  */
 
-int func_021736D8(void);
+int INTRUDE_COMM_IsLinked(void);
 struct Entry;
 struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
@@ -25,7 +25,7 @@ int func_02173AE0(int a, int b, int c, int d)
 {
     unsigned char buf[4];
 
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }
     buf[0] = c;

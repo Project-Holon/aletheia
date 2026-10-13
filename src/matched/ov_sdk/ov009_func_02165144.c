@@ -1,5 +1,5 @@
 /*
- * function: func_02165144
+ * function: WCM_SearchAsync
  * address:  0x02165144
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,20 +12,20 @@
  * Dispatches on whether either argument is missing.
  *
  * symbols:
- *   func_02165204  0x02165204  arm  ov009
- *   func_02165164  0x02165164  arm  ov009
+ *   WCM_EndSearchAsync  0x02165204  arm  ov009
+ *   WCM_BeginSearchAsync  0x02165164  arm  ov009
  */
 
-extern long func_02165204(int a, int b);
-extern long func_02165164(void *bssid, void *essid, unsigned long option);
+extern long WCM_EndSearchAsync(int a, int b);
+extern long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option);
 
-void func_02165144(void *a, void *b, unsigned long a2)
+void WCM_SearchAsync(void *a, void *b, unsigned long a2)
 {
     if (a == 0 || b == 0) {
-        func_02165204((int)a, (int)b);
+        WCM_EndSearchAsync((int)a, (int)b);
         return;
     }
 
-    func_02165164(a, b, a2);
+    WCM_BeginSearchAsync(a, b, a2);
 }
 

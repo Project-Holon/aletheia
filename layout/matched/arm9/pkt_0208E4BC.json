@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208E4BC",
+   "name": "WMi_GetSystemWork",
    "address": "0x0208E4BC",
    "kind": "sdk",
    "region": "arm9",

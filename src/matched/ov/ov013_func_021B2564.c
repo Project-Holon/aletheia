@@ -1,5 +1,5 @@
 /*
- * function: func_021B2564
+ * function: VCT_SESSION_SendCommand
  * address:  0x021B2564
  * packet:   pkt_ov013_021B2564
  * region:   ov013
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B2010  0x021B2010  arm  ov013
- *   func_021B275C  0x021B275C  arm  ov013
+ *   VCT_SESSION_BuildGroupCommand  0x021B2010  arm  ov013
+ *   VCT_SESSION_SendPacket  0x021B275C  arm  ov013
  */
 
 typedef unsigned char u8;
 
-extern int func_021B2010(void *a, unsigned int b, unsigned char *buf, unsigned int c);
-extern int func_021B275C(u8 *o, u8 *p);
+extern int VCT_SESSION_BuildGroupCommand(void *a, unsigned int b, unsigned char *buf, unsigned int c);
+extern int VCT_SESSION_SendPacket(u8 *o, u8 *p);
 
-int func_021B2564(int a, int b)
+int VCT_SESSION_SendCommand(int a, int b)
 {
     u8 buf[16];
     int r;
 
-    r = func_021B2010((void *)a, b, buf, 16);
+    r = VCT_SESSION_BuildGroupCommand((void *)a, b, buf, 16);
     if (r != 0)
         return r;
-    if (func_021B275C((u8 *)a, buf) != 0)
+    if (VCT_SESSION_SendPacket((u8 *)a, buf) != 0)
         return 0;
     return -4;
 }

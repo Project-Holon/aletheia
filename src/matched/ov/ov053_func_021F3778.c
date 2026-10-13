@@ -14,7 +14,7 @@
  *   func_02188C58  0x02188C58  thumb  ov021
  *   func_0218ECE4  0x0218ECE4  thumb  ov021
  *   func_0218ECB4  0x0218ECB4  thumb  ov021
- *   func_0202B93C  0x0202B93C  thumb
+ *   ISS_3DS_SYS_SetCamera  0x0202B93C  thumb
  *   func_021F3A5C  0x021F3A5C  thumb  ov053
  *   func_021C4DE4  0x021C4DE4  thumb  ov021
  *   func_021F3A38  0x021F3A38  thumb  ov053
@@ -32,7 +32,7 @@ extern int *func_021897BC(char *p, int idx);
 extern void *func_02188C58(void *p);
 extern void func_0218ECE4(int, int *);
 extern void func_0218ECB4(int, int *);
-extern void func_0202B93C(int a, void *b, void *c);
+extern void ISS_3DS_SYS_SetCamera(int a, void *b, void *c);
 extern int func_021F3A5C(char *p, int i);
 extern int func_021C4DE4(int, int);
 extern void func_021F3A38(char *a, int i);
@@ -57,7 +57,7 @@ void func_021F3778(int a)
     h = (int)func_02188C58((void *)a);
     func_0218ECE4(h, v1);
     func_0218ECB4(h, v2);
-    func_0202B93C(p[1], v1, v2);
+    ISS_3DS_SYS_SetCamera(p[1], v1, v2);
     for (i = 0; i < 5; i++) {
         int *q = p + i;
         if (q[7] > 0) {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200A21C",
+   "name": "MYSTERY_DATA_CheckPacketCrc",
    "address": "0x0200A21C",
    "kind": "game",
    "region": "arm9",

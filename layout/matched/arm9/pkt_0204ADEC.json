@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0204ADEC",
+   "name": "CLACT_TransferPalette",
    "address": "0x0204ADEC",
    "kind": "game",
    "region": "arm9",
@@ -30,11 +30,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204AEC0"
+    "CLACT_GetPaletteProxy"
+   ],
+   "addresses": [
+    "0x0204AEC0"
    ]
   },
   {
-   "name": "sub_0204AF28",
+   "name": "CLACT_RegisterCellAnim",
    "address": "0x0204AF28",
    "kind": "game",
    "region": "arm9",

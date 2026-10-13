@@ -14,7 +14,7 @@
  *   symbols: d_0214617C 0x0214617C data a4; d_021461BC 0x021461BC data a4.
  *   typedef unsigned char u8; typedef unsigned int u32;
  *   extern u8 d_0214617C[],d_021461BC[];
- *   void func_0200FB4C(int value) {
+ *   void GFL_NET_ERR_RaiseFatal(int value) {
  *       if(*(u32 *)(d_0214617C+0x2c)!=2) {
  *           *(u32 *)(d_0214617C+0x60)=value;
  *           d_021461BC[0x1a]=1; d_021461BC[0x19]=1;
@@ -30,7 +30,7 @@
  *   func_021B97F4 0x021B97F4 thumb ov114
  *   func_021B9774 0x021B9774 thumb ov114
  *   func_021DC610 0x021DC610 thumb ov175
- *   func_0200FB4C 0x0200FB4C thumb
+ *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  *   func_02082BCC 0x02082BCC arm
  */
 typedef unsigned char u8;
@@ -44,7 +44,7 @@ extern int func_021B9790(u8 *);
 extern u8 *func_021B97F4(u8 *);
 extern void func_021B9774(u8 *);
 extern int func_021DC610(u32);
-extern void func_0200FB4C(unsigned int x);
+extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
 extern void func_02082BCC(void *,int,int);
 int func_021DC77C(u8 *p)
 {
@@ -65,11 +65,11 @@ int func_021DC77C(u8 *p)
         if(status==0) {
             r=func_021B97F4(*(u8 **)(p+0x121c));
             if(query!=0x1f6) {
-                if(query==0x1f7) {*(u32 *)(p+0x12c)=4;func_0200FB4C(62);return 0;}
-            } else {*(u32 *)(p+0x12c)=4;func_0200FB4C(63);return 0;}
+                if(query==0x1f7) {*(u32 *)(p+0x12c)=4;GFL_NET_ERR_RaiseFatal(62);return 0;}
+            } else {*(u32 *)(p+0x12c)=4;GFL_NET_ERR_RaiseFatal(63);return 0;}
             *(Pair *)(p+0x1220)=*(const Pair *)(r+0x80);
             if(*(u32 *)r==0)*(u32 *)(p+0x12c)=3;
-            else {func_0200FB4C(func_021DC610(*(u32 *)r));*(u32 *)(p+0x12c)=4;}
+            else {GFL_NET_ERR_RaiseFatal(func_021DC610(*(u32 *)r));*(u32 *)(p+0x12c)=4;}
         } else if(status!=15) {
             if(*(u8 **)(p+0x121c)!=0) {func_021B9838(*(u8 **)(p+0x121c));*(u32 *)(p+0x121c)=0;}
             return 2;

@@ -1,7 +1,7 @@
 /*
  * file:     unit_0208FA28.c
  * unit:     yes
- * function: func_0208FA28, func_0208FBA8, func_0208FC4C, WM_SetMPDataToPortEx, func_0208FDEC
+ * function: func_0208FA28, func_0208FBA8, func_0208FC4C, WM_SetMPDataToPortEx, WM_EndMP
  * address:  0x0208FA28
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -150,7 +150,7 @@ WMErrCode WMi_StartMP(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u1
 WMErrCode func_0208FBA8(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq, u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode, BOOL ignoreFatalError);
 WMErrCode func_0208FC4C(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq);
 WMErrCode WM_SetMPDataToPortEx(WMCallbackFunc callback, void *arg, u16 *sendData, u16 sendDataSize, u16 destBitmap, u16 port, u16 prio);
-WMErrCode func_0208FDEC(WMCallbackFunc callback);
+WMErrCode WM_EndMP(WMCallbackFunc callback);
 
 #define WM_ERRCODE_SUCCESS        0
 
@@ -317,7 +317,7 @@ WMErrCode WM_SetMPDataToPortEx(WMCallbackFunc callback, void *arg, u16 *sendData
  * sdk:      WM_EndMP (libwm.TWL.HYB.a(wm_mp.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208FDEC(WMCallbackFunc callback)
+WMErrCode WM_EndMP(WMCallbackFunc callback)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();

@@ -19,7 +19,7 @@
  *   func_02045CAC  0x02045CAC  arm
  *   func_02049238  0x02049238  arm
  *   func_02045C04  0x02045C04  arm
- *   func_0204581C  0x0204581C  arm
+ *   STRBUF_Clear  0x0204581C  arm
  */
 
 typedef unsigned short u16;
@@ -37,7 +37,7 @@ extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size,
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void  func_02049238(void *h);
 extern u32 func_02045C04(struct Rec *rec);
-extern void func_0204581C(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
 
 void func_0202A310(int key, int want, void *dest, u32 heap)
 {
@@ -64,6 +64,6 @@ void func_0202A310(int key, int want, void *dest, u32 heap)
     func_02045C04(bank);
 
     if (rec[0] == end) {
-        func_0204581C(dest);
+        STRBUF_Clear(dest);
     }
 }

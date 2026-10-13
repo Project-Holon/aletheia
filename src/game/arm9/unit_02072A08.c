@@ -1,7 +1,7 @@
 /*
  * file:     unit_02072A08.c
  * unit:     yes
- * function: func_02072A08, func_02072A28, func_02072A44
+ * function: NNS_SndWaveOutFreeChannel, NNS_SndWaveOutInit, NNS_SndWaveOutAllocChannel
  * address:  0x02072A08
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -34,9 +34,9 @@ typedef struct {
 } WaveOutSlot;
 
 extern int func_0207292C(int channelMask);
-void func_02072A08(u32 slotNo);
-void func_02072A28(void);
-WaveOutSlot *func_02072A44(u32 slotNo);
+void NNS_SndWaveOutFreeChannel(u32 slotNo);
+void NNS_SndWaveOutInit(void);
+WaveOutSlot *NNS_SndWaveOutAllocChannel(u32 slotNo);
 extern struct WaveOutState g_0214DEC0;
 extern WaveOutSlot g_0214DECC[];
 
@@ -48,7 +48,7 @@ extern WaveOutSlot g_0214DECC[];
  * The parameter is an INDEX, not a mask: `mov r2,#1 / mvn r0, r2, lsl r0` at
  * 0x02072A0C shows the shift happening INSIDE the complement, i.e. `~(1u << b)`
  * as one expression.  Spelling it `u32 m = 1u << b; ... &= ~m;` splits the
- * complement out and costs an extra instruction.  Compare func_020729A4, whose
+ * complement out and costs an extra instruction.  Compare SND_CHANNEL_ClearClaimedMask, whose
  * `mvn r0, r0` on the bare parameter proves IT takes a mask.
  *
  * NO PIN NEEDED: EXACT under both dsi/1.1p1 and ../2.0/sp2 (the base pool word
@@ -61,16 +61,16 @@ extern WaveOutSlot g_0214DECC[];
  * address to resolve; the C was always byte-correct.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02072A08.c \
- *       --func func_02072A08 --addr 0x02072A08 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/NNS_SndWaveOutFreeChannel.c \
+ *       --func NNS_SndWaveOutFreeChannel --addr 0x02072A08 --cc 1.1p1 --arm
  */
-void func_02072A08(u32 slotNo)
+void NNS_SndWaveOutFreeChannel(u32 slotNo)
 {
     g_0214DEC0.usedSlotMask &= ~(1U << slotNo);
 }
 
 
-void func_02072A28(void)
+void NNS_SndWaveOutInit(void)
 {
     struct WaveOutState *state = (struct WaveOutState *)0x0214DEC0;
     state->lockedChannelMask = 0;
@@ -84,10 +84,10 @@ void func_02072A28(void)
  * the stride-0x14 table and clears its +8 word; the slot address is returned.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02072A44.c \
- *       --func func_02072A44 --addr 0x02072A44 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_SndWaveOutAllocChannel.c \
+ *       --func NNS_SndWaveOutAllocChannel --addr 0x02072A44 --cc 1.1p1 --arm
  */
-WaveOutSlot *func_02072A44(u32 slotNo)
+WaveOutSlot *NNS_SndWaveOutAllocChannel(u32 slotNo)
 {
     WaveOutSlot *slot;
 

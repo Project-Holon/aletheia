@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02012EC0  0x02012EC0  thumb
+ *   GAME_DATA_GetSaveControlWork  0x02012EC0  thumb
  *   func_0200C0E8  0x0200C0E8  thumb
  *   func_0200C1C4  0x0200C1C4  thumb
  */
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 struct Big;
 
-extern void *func_02012EC0(struct Big *p);
+extern void *GAME_DATA_GetSaveControlWork(struct Big *p);
 extern void *func_0200C0E8(void *sys);
 struct Blk34;
 extern u32 func_0200C1C4(struct Blk34 *p);
@@ -34,7 +34,7 @@ int func_021672F8(int a0)
 
 
 a0 = ((struct Obj17731 *)a0)->f8;
-    big = func_02012EC0((struct Big *)a0);
+    big = GAME_DATA_GetSaveControlWork((struct Big *)a0);
 loc_02167300:
     sys = func_0200C0E8(big);
 loc_02167304:

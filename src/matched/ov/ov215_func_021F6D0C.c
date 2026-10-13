@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02015E04 0x02015E04 thumb
+ *   MCSS_SetAnmStopFlag 0x02015E04 thumb
  *
  * blocker: 0x02015E04 is an unlabelled ARM9 leaf (no func_ label, no SDK
  *   entry), so neither label nor sole-ref/code can attest the bl site;
@@ -18,11 +18,11 @@
  */
 #include "../include/Obj14711.h"
 
-extern void func_02015E04(void *p);
+extern void MCSS_SetAnmStopFlag(void *p);
 
 int func_021F6D0C(char *a)
 {
-    func_02015E04((void *)(((struct Obj14711 *)a)->f34));
+    MCSS_SetAnmStopFlag((void *)(((struct Obj14711 *)a)->f34));
     ((struct Obj14711 *)a)->f38 = 1;
     return 1;
 }

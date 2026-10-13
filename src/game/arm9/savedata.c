@@ -1,7 +1,7 @@
 /*
  * file:     savedata.c
  * unit:     yes
- * function: func_02033908, func_020339B4, func_020339D0, func_02033A3C, func_02033A88, func_02033B68, func_02033BAC, sub_02033BF0, sub_02033BF8, sub_02033C00, sub_02033C9C, sub_02033CA8, sub_02033CC0, sub_02033CFC, sub_02033E30, sub_02033F64, sub_02033FB0, sub_020340D0, sub_020341F0, func_0203422C, sub_020342F8, sub_02034348, sub_02034394, sub_020343C0, sub_020344C4, func_020344C8, sub_02034508, sub_02034520, func_02034558, func_020345DC, sub_020345F8, sub_02034630, sub_02034640, func_02034660, sub_020346B8, sub_020346D8, sub_020346EC, func_02034704, sub_02034714, sub_02034734
+ * function: SAVEDATA_CreateTable, SAVEDATA_DeleteTable, SAVEDATA_InitBuffer, SAVEDATA_QueryBlockSize, SAVEDATA_BuildLayout, SAVEDATA_GetBlockOffset, SAVEDATA_GetBlockSize, SAVEDATA_GetTableMax, SAVEDATA_GetTotalSize, AREAMAN_Create, AREAMAN_Delete, AREAMAN_Alloc, AREAMAN_AllocUp, AREAMAN_AllocShortUp, AREAMAN_AllocLongUp, AREAMAN_AllocDown, AREAMAN_AllocShortDown, AREAMAN_AllocLongDown, AREAMAN_AllocAt, AREAMAN_Free, AREAMAN_FindClearRunUp, AREAMAN_FindClearRunDown, AREAMAN_ClearByteRun, AREAMAN_MarkUsed, AREAMAN_TraceByte, AREAMAN_TraceBitmap, AREAMAN_TraceAlloc, VMAN_GetBankSetSize, VMAN_Create, VMAN_Delete, VMAN_GetUnitSize, VMAN_InvalidateHandle, VMAN_IsHandleInvalid, VMAN_Alloc, VMAN_Free, VMAN_GetOffset, sub_020346EC, func_02034704, sub_02034714, sub_02034734
  * address:  0x02033908
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -120,43 +120,43 @@ extern u32 func_020307B0(void *p);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void MIi_CpuClear32(u32 v, void *dst, u32 n);
 
-struct SaveDataTable *func_02033908(u16 heap_id, struct SaveBlockDef *table, u32 table_max, u32 size_limit,
+struct SaveDataTable *SAVEDATA_CreateTable(u16 heap_id, struct SaveBlockDef *table, u32 table_max, u32 size_limit,
                                     u32 header_size, u32 block_overhead, u32 footer_size);
-void func_020339B4(struct SaveDataTable *svdt);
-void func_020339D0(u32 buffer_addr, struct SaveDataTable *svdt);
-u32 func_02033A3C(struct SaveDataTable *svdt, u32 id);
-void func_02033A88(struct SaveDataTable *svdt, u32 block_overhead);
-u32 func_02033B68(struct SaveDataTable *svdt, u32 gmdataid);
-u32 func_02033BAC(struct SaveDataTable *svdt, u32 gmdataid);
-u32 sub_02033BF0(struct SaveDataTable *svdt);
-u32 sub_02033BF8(struct SaveDataTable *svdt);
-struct AreaMan *sub_02033C00(u32 area_count, u16 heap_id);
-u32 sub_02033C9C(void *areaman);
-s32 sub_02033CA8(struct AreaMan *areaman, u32 len);
-s32 sub_02033CC0(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
-s32 sub_02033CFC(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
-s32 sub_02033E30(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
-s32 sub_02033F64(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
-s32 sub_02033FB0(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
-s32 sub_020340D0(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
-s32 sub_020341F0(struct AreaMan *areaman, u32 start, u32 len);
-void func_0203422C(struct AreaMan *areaman, u32 start, s32 len);
-s32 sub_020342F8(u32 byte_bits, u32 start, u32 len);
-s32 sub_02034348(u32 byte_bits, u32 start, u32 len);
-void sub_02034394(u8 *byte_ptr, u32 start, u32 len);
-s32 sub_020343C0(struct AreaMan *areaman, s32 start, u32 len);
-void sub_020344C4(u8 byte_value);
-void func_020344C8(struct AreaMan *areaman);
-void sub_02034508(struct AreaMan *areaman, s32 pos, u32 len, u32 line);
-u32 sub_02034520(u32 bank_flags);
-struct VmanBank *func_02034558(u16 heap_id, u32 mode, u32 bank_flags, u32 base, u32 mode_arg);
-void func_020345DC(struct VmanBank *bank);
-u32 sub_020345F8(u32 key);
-void sub_02034630(struct VmanHandle *handle);
-int sub_02034640(struct VmanHandle *handle);
-int func_02034660(struct VmanBank *bank, u32 size, struct VmanHandle *out);
-void sub_020346B8(struct VmanBank *bank, struct VmanHandle *handle);
-u32 sub_020346D8(struct VmanBank *bank, u32 *units_ptr);
+void SAVEDATA_DeleteTable(struct SaveDataTable *svdt);
+void SAVEDATA_InitBuffer(u32 buffer_addr, struct SaveDataTable *svdt);
+u32 SAVEDATA_QueryBlockSize(struct SaveDataTable *svdt, u32 id);
+void SAVEDATA_BuildLayout(struct SaveDataTable *svdt, u32 block_overhead);
+u32 SAVEDATA_GetBlockOffset(struct SaveDataTable *svdt, u32 gmdataid);
+u32 SAVEDATA_GetBlockSize(struct SaveDataTable *svdt, u32 gmdataid);
+u32 SAVEDATA_GetTableMax(struct SaveDataTable *svdt);
+u32 SAVEDATA_GetTotalSize(struct SaveDataTable *svdt);
+struct AreaMan *AREAMAN_Create(u32 area_count, u16 heap_id);
+u32 AREAMAN_Delete(void *areaman);
+s32 AREAMAN_Alloc(struct AreaMan *areaman, u32 len);
+s32 AREAMAN_AllocUp(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
+s32 AREAMAN_AllocShortUp(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
+s32 AREAMAN_AllocLongUp(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
+s32 AREAMAN_AllocDown(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
+s32 AREAMAN_AllocShortDown(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
+s32 AREAMAN_AllocLongDown(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
+s32 AREAMAN_AllocAt(struct AreaMan *areaman, u32 start, u32 len);
+void AREAMAN_Free(struct AreaMan *areaman, u32 start, s32 len);
+s32 AREAMAN_FindClearRunUp(u32 byte_bits, u32 start, u32 len);
+s32 AREAMAN_FindClearRunDown(u32 byte_bits, u32 start, u32 len);
+void AREAMAN_ClearByteRun(u8 *byte_ptr, u32 start, u32 len);
+s32 AREAMAN_MarkUsed(struct AreaMan *areaman, s32 start, u32 len);
+void AREAMAN_TraceByte(u8 byte_value);
+void AREAMAN_TraceBitmap(struct AreaMan *areaman);
+void AREAMAN_TraceAlloc(struct AreaMan *areaman, s32 pos, u32 len, u32 line);
+u32 VMAN_GetBankSetSize(u32 bank_flags);
+struct VmanBank *VMAN_Create(u16 heap_id, u32 mode, u32 bank_flags, u32 base, u32 mode_arg);
+void VMAN_Delete(struct VmanBank *bank);
+u32 VMAN_GetUnitSize(u32 key);
+void VMAN_InvalidateHandle(struct VmanHandle *handle);
+int VMAN_IsHandleInvalid(struct VmanHandle *handle);
+int VMAN_Alloc(struct VmanBank *bank, u32 size, struct VmanHandle *out);
+void VMAN_Free(struct VmanBank *bank, struct VmanHandle *handle);
+u32 VMAN_GetOffset(struct VmanBank *bank, u32 *units_ptr);
 void sub_020346EC(u32 init_func, u32 print_func, u32 die_func);
 void func_02034704(u32 hook);
 void sub_02034714(const char *file, u32 line, const char *expr);
@@ -187,7 +187,7 @@ extern struct PanicHandlers _PanicHandlers;
  * +0 / +4 / +0x10 / +8 / +0x14 / +0x18.  Seven arguments, the last three on
  * the stack.
  */
-struct SaveDataTable *func_02033908(u16 heap_id, struct SaveBlockDef *table, u32 table_max, u32 size_limit,
+struct SaveDataTable *SAVEDATA_CreateTable(u16 heap_id, struct SaveBlockDef *table, u32 table_max, u32 size_limit,
                                     u32 header_size, u32 block_overhead, u32 footer_size)
 {
     struct SaveDataTable *svdt = func_02030734(heap_id, 0x1c, 0, savedata_File, 0x49);
@@ -199,7 +199,7 @@ struct SaveDataTable *func_02033908(u16 heap_id, struct SaveBlockDef *table, u32
     svdt->header_size = header_size;
     svdt->layout = func_02030734(heap_id, table_max * 12, 1, savedata_File, 0x4f);
     svdt->footer_size = footer_size;
-    func_02033A88(svdt, block_overhead);
+    SAVEDATA_BuildLayout(svdt, block_overhead);
     return svdt;
 }
 
@@ -207,7 +207,7 @@ struct SaveDataTable *func_02033908(u16 heap_id, struct SaveBlockDef *table, u32
 /*
  * SAVEDATA_DeleteTable: free the layout array, then the table record itself.
  */
-void func_020339B4(struct SaveDataTable *svdt)
+void SAVEDATA_DeleteTable(struct SaveDataTable *svdt)
 {
     func_020307B0(svdt->layout);
     func_020307B0(svdt);
@@ -218,7 +218,7 @@ void func_020339B4(struct SaveDataTable *svdt)
  * SAVEDATA_InitBuffer: clear the whole save buffer, then clear every block
  * at its computed offset and run the block's init function on it.
  */
-void func_020339D0(u32 buffer_addr, struct SaveDataTable *svdt)
+void SAVEDATA_InitBuffer(u32 buffer_addr, struct SaveDataTable *svdt)
 {
     struct SaveBlockDef *table = svdt->table;
     u32 table_max = svdt->table_max;
@@ -237,7 +237,7 @@ void func_020339D0(u32 buffer_addr, struct SaveDataTable *svdt)
  * SAVEDATA_QueryBlockSize: size of block `id`, as reported by the block's own
  * size function, rounded up to a multiple of four.
  */
-u32 func_02033A3C(struct SaveDataTable *svdt, u32 id)
+u32 SAVEDATA_QueryBlockSize(struct SaveDataTable *svdt, u32 id)
 {
     BlockSizeFunc size_func;
     struct SaveBlockDef *table = svdt->table;
@@ -260,7 +260,7 @@ u32 func_02033A3C(struct SaveDataTable *svdt, u32 id)
  * table_max puts i in r5 and table_max in r6).  The `mov r1, r5` before the
  * size call is that call's second argument.
  */
-void func_02033A88(struct SaveDataTable *svdt, u32 block_overhead)
+void SAVEDATA_BuildLayout(struct SaveDataTable *svdt, u32 block_overhead)
 {
     struct SaveBlockDef *table;
     u32 i;
@@ -281,7 +281,7 @@ void func_02033A88(struct SaveDataTable *svdt, u32 block_overhead)
             sub_02034714(savedata_File, 0x9e, (const char *)savedata_AssertTableId);
         }
         layout[i].gmdataID = table[i].gmdataID;
-        size = func_02033A3C(svdt, i);
+        size = SAVEDATA_QueryBlockSize(svdt, i);
         layout[i].size = size;
         layout[i].offset = total;
         end = block_overhead + size;
@@ -303,7 +303,7 @@ void func_02033A88(struct SaveDataTable *svdt, u32 block_overhead)
 /*
  * SAVEDATA_GetBlockOffset: offset of block `gmdataid` inside the save area.
  */
-u32 func_02033B68(struct SaveDataTable *svdt, u32 gmdataid)
+u32 SAVEDATA_GetBlockOffset(struct SaveDataTable *svdt, u32 gmdataid)
 {
     if (gmdataid >= svdt->table_max) {
         sub_02034714(savedata_File, 0xc7, (const char *)savedata_AssertGmdataidInRange);
@@ -315,7 +315,7 @@ u32 func_02033B68(struct SaveDataTable *svdt, u32 gmdataid)
 /*
  * SAVEDATA_GetBlockSize: stored (aligned) size of block `gmdataid`.
  */
-u32 func_02033BAC(struct SaveDataTable *svdt, u32 gmdataid)
+u32 SAVEDATA_GetBlockSize(struct SaveDataTable *svdt, u32 gmdataid)
 {
     if (gmdataid >= svdt->table_max) {
         sub_02034714(savedata_File, 0xd6, (const char *)savedata_AssertGmdataidInRange);
@@ -328,13 +328,13 @@ u32 func_02033BAC(struct SaveDataTable *svdt, u32 gmdataid)
  * SAVEDATA_GetTableMax and SAVEDATA_GetTotalSize: plain field accessors on
  * the table record.
  */
-u32 sub_02033BF0(struct SaveDataTable *svdt)
+u32 SAVEDATA_GetTableMax(struct SaveDataTable *svdt)
 {
     return svdt->table_max;
 }
 
 
-u32 sub_02033BF8(struct SaveDataTable *svdt)
+u32 SAVEDATA_GetTotalSize(struct SaveDataTable *svdt)
 {
     return svdt->total_size;
 }
@@ -349,7 +349,7 @@ u32 sub_02033BF8(struct SaveDataTable *svdt)
  * cleared.  The pool word for the file name holds 0x020A7958 ("areaman.c"),
  * which is what anchors this range.
  */
-struct AreaMan *sub_02033C00(u32 area_count, u16 heap_id)
+struct AreaMan *AREAMAN_Create(u32 area_count, u16 heap_id)
 {
     struct AreaMan *areaman;
     u32 n;
@@ -377,7 +377,7 @@ struct AreaMan *sub_02033C00(u32 area_count, u16 heap_id)
  * bx (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so the callee's
  * arguments and result pass straight through.
  */
-u32 sub_02033C9C(void *areaman)
+u32 AREAMAN_Delete(void *areaman)
 {
     return func_020307B0(areaman);
 }
@@ -390,9 +390,9 @@ u32 sub_02033C9C(void *areaman)
  * costs a pool word (one section per function), and keeping both in one unit
  * makes that site local.
  */
-s32 sub_02033CA8(struct AreaMan *areaman, u32 len)
+s32 AREAMAN_Alloc(struct AreaMan *areaman, u32 len)
 {
-    return sub_02033CC0(areaman, 0, areaman->area_count, len);
+    return AREAMAN_AllocUp(areaman, 0, areaman->area_count, len);
 }
 
 
@@ -403,17 +403,17 @@ s32 sub_02033CA8(struct AreaMan *areaman, u32 len)
  * arms are written as their own return so that each gets its own `bl`/`pop`
  * pair, as in the original.
  */
-s32 sub_02033CC0(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
+s32 AREAMAN_AllocUp(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
 {
     if (limit < len || start + len > areaman->area_count) {
         return -1;
     }
 
     if (len < 8) {
-        return sub_02033CFC(areaman, start, limit, len);
+        return AREAMAN_AllocShortUp(areaman, start, limit, len);
     }
 
-    return sub_02033E30(areaman, start, limit, len);
+    return AREAMAN_AllocLongUp(areaman, start, limit, len);
 }
 
 
@@ -425,7 +425,7 @@ s32 sub_02033CC0(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
  * continues in the leading free bits of the next byte.  The found run is
  * marked used and traced.
  */
-s32 sub_02033CFC(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
+s32 AREAMAN_AllocShortUp(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
 {
     s32 found;
     s32 last;
@@ -440,7 +440,7 @@ s32 sub_02033CFC(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
     found = -1;
 
     if ((start & 7) + len <= 8) {
-        bit = sub_020342F8(areaman->bitmap[i], start & 7, len);
+        bit = AREAMAN_FindClearRunUp(areaman->bitmap[i], start & 7, len);
         if (bit != -1) {
             found = bit + i * 8;
             goto done;
@@ -449,7 +449,7 @@ s32 sub_02033CFC(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
 
     while (i <= last_byte) {
         if (_LongestFreeRun[areaman->bitmap[i]] >= len) {
-            bit = sub_020342F8(areaman->bitmap[i], 0, len);
+            bit = AREAMAN_FindClearRunUp(areaman->bitmap[i], 0, len);
             if (bit != -1) {
                 found = bit + i * 8;
                 goto done;
@@ -468,10 +468,10 @@ s32 sub_02033CFC(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
 
 done:
     if (found != -1 && found <= last) {
-        if (sub_020343C0(areaman, found, len) == 0) {
+        if (AREAMAN_MarkUsed(areaman, found, len) == 0) {
             return -1;
         }
-        sub_02034508(areaman, found, len, 0x17c);
+        AREAMAN_TraceAlloc(areaman, found, len, 0x17c);
         return found;
     }
     return -1;
@@ -484,7 +484,7 @@ done:
  * whole zero bytes, and then checks the leading free run of the byte the
  * remainder lands in.
  */
-s32 sub_02033E30(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
+s32 AREAMAN_AllocLongUp(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
 {
     u32 last;
     s32 last_byte;
@@ -528,10 +528,10 @@ s32 sub_02033E30(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
                     found = (8 - run) + i * 8;
                 }
                 if (found != -1) {
-                    if (sub_020343C0(areaman, found, len) == 0) {
+                    if (AREAMAN_MarkUsed(areaman, found, len) == 0) {
                         return -1;
                     }
-                    sub_02034508(areaman, found, len, 0x1db);
+                    AREAMAN_TraceAlloc(areaman, found, len, 0x1db);
                     return found;
                 }
             }
@@ -551,7 +551,7 @@ s32 sub_02033E30(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
  * positions: short runs go to the bit scanner, long runs to the byte
  * scanner; the result is traced with line 0x230.
  */
-s32 sub_02033F64(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
+s32 AREAMAN_AllocDown(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
 {
     s32 pos;
 
@@ -560,12 +560,12 @@ s32 sub_02033F64(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
     }
 
     if (len < 8) {
-        pos = sub_02033FB0(areaman, start, limit, len);
+        pos = AREAMAN_AllocShortDown(areaman, start, limit, len);
     } else {
-        pos = sub_020340D0(areaman, start, limit, len);
+        pos = AREAMAN_AllocLongDown(areaman, start, limit, len);
     }
 
-    sub_02034508(areaman, pos, len, 0x230);
+    AREAMAN_TraceAlloc(areaman, pos, len, 0x230);
     return pos;
 }
 
@@ -574,7 +574,7 @@ s32 sub_02033F64(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
  * AREAMAN_AllocShortDown: the downward bit-at-a-time scanner, the mirror of
  * AREAMAN_AllocShortUp walking towards lower addresses.
  */
-s32 sub_02033FB0(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
+s32 AREAMAN_AllocShortDown(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
 {
     s32 i;
     s32 last;
@@ -589,7 +589,7 @@ s32 sub_02033FB0(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
     found = -1;
 
     if ((start & 7) != 0) {
-        bit = sub_02034348(areaman->bitmap[i], start & 7, len);
+        bit = AREAMAN_FindClearRunDown(areaman->bitmap[i], start & 7, len);
         if (bit != -1) {
             found = bit + i * 8;
             goto done;
@@ -598,7 +598,7 @@ s32 sub_02033FB0(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
 
     while (i >= last_byte) {
         if (_LongestFreeRun[areaman->bitmap[i]] >= len) {
-            bit = sub_02034348(areaman->bitmap[i], 7, len);
+            bit = AREAMAN_FindClearRunDown(areaman->bitmap[i], 7, len);
             if (bit != -1) {
                 found = bit + i * 8;
                 goto done;
@@ -617,7 +617,7 @@ s32 sub_02033FB0(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
 
 done:
     if (found != -1 && found >= last) {
-        if (sub_020343C0(areaman, found, len) == 0) {
+        if (AREAMAN_MarkUsed(areaman, found, len) == 0) {
             found = -1;
         }
         return found;
@@ -632,7 +632,7 @@ done:
  * whole zero bytes are skipped downwards, and the trailing free run of the
  * byte the remainder lands in closes the request.
  */
-s32 sub_020340D0(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
+s32 AREAMAN_AllocLongDown(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
 {
     s32 i;
     u32 last;
@@ -676,7 +676,7 @@ s32 sub_020340D0(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
                     found = (8 - rest_bits) + next * 8;
                 }
                 if (found != -1 && found >= last) {
-                    if (sub_020343C0(areaman, found, len) == 0) {
+                    if (AREAMAN_MarkUsed(areaman, found, len) == 0) {
                         found = -1;
                     }
                     return found;
@@ -699,13 +699,13 @@ s32 sub_020340D0(struct AreaMan *areaman, u32 start, u32 limit, u32 len)
  * is traced with line 0x304.  The three arguments live in callee-saved
  * registers across the first call because the second call needs them again.
  */
-s32 sub_020341F0(struct AreaMan *areaman, u32 start, u32 len)
+s32 AREAMAN_AllocAt(struct AreaMan *areaman, u32 start, u32 len)
 {
-    if (sub_020343C0(areaman, start, len) == 0) {
+    if (AREAMAN_MarkUsed(areaman, start, len) == 0) {
         return 0;
     }
 
-    sub_02034508(areaman, start, len, 0x304);
+    AREAMAN_TraceAlloc(areaman, start, len, 0x304);
     return 1;
 }
 
@@ -723,7 +723,7 @@ s32 sub_020341F0(struct AreaMan *areaman, u32 start, u32 len)
  * closes AREAMAN_MarkUsed.
  * docs/idioms/a-dead-parameter-reused-as-the-index-rotates-the-loop-registers.md.
  */
-void func_0203422C(struct AreaMan *areaman, u32 start, s32 len)
+void AREAMAN_Free(struct AreaMan *areaman, u32 start, s32 len)
 {
     u32 bit = start % 8;
     u32 idx = start / 8;
@@ -734,7 +734,7 @@ void func_0203422C(struct AreaMan *areaman, u32 start, s32 len)
     u32 mask;
 
     if ((bit + len) <= 8) {
-        sub_02034394(&areaman->bitmap[idx], bit, len);
+        AREAMAN_ClearByteRun(&areaman->bitmap[idx], bit, len);
     } else {
         avail = 8 - bit;
         mask = _LowBitsMask[avail];
@@ -749,7 +749,7 @@ void func_0203422C(struct AreaMan *areaman, u32 start, s32 len)
         }
         areaman->bitmap[start] &= (u8)~_TopBitsMask[rest_bits];
     }
-    func_020344C8(areaman);
+    AREAMAN_TraceBitmap(areaman);
 }
 
 
@@ -765,7 +765,7 @@ void func_0203422C(struct AreaMan *areaman, u32 start, s32 len)
  * pool words in the image, so compiling this function alone leaves two of
  * them outside the compared range.
  */
-s32 sub_020342F8(u32 byte_bits, u32 start, u32 len)
+s32 AREAMAN_FindClearRunUp(u32 byte_bits, u32 start, u32 len)
 {
     u8 mask;
     u32 last;
@@ -795,7 +795,7 @@ s32 sub_020342F8(u32 byte_bits, u32 start, u32 len)
  * the `subs` that computes it for both the entry guard (`bmi`) and the loop
  * back edge (`bpl`).
  */
-s32 sub_02034348(u32 byte_bits, u32 start, u32 len)
+s32 AREAMAN_FindClearRunDown(u32 byte_bits, u32 start, u32 len)
 {
     u8 mask;
     s32 i;
@@ -823,7 +823,7 @@ s32 sub_02034348(u32 byte_bits, u32 start, u32 len)
  * The `and r1, r1, #0xff` after the complement is the u8 truncation, not a
  * mask written in the source.
  */
-void sub_02034394(u8 *byte_ptr, u32 start, u32 len)
+void AREAMAN_ClearByteRun(u8 *byte_ptr, u32 start, u32 len)
 {
     u8 mask = _TopBitsMask[len] >> start;
 
@@ -844,7 +844,7 @@ void sub_02034394(u8 *byte_ptr, u32 start, u32 len)
  * then-arm zeros go in the natural order `full_bytes = 0; rest_bits = 0;`.
  * docs/idioms/a-dead-parameter-reused-as-the-index-rotates-the-loop-registers.md.
  */
-s32 sub_020343C0(struct AreaMan *areaman, s32 start, u32 len)
+s32 AREAMAN_MarkUsed(struct AreaMan *areaman, s32 start, u32 len)
 {
     u32 bit;
     u32 avail;
@@ -875,8 +875,8 @@ s32 sub_020343C0(struct AreaMan *areaman, s32 start, u32 len)
     value = areaman->bitmap[start];
     if ((mask & value) != 0) {
         if (areaman->trace_enabled != 0) {
-            sub_020344C4((u8)mask);
-            sub_020344C4(areaman->bitmap[start]);
+            AREAMAN_TraceByte((u8)mask);
+            AREAMAN_TraceByte(areaman->bitmap[start]);
         }
         return 0;
     }
@@ -899,7 +899,7 @@ s32 sub_020343C0(struct AreaMan *areaman, s32 start, u32 len)
  * per loop iteration (the debug output was compiled out of the release
  * build).
  */
-void sub_020344C4(u8 byte_value)
+void AREAMAN_TraceByte(u8 byte_value)
 {
 }
 
@@ -908,12 +908,12 @@ void sub_020344C4(u8 byte_value)
  * AREAMAN_TraceBitmap: when tracing is enabled, pass every bitmap byte to
  * AREAMAN_TraceByte.
  */
-void func_020344C8(struct AreaMan *areaman)
+void AREAMAN_TraceBitmap(struct AreaMan *areaman)
 {
     if (areaman->trace_enabled != 0) {
         int i;
         for (i = 0; i < areaman->bitmap_bytes; i++) {
-            sub_020344C4(areaman->bitmap[i]);
+            AREAMAN_TraceByte(areaman->bitmap[i]);
         }
     }
 }
@@ -924,10 +924,10 @@ void func_020344C8(struct AreaMan *areaman)
  * AREAMAN_TraceBitmap only when tracing is enabled.  The position, length
  * and source line are only used by the debug build of the trace.
  */
-void sub_02034508(struct AreaMan *areaman, s32 pos, u32 len, u32 line)
+void AREAMAN_TraceAlloc(struct AreaMan *areaman, s32 pos, u32 len, u32 line)
 {
     if (areaman->trace_enabled != 0) {
-        func_020344C8(areaman);
+        AREAMAN_TraceBitmap(areaman);
     }
 }
 
@@ -936,7 +936,7 @@ void sub_02034508(struct AreaMan *areaman, s32 pos, u32 len, u32 line)
  * VMAN_GetBankSetSize: sum the sizes of the nine VRAM banks whose flag bit is
  * set in `bank_flags`, scaled from kilobytes to bytes (`<< 0xa`).
  */
-u32 sub_02034520(u32 bank_flags)
+u32 VMAN_GetBankSetSize(u32 bank_flags)
 {
     u32 i;
     u32 sum = 0;
@@ -957,18 +957,18 @@ u32 sub_02034520(u32 bank_flags)
  * into the record in each arm and the divide re-reads the field (`strh` then
  * `ldrh r1, [r5, #4]`), so there is no unit-size local.
  */
-struct VmanBank *func_02034558(u16 heap_id, u32 mode, u32 bank_flags, u32 base, u32 mode_arg)
+struct VmanBank *VMAN_Create(u16 heap_id, u32 mode, u32 bank_flags, u32 base, u32 mode_arg)
 {
     struct VmanBank *bank;
     u32 size;
 
     bank = func_02030734(heap_id, 8, 0, vman_File, 0x7a);
-    size = sub_02034520(bank_flags) - base;
+    size = VMAN_GetBankSetSize(bank_flags) - base;
     if (mode == 1)
-        bank->unit_size = sub_020345F8(mode_arg);
+        bank->unit_size = VMAN_GetUnitSize(mode_arg);
     else
         bank->unit_size = 0x20;
-    bank->areaman = sub_02033C00(size / bank->unit_size, heap_id);
+    bank->areaman = AREAMAN_Create(size / bank->unit_size, heap_id);
     bank->base = base;
     return bank;
 }
@@ -977,9 +977,9 @@ struct VmanBank *func_02034558(u16 heap_id, u32 mode, u32 bank_flags, u32 base, 
 /*
  * VMAN_Delete: delete the bank's area manager, then the bank record.
  */
-void func_020345DC(struct VmanBank *bank)
+void VMAN_Delete(struct VmanBank *bank)
 {
-    sub_02033C9C(bank->areaman);
+    AREAMAN_Delete(bank->areaman);
     func_020307B0(bank);
 }
 
@@ -988,7 +988,7 @@ void func_020345DC(struct VmanBank *bank)
  * VMAN_GetUnitSize: five-entry linear search over _UnitSizes for `key`,
  * returning the unit size of the matching entry or a default of 0x20.
  */
-u32 sub_020345F8(u32 key)
+u32 VMAN_GetUnitSize(u32 key)
 {
     u32 i;
 
@@ -1005,14 +1005,14 @@ u32 sub_020345F8(u32 key)
  * VMAN_InvalidateHandle and VMAN_IsHandleInvalid: a handle is invalid when
  * both of its words are 0xFFFFFFFF.
  */
-void sub_02034630(struct VmanHandle *handle)
+void VMAN_InvalidateHandle(struct VmanHandle *handle)
 {
     handle->pos = 0xFFFFFFFFu;
     handle->units = 0xFFFFFFFFu;
 }
 
 
-int sub_02034640(struct VmanHandle *handle)
+int VMAN_IsHandleInvalid(struct VmanHandle *handle)
 {
     return handle->pos == 0xFFFFFFFFu && handle->units == 0xFFFFFFFFu;
 }
@@ -1023,7 +1023,7 @@ int sub_02034640(struct VmanHandle *handle)
  * from the bank's area manager and, on success, return the first area and
  * the area count in `out`.  Returns 1 on success, 0 when no run was free.
  */
-int func_02034660(struct VmanBank *bank, u32 size, struct VmanHandle *out)
+int VMAN_Alloc(struct VmanBank *bank, u32 size, struct VmanHandle *out)
 {
     u16 unit_size = bank->unit_size;
     u32 units = size / unit_size;
@@ -1032,7 +1032,7 @@ int func_02034660(struct VmanBank *bank, u32 size, struct VmanHandle *out)
     if (size % unit_size != 0) {
         units++;
     }
-    pos = sub_02033CA8(bank->areaman, units);
+    pos = AREAMAN_Alloc(bank->areaman, units);
     if (pos != (u32)-1) {
         out->pos = pos;
         out->units = units;
@@ -1050,10 +1050,10 @@ int func_02034660(struct VmanBank *bank, u32 size, struct VmanHandle *out)
  * again afterwards for VMAN_InvalidateHandle; the bank load is consumed by
  * the first call.
  */
-void sub_020346B8(struct VmanBank *bank, struct VmanHandle *handle)
+void VMAN_Free(struct VmanBank *bank, struct VmanHandle *handle)
 {
-    func_0203422C(bank->areaman, handle->pos, handle->units);
-    sub_02034630(handle);
+    AREAMAN_Free(bank->areaman, handle->pos, handle->units);
+    VMAN_InvalidateHandle(handle);
 }
 
 
@@ -1061,7 +1061,7 @@ void sub_020346B8(struct VmanBank *bank, struct VmanHandle *handle)
  * VMAN_GetOffset: byte offset of the area numbered *units_ptr:
  * *units_ptr * unit_size + base.
  */
-u32 sub_020346D8(struct VmanBank *bank, u32 *units_ptr)
+u32 VMAN_GetOffset(struct VmanBank *bank, u32 *units_ptr)
 {
     return *units_ptr * bank->unit_size + bank->base;
 }

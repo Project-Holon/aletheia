@@ -25,7 +25,7 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_0201C7A4 0x0201C7A4 thumb
  *   func_02045334 0x02045334 arm
- *   func_02045788 0x02045788 arm
+ *   BMP_WIN_SetPosY 0x02045788 arm
  */
 #include "../include/Obj00001.h"
 typedef unsigned char u8;
@@ -44,7 +44,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045788(struct Descriptor *p, u8 v);
+extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
 void func_021E4420(char *p)
 {
     int off1, h, off, off2, off3;
@@ -79,7 +79,7 @@ void func_021E4420(char *p)
             func_02043B5C(func_02045770(*(void **)(q+a)),zero);
             func_0201C7A4(func_02045770(*(void **)(q+b)),zero,1,*(void **)(p+d),*(void **)(p+c));
             func_02045334(*(void **)(q+e));
-            func_02045788(*(void **)(q+f),zero);
+            BMP_WIN_SetPosY(*(void **)(q+f),zero);
         } while (++i < (int)((u32)*(int *)(p+g)+1u));
 done:;
 }

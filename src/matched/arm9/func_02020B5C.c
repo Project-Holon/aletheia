@@ -1,5 +1,5 @@
 /*
- * function: func_02020B5C
+ * function: BMP_MENULIST_ShiftChars8bpp
  * address:  0x02020B5C
  * packet:   pkt_02020A58
  * region:   arm9
@@ -24,7 +24,7 @@ extern void *func_020437D4(const struct Bmp *bmp);
 extern u16 func_020437DC(const struct Bmp *bmp);
 extern u16 func_020437E4(const struct Bmp *bmp);
 
-void func_02020B5C(void *bmp, u32 dir, u32 start, u32 color, u16 size)
+void BMP_MENULIST_ShiftChars8bpp(void *bmp, u32 dir, u32 start, u32 color, u16 size)
 {
     u32  wt;
     u32  fill;

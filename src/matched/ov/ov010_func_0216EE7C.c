@@ -16,7 +16,7 @@
  *
  * symbols:
  *   func_02012934  0x02012934  thumb
- *   func_0201AB18  0x0201AB18  thumb
+ *   POKEPARTY_FindFirstNonEgg  0x0201AB18  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_020457B0  0x020457B0  arm
  *   func_02017E1C  0x02017E1C  thumb
@@ -50,7 +50,7 @@ typedef struct BattleEndCtx {
 struct BigObj;
 struct U16Vec;
 extern void *func_02012934(const struct BigObj *p);
-extern u32 func_0201AB18(void *p);
+extern u32 POKEPARTY_FindFirstNonEgg(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u32 func_02017E1C(void *mon, u32 id, u32 arg);
@@ -74,7 +74,7 @@ void func_0216EE7C(BattleEndCtx *c)
 
     st = c->st;
     party = func_02012934(c->sys);
-    mon = func_0201AB28(party, func_0201AB18(party));
+    mon = func_0201AB28(party, POKEPARTY_FindFirstNonEgg(party));
     if (st->outcome != 0 && st->outcome != 2) {
         name = func_020457B0(12, 0x8004);
         func_02017E1C(mon, 0x73, (u32)name);

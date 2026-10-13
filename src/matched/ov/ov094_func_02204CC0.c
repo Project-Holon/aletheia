@@ -98,6 +98,9 @@
  *   d_0220A4AC  0x0220A4AC  data
  *   func_02204C98  0x02204C98  thumb  ov094
  *   func_02205768  0x02205768  thumb  ov094
+ *   GF_FONT_GetTextColor  0x0201DE00  thumb  arm9
+ *   PALANM_CopyToSlot  0x020215BC  thumb  arm9
+ *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
  */
 #include "../include/Obj21781.h"
 #include "../include/Obj21782.h"
@@ -144,10 +147,10 @@ extern u8 func_020275EC(int i);
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B7C8(const char *src, struct Struct36 *dst);
+extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 extern u32 func_020307B0(void *p);
-extern void func_0201DE00(u8 *, u8 *, u8 *);
+extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -156,7 +159,7 @@ struct StrObj;
 extern void func_02204C98(struct StrObj *a, int b, int *outn, int *outq);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern int func_02205768(int a, int b);
-extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void func_02045808(struct U16Vec *vec);
 
@@ -231,11 +234,11 @@ void func_02204CC0(Work *p, const Slots *q)
             arc = func_020275E4();
             chr = func_02049E34(arc, func_020275F8((u8)k), 0, (u32)(&cd), heap);
             func_0204B6F4(p->obj[i], func_020275EC((u8)k), 1);
-            func_0204B7C8(p->obj[i], (struct Struct36 *)(&buf));
+            CLACT_GetActorImageProxy(p->obj[i], (struct Struct36 *)(&buf));
             vram = VRAM_BASE;
             func_02082A60(((struct Obj21781 *)cd)->f14, (void *)(vram + buf.w[2]), 0x100);
             func_020307B0(chr);
-            func_0201DE00(&c[2], &c[1], &c[0]);
+            GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
             func_0201DD78(1, 2, 0);
             func_0201EF34((struct WordSet *)font, 0, q->id[i]);
             func_0201F250((struct WordSet *)font, str1, m0);
@@ -260,7 +263,7 @@ void func_02204CC0(Work *p, const Slots *q)
         }
         heap = (p->heap & 0x7fff) | 0x8000;
         pltt = func_02049F34(0xb, file, (u32)(&pd), heap);
-        func_020215BC(p->bg, ((struct Obj21782 *)pd)->fC, (int)1, (u16)(i * 16 + 0x90), 0x20);
+        PALANM_CopyToSlot(p->bg, ((struct Obj21782 *)pd)->fC, (int)1, (u16)(i * 16 + 0x90), 0x20);
         func_020307B0(pltt);
     }
     p->f25a[i] = 1;

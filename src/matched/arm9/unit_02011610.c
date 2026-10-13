@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02011610, func_02011638, func_02011660
+ * function: func_02011610, func_02011638, ICA_ANIME_GetScale
  * address:  0x02011610
  * packet:   pkt_020113F0
  * region:   arm9
@@ -78,7 +78,7 @@ u32 func_02011638(struct IcaAnime *p, struct Rec12 *dst)
     return 0;
 }
 
-u32 func_02011660(struct IcaAnime *p, struct Rec12 *dst)
+u32 ICA_ANIME_GetScale(struct IcaAnime *p, struct Rec12 *dst)
 {
     if (p->f30 != 0) {
         dst[0] = ((struct Rec12 *)p->f24)[(p->f10 >> 12) - p->f14];

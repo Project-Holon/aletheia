@@ -1,7 +1,7 @@
 /*
  * file:     unit_0207C768.c
  * unit:     yes
- * function: func_0207C768, func_0207C778
+ * function: func_0207C768, FX_Inv
  * address:  0x0207C768
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -27,7 +27,7 @@ extern u32  sub_0207C86C(void);
 extern void func_0207C8A0(fx32 denom);
 extern u32 func_0207C86C(void);
 u32 sub_0207C768(u32 numer, u32 denom);
-fx32 func_0207C778(fx32 denom);
+fx32 FX_Inv(fx32 denom);
 
 
 /*
@@ -48,7 +48,7 @@ u32 sub_0207C768(u32 numer, u32 denom)
 }
 
 
-fx32 func_0207C778(fx32 denom)
+fx32 FX_Inv(fx32 denom)
 {
     func_0207C8A0(denom);
     return func_0207C86C();

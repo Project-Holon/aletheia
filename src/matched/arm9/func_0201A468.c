@@ -1,5 +1,5 @@
 /*
- * function: func_0201A468
+ * function: POKE_REGULATION_GetBannedSpeciesLine
  * address: 0x0201A468
  * packet: pkt_arm9_0201A468
  * region: arm9
@@ -26,9 +26,9 @@ struct Ctx {
 };
 
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-void *func_0201A468(u8 *a0, int a1, struct Ctx *c);
+void *POKE_REGULATION_GetBannedSpeciesLine(u8 *a0, int a1, struct Ctx *c);
 
-void *func_0201A468(u8 *a0, int a1, struct Ctx *c)
+void *POKE_REGULATION_GetBannedSpeciesLine(u8 *a0, int a1, struct Ctx *c)
 {
     int i;
     u32 k;

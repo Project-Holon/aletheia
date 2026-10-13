@@ -12,11 +12,11 @@
  * symbols:
  *   func_020490F4  0x020490F4  arm
  *   func_0201AB28  0x0201AB28  thumb
- *   func_020185F4  0x020185F4  thumb
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_0201BA68  0x0201BA68  thumb
  *   func_0204A6C8  0x0204A6C8  arm
  *   func_02049238  0x02049238  arm
- *   func_0201BBE8  0x0201BBE8  thumb
+ *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
  *   func_0204B294  0x0204B294  arm
  *   func_0204B6F4  0x0204B6F4  arm
  *   func_0204B92C  0x0204B92C  arm
@@ -38,13 +38,13 @@ typedef struct {
 
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void *func_020185F4(void *p);
+extern void *POKE_TOOL_GetBoxParam(void *p);
 struct Obj;
 extern u32 func_0201BA68(void *mon);
 typedef signed int     s32;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *a);
-extern int func_0201BBE8(void *a0);
+extern int POKE_TOOL_GetIconPalette(void *a0);
 struct Obj;
 extern struct Obj *func_0204B294(void *a, u32 b, u32 c, u32 d, const void *r, u16 f, u16 g);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
@@ -59,10 +59,10 @@ void func_021BAA50(u8 *a, u8 *s)
     R rc;
 
     h = func_020490F4(7, ((struct Obj05169 *)a)->f0);
-    t = (int)func_020185F4(func_0201AB28(**(void ** *)&((struct Obj05169 *)a)->f280, s[4]));
+    t = (int)POKE_TOOL_GetBoxParam(func_0201AB28(**(void ** *)&((struct Obj05169 *)a)->f280, s[4]));
     ((struct Obj05170 *)s)->f2C = func_0204A6C8(h, func_0201BA68((void *)t), 0, 0, ((struct Obj05169 *)a)->f0);
     func_02049238(h);
-    r = func_0201BBE8((void *)t);
+    r = POKE_TOOL_GetIconPalette((void *)t);
     rc.a = 0x18;
     rc.b = 0x10;
     rc.c = 1;

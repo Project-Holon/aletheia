@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02012FA4",
+   "name": "GAME_DATA_SetSymbolMapFlag",
    "address": "0x02012FA4",
    "kind": "game",
    "region": "arm9",

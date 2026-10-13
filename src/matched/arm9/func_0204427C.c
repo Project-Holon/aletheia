@@ -1,5 +1,5 @@
 /*
- * function: func_0204427C
+ * function: BMP_Blit4bppTo8bpp
  * address:  0x0204427C
  * packet:   pkt_0204427C
  * region:   arm9
@@ -13,15 +13,15 @@
  * destination with a palette offset: every source nibble is widened to a
  * byte and `pal` is added to it unless it is zero.  With key == 0xFFFF every
  * pixel is stored (a zero nibble stays zero); otherwise zero nibbles are
- * skipped.  Reached only through the forwarder func_02043AAC, whose narrowing
+ * skipped.  Reached only through the forwarder BMP_BlitPaletteOffset, whose narrowing
  * loads fix the u16 key and u8 pal.  Same inlined clip helper and parameter
- * types as func_02043B98 / func_02043F4C; source-side masks are the 4bpp ones
+ * types as BMP_Blit4bpp / BMP_Blit8bpp; source-side masks are the 4bpp ones
  * (0x3fe0 / 0x1c), destination-side the 8bpp ones (0x7fc0 / 0x38).
  *
  * Three levers in the keyed loop, each measured against
  * docs/notes/pkt_02043B98.c.txt's 276-byte best:
  *   - the source pointer is computed BEFORE the destination pointer (as in
- *     func_02043B98) and the keyed store is `v += pal; *p = v;` inside the
+ *     BMP_Blit4bpp) and the keyed store is `v += pal; *p = v;` inside the
  *     braces: 888 bytes, 114 out (q-then-p with `*p = v + pal` is 880);
  *   - `xx * 4` bound to a named temporary (`xx4`) in the keyed loop:
  *     4 out (tools/permuter.py anneal, then ablated to this one lever);
@@ -29,8 +29,8 @@
  *     not the `(u32)` sum: that fixes the last `add`/`ldrb` operand order.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204427C.c \
- *       --func func_0204427C --addr 0x0204427C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_Blit4bppTo8bpp.c \
+ *       --func BMP_Blit4bppTo8bpp --addr 0x0204427C --cc 1.1p1 --arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -71,7 +71,7 @@ static inline s32 ClipRect(struct Surf *src, const struct Surf *dst, s32 *x, s32
     return 1;
 }
 
-void func_0204427C(struct Surf *src, struct Surf *dst, s32 x, s32 y, s32 dx, s32 dy,
+void BMP_Blit4bppTo8bpp(struct Surf *src, struct Surf *dst, s32 x, s32 y, s32 dx, s32 dy,
                    u32 w, u32 h, u16 key, u8 pal)
 {
     s32 srow, drow;

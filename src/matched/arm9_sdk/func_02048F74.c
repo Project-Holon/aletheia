@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02048D00  0x02048D00  arm
+ *   ARC_TOOL_ReadMemberRangeImpl  0x02048D00  arm
  *
  * The five-argument entry point of the same read: a pure forwarder to
- * func_02048D00 that copies the caller's one stack argument down into its own
+ * ARC_TOOL_ReadMemberRangeImpl that copies the caller's one stack argument down into its own
  * outgoing stack area (`ldr ip, [sp, #8]` reads it across the two words this
  * function pushed) and leaves r0-r3 untouched.
  *
- * Kept in its own file so the branch to func_02048D00 is witnessed from
+ * Kept in its own file so the branch to ARC_TOOL_ReadMemberRangeImpl is witnessed from
  * outside this range by src/matched/func_02048F4C.c.
  *
  * Addresses are Black-image addresses.
@@ -29,11 +29,11 @@
 
 typedef unsigned int u32;
 
-extern void func_02048D00(void *dst, u32 archive_id, u32 member, u32 mode,
+extern void ARC_TOOL_ReadMemberRangeImpl(void *dst, u32 archive_id, u32 member, u32 mode,
                           u32 *size_out);
 
 void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode,
                    u32 *size_out)
 {
-    func_02048D00(dst, archive_id, member, mode, size_out);
+    ARC_TOOL_ReadMemberRangeImpl(dst, archive_id, member, mode, size_out);
 }

@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov014/net_whpipe.c and filed here.
  *
  * symbols:
- *   func_02177EDC 0x02177EDC thumb ov014
+ *   NET_WHPIPE_SetAcceptChild 0x02177EDC thumb ov014
  */
 
-extern void func_02177EDC(int a);
+extern void NET_WHPIPE_SetAcceptChild(int a);
 void func_02177264(int a);
 
 void func_02177264(int a)
 {
-    func_02177EDC(a);
+    NET_WHPIPE_SetAcceptChild(a);
 }

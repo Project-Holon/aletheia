@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- * func_02156F5C 0x02156F5C thumb ov009
+ * DWC_RAPCOMMON_Alloc 0x02156F5C thumb ov009
  */
-extern unsigned int func_02156F5C(unsigned int, unsigned int, unsigned int);
+extern unsigned int DWC_RAPCOMMON_Alloc(unsigned int, unsigned int, unsigned int);
 unsigned int func_021B95A0(unsigned int a, unsigned int b)
 {
-    return func_02156F5C(13, a, b);
+    return DWC_RAPCOMMON_Alloc(13, a, b);
 }

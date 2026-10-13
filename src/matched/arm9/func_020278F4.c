@@ -1,5 +1,5 @@
 /*
- * function: func_020278F4
+ * function: APP_TASKMENU_TransWinAfterPrint
  * address:  0x020278F4
  * packet:   pkt_020278F4
  * region:   arm9
@@ -45,7 +45,7 @@ extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
-void func_020278F4(u8 *p)
+void APP_TASKMENU_TransWinAfterPrint(u8 *p)
 {
     u8 i;
     u8 sel;

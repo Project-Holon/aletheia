@@ -33,7 +33,7 @@
  *
  * recoup 2026-10-05 (lane R2): 2 B residue unchanged (336 B, 27/27 relocs, +0xF0
  *   `adds r1,r4,#0` vs `movs r1,#0x30`). Twin search: no matched ov function has the
- *   0xF1 byte store plus 0x12C/0x130 pair (grep of func_0203159C + func_02031324 +
+ *   0xF1 byte store plus 0x12C/0x130 pair (grep of func_0203159C + PROCSYS_Create +
  *   func_020056A0 in src/matched/ov, same hits as before). Tried, all unchanged: (1) o as a
  *   word array, ((int *)o)[0x4B]/[0x4C]/[0x4A]; (2) a real struct W with fields at 0x30,
  *   0x34, 0xF0, 0xF1, 0xF8, 0xFC, 0x100, 0x128, 0x12C, 0x130 (prototypes take void *);
@@ -53,7 +53,7 @@
  *   the-index-the-late-colour (none applies). 13 compiles.
  *
  * DIFF: 2 bytes at +0x00F0. The original builds the 0x12C offset for the
- * first func_02031324 store as `movs r1, #0x30; adds r1, #0xfc`; ours copies
+ * first PROCSYS_Create store as `movs r1, #0x30; adds r1, #0xfc`; ours copies
  * the 0x30 already in r4 (from the o[0xF1] = 0x30 store) with `adds r1, r4,
  * #0`. The later 0x128 offset is `adds r4, #0xf8` off that same r4 in both.
  * Everything else, the volatile DISPCNT block included, is byte-exact.
@@ -71,7 +71,7 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_020490F4  0x020490F4  arm
  *   func_02010F7C  0x02010F7C  thumb
- *   func_02031324  0x02031324  arm
+ *   PROCSYS_Create  0x02031324  arm
  *   func_02028470  0x02028470  thumb
  *   func_020056A0  0x020056A0  thumb
  *   func_0203D34C  0x0203D34C  arm
@@ -104,7 +104,7 @@ extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_02010F7C(u32 heap);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 extern void func_02028470(u8 *p, u32 v);
 extern u32 func_020056A0(void (*cb)(void), void *arg, int pri);
 extern void func_0203D34C(u32 a, u32 b);
@@ -149,8 +149,8 @@ int func_021B6100(struct Obj0203159C *ctx, int unused, u8 *arg)
     func_021B6844((struct W6844 *)o);
     func_021B68E0((int *)o);
     *(int *)(o + 0x34) = (int)func_02010F7C(0x61);
-    *(int *)(o + 0x12C) = (int)func_02031324(0x61);
-    *(int *)(o + 0x130) = (int)func_02031324(0x61);
+    *(int *)(o + 0x12C) = (int)PROCSYS_Create(0x61);
+    *(int *)(o + 0x130) = (int)PROCSYS_Create(0x61);
     func_02028470(o + 0x38, 6);
     *(u32 *)(o + 0x128) = func_020056A0((void (*)(void))func_021B699C, o, 0xA);
     func_0203D34C(0, 0x61);

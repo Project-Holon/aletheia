@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020063B4",
+   "name": "GFL_USE_StepBgmLoad",
    "address": "0x020063B4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02006448",
+   "name": "GFL_USE_InstallBgmBuffers",
    "address": "0x02006448",
    "kind": "game",
    "region": "arm9",

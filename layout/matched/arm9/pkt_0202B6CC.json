@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202B6CC",
+   "name": "ISS_SYS_UpdateRoad",
    "address": "0x0202B6CC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B6DC",
+   "name": "ISS_SYS_UpdateCity",
    "address": "0x0202B6DC",
    "kind": "game",
    "region": "arm9",

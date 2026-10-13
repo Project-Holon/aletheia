@@ -14,7 +14,7 @@
  * symbols:
  *   func_020061E4 0x020061E4 thumb
  *   func_02035C38 0x02035C38 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021DD16C 0x021DD16C thumb
  *   func_021DD930 0x021DD930 thumb
  *   func_021DDAE8 0x021DDAE8 thumb
@@ -56,7 +56,7 @@ extern int func_02035C38(void);
 extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021EF480(struct WinMgr *mgr);
 extern void func_021ED888(char *p, int v);
-extern unsigned func_02035CB8(unsigned *outA, unsigned *outB);
+extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
 extern int func_021DF1DC(short x, int y);
 extern void func_021DE428(unsigned char *p, unsigned a, unsigned b);
 extern int func_021EF60C(struct WinMgr *mgr);
@@ -98,7 +98,7 @@ int func_021E0200(unsigned char *p)
     case 1:
         if (func_021EF480(MGR(p)) == 0)
             func_021ED888(WORK(p), 1);
-        if (func_02035CB8(&x, &y) == 0) {
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             r = 0xFF;
             if (func_021EF480(MGR(p)) == 0 && busy == 0)
                 r = func_021DF1DC(*(int *)(WORK(p) + 0xA180), (short)(*(int *)(WORK(p) + 0xA184)));
@@ -148,7 +148,7 @@ int func_021E0200(unsigned char *p)
             b->timer = 0x10;
             b->state = 1;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 3:
@@ -156,7 +156,7 @@ int func_021E0200(unsigned char *p)
             b->timer = 0x10;
             b->state = 1;
         }
-        if (func_02035CB8(&x, &y) == 1)
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
             func_021DF43C((char *)p, x, y);
         break;
     case 4:

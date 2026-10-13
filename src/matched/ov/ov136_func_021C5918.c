@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_021C5918 0x021C5918 thumb
- *   func_0202CA0C 0x0202CA0C thumb
+ *   BGWINFRM_Delete 0x0202CA0C thumb
  */
 #include "../include/Obj23511.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct WinMgr;
-extern void func_0202CA0C(struct WinMgr *mgr);
+extern void BGWINFRM_Delete(struct WinMgr *mgr);
 void func_021C5918(u8 *p)
 {
-    func_0202CA0C(**(struct WinMgr ** *)&((struct Obj23511 *)p)->f8);
+    BGWINFRM_Delete(**(struct WinMgr ** *)&((struct Obj23511 *)p)->f8);
 }

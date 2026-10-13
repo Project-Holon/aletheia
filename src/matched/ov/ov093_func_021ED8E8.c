@@ -12,7 +12,7 @@
  * symbols:
  *   func_021ED798  0x021ED798  thumb  ov093
  *   func_021ED814  0x021ED814  thumb  ov093
- *   func_02031194  0x02031194  arm
+ *   TCBL_DeleteTask  0x02031194  arm
  */
 
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ struct S;
 extern void func_021ED798(struct S *s);
 extern int func_021ED814(struct S *s);
 struct TcblNode;
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 
 void func_021ED8E8(int a,struct Q *q)
 {
@@ -43,7 +43,7 @@ void func_021ED8E8(int a,struct Q *q)
     case 1:
         if (func_021ED814((struct S *)(q->f00 + 0x154)) != 0) {
             (*q->f08)--;
-            func_02031194((struct TcblNode *)a);
+            TCBL_DeleteTask((struct TcblNode *)a);
         }
         break;
     }

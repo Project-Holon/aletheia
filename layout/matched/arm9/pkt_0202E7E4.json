@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202E7E4",
+   "name": "COMM_PLAYER_SUPPORT_SavePreviousAndSuspend",
    "address": "0x0202E7E4",
    "kind": "game",
    "region": "arm9",

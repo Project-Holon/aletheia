@@ -38,17 +38,17 @@
  *     u8                    resident;
  * };
  * 
- * extern char g_020A7E8C[];
+ * extern char MSGDATA_AllocSite[];
  * extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
  *                           u16 tag);
  * extern void func_020307B0(void *p);
- * extern void func_020495F4(void *stream, u32 size, void *dest);
+ * extern void ARC_TOOL_ReadHandle(void *stream, u32 size, void *dest);
  * extern void func_0204960C(void *stream, u32 pos);
- * extern void func_0204581C(void *dest);
- * extern void func_02045A00(void *dest, const void *src, u16 len);
+ * extern void STRBUF_Clear(void *dest);
+ * extern void STRBUF_SetChars(void *dest, const void *src, u16 len);
  * extern void func_02045E04(void *dest, u32 index);
  * extern u8 func_020461B8(const void *file);
- * extern void func_02046110(struct MsgBank *bank);
+ * extern void MSGDATA_LoadBank(struct MsgBank *bank);
  * extern void func_02046180(struct MsgBank *bank);
  * 
  * void func_02045CAC(struct MsgBank *bank, u32 index, void *dest)
@@ -57,7 +57,7 @@
  *     struct MsgEntry *e;
  * 
  *     if (index >= bank->file->count) {
- *         func_0204581C(dest);
+ *         STRBUF_Clear(dest);
  *         return;
  *     }
  * 
@@ -67,7 +67,7 @@
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  * 
  *         func_0204960C(bank->stream, pos + (index * 8 + 4));
- *         func_020495F4(bank->stream, 8, &bank->cache);
+ *         ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache);
  *         e = &bank->cache;
  *     } else {
  *         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
@@ -78,17 +78,17 @@
  * 
  *         size = e->len * 2;
  *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000), size,
- *                            0, g_020A7E8C, 0xd6);
+ *                            0, MSGDATA_AllocSite, 0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
- *             func_020495F4(bank->stream, size, buf);
- *             func_02045A00(dest, buf, e->len);
+ *             ARC_TOOL_ReadHandle(bank->stream, size, buf);
+ *             STRBUF_SetChars(dest, buf, e->len);
  *             func_020307B0(buf);
  *         }
  *     } else {
- *         func_02045A00(dest, (u8 *)bank->base + e->off, e->len);
+ *         STRBUF_SetChars(dest, (u8 *)bank->base + e->off, e->len);
  *     }
  * 
  *     func_02045E04(dest, index);

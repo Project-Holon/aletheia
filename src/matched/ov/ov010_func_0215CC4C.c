@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Script command: reads a kind (0xF-0x13 mapped to 0-4) and a flag (0/1),
- * builds a four-word request on the stack and launches func_02154438
+ * builds a four-word request on the stack and launches EVENT_WIFIBATTLEMATCH_Entry
  * (ov002) through func_020124AC, parking the result in the script's slot.
  *
  * symbols:
@@ -19,7 +19,7 @@
  *   func_02159B10  0x02159B10  thumb  ov010
  *   func_0201210C  0x0201210C  thumb
  *   func_020124AC  0x020124AC  thumb
- *   func_02154438  0x02154438  thumb  ov002
+ *   EVENT_WIFIBATTLEMATCH_Entry  0x02154438  thumb  ov002
  *   func_0215897C  0x0215897C  thumb  ov010
  *   ov002_id       0x00000002  data
  */
@@ -43,7 +43,7 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 struct Desc;
 extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
-extern void func_02154438(s32 a, s32 *b);
+extern void EVENT_WIFIBATTLEMATCH_Entry(s32 a, s32 *b);
 extern u8 ov002_id[];
 extern void func_0215897C(void *p, void *v);
 
@@ -90,6 +90,6 @@ int func_0215CC4C(void *c, void *vm)
     r.one = 1;
     r.flag = f;
     r.kind = k;
-    func_0215897C(slot, func_020124AC(sys, (u32)ov002_id, (void *)func_02154438, (u32)(&r)));
+    func_0215897C(slot, func_020124AC(sys, (u32)ov002_id, (void *)EVENT_WIFIBATTLEMATCH_Entry, (u32)(&r)));
     return 1;
 }

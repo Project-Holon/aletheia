@@ -19,9 +19,9 @@
  *   func_0216A39C  0x0216A39C  arm  ov009
  *   func_02059A44  0x02059A44  arm
  *   func_020948E0  0x020948E0  arm
- *   func_020598EC  0x020598EC  arm
+ *   DWC_GetGsProfileId  0x020598EC  arm
  *   func_0205915C  0x0205915C  arm
- *   func_02059A10  0x02059A10  arm
+ *   DWC_SetGsProfileId  0x02059A10  arm
  *   func_02059214  0x02059214  arm
  *   func_021696B0  0x021696B0  arm  ov009
  *   func_02059240  0x02059240  arm
@@ -58,9 +58,9 @@ extern int func_0216A39C(void);
 extern void func_02059A44(void *userdata, DWCFriendData *frienddata, char *username);
 extern int func_020948E0(const char *a, const char *b);
 struct DWCstAccUserData;
-extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
+extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 extern int func_0205915C(DWCFriendData *frienddata);
-extern void func_02059A10(void *frienddata, int gs_profile_id);
+extern void DWC_SetGsProfileId(void *frienddata, int gs_profile_id);
 extern void func_02059214(DWCFriendData *frienddata);
 typedef unsigned char  u8;
 extern int func_021696B0(u8 *friendList, int friendListLen, int profileID);
@@ -84,17 +84,17 @@ void func_02169E18(void *connection, GPGetInfoResponseArg *arg)
         if (func_020591CC(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 1) {
             func_02059A44((void *)func_0216A39C(), &((DWCFriendControl *)g_021AA860.ctl)->friendList[i], userName);
             if (func_020948E0(userName, arg->lastname) == 0) {
-                func_02059A10(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i], arg->profile);
+                DWC_SetGsProfileId(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i], arg->profile);
                 func_02059214(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]);
                 listChanged = 1;
             }
         } else if (func_020591CC(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 3
                    || func_020591CC(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 2) {
-            if (func_020598EC((struct DWCstAccUserData *)func_0216A39C(), &((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == arg->profile) {
+            if (DWC_GetGsProfileId((struct DWCstAccUserData *)func_0216A39C(), &((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == arg->profile) {
                 if (func_0205915C(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 1)
                     alreadyBuddy = 1;
                 else {
-                    func_02059A10(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i], arg->profile);
+                    DWC_SetGsProfileId(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i], arg->profile);
                     func_02059214(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]);
                     listChanged = 1;
                 }

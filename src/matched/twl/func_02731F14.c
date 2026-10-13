@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
- *   func_02165A4C  0x02165A4C  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
+ *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   func_021659B4  0x021659B4  arm  ov009
  *   NWM_Close  0x02702FE8  arm  twl
  *   WcmNwmcbCommon  0x027320D0  arm  twl
@@ -54,14 +54,14 @@ typedef struct NetWork {
     u16 rxFlag;
     u16 txFlag;
 } NetWork;
-extern NetWork *func_021657C8(void);
-extern void func_02165A4C(unsigned char phase);
+extern NetWork *WCMi_GetSystemWork(void);
+extern void WCMi_SetPhase(unsigned char phase);
 extern void func_021659B4(u32 a, void *b, u32 c, u32 d);
 extern u32 NWM_Close(void *arg);
 void WcmNwmcbCommon(u16 *arg);
 void WcmNwmReset(void)
 {
-    NetWork *w = func_021657C8();
+    NetWork *w = WCMi_GetSystemWork();
     u16 tx;
 
     if (w->stopFlag != 0) {
@@ -76,26 +76,26 @@ void WcmNwmReset(void)
     switch (w->state) {
     case 5:
     case 6:
-        func_02165A4C(3);
+        WCMi_SetPhase(3);
         func_021659B4(1, 0, 0, 667);
         return;
     case 7:
-        func_02165A4C(3);
+        WCMi_SetPhase(3);
         func_021659B4(0, 0, 0, 673);
         return;
     case 8:
         tx = w->txFlag;
         w->txFlag = 0;
-        func_02165A4C(3);
+        WCMi_SetPhase(3);
         func_021659B4(1, w->buf, tx, 683);
         return;
     case 9:
     case 12:
-        func_02165A4C(3);
+        WCMi_SetPhase(3);
         func_021659B4(0, w->buf, 1, 691);
         return;
     case 10:
-        func_02165A4C(3);
+        WCMi_SetPhase(3);
         func_021659B4(0, w->buf, 0, 698);
         return;
     case 13:
@@ -103,17 +103,17 @@ void WcmNwmReset(void)
         case 2:
             return;
         case 6:
-            func_02165A4C(12);
+            WCMi_SetPhase(12);
             func_021659B4(1, 0, 0, 712);
             return;
         case 3:
         default:
-            func_02165A4C(11);
+            WCMi_SetPhase(11);
             func_021659B4(7, 0, 0, 721);
             return;
         }
     default:
-        func_02165A4C(11);
+        WCMi_SetPhase(11);
         func_021659B4(7, 0, w->state, 727);
         return;
     }

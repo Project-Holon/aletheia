@@ -1,5 +1,5 @@
 /*
- * function: func_0215444C, func_021544BC
+ * function: EVENT_WIFICLUB_BuildBattleEntry, EVENT_WIFICLUB_SetBattleParty
  * unit: yes
  * address: 0x0215444C
  * packet: pkt_ov006_0215444C
@@ -12,7 +12,7 @@
  * size: 136
  *
  * The lead is 110 bytes, followed by two padding bytes and the 24-byte
- * func_021544BC thunk. function_starts: 0x021544BC.
+ * EVENT_WIFICLUB_SetBattleParty thunk. function_starts: 0x021544BC.
  * func_020084F4 is the bx-lr identity: the original retains the pointer
  * returned by func_02012950 in r0 across two loads, passes it to the
  * identity, and stores the unchanged result. Its prior (void) extern
@@ -26,8 +26,8 @@
  *   func_02012950 0x02012950 thumb
  *   func_020084F4 0x020084F4 thumb
  *   func_02008550 0x02008550 thumb
- *   func_0201A948 0x0201A948 thumb
- *   func_02013128 0x02013128 thumb
+ *   POKEPARTY_Init 0x0201A948 thumb
+ *   BTL_SETUP_SetParty 0x02013128 thumb
  */
 #include "../include/Obj12251.h"
 typedef struct {
@@ -64,10 +64,10 @@ u32 func_0203D1A4(struct Link *p);
 struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 const void *func_020084F4(const void *p);
 u8 func_02008550(const struct Sub0200852CObj *obj);
-void func_0201A948(struct Party *p);
-void func_02013128(void *p, void *src, int i);
+void POKEPARTY_Init(struct Party *p);
+void BTL_SETUP_SetParty(void *p, void *src, int i);
 
-void func_0215444C(O *a, void *b)
+void EVENT_WIFICLUB_BuildBattleEntry(O *a, void *b)
 {
     int x, y;
     void *t;
@@ -84,13 +84,13 @@ void func_0215444C(O *a, void *b)
     q->f10 = *(int *)((unsigned int)a->r + 0x14 + 4 * (unsigned int)y);
     q->f14 = b;
     q->f18 = 0;
-    func_0201A948(a->f168);
+    POKEPARTY_Init(a->f168);
     q->f1c = a->f168;
     q->f20 = a->r->t14[0];
     q->f24 = a->r->t14[1];
 }
 
-void func_021544BC(O *a)
+void EVENT_WIFICLUB_SetBattleParty(O *a)
 {
-    func_02013128(((struct Obj12251 *)((unsigned int)a))->fDC, a->f168, 0);
+    BTL_SETUP_SetParty(((struct Obj12251 *)((unsigned int)a))->fDC, a->f168, 0);
 }

@@ -14,12 +14,12 @@
  * +0x7c, clears the two per-bit slots and drops the object pointer.
  *
  * Decompiled as a leaf so that it becomes a `matched` witness for the call at
- * 0x0204CB44+0x64 (src/pending/func_0204CB44.c); it reads no argument, the r0
+ * 0x0204CB44+0x64 (src/pending/CLACT_DrawActor.c); it reads no argument, the r0
  * the caller passes is a leftover.
  *
  * symbols:
  *   g_02147B88    0x02147B88  data
- *   func_02067CB0 0x02067CB0  arm
+ *   NNSi_G2dOamSoftEmuEnd 0x02067CB0  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02065C78.c \
@@ -43,7 +43,7 @@ struct Bank {
 };
 
 extern struct Bank g_02147B88;
-extern void func_02067CB0(void);
+extern void NNSi_G2dOamSoftEmuEnd(void);
 
 void func_02065C78(u32 a)
 {
@@ -59,7 +59,7 @@ void func_02065C78(u32 a)
             g_02147B88.unk_04 = 0;
         if (f & 2) {
             o->unk_74 = 0;
-            func_02067CB0();
+            NNSi_G2dOamSoftEmuEnd();
         }
         g_02147B88.obj->unk_7c = 0;
     }

@@ -27,10 +27,10 @@
  *   func_021B9A84  0x021B9A84  thumb  ov091
  *   func_021B7078  0x021B7078  thumb  ov091
  *   func_021B6F0C  0x021B6F0C  thumb  ov091
- *   func_020434CC  0x020434CC  arm
- *   func_02043588  0x02043588  arm
+ *   BG_SYS_ClearMainPlanes  0x020434CC  arm
+ *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   func_0202223C  0x0202223C  thumb
- *   func_02022224  0x02022224  thumb
+ *   WIPE_ResetWndMask  0x02022224  thumb
  *   func_020433E0  0x020433E0  arm
  *   func_0203F8F4  0x0203F8F4  arm
  *   func_02045088  0x02045088  arm
@@ -82,10 +82,10 @@ struct DispVram;
 extern int func_021B9A84(u32 p);
 extern void func_021B7078(const void *p, unsigned id, unsigned type);
 extern void func_021B6F0C(void *p);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0202223C(u32 a, u32 color);
-extern void func_02022224(int a);
+extern void WIPE_ResetWndMask(int a);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0203F8F4(u16 heapId);
 extern void func_02045088(u16 heapId);
@@ -130,14 +130,14 @@ void func_021B6D90(u8 *p)
     } else {
         a.w[6] = 0x100;
     }
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     GX_SetVisiblePlane(0);
     GXS_SetVisiblePlane(0);
     func_0202223C(0, 0);
     func_0202223C(1, 0);
-    func_02022224(0);
-    func_02022224(1);
+    WIPE_ResetWndMask(0);
+    WIPE_ResetWndMask(1);
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     func_020433E0((const struct DispVram *)(&a));
     func_0203F8F4(*(u16 *)p);

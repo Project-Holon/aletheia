@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0204754C
+ * function: G3D_SYSTEM_GetRenderMdlRes
  * address:  0x0204754C
  * packet:   pkt_02047260
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_0204754C(int *p){ return p[2]; }
+int G3D_SYSTEM_GetRenderMdlRes(int *p){ return p[2]; }

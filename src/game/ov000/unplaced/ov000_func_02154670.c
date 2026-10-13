@@ -1,5 +1,5 @@
 /*
- * function: func_02154670
+ * function: EVENT_GSYNC_Create
  * address:  0x02154670
  * packet:   pkt_02154670
  * region:   ov000
@@ -46,7 +46,7 @@ struct GameData *func_020120F4(const struct GameSystem *gameSystem);
 struct SaveControl *func_02012EBC(struct GameData *gameData);
 u32 func_021542C0(void *event, u32 *seq, char *work);
 
-void *func_02154670(void *gameSystem)
+void *EVENT_GSYNC_Create(void *gameSystem)
 {
     struct GameEvent *event;
     GsyncEventWorkInit *work;

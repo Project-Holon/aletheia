@@ -29,8 +29,8 @@
  *   func_021D5844   0x021D5844  thumb ov093
  *   func_021D805C   0x021D805C  thumb ov093
  *   func_02019C90   0x02019C90  thumb arm9
- *   func_02017D30   0x02017D30  thumb arm9
- *   func_02017D70   0x02017D70  thumb arm9
+ *   POKE_TOOL_DecodePartyParam   0x02017D30  thumb arm9
+ *   POKE_TOOL_EncodePartyParam   0x02017D70  thumb arm9
  *   func_02017E1C   0x02017E1C  thumb arm9
  *   func_02017E40   0x02017E40  thumb arm9
  */
@@ -52,8 +52,8 @@ extern u32 func_021D805C(void *p, u32 n);
 
 extern u32 func_02019C90(void *p, u32 a, u32 b);
 struct Sav;
-extern u32 func_02017D30(struct Sav *p);
-extern u32 func_02017D70(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
 
@@ -84,7 +84,7 @@ void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2)
         }
     }
     rec = func_021D5844(a0);
-    sv = func_02017D30(rec);
+    sv = POKE_TOOL_DecodePartyParam(rec);
     if (func_02017E1C(rec, 0x97, 0) != 0) {
         for (i = 0; i < 6; i++) {
             buf[i] = buf[i] * 2;
@@ -113,5 +113,5 @@ void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2)
         case 5: a2[0xa] = v; break;
         }
     }
-    func_02017D70(rec, sv);
+    POKE_TOOL_EncodePartyParam(rec, sv);
 }

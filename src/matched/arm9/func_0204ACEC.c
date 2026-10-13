@@ -12,7 +12,7 @@
  * symbols:
  *   lbl_02146A74   0x02146A74  data
  *   func_02049250  0x02049250  arm
- *   func_0204DEE8  0x0204DEE8  arm
+ *   CLACT_TransferPaletteDataEx  0x0204DEE8  arm
  *   func_020307B0  0x020307B0  arm
  *
  * The clact.c record-claim scan: walk the ClRes cell table for a free slot
@@ -73,7 +73,7 @@ extern Outer0204ACEC *lbl_02146A74;
 struct ArcFile;
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 struct Holder;
-extern void func_0204DEE8(struct Holder *h, int idx, void *src, void *sel, u32 size);
+extern void CLACT_TransferPaletteDataEx(struct Holder *h, int idx, void *src, void *sel, u32 size);
 extern u32 func_020307B0(void *p);
 
 int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
@@ -93,7 +93,7 @@ found:
     if (i == (u32)-1)
         return (int)i;
     v = func_02049250(a0, a1, (u16)((a4 & 0x7fff) | 0x8000));
-    func_0204DEE8((struct Holder *)((Inner0204ACEC *)&lbl_02146A74->in), i, v, (void *)a2, a3);
+    CLACT_TransferPaletteDataEx((struct Holder *)((Inner0204ACEC *)&lbl_02146A74->in), i, v, (void *)a2, a3);
     func_020307B0(v);
     return (int)i;
 }

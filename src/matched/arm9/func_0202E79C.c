@@ -1,5 +1,5 @@
 /*
- * function: func_0202E79C
+ * function: COMM_PLAYER_SUPPORT_Init
  * address:  0x0202E79C
  * packet:   pkt_0202E79C
  * region:   arm9
@@ -20,7 +20,7 @@ extern void func_02082BCC(void *p, u32 v, u32 n);
 struct Sub0200852CObj;
 extern void func_020084A0(struct Sub0200852CObj *p);
 
-void func_0202E79C(u8 *p)
+void COMM_PLAYER_SUPPORT_Init(u8 *p)
 {
     func_02082BCC(p, 0, 0x4c);
     ((struct Obj08810 *)p)->f0 = 0;

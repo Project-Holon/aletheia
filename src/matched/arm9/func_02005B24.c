@@ -1,5 +1,5 @@
 /*
- * function: func_02005B24
+ * function: GFL_USE_InitSound
  * address:  0x02005B24
  * packet:   pkt_02005B24
  * region:   arm9
@@ -14,15 +14,15 @@
  *           refuses it and the `veneer` class cannot attest the call.
  *
  * symbols:
- *   g_020AA9B4   0x020AA9B4  data
- *   g_020AA260   0x020AA260  data
- *   g_020A7010   0x020A7010  data
- *   g_020AA2BC   0x020AA2BC  data
+ *   _SndHeapBuf   0x020AA9B4  data
+ *   _SndState   0x020AA260  data
+ *   _SndArcPath   0x020A7010  data
+ *   _SndArc   0x020AA2BC  data
  *   func_020726D0  0x020726D0  arm
  *   func_020746E8  0x020746E8  arm
  *   func_02073FB8  0x02073FB8  arm
- *   func_02005B74  0x02005B74  thumb
- *   func_02085D3C  0x02085D3C  arm
+ *   GFL_USE_ResetSound  0x02005B74  thumb
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_02005B6C  0x02005B6C  arm
  *
  * Network bring-up: take a block out of the static buffer at 0x020AA9B4
@@ -31,38 +31,38 @@
  * handler installer, then run the console-type-specific tail.  The function
  * takes no arguments: its first call, func_020726D0 (sound init), is
  * `void (void)` and reads neither r0 nor r1, so the r0/r1 the caller
- * func_0200523C leaves behind are dead
+ * GFL_USE_InitGameSystems leaves behind are dead
  * (docs/idioms/an-argument-passed-through-a-register-must-be-named-in-the-c.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02005B24.c \
- *       --func func_02005B24 --addr 0x02005B24 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GFL_USE_InitSound.c \
+ *       --func GFL_USE_InitSound --addr 0x02005B24 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
-extern char g_020AA9B4[];
-extern char g_020AA260[];
-extern char g_020A7010[];
-extern char g_020AA2BC[];
+extern char _SndHeapBuf[];
+extern char _SndState[];
+extern char _SndArcPath[];
+extern char _SndArc[];
 
 extern void func_020726D0(void);
 extern u32  func_020746E8(u32 off, u32 size);
 extern void func_02073FB8(char *a, char *b, u32 c, u32 d);
-extern void func_02005B74(int a0);
-extern int  func_02085D3C(void);
+extern void GFL_USE_ResetSound(int a0);
+extern int  OS_IsRunOnTwl(void);
 extern void func_02005B6C(void);
 
-void func_02005B24(void)
+void GFL_USE_InitSound(void)
 {
     u32 handle;
 
     func_020726D0();
-    handle = func_020746E8((u32)g_020AA9B4, 0x95AD0);
-    *(u32 *)(g_020AA260 + 0x10) = handle;
-    func_02073FB8(g_020AA2BC, g_020A7010, handle, 0);
-    func_02005B74(1);
-    if (func_02085D3C() == 1) {
+    handle = func_020746E8((u32)_SndHeapBuf, 0x95AD0);
+    *(u32 *)(_SndState + 0x10) = handle;
+    func_02073FB8(_SndArc, _SndArcPath, handle, 0);
+    GFL_USE_ResetSound(1);
+    if (OS_IsRunOnTwl() == 1) {
         func_02005B6C();
     }
 }

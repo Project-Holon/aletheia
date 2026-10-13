@@ -1,5 +1,5 @@
 /*
- * function: func_02015FAC
+ * function: MCSS_GetAlpha
  * address:  0x02015FAC
  * packet:   pkt_02015FAC
  * region:   arm9
@@ -21,7 +21,7 @@ typedef struct {
     unsigned int value : 8;
 } Data;
 
-u8 func_02015FAC(Data *p)
+u8 MCSS_GetAlpha(Data *p)
 {
     return p->value;
 }

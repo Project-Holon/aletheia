@@ -1,5 +1,5 @@
 /*
- * function: func_021B24FC
+ * function: VCT_SESSION_AllocPeer
  * address:  0x021B24FC
  * packet:   pkt_ov013_021B24FC
  * region:   ov013
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B60D8  0x021B60D8  data  ov013  a4
- *   d_021B4BE0  0x021B4BE0  data  a4
- *   func_021B2724  0x021B2724  arm  ov013
+ *   gVctSession  0x021B60D8  data  ov013  a4
+ *   gVctPeerPool  0x021B4BE0  data  a4
+ *   VCT_SESSION_InitPeer  0x021B2724  arm  ov013
  */
 
 #include "../include/G_Pool.h"
@@ -30,24 +30,24 @@ typedef struct Node {
 
 typedef struct Pool Pool;
 
-extern Ctx d_021B60D8;
-extern struct Pool d_021B4BE0;
-extern void func_021B2724(Node *n, unsigned int idx);
+extern Ctx gVctSession;
+extern struct Pool gVctPeerPool;
+extern void VCT_SESSION_InitPeer(Node *n, unsigned int idx);
 
-Node *func_021B24FC(unsigned int idx)
+Node *VCT_SESSION_AllocPeer(unsigned int idx)
 {
     Node *n;
 
     if (idx >= 0x20)
         return 0;
-    if (idx == d_021B60D8.b0)
+    if (idx == gVctSession.b0)
         return 0;
-    n = d_021B4BE0.nodes;
+    n = gVctPeerPool.nodes;
     if (n == 0)
         return 0;
-    d_021B4BE0.nodes = n->next;
-    func_021B2724(n, idx);
-    n->next = d_021B4BE0.head;
-    d_021B4BE0.head = n;
+    gVctPeerPool.nodes = n->next;
+    VCT_SESSION_InitPeer(n, idx);
+    n->next = gVctPeerPool.head;
+    gVctPeerPool.head = n;
     return n;
 }

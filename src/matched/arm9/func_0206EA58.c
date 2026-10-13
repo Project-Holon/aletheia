@@ -1,5 +1,5 @@
 /*
- * function: func_0206EA58
+ * function: NNSi_G3dTexPatAnmGetFrameValue
  * address:  0x0206EA58
  * packet:   pkt_0206E9A4
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0206EACC    0x0206EACC  arm
+ *   NNSi_G3dTexPatAnmGetTrackByIdx    0x0206EACC  arm
  *
  * Bucket search in a BTX0-style table: the signed halfword at +4 of the block
- * func_0206EACC returns scales the key, the result is a fixed-point index, and
+ * NNSi_G3dTexPatAnmGetTrackByIdx returns scales the key, the result is a fixed-point index, and
  * the two walks that follow step it down over entries >= v and then up over
  * entries <= v, returning the entry address.
  *
@@ -22,8 +22,8 @@
  * the compiler produces for a conjunction whose second term loads.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206EA58.c \
- *       --func func_0206EA58 --addr 0x0206EA58 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G3dTexPatAnmGetFrameValue.c \
+ *       --func NNSi_G3dTexPatAnmGetFrameValue --addr 0x0206EA58 --cc 1.1p1 --arm
  */
 #include "../include/Obj08931.h"
 
@@ -32,11 +32,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern u8 *func_0206EACC(void *p, u32 idx);
+extern u8 *NNSi_G3dTexPatAnmGetTrackByIdx(void *p, u32 idx);
 
-u16 *func_0206EA58(u16 *p, u32 arg, u32 v)
+u16 *NNSi_G3dTexPatAnmGetFrameValue(u16 *p, u32 arg, u32 v)
 {
-    u8 *h = func_0206EACC(p, arg);
+    u8 *h = NNSi_G3dTexPatAnmGetTrackByIdx(p, arg);
     s16 n = ((struct Obj08931 *)h)->f4;
     u8 *t = (u8 *)p + ((struct Obj08931 *)h)->f6;
     u32 i = (u32)(n * v) >> 12;

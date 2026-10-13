@@ -12,8 +12,8 @@
  * Stops the sound handle at +0x54 (if any) and clears it.
  *
  * symbols:
- *   func_02005D90  0x02005D90  thumb
- *   func_02005DF8  0x02005DF8  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  */
 
 typedef unsigned char u8;
@@ -25,14 +25,14 @@ struct Ctx {
     u32 f54;
 };
 
-extern void func_02005D90(u32 a, u16 b);
-extern void func_02005DF8(u32 a);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u16 b);
+extern void GFL_USE_FadeInBgmFull(u32 a);
 
 void func_02155A6C(struct Ctx *ctx)
 {
     if (ctx->f54 != 0) {
-        func_02005D90(ctx->f54, 0xFFFF);
-        func_02005DF8(0x3c);
+        GFL_USE_CancelChangeAndPlayBgm(ctx->f54, 0xFFFF);
+        GFL_USE_FadeInBgmFull(0x3c);
         ctx->f54 = 0;
     }
 }

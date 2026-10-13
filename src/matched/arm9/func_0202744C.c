@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0202744C
+ * function: GAME_BEACON_ResetDetails
  *
  * Sets the low byte of the halfword at +0x48 of its argument to the
  * constant 5, leaving the high byte untouched. Called from every
@@ -30,14 +30,14 @@
  * encoding and this compiler rematerialises it as `lsls`/`ands` instead.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202744C.c \
- *       --func func_0202744C --addr 0x0202744C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_BEACON_ResetDetails.c \
+ *       --func GAME_BEACON_ResetDetails --addr 0x0202744C --cc 1.1p1 --thumb
  */
 #include "../include/Obj00121.h"
 
 typedef unsigned short u16;
 
-void func_0202744C(void *dst)
+void GAME_BEACON_ResetDetails(void *dst)
 {
     u16 v = ((struct Obj00121 *)dst)->f48;
 

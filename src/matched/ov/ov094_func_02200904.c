@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02015C30  0x02015C30  thumb
- *   func_02015C48  0x02015C48  thumb
+ *   MCSS_GetPosition  0x02015C30  thumb
+ *   MCSS_SetPosition  0x02015C48  thumb
  *   func_021F89BC  0x021F89BC  thumb  ov094
  *   func_021F9260  0x021F9260  thumb  ov094
  *   func_022019F4  0x022019F4  thumb  ov094
@@ -51,8 +51,8 @@ typedef struct {
 } Ctx;
 
 typedef unsigned int   u32;
-extern void func_02015C30(void *p, u32 *out);
-extern void func_02015C48(void *p, u32 *src);
+extern void MCSS_GetPosition(void *p, u32 *out);
+extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_021F89BC(void *h);
 extern int func_021F9260(Mover *m, VecFx32 *out);
 extern int func_022019F4(char *p, int key);
@@ -76,9 +76,9 @@ void func_02200904(void *h, Ctx *c)
         func_021F89BC(h);
         return;
     }
-    func_02015C30(w->e[i].h, (u32 *)(&v));
+    MCSS_GetPosition(w->e[i].h, (u32 *)(&v));
     r = func_021F9260(&c->mv, &v);
-    func_02015C48(w->e[i].h, (u32 *)(&v));
+    MCSS_SetPosition(w->e[i].h, (u32 *)(&v));
     if (r == 1)
         func_021F89BC(h);
 }

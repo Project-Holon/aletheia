@@ -1,5 +1,5 @@
 /*
- * function: func_021D8F0C
+ * function: P_STA_RIBBON_Scroll
  * address: 0x021D8F0C
  * packet: pkt_ov131_021D8F0C
  * region: ov131
@@ -10,7 +10,7 @@
  */
 #include "../include/Obj05393.h"
 
-void func_021D8F0C(void *unused, unsigned char *p, int delta)
+void P_STA_RIBBON_Scroll(void *unused, unsigned char *p, int delta)
 {
     int max = (p[0x10] - 6) * 24;
     unsigned int old;

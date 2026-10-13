@@ -14,7 +14,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_0207DC44 0x0207DC44 arm
  *   func_0207DD24 0x0207DD24 arm
- *   func_02046A94 0x02046A94 arm
+ *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   func_02046BE0 0x02046BE0 arm
  */
 
@@ -30,7 +30,7 @@ extern u8 d_02208CCC[];
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0207DC44(int, int, int, int);
 extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void func_02046BE0(u32 a, u32 b);
 
 void func_02205854(void)
@@ -49,6 +49,6 @@ void func_02205854(void)
     func_0207DD24(0, 0, 0x7fff, 0x3f, i);
     REG_VIEWPORT = 0xbfff0000;
     for (; i < 4; i++)
-        func_02046A94((u8)i, (const u16 *)(d_02208CCC + i * 8));
+        G3D_SYSTEM_SetLight((u8)i, (const u16 *)(d_02208CCC + i * 8));
     func_02046BE0(1, 0);
 }

@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_022019F4  0x022019F4  thumb  ov094
- *   func_020172AC  0x020172AC  thumb
- *   func_02014CF8  0x02014CF8  thumb
+ *   MCSS_TOOL_SetSpindaSpotHook  0x020172AC  thumb
+ *   MCSS_ReloadResource  0x02014CF8  thumb
  */
 
 typedef struct {
@@ -36,14 +36,14 @@ typedef struct {
 struct Sub02014CF8Ctx;
 struct Sub02014CF8Rec;
 extern int func_022019F4(char *p, int key);
-extern void func_020172AC(int a0, int a1);
-extern void func_02014CF8(void *a, struct Sub02014CF8Ctx *b, const struct Sub02014CF8Rec *c);
+extern void MCSS_TOOL_SetSpindaSpotHook(int a0, int a1);
+extern void MCSS_ReloadResource(void *a, struct Sub02014CF8Ctx *b, const struct Sub02014CF8Rec *c);
 
 void func_022001DC(Work *w, int key, Rec *r)
 {
     int idx = func_022019F4((char *)w, key);
 
     w->e[idx].rec = *r;
-    func_020172AC((int)w->obj, w->e[idx].k34);
-    func_02014CF8(w->obj, w->e[idx].h, (const struct Sub02014CF8Rec *)(&w->e[idx].rec));
+    MCSS_TOOL_SetSpindaSpotHook((int)w->obj, w->e[idx].k34);
+    MCSS_ReloadResource(w->obj, w->e[idx].h, (const struct Sub02014CF8Rec *)(&w->e[idx].rec));
 }

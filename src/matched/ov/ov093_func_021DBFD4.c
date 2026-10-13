@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C1BC  0x0201C1BC  thumb
+ *   WAZA_TOOL_GetCategory  0x0201C1BC  thumb
  *   func_0201BD28  0x0201BD28  thumb
- *   func_0201C020  0x0201C020  thumb
- *   func_0201C0BC  0x0201C0BC  thumb
+ *   WAZA_TOOL_GetRankEffectCount  0x0201C020  thumb
+ *   WAZA_TOOL_GetRankEffect  0x0201C0BC  thumb
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 func_0201C1BC(u16 id);
+extern u32 WAZA_TOOL_GetCategory(u16 id);
 extern u32 func_0201BD28(u16 id, u32 field);
-extern u8 func_0201C020(u16 id);
-extern u8 func_0201C0BC(u16 id, u32 idx, s32 *out);
+extern u8 WAZA_TOOL_GetRankEffectCount(u16 id);
+extern u8 WAZA_TOOL_GetRankEffect(u16 id, u32 idx, s32 *out);
 
 int func_021DBFD4(u16 id)
 {
-    u32 t = func_0201C1BC(id);
+    u32 t = WAZA_TOOL_GetCategory(id);
     if (func_0201BD28(id, 10) != 0) {
         return 1;
     }
@@ -40,9 +40,9 @@ int func_021DBFD4(u16 id)
         u32 n;
         u32 i;
         s32 out;
-        n = func_0201C020(id);
+        n = WAZA_TOOL_GetRankEffectCount(id);
         for (i = 0; i < n; i++) {
-            func_0201C0BC(id, i, &out);
+            WAZA_TOOL_GetRankEffect(id, i, &out);
             if (out < 0) {
                 return 0;
             }

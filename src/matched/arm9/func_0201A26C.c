@@ -1,5 +1,5 @@
 /*
- * function: func_0201A26C
+ * function: POKE_REGULATION_AdjustLevel
  * address:  0x0201A26C
  * packet:   pkt_02019D58
  * region:   arm9
@@ -18,8 +18,8 @@
  * value.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A26C.c \
- *       --func func_0201A26C --addr 0x0201A26C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_REGULATION_AdjustLevel.c \
+ *       --func POKE_REGULATION_AdjustLevel --addr 0x0201A26C --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 
-u32 func_0201A26C(void *a0, u32 a1)
+u32 POKE_REGULATION_AdjustLevel(void *a0, u32 a1)
 {
     u32 v = func_0200AE54(a0, 4);
     u32 w = func_0200AE54(a0, 5);

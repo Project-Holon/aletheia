@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030EE8",
+   "name": "TCBL_IsDeletePending",
    "address": "0x02030EE8",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030EF0",
+   "name": "TCBL_GetTaskSlot",
    "address": "0x02030EF0",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030F34",
+   "name": "TCBL_PushFreeTask",
    "address": "0x02030F34",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02030FB4",
+   "name": "TCBL_GetTaskWork",
    "address": "0x02030FB4",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02031140",
+   "name": "TCBL_Destroy",
    "address": "0x02031140",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02031290",
+   "name": "TCBL_GetWork",
    "address": "0x02031290",
    "kind": "game",
    "region": "arm9",

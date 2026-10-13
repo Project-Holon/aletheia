@@ -1,5 +1,5 @@
 /*
- * function: func_02013980
+ * function: BTL_SETUP_AllocRecordBuffer
  * address:  0x02013980
  * packet:   pkt_0201394C
  * region:   arm9
@@ -22,8 +22,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013980.c \
- *       --func func_02013980 --addr 0x02013980 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_AllocRecordBuffer.c \
+ *       --func BTL_SETUP_AllocRecordBuffer --addr 0x02013980 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -38,7 +38,7 @@ typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 sZonedataFile;
 
-void func_02013980(struct ZoneData *o, u32 heap)
+void BTL_SETUP_AllocRecordBuffer(struct ZoneData *o, u32 heap)
 {
     if (o->f94 == 0) {
         o->f94 = func_02030734(heap, 3 << 10, 0, (const char *)&sZonedataFile, 0x39a);

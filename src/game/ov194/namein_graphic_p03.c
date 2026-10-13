@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02082BCC 0x02082BCC arm
- *   func_02049EB4 0x02049EB4 arm
+ *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
  *   func_02040AE0 0x02040AE0 arm
  *   func_02040588 0x02040588 arm
  *   func_020409B4 0x020409B4 arm
@@ -75,7 +75,7 @@
  *   func_0201CCE4 0x0201CCE4 thumb
  *   func_0201ED04 0x0201ED04 thumb
  *   func_02045874 0x02045874 arm
- *   func_0204581C 0x0204581C arm
+ *   STRBUF_Clear 0x0204581C arm
  *   func_0216C0D4 0x0216C0D4 thumb ov010
  *   func_0216C0E4 0x0216C0E4 thumb ov010
  *   func_020275E4  0x020275E4  thumb
@@ -84,7 +84,7 @@
  *   func_020276AC  0x020276AC  thumb
  *   func_020276B0  0x020276B0  thumb
  *   func_0201BC3C  0x0201BC3C  thumb
- *   func_0201BABC  0x0201BABC  thumb
+ *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   func_0201BC40  0x0201BC40  thumb
  *   func_0201BCB4  0x0201BCB4  thumb
  *   func_0201BB5C  0x0201BB5C  thumb
@@ -115,7 +115,7 @@
  *   func_020458F8  0x020458F8  arm
  *   d_020A7370     0x020A7370  data
  *   func_021F2328 0x021F2328 thumb ov194
- *   func_0204589C 0x0204589C arm
+ *   STRBUF_IsEqual 0x0204589C arm
  *   func_021F253C 0x021F253C thumb ov194
  *   func_02045838 0x02045838 arm
  *   func_021F23F4 0x021F23F4 thumb
@@ -123,15 +123,15 @@
  *   func_021F22E8 0x021F22E8 thumb ov194
  *   func_0204E720 0x0204E720 arm
  *   func_0204E804 0x0204E804 arm
- *   sub_020310C4 0x020310C4 arm
- *   sub_0201CE30 0x0201CE30 thumb
- *   sub_0203630C 0x0203630C arm
- *   sub_02035C38 0x02035C38 arm
- *   sub_0201CE5C 0x0201CE5C thumb
- *   sub_020355D8 0x020355D8 arm
- *   sub_020362DC 0x020362DC arm
- *   sub_02035C60 0x02035C60 arm
- *   sub_0201CE38 0x0201CE38 thumb
+ *   TCBL_Main 0x020310C4 arm
+ *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
+ *   KEY_GetCont 0x0203630C arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
+ *   PRINTSYS_PrintStreamShortWait 0x0201CE5C thumb
+ *   UI_SetInputMode 0x020355D8 arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
  *   func_021F2190 0x021F2190 thumb ov194
  *   func_021F21BC 0x021F21BC thumb ov194
  *   func_021F21FC 0x021F21FC thumb ov194
@@ -144,25 +144,25 @@
  *   func_021F2394 0x021F2394 thumb ov194
  *   func_021F23B8 0x021F23B8 thumb ov194
  *   func_021F1FB4 0x021F1FB4 thumb ov194
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   func_0200C0FC 0x0200C0FC thumb
  *   func_021BD368 0x021BD368 thumb ov088
  *   func_021BD380 0x021BD380 thumb ov088
  *   func_02030734 0x02030734 arm
- *   sub_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   sub_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
- *   sub_020056A0 0x020056A0 thumb
+ *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   d_021F5784 0x021F5784 data a1
  *   d_021F55D0 0x021F55D0 data a4
  *   func_02030EAC 0x02030EAC arm
  *   func_0201DD68 0x0201DD68 thumb
  *   func_0203F8F4 0x0203F8F4 arm
- *   sub_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
@@ -171,7 +171,7 @@
  *   d_021F5600 0x021F5600 data a4
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   d_021F5798 0x021F5798 data a4
@@ -181,10 +181,10 @@
  *   func_02082D44 0x02082D44 arm
  *   func_02049250 0x02049250 arm
  *   func_0206E964 0x0206E964 arm
- *   func_0204B7F0 0x0204B7F0 arm
- *   func_0204AA94 0x0204AA94 arm
+ *   CLACT_GetActorCharacterIndex 0x0204B7F0 arm
+ *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   func_020862F0 0x020862F0 arm
- *   func_0204B764 0x0204B764 arm
+ *   CLACT_GetActorPaletteProxy 0x0204B764 arm
  *   func_02063800 0x02063800 arm
  *   func_0207E51C 0x0207E51C arm
  *   func_0207E5D0 0x0207E5D0 arm
@@ -317,7 +317,7 @@ typedef struct {unsigned id;Bg config;unsigned type,enabled;} Entry;
 typedef struct {int w[5];} Palette;
 
 extern void func_02082BCC(void *,unsigned,unsigned);
-extern void *func_02049EB4(u32_021F2F8C,u32_021F2F8C,u32_021F2F8C,u32_021F2F8C,u32_021F2F8C);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32_021F2F8C,u32_021F2F8C,u32_021F2F8C,u32_021F2F8C,u32_021F2F8C);
 extern void func_02040AE0(u32_021F2F8C,const void *,u32_021F2F8C);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020409B4(u32_021F2F8C);
@@ -376,7 +376,7 @@ extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F164(struct WordSet *p, u32 i, u32 a, u32 b);
-extern void func_0204581C(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
 extern signed char func_02012FFC(void);
 /* The caller consumes R0 returned by the legacy void forwarding wrapper. */
 extern int func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
@@ -387,7 +387,7 @@ extern u32  func_020276A8(void);
 extern u32  func_020276AC(u32 a);
 extern u32  func_020276B0(u32 a);
 extern int func_0201BC3C(void);
-extern u32  func_0201BABC(u32 a, u32 b, u32 c, u32 d);
+extern u32  POKE_TOOL_CalcGraphicIndex(u32 a, u32 b, u32 c, u32 d);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
 extern u32  func_0201BB5C(u32 a, u32 b, u32 c, u32 d);
@@ -415,22 +415,22 @@ extern void func_020257D0(struct Obj *);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u16 func_020458F8(struct U16Vec *vec);
 extern void func_021F2328(char *,struct Strbuf *);
-extern int func_0204589C(struct Buf *a, struct Buf *b);
+extern int STRBUF_IsEqual(struct Buf *a, struct Buf *b);
 extern int func_021F253C(u8 *p);
 extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 extern u32 func_021F23F4(const u8 *p);
 extern u32 func_021F23F8(const u8 *p);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
-extern void sub_020310C4(struct Tcbl *);
-extern unsigned sub_0201CE30(void *);
-extern unsigned int sub_0203630C(void);
-extern int sub_02035C38(void);
-extern void sub_0201CE5C(struct Rec *, int);
-extern void sub_020355D8(unsigned char);
-extern u32 sub_020362DC(void);
-extern int sub_02035C60(void);
-extern void sub_0201CE38(void *);
+extern void TCBL_Main(struct Tcbl *);
+extern unsigned PRINTSYS_PrintStreamGetState(void *);
+extern unsigned int KEY_GetCont(void);
+extern int TOUCHPANEL_GetCont(void);
+extern void PRINTSYS_PrintStreamShortWait(struct Rec *, int);
+extern void UI_SetInputMode(unsigned char);
+extern u32 KEY_GetTrg(void);
+extern int TOUCHPANEL_GetTrg(void);
+extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern int func_021F2190(char *,u16);
 extern int func_021F21BC(unsigned char *p, unsigned short a, u32 b);
 extern int func_021F21FC(unsigned char *a, int b);
@@ -442,24 +442,24 @@ extern void func_021F2394(unsigned char *p);
 extern void func_021F23B8(char *p, const u16 *q);
 extern int func_021F5370(const u32 *cache, const void *input, u16 heap);
 extern int func_021F54CC(void *,int,int);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern int func_021F1FB4(u8 *p);
 extern void func_0200C0FC(struct Blk34 *p, u32 i, u8 v);
 extern void func_021BD368(unsigned char *);
 extern int func_021BD380(unsigned char *);
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
-extern void sub_0204335C(unsigned);
+extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void func_020433E0(const struct DispVram *);
 extern void func_0204363C(unsigned);
 extern void func_0204361C(void);
-extern void sub_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
-extern void *sub_020056A0(unsigned, unsigned, unsigned);
+extern void *GFL_USE_AddMainTask(unsigned, unsigned, unsigned);
 extern void func_02030EAC(struct Node *);
 extern void func_0201DD68(void);
 extern void func_0203F8F4(unsigned short);
-extern void sub_02045088(unsigned short);
+extern void BMP_WIN_Init(unsigned short);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(unsigned char, const Bg *, unsigned char);
 extern void func_020414AC(unsigned char);
@@ -470,7 +470,7 @@ extern void func_0203F9B4(void);
 extern void func_020419E4(void);
 extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, unsigned int heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern u32 func_0204B1CC(struct Bank *bank);
@@ -483,10 +483,10 @@ extern unsigned short func_02045A98(void);
 extern void func_02082D44(const void *, void *, unsigned);
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern u8 *func_0206E964(u8 *);
-extern u16 func_0204B7F0(u8 *);
-extern void func_0204AA94(int,void *,u32,int,int);
+extern u16 CLACT_GetActorCharacterIndex(u8 *);
+extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
 extern void func_020862F0(void *,unsigned);
-extern void func_0204B764(const char *src, struct Struct20 *dst);
+extern void CLACT_GetActorPaletteProxy(const char *src, struct Struct20 *dst);
 extern int func_02063800(char *,int);
 extern void func_0207E51C(void *,int,unsigned);
 extern void func_0207E5D0(void *,int,unsigned);
@@ -628,8 +628,8 @@ void func_021F3008(u8 *p,int mode,void *font,void *window,void *data,void *palet
  ((struct Obj00733 *)p)->fD8=0;((struct Obj00733 *)p)->fDC=0;
  ((struct Obj00733 *)p)->fF4=font;((struct Obj00733 *)p)->fF8=window;((struct Obj00733 *)p)->fFE=heap;
  ((struct Obj00733 *)p)->f100=mode;((struct Obj00733 *)p)->f114=mode;((struct Obj00733 *)p)->f12C=data;
- ((struct Obj00733 *)p)->f11C=func_02049EB4(118,10,0,(u32_021F2F8C)(p+0x124),heap);
- ((struct Obj00733 *)p)->f120=func_02049EB4(118,5,0,(u32_021F2F8C)(p+0x128),heap);
+ ((struct Obj00733 *)p)->f11C=ARC_UTIL_LoadPaletteDataFromArchive(118,10,0,(u32_021F2F8C)(p+0x124),heap);
+ ((struct Obj00733 *)p)->f120=ARC_UTIL_LoadPaletteDataFromArchive(118,5,0,(u32_021F2F8C)(p+0x128),heap);
  if(mode==3){func_02040AE0(1,*(char * *)&((struct Obj00733 *)p)->f124+12,2048);func_02040588(2,0);}
  else {func_02040AE0(1,*(char * *)&((struct Obj00733 *)p)->f128+12,2048);func_02040588(2,1);}
  func_020409B4(1);
@@ -1242,7 +1242,7 @@ void func_021F3EF0(char *p,char *q,int *w,u32 heap)
     func_0201F164(set,1,w[4],w[5]);
     if(((struct Obj04591 *)p)->f0) func_0201CE48((int)((struct Rec3 *)(((struct Obj04591 *)p)->f0)));
     func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)&((struct Obj03900 *)q)->f14)),((struct Obj03900 *)q)->f20);
-    func_0204581C(((struct Obj03900 *)q)->f1C);
+    STRBUF_Clear(((struct Obj03900 *)q)->f1C);
     func_0201F250(set,((struct Obj03900 *)q)->f1C,(void *)w[3]);
     ((struct Obj04591 *)p)->f0=func_0201CCE4(((struct Obj03900 *)q)->f14,0,0,*(u32 *)&((struct Obj03900 *)q)->f1C,((struct Obj03900 *)q)->f4,func_02012FFC(),((struct Obj04591 *)p)->f4,2,heap,((struct Obj03900 *)q)->f20);
     ((struct Obj04591 *)p)->fE=0;
@@ -1303,7 +1303,7 @@ void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         }
         v40 = 7;
         v3c = func_0201BC3C();
-        v38 = func_0201BABC(a2, (u8)a3, v1c, 0);
+        v38 = POKE_TOOL_CalcGraphicIndex(a2, (u8)a3, v1c, 0);
         v34 = func_0201BC40();
         v30 = func_0201BCB4();
         w24 = 0x1e;
@@ -1570,7 +1570,7 @@ void func_021F4524(char *p) {
     ((struct Obj24911 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f1C=0;
     text=(int)func_02045874((struct U16Vec *)(((struct Obj24912 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f20),30);
     func_021F2328(p+0x68,(struct Strbuf *)((struct Obj24913 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f20);
-    if (func_0204589C((struct Buf *)text,(struct Buf *)(((struct Obj24914 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f20)))
+    if (STRBUF_IsEqual((struct Buf *)text,(struct Buf *)(((struct Obj24914 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f20)))
         ((struct Obj24915 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f1C=1;
     if (!func_021F253C((u8 *)((int)(p+0x68)))) {
         func_02045838((struct U16Vec *)(((struct Obj24916 *)(*(char * *)&((struct Obj03343 *)p)->f2C4))->f20),(struct U16Vec *)text);
@@ -1704,23 +1704,23 @@ void func_021F46F4(unsigned char *a, int *state, char *p)
     char *q = p + 0x254;
     switch (*state) {
     case 0:
-        sub_020310C4(*(struct Tcbl * *)&((struct Obj03901 *)q)->f4);
-        switch (sub_0201CE30(((struct Obj03901 *)q)->f0)) {
+        TCBL_Main(*(struct Tcbl * *)&((struct Obj03901 *)q)->f4);
+        switch (PRINTSYS_PrintStreamGetState(((struct Obj03901 *)q)->f0)) {
         case 0:
-            if (((unsigned)sub_0203630C() & 3) != 0 || sub_02035C38() != 0) {
-                sub_0201CE5C(*(struct Rec * *)&((struct Obj03901 *)q)->f0, 0);
-                if (((unsigned)sub_0203630C() & 3) != 0) sub_020355D8(0);
-                else sub_020355D8(1);
+            if (((unsigned)KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
+                PRINTSYS_PrintStreamShortWait(*(struct Rec * *)&((struct Obj03901 *)q)->f0, 0);
+                if (((unsigned)KEY_GetCont() & 3) != 0) UI_SetInputMode(0);
+                else UI_SetInputMode(1);
             }
             break;
         case 2:
             *state = 1;
             break;
         case 1:
-            if (((unsigned)sub_020362DC() & 3) != 0 || sub_02035C60() != 0) {
-                sub_0201CE38(((struct Obj03901 *)q)->f0);
-                if (((unsigned)sub_020362DC() & 3) != 0) sub_020355D8(0);
-                else sub_020355D8(1);
+            if (((unsigned)KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) {
+                PRINTSYS_PrintStreamReleasePause(((struct Obj03901 *)q)->f0);
+                if (((unsigned)KEY_GetTrg() & 3) != 0) UI_SetInputMode(0);
+                else UI_SetInputMode(1);
             }
             break;
         }
@@ -1787,7 +1787,7 @@ void func_021F47B4(unsigned char *owner,void *unused,char *p)
     case 0: if(func_021F4390((unsigned char *)(p+0x264))) {
         int text=func_021F4480((u8 *)p,**(int * *)&((struct Obj01287 *)p)->f2C4,30);
         func_021F2394((unsigned char *)(p+0x68));
-        if(text) {func_021F23B8(p+0x68,func_02045A90((struct U16Vec *)text));func_02045808((struct U16Vec *)text);}
+        if(text) {func_021F23B8(p+0x68,STRBUF_GetChars((struct U16Vec *)text));func_02045808((struct U16Vec *)text);}
         func_020061E4(0x54c);
     } break;
     case 9: func_021F235C(p+0x68);if(func_021F2190(p+0x68,selected)) func_020061E4(0x54c); else func_020061E4(0x557);break;
@@ -1867,16 +1867,16 @@ unsigned char *func_021F4AE4(unsigned swap, unsigned short heap)
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
-    sub_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0(&d_021F55D0);
     func_0204363C(swap);
     func_0204361C();
-    sub_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     func_0201DD60();
     func_021F4C0C(p, heap);
     func_021F4CB0(p + 4, (int)&d_021F55D0, heap);
-    ((struct Obj24926 *)p)->fC = sub_020056A0((unsigned)func_021F4BF8, (unsigned)p, 0);
+    ((struct Obj24926 *)p)->fC = GFL_USE_AddMainTask((unsigned)func_021F4BF8, (unsigned)p, 0);
     return p;
 }
 
@@ -1940,7 +1940,7 @@ void func_021F4C0C(void *p, unsigned short heap)
     const Entry *e;
     func_02082BCC(p, 0, 4);
     func_0203F8F4(heap);
-    sub_02045088(heap);
+    BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)(&d_021F55A4));
     for (; i < 8; i++) {
         id = d_021F5600[i].id;
@@ -1993,7 +1993,7 @@ void func_021F4CB0(unsigned char *p, int a, int b)
     func_02082BCC(p, 0, 4);
     func_0204A48C((const struct Cfg *)0x021F55B4, a, b);
     *(int *)&((struct Obj14512 *)p)->f0 = (int)func_0204B100(0x80, 0, b);
-    func_0204B270(((struct Obj14512 *)p)->f0);
+    CLACT_SetUnitDefaultRenderer(((struct Obj14512 *)p)->f0);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }
@@ -2373,11 +2373,11 @@ void func_021F51E4(u8 *dst,unsigned arc,u32 member,u32 index,u16 width,u16 heigh
     pixels=tex+((struct Obj14519 *)tex)->f14;
     void *buf=func_02030734((u16)((heap&0x7fff)|0x8000),size,0,d_021F57A8,95);
     func_021F513C((const char *)(pixels+offset),width,0,0,width,height,buf);
-    func_0204AA94(func_0204B7F0(dst),buf,size,pos,mode);
+    CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex(dst),buf,size,pos,mode);
     func_020307B0(buf);
     u32 poff=((struct Obj14519 *)tex)->f38;
     func_020862F0(tex+poff,32);
-    func_0204B764((const char *)dst,(struct Struct20 *)(&pal));
+    CLACT_GetActorPaletteProxy((const char *)dst,(struct Struct20 *)(&pal));
     if(mode==0 || mode==2) func_0207E51C(tex+poff,func_02063800((char *)&pal,1),32);
     if(mode==1 || mode==2) func_0207E5D0(tex+poff,func_02063800((char *)&pal,2),32);
     func_020307B0(raw);

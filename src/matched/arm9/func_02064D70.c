@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02064D70
+ * function: NNSi_G2dMCEnumAnimBank
  * address:  0x02064D70
  * packet:   pkt_02064B68
  * region:   arm9
@@ -19,7 +19,7 @@
  * a bare `return;`: an `int` return materialises a value and changes both
  * epilogues.
  *
- * Two levers closed the 4-byte residue docs/notes/func_02064D70.c.txt
+ * Two levers closed the 4-byte residue docs/notes/NNSi_G2dMCEnumAnimBank.c.txt
  * records, and both are worth keeping:
  *
  *   The high-byte extract.  The image is three instructions,
@@ -40,8 +40,8 @@
  *   and expand(f), 18 concrete bytes out -> 0.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02064D70.c \
- *       --func func_02064D70 --addr 0x02064D70 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dMCEnumAnimBank.c \
+ *       --func NNSi_G2dMCEnumAnimBank --addr 0x02064D70 --arm --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -61,7 +61,7 @@ typedef struct {
     u8   *f0c;
 } S;
 
-void func_02064D70(S *p, int (*fn)(void *, void *, void *, int), void *ctx)
+void NNSi_G2dMCEnumAnimBank(S *p, int (*fn)(void *, void *, void *, int), void *ctx)
 {
     u16  i;
     Tab *tab = p->f00;

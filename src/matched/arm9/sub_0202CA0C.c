@@ -1,5 +1,5 @@
 /*
- * function: func_0202CA0C
+ * function: BGWINFRM_Delete
  * address:  0x0202CA0C
  * packet:   pkt_0202C860
  * region:   arm9
@@ -28,7 +28,7 @@ struct WinMgr {
 
 extern u32 sub_020307B0(void *p);
 
-void func_0202CA0C(struct WinMgr *obj)
+void BGWINFRM_Delete(struct WinMgr *obj)
 {
     u32 i;
 

@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02021D50 0x02021D50 thumb
+ *   PALANM_TransferPalettes 0x02021D50 thumb
  */
 #include "../include/Obj13047.h"
 struct S02021D50;
-extern void func_02021D50(struct S02021D50 *p);
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
 void func_021F2508(void *task, char *p)
 {
     if (((struct Obj13047 *)p)->f210 != 0)
-        func_02021D50(((struct Obj13047 *)p)->f210);
+        PALANM_TransferPalettes(((struct Obj13047 *)p)->f210);
 }

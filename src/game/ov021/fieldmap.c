@@ -38,6 +38,7 @@
  *   func_020371AC  0x020371AC  arm
  *   d_021D3688     0x021D3688  data
  *   d_021D3604     0x021D3604  data
+ *   d_021D35F4     0x021D35F4  data
  *   abs_id_19      0x00000013  data
  *   abs_id_18      0x00000012  data
  *   func_020433E0  0x020433E0  arm
@@ -389,124 +390,26 @@
  *   d_021D3700     0x021D3700  data  a4
  *   d_021D373C     0x021D373C  data  a4
  */
-#include "../../matched/include/Obj17856.h"
-#include "../../matched/include/Obj03102.h"
-#include "../../matched/include/Obj01489.h"
-#include "../../matched/include/Obj00571.h"
-#include "../../matched/include/Obj00611.h"
-#include "../../matched/include/Obj00518.h"
-#include "../../matched/include/Obj12555.h"
-#include "../../matched/include/Obj04193.h"
-#include "../../matched/include/Obj00401.h"
-#include "../../matched/include/Obj03103.h"
-#include "../../matched/include/Obj02685.h"
-#include "../../matched/include/Obj12061.h"
-#include "../../matched/include/Obj17857.h"
-#include "../../matched/include/Obj00020.h"
-#include "../../matched/include/Obj17858.h"
-#include "../../matched/include/Obj17859.h"
-#include "../../matched/include/Obj19487.h"
-#include "../../matched/include/Obj19488.h"
-#include "../../matched/include/Obj17860.h"
-#include "../../matched/include/Obj17861.h"
-#include "../../matched/include/Obj17862.h"
-#include "../../matched/include/Obj17863.h"
-#include "../../matched/include/Obj17864.h"
-#include "../../matched/include/Obj17865.h"
-#include "../../matched/include/Obj17866.h"
-#include "../../matched/include/Obj17867.h"
-#include "../../matched/include/Obj17868.h"
-#include "../../matched/include/Obj17870.h"
-#include "../../matched/include/Obj17871.h"
-#include "../../matched/include/Obj17872.h"
-#include "../../matched/include/Obj19490.h"
-#include "../../matched/include/Obj17873.h"
-#include "../../matched/include/Obj17875.h"
-#include "../../matched/include/Obj17876.h"
-#include "../../matched/include/Obj17877.h"
-#include "../../matched/include/Obj17878.h"
-#include "../../matched/include/Obj17879.h"
-#include "../../matched/include/Obj17880.h"
-#include "../../matched/include/Obj17881.h"
-#include "../../matched/include/Obj17882.h"
-#include "../../matched/include/Obj17883.h"
-#include "../../matched/include/Obj17884.h"
-#include "../../matched/include/Obj19493.h"
-#include "../../matched/include/Obj19494.h"
-#include "../../matched/include/Obj17885.h"
-#include "../../matched/include/Obj01344.h"
-#include "../../matched/include/Obj02367.h"
-#include "../../matched/include/Obj19495.h"
-#include "../../matched/include/Obj04980.h"
-#include "../../matched/include/Obj09442.h"
-#include "../../matched/include/Obj09172.h"
-#include "../../matched/include/Obj09443.h"
-#include "../../matched/include/Obj19496.h"
-#include "../../matched/include/Obj05698.h"
-#include "../../matched/include/Obj19497.h"
-#include "../../matched/include/Obj03104.h"
-#include "../../matched/include/Obj12557.h"
-#include "../../matched/include/Obj19498.h"
-#include "../../matched/include/Obj09444.h"
-#include "../../matched/include/Obj03105.h"
-#include "../../matched/include/Obj04887.h"
-#include "../../matched/include/Obj00704.h"
-#include "../../matched/include/G_Glb.h"
-#include "../../matched/include/Obj19499.h"
-#include "../../matched/include/Obj19500.h"
-#include "../../matched/include/Obj19501.h"
-#include "../../matched/include/Obj19502.h"
-#include "../../matched/include/Obj19503.h"
-#include "../../matched/include/Obj17887.h"
-#include "../../matched/include/Obj17888.h"
-#include "../../matched/include/Obj17889.h"
-#include "../../matched/include/Obj17890.h"
-#include "../../matched/include/Obj19506.h"
-#include "../../matched/include/Obj19507.h"
-#include "../../matched/include/Obj17891.h"
-#include "../../matched/include/Obj17892.h"
-#include "../../matched/include/Obj19508.h"
-#include "../../matched/include/Obj03106.h"
-#include "../../matched/include/G__anon_Ent.h"
+#include "fieldmap_types.h"
 
-#define F16(o)  (*(u16 *)(p + (o)))
-#define F32(o)  (*(int *)(p + (o)))
+typedef int (*FieldMapSeqFunc)(struct GameSystem *gameSystem, FieldMap *fieldMap);
+typedef int (*FieldMapEventCheckFunc)(struct GameSystem *gameSystem, void *work);
+
 #define REG_DISPCNT (*(volatile u32 *)0x04000000)
 #define FX_MUL(a, b) ((fx32)(((fx64)(a) * (b) + 0x800) >> 12))
-struct Ctx;
-struct Rec44;
-struct Obj0203159C;
-struct Comm;
-struct S020315D4;
+struct GameSystem;
+struct GfProc;
+struct GameComm;
+struct PlayerWork;
 struct DispVram;
-struct BigObj;
+struct GameData;
 struct Cfg;
-struct Big;
-struct Obj;
-struct Src;
-struct Sub0200852CObj;
-struct Sub020140BCObj;
-struct Sub02014444Obj;
-struct Light;
-struct T;
-struct V3;
-struct Obj00020;
-struct Node;
-struct Sub02008C20Obj;
+struct MapMatrix;
+struct FieldStatus;
 struct DispConfig;
 struct Mtx22;
 struct LightSet;
-struct LightSlot;
-struct Blk3;
-struct Owner;
 struct BbActSys;
-struct SaveBlock;
-struct Rec020141E0;
-struct Rec020141F0;
-struct Vec020141E0;
-struct Vec020141F0;
-struct Vec12;
-struct tagLISTCB;
 typedef unsigned int   u32;
 
 typedef unsigned char  u8;
@@ -515,49 +418,9 @@ typedef unsigned short u16;
 
 typedef signed short   s16;
 
-typedef signed char    s8;
-
-typedef struct {
-    int x;
-    int y;
-    int z;
-} V3;
-
-typedef struct {
-    void *f0;
-    void (*f4)(char *p, V3 *v, int c);
-} Ops;
-
-typedef struct {
-    u32 w[3];
-} Rec12;
-
 typedef signed int     s32;
 
-typedef u32 (*Fn)(void *a, void *b);
-
-typedef struct {
-    u32 w[3];
-} Vec12;
-
-typedef void (*Fn_02189084)(unsigned char *p);
-
-typedef int (*Fn_021890AC)(unsigned char *p);
-
 typedef enum { B_FALSE, B_TRUE } Bool;
-
-typedef struct Vec_0218932C { int x, y, z; } Vec_0218932C;
-
-typedef struct Vec_02189370 { int x, y, z; } Vec_02189370;
-
-typedef struct {
-    int x, y, z;
-} Vec_021893C0;
-
-typedef struct {
-    int id;
-    void *buf;
-} Slot;
 
 typedef int fx32;
 
@@ -565,39 +428,34 @@ typedef long long fx64;
 
 typedef struct { fx32 m[4][4]; } MtxFx44;
 
-typedef struct {
-    u8 pad[0x7C];
-    u32 flag;
-} Glb;
+/* NNS_G3dGlb (NitroSystem); fieldmap.c only clears bits of the flag word. */
+typedef struct G3dGlobalState {
+    u8 otherState[0x7C];    /* 0x00: not touched here */
+    u32 flag;               /* 0x7C */
+} G3dGlobalState;
 
-typedef struct Obj {
-    u8 pad00[0xA0];
-    void *fa0;          /* 0xA0 */
-} Obj;
+typedef void (*FieldMapDrawFunc)(FieldMap *fieldMap);
+typedef int (*FieldMapDrawEndFunc)(FieldMap *fieldMap);
 
-typedef struct Rec { int w[15]; } Rec;
-
-typedef struct Ent { Rec r; int f3c; int f40; int f44; } Ent;
-
-unsigned char *func_020120F8(const struct Ctx *x);
-unsigned short func_02012AC8(const struct Rec44 *x);
+struct PlayerWork *func_020120F8(const struct GameSystem *x);
+unsigned short func_02012AC8(const struct PlayerWork *x);
 int func_02189BBC(int x);
 void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
 void func_02030678(void *a, u32 b, u32 c);
-void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-void func_02012110(struct Ctx *p, void *v);
-unsigned int func_0201214C(const struct Ctx *x);
-unsigned int func_02012138(const struct Ctx *x);
-u32 func_02026454(void *obj);
-void func_02026400(struct Comm *p);
-void func_020315D4(struct S020315D4 *p);
+void *func_0203159C(struct GfProc *proc, u32 size, u32 heapId);
+void func_02012110(struct GameSystem *p, void *v);
+unsigned int func_0201214C(const struct GameSystem *x);
+struct GameComm *func_02012138(const struct GameSystem *gameSystem);
+u32 func_02026454(struct GameComm *gameComm);
+void func_02026400(struct GameComm *gameComm);
+void func_020315D4(struct GfProc *proc);
 void func_020306F0(unsigned int heap);
 void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
-void *func_020120F4(const struct Ctx *p);
+struct GameData *func_020120F4(const struct GameSystem *p);
 u32 func_02013B38(u32 id);
 int func_0202E83C(void *a0);
-int func_0201407C(int a, int b, int c);
-u32 func_020140B4(void *a);
+struct AreaData *func_0201407C(int heapId, int areaId, int infoCode);
+u32 func_020140B4(struct AreaData *areaData);
 u32 func_020307B0(void *p);
 void func_020371AC(unsigned short a, unsigned int b);
 extern void func_020433E0(const struct DispVram *c);
@@ -608,178 +466,179 @@ extern void func_02045088(u16 heapId);
 extern void func_0201DD60(void);
 extern void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
                           u32 fifoSize, u32 heap, void (*setup)(void));
-extern u8 func_02012984(const struct BigObj *p);
-extern char *func_0218C9E8(int heap, int b);
-extern void *func_020056A0(void (*cb)(int, u8 *), void *arg, int pri);
+extern u8 func_02012984(const struct GameData *p);
+extern struct FieldG3dMapper *func_0218C9E8(int heapId, int b);
+extern struct GFL_TCB *func_020056A0(void (*cb)(struct GFL_TCB *, void *), void *work, int pri);
 extern u32 func_02030CB0(u32 idx);
-extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern u8 *func_021C6D10(int n, int heap);
+extern struct TcblSys *func_02030CBC(u32 capacity, void *work);
+extern struct FieldTaskManager *func_021C6D10(int n, int heapId);
 extern void *func_021D317C(u32 heap);
 extern u32 func_02013CC8(u32 id);
 extern u32 func_02013CE0(u32 id);
 extern int func_02034AC4(int id);
 extern void func_02035660(u32 a);
-extern void func_0216447C(int sys, u16 id);
-extern u8 *func_021901EC(u16 heap, u32 b);
-extern int func_021BC388(int a, int b, int c);
-extern void *func_02012B38(const struct BigObj *p);
-extern u16 func_02014470(struct Sub02014444Obj *o);
-extern int func_021C7F70(int flags, u16 heap);
+extern void func_0216447C(struct GameData *gameData, u16 zoneId);
+extern struct FieldMsgBg *func_021901EC(u16 heapId, struct G3dCamera *g3dCamera);
+extern struct FieldPlaceName *func_021BC388(struct GameSystem *gameSystem, int heapId, struct FieldMsgBg *msgBg);
+extern struct FieldStatus *func_02012B38(const struct GameData *gameData);
+extern u16 func_02014470(struct FieldStatus *o);
+extern struct FieldSkillMapEff *func_021C7F70(int flags, u16 heapId);
 extern u8 func_02013BBC(u32 id);
-extern char *func_0218E018(int a0, int a1, struct Light *a2, int a3, u16 heap);
-extern int func_021AB5F4(u16 heap, int a, void *b);
-extern int func_021AB7E4(u16 heap);
-extern u32 *func_021BB1F4(u32 a, u32 b, u32 c, u32 d);
-extern void *func_021D33A8(u16 heapId, void *a1, void *a2, u16 a3);
-extern u32 func_0218DC6C(u8 *p);
-extern u32 func_02012974(const struct BigObj *p);
-extern void *func_021D33F8(u32 *p);
-extern void func_0218B8AC(char *p, int a, int b, int c);
-extern void func_021C6534(u32 *p, u32 v);
-extern void func_02014110(void *p, u16 a, int b, int c, int d, int e, int f, int g);
-extern void func_0218CEE4(struct Obj *p, const struct Src *src, void *c);
+extern struct FieldCamera *func_0218E018(int a0, int a1, struct G3dCamera *g3dCamera, const VecFx32 *target, u16 heapId);
+extern struct FldSceneArea *func_021AB5F4(u16 heapId, struct FieldCamera *camera, void *work);
+extern struct FldSceneAreaLoader *func_021AB7E4(u16 heapId);
+extern struct FieldNogridMapper *func_021BB1F4(u32 heapId, struct FieldCamera *camera, struct FldSceneArea *sceneArea, struct FldSceneAreaLoader *loader);
+extern struct FieldPalaceSys *func_021D33A8(u16 heapId, struct GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId);
+extern void *func_0218DC6C(struct FieldG3dMapper *g3dMapper);
+extern struct MapMatrix *func_02012974(const struct GameData *gameData);
+extern void *func_021D33F8(struct FieldPalaceSys *palaceSys);
+extern void func_0218B8AC(void *buildModel, int zoneId, struct AreaData *areaData, void *palTable);
+extern void func_021C6534(struct FieldG3dObjCtrl *g3dObjCtrl, void *palTable);
+extern void func_02014110(FieldMapLocation *location, u16 zoneId, int b, int c, int d, int x, int y, int z);
+extern void func_0218CEE4(struct FieldG3dMapper *g3dMapper, const FieldMapMapperParam *param, void *palTable);
 extern int func_02013C9C(u16 key);
-extern void func_021BB2F8(u32 a, u32 b, u32 c);
-extern char *func_021ABD50(int a, int b, u16 c);
-extern void func_021ABF68(int t, int n);
-extern void func_021AC1EC(u32 *p, u32 v);
-extern void func_021ABE30(int t, int *arr, int n);
-extern void *func_0217F8C0(u16 id);
-extern u32 func_02012AE4(const struct Rec44 *p);
-extern u32 func_02012B28(const struct Rec44 *p);
+extern void func_021BB2F8(struct FieldNogridMapper *nogridMapper, u32 kind, u32 heapId);
+extern struct FieldEffectCont *func_021ABD50(FieldMap *fieldMap, int b, u16 heapId);
+extern void func_021ABF68(struct FieldEffectCont *effect, int n);
+extern void func_021AC1EC(struct FieldEffectCont *effect, void *palTable);
+extern void func_021ABE30(struct FieldEffectCont *effect, int *arr, int n);
+extern struct UnionEff *func_0217F8C0(u16 heapId);
+extern u32 func_02012AE4(const struct PlayerWork *p);
+extern u32 func_02012B28(const struct PlayerWork *p);
 extern u32 func_02013C20(u32 id);
-extern void func_02012B2C(struct Rec44 *p, u32 v);
-extern u8 *func_02012944(void *p);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern u32 *func_021A2E50(int a, u32 b, int c, int d, u16 heap);
-extern void func_0218D158(struct T *dst, const struct V3 *src);
-extern int func_021BE2A8(int a, int b, u16 heap);
-extern u8 *func_021A0104(u16 heap);
-extern u8 *func_021A02C4(u16 heap);
+extern void func_02012B2C(struct PlayerWork *p, u32 v);
+extern void *func_02012944(struct GameData *gameData);
+extern u8 func_02008550(const void *myStatus);
+extern struct FieldPlayer *func_021A2E50(struct PlayerWork *playerWork, FieldMap *fieldMap, const VecFx32 *pos, int sex, u16 heapId);
+extern void func_0218D158(struct FieldG3dMapper *g3dMapper, const VecFx32 *pos);
+extern struct FldExpObjCnt *func_021BE2A8(int a, int b, u16 heapId);
+extern struct FieldFog *func_021A0104(u16 heapId);
+extern struct FieldZoneFog *func_021A02C4(u16 heapId);
 extern u32 func_02013EEC(u32 id);
 extern int func_02013F2C(unsigned short id);
-extern void func_021A0338(u8 *p, u32 id, u32 c, u8 d);
-extern u8 func_020140DC(struct Sub020140BCObj *p);
+extern void func_021A0338(struct FieldZoneFog *zoneFog, u32 id, u32 c, u8 d);
+extern u8 func_020140DC(struct AreaData *areaData);
 extern u32 func_0203F4FC(void);
-extern u8 *func_021A03D0(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_02012A30(const struct BigObj *p);
-extern int func_021A19E8(int a0, int a1, int a2, int a3, int a4, int a5, int heap);
-extern u8 func_02012994(const struct BigObj *p);
-extern void func_021A1B74(u8 *p, int a, int f);
-extern void func_021BE1DC(void *arg);
-extern u8 func_020129AC(const struct BigObj *p);
-extern u32 *func_021A0CF4(u32 a, u32 b, u32 c);
-extern u32 *func_021A9ED8(u32 a);
-extern void func_02026388(struct Obj *p, u32 a);
-extern int *func_021BB890(int a, int b, int n);
-extern u32 *func_021C1A08(u32 a);
-extern u32 *func_021C1AF4(u32 a, u32 b);
-extern void *func_021CF45C(u32 heap, u32 v);
-extern void *func_02012EBC(struct Big *p);
+extern struct FieldLight *func_021A03D0(u32 a, u32 b, u32 c, struct FieldFog *fog, struct G3dLightSlots *g3dLight, u16 heapId);
+extern u32 func_02012A30(const struct GameData *p);
+extern struct WeatherSys *func_021A19E8(struct FieldCamera *camera, struct FieldLight *light, struct FieldFog *fog, struct FieldZoneFog *zoneFog, int a4, int a5, int heapId);
+extern u8 func_02012994(const struct GameData *p);
+extern void func_021A1B74(struct WeatherSys *weather, int a, int f);
+extern void func_021BE1DC(FieldMap *fieldMap);
+extern u8 func_020129AC(const struct GameData *p);
+extern struct FieldSubscreen *func_021A0CF4(u32 heapId, FieldMap *fieldMap, u32 c);
+extern struct FieldEncount *func_021A9ED8(FieldMap *fieldMap);
+extern void func_02026388(struct GameComm *gameComm, FieldMap *fieldMap);
+extern struct FieldmapFunc *func_021BB890(FieldMap *fieldMap, int b, int n);
+extern struct FldParticle *func_021C1A08(u32 a);
+extern struct Fld3dCi *func_021C1AF4(u32 a, struct FldParticle *particle);
+extern struct EncEff *func_021CF45C(u32 heapId, FieldMap *fieldMap);
+extern void *func_02012EBC(struct GameData *gameData);
 extern void *func_0200BDB0(void *sys);
-extern int func_021C31D4(u16 heap, void *a, int b);
-extern void func_0218CA78(char *p);
-extern int func_0216CD64(int a0);
-extern int func_0219C624(void *p);
-extern int func_0219C630(void *p);
-extern int func_021A1B50(u32 a);
-extern void func_021A1AF4(u8 *p, int x);
+extern struct Sodateya *func_021C31D4(u16 heapId, FieldMap *fieldMap, void *b);
+extern void func_0218CA78(struct FieldG3dMapper *g3dMapper);
+extern int func_0216CD64(struct MmdlSys *mmdlSys);
+extern int func_0219C624(struct MmdlSys *mmdlSys);
+extern int func_0219C630(struct MmdlSys *mmdlSys);
+extern int func_021A1B50(struct WeatherSys *weather);
+extern void func_021A1AF4(struct WeatherSys *weather, int heapId);
 extern void func_0204A600(void);
-extern void func_021903E0(struct Obj *o);
-extern void func_021ABE04(u32 a);
-extern void func_021BB948(u8 *p);
-extern u8 func_02014460(struct Sub02014444Obj *o);
+extern void func_021903E0(struct FieldMsgBg *msgBg);
+extern void func_021ABE04(struct FieldEffectCont *effect);
+extern void func_021BB948(struct FieldmapFunc *mapFunc);
+extern u8 func_02014460(struct FieldStatus *o);
 extern int func_02005C64(void);
-extern u8 func_02014458(struct Sub02014444Obj *o);
-extern void func_02158AC8(int a, int b);
-extern void func_02014454(struct Sub02014444Obj *o, u8 v);
-extern void func_02158AD4(int a, int b);
-extern void func_0201445C(struct Sub02014444Obj *o, u8 v);
-extern void func_0201209C(void *o, u32 v1, u32 v2);
-extern void func_020129DC(struct BigObj *p, u8 v);
-extern int func_0218A0E4(void *sys, struct Obj00020 *pos);
-extern int func_0218A240(void *p, struct Obj00020 *pos);
-extern int func_0218A4BC(u32 a, u32 b, u32 c, u32 d);
-extern int func_0218A074(void *a, int b);
-extern u32 func_02012104(const struct Ctx *p);
-extern u8 func_0201447C(struct Sub02014444Obj *o, u8 v);
-extern u8 func_02012E40(const u8 *o);
+extern u8 func_02014458(struct FieldStatus *o);
+extern void func_02158AC8(struct GameSystem *gameSystem, int heapId);
+extern void func_02014454(struct FieldStatus *o, u8 v);
+extern void func_02158AD4(struct GameSystem *gameSystem, int heapId);
+extern void func_0201445C(struct FieldStatus *o, u8 v);
+extern void func_0201209C(struct GameSystem *gameSystem, FieldMapEventCheckFunc checkFunc, FieldMap *fieldMap);
+extern void func_020129DC(struct GameData *p, u8 v);
+extern int func_0218A0E4(struct GameSystem *gameSystem, void *work);
+extern int func_0218A240(struct GameSystem *gameSystem, void *work);
+extern int func_0218A4BC(struct GameSystem *gameSystem, void *work);
+extern int func_0218A074(struct GameSystem *gameSystem, void *work);
+extern u32 func_02012104(const struct GameSystem *p);
+extern u8 func_0201447C(struct FieldStatus *o, u8 v);
+extern u8 func_02012E40(const struct GameData *gameData);
 extern void func_02035648(void);
-extern int func_020120D8(char *a);
-extern void func_02168EEC(int a);
-extern void func_021BC484(u32 a);
-extern void func_021C7FAC(u32 a);
-extern void func_021A2EB8(u32 *a);
-extern void func_021737A4(void *a, int b);
-extern void func_0217AE20(u8 *a0, int a1, int a2);
-extern void func_021A0D68(u32 *a);
-extern void func_021BE258(void *p);
-extern void func_0217F914(u32 a);
-extern void func_02030D28(struct Ctx *c);
-extern void func_021C6D90(u8 *p);
-extern u32 *func_02012ED0(u32 a);
+extern int func_020120D8(struct GameSystem *gameSystem);
+extern void func_02168EEC(struct GameData *gameData);
+extern void func_021BC484(struct FieldPlaceName *placeName);
+extern void func_021C7FAC(struct FieldSkillMapEff *mapEff);
+extern void func_021A2EB8(struct FieldPlayer *player);
+extern void func_021737A4(struct GameComm *gameComm, FieldMap *fieldMap);
+extern void func_0217AE20(FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player);
+extern void func_021A0D68(struct FieldSubscreen *subscreen);
+extern void func_021BE258(FieldMap *fieldMap);
+extern void func_0217F914(struct UnionEff *unionEff);
+extern void func_02030D28(struct TcblSys *c);
+extern void func_021C6D90(struct FieldTaskManager *taskManager);
+extern u32 *func_02012ED0(struct GameData *gameData);
 extern void func_021C8660(u32 a);
 void func_02047CE4(void);
 unsigned int func_0203630C(void);
-void func_0218E104(u8 *a, u32 b);
-extern void func_020129F0(struct BigObj *p);
-extern void func_0218CC34(u32 a);
-extern void func_021A0E58(u32 *a);
-extern void func_021BC4F0(int a);
-extern int func_021CF480(void *a);
-extern void func_021C1C04(u32 *p);
-extern void func_021C1AD0(u32 a);
-extern void func_021BB90C(u32 a);
-extern void func_020263B0(struct Obj *p, u32 a);
-extern void func_021BC424(u32 a);
-extern void func_021BE218(void *arg);
-extern void func_021BE2E0(u32 a);
-extern void func_021A9F28(u32 a);
-extern u8 func_021A0D44(u32 *p);
-extern void func_020129B8(struct BigObj *p, u32 v);
-extern void func_021ABDE8(u32 a);
-extern void func_0217F8EC(char *p);
-extern void func_021A1AAC(u8 *p);
-extern void func_021A0448(u8 *p);
-extern int func_021A02F4(void *a);
-extern void func_021A0138(u32 a);
-extern void func_021D33E0(u32 *p);
-extern int func_021BB240(u32 a);
-extern void func_021AB81C(u32 a);
-extern void func_021AB624(u8 *p);
-extern void func_0218E0E4(u8 *a);
-extern int func_021A2E90(void *a);
-extern void func_0218D05C(char *p);
-extern int func_02190728(void *a);
-extern void func_021902BC(struct Obj *o);
-extern void func_021C31FC(u32 a);
-extern void func_021C7F9C(u8 *p);
-extern void func_02030DA4(u32 a);
-extern void func_02030EAC(struct Node *n);
+extern void func_0218E104(struct FieldCamera *camera, u32 b);
+extern void func_020129F0(struct GameData *p);
+extern void func_0218CC34(struct FieldG3dMapper *g3dMapper);
+extern void func_021A0E58(struct FieldSubscreen *subscreen);
+extern void func_021BC4F0(struct FieldPlaceName *placeName);
+extern int func_021CF480(struct EncEff *encEff);
+extern void func_021C1C04(struct Fld3dCi *fld3dCi);
+extern void func_021C1AD0(struct FldParticle *particle);
+extern void func_021BB90C(struct FieldmapFunc *mapFunc);
+extern void func_020263B0(struct GameComm *gameComm, FieldMap *fieldMap);
+extern void func_021BC424(struct FieldPlaceName *placeName);
+extern void func_021BE218(FieldMap *fieldMap);
+extern void func_021BE2E0(struct FldExpObjCnt *expObj);
+extern void func_021A9F28(struct FieldEncount *encount);
+extern u8 func_021A0D44(struct FieldSubscreen *subscreen);
+extern void func_020129B8(struct GameData *p, u32 v);
+extern void func_021ABDE8(struct FieldEffectCont *effect);
+extern void func_0217F8EC(struct UnionEff *unionEff);
+extern void func_021A1AAC(struct WeatherSys *weather);
+extern void func_021A0448(struct FieldLight *light);
+extern int func_021A02F4(struct FieldZoneFog *zoneFog);
+extern void func_021A0138(struct FieldFog *fog);
+extern void func_021D33E0(struct FieldPalaceSys *palaceSys);
+extern int func_021BB240(struct FieldNogridMapper *nogridMapper);
+extern void func_021AB81C(struct FldSceneAreaLoader *sceneAreaLoader);
+extern void func_021AB624(struct FldSceneArea *sceneArea);
+extern void func_0218E0E4(struct FieldCamera *camera);
+extern int func_021A2E90(struct FieldPlayer *player);
+extern void func_0218D05C(struct FieldG3dMapper *g3dMapper);
+extern int func_02190728(struct FieldMsgWin *infoWindow);
+extern void func_021902BC(struct FieldMsgBg *msgBg);
+extern void func_021C31FC(struct Sodateya *sodateya);
+extern void func_021C7F9C(struct FieldSkillMapEff *mapEff);
+extern void func_02030DA4(struct TcblSys *tcblSys);
+extern void func_02030EAC(struct GFL_TCB *tcb);
 extern void func_0204A5AC(void);
 extern void func_020450C8(void);
 extern void func_02034A5C(s32 handle);
-extern void func_021D31A4(u32 a);
-extern void func_021C6D5C(u32 a);
-extern int func_0218CA4C(void *a);
-extern u32 func_021A3098(u8 *p);
-extern void func_021A2F48(u8 *p, u32 a1);
-extern int func_021A2F54(u8 *p);
+extern void func_021D31A4(struct FldVReq *vreq);
+extern void func_021C6D5C(struct FieldTaskManager *taskManager);
+extern int func_0218CA4C(struct FieldG3dMapper *g3dMapper);
+extern u32 func_021A3098(struct FieldPlayer *player);
+extern void func_021A2F48(struct FieldPlayer *player, u32 a1);
+extern int func_021A2F54(struct FieldPlayer *player);
 extern void func_020061E4(u32 a);
-extern void *func_02012F2C(int *p);
-extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern void *func_02012F2C(struct GameData *gameData);
+extern u32 func_02008DF0(void *record, int i);
 extern u8 func_0202C794(void *a0, u32 a1);
 extern u32 func_021A6DC0(u8 *p);
 extern void func_0203F8F4(u16 heap);
 extern void func_02040E78(u32 a, void *b, u32 c, u32 d);
 extern u32 func_0204363C(u32 swap);
 extern void func_0204361C(void);
-extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_0203FC28(const struct DispConfig *cfg);
+extern const struct DispConfig d_021D35F4;
 extern void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(u32 a, void *buf, u32 b, u32 c, u32 d, u32 e);
 extern void func_0204044C(u32 a);
-extern void func_02190270(u32 a);
-extern void func_0219027C(u8 *a);
+extern void func_02190270(struct FieldMsgBg *msgBg);
+extern void func_0219027C(struct FieldMsgBg *msgBg);
 extern u32 func_0203F9B4(u32);
 extern u32 func_02046788(u32);
 extern u32 func_0206DB80(u32);
@@ -788,261 +647,261 @@ extern void func_0207DD10(void *a);
 extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void func_0207DCF8(void *a);
 extern void func_02046BE0(u32 a, u32 b);
-extern void *func_0204FE94(u16 a0, u16 a1, u32 a2, int heap);
-extern u32 func_02050080(u32 *p);
+extern struct BbActSys *func_0204FE94(u16 a0, u16 a1, void (*transCallback)(int, int, void *, int), int heapId);
+extern void *func_02050080(struct BbActSys *bbdAct);
 extern void func_0204EDBC(u8 *dst, u8 val);
 extern void func_0204EDC4(u8 *dst, int a, int b);
-extern void func_0204ED70(u8 *dst, struct Blk3 *src);
+extern void func_0204ED70(void *board, const VecFx32 *scale);
 extern void func_0204EDB0(u8 *dst, u8 *src);
-extern u32 func_021C63AC(u16 heap, int a, int b);
-extern u32 func_02048A24(int, int, int, int, int, int, int, int, void *, void *, void *, int);
-extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
-extern void func_02048AD0(struct Light *l);
-extern void func_02048C58(struct LightSlot *slots);
-extern void func_020504D8(struct Owner *o);
-extern void func_021BB36C(u32 a);
-extern int func_021AB660(struct Obj *o, void *arg);
-extern void func_021A030C(u8 *p, u32 a);
-extern void func_021A0140(u8 *p);
-extern void func_021A0458(u8 *a, s32 b);
-extern int func_0218CB34(char *p);
+extern struct FieldG3dObjCtrl *func_021C63AC(u16 heapId, int a, int b);
+extern struct G3dCamera *func_02048A24(int, int, int, int, int, int, int, int, void *, void *, void *, int);
+extern struct G3dLightSlots *func_02048BC4(const struct LightSet *s, u32 heapId);
+extern void func_02048AD0(struct G3dCamera *g3dCamera);
+extern void func_02048C58(struct G3dLightSlots *g3dLight);
+extern void func_020504D8(struct BbActSys *bbdAct);
+extern void func_021BB36C(struct FieldNogridMapper *nogridMapper);
+extern int func_021AB660(struct FldSceneArea *sceneArea, const VecFx32 *pos);
+extern void func_021A030C(struct FieldZoneFog *zoneFog, u32 heapId);
+extern void func_021A0140(struct FieldFog *fog);
+extern void func_021A0458(struct FieldLight *light, s32 b);
+extern int func_0218CB34(struct FieldG3dMapper *g3dMapper);
 extern void func_0203D12C(int a);
 void func_02047964(void);
 void func_020479D8(void);
 void func_02047970(int x);
 extern u32 func_02048AC4(void *ptr);
-extern u32 func_02048C4C(u32 a);
+extern u32 func_02048C4C(struct G3dLightSlots *g3dLight);
 extern void func_0204FFFC(struct BbActSys *o);
-extern u32 func_021C6400(u32);
+extern int func_021C6400(struct FieldG3dObjCtrl *g3dObjCtrl);
 int func_02005C8C(void);
-int func_0216CD78(int a0);
-void func_021C6470(int h);
+int func_0216CD78(struct MmdlSys *mmdlSys);
+void func_021C6470(struct FieldG3dObjCtrl *g3dObjCtrl);
 void func_0204A648(void);
-void func_021D31AC(int h);
+void func_021D31AC(struct FldVReq *vreq);
 s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-extern u8 func_020140E0(struct Sub020140BCObj *p);
+extern u8 func_020140E0(struct AreaData *areaData);
 extern u32 func_02013DB8(u32 a);
 extern void func_02048F4C(void *a, u32 b, u32 c);
-extern u8 func_020140E4(struct Sub020140BCObj *p);
-extern u32 func_021CD1C8(u32 a);
-extern void func_021CD204(u32 a, u32 b);
-extern void func_021CD214(u8 *s, void *o);
+extern u8 func_020140E4(struct AreaData *areaData);
+extern void *func_021CD1C8(u32 heapId);
+extern void func_021CD204(void *bbdColor, u32 b);
+extern void func_021CD214(void *bbdColor, void *board);
 extern int func_021CD1F0(void *a);
-extern u32 func_02012964(const struct BigObj *p);
-extern void func_0216CCDC(char *a, int b, int c, int d, int e, int f);
-extern void func_0219C554(u32 a, u32 b, u32 c);
-extern void func_0219C680(u32 a);
+extern struct MmdlSys *func_02012964(const struct GameData *gameData);
+extern void func_0216CCDC(struct MmdlSys *mmdlSys, int heapId, struct GameData *gameData, FieldMap *fieldMap, struct FieldG3dMapper *g3dMapper, struct FieldNogridMapper *nogridMapper);
+extern void func_0219C554(struct MmdlSys *mmdlSys, struct BbActSys *bbdAct, u32 c);
+extern void func_0219C680(struct MmdlSys *mmdlSys);
 extern u8 func_0217C0A8(void *a0);
 extern int func_021A31A4(int i, int v);
-extern void func_0219C658(u32 a, u32 b);
-extern void func_0219D448(int a, int b);
-extern u8 *func_0218ED50(u8 *p);
-extern void func_0216CDB8(u8 *p, u32 v);
-extern void func_0216D2F8(u32 a);
-extern void func_0216D974(unsigned int *p, unsigned int v);
-extern int func_0216CD50(int a0);
-extern void func_0216D2AC(u32 x);
-extern u32 func_02012844(const struct BigObj *p);
+extern void func_0219C658(struct MmdlSys *mmdlSys, u32 b);
+extern void func_0219D448(struct MmdlSys *mmdlSys, struct FieldG3dObjCtrl *g3dObjCtrl);
+extern void *func_0218ED50(struct FieldCamera *camera);
+extern void func_0216CDB8(struct MmdlSys *mmdlSys, void *areaIdRef);
+extern void func_0216D2F8(struct MmdlSys *mmdlSys);
+extern void func_0216D974(struct MmdlSys *mmdlSys, unsigned int v);
+extern int func_0216CD50(struct MmdlSys *mmdlSys);
+extern void func_0216D2AC(struct MmdlSys *mmdlSys);
+extern void *func_02012844(const struct GameData *gameData);
 extern u32 func_02162458(u8 *p);
-extern void func_02162438(int a0, int a1, int a2);
-extern void *func_020127A4(struct SaveBlock *p);
-extern struct Vec12 *func_02012AA0(struct Rec44 *p);
-extern void func_020141E0(const struct Rec020141E0 *p, struct Vec020141E0 *out);
-extern void func_020141F0(struct Rec020141F0 *p, const struct Vec020141F0 *v);
-extern int func_02159C48(int a0, int a1, int a2);
-extern int func_02159BD4(int a0, int a1, int a2);
-extern void func_021AA8EC(u8 *p);
-extern void func_0216DF1C(u32 a);
+extern void func_02162438(void *eventData, int a1, int a2);
+extern struct PlayerWork *func_020127A4(struct GameData *gameData);
+extern VecFx32 *func_02012AA0(struct PlayerWork *playerWork);
+extern void func_020141E0(const FieldMapLocation *location, VecFx32 *out);
+extern void func_020141F0(FieldMapLocation *location, const VecFx32 *pos);
+extern int func_02159C48(struct MapMatrix *mapMatrix, int x, int z);
+extern int func_02159BD4(struct MapMatrix *mapMatrix, int x, int z);
+extern void func_021AA8EC(struct FieldEncount *encount);
+extern void func_0216DF1C(struct MmdlSys *mmdlSys);
 extern void func_021623DC(char *p);
 extern void func_0216242C(void *a0, u16 a1, u8 a2);
 extern void func_021643AC(void *a, void *b);
 extern void func_021BC550(void *p, int v);
-extern void func_0202735C(u32 a0, u32 a1);
+extern void func_0202735C(u32 a0, struct GameData *gameData);
 extern void func_0215A014(void *a, int b);
 extern void func_02158AE0(void *a0, void *a1);
 extern void func_0215874C(void *a);
 u16 func_02162744(u8 *p);
-u32 func_0201296C(const struct BigObj *p);
-u32 func_02162740(u8 *p);
-void func_0216CEAC(u32 a, u8 *p, u32 b, u32 n, u32 c);
-extern u32 func_02012134(u32 *p);
+u32 func_0201296C(const struct GameData *p);
+void *func_02162740(void *eventData);
+void func_0216CEAC(struct MmdlSys *mmdlSys, void *headers, u32 b, u32 n, u32 c);
+extern u32 func_02012134(struct GameSystem *gameSystem);
 extern void func_0202B544(u32 a, u16 b);
 extern void func_02029CF0(void *a, void *b, u16 c);
-int func_0202C83C(int a0, int a1);
-void func_021A1BDC(int x, int k);
-void func_021A0358(int a);
-extern struct Rec44 *func_02012AC4(struct Rec44 *p, u16 v);
+int func_0202C83C(struct GameSystem *gameSystem, int a1);
+void func_021A1BDC(struct WeatherSys *weather, int k);
+void func_021A0358(struct FieldZoneFog *zoneFog);
+extern struct PlayerWork *func_02012AC4(struct PlayerWork *p, u16 v);
 unsigned short func_02013BD0(unsigned short id);
-void func_0218F14C(u8 *p, u32 a, u32 b);
-void func_0218F134(u8 *a);
+void func_0218F14C(struct FieldCamera *camera, u32 a, u32 b);
+void func_0218F134(struct FieldCamera *camera);
 extern int func_02013DD0(int v);
-extern u32 func_0201444C(struct Sub02014444Obj *o);
+extern u32 func_0201444C(struct FieldStatus *o);
 extern u8 *func_020127C4(void *p);
-extern u8 *func_020127D0(u8 *o, u32 idx);
-extern int func_0218DC74(u32 a, u32 b, u32 c);
-extern void *func_0218DC70(u8 *p);
-extern void func_021939C0(u8 *o, void *dst, int skip, u32 heap);
-extern void func_02193ABC(char *p, int a, int b);
-extern void func_02193AFC(u8 *p, u32 v);
+extern void *func_020127D0(struct GameData *gameData, u32 idx);
+extern int func_0218DC74(struct FieldG3dMapper *g3dMapper, void *wfbcData, u32 c);
+extern void *func_0218DC70(struct FieldG3dMapper *g3dMapper);
+extern void func_021939C0(void *buildModel, void *eventData, int skip, u32 heapId);
+extern void func_02193ABC(void *buildModel, struct FieldCamera *camera, int b);
+extern void func_02193AFC(void *buildModel, struct MmdlSys *mmdlSys);
 extern int func_02013FA8(u16 id);
 extern int func_02013C80(int a0);
 extern void func_021AB650(void *p);
 extern void func_021AB868(void *p);
 extern void func_021AB840(void *p, int a, int b, int c);
-extern u32 func_021AB880(u8 *p);
-extern u32 func_021AB884(u8 *p);
+extern u32 func_021AB880(struct FldSceneAreaLoader *sceneAreaLoader);
+extern u32 func_021AB884(struct FldSceneAreaLoader *sceneAreaLoader);
 extern int func_021AB888(void *p);
 extern void func_021AB634(void *p, int a, int b, int c);
 extern u32 func_0200FB24(void);
 extern u32 func_0202647C(void *obj);
 extern u32 func_02026460(void *obj);
-extern u32 func_0218CC64(char *p, int a, int m);
-extern void func_021A0170(u8 *p, u32 a1, u32 a2, u32 a3);
-extern void func_021A0568(u8 *p, int force);
-extern void func_0219047C(u8 *p);
-extern void func_021C7FB4(u32 a);
+extern u32 func_0218CC64(struct FieldG3dMapper *g3dMapper, struct G3dCamera *g3dCamera, int m);
+extern void func_021A0170(struct FieldFog *fog, u32 a1, u32 a2, u32 a3);
+extern void func_021A0568(struct FieldLight *light, int force);
+extern void func_0219047C(struct FieldMsgBg *msgBg);
+extern void func_021C7FB4(struct FieldSkillMapEff *mapEff);
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
 extern u32 func_0206A854(void);
-extern void func_021ABE0C(u32 a);
-extern void func_021C64E0(u32 a);
-extern void func_02050790(struct tagLISTCB *list, int b, int c);
-extern void func_0217F928(char *p);
-extern void func_021BB954(u8 *p);
-extern void func_021A1B38(u32 *p);
-extern void func_021BE4F8(char *p);
+extern void func_021ABE0C(struct FieldEffectCont *effect);
+extern void func_021C64E0(struct FieldG3dObjCtrl *g3dObjCtrl);
+extern void func_02050790(struct BbActSys *bbdAct, struct G3dCamera *g3dCamera, struct G3dLightSlots *g3dLight);
+extern void func_0217F928(struct UnionEff *unionEff);
+extern void func_021BB954(struct FieldmapFunc *mapFunc);
+extern void func_021A1B38(struct WeatherSys *weather);
+extern void func_021BE4F8(struct FldExpObjCnt *expObj);
 extern void func_021C1AEC(void);
-extern void func_021C1C4C(char *p);
-void func_021CF520(int h);
+extern void func_021C1C4C(struct Fld3dCi *fld3dCi);
+void func_021CF520(struct EncEff *encEff);
 extern u32 func_020113D8(u32);
-extern u8 *func_0218ED3C(u8 *p);
+extern void *func_0218ED3C(struct FieldCamera *camera);
 extern u8 func_02013BA8(u32 id);
 extern u32 func_02013B50(u32 id);
-extern unsigned short func_02159BF4(struct Obj *p);
-extern unsigned short func_02159BF8(struct Obj *p);
-extern int func_02159BFC(struct Obj *p);
-extern char *func_02159C20(char *p);
-extern u16 func_020140BC(struct Sub020140BCObj *p);
-extern u32 func_020140C0(struct Sub020140BCObj *p);
-extern u32 func_020140CC(struct Sub020140BCObj *p);
-int func_02187F00(struct Obj0203159C *a, int *state, int b);
-int func_02187FD0(u32 a, u32 b, u32 c, u32 d);
-int func_02187FE8(int a, int unused, int b, int *c);
-void *func_02188030(int a, int b);
-void func_021880A4(int *p);
-int func_021880C8(int unused, u8 *p);
-int func_021881D8(int a, char *p);
-int func_021885E8(void *a, u8 *p);
-int func_02188758(void *a, u8 *p);
-void func_021888C8(char *o);
-u32 func_02188910(void *a, u8 *b);
-int func_02188990(void *a, u8 *p);
-u32 func_02188AD4(void *a, u8 *b);
-u32 func_02188B58(void *a, u8 *b, u32 a2, u32 a3);
-void func_02188BD8(u8 *obj);
-int func_02188BE8(void *a);
-u32 func_02188BF8(u8 *a);
-u32 func_02188C54(u8 *p);
-void *func_02188C58(void *p);
-u32 func_02188C5C(u8 *p);
-u32 func_02188C60(u8 *p);
-u32 func_02188C64(u8 *p);
-u32 func_02188C68(u8 *p);
-u32 func_02188C6C(u8 *p);
-int func_02188C70(int *p, int b);
-void *func_02188C7C(u8 *p);
-void *func_02188C80(void *p);
-u16 func_02188C84(u8 *p);
-u32 func_02188C88(u8 *p);
-u32 func_02188C90(u8 *p);
-u32 func_02188C98(u8 *p);
-u16 func_02188C9C(u8 *p);
-u32 func_02188CA4(u8 *p);
-void func_02188CAC(u8 *p, u32 v);
-void *func_02188CB4(struct Obj00020 *p);
-int func_02188CBC(u32 a);
-u32 func_02188CCC(u8 *p);
-u32 func_02188CD0(u8 *p);
-u32 func_02188CD8(u8 *p);
-u32 func_02188CE0(u8 *p);
-u32 func_02188CE8(u8 *p);
-int func_02188CF0(u32 a);
-u32 func_02188CFC(u8 *p);
-u32 func_02188D20(u8 *p);
-u32 func_02188D24(u8 *p);
-int func_02188D2C(int *p);
-u32 func_02188D30(u8 *p);
-u32 func_02188D38(u8 *p);
-void func_02188D40(u8 *p, u32 v);
-u32 func_02188D48(u8 *p);
-void func_02188D4C(u8 *p, u32 v);
-void *func_02188D50(u8 *p);
-u32 func_02188D58(u8 *p);
-void func_02188D5C(u16 *p);
+extern unsigned short func_02159BF4(struct MapMatrix *mapMatrix);
+extern unsigned short func_02159BF8(struct MapMatrix *mapMatrix);
+extern int func_02159BFC(struct MapMatrix *mapMatrix);
+extern void *func_02159C20(struct MapMatrix *mapMatrix);
+extern u16 func_020140BC(struct AreaData *areaData);
+extern u32 func_020140C0(struct AreaData *areaData);
+extern u32 func_020140CC(struct AreaData *areaData);
+int func_02187F00(struct GfProc *proc, int *seq, struct GameSystem *gameSystem);
+int func_02187FD0(struct GfProc *proc, int *seq, struct GameSystem *gameSystem, FieldMapProcWork *work);
+int func_02187FE8(struct GfProc *proc, int *seq, struct GameSystem *gameSystem, FieldMapProcWork *work);
+FieldMap *func_02188030(struct GameSystem *gameSystem, int heapId);
+void func_021880A4(FieldMap *fieldMap);
+int func_021880C8(struct GameSystem *gameSystem, FieldMap *fieldMap);
+int func_021881D8(struct GameSystem *gameSystem, FieldMap *fieldMap);
+int func_021885E8(struct GameSystem *gameSystem, FieldMap *fieldMap);
+int func_02188758(struct GameSystem *gameSystem, FieldMap *fieldMap);
+void func_021888C8(FieldMap *fieldMap);
+int func_02188910(struct GameSystem *gameSystem, FieldMap *fieldMap);
+int func_02188990(struct GameSystem *gameSystem, FieldMap *fieldMap);
+int func_02188AD4(struct GameSystem *gameSystem, FieldMap *fieldMap);
+int func_02188B58(struct GameSystem *gameSystem, FieldMap *fieldMap);
+void func_02188BD8(FieldMap *fieldMap);
+int func_02188BE8(FieldMap *fieldMap);
+u32 func_02188BF8(FieldMap *fieldMap);
+struct FieldMsgBg *func_02188C54(FieldMap *fieldMap);
+struct FieldCamera *func_02188C58(FieldMap *fieldMap);
+struct FieldNogridMapper *func_02188C5C(FieldMap *fieldMap);
+struct FieldLight *func_02188C60(FieldMap *fieldMap);
+struct FieldFog *func_02188C64(FieldMap *fieldMap);
+struct FieldZoneFog *func_02188C68(FieldMap *fieldMap);
+struct WeatherSys *func_02188C6C(FieldMap *fieldMap);
+int func_02188C70(FieldMap *fieldMap, int switchId);
+struct MmdlSys *func_02188C7C(FieldMap *fieldMap);
+struct GameSystem *func_02188C80(FieldMap *fieldMap);
+u16 func_02188C84(FieldMap *fieldMap);
+struct BbActSys *func_02188C88(FieldMap *fieldMap);
+struct BbActSys *func_02188C90(FieldMap *fieldMap);
+struct FieldG3dMapper *func_02188C98(FieldMap *fieldMap);
+u16 func_02188C9C(FieldMap *fieldMap);
+void *func_02188CA4(FieldMap *fieldMap);
+void func_02188CAC(FieldMap *fieldMap, void *ctrlWork);
+struct FieldPlayer *func_02188CB4(FieldMap *fieldMap);
+int func_02188CBC(FieldMap *fieldMap);
+struct FieldSubscreen *func_02188CCC(FieldMap *fieldMap);
+struct FieldEffectCont *func_02188CD0(FieldMap *fieldMap);
+struct FieldG3dObjCtrl *func_02188CD8(FieldMap *fieldMap);
+struct UnionEff *func_02188CE0(FieldMap *fieldMap);
+struct FieldEncount *func_02188CE8(FieldMap *fieldMap);
+unsigned int func_02188CF0(FieldMap *fieldMap);
+u32 func_02188CFC(FieldMap *fieldMap);
+struct FieldPlaceName *func_02188D20(FieldMap *fieldMap);
+struct FieldmapFunc *func_02188D24(FieldMap *fieldMap);
+struct FldExpObjCnt *func_02188D2C(FieldMap *fieldMap);
+struct TcblSys *func_02188D30(FieldMap *fieldMap);
+struct FieldTaskManager *func_02188D38(FieldMap *fieldMap);
+void func_02188D40(FieldMap *fieldMap, const VecFx32 *targetPos);
+struct FieldMsgWin *func_02188D48(FieldMap *fieldMap);
+void func_02188D4C(FieldMap *fieldMap, struct FieldMsgWin *infoWindow);
+struct Sodateya *func_02188D50(FieldMap *fieldMap);
+struct AreaData *func_02188D58(FieldMap *fieldMap);
+void func_02188D5C(FieldMap *fieldMap);
 void func_02188DA0(void);
-void func_02188DB0(u8 *a);
-void func_02188DF0(u8 *a);
-u32 func_02188E30(u8 *p);
-int func_02188E38(u32 a);
+void func_02188DB0(FieldMap *fieldMap);
+void func_02188DF0(FieldMap *fieldMap);
+struct FldVReq *func_02188E30(FieldMap *fieldMap);
+int func_02188E38(FieldMap *fieldMap);
 void func_02188E50(void);
-void func_02188EE4(u8 *p);
-void func_02189004(u8 *a);
-void func_02189084(unsigned char *p);
-void func_021890AC(unsigned char *p);
-int func_021890C8(u32 a);
-void func_02189108(int unused, unsigned char *p);
-void func_02189140(int x, int b, void *c, int d);
-void func_02189154(void *a, u32 b);
-void func_021891C0(u8 *a);
-void func_02189204(u8 *a);
-int func_021892B4(u8 *a);
-u32 func_021892CC(u8 *a);
-int func_0218932C(char *p);
-u32 func_02189370(char *p);
-void func_021893C0(u8 *p);
-void func_021894E0(int a, int b, int c, int d);
-void func_02189518(char *p, unsigned int idx);
-void func_02189560(int *p, int b);
-void func_0218958C(unsigned char *p, int id);
-int func_021895BC(void *a, u32 b);
-void func_021895D0(u8 *p, u32 a);
-int func_021895DC(u32 a);
-void func_021895E8(unsigned char *p, int id, int c);
-void func_02189614(void *p, char *q, u16 id);
-void func_02189684(char *p, unsigned int id);
-int func_021896F4(void *p);
-int func_02189734(u32 a, u32 b, u32 c, u32 d);
-void func_02189758(int *p);
-void *func_02189764(unsigned char *p, int id, int a, int b);
-void func_021897A0(unsigned char *p, int id);
-int *func_021897BC(char *p, int idx);
-int func_021897DC(u32 a, u32 b, u32 c, u32 d);
-void func_02189810(u8 *p);
-void func_02189998(unsigned char *p);
-void func_021899C4(unsigned char *p);
-u32 func_021899F0(u8 *p);
-void func_021899F8(u8 *p, u32 v);
-void *func_02189A00(u8 *p);
-int func_02189A08(unsigned char *p);
-void *func_02189A10(Obj *p);
-u32 func_02189A18(u8 *p);
-void func_02189A1C(u8 *p, u32 v);
-u32 func_02189A24(u8 *p);
-int func_02189A2C(int *a);
-int func_02189A38(int a);
-int func_02189A48(char *p);
-void func_02189A50(char *p, int v);
-void func_02189A58(u8 *p, u32 v);
-u8 *func_02189A60(u8 *p);
-void func_02189A68(char *a, int b);
-u32 func_02189A70(u8 *p);
-u32 func_02189A78(u8 *p);
-int func_02189A80(char *p);
-int func_02189ACC(u32 a0);
-int func_02189AE8(int a);
-int func_02189B04(int x);
-u32 func_02189B28(u32 id);
-void func_02189B30(int a, int x, char *out, void *obj);
-int func_02189BA8(int x);
+void func_02188EE4(FieldMap *fieldMap);
+void func_02189004(FieldMap *fieldMap);
+void func_02189084(FieldMap *fieldMap);
+void func_021890AC(FieldMap *fieldMap);
+int func_021890C8(FieldMap *fieldMap);
+void func_02189108(struct GFL_TCB *tcb, void *work);
+void func_02189140(int vramTransfer, int destAddr, void *src, int size);
+void func_02189154(struct AreaData *areaData, u32 zoneId);
+void func_021891C0(FieldMap *fieldMap);
+void func_02189204(FieldMap *fieldMap);
+int func_021892B4(FieldMap *fieldMap);
+u32 func_021892CC(FieldMap *fieldMap);
+int func_0218932C(FieldMap *fieldMap);
+u32 func_02189370(FieldMap *fieldMap);
+void func_021893C0(FieldMap *fieldMap);
+void func_021894E0(struct GameData *gameData, struct MmdlSys *mmdlSys, void *eventData, int zoneId);
+void func_02189518(FieldMap *fieldMap, unsigned int zoneId);
+void func_02189560(FieldMap *fieldMap, int zoneId);
+void func_0218958C(FieldMap *fieldMap, int zoneId);
+int func_021895BC(struct GameData *gameData, u32 zoneId);
+void func_021895D0(FieldMap *fieldMap, u32 zoneId);
+FieldMap *func_021895DC(FieldMap *fieldMap);
+void func_021895E8(FieldMap *fieldMap, int zoneId, int heapId);
+void func_02189614(struct GameData *gameData, FieldMap *fieldMap, u16 zoneId);
+void func_02189684(FieldMap *fieldMap, unsigned int zoneId);
+int func_021896F4(struct GameComm *gameComm);
+int func_02189734(struct GameComm *gameComm);
+void func_02189758(FieldMapCommonWork *commonWork);
+void *func_02189764(FieldMap *fieldMap, int id, int heapId, int size);
+void func_021897A0(FieldMap *fieldMap, int id);
+void *func_021897BC(FieldMap *fieldMap, int id);
+int func_021897DC(FieldMap *fieldMap, u32 fogEnable, u32 fogSlope, u32 fogOffset);
+void func_02189810(FieldMap *fieldMap);
+void func_02189998(FieldMap *fieldMap);
+void func_021899C4(FieldMap *fieldMap);
+int func_021899F0(FieldMap *fieldMap);
+void func_021899F8(FieldMap *fieldMap, int drawMode);
+struct Fld3dCi *func_02189A00(FieldMap *fieldMap);
+struct EncEff *func_02189A08(FieldMap *fieldMap);
+struct FieldSkillMapEff *func_02189A10(FieldMap *fieldMap);
+struct FldSceneArea *func_02189A18(FieldMap *fieldMap);
+void func_02189A1C(FieldMap *fieldMap, int busy);
+int func_02189A24(FieldMap *fieldMap);
+int func_02189A2C(FieldMap *fieldMap);
+int func_02189A38(FieldMap *fieldMap);
+int func_02189A48(FieldMap *fieldMap);
+void func_02189A50(FieldMap *fieldMap, int busy);
+void func_02189A58(FieldMap *fieldMap, int stopped);
+void **func_02189A60(FieldMap *fieldMap);
+void func_02189A68(FieldMap *fieldMap, void *zoneEffectWork);
+void *func_02189A70(FieldMap *fieldMap);
+int func_02189A78(FieldMap *fieldMap);
+int func_02189A80(FieldMap *fieldMap);
+int func_02189ACC(u32 zoneId);
+int func_02189AE8(int zoneId);
+int func_02189B04(int zoneId);
+u32 func_02189B28(u32 zoneId);
+void func_02189B30(int zoneId, struct AreaData *areaData, FieldMapMapperParam *param, struct MapMatrix *mapMatrix);
+const FieldMapCtrlFuncs *func_02189BA8(int zoneId);
 extern char d_021DE700[];
 extern char d_021DD9C0[];
 extern u8 d_021D3688[];
@@ -1053,39 +912,38 @@ extern int d_021D8F00;
 extern int d_021D8F10[];
 extern u8 abs_id_13[];
 extern u8 abs_id_12[];
-extern Fn data_021D36B8[][2];
+extern FieldMapSeqFunc data_021D36B8[][2];
 extern const u8 data_021D35A8[];
 extern u16 d_021D3620[];
 extern u8 data_021D3640[];
 extern u8 data_021D35E4[];
 extern const s16 d_020A1EB8[];
-extern const Vec12 d_021D36F4;
-extern const Vec12 d_021D36E8;
-extern Vec12 d_021D35C0;
-extern Vec12 d_021D35CC;
+extern const VecFx32 d_021D36F4;
+extern const VecFx32 d_021D36E8;
+extern VecFx32 d_021D35C0;
+extern VecFx32 d_021D35CC;
 extern u8 d_021D35AC[];
-extern Fn_02189084 d_021D35D8[];
-extern Fn_021890AC d_021D35B4[];
+extern FieldMapDrawFunc d_021D35D8[];
+extern FieldMapDrawEndFunc d_021D35B4[];
+/*
+ * The edge marking colour buffer has two names: the code loads its address
+ * from two literal pool words, one per name, so the bytes need both.
+ */
 extern u8 data_021EE700[];
 extern u16 data_021EE700b[];
 extern MtxFx44 g_02148B54;
-extern struct Glb g_02148BCC;
+extern G3dGlobalState g_02148BCC;
 extern short d_020A1B38[];
-extern Ent d_021D3700[];
-extern struct _anon_Ent d_021D373C[];
+extern FieldMapTypeEntry d_021D3700[];
+extern FieldMapTypeEntryTail d_021D373C[];
 
-
-
-
-
-
-int func_02187F00(struct Obj0203159C *a, int *state, int b)
+int func_02187F00(struct GfProc *proc, int *seq, struct GameSystem *gameSystem)
 {
-    switch (*state) {
+    switch (*seq) {
     case 0:
         {
-            int sz = func_02189BBC(func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)b))) - 0xD000;
-            func_0203064C(1, 0x15, sz);
+            int fieldHeapSize = func_02189BBC(func_02012AC8(func_020120F8(gameSystem))) - 0xD000;
+            func_0203064C(1, 0x15, fieldHeapSize);
         }
         func_0203064C(1, 0x70, 0xD000);
         func_0203064C(0x15, 0x50, 0xC000);
@@ -1094,20 +952,20 @@ int func_02187F00(struct Obj0203159C *a, int *state, int b)
         func_0203064C(0x89, 0x93, 0x7400);
         func_0203064C(0x89, 0x96, 0x500);
         {
-            void **w = (void **)func_0203159C(a, 4, 0x15);
-            void *p = func_02188030(b, 0x15);
-            *w = p;
-            func_02012110((void *)b, p);
+            FieldMapProcWork *work = func_0203159C(proc, sizeof(FieldMapProcWork), 0x15);
+            FieldMap *fieldMap = func_02188030(gameSystem, 0x15);
+            work->fieldMap = fieldMap;
+            func_02012110(gameSystem, fieldMap);
         }
-        (*state)++;
+        (*seq)++;
         break;
     case 1:
-        if (func_0201214C((const struct Ctx *)b) == 0) {
-            int t = func_02012138((const struct Ctx *)b);
-            switch (func_02026454((void *)t)) {
+        if (func_0201214C(gameSystem) == 0) {
+            struct GameComm *gameComm = func_02012138(gameSystem);
+            switch (func_02026454(gameComm)) {
             case 1:
             case 2:
-                func_02026400((struct Comm *)t);
+                func_02026400(gameComm);
                 break;
             }
         }
@@ -1116,34 +974,19 @@ int func_02187F00(struct Obj0203159C *a, int *state, int b)
     return 0;
 }
 
-
-
-
-
-
-/*
- * Emitted from the ov021 instruction shape.
- *
- * Addresses are Black-image addresses.
- */
-int func_02187FD0(u32 a, u32 b, u32 c, u32 d)
+int func_02187FD0(struct GfProc *proc, int *seq, struct GameSystem *gameSystem, FieldMapProcWork *work)
 {
-if (func_02188B58((void *)c, (u8 *)(((struct Obj17856 *)((u8 *)(d)))->f0), c, d) == 1) {
-    return 1;
-}
-return 0;
+    if (func_02188B58(gameSystem, work->fieldMap) == 1) {
+        return 1;
+    }
+    return 0;
 }
 
-
-
-
-
-
-int func_02187FE8(int a, int unused, int b, int *c)
+int func_02187FE8(struct GfProc *proc, int *seq, struct GameSystem *gameSystem, FieldMapProcWork *work)
 {
-    func_021880A4((int *)(*c));
-    func_02012110((void *)b, 0);
-    func_020315D4((struct S020315D4 *)a);
+    func_021880A4(work->fieldMap);
+    func_02012110(gameSystem, 0);
+    func_020315D4(proc);
     func_020306F0(0x96);
     func_020306F0(0x92);
     func_020306F0(0x93);
@@ -1154,477 +997,378 @@ int func_02187FE8(int a, int unused, int b, int *c)
     return 1;
 }
 
-
-
-
-
-
-void *func_02188030(int a, int b)
+FieldMap *func_02188030(struct GameSystem *gameSystem, int heapId)
 {
-    char *p = (char *)func_02030734(b, 0x154, 1, d_021DD9C0, 0x209);
-
-    ((struct Obj03102 *)p)->f0 = b;
-    ((struct Obj03102 *)p)->fC0 = 0;
-    ((struct Obj03102 *)p)->f4 = a;
-    ((struct Obj03102 *)p)->f8 = (int)func_020120F4((const struct Ctx *)a);
-    ((struct Obj03102 *)p)->fD0 = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)a));
+    FieldMap *fieldMap = func_02030734(heapId, sizeof(FieldMap), 1, d_021DD9C0, 0x209);
+    fieldMap->heapId = heapId;
+    fieldMap->mainState = 0;
+    fieldMap->gameSystem = gameSystem;
+    fieldMap->gameData = func_020120F4(gameSystem);
+    fieldMap->zoneId = func_02012AC8(func_020120F8(gameSystem));
     {
-        int r7 = func_02013B38(((struct Obj03102 *)p)->fD0);
-        ((struct Obj03102 *)p)->fC = func_0201407C(b, r7, func_0202E83C((void *)a));
+        int areaId = func_02013B38(fieldMap->zoneId);
+        fieldMap->areaData = func_0201407C(heapId, areaId, func_0202E83C(gameSystem));
     }
-    ((struct Obj03102 *)p)->f108 = func_02189BA8(((struct Obj03102 *)p)->fD0);
-    return p;
+    fieldMap->ctrlFuncs = func_02189BA8(fieldMap->zoneId);
+    return fieldMap;
 }
 
-
-
-
-
-
-void func_021880A4(int *p)
+void func_021880A4(FieldMap *fieldMap)
 {
-    int q = p[1];
-    func_020140B4((void *)p[3]);
-    func_020307B0(p);
-    func_02012110((void *)q, 0);
+    struct GameSystem *gameSystem = fieldMap->gameSystem;
+    func_020140B4(fieldMap->areaData);
+    func_020307B0(fieldMap);
+    func_02012110(gameSystem, 0);
     func_020371AC(0, 0);
 }
 
-
-
-
-
-
-
-
-
-
-int func_021880C8(int unused, u8 *p)
+int func_021880C8(struct GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    u16 heap = ((struct Obj01489 *)p)->f0;
-
+    u16 heapId = fieldMap->heapId;
     func_020433E0((const struct DispVram *)d_021D3688);
-    func_02188D5C((u16 *)p);
+    func_02188D5C(fieldMap);
     func_0204A48C((const struct Cfg *)d_021D3604, (u32)d_021D3688, 0x89);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
-    func_02045088(heap);
+    func_02045088(heapId);
     func_0201DD60();
-    func_02046440(0, 3, 0, 1, 0x1000, ((struct Obj01489 *)p)->f0, func_02188E50);
-    func_02188EE4(p);
-    *(char * *)&((struct Obj01489 *)p)->f48 = func_0218C9E8(((struct Obj01489 *)p)->f0, func_02012984((const struct BigObj *)(((struct Obj01489 *)p)->f8)));
-    ((struct Obj01489 *)p)->fAC = func_020056A0(func_02189108, p, 0);
-    ((struct Obj01489 *)p)->f114 = func_02030734(heap, func_02030CB0(0x20), 0, d_021DD9C0, 0x26B);
-    ((struct Obj01489 *)p)->f110 = func_02030CBC(0x20, ((struct Obj01489 *)p)->f114);
-    *(u8 * *)&((struct Obj01489 *)p)->f134 = func_021C6D10(0xA, ((struct Obj01489 *)p)->f0);
-    ((struct Obj01489 *)p)->f14C = func_021D317C(((struct Obj01489 *)p)->f0);
-    func_02034AC4((func_02013CC8(((struct Obj01489 *)p)->fD0) == 1 || func_02013CE0(((struct Obj01489 *)p)->fD0) == 1) ? (int)abs_id_19 : (int)abs_id_18);
+    func_02046440(0, 3, 0, 1, 0x1000, fieldMap->heapId, func_02188E50);
+    func_02188EE4(fieldMap);
+    fieldMap->g3dMapper = func_0218C9E8(fieldMap->heapId, func_02012984(fieldMap->gameData));
+    fieldMap->vblankTcb = func_020056A0(func_02189108, fieldMap, 0);
+    fieldMap->tcblWork = func_02030734(heapId, func_02030CB0(0x20), 0, d_021DD9C0, 0x26B);
+    fieldMap->tcblSys = func_02030CBC(0x20, fieldMap->tcblWork);
+    fieldMap->taskManager = func_021C6D10(0xA, fieldMap->heapId);
+    fieldMap->vreq = func_021D317C(fieldMap->heapId);
+    func_02034AC4((func_02013CC8(fieldMap->zoneId) == 1 || func_02013CE0(fieldMap->zoneId) == 1) ? (int)abs_id_19 : (int)abs_id_18);
     func_02035660(0x1E);
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-int func_021881D8(int a, char *p)
+int func_021881D8(struct GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    int sys = (int)func_020120F4((const struct Ctx *)a);
-    int flag = 1;
-
-    switch (((struct Obj00571 *)p)->fC8) {
+    struct GameData *gameData = func_020120F4(gameSystem);
+    int busy = 1;
+    switch (fieldMap->subSeq) {
     case 0: {
-        int x;
-        func_0216447C(sys, F16(0xd0));
-        x = (int)func_021901EC(F16(0), F32(0xa4));
-        F32(0x2c) = 0;
-        F32(0x28) = x;
-        F32(0x30) = func_021BC388(a, 0x93, x);
-        F32(0xa0) = func_021C7F70(func_02014470(func_02012B38((const struct BigObj *)F32(8))), F16(0));
-        F32(0x10) = (int)func_0218E018(func_02013BBC(F16(0xd0)), 0, (struct Light *)F32(0xa4), (int)(p + 0xf4), F16(0));
-        F32(0x40) = func_021AB5F4(F16(0), F32(0x10), p);
-        F32(0x44) = func_021AB7E4(F16(0));
+        struct FieldMsgBg *msgBg;
+        func_0216447C(gameData, fieldMap->zoneId);
+        msgBg = func_021901EC(fieldMap->heapId, fieldMap->g3dCamera);
+        fieldMap->infoWindow = 0;
+        fieldMap->msgBg = msgBg;
+        fieldMap->placeName = func_021BC388(gameSystem, 0x93, msgBg);
+        fieldMap->mapEff = func_021C7F70(func_02014470(func_02012B38(fieldMap->gameData)), fieldMap->heapId);
+        fieldMap->camera = func_0218E018(func_02013BBC(fieldMap->zoneId), 0, fieldMap->g3dCamera, &fieldMap->nowPos, fieldMap->heapId);
+        fieldMap->sceneArea = func_021AB5F4(fieldMap->heapId, fieldMap->camera, fieldMap);
+        fieldMap->sceneAreaLoader = func_021AB7E4(fieldMap->heapId);
         break;
     }
     case 1: {
-        int m;
-        int t;
-        F32(0x3c) = (int)func_021BB1F4(F16(0), F32(0x10), F32(0x40), F32(0x44));
-        F32(0x9c) = (int)func_021D33A8(F16(0), (void *)a, p, F16(0xd0));
-        m = func_0218DC6C((u8 *)F32(0x48));
-        func_02189B30(F16(0xd0), F32(0xc), p + 0x50, (void *)func_02012974((const struct BigObj *)F32(8)));
-        func_02012138((const struct Ctx *)F32(4));
-        t = (int)func_021D33F8((u32 *)F32(0x9c));
-        func_0218B8AC((char *)m, F16(0xd0), F32(0xc), t);
-        func_021C6534((u32 *)F32(0x130), t);
-        func_02189614((void *)sys, p, F16(0xd0));
+        void *buildModel;
+        void *palTable;
+        fieldMap->nogridMapper = func_021BB1F4(fieldMap->heapId, fieldMap->camera, fieldMap->sceneArea, fieldMap->sceneAreaLoader);
+        fieldMap->palaceSys = func_021D33A8(fieldMap->heapId, gameSystem, fieldMap, fieldMap->zoneId);
+        buildModel = func_0218DC6C(fieldMap->g3dMapper);
+        func_02189B30(fieldMap->zoneId, fieldMap->areaData, &fieldMap->mapperParam, func_02012974(fieldMap->gameData));
+        func_02012138(fieldMap->gameSystem);
+        palTable = func_021D33F8(fieldMap->palaceSys);
+        func_0218B8AC(buildModel, fieldMap->zoneId, fieldMap->areaData, palTable);
+        func_021C6534(fieldMap->g3dObjCtrl, palTable);
+        func_02189614(gameData, fieldMap, fieldMap->zoneId);
         break;
     }
     case 2: {
-        int v;
-        func_02014110(p + 0xd4, F16(0xd0), 0, 0, 0, F32(0xf4), F32(0xf8), F32(0xfc));
-        func_02012138((const struct Ctx *)F32(4));
-        func_0218CEE4((struct Obj *)F32(0x48), (const struct Src *)(p + 0x50), func_021D33F8((u32 *)F32(0x9c)));
-        v = func_02013C9C(F16(0xd0));
-        if (v != -1) {
-            func_021BB2F8(F32(0x3c), v, F16(0));
+        int specialKind;
+        func_02014110(&fieldMap->location, fieldMap->zoneId, 0, 0, 0, fieldMap->nowPos.x, fieldMap->nowPos.y, fieldMap->nowPos.z);
+        func_02012138(fieldMap->gameSystem);
+        func_0218CEE4(fieldMap->g3dMapper, &fieldMap->mapperParam, func_021D33F8(fieldMap->palaceSys));
+        specialKind = func_02013C9C(fieldMap->zoneId);
+        if (specialKind != -1) {
+            func_021BB2F8(fieldMap->nogridMapper, specialKind, fieldMap->heapId);
         }
-        F32(0x104) = func_02189ACC(F16(0xd0));
-        func_021895E8((unsigned char *)p, (u16)F16(0xd0), (u16)F16(0));
+        fieldMap->projDepthOffset = func_02189ACC(fieldMap->zoneId);
+        func_021895E8(fieldMap, (u16)fieldMap->zoneId, (u16)fieldMap->heapId);
         break;
     }
     case 3:
-        func_02189204((u8 *)p);
-        F32(0x94) = (int)func_021ABD50((int)p, 0x18, F16(0));
-        func_021ABF68(F32(0x94), 0x5e);
-        func_021AC1EC((u32 *)F32(0x94), (u32)func_021D33F8((u32 *)F32(0x9c)));
-        func_021ABE30(F32(0x94), d_021D8F10, d_021D8F00);
-        if (func_02013CC8(F16(0xd0)) == 1 || func_02013CE0(F16(0xd0)) == 1) {
-            F32(0x98) = (int)func_0217F8C0(F16(0));
+        func_02189204(fieldMap);
+        fieldMap->effect = func_021ABD50(fieldMap, 0x18, fieldMap->heapId);
+        func_021ABF68(fieldMap->effect, 0x5e);
+        func_021AC1EC(fieldMap->effect, func_021D33F8(fieldMap->palaceSys));
+        func_021ABE30(fieldMap->effect, d_021D8F10, d_021D8F00);
+        if (func_02013CC8(fieldMap->zoneId) == 1 || func_02013CE0(fieldMap->zoneId) == 1) {
+            fieldMap->unionEff = func_0217F8C0(fieldMap->heapId);
         }
         break;
     case 4: {
-        int w;
-        int k;
-        V3 *pos;
-        int r;
-        int g;
-        w = (int)func_020120F8((const struct Ctx *)a);
-        k = func_02012AE4((const struct Rec44 *)w);
-        pos = (V3 *)(w + 4);
-        if (func_02012B28((const struct Rec44 *)w) == 1 && func_02013C20(F16(0xd0)) == 0) {
-            func_02012B2C((struct Rec44 *)w, 0);
+        struct PlayerWork *playerWork;
+        int dirType;
+        VecFx32 *playerPos;
+        int value;
+        int season;
+        playerWork = func_020120F8(gameSystem);
+        dirType = func_02012AE4(playerWork);
+        playerPos = (VecFx32 *)((u8 *)playerWork + 4);
+        if (func_02012B28(playerWork) == 1 && func_02013C20(fieldMap->zoneId) == 0) {
+            func_02012B2C(playerWork, 0);
         }
-        F32(0x8c) = (int)func_021A2E50(w, (u32)p, (int)pos, func_02008550((const struct Sub0200852CObj *)func_02012944((void *)sys)), F16(0));
-        *(V3 *)(p + 0xf4) = *pos;
-        (*(Ops **)(p + 0x108))->f4(p, (V3 *)(p + 0xf4), k);
-        func_0218D158((struct T *)F32(0x48), (const struct V3 *)(p + 0xf4));
-        func_02189758((int *)(p + 0x118));
-        F32(0x34) = func_021BE2A8(0x3c, 0x23, F16(0));
-        func_02189154((void *)F32(0xc), (int)func_02188C9C((u8 *)p));
-        F32(0x18) = (int)func_021A0104(F16(0));
-        F32(0x1c) = (int)func_021A02C4(F16(0));
-        r = func_02013EEC(F16(0xd0));
-        func_021A0338((u8 *)F32(0x1c), r, func_02013F2C(F16(0xd0)), 1);
-        r = func_020140DC((struct Sub020140BCObj *)F32(0xc));
-        g = func_0203F4FC();
-        F32(0x14) = (int)func_021A03D0(r, g, func_0202E83C((void *)a), F32(0x18), F32(0xa8), F16(0));
-        r = func_02012A30((const struct BigObj *)F32(8));
-        F32(0x20) = func_021A19E8(F32(0x10), F32(0x14), F32(0x18), F32(0x1c), r, func_0202E83C((void *)a), 0x92);
-        func_021A1B74((u8 *)F32(0x20), (u16)((int)func_02012994((const struct BigObj *)F32(8))), 0x92);
-        func_021BE1DC(p);
+        fieldMap->player = func_021A2E50(playerWork, fieldMap, playerPos, func_02008550(func_02012944(gameData)), fieldMap->heapId);
+        fieldMap->nowPos = *playerPos;
+        fieldMap->ctrlFuncs->create(fieldMap, &fieldMap->nowPos, dirType);
+        func_0218D158(fieldMap->g3dMapper, &fieldMap->nowPos);
+        func_02189758(&fieldMap->commonWork);
+        fieldMap->expObj = func_021BE2A8(0x3c, 0x23, fieldMap->heapId);
+        func_02189154(fieldMap->areaData, func_02188C9C(fieldMap));
+        fieldMap->fog = func_021A0104(fieldMap->heapId);
+        fieldMap->zoneFog = func_021A02C4(fieldMap->heapId);
+        value = func_02013EEC(fieldMap->zoneId);
+        func_021A0338(fieldMap->zoneFog, value, func_02013F2C(fieldMap->zoneId), 1);
+        value = func_020140DC(fieldMap->areaData);
+        season = func_0203F4FC();
+        fieldMap->light = func_021A03D0(value, season, func_0202E83C(gameSystem), fieldMap->fog, fieldMap->g3dLight, fieldMap->heapId);
+        value = func_02012A30(fieldMap->gameData);
+        fieldMap->weather = func_021A19E8(fieldMap->camera, fieldMap->light, fieldMap->fog, fieldMap->zoneFog, value, func_0202E83C(gameSystem), 0x92);
+        func_021A1B74(fieldMap->weather, (u16)((int)func_02012994(fieldMap->gameData)), 0x92);
+        func_021BE1DC(fieldMap);
         break;
     }
     case 5:
-        F32(0x24) = (int)func_021A0CF4(F16(0), (u32)p, func_020129AC((const struct BigObj *)sys));
+        fieldMap->subscreen = func_021A0CF4(fieldMap->heapId, fieldMap, func_020129AC(gameData));
         break;
     case 6:
-        F32(0x90) = (int)func_021A9ED8((u32)p);
-        func_02026388((struct Obj *)func_02012138((const struct Ctx *)a), (u32)p);
-        F32(0xbc) = (int)func_021BB890((int)p, F16(0), 0x20);
-        F32(0x120) = (int)func_021C1A08(0x50);
-        F32(0x124) = (int)func_021C1AF4(0x50, F32(0x120));
-        F32(0x13c) = (int)func_021CF45C(F16(0), (u32)p);
-        F32(0x128) = func_021C31D4(F16(0), p, (int)func_0200BDB0(func_02012EBC((struct Big *)F32(8))));
-        func_02189684(p, F16(0xd0));
-        flag = 0;
+        fieldMap->encount = func_021A9ED8(fieldMap);
+        func_02026388(func_02012138(gameSystem), fieldMap);
+        fieldMap->mapFunc = func_021BB890(fieldMap, fieldMap->heapId, 0x20);
+        fieldMap->particle = func_021C1A08(0x50);
+        fieldMap->fld3dCi = func_021C1AF4(0x50, fieldMap->particle);
+        fieldMap->encEff = func_021CF45C(fieldMap->heapId, fieldMap);
+        fieldMap->sodateya = func_021C31D4(fieldMap->heapId, fieldMap, func_0200BDB0(func_02012EBC(fieldMap->gameData)));
+        func_02189684(fieldMap, fieldMap->zoneId);
+        busy = 0;
         break;
     }
-    (((struct Obj00571 *)p)->fC8)++;
-    F32(0x12c) = 0;
-    return flag == 0;
+    (fieldMap->subSeq)++;
+    fieldMap->drawMode = 0;
+    return busy == 0;
 }
 
-
-
-
-
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-int func_021885E8(void *a, u8 *p)
+int func_021885E8(struct GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    switch (p[0xC8]) {
+    switch (fieldMap->subSeq) {
     case 0:
-        func_0218CA78((char *)(((struct Obj00611 *)p)->f48));
-        if (((struct Obj00611 *)p)->f38 != 0) {
+        func_0218CA78(fieldMap->g3dMapper);
+        if (fieldMap->mmdlSys != 0) {
             do {
-                func_0216CD64(((struct Obj00611 *)p)->f38);
-                func_0219C624((void *)(((struct Obj00611 *)p)->f38));
-            } while (func_0219C630((void *)(((struct Obj00611 *)p)->f38)) == 1);
+                func_0216CD64(fieldMap->mmdlSys);
+                func_0219C624(fieldMap->mmdlSys);
+            } while (func_0219C630(fieldMap->mmdlSys) == 1);
         }
-        while (func_021A1B50(((struct Obj00611 *)p)->f20) != 0)
-            func_021A1AF4((u8 *)(((struct Obj00611 *)p)->f20), 0x92);
-        func_02189004(p);
-        func_02189084(p);
-        func_021890AC(p);
+        while (func_021A1B50(fieldMap->weather) != 0)
+            func_021A1AF4(fieldMap->weather, 0x92);
+        func_02189004(fieldMap);
+        func_02189084(fieldMap);
+        func_021890AC(fieldMap);
         func_0204A600();
-        if (((struct Obj00611 *)p)->f28 != 0)
-            func_021903E0((struct Obj *)(((struct Obj00611 *)p)->f28));
-        func_021ABE04(((struct Obj00611 *)p)->f94);
-        func_021BB948((u8 *)(((struct Obj00611 *)p)->fBC));
-        p[0xC8]++;
+        if (fieldMap->msgBg != 0)
+            func_021903E0(fieldMap->msgBg);
+        func_021ABE04(fieldMap->effect);
+        func_021BB948(fieldMap->mapFunc);
+        fieldMap->subSeq++;
     case 1:
-        if (func_02014460(func_02012B38((const struct BigObj *)(((struct Obj00611 *)p)->f8))) == 1
-            && func_02189B04(((struct Obj00611 *)p)->fD0) == 1
+        if (func_02014460(func_02012B38(fieldMap->gameData)) == 1
+            && func_02189B04(fieldMap->zoneId) == 1
             && func_02005C64() != 0)
             return 0;
-        if (func_02014458(func_02012B38((const struct BigObj *)(((struct Obj00611 *)p)->f8))) != 0) {
-            func_02158AC8(((struct Obj00611 *)p)->f4, ((struct Obj00611 *)p)->f0);
-            func_02014454(func_02012B38((const struct BigObj *)(((struct Obj00611 *)p)->f8)), 0);
+        if (func_02014458(func_02012B38(fieldMap->gameData)) != 0) {
+            func_02158AC8(fieldMap->gameSystem, fieldMap->heapId);
+            func_02014454(func_02012B38(fieldMap->gameData), 0);
         } else {
-            func_02158AD4(((struct Obj00611 *)p)->f4, ((struct Obj00611 *)p)->f0);
+            func_02158AD4(fieldMap->gameSystem, fieldMap->heapId);
         }
-        func_0201445C(func_02012B38((const struct BigObj *)(((struct Obj00611 *)p)->f8)), 0);
-        func_0218CA78((char *)(((struct Obj00611 *)p)->f48));
-        if (func_02013CC8(((struct Obj00611 *)p)->fD0) == 1 || func_02013CE0(((struct Obj00611 *)p)->fD0) == 1)
-            func_0201209C(a, (u32)func_0218A0E4, (u32)p);
-        else if (func_02188CF0((u32)p) == 1)
-            func_0201209C(a, (u32)func_0218A240, (u32)p);
-        else if (func_02188CF0((u32)p) == 2)
-            func_0201209C(a, (u32)func_0218A4BC, (u32)p);
+        func_0201445C(func_02012B38(fieldMap->gameData), 0);
+        func_0218CA78(fieldMap->g3dMapper);
+        if (func_02013CC8(fieldMap->zoneId) == 1 || func_02013CE0(fieldMap->zoneId) == 1)
+            func_0201209C(gameSystem, func_0218A0E4, fieldMap);
+        else if (func_02188CF0(fieldMap) == 1)
+            func_0201209C(gameSystem, func_0218A240, fieldMap);
+        else if (func_02188CF0(fieldMap) == 2)
+            func_0201209C(gameSystem, func_0218A4BC, fieldMap);
         else
-            func_0201209C(a, (u32)func_0218A074, (u32)p);
-        ((struct Obj00611 *)p)->fC0 = 1;
-        func_020129DC(func_020120F4(a), 1);
+            func_0201209C(gameSystem, func_0218A074, fieldMap);
+        fieldMap->mainState = 1;
+        func_020129DC(func_020120F4(gameSystem), 1);
         break;
     }
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-int func_02188758(void *a, u8 *p)
+int func_02188758(struct GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    if (func_02012104((const struct Ctx *)(((struct Obj00518 *)p)->f4)) == 0)
-        func_0201447C(func_02012B38((const struct BigObj *)(((struct Obj00518 *)p)->f8)), 0);
-    if (func_02012E40((const u8 *)(((struct Obj00518 *)p)->f8)) != 0)
+    if (func_02012104(fieldMap->gameSystem) == 0)
+        func_0201447C(func_02012B38(fieldMap->gameData), 0);
+    if (func_02012E40(fieldMap->gameData) != 0)
         return 0;
-    if (((struct Obj00518 *)p)->f140 != 0) {
-        func_021888C8((char *)p);
+    if (fieldMap->updateStopped != 0) {
+        func_021888C8(fieldMap);
         func_0204A600();
         return 0;
     }
     func_02035648();
-    func_021892CC(p);
-    if (func_020120D8(a) == 0) {
-        (*(void (**)(u8 *, void *))(*(u8 **)(p + 0x108) + 8))(p, p + 0xF4);
-        func_02168EEC(((struct Obj00518 *)p)->f8);
+    func_021892CC(fieldMap);
+    if (func_020120D8(gameSystem) == 0) {
+        fieldMap->ctrlFuncs->main(fieldMap, &fieldMap->nowPos);
+        func_02168EEC(fieldMap->gameData);
     }
-    if (((struct Obj00518 *)p)->f30 != 0)
-        func_021BC484(((struct Obj00518 *)p)->f30);
-    func_021C7FAC(((struct Obj00518 *)p)->fA0);
-    func_021A2EB8((u32 *)(((struct Obj00518 *)p)->f8C));
-    if (func_02013CC8(((struct Obj00518 *)p)->fD0) == 1 || func_02013CE0(((struct Obj00518 *)p)->fD0) == 1)
-        func_021737A4((void *)((void *)func_02012138(a)), (int)p);
+    if (fieldMap->placeName != 0)
+        func_021BC484(fieldMap->placeName);
+    func_021C7FAC(fieldMap->mapEff);
+    func_021A2EB8(fieldMap->player);
+    if (func_02013CC8(fieldMap->zoneId) == 1 || func_02013CE0(fieldMap->zoneId) == 1)
+        func_021737A4(func_02012138(gameSystem), fieldMap);
     else
-        func_0217AE20((u8 *)p, ((struct Obj00518 *)p)->f4, ((struct Obj00518 *)p)->f8C);
-    func_021A0D68((u32 *)(((struct Obj00518 *)p)->f24));
-    if (((struct Obj00518 *)p)->f38 != 0) {
+        func_0217AE20(fieldMap, fieldMap->gameSystem, fieldMap->player);
+    func_021A0D68(fieldMap->subscreen);
+    if (fieldMap->mmdlSys != 0) {
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-        func_0216CD64(((struct Obj00518 *)p)->f38);
+        func_0216CD64(fieldMap->mmdlSys);
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
     }
-    func_021BE258(p);
-    func_021ABE04(((struct Obj00518 *)p)->f94);
-    if (((struct Obj00518 *)p)->f98 != 0)
-        func_0217F914(((struct Obj00518 *)p)->f98);
-    func_021BB948((u8 *)(((struct Obj00518 *)p)->fBC));
-    if (((struct Obj00518 *)p)->f28 != 0)
-        func_021903E0((struct Obj *)(((struct Obj00518 *)p)->f28));
-    func_02030D28((struct Ctx *)(((struct Obj00518 *)p)->f110));
-    func_021C6D90((u8 *)(((struct Obj00518 *)p)->f134));
-    if (*(Rec12 * *)&((struct Obj00518 *)p)->fF0 != 0)
-        *(Rec12 *)(p + 0xF4) = **(Rec12 * *)&((struct Obj00518 *)p)->fF0;
-    func_0218D158((struct T *)(((struct Obj00518 *)p)->f48), (const struct V3 *)(p + 0xF4));
-    func_02189004(p);
-    func_021C8660(*func_02012ED0(((struct Obj00518 *)p)->f8));
+    func_021BE258(fieldMap);
+    func_021ABE04(fieldMap->effect);
+    if (fieldMap->unionEff != 0)
+        func_0217F914(fieldMap->unionEff);
+    func_021BB948(fieldMap->mapFunc);
+    if (fieldMap->msgBg != 0)
+        func_021903E0(fieldMap->msgBg);
+    func_02030D28(fieldMap->tcblSys);
+    func_021C6D90(fieldMap->taskManager);
+    if (fieldMap->targetPos != 0)
+        fieldMap->nowPos = *fieldMap->targetPos;
+    func_0218D158(fieldMap->g3dMapper, &fieldMap->nowPos);
+    func_02189004(fieldMap);
+    func_021C8660(*func_02012ED0(fieldMap->gameData));
     func_0204A600();
-    func_021888C8((char *)p);
+    func_021888C8(fieldMap);
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-void func_021888C8(char *o)
+void func_021888C8(FieldMap *fieldMap)
 {
-    volatile u16 *r = (volatile u16 *)0x04000204;
-
+    volatile u16 *regPowerCnt = (volatile u16 *)0x04000204;
     func_02047CE4();
-    func_0218E104((u8 *)(((struct Obj12555 *)o)->f10), (u16)func_0203630C());
-    ((struct Obj12555 *)o)->f100 = func_02189A80(o);
-    *r = *r & 0xFFFF7FFF;
-    func_02189084((unsigned char *)o);
-    *r = *r | 0x8000;
+    func_0218E104(fieldMap->camera, (u16)func_0203630C());
+    fieldMap->cameraPitchScale = func_02189A80(fieldMap);
+    *regPowerCnt = *regPowerCnt & 0xFFFF7FFF;
+    func_02189084(fieldMap);
+    *regPowerCnt = *regPowerCnt | 0x8000;
 }
 
-
-
-
-
-
-
-
-
-
-u32 func_02188910(void *a, u8 *b)
+int func_02188910(struct GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    if (func_02012E40((const u8 *)(((struct Obj04193 *)b)->f8)) != 0) {
-        func_020129F0(func_020120F4(a));
+    if (func_02012E40(fieldMap->gameData) != 0) {
+        func_020129F0(func_020120F4(gameSystem));
         return 0;
     }
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-    func_0218CC34(((struct Obj04193 *)b)->f48);
+    func_0218CC34(fieldMap->g3dMapper);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
-    func_021A0E58((u32 *)(((struct Obj04193 *)b)->f24));
-    if (((struct Obj04193 *)b)->f28 != 0)
-        func_021903E0((struct Obj *)((struct Obj04193 *)b)->f28);
-    if (((struct Obj04193 *)b)->f30 != 0)
-        func_021BC4F0((int)((struct Obj04193 *)b)->f30);
+    func_021A0E58(fieldMap->subscreen);
+    if (fieldMap->msgBg != 0)
+        func_021903E0(fieldMap->msgBg);
+    if (fieldMap->placeName != 0)
+        func_021BC4F0(fieldMap->placeName);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-    func_021890AC(b);
+    func_021890AC(fieldMap);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
-    func_020129F0(func_020120F4(a));
+    func_020129F0(func_020120F4(gameSystem));
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-int func_02188990(void *a, u8 *p)
+int func_02188990(struct GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    func_021CF480((void *)(((struct Obj00401 *)p)->f13C));
-    func_021C1C04((u32 *)(((struct Obj00401 *)p)->f124));
-    func_021C1AD0(((struct Obj00401 *)p)->f120);
-    func_0201209C(a, 0, 0);
-    func_021A2EB8((u32 *)(((struct Obj00401 *)p)->f8C));
-    func_021BB90C(((struct Obj00401 *)p)->fBC);
-    func_020263B0((void *)func_02012138(a), (u32)p);
-    if (((struct Obj00401 *)p)->f30 != 0)
-        func_021BC424(((struct Obj00401 *)p)->f30);
-    func_021BE218(p);
-    func_021BE2E0(((struct Obj00401 *)p)->f34);
-    func_021A9F28(((struct Obj00401 *)p)->f90);
-    func_020129B8(func_020120F4(a), func_021A0D44((u32 *)(((struct Obj00401 *)p)->f24)));
-    func_021ABDE8(((struct Obj00401 *)p)->f94);
-    if (((struct Obj00401 *)p)->f98 != 0) {
-        func_0217F8EC((char *)(((struct Obj00401 *)p)->f98));
-        ((struct Obj00401 *)p)->f98 = 0;
+    func_021CF480(fieldMap->encEff);
+    func_021C1C04(fieldMap->fld3dCi);
+    func_021C1AD0(fieldMap->particle);
+    func_0201209C(gameSystem, 0, 0);
+    func_021A2EB8(fieldMap->player);
+    func_021BB90C(fieldMap->mapFunc);
+    func_020263B0(func_02012138(gameSystem), fieldMap);
+    if (fieldMap->placeName != 0)
+        func_021BC424(fieldMap->placeName);
+    func_021BE218(fieldMap);
+    func_021BE2E0(fieldMap->expObj);
+    func_021A9F28(fieldMap->encount);
+    func_020129B8(func_020120F4(gameSystem), func_021A0D44(fieldMap->subscreen));
+    func_021ABDE8(fieldMap->effect);
+    if (fieldMap->unionEff != 0) {
+        func_0217F8EC(fieldMap->unionEff);
+        fieldMap->unionEff = 0;
     }
-    func_021A1AAC((u8 *)(((struct Obj00401 *)p)->f20));
-    ((struct Obj00401 *)p)->f20 = 0;
-    func_021A0448((u8 *)(((struct Obj00401 *)p)->f14));
-    func_021A02F4((void *)(((struct Obj00401 *)p)->f1C));
-    func_021A0138(((struct Obj00401 *)p)->f18);
-    func_021D33E0((u32 *)(((struct Obj00401 *)p)->f9C));
-    func_021BB240(((struct Obj00401 *)p)->f3C);
-    func_021AB81C(((struct Obj00401 *)p)->f44);
-    func_021AB624((u8 *)(((struct Obj00401 *)p)->f40));
-    func_0218E0E4((u8 *)(((struct Obj00401 *)p)->f10));
-    (*(void (**)(u8 *))(*(u8 **)(p + 0x108) + 0xC))(p);
-    func_021895DC((u32)p);
-    func_021892B4(p);
-    func_021A2E90((void *)(((struct Obj00401 *)p)->f8C));
-    func_0218D05C((char *)(((struct Obj00401 *)p)->f48));
-    if (((struct Obj00401 *)p)->f2C != 0)
-        func_02190728((void *)(((struct Obj00401 *)p)->f2C));
-    if (((struct Obj00401 *)p)->f28 != 0)
-        func_021902BC((struct Obj *)(((struct Obj00401 *)p)->f28));
-    func_020129DC(func_020120F4(a), 0);
+    func_021A1AAC(fieldMap->weather);
+    fieldMap->weather = 0;
+    func_021A0448(fieldMap->light);
+    func_021A02F4(fieldMap->zoneFog);
+    func_021A0138(fieldMap->fog);
+    func_021D33E0(fieldMap->palaceSys);
+    func_021BB240(fieldMap->nogridMapper);
+    func_021AB81C(fieldMap->sceneAreaLoader);
+    func_021AB624(fieldMap->sceneArea);
+    func_0218E0E4(fieldMap->camera);
+    fieldMap->ctrlFuncs->destroy(fieldMap);
+    func_021895DC(fieldMap);
+    func_021892B4(fieldMap);
+    func_021A2E90(fieldMap->player);
+    func_0218D05C(fieldMap->g3dMapper);
+    if (fieldMap->infoWindow != 0)
+        func_02190728(fieldMap->infoWindow);
+    if (fieldMap->msgBg != 0)
+        func_021902BC(fieldMap->msgBg);
+    func_020129DC(func_020120F4(gameSystem), 0);
     func_02035660(0x3C);
-    func_021C31FC(((struct Obj00401 *)p)->f128);
-    func_021C7F9C((u8 *)(((struct Obj00401 *)p)->fA0));
+    func_021C31FC(fieldMap->sodateya);
+    func_021C7F9C(fieldMap->mapEff);
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-u32 func_02188AD4(void *a, u8 *b)
+int func_02188AD4(struct GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    func_02030DA4(((struct Obj03103 *)b)->f110);
-    func_020307B0((void *)(((struct Obj03103 *)b)->f114));
-    func_021D31A4(((struct Obj03103 *)b)->f14C);
-    ((struct Obj03103 *)b)->f14C = 0;
-    func_021C6D5C(((struct Obj03103 *)b)->f134);
-    func_02030EAC((struct Node *)(((struct Obj03103 *)b)->fAC));
-    func_0218CA4C((void *)(((struct Obj03103 *)b)->f48));
-    func_021890C8((u32)b);
+    func_02030DA4(fieldMap->tcblSys);
+    func_020307B0(fieldMap->tcblWork);
+    func_021D31A4(fieldMap->vreq);
+    fieldMap->vreq = 0;
+    func_021C6D5C(fieldMap->taskManager);
+    func_02030EAC(fieldMap->vblankTcb);
+    func_0218CA4C(fieldMap->g3dMapper);
+    func_021890C8(fieldMap);
     func_0204A5AC();
     func_020450C8();
-    func_02188E38((u32)b);
-    if (func_02013CC8(((struct Obj03103 *)b)->fD0) == 1 || func_02013CE0(((struct Obj03103 *)b)->fD0) == 1)
+    func_02188E38(fieldMap);
+    if (func_02013CC8(fieldMap->zoneId) == 1 || func_02013CE0(fieldMap->zoneId) == 1)
         func_02034A5C((s32)abs_id_13);
     else
         func_02034A5C((s32)abs_id_12);
     return 2;
 }
 
-
-
-
-
-
-
-
-
-
-u32 func_02188B58(void *a, u8 *b, u32 a2, u32 a3)
+int func_02188B58(struct GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    u32 c = ((struct Obj02685 *)b)->fCC;
-    s32 r = 0;
-    Fn f;
-    Fn *row;
-
-    ((struct Obj02685 *)b)->fCC = c + 1;
-    row = data_021D36B8[((struct Obj02685 *)b)->fC4];
-    f = row[b[0xC9]];
-    if (f != 0)
-        r = f(a, b);
-    switch (r) {
+    u32 frameCount = fieldMap->frameCount;
+    s32 result = 0;
+    FieldMapSeqFunc seqFunc;
+    FieldMapSeqFunc *row;
+    fieldMap->frameCount = frameCount + 1;
+    row = data_021D36B8[fieldMap->seqNo];
+    seqFunc = row[fieldMap->halfFrame];
+    if (seqFunc != 0)
+        result = seqFunc(gameSystem, fieldMap);
+    switch (result) {
     case 0:
-        b[0xC9] = (b[0xC9] == 0);
+        fieldMap->halfFrame = (fieldMap->halfFrame == 0);
         break;
     case 1:
-        ((struct Obj02685 *)b)->fC4 = ((struct Obj02685 *)b)->fC4 + 1;
-        b[0xC8] = 0;
-        b[0xC9] = 0;
+        fieldMap->seqNo = fieldMap->seqNo + 1;
+        fieldMap->subSeq = 0;
+        fieldMap->halfFrame = 0;
         break;
     case 2:
         return 1;
@@ -1632,628 +1376,230 @@ u32 func_02188B58(void *a, u8 *b, u32 a2, u32 a3)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Sets the two words at +0xC0 and +0xC4 of its argument to 2 and 4.  A leaf
- * with no lr-saving prologue that nothing in ov021 branches to (its caller
- * is sub_02014488 in arm9), so the listing emits it as data words after
- * pool_02188BD4.
- */
-void func_02188BD8(u8 *obj)
+void func_02188BD8(FieldMap *fieldMap)
 {
-    ((struct Obj12061 *)obj)->fC0 = 2;
-    ((struct Obj12061 *)obj)->fC4 = 4;
+    fieldMap->mainState = 2;
+    fieldMap->seqNo = 4;
 }
 
-
-
-
-
-
-
-
-
-int func_02188BE8(void *a)
+int func_02188BE8(FieldMap *fieldMap)
 {
-if (((struct Obj17857 *)a)->fC0 == 1) {
-    return 1;
-}
-return 0;
-}
-
-
-
-
-
-
-
-
-
-u32 func_02188BF8(u8 *a)
-{
-    u32 r = 0;
-    u32 t = func_021A3098((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C));
-
-    if (t == 1) {
-        r = 1;
-        func_021A2F48((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C), 1);
-    } else if (t == 0) {
-        r = 1;
-        func_020061E4(0x55F);
-        func_021A2F48((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C), 2);
-        func_02008DF0(func_02012F2C((int *)(*(u32 *)&((struct Obj00020 *)a)->f8)), 3);
+    if (fieldMap->mainState == 1) {
+        return 1;
     }
-    if (r == 1)
-        func_021A2F54((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C));
-    return r;
+    return 0;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x28 of the object.
- */
-u32 func_02188C54(u8 *p)
+u32 func_02188BF8(FieldMap *fieldMap)
 {
-    return ((struct Obj17858 *)p)->f28;
+    u32 handled = 0;
+    u32 request = func_021A3098(fieldMap->player);
+
+    if (request == 1) {
+        handled = 1;
+        func_021A2F48(fieldMap->player, 1);
+    } else if (request == 0) {
+        handled = 1;
+        func_020061E4(0x55F);
+        func_021A2F48(fieldMap->player, 2);
+        func_02008DF0(func_02012F2C(fieldMap->gameData), 3);
+    }
+    if (handled == 1)
+        func_021A2F54(fieldMap->player);
+    return handled;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x10 of the object.
- */
-void *func_02188C58(void *p)
+struct FieldMsgBg *func_02188C54(FieldMap *fieldMap)
 {
-    return ((struct Obj00020 *)p)->f10;
+    return fieldMap->msgBg;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x3c of the object.
- */
-u32 func_02188C5C(u8 *p)
+struct FieldCamera *func_02188C58(FieldMap *fieldMap)
 {
-    return ((struct Obj17859 *)p)->f3C;
+    return fieldMap->camera;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Unlabelled leaf getter: the word at +0x14.
- * Addresses are Black-image addresses.
- */
-u32 func_02188C60(u8 *p)
+struct FieldNogridMapper *func_02188C5C(FieldMap *fieldMap)
 {
-    return ((struct Obj19487 *)p)->f14;
+    return fieldMap->nogridMapper;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Unlabelled leaf accessor: returns the +0x18 member.
- *
- * Addresses are Black-image addresses.
- */
-u32 func_02188C64(u8 *p)
+struct FieldLight *func_02188C60(FieldMap *fieldMap)
 {
-    return ((struct Obj19488 *)p)->f18;
+    return fieldMap->light;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x1c of the object.
- */
-u32 func_02188C68(u8 *p)
+struct FieldFog *func_02188C64(FieldMap *fieldMap)
 {
-    return ((struct Obj17860 *)p)->f1C;
+    return fieldMap->fog;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x20 of the object.
- */
-u32 func_02188C6C(u8 *p)
+struct FieldZoneFog *func_02188C68(FieldMap *fieldMap)
 {
-    return ((struct Obj17861 *)p)->f20;
+    return fieldMap->zoneFog;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Unlabelled tail-call leaf (no lr saved): forwards p[1] and the second argument.
- */
-int func_02188C70(int *p, int b)
+struct WeatherSys *func_02188C6C(FieldMap *fieldMap)
 {
-    return func_0202C794((void *)p[1], b);
+    return fieldMap->weather;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x38 of the object.
- */
-void *func_02188C7C(u8 *p)
+int func_02188C70(FieldMap *fieldMap, int switchId)
 {
-    return ((struct Obj00020 *)p)->f38;
+    return func_0202C794(fieldMap->gameSystem, switchId);
 }
 
-
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x4 of the object.
- */
-void *func_02188C80(void *p)
+struct MmdlSys *func_02188C7C(FieldMap *fieldMap)
 {
-    return ((struct Obj00020 *)p)->f4;
+    return fieldMap->mmdlSys;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Field getter at +0x0.
- *
- * Addresses are Black-image addresses.
- */
-u16 func_02188C84(u8 *p)
+struct GameSystem *func_02188C80(FieldMap *fieldMap)
 {
-    return ((struct Obj17862 *)p)->f0;
+    return fieldMap->gameSystem;
 }
 
-
-
-
-
-
-
-
-
-u32 func_02188C88(u8 *p)
+u16 func_02188C84(FieldMap *fieldMap)
 {
-    return ((struct Obj17863 *)p)->fB4;
+    return fieldMap->heapId;
 }
 
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0xb8 of the object.
- */
-u32 func_02188C90(u8 *p)
+struct BbActSys *func_02188C88(FieldMap *fieldMap)
 {
-    return ((struct Obj17864 *)p)->fB8;
+    return fieldMap->effectBbdAct;
 }
 
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x48 of the object.
- */
-u32 func_02188C98(u8 *p)
+struct BbActSys *func_02188C90(FieldMap *fieldMap)
 {
-    return ((struct Obj17865 *)p)->f48;
+    return fieldMap->groundBbdAct;
 }
 
-
-
-
-
-
-
-
-/*
- * Loads the halfword at byte +0xd8 of the object.
- */
-u16 func_02188C9C(u8 *p)
+struct FieldG3dMapper *func_02188C98(FieldMap *fieldMap)
 {
-    return ((struct Obj17866 *)p)->fD8;
+    return fieldMap->g3dMapper;
 }
 
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x10c of the object.
- */
-u32 func_02188CA4(u8 *p)
+u16 func_02188C9C(FieldMap *fieldMap)
 {
-    return ((struct Obj17867 *)p)->f10C;
+    return fieldMap->location.zoneId;
 }
 
-
-
-
-
-
-
-
-/*
- * Stores the 32-bit word into byte +0x10c of the object.
- */
-void func_02188CAC(u8 *p, u32 v)
+void *func_02188CA4(FieldMap *fieldMap)
 {
-    ((struct Obj17868 *)p)->f10C = v;
+    return fieldMap->ctrlWork;
 }
 
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x8c of the object.
- */
-void *func_02188CB4(struct Obj00020 *p)
+void func_02188CAC(FieldMap *fieldMap, void *ctrlWork)
 {
-    return p->f8C;
+    fieldMap->ctrlWork = ctrlWork;
 }
 
-
-
-
-
-
-
-
-int func_02188CBC(u32 a)
+struct FieldPlayer *func_02188CB4(FieldMap *fieldMap)
 {
-if (*(u32 *)((u8 *)((a + 140))) != 0) {
-    return 1;
-}
-return 0;
+    return fieldMap->player;
 }
 
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x24 of the object.
- */
-u32 func_02188CCC(u8 *p)
+int func_02188CBC(FieldMap *fieldMap)
 {
-    return ((struct Obj17870 *)p)->f24;
+    if (fieldMap->player != 0) {
+        return 1;
+    }
+    return 0;
 }
 
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x94 of the object.
- */
-u32 func_02188CD0(u8 *p)
+struct FieldSubscreen *func_02188CCC(FieldMap *fieldMap)
 {
-    return ((struct Obj17871 *)p)->f94;
+    return fieldMap->subscreen;
 }
 
-
-
-
-
-
-
-
-/*
- * Unlabelled leaf getter at +0x130.
- *
- * Addresses are Black-image addresses.
- */
-u32 func_02188CD8(u8 *p)
+struct FieldEffectCont *func_02188CD0(FieldMap *fieldMap)
 {
-    return ((struct Obj17872 *)p)->f130;
+    return fieldMap->effect;
 }
 
-
-
-
-
-
-
-
-/*
- * Unlabelled leaf getter at +0x98 (between func_02188CD8 and
- * func_02188CE8); sole blocker of ov019 func_0217B264's call.
- *
- * Addresses are Black-image addresses.
- */
-u32 func_02188CE0(u8 *p)
+struct FieldG3dObjCtrl *func_02188CD8(FieldMap *fieldMap)
 {
-    return ((struct Obj19490 *)p)->f98;
+    return fieldMap->g3dObjCtrl;
 }
 
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x90 of the object.
- */
-u32 func_02188CE8(u8 *p)
+struct UnionEff *func_02188CE0(FieldMap *fieldMap)
 {
-    return ((struct Obj17873 *)p)->f90;
+    return fieldMap->unionEff;
 }
 
-
-
-
-
-
-
-
-int func_02188CF0(u32 a)
+struct FieldEncount *func_02188CE8(FieldMap *fieldMap)
 {
-return *(u32 *)((u8 *)(*(u32 *)((u8 *)(a) + ((66 << 2)))));
+    return fieldMap->encount;
 }
 
-
-
-
-
-
-
-
-u32 func_02188CFC(u8 *p)
+unsigned int func_02188CF0(FieldMap *fieldMap)
 {
-    u32 r;
-    u32 k = data_021D35A8[**(u32 * *)&((struct Obj00020 *)p)->f108];
-
-    if (k == 2)
-        k = func_021A6DC0(((struct Obj00020 *)p)->f10C);
-    r = k;
-    return r;
+    return fieldMap->ctrlFuncs->ctrlType;
 }
 
-
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x30 of the object.
- */
-u32 func_02188D20(u8 *p)
+u32 func_02188CFC(FieldMap *fieldMap)
 {
-    return ((struct Obj17875 *)p)->f30;
+    u32 moveKind;
+    u32 kind = data_021D35A8[fieldMap->ctrlFuncs->ctrlType];
+    if (kind == 2)
+        kind = func_021A6DC0(fieldMap->ctrlWork);
+    moveKind = kind;
+    return moveKind;
 }
 
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0xbc of the object.
- */
-u32 func_02188D24(u8 *p)
+struct FieldPlaceName *func_02188D20(FieldMap *fieldMap)
 {
-    return ((struct Obj17876 *)p)->fBC;
+    return fieldMap->placeName;
 }
 
-
-
-
-
-
-
-/*
- * Unlabelled ov021 leaf accessor: returns the word at +0x34 of its argument.
- * Matched to supply the `matched` witness for the ten pending callers that
- * reference it.
- */
-int func_02188D2C(int *p)
+struct FieldmapFunc *func_02188D24(FieldMap *fieldMap)
 {
-    return ((struct Obj17877 *)p)->f34;
+    return fieldMap->mapFunc;
 }
 
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x110 of the object.
- */
-u32 func_02188D30(u8 *p)
+struct FldExpObjCnt *func_02188D2C(FieldMap *fieldMap)
 {
-    return ((struct Obj17878 *)p)->f110;
+    return fieldMap->expObj;
 }
 
-
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x134 of the object.
- */
-u32 func_02188D38(u8 *p)
+struct TcblSys *func_02188D30(FieldMap *fieldMap)
 {
-    return ((struct Obj17879 *)p)->f134;
+    return fieldMap->tcblSys;
 }
 
-
-
-
-
-
-
-/*
- * Field setter at +0xf0 through a displaced pointer.
- *
- * Addresses are Black-image addresses.
- */
-void func_02188D40(u8 *p, u32 v)
+struct FieldTaskManager *func_02188D38(FieldMap *fieldMap)
 {
-    ((struct Obj17880 *)p)->fF0 = v;
+    return fieldMap->taskManager;
 }
 
-
-
-
-
-
-
-u32 func_02188D48(u8 *p)
+void func_02188D40(FieldMap *fieldMap, const VecFx32 *targetPos)
 {
-    return ((struct Obj17881 *)p)->f2C;
+    fieldMap->targetPos = targetPos;
 }
 
-
-
-
-
-
-
-/*
- * Field setter at +0x2c.
- *
- * Addresses are Black-image addresses.
- */
-void func_02188D4C(u8 *p, u32 v)
+struct FieldMsgWin *func_02188D48(FieldMap *fieldMap)
 {
-    ((struct Obj17882 *)p)->f2C = v;
+    return fieldMap->infoWindow;
 }
 
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x128 of the object.
- */
-void *func_02188D50(u8 *p)
+void func_02188D4C(FieldMap *fieldMap, struct FieldMsgWin *infoWindow)
 {
-    return ((struct Obj17883 *)p)->f128;
+    fieldMap->infoWindow = infoWindow;
 }
 
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0xc of the object.
- */
-u32 func_02188D58(u8 *p)
+struct Sodateya *func_02188D50(FieldMap *fieldMap)
 {
-    return ((struct Obj17884 *)p)->fC;
+    return fieldMap->sodateya;
 }
 
-
-
-
-
-
-void func_02188D5C(u16 *p)
+struct AreaData *func_02188D58(FieldMap *fieldMap)
 {
-    func_0203F8F4(p[0]);
+    return fieldMap->areaData;
+}
+
+void func_02188D5C(FieldMap *fieldMap)
+{
+    func_0203F8F4(fieldMap->heapId);
     func_02040E78(0, d_021D3620, 0x20, 0);
     func_02040E78(4, d_021D3620, 0x20, 0);
     func_0204363C(1);
@@ -2261,78 +1607,40 @@ void func_02188D5C(u16 *p)
     REG_DISPCNT &= ~0xE000;
 }
 
-
-
-
-
-
-/*
- * Tail call with a fixed data pointer argument.
- *
- * Addresses are Black-image addresses.
- */
 void func_02188DA0(void)
 {
-    func_0203FC28((struct DispConfig *)0x021D35F4);
+    func_0203FC28(&d_021D35F4);
 }
 
-
-
-
-
-
-void func_02188DB0(u8 *a)
+void func_02188DB0(FieldMap *fieldMap)
 {
-    u32 buf[4];
+    u32 affineMtx[4];
 
-    func_02051E74((struct Mtx22 *)buf, 0, (const void *)0x1000, (const void *)0x1000, 0);
-    func_0207D59C(0x04000020, buf, 0, 0, 0, 0);
+    func_02051E74((struct Mtx22 *)affineMtx, 0, (const void *)0x1000, (const void *)0x1000, 0);
+    func_0207D59C(0x04000020, affineMtx, 0, 0, 0, 0);
     func_0204044C(3);
-    func_02190270(((struct Obj19493 *)a)->f28);
+    func_02190270(fieldMap->msgBg);
 }
 
-
-
-
-
-
-void func_02188DF0(u8 *a)
+void func_02188DF0(FieldMap *fieldMap)
 {
-    u32 buf[4];
+    u32 affineMtx[4];
 
-    func_02051E74((struct Mtx22 *)buf, 0, (const void *)0x1000, (const void *)0x1000, 0);
-    func_0207D59C(0x04000020, buf, 0, 0, 0, 0);
+    func_02051E74((struct Mtx22 *)affineMtx, 0, (const void *)0x1000, (const void *)0x1000, 0);
+    func_0207D59C(0x04000020, affineMtx, 0, 0, 0, 0);
     func_0204044C(3);
-    func_0219027C((u8 *)(((struct Obj19494 *)a)->f28));
+    func_0219027C(fieldMap->msgBg);
 }
 
-
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x14c of the object.
- */
-u32 func_02188E30(u8 *p)
+struct FldVReq *func_02188E30(FieldMap *fieldMap)
 {
-    return ((struct Obj17885 *)p)->f14C;
+    return fieldMap->vreq;
 }
 
-
-
-
-
-
-int func_02188E38(u32 a)
+int func_02188E38(FieldMap *fieldMap)
 {
-return func_0203F9B4(func_02046788(func_0206DB80(func_0204363C(1))));
+    return func_0203F9B4(func_02046788(func_0206DB80(func_0204363C(1))));
 }
-
-
-
-
-
 
 void func_02188E50(void)
 {
@@ -2350,954 +1658,645 @@ void func_02188E50(void)
     func_02046BE0(1, 0);
 }
 
-
-
-
-
-
-void func_02188EE4(u8 *p)
+void func_02188EE4(FieldMap *fieldMap)
 {
-    Vec12 v30;
-    Vec12 v24;
-    u8 v20;
-    u8 *h;
-    u16 heap;
+    VecFx32 groundScale;
+    VecFx32 cameraUp;
+    u8 groundDrawFlag;
+    void *board;
+    u16 heapId;
 
-    ((struct Obj01344 *)p)->fB0 = (u32)func_0204FE94(0x40, 0x80, (u32)func_02189140, ((struct Obj01344 *)p)->f0);
-    h = (u8 *)func_02050080((u32 *)(((struct Obj01344 *)p)->fB0));
-    func_0204EDBC(h, 2);
-    func_0204EDC4(h, 0, -0xA00);
-    ((struct Obj01344 *)p)->fB4 = (u32)func_0204FE94(0x3A, 0x50, (u32)func_02189140, ((struct Obj01344 *)p)->f0);
-    ((struct Obj01344 *)p)->fB8 = (u32)func_0204FE94(0x1E, 0x28, (u32)func_02189140, ((struct Obj01344 *)p)->f0);
-    h = (u8 *)func_02050080((u32 *)(((struct Obj01344 *)p)->fB8));
-    v30 = d_021D36F4;
-    func_0204ED70(h, (struct Blk3 *)(&v30));
-    v20 = 0;
-    func_0204EDB0(h, &v20);
-    func_021891C0(p);
-    ((struct Obj01344 *)p)->f130 = func_021C63AC(((struct Obj01344 *)p)->f0, 0x40, 0x40);
-    heap = ((struct Obj01344 *)p)->f0;
-    v24 = d_021D36E8;
-    ((struct Obj01344 *)p)->fA4 = func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
-                                       &d_021D35C0, &v24, &d_021D35CC, heap);
-    ((struct Obj01344 *)p)->fA8 = (u32)func_02048BC4((const struct LightSet *)d_021D35AC, ((struct Obj01344 *)p)->f0);
-    func_02048AD0((struct Light *)(((struct Obj01344 *)p)->fA4));
-    func_02048C58((struct LightSlot *)(((struct Obj01344 *)p)->fA8));
+    fieldMap->mmdlBbdAct = func_0204FE94(0x40, 0x80, func_02189140, fieldMap->heapId);
+    board = func_02050080(fieldMap->mmdlBbdAct);
+    func_0204EDBC(board, 2);
+    func_0204EDC4(board, 0, -0xA00);
+    fieldMap->effectBbdAct = func_0204FE94(0x3A, 0x50, func_02189140, fieldMap->heapId);
+    fieldMap->groundBbdAct = func_0204FE94(0x1E, 0x28, func_02189140, fieldMap->heapId);
+    board = func_02050080(fieldMap->groundBbdAct);
+    groundScale = d_021D36F4;
+    func_0204ED70(board, &groundScale);
+    groundDrawFlag = 0;
+    func_0204EDB0(board, &groundDrawFlag);
+    func_021891C0(fieldMap);
+    fieldMap->g3dObjCtrl = func_021C63AC(fieldMap->heapId, 0x40, 0x40);
+    heapId = fieldMap->heapId;
+    cameraUp = d_021D36E8;
+    fieldMap->g3dCamera = func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
+                                        &d_021D35C0, &cameraUp, &d_021D35CC, heapId);
+    fieldMap->g3dLight = func_02048BC4((const struct LightSet *)d_021D35AC, fieldMap->heapId);
+    func_02048AD0(fieldMap->g3dCamera);
+    func_02048C58(fieldMap->g3dLight);
 }
 
-
-
-
-
-
-void func_02189004(u8 *a)
+void func_02189004(FieldMap *fieldMap)
 {
-    u32 t;
+    u32 mapperBusy;
 
-    func_020504D8((struct Owner *)(((struct Obj02367 *)a)->fB0));
-    func_020504D8((struct Owner *)(((struct Obj02367 *)a)->fB4));
-    func_020504D8((struct Owner *)(((struct Obj02367 *)a)->fB8));
-    func_021BB36C(((struct Obj02367 *)a)->f3C);
-    func_021AB660((struct Obj *)(((struct Obj02367 *)a)->f40), a + 0xF4);
-    func_021A030C((u8 *)(((struct Obj02367 *)a)->f1C), ((struct Obj02367 *)a)->f0);
-    func_021A1AF4((u8 *)(((struct Obj02367 *)a)->f20), 0x92);
-    func_021A0140((u8 *)(((struct Obj02367 *)a)->f18));
-    func_021A0458((u8 *)(((struct Obj02367 *)a)->f14), func_0203F4FC());
+    func_020504D8(fieldMap->mmdlBbdAct);
+    func_020504D8(fieldMap->effectBbdAct);
+    func_020504D8(fieldMap->groundBbdAct);
+    func_021BB36C(fieldMap->nogridMapper);
+    func_021AB660(fieldMap->sceneArea, &fieldMap->nowPos);
+    func_021A030C(fieldMap->zoneFog, fieldMap->heapId);
+    func_021A1AF4(fieldMap->weather, 0x92);
+    func_021A0140(fieldMap->fog);
+    func_021A0458(fieldMap->light, func_0203F4FC());
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-    t = func_0218CB34((char *)(((struct Obj02367 *)a)->f48));
+    mapperBusy = func_0218CB34(fieldMap->g3dMapper);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
-    if (t != 0)
+    if (mapperBusy != 0)
         func_0203D12C(2);
 }
 
-
-
-
-
-
-void func_02189084(unsigned char *p)
+void func_02189084(FieldMap *fieldMap)
 {
-    Fn_02189084 fn;
+    FieldMapDrawFunc drawFunc;
     func_02047964();
     func_020479D8();
-    fn = d_021D35D8[((struct Obj19495 *)p)->f12C];
-    if (fn != 0)
-        fn(p);
+    drawFunc = d_021D35D8[fieldMap->drawMode];
+    if (drawFunc != 0)
+        drawFunc(fieldMap);
 }
 
-
-
-
-
-
-void func_021890AC(unsigned char *p)
+void func_021890AC(FieldMap *fieldMap)
 {
-    func_02047970(d_021D35B4[*(int *)(p + 0x12C)](p));
+    func_02047970(d_021D35B4[fieldMap->drawMode](fieldMap));
 }
 
-
-
-
-
-
-int func_021890C8(u32 a)
+int func_021890C8(FieldMap *fieldMap)
 {
-func_02048C4C(*(u32 *)((u8 *)((a + 168))));
-func_02048AC4((void *)(*(u32 *)((u8 *)((a + 164)))));
-func_0204FFFC((struct BbActSys *)(*(u32 *)((u8 *)((a + 176)))));
-func_0204FFFC((struct BbActSys *)(*(u32 *)((u8 *)((a + 180)))));
-func_0204FFFC((struct BbActSys *)(*(u32 *)((u8 *)((a + 184)))));
-return func_021C6400(*(u32 *)((u8 *)(a) + ((19 << 4))));
+    func_02048C4C(fieldMap->g3dLight);
+    func_02048AC4(fieldMap->g3dCamera);
+    func_0204FFFC(fieldMap->mmdlBbdAct);
+    func_0204FFFC(fieldMap->effectBbdAct);
+    func_0204FFFC(fieldMap->groundBbdAct);
+    return func_021C6400(fieldMap->g3dObjCtrl);
 }
 
-
-
-
-
-
-void func_02189108(int unused, unsigned char *p)
+void func_02189108(struct GFL_TCB *tcb, void *work)
 {
+    FieldMap *fieldMap = work;
     if (func_02005C8C() == 0) {
-        if (((struct Obj04980 *)p)->f38 != 0)
-            func_0216CD78(((struct Obj04980 *)p)->f38);
-        if (((struct Obj04980 *)p)->f130 != 0)
-            func_021C6470(((struct Obj04980 *)p)->f130);
+        if (fieldMap->mmdlSys != 0)
+            func_0216CD78(fieldMap->mmdlSys);
+        if (fieldMap->g3dObjCtrl != 0)
+            func_021C6470(fieldMap->g3dObjCtrl);
     }
     func_0204A648();
-    if (((struct Obj04980 *)p)->f14C != 0)
-        func_021D31AC(((struct Obj04980 *)p)->f14C);
+    if (fieldMap->vreq != 0)
+        func_021D31AC(fieldMap->vreq);
 }
 
-
-
-
-
-
-/* Callback: forwards its last three arguments, with the first folded to 0/1. */
-void func_02189140(int x, int b, void *c, int d)
+void func_02189140(int vramTransfer, int destAddr, void *src, int size)
 {
-    func_02061CA4((void *)(x == 0 ? B_FALSE : B_TRUE), b, (u32)c, d);
+    func_02061CA4((void *)(vramTransfer == 0 ? B_FALSE : B_TRUE), destAddr, (u32)src, size);
 }
 
-
-
-
-
-
-void func_02189154(void *a, u32 b)
+void func_02189154(struct AreaData *areaData, u32 zoneId)
 {
-    u32 r = func_020140E0(a);
+    u32 edgeMarkType = func_020140E0(areaData);
 
-    if (r == 0xFF) {
+    if (edgeMarkType == 0xFF) {
         *(volatile u16 *)0x04000060 = *(volatile u16 *)0x04000060 & 0xCFDF;
         return;
     }
-    if (func_02013DB8(b) != 0)
+    if (func_02013DB8(zoneId) != 0)
         *(volatile u16 *)0x04000060 = *(volatile u16 *)0x04000060 & 0xCFDF;
     else
         *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & 0xFFFFCFFF) | 0x20;
-    func_02048F4C(data_021EE700, 0xF, r);
+    func_02048F4C(data_021EE700, 0xF, edgeMarkType);
     data_021EE700b[7] = 0x4210;
     func_0207DCF8(data_021EE700);
 }
 
-
-
-
-
-
-void func_021891C0(u8 *a)
+void func_021891C0(FieldMap *fieldMap)
 {
-    u16 v = (((struct Obj09442 *)a)->f0 & 0x7FFF) | 0x8000;
-    u32 h;
-    u32 t;
+    u16 colorHeapId = (fieldMap->heapId & 0x7FFF) | 0x8000;
+    void *bbdColor;
+    u32 colorId;
 
-    t = func_020140E4((struct Sub020140BCObj *)(((struct Obj09442 *)a)->fC));
-    h = func_021CD1C8(v);
-    func_021CD204(h, t);
-    func_021CD214((u8 *)h, (void *)func_02050080((u32 *)(((struct Obj09442 *)a)->fB0)));
-    func_021CD1F0((void *)h);
+    colorId = func_020140E4(fieldMap->areaData);
+    bbdColor = func_021CD1C8(colorHeapId);
+    func_021CD204(bbdColor, colorId);
+    func_021CD214(bbdColor, func_02050080(fieldMap->mmdlBbdAct));
+    func_021CD1F0(bbdColor);
 }
 
-
-
-
-
-
-void func_02189204(u8 *a)
+void func_02189204(FieldMap *fieldMap)
 {
-    u32 h;
-    u32 x;
-    u32 r;
-    u32 t;
+    struct GameData *gameData;
+    u32 zoneId;
+    struct MmdlSys *mmdlSys;
+    u32 sex;
 
-    h = (u32)func_020120F4((const struct Ctx *)(((struct Obj00571 *)a)->f4));
-    r = func_02012964((const struct BigObj *)h);
-    ((struct Obj00571 *)a)->f38 = r;
-    func_0216CCDC((char *)r, ((struct Obj00571 *)a)->f0, h, (int)a, *(u32 *)&((struct Obj00571 *)a)->f48, ((struct Obj00571 *)a)->f3C);
-    func_0219C554(((struct Obj00571 *)a)->f38, ((struct Obj00571 *)a)->fB0, 0x20);
-    func_0219C680(((struct Obj00571 *)a)->f38);
-    x = ((struct Obj00571 *)a)->fD8;
-    if (func_02013CC8(x) == 0 && func_02013CE0(x) == 0) {
-        t = func_0217C0A8((void *)((void *)func_02012138((const struct Ctx *)((struct Obj00571 *)a)->f4)));
+    gameData = func_020120F4(fieldMap->gameSystem);
+    mmdlSys = func_02012964(gameData);
+    fieldMap->mmdlSys = mmdlSys;
+    func_0216CCDC(mmdlSys, fieldMap->heapId, gameData, fieldMap, fieldMap->g3dMapper, fieldMap->nogridMapper);
+    func_0219C554(fieldMap->mmdlSys, fieldMap->mmdlBbdAct, 0x20);
+    func_0219C680(fieldMap->mmdlSys);
+    zoneId = fieldMap->location.zoneId;
+    if (func_02013CC8(zoneId) == 0 && func_02013CE0(zoneId) == 0) {
+        sex = func_0217C0A8(func_02012138(fieldMap->gameSystem));
     } else {
-        t = func_02008550((const struct Sub0200852CObj *)func_02012944((void *)h));
+        sex = func_02008550(func_02012944(gameData));
     }
-    func_0219C658(r, func_021A31A4(t, 0));
-    func_0219D448(((struct Obj00571 *)a)->f38, ((struct Obj00571 *)a)->f130);
-    func_0216CDB8((u8 *)(((struct Obj00571 *)a)->f38), (u32)func_0218ED50((u8 *)(((struct Obj00571 *)a)->f10)));
-    func_0216D2F8(((struct Obj00571 *)a)->f38);
-    func_0216D974((unsigned int *)r, func_02189AE8(((struct Obj00571 *)a)->fD0));
+    func_0219C658(mmdlSys, func_021A31A4(sex, 0));
+    func_0219D448(fieldMap->mmdlSys, fieldMap->g3dObjCtrl);
+    func_0216CDB8(fieldMap->mmdlSys, func_0218ED50(fieldMap->camera));
+    func_0216D2F8(fieldMap->mmdlSys);
+    func_0216D974(mmdlSys, func_02189AE8(fieldMap->zoneId));
 }
 
-
-
-
-
-
-int func_021892B4(u8 *a)
+int func_021892B4(FieldMap *fieldMap)
 {
-func_0216D2AC(((struct Obj09172 *)((u8 *)(a)))->f38);
-func_0216CD50(((struct Obj09172 *)((u8 *)(a)))->f38);
-((struct Obj09172 *)((u8 *)(a)))->f38 = 0;
-return 0;
+    func_0216D2AC(fieldMap->mmdlSys);
+    func_0216CD50(fieldMap->mmdlSys);
+    fieldMap->mmdlSys = 0;
+    return 0;
 }
 
-
-
-
-
-
-u32 func_021892CC(u8 *a)
+u32 func_021892CC(FieldMap *fieldMap)
 {
-    u32 h;
+    void *eventData;
 
-    if (func_0218932C((char *)a) == 1 && func_02189370((char *)a) == 1) {
-        func_021893C0(a);
+    if (func_0218932C(fieldMap) == 1 && func_02189370(fieldMap) == 1) {
+        func_021893C0(fieldMap);
         return 1;
     }
-    h = func_02012844((const struct BigObj *)(((struct Obj09443 *)a)->f8));
-    if (func_02162458((u8 *)h) == 0) {
+    eventData = func_02012844(fieldMap->gameData);
+    if (func_02162458(eventData) == 0) {
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-        func_02162438(h, ((struct Obj09443 *)a)->fD8, func_02012984((const struct BigObj *)(((struct Obj09443 *)a)->f8)));
+        func_02162438(eventData, fieldMap->location.zoneId, func_02012984(fieldMap->gameData));
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
     }
     return 0;
 }
 
-
-
-
-
-
-int func_0218932C(char *p)
+int func_0218932C(FieldMap *fieldMap)
 {
-    Vec_0218932C v;
-    char *q;
-    Vec_0218932C *pos;
+    VecFx32 lastPos;
+    FieldMapLocation *location;
+    VecFx32 *playerPos;
 
-    q = p + 0xd4;
-    pos = (Vec_0218932C *)func_02012AA0(func_020127A4(func_020120F4(((struct Obj19496 *)p)->f4)));
-    func_020141E0((const struct Rec020141E0 *)q, (struct Vec020141E0 *)(&v));
-    if (pos->x != v.x || pos->z != v.z) {
-        func_020141F0((struct Rec020141F0 *)q, (const struct Vec020141F0 *)pos);
+    location = &fieldMap->location;
+    playerPos = func_02012AA0(func_020127A4(func_020120F4(fieldMap->gameSystem)));
+    func_020141E0(location, &lastPos);
+    if (playerPos->x != lastPos.x || playerPos->z != lastPos.z) {
+        func_020141F0(location, playerPos);
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-u32 func_02189370(char *p)
+u32 func_02189370(FieldMap *fieldMap)
 {
-    Vec_02189370 v;
-    char *q;
-    void *m;
-    int r;
+    VecFx32 pos;
+    FieldMapLocation *location;
+    struct MapMatrix *mapMatrix;
+    int zoneId;
 
-    q = p + 0xd4;
-    m = (void *)func_02012974(((struct Obj19497 *)p)->f8);
-    func_020141E0((const struct Rec020141E0 *)q, (struct Vec020141E0 *)(&v));
-    if (func_02159C48((int)m, v.x, v.z) == 1) {
-        r = func_02159BD4((int)m, v.x, v.z);
-        if (r != 0xFFFF && r != ((struct Obj05698 *)q)->f4)
+    location = &fieldMap->location;
+    mapMatrix = func_02012974(fieldMap->gameData);
+    func_020141E0(location, &pos);
+    if (func_02159C48(mapMatrix, pos.x, pos.z) == 1) {
+        zoneId = func_02159BD4(mapMatrix, pos.x, pos.z);
+        if (zoneId != 0xFFFF && zoneId != (s16)location->zoneId)
             return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-void func_021893C0(u8 *p)
+void func_021893C0(FieldMap *fieldMap)
 {
-    u8 *q = p + 0xD4;
-    void *sys;
-    u32 v;
-    Vec_021893C0 pos;
-    u32 s4;
-    u32 s0;
+    FieldMapLocation *location = &fieldMap->location;
+    struct GameData *gameData;
+    u32 zoneId;
+    VecFx32 pos;
+    void *eventData;
+    struct MmdlSys *mmdlSys;
+    struct MapMatrix *mapMatrix;
 
-    sys = func_020120F4((const struct Ctx *)(((struct Obj03104 *)p)->f4));
-    s4 = func_02012844(sys);
-    s0 = ((struct Obj03104 *)p)->f38;
-    v = func_02012974((const struct BigObj *)(((struct Obj03104 *)p)->f8));
+    gameData = func_020120F4(fieldMap->gameSystem);
+    eventData = func_02012844(gameData);
+    mmdlSys = fieldMap->mmdlSys;
+    mapMatrix = func_02012974(fieldMap->gameData);
     func_0203D12C(2);
-    func_021AA8EC((u8 *)(((struct Obj03104 *)p)->f90));
-    func_020141E0((const struct Rec020141E0 *)q, (struct Vec020141E0 *)(&pos));
-    v = func_02159BD4(v, pos.x, pos.z);
+    func_021AA8EC(fieldMap->encount);
+    func_020141E0(location, &pos);
+    zoneId = func_02159BD4(mapMatrix, pos.x, pos.z);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-    func_0216DF1C(s0);
-    func_021623DC((char *)s4);
-    func_0216242C((void *)s4, v, func_02012984(sys));
+    func_0216DF1C(mmdlSys);
+    func_021623DC(eventData);
+    func_0216242C(eventData, zoneId, func_02012984(gameData));
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
-    func_021643AC(sys, p);
-    func_02189518((char *)p, v);
-    func_0218958C(p, v);
-    func_02189560((int *)p, (u32)v);
-    func_021895D0(p, v);
-    func_021895BC(sys, v);
-    func_02189684((char *)p, v);
-    if (((struct Obj03104 *)p)->f30 != 0 && func_020120D8((char *)((struct Obj03104 *)p)->f4) == 0)
-        func_021BC550((void *)(((struct Obj03104 *)p)->f30), v);
-    ((struct Obj05698 *)q)->f4 = v;
-    func_0202735C((u16)v, (u32)sys);
-    func_0215A014(sys, v);
-    func_02158AE0((void *)(((struct Obj03104 *)p)->f4), (void *)4);
+    func_021643AC(gameData, fieldMap);
+    func_02189518(fieldMap, zoneId);
+    func_0218958C(fieldMap, zoneId);
+    func_02189560(fieldMap, zoneId);
+    func_021895D0(fieldMap, zoneId);
+    func_021895BC(gameData, zoneId);
+    func_02189684(fieldMap, zoneId);
+    if (fieldMap->placeName != 0 && func_020120D8(fieldMap->gameSystem) == 0)
+        func_021BC550(fieldMap->placeName, zoneId);
+    location->zoneId = (s16)zoneId;
+    func_0202735C((u16)zoneId, gameData);
+    func_0215A014(gameData, zoneId);
+    func_02158AE0(fieldMap->gameSystem, (void *)4);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-    func_021894E0((int)sys, s0, s4, v);
+    func_021894E0(gameData, mmdlSys, eventData, zoneId);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
-    func_0215874C((void *)func_02012138((const struct Ctx *)((struct Obj03104 *)p)->f4));
+    func_0215874C(func_02012138(fieldMap->gameSystem));
 }
 
-
-
-
-
-
-void func_021894E0(int a, int b, int c, int d)
+void func_021894E0(struct GameData *gameData, struct MmdlSys *mmdlSys, void *eventData, int zoneId)
 {
-    int r = func_02162744((u8 *)c);
-    int y;
-    if (r != 0) {
-        y = func_0201296C((const struct BigObj *)a);
-        func_0216CEAC(b, (u8 *)func_02162740((u8 *)c), d, r, y);
+    int npcCount = func_02162744(eventData);
+    int eventWork;
+    if (npcCount != 0) {
+        eventWork = func_0201296C(gameData);
+        func_0216CEAC(mmdlSys, func_02162740(eventData), zoneId, npcCount, eventWork);
     }
 }
 
-
-
-
-
-
-void func_02189518(char *p, unsigned int idx)
+void func_02189518(FieldMap *fieldMap, unsigned int zoneId)
 {
-    void *a;
-    void *b;
-    void *c;
-    int k;
+    struct GameData *gameData;
+    void *issSys;
+    void *bgmInfo;
+    int objCode;
 
-    a = func_020120F4(((struct Obj12557 *)p)->f4);
-    b = (void *)func_02012134(((struct Obj12557 *)p)->f4);
-    c = (void *)func_02012A30(a);
-    k = func_02012B28(func_020127A4(a));
-    func_0202B544((u32)b, idx);
-    if (k != 2)
-        func_02029CF0(c, a, idx);
+    gameData = func_020120F4(fieldMap->gameSystem);
+    issSys = (void *)func_02012134(fieldMap->gameSystem);
+    bgmInfo = (void *)func_02012A30(gameData);
+    objCode = func_02012B28(func_020127A4(gameData));
+    func_0202B544((u32)issSys, zoneId);
+    if (objCode != 2)
+        func_02029CF0(bgmInfo, gameData, zoneId);
 }
 
-
-
-
-
-
-void func_02189560(int *p, int b)
+void func_02189560(FieldMap *fieldMap, int zoneId)
 {
-    int r = (int)func_02188C6C((u8 *)p);
-    unsigned short k;
-    func_0202C83C(p[1], b);
-    k = (int)func_02012994((const struct BigObj *)p[2]);
-    if (k != 0xF)
-        func_021A1BDC(r, k);
+    struct WeatherSys *weather = func_02188C6C(fieldMap);
+    unsigned short weatherId;
+    func_0202C83C(fieldMap->gameSystem, zoneId);
+    weatherId = (int)func_02012994(fieldMap->gameData);
+    if (weatherId != 0xF)
+        func_021A1BDC(weather, weatherId);
 }
 
-
-
-
-
-
-void func_0218958C(unsigned char *p, int id)
+void func_0218958C(FieldMap *fieldMap, int zoneId)
 {
-    int a;
-    func_021A0358(func_02188C68(p));
-    a = (int)func_02013EEC((unsigned short)id);
-    func_021A0338((u8 *)(((struct Obj19498 *)p)->f1C), a, func_02013F2C(id), 1);
+    int fogId;
+    func_021A0358(func_02188C68(fieldMap));
+    fogId = (int)func_02013EEC((unsigned short)zoneId);
+    func_021A0338(fieldMap->zoneFog, fogId, func_02013F2C(zoneId), 1);
 }
 
-
-
-
-
-
-int func_021895BC(void *a, u32 b)
+int func_021895BC(struct GameData *gameData, u32 zoneId)
 {
-return (int)func_02012AC4((struct Rec44 *)func_020127A4((struct SaveBlock *)a), ((b << 16) >> 16));
+    return (int)func_02012AC4(func_020127A4(gameData), ((zoneId << 16) >> 16));
 }
 
-
-
-
-
-
-/*
- * Tail call passing the object, a pass-through argument and the leading u16.
- *
- * Addresses are Black-image addresses.
- */
-void func_021895D0(u8 *p, u32 a)
+void func_021895D0(FieldMap *fieldMap, u32 zoneId)
 {
-    func_021895E8(p, a, ((struct Obj09444 *)p)->f0);
+    func_021895E8(fieldMap, zoneId, fieldMap->heapId);
 }
 
-
-
-
-
-
-int func_021895DC(u32 a)
+FieldMap *func_021895DC(FieldMap *fieldMap)
 {
-*(u32 *)((u8 *)(a) + ((67 << 2))) = 0;
-return a;
+    fieldMap->ctrlWork = 0;
+    return fieldMap;
 }
 
-
-
-
-
-
-void func_021895E8(unsigned char *p, int id, int c)
+void func_021895E8(FieldMap *fieldMap, int zoneId, int heapId)
 {
-    int r = func_02013BD0(id);
-    if (r != 0xFFFF)
-        func_0218F14C((u8 *)(((struct Obj09444 *)p)->f10), r, c);
+    int cameraAreaId = func_02013BD0(zoneId);
+    if (cameraAreaId != 0xFFFF)
+        func_0218F14C(fieldMap->camera, cameraAreaId, heapId);
     else
-        func_0218F134((u8 *)(((struct Obj09444 *)p)->f10));
+        func_0218F134(fieldMap->camera);
 }
 
-
-
-
-
-
-void func_02189614(void *p, char *q, u16 id)
+void func_02189614(struct GameData *gameData, FieldMap *fieldMap, u16 zoneId)
 {
-    void *t;
-    int k;
-    void *m;
-    void *a;
+    struct FieldStatus *fieldStatus;
+    int mapMode;
+    void *wfbcData;
+    void *buildModel;
 
-    t = func_02012B38(p);
-    if (func_02013DD0(((struct Obj00571 *)q)->fD0) != 0) {
-        k = func_0201444C(t);
-        if (k == 0)
-            m = func_020127C4(((struct Obj00571 *)q)->f8);
+    fieldStatus = func_02012B38(gameData);
+    if (func_02013DD0(fieldMap->zoneId) != 0) {
+        mapMode = func_0201444C(fieldStatus);
+        if (mapMode == 0)
+            wfbcData = func_020127C4(fieldMap->gameData);
         else
-            m = func_020127D0(((struct Obj00571 *)q)->f8, 0);
-        func_0218DC74((u32)(((struct Obj00571 *)q)->f48), (u32)m, k);
-        a = func_0218DC70(((struct Obj00571 *)q)->f48);
-        func_021939C0(a, (void *)func_02012844(p), k, ((struct Obj00571 *)q)->f0);
-        func_02193ABC(a, *(int *)&((struct Obj00571 *)q)->f10, ((struct Obj00571 *)q)->f0);
-        func_02193AFC(a, func_02012964(((struct Obj00571 *)q)->f8));
+            wfbcData = func_020127D0(fieldMap->gameData, 0);
+        func_0218DC74(fieldMap->g3dMapper, wfbcData, mapMode);
+        buildModel = func_0218DC70(fieldMap->g3dMapper);
+        func_021939C0(buildModel, func_02012844(gameData), mapMode, fieldMap->heapId);
+        func_02193ABC(buildModel, fieldMap->camera, fieldMap->heapId);
+        func_02193AFC(buildModel, func_02012964(fieldMap->gameData));
     }
 }
 
-
-
-
-
-
-void func_02189684(char *p, unsigned int id)
+void func_02189684(FieldMap *fieldMap, unsigned int zoneId)
 {
-    int k;
-    int a;
-    int b;
+    int sceneId;
+    int areaData;
+    int areaCount;
 
-    k = func_02013FA8(id);
-    if (k != 0xFFFF) {
-        func_021AB650(((struct Obj03105 *)p)->f40);
-        func_021AB868(((struct Obj03105 *)p)->f44);
-        func_021AB840(((struct Obj03105 *)p)->f44, 1, k, 0x96);
-        a = func_021AB880(((struct Obj03105 *)p)->f44);
-        b = func_021AB884(((struct Obj03105 *)p)->f44);
-        func_021AB634(((struct Obj03105 *)p)->f40, a, b, func_021AB888(((struct Obj03105 *)p)->f44));
+    sceneId = func_02013FA8(zoneId);
+    if (sceneId != 0xFFFF) {
+        func_021AB650(fieldMap->sceneArea);
+        func_021AB868(fieldMap->sceneAreaLoader);
+        func_021AB840(fieldMap->sceneAreaLoader, 1, sceneId, 0x96);
+        areaData = func_021AB880(fieldMap->sceneAreaLoader);
+        areaCount = func_021AB884(fieldMap->sceneAreaLoader);
+        func_021AB634(fieldMap->sceneArea, areaData, areaCount, func_021AB888(fieldMap->sceneAreaLoader));
         return;
     }
-    if (func_02013C80((u16)id) == 0) {
-        func_021AB650(((struct Obj03105 *)p)->f40);
-        func_021AB868(((struct Obj03105 *)p)->f44);
+    if (func_02013C80((u16)zoneId) == 0) {
+        func_021AB650(fieldMap->sceneArea);
+        func_021AB868(fieldMap->sceneAreaLoader);
     }
 }
 
-
-
-
-
-
-int func_021896F4(void *p)
+int func_021896F4(struct GameComm *gameComm)
 {
-    int r = func_02026454(p);
-
-    switch (r) {
+    int commKind = func_02026454(gameComm);
+    switch (commKind) {
     case 0:
         if (func_0200FB24() != 0)
-            r = func_0202647C(p);
-        return r;
+            commKind = func_0202647C(gameComm);
+        return commKind;
     case 1:
     case 2:
     case 5:
-        return r;
+        return commKind;
     }
     return 2;
 }
 
-
-
-
-
-
-int func_02189734(u32 a, u32 b, u32 c, u32 d)
+int func_02189734(struct GameComm *gameComm)
 {
-if (func_02026454((void *)a) == 0) {
-    return 1;
+    if (func_02026454(gameComm) == 0) {
+        return 1;
+    }
+    if (func_02026460(gameComm) == 0) {
+        func_02026400(gameComm);
+    }
+    return 0;
 }
-if (func_02026460((void *)a) == 0) {
-    func_02026400((struct Comm *)a);
-}
-return 0;
-}
 
-
-
-
-
-
-void func_02189758(int *p)
+void func_02189758(FieldMapCommonWork *commonWork)
 {
-    p[0] = -1;
-    p[1] = 0;
+    commonWork->id = -1;
+    commonWork->buf = 0;
 }
 
-
-
-
-
-
-void *func_02189764(unsigned char *p, int id, int a, int b)
+void *func_02189764(FieldMap *fieldMap, int id, int heapId, int size)
 {
-    Slot *s = (Slot *)(p + 0x118);
+    FieldMapCommonWork *commonWork = &fieldMap->commonWork;
     if (id == -1)
         return 0;
-    if (s->id != -1)
+    if (commonWork->id != -1)
         return 0;
-    s->id = id;
-    return s->buf = func_02030734(a, b, 1, d_021DD9C0, 0xD7C);
+    commonWork->id = id;
+    return commonWork->buf = func_02030734(heapId, size, 1, d_021DD9C0, 0xD7C);
 }
 
-
-
-
-
-void func_021897A0(unsigned char *p, int id)
+void func_021897A0(FieldMap *fieldMap, int id)
 {
-    Slot *s = (Slot *)(p + 0x118);
+    FieldMapCommonWork *commonWork = &fieldMap->commonWork;
     if (id != -1) {
-        func_020307B0(s->buf);
-        s->id = -1;
+        func_020307B0(commonWork->buf);
+        commonWork->id = -1;
     }
 }
 
-
-
-
-int *func_021897BC(char *p, int idx)
+void *func_021897BC(FieldMap *fieldMap, int id)
 {
-    int *q = (int *)(p + 0x118);
-
-    if (idx == -1)
+    FieldMapCommonWork *commonWork = &fieldMap->commonWork;
+    if (id == -1)
         return 0;
-    if (idx != q[0])
+    if (id != commonWork->id)
         return 0;
-    return (int *)q[1];
+    return commonWork->buf;
 }
 
-
-
-
-
-int func_021897DC(u32 a, u32 b, u32 c, u32 d)
+int func_021897DC(FieldMap *fieldMap, u32 fogEnable, u32 fogSlope, u32 fogOffset)
 {
-func_021A0170((u8 *)(((struct Obj04887 *)((u8 *)(a)))->f18), b, c, d);
-func_021A0568((u8 *)(((struct Obj04887 *)((u8 *)(a)))->f14), 0);
-func_02048AD0((struct Light *)(*(u32 *)((u8 *)((a + 164)))));
-func_02048C58((struct LightSlot *)(*(u32 *)((u8 *)((a + 168)))));
-return func_0218CC64((char *)((struct Obj04887 *)((u8 *)(a)))->f48, *(u32 *)((u8 *)((a + 164))), 0);
+    func_021A0170(fieldMap->fog, fogEnable, fogSlope, fogOffset);
+    func_021A0568(fieldMap->light, 0);
+    func_02048AD0(fieldMap->g3dCamera);
+    func_02048C58(fieldMap->g3dLight);
+    return func_0218CC64(fieldMap->g3dMapper, fieldMap->g3dCamera, 0);
 }
 
-
-
-
-
-void func_02189810(u8 *p)
+void func_02189810(FieldMap *fieldMap)
 {
-    MtxFx44 saved;
-    MtxFx44 m;
+    MtxFx44 savedProj;
+    MtxFx44 proj;
 
-    if (((struct Obj00704 *)p)->f28 != 0)
-        func_0219047C((u8 *)(((struct Obj00704 *)p)->f28));
-    func_0218CC64((char *)(((struct Obj00704 *)p)->f48), ((struct Obj00704 *)p)->fA4, 1);
-    func_021C7FB4(((struct Obj00704 *)p)->fA0);
-    saved = g_02148B54;
-
-    m = saved;
-    m.m[3][2] += FX_MUL(m.m[2][2], ((struct Obj00704 *)p)->f104);
-    MIi_CpuCopyFast(&m, &g_02148B54, 0x40);
+    if (fieldMap->msgBg != 0)
+        func_0219047C(fieldMap->msgBg);
+    func_0218CC64(fieldMap->g3dMapper, fieldMap->g3dCamera, 1);
+    func_021C7FB4(fieldMap->mapEff);
+    savedProj = g_02148B54;
+    proj = savedProj;
+    proj.m[3][2] += FX_MUL(proj.m[2][2], fieldMap->projDepthOffset);
+    MIi_CpuCopyFast(&proj, &g_02148B54, 0x40);
     g_02148BCC.flag &= ~0x50;
     func_0206DB80(func_0206A854());
-    func_021ABE0C(((struct Obj00704 *)p)->f94);
-    func_021C64E0(((struct Obj00704 *)p)->f130);
-    func_02050790((struct tagLISTCB *)(((struct Obj00704 *)p)->fB0), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
-    func_02050790((struct tagLISTCB *)(((struct Obj00704 *)p)->fB8), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
-    if (((struct Obj00704 *)p)->f98 != 0)
-        func_0217F928((char *)(((struct Obj00704 *)p)->f98));
-
-    m = saved;
-    m.m[3][2] += FX_MUL(m.m[2][2], ((struct Obj00704 *)p)->f104 / 2);
-    MIi_CpuCopyFast(&m, &g_02148B54, 0x40);
+    func_021ABE0C(fieldMap->effect);
+    func_021C64E0(fieldMap->g3dObjCtrl);
+    func_02050790(fieldMap->mmdlBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
+    func_02050790(fieldMap->groundBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
+    if (fieldMap->unionEff != 0)
+        func_0217F928(fieldMap->unionEff);
+    proj = savedProj;
+    proj.m[3][2] += FX_MUL(proj.m[2][2], fieldMap->projDepthOffset / 2);
+    MIi_CpuCopyFast(&proj, &g_02148B54, 0x40);
     g_02148BCC.flag &= ~0x50;
     func_0206DB80(func_0206A854());
-    func_02050790((struct tagLISTCB *)(((struct Obj00704 *)p)->fB4), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
-
-    MIi_CpuCopyFast(&saved, &g_02148B54, 0x40);
+    func_02050790(fieldMap->effectBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
+    MIi_CpuCopyFast(&savedProj, &g_02148B54, 0x40);
     g_02148BCC.flag &= ~0x50;
     func_0206A854();
-
-    func_021BB954((u8 *)(((struct Obj00704 *)p)->fBC));
-    func_021A1B38((u32 *)(((struct Obj00704 *)p)->f20));
-    func_021BE4F8((char *)(((struct Obj00704 *)p)->f34));
+    func_021BB954(fieldMap->mapFunc);
+    func_021A1B38(fieldMap->weather);
+    func_021BE4F8(fieldMap->expObj);
     func_021C1AEC();
-    func_021C1C4C((char *)(((struct Obj00704 *)p)->f124));
+    func_021C1C4C(fieldMap->fld3dCi);
 }
 
-
-
-
-
-void func_02189998(unsigned char *p)
+void func_02189998(FieldMap *fieldMap)
 {
     func_0207DD24(0, 0, 0x7FFF, 0, 0);
     func_021C1AEC();
-    func_021C1C4C((char *)(((struct Obj19499 *)p)->f124));
+    func_021C1C4C(fieldMap->fld3dCi);
 }
 
-
-
-
-
-void func_021899C4(unsigned char *p)
+void func_021899C4(FieldMap *fieldMap)
 {
     func_0207DD24(0x4210, 0x1F, 0x7FFF, 0, 0);
-    func_021CF520(((struct Obj19500 *)p)->f13C);
+    func_021CF520(fieldMap->encEff);
 }
 
-
-
-
-
-/*
- * Unlabelled leaf getter: the word at +0x12C (func_021899F8 is its setter).
- * Addresses are Black-image addresses.
- */
-u32 func_021899F0(u8 *p)
+int func_021899F0(FieldMap *fieldMap)
 {
-    return ((struct Obj19501 *)p)->f12C;
+    return fieldMap->drawMode;
 }
 
-
-
-
-
-/*
- * Unlabelled leaf setter: the word at +0x12C.
- * Addresses are Black-image addresses.
- */
-void func_021899F8(u8 *p, u32 v)
+void func_021899F8(FieldMap *fieldMap, int drawMode)
 {
-    ((struct Obj19502 *)p)->f12C = v;
+    fieldMap->drawMode = drawMode;
 }
 
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x124 of the object.
- */
-void *func_02189A00(u8 *p)
+struct Fld3dCi *func_02189A00(FieldMap *fieldMap)
 {
-    return ((struct Obj00020 *)p)->f124;
+    return fieldMap->fld3dCi;
 }
 
-
-
-
-
-int func_02189A08(unsigned char *p)
+struct EncEff *func_02189A08(FieldMap *fieldMap)
 {
-    return ((struct Obj19503 *)p)->f13C;
+    return fieldMap->encEff;
 }
 
-
-
-
-
-/*
- * Unlabelled leaf accessor (prints as .word in the listing): returns the pointer at +0xA0.
- * Sole blocker of ov010 func_0215ECBC's MATCH.
- */
-void *func_02189A10(Obj *p)
+struct FieldSkillMapEff *func_02189A10(FieldMap *fieldMap)
 {
-    return p->fa0;
+    return fieldMap->mapEff;
 }
 
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x40 of the object.
- */
-u32 func_02189A18(u8 *p)
+struct FldSceneArea *func_02189A18(FieldMap *fieldMap)
 {
-    return ((struct Obj17887 *)p)->f40;
+    return fieldMap->sceneArea;
 }
 
-
-
-
-
-/*
- * Stores the 32-bit word into byte +0x138 of the object.
- */
-void func_02189A1C(u8 *p, u32 v)
+void func_02189A1C(FieldMap *fieldMap, int busy)
 {
-    ((struct Obj17888 *)p)->f138 = v;
+    fieldMap->scriptEffectBusy = busy;
 }
 
-
-
-
-
-/*
- * Loads the 32-bit word at byte +0x138 of the object.
- */
-u32 func_02189A24(u8 *p)
+int func_02189A24(FieldMap *fieldMap)
 {
-    return ((struct Obj17889 *)p)->f138;
+    return fieldMap->scriptEffectBusy;
 }
 
-
-
-
-
-int func_02189A2C(int *a)
+int func_02189A2C(FieldMap *fieldMap)
 {
-    return func_020120D8((char *)a[1]);
+    return func_020120D8(fieldMap->gameSystem);
 }
 
-
-
-
-int func_02189A38(int a)
+int func_02189A38(FieldMap *fieldMap)
 {
-return func_020113D8(func_02012984((const struct BigObj *)(((struct Obj17890 *)((u8 *)(a)))->f8)));
+    return func_020113D8(func_02012984(fieldMap->gameData));
 }
 
-
-
-int func_02189A48(char *p)
+int func_02189A48(FieldMap *fieldMap)
 {
-    return *(unsigned int *)(p + 0x144);
+    return fieldMap->subscreenBusy;
 }
 
-
-
-/*
- * Unlabelled leaf (saves no lr): stores r1 at +0x144.  Callee of ov020
- * func_02187CEC and func_02187CFC.
- */
-void func_02189A50(char *p, int v)
+void func_02189A50(FieldMap *fieldMap, int busy)
 {
-    *(int *)(p + 0x144) = v;
+    fieldMap->subscreenBusy = busy;
 }
 
-
-
-
-/*
- * Unlabelled leaf setter, called from func_021BEF8C.
- */
-void func_02189A58(u8 *p, u32 v)
+void func_02189A58(FieldMap *fieldMap, int stopped)
 {
-    ((struct Obj19506 *)p)->f140 = v;
+    fieldMap->updateStopped = stopped;
 }
 
-
-
-
-u8 *func_02189A60(u8 *p)
+void **func_02189A60(FieldMap *fieldMap)
 {
-    return p + 0x148;
+    return &fieldMap->faceUpWork;
 }
 
-
-
-
-void func_02189A68(char *a, int b)
+void func_02189A68(FieldMap *fieldMap, void *zoneEffectWork)
 {
-    ((struct Obj19507 *)a)->f150 = b;
+    fieldMap->zoneEffectWork = zoneEffectWork;
 }
 
-
-
-
-/*
- * Loads the 32-bit word at byte +0x150 of the object.
- */
-u32 func_02189A70(u8 *p)
+void *func_02189A70(FieldMap *fieldMap)
 {
-    return ((struct Obj17891 *)p)->f150;
+    return fieldMap->zoneEffectWork;
 }
 
-
-
-
-/*
- * Loads the 32-bit word at byte +0x100 of the object.
- */
-u32 func_02189A78(u8 *p)
+int func_02189A78(FieldMap *fieldMap)
 {
-    return ((struct Obj17892 *)p)->f100;
+    return fieldMap->cameraPitchScale;
 }
 
-
-
-
-int func_02189A80(char *p)
+int func_02189A80(FieldMap *fieldMap)
 {
-    unsigned short *q = (short unsigned int *)func_0218ED3C(((struct Obj19508 *)p)->f10);
-    int i = (*q >> 4) * 2 + 1;
-    int s = d_020A1B38[i];
-    long long v;
-    int r;
-
-    if (s < 0)
-        s = -s;
-    v = ((long long)s << 14) + 0x800;
-    r = (int)(v >> 12) - 0x4000;
-    if (r < -0x2000)
-        r = -0x2000;
-    return r;
+    unsigned short *pitch = (unsigned short *)func_0218ED3C(fieldMap->camera);
+    int sinIndex = (*pitch >> 4) * 2 + 1;
+    int sinValue = d_020A1B38[sinIndex];
+    long long scaled;
+    int pitchScale;
+    if (sinValue < 0)
+        sinValue = -sinValue;
+    scaled = ((long long)sinValue << 14) + 0x800;
+    pitchScale = (int)(scaled >> 12) - 0x4000;
+    if (pitchScale < -0x2000)
+        pitchScale = -0x2000;
+    return pitchScale;
 }
 
-
-
-
-/*
- * Leaf: returns one of two pooled constants (0x1EE / 0x136) depending on
- * func_02013BA8() == 1.  Callee of func_021881D8 (assigns p->x104).
- */
-int func_02189ACC(u32 a0)
+int func_02189ACC(u32 zoneId)
 {
-    if (func_02013BA8(a0) == 1)
+    if (func_02013BA8(zoneId) == 1)
         return 0x1EE;
     return 0x136;
 }
 
-
-
-
-/*
- * Leaf: 0 for id 0x3f, else 0 when func_02013CE0() reports 1, else 1.
- * Callee of func_02189204.  EXACT* because the unlabelled follower
- * (0x02189B04) has no seed; no byte differs.
- */
-int func_02189AE8(int a)
+int func_02189AE8(int zoneId)
 {
-    if (a == 0x3f)
+    if (zoneId == 0x3f)
         return 0;
-    if (func_02013CE0(a) == 1)
+    if (func_02013CE0(zoneId) == 1)
         return 0;
     return 1;
 }
 
-
-
-int func_02189B04(int x)
+int func_02189B04(int zoneId)
 {
-    if (x == 0x3F)
+    if (zoneId == 0x3F)
         return 1;
-    if (x == 0x8C)
+    if (zoneId == 0x8C)
         return 1;
-    if (x == 0x8D)
+    if (zoneId == 0x8D)
         return 1;
-    if (x == 0x8E)
+    if (zoneId == 0x8E)
         return 1;
     return 0;
 }
 
-
-
-
-/*
- * Tail-call thunk: forwards to func_02013B50 with no argument change.
- *
- * Addresses are Black-image addresses.
- */
-u32 func_02189B28(u32 id)
+u32 func_02189B28(u32 zoneId)
 {
-    return func_02013B50(id);
+    return func_02013B50(zoneId);
 }
 
-
-
-
-void func_02189B30(int a, int x, char *out, void *obj)
+void func_02189B30(int zoneId, struct AreaData *areaData, FieldMapMapperParam *param, struct MapMatrix *mapMatrix)
 {
-    int i = (int)func_02189B28((unsigned int)a);
-
-    *(Rec *)out = d_021D3700[i].r;
-    if (d_021D3700[i].f40 != 0) {
-        ((struct Obj03106 *)out)->f14 = func_02159BF4(obj);
-        ((struct Obj03106 *)out)->f16 = func_02159BF8(obj);
-        ((struct Obj03106 *)out)->f18 = func_02159BFC(obj);
-        ((struct Obj03106 *)out)->f1C = (int)func_02159C20(obj);
+    int mapType = (int)func_02189B28((unsigned int)zoneId);
+    *param = d_021D3700[mapType].param;
+    if (d_021D3700[mapType].useMatrix != 0) {
+        param->matrixWidth = func_02159BF4(mapMatrix);
+        param->matrixHeight = func_02159BF8(mapMatrix);
+        param->matrixCount = func_02159BFC(mapMatrix);
+        param->matrixGrid = func_02159C20(mapMatrix);
     }
-    ((struct Obj03106 *)out)->f20 = 1;
-    ((struct Obj03106 *)out)->f24 = 0xe;
-    ((struct Obj03106 *)out)->f28 = func_020140BC((struct Sub020140BCObj *)x);
-    ((struct Obj03106 *)out)->f2C = func_020140C0((struct Sub020140BCObj *)x);
-    ((struct Obj03106 *)out)->f30 = func_020140CC((struct Sub020140BCObj *)x);
+    param->enabled = 1;
+    param->blockLoadMax = 0xe;
+    param->texSetId = func_020140BC(areaData);
+    param->itaAnimeId = func_020140C0(areaData);
+    param->itpAnimeId = func_020140CC(areaData);
 }
 
-
-
-
-int func_02189BA8(int x)
+const FieldMapCtrlFuncs *func_02189BA8(int zoneId)
 {
-    return d_021D373C[(int)func_02189B28((unsigned int)x)].f0;
+    return d_021D373C[(int)func_02189B28((unsigned int)zoneId)].ctrlFuncs;
 }

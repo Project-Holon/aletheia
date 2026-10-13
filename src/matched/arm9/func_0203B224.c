@@ -1,5 +1,5 @@
 /*
- * function: func_0203B224
+ * function: GFL_NET_STATE_ParentConnected
  * address: 0x0203B224
  * packet: pkt_arm9_0203B224
  * region: arm9
@@ -12,8 +12,8 @@
  * Function with no listing label, matched inside src/game/arm9/net_state_p16.c and filed here.
  */
 
-void func_0203B224(void);
+void GFL_NET_STATE_ParentConnected(void);
 
-void func_0203B224(void)
+void GFL_NET_STATE_ParentConnected(void)
 {
 }

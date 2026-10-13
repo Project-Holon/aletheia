@@ -1,5 +1,5 @@
 /*
- * function: func_020245AC
+ * function: PMSI_PARAM_ClearUnusedWords
  * address:  0x020245AC
  * packet:   pkt_020245AC
  * region:   arm9
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   PMSI_PARAM_GetWordCount  0x02024498  thumb
  */
 
 typedef unsigned short u16;
@@ -20,11 +23,11 @@ struct T {
     u16 f06;
 };
 
-extern u32 func_02024498(u32 a0, u32 a1, u32 a2);
+extern u32 PMSI_PARAM_GetWordCount(u32 a0, u32 a1, u32 a2);
 
-void func_020245AC(struct T *p, u32 a1)
+void PMSI_PARAM_ClearUnusedWords(struct T *p, u32 a1)
 {
-    u32 n = func_02024498(p->f00, p->f02, a1);
+    u32 n = PMSI_PARAM_GetWordCount(p->f00, p->f02, a1);
 
     if (n < 2) {
         do {

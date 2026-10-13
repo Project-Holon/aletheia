@@ -16,10 +16,10 @@
  *   d_021EFD1C 0x021EFD1C data a4
  *   func_021EBEE0 0x021EBEE0 thumb ov170
  *   func_021EC000  0x021EC000  thumb  ov170
- *   func_0202CF98 0x0202CF98 thumb
+ *   BGWINFRM_GetPos 0x0202CF98 thumb
  *   func_021EC08C 0x021EC08C thumb ov170
  *   func_021EC0B0 0x021EC0B0 thumb ov170
- *   func_020258E8 0x020258E8 thumb
+ *   BMP_OAM_GetPos 0x020258E8 thumb
  *   func_0202590C 0x0202590C thumb
  *   func_021DEB14 0x021DEB14 thumb ov170
  *   func_021EB874 0x021EB874 thumb ov170
@@ -72,12 +72,12 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021F0020 0x021F0020 data a4
  *   func_02035C08 0x02035C08 arm
- *   func_02035BA4 0x02035BA4 arm
- *   func_02035D40 0x02035D40 arm
+ *   TOUCHPANEL_HitCont 0x02035BA4 arm
+ *   TOUCHPANEL_HitPoint 0x02035D40 arm
  *   g_021F0DCC  0x021F0DCC  data  ov170
  *   d_021F0F40 0x021F0F40 data
  *   d_021F0040 0x021F0040 data
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   d_021F0034 0x021F0034 data a1
  *   d_021F0024 0x021F0024 data a1
  *   d_021F002C 0x021F002C data a4
@@ -86,14 +86,18 @@
  *   func_021EB79C 0x021EB79C thumb ov170
  *   func_021EB7C8 0x021EB7C8 thumb ov170
  *   func_021EB95C 0x021EB95C thumb ov170
- *   func_0202C9B4 0x0202C9B4 thumb
- *   func_0202CA3C 0x0202CA3C thumb
- *   func_0202CA0C  0x0202CA0C  thumb  ov170
- *   func_0202CDD4 0x0202CDD4 thumb
+ *   BGWINFRM_Create 0x0202C9B4 thumb
+ *   BGWINFRM_AddFrame 0x0202CA3C thumb
+ *   BGWINFRM_Delete  0x0202CA0C  thumb  ov170
+ *   BGWINFRM_UpdateMove 0x0202CDD4 thumb
  *   func_021EC8E4 0x021EC8E4 thumb
- *   func_0202CC70 0x0202CC70 thumb
- *   func_0202CB4C 0x0202CB4C thumb
- *   func_0202CD64 0x0202CD64 thumb
+ *   BGWINFRM_HideFrame 0x0202CC70 thumb
+ *   BGWINFRM_PutFrame 0x0202CB4C thumb
+ *   BGWINFRM_StartMove 0x0202CD64 thumb
+ *   BGWINFRM_SetFrameData  0x0202CAC4  thumb  arm9
+ *   BGWINFRM_SetFrameDataArc  0x0202CAE4  thumb  arm9
+ *   CLACT_TransferCharacterPart  0x0204AA94  arm  arm9
+ *   CLACT_GetActorCharacterIndex  0x0204B7F0  arm  arm9
  */
 #include "box2_types.h"
 #include "../../matched/include/Obj24023.h"
@@ -180,10 +184,10 @@ typedef struct { Bytes first, second; } Object;
 
 extern void *func_021EBEE0(char *, const Desc *);
 extern void func_021EC000(char *, int, int);
-extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EC0B0(char *, int, short *, short *, unsigned short);
-extern void func_020258E8(struct Obj02025774 *p, s16 *out_x, s16 *out_y);
+extern void BMP_OAM_GetPos(struct Obj02025774 *p, s16 *out_x, s16 *out_y);
 extern void func_0202590C(struct Grid *g, s16 x, s16 y);
 extern unsigned char func_021DEB14(unsigned char *p, int a);
 extern void func_021EB874(char **, unsigned, int);
@@ -191,8 +195,8 @@ extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02082D44(const void *, void *, unsigned);
 extern u32 func_020307B0(void *p);
 extern int func_021DEDCC(char *p, int box);
-extern u16 func_0204B7F0(u8 *p);
-extern void func_0204AA94(int a, void *b, u32 c, int d, int e);
+extern u16 CLACT_GetActorCharacterIndex(u8 *p);
+extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
@@ -232,24 +236,24 @@ extern void func_021DD238(char *p);
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02035C08(const void *);
-extern int func_02035BA4(const void *);
-extern u32 func_02035D40(struct Ctx *ctx, u32 a, u32 b);
-extern unsigned func_02035CB8(unsigned *outA, unsigned *outB);
-extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
-extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern int TOUCHPANEL_HitCont(const void *);
+extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
+extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
+extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
+extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void func_021EB744(char *);
 extern void func_021EB79C(unsigned char *p);
 extern void func_021EB7C8(char *);
 extern void func_021EB95C(char *);
-extern void func_0202CA0C(struct WinMgr *mgr);
-extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
-extern u32 func_0202CDD4(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_Delete(struct WinMgr *mgr);
+extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
+extern u32 BGWINFRM_UpdateMove(struct WinMgr *mgr, u32 idx);
 extern void func_021EC8E4(char *p);
-extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 extern u32 func_0204162C(int channel);
-extern void func_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
+extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
 void func_021ED824(char *p);
 void func_021ED888(char *p, int a);
 void func_021ED8A4(char *p);
@@ -436,7 +440,7 @@ void func_021ED8A4(char *p)
     signed char t[2];
     unsigned i;
     short x, y;
-    func_0202CF98(*(struct WinMgr * *)&((struct Obj24023 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 7, &t[1], &t[0]);
+    BGWINFRM_GetPos(*(struct WinMgr * *)&((struct Obj24023 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 7, &t[1], &t[0]);
     i = 0;
     y = t[0] * 8 + 8;
     x = t[1] * 8 + 0x17;
@@ -475,7 +479,7 @@ void func_021ED918(char *p, int d)
     for (; i < 6u; i++) {
         func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, i + 0x2d, &t[1], &t[0], 0);
         func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, i + 0x2d, (short)(t[1] - d), (short)t[0], (short)0);
-        func_020258E8(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xc), &t[1], &t[0]);
+        BMP_OAM_GetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xc), &t[1], &t[0]);
         func_0202590C(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xc), t[1] - d, t[0]);
     }
 }
@@ -607,8 +611,8 @@ void func_021EDB34(char *p, int a)
 void func_021EDB64(char *p, int a, int i)
 {
     int q = ((struct Obj18524 *)p)->f2C;
-    int x = func_0204B7F0((u8 *)(*(int *)(q + i * 4 + 0x9E74)));
-    func_0204AA94(x, (void *)(q + 0x3E70 + a * 0x400), 0x400, 0, 0);
+    int x = CLACT_GetActorCharacterIndex((u8 *)(*(int *)(q + i * 4 + 0x9E74)));
+    CLACT_TransferCharacterPart(x, (void *)(q + 0x3E70 + a * 0x400), 0x400, 0, 0);
 }
 
 
@@ -711,7 +715,7 @@ void func_021EDD38(char *p, int d)
         func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, i + 0x2D, &t[3], &t[2], 0);
         x = t[2] + step;
         func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, i + 0x2D, (short)t[3], (short)x, (short)0);
-        func_020258E8(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), &t[1], &t[0]);
+        BMP_OAM_GetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), &t[1], &t[0]);
         y = t[0] + step;
         func_0202590C(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), t[1], y);
         if (x < -0x10) {
@@ -959,7 +963,7 @@ void func_021EE26C(char *p, int d)
     short y;
     for (i = 7; i <= 8; i++) {
         char *e = p + i * 8;
-        func_020258E8(((struct Obj14282 *)e)->f4, &x, &y);
+        BMP_OAM_GetPos(((struct Obj14282 *)e)->f4, &x, &y);
         func_0202590C(((struct Obj14282 *)e)->f4, x + d, y);
         if (x + d == -0x94 || x + d == 0xDC)
             func_021EE224(p, i, 0);
@@ -2134,7 +2138,7 @@ int func_021EF0A8(const char *p, unsigned n)
     obj.second=d_021F0020;
     for(i=0;i<n;i++) {
         obj.first=*(Bytes *)(p+i*12+8);
-        if(func_02035BA4(&obj)!=-1) return i;
+        if(TOUCHPANEL_HitCont(&obj)!=-1) return i;
     }
     return -1;
 }
@@ -2149,7 +2153,7 @@ int func_021EF108(const char *p, unsigned n, int a, int b)
     obj.second=d_021F0020;
     for(i=0;i<n;i++) {
         obj.first=*(Bytes *)(p+i*12+8);
-        if(func_02035D40((struct Ctx *)(&obj),a,b)!=-1) return i;
+        if(TOUCHPANEL_HitPoint((struct Ctx *)(&obj),a,b)!=-1) return i;
     }
     return -1;
 }
@@ -2204,7 +2208,7 @@ int func_021EF1B4(void)
 
 int func_021EF1C4(void)
 {
-    return func_02035BA4(d_021F0040);
+    return TOUCHPANEL_HitCont(d_021F0040);
 }
 
 
@@ -2213,8 +2217,8 @@ int func_021EF1C4(void)
 
 int func_021EF1D4(unsigned *a, unsigned *b)
 {
-    if (func_02035BA4(d_021F0034) != -1) {
-        func_02035CB8(a, b);
+    if (TOUCHPANEL_HitCont(d_021F0034) != -1) {
+        TOUCHPANEL_GetPointCont(a, b);
         return 1;
     }
     return 0;
@@ -2223,7 +2227,7 @@ int func_021EF1D4(unsigned *a, unsigned *b)
 
 
 
-int func_021EF1FC(unsigned*a,unsigned*b){if(func_02035BA4(d_021F0024)!=-1){func_02035CB8(a,b);return 1;}return 0;}
+int func_021EF1FC(unsigned*a,unsigned*b){if(TOUCHPANEL_HitCont(d_021F0024)!=-1){TOUCHPANEL_GetPointCont(a,b);return 1;}return 0;}
 
 
 
@@ -2246,7 +2250,7 @@ int func_021EF224(int a, int b)
 
 int func_021EF248(void)
 {
-    if (func_02035BA4(d_021F002C) != -1)
+    if (TOUCHPANEL_HitCont(d_021F002C) != -1)
         return 1;
     return 0;
 }
@@ -2274,18 +2278,18 @@ int func_021EF264(void)
 void func_021EF274(char *p)
 {
     char *w=*(char * *)&((BoxTask *)p)->f2C;
-    MGR(w)=func_0202C9B4(2,12,0x4c);
+    MGR(w)=BGWINFRM_Create(2,12,0x4c);
     func_021EB744(w);
     func_021EF630(p);
     func_021EB79C((unsigned char *)p);
     func_021EB7C8(p);
-    func_0202CA3C(MGR(w),8,1,11,15);
+    BGWINFRM_AddFrame(MGR(w),8,1,11,15);
     if(((struct Obj24042 *)(*(char * *)&((BoxTask *)p)->f0))->f24==4) func_021EF31C(MGR(w),8,8);
     else func_021EF31C(MGR(w),8,9);
-    func_0202CA3C(MGR(w),7,1,11,15);
+    BGWINFRM_AddFrame(MGR(w),7,1,11,15);
     func_021EF31C(MGR(w),7,10);
     func_021EB95C(p);
-    func_0202CA3C(MGR(w),9,1,11,21);
+    BGWINFRM_AddFrame(MGR(w),9,1,11,21);
     func_021EF31C(MGR(w),9,11);
     func_021EF4C0(MGR(w));
 }
@@ -2299,7 +2303,7 @@ void func_021EF274(char *p)
  */
 void func_021EF310(char *p)
 {
-    func_0202CA0C(*(struct WinMgr * *)&((BoxWork *)p)->f74);
+    BGWINFRM_Delete(*(struct WinMgr * *)&((BoxWork *)p)->f74);
 }
 
 
@@ -2311,7 +2315,7 @@ void func_021EF310(char *p)
  */
 void func_021EF31C(struct WinMgr *mgr, int a1, int a2)
 {
-    func_0202CAE4(mgr, a1, 0x74, a2, 1);
+    BGWINFRM_SetFrameDataArc(mgr, a1, 0x74, a2, 1);
 }
 
 
@@ -2319,11 +2323,11 @@ void func_021EF31C(struct WinMgr *mgr, int a1, int a2)
 
 
 /*
- * Forward a plus constants to func_0202CB4C.
+ * Forward a plus constants to BGWINFRM_PutFrame.
  */
 void func_021EF32C(struct WinMgr *mgr)
 {
-    func_0202CB4C(mgr, 8, 2, 6);
+    BGWINFRM_PutFrame(mgr, 8, 2, 6);
 }
 
 
@@ -2332,7 +2336,7 @@ void func_021EF32C(struct WinMgr *mgr)
 
 void func_021EF33C(struct WinMgr *mgr)
 {
-    func_0202CB4C(mgr, 8, 0x15, 6);
+    BGWINFRM_PutFrame(mgr, 8, 0x15, 6);
 }
 
 
@@ -2341,7 +2345,7 @@ void func_021EF33C(struct WinMgr *mgr)
 
 void func_021EF34C(struct WinMgr *mgr)
 {
-    func_0202CB4C(mgr, 8, 2, 0x18);
+    BGWINFRM_PutFrame(mgr, 8, 2, 0x18);
 }
 
 
@@ -2350,7 +2354,7 @@ void func_021EF34C(struct WinMgr *mgr)
 
 void func_021EF35C(struct WinMgr *mgr)
 {
-    func_0202CB4C(mgr, 8, 0x15, 0x18);
+    BGWINFRM_PutFrame(mgr, 8, 0x15, 0x18);
 }
 
 
@@ -2363,9 +2367,9 @@ void func_021EF35C(struct WinMgr *mgr)
 void func_021EF36C(struct WinMgr *mgr)
 {
     s8 buf[4];
-    func_0202CF98(mgr, 8, buf + 1, buf);
+    BGWINFRM_GetPos(mgr, 8, buf + 1, buf);
     if ((signed char)buf[0] != 6)
-        func_0202CD64(mgr, 8, 0, -1, (unsigned char)(buf[0] - 6));
+        BGWINFRM_StartMove(mgr, 8, 0, -1, (unsigned char)(buf[0] - 6));
 }
 
 
@@ -2378,9 +2382,9 @@ void func_021EF36C(struct WinMgr *mgr)
 void func_021EF3A0(struct WinMgr *mgr)
 {
     s8 buf[4];
-    func_0202CF98(mgr, 8, buf + 1, buf);
+    BGWINFRM_GetPos(mgr, 8, buf + 1, buf);
     if ((signed char)buf[0] != 0x18)
-        func_0202CD64(mgr, 8, 0, 1, (unsigned char)(0x18 - buf[0]));
+        BGWINFRM_StartMove(mgr, 8, 0, 1, (unsigned char)(0x18 - buf[0]));
 }
 
 
@@ -2388,11 +2392,11 @@ void func_021EF3A0(struct WinMgr *mgr)
 
 
 /*
- * Forward a plus constants to func_0202CD64.
+ * Forward a plus constants to BGWINFRM_StartMove.
  */
 void func_021EF3D8(struct WinMgr *mgr)
 {
-    func_0202CD64(mgr, 8, 1, 0, 0x13);
+    BGWINFRM_StartMove(mgr, 8, 1, 0, 0x13);
 }
 
 
@@ -2401,7 +2405,7 @@ void func_021EF3D8(struct WinMgr *mgr)
 
 void func_021EF3EC(struct WinMgr *mgr)
 {
-    func_0202CD64(mgr, 8, -1, 0, 0x13);
+    BGWINFRM_StartMove(mgr, 8, -1, 0, 0x13);
 }
 
 
@@ -2413,9 +2417,9 @@ int func_021EF400(unsigned char *p)
     signed char a[2];
     signed char b[2];
     unsigned r;
-    func_0202CF98(*(struct WinMgr * *)&((struct Obj24043 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 8, &a[1], &a[0]);
-    r = func_0202CDD4(*(struct WinMgr * *)&((struct Obj24044 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 8);
-    func_0202CF98(*(struct WinMgr * *)&((struct Obj24045 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 8, &b[1], &b[0]);
+    BGWINFRM_GetPos(*(struct WinMgr * *)&((struct Obj24043 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 8, &a[1], &a[0]);
+    r = BGWINFRM_UpdateMove(*(struct WinMgr * *)&((struct Obj24044 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 8);
+    BGWINFRM_GetPos(*(struct WinMgr * *)&((struct Obj24045 *)(*(char * *)&((BoxTask *)p)->f2C))->f74, 8, &b[1], &b[0]);
     if (a[1] != b[1] || a[0] != b[0])
         func_021EC8E4((char *)p);
     {
@@ -2436,7 +2440,7 @@ int func_021EF400(unsigned char *p)
 int func_021EF45C(struct WinMgr *mgr)
 {
     s8 buf[4];
-    func_0202CF98(mgr, 8, buf + 1, buf);
+    BGWINFRM_GetPos(mgr, 8, buf + 1, buf);
     return buf[1] == 0x15 && buf[0] == 6;
 }
 
@@ -2449,7 +2453,7 @@ int func_021EF45C(struct WinMgr *mgr)
 int func_021EF480(struct WinMgr *mgr)
 {
     s8 buf[4];
-    func_0202CF98(mgr, 8, buf + 1, buf);
+    BGWINFRM_GetPos(mgr, 8, buf + 1, buf);
     return buf[1] == 0x2 && buf[0] == 6;
 }
 
@@ -2463,7 +2467,7 @@ int func_021EF480(struct WinMgr *mgr)
 int func_021EF4A4(struct WinMgr *mgr)
 {
     s8 buf[4];
-    func_0202CF98(mgr, 8, buf + 1, buf);
+    BGWINFRM_GetPos(mgr, 8, buf + 1, buf);
     return buf[0] == 6;
 }
 
@@ -2478,7 +2482,7 @@ void func_021EF4C0(struct WinMgr *mgr)
 {
     unsigned i;
     for (i = 0; i < 6; i++)
-        func_0202CB4C(mgr, i, 0x20, (signed char)(i * 3 + 2));
+        BGWINFRM_PutFrame(mgr, i, 0x20, (signed char)(i * 3 + 2));
 }
 
 
@@ -2488,7 +2492,7 @@ void func_021EF4E4(struct WinMgr *mgr)
 {
     unsigned i;
     for (i = 0; i < 6; i++)
-        func_0202CB4C(mgr, i, 0x15, (signed char)(i * 3 + 2));
+        BGWINFRM_PutFrame(mgr, i, 0x15, (signed char)(i * 3 + 2));
 }
 
 
@@ -2499,8 +2503,8 @@ void func_021EF508(struct WinMgr *mgr)
 {
     unsigned i;
     for (i = 0; i < 6; i++) {
-        func_0202CC70(mgr, i);
-        func_0202CB4C(mgr, i, 0x20, i * 3 + 2);
+        BGWINFRM_HideFrame(mgr, i);
+        BGWINFRM_PutFrame(mgr, i, 0x20, i * 3 + 2);
     }
 }
 
@@ -2512,11 +2516,11 @@ void func_021EF534(struct WinMgr *mgr)
 {
     signed char buf[2];
     unsigned short i = 0;
-    func_0202CF98(mgr, 0, &buf[1], &buf[0]);
+    BGWINFRM_GetPos(mgr, 0, &buf[1], &buf[0]);
     if (buf[1] == 0x15)
         return;
     for (; i < 6; i++)
-        func_0202CD64(mgr, i, -1, 0, buf[1] - 0x15);
+        BGWINFRM_StartMove(mgr, i, -1, 0, buf[1] - 0x15);
 }
 
 
@@ -2527,11 +2531,11 @@ void func_021EF57C(struct WinMgr *mgr)
 {
     signed char buf[2];
     unsigned short i = 0;
-    func_0202CF98(mgr, 0, &buf[1], &buf[0]);
+    BGWINFRM_GetPos(mgr, 0, &buf[1], &buf[0]);
     if (buf[1] == 0x20)
         return;
     for (; i < 6; i++)
-        func_0202CD64(mgr, i, 1, 0, 0x20 - buf[1]);
+        BGWINFRM_StartMove(mgr, i, 1, 0, 0x20 - buf[1]);
 }
 
 
@@ -2545,7 +2549,7 @@ int func_021EF5C4(struct WinMgr *mgr)
     unsigned i;
     int found = 0;
     for (i = 0; i < 6; i++) {
-        if (func_0202CDD4(mgr, i) == 1)
+        if (BGWINFRM_UpdateMove(mgr, i) == 1)
             found = 1;
     }
     return found;
@@ -2557,7 +2561,7 @@ int func_021EF5C4(struct WinMgr *mgr)
 int func_021EF5E8(struct WinMgr *mgr)
 {
     s8 buf[4];
-    func_0202CF98(mgr, 0, buf + 1, buf);
+    BGWINFRM_GetPos(mgr, 0, buf + 1, buf);
     return buf[1] != 0x20;
 }
 
@@ -2570,7 +2574,7 @@ int func_021EF5E8(struct WinMgr *mgr)
 int func_021EF60C(struct WinMgr *mgr)
 {
     s8 buf[4];
-    func_0202CF98(mgr, 0, buf + 1, buf);
+    BGWINFRM_GetPos(mgr, 0, buf + 1, buf);
     return buf[1] == 0x15;
 }
 
@@ -2584,8 +2588,8 @@ int func_021EF60C(struct WinMgr *mgr)
 void func_021EF630(char *p)
 {
     int x = func_0204162C(0);
-    func_0202CA3C(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74), 6, 0, 0x20, 3);
-    func_0202CAC4(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74), 6, (const void *)(x + 0x540));
+    BGWINFRM_AddFrame(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74), 6, 0, 0x20, 3);
+    BGWINFRM_SetFrameData(*(struct WinMgr **)(*(int *)&((BoxTask *)p)->f2C + 0x74), 6, (const void *)(x + 0x540));
 }
 
 
@@ -2594,7 +2598,7 @@ void func_021EF630(char *p)
 
 void func_021EF660(struct WinMgr *mgr)
 {
-    func_0202CB4C(mgr, 6, 0, 0x15);
+    BGWINFRM_PutFrame(mgr, 6, 0, 0x15);
 }
 
 
@@ -2602,11 +2606,11 @@ void func_021EF660(struct WinMgr *mgr)
 
 
 /*
- * Forward the word at +0x74 plus constants to func_0202CB4C.
+ * Forward the word at +0x74 plus constants to BGWINFRM_PutFrame.
  */
 void func_021EF670(char *p)
 {
-    func_0202CB4C(*(struct WinMgr * *)&((BoxWork *)p)->f74, 0xa, 0, 0x15);
+    BGWINFRM_PutFrame(*(struct WinMgr * *)&((BoxWork *)p)->f74, 0xa, 0, 0x15);
 }
 
 
@@ -2618,7 +2622,7 @@ void func_021EF670(char *p)
  */
 void func_021EF680(char *p)
 {
-    func_0202CC70(*(struct WinMgr * *)&((BoxWork *)p)->f74, 0xa);
+    BGWINFRM_HideFrame(*(struct WinMgr * *)&((BoxWork *)p)->f74, 0xa);
 }
 
 
@@ -2627,7 +2631,7 @@ void func_021EF680(char *p)
 
 void func_021EF68C(char *p)
 {
-    func_0202CB4C(*(struct WinMgr * *)&((BoxWork *)p)->f74, 0xb, 0, 0x15);
+    BGWINFRM_PutFrame(*(struct WinMgr * *)&((BoxWork *)p)->f74, 0xb, 0, 0x15);
 }
 
 
@@ -2639,7 +2643,7 @@ void func_021EF68C(char *p)
  */
 void func_021EF69C(char *p)
 {
-    func_0202CC70(*(struct WinMgr * *)&((BoxWork *)p)->f74, 0xb);
+    BGWINFRM_HideFrame(*(struct WinMgr * *)&((BoxWork *)p)->f74, 0xb);
 }
 
 
@@ -2647,8 +2651,8 @@ void func_021EF69C(char *p)
 
 void func_021EF6A8(struct WinMgr *mgr)
 {
-    func_0202CB4C(mgr, 7, 0x15, 0x18);
-    func_0202CD64(mgr, 7, 0, -1, 0x13);
+    BGWINFRM_PutFrame(mgr, 7, 0x15, 0x18);
+    BGWINFRM_StartMove(mgr, 7, 0, -1, 0x13);
 }
 
 
@@ -2657,7 +2661,7 @@ void func_021EF6A8(struct WinMgr *mgr)
 
 void func_021EF6CC(struct WinMgr *mgr)
 {
-    func_0202CD64(mgr, 7, 0, 1, 0x13);
+    BGWINFRM_StartMove(mgr, 7, 0, 1, 0x13);
 }
 
 
@@ -2685,9 +2689,9 @@ unsigned func_021EF6E0(char *p)
 {
     signed char a[2], b[2];
     unsigned r;
-    func_0202CF98(MGR(p),7,&a[1],&a[0]);
-    r=func_0202CDD4(MGR(p),7);
-    func_0202CF98(MGR(p),7,&b[1],&b[0]);
+    BGWINFRM_GetPos(MGR(p),7,&a[1],&a[0]);
+    r=BGWINFRM_UpdateMove(MGR(p),7);
+    BGWINFRM_GetPos(MGR(p),7,&b[1],&b[0]);
     if(a[1]!=b[1] || a[0]!=b[0]) func_021ED8A4(p);
     return r;
 }
@@ -2700,8 +2704,8 @@ unsigned func_021EF6E0(char *p)
  */
 void func_021EF738(struct WinMgr *mgr)
 {
-    func_0202CB4C(mgr, 9, 0x20, 0);
-    func_0202CD64(mgr, 9, -1, 0, 0xb);
+    BGWINFRM_PutFrame(mgr, 9, 0x20, 0);
+    BGWINFRM_StartMove(mgr, 9, -1, 0, 0xb);
 }
 
 
@@ -2710,13 +2714,13 @@ void func_021EF738(struct WinMgr *mgr)
 
 void func_021EF75C(struct WinMgr *mgr)
 {
-    func_0202CD64(mgr, 9, 1, 0, 0xb);
+    BGWINFRM_StartMove(mgr, 9, 1, 0, 0xb);
 }
 
 int func_021EF770(struct WinMgr *mgr)
 {
     s8 buf[2];
-    func_0202CF98(mgr, 9, &buf[1], &buf[0]);
+    BGWINFRM_GetPos(mgr, 9, &buf[1], &buf[0]);
     if (buf[1] == 0x15) {
         return 1;
     }

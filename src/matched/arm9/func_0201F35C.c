@@ -16,8 +16,8 @@
  *           any of the three tables would release this file to EXACT.
  *
  * symbols:
- *   func_0204581C  0x0204581C  arm
- *   func_02045AFC  0x02045AFC  arm
+ *   STRBUF_Clear  0x0204581C  arm
+ *   STRBUF_AppendChar  0x02045AFC  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   g_0209E784     0x0209E784  data
  *   g_0209E758     0x0209E758  data
@@ -29,8 +29,8 @@ typedef unsigned int   u32;
 typedef int            s32;
 
 struct U16Vec;
-extern void func_0204581C(struct U16Vec *vec);
-extern void func_02045AFC(struct U16Vec *vec, u16 value);
+extern void STRBUF_Clear(struct U16Vec *vec);
+extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 extern u32  _u32_div_f(u32 a, u32 b);
 extern u16  g_0209E784[];
 extern u16  g_0209E758[];
@@ -47,7 +47,7 @@ void func_0201F35C(void *ctx, s32 n, u32 kind, u32 mode, u32 flag)
     } else {
         tbl = g_0209E758;
     }
-    func_0204581C(ctx);
+    STRBUF_Clear(ctx);
 
     if ((u16)(n < 0) != 0) {
         u32 ch;
@@ -58,7 +58,7 @@ void func_0201F35C(void *ctx, s32 n, u32 kind, u32 mode, u32 flag)
         } else {
             ch = 0x2D;
         }
-        func_02045AFC(ctx, (u16)ch);
+        STRBUF_AppendChar(ctx, (u16)ch);
     }
 
     d = g_0209E838[kind];
@@ -70,10 +70,10 @@ void func_0201F35C(void *ctx, s32 n, u32 kind, u32 mode, u32 flag)
             q = 10;
         }
         if (mode == 2) {
-            func_02045AFC(ctx, tbl[q]);
+            STRBUF_AppendChar(ctx, tbl[q]);
         } else if (q != 0 || d == 1) {
             mode = 2;
-            func_02045AFC(ctx, tbl[q]);
+            STRBUF_AppendChar(ctx, tbl[q]);
         } else if (mode == 1) {
             u32 ch;
             if (flag == 0) {
@@ -81,15 +81,15 @@ void func_0201F35C(void *ctx, s32 n, u32 kind, u32 mode, u32 flag)
             } else {
                 ch = 0x20;
             }
-            func_02045AFC(ctx, (u16)ch);
+            STRBUF_AppendChar(ctx, (u16)ch);
         }
         d = _u32_div_f(d, 10);
     }
 }
 
 /*
- * Decimal number printer.  func_0204581C(ctx) resets the glyph writer;
- * func_02045AFC(ctx, u16) emits one glyph; _u32_div_f is the mwccarm
+ * Decimal number printer.  STRBUF_Clear(ctx) resets the glyph writer;
+ * STRBUF_AppendChar(ctx, u16) emits one glyph; _u32_div_f is the mwccarm
  * integer-division helper (docs/idioms/runtime-helper-reloc.md).
  *
  * `flag` selects one of two glyph tables (0x0209E784 full-width,

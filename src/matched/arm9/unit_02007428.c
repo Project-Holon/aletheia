@@ -11,19 +11,19 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02007428
+ * function: SAVE_CONTROL_EraseOutsideSave
  *
  * symbols:
- *   func_02033478  0x02033478  arm
+ *   BACKUP_SYSTEM_WriteFlash  0x02033478  arm
  *
  * The last function of "save_control.c": two four byte writes of zero, to
- * 0x0007F800 and 0x0007FC00, through the ARM func_02033478.  Those two
+ * 0x0007F800 and 0x0007FC00, through the ARM BACKUP_SYSTEM_WriteFlash.  Those two
  * constants are plain integer pool words with no relocation on them at all,
  * so they are written as the constants they are rather than declared in the
  * `symbols:` block, and the zero is one stack word whose address is passed
  * to both calls.
  *
- * func_02033478 is named three times in the whole image: by the two `blx`
+ * BACKUP_SYSTEM_WriteFlash is named three times in the whole image: by the two `blx`
  * sites inside this function and by one `blx` at 0x021DFF42 in ov228.  That
  * overlay branch is the only thing that carries it, because both in-region
  * sites are inside any range that contains this function and the honesty
@@ -38,12 +38,12 @@
 
 typedef unsigned int u32;
 
-extern void func_02033478(int a0, int a1, int a2);
+extern void BACKUP_SYSTEM_WriteFlash(int a0, int a1, int a2);
 
-void sub_02007428(void)
+void SAVE_CONTROL_EraseOutsideSave(void)
 {
     u32 zero = 0;
 
-    func_02033478(0x7F800, (int)(&zero), 4);
-    func_02033478(0x7FC00, (int)(&zero), 4);
+    BACKUP_SYSTEM_WriteFlash(0x7F800, (int)(&zero), 4);
+    BACKUP_SYSTEM_WriteFlash(0x7FC00, (int)(&zero), 4);
 }

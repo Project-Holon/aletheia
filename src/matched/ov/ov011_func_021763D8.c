@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_02176C4C     0x02176C4C  data  ov011  a1
+ *   gIntrudePickTable     0x02176C4C  data  ov011  a1
  *   func_020056EC  0x020056EC  thumb
  */
 
@@ -31,7 +31,7 @@ typedef struct {
     u16 h0e;
 } Src;
 
-extern Ent d_02176C4C[];
+extern Ent gIntrudePickTable[];
 extern u32 func_020056EC(u32 a);
 
 void func_021763D8(u8 *p, u32 key)
@@ -42,7 +42,7 @@ void func_021763D8(u8 *p, u32 key)
 
     sum = ((Src *)p)->h0c + ((Src *)p)->h0e;
     for (i = 0; i < 0xe0; i++) {
-        Ent *e = &d_02176C4C[i];
+        Ent *e = &gIntrudePickTable[i];
         if (key == e->key && e->f1 <= sum && (e->f3 & 2)) {
             lv = e->f2;
             if (lv == 100 || lv >= func_020056EC(0x65)) {

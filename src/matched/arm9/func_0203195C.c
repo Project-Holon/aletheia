@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203195C
+ * function: BACKUP_SYSTEM_Delete
  * address:  0x0203195C
  * packet:   pkt_0203195C
  * region:   arm9
@@ -22,8 +22,11 @@
  * no label, so the inferred extent from this address runs long: EXACT*.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203195C.c \
- *       --func func_0203195C --addr 0x0203195C --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_Delete.c \
+ *       --func BACKUP_SYSTEM_Delete --addr 0x0203195C --arm --cc 1.1p1
+ *
+ * symbols:
+ *   SAVEDATA_DeleteTable  0x020339B4  arm
  */
 #include "../include/Obj06929.h"
 
@@ -31,11 +34,11 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32 func_020307B0(void *p);
-extern void func_020339B4(int *p);
+extern void SAVEDATA_DeleteTable(int *p);
 
-void func_0203195C(u8 *p)
+void BACKUP_SYSTEM_Delete(u8 *p)
 {
-    func_020339B4((int *)(((struct Obj06929 *)p)->f2C));
+    SAVEDATA_DeleteTable((int *)(((struct Obj06929 *)p)->f2C));
     func_020307B0(((struct Obj06929 *)p)->f138);
     if (p[0x1d] == 1) {
         func_020307B0(((struct Obj06929 *)p)->f34);

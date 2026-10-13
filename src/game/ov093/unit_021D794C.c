@@ -31,193 +31,188 @@
  *   func_021E89C0  0x021E89C0  thumb  ov093
  *   func_021D62C4 0x021D62C4 thumb ov093
  */
-struct Unk021D62A8;
-typedef unsigned char u8;
+#include "unit_021D794C_types.h"
 
-typedef unsigned short u16;
+struct BtlPokeParam;
 
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-struct Sel { u16 kind : 4; u16 lo : 6; u16 hi : 6; };
-
-union Slot_021D794C {
-    u32 v;
-    u32 raw;
-    struct { u32 kind : 3; u32 lo : 6; u32 hi : 6; u32 rest : 17; } s;
-};
-
-typedef union Slot_021D794C Word;
-
-union Slot_021D7D78 { u32 v; u32 raw; struct {u32 kind:3; u32 lo:6; u32 hi:6; u32 rest:17;} s; };
-
-extern void func_021E8D0C(int v, u8 *a, u8 *b);
-extern int func_021E8DA8(int v);
+extern void func_021E8D0C(int packedTypes, u8 *firstType, u8 *secondType);
+extern int func_021E8DA8(int packedTypes);
 extern u32 func_021D78AC(u32 range);
-extern int func_021D59B4(u8 *p, int k);
+extern int func_021D59B4(struct BtlPokeParam *bpp, int valueId);
 extern u32 _u32_div_f(u32, u32);
-extern int func_021D5814(void *p, int k);
-extern u8 func_021D5440(u8 *p);
-extern Word func_021E899C(u32 a);
-extern Word func_021E8940(u8 a);
-extern Word func_021E89F8(u8 a, u32 b);
-extern Word func_021E8A28(u32 a, u8 b);
-extern Word func_021E89C0(void);
-extern int func_0689C9E4(int);
-extern int func_021D62C4(struct Unk021D62A8 *,int);
-int func_021D794C(int a, int b);
-int func_021D799C(int a, int v);
-int func_021D79E8(int x, int y);
-u32 func_021D7A44(u32 a,u32 b,u32 c,u32 d);
-u32 func_021D7A6C(u32 a,u32 b);
-u8 func_021D7A9C(int a,u8 *out);
-int func_021D7AD4(int a);
-int func_021D7AF0(u32 pct);
-int func_021D7B08(int a, int b);
-u32 func_021D7B10(u32 a, u32 b);
-u32 func_021D7B2C(u32 a,u32 b);
-u32 func_021D7B3C(u32 a,u32 b);
-u32 func_021D7B60(void *p,u32 b);
-int func_021D7B74(u8 *p, u32 k);
-u32 func_021D7B8C(u32 lo, u32 hi);
-int func_021D7BA4(int a);
-int func_021D7BD4(void *p, int k);
-u32 func_021D7C38(int a,int b);
-void func_021D7C70(struct Sel s, int m, Word *out);
-union Slot_021D794C func_021D7D18(int x);
-int func_021D7D6C(int x);
-union Slot_021D7D78 func_021D7D78(u32 x);
-union Slot_021D7D78 func_021D7D9C(u32 x);
-void func_021D7DC0(int a, int b, Word *out);
-int func_021D7E10(struct Unk021D62A8 *p);
+extern int func_021D5814(struct BtlPokeParam *bpp, int type);
+extern u8 func_021D5440(struct BtlPokeParam *bpp);
+extern union BtlSickCont func_021E899C(u32 pokeId);
+extern union BtlSickCont func_021E8940(u8 turns);
+extern union BtlSickCont func_021E89F8(u8 high, u32 low);
+extern union BtlSickCont func_021E8A28(u32 pokeId, u8 turns);
+extern union BtlSickCont func_021E89C0(void);
+extern int func_0689C9E4(int index);
+extern int func_021D62C4(struct BtlPokeParam *bpp, int sick);
+int func_021D794C(int atkType, int defType);
+int func_021D799C(int atkType, int defTypes);
+int func_021D79E8(int affinityA, int affinityB);
+u32 func_021D7A44(u32 power, u32 attack, u32 level, u32 defense);
+u32 func_021D7A6C(u32 damage, u32 affinity);
+u8 func_021D7A9C(int atkType, u8 *outTypes);
+int func_021D7AD4(int affinity);
+int func_021D7AF0(u32 percent);
+int func_021D7B08(int value, int floor);
+u32 func_021D7B10(u32 value, u32 ratio);
+u32 func_021D7B2C(u32 value, u32 ratio);
+u32 func_021D7B3C(u32 value, u32 percent);
+u32 func_021D7B60(struct BtlPokeParam *bpp, u32 divisor);
+int func_021D7B74(struct BtlPokeParam *bpp, u32 divisor);
+u32 func_021D7B8C(u32 min, u32 max);
+int func_021D7BA4(int maxHits);
+int func_021D7BD4(struct BtlPokeParam *bpp, int weather);
+u32 func_021D7C38(int weather, int moveType);
+void func_021D7C70(struct BtlSickContSpec spec, struct BtlPokeParam *attacker, union BtlSickCont *out);
+union BtlSickCont func_021D7D18(int kind);
+int func_021D7D6C(int kind);
+union BtlSickCont func_021D7D78(u32 turns);
+union BtlSickCont func_021D7D9C(u32 pokeId);
+void func_021D7DC0(int kind, struct BtlPokeParam *attacker, union BtlSickCont *out);
+int func_021D7E10(struct BtlPokeParam *bpp);
+/* Type affinity table [attacker][defender]: 0 none, 2 half, 4 normal, 8 double. */
 extern u8 d_021F047C[17][17];
+/* Affinity class -> scale (0, 1, 2, 4, 8, 16) used to combine two classes. */
 extern u8 d_021F0427[];
+/* Cumulative percent thresholds for a random hit count (2 to 5 hits). */
 extern u8 d_021F0421[6];
 
 
-int func_021D794C(int a, int b)
+/* Type affinity class of an attack type against one defender type. */
+int func_021D794C(int atkType, int defType)
 {
-    if (a == 0x11 || b == 0x11)
-        return 3;
-    switch (d_021F047C[a][b]) {
+    if (atkType == BTL_TYPE_NONE || defType == BTL_TYPE_NONE)
+        return BTL_AFF_NORMAL;
+    switch (d_021F047C[atkType][defType]) {
     case 0:
-        return 0;
+        return BTL_AFF_NONE;
     case 2:
-        return 2;
+        return BTL_AFF_HALF;
     case 4:
-        return 3;
+        return BTL_AFF_NORMAL;
     case 8:
-        return 4;
+        return BTL_AFF_DOUBLE;
     default:
-        return 0;
+        return BTL_AFF_NONE;
     }
 }
 
 
-int func_021D799C(int a, int v)
+/* Type affinity class of an attack type against a defender with one or two types. */
+int func_021D799C(int atkType, int defTypes)
 {
-    u8 t[2];
-    int x;
+    u8 types[2];
+    int firstAffinity;
 
-    func_021E8D0C(v, &t[1], &t[0]);
-    if (func_021E8DA8(v))
-        return func_021D794C(a, t[1]);
-    x = func_021D794C(a, t[1]);
-    return func_021D79E8(x, func_021D794C(a, t[0]));
+    func_021E8D0C(defTypes, &types[1], &types[0]);
+    if (func_021E8DA8(defTypes))
+        return func_021D794C(atkType, types[1]);
+    firstAffinity = func_021D794C(atkType, types[1]);
+    return func_021D79E8(firstAffinity, func_021D794C(atkType, types[0]));
 }
 
 
 /*
+ * Combines two affinity classes into one (half and half give quarter, double
+ * and double give quadruple).
  * note:     a plain switch with case 16 after case 8 (mwcc tables 0..8 and compares 16 in
  *           the default path); the u32 switch value gives the unsigned `bhi` range check.
  */
-int func_021D79E8(int x, int y)
+int func_021D79E8(int affinityA, int affinityB)
 {
-    u32 m = d_021F0427[x] * d_021F0427[y] / 4;
+    u32 scale = d_021F0427[affinityA] * d_021F0427[affinityB] / 4;
 
-    switch (m) {
+    switch (scale) {
     case 0:
-        return 0;
+        return BTL_AFF_NONE;
     case 1:
-        return 1;
+        return BTL_AFF_QUARTER;
     case 2:
-        return 2;
+        return BTL_AFF_HALF;
     case 4:
-        return 3;
+        return BTL_AFF_NORMAL;
     case 8:
-        return 4;
+        return BTL_AFF_DOUBLE;
     case 16:
-        return 5;
+        return BTL_AFF_QUADRUPLE;
     }
-    return 0;
+    return BTL_AFF_NONE;
 }
 
 
-u32 func_021D7A44(u32 a,u32 b,u32 c,u32 d) { return (a*b*(2*c/5+2)/d)/50+2; }
+/* Base damage: (power * attack * (2 * level / 5 + 2) / defense) / 50 + 2. */
+u32 func_021D7A44(u32 power, u32 attack, u32 level, u32 defense) { return (power*attack*(2*level/5+2)/defense)/50+2; }
 
 
-u32 func_021D7A6C(u32 a,u32 b) { switch(b) { case 0:return 0; case 1:return a/4; case 2:return a/2; case 3:return a; case 4:return a*2; case 5:return a*4; } return a; }
+/* Scales a damage value by an affinity class (none, quarter, half, normal, double, quadruple). */
+u32 func_021D7A6C(u32 damage, u32 affinity) { switch(affinity) { case 0:return 0; case 1:return damage/4; case 2:return damage/2; case 3:return damage; case 4:return damage*2; case 5:return damage*4; } return damage; }
 
 
-u8 func_021D7A9C(int a,u8 *out) { u8 n,i; i=0; n=0; do { if(d_021F047C[a][i]==0 || d_021F047C[a][i]==2) out[n++]=i; ++i; } while(i<17); return n; }
+/* Lists the defender types that an attack type does not affect or hits for half; returns how many. */
+u8 func_021D7A9C(int atkType, u8 *outTypes) { u8 count,defType; defType=0; count=0; do { if(d_021F047C[atkType][defType]==0 || d_021F047C[atkType][defType]==2) outTypes[count++]=defType; ++defType; } while(defType<17); return count; }
 
 
-int func_021D7AD4(int a) { if(a>3) return 2; if(a==3) return 1; if(a!=0) return 3; return 0; }
+/* Reduces an affinity class to none (0), normal (1), advantage (2) or disadvantage (3). */
+int func_021D7AD4(int affinity) { if(affinity>3) return 2; if(affinity==3) return 1; if(affinity!=0) return 3; return 0; }
 
 
-int func_021D7AF0(u32 pct)
+/* True when a percent roll (0..99) falls under the given percent. */
+int func_021D7AF0(u32 percent)
 {
-    if (func_021D78AC(100) < pct) return 1;
+    if (func_021D78AC(100) < percent) return 1;
     return 0;
 }
 
 
 /* 021D7B08  cmp r0,r1; bge; adds r0,r1,#0 */
 /*
- * Leaf with no calls and no pool; 4 instructions, 8 bytes: cmp r0, r1; bge loc_021D7B0E; adds r0, r1, #0; bx lr.
+ * Larger of two values. Leaf with no calls and no pool; 4 instructions, 8 bytes: cmp r0, r1; bge loc_021D7B0E; adds r0, r1, #0; bx lr.
  */
-int func_021D7B08(int a, int b)
+int func_021D7B08(int value, int floor)
 {
-    if (a < b)
-        a = b;
-    return a;
+    if (value < floor)
+        value = floor;
+    return value;
 }
 
 
 /*
- * 2026-10-03 (wave B3 lane 10): EXACT. Rounded 20.12 product. The product,
- * the shift and the increment all reuse the parameter a; with a separate
- * product local mwcc copies an operand to r2 first (adds r2,r0,#0; muls).
+ * 2026-10-03 (wave B3 lane 10): EXACT. Rounded 20.12 product (half rounds down).
+ * The product, the shift and the increment all reuse the parameter value; with
+ * a separate product local mwcc copies an operand to r2 first (adds r2,r0,#0; muls).
  * See docs/idioms/a-product-kept-in-its-parameter-multiplies-in-place.md.
  */
-u32 func_021D7B10(u32 a, u32 b)
+u32 func_021D7B10(u32 value, u32 ratio)
 {
-    u32 f;
+    u32 fraction;
 
-    a *= b;
-    f = a & 0xfff;
-    a >>= 12;
-    if (f > 0x800)
-        a++;
-    return a;
+    value *= ratio;
+    fraction = value & 0xfff;
+    value >>= 12;
+    if (fraction > 0x800)
+        value++;
+    return value;
 }
 
 
-u32 func_021D7B2C(u32 a,u32 b) { u32 r=func_021D7B10(a,b); if(r==0) r=1; return r; }
+/* Same product as above, at least 1. */
+u32 func_021D7B2C(u32 value, u32 ratio) { u32 result=func_021D7B10(value,ratio); if(result==0) result=1; return result; }
 
 
-u32 func_021D7B3C(u32 a,u32 b) { u32 m; a*=b; m=a%100; a/=100; if(m>=50) ++a; return a; }
+/* Value times percent / 100, rounded half up. */
+u32 func_021D7B3C(u32 value, u32 percent) { u32 remainder; value*=percent; remainder=value%100; value/=100; if(remainder>=50) ++value; return value; }
 
 
-u32 func_021D7B60(void *p,u32 b) { return (u32)func_021D59B4(p,14)/b; }
+/* Maximum HP divided by the divisor. */
+u32 func_021D7B60(struct BtlPokeParam *bpp, u32 divisor) { return (u32)func_021D59B4(bpp,BTL_BPP_VALUE_MAX_HP)/divisor; }
 
 
 /*
+ * Maximum HP divided by the divisor, at least 1.
  * Recursive MATCH unblocker: named callee of the parked ov093 func_021DFABC
  * (the `func_021D7B74(func_021C7CF4(b, k), (u8)func_021DCFF8(a,2))` halfword).
  * Runs func_021D59B4(a, 0xe) through the unsigned divide entry 0x0209C2B0
@@ -226,77 +221,82 @@ u32 func_021D7B60(void *p,u32 b) { return (u32)func_021D59B4(p,14)/b; }
  *
  * Addresses are Black-image addresses.
  */
-int func_021D7B74(u8 *p, u32 k)
+int func_021D7B74(struct BtlPokeParam *bpp, u32 divisor)
 {
-    u32 r = func_021D59B4(p, 0xe);
+    u32 result = func_021D59B4(bpp, BTL_BPP_VALUE_MAX_HP);
 
-    r = r / k;
-    if (r == 0)
-        r = 1;
-    return r;
+    result = result / divisor;
+    if (result == 0)
+        result = 1;
+    return result;
 }
 
 
-u32 func_021D7B8C(u32 lo, u32 hi)
+/* Random value from min to max, both included (swaps them when reversed). */
+u32 func_021D7B8C(u32 min, u32 max)
 {
-    u32 t;
-    if (lo > hi) {
-        t = lo;
-        lo = hi;
-        hi = t;
+    u32 swap;
+    if (min > max) {
+        swap = min;
+        min = max;
+        max = swap;
     }
-    return lo + func_021D78AC(hi - lo + 1);
+    return min + func_021D78AC(max - min + 1);
 }
 
 
-int func_021D7BA4(int a) { u8 r,i; if(a!=5) return a; r=func_021D78AC(100); for(i=0;i<6;++i) { if(r<d_021F0421[i]) return i; } return a; }
+/* Number of hits of a multi-hit move: the fixed count, or 2 to 5 hits when the maximum is 5. */
+int func_021D7BA4(int maxHits) { u8 roll,hits; if(maxHits!=5) return maxHits; roll=func_021D78AC(100); for(hits=0;hits<6;++hits) { if(roll<d_021F0421[hits]) return hits; } return maxHits; }
 
 
-int func_021D7BD4(void *p, int k)
+/* Weather damage at turn end: one sixteenth of maximum HP (at least 1), 0 for immune types. */
+int func_021D7BD4(struct BtlPokeParam *bpp, int weather)
 {
-    u16 r;
+    u16 damage;
 
-    switch (k) {
-    case 4:
-        if (func_021D5814(p, 5) != 0) return 0;
-        if (func_021D5814(p, 8) != 0) return 0;
-        if (func_021D5814(p, 4) != 0) return 0;
+    switch (weather) {
+    case BTL_WEATHER_SAND:
+        if (func_021D5814(bpp, BTL_TYPE_ROCK) != 0) return 0;
+        if (func_021D5814(bpp, BTL_TYPE_STEEL) != 0) return 0;
+        if (func_021D5814(bpp, BTL_TYPE_GROUND) != 0) return 0;
         break;
-    case 3:
-        if (func_021D5814(p, 0xe) != 0) return 0;
+    case BTL_WEATHER_HAIL:
+        if (func_021D5814(bpp, BTL_TYPE_ICE) != 0) return 0;
         break;
     default:
         return 0;
     }
-    r = func_021D59B4(p, 0xe) / 16;
-    if (r == 0) r = 1;
-    return r;
+    damage = func_021D59B4(bpp, BTL_BPP_VALUE_MAX_HP) / 16;
+    if (damage == 0) damage = 1;
+    return damage;
 }
 
 
-u32 func_021D7C38(int a,int b) { switch(a) { case 1: if(b==9) return 6144; if(b==10) return 2048; break; case 2: if(b==9) return 2048; if(b==10) return 6144; break; } return 4096; }
+/* Damage ratio (20.12) of a move type in the weather: fire and water swap 1.5 and 0.5 in sun and rain. */
+u32 func_021D7C38(int weather, int moveType) { switch(weather) { case BTL_WEATHER_SUN: if(moveType==BTL_TYPE_FIRE) return 6144; if(moveType==BTL_TYPE_WATER) return 2048; break; case BTL_WEATHER_RAIN: if(moveType==BTL_TYPE_FIRE) return 2048; if(moveType==BTL_TYPE_WATER) return 6144; break; } return 4096; }
 
 
-void func_021D7C70(struct Sel s, int m, Word *out)
+/* Builds the volatile-condition record that a move's data describes. */
+void func_021D7C70(struct BtlSickContSpec spec, struct BtlPokeParam *attacker, union BtlSickCont *out)
 {
-    u8 x;
-    u8 y;
+    u8 pokeId;
+    u8 turns;
 
-    switch (s.kind) {
+    switch (spec.kind) {
     case 3:
-        *out = func_021E899C(func_021D5440((u8 *)m));
+        *out = func_021E899C(func_021D5440(attacker));
         break;
     case 2:
-        y = func_021D7B8C(s.lo, s.hi);
-        *out = func_021E8940(y);
+        turns = func_021D7B8C(spec.turnMin, spec.turnMax);
+        *out = func_021E8940(turns);
         break;
     case 1:
-        *out = func_021E89F8(s.hi, s.lo);
+        *out = func_021E89F8(spec.turnMax, spec.turnMin);
         break;
     case 4:
-        x = func_021D5440((u8 *)m);
-        y = func_021D7B8C(s.lo, s.hi);
-        *out = func_021E8A28(x, y);
+        pokeId = func_021D5440(attacker);
+        turns = func_021D7B8C(spec.turnMin, spec.turnMax);
+        *out = func_021E8A28(pokeId, turns);
         break;
     case 0:
     default:
@@ -305,61 +305,66 @@ void func_021D7C70(struct Sel s, int m, Word *out)
 }
 
 
-union Slot_021D794C func_021D7D18(int x)
+/* Default record of a condition kind: 1, 3, 4 and 5 are permanent, 2 lasts 2 to 4 turns. */
+union BtlSickCont func_021D7D18(int kind)
 {
-    union Slot_021D794C s;
-    s.raw = 0;
-    switch (x) {
+    union BtlSickCont sickCont;
+    sickCont.raw = 0;
+    switch (kind) {
     case 1:
     case 3:
     case 4:
     case 5:
-        s.s.kind = 1;
+        sickCont.byPart.kind = 1;
         break;
     case 2:
-        s.s.kind = 2;
-        s.s.lo = func_021D7B8C(2, 4);
+        sickCont.byPart.kind = 2;
+        sickCont.byPart.paramLow = func_021D7B8C(2, 4);
         break;
     case 0:
     default:
-        s.s.kind = 0;
+        sickCont.byPart.kind = 0;
         break;
     }
-    return s;
+    return sickCont;
 }
 
 
 /* 021D7D6C  cmp r0,#6; bge; movs r0,#1; bx lr; movs r0,#0; bx lr */
-int func_021D7D6C(int x)
+/* True for the kinds that have a default record (below 6). */
+int func_021D7D6C(int kind)
 {
-    if (x < 6)
+    if (kind < 6)
         return 1;
     return 0;
 }
 
 
-union Slot_021D7D78 func_021D7D78(u32 x) { union Slot_021D7D78 s; s.raw=0; s.s.kind=2; s.s.lo=x; return s; }
+/* Record that lasts the given number of turns. */
+union BtlSickCont func_021D7D78(u32 turns) { union BtlSickCont sickCont; sickCont.raw=0; sickCont.byPart.kind=2; sickCont.byPart.paramLow=turns; return sickCont; }
 
 
-union Slot_021D7D78 func_021D7D9C(u32 x) { union Slot_021D7D78 s; s.raw=0; s.s.kind=3; s.s.lo=x; return s; }
+/* Record tied to a Pokemon id. */
+union BtlSickCont func_021D7D9C(u32 pokeId) { union BtlSickCont sickCont; sickCont.raw=0; sickCont.byPart.kind=3; sickCont.byPart.paramLow=pokeId; return sickCont; }
 
 
-void func_021D7DC0(int a, int b, Word *out)
+/* Builds a condition record from a condition kind: default record, the attacker's id, or 2 to 5 turns. */
+void func_021D7DC0(int kind, struct BtlPokeParam *attacker, union BtlSickCont *out)
 {
-    u8 y;
+    u8 turns;
 
-    if (a < 6) {
-        *out = func_021D7D18(a);
+    if (kind < 6) {
+        *out = func_021D7D18(kind);
         return;
     }
-    out->v = 0;
-    switch (a) {
+    out->raw = 0;
+    switch (kind) {
     case 7:
-        *out = func_021E899C(func_021D5440((u8 *)b));
+        *out = func_021E899C(func_021D5440(attacker));
         break;
     case 6:
-        y = func_021D7B8C(2, 5);
-        *out = func_021E8940(y);
+        turns = func_021D7B8C(2, 5);
+        *out = func_021E8940(turns);
         break;
     default:
         *out = func_021E89C0();
@@ -369,7 +374,8 @@ void func_021D7DC0(int a, int b, Word *out)
 
 
 /*
- * lever: declare n before i; both exits return n to retain r0 on the zero path.
+ * The first major status condition the Pokemon has (0 when none).
+ * lever: declare sick before index; both exits return sick to retain r0 on the zero path.
  * extent: trailing two-byte alignment before Thumb-to-ARM veneer 021D7E34.
  */
-int func_021D7E10(struct Unk021D62A8 *p) { int n; int i=0; for (;;) { n=func_0689C9E4(i++); if(n==0) return n; if(func_021D62C4(p,n)) return n; } }
+int func_021D7E10(struct BtlPokeParam *bpp) { int sick; int index=0; for (;;) { sick=func_0689C9E4(index++); if(sick==0) return sick; if(func_021D62C4(bpp,sick)) return sick; } }

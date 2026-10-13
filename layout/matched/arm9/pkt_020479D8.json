@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02047B4C",
+   "name": "G3D_SYSTEM_CheckObjectCulling",
    "address": "0x02047B4C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02047C04",
+   "name": "G3D_SYSTEM_BoxTest",
    "address": "0x02047C04",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02047C8C",
+   "name": "G3D_SYSTEM_DrawRenderObj",
    "address": "0x02047C8C",
    "kind": "game",
    "region": "arm9",

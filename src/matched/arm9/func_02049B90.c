@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_0204A1BC  0x0204A1BC  arm
- *   func_02049C28  0x02049C28  arm
+ *   ARC_UTIL_UploadPalette  0x02049C28  arm
  *
  * One of two seven-argument entry points on the cell-actor system, an
- * address apart, that differ only in which half of func_02049C28's dispatch
+ * address apart, that differ only in which half of ARC_UTIL_UploadPalette's dispatch
  * they reach first (func_0204A380 in func_02049BDC, 0x0204A1BC here); both
  * then forward into 0x02049C28 itself.
  *
@@ -40,10 +40,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern void func_02049C28(void *file, u32 kind, u32 offset, u32 dest, u32 size);
+extern void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size);
 
 void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
 {
     u32 r = func_0204A1BC(a0, a1, 0, (u16)((a6 & 0x7fff) | 0x8000));
-    func_02049C28((void *)r, a2, a3, a4, a5);
+    ARC_UTIL_UploadPalette((void *)r, a2, a3, a4, a5);
 }

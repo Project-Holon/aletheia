@@ -1,5 +1,5 @@
 /*
- * function: func_0204DD08
+ * function: CLACT_TransferPaletteData
  * address:  0x0204DD08
  * packet:   pkt_0204DD08
  * region:   arm9
@@ -13,9 +13,9 @@
  * (the +0x08 byte count / +0x0c data word pair, a palette-shaped record) by
  * `head` 32-byte blocks from the front and to `tail` blocks, clamp it to the
  * layer limit, re-upload for one or both engines, then store the surviving
- * byte count into the entry's bits 0..30.  Sole caller: sub_0204AC18.
+ * byte count into the entry's bits 0..30.  Sole caller: CLACT_RegisterPaletteEx.
  *
- * The C body is docs/notes/sub_0204DD08.c.txt's (476 against 480 there),
+ * The C body is docs/notes/CLACT_TransferPaletteData.c.txt's (476 against 480 there),
  * closed in wave 10 by two levers:
  *  - THE MATERIALISED `lsl r0, r3, #5`.  The head block's offset is a named
  *    64-BIT local, `unsigned long long ofs = head * 32;`, used by the add and
@@ -31,6 +31,9 @@
  *  - THE TAIL MASK ORDER.  The entry's bit-31 half is read into its own
  *    local before the OR (`u32 hi = ent->unk_14 & 0x80000000;`), which is what
  *    loads +0x14 before surf->unk_08 (permuter `temp(tmp2=...)`).
+ *
+ * symbols:
+ *   CLACT_IsVramTypeCompatible  0x0204D9B4  arm
  */
 
 typedef unsigned char  u8;
@@ -46,7 +49,7 @@ struct NitroFileHeader;
 extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern void func_020637D4(u32 *p);
-extern u32 func_0204D9B4(u32 a, u32 b);
+extern u32 CLACT_IsVramTypeCompatible(u32 a, u32 b);
 extern void func_02063E54(struct Surf *s, u32 size, int mode,
                          struct Ent *ent);
 extern u16 func_02080C34(void);
@@ -55,7 +58,7 @@ extern void func_0208068C(void);
 extern void func_020801F8(int objExtPltt);
 extern void func_0208083C(int sub_objExtPltt);
 
-void func_0204DD08(struct Holder *h, int idx, void *src, void *sel,
+void CLACT_TransferPaletteData(struct Holder *h, int idx, void *src, void *sel,
                   u32 size, u16 head, u16 tail)
 {
     struct Surf *surf;
@@ -106,13 +109,13 @@ void func_0204DD08(struct Holder *h, int idx, void *src, void *sel,
         }
     }
 
-    if (func_0204D9B4((u32)sel, 0)) {
+    if (CLACT_IsVramTypeCompatible((u32)sel, 0)) {
         saved = func_02080C34();
         if (flag) func_0208068C();
         func_02063E54(surf, size, 1, (struct Ent *)(ents + off));
         if (flag) func_020801F8(saved);
     }
-    if (func_0204D9B4((u32)sel, 1)) {
+    if (CLACT_IsVramTypeCompatible((u32)sel, 1)) {
         saved = func_02080C74();
         if (flag) func_0208068C();
         func_02063E54(surf, size, 2, (struct Ent *)(ents + off));

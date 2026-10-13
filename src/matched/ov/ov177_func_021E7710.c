@@ -13,7 +13,7 @@
  *   func_021E7CD0 0x021E7CD0 thumb ov177
  *   func_021E7C14 0x021E7C14 thumb ov177
  *   func_021E7B44 0x021E7B44 thumb ov177
- *   func_0202DC08 0x0202DC08 thumb
+ *   PMS_DRAW_Delete 0x0202DC08 thumb
  *   func_02040618 0x02040618 arm
  *   func_020307B0 0x020307B0 arm
  *   func_021E7AE0 0x021E7AE0 thumb ov177
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void func_021E7C14(char *p);
 extern void func_021E7B44(void *);
-extern void func_0202DC08(struct Obj *p);
+extern void PMS_DRAW_Delete(struct Obj *p);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern u32 func_020307B0(void *p);
 extern int func_021E7AE0(unsigned char *p, void *mgr);
@@ -37,7 +37,7 @@ void func_021E7710(char *p)
     }
     func_021E7C14(p);
     func_021E7B44(p);
-    func_0202DC08(((struct Obj14374 *)p)->f7C);
+    PMS_DRAW_Delete(((struct Obj14374 *)p)->f7C);
     func_02040618(2, 0, -256);
     func_02040618(1, 0, -256);
     func_020307B0(p);

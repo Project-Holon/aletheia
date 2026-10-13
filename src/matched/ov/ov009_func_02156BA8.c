@@ -1,5 +1,5 @@
 /*
- * function: func_02156BA8
+ * function: DWC_RAP_GetCanceledPeerIndex
  * address: 0x02156BA8
  * packet: pkt_ov009_02156BA8
  * region: ov009
@@ -14,7 +14,7 @@
  */
 #include "../include/Obj18653.h"
 extern char *g_021A8264;
-int func_02156BA8(void)
+int DWC_RAP_GetCanceledPeerIndex(void)
 {
     char *p=g_021A8264;
     if(p)return ((struct Obj18653 *)p)->f780;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202BA7C",
+   "name": "ISS_3DS_SYS_SetSourcePosImpl",
    "address": "0x0202BA7C",
    "kind": "game",
    "region": "arm9",

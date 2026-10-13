@@ -1,0 +1,1024 @@
+/*
+ * file:     plist_menu.c
+ * unit:     yes
+ * function: func_021BBA8C, func_021BBAE0, func_021BBAF8, func_021BBB40, func_021BBBA0, func_021BBBD8, func_021BBBE4, func_021BBC04, func_021BBD98, func_021BBDEC, func_021BBE44, func_021BBE50, func_021BBE5C, func_021BBE68, func_021BBE74, func_021BC17C, func_021BC1B4, func_021BC1D0, func_021BC228, func_021BC24C, func_021BC288, func_021BC2C8, func_021BC30C, func_021BC350, func_021BC548, func_021BC5CC, func_021BC628, func_021BC6A0, func_021BC6C0, func_021BC6CC, func_021BCC2C, func_021BCC40, func_021BCC80, func_021BCCCC, func_021BCD80, func_021BCDE8, func_021BCE84, func_021BCE9C, func_021BCEAC, func_021BD058
+ * address:  0x021BBA8C
+ * region:   ov091
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_020061E4  0x020061E4  thumb
+ *   func_02041B6C  0x02041B6C  arm
+ *   func_020355D8  0x020355D8  arm
+ *   func_020355C4  0x020355C4  arm
+ *   func_0201AB28 0x0201AB28 thumb
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_020307B0 0x020307B0 arm
+ *   func_020362DC 0x020362DC arm
+ *   func_02035C60 0x02035C60 arm
+ *   func_0201B2B0 0x0201B2B0 thumb
+ *   func_02045EC0  0x02045EC0  arm
+ *   func_02045770  0x02045770  arm
+ *   func_0201C724  0x0201C724  thumb
+ *   func_02045808  0x02045808  arm
+ *   func_020457B0  0x020457B0  arm
+ *   func_0201F250  0x0201F250  thumb
+ *   func_02030734 0x02030734 arm
+ *   func_0204B100 0x0204B100 arm
+ *   func_020450F0 0x020450F0 arm
+ *   func_020452E8 0x020452E8 arm
+ *   func_0204B1CC 0x0204B1CC arm
+ *   func_0201C6C4  0x0201C6C4  thumb
+ *   func_02045334  0x02045334  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02045730  0x02045730  arm
+ *   func_020490F4  0x020490F4  arm
+ *   func_0204A6C8  0x0204A6C8  arm
+ *   func_02049238  0x02049238  arm
+ *   func_0201EC64  0x0201EC64  thumb
+ *   func_0201EFA4  0x0201EFA4  thumb
+ *   func_0201ED04  0x0201ED04  thumb
+ *   POKE_TOOL_CalcLevel  0x02018430  thumb
+ *   func_02043AF4  0x02043AF4  arm
+ *   func_020413B0  0x020413B0  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_0201F73C  0x0201F73C  thumb
+ *   func_0201F7A8 0x0201F7A8 thumb
+ *   func_020275E4  0x020275E4  thumb
+ *   func_02049B40  0x02049B40  arm
+ *   func_02049DB4  0x02049DB4  arm
+ *   d_021BED38     0x021BED38  data  ov091  a1
+ *   func_02027778  0x02027778  thumb
+ *   d_021BEC80     0x021BEC80  data  a4
+ *   func_02027858 0x02027858 thumb
+ *   func_02027974  0x02027974  thumb
+ *   func_020279E8 0x020279E8 thumb
+ *   func_02027A04 0x02027A04 thumb
+ *   func_02045B38  0x02045B38  arm
+ *   func_02045C04  0x02045C04  arm
+ *   d_021BEC8C     0x021BEC8C  data  ov091  a4
+ *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb
+ *   func_02028148  0x02028148  thumb
+ *   func_02028178  0x02028178  thumb
+ *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb
+ *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
+ *   func_02020F34 0x02020F34 thumb
+ *   func_02021014 0x02021014 thumb
+ *   func_02020FE4 0x02020FE4 thumb
+ *   func_0201AA18  0x0201AA18  thumb
+ *   func_02019CF8 0x02019CF8 thumb
+ *   func_02017988 0x02017988 thumb
+ *   func_02019D00  0x02019D00  thumb
+ *   GAME_BEACON_SetPokeLevelUp 0x02027268 thumb
+ *   d_021BECE4 0x021BECE4 data ov091 a2
+ *   func_020456F8 0x020456F8 arm
+ *   func_0201D304 0x0201D304 thumb
+ *   POKE_TOOL_GetLevelUpMove 0x02018328 thumb
+ *   func_02049BDC 0x02049BDC arm
+ *   func_02049B68 0x02049B68 arm
+ *   func_02049658 0x02049658 arm
+ *   func_020498F4 0x020498F4 arm
+ *   func_02027694 0x02027694 thumb
+ *   func_0204ABF0 0x0204ABF0 arm
+ *   func_02027698 0x02027698 thumb
+ *   func_0202769C 0x0202769C thumb
+ *   func_020276A0 0x020276A0 thumb
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_02027624 0x02027624 thumb
+ *   func_02027628 0x02027628 thumb
+ *   func_0202762C 0x0202762C thumb
+ *   func_0201BC3C 0x0201BC3C thumb
+ *   func_0204ACEC 0x0204ACEC arm
+ *   func_02082A60 0x02082A60 arm
+ *   func_021B9788  0x021B9788  thumb
+ *   func_021B99E4  0x021B99E4  thumb
+ *   func_021B9E20  0x021B9E20  thumb
+ *   func_021B9E3C  0x021B9E3C  thumb
+ *   func_021B9E44  0x021B9E44  thumb
+ *   func_021B9EB0  0x021B9EB0  thumb
+ *   func_021BA4F8  0x021BA4F8  thumb
+ *   func_021BB050  0x021BB050  thumb
+ *   func_021BB2C0  0x021BB2C0  thumb
+ *   func_021BB43C  0x021BB43C  thumb
+ *   func_021BB464  0x021BB464  thumb
+ *   func_021BB7A4  0x021BB7A4  thumb
+ *   func_021BB97C  0x021BB97C  thumb
+ *   func_021BB98C  0x021BB98C  thumb
+ *   func_021BB99C  0x021BB99C  thumb
+ *   func_021BB9AC  0x021BB9AC  thumb
+ *   func_021BB9CC  0x021BB9CC  thumb
+ *   func_021BB9DC  0x021BB9DC  thumb
+ *   func_021BB9EC  0x021BB9EC  thumb
+ *   func_021BBA70  0x021BBA70  thumb
+ *   func_021BD05C  0x021BD05C  thumb
+ *   func_021BD18C  0x021BD18C  thumb
+ *   func_021BD1BC  0x021BD1BC  thumb
+ *   func_021BD504  0x021BD504  thumb
+ *   func_021BD59C  0x021BD59C  thumb
+ *   func_021BD61C  0x021BD61C  thumb
+ *   func_021BD634  0x021BD634  thumb
+ *   func_021BDD78  0x021BDD78  thumb
+ *   func_021BE2B4  0x021BE2B4  thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef short s16;
+typedef signed int s32;
+
+#include "pokelist_types.h"
+#include "plist_menu_types.h"
+
+struct MsgBank;
+struct Descriptor;
+struct WordSet;
+struct Strbuf;
+struct TaskMenu;
+struct Bank;
+
+/* Palette RAM slot the timer palette is copied to. */
+#define TIMER_PALETTE_DST ((void *)0x05000440)
+
+#define MENU_APPEND(v) do { menu->ids[menu->count] = (v); menu->count++; } while (0)
+#define ITEM_PARAM(k) func_02021014(itemData, (k))
+#define ITEM_DONE(k) {func_020307B0(itemData);return(k);}
+#define DESC ((struct Descriptor *)work->descriptor)
+
+extern void func_020061E4(u32 id);
+extern void func_02041B6C(u32 bit);
+extern void func_020355D8(int mode);
+extern u8 func_020355C4(void);
+extern u32 func_02017E1C(void *mon, u32 param, u32 extra);
+extern u32 func_020307B0(void *p);
+extern void *func_0201AB28(void *party, u32 index);
+extern unsigned func_020362DC(void);
+extern int func_02035C60(void);
+extern u32 func_0201B2B0(void *party, void *mon, u32 a, u32 b, u8 season, u32 *out, u16 heapId);
+extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_0201C724(void *printSys, void *bmp, short x, short y, struct Strbuf *str, void *font, u16 flags);
+extern void func_02045808(struct Strbuf *str);
+extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201F250(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern u32 func_020450F0(int,u8,u8,int,u8,u8,u8);
+extern u32 func_020452E8(struct Descriptor *d);
+extern u32 func_0204B1CC(struct Bank *bank);
+extern u32 func_0201C6C4(void *printSys, void *bmp);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Descriptor *d);
+extern u8 func_02045730(struct Descriptor *p);
+extern void *func_020490F4(u32 id, u32 heap);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern void func_02049238(void *a);
+extern struct WordSet *func_0201EC64(u32 heap);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern u32 func_0201ED04(struct WordSet *p);
+extern u32 POKE_TOOL_CalcLevel(void *p);
+extern void func_02043AF4(void *bmp, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_02043B5C(void *charBuf, u8 value);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void func_0201F7A8(void *desc, u32 kind);
+extern u32 func_020275E4(void);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, void **out, u16 a4);
+extern struct TaskMenu *func_02027778(const PlistTaskMenuTemplate *tmpl, void *arg1);
+extern void func_02027858(struct TaskMenu *m);
+void func_02027974(struct TaskMenu *m);
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const struct TaskMenu *m);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern u32 func_02045C04(struct MsgBank *bank);
+extern u32 APP_TASKMENU_WIN_Create(u32 a0, const PlistMenuEntry *entry, u32 a2, u32 a3, u8 a4, u16 a5);
+extern void func_02028148(void *win);
+extern void func_02028178(void *win);
+extern void APP_TASKMENU_WIN_SetActive(void *win, u32 a);
+void APP_TASKMENU_WIN_SetDecide(void *win, int v);
+extern void *func_02020F34(u32 item, u32 which, u32 heap);
+extern u32 func_02021014(void *itemData, u32 param);
+extern unsigned int func_02020FE4(u32 itemId, unsigned int param, unsigned int heapId);
+extern u32 func_0201AA18(void *party);
+extern unsigned int func_02019CF8(unsigned int item);
+extern u32 func_02017988(void *mon, u32 form);
+extern u32 func_02019D00(u32 id);
+extern void GAME_BEACON_SetPokeLevelUp(int);
+extern u32 func_0201D304(struct Strbuf *s, void *font, u32 b);
+extern void func_020456F8(struct Descriptor *d);
+extern u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap);
+extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 func_02027694(void);
+extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
+extern u32 func_02027698(void);
+extern u32 func_0202769C(u32);
+extern u32 func_020276A0(u32);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern u32 func_02027624(void);
+extern u32 func_02027628(void);
+extern u32 func_0202762C(void);
+extern int func_0201BC3C(void);
+extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void func_02082A60(void *, void *, unsigned long);
+
+void func_021B9788(PokelistWork *work, int msgId, int waitInput, PokelistFn callback);
+int func_021B99E4(void *mon, int i);
+void func_021B9E20(PokelistWork *work);
+void func_021B9E3C(PokelistWork *work);
+void func_021B9E44(PokelistWork *work);
+void func_021B9EB0(PokelistWork *work);
+void func_021BA4F8(PokelistWork *work);
+void func_021BB050(PokelistWork *work, u8 *plate, int k);
+void func_021BB2C0(PokelistWork *work, u8 *plate);
+int func_021BB43C(int *plate);
+unsigned short func_021BB464(PokelistWork *work, unsigned short *plate);
+void func_021BB7A4(PokelistWork *work, u32 *window);
+void func_021BB97C(PokelistWork *work, u32 window);
+void func_021BB98C(PokelistWork *work, u32 window);
+void func_021BB99C(PokelistWork *work, u32 window, int slot, u32 value);
+void func_021BB9AC(PokelistWork *work, u32 window, int slot, int value);
+void func_021BB9CC(PokelistWork *work, u32 window, int slot, int value);
+void func_021BB9DC(PokelistWork *work, u32 window, int slot, int value);
+void func_021BB9EC(PokelistWork *work, u32 window, int slot, int value, unsigned char digits);
+void func_021BBA70(PokelistWork *work, u32 window);
+PlistMenu *func_021BBA8C(PokelistWork *work);
+void func_021BBAE0(PokelistWork *work, PlistMenu *menu);
+void func_021BBAF8(PokelistWork *work, PlistMenu *menu, int *items);
+void func_021BBB40(PokelistWork *work, PlistMenu *menu);
+void func_021BBBA0(PokelistWork *work, PlistMenu *menu);
+void func_021BBBD8(PokelistWork *work, PlistMenu *menu);
+unsigned int func_021BBBE4(PokelistWork *work, PlistMenu *menu);
+void func_021BBC04(PokelistWork *work, PlistMenu *menu, int *items);
+struct Strbuf *func_021BBD98(PokelistWork *work, PlistMenu *menu, int id);
+int func_021BBDEC(PokelistWork *work, int unused, int id, int x, u8 y, int disabled);
+void func_021BBE44(void *win);
+void func_021BBE50(void *win);
+void func_021BBE5C(void *win, int active);
+void func_021BBE68(void *win, int value);
+int func_021BBE74(int itemId);
+int func_021BC17C(PokelistWork *work, int itemId);
+int func_021BC1B4(PokelistWork *work, u32 itemId);
+int func_021BC1D0(PokelistWork *work);
+int func_021BC228(PokelistWork *work, int itemId);
+void func_021BC24C(void *unused, void *mon, int itemId);
+void func_021BC288(int unused, void *mon, int itemId);
+void func_021BC2C8(PokelistWork *work);
+void func_021BC30C(PokelistWork *work);
+int func_021BC350(PokelistWork *work, int v);
+void func_021BC548(PokelistWork *work);
+void func_021BC5CC(PokelistWork *work);
+void func_021BC628(PokelistWork *work);
+void func_021BC6A0(PokelistWork *work);
+void func_021BC6C0(PokelistWork *work);
+void func_021BC6CC(PokelistWork *work);
+int func_021BCC2C(void *mon, int param, int unused);
+void func_021BCC40(PokelistWork *work, int msgId);
+void func_021BCC80(PokelistWork *work, int msgId, int value);
+void func_021BCCCC(PokelistWork *work);
+void func_021BCD80(PokelistWork *work);
+void func_021BCDE8(PokelistWork *work);
+void func_021BCE84(PokelistWork *work);
+void func_021BCE9C(PokelistWork *work);
+void func_021BCEAC(PokelistWork *work);
+void func_021BD058(PokelistWork *work);
+u32 *func_021BD05C(PokelistWork *work, PokelistRivalEntry *entry, u8 x, u8 y, u8 w);
+void func_021BD18C(PokelistWork *work, u32 *digit);
+void func_021BD1BC(PokelistWork *work, u32 *digit);
+void func_021BD504(PokelistWork *work);
+void func_021BD59C(PokelistWork *work);
+void func_021BD61C(PokelistWork *work);
+void func_021BD634(PokelistWork *work);
+int func_021BDD78(void *mon, u32 itemId, int slot, u32 heap);
+int func_021BE2B4(void *mon, u16 item, u16 moveSlot, u16 arg, int heap);
+
+extern const char d_021BED38[];
+extern PlistMenuItemList d_021BEC80;
+extern int d_021BEC8C[];
+extern u16 d_021BECE4[];
+
+PlistMenu *func_021BBA8C(PokelistWork *work)
+{
+    PlistMenu *menu;
+
+    menu = func_02030734(work->heapId, sizeof(PlistMenu), 0, d_021BED38, 0x63);
+    func_02049B40(func_020275E4(), 0x1f, 0, 0x20, 0x40, work->heapId);
+    menu->windowRes = func_02049DB4(func_020275E4(), 0x20, 0, (void **)&menu->windowOut, work->heapId);
+    return menu;
+}
+
+void func_021BBAE0(PokelistWork *work, PlistMenu *menu)
+{
+    func_020307B0(menu->windowRes);
+    func_020307B0(menu);
+}
+
+void func_021BBAF8(PokelistWork *work, PlistMenu *menu, int *items)
+{
+    PlistTaskMenuTemplate tmpl;
+
+    func_021BBC04(work, menu, items);
+    tmpl.heapId = work->heapId;
+    tmpl.count = menu->count;
+    tmpl.entries = menu->entries;
+    tmpl.kind = 1;
+    tmpl.x = 0x20;
+    tmpl.y = 0x18;
+    tmpl.width = 0xd;
+    tmpl.bgFrame = 3;
+    func_020355D8(work->touchMode);
+    menu->taskMenu = func_02027778(&tmpl, (void *)work->taskMenu);
+}
+
+void func_021BBB40(PokelistWork *work, PlistMenu *menu)
+{
+    PlistTaskMenuTemplate tmpl;
+    PlistMenuItemList list = d_021BEC80;
+
+    func_021BBC04(work, menu, list.item);
+    tmpl.heapId = work->heapId;
+    tmpl.count = menu->count;
+    tmpl.entries = menu->entries;
+    tmpl.kind = 1;
+    tmpl.x = 0x20;
+    tmpl.y = 0x12;
+    tmpl.width = 8;
+    tmpl.bgFrame = 3;
+    func_020355D8(work->touchMode);
+    menu->taskMenu = func_02027778(&tmpl, (void *)work->taskMenu);
+}
+
+void func_021BBBA0(PokelistWork *work, PlistMenu *menu)
+{
+    u8 i;
+
+    func_02027858(menu->taskMenu);
+    for (i = 0; i < menu->count; i++)
+        func_02045808(menu->entries[i].label);
+    work->touchMode = func_020355C4();
+}
+
+void func_021BBBD8(PokelistWork *work, PlistMenu *menu)
+{
+    func_02027974(menu->taskMenu);
+}
+
+unsigned int func_021BBBE4(PokelistWork *work, PlistMenu *menu)
+{
+    if (func_020279E8(menu->taskMenu) == 0)
+        return 23;
+    return menu->ids[func_02027A04(menu->taskMenu)];
+}
+
+void func_021BBC04(PokelistWork *work, PlistMenu *menu, int *items)
+{
+    int n, i;
+    u8 j;
+    int v;
+    n = 0;
+    while (items[n] != 16) {
+        n++;
+        if (n >= 8)
+            break;
+    }
+    menu->count = 0;
+    for (i = 0; i < n; i++) {
+        switch (items[i]) {
+        case 0: MENU_APPEND(0); break;
+        case 1:
+            for (j = 0; j < 4; j++) {
+                if (func_021B99E4((void *)work->selectedMon, j))
+                    MENU_APPEND(j + 16);
+            }
+            break;
+        case 2:
+            for (j = 0; j < 4; j++) {
+                if (func_02017E1C((void *)work->selectedMon, j + 0x36, 0))
+                    MENU_APPEND(j + 16);
+            }
+            break;
+        case 3: MENU_APPEND(3); break;
+        case 4: MENU_APPEND(4); break;
+        case 5: MENU_APPEND(5); break;
+        case 6: MENU_APPEND(6); break;
+        case 7: MENU_APPEND(7); break;
+        case 8:
+            v = func_021BB43C((int *)work->plates[work->selectedSlot]);
+            if (v == 6)
+                MENU_APPEND(20);
+            else if (v <= 5)
+                MENU_APPEND(21);
+            break;
+        case 9: MENU_APPEND(9); break;
+        case 10: MENU_APPEND(10); break;
+        case 11: MENU_APPEND(11); break;
+        case 12: MENU_APPEND(12); break;
+        case 13: MENU_APPEND(13); break;
+        case 14: MENU_APPEND(14); break;
+        case 15: MENU_APPEND(15); break;
+        }
+    }
+    for (n = 0; n < menu->count; n++) {
+        menu->entries[n].label = func_021BBD98(work, menu, menu->ids[n]);
+        if (menu->ids[n] >= 16 && menu->ids[n] <= 19 && work->arg->mode != 5)
+            menu->entries[n].color = 0x35e0;
+        else
+            menu->entries[n].color = 0x39e0;
+        if (menu->ids[n] == 6)
+            menu->entries[n].disabled = 1;
+        else
+            menu->entries[n].disabled = 0;
+    }
+}
+
+struct Strbuf *func_021BBD98(PokelistWork *work, PlistMenu *menu, int id)
+{
+    int r;
+    int h;
+    if (id >= 0x10 && id <= 0x13) {
+        r = func_02017E1C((void *)work->selectedMon, id + 0x26, 0);
+        h = (int)func_02045B38(0, 2, 0xcb, work->heapId);
+        r = (int)func_02045EC0((struct MsgBank *)h, r);
+        func_02045C04((struct MsgBank *)h);
+    } else {
+        r = (int)func_02045EC0(work->msgBank, d_021BEC8C[id]);
+    }
+    return (struct Strbuf *)r;
+}
+
+int func_021BBDEC(PokelistWork *work, int unused, int id, int x, u8 y, int disabled)
+{
+    PlistMenuEntry entry;
+    int r;
+    entry.label = func_02045EC0(work->msgBank, id);
+    entry.color = 0x39e3;
+    if (disabled == 0) {
+        entry.disabled = 0;
+    } else {
+        entry.disabled = 1;
+    }
+    r = APP_TASKMENU_WIN_Create(work->taskMenu, &entry, x, y, 10, work->heapId);
+    func_02045808(entry.label);
+    return r;
+}
+
+/*
+ * Three null-guarded wrappers, each into an ARM9 routine.
+ */
+void func_021BBE44(void *win)
+{
+    if (win != 0)
+        func_02028148(win);
+}
+
+void func_021BBE50(void *win)
+{
+    if (win != 0)
+        func_02028178(win);
+}
+
+void func_021BBE5C(void *win, int active)
+{
+    if (win != 0)
+        APP_TASKMENU_WIN_SetActive(win, active);
+}
+
+/*
+ * (no witness at all), and no branch outside this 12-byte range reaches it,
+ * so the `bl` site cannot be resolved.  All bytes are correct.
+ *
+ * DUPLICATE: src/matched/func_021BBE68.c (packet pkt_021BBE68) is the
+ * promoted EXACT entry for this address; this copy shares the same packet
+ * and is left parked so the address is not sharded twice.
+ */
+void func_021BBE68(void *win, int value)
+{
+    if (win) {
+        APP_TASKMENU_WIN_SetDecide(win, value);
+    }
+}
+
+/*
+ * extent: 774 bytes of code; final two zero bytes align the next function.
+ */
+int func_021BBE74(int itemId)
+{
+    void *itemData = func_02020F34(itemId, 0, 23);
+    int statusMask;
+    int amount;
+    if (ITEM_PARAM(14) != 1) ITEM_DONE(29);
+    if (ITEM_PARAM(30) != 0 || ITEM_PARAM(31) != 0 || ITEM_PARAM(32) != 0 || ITEM_PARAM(33) != 0 || ITEM_PARAM(34) != 0 || ITEM_PARAM(35) != 0 || ITEM_PARAM(36) != 0) ITEM_DONE(0);
+    if (ITEM_PARAM(27) != 0) ITEM_DONE(1);
+    if (ITEM_PARAM(28) != 0) ITEM_DONE(2);
+    statusMask = ITEM_PARAM(18);
+    statusMask += ITEM_PARAM(19) * 2;
+    statusMask += ITEM_PARAM(20) * 4;
+    statusMask += ITEM_PARAM(21) * 8;
+    statusMask += ITEM_PARAM(22) * 16;
+    statusMask += ITEM_PARAM(23) * 32;
+    switch (statusMask) {
+    case 1: ITEM_DONE(3);
+    case 2: ITEM_DONE(4);
+    case 4: ITEM_DONE(5);
+    case 8: ITEM_DONE(6);
+    case 16: ITEM_DONE(7);
+    case 32: ITEM_DONE(8);
+    case 63:
+        if (ITEM_PARAM(41) != 0) ITEM_DONE(11);
+        ITEM_DONE(9);
+    }
+    if (ITEM_PARAM(24) != 0) ITEM_DONE(10);
+    if (ITEM_PARAM(41) != 0) ITEM_DONE(11);
+    if (ITEM_PARAM(26) != 0) ITEM_DONE(12);
+    amount = ITEM_PARAM(52);
+    if (amount > 0) ITEM_DONE(13);
+    if (amount < 0) ITEM_DONE(19);
+    amount = ITEM_PARAM(53);
+    if (amount > 0) ITEM_DONE(14);
+    if (amount < 0) ITEM_DONE(20);
+    amount = ITEM_PARAM(54);
+    if (amount > 0) ITEM_DONE(15);
+    if (amount < 0) ITEM_DONE(21);
+    amount = ITEM_PARAM(55);
+    if (amount > 0) ITEM_DONE(16);
+    if (amount < 0) ITEM_DONE(22);
+    amount = ITEM_PARAM(56);
+    if (amount > 0) ITEM_DONE(17);
+    if (amount < 0) ITEM_DONE(23);
+    amount = ITEM_PARAM(57);
+    if (amount > 0) ITEM_DONE(18);
+    if (amount < 0) ITEM_DONE(24);
+    if (ITEM_PARAM(29) != 0) ITEM_DONE(25);
+    if (ITEM_PARAM(37) != 0) ITEM_DONE(26);
+    if (ITEM_PARAM(38) != 0) ITEM_DONE(27);
+    if (ITEM_PARAM(39) != 0 || ITEM_PARAM(40) != 0) ITEM_DONE(28);
+    ITEM_DONE(29);
+}
+
+int func_021BC17C(PokelistWork *work, int itemId)
+{
+    switch (func_021BBE74(itemId)) {
+    case 26: return 1;
+    case 27: return 1;
+    case 28:
+        if (func_02020FE4(itemId, 39, work->heapId))
+            return 1;
+        break;
+    }
+    return 0;
+}
+
+int func_021BC1B4(PokelistWork *work, u32 itemId)
+{
+    if (func_02020FE4(itemId, 27, work->heapId))
+        return 1;
+    return 0;
+}
+
+int func_021BC1D0(PokelistWork *work)
+{
+    u8 count;
+    u8 i;
+    count = func_0201AA18(work->arg->party);
+    for (i = 0; i < count; i++) {
+        void *mon = func_0201AB28(work->arg->party, i);
+        if (func_021BDD78(mon, work->arg->itemId, 0, work->heapId) == 1)
+            return i;
+    }
+    return -1;
+}
+
+int func_021BC228(PokelistWork *work, int itemId)
+{
+    switch (func_021BBE74(itemId)) {
+    case 26:
+    case 27:
+        return 22;
+    case 28:
+        return 21;
+    default:
+        return 21;
+    }
+}
+
+/*
+ * 2026-10-05 (D8 lane 15): the leaf func_02019CF8 is now filed EXACT in src/matched/arm9, so every
+ * relocation resolves and this file is EXACT.
+ */
+void func_021BC24C(void *unused, void *mon, int itemId)
+{
+    u32 form = 0;
+    int plateForm;
+    if (func_02017E1C(mon, 5, 0) == 0x1ED) {
+        form = func_02017E1C(mon, 0x6F, form);
+        plateForm = func_02019CF8(itemId);
+        if (form != plateForm)
+            func_02017988(mon, plateForm);
+    }
+}
+
+void func_021BC288(int unused, void *mon, int itemId)
+{
+    int form = 0;
+    int driveForm;
+    if (func_02017E1C(mon, 5, 0) == 0x289) {
+        form = func_02017E1C(mon, 0x6f, form);
+        driveForm = func_02019D00(itemId);
+        if (form != driveForm) {
+            func_02017988(mon, (u16)driveForm);
+        }
+    }
+}
+
+void func_021BC2C8(PokelistWork *work)
+{
+    work->arg->exitCode = 10;
+    func_021BB97C(work, work->messageWindow);
+    func_021BB9AC(work, work->messageWindow, 0, work->arg->itemId);
+    func_021B9788(work, 0x51, 1, func_021B9E3C);
+    func_021BB98C(work, work->messageWindow);
+}
+
+void func_021BC30C(PokelistWork *work)
+{
+    work->arg->exitCode = 10;
+    func_021BB97C(work, work->messageWindow);
+    func_021BB9AC(work, work->messageWindow, 0, work->arg->itemId);
+    func_021B9788(work, 0x51, 1, func_021B9E20);
+    func_021BB98C(work, work->messageWindow);
+}
+
+int func_021BC350(PokelistWork *work, int v)
+{
+    int n = func_021BBE74(work->arg->itemId);
+    int level;
+    struct Strbuf *msg;
+    u8 i;
+    u16 z;
+    switch (n) {
+    case 0: case 8: case 10: case 25: case 29: break;
+    case 1: {
+        int row = work->selectedSlot;
+        work->phase = 10;
+        work->cursorState = func_021BB464(work, (unsigned short *)work->plates[row]);
+        work->phaseCallback = func_021BC5CC;
+        break;
+    }
+    case 2:
+        level = POKE_TOOL_CalcLevel((void *)work->selectedMon);
+        func_021BB97C(work, work->messageWindow);
+        func_021BB99C(work, work->messageWindow, 0, work->selectedMon);
+        func_021BB9EC(work, work->messageWindow, 1, (u16)(level + 1), 3);
+        func_021B9788(work, 0x9d, 1, func_021BC6A0);
+        func_021BB98C(work, work->messageWindow);
+        msg = func_020457B0(12, work->heapId);
+        func_02017E1C((void *)work->selectedMon, 0x73, (u32)msg);
+        GAME_BEACON_SetPokeLevelUp((int)msg);
+        func_02045808(msg);
+        for (i = 0; i < 6; i++) {
+            PLIST_WORK_STATS(work)->stat[i] = func_02017E1C((void *)work->selectedMon, d_021BECE4[i], 0);
+        }
+        break;
+    case 3: func_021BCC40(work, 0x47); break;
+    case 4: func_021BCC40(work, 0x2d); break;
+    case 5: func_021BCC40(work, 0x2f); break;
+    case 6: func_021BCC40(work, 0x30); break;
+    case 7: func_021BCC40(work, 0x2e); break;
+    case 9: func_021BCC40(work, 0x33); break;
+    case 11: case 12: {
+        int row = work->selectedSlot;
+        work->phase = 10;
+        work->cursorState = func_021BB464(work, (unsigned short *)work->plates[row]);
+        work->phaseCallback = func_021BC548;
+        break;
+    }
+    case 13: case 14: case 15: case 16: case 17: case 18:
+        func_021BCC80(work, 0x37, (u16)(n - 13)); break;
+    case 19: case 20: case 21: case 22: case 23: case 24:
+        z = n - 19;
+        if (func_021BCC2C((void *)work->selectedMon, z + 13, work->arg->itemId) == 0) func_021BCC80(work, 0x55, z);
+        else if (func_02017E1C((void *)work->selectedMon, 9, 0) == 255) func_021BCC80(work, 0x54, z);
+        else func_021BCC80(work, 0x53, z);
+        break;
+    case 26: case 27:
+        func_021BB97C(work, work->messageWindow);
+        func_021BB9CC(work, work->messageWindow, 0, (u16)v);
+        func_021B9788(work, 0x34, 1, func_021B9E44);
+        func_021BB98C(work, work->messageWindow);
+        break;
+    case 28: func_021BCC40(work, 0x31); break;
+    }
+    return n;
+}
+
+void func_021BC548(PokelistWork *work)
+{
+    u16 h;
+    u16 v;
+    h = func_021BB464(work, (unsigned short *)work->plates[work->selectedSlot]);
+    work->arg->exitCode = 10;
+    func_021BB97C(work, work->messageWindow);
+    func_021BB99C(work, work->messageWindow, 0, work->selectedMon);
+    v = work->cursorState;
+    if (v != 0) {
+        func_021BB9EC(work, work->messageWindow, 1, (u16)(h - v), (int)3);
+        func_021B9788(work, 0x2c, 1, func_021B9E44);
+    } else {
+        func_021B9788(work, 0x32, 1, func_021B9E44);
+    }
+    func_021BB98C(work, work->messageWindow);
+}
+
+void func_021BC5CC(PokelistWork *work)
+{
+    work->arg->exitCode = 10;
+    func_021BB97C(work, work->messageWindow);
+    func_021BB99C(work, work->messageWindow, 0, work->selectedMon);
+    if (func_021BC1D0(work) != -1) {
+        func_021B9788(work, 0x32, 1, func_021BC628);
+    } else {
+        func_021B9788(work, 0x32, 1, func_021B9E3C);
+    }
+    func_021BB98C(work, work->messageWindow);
+}
+
+void func_021BC628(PokelistWork *work)
+{
+    int n = func_021BC1D0(work);
+    func_021BB7A4(work, (u32 *)work->messageWindow);
+    func_021BB050(work, (u8 *)work->plates[work->selectedSlot], 3);
+    work->selectedSlot = n;
+    work->selectedMon = (int)func_0201AB28(work->arg->party, n);
+    func_021BC350(work, 0);
+    func_021BE2B4((void *)work->selectedMon,
+                  work->arg->itemId, 0,
+                  work->arg->itemUseParam, work->heapId);
+    func_021BB2C0(work, (u8 *)work->plates[work->selectedSlot]);
+    func_020061E4(0x56f);
+}
+
+void func_021BC6A0(PokelistWork *work)
+{
+    work->phase = 0xd;
+    work->inputStage = 0;
+    *(u32 *)&work->arg->pad4F[1] = 0;
+    func_021BBA70(work, work->messageWindow);
+}
+
+void func_021BC6C0(PokelistWork *work)
+{
+    work->phase = 0xd;
+    work->inputStage = 6;
+}
+
+void func_021BC6CC(PokelistWork *work)
+{
+    u8 i, j, x;
+    u32 result;
+    struct Descriptor *desc;
+    switch (work->inputStage) {
+    case 0: {
+        u8 flag;
+        u32 delta;
+        struct Strbuf *msg, *numStr;
+        struct WordSet *wordSet;
+        int y;
+        u16 width;
+        flag = 0;
+        work->descriptor = func_020450F0((int)0, (u8)1, (u8)1, (int)14, 12, 14, 1);
+        func_0201F73C(DESC, 1, 1, 12);
+        func_02043B5C(func_02045770(DESC), 15);
+        desc = DESC; func_02045334(desc); func_02045374(desc); func_02041B6C(func_02045730(desc));
+        for (i = 0; i < 6; i++) {
+            delta = func_02017E1C((void *)work->selectedMon, d_021BECE4[i], 0) - PLIST_WORK_STATS(work)->stat[i];
+            if (delta >= 10) flag = 1;
+            msg = func_02045EC0(work->msgBank, i + 0x95); y = i << 4;
+            func_0201C724(work->printSys, func_02045770(DESC), 0, (s16)(i << 4), msg, work->fontMain, 0x440);
+            func_02045808(msg);
+            msg = func_02045EC0(work->msgBank, 0x9c); numStr = func_020457B0(0x20, work->heapId); wordSet = func_0201EC64(work->heapId);
+            func_0201EFA4(wordSet, 0, delta, 3, 0, 1); func_0201F250(wordSet, numStr, msg);
+            width = func_0201D304(numStr, work->fontMain, 0);
+            func_0201C724(work->printSys, func_02045770(DESC), (s16)(104 - width), (s16)y, numStr, work->fontMain, 0x440);
+            func_02045808(msg); func_02045808(numStr); func_0201ED04(wordSet);
+        }
+        for (j = 0; j < 6; j++) {
+            x = flag == 1 ? 72 : 80;
+            msg = func_02045EC0(work->msgBank, 0x9b);
+            func_0201C724(work->printSys, func_02045770(DESC), x, (s16)(j << 4), msg, work->fontMain, 0x440);
+            func_02045808(msg);
+        }
+        work->inputStage = 1; break;
+    }
+    case 1:
+        if (func_0201C6C4(work->printSys, func_02045770(DESC)) == 0) {
+            desc = DESC; func_02045334(desc); func_02045374(desc); func_02041B6C(func_02045730(desc)); work->inputStage = 2;
+        } break;
+    case 2:
+        if ((func_020362DC() & 1) || (func_020362DC() & 2) || func_02035C60() == 1) { func_020061E4(0x547); work->inputStage = 3; }
+        break;
+    case 3: {
+        u16 width;
+        u32 delta;
+        struct Strbuf *msg, *numStr;
+        struct WordSet *wordSet;
+        func_02043AF4(func_02045770(DESC), 0x50, 0, 0x20, 0x60, 15);
+        for (i = 0; i < 6; i++) {
+            delta = func_02017E1C((void *)work->selectedMon, d_021BECE4[i], 0);
+            msg = func_02045EC0(work->msgBank, 0x9c); numStr = func_020457B0(0x20, work->heapId); wordSet = func_0201EC64(work->heapId);
+            func_0201EFA4(wordSet, 0, delta, 3, 0, 1); func_0201F250(wordSet, numStr, msg);
+            width = func_0201D304(numStr, work->fontMain, 0);
+            func_0201C724(work->printSys, func_02045770(DESC), (s16)(104 - width), (s16)(i << 4), numStr, work->fontMain, 0x440);
+            func_02045808(msg); func_02045808(numStr); func_0201ED04(wordSet);
+        }
+        work->inputStage = 4; break;
+    }
+    case 4:
+        if (func_0201C6C4(work->printSys, func_02045770(DESC)) == 0) {
+            desc = DESC; func_02045334(desc); func_02045374(desc); func_02041B6C(func_02045730(desc)); work->inputStage = 5;
+        } break;
+    case 5:
+        if ((func_020362DC() & 1) || (func_020362DC() & 2) || func_02035C60() == 1) {
+            work->inputStage = 6; func_020061E4(0x547); func_020456F8(DESC); func_0201F7A8(DESC, 1); func_020452E8(DESC); work->descriptor = 0;
+        } break;
+    case 6:
+        result = POKE_TOOL_GetLevelUpMove((void *)work->selectedMon, (u32 *)&work->arg->pad4F[1], work->heapId); func_021BB7A4(work, (u32 *)work->messageWindow);
+        if (result == 0) { work->inputStage = 7; return; }
+        if (result == 0xfffe) { work->inputStage = 7; return; }
+        if (result & 0x8000) {
+            work->arg->moveId = result - 0x8000;
+            func_021BB97C(work, work->messageWindow); func_021BB99C(work, work->messageWindow, 0, work->selectedMon);
+            func_021BB9CC(work, work->messageWindow, 1, work->arg->moveId);
+            func_021B9788(work, 0x20, 0, func_021B9EB0); func_021BB98C(work, work->messageWindow);
+        } else {
+            func_021BB97C(work, work->messageWindow); func_021BB99C(work, work->messageWindow, 0, work->selectedMon);
+            func_021BB9CC(work, work->messageWindow, 1, result);
+            func_021B9788(work, 0x29, 1, func_021BC6C0); func_021BB98C(work, work->messageWindow);
+        } break;
+    case 7:
+        func_02017E1C((void *)work->selectedMon, 5, 0);
+        if (func_0201B2B0(work->arg->party, (void *)work->selectedMon, 0, work->arg->itemUseParam, work->arg->pad5E[1], 0, work->heapId) != 0) {
+            work->phase = 19; work->arg->selectedIndex = work->selectedSlot; work->arg->exitCode = 9;
+        } else {
+            work->arg->mode = 5; work->arg->selectedIndex = work->selectedSlot; work->arg->exitCode = 10; func_021B9E44(work);
+        } break;
+    }
+}
+
+int func_021BCC2C(void *mon, int param, int unused)
+{
+    int r = 0;
+    if (func_02017E1C(mon, param, 0))
+        r = 1;
+    return r;
+}
+
+void func_021BCC40(PokelistWork *work, int msgId)
+{
+    work->arg->exitCode = 10;
+    func_021BB97C(work, work->messageWindow);
+    func_021BB99C(work, work->messageWindow, 0, work->selectedMon);
+    func_021B9788(work, msgId, 1, func_021B9E44);
+    func_021BB98C(work, work->messageWindow);
+}
+
+void func_021BCC80(PokelistWork *work, int msgId, int value)
+{
+    work->arg->exitCode = 10;
+    func_021BB97C(work, work->messageWindow);
+    func_021BB99C(work, work->messageWindow, 0, work->selectedMon);
+    func_021BB9DC(work, work->messageWindow, 1, value);
+    func_021B9788(work, msgId, 1, func_021B9E44);
+    func_021BB98C(work, work->messageWindow);
+}
+
+void func_021BCCCC(PokelistWork *work)
+{
+    PokelistArg *arg;
+    func_021BCE84(work);
+    func_021BCEAC(work);
+    arg = work->arg;
+    if (arg->timerShown == 1) {
+        switch (arg->battleKind) {
+        case 1:
+            PLIST_WORK_TAIL(work)->timerDigit[1] = func_021BD05C(work, &arg->entries[1], 10, 0, 2);
+            break;
+        case 2:
+            PLIST_WORK_TAIL(work)->timerDigit[0] = func_021BD05C(work, &arg->entries[0], 0, 0, 0);
+            PLIST_WORK_TAIL(work)->timerDigit[1] = func_021BD05C(work, &work->arg->entries[1], 0xb, 0, 0);
+            PLIST_WORK_TAIL(work)->timerDigit[2] = func_021BD05C(work, &work->arg->entries[2], 0x16, 0, 0);
+            break;
+        }
+    }
+    arg = work->arg;
+    PLIST_WORK_TAIL(work)->timerValue = arg->timerExpired;
+    PLIST_WORK_TAIL(work)->timerDirty = 0;
+    if (arg->timerRunning == 1) {
+        func_021BD59C(work);
+    }
+    PLIST_WORK_TAIL(work)->timerFlags = 0;
+}
+
+void func_021BCD80(PokelistWork *work)
+{
+    if (work->arg->timerRunning == 1)
+        func_021BD61C(work);
+    if (work->arg->timerShown == 1) {
+        switch (work->arg->battleKind) {
+        case 1:
+            func_021BD18C(work, PLIST_WORK_TAIL(work)->timerDigit[1]);
+            break;
+        case 2:
+            func_021BD18C(work, PLIST_WORK_TAIL(work)->timerDigit[0]);
+            func_021BD18C(work, PLIST_WORK_TAIL(work)->timerDigit[1]);
+            func_021BD18C(work, PLIST_WORK_TAIL(work)->timerDigit[2]);
+            break;
+        }
+    }
+    func_021BD058(work);
+    func_021BCE9C(work);
+}
+
+void func_021BCDE8(PokelistWork *work)
+{
+    if (work->arg->timerShown == 1) {
+        switch (work->arg->battleKind) {
+        case 1:
+            func_021BD1BC(work, PLIST_WORK_TAIL(work)->timerDigit[1]);
+            break;
+        case 2:
+            func_021BD1BC(work, PLIST_WORK_TAIL(work)->timerDigit[0]);
+            func_021BD1BC(work, PLIST_WORK_TAIL(work)->timerDigit[1]);
+            func_021BD1BC(work, PLIST_WORK_TAIL(work)->timerDigit[2]);
+            break;
+        }
+    }
+    if (PLIST_WORK_TAIL(work)->timerValue != work->arg->timerExpired && work->phase == 2) {
+        func_021BD504(work);
+        PLIST_WORK_TAIL(work)->timerValue = work->arg->timerExpired;
+    }
+    if (work->arg->timerRunning == 1)
+        func_021BD634(work);
+    if (work->arg->closeRequested == 1)
+        func_021BA4F8(work);
+}
+
+void func_021BCE84(PokelistWork *work)
+{
+    PLIST_WORK_TAIL(work)->bank = func_0204B100(36, 8, work->heapId);
+}
+
+void func_021BCE9C(PokelistWork *work)
+{
+    func_0204B1CC(PLIST_WORK_TAIL(work)->bank);
+}
+
+void func_021BCEAC(PokelistWork *work)
+{
+    void *h, *h2;
+    h = func_020490F4(0x4c, work->heapId);
+    func_02049BDC(h, 1, 4, 0x20, 0x20, 0x20, work->heapId);
+    func_02049B68(h, 0, 4, 0x1a0, 0x20, work->heapId);
+    func_02049658(h, 9, 6, 0, 0, 0, work->heapId);
+    if (work->arg->timerShown == 1) {
+        switch (work->arg->battleKind) {
+        case 1: func_020498F4(h, 0x11, 6, 0, 0, 0, work->heapId); break;
+        case 2: func_020498F4(h, 0x10, 6, 0, 0, 0, work->heapId); break;
+        }
+    }
+    func_02049238(h);
+    h2 = func_020490F4(func_020275E4(), work->heapId);
+    work->charRes[3] = func_0204ABF0(h, func_02027694(), 1, 0x60, work->heapId);
+    work->palRes[4] = func_0204A6C8(h, func_02027698(), 0, 1, work->heapId);
+    work->cellRes[4] = func_0204AF28(h, func_0202769C(2), func_020276A0(2), work->heapId);
+    if (work->arg->timerRunning == 1) {
+        func_02049B68(h, func_02027624(), 4, 0x40, 0x20, work->heapId);
+        func_02049658(h, func_02027628(), 5, 0, 0, 0, work->heapId);
+        func_020498F4(h, func_0202762C(), 5, 0, 0, 0, work->heapId);
+        func_020413B0(5, 0, 0, 0x20, 0x20, 2);
+        func_02041B6C(5);
+    }
+    func_02049238(h2);
+    h = func_020490F4(7, work->heapId);
+    work->charRes[7] = func_0204ACEC(h, func_0201BC3C(), 1, 0xc0, work->heapId);
+    func_02049238(h);
+    /* stand-in: with the timer palette inside a padding view, &tail->timerPalette is
+       work + 0x1EC + 0x22 and the compiler does not fold it; it is &work->timerPalette
+       (0x20E) once pokelist_types.h names that field. */
+    func_02082A60(TIMER_PALETTE_DST, (u8 *)work + 0x20e, 0x20);
+}
+
+/*
+ * note:     listing extent (4) runs 2 bytes past the compiled function (2);
+ *           trailing alignment padding, no byte difference.
+ */
+void func_021BD058(PokelistWork *work)
+{
+}

@@ -1,5 +1,5 @@
 /*
- * function: sub_0204335C
+ * function: BG_SYS_ClearGraphicsMemory
  * address:  0x0204335C
  * packet:   pkt_02042B24
  * region:   arm9
@@ -34,7 +34,7 @@ extern void func_0208068C(u32 banks);
 extern void func_02082AC0(u32 data, void *dest, u32 size);
 extern void func_02080B98(void);
 
-void sub_0204335C(u32 keep)
+void BG_SYS_ClearGraphicsMemory(u32 keep)
 {
     func_0208068C((keep ^ 0xffff) & 0x1ff);
 

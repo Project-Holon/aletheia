@@ -1,7 +1,7 @@
 /*
  * file:     gds_profile.c
  * unit:     yes
- * function: func_0200D59C, func_0200D5C8, func_0200D5D0, func_0200D6D0
+ * function: GDS_PROFILE_Create, GDS_PROFILE_Delete, GDS_PROFILE_Init, GDS_PROFILE_CreateNameStr
  * address:  0x0200D59C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -73,7 +73,7 @@ struct OwnerInfo {
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-struct GdsProfile *func_0200D59C(u32 heap);
+struct GdsProfile *GDS_PROFILE_Create(u32 heap);
 extern void OS_GetOwnerInfo(void *info);
 extern u16   func_02045A98(void);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
@@ -93,7 +93,7 @@ extern u8 func_02008570(const struct TrainerRec *obj);
 extern void func_0200C164(const struct ProgressBlock *p, u32 *a, u32 *b, u32 *c, u32 *d);
 extern struct NameStrbuf *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
-void *func_0200D6D0(const void *src, u32 tag);
+void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag);
 extern const char func_0200D59C_File[];
 
 
@@ -110,7 +110,7 @@ extern const char func_0200D59C_File[];
  * 0x0200D59C passes it to the debug allocator at 0x02030734 with line 0x50,
  * and the rest of the file is src/matched/unit_0200D6D0.c,
  * src/matched/unit_0200D6EC.c and src/matched/unit_0200D74C.c, with
- * func_0200D5D0 the one function of it left out; see below.
+ * GDS_PROFILE_Init the one function of it left out; see below.
  *
  * The record is 0x80 bytes, which is what the constructor allocates and
  * clears, and which src/matched/unit_0200D5D0.c fills field by field.
@@ -119,20 +119,20 @@ extern const char func_0200D59C_File[];
  * parameter: this front end assumes an incoming `u16` parameter is already
  * zero extended and emits nothing, so the `lsls #0x10` / `lsrs #0x10` pair at
  * 0x0200D5A2 is a narrowing the source wrote.  The same reading applies to
- * the tag parameters of func_0200D6D0 and func_0200D774.
+ * the tag parameters of GDS_PROFILE_CreateNameStr and func_0200D774.
  *
- * func_0200D5C8 is the destructor and is eight bytes: a pool word and a `bx`,
+ * GDS_PROFILE_Delete is the destructor and is eight bytes: a pool word and a `bx`,
  * with no argument set-up at all; see
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md.
  *
- * Left out of this range: func_0200D5D0, 256 bytes, which builds the whole
+ * Left out of this range: GDS_PROFILE_Init, 256 bytes, which builds the whole
  * record.  Every concrete byte of it reproduces and it is capped at MATCH,
  * because 0x0200C164 is the target of exactly one branch in the image, its
  * own call at 0x0200D610, so the `label` class has no witness outside the
  * compared range and no cut helps.  The source is parked in
  * src/matched/unit_0200D5D0.c.
  */
-struct GdsProfile *func_0200D59C(u32 heap)
+struct GdsProfile *GDS_PROFILE_Create(u32 heap)
 {
     struct GdsProfile *profile = func_02030734((u16)heap, sizeof(struct GdsProfile),
                                          0, func_0200D59C_File, 0x50);
@@ -142,7 +142,7 @@ struct GdsProfile *func_0200D59C(u32 heap)
 }
 
 
-void func_0200D5C8(struct GdsProfile *profile)
+void GDS_PROFILE_Delete(struct GdsProfile *profile)
 {
     func_020307B0(profile);
 }
@@ -185,7 +185,7 @@ void func_0200D5C8(struct GdsProfile *profile)
  *    because `sp + 8` is already a common subexpression: it is the fifth
  *    argument func_0200C164 took a few instructions earlier.
  */
-void func_0200D5D0(struct GdsProfile *profile, void *sys)
+void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
 {
     struct OwnerInfo info;
     u32 playHours;
@@ -241,7 +241,7 @@ void func_0200D5D0(struct GdsProfile *profile, void *sys)
  * record.  The size is materialised twice, once as the allocation size and
  * once as the copy length, because both are caller-saved argument registers.
  */
-void *func_0200D6D0(const void *src, u32 tag)
+void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag)
 {
     void *h = func_020457B0(0xF, (u16)tag);
 

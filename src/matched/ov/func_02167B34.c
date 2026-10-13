@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020399A8  0x020399A8  arm
- *   func_0203D5A0  0x0203D5A0  arm
+ *   GFL_NET_CheckTimingSync  0x0203D5A0  arm
  */
 
 typedef unsigned char u8;
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 struct Entry;
 
 extern struct Entry *func_020399A8(void);
-extern int func_0203D5A0();
+extern int GFL_NET_CheckTimingSync();
 
 int func_02167B34(int a0)
 {
@@ -33,6 +33,6 @@ t4 = a0 + 0;
     e = func_020399A8();
 loc_02167B3C:
 a1 = t4 + 0;
-    a0 = func_0203D5A0(e, a1);
+    a0 = GFL_NET_CheckTimingSync(e, a1);
 loc_02167B42:
     return a0;}

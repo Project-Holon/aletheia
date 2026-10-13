@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0204B3B4  0x0204B3B4  arm
- *   sub_0204A8D4  0x0204A8D4  arm
- *   sub_0204ADA4  0x0204ADA4  arm
- *   sub_0204AFD8  0x0204AFD8  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *
  * Guarded release of the four pointers at +0x180, each through its own arm9
  * helper.
@@ -26,10 +26,10 @@ typedef signed short   s16;
 typedef int BOOL;
 
 struct Obj;
-extern void sub_0204B3B4(struct Obj *p);
-extern void sub_0204A8D4(u32 i);
-extern void sub_0204ADA4(u32 i);
-extern void sub_0204AFD8(u32 i);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 
 typedef struct {
     char pad[0x180];
@@ -42,10 +42,10 @@ typedef struct {
 void func_021BB42C(S *s)
 {
     if (s->f180 != 0) {
-        sub_0204B3B4(s->f180);
-        sub_0204A8D4((u32)s->f184);
-        sub_0204ADA4((u32)s->f188);
-        sub_0204AFD8((u32)s->f18C);
+        CLACT_DeleteActor(s->f180);
+        CLACT_ReleaseCharacter((u32)s->f184);
+        CLACT_ReleasePalette((u32)s->f188);
+        CLACT_ReleaseCellAnim((u32)s->f18C);
         s->f180 = 0;
     }
 }

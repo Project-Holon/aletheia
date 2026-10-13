@@ -12,7 +12,7 @@
  * symbols:
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02017E40  0x02017E40  thumb
- *   func_0201C158  0x0201C158  thumb
+ *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
  */
 
 typedef unsigned int u32;
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32 func_0201C158(u32 a, u32 b);
+extern u32 WAZA_TOOL_GetMaxPP(u32 a, u32 b);
 
 int func_021BE874(void *a, int b, int c)
 {
@@ -35,16 +35,16 @@ int func_021BE874(void *a, int b, int c)
     if (n == 3)
         return r;
     x = (u16)func_02017E1C(a, b + 0x36, r);
-    if (func_0201C158(x, r) < 5)
+    if (WAZA_TOOL_GetMaxPP(x, r) < 5)
         return r;
     v = (u8)func_02017E1C(a, b + 0x3A, r);
-    y = func_0201C158(x, n);
+    y = WAZA_TOOL_GetMaxPP(x, n);
     t = n + c;
     if ((u32)t > 3)
         n = 3;
     else
         n = (u8)t;
-    v = (u8)(v + func_0201C158(x, n) - y);
+    v = (u8)(v + WAZA_TOOL_GetMaxPP(x, n) - y);
     func_02017E40(a, b + 0x3E, n);
     func_02017E40(a, b + 0x3A, v);
     return 1;

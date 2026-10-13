@@ -19,6 +19,7 @@
  *   func_021E6008 0x021E6008 thumb ov119
  *   func_021B6208 0x021B6208 thumb ov067
  *   func_021B629C 0x021B629C thumb ov067
+ *   POKERUS_IsInfected  0x0201B25C  thumb  arm9
  */
 #include "../include/Obj00001.h"
 #include "../include/Obj06429.h"
@@ -26,7 +27,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { int f0; u32 f4; int f8,fC,f10,f14,f18; u8 b1c,b1d,b1e; } In;
-extern u32 func_0201B25C(void *);
+extern u32 POKERUS_IsInfected(void *);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern u32 func_020275E4(void);
@@ -41,7 +42,7 @@ void func_021E5F14(char *p, int side, int flag, void *mon)
 {
     char *q = p + 0x964;
     In in;
-    u32 a = func_0201B25C(mon);
+    u32 a = POKERUS_IsInfected(mon);
     if (((struct Obj06429 *)q)->f10) {
         if (!a) func_0204B3DC((struct Obj *)((struct Obj06429 *)q)->f10,0);
         else func_0204B3DC((struct Obj *)((struct Obj06429 *)q)->f10,1);

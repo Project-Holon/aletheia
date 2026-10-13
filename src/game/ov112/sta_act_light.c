@@ -16,7 +16,7 @@
  *   func_0204F720 0x0204F720 arm
  *   func_02030734 0x02030734 arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020490F4 0x020490F4 arm
  *   func_0204ABF0 0x0204ABF0 arm
  *   func_0204A6C8 0x0204A6C8 arm
@@ -58,9 +58,9 @@
  *   func_02047504 0x02047504 arm
  *   func_02046EFC 0x02046EFC arm
  *   func_020470D0 0x020470D0 arm
- *   func_0204EFC8 0x0204EFC8 arm
+ *   BILLBOARD_AddImageFromArchive 0x0204EFC8 arm
  *   d_021F8464 0x021F8464 data a1
- *   func_0204F150 0x0204F150 arm
+ *   BILLBOARD_DeleteImage 0x0204F150 arm
  *   func_021F9E44 0x021F9E44 thumb ov132
  *   func_021F4990 0x021F4990 thumb ov112
  *   func_021F545C 0x021F545C thumb ov112
@@ -91,8 +91,8 @@
  *   func_0201AE14 0x0201AE14 thumb
  *   func_021F4B3C 0x021F4B3C thumb ov112
  *   func_021F4B88 0x021F4B88 thumb ov112
- *   func_0204F428 0x0204F428 arm
- *   func_0204F5A8 0x0204F5A8 arm
+ *   BILLBOARD_AddElem 0x0204F428 arm
+ *   BILLBOARD_FreeElem 0x0204F5A8 arm
  *   func_021F4D40 0x021F4D40 thumb ov112
  *   func_021F4B4C 0x021F4B4C thumb ov112
  *   func_021F5330 0x021F5330 thumb ov112
@@ -269,7 +269,7 @@ typedef struct { int pad[33]; int a; int pad2[17]; int b; } Slot_021F7C90;
 extern void func_0204F720(void *,u32,u32 *);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void *func_020490F4(u32 id, u32 heap);
 extern signed int func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32_021F6BD8 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -302,8 +302,8 @@ extern void func_0204762C(struct Rec *p);
 extern void func_02047504(struct Rec *p);
 extern void func_02046EFC(struct Tagged *p);
 extern int func_020470D0(u32 *p);
-extern u32 func_0204EFC8(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
-extern void func_0204F150(u8 *a0, int i);
+extern u32 BILLBOARD_AddImageFromArchive(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
+extern void BILLBOARD_DeleteImage(u8 *a0, int i);
 extern u32 func_021F9E44(u8 *p);
 extern void func_021F4990(int);
 extern u8 *func_021F545C(u8 *);
@@ -331,8 +331,8 @@ extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *);
 extern void *func_021F4B3C(int type);
 extern void *func_021F4B88(void *,int,u32,int *);
-extern s32_021F760C func_0204F428(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
-extern void func_0204F5A8(void *p, u32 idx);
+extern s32_021F760C BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
+extern void BILLBOARD_FreeElem(void *p, u32 idx);
 extern void func_021F4D40(u8 *p, u8 *e);
 extern void func_021F4B4C(struct Tagged *a0);
 extern void func_021F5330(int, int);
@@ -439,7 +439,7 @@ Object *func_021F6BD8(u16 heap,void *a)
     for(;i<4;i++) p->entries[i][0]=0;
     p->other[0]=0;
     p->bank=func_0204B100(5,0,p->heap);
-    func_0204B270(p->bank);
+    CLACT_SetUnitDefaultRenderer(p->bank);
     q=func_020490F4((unsigned int)47,p->heap);
     p->x=func_0204ABF0((void *)q,4,0,0,p->heap);
     p->y=func_0204A6C8((void *)((u32)q),10,0,0,p->heap);
@@ -708,7 +708,7 @@ u8 *func_021F709C(u16 heap, u32 b, u32 c, u32 d, u32 e)
         *(u32 *)(q + 0x14) = 0;
         *(u32 *)(q + 0x18) = 0;
     }
-    *(u32 *)(p + 0x438) = func_0204EFC8((struct Desc *)(*(u32 *)(p + 8)), 0x2f, 0x1d, 3, 0x33, 0x40, 0x40);
+    *(u32 *)(p + 0x438) = BILLBOARD_AddImageFromArchive((struct Desc *)(*(u32 *)(p + 8)), 0x2f, 0x1d, 3, 0x33, 0x40, 0x40);
     return p;
 }
 
@@ -725,7 +725,7 @@ void func_021F7120(char *p) {
         if (((Record *)(p + i * 0x108))->flag == 1)
             func_021F77A0((char *)((int)p), (char *)((int)(p + 0x14 + i * 0x108)));
     }
-    func_0204F150((u8 *)(((struct Obj13839 *)p)->f8), ((struct Obj13839 *)p)->f438);
+    BILLBOARD_DeleteImage((u8 *)(((struct Obj13839 *)p)->f8), ((struct Obj13839 *)p)->f438);
     func_020307B0((void *)((int)p));
 }
 
@@ -1006,7 +1006,7 @@ void func_021F760C(u8 *p,u8 *input)
             *(int *)&((struct Obj02824 *)row)->f84=0;
         }
     }
-    *(int *)&((struct Obj00723 *)q)->f5C=func_0204F428(((struct Obj03762 *)p)->f8,((struct Obj03762 *)p)->f438,1024,768,(struct Vec3 *)(q+24),30,0,0);
+    *(int *)&((struct Obj00723 *)q)->f5C=BILLBOARD_AddElem(((struct Obj03762 *)p)->f8,((struct Obj03762 *)p)->f438,1024,768,(struct Vec3 *)(q+24),30,0,0);
     flag=1;
     func_0204F720(((struct Obj03762 *)p)->f8,((struct Obj00723 *)q)->f5C,&flag);
     ((struct Obj00723 *)q)->f50=func_020056EC(150)>>1;
@@ -1024,7 +1024,7 @@ void func_021F760C(u8 *p,u8 *input)
  */
 void func_021F77A0(char *p, char *q) {
     u8 i;
-    func_0204F5A8((void *)(((struct Obj10320 *)p)->f8), ((struct Obj10321 *)q)->f5C);
+    BILLBOARD_FreeElem((void *)(((struct Obj10320 *)p)->f8), ((struct Obj10321 *)q)->f5C);
     for (i = 0; i < 9; i++) {
         if (((Slot_021F6BC0 *)(q + i * 4))->other != 0) {
             func_021F4D40((u8 *)(((struct Obj10320 *)p)->f10), (u8 *)(((Slot_021F6BC0 *)(q + i * 4))->other));

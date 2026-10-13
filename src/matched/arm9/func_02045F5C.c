@@ -1,5 +1,5 @@
 /*
- * function: func_02045F5C
+ * function: MSGDATA_ReadUnits
  * address:  0x02045F5C
  * packet:   pkt_02045F5C
  * region:   arm9
@@ -12,13 +12,13 @@
  * symbols:
  *   func_02046180  0x02046180  arm
  *   func_0204960C  0x0204960C  arm
- *   func_020495F4  0x020495F4  arm
- *   func_02045E3C  0x02045E3C  arm
+ *   ARC_TOOL_ReadHandle  0x020495F4  arm
+ *   MSGDATA_DecryptUnits  0x02045E3C  arm
  *   func_02045A98  0x02045A98  arm
  *
  * msgdata.c: read string msgIndex into str (at most maxLen characters),
  * either from the resident bank (mode != 0) or by seeking the archive file,
- * then decode it in place (func_02045E3C) and terminate it with the EOM
+ * then decode it in place (MSGDATA_DecryptUnits) and terminate it with the EOM
  * code (func_02045A98).
  *
  * The 11-byte scheduling residue of docs/notes/pkt_02045F5C.c.txt was the
@@ -59,11 +59,11 @@ struct Obj;
 extern void func_02046180(struct Obj *o);
 extern void func_0204960C(void *file, u32 pos);
 struct ArcFile;
-extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
-extern u32  func_02045E3C(u16 *str, u32 count, u32 msgIndex);
+extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
+extern u32  MSGDATA_DecryptUnits(u16 *str, u32 count, u32 msgIndex);
 extern u16  func_02045A98(void);
 
-void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen)
+void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen)
 {
     const struct MsgEntry *entry;
     u32 count;
@@ -74,7 +74,7 @@ void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen)
     if (msg->mode == 0) {
         u32 bankOffset = msg->archive->bankOffset[msg->bankIndex];
         func_0204960C(msg->file, (msg->baseOffset + bankOffset) + (msgIndex * 8 + 4));
-        func_020495F4(msg->file, 8, &msg->entry);
+        ARC_TOOL_ReadHandle(msg->file, 8, &msg->entry);
         entry = &msg->entry;
     } else {
         entry = (const struct MsgEntry *)((u8 *)msg->bank + 4 + msgIndex * 8);
@@ -93,7 +93,7 @@ void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen)
         {
             u32 bankOffset = msg->archive->bankOffset[msg->bankIndex];
             func_0204960C(msg->file, (msg->baseOffset + bankOffset) + entry->offset);
-            func_020495F4(msg->file, readBytes, str);
+            ARC_TOOL_ReadHandle(msg->file, readBytes, str);
         }
     } else {
         const u16 *src = (const u16 *)((u8 *)msg->bank + entry->offset);
@@ -103,6 +103,6 @@ void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen)
         }
     }
 
-    len = func_02045E3C(str, count, msgIndex);
+    len = MSGDATA_DecryptUnits(str, count, msgIndex);
     str[len] = func_02045A98();
 }

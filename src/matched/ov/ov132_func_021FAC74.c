@@ -9,9 +9,9 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_0201121C 0x0201121C thumb
- *   func_0201126C 0x0201126C thumb
- *   func_0201127C 0x0201127C thumb
+ *   VM_Create 0x0201121C thumb
+ *   VM_Init 0x0201126C thumb
+ *   VM_Start 0x0201127C thumb
  *   d_021FDC2C 0x021FDC2C data ov132 a4
  *   d_021FDCEC 0x021FDCEC data ov132 a4
  */
@@ -35,10 +35,10 @@ extern char d_021FDCEC[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 struct ScriptVm;
 struct ScriptVmParams;
-extern struct ScriptVm *func_0201121C(u32 heapId, const struct ScriptVmParams *params);
+extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
 struct ScriptVm;
-extern void func_0201126C(struct ScriptVm *vm, void *user);
-extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
+extern void VM_Init(struct ScriptVm *vm, void *user);
+extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 extern char d_021FDC2C[];
 void *func_021FAC74(char *p, void *arg, int flag)
 {
@@ -54,8 +54,8 @@ void *func_021FAC74(char *p, void *arg, int flag)
     ((struct Obj23242 *)(((char **)(p + 0xc))[i]))->f19 = i;
     if (flag == 1) ((struct Obj23243 *)(((char **)(p + 0xc))[i]))->f16 |= 2;
     *(char **)((char **)(p + 0xc))[i] = p;
-    ((struct Obj23245 *)(((char **)(p + 0xc))[i]))->f4 = func_0201121C(((struct Obj01157 *)p)->f0, (const struct ScriptVmParams *)d_021FDC2C);
-    func_0201126C(((struct Obj23246 *)(((char **)(p + 0xc))[i]))->f4, ((char **)(p + 0xc))[i]);
-    func_0201127C(((struct Obj23247 *)(((char **)(p + 0xc))[i]))->f4, ((struct Obj23248 *)(((char **)(p + 0xc))[i]))->f8);
+    ((struct Obj23245 *)(((char **)(p + 0xc))[i]))->f4 = VM_Create(((struct Obj01157 *)p)->f0, (const struct ScriptVmParams *)d_021FDC2C);
+    VM_Init(((struct Obj23246 *)(((char **)(p + 0xc))[i]))->f4, ((char **)(p + 0xc))[i]);
+    VM_Start(((struct Obj23247 *)(((char **)(p + 0xc))[i]))->f4, ((struct Obj23248 *)(((char **)(p + 0xc))[i]))->f8);
     return ((char **)(p + 0xc))[i];
 }

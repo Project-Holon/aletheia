@@ -1,7 +1,7 @@
 /*
  * file:     monolith_tool.c
  * unit:     yes
- * function: func_021B6100, func_021B6250, func_021B6458, func_021B64D0, func_021B6524, func_021B652C, func_021B6538, func_021B6540, func_021B6588, func_021B65B4, func_021B6624, func_021B6644, func_021B677C, func_021B6790, func_021B6808, func_021B6844, func_021B68B4, func_021B68E0, func_021B6960, func_021B699C, func_021B69AC, func_021B6A0C, func_021B6B38, func_021B6B58, func_021B6B70, func_021B6B98, func_021B6BEC, func_021B6C30, func_021B6C48, func_021B6C54, func_021B6C74, func_021B6C7C, func_021B6DB4, func_021B6E00, func_021B6E0C, func_021B6E18, func_021B6E1C, func_021B6EEC, func_021B6F04, func_021B6F2C, func_021B6F40, func_021B6F54, func_021B6FD8, func_021B6FE0, func_021B7014, func_021B7068, func_021B7070, func_021B70B8, func_021B70C4, func_021B7108, func_021B7114, func_021B7118, func_021B7168, func_021B7170, func_021B7174, func_021B718C, func_021B7194, func_021B71FC, func_021B7204, func_021B7234, func_021B730C, func_021B739C, func_021B7824, func_021B7880, func_021B78D4, func_021B78F4, func_021B7924, func_021B7994, func_021B79A0, func_021B7A08, func_021B7A14, func_021B7A68, func_021B7AAC, func_021B7AC4, func_021B7AE8, func_021B7B10, func_021B7B9C, func_021B7BB4, func_021B7BD8, func_021B7BE4, func_021B7BF0, func_021B7BFC, func_021B7C3C, func_021B7D00, func_021B7D34, func_021B7D6C, func_021B7D98, func_021B7DAC, func_021B7DE0, func_021B7E24, func_021B7E3C, func_021B7E60, func_021B7EE0, func_021B8150, func_021B81A0, func_021B8270, func_021B82A4, func_021B82E4, func_021B82F0, func_021B82FC, func_021B8308, func_021B833C, func_021B8350, func_021B83C0, func_021B83CC, func_021B8434, func_021B8440, func_021B8494, func_021B855C, func_021B8618, func_021B8650, func_021B869C, func_021B86BC, func_021B86E8, func_021B8750, func_021B8764, func_021B878C, func_021B8798, func_021B889C, func_021B8968, func_021B8A38, func_021B8A70, func_021B8ABC, func_021B8ADC, func_021B8B08, func_021B8BF4, func_021B8C0C, func_021B8EC4, func_021B8ED0, func_021B8EDC, func_021B8EE8, func_021B9070, func_021B94CC, func_021B9560, func_021B95CC, func_021B95FC, func_021B9694, func_021B96A4, func_021B9734, func_021B9750, func_021B9798, func_021B9818, func_021B98B4, func_021B98C4, func_021B992C, func_021B9970, func_021B9A18, func_021B9A40
+ * function: func_021B6100, func_021B6250, func_021B6458, func_021B64D0, func_021B6524, func_021B652C, func_021B6538, func_021B6540, func_021B6588, func_021B65B4, func_021B6624, func_021B6644, func_021B677C, func_021B6790, func_021B6808, func_021B6844, func_021B68B4, func_021B68E0, func_021B6960, func_021B699C, func_021B69AC, func_021B6A0C, func_021B6B38, func_021B6B58, func_021B6B70, func_021B6B98, func_021B6BEC, func_021B6C30, func_021B6C48, func_021B6C54, func_021B6C74, func_021B6C7C, func_021B6DB4, func_021B6E00, func_021B6E0C, func_021B6E18, func_021B6E1C, func_021B6EEC, func_021B6F04, func_021B6F2C, func_021B6F40, func_021B6F54, func_021B6FD8, func_021B6FE0, func_021B7014, func_021B7068, func_021B7070, func_021B70B8, func_021B70C4, func_021B7108, func_021B7114, func_021B7118, func_021B7168, func_021B7170, func_021B7174, func_021B718C, func_021B7194, func_021B71FC, func_021B7204, func_021B7234, func_021B730C, func_021B739C, func_021B7824, func_021B7880, func_021B78D4, func_021B78F4, func_021B7924, func_021B7994, func_021B79A0, func_021B7A08, func_021B7A14, func_021B7A68, func_021B7AAC, func_021B7AC4, func_021B7AE8, func_021B7B10, func_021B7B9C, func_021B7BB4, func_021B7BD8, func_021B7BE4, func_021B7BF0, func_021B7BFC, func_021B7C3C, func_021B7D00, func_021B7D34, func_021B7D6C, func_021B7D98, func_021B7DAC, func_021B7DE0, func_021B7E24, func_021B7E3C, func_021B7E60, func_021B7EE0, func_021B8150, func_021B81A0, func_021B8270, func_021B82A4, func_021B82E4, func_021B82F0, func_021B82FC, func_021B8308, func_021B833C, func_021B8350, func_021B83C0, func_021B83CC, func_021B8434, func_021B8440, func_021B8494, func_021B855C, func_021B8618, func_021B8650, func_021B869C, func_021B86BC, func_021B86E8, func_021B8750, func_021B8764, func_021B878C, func_021B8798, func_021B889C, func_021B8968, func_021B8A38, func_021B8A70, func_021B8ABC, func_021B8ADC, func_021B8B08, func_021B8BF4, func_021B8C0C, func_021B8EC4, func_021B8ED0, func_021B8EDC, func_021B8EE8, func_021B9070, func_021B94CC, func_021B9560, func_021B95CC, func_021B95FC, func_021B9694, func_021B96A4, func_021B9734, func_021B9750, func_021B9798, func_021B9818, func_021B98B4, func_021B98C4, func_021B992C, func_021B9970, func_021B9A18, func_021B9A40, func_021B9AE4, func_021B9B3C, func_021B9B64, func_021B9BA0, func_021B9BAC, func_021B9BB8, func_021B9BC8, func_021B9BD8, func_021B9BE8, func_021B9C1C, func_021B9C30, func_021B9C7C, func_021B9F2C, func_021B9F74, func_021B9FEC, func_021B9FF8, func_021BA004, func_021BA01C, func_021BA0CC, func_021BA11C, func_021BA140, func_021BA1B0, func_021BA1DC, func_021BA1FC, func_021BA2CC, func_021BA384, func_021BA3B4, func_021BA400, func_021BA420, func_021BA44C, func_021BA4D4, func_021BA4EC, func_021BA528, func_021BA5D4
  * address:  0x021B6100
  * region:   ov071
  * compiler: dsi/1.1p1
@@ -23,7 +23,7 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_020490F4  0x020490F4  arm
  *   func_02010F7C  0x02010F7C  thumb
- *   func_02031324  0x02031324  arm
+ *   PROCSYS_Create  0x02031324  arm
  *   func_02028470  0x02028470  thumb
  *   func_020056A0  0x020056A0  thumb
  *   func_0203D34C  0x0203D34C  arm
@@ -31,14 +31,14 @@
  *   func_02158344  0x02158344  thumb  ov010
  *   func_0202208C  0x0202208C  thumb
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0217440C  0x0217440C  thumb  ov011
- *   func_0217446C  0x0217446C  thumb  ov011
+ *   INTRUDE_COMM_SendBusyBegin  0x0217440C  thumb  ov011
+ *   INTRUDE_COMM_SendBusyEnd  0x0217446C  thumb  ov011
  *   func_020221A4  0x020221A4  thumb
  *   func_0202648C  0x0202648C  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02031348  0x02031348  arm
+ *   PROCSYS_Push  0x02031348  arm
  *   func_0201DD78  0x0201DD78  thumb
- *   func_02031330  0x02031330  arm
+ *   PROCSYS_Main  0x02031330  arm
  *   func_020310C4  0x020310C4  arm
  *   func_0201C4E4  0x0201C4E4  thumb
  *   func_0204A600  0x0204A600  arm
@@ -60,7 +60,7 @@
  *   func_020450C8  0x020450C8  arm
  *   func_02021518  0x02021518  thumb
  *   func_0202155C  0x0202155C  thumb
- *   func_02021EE4  0x02021EE4  thumb
+ *   PALANM_SetAutoTransfer  0x02021EE4  thumb
  *   func_020215A0 0x020215A0 thumb
  *   func_02021540 0x02021540 thumb
  *   func_0203FCA0  0x0203FCA0  arm
@@ -69,9 +69,9 @@
  *   d_021BA794     0x021BA794  data  a4
  *   d_021BA7B4     0x021BA7B4  data  a4
  *   func_020403F4 0x020403F4 arm
- *   func_02021660  0x02021660  thumb
- *   func_020215EC  0x020215EC  thumb
- *   func_020216B4  0x020216B4  thumb
+ *   PALANM_LoadHandlePaletteToSlotAt  0x02021660  thumb
+ *   PALANM_LoadArcPaletteToSlotAt  0x020215EC  thumb
+ *   PALANM_LoadHandlePaletteToSlot  0x020216B4  thumb
  *   func_020498F4  0x020498F4  arm
  *   func_02049658  0x02049658  arm
  *   func_0203FA08  0x0203FA08  arm
@@ -92,24 +92,24 @@
  *   d_020A1448     0x020A1448  data  a4
  *   func_0204A48C  0x0204A48C  arm
  *   func_0204B100  0x0204B100  arm
- *   func_0204B270  0x0204B270  arm
- *   func_02025318  0x02025318  thumb
+ *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
+ *   ACTOR_TOOL_Create  0x02025318  thumb
  *   func_02025538  0x02025538  thumb
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_02025588 0x02025588 thumb
  *   func_0204B1CC 0x0204B1CC arm
  *   func_0204A5AC 0x0204A5AC arm
- *   func_02025358 0x02025358 thumb
- *   func_02025470  0x02025470  thumb
+ *   ACTOR_TOOL_Delete 0x02025358 thumb
+ *   ACTOR_TOOL_LoadCharPalAnm  0x02025470  thumb
  *   func_0204A6C8  0x0204A6C8  arm
  *   func_0204AF28  0x0204AF28  arm
- *   func_020254BC  0x020254BC  thumb
- *   func_02025518 0x02025518 thumb
+ *   ACTOR_TOOL_LoadCharSimplePalAnm  0x020254BC  thumb
+ *   ACTOR_TOOL_FreeChar 0x02025518 thumb
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204AFD8 0x0204AFD8 arm
  *   func_0204A648 0x0204A648 arm
- *   func_02021D50 0x02021D50 thumb
+ *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_02048F60  0x02048F60  arm
  *   func_020490A8  0x020490A8  arm
  *   func_020307B0  0x020307B0  arm
@@ -132,7 +132,7 @@
  *   func_020257D0 0x020257D0 thumb
  *   func_0204B6F4  0x0204B6F4  arm
  *   func_02034714  0x02034714  arm
- *   func_02021F3C  0x02021F3C  thumb
+ *   PALANM_GetColor  0x02021F3C  thumb
  *   func_02021FD8  0x02021FD8  thumb
  *   d_021BABE0     0x021BABE0  data  a1
  *   d_021BA82C     0x021BA82C  data  a4
@@ -141,7 +141,7 @@
  *   func_021583CC 0x021583CC thumb ov010
  *   d_021BA844     0x021BA844  data  a2
  *   func_0204B92C  0x0204B92C  arm
- *   func_0204B8A0 0x0204B8A0 arm
+ *   CLACT_ChangeActorAnimSeq 0x0204B8A0 arm
  *   d_021BA854     0x021BA854  data  a4
  *   d_021BA84C     0x021BA84C  data  a4
  *   d_021BA804     0x021BA804  data  a4
@@ -165,8 +165,8 @@
  *   func_020061E4 0x020061E4 thumb
  *   func_02175B14 0x02175B14 thumb ov011
  *   func_02175B4C 0x02175B4C thumb ov011
- *   func_021761EC 0x021761EC thumb ov011
- *   func_02173E2C 0x02173E2C thumb ov011
+ *   INTRUDE_COMM_TakeJoinReply 0x021761EC thumb ov011
+ *   INTRUDE_CMD_SendJoinRequest 0x02173E2C thumb ov011
  *   d_021BA87C 0x021BA87C data a4
  *   d_021BA85C 0x021BA85C data a1
  *   d_021BA862 0x021BA862 data a1
@@ -216,44 +216,25 @@
  *   func_0201EFA4  0x0201EFA4  thumb
  *   _ll_sdiv       0x0209BE5C  arm
  *   func_0216FEAC  0x0216FEAC  thumb  ov010
- *   func_021BA11C  0x021BA11C  thumb  ov071
- *   func_021B9BB8  0x021B9BB8  thumb  ov071
- *   func_021B9AE4  0x021B9AE4  thumb  ov071
- *   func_021B9B64  0x021B9B64  thumb  ov071
- *   func_021B9BE8  0x021B9BE8  thumb  ov071
- *   func_021BA1B0  0x021BA1B0  thumb  ov071
- *   func_021BA140  0x021BA140  thumb  ov071
- *   func_021B9F2C  0x021B9F2C  thumb  ov071
  *   func_0201F184 0x0201F184 thumb
- *   func_02005E30 0x02005E30 thumb
- *   func_02005E50 0x02005E50 thumb
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005E64 0x02005E64 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_PushBgm 0x02005E64 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02005F38 0x02005F38 thumb
- *   func_02005E9C 0x02005E9C thumb
- *   func_02005DF8 0x02005DF8 thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200BE48 0x0200BE48 thumb
  *   func_0200BF08 0x0200BF08 thumb
  *   func_02012B58 0x02012B58 thumb
- *   func_020266AC 0x020266AC thumb
- *   func_02174660 0x02174660 thumb ov011
- *   func_021B9BD8 0x021B9BD8 thumb ov071
- *   func_021B9BAC 0x021B9BAC thumb ov071
- *   func_021B9C7C 0x021B9C7C thumb ov071
- *   func_021BA004 0x021BA004 thumb ov071
- *   func_021BA0CC 0x021BA0CC thumb ov071
- *   func_021BA01C 0x021BA01C thumb ov071
- *   func_021B9C30 0x021B9C30 thumb ov071
+ *   GAME_COMM_PushPairMessage 0x020266AC thumb
+ *   INTRUDE_COMM_SendPairMessage 0x02174660 thumb ov011
  *   func_02035C38 0x02035C38 arm
  *   func_0203630C 0x0203630C arm
  *   d_021BAAFC 0x021BAAFC data a4
  *   d_021BABFC 0x021BABFC data a4
- *   func_021B9BA0  0x021B9BA0  thumb  ov071
- *   func_021B9B3C  0x021B9B3C  thumb  ov071
- *   func_021B9BC8  0x021B9BC8  thumb  ov071
- *   func_021B9C1C  0x021B9C1C  thumb  ov071
  *   d_021BAB28     0x021BAB28  data  ov071  a4
  *   d_021BAB48     0x021BAB48  data  ov071  a4
  *   d_021BAB68     0x021BAB68  data  a4
@@ -261,79 +242,27 @@
  *   func_0216FE2C  0x0216FE2C  thumb  ov010
  *   func_0201C7D0  0x0201C7D0  thumb
  *   d_021BAAF8     0x021BAAF8  data  a2
+ *   d_021BAB10     0x021BAB10  data  a4
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
+ *   func_020413B0  0x020413B0  arm
+ *   func_02041B6C  0x02041B6C  arm
+ *   func_02041EE4 0x02041EE4 arm
+ *   func_0202590C  0x0202590C  thumb
+ *   func_02043814  0x02043814  arm
+ *   d_021BAB94     0x021BAB94  data  a4
+ *   d_021BABB4     0x021BABB4  data  a4
+ *   func_0200BF10  0x0200BF10  thumb
  */
-#include "../../matched/include/Obj00712.h"
-#include "../../matched/include/Obj02419.h"
-#include "../../matched/include/Obj09885.h"
-#include "../../matched/include/Obj07693.h"
-#include "../../matched/include/Obj06183.h"
-#include "../../matched/include/Obj13166.h"
-#include "../../matched/include/Obj13167.h"
-#include "../../matched/include/Obj09886.h"
-#include "../../matched/include/Obj20689.h"
-#include "../../matched/include/Obj13174.h"
-#include "../../matched/include/Obj06184.h"
-#include "../../matched/include/Obj20691.h"
-#include "../../matched/include/Obj20692.h"
-#include "../../matched/include/Obj20695.h"
-#include "../../matched/include/Obj20703.h"
-#include "../../matched/include/Obj20705.h"
-#include "../../matched/include/Obj13176.h"
-#include "../../matched/include/Obj20709.h"
-#include "../../matched/include/Obj20710.h"
-#include "../../matched/include/Obj20722.h"
-#include "../../matched/include/Obj04337.h"
-#include "../../matched/include/Obj20724.h"
-#include "../../matched/include/Obj20725.h"
-#include "../../matched/include/Obj06186.h"
-#include "../../matched/include/Obj06187.h"
-#include "../../matched/include/Obj20733.h"
-#include "../../matched/include/Obj20734.h"
-#include "../../matched/include/Obj20735.h"
-#include "../../matched/include/Obj06189.h"
-#include "../../matched/include/Obj07702.h"
-#include "../../matched/include/Obj20739.h"
-#include "../../matched/include/Obj20740.h"
-#include "../../matched/include/Obj20741.h"
-#include "../../matched/include/Obj06188.h"
-#include "../../matched/include/Obj01884.h"
-#include "../../matched/include/Obj02123.h"
-#include "../../matched/include/Obj13181.h"
-#include "../../matched/include/Obj03177.h"
-#include "../../matched/include/Obj20746.h"
-#include "../../matched/include/Obj20747.h"
-#include "../../matched/include/G_Config.h"
-#include "../../matched/include/Obj09894.h"
-#include "../../matched/include/Obj09895.h"
-#include "../../matched/include/Obj04341.h"
-#include "../../matched/include/Obj13182.h"
-#include "../../matched/include/Obj13183.h"
-#include "../../matched/include/Obj20750.h"
-#include "../../matched/include/Obj00044.h"
-#include "../../matched/include/Obj09896.h"
-#include "../../matched/include/Obj07704.h"
-#include "../../matched/include/Obj20751.h"
-#include "../../matched/include/Obj20752.h"
-#include "../../matched/include/Obj04340.h"
-#include "../../matched/include/Obj20753.h"
-#include "../../matched/include/Obj20755.h"
-#include "../../matched/include/Obj03664.h"
-#include "../../matched/include/Obj09897.h"
-#include "../../matched/include/Obj20756.h"
 
-#define W(k) (*(u32 *)(o+(k)))
-#define C_021B8A70(k) (*(u32 *)(c+(k)))
-#define CP(k) ((u8 *)C_021B8A70(k))
 struct S02021D50;
-struct W6844;
-struct Obj0203159C;
+struct Proc;
 struct Ctx;
 struct PrintSys;
 struct Tcbl;
 struct Node;
 struct PalAnmSlot;
 struct S020314B8;
-struct S020315D4;
+struct Proc;
 struct DispConfig;
 struct DispVram;
 struct Obj02021EE4;
@@ -345,20 +274,20 @@ struct Rec;
 struct S02031140;
 struct Bank;
 struct Cfg;
-struct Bmp;
-struct Grid;
+struct Bitmap;
+struct BmpOamGrid;
 struct Sys;
-struct U16Vec;
-struct Obj;
-struct Obj020437AC;
+struct Strbuf;
+struct Actor;
+struct Bitmap;
 struct Chan02021FD8;
 struct R;
 struct TaskMenuState;
 struct TaskMenu;
 struct TaskMenuTmpl;
 struct Rec3;
-struct CharBuf;
-struct Descriptor;
+struct Bitmap;
+struct BmpWin;
 struct Blk;
 struct P;
 struct Vec2;
@@ -374,6 +303,8 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
+#include "monolith_tool_types.h"
+
 typedef struct {
     int a;
     int b;
@@ -387,24 +318,11 @@ struct S6844 {
     int w18;
 };
 
-struct W6844 {
-    int w0;
-    u8 *unk_04;
-    int pad_08[3];
-    void *unk_14;
-    int pad_18[5];
-    void *unk_2c;
-};
-
 typedef signed int     s32;
 
 typedef enum { SLOT_FIRST, SLOT_COUNT = 2 } Slot;
 
 typedef enum { IDX_FIRST, IDX_COUNT = 6 } Idx;
-
-struct E24 {
-    int w[6];
-};
 
 typedef signed short s16;
 
@@ -414,52 +332,25 @@ struct Pair {
     int x, y;
 };
 
-struct Point {
+struct MonolithToolActorPos {
     s16 x;
     s16 y;
-    u16 f4;
-    u8 f6;
-    u8 f7;
+    u16 animSeq;
+    u8 reserved6;
+    u8 reserved7;
 };
 
-struct Param {
-    void *bmp;
+struct MonolithToolGridParam {
+    void *bitmap;
     s16 x;
     s16 y;
-    u32 f8;
-    u32 fc;
-    u8 f10;
-    u8 f11;
-    u16 f12;
-    u32 f14;
+    u32 palette;
+    u32 reservedC;
+    u8 reserved10;
+    u8 reserved11;
+    u16 subScreenA;
+    u32 subScreenB;
 };
-
-typedef struct {
-    u32 f40;
-    u32 f44;
-    u32 f48;
-    u32 f4c;
-} Res;
-
-typedef struct {
-    u8 pad0[8];
-    void *f8;
-    void *fc;
-    u8 pad10[4];
-    u32 f14;
-    u8 pad18[0x10];
-    void *f28;
-    void *f2c;
-    u8 pad30[0x10];
-    Res res[1];
-} Ctx_021B6A0C;
-
-typedef struct {
-    void *act;
-    void *grid;
-    void *bmp;
-    u8 on;
-} Out_021B6A0C;
 
 typedef struct {
     u16 v;
@@ -470,25 +361,8 @@ typedef struct {
     u8 pad[2];
 } Ent;
 
-typedef struct {
-    u8 pad0[8];
-    void *f8;
-    void *fc;
-    u8 pad10[0x18];
-    void *f28;
-    void *f2c;
-    u8 pad30[0x10];
-    Res res[1];
-} Ctx_021B6E1C;
-
-typedef struct {
-    void *bmp;
-    void *grid;
-    u8 on;
-} Out_021B6E1C;
-
-struct H4 {
-    u16 a, b, c, d;
+struct MonolithToolIconPos {
+    u16 x, y, animSeq, reserved6;
 };
 
 struct Ent {
@@ -499,200 +373,23 @@ struct P { int w[6]; int pad[10]; struct Ent e[2]; };
 
 typedef enum { V4 = 4, V5 = 5 } Value;
 
-typedef struct { u16 a, b, c, d; } Rect;
-
-typedef struct { int h; u8 a, b, c; } St;
+struct MonolithToolCursorPos {
+    u16 x, y, animSeq, reserved6;
+};
 
 typedef struct { void *s; u16 h; int z; } Item;
 
-typedef struct {
-    u8 pad[0xc];
-    u16 n;
-    u16 m;
-} Counts;
-
-typedef struct {u32 a[6];} Record;
-
 typedef struct {void **f0;u8 *f4;u8 *f8;u8 padc[0x20];u8 f2c,f2d,f2e;} C;
 
-typedef struct {u8 pad0[0x4c];Record rec;u16 text[10];u8 f78;u8 pad79[7];u8 f80,f81,f82,f83;} D_021B6524;
-
-typedef struct {
-    int pad[3];
-    int v[6];
-} S;
-
-typedef struct {
-    char pad[0x10];
-    int f10;
-} Inner;
-
-typedef struct {
-    int f0;
-    Inner *f4;
-} C_021B7AAC;
-
-typedef struct {
-    char pad[0x32];
-    unsigned char f32;
-} W_021B7E60;
-
-typedef struct {
-    char pad[0x3d];
-    unsigned char f3d;
-} Q_021B7AAC;
-
-typedef struct {
-    Q_021B7AAC *q;
-    int *f4;
-} C_021B7E60;
-
 typedef signed char s8;
-
-typedef struct {
-    void **f0;
-    void *f4;
-    char pad8[0x24];
-    u8 f2c;
-    u8 f2d;
-    u8 f2e;
-} C_021B7EE0;
-
-typedef struct {
-    u8 pad0[0x30];
-    s8 sel;
-    s8 res;
-    u8 kind;
-    u8 armed;
-    u8 f34[8];
-} D_021B7AAC;
 
 typedef struct {
     u8 b[0x14];
 } Menu;
 
-typedef struct {
-    char pad[0x40];
-    void *f40;
-    void *f44;
-} W_021B8150;
-
-typedef struct {
-    int f0;
-    struct {
-        char pad[8];
-        void *f8;
-    } *f4;
-} B;
-
-typedef struct {
-    char pad[0x3c];
-    int f3c;
-} W_021B7AAC;
-
-typedef struct {
-    char pad[0x3c];
-    void *f3c;
-    void *f40;
-    void *f44;
-} W_021B83C0;
-
-typedef struct {
-    char pad0[0xc];
-    unsigned fc;
-    char pad10[8];
-    unsigned f18;
-    char pad1c[0xc];
-    void *f28;
-} X;
-
-typedef struct {
-    char pad0[8];
-    void *f8;
-} Q_021B83C0;
-
-typedef struct {
-    void **f0;
-    Q_021B83C0 *f4;
-} C_021B8494;
-
-typedef struct {
-    void **f0;
-    Q_021B83C0 *f4;
-    unsigned char *f8;
-    char pad[0x21];
-    unsigned char f2d;
-} C_021B855C;
-
-typedef struct {
-    int h[2];
-    struct {
-        int h;
-        unsigned char on;
-    } e[2];
-} P_021B86E8;
-
-typedef struct {
-    u32 f0;
-    u32 kind : 4;
-    u32 b4 : 14;
-    u32 b18 : 11;
-    u32 b29 : 3;
-    u32 pad8[4];
-} Obj;
-
-typedef struct {
-    char pad0[8];
-    void *f8;
-    void *fc;
-    void *f10;
-    char pad14[8];
-    void *f1c;
-    char pad20[0x40];
-    Obj ent[1];
-} Q_021B8798;
-
-typedef struct {
-    void *h[2];
-    struct {
-        void *h;
-        u8 on;
-    } e[2];
-} P_021B8798;
-
-typedef struct {
-    char pad0[8];
-    void *f8;
-} Q_021B889C;
-
-typedef struct {
-    void **f0;
-    Q_021B889C *f4;
-} C_021B889C;
-
-typedef struct {
-    char pad0[8];
-    void *f8;
-} Q_021B8968;
-
-typedef struct {
-    void **f0;
-    Q_021B8968 *f4;
-    char pad8[0x24];
-    u8 f2c;
-    u8 f2d;
-    u8 f2e;
-} C_021B8968;
-
-typedef struct {
-    int h[6];
-    struct {
-        int h;
-        unsigned char on;
-    } e[6];
-} P_021B8B08;
-
 typedef long long s64;
+
+typedef enum { FALSE, TRUE } Bool_021B9070;
 
 typedef struct {
     char pad0[0x2c];
@@ -701,50 +398,17 @@ typedef struct {
     u8 f38[1];
 } Save;
 
-typedef struct {
-    Save *f0;
-} C_021B8A70;
-
-typedef struct {
-    char pad0[8];
-    void *f8;
-    void *fc;
-    void *f10;
-    char pad14[0x14];
-    void *f28;
-    char pad2c[8];
-    void *f34;
-} Q;
-
-typedef struct {
-    void *h[6];
-    struct {
-        void *h;
-        u8 on;
-    } e[6];
-} P_021B8C0C;
-
-typedef enum { FALSE, TRUE } Bool_021B9070;
-
-typedef struct {
-    u8 pad00[0x24];
-    void *obj[50];
-    int idx[50];
-    int kind[50];
-    u8 count;
-} List;
-
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 planes);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void func_0204363C(u32 a);
 extern void func_0203064C(u32 a, u32 b, u32 c);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *func_0203159C(struct Proc *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_02010F7C(u32 heap);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 extern void func_02028470(u8 *p, u32 v);
 extern u32 func_020056A0(void (*cb)(void), void *arg, int pri);
 extern void func_0203D34C(u32 a, u32 b);
@@ -752,14 +416,14 @@ extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158344(int a0);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_0200FB24(void);
-extern u32 func_0217440C(void);
-extern u32 func_0217446C(void);
+extern u32 INTRUDE_COMM_SendBusyBegin(void);
+extern u32 INTRUDE_COMM_SendBusyEnd(void);
 extern u32 func_020221A4(void);
 extern u32 func_0202648C(void *obj);
 extern u32 func_02026454(void *obj);
-extern void func_02031348(int h, int id, int a, void *b);
+extern void PROCSYS_Push(int h, int id, int a, void *b);
 extern void func_0201DD78(u32, u32, u32);
-extern u32 func_02031330(void *h);
+extern u32 PROCSYS_Main(void *h);
 extern void func_020310C4(struct Tcbl *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_0204A600(void);
@@ -767,7 +431,7 @@ extern void func_0203133C(struct S020314B8 *p);
 extern void func_02030EAC(struct Node *n);
 extern void func_02010F8C(void *p);
 extern void func_02049238(void *a);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void func_020306F0(u32 heap);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0203F8F4(u16 heapId);
@@ -777,59 +441,59 @@ extern void func_020215A0(struct PalAnmSlot *, u32);
 extern u32 func_02021540(void *a0);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(u32);
-extern void func_02021660(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
-extern void func_020215EC(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
-extern void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
+extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
+extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
 extern void func_02027634(void *arc, int id, u32 heap, int base, u32 pal);
 extern void func_020409B4(u32 a);
 extern void func_0203FB44(u32, u32, u32);
-extern unsigned int func_02045C04(struct Rec *rec);
+extern unsigned int func_02045C04(struct MsgBank *bank);
 extern unsigned int func_0201ED04(struct WordSet *p);
 extern void func_0201C6EC(struct PrintSys *);
 extern void func_0201C4C0(struct PrintSys *);
 extern u32 func_0201D83C(void *ptr);
-extern void func_02031140(struct S02031140 *);
+extern void func_02031140(struct Tcbl *);
 extern void func_020434DC(u32, u32);
 extern void func_02043598(u32, u32);
 extern void func_02025588(void *);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
-extern void func_02025358(void *);
-extern void func_02025518(u32, u32, u32);
+extern void ACTOR_TOOL_Delete(void *);
+extern void ACTOR_TOOL_FreeChar(u32, u32, u32);
 extern void func_0204A8D4(u32);
 extern void func_0204AFD8(u32);
 extern void func_0204A648(void);
-extern void func_02021D50(struct S02021D50 *);
+extern void PALANM_TransferPalettes(struct PalAnmSlot *);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern u32 func_020490A8(u32 a, u32 b);
 extern u32 func_020307B0(void *p);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
+extern struct Bitmap *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern struct Actor *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct BmpOamGrid *func_020255A0(struct Sys *sys, const struct MonolithToolGridParam *param);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_0204B3B4(struct Obj *);
-extern void func_0202570C(struct Grid *);
-extern void func_020437AC(struct Obj020437AC *);
-extern void func_0204B3DC(struct Obj *, u32);
+extern void func_0201C6FC(struct PrintSys *printSys, struct Bitmap *bitmap, u32 x, u32 y, struct Strbuf *text, u32 font);
+extern void func_02045808(struct Strbuf *vec);
+extern void func_0204B3B4(struct Actor *);
+extern void func_0202570C(struct BmpOamGrid *);
+extern void func_020437AC(struct Bitmap *);
+extern void func_0204B3DC(struct Actor *, u32);
 extern void func_02025774(u8 *, u32);
 extern u32 func_0201C6C4(struct PrintSys *, void *);
-extern void func_020257D0(struct Obj *);
+extern void func_020257D0(struct BmpOamGrid *);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u16 func_02021F3C(int base, int idx, int which, u16 pos);
+extern u16 PALANM_GetColor(int base, int idx, int which, u16 pos);
 extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void *func_020120F4(const struct Ctx *p);
 extern int func_021583EC(void *a0, int a1);
 extern int func_021583CC(void *a0, int a1);
-extern void func_0204B92C(struct Obj *, unsigned int);
-extern void func_0204B8A0(struct Obj *p, u16 v);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_0204B92C(struct Actor *, unsigned int);
+extern void CLACT_ChangeActorAnimSeq(struct Actor *p, u16 v);
+extern void func_0204B6F4(struct Actor *o, u32 v, u32 flag);
 extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_02027974(void *);
@@ -840,7 +504,7 @@ extern void func_02045088(u16 heapId);
 extern void func_020450C8(void);
 extern void *func_02021518(u32 heap);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-extern unsigned int func_02021EE4(struct Obj02021EE4 *o, int v);
+extern unsigned int PALANM_SetAutoTransfer(struct PalAnmSlot *slots, int v);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02041300(u32 a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g);
 extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
@@ -850,13 +514,13 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
-extern u8 *func_02025318(u32 a0, u8 a1, u8 a2);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
+extern u8 *ACTOR_TOOL_Create(u32 a0, u8 a1, u8 a2);
 extern void *func_02025538(unsigned int a0, void *a1);
-extern u32 func_02025470(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern u32 ACTOR_TOOL_LoadCharPalAnm(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern u32 func_020254BC(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern u32 ACTOR_TOOL_LoadCharSimplePalAnm(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern u32 func_02027FD8(struct TaskMenuState *s);
 extern void func_02027858(struct TaskMenu *m);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -870,23 +534,23 @@ extern void func_020355D8x(int);
 extern void func_020061E4(u32);
 extern int func_02175B14(u8 *);
 extern void func_02175B4C(u8 *,u8 *);
-extern u8 func_021761EC(char *p);
-extern int func_02173E2C(char *a, int b);
+extern u8 INTRUDE_COMM_TakeJoinReply(char *p);
+extern int INTRUDE_CMD_SendJoinRequest(char *a, int b);
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_0201CE48(struct Rec3 *p);
 extern void func_0201F554(u32 a, u32 b, u32 c, u32 d);
 extern u8 func_0201F548(int i);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045374(struct Cfg *cfg);
+extern struct BmpWin *func_020450F0(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
+extern void *func_02045770(struct BmpWin *p);
+extern void func_02043B5C(struct Bitmap *buf, u8 value);
+extern void func_02045374(struct BmpWin *window);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern signed char func_02012FFC(void);
 extern void *func_0201CCE4(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u32 a5, void *a6, u32 a7, u32 a8, u32 a9);
 extern s32 func_02028484(struct Blk *blk, void *h);
-extern void func_02045334(struct Descriptor *d);
-extern u32 func_020452E8(struct Descriptor *d);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void func_02045334(struct BmpWin *d);
+extern u32 func_020452E8(struct BmpWin *d);
+extern void func_0204B404(struct Actor *p, const struct Vec2 *delta, u32 which);
 extern u8 func_020355C4(void);
 extern const void *func_020084F4(const void *p);
 extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
@@ -896,211 +560,236 @@ extern unsigned int func_0203633C(void);
 extern u32 func_0201296C(const struct BigObj *p);
 extern u32 func_020142E8(void *bitmap, s32 id);
 extern u8 *func_02175B34(u8 *p);
-extern void func_021762D8(Obj *, void *, void *, int);
+extern void func_021762D8(MonolithToolSlotInfo *, void *, void *, int);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern int func_0216FEAC(void *, void *, u8 *);
-extern void func_021BA11C(char *p);
-extern void func_021B9BB8(char *p, char *q);
-extern void func_021B9AE4(void *a, void *b);
-extern void func_021B9B64(char *p, char *q);
-extern void func_021B9BE8(char *p, char *q);
-extern void func_021BA1B0(void *unused, char *p);
-extern void func_021BA140(u8 *p);
-extern int func_021B9F2C(u8 *p, int i, int v);
-extern void func_021B9BD8(char *p);
-extern void func_021B9BAC(void *p, int a);
+extern int func_0216FEAC(MonolithEntry *table, MonolithCounts *counts, u8 *rankData);
 extern int func_02035C38(void);
 extern u32 func_0203630C(void);
-extern void func_021B9C7C(void *,void *);
-extern void func_021BA004(char *p);
-extern int func_021BA0CC(u8 *p, int d);
-extern void func_021BA01C(void *a, u8 *p);
 extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
-extern int func_02174660(int,...);
-extern void func_02005E30(u32 a);
-extern int func_02005E50(void);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
-extern void func_02005D90(int,int);
+extern int INTRUDE_COMM_SendPairMessage(int,...);
+extern void GFL_USE_FadeOutBgm(u32 a);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern int func_02005F38(void);
-extern int func_02005E9C(void);
-extern void func_02005DF8(u32 a);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
 extern void func_0200BF08(struct Rec1B0 *p, u32 v);
 extern u8 func_02012B58(const struct BigObj *p);
-extern void func_020266AC(u32,u32,u32);
-extern void func_021B9C30(u8 *);
-extern void func_021B9BA0(void *a);
-extern void func_021B9B3C(char *p);
-extern void func_021B9BC8(char *p);
-extern void func_021B9C1C(char *p);
+extern void GAME_COMM_PushPairMessage(u32,u32,u32);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern int func_0216FE2C(struct Rec *tbl, int idx, struct Pos *pos, u8 *flags);
+extern int func_0216FE2C(MonolithEntry *table, int index, MonolithCounts *counts, u8 *rankData);
 extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-int func_021B6100(struct Obj0203159C *ctx, int unused, u8 *arg);
-int func_021B6250(int a, int *seq, void **pwk, u8 *mywk);
-int func_021B6458(int a, int b, int c, int *w);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
+extern void func_020413B0(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 palette);
+extern void func_02041B6C(u32 layerBit);
+extern void func_02041EE4(unsigned layer, unsigned axis, unsigned offset);
+extern void func_0202590C(struct BmpOamGrid *grid, s16 x, s16 y);
+extern void func_02043814(struct Bitmap *dst, const struct Bitmap *src);
+extern u8 func_0200BF10(void *saveBlock);
+extern const struct MonolithToolGridParam d_021BAB10;
+extern const struct BgTemplate d_021BAB94;
+extern const struct BgTemplate d_021BABB4;
+int func_021B6100(struct Proc *ctx, int unused, MonolithToolSetup *setup);
+int func_021B6250(int a, int *seq, void **pwk, MonolithToolWork *work);
+int func_021B6458(int a, int b, int c, MonolithToolWork *work);
 void func_021B64D0(void);
 void func_021B6524(void);
 void func_021B652C(void);
 void func_021B6538(void);
-unsigned int func_021B6540(int *p);
-void func_021B6588(struct PalAnmSlot **p);
+unsigned int func_021B6540(MonolithToolWork *work);
+void func_021B6588(MonolithToolWork *work);
 void func_021B65B4(void);
 void func_021B6624(void);
-void func_021B6644(void *a, void *b);
-void func_021B677C(u32 *p);
-void func_021B6790(int *p);
-void func_021B6808(void **p);
-void func_021B6844(struct W6844 *p);
-void func_021B68B4(void **p);
-void func_021B68E0(int *p);
-void func_021B6960(u32 *p);
-void func_021B699C(void *unused, struct S02021D50 **p);
-void func_021B69AC(u8 *a, u8 *b);
-void func_021B6A0C(Ctx_021B6A0C *a, Out_021B6A0C *b, int c, int d, int e, int f, int g, void *h);
-void func_021B6B38(void **p);
-void func_021B6B58(void **p, int v);
-int func_021B6B70(void **p, u8 *q);
-void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
-void func_021B6BEC(void *p, int *tbl, int n, int sel, int c);
-void func_021B6C30(int *p, int flag, int index);
-void func_021B6C48(void *p, int a);
-void func_021B6C54(char *p);
-u8 func_021B6C74(void *p, int i);
-void func_021B6C7C(int *p, int idx);
-void func_021B6DB4(int *p, int a, int idx);
+void func_021B6644(MonolithToolWork *work, MonolithToolWork *work2);
+void func_021B677C(MonolithToolWork *work);
+void func_021B6790(MonolithToolWork *work);
+void func_021B6808(MonolithToolWork *work);
+void func_021B6844(MonolithToolWork *work);
+void func_021B68B4(MonolithToolWork *work);
+void func_021B68E0(MonolithToolWork *work);
+void func_021B6960(MonolithToolWork *work);
+void func_021B699C(void *unused, MonolithToolWork *work);
+void func_021B69AC(MonolithToolWork *work, MonolithToolSetup *setup);
+void func_021B6A0C(MonolithToolWork *work, MonolithToolButton *button, int resIndex, int sizeClass, int x, int y, int msgId, void *wordSet);
+void func_021B6B38(MonolithToolButton *button);
+void func_021B6B58(MonolithToolButton *button, int visible);
+int func_021B6B70(MonolithToolWork *work, MonolithToolButton *button);
+void func_021B6B98(MonolithToolProcArgs *args, MonolithToolButton *button, int count, int selected, int slot);
+void func_021B6BEC(MonolithToolProcArgs *args, MonolithToolButton *button, int count, int selected, int slot);
+void func_021B6C30(MonolithToolProcArgs *args, int pulse, int slot);
+void func_021B6C48(MonolithToolProcArgs *args, int slot);
+void func_021B6C54(MonolithToolProcArgs *args);
+u8 func_021B6C74(MonolithToolProcArgs *args, int slot);
+void func_021B6C7C(MonolithToolProcArgs *args, int slot);
+void func_021B6DB4(MonolithToolProcArgs *args, int mode, int slot);
 int func_021B6E00(unsigned int x);
 int func_021B6E0C(unsigned int x);
 int func_021B6E18(int a0);
-void func_021B6E1C(Ctx_021B6E1C *a, Out_021B6E1C *b, int c, int x, int y, int w, int h, int g, void *ws);
-void func_021B6EEC(void **p);
-int func_021B6F04(void **p, u8 *q);
-void *func_021B6F2C(u8 **p);
-void *func_021B6F40(u8 **p);
-int func_021B6F54(struct P *p, u8 *q, int c, const int *d, int e);
+void func_021B6E1C(MonolithToolWork *work, MonolithToolLabel *label, int resIndex, int x, int y, int widthTiles, int heightTiles, int msgId, void *wordSet);
+void func_021B6EEC(MonolithToolLabel *label);
+int func_021B6F04(MonolithToolWork *work, MonolithToolLabel *label);
+void *func_021B6F2C(MonolithToolProcArgs *args);
+MonolithCounts *func_021B6F40(MonolithToolProcArgs *args);
+int func_021B6F54(MonolithToolWork *work, MonolithCounts *counts, int slot, const int *pos, int resIndex);
 void func_021B6FD8(void *p);
-void func_021B6FE0(void *p, u8 *q, int i);
-int func_021B7014(int *p, const int *pos, int flag);
+void func_021B6FE0(void *p, MonolithCounts *counts, int i);
+int func_021B7014(MonolithToolWork *work, const int *pos, int resIndex);
 void func_021B7068(void *p);
-void func_021B7070(int *p, int *out);
-void func_021B70B8(void **p);
-void func_021B70C4(St *p);
-void func_021B7108(void *p);
-int func_021B7114(void *p);
-struct Obj *func_021B7118(int *p, int x, int y, int w);
+void func_021B7070(MonolithToolWork *work, MonolithToolBlink *blink);
+void func_021B70B8(MonolithToolBlink *blink);
+void func_021B70C4(MonolithToolBlink *p);
+void func_021B7108(MonolithToolBlink *blink);
+int func_021B7114(MonolithToolBlink *blink);
+struct Actor *func_021B7118(MonolithToolWork *work, int x, int y, int animSeq);
 void func_021B7168(void *p);
 void func_021B7170(void *a);
 struct R *func_021B7174(u32 *p, int a, u16 heap);
 void func_021B718C(void *p);
 void *func_021B7194(int *p, void *arg1, u32 heap);
 void func_021B71FC(void *p);
-int func_021B7204(int a, int b, void *p, int *q);
+int func_021B7204(MonolithToolWork *work, int unused, void *p, int *q);
 void func_021B7234(void *a, int flag, int bg);
-int func_021B730C(void *ctx, int *st, int *w);
-int func_021B739C(int a,int *state,C *c,D_021B6524 *d);
-int func_021B7824(void *a, void *b, char *c, char *d);
+int func_021B730C(void *ctx, int *state, MonolithToolProcArgs *args);
+int func_021B739C(int unused, int *state, MonolithToolProcArgs *args, MonolithToolSlotSelect *screen);
+int func_021B7824(void *proc, void *unused, MonolithToolProcArgs *args, MonolithToolSlotSelect *screen);
 void func_021B7880(void);
 void func_021B78D4(void);
-void func_021B78F4(void *p, void **q);
-void func_021B7924(void **p, void **q);
-void func_021B7994(void *p);
-void func_021B79A0(void **p, int *c, int idx);
-int func_021B7A08(char *p, char *q);
-void func_021B7A14(void **p);
-void func_021B7A68(S *a, int *b);
-void func_021B7AAC(void **p);
-void func_021B7AC4(void **p, void *q);
-void func_021B7AE8(void **p,int i);
-void func_021B7B10(int *a, char *b);
-void func_021B7B9C(char *p);
-void func_021B7BB4(int *a,char *p);
-void func_021B7BD8(void *p, int a);
-void func_021B7BE4(void *p);
-void func_021B7BF0(void *p);
-void func_021B7BFC(int *a, char *p, unsigned char m);
-int func_021B7C3C(struct Obj0203159C *a, int *b, C_021B7AAC *c);
-int func_021B7D00(int a,int *p,char *c,void **d);
-int func_021B7D34(void *a,int b,char *c,void **d);
+void func_021B78F4(MonolithToolProcArgs *args, MonolithToolWork *work);
+void func_021B7924(MonolithToolSlotSelect *screen, MonolithToolWork *work);
+void func_021B7994(MonolithToolSlotSelect *screen);
+void func_021B79A0(MonolithToolSlotSelect *screen, MonolithToolWork *work, int msgId);
+int func_021B7A08(MonolithToolWork *work, MonolithToolSlotSelect *screen);
+void func_021B7A14(MonolithToolSlotSelect *screen);
+void func_021B7A68(MonolithToolSlotSelect *screen, MonolithToolProcArgs *args);
+void func_021B7AAC(MonolithToolSlotSelect *screen);
+void func_021B7AC4(MonolithToolSlotSelect *screen, MonolithToolProcArgs *args);
+void func_021B7AE8(MonolithToolSlotSelect *screen,int slot);
+void func_021B7B10(MonolithToolProcArgs *args, MonolithToolSlotSelect *screen);
+void func_021B7B9C(MonolithToolSlotSelect *screen);
+void func_021B7BB4(MonolithToolProcArgs *args,MonolithToolSlotSelect *screen);
+void func_021B7BD8(MonolithToolProcArgs *args, MonolithToolSlotSelect *screen);
+void func_021B7BE4(MonolithToolSlotSelect *screen);
+void func_021B7BF0(MonolithToolSlotSelect *screen);
+void func_021B7BFC(MonolithToolProcArgs *args, MonolithToolSlotSelect *screen, unsigned char mode);
+int func_021B7C3C(void *ctx, int *state, MonolithToolProcArgs *args);
+int func_021B7D00(int unused,int *state,MonolithToolProcArgs *args,MonolithToolTitle *screen);
+int func_021B7D34(void *proc,int unused,MonolithToolProcArgs *args,MonolithToolTitle *screen);
 void func_021B7D6C(void);
 void func_021B7D98(void);
-void func_021B7DAC(void *a,unsigned *b);
-void func_021B7DE0(S *a, int *b);
-void func_021B7E24(void **p);
-void func_021B7E3C(void **a,void *p);
-int func_021B7E60(struct Obj0203159C *a, int unused, C_021B7E60 *c);
-int func_021B7EE0(int a, int *state, C_021B7EE0 *c, D_021B7AAC *d);
-int func_021B8150(void *a, int unused, B *b, W_021B8150 *w);
-void func_021B81A0(int *a, u8 *p);
-void func_021B8270(unsigned char *p);
-void func_021B82A4(int *a, char *p);
-void func_021B82E4(void *p, int a);
-void func_021B82F0(void *p);
-void func_021B82FC(void *p);
+void func_021B7DAC(MonolithToolProcArgs *args,MonolithToolWork *work);
+void func_021B7DE0(MonolithToolTitle *screen, MonolithToolProcArgs *args);
+void func_021B7E24(MonolithToolTitle *screen);
+void func_021B7E3C(MonolithToolTitle *screen,MonolithToolProcArgs *args);
+int func_021B7E60(struct Proc *ctx, int unused, MonolithToolProcArgs *args);
+int func_021B7EE0(int unused, int *state, MonolithToolProcArgs *args, MonolithToolMenu *screen);
+int func_021B8150(void *proc, int unused, MonolithToolProcArgs *args, MonolithToolMenu *screen);
+void func_021B81A0(MonolithToolProcArgs *args, MonolithToolMenu *screen);
+void func_021B8270(MonolithToolMenu *screen);
+void func_021B82A4(MonolithToolProcArgs *args, MonolithToolMenu *screen);
+void func_021B82E4(MonolithToolProcArgs *args, MonolithToolMenu *screen);
+void func_021B82F0(MonolithToolMenu *screen);
+void func_021B82FC(MonolithToolMenu *screen);
 void func_021B8308(void);
 void func_021B833C(void);
-void func_021B8350(W_021B7AAC *w, int *b);
-void func_021B83C0(void *p);
-void func_021B83CC(W_021B83C0 *w, X *x, unsigned y);
-int func_021B8434(u8 *p, u8 *q);
-void func_021B8440(W_021B83C0 *w);
-int func_021B8494(struct Obj0203159C *a, int *b, C_021B8494 *c, u8 *d);
-int func_021B855C(int a, int *p, C_021B855C *c, unsigned char *d);
-int func_021B8618(void *a, void *b, char *c, void **d);
+void func_021B8350(MonolithToolMenu *screen, MonolithToolWork *work);
+void func_021B83C0(MonolithToolMenu *screen);
+void func_021B83CC(MonolithToolMenu *screen, MonolithToolWork *work, unsigned msgId);
+int func_021B8434(MonolithToolWork *work, MonolithToolMenu *screen);
+void func_021B8440(MonolithToolMenu *screen);
+int func_021B8494(struct Proc *ctx, int *state, MonolithToolProcArgs *args, MonolithToolSummary *screen);
+int func_021B855C(int unused, int *state, MonolithToolProcArgs *args, MonolithToolSummary *screen);
+int func_021B8618(void *proc, int unused, MonolithToolProcArgs *args, MonolithToolSummary *screen);
 void func_021B8650(void);
 void func_021B869C(void);
-void func_021B86BC(char *p);
-void func_021B86E8(int unused, P_021B86E8 *p);
-void func_021B8750(void **p);
-void func_021B8764(void *p,char *q);
-void func_021B878C(void *p);
-void func_021B8798(u8 **c, Q_021B8798 *q, P_021B8798 *d, u8 *r, unsigned v);
-int func_021B889C(struct Obj0203159C *a, int *b, C_021B889C *c, u8 *d);
-int func_021B8968(int a, int *b, C_021B8968 *c, u8 *d);
-int func_021B8A38(void *a, void *b, char *c, void **d);
+void func_021B86BC(MonolithToolWork *work);
+void func_021B86E8(int unused, MonolithToolSummary *screen);
+void func_021B8750(MonolithToolSummary *screen);
+void func_021B8764(MonolithToolWork *work, MonolithToolSummary *screen);
+void func_021B878C(MonolithToolSummary *screen);
+void func_021B8798(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithToolSummary *screen, u8 *saveData, unsigned slot);
+int func_021B889C(struct Proc *ctx, int *state, MonolithToolProcArgs *args, MonolithToolStats *screen);
+int func_021B8968(int unused, int *state, MonolithToolProcArgs *args, MonolithToolStats *screen);
+int func_021B8A38(void *proc, int unused, MonolithToolProcArgs *args, MonolithToolStats *screen);
 void func_021B8A70(void);
 void func_021B8ABC(void);
-void func_021B8ADC(char *p);
-void func_021B8B08(int unused, P_021B8B08 *p);
-void func_021B8BF4(void **p);
-void func_021B8C0C(C_021B8A70 *c, Q *q, P_021B8C0C *d);
-void func_021B8EC4(void *p, int a);
-void func_021B8ED0(void *p);
-void func_021B8EDC(void *p);
-int func_021B8EE8(struct Obj0203159C *a, int *b, u8 *c, u8 *o);
-int func_021B9070(int unused,int *state,u8 *c,u8 *o);
-int func_021B94CC(void *a, void *b, char *c, char *d);
+void func_021B8ADC(MonolithToolWork *work);
+void func_021B8B08(int unused, MonolithToolStats *screen);
+void func_021B8BF4(MonolithToolStats *screen);
+void func_021B8C0C(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithToolStats *screen);
+void func_021B8EC4(MonolithToolProcArgs *args, MonolithToolStats *screen);
+void func_021B8ED0(MonolithToolStats *screen);
+void func_021B8EDC(MonolithToolStats *screen);
+int func_021B8EE8(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithListWork *work);
+int func_021B9070(int unused, int *state, MonolithToolProcArgs *args, MonolithListWork *work);
+int func_021B94CC(void *proc, void *unused, MonolithToolProcArgs *args, MonolithListWork *work);
 void func_021B9560(void);
 void func_021B95CC(void);
-void func_021B95FC(void *a, void *b);
-void func_021B9694(unsigned int *p);
-void func_021B96A4(char *a, void **b);
-void func_021B9734(char *p);
-void func_021B9750(char *a, char *b);
-void func_021B9798(char *a, char *b, u32 c);
-void func_021B9818(char *a, char *b, u32 c);
-int func_021B98B4(u8 *a,u8 *b);
-void func_021B98C4(char *a);
-void func_021B992C(char *a);
-void func_021B9970(char **a, List *l, char *c);
-void func_021B9A18(char *p);
-int func_021B9A40(char *a, char *b);
+void func_021B95FC(MonolithListWork *work, MonolithToolWork *toolWork);
+void func_021B9694(MonolithListWork *work);
+void func_021B96A4(MonolithListWork *work, MonolithToolWork *toolWork);
+void func_021B9734(MonolithListWork *work);
+void func_021B9750(MonolithToolProcArgs *args, MonolithListWork *work);
+void func_021B9798(MonolithListWork *work, MonolithToolWork *toolWork, u32 msgId);
+void func_021B9818(MonolithListWork *work, MonolithToolWork *toolWork, u32 msgId);
+int func_021B98B4(MonolithToolWork *toolWork, MonolithListWork *work);
+void func_021B98C4(MonolithListWork *work);
+void func_021B992C(MonolithListWork *work);
+void func_021B9970(MonolithToolProcArgs *args, MonolithListWork *work, MonolithToolWork *toolWork);
+void func_021B9A18(MonolithListWork *work);
+int func_021B9A40(MonolithListWork *work, MonolithToolWork *toolWork);
+void func_021B9AE4(MonolithListWork *work, MonolithToolWork *toolWork);
+void func_021B9B3C(MonolithListWork *work);
+void func_021B9B64(MonolithToolProcArgs *args, MonolithListWork *work);
+void func_021B9BA0(MonolithListWork *work);
+void func_021B9BAC(MonolithToolWork *toolWork, MonolithListWork *work);
+void func_021B9BB8(MonolithToolProcArgs *args, MonolithListWork *work);
+void func_021B9BC8(MonolithListWork *work);
+void func_021B9BD8(MonolithListWork *work);
+void func_021B9BE8(MonolithToolProcArgs *args, MonolithListWork *work);
+void func_021B9C1C(MonolithListWork *work);
+void func_021B9C30(MonolithListWork *work);
+int func_021B9C7C(MonolithToolProcArgs *args, MonolithListWork *work);
+int func_021B9F2C(MonolithListWork *work, int index, int inputMode);
+void func_021B9F74(MonolithListWork *work, int index, int palette);
+void func_021B9FEC(MonolithListWork *work, int index);
+void func_021B9FF8(MonolithListWork *work, int index);
+void func_021BA004(MonolithListWork *work);
+void func_021BA01C(MonolithToolProcArgs *args, MonolithListWork *work);
+int func_021BA0CC(MonolithListWork *work, int delta);
+void func_021BA11C(MonolithListWork *work);
+void func_021BA140(MonolithListWork *work);
+void func_021BA1B0(void *task, MonolithListWork *work);
+int func_021BA1DC(MonolithListWork *work, unsigned y);
+int func_021BA1FC(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithInfoWork *work);
+int func_021BA2CC(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithInfoWork *work);
+int func_021BA384(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithInfoWork *work);
+void func_021BA3B4(void);
+void func_021BA400(void);
+void func_021BA420(MonolithToolWork *toolWork);
+void func_021BA44C(MonolithToolWork *toolWork, MonolithInfoWork *work);
+void func_021BA4D4(MonolithInfoWork *work);
+void func_021BA4EC(MonolithToolWork *toolWork, MonolithInfoWork *work);
+void func_021BA528(MonolithToolProcArgs *args, MonolithToolWork *toolWork, MonolithInfoWork *work);
+void func_021BA5D4(MonolithToolProcArgs *args, MonolithToolWork *toolWork, MonolithInfoWork *work);
 extern Pair d_021BA774[];
 extern char d_021BA7D4;
 extern char d_021BA764;
 extern char d_021BA794;
 extern char d_021BA7B4;
 extern struct S6844 d_020A1448;
-extern const struct Point d_021BA80C;
-extern const struct Param d_021BA814;
+extern const struct MonolithToolActorPos d_021BA80C;
+extern const struct MonolithToolGridParam d_021BA814;
 extern char d_021BABE0[];
-extern const struct Param d_021BA82C;
-extern struct H4 d_021BA844;
-extern const Rect d_021BA854;
-extern const Rect d_021BA84C;
-extern const Rect d_021BA804;
+extern const struct MonolithToolGridParam d_021BA82C;
+extern struct MonolithToolIconPos d_021BA844;
+extern const struct MonolithToolCursorPos d_021BA854;
+extern const struct MonolithToolCursorPos d_021BA84C;
+extern const struct MonolithToolCursorPos d_021BA804;
 extern const char d_021BABE4[];
 extern const struct Pair d_021BA8A0[];
 extern const u32 d_021BA87C[];
@@ -1131,9 +820,10 @@ extern u16 d_021BAAF8[];
 
 
 
-int func_021B6100(struct Obj0203159C *ctx, int unused, u8 *arg)
+int func_021B6100(struct Proc *ctx, int unused, MonolithToolSetup *setup)
 {
-    u8 *o;
+    MonolithToolWork *work;
+
 
     func_0207D534((volatile u16 *)0x0400006C, -16);
     func_0207D534((volatile u16 *)0x0400106C, -16);
@@ -1147,34 +837,34 @@ int func_021B6100(struct Obj0203159C *ctx, int unused, u8 *arg)
     func_0207D63C(0x04001050, 4, 8, 0xF, 0xF);
     func_0204363C(1);
     func_0203064C(1, 0x61, 0x70000);
-    o = func_0203159C(ctx, 0x13C, 0x61);
-    func_02082BCC(o, 0, 0x13C);
-    o[0xF1] = 0x30;
-    func_021B69AC(o, arg);
-    *(int *)(o + 0x30) = (int)func_020490F4(0x27, 0x61);
+    work = func_0203159C(ctx, sizeof(MonolithToolWork), 0x61);
+    func_02082BCC(work, 0, sizeof(MonolithToolWork));
+    work->selection.selected = MONOLITH_ENTRY_NONE;
+    func_021B69AC(work, setup);
+    work->archive = func_020490F4(0x27, 0x61);
     func_021B64D0();
     func_021B652C();
-    func_021B6540((int *)o);
+    func_021B6540(work);
     func_021B65B4();
-    func_021B6644(o, o);
-    func_021B6790((int *)o);
-    func_021B6844((struct W6844 *)o);
-    func_021B68E0((int *)o);
-    *(int *)(o + 0x34) = (int)func_02010F7C(0x61);
-    *(int *)(o + 0x12C) = (int)func_02031324(0x61);
-    *(int *)(o + 0x130) = (int)func_02031324(0x61);
-    func_02028470(o + 0x38, 6);
-    *(u32 *)(o + 0x128) = func_020056A0((void (*)(void))func_021B699C, o, 0xA);
+    func_021B6644(work, work);
+    func_021B6790(work);
+    func_021B6844(work);
+    func_021B68E0(work);
+    work->entryTable = func_02010F7C(0x61);
+    work->topProcSys = (int)PROCSYS_Create(0x61);
+    work->subProcSys = (int)PROCSYS_Create(0x61);
+    func_02028470(work->scratchList, 6);
+    work->vblankTask = func_020056A0((void (*)(void))func_021B699C, work, 0xA);
     func_0203D34C(0, 0x61);
-    *(u8 **)(o + 0xF8) = arg;
-    *(u8 **)(o + 0xFC) = o;
-    *(u8 **)(o + 0x100) = o + 0xF0;
+    work->procArgs.setup = setup;
+    work->procArgs.work = work;
+    work->procArgs.param = &work->selection;
     return 1;
 }
 
 
 
-int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
+int func_021B6250(int a, int *seq, void **pwk, MonolithToolWork *work)
 {
     void *h;
     u8 *r;
@@ -1192,7 +882,7 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
     case 1:
         if (r == 0 || func_0200FB24() != 0)
             (*seq)++;
-        else if (func_0217440C() == 1)
+        else if (INTRUDE_COMM_SendBusyBegin() == 1)
             (*seq)++;
         break;
     case 2:
@@ -1201,39 +891,39 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
         break;
     case 3:
         if (func_0200FB24() != 0 || (r == 0 && func_0202648C(h) != 0) || (r == 0 && func_02026454(h) == 2))
-            mywk[0x126] = 1;
-        if (mywk[0x126] == 0) {
-            if (mywk[0x135] == 0) {
-                func_02031348(((struct Obj00712 *)mywk)->f12C, -1, d_021BA774[mywk[0x134]].a, mywk + 0xF8);
-                mywk[0x135] = 1;
+            work->procArgs.abortRequested = 1;
+        if (work->procArgs.abortRequested == 0) {
+            if (work->topProcStarted == 0) {
+                PROCSYS_Push(work->topProcSys, -1, d_021BA774[work->currentScreen].a, &work->procArgs);
+                work->topProcStarted = 1;
             }
-            if (mywk[0x136] == 0) {
+            if (work->subProcStarted == 0) {
                 func_0201DD78(0xF, 2, 0);
-                func_02031348(((struct Obj00712 *)mywk)->f130, -1, d_021BA774[mywk[0x134]].b, mywk + 0xF8);
-                mywk[0x136] = 1;
+                PROCSYS_Push(work->subProcSys, -1, d_021BA774[work->currentScreen].b, &work->procArgs);
+                work->subProcStarted = 1;
             }
         }
-        s2 = func_02031330((void *)((struct Obj00712 *)mywk)->f130);
-        k = mywk[0x124];
-        if (k == 4 || (s2 != 1 && mywk[0x126] == 1)) {
-            mywk[0x125] = 1;
-        } else if (mywk[0x134] != k && d_021BA774[mywk[0x134]].a != d_021BA774[k].a) {
-            mywk[0x125] = 1;
+        s2 = PROCSYS_Main((void *)work->subProcSys);
+        k = work->procArgs.requestedScreen;
+        if (k == 4 || (s2 != 1 && work->procArgs.abortRequested == 1)) {
+            work->procArgs.topProcDone = 1;
+        } else if (work->currentScreen != k && d_021BA774[work->currentScreen].a != d_021BA774[k].a) {
+            work->procArgs.topProcDone = 1;
         }
-        s1 = func_02031330((void *)((struct Obj00712 *)mywk)->f12C);
+        s1 = PROCSYS_Main((void *)work->topProcSys);
         if (s1 == 1 && s2 == 1)
             break;
-        if (mywk[0x126] == 1 || mywk[0x124] == 4) {
+        if (work->procArgs.abortRequested == 1 || work->procArgs.requestedScreen == 4) {
             if (s1 == 0 && s2 == 0)
                 (*seq)++;
         } else {
-            mywk[0x134] = mywk[0x124];
+            work->currentScreen = work->procArgs.requestedScreen;
             if (s1 != 1) {
-                mywk[0x135] = 0;
-                mywk[0x125] = 0;
+                work->topProcStarted = 0;
+                work->procArgs.topProcDone = 0;
             }
             if (s2 != 1)
-                mywk[0x136] = 0;
+                work->subProcStarted = 0;
         }
         break;
     case 4:
@@ -1243,7 +933,7 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
     case 5:
         if (r == 0 || func_0200FB24() != 0)
             (*seq)++;
-        else if (func_0217446C() == 1)
+        else if (INTRUDE_COMM_SendBusyEnd() == 1)
             (*seq)++;
         break;
     case 6:
@@ -1253,8 +943,8 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
     case 7:
         return 1;
     }
-    func_020310C4(((struct Obj00712 *)mywk)->f18);
-    func_0201C4E4((struct PrintSys *)(((struct Obj00712 *)mywk)->f8));
+    func_020310C4(work->taskList);
+    func_0201C4E4(work->printSys);
     func_0204A600();
     return 0;
 }
@@ -1265,25 +955,25 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
  * (EXACT, arm9, --thumb, symbols: func_020307B0 0x020307B0 arm):
  *   void func_02010F8C(void *p) { void func_020307B0(void *); func_020307B0(p); }
  */
-int func_021B6458(int a, int b, int c, int *w)
+int func_021B6458(int a, int b, int c, MonolithToolWork *work)
 {
 
-    func_0203133C((struct S020314B8 *)w[0x12c / 4]);
-    func_0203133C((struct S020314B8 *)w[0x130 / 4]);
-    func_02030EAC((struct Node *)w[0x128 / 4]);
-    func_02010F8C((void *)w[0x34 / 4]);
-    func_021B6960((u32 *)w);
-    func_021B68B4((void **)w);
-    func_021B6808((void **)w);
-    func_021B677C((u32 *)w);
+    func_0203133C((struct S020314B8 *)work->topProcSys);
+    func_0203133C((struct S020314B8 *)work->subProcSys);
+    func_02030EAC((struct Node *)work->vblankTask);
+    func_02010F8C(work->entryTable);
+    func_021B6960(work);
+    func_021B68B4(work);
+    func_021B6808(work);
+    func_021B677C(work);
     func_021B6624();
-    func_021B6588((struct PalAnmSlot **)w);
+    func_021B6588(work);
     func_021B6538();
     func_021B6524();
-    func_02049238((void *)w[0x30 / 4]);
+    func_02049238(work->archive);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     func_020306F0(0x61);
     return 1;
 }
@@ -1326,15 +1016,14 @@ void func_021B6538(void)
 
 
 
-unsigned int func_021B6540(int *p)
+unsigned int func_021B6540(MonolithToolWork *work)
 {
-
-    *p = (int)func_02021518(0x61);
-    func_0202155C((struct PalAnmSlot *)(*p), 2, 0x1c0, 0x61);
-    func_0202155C((struct PalAnmSlot *)(*p), 3, 0x1c0, 0x61);
-    func_0202155C((struct PalAnmSlot *)(*p), 0, 0x1c0, 0x61);
-    func_0202155C((struct PalAnmSlot *)(*p), 1, 0x1c0, 0x61);
-    return func_02021EE4((struct Obj02021EE4 *)(*p), 1);
+    work->palAnm = func_02021518(0x61);
+    func_0202155C(work->palAnm, 2, 0x1c0, 0x61);
+    func_0202155C(work->palAnm, 3, 0x1c0, 0x61);
+    func_0202155C(work->palAnm, 0, 0x1c0, 0x61);
+    func_0202155C(work->palAnm, 1, 0x1c0, 0x61);
+    return PALANM_SetAutoTransfer(work->palAnm, 1);
 }
 
 
@@ -1343,13 +1032,13 @@ unsigned int func_021B6540(int *p)
 
 
 
-void func_021B6588(struct PalAnmSlot **p)
+void func_021B6588(MonolithToolWork *work)
 {
-    func_020215A0(*p, 2);
-    func_020215A0(*p, 3);
-    func_020215A0(*p, 0);
-    func_020215A0(*p, 1);
-    func_02021540(*p);
+    func_020215A0(work->palAnm, 2);
+    func_020215A0(work->palAnm, 3);
+    func_020215A0(work->palAnm, 0);
+    func_020215A0(work->palAnm, 1);
+    func_02021540(work->palAnm);
 }
 
 
@@ -1390,25 +1079,23 @@ void func_021B6624(void)
 
 
 
-void func_021B6644(void *a, void *b)
+void func_021B6644(MonolithToolWork *work, MonolithToolWork *work2)
 {
-    char *d = (char *)a;
-    char *r5 = (char *)b;
     void *h;
 
-    func_02021660(((struct Obj02419 *)r5)->f0, (void *)(*(u32 *)&((struct Obj02419 *)r5)->f30), 0x10, 0x61, 0, 0x1c0, 0, 0);
-    func_02021660(((struct Obj02419 *)r5)->f0, (void *)(*(u32 *)&((struct Obj02419 *)r5)->f30), 0x11, 0x61, 1, 0x1c0, 0, 0);
-    func_02049658(((struct Obj02419 *)r5)->f30, 0xf, 3, 0, 0, 1, 0x61);
-    func_020498F4(((struct Obj02419 *)r5)->f30, 0xa, 3, 0, 0, 1, 0x61);
-    func_02049658(((struct Obj02419 *)r5)->f30, 0xe, 7, 0, 0, 1, 0x61);
-    func_020498F4(((struct Obj02419 *)r5)->f30, 4, 7, 0, 0, 1, 0x61);
-    func_020215EC(((struct Obj02419 *)r5)->f0, 0x17, 5, 0x61, 0, 0, 0xd0, 0);
-    func_020215EC(((struct Obj02419 *)r5)->f0, 0x17, 5, 0x61, 1, 0, 0xd0, 0);
+    PALANM_LoadHandlePaletteToSlotAt(work2->palAnm, work2->archive, 0x10, 0x61, 0, 0x1c0, 0, 0);
+    PALANM_LoadHandlePaletteToSlotAt(work2->palAnm, work2->archive, 0x11, 0x61, 1, 0x1c0, 0, 0);
+    func_02049658(work2->archive, 0xf, 3, 0, 0, 1, 0x61);
+    func_020498F4(work2->archive, 0xa, 3, 0, 0, 1, 0x61);
+    func_02049658(work2->archive, 0xe, 7, 0, 0, 1, 0x61);
+    func_020498F4(work2->archive, 4, 7, 0, 0, 1, 0x61);
+    PALANM_LoadArcPaletteToSlotAt(work2->palAnm, 0x17, 5, 0x61, 0, 0, 0xd0, 0);
+    PALANM_LoadArcPaletteToSlotAt(work2->palAnm, 0x17, 5, 0x61, 1, 0, 0xd0, 0);
     h = func_020490F4(0x53, 0x61);
-    ((struct Obj09885 *)d)->f138 = (void *)func_0203FA08(7, 0x80, 1);
-    func_02049658(h, 0x1c, 7, (u32)(((struct Obj09885 *)d)->f138), 0x80, 0, 0x61);
-    func_02027634(h, 7, 0x61, (int)(((struct Obj09885 *)d)->f138), 0xc);
-    func_020216B4(((struct Obj02419 *)r5)->f0, h, 0x1b, 0x61, 1, 0x20, 0xc0);
+    work->subBgCharOffset = func_0203FA08(7, 0x80, 1);
+    func_02049658(h, 0x1c, 7, work->subBgCharOffset, 0x80, 0, 0x61);
+    func_02027634(h, 7, 0x61, work->subBgCharOffset, 0xc);
+    PALANM_LoadHandlePaletteToSlot(work2->palAnm, h, 0x1b, 0x61, 1, 0x20, 0xc0);
     func_02049238(h);
     func_020409B4(7);
     func_020409B4(3);
@@ -1421,25 +1108,24 @@ void func_021B6644(void *a, void *b)
 
 
 
-void func_021B677C(u32 *p)
+void func_021B677C(MonolithToolWork *work)
 {
-    func_0203FB44(7, p[0x138 / 4], 0x80);
+    func_0203FB44(7, work->subBgCharOffset, 0x80);
 }
 
 
 
-void func_021B6790(int *p)
+void func_021B6790(MonolithToolWork *work)
 {
-
     func_0201DD78(0xf, 2, 0);
-    p[6] = (int)func_0203101C(0x61, 0x61, 4, 0x20);
-    p[3] = (int)func_0201D7EC(0x17, 0, 0, 0, 0x61);
-    p[2] = func_0201C440((void *)0x61);
-    p[4] = (int)func_0201EC64(0x61);
-    p[7] = (int)func_02045B38(0, 2, 0x43, 0x61);
-    p[8] = (int)func_02045B38(0, 2, 0xa0, 0x61);
-    p[9] = (int)func_02045B38(0, 2, 0xa1, 0x61);
-    p[10] = (int)func_02045B38(0, 2, 0x45, 0x61);
+    work->taskList = func_0203101C(0x61, 0x61, 4, 0x20);
+    work->font = func_0201D7EC(0x17, 0, 0, 0, 0x61);
+    work->printSys = (struct PrintSys *)func_0201C440((void *)0x61);
+    work->wordSet = func_0201EC64(0x61);
+    work->msgBank[0] = func_02045B38(0, 2, 0x43, 0x61);
+    work->msgBank[1] = func_02045B38(0, 2, 0xa0, 0x61);
+    work->msgBank[2] = func_02045B38(0, 2, 0xa1, 0x61);
+    work->msgBank[3] = func_02045B38(0, 2, 0x45, 0x61);
 }
 
 
@@ -1448,22 +1134,22 @@ void func_021B6790(int *p)
 
 
 
-void func_021B6808(void **p)
+void func_021B6808(MonolithToolWork *work)
 {
-    func_02045C04(p[7]);
-    func_02045C04(p[8]);
-    func_02045C04(p[9]);
-    func_02045C04(p[10]);
-    func_0201ED04(p[4]);
-    func_0201C6EC(p[2]);
-    func_0201C4C0(p[2]);
-    func_0201D83C(p[3]);
-    func_02031140(p[6]);
+    func_02045C04(work->msgBank[0]);
+    func_02045C04(work->msgBank[1]);
+    func_02045C04(work->msgBank[2]);
+    func_02045C04(work->msgBank[3]);
+    func_0201ED04(work->wordSet);
+    func_0201C6EC(work->printSys);
+    func_0201C4C0(work->printSys);
+    func_0201D83C(work->font);
+    func_02031140(work->taskList);
 }
 
 
 
-void func_021B6844(struct W6844 *p)
+void func_021B6844(MonolithToolWork *work)
 {
     struct S6844 s;
 
@@ -1475,10 +1161,10 @@ void func_021B6844(struct W6844 *p)
     s.h10 = 0x60;
     s.h14 = 0x40;
     func_0204A48C((const struct Cfg *)(&s), (u32)(&d_021BA7D4), 0x61);
-    p->unk_14 = func_0204B100(0x60, 0, 0x61);
-    func_0204B270(p->unk_14);
-    p->unk_04 = func_02025318(0x61, 0x10, 0x10);
-    p->unk_2c = func_02025538(0x61, p->unk_14);
+    work->unitBank = func_0204B100(0x60, 0, 0x61);
+    CLACT_SetUnitDefaultRenderer(work->unitBank);
+    work->actorTool = ACTOR_TOOL_Create(0x61, 0x10, 0x10);
+    work->actorToolUnit = func_02025538(0x61, work->unitBank);
 }
 
 
@@ -1491,24 +1177,23 @@ void func_021B6844(struct W6844 *p)
  * split: TU confirms one image-wide witness, inside this caller; no cuts.
  * ARM9 stub: 02025358 ldr r3,[pc,#0]; bx r3; pool 020307B0.
  */
-void func_021B68B4(void **p)
+void func_021B68B4(MonolithToolWork *work)
 {
     func_020434DC(0x10, 0);
     func_02043598(0x10, 0);
-    func_02025588(p[11]);
-    func_0204B1CC(p[5]);
+    func_02025588(work->actorToolUnit);
+    func_0204B1CC(work->unitBank);
     func_0204A5AC();
-    func_02025358(p[1]);
+    ACTOR_TOOL_Delete(work->actorTool);
 }
 
 
 
-void func_021B68E0(int *p)
+void func_021B68E0(MonolithToolWork *work)
 {
     void *tmp;
     int i;
     int flag;
-    int *e;
 
     tmp = func_020490F4(0x17, 0x61);
     for (i = 0; i < 2; i++) {
@@ -1516,11 +1201,10 @@ void func_021B68E0(int *p)
         if (i != 0) {
             flag = 1;
         }
-        e = p + i * 4;
-        e[16] = func_02025470(p[0], p[1], p[12], 3, flag, 3, 0x61);
-        e[17] = func_0204A6C8((void *)p[12], 0, 1, flag, 0x61);
-        e[18] = func_0204AF28((void *)p[12], 1, 2, 0x61);
-        e[19] = func_020254BC(p[0], p[1], (u32)tmp, 5, flag, 1, 0x61);
+        work->actorRes[i].charPalAnm = ACTOR_TOOL_LoadCharPalAnm((u32)work->palAnm, (u32)work->actorTool, (u32)work->archive, 3, flag, 3, 0x61);
+        work->actorRes[i].cellRes = func_0204A6C8(work->archive, 0, 1, flag, 0x61);
+        work->actorRes[i].animRes = func_0204AF28(work->archive, 1, 2, 0x61);
+        work->actorRes[i].simplePalAnm = ACTOR_TOOL_LoadCharSimplePalAnm((u32)work->palAnm, (u32)work->actorTool, (u32)tmp, 5, flag, 1, 0x61);
     }
     func_02049238(tmp);
 }
@@ -1535,22 +1219,21 @@ void func_021B68E0(int *p)
  * extent: two-byte alignment padding at 0x021B699A.
  * Enum counter preserves the first iteration's cmp/branch.
  */
-void func_021B6960(u32 *p)
+void func_021B6960(MonolithToolWork *work)
 {
     Slot i;
     int flag;
-    u32 *e;
+
     i = SLOT_FIRST;
     do {
         flag = 0;
         if (i != 0) {
             flag = 1;
         }
-        e = p + i * 4;
-        func_02025518(p[1], e[16], flag);
-        func_0204A8D4(e[17]);
-        func_0204AFD8(e[18]);
-        func_02025518(p[1], e[19], flag);
+        ACTOR_TOOL_FreeChar((u32)work->actorTool, work->actorRes[i].charPalAnm, flag);
+        func_0204A8D4(work->actorRes[i].cellRes);
+        func_0204AFD8(work->actorRes[i].animRes);
+        ACTOR_TOOL_FreeChar((u32)work->actorTool, work->actorRes[i].simplePalAnm, flag);
         i++;
     } while (i < SLOT_COUNT);
 }
@@ -1560,10 +1243,10 @@ void func_021B6960(u32 *p)
 
 
 
-void func_021B699C(void *unused, struct S02021D50 **p)
+void func_021B699C(void *unused, MonolithToolWork *work)
 {
     func_0204A648();
-    func_02021D50(*p);
+    PALANM_TransferPalettes(work->palAnm);
 }
 
 
@@ -1572,22 +1255,22 @@ void func_021B699C(void *unused, struct S02021D50 **p)
 
 
 
-void func_021B69AC(u8 *a, u8 *b)
+void func_021B69AC(MonolithToolWork *work, MonolithToolSetup *setup)
 {
-    struct E24 *tbl;
+    MonolithToolSlotRecord *tbl;
     u32 n;
     u32 idx;
     Idx i;
 
-    if (b[0x3d] != 0) {
+    if (setup->useSlotRecords != 0) {
         tbl = func_02048F60(0x25, 0, 0x61);
         n = func_020490A8(0x25, 0);
         for (i = IDX_FIRST; i < IDX_COUNT; i++) {
-            idx = b[4 + i];
+            idx = setup->slotIndex[i];
             if (idx >= n) {
                 idx = 0;
             }
-            *(struct E24 *)(a + 0x60 + i * 24) = tbl[idx];
+            work->slotRecord[i] = tbl[idx];
         }
         func_020307B0(tbl);
     }
@@ -1604,57 +1287,57 @@ void func_021B69AC(u8 *a, u8 *b)
  * (a-flag-ternary-over-enum-constants-keeps-the-bne-to-one-polarity.md);
  * `case 2:` shares its arm with `default:` (the dead `cmp r6, #2; b`).
  */
-void func_021B6A0C(Ctx_021B6A0C *a, Out_021B6A0C *b, int c, int d, int e, int f, int g, void *h)
+void func_021B6A0C(MonolithToolWork *work, MonolithToolButton *button, int resIndex, int sizeClass, int x, int y, int msgId, void *wordSet)
 {
-    struct Point pt = d_021BA80C;
-    struct Param param = d_021BA814;
-    u32 w;
-    void *bmp;
-    void *s;
-    void *t;
-    int x;
+    struct MonolithToolActorPos pos = d_021BA80C;
+    struct MonolithToolGridParam param = d_021BA814;
+    u32 widthTiles;
+    void *bitmap;
+    void *text;
+    void *expanded;
+    int onSubScreen;
 
-    switch (d) {
+    switch (sizeClass) {
     case 0:
-        w = 0x16;
-        pt.f4 = 0;
-        param.x = e - 0x58;
+        widthTiles = 0x16;
+        pos.animSeq = 0;
+        param.x = x - 0x58;
         break;
     case 1:
-        w = 0x12;
-        pt.f4 = 1;
-        param.x = e - 0x48;
+        widthTiles = 0x12;
+        pos.animSeq = 1;
+        param.x = x - 0x48;
         break;
     case 2:
     default:
-        w = 0xc;
-        pt.f4 = 8;
-        param.x = e - 0x30;
+        widthTiles = 0xc;
+        pos.animSeq = 8;
+        param.x = x - 0x30;
         break;
     }
-    bmp = func_02043678(w, 2, 0x20, 0x61);
-    b->bmp = bmp;
-    pt.x = e;
-    pt.y = f;
-    param.y = f - 8;
-    param.bmp = bmp;
-    param.f8 = a->res[c].f4c;
-    x = c == 0 ? B_FALSE : B_TRUE;
-    param.f14 = x;
-    param.f12 = x;
-    b->act = func_0204B294((void *)a->f14, a->res[c].f44, a->res[c].f40, a->res[c].f48, &pt, x, 0x61);
-    b->grid = func_020255A0(a->f2c, &param);
-    s = func_02045EC0(a->f28, g);
-    if (h) {
-        t = func_020457B0(0x80, 0x61);
-        func_0201F250(h, t, s);
-        func_0201C6FC(a->f8, (u32)b->bmp, 0, 0, t, (u32)a->fc);
-        func_02045808(t);
+    bitmap = func_02043678(widthTiles, 2, 0x20, 0x61);
+    button->bitmap = bitmap;
+    pos.x = x;
+    pos.y = y;
+    param.y = y - 8;
+    param.bitmap = bitmap;
+    param.palette = work->actorRes[resIndex].simplePalAnm;
+    onSubScreen = resIndex == 0 ? B_FALSE : B_TRUE;
+    param.subScreenB = onSubScreen;
+    param.subScreenA = onSubScreen;
+    button->actor = func_0204B294((void *)work->unitBank, work->actorRes[resIndex].cellRes, work->actorRes[resIndex].charPalAnm, work->actorRes[resIndex].animRes, &pos, onSubScreen, 0x61);
+    button->grid = func_020255A0(work->actorToolUnit, &param);
+    text = func_02045EC0(work->msgBank[3], msgId);
+    if (wordSet) {
+        expanded = func_020457B0(0x80, 0x61);
+        func_0201F250(wordSet, expanded, text);
+        func_0201C6FC(work->printSys, button->bitmap, 0, 0, expanded, (u32)work->font);
+        func_02045808(expanded);
     } else {
-        func_0201C6FC(a->f8, (u32)b->bmp, 0, 0, s, (u32)a->fc);
+        func_0201C6FC(work->printSys, button->bitmap, 0, 0, text, (u32)work->font);
     }
-    func_02045808(s);
-    b->on = 1;
+    func_02045808(text);
+    button->on = 1;
 }
 
 
@@ -1662,14 +1345,14 @@ void func_021B6A0C(Ctx_021B6A0C *a, Out_021B6A0C *b, int c, int d, int e, int f,
 
 
 
-void func_021B6B38(void **p)
+void func_021B6B38(MonolithToolButton *button)
 {
-    func_0204B3B4(p[0]);
-    func_0202570C(p[1]);
-    func_020437AC(p[2]);
-    p[0] = 0;
-    p[1] = 0;
-    p[2] = 0;
+    func_0204B3B4(button->actor);
+    func_0202570C(button->grid);
+    func_020437AC(button->bitmap);
+    button->actor = 0;
+    button->grid = 0;
+    button->bitmap = 0;
 }
 
 
@@ -1680,10 +1363,10 @@ void func_021B6B38(void **p)
 /*
  * extent: two-byte alignment padding at 0x021B6B6E.
  */
-void func_021B6B58(void **p, int v)
+void func_021B6B58(MonolithToolButton *button, int visible)
 {
-    func_0204B3DC(p[0], v);
-    func_02025774(p[1], v);
+    func_0204B3DC(button->actor, visible);
+    func_02025774(button->grid, visible);
 }
 
 
@@ -1691,12 +1374,12 @@ void func_021B6B58(void **p, int v)
 
 
 
-int func_021B6B70(void **p, u8 *q)
+int func_021B6B70(MonolithToolWork *work, MonolithToolButton *button)
 {
-    if (q[12] == 1) {
-        if (func_0201C6C4(p[2], ((struct Obj07693 *)q)->f8) == 0) {
-            func_020257D0(*(struct Obj * *)&((struct Obj07693 *)q)->f4);
-            q[12] = 0;
+    if (button->on == 1) {
+        if (func_0201C6C4(work->printSys, button->bitmap) == 0) {
+            func_020257D0(button->grid);
+            button->on = 0;
             return 1;
         }
     }
@@ -1705,35 +1388,35 @@ int func_021B6B70(void **p, u8 *q)
 
 
 
-void func_021B6B98(void *p, int *tbl, int n, int sel, int c)
+void func_021B6B98(MonolithToolProcArgs *args, MonolithToolButton *button, int count, int selected, int slot)
 {
     int i;
 
-    for (i = 0; i < n; i++) {
-        if (i == sel) {
-            func_0204B6F4((struct Obj *)tbl[i * 4], 1, 1);
-            func_021B6DB4(p, 1, c);
+    for (i = 0; i < count; i++) {
+        if (i == selected) {
+            func_0204B6F4((struct Actor *)button[i].actor, 1, 1);
+            func_021B6DB4(args, 1, slot);
         } else {
-            func_0204B6F4((struct Obj *)tbl[i * 4], 0, 1);
+            func_0204B6F4((struct Actor *)button[i].actor, 0, 1);
         }
     }
-    if (sel == 0xff) {
-        func_021B6DB4(p, 0, c);
+    if (selected == 0xff) {
+        func_021B6DB4(args, 0, slot);
     }
 }
 
 
 
-void func_021B6BEC(void *p, int *tbl, int n, int sel, int c)
+void func_021B6BEC(MonolithToolProcArgs *args, MonolithToolButton *button, int count, int selected, int slot)
 {
     int i;
 
-    for (i = 0; i < n; i++) {
-        if (i == sel) {
-            func_0204B6F4((struct Obj *)tbl[i * 4], 1, 1);
-            func_021B6DB4(p, 2, c);
+    for (i = 0; i < count; i++) {
+        if (i == selected) {
+            func_0204B6F4((struct Actor *)button[i].actor, 1, 1);
+            func_021B6DB4(args, 2, slot);
         } else {
-            func_0204B6F4((struct Obj *)tbl[i * 4], 0, 1);
+            func_0204B6F4((struct Actor *)button[i].actor, 0, 1);
         }
     }
 }
@@ -1743,20 +1426,20 @@ void func_021B6BEC(void *p, int *tbl, int n, int sel, int c)
 
 
 
-void func_021B6C30(int *p, int flag, int index)
+void func_021B6C30(MonolithToolProcArgs *args, int pulse, int slot)
 {
-    if (flag == 1) {
-        func_021B6DB4(p, 1, index);
+    if (pulse == 1) {
+        func_021B6DB4(args, 1, slot);
     } else {
-        func_021B6DB4(p, 0, index);
+        func_021B6DB4(args, 0, slot);
     }
 }
 
 
 
-void func_021B6C48(void *p, int a)
+void func_021B6C48(MonolithToolProcArgs *args, int slot)
 {
-    func_021B6DB4(p, 2, a);
+    func_021B6DB4(args, 2, slot);
 }
 
 
@@ -1764,7 +1447,7 @@ void func_021B6C48(void *p, int a)
 
 
 
-void func_021B6C54(char *p) { int i; for(i=0;i<4;i++) func_02082BCC(p+12+i*8,0,8); }
+void func_021B6C54(MonolithToolProcArgs *args) { int i; for(i=0;i<4;i++) func_02082BCC(&args->highlight[i],0,8); }
 
 
 
@@ -1772,9 +1455,9 @@ void func_021B6C54(char *p) { int i; for(i=0;i<4;i++) func_02082BCC(p+12+i*8,0,8
 
 
 
-u8 func_021B6C74(void *p, int i)
+u8 func_021B6C74(MonolithToolProcArgs *args, int slot)
 {
-    return ((u8 *)p + i * 8)[0xe];
+    return args->highlight[slot].mode;
 }
 
 
@@ -1784,13 +1467,13 @@ u8 func_021B6C74(void *p, int i)
 
 
 /*
- * sites to func_02021F3C stay wildcarded because 0x02021F3C is an
+ * sites to PALANM_GetColor stay wildcarded because 0x02021F3C is an
  * unlabelled arm9 Thumb leaf (a bare `cmp r2, #1` entry, no lr save), so
  * no class attests it. The leaf verifies EXACT with this body
  * (`one --thumb`, no --region), outside this lane's write set (arm9):
  *
  *   typedef struct { u16 *a; u16 *b; int pad[3]; } Slot;
- *   u16 func_02021F3C(Slot *s, int idx, int which, u16 pos)
+ *   u16 PALANM_GetColor(Slot *s, int idx, int which, u16 pos)
  *   {
  *       if (which == 1) {
  *           return s[idx].a[pos];
@@ -1801,62 +1484,61 @@ u8 func_021B6C74(void *p, int i)
  *       return 0;
  *   }
  *
- * note 2026-10-05 (D8 lane16): witness func_02021F3C filed as src/matched/arm9/func_02021F3C.c (EXACT); this file becomes EXACT once the integrator seeds that label/manifest. Body unchanged.
+ * note 2026-10-05 (D8 lane16): witness PALANM_GetColor filed as src/matched/arm9/PALANM_GetColor.c (EXACT); this file becomes EXACT once the integrator seeds that label/manifest. Body unchanged.
  */
-void func_021B6C7C(int *p, int idx)
+void func_021B6C7C(MonolithToolProcArgs *args, int slot)
 {
-    Ent *e;
-    int a, b, n;
+    MonolithToolHighlight *highlight;
+    int firstColor, srcColor, colorCount;
     int i;
-    int v;
-
-    e = (Ent *)((u8 *)p + 0xC + idx * 8);
-    if (idx >= 4) {
+    int level;
+    highlight = &args->highlight[slot];
+    if (slot >= 4) {
         func_02034714(d_021BABE0, (int)0, d_021BABE0);
     }
-    a = func_021B6E00((int)idx);
-    b = func_021B6E0C((int)idx);
-    n = func_021B6E18(idx);
-    switch (e->state) {
+    firstColor = func_021B6E00((int)slot);
+    srcColor = func_021B6E0C((int)slot);
+    colorCount = func_021B6E18(slot);
+    switch (highlight->mode) {
     case 1:
-        v = e->v;
-        if (e->dir == 0) {
-            v += 0x80;
-            if (v >= 0x1100) {
-                v = 0x1000;
-                e->dir ^= 1;
+        level = highlight->level;
+        if (highlight->fadeDown == 0) {
+            level += 0x80;
+            if (level >= 0x1100) {
+                level = 0x1000;
+                highlight->fadeDown ^= 1;
             }
         } else {
-            v -= 0x80;
-            if (v <= 0) {
-                v = 0x100;
-                e->dir ^= 1;
+            level -= 0x80;
+            if (level <= 0) {
+                level = 0x100;
+                highlight->fadeDown ^= 1;
             }
         }
-        e->v = v;
-        for (i = 0; i < n; i++) {
-            func_02021FD8((struct Chan02021FD8 *)(*(int *)p[1]), (int)idx, (u16)(a + i), (u16)1, v >> 8,
-                          func_02021F3C(*(int *)p[1], idx, 1, b + i));
+        highlight->level = level;
+        for (i = 0; i < colorCount; i++) {
+            func_02021FD8((struct Chan02021FD8 *)args->work->palAnm, (int)slot, (u16)(firstColor + i), (u16)1, level >> 8,
+                          PALANM_GetColor((int)args->work->palAnm, slot, 1, srcColor + i));
         }
         break;
     case 2:
-        if (e->timer == 0) {
-            e->timer = 3;
-            if (e->v == 0) {
-                e->v = 0x1000;
+        if (highlight->timer == 0) {
+            highlight->timer = 3;
+            if (highlight->level == 0) {
+                highlight->level = 0x1000;
             } else {
-                e->v = 0;
-                e->cnt++;
-                if (e->cnt > 1) {
-                    func_021B6DB4(p, 0, idx);
+                highlight->level = 0;
+                highlight->flashCount++;
+                if (highlight->flashCount > 1) {
+                    func_021B6DB4(args, 0, slot);
                 }
             }
-            for (i = 0; i < n; i++) {
-                func_02021FD8((struct Chan02021FD8 *)(*(int *)p[1]), (int)idx, (u16)(a + i), (u16)1, e->v >> 8,
-                              func_02021F3C(*(int *)p[1], idx, 1, b + i));
+            for (i = 0; i < colorCount; i++) {
+                func_02021FD8((struct Chan02021FD8 *)args->work->palAnm, (int)slot, (u16)(firstColor + i), (u16)1, highlight->level >> 8,
+                              PALANM_GetColor((int)args->work->palAnm, slot, 1, srcColor + i));
             }
         } else {
-            e->timer--;
+            highlight->timer--;
         }
         break;
     }
@@ -1864,14 +1546,13 @@ void func_021B6C7C(int *p, int idx)
 
 
 
-void func_021B6DB4(int *p, int a, int idx)
+void func_021B6DB4(MonolithToolProcArgs *args, int mode, int slot)
 {
-    u8 *e;
-
-    e = (u8 *)p + 0xC + idx * 8;
-    func_02082BCC(e, 0, 8);
-    e[2] = a;
-    func_02021FD8((struct Chan02021FD8 *)(*(int *)p[1]), (int)idx, (u16)func_021B6E00(idx), (u16)func_021B6E18(idx), 0, 0);
+    MonolithToolHighlight *highlight;
+    highlight = &args->highlight[slot];
+    func_02082BCC(highlight, 0, 8);
+    highlight->mode = mode;
+    func_02021FD8((struct Chan02021FD8 *)args->work->palAnm, (int)slot, (u16)func_021B6E00(slot), (u16)func_021B6E18(slot), 0, 0);
 }
 
 
@@ -1921,38 +1602,37 @@ int func_021B6E18(int a0)
  * types from matched definitions (02043678 returns Bmp *, 020255A0 Grid *, 02045EC0 void *,
  * 020457B0 U16Vec *). Twin ov071 021B6A0C. final push 2026-10-05 G7L5.
  */
-void func_021B6E1C(Ctx_021B6E1C *a, Out_021B6E1C *b, int c, int x, int y, int w, int h, int g, void *ws)
+void func_021B6E1C(MonolithToolWork *work, MonolithToolLabel *label, int resIndex, int x, int y, int widthTiles, int heightTiles, int msgId, void *wordSet)
 {
-    struct Param param = d_021BA82C;
-    void *bmp;
-    void *s;
-    void *t;
-
-    bmp = func_02043678(w, h, 0x20, 0x61);
-    b->bmp = bmp;
-    param.x = x - (w / 2) * 8;
-    param.y = y - (h / 2) * 8;
-    param.bmp = bmp;
-    param.f8 = a->res[c].f4c;
-    if (c == 0) {
-        param.f14 = 0;
-        param.f12 = 0;
+    struct MonolithToolGridParam param = d_021BA82C;
+    void *bitmap;
+    void *text;
+    void *expanded;
+    bitmap = func_02043678(widthTiles, heightTiles, 0x20, 0x61);
+    label->bitmap = bitmap;
+    param.x = x - (widthTiles / 2) * 8;
+    param.y = y - (heightTiles / 2) * 8;
+    param.bitmap = bitmap;
+    param.palette = work->actorRes[resIndex].simplePalAnm;
+    if (resIndex == 0) {
+        param.subScreenB = 0;
+        param.subScreenA = 0;
     } else {
-        param.f14 = 1;
-        param.f12 = 1;
+        param.subScreenB = 1;
+        param.subScreenA = 1;
     }
-    b->grid = func_020255A0(a->f2c, &param);
-    s = func_02045EC0(a->f28, g);
-    if (ws) {
-        t = func_020457B0(0x80, 0x61);
-        func_0201F250(ws, t, s);
-        func_0201C6FC(a->f8, (u32)b->bmp, 0, 0, t, (u32)a->fc);
-        func_02045808(t);
+    label->grid = func_020255A0(work->actorToolUnit, &param);
+    text = func_02045EC0(work->msgBank[3], msgId);
+    if (wordSet) {
+        expanded = func_020457B0(0x80, 0x61);
+        func_0201F250(wordSet, expanded, text);
+        func_0201C6FC(work->printSys, label->bitmap, 0, 0, expanded, (u32)work->font);
+        func_02045808(expanded);
     } else {
-        func_0201C6FC(a->f8, (u32)b->bmp, 0, 0, s, (u32)a->fc);
+        func_0201C6FC(work->printSys, label->bitmap, 0, 0, text, (u32)work->font);
     }
-    func_02045808(s);
-    b->on = 1;
+    func_02045808(text);
+    label->on = 1;
 }
 
 
@@ -1960,33 +1640,33 @@ void func_021B6E1C(Ctx_021B6E1C *a, Out_021B6E1C *b, int c, int x, int y, int w,
 
 
 
-void func_021B6EEC(void **p) { func_0202570C(p[1]); func_020437AC(p[0]); p[1] = 0; p[0] = 0; }
+void func_021B6EEC(MonolithToolLabel *label) { func_0202570C(label->grid); func_020437AC(label->bitmap); label->grid = 0; label->bitmap = 0; }
 
 
 
 
 
 
-int func_021B6F04(void **p, u8 *q) { if(q[8]==1) { if(func_0201C6C4(p[2], (void *)(*(unsigned *)&((struct Obj06183 *)q)->f0))==0) { func_020257D0(((struct Obj06183 *)q)->f4); q[8]=0; return 1; } } return 0; }
+int func_021B6F04(MonolithToolWork *work, MonolithToolLabel *label) { if(label->on==1) { if(func_0201C6C4(work->printSys, label->bitmap)==0) { func_020257D0(label->grid); label->on=0; return 1; } } return 0; }
 
 
 
 
 
-void *func_021B6F2C(u8 **p)
+void *func_021B6F2C(MonolithToolProcArgs *args)
 {
-    u8 *q = *p;
-    return (void *)func_021583EC(func_020120F4(((struct Obj13166 *)q)->f0), q[0x3c]);
+    MonolithToolSetup *setup = args->setup;
+    return (void *)func_021583EC(func_020120F4(setup->gameCtx), setup->areaId);
 }
 
 
 
 
 
-void *func_021B6F40(u8 **p)
+MonolithCounts *func_021B6F40(MonolithToolProcArgs *args)
 {
-    u8 *q = *p;
-    return (void *)func_021583CC(func_020120F4(((struct Obj13167 *)q)->f0), q[0x3c]);
+    MonolithToolSetup *setup = args->setup;
+    return (void *)func_021583CC(func_020120F4(setup->gameCtx), setup->areaId);
 }
 
 
@@ -2000,27 +1680,26 @@ void *func_021B6F40(u8 **p)
  * comes out with the opposite branch polarity (beq to 0, not bne to 1).
  * const on d lets both d[] loads go ahead of the stores into s.
  */
-int func_021B6F54(struct P *p, u8 *q, int c, const int *d, int e)
+int func_021B6F54(MonolithToolWork *work, MonolithCounts *counts, int slot, const int *pos, int resIndex)
 {
-    struct H4 s;
-    int r;
-    u16 flag;
-    u8 *m;
-
-    s = d_021BA844;
-    flag = e == 0 ? B_FALSE : B_TRUE;
-    s.a = d[0];
-    s.b = d[1];
-    m = q + 6;
-    if (m[c] == 1) {
-        s.c = 5;
+    struct MonolithToolIconPos iconPos;
+    int actor;
+    u16 onSubScreen;
+    u8 *states;
+    iconPos = d_021BA844;
+    onSubScreen = resIndex == 0 ? B_FALSE : B_TRUE;
+    iconPos.x = pos[0];
+    iconPos.y = pos[1];
+    states = counts->slotIconState;
+    if (states[slot] == 1) {
+        iconPos.animSeq = 5;
     }
-    r = (int)func_0204B294((void *)p->w[5], p->e[e].w[1], p->e[e].w[0], p->e[e].w[2], &s, flag, 0x61);
-    if (m[c] == 0) {
-        func_0204B3DC((struct Obj *)r, 0);
+    actor = (int)func_0204B294((void *)work->unitBank, work->actorRes[resIndex].cellRes, work->actorRes[resIndex].charPalAnm, work->actorRes[resIndex].animRes, &iconPos, onSubScreen, 0x61);
+    if (states[slot] == 0) {
+        func_0204B3DC((struct Actor *)actor, 0);
     }
-    func_0204B92C((struct Obj *)r, 1);
-    return r;
+    func_0204B92C((struct Actor *)actor, 1);
+    return actor;
 }
 
 
@@ -2037,25 +1716,24 @@ void func_021B6FD8(void *p)
 
 
 
-void func_021B6FE0(void *p, u8 *q, int i) { Value v; if((q+i)[6]==1) v=V5; else if((q+i)[6]==2) v=V4; else {func_0204B3DC(p,0);return;} func_0204B3DC(p,1);func_0204B8A0(p,v); }
+void func_021B6FE0(void *p, MonolithCounts *counts, int i) { Value v; if(counts->slotIconState[i]==1) v=V5; else if(counts->slotIconState[i]==2) v=V4; else {func_0204B3DC(p,0);return;} func_0204B3DC(p,1);CLACT_ChangeActorAnimSeq(p,v); }
 
 
 
 
 
 
-int func_021B7014(int *p, const int *pos, int flag)
+int func_021B7014(MonolithToolWork *work, const int *pos, int resIndex)
 {
-    Rect r;
-    int f;
-
-    r = d_021BA854;
-    f = 0;
-    if (flag != 0)
-        f = 1;
-    r.a = pos[0];
-    r.b = pos[1];
-    return (int)func_0204B294((void *)p[0x14 / 4], *(int *)((char *)p + 0x44 + flag * 16), *(int *)((char *)p + 0x40 + flag * 16), *(int *)((char *)p + 0x48 + flag * 16), &r, (u16)f, 0x61);
+    struct MonolithToolCursorPos cursorPos;
+    int onSubScreen;
+    cursorPos = d_021BA854;
+    onSubScreen = 0;
+    if (resIndex != 0)
+        onSubScreen = 1;
+    cursorPos.x = pos[0];
+    cursorPos.y = pos[1];
+    return (int)func_0204B294((void *)work->unitBank, work->actorRes[resIndex].cellRes, work->actorRes[resIndex].charPalAnm, work->actorRes[resIndex].animRes, &cursorPos, (u16)onSubScreen, 0x61);
 }
 
 
@@ -2070,15 +1748,14 @@ void func_021B7068(void *p)
 
 
 
-void func_021B7070(int *p, int *out)
+void func_021B7070(MonolithToolWork *work, MonolithToolBlink *blink)
 {
-    Rect r;
-    int h;
-
-    r = d_021BA84C;
-    h = (int)func_0204B294((void *)p[0x14 / 4], p[0x54 / 4], p[0x50 / 4], p[0x58 / 4], &r, 1, 0x61);
-    func_0204B92C((struct Obj *)h, 1);
-    *out = h;
+    struct MonolithToolCursorPos cursorPos;
+    int actor;
+    cursorPos = d_021BA84C;
+    actor = (int)func_0204B294((void *)work->unitBank, work->actorRes[1].cellRes, work->actorRes[1].charPalAnm, work->actorRes[1].animRes, &cursorPos, 1, 0x61);
+    func_0204B92C((struct Actor *)actor, 1);
+    blink->actor = actor;
 }
 
 
@@ -2088,9 +1765,9 @@ void func_021B7070(int *p, int *out)
  * func_0204B3B4 with it.  It is the callee whose only image-wide callers are
  * the three ov071 offset-thunks (matched via this EXACT entry).
  */
-void func_021B70B8(void **p)
+void func_021B70B8(MonolithToolBlink *blink)
 {
-    func_0204B3B4(*p);
+    func_0204B3B4((void *)blink->actor);
 }
 
 
@@ -2098,16 +1775,16 @@ void func_021B70B8(void **p)
 
 
 
-void func_021B70C4(St *p)
+void func_021B70C4(MonolithToolBlink *p)
 {
-    if (p->a == 1) {
-        if (p->b % 5 == 0) {
-            func_0204B6F4((struct Obj *)p->h, p->c, 1);
-            p->c ^= 1;
-            if (p->b / 5 == 3)
-                p->a = 0;
+    if (p->active == 1) {
+        if (p->frame % 5 == 0) {
+            func_0204B6F4((struct Actor *)p->actor, p->phase, 1);
+            p->phase ^= 1;
+            if (p->frame / 5 == 3)
+                p->active = 0;
         }
-        p->b++;
+        p->frame++;
     }
 }
 
@@ -2119,11 +1796,11 @@ void func_021B70C4(St *p)
 /*
  * Byte initialiser and its getter.
  */
-void func_021B7108(void *p)
+void func_021B7108(MonolithToolBlink *blink)
 {
-    ((struct Obj09886 *)p)->f4 = 1;
-    ((struct Obj09886 *)p)->f5 = 0;
-    ((struct Obj09886 *)p)->f6 = 1;
+    blink->active = 1;
+    blink->frame = 0;
+    blink->phase = 1;
 }
 
 
@@ -2131,9 +1808,9 @@ void func_021B7108(void *p)
 
 
 
-int func_021B7114(void *p)
+int func_021B7114(MonolithToolBlink *blink)
 {
-    return ((struct Obj20689 *)p)->f4;
+    return blink->active;
 }
 
 
@@ -2141,18 +1818,17 @@ int func_021B7114(void *p)
 
 
 
-struct Obj *func_021B7118(int *p, int x, int y, int w)
+struct Actor *func_021B7118(MonolithToolWork *work, int x, int y, int animSeq)
 {
-    Rect r;
-    struct Obj *h;
-
-    r = d_021BA804;
-    r.a = x;
-    r.b = y;
-    r.c = w;
-    h = func_0204B294((void *)p[0x14 / 4], p[0x54 / 4], p[0x50 / 4], p[0x58 / 4], &r, 1, 0x61);
-    func_0204B92C(h, 1);
-    return h;
+    struct MonolithToolCursorPos cursorPos;
+    struct Actor *actor;
+    cursorPos = d_021BA804;
+    cursorPos.x = x;
+    cursorPos.y = y;
+    cursorPos.animSeq = animSeq;
+    actor = func_0204B294((void *)work->unitBank, work->actorRes[1].cellRes, work->actorRes[1].charPalAnm, work->actorRes[1].animRes, &cursorPos, 1, 0x61);
+    func_0204B92C(actor, 1);
+    return actor;
 }
 
 
@@ -2246,7 +1922,7 @@ void func_021B71FC(void *p)
 
 
 
-int func_021B7204(int a, int b, void *p, int *q) { func_02027974(p); if(func_020279E8(p)==1) { *q=func_02027A04(p)==0 ? 1 : 0;return 1;} return 0; }
+int func_021B7204(MonolithToolWork *work, int unused, void *p, int *q) { func_02027974(p); if(func_020279E8(p)==1) { *q=func_02027A04(p)==0 ? 1 : 0;return 1;} return 0; }
 
 
 
@@ -2255,20 +1931,20 @@ int func_021B7204(int a, int b, void *p, int *q) { func_02027974(p); if(func_020
 
 void func_021B7234(void *a, int flag, int bg)
 {
-    Counts *c;
+    MonolithCounts *c;
     u16 *buf;
     int y;
     int n, m;
     int left, right;
     int i;
 
-    c = func_021B6F40(a);
+    c = func_021B6F40((MonolithToolProcArgs *)a);
     y = 0x14;
     if (flag) {
         y = 0xe;
     }
-    n = c->n;
-    m = c->m;
+    n = c->current;
+    m = c->limit;
     if (n == m) {
         left = 0x78;
         right = 0x78;
@@ -2311,23 +1987,23 @@ void func_021B7234(void *a, int flag, int bg)
 
 
 
-int func_021B730C(void *ctx, int *st, int *w)
+int func_021B730C(void *ctx, int *state, MonolithToolProcArgs *args)
 {
-    u8 *m;
+    MonolithToolSlotSelect *screen;
 
-    switch (st[0]) {
+    switch (state[0]) {
     case 0:
-        m = func_0203159C(ctx, 0x84, 0x61);
-        func_02082BCC(m, 0, 0x84);
-        m[0x82] = 0;
+        screen = func_0203159C(ctx, sizeof(MonolithToolSlotSelect), 0x61);
+        func_02082BCC(screen, 0, sizeof(MonolithToolSlotSelect));
+        screen->backMode = 0;
         func_021B7880();
-        func_021B78F4(w, (void *)w[1]);
-        func_021B7924((void **)m, (void *)w[1]);
-        func_021B7A68((S *)m, (int *)w);
-        func_021B7B10(w, (char *)m);
-        func_021B7BD8(w, (int)m);
-        ((struct Obj13174 *)m)->f7C = func_021B7014((int *)w[1], (const int *)&d_021BA8A0[*(u8 *)w[2]], 1);
-        st[0]++;
+        func_021B78F4(args, args->work);
+        func_021B7924(screen, args->work);
+        func_021B7A68(screen, args);
+        func_021B7B10(args, screen);
+        func_021B7BD8(args, screen);
+        screen->cursorActor = (void *)func_021B7014(args->work, (const int *)&d_021BA8A0[args->param->slot], 1);
+        state[0]++;
         break;
     case 1:
         func_02040588(6, 1);
@@ -2353,102 +2029,102 @@ int func_021B730C(void *ctx, int *st, int *w)
 
 
 
-int func_021B739C(int a,int *state,C *c,D_021B6524 *d)
+int func_021B739C(int unused, int *state, MonolithToolProcArgs *args, MonolithToolSlotSelect *screen)
 {
- u16 *dst;
- u16 *src;
- u8 *r;
- int keys,res,t;
- u32 i;
- u8 next;
- const u8 *row;
- r=(u8 *)func_02158344(func_02012138(*c->f0));
- func_021B7AC4((void **)d,c); func_021B7AE8((void **)d,*c->f8);func_021B7BB4((int *)c,(char *)d);func_021B7BF0(d);
- if(c->f2e==1 && *state==3) return 1;
+ u16 *nameDst;
+ u16 *nameSrc;
+ u8 *intrude;
+ int keyState,touchResult,result;
+ u32 slot;
+ u8 nextSlot;
+ const u8 *neighbors;
+ intrude=(u8 *)func_02158344(func_02012138(args->setup->gameCtx));
+ func_021B7AC4(screen,args); func_021B7AE8(screen,args->param->slot);func_021B7BB4(args,screen);func_021B7BF0(screen);
+ if(args->abortRequested==1 && *state==3) return 1;
  switch(*state) {
  case 0:
-  if(r!=0 && func_02175B14(r+0x1ac)==1) func_021B7BFC((int *)c,(char *)d,1);
+  if(intrude!=0 && func_02175B14(intrude+0x1ac)==1) func_021B7BFC(args,screen,1);
   *state=1;break;
  case 1:
-  if(func_02158590(func_020120F4(*c->f0))==0) func_021B79A0((void **)d,(int *)c->f4,0x16);
-  else func_021B79A0((void **)d,(int *)c->f4,0x12);
+  if(func_02158590(func_020120F4(args->setup->gameCtx))==0) func_021B79A0(screen,args->work,0x16);
+  else func_021B79A0(screen,args->work,0x12);
   ++*state;break;
  case 2:
-  if(func_021B7A08((char *)c->f4,(char *)d)!=1) break;
+  if(func_021B7A08(args->work,screen)!=1) break;
   if(func_02035C60()==0 && (func_020362DC()&3)==0) break;
-  func_021B7A14((void **)d);func_020061E4(0x547);
-  if(func_02035C60()!=0) {d->f83=1;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0xff,3);}
-  else {d->f83=0;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0,3);}
-  if(d->f82==0) *state=3;else *state=4;
+  func_021B7A14(screen);func_020061E4(0x547);
+  if(func_02035C60()!=0) {screen->buttonHighlight=1;func_021B6B98(args,&screen->button[0],1,0xff,3);}
+  else {screen->buttonHighlight=0;func_021B6B98(args,&screen->button[0],1,0,3);}
+  if(screen->backMode==0) *state=3;else *state=4;
   break;
  case 3:
-  keys=func_020362DC();res=func_02035C08(d_021BA87C);
-  if(r!=0 && func_02175B14(r+0x1ac)==1) {func_021B7BFC((int *)c,(char *)d,1);d->f80=1;*state=4;break;}
-  if(keys>0 && d->f83==1) {d->f83=0;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0,3);func_020061E4(0x548);break;}
-  if(keys&0xf0) {
-   next=0xff;
-   for(i=0;(i<6)?1:0;i++) if(d_021BA85C[i]==*c->f8) break;
-   i=*c->f8;
-   if(keys&0x40) {row=d_021BA862[i];next=row[0];}
-   else if(keys&0x80) {row=d_021BA862[i];next=row[1];}
-   else if(keys&0x20) {row=d_021BA862[i];next=row[2];}
-   else if(keys&0x10) {row=d_021BA862[i];next=row[3];}
-   if(next!=0xff) i=next;
-   *c->f8=i;func_020061E4(0x548);
+  keyState=func_020362DC();touchResult=func_02035C08(d_021BA87C);
+  if(intrude!=0 && func_02175B14(intrude+0x1ac)==1) {func_021B7BFC(args,screen,1);screen->linkLost=1;*state=4;break;}
+  if(keyState>0 && screen->buttonHighlight==1) {screen->buttonHighlight=0;func_021B6B98(args,&screen->button[0],1,0,3);func_020061E4(0x548);break;}
+  if(keyState&0xf0) {
+   nextSlot=0xff;
+   for(slot=0;(slot<6)?1:0;slot++) if(d_021BA85C[slot]==args->param->slot) break;
+   slot=args->param->slot;
+   if(keyState&0x40) {neighbors=d_021BA862[slot];nextSlot=neighbors[0];}
+   else if(keyState&0x80) {neighbors=d_021BA862[slot];nextSlot=neighbors[1];}
+   else if(keyState&0x20) {neighbors=d_021BA862[slot];nextSlot=neighbors[2];}
+   else if(keyState&0x10) {neighbors=d_021BA862[slot];nextSlot=neighbors[3];}
+   if(nextSlot!=0xff) slot=nextSlot;
+   args->param->slot=slot;func_020061E4(0x548);
   }
-  if(res>=0 && res<6) {*c->f8=res;d->f83=1;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0xff,3);func_020061E4(0x548);break;}
-  if(res==6 || (keys&1)) {
-   func_020355D8(res==6);
-   if(func_02158590(func_020120F4(*c->f0))==0) {
-    t=d_021BAA4C[*c->f8];
-    if(t!=2 && t!=1) {*state=9;break;}
+  if(touchResult>=0 && touchResult<6) {args->param->slot=touchResult;screen->buttonHighlight=1;func_021B6B98(args,&screen->button[0],1,0xff,3);func_020061E4(0x548);break;}
+  if(touchResult==6 || (keyState&1)) {
+   func_020355D8(touchResult==6);
+   if(func_02158590(func_020120F4(args->setup->gameCtx))==0) {
+    result=d_021BAA4C[args->param->slot];
+    if(result!=2 && result!=1) {*state=9;break;}
    }
-   func_021B6BEC(c,(int *)((u8 *)d+0x2c),1,0,3);func_020061E4(0x736);*state=5;
-  } else if(res==7 || (keys&2)) {
-   func_021B7108((u8 *)d+0x24);func_020355D8(res==7);func_020061E4(0x551);*state=11;
+   func_021B6BEC(args,&screen->button[0],1,0,3);func_020061E4(0x736);*state=5;
+  } else if(touchResult==7 || (keyState&2)) {
+   func_021B7108(&screen->cursorBlink);func_020355D8(touchResult==7);func_020061E4(0x551);*state=11;
   }
   break;
  case 4: {
-  int keys4,res4;
-  keys4=func_020362DC();res4=func_02035C08(d_021BA87C);
-  if(res4==7 || (keys4&2)) {func_020355D8x(res4==7);func_020061E4(0x551);*state=11;}
+  int keyState4,touchResult4;
+  keyState4=func_020362DC();touchResult4=func_02035C08(d_021BA87C);
+  if(touchResult4==7 || (keyState4&2)) {func_020355D8x(touchResult4==7);func_020061E4(0x551);*state=11;}
   break;}
 
  case 5:
-  d->rec=*(Record *)(c->f4+0x60+d_021BAA4C[*c->f8]*24);
-  d->f78=((u8 *)c->f0)[0x15];
-  dst=d->text;
-  src=(u16 *)((u8 *)c->f0+0x18);
-  for(i=10;i!=0;i--) {*dst=*src;dst++;src++;}
-  if(r!=0 && func_02173E2C((char *)r,(int)(&d->rec))!=1) break;
+  screen->joinRecord=args->work->slotRecord[d_021BAA4C[args->param->slot]];
+  screen->playerGender=args->setup->playerGender;
+  nameDst=screen->playerName;
+  nameSrc=args->setup->playerName;
+  for(slot=10;slot!=0;slot--) {*nameDst=*nameSrc;nameDst++;nameSrc++;}
+  if(intrude!=0 && INTRUDE_CMD_SendJoinRequest((char *)intrude,(int)&screen->joinRecord)!=1) break;
   *state=6;break;
  case 6:
-  if(r==0) {*state=3;break;}
-  t=func_021761EC((char *)(r+0x1ac));
-  if(t==1) {func_021B79A0((void **)d,(int *)c->f4,0x10);*state=7;}
-  else if(t==2) {func_021B79A0((void **)d,(int *)c->f4,0x11);*state=8;}
-  else if(t==3) {func_021B79A0((void **)d,(int *)c->f4,0x15);*state=8;}
-  else if(t==4) {func_021B79A0((void **)d,(int *)c->f4,0x14);*state=8;}
+  if(intrude==0) {*state=3;break;}
+  result=INTRUDE_COMM_TakeJoinReply((char *)(intrude+0x1ac));
+  if(result==1) {func_021B79A0(screen,args->work,0x10);*state=7;}
+  else if(result==2) {func_021B79A0(screen,args->work,0x11);*state=8;}
+  else if(result==3) {func_021B79A0(screen,args->work,0x15);*state=8;}
+  else if(result==4) {func_021B79A0(screen,args->work,0x14);*state=8;}
   break;
  case 7:case 8:
-  if(func_021B7A08((char *)c->f4,(char *)d)!=1) break;
+  if(func_021B7A08(args->work,screen)!=1) break;
   if(*state==7) {
   } else if(*state==8) {
    if(func_02035C60()==0 && !(func_020362DC()&3)) break;
   } else break;
-  if(*state==7 && r!=0 && func_02175B14(r+0x1ac)==0) break;
-  func_021B7A14((void **)d);func_020061E4(0x547);
-  if(*state==7) {if(r!=0) func_02175B4C(r,r+0x1ac);d->f81=1;*state=11;}
+  if(*state==7 && intrude!=0 && func_02175B14(intrude+0x1ac)==0) break;
+  func_021B7A14(screen);func_020061E4(0x547);
+  if(*state==7) {if(intrude!=0) func_02175B4C(intrude,intrude+0x1ac);screen->joined=1;*state=11;}
   else *state=11;
   break;
- case 9:func_021B79A0((void **)d,(int *)c->f4,0x17);++*state;break;
+ case 9:func_021B79A0(screen,args->work,0x17);++*state;break;
  case 10:
-  if(func_021B7A08((char *)c->f4,(char *)d)==1 && (func_02035C60()!=0 || (func_020362DC()&3)!=0)) {func_021B7A14((void **)d);*state=3;}
+  if(func_021B7A08(args->work,screen)==1 && (func_02035C60()!=0 || (func_020362DC()&3)!=0)) {func_021B7A14(screen);*state=3;}
   break;
  case 11:
-  if(func_021B6C74(c,3)==2) break;
-  if(func_021B7114((u8 *)d+0x24)!=0) break;
-  if(d->f81==1) c->f2c=4;else c->f2c=0;
+  if(func_021B6C74(args,3)==2) break;
+  if(func_021B7114(&screen->cursorBlink)!=0) break;
+  if(screen->joined==1) args->requestedScreen=4;else args->requestedScreen=0;
   return 1;
  }
  return 0;
@@ -2471,22 +2147,22 @@ int func_021B739C(int a,int *state,C *c,D_021B6524 *d)
 
 
 
-int func_021B7824(void *a, void *b, char *c, char *d)
+int func_021B7824(void *proc, void *unused, MonolithToolProcArgs *args, MonolithToolSlotSelect *screen)
 {
-    if (func_0201C6B4(((struct Obj20692 *)(*(char * *)&((struct Obj20691 *)c)->f4))->f8) == 0)
+    if (func_0201C6B4(args->work->printSys) == 0)
         return 0;
     func_020435F4(8);
-    if (((struct Obj06184 *)d)->f8 != 0)
-        func_0201CE48(((struct Obj06184 *)d)->f8);
-    if (((struct Obj06184 *)d)->f4 != 0)
-        func_02045808(((struct Obj06184 *)d)->f4);
-    func_021B7068(((struct Obj06184 *)d)->f7C);
-    func_021B7BE4(d);
-    func_021B7B9C(d);
-    func_021B7AAC((void **)d);
-    func_021B7994(d);
+    if (screen->msgPrinter != 0)
+        func_0201CE48(screen->msgPrinter);
+    if (screen->msgString != 0)
+        func_02045808(screen->msgString);
+    func_021B7068(screen->cursorActor);
+    func_021B7BE4(screen);
+    func_021B7B9C(screen);
+    func_021B7AAC(screen);
+    func_021B7994(screen);
     func_021B78D4();
-    func_020315D4(a);
+    func_020315D4(proc);
     return 1;
 }
 
@@ -2514,28 +2190,28 @@ void func_021B78D4(void) { func_02040588(5,0); func_02040588(6,0); func_020403F4
 
 
 
-void func_021B78F4(void *p, void **q) {func_020498F4(q[12],6,6,0,0,1,0x61);func_021B7234(p,1,6);func_020409B4(6);}
+void func_021B78F4(MonolithToolProcArgs *args, MonolithToolWork *work) {func_020498F4(work->archive,6,6,0,0,1,0x61);func_021B7234(args,1,6);func_020409B4(6);}
 
 
 
 
 
 
-void func_021B7924(void **p, void **q)
+void func_021B7924(MonolithToolSlotSelect *screen, MonolithToolWork *work)
 {
     func_0201F554(5, 1, 0, 0x61);
-    func_020215EC(q[0], 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
-    p[0] = (void *)func_020450F0(5, 1, 0x13, 0x1e, 4, 0xd, 1);
-    func_02043B5C(func_02045770(p[0]), 0xff);
-    func_02045374(p[0]);
-    func_0201F73C(p[0], 0, 1, 0xb);
+    PALANM_LoadArcPaletteToSlotAt(work->palAnm, 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
+    screen->msgWindow = (void *)func_020450F0(5, 1, 0x13, 0x1e, 4, 0xd, 1);
+    func_02043B5C(func_02045770(screen->msgWindow), 0xff);
+    func_02045374(screen->msgWindow);
+    func_0201F73C(screen->msgWindow, 0, 1, 0xb);
 }
 
 
 
-void func_021B7994(void *p)
+void func_021B7994(MonolithToolSlotSelect *screen)
 {
-    func_020452E8(((struct Obj20695 *)p)->f0);
+    func_020452E8(screen->msgWindow);
 }
 
 
@@ -2543,13 +2219,13 @@ void func_021B7994(void *p)
 
 
 
-void func_021B79A0(void **p, int *c, int idx)
+void func_021B79A0(MonolithToolSlotSelect *screen, MonolithToolWork *work, int msgId)
 {
-    if (p[2] != 0)
+    if (screen->msgPrinter != 0)
         func_02034714(d_021BABF4, 0, d_021BABF4);
     func_0201DD78(1, 2, 15);
-    p[1] = func_02045EC0((void *)c[0x28 / 4], idx);
-    p[2] = func_0201CCE4(p[0], 0, 0, p[1], c[0xc / 4], func_02012FFC(), (void *)c[0x18 / 4], 10, 0x61, 15);
+    screen->msgString = func_02045EC0((void *)work->msgBank[3], msgId);
+    screen->msgPrinter = func_0201CCE4(screen->msgWindow, 0, 0, screen->msgString, (int)work->font, func_02012FFC(), (void *)work->taskList, 10, 0x61, 15);
     func_02040588(5, 1);
 }
 
@@ -2557,42 +2233,40 @@ void func_021B79A0(void **p, int *c, int idx)
 
 
 
-int func_021B7A08(char *p, char *q) { return func_02028484((struct Blk *)(p + 0x38), (void *)(*(int *)(q + 8))); }
+int func_021B7A08(MonolithToolWork *work, MonolithToolSlotSelect *screen) { return func_02028484((struct Blk *)work->scratchList, screen->msgPrinter); }
 
 
 
 
 
 
-void func_021B7A14(void **p)
+void func_021B7A14(MonolithToolSlotSelect *screen)
 {
-    void *h;
-
-    h = func_02045770(p[0]);
-    if (p[2] == 0)
+    void *window;
+    window = func_02045770(screen->msgWindow);
+    if (screen->msgPrinter == 0)
         func_02034714(d_021BABF4, 0, d_021BABF4);
-    func_0201CE48(p[2]);
-    p[2] = 0;
-    func_02045808(p[1]);
-    p[1] = 0;
+    func_0201CE48(screen->msgPrinter);
+    screen->msgPrinter = 0;
+    func_02045808(screen->msgString);
+    screen->msgString = 0;
     func_02040588(5, 0);
-    func_02043B5C(h, 0xff);
-    func_02045334(p[0]);
+    func_02043B5C(window, 0xff);
+    func_02045334(screen->msgWindow);
     func_0201DD78(15, 2, 0);
 }
 
 
 
-void func_021B7A68(S *a, int *b)
+void func_021B7A68(MonolithToolSlotSelect *screen, MonolithToolProcArgs *args)
 {
     int i;
-    int t = (int)func_021B6F40((u8 **)b);
-
+    MonolithCounts *counts = func_021B6F40(args);
     for (i = 0; i < 6; i++) {
-        int r;
-        unsigned u = d_021BAA4C[i];
-        r = func_021B6F54((struct P *)b[1], (u8 *)t, i, (const int *)&d_021BA8A0[u], 1);
-        a->v[i] = r;
+        int icon;
+        unsigned recordIndex = d_021BAA4C[i];
+        icon = func_021B6F54(args->work, counts, i, (const int *)&d_021BA8A0[recordIndex], 1);
+        screen->slotIcon[i] = (void *)icon;
     }
 }
 
@@ -2605,7 +2279,7 @@ void func_021B7A68(S *a, int *b)
 
 
 
-void func_021B7AAC(void **p) { int i; for(i=0;i<6;i++) func_021B6FD8(p[i+3]); }
+void func_021B7AAC(MonolithToolSlotSelect *screen) { int i; for(i=0;i<6;i++) func_021B6FD8(screen->slotIcon[i]); }
 
 
 
@@ -2616,7 +2290,7 @@ void func_021B7AAC(void **p) { int i; for(i=0;i<6;i++) func_021B6FD8(p[i+3]); }
 
 
 
-void func_021B7AC4(void **p, void *q) { u8 *t;int i;t=func_021B6F40(q);for(i=0;i<6;i++)func_021B6FE0(p[i+3],t,i);}
+void func_021B7AC4(MonolithToolSlotSelect *screen, MonolithToolProcArgs *args) { MonolithCounts *counts;int i;counts=func_021B6F40(args);for(i=0;i<6;i++)func_021B6FE0(screen->slotIcon[i],counts,i);}
 
 
 
@@ -2627,7 +2301,7 @@ void func_021B7AC4(void **p, void *q) { u8 *t;int i;t=func_021B6F40(q);for(i=0;i
 
 
 
-void func_021B7AE8(void **p,int i) { u16 t[2];t[0]=d_021BA8A0[i].x;t[1]=d_021BA8A0[i].y;func_0204B404(p[31],(const struct Vec2 *)t,1);}
+void func_021B7AE8(MonolithToolSlotSelect *screen,int slot) { u16 pos[2];pos[0]=d_021BA8A0[slot].x;pos[1]=d_021BA8A0[slot].y;func_0204B404(screen->cursorActor,(const struct Vec2 *)pos,1);}
 
 
 
@@ -2639,18 +2313,18 @@ void func_021B7AE8(void **p,int i) { u16 t[2];t[0]=d_021BA8A0[i].x;t[1]=d_021BA8
 
 
 
-void func_021B7B10(int *a, char *b)
+void func_021B7B10(MonolithToolProcArgs *args, MonolithToolSlotSelect *screen)
 {
-    func_021B6C54((char *)a);
-    func_021B6A0C((Ctx_021B6A0C *)a[1], (Out_021B6A0C *)(b + 0x2c), 1, 1, 0x80, 0x90, 14, 0);
+    func_021B6C54(args);
+    func_021B6A0C(args->work, &screen->button[0], 1, 1, 0x80, 0x90, 14, 0);
     if (func_020355C4() == 0) {
-        func_021B6B98(a, (int *)(b + 0x2c), 1, 0, 3);
+        func_021B6B98(args, &screen->button[0], 1, 0, 3);
     } else {
-        func_021B6B98(a, (int *)(b + 0x2c), 1, 0xff, 3);
-        b[0x83] = 1;
+        func_021B6B98(args, &screen->button[0], 1, 0xff, 3);
+        screen->buttonHighlight = 1;
     }
-    func_021B6A0C((Ctx_021B6A0C *)a[1], (Out_021B6A0C *)(b + 0x3c), 1, 1, 0x80, 0x90, 15, 0);
-    func_021B6B58((void **)(b + 0x3c), 0);
+    func_021B6A0C(args->work, &screen->button[1], 1, 1, 0x80, 0x90, 15, 0);
+    func_021B6B58(&screen->button[1], 0);
 }
 
 
@@ -2662,7 +2336,7 @@ void func_021B7B10(int *a, char *b)
 
 
 
-void func_021B7B9C(char *p) { int i; p += 0x2c; for (i=0;i<2;i++) func_021B6B38((void **)(p+i*16)); }
+void func_021B7B9C(MonolithToolSlotSelect *screen) { int i; for (i=0;i<2;i++) func_021B6B38(&screen->button[i]); }
 
 
 
@@ -2673,7 +2347,7 @@ void func_021B7B9C(char *p) { int i; p += 0x2c; for (i=0;i<2;i++) func_021B6B38(
 
 
 
-void func_021B7BB4(int *a,char *p) { int i; func_021B6C7C(a,3); p+=0x2c; for(i=0;i<2;i++) func_021B6B70((void **)a[1],(u8 *)(p+i*16)); }
+void func_021B7BB4(MonolithToolProcArgs *args,MonolithToolSlotSelect *screen) { int i; func_021B6C7C(args,3); for(i=0;i<2;i++) func_021B6B70(args->work,&screen->button[i]); }
 
 
 
@@ -2685,9 +2359,9 @@ void func_021B7BB4(int *a,char *p) { int i; func_021B6C7C(a,3); p+=0x2c; for(i=0
 /*
  * Tail call to func_021B7070(word at 0x4, a + 0x24).
  */
-void func_021B7BD8(void *p, int a)
+void func_021B7BD8(MonolithToolProcArgs *args, MonolithToolSlotSelect *screen)
 {
-    func_021B7070(((struct Obj20703 *)p)->f4, (int *)(a + 0x24));
+    func_021B7070(args->work, &screen->cursorBlink);
 }
 
 
@@ -2703,9 +2377,9 @@ void func_021B7BD8(void *p, int a)
  * src/matched/ov071_func_021B70B8.c, whose EXACT entry attests this pool-word
  * site (`matched`).
  */
-void func_021B7BE4(void *p)
+void func_021B7BE4(MonolithToolSlotSelect *screen)
 {
-    func_021B70B8((void **)((char *)p + 0x24));
+    func_021B70B8(&screen->cursorBlink);
 }
 
 
@@ -2718,9 +2392,9 @@ void func_021B7BE4(void *p)
 /*
  * Tail call to func_021B70C4((char *)p + 0x24).
  */
-void func_021B7BF0(void *p)
+void func_021B7BF0(MonolithToolSlotSelect *screen)
 {
-    func_021B70C4((St *)((char *)p + 0x24));
+    func_021B70C4(&screen->cursorBlink);
 }
 
 
@@ -2733,18 +2407,17 @@ void func_021B7BF0(void *p)
 
 
 
-void func_021B7BFC(int *a, char *p, unsigned char m)
+void func_021B7BFC(MonolithToolProcArgs *args, MonolithToolSlotSelect *screen, unsigned char mode)
 {
-
-    if (m == 0) {
-        func_021B6B58((void **)(p + 0x2c), 1);
-        func_021B6B58((void **)(p + 0x3c), 0);
+    if (mode == 0) {
+        func_021B6B58(&screen->button[0], 1);
+        func_021B6B58(&screen->button[1], 0);
     } else {
-        *(unsigned char *)a[2] = 6;
-        func_021B6B58((void **)(p + 0x2c), 0);
-        func_021B6B58((void **)(p + 0x3c), 1);
+        args->param->slot = 6;
+        func_021B6B58(&screen->button[0], 0);
+        func_021B6B58(&screen->button[1], 1);
     }
-    ((struct Obj20705 *)p)->f82 = m;
+    screen->backMode = mode;
 }
 
 
@@ -2754,26 +2427,26 @@ void func_021B7BFC(int *a, char *p, unsigned char m)
 
 
 
-int func_021B7C3C(struct Obj0203159C *a, int *b, C_021B7AAC *c)
+int func_021B7C3C(void *ctx, int *state, MonolithToolProcArgs *args)
 {
-    void *m;
-    void *s;
-    int h;
-
-    switch (*b) {
+    MonolithToolTitle *screen;
+    void *monsterName;
+    void *name;
+    int species;
+    switch (*state) {
     case 0:
-        m = func_0203159C(a, 0x24, 0x61);
-        func_02082BCC(m, 0, 0x24);
+        screen = func_0203159C(ctx, sizeof(MonolithToolTitle), 0x61);
+        func_02082BCC(screen, 0, sizeof(MonolithToolTitle));
         func_021B7D6C();
-        func_021B7DAC(c, (unsigned int *)c->f4);
-        h = (int)func_021B6F2C((u8 **)c);
-        s = func_020457B0(8, 0x61);
-        func_02045994(s, func_020084F4((const void *)h), 8);
-        func_0201EE0C((struct WordSet *)c->f4->f10, 0, s, func_02008550((const struct Sub0200852CObj *)h), 1, 2);
-        func_02045808(s);
-        func_021B6E1C((Ctx_021B6E1C *)c->f4, (Out_021B6E1C *)m, 0, 0x80, 0xc, 0x1e, 2, 0, (void *)c->f4->f10);
-        func_021B7DE0((S *)m, (int *)c);
-        *b = *b + 1;
+        func_021B7DAC(args, args->work);
+        species = (int)func_021B6F2C(args);
+        name = func_020457B0(8, 0x61);
+        func_02045994(name, func_020084F4((const void *)species), 8);
+        func_0201EE0C((struct WordSet *)args->work->wordSet, 0, name, func_02008550((const struct Sub0200852CObj *)species), 1, 2);
+        func_02045808(name);
+        func_021B6E1C(args->work, &screen->nameLabel, 0, 0x80, 0xc, 0x1e, 2, 0, (void *)args->work->wordSet);
+        func_021B7DE0(screen, args);
+        *state = *state + 1;
         break;
     case 1:
         func_02040588(2, 1);
@@ -2792,7 +2465,7 @@ int func_021B7C3C(struct Obj0203159C *a, int *b, C_021B7AAC *c)
 
 
 
-int func_021B7D00(int a,int *p,char *c,void **d) { if((unsigned char)c[0x2d]==1) return 1; func_021B6F04(((struct Obj13176 *)c)->f4,(u8 *)d); func_021B7E3C(d,c); switch(*p) { case 0:return 0; default:return 0; } }
+int func_021B7D00(int unused,int *state,MonolithToolProcArgs *args,MonolithToolTitle *screen) { if(args->topProcDone==1) return 1; func_021B6F04(args->work,&screen->nameLabel); func_021B7E3C(screen,args); switch(*state) { case 0:return 0; default:return 0; } }
 
 
 
@@ -2803,7 +2476,7 @@ int func_021B7D00(int a,int *p,char *c,void **d) { if((unsigned char)c[0x2d]==1)
 
 
 
-int func_021B7D34(void *a,int b,char *c,void **d) { if(func_0201C6B4(((struct Obj20710 *)(*(char * *)&((struct Obj20709 *)c)->f4))->f8)==0) return 0; func_02043534(8); func_021B7E24(d); func_021B6EEC(d); func_021B7D98(); func_020315D4(a); return 1; }
+int func_021B7D34(void *proc,int unused,MonolithToolProcArgs *args,MonolithToolTitle *screen) { if(func_0201C6B4(args->work->printSys)==0) return 0; func_02043534(8); func_021B7E24(screen); func_021B6EEC(&screen->nameLabel); func_021B7D98(); func_020315D4(proc); return 1; }
 
 
 
@@ -2833,7 +2506,7 @@ void func_021B7D98(void) { func_02040588(2, 0); func_020403F4(2); }
 
 
 
-void func_021B7DAC(void *a,unsigned *b) { func_020498F4((void *)b[12],11,2,0,0,1,0x61); func_021B7234(a,0,2); func_020409B4(2); }
+void func_021B7DAC(MonolithToolProcArgs *args,MonolithToolWork *work) { func_020498F4(work->archive,11,2,0,0,1,0x61); func_021B7234(args,0,2); func_020409B4(2); }
 
 
 
@@ -2842,16 +2515,15 @@ void func_021B7DAC(void *a,unsigned *b) { func_020498F4((void *)b[12],11,2,0,0,1
 
 
 
-void func_021B7DE0(S *a, int *b)
+void func_021B7DE0(MonolithToolTitle *screen, MonolithToolProcArgs *args)
 {
     int i;
-    int t = (int)func_021B6F40((u8 **)b);
-
+    MonolithCounts *counts = func_021B6F40(args);
     for (i = 0; i < 6; i++) {
-        int r;
-        unsigned u = d_021BAA4C[i];
-        r = func_021B6F54((struct P *)b[1], (u8 *)t, i, (const int *)(d_021BA948 + u * 8), 0);
-        a->v[i] = r;
+        int icon;
+        unsigned recordIndex = d_021BAA4C[i];
+        icon = func_021B6F54(args->work, counts, i, (const int *)(d_021BA948 + recordIndex * 8), 0);
+        screen->slotIcon[i] = (void *)icon;
     }
 }
 
@@ -2863,7 +2535,7 @@ void func_021B7DE0(S *a, int *b)
 
 
 
-void func_021B7E24(void **p) { int i; for(i=0;i<6;i++) func_021B6FD8(p[i+3]); }
+void func_021B7E24(MonolithToolTitle *screen) { int i; for(i=0;i<6;i++) func_021B6FD8(screen->slotIcon[i]); }
 
 
 
@@ -2873,7 +2545,7 @@ void func_021B7E24(void **p) { int i; for(i=0;i<6;i++) func_021B6FD8(p[i+3]); }
 
 
 
-void func_021B7E3C(void **a,void *p) { int i; unsigned char *t; t=func_021B6F40(p); for(i=0;i<6;i++) func_021B6FE0(a[i+3],t,i); }
+void func_021B7E3C(MonolithToolTitle *screen,MonolithToolProcArgs *args) { int i; MonolithCounts *counts; counts=func_021B6F40(args); for(i=0;i<6;i++) func_021B6FE0(screen->slotIcon[i],counts,i); }
 
 
 
@@ -2882,23 +2554,23 @@ void func_021B7E3C(void **a,void *p) { int i; unsigned char *t; t=func_021B6F40(
 
 
 
-int func_021B7E60(struct Obj0203159C *a, int unused, C_021B7E60 *c)
+int func_021B7E60(struct Proc *ctx, int unused, MonolithToolProcArgs *args)
 {
-    void *h = func_020120F4(*(void **)c->q);
-    W_021B7E60 *w = func_0203159C(a, 0x48, 0x61);
+    void *gameData = func_020120F4(args->setup->gameCtx);
+    MonolithToolMenu *screen = func_0203159C(ctx, sizeof(MonolithToolMenu), 0x61);
 
-    func_02082BCC(w, 0, 0x48);
-    if (func_020142E8((void *)func_0201296C(h), 0x980) == 0) {
-        w->f32 = 2;
-    } else if (c->q->f3d == 1) {
-        w->f32 = 1;
+    func_02082BCC(screen, 0, sizeof(MonolithToolMenu));
+    if (func_020142E8((void *)func_0201296C(gameData), 0x980) == 0) {
+        screen->kind = 2;
+    } else if (args->setup->useSlotRecords == 1) {
+        screen->kind = 1;
     } else {
-        w->f32 = 0;
+        screen->kind = 0;
     }
     func_021B8308();
-    func_021B8350((W_021B7AAC *)w, c->f4);
-    func_021B81A0((int *)c, (u8 *)w);
-    func_021B82E4(c, (int)w);
+    func_021B8350(screen, args->work);
+    func_021B81A0(args, screen);
+    func_021B82E4(args, screen);
     func_02043598(0x10, 1);
     return 1;
 }
@@ -2912,100 +2584,100 @@ int func_021B7E60(struct Obj0203159C *a, int unused, C_021B7E60 *c)
 
 
 
-int func_021B7EE0(int a, int *state, C_021B7EE0 *c, D_021B7AAC *d)
+int func_021B7EE0(int unused, int *state, MonolithToolProcArgs *args, MonolithToolMenu *screen)
 {
-    u8 *r;
-    int res;
+    u8 *saveData;
+    int touchResult;
     u32 keys;
-    int t;
+    int touch;
 
-    r = (u8 *)func_02158344(func_02012138(*c->f0));
-    func_021B82A4((int *)c, (char *)d);
-    func_021B82FC(d);
-    if (c->f2e == 1) {
+    saveData = (u8 *)func_02158344(func_02012138(args->setup->gameCtx));
+    func_021B82A4(args, screen);
+    func_021B82FC(screen);
+    if (args->abortRequested == 1) {
         return 1;
     }
     switch (*state) {
     case 0:
-        res = func_02035C08(&d_021BA9F8[d->kind]);
-        if (res != -1) {
-            d->sel = res;
-            d->res = d_021BA9C8[d->kind][res];
+        touchResult = func_02035C08(&d_021BA9F8[screen->kind]);
+        if (touchResult != -1) {
+            screen->selected = touchResult;
+            screen->result = d_021BA9C8[screen->kind][touchResult];
             func_020355D8(1);
-            d->armed = 0;
+            screen->touchArmed = 0;
             (*state)++;
             break;
         }
         keys = func_0203633C();
-        t = func_020362DC();
-        if (t > 0 && d->armed == 1) {
+        touch = func_020362DC();
+        if (touch > 0 && screen->touchArmed == 1) {
             func_020355D8(0);
-            d->armed = 0;
-            func_021B6B98(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
+            screen->touchArmed = 0;
+            func_021B6B98(args, &screen->button[0], d_021BA978[screen->kind], screen->selected, 3);
             func_020061E4(0x548);
             break;
         }
-        if (t & 1) {
-            d->res = d_021BA9C8[d->kind][d->sel];
+        if (touch & 1) {
+            screen->result = d_021BA9C8[screen->kind][screen->selected];
             (*state)++;
-        } else if (t & 2) {
-            d->res = 3;
+        } else if (touch & 2) {
+            screen->result = 3;
             (*state)++;
         } else if (keys & 0x80) {
-            d->sel++;
-            if (d->sel >= d_021BA978[d->kind]) {
-                d->sel = 0;
+            screen->selected++;
+            if (screen->selected >= d_021BA978[screen->kind]) {
+                screen->selected = 0;
             }
-            func_021B6B98(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
+            func_021B6B98(args, &screen->button[0], d_021BA978[screen->kind], screen->selected, 3);
             func_020061E4(0x548);
         } else if (keys & 0x40) {
-            d->sel--;
-            if (d->sel < 0) {
-                d->sel = d_021BA978[d->kind] - 1;
+            screen->selected--;
+            if (screen->selected < 0) {
+                screen->selected = d_021BA978[screen->kind] - 1;
             }
-            func_021B6B98(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
+            func_021B6B98(args, &screen->button[0], d_021BA978[screen->kind], screen->selected, 3);
             func_020061E4(0x548);
         }
         break;
     case 1:
-        if (d->res == 0) {
-            if (((u8 *)c->f0)[0x3d] == 0) {
+        if (screen->result == 0) {
+            if (args->setup->useSlotRecords == 0) {
                 (*state)--;
                 break;
             }
-            if (r != 0 && func_02175B14(r + 0x1ac) == 1) {
+            if (saveData != 0 && func_02175B14(saveData + 0x1ac) == 1) {
                 func_020061E4(0x54c);
-                func_021B83CC((W_021B83C0 *)d, (X *)c->f4, 4);
+                func_021B83CC(screen, args->work, 4);
                 *state = 3;
                 break;
             }
         }
-        if (d->res != 3) {
-            func_021B6BEC(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
+        if (screen->result != 3) {
+            func_021B6BEC(args, &screen->button[0], d_021BA978[screen->kind], screen->selected, 3);
             func_020061E4(0x54c);
         } else {
-            func_021B7108(d->f34);
+            func_021B7108(&screen->cursorBlink);
             func_020061E4(0x551);
         }
         (*state)++;
         break;
     case 2:
-        if (d->res != 3) {
-            if (func_021B6C74(c, 3) != 2) {
-                c->f2c = d->res + 1;
+        if (screen->result != 3) {
+            if (func_021B6C74(args, 3) != 2) {
+                args->requestedScreen = screen->result + 1;
                 return 1;
             }
         } else {
-            if (func_021B7114(d->f34) == 0) {
-                c->f2c = d->res + 1;
+            if (func_021B7114(&screen->cursorBlink) == 0) {
+                args->requestedScreen = screen->result + 1;
                 return 1;
             }
         }
         break;
     case 3:
-        if (func_021B8434(c->f4, (u8 *)d) == 1) {
+        if (func_021B8434(args->work, screen) == 1) {
             if (func_02035C60() != 0 || (func_020362DC() & 3) != 0) {
-                func_021B8440((W_021B83C0 *)d);
+                func_021B8440(screen);
                 func_020061E4(0x547);
                 *state = 0;
             }
@@ -3022,24 +2694,24 @@ int func_021B7EE0(int a, int *state, C_021B7EE0 *c, D_021B7AAC *d)
 
 
 
-int func_021B8150(void *a, int unused, B *b, W_021B8150 *w)
+int func_021B8150(void *proc, int unused, MonolithToolProcArgs *args, MonolithToolMenu *screen)
 {
 
-    if (func_0201C6B4(b->f4->f8) == 0) {
+    if (func_0201C6B4(args->work->printSys) == 0) {
         return 0;
     }
     func_020435F4(8);
-    if (w->f40 != 0) {
-        func_0201CE48(w->f40);
+    if (screen->messageBox != 0) {
+        func_0201CE48(screen->messageBox);
     }
-    if (w->f44 != 0) {
-        func_02045808(w->f44);
+    if (screen->messageText != 0) {
+        func_02045808(screen->messageText);
     }
-    func_021B8270((unsigned char *)w);
-    func_021B82F0(w);
-    func_021B83C0(w);
+    func_021B8270(screen);
+    func_021B82F0(screen);
+    func_021B83C0(screen);
     func_021B833C();
-    func_020315D4(a);
+    func_020315D4(proc);
     return 1;
 }
 
@@ -3051,27 +2723,27 @@ int func_021B8150(void *a, int unused, B *b, W_021B8150 *w)
 
 
 
-void func_021B81A0(int *a, u8 *p)
+void func_021B81A0(MonolithToolProcArgs *args, MonolithToolMenu *screen)
 {
     unsigned i;
-    unsigned k;
+    unsigned kind;
 
-    func_021B6C54((char *)a);
-    for (i = 0; i < d_021BA978[p[0x32]]; i++) {
-        k = p[0x32];
-        if (k == 1) {
-            func_021B6A0C((Ctx_021B6A0C *)a[1], (Out_021B6A0C *)(p + i * 16), 1, 1, 0x80, d_021BA9A4[k][i], i + 1, 0);
-        } else if (k == 0) {
-            func_021B6A0C((Ctx_021B6A0C *)a[1], (Out_021B6A0C *)(p + i * 16), 1, 1, 0x80, d_021BA9A4[k][i], i + 2, 0);
-        } else if (k == 2) {
-            func_021B6A0C((Ctx_021B6A0C *)a[1], (Out_021B6A0C *)(p + i * 16), 1, 1, 0x80, d_021BA9A4[k][i], i == 0 ? 1 : 3, 0);
+    func_021B6C54(args);
+    for (i = 0; i < d_021BA978[screen->kind]; i++) {
+        kind = screen->kind;
+        if (kind == 1) {
+            func_021B6A0C(args->work, &screen->button[i], 1, 1, 0x80, d_021BA9A4[kind][i], i + 1, 0);
+        } else if (kind == 0) {
+            func_021B6A0C(args->work, &screen->button[i], 1, 1, 0x80, d_021BA9A4[kind][i], i + 2, 0);
+        } else if (kind == 2) {
+            func_021B6A0C(args->work, &screen->button[i], 1, 1, 0x80, d_021BA9A4[kind][i], i == 0 ? 1 : 3, 0);
         }
     }
     if (func_020355C4() == 0) {
-        func_021B6B98(a, (int *)p, d_021BA978[p[0x32]], 0, 3);
-        p[0x33] = 0;
+        func_021B6B98(args, &screen->button[0], d_021BA978[screen->kind], 0, 3);
+        screen->touchArmed = 0;
     } else {
-        p[0x33] = 1;
+        screen->touchArmed = 1;
     }
 }
 
@@ -3082,7 +2754,7 @@ void func_021B81A0(int *a, u8 *p)
 
 
 
-void func_021B8270(unsigned char *p) { unsigned i; for(i=0;i<d_021BA978[p[0x32]];i++) func_021B6B38((void **)(p+i*16)); }
+void func_021B8270(MonolithToolMenu *screen) { unsigned i; for(i=0;i<d_021BA978[screen->kind];i++) func_021B6B38(&screen->button[i]); }
 
 
 
@@ -3090,13 +2762,13 @@ void func_021B8270(unsigned char *p) { unsigned i; for(i=0;i<d_021BA978[p[0x32]]
 
 
 
-void func_021B82A4(int *a, char *p)
+void func_021B82A4(MonolithToolProcArgs *args, MonolithToolMenu *screen)
 {
     unsigned i;
 
-    func_021B6C7C(a, 3);
-    for (i = 0; i < d_021BA978[((struct Obj20722 *)p)->f32]; i++) {
-        func_021B6B70((void **)a[1], (u8 *)(p + i * 16));
+    func_021B6C7C(args, 3);
+    for (i = 0; i < d_021BA978[screen->kind]; i++) {
+        func_021B6B70(args->work, &screen->button[i]);
     }
 }
 
@@ -3109,9 +2781,9 @@ void func_021B82A4(int *a, char *p)
 /*
  * Tail call to func_021B7070(word at 0x4, a + 0x34).
  */
-void func_021B82E4(void *p, int a)
+void func_021B82E4(MonolithToolProcArgs *args, MonolithToolMenu *screen)
 {
-    func_021B7070(((struct Obj04337 *)p)->f4, (int *)(a + 0x34));
+    func_021B7070(args->work, &screen->cursorBlink);
 }
 
 
@@ -3120,9 +2792,9 @@ void func_021B82E4(void *p, int a)
 
 
 
-void func_021B82F0(void *p)
+void func_021B82F0(MonolithToolMenu *screen)
 {
-    func_021B70B8((void **)((char *)p + 0x34));
+    func_021B70B8(&screen->cursorBlink);
 }
 
 
@@ -3131,9 +2803,9 @@ void func_021B82F0(void *p)
 
 
 
-void func_021B82FC(void *p)
+void func_021B82FC(MonolithToolMenu *screen)
 {
-    func_021B70C4((St *)((char *)p + 0x34));
+    func_021B70C4(&screen->cursorBlink);
 }
 
 
@@ -3160,15 +2832,15 @@ void func_021B833C(void) { func_02040588(5, 0); func_020403F4(5); }
 
 
 
-void func_021B8350(W_021B7AAC *w, int *b)
+void func_021B8350(MonolithToolMenu *screen, MonolithToolWork *work)
 {
 
     func_0201F554(5, 1, 0, 0x61);
-    func_020215EC((struct PalAnmSlot *)(*b), 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
-    w->f3c = func_020450F0(5, 1, 0x13, 0x1e, 4, 0xd, 1);
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)w->f3c)), 0xff);
-    func_02045374((struct Cfg *)w->f3c);
-    func_0201F73C((void *)w->f3c, 0, 1, 0xb);
+    PALANM_LoadArcPaletteToSlotAt(work->palAnm, 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
+    screen->window = (void *)func_020450F0(5, 1, 0x13, 0x1e, 4, 0xd, 1);
+    func_02043B5C((struct Bitmap *)((int)func_02045770((struct BmpWin *)screen->window)), 0xff);
+    func_02045374(screen->window);
+    func_0201F73C(screen->window, 0, 1, 0xb);
 }
 
 
@@ -3179,9 +2851,9 @@ void func_021B8350(W_021B7AAC *w, int *b)
 /*
  * Tail call to func_020452E8 on the pointer loaded from offset 0x3c.
  */
-void func_021B83C0(void *p)
+void func_021B83C0(MonolithToolMenu *screen)
 {
-    func_020452E8(((struct Obj20724 *)p)->f3C);
+    func_020452E8(screen->window);
 }
 
 
@@ -3189,15 +2861,15 @@ void func_021B83C0(void *p)
 
 
 
-void func_021B83CC(W_021B83C0 *w, X *x, unsigned y)
+void func_021B83CC(MonolithToolMenu *screen, MonolithToolWork *work, unsigned msgId)
 {
-    if (w->f40 != 0) {
+    if (screen->messageBox != 0) {
         func_02034714(d_021BABF8, 0, d_021BABF8);
     }
     func_0201DD78(1, 2, 0xf);
-    w->f44 = func_02045EC0(x->f28, y);
-    w->f40 = func_0201CCE4(w->f3c, 0, 0, (void *)w->f44, x->fc, func_02012FFC(),
-                           (void *)x->f18, 10, 0x61, 0xf);
+    screen->messageText = func_02045EC0(work->msgBank[3], msgId);
+    screen->messageBox = func_0201CCE4(screen->window, 0, 0, (void *)screen->messageText, (unsigned)work->font, func_02012FFC(),
+                           (void *)work->taskList, 10, 0x61, 0xf);
     func_02040588(5, 1);
 }
 
@@ -3208,9 +2880,9 @@ void func_021B83CC(W_021B83C0 *w, X *x, unsigned y)
 
 
 
-int func_021B8434(u8 *p, u8 *q)
+int func_021B8434(MonolithToolWork *work, MonolithToolMenu *screen)
 {
-    return func_02028484((struct Blk *)(p + 0x38), (void *)(((struct Obj20725 *)q)->f40));
+    return func_02028484((struct Blk *)work->scratchList, screen->messageBox);
 }
 
 
@@ -3218,20 +2890,20 @@ int func_021B8434(u8 *p, u8 *q)
 
 
 
-void func_021B8440(W_021B83C0 *w)
+void func_021B8440(MonolithToolMenu *screen)
 {
-    unsigned r = (unsigned)func_02045770(w->f3c);
+    unsigned r = (unsigned)func_02045770(screen->window);
 
-    if (w->f40 == 0) {
+    if (screen->messageBox == 0) {
         func_02034714(d_021BABF8, 0, d_021BABF8);
     }
-    func_0201CE48(w->f40);
-    w->f40 = 0;
-    func_02045808(w->f44);
-    w->f44 = 0;
+    func_0201CE48(screen->messageBox);
+    screen->messageBox = 0;
+    func_02045808(screen->messageText);
+    screen->messageText = 0;
     func_02040588(5, 0);
-    func_02043B5C((struct CharBuf *)r, 0xff);
-    func_02045334(w->f3c);
+    func_02043B5C((struct Bitmap *)r, 0xff);
+    func_02045334(screen->window);
     func_0201DD78(0xf, 2, 0);
 }
 
@@ -3240,35 +2912,34 @@ void func_021B8440(W_021B83C0 *w)
 
 
 
-int func_021B8494(struct Obj0203159C *a, int *b, C_021B8494 *c, u8 *d)
+int func_021B8494(struct Proc *ctx, int *state, MonolithToolProcArgs *args, MonolithToolSummary *screen)
 {
-    u8 *m;
+    MonolithToolSummary *created;
     int busy;
     int i;
 
-    switch (*b) {
+    switch (*state) {
     case 0:
-        m = func_0203159C(a, 0x28, 0x61);
-        func_02082BCC(m, 0, 0x28);
+        created = func_0203159C(ctx, sizeof(MonolithToolSummary), 0x61);
+        func_02082BCC(created, 0, sizeof(MonolithToolSummary));
         func_021B8650();
-        func_021B86BC((char *)c->f4);
-        func_021B86E8((int)((Q_021B83C0 *)c->f4), (P_021B86E8 *)m);
-        func_021B8764(c->f4, (char *)m);
-        m[0x24] = 0xff;
-        *b = *b + 1;
+        func_021B86BC(args->work);
+        func_021B86E8((int)args->work, created);
+        func_021B8764(args->work, created);
+        created->shownSlot = 0xff;
+        *state = *state + 1;
         break;
     case 1:
         busy = 0;
         for (i = 0; i < 2; i++) {
-            void *q = c->f4->f8;
-            u8 *s = d + i * 8;
-            if (s[0xc] != 0) {
-                if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj06186 *)s)->f8))) == 0) {
-                    func_02045334(((struct Obj06186 *)s)->f8);
-                    s[0xc] = 0;
+            void *printSys = args->work->printSys;
+            if (screen->text[i].on != 0) {
+                if (func_0201C6C4(printSys, (void *)((unsigned)func_02045770(screen->text[i].window))) == 0) {
+                    func_02045334(screen->text[i].window);
+                    screen->text[i].on = 0;
                 }
             }
-            if ((!s[0xc]) == 0) {
+            if ((!screen->text[i].on) == 0) {
                 busy = 1;
             }
         }
@@ -3292,39 +2963,38 @@ int func_021B8494(struct Obj0203159C *a, int *b, C_021B8494 *c, u8 *d)
  * Both tail returns are 0; the load of *p survives only through a
  * `switch` with a `default`, and `(!s[0xc]) == 1` keeps the boolean.
  */
-int func_021B855C(int a, int *p, C_021B855C *c, unsigned char *d)
+int func_021B855C(int unused, int *state, MonolithToolProcArgs *args, MonolithToolSummary *screen)
 {
-    int r;
-    int n;
+    int saveData;
+    int idleCount;
     int i;
 
-    r = func_02158344(func_02012138(*c->f0));
-    n = 0;
-    if (c->f2d == 1) {
+    saveData = func_02158344(func_02012138(args->setup->gameCtx));
+    idleCount = 0;
+    if (args->topProcDone == 1) {
         return 1;
     }
-    func_021B6F04((void **)c->f4, d + 0x18);
+    func_021B6F04(args->work, &screen->nameLabel);
     for (i = 0; i < 2; i++) {
-        void *q = c->f4->f8;
-        unsigned char *s = d + i * 8;
-        if (s[0xc] != 0) {
-            if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj06187 *)s)->f8))) == 0) {
-                func_02045334(((struct Obj06187 *)s)->f8);
-                s[0xc] = 0;
+        void *printSys = args->work->printSys;
+        if (screen->text[i].on != 0) {
+            if (func_0201C6C4(printSys, (void *)((unsigned)func_02045770(screen->text[i].window))) == 0) {
+                func_02045334(screen->text[i].window);
+                screen->text[i].on = 0;
             }
         }
-        if ((!s[0xc]) == 1) {
-            n++;
+        if ((!screen->text[i].on) == 1) {
+            idleCount++;
         }
     }
-    if (n == 2) {
-        unsigned v = *c->f8;
-        if (d[0x24] != v) {
-            func_021B8798((u8 * *)c, (Q_021B8798 *)((Q_021B83C0 *)c->f4), (P_021B8798 *)d, (u8 *)r, v);
-            d[0x24] = *c->f8;
+    if (idleCount == 2) {
+        unsigned slot = args->param->slot;
+        if (screen->shownSlot != slot) {
+            func_021B8798(args, args->work, screen, (u8 *)saveData, slot);
+            screen->shownSlot = args->param->slot;
         }
     }
-    switch (*p) {
+    switch (*state) {
     case 0:
         return 0;
     default:
@@ -3338,14 +3008,14 @@ int func_021B855C(int a, int *p, C_021B855C *c, unsigned char *d)
 
 
 
-int func_021B8618(void *a, void *b, char *c, void **d)
+int func_021B8618(void *proc, int unused, MonolithToolProcArgs *args, MonolithToolSummary *screen)
 {
-    if (func_0201C6B4(((struct Obj20734 *)(*(char * *)&((struct Obj20733 *)c)->f4))->f8) == 0) return 0;
+    if (func_0201C6B4(args->work->printSys) == 0) return 0;
     func_02043534(8);
-    func_021B8750(d);
+    func_021B8750(screen);
     func_021B869C();
-    func_021B878C(d);
-    func_020315D4(a);
+    func_021B878C(screen);
+    func_020315D4(proc);
     return 1;
 }
 
@@ -3376,25 +3046,25 @@ void func_021B869C(void) { func_02040588(0,0); func_02040588(2,0); func_020403F4
 
 
 
-void func_021B86BC(char *p) { func_020498F4((void *)(((struct Obj20735 *)p)->f30),12,2,0,0,1,0x61); func_020409B4(0); func_020409B4(2); }
+void func_021B86BC(MonolithToolWork *work) { func_020498F4(work->archive,12,2,0,0,1,0x61); func_020409B4(0); func_020409B4(2); }
 
 
 
 
 
-void func_021B86E8(int unused, P_021B86E8 *p)
+void func_021B86E8(int unused, MonolithToolSummary *screen)
 {
     int i;
 
-    p->h[0] = func_020450F0(0, 2, 0, 0x1c, 3, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[0]);
-    func_02045374((struct Cfg *)p->h[0]);
-    p->h[1] = func_020450F0(0, 2, 5, 0x1c, 0x10, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[1]);
-    func_02045374((struct Cfg *)p->h[1]);
+    screen->window[0] = (void *)func_020450F0(0, 2, 0, 0x1c, 3, 0xd, 1);
+    func_02045334((struct BmpWin *)screen->window[0]);
+    func_02045374(screen->window[0]);
+    screen->window[1] = (void *)func_020450F0(0, 2, 5, 0x1c, 0x10, 0xd, 1);
+    func_02045334((struct BmpWin *)screen->window[1]);
+    func_02045374(screen->window[1]);
     for (i = 0; i < 2; i++) {
-        p->e[i].h = p->h[i];
-        p->e[i].on = 0;
+        screen->text[i].window = screen->window[i];
+        screen->text[i].on = 0;
     }
     func_020409B4(0);
 }
@@ -3404,14 +3074,14 @@ void func_021B86E8(int unused, P_021B86E8 *p)
 
 
 
-void func_021B8750(void **p) { func_020452E8(p[0]); func_020452E8(p[1]); }
+void func_021B8750(MonolithToolSummary *screen) { func_020452E8(screen->window[0]); func_020452E8(screen->window[1]); }
 
 
 
 
 
 
-void func_021B8764(void *p,char *q) { func_021B6E1C((Ctx_021B6E1C *)((Inner *)p), (Out_021B6E1C *)(q+0x18), 1, 0x80, 0xb4, 0x1c, 2, 0x13, 0); }
+void func_021B8764(MonolithToolWork *work, MonolithToolSummary *screen) { func_021B6E1C(work, &screen->nameLabel, 1, 0x80, 0xb4, 0x1c, 2, 0x13, 0); }
 
 
 
@@ -3420,9 +3090,9 @@ void func_021B8764(void *p,char *q) { func_021B6E1C((Ctx_021B6E1C *)((Inner *)p)
 /*
  * Tail call to func_021B6EEC((char *)p + 0x18).
  */
-void func_021B878C(void *p)
+void func_021B878C(MonolithToolSummary *screen)
 {
-    func_021B6EEC((void **)((char *)p + 0x18));
+    func_021B6EEC(&screen->nameLabel);
 }
 
 
@@ -3435,43 +3105,43 @@ void func_021B878C(void *p)
  * first call, and `q->f8` goes through a local reassigned before each
  * draw call so it loads ahead of the nested call.
  */
-void func_021B8798(u8 **c, Q_021B8798 *q, P_021B8798 *d, u8 *r, unsigned v)
+void func_021B8798(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithToolSummary *screen, u8 *saveData, unsigned slot)
 {
-    void *s;
+    void *numberText;
     u8 *src;
-    Obj *e;
-    u32 y;
-    void *t0;
-    void *t1;
-    void *w;
+    MonolithToolSlotInfo *info;
+    u32 detailId;
+    void *labelText;
+    void *detailText;
+    void *printSys;
 
-    s = func_020457B0(0x100, 0x61);
-    func_02043B5C(func_02045770(d->h[0]), 0);
-    func_02043B5C(func_02045770(d->h[1]), 0);
-    if (v == 6 && r != 0 && func_02175B14(r + 0x1AC) == 1) {
-        e = (Obj *)func_02175B34(r + 0x1AC);
-        src = (u8 *)e + 0x18;
+    numberText = func_020457B0(0x100, 0x61);
+    func_02043B5C(func_02045770(screen->window[0]), 0);
+    func_02043B5C(func_02045770(screen->window[1]), 0);
+    if (slot == 6 && saveData != 0 && func_02175B14(saveData + 0x1AC) == 1) {
+        info = (MonolithToolSlotInfo *)func_02175B34(saveData + 0x1AC);
+        src = (u8 *)info + 0x18;
     } else {
-        if (v > 6) {
-            v = 0;
+        if (slot > 6) {
+            slot = 0;
         }
-        e = &q->ent[d_021BAA4C[v]];
-        src = *c + 0x18;
+        info = (MonolithToolSlotInfo *)&work->slotRecord[d_021BAA4C[slot]];
+        src = (u8 *)args->setup + 0x18;
     }
-    y = e->b18;
-    t0 = func_02045EC0(q->f1c, e->kind);
-    t1 = func_02045EC0(q->f1c, y);
-    func_021762D8(e, src, q->f10, 0x61);
-    func_0201F250(q->f10, s, t1);
-    w = q->f8;
-    func_0201C6FC(w, (u32)func_02045770(d->e[0].h), 0, 4, t0, (u32)q->fc);
-    d->e[0].on = 1;
-    w = q->f8;
-    func_0201C6FC(w, (u32)func_02045770(d->e[1].h), 0, 0, s, (u32)q->fc);
-    d->e[1].on = 1;
-    func_02045808(t0);
-    func_02045808(t1);
-    func_02045808(s);
+    detailId = info->detailId;
+    labelText = func_02045EC0(work->msgBank[0], info->labelId);
+    detailText = func_02045EC0(work->msgBank[0], detailId);
+    func_021762D8(info, src, work->wordSet, 0x61);
+    func_0201F250(work->wordSet, numberText, detailText);
+    printSys = work->printSys;
+    func_0201C6FC(printSys, func_02045770(screen->text[0].window), 0, 4, labelText, (u32)work->font);
+    screen->text[0].on = 1;
+    printSys = work->printSys;
+    func_0201C6FC(printSys, func_02045770(screen->text[1].window), 0, 0, numberText, (u32)work->font);
+    screen->text[1].on = 1;
+    func_02045808(labelText);
+    func_02045808(detailText);
+    func_02045808(numberText);
 }
 
 
@@ -3481,35 +3151,34 @@ void func_021B8798(u8 **c, Q_021B8798 *q, P_021B8798 *d, u8 *r, unsigned v)
 /*
  * Twin of func_021B8494 (six handle slots at +0x18 instead of two at +8).
  */
-int func_021B889C(struct Obj0203159C *a, int *b, C_021B889C *c, u8 *d)
+int func_021B889C(struct Proc *ctx, int *state, MonolithToolProcArgs *args, MonolithToolStats *screen)
 {
-    u8 *m;
+    MonolithToolStats *created;
     int busy;
     int i;
 
-    switch (*b) {
+    switch (*state) {
     case 0:
-        m = func_0203159C(a, 0x50, 0x61);
-        func_02082BCC(m, 0, 0x50);
+        created = func_0203159C(ctx, sizeof(MonolithToolStats), 0x61);
+        func_02082BCC(created, 0, sizeof(MonolithToolStats));
         func_021B8A70();
-        func_021B8ADC((char *)c->f4);
-        func_021B8B08((int)c->f4, (P_021B8B08 *)m);
-        func_021B8EC4(c, (int)m);
-        func_021B8C0C((C_021B8A70 *)c, (Q *)c->f4, (P_021B8C0C *)m);
-        *b = *b + 1;
+        func_021B8ADC(args->work);
+        func_021B8B08((int)args->work, created);
+        func_021B8EC4(args, created);
+        func_021B8C0C(args, args->work, created);
+        *state = *state + 1;
         break;
     case 1:
         busy = 0;
         for (i = 0; i < 6; i++) {
-            void *q = c->f4->f8;
-            u8 *s = d + i * 8;
-            if (s[0x1c] != 0) {
-                if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj06189 *)s)->f18))) == 0) {
-                    func_02045334(((struct Obj06189 *)s)->f18);
-                    s[0x1c] = 0;
+            void *printSys = args->work->printSys;
+            if (screen->text[i].on != 0) {
+                if (func_0201C6C4(printSys, (void *)((unsigned)func_02045770(screen->text[i].window))) == 0) {
+                    func_02045334(screen->text[i].window);
+                    screen->text[i].on = 0;
                 }
             }
-            if ((!s[0x1c]) == 0) {
+            if ((!screen->text[i].on) == 0) {
                 busy = 1;
             }
         }
@@ -3534,42 +3203,41 @@ int func_021B889C(struct Obj0203159C *a, int *b, C_021B889C *c, u8 *d)
  * falling through; every ternary or `!` spelling of the argument emits
  * `bne` to the 1 instead (same size, polarity flipped).
  */
-int func_021B8968(int a, int *b, C_021B8968 *c, u8 *d)
+int func_021B8968(int unused, int *state, MonolithToolProcArgs *args, MonolithToolStats *screen)
 {
     int i;
-    int t;
+    int touch;
 
-    if (c->f2e == 1) {
+    if (args->abortRequested == 1) {
         return 1;
     }
     for (i = 0; i < 6; i++) {
-        void *q = c->f4->f8;
-        u8 *s = d + i * 8;
-        if (s[0x1c] != 0) {
-            if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj07702 *)s)->f18))) == 0) {
-                func_02045334(((struct Obj07702 *)s)->f18);
-                s[0x1c] = 0;
+        void *printSys = args->work->printSys;
+        if (screen->text[i].on != 0) {
+            if (func_0201C6C4(printSys, (void *)((unsigned)func_02045770(screen->text[i].window))) == 0) {
+                func_02045334(screen->text[i].window);
+                screen->text[i].on = 0;
             }
         }
     }
-    func_021B8EDC(d);
-    switch (*b) {
+    func_021B8EDC(screen);
+    switch (*state) {
     case 0:
-        t = func_020362DC();
-        if (func_02035C08(d_021BAAA4) != -1 || (t & 2) != 0) {
-            func_021B7108(d + 0x48);
-            if (t & 2) {
+        touch = func_020362DC();
+        if (func_02035C08(d_021BAAA4) != -1 || (touch & 2) != 0) {
+            func_021B7108(&screen->cursorBlink);
+            if (touch & 2) {
                 func_020355D8(0);
             } else {
                 func_020355D8(1);
             }
             func_020061E4(0x551);
-            *b = *b + 1;
+            *state = *state + 1;
         }
         break;
     case 1:
-        if (func_021B7114(d + 0x48) == 0) {
-            c->f2c = 0;
+        if (func_021B7114(&screen->cursorBlink) == 0) {
+            args->requestedScreen = 0;
             return 1;
         }
         break;
@@ -3582,14 +3250,14 @@ int func_021B8968(int a, int *b, C_021B8968 *c, u8 *d)
 
 
 
-int func_021B8A38(void *a, void *b, char *c, void **d)
+int func_021B8A38(void *proc, int unused, MonolithToolProcArgs *args, MonolithToolStats *screen)
 {
-    if (func_0201C6B4(((struct Obj20740 *)(*(char * *)&((struct Obj20739 *)c)->f4))->f8) == 0) return 0;
+    if (func_0201C6B4(args->work->printSys) == 0) return 0;
     func_020435F4(8);
-    func_021B8ED0(d);
-    func_021B8BF4(d);
+    func_021B8ED0(screen);
+    func_021B8BF4(screen);
     func_021B8ABC();
-    func_020315D4(a);
+    func_020315D4(proc);
     return 1;
 }
 
@@ -3619,7 +3287,7 @@ void func_021B8ABC(void) { func_02040588(4,0); func_02040588(6,0); func_020403F4
 
 
 
-void func_021B8ADC(char *p) { func_020498F4((void *)(((struct Obj20741 *)p)->f30),5,6,0,0,1,0x61); func_020409B4(6); func_020409B4(4); }
+void func_021B8ADC(MonolithToolWork *work) { func_020498F4(work->archive,5,6,0,0,1,0x61); func_020409B4(6); func_020409B4(4); }
 
 
 
@@ -3627,31 +3295,31 @@ void func_021B8ADC(char *p) { func_020498F4((void *)(((struct Obj20741 *)p)->f30
 /*
  * Six-window twin of func_021B86E8.
  */
-void func_021B8B08(int unused, P_021B8B08 *p)
+void func_021B8B08(int unused, MonolithToolStats *screen)
 {
     int i;
 
-    p->h[0] = func_020450F0(4, 2, 0, 0x1e, 3, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[0]);
-    func_02045374((struct Cfg *)p->h[0]);
-    p->h[1] = func_020450F0(4, 2, 5, 0x1e, 2, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[1]);
-    func_02045374((struct Cfg *)p->h[1]);
-    p->h[2] = func_020450F0(4, 2, 8, 0x1e, 2, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[2]);
-    func_02045374((struct Cfg *)p->h[2]);
-    p->h[3] = func_020450F0(4, 2, 0xe, 0x1e, 4, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[3]);
-    func_02045374((struct Cfg *)p->h[3]);
-    p->h[4] = func_020450F0(4, 2, 0x10, 0x1e, 2, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[4]);
-    func_02045374((struct Cfg *)p->h[4]);
-    p->h[5] = func_020450F0(4, 2, 0x12, 0x1e, 2, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[5]);
-    func_02045374((struct Cfg *)p->h[5]);
+    screen->window[0] = (void *)func_020450F0(4, 2, 0x0, 0x1e, 0x3, 0xd, 1);
+    func_02045334((struct BmpWin *)screen->window[0]);
+    func_02045374(screen->window[0]);
+    screen->window[1] = (void *)func_020450F0(4, 2, 0x5, 0x1e, 0x2, 0xd, 1);
+    func_02045334((struct BmpWin *)screen->window[1]);
+    func_02045374(screen->window[1]);
+    screen->window[2] = (void *)func_020450F0(4, 2, 0x8, 0x1e, 0x2, 0xd, 1);
+    func_02045334((struct BmpWin *)screen->window[2]);
+    func_02045374(screen->window[2]);
+    screen->window[3] = (void *)func_020450F0(4, 2, 0xe, 0x1e, 0x4, 0xd, 1);
+    func_02045334((struct BmpWin *)screen->window[3]);
+    func_02045374(screen->window[3]);
+    screen->window[4] = (void *)func_020450F0(4, 2, 0x10, 0x1e, 0x2, 0xd, 1);
+    func_02045334((struct BmpWin *)screen->window[4]);
+    func_02045374(screen->window[4]);
+    screen->window[5] = (void *)func_020450F0(4, 2, 0x12, 0x1e, 0x2, 0xd, 1);
+    func_02045334((struct BmpWin *)screen->window[5]);
+    func_02045374(screen->window[5]);
     for (i = 0; i < 6; i++) {
-        p->e[i].h = p->h[i];
-        p->e[i].on = 0;
+        screen->text[i].window = screen->window[i];
+        screen->text[i].on = 0;
     }
     func_020409B4(4);
 }
@@ -3661,7 +3329,7 @@ void func_021B8B08(int unused, P_021B8B08 *p)
 
 
 
-void func_021B8BF4(void **p) { int i; for (i=0;i<6;i++) func_020452E8(p[i]); }
+void func_021B8BF4(MonolithToolStats *screen) { int i; for (i=0;i<6;i++) func_020452E8(screen->window[i]); }
 
 
 
@@ -3669,10 +3337,10 @@ void func_021B8BF4(void **p) { int i; for (i=0;i<6;i++) func_020452E8(p[i]); }
 
 
 
-static inline void Draw(Q *q, void *h, u32 x, u32 y, void *buf)
+static inline void drawText(MonolithToolWork *work, void *window, u32 x, u32 y, void *text)
 {
-    void *w = q->f8;
-    func_0201C6FC(w, (u32)func_02045770(h), x, y, buf, (u32)q->fc);
+    void *printSys = work->printSys;
+    func_0201C6FC(printSys, func_02045770(window), x, y, text, (u32)work->font);
 }
 
 
@@ -3682,75 +3350,67 @@ static inline void Draw(Q *q, void *h, u32 x, u32 y, void *buf)
 
 
 /*
- * Each window draw is a `static inline` whose `q->f8` local gets its own
+ * Each window draw is a `static inline` (drawText) whose `printSys` local gets its own
  * spill slot per inlined copy (seven slots, 0x24 down to 0xc).
  */
-void func_021B8C0C(C_021B8A70 *c, Q *q, P_021B8C0C *d)
+void func_021B8C0C(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithToolStats *screen)
 {
-    Counts *x;
-    s64 v;
+    MonolithCounts *counts;
+    s64 seconds;
     u32 hours;
-    u32 min;
-    void *s0;
-    void *s1;
+    u32 minutes;
+    void *labelText;
+    void *lineText;
 
-    func_021B6F2C((u8 **)c);
-    x = func_021B6F40((u8 **)c);
-    s0 = func_020457B0(0x100, 0x61);
-    s1 = func_020457B0(0x100, 0x61);
-
-    func_02045CAC(q->f28, 0xd, s0);
-    Draw(q, d->e[0].h, 0, 4, s0);
-    d->e[0].on = 1;
-
-    func_02045CAC(q->f28, 5, s0);
-    func_0201EFA4(q->f10, 0, x->m + x->n, 5, 0, 1);
-    func_0201F250(q->f10, s1, s0);
-    Draw(q, d->e[1].h, 0, 0, s1);
-    d->e[1].on = 1;
-
-    func_02045CAC(q->f28, 9, s0);
-    func_0201EFA4(q->f10, 0, x->m, 4, 0, 1);
-    func_0201F250(q->f10, s1, s0);
-    Draw(q, d->e[2].h, 0, 0, s1);
-    d->e[2].on = 1;
-
-    func_02045CAC(q->f28, 8, s0);
-    func_0201EFA4(q->f10, 0, x->n, 4, 0, 1);
-    func_0201F250(q->f10, s1, s0);
-    Draw(q, d->e[2].h, 0x78, 0, s1);
-    d->e[2].on = 1;
-
-    v = c->f0->f30;
-    hours = v / 60 / 60;
+    func_021B6F2C(args);
+    counts = func_021B6F40(args);
+    labelText = func_020457B0(0x100, 0x61);
+    lineText = func_020457B0(0x100, 0x61);
+    func_02045CAC(work->msgBank[3], 0xd, labelText);
+    drawText(work, screen->text[0].window, 0, 4, labelText);
+    screen->text[0].on = 1;
+    func_02045CAC(work->msgBank[3], 5, labelText);
+    func_0201EFA4(work->wordSet, 0, counts->limit + counts->current, 5, 0, 1);
+    func_0201F250(work->wordSet, lineText, labelText);
+    drawText(work, screen->text[1].window, 0, 0, lineText);
+    screen->text[1].on = 1;
+    func_02045CAC(work->msgBank[3], 9, labelText);
+    func_0201EFA4(work->wordSet, 0, counts->limit, 4, 0, 1);
+    func_0201F250(work->wordSet, lineText, labelText);
+    drawText(work, screen->text[2].window, 0, 0, lineText);
+    screen->text[2].on = 1;
+    func_02045CAC(work->msgBank[3], 8, labelText);
+    func_0201EFA4(work->wordSet, 0, counts->current, 4, 0, 1);
+    func_0201F250(work->wordSet, lineText, labelText);
+    drawText(work, screen->text[2].window, 0x78, 0, lineText);
+    screen->text[2].on = 1;
+    seconds = args->setup->playSeconds;
+    hours = seconds / 60 / 60;
     if (hours > 999) {
         hours = 999;
-        min = 59;
+        minutes = 59;
     } else {
-        v -= hours * 3600;
-        min = v / 60;
+        seconds -= hours * 3600;
+        minutes = seconds / 60;
     }
-    func_02045CAC(q->f28, 0xb, s0);
-    func_0201EFA4(q->f10, 0, hours, 3, 1, 1);
-    func_0201EFA4(q->f10, 1, min, 2, 2, 1);
-    func_0201F250(q->f10, s1, s0);
-    Draw(q, d->e[3].h, 0, 0, s1);
-    d->e[3].on = 1;
-
-    func_02045CAC(q->f28, 0xc, s0);
-    func_0201EFA4(q->f10, 0, c->f0->f2c, 5, 0, 1);
-    func_0201F250(q->f10, s1, s0);
-    Draw(q, d->e[4].h, 0, 0, s1);
-    d->e[4].on = 1;
-
-    func_02045CAC(q->f28, 0xa, s0);
-    func_0201EFA4(q->f10, 0, func_0216FEAC(q->f34, func_021B6F40((u8 **)c), c->f0->f38), 4, 0, 1);
-    func_0201F250(q->f10, s1, s0);
-    Draw(q, d->e[5].h, 0, 0, s1);
-    d->e[5].on = 1;
-
-    func_02045808(s0);
-    func_02045808(s1);
+    func_02045CAC(work->msgBank[3], 0xb, labelText);
+    func_0201EFA4(work->wordSet, 0, hours, 3, 1, 1);
+    func_0201EFA4(work->wordSet, 1, minutes, 2, 2, 1);
+    func_0201F250(work->wordSet, lineText, labelText);
+    drawText(work, screen->text[3].window, 0, 0, lineText);
+    screen->text[3].on = 1;
+    func_02045CAC(work->msgBank[3], 0xc, labelText);
+    func_0201EFA4(work->wordSet, 0, args->setup->recordCount, 5, 0, 1);
+    func_0201F250(work->wordSet, lineText, labelText);
+    drawText(work, screen->text[4].window, 0, 0, lineText);
+    screen->text[4].on = 1;
+    func_02045CAC(work->msgBank[3], 0xa, labelText);
+    func_0201EFA4(work->wordSet, 0, func_0216FEAC(work->entryTable, func_021B6F40(args), args->setup->rankData), 4, 0, 1);
+    func_0201F250(work->wordSet, lineText, labelText);
+    drawText(work, screen->text[5].window, 0, 0, lineText);
+    screen->text[5].on = 1;
+    func_02045808(labelText);
+    func_02045808(lineText);
 }
 
 
@@ -3759,9 +3419,9 @@ void func_021B8C0C(C_021B8A70 *c, Q *q, P_021B8C0C *d)
 /*
  * Tail call to func_021B7070(word at 0x4, a + 0x48).
  */
-void func_021B8EC4(void *p, int a)
+void func_021B8EC4(MonolithToolProcArgs *args, MonolithToolStats *screen)
 {
-    func_021B7070(((struct Obj06188 *)p)->f4, (int *)(a + 0x48));
+    func_021B7070(args->work, &screen->cursorBlink);
 }
 
 
@@ -3773,9 +3433,9 @@ void func_021B8EC4(void *p, int a)
  * src/matched/ov071_func_021B70B8.c, whose EXACT entry attests this pool-word
  * site (`matched`).
  */
-void func_021B8ED0(void *p)
+void func_021B8ED0(MonolithToolStats *screen)
 {
-    func_021B70B8((void **)((char *)p + 0x48));
+    func_021B70B8(&screen->cursorBlink);
 }
 
 
@@ -3784,9 +3444,9 @@ void func_021B8ED0(void *p)
 /*
  * Tail call to func_021B70C4((char *)p + 0x48).
  */
-void func_021B8EDC(void *p)
+void func_021B8EDC(MonolithToolStats *screen)
 {
-    func_021B70C4((St *)((char *)p + 0x48));
+    func_021B70C4(&screen->cursorBlink);
 }
 
 
@@ -3795,61 +3455,61 @@ void func_021B8EDC(void *p)
 
 
 
-int func_021B8EE8(struct Obj0203159C *a, int *b, u8 *c, u8 *o)
+int func_021B8EE8(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithListWork *work)
 {
     int busy;
-    u32 t;
-    Bool f;
+    struct PrintSys *printSys;
+    Bool finished;
 
-    switch (*b) {
+    switch (*state) {
     case 0:
-        o = func_0203159C(a, 0x314, 0x61);
-        func_02082BCC(o, 0, 0x314);
-        ((struct Obj01884 *)o)->f2D8 = 0x800;
-        ((struct Obj01884 *)o)->f300 = 0xffff;
-        ((struct Obj01884 *)o)->f2F8 = 0xffff;
-        ((struct Obj01884 *)o)->f2FC = 0xffff;
-        func_021B6C54((char *)c);
-        ((struct Obj01884 *)o)->f20 = (int)func_02045B38(0, 2, 0xa0, 0x61);
+        work = func_0203159C(proc, sizeof(MonolithListWork), 0x61);
+        func_02082BCC(work, 0, sizeof(MonolithListWork));
+        work->scrollPos = 0x800;
+        work->chosenEntry = MONOLITH_CURSOR_NONE;
+        work->prevCursor = MONOLITH_CURSOR_NONE;
+        work->lastCursor = MONOLITH_CURSOR_NONE;
+        func_021B6C54(args);
+        work->entryNameBank = func_02045B38(0, 2, 0xa0, 0x61);
         func_021B9560();
-        func_021B95FC(o, ((struct Obj02123 *)c)->f4);
-        func_021B96A4((char *)o, ((struct Obj02123 *)c)->f4);
-        func_021BA11C((char *)o);
-        func_021B9BB8((char *)c, (char *)o);
-        func_021B9AE4(o, ((struct Obj02123 *)c)->f4);
-        func_021B9B64((char *)c, (char *)o);
-        func_021B9BE8((char *)c, (char *)o);
-        func_021B9750((char *)c, (char *)o);
-        ((struct Obj01884 *)o)->f30C = (int)func_021B7174(((struct Obj02123 *)c)->f4, 4, 0x61);
-        (*(u8 **)(c + 8))[1] = 0x30;
-        ((struct Obj01884 *)o)->f0 = func_020056A0((void (*)(void))func_021BA1B0, o, 3);
-        func_021B9970((char **)c, (List *)o, (char *)((struct Obj02123 *)c)->f4);
-        func_021B992C((char *)o);
-        *b = *b + 1;
+        func_021B95FC(work, args->work);
+        func_021B96A4(work, args->work);
+        func_021BA11C(work);
+        func_021B9BB8(args, work);
+        func_021B9AE4(work, args->work);
+        func_021B9B64(args, work);
+        func_021B9BE8(args, work);
+        func_021B9750(args, work);
+        work->taskMenuUnit = func_021B7174((u32 *)args->work, 4, 0x61);
+        args->param->selected = MONOLITH_ENTRY_NONE;
+        work->task = func_020056A0((void (*)(void))func_021BA1B0, work, 3);
+        func_021B9970(args, work, args->work);
+        func_021B992C(work);
+        *state = *state + 1;
         break;
     case 1:
-        if (func_021B9A40((char *)o, ((struct Obj02123 *)c)->f4) == 1) {
-            func_021BA140(o);
-            ((struct Obj01884 *)o)->f2F0 = 1;
+        if (func_021B9A40(work, args->work) == 1) {
+            func_021BA140(work);
+            work->uploadPending = 1;
             if (func_020355C4() == 0) {
-                func_021B9F2C(o, 1, 0);
+                func_021B9F2C(work, 1, 0);
             } else {
-                func_021B9F2C(o, 0xffff, 0);
+                func_021B9F2C(work, MONOLITH_CURSOR_NONE, 0);
             }
-            *b = *b + 1;
+            *state = *state + 1;
         }
         break;
     case 2:
         busy = 0;
-        t = (*(u32 **)(c + 4))[2];
-        if (o[0x28c] != 0) {
-            if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj01884 *)o)->f288))) == 0) {
-                func_02045334((struct Descriptor *)((struct Obj01884 *)o)->f288);
-                o[0x28c] = 0;
+        printSys = args->work->printSys;
+        if (work->statusPending != 0) {
+            if (func_0201C6C4(printSys, func_02045770(work->statusWindow)) == 0) {
+                func_02045334(work->statusWindow);
+                work->statusPending = 0;
             }
         }
-        f = o[0x28c] == 0 ? B_TRUE : B_FALSE;
-        if (f == B_FALSE) {
+        finished = work->statusPending == 0 ? B_TRUE : B_FALSE;
+        if (finished == B_FALSE) {
             busy = 1;
         }
         if (busy == 0) {
@@ -3873,114 +3533,176 @@ int func_021B8EE8(struct Obj0203159C *a, int *b, u8 *c, u8 *o)
  * extent: final halfword at 021B94CA is alignment padding.
  * lever: state9 writes its state10 tail twice, one reached by goto, preserving the cross-jump.
  */
-int func_021B9070(int unused,int *state,u8 *c,u8 *o)
+int func_021B9070(int unused, int *state, MonolithToolProcArgs *args, MonolithListWork *work)
 {
-    u32 initial,handle,mask,save;
-    int active,result,off;
-    unsigned short flip;
-    initial=func_02158344(func_02012138((const struct Ctx *)*(u32 *)CP(0)));
-    func_021B6C7C((int *)c,1); func_021B6C7C((int *)c,3);
-    func_021B9BD8((char *)o); func_021B9BAC(CP(4),(u32)o);
-    handle=*(u32 *)(CP(4)+8);
-    if (o[0x28c]!=0 && func_0201C6C4((struct PrintSys *)handle,(void *)((u32)func_02045770((struct Descriptor *)W(0x288))))==0) {
-        func_02045334((struct Descriptor *)W(0x288)); o[0x28c]=0;
+    u32 initial, mask, save;
+    int active, result;
+    struct PrintSys *printSys;
+
+    initial = func_02158344(func_02012138(args->setup->gameCtx));
+    func_021B6C7C(args, 1);
+    func_021B6C7C(args, 3);
+    func_021B9BD8(work);
+    func_021B9BAC(args->work, work);
+    printSys = args->work->printSys;
+    if (work->statusPending != 0 && func_0201C6C4(printSys, func_02045770(work->statusWindow)) == 0) {
+        func_02045334(work->statusWindow);
+        work->statusPending = 0;
     }
-    if (c[0x2e]==1 && *state==4) return 1;
+    if (args->abortRequested == 1 && *state == 4) return 1;
     switch (*state) {
-    case 0: *state=1; break;
-    case 1: func_021B9798((char *)o,(char *)CP(4),0x25); ++*state; break;
+    case 0:
+        *state = 1;
+        break;
+    case 1:
+        func_021B9798(work, args->work, 0x25);
+        ++*state;
+        break;
     case 2:
-        if (func_021B98B4(CP(4),o)==1 && (func_02035C60()!=0 || (func_020362DC()&3))) {
-            func_021B98C4((char *)o); func_020061E4(0x547);
-            if (func_02035C60()==0) func_021B9F2C(o,1,0);
-            else func_021B9F2C(o,0xffff,0);
+        if (func_021B98B4(args->work, work) == 1 && (func_02035C60() != 0 || (func_020362DC() & 3))) {
+            func_021B98C4(work);
+            func_020061E4(0x547);
+            if (func_02035C60() == 0) func_021B9F2C(work, 1, 0);
+            else func_021B9F2C(work, MONOLITH_CURSOR_NONE, 0);
             ++*state;
-        } break;
+        }
+        break;
     case 3:
-        if (func_02035C38()==0 && !(func_0203630C()&3)) *state=4;
+        if (func_02035C38() == 0 && !(func_0203630C() & 3)) *state = 4;
         break;
     case 4:
-        mask=func_020362DC(); active=func_02035C08(d_021BAAFC);
-        if (active==0 || (mask&2)) {
-            func_021B7108(o+0x298);
-            if (active==0) func_020355D8(TRUE);
+        mask = func_020362DC();
+        active = func_02035C08(d_021BAAFC);
+        if (active == 0 || (mask & 2)) {
+            func_021B7108(&work->marker);
+            if (active == 0) func_020355D8(TRUE);
             else func_020355D8(FALSE);
-            func_020061E4(0x551); *state=17; break;
+            func_020061E4(0x551);
+            *state = 17;
+            break;
         }
-        func_021B9C7C(c,o); func_021BA004((char *)o);
-        off=0x2e0;
-        if (func_021BA0CC(o,W(off)+W(off+4))==1) {
-            func_021BA11C((char *)o); func_021BA140(o); W(off+16)=1;
+        func_021B9C7C(args, work);
+        func_021BA004(work);
+        if (func_021BA0CC(work, work->scrollVelocity + work->scrollRequest) == 1) {
+            func_021BA11C(work);
+            func_021BA140(work);
+            work->uploadPending = 1;
         }
-        func_021BA01C(c,o);
-        if (W(0x2f4)==0xffff) { CP(8)[1]=0x30; }
-        else {
-            CP(8)[1]=*(u32 *)(o+(W(0x2f4)<<2)+0xec);
-            CP(8)[2]=*(u32 *)(o+(W(0x2f4)<<2)+0x1b4);
-            if (*(u32 *)(o+(W(0x2f4)<<2)+0x1b4)==0) {
-                func_021B6B58((void **)(o+8),1); goto selected;
+        func_021BA01C(args, work);
+        if (work->cursor == MONOLITH_CURSOR_NONE) {
+            args->param->selected = MONOLITH_ENTRY_NONE;
+        } else {
+            args->param->selected = work->entryIds[work->cursor];
+            args->param->mode = work->entryDisabled[work->cursor];
+            if (work->entryDisabled[work->cursor] == 0) {
+                func_021B6B58(&work->backButton, 1);
+                goto selected;
             }
         }
-        func_021B6B58((void **)(o+8),0);
+        func_021B6B58(&work->backButton, 0);
 selected:
-        if (W(0x300)!=0xffff) { func_020061E4(0x54c); *state=5; }
+        if (work->chosenEntry != MONOLITH_CURSOR_NONE) {
+            func_020061E4(MONOLITH_SE_CONFIRM);
+            *state = 5;
+        }
         break;
     case 5:
-        if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2) {
-            func_021B9798((char *)o,(char *)CP(4),0x20); ++*state;
-        } break;
+        if (func_021B6C74(args, 1) != 2 && func_021B6C74(args, 3) != 2) {
+            func_021B9798(work, args->work, 0x20);
+            ++*state;
+        }
+        break;
     case 6:
-        if (func_021B98B4(CP(4),o)==1) {
-            if (W(0x310)!=0) func_02034714((const char *)d_021BABFC,0,(const char *)d_021BABFC);
-            W(0x310)=(u32)func_021B7194((int *)CP(4),(void *)W(0x30c),0x61); ++*state;
-        } break;
+        if (func_021B98B4(args->work, work) == 1) {
+            if (work->yesNoMenu != 0) func_02034714((const char *)d_021BABFC, 0, (const char *)d_021BABFC);
+            work->yesNoMenu = func_021B7194((int *)args->work, work->taskMenuUnit, 0x61);
+            ++*state;
+        }
+        break;
     case 7:
-        if (func_021B7204(C_021B8A70(4),4,(void *)W(0x310),&result)==1) {
-            func_021B71FC((void *)W(0x310)); W(0x310)=0; func_021B98C4((char *)o);
-            if (result==1) *state=8;
-            else { W(0x300)=0xffff; func_021B6C30((int *)c,1,1); func_021B6B98(c,(int *)(o+8),1,0xff,3); *state=4; }
-        } break;
+        if (func_021B7204(args->work, 4, work->yesNoMenu, &result) == 1) {
+            func_021B71FC(work->yesNoMenu);
+            work->yesNoMenu = 0;
+            func_021B98C4(work);
+            if (result == 1) *state = 8;
+            else {
+                work->chosenEntry = MONOLITH_CURSOR_NONE;
+                func_021B6C30(args, 1, 1);
+                func_021B6B98(args, &work->backButton, 1, 0xff, 3);
+                *state = 4;
+            }
+        }
+        break;
     case 8:
-        if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2) {
-            func_0201F184((struct WordSet *)(*(u32 *)(CP(4)+0x10)),0,*(u32 *)(o+(W(0x300)<<2)+0xec));
-            func_021B9818((char *)o,(char *)CP(4),0x23); *state=9;
-        } break;
+        if (func_021B6C74(args, 1) != 2 && func_021B6C74(args, 3) != 2) {
+            func_0201F184(args->work->wordSet, 0, work->entryIds[work->chosenEntry]);
+            func_021B9818(work, args->work, 0x23);
+            *state = 9;
+        }
+        break;
     case 9:
-        if (initial==0) goto write10;
-        if (func_02174660(CP(0)[0x3c])==1) { *state=10; break; }
+        if (initial == 0) goto write10;
+        if (INTRUDE_COMM_SendPairMessage(args->setup->areaId) == 1) {
+            *state = 10;
+            break;
+        }
         break;
 write10:
-        *state=10;
+        *state = 10;
         break;
     case 10:
-        if (func_021B98B4(CP(4),o)==1) { func_02005E30(6); ++*state; }
+        if (func_021B98B4(args->work, work) == 1) {
+            GFL_USE_FadeOutBgm(6);
+            ++*state;
+        }
         break;
     case 11:
-        if (func_02005E50()==0) { func_02005DE4((void *)1); func_02005E64(); ++*state; }
+        if (GFL_USE_IsBgmFading() == 0) {
+            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_PushBgm();
+            ++*state;
+        }
         break;
-    case 12: func_02005D90(0x531,0xffff); ++*state; break;
+    case 12:
+        GFL_USE_CancelChangeAndPlayBgm(0x531, 0xffff);
+        ++*state;
+        break;
     case 13:
-        if (func_02005F38()==0) { func_02005E9C(); func_02005DE4(0); func_02005DF8(6); ++*state; }
+        if (func_02005F38() == 0) {
+            GFL_USE_PopBgm();
+            GFL_USE_SetBgmPlayerParam(0);
+            GFL_USE_FadeInBgmFull(6);
+            ++*state;
+        }
         break;
-    case 14: if (func_02005E50()==0) *state=15; break;
+    case 14:
+        if (GFL_USE_IsBgmFading() == 0) *state = 15;
+        break;
     case 15:
-        if (func_02035C60()!=0 || (func_020362DC()&3)) {
-            func_021B98C4((char *)o);
-            func_0200BF08((struct Rec1B0 *)func_0200BE48(func_02012EBC(func_020120F4((const struct Ctx *)(*(u32 *)CP(0))))),*(u32 *)(o+(W(0x300)<<2)+0xec));
-            save=func_02012138((const struct Ctx *)*(u32 *)CP(0));
-            handle=C_021B8A70(0);
-            func_020266AC(save,func_02012B58(func_020120F4((const struct Ctx *)(((struct Obj13181 *)handle)->f0))),((struct Obj13181 *)handle)->f3C);
-            W(0x300)=0xffff; func_021B6C30((int *)c,1,1); func_021B6B98(c,(int *)(o+8),1,0xff,3);
-            if (func_02035C60()!=0) *state=16;
-            else *state=17;
-        } break;
-    case 16: if (func_02035C38()==0) *state=17; break;
+        if (func_02035C60() != 0 || (func_020362DC() & 3)) {
+            func_021B98C4(work);
+            func_0200BF08((struct Rec1B0 *)func_0200BE48(func_02012EBC(func_020120F4(args->setup->gameCtx))), work->entryIds[work->chosenEntry]);
+            save = func_02012138(args->setup->gameCtx);
+            GAME_COMM_PushPairMessage(save, func_02012B58(func_020120F4(args->setup->gameCtx)), args->setup->areaId);
+            work->chosenEntry = MONOLITH_CURSOR_NONE;
+            func_021B6C30(args, 1, 1);
+            func_021B6B98(args, &work->backButton, 1, 0xff, 3);
+            if (func_02035C60() != 0) *state = 16;
+            else *state = 17;
+        }
+        break;
+    case 16:
+        if (func_02035C38() == 0) *state = 17;
+        break;
     case 17:
-        if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2 && func_021B7114(o+0x298)==0) {
-            c[0x2c]=0; return 1;
-        } break;
+        if (func_021B6C74(args, 1) != 2 && func_021B6C74(args, 3) != 2 && func_021B7114(&work->marker) == 0) {
+            args->requestedScreen = 0;
+            return 1;
+        }
+        break;
     }
-    func_021B9C30(o); return 0;
+    func_021B9C30(work);
+    return 0;
 }
 
 
@@ -3989,29 +3711,29 @@ write10:
 
 
 
-int func_021B94CC(void *a, void *b, char *c, char *d)
+int func_021B94CC(void *proc, void *unused, MonolithToolProcArgs *args, MonolithListWork *work)
 {
-    if (func_0201C6B4(((struct Obj20747 *)(*(char * *)&((struct Obj20746 *)c)->f4))->f8) == 0)
+    if (func_0201C6B4(args->work->printSys) == 0)
         return 0;
     func_020435F4(8);
-    func_02030EAC(((struct Obj03177 *)d)->f0);
-    if (((struct Obj03177 *)d)->f294 != 0)
-        func_0201CE48(((struct Obj03177 *)d)->f294);
-    if (((struct Obj03177 *)d)->f290 != 0)
-        func_02045808(((struct Obj03177 *)d)->f290);
-    func_021B9A18(d);
-    if (((struct Obj03177 *)d)->f310 != 0)
-        func_021B71FC(((struct Obj03177 *)d)->f310);
-    func_021B718C(((struct Obj03177 *)d)->f30C);
-    func_021B9BA0(d);
-    func_021B9B3C(d);
-    func_021B9BC8(d);
-    func_021B9C1C(d);
-    func_021B9694((unsigned int *)d);
-    func_021B9734(d);
+    func_02030EAC((struct Node *)work->task);
+    if (work->messagePrinter != 0)
+        func_0201CE48(work->messagePrinter);
+    if (work->messageText != 0)
+        func_02045808(work->messageText);
+    func_021B9A18(work);
+    if (work->yesNoMenu != 0)
+        func_021B71FC(work->yesNoMenu);
+    func_021B718C(work->taskMenuUnit);
+    func_021B9BA0(work);
+    func_021B9B3C(work);
+    func_021B9BC8(work);
+    func_021B9C1C(work);
+    func_021B9694(work);
+    func_021B9734(work);
     func_021B95CC();
-    func_02045C04(((struct Obj03177 *)d)->f20);
-    func_020315D4(a);
+    func_02045C04(work->entryNameBank);
+    func_020315D4(proc);
     return 1;
 }
 
@@ -4044,20 +3766,18 @@ void func_021B95CC(void) { func_02040588(4,0); func_02040588(5,0); func_02040588
 
 
 
-void func_021B95FC(void *a, void *b)
+void func_021B95FC(MonolithListWork *work, MonolithToolWork *toolWork)
 {
-    char *d = (char *)a;
-    char *r5 = (char *)b;
-    void *h;
+    void *res;
 
-    func_020498F4(((struct Obj09895 *)r5)->f30, 7, 6, 0, 0, 1, 0x61);
-    func_02049658(((struct Obj09895 *)r5)->f30, 0xe, 5, 0, 0, 1, 0x61);
-    func_020498F4(((struct Obj09895 *)r5)->f30, 9, 5, 0, 0, 1, 0x61);
-    h = func_020490F4(0x53, 0x61);
-    ((struct Obj09894 *)d)->f4 = (void *)func_0203FA08(5, 0x80, 1);
-    func_02049658(h, 0x1c, 5, (u32)(((struct Obj09894 *)d)->f4), 0x80, 0, 0x61);
-    func_02027634(h, 5, 0x61, (int)(((struct Obj09894 *)d)->f4), 0xc);
-    func_02049238(h);
+    func_020498F4(toolWork->archive, 7, 6, 0, 0, 1, 0x61);
+    func_02049658(toolWork->archive, 0xe, 5, 0, 0, 1, 0x61);
+    func_020498F4(toolWork->archive, 9, 5, 0, 0, 1, 0x61);
+    res = func_020490F4(0x53, 0x61);
+    work->bgCharOffset = func_0203FA08(5, 0x80, 1);
+    func_02049658(res, 0x1c, 5, work->bgCharOffset, 0x80, 0, 0x61);
+    func_02027634(res, 5, 0x61, work->bgCharOffset, 0xc);
+    func_02049238(res);
     func_020409B4(5);
     func_020409B4(6);
 }
@@ -4067,7 +3787,7 @@ void func_021B95FC(void *a, void *b)
 
 
 
-void func_021B9694(unsigned int *p) { func_0203FB44(5, p[1], 0x80); }
+void func_021B9694(MonolithListWork *work) { func_0203FB44(5, work->bgCharOffset, 0x80); }
 
 
 
@@ -4075,17 +3795,17 @@ void func_021B9694(unsigned int *p) { func_0203FB44(5, p[1], 0x80); }
 
 
 
-void func_021B96A4(char *a, void **b)
+void func_021B96A4(MonolithListWork *work, MonolithToolWork *toolWork)
 {
     func_0201F554(4, 1, 0, 0x61);
-    func_020215EC(*b, 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
-    ((struct Obj04341 *)a)->f280 = (void *)func_020450F0(4, 1, 0x13, 0x1e, 4, 0xd, 1);
-    func_02043B5C(func_02045770(((struct Obj04341 *)a)->f280), 0xff);
-    ((struct Obj04341 *)a)->f284 = (void *)func_020450F0(4, 0, 0, 0x20, 3, 0xd, 1);
-    func_02045374(((struct Obj04341 *)a)->f284);
+    PALANM_LoadArcPaletteToSlotAt(toolWork->palAnm, 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
+    work->messageWindow = func_020450F0(4, 1, 0x13, 0x1e, 4, 0xd, 1);
+    func_02043B5C(func_02045770(work->messageWindow), 0xff);
+    work->titleWindow = func_020450F0(4, 0, 0, 0x20, 3, 0xd, 1);
+    func_02045374(work->titleWindow);
     func_020409B4(4);
-    ((struct Obj04341 *)a)->f288 = ((struct Obj04341 *)a)->f284;
-    ((struct Obj04341 *)a)->f28C = 0;
+    work->statusWindow = work->titleWindow;
+    work->statusPending = 0;
 }
 
 
@@ -4093,59 +3813,59 @@ void func_021B96A4(char *a, void **b)
 
 
 
-void func_021B9734(char *p) { int i; for (i=0;i<2;i++) func_020452E8(*(void **)(p + 0x280 + i*4)); }
+void func_021B9734(MonolithListWork *work) { int i; for (i=0;i<2;i++) func_020452E8((&work->messageWindow)[i]); }
 
 
 
 
 
-void func_021B9750(char *a, char *b)
+void func_021B9750(MonolithToolProcArgs *args, MonolithListWork *work)
 {
-    void *r6;
-    char *r4;
-    void *r7;
+    struct Strbuf *text;
+    MonolithToolWork *toolWork;
+    struct PrintSys *printSys;
 
-    r6 = func_02045EC0(((struct Obj20750 *)(*(char * *)&((struct Obj02123 *)a)->f4))->f28, 0x22);
-    r4 = *(char * *)&((struct Obj02123 *)a)->f4;
-    r7 = ((struct Obj13183 *)r4)->f8;
-    func_0201C6FC(r7, (u32)func_02045770(((struct Obj13182 *)b)->f288), 0x18, 4, r6, (u32)(((struct Obj13183 *)r4)->fC));
-    ((struct Obj13182 *)b)->f28C = 1;
-    func_02045808(r6);
+    text = func_02045EC0(args->work->msgBank[3], 0x22);
+    toolWork = args->work;
+    printSys = toolWork->printSys;
+    func_0201C6FC(printSys, func_02045770(work->statusWindow), 0x18, 4, text, (u32)toolWork->font);
+    work->statusPending = 1;
+    func_02045808(text);
 }
 
 
 
 
 
-void func_021B9798(char *a, char *b, u32 c)
+void func_021B9798(MonolithListWork *work, MonolithToolWork *toolWork, u32 msgId)
 {
-    if (((struct Obj00044 *)a)->f294 != 0)
+    if (work->messagePrinter != 0)
         func_02034714(d_021BABFC, 0, d_021BABFC);
     func_0201DD78(1, 2, 0xf);
-    ((struct Obj00044 *)a)->f290 = func_02045EC0(((struct Obj09896 *)b)->f28, c);
-    ((struct Obj00044 *)a)->f294 = func_0201CCE4((void *)((struct Obj00044 *)a)->f280, 0, 0, (void *)((struct Obj00044 *)a)->f290, ((struct Obj09896 *)b)->fC, func_02012FFC(), (void *)((struct Obj09896 *)b)->f18, 0xa, 0x61, 0xf);
-    func_02045374(((struct Obj00044 *)a)->f280);
-    func_0201F73C(((struct Obj00044 *)a)->f280, 1, 1, 0xb);
+    work->messageText = func_02045EC0(toolWork->msgBank[3], msgId);
+    work->messagePrinter = func_0201CCE4(work->messageWindow, 0, 0, work->messageText, (u32)toolWork->font, func_02012FFC(), toolWork->taskList, 0xa, 0x61, 0xf);
+    func_02045374(work->messageWindow);
+    func_0201F73C(work->messageWindow, 1, 1, 0xb);
 }
 
 
 
 
 
-void func_021B9818(char *a, char *b, u32 c)
+void func_021B9818(MonolithListWork *work, MonolithToolWork *toolWork, u32 msgId)
 {
-    void *r6;
+    struct Strbuf *format;
 
-    if (((struct Obj00044 *)a)->f294 != 0)
+    if (work->messagePrinter != 0)
         func_02034714(d_021BABFC, 0, d_021BABFC);
     func_0201DD78(1, 2, 0xf);
-    r6 = func_02045EC0(((struct Obj07704 *)b)->f28, c);
-    ((struct Obj00044 *)a)->f290 = func_020457B0(0x100, 0x61);
-    func_0201F250(((struct Obj07704 *)b)->f10, ((struct Obj00044 *)a)->f290, r6);
-    func_02045808(r6);
-    ((struct Obj00044 *)a)->f294 = func_0201CCE4((void *)((struct Obj00044 *)a)->f280, 0, 0, (void *)((struct Obj00044 *)a)->f290, ((struct Obj07704 *)b)->fC, func_02012FFC(), (void *)((struct Obj07704 *)b)->f18, 0xa, 0x61, 0xf);
-    func_02045374(((struct Obj00044 *)a)->f280);
-    func_0201F73C(((struct Obj00044 *)a)->f280, 1, 1, 0xb);
+    format = func_02045EC0(toolWork->msgBank[3], msgId);
+    work->messageText = func_020457B0(0x100, 0x61);
+    func_0201F250(toolWork->wordSet, work->messageText, format);
+    func_02045808(format);
+    work->messagePrinter = func_0201CCE4(work->messageWindow, 0, 0, work->messageText, (u32)toolWork->font, func_02012FFC(), toolWork->taskList, 0xa, 0x61, 0xf);
+    func_02045374(work->messageWindow);
+    func_0201F73C(work->messageWindow, 1, 1, 0xb);
 }
 
 
@@ -4154,29 +3874,29 @@ void func_021B9818(char *a, char *b, u32 c)
 /*
  * leaf: unlabelled tail stub called by func_021B9070; parent confirmed unowned.
  */
-int func_021B98B4(u8 *a,u8 *b)
+int func_021B98B4(MonolithToolWork *toolWork, MonolithListWork *work)
 {
-    return func_02028484((struct Blk *)(a+0x38),(void *)(((struct Obj20751 *)b)->f294));
+    return func_02028484((struct Blk *)toolWork->scratchList, work->messagePrinter);
 }
 
 
 
 
 
-void func_021B98C4(char *a)
+void func_021B98C4(MonolithListWork *work)
 {
-    void *r6;
+    struct Bitmap *bitmap;
 
-    r6 = func_02045770(((struct Obj00044 *)a)->f280);
-    if (((struct Obj00044 *)a)->f294 == 0)
+    bitmap = func_02045770(work->messageWindow);
+    if (work->messagePrinter == 0)
         func_02034714(d_021BABFC, 0, d_021BABFC);
-    func_0201CE48(((struct Obj00044 *)a)->f294);
-    ((struct Obj00044 *)a)->f294 = 0;
-    func_02045808(((struct Obj00044 *)a)->f290);
-    ((struct Obj00044 *)a)->f290 = 0;
-    func_0201F7A8(((struct Obj00044 *)a)->f280, 0);
-    func_02043B5C(r6, 0xff);
-    func_02045334(((struct Obj00044 *)a)->f280);
+    func_0201CE48(work->messagePrinter);
+    work->messagePrinter = 0;
+    func_02045808(work->messageText);
+    work->messageText = 0;
+    func_0201F7A8(work->messageWindow, 0);
+    func_02043B5C(bitmap, 0xff);
+    func_02045334(work->messageWindow);
     func_0201DD78(0xf, 2, 0);
 }
 
@@ -4184,15 +3904,15 @@ void func_021B98C4(char *a)
 
 
 
-void func_021B992C(char *a)
+void func_021B992C(MonolithListWork *work)
 {
-    int x;
-    int t;
+    int count;
+    int offset;
 
-    x = ((struct Obj20752 *)a)->f27C;
-    if (x - 2 < 7) {
-        t = (x - 1) * 32 / 8;
-        func_02041300(6, 0, 0, (u8)t, 0x20, 0x20 - t, 0x11);
+    count = work->entryCount;
+    if (count - 2 < 7) {
+        offset = (count - 1) * 32 / 8;
+        func_02041300(6, 0, 0, (u8)offset, 0x20, 0x20 - offset, 0x11);
         func_020409B4(6);
     }
 }
@@ -4201,68 +3921,688 @@ void func_021B992C(char *a)
 
 
 
-void func_021B9970(char **a, List *l, char *c)
+void func_021B9970(MonolithToolProcArgs *args, MonolithListWork *work, MonolithToolWork *toolWork)
 {
     Idx i = 0;
     int n;
-    int r;
-    void *pos;
+    int kind;
+    MonolithCounts *counts;
 
-    func_020120F4((const struct Ctx *)(**(char ** *)&((struct Obj04340 *)a)->f0));
-    pos = func_021B6F40((u8 **)a);
-    l->idx[0] = i;
-    l->kind[0] = 1;
-    l->obj[0] = func_02043678(0x17, 2, 0x20, 0x61);
+    func_020120F4(args->setup->gameCtx);
+    counts = func_021B6F40(args);
+    work->entryIds[0] = i;
+    work->entryDisabled[0] = 1;
+    work->entryBitmaps[0] = func_02043678(0x17, 2, 0x20, 0x61);
     n = i + 1;
-    for (; i < 0x30; i++) {
-        r = func_0216FE2C(((struct Obj20753 *)c)->f34, i, pos, (u8 *)(*a + 0x38));
-        if (r != 2) {
-            l->idx[n] = i;
-            l->kind[n] = r;
-            l->obj[n] = func_02043678(0x17, 2, 0x20, 0x61);
+    for (; i < MONOLITH_ENTRY_NONE; i++) {
+        kind = func_0216FE2C(toolWork->entryTable, i, counts, args->setup->rankData);
+        if (kind != 2) {
+            work->entryIds[n] = i;
+            work->entryDisabled[n] = kind;
+            work->entryBitmaps[n] = func_02043678(0x17, 2, 0x20, 0x61);
             n++;
         }
     }
-    l->idx[n] = 0;
-    l->kind[n] = 1;
-    l->obj[n] = func_02043678(0x17, 2, 0x20, 0x61);
-    l->count = n + 1;
+    work->entryIds[n] = 0;
+    work->entryDisabled[n] = 1;
+    work->entryBitmaps[n] = func_02043678(0x17, 2, 0x20, 0x61);
+    work->entryCount = n + 1;
 }
 
 
 
 
-void func_021B9A18(char *p) { int i; for (i = 0; i < ((struct Obj20755 *)p)->f27C; i++) func_020437AC(*(void **)(p + i * 4 + 0x24)); }
+void func_021B9A18(MonolithListWork *work) { int i; for (i = 0; i < work->entryCount; i++) func_020437AC(work->entryBitmaps[i]); }
 
 
 
 
 
-int func_021B9A40(char *a, char *b)
+int func_021B9A40(MonolithListWork *work, MonolithToolWork *toolWork)
 {
-    int j;
+    int count;
     int i;
-    char *r6;
-    void *buf;
+    struct Strbuf *text;
 
-    j = 0;
-    buf = func_020457B0(0x20, 0x61);
-    i = ((struct Obj03664 *)a)->f27D;
-    if (i < ((struct Obj03664 *)a)->f27C) {
+    count = 0;
+    text = func_020457B0(0x20, 0x61);
+    i = work->loadedCount;
+    if (i < work->entryCount) {
         do {
-            if (i >= 1 && i < ((struct Obj03664 *)a)->f27C - 1) {
-                r6 = a + i * 4;
-                func_02045CAC((struct MsgBank *)(((struct Obj03664 *)a)->f20), ((struct Obj09897 *)r6)->fEC, buf);
-                func_0201C7D0(((struct Obj09897 *)r6)->f24, 0, 0, buf, ((struct Obj20756 *)b)->fC,
-                              d_021BAAF8[((struct Obj09897 *)r6)->f1B4]);
+            if (i >= 1 && i < work->entryCount - 1) {
+                func_02045CAC(work->entryNameBank, work->entryIds[i], text);
+                func_0201C7D0(work->entryBitmaps[i], 0, 0, text, (void *)toolWork->font,
+                              d_021BAAF8[work->entryDisabled[i]]);
             }
-            j++;
-            if (j >= 3)
+            count++;
+            if (count >= 3)
                 break;
             i++;
-        } while (i < ((struct Obj03664 *)a)->f27C);
+        } while (i < work->entryCount);
     }
-    func_02045808(buf);
-    ((struct Obj03664 *)a)->f27D = i;
-    return ((struct Obj03664 *)a)->f27D >= ((struct Obj03664 *)a)->f27C;
+    func_02045808(text);
+    work->loadedCount = i;
+    return work->loadedCount >= work->entryCount;
+}
+
+
+void func_021B9AE4(MonolithListWork *work, MonolithToolWork *toolWork)
+{
+    int i;
+    struct MonolithToolGridParam param;
+
+    param = d_021BAB10;
+    param.palette = toolWork->actorRes[1].simplePalAnm;
+    for (i = 0; i < MONOLITH_ROW_GRIDS; i++) {
+        work->rowBitmaps[i] = func_02043678(0x17, 2, 0x20, 0x61);
+        param.bitmap = work->rowBitmaps[i];
+        work->rowGrids[i] = func_020255A0(toolWork->actorToolUnit, &param);
+    }
+}
+
+void func_021B9B3C(MonolithListWork *work)
+{
+    int i;
+
+    for (i = 0; i < MONOLITH_ROW_GRIDS; i++) {
+        func_0202570C(work->rowGrids[i]);
+        func_020437AC(work->rowBitmaps[i]);
+    }
+}
+
+void func_021B9B64(MonolithToolProcArgs *args, MonolithListWork *work)
+{
+    func_021B6A0C(args->work, &work->backButton, 1, 2, 0x40, 0xb4, 0x24, 0);
+    if (func_020355C4() == 1)
+        func_021B6B58(&work->backButton, 0);
+}
+
+void func_021B9BA0(MonolithListWork *work)
+{
+    func_021B6B38(&work->backButton);
+}
+
+void func_021B9BAC(MonolithToolWork *toolWork, MonolithListWork *work)
+{
+    func_021B6B70(toolWork, &work->backButton);
+}
+
+void func_021B9BB8(MonolithToolProcArgs *args, MonolithListWork *work)
+{
+    func_021B7070(args->work, &work->marker);
+}
+
+void func_021B9BC8(MonolithListWork *work)
+{
+    func_021B70B8(&work->marker);
+}
+
+void func_021B9BD8(MonolithListWork *work)
+{
+    func_021B70C4(&work->marker);
+}
+
+void func_021B9BE8(MonolithToolProcArgs *args, MonolithListWork *work)
+{
+    work->scrollUpArrow = func_021B7118(args->work, 0x80, 0x1c, 9);
+    work->scrollDownArrow = func_021B7118(args->work, 0x80, 0xa4, 10);
+    func_0204B3DC(work->scrollUpArrow, 0);
+    func_0204B3DC(work->scrollDownArrow, 0);
+}
+
+void func_021B9C1C(MonolithListWork *work)
+{
+    func_021B7168(work->scrollUpArrow);
+    func_021B7168(work->scrollDownArrow);
+}
+
+void func_021B9C30(MonolithListWork *work)
+{
+    if (work->scrollPos <= 0x800)
+        func_0204B3DC(work->scrollUpArrow, 0);
+    else
+        func_0204B3DC(work->scrollUpArrow, 1);
+    if ((work->scrollPos >> 8) >= work->entryCount * MONOLITH_ROW_HEIGHT - 200)
+        func_0204B3DC(work->scrollDownArrow, 0);
+    else
+        func_0204B3DC(work->scrollDownArrow, 1);
+    func_021B7170(work->scrollUpArrow);
+    func_021B7170(work->scrollDownArrow);
+}
+
+/*
+ * `touching = 0` in the key branch is what keeps r7 as the zero stored to
+ * scrollVelocity/touchFrames and passed to func_020355D8; `work->scrollRequest
+ * = chosen` (not 0) reloads the spilled result as in the image.
+ */
+int func_021B9C7C(MonolithToolProcArgs *args, MonolithListWork *work)
+{
+    int chosen;
+    int selectedRow;
+    u32 touchX;
+    u32 touchY;
+    int touching;
+    int contentY;
+    int row;
+    int rowRemainder;
+    int dragDistance;
+    int tappedRow;
+
+    chosen = 0;
+    selectedRow = MONOLITH_CURSOR_NONE;
+    work->scrollRequest = chosen;
+    touching = TOUCHPANEL_GetPointCont(&touchX, &touchY);
+    if (work->touchFrames == 0) {
+        if (touchX < 0x18 || touchX > 0xe0) {
+            touching = 0;
+        }
+    }
+    if (func_0203630C() & (MONOLITH_KEY_A | MONOLITH_KEY_B | MONOLITH_KEY_UP | MONOLITH_KEY_DOWN)) {
+        contentY = (work->scrollPos >> 8) + 0x18;
+        row = contentY / MONOLITH_ROW_HEIGHT;
+        rowRemainder = contentY % MONOLITH_ROW_HEIGHT;
+        touching = 0;
+        work->scrollVelocity = touching;
+        work->touchFrames = touching;
+        if (work->cursor == MONOLITH_CURSOR_NONE) {
+            if (rowRemainder != 0) {
+                row++;
+            }
+            if (row < 1) {
+                row = 1;
+            }
+            if (row >= work->entryCount - 2) {
+                func_021B9F2C(work, work->entryCount - 2, MONOLITH_INPUT_KEY);
+            } else {
+                func_021B9F2C(work, row, MONOLITH_INPUT_KEY);
+            }
+            func_020061E4(MONOLITH_SE_MOVE);
+            return 0;
+        }
+        if (func_020362DC() & MONOLITH_KEY_A) {
+            func_021B9F2C(work, work->cursor, MONOLITH_INPUT_KEY);
+            func_020355D8(0);
+            if (work->entryDisabled[work->cursor] == 0) {
+                func_020061E4(MONOLITH_SE_CONFIRM);
+            }
+            return 1;
+        }
+        if (func_0203633C() & MONOLITH_KEY_UP) {
+            if (rowRemainder != 0) {
+                row++;
+            }
+            if (func_021B9F2C(work, work->cursor - 1, MONOLITH_INPUT_KEY) == 1) {
+                func_020061E4(MONOLITH_SE_MOVE);
+            }
+            if (work->cursor < row) {
+                work->scrollRequest = -0x2000;
+            }
+            return 0;
+        }
+        if (func_0203633C() & MONOLITH_KEY_DOWN) {
+            row = ((work->scrollPos >> 8) + 0xa8) / MONOLITH_ROW_HEIGHT;
+            if (func_021B9F2C(work, work->cursor + 1, MONOLITH_INPUT_KEY) == 1) {
+                func_020061E4(MONOLITH_SE_MOVE);
+            }
+            if (work->cursor >= row) {
+                work->scrollRequest = 0x2000;
+            }
+            return 0;
+        }
+    }
+    if (work->touchFrames == 0) {
+        if (touching == 1) {
+            if (touchY > 0x18 && touchY < 0xa8) {
+                work->touchFrames = 1;
+                work->touchY = touchY;
+                work->touchStartY = touchY;
+                func_021B9F2C(work, MONOLITH_CURSOR_NONE, MONOLITH_INPUT_NONE);
+            } else if (func_02035C60() == 1 && work->cursor != MONOLITH_CURSOR_NONE
+                       && touchX >= 0x10 && touchX <= 0x70 && touchY >= 0xac && touchY <= 0xbc) {
+                chosen = 1;
+                selectedRow = work->cursor;
+                func_020355D8(1);
+            }
+        } else if (work->scrollVelocity != 0) {
+            if (work->scrollVelocity > 0) {
+                work->scrollVelocity -= 0xc0;
+                if (work->scrollVelocity < 0) {
+                    work->scrollVelocity = 0;
+                }
+            } else {
+                work->scrollVelocity += 0xc0;
+                if (work->scrollVelocity > 0) {
+                    work->scrollVelocity = 0;
+                }
+            }
+        }
+    } else if (touching == 0) {
+        work->touchFrames = 0;
+        if (work->touchStartY != MONOLITH_CURSOR_NONE) {
+            dragDistance = work->touchY - work->touchStartY;
+            if (dragDistance < 0) {
+                dragDistance = -dragDistance;
+            }
+            if (dragDistance < 4) {
+                tappedRow = func_021BA1DC(work, work->touchY);
+                if (tappedRow != MONOLITH_CURSOR_NONE) {
+                    chosen = 1;
+                    selectedRow = tappedRow;
+                    func_020061E4(MONOLITH_SE_MOVE);
+                }
+            }
+        }
+    } else {
+        work->scrollVelocity = (work->touchY - touchY) << 8;
+        work->touchY = touchY;
+        work->touchFrames++;
+        if (work->touchStartY != MONOLITH_CURSOR_NONE) {
+            dragDistance = touchY - work->touchStartY;
+            if (dragDistance < 0) {
+                dragDistance = -dragDistance;
+            }
+            if (dragDistance > 4) {
+                work->touchStartY = MONOLITH_CURSOR_NONE;
+            }
+        }
+    }
+    if (chosen == 1) {
+        work->scrollVelocity = 0;
+        func_021B9F2C(work, selectedRow, MONOLITH_INPUT_TOUCH);
+    }
+    return chosen;
+}
+
+int func_021B9F2C(MonolithListWork *work, int index, int inputMode)
+{
+    int prev;
+
+    if (index != MONOLITH_CURSOR_NONE) {
+        if (index >= work->entryCount - 1 || index < 1) {
+            return 0;
+        }
+    }
+    prev = work->cursor;
+    work->prevCursor = prev;
+    work->lastCursor = prev;
+    work->cursor = index;
+    work->cursorChanged = 1;
+    work->inputMode = inputMode;
+    return 1;
+}
+
+void func_021B9F74(MonolithListWork *work, int index, int palette)
+{
+    int scrollPixels;
+    int firstRow;
+    int rowOffset;
+    int bgOffset;
+    int rowOnScreen;
+
+    if (index != MONOLITH_CURSOR_NONE) {
+        scrollPixels = work->scrollPos >> 8;
+        firstRow = scrollPixels / MONOLITH_ROW_HEIGHT;
+        rowOffset = scrollPixels % MONOLITH_ROW_HEIGHT;
+        bgOffset = scrollPixels % 64;
+        rowOnScreen = index - firstRow;
+        if (rowOnScreen >= 0 && rowOnScreen < firstRow + MONOLITH_ROW_GRIDS) {
+            func_020413B0(6, 3, ((rowOnScreen * MONOLITH_ROW_HEIGHT + bgOffset - rowOffset) % 256) / 8, 0x19, 4, palette);
+        }
+    }
+}
+
+/*
+ * Two thunks passing a constant third argument.
+ */
+void func_021B9FEC(MonolithListWork *work, int index)
+{
+    func_021B9F74(work, index, 3);
+}
+
+void func_021B9FF8(MonolithListWork *work, int index)
+{
+    func_021B9F74(work, index, 0);
+}
+
+void func_021BA004(MonolithListWork *work)
+{
+    if (work->cursorChanged == 1)
+        func_021B9FF8(work, work->prevCursor);
+}
+
+void func_021BA01C(MonolithToolProcArgs *args, MonolithListWork *work)
+{
+    int cursor;
+    int inputMode;
+
+    if (work->cursorChanged == 1) {
+        func_021B9FEC(work, work->cursor);
+        cursor = work->cursor;
+        if (cursor == MONOLITH_CURSOR_NONE) {
+            func_021B6C30(args, 0, 1);
+        } else {
+            inputMode = work->inputMode;
+            if ((inputMode == MONOLITH_INPUT_TOUCH && cursor == work->lastCursor)
+                || (inputMode == MONOLITH_INPUT_KEY && cursor == work->prevCursor)) {
+                if (work->entryDisabled[cursor] == 0) {
+                    work->chosenEntry = cursor;
+                    if (work->inputMode == MONOLITH_INPUT_KEY) {
+                        func_021B6C48(args, 1);
+                    } else {
+                        func_021B6BEC(args, &work->backButton, 1, 0, 3);
+                    }
+                } else if (inputMode == MONOLITH_INPUT_TOUCH) {
+                    func_021B6C30(args, 1, 1);
+                }
+            } else {
+                func_021B6C30(args, 1, 1);
+            }
+        }
+        func_02041B6C(6);
+        work->cursorChanged = 0;
+    }
+}
+
+int func_021BA0CC(MonolithListWork *work, int delta)
+{
+    int limit;
+    int oldPos;
+
+    oldPos = work->scrollPos;
+    limit = work->entryCount * MONOLITH_ROW_HEIGHT - 8;
+    if (limit <= 0xc0) {
+        return 0;
+    }
+    work->scrollPos = oldPos + delta;
+    if (work->scrollPos < 0x800) {
+        work->scrollPos = 0x800;
+    } else if (work->scrollPos > (limit - 0xc0) << 8) {
+        work->scrollPos = (limit - 0xc0) << 8;
+    }
+    if ((work->scrollPos >> 8) != (oldPos >> 8)) {
+        return 1;
+    }
+    return 0;
+}
+
+void func_021BA11C(MonolithListWork *work)
+{
+    func_02041EE4(6, 3, (work->scrollPos >> 8) % 64);
+}
+
+void func_021BA140(MonolithListWork *work)
+{
+    int scrollPixels = work->scrollPos >> 8;
+    int gridY = 8 - scrollPixels % MONOLITH_ROW_HEIGHT;
+    int firstRow = scrollPixels / MONOLITH_ROW_HEIGHT;
+    int i;
+
+    for (i = 0; i < MONOLITH_ROW_GRIDS; i++) {
+        func_0202590C(work->rowGrids[i], 0x20, gridY + i * MONOLITH_ROW_HEIGHT);
+        if (work->entryBitmaps[firstRow + i] != 0) {
+            func_02043814(work->entryBitmaps[firstRow + i], work->rowBitmaps[i]);
+        }
+    }
+}
+
+void func_021BA1B0(void *task, MonolithListWork *work)
+{
+    int i;
+
+    if (work->uploadPending == 1) {
+        for (i = 0; i < MONOLITH_ROW_GRIDS; i++)
+            func_020257D0(work->rowGrids[i]);
+        work->uploadPending = 0;
+    }
+}
+
+int func_021BA1DC(MonolithListWork *work, unsigned y)
+{
+    int row = ((work->scrollPos >> 8) + y) >> 5;
+
+    if (row >= work->entryCount)
+        row = MONOLITH_CURSOR_NONE;
+    return row;
+}
+
+int func_021BA1FC(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithInfoWork *work)
+{
+    MonolithInfoWork *newWork;
+    int busy;
+    int i;
+    struct PrintSys *printSys;
+    Bool finished;
+
+    switch (*state) {
+    case 0:
+        newWork = func_0203159C(proc, 0x28, 0x61);
+        func_02082BCC(newWork, 0, 0x28);
+        newWork->shownEntry = MONOLITH_ENTRY_NONE;
+        func_021BA3B4();
+        func_021BA420(args->work);
+        func_021BA44C(args->work, newWork);
+        func_021BA4EC(args->work, newWork);
+        func_021BA528(args, args->work, newWork);
+        *state = *state + 1;
+        break;
+    case 1:
+        busy = 0;
+        for (i = 0; i < 3; i++) {
+            printSys = args->work->printSys;
+            if (work->slots[i].pending != 0) {
+                if (func_0201C6C4(printSys, func_02045770(work->slots[i].window)) == 0) {
+                    func_02045334(work->slots[i].window);
+                    work->slots[i].pending = 0;
+                }
+            }
+            finished = work->slots[i].pending == 0 ? B_TRUE : B_FALSE;
+            if (finished == B_FALSE) {
+                busy = 1;
+            }
+        }
+        if (busy == 0) {
+            func_02040588(0, 1);
+            func_02040588(2, 1);
+            func_020434DC(0x10, 1);
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+
+int func_021BA2CC(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithInfoWork *work)
+{
+    int i;
+    u8 idle[3];
+    struct PrintSys *printSys;
+
+    if (args->topProcDone == 1) {
+        return 1;
+    }
+    for (i = 0; i < 3; i++) {
+        printSys = args->work->printSys;
+        if (work->slots[i].pending != 0) {
+            if (func_0201C6C4(printSys, func_02045770(work->slots[i].window)) == 0) {
+                func_02045334(work->slots[i].window);
+                work->slots[i].pending = 0;
+            }
+        }
+        idle[i] = work->slots[i].pending == 0;
+    }
+    if (*state == 0) {
+        if (args->param->activeDirty == 1 && idle[1] == 1) {
+            func_021BA528(args, args->work, work);
+            args->param->activeDirty = 0;
+        }
+        if (args->param->selected != work->shownEntry && idle[2] == 1) {
+            func_021BA5D4(args, args->work, work);
+            work->shownEntry = args->param->selected;
+        }
+        return 0;
+    }
+    return 0;
+}
+
+int func_021BA384(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithInfoWork *work)
+{
+    if (func_0201C6B4(args->work->printSys) == 0)
+        return 0;
+    func_02043534(8);
+    func_021BA4D4(work);
+    func_021BA400();
+    func_020315D4(proc);
+    return 1;
+}
+
+void func_021BA3B4(void)
+{
+    func_0203FCA0(0, &d_021BAB94, 0);
+    func_0203FCA0(2, &d_021BABB4, 0);
+    func_02041300(0, 0, 0, 0, 0x20, 0x20, 0x11);
+    func_02041300(2, 0, 0, 0, 0x20, 0x20, 0x11);
+}
+
+void func_021BA400(void)
+{
+    func_02040588(0, 0);
+    func_02040588(2, 0);
+    func_020403F4(0);
+    func_020403F4(2);
+}
+
+void func_021BA420(MonolithToolWork *toolWork)
+{
+    func_020498F4(toolWork->archive, 13, 2, 0, 0, 1, 0x61);
+    func_020409B4(0);
+    func_020409B4(2);
+}
+
+void func_021BA44C(MonolithToolWork *toolWork, MonolithInfoWork *work)
+{
+    int i;
+
+    work->windows[0] = func_020450F0(0, 2, 0, 0x1c, 3, 0xd, 1);
+    func_02045334(work->windows[0]);
+    func_02045374(work->windows[0]);
+    work->windows[1] = func_020450F0(0, 2, 4, 0x1c, 8, 0xd, 1);
+    func_02045334(work->windows[1]);
+    func_02045374(work->windows[1]);
+    work->windows[2] = func_020450F0(0, 2, 0xf, 0x1c, 9, 0xd, 1);
+    func_02045334(work->windows[2]);
+    func_02045374(work->windows[2]);
+    for (i = 0; i < 3; i++) {
+        work->slots[i].window = work->windows[i];
+        work->slots[i].pending = 0;
+    }
+    func_020409B4(0);
+}
+
+void func_021BA4D4(MonolithInfoWork *work)
+{
+    int i;
+
+    for (i = 0; i < 3; i++)
+        func_020452E8(work->windows[i]);
+}
+
+/*
+ * note: trailing two-byte alignment padding.
+ */
+void func_021BA4EC(MonolithToolWork *toolWork, MonolithInfoWork *work)
+{
+    struct Strbuf *text;
+    struct PrintSys *printSys;
+
+    text = func_02045EC0(toolWork->msgBank[3], 38);
+    printSys = toolWork->printSys;
+    func_0201C6FC(printSys, func_02045770(work->slots[0].window), 0, 4, text, (u32)toolWork->font);
+    work->slots[0].pending = 1;
+    func_02045808(text);
+}
+
+void func_021BA528(MonolithToolProcArgs *args, MonolithToolWork *toolWork, MonolithInfoWork *work)
+{
+    struct Strbuf *name;
+    struct Strbuf *desc;
+    u32 activeEntry;
+    struct PrintSys *printSys;
+
+    activeEntry = func_0200BF10(func_0200BE48(func_02012EBC(func_020120F4(args->setup->gameCtx))));
+    func_02043B5C(func_02045770(work->windows[1]), 0);
+    if (activeEntry == MONOLITH_ENTRY_NONE) {
+        name = func_02045EC0(toolWork->msgBank[3], 0x27);
+    } else {
+        name = func_02045EC0(toolWork->msgBank[1], toolWork->entryTable[activeEntry].nameMsgId);
+        desc = func_02045EC0(toolWork->msgBank[2], toolWork->entryTable[activeEntry].descMsgId);
+        printSys = toolWork->printSys;
+        func_0201C6FC(printSys, func_02045770(work->slots[1].window), 0, 0x10, desc, (u32)toolWork->font);
+        work->slots[1].pending = 1;
+        func_02045808(desc);
+    }
+    printSys = toolWork->printSys;
+    func_0201C6FC(printSys, func_02045770(work->slots[1].window), 0, 0, name, (u32)toolWork->font);
+    work->slots[1].pending = 1;
+    func_02045808(name);
+}
+
+
+/*
+ * Lever: a 12-byte MonolithEntry subscript retains the second-path scale in r0;
+ * byte indexing instead adds a copy and shifts the remainder by 2 bytes.
+ * Extent after 0x021BA756 is alignment and rodata, not a code follower.
+ */
+static inline void PrintText(MonolithToolWork *toolWork, struct BmpWin *window, u32 x, u32 y, struct Strbuf *text)
+{
+    struct PrintSys *queue = toolWork->printSys;
+    func_0201C6FC(queue, func_02045770(window), x, y, text, (u32)toolWork->font);
+}
+
+void func_021BA5D4(MonolithToolProcArgs *args, MonolithToolWork *toolWork, MonolithInfoWork *work)
+{
+    u32 selected;
+    struct Strbuf *desc, *format, *line;
+    MonolithCounts *counts;
+    u32 msgId;
+    u32 cost;
+
+    selected = args->param->selected;
+    func_02043B5C(func_02045770(work->windows[2]), 0);
+    if (selected != MONOLITH_ENTRY_NONE) {
+        if (args->param->mode == 0) {
+            func_0201EFA4(toolWork->wordSet, 0, toolWork->entryTable[selected].number, 4, 0, 1);
+            desc = func_02045EC0(toolWork->msgBank[2], toolWork->entryTable[selected].descMsgId);
+            format = func_02045EC0(toolWork->msgBank[3], 0x28);
+            line = func_020457B0(0x40, 0x61);
+            func_0201F250(toolWork->wordSet, line, format);
+            PrintText(toolWork, work->slots[2].window, 0, 4, desc);
+            work->slots[2].pending = 1;
+            PrintText(toolWork, work->slots[2].window, 0x70, 0x34, line);
+            work->slots[2].pending = 1;
+            func_02045808(desc);
+            func_02045808(format);
+            func_02045808(line);
+        } else {
+            counts = func_021B6F40(args);
+            cost = toolWork->entryTable[selected].costA;
+            if ((int)cost > counts->current) {
+                msgId = 0x29;
+            } else {
+                cost = toolWork->entryTable[selected].costB;
+                msgId = 0x2a;
+            }
+            func_0201EFA4(toolWork->wordSet, 0, cost, 3, 0, 1);
+            func_0201EFA4(toolWork->wordSet, 1, counts->current, 3, 0, 1);
+            func_0201EFA4(toolWork->wordSet, 2, counts->limit, 3, 0, 1);
+            format = func_02045EC0(toolWork->msgBank[3], msgId);
+            line = func_020457B0(0x80, 0x61);
+            func_0201F250(toolWork->wordSet, line, format);
+            PrintText(toolWork, work->slots[2].window, 0, 4, line);
+            work->slots[2].pending = 1;
+            func_02045808(line);
+            func_02045808(format);
+        }
+    } else {
+        func_02045334(work->windows[2]);
+    }
 }

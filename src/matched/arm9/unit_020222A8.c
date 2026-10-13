@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020222A8
+ * function: WIPE_SetBackColor
  * address:  0x020222A8
  * packet:   pkt_020222A8
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern void func_0207E3D0(u32 *p, u32 b, u32 c);
 extern void func_0207E468(u32 *p, u32 b, u32 c);
 
-void func_020222A8(u32 a)
+void WIPE_SetBackColor(u32 a)
 {
     u32 *p = &a;
 

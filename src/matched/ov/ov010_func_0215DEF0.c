@@ -13,8 +13,8 @@
  *   func_020124E4  0x020124E4  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_0201210C  0x0201210C  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   func_020307B0  0x020307B0  arm
  *   d_02172724     0x02172724  data
  */
@@ -29,8 +29,8 @@ extern void *func_020124E4(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 struct IcaAnime;
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern u32 func_020307B0(void *p);
 extern const char d_02172724[];
 
@@ -50,11 +50,11 @@ int func_0215DEF0(void *a, u32 *st, u32 *c)
         (*st)++;
         break;
     case 3:
-        func_020120B4(h, -1, (void *)d_02172724, (void *)(*c));
+        GAMESYSTEM_CallProc(h, -1, (void *)d_02172724, (void *)(*c));
         (*st)++;
         break;
     case 4:
-        if (func_020120F0(h) != 0)
+        if (GAMESYSTEM_GetProcStatus(h) != 0)
             break;
         (*st)++;
         break;

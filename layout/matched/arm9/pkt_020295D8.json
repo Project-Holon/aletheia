@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020295D8",
+    "FIELD_SOUND_SYSTEM_PopAndWaitTask",
     "func_02029620"
+   ],
+   "addresses": [
+    "0x020295D8",
+    "0x02029620"
    ]
   },
   {
@@ -34,8 +38,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02029658",
-    "func_02029690"
+    "FIELD_SOUND_SYSTEM_PopTask",
+    "FIELD_SOUND_SYSTEM_StartPopTask"
+   ],
+   "addresses": [
+    "0x02029658",
+    "0x02029690"
    ]
   },
   {
@@ -50,8 +58,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020296C8",
-    "func_0202972C"
+    "FIELD_SOUND_SYSTEM_PopAllTask",
+    "FIELD_SOUND_SYSTEM_StartPopAllTask"
+   ],
+   "addresses": [
+    "0x020296C8",
+    "0x0202972C"
    ]
   },
   {
@@ -66,8 +78,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02029760",
-    "func_020297AC"
+    "FIELD_SOUND_SYSTEM_PushAndChangeTask",
+    "FIELD_SOUND_SYSTEM_StartPushAndChangeTask"
+   ],
+   "addresses": [
+    "0x02029760",
+    "0x020297AC"
    ]
   },
   {
@@ -82,8 +98,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020297EC",
+    "FIELD_SOUND_SYSTEM_PushAndPlayTask",
     "func_02029830"
+   ],
+   "addresses": [
+    "0x020297EC",
+    "0x02029830"
    ]
   },
   {
@@ -98,8 +118,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02029868",
+    "FIELD_SOUND_SYSTEM_ChangeTask",
     "func_020298A0"
+   ],
+   "addresses": [
+    "0x02029868",
+    "0x020298A0"
    ]
   },
   {
@@ -114,7 +138,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020298E0"
+    "FIELD_SOUND_SYSTEM_FadeOutAndResetTask"
+   ],
+   "addresses": [
+    "0x020298E0"
    ]
   },
   {
@@ -129,8 +156,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02029938",
+    "FIELD_SOUND_SYSTEM_FadeOutAndPlayTask",
     "func_02029984"
+   ],
+   "addresses": [
+    "0x02029938",
+    "0x02029984"
    ]
   },
   {
@@ -145,8 +176,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020299B8",
+    "FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask",
     "func_02029A04"
+   ],
+   "addresses": [
+    "0x020299B8",
+    "0x02029A04"
    ]
   },
   {
@@ -161,8 +196,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02029A3C",
+    "FIELD_SOUND_SYSTEM_FadeOutAndPlayFixedBgmTask",
     "func_02029A74"
+   ],
+   "addresses": [
+    "0x02029A3C",
+    "0x02029A74"
    ]
   },
   {
@@ -177,8 +216,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02029AA8",
+    "FIELD_SOUND_SYSTEM_PushAndPlayWaitTask",
     "func_02029AF4"
+   ],
+   "addresses": [
+    "0x02029AA8",
+    "0x02029AF4"
    ]
   },
   {
@@ -193,7 +236,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02029B28"
+    "FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask"
+   ],
+   "addresses": [
+    "0x02029B28"
    ]
   },
   {
@@ -208,8 +254,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02029B5C",
-    "func_02029BCC"
+    "FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask",
+    "FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask"
+   ],
+   "addresses": [
+    "0x02029B5C",
+    "0x02029BCC"
    ]
   },
   {
@@ -224,7 +274,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02029C00"
+    "FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask"
+   ],
+   "addresses": [
+    "0x02029C00"
    ]
   },
   {
@@ -239,8 +292,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02029C38",
+    "FIELD_SOUND_SYSTEM_WaitSettledTask",
     "func_02029C64"
+   ],
+   "addresses": [
+    "0x02029C38",
+    "0x02029C64"
    ]
   },
   {
@@ -255,8 +312,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02029C94",
-    "func_02029CC0"
+    "FIELD_SOUND_SYSTEM_WaitAcceptRequestTask",
+    "FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask"
+   ],
+   "addresses": [
+    "0x02029C94",
+    "0x02029CC0"
    ]
   },
   {

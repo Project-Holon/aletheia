@@ -1,5 +1,5 @@
 /*
- * function: func_0217EA70
+ * function: gsiMemoryRealloc
  * address: 0x0217EA70
  * packet: pkt_ov009_0217EA70
  * region: ov009
@@ -16,9 +16,9 @@
  */
 
 extern void *func_020913FC(unsigned long a0, unsigned long a1);
-void *func_0217EA70(unsigned long a0, unsigned long a1);
+void *gsiMemoryRealloc(unsigned long a0, unsigned long a1);
 
-void *func_0217EA70(unsigned long a0, unsigned long a1)
+void *gsiMemoryRealloc(unsigned long a0, unsigned long a1)
 {
     return func_020913FC(a0, a1);
 }

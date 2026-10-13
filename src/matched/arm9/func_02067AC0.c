@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02148B48   0x02148B48  data
+ *   sOamSoftEmuContext   0x02148B48  data
  *
  * Seeds the multi-cell renderer's working block from the caller's parameter
  * record: the record pointer at +0x2C, six of its words copied to +0x40..+0x50
@@ -55,11 +55,11 @@ struct Work02067AC0 {
     u32 unk_6c;
 };
 
-extern struct Work02067AC0 *g_02148B48;
+extern struct Work02067AC0 *sOamSoftEmuContext;
 
 void func_02067AC0(struct Src02067AC0 *src)
 {
-    struct Work02067AC0 *w = g_02148B48;
+    struct Work02067AC0 *w = sOamSoftEmuContext;
 
     w->unk_2c = (u32)src;
     w->unk_40 = src->unk_00;

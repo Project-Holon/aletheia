@@ -1,5 +1,5 @@
 /*
- * function: func_02031F54
+ * function: BACKUP_SYSTEM_SetFooter
  * address:  0x02031F54
  * packet:   pkt_02031F54
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02031EE8  0x02031EE8  arm
- *   func_02031E7C  0x02031E7C  arm
+ *   BACKUP_SYSTEM_GetFooter  0x02031EE8  arm
+ *   BACKUP_SYSTEM_CalcCrcTableCrc  0x02031E7C  arm
  *
- * backup_system.c.  Writes the footer descriptor that func_02031EF8 verifies,
- * at func_02031EE8(p, buf) (buf + p->unk30 - 0x10): generation p->unk28,
- * size p->unk30, id p->unk0C, then the CRC-16/CCITT from func_02031E7C at
+ * backup_system.c.  Writes the footer descriptor that BACKUP_SYSTEM_CheckFooter verifies,
+ * at BACKUP_SYSTEM_GetFooter(p, buf) (buf + p->unk30 - 0x10): generation p->unk28,
+ * size p->unk30, id p->unk0C, then the CRC-16/CCITT from BACKUP_SYSTEM_CalcCrcTableCrc at
  * +0x0E.  Closed wave 12: the record pointer is `const`.  With a non-const
  * pointer every field load stays below the previous footer store (the
  * compiler must assume they alias) and six instructions come out in the
@@ -24,8 +24,8 @@
  * store.md).  dsi/1.1p1 only; ../2.0/sp2 keeps the 16-byte residue.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02031F54.c \
- *       --func func_02031F54 --addr 0x02031F54 --arm
+ *   python3 tools/match.py one --src src/matched/BACKUP_SYSTEM_SetFooter.c \
+ *       --func BACKUP_SYSTEM_SetFooter --addr 0x02031F54 --arm
  */
 
 typedef unsigned char  u8;
@@ -50,14 +50,14 @@ struct Footer {
     u16 crc;
 };
 
-extern int func_02031EE8(int p0, int p1);
-extern u16 func_02031E7C(struct SaveBackup *p, u8 *buf);
+extern int BACKUP_SYSTEM_GetFooter(int p0, int p1);
+extern u16 BACKUP_SYSTEM_CalcCrcTableCrc(struct SaveBackup *p, u8 *buf);
 
-void func_02031F54(const struct SaveBackup *p, u8 *buf)
+void BACKUP_SYSTEM_SetFooter(const struct SaveBackup *p, u8 *buf)
 {
-    struct Footer *q = (struct Footer *)func_02031EE8((int)p, (int)buf);
+    struct Footer *q = (struct Footer *)BACKUP_SYSTEM_GetFooter((int)p, (int)buf);
     q->gen = p->unk28;
     q->size = p->unk30;
     q->id = p->unk0C;
-    q->crc = func_02031E7C((struct SaveBackup *)p, buf);
+    q->crc = BACKUP_SYSTEM_CalcCrcTableCrc((struct SaveBackup *)p, buf);
 }

@@ -33,10 +33,10 @@
  *   func_0200FB24 0x0200FB24 thumb
  *   func_02157E8C 0x02157E8C thumb ov010
  *   func_0200FBB0 0x0200FBB0 thumb
- *   func_0200F83C 0x0200F83C thumb
+ *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
  *   func_0203CBAC 0x0203CBAC arm
  *   func_021799C0 0x021799C0 thumb ov015
- *   func_0203D0DC 0x0203D0DC arm
+ *   GFL_NET_StartChangeoverChild 0x0203D0DC arm
  *   func_0203D1B4 0x0203D1B4 arm
  *   d_0217E564 0x0217E564 data a4
  *   d_0217E630 0x0217E630 data a4
@@ -45,7 +45,7 @@
  *   func_0203CDBC 0x0203CDBC arm
  *   func_020399A8 0x020399A8 arm
  *   func_0203D1A4 0x0203D1A4 arm
- *   func_0201A918 0x0201A918 thumb
+ *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_0203D3F8 0x0203D3F8 arm
  *   func_02082D44 0x02082D44 arm
  *   d_0209DF0C 0x0209DF0C data a1
@@ -114,17 +114,17 @@ extern u32 func_020307B0(void *p);
 extern u32 func_0200FB24(void);
 extern int func_02157E8C(void *a0);
 extern u32 func_0200FBB0(void);
-extern void func_0200F83C(void);
+extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void func_0203CBAC(struct Req *req, unsigned int a2, unsigned int a3);
 extern void func_021799C0(int);
-extern int func_0203D0DC(int a0);
+extern int GFL_NET_StartChangeoverChild(int a0);
 extern int func_0203D1B4(void);
 extern int func_0217E524(int a, int b);
 extern int func_0203CEAC(int a0);
 extern int func_0203CDBC(void);
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(struct Link *p);
-extern int func_0201A918(void);
+extern int POKE_REGULATION_GetDataSize(void);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void func_02082D44(void *,const void *,u32);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -269,7 +269,7 @@ void func_0217E058(int *p)
 
 void func_0217E074(void) {}
 
-int func_0217E078(u8 *p) {if(func_0200FB24()!=0) {if(((struct Obj10705 *)p)->f1018!=0) {func_02157E8C((void *)(((struct Obj10705 *)p)->f1018));((struct Obj10705 *)p)->f1018=0;}func_0200FBB0();func_0200F83C();return 1;}return 0;}
+int func_0217E078(u8 *p) {if(func_0200FB24()!=0) {if(((struct Obj10705 *)p)->f1018!=0) {func_02157E8C((void *)(((struct Obj10705 *)p)->f1018));((struct Obj10705 *)p)->f1018=0;}func_0200FBB0();GFL_NET_ERR_ShowSimpleScreen();return 1;}return 0;}
 
 int func_0217E0A8(int *p){*p=0;return 1;}
 
@@ -291,7 +291,7 @@ int func_0217E0B0(unsigned *p)
         *p = 3;
         break;
     case 3:
-        func_0203D0DC(0);
+        GFL_NET_StartChangeoverChild(0);
         *p = 4;
         break;
     case 4:
@@ -351,7 +351,7 @@ int func_0217E1FC(int unused, int arg)
     if (r != 0)
         flag = 0;
     obj = (int)func_020399A8();
-    n = func_0201A918();
+    n = POKE_REGULATION_GetDataSize();
     return func_0203D3F8((int)obj, (unsigned char)flag, (int)0x1F00, n + 0xD4, (int)arg, (int)1, (int)1, (int)1);
 }
 
@@ -379,11 +379,11 @@ int func_0217E258(int unused, int arg)
     if (r != 0)
         flag = 0;
     obj = (int)func_020399A8();
-    n = func_0201A918();
+    n = POKE_REGULATION_GetDataSize();
     return func_0203D3F8((int)obj, (unsigned char)flag, (int)0x1F01, n, (int)arg, (int)1, (int)1, (int)1);
 }
 
-int func_0217E298(u8 *p,const void *q) {int v;v=((struct Obj14369 *)p)->f100C;if(v) {((struct Obj14369 *)p)->f100C=0;func_02082D44(p+6,q,func_0201A918());}return v;}
+int func_0217E298(u8 *p,const void *q) {int v;v=((struct Obj14369 *)p)->f100C;if(v) {((struct Obj14369 *)p)->f100C=0;func_02082D44(p+6,q,POKE_REGULATION_GetDataSize());}return v;}
 
 u32 func_0217E2C0(int unused,int a) {int flag;int v;v=func_0203D1A4((struct Link *)((int)func_020399A8()));flag=1;if(v!=0)flag=0;return func_0203D3F8((int)func_020399A8(),(u8)flag,0x1f03,4,(int)a,(int)1,(int)1,(int)1);}
 

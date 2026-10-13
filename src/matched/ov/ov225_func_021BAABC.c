@@ -17,11 +17,11 @@
  *   func_020355C4 0x020355C4 arm
  *   func_020355D8 0x020355D8 arm
  *   func_021BB034 0x021BB034 thumb ov225
- *   func_02028218 0x02028218 thumb
+ *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  *   func_020362DC 0x020362DC arm
  *   func_0203633C 0x0203633C arm
  *   func_020061E4 0x020061E4 thumb
- *   func_0202822C 0x0202822C thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   func_021BB074 0x021BB074 thumb ov225
  *   func_021BB088 0x021BB088 thumb ov225
  *   func_021BB258 0x021BB258 thumb ov225
@@ -38,8 +38,8 @@ extern int func_02035C08(const void *);
 extern u16 func_021BB05C(u16 **),func_021BB044(u16 **),func_021BB034(u16 **),func_021BB074(u16 **);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8);
-extern void func_02028218(struct Obj *obj, u32 a);
-extern void func_0202822C(char *p, int v);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern u32 func_020362DC(void),func_0203633C(void);
 extern void func_020061E4(u32);
 extern void func_021BB088(char *);
@@ -59,12 +59,12 @@ int func_021BAABC(char *p)
     if(func_020355C4()==0) {
         if(hit>=0 && hit<count) {
             func_020355D8(1);
-            func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
         }
     } else {
         if(func_020362DC()!=0 && !(func_020362DC()&2)) {
             func_020355D8(0);
-            func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
             ((struct Obj00074 *)p)->f8C=0;
             func_020061E4(0x548);
             return 0;
@@ -72,13 +72,13 @@ int func_021BAABC(char *p)
     }
     if(func_020355C4()==0) {
         if(func_020362DC()&1) {
-            func_0202822C(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+            APP_TASKMENU_WIN_SetDecide(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
             func_020061E4(0x54c);
             return 1;
         }
         if(S->count>1) {
             if(func_0203633C()&0x40) {
-                func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
                 if(S->selected>S->top) S->selected--;
                 else if(S->count<=6) S->selected=S->count-1;
                 else {
@@ -95,11 +95,11 @@ int func_021BAABC(char *p)
                     delta[3].y=y;
                     func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&delta[3],1);
                 }
-                func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
                 ((struct Obj00074 *)p)->f8C=0;
                 func_020061E4(0x548);
             } else if(func_0203633C()&0x80) {
-                func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
                 if(S->selected<last) S->selected++;
                 else if(S->count<=6) S->selected=0;
                 else {
@@ -113,12 +113,12 @@ int func_021BAABC(char *p)
                     delta[2].y=y;
                     func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&delta[2],1);
                 }
-                func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+                APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
                 ((struct Obj00074 *)p)->f8C=0;
                 func_020061E4(0x548);
             } else if(func_0203633C()&0x220) {
                 if(S->selected!=0) {
-                    func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+                    APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
                     if(S->count<=6) S->selected=0;
                     else {
                         if(S->top>=6) {S->top-=6;S->selected-=6;}
@@ -129,13 +129,13 @@ int func_021BAABC(char *p)
                         delta[1].y=y;
                         func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&delta[1],1);
                     }
-                    func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+                    APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
                     ((struct Obj00074 *)p)->f8C=0;
                     func_020061E4(0x548);
                 }
             } else if(func_0203633C()&0x110) {
                 if(S->selected<S->count-1) {
-                    func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+                    APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
                     if(S->count<=6) S->selected=S->count-1;
                     else {
                         S->top+=6;
@@ -148,7 +148,7 @@ int func_021BAABC(char *p)
                         delta[0].y=y;
                         func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&delta[0],1);
                     }
-                    func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+                    APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
                     ((struct Obj00074 *)p)->f8C=0;
                     func_020061E4(0x548);
                 }
@@ -156,9 +156,9 @@ int func_021BAABC(char *p)
         }
     } else if(hit>=0 && hit<count) {
         S->selected=S->top+hit;
-        func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+        APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
         ((struct Obj00074 *)p)->f8C=0;
-        func_0202822C(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+        APP_TASKMENU_WIN_SetDecide(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
         func_020061E4(0x54c);
         return 1;
     }

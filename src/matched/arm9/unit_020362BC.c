@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: sub_020362BC, sub_020362DC
+ * function: KEY_GetTrgSys, KEY_GetTrg
  * address:  0x020362BC
  * packet:   pkt_020362BC
  * region:   arm9
@@ -16,13 +16,13 @@
  *   func_0203521C  0x0203521C  arm
  *   func_02035224  0x02035224  arm
  *
- * sub_020362BC picks one of two key masks out of the record returned by
+ * KEY_GetTrgSys picks one of two key masks out of the record returned by
  * func_0203521C, keyed on a one-byte mode tag at +0x3d of its own argument;
- * sub_020362DC is the two-call wrapper that runs func_02035224 first.
+ * KEY_GetTrg is the two-call wrapper that runs func_02035224 first.
  *
- * The two are kept in one unit deliberately: sub_020362DC's only call to
- * sub_020362BC has no witness anywhere else in the image, so as separate
- * files sub_020362DC caps at MATCH.  Inside one range the site is `local`.
+ * The two are kept in one unit deliberately: KEY_GetTrg's only call to
+ * KEY_GetTrgSys has no witness anywhere else in the image, so as separate
+ * files KEY_GetTrg caps at MATCH.  Inside one range the site is `local`.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_020362BC.c \
@@ -48,7 +48,7 @@ extern u32 func_0203521C(u32 *p);
 struct UiCtx;
 extern struct UiCtx *func_02035224(void);
 
-u32 sub_020362BC(struct Ctx *ctx)
+u32 KEY_GetTrgSys(struct Ctx *ctx)
 {
     struct Rec *rec = (struct Rec *)func_0203521C((u32 *)ctx);
 
@@ -58,7 +58,7 @@ u32 sub_020362BC(struct Ctx *ctx)
     return rec->unk_1c;
 }
 
-u32 sub_020362DC(void)
+u32 KEY_GetTrg(void)
 {
-    return sub_020362BC((struct Ctx *)func_02035224());
+    return KEY_GetTrgSys((struct Ctx *)func_02035224());
 }

@@ -17,7 +17,7 @@
  *   func_020923B0  0x020923B0  arm
  *   func_0218FB14  0x0218FB14  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
- *   func_0217F25C  0x0217F25C  arm  ov009
+ *   SocketStartUp  0x0217F25C  arm  ov009
  *   func_0217F264  0x0217F264  arm  ov009
  *   func_020946C8  0x020946C8  arm
  *   func_0218B760  0x0218B760  arm  ov009
@@ -185,7 +185,7 @@ extern void *func_0217EAB0(int size);
 extern void *func_020923B0(void *p, int c, u32_02186664 n);
 extern int   func_0218FB14(void **pp);
 extern void  func_0217EAE0(void *p);
-extern void  func_0217F25C(void);
+extern void  SocketStartUp(void);
 extern unsigned int func_0217F264(void);
 extern void  func_020946C8(void);
 extern void func_0218B760(void **connection, int tellServer);
@@ -294,7 +294,7 @@ int func_02186664(void **out, int a1, int a2, int a3)
         return i;
     }
 
-    func_0217F25C();
+    SocketStartUp();
     func_0217F264();
     func_020946C8();
     *out = p;

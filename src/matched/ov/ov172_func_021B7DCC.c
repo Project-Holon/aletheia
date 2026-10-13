@@ -8,30 +8,30 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203E6C0 0x0203E6C0 arm
+ *   GFL_NET_LOWER_DATA_Exit 0x0203E6C0 arm
  *   func_020307B0 0x020307B0 arm
- *   func_0203D7FC 0x0203D7FC arm
+ *   GFL_NET_FreeAligned 0x0203D7FC arm
  *   func_021BE0D8 0x021BE0D8 thumb ov172
  */
 #include "../include/Obj06559.h"
 typedef unsigned char u8;
-extern void func_0203E6C0(void);
+extern void GFL_NET_LOWER_DATA_Exit(void);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_0203D7FC(void *);
+extern void GFL_NET_FreeAligned(void *);
 extern int func_021BE0D8(void *);
 void func_021B7DCC(void *p, char *q)
 {
     u8 i;
-    func_0203E6C0();
+    GFL_NET_LOWER_DATA_Exit();
     func_020307B0(((struct Obj06559 *)q)->f1A8);
     func_020307B0(((struct Obj06559 *)q)->f1A4);
-    func_0203D7FC(((struct Obj06559 *)q)->f18C);
-    func_0203D7FC(((struct Obj06559 *)q)->f190);
-    func_0203D7FC(((struct Obj06559 *)q)->f188);
+    GFL_NET_FreeAligned(((struct Obj06559 *)q)->f18C);
+    GFL_NET_FreeAligned(((struct Obj06559 *)q)->f190);
+    GFL_NET_FreeAligned(((struct Obj06559 *)q)->f188);
     for (i = 0; i < 3; i++) {
         if (func_021BE0D8(p) == 0 || i == 0)
-            func_0203D7FC(*(void **)(q + i * 4 + 0x164));
+            GFL_NET_FreeAligned(*(void **)(q + i * 4 + 0x164));
     }
     func_020307B0(q);
 }

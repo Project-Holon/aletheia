@@ -1,5 +1,5 @@
 /*
- * function: func_0202ACCC
+ * function: ISS_CITY_SYS_UpdateByMode
  * address:  0x0202ACCC
  * packet:   pkt_0202ACCC
  * region:   arm9
@@ -9,40 +9,40 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Dispatches on the state word returned by func_0202ABF8 over a three-way
+ * Dispatches on the state word returned by ISS_CITY_SYS_GetMode over a three-way
  * state machine.  One `switch` on the call result is what puts the result
  * straight into r0 for all three `cmp`s: a named local would have stored it.
  *
  * symbols:
- *   func_0202ABF8  0x0202ABF8  thumb
- *   func_0202ACFC  0x0202ACFC  thumb
- *   func_0202AD10  0x0202AD10  thumb
- *   func_0202AD44  0x0202AD44  thumb
+ *   ISS_CITY_SYS_GetMode  0x0202ABF8  thumb
+ *   ISS_CITY_SYS_UpdateSteady  0x0202ACFC  thumb
+ *   ISS_CITY_SYS_UpdateFadeIn  0x0202AD10  thumb
+ *   ISS_CITY_SYS_UpdateFadeOut  0x0202AD44  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202ACCC.c \
- *       --func func_0202ACCC --addr 0x0202ACCC --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_CITY_SYS_UpdateByMode.c \
+ *       --func ISS_CITY_SYS_UpdateByMode --addr 0x0202ACCC --thumb --cc 1.1p1
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32 func_0202ABF8(void *obj);
-extern int func_0202ACFC(int a0);
-extern void func_0202AD10(void *obj);
-extern void func_0202AD44(void *obj);
+extern u32 ISS_CITY_SYS_GetMode(void *obj);
+extern int ISS_CITY_SYS_UpdateSteady(int a0);
+extern void ISS_CITY_SYS_UpdateFadeIn(void *obj);
+extern void ISS_CITY_SYS_UpdateFadeOut(void *obj);
 
-void func_0202ACCC(u8 *p)
+void ISS_CITY_SYS_UpdateByMode(u8 *p)
 {
-    switch (func_0202ABF8(p)) {
+    switch (ISS_CITY_SYS_GetMode(p)) {
     case 0:
-        func_0202ACFC((int)p);
+        ISS_CITY_SYS_UpdateSteady((int)p);
         break;
     case 1:
-        func_0202AD10(p);
+        ISS_CITY_SYS_UpdateFadeIn(p);
         break;
     case 2:
-        func_0202AD44(p);
+        ISS_CITY_SYS_UpdateFadeOut(p);
         break;
     }
 }

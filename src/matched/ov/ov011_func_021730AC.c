@@ -1,5 +1,5 @@
 /*
- * function: func_021730AC
+ * function: INTRUDE_COMM_Shutdown
  * address:  0x021730AC
  * packet:   pkt_ov011_021730AC
  * region:   ov011
@@ -15,13 +15,13 @@
  *   func_0200FB24  0x0200FB24  thumb
  *   func_0203CEAC  0x0203CEAC  arm
  *   func_0203D1B4  0x0203D1B4  arm
- *   func_021736EC  0x021736EC  thumb  ov011
+ *   INTRUDE_COMM_SendShutdownRequest  0x021736EC  thumb  ov011
  *   func_020399A8  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
  *   func_0203D7BC  0x0203D7BC  arm
  *   func_0203D378  0x0203D378  arm
- *   func_02173580  0x02173580  thumb  ov011
+ *   INTRUDE_COMM_OnSessionExit  0x02173580  thumb  ov011
  */
 
 typedef unsigned char  u8;
@@ -50,7 +50,7 @@ extern u8 func_02012E40(const u8 *o);
 extern u32 func_0200FB24(void);
 extern int func_0203CEAC(int a0);
 extern int   func_0203D1B4(void);
-extern int func_021736EC(char *p);
+extern int INTRUDE_COMM_SendShutdownRequest(char *p);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -58,16 +58,16 @@ extern void func_02039C68(struct Link *p, u32 a, u32 b);
 extern u32 func_02039CB4(struct Link *p, u32 a, u32 b);
 extern void func_0203D7BC(u8 a0);
 extern u32 func_0203D378(void);
-extern void func_02173580(u8 *w);
+extern void INTRUDE_COMM_OnSessionExit(u8 *w);
 
-int func_021730AC(int *state, Param *p, Work *w)
+int INTRUDE_COMM_Shutdown(int *state, Param *p, Work *w)
 {
     if (func_02012E40((const u8 *)func_02026478(p->field04)) == 1) {
         return 0;
     }
     if (w->bit1 == 1 || func_0200FB24() != 0) {
         w->field8f8 |= 0x40;
-        func_0203CEAC((int)func_02173580);
+        func_0203CEAC((int)INTRUDE_COMM_OnSessionExit);
         return 1;
     }
     switch (*state) {
@@ -75,7 +75,7 @@ int func_021730AC(int *state, Param *p, Work *w)
         w->field8fd = 9;
         if (func_0203D1B4() <= 1) {
             *state = 4;
-        } else if (func_021736EC((char *)w) == 1) {
+        } else if (INTRUDE_COMM_SendShutdownRequest((char *)w) == 1) {
             (*state)++;
         }
         break;
@@ -103,7 +103,7 @@ int func_021730AC(int *state, Param *p, Work *w)
         break;
     case 4:
         w->field8f8 |= 0x40;
-        func_0203CEAC((int)func_02173580);
+        func_0203CEAC((int)INTRUDE_COMM_OnSessionExit);
         return 1;
     }
     return 0;

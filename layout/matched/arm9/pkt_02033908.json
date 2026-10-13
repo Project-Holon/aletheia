@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02033908",
+   "name": "SAVEDATA_CreateTable",
    "address": "0x02033908",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020339B4",
+   "name": "SAVEDATA_DeleteTable",
    "address": "0x020339B4",
    "kind": "game",
    "region": "arm9",

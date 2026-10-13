@@ -1,5 +1,5 @@
 /*
- * function: func_0204B5AC
+ * function: CLACT_SetActorScale
  * address:  0x0204B5AC
  * packet:   pkt_0204B5AC
  * region:   arm9
@@ -25,7 +25,7 @@ struct Obj {
     struct Pair p;
 };
 
-void func_0204B5AC(struct Obj *dst, struct Pair *src)
+void CLACT_SetActorScale(struct Obj *dst, struct Pair *src)
 {
     struct Pair v = *src;
 

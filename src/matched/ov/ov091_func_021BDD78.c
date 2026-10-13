@@ -17,10 +17,10 @@
  * symbols:
  *   func_02020F34 0x02020F34 thumb
  *   func_02021014 0x02021014 thumb
- *   func_02017F90 0x02017F90 thumb
+ *   POKE_TOOL_GetStatusCondition 0x02017F90 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_0201C158 0x0201C158 thumb
- *   func_0201B920 0x0201B920 thumb
+ *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
+ *   POKE_TOOL_IsPPRestorable 0x0201B920 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_021BE9BC 0x021BE9BC thumb ov091
  */
@@ -30,10 +30,10 @@ typedef unsigned char u8;
 extern void *func_02020F34(u32 item, u32 which, u32 heap);
 struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
-extern u32 func_02017F90(void *);
+extern u32 POKE_TOOL_GetStatusCondition(void *);
 extern u32 func_02017E1C(void *, u32, u32);
-extern u8 func_0201C158(u16, u32);
-extern u8 func_0201B920(void *, u32);
+extern u8 WAZA_TOOL_GetMaxPP(u16, u32);
+extern u8 POKE_TOOL_IsPPRestorable(void *, u32);
 extern u32 func_020307B0(void *p);
 extern int func_021BE9BC(void *, void *);
 int func_021BDD78(void *a, u32 id, int slot, u32 heap)
@@ -60,7 +60,7 @@ int func_021BDD78(void *a, u32 id, int slot, u32 heap)
     return r;
   }
   ;
-  sex = func_02017F90(a);
+  sex = POKE_TOOL_GetStatusCondition(a);
   if ((func_02021014(p, 18) != 0) && (sex == 2))
   {
     func_020307B0(p);
@@ -117,14 +117,14 @@ int func_021BDD78(void *a, u32 id, int slot, u32 heap)
   if ((func_02021014(p, 37) != 0) || (func_02021014(p, 38) != 0))
   {
     r = 0;
-    if ((func_02017E1C(a, slot + 0x3E, 0) < 3) && (func_0201C158((u16) func_02017E1C(a, slot + 0x36, 0), r) >= 5))
+    if ((func_02017E1C(a, slot + 0x3E, 0) < 3) && (WAZA_TOOL_GetMaxPP((u16) func_02017E1C(a, slot + 0x36, 0), r) >= 5))
     {
       func_020307B0(p);
       return 1;
     }
     ;
   }
-  if ((func_02021014(p, 39) != 0) && (func_0201B920(a, slot) == 1))
+  if ((func_02021014(p, 39) != 0) && (POKE_TOOL_IsPPRestorable(a, slot) == 1))
   {
     func_020307B0(p);
     return 1;
@@ -134,7 +134,7 @@ int func_021BDD78(void *a, u32 id, int slot, u32 heap)
   {
     for (i = 0; i < 4; i++)
     {
-      if (func_0201B920(a, i) == 1)
+      if (POKE_TOOL_IsPPRestorable(a, i) == 1)
       {
         func_020307B0(p);
         return 1;

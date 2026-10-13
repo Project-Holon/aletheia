@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202CF84  0x0202CF84  thumb
- *   func_0202CF8C  0x0202CF8C  thumb
+ *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb
+ *   BGWINFRM_GetBgFrame  0x0202CF8C  thumb
  *   func_020410D0  0x020410D0  arm
  *   func_02041B6C  0x02041B6C  arm
  */
@@ -33,8 +33,8 @@ struct S {
 };
 
 struct WinMgr;
-extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
-extern u8 func_0202CF8C(struct WinMgr *mgr, u32 idx);
+extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
+extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
 extern void func_020410D0(u8 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5,
                           u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u32 bit);
@@ -45,8 +45,8 @@ void func_021B90B8(struct S *p, int a1, s8 a2)
     u32 id;
     u16 j;
 
-    t = func_0202CF84(p->f3c, a1);
-    id = func_0202CF8C(p->f3c, a1);
+    t = BGWINFRM_GetFrameBuffer(p->f3c, a1);
+    id = BGWINFRM_GetBgFrame(p->f3c, a1);
     for (j = 0; j < p->f5; j++) {
         if (a2 < 0)
             a2 += 0x20;

@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D24C  0x0203D24C  arm
- *   func_02037118  0x02037118  arm
- *   func_0203D2CC  0x0203D2CC  arm
+ *   GFL_NET_SetTimeout  0x0203D24C  arm
+ *   GFL_NET_WM_ICON_EasySetScreen  0x02037118  arm
+ *   GFL_NET_RestartByNetType  0x0203D2CC  arm
  *
  * TU: net.c.
  *
@@ -30,13 +30,13 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0203D24C(u16 a, u16 b);
-extern void func_02037118(u32 a, u32 b);
-extern void func_0203D2CC(void);
+extern void GFL_NET_SetTimeout(u16 a, u16 b);
+extern void GFL_NET_WM_ICON_EasySetScreen(u32 a, u32 b);
+extern void GFL_NET_RestartByNetType(void);
 
 void func_0203D34C(u32 a, u32 b)
 {
-    func_0203D24C(0xf0, 0);
-    func_02037118(a, b);
-    func_0203D2CC();
+    GFL_NET_SetTimeout(0xf0, 0);
+    GFL_NET_WM_ICON_EasySetScreen(a, b);
+    GFL_NET_RestartByNetType();
 }

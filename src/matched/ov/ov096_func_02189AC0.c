@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   func_0201134C  0x0201134C  thumb
- *   func_020113B0  0x020113B0  thumb
+ *   VM_Jump  0x020113B0  thumb
  *   func_0218A308  0x0218A308  thumb  ov096
  *   func_0218A390  0x0218A390  thumb  ov096
  *   func_021B8DE4  0x021B8DE4  thumb  ov093
@@ -36,7 +36,7 @@ typedef struct { u8 p0[0x38]; int f38; u8 p1[0x58]; u8 f94; u8 p2[0x1b]; int fb0
 struct Cursor;
 extern u32 func_0201134C(struct Cursor *p);
 struct Cur;
-extern void func_020113B0(struct Cur *c, u32 v);
+extern void VM_Jump(struct Cur *c, u32 v);
 extern u8 *func_0218A308(void *, u32);
 extern u32 func_0218A390(u8 *a, u8 *b, u8 *c, int d);
 extern u8 func_021B8DE4(char *p, int i);
@@ -65,7 +65,7 @@ int func_02189AC0(struct Cursor *a, Obj *b) {
         func_021D5440(r6);
         if (func_021D5B68(r6) == 0) {
             if (func_0218A390((u8 *)((int)b), r6, b->fc0, c) > base) {
-                func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + x);
+                VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + x);
                 break;
             }
         }

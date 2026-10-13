@@ -12,7 +12,7 @@
  * func_0202C794; original supplies no new r2/r3. Legacy trailing
  * arguments are omitted. func_02012AC8 consumes the preceding result.
  * symbols:
- *   func_02012A4C 0x02012A4C thumb
+ *   GAME_DATA_SetFieldMode 0x02012A4C thumb
  *   func_0215E5B0 0x0215E5B0 thumb ov010
  *   func_0216EE7C 0x0216EE7C thumb ov010
  *   func_0216EF84 0x0216EF84 thumb ov010
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 struct BigObj;
 struct Rec44;
 struct SaveBlock;
-extern void func_02012A4C(struct BigObj *p, u32 v);
+extern void GAME_DATA_SetFieldMode(struct BigObj *p, u32 v);
 struct BattleEndCtx;
 struct Work;
 extern void func_0215E5B0(void *a0, struct Work *w);
@@ -37,7 +37,7 @@ extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02012AC8(const struct Rec44 *p);
 extern int func_0202C83C(int,int);
 void func_0216EFF0(int *p,void *a) {
-    func_02012A4C(a,((struct Obj19144 *)(*(char * *)&((struct Obj00020 *)p)->f8))->f8C);
+    GAME_DATA_SetFieldMode(a,((struct Obj19144 *)(*(char * *)&((struct Obj00020 *)p)->f8))->f8C);
     func_0215E5B0(a,(void *)p[2]);
     func_0216EE7C((struct BattleEndCtx *)p);
     func_0216EF84((int)p);

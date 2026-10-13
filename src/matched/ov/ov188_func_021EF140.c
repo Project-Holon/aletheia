@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   func_02045924 0x02045924 arm
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   func_02045A98 0x02045A98 arm
  */
 #include "../include/Obj01970.h"
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct Strbuf;
 struct U16Vec;
 extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 func_02045A98(void);
 void func_021EF140(u8 *a, u8 *b)
 {
@@ -39,6 +39,6 @@ void func_021EF140(u8 *a, u8 *b)
     ((struct Obj01970 *)a)->f26 = ((struct Obj02529 *)b)->f3E;
     for(i=0;i<4;i++) *(u16 *)(a+12+i*2) = *(u16 *)(b+8+i*2);
     func_02045924(((struct Obj01970 *)a)->f14, (u16 *)(b+16));
-    p = func_02045A90(((struct Obj01970 *)a)->f14);
+    p = STRBUF_GetChars(((struct Obj01970 *)a)->f14);
     while (*p != func_02045A98()) p++;
 }

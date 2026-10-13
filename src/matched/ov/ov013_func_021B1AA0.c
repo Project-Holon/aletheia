@@ -1,5 +1,5 @@
 /*
- * function: func_021B1AA0
+ * function: VCT_AUDIO_InitSequence
  * address:  0x021B1AA0
  * packet:   pkt_021B1AA0
  * region:   ov013
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj01641.h"
 
-void func_021B1AA0(char *p, unsigned short v)
+void VCT_AUDIO_InitSequence(char *p, unsigned short v)
 {
     ((struct Obj01641 *)p)->f68 = v;
     *(int *)&((struct Obj01641 *)p)->f64 = 0x00010001;

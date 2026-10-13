@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02031C30",
+   "name": "BACKUP_SYSTEM_MainLinkedSave",
    "address": "0x02031C30",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02031DC0",
+   "name": "BACKUP_SYSTEM_LoadLinked",
    "address": "0x02031DC0",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02031E7C",
+   "name": "BACKUP_SYSTEM_CalcCrcTableCrc",
    "address": "0x02031E7C",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02031EAC",
+   "name": "BACKUP_SYSTEM_GetAreaAddr",
    "address": "0x02031EAC",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02031ECC",
+   "name": "BACKUP_SYSTEM_GetCrcTable",
    "address": "0x02031ECC",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02031EE8",
+   "name": "BACKUP_SYSTEM_GetFooter",
    "address": "0x02031EE8",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02031F94",
+   "name": "BACKUP_SYSTEM_SetSaveCount",
    "address": "0x02031F94",
    "kind": "game",
    "region": "arm9",

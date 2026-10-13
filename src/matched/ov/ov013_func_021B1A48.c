@@ -1,5 +1,5 @@
 /*
- * function: func_021B1A48
+ * function: VCT_AUDIO_DetachReceiveSource
  * address:  0x021B1A48
  * packet:   pkt_021B1A48
  * region:   ov013
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B2FE4  0x021B2FE4  arm  ov013
+ *   VCT_POOL_FreeFrame  0x021B2FE4  arm  ov013
  */
 #include "../include/Obj07347.h"
 
-extern void func_021B2FE4(void *p);
+extern void VCT_POOL_FreeFrame(void *p);
 
-void func_021B1A48(char *p)
+void VCT_AUDIO_DetachReceiveSource(char *p)
 {
     if (((struct Obj07347 *)p)->f3C) {
-        func_021B2FE4(((struct Obj07347 *)p)->f3C);
+        VCT_POOL_FreeFrame(((struct Obj07347 *)p)->f3C);
         *(int *)&((struct Obj07347 *)p)->f3C = 0;
     }
     ((struct Obj07347 *)p)->f38 = -1;

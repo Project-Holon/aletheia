@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_020328E0",
+   "name": "BACKUP_SYSTEM_WriteFooterBody",
    "address": "0x020328E0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02032930",
+   "name": "BACKUP_SYSTEM_WriteFooterLastByte",
    "address": "0x02032930",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02032970",
+   "name": "BACKUP_SYSTEM_InitSaveSeq",
    "address": "0x02032970",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020329AC",
+   "name": "BACKUP_SYSTEM_CalcDiffSize",
    "address": "0x020329AC",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02032A9C",
+   "name": "BACKUP_SYSTEM_CompareRecordStep",
    "address": "0x02032A9C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02032BF8",
+   "name": "BACKUP_SYSTEM_WriteRecord",
    "address": "0x02032BF8",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02032C84",
+   "name": "BACKUP_SYSTEM_WriteCrcTable",
    "address": "0x02032C84",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020331A4",
+   "name": "BACKUP_SYSTEM_EndSave",
    "address": "0x020331A4",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020331D0",
+   "name": "BACKUP_SYSTEM_CancelSaveSeq",
    "address": "0x020331D0",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02033200",
+   "name": "BACKUP_SYSTEM_EraseFooter",
    "address": "0x02033200",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02033264",
+   "name": "BACKUP_SYSTEM_IncRecordCount",
    "address": "0x02033264",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020332A4",
+   "name": "BACKUP_SYSTEM_UpdateRecordCrc",
    "address": "0x020332A4",
    "kind": "game",
    "region": "arm9",
@@ -162,7 +162,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020332FC"
+    "BACKUP_SYSTEM_GetBlockArea"
+   ],
+   "addresses": [
+    "0x020332FC"
    ]
   }
  ]

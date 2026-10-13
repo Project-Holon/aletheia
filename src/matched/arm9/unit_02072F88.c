@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: func_02072F88, func_02072FA8, func_02072FC8, func_02072FE8, func_02073018, func_02073038, func_02073058, func_02073078, func_02073098
+ * function: NNS_SndHandlePause, NNS_SndHandleSetTrackPause, NNS_SndHandleSetTrackMute, NNS_SndHandleSetTrackVolume, NNS_SndHandleSetTrackPitch, NNS_SndHandleSetTrackPan, NNS_SndHandleSetTrackModDepth, NNS_SndHandleSetTrackModSpeed, NNS_SndHandleStop
  * address:  0x2072F88
  * packet:   pkt_02072EA8
  * region:   arm9
@@ -57,55 +57,55 @@ extern void func_020893B8(u8, u32);
 struct SNDTrackInfo;
 extern int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
 
-void func_02072F88(struct Obj *o, u32 v)
+void NNS_SndHandlePause(struct Obj *o, u32 v)
 {
     if (o->p == 0) return;
     func_020893E8(o->p->b3c, v);
 }
 
-void func_02072FA8(struct Obj *o, u32 v, u32 w)
+void NNS_SndHandleSetTrackPause(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
     func_02089580(o->p->b3c, v, w);
 }
 
-void func_02072FC8(struct Obj *o, u32 v, u32 w)
+void NNS_SndHandleSetTrackMute(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
     func_020895B0(o->p->b3c, v, w);
 }
 
-void func_02072FE8(struct Obj *o, u32 v, int a)
+void NNS_SndHandleSetTrackVolume(struct Obj *o, u32 v, int a)
 {
     if (o->p == 0) return;
     func_02089400(o->p->b3c, v, g_020A5D08[a]);
 }
 
-void func_02073018(struct Obj *o, u32 v, u32 w)
+void NNS_SndHandleSetTrackPitch(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
     func_0208941C(o->p->b3c, v, w);
 }
 
-void func_02073038(struct Obj *o, u32 v, u32 w)
+void NNS_SndHandleSetTrackPan(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
     func_02089438(o->p->b3c, v, w);
 }
 
-void func_02073058(struct Obj *o, u32 v, u32 w)
+void NNS_SndHandleSetTrackModDepth(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
     func_02089454(o->p->b3c, v, w);
 }
 
-void func_02073078(struct Obj *o, u32 v, u32 w)
+void NNS_SndHandleSetTrackModSpeed(struct Obj *o, u32 v, u32 w)
 {
     if (o->p == 0) return;
     func_02089470(o->p->b3c, v, w);
 }
 
-void func_02073098(struct Obj *o, u32 v)
+void NNS_SndHandleStop(struct Obj *o, u32 v)
 {
     if (o->p == 0) return;
     func_020893B8(o->p->b3c, v);

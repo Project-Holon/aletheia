@@ -1,7 +1,7 @@
 /*
  * file:     fade.c
  * unit:     yes
- * function: func_0204E5E8, func_0204E638, func_0204E6E0, func_0204E6F4, func_0204E708, func_0204E720, func_0204E804, func_0204E824
+ * function: FADE_Create, FADE_Update, FADE_GetSpeed, FADE_SetSpeed, FADE_ResetSpeed, func_0204E720, func_0204E804, FADE_ApplyBrightness
  * address:  0x0204E5E8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -39,14 +39,14 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void  MI_CpuFill8(void *dst, u32 val, u32 size);
 extern s32   func_0209C0A4(s32 a, s32 b);
 extern void  func_0207D534(volatile u16 *reg, int brightness);
-void func_0204E5E8(u32 heap);
-void func_0204E638(void);
-s32 func_0204E6E0(void);
-void func_0204E6F4(s32 a);
-void func_0204E708(void);
+void FADE_Create(u32 heap);
+void FADE_Update(void);
+s32 FADE_GetSpeed(void);
+void FADE_SetSpeed(s32 a);
+void FADE_ResetSpeed(void);
 void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 int func_0204E804(void);
-void func_0204E824(void);
+void FADE_ApplyBrightness(void);
 extern const char fade_File[];
 extern Fade *g_02146A7C;
 
@@ -61,15 +61,15 @@ extern Fade *g_02146A7C;
  * allocator's result stays in r0 across the store to the global, so the clear
  * call's first argument is that same value, not a fresh load of the global.
  */
-void func_0204E5E8(u32 heap)
+void FADE_Create(u32 heap)
 {
     g_02146A7C = func_02030734((u16)heap, 0x20, 0, fade_File, 50);
 
     MI_CpuFill8(g_02146A7C, 0, 0x20);
-    func_0204E708();
+    FADE_ResetSpeed();
 }
 
-void func_0204E638(void)
+void FADE_Update(void)
 {
     if (g_02146A7C == 0) {
         return;
@@ -87,13 +87,13 @@ void func_0204E638(void)
         (g_02146A7C->cur <= g_02146A7C->end && g_02146A7C->step < 0)) {
         g_02146A7C->cur = g_02146A7C->end;
     }
-    func_0204E824();
+    FADE_ApplyBrightness();
     if (g_02146A7C->cur == g_02146A7C->end) {
         g_02146A7C->flags = 0;
     }
 }
 
-s32 func_0204E6E0(void)
+s32 FADE_GetSpeed(void)
 {
     return g_02146A7C->speed;
 }
@@ -102,17 +102,17 @@ s32 func_0204E6E0(void)
  * Setter for +0x1c of the singleton reached through the pointer at
  * 0x02146A7C.  Same object as src/matched/unit_0204E720.c.
  */
-void func_0204E6F4(s32 a)
+void FADE_SetSpeed(s32 a)
 {
     g_02146A7C->speed = a;
 }
 
 /*
  * Arms +0x1c of the singleton reached through the pointer at 0x02146A7C:
- * the same field func_0204E6F4 sets from an argument, here forced to 1.
+ * the same field FADE_SetSpeed sets from an argument, here forced to 1.
  * Same object as src/matched/unit_0204E720.c.
  */
-void func_0204E708(void)
+void FADE_ResetSpeed(void)
 {
     g_02146A7C->speed = 1;
 }
@@ -160,7 +160,7 @@ void func_0204E720(u32 a, s32 b, s32 c, s32 d)
 
     g_02146A7C->cur = g_02146A7C->start;
 
-    func_0204E824();
+    FADE_ApplyBrightness();
 }
 
 int func_0204E804(void)
@@ -181,10 +181,10 @@ int func_0204E804(void)
  * either of them.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204E824.c \
- *       --func func_0204E824 --addr 0x0204E824 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/FADE_ApplyBrightness.c \
+ *       --func FADE_ApplyBrightness --addr 0x0204E824 --cc 1.1p1 --arm
  */
-void func_0204E824(void)
+void FADE_ApplyBrightness(void)
 {
     if (g_02146A7C->flags & 1)
         func_0207D534((void *)0x0400006c, -g_02146A7C->cur);

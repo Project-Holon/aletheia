@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020356A0
+ * function: UI_ApplyInputBounds
  * address:  0x020356A0
  * packet:   pkt_020356A0
  * region:   arm9
@@ -11,13 +11,13 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469BC     0x021469BC  data
- *   func_020363B8  0x020363B8  arm
- *   func_020363D4  0x020363D4  arm
- *   func_020363F0  0x020363F0  arm
- *   func_02035E84  0x02035E84  arm
- *   func_02035EB0  0x02035EB0  arm
- *   func_02035ECC  0x02035ECC  arm
+ *   gUiState     0x021469BC  data
+ *   KEY_SetTrg  0x020363B8  arm
+ *   KEY_SetCont  0x020363D4  arm
+ *   KEY_SetRepeat  0x020363F0  arm
+ *   TOUCHPANEL_SetPoint  0x02035E84  arm
+ *   TOUCHPANEL_SetTrg  0x02035EB0  arm
+ *   TOUCHPANEL_SetCont  0x02035ECC  arm
  *
  * A descriptor fan-out: the global at 0x021469BC carries a callback at +4
  * which fills two twelve-byte records on the stack, and the seven
@@ -43,29 +43,29 @@ typedef struct {
     int (*f04)(S12 *dst, S12 *src);
 } Desc;
 
-extern Desc g_021469BC;
-extern int func_020363B8(int a0, int a1, int a2);
-extern int func_020363D4(int a0, int a1, int a2);
-extern int func_020363F0(int a0, int a1, int a2);
-extern void func_02035E84(void *p, u16 a, u16 b, u16 c, u16 d);
-extern int func_02035EB0(int a0, int a1, int a2);
-extern int func_02035ECC(int a0, int a1, int a2);
+extern Desc gUiState;
+extern int KEY_SetTrg(int a0, int a1, int a2);
+extern int KEY_SetCont(int a0, int a1, int a2);
+extern int KEY_SetRepeat(int a0, int a1, int a2);
+extern void TOUCHPANEL_SetPoint(void *p, u16 a, u16 b, u16 c, u16 d);
+extern int TOUCHPANEL_SetTrg(int a0, int a1, int a2);
+extern int TOUCHPANEL_SetCont(int a0, int a1, int a2);
 
-void func_020356A0(int a0)
+void UI_ApplyInputBounds(int a0)
 {
     S12 b;
     S12 a;
 
-    if (g_021469BC.f04 == 0) {
+    if (gUiState.f04 == 0) {
         return;
     }
-    if (g_021469BC.f04(&b, &a) == 0) {
+    if (gUiState.f04(&b, &a) == 0) {
         return;
     }
-    func_020363B8(a0, b.f00, a.f00);
-    func_020363D4(a0, b.f02, a.f02);
-    func_020363F0(a0, b.f04, a.f04);
-    func_02035E84((void *)a0, b.f06, b.f08, a.f06, a.f08);
-    func_02035EB0(a0, b.f0A, a.f0A);
-    func_02035ECC(a0, b.f0B, a.f0B);
+    KEY_SetTrg(a0, b.f00, a.f00);
+    KEY_SetCont(a0, b.f02, a.f02);
+    KEY_SetRepeat(a0, b.f04, a.f04);
+    TOUCHPANEL_SetPoint((void *)a0, b.f06, b.f08, a.f06, a.f08);
+    TOUCHPANEL_SetTrg(a0, b.f0A, a.f0A);
+    TOUCHPANEL_SetCont(a0, b.f0B, a.f0B);
 }

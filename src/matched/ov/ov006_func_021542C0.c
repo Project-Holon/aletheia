@@ -13,12 +13,12 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_0200AEE8  0x0200AEE8  thumb
  *   func_020399A8  0x020399A8  arm
- *   func_02013790  0x02013790  thumb
- *   func_020137C0  0x020137C0  thumb
- *   func_02013864  0x02013864  thumb
- *   func_02013894  0x02013894  thumb
- *   func_02013980  0x02013980  thumb
- *   func_02013160  0x02013160  thumb
+ *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
+ *   BTL_SETUP_SetupCommDouble  0x020137C0  thumb
+ *   BTL_SETUP_SetupCommTriple  0x02013864  thumb
+ *   BTL_SETUP_SetupCommRotation  0x02013894  thumb
+ *   BTL_SETUP_AllocRecordBuffer  0x02013980  thumb
+ *   BTL_SETUP_ApplyRegulation  0x02013160  thumb
  *   func_0201A2A8  0x0201A2A8  thumb
  *   func_02012F2C  0x02012F2C  thumb
  */
@@ -37,12 +37,12 @@ extern void func_0200AEE8(struct Reg *p, u32 id, s32 value);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned short u16;
-extern void func_02013790(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_020137C0(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_02013864(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_02013894(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_02013980(struct ZoneData *o, u32 heap);
-extern void func_02013160(u8 *o, void *a1, u32 a2);
+extern void BTL_SETUP_SetupCommSingle(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void BTL_SETUP_SetupCommDouble(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void BTL_SETUP_SetupCommTriple(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void BTL_SETUP_SetupCommRotation(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void BTL_SETUP_AllocRecordBuffer(struct ZoneData *o, u32 heap);
+extern void BTL_SETUP_ApplyRegulation(u8 *o, void *a1, u32 a2);
 extern void func_0201A2A8(void *a0, void *a1);
 extern void *func_02012F2C(int *p);
 
@@ -116,23 +116,23 @@ void func_021542C0(char *obj, int idx)
     switch (idx) {
     case 7:
     case 8:
-        func_02013790(*(u32 *)&((struct Obj01027 *)obj)->fDC, h, (u32)func_020399A8(), 1, 4);
+        BTL_SETUP_SetupCommSingle(*(u32 *)&((struct Obj01027 *)obj)->fDC, h, (u32)func_020399A8(), 1, 4);
         break;
     case 9:
     case 10:
-        func_020137C0(*(u32 *)&((struct Obj01027 *)obj)->fDC, h, (u32)func_020399A8(), 1, 4);
+        BTL_SETUP_SetupCommDouble(*(u32 *)&((struct Obj01027 *)obj)->fDC, h, (u32)func_020399A8(), 1, 4);
         break;
     case 11:
     case 12:
-        func_02013864(*(u32 *)&((struct Obj01027 *)obj)->fDC, h, (u32)func_020399A8(), 1, 4);
+        BTL_SETUP_SetupCommTriple(*(u32 *)&((struct Obj01027 *)obj)->fDC, h, (u32)func_020399A8(), 1, 4);
         break;
     case 13:
     case 14:
-        func_02013894(*(u32 *)&((struct Obj01027 *)obj)->fDC, h, (u32)func_020399A8(), 1, 4);
+        BTL_SETUP_SetupCommRotation(*(u32 *)&((struct Obj01027 *)obj)->fDC, h, (u32)func_020399A8(), 1, 4);
         break;
     }
-    func_02013980((struct ZoneData *)(*(u32 *)&((struct Obj01027 *)obj)->fDC), 1);
-    func_02013160((u8 *)(*(u32 *)&((struct Obj01027 *)obj)->fDC), (void *)((*(Sub * *)&((struct Obj01027 *)obj)->f5C)->f1c), 4);
+    BTL_SETUP_AllocRecordBuffer((struct ZoneData *)(*(u32 *)&((struct Obj01027 *)obj)->fDC), 1);
+    BTL_SETUP_ApplyRegulation((u8 *)(*(u32 *)&((struct Obj01027 *)obj)->fDC), (void *)((*(Sub * *)&((struct Obj01027 *)obj)->f5C)->f1c), 4);
     func_0201A2A8((void *)((*(Sub * *)&((struct Obj01027 *)obj)->f5C)->f1c), (void *)((*(Sub * *)&((struct Obj01027 *)obj)->f5C)->f14));
     func_0201A2A8((void *)((*(Sub * *)&((struct Obj01027 *)obj)->f5C)->f1c), (void *)((*(Sub * *)&((struct Obj01027 *)obj)->f5C)->f18));
     ((struct Obj18627 *)(*(char * *)&((struct Obj01027 *)obj)->fDC))->f6C = (u32)func_02012F2C(func_020120F4((const struct Ctx *)(((struct Obj01027 *)obj)->f4)));

@@ -21,7 +21,7 @@
  * pool word 0x000000AA (ov170_id, +0x394) has no witness.  It is the id
  * argument (r1) of func_02012444, which is not in OVERLAY_ID_CONSUMERS;
  * func_02012444 (EXACT, arm9) stores its r1 as item[0], and its state
- * machine func_0201240C (EXACT) passes item[0] to func_020120B4's id
+ * machine GAME_EVENT_CallProcSeq (EXACT) passes item[0] to GAMESYSTEM_CallProc's id
  * parameter, so adding 0x02012444 with register 1 to OVERLAY_ID_CONSUMERS
  * in tools/match.py would resolve it as `overlay_id` (integrator's call).
  * No cut helps: the only pool word holding 0xAA is this function's own.
@@ -31,19 +31,19 @@
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb  ov021
  *   func_02012374  0x02012374  thumb
- *   func_020144DC  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02082BCC  0x02082BCC  arm
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
- *   func_02005C44  0x02005C44  thumb
- *   func_02005C18  0x02005C18  thumb
- *   func_02005B24  0x02005B24  thumb
- *   func_02005D90  0x02005D90  thumb
- *   func_02005DF8  0x02005DF8  thumb
- *   func_020145CC  0x020145CC  thumb
- *   func_02005E9C  0x02005E9C  thumb
- *   func_02005DE4  0x02005DE4  thumb
- *   func_02005E64  0x02005E64  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb
+ *   GFL_USE_ClearSndHeap  0x02005C18  thumb
+ *   GFL_USE_InitSound  0x02005B24  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
+ *   GFL_USE_PopBgm  0x02005E9C  thumb
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_PushBgm  0x02005E64  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_02009448  0x02009448  thumb
@@ -57,7 +57,7 @@
  *   func_02012444  0x02012444  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   func_0200FB38  0x0200FB38  thumb
- *   func_0200F7B8  0x0200F7B8  thumb
+ *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
  *   func_020121CC  0x020121CC  thumb
  *   ov123_id       0x0000007B  data   a1
  *   ov016_id       0x00000010  data   a1
@@ -66,8 +66,8 @@
  *   d_021DA674     0x021DA674  data   ov123  a4
  *   d_021DA838     0x021DA838  data   ov123  a4
  *   d_021D77B8     0x021D77B8  data   ov016  a4
- *   d_021D6338     0x021D6338  data   ov115  a4
- *   d_021D654C     0x021D654C  data   ov115  a4
+ *   gNetSaveMainProc     0x021D6338  data   ov115  a4
+ *   gNetSaveRetryProc     0x021D654C  data   ov115  a4
  *   d_021EF78C     0x021EF78C  data   ov170  a4
  */
 
@@ -89,19 +89,19 @@ extern void *func_0201210C(const struct Ctx *p);
 extern int func_021BE8D4(void *a, int b, int sel, int d);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_020144DC(int a0, int a1);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void  func_02082BCC(void *p, int c, int n);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
-extern u16 func_02005C44(void);
-extern void  func_02005C18(void);
-extern void  func_02005B24(void);
-extern void  func_02005D90(u32 a0, u32 a1);
-extern void func_02005DF8(u32 a);
-extern void *func_020145CC(void *a0);
-extern int func_02005E9C(void);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void  GFL_USE_ClearSndHeap(void);
+extern void  GFL_USE_InitSound(void);
+extern void  GFL_USE_CancelChangeAndPlayBgm(u32 a0, u32 a1);
+extern void GFL_USE_FadeInBgmFull(u32 a);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02009448Obj *func_02009448(void *sys);
@@ -115,7 +115,7 @@ extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern u32 func_0200FB24(void);
 extern void  func_0200FB38(void);
-extern u32 func_0200F7B8(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern u32 func_020121CC(struct IcaAnime *p);
 
 extern char ov123_id[];
@@ -125,8 +125,8 @@ extern char ov170_id[];
 extern char d_021DA674[];
 extern char d_021DA838[];
 extern char d_021D77B8[];
-extern char d_021D6338[];
-extern char d_021D654C[];
+extern char gNetSaveMainProc[];
+extern char gNetSaveRetryProc[];
 extern char d_021EF78C[];
 
 #define F(o)  (*(u32 *)(args + (o)))
@@ -145,18 +145,18 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         (*mode)++;
         break;
     case 1:
-        func_02012374(obj, (struct Evt **)func_020144DC(h, v));
+        func_02012374(obj, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(h, v));
         F(0x2c8) = 0;
         *mode = 2;
         break;
     case 2:
         func_02082BCC(args + 0xc, 0, 0x44);
         F(0x50) = 0;
-        func_020120B4((struct IcaAnime *)h, (u32)ov123_id, d_021DA674, args);
+        GAMESYSTEM_CallProc((struct IcaAnime *)h, (u32)ov123_id, d_021DA674, args);
         (*mode)++;
         break;
     case 3:
-        if (func_020120F0((const struct Ctx *)h) == 0) {
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)h) == 0) {
             if (F(0x1c8) == 2)
                 *mode = 16;
             else if (F(0x1c8) == 3)
@@ -169,13 +169,13 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         (*mode)++;
         break;
     case 6:
-        F(0x1d4) = func_02005C44();
-        func_02005C18();
-        func_020120B4((struct IcaAnime *)h, (u32)ov016_id, d_021D77B8, args);
+        F(0x1d4) = GFL_USE_GetBgmNo();
+        GFL_USE_ClearSndHeap();
+        GAMESYSTEM_CallProc((struct IcaAnime *)h, (u32)ov016_id, d_021D77B8, args);
         (*mode)++;
         break;
     case 7:
-        if (func_020120F0((const struct Ctx *)h) == 0)
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)h) == 0)
             *mode = 14;
         break;
     case 14:
@@ -185,9 +185,9 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
             *ime = 1;
             (void)old;
         }
-        func_02005B24();
-        func_02005D90(F(0x1d4), 0xFFFF);
-        func_02005DF8(0x3C);
+        GFL_USE_InitSound();
+        GFL_USE_CancelChangeAndPlayBgm(F(0x1d4), 0xFFFF);
+        GFL_USE_FadeInBgmFull(0x3C);
         *mode = 15;
         break;
     case 15:
@@ -195,7 +195,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         *mode = 2;
         break;
     case 10:
-        func_02012374(obj, func_020145CC((void *)h));
+        func_02012374(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)h));
         (*mode)++;
         break;
     case 11:
@@ -204,9 +204,9 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         break;
     case 12:
         if (F(0x1cc)) {
-            func_02005E9C();
-            func_02005DE4(0);
-            func_02005DF8(0x3C);
+            GFL_USE_PopBgm();
+            GFL_USE_SetBgmPlayerParam(0);
+            GFL_USE_FadeInBgmFull(0x3C);
             F(0x1cc) = 0;
         }
         (*mode)++;
@@ -220,19 +220,19 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
             *mode = 19;
         } else {
             F(0x26c) = 0;
-            func_02005DE4((void *)1);
-            func_02005E64();
+            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_PushBgm();
             F(0x1cc) = 1;
             (*mode)++;
         }
         break;
     case 17:
         F(0x268) = (u32)(args + 0x54);
-        func_020120B4((struct IcaAnime *)h, (u32)ov115_id, d_021D6338, args + 0x258);
+        GAMESYSTEM_CallProc((struct IcaAnime *)h, (u32)ov115_id, gNetSaveMainProc, args + 0x258);
         (*mode)++;
         break;
     case 18:
-        if (func_020120F0((const struct Ctx *)h) == 0) {
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)h) == 0) {
             if (F(0x274) == 1) {
                 *mode = 10;
             } else {
@@ -247,11 +247,11 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         }
         break;
     case 19:
-        func_020120B4((struct IcaAnime *)h, (u32)ov123_id, d_021DA838, args);
+        GAMESYSTEM_CallProc((struct IcaAnime *)h, (u32)ov123_id, d_021DA838, args);
         (*mode)++;
         break;
     case 20:
-        if (func_020120F0((const struct Ctx *)h) == 0) {
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)h) == 0) {
             if (F(0x1c8) == 1) {
                 F(0x2c8) = 0;
                 *mode = 2;
@@ -283,7 +283,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
     case 22:
         if (func_0200FB24()) {
             func_0200FB38();
-            func_0200F7B8(0);
+            GFL_NET_ERR_ShowScreen(0);
             F(0x26c) = 1;
             *mode = 17;
         } else {
@@ -307,19 +307,19 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         F(0x280) = (u32)func_020120F4((const struct Ctx *)h);
         F(0x284) = 1;
         F(0x288) = 0;
-        func_020120B4((struct IcaAnime *)h, (u32)ov115_id, d_021D654C, args + 0x280);
+        GAMESYSTEM_CallProc((struct IcaAnime *)h, (u32)ov115_id, gNetSaveRetryProc, args + 0x280);
         (*mode)++;
         break;
     case 24:
-        if (func_020120F0((const struct Ctx *)h) == 0) {
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)h) == 0) {
             func_020121CC((struct IcaAnime *)h);
             *(vu16 *)0x04000304 |= 0x8000;
             F(0x2c8) = 0;
             *mode = 2;
             if (F(0x1cc)) {
-                func_02005E9C();
-                func_02005DE4(0);
-                func_02005DF8(0x3C);
+                GFL_USE_PopBgm();
+                GFL_USE_SetBgmPlayerParam(0);
+                GFL_USE_FadeInBgmFull(0x3C);
                 F(0x1cc) = 0;
             }
         }

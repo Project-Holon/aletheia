@@ -1,5 +1,5 @@
 /*
- * function: func_02013234
+ * function: BTL_SETUP_CreateTrainerData
  * address:  0x02013234
  * packet:   pkt_02013234
  * region:   arm9
@@ -11,10 +11,11 @@
  *
  * symbols:
  *   sZonedataFile  0x020A729C  data
+ *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013234.c \
- *       --func func_02013234 --addr 0x02013234 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_CreateTrainerData.c \
+ *       --func BTL_SETUP_CreateTrainerData --addr 0x02013234 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -33,17 +34,17 @@ struct Obj {
 struct U16Vec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void  func_0202428C(void *p);
+extern void  PMSI_PARAM_ClearSentence(void *p);
 extern u8    sZonedataFile;
 
-void *func_02013234(u32 heap)
+void *BTL_SETUP_CreateTrainerData(u32 heap)
 {
     struct Obj *p;
 
     p = func_02030734(heap, 0x28, 1, (const char *)&sZonedataFile, 0xef);
     p->unk14 = func_020457B0(0x10, heap);
     p->unk00 = 0;
-    func_0202428C(&p->pad18[0]);
-    func_0202428C(&p->pad18[8]);
+    PMSI_PARAM_ClearSentence(&p->pad18[0]);
+    PMSI_PARAM_ClearSentence(&p->pad18[8]);
     return p;
 }

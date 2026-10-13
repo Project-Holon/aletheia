@@ -11,8 +11,9 @@
  *
  * symbols:
  *   func_021CFFF0   0x021CFFF0  arm
+ *   NNS_SndHandleSetTrackPitch  0x02073018  arm  arm9
  *
- * Tail-call func_02073018 with the global object +0xa0 and two arguments.
+ * Tail-call NNS_SndHandleSetTrackPitch with the global object +0xa0 and two arguments.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -22,9 +23,9 @@
 
 typedef unsigned int   u32;
 struct Obj;
-extern void func_02073018(struct Obj *o, u32 v, u32 w);
+extern void NNS_SndHandleSetTrackPitch(struct Obj *o, u32 v, u32 w);
 
 void func_021CFFF0(unsigned int a, unsigned int b)
 {
-    func_02073018((struct Obj *)(*(char **)0x021DE648 + 0xa0), a, b);
+    NNS_SndHandleSetTrackPitch((struct Obj *)(*(char **)0x021DE648 + 0xa0), a, b);
 }

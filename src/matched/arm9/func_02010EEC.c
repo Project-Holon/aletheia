@@ -1,5 +1,5 @@
 /*
- * function: func_02010EEC
+ * function: GPOWER_GetSelectedMinutesLeft
  * address:  0x02010EEC
  * packet:   pkt_02010EEC
  * region:   arm9
@@ -20,8 +20,8 @@
  * counter is read as u32.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010EEC.c \
- *       --func func_02010EEC --addr 0x02010EEC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_GetSelectedMinutesLeft.c \
+ *       --func GPOWER_GetSelectedMinutesLeft --addr 0x02010EEC --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -32,7 +32,7 @@ extern u32 g_021461E8[];
 
 extern u32 _u32_div_f(u32 a, u32 b);
 
-int func_02010EEC(void)
+int GPOWER_GetSelectedMinutesLeft(void)
 {
     u8 idx = g_02146228[0x1c];
     u32 v;

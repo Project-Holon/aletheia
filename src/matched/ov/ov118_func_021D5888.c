@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02015EB0  0x02015EB0  thumb
- *   func_02015C48  0x02015C48  thumb
- *   func_02015E04  0x02015E04  thumb
- *   func_02015C94  0x02015C94  thumb
- *   func_02015CAC  0x02015CAC  thumb
+ *   MCSS_ResetVanishFlag  0x02015EB0  thumb
+ *   MCSS_SetPosition  0x02015C48  thumb
+ *   MCSS_SetAnmStopFlag  0x02015E04  thumb
+ *   MCSS_GetScale  0x02015C94  thumb
+ *   MCSS_SetScale  0x02015CAC  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -27,24 +27,24 @@ typedef struct {
     s32 x, y, z;
 } Vec;
 
-extern void func_02015EB0(void *p);
-extern void func_02015C48(void *p, u32 *src);
-extern void func_02015E04(void *p);
-extern void func_02015C94(void *p, u32 *out);
-extern void func_02015CAC(void *p, u32 *src);
+extern void MCSS_ResetVanishFlag(void *p);
+extern void MCSS_SetPosition(void *p, u32 *src);
+extern void MCSS_SetAnmStopFlag(void *p);
+extern void MCSS_GetScale(void *p, u32 *out);
+extern void MCSS_SetScale(void *p, u32 *src);
 
 void func_021D5888(u8 *p, int idx)
 {
     u32 *obj = (u32 *)(p + 0x844);
     Vec v;
 
-    func_02015EB0((void *)obj[idx]);
+    MCSS_ResetVanishFlag((void *)obj[idx]);
     v.x = 0;
     v.y = -0x17000;
     v.z = 0xA000;
-    func_02015C48((void *)obj[idx], (u32 *)(&v));
-    func_02015E04((void *)obj[idx]);
-    func_02015C94((void *)obj[idx], (u32 *)(&v));
+    MCSS_SetPosition((void *)obj[idx], (u32 *)(&v));
+    MCSS_SetAnmStopFlag((void *)obj[idx]);
+    MCSS_GetScale((void *)obj[idx], (u32 *)(&v));
     if (v.x < 0) {
         v.x = -0x10000;
     } else {
@@ -52,5 +52,5 @@ void func_021D5888(u8 *p, int idx)
     }
     v.y = 0x10000;
     v.z = 0x1000;
-    func_02015CAC((void *)obj[idx], (u32 *)(&v));
+    MCSS_SetScale((void *)obj[idx], (u32 *)(&v));
 }

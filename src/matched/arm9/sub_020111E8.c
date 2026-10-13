@@ -1,5 +1,5 @@
 /*
- * function: func_020111E8
+ * function: GPOWER_GetSpecialPowerId
  * address:  0x020111E8
  * packet:   pkt_02010BB8
  * region:   arm9
@@ -17,12 +17,12 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_020111E8.c \
- *       --func func_020111E8 --addr 0x020111E8 --cc 1.1p1
+ *       --func GPOWER_GetSpecialPowerId --addr 0x020111E8 --cc 1.1p1
  */
 
 typedef unsigned int u32;
 
-u32 func_020111E8(void)
+u32 GPOWER_GetSpecialPowerId(void)
 {
     return 0x15;
 }

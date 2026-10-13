@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02156DE0 0x02156DE0 thumb ov009
+ *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   func_02082BCC 0x02082BCC arm
  *   func_021C5928 0x021C5928 arm ov114
  *   func_021C5C04 0x021C5C04 arm ov114
@@ -27,7 +27,7 @@
  *   func_021DEF38 0x021DEF38 thumb ov121
  *   func_021DEEF8 0x021DEEF8 thumb ov121
  *   func_0203F0A8 0x0203F0A8 arm
- *   func_0203C9AC 0x0203C9AC arm
+ *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   _ull_mul 0x0209C054 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021DFBD8 0x021DFBD8 data a4
@@ -39,7 +39,7 @@
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct { char pad[0x6e0];u32 flag; } Flag;
-extern void func_02156DE0(int,int);
+extern void DWC_RAP_SetErrorHookCallback(int,int);
 extern void func_02082BCC(void *,int,u32);
 extern int func_021C5928(void (*callback)(int, int, int), char *gamecd, char *passwd);
 extern int func_021C5C04(char *,char *,char *);
@@ -57,7 +57,7 @@ extern void func_021DEDC8(void *a, int *state, char *p);
 extern int func_021DEF38(const unsigned *,unsigned);
 extern int func_021DEEF8(const signed char *);
 extern u32 func_0203F0A8(void);
-extern void func_0203C9AC(int,u32,u32,u32);
+extern void GFL_NET_STATE_SetError(int,u32,u32,u32);
 extern char d_021DFBD8[],d_021DFBD0[],d_021DFBF8[],d_021DFBEC[];
 extern int d_021DFC00[];
 #define Q(k) (*(u32 *)(q+(k)))
@@ -69,7 +69,7 @@ void func_021DE958(void *task,int *state,char *p)
     u32 rnd,t,ratio;
     switch(*state) {
     case 0:
-        func_02156DE0((int)func_021DEF54,(int)q);
+        DWC_RAP_SetErrorHookCallback((int)func_021DEF54,(int)q);
         func_02082BCC(q,0,0x734);
         Q(0x70c)=0;Q(0x710)=0;Q(0x724)=0;Q(0x728)=(u32)(p+0x7a4);
         W(0x17a4)=0;
@@ -123,7 +123,7 @@ void func_021DE958(void *task,int *state,char *p)
     case 6:
         func_021C5AB8();
         if(Q(0x72c)++>7200) {
-            func_0203C9AC(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38((u32)q,3,state,7,7);
+            GFL_NET_STATE_SetError(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38((u32)q,3,state,7,7);
         }
         if(!d_021DFC00[1]) {
             if(Q(0x70c)) {W(0x17a4)=2;func_021DEE38((u32)q,3,state,7,7);break;}
@@ -137,11 +137,11 @@ void func_021DE958(void *task,int *state,char *p)
         break;
     case 7:func_021C5DB4();*state=8;break;
     case 8:*state=9;break;
-    case 9:Q(0x730)=0;func_02156DE0(0,0);func_021DEEA4(task,func_021DEDC8);break;
+    case 9:Q(0x730)=0;DWC_RAP_SetErrorHookCallback(0,0);func_021DEEA4(task,func_021DEDC8);break;
     case 100:
         func_021C5AB8();
         if(Q(0x72c)++>7200) {
-            func_0203C9AC(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38((u32)q,3,state,9,9);
+            GFL_NET_STATE_SetError(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38((u32)q,3,state,9,9);
         }
         if(d_021DFC00[1]) {
             d_021DFC00[1]=0;
@@ -151,7 +151,7 @@ void func_021DE958(void *task,int *state,char *p)
         break;
     case 200:
         func_021C5AB8();
-        if(Q(0x72c)++>7200) {func_0203C9AC(0,0,0,0x3f5);*state=Q(0x708);}
+        if(Q(0x72c)++>7200) {GFL_NET_STATE_SetError(0,0,0,0x3f5);*state=Q(0x708);}
         if(d_021DFC00[0]) {d_021DFC00[0]=0;*state=Q(0x708);}
         else if(Q(0x70c)) Q(0x710)=1;
         break;

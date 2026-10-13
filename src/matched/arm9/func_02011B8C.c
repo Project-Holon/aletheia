@@ -59,8 +59,8 @@
  *   _fls           0x0209BC74  arm
  *   _fmul          0x0209C77C  arm
  *   _fadd          0x0209C95C  arm
- *   data_0209DF84  0x0209DF84  data
- *   data_0209DF90  0x0209DF90  data
+ *   _IcaCameraForward  0x0209DF84  data
+ *   _IcaCameraUp  0x0209DF90  data
  *   func_02011610  0x02011610  thumb
  *   func_02011638  0x02011638  thumb
  *   func_02048AFC  0x02048AFC  arm
@@ -82,8 +82,8 @@ struct Vec3 {
     s32 z;
 };
 
-extern struct Vec3 data_0209DF84;
-extern struct Vec3 data_0209DF90;
+extern struct Vec3 _IcaCameraForward;
+extern struct Vec3 _IcaCameraUp;
 
 struct IcaAnime;
 struct Rec12;
@@ -114,8 +114,8 @@ void func_02011B8C(void *dst, void *ctx)
     float s;
     float v;
 
-    a = data_0209DF84;
-    b = data_0209DF90;
+    a = _IcaCameraForward;
+    b = _IcaCameraUp;
 
     func_02011638(ctx, (struct Rec12 *)hsv);
 

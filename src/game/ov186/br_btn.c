@@ -47,21 +47,21 @@
  *   func_0201C7D0 0x0201C7D0 thumb
  *   func_020255A0 0x020255A0 thumb
  *   func_020257D0 0x020257D0 thumb
- *   func_0202597C 0x0202597C thumb
+ *   BMP_OAM_SetObjMode 0x0202597C thumb
  *   func_0202570C 0x0202570C thumb
  *   func_020437AC 0x020437AC arm
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_0204B454  0x0204B454  arm
  *   func_0204B404 0x0204B404 arm
  *   func_0202590C 0x0202590C thumb
- *   func_0204B800  0x0204B800  arm
- *   func_020259C4  0x020259C4  thumb
- *   func_0204B838 0x0204B838 arm
+ *   CLACT_SetActorDrawPriority  0x0204B800  arm
+ *   BMP_OAM_SetDrawPriority  0x020259C4  thumb
+ *   CLACT_GetActorDrawPriority 0x0204B838 arm
  *   func_0204B84C  0x0204B84C  arm
- *   func_02025A0C  0x02025A0C  thumb
- *   func_0204B864 0x0204B864 arm
+ *   BMP_OAM_SetBgPriority  0x02025A0C  thumb
+ *   CLACT_GetActorBgPriority 0x0204B864 arm
  *   func_0204B6F4 0x0204B6F4 arm
- *   func_02025A54 0x02025A54 thumb
+ *   BMP_OAM_SetPalette 0x02025A54 thumb
  *   d_022007F0 0x022007F0 data a4
  *   d_02200D28 0x02200D28 data a1
  *   d_02200D38 0x02200D38 data a1
@@ -297,22 +297,22 @@ extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void func_020257D0(struct Obj *o);
-extern void func_0202597C(u8 *,u32);
+extern void BMP_OAM_SetObjMode(u8 *,u32);
 extern void func_0202570C(struct Grid *);
 extern void func_020437AC(struct Obj020437AC *);
 extern void func_0204B3B4(struct Obj *);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0202590C(struct Grid *,short,short);
-extern void func_0204B800(struct Node *node, u32 val);
-extern void func_020259C4(u8 *g, u32 a);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
+extern void BMP_OAM_SetDrawPriority(u8 *g, u32 a);
 /* Callee's complete leaf reads only r0; legacy r1-r3 are unused, unforwarded. */
-extern int func_0204B838(int);
+extern int CLACT_GetActorDrawPriority(int);
 extern void func_0204B84C(int, unsigned int);
-extern void func_02025A0C(u8 *g, u32 a);
-extern unsigned func_0204B864(unsigned char *);
+extern void BMP_OAM_SetBgPriority(u8 *g, u32 a);
+extern unsigned CLACT_GetActorBgPriority(unsigned char *);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_02025A54(u8 *g, u32 a);
+extern void BMP_OAM_SetPalette(u8 *g, u32 a);
 extern struct WordSet *func_0201EC64(unsigned int heap);
 extern void func_0201EE0C(struct WordSet *p, unsigned int i, const void *src, unsigned int n, unsigned int f, unsigned int c);
 extern u16 func_020458F8(struct U16Vec *vec);
@@ -984,7 +984,7 @@ void func_021FAB7C(void *p, int *state, unsigned char *ctx)
 
 /*
  * lever: 02045874 takes the source and heap, forwarding r1 unchanged to its allocator.
- * evidence: matched arm9/sub_02045874.c; original 021FAC58 loads heap into r1,
+ * evidence: matched arm9/STRBUF_Clone.c; original 021FAC58 loads heap into r1,
  * then loads source into r0 at021FAC5A before storing heap and calling021FAC62.
  */
 void func_021FAC20(Button *ctx, void *object, unsigned a, void *b, char *owner, const void *arg, unsigned index, unsigned short heap)
@@ -1456,7 +1456,7 @@ Obj *func_021FB3BC(const Point *pt,void *data,u16 a,u32 b,u32 c,void *owner,void
     param.f14=value;param.f11=pt->f7;param.fc=1;
     p->grid=func_020255A0(owner,(const struct Param *)(&param));
     func_020257D0(p->grid);
-    func_0202597C(p->grid,1);
+    BMP_OAM_SetObjMode(p->grid,1);
     return p;
 }
 
@@ -1550,8 +1550,8 @@ void func_021FB548(char *p,short *x,short *y) { PtS v;func_0204B454(*(struct Act
 
 void func_021FB578(int *p, unsigned char b)
 {
-    func_0204B800((struct Node *)p[0], b);
-    func_020259C4((u8 *)p[1], (unsigned char)(b - 1));
+    CLACT_SetActorDrawPriority((struct Node *)p[0], b);
+    BMP_OAM_SetDrawPriority((u8 *)p[1], (unsigned char)(b - 1));
 }
 
 
@@ -1562,7 +1562,7 @@ void func_021FB578(int *p, unsigned char b)
 
 
 
-int func_021FB594(char *p) { return func_0204B838(((struct Obj24826 *)p)->f0); }
+int func_021FB594(char *p) { return CLACT_GetActorDrawPriority(((struct Obj24826 *)p)->f0); }
 
 
 
@@ -1576,7 +1576,7 @@ int func_021FB594(char *p) { return func_0204B838(((struct Obj24826 *)p)->f0); }
 void func_021FB5A0(int *p, int b)
 {
     func_0204B84C(p[0], b);
-    func_02025A0C((u8 *)p[1], b);
+    BMP_OAM_SetBgPriority((u8 *)p[1], b);
 }
 
 
@@ -1587,7 +1587,7 @@ void func_021FB5A0(int *p, int b)
 
 
 
-unsigned func_021FB5B8(char *p) { return func_0204B864(*(unsigned char * *)&((struct Obj24827 *)p)->f0); }
+unsigned func_021FB5B8(char *p) { return CLACT_GetActorBgPriority(*(unsigned char * *)&((struct Obj24827 *)p)->f0); }
 
 
 
@@ -1597,7 +1597,7 @@ unsigned func_021FB5B8(char *p) { return func_0204B864(*(unsigned char * *)&((st
 
 
 
-void func_021FB5C4(char *p,int n) { func_0204B6F4(((struct Obj14459 *)p)->f0,(unsigned char)n,0);func_02025A54(*(unsigned char * *)&((struct Obj14459 *)p)->f4,(unsigned char)(n+1)); }
+void func_021FB5C4(char *p,int n) { func_0204B6F4(((struct Obj14459 *)p)->f0,(unsigned char)n,0);BMP_OAM_SetPalette(*(unsigned char * *)&((struct Obj14459 *)p)->f4,(unsigned char)(n+1)); }
 
 
 

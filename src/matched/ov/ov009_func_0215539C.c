@@ -1,5 +1,5 @@
 /*
- * function: func_0215539C
+ * function: DWC_RAP_CreateWork
  * address:  0x0215539C
  * packet:   pkt_ov009_0215539C
  * region:   ov009
@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Allocates the 0x7AC-byte ov009 work block into d_021A8264 (asserting it
- * was empty) and initialises it.  func_0203D7C8's last two arguments look
+ * Allocates the 0x7AC-byte ov009 work block into _pRapWork (asserting it
+ * was empty) and initialises it.  GFL_NET_AllocAligned's last two arguments look
  * like a file/line pair (d_021A1C60, 302).
  *
  * symbols:
- *   d_021A8264     0x021A8264  data  ov009  a4
+ *   _pRapWork     0x021A8264  data  ov009  a4
  *   d_021A1C5C     0x021A1C5C  data  ov009  a1
  *   d_021A1C60     0x021A1C60  data  ov009  a1
  *   func_0203D798  0x0203D798  arm
- *   func_0203D7C8  0x0203D7C8  arm
+ *   GFL_NET_AllocAligned  0x0203D7C8  arm
  *   func_02034714  0x02034714  arm
  *   func_020597C8  0x020597C8  arm
  *   func_02059760  0x02059760  arm
- *   func_02155374  0x02155374  thumb  ov009
+ *   DWC_RAP_SetState  0x02155374  thumb  ov009
  */
 
 typedef unsigned char  u8;
@@ -64,47 +64,47 @@ typedef struct {
     char pad7A2[0x7AC - 0x7A2];
 } G;
 
-extern G *d_021A8264;
+extern G *_pRapWork;
 extern char d_021A1C5C[];
 extern char d_021A1C60[];
 typedef unsigned int   u32;
 void *func_0203D798(void);
-void *func_0203D7C8(u32 heap, u32 size, const char *file, u16 line);
+void *GFL_NET_AllocAligned(u32 heap, u32 size, const char *file, u16 line);
 void func_02034714(const char *expr, u32 line, const char *file);
 struct DWCstAccUserData;
 int func_020597C8(struct DWCstAccUserData *userdata);
 int func_02059760(struct DWCstAccUserData *userdata);
-void func_02155374(int v);
+void DWC_RAP_SetState(int v);
 
-int func_0215539C(int a0, int a1)
+int DWC_RAP_CreateWork(int a0, int a1)
 {
     Ctx *ctx;
     int i;
 
     ctx = func_0203D798();
-    if (d_021A8264 != 0)
+    if (_pRapWork != 0)
         func_02034714(d_021A1C5C, 0, d_021A1C5C);
-    d_021A8264 = func_0203D7C8(ctx->heap, sizeof(G), d_021A1C60, 302);
+    _pRapWork = GFL_NET_AllocAligned(ctx->heap, sizeof(G), d_021A1C60, 302);
     for (i = 0; i < 32; i++)
-        d_021A8264->arr[i] = -1;
-    func_02155374(0);
-    d_021A8264->w77C = 0;
-    d_021A8264->w770 = -1;
-    d_021A8264->w764 = ctx->b60;
-    d_021A8264->w774 = -1;
-    d_021A8264->h782 = 0;
-    d_021A8264->b79E = 0;
-    d_021A8264->h794 = 1;
-    d_021A8264->w790 = 1;
-    d_021A8264->h796 = 1;
-    d_021A8264->w108 = a0;
-    d_021A8264->w100 = a1;
-    d_021A8264->b7A1 = 1;
+        _pRapWork->arr[i] = -1;
+    DWC_RAP_SetState(0);
+    _pRapWork->w77C = 0;
+    _pRapWork->w770 = -1;
+    _pRapWork->w764 = ctx->b60;
+    _pRapWork->w774 = -1;
+    _pRapWork->h782 = 0;
+    _pRapWork->b79E = 0;
+    _pRapWork->h794 = 1;
+    _pRapWork->w790 = 1;
+    _pRapWork->h796 = 1;
+    _pRapWork->w108 = a0;
+    _pRapWork->w100 = a1;
+    _pRapWork->b7A1 = 1;
     for (i = 0; i < 32; i++)
-        d_021A8264->bytes[i] = 0;
-    if (func_020597C8((struct DWCstAccUserData *)d_021A8264->w108) == 0)
+        _pRapWork->bytes[i] = 0;
+    if (func_020597C8((struct DWCstAccUserData *)_pRapWork->w108) == 0)
         return 1;
-    if (func_02059760((struct DWCstAccUserData *)d_021A8264->w108) == 0)
+    if (func_02059760((struct DWCstAccUserData *)_pRapWork->w108) == 0)
         return 2;
     return 0;
 }

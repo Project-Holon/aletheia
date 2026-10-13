@@ -1,5 +1,5 @@
 /*
- * function: func_0204E010
+ * function: CLACT_FreePaletteTable
  * address:  0x0204E010
  * packet:   pkt_0204DD08
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_0204E010(void *ptr)
+void CLACT_FreePaletteTable(void *ptr)
 {
     func_020307B0(ptr);
 }

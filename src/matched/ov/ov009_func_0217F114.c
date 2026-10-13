@@ -1,5 +1,5 @@
 /*
- * function: func_0217F114
+ * function: gsiLeaveCriticalSection
  * address:  0x0217F114
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern void func_02086078(void *mutex);
 
-void func_0217F114(void *mutex)
+void gsiLeaveCriticalSection(void *mutex)
 {
     func_02086078(mutex);
 }

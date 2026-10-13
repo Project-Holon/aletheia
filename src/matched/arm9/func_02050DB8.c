@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02051620  0x02051620  arm
+ *   PARTICLE_KillAllEffects  0x02051620  arm
  *   func_0206168C  0x0206168C  arm
  *   func_020621FC  0x020621FC  arm
  *   func_02061824  0x02061824  arm
  *   func_02062594  0x02062594  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02048AC4  0x02048AC4  arm
- *   g_02146A88     0x02146A88  data
+ *   g_pParticleMan     0x02146A88  data
  *
  * Emitter teardown: release the two 0x40-entry resource tables (either as a
  * whole through func_0206168C / func_02061824, or entry by entry through
@@ -34,8 +34,8 @@
  *    them.  All nine sites resolve, none wildcarded.
  *
  * 2. The note's 20-byte register swap in the sixteen-entry search loop is
- *    closed by writing that loop WITHOUT a cursor local: `g_02146A88[j]`
- *    drawn fresh at both the read and the store, not `a = g_02146A88; a[j]`.
+ *    closed by writing that loop WITHOUT a cursor local: `g_pParticleMan[j]`
+ *    drawn fresh at both the read and the store, not `a = g_pParticleMan; a[j]`.
  *    Found with tools/permuter.py (hill, budget 500, mutation `expand(a x2)`).
  *    The note ruled out declaration order, a separate index, hoisting the
  *    counter and the pointer-walk form, but never tried expanding the cursor
@@ -70,21 +70,21 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02051620(void);
+extern void PARTICLE_KillAllEffects(void);
 extern void func_0206168C(u32 *src);
 extern u32 func_020621FC(u32 h);
 extern void func_02061824(void *p);
 extern int func_02062594(u32 id);
 extern u32 func_020307B0(void *p);
 extern u32 func_02048AC4(void *ptr);
-extern struct G_02146A88 *g_02146A88;
+extern struct G_02146A88 *g_pParticleMan;
 
 void func_02050DB8(u8 *p)
 {
     int i;
     u32 z = 0;
 
-    func_02051620();
+    PARTICLE_KillAllEffects();
 
     if (p[0x258] & 1) {
         func_0206168C((u32 *)(p + 0x58));
@@ -123,9 +123,9 @@ void func_02050DB8(u8 *p)
     {
         int j = 0;
         for (;;) {
-            u32 t = ((u32 *)g_02146A88)[j];
+            u32 t = ((u32 *)g_pParticleMan)[j];
             if (t == (u32)p) {
-                ((u32 *)g_02146A88)[j] = z;
+                ((u32 *)g_pParticleMan)[j] = z;
                 break;
             }
             j++;

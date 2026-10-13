@@ -12,11 +12,11 @@
  * sdk:      WCMi_WmifBeginSearchAsync (libwcm.TWL.HYB.a wmif.o)
  *
  * symbols:
- *   func_021657C8    0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork    0x021657C8  arm  ov009
  *   func_02167CB4    0x02167CB4  arm  ov009
  *   DC_InvalidateRange 0x020862B8  arm
  *   WM_StartScanEx   0x0208F698  arm
- *   func_02165A4C    0x02165A4C  arm  ov009
+ *   WCMi_SetPhase    0x02165A4C  arm  ov009
  *   func_021671C0    0x021671C0  arm  ov009
  */
 
@@ -43,11 +43,11 @@ typedef struct WCMWork {
     unsigned long notifyCount;
 } WCMWork;
 
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 extern void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long option);
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern long WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
-extern void func_02165A4C(unsigned char phase);
+extern void WCMi_SetPhase(unsigned char phase);
 extern void func_021671C0(void *arg);
 
 long func_02166A24(void *bssid, void *essid, unsigned long option)
@@ -55,7 +55,7 @@ long func_02166A24(void *bssid, void *essid, unsigned long option)
     WCMWork *wcmw;
     long wmResult;
 
-    wcmw = (WCMWork *)func_021657C8();
+    wcmw = (WCMWork *)WCMi_GetSystemWork();
     switch (wcmw->phase) {
     case 5:
         func_02167CB4(bssid, essid, option);
@@ -74,14 +74,14 @@ long func_02166A24(void *bssid, void *essid, unsigned long option)
     wmResult = WM_StartScanEx(func_021671C0, &wcmw->scanParam);
     switch (wmResult) {
     case 2:
-        func_02165A4C(5);
+        WCMi_SetPhase(5);
         wcmw->wmState = 3;
         break;
     case 8:
         return 4;
     case 3:
     default:
-        func_02165A4C(0xb);
+        WCMi_SetPhase(0xb);
         return 7;
     }
     return 3;

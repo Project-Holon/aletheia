@@ -1,5 +1,5 @@
 /*
- * function: func_02024120
+ * function: PMSI_PARAM_CheckModified
  * address:  0x02024120
  * packet:   pkt_02024120
  * region:   arm9
@@ -15,4 +15,4 @@
 
  */
 typedef unsigned char u8;
-int func_02024120(u8 *p) { return p[2]; }
+int PMSI_PARAM_CheckModified(u8 *p) { return p[2]; }

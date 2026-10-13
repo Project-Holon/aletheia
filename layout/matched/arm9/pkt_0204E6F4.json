@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204E6F4",
+   "name": "FADE_SetSpeed",
    "address": "0x0204E6F4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204E708",
+   "name": "FADE_ResetSpeed",
    "address": "0x0204E708",
    "kind": "game",
    "region": "arm9",
@@ -46,7 +46,7 @@
    ]
   },
   {
-   "name": "func_0204E824",
+   "name": "FADE_ApplyBrightness",
    "address": "0x0204E824",
    "kind": "game",
    "region": "arm9",

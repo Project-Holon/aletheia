@@ -1,5 +1,5 @@
 /*
- * function: func_0204F2E4
+ * function: BILLBOARD_GetImageTexKey
  * address:  0x0204F2E4
  * packet:   pkt_0204E8C0
  * region:   arm9
@@ -30,7 +30,7 @@ struct Slot {
     u32 unk_24;
 };
 
-void func_0204F2E4(u8 *a0, int i, u32 *out)
+void BILLBOARD_GetImageTexKey(u8 *a0, int i, u32 *out)
 {
     struct Slot *p = (struct Slot *)((struct Obj16130 *)a0)->f4;
 

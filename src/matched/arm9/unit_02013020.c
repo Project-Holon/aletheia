@@ -15,7 +15,7 @@
  * symbols:
  *   ptr_020A7298  0x020A7298  data
  *   data_0209DFB0 0x0209DFB0  data
- *   sub_0200873C  0x0200873C  thumb
+ *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   sub_02008374  0x02008374  thumb
  *
  * Mode mapping helpers calling clamped lookup sub_02013080.
@@ -33,14 +33,14 @@ extern void *ptr_020A7298;
 extern const signed char data_0209DFB0[];
 
 struct Sub02008700Obj;
-extern struct Sub02008700Obj *sub_0200873C(void *sys);
+extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
 extern unsigned int sub_02008374(int a0);
 
 signed char sub_02013080(u32 idx);
 
 signed char sub_02013020(void)
 {
-    u32 val = sub_02008374((int)sub_0200873C(ptr_020A7298));
+    u32 val = sub_02008374((int)SYSTEM_DATA_GetConfig(ptr_020A7298));
     switch (val) {
     case 0:
         val = 1;
@@ -57,7 +57,7 @@ signed char sub_02013020(void)
 
 signed char sub_02013050(void)
 {
-    u32 val = sub_02008374((int)sub_0200873C(ptr_020A7298));
+    u32 val = sub_02008374((int)SYSTEM_DATA_GetConfig(ptr_020A7298));
     switch (val) {
     case 0:
         val = 4;

@@ -1,5 +1,5 @@
 /*
- * function: func_02030F04
+ * function: TCBL_PopFreeTask
  * address:  0x02030F04
  * packet:   pkt_02030F04
  * region:   arm9
@@ -21,7 +21,7 @@ struct List {
     struct Node *head;
 };
 
-struct Node *func_02030F04(struct List *list)
+struct Node *TCBL_PopFreeTask(struct List *list)
 {
     struct Node *head = list->head;
     if (head == 0) {

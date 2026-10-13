@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_0203F0A8  0x0203F0A8  arm
- *   func_0201B850  0x0201B850  thumb
- *   g_0209E465     0x0209E465  data  a1
+ *   NATSUKI_Apply  0x0201B850  thumb
+ *   _NatsukiWalkDeltas     0x0209E465  data  a1
  *
- * shinka_check.c.  The coin-flip sibling of func_0201B7A0 / func_0201B818:
- * on an even draw below 2, hand the fixed row g_0209E465 to func_0201B850.
+ * shinka_check.c.  The coin-flip sibling of NATSUKI_Calc / NATSUKI_CalcParty:
+ * on an even draw below 2, hand the fixed row _NatsukiWalkDeltas to NATSUKI_Apply.
  *
  * The `movs r1,#0 / lsls r1,r1,#1 / lsrs r0,r0,#31 / orrs` run that four
  * waves read as a scheduling tie of two u32 shifts is the high word of a
@@ -36,12 +36,12 @@ typedef unsigned int       u32;
 typedef unsigned long long u64;
 
 extern u32  func_0203F0A8(void);
-extern void func_0201B850(void *mon, const s8 *tbl, int a2, u32 a3);
-extern const s8 g_0209E465[];
+extern void NATSUKI_Apply(void *mon, const s8 *tbl, int a2, u32 a3);
+extern const s8 _NatsukiWalkDeltas[];
 
 void func_0201B7EC(void *a0, int a1, int a2)
 {
     if ((u32)((u64)func_0203F0A8() * 2 >> 32) % 2 == 0) {
-        func_0201B850(a0, g_0209E465, a1, a2);
+        NATSUKI_Apply(a0, _NatsukiWalkDeltas, a1, a2);
     }
 }

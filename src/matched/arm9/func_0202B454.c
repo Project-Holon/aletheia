@@ -1,5 +1,5 @@
 /*
- * function: func_0202B454
+ * function: ISS_DUNGEON_SYS_ResetTracks
  * address:  0x0202B454
  * packet:   pkt_0202B454
  * region:   arm9
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj15838.h"
 
-void func_0202B454(char *p)
+void ISS_DUNGEON_SYS_ResetTracks(char *p)
 {
     int i;
     ((struct Obj15838 *)p)->f1C = 0xffff;

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0217D254                  0x0217D254  arm ov009
- *   func_0215F650                  0x0215F650  arm ov009
+ *   SOC_GetHostByName                  0x0215F650  arm ov009
  *   func_0217EAB0                  0x0217EAB0  arm ov009
  *   g_021A383C                     0x021A383C  data
  */
@@ -31,7 +31,7 @@ struct GSIResolveHostnameInfo {
 };
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern struct SOCHostEnt *func_0215F650(char *name);
+extern struct SOCHostEnt *SOC_GetHostByName(char *name);
 extern void *func_0217EAB0(unsigned long size);
 extern char g_021A383C[];
 
@@ -41,7 +41,7 @@ int func_0217F150(char *hostname, struct GSIResolveHostnameInfo **handle)
     struct SOCHostEnt *SOCHostEnt;
 
     func_0217D254(8, (char *)3, 16, g_021A383C);
-    SOCHostEnt = func_0215F650(hostname);
+    SOCHostEnt = SOC_GetHostByName(hostname);
     if (SOCHostEnt == 0)
         return -1;
     info = (struct GSIResolveHostnameInfo *)func_0217EAB0(8);

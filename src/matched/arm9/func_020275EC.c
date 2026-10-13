@@ -11,14 +11,14 @@
  * note: byte lookup in a u8 table; called from ov094 func_02204CC0 (bl at
  *   +0x1EE, 0x02204EAE) with a u8 index.
  * symbols:
- *   d_0209FCF8  0x0209FCF8  data
+ *   _PokeTypePltOffset  0x0209FCF8  data
  */
 
 typedef unsigned char u8;
 
-extern const u8 d_0209FCF8[];
+extern const u8 _PokeTypePltOffset[];
 
 u8 func_020275EC(int i)
 {
-    return d_0209FCF8[i];
+    return _PokeTypePltOffset[i];
 }

@@ -77,7 +77,6 @@
  *   func_021FB378 0x021FB378 thumb ov186
  *   func_021FC6A4 0x021FC6A4 thumb ov186
  *   func_02034714 0x02034714 arm
- *   d_021F90A0 0x021F90A0 data a1
  *   func_021FB494 0x021FB494 thumb ov186
  *   func_021FC734 0x021FC734 thumb ov186
  *   func_021FD1C4 0x021FD1C4 thumb ov186
@@ -253,7 +252,6 @@ void func_021F8FB0(char *p, char *a1);
 int func_021F8FC8(int a, int b, int c);
 int func_021F9008(int a, int b, int c);
 extern char ov112_id[];
-extern const char d_021F90A0[];
 
 
 
@@ -690,7 +688,7 @@ void func_021F8D98(char *p,char *q)
         func_02082BCC(&cfg,0,8);
         cfg.x=0x50;cfg.y=0xa8;cfg.z=0;cfg.a=1;
         v=(void *)func_021FC4DC(((struct Obj05490 *)q)->f8);
-        if (!func_021FC124(((struct Obj05490 *)q)->fC,6,&triple)) func_02034714(d_021F90A0,0,d_021F90A0);
+        if (!func_021FC124(((struct Obj05490 *)q)->fC,6,&triple)) func_02034714("",0,"");
         ((struct Obj03338 *)p)->f18=func_021FB378(&cfg,4,0x60,1,(int)v,((struct Obj03338 *)p)->f28,a,b,&triple,((struct Obj03338 *)p)->f30);
         ((struct Obj03338 *)p)->f1C=func_021FC6A4(4,8,3,0x10,2,0xe,((struct Obj03338 *)p)->f2C,((struct Obj03338 *)p)->f30);
         func_021FC754(*(char * *)&((struct Obj03338 *)p)->f1C,(void *)b,(void *)0x71,(void *)a,0x3da0);

@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * closed 2026-10-05 (recoup integrator): func_02049658 returns u32 (its matched definition tail-returns sub_0204968C); with the void declaration the later register zeros were copied from the pooled zero; with the real return type the
+ * closed 2026-10-05 (recoup integrator): func_02049658 returns u32 (its matched definition tail-returns ARC_UTIL_UploadBgChar); with the void declaration the later register zeros were copied from the pooled zero; with the real return type the
  *   bytes are EXACT in c99 and c.
  * 2026-10-05 (lane S9, pengy share): twin shape is ov104 func_021B7994 (no exact twin
  * found). Loop, call order and all arguments are right. 508 B vs 492 B, residue:

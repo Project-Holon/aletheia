@@ -1,5 +1,5 @@
 /*
- * function: func_02015CF8
+ * function: MCSS_GetRotate
  * address:  0x02015CF8
  * packet:   pkt_02015CF8
  * region:   arm9
@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-void func_02015CF8(void *p, u32 *out)
+void MCSS_GetRotate(void *p, u32 *out)
 {
     out[0] = ((struct Obj08761 *)p)->fF8;
     out[1] = ((struct Obj08761 *)p)->fFC;

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02049DB4, func_02049DF4, func_02049E34, func_02049E74, func_02049EB4, func_02049EF4, func_02049F34, func_02049F78, func_02049FBC, func_02049FFC
+ * function: func_02049DB4, func_02049DF4, func_02049E34, func_02049E74, ARC_UTIL_LoadPaletteDataFromArchive, func_02049EF4, func_02049F34, func_02049F78, ARC_UTIL_LoadCellBankFromArchive, ARC_UTIL_LoadCellBankFromHandle
  * address:  0x02049DB4
  * packet:   pkt_02049B90
  * region:   arm9
@@ -89,7 +89,7 @@ void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
@@ -137,7 +137,7 @@ void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3)
     return res;
 }
 
-void *func_02049FBC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
@@ -149,7 +149,7 @@ void *func_02049FBC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *func_02049FFC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {

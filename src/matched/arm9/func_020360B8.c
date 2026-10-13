@@ -1,5 +1,5 @@
 /*
- * function: func_020360B8
+ * function: KEY_ApplyControlMode
  * address:  0x020360B8
  * packet:   pkt_020360B8
  * region:   arm9
@@ -68,7 +68,7 @@ static inline void m3(u32 *f, struct Ent *p)
 {
     *f &= p->f00 ^ 0xffff;
 }
-void func_020360B8(struct Obj *o)
+void KEY_ApplyControlMode(struct Obj *o)
 {
     struct Ent *p;
 

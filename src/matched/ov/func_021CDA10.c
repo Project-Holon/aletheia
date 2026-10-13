@@ -1,5 +1,5 @@
 /*
- * function: func_021CDA10
+ * function: DWCi_SceneSetTestConfNopB
  * address:  0x021CDA10
  * packet:   pkt_021CC0E4
  * region:   ov016
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CDA10   0x021CDA10  arm
+ *   DWCi_SceneSetTestConfNopB   0x021CDA10  arm
  *
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CDA10.c \
- *       --func func_021CDA10 --addr 0x021CDA10 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetTestConfNopB.c \
+ *       --func DWCi_SceneSetTestConfNopB --addr 0x021CDA10 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void func_021CDA10(void)
+void DWCi_SceneSetTestConfNopB(void)
 {
 }

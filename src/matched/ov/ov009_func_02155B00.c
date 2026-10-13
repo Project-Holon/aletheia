@@ -1,5 +1,5 @@
 /*
- * function: func_02155B00
+ * function: DWC_RAP_SendAck
  * address:  0x02155B00
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,14 +12,14 @@
  * Flag test on the three-argument call.
  *
  * symbols:
- *   func_02155A80  0x02155A80  thumb  ov009
+ *   DWC_RAP_SendPacket  0x02155A80  thumb  ov009
  */
 
-extern int func_02155A80(void *src, int len, int c);
+extern int DWC_RAP_SendPacket(void *src, int len, int c);
 
-int func_02155B00(int a, int b)
+int DWC_RAP_SendAck(int a, int b)
 {
-    if (func_02155A80((void *)a, b, 3) != 0) {
+    if (DWC_RAP_SendPacket((void *)a, b, 3) != 0) {
         return 1;
     }
 

@@ -12,9 +12,9 @@
  * sdk:      WCMi_WmifConnectAsync (libwcm.TWL.HYB.a wmif.o)
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
- *   func_02090DEC  0x02090DEC  arm
- *   func_02165A4C  0x02165A4C  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
+ *   WM_SetLifeTime  0x02090DEC  arm
+ *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   func_02166F24  0x02166F24  arm  ov009
  *
  * Starts a WM connection by setting the life times, then maps the WM result to a WCM result and phase.
@@ -31,9 +31,9 @@ typedef struct WCMWork {
     unsigned short field1310;
 } WCMWork;
 
-extern int func_021657C8(void);
-extern long func_02090DEC(void (*callback)(void *), unsigned short tableNumber, unsigned short camLifeTime, unsigned short frameLifeTime, unsigned short mpLifeTime);
-extern void func_02165A4C(unsigned char phase);
+extern int WCMi_GetSystemWork(void);
+extern long WM_SetLifeTime(void (*callback)(void *), unsigned short tableNumber, unsigned short camLifeTime, unsigned short frameLifeTime, unsigned short mpLifeTime);
+extern void WCMi_SetPhase(unsigned char phase);
 extern void func_02166F24(void *arg);
 
 long func_02166B2C(void)
@@ -41,21 +41,21 @@ long func_02166B2C(void)
     WCMWork *wcmw;
     long wmResult;
 
-    wcmw = (WCMWork *)func_021657C8();
+    wcmw = (WCMWork *)WCMi_GetSystemWork();
     if (wcmw->phase == 3) {
         wcmw->field1310 = wcmw->field130E | 3;
     }
-    wmResult = func_02090DEC(func_02166F24, 0xFFFF, 0x50, 0xFFFF, 0xFFFF);
+    wmResult = WM_SetLifeTime(func_02166F24, 0xFFFF, 0x50, 0xFFFF, 0xFFFF);
     switch (wmResult) {
     case 2:
-        func_02165A4C(8);
+        WCMi_SetPhase(8);
         wcmw->notify = 5;
         break;
     case 8:
         return 4;
     case 3:
     default:
-        func_02165A4C(11);
+        WCMi_SetPhase(11);
         return 7;
     }
     return 3;

@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02035C60 0x02035C60 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA324 0x021BA324 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133
@@ -18,7 +18,7 @@
 #include "../include/Obj00004.h"
 typedef unsigned char u8;
 extern int func_02035C60(void);
-extern unsigned int func_02035CB8(unsigned int *outA, unsigned int *outB);
+extern unsigned int TOUCHPANEL_GetPointCont(unsigned int *outA, unsigned int *outB);
 extern void *func_021BA184(char *p);
 extern unsigned int func_021BA324(u8 *, int, int);
 typedef unsigned int   u32;
@@ -31,7 +31,7 @@ void func_021B952C(u8 *p)
     *(int *)&((struct Obj00004 *)p)->f24 = ((struct Obj00004 *)p)->f1C;
     *(int *)&((struct Obj00004 *)p)->f28 = *(int *)&((struct Obj00004 *)p)->f20;
     ((struct Obj00004 *)p)->f14 = func_02035C60();
-    ((struct Obj00004 *)p)->f18 = func_02035CB8((unsigned int *)(p + 0x1c), (unsigned int *)(p + 0x20));
+    ((struct Obj00004 *)p)->f18 = TOUCHPANEL_GetPointCont((unsigned int *)(p + 0x1c), (unsigned int *)(p + 0x20));
     if (((struct Obj00004 *)p)->f14 == 1) {
         best = 0;
         distance = 256;

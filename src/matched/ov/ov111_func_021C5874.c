@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207C778  0x0207C778  arm
+ *   FX_Inv  0x0207C778  arm
  *   func_02087AE4  0x02087AE4  arm
  *   func_0207D59C  0x0207D59C  arm
  *
@@ -27,7 +27,7 @@ struct Mtx {
     fx32 _11;
 };
 
-extern fx32 func_0207C778(fx32 v);
+extern fx32 FX_Inv(fx32 v);
 extern void func_02087AE4(void);
 extern void func_0207D59C(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
 
@@ -36,8 +36,8 @@ void func_021C5874(void)
     struct Mtx m;
     fx32 a, d;
 
-    a = func_0207C778(0x1000);
-    d = func_0207C778(0x1000);
+    a = FX_Inv(0x1000);
+    d = FX_Inv(0x1000);
     m._00 = a;
     m._01 = 0;
     m._10 = 0;

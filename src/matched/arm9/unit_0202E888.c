@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_0203F4E4  0x0203F4E4  arm
- *   func_0201298C  0x0201298C  thumb
+ *   GAME_DATA_SetSeason  0x0201298C  thumb
  *
  * Four small date helpers. sub_0202E888 asks the ARM clock getter for a
  * 0x10-byte record and reduces its second word to a two-bit value;
@@ -59,7 +59,7 @@ struct Date0202E888 {
 
 struct RtcDate;
 extern void func_0203F4E4(struct RtcDate *date);
-extern u8 func_0201298C(s32 a, u8 b);
+extern u8 GAME_DATA_SetSeason(s32 a, u8 b);
 
 u8 sub_0202E888(void)
 {
@@ -81,5 +81,5 @@ u8 sub_0202E8B8(s32 x)
 
 u8 sub_0202E8CC(s32 a, s32 b)
 {
-    return func_0201298C(a, (u8)b);
+    return GAME_DATA_SetSeason(a, (u8)b);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B19AC
+ * function: VCT_AUDIO_GetReadyCount
  * address: 0x021B19AC
  * packet: pkt_ov013_021B19AC
  * region: ov013
@@ -9,7 +9,7 @@
  * isa: arm
  * status: EXACT
  * symbols:
- *   d_021B4BB8 0x021B4BB8 data a4
+ *   gVctReadyCount 0x021B4BB8 data a4
  */
-extern int d_021B4BB8[];
-int func_021B19AC(unsigned int i) { return d_021B4BB8[i]; }
+extern int gVctReadyCount[];
+int VCT_AUDIO_GetReadyCount(unsigned int i) { return gVctReadyCount[i]; }

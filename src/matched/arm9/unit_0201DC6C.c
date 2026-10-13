@@ -8,11 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201DC6C, func_0201DC80
+ * function: GF_FONT_GetCharWidth, func_0201DC80
  *
  * The gf_font.c width query and the accessor for the byte at +0x59.
  *
- * func_0201DC6C returns whatever the function pointer at +0x6C returns, and the
+ * GF_FONT_GetCharWidth returns whatever the function pointer at +0x6C returns, and the
  * tail call shape (`ldr r2, [r4, #0x6c]`, `blx r2`, `pop {r4, pc}`) is the same
  * bytes whether the C declares a return value or not, so the return type is
  * fixed by the caller instead: func_0201D528 adds the result to a running width.
@@ -25,6 +25,9 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201DC6C.c \
  *       --addr 0x0201DC6C --thumb
+ *
+ * symbols:
+ *   GF_FONT_GetGlyphIndex  0x0201DB20  thumb
  */
 
 typedef unsigned char  u8;
@@ -61,11 +64,11 @@ struct Font {
     void *unk90;
 };
 
-extern u32 func_0201DB20(struct Font *p, u16 ch);
+extern u32 GF_FONT_GetGlyphIndex(struct Font *p, u16 ch);
 
-u32 func_0201DC6C(struct Font *p, u16 ch)
+u32 GF_FONT_GetCharWidth(struct Font *p, u16 ch)
 {
-    return ((u32 (*)(struct Font *, u32))p->unk6C)(p, func_0201DB20(p, ch));
+    return ((u32 (*)(struct Font *, u32))p->unk6C)(p, GF_FONT_GetGlyphIndex(p, ch));
 }
 
 u32 func_0201DC80(struct Font *p)

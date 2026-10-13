@@ -10,7 +10,7 @@
  * status: EXACT
  * blocker: 0x02045CAC arm9, two call sites have no outside witness.
  * Existing unit src/matched/arm9/unit_02045C44.c contains its body but
- * lists only func_02045C44 in function:, omitting func_02045CAC.
+ * lists only MSGDATA_CreateFromMemory in function:, omitting func_02045CAC.
  * Lever: unsigned long win and distinct pointer/u32/unsigned-long address
  * expressions reproduce recomputation and colours; enum win leaves 10B.
  * symbols:
@@ -42,13 +42,13 @@
  *     u8 langIndex;
  *     u8 resident;
  * };
- * extern char g_020A7E8C[];
+ * extern char MSGDATA_AllocSite[];
  * extern void *sub_02030734(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
- * extern void func_020495F4(void *,u32,void *);
+ * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
- * extern void func_0204581C(void *);
- * extern void func_02045A00(void *,const void *,u16);
+ * extern void STRBUF_Clear(void *);
+ * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
  * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
@@ -56,14 +56,14 @@
  *     u32 size;
  *     struct MsgEntry *e;
  *     if (index >= bank->file->count) {
- *         func_0204581C(dest);
+ *         STRBUF_Clear(dest);
  *         return;
  *     }
  *     func_02046180(bank);
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *         func_0204960C(bank->stream,pos + (index * 8 + 4));
- *         func_020495F4(bank->stream,8,&bank->cache);
+ *         ARC_TOOL_ReadHandle(bank->stream,8,&bank->cache);
  *         e = &bank->cache;
  *     } else {
  *         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
@@ -72,17 +72,17 @@
  *         void *buf;
  *         size = e->len * 2;
  *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
- *                            0,g_020A7E8C,0xd6);
+ *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
- *             func_020495F4(bank->stream,size,buf);
- *             func_02045A00(dest,buf,e->len);
+ *             ARC_TOOL_ReadHandle(bank->stream,size,buf);
+ *             STRBUF_SetChars(dest,buf,e->len);
  *             func_020307B0(buf);
  *         }
  *     } else {
- *         func_02045A00(dest,(u8 *)bank->base + e->off,e->len);
+ *         STRBUF_SetChars(dest,(u8 *)bank->base + e->off,e->len);
  *     }
  *     func_02045E04(dest,index);
  * }

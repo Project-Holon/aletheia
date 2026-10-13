@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B838 0x0204B838 arm
+ *   CLACT_GetActorDrawPriority 0x0204B838 arm
  */
 #include "../include/Obj24826.h"
 /* Callee's complete leaf reads only r0; legacy r1-r3 are unused, unforwarded. */
-extern int func_0204B838(int);
-int func_021FB594(char *p) { return func_0204B838(((struct Obj24826 *)p)->f0); }
+extern int CLACT_GetActorDrawPriority(int);
+int func_021FB594(char *p) { return CLACT_GetActorDrawPriority(((struct Obj24826 *)p)->f0); }

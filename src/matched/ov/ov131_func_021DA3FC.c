@@ -1,5 +1,5 @@
 /*
- * function: func_021DA3FC
+ * function: P_STA_SKILL_DrawHpBar
  * address: 0x021DA3FC
  * packet: pkt_ov131_021DA3FC
  * region: ov131
@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: two-byte zero alignment padding at 0x021DA486.
  * symbols:
- *   func_021D60A4 0x021D60A4 thumb ov131
+ *   P_STATUS_GetPokeParaSource 0x021D60A4 thumb ov131
  *   func_02017E1C 0x02017E1C thumb
  *   func_0202D034 0x0202D034 thumb
  *   func_0202D01C 0x0202D01C thumb
@@ -19,7 +19,7 @@
 #include "../include/Obj01061.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021D60A4(char *p);
+extern int P_STATUS_GetPokeParaSource(char *p);
 typedef unsigned int   u32;
 struct Bmp;
 struct Descriptor;
@@ -28,11 +28,11 @@ extern int func_0202D034(u32 a, u32 b);
 extern u8 func_0202D01C(u32 a, u32 b, u32 c);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-void func_021DA3FC(u8 *a,u8 *b) {
+void P_STA_SKILL_DrawHpBar(u8 *a,u8 *b) {
     void *p,*bmp;
     u16 x,y;
     int kind,value,first,last;
-    p=(void *)func_021D60A4((char *)a);
+    p=(void *)P_STATUS_GetPokeParaSource((char *)a);
     x=func_02017E1C(p,161,0);
     y=func_02017E1C(p,160,0);
     kind=func_0202D034(y,x);

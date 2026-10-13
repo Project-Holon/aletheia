@@ -15,7 +15,7 @@
  *
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_02176978  0x02176978  arm  ov009
+ *   DWCi_GetNodeInfoCount  0x02176978  arm  ov009
  *   func_02175F4C  0x02175F4C  arm  ov009
  *   func_0217637C  0x0217637C  arm  ov009
  *   func_02172604  0x02172604  arm  ov009
@@ -55,7 +55,7 @@ typedef struct {
 } MatchCnt;
 
 extern MatchCnt *func_02175F3C(void);
-extern int func_02176978(void);
+extern int DWCi_GetNodeInfoCount(void);
 extern void func_02175F4C(int state);
 extern char *func_0217637C(int index);
 extern int func_02172604(void);
@@ -74,8 +74,8 @@ int func_0217273C(void)
     result = 0;
     tmpNewNodeInfo = func_02175F3C()->newNodeInfo;
     pNew = &tmpNewNodeInfo;
-    if (func_02175F3C()->linkProgress < func_02176978() - 1) {
-        linkProgress = func_02176978() - 1 - func_02175F3C()->linkProgress;
+    if (func_02175F3C()->linkProgress < DWCi_GetNodeInfoCount() - 1) {
+        linkProgress = DWCi_GetNodeInfoCount() - 1 - func_02175F3C()->linkProgress;
         func_02175F4C(0x10);
         pNodeInfo = (NodeInfo *)func_0217637C(linkProgress);
         senddata[0] = pNodeInfo->profileID;

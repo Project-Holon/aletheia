@@ -13,38 +13,34 @@
  *   func_0218ECE4  0x0218ECE4  thumb  ov021
  *   func_0218ECF4  0x0218ECF4  thumb  ov021
  */
-#include "../../../matched/include/Obj02115.h"
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef struct { u32 a, b, c; } Vec3;
-extern void func_0218ECE4(u8 *a, Vec3 *out);
-extern void func_0218ECF4(u8 *a, const Vec3 *p);
+#include "../unit_021F36C0_types.h"
 
-void func_021F4000(u8 *p, u8 *obj)
+/* One step of the camera bounce: raise the camera eye a half unit, then lower it, twice. */
+void func_021F4000(Gimmick41Bounce *bounce, struct FieldCamera *camera)
 {
     int step;
-    Vec3 v;
+    VecFx32 eye;
 
-    if (((struct Obj02115 *)p)->f0 != 0) {
-        p[15]++;
-        if (p[12] == 0) {
-            if (p[13] % 2 == 0) {
+    if (bounce->active != 0) {
+        bounce->tick++;
+        if (bounce->wait == 0) {
+            if (bounce->phase % 2 == 0) {
                 step = 0x8000;
             } else {
                 step = -0x8000;
-                p[14]++;
+                bounce->downSteps++;
             }
-            p[13] = (p[13] + 1) % 2;
-            func_0218ECE4(obj, &v);
-            v.b += step;
-            func_0218ECF4(obj, &v);
-            p[12] = 1;
+            bounce->phase = (bounce->phase + 1) % 2;
+            func_0218ECE4(camera, &eye);
+            eye.y += step;
+            func_0218ECF4(camera, &eye);
+            bounce->wait = 1;
         } else {
-            p[12]--;
+            bounce->wait--;
         }
-        if (p[14] >= 2) {
-            ((struct Obj02115 *)p)->f0 = 0;
-            ((struct Obj02115 *)p)->f4 = 1;
+        if (bounce->downSteps >= 2) {
+            bounce->active = 0;
+            bounce->finished = 1;
         }
     }
 }

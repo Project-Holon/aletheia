@@ -19,66 +19,60 @@
  *   func_021C88A4   0x021C88A4  thumb ov093
  *   func_021C88C8   0x021C88C8  thumb ov093
  */
-#include "../../matched/include/Obj06255.h"
+#include "unit_021D9ADC_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
-
-extern int func_021D775C(int a);
-extern u8 func_021C7D54(u8 *p, u8 *k, u8 *out);
-extern void *func_021C7CF4(int *p, int i);
-extern int func_021D59B4(u8 *p, int k);
-/* lo/hi sums are u16 accumulators; a u8 third parameter keeps its reload
+extern int func_021D775C(int varId);
+extern u8 func_021C7D54(u8 *flowWork, u8 *pokeId, u8 *outFoeIds);
+extern void *func_021C7CF4(int *flowWork, int pokeId);
+extern int func_021D59B4(u8 *pokeParam, int valueId);
+/* The defense sums are u16 accumulators; a u8 third parameter keeps its reload
    after the +0xf store. */
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
+extern void *func_021C88A4(char *flowWork, int kind, int pokeId);
+extern void func_021C88C8(void *flowWork, void *record);
 
-void func_021DA32C(int a, int b, u8 c)
+/* Download: on entering the field, compare the foes' total Defense and Special
+   Defense and raise Attack or Special Attack by one stage accordingly. */
+void func_021DA32C(int myHandle, int flowWork, u8 pokeId)
 {
-    u8 buf[4];
-    u8 n;
-    u16 lo;
-    u16 hi;
+    u8 foeIds[4];
+    u8 foeCount;
+    u16 defenseSum;
+    u16 spDefenseSum;
     u8 i;
-    int k;
-    void *q;
-    u8 *p;
+    int rankKind;
+    void *foe;
+    struct HandExRankEffect *record;
 
-    if (c != func_021D775C(2))
+    if (pokeId != func_021D775C(HANDVAR_POKE_ID))
         return;
-    n = func_021C7D54((u8 *)b, (u8 *)c, buf);
-    if (n == 0)
+    foeCount = func_021C7D54((u8 *)flowWork, (u8 *)pokeId, foeIds);
+    if (foeCount == 0)
         return;
-    lo = 0;
-    hi = 0;
-    for (i = 0; i < n; i++) {
-        q = func_021C7CF4((int *)b, buf[i]);
-        lo = lo + (u16)func_021D59B4(q, 9);
-        hi = hi + (u16)func_021D59B4(q, 0xb);
+    defenseSum = 0;
+    spDefenseSum = 0;
+    for (i = 0; i < foeCount; i++) {
+        foe = func_021C7CF4((int *)flowWork, foeIds[i]);
+        defenseSum = defenseSum + (u16)func_021D59B4(foe, BPP_VALUE_DEFENSE);
+        spDefenseSum = spDefenseSum + (u16)func_021D59B4(foe, BPP_VALUE_SP_DEFENSE);
     }
-    if (lo >= hi)
-        k = 3;
+    if (defenseSum >= spDefenseSum)
+        rankKind = BTL_RANK_SP_ATTACK;
     else
-        k = 1;
-    p = func_021C88A4((char *)b, 0xe, c);
-    ((struct Obj06255 *)p)->f0 |= 2 << 22;
-    p[0xf] = 1;
-    p[0x10] = c;
-    ((struct Obj06255 *)p)->f4 = k;
-    p[0xc] = 1;
-    func_021C88C8((void *)b, p);
+        rankKind = BTL_RANK_ATTACK;
+    record = func_021C88A4((char *)flowWork, HANDEX_KIND_RANK_EFFECT, pokeId);
+    record->header |= HANDEX_FLAG_SHOW_ABILITY;
+    record->pokeCount = 1;
+    record->pokeId = pokeId;
+    record->rankKind = rankKind;
+    record->volume = 1;
+    func_021C88C8((void *)flowWork, record);
 }
 
 
 extern int d_021F0970[];
-int *func_021DA3CC(int *p);
 
-int *func_021DA3CC(int *p)
+int *func_021DA3CC(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F0970;
 }

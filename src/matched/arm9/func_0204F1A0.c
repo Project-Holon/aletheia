@@ -1,5 +1,5 @@
 /*
- * function: func_0204F1A0
+ * function: BILLBOARD_ReleaseImageVramIfUsed
  * address:  0x0204F1A0
  * packet:   pkt_0204F1A0
  * region:   arm9
@@ -35,8 +35,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204F1A0.c \
- *       --func func_0204F1A0 --addr 0x0204F1A0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ReleaseImageVramIfUsed.c \
+ *       --func BILLBOARD_ReleaseImageVramIfUsed --addr 0x0204F1A0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -53,7 +53,7 @@ typedef struct Obj0204F1A0 {
 extern Fn0204F1A0 g_020A8144;
 extern Fn0204F1A0 g_020A814C;
 
-void func_0204F1A0(Obj0204F1A0 *a0, u32 a1)
+void BILLBOARD_ReleaseImageVramIfUsed(Obj0204F1A0 *a0, u32 a1)
 {
     u32 off = a1 * 0x28;
 

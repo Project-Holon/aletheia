@@ -15,16 +15,16 @@
  *   func_021D4988 0x021D4988 thumb ov120
  *   func_021D4A20 0x021D4A20 thumb ov120
  *   func_021D4244 0x021D4244 thumb ov120
- *   func_0203D644 0x0203D644 arm
+ *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   func_02009CA8 0x02009CA8 thumb
  *   func_021D4F70 0x021D4F70 thumb ov120
  *   func_02082D44 0x02082D44 arm
  *   func_0216C8DC 0x0216C8DC arm ov009
  *   func_0208D7E0 0x0208D7E0 arm
- *   func_0215580C 0x0215580C thumb ov009
- *   func_0203C35C 0x0203C35C arm
- *   func_02156BC4 0x02156BC4 thumb ov009
- *   func_0203C9AC 0x0203C9AC arm
+ *   DWC_RAP_StartMatchWithFilter 0x0215580C thumb ov009
+ *   GFL_NET_STATE_WifiEnterFriendMatch 0x0203C35C arm
+ *   DWC_RAP_SetVchatEnabled 0x02156BC4 thumb ov009
+ *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   d_021D8B40 0x021D8B40 data a2
  *   d_021D8B50 0x021D8B50 data a1
  */
@@ -41,17 +41,17 @@ extern void func_021D505C(int a, int b, int *p);
 extern void func_021D4988(int *a);
 extern int func_021D4A20(int, u8 *);
 extern void func_021D4244(int *p, int v, int a2);
-extern void func_0203D644(int);
+extern void GFL_NET_SetWaitMode(int);
 extern void func_02009CA8(void *account, void *out);
 extern void *func_021D4F70(void **p, int i);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_02082D44(const void *, void *, u32);
 extern u8 func_0216C8DC(u8 keyID, char *keyString, int *valueSrc);
 extern int func_0208D7E0(char *, const char *, ...);
-extern int func_0215580C(int, int, int, int);
-extern u32 func_0203C35C(void);
-extern void func_02156BC4(int);
-extern void func_0203C9AC(int, u32, u32, u32);
+extern int DWC_RAP_StartMatchWithFilter(int, int, int, int);
+extern u32 GFL_NET_STATE_WifiEnterFriendMatch(void);
+extern void DWC_RAP_SetVchatEnabled(int);
+extern void GFL_NET_STATE_SetError(int, u32, u32, u32);
 extern const u16 d_021D8B40[];
 extern const char d_021D8B50[];
 void func_021D4B48(u8 *p)
@@ -66,7 +66,7 @@ void func_021D4B48(u8 *p)
             func_021D4244((int *)p, (int)func_021D4988, 0x3ea);
             return;
         }
-        func_0203D644(0);
+        GFL_NET_SetWaitMode(0);
         func_02009CA8((void *)(((struct Obj01539 *)p)->f44), values);
         values[0] = ((struct Obj01539 *)p)->f14C;
         values[1] = ((struct Obj01539 *)p)->f138;
@@ -92,13 +92,13 @@ void func_021D4B48(u8 *p)
             r->kind = func_0216C8DC(r->kind, (char *)(&r->detail), (int *)r);
         }
         func_0208D7E0((char *)p + 0xb8, d_021D8B50, ((struct Obj01539 *)p)->f138, 1);
-        if (func_0215580C((int)p + 0xb8, 2, (int)func_021D4A20, (int)p)) {
-            func_0203C35C();
-            func_02156BC4(0);
+        if (DWC_RAP_StartMatchWithFilter((int)p + 0xb8, 2, (int)func_021D4A20, (int)p)) {
+            GFL_NET_STATE_WifiEnterFriendMatch();
+            DWC_RAP_SetVchatEnabled(0);
             func_021D8590(*(u8 * *)&((struct Obj01539 *)p)->f40, (int)func_021D505C, (int)p);
             func_021D4244((int *)p, (int)func_021D4988, 0x41d);
             return;
         }
-        func_0203C9AC(0, 0, 0, 0x3f1);
+        GFL_NET_STATE_SetError(0, 0, 0, 0x3f1);
     }
 }

@@ -25,7 +25,7 @@
  *   func_02045770  0x02045770  arm
  *   func_02043B5C  0x02043B5C  arm
  *   func_02045994  0x02045994  arm
- *   func_0202435C  0x0202435C  thumb
+ *   PMSI_PARAM_ToString  0x0202435C  thumb
  *   func_02045808  0x02045808  arm
  *   func_02045334  0x02045334  arm
  *   func_02045374  0x02045374  arm
@@ -45,7 +45,7 @@ extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f)
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
-extern void *func_0202435C(void *slots, unsigned int heap);
+extern void *PMSI_PARAM_ToString(void *slots, unsigned int heap);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045334(struct Descriptor *);
 extern void func_02045374(struct Cfg *);
@@ -102,7 +102,7 @@ void func_021B9FF0(char *p, struct Rec *tbl, int idx)
         ws = *(void **)(p + 0xE8);
         func_0201C724(ws, (u32)func_02045770(*(struct Descriptor **)(p + 0xD0)), 0, 0x10, (u32)(*(void **)(p + 0xFC)), (u32)(*(void **)(p + 0xC)), 0x3DC0);
         *(u8 *)(p + 0xD4) = 1;
-        str = func_0202435C((void *)name, 0x80);
+        str = PMSI_PARAM_ToString((void *)name, 0x80);
         ws = *(void **)(p + 0xE8);
         func_0201C724(ws, (u32)func_02045770(*(struct Descriptor **)(p + 0xE0)), 0, 0, (u32)str, (u32)(*(void **)(p + 0xC)), 0x3DC0);
         *(u8 *)(p + 0xE4) = 1;

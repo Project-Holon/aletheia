@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0204BD3C
+ * function: CLACT_InitOamManager
  * address:  0x0204BD3C
  * packet:   pkt_0204BCF4
  * region:   arm9
@@ -14,7 +14,7 @@
 #include "../include/Obj11428.h"
 
 extern unsigned int func_02063138(void *p, int a, int b, int which);
-void func_0204BD3C(char *p, int a, int b, int which)
+void CLACT_InitOamManager(char *p, int a, int b, int which)
 {
     if (b == 0) {
         ((struct Obj11428 *)p)->f1C = 0;

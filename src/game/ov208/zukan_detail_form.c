@@ -58,10 +58,10 @@
  *   func_02043AF4 0x02043AF4 arm
  *   func_020439A0 0x020439A0 arm
  *   ov208_func_021C3A24 0x021C3A24 thumb ov208
- *   func_02006B5C 0x02006B5C thumb
- *   func_02006B94 0x02006B94 thumb
- *   func_02006B3C 0x02006B3C thumb
- *   func_02006B78 0x02006B78 thumb
+ *   PM_VOICE_GetData 0x02006B5C thumb
+ *   PM_VOICE_GetSampleRate 0x02006B94 thumb
+ *   PM_VOICE_GetFrequency 0x02006B3C thumb
+ *   PM_VOICE_GetDataSize 0x02006B78 thumb
  *   func_02006B20 0x02006B20 thumb
  *   _ffltu 0x0209BE04 arm
  *   _fflt 0x0209BDBC arm
@@ -104,14 +104,14 @@
  *   func_0204047C  0x0204047C  arm
  *   func_0207D4B0  0x0207D4B0  arm
  *   ov208_func_021BCF58  0x021BCF58  thumb  ov208
- *   func_02015EA0  0x02015EA0  thumb
- *   func_02015F50  0x02015F50  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
+ *   MCSS_SetPaletteFade  0x02015F50  thumb
  *   ov208_func_021BC9BC  0x021BC9BC  thumb  ov208
  *   ov208_func_021BC844  0x021BC844  thumb  ov208
  *   ov208_func_021BC758  0x021BC758  thumb  ov208
  *   ov208_func_021BC718  0x021BC718  thumb  ov208
  *   ov208_func_021BC4F4  0x021BC4F4  thumb  ov208
- *   func_0201600C  0x0201600C  thumb
+ *   MCSS_CheckPaletteFade  0x0201600C  thumb
  *   ov208_func_021BC6D8  0x021BC6D8  thumb  ov208
  *   ov208_func_021BDAD0  0x021BDAD0  thumb  ov208
  *   ov208_func_021BC3BC  0x021BC3BC  thumb  ov208
@@ -119,12 +119,12 @@
  *   ov208_func_021BDAD4  0x021BDAD4  thumb  ov208
  *   ov208_func_021BDBB8  0x021BDBB8  thumb  ov208
  *   ov208_func_021BDC48  0x021BDC48  thumb  ov208
- *   func_02012BF8  0x02012BF8  thumb
+ *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
  *   ov208_func_021BDC14  0x021BDC14  thumb  ov208
  *   ov208_func_021BE840  0x021BE840  thumb  ov208
  *   ov208_func_021BE82C  0x021BE82C  thumb  ov208
  *   ov208_func_021BE844  0x021BE844  thumb  ov208
- *   func_02015EB0  0x02015EB0  thumb
+ *   MCSS_ResetVanishFlag  0x02015EB0  thumb
  *   ov208_func_021BC6C8  0x021BC6C8  thumb  ov208
  *   ov208_func_021BDBA0  0x021BDBA0  thumb  ov208
  *   ov208_func_021BC6F8  0x021BC6F8  thumb  ov208
@@ -134,7 +134,7 @@
  *   ov208_func_021C4FDC  0x021C4FDC  thumb  ov208
  *   ov208_func_021BCF6C  0x021BCF6C  thumb  ov208
  *   func_02030D28  0x02030D28  arm
- *   func_02014C08  0x02014C08  thumb
+ *   MCSS_Main  0x02014C08  thumb
  *   ov208_func_021BC99C  0x021BC99C  thumb  ov208
  *   ov208_func_021BC46C  0x021BC46C  thumb  ov208
  *   ov208_func_021BC678  0x021BC678  thumb  ov208
@@ -142,9 +142,9 @@
  *   ov208_func_021BC40C 0x021BC40C thumb ov208
  *   ov208_func_021BDBEC 0x021BDBEC thumb ov208
  *   ov208_func_021BDC2C 0x021BDC2C thumb ov208
- *   func_02012BE0 0x02012BE0 thumb
+ *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
  *   _u32_div_f 0x0209C2B0 arm
- *   func_02014D2C 0x02014D2C thumb
+ *   MCSS_Draw 0x02014D2C thumb
  *   func_021BC6BC  0x021BC6BC  thumb
  *   func_0201EC64  0x0201EC64  thumb
  *   func_020457B0  0x020457B0  arm
@@ -163,41 +163,41 @@
  *   func_0201C4E4  0x0201C4E4  thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_02041EE4  0x02041EE4  arm
- *   func_02014B08  0x02014B08  thumb
- *   func_02016020  0x02016020  thumb
- *   func_02015BF0  0x02015BF0  thumb
+ *   MCSS_Init  0x02014B08  thumb
+ *   MCSS_SetTextureTransAdrs  0x02016020  thumb
+ *   MCSS_SetOrthoMode  0x02015BF0  thumb
  *   func_0202D060  0x0202D060  thumb
- *   func_02014CB8  0x02014CB8  thumb
+ *   MCSS_OpenHandle  0x02014CB8  thumb
  *   func_02030CB0  0x02030CB0  arm
  *   func_02030CBC  0x02030CBC  arm
- *   func_02014CEC  0x02014CEC  thumb
+ *   MCSS_SetTaskSystem  0x02014CEC  thumb
  *   data_021C8E64  0x021C8E64  data
- *   func_020172AC  0x020172AC  thumb
- *   func_02017168  0x02017168  thumb
- *   func_020159C8  0x020159C8  thumb
- *   func_02015FF0  0x02015FF0  thumb
- *   func_02015E04  0x02015E04  thumb
- *   func_02015CAC  0x02015CAC  thumb
+ *   MCSS_TOOL_SetSpindaSpotHook  0x020172AC  thumb
+ *   MCSS_TOOL_MakeAddWorkFromParam  0x02017168  thumb
+ *   MCSS_Add  0x020159C8  thumb
+ *   MCSS_SetShadowVanishFlag  0x02015FF0  thumb
+ *   MCSS_SetAnmStopFlag  0x02015E04  thumb
+ *   MCSS_SetScale  0x02015CAC  thumb
  *   data_021C8804  0x021C8804  data
- *   func_02015F14  0x02015F14  thumb
- *   func_02015C78  0x02015C78  thumb
+ *   MCSS_GetOfsX  0x02015F14  thumb
+ *   MCSS_SetOfsPosition  0x02015C78  thumb
  *   _fgr  0x0209BBB0  arm
  *   _fsub  0x0209CB8C  arm
  *   _ffix  0x0209C494  arm
- *   func_02015C30  0x02015C30  thumb
+ *   MCSS_GetPosition  0x02015C30  thumb
  *   data_021C8E40  0x021C8E40  data
- *   func_02015EE8  0x02015EE8  thumb
+ *   MCSS_GetAnimCtrl  0x02015EE8  thumb
  *   func_02063000  0x02063000  arm
  *   func_02064CBC 0x02064CBC arm
- *   func_02015E4C 0x02015E4C thumb
- *   func_02016380  0x02016380  thumb
+ *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
+ *   MCSS_RequestAnimeStopAtStart  0x02016380  thumb
  *   func_020490F4  0x020490F4  arm
  *   func_0201BC3C  0x0201BC3C  thumb
  *   func_0204ACEC  0x0204ACEC  arm
  *   func_0201BC78  0x0201BC78  thumb
  *   func_0201BCEC  0x0201BCEC  thumb
  *   func_0204AF28  0x0204AF28  arm
- *   func_0201BABC  0x0201BABC  thumb
+ *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   func_0204A6C8  0x0204A6C8  arm
  *   func_0204B294  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
@@ -214,7 +214,7 @@
  *   data_021C8810  0x021C8810  data
  *   data_021C87FC  0x021C87FC  data
  *   func_0200D288  0x0200D288  thumb
- *   func_02015C48  0x02015C48  thumb
+ *   MCSS_SetPosition  0x02015C48  thumb
  *   func_021C7534 0x021C7534 thumb ov208
  *   func_021C4EAC  0x021C4EAC  thumb
  *   func_021BC3B4  0x021BC3B4  thumb
@@ -245,10 +245,10 @@
  *   func_0204B3F4 0x0204B3F4 arm
  *   func_0203633C 0x0203633C arm
  *   func_0204B878 0x0204B878 arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   func_0204B98C  0x0204B98C  arm
  *   func_0204B404        0x0204B404  arm
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_021C80CC        0x021C80CC  thumb
  *   func_021C7D80        0x021C7D80  thumb
  *   func_021C5CF0        0x021C5CF0  thumb
@@ -261,6 +261,10 @@
  *   data_021C87C0  0x021C87C0  data
  *   data_021C8854  0x021C8854  data
  *   func_021C7FF8 0x021C7FF8  thumb  ov208
+ *   MCSS_Exit  0x02014BA8  thumb  arm9
+ *   MCSS_CloseHandle  0x02014CD4  thumb  arm9
+ *   MCSS_Del  0x02015BA4  thumb  arm9
+ *   CLACT_SetActorScale  0x0204B5AC  arm  arm9
  */
 #include "../../matched/include/Obj09208.h"
 #include "../../matched/include/Obj00146.h"
@@ -447,7 +451,7 @@ struct Ov208PoseEnt {
 };
 
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 extern void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02045334(struct Descriptor *);
@@ -493,10 +497,10 @@ extern void func_02043AF4(struct Bmp *p,u32 a,u32 b,u32 c,u32 d,u32 e);
 extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
                           int sx, int sy, u32 w, u32 h, u32 key);
 extern void ov208_func_021C3A24(u16 *heap, struct Ov208Form *p, int key);
-extern u32 func_02006B5C(u32 i);
-extern u32 func_02006B94(u32 i);
-extern u32 func_02006B3C(u32 i);
-extern u32 func_02006B78(u32 i);
+extern u32 PM_VOICE_GetData(u32 i);
+extern u32 PM_VOICE_GetSampleRate(u32 i);
+extern u32 PM_VOICE_GetFrequency(u32 i);
+extern u32 PM_VOICE_GetDataSize(u32 i);
 extern s8 func_02006B20(u32 i);
 extern u16 func_02045768(struct Descriptor *p);
 extern void func_02041090(u32 index,u32 a,u32 b,u32 c,u8 d,u8 e);
@@ -533,15 +537,15 @@ extern void func_020414AC(u32 bgId);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void ov208_func_021BCF58(void *s, int x);
-extern void func_02015EA0(void *p);
-extern void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32_021C31CC step, u32 e);
+extern void MCSS_SetVanishFlag(void *p);
+extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32_021C31CC step, u32 e);
 extern u32  ov208_func_021BC9BC(int skip, u16 heap, u8 layer, u8 count, u8 pal, u8 palOfs,
                                 u32 arc, u32 chr, u32 scr, u32 cell, u32 chrOfs);
 extern u32  ov208_func_021BC844(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal);
 extern void ov208_func_021BC758(u32 fade);
 extern void ov208_func_021BC718(u32 fade);
 extern void ov208_func_021BC4F4(int sub, u32 blend);
-extern int func_0201600C(void *p);
+extern int MCSS_CheckPaletteFade(void *p);
 extern void ov208_func_021BC6D8(u32 fade);
 extern int  ov208_func_021BDAD0(void *s);
 extern u16  ov208_func_021BC3BC(char *p);
@@ -549,12 +553,12 @@ extern void ov208_func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
 extern void ov208_func_021BDAD4(void *s, int v);
 extern void ov208_func_021BDBB8(void *s, u32 kind);
 extern void ov208_func_021BDC48(void *s, u32 on);
-extern int func_02012BF8(int a0, int a1);
+extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void ov208_func_021BDC14(void *s, int b);
 extern int  ov208_func_021BE840(void *icon);
 extern void ov208_func_021BE82C(void *icon, int kind);
 extern void ov208_func_021BE844(void *icon);
-extern void func_02015EB0(void *p);
+extern void MCSS_ResetVanishFlag(void *p);
 extern int  ov208_func_021BC6C8(u32 fade);
 extern void ov208_func_021BDBA0(void *s);
 extern void ov208_func_021BC6F8(u32 fade);
@@ -564,7 +568,7 @@ extern void ov208_func_021C51A0(struct Ov208Mdl *mdl, u32 sys);
 extern void ov208_func_021C4FDC(u16 *heap, struct Ov208Form *p, int key);
 extern void ov208_func_021BCF6C(void *s);
 extern void func_02030D28(struct Ctx *c);
-extern void func_02014C08(char *self);
+extern void MCSS_Main(char *self);
 extern void ov208_func_021BC99C(u32 win);
 extern void ov208_func_021BC46C(u32 main, u32 sub);
 extern void ov208_func_021BC678(u32 fade);
@@ -572,8 +576,8 @@ extern void ov208_func_021BC3CC(int key);
 extern void ov208_func_021BC40C(int key);
 extern void ov208_func_021BDBEC(void *sys, int v);
 extern int ov208_func_021BDC2C(void *sys);
-extern void func_02012BE0(void *p, u32 a, u32 b);
-extern void func_02014D2C(struct McssSys *sys);
+extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
+extern void MCSS_Draw(struct McssSys *sys);
 extern void func_021BC6BC(char *p);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
@@ -588,32 +592,32 @@ extern void func_0201C4C0(struct PrintSys *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_0201EFA4(struct WordSet *ws, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
-extern void *func_02014B08(u32 id, void *heap);
-extern void func_02016020(void *p, u32 v);
-extern void func_02015BF0(void *obj);
+extern void *MCSS_Init(u32 id, void *heap);
+extern void MCSS_SetTextureTransAdrs(void *p, u32 v);
+extern void MCSS_SetOrthoMode(void *obj);
 extern int func_0202D060(void);
-extern void func_02014CB8(struct Sub02014CB8Obj *o, u32 x);
+extern void MCSS_OpenHandle(struct Sub02014CB8Obj *o, u32 x);
 extern u32  func_02030CB0(u32 n);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void func_02014CEC(u8 *p, u32 value);
-extern void func_02014CD4(struct Sub02014CB8Obj *o);
-extern void func_02014BA8(u8 *a0);
+extern void MCSS_SetTaskSystem(u8 *p, u32 value);
+extern void MCSS_CloseHandle(struct Sub02014CB8Obj *o);
+extern void MCSS_Exit(u8 *a0);
 extern void func_02030DA4(int);
-extern void func_020172AC(int a0, int a1);
-extern void func_02017168(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, struct Stats *out, u32 a6);
-extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
-extern void func_02015FF0(char *p, int v);
-extern void func_02015E04(void *p);
-extern void func_02015CAC(void *p, u32 *src);
-extern void func_02015BA4(void *sys, void *obj);
-extern s16 func_02015F14(void *p);
-extern void func_02015C78(void *p, u32 *src);
-extern void func_02015C30(void *p, u32 *out);
-extern void *func_02015EE8(void *p);
+extern void MCSS_TOOL_SetSpindaSpotHook(int a0, int a1);
+extern void MCSS_TOOL_MakeAddWorkFromParam(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, struct Stats *out, u32 a6);
+extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
+extern void MCSS_SetShadowVanishFlag(char *p, int v);
+extern void MCSS_SetAnmStopFlag(void *p);
+extern void MCSS_SetScale(void *p, u32 *src);
+extern void MCSS_Del(void *sys, void *obj);
+extern s16 MCSS_GetOfsX(void *p);
+extern void MCSS_SetOfsPosition(void *p, u32 *src);
+extern void MCSS_GetPosition(void *p, u32 *out);
+extern void *MCSS_GetAnimCtrl(void *p);
 extern void func_02063000(int p0, int p1, int p2, int p3);
 extern void func_02064CBC(struct Obj *x);
-extern void func_02015E4C(void *p);
-extern void func_02016380(void *o);
+extern void MCSS_ResetAnmStopFlag(void *p);
+extern void MCSS_RequestAnimeStopAtStart(void *o);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
@@ -623,7 +627,7 @@ extern s32_021C4E54 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_0204AFD8(u32 i);
 extern void func_0204ADA4(u32 i);
 extern void func_02049238(void *);
-extern u32  func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
+extern u32  POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern s32_021C4E54 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern struct Obj *func_0204B294(void *owner, unsigned int res, unsigned int j, unsigned int k, const void *pos, unsigned short f, unsigned short heap);
 extern void func_0204B92C(struct Obj *obj, u32 v);
@@ -638,7 +642,7 @@ extern void func_0201AE14(void *p);
 extern u16 func_0200CC20(u32 id);
 extern u32 func_0200D144(u8 *p, u16 id, u32 sel, u32 alt, u32 form);
 extern u32 func_0200D288(struct Blk37 *p, u32 which);
-extern void func_02015C48(void *p, u32 *src);
+extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_021C7534(u16 *heap, struct Ov208Form *p, int key);
 extern void func_021C4EAC(void *a0, struct Ov208Form *p, int key);
 extern int func_021BC3B4(int *p);
@@ -663,9 +667,9 @@ extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern u32 func_0204B3F4(struct Obj *p);
 extern u32 func_0203633C(void);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern u32 func_0204B98C(struct Actor *a);
-extern u32  func_02035CB8(u32 *x, u32 *y);
+extern u32  TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
 extern void func_021C80CC(struct Ov208Mdl *u, int k, VecF *v);
 extern void func_021C7D80(u16 *a0, struct Ov208Form *p, int ctx);
 extern void func_021C5CF0(u16 *a0, struct Ov208Form *p, int ctx);
@@ -795,7 +799,7 @@ extern const struct Ov208PoseEnt data_021C8854[15];
  * Hands the element at +0x5C a 0x80 pair and a 0x1000 pair and marks +0x60.
  *
  * Blocker resolved: 0x0204B5AC was matched in arm9 (src/matched/
- * func_0204B5AC.c, shard pkt_0204B5AC), so the call at +0x30 attests as
+ * CLACT_SetActorScale.c, shard pkt_0204B5AC), so the call at +0x30 attests as
  * `matched`.  All 58 concrete bytes equal (the 60-byte listing extent is 58
  * plus two padding bytes); the extent ran two bytes long because the follower
  * has no func_ label.
@@ -812,7 +816,7 @@ void func_021C31CC(int unused, char *q)
     buf.w[0] = 0x1000;
     buf.w[1] = 0x1000;
     func_0204B404((struct Obj *)(*(int *)(q + ((struct Obj09208 *)q)->f5C * 4 + 0x54)), (const struct Vec2 *)buf.h, 1);
-    func_0204B5AC((struct Obj *)(*(int *)(q + ((struct Obj09208 *)q)->f5C * 4 + 0x54)), (struct Pair *)buf.w);
+    CLACT_SetActorScale((struct Obj *)(*(int *)(q + ((struct Obj09208 *)q)->f5C * 4 + 0x54)), (struct Pair *)buf.w);
     ((struct Obj09208 *)q)->f60 = 1;
 }
 
@@ -1226,26 +1230,26 @@ void ov208_func_021C3840(u16 *heap, struct Ov208Form *p, int key, u16 a, u16 b)
     int v;
     s16 w;
     int t;
-    *(s8 * *)&((struct Obj01010 *)p)->f34 = (s8 *)func_02006B5C(((struct Obj01010 *)p)->f64);
+    *(s8 * *)&((struct Obj01010 *)p)->f34 = (s8 *)PM_VOICE_GetData(((struct Obj01010 *)p)->f64);
     ((struct Obj01010 *)p)->f32 = 0;
     if (a == ((struct Obj01010 *)p)->f26 && b == ((struct Obj01010 *)p)->f28)
         return;
     ((struct Obj01010 *)p)->f26 = a;
     ((struct Obj01010 *)p)->f28 = b;
-    ca = func_02006B94(((struct Obj01010 *)p)->f64);
-    cb = func_02006B3C(((struct Obj01010 *)p)->f64);
-    ((struct Obj01010 *)p)->f38 = (u32)(1000.0f * (32768.0f * (float)func_02006B78(((struct Obj01010 *)p)->f64)
+    ca = PM_VOICE_GetSampleRate(((struct Obj01010 *)p)->f64);
+    cb = PM_VOICE_GetFrequency(((struct Obj01010 *)p)->f64);
+    ((struct Obj01010 *)p)->f38 = (u32)(1000.0f * (32768.0f * (float)PM_VOICE_GetDataSize(((struct Obj01010 *)p)->f64)
                                            / (float)(int)ca
                                            / (float)(int)cb) + 0.5f);
     func_02043B5C((struct CharBuf *)(*(struct Bmp * *)&((struct Obj01010 *)p)->f2C), 0);
     k = 0;
     i = 0;
-    while (i < func_02006B78(((struct Obj01010 *)p)->f64)) {
-        cb = func_02006B3C(((struct Obj01010 *)p)->f64);
-        ca = func_02006B94(((struct Obj01010 *)p)->f64);
+    while (i < PM_VOICE_GetDataSize(((struct Obj01010 *)p)->f64)) {
+        cb = PM_VOICE_GetFrequency(((struct Obj01010 *)p)->f64);
+        ca = PM_VOICE_GetSampleRate(((struct Obj01010 *)p)->f64);
         end = (u32)((float)(k + 1) * ((float)(int)ca * (float)(int)cb / 32768.0f / 60.0f / 2.0f));
-        if (end > func_02006B78(((struct Obj01010 *)p)->f64))
-            end = func_02006B78(((struct Obj01010 *)p)->f64);
+        if (end > PM_VOICE_GetDataSize(((struct Obj01010 *)p)->f64))
+            end = PM_VOICE_GetDataSize(((struct Obj01010 *)p)->f64);
         if (k < 0x3c0) {
             lo = 500;
             hi = -500;
@@ -1475,11 +1479,11 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, struct Ov208Form *p, in
         ov208_func_021C52F0(heap, p, key);
         ov208_func_021C580C(heap, p, key);
         func_0204B688((struct Actor *)(*(u32 *)((u8 *)p + W(0x144) * 4 + 0x13c)), 1);
-        func_02015EA0((void *)W(0xc));
-        func_02015F50((struct McssFade *)W(0xc), 16, 16, 0, 0);
+        MCSS_SetVanishFlag((void *)W(0xc));
+        MCSS_SetPaletteFade((struct McssFade *)W(0xc), 16, 16, 0, 0);
         if (W(0x94) != 0) {
-            func_02015EA0((void *)W(0x94));
-            func_02015F50((struct McssFade *)W(0x94), 16, 16, 0, 0);
+            MCSS_SetVanishFlag((void *)W(0x94));
+            MCSS_SetPaletteFade((struct McssFade *)W(0x94), 16, 16, 0, 0);
         }
         W(0x5b4) = ov208_func_021BC9BC(0, *heap, 7, 1, 1, 0, 0x9f, 2, 12, 0x23, 0);
         W(0x5b8) = ov208_func_021BC844(*heap, 3, 3, 1, 2);
@@ -1498,9 +1502,9 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, struct Ov208Form *p, in
         break;
     case 3:
         done = 1;
-        if (func_0201600C((void *)W(0xc)) != 0)
+        if (MCSS_CheckPaletteFade((void *)W(0xc)) != 0)
             done = 0;
-        if (W(0x94) != 0 && func_0201600C((void *)W(0x94)) != 0)
+        if (W(0x94) != 0 && MCSS_CheckPaletteFade((void *)W(0x94)) != 0)
             done = 0;
         if (done) {
             *seq = 4;
@@ -1512,24 +1516,24 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, struct Ov208Form *p, in
                 ov208_func_021BDBB8(scene, 3);
             }
             ov208_func_021BDC48(scene, 0);
-            ov208_func_021BDC14(scene, func_02012BF8(ov208_func_021BC3A4(key), 20));
+            ov208_func_021BDC14(scene, GAME_DATA_CheckSaveFlag(ov208_func_021BC3A4(key), 20));
             if (ov208_func_021BE840(icon) != 2) {
                 ov208_func_021BE82C(icon, 3);
                 ov208_func_021BE844(icon);
             }
-            func_02015EB0((void *)W(0xc));
-            func_02015F50((struct McssFade *)W(0xc), 16, 0, -2, 0);
+            MCSS_ResetVanishFlag((void *)W(0xc));
+            MCSS_SetPaletteFade((struct McssFade *)W(0xc), 16, 0, -2, 0);
             if (W(0x94) != 0) {
-                func_02015EB0((void *)W(0x94));
-                func_02015F50((struct McssFade *)W(0x94), 16, 0, -2, 0);
+                MCSS_ResetVanishFlag((void *)W(0x94));
+                MCSS_SetPaletteFade((struct McssFade *)W(0x94), 16, 0, -2, 0);
             }
         }
         break;
     case 4:
         done = 1;
-        if (func_0201600C((void *)W(0xc)) != 0)
+        if (MCSS_CheckPaletteFade((void *)W(0xc)) != 0)
             done = 0;
-        if (W(0x94) != 0 && func_0201600C((void *)W(0x94)) != 0)
+        if (W(0x94) != 0 && MCSS_CheckPaletteFade((void *)W(0x94)) != 0)
             done = 0;
         if (ov208_func_021BC6C8(W(0x6ac)) == 0 && ov208_func_021BDAD0(scene) == 2
             && ov208_func_021BE840(icon) == 2 && done) {
@@ -1543,7 +1547,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, struct Ov208Form *p, in
             *seq = 6;
             for (i = 0; i < 4; i++) {
                 if (OBJ(i) != 0)
-                    func_02015F50((struct McssFade *)OBJ(i), 0, 0, 0, 0);
+                    MCSS_SetPaletteFade((struct McssFade *)OBJ(i), 0, 0, 0, 0);
             }
         } else {
             ov208_func_021C5D64(heap, p, key);
@@ -1552,7 +1556,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, struct Ov208Form *p, in
     case 6:
         settled = 1;
         for (i = 0; i < 4; i++) {
-            if (OBJ(i) != 0 && func_0201600C((void *)OBJ(i)) != 0) {
+            if (OBJ(i) != 0 && MCSS_CheckPaletteFade((void *)OBJ(i)) != 0) {
                 settled = 0;
                 break;
             }
@@ -1565,7 +1569,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, struct Ov208Form *p, in
                 ov208_func_021BDAE8(scene, 0);
             for (i = 0; i < 4; i++) {
                 if (OBJ(i) != 0)
-                    func_02015F50((struct McssFade *)OBJ(i), 0, 16, -2, 0);
+                    MCSS_SetPaletteFade((struct McssFade *)OBJ(i), 0, 16, -2, 0);
             }
         }
         break;
@@ -1573,7 +1577,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, struct Ov208Form *p, in
         ready = 0;
         idle = 1;
         for (i = 0; i < 4; i++) {
-            if (OBJ(i) != 0 && func_0201600C((void *)OBJ(i)) != 0) {
+            if (OBJ(i) != 0 && MCSS_CheckPaletteFade((void *)OBJ(i)) != 0) {
                 idle = 0;
                 break;
             }
@@ -1605,7 +1609,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, struct Ov208Form *p, in
     }
     if (W(8) != 0) {
         func_02030D28((struct Ctx *)W(0x120));
-        func_02014C08((char *)W(8));
+        MCSS_Main((char *)W(8));
         for (i = 0; i < 4; i++)
             ov208_func_021C5214(&p->item[i]);
     }
@@ -1785,7 +1789,7 @@ void ov208_func_021C4298(void *proc, int *seq, u16 *heap, struct Ov208Form *p, i
         ov208_func_021BDBA0(sys);
         return;
     case 5:
-        func_02012BE0((void *)ov208_func_021BC3A4(key), 0x14, ov208_func_021BDC2C(sys));
+        GAME_DATA_SetSaveFlag((void *)ov208_func_021BC3A4(key), 0x14, ov208_func_021BDC2C(sys));
         ov208_func_021BDBA0(sys);
         return;
     case 22:
@@ -1826,7 +1830,7 @@ void ov208_func_021C4298(void *proc, int *seq, u16 *heap, struct Ov208Form *p, i
 void func_021C47A0(u32 a, u32 b, u32 c, struct Ov208Form *p)
 {
     if (p != 0 && *(struct McssSys * *)&((struct Obj14660 *)p)->f8 != 0)
-        func_02014D2C(*(struct McssSys * *)&((struct Obj14660 *)p)->f8);
+        MCSS_Draw(*(struct McssSys * *)&((struct Obj14660 *)p)->f8);
 }
 
 
@@ -2200,13 +2204,13 @@ void ov208_func_021C4F30(void *unused, struct Ov208Form *p, int key)
 
 void ov208_func_021C4F78(u16 *heap, struct Ov208Form *p, int key)
 {
-    p->cam = (u32)func_02014B08(4, (void *)(*heap));
-    func_02016020((void *)p->cam, 0);
-    func_02015BF0((void *)p->cam);
-    func_02014CB8((struct Sub02014CB8Obj *)p->cam, func_0202D060());
+    p->cam = (u32)MCSS_Init(4, (void *)(*heap));
+    MCSS_SetTextureTransAdrs((void *)p->cam, 0);
+    MCSS_SetOrthoMode((void *)p->cam);
+    MCSS_OpenHandle((struct Sub02014CB8Obj *)p->cam, func_0202D060());
     p->mem = func_02030734(*heap, func_02030CB0(4), 0, data_021C8E64, 0xa53);
     p->heap3d = func_02030CBC(4, p->mem);
-    func_02014CEC((u8 *)p->cam, (u32)p->heap3d);
+    MCSS_SetTaskSystem((u8 *)p->cam, (u32)p->heap3d);
 }
 
 
@@ -2220,8 +2224,8 @@ void ov208_func_021C4F78(u16 *heap, struct Ov208Form *p, int key)
  */
 void func_021C4FDC(u16 *heap, struct Ov208Form *p, int key)
 {
-    func_02014CD4((struct Sub02014CB8Obj *)p->cam);
-    func_02014BA8((u8 *)p->cam);
+    MCSS_CloseHandle((struct Sub02014CB8Obj *)p->cam);
+    MCSS_Exit((u8 *)p->cam);
     func_02030DA4((int)p->heap3d);
     func_020307B0(p->mem);
 }
@@ -2241,12 +2245,12 @@ u32 ov208_func_021C5000(void *sys, u32 species, u32 gender, u32 side, u32 form, 
 
     scale = data_021C8804;
     if (species == 0x147)
-        func_020172AC((int)sys, extra);
-    func_02017168(species, gender, side, form, shiny, (struct Stats *)(&arc), personality);
-    obj = (u32)func_020159C8(sys, 0, 0, 0, (const struct Sub150 *)(&arc));
-    func_02015FF0((char *)obj, 1);
-    func_02015E04((void *)obj);
-    func_02015CAC((void *)obj, (u32 *)(&scale));
+        MCSS_TOOL_SetSpindaSpotHook((int)sys, extra);
+    MCSS_TOOL_MakeAddWorkFromParam(species, gender, side, form, shiny, (struct Stats *)(&arc), personality);
+    obj = (u32)MCSS_Add(sys, 0, 0, 0, (const struct Sub150 *)(&arc));
+    MCSS_SetShadowVanishFlag((char *)obj, 1);
+    MCSS_SetAnmStopFlag((void *)obj);
+    MCSS_SetScale((void *)obj, (u32 *)(&scale));
     ov208_func_021C5090(obj);
     return obj;
 }
@@ -2262,8 +2266,8 @@ u32 ov208_func_021C5000(void *sys, u32 species, u32 gender, u32 side, u32 form, 
  */
 void func_021C5078(int a, int b)
 {
-    func_02015EA0((void *)b);
-    func_02015BA4((void *)a, (void *)b);
+    MCSS_SetVanishFlag((void *)b);
+    MCSS_Del((void *)a, (void *)b);
 }
 
 
@@ -2277,11 +2281,11 @@ void ov208_func_021C5090(u32 obj)
     Vec v;
     float y;
 
-    y = 0.25f * -(float)func_02015F14((void *)obj);
+    y = 0.25f * -(float)MCSS_GetOfsX((void *)obj);
     v.x = FX_F32_TO_FX32(y);
     v.y = 0;
     v.z = 0;
-    func_02015C78((void *)obj, (u32 *)(&v));
+    MCSS_SetOfsPosition((void *)obj, (u32 *)(&v));
 }
 
 
@@ -2294,7 +2298,7 @@ void ov208_func_021C50F8(u32 obj, Vec *out)
 {
     Vec v;
 
-    func_02015C30((void *)obj, (u32 *)(&v));
+    MCSS_GetPosition((void *)obj, (u32 *)(&v));
     out->x = v.x + data_021C8E40.ofs.x;
     out->y = v.y + data_021C8E40.ofs.y;
     out->z = v.z + data_021C8E40.ofs.z;
@@ -2310,7 +2314,7 @@ void ov208_func_021C5128(struct Ov208Mdl *m, u32 heap, void *sys, u32 species, u
 {
     m->obj = ov208_func_021C5000(sys, species, a4, a5, a6, a7, a8, a9);
     m->state = func_02030734(heap, 0x10, 1, data_021C8E64, 0xab1);
-    func_02063000((int)func_02015EE8((void *)m->obj), 1, (int)m->state, (int)ov208_func_021C5248);
+    func_02063000((int)MCSS_GetAnimCtrl((void *)m->obj), 1, (int)m->state, (int)ov208_func_021C5248);
     ov208_func_021C7F6C(m->pos, species, a4, a5, a6, a7, a8, a9);
 }
 
@@ -2349,11 +2353,11 @@ void func_021C51C8(struct Ov208AnmState *s, int side, struct Ov208Form *form)
 void func_021C51D4(struct Ov208Mdl *s)
 {
     if (s->obj != 0 && s->state != 0) {
-        void *r = func_02015EE8((void *)s->obj);
+        void *r = MCSS_GetAnimCtrl((void *)s->obj);
         s->state->f8 = 0;
         s->state->active = 0;
         func_02064CBC(r);
-        func_02015E4C((void *)s->obj);
+        MCSS_ResetAnmStopFlag((void *)s->obj);
     }
 }
 
@@ -2380,9 +2384,9 @@ void ov208_func_021C5214(struct Ov208Mdl *p)
     void *anm;
 
     if (p->obj != 0 && p->state != 0) {
-        anm = func_02015EE8((void *)p->obj);
+        anm = MCSS_GetAnimCtrl((void *)p->obj);
         if (p->state->active != 0) {
-            func_02015E04((void *)p->obj);
+            MCSS_SetAnmStopFlag((void *)p->obj);
             func_02064CBC(anm);
             p->state->active = 0;
         }
@@ -2401,7 +2405,7 @@ void ov208_func_021C5248(struct Ov208Turn *t)
     t->count++;
     if (t->count >= 2)
         t->done = 1;
-    func_02016380((void *)(*(u32 *)(scene + t->side * 0x44 + 0xc)));
+    MCSS_RequestAnimeStopAtStart((void *)(*(u32 *)(scene + t->side * 0x44 + 0xc)));
 }
 
 
@@ -2411,21 +2415,21 @@ void ov208_func_021C5248(struct Ov208Turn *t)
 void func_021C526C(u16 *heap,struct Ov208Form *p,int key)
 {
     if(*(int *)&((struct Obj00147 *)p)->f124) {
-        func_02015EA0(((struct Obj00147 *)p)->fC);
-        if(((struct Obj00147 *)p)->f94)func_02015EA0(((struct Obj00147 *)p)->f94);
+        MCSS_SetVanishFlag(((struct Obj00147 *)p)->fC);
+        if(((struct Obj00147 *)p)->f94)MCSS_SetVanishFlag(((struct Obj00147 *)p)->f94);
         *(int *)&((struct Obj00147 *)p)->f124=0;
     } else {
-        func_02015EA0(((struct Obj00147 *)p)->f50);
-        if(((struct Obj00147 *)p)->fD8)func_02015EA0(((struct Obj00147 *)p)->fD8);
+        MCSS_SetVanishFlag(((struct Obj00147 *)p)->f50);
+        if(((struct Obj00147 *)p)->fD8)MCSS_SetVanishFlag(((struct Obj00147 *)p)->fD8);
         *(int *)&((struct Obj00147 *)p)->f124=1;
     }
     func_021C595C(heap,p,key);
     if(*(int *)&((struct Obj00147 *)p)->f124) {
-        func_02015EB0(((struct Obj00147 *)p)->fC);
-        if(((struct Obj00147 *)p)->f94)func_02015EB0(((struct Obj00147 *)p)->f94);
+        MCSS_ResetVanishFlag(((struct Obj00147 *)p)->fC);
+        if(((struct Obj00147 *)p)->f94)MCSS_ResetVanishFlag(((struct Obj00147 *)p)->f94);
     } else {
-        func_02015EB0(((struct Obj00147 *)p)->f50);
-        if(((struct Obj00147 *)p)->fD8)func_02015EB0(((struct Obj00147 *)p)->fD8);
+        MCSS_ResetVanishFlag(((struct Obj00147 *)p)->f50);
+        if(((struct Obj00147 *)p)->fD8)MCSS_ResetVanishFlag(((struct Obj00147 *)p)->fD8);
     }
 }
 
@@ -2472,7 +2476,7 @@ u32 ov208_func_021C535C(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u3
     pos.z = 1;
     pos.b6 = 1;
     pos.b7 = 0;
-    *res = func_0204A6C8((void *)arc, func_0201BABC(species, form, gender, isEgg), 0, 1, heap);
+    *res = func_0204A6C8((void *)arc, POKE_TOOL_CalcGraphicIndex(species, form, gender, isEgg), 0, 1, heap);
     obj = (u32)func_0204B294((void *)owner, *res, j, k, &pos, 1, heap);
     func_0204B92C((struct Obj *)obj, 0);
     func_0204B6F4((struct Obj *)obj, func_0201BB5C(species, form, gender, isEgg), 0);
@@ -2668,16 +2672,16 @@ void ov208_func_021C569C(u16 *heap, struct Ov208Form *p, int key, int a, int b, 
     if (a != 4) {
         ov208_func_021C5128(&p->item[a], *heap, (void *)p->cam, species, form, f152, f153, 0, 0, extra);
         func_021C80AC((int)&p->item[a], pose, (int)(&v));
-        func_02015C48((void *)p->item[a].obj, (u32 *)(&v));
+        MCSS_SetPosition((void *)p->item[a].obj, (u32 *)(&v));
         if (p->w124 == 0)
-            func_02015EA0((void *)p->item[a].obj);
+            MCSS_SetVanishFlag((void *)p->item[a].obj);
     }
     if (b != 4) {
         ov208_func_021C5128(&p->item[b], *heap, (void *)p->cam, species, form, f152, f153, 0, 1, extra);
         func_021C80AC((int)&p->item[b], pose, (int)(&v));
-        func_02015C48((void *)p->item[b].obj, (u32 *)(&v));
+        MCSS_SetPosition((void *)p->item[b].obj, (u32 *)(&v));
         if (p->w124 != 0)
-            func_02015EA0((void *)p->item[b].obj);
+            MCSS_SetVanishFlag((void *)p->item[b].obj);
     }
 }
 
@@ -2753,7 +2757,7 @@ void func_021C595C(u16 *heap, struct Ov208Form *p, int key)
     int b;
     int pose;
     a = 0;
-    func_02014CEC((u8 *)p->cam, 0);
+    MCSS_SetTaskSystem((u8 *)p->cam, 0);
     if (p->item[0].obj != 0) a = 4;
     b = 1;
     if (p->item[1].obj != 0) b = 4;
@@ -2768,12 +2772,12 @@ skip:
     if (a != 4) func_021C51C8(p->item[0].state, 0, p);
     else if (p->item[0].obj != 0) {
         func_021C80AC((int)&p->item[0], pose, (int)(&v));
-        func_02015C48((void *)p->item[0].obj, (u32 *)(&v));
+        MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&v));
     }
     if (b != 4) func_021C51C8(p->item[1].state, 1, p);
     else if (p->item[1].obj != 0) {
         func_021C80AC((int)&p->item[1], pose, (int)(&v));
-        func_02015C48((void *)p->item[1].obj, (u32 *)(&v));
+        MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&v));
     }
     if (p->state == 4 && p->count >= 2) {
         a = 2;
@@ -2784,15 +2788,15 @@ skip:
         if (a != 4) func_021C51C8(p->item[2].state, 2, p);
         else if (p->item[2].obj != 0) {
             func_021C80AC((int)&p->item[2], 2, (int)(&v));
-            func_02015C48((void *)p->item[2].obj, (u32 *)(&v));
+            MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&v));
         }
         if (b != 4) func_021C51C8(p->item[3].state, 3, p);
         else if (p->item[3].obj != 0) {
             func_021C80AC((int)&p->item[3], 2, (int)(&v));
-            func_02015C48((void *)p->item[3].obj, (u32 *)(&v));
+            MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&v));
         }
     }
-    func_02014CEC((u8 *)p->cam, (u32)p->heap3d);
+    MCSS_SetTaskSystem((u8 *)p->cam, (u32)p->heap3d);
     if (p->state == 0) {
         p->w6c8 = 1;
         func_021C7534(heap, p, key);
@@ -2815,7 +2819,7 @@ void func_021C5B00(u16 *heap, struct Ov208Form *p, int key)
     int b;
     int pose;
     a = 0;
-    func_02014CEC((u8 *)p->cam, 0);
+    MCSS_SetTaskSystem((u8 *)p->cam, 0);
     if (p->item[0].obj != 0) a = 4;
     b = 1;
     if (p->item[1].obj != 0) b = 4;
@@ -2828,12 +2832,12 @@ skip:
     if (a != 4) func_021C51C8(p->item[0].state, 0, p);
     else {
         func_021C80AC((int)&p->item[0], pose, (int)(&v));
-        func_02015C48((void *)p->item[0].obj, (u32 *)(&v));
+        MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&v));
     }
     if (b != 4) func_021C51C8(p->item[1].state, 1, p);
     else {
         func_021C80AC((int)&p->item[1], pose, (int)(&v));
-        func_02015C48((void *)p->item[1].obj, (u32 *)(&v));
+        MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&v));
     }
     a = 2;
     if (p->item[2].obj != 0) a = 4;
@@ -2843,14 +2847,14 @@ skip:
     if (a != 4) func_021C51C8(p->item[2].state, 2, p);
     else {
         func_021C80AC((int)&p->item[2], 2, (int)(&v));
-        func_02015C48((void *)p->item[2].obj, (u32 *)(&v));
+        MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&v));
     }
     if (b != 4) func_021C51C8(p->item[3].state, 3, p);
     else {
         func_021C80AC((int)&p->item[3], 2, (int)(&v));
-        func_02015C48((void *)p->item[3].obj, (u32 *)(&v));
+        MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&v));
     }
-    func_02014CEC((u8 *)p->cam, (u32)p->heap3d);
+    MCSS_SetTaskSystem((u8 *)p->cam, (u32)p->heap3d);
     if (p->state == 0) {
         p->w6c8 = 1;
         func_021C7534(heap, p, key);
@@ -3036,19 +3040,19 @@ void ov208_func_021C5F34(u16 *a0, struct Ov208Form *p, int ctx, int ev)
             if (p->count >= 2) {
                 if (p->item[0].obj != 0) {
                     func_021C80AC((int)&p->item[0], 1, (int)(&v));
-                    func_02015C48((void *)p->item[0].obj, (u32 *)(&v));
+                    MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&v));
                 }
                 if (p->item[1].obj != 0) {
                     func_021C80AC((int)&p->item[1], 1, (int)(&v));
-                    func_02015C48((void *)p->item[1].obj, (u32 *)(&v));
+                    MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&v));
                 }
                 if (p->item[2].obj != 0) {
                     func_021C80AC((int)&p->item[2], 2, (int)(&v));
-                    func_02015C48((void *)p->item[2].obj, (u32 *)(&v));
+                    MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&v));
                 }
                 if (p->item[3].obj != 0) {
                     func_021C80AC((int)&p->item[3], 2, (int)(&v));
-                    func_02015C48((void *)p->item[3].obj, (u32 *)(&v));
+                    MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&v));
                 }
             }
             func_021BDAAC(scene, 2, 3, ov208_func_021BC3BC((char *)ctx) > 1);
@@ -3092,25 +3096,25 @@ void ov208_func_021C5F34(u16 *a0, struct Ov208Form *p, int ctx, int ev)
             if (p->count >= 2) {
                 if (p->item[0].obj != 0) {
                     func_021C80AC((int)&p->item[0], 0, (int)(&v2));
-                    func_02015C48((void *)p->item[0].obj, (u32 *)(&v2));
+                    MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&v2));
                 }
                 if (p->item[1].obj != 0) {
                     func_021C80AC((int)&p->item[1], 0, (int)(&v2));
-                    func_02015C48((void *)p->item[1].obj, (u32 *)(&v2));
+                    MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&v2));
                 }
                 idx = p->w124 != 0 ? SIDE_0 : SIDE_1;
                 func_021C50F8(p->item[idx].obj, &v2);
                 if (p->item[2].obj != 0) {
                     func_021C80AC((int)&p->item[2], 2, (int)(&v2));
-                    func_02015C48((void *)p->item[2].obj, (u32 *)(&v2));
+                    MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&v2));
                 }
                 if (p->item[3].obj != 0) {
                     func_021C80AC((int)&p->item[3], 2, (int)(&v2));
-                    func_02015C48((void *)p->item[3].obj, (u32 *)(&v2));
+                    MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&v2));
                 }
             }
             func_021BDAAC(scene, 0, 3, ov208_func_021BC3BC((char *)ctx) > 1);
-            func_021BDC14(scene, func_02012BF8(ov208_func_021BC3A4(ctx), 0x14));
+            func_021BDC14(scene, GAME_DATA_CheckSaveFlag(ov208_func_021BC3A4(ctx), 0x14));
             func_021BE82C(icon, 3);
             if (p->count >= 2) {
                 p->w6c8 = 1;
@@ -3339,7 +3343,7 @@ int ov208_func_021C6760(u16 *unused, struct Ov208Form *p, int key)
             if (partner != 5) {
                 q = &p->row[0].obj;
                 func_0204B92C((void *)*(u32 *)((u8 *)q + partner * 0x28), 0);
-                func_0204B8C4((void *)*(u32 *)((u8 *)q + partner * 0x28), 0);
+                CLACT_SetActorAnimFrame((void *)*(u32 *)((u8 *)q + partner * 0x28), 0);
             }
             p->w694 = hit;
         }
@@ -3526,7 +3530,7 @@ u32 ov208_func_021C6C00(u16 *a0, struct Ov208Form *p, int key)
     scene = ov208_func_021BC3B4(key);
     moved = 0;
     if (p->w69c != 0) {
-        if (func_02035CB8(&x, &y) == 0) {
+        if (TOUCHPANEL_GetPointCont(&x, &y) == 0) {
             p->w69c = 0;
             func_021BDC48(scene, 1);
         }
@@ -3705,21 +3709,21 @@ void ov208_func_021C6E98(u16 *a0, struct Ov208Form *p, int ctx)
             if (p->count >= 2) {
                 if (p->item[2].obj != 0) {
                     func_021C80AC((int)&p->item[2], 1, (int)(&u));
-                    func_02015C48((void *)p->item[2].obj, (u32 *)(&u));
+                    MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&u));
                 }
                 if (p->item[3].obj != 0) {
                     func_021C80AC((int)&p->item[3], 1, (int)(&u));
-                    func_02015C48((void *)p->item[3].obj, (u32 *)(&u));
+                    MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&u));
                 }
                 idx = p->w124 != 0 ? 2 : 3;
                 func_021C50F8(p->item[idx].obj, &u);
                 if (p->item[0].obj != 0) {
                     func_021C80AC((int)&p->item[0], 2, (int)(&u));
-                    func_02015C48((void *)p->item[0].obj, (u32 *)(&u));
+                    MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&u));
                 }
                 if (p->item[1].obj != 0) {
                     func_021C80AC((int)&p->item[1], 2, (int)(&u));
-                    func_02015C48((void *)p->item[1].obj, (u32 *)(&u));
+                    MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&u));
                 }
                 func_021C7D80(a0, p, ctx);
                 func_021C5CF0(a0, p, ctx);
@@ -3744,7 +3748,7 @@ void ov208_func_021C6E98(u16 *a0, struct Ov208Form *p, int ctx)
                 v.x = FX_F32_TO_FX32(x);
                 v.y = FX_F32_TO_FX32(y);
                 v.z = FX_F32_TO_FX32(a.z);
-                func_02015C48((void *)p->item[0].obj, (u32 *)(&v));
+                MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&v));
             }
             if (p->item[1].obj != 0) {
                 func_021C80CC(&p->item[1], 3, &a);
@@ -3754,7 +3758,7 @@ void ov208_func_021C6E98(u16 *a0, struct Ov208Form *p, int ctx)
                 v.x = FX_F32_TO_FX32(x);
                 v.y = FX_F32_TO_FX32(y);
                 v.z = FX_F32_TO_FX32(a.z);
-                func_02015C48((void *)p->item[1].obj, (u32 *)(&v));
+                MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&v));
             }
             if (p->item[2].obj != 0) {
                 func_021C80CC(&p->item[2], 3, &c);
@@ -3764,7 +3768,7 @@ void ov208_func_021C6E98(u16 *a0, struct Ov208Form *p, int ctx)
                 w.x = FX_F32_TO_FX32(x);
                 w.y = FX_F32_TO_FX32(y);
                 w.z = FX_F32_TO_FX32(d.z);
-                func_02015C48((void *)p->item[2].obj, (u32 *)(&w));
+                MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&w));
             }
             if (p->item[3].obj != 0) {
                 func_021C80CC(&p->item[3], 3, &c);
@@ -3774,7 +3778,7 @@ void ov208_func_021C6E98(u16 *a0, struct Ov208Form *p, int ctx)
                 w.x = FX_F32_TO_FX32(x);
                 w.y = FX_F32_TO_FX32(y);
                 w.z = FX_F32_TO_FX32(d.z);
-                func_02015C48((void *)p->item[3].obj, (u32 *)(&w));
+                MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&w));
             }
         }
     }
@@ -3830,11 +3834,11 @@ void ov208_func_021C7534(u16 *unused, struct Ov208Form *p, int unused2)
         v.z = 0;
         if (p->item[2].obj != 0) {
             ov208_func_021C7FF8(&p->item[2], 1, (Vec *)&v);
-            func_02015C48((void *)(p->item[2].obj), (u32 *)(&v));
+            MCSS_SetPosition((void *)(p->item[2].obj), (u32 *)(&v));
         }
         if (p->item[3].obj != 0) {
             ov208_func_021C7FF8(&p->item[3], 1, (Vec *)&v);
-            func_02015C48((void *)(p->item[3].obj), (u32 *)(&v));
+            MCSS_SetPosition((void *)(p->item[3].obj), (u32 *)(&v));
         }
     } else {
         v.x = 0x40000;
@@ -3842,11 +3846,11 @@ void ov208_func_021C7534(u16 *unused, struct Ov208Form *p, int unused2)
         v.z = 0;
         if (p->item[2].obj != 0) {
             ov208_func_021C7FF8(&p->item[2], 2, (Vec *)&v);
-            func_02015C48((void *)(p->item[2].obj), (u32 *)(&v));
+            MCSS_SetPosition((void *)(p->item[2].obj), (u32 *)(&v));
         }
         if (p->item[3].obj != 0) {
             ov208_func_021C7FF8(&p->item[3], 2, (Vec *)&v);
-            func_02015C48((void *)(p->item[3].obj), (u32 *)(&v));
+            MCSS_SetPosition((void *)(p->item[3].obj), (u32 *)(&v));
         }
     }
 }
@@ -3876,7 +3880,7 @@ void ov208_func_021C75FC(u16 *a0, struct Ov208Form *p, int ctx)
         idx = p->w124 != 0 ? 2 : 3;
         func_021C80CC(&p->item[idx], 0, &a);
         tx = a.x;
-        func_02015C30((void *)p->item[idx].obj, (u32 *)(&v));
+        MCSS_GetPosition((void *)p->item[idx].obj, (u32 *)(&v));
         x = v.x / 4096.0f;
         if (p->w6c8 == 0) {
             x += 2.0f;
@@ -3893,13 +3897,13 @@ void ov208_func_021C75FC(u16 *a0, struct Ov208Form *p, int ctx)
         }
         v.x = FX_F32_TO_FX32(x);
         if (p->item[2].obj != 0)
-            func_02015C48((void *)p->item[2].obj, (u32 *)(&v));
+            MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&v));
         if (p->item[3].obj != 0)
-            func_02015C48((void *)p->item[3].obj, (u32 *)(&v));
+            MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&v));
         idx = 0;
         if (p->w124 == 0)
             idx = 1;
-        func_02015C30((void *)(p->item[idx].obj), (u32 *)(&v));
+        MCSS_GetPosition((void *)(p->item[idx].obj), (u32 *)(&v));
         x = v.x / 4096.0f;
         if (p->w6c8 == 0)
             x += 2.0f;
@@ -3907,9 +3911,9 @@ void ov208_func_021C75FC(u16 *a0, struct Ov208Form *p, int ctx)
             x -= 2.0f;
         v.x = FX_F32_TO_FX32(x);
         if (p->item[0].obj != 0)
-            func_02015C48((void *)p->item[0].obj, (u32 *)(&v));
+            MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&v));
         if (p->item[1].obj != 0)
-            func_02015C48((void *)p->item[1].obj, (u32 *)(&v));
+            MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&v));
     } else if (p->w6c4 == 2) {
         sh = 0;
         ov208_func_021C5F34(a0, p, ctx, 0);
@@ -3928,11 +3932,11 @@ void ov208_func_021C75FC(u16 *a0, struct Ov208Form *p, int ctx)
         func_0200CA98(obj, id, f, sh, p->ents[p->sel].form);
         if (p->item[0].obj != 0) {
             func_021C80AC((int)&p->item[0], 0, (int)(&u));
-            func_02015C48((void *)p->item[0].obj, (u32 *)(&u));
+            MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&u));
         }
         if (p->item[1].obj != 0) {
             func_021C80AC((int)&p->item[1], 0, (int)(&w));
-            func_02015C48((void *)p->item[1].obj, (u32 *)(&w));
+            MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&w));
         }
         p->w6c8 = 1;
         ov208_func_021C7448(a0, p, ctx);
@@ -3977,7 +3981,7 @@ void ov208_func_021C7860(u16 *a0, struct Ov208Form *p, int ctx)
                 idx = 1;
             ov208_func_021C80CC(&p->item[idx], 3, &a1);
             tx = a1.x;
-            func_02015C30((void *)p->item[idx].obj, (u32 *)(&v1));
+            MCSS_GetPosition((void *)p->item[idx].obj, (u32 *)(&v1));
             x = v1.x / 4096.0f - 0.5f;
             if (x <= tx) {
                 x = tx;
@@ -3985,17 +3989,17 @@ void ov208_func_021C7860(u16 *a0, struct Ov208Form *p, int ctx)
             }
             v1.x = FX_F32_TO_FX32(x);
             if (p->item[0].obj != 0)
-                func_02015C48((void *)p->item[0].obj, (u32 *)(&v1));
+                MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&v1));
             if (p->item[1].obj != 0)
-                func_02015C48((void *)p->item[1].obj, (u32 *)(&v1));
+                MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&v1));
             if (p->w6cc != 0) {
                 if (p->item[0].obj != 0) {
                     ov208_func_021C7FF8(&p->item[0], 3, (Vec *)&b1);
-                    func_02015C48((void *)p->item[0].obj, (u32 *)(&b1));
+                    MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&b1));
                 }
                 if (p->item[1].obj != 0) {
                     ov208_func_021C7FF8(&p->item[1], 3, (Vec *)&b1);
-                    func_02015C48((void *)p->item[1].obj, (u32 *)(&b1));
+                    MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&b1));
                 }
             }
         }
@@ -4005,7 +4009,7 @@ void ov208_func_021C7860(u16 *a0, struct Ov208Form *p, int ctx)
                 idx = 3;
             ov208_func_021C80CC(&p->item[idx], 4, &a2);
             tx = a2.x;
-            func_02015C30((void *)p->item[idx].obj, (u32 *)(&v1));
+            MCSS_GetPosition((void *)p->item[idx].obj, (u32 *)(&v1));
             x = v1.x / 4096.0f - 1.5f;
             if (x <= tx) {
                 x = tx;
@@ -4013,17 +4017,17 @@ void ov208_func_021C7860(u16 *a0, struct Ov208Form *p, int ctx)
             }
             v1.x = FX_F32_TO_FX32(x);
             if (p->item[2].obj != 0)
-                func_02015C48((void *)p->item[2].obj, (u32 *)(&v1));
+                MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&v1));
             if (p->item[3].obj != 0)
-                func_02015C48((void *)p->item[3].obj, (u32 *)(&v1));
+                MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&v1));
             if (p->w6d0 != 0) {
                 if (p->item[2].obj != 0) {
                     ov208_func_021C7FF8(&p->item[2], 4, (Vec *)&c1);
-                    func_02015C48((void *)p->item[2].obj, (u32 *)(&c1));
+                    MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&c1));
                 }
                 if (p->item[3].obj != 0) {
                     ov208_func_021C7FF8(&p->item[3], 4, (Vec *)&c1);
-                    func_02015C48((void *)p->item[3].obj, (u32 *)(&c1));
+                    MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&c1));
                 }
             }
         }
@@ -4041,7 +4045,7 @@ void ov208_func_021C7860(u16 *a0, struct Ov208Form *p, int ctx)
                 idx = 1;
             ov208_func_021C80CC(&p->item[idx], 0, &a3);
             tx = a3.x;
-            func_02015C30((void *)p->item[idx].obj, (u32 *)(&v2));
+            MCSS_GetPosition((void *)p->item[idx].obj, (u32 *)(&v2));
             x = v2.x / 4096.0f;
             x += 0.5f;
             if (x >= tx) {
@@ -4050,17 +4054,17 @@ void ov208_func_021C7860(u16 *a0, struct Ov208Form *p, int ctx)
             }
             v2.x = FX_F32_TO_FX32(x);
             if (p->item[0].obj != 0)
-                func_02015C48((void *)p->item[0].obj, (u32 *)(&v2));
+                MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&v2));
             if (p->item[1].obj != 0)
-                func_02015C48((void *)p->item[1].obj, (u32 *)(&v2));
+                MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&v2));
             if (p->w6cc != 0) {
                 if (p->item[0].obj != 0) {
                     ov208_func_021C7FF8(&p->item[0], 0, (Vec *)&b3);
-                    func_02015C48((void *)p->item[0].obj, (u32 *)(&b3));
+                    MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&b3));
                 }
                 if (p->item[1].obj != 0) {
                     ov208_func_021C7FF8(&p->item[1], 0, (Vec *)&b3);
-                    func_02015C48((void *)p->item[1].obj, (u32 *)(&b3));
+                    MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&b3));
                 }
             }
         }
@@ -4070,7 +4074,7 @@ void ov208_func_021C7860(u16 *a0, struct Ov208Form *p, int ctx)
                 idx = 3;
             ov208_func_021C80CC(&p->item[idx], 2, &a4);
             tx = (&a4)->x;
-            func_02015C30((void *)p->item[idx].obj, (u32 *)(&v2));
+            MCSS_GetPosition((void *)p->item[idx].obj, (u32 *)(&v2));
             x = v2.x / 4096.0f;
             x += 1.5f;
             if (x >= tx) {
@@ -4079,17 +4083,17 @@ void ov208_func_021C7860(u16 *a0, struct Ov208Form *p, int ctx)
             }
             v2.x = FX_F32_TO_FX32(x);
             if (p->item[2].obj != 0)
-                func_02015C48((void *)p->item[2].obj, (u32 *)(&v2));
+                MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&v2));
             if (p->item[3].obj != 0)
-                func_02015C48((void *)p->item[3].obj, (u32 *)(&v2));
+                MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&v2));
             if (p->w6d0 != 0) {
                 if (p->item[2].obj != 0) {
                     ov208_func_021C7FF8(&p->item[2], 2, (Vec *)&c4);
-                    func_02015C48((void *)p->item[2].obj, (u32 *)(&c4));
+                    MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&c4));
                 }
                 if (p->item[3].obj != 0) {
                     ov208_func_021C7FF8(&p->item[3], 2, (Vec *)&c4);
-                    func_02015C48((void *)p->item[3].obj, (u32 *)(&c4));
+                    MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&c4));
                 }
             }
         }
@@ -4112,13 +4116,13 @@ void func_021C7CE8(u16 *a0, struct Ov208Form *p, int key)
     if (p->state != 0) return;
     func_021C51A0(&p->item[2], p->cam);
     func_021C51A0(&p->item[3], p->cam);
-    func_02014CEC((u8 *)(p->cam), 0);
+    MCSS_SetTaskSystem((u8 *)(p->cam), 0);
     a = p->w124 != 0 ? 2 : 4;
     b = p->w124 != 0 ? 4 : 3;
     ov208_func_021C569C(a0, p, key, a, b, 2, p->sel2);
     if (a != 4) func_021C51C8(p->item[2].state, 2, p);
     if (b != 4) func_021C51C8(p->item[3].state, 3, p);
-    func_02014CEC((u8 *)p->cam, (u32)p->heap3d);
+    MCSS_SetTaskSystem((u8 *)p->cam, (u32)p->heap3d);
 }
 
 

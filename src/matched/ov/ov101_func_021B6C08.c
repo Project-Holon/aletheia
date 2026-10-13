@@ -1,5 +1,5 @@
 /*
- * function: func_021B6C08
+ * function: IRC_COMPATIBLE_StepRunnerExit
  * address: 0x021B6C08
  * packet: pkt_ov101_021B6C08
  * region: ov101
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 struct S020314B8;
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_02082BCC(void *,int,u32);
-void func_021B6C08(u8 *p) { func_0203133C(((struct Obj22114 *)p)->f0); func_02082BCC(p,0,12); }
+void IRC_COMPATIBLE_StepRunnerExit(u8 *p) { func_0203133C(((struct Obj22114 *)p)->f0); func_02082BCC(p,0,12); }

@@ -1,5 +1,5 @@
 /*
- * function: func_0203C064
+ * function: GFL_NET_STATE_WifiFatal
  * address:  0x0203C064
  * packet:   pkt_0203C064
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * Empty callback (a lone bx lr), one of three adjacent stubs at
- * 0x0203C05C/60/64 whose addresses func_0203C0F4, func_0203C3EC,
- * func_0203C494 and func_0203C7E0 pass or compare as handler pointers.
+ * 0x0203C05C/60/64 whose addresses GFL_NET_STATE_WifiLoginMain, GFL_NET_STATE_GetWifiState,
+ * GFL_NET_STATE_WifiMatchDisconnect and GFL_NET_STATE_WifiMatchWait pass or compare as handler pointers.
  */
 
-void func_0203C064(void)
+void GFL_NET_STATE_WifiFatal(void)
 {
 }

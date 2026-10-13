@@ -15,7 +15,7 @@
  *   func_0204162C  0x0204162C  arm
  *   func_02082D44  0x02082D44  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_0202DD24  0x0202DD24  thumb
+ *   PMS_DRAW_Copy  0x0202DD24  thumb
  *   func_02045770  0x02045770  arm
  *   func_02043814  0x02043814  arm
  *   func_02045334  0x02045334  arm
@@ -42,7 +42,7 @@ struct PmsDraw;
 extern u32 func_0204162C(int channel);
 extern void func_02082D44(void *dst, const void *src, int n);
 extern void func_02041B6C(u32 bit);
-extern void func_0202DD24(struct PmsDraw *p, u32 i, u32 j);
+extern void PMS_DRAW_Copy(struct PmsDraw *p, u32 i, u32 j);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
@@ -68,7 +68,7 @@ void func_021F0A04(O *o, int a, int b, void *c, int d)
     func_02082D44(dst, src, 0x1C0);
     func_02041B6C(6);
     if (o->k[a] == 0 && o->k[b] == 0) {
-        func_0202DD24((struct PmsDraw *)o->f7c, a, b);
+        PMS_DRAW_Copy((struct PmsDraw *)o->f7c, a, b);
         return;
     }
     if (o->k[a] == 1 && o->k[b] == 1) {

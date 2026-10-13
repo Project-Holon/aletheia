@@ -15,6 +15,7 @@
  *   func_02184180 0x02184180 thumb ov022
  *   func_021DEF6C 0x021DEF6C thumb ov137
  *   func_021E0304 0x021E0304 thumb ov137
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  */
 #include "../include/Obj02869.h"
 #include "../include/Obj08215.h"
@@ -30,7 +31,7 @@ extern void *func_021DEB10(char *p);
 extern char *func_02184180(unsigned char *p, int i);
 extern void func_02008500(void *, void *);
 extern void func_021DEF6C(void *);
-extern void func_02005D90(int, int);
+extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 extern void func_021E0304(u8 *p);
 int func_021DEDAC(Obj *obj)
 {
@@ -51,7 +52,7 @@ int func_021DEDAC(Obj *obj)
     func_021DEF6C(p);
     ((struct Obj02869 *)p)->f120 = ((struct Obj08215 *)q)->f4 << 12;
     ((struct Obj02869 *)p)->f0 = 17;
-    func_02005D90(1157, 65535);
+    GFL_USE_CancelChangeAndPlayBgm(1157, 65535);
     ((struct Obj23749 *)(*(u8 * *)&((struct Obj23748 *)(*(u8 * *)&((struct Obj02869 *)p)->fD8))->f14))->f14 = 1;
     func_021E0304(p);
     return 1;

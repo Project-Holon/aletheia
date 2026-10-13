@@ -1,5 +1,5 @@
 /*
- * function: func_021544F0
+ * function: EVENT_WIFICLUB_Main
  * address: 0x021544F0
  * packet: pkt_ov006_021544F0
  * region: ov006
@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blockers: code-start witnesses for ov006 func_021544BC and ov099
+ * blockers: code-start witnesses for ov006 EVENT_WIFICLUB_SetBattleParty and ov099
  * func_021C2850; overlay-ID consumer evidence for func_02012444:r1
  * (IDs 127,134,8,119,195,172). All concrete bytes match.
  * Matching levers: typed Sel table folds the u16 field offset into its
@@ -32,10 +32,10 @@
  * symbols:
  *   func_02012138 0x02012138 thumb
  *   func_02026454 0x02026454 thumb
- *   func_020144DC 0x020144DC thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent 0x020144DC thumb
  *   func_02012374 0x02012374 thumb
- *   func_02029F6C 0x02029F6C thumb
- *   func_020145CC 0x020145CC thumb
+ *   RINGTONE_SYS_RegisterSleepCallbacks 0x02029F6C thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent 0x020145CC thumb
  *   func_020120F4 0x020120F4 thumb
  *   func_0201283C 0x0201283C thumb
  *   func_020130B4 0x020130B4 thumb
@@ -55,9 +55,9 @@
  *   ov172_id 0xac data a1
  *   func_0203CDBC 0x0203CDBC arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02031324 0x02031324 arm
- *   func_02031348 0x02031348 arm
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Create 0x02031324 arm
+ *   PROCSYS_Push 0x02031348 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   func_0203133C 0x0203133C arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
@@ -73,14 +73,14 @@
  *   func_0203CEAC 0x0203CEAC arm
  *   func_0203D210 0x0203D210 arm
  *   func_021BE92C 0x021BE92C thumb ov021
- *   func_0215444C 0x0215444C thumb ov006
- *   func_021544BC 0x021544BC thumb ov006
- *   func_021544D4 0x021544D4 thumb ov006
- *   func_02154ABC 0x02154ABC thumb ov006
+ *   EVENT_WIFICLUB_BuildBattleEntry 0x0215444C thumb ov006
+ *   EVENT_WIFICLUB_SetBattleParty 0x021544BC thumb ov006
+ *   EVENT_WIFICLUB_ResetSound 0x021544D4 thumb ov006
+ *   EVENT_WIFICLUB_FreeWork 0x02154ABC thumb ov006
  *   func_021542C0 0x021542C0 thumb ov006
  *   func_021C2850 0x021C2850 thumb ov099
- *   d_021D6338 0x021D6338 data ov115 a4
- *   d_021D654C 0x021D654C data ov115 a4
+ *   gNetSaveMainProc 0x021D6338 data ov115 a4
+ *   gNetSaveRetryProc 0x021D654C data ov115 a4
  *   d_021C37E8 0x021C37E8 data ov099 a4
  *   d_02154C40 0x02154C40 data ov006 a2
  *   d_021DCCA4 0x021DCCA4 data ov134 a4
@@ -91,6 +91,14 @@
  *   d_02154C80 0x02154C80 data ov006 a4
  *   d_02208C40 0x02208C40 data ov195 a4
  *   d_021C7240 0x021C7240 data ov172 a4
+ *   GFL_USE_SetSleepVolumeHooks  0x020057AC  thumb  arm9
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb  arm9
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb  arm9
+ *   PM_VOICE_ResetMasterVolume  0x02006740  thumb  arm9
+ *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb  arm9
+ *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb  arm9
  */
 /*
  * 2026-10-05 (wave D8 lane08): still MATCH, no C change. The open relocation func_021C2850 (ov099) is NOT a veneer:
@@ -106,8 +114,8 @@ typedef unsigned int u32;
 #define H(p,k) (*(u16 *)((char *)(p)+(k)))
 #define B(p,k) (*(u8 *)((char *)(p)+(k)))
 typedef struct {u32 pad00[5];u32 values[2];} Sub;
-extern u16 func_02005C44(void);
-extern void func_02005E30(u32);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_FadeOutBgm(u32);
 struct BigObj;
 struct Ctx;
 struct Entry;
@@ -120,23 +128,23 @@ struct Sub020097BCObj;
 struct Sub24;
 extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_02026454(void *);
-extern int func_020144DC(int,int);
-extern void *func_020145CC(void *);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int,int);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_020057AC(void);
+extern void GFL_USE_SetSleepVolumeHooks(void);
 extern int func_0203CDBC(void);
-extern void func_02029F6C(void);
+extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
 extern int func_021BE92C(void *,int,int,int,int,u8,u8);
 extern void func_02082BCC(void *,int,int);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_02006740(void);
-extern void func_02005D90(u32,u16);
-extern void func_02005DF8(u32);
-extern void *func_02031324(int);
-extern void func_02031348(void *,u32,u32,u32);
-extern u32 func_02031330(void *);
+extern void PM_VOICE_ResetMasterVolume(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
+extern void GFL_USE_FadeInBgmFull(u32);
+extern void *PROCSYS_Create(int);
+extern void PROCSYS_Push(void *,u32,u32,u32);
+extern u32 PROCSYS_Main(void *);
 extern void func_0203133C(struct S020314B8 *p);
-extern u32 func_0200F7B8(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 extern int func_02034AC4(int);
@@ -144,10 +152,10 @@ extern void func_02034A5C(int);
 extern void func_021C2850(char *p);
 extern int func_020130B4(int);
 extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
-extern void func_0215444C(char *,u32,int);
+extern void EVENT_WIFICLUB_BuildBattleEntry(char *,u32,int);
 extern void *func_02013090(u32);
 extern void func_021542C0(char *,int);
-extern void func_021544BC(char *,u32,int);
+extern void EVENT_WIFICLUB_SetBattleParty(char *,u32,int);
 extern struct Entry *func_020399A8(void);
 extern void func_0203A574(u32,u32,u32,u32);
 extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
@@ -155,7 +163,7 @@ extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
 extern int func_0203CD98(void);
 extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
-extern void func_0200F83C(void);
+extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern u32 func_0203D1A4(struct Link *p);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern void *func_02012F2C(int *);
@@ -163,11 +171,11 @@ extern void func_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c
 extern void func_0203A5E4(u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern u32 func_020307B0(void *p);
-extern void func_021544D4(u8 *);
+extern void EVENT_WIFICLUB_ResetSound(u8 *);
 extern int func_0203CEAC(int);
 extern u32 func_0203D210(void);
-extern void func_02154ABC(int *);
-extern const char d_021D6338[],d_021D654C[],d_021DCCA4[],d_021F03C4[],d_021C37E8[];
+extern void EVENT_WIFICLUB_FreeWork(int *);
+extern const char gNetSaveMainProc[],gNetSaveRetryProc[],d_021DCCA4[],d_021F03C4[],d_021C37E8[];
 extern const char d_0215513C[],d_021E75C0[],d_02154C80[],d_02208C40[],d_021C7240[];
 extern char ov008_id[],ov067_id[],ov127_id[],ov115_id[],ov099_id[];
 extern char ov134_id[],ov093_id[],ov119_id[],ov195_id[],ov172_id[];
@@ -176,7 +184,7 @@ extern const Pair d_02154C2C;
 typedef struct {u8 val,pad;u16 state;} Sel;
 extern const Sel d_02154C40[];
 
-int func_021544F0(void *evt,u32 *state,char *obj)
+int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
 {
     void *p;
     u32 s;
@@ -187,34 +195,34 @@ int func_021544F0(void *evt,u32 *state,char *obj)
     s=*state;
     switch(s) {
     case 0:
-        H(obj,0x170)=func_02005C44();
-        func_02005E30(6);
+        H(obj,0x170)=GFL_USE_GetBgmNo();
+        GFL_USE_FadeOutBgm(6);
         ++*state;
         break;
     case 1:
         if (!func_02026454((void *)func_02012138(p))) {
             W(obj,0x10)=0;
-            func_02012374(evt,(void *)func_020144DC((int)p,W(obj,8)));
+            func_02012374(evt,(void *)FIELD_STATUS_CreateFieldCloseEvent((int)p,W(obj,8)));
             ++*state;
         }
         break;
     case 2:
-        func_020057AC();
+        GFL_USE_SetSleepVolumeHooks();
         *state=8;
         break;
     case 3: break;
     case 4:
         if (func_0203CDBC()) {
             ++*state;
-            func_02154ABC((int *)obj);
-            func_02006740();
-            func_02005D90(H(obj,0x170),0xffff);
-            func_02005DF8(60);
+            EVENT_WIFICLUB_FreeWork((int *)obj);
+            PM_VOICE_ResetMasterVolume();
+            GFL_USE_CancelChangeAndPlayBgm(H(obj,0x170),0xffff);
+            GFL_USE_FadeInBgmFull(60);
         }
         break;
     case 5:
-        func_02029F6C();
-        func_02012374(evt,func_020145CC(p));
+        RINGTONE_SYS_RegisterSleepCallbacks();
+        func_02012374(evt,FIELD_STATUS_CreateFieldOpenEvent(p));
         ++*state;
         break;
     case 6:
@@ -234,19 +242,19 @@ int func_021544F0(void *evt,u32 *state,char *obj)
         W(obj,0x9c)=0;
         W(obj,0xa4)=10;
         W(obj,0xb0)=1;
-        func_02005D90(0x481,0xffff);
-        W(obj,0x1c)=(u32)func_02031324(4);
-        func_02031348((void *)W(obj,0x1c),(u32)ov115_id,(u32)d_021D6338,(u32)(obj+0x98));
+        GFL_USE_CancelChangeAndPlayBgm(0x481,0xffff);
+        W(obj,0x1c)=(u32)PROCSYS_Create(4);
+        PROCSYS_Push((void *)W(obj,0x1c),(u32)ov115_id,(u32)gNetSaveMainProc,(u32)(obj+0x98));
         W(W(obj,0x5c),0xc)=0;
         *state=10;
         break;
     case 10:
-        if (func_02031330((void *)W(obj,0x1c))) { func_0200F7B8(0); return 0; }
+        if (PROCSYS_Main((void *)W(obj,0x1c))) { GFL_NET_ERR_ShowScreen(0); return 0; }
         func_0203133C((void *)W(obj,0x1c));
         if (!W(obj,0xb4)) {
             if (!func_02009A34((void *)func_0201283C((void *)W(obj,0x90)))) *state=30;
-            else { *state=11; func_02005E30(6); }
-        } else { func_02005E30(6); *state=25; }
+            else { *state=11; GFL_USE_FadeOutBgm(6); }
+        } else { GFL_USE_FadeOutBgm(6); *state=25; }
         break;
     case 30:
         W(obj,0xc0)=(u32)func_020120F4(p);
@@ -256,14 +264,14 @@ int func_021544F0(void *evt,u32 *state,char *obj)
         W(obj,0xd0)=0;
         W(obj,0xd4)=0;
         W(obj,0xd8)=0;
-        W(obj,0x1c)=(u32)func_02031324(4);
-        func_02031348((void *)W(obj,0x1c),(u32)ov115_id,(u32)d_021D654C,(u32)(obj+0xc0));
+        W(obj,0x1c)=(u32)PROCSYS_Create(4);
+        PROCSYS_Push((void *)W(obj,0x1c),(u32)ov115_id,(u32)gNetSaveRetryProc,(u32)(obj+0xc0));
         ++*state;
         break;
     case 31:
-        if (func_02031330((void *)W(obj,0x1c))) { func_0200F7B8(0); return 0; }
+        if (PROCSYS_Main((void *)W(obj,0x1c))) { GFL_NET_ERR_ShowScreen(0); return 0; }
         func_0203133C((void *)W(obj,0x1c));
-        func_02005E30(6);
+        GFL_USE_FadeOutBgm(6);
         *state=4;
         break;
     case 11:
@@ -282,7 +290,7 @@ int func_021544F0(void *evt,u32 *state,char *obj)
         func_02034A5C((int)ov099_id);
         break;
     case 13:
-        func_0215444C(obj,(u32)func_020120F4(p),s);
+        EVENT_WIFICLUB_BuildBattleEntry(obj,(u32)func_020120F4(p),s);
         W(obj,0xdc)=(u32)func_02013090(4);
         func_021542C0(obj,W(W(obj,0x5c),0xc));
         func_02012444((void *)W(obj,0),(u32)ov134_id,(u32)d_021DCCA4,(u32)(obj+0x20));
@@ -294,11 +302,11 @@ int func_021544F0(void *evt,u32 *state,char *obj)
                 B(W(obj,0x5c),0x49)=0;
                 *state=11;
             } else {
-                func_021544D4((u8 *)obj);
+                EVENT_WIFICLUB_ResetSound((u8 *)obj);
                 *state=9;
             }
         } else {
-            func_021544BC(obj,(u32)func_020120F4(p),s);
+            EVENT_WIFICLUB_SetBattleParty(obj,(u32)func_020120F4(p),s);
             func_02034AC4((int)ov093_id);
             func_0203A574(0x100,(u32)d_021F03C4,9,0);
             func_02039C68((struct Link *)func_020399A8(),100,10);
@@ -307,12 +315,12 @@ int func_021544F0(void *evt,u32 *state,char *obj)
         break;
     case 15:
         if (!func_0203CD98() || func_0200FB24()) {
-            func_0200FBB0(); func_0200F83C(); goto cleanup;
+            func_0200FBB0(); GFL_NET_ERR_ShowSimpleScreen(); goto cleanup;
         }
         if (func_02039CB4((struct Link *)func_020399A8(),100,10)) ++*state;
         break;
     case 16:
-        func_02005D90(0x490,0xffff);
+        GFL_USE_CancelChangeAndPlayBgm(0x490,0xffff);
         W(obj,0x124)=1;
         if (!func_0203D1A4((struct Link *)func_020399A8())) {
             for (i=0;i<2;i++) {
@@ -363,7 +371,7 @@ int func_021544F0(void *evt,u32 *state,char *obj)
         default: *state=11; break;
         }
         if (!func_0203CD98()) {
-            func_021544D4((u8 *)obj);
+            EVENT_WIFICLUB_ResetSound((u8 *)obj);
             *state=9;
         }
         break;
@@ -385,7 +393,7 @@ int func_021544F0(void *evt,u32 *state,char *obj)
         W(obj,0x68)=1;
         *state=19;
         if (!func_0203CD98()) {
-            func_021544D4((u8 *)obj);
+            EVENT_WIFICLUB_ResetSound((u8 *)obj);
             *state=9;
         }
         break;
@@ -398,7 +406,7 @@ int func_021544F0(void *evt,u32 *state,char *obj)
     case 24:
         if (func_0203CD98()) goto menu;
 cleanup:
-        func_021544D4((u8 *)obj);
+        EVENT_WIFICLUB_ResetSound((u8 *)obj);
         *state=9;
         break;
 menu:

@@ -32,7 +32,7 @@
  *   func_020640DC   0x020640DC  arm
  *   func_02064100   0x02064100  arm
  *   func_02064120   0x02064120  arm
- *   func_02064140   0x02064140  arm
+ *   NNSi_G2dSrtcInitControl   0x02064140  arm
  *   func_020643CC   0x020643CC  arm
  */
 #include "../include/Obj16437.h"
@@ -86,7 +86,7 @@ extern void *func_02062D40(struct CellAnim *anim);
 struct MultiCellBank;
 struct MultiCellData;
 extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
-extern void func_02064140(struct O02064140 *o, u32 a);
+extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 extern void func_020640DC(struct Srt0206469C *srt, s16 x, s16 y);
 struct Obj02064100;
 extern void func_02064100(struct Obj02064100 *obj, u16 val);
@@ -111,7 +111,7 @@ void func_0206469C(struct Obj0206469C *o, void *bank)
     r = (u32)func_020629E8(o->unk_44, p->unk_00);
     k = o->unk_1c->kind & 0xff;
 
-    func_02064140((struct O02064140 *)(&o->unk_48), 1);
+    NNSi_G2dSrtcInitControl((struct O02064140 *)(&o->unk_48), 1);
 
     if (k == 0) {
         goto done;

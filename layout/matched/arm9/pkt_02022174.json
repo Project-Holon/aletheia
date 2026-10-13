@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02022174",
+   "name": "WIPE_SYS_Main",
    "address": "0x02022174",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020221B8",
+   "name": "WIPE_SYS_ExeEnd",
    "address": "0x020221B8",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02022224",
+   "name": "WIPE_ResetWndMask",
    "address": "0x02022224",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02022230",
+   "name": "WIPE_ResetBrightness",
    "address": "0x02022230",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02022268",
+   "name": "WIPE_SetMstBrightColor",
    "address": "0x02022268",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020222CC",
+   "name": "WIPE_SetBrightness",
    "address": "0x020222CC",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020222EC",
+   "name": "WIPE_SYS_Finish",
    "address": "0x020222EC",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02022340",
+   "name": "WIPE_SYS_MainPanels",
    "address": "0x02022340",
    "kind": "game",
    "region": "arm9",
@@ -138,12 +138,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020223C0",
+    "WIPE_SYS_SetDivision",
     "sub_02022424"
+   ],
+   "addresses": [
+    "0x020223C0",
+    "0x02022424"
    ]
   },
   {
-   "name": "func_02022430",
+   "name": "WIPE_SYS_InitPanel",
    "address": "0x02022430",
    "kind": "game",
    "region": "arm9",
@@ -155,7 +159,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02022458",
+   "name": "WIPE_InitHBlankSlots",
    "address": "0x02022458",
    "kind": "game",
    "region": "arm9",
@@ -167,7 +171,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020225F0",
+   "name": "WIPE_DummyHBlank",
    "address": "0x020225F0",
    "kind": "game",
    "region": "arm9",
@@ -179,7 +183,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020225F4",
+   "name": "WIPE_SUB_ResolveColor",
    "address": "0x020225F4",
    "kind": "game",
    "region": "arm9",
@@ -202,12 +206,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02022608",
-    "func_0202262C"
+    "WIPE_SUB_GetEndColor",
+    "WIPE_SUB_ResetBrightnessTask"
+   ],
+   "addresses": [
+    "0x02022608",
+    "0x0202262C"
    ]
   },
   {
-   "name": "func_02022640",
+   "name": "WIPE_SUB_RequestBrightnessReset",
    "address": "0x02022640",
    "kind": "game",
    "region": "arm9",
@@ -219,7 +227,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02022670",
+   "name": "WIPE_SUB_ApplyEndBrightness",
    "address": "0x02022670",
    "kind": "game",
    "region": "arm9",
@@ -242,12 +250,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020226A0",
-    "func_020226E0"
+    "WIPE_SUB_ClearSys",
+    "WIPE_SUB_PatternFadeOut"
+   ],
+   "addresses": [
+    "0x020226A0",
+    "0x020226E0"
    ]
   },
   {
-   "name": "func_020226FC",
+   "name": "WIPE_SUB_PatternFadeIn",
    "address": "0x020226FC",
    "kind": "game",
    "region": "arm9",

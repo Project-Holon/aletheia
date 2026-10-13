@@ -15,7 +15,7 @@
  *   func_02067B50   0x02067B50  arm
  *   func_02067B64   0x02067B64  arm
  *   func_02066E30   0x02066E30  arm
- *   g_02148B48      0x02148B48  data
+ *   sOamSoftEmuContext      0x02148B48  data
  *   tbl_020A17F0    0x020A17F0  data
  *   tbl_020A17D8    0x020A17D8  data
  *
@@ -71,7 +71,7 @@ struct Rig {
     u32 mtx[12];    /* +0x40 */
 };
 
-extern struct Rig *g_02148B48;
+extern struct Rig *sOamSoftEmuContext;
 extern const u16 tbl_020A17F0[3][4];
 extern const u16 tbl_020A17D8[3][4];
 extern void func_0207D8E0(const void *m);
@@ -103,7 +103,7 @@ static inline int OamY(const GXOamAttr *oam)
 
 static inline u16 PosX_(const GXOamAttr *oam, GXOamShape shape)
 {
-    if (func_02067B50((const struct G2dOamState *)g_02148B48)) {
+    if (func_02067B50((const struct G2dOamState *)sOamSoftEmuContext)) {
         int x = OamX(oam);
         return -(x + *(u16 *)((u8 *)tbl_020A17F0 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2));
     } else
@@ -111,7 +111,7 @@ static inline u16 PosX_(const GXOamAttr *oam, GXOamShape shape)
 }
 static inline u16 PosY_(const GXOamAttr *oam, GXOamShape shape)
 {
-    if (func_02067B64((const struct G2dOamState *)g_02148B48)) {
+    if (func_02067B64((const struct G2dOamState *)sOamSoftEmuContext)) {
         int y = OamY(oam);
         return -(y + *(u16 *)((u8 *)tbl_020A17D8 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2));
     } else
@@ -119,22 +119,22 @@ static inline u16 PosY_(const GXOamAttr *oam, GXOamShape shape)
 }
 void func_0206775C(GXOamAttr *oam)
 {
-    func_0207D8E0(g_02148B48->mtx);
-    if (g_02148B48->f24 != 0) {
+    func_0207D8E0(sOamSoftEmuContext->mtx);
+    if (sOamSoftEmuContext->f24 != 0) {
         GXOamShape shape = G2_GetOBJShape(oam);
         s16 x = PosX_(oam, shape);
         s16 y = PosY_(oam, shape);
         int hf; u32 vf;
         hf = oam->a.f.flipH;
-        hf = func_02067B50((const struct G2dOamState *)g_02148B48) ^ hf;
+        hf = func_02067B50((const struct G2dOamState *)sOamSoftEmuContext) ^ hf;
         vf = oam->a.f.flipV;
-        vf = func_02067B64((const struct G2dOamState *)g_02148B48) ^ vf;
+        vf = func_02067B64((const struct G2dOamState *)sOamSoftEmuContext) ^ vf;
         oam->a.attr01 &= ~0x10000000;
         oam->a.attr01 |= hf << 28;
         oam->a.attr01 &= ~0x20000000;
         oam->a.attr01 |= vf << 29;
-        func_02066E30(x, y, -1, oam, g_02148B48->f08 + 0xc, g_02148B48->f14, g_02148B48->f18);
+        func_02066E30(x, y, -1, oam, sOamSoftEmuContext->f08 + 0xc, sOamSoftEmuContext->f14, sOamSoftEmuContext->f18);
     } else {
-        func_02066E30(OamX(oam), OamY(oam), -1, oam, g_02148B48->f08 + 0xc, g_02148B48->f14, g_02148B48->f18);
+        func_02066E30(OamX(oam), OamY(oam), -1, oam, sOamSoftEmuContext->f08 + 0xc, sOamSoftEmuContext->f14, sOamSoftEmuContext->f18);
     }
 }

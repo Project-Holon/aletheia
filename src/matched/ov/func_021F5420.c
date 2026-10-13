@@ -17,7 +17,7 @@
  *   func_020355C4  0x020355C4  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B84C  0x0204B84C  arm
- *   func_0204B974  0x0204B974  arm
+ *   CLACT_StopActorAnim  0x0204B974  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   func_021F4EA0  0x021F4EA0  thumb
  *   tbl_02202D24   0x02202D24  data  a2
@@ -81,7 +81,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern u8 func_020355C4(void);
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0204B84C(u32, int);
-extern void func_0204B974(struct Actor *a);
+extern void CLACT_StopActorAnim(struct Actor *a);
 extern void func_021F4EA0(u32, u16, u16);
 
 void func_021F5420(Work *p)
@@ -148,7 +148,7 @@ void func_021F5420(Work *p)
     p->sub.f3C = (u32)func_0204B294((void *)p->sub.f0, p->sub.f28, p->sub.f8, p->sub.f30, &s, 0, 0x48);
     func_0204B878((struct Obj *)p->sub.f3C, 0xc);
     func_0204B92C((struct Obj *)p->sub.f3C, 1);
-    func_0204B974((struct Actor *)p->sub.f3C);
+    CLACT_StopActorAnim((struct Actor *)p->sub.f3C);
     func_0204B3DC((struct Obj *)p->sub.f3C, 0);
     func_0204B3DC((struct Obj *)p->fD38, 1);
     func_021F4EA0(p->fD38, 0x37, 0xa8);

@@ -12,16 +12,16 @@
  * Hard-closes every aid present now but absent from the given bitmap.
  *
  * symbols:
- *   func_0216B908  0x0216B908  arm  ov009
- *   func_0216BEA4  0x0216BEA4  arm  ov009
+ *   DWC_GetAIDBitmap  0x0216B908  arm  ov009
+ *   DWCi_CloseConnectionHard  0x0216BEA4  arm  ov009
  */
 
-extern int func_0216B908(void);
-extern int func_0216BEA4(unsigned char aid);
+extern int DWC_GetAIDBitmap(void);
+extern int DWCi_CloseConnectionHard(unsigned char aid);
 
 void func_0216F014(unsigned int bitmap)
 {
-    unsigned int cur = func_0216B908();
+    unsigned int cur = DWC_GetAIDBitmap();
     unsigned int diff = cur & (cur ^ bitmap);
     unsigned char i;
 
@@ -30,7 +30,7 @@ void func_0216F014(unsigned int bitmap)
     }
     for (i = 0; i < 0x20; i++) {
         if (diff & (1 << i)) {
-            func_0216BEA4(i);
+            DWCi_CloseConnectionHard(i);
         }
     }
 }

@@ -81,7 +81,16 @@
     "func_0200B3AC",
     "func_0200B3B0",
     "func_0200B3C8",
-    "func_0200B3DC"
+    "BATTLE_REC_Create"
+   ],
+   "addresses": [
+    "0x0200B394",
+    "0x0200B3A4",
+    "0x0200B3A8",
+    "0x0200B3AC",
+    "0x0200B3B0",
+    "0x0200B3C8",
+    "0x0200B3DC"
    ]
   }
  ]

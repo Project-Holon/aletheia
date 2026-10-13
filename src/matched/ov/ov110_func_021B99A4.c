@@ -10,8 +10,8 @@
  * status: EXACT*
  * Two-byte zero alignment padding follows the compiled function.
  * symbols:
- *   func_02024810 0x02024810 thumb
+ *   PMS_WORD_GetString 0x02024810 thumb
  */
 #include "../include/Obj22312.h"
-extern void func_02024810(char *,int,int);
-void func_021B99A4(unsigned int a,unsigned int b,unsigned int c,int d) { unsigned int value; value=*(unsigned int *)(a+b*4+0x38); func_02024810(*(char * *)&((struct Obj22312 *)a)->f4,*(unsigned short *)(a+(value+c)*2+0x68),d); }
+extern void PMS_WORD_GetString(char *,int,int);
+void func_021B99A4(unsigned int a,unsigned int b,unsigned int c,int d) { unsigned int value; value=*(unsigned int *)(a+b*4+0x38); PMS_WORD_GetString(*(char * *)&((struct Obj22312 *)a)->f4,*(unsigned short *)(a+(value+c)*2+0x68),d); }

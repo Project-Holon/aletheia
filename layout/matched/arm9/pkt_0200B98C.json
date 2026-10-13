@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200B98C",
+   "name": "BATTLE_REC_GetHeaderParam",
    "address": "0x0200B98C",
    "kind": "game",
    "region": "arm9",

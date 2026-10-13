@@ -1,5 +1,5 @@
 /*
- * function: func_021D7060
+ * function: P_STA_SUB_StepPetTimer
  * address: 0x021D7060
  * packet: pkt_ov131_021D7060
  * region: ov131
@@ -14,7 +14,7 @@
 #include "../include/Obj10509.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-int func_021D7060(void *unused,u8 *q,u8 *counter)
+int P_STA_SUB_StepPetTimer(void *unused,u8 *q,u8 *counter)
 {
     if(*counter<10) {
         ++((struct Obj10509 *)q)->f60;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D4FBC
+ * function: P_STATUS_CreateButtonActors
  * address: 0x021D4FBC
  * packet: pkt_ov131_021D4FBC
  * region: ov131
@@ -18,10 +18,10 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_021D62E4 0x021D62E4 thumb ov131
- *   func_021D6810 0x021D6810 thumb ov131
- *   func_021D8938 0x021D8938 thumb ov131
- *   func_021D9A4C 0x021D9A4C thumb ov131
+ *   P_STATUS_CanUseButtons 0x021D62E4 thumb ov131
+ *   P_STA_SUB_CreateObjects 0x021D6810 thumb ov131
+ *   P_STA_RIBBON_CreateObjects 0x021D8938 thumb ov131
+ *   P_STA_SKILL_CreateObjects 0x021D9A4C thumb ov131
  */
 #include "../include/Obj00591.h"
 typedef unsigned char u8;
@@ -35,11 +35,11 @@ struct Obj;
 extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern int func_021D62E4(char *);
-extern void func_021D6810(u8 *a, u8 *p);
-extern void func_021D8938(u8 *a, u8 *p);
-extern void func_021D9A4C(u8 *a, u8 *p);
-void func_021D4FBC(struct Context *ctx)
+extern int P_STATUS_CanUseButtons(char *);
+extern void P_STA_SUB_CreateObjects(u8 *a, u8 *p);
+extern void P_STA_RIBBON_CreateObjects(u8 *a, u8 *p);
+extern void P_STA_SKILL_CreateObjects(u8 *a, u8 *p);
+void P_STATUS_CreateButtonActors(struct Context *ctx)
 {
     char *p=(char *)ctx;
     struct Bytes z=g_BFA0[2];
@@ -61,8 +61,8 @@ void func_021D4FBC(struct Context *ctx)
     ((struct Obj00591 *)p)->f19C=func_0204B294((void *)*(u32 *)&((struct Obj00591 *)p)->f174,((struct Obj00591 *)p)->f130,((struct Obj00591 *)p)->fA4,((struct Obj00591 *)p)->f10C,&d,0,((struct Obj00591 *)p)->f0);
     for(j=0;j<2;j++)func_0204B3DC(*(void **)(p+0x198+j*4),0);
     if((*(u8 **)(p+8))[13]==2)for(i=0;i<8;i++)if(i!=7)func_0204B3DC(*(void **)(p+0x178+i*4),0);
-    if(func_021D62E4(p)==0){func_0204B3DC(((struct Obj00591 *)p)->f190,0);func_0204B3DC(((struct Obj00591 *)p)->f184,0);}
-    func_021D6810((u8 *)p,((struct Obj00591 *)p)->f88);
-    func_021D8938((u8 *)p,((struct Obj00591 *)p)->f94);
-    func_021D9A4C((u8 *)p,((struct Obj00591 *)p)->f90);
+    if(P_STATUS_CanUseButtons(p)==0){func_0204B3DC(((struct Obj00591 *)p)->f190,0);func_0204B3DC(((struct Obj00591 *)p)->f184,0);}
+    P_STA_SUB_CreateObjects((u8 *)p,((struct Obj00591 *)p)->f88);
+    P_STA_RIBBON_CreateObjects((u8 *)p,((struct Obj00591 *)p)->f94);
+    P_STA_SKILL_CreateObjects((u8 *)p,((struct Obj00591 *)p)->f90);
 }

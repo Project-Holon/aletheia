@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02033A88",
+   "name": "SAVEDATA_BuildLayout",
    "address": "0x02033A88",
    "kind": "game",
    "region": "arm9",

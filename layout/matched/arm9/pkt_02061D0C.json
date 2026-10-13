@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02061D0C",
+   "name": "NNSi_GfdMergeAdjacentFreeBlocks",
    "address": "0x02061D0C",
    "kind": "game",
    "region": "arm9",

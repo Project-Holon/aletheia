@@ -10,6 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
+ *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
  *   (none)
 
  * Leaves state 2 and moves the object at +0xB8 to state 3.
@@ -17,17 +20,17 @@
 #include "../include/Obj00146.h"
 
 
-extern int func_02005E9C(void);
+extern int GFL_USE_PopBgm(void);
 typedef unsigned int   u32;
-extern void func_02005DE4(void *p);
-extern void func_02005DF8(u32 a);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_FadeInBgmFull(u32 a);
 
 void func_021C2BF4(void *unused, char *p, void *a2)
 {
     if (((struct Obj00146 *)p)->fB8 == 2) {
-        func_02005E9C();
-        func_02005DE4(0);
+        GFL_USE_PopBgm();
+        GFL_USE_SetBgmPlayerParam(0);
     }
-    func_02005DF8(0x3c);
+    GFL_USE_FadeInBgmFull(0x3c);
     ((struct Obj00146 *)p)->fB8 = 3;
 }

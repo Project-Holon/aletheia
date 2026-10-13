@@ -11,7 +11,7 @@
  *   unused here; BB954's complete body reads only r0/r1 before a six-input
  *   BAC24 call. 0290 reads r0 and explicitly sets each forwarding input.
  * symbols:
- *   func_0201AC80 0x0201AC80 thumb
+ *   POKEPARTY_GetAliveNonEggCount 0x0201AC80 thumb
  *   func_021B9B64 0x021B9B64 thumb ov099
  *   func_021BA928 0x021BA928 thumb ov099
  *   func_020200CC 0x020200CC thumb
@@ -34,7 +34,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct W; struct Obj;
-extern u32 func_0201AC80(void *);
+extern u32 POKEPARTY_GetAliveNonEggCount(void *);
 extern void func_021B9B64(char *);
 extern int func_021BA928(struct W *);
 extern int func_020200CC(struct Obj *);
@@ -55,7 +55,7 @@ int func_021C02C8(char *p, int ret)
 {
     u32 choice;
     u8 *q;
-    func_0201AC80(((struct Obj00008 *)p)->fC8);
+    POKEPARTY_GetAliveNonEggCount(((struct Obj00008 *)p)->fC8);
     func_021B9B64(p + 0x274);
     if (!func_021BA928((struct W *)p)) return ret;
     choice = func_020200CC(*(struct Obj * *)&((struct Obj00008 *)p)->fBC);

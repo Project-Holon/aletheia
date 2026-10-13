@@ -17,7 +17,7 @@
  *   func_021BAFA0  0x021BAFA0  thumb  ov091
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_021BB43C  0x021BB43C  thumb  ov091
- *   func_02019E54  0x02019E54  thumb
+ *   POKE_REGULATION_CheckSelection  0x02019E54  thumb
  *   func_021B9788  0x021B9788  thumb  ov091
  *   func_021B9E20  0x021B9E20  thumb  ov091
  *   func_020061E4  0x020061E4  thumb
@@ -39,7 +39,7 @@ extern void func_021BAFA0(u8 *a, u8 *s, int k);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern int func_021BB43C(int *p);
-extern int  func_02019E54(u32 a0, u32 a1, u32 a2);
+extern int  POKE_REGULATION_CheckSelection(u32 a0, u32 a1, u32 a2);
 extern void func_021B9788(u8 *p, int a1, int a2, int a3);
 extern void func_021B9E20(u8 *p);
 extern void func_020061E4(u32 id);
@@ -73,7 +73,7 @@ void func_021B892C(u8 *p)
                 buf[n] = i + 1;
             }
         }
-        r = func_02019E54((u32)q, *(u32 *)W(0x280), (u32)buf);
+        r = POKE_REGULATION_CheckSelection((u32)q, *(u32 *)W(0x280), (u32)buf);
     }
     if (q[2] > p[0x105]) {
         func_021B9788(p, q[2] + 0x56, 1, (int)func_021B9E20);

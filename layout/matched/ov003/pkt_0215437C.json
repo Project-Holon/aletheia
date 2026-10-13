@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215437C",
+   "name": "EVENT_MENUPROC_Create",
    "address": "0x0215437C",
    "kind": "game",
    "region": "ov003",

@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202CF8C  0x0202CF8C  thumb
+ *   BGWINFRM_GetBgFrame  0x0202CF8C  thumb
  *   func_021B8FA0  0x021B8FA0  thumb  ov067
- *   func_02051B0C  0x02051B0C  arm
- *   func_0202CAC4  0x0202CAC4  thumb
- *   func_0202CEBC  0x0202CEBC  thumb
+ *   BUTTON_MAN_CallHandlerById  0x02051B0C  arm
+ *   BGWINFRM_SetFrameData  0x0202CAC4  thumb
+ *   BGWINFRM_PutBmpWin  0x0202CEBC  thumb
  *   func_02045748  0x02045748  arm
  *   func_02045750  0x02045750  arm
  *   func_02045758  0x02045758  arm
@@ -45,11 +45,11 @@ struct S {
 };
 
 struct WinMgr;
-extern u8 func_0202CF8C(struct WinMgr *mgr, u32 idx);
+extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
 extern int func_021B8FA0(int x);
-extern int func_02051B0C(int i);
-extern void func_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
-extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
+extern int BUTTON_MAN_CallHandlerById(int i);
+extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
+extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 struct Bmp;
 struct Descriptor;
 extern u8 func_02045748(struct Descriptor *p);
@@ -76,9 +76,9 @@ void func_021B8FE4(struct S *s, u32 a1, u32 a2)
 
     res = (void *)s->f38[a2].f0;
     map = s->f40[s->f28[a1].f0];
-    vram = func_02051B0C(func_021B8FA0(func_0202CF8C(s->f3c, a2)));
-    func_0202CAC4(s->f3c, a2, map);
-    func_0202CEBC(s->f3c, a2, res);
+    vram = BUTTON_MAN_CallHandlerById(func_021B8FA0(BGWINFRM_GetBgFrame(s->f3c, a2)));
+    BGWINFRM_SetFrameData(s->f3c, a2, map);
+    BGWINFRM_PutBmpWin(s->f3c, a2, res);
     stride = s->f4;
     w = func_02045748(res);
     h = func_02045750(res);

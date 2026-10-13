@@ -1,5 +1,5 @@
 /*
- * function: func_02179628
+ * function: WIH_SetConnectCallback
  * address: 0x02179628
  * packet: pkt_ov014_02179628
  * region: ov014
@@ -13,4 +13,4 @@
  */
 typedef unsigned char u8;
 extern u8 *g_021797A8;
-void func_02179628(unsigned v) { *(unsigned *)(g_021797A8 + 0x1E84) = v; }
+void WIH_SetConnectCallback(unsigned v) { *(unsigned *)(g_021797A8 + 0x1E84) = v; }

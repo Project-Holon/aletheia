@@ -1,5 +1,5 @@
 /*
- * function: func_021CDA0C
+ * function: DWCi_SceneSetTestConfNopA
  * address:  0x021CDA0C
  * packet:   pkt_ov016_021CDA0C
  * region:   ov016
@@ -10,6 +10,6 @@
  * status:   EXACT
  */
 
-void func_021CDA0C(void)
+void DWCi_SceneSetTestConfNopA(void)
 {
 }

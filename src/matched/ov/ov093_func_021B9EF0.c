@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_020457B0  0x020457B0  arm
- *   func_02045A00  0x02045A00  arm
+ *   STRBUF_SetChars  0x02045A00  arm
  *   func_02082D44  0x02082D44  arm
- *   func_02024570  0x02024570  thumb
- *   func_0202428C  0x0202428C  thumb
+ *   PMSI_PARAM_Copy  0x02024570  thumb
+ *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  */
 
 typedef unsigned short u16;
@@ -50,11 +50,11 @@ typedef unsigned int   u32;
 struct Buf;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045A00(struct Buf *buf, const void *src, u32 n);
+extern void STRBUF_SetChars(struct Buf *buf, const void *src, u32 n);
 extern void func_02082D44(const void *, void *, int);
 struct Rec8;
-extern void func_02024570(struct Rec8 *dst, const struct Rec8 *src);
-extern void func_0202428C(void *obj);
+extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
+extern void PMSI_PARAM_ClearSentence(void *obj);
 
 void func_021B9EF0(struct A *p, const struct B *src)
 {
@@ -68,11 +68,11 @@ void func_021B9EF0(struct A *p, const struct B *src)
         t = (int)func_020457B0(0x20, 0x12);
         u = src->f68 + 1;
         p->q = t;
-        func_02045A00((struct Buf *)t, (char *)src + 0x28, u);
+        STRBUF_SetChars((struct Buf *)t, (char *)src + 0x28, u);
         p->c = src->f8;
         func_02082D44(src->b, p->h, 8);
-        func_02024570((struct Rec8 *)(&p->s18), (const struct Rec8 *)(&src->s18));
-        func_02024570((struct Rec8 *)(&p->s20), (const struct Rec8 *)(&src->s20));
+        PMSI_PARAM_Copy((struct Rec8 *)(&p->s18), (const struct Rec8 *)(&src->s18));
+        PMSI_PARAM_Copy((struct Rec8 *)(&p->s20), (const struct Rec8 *)(&src->s20));
     } else {
         p->ha = 0;
         p->h8 = 0;
@@ -80,7 +80,7 @@ void func_021B9EF0(struct A *p, const struct B *src)
         for (i = 0; i < 4; i++) {
             p->h[i] = 0;
         }
-        func_0202428C(&p->s18);
-        func_0202428C(&p->s20);
+        PMSI_PARAM_ClearSentence(&p->s18);
+        PMSI_PARAM_ClearSentence(&p->s20);
     }
 }

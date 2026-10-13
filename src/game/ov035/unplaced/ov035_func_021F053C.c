@@ -12,49 +12,55 @@
  * symbols:
  *   func_021F053C 0x021F053C thumb
  *   func_020456F8 0x020456F8 arm
- *   func_02045788 0x02045788 arm
+ *   BMP_WIN_SetPosY 0x02045788 arm
  *   func_02045334 0x02045334 arm
  *   func_02045374 0x02045374 arm
  *   func_021F0254 0x021F0254 thumb ov035
  *   func_020221A4 0x020221A4 thumb
  *   func_02035C60 0x02035C60 arm
  */
-#include "../../../matched/include/Obj02755.h"
-
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-struct Cfg;
-struct Descriptor;
-extern void func_020456F8(struct Descriptor *d);
-extern void func_02045788(struct Descriptor *p, u8 v);
-struct Descriptor;
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
-extern void func_021F0254(char *p, int a1, int a2);
+struct BmpWin;
+
+/* Work area of the C-Gear power on/off screen (fields used by this step only). */
+typedef struct CGearPowerOnOffWork {
+    u8 reserved0[24];
+    struct BmpWin *messageWindow; /* 0x18 */
+    struct BmpWin *menuWindow;    /* 0x1C */
+    u8 reserved20[42];
+    u16 step;                     /* 0x4A */
+} CGearPowerOnOffWork;
+
+extern void func_020456F8(struct BmpWin *window);
+extern void BMP_WIN_SetPosY(struct BmpWin *window, u8 posY);
+extern void func_02045334(struct BmpWin *window);
+extern void func_02045374(struct BmpWin *window);
+extern void func_021F0254(CGearPowerOnOffWork *work, struct BmpWin *window, int windowKind);
 extern u32 func_020221A4(void);
 extern int func_02035C60(void);
 
-int func_021F053C(char *p)
+int func_021F053C(CGearPowerOnOffWork *work)
 {
-    switch (((struct Obj02755 *)p)->f4A) {
+    switch (work->step) {
     case 0:
-        func_020456F8((struct Descriptor *)(((struct Obj02755 *)p)->f18));
-        func_020456F8((struct Descriptor *)(((struct Obj02755 *)p)->f1C));
-        func_02045788((struct Descriptor *)(((struct Obj02755 *)p)->f1C), 6);
-        func_02045334((struct Descriptor *)((struct Obj02755 *)p)->f1C);
-        func_02045374((struct Cfg *)(((struct Obj02755 *)p)->f1C));
-        func_021F0254(p, ((struct Obj02755 *)p)->f1C, 4);
-        (((struct Obj02755 *)p)->f4A)++;
+        func_020456F8(work->messageWindow);
+        func_020456F8(work->menuWindow);
+        BMP_WIN_SetPosY(work->menuWindow, 6);
+        func_02045334(work->menuWindow);
+        func_02045374(work->menuWindow);
+        func_021F0254(work, work->menuWindow, 4);
+        work->step++;
         break;
     case 1:
         if (func_020221A4() == 1)
-            (((struct Obj02755 *)p)->f4A)++;
+            work->step++;
         break;
     case 2:
         if (func_02035C60() != 0)
-            (((struct Obj02755 *)p)->f4A)++;
+            work->step++;
         break;
     case 3:
         return 1;

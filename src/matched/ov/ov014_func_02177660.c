@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_021797A4     0x021797A4  data   a4
+ *   g_pWhPipeWork     0x021797A4  data   a4
  *   func_02178E4C  0x02178E4C  thumb  ov014
- *   func_0217945C  0x0217945C  thumb  ov014
+ *   DWCi_MOV_WH_StateInEndKeyShare  0x0217945C  thumb  ov014
  *   func_0217727C  0x0217727C  thumb  ov014
  *   func_02177614  0x02177614  thumb  ov014
  */
@@ -20,9 +20,9 @@
 
 typedef unsigned char u8;
 
-extern struct W *g_021797A4;
+extern struct W *g_pWhPipeWork;
 extern int func_02178E4C(void);
-extern void func_0217945C(void);
+extern void DWCi_MOV_WH_StateInEndKeyShare(void);
 typedef unsigned int   u32;
 extern void func_0217727C(u32 *p, u32 v);
 extern void func_02177614(u8 *p);
@@ -31,16 +31,16 @@ void func_02177660(u8 *p)
 {
     p[0xCF5]--;
     if (func_02178E4C() == 0 || func_02178E4C() == 1) {
-        func_0217727C((u32 *)((u8 *)g_021797A4), 0);
+        func_0217727C((u32 *)((u8 *)g_pWhPipeWork), 0);
         return;
     }
     if (func_02178E4C() == 9) {
-        func_0217945C();
-        func_0217727C((u32 *)((u8 *)g_021797A4), (u32)func_02177614);
+        DWCi_MOV_WH_StateInEndKeyShare();
+        func_0217727C((u32 *)((u8 *)g_pWhPipeWork), (u32)func_02177614);
         return;
     }
     if (p[0xCF5] == 0) {
-        func_0217945C();
-        func_0217727C((u32 *)((u8 *)g_021797A4), (u32)func_02177614);
+        DWCi_MOV_WH_StateInEndKeyShare();
+        func_0217727C((u32 *)((u8 *)g_pWhPipeWork), (u32)func_02177614);
     }
 }

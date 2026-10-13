@@ -12,7 +12,7 @@
  * symbols:
  *
  * Bit i of a byte array, inverted: 1 when the bit is clear.  Unlabelled leaf
- * in the 0x0202F114..0x0202F190 gap between func_0202F0B0 and func_0202F190.
+ * in the 0x0202F114..0x0202F190 gap between TIME_ICON_Update and func_0202F190.
  *
  * The byte index and the bit number are both `u8` locals: the original
  * truncates each with its own `lsls #0x18`/`lsrs #0x18` pair, and `i >> 3`

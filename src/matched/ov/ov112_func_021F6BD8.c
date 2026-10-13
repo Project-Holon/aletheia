@@ -10,7 +10,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020490F4 0x020490F4 arm
  *   func_0204ABF0 0x0204ABF0 arm
  *   func_0204A6C8 0x0204A6C8 arm
@@ -24,7 +24,7 @@ typedef unsigned char u8;
 struct Bank;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void *func_020490F4(u32 id, u32 heap);
 extern signed int func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 typedef signed int     s32;
@@ -44,7 +44,7 @@ Object *func_021F6BD8(u16 heap,void *a)
     for(;i<4;i++) p->entries[i][0]=0;
     p->other[0]=0;
     p->bank=func_0204B100(5,0,p->heap);
-    func_0204B270(p->bank);
+    CLACT_SetUnitDefaultRenderer(p->bank);
     q=func_020490F4((unsigned int)47,p->heap);
     p->x=func_0204ABF0((void *)q,4,0,0,p->heap);
     p->y=func_0204A6C8((void *)((u32)q),10,0,0,p->heap);

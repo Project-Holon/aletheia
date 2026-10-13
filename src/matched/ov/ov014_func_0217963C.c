@@ -1,5 +1,5 @@
 /*
- * function: func_0217963C
+ * function: WIH_SetBeaconFoundCallback
  * address:  0x0217963C
  * packet:   pkt_ov014_0217963C
  * region:   ov014
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Recursive MATCH unblocker: the unlabelled ov014 setter that func_020103E4
- * (+001A) and sub_02010360 (+0056) call: store v into word +0x1E88 of the
+ * Recursive MATCH unblocker: the unlabelled ov014 setter that WIH_DWC_Delete
+ * (+001A) and WIH_DWC_Create (+0056) call: store v into word +0x1E88 of the
  * object behind the pointer at g_021797A8.
  *
  * symbols:
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern u8 *g_021797A8;
 
-void func_0217963C(u32 v)
+void WIH_SetBeaconFoundCallback(u32 v)
 {
     *(u32 *)(g_021797A8 + 0x1E88) = v;
 }

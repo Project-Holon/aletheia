@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_0202D034  0x0202D034  thumb
- *   func_0204B898  0x0204B898  arm
+ *   CLACT_GetActorAnimSeq  0x0204B898  arm
  */
 typedef unsigned int u32;
 
@@ -56,7 +56,7 @@ typedef struct {
 extern int func_0202D034(u32 a, u32 b);
 typedef unsigned short u16;
 struct Obj;
-extern u16 func_0204B898(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 
 int func_02208958(W *w, int i, int *o1, int *o2)
 {
@@ -66,7 +66,7 @@ int func_02208958(W *w, int i, int *o1, int *o2)
         return 0;
     }
     *o1 = func_0202D034(w->r[i].f48, w->r[i].f4c);
-    *o2 = func_0204B898((struct Obj *)w->r[i].h14);
+    *o2 = CLACT_GetActorAnimSeq((struct Obj *)w->r[i].h14);
     if (*o2 == 0)
         *o2 = 8;
     return 1;

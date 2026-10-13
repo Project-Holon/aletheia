@@ -15,13 +15,13 @@
  * symbols:
  *   func_02030734       0x02030734  arm
  *   MI_CpuFill8         0x02082BCC  arm
- *   func_020251FC       0x020251FC  thumb
+ *   INFOWIN_LoadGraphics       0x020251FC  thumb
  *   func_020056A0       0x020056A0  thumb
- *   func_0203568C       0x0203568C  arm
+ *   UI_GetPowerState       0x0203568C  arm
  *   func_0201283C       0x0201283C  thumb
- *   func_02012BB0       0x02012BB0  thumb
+ *   GAME_DATA_IsConfigFlagSet       0x02012BB0  thumb
  *   func_02024ABC       0x02024ABC  thumb
- *   func_02024DFC       0x02024DFC  thumb
+ *   INFOWIN_DrawTask       0x02024DFC  thumb
  *   gInfoWin            0x0214693C  data
  *   infowin_File        0x020A7478  data
  */
@@ -56,13 +56,13 @@ extern const char infowin_File[];
 struct BigObj;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
-extern void  func_020251FC(u32 a, u32 b, u32 heap);
+extern void  INFOWIN_LoadGraphics(u32 a, u32 b, u32 heap);
 extern void *func_020056A0(void (*cb)(void *), void *work, u32 pri);
-extern int func_0203568C(void);
+extern int UI_GetPowerState(void);
 extern u32 func_0201283C(const struct BigObj *p);
-extern u32 func_02012BB0(const struct BigObj *p);
+extern u32 GAME_DATA_IsConfigFlagSet(const struct BigObj *p);
 extern void  func_02024ABC(void);
-extern void func_02024DFC(void);
+extern void INFOWIN_DrawTask(void);
 
 void func_02024A20(u8 a0, u8 a1, void *a2, u16 heap)
 {
@@ -70,13 +70,13 @@ void func_02024A20(u8 a0, u8 a1, void *a2, u16 heap)
     MI_CpuFill8(gInfoWin, 0, 0x28);
     gInfoWin->f06 = a0;
     gInfoWin->f07 = a1;
-    func_020251FC(a0, a1, heap);
-    gInfoWin->f24 = func_020056A0((void (*)(void *))func_02024DFC, gInfoWin, 1);
+    INFOWIN_LoadGraphics(a0, a1, heap);
+    gInfoWin->f24 = func_020056A0((void (*)(void *))INFOWIN_DrawTask, gInfoWin, 1);
     gInfoWin->f20 = 0;
-    gInfoWin->f1F = func_0203568C();
+    gInfoWin->f1F = UI_GetPowerState();
     if (a2 != 0) {
         gInfoWin->f0C = func_0201283C(a2);
-        gInfoWin->f10 = func_02012BB0(a2);
+        gInfoWin->f10 = GAME_DATA_IsConfigFlagSet(a2);
     } else {
         gInfoWin->f0C = 0;
         gInfoWin->f10 = 0;

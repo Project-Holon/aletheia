@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_020247A8 0x020247A8 thumb
+ *   PMS_WORD_Create 0x020247A8 thumb
  *   func_021B9608 0x021B9608 thumb ov110
  *   func_021B98A0 0x021B98A0 thumb ov110
  *   d_021C3B80 0x021C3B80 data a1
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct PmsWordSys;
-extern struct PmsWordSys *func_020247A8(u32 heapId);
+extern struct PmsWordSys *PMS_WORD_Create(u32 heapId);
 extern void func_021B9608(void *);
 extern void func_021B98A0(u8 *p);
 extern const char d_021C3B80[];
@@ -30,7 +30,7 @@ void *func_021B95A0(u32 heap,void *save)
     int i;
     p=func_02030734((u16)heap,0x1E50,0,d_021C3B80,88);
     ((struct Obj05283 *)p)->f0=save;
-    ((struct Obj05283 *)p)->f4=func_020247A8(heap);
+    ((struct Obj05283 *)p)->f4=PMS_WORD_Create(heap);
     for(i=0;i<226;i++) *(u8 *)(p+0x1D6E + i)=0;
     func_021B9608(p);
     func_021B98A0((u8 *)p);

@@ -1,5 +1,5 @@
 /*
- * function: func_02012CE0
+ * function: GAME_DATA_WriteToSave
  * address:  0x02012CE0
  * packet:   pkt_02012C18
  * region:   arm9
@@ -85,7 +85,7 @@ extern struct PlayTime *func_02008748(void *sys);
 extern void func_02008658(struct PlayTime *p);
 extern void func_0200863C(struct PlayTime *dest, const struct PlayTime *src);
 
-void func_02012CE0(u8 *p)
+void GAME_DATA_WriteToSave(u8 *p)
 {
     u32 v;
     u32 h;

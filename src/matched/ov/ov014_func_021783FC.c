@@ -12,10 +12,10 @@
  *   g_021797A8     0x021797A8  data  ov014  a4
  *   func_0217814C  0x0217814C  thumb  ov014
  *   func_02178138  0x02178138  thumb  ov014
- *   func_0203D6BC  0x0203D6BC  arm
- *   func_0203D680  0x0203D680  arm
- *   func_0203D5D4  0x0203D5D4  arm
- *   func_0209004C  0x0209004C  arm
+ *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
+ *   GFL_NET_GetMaxConnectNum  0x0203D680  arm
+ *   GFL_NET_GetGameKind  0x0203D5D4  arm
+ *   WM_StartDataSharing  0x0209004C  arm
  */
 
 typedef unsigned char u8;
@@ -25,10 +25,10 @@ typedef unsigned int u32;
 extern u8 *g_021797A8;
 void func_0217814C(int error);
 void func_02178138(int state);
-u32 func_0203D6BC(void);
-u32 func_0203D680(void);
-u32 func_0203D5D4(void);
-int func_0209004C(void *p, u32 a, u32 b, u16 c, u32 d);
+u32 GFL_NET_GetChildSendSize(void);
+u32 GFL_NET_GetMaxConnectNum(void);
+u32 GFL_NET_GetGameKind(void);
+int WM_StartDataSharing(void *p, u32 a, u32 b, u16 c, u32 d);
 
 void func_021783FC(u16 *a)
 {
@@ -46,13 +46,13 @@ void func_021783FC(u16 *a)
     switch (a[2]) {
     case 10:
         if (*(int *)(g_021797A8 + 0x1E74) == 4) {
-            id = func_0203D6BC();
-            n = func_0203D680() - 1;
+            id = GFL_NET_GetChildSendSize();
+            n = GFL_NET_GetMaxConnectNum() - 1;
             mask = (1 << (n + 1)) - 1;
             flag = 1;
-            if (func_0203D5D4() == 2)
+            if (GFL_NET_GetGameKind() == 2)
                 flag = 0;
-            r = func_0209004C(g_021797A8 + 0x1444, 13, mask, id, flag);
+            r = WM_StartDataSharing(g_021797A8 + 0x1444, 13, mask, id, flag);
             if (r != 0) {
                 func_0217814C(r);
                 func_02178138(9);

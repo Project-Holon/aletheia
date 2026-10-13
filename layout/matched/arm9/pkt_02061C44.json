@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02061C44",
+   "name": "NNS_GfdDoVramTransfer",
    "address": "0x02061C44",
    "kind": "game",
    "region": "arm9",

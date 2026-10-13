@@ -25,7 +25,7 @@
    }
   },
   {
-   "name": "func_02051F34",
+   "name": "BUTTON_MAN_SegmentSphereTest",
    "address": "0x02051F34",
    "kind": "game",
    "region": "arm9",

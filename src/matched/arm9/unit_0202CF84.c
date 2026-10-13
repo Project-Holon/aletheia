@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0202CF84
+ * function: BGWINFRM_GetFrameBuffer
  * address:  0x0202CF84
  * packet:   pkt_0202CF84
  * region:   arm9
@@ -13,7 +13,7 @@
  * bgwinfrm.c window-record accessors, 0x0202CF84..0x0202D01A: tile
  * pointer, bg index, scroll pair, the two 6-bit size bitfields, the clip
  * box setter and one empty function.  Same struct Win as
- * src/matched/func_0202CDD4.c.  All leaves; the unit calls nothing.
+ * src/matched/BGWINFRM_UpdateMove.c.  All leaves; the unit calls nothing.
  */
 
 typedef unsigned char  u8;
@@ -44,17 +44,17 @@ struct WinMgr {
     struct Win *wins;
 };
 
-u32 func_0202CF84(struct WinMgr *mgr, u32 idx)
+u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx)
 {
     return mgr->wins[idx].tiles;
 }
 
-u8 func_0202CF8C(struct WinMgr *mgr, u32 idx)
+u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx)
 {
     return mgr->wins[idx].bg;
 }
 
-void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y)
+void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y)
 {
     if (x != 0) {
         *x = mgr->wins[idx].x;
@@ -64,7 +64,7 @@ void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y)
     }
 }
 
-void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h)
+void BGWINFRM_GetSize(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h)
 {
     if (w != 0) {
         *w = mgr->wins[idx].w;
@@ -74,7 +74,7 @@ void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h)
     }
 }
 
-void func_0202CFEC(struct WinMgr *mgr, u32 idx, s8 xmin, s8 xmax,
+void BGWINFRM_SetClipArea(struct WinMgr *mgr, u32 idx, s8 xmin, s8 xmax,
                    s8 ymin, s8 ymax)
 {
     mgr->wins[idx].xmin = xmin;

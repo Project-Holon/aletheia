@@ -1,5 +1,5 @@
 /*
- * function: func_02176200
+ * function: INTRUDE_COMM_ClearJoinReply
  * address:  0x02176200
  * packet:   pkt_02176200
  * region:   ov011
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_02176200(char *p)
+void INTRUDE_COMM_ClearJoinReply(char *p)
 {
     p[0x1a3] = 0;
 }

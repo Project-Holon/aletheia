@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202C1D4",
+   "name": "ISS_SWITCH_SYS_TurnOn",
    "address": "0x0202C1D4",
    "kind": "game",
    "region": "arm9",

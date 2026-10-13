@@ -16,7 +16,7 @@
  *   func_021803BC  0x021803BC  arm  ov009
  *   func_02084F40  0x02084F40  arm
  *   func_0217ED38  0x0217ED38  arm  ov009
- *   func_0215F650  0x0215F650  arm  ov009
+ *   SOC_GetHostByName  0x0215F650  arm  ov009
  *   func_0217EB18  0x0217EB18  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
  *   func_0217EB2C  0x0217EB2C  arm  ov009
@@ -59,7 +59,7 @@ extern int func_0219FB64(char *s, int numbuckets);
 extern u32 func_021803BC(char *dst, char *src, u32 size);
 extern int func_02084F40(char *dst, char *fmt, ...);
 extern u32 func_0217ED38(char *name);
-extern SOCHostEnt *func_0215F650(char *name);
+extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int func_0217EB2C(int sock);
@@ -80,7 +80,7 @@ int func_0219FBB8(SBServerList *slist)
     saddr.port = 0xEE70;
     saddr.addr = func_0217ED38(masterHostname);
     if (saddr.addr == (u32)-1) {
-        hent = func_0215F650(masterHostname);
+        hent = SOC_GetHostByName(masterHostname);
         if (!hent)
             return 2;
         memcpy(&saddr.addr, hent->addrList[0], 4);

@@ -11,15 +11,15 @@
  *
  * symbols:
  *   func_020070A4  0x020070A4  thumb
- *   func_02008448  0x02008448  thumb
+ *   CONFIG_GetBattleFlag  0x02008448  thumb
  *   func_0200C31C  0x0200C31C  thumb
- *   func_020070C8  0x020070C8  thumb
+ *   SAVE_CONTROL_Reload  0x020070C8  thumb
  *   func_0200873C  0x0200873C  thumb
- *   func_02008414  0x02008414  thumb
+ *   CONFIG_ApplyAppliedFlag  0x02008414  thumb
  *   func_0200890C  0x0200890C  thumb
- *   func_02011EEC  0x02011EEC  thumb
- *   func_020312F8  0x020312F8  arm
- *   func_02008450  0x02008450  thumb
+ *   GAMESYSTEM_SetupInitWork  0x02011EEC  thumb
+ *   PROCSYS_ReplaceGlobal  0x020312F8  arm
+ *   CONFIG_SetBattleFlag  0x02008450  thumb
  *   func_0200C324  0x0200C324  thumb
  *   func_020315D4  0x020315D4  arm
  *   d_0209DF9C     0x0209DF9C  data  a4
@@ -49,16 +49,16 @@ struct Flags02008450;
 struct Sub02007084Ctrl;
 struct Sub02008700Obj;
 extern struct Sub02007084Ctrl *func_020070A4(void);
-extern unsigned int func_02008448(int a0);
+extern unsigned int CONFIG_GetBattleFlag(int a0);
 extern u8 func_0200C31C(struct Blk34 *p);
-extern int func_020070C8(char *self);
+extern int SAVE_CONTROL_Reload(char *self);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern u8 func_02008414(const struct Flags02008414 *p);
+extern u8 CONFIG_ApplyAppliedFlag(const struct Flags02008414 *p);
 struct Sub02008828Rec;
 extern void func_0200890C(void *sys, struct Sub02008828Rec *dest);
-extern void *func_02011EEC(u32, u16, Rec12 *, int);
-extern void func_020312F8(u32 a1, u32 a2, u32 a3);
-extern void func_02008450(struct Flags02008450 *p, int on);
+extern void *GAMESYSTEM_SetupInitWork(u32, u16, Rec12 *, int);
+extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
+extern void CONFIG_SetBattleFlag(struct Flags02008450 *p, int on);
 extern void func_0200C324(struct Blk34 *p, u8 v);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
@@ -72,13 +72,13 @@ int func_021BC430(int a, int b, int c, u32 *q)
     u8 h;
 
     r = func_020070A4();
-    t = func_02008448((int)((void *)q[1]));
+    t = CONFIG_GetBattleFlag((int)((void *)q[1]));
     h = func_0200C31C((void *)q[3]);
-    func_020070C8(r);
-    func_02008414((const struct Flags02008414 *)func_0200873C(r));
+    SAVE_CONTROL_Reload(r);
+    CONFIG_ApplyAppliedFlag((const struct Flags02008414 *)func_0200873C(r));
     func_0200890C(r, (struct Sub02008828Rec *)(&s));
-    func_020312F8(-1, (u32)d_0209DF9C, (u32)func_02011EEC(1, s.f0, &s.rec, s.f18));
-    func_02008450((void *)q[1], t);
+    PROCSYS_ReplaceGlobal(-1, (u32)d_0209DF9C, (u32)GAMESYSTEM_SetupInitWork(1, s.f0, &s.rec, s.f18));
+    CONFIG_SetBattleFlag((void *)q[1], t);
     func_0200C324((void *)q[3], h);
     func_020315D4((struct S020315D4 *)a);
     return 1;

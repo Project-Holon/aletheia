@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0209004C 0x0209004C arm
+ *   WM_StartDataSharing 0x0209004C arm
  */
 
 typedef unsigned short u16;
 typedef int BOOL;
 typedef int WMErrCode;
 
-extern WMErrCode func_0209004C(void *dsInfo, u16 port, u16 aidBitmap, u16 dataLength, BOOL doubleMode);
+extern WMErrCode WM_StartDataSharing(void *dsInfo, u16 port, u16 aidBitmap, u16 dataLength, BOOL doubleMode);
 
 WMErrCode WM_StartKeySharing(void *dsInfo, u16 port)
 {
-    return func_0209004C(dsInfo, port, 0xFFFF, 2, 1);
+    return WM_StartDataSharing(dsInfo, port, 0xFFFF, 2, 1);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217933C",
+   "name": "DWCi_MOV_WH_SetReceiver",
    "address": "0x0217933C",
    "kind": "game",
    "region": "ov014",

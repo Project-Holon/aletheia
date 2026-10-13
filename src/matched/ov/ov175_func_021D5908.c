@@ -29,7 +29,7 @@
  *   func_021D9EEC 0x021D9EEC thumb ov175
  *   func_021DC1A0 0x021DC1A0 thumb ov175
  *   func_021DC1E4 0x021DC1E4 thumb ov175
- *   func_0201A918 0x0201A918 thumb
+ *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_02045A98 0x02045A98 arm
  *   func_02045B38 0x02045B38 arm
@@ -38,8 +38,8 @@
  *   func_02045808 0x02045808 arm
  *   func_02045C04 0x02045C04 arm
  *   func_02025BEC 0x02025BEC thumb
- *   func_020245D4 0x020245D4 thumb
- *   func_020242A4 0x020242A4 thumb
+ *   PMSI_PARAM_IsValid 0x020245D4 thumb
+ *   PMSI_PARAM_InitSentence 0x020242A4 thumb
  *   func_021D67BC 0x021D67BC thumb ov175
  *   func_021DA36C 0x021DA36C thumb ov175
  *   func_021DCA28 0x021DCA28 thumb ov175
@@ -79,7 +79,7 @@ extern void func_021D9ED4(char *, u32);
 extern int func_021D9EEC(char *);
 extern u32 func_021DC1A0(char *obj, u32 data);
 extern u32 func_021DC1E4(char *, char **);
-extern int func_0201A918(void);
+extern int POKE_REGULATION_GetDataSize(void);
 extern void func_02082D44(const void *, void *, u32);
 extern u16 func_02045A98(void);
 extern struct MsgBank *func_02045B38(u32, u32, u32, u32);
@@ -88,8 +88,8 @@ extern void func_02045A38(struct U16Vec *, u16 *, unsigned int);
 extern void func_02045808(struct U16Vec *);
 extern u32 func_02045C04(struct Rec *rec);
 extern unsigned int func_02025BEC(unsigned int, unsigned int, unsigned int);
-extern unsigned int func_020245D4(struct T *, unsigned int);
-extern void func_020242A4(void *, unsigned int);
+extern unsigned int PMSI_PARAM_IsValid(struct T *, unsigned int);
+extern void PMSI_PARAM_InitSentence(void *, unsigned int);
 extern int func_021D67BC(char *, u16);
 extern void func_021DA36C(int);
 extern void func_021DCA28(char *, u32, u16);
@@ -176,7 +176,7 @@ void func_021D5908(unsigned sys, int *state, char *p)
     case 9:
         if (func_021DC1E4((char *)P(0x30), &incoming)) {
             data = (char *)Q(0x18);
-            size = func_0201A918() + 0xd4;
+            size = POKE_REGULATION_GetDataSize() + 0xd4;
             func_02082D44(incoming, data, size);
             empty = 1;
             for (i = 0; i < 8; i++) if (((u16 *)data)[i] == func_02045A98()) empty = 0;
@@ -194,7 +194,7 @@ void func_021D5908(unsigned sys, int *state, char *p)
             if (!func_02025BEC((u8)data[0x18], (u8)data[0x19], (u8)data[0x1a])) {
                 data[0x18] = 0; data[0x19] = 0;
             }
-            if (!func_020245D4((struct T *)(data + 0x38), 0x8057)) func_020242A4(data + 0x38, 1);
+            if (!PMSI_PARAM_IsValid((struct T *)(data + 0x38), 0x8057)) PMSI_PARAM_InitSentence(data + 0x38, 1);
             TIMEOUT = 0; *state = 10;
         }
         timed = 1; break;

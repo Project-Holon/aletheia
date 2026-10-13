@@ -16,11 +16,11 @@
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02031324 0x02031324 arm
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Create 0x02031324 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   d_021C9944 0x021C9944 data a4
  *   func_02030734 0x02030734 arm
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   d_021C99A0 0x021C99A0 data a1
  *   d_021BC8BC 0x021BC8BC data ov211 a4
  *   ov211_id 0x000000D3 data a1
@@ -57,7 +57,7 @@
  *   func_0204A39C  0x0204A39C  arm
  *   g_021C99A8     0x021C99A8  data
  *   g_021C9968     0x021C9968  data
- *   func_0201AF80  0x0201AF80  thumb
+ *   POKE_PERSONAL_LoadFormTable  0x0201AF80  thumb
  */
 #include "../../matched/include/Obj00635.h"
 #include "../../matched/include/Obj25642.h"
@@ -138,14 +138,14 @@ struct Search {
 extern void func_0203064C(unsigned,unsigned,unsigned);
 extern void *func_0203159C(struct Obj0203159C *,unsigned,unsigned);
 extern void func_02082BCC(void *,unsigned char,unsigned);
-extern void *func_02031324(int);
-extern unsigned func_02031330(void *);
+extern void *PROCSYS_Create(int);
+extern unsigned PROCSYS_Main(void *);
 extern void func_0203133C(struct S020314B8 *);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(u32 heap);
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern void func_02031348(struct Obj020314F4 *,unsigned,unsigned,unsigned);
+extern void PROCSYS_Push(struct Obj020314F4 *,unsigned,unsigned,unsigned);
 extern void *func_0200CA1C(void *);
 extern u16 func_0200CA8C(struct Blk37 *);
 extern void func_0200CA78(struct Blk37 *p, u32 v);
@@ -171,7 +171,7 @@ extern u8 finalTest(const u8 *, const u16 *, u32, u32);
 extern void *load(int,int,int,int,u32 *);
 extern u16 *names(int,u16 *);
 extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
-extern u16 *func_0201AF80(u32 heap, u16 *countOut);
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx);
 int func_021C8F2C(int a,int b,int c,unsigned char *p);
 int func_021C8F58(struct S020315D4 *obj, void *b, void *c, u8 *p);
@@ -230,7 +230,7 @@ int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx)
     p=func_0203159C(obj,44,105);
     func_02082BCC(p,0,44);
     ((struct Obj00635 *)p)->f0=ctx;
-    ((struct Obj00635 *)p)->f4=func_02031324(105);
+    ((struct Obj00635 *)p)->f4=PROCSYS_Create(105);
     ((struct Obj00635 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25642 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,(u16 **)(p+12),105);
     ((struct Obj00635 *)p)->f12=0;
     func_021C92EC(*(struct Blk37 * *)&((struct Obj25643 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,*(u16 * *)&((struct Obj00635 *)p)->fC,((struct Obj00635 *)p)->f10);
@@ -248,7 +248,7 @@ int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx)
 
 
 
-int func_021C8F2C(int a,int b,int c,unsigned char *p){if(((struct Obj08415 *)p)->f1C==9)return 1;((struct Obj08415 *)p)->f8=func_02031330(((struct Obj08415 *)p)->f4);((struct Obj08415 *)p)->f1C=(*(unsigned (**)(unsigned char *))(d_021C9944+*(unsigned *)(p+28)*4))(p);return 0;}
+int func_021C8F2C(int a,int b,int c,unsigned char *p){if(((struct Obj08415 *)p)->f1C==9)return 1;((struct Obj08415 *)p)->f8=PROCSYS_Main(((struct Obj08415 *)p)->f4);((struct Obj08415 *)p)->f1C=(*(unsigned (**)(unsigned char *))(d_021C9944+*(unsigned *)(p+28)*4))(p);return 0;}
 
 
 
@@ -296,7 +296,7 @@ void func_021C8FA8(char *p)
     ((struct Obj06701 *)p)->f28=q;
     q[0]=**(unsigned * *)&((struct Obj06701 *)p)->f0;
     q[1]=((struct Obj25653 *)(*(char * *)&((struct Obj06701 *)p)->f0))->f8;
-    func_02031348(*(struct Obj020314F4 * *)&((struct Obj06701 *)p)->f4,(unsigned)ov211_id,(unsigned)d_021BC8BC,*(unsigned *)&((struct Obj06701 *)p)->f28);
+    PROCSYS_Push(*(struct Obj020314F4 * *)&((struct Obj06701 *)p)->f4,(unsigned)ov211_id,(unsigned)d_021BC8BC,*(unsigned *)&((struct Obj06701 *)p)->f28);
     func_021C8F90(p,2);
 }
 
@@ -341,7 +341,7 @@ void func_021C9024(char *p)
         ((struct Obj04626 *)q)->fC=((struct Obj02259 *)p)->fC;
         ((struct Obj04626 *)q)->fA=((struct Obj02259 *)p)->f10;
     }
-    func_02031348(*(struct Obj020314F4 * *)&((struct Obj02259 *)p)->f4,(unsigned)ov209_id,(unsigned)d_021BE794,*(unsigned *)&((struct Obj02259 *)p)->f28);
+    PROCSYS_Push(*(struct Obj020314F4 * *)&((struct Obj02259 *)p)->f4,(unsigned)ov209_id,(unsigned)d_021BE794,*(unsigned *)&((struct Obj02259 *)p)->f28);
     func_021C8F90(p,4);
 }
 
@@ -402,7 +402,7 @@ void func_021C9130(char *p)
     ((struct Obj06703 *)q)->f8=p+20;
     ((struct Obj06703 *)q)->f10=0;
     ((struct Obj06703 *)q)->f14=0;
-    func_02031348(*(struct Obj020314F4 * *)&((struct Obj06702 *)p)->f4,(unsigned)ov210_id,(unsigned)d_021C0714,*(unsigned *)&((struct Obj06702 *)p)->f28);
+    PROCSYS_Push(*(struct Obj020314F4 * *)&((struct Obj06702 *)p)->f4,(unsigned)ov210_id,(unsigned)d_021C0714,*(unsigned *)&((struct Obj06702 *)p)->f28);
     func_021C8F90(p,8);
 }
 
@@ -460,7 +460,7 @@ void func_021C91C4(char *p)
     for(i=0;i<((struct Obj04629 *)q)->fC;i++){
         if((*(u16 **)(q+8))[i]==selected){((struct Obj04629 *)q)->fE=i;break;}
     }
-    func_02031348(*(struct Obj020314F4 * *)&((struct Obj04628 *)p)->f4,(unsigned)ov208_id,(unsigned)d_021C8108,(unsigned)q);
+    PROCSYS_Push(*(struct Obj020314F4 * *)&((struct Obj04628 *)p)->f4,(unsigned)ov208_id,(unsigned)d_021C8108,(unsigned)q);
     ((struct Obj04628 *)p)->f28=q;
     func_021C8F90(p,6);
 }
@@ -782,7 +782,7 @@ void func_021C98A8(u32 a0, u32 a1, u16 *a2, u32 *a3,
 {
     u32 buf;
 
-    *a3 = (u32)func_0201AF80(a1, 0);
+    *a3 = (u32)POKE_PERSONAL_LoadFormTable(a1, 0);
     *a2 = 0x28A;
     *a5 = (u32)func_0204A39C((void *)a0, 1, 0, a1, &buf);
     *a4 = buf;

@@ -1,7 +1,7 @@
 /*
  * file:     unit_02069C00.c
  * unit:     yes
- * function: func_02069C00, func_02069C14
+ * function: NNSi_G2dReadCharUTF16, GetTaggedPayloadSize
  * address:  0x02069C00
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -30,8 +30,8 @@ typedef struct TaggedNode {
     u8 entryCountM;
 } TaggedNode;
 
-u16 func_02069C00(CharCursor *cursor);
-u32 func_02069C14(const u8 *tag, const TaggedNode *node);
+u16 NNSi_G2dReadCharUTF16(CharCursor *cursor);
+u32 GetTaggedPayloadSize(const u8 *tag, const TaggedNode *node);
 
 
 /*
@@ -41,7 +41,7 @@ u32 func_02069C14(const u8 *tag, const TaggedNode *node);
  * u8-pointer spelling `p = b->cur; b->cur = p + 2; return *(u16 *)p;`
  * schedules the store before the load (7 bytes).
  */
-u16 func_02069C00(CharCursor *cursor)
+u16 NNSi_G2dReadCharUTF16(CharCursor *cursor)
 {
     u16 *p = (u16 *)cursor->pCur;
     u16 v = *p++;
@@ -57,7 +57,7 @@ u16 func_02069C00(CharCursor *cursor)
  * two, plus the 0x1C header, rounded down to a word. 0x4D counts from the
  * byte at +0x18, 0x4A and 0x56 share the byte at +0x17.
  */
-u32 func_02069C14(const u8 *tag, const TaggedNode *node)
+u32 GetTaggedPayloadSize(const u8 *tag, const TaggedNode *node)
 {
     if (tag == 0 || node == 0) return 0;
     switch (*tag) {

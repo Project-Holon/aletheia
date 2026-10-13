@@ -80,7 +80,7 @@
    ]
   },
   {
-   "name": "func_0202C5AC",
+   "name": "ISS_SWITCH_Free",
    "address": "0x0202C5AC",
    "kind": "game",
    "region": "arm9",
@@ -104,7 +104,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202C5C4",
+   "name": "ISS_SWITCH_SetParam",
    "address": "0x0202C5C4",
    "kind": "game",
    "region": "arm9",
@@ -194,8 +194,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0202C6A0",
-    "func_0202C6AC"
+    "ISS_SWITCH_SetOnState",
+    "ISS_SWITCH_SetOffState"
+   ],
+   "addresses": [
+    "0x0202C6A0",
+    "0x0202C6AC"
    ]
   },
   {

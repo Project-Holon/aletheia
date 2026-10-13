@@ -8,15 +8,15 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02030F34
+ * function: TCBL_PushFreeTask
  *
  * Doubly linked list push-front: clears the new node's prev, chains it in
  * front of the current head, fixes the old head's back pointer if there
  * was one, and stores the new node as the head. No relocations.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030F34.c \
- *       --func sub_02030F34 --addr 0x02030F34 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TCBL_PushFreeTask.c \
+ *       --func TCBL_PushFreeTask --addr 0x02030F34 --cc 1.1p1
  */
 
 typedef unsigned int u32;
@@ -32,7 +32,7 @@ struct S02030F34 {
     struct Node02030F34 *head;
 };
 
-void sub_02030F34(struct S02030F34 *p, struct Node02030F34 *node)
+void TCBL_PushFreeTask(struct S02030F34 *p, struct Node02030F34 *node)
 {
     struct Node02030F34 *old = p->head;
     node->prev = 0;

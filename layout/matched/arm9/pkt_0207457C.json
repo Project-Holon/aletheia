@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0207457C",
+   "name": "NNS_SndArcGetFileSize",
    "address": "0x0207457C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020745A4",
+   "name": "NNS_SndArcReadFile",
    "address": "0x020745A4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0207466C",
+   "name": "NNS_SndArcGetFileAddress",
    "address": "0x0207466C",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02074694",
+   "name": "NNS_SndArcSetFileAddress",
    "address": "0x02074694",
    "kind": "game",
    "region": "arm9",

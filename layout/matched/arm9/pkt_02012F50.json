@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02012F50",
+   "name": "GAME_DATA_GetListCursor",
    "address": "0x02012F50",
    "kind": "game",
    "region": "arm9",

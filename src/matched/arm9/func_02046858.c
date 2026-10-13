@@ -1,5 +1,5 @@
 /*
- * function: func_02046858
+ * function: G3D_SYSTEM_SetProjection
  * address:  0x02046858
  * packet:   pkt_02046858
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C     0x02146A5C  data
+ *   _G3dSystem     0x02146A5C  data
  *   g_02148B54     0x02148B54  data
- *   g_02148B4C     0x02148B4C  data
+ *   g_renderState     0x02148B4C  data
  *   func_0207C408  0x0207C408  arm
  *   func_0207C1D0  0x0207C1D0  arm
  *   func_0207C554  0x0207C554  arm
@@ -20,7 +20,7 @@
  * Store an eight-word projection setup into the context (+0x1C mode,
  * +0x20..+0x38 parameters), then program it through one of three setup
  * calls selected by the mode; a zero +0x38 is replaced by 0x1000.  Every
- * arm clears bits 0x50 of g_02148B4C[0x3F] and returns on its own.
+ * arm clears bits 0x50 of g_renderState[0x3F] and returns on its own.
  *
  * Closed in wave 11.  What the older notes were missing:
  *   - the register-block pointer is taken into a named local (`hw`)
@@ -49,60 +49,60 @@ struct G3dCtx {
     u32 f38;
 };
 
-extern struct G3dCtx *g_02146A5C;
+extern struct G3dCtx *_G3dSystem;
 extern u8  g_02148B54[];
-extern u32 g_02148B4C[];
+extern u32 g_renderState[];
 
 extern void func_0207C408(u32 a0, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, void *s2);
 extern void func_0207C1D0(u32 a0, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void *s3);
 extern void func_0207C554(u32 a0, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void *s3);
 
-void func_02046858(const u32 *src)
+void G3D_SYSTEM_SetProjection(const u32 *src)
 {
     u32 *hw;
 
-    g_02146A5C->mode = src[0];
-    g_02146A5C->f20 = src[1];
-    g_02146A5C->f24 = src[2];
-    g_02146A5C->f28 = src[3];
-    g_02146A5C->f2c = src[4];
-    g_02146A5C->f30 = src[5];
-    g_02146A5C->f34 = src[6];
-    g_02146A5C->f38 = src[7];
-    hw = g_02148B4C;
+    _G3dSystem->mode = src[0];
+    _G3dSystem->f20 = src[1];
+    _G3dSystem->f24 = src[2];
+    _G3dSystem->f28 = src[3];
+    _G3dSystem->f2c = src[4];
+    _G3dSystem->f30 = src[5];
+    _G3dSystem->f34 = src[6];
+    _G3dSystem->f38 = src[7];
+    hw = g_renderState;
 
-    switch (g_02146A5C->mode) {
+    switch (_G3dSystem->mode) {
     case 0:
-        if (g_02146A5C->f38 == 0) {
-            func_0207C408(g_02146A5C->f20, g_02146A5C->f24, g_02146A5C->f28, g_02146A5C->f30,
-                g_02146A5C->f34, 0x1000, g_02148B54);
+        if (_G3dSystem->f38 == 0) {
+            func_0207C408(_G3dSystem->f20, _G3dSystem->f24, _G3dSystem->f28, _G3dSystem->f30,
+                _G3dSystem->f34, 0x1000, g_02148B54);
             hw[0x3F] &= ~0x50u;
             return;
         }
-        func_0207C408(g_02146A5C->f20, g_02146A5C->f24, g_02146A5C->f28, g_02146A5C->f30,
-            g_02146A5C->f34, g_02146A5C->f38, g_02148B54);
+        func_0207C408(_G3dSystem->f20, _G3dSystem->f24, _G3dSystem->f28, _G3dSystem->f30,
+            _G3dSystem->f34, _G3dSystem->f38, g_02148B54);
         hw[0x3F] &= ~0x50u;
         return;
     case 1:
-        if (g_02146A5C->f38 == 0) {
-            func_0207C1D0(g_02146A5C->f20, g_02146A5C->f24, g_02146A5C->f28, g_02146A5C->f2c,
-                g_02146A5C->f30, g_02146A5C->f34, 0x1000, g_02148B54);
+        if (_G3dSystem->f38 == 0) {
+            func_0207C1D0(_G3dSystem->f20, _G3dSystem->f24, _G3dSystem->f28, _G3dSystem->f2c,
+                _G3dSystem->f30, _G3dSystem->f34, 0x1000, g_02148B54);
             hw[0x3F] &= ~0x50u;
             return;
         }
-        func_0207C1D0(g_02146A5C->f20, g_02146A5C->f24, g_02146A5C->f28, g_02146A5C->f2c,
-            g_02146A5C->f30, g_02146A5C->f34, g_02146A5C->f38, g_02148B54);
+        func_0207C1D0(_G3dSystem->f20, _G3dSystem->f24, _G3dSystem->f28, _G3dSystem->f2c,
+            _G3dSystem->f30, _G3dSystem->f34, _G3dSystem->f38, g_02148B54);
         hw[0x3F] &= ~0x50u;
         return;
     case 2:
-        if (g_02146A5C->f38 == 0) {
-            func_0207C554(g_02146A5C->f20, g_02146A5C->f24, g_02146A5C->f28, g_02146A5C->f2c,
-                g_02146A5C->f30, g_02146A5C->f34, 0x1000, g_02148B54);
+        if (_G3dSystem->f38 == 0) {
+            func_0207C554(_G3dSystem->f20, _G3dSystem->f24, _G3dSystem->f28, _G3dSystem->f2c,
+                _G3dSystem->f30, _G3dSystem->f34, 0x1000, g_02148B54);
             hw[0x3F] &= ~0x50u;
             return;
         }
-        func_0207C554(g_02146A5C->f20, g_02146A5C->f24, g_02146A5C->f28, g_02146A5C->f2c,
-            g_02146A5C->f30, g_02146A5C->f34, g_02146A5C->f38, g_02148B54);
+        func_0207C554(_G3dSystem->f20, _G3dSystem->f24, _G3dSystem->f28, _G3dSystem->f2c,
+            _G3dSystem->f30, _G3dSystem->f34, _G3dSystem->f38, g_02148B54);
         hw[0x3F] &= ~0x50u;
         return;
     }

@@ -11,20 +11,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02007AC8, sub_02007AD0, sub_02007AEC, sub_02007AF4,
- *           sub_02007B00, sub_02007B08, sub_02007B20, sub_02007B44,
- *           sub_02007B50
+ * function: BOX_SAVEDATA_Delete, BOX_SAVEDATA_ClearBoxPage, BOX_SAVEDATA_GetBoxDataSize, BOX_SAVEDATA_GetBoxPokemon,
+ *           PERAPVOICE_GetSize, PERAPVOICE_Init, PERAPVOICE_Create, PERAPVOICE_GetFromSave,
+ *           PERAPVOICE_IsRecorded
  *
  * symbols:
  *   sub_02007B20_File  0x020A707C  data
- *   sub_020071CC       0x020071CC  thumb
- *   sub_02017550       0x02017550  thumb
+ *   SAVE_CONTROL_GetBlock       0x020071CC  thumb
+ *   POKE_TOOL_ClearBoxParam       0x02017550  thumb
  *   func_02030734      0x02030734  arm
  *   func_020307B0      0x020307B0  arm
  *   func_02082A7C      0x02082A7C  arm
  *
  * The two block lookups everything above goes through, the page clear, and
- * a constructor.  sub_02007B20 passes 0x020A707C to the debug allocator at
+ * a constructor.  PERAPVOICE_Create passes 0x020A707C to the debug allocator at
  * 0x02030734 with the line number 0x57, and the bytes at 0x020A707C spell
  * "perapvoice.c", so the second half of this range is that file.  The
  * string is named by one pool word in the whole image and it is this
@@ -34,10 +34,10 @@
  * construction.
  *
  * Three of the nine carry no label, all because they save nothing.
- * sub_02007AEC and sub_02007B00 return the two object sizes, 0xFF0 and
+ * BOX_SAVEDATA_GetBoxDataSize and PERAPVOICE_GetSize return the two object sizes, 0xFF0 and
  * 0x3EC, each as `movs` plus `lsls` rather than a pool word; 0x3EC is what
- * sub_02007B08 clears and what sub_02007B20 allocates, which is how the
- * three tie together.  sub_02007AF4 is a tail call through a pool word, and
+ * PERAPVOICE_Init clears and what PERAPVOICE_Create allocates, which is how the
+ * three tie together.  BOX_SAVEDATA_GetBoxPokemon is a tail call through a pool word, and
  * it is the function every accessor above reaches the entry array with.
  */
 #include "../include/Obj16869.h"
@@ -53,64 +53,64 @@ extern const char sub_02007B20_File[];
 
 typedef unsigned short u16;
 struct Sub020071CCCtrl;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 struct Sav;
-extern void sub_02017550(struct Sav *entry);
+extern void POKE_TOOL_ClearBoxParam(struct Sav *entry);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void func_02082A7C(u32 value, void *dest, u32 size);
 
-void sub_02007B08(void *p);
+void PERAPVOICE_Init(void *p);
 
-void sub_02007AC8(void *p)
+void BOX_SAVEDATA_Delete(void *p)
 {
     func_020307B0(p);
 }
 
-void sub_02007AD0(struct Sub02007AC8Entry *base)
+void BOX_SAVEDATA_ClearBoxPage(struct Sub02007AC8Entry *base)
 {
     u32 i;
 
     for (i = 0; i < 30; i++) {
-        sub_02017550((struct Sav *)&base[i]);
+        POKE_TOOL_ClearBoxParam((struct Sav *)&base[i]);
     }
 }
 
-u32 sub_02007AEC(void)
+u32 BOX_SAVEDATA_GetBoxDataSize(void)
 {
     return 0xFF0;
 }
 
-struct Sub02007AC8Entry *sub_02007AF4(void **save, u32 box)
+struct Sub02007AC8Entry *BOX_SAVEDATA_GetBoxPokemon(void **save, u32 box)
 {
-    return sub_020071CC(*save, box + 1);
+    return SAVE_CONTROL_GetBlock(*save, box + 1);
 }
 
-u32 sub_02007B00(void)
+u32 PERAPVOICE_GetSize(void)
 {
     return 0x3EC;
 }
 
-void sub_02007B08(void *p)
+void PERAPVOICE_Init(void *p)
 {
     func_02082A7C(0, p, 0x3EC);
     ((struct Obj16869 *)p)->f0 = 0;
 }
 
-void *sub_02007B20(u32 heap)
+void *PERAPVOICE_Create(u32 heap)
 {
     void *p = func_02030734(heap, 0x3EC, 1, sub_02007B20_File, 0x57);
 
-    sub_02007B08(p);
+    PERAPVOICE_Init(p);
     return p;
 }
 
-struct Sub02007AC8Entry *sub_02007B44(void *sys)
+struct Sub02007AC8Entry *PERAPVOICE_GetFromSave(void *sys)
 {
-    return sub_020071CC(sys, 0x24);
+    return SAVE_CONTROL_GetBlock(sys, 0x24);
 }
 
-void *sub_02007B50(void **p)
+void *PERAPVOICE_IsRecorded(void **p)
 {
     return *p;
 }

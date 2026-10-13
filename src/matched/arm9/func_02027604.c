@@ -10,14 +10,14 @@
  * status:   EXACT
  * note: byte lookup in a u8 table; called from ov070, ov131 and ov198.
  * symbols:
- *   d_0209FCEC  0x0209FCEC  data
+ *   _WazaKindPltOffset  0x0209FCEC  data
  */
 
 typedef unsigned char u8;
 
-extern const u8 d_0209FCEC[];
+extern const u8 _WazaKindPltOffset[];
 
 u8 func_02027604(u8 i)
 {
-    return d_0209FCEC[i];
+    return _WazaKindPltOffset[i];
 }

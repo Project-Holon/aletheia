@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02051640  0x02051640  arm
+ *   PARTICLE_GetWorkBase  0x02051640  arm
  *   func_02050DB8  0x02050DB8  arm
  *   func_020307B0  0x020307B0  arm
  */
 typedef unsigned char  u8;
-extern void *func_02051640(char *p);
+extern void *PARTICLE_GetWorkBase(char *p);
 extern void func_02050DB8(u8 *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
 void func_021FDB08(void *p)
 {
-    void *q = func_02051640(p);
+    void *q = PARTICLE_GetWorkBase(p);
 
     func_02050DB8(p);
     func_020307B0(q);

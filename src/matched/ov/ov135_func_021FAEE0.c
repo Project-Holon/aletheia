@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202CAE4 0x0202CAE4 thumb
- *   func_0202CF84 0x0202CF84 thumb
+ *   BGWINFRM_SetFrameDataArc 0x0202CAE4 thumb
+ *   BGWINFRM_GetFrameBuffer 0x0202CF84 thumb
  *   func_021F9260 0x021F9260 thumb ov135
  *   func_021FBEB8 0x021FBEB8 thumb ov135
  *   func_02082BCC 0x02082BCC arm
@@ -18,8 +18,8 @@
  *   func_021FBFB0 0x021FBFB0 thumb ov135
  *   func_021FAC50 0x021FAC50 thumb ov135
  *   func_02045808 0x02045808 arm
- *   func_0202CB4C 0x0202CB4C thumb
- *   func_0202CC58 0x0202CC58 thumb
+ *   BGWINFRM_PutFrame 0x0202CB4C thumb
+ *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  *   func_0204B878 0x0204B878 arm
  *   func_021F4FF4 0x021F4FF4 thumb ov135
  *   func_0204B3DC 0x0204B3DC arm
@@ -35,8 +35,8 @@ typedef struct { u8 x; u8 y; } CurPos;
 typedef signed char s8;
 struct WinMgr;
 extern const CurPos tbl_022032C6[];
-extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
-extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
+extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void func_021F9260(void *, u32);
 extern void func_021FBEB8(void *, void *, void *, u32, void *);
 extern void func_02082BCC(void *, u32, u32);
@@ -46,8 +46,8 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern int func_021FBFB0(void *, int);
 extern void func_021FAC50(void *, void *, void *, u32, u16, void *);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32, u32, u32);
@@ -60,8 +60,8 @@ int func_021FAEE0(u8 *p)
     void *str;
     u16 color;
     u8 *g;
-    func_0202CAE4(((struct Obj01160 *)p)->f18, 0, 96, 28, 1);
-    func_0202CF84(((struct Obj01160 *)p)->f18, 0);
+    BGWINFRM_SetFrameDataArc(((struct Obj01160 *)p)->f18, 0, 96, 28, 1);
+    BGWINFRM_GetFrameBuffer(((struct Obj01160 *)p)->f18, 0);
     func_021F9260(p, 4);
     func_021FBEB8(((struct Obj01160 *)p)->f18, ((struct Obj01160 *)p)->f20, (*(void ***)p)[14], 74, p + 124);
     func_02082BCC(p + 96, 1, 26);
@@ -78,8 +78,8 @@ int func_021FAEE0(u8 *p)
         func_021FAC50(((struct Obj01160 *)p)->f18, (*(void ***)p)[i], str, 2, color, g);
         func_02045808(str);
     }
-    func_0202CB4C(((struct Obj01160 *)p)->f18, 0, 16, 0);
-    func_0202CC58(((struct Obj01160 *)p)->f18, 0);
+    BGWINFRM_PutFrame(((struct Obj01160 *)p)->f18, 0, 16, 0);
+    BGWINFRM_ShowFrame(((struct Obj01160 *)p)->f18, 0);
     func_0204B878((struct Obj *)(((struct Obj01160 *)p)->f8), 18);
     func_021F4FF4(((struct Obj01160 *)p)->f8, (tbl_022032C6[*(s16 *)(p + 56)].x + 16) * 8, tbl_022032C6[*(s16 *)(p + 56)].y * 8);
     ((struct Obj01160 *)p)->f44 = ((struct Obj01160 *)p)->f38;

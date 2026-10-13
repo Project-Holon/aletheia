@@ -43,8 +43,8 @@
  *   func_0201AA14  0x0201AA14  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0202F190  0x0202F190  thumb
- *   func_02031330  0x02031330  arm
- *   func_02031348  0x02031348  arm
+ *   PROCSYS_Main  0x02031330  arm
+ *   PROCSYS_Push  0x02031348  arm
  *   ov207_id  0x000000CF  data
  *   ov194_id  0x000000C2  data
  *   func_02045B38  0x02045B38  arm
@@ -94,10 +94,10 @@ struct Rec44;
 struct SaveBlock;
 struct Sub02007454Entry;
 struct Sub02008C20Obj;
-extern unsigned int func_02031330(void *p);
+extern unsigned int PROCSYS_Main(void *p);
 extern unsigned char ov207_id[];
 extern unsigned char ov194_id[];
-extern u32 func_02031348(u32 a, u32 b, u32 c, void *d);
+extern u32 PROCSYS_Push(u32 a, u32 b, u32 c, void *d);
 extern void *func_02012934(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
 extern void *func_0200CA1C(void *a);
@@ -139,7 +139,7 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
     u32 r, x30, x20, x24, x1c, x28, x18, h, r7;
     int x2c, fl, ok;
 
-    r = func_02031330((void *)g->f34);
+    r = PROCSYS_Main((void *)g->f34);
     if (r == 1) {
         return 0;
     }
@@ -186,7 +186,7 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
             } else {
                 g->f08 = 1;
             }
-            func_02031348(g->f34, (u32)ov207_id, 0x0220BAB0, &g->f08);
+            PROCSYS_Push(g->f34, (u32)ov207_id, 0x0220BAB0, &g->f08);
             (*state)++;
             break;
         }
@@ -204,7 +204,7 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
         }
         if (ok) {
             g->f00 = (u32)func_0216C0A4((u32)g->f30, (u32)c->f2, (u32)0xa, (u32)0, (u32)g->f28, (u32)r7, (u32)g->f2c, (u32)func_0200C0F0(func_02012EBC((struct Big *)c->f0)));
-            func_02031348(g->f34, (u32)ov194_id, 0x021F5580, (void *)g->f00);
+            PROCSYS_Push(g->f34, (u32)ov194_id, 0x021F5580, (void *)g->f00);
             (*state)++;
             break;
         }

@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469BC    0x021469BC  data
+ *   gUiState    0x021469BC  data
  *   func_02035034 0x02035034 arm
  *
- * Wrapper: calls func_02035034 with the object g_021469BC points at as the first argument.
+ * Wrapper: calls func_02035034 with the object gUiState points at as the first argument.
  */
 
 typedef unsigned int u32;
 
-extern char *g_021469BC;
+extern char *gUiState;
 extern void func_02035034(char *o, u32 a, u32 b);
 
 void func_02035040(u32 a, u32 b)
 {
-    func_02035034(g_021469BC, a, b);
+    func_02035034(gUiState, a, b);
 }

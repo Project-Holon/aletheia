@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020082EC",
+   "name": "CONFIG_Create",
    "address": "0x020082EC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02008314",
+   "name": "CONFIG_Copy",
    "address": "0x02008314",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02008374",
+   "name": "CONFIG_GetTextSpeed",
    "address": "0x02008374",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02008448",
+   "name": "CONFIG_GetBattleFlag",
    "address": "0x02008448",
    "kind": "game",
    "region": "arm9",

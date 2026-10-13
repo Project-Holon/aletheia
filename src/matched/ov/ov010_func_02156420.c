@@ -25,7 +25,7 @@
  *   func_0200A7AC  0x0200A7AC  thumb
  *   func_021F4F40  0x021F4F40  thumb  ov112
  *   func_020127A4  0x020127A4  thumb
- *   func_0201B7A0  0x0201B7A0  thumb
+ *   NATSUKI_Calc  0x0201B7A0  thumb
  *   func_02012F2C  0x02012F2C  thumb
  *   func_02008DF0  0x02008DF0  thumb
  *   func_02008DAC  0x02008DAC  thumb
@@ -80,7 +80,7 @@ extern unsigned char func_021F5140(void *p, int i);
 extern void func_0200A7AC(struct Big *p, u32 index, u8 value);
 extern void func_021F4F40(void **p);
 extern u16 *func_020127A4(void *p);
-extern void func_0201B7A0(void *a0, int a1, int a2, int a3);
+extern void NATSUKI_Calc(void *a0, int a1, int a2, int a3);
 extern void *func_02012F2C(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
@@ -116,7 +116,7 @@ void func_02156420(Work *w)
     }
     func_021F4F40(h);
     k = *func_020127A4(w->f04);
-    func_0201B7A0(w->f18, 6, k, 4);
+    NATSUKI_Calc(w->f18, 6, k, 4);
     p = func_02012F2C(w->f04);
     if (w->f14 == 0) {
         func_02008DF0(p, 0x72);

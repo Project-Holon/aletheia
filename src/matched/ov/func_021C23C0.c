@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02156874  0x02156874  thumb  ov009
+ *   DWC_RAP_GetFriendStatus  0x02156874  thumb  ov009
  *
  * Tail call thunk into ov009.
  */
@@ -23,9 +23,9 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern unsigned char func_02156874(int i);
+extern unsigned char DWC_RAP_GetFriendStatus(int i);
 
 unsigned char func_021C23C0(void *a)
 {
-    return func_02156874((int)a);
+    return DWC_RAP_GetFriendStatus((int)a);
 }

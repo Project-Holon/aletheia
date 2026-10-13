@@ -13,8 +13,8 @@
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
- *   func_02031348 0x02031348 arm
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Push 0x02031348 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   d_02200D04 0x02200D04 data a1
  *   d_02200D14 0x02200D14 data a1
  */
@@ -28,8 +28,8 @@ extern void func_02034714(const char *,u32,const char *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,int,u32);
 extern u32 func_020307B0(void *p);
-extern void func_02031348(u32,u32,u32,void *);
-extern u32 func_02031330(void *);
+extern void PROCSYS_Push(u32,u32,u32,void *);
+extern u32 PROCSYS_Main(void *);
 void func_021F9A80(char *p)
 {
  struct Slot *current,*old,*next;
@@ -48,10 +48,10 @@ void func_021F9A80(char *p)
   current->ops->init(current->work,((struct Obj01569 *)p)->fC,old->work,mode);
   ((struct Obj01569 *)p)->f6C=0;
   if(old->work)func_020307B0(old->work);
-  func_02031348(*(u32 *)&((struct Obj01569 *)p)->f0,current->ops->fn,current->ops->id,current->work);
+  PROCSYS_Push(*(u32 *)&((struct Obj01569 *)p)->f0,current->ops->fn,current->ops->id,current->work);
   ((struct Obj01569 *)p)->f18=2;break;
  }
- case 2:if(!func_02031330(((struct Obj01569 *)p)->f0))((struct Obj01569 *)p)->f18=3;break;
+ case 2:if(!PROCSYS_Main(((struct Obj01569 *)p)->f0))((struct Obj01569 *)p)->f18=3;break;
  case 3:
   if(!current->active)func_02034714(d_02200D14,0,d_02200D14);
   if(current->ops->update)current->ops->update(current->work,((struct Obj01569 *)p)->fC);

@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02011398  0x02011398  thumb
+ *   VM_PopStack  0x02011398  thumb
  *   func_02011330  0x02011330  thumb
- *   func_0201137C  0x0201137C  thumb
+ *   VM_PushStack  0x0201137C  thumb
  */
 
 typedef unsigned int u32;
@@ -20,14 +20,14 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 struct Ring;
 struct Stream;
-extern u32 func_02011398(struct Ring *r);
+extern u32 VM_PopStack(struct Ring *r);
 extern u16 func_02011330(struct Stream *s);
-extern void func_0201137C(struct Ring *r, u32 v);
+extern void VM_PushStack(struct Ring *r, u32 v);
 
 int func_021594E0(int p)
 {
-    u32 a = func_02011398((struct Ring *)p);
-    u32 b = func_02011398((struct Ring *)p);
+    u32 a = VM_PopStack((struct Ring *)p);
+    u32 b = VM_PopStack((struct Ring *)p);
     int r;
     switch (func_02011330((struct Stream *)p)) {
     case 0: r = (b < a) ? 1 : 0; break;
@@ -40,6 +40,6 @@ int func_021594E0(int p)
     case 7: r = (b == 1 && a == 1) ? 1 : 0; break;
     default: r = 0; break;
     }
-    func_0201137C((struct Ring *)p, r);
+    VM_PushStack((struct Ring *)p, r);
     return 0;
 }

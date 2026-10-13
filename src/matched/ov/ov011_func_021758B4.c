@@ -1,5 +1,5 @@
 /*
- * function: func_021758B4
+ * function: INTRUDE_COMM_GetSessionWaitRemaining
  * address: 0x021758B4
  * packet: pkt_ov011_021758B4
  * region: ov011
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02175894 0x02175894 thumb ov011
+ *   INTRUDE_COMM_GetSessionElapsed 0x02175894 thumb ov011
  */
 #include "../include/Obj19191.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_02175894(u8 *p);
-int func_021758B4(u8 *p)
+extern int INTRUDE_COMM_GetSessionElapsed(u8 *p);
+int INTRUDE_COMM_GetSessionWaitRemaining(u8 *p)
 {
     int limit = ((struct Obj19191 *)p)->fAA;
-    int n = limit - func_02175894(p);
+    int n = limit - INTRUDE_COMM_GetSessionElapsed(p);
     if (n < 0) n = 0;
     return n;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02195E40
+ * function: gt2GetLocalPort
  * address:  0x02195E40
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Halfword at +8.
  */
 
-unsigned short func_02195E40(const unsigned short *p)
+unsigned short gt2GetLocalPort(const unsigned short *p)
 {
     return p[4];
 }

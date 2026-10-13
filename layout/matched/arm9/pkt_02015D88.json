@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02015D88",
+   "name": "MCSS_SetShadowRotateZ",
    "address": "0x02015D88",
    "kind": "game",
    "region": "arm9",

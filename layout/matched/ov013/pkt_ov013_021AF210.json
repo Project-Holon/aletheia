@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AF210",
+   "name": "VCT_MAIN_GetVoiceLevel",
    "address": "0x021AF210",
    "kind": "game",
    "region": "ov013",

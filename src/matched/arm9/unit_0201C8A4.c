@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201C8A4
+ * function: PRINTSYS_SetJobColor
  *
  * Stores a halfword parameter at +0xE, then clears a four-bit field at bits
  * 20-23 of the word at +4 and sets it unconditionally to 1 (the mask/OR
@@ -32,7 +32,7 @@ struct Rec2 {
     u16 unk0E;
 };
 
-void sub_0201C8A4(struct Rec2 *p, u16 v)
+void PRINTSYS_SetJobColor(struct Rec2 *p, u16 v)
 {
     p->unk0E = v;
     p->unk04 = (p->unk04 & ~0xF00000u) | (1u << 20);

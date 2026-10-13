@@ -1,7 +1,7 @@
 /*
  * file:     wifilist.c
  * unit:     yes
- * function: sub_02009448, sub_02009454, sub_0200945C, func_02009470, func_0200947C, func_0200949C, func_020094D8, func_0200952C, func_02009584, func_02009590, sub_020095C8, sub_020095E8, sub_020095FC, sub_0200960C,, sub_020097BC, func_020097C4, func_020097F0, func_02009800, func_02009860, func_02009864
+ * function: sub_02009448, sub_02009454, sub_0200945C, func_02009470, func_0200947C, func_0200949C, func_020094D8, func_0200952C, func_02009584, func_02009590, sub_020095C8, sub_020095E8, sub_020095FC, sub_0200960C,, WIFILIST_GetWorkSize, WIFILIST_Create, func_020097F0, func_02009800, func_02009860, func_02009864
  * address:  0x02009448
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   sub_020071CC    0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock    0x020071CC  thumb
  *   MIi_CpuClear32  0x02082A7C  arm
  *   func_02009584  0x02009584  thumb
  *   func_0200856C  0x0200856C  thumb
@@ -23,7 +23,7 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_02034AC4  0x02034AC4  arm
- *   func_02157138  0x02157138  thumb ov009
+ *   DWC_RAPCOMMON_InitUserData  0x02157138  thumb ov009
  *   ov_id_09       0x00000009  data
  *   ov_id_0A       0x0000000A  data
  *   ov_id_0B       0x0000000B  data
@@ -31,6 +31,7 @@
  *   DWC_IsValidFriendData 0x020596D8  arm
  *   func_02045994         0x02045994  arm
  *   func_02045A38         0x02045A38  arm
+ *   MYSTATUS_SetLanguageAndVersion  0x02008574  thumb
  */
 #define GAME_SYNC_BLOCK_ID 0x23
 #define WIFI_HISTORY_BLOCK_ID 0x1D
@@ -112,9 +113,9 @@ struct WifiList {
     u8 reserved[4];                                         /* 0x7C0 */
 };
 
-extern void *sub_020071CC(struct SaveControl *saveControl, u32 blockId);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern void sub_02008574(struct MyStatus *status, u8 country, u8 region);
+extern void MYSTATUS_SetLanguageAndVersion(struct MyStatus *status, u8 country, u8 region);
 extern u8 func_02009584(const struct WifiHistory *history);
 extern u8 func_0200856C(const struct MyStatus *status);
 extern u32 func_02009794(const struct WifiHistory *history, u32 country);
@@ -124,7 +125,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void func_02082BCC(void *dst, int val, unsigned n);
 extern void func_02034A5C(int handle);
 extern int func_02034AC4(int id);
-extern void func_02157138(void *p);
+extern void DWC_RAPCOMMON_InitUserData(void *p);
 extern int  DWC_IsValidFriendData(const void *friendData);
 extern void func_02045994(struct Strbuf *dest, const u16 *src, u32 size);
 extern void func_02045A38(struct U16Vec *src, u16 *dest, u32 size);
@@ -151,18 +152,18 @@ struct HistoryEntry *sub_0200973C(struct WifiHistory *history, int index);
 void sub_0200974C(void);
 u32 sub_02009750(struct WifiHistory *history, u32 country);
 u32 sub_02009794(const struct WifiHistory *history, u32 country);
-u32 sub_020097BC(void);
-struct WifiList *func_020097C4(int heapId);
-void sub_020097F0(const struct WifiList *src, struct WifiList *dest);
-void sub_02009800(struct WifiList *list);
-struct WifiList *sub_02009860(struct WifiList *list);
-u32 sub_02009864(const struct WifiList *list, u32 index, u32 field);
-void sub_02009918(struct WifiList *list, u32 index, u32 field, u32 value);
-struct DWCFriendData *sub_020099C8(struct WifiList *list, int index);
-struct WifiFriendInfo *sub_020099D4(struct WifiList *list, int index);
-void sub_020099E4(struct WifiList *list, int index, struct Strbuf *dest);
-void sub_02009A00(struct WifiList *list, int index, struct U16Vec *dest);
-int sub_02009A1C(struct WifiList *list, u32 index);
+u32 WIFILIST_GetWorkSize(void);
+struct WifiList *WIFILIST_Create(int heapId);
+void WIFILIST_Copy(const struct WifiList *src, struct WifiList *dest);
+void WIFILIST_Init(struct WifiList *list);
+struct WifiList *WIFILIST_GetWork(struct WifiList *list);
+u32 WIFILIST_GetFriendInfoField(const struct WifiList *list, u32 index, u32 field);
+void WIFILIST_SetFriendInfoField(struct WifiList *list, u32 index, u32 field, u32 value);
+struct DWCFriendData *WIFILIST_GetDwcFriendData(struct WifiList *list, int index);
+struct WifiFriendInfo *WIFILIST_GetFriendInfo(struct WifiList *list, int index);
+void WIFILIST_CopyFriendNameToStrbuf(struct WifiList *list, int index, struct Strbuf *dest);
+void WIFILIST_StoreFriendNameFromStrbuf(struct WifiList *list, int index, struct U16Vec *dest);
+int WIFILIST_IsFriendDataValid(struct WifiList *list, u32 index);
 extern char sWifilistFile[];
 extern unsigned char ov_id_09[];
 extern unsigned char ov_id_0A[];
@@ -207,7 +208,7 @@ static inline void MI_CpuClear32(void *dest, u32 size)
  */
 struct GameSyncData *sub_02009448(struct SaveControl *saveControl)
 {
-    return sub_020071CC(saveControl, GAME_SYNC_BLOCK_ID);
+    return SAVE_CONTROL_GetBlock(saveControl, GAME_SYNC_BLOCK_ID);
 }
 
 
@@ -268,7 +269,7 @@ void sub_0200945C(struct GameSyncData *data)
  *       u8 v = sub_02009584(history);
  *
  *       if (flag == 0) {
- *           u8 t = sub_0200856C(status);
+ *           u8 t = MYSTATUS_GetLanguage(status);
  *
  *           if (t == 0) {
  *               v = 0;
@@ -302,7 +303,7 @@ void sub_0200945C(struct GameSyncData *data)
  */
 struct WifiHistory *sub_02009470(struct SaveControl *saveControl)
 {
-    return sub_020071CC(saveControl, WIFI_HISTORY_BLOCK_ID);
+    return SAVE_CONTROL_GetBlock(saveControl, WIFI_HISTORY_BLOCK_ID);
 }
 
 
@@ -313,7 +314,7 @@ struct WifiHistory *sub_02009470(struct SaveControl *saveControl)
 void sub_0200947C(struct WifiHistory *history, struct MyStatus *status,
                   u8 country, u8 region)
 {
-    sub_02008574(status, country, region);
+    MYSTATUS_SetLanguageAndVersion(status, country, region);
     sub_020094D8(history, country, region, 3);
 }
 
@@ -628,14 +629,14 @@ u32 sub_02009794(const struct WifiHistory *history, u32 country)
 
 
 
-u32 sub_020097BC(void)
+u32 WIFILIST_GetWorkSize(void)
 {
     return sizeof(struct WifiList);
 }
 
 
 
-struct WifiList *func_020097C4(int heapId)
+struct WifiList *WIFILIST_Create(int heapId)
 {
     struct WifiList *list = func_02030734((unsigned short)heapId, sizeof(struct WifiList), 1, sWifilistFile, 0x39);
     func_02009800(list);
@@ -659,7 +660,7 @@ struct WifiList *func_020097C4(int heapId)
  *   python tools/match.py tu --src src/matched/unit_020097F0.c \
  *       --addr 0x020097F0 --thumb
  */
-void sub_020097F0(const struct WifiList *src, struct WifiList *dest)
+void WIFILIST_Copy(const struct WifiList *src, struct WifiList *dest)
 {
     MI_CpuCopy8(src, dest, sizeof(struct WifiList));
 }
@@ -675,7 +676,7 @@ void sub_020097F0(const struct WifiList *src, struct WifiList *dest)
  *
  * The wifilist constructor, diagnosed in the header of
  * src/matched/unit_02009860.c under "NEAR MISS, 0x02009800".  The only
- * branch to func_02157138 (ov009) in the image is the call in this
+ * branch to DWC_RAPCOMMON_InitUserData (ov009) in the image is the call in this
  * function; since seed round 9 it resolves as `sole-ref` on the seeded
  * ov009 start.
  *
@@ -686,14 +687,14 @@ void sub_020097F0(const struct WifiList *src, struct WifiList *dest)
  * the four declared as extern data symbols all four sites resolve and every
  * concrete byte reproduces.
  */
-void sub_02009800(struct WifiList *list)
+void WIFILIST_Init(struct WifiList *list)
 {
     func_02082BCC(list, 0, sizeof(struct WifiList));
     func_02034A5C((int)ov_id_0A);
     func_02034A5C((int)ov_id_0B);
     func_02034AC4((int)ov_id_0D);
     func_02034AC4((int)ov_id_09);
-    func_02157138(list);
+    DWC_RAPCOMMON_InitUserData(list);
     func_02034A5C((int)ov_id_09);
     func_02034A5C((int)ov_id_0D);
     func_02034AC4((int)ov_id_0A);
@@ -707,7 +708,7 @@ void sub_02009800(struct WifiList *list)
  * Part of a translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
- *           sub_020099D4, sub_020099E4, sub_02009A00, sub_02009A1C
+ *           WIFILIST_GetFriendInfo, WIFILIST_CopyFriendNameToStrbuf, WIFILIST_StoreFriendNameFromStrbuf, WIFILIST_IsFriendDataValid
  *
  * alias: wifilist.c, the body of the record whose size and copy are in
  * src/matched/unit_020097BC.c and src/matched/unit_020097F0.c.  The record is
@@ -719,11 +720,11 @@ void sub_02009800(struct WifiList *list)
  *
  * NEAR MISS, 0x02009800, 72 bytes, skipped, and for two independent reasons.
  * It is the constructor: it clears the 0x7C4 bytes with MI_CpuFill8, brackets a
- * call to func_02157138 with four pairs of calls on the ids 9, 10, 11 and 13
+ * call to DWC_RAPCOMMON_InitUserData with four pairs of calls on the ids 9, 10, 11 and 13
  * (two of one function on the way in and two of the other on the way out, and
  * the reverse afterwards), and returns.
  *
- *  - func_02157138 lives in ov009, and the only branch to it anywhere in the
+ *  - DWC_RAPCOMMON_InitUserData lives in ov009, and the only branch to it anywhere in the
  *    image is this one.  The overlay-label rule needs a witness outside the
  *    compared range and there is none, so the site stays wildcarded whatever
  *    the C says, and no cut can help: shrinking the range to this one function
@@ -737,7 +738,7 @@ void sub_02009800(struct WifiList *list)
  *    allocation of the whole function.  A small constant that costs a pool
  *    word is not something the source has been made to say yet.
  *
- * sub_02009864 and sub_02009918 are the getter and the setter over the entry's
+ * WIFILIST_GetFriendInfoField and WIFILIST_SetFriendInfoField are the getter and the setter over the entry's
  * ten fields, both through a PC-relative halfword table.  The tables disagree
  * in the middle rather than at the bottom: the getter reads all ten, the
  * setter's entries 2, 3 and 4 point at its exit, and since entries 0 and 1 are
@@ -756,13 +757,13 @@ void sub_02009800(struct WifiList *list)
  *   python tools/match.py tu --src src/matched/unit_02009800.c \
  *       --addr 0x02009800 --thumb
  */
-struct WifiList *sub_02009860(struct WifiList *list)
+struct WifiList *WIFILIST_GetWork(struct WifiList *list)
 {
     return list;
 }
 
 
-u32 sub_02009864(const struct WifiList *list, u32 index, u32 field)
+u32 WIFILIST_GetFriendInfoField(const struct WifiList *list, u32 index, u32 field)
 {
     u32 value = 0;
 
@@ -802,7 +803,7 @@ u32 sub_02009864(const struct WifiList *list, u32 index, u32 field)
 }
 
 
-void sub_02009918(struct WifiList *list, u32 index, u32 field, u32 value)
+void WIFILIST_SetFriendInfoField(struct WifiList *list, u32 index, u32 field, u32 value)
 {
     switch (field) {
     case 0:
@@ -830,31 +831,31 @@ void sub_02009918(struct WifiList *list, u32 index, u32 field, u32 value)
 }
 
 
-struct DWCFriendData *sub_020099C8(struct WifiList *list, int index)
+struct DWCFriendData *WIFILIST_GetDwcFriendData(struct WifiList *list, int index)
 {
     return &list->friendData[index];
 }
 
 
-struct WifiFriendInfo *sub_020099D4(struct WifiList *list, int index)
+struct WifiFriendInfo *WIFILIST_GetFriendInfo(struct WifiList *list, int index)
 {
     return &list->friendInfo[index];
 }
 
 
-void sub_020099E4(struct WifiList *list, int index, struct Strbuf *dest)
+void WIFILIST_CopyFriendNameToStrbuf(struct WifiList *list, int index, struct Strbuf *dest)
 {
     func_02045994(dest, (const u16 *)&list->friendInfo[index], 0x10);
 }
 
 
-void sub_02009A00(struct WifiList *list, int index, struct U16Vec *dest)
+void WIFILIST_StoreFriendNameFromStrbuf(struct WifiList *list, int index, struct U16Vec *dest)
 {
     func_02045A38(dest, (u16 *)(&list->friendInfo[index]), 0x10);
 }
 
 
-int sub_02009A1C(struct WifiList *list, u32 index)
+int WIFILIST_IsFriendDataValid(struct WifiList *list, u32 index)
 {
     if (index >= WIFILIST_FRIEND_MAX) {
         return 0;

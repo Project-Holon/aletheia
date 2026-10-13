@@ -13,20 +13,20 @@
  * The plain actor draw (func_02065878 / func_02065CE4 / func_02065D4C call
  * it).  With the live object's +0x7c bit 1 set it draws the object itself:
  * an affine record (GetAff: cached per g_02148718.h00 in g_02148718.arr04
- * when +0x404 is set, else rebuilt through func_02064EDC) and the selected
+ * when +0x404 is set, else rebuilt through NNSi_G2dMCMLoadCurrentMtxToCache) and the selected
  * matrix go to func_02067B28 for a node whose +0x14 is set, otherwise the
  * slot's g_02147B98 word goes to func_02067B40 and the matrix alone to
  * func_02067AC0; then func_02067DC8(a, g_020A81F8.f04) when that word is
- * not -1, else func_02067D14(a).  Without the bit it walks the node list at
+ * not -1, else NNSi_G2dOamSoftEmuRender(a).  Without the bit it walks the node list at
  * +0x70 (next at +0x30), drawing every node whose +0x10 is set the same way
  * with the node bound to the object's +0x74 and cleared again after.
  *
  * What closed it: the two loop arms are INLINE HELPERS (DrawA / DrawB), each
- * carrying its own "obj->f74 = 0; func_02067CB0()" tail.  Written as one if
+ * carrying its own "obj->f74 = 0; NNSi_G2dOamSoftEmuEnd()" tail.  Written as one if
  * with the shared tail after it (or with the tail duplicated in plain arms)
  * the compiler hoists the f74 store and merges the tails: 20 bytes short /
  * 225 out.  The matrix selection is the else-first GetMtx of
- * func_02065134 / func_020653A4.  ../2.0/sp2; 1.1p1 is 1028 bytes, 850 out.
+ * NNSi_G2dRendererAfterDrawCell / func_020653A4.  ../2.0/sp2; 1.1p1 is 1028 bytes, 850 out.
  *
  * symbols:
  *   g_02147B88     0x02147B88  data  a4
@@ -36,16 +36,16 @@
  *   g_02148318     0x02148318  data  a4
  *   g_02147D18     0x02147D18  data  a4
  *   g_02147B98     0x02147B98  data  a4
- *   func_02064EDC  0x02064EDC  arm
+ *   NNSi_G2dMCMLoadCurrentMtxToCache  0x02064EDC  arm
  *   func_02067B28  0x02067B28  arm
  *   func_02067AC0  0x02067AC0  arm
  *   func_02067DC8  0x02067DC8  arm
- *   func_02067D14  0x02067D14  arm
+ *   NNSi_G2dOamSoftEmuRender  0x02067D14  arm
  *   func_02067B40  0x02067B40  arm
  *   func_02067B48  0x02067B48  arm
  *   func_02067AAC  0x02067AAC  arm
  *   func_02067BA4  0x02067BA4  arm
- *   func_02067CB0  0x02067CB0  arm
+ *   NNSi_G2dOamSoftEmuEnd  0x02067CB0  arm
  */
 
 #include "../include/G_Mtx.h"
@@ -106,7 +106,7 @@ extern struct Aff     g_02148318[];
 extern struct Mtx g_02147D18[];
 extern fx32           g_02147B98[];
 
-extern void func_02064EDC(void);
+extern void NNSi_G2dMCMLoadCurrentMtxToCache(void);
 struct Ctx;
 struct G2dOamState;
 struct Src02067AC0;
@@ -114,12 +114,12 @@ extern void func_02067B28(u32 a, u32 b);
 extern void func_02067AC0(struct Src02067AC0 *src);
 typedef signed int     s32;
 extern void func_02067DC8(u32 a0, s32 a1);
-extern void func_02067D14(u32 arg0);
+extern void NNSi_G2dOamSoftEmuRender(u32 arg0);
 extern void func_02067B40(struct G2dOamState *p, u32 v);
 extern void func_02067B48(u32 *p, u32 v);
 extern void func_02067AAC(int *p, int a, int b);
 extern void func_02067BA4(struct Ctx *c);
-extern void func_02067CB0(void);
+extern void NNSi_G2dOamSoftEmuEnd(void);
 
 static inline Mtx *GetMtx(void)
 {
@@ -144,12 +144,12 @@ static inline struct Aff *GetAff(void)
         if (g_02148718.bDrawMC != 0) {
             aff = g_02148718.arr04[g_02148718.currentCellAnimIdx];
             if (aff == 0) {
-                func_02064EDC();
+                NNSi_G2dMCMLoadCurrentMtxToCache();
                 aff = &g_02148318[g_02147C18[(u16)g_02147B88.slot].mtxCacheIdx];
                 g_02148718.arr04[g_02148718.currentCellAnimIdx] = aff;
             }
         } else {
-            func_02064EDC();
+            NNSi_G2dMCMLoadCurrentMtxToCache();
             aff = &g_02148318[g_02147C18[(u16)g_02147B88.slot].mtxCacheIdx];
         }
     }
@@ -163,7 +163,7 @@ static inline void Finish(void *a)
     if (r != 0)
         func_02067DC8((u32)a, g_020A81F8.f04);
     else
-        func_02067D14((u32)a);
+        NNSi_G2dOamSoftEmuRender((u32)a);
 }
 
 static inline void DrawA(void *a, struct Node *p)
@@ -179,7 +179,7 @@ static inline void DrawA(void *a, struct Node *p)
     func_02067B28((u32)GetMtx(), (u32)aff);
     Finish(a);
     g_02147B88.obj->f74 = 0;
-    func_02067CB0();
+    NNSi_G2dOamSoftEmuEnd();
 }
 
 static inline void DrawB(void *a, struct Obj *o, struct Node *p)
@@ -193,7 +193,7 @@ static inline void DrawB(void *a, struct Obj *o, struct Node *p)
     func_02067AC0((struct Src02067AC0 *)GetMtx());
     Finish(a);
     g_02147B88.obj->f74 = 0;
-    func_02067CB0();
+    NNSi_G2dOamSoftEmuEnd();
 }
 
 void func_02065438(void *a)

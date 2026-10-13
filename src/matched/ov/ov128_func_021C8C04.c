@@ -10,10 +10,10 @@
  * symbols:
  *   func_02034A5C 0x02034A5C arm
  *   func_02034AC4 0x02034AC4 arm
- *   func_02031324 0x02031324 arm
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Create 0x02031324 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   func_0203133C 0x0203133C arm
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   func_020355C4 0x020355C4 arm
  *   func_021C8DA0 0x021C8DA0 thumb ov128
  *   func_021C6390 0x021C6390 thumb ov128
@@ -26,6 +26,7 @@
  *   id129 0x00000081 data
  *   d_021F5580 0x021F5580 data ov194 a4
  *   d_021DA62C 0x021DA62C data ov129 a4
+ *   CODEIN_PARAM_Create  0x0202E4EC  thumb  arm9
  * interface: 02031324 forwards heap to 02031354 and returns its node;
  * 02031348 forwards all four inputs to 020314F4 despite legacy void(void).
  * data: Process setup loads ov194/ov129 and receives their callback tables.
@@ -43,13 +44,13 @@ struct Param;
 struct S020314B8;
 extern void func_02034A5C(s32 handle);
 extern int func_02034AC4(s32 handle);
-extern void *func_02031324(int);
-extern u32 func_02031330(void *);
+extern void *PROCSYS_Create(int);
+extern u32 PROCSYS_Main(void *);
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_02031348(void *, u32, void *, void *);
+extern void PROCSYS_Push(void *, u32, void *, void *);
 extern u8 func_020355C4(void);
 extern char *func_021C8DA0(void *unused, char *q, int mode, int heap);
-extern struct Param *func_0202E4EC(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
+extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
 extern void func_0202E54C(struct Obj0202E54C *p);
 extern void func_021C6390(u8 *);
 extern void func_021C6360(char *p, int heap);
@@ -66,16 +67,16 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
         func_02034A5C((u32)id67);
         p[1] = func_021C8DA0(p, (char *)b, 1, heap);
         sizes[0] = 4; sizes[1] = 4; sizes[2] = 4;
-        p[2] = func_0202E4EC(heap, 0, 0, 12, sizes);
+        p[2] = CODEIN_PARAM_Create(heap, 0, 0, 12, sizes);
         func_021C6390(a);
-        p[0] = func_02031324(heap);
-        func_02031348(p[0], (u32)id194, d_021F5580, p[1]);
+        p[0] = PROCSYS_Create(heap);
+        PROCSYS_Push(p[0], (u32)id194, d_021F5580, p[1]);
         b[8] = 1;
         break;
     case 1:
-        if (func_02031330(p[0]) == 0) {
+        if (PROCSYS_Main(p[0]) == 0) {
             if (((struct Obj23097 *)((u8 *)p[1]))->f1C == 0) {
-                func_02031348(p[0], (u32)id129, d_021DA62C, p[2]);
+                PROCSYS_Push(p[0], (u32)id129, d_021DA62C, p[2]);
                 b[8] = 2;
             } else {
                 func_0203133C(p[0]);
@@ -85,7 +86,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
         }
         break;
     case 2:
-        if (func_02031330(p[0]) == 0) {
+        if (PROCSYS_Main(p[0]) == 0) {
             func_0203133C(p[0]);
             func_021C6440(b, ((struct Obj23098 *)((u8 *)p[1]))->f20, ((struct Obj23099 *)((u8 *)p[2]))->f20);
             func_021C6438(b, 0, 7);
@@ -102,12 +103,12 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
         func_02034A5C((u32)id67);
         p[1] = func_021C8DA0(p, (char *)b, 0, heap);
         func_021C6390(a);
-        p[0] = func_02031324(heap);
-        func_02031348(p[0], (u32)id194, d_021F5580, p[1]);
+        p[0] = PROCSYS_Create(heap);
+        PROCSYS_Push(p[0], (u32)id194, d_021F5580, p[1]);
         b[8] = 5;
         break;
     case 5:
-        if (func_02031330(p[0]) == 0) {
+        if (PROCSYS_Main(p[0]) == 0) {
             func_0203133C(p[0]);
             *(int *)b = func_020355C4();
             if (((struct Obj23100 *)((u8 *)p[1]))->f1C == 0) {

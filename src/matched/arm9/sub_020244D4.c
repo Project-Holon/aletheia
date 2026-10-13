@@ -1,5 +1,5 @@
 /*
- * function: func_020244D4
+ * function: PMSI_PARAM_GetWordId
  * address:  0x020244D4
  * packet:   pkt_02024368
  * region:   arm9
@@ -13,7 +13,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_020244D4(void *obj, u32 idx)
+u16 PMSI_PARAM_GetWordId(void *obj, u32 idx)
 {
     u16 val = ((u16 *)((char *)obj + 4))[idx];
 

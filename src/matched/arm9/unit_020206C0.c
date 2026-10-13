@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020206C0, func_0202071C
+ * function: BMP_MENULIST_DrawCursor, BMP_MENULIST_EraseCursor
  * address:  0x020206C0
  * packet:   pkt_02020408
  * region:   arm9
@@ -13,19 +13,20 @@
  * symbols:
  *   func_02045770  0x02045770  arm
  *   func_02043AF4  0x02043AF4  arm
+ *   BMP_CURSOR_Draw  0x02020D5C  thumb
  *
- * The two redraw entry points of the menu-cursor block, func_020206C0 and
- * func_0202071C, folded into one translation unit so 0x020206C0..0x0202077E
+ * The two redraw entry points of the menu-cursor block, BMP_MENULIST_DrawCursor and
+ * BMP_MENULIST_EraseCursor, folded into one translation unit so 0x020206C0..0x0202077E
  * reproduces end to end.  Both dispatch on the same one-bit field at the top
  * of the u16 at +0x1A through a four-entry PC-relative halfword table whose
  * cases 1..3 are empty arms; the empty arms are what make the table exist
  * (docs/idioms/empty-switch-arms-are-what-make-the-table.md).
  *
  * Both pass the same derived byte, f17lo + <row> * (u8)(f22 + f1Amid), to
- * their callee; in func_020206C0 the row is the cursor's own f42 and the
+ * their callee; in BMP_MENULIST_DrawCursor the row is the cursor's own f42 and the
  * value must be bound to a named local computed BEFORE the switch (as must
  * f16), or the compiler sinks both into the case-0 arm and the function is
- * four bytes short.  In func_0202071C the row is the function's second
+ * four bytes short.  In BMP_MENULIST_EraseCursor the row is the function's second
  * argument and the same value is an inline argument, scheduled per site
  * (docs/idioms/an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md).
  */
@@ -73,9 +74,9 @@ struct Bmp;
 struct Desc;
 struct Handle;
 extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern void func_02020D5C(struct Desc *d, u32 x, u32 y, struct Handle *h, void *dst, u32 f);
+extern void BMP_CURSOR_Draw(struct Desc *d, u32 x, u32 y, struct Handle *h, void *dst, u32 f);
 
-void func_020206C0(struct Obj *obj)
+void BMP_MENULIST_DrawCursor(struct Obj *obj)
 {
     u8 a = obj->f17lo;
     u8 b = obj->f16;
@@ -83,7 +84,7 @@ void func_020206C0(struct Obj *obj)
 
     switch (obj->f1Atop) {
     case 0:
-        func_02020D5C(obj->f3C, b, v, obj->f28, obj->f2C, (u32)obj->f30);
+        BMP_CURSOR_Draw(obj->f3C, b, v, obj->f28, obj->f2C, (u32)obj->f30);
         break;
     case 1:
     case 2:
@@ -92,7 +93,7 @@ void func_020206C0(struct Obj *obj)
     }
 }
 
-void func_0202071C(struct Obj *obj, u32 n)
+void BMP_MENULIST_EraseCursor(struct Obj *obj, u32 n)
 {
     switch (obj->f1Atop) {
     case 0:

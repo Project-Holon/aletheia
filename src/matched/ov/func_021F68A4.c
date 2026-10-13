@@ -19,7 +19,7 @@
  *   func_0200785C  0x0200785C  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_020185F4  0x020185F4  thumb
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_02045CAC  0x02045CAC  arm
  *   func_02034714  0x02034714  arm
  *   func_02049238  0x02049238  arm
@@ -112,7 +112,7 @@ extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0200785C(void *save, u32 box, void *dest);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *list, u32 i);
-extern void *func_020185F4(void *a);
+extern void *POKE_TOOL_GetBoxParam(void *a);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02049238(void *h);
@@ -149,7 +149,7 @@ void func_021F68A4(Work *p, int box)
         int n = func_0201AA18(p->ctx->party);
 
         for (i = 0; i < n; i++) {
-            void *mon = func_020185F4(func_0201AB28(p->ctx->party, i));
+            void *mon = POKE_TOOL_GetBoxParam(func_0201AB28(p->ctx->party, i));
 
             func_021F6748((u32)mon, (u8 *)(&p->info[i]));
             func_021F67A8(mon, p->icon[i], p->item[i], &species[i], i, arc, &p->info[i], &icons[i]);

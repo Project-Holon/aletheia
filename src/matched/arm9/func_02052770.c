@@ -15,7 +15,7 @@
  *
  * The rig's per-frame node walk: for every node on h->list, age it, maybe
  * dispatch it, and maybe retire it onto the recycle list.  This is the callee
- * src/pending/func_020514F4.c was capped on.
+ * src/pending/PARTICLE_UpdateSystem.c was capped on.
  *
  * Per node, with c = *n->f20 (the node's class record, doubly indirected):
  *   - if n's "expired" bit (+0x24 bit 4) is clear and the node's age n->f4c

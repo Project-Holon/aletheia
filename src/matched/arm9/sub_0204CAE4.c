@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204CAE4
+ * function: CLACT_ClearActor
  * address:  0x0204CAE4
  * packet:   pkt_0204CA74
  * region:   arm9
@@ -33,8 +33,8 @@
  * the source.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CAE4.c \
- *       --func sub_0204CAE4 --addr 0x0204CAE4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ClearActor.c \
+ *       --func CLACT_ClearActor --addr 0x0204CAE4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -61,7 +61,7 @@ extern void sub_02082BCC(void *dst, int value, u32 len);
 extern void sub_02063790(u32 *p);
 extern void sub_020637D4(u32 *p);
 
-void sub_0204CAE4(struct Obj *o)
+void CLACT_ClearActor(struct Obj *o)
 {
     sub_02082BCC(o, 0, 0xe4);
     o->unk_54 = 0x1000;

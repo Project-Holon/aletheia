@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02173D88, func_02173DB0
+ * function: UNION_COMMAND_SendAppEntryRefused, UNION_COMMAND_RecvAppEntryAccepted
  * address:  0x02173D88
  * packet:   pkt_ov012_02173D88
  * region:   ov012
@@ -21,12 +21,12 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D4D0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
-int func_02173D88(u32 a)
+int UNION_COMMAND_SendAppEntryRefused(u32 a)
 {
     return func_0203D4D0((u32)func_020399A8(), a, 0x140B, 0, 0, 1, 0, 0);
 }
 
-void func_02173DB0(int a, int b, int c, u8 *p)
+void UNION_COMMAND_RecvAppEntryAccepted(int a, int b, int c, u8 *p)
 {
     p[0x282B] = 1;
 }

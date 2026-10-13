@@ -68,16 +68,16 @@
  *   func_0204A6C8  0x0204A6C8  arm
  *   func_0204AC18  0x0204AC18  arm
  *   func_0204AF28  0x0204AF28  arm
- *   sub_0204A8D4  0x0204A8D4  arm
- *   sub_0204ADA4  0x0204ADA4  arm
- *   sub_0204AFD8  0x0204AFD8  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   func_0204B294  0x0204B294  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B92C  0x0204B92C  arm
- *   sub_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_0204B528 0x0204B528 arm
- *   sub_0204B3DC  0x0204B3DC  arm
- *   func_0204B800  0x0204B800  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   func_021C47F8  0x021C47F8  thumb  ov127
  *   func_021C47FC  0x021C47FC  thumb  ov127
  *   func_021C5680 0x021C5680 thumb ov127
@@ -502,15 +502,15 @@ extern u32_021B9E0C func_02049624(void *a0, void *a1, void *a2, void *a3, u32_02
 extern s32_021B9E50 func_0204A6C8(void *a, u32_021B9E50 b, u32_021B9E50 c, u32_021B9E50 a3, u16 flags);
 extern s32_021B9E50 func_0204AC18(void *a, u32_021B9E50 b, u32_021B9E50 c, u32_021B9E50 d, u16 e, u16 f, u16 g);
 extern s32_021B9E50 func_0204AF28(void *owner, u32_021B9E50 first, u32_021B9E50 second, u32_021B9E50 mode);
-extern void sub_0204A8D4(u32_021B9EA0 i);
-extern void sub_0204ADA4(u32_021B9EA0 i);
-extern void sub_0204AFD8(u32_021B9EA0 i);
+extern void CLACT_ReleaseCharacter(u32_021B9EA0 i);
+extern void CLACT_ReleasePalette(u32_021B9EA0 i);
+extern void CLACT_ReleaseCellAnim(u32_021B9EA0 i);
 extern struct Obj_021B9EB8 *func_0204B294(void *a, unsigned int b, unsigned int c, unsigned int d, const void *e, u16 f, u16 g);
 extern void func_0204B3DC(struct Obj_021B9EB8 *p, unsigned int v);
 extern void func_0204B92C(struct Obj_021B9EB8 *a, u32_021B9EB8 b);
-extern void sub_0204B3B4(struct Obj_021B9EB8 *p);
+extern void CLACT_DeleteActor(struct Obj_021B9EB8 *p);
 extern void func_0204B528(void *,Pos_021B9EB8 *);
-extern void func_0204B800(struct Node *node, u32_021B9F90 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32_021B9F90 val);
 extern u16 func_021C47F8(u16 *p);
 extern u16 func_021C47FC(u16 *p);
 extern u8 *func_021C5680(u8 *,void *,int,u32_021BA190);
@@ -1342,9 +1342,9 @@ void func_021B9E50(Obj *o, int a, u32_021B9E50 c)
  */
 void func_021B9EA0(S_021B9A34 *s)
 {
-    sub_0204A8D4((u32_021B9EA0)s->f08);
-    sub_0204ADA4((u32_021B9EA0)s->f0C);
-    sub_0204AFD8((u32_021B9EA0)s->f10);
+    CLACT_ReleaseCharacter((u32_021B9EA0)s->f08);
+    CLACT_ReleasePalette((u32_021B9EA0)s->f0C);
+    CLACT_ReleaseCellAnim((u32_021B9EA0)s->f10);
 }
 
 
@@ -1383,8 +1383,8 @@ void func_021B9EB8(Obj_021B9EB8 *o, int a)
 
 void func_021B9F34(S_021B9EB8 *s)
 {
-    sub_0204B3B4(s->f14);
-    sub_0204B3B4(s->f18);
+    CLACT_DeleteActor(s->f14);
+    CLACT_DeleteActor(s->f18);
 }
 
 
@@ -1418,7 +1418,7 @@ void func_021B9F90(Obj_021B9F84 *o, Pos pos, int c)
     t.x = pos.x + 8;
     t.y = pos.y;
     func_0204B528(o->f2c, (Pos_021B9EB8 *)((const struct Pt *)(&t)));
-    func_0204B800(o->f2c, (unsigned char)c);
+    CLACT_SetActorDrawPriority(o->f2c, (unsigned char)c);
     func_0204B3DC((struct Obj_021B9EB8 *)o->f2c, 1);
 }
 

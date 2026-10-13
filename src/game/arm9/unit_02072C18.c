@@ -1,7 +1,7 @@
 /*
  * file:     unit_02072C18.c
  * unit:     yes
- * function: func_02072C18, func_02072C40, func_02072CC4
+ * function: NNS_SndWaveOutSetVolume, NNS_SndWaveOutSetSpeed, NNS_SndWaveOutIsPlaying
  * address:  0x02072C18
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -38,10 +38,10 @@ extern void func_02089638(u32 chBitMask, int volume, int shift);
 extern void func_02089618(u32 chBitMask, int timer);
 extern int func_02089D6C(u32 tag);
 extern u32 func_0208A07C(void);
-void func_02072C40(WaveOutSlot *slot, int speed);
+void NNS_SndWaveOutSetSpeed(WaveOutSlot *slot, int speed);
 
 
-void func_02072C18(WaveOutSlot *slot, u32 volume)
+void NNS_SndWaveOutSetVolume(WaveOutSlot *slot, u32 volume)
 {
     if (slot->active == 0) return;
     func_02089638(1 << slot->channelNo, volume, 0);
@@ -77,11 +77,11 @@ void func_02072C18(WaveOutSlot *slot, u32 volume)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02072C40.c \
- *       --func func_02072C40 --addr 0x02072C40 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_SndWaveOutSetSpeed.c \
+ *       --func NNS_SndWaveOutSetSpeed --addr 0x02072C40 --arm --cc 1.1p1
  *   -> EXACT, compiled 132 = original 132, 3 of 3 sites resolved
  */
-void func_02072C40(WaveOutSlot *slot, int speed)
+void NNS_SndWaveOutSetSpeed(WaveOutSlot *slot, int speed)
 {
     u64 timer;
 
@@ -99,7 +99,7 @@ void func_02072C40(WaveOutSlot *slot, int speed)
 }
 
 
-int func_02072CC4(WaveOutSlot *slot)
+int NNS_SndWaveOutIsPlaying(WaveOutSlot *slot)
 {
     u32 channelStatus;
 

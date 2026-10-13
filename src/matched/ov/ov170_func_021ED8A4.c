@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202CF98 0x0202CF98 thumb
+ *   BGWINFRM_GetPos 0x0202CF98 thumb
  *   func_021EC08C 0x021EC08C thumb ov170
  */
 #include "../include/Obj14281.h"
@@ -16,14 +16,14 @@
 typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
-extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 void func_021ED8A4(char *p)
 {
     signed char t[2];
     unsigned i;
     short x, y;
-    func_0202CF98(*(struct WinMgr * *)&((struct Obj24023 *)(*(char * *)&((struct Obj14281 *)p)->f2C))->f74, 7, &t[1], &t[0]);
+    BGWINFRM_GetPos(*(struct WinMgr * *)&((struct Obj24023 *)(*(char * *)&((struct Obj14281 *)p)->f2C))->f74, 7, &t[1], &t[0]);
     i = 0;
     y = t[0] * 8 + 8;
     x = t[1] * 8 + 0x17;

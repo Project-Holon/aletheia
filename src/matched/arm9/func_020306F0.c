@@ -12,7 +12,7 @@
  *
  * symbols:
  *   sub_02030A5C   0x02030A5C  arm
- *   sub_0202FF98   0x0202FF98  arm
+ *   GFL_HEAP_Delete   0x0202FF98  arm
  *   sub_02030524   0x02030524  arm
  *   OS_Terminate   0x02088234  arm
  *
@@ -33,10 +33,10 @@
  * instead of 68; the switch is what pushes both arms past the shared
  * `pop {r4, pc}` and leaves two forward `beq`s.
  *
- * The PC24 at +0x10 (sub_0202FF98) has no `label` witness: func_020306F0
+ * The PC24 at +0x10 (GFL_HEAP_Delete) has no `label` witness: func_020306F0
  * is 0x0202FF98's only caller image-wide, and the two are not contiguous,
  * so no unit can make the site `local` either.  It resolves on class
- * `matched` against src/matched/sub_0202FF98.c.
+ * `matched` against src/matched/GFL_HEAP_Delete.c.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020306F0.c \
@@ -46,7 +46,7 @@
 typedef unsigned int u32;
 
 extern void sub_02030A5C(u32 heap);
-extern u32  sub_0202FF98(u32 heap);
+extern u32  GFL_HEAP_Delete(u32 heap);
 typedef unsigned short u16;
 extern u16 sub_02030524(void);
 extern void OS_Terminate(void);
@@ -55,7 +55,7 @@ void func_020306F0(u32 heap)
 {
     sub_02030A5C(heap);
 
-    if (sub_0202FF98(heap) == 0) {
+    if (GFL_HEAP_Delete(heap) == 0) {
         u32 state = sub_02030524();
 
         switch (state) {

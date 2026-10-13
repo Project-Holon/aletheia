@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201A948  0x0201A948  thumb
+ *   POKEPARTY_Init  0x0201A948  thumb
  *   func_0201AC2C  0x0201AC2C  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 struct Party;
 struct Rec534;
-extern void func_0201A948(struct Party *p);
+extern void POKEPARTY_Init(struct Party *p);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
@@ -35,8 +35,8 @@ struct S {
 void func_021BA128(struct S *p, int i, void *x)
 {
     if (p->a[i]) {
-        func_0201A948(p->a[i]);
-        func_0201A948(p->b[i]);
+        POKEPARTY_Init(p->a[i]);
+        POKEPARTY_Init(p->b[i]);
         func_0201AC2C(x, p->a[i]);
         func_0201AC2C(x, p->b[i]);
         if (func_0201AA18(p->b[i])) {

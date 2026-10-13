@@ -11,11 +11,11 @@
  *
  * Recursive MATCH unblocker: callee of the parked ov119 func_021DFC68
  * (+0060) and of func_021D7130's tree.  Reads the descriptor at p->f34 +
- * 0xc*p->f08 and hands three offset-adjusted words to func_02015C48, then
+ * 0xc*p->f08 and hands three offset-adjusted words to MCSS_SetPosition, then
  * forwards p->f08 and its own second argument to func_021DFAD0.
  *
  * symbols:
- *   func_02015C48   0x02015C48  thumb
+ *   MCSS_SetPosition   0x02015C48  thumb
  *   func_021DFAD0   0x021DFAD0  thumb  ov119
  *
  * Addresses are Black-image addresses.
@@ -24,7 +24,7 @@
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-extern void func_02015C48(void *p, u32 *src);
+extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_021DFAD0(int a0, u8 *a1);
 
 typedef struct {
@@ -53,6 +53,6 @@ void func_021DFC28(P *p, int a1)
     vec[0] = e[0] + p->f1c;
     vec[1] = e[1] + p->f20;
     vec[2] = e[2] + p->f24;
-    func_02015C48((void *)p->f00, vec);
+    MCSS_SetPosition((void *)p->f00, vec);
     func_021DFAD0(p->f08, (u8 *)a1);
 }

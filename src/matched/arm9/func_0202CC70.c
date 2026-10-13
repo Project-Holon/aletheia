@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202CC70
+ * function: BGWINFRM_HideFrame
  * address:  0x0202CC70
  * packet:   pkt_0202CC70
  * region:   arm9
@@ -17,7 +17,7 @@
  * bgwinfrm.c.  Marks a window record dirty, rejects it when it lies wholly
  * outside its clip box (xmin..xmax, ymin..ymax), clips the origin and the
  * size against the box, then blits it through func_02041300 and runs the
- * manager's mode callback.  Same struct Win as src/matched/func_0202CD64.c.
+ * manager's mode callback.  Same struct Win as src/matched/BGWINFRM_StartMove.c.
  *
  * What closed it (wave 19): four spelling choices, all required.
  *  - xmax is a named local; the first guard and the right-edge clip read it.
@@ -66,7 +66,7 @@ struct WinMgr {
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void (*g_020A0058[])(u32);
 
-void func_0202CC70(struct WinMgr *mgr, u32 idx)
+void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx)
 {
     struct Win *win = &mgr->wins[idx];
     s8 oh, ow;

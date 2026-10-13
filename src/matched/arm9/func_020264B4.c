@@ -1,5 +1,5 @@
 /*
- * function: func_020264B4
+ * function: GAME_COMM_UpdatePlayerStatus
  * address:  0x020264B4
  * packet:   pkt_020264B4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020266C0 0x020266C0  thumb
+ *   GAME_COMM_PushPalaceMessage 0x020266C0  thumb
  */
 #include "../include/Obj04053.h"
 
@@ -18,9 +18,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void sub_020266C0(u32 a, u32 b, u32 c);
+extern void GAME_COMM_PushPalaceMessage(u32 a, u32 b, u32 c);
 
-void func_020264B4(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag)
+void GAME_COMM_UpdatePlayerStatus(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag)
 {
     u8 *base = (u8 *)p + 0x24;
     u8 *elem = base + idx * 8;
@@ -43,6 +43,6 @@ void func_020264B4(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag)
     elem[6] = old5;
     elem[5] = val3;
     if (!flag) {
-        sub_020266C0((u32)p, idx, val3);
+        GAME_COMM_PushPalaceMessage((u32)p, idx, val3);
     }
 }

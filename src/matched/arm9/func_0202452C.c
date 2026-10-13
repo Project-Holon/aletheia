@@ -1,5 +1,5 @@
 /*
- * function: func_0202452C
+ * function: PMSI_PARAM_GetSentenceType
  * address:  0x0202452C
  * packet:   pkt_0202452C
  * region:   arm9
@@ -16,7 +16,7 @@
 
 typedef unsigned short u16;
 
-int func_0202452C(const u16 *p)
+int PMSI_PARAM_GetSentenceType(const u16 *p)
 {
     return *p;
 }

@@ -17,9 +17,9 @@
  *   d_021C4D20 0x021C4D20 data a4
  *   d_021C4D10 0x021C4D10 data a1
  *   func_02030734 0x02030734 arm
- *   func_0203D7C8 0x0203D7C8 arm
+ *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   d_021C71D0 0x021C71D0 data a4
- *   func_0203D7FC  0x0203D7FC  arm
+ *   GFL_NET_FreeAligned  0x0203D7FC  arm
  *   func_020307B0  0x020307B0  arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
@@ -41,7 +41,7 @@
  *   func_021B7888 0x021B7888 thumb ov172
  *   func_021B78A0 0x021B78A0 thumb ov172
  *   d_021C71E0 0x021C71E0 data a4
- *   func_0207C778 0x0207C778 arm
+ *   FX_Inv 0x0207C778 arm
  *   func_0207D59C 0x0207D59C arm
  *   func_021B63B8 0x021B63B8 thumb ov172
  *   func_020306F0 0x020306F0 arm
@@ -156,8 +156,8 @@ typedef struct Q {
 } Q;
 
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void *func_0203D7C8(u32, u32, const char *, u16);
-extern void func_0203D7FC(void *p);
+extern void *GFL_NET_AllocAligned(u32, u32, const char *, u16);
+extern void GFL_NET_FreeAligned(void *p);
 extern u32 func_020307B0(void *p);
 extern float _fflt(int);
 extern float _fadd(float, float);
@@ -177,7 +177,7 @@ extern void func_021B6744(void *p, u32 a, u32 b);
 extern void func_021B6814(void *a0);
 extern void func_021B7888(void *p, u16 a, u16 b, u16 c, u16 d);
 extern void func_021B78A0(void *p, u16 a, u16 b, u16 c, u16 d);
-extern int func_0207C778(int);
+extern int FX_Inv(int);
 extern void func_0207D59C(void *, int *, int, int, int, int);
 extern void func_021B63B8(char *p);
 extern void func_020306F0(unsigned int);
@@ -409,7 +409,7 @@ Object *func_021B6BE0(Params *p)
 {
     Object *q;
     q = func_02030734(p->heap, 20, 1, d_021C71D0, 64);
-    q->data = func_0203D7C8(p->heap, p->count * 8, d_021C71D0, 65);
+    q->data = GFL_NET_AllocAligned(p->heap, p->count * 8, d_021C71D0, 65);
     q->kind = p->kind;
     q->count = p->count;
     q->a = p->a;
@@ -429,7 +429,7 @@ Object *func_021B6BE0(Params *p)
 
 void func_021B6C34(char *p)
 {
-    func_0203D7FC(((struct Obj24067 *)p)->f10);
+    GFL_NET_FreeAligned(((struct Obj24067 *)p)->f10);
     func_020307B0(p);
 }
 
@@ -664,8 +664,8 @@ char *func_021B6EE0(void *a, u16 b)
 void func_021B70A8(int unused, char *q)
 {
     int matrix[4];
-    matrix[0] = func_0207C778(4096);
-    matrix[3] = func_0207C778(4096);
+    matrix[0] = FX_Inv(4096);
+    matrix[3] = FX_Inv(4096);
     matrix[1] = 0;
     matrix[2] = 0;
     func_0207D59C((void *)0x04000030, matrix, 0, 0, 0, 0);
@@ -785,11 +785,11 @@ void func_021B71B8(void *p, Q *q)
             if (q->f20 != func_021BE078(p)) {
                 q->f20 = func_021BE078(p);
                 if (q->f20 == 1) {
-                    m[0] = func_0207C778(0x2000);
-                    m[3] = func_0207C778(0x2000);
+                    m[0] = FX_Inv(0x2000);
+                    m[3] = FX_Inv(0x2000);
                 } else {
-                    m[0] = func_0207C778(0x1000);
-                    m[3] = func_0207C778(0x1000);
+                    m[0] = FX_Inv(0x1000);
+                    m[3] = FX_Inv(0x1000);
                 }
                 m[1] = 0;
                 m[2] = 0;

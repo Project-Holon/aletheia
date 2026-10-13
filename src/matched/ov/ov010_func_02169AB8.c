@@ -43,7 +43,7 @@
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F250  0x0201F250  thumb
  *   func_0201ED04  0x0201ED04  thumb
- *   func_02006254  0x02006254  thumb
+ *   GFL_USE_IsSeqPlaying  0x02006254  thumb
  *   func_02030734  0x02030734  arm
  *   func_02045B38  0x02045B38  arm
  *   func_020457B0  0x020457B0  arm
@@ -157,7 +157,7 @@ extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
-extern int func_02006254(u32 a);
+extern int GFL_USE_IsSeqPlaying(u32 a);
 extern u32 func_020362DC(void);
 
 extern const char d_02172A50[];
@@ -280,7 +280,7 @@ int func_02169AB8(Work *w, u32 *state)
             *state = 0xC;
         break;
     case 12:
-        if (func_02006254(0x558) == 0)
+        if (GFL_USE_IsSeqPlaying(0x558) == 0)
             *state = 0x10;
         break;
     case 13:

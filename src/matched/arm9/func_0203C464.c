@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203C464
+ * function: GFL_NET_STATE_WifiConnected
  * address:  0x0203C464
  * packet:   pkt_0203C304
  * region:   arm9
@@ -9,6 +9,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  */
 
-int func_0203C464(int a0, int a1, int a2, int a3){ int t0 = func_0203D788(); int t1 = func_0203AD80((int)*(int *)((char *)(0x21469DC)), (int)0x203C0F4, (int)0, (int)0x637); return t1; }
+int GFL_NET_STATE_WifiConnected(int a0, int a1, int a2, int a3){ int t0 = GFL_NET_GetSession(); int t1 = GFL_NET_STATE_ChangeStateDebug((int)*(int *)((char *)(0x21469DC)), (int)0x203C0F4, (int)0, (int)0x637); return t1; }

@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * 2026-10-05: the callee func_02015BA4 takes a second argument (r1 = the field value tested); the caller passes it.
+ * 2026-10-05: the callee MCSS_Del takes a second argument (r1 = the field value tested); the caller passes it.
  *
  * symbols:
- *   func_02015BA4  0x02015BA4  thumb
+ *   MCSS_Del  0x02015BA4  thumb
  */
 
-extern void func_02015BA4(void *sys, void *obj);
+extern void MCSS_Del(void *sys, void *obj);
 
 void func_021B6984(char *p)
 {
     int v = *(int *)(p + 0x1c);
 
     if (v != 0) {
-        func_02015BA4((void *)(*(int *)(p + 0x18)), (void *)v);
+        MCSS_Del((void *)(*(int *)(p + 0x18)), (void *)v);
         *(int *)(p + 0x1c) = 0;
     }
 }

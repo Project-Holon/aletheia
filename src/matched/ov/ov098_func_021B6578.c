@@ -28,8 +28,8 @@
  *   to func_0220C834).
  * wave82 checks: 1 021B614C (`ldr r0,[r0,#0x10]`), 022026FC and 021B6B74
  *   read r0 only, unchanged arity; definition conflicts: arm9
- *   func_0202142C is defined `void (int)` but its result feeds
- *   func_02017E40 (+0x1AE); arm9 sub_02035C60 is defined `void (void)` but
+ *   PALANM_GetPairedCodeForFirst is defined `void (int)` but its result feeds
+ *   func_02017E40 (+0x1AE); arm9 TOUCHPANEL_GetTrg is defined `void (void)` but
  *   its return is tested at +0x180; 2 ov098 6504 twin uses the field form,
  *   no init twin; 3 const p (casts on stores) 65 B, const load alias 54 B;
  *   4 struct-field-stores-keep-source-order and integer-address idioms, both
@@ -48,8 +48,8 @@
  *   parameter-sinks-a-grouped-load-below-a-store, an-int-spelled-object-base-hoists-
  *   field-addresses, a-restrict-position-parameter-sinks-a-store-past-the-next-load,
  *   const-pointer-lets-a-field-load-survive-a-store, a-field-spelled-two-ways-is-copy-
- *   propagated (none changes the init order). Callee problems: func_0202142C is
- *   defined void (int) but its result is used at +01A8; sub_02035C60 returns u16 and
+ *   propagated (none changes the init order). Callee problems: PALANM_GetPairedCodeForFirst is
+ *   defined void (int) but its result is used at +01A8; TOUCHPANEL_GetTrg returns u16 and
  *   is declared int here (fine). The unresolved relocations are 021B614C, 022026FC,
  *   021B6B74 (no witness in this overlay). Still open: the loads need a base the
  *   scheduler cannot separate from the stores that still colours to r4.
@@ -71,7 +71,7 @@
  *   func_021B6364 0x021B6364 thumb ov098
  *   func_021B6504 0x021B6504 thumb ov098
  *   func_021B6988 0x021B6988 thumb ov098
- *   func_021B69C4 0x021B69C4 thumb ov098
+ *   IRC_COMPATIBLE_ProcExit 0x021B69C4 thumb ov098
  *   func_021B6A3C 0x021B6A3C thumb ov098
  *   func_021B6B74 0x021B6B74 thumb ov098
  *   func_022025D8 0x022025D8 thumb ov094
@@ -84,13 +84,13 @@
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_02007F1C 0x02007F1C thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02005F38 0x02005F38 thumb
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
  *   func_0204E720 0x0204E720 arm
  *   func_0204E804 0x0204E804 arm
- *   func_0202142C 0x0202142C thumb
+ *   PALANM_GetPairedCodeForFirst 0x0202142C thumb
  *   func_02017E40 0x02017E40 thumb
  */
 typedef unsigned char u8;
@@ -112,7 +112,7 @@ extern int func_021B6140(void *);
 extern void func_021B6364(u8 *, u32);
 extern int func_021B6504(char *);
 extern void func_021B6988(int, int);
-extern void func_021B69C4(int, int);
+extern void IRC_COMPATIBLE_ProcExit(int, int);
 extern int func_021B6A3C(u8 *);
 extern int func_021B6B74(u8 *);
 extern void func_022025D8(char *, int);
@@ -125,13 +125,13 @@ extern void func_021F7C0C(void);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern u32 func_02007F1C(u8 *, u16, u16, u16);
-extern void func_02005D90(u32, u16);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32, u16);
 extern int func_02005F38(void);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_0204E720(u32, int, int, int);
 extern int func_0204E804(void);
-extern unsigned short func_0202142C(int a0);
+extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
 extern void func_02017E40(void *, u32, u32);
 int func_021B6578(struct P *p)
 {
@@ -187,17 +187,17 @@ int func_021B6578(struct P *p)
         break;
     case 6:
         if (!func_021F7EB4()) {
-            func_021B69C4((int)p->object, (int)p->parent);
+            IRC_COMPATIBLE_ProcExit((int)p->object, (int)p->parent);
             (p->state)++;
         }
         break;
     case 7:
-        if (func_021B6B74(p->object)) func_02005D90(0x518, 0xffff);
+        if (func_021B6B74(p->object)) GFL_USE_CancelChangeAndPlayBgm(0x518, 0xffff);
         if (func_021B6A3C(p->object)) (p->state)++;
         break;
     case 8:
         if (!func_02005F38()) {
-            func_021F7C0C(); func_02005D90(0x47c, 0xffff);
+            func_021F7C0C(); GFL_USE_CancelChangeAndPlayBgm(0x47c, 0xffff);
             (p->state)++;
         }
         break;
@@ -215,7 +215,7 @@ int func_021B6578(struct P *p)
         break;
     case 11:
         if (!func_0204E804()) {
-            t = func_0202142C(p->h32);
+            t = PALANM_GetPairedCodeForFirst(p->h32);
             func_02017E40((void *)func_021B6140(p->parent), 152, t);
             return 1;
         }

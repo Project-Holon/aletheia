@@ -1,5 +1,5 @@
 /*
- * function: func_0201FC1C
+ * function: BMP_MENU_GetMaxItemWidth
  * address:  0x0201FC1C
  * packet:   pkt_0201F93C
  * region:   arm9
@@ -30,7 +30,7 @@ struct Obj {
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
-u32 func_0201FC1C(struct Obj *o)
+u32 BMP_MENU_GetMaxItemWidth(struct Obj *o)
 {
     u32 best = 0;
     u8 i;

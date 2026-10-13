@@ -1,5 +1,5 @@
 /*
- * function: func_0203D7B0
+ * function: GFL_NET_SetAutoExit
  * address:  0x0203D7B0
  * packet:   pkt_0203D7B0
  * region:   arm9
@@ -20,17 +20,17 @@
  *           referrer is decompiled.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/pending/func_0203D7B0.c \
- *       --func func_0203D7B0 --addr 0x0203D7B0 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/pending/GFL_NET_SetAutoExit.c \
+ *       --func GFL_NET_SetAutoExit --addr 0x0203D7B0 --cc 1.1p1 --arm
  *
  * symbols:
- *   func_0203C8E8  0x0203C8E8  arm
+ *   GFL_NET_STATE_SetAutoExit  0x0203C8E8  arm
  */
 
 typedef unsigned char  u8;
-extern void func_0203C8E8(u8 v);
+extern void GFL_NET_STATE_SetAutoExit(u8 v);
 
-void func_0203D7B0(u8 a0)
+void GFL_NET_SetAutoExit(u8 a0)
 {
-    func_0203C8E8(a0);
+    GFL_NET_STATE_SetAutoExit(a0);
 }

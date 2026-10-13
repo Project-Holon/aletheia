@@ -1,5 +1,5 @@
 /*
- * function: sub_02036390
+ * function: KEY_ClearFrameRateWork
  * address:  0x02036390
  * packet:   pkt_020362EC
  * region:   arm9
@@ -13,12 +13,12 @@
  *   func_0203521C  0x0203521C  arm
  *
  * Zeroes the six-word block at +0x24 of the record func_0203521C resolves
- * its argument to.  The other follow-up pass that src/pending/sub_02035660.c
- * runs (see src/matched/sub_02035E54.c for the first).
+ * its argument to.  The other follow-up pass that src/pending/UI_ChangeFrameRate.c
+ * runs (see src/matched/TOUCHPANEL_ClearFrameRateWork.c for the first).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02036390.c \
- *       --func sub_02036390 --addr 0x02036390 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/KEY_ClearFrameRateWork.c \
+ *       --func KEY_ClearFrameRateWork --addr 0x02036390 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ struct Rec {
 
 extern u32 func_0203521C(u32 *p);
 
-void sub_02036390(struct Rec *p)
+void KEY_ClearFrameRateWork(struct Rec *p)
 {
     struct Rec *rec = (struct Rec *)func_0203521C((u32 *)p);
 

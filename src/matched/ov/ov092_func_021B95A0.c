@@ -13,7 +13,7 @@
  *   func_0203064C  0x0203064C  arm
  *   func_0203159C  0x0203159C  arm
  *   func_020457B0  0x020457B0  arm
- *   func_02031324  0x02031324  arm
+ *   PROCSYS_Create  0x02031324  arm
  */
 
 typedef unsigned char u8;
@@ -41,7 +41,7 @@ struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 
 int func_021B95A0(struct Obj0203159C *a0)
 {
@@ -56,7 +56,7 @@ int func_021B95A0(struct Obj0203159C *a0)
     p->f30 = 0;
     p->f34 = 0;
     p->f3c = 0x52;
-    p->f40 = (u32)func_02031324(p->f3c);
+    p->f40 = (u32)PROCSYS_Create(p->f3c);
     p->f44 = 0;
     p->f48 = 0;
     return 1;

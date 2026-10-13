@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202B1F4",
+   "name": "ISS_ROAD_SYS_Update",
    "address": "0x0202B1F4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B1FC",
+   "name": "ISS_ROAD_SYS_Start",
    "address": "0x0202B1FC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B20C",
+   "name": "ISS_ROAD_SYS_Activate",
    "address": "0x0202B20C",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B224",
+   "name": "ISS_ROAD_SYS_Deactivate",
    "address": "0x0202B224",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B230",
+   "name": "ISS_ROAD_SYS_UpdateVolume",
    "address": "0x0202B230",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B28C",
+   "name": "ISS_ROAD_SYS_FadeIn",
    "address": "0x0202B28C",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B2A4",
+   "name": "ISS_ROAD_SYS_FadeOut",
    "address": "0x0202B2A4",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B2BC",
+   "name": "ISS_ROAD_SYS_ApplyVolume",
    "address": "0x0202B2BC",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B360",
+   "name": "ISS_DUNGEON_SYS_DeleteTable",
    "address": "0x0202B360",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B3A0",
+   "name": "ISS_DUNGEON_SYS_Create",
    "address": "0x0202B3A0",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B3EC",
+   "name": "ISS_DUNGEON_SYS_Delete",
    "address": "0x0202B3EC",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B404",
+   "name": "ISS_DUNGEON_SYS_Update",
    "address": "0x0202B404",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B420",
+   "name": "ISS_DUNGEON_SYS_SetTargetAreaId",
    "address": "0x0202B420",
    "kind": "game",
    "region": "arm9",
@@ -163,7 +163,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B42C",
+   "name": "ISS_DUNGEON_SYS_Stop",
    "address": "0x0202B42C",
    "kind": "game",
    "region": "arm9",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B47C",
+   "name": "ISS_DUNGEON_SYS_Activate",
    "address": "0x0202B47C",
    "kind": "game",
    "region": "arm9",
@@ -211,7 +211,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B490",
+   "name": "ISS_DUNGEON_SYS_Deactivate",
    "address": "0x0202B490",
    "kind": "game",
    "region": "arm9",

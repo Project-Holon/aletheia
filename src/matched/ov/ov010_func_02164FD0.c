@@ -16,8 +16,8 @@
  *   func_02082D44  0x02082D44  arm
  *   func_02012138  0x02012138  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_02012164  0x02012164  thumb
- *   func_020264AC  0x020264AC  thumb
+ *   GAMESYSTEM_CanStartAutoComm  0x02012164  thumb
+ *   GAME_COMM_GetNotifyFlag  0x020264AC  thumb
  *   func_0203CD98  0x0203CD98  arm
  *   func_02026454  0x02026454  thumb
  *   func_02030734  0x02030734  arm
@@ -39,8 +39,8 @@ extern u32   func_02012138(const struct Ctx *p);
 extern u32 func_020307B0(void *p);
 struct Comm;
 struct IcaAnime;
-extern u32 func_02012164(struct IcaAnime *p);
-extern u32 func_020264AC(void *obj);
+extern u32 GAMESYSTEM_CanStartAutoComm(struct IcaAnime *p);
+extern u32 GAME_COMM_GetNotifyFlag(void *obj);
 extern int   func_0203CD98(void);
 extern u32 func_02026454(void *obj);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -56,7 +56,7 @@ void func_02164FD0(u8 *obj, int flag)
     func_02082D44(obj + 4, buf, 6);
     w = func_02012138((const struct Ctx *)o);
     func_020307B0(obj);
-    if (flag == 0 && func_02012164((struct IcaAnime *)o) == 1 && func_020264AC((void *)w) == 0
+    if (flag == 0 && GAMESYSTEM_CanStartAutoComm((struct IcaAnime *)o) == 1 && GAME_COMM_GetNotifyFlag((void *)w) == 0
         && func_0203CD98() == 0 && func_02026454((void *)w) == 0) {
         p = func_02030734(5, 0x10, 1, d_021729BC, 0x287);
         ((struct Obj12364 *)p)->f0 = o;

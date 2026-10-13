@@ -14,7 +14,7 @@
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_020264F4  0x020264F4  thumb
- *   func_02026490  0x02026490  thumb
+ *   GAME_COMM_SetSeqState  0x02026490  thumb
  *
  * game_comm.c, 0x020263D8..0x02026454: start a request, the unlabelled
  * forwarding leaf func_02026400 (func_0202640C(p, 0, 0) as a pool-word tail
@@ -80,12 +80,12 @@ void func_02026400(struct Comm *p)
     func_0202640C(p, 0, 0);
 }
 
-extern void func_02026490(void *obj, u32 value);
+extern void GAME_COMM_SetSeqState(void *obj, u32 value);
 
 void func_0202640C(struct Comm *p, u32 a, u32 b)
 {
     if (*((u8 *)&p->sub + 4) == 2) {
-        func_02026490(&p->sub, 3);
+        GAME_COMM_SetSeqState(&p->sub, 3);
         p->f20 = a;
         p->f1c = b;
     } else if (*((u8 *)&p->sub + 4) < 2) {

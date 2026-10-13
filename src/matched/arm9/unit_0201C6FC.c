@@ -15,16 +15,16 @@
  * status:   EXACT
  *
  * printsys.c's two public print entry points and the dispatcher they share.
- * sub_0201C758 decides between drawing straight away and queueing the request
+ * PRINTSYS_SubmitJob decides between drawing straight away and queueing the request
  * into the ring: when the module is not busy and the flags nibble in the byte
- * at +7 is clear it calls sub_0201C8BC directly, otherwise it queues with
+ * at +7 is clear it calls PRINTSYS_RunJob directly, otherwise it queues with
  * func_0201D6D8 provided the request fits in the free space func_0201D6C4
  * reports.
  *
  * Why it is capped: the `bl` at 0x0201C79C is the only branch to func_0201D6D8
  * anywhere in the image, and no pool word holds the address either, so the
  * `label` class has no witness once the compared range holds that call.  No
- * cut helps, because the range cannot be made smaller than sub_0201C758 and
+ * cut helps, because the range cannot be made smaller than PRINTSYS_SubmitJob and
  * the call is inside it.  The `matched` class would carry it, but
  * func_0201D6D8 is not matched: it is EXACT only in a range that also holds
  * func_0201D768, and func_0201D768 is four bytes short (the original spills
@@ -35,7 +35,7 @@
  * It closes the day func_0201D768's register allocation is reproduced, which
  * makes func_0201D6D8 an EXACT entry and the `matched` class applies.
  *
- * sub_0201C758's busy test is normalised to 0 or 1 before it is used, which is
+ * PRINTSYS_SubmitJob's busy test is normalised to 0 or 1 before it is used, which is
  * what a `!= 0` assigned to a local gives; the flags nibble is read as a four
  * bit unsigned bitfield, `((u32)((u8 *)p)[7] << 24) >> 28`, the same spelling
  * src/matched/unit_0201CE5C.c needs for a one bit field.
@@ -47,7 +47,10 @@
  *       --addr 0x0201C6FC --thumb
  *
  * symbols:
- *   g_0214655C   0x0214655C  data
+ *   _PrintJobWork   0x0214655C  data
+ *   PRINTSYS_SetupJob  0x0201C808  thumb
+ *   PRINTSYS_SetJobColor  0x0201C8A4  thumb
+ *   PRINTSYS_RunJob  0x0201C8BC  thumb
  */
 
 #include "../include/G_Scratch.h"
@@ -90,7 +93,7 @@ struct PrintSys {
     struct PrintCtx *unk14;
 };
 
-extern struct Scratch g_0214655C;
+extern struct Scratch _PrintJobWork;
 
 extern int func_0203D1B4(void);
 extern u32   func_0201D6B8(void *s);
@@ -99,33 +102,33 @@ struct Ring;
 extern u32 func_0201D6C4(const struct Ring *p);
 extern void  func_0201D6D8(struct PrintSys *p, void *a, void *b);
 
-extern void sub_0201C808(struct PrintCtx *c, u32 a, u32 b, u32 d, u32 e);
-extern void sub_0201C8A4(struct Rec2 *p, u16 v);
-extern void sub_0201C8BC(u8 *a0, int a1);
+extern void PRINTSYS_SetupJob(struct PrintCtx *c, u32 a, u32 b, u32 d, u32 e);
+extern void PRINTSYS_SetJobColor(struct Rec2 *p, u16 v);
+extern void PRINTSYS_RunJob(u8 *a0, int a1);
 
-void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s);
+void PRINTSYS_SubmitJob(struct PrintSys *p, struct PrintCtx *c, void *s);
 
-void sub_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e)
+void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e)
 {
-    sub_0201C808(((struct PrintCtx *)&g_0214655C), e, a, b, c);
-    sub_0201C758(p, ((struct PrintCtx *)&g_0214655C), s);
+    PRINTSYS_SetupJob(((struct PrintCtx *)&_PrintJobWork), e, a, b, c);
+    PRINTSYS_SubmitJob(p, ((struct PrintCtx *)&_PrintJobWork), s);
 }
 
-void sub_0201C724(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e,
+void PRINTSYS_PrintQueColor(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e,
                   u16 f)
 {
-    sub_0201C808(((struct PrintCtx *)&g_0214655C), e, a, b, c);
-    sub_0201C8A4((struct Rec2 *)(((struct PrintCtx *)&g_0214655C)), f);
-    sub_0201C758(p, ((struct PrintCtx *)&g_0214655C), s);
+    PRINTSYS_SetupJob(((struct PrintCtx *)&_PrintJobWork), e, a, b, c);
+    PRINTSYS_SetJobColor((struct Rec2 *)(((struct PrintCtx *)&_PrintJobWork)), f);
+    PRINTSYS_SubmitJob(p, ((struct PrintCtx *)&_PrintJobWork), s);
 }
 
-void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s)
+void PRINTSYS_SubmitJob(struct PrintSys *p, struct PrintCtx *c, void *s)
 {
     u32 busy = func_0203D1B4() != 0;
     u32 need;
 
     if (busy == 0 && (((u32)((u8 *)p)[7] << 24) >> 28) == 0) {
-        sub_0201C8BC((u8 *)c, (int)s);
+        PRINTSYS_RunJob((u8 *)c, (int)s);
         return;
     }
     need = func_0201D6B8(s);

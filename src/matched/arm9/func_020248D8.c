@@ -1,5 +1,5 @@
 /*
- * function: func_020248D8
+ * function: PMS_WORD_SplitWordId
  * address:  0x020248D8
  * packet:   pkt_02024838
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 extern u16 g_0209F792[];
 
 
-int func_020248D8(u32 v, u32 *a1, u32 *a2)
+int PMS_WORD_SplitWordId(u32 v, u32 *a1, u32 *a2)
 {
     u32 i;
     u32 sum;

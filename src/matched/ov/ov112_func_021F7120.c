@@ -9,13 +9,13 @@
  * status: EXACT
  * symbols:
  *   func_021F77A0 0x021F77A0 thumb ov112
- *   func_0204F150 0x0204F150 arm
+ *   BILLBOARD_DeleteImage 0x0204F150 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj13839.h"
 typedef unsigned char  u8;
 extern void func_021F77A0(char *p, char *q);
-extern void func_0204F150(u8 *a0, int i);
+extern void BILLBOARD_DeleteImage(u8 *a0, int i);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 typedef struct { int pad[5]; int flag; } Record;
@@ -25,6 +25,6 @@ void func_021F7120(char *p) {
         if (((Record *)(p + i * 0x108))->flag == 1)
             func_021F77A0((char *)((int)p), (char *)((int)(p + 0x14 + i * 0x108)));
     }
-    func_0204F150((u8 *)(((struct Obj13839 *)p)->f8), ((struct Obj13839 *)p)->f438);
+    BILLBOARD_DeleteImage((u8 *)(((struct Obj13839 *)p)->f8), ((struct Obj13839 *)p)->f438);
     func_020307B0((void *)((int)p));
 }

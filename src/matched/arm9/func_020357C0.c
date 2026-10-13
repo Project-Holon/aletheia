@@ -1,5 +1,5 @@
 /*
- * function: func_020357C0
+ * function: TOUCHPANEL_ReadTrg
  * address:  0x020357C0
  * packet:   pkt_02035760
  * region:   arm9
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035750  0x02035750  arm
+ *   TOUCHPANEL_GetWork  0x02035750  arm
  *
- * Fourth of the family in src/matched/func_02035760.c: kind byte +0x3D ==
+ * Fourth of the family in src/matched/TOUCHPANEL_ReadPointX.c: kind byte +0x3D ==
  * 0x1E selects +0x68, else +0x60.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020357C0.c \
- *       --func func_020357C0 --addr 0x020357C0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TOUCHPANEL_ReadTrg.c \
+ *       --func TOUCHPANEL_ReadTrg --addr 0x020357C0 --cc 1.1p1 --arm
  */
 #include "../include/Obj11337.h"
 
@@ -31,13 +31,13 @@ struct Kind {
     u8 unk3D;
 };
 
-extern int func_02035750(void);
+extern int TOUCHPANEL_GetWork(void);
 
-u16 func_020357C0(struct Kind *p)
+u16 TOUCHPANEL_ReadTrg(struct Kind *p)
 {
     u8 *q;
 
-    q = (u8 *)func_02035750();
+    q = (u8 *)TOUCHPANEL_GetWork();
     if (p->unk3D == 0x1E)
         return ((struct Obj11337 *)q)->f68;
     return ((struct Obj11337 *)q)->f60;

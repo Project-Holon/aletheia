@@ -1,5 +1,5 @@
 /*
- * function: func_0219E218
+ * function: SBServerGetPublicQueryPortNBO
  * address:  0x0219E218
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Halfword at +4.
  */
 
-unsigned short func_0219E218(const unsigned short *p)
+unsigned short SBServerGetPublicQueryPortNBO(const unsigned short *p)
 {
     return p[2];
 }

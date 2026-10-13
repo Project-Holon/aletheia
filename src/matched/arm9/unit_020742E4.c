@@ -2,9 +2,9 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: func_020742E4, func_020742FC, func_0207430C, func_02074324,
- *           func_02074388, func_020743EC, func_02074450, func_020744B4,
- *           func_02074518
+ * function: NNS_SndArcSetCurrent, NNS_SndArcGetCurrent, NNS_SndArcGetSeqParam, NNS_SndArcGetSeqInfo,
+ *           NNS_SndArcGetSeqArcInfo, NNS_SndArcGetBankInfo, NNS_SndArcGetWaveArcInfo, NNS_SndArcGetPlayerInfo,
+ *           NNS_SndArcGetGroupInfo
  * address:  0x020742E4
  * packet:   pkt_020742E4
  * region:   arm9
@@ -48,30 +48,30 @@ struct Global {
 
 extern struct Global *ptr_0214EA50;
 
-struct Global *func_020742E4(struct Global *val)
+struct Global *NNS_SndArcSetCurrent(struct Global *val)
 {
     struct Global *old = ptr_0214EA50;
     ptr_0214EA50 = val;
     return old;
 }
 
-struct Global *func_020742FC(void)
+struct Global *NNS_SndArcGetCurrent(void)
 {
     return ptr_0214EA50;
 }
 
-extern void *func_02074324(int index);
+extern void *NNS_SndArcGetSeqInfo(int index);
 
-void *func_0207430C(int index)
+void *NNS_SndArcGetSeqParam(int index)
 {
-    void *ptr = func_02074324(index);
+    void *ptr = NNS_SndArcGetSeqInfo(index);
     if (ptr == 0) {
         return 0;
     }
     return (char *)ptr + 4;
 }
 
-void *func_02074324(int index)
+void *NNS_SndArcGetSeqInfo(int index)
 {
     struct Global *g = ptr_0214EA50;
     struct Header *h = g->header;
@@ -100,7 +100,7 @@ void *func_02074324(int index)
     return (char *)base + offset;
 }
 
-void *func_02074388(int index)
+void *NNS_SndArcGetSeqArcInfo(int index)
 {
     struct Global *g = ptr_0214EA50;
     struct Header *h = g->header;
@@ -129,7 +129,7 @@ void *func_02074388(int index)
     return (char *)base + offset;
 }
 
-void *func_020743EC(int index)
+void *NNS_SndArcGetBankInfo(int index)
 {
     struct Global *g = ptr_0214EA50;
     struct Header *h = g->header;
@@ -158,7 +158,7 @@ void *func_020743EC(int index)
     return (char *)base + offset;
 }
 
-void *func_02074450(int index)
+void *NNS_SndArcGetWaveArcInfo(int index)
 {
     struct Global *g = ptr_0214EA50;
     struct Header *h = g->header;
@@ -187,7 +187,7 @@ void *func_02074450(int index)
     return (char *)base + offset;
 }
 
-void *func_020744B4(int index)
+void *NNS_SndArcGetPlayerInfo(int index)
 {
     struct Global *g = ptr_0214EA50;
     struct Header *h = g->header;
@@ -216,7 +216,7 @@ void *func_020744B4(int index)
     return (char *)base + offset;
 }
 
-void *func_02074518(int index)
+void *NNS_SndArcGetGroupInfo(int index)
 {
     struct Global *g = ptr_0214EA50;
     struct Header *h = g->header;

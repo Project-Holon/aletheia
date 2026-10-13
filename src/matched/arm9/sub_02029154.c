@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   sub_02029344  0x02029344  thumb
+ *   FIELD_SOUND_SYSTEM_SetState  0x02029344  thumb
  */
 #include "../include/Obj16756.h"
 
 typedef unsigned int u32;
 
-extern void sub_02029344(void *obj, u32 value);
+extern void FIELD_SOUND_SYSTEM_SetState(void *obj, u32 value);
 
 void func_02029154(void *obj)
 {
@@ -25,7 +25,7 @@ void func_02029154(void *obj)
     case 5:
         break;
     case 3:
-        sub_02029344(obj, 12);
+        FIELD_SOUND_SYSTEM_SetState(obj, 12);
         break;
     }
 }

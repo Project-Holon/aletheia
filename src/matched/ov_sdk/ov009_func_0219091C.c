@@ -47,7 +47,7 @@
  *   func_0219327C  0x0219327C  arm  ov009
  *   func_021803BC  0x021803BC  arm  ov009
  *   func_0217F264  0x0217F264  arm  ov009
- *   func_0217F2BC  0x0217F2BC  arm  ov009
+ *   msleep  0x0217F2BC  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
  *   func_0217EAC8  0x0217EAC8  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
@@ -373,7 +373,7 @@ extern GPResult func_021906E0(GPConnection *connection, char *nick, char *unique
 extern void func_0219327C(char *dest, char *src, int len);
 extern int func_021803BC(char *dst, const char *src, unsigned int n);
 extern u32 func_0217F264(void);
-extern void func_0217F2BC(u32 ms);
+extern void msleep(u32 ms);
 extern void *func_0217EAB0(int size);
 extern void *func_0217EAC8(void *mem, int size);
 extern void func_0217EAE0(void *mem);
@@ -1314,7 +1314,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
             }
         }
         if (loop)
-            func_0217F2BC(10);
+            msleep(10);
     } while (loop);
 
     return GP_NO_ERROR;

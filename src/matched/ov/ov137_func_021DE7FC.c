@@ -9,7 +9,7 @@
  * status: EXACT
  * prototypes: 0203159C returns live allocated r0 here; 0203D7B0/BC receive visible r0=1.
  * symbols:
- *   func_0203D7B0 0x0203D7B0 arm
+ *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
@@ -45,7 +45,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0203D7B0(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern void func_0203D7BC(u8 a0);
 extern void func_0203064C(u32 src, u32 dst, u32 size);
 struct Obj0203159C;
@@ -80,7 +80,7 @@ int func_021DE7FC(void *obj,int unused,u8 *q)
     u8 *p,*s;
     void *r;
     int i,n,player;
-    func_0203D7B0(1);
+    GFL_NET_SetAutoExit(1);
     func_0203064C(1,114,0x80000);
     p=func_0203159C(obj,0xdac,114);
     i=0;

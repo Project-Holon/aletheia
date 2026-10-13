@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_02148B4C   0x02148B4C  data
+ *   g_renderState   0x02148B4C  data
  *   g_02148B98   0x02148B98  data
  *   g_02148C4C   0x02148C4C  data
  *   func_0207B67C  0x0207B67C  arm
@@ -22,7 +22,7 @@
  *   FX_InvFx64c       0x0207C788  arm
  *   g_02148B54   0x02148B54  data
  *   g_02148D0C   0x02148D0C  data
- *   g_02148C08   0x02148C08  data
+ *   g_renderStateIdentityMtx   0x02148C08  data
  *   g_02148C7C   0x02148C7C  data
  *   g_02148CAC   0x02148CAC  data
  *   func_0207B9F0  0x0207B9F0  arm
@@ -59,12 +59,12 @@ u32 *func_0206ADBC(void);
 u32 *func_0206ADF4(void);
 void *func_0206AE2C(void);
 void func_0206AE94(u32 *a0, u32 *a1, u32 *a2, u32 *a3);
-extern u32 g_02148B4C[];
+extern u32 g_renderState[];
 extern u32 g_02148B98[];
 extern u32 g_02148C4C[];
 extern u32 g_02148B54[];
 extern u32 g_02148D0C[];
-extern char g_02148C08[];
+extern char g_renderStateIdentityMtx[];
 extern u32 g_02148C7C[];
 extern u32 g_02148CAC[];
 extern char g_02148D4C[];
@@ -98,9 +98,9 @@ extern char g_02148D4C[];
  */
 u32 *func_0206AAD4(void)
 {
-    if ((g_02148B4C[0x3f] & 8) == 0) {
+    if ((g_renderState[0x3f] & 8) == 0) {
         func_0207B67C(g_02148B98, g_02148C4C);
-        g_02148B4C[0x3f] |= 8;
+        g_renderState[0x3f] |= 8;
     }
     return g_02148C4C;
 }
@@ -221,9 +221,9 @@ int func_0206AB18(const MtxFx44 *pSrc, MtxFx44 *pDst)
  */
 u32 *func_0206AD20(void)
 {
-    if ((g_02148B4C[0x3f] & 0x10) == 0) {
+    if ((g_renderState[0x3f] & 0x10) == 0) {
         func_0206AB18((const MtxFx44 *)g_02148B54, (MtxFx44 *)g_02148D0C);
-        g_02148B4C[0x3f] |= 0x10;
+        g_renderState[0x3f] |= 0x10;
     }
     return g_02148D0C;
 }
@@ -263,9 +263,9 @@ u32 *func_0206AD20(void)
  */
 void func_0206AD64(void)
 {
-    func_0207B9F0(g_02148C08, g_02148B98, g_02148C7C);
-    func_0207B60C(g_02148C7C, g_02148C7C, g_02148B4C[0x3b], g_02148B4C[0x3c],
-                  g_02148B4C[0x3d]);
+    func_0207B9F0(g_renderStateIdentityMtx, g_02148B98, g_02148C7C);
+    func_0207B60C(g_02148C7C, g_02148C7C, g_renderState[0x3b], g_renderState[0x3c],
+                  g_renderState[0x3d]);
     func_0207B67C(g_02148C7C, g_02148CAC);
 }
 
@@ -294,9 +294,9 @@ void func_0206AD64(void)
  */
 u32 *func_0206ADBC(void)
 {
-    if ((g_02148B4C[0x3f] & 0x80) == 0) {
+    if ((g_renderState[0x3f] & 0x80) == 0) {
         func_0206AD64();
-        g_02148B4C[0x3f] |= 0x80;
+        g_renderState[0x3f] |= 0x80;
     }
     return g_02148C7C;
 }
@@ -319,9 +319,9 @@ u32 *func_0206ADBC(void)
  */
 u32 *func_0206ADF4(void)
 {
-    if ((g_02148B4C[0x3f] & 0x80) == 0) {
+    if ((g_renderState[0x3f] & 0x80) == 0) {
         func_0206AD64();
-        g_02148B4C[0x3f] |= 0x80;
+        g_renderState[0x3f] |= 0x80;
     }
     return g_02148CAC;
 }
@@ -354,12 +354,12 @@ void *func_0206AE2C(void)
     void *a;
     void *b;
 
-    if ((g_02148B4C[0x3f] & 0x40) == 0) {
+    if ((g_renderState[0x3f] & 0x40) == 0) {
         a = func_0206AAD4();
         b = func_0206AD20();
         func_0207B5C0(a, buf);
         func_0207BE14(b, buf, g_02148D4C);
-        g_02148B4C[0x3f] |= 0x40;
+        g_renderState[0x3f] |= 0x40;
     }
     return g_02148D4C;
 }
@@ -379,7 +379,7 @@ void *func_0206AE2C(void)
  * them from the pool per front end).  Neither `-proc arm7tdmi` nor volatile
  * destination pointers changed the 1.1p1 if-conversion.
  *
- * Four-byte nibble extractor: the word at g_02148B4C + 0xa0 is spread over up
+ * Four-byte nibble extractor: the word at g_renderState + 0xa0 is spread over up
  * to four word-sized destinations, one byte per word, low byte first.  Each
  * arm re-spells the global rather than sharing a named local, which is what
  * makes the image re-load the pool word in every arm (and what puts the first
@@ -392,11 +392,11 @@ void *func_0206AE2C(void)
 void func_0206AE94(u32 *a0, u32 *a1, u32 *a2, u32 *a3)
 {
     if (a0 != 0)
-        *a0 = g_02148B4C[0x28] & 0xff;
+        *a0 = g_renderState[0x28] & 0xff;
     if (a1 != 0)
-        *a1 = (g_02148B4C[0x28] >> 8) & 0xff;
+        *a1 = (g_renderState[0x28] >> 8) & 0xff;
     if (a2 != 0)
-        *a2 = (g_02148B4C[0x28] >> 16) & 0xff;
+        *a2 = (g_renderState[0x28] >> 16) & 0xff;
     if (a3 != 0)
-        *a3 = (g_02148B4C[0x28] >> 24) & 0xff;
+        *a3 = (g_renderState[0x28] >> 24) & 0xff;
 }

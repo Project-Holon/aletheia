@@ -1,5 +1,5 @@
 /*
- * function: func_02021944
+ * function: PALANM_SetTransBit
  * address:  0x02021944
  * packet:   pkt_02021944
  * region:   arm9
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   PALANM_CheckBit  0x02021930  thumb
  */
 
 typedef unsigned char  u8;
@@ -20,11 +23,11 @@ struct S02021944 {
     u16 hi : 2;
 };
 
-extern u8 func_02021930(u32 val, int bit);
+extern u8 PALANM_CheckBit(u32 val, int bit);
 
-void func_02021944(struct S02021944 *p, int a1)
+void PALANM_SetTransBit(struct S02021944 *p, int a1)
 {
-    if (func_02021930(p->lo, a1) == 1)
+    if (PALANM_CheckBit(p->lo, a1) == 1)
         return;
     p->lo |= 1 << a1;
 }

@@ -12,8 +12,8 @@
  * sdk:      WcmWmcbStartDCF (libwcm.TWL.HYB.a wmif.o)
  *
  * symbols:
- *   func_021657C8    0x021657C8  arm  ov009
- *   func_02165A4C    0x02165A4C  arm  ov009
+ *   WCMi_GetSystemWork    0x021657C8  arm  ov009
+ *   WCMi_SetPhase    0x02165A4C  arm  ov009
  *   func_02166E5C    0x02166E5C  arm  ov009
  *   func_021659B4    0x021659B4  arm  ov009
  *   func_02166804    0x02166804  arm  ov009
@@ -48,8 +48,8 @@ typedef struct WCMWork {
     unsigned char notifyParam[1];
 } WCMWork;
 
-extern int func_021657C8(void);
-extern void func_02165A4C(unsigned char phase);
+extern int WCMi_GetSystemWork(void);
+extern void WCMi_SetPhase(unsigned char phase);
 extern void func_02166E5C(void);
 extern void func_021659B4(short result, void *para0, void *para1, long para2);
 extern void func_02166804(unsigned char rssi);
@@ -62,16 +62,16 @@ void func_021677A4(void *arg)
     WMStartDCFCallback *cb;
 
     cb = arg;
-    wcmw = (WCMWork *)func_021657C8();
+    wcmw = (WCMWork *)WCMi_GetSystemWork();
     if (cb->errcode == 0) {
         switch (cb->state) {
         case 0xe:
             if (wcmw->phase == 0xc) {
-                func_02165A4C(8);
+                WCMi_SetPhase(8);
                 func_02166E5C();
                 return;
             }
-            func_02165A4C(9);
+            WCMi_SetPhase(9);
             func_021659B4(0, wcmw->notifyParam, 0, 0x4b7);
             return;
         case 0xf:
@@ -80,12 +80,12 @@ void func_021677A4(void *arg)
             func_02166358(cb->recv->srcAdrs, cb->recv->destAdrs, cb->recv->data, cb->recv->length);
             return;
         default:
-            func_02165A4C(0xb);
+            WCMi_SetPhase(0xb);
             func_021659B4(7, wcmw->notifyParam, (void *)cb->state, 0x4c6);
             return;
         }
     } else {
-        func_02165A4C(0xb);
+        WCMi_SetPhase(0xb);
         func_021659B4(7, wcmw->notifyParam, 0, 0x4d1);
     }
 }

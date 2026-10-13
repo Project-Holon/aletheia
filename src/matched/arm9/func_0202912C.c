@@ -1,5 +1,5 @@
 /*
- * function: func_0202912C
+ * function: FIELD_SOUND_SYSTEM_HandleModeState4
  * address: 0x0202912C
  * packet: pkt_arm9_0202912C
  * region: arm9
@@ -12,8 +12,8 @@
  * Function with no listing label, matched inside src/game/arm9/field_sound_system.c and filed here.
  */
 
-void func_0202912C(void);
+void FIELD_SOUND_SYSTEM_HandleModeState4(void);
 
-void func_0202912C(void)
+void FIELD_SOUND_SYSTEM_HandleModeState4(void)
 {
 }

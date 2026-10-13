@@ -1,5 +1,5 @@
 /*
- * function: func_02061D0C
+ * function: NNSi_GfdMergeAdjacentFreeBlocks
  * address:  0x02061D0C
  * packet:   pkt_02061D0C
  * region:   arm9
@@ -25,7 +25,7 @@ struct Range {
     u32 end;
 };
 
-u32 func_02061D0C(struct Node **head1, struct Node **head2, struct Range *range) {
+u32 NNSi_GfdMergeAdjacentFreeBlocks(struct Node **head1, struct Node **head2, struct Range *range) {
     struct Node *curr = *head1;
     struct Node *next_node;
     u32 ret = 0;

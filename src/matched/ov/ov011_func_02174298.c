@@ -1,5 +1,5 @@
 /*
- * function: func_02174298
+ * function: INTRUDE_CMD_RecvStartNotice
  * address: 0x02174298
  * packet: pkt_ov011_02174298
  * region: ov011
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov011/unit_02173CB0.c and filed here.
  *
  * symbols:
- *   func_02175C58 0x02175C58 thumb ov011
+ *   INTRUDE_COMM_SetNoticeState 0x02175C58 thumb ov011
  */
 
 typedef unsigned char u8;
-void func_02175C58(void *a, int b);
-void func_02174298(int a, int b, int c, u8 *p);
+void INTRUDE_COMM_SetNoticeState(void *a, int b);
+void INTRUDE_CMD_RecvStartNotice(int a, int b, int c, u8 *p);
 
-void func_02174298(int a, int b, int c, u8 *p)
+void INTRUDE_CMD_RecvStartNotice(int a, int b, int c, u8 *p)
 {
-    func_02175C58(p + 0x1ac, 1);
+    INTRUDE_COMM_SetNoticeState(p + 0x1ac, 1);
 }

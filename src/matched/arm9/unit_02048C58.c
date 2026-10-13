@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02046A94  0x02046A94  arm
- *   g_02146A68     0x02146A68  data
+ *   G3D_SYSTEM_SetLight  0x02046A94  arm
+ *   ARC_TOOL_gArchiveTable     0x02146A68  data
  *
  * g3d_light.c's tail, 0x02048C58-0x02048D00: the four-slot upload loop and
  * the per-slot colour accessors over the same eight-byte slot the builder at
@@ -70,20 +70,20 @@ struct LightGlobal {
     u32 unk08;
 };
 
-extern struct LightGlobal g_02146A68;
+extern struct LightGlobal ARC_TOOL_gArchiveTable;
 
-extern void func_02046A94(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 
 void func_02048C58(struct LightSlot *slots)
 {
     int i;
 
     for (i = 0; i < 4; i++) {
-        func_02046A94((u8)i, (const u16 *)(&slots[i]));
+        G3D_SYSTEM_SetLight((u8)i, (const u16 *)(&slots[i]));
     }
 }
 
-void func_02048C80(struct LightSlot *slots, u8 i, struct Rgb555 *out)
+void G3D_LIGHT_GetSlotColor(struct LightSlot *slots, u8 i, struct Rgb555 *out)
 {
     *out = slots[i].col;
 }
@@ -93,7 +93,7 @@ void func_02048CA4(struct LightSlot *slots, u32 i, struct Rgb555 *in)
     slots[i].col = *in;
 }
 
-void func_02048CCC(struct LightSlot *slots, u8 i, u16 *out)
+void G3D_LIGHT_GetSlotFlags(struct LightSlot *slots, u8 i, u16 *out)
 {
     *out = slots[i].unk06;
 }
@@ -103,9 +103,9 @@ void func_02048CDC(struct LightSlot *slots, u32 i, u16 *in)
     slots[i].unk06 = *in;
 }
 
-void func_02048CEC(u32 a, u32 b)
+void ARC_TOOL_SetTable(u32 a, u32 b)
 {
-    g_02146A68.unk00 = a;
-    g_02146A68.unk04 = b;
-    g_02146A68.unk08 = 0;
+    ARC_TOOL_gArchiveTable.unk00 = a;
+    ARC_TOOL_gArchiveTable.unk04 = b;
+    ARC_TOOL_gArchiveTable.unk08 = 0;
 }

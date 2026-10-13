@@ -12,13 +12,13 @@
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_02146A84            0x02146A84  data
+ *   g_pDmaChannels            0x02146A84  data
  *
  * CLOSES the two-wave wall written up at the top of docs/notes/pkt_02050A70.c.txt
  * (44 differing bytes, diagnosed there as a one-register allocator shift with
  * "no source shape that reaches it").  The diagnosis was wrong: the residue was
  * a WRONG RECORD STRIDE, not an allocation tie.  The note's reconstruction read
- * the field as `g_02146A84[idx].unk_08` over 16-byte records but spelled the
+ * the field as `g_pDmaChannels[idx].unk_08` over 16-byte records but spelled the
  * index arithmetic so that the compiler emitted a multiply; the image emits
  * `add r1, r3, r4, lsl #4` -- a shift, because 16 is a power of two -- and
  * `mul r2, r4, r1` ONLY for the SECOND, independent 12-byte stride of the I/O
@@ -51,14 +51,14 @@
 
 typedef unsigned int u32;
 
-extern struct G_02146A84 *g_02146A84;
+extern struct G_02146A84 *g_pDmaChannels;
 extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 s);
 
 void func_02050B14(u32 idx)
 {
     u32 s = OS_DisableInterrupts();
-    u32 v = g_02146A84[idx].unk08;
+    u32 v = g_pDmaChannels[idx].unk08;
 
     *(volatile u32 *)(0x040000B8 + idx * 12) =
         ((v << 30) >> 31) << 30 |

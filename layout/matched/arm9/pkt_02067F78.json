@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02067F9C",
+   "name": "NNS_G2dFontGetGlyphIndex",
    "address": "0x02067F9C",
    "kind": "game",
    "region": "arm9",

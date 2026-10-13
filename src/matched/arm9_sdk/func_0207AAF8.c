@@ -1,5 +1,5 @@
 /*
- * function: func_0207AAF8
+ * function: FSi_ReadDummyCallback
  * address:  0x0207AAF8
  * packet:   pkt_0207AAF8
  * region:   arm9
@@ -12,7 +12,7 @@
  * sdk:      FSi_ReadDummyCallback (libfs.TWL.HYB.a fs_proc_rom.o, static; no catalog row, named by the ABS32 relocation of its caller)
  */
 
-int func_0207AAF8(void)
+int FSi_ReadDummyCallback(void)
 {
     return 4;
 }

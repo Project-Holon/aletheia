@@ -29,10 +29,10 @@
  *   func_0202EE8C 0x0202EE8C thumb
  *   func_0203CD98 0x0203CD98 arm
  *   func_020414EC 0x020414EC arm
- *   func_0204BA10 0x0204BA10 arm
+ *   CLACT_ResetActorAnimCommand 0x0204BA10 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_020452E8 0x020452E8 arm
- *   func_02085D3C 0x02085D3C arm
+ *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_02045CAC 0x02045CAC arm
  *   func_0201DD68  0x0201DD68  thumb
  *   func_020456F8  0x020456F8  arm
@@ -89,7 +89,7 @@
  *   func_0204BA00 0x0204BA00 arm
  *   func_0204B9A0 0x0204B9A0 arm
  *   func_0204B878 0x0204B878 arm
- *   func_0204B898 0x0204B898 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   func_02051C88  0x02051C88  arm
  *   func_02021518 0x02021518 thumb
  *   func_0202155C 0x0202155C thumb
@@ -166,7 +166,7 @@
  *   d_021DAA40 0x021DAA40 data ov123 a1
  *   d_021DAA54 0x021DAA54 data ov123 a1
  *   g_021DAC20 0x021DAC20 data ov123 a4
- *   func_02156DE0 0x02156DE0 thumb ov009
+ *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   func_021C5B80 0x021C5B80 arm ov114
  *   func_021C5928 0x021C5928 arm ov114
  *   d_021DAA58 0x021DAA58 data a1
@@ -188,19 +188,19 @@
  *   ov_id 0x00000043 data
  *   d_021DA758 0x021DA758 data a4
  *   func_0207E3D0 0x0207E3D0 arm
- *   func_0204B8C4 0x0204B8C4 arm
- *   func_0204B570 0x0204B570 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
+ *   CLACT_SetActorAffineMode 0x0204B570 arm
  *   d_021DAACC 0x021DAACC data a4
  *   func_0201BC3C 0x0201BC3C thumb
  *   func_0204ACEC 0x0204ACEC arm
  *   d_021DA738 0x021DA738 data a4
  *   d_021DA748 0x021DA748 data a4
  *   func_0201BA68 0x0201BA68 thumb
- *   func_0201BBE8 0x0201BBE8 thumb
+ *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   d_021DAA88 0x021DAA88 data a2
  *   func_02005624 0x02005624 thumb
- *   func_02024230 0x02024230 thumb
+ *   PMSI_PARAM_MakeSineTable 0x02024230 thumb
  *   _fflt 0x0209BDBC arm
  *   _f2d 0x0209BD38 arm
  *   _dmul 0x0209B2E8 arm
@@ -208,14 +208,14 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B5AC 0x0204B5AC arm
+ *   CLACT_SetActorScale 0x0204B5AC arm
  *   d_021DA730 0x021DA730 data a2
  *   d_021DA750 0x021DA750 data a4
  *   d_021DA734 0x021DA734 data a2
  *   d_021DA740 0x021DA740 data a4
  *   d_020A1B38 0x020A1B38 data a2
  *   func_0204B454 0x0204B454 arm
- *   func_0204B5C0 0x0204B5C0 arm
+ *   CLACT_GetActorScale 0x0204B5C0 arm
  *   func_020056EC 0x020056EC thumb
  *   func_02049250 0x02049250 arm
  *   func_02020E60 0x02020E60 thumb
@@ -223,18 +223,18 @@
  *   func_02062A4C 0x02062A4C arm
  *   func_02019D30 0x02019D30 thumb
  *   func_0201BB5C 0x0201BB5C thumb
- *   func_0201BABC 0x0201BABC thumb
- *   func_0204B7C8 0x0204B7C8 arm
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
+ *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   func_0207E51C 0x0207E51C arm
  *   func_020362DC  0x020362DC  arm
- *   func_02012E08  0x02012E08  thumb
+ *   GAME_DATA_SaveCancel  0x02012E08  thumb
  *   func_021B9774 0x021B9774 thumb ov114
  *   d_021DA844 0x021DA844 data a4
- *   func_02005E9C 0x02005E9C thumb
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005DF8 0x02005DF8 thumb
- *   func_02005E64  0x02005E64  thumb
- *   func_02005D90  0x02005D90  thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
+ *   GFL_USE_PushBgm  0x02005E64  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   d_021DAB78 0x021DAB78 data a1
  *   func_02009290 0x02009290 thumb
  *   func_020092F8 0x020092F8 thumb
@@ -254,11 +254,11 @@
  *   func_02012E7C 0x02012E7C thumb
  *   func_0200734C 0x0200734C thumb
  *   func_0200E8E0 0x0200E8E0 thumb
- *   func_0200C5F8 0x0200C5F8 thumb
+ *   MUSICAL_DIST_SAVE_ProcessApply 0x0200C5F8 thumb
  *   d_021DAB88 0x021DAB88 data a1
  *   d_021DAB90 0x021DAB90 data a1
  *   d_021DAB9C 0x021DAB9C data a1
- *   func_0200C6E4 0x0200C6E4 thumb
+ *   MUSICAL_DIST_SAVE_GetBlockSize 0x0200C6E4 thumb
  *   func_02009390 0x02009390 thumb
  *   func_020093A8 0x020093A8 thumb
  *   func_020093F0 0x020093F0 thumb
@@ -273,12 +273,12 @@
  *   func_0202A170 0x0202A170 thumb
  *   func_020093D0 0x020093D0 thumb
  *   func_020092E0 0x020092E0 thumb
- *   func_020071D8 0x020071D8 thumb
+ *   SAVE_CONTROL_GetWorkArea 0x020071D8 thumb
  *   func_020093C8 0x020093C8 thumb
  *   func_0203F4E4 0x0203F4E4 arm
  *   func_0203F540 0x0203F540 arm
- *   func_0203C9AC 0x0203C9AC arm
- *   func_0203C938 0x0203C938 arm
+ *   GFL_NET_STATE_SetError 0x0203C9AC arm
+ *   GFL_NET_STATE_SetErrorMode 0x0203C938 arm
  *   func_020093D8 0x020093D8 thumb
  *   func_02009428 0x02009428 thumb
  *   func_020185F0 0x020185F0 thumb
@@ -287,14 +287,14 @@
  *   ov114_id 0x00000072 data
  *   func_020092EC 0x020092EC thumb
  *   func_021B9800 0x021B9800 thumb ov114
- *   func_02156DC4 0x02156DC4 thumb ov009
+ *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   d_021DABA4 0x021DABA4 data a1
  *   func_0200F7C0 0x0200F7C0 thumb
- *   func_02157170 0x02157170 thumb ov009
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   func_0200FB24 0x0200FB24 thumb
  *   d_021DABA8 0x021DABA8 data ov123 a1
- *   func_0204581C 0x0204581C arm
- *   func_02045AFC 0x02045AFC arm
+ *   STRBUF_Clear 0x0204581C arm
+ *   STRBUF_AppendChar 0x02045AFC arm
  *   d_021DA868 0x021DA868 data a2
  *   d_021DA864 0x021DA864 data a2
  *   d_021DABFC 0x021DABFC data a1
@@ -306,8 +306,11 @@
  *   func_02021F64 0x02021F64 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_0202208C 0x0202208C thumb
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_02009448 0x02009448 thumb
+ *   MUSICAL_DIST_SAVE_CreateFromData  0x0200C5C8  thumb  arm9
+ *   POKE_TOOL_ClearPartyParam  0x02017528  thumb  arm9
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb  arm9
  */
 #include "gsync_types.h"
 
@@ -534,10 +537,10 @@ extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
 extern void func_020414EC(u32 i);
 extern void func_02027858(struct TaskMenu *m);
-extern void func_0204BA10(struct Actor *a);
+extern void CLACT_ResetActorAnimCommand(struct Actor *a);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern u32 func_020452E8(struct Descriptor *d);
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern int func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201DD68(void);
 extern void func_020456F8(struct Descriptor *d);
@@ -586,7 +589,7 @@ extern void func_020061E4(u32 a);
 extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
 extern void func_0204B9A0(struct Actor *a);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern u16 func_0204B898(struct Obj *);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *);
 extern s32 func_02051C88(struct Ctx *c);
 extern void *func_02021518(u32 heap);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
@@ -674,7 +677,7 @@ extern s32 func_02028484(struct Blk *blk, void *h);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_0200F7DC(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02156DE0(int a, int b);
+extern void DWC_RAP_SetErrorHookCallback(int a, int b);
 extern int func_021C5B80(void);
 extern int func_021C5928(void (*callback)(void *, u32, int), char *gamecd, char *passwd);
 extern int STD_TSNPrintf(char *,int,const char *,...);
@@ -686,19 +689,19 @@ extern void func_021C5AB8(void);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
 extern void func_0207E3D0(const void *, int, int);
-extern void func_0204B8C4(struct Obj *p, u32 value);
-extern void func_0204B570(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 func_0201BA68(void *mon);
-extern int func_0201BBE8(void *a0);
+extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void *func_02005624(u32 a, u32 b, u32 c);
-extern void func_02024230(s16_021D634C *out, u32 count, u16 step, s32 amp);
+extern void PMSI_PARAM_MakeSineTable(s16_021D634C *out, u32 count, u16 step, s32 amp);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);
-extern void func_0204B5AC(struct Obj *dst, struct Pair_021D634C *src);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair_021D634C *src);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B5C0(const struct Obj *o, struct Pair_021D6830 *p);
+extern void CLACT_GetActorScale(const struct Obj *o, struct Pair_021D6830 *p);
 extern u32 func_020056EC(u32 range);
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern u32 func_02020E60(u16, int);
@@ -706,24 +709,24 @@ extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern u32 func_02019D30(u32 a, u32 n);
 extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
-extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
-extern void func_0204B7C8(const char *src, struct Struct36 *dst);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
+extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_0207E51C(void *,int,int);
 extern u32 func_020362DC(void);
-extern void func_02012E08(char *p);
+extern void GAME_DATA_SaveCancel(char *p);
 extern void func_021B9774(u8 *p);
-extern int func_02005E9C(void);
-extern void func_02005DE4(void *p);
-extern void func_02005DF8(u32 v);
-extern int func_02005E64(void);
-extern void func_02005D90(int, int);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_FadeInBgmFull(u32 v);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern u32 func_020173EC(void);
 extern u8 *func_02009290(struct Sub02009210Obj *obj);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02019CA0(void *p, u32 v);
-extern void *func_020185F4(void *p);
+extern void *POKE_TOOL_GetBoxParam(void *p);
 extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
 extern void func_020093D4(struct Sub02009210Obj *obj, s32 value);
@@ -746,9 +749,9 @@ extern int func_020072CC(int,int,u16,int,int);
 extern void func_0200E8E0(void *obj, u32 value);
 extern void func_02012E4C(u8 *,u32);
 extern void func_02009108(struct Sub020090B0Obj *obj, u16 value);
-extern u32 func_0200C5F8(struct MusicalDist *p);
-extern struct MusicalDist *func_0200C5C8(void *sys, const void *src, u32 size, u32 heap);
-extern u32 func_0200C6E4(void);
+extern u32 MUSICAL_DIST_SAVE_ProcessApply(struct MusicalDist *p);
+extern struct MusicalDist *MUSICAL_DIST_SAVE_CreateFromData(void *sys, const void *src, u32 size, u32 heap);
+extern u32 MUSICAL_DIST_SAVE_GetBlockSize(void);
 extern u32 func_0200E8B0(void);
 extern struct Sub02009210Ent *func_02009390(struct Sub02009210Obj *obj, int i);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
@@ -766,14 +769,14 @@ extern u32 func_02009370(const struct Sub02009210Obj *obj);
 extern void func_020092E0(struct Sub02009210Obj *obj, u8 value);
 extern u8 *func_02012944(void *p);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
-extern void *func_020071D8(struct Ctrl020071D8 *ctrl, int *out);
+extern void *SAVE_CONTROL_GetWorkArea(struct Ctrl020071D8 *ctrl, int *out);
 extern struct Sub02008AECSession *func_02008B14(void *sys);
 extern int func_02008BD0(const struct Sub02008AECSession *s);
 extern u32 func_020093C8(const struct Sub02009210Obj *obj);
 extern void func_0203F4E4(struct RtcDate_021D634C *);
 extern int func_0203F540(struct RtcDate_021D634C *);
-extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
-extern u32 func_0203C938(u8 mode);
+extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
+extern u32 GFL_NET_STATE_SetErrorMode(u8 mode);
 extern void func_020093CC(struct Sub02009210Obj *obj, u32 value);
 extern u32 func_020093D8(const struct Sub02009210Obj *obj);
 extern void func_02009428(struct Sub02009210Obj *obj, int value);
@@ -786,21 +789,21 @@ extern void func_02007664(void *save, u32 box, u32 slot);
 extern void func_021B9838(u8 *p);
 extern u32 func_02009228(void);
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
-extern void func_02017528(struct Sav *p);
+extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
 extern u32 func_0201293C(const struct BigObj *p);
 extern u8 func_020092EC(const struct Sub02009210Obj *obj);
 extern u8 *func_021B9800(int,int,int);
-extern void func_02156DC4(int,int);
+extern void DWC_RAP_SetErrorCallback(int,int);
 extern u32 func_0200FB24(void);
 extern void func_0200F7C0(u32 value);
-extern int func_02157170(int a0, int a1);
-extern void func_0204581C(struct U16Vec *vec);
-extern void func_02045AFC(struct U16Vec *vec, u16 value);
+extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
+extern void STRBUF_Clear(struct U16Vec *vec);
+extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 extern void func_0201D60C(void *s, u32 b, u32 c, u16 n, const u16 *arr);
 extern u32 func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void func_02021F64(u16 *, u16 *, int, u8, u16);
-extern void func_02005E30(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
 void func_021D4240(void **p, GsyncStateObj3 *f);
 void func_021D4244(GsyncStateObj3 *p,GsyncStateObj3 *f,int line);
 void func_021D424C(GsyncStateObj3 *a0);
@@ -1240,14 +1243,14 @@ void func_021D44F4(char *p) { if(func_021D4E7C((GsyncStateObj3 *)p)) { func_021D
  */
 void func_021D451C(char *p)
 {
-    func_0204BA10(*(void **)(p + ((GsyncStateObj3 *)p)->f270 * 4 + 0x2a0));
+    CLACT_ResetActorAnimCommand(*(void **)(p + ((GsyncStateObj3 *)p)->f270 * 4 + 0x2a0));
     func_0204B92C(*(void **)(p + ((GsyncStateObj3 *)p)->f270 * 4 + 0x2a0), 0);
     if (((GsyncStateObj3 *)p)->f8 == 3) {
         if (((GsyncStateObj3 *)p)->f224) {
             func_020452E8(((GsyncStateObj3 *)p)->f224);
             ((GsyncStateObj3 *)p)->f224 = 0;
         }
-        if (func_02085D3C()) {
+        if (OS_IsRunOnTwl()) {
             func_02045CAC(((GsyncStateObj3 *)p)->f28, 0x20, ((GsyncStateObj3 *)p)->f38);
             func_021D4EF0((GsyncStateObj3 *)p, 10, 0);
             func_021D4D40((GsyncStateObj3 *)p, 1);
@@ -1563,7 +1566,7 @@ int func_021D4BA8(int n, char *p)
 
 
 
-void func_021D4C24(GsyncStateObj3 *p, int v) { if(v!=func_0204B898(p->f2A0)) { func_0204B92C(p->f2A0,1); func_0204B878(p->f2A0,v); } }
+void func_021D4C24(GsyncStateObj3 *p, int v) { if(v!=CLACT_GetActorAnimSeq(p->f2A0)) { func_0204B92C(p->f2A0,1); func_0204B878(p->f2A0,v); } }
 
 
 
@@ -1789,13 +1792,13 @@ void func_021D4FAC(GsyncStateObj3 *p) { func_021D4EF0(p,4,1); }
  *     u8 langIndex;
  *     u8 resident;
  * };
- * extern char g_020A7E8C[];
+ * extern char MSGDATA_AllocSite[];
  * extern void *sub_02030734(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
- * extern void func_020495F4(void *,u32,void *);
+ * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
- * extern void func_0204581C(void *);
- * extern void func_02045A00(void *,const void *,u16);
+ * extern void STRBUF_Clear(void *);
+ * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
  * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
@@ -1803,14 +1806,14 @@ void func_021D4FAC(GsyncStateObj3 *p) { func_021D4EF0(p,4,1); }
  *     u32 size;
  *     struct MsgEntry *e;
  *     if (index >= bank->file->count) {
- *         func_0204581C(dest);
+ *         STRBUF_Clear(dest);
  *         return;
  *     }
  *     func_02046180(bank);
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *         func_0204960C(bank->stream,pos + (index * 8 + 4));
- *         func_020495F4(bank->stream,8,&bank->cache);
+ *         ARC_TOOL_ReadHandle(bank->stream,8,&bank->cache);
  *         e = &bank->cache;
  *     } else {
  *         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
@@ -1819,17 +1822,17 @@ void func_021D4FAC(GsyncStateObj3 *p) { func_021D4EF0(p,4,1); }
  *         void *buf;
  *         size = e->len * 2;
  *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
- *                            0,g_020A7E8C,0xd6);
+ *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
- *             func_020495F4(bank->stream,size,buf);
- *             func_02045A00(dest,buf,e->len);
+ *             ARC_TOOL_ReadHandle(bank->stream,size,buf);
+ *             STRBUF_SetChars(dest,buf,e->len);
  *             func_020307B0(buf);
  *         }
  *     } else {
- *         func_02045A00(dest,(u8 *)bank->base + e->off,e->len);
+ *         STRBUF_SetChars(dest,(u8 *)bank->base + e->off,e->len);
  *     }
  *     func_02045E04(dest,index);
  * }
@@ -2384,7 +2387,7 @@ char *func_021D5B10(int heap,int size)
 
 
 
-void func_021D5B70(GsyncStateObj2 *p){if(g_021DAC20){func_02156DE0(0,0);func_020307B0(p->fB8);func_020307B0(p);g_021DAC20=0;}}
+void func_021D5B70(GsyncStateObj2 *p){if(g_021DAC20){DWC_RAP_SetErrorHookCallback(0,0);func_020307B0(p->fB8);func_020307B0(p);g_021DAC20=0;}}
 
 
 
@@ -2401,7 +2404,7 @@ int func_021D5BA8(char *p){if(!((GsyncStateObj11 *)p)->fC4){if(func_021C5B80())(
 
 
 
-int func_021D5BD4(GsyncStateObj11 *p){p->fB0=0;if(!func_021C5928(func_021D5AC0,d_021DAA58,d_021DAA60))return 0;func_02156DE0((int)func_021D5BA8,(int)p);return 1;}
+int func_021D5BD4(GsyncStateObj11 *p){p->fB0=0;if(!func_021C5928(func_021D5AC0,d_021DAA58,d_021DAA60))return 0;DWC_RAP_SetErrorHookCallback((int)func_021D5BA8,(int)p);return 1;}
 
 
 
@@ -2665,10 +2668,10 @@ void func_021D634C(GsyncStateObj17 *p, unsigned int i)
     pt.x = d_021DAACC[i].x; pt.y = d_021DAACC[i].y;
     pt.f4 = i; pt.f6 = d_021DAACC[i].n; pt.f7 = 1;
     ((void **)((u8 *)p + 0x74))[i] = func_0204B294((void *)p->fC, (u32)p->f38, p->f20, p->f54, &pt, 0, p->f43C4);
-    func_0204B8C4(((void **)((u8 *)p+0x74))[i],0);
+    CLACT_SetActorAnimFrame(((void **)((u8 *)p+0x74))[i],0);
     func_0204B92C(((void **)((u8 *)p+0x74))[i],1);
     func_0204B3DC(((void **)((u8 *)p+0x74))[i],1);
-    func_0204B570(((void **)((u8 *)p+0x74))[i],2);
+    CLACT_SetActorAffineMode(((void **)((u8 *)p+0x74))[i],2);
 }
 
 
@@ -2744,7 +2747,7 @@ void func_021D6458(struct GsyncObj171 *p, void *n, int i)
     p->fA8 = func_0204B294((void *)p->fC,(unsigned int)p->f40,p->f28,p->f5C,&pt,(u16)i,p->f43C4);
     func_0204B92C(p->fA8,0);
     func_0204B3DC(p->fA8,1);
-    func_0204B6F4(p->fA8,func_0201BBE8(n),1);
+    func_0204B6F4(p->fA8,POKE_TOOL_GetIconPalette(n),1);
     func_02049238(h);
 }
 
@@ -2845,7 +2848,7 @@ void func_021D65F4(GsyncStateObj2 *p)
     func_02049990(h, 22, 3, 0, (u16)p->f4, 0, 0, p->f43C4);
     func_02049238(h);
     p->f14 = func_02005624((u32)func_021D6548, (u32)p, 0);
-    func_02024230((s16_021D634C *)((u8 *)p + 0x43c8), 192, 0x5b0, 0x1800);
+    PMSI_PARAM_MakeSineTable((s16_021D634C *)((u8 *)p + 0x43c8), 192, 0x5b0, 0x1800);
 }
 
 
@@ -2920,9 +2923,9 @@ void func_021D6720(GsyncStateObj2 *p, int i)
     func_021D6C48(p,i,p->fB4);
     h = p->fB4;
     pos = d_021DA730; pair = d_021DA750;
-    func_0204B404(h,(const struct Vec2 *)(&pos),0); func_0204B5AC(h, (struct Pair_021D634C *)&pair);
+    func_0204B404(h,(const struct Vec2 *)(&pos),0); CLACT_SetActorScale(h, (struct Pair_021D634C *)&pair);
     func_0204B92C(h,0); func_0204B3DC(h,0);
-    func_0204B688(h,1); func_0204B570(h,2);
+    func_0204B688(h,1); CLACT_SetActorAffineMode(h,2);
     *(void **)((u8 *)p+i*24+0x40f4) = h;
 }
 
@@ -2956,9 +2959,9 @@ void func_021D67B4(GsyncStateObj2 *p, int i)
     func_021D6C90(p,i,p->fB8);
     h = p->fB8;
     pos = d_021DA734; pair = d_021DA740;
-    func_0204B404(h,(const struct Vec2 *)(&pos),0); func_0204B5AC(h, (struct Pair_021D634C *)&pair);
+    func_0204B404(h,(const struct Vec2 *)(&pos),0); CLACT_SetActorScale(h, (struct Pair_021D634C *)&pair);
     func_0204B92C(h,0); func_0204B3DC(h,0);
-    func_0204B688(h,1); func_0204B570(h,2);
+    func_0204B688(h,1); CLACT_SetActorAffineMode(h,2);
     *(void **)((u8 *)p+i*24+0x40f4) = h;
 }
 
@@ -2994,11 +2997,11 @@ void func_021D6830(struct Record *p)
         func_0204B3DC(p->h, 1);
         p->age++;
         if (pos.y > 25) {
-            func_0204B5C0(p->h, (struct Pair_021D6830 *)&scale);
+            CLACT_GetActorScale(p->h, (struct Pair_021D6830 *)&scale);
             scale.x -= 16;
             scale.y -= 16;
             if (scale.x < 0 || scale.y < 0) func_021D679C((GsyncStateObj3 *)p);
-            else func_0204B5AC(p->h, (struct Pair_021D634C *)&scale);
+            else CLACT_SetActorScale(p->h, (struct Pair_021D634C *)&scale);
         }
         if (pos.y > 50) func_021D679C((GsyncStateObj3 *)p);
     } else p->g = 1;
@@ -3135,7 +3138,7 @@ void func_021D6AB8(GsyncStateObj2 *p)
             gender = ((struct Obj *)p)->records[n].f;
             form = (int)func_02019D30((u16)species,(u8)(((struct Obj *)p)->records[n].e));
             value = func_0201BB5C(species,form,gender,0);
-            id = func_0201BABC(species,form,gender,0);
+            id = POKE_TOOL_CalcGraphicIndex(species,form,gender,0);
             buf2 = func_02049250(h2,id,p->f43C4);
             func_02062A4C(buf2,(void **)(&out2));
             func_02082D44(((GsyncStateObj24 *)out2)->f14,(u8 *)p+0xdc+n*0x224,512);
@@ -3158,7 +3161,7 @@ void func_021D6AB8(GsyncStateObj2 *p)
 void func_021D6C48(GsyncStateObj2 *p,int i,void *h)
 {
     Desc d;
-    func_0204B7C8(h,(struct Struct36 *)(&d));
+    CLACT_GetActorImageProxy(h,(struct Struct36 *)(&d));
     func_02082D44((char *)p+0xdc+i*0x224,(void *)(d.x[1]+0x6400000),0x200);
     func_0204B6F4(h,(u8)(*(u32 *)((char *)p+i*0x224+0x2dc)),1);
 }
@@ -3175,7 +3178,7 @@ void func_021D6C48(GsyncStateObj2 *p,int i,void *h)
 void func_021D6C90(GsyncStateObj2 *p,int i,void *h)
 {
     Desc d;
-    func_0204B7C8(h,(struct Struct36 *)(&d));
+    CLACT_GetActorImageProxy(h,(struct Struct36 *)(&d));
     func_02082D44((char *)p+0xdc+i*0x224,(void *)(d.x[1]+0x6400000),0x200);
     func_020862F0((char *)p+0xbc+i*0x224,0x20);
     func_0207E51C((char *)p+0xbc+i*0x224,0x100,0x20);
@@ -3199,7 +3202,7 @@ void func_021D6CD8(GsyncStateObj2 *p)
     void *h;
     u16 n;
     h=func_020490F4(7,p->f43C4);
-    n=func_0201BABC(1,0,0,0);
+    n=POKE_TOOL_CalcGraphicIndex(1,0,0,0);
     p->f44=(void *)func_0204A6C8(h,n,0,0,p->f43C4);
     pt.x=133; pt.y=128; pt.f4=0; pt.f6=3; pt.f7=2;
     p->fB4=func_0204B294((void *)(*(unsigned int *)&p->fC),(u32)p->f44,(*(unsigned int *)&p->f28),(*(unsigned int *)&p->f5C),&pt,0,p->f43C4);
@@ -3372,7 +3375,7 @@ void func_021D6F70(unsigned char *a)
     if (func_020362DC() == 0 && func_02035C60() == 0)
         return;
     if (((GsyncStateObj1 *)a)->fAD != 0) {
-        func_02012E08((char *)(((GsyncStateObj1 *)a)->f2C));
+        GAME_DATA_SaveCancel((char *)(((GsyncStateObj1 *)a)->f2C));
         ((GsyncStateObj1 *)a)->fAD = 0;
     }
     func_021D8F58((GsyncStateObj1 *)a);
@@ -3471,9 +3474,9 @@ void func_021D7130(char *p)
         *(int *)(p + 0x78) = n;
         if (n <= 0) {
             if (n == 0) {
-                func_02005E9C();
-                func_02005DE4(0);
-                func_02005DF8(6);
+                GFL_USE_PopBgm();
+                GFL_USE_SetBgmPlayerParam(0);
+                GFL_USE_FadeInBgmFull(6);
             }
             if (func_020362DC() != 0 || func_02035C60() != 0) {
                 func_021D6EE0((GsyncStateObj1 *)p, (int)func_021D70BC, 0x20B);
@@ -3505,9 +3508,9 @@ void func_021D7180(int a)
     func_021D57D0((void *)((*(int *)&((GsyncStateObj1 *)a)->f18)), 0x16, ((GsyncStateObj1 *)a)->f6C,
                  (void *)((*(int *)&((GsyncStateObj1 *)a)->fC)));
     func_021D56FC((GsyncStateObj5 *)((char *)((*(int *)&((GsyncStateObj1 *)a)->f18))), 0);
-    func_02005DE4((void *)1);
-    func_02005E64();
-    func_02005D90(0x515, 0xffff);
+    GFL_USE_SetBgmPlayerParam((void *)1);
+    GFL_USE_PushBgm();
+    GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
     ((GsyncStateObj1 *)a)->f78 = 0xb4;
     func_021D6EE0((GsyncStateObj1 *)a, (int)func_021D7130, 0x222);
 }
@@ -3558,7 +3561,7 @@ void func_021D7224(GsyncStateObj1 *p)
             }
             func_02019CA0(q,n);
         }
-        func_020074D8(p->f24,(const struct Sub02007454Entry *)((int)func_020185F4(q)));
+        func_020074D8(p->f24,(const struct Sub02007454Entry *)((int)POKE_TOOL_GetBoxParam(q)));
         p->fC=q;
         func_020092F8(g,0);
         func_020093D4(g,p->f7C);
@@ -3808,7 +3811,7 @@ void func_021D76F0(int a)
 
 
 
-void func_021D7798(u8 *p) { if(func_0200C5F8(((GsyncStateObj1 *)p)->f30)) { p[174]=0; ((GsyncStateObj1 *)p)->f30=0; func_021D6EE0((GsyncStateObj1 *)p,(int)func_021D751C,0x38e); } }
+void func_021D7798(u8 *p) { if(MUSICAL_DIST_SAVE_ProcessApply(((GsyncStateObj1 *)p)->f30)) { p[174]=0; ((GsyncStateObj1 *)p)->f30=0; func_021D6EE0((GsyncStateObj1 *)p,(int)func_021D751C,0x38e); } }
 
 
 
@@ -3837,7 +3840,7 @@ void func_021D77C4(int a,int n)
         return;
     }
     ((GsyncStateObj1 *)a)->fAE=1;
-    (*(int *)&((GsyncStateObj1 *)a)->f30)=(int)func_0200C5C8((void *)(((GsyncStateObj1 *)a)->f2C),p,n,((GsyncStateObj1 *)a)->f0);
+    (*(int *)&((GsyncStateObj1 *)a)->f30)=(int)MUSICAL_DIST_SAVE_CreateFromData((void *)(((GsyncStateObj1 *)a)->f2C),p,n,((GsyncStateObj1 *)a)->f0);
     func_021D6EE0((GsyncStateObj1 *)a,(int)func_021D7798,0x3a9);
 }
 
@@ -4001,7 +4004,7 @@ void func_021D7A5C(u8 *p)
 void func_021D7B68(char *p)
 {
     switch (((GsyncStateObj1 *)p)->fA7) {
-    case 0: (*(void * *)&((GsyncStateObj1 *)p)->f8) = func_021D5B10(((GsyncStateObj1 *)p)->f0, func_0200C6E4() + 4); break;
+    case 0: (*(void * *)&((GsyncStateObj1 *)p)->f8) = func_021D5B10(((GsyncStateObj1 *)p)->f0, MUSICAL_DIST_SAVE_GetBlockSize() + 4); break;
     case 1: (*(void * *)&((GsyncStateObj1 *)p)->f8) = func_021D5B10(((GsyncStateObj1 *)p)->f0, 0x20000); break;
     case 2: (*(void * *)&((GsyncStateObj1 *)p)->f8) = func_021D5B10(((GsyncStateObj1 *)p)->f0, func_0200E8B0() + 4); break;
     }
@@ -4444,7 +4447,7 @@ void func_021D8520(char *p)
     unsigned int v;
     if (func_0203CD98()) {
         if (func_021B95D4(9,*(void **)(p+0x10))) {
-            v=(unsigned int)func_020071D8(*(void **)(p+0x28),&x);
+            v=(unsigned int)SAVE_CONTROL_GetWorkArea(*(void **)(p+0x28),&x);
             func_021BE79C((void *)func_021B973C(*(void **)(p+0x10)),(void *)v,0x80000);
             if (!func_021B9748(*(void **)(p+0x10)))
                 func_021D6EE0((GsyncStateObj1 *)p,(int)func_021D8490,0x6fa);
@@ -4718,8 +4721,8 @@ void func_021D8B0C(char *p)
         }
         break;
     case 3:
-        func_0203C9AC(0,0,0,0x3f3);
-        func_0203C938(0);
+        GFL_NET_STATE_SetError(0,0,0,0x3f3);
+        GFL_NET_STATE_SetErrorMode(0);
         break;
     case 2:
         p[0xad]=0;
@@ -4802,9 +4805,9 @@ void func_021D8C04(char *p)
 /*
  *   Run 2 also left ov114 0x021B973C unresolved; S23 has since verified its
  *   pkt_ov114_021B973C shard. No caller retry while ARM9 remains blocked.
- *   extern unsigned int func_02031994(void *, int *);
- *   unsigned int func_020071D8(char *p, int *out) {
- *       return func_02031994(*(void **)(p + 0x10), out);
+ *   extern unsigned int BACKUP_SYSTEM_GetWork(void *, int *);
+ *   unsigned int SAVE_CONTROL_GetWorkArea(char *p, int *out) {
+ *       return BACKUP_SYSTEM_GetWork(*(void **)(p + 0x10), out);
  *   }
  */
 void func_021D8D08(char *p)
@@ -4816,7 +4819,7 @@ void func_021D8D08(char *p)
         *(int *)(p+0x74)=0;
         if (func_021D6E70((GsyncStateObj1 *)p)) {
             if (func_021B95D4(3,*(void **)(p+0x10))) {
-                v=(unsigned int)func_020071D8(*(void **)(p+0x28),&x);
+                v=(unsigned int)SAVE_CONTROL_GetWorkArea(*(void **)(p+0x28),&x);
                 func_021BE79C((void *)func_021B973C(*(void **)(p+0x10)),(void *)v,0x80000);
                 func_021D66D0((GsyncStateObj2 *)(*(void **)(p+0x14)),0);
                 *(int *)(p+0x70)=0;
@@ -4927,8 +4930,8 @@ void func_021D8F58(GsyncStateObj1 *p)
     }
     if (p->fAA) {
         q=func_02009290(v);
-        func_020075B0(p->f24,p->f48,p->f4C,func_020185F4(q));
-        func_02017528(q);
+        func_020075B0(p->f24,p->f48,p->f4C,POKE_TOOL_GetBoxParam(q));
+        POKE_TOOL_ClearPartyParam(q);
         func_020092F8(v,0);
         p->fAA=0;
     }
@@ -4984,7 +4987,7 @@ int func_021D8FBC(void *a,int b,GsyncStateObj3 *q)
         }
         if (*(int *)&q->f1C8!=4) {
             p->f10=func_021B9800(98,value,(int)((char *)q+0x54));
-            func_02156DC4((int)func_021D8F3C,(int)p);
+            DWC_RAP_SetErrorCallback((int)func_021D8F3C,(int)p);
         }
     }
     p->f14=func_021D5D94(p->f0);
@@ -5006,14 +5009,14 @@ int func_021D9158(void *a, int b, int c, GsyncStateObj1 *p)
         if ((*(void * *)&p->f8)) func_021D5D58((GsyncStateObj11 *)((*(void * *)&p->f8)));
         func_021B9774(p->f10);
         if (p->fAD) {
-            func_02012E08((*(void * *)&p->f2C));
+            GAME_DATA_SaveCancel((*(void * *)&p->f2C));
             p->fAD=0;
         }
         func_021D8F58(p);
         if (p->fAB) func_0200F7C0(41);
         func_0202223C(0,0);
         func_0202223C(1,0);
-        func_02157170(1,0);
+        DWC_RAPCOMMON_HandleNetError(1,0);
         ((struct GsyncObj177 *)(p->f20))->f1C8=7;
         return 1;
     }
@@ -5046,10 +5049,10 @@ int func_021D920C(void *a, int b, int c, GsyncStateObj10 *p)
     if (p->f40) func_020307B0(p->f40);
     if (p->fC) func_020307B0(p->fC);
     if (p->f44) func_020307B0(p->f44);
-    if (func_0203CD98()) func_02156DE0(0,0);
+    if (func_0203CD98()) DWC_RAP_SetErrorHookCallback(0,0);
     if (p->f10) {
         func_021B9838(p->f10);
-        func_02156DC4(0,0);
+        DWC_RAP_SetErrorCallback(0,0);
     }
     func_020315D4(a);
     func_020306F0(98);
@@ -5254,12 +5257,12 @@ void func_021D97CC(int value, void *p)
     checksum=func_0203F1FC((const u8 *)(&copy),4);
     arg=d_021DA864;
     v=(u64)(long long)copy+((u64)checksum<<32);
-    func_0204581C(p);
+    STRBUF_Clear(p);
     for (i=0;i<10;i++) {
         u16 index;
         index=(u16)(v&31);
         v>>=5;
-        func_02045AFC(p,table.a[index]);
+        STRBUF_AppendChar(p,table.a[index]);
         func_0201D60C(p,189,4,1,&arg);
     }
 }
@@ -5587,7 +5590,7 @@ void func_021DA03C(char *p)
 
 
 
-void func_021DA054(char *p) { func_0202208C(0,0,0,0x7fff,6,1,((GsyncStateObj4 *)p)->f0); func_02005E30(6); func_021DA034((GsyncStateObj4 *)p,(int)func_021DA03C,0xe7); }
+void func_021DA054(char *p) { func_0202208C(0,0,0,0x7fff,6,1,((GsyncStateObj4 *)p)->f0); GFL_USE_FadeOutBgm(6); func_021DA034((GsyncStateObj4 *)p,(int)func_021DA03C,0xe7); }
 
 
 
@@ -5689,7 +5692,7 @@ void func_021DA328(char *p)
 
 /*
  *   in scratch blocker071d8-r1.log, 12 bytes. the integrator owns filing it.
- *   extern unsigned func_02031994(void *, unsigned *);
+ *   extern unsigned BACKUP_SYSTEM_GetWork(void *, unsigned *);
  * evidence: 0x021B973C ov114 Thumb leaf now has S23's verified EXACT
  *   pkt_ov114_021B973C shard; no caller retry because ARM9 still blocks it.
  */
@@ -5699,7 +5702,7 @@ void func_021DA3A0(char *p)
     unsigned b;
     if (func_0203CD98()) {
         if (func_021B95D4(9,*(void **)(p + 8))) {
-            b = (unsigned int)func_020071D8(*(void **)(p + 0x1c),&a);
+            b = (unsigned int)SAVE_CONTROL_GetWorkArea(*(void **)(p + 0x1c),&a);
             func_021BE79C((void *)func_021B973C(*(void **)(p + 8)),(void *)b,0x80000);
             if (!func_021B9748(*(void **)(p + 8))) {
                 func_021DA034((GsyncStateObj4 *)p,(int)func_021DA328,0x1f6);
@@ -5740,12 +5743,12 @@ int func_021DA478(void *a,int unused,GsyncStateObj14 *q)
     p->f28=func_0200853C((const struct Sub0200852CObj *)func_02012944(q->f0));
     if(func_0203CD98()) {
         p->f8=func_021B9800(q->f8,p->f28,q->f4);
-        func_02156DC4((int)func_021DA45C,(int)p);
+        DWC_RAP_SetErrorCallback((int)func_021DA45C,(int)p);
     }
     p->fC=func_021D9958(p->f0);
     p->f10=func_021D92CC(p->f0,87);
     func_0202208C(0,1,1,0,6,1,p->f0);
-    func_02005D90(0x483,0xffff);
+    GFL_USE_CancelChangeAndPlayBgm(0x483,0xffff);
     switch(q->fC) {
     case 0: func_021DA034(p,(int)func_021DA308,0x276); break;
     case 1: func_021DA034(p,(int)func_021DA434,0x279); break;
@@ -5773,13 +5776,13 @@ int func_021DA54C(int a,int b,GsyncStateObj35 *c,GsyncStateObj1 *p)
         if (func_0200FB24()) {
             func_021B9774((*(void * *)&p->f8));
             if (p->f6C) {
-                func_02012E08(p->f20);
+                GAME_DATA_SaveCancel(p->f20);
                 p->f6C = 0;
             }
             func_0202223C(0,0);
             func_0202223C(1,0);
             r = 1;
-            func_02157170(1,0);
+            DWC_RAPCOMMON_HandleNetError(1,0);
             c->f10 = 1;
         }
     } else if (func_0200FB24()) r = 1;

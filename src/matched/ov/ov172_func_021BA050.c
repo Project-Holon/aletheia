@@ -9,13 +9,13 @@
  * status: EXACT
  * symbols:
  *   func_0208B4B8 0x0208B4B8 arm
- *   func_02072CC4 0x02072CC4 arm
+ *   NNS_SndWaveOutIsPlaying 0x02072CC4 arm
  *   func_021BA1E4 0x021BA1E4 thumb ov172
  */
 typedef unsigned int u32;
 struct O;
 extern void *func_0208B4B8(void);
-extern int func_02072CC4(struct O *);
+extern int NNS_SndWaveOutIsPlaying(struct O *);
 extern void func_021BA1E4(void *);
 void func_021BA050(u32 *p)
 {
@@ -29,7 +29,7 @@ void func_021BA050(u32 *p)
         }
     }
     if (p[3] == 1) {
-        if (func_02072CC4((struct O *)p[8]) == 0) p[3] = 0;
+        if (NNS_SndWaveOutIsPlaying((struct O *)p[8]) == 0) p[3] = 0;
     }
     func_021BA1E4(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02155904
+ * function: DWC_RAP_EndCancel
  * address:  0x02155904
  * packet:   pkt_02155168
  * region:   ov009
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Sets 0xd through func_02155374 when the word at +0x754 is 0xc, else 0xb.
+ * Sets 0xd through DWC_RAP_SetState when the word at +0x754 is 0xc, else 0xb.
  *
  * symbols:
- *   func_02155374  0x02155374  thumb  ov009
+ *   DWC_RAP_SetState  0x02155374  thumb  ov009
  *   g_021A8264  0x021A8264  data
 
  */
@@ -25,13 +25,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-void func_02155904(void)
+void DWC_RAP_EndCancel(void)
 {
     extern struct _anon_Work *g_021A8264;
-    void func_02155374(int v);
+    void DWC_RAP_SetState(int v);
     if (((struct Obj18648 *)((char *)g_021A8264))->f754 == 0xc) {
-        func_02155374(0xd);
+        DWC_RAP_SetState(0xd);
         return;
     }
-    func_02155374(0xb);
+    DWC_RAP_SetState(0xb);
 }

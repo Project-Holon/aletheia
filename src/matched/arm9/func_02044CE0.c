@@ -1,5 +1,5 @@
 /*
- * function: func_02044CE0
+ * function: BMP_FillRect8bpp
  * address:  0x02044CE0
  * packet:   pkt_020445F4
  * region:   arm9
@@ -32,7 +32,7 @@ typedef signed int     s32;
 
 struct Surf { u8 *pixels; u16 width; u16 height; };
 
-void func_02044CE0(struct Surf *s, s32 x, s32 y, s32 w, u16 h, u8 value)
+void BMP_FillRect8bpp(struct Surf *s, s32 x, s32 y, s32 w, u16 h, u8 value)
 {
     s32 i;
     s32 j;

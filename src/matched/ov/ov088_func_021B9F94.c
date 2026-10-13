@@ -17,7 +17,7 @@
  *   func_02008730  0x02008730  thumb
  *   func_0200C0F0  0x0200C0F0  thumb
  *   func_02009210  0x02009210  thumb
- *   func_02012FE4  0x02012FE4  thumb
+ *   GAME_DATA_GetEventWorkFromSave  0x02012FE4  thumb
  */
 
 extern void func_0203064C(unsigned int, unsigned int, unsigned int);
@@ -33,7 +33,7 @@ extern struct Sub0200852CObj *func_02008730(void *sys);
 extern void *func_0200C0F0(void *sys);
 extern struct Sub02009210Obj *func_02009210(void *sys);
 struct Sub020071CCCtrl;
-extern void *func_02012FE4(struct Sub020071CCCtrl *a0);
+extern void *GAME_DATA_GetEventWorkFromSave(struct Sub020071CCCtrl *a0);
 
 int func_021B9F94(struct Obj0203159C *a)
 {
@@ -45,6 +45,6 @@ int func_021B9F94(struct Obj0203159C *a)
     p[1] = (int)func_02008730((void *)p[0]);
     p[2] = (int)func_0200C0F0((void *)p[0]);
     p[3] = (int)func_02009210((void *)p[0]);
-    p[4] = (int)func_02012FE4((struct Sub020071CCCtrl *)p[0]);
+    p[4] = (int)GAME_DATA_GetEventWorkFromSave((struct Sub020071CCCtrl *)p[0]);
     return 1;
 }

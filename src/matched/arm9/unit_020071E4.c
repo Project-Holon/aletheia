@@ -11,14 +11,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020071E4, sub_020071E8, sub_020071EC, sub_020071F0,
- *           sub_02007210, sub_02007214, sub_02007218, sub_0200721C,
- *           sub_02007220, sub_02007230, sub_0200723C
+ * function: SAVE_CONTROL_IsNewGame, SAVE_CONTROL_GetLoadFlags, SAVE_CONTROL_HasFlashSave, SAVE_CONTROL_WouldOverwriteSave,
+ *           SAVE_CONTROL_GetOutsideSaveLoaded, SAVE_CONTROL_SetOutsideSaveLoaded, SAVE_CONTROL_GetOutsideSaveBroken, SAVE_CONTROL_SetOutsideSaveBroken,
+ *           SAVE_CONTROL_ResetToNewGame, SAVE_CONTROL_EraseMainSave, SAVE_CONTROL_GetDiffSize
  *
  * symbols:
- *   func_020319C0    0x020319C0  arm
- *   func_020319F0    0x020319F0  arm
- *   func_020319E4  0x020319E4  arm
+ *   BACKUP_SYSTEM_ClearWork    0x020319C0  arm
+ *   BACKUP_SYSTEM_Erase    0x020319F0  arm
+ *   BACKUP_SYSTEM_GetDiffSize  0x020319E4  arm
  *
  * Eleven accessors on the save_control block, and eight of the eleven carry
  * no label at all: they are two and three instruction bodies ending in
@@ -28,7 +28,7 @@
  * read out of the bytes and the section map that `tu` prints is what checks
  * the boundaries.
  *
- * sub_0200723C tail-calls through 0x020319E4, which is a linker veneer and
+ * SAVE_CONTROL_GetDiffSize tail-calls through 0x020319E4, which is a linker veneer and
  * not a function: the twelve bytes there are `ldr ip, [pc, #0]; bx ip` and a
  * pointer word.  The extern is therefore declared at the veneer's address
  * and marked `arm`, which is also the name disasm.py gives it in the
@@ -74,67 +74,67 @@ struct Sub020071E4Ctrl {
     void *unk14[9];
 };
 
-extern void *func_020319C0(void *p);
+extern void *BACKUP_SYSTEM_ClearWork(void *p);
 struct Job;
-extern int func_020319F0(struct Job *job, u32 heap);
-extern void *func_020319E4(void *p);
+extern int BACKUP_SYSTEM_Erase(struct Job *job, u32 heap);
+extern void *BACKUP_SYSTEM_GetDiffSize(void *p);
 
-u8 sub_020071E4(const struct Sub020071E4Ctrl *ctrl)
+u8 SAVE_CONTROL_IsNewGame(const struct Sub020071E4Ctrl *ctrl)
 {
     return ctrl->unk00;
 }
 
-u32 sub_020071E8(const struct Sub020071E4Ctrl *ctrl)
+u32 SAVE_CONTROL_GetLoadFlags(const struct Sub020071E4Ctrl *ctrl)
 {
     return ctrl->unk0C;
 }
 
-u8 sub_020071EC(const struct Sub020071E4Ctrl *ctrl)
+u8 SAVE_CONTROL_HasFlashSave(const struct Sub020071E4Ctrl *ctrl)
 {
     return ctrl->unk01;
 }
 
-int sub_020071F0(struct Sub020071E4Ctrl *ctrl)
+int SAVE_CONTROL_WouldOverwriteSave(struct Sub020071E4Ctrl *ctrl)
 {
-    if (sub_020071E4(ctrl) == 1 && sub_020071EC(ctrl) == 1) {
+    if (SAVE_CONTROL_IsNewGame(ctrl) == 1 && SAVE_CONTROL_HasFlashSave(ctrl) == 1) {
         return 1;
     }
     return 0;
 }
 
-u8 sub_02007210(const struct Sub020071E4Ctrl *ctrl)
+u8 SAVE_CONTROL_GetOutsideSaveLoaded(const struct Sub020071E4Ctrl *ctrl)
 {
     return ctrl->unk04;
 }
 
-void sub_02007214(struct Sub020071E4Ctrl *ctrl, u8 v)
+void SAVE_CONTROL_SetOutsideSaveLoaded(struct Sub020071E4Ctrl *ctrl, u8 v)
 {
     ctrl->unk04 = v;
 }
 
-u8 sub_02007218(const struct Sub020071E4Ctrl *ctrl)
+u8 SAVE_CONTROL_GetOutsideSaveBroken(const struct Sub020071E4Ctrl *ctrl)
 {
     return ctrl->unk05;
 }
 
-void sub_0200721C(struct Sub020071E4Ctrl *ctrl, u8 v)
+void SAVE_CONTROL_SetOutsideSaveBroken(struct Sub020071E4Ctrl *ctrl, u8 v)
 {
     ctrl->unk05 = v;
 }
 
-void *sub_02007220(struct Sub020071E4Ctrl *ctrl)
+void *SAVE_CONTROL_ResetToNewGame(struct Sub020071E4Ctrl *ctrl)
 {
     ctrl->unk00 = 1;
     ctrl->unk02 = 1;
-    return func_020319C0(ctrl->unk10);
+    return BACKUP_SYSTEM_ClearWork(ctrl->unk10);
 }
 
-void *sub_02007230(struct Sub020071E4Ctrl *ctrl)
+void *SAVE_CONTROL_EraseMainSave(struct Sub020071E4Ctrl *ctrl)
 {
-    return (void *)func_020319F0(ctrl->unk10, 1);
+    return (void *)BACKUP_SYSTEM_Erase(ctrl->unk10, 1);
 }
 
-void *sub_0200723C(struct Sub020071E4Ctrl *ctrl)
+void *SAVE_CONTROL_GetDiffSize(struct Sub020071E4Ctrl *ctrl)
 {
-    return func_020319E4(ctrl->unk10);
+    return BACKUP_SYSTEM_GetDiffSize(ctrl->unk10);
 }

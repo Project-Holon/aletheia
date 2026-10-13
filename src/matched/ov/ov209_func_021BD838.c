@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B944 0x0204B944 arm
- *   func_0204B8D4 0x0204B8D4 arm
+ *   CLACT_GetActorAutoAnim 0x0204B944 arm
+ *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   func_0204A600 0x0204A600 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Actor;struct Obj;extern u32 func_0204B944(struct Actor *);extern void func_0204B8D4(struct Obj *,u32);extern void func_0204A600(void);
-void func_021BD838(char *p) {u32 i;for(i=0;i<60;i++) {if(*(void **)(p+i*4+0xa74)) {if(func_0204B944(*(struct Actor **)(p+i*4+0xa74))!=1) func_0204B8D4(*(struct Obj **)(p+i*4+0xa74),0x1000);}}func_0204A600();}
+struct Actor;struct Obj;extern u32 CLACT_GetActorAutoAnim(struct Actor *);extern void CLACT_AddActorAnimFrame(struct Obj *,u32);extern void func_0204A600(void);
+void func_021BD838(char *p) {u32 i;for(i=0;i<60;i++) {if(*(void **)(p+i*4+0xa74)) {if(CLACT_GetActorAutoAnim(*(struct Actor **)(p+i*4+0xa74))!=1) CLACT_AddActorAnimFrame(*(struct Obj **)(p+i*4+0xa74),0x1000);}}func_0204A600();}

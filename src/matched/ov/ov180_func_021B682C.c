@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020515B4  0x020515B4  arm
+ *   PARTICLE_StartEffect  0x020515B4  arm
  */
 #include "../include/Obj24486.h"
 
-extern int func_020515B4(void *p, int b, int c);
+extern int PARTICLE_StartEffect(void *p, int b, int c);
 
 void func_021B682C(int *p, int a)
 {
     int buf[3] = {0, 0, 0};
 
-    func_020515B4(((struct Obj24486 *)p)->f2C, a, (int)buf);
+    PARTICLE_StartEffect(((struct Obj24486 *)p)->f2C, a, (int)buf);
 }

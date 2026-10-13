@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_021F0000  0x021F0000  thumb  ov029
- *   func_0204B918  0x0204B918  arm
- *   func_0204B8F4  0x0204B8F4  arm
+ *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
+ *   CLACT_GetActorAnimFrame  0x0204B8F4  arm
  */
 
 typedef unsigned short u16;
 struct Obj;
-extern u16 func_0204B918(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
 typedef unsigned int   u32;
 struct Obj;
-extern u32 func_0204B8F4(struct Obj *p);
+extern u32 CLACT_GetActorAnimFrame(struct Obj *p);
 
 struct Slot {
     void *obj;
@@ -46,8 +46,8 @@ struct Slot *func_021F0000(struct Owner *p)
         if (p->s[i].obj == 0) {
             return &p->s[i];
         }
-        pri = func_0204B918(p->s[i].obj);
-        sub = func_0204B8F4(p->s[i].obj);
+        pri = CLACT_GetActorAnimSeqCount(p->s[i].obj);
+        sub = CLACT_GetActorAnimFrame(p->s[i].obj);
         if (pri > best || (pri == best && sub > bestSub)) {
             best = pri;
             bestSub = sub;

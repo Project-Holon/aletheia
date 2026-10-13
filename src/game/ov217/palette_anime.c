@@ -25,7 +25,7 @@
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_020456F8 0x020456F8 arm
- *   func_02045798 0x02045798 arm
+ *   BMP_WIN_SetPalette 0x02045798 arm
  *   func_02045758 0x02045758 arm
  *   func_02045760 0x02045760 arm
  *   func_02045748 0x02045748 arm
@@ -69,11 +69,11 @@
  *   func_0206DF3C  0x0206DF3C  arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B878 0x0204B878 arm
- *   func_0204B8C4 0x0204B8C4 arm
- *   func_0204B9C4 0x0204B9C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
+ *   CLACT_SetActorAnimLoopCount 0x0204B9C4 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B954 0x0204B954 arm
- *   func_0204B95C 0x0204B95C arm
+ *   CLACT_StartActorAnim 0x0204B95C arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B1CC  0x0204B1CC  arm
  *   func_0204B294 0x0204B294 arm
@@ -86,6 +86,7 @@
  *   func_02082D44  0x02082D44  arm
  *   func_02082BCC  0x02082BCC  arm
  *   d_021C408C 0x021C408C data ov217 a1
+ *   CLACT_StopActorAnim  0x0204B974  arm  arm9
  */
 #include "../../matched/include/Obj26004.h"
 #include "../../matched/include/Obj26005.h"
@@ -356,7 +357,7 @@ extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(unsigned int bit);
 extern void func_020456F8(struct Descriptor *);
-extern void func_02045798(struct Descriptor *,u8);
+extern void BMP_WIN_SetPalette(struct Descriptor *,u8);
 extern u8 func_02045758(struct Descriptor *);
 extern u8 func_02045760(struct Descriptor *);
 extern u8 func_02045748(struct Descriptor *);
@@ -382,13 +383,13 @@ extern void func_021C0E3C(void *p);
 extern void func_0206DF3C(const VecFx32 *pos, s32 *px, s32 *py);
 extern void func_0204B404(struct Obj *,const struct Vec2 *,u32);
 extern void func_0204B878(struct Obj *,u16);
-extern void func_0204B8C4(struct Obj *,u32);
-extern void func_0204B9C4(struct Actor *,u32);
+extern void CLACT_SetActorAnimFrame(struct Obj *,u32);
+extern void CLACT_SetActorAnimLoopCount(struct Actor *,u32);
 extern void func_0204B92C(struct Obj *,u32);
 extern void func_0204B954(struct Actor *,u32);
-extern void func_0204B95C(struct Actor *);
+extern void CLACT_StartActorAnim(struct Actor *);
 extern void func_0204B3DC(struct Obj *,u32);
-extern void func_0204B974(struct Actor *a);
+extern void CLACT_StopActorAnim(struct Actor *a);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
@@ -735,7 +736,7 @@ void func_021C1038(u8 *p,u8 palette)
 {
     u32 layer;
     u8 x,y,width,height;
-    func_02045798(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18,palette);
+    BMP_WIN_SetPalette(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18,palette);
     layer=func_02045730(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
     x=func_02045758(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
     y=func_02045760(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
@@ -2707,11 +2708,11 @@ void func_021C21C4(u8 *p,int index)
     }
     func_0204B404(obj,&point,((struct Obj06719 *)p)->f14);
     func_0204B878(obj,palette);
-    func_0204B8C4(obj,0);
-    func_0204B9C4((struct Actor *)obj,1);
+    CLACT_SetActorAnimFrame(obj,0);
+    CLACT_SetActorAnimLoopCount((struct Actor *)obj,1);
     func_0204B92C(obj,1);
     func_0204B954((struct Actor *)obj,0x12000);
-    func_0204B95C((struct Actor *)obj);
+    CLACT_StartActorAnim((struct Actor *)obj);
     func_0204B3DC(obj,1);
 }
 
@@ -2724,7 +2725,7 @@ void func_021C21C4(u8 *p,int index)
 
 void func_021C2250(u32 a0, u32 a1)
 {
-    func_0204B974((struct Actor *)(*(u32*)(((u8*)a0 + a1 * 24) + 60)));
+    CLACT_StopActorAnim((struct Actor *)(*(u32*)(((u8*)a0 + a1 * 24) + 60)));
 }
 
 
@@ -3224,32 +3225,32 @@ void func_021C278C(u8 *p)
     func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     func_0204B878(h, ((struct Obj03958 *)q)->f10);
 
-    func_0204B8C4(h, 0);
-    func_0204B974(h);
+    CLACT_SetActorAnimFrame(h, 0);
+    CLACT_StopActorAnim(h);
     func_0204B3DC(h, 0);
 
     h = ((struct Obj03957 *)p)->f14;
     func_021C28EC((const u32 *)p, pos, pos + 1);
     func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     func_0204B878(h, ((struct Obj03958 *)q)->fE);
-    func_0204B8C4(h, func_021C28BC((char *)p) << 12);
-    func_0204B974(h);
+    CLACT_SetActorAnimFrame(h, func_021C28BC((char *)p) << 12);
+    CLACT_StopActorAnim(h);
     func_0204B3DC(h, 0);
 
     h = ((struct Obj03957 *)p)->f18;
     func_021C28DC((const u32 *)p, pos, pos + 1);
     func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     func_0204B878(h, ((struct Obj03958 *)q)->fE);
-    func_0204B8C4(h, func_021C28A4((char *)p) << 12);
-    func_0204B974(h);
+    CLACT_SetActorAnimFrame(h, func_021C28A4((char *)p) << 12);
+    CLACT_StopActorAnim(h);
     func_0204B3DC(h, 0);
 
     h = ((struct Obj03957 *)p)->f1C;
     func_021C28CC((const u32 *)p, pos, pos + 1);
     func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     func_0204B878(h, ((struct Obj03958 *)q)->fE);
-    func_0204B8C4(h, func_021C2894((char *)p) << 12);
-    func_0204B974(h);
+    CLACT_SetActorAnimFrame(h, func_021C2894((char *)p) << 12);
+    CLACT_StopActorAnim(h);
     func_0204B3DC(h, z);
 }
 

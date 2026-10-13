@@ -1,5 +1,5 @@
 /*
- * function: sub_020329AC
+ * function: BACKUP_SYSTEM_CalcDiffSize
  * address:  0x020329AC
  * packet:   pkt_020328E0
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02032A9C  0x02032A9C  arm
- *   func_020332FC  0x020332FC  arm
- *   func_02033BAC  0x02033BAC  arm
+ *   BACKUP_SYSTEM_CompareRecordStep  0x02032A9C  arm
+ *   BACKUP_SYSTEM_GetBlockArea  0x020332FC  arm
+ *   SAVEDATA_GetBlockSize  0x02033BAC  arm
  *   func_02033BF0  0x02033BF0  arm
  *   func_02034F84  0x02034F84  arm
  *   func_02034FB8  0x02034FB8  arm
@@ -37,8 +37,8 @@
  * unknown bound, so the test really is written after the body.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020329AC.c \
- *       --func sub_020329AC --addr 0x020329AC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_CalcDiffSize.c \
+ *       --func BACKUP_SYSTEM_CalcDiffSize --addr 0x020329AC --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -49,17 +49,17 @@ struct SaveBackup {
     u32 unk2C;
 };
 
-extern u32 func_02032A9C(struct SaveBackup *p, u32 id, u32 mode, u32 *a,
+extern u32 BACKUP_SYSTEM_CompareRecordStep(struct SaveBackup *p, u32 id, u32 mode, u32 *a,
                          u32 *b, u32 *c, u32 *d);
 struct Obj020332FC;
-extern u32 func_020332FC(struct Obj020332FC *p, u32 idx);
+extern u32 BACKUP_SYSTEM_GetBlockArea(struct Obj020332FC *p, u32 idx);
 struct Obj02033BF0;
-extern u32 func_02033BAC(u8 *p, u32 i);
+extern u32 SAVEDATA_GetBlockSize(u8 *p, u32 i);
 extern u32 func_02033BF0(struct Obj02033BF0 *p);
 extern void func_02034F84(u32 bit);
 extern void func_02034FB8(u32 bit);
 
-void sub_020329AC(struct SaveBackup *p, u32 *total, u32 *nominal)
+void BACKUP_SYSTEM_CalcDiffSize(struct SaveBackup *p, u32 *total, u32 *nominal)
 {
     u32 a;
     u32 b;
@@ -79,12 +79,12 @@ void sub_020329AC(struct SaveBackup *p, u32 *total, u32 *nominal)
     c = 0;
 
     do {
-        size = func_02033BAC((u8 *)p->unk2C, i);
+        size = SAVEDATA_GetBlockSize((u8 *)p->unk2C, i);
         *nominal = *nominal + size;
 
-        if (func_020332FC((struct Obj020332FC *)p, i) == 0) {
+        if (BACKUP_SYSTEM_GetBlockArea((struct Obj020332FC *)p, i) == 0) {
             do {
-                r = func_02032A9C(p, i, 1, &a, &b, &c, &d);
+                r = BACKUP_SYSTEM_CompareRecordStep(p, i, 1, &a, &b, &c, &d);
                 if (r == 2) {
                     size = 0;
                 }

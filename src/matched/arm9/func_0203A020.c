@@ -1,5 +1,5 @@
 /*
- * function: func_0203A020
+ * function: GFL_NET_HANDLE_RecvNegotiation
  * address:  0x0203A020
  * packet:   pkt_0203A020
  * region:   arm9
@@ -27,7 +27,7 @@
  * record stays load-bearing (the zero arm's load order).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A020.c  *       --func func_0203A020 --addr 0x0203A020 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_RecvNegotiation.c  *       --func GFL_NET_HANDLE_RecvNegotiation --addr 0x0203A020 --arm --cc 1.1p1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,7 +38,7 @@ struct Entry;
 extern struct Entry *func_0203996C(s32 idx);
 extern void func_02087C6C(u8 *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
-void func_0203A020(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *base)
+void GFL_NET_HANDLE_RecvNegotiation(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *base)
 {
   volatile u8 *r4 = func_0203D798();
   u8 *p;

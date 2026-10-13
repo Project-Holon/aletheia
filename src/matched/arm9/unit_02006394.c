@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02006394
+ * function: GFL_USE_IsLoaderDone
  *
  * symbols:
  *   sub_02006394_State   0x020AA260  data
@@ -22,14 +22,14 @@
  * as finished, which is the early `return 1`.
  *
  * Near miss, recorded here because this file is what survived of the range.
- * sub_020063B4, 0x020063B4..0x02006448, is the caller-driven version of the
- * three state pump that sub_02005FF4 runs off its own state word, with the
+ * GFL_USE_StepBgmLoad, 0x020063B4..0x02006448, is the caller-driven version of the
+ * three state pump that GFL_USE_UpdateBgmChange runs off its own state word, with the
  * state behind a pointer the caller owns.  Every call, constant and field
  * access in it is reproduced and its first 0x20 bytes are byte identical,
  * but the best shape found is 64 bytes out and all 64 are block placement:
  * the original cross-jumps three tails that no spelling tried here makes
  * this compiler merge the same way.  Specifically, states 0 and 1 share one
- * copy of the `sub_02006300` call with the two arguments set up beforehand;
+ * copy of the `GFL_USE_StartLoaderThread` call with the two arguments set up beforehand;
  * the `stop` path and the two normal paths share one copy of the store back
  * through the state pointer; the two `func_02085A38(2)` error exits share
  * one block placed between the last case and the common `return 0`; and
@@ -59,7 +59,7 @@ extern u32 sub_02006394_Thread[];
 
 extern int func_0208574C(u32 *thread);
 
-int sub_02006394(void)
+int GFL_USE_IsLoaderDone(void)
 {
     if (sub_02006394_State.unk14 == 0) {
         return 1;

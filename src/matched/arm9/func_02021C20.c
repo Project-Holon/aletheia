@@ -1,5 +1,5 @@
 /*
- * function: func_02021C20
+ * function: PALANM_CalcFadeColors
  * address:  0x02021C20
  * packet:   pkt_02021C20
  * region:   arm9
@@ -13,14 +13,14 @@
  * weight/16 of the way toward the matching channel of the anim sub-object's
  * 15-bit target colour; the result is written to dst[i].
  *
- * Closed in wave 13 by the shape func_0202EA40 (blink_palanm.c) proved the
+ * Closed in wave 13 by the shape BLINK_PALANM_Update (blink_palanm.c) proved the
  * same day: the source pixel and the target are u16 LOCALS (an `int` pixel
  * is 20 bytes out), the channel extractions are written inline in each
  * blend rather than bound to sb/sg/sr locals, and the pack is
  * `r | ((b << 10) | (g << 5))` -- the channel ORed last is the one the
  * compiler evaluates first, which is the image's red, blue, green order.
  * The earlier 69-byte reading (int px, t/w/sb/sg/sr locals) is in
- * docs/notes/func_02021C20.c.txt.
+ * docs/notes/PALANM_CalcFadeColors.c.txt.
  */
 
 typedef unsigned char  u8;
@@ -37,7 +37,7 @@ struct C02021C20 {
     u16 sign : 1;
 };
 
-void func_02021C20(u16 *src, u16 *dst, struct C02021C20 *c, u32 count)
+void PALANM_CalcFadeColors(u16 *src, u16 *dst, struct C02021C20 *c, u32 count)
 {
     u32 i;
     u16 a;

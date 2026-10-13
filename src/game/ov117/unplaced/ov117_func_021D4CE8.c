@@ -16,14 +16,14 @@
  *   func_021D49C4  0x021D49C4  thumb  ov117
  *   func_021D49F4  0x021D49F4  thumb  ov117
  *   func_021D4A48  0x021D4A48  thumb  ov117
- *   func_02015F50  0x02015F50  thumb
- *   func_02015EA0  0x02015EA0  thumb
- *   func_02015EB0  0x02015EB0  thumb
- *   func_02015E4C  0x02015E4C  thumb
- *   func_02015C30  0x02015C30  thumb
- *   func_02015C48  0x02015C48  thumb
- *   func_02015C94  0x02015C94  thumb
- *   func_02015CAC  0x02015CAC  thumb
+ *   MCSS_SetPaletteFade  0x02015F50  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
+ *   MCSS_ResetVanishFlag  0x02015EB0  thumb
+ *   MCSS_ResetAnmStopFlag  0x02015E4C  thumb
+ *   MCSS_GetPosition  0x02015C30  thumb
+ *   MCSS_SetPosition  0x02015C48  thumb
+ *   MCSS_GetScale  0x02015C94  thumb
+ *   MCSS_SetScale  0x02015CAC  thumb
  *   func_020515CC  0x020515CC  arm
  *   func_0202208C  0x0202208C  thumb
  *   func_020307B0  0x020307B0  arm
@@ -56,14 +56,14 @@ extern void func_021D49C4(void *);
 struct McssFade;
 extern void func_021D49F4(void *obj, void *p);
 extern void func_021D4A48(u8 *p, int idx);
-extern void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
-extern void func_02015EA0(void *p);
-extern void func_02015EB0(void *p);
-extern void func_02015E4C(void *p);
-extern void func_02015C30(void *p, u32 *out);
-extern void func_02015C48(void *p, u32 *src);
-extern void func_02015C94(void *p, u32 *out);
-extern void func_02015CAC(void *p, u32 *src);
+extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
+extern void MCSS_SetVanishFlag(void *p);
+extern void MCSS_ResetVanishFlag(void *p);
+extern void MCSS_ResetAnmStopFlag(void *p);
+extern void MCSS_GetPosition(void *p, u32 *out);
+extern void MCSS_SetPosition(void *p, u32 *src);
+extern void MCSS_GetScale(void *p, u32 *out);
+extern void MCSS_SetScale(void *p, u32 *src);
 extern int func_020515CC(int *p, int a, int b, int c);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_020307B0(void *p);
@@ -89,10 +89,10 @@ void func_021D4CE8(u8 *p)
     Vec v4;
 
     if (FRAME == func_021D4480(1)) {
-        func_02015F50((struct McssFade *)OBJ(0), 8, 8, 0, 0xFFFF);
+        MCSS_SetPaletteFade((struct McssFade *)OBJ(0), 8, 8, 0, 0xFFFF);
     }
     if (FRAME == func_021D4480(2)) {
-        func_02015F50((struct McssFade *)OBJ(0), 0x10, 0x10, 0, 0xFFFF);
+        MCSS_SetPaletteFade((struct McssFade *)OBJ(0), 0x10, 0x10, 0, 0xFFFF);
     }
     if (FRAME == func_021D4480(3)) {
         func_021D43C8(p);
@@ -103,7 +103,7 @@ void func_021D4CE8(u8 *p)
         func_021E7208(p, 0x18);
     }
     if (FRAME == func_021D4480(4)) {
-        func_02015EA0((void *)OBJ(0));
+        MCSS_SetVanishFlag((void *)OBJ(0));
     }
     if (FRAME == func_021D4480(-1)) {
         func_020515CC((int *)WORK[0], 0, 0, (int)p);
@@ -133,38 +133,38 @@ void func_021D4CE8(u8 *p)
         func_0202208C(0, 1, 1, 0x7FFF, func_021D4480(0x19), 1, HEAP);
     }
     if (FRAME == func_021D4480(0xFA)) {
-        func_02015EB0((void *)OBJ(2));
+        MCSS_ResetVanishFlag((void *)OBJ(2));
         v.x = -0x32000;
         v.y = -0x1F4000;
         v.z = 0xA000;
-        func_02015C48((void *)OBJ(2), (u32 *)(&v));
+        MCSS_SetPosition((void *)OBJ(2), (u32 *)(&v));
         v.x = -0x32000;
         v.y = 0x12C000;
         v.z = 0xA000;
         func_021DFD24((u32 *)(((struct Obj00342 *)p)->f85C));
         ((struct Obj00342 *)p)->f85C = (unsigned int)func_021DFB84((void *)OBJ(2), (void *)func_021D4480(0x96), &v, HEAP);
-        func_02015C94((void *)OBJ(2), (u32 *)(&v));
+        MCSS_GetScale((void *)OBJ(2), (u32 *)(&v));
         v.x = v.x * 2;
         v.y = v.y * 2;
-        func_02015CAC((void *)OBJ(2), (u32 *)(&v));
+        MCSS_SetScale((void *)OBJ(2), (u32 *)(&v));
     }
     if (FRAME == func_021D4480(0xFB)) {
-        func_02015EB0((void *)OBJ(3));
+        MCSS_ResetVanishFlag((void *)OBJ(3));
         v2.x = 0x3C000;
         v2.y = 0x12C000;
         v2.z = -0xA000;
-        func_02015C48((void *)OBJ(3), (u32 *)(&v2));
+        MCSS_SetPosition((void *)OBJ(3), (u32 *)(&v2));
         v2.x = 0x3C000;
         v2.y = -0x172000;
         v2.z = -0xA000;
         func_021DFD24((u32 *)(((struct Obj00342 *)p)->f860));
         ((struct Obj00342 *)p)->f860 = (unsigned int)func_021DFB84((void *)OBJ(3), (void *)func_021D4480(0x96), &v2, HEAP);
-        func_02015CAC((void *)OBJ(3), (u32 *)((u8 *)WORK + 0x54));
-        func_02015C94((void *)OBJ(3), (u32 *)(&v2));
+        MCSS_SetScale((void *)OBJ(3), (u32 *)((u8 *)WORK + 0x54));
+        MCSS_GetScale((void *)OBJ(3), (u32 *)(&v2));
         *(s32 *)((u8 *)WORK + 0x48) = v2.x;
         *(s32 *)((u8 *)WORK + 0x4C) = v2.y;
         *(s32 *)((u8 *)WORK + 0x50) = v2.z;
-        func_02015C94((void *)OBJ(3), (u32 *)(&v3));
+        MCSS_GetScale((void *)OBJ(3), (u32 *)(&v3));
     }
     if (FRAME == func_021D4480(0xFC)) {
     }
@@ -173,29 +173,29 @@ void func_021D4CE8(u8 *p)
             func_021D49F4((void *)OBJ(3), p);
         } else {
             func_021D49F4((void *)OBJ(3), p);
-            func_02015EA0((void *)OBJ(3));
+            MCSS_SetVanishFlag((void *)OBJ(3));
             func_021D49F4((void *)OBJ(1), p);
         }
         func_021D4A48(p, 3);
     }
     if (FRAME == func_021D4480(0x268)) {
-        func_02015F50((struct McssFade *)OBJ(3), 8, 8, 0, 0x7FFF);
-        func_02015F50((struct McssFade *)OBJ(1), 8, 8, 0, 0x7FFF);
+        MCSS_SetPaletteFade((struct McssFade *)OBJ(3), 8, 8, 0, 0x7FFF);
+        MCSS_SetPaletteFade((struct McssFade *)OBJ(1), 8, 8, 0, 0x7FFF);
     }
     if (FRAME == func_021D4480(0x269)) {
-        func_02015F50((struct McssFade *)OBJ(3), 0, 0, 0, 0x7FFF);
-        func_02015F50((struct McssFade *)OBJ(1), 0, 0, 0, 0x7FFF);
+        MCSS_SetPaletteFade((struct McssFade *)OBJ(3), 0, 0, 0, 0x7FFF);
+        MCSS_SetPaletteFade((struct McssFade *)OBJ(1), 0, 0, 0, 0x7FFF);
     }
     if (func_021D4480(0x267) < FRAME && ((struct Obj00342 *)p)->f11EE != 0 && *(u32 *)&((struct Obj00342 *)p)->f868 != 0
         && *(u32 *)(*(u32 *)&((struct Obj00342 *)p)->f868 + 8) == 9) {
-        func_02015C30((void *)OBJ(1), (u32 *)(&v4));
-        func_02015C48((void *)OBJ(3), (u32 *)(&v4));
-        func_02015EB0((void *)OBJ(3));
-        func_02015EA0((void *)OBJ(1));
+        MCSS_GetPosition((void *)OBJ(1), (u32 *)(&v4));
+        MCSS_SetPosition((void *)OBJ(3), (u32 *)(&v4));
+        MCSS_ResetVanishFlag((void *)OBJ(3));
+        MCSS_SetVanishFlag((void *)OBJ(1));
         **(u32 * *)&((struct Obj00342 *)p)->f868 = OBJ(3);
     }
     if (FRAME == func_021D4480(0x279)) {
-        func_02015E4C((void *)OBJ(3));
+        MCSS_ResetAnmStopFlag((void *)OBJ(3));
     }
     func_021DFA98(FRAME);
     if (FRAME == func_021D4480(0x199)) {

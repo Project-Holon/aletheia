@@ -9,15 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  *
- * 12-byte leaf: forwards the second word of the record to func_02005DAC and
+ * 12-byte leaf: forwards the second word of the record to GFL_USE_PlayFanfare and
  * returns 1.  The lane enumerator reports 664 bytes because this is the last
  * func_ label in ov179; the disassembly ends at the pop and the rest is data.
+ *
+ * symbols:
+ *   GFL_USE_PlayFanfare  0x02005DAC  thumb  arm9
  */
 
-extern void func_02005DAC(void *arg);
+extern void GFL_USE_PlayFanfare(void *arg);
 
 int func_021B6888(void *ctx, unsigned int *rec)
 {
-    func_02005DAC((void *)rec[1]);
+    GFL_USE_PlayFanfare((void *)rec[1]);
     return 1;
 }

@@ -10,10 +10,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- *           sub_02045750, sub_02045758, sub_02045760, sub_02045768,
- *           sub_02045770, sub_02045778, sub_02045780, sub_02045788,
- *           sub_02045790, sub_02045798
+ * function: BMP_WIN_GetBgLayer, BMP_WIN_GetWidth, BMP_WIN_GetHeight, BMP_WIN_GetDispWidth,
+ *           BMP_WIN_GetDispHeight, BMP_WIN_GetPosX, BMP_WIN_GetPosY, BMP_WIN_GetCharOffset,
+ *           BMP_WIN_GetBmp, BMP_WIN_GetPalette, BMP_WIN_SetPosX, BMP_WIN_SetPosY,
+ *           BMP_WIN_SetDispHeight, BMP_WIN_SetPalette
  *
  * The leaf accessor bank of the allocator family's descriptor object.
  * Fourteen relocation-free 8-byte functions in a row, each one load or
@@ -21,34 +21,34 @@
  * with no witnesses required at all.
  *
  * The descriptor they read is the argument block the surrounding
- * constructors carry around (sub_02045334, at the head of this packet,
+ * constructors carry around (BMP_WIN_TransferChars, at the head of this packet,
  * uses the same offsets: +2, +5, +6, +0xa, +0xc). The fields this bank
  * exposes:
  *
- *   +0x02  u8   sub_02045730 get
- *   +0x03  u8   sub_02045758 get / sub_02045780 set
- *   +0x04  u8   sub_02045760 get / sub_02045788 set
- *   +0x05  u8   sub_02045738 get
- *   +0x06  u8   sub_02045740 get
- *   +0x07  u8   sub_02045748 get
- *   +0x08  u8   sub_02045750 get / sub_02045790 set
- *   +0x09  u8   sub_02045778 get / sub_02045798 set
- *   +0x0a  u16  sub_02045768 get
- *   +0x0c  void *  sub_02045770 get
+ *   +0x02  u8   BMP_WIN_GetBgLayer get
+ *   +0x03  u8   BMP_WIN_GetPosX get / BMP_WIN_SetPosX set
+ *   +0x04  u8   BMP_WIN_GetPosY get / BMP_WIN_SetPosY set
+ *   +0x05  u8   BMP_WIN_GetWidth get
+ *   +0x06  u8   BMP_WIN_GetHeight get
+ *   +0x07  u8   BMP_WIN_GetDispWidth get
+ *   +0x08  u8   BMP_WIN_GetDispHeight get / BMP_WIN_SetDispHeight set
+ *   +0x09  u8   BMP_WIN_GetPalette get / BMP_WIN_SetPalette set
+ *   +0x0a  u16  BMP_WIN_GetCharOffset get
+ *   +0x0c  void *  BMP_WIN_GetBmp get
  *
- * sub_02045770 is the heap-handle getter of this family: the pointer it
- * returns at +0xc is what sub_02045334 feeds to sub_020437D4 before the
+ * BMP_WIN_GetBmp is the heap-handle getter of this family: the pointer it
+ * returns at +0xc is what BMP_WIN_TransferChars feeds to BMP_GetPixels before the
  * allocation call at 0x02040B1C, so +0xc is the descriptor's heap /
  * owning-context handle rather than a payload pointer. It carries the
  * largest fan-in of the whole bank (1149 branch references image-wide),
  * which is consistent with every user of a descriptor reaching for its
  * heap handle.
  *
- * Only sub_02045730, sub_02045738, sub_02045740, sub_02045748,
- * sub_02045750, sub_02045758, sub_02045760, sub_02045768, sub_02045770,
- * sub_02045778 and sub_02045798 carry labels in the listing.
- * sub_02045780, sub_02045788 and sub_02045790 are unlabelled followers:
- * they save no lr, so disasm.py folds them into sub_02045778's extent
+ * Only BMP_WIN_GetBgLayer, BMP_WIN_GetWidth, BMP_WIN_GetHeight, BMP_WIN_GetDispWidth,
+ * BMP_WIN_GetDispHeight, BMP_WIN_GetPosX, BMP_WIN_GetPosY, BMP_WIN_GetCharOffset, BMP_WIN_GetBmp,
+ * BMP_WIN_GetPalette and BMP_WIN_SetPalette carry labels in the listing.
+ * BMP_WIN_SetPosX, BMP_WIN_SetPosY and BMP_WIN_SetDispHeight are unlabelled followers:
+ * they save no lr, so disasm.py folds them into BMP_WIN_GetPalette's extent
  * (see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md). They
  * should be seeded into layout/function_starts.txt by the integrator.
  *
@@ -79,72 +79,72 @@ struct Descriptor {
     void *heap;
 };
 
-u8 sub_02045730(struct Descriptor *p)
+u8 BMP_WIN_GetBgLayer(struct Descriptor *p)
 {
     return p->unk2;
 }
 
-u8 sub_02045738(struct Descriptor *p)
+u8 BMP_WIN_GetWidth(struct Descriptor *p)
 {
     return p->unk5;
 }
 
-u8 sub_02045740(struct Descriptor *p)
+u8 BMP_WIN_GetHeight(struct Descriptor *p)
 {
     return p->unk6;
 }
 
-u8 sub_02045748(struct Descriptor *p)
+u8 BMP_WIN_GetDispWidth(struct Descriptor *p)
 {
     return p->unk7;
 }
 
-u8 sub_02045750(struct Descriptor *p)
+u8 BMP_WIN_GetDispHeight(struct Descriptor *p)
 {
     return p->unk8;
 }
 
-u8 sub_02045758(struct Descriptor *p)
+u8 BMP_WIN_GetPosX(struct Descriptor *p)
 {
     return p->unk3;
 }
 
-u8 sub_02045760(struct Descriptor *p)
+u8 BMP_WIN_GetPosY(struct Descriptor *p)
 {
     return p->unk4;
 }
 
-u16 sub_02045768(struct Descriptor *p)
+u16 BMP_WIN_GetCharOffset(struct Descriptor *p)
 {
     return p->unkA;
 }
 
-void *sub_02045770(struct Descriptor *p)
+void *BMP_WIN_GetBmp(struct Descriptor *p)
 {
     return p->heap;
 }
 
-u8 sub_02045778(struct Descriptor *p)
+u8 BMP_WIN_GetPalette(struct Descriptor *p)
 {
     return p->unk9;
 }
 
-void sub_02045780(struct Descriptor *p, u8 v)
+void BMP_WIN_SetPosX(struct Descriptor *p, u8 v)
 {
     p->unk3 = v;
 }
 
-void sub_02045788(struct Descriptor *p, u8 v)
+void BMP_WIN_SetPosY(struct Descriptor *p, u8 v)
 {
     p->unk4 = v;
 }
 
-void sub_02045790(struct Descriptor *p, u8 v)
+void BMP_WIN_SetDispHeight(struct Descriptor *p, u8 v)
 {
     p->unk8 = v;
 }
 
-void sub_02045798(struct Descriptor *p, u8 v)
+void BMP_WIN_SetPalette(struct Descriptor *p, u8 v)
 {
     p->unk9 = v;
 }

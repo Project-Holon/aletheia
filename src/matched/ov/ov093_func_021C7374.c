@@ -13,11 +13,11 @@
  *   typedef unsigned short u16; typedef unsigned int u32;
  *   extern u32 sub_0201BD28(u16, u32);
  *   symbols: sub_0201BD28 0x0201BD28 thumb
- *   u32 func_0201C1E8(u16 id) { return sub_0201BD28(id, 2); }
+ *   u32 WAZA_TOOL_GetDamageType(u16 id) { return sub_0201BD28(id, 2); }
  * lever: bind the category call result before initialising k to prevent
  *   its constant assignment moving before the call.
  * symbols:
- *   func_0201C1E8 0x0201C1E8 thumb
+ *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
  *   func_021D74F8 0x021D74F8 thumb ov093
  *   func_021D7540 0x021D7540 thumb ov093
  *   func_021D5440 0x021D5440 thumb ov093
@@ -35,7 +35,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0201C1E8(int a);
+extern int WAZA_TOOL_GetDamageType(int a);
 extern void func_021D74F8(int);
 extern void func_021D7540(int);
 extern u8 func_021D5440(u8 *);
@@ -55,7 +55,7 @@ u16 func_021C7374(u8 *p, u8 *a, u8 *b, u8 *c, int flag)
     int k;
     u16 value;
     u8 index;
-    int mode = func_0201C1E8(*(u16 *)c);
+    int mode = WAZA_TOOL_GetDamageType(*(u16 *)c);
     k = 10;
     if (mode != 2) k = 8;
     func_021D74F8(12542);

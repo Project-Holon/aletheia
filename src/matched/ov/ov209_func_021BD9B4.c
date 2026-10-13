@@ -16,7 +16,7 @@
  *   func_0204ABF0 0x0204ABF0 arm
  *   func_0204ACEC 0x0204ACEC arm
  *   func_0204AF28 0x0204AF28 arm
- *   func_0201BABC 0x0201BABC thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0201BC3C 0x0201BC3C thumb
  *   func_0201BC40 0x0201BC40 thumb
  *   func_0201BC78 0x0201BC78 thumb
@@ -38,7 +38,7 @@ extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern u32 func_0201BABC(u32, u32, u32, u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
 extern int func_0201BC3C(void);
 extern int func_0201BC40(void);
 extern int func_0201BC78(void);
@@ -76,7 +76,7 @@ void func_021BD9B4(struct R *p)
     pb = &p->b[0];
     pc = &p->c[0];
     for (i = 0; i < 0x10; i++)
-        arr[i] = func_0204A6C8((void *)h2, func_0201BABC(0, 0, 0, 0), 0, 0, 0x6b);
+        arr[i] = func_0204A6C8((void *)h2, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 0, 0x6b);
     *pb = func_0204ACEC((void *)h2, func_0201BC3C(), 0, 0x80, 0x6b);
     a = func_0201BC40();
     *pc = func_0204AF28((void *)h2, a, func_0201BCB4(), 0x6b);
@@ -85,7 +85,7 @@ void func_021BD9B4(struct R *p)
     pb = &p->b[1];
     pc = &p->c[1];
     for (i = 0; i < 0x10; i++)
-        arr[i] = func_0204A6C8((void *)h2, func_0201BABC(0, 0, 0, 0), 0, 1, 0x6b);
+        arr[i] = func_0204A6C8((void *)h2, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 1, 0x6b);
     *pb = func_0204ACEC((void *)h2, func_0201BC3C(), 1, 0, 0x6b);
     a = func_0201BC78();
     *pc = func_0204AF28((void *)h2, a, func_0201BCEC(), 0x6b);

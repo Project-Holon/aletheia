@@ -1,5 +1,5 @@
 /*
- * function: func_02156F5C
+ * function: DWC_RAPCOMMON_Alloc
  * address:  0x02156F5C
  * packet:   pkt_ov009_02156F5C
  * region:   ov009
@@ -17,7 +17,7 @@
  *   func_0208799C  0x0208799C  arm
  *   func_02060CA0  0x02060CA0  arm
  *   func_0200FB6C  0x0200FB6C  thumb
- *   func_0203C9AC  0x0203C9AC  arm
+ *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  */
 
 #include "../include/G_Obj.h"
@@ -47,9 +47,9 @@ typedef signed int     s32;
 struct ExpHeap;
 extern void *func_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 extern void func_0200FB6C(void);
-extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
+extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 
-u32 func_02156F5C(u32 a, u32 b, u32 c)
+u32 DWC_RAPCOMMON_Alloc(u32 a, u32 b, u32 c)
 {
     u32 h;
     u32 r;
@@ -66,7 +66,7 @@ u32 func_02156F5C(u32 a, u32 b, u32 c)
     }
     if (r == 0) {
         func_0200FB6C();
-        func_0203C9AC(0, 0, 0, 0x3EE);
+        GFL_NET_STATE_SetError(0, 0, 0, 0x3EE);
         return 0;
     }
     return r;

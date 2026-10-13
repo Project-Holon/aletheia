@@ -16,7 +16,7 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0201BBE8 0x0201BBE8 thumb
+ *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_02049238 0x02049238 arm
  */
@@ -36,7 +36,7 @@ extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned in
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern int func_0201BBE8(void *a0);
+extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_02049238(void *);
 void func_021D6458(struct Obj02181 *p, void *n, int i)
@@ -53,6 +53,6 @@ void func_021D6458(struct Obj02181 *p, void *n, int i)
     p->fA8 = func_0204B294((void *)p->fC,(unsigned int)p->f40,p->f28,p->f5C,&pt,(u16)i,p->f43C4);
     func_0204B92C(p->fA8,0);
     func_0204B3DC(p->fA8,1);
-    func_0204B6F4(p->fA8,func_0201BBE8(n),1);
+    func_0204B6F4(p->fA8,POKE_TOOL_GetIconPalette(n),1);
     func_02049238(h);
 }

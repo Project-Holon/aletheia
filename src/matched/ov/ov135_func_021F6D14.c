@@ -14,6 +14,8 @@
   *
  * symbols:
  *   func_021F8554  0x021F8554  thumb
+ *   POKE_TOOL_CalcBoxLevel  0x02018438  thumb  arm9
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb  arm9
  */
 
 typedef signed char s8;
@@ -52,9 +54,9 @@ typedef struct {
 } Deposit;
 
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern u32 func_02018438(void *p);
+extern u32 POKE_TOOL_CalcBoxLevel(void *p);
 extern void func_021F8554(Deposit *dst, Work *p);
-extern void *func_020185F4(void *a);
+extern void *POKE_TOOL_GetBoxParam(void *a);
 
 void func_021F6D14(Deposit *dst, Work *p)
 {
@@ -64,10 +66,10 @@ void func_021F6D14(Deposit *dst, Work *p)
 
     m.species = func_02017E88(p->mon, 5, 0);
     m.form = func_02017E88(p->mon, 0x6E, 0) + 1;
-    m.gender = func_02018438(p->mon);
+    m.gender = POKE_TOOL_CalcBoxLevel(p->mon);
     dst->have = m;
     func_021F8554(dst, p);
-    e = func_020185F4(p->list[p->sel]);
+    e = POKE_TOOL_GetBoxParam(p->list[p->sel]);
     w.species = func_02017E88(e, 5, 0);
     w.form = func_02017E88(e, 0x6E, 0) + 1;
     w.b3 = 0;

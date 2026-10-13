@@ -15,7 +15,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0200B45C 0x0200B45C thumb
+ *   BATTLE_REC_IsDataExist 0x0200B45C thumb
  *   func_021E58A4 0x021E58A4 thumb ov177
  *   func_0201EC74 0x0201EC74 thumb
  *   func_02045B38 0x02045B38 arm
@@ -47,7 +47,7 @@ struct Party;
 struct Rec160;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,u32);
-extern u32 func_0200B45C(void);
+extern u32 BATTLE_REC_IsDataExist(void);
 extern void func_021E58A4(int,int,u32);
 extern void *func_0201EC74(u32,u32,u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -75,7 +75,7 @@ u8 *func_0217B984(Init *src,u32 heap)
     func_02082BCC(p,0,size);
     *(Init *)(p+0x1a0)=*src;
     *(u16 *)(p+0x1c8)=heap;
-    *(u32 *)(p+0x1d0)=func_0200B45C();
+    *(u32 *)(p+0x1d0)=BATTLE_REC_IsDataExist();
     func_021E58A4(*(int *)(p+0x1b0),1,heap);
     *(void **)(p+0x2c)=func_0201EC74(8,0x40,heap);
     *(void **)(p+0x20)=func_02045B38(0,2,0x3a,heap);

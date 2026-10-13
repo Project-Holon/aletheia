@@ -10,7 +10,10 @@
  * promoted: from src/pending on 2026-09-19, no C change: its blocker is filed,
  *           every relocation site resolves and match.py one reports EXACT.
  * status:   EXACT
- * blocker:  +0034 ABS32 func_020147B0          : 020147B0 (thumb, from name) has no witness outside 02014840..02014878
+ * blocker:  +0034 ABS32 FIELD_STATUS_SubProcNoFadeCallbackEvent          : 020147B0 (thumb, from name) has no witness outside 02014840..02014878
+ *
+ * symbols:
+ *   FIELD_STATUS_SubProcNoFadeCallbackEvent  0x020147B0  thumb
  */
 
 typedef unsigned int u32;
@@ -19,11 +22,11 @@ struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern void func_020147B0(void);
+extern void FIELD_STATUS_SubProcNoFadeCallbackEvent(void);
 
 void *func_02014840(char *a0, int a1, int a2, int a3, int a4, int a5, int a6)
 {
-    void *r = func_020122C0(a0, 0, (void *)((int)func_020147B0), 0x1c);
+    void *r = func_020122C0(a0, 0, (void *)((int)FIELD_STATUS_SubProcNoFadeCallbackEvent), 0x1c);
     u32 *p = func_020124E8(r);
 
     p[0] = (u32)a0;

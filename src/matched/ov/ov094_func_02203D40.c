@@ -13,7 +13,7 @@
  *   func_02204960 0x02204960 thumb ov094
  *   func_022043C0 0x022043C0 thumb ov094
  *   func_022045A8 0x022045A8 thumb ov094
- *   func_0202173C 0x0202173C thumb
+ *   PALANM_RequestFade 0x0202173C thumb
  *   func_02040588 0x02040588 arm
  *   func_02045374 0x02045374 arm
  *   func_02045334 0x02045334 arm
@@ -37,7 +37,7 @@ extern void func_02206A58(char *p);
 extern void func_02204960(Main *, int, int, int, int, int, int, int);
 extern void func_022043C0(Main *, int, int, int, int);
 extern void func_022045A8(Main *, int, int);
-extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
+extern int PALANM_RequestFade(void *, u16, u16, s16, u8, u8, u16, void *);
 typedef unsigned int   u32;
 struct Cfg;
 struct Descriptor;
@@ -54,7 +54,7 @@ void func_02203D40(void *h, Ctx *c)
         func_02204960(c->main, 5, 0, 0, 0, 0, 2, 1);
         func_022043C0(c->main, 0x3000, 0x1000, -0x400, 0x98);
         func_02206A58((char *)c->main);
-        func_0202173C(c->main->pal64, 2, 3, 1, 0xc, 0, 0x842, c->main->owner);
+        PALANM_RequestFade(c->main->pal64, 2, 3, 1, 0xc, 0, 0x842, c->main->owner);
         c->state++;
         break;
     case 1:

@@ -1,5 +1,5 @@
 /*
- * function: func_0202B894
+ * function: ISS_3DS_SYS_Create
  * address:  0x0202B894
  * packet:   pkt_0202B744
  * region:   arm9
@@ -14,8 +14,12 @@
  * runs its three initialisers.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0202B894.c \
- *       --func func_0202B894 --addr 0x0202B894 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/pending/ISS_3DS_SYS_Create.c \
+ *       --func ISS_3DS_SYS_Create --addr 0x0202B894 --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   ISS_3DS_SYS_LoadTable  0x0202B958  thumb
+ *   ISS_3DS_SYS_ResetSources  0x0202BA24  thumb
  */
 #include "../include/Obj01019.h"
 
@@ -24,11 +28,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_0202BA24(u8 *p);
+extern void  ISS_3DS_SYS_ResetSources(u8 *p);
 extern void func_0202B944(void *obj);
-extern void  func_0202B958(u8 *p);
+extern void  ISS_3DS_SYS_LoadTable(u8 *p);
 
-u8 *func_0202B894(u32 id)
+u8 *ISS_3DS_SYS_Create(u32 id)
 {
     u8 *p = (u8 *)func_02030734(id, 0x26c, 0, (const void *)0x020A7738, 0xa3);
 
@@ -44,8 +48,8 @@ u8 *func_0202B894(u32 id)
     ((struct Obj01019 *)p)->f1C = 0;
     ((struct Obj01019 *)p)->f20 = 0;
 
-    func_0202BA24(p);
+    ISS_3DS_SYS_ResetSources(p);
     func_0202B944(p);
-    func_0202B958(p);
+    ISS_3DS_SYS_LoadTable(p);
     return p;
 }

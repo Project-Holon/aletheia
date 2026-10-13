@@ -1,5 +1,5 @@
 /*
- * function: func_0201054C
+ * function: WIH_DWC_IsOpenTaggedBeacon
  * address:  0x0201054C
  * packet:   pkt_0201045C
  * region:   arm9
@@ -18,8 +18,8 @@
  * means equal.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201054C.c \
- *       --func func_0201054C --addr 0x0201054C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIH_DWC_IsOpenTaggedBeacon.c \
+ *       --func WIH_DWC_IsOpenTaggedBeacon --addr 0x0201054C --cc 1.1p1 --thumb
  */
 #include "../include/Obj03426.h"
 
@@ -30,7 +30,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
-int func_0201054C(const u8 *obj)
+int WIH_DWC_IsOpenTaggedBeacon(const u8 *obj)
 {
     if (*(const u16 *)&((struct Obj03426 *)obj)->fA == 8) {
         if (func_0203EFC8((const void *)0x020A7250, obj + 0xc, 8) != 0) {

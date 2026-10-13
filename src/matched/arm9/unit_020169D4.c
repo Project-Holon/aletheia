@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020169D4
+ * function: MCSS_InitEdgeColor
  *
  * alias: a direct write of a fixed 32-bit value to a hardware register pair
  * at 0x040004C0: the low word gets the full constant, the high word (at
@@ -19,12 +19,12 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/unit_020169D4.c \
- *       --func sub_020169D4 --addr 0x020169D4 --cc 1.1p1 --thumb
+ *       --func MCSS_InitEdgeColor --addr 0x020169D4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
-void sub_020169D4(void)
+void MCSS_InitEdgeColor(void)
 {
     u32 v = 0x4210FFFF;
     *(volatile u32 *)0x040004C0 = v;

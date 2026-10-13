@@ -1,5 +1,5 @@
 /*
- * function: func_020253D4
+ * function: ACTOR_TOOL_FreeRun
  * address:  0x020253D4
  * packet:   pkt_02025360
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * actor_tool.c: free the run that func_02025360 stamped with index i in
+ * actor_tool.c: free the run that ACTOR_TOOL_AllocRun stamped with index i in
  * one bank: every slot from i on that still holds i goes back to 0xFF.
  * The bank select is the same `sel = 1; if (bank == 0) sel = 0;` as the
  * allocator.  Two declaration facts close it (docs/notes/pkt_020251FC.c.txt
@@ -29,7 +29,7 @@ struct ActorTool {
     u8  slot[2][16];      /* +0x06 */
 };
 
-void func_020253D4(struct ActorTool *p, u32 i, u32 bank)
+void ACTOR_TOOL_FreeRun(struct ActorTool *p, u32 i, u32 bank)
 {
     u32 sel = 1;
     int j;

@@ -1,5 +1,5 @@
 /*
- * function: func_02051380
+ * function: PARTICLE_SetupSystemNoHandlers
  * address:  0x02051380
  * packet:   pkt_02051380
  * region:   arm9
@@ -14,7 +14,7 @@
 
 extern void func_02051230(void *, void *, int, int);
 
-void func_02051380(void *p, void *r)
+void PARTICLE_SetupSystemNoHandlers(void *p, void *r)
 {
     func_02051230(p, r, 0, 0);
 }

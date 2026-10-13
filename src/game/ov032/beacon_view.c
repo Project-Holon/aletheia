@@ -1,7 +1,7 @@
 /*
  * file:     beacon_view.c
  * unit:     yes
- * function: func_021EFEC0, func_021EFF7C, func_021F0050, func_021F0078, func_021F00C8, func_021F0114, func_021F0140, func_021F0208, func_021F028C, func_021F029C, func_021F02C4, func_021F03EC, func_021F0438, func_021F055C, func_021F05E8, func_021F0668, func_021F067C, func_021F0684, func_021F06E0, func_021F079C, func_021F07D4, func_021F0820, func_021F086C, func_021F0884, func_021F089C, func_021F08E4, func_021F096C, func_021F0A18, func_021F0A98, func_021F0AC0, func_021F0B10, func_021F0B64, func_021F0B80, func_021F0BA8, func_021F0C04, func_021F0C70, func_021F0CF8, func_021F0D38, func_021F0D5C, func_021F0D9C, func_021F0DC0, func_021F0DD8, func_021F0DE0, func_021F0DF4, func_021F0E04, func_021F0E24, func_021F0E7C, func_021F0EA4, func_021F0ED0, func_021F0EDC, func_021F0F30, func_021F0F44, func_021F0F74, func_021F0FC8, func_021F0FE8, func_021F1004, func_021F1070, func_021F1080, func_021F10D8, func_021F1144, func_021F1218, func_021F1268, func_021F12B8, func_021F1340, func_021F13A0, func_021F1418, func_021F1484, func_021F150C, func_021F155C, func_021F1704, func_021F178C, func_021F17D8, func_021F180C, func_021F1888, func_021F18C4, func_021F18E0, func_021F1930, func_021F199C, func_021F1A08, func_021F1A18, func_021F1A28, func_021F1B94, func_021F1CF0, func_021F1E40, func_021F1EAC, func_021F1F00, func_021F1F34, func_021F1F9C, func_021F201C, func_021F20A8, func_021F20E4, func_021F2144, func_021F21B0, func_021F21F8, func_021F2234, func_021F22FC, func_021F2344, func_021F23F8, func_021F2404, func_021F253C, func_021F2544, func_021F254C, func_021F2588, func_021F25D4, func_021F2608, func_021F2624, func_021F2664, func_021F2674, func_021F26D8, func_021F26F0, func_021F2714, func_021F27B4, func_021F27CC, func_021F27D4, func_021F28DC, func_021F2908, func_021F2A04, func_021F2A8C, func_021F2BD4, func_021F2C1C, func_021F2CC4, func_021F2D20, func_021F2EDC, func_021F2F44, func_021F2FCC, func_021F3010, func_021F3058, func_021F30B4, func_021F30D4, func_021F31A8, func_021F3214, func_021F3264, func_021F32D4, func_021F32F8
+ * function: func_021EFEC0, func_021EFF7C, func_021F0050, func_021F0078, func_021F00C8, func_021F0114, func_021F0140, func_021F0208, func_021F028C, func_021F029C, func_021F02C4, func_021F03EC, func_021F0438, func_021F055C, func_021F05E8, func_021F0668, func_021F067C, func_021F0684, func_021F06E0, func_021F079C, func_021F07D4, func_021F0820, func_021F086C, func_021F0884, func_021F089C, func_021F08E4, func_021F096C, func_021F0A18, func_021F0A98, func_021F0AC0, func_021F0B10, func_021F0B64, func_021F0B80, func_021F0BA8, func_021F0C04, func_021F0C70, func_021F0CF8, func_021F0D38, func_021F0D5C, func_021F0D9C, func_021F0DC0, func_021F0DD8, func_021F0DE0, func_021F0DF4, func_021F0E04, func_021F0E24, func_021F0E7C, func_021F0EA4, func_021F0ED0, func_021F0EDC, func_021F0F30, func_021F0F44, func_021F0F74, func_021F0FC8, func_021F0FE8, func_021F1004, func_021F1070, func_021F1080, func_021F10D8, func_021F1144, func_021F1218, func_021F1268, func_021F12B8, func_021F1340, func_021F13A0, func_021F1418, func_021F1484, func_021F150C, func_021F155C, func_021F1704, func_021F178C, func_021F17D8, func_021F180C, func_021F1888, func_021F18C4, func_021F18E0, func_021F1930, func_021F199C, func_021F1A08, func_021F1A18, func_021F1A28, func_021F1B94, func_021F1CF0, func_021F1E40, func_021F1EAC, func_021F1F00, func_021F1F34, func_021F1F9C, func_021F201C, func_021F20A8, func_021F20E4, func_021F2144, func_021F21B0, func_021F21F8, func_021F2234, func_021F22FC, func_021F2344, func_021F23F8, func_021F2404, func_021F253C, func_021F2544, func_021F254C, func_021F2588, func_021F25D4, func_021F2608, func_021F2624, func_021F2664, func_021F2674, func_021F26D8, func_021F26F0, func_021F2714, func_021F27B4, func_021F27CC, func_021F27D4, func_021F28DC, func_021F2908, func_021F2A04, func_021F2A8C, func_021F2BD4, func_021F2C1C, func_021F2CC4, func_021F2D20, func_021F2EDC, func_021F2F44, func_021F2FCC, func_021F3010, func_021F3058, func_021F30B4, func_021F30D4, func_021F31A8, func_021F3214, func_021F3264, func_021F32D4, func_021F32F8, func_021F34C8
  * address:  0x021EFEC0
  * region:   ov032
  * compiler: dsi/1.1p1
@@ -14,27 +14,27 @@
  *
  * symbols:
  *   func_0201C4E4  0x0201C4E4  thumb
- *   func_02021EE4  0x02021EE4  thumb
+ *   PALANM_SetAutoTransfer  0x02021EE4  thumb
  *   func_02165AC4  0x02165AC4  thumb  ov010
  *   func_021659F0  0x021659F0  thumb  ov010
  *   func_0203D34C  0x0203D34C  arm
  *   func_02035D20  0x02035D20  arm
  *   func_02165C10  0x02165C10  thumb  ov010
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021585E0  0x021585E0  thumb  ov010
  *   func_02012204  0x02012204  thumb
  *   func_0201058C  0x0201058C  thumb
- *   func_020275D0  0x020275D0  thumb
+ *   BEACON_STATUS_GetViewFlags  0x020275D0  thumb
  *   func_020275C4  0x020275C4  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
- *   sub_02010EA0 0x02010EA0 thumb
+ *   GPOWER_GetActiveIdOfSameType 0x02010EA0 thumb
  *   func_021658D4  0x021658D4  thumb  ov010
  *   func_02165B5C  0x02165B5C  thumb  ov010
  *   func_02165A10  0x02165A10  thumb  ov010
  *   func_0200C1E0  0x0200C1E0  thumb
  *   func_02021FD8  0x02021FD8  thumb
  *   func_021D3294  0x021D3294  thumb  ov021
- *   func_0201C4DC 0x0201C4DC thumb
+ *   PRINTSYS_QUE_SetLimitTick 0x0201C4DC thumb
  *   func_021657E8  0x021657E8  thumb  ov010
  *   func_0204B98C 0x0204B98C arm
  *   func_02165D08  0x02165D08  thumb  ov010
@@ -45,8 +45,8 @@
  *   d_021F3554    0x021F3554  data  a4
  *   d_021F356C     0x021F356C  data  a4
  *   d_021F3538     0x021F3538  data  a1
- *   func_0204B898  0x0204B898  arm
- *   func_02035D40  0x02035D40  arm
+ *   CLACT_GetActorAnimSeq  0x0204B898  arm
+ *   TOUCHPANEL_HitPoint  0x02035D40  arm
  *   d_021F3530     0x021F3530  data  a2
  *   func_02045CAC 0x02045CAC arm
  *   func_0201F250 0x0201F250 thumb
@@ -54,12 +54,12 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_02045334 0x02045334 arm
  *   func_02041FF4  0x02041FF4  arm
- *   func_0202800C  0x0202800C  thumb
- *   func_0202846C  0x0202846C  thumb
+ *   APP_TASKMENU_WIN_CreateEx  0x0202800C  thumb
+ *   APP_TASKMENU_WIN_IsUpdateTrans  0x0202846C  thumb
  *   func_02028178  0x02028178  thumb
- *   func_0202824C  0x0202824C  thumb
- *   func_0202822C  0x0202822C  thumb
- *   func_02028230  0x02028230  thumb
+ *   APP_TASKMENU_WIN_IsTouch  0x0202824C  thumb
+ *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
+ *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb
  *   func_02028148  0x02028148  thumb
  *   func_02165E24 0x02165E24 thumb ov010
  *   func_020061E4 0x020061E4 thumb
@@ -69,15 +69,15 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02025774 0x02025774 thumb
  *   func_020257D0  0x020257D0  thumb
- *   func_0204581C  0x0204581C  arm
- *   func_02031194  0x02031194  arm
+ *   STRBUF_Clear  0x0204581C  arm
+ *   TCBL_DeleteTask  0x02031194  arm
  *   func_02165CE8  0x02165CE8  thumb  ov010
  *   func_0204A9D0  0x0204A9D0  arm
- *   func_020215BC  0x020215BC  thumb
+ *   PALANM_CopyToSlot  0x020215BC  thumb
  *   d_021F3541     0x021F3541  data  ov032  a1
  *   func_02165CC0  0x02165CC0  thumb  ov010
  *   func_02021F64  0x02021F64  thumb
- *   func_02026D48  0x02026D48  thumb
+ *   GAME_BEACON_GetReceivedFramesByTrainerId  0x02026D48  thumb
  *   func_02165CB4 0x02165CB4 thumb ov010
  *   func_02165CE4  0x02165CE4  thumb  ov010
  *   func_02165C34  0x02165C34  thumb  ov010
@@ -85,9 +85,9 @@
  *   func_02165D6C  0x02165D6C  thumb  ov010
  *   func_02165D8C  0x02165D8C  thumb  ov010
  *   func_0202590C 0x0202590C thumb
- *   func_020275B8 0x020275B8 thumb
- *   func_020311B8 0x020311B8 arm
- *   func_02031290 0x02031290 arm
+ *   BEACON_STATUS_SetViewTop 0x020275B8 thumb
+ *   TCBL_AddTask 0x020311B8 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_0207C768 0x0207C768 arm
  *   _fflt          0x0209BDBC  arm
@@ -101,11 +101,11 @@
  *   func_02045838 0x02045838 arm
  *   func_02165EBC 0x02165EBC thumb ov010
  *   func_02165D20 0x02165D20 thumb ov010
- *   func_02031288 0x02031288 arm
+ *   TCBL_SetTaskFunc 0x02031288 arm
  *   func_0201F184 0x0201F184 thumb
- *   func_02010FA0 0x02010FA0 thumb
+ *   GPOWER_GetPowerCost 0x02010FA0 thumb
  *   func_02007FB8 0x02007FB8 thumb
- *   func_02010EEC 0x02010EEC thumb
+ *   GPOWER_GetSelectedMinutesLeft 0x02010EEC thumb
  *   d_021F352C 0x021F352C data ov032 a1
  *   func_02165FC0 0x02165FC0 thumb ov010
  *   func_0201C7D0 0x0201C7D0 thumb
@@ -122,7 +122,7 @@
  *   func_0201210C 0x0201210C thumb
  *   func_02188E30 0x02188E30 thumb ov021
  *   func_020490F4 0x020490F4 arm
- *   func_0203115C 0x0203115C arm
+ *   TCBL_DeleteAllTasks 0x0203115C arm
  *   func_02049238 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020310C4 0x020310C4 arm
@@ -138,12 +138,12 @@
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   func_0201235C 0x0201235C thumb
- *   func_020282A4 0x020282A4 thumb
- *   func_02021D50 0x02021D50 thumb
+ *   APP_TASKMENU_WIN_ResetDecide 0x020282A4 thumb
+ *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_02012A54  0x02012A54  thumb
- *   func_020275A8  0x020275A8  thumb
+ *   BEACON_STATUS_GetLog  0x020275A8  thumb
  *   func_02165B04  0x02165B04  thumb  ov010
- *   func_020275AC  0x020275AC  thumb
+ *   BEACON_STATUS_GetViewTop  0x020275AC  thumb
  *   func_02012FFC  0x02012FFC  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
@@ -167,7 +167,7 @@
  *   func_02021518  0x02021518  thumb
  *   func_0202155C  0x0202155C  thumb
  *   func_0201C440  0x0201C440  thumb
- *   func_0201C4C8  0x0201C4C8  thumb
+ *   PRINTSYS_QUE_SetForceQueue  0x0201C4C8  thumb
  *   func_02188C54  0x02188C54  thumb  ov021
  *   func_021904AC  0x021904AC  thumb  ov021
  *   func_0201DD68  0x0201DD68  thumb
@@ -185,8 +185,8 @@
  *   func_02031140 0x02031140 arm
  *   func_0203FCA0  0x0203FCA0  arm
  *   func_02082A7C  0x02082A7C  arm
- *   func_020216B4  0x020216B4  thumb
- *   func_02021640  0x02021640  thumb
+ *   PALANM_LoadHandlePaletteToSlot  0x020216B4  thumb
+ *   PALANM_LoadArcPaletteToSlot  0x02021640  thumb
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   func_0207D63C  0x0207D63C  arm
@@ -234,73 +234,9 @@
  *   func_0204B6F4  0x0204B6F4  arm
  *   func_02043678  0x02043678  arm
  *   func_020255A0  0x020255A0  thumb
+ *   func_0202570C  0x0202570C  thumb
+ *   func_020437AC  0x020437AC  arm
  */
-#include "../../matched/include/Obj00007.h"
-#include "../../matched/include/Obj00188.h"
-#include "../../matched/include/Obj09794.h"
-#include "../../matched/include/Obj05120.h"
-#include "../../matched/include/Obj20414.h"
-#include "../../matched/include/Obj20415.h"
-#include "../../matched/include/Obj20416.h"
-#include "../../matched/include/Obj09795.h"
-#include "../../matched/include/Obj04310.h"
-#include "../../matched/include/Obj07629.h"
-#include "../../matched/include/Obj13061.h"
-#include "../../matched/include/Obj00225.h"
-#include "../../matched/include/Obj20418.h"
-#include "../../matched/include/Obj09797.h"
-#include "../../matched/include/Obj13063.h"
-#include "../../matched/include/Obj06134.h"
-#include "../../matched/include/Obj01676.h"
-#include "../../matched/include/Obj00710.h"
-#include "../../matched/include/Obj04311.h"
-#include "../../matched/include/Obj20428.h"
-#include "../../matched/include/Obj03636.h"
-#include "../../matched/include/Obj00007.h"
-#include "../../matched/include/Obj09798.h"
-#include "../../matched/include/Obj02751.h"
-#include "../../matched/include/Obj20431.h"
-#include "../../matched/include/Obj20433.h"
-#include "../../matched/include/Obj01037.h"
-#include "../../matched/include/Obj00879.h"
-#include "../../matched/include/Obj05121.h"
-#include "../../matched/include/Obj20436.h"
-#include "../../matched/include/Obj02113.h"
-#include "../../matched/include/Obj20437.h"
-#include "../../matched/include/Obj20438.h"
-#include "../../matched/include/Obj13066.h"
-#include "../../matched/include/Obj04312.h"
-#include "../../matched/include/Obj20439.h"
-#include "../../matched/include/Obj20441.h"
-#include "../../matched/include/Obj02752.h"
-#include "../../matched/include/Obj20443.h"
-#include "../../matched/include/Obj20444.h"
-#include "../../matched/include/Obj06135.h"
-#include "../../matched/include/Obj07634.h"
-#include "../../matched/include/Obj09799.h"
-#include "../../matched/include/Obj20446.h"
-#include "../../matched/include/Obj06136.h"
-#include "../../matched/include/Obj06137.h"
-#include "../../matched/include/Obj20448.h"
-#include "../../matched/include/Obj07635.h"
-#include "../../matched/include/Obj07637.h"
-#include "../../matched/include/Obj20452.h"
-#include "../../matched/include/Obj20453.h"
-#include "../../matched/include/Obj07638.h"
-#include "../../matched/include/Obj20455.h"
-#include "../../matched/include/Obj20458.h"
-#include "../../matched/include/Obj00812.h"
-#include "../../matched/include/Obj20459.h"
-#include "../../matched/include/Obj20460.h"
-#include "../../matched/include/Obj07639.h"
-#include "../../matched/include/Obj09800.h"
-#include "../../matched/include/Obj13067.h"
-#include "../../matched/include/Obj05123.h"
-#include "../../matched/include/Obj20461.h"
-#include "../../matched/include/Obj20462.h"
-#include "../../matched/include/Obj07640.h"
-#include "../../matched/include/Obj13068.h"
-#include "../../matched/include/Obj13069.h"
 
 #define FX32_CONST(x) \
     ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
@@ -371,6 +307,8 @@ typedef struct Rec_021EFEC0 Rec_021EFEC0;
 
 typedef signed int     s32;
 
+#include "beacon_view_types.h"
+
 typedef struct {
     u32 a;
     u32 b;
@@ -381,11 +319,6 @@ typedef struct { void *f00; void *f04; unsigned f08; void *f0c; void *f10; } Des
 typedef struct { int state; void *f04; unsigned f08; void *owner; unsigned f10; unsigned f14; unsigned f18; } Work_021F254C;
 
 typedef struct {
-    u32 count;
-    u32 *items;
-} ResList;
-
-typedef struct {
     u16 count;
     u16 base;
 } ResSpec;
@@ -394,51 +327,7 @@ typedef struct {
     ResSpec s[3];
 } ResSpec3;
 
-typedef struct {
-    void *data;
-    void *res;
-} Ent;
-
-typedef struct {
-    u8 *hdr;
-    u32 data;
-    void *res;
-} Res3;
-
-typedef struct {
-    u8 pad0[0x96];
-    u16 heap;
-    u16 heap2;
-    u8 pad9a[0x12];
-    u32 fac;
-    u8 padb0[0x84];
-    ResList l134[3];
-    ResList l14c[3];
-    ResList l164[3];
-    u8 pad17c[0x15c];
-    Ent e2[12];
-    Ent e1[16];
-    Res3 r3b8;
-    Res3 r3c4;
-} Work_021F2A8C;
-
 typedef struct { int w[4]; } T16;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    void *f8;
-    unsigned char fc;
-} T_021F254C;
-
-typedef struct {
-    unsigned n0;
-    unsigned *a0;
-    unsigned n1;
-    unsigned *a1;
-    unsigned n2;
-    unsigned *a2;
-} T_021F31A8;
 
 typedef struct {
     short x;
@@ -453,36 +342,7 @@ typedef struct {
     short y;
 } Pt;
 
-typedef struct {
-    char pad[0x138];
-    unsigned *a;        /* 0x138 */
-    int pad2;
-    unsigned *b;        /* 0x140 */
-    int pad3;
-    unsigned *c;        /* 0x148 */
-    char pad4[0x2BC - 0x14C];
-    void *o[6];         /* 0x2BC */
-} S_021F254C;
-
 typedef short          s16_021F254C;
-
-typedef struct {
-    u8 f00;
-    u8 f01;
-    u8 f02;
-    u8 pad03[5];
-    s16_021F254C x;
-    s16_021F254C y;
-    void *f0c;
-    void *f10;
-    void *f14;
-    void *f18;
-    void *f1c;
-    void *f20;
-    void *f24;
-    u32 f28;
-    u8 pad2c[8];
-} Rec_021F254C;
 
 typedef struct {
     void *bmp;
@@ -496,48 +356,48 @@ typedef struct {
     u32 f14;
 } Tmpl;
 
-extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern int func_02165AC4(struct Queue *q, struct Rec_021EFEC0 *out, u16 *tag, int delta);
 extern int func_021659F0(u8 *q, int delta);
 extern void func_0203D34C(u32 a, u32 b);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_02165C10(u8 *p);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int func_021585E0(int);
 extern u32 func_02012204(const struct Ctx *p);
 extern u32 func_0201058C(void *key);
-extern void *func_020275D0(char *p);
+extern void *BEACON_STATUS_GetViewFlags(char *p);
 extern int func_020275C4(void *p);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern u8 sub_02010EA0(int,u8 *);
+extern u8 GPOWER_GetActiveIdOfSameType(int,u8 *);
 extern int func_021658D4(struct Queue *q, struct Rec_021EFEC0 *out, u16 *tag);
 extern int func_02165B5C(struct Rec_021EFEC0 *r);
 extern int func_02165A10(struct Queue *q, struct Rec_021EFEC0 *rec, u16 tag, int *flag);
 extern u32 func_0200C1E0(struct Blk34 *p);
 extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void func_021D3294(u32 p, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201C4DC(struct PrintSys *p, u32 lo, u32 hi);
+extern void PRINTSYS_QUE_SetLimitTick(struct PrintSys *p, u32 lo, u32 hi);
 extern void func_021657E8(void *a, u16 b);
 extern u32 func_0204B98C(struct Actor *);
 extern u8 func_02165D08(struct Rec_021EFEC0 *r);
 extern u32 func_02165C48(u32 rec);
 extern u32 func_02165C50(u32 x);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern u16 func_0204B898(struct Obj *p);
-extern u32 func_02035D40(struct Ctx *ctx, u32 a, u32 b);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
+extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 extern u32 func_02041FF4(u32 layer, u16 x, u16 y, u16 *flags);
-extern u32 *func_0202800C(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7,
+extern u32 *APP_TASKMENU_WIN_CreateEx(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7,
                           u16 a8);
-extern u32 func_0202846C(u8 *p);
+extern u32 APP_TASKMENU_WIN_IsUpdateTrans(u8 *p);
 extern void func_02028178(u8 *p);
-extern u32 func_0202824C(void **p);
-extern void func_0202822C(char *p, int v);
-extern u32 func_02028230(u8 *p);
+extern u32 APP_TASKMENU_WIN_IsTouch(void **p);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void func_02028148(u8 *p);
 extern int func_02165E24(int a0);
 extern void func_020061E4(unsigned int a);
@@ -547,14 +407,14 @@ extern void func_0204B9A0(struct Actor *a);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_02025774(unsigned char *,unsigned);
 extern void func_020257D0(struct Obj *o);
-extern void func_0204581C(struct U16Vec *vec);
-extern void func_02031194(struct TcblNode *n);
+extern void STRBUF_Clear(struct U16Vec *vec);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 extern u8 func_02165CE8(struct S_021EFEC0 *p);
 extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
-extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void func_02165CC0(int a0, int a1);
 extern void func_02021F64(u16 *, u16 *, int, u8, u16);
-extern u16 func_02026D48(u16 v);
+extern u16 GAME_BEACON_GetReceivedFramesByTrainerId(u16 v);
 extern u8 func_02165CB4(int a);
 extern u16 func_02165CE4(u8 *r);
 extern void func_02165C34(struct Rec_021EFEC0 *r, void *buf);
@@ -562,9 +422,9 @@ extern void func_02165D50(struct Rec_021EFEC0 *r, struct Strbuf *buf);
 extern int func_02165D6C(int a0, int a1);
 extern int func_02165D8C(int a0, int a1);
 extern void func_0202590C(struct Grid *g, s16_021EFEC0 x, s16_021EFEC0 y);
-extern void func_020275B8(char *p, int v);
-extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern void *func_02031290(struct S02030FB4 *p);
+extern void BEACON_STATUS_SetViewTop(char *p, int v);
+extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
+extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
 extern u32 func_0207C768(u32 a, u32 b);
 extern void func_02040618(u32 layer, u32 a, u32 b);
@@ -574,11 +434,11 @@ extern u32 func_0200C1C8(struct Blk34 *p);
 extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 extern u16 func_02165EBC(struct Rec_021EFEC0 *r);
 extern u8 func_02165D20(struct Rec_021EFEC0 *r);
-extern void func_02031288(int *p, int v);
+extern void TCBL_SetTaskFunc(int *p, int v);
 extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
-extern unsigned int func_02010FA0(struct Rec02010FA0 *p, int idx);
+extern unsigned int GPOWER_GetPowerCost(struct Rec02010FA0 *p, int idx);
 extern u32 func_02007FB8(u8 *base, u16 id, u16 d);
-extern int func_02010EEC(void);
+extern int GPOWER_GetSelectedMinutesLeft(void);
 extern u8 func_02165FC0(u32 type);
 extern void func_0201C7D0(u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
 extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -593,7 +453,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188E30(u8 *p);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_0203115C(struct Tcbl *p);
+extern void TCBL_DeleteAllTasks(struct Tcbl *p);
 extern void func_02049238(void *h);
 extern u32 func_020307B0(void *p);
 extern void func_020310C4(struct Tcbl *p);
@@ -609,12 +469,12 @@ extern u32 func_0201C4E4(struct PrintSys *ps);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_0201235C(struct S0201235C *o, u32 *out);
-extern void func_020282A4(struct Obj *obj);
-extern void func_02021D50(struct S02021D50 *);
+extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
+extern void PALANM_TransferPalettes(struct S02021D50 *);
 extern u32 func_02012A54(const struct BigObj *p);
-extern u32 func_020275A8(u32 a);
+extern u32 BEACON_STATUS_GetLog(u32 a);
 extern u8 func_02165B04(u8 *q);
-extern u8 func_020275AC(u8 *p);
+extern u8 BEACON_STATUS_GetViewTop(u8 *p);
 extern signed char func_02012FFC(void);
 extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
@@ -638,7 +498,7 @@ extern void *func_020056A0(void *fn, void *ctx, u32 a);
 extern void *func_02021518(u32 heap);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern u32 func_0201C440(void *p);
-extern void func_0201C4C8(struct PrintSys *p, u32 v);
+extern void PRINTSYS_QUE_SetForceQueue(struct PrintSys *p, u32 v);
 extern u32 func_02188C54(u8 *p);
 extern u32 func_021904AC(u8 *p);
 extern void func_0201DD68(void);
@@ -646,7 +506,7 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(Rec_021F254C *rec);
+extern u32 func_02045C04(void *rec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
@@ -656,8 +516,8 @@ extern void func_02030EAC(struct Node *n);
 extern void func_02031140(struct S02031140 *p);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
-extern void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
@@ -678,6 +538,8 @@ extern void func_0204B258(struct Bank *bank, void *p);
 extern void *func_02025538(unsigned int a0, void *a1);
 extern void func_02043598(unsigned, unsigned);
 extern void func_021F34C8(char *, int);
+extern void func_0202570C(void *window);
+extern void func_020437AC(void *bitmap);
 extern void func_02025588(void *p);
 extern void func_0204B084(int);
 extern u32 func_0204B1CC(struct Bank *bank);
@@ -696,140 +558,140 @@ extern void func_0204B3B4(struct Obj *);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
-void func_021EFEC0(u8 *o);
-int func_021EFF7C(u8 *p);
-int func_021F0050(unsigned char *p);
-int func_021F0078(char *p);
-int func_021F00C8(char *p);
-int func_021F0114(u8 *p);
-int func_021F0140(u8 *p);
-void func_021F0208(u8 *p, int flag);
-void func_021F028C(unsigned char *p);
-void func_021F029C(char *p,int flag);
-int func_021F02C4(u8 *p);
-int func_021F03EC(u8 *p);
-int func_021F0438(u8 *p);
-int func_021F055C(u8 *p);
-void func_021F05E8(u8 *p, int a, u32 b);
-int func_021F0668(char *p, int i);
-void func_021F067C(char *p);
-void func_021F0684(u8 *p, u8 *a, u8 *b);
-void func_021F06E0(u8 *p, u32 x, int y);
-void func_021F079C(u8 *p,int v);
-u32 func_021F07D4(u8 *p);
+void func_021EFEC0(BeaconViewWork *work);
+int func_021EFF7C(BeaconViewWork *work);
+int func_021F0050(BeaconViewWork *work);
+int func_021F0078(BeaconViewWork *work);
+int func_021F00C8(BeaconViewWork *work);
+int func_021F0114(BeaconViewWork *work);
+int func_021F0140(BeaconViewWork *work);
+void func_021F0208(BeaconViewWork *work, int flag);
+void func_021F028C(BeaconViewWork *work);
+void func_021F029C(BeaconViewWork *work, int flag);
+int func_021F02C4(BeaconViewWork *work);
+int func_021F03EC(BeaconViewWork *work);
+int func_021F0438(BeaconViewWork *work);
+int func_021F055C(BeaconViewWork *work);
+void func_021F05E8(BeaconViewWork *work, int a, u32 b);
+int func_021F0668(BeaconViewWork *work, int i);
+void func_021F067C(BeaconViewWork *work);
+void func_021F0684(BeaconViewWork *work, u8 *a, u8 *b);
+void func_021F06E0(BeaconViewWork *work, u32 x, int y);
+void func_021F079C(BeaconViewWork *work, int v);
+u32 func_021F07D4(BeaconViewWork *work);
 int func_021F0820(u32 x);
 int func_021F086C(int *a, int *b);
 void func_021F0884(int *a, int *b, int *c);
 int func_021F089C(Vec2 *pt, Vec2 *tri);
-int func_021F08E4(u8 *p, void *pt);
-int func_021F096C(u8 *p, void *pt);
-int func_021F0A18(u8 *p, u32 *v);
-void func_021F0A98(char *p,unsigned a);
-void func_021F0AC0(char *p);
-void func_021F0B10(char *p, int a, int b);
-void func_021F0B64(char *p);
-void func_021F0B80(char *p,void *t,unsigned a);
+int func_021F08E4(BeaconViewWork *work, void *pt);
+int func_021F096C(BeaconViewWork *work, void *pt);
+int func_021F0A18(BeaconViewWork *work, u32 *v);
+void func_021F0A98(BeaconViewWork *work, unsigned a);
+void func_021F0AC0(BeaconViewWork *work);
+void func_021F0B10(BeaconViewWork *work, int a, int b);
+void func_021F0B64(BeaconViewWork *work);
+void func_021F0B80(BeaconViewWork *work, void *t, unsigned a);
 int func_021F0BA8(u8 *p);
-void func_021F0C04(char *p, int flag);
-int func_021F0C70(char *p, int flag);
-int func_021F0CF8(char *p, int i);
-void func_021F0D38(char *p);
-int func_021F0D5C(char *p, int i);
-void func_021F0D9C(char *p);
+void func_021F0C04(BeaconViewWork *work, int flag);
+int func_021F0C70(BeaconViewWork *work, int flag);
+int func_021F0CF8(BeaconViewWork *work, int i);
+void func_021F0D38(BeaconViewWork *work);
+int func_021F0D5C(BeaconViewWork *work, int i);
+void func_021F0D9C(BeaconViewWork *work);
 int func_021F0DC0(void *p);
 void func_021F0DD8(unsigned int a);
 void func_021F0DE0(void *p, short x, short y);
 void func_021F0DF4(void *p, unsigned short v);
-void func_021F0E04(char *p, unsigned a);
-void func_021F0E24(char *p);
-void func_021F0E7C(char *p);
-void func_021F0EA4(char *p,unsigned a);
-void func_021F0ED0(char *p, int a);
-void func_021F0EDC(char *p);
-void func_021F0F30(char *p, int a, int b);
-u8 *func_021F0F44(u8 *p, int a);
-void func_021F0F74(char *p, u8 *q, void *r);
-void func_021F0FC8(char *p, u8 *q, int r);
+void func_021F0E04(BeaconViewWork *work, unsigned a);
+void func_021F0E24(BeaconViewWork *work);
+void func_021F0E7C(BeaconViewWork *work);
+void func_021F0EA4(BeaconViewEntry *icon, unsigned a);
+void func_021F0ED0(BeaconViewEntry *icon, int a);
+void func_021F0EDC(BeaconViewEntry *icon);
+void func_021F0F30(BeaconViewEntry *icon, int a, int b);
+BeaconViewEntry *func_021F0F44(BeaconViewWork *work, int a);
+void func_021F0F74(BeaconViewWork *work, BeaconViewEntry *icon, void *r);
+void func_021F0FC8(BeaconViewWork *work, BeaconViewEntry *icon, int r);
 int func_021F0FE8(S_021EFEC0 *p);
-void func_021F1004(char *p, u8 *q, int r);
-void func_021F1070(char *p, char *q, void *text, int a4);
-void func_021F1080(char *p, char *q, int r, int t);
-void func_021F10D8(char *this, u8 *p, int a);
-void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t);
-void func_021F1218(char *p, short x, short y);
-void func_021F1268(char *this);
-void func_021F12B8(u8 *this, int dir);
-void func_021F1340(char *this, int a, u8 b);
-void func_021F13A0(char *this, int a, int b, int c, int s);
-void func_021F1418(void *h, u8 *t);
-void func_021F1484(char *this, int a, u8 *b, u8 *c, void *s);
-void func_021F150C(u8 *this, u8 *p, void *s);
-void func_021F155C(char *p, u8 *e, int mode, u8 delay, int *r);
-void func_021F1704(void *h, char *t);
-void func_021F178C(char *this, u8 a, int *p);
-void func_021F17D8(void *task, u8 *q);
-int func_021F180C(char *this, int x, int flag);
-void func_021F1888(char *p, Rec_021EFEC0 *r);
-void func_021F18C4(char *p, int b);
-void func_021F18E0(char *p, u32 a, int *c);
-void func_021F1930(void *task, u8 *s);
-int func_021F199C(char *p, void *x, int flag);
-void func_021F1A08(char *p);
-void func_021F1A18(char *p, int b);
-void func_021F1A28(char *p, int b, u8 c, int *r);
-void func_021F1B94(void *h, u8 *t);
-void func_021F1CF0(void *h, u8 *t);
-void func_021F1E40(char *p, char *q, void *x, int flag);
-void func_021F1EAC(void *task, u8 *s);
-void func_021F1F00(char *p, int a);
-void func_021F1F34(char *p, u8 *q, int *r);
-void func_021F1F9C(void *task, u8 *s);
-void func_021F201C(char *p, char *q, void *text, u16 x, u8 y, u8 a5, u16 col, u32 a7);
-void func_021F20A8(char *p, char *q, int *r);
-void func_021F20E4(void *task, char *q);
-void func_021F2144(char *p, char *q, void *text, u16 col, u32 a4);
-void func_021F21B0(char *p, char *q, int *r);
-void func_021F21F8(void *task, char *q);
-char *func_021F2234(u32 a0, u32 a1);
-void func_021F22FC(char *p);
-void func_021F2344(char *p, int a1);
-u32 func_021F23F8(char *p);
-void *func_021F2404(char *p, int go);
-void func_021F253C(char *p, int v);
-void func_021F2544(char *p);
-Desc *func_021F254C(char *p, unsigned a, unsigned b, unsigned c);
+void func_021F1004(BeaconViewWork *work, BeaconViewEntry *icon, int r);
+void func_021F1070(BeaconViewWork *work, BeaconViewEntry *icon, void *text, int a4);
+void func_021F1080(BeaconViewWork *work, BeaconViewEntry *icon, int r, int t);
+void func_021F10D8(BeaconViewWork *work, BeaconViewEntry *icon, int a);
+void func_021F1144(BeaconViewWork *work, BeaconViewEntry *icon, void *r, int mode, int skip, int t);
+void func_021F1218(BeaconViewEntry *icon, short x, short y);
+void func_021F1268(BeaconViewWork *work);
+void func_021F12B8(BeaconViewWork *work, int dir);
+void func_021F1340(BeaconViewWork *work, int a, u8 b);
+void func_021F13A0(BeaconViewWork *work, int a, int b, int c, int s);
+void func_021F1418(void *h, BeaconViewIconMoveTask *task);
+void func_021F1484(BeaconViewWork *work, int a, BeaconViewEntry *icon, BeaconViewEntry *otherIcon, void *s);
+void func_021F150C(BeaconViewWork *work, BeaconViewEntry *icon, void *s);
+void func_021F155C(BeaconViewWork *work, BeaconViewEntry *icon, int mode, u8 delay, int *r);
+void func_021F1704(void *h, BeaconViewIconSlideTask *task);
+void func_021F178C(BeaconViewWork *work, u8 a, int *p);
+void func_021F17D8(void *task, BeaconViewScrollStepTask *taskData);
+int func_021F180C(BeaconViewWork *work, int x, int flag);
+void func_021F1888(BeaconViewWork *work, Rec_021EFEC0 *r);
+void func_021F18C4(BeaconViewWork *work, int b);
+void func_021F18E0(BeaconViewWork *work, u32 a, int *c);
+void func_021F1930(void *task, BeaconViewFadeTask *taskData);
+int func_021F199C(BeaconViewWork *work, void *x, int flag);
+void func_021F1A08(BeaconViewWork *work);
+void func_021F1A18(BeaconViewWork *work, int b);
+void func_021F1A28(BeaconViewWork *work, int b, u8 c, int *r);
+void func_021F1B94(void *h, BeaconViewPowerAnimTask *task);
+void func_021F1CF0(void *h, BeaconViewPowerAnimTask *task);
+void func_021F1E40(BeaconViewWork *work, BeaconViewEntry *icon, void *x, int flag);
+void func_021F1EAC(void *task, BeaconViewIconWaitTask *taskData);
+void func_021F1F00(BeaconViewWork *work, int a);
+void func_021F1F34(BeaconViewWork *work, BeaconViewEntry *icon, int *r);
+void func_021F1F9C(void *task, BeaconViewWindowATask *taskData);
+void func_021F201C(BeaconViewWork *work, BeaconViewWindow *window, void *text, u16 x, u8 y, u8 a5, u16 col, u32 a7);
+void func_021F20A8(BeaconViewWork *work, BeaconViewWindow *window, int *r);
+void func_021F20E4(void *task, BeaconViewWindowBTask *taskData);
+void func_021F2144(BeaconViewWork *work, BeaconViewEntry *icon, void *text, u16 col, u32 a4);
+void func_021F21B0(BeaconViewWork *work, BeaconViewEntry *icon, int *r);
+void func_021F21F8(void *task, BeaconViewWindowCTask *taskData);
+BeaconViewWork *func_021F2234(u32 a0, u32 a1);
+void func_021F22FC(BeaconViewWork *work);
+void func_021F2344(BeaconViewWork *work, int a1);
+u32 func_021F23F8(BeaconViewWork *work);
+void *func_021F2404(BeaconViewWork *work, int go);
+void func_021F253C(BeaconViewWork *work, int v);
+void func_021F2544(BeaconViewWork *work);
+Desc *func_021F254C(BeaconViewWork *work, unsigned a, unsigned b, unsigned c);
 int func_021F2588(int a0, int a1, int *st);
-int func_021F25D4(u8 *p, int *st);
-int func_021F2608(char *p, int *unused);
+int func_021F25D4(BeaconViewWork *work, int *st);
+int func_021F2608(BeaconViewWork *work, int *unused);
 int func_021F2624(int a0, int *st);
-void func_021F2664(int a, char *p);
-int func_021F2674(char *p);
-int func_021F26D8(u8 *p);
-int func_021F26F0(u8 *p);
-int func_021F2714(char *p);
-int func_021F27B4(u8 *p);
-int func_021F27CC(char *p);
-void func_021F27D4(u8 *p);
-void func_021F28DC(char *p);
-void func_021F2908(char *p);
-void func_021F2A04(char *p);
-void func_021F2A8C(u8 *p, void *h);
-void func_021F2BD4(char *p);
-void func_021F2C1C(char *p);
-void func_021F2CC4(char *p);
-void func_021F2D20(Work_021F2A8C *p, void *h);
-void func_021F2EDC(char *p);
-void func_021F2F44(char *p, void *a);
-void func_021F2FCC(char *p);
-void func_021F3010(T_021F254C *p, unsigned a, unsigned b, unsigned c, unsigned char d, unsigned char e, unsigned char f);
-void func_021F3058(char *p);
-void func_021F30B4(char *p);
-void func_021F30D4(char *this, ResList *out, const ResSpec *spec, void *arc);
-void func_021F31A8(void *unused, T_021F31A8 *p);
-void *func_021F3214(char *p, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z);
-void func_021F3264(S_021F254C *p);
-void func_021F32D4(char *p);
-void func_021F32F8(char *p, u8 idx);
+void func_021F2664(int a, BeaconViewWork *work);
+int func_021F2674(BeaconViewWork *work);
+int func_021F26D8(BeaconViewWork *work);
+int func_021F26F0(BeaconViewWork *work);
+int func_021F2714(BeaconViewWork *work);
+int func_021F27B4(BeaconViewWork *work);
+int func_021F27CC(BeaconViewWork *work);
+void func_021F27D4(BeaconViewWork *work);
+void func_021F28DC(BeaconViewWork *work);
+void func_021F2908(BeaconViewWork *work);
+void func_021F2A04(BeaconViewWork *work);
+void func_021F2A8C(BeaconViewWork *work, void *h);
+void func_021F2BD4(BeaconViewWork *work);
+void func_021F2C1C(BeaconViewWork *work);
+void func_021F2CC4(BeaconViewWork *work);
+void func_021F2D20(BeaconViewWork *work, void *h);
+void func_021F2EDC(BeaconViewWork *work);
+void func_021F2F44(BeaconViewWork *work, void *a);
+void func_021F2FCC(BeaconViewWork *work);
+void func_021F3010(BeaconViewWindow *window, unsigned a, unsigned b, unsigned c, unsigned char d, unsigned char e, unsigned char f);
+void func_021F3058(BeaconViewWork *work);
+void func_021F30B4(BeaconViewWork *work);
+void func_021F30D4(BeaconViewWork *work, BeaconViewResList *out, const ResSpec *spec, void *arc);
+void func_021F31A8(BeaconViewWork *work, BeaconViewResSet *set);
+void *func_021F3214(BeaconViewWork *work, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z);
+void func_021F3264(BeaconViewWork *work);
+void func_021F32D4(BeaconViewWork *work);
+void func_021F32F8(BeaconViewWork *work, u8 idx);
 extern u32 d_021F3554[];
 extern Vec2 d_021F356C[2][5];
 extern u8 d_021F3538[][3];
@@ -861,32 +723,32 @@ extern Pt d_021F35F0[];
 
 
 
-void func_021EFEC0(u8 *o)
+void func_021EFEC0(BeaconViewWork *work)
 {
     int i;
     u8 *q;
-    u8 *e;
+    BeaconViewEntry *icon;
     int s;
     int t;
 
-    func_02021EE4((struct Obj02021EE4 *)(*(int *)&((struct Obj00007 *)o)->fAC), 1);
-    func_021F0AC0((char *)o);
-    func_021F0B10((char *)o, 1, 0);
-    for (i = 0; i < o[0x7D]; i++) {
-        q = o + 0x48;
-        t = o[0x7C];
-        func_02165AC4((struct Queue *)(((struct Obj00007 *)o)->f3C), (struct Rec_021EFEC0 *)(((struct Obj00007 *)o)->f40), (u16 *)q, t + i);
-        s = func_021659F0((u8 *)(((struct Obj00007 *)o)->f3C), t + i);
-        e = func_021F0F44(o, 0xFF);
-        func_021F0F30((char *)e, (u8)s, (u8)(i + 1));
-        func_021F1144(o, e, (void *)(((struct Obj00007 *)o)->f40), 2, 0, 0);
-        func_021F0EA4((char *)e, (int)1);
+    PALANM_SetAutoTransfer((struct Obj02021EE4 *)(work->paletteAnim), 1);
+    func_021F0AC0(work);
+    func_021F0B10(work, 1, 0);
+    for (i = 0; i < work->visibleRows; i++) {
+        q = (u8 *)&work->tagBuffer;
+        t = work->scrollTop;
+        func_02165AC4((struct Queue *)(work->recordLog), (struct Rec_021EFEC0 *)(work->recordBuffer), (u16 *)q, t + i);
+        s = func_021659F0((u8 *)(work->recordLog), t + i);
+        icon = func_021F0F44(work, 0xFF);
+        func_021F0F30(icon, (u8)s, (u8)(i + 1));
+        func_021F1144(work, icon, (void *)(work->recordBuffer), 2, 0, 0);
+        func_021F0EA4(icon, (int)1);
     }
-    func_021F0E24((char *)o);
-    func_021F0E7C((char *)o);
-    if (((struct Obj00007 *)o)->f28 == 0x30)
-        func_021F0DF4((void *)(*(int *)&((struct Obj00007 *)o)->f2BC), 3);
-    func_0203D34C(0, ((struct Obj00007 *)o)->f96);
+    func_021F0E24(work);
+    func_021F0E7C(work);
+    if (work->powerId == 0x30)
+        func_021F0DF4((void *)(*(int *)&work->actors[0]), 3);
+    func_0203D34C(0, work->uiHeapId);
 }
 
 
@@ -902,7 +764,7 @@ void func_021EFEC0(u8 *o)
 
 
 
-int func_021EFF7C(u8 *p)
+int func_021EFF7C(BeaconViewWork *work)
 {
     Pair_021EFEC0 v;
     int r;
@@ -910,35 +772,35 @@ int func_021EFF7C(u8 *p)
 
     if (func_02035D20(&v.x, &v.y) == 0)
         return 0;
-    r = func_021F0A18(p, (u32 *)(&v));
+    r = func_021F0A18(work, (u32 *)(&v));
     if (r != -1) {
         switch (r) {
         case 0:
             return 4;
         case 1:
-            func_021F253C((char *)p, 8);
+            func_021F253C(work, 8);
             break;
         case 2:
             return 5;
         case 3:
-            func_021F253C((char *)p, 1);
+            func_021F253C(work, 1);
             break;
         }
         return 0;
     }
-    r = func_021F08E4(p, &v);
+    r = func_021F08E4(work, &v);
     if (r != -1) {
-        func_02165AC4((struct Queue *)(((struct Obj00188 *)p)->f3C), (struct Rec_021EFEC0 *)(((struct Obj00188 *)p)->f40), (u16 *)(p + 0x48), p[0x7C] + r);
-        if (func_02165C10((u8 *)(((struct Obj00188 *)p)->f40)) != 0)
+        func_02165AC4((struct Queue *)(work->recordLog), (struct Rec_021EFEC0 *)(work->recordBuffer), (u16 *)((u8 *)&work->tagBuffer), work->scrollTop + r);
+        if (func_02165C10((u8 *)(work->recordBuffer)) != 0)
             return 0;
-        p[0x7E] = r;
-        func_021F1F00((char *)p, (u8)r);
-        func_021F253C((char *)p, 4);
+        work->touchedRow = r;
+        func_021F1F00(work, (u8)r);
+        func_021F253C(work, 4);
         return 0;
     }
-    s = func_021F096C(p, &v);
+    s = func_021F096C(work, &v);
     if (s != -1) {
-        func_021F1340((char *)p, s, (int)0);
+        func_021F1340(work, s, (int)0);
         return 3;
     }
     return 0;
@@ -956,7 +818,7 @@ int func_021EFF7C(u8 *p)
 
 
 
-int func_021F0050(unsigned char *p) { u32 pt[2]; if(func_02035CB8(pt,pt+1)) return func_021F096C(p,pt); return -1; }
+int func_021F0050(BeaconViewWork *work) { u32 pt[2]; if(TOUCHPANEL_GetPointCont(pt,pt+1)) return func_021F096C(work,pt); return -1; }
 
 
 
@@ -971,21 +833,21 @@ int func_021F0050(unsigned char *p) { u32 pt[2]; if(func_02035CB8(pt,pt+1)) retu
 
 
 
-int func_021F0078(char *p)
+int func_021F0078(BeaconViewWork *work)
 {
     int r;
 
-    r = func_021585E0(((struct Obj09794 *)p)->f1C);
-    if (func_02012204((const struct Ctx *)(((struct Obj09794 *)p)->f0)) != 0) {
-        func_021F253C(p, 1);
+    r = func_021585E0(work->playerProfile);
+    if (func_02012204((const struct Ctx *)((unsigned int)work->fieldSystem)) != 0) {
+        func_021F253C(work, 1);
         return 1;
     }
     if (r == 2) {
-        func_021F253C(p, 2);
+        func_021F253C(work, 2);
         return 1;
     }
-    if (func_0201058C((void *)(((struct Obj09794 *)p)->f20)) & 8) {
-        func_021F253C(p, 3);
+    if (func_0201058C((void *)(work->optionData)) & 8) {
+        func_021F253C(work, 3);
         return 1;
     }
     return 0;
@@ -1004,17 +866,17 @@ int func_021F0078(char *p)
 
 
 
-int func_021F00C8(char *p)
+int func_021F00C8(BeaconViewWork *work)
 {
     u16 *f;
 
-    f = func_020275D0((char *)(*(int *)(p + 0x34)));
+    f = BEACON_STATUS_GetViewFlags((char *)(work->beaconStatus));
     if (*f == 0)
         return 0;
     *f = 0;
-    func_0201EE0C(*(void **)(p + 0x110), 0, (void *)func_020275C4((void *)(*(int *)(p + 0x34))),
-                  *(u8 *)(p + 0x30), 1, 2);
-    func_021F18C4(p, 0xB);
+    func_0201EE0C(*(void * *)&work->wordSet, 0, (void *)func_020275C4((void *)(work->beaconStatus)),
+                  work->gender, 1, 2);
+    func_021F18C4(work, 0xB);
     return 1;
 }
 
@@ -1030,7 +892,7 @@ int func_021F00C8(char *p)
 
 
 
-int func_021F0114(u8 *p) { unsigned n; n=func_021F07D4(p); if(n==0x30) return 0; if(n==sub_02010EA0(n,*(u8 * *)&((struct Obj05120 *)p)->f24)) return 0; func_021F1A18((char *)p,n); return 1; }
+int func_021F0114(BeaconViewWork *work) { unsigned n; n=func_021F07D4(work); if(n==0x30) return 0; if(n==GPOWER_GetActiveIdOfSameType(n,*(u8 * *)&work->powerRecord)) return 0; func_021F1A18(work,n); return 1; }
 
 
 
@@ -1045,34 +907,34 @@ int func_021F0114(u8 *p) { unsigned n; n=func_021F07D4(p); if(n==0x30) return 0;
 
 
 
-int func_021F0140(u8 *p)
+int func_021F0140(BeaconViewWork *work)
 {
     u8 t;
 
-    if (func_021658D4((struct Queue *)(((struct Obj00188 *)p)->f38), (struct Rec_021EFEC0 *)(((struct Obj00188 *)p)->f4C), (u16 *)(p + 0x4A)) == 0) {
-        func_021F1268((char *)p);
+    if (func_021658D4((struct Queue *)(work->receiveQueue), (struct Rec_021EFEC0 *)(work->currentRecord), (u16 *)((u8 *)&work->currentTag)) == 0) {
+        func_021F1268(work);
         return 0;
     }
-    if (func_02165B5C((struct Rec_021EFEC0 *)(((struct Obj00188 *)p)->f4C)) != 0)
+    if (func_02165B5C((struct Rec_021EFEC0 *)(work->currentRecord)) != 0)
         return 0;
-    p[0x54] = func_02165A10((struct Queue *)(((struct Obj00188 *)p)->f3C), (struct Rec_021EFEC0 *)(((struct Obj00188 *)p)->f4C), ((struct Obj00188 *)p)->f4A, (int *)(p + 0x5C));
-    p[0x55] = func_021659F0((u8 *)(((struct Obj00188 *)p)->f3C), p[0x54]);
-    if (((struct Obj00188 *)p)->f5C == 0) {
-        *(u8 * *)&((struct Obj00188 *)p)->f50 = func_021F0F44(p, p[0x55]);
+    work->currentIndex = func_02165A10((struct Queue *)(work->recordLog), (struct Rec_021EFEC0 *)(work->currentRecord), work->currentTag, (int *)((u8 *)&work->addedCount));
+    work->currentId = func_021659F0((u8 *)(work->recordLog), work->currentIndex);
+    if (work->addedCount == 0) {
+        work->currentEntry = func_021F0F44(work, work->currentId);
     } else {
-        *(u8 * *)&((struct Obj00188 *)p)->f50 = 0;
-        ((struct Obj00188 *)p)->f2D4 = func_0200C1E0((struct Blk34 *)(((struct Obj00188 *)p)->f14));
+        work->currentEntry = 0;
+        work->playTime = func_0200C1E0((struct Blk34 *)(work->playerBlock));
     }
-    if (*(u8 * *)&((struct Obj00188 *)p)->f50 != 0 && ((struct Obj20414 *)(*(u8 * *)&((struct Obj00188 *)p)->f50))->f2C != 0)
-        ((struct Obj00188 *)p)->f6C = 0;
+    if (work->currentEntry != 0 && work->currentEntry->busy != 0)
+        work->step = 0;
     else
-        ((struct Obj00188 *)p)->f6C = 1;
-    t = p[0x7B];
-    p[0x57] = t;
+        work->step = 1;
+    t = work->recordCount;
+    work->previousCount = t;
     if (t < 0x1E) {
-        p[0x7B] += (u8)((struct Obj00188 *)p)->f5C;
-        if (p[0x7B] <= 4)
-            p[0x7D] = p[0x7B];
+        work->recordCount += (u8)work->addedCount;
+        if (work->recordCount <= 4)
+            work->visibleRows = work->recordCount;
     }
     return 1;
 }
@@ -1090,16 +952,16 @@ int func_021F0140(u8 *p)
 
 
 
-void func_021F0208(u8 *p, int flag)
+void func_021F0208(BeaconViewWork *work, int flag)
 {
     if (flag) {
-        func_02021FD8((struct Chan02021FD8 *)(((struct Obj00007 *)p)->fAC), 1, 0, 0xe0, 6, 0);
-        func_02021FD8((struct Chan02021FD8 *)(((struct Obj00007 *)p)->fAC), 3, 0, 0xe0, 6, 0);
-        func_021D3294(((struct Obj00007 *)p)->f10, 5, 0x1e, 0xa, 6);
+        func_02021FD8((struct Chan02021FD8 *)((unsigned int)work->paletteAnim), 1, 0, 0xe0, 6, 0);
+        func_02021FD8((struct Chan02021FD8 *)((unsigned int)work->paletteAnim), 3, 0, 0xe0, 6, 0);
+        func_021D3294(work->bgConfig, 5, 0x1e, 0xa, 6);
     } else {
-        func_02021FD8((struct Chan02021FD8 *)(((struct Obj00007 *)p)->fAC), 1, 0, 0xe0, 0, 0);
-        func_02021FD8((struct Chan02021FD8 *)(((struct Obj00007 *)p)->fAC), 3, 0, 0xe0, 0, 0);
-        func_021D3294(((struct Obj00007 *)p)->f10, 4, 0x1e, 0xd, 3);
+        func_02021FD8((struct Chan02021FD8 *)((unsigned int)work->paletteAnim), 1, 0, 0xe0, 0, 0);
+        func_02021FD8((struct Chan02021FD8 *)((unsigned int)work->paletteAnim), 3, 0, 0xe0, 0, 0);
+        func_021D3294(work->bgConfig, 4, 0x1e, 0xd, 3);
     }
 }
 
@@ -1115,7 +977,7 @@ void func_021F0208(u8 *p, int flag)
 
 
 
-void func_021F028C(unsigned char *p) { func_021F12B8(p, ((struct Obj20415 *)p)->f84); }
+void func_021F028C(BeaconViewWork *work) { func_021F12B8(work, work->slideTarget); }
 
 
 
@@ -1129,7 +991,7 @@ void func_021F028C(unsigned char *p) { func_021F12B8(p, ((struct Obj20415 *)p)->
 
 
 
-void func_021F029C(char *p,int flag) { if(flag) func_0201C4DC((struct PrintSys *)(((struct Obj00007 *)p)->fB4),2000,0); else func_0201C4DC((struct PrintSys *)(((struct Obj00007 *)p)->fB4),500,0); }
+void func_021F029C(BeaconViewWork *work,int flag) { if(flag) PRINTSYS_QUE_SetLimitTick((struct PrintSys *)(work->printQueue),2000,0); else PRINTSYS_QUE_SetLimitTick((struct PrintSys *)(work->printQueue),500,0); }
 
 
 
@@ -1144,46 +1006,46 @@ void func_021F029C(char *p,int flag) { if(flag) func_0201C4DC((struct PrintSys *
 
 
 
-int func_021F02C4(u8 *p)
+int func_021F02C4(BeaconViewWork *work)
 {
     int r;
 
-    switch (((struct Obj00007 *)p)->f6C) {
+    switch (work->step) {
     case 0:
-        if (((struct Obj20416 *)(*(u8 * *)&((struct Obj00007 *)p)->f50))->f2C != 0)
+        if (work->currentEntry->busy != 0)
             break;
-        (((struct Obj00007 *)p)->f6C)++;
+        (work->step)++;
         break;
     case 1:
-        r = func_021F180C((char *)p, ((struct Obj00007 *)p)->f4C, ((struct Obj00007 *)p)->f5C);
-        if (((struct Obj00007 *)p)->f5C == 0) {
+        r = func_021F180C(work, work->currentRecord, work->addedCount);
+        if (work->addedCount == 0) {
             if (r != 0) {
-                func_021F05E8(p, 4, 2);
+                func_021F05E8(work, 4, 2);
                 func_021F0DD8(0x549);
             }
-            if (*(u8 * *)&((struct Obj00007 *)p)->f50 != 0) {
-                func_021F1144(p, *(u8 * *)&((struct Obj00007 *)p)->f50, (void *)(((struct Obj00007 *)p)->f4C), 0, r == 0, 0);
-                func_021F0EA4((char *)(*(u8 * *)&((struct Obj00007 *)p)->f50), 1);
+            if (work->currentEntry != 0) {
+                func_021F1144(work, work->currentEntry, (void *)(work->currentRecord), 0, r == 0, 0);
+                func_021F0EA4(work->currentEntry, 1);
             }
             return 1;
         }
-        func_021F05E8(p, 4, 2);
-        (((struct Obj00007 *)p)->f6C)++;
+        func_021F05E8(work, 4, 2);
+        (work->step)++;
         break;
     case 2:
-        func_021F0AC0((char *)p);
-        func_021F0B10((char *)p, 1, (int)(p + 0xA8));
-        func_021F06E0(p, ((struct Obj00007 *)p)->f4C, p[0x57]);
-        (((struct Obj00007 *)p)->f6C)++;
+        func_021F0AC0(work);
+        func_021F0B10(work, 1, (int)((u8 *)&work->busyCount));
+        func_021F06E0(work, work->currentRecord, work->previousCount);
+        (work->step)++;
         break;
     case 3:
-        if (p[0x7C] != 0) {
-            p[0x54] = p[0x7C];
-            func_02165AC4((struct Queue *)(((struct Obj00007 *)p)->f3C), (struct Rec_021EFEC0 *)(((struct Obj00007 *)p)->f4C), (u16 *)(p + 0x4A), p[0x54]);
-            p[0x55] = func_021659F0((u8 *)(((struct Obj00007 *)p)->f3C), p[0x54]);
+        if (work->scrollTop != 0) {
+            work->currentIndex = work->scrollTop;
+            func_02165AC4((struct Queue *)(work->recordLog), (struct Rec_021EFEC0 *)(work->currentRecord), (u16 *)((u8 *)&work->currentTag), work->currentIndex);
+            work->currentId = func_021659F0((u8 *)(work->recordLog), work->currentIndex);
         }
-        func_021F13A0((char *)p, ((struct Obj00007 *)p)->f4C, p[0x55], 1, (p[0x7C] != 0 ? 1 : 0) + 1);
-        p[0x7C] = p[0x54];
+        func_021F13A0(work, work->currentRecord, work->currentId, 1, (work->scrollTop != 0 ? 1 : 0) + 1);
+        work->scrollTop = work->currentIndex;
         func_021F0DD8(0x64A);
         return 1;
     }
@@ -1203,21 +1065,21 @@ int func_021F02C4(u8 *p)
 
 
 
-int func_021F03EC(u8 *p)
+int func_021F03EC(BeaconViewWork *work)
 {
-    int s = ((struct Obj00007 *)p)->f6C;
+    int s = work->step;
 
     switch (s) {
     case 0:
-        func_021F05E8(p, 0, 1);
-        func_021F029C((char *)p, 1);
-        func_021F1A08((char *)p);
-        ((struct Obj00007 *)p)->f6C = ((struct Obj00007 *)p)->f6C + 1;
+        func_021F05E8(work, 0, 1);
+        func_021F029C(work, 1);
+        func_021F1A08(work);
+        work->step = work->step + 1;
         break;
     case 1:
-        if (((struct Obj00007 *)p)->fA8 == 0) {
-            func_021F029C((char *)p, 0);
-            ((struct Obj00007 *)p)->f6C = 0;
+        if (work->busyCount == 0) {
+            func_021F029C(work, 0);
+            work->step = 0;
             return 1;
         }
         break;
@@ -1238,56 +1100,56 @@ int func_021F03EC(u8 *p)
 
 
 
-int func_021F0438(u8 *p)
+int func_021F0438(BeaconViewWork *work)
 {
-    u8 *e;
+    BeaconViewEntry *icon;
     u8 s;
 
-    if (((struct Obj00007 *)p)->fA8 != 0)
+    if (work->busyCount != 0)
         return 5;
-    switch (((struct Obj00007 *)p)->f6C) {
+    switch (work->step) {
     case 0:
-        func_021F05E8(p, 2, 1);
-        func_021F0B10((char *)p, 2, (int)(p + 0xA8));
-        (((struct Obj00007 *)p)->f6C)++;
+        func_021F05E8(work, 2, 1);
+        func_021F0B10(work, 2, (int)((u8 *)&work->busyCount));
+        (work->step)++;
         break;
     case 1:
-        if (func_021F0668((char *)p, 2) != 0)
+        if (func_021F0668(work, 2) != 0)
             break;
-        func_021F05E8(p, 0, 2);
-        func_021F05E8(p, 1, 2);
-        func_021F05E8(p, 3, 2);
-        (((struct Obj00007 *)p)->f6C)++;
+        func_021F05E8(work, 0, 2);
+        func_021F05E8(work, 1, 2);
+        func_021F05E8(work, 3, 2);
+        (work->step)++;
         break;
     case 2:
-        ((struct Obj00007 *)p)->f6C = func_021F055C(p);
-        if (((struct Obj00007 *)p)->f6C == 3)
+        work->step = func_021F055C(work);
+        if (work->step == 3)
             return 3;
         break;
     case 4:
-        s = func_021659F0((u8 *)(((struct Obj00007 *)p)->f3C), p[0x7E] + p[0x7C]);
-        e = func_021F0F44(p, s);
-        func_0201EE0C(((struct Obj00007 *)p)->f110, 0, ((struct Obj09795 *)e)->f24, e[4], 1, 2);
-        func_021F029C((char *)p, 1);
-        func_021F18C4((char *)p, 3);
-        func_021657E8((void *)(*(int *)&((struct Obj00007 *)p)->f4), ((struct Obj09795 *)e)->f6);
-        ((struct Obj00007 *)p)->f6C = 5;
+        s = func_021659F0((u8 *)(work->recordLog), work->touchedRow + work->scrollTop);
+        icon = func_021F0F44(work, s);
+        func_0201EE0C((void *)work->wordSet, 0, icon->messageString, icon->gender, 1, 2);
+        func_021F029C(work, 1);
+        func_021F18C4(work, 3);
+        func_021657E8((void *)(*(int *)&work->saveInfo), icon->trainerId);
+        work->step = 5;
         break;
     case 5:
-        func_021F029C((char *)p, 0);
-        ((struct Obj00007 *)p)->f6C = 6;
+        func_021F029C(work, 0);
+        work->step = 6;
         break;
     case 3:
-        func_021F05E8(p, 2, 0);
-        ((struct Obj00007 *)p)->f6C = 2;
+        func_021F05E8(work, 2, 0);
+        work->step = 2;
         break;
     case 6:
-        func_021F05E8(p, 4, 0);
-        func_021F0B10((char *)p, 1, (int)(p + 0xA8));
-        ((struct Obj00007 *)p)->f6C = 7;
+        func_021F05E8(work, 4, 0);
+        func_021F0B10(work, 1, (int)((u8 *)&work->busyCount));
+        work->step = 7;
         break;
     case 7:
-        ((struct Obj00007 *)p)->f6C = 0;
+        work->step = 0;
         return 0;
     }
     return 5;
@@ -1306,29 +1168,29 @@ int func_021F0438(u8 *p)
 
 
 
-int func_021F055C(u8 *p)
+int func_021F055C(BeaconViewWork *work)
 {
     Pair_021EFEC0 v;
     int r;
     int s;
 
-    if (func_02012204((const struct Ctx *)(((struct Obj00188 *)p)->f0)) != 0) {
-        func_021F253C((char *)p, 1);
+    if (func_02012204((const struct Ctx *)((unsigned int)work->fieldSystem)) != 0) {
+        func_021F253C(work, 1);
         return 6;
     }
     if (func_02035D20(&v.x, &v.y) == 0)
         return 2;
-    if (func_021F0A18(p, (u32 *)(&v)) == 2)
+    if (func_021F0A18(work, (u32 *)(&v)) == 2)
         return 6;
-    r = func_021F08E4(p, &v);
+    r = func_021F08E4(work, &v);
     if (r != -1) {
-        p[0x7e] = r;
-        func_021F1F00((char *)p, (u8)r);
+        work->touchedRow = r;
+        func_021F1F00(work, (u8)r);
         return 4;
     }
-    s = func_021F096C(p, &v);
+    s = func_021F096C(work, &v);
     if (s != -1) {
-        func_021F1340((char *)p, s, (int)5);
+        func_021F1340(work, s, (int)5);
         return 3;
     }
     return 2;
@@ -1347,7 +1209,7 @@ int func_021F055C(u8 *p)
 
 
 
-void func_021F05E8(u8 *p, int a, u32 b)
+void func_021F05E8(BeaconViewWork *work, int a, u32 b)
 {
     u8 m;
 
@@ -1355,14 +1217,14 @@ void func_021F05E8(u8 *p, int a, u32 b)
         m = 0xf;
     else
         m = 1 << a;
-    if ((1 & m) && ((struct Obj00007 *)p)->f28 != 0x30)
-        func_021F0DF4((void *)(*(u32 *)&((struct Obj00007 *)p)->f2BC), (u8)(b + 1));
+    if ((1 & m) && work->powerId != 0x30)
+        func_021F0DF4((void *)(*(u32 *)&work->actors[0]), (u8)(b + 1));
     if (2 & m)
-        func_021F0DF4((void *)(((struct Obj00007 *)p)->f2C0), (u8)(b + 4));
-    if ((4 & m) && p[0x7b] != 0)
-        func_021F0DF4((void *)(*(u32 *)&((struct Obj00007 *)p)->f2C4), (u8)(b + 7));
+        func_021F0DF4((void *)((unsigned int)work->actors[1]), (u8)(b + 4));
+    if ((4 & m) && work->recordCount != 0)
+        func_021F0DF4((void *)(*(u32 *)&work->actors[2]), (u8)(b + 7));
     if (8 & m)
-        func_021F0DF4((void *)(((struct Obj00007 *)p)->f2C8), (u8)(b + 10));
+        func_021F0DF4((void *)((unsigned int)work->actors[3]), (u8)(b + 10));
 }
 
 
@@ -1377,7 +1239,7 @@ void func_021F05E8(u8 *p, int a, u32 b)
 
 
 
-int func_021F0668(char *p, int i) { return func_0204B98C(*(struct Actor **)(p + i * 4 + 0x2bc)); }
+int func_021F0668(BeaconViewWork *work, int i) { return func_0204B98C(*(struct Actor * *)&work->actors[i]); }
 
 
 
@@ -1392,9 +1254,9 @@ int func_021F0668(char *p, int i) { return func_0204B98C(*(struct Actor **)(p + 
 
 
 
-void func_021F067C(char *p)
+void func_021F067C(BeaconViewWork *work)
 {
-    func_021F0E24(p);
+    func_021F0E24(work);
 }
 
 
@@ -1410,18 +1272,18 @@ void func_021F067C(char *p)
 
 
 
-void func_021F0684(u8 *p, u8 *a, u8 *b)
+void func_021F0684(BeaconViewWork *work, u8 *a, u8 *b)
 {
     int i = 0;
     u16 tag;
 
     *a = 0;
     *b = 0;
-    for (; i < p[0x7b]; i++) {
-        func_02165AC4((struct Queue *)(((struct Obj04310 *)p)->f3C), (struct Rec_021EFEC0 *)(((struct Obj04310 *)p)->f44), &tag, i);
-        if (p[0x30] != func_02165D08((struct Rec_021EFEC0 *)(((struct Obj04310 *)p)->f44)))
+    for (; i < work->recordCount; i++) {
+        func_02165AC4((struct Queue *)((unsigned int)work->recordLog), (struct Rec_021EFEC0 *)(work->ownRecord), &tag, i);
+        if (work->gender != func_02165D08((struct Rec_021EFEC0 *)(work->ownRecord)))
             (*a)++;
-        if (p[0x32] != func_02165C48(((struct Obj04310 *)p)->f44))
+        if (work->styleId != func_02165C48(work->ownRecord))
             (*b)++;
     }
 }
@@ -1439,27 +1301,27 @@ void func_021F0684(u8 *p, u8 *a, u8 *b)
 
 
 
-void func_021F06E0(u8 *p, u32 x, int y)
+void func_021F06E0(BeaconViewWork *work, u32 x, int y)
 {
     u8 v[2];
 
     v[1] = 0;
     v[0] = 0;
-    func_021F0684(p, &v[0], &v[1]);
+    func_021F0684(work, &v[0], &v[1]);
     if (func_02165C50(x) != 2)
-        func_021F079C(p, 1);
-    if (p[0x59] != v[1] && v[1] == 0x14)
-        func_021F079C(p, 2);
-    if (((struct Obj00007 *)p)->f2D4 % 100 == 0)
-        func_021F079C(p, 3);
-    if (y == 0x1d && p[0x7b] == 0x1e)
-        func_021F079C(p, 4);
-    if (p[0x58] != v[0] && v[0] == 0x14)
-        func_021F079C(p, 5);
-    if (func_021F0820(((struct Obj00007 *)p)->f2D4) != 0)
-        func_021F079C(p, 6);
-    p[0x58] = v[0];
-    p[0x59] = v[1];
+        func_021F079C(work, 1);
+    if (work->previousIdB != v[1] && v[1] == 0x14)
+        func_021F079C(work, 2);
+    if (work->playTime % 100 == 0)
+        func_021F079C(work, 3);
+    if (y == 0x1d && work->recordCount == 0x1e)
+        func_021F079C(work, 4);
+    if (work->previousIdA != v[0] && v[0] == 0x14)
+        func_021F079C(work, 5);
+    if (func_021F0820(work->playTime) != 0)
+        func_021F079C(work, 6);
+    work->previousIdA = v[0];
+    work->previousIdB = v[1];
 }
 
 
@@ -1477,7 +1339,7 @@ void func_021F06E0(u8 *p, u32 x, int y)
 /*
  * volatile: count byte at +0x8c re-read at 021F07A2 and 021F07BE.
  */
-void func_021F079C(u8 *p,int v) { int n,i; n=*(volatile u8 *)&((struct Obj07629 *)p)->f8C; for(i=0;i<n;i++) if(v==p[i+0x8d]) return; *(volatile u8 *)&((struct Obj07629 *)p)->f8C=*(volatile u8 *)&((struct Obj07629 *)p)->f8C+1; (p+n)[0x8d]=v; }
+void func_021F079C(BeaconViewWork *work,int v) { int n,i; n=*(volatile u8 *)&work->historyCount; for(i=0;i<n;i++) if(v==work->historyIds[i]) return; *(volatile u8 *)&work->historyCount=*(volatile u8 *)&work->historyCount+1; work->historyIds[n]=v; }
 
 
 
@@ -1492,15 +1354,15 @@ void func_021F079C(u8 *p,int v) { int n,i; n=*(volatile u8 *)&((struct Obj07629 
 
 
 
-u32 func_021F07D4(u8 *p)
+u32 func_021F07D4(BeaconViewWork *work)
 {
-    u32 n = p[0x8d];
+    u32 n = work->historyIds[0];
 
     if (n == 0)
         return 0x30;
-    p[0x8c] = p[0x8c] - 1;
-    MI_CpuCopy8(p + 0x8e, p + 0x8d, p[0x8c]);
-    (p + p[0x8c])[0x8d] = 0;
+    work->historyCount = work->historyCount - 1;
+    MI_CpuCopy8((u8 *)&work->historyIds[1], (u8 *)&work->historyIds[0], work->historyCount);
+    work->historyIds[work->historyCount] = 0;
     return d_021F3554[n - 1];
 }
 
@@ -1597,14 +1459,14 @@ int func_021F089C(Vec2 *pt, Vec2 *tri)
 
 
 
-int func_021F08E4(u8 *p, void *pt)
+int func_021F08E4(BeaconViewWork *work, void *pt)
 {
     int i;
     int x;
     int y;
     int t[6];
 
-    for (i = 0; i < p[0x7d]; i++) {
+    for (i = 0; i < work->visibleRows; i++) {
         x = i * 13;
         y = i * 40;
         t[0] = x;
@@ -1643,7 +1505,7 @@ int func_021F08E4(u8 *p, void *pt)
  * Copying the vertices as Vec2 structs gives the x-then-y load order; the
  * `k = 0` ahead of the fan pointer keeps `movs r4, #0` first.
  */
-int func_021F096C(u8 *p, void *pt)
+int func_021F096C(BeaconViewWork *work, void *pt)
 {
     int flags;
     int j;
@@ -1651,9 +1513,9 @@ int func_021F096C(u8 *p, void *pt)
     Vec2 t[3];
 
     flags = 0;
-    if (p[0x7c] != 0)
+    if (work->scrollTop != 0)
         flags |= 1;
-    if (p[0x7c] + p[0x7d] < p[0x7b])
+    if (work->scrollTop + work->visibleRows < work->recordCount)
         flags |= 2;
     for (j = 0; j < 2; j++) {
         if (flags & (j + 1)) {
@@ -1682,20 +1544,20 @@ int func_021F096C(u8 *p, void *pt)
 
 
 
-int func_021F0A18(u8 *p, u32 *v)
+int func_021F0A18(BeaconViewWork *work, u32 *v)
 {
     u8 b[5];
     int i;
 
     b[4] = 0xff;
     for (i = 0; i < 4; i++) {
-        u32 a = func_0204B898((struct Obj *)(*(u32 *)(p + 0x2bc + i * 4)));
+        u32 a = CLACT_GetActorAnimSeq((struct Obj *)(*(u32 *)((u8 *)&work->actors[0] + i * 4)));
         if ((u8)(a - (i * 3 + 1)) % 3 < 2) {
             b[0] = 0xac;
             b[1] = b[0] + 0x18;
             b[2] = i * 32 + 0x84;
             b[3] = b[2] + 0x18;
-            if (func_02035D40((struct Ctx *)b, v[0], v[1]) != -1) {
+            if (TOUCHPANEL_HitPoint((struct Ctx *)b, v[0], v[1]) != -1) {
                 func_021F0DD8(d_021F3530[i]);
                 return i;
             }
@@ -1712,7 +1574,7 @@ int func_021F0A18(u8 *p, u32 *v)
 
 
 
-void func_021F0A98(char *p,unsigned a) { func_02045CAC(((struct Obj00007 *)p)->f114,a,((struct Obj00007 *)p)->f118); func_0201F250(((struct Obj00007 *)p)->f110,((struct Obj00007 *)p)->f11C,((struct Obj00007 *)p)->f118); }
+void func_021F0A98(BeaconViewWork *work,unsigned a) { func_02045CAC(work->messageBank,a,work->messageBuffer); func_0201F250((void *)work->wordSet,(void *)work->formatBuffer,work->messageBuffer); }
 
 
 
@@ -1723,11 +1585,11 @@ void func_021F0A98(char *p,unsigned a) { func_02045CAC(((struct Obj00007 *)p)->f
 
 
 
-void func_021F0AC0(char *p)
+void func_021F0AC0(BeaconViewWork *work)
 {
-    func_0201EFA4((struct WordSet *)(*(int *)&((struct Obj00007 *)p)->f110), 0, ((struct Obj00007 *)p)->f7B, 2, 1, 1);
-    func_021F0A98(p, 0);
-    func_021F201C(p, p + 0x110 + 0x94, (void *)(*(int *)&((struct Obj00007 *)p)->f11C), 4, 0, 1, 0x3DC1, 0);
+    func_0201EFA4((struct WordSet *)(*(int *)&work->wordSet), 0, work->recordCount, 2, 1, 1);
+    func_021F0A98(work, 0);
+    func_021F201C(work, &work->windows[2], (void *)(*(int *)&work->formatBuffer), 4, 0, 1, 0x3DC1, 0);
 }
 
 
@@ -1739,11 +1601,11 @@ void func_021F0AC0(char *p)
 
 
 
-void func_021F0B10(char *p, int a, int b)
+void func_021F0B10(BeaconViewWork *work, int a, int b)
 {
-    func_0201EFA4((struct WordSet *)(*(int *)&((struct Obj00007 *)p)->f110), 0, *(int *)&((struct Obj00007 *)p)->f2D4, 5, 0, 1);
-    func_021F0A98(p, a);
-    func_021F201C(p, p + 0x110 + 0x80, (void *)(*(int *)&((struct Obj00007 *)p)->f11C), 0, 4, 0, 0x3C40, b);
+    func_0201EFA4((struct WordSet *)(*(int *)&work->wordSet), 0, *(int *)&work->playTime, 5, 0, 1);
+    func_021F0A98(work, a);
+    func_021F201C(work, &work->windows[1], (void *)(*(int *)&work->formatBuffer), 0, 4, 0, 0x3C40, b);
 }
 
 
@@ -1754,7 +1616,7 @@ void func_021F0B10(char *p, int a, int b)
 
 
 
-void func_021F0B64(char *p) { func_02043B5C(((struct Obj00007 *)p)->f194,0x40); func_02045334(((struct Obj00007 *)p)->f190); }
+void func_021F0B64(BeaconViewWork *work) { func_02043B5C(work->windows[1].bitmap,0x40); func_02045334(work->windows[1].handle); }
 
 
 
@@ -1764,7 +1626,7 @@ void func_021F0B64(char *p) { func_02043B5C(((struct Obj00007 *)p)->f194,0x40); 
 
 
 
-void func_021F0B80(char *p,void *t,unsigned a) { func_021F201C(p,p+0x17c,t,0,0,9,0x449,a); }
+void func_021F0B80(BeaconViewWork *work,void *t,unsigned a) { func_021F201C(work,&work->windows[0],t,0,0,9,0x449,a); }
 
 
 
@@ -1803,26 +1665,26 @@ int func_021F0BA8(u8 *p)
 
 
 
-void func_021F0C04(char *p, int flag)
+void func_021F0C04(BeaconViewWork *work, int flag)
 {
     int i;
     int n;
     int base;
-    char *q;
+    BeaconViewSlot *slotList;
 
     if (flag == 0) {
-        q = p + 0xc0;
+        slotList = &work->slots[0];
         n = 3;
         base = 8;
     } else {
-        q = p + 0xf0;
+        slotList = &work->slots[3];
         n = 2;
         base = 0x10;
     }
     for (i = 0; i < n; i++) {
-        *(u32 *)(q + i * 16) = (u32)func_0202800C(((struct Obj13061 *)p)->fB8, (u32)(q + i * 16 + 4),
+        slotList[i].taskMenu = (u32)APP_TASKMENU_WIN_CreateEx(work->taskMenuState, (u32)((char *)&slotList[i].label),
                                       (u8)(base + i * 8), 0x15, 8, 3, 1, 0,
-                                      ((struct Obj13061 *)p)->f98);
+                                      work->mainHeapId);
     }
 }
 
@@ -1834,39 +1696,39 @@ void func_021F0C04(char *p, int flag)
 
 
 
-int func_021F0C70(char *p, int flag)
+int func_021F0C70(BeaconViewWork *work, int flag)
 {
     int s;
-    char *q;
+    BeaconViewSlot *slotList;
     int n;
     int i;
 
     s = -1;
     if (flag == 0) {
-        q = p + 0xc0;
+        slotList = &work->slots[0];
         n = 3;
     } else {
-        q = p + 0xf0;
+        slotList = &work->slots[3];
         n = 2;
     }
     for (i = 0; i < n; i++) {
-        if (func_0202846C(*(u8 **)(q + i * 16)) == 1) {
-            func_02028178((u8 *)(*(u32 *)(q + i * 16)));
+        if (APP_TASKMENU_WIN_IsUpdateTrans(*(u8 * *)&slotList[i].taskMenu) == 1) {
+            func_02028178((u8 *)(slotList[i].taskMenu));
             return -1;
         }
     }
     for (i = 0; i < n; i++) {
-        if (func_0202824C((void **)(*(u32 **)(q + i * 16))) != 0) {
+        if (APP_TASKMENU_WIN_IsTouch((void **)(*(u32 * *)&slotList[i].taskMenu)) != 0) {
             if (i < n - 1) {
                 func_021F0DD8(0x54c);
                 s = i;
             } else {
-                func_0202822C(*(char **)(q + i * 16), 1);
+                APP_TASKMENU_WIN_SetDecide(*(char * *)&slotList[i].taskMenu, 1);
                 func_021F0DD8(0x54c);
                 s = i;
             }
         }
-        func_02028178((u8 *)(*(u32 *)(q + i * 16)));
+        func_02028178((u8 *)(slotList[i].taskMenu));
     }
     return s;
 }
@@ -1879,17 +1741,17 @@ int func_021F0C70(char *p, int flag)
 
 
 
-int func_021F0CF8(char *p, int i)
+int func_021F0CF8(BeaconViewWork *work, int i)
 {
-    char *q;
+    BeaconViewSlot *slotList;
     int j;
 
-    q = p + 0xc0;
-    func_02028178((u8 *)(*(u32 *)(q + i * 16)));
-    if (func_02028230(*(u8 **)(q + i * 16)) != 0) {
+    slotList = &work->slots[0];
+    func_02028178((u8 *)(slotList[i].taskMenu));
+    if (APP_TASKMENU_WIN_IsFinish(*(u8 * *)&slotList[i].taskMenu) != 0) {
         for (j = 0; j < 3; j++) {
-            func_02028148((u8 *)(*(u32 *)(p + j * 16 + 0xc0)));
-            *(u32 *)(p + j * 16 + 0xc0) = 0;
+            func_02028148((u8 *)(work->slots[j].taskMenu));
+            work->slots[j].taskMenu = 0;
         }
         return 1;
     }
@@ -1903,7 +1765,7 @@ int func_021F0CF8(char *p, int i)
 
 
 
-void func_021F0D38(char *p) { int i; for(i=0;i<3;i++) { func_02028148(*(unsigned char **)(p+i*16+0xc0)); *(unsigned *)(p+i*16+0xc0)=0; } }
+void func_021F0D38(BeaconViewWork *work) { int i; for(i=0;i<3;i++) { func_02028148(*(unsigned char * *)&work->slots[i].taskMenu); work->slots[i].taskMenu=0; } }
 
 
 
@@ -1913,17 +1775,17 @@ void func_021F0D38(char *p) { int i; for(i=0;i<3;i++) { func_02028148(*(unsigned
 
 
 
-int func_021F0D5C(char *p, int i)
+int func_021F0D5C(BeaconViewWork *work, int i)
 {
-    char *q;
+    BeaconViewSlot *slotList;
     int j;
 
-    q = p + 0xf0;
-    func_02028178((u8 *)(*(u32 *)(q + i * 16)));
-    if (func_02028230(*(u8 **)(q + i * 16)) != 0) {
+    slotList = &work->slots[3];
+    func_02028178((u8 *)(slotList[i].taskMenu));
+    if (APP_TASKMENU_WIN_IsFinish(*(u8 * *)&slotList[i].taskMenu) != 0) {
         for (j = 0; j < 2; j++) {
-            func_02028148((u8 *)(*(u32 *)(p + j * 16 + 0xf0)));
-            *(u32 *)(p + j * 16 + 0xf0) = 0;
+            func_02028148((u8 *)((&work->slots[3])[j].taskMenu));
+            (&work->slots[3])[j].taskMenu = 0;
         }
         return 1;
     }
@@ -1937,7 +1799,7 @@ int func_021F0D5C(char *p, int i)
 
 
 
-void func_021F0D9C(char *p) { int i; for(i=0;i<2;i++) { func_02028148(*(unsigned char **)(p+i*16+0xf0)); *(unsigned *)(p+i*16+0xf0)=0; } }
+void func_021F0D9C(BeaconViewWork *work) { int i; for(i=0;i<2;i++) { func_02028148(*(unsigned char * *)&(&work->slots[3])[i].taskMenu); (&work->slots[3])[i].taskMenu=0; } }
 
 
 
@@ -1986,7 +1848,7 @@ void func_021F0DF4(void *p, unsigned short v) { func_0204B878(p,v); func_0204B9A
 
 
 
-void func_021F0E04(char *p, unsigned a) { int i; for(i=0;i<=3;i++) func_0204B3DC(*(void **)(p+i*4+0x2bc),a); }
+void func_021F0E04(BeaconViewWork *work, unsigned a) { int i; for(i=0;i<=3;i++) func_0204B3DC(work->actors[i],a); }
 
 
 
@@ -1996,18 +1858,18 @@ void func_021F0E04(char *p, unsigned a) { int i; for(i=0;i<=3;i++) func_0204B3DC
 
 
 
-void func_021F0E24(char *p)
+void func_021F0E24(BeaconViewWork *work)
 {
-    if (((struct Obj00007 *)p)->f7C == 0) {
-        func_0204B878((struct Obj *)(((struct Obj00007 *)p)->f2CC), 0x10);
+    if (work->scrollTop == 0) {
+        func_0204B878((struct Obj *)((int)work->actors[4]), 0x10);
     } else {
-        func_0204B878((struct Obj *)(((struct Obj00007 *)p)->f2CC), 0xd);
+        func_0204B878((struct Obj *)((int)work->actors[4]), 0xd);
     }
-    if (((struct Obj00007 *)p)->f7C + ((struct Obj00007 *)p)->f7D < ((struct Obj00007 *)p)->f7B) {
-        func_0204B878((struct Obj *)(((struct Obj00007 *)p)->f2D0), 0x11);
+    if (work->scrollTop + work->visibleRows < work->recordCount) {
+        func_0204B878((struct Obj *)((int)work->actors[5]), 0x11);
         return;
     }
-    func_0204B878((struct Obj *)(((struct Obj00007 *)p)->f2D0), 0x14);
+    func_0204B878((struct Obj *)((int)work->actors[5]), 0x14);
 }
 
 
@@ -2017,7 +1879,7 @@ void func_021F0E24(char *p)
 
 
 
-void func_021F0E7C(char *p) { if(((struct Obj00007 *)p)->f7B==0) func_0204B878(((struct Obj00007 *)p)->f2C4,9); else func_0204B878(((struct Obj00007 *)p)->f2C4,7); }
+void func_021F0E7C(BeaconViewWork *work) { if(work->recordCount==0) func_0204B878(work->actors[2],9); else func_0204B878(work->actors[2],7); }
 
 
 
@@ -2026,7 +1888,7 @@ void func_021F0E7C(char *p) { if(((struct Obj00007 *)p)->f7B==0) func_0204B878((
 
 
 
-void func_021F0EA4(char *p,unsigned a) { func_02025774(*(unsigned char * *)&((struct Obj00225 *)p)->f18,a); func_0204B3DC(((struct Obj00225 *)p)->f10,a); func_0204B3DC(((struct Obj00225 *)p)->fC,a); if(a==0) func_021F0ED0(p,a); }
+void func_021F0EA4(BeaconViewEntry *icon,unsigned a) { func_02025774(*(unsigned char * *)&icon->textWindow,a); func_0204B3DC(icon->iconActor,a); func_0204B3DC(icon->panelActor,a); if(a==0) func_021F0ED0(icon,a); }
 
 
 
@@ -2036,9 +1898,9 @@ void func_021F0EA4(char *p,unsigned a) { func_02025774(*(unsigned char * *)&((st
 
 
 
-void func_021F0ED0(char *p, int a)
+void func_021F0ED0(BeaconViewEntry *icon, int a)
 {
-    func_0204B3DC(((struct Obj20418 *)p)->f14, a);
+    func_0204B3DC(icon->statusActor, a);
 }
 
 
@@ -2048,26 +1910,26 @@ void func_021F0ED0(char *p, int a)
 
 
 
-void func_021F0EDC(char *p)
+void func_021F0EDC(BeaconViewEntry *icon)
 {
     int z = 0;
 
-    func_021F0EA4(p, 0);
-    func_021F0ED0(p, 0);
-    func_02043B5C((struct CharBuf *)(((struct Obj00225 *)p)->f1C), 0);
-    func_020257D0((struct Obj *)(*(int *)&((struct Obj00225 *)p)->f18));
-    func_0204581C((struct U16Vec *)(*(int *)&((struct Obj00225 *)p)->f24));
-    func_0204581C((struct U16Vec *)(*(int *)&((struct Obj00225 *)p)->f20));
-    ((struct Obj00225 *)p)->f1 = 0xff;
-    ((struct Obj00225 *)p)->f2 = z;
-    ((struct Obj00225 *)p)->f3 = z;
-    if (((struct Obj00225 *)p)->f2C != 0) {
-        func_02031194((struct TcblNode *)(((struct Obj00225 *)p)->f2C));
-        ((struct Obj00225 *)p)->f2C = z;
+    func_021F0EA4(icon, 0);
+    func_021F0ED0(icon, 0);
+    func_02043B5C((struct CharBuf *)((int)icon->textBitmap), 0);
+    func_020257D0((struct Obj *)(*(int *)&icon->textWindow));
+    STRBUF_Clear((struct U16Vec *)(*(int *)&icon->messageString));
+    STRBUF_Clear((struct U16Vec *)(*(int *)&icon->nameString));
+    icon->peerSlot = 0xff;
+    icon->state = z;
+    icon->flags = z;
+    if (icon->busy != 0) {
+        TCBL_DeleteTask((struct TcblNode *)(icon->busy));
+        icon->busy = z;
     }
-    if (*(int *)&((struct Obj00225 *)p)->f30 != 0) {
-        func_02031194((struct TcblNode *)(*(int *)&((struct Obj00225 *)p)->f30));
-        *(int *)&((struct Obj00225 *)p)->f30 = 0;
+    if (icon->activeTask != 0) {
+        TCBL_DeleteTask((struct TcblNode *)(icon->activeTask));
+        icon->activeTask = 0;
     }
 }
 
@@ -2077,7 +1939,7 @@ void func_021F0EDC(char *p)
 
 
 
-void func_021F0F30(char *p, int a, int b) { func_021F0EDC(p); p[1]=a; p[2]=b; }
+void func_021F0F30(BeaconViewEntry *icon, int a, int b) { func_021F0EDC(icon); *(char *)&icon->peerSlot=a; *(char *)&icon->state=b; }
 
 
 
@@ -2085,12 +1947,12 @@ void func_021F0F30(char *p, int a, int b) { func_021F0EDC(p); p[1]=a; p[2]=b; }
 
 
 
-u8 *func_021F0F44(u8 *p, int a)
+BeaconViewEntry *func_021F0F44(BeaconViewWork *work, int a)
 {
     int i;
     for (i = 0; i < 5; i++) {
-        if (a == p[i * 0x34 + 0x1b9])
-            return p + 0x1b8 + i * 0x34;
+        if (a == work->icons[i].peerSlot)
+            return &work->icons[i];
     }
     return 0;
 }
@@ -2102,15 +1964,15 @@ u8 *func_021F0F44(u8 *p, int a)
 
 
 
-void func_021F0F74(char *p, u8 *q, void *r)
+void func_021F0F74(BeaconViewWork *work, BeaconViewEntry *icon, void *r)
 {
     int x;
 
     x = func_02165CE8((struct S_021EFEC0 *)r);
-    func_0204A9D0(*(int *)(((struct Obj00007 *)p)->f158 + q[0] * 4), (struct Sub0204A9D0 *)(*(int *)(p + x * 8 + 0x338)));
-    func_020215BC((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)p)->fAC),
-                  (const void *)(*(int *)&((struct Obj00007 *)p)->f3BC + ((d_021F3541[x] & 0xf) << 5)), 3,
-                  (u16)((q[0] + 9) << 4), 0x20);
+    func_0204A9D0(*(int *)((int)work->iconLists.images.items + icon->index * 4), (struct Sub0204A9D0 *)(*(int *)&work->iconRes[x].data));
+    PALANM_CopyToSlot((struct PalAnmSlot *)(work->paletteAnim),
+                  (const void *)(*(int *)&work->iconPalette.data + ((d_021F3541[x] & 0xf) << 5)), 3,
+                  (u16)((icon->index + 9) << 4), 0x20);
 }
 
 
@@ -2118,9 +1980,9 @@ void func_021F0F74(char *p, u8 *q, void *r)
 
 
 
-void func_021F0FC8(char *p, u8 *q, int r)
+void func_021F0FC8(BeaconViewWork *work, BeaconViewEntry *icon, int r)
 {
-    func_0204A9D0((*(int **)(p + 0x170))[q[0]], (struct Sub0204A9D0 *)(*(int *)(p + r * 8 + 0x2d8)));
+    func_0204A9D0((*(int * *)&work->statusLists.images.items)[icon->index], (struct Sub0204A9D0 *)(*(int *)&work->statusRes[r].data));
 }
 
 
@@ -2142,7 +2004,7 @@ int func_021F0FE8(S_021EFEC0 *p)
 
 
 
-void func_021F1004(char *p, u8 *q, int r)
+void func_021F1004(BeaconViewWork *work, BeaconViewEntry *icon, int r)
 {
     u16 a[5];
     int x;
@@ -2151,22 +2013,22 @@ void func_021F1004(char *p, u8 *q, int r)
 
     x = func_021F0FE8((S_021EFEC0 *)r);
     b = x * 16;
-    t = *(u16 * *)&((struct Obj00007 *)p)->f3C8;
+    t = work->panelPalette.data;
     a[0] = t[b];
     a[1] = t[b + 1];
     a[2] = t[b + 2];
     func_02165CC0((int)(&a[3]), r);
     func_02021F64(&a[3], &a[4], 1, 3, 0);
-    func_020215BC((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)p)->fAC), a, 3, (u16)((q[0] + 4) * 16 + 1), 10);
+    PALANM_CopyToSlot((struct PalAnmSlot *)(work->paletteAnim), a, 3, (u16)((icon->index + 4) * 16 + 1), 10);
 }
 
 
 
 
 
-void func_021F1070(char *p, char *q, void *text, int a4)
+void func_021F1070(BeaconViewWork *work, BeaconViewEntry *icon, void *text, int a4)
 {
-    func_021F2144(p, q, text, 0x3c60, a4);
+    func_021F2144(work, icon, text, 0x3c60, a4);
 }
 
 
@@ -2182,19 +2044,19 @@ void func_021F1070(char *p, char *q, void *text, int a4)
 
 
 
-void func_021F1080(char *p, char *q, int r, int t)
+void func_021F1080(BeaconViewWork *work, BeaconViewEntry *icon, int r, int t)
 {
     u8 c;
 
-    c = (func_02026D48(((struct Obj00225 *)q)->f6) >= 0x2a30) ? 1 : 0;
-    if (c == ((struct Obj00225 *)q)->f5 && r == 0) {
+    c = (GAME_BEACON_GetReceivedFramesByTrainerId(icon->trainerId) >= 0x2a30) ? 1 : 0;
+    if (c == icon->frequent && r == 0) {
         return;
     }
-    ((struct Obj00225 *)q)->f5 = c;
+    icon->frequent = c;
     if (c != 0) {
-        func_021F2144(p, q, (void *)(*(int *)&((struct Obj00225 *)q)->f24), 0xca0, t);
+        func_021F2144(work, icon, (void *)(*(int *)&icon->messageString), 0xca0, t);
     } else {
-        func_021F2144(p, q, (void *)(*(int *)&((struct Obj00225 *)q)->f24), 0x3c60, t);
+        func_021F2144(work, icon, (void *)(*(int *)&icon->messageString), 0x3c60, t);
     }
 }
 
@@ -2211,21 +2073,21 @@ void func_021F1080(char *p, char *q, int r, int t)
 
 
 
-void func_021F10D8(char *this, u8 *p, int a)
+void func_021F10D8(BeaconViewWork *work, BeaconViewEntry *icon, int a)
 {
     u8 v;
     int k;
 
-    p[3] = func_02165CB4(a);
-    v = p[3];
+    icon->flags = func_02165CB4(a);
+    v = icon->flags;
     if (v == 0) {
         k = 0x30;
         v = 5;
     } else {
         k = 0x35;
     }
-    func_020215BC((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)this)->fAC), *(u16 * *)&((struct Obj00007 *)this)->f3C8 + 0x30, (int)3, (u16)((p[0] + 4) * 16 + 8), 10);
-    func_020215BC((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)this)->fAC), *(u16 * *)&((struct Obj00007 *)this)->f3C8 + k, (int)3, (u16)((p[0] + 4) * 16 + 8), v * 2);
+    PALANM_CopyToSlot((struct PalAnmSlot *)(work->paletteAnim), work->panelPalette.data + 0x30, (int)3, (u16)((icon->index + 4) * 16 + 8), 10);
+    PALANM_CopyToSlot((struct PalAnmSlot *)(work->paletteAnim), work->panelPalette.data + k, (int)3, (u16)((icon->index + 4) * 16 + 8), v * 2);
 }
 
 
@@ -2241,38 +2103,38 @@ void func_021F10D8(char *this, u8 *p, int a)
 
 
 
-void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t)
+void func_021F1144(BeaconViewWork *work, BeaconViewEntry *icon, void *r, int mode, int skip, int t)
 {
-    ((struct Obj00225 *)q)->f6 = func_02165CE4(r);
-    q[4] = func_02165D08(r);
-    func_02165C34(r, ((struct Obj00225 *)q)->f24);
-    func_0204581C(((struct Obj00225 *)q)->f20);
-    func_02165D50(r, ((struct Obj00225 *)q)->f20);
-    func_021F10D8((char *)p, q, (int)r);
-    func_021F0F74((char *)p, q, r);
-    func_021F1004((char *)p, q, (int)r);
+    icon->trainerId = func_02165CE4(r);
+    icon->gender = func_02165D08(r);
+    func_02165C34(r, icon->messageString);
+    STRBUF_Clear(icon->nameString);
+    func_02165D50(r, icon->nameString);
+    func_021F10D8(work, icon, (int)r);
+    func_021F0F74(work, icon, r);
+    func_021F1004(work, icon, (int)r);
     if (skip != 0)
         return;
     switch (mode) {
     case 0:
         switch (func_02165E24((int)r)) {
         case 0x18:
-            func_02165D6C((int)r, (int)(((struct Obj00007 *)p)->f118));
-            func_021F1070((char *)p, (char *)q, ((struct Obj00007 *)p)->f118, t);
+            func_02165D6C((int)r, (int)(work->messageBuffer));
+            func_021F1070(work, icon, work->messageBuffer, t);
             break;
         case 0x31:
-            func_02165D8C((int)r, (int)(((struct Obj00007 *)p)->f118));
-            func_021F1070((char *)p, (char *)q, ((struct Obj00007 *)p)->f118, t);
+            func_02165D8C((int)r, (int)(work->messageBuffer));
+            func_021F1070(work, icon, work->messageBuffer, t);
             break;
         }
-        func_021F1E40((char *)p, (char *)q, r, 0);
+        func_021F1E40(work, icon, r, 0);
         break;
     case 1:
-        func_021F1070((char *)p, (char *)q, ((struct Obj00225 *)q)->f20, t);
-        func_021F1E40((char *)p, (char *)q, r, 1);
+        func_021F1070(work, icon, icon->nameString, t);
+        func_021F1E40(work, icon, r, 1);
         break;
     case 2:
-        func_021F1080((char *)p, (char *)q, 1, t);
+        func_021F1080(work, icon, 1, t);
         break;
     }
 }
@@ -2290,14 +2152,14 @@ void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t)
 
 
 
-void func_021F1218(char *p, short x, short y)
+void func_021F1218(BeaconViewEntry *icon, short x, short y)
 {
-    ((struct Obj00225 *)p)->f8 = x;
-    ((struct Obj00225 *)p)->fA = y;
-    func_021F0DE0(((struct Obj00225 *)p)->fC, x, y);
-    func_021F0DE0(((struct Obj00225 *)p)->f10, x + 0x20, y + 0x18);
-    func_021F0DE0(((struct Obj00225 *)p)->f14, x + 0x3c, y + 0x18);
-    func_0202590C(((struct Obj00225 *)p)->f18, x + 0x48, y + 0x10);
+    icon->x = x;
+    icon->y = y;
+    func_021F0DE0(icon->panelActor, x, y);
+    func_021F0DE0(icon->iconActor, x + 0x20, y + 0x18);
+    func_021F0DE0(icon->statusActor, x + 0x3c, y + 0x18);
+    func_0202590C(icon->textWindow, x + 0x48, y + 0x10);
 }
 
 
@@ -2313,15 +2175,15 @@ void func_021F1218(char *p, short x, short y)
 
 
 
-void func_021F1268(char *this)
+void func_021F1268(BeaconViewWork *work)
 {
     int i;
-    char *e;
+    BeaconViewEntry *icon;
 
-    for (i = 0; i < ((struct Obj09797 *)this)->f7D; i++) {
-        e = (char *)func_021F0F44((u8 *)this, (u8)func_021659F0(*(u8 * *)&((struct Obj09797 *)this)->f3C, ((struct Obj09797 *)this)->f7C + i));
-        if (((struct Obj13063 *)e)->f30 == 0 || ((struct Obj13063 *)e)->f2C != 0)
-            func_021F1080(this, e, 0, 0);
+    for (i = 0; i < work->visibleRows; i++) {
+        icon = (BeaconViewEntry *)func_021F0F44(work, (u8)func_021659F0(*(u8 * *)&work->recordLog, work->scrollTop + i));
+        if (icon->activeTask == 0 || icon->busy != 0)
+            func_021F1080(work, icon, 0, 0);
     }
 }
 
@@ -2339,18 +2201,18 @@ void func_021F1268(char *this)
 
 
 /*
- * Byte-correct; the only wildcard is the bl to func_020275B8 (blocker: no
+ * Byte-correct; the only wildcard is the bl to BEACON_STATUS_SetViewTop (blocker: no
  * witness outside the range for an unlabelled arm9 leaf, the integrator's). Verified
  * leaf C (EXACT, arm9 0x020275B8, thumb, 12 bytes incl. pool word 0x0B0E):
  *   typedef unsigned char u8;
- *   void func_020275B8(char *p, u8 v) { p[0xb0e] = v; }
+ *   void BEACON_STATUS_SetViewTop(char *p, u8 v) { p[0xb0e] = v; }
  * The this+0x7c/0x7d reads are volatile: the original re-reads them.
  *
- * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/func_020275A8,
+ * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/BEACON_STATUS_GetLog,
  *   AC, B8, D0 EXACT); the tool still reports them unresolved, so the label seeding for
  *   0x020275A8/AC/B8/D0 (asm/layout, not this lane) is the only blocker.
  */
-void func_021F12B8(u8 *this, int dir)
+void func_021F12B8(BeaconViewWork *work, int dir)
 {
     u8 t;
     int n;
@@ -2358,17 +2220,17 @@ void func_021F12B8(u8 *this, int dir)
 
     func_021F0DD8(0x54b);
     if (dir == 0) {
-        t = *(volatile u8 *)(this + 0x7c) + *(volatile u8 *)(this + 0x7d);
-        n = *(volatile u8 *)(this + 0x7c) + 1;
+        t = *(volatile u8 *)&work->scrollTop + *(volatile u8 *)&work->visibleRows;
+        n = *(volatile u8 *)&work->scrollTop + 1;
     } else {
-        t = *(volatile u8 *)(this + 0x7c) - 1;
-        n = *(volatile u8 *)(this + 0x7c) - 1;
+        t = *(volatile u8 *)&work->scrollTop - 1;
+        n = *(volatile u8 *)&work->scrollTop - 1;
     }
-    *(volatile u8 *)(this + 0x7c) = n;
-    func_020275B8(*(void **)(this + 0x34), *(volatile u8 *)(this + 0x7c));
-    func_02165AC4(*(void **)(this + 0x3c), *(void **)(this + 0x40), (u16 *)(this + 0x48), t);
-    idx = func_021659F0(*(void **)(this + 0x3c), t);
-    func_021F13A0((char *)this, (int)(*(void **)(this + 0x40)), idx, (u8)dir, 2);
+    *(volatile u8 *)&work->scrollTop = n;
+    BEACON_STATUS_SetViewTop(*(void * *)&work->beaconStatus, *(volatile u8 *)&work->scrollTop);
+    func_02165AC4(*(void * *)&work->recordLog, *(void * *)&work->recordBuffer, (u16 *)((u8 *)&work->tagBuffer), t);
+    idx = func_021659F0(*(void * *)&work->recordLog, t);
+    func_021F13A0(work, (int)(*(void * *)&work->recordBuffer), idx, (u8)dir, 2);
 }
 
 
@@ -2384,20 +2246,20 @@ void func_021F12B8(u8 *this, int dir)
 
 
 
-void func_021F1340(char *this, int a, u8 b)
+void func_021F1340(BeaconViewWork *work, int a, u8 b)
 {
-    this[0x81] = 1;
-    this[0x82] = 0;
-    ((struct Obj00188 *)this)->f84 = a;
-    this[0x83] = b;
-    ((struct Obj00188 *)this)->f88 = 0;
-    func_021F029C(this, 1);
-    if (((struct Obj00188 *)this)->f84 == 0)
-        func_021F0DF4((void *)(((struct Obj00188 *)this)->f2D0), 0x13);
+    work->animActive = 1;
+    *(char *)&work->fadeStarted = 0;
+    work->slideTarget = a;
+    *(char *)&work->fadeResult = b;
+    work->slideTimer = 0;
+    func_021F029C(work, 1);
+    if (work->slideTarget == 0)
+        func_021F0DF4((void *)((int)work->actors[5]), 0x13);
     else
-        func_021F0DF4((void *)(((struct Obj00188 *)this)->f2CC), 0xf);
-    func_021F05E8((u8 *)this, 4, 2);
-    func_021F12B8((u8 *)this, a);
+        func_021F0DF4((void *)((int)work->actors[4]), 0xf);
+    func_021F05E8(work, 4, 2);
+    func_021F12B8(work, a);
 }
 
 
@@ -2413,23 +2275,23 @@ void func_021F1340(char *this, int a, u8 b)
 
 
 
-void func_021F13A0(char *this, int a, int b, int c, int s)
+void func_021F13A0(BeaconViewWork *work, int a, int b, int c, int s)
 {
-    char *e;
-    u8 *r;
+    BeaconViewEntry *icon;
+    BeaconViewIconMoveTask *task;
 
-    e = (char *)func_021F0F44((u8 *)this, 0xff);
-    if (e != 0) {
-        r = func_02031290(func_020311B8(*(u32 *)&((struct Obj00007 *)this)->fA0, (void *)func_021F1418, 0x18, 0));
-        func_02082BCC(r, 0, 0x18);
-        *(char * *)&((struct Obj06134 *)r)->fC = this;
-        r[1] = c;
-        *(char * *)&((struct Obj06134 *)r)->f8 = e;
-        ((struct Obj06134 *)r)->f4 = s;
-        *(int * *)&((struct Obj06134 *)r)->f14 = (int *)(this + 0xa8);
-        ((struct Obj00007 *)this)->fA8 = ((struct Obj00007 *)this)->fA8 + 1;
-        func_021F0F30(e, b, 0);
-        func_021F1144((u8 *)this, (u8 *)e, (void *)a, s, 0, (int)(r + 0x10));
+    icon = (BeaconViewEntry *)func_021F0F44(work, 0xff);
+    if (icon != 0) {
+        task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)func_021F1418, sizeof(BeaconViewIconMoveTask), 0));
+        func_02082BCC(task, 0, sizeof(BeaconViewIconMoveTask));
+        task->work = work;
+        task->slot = c;
+        task->entry = icon;
+        task->mode = s;
+        task->busyCounter = (int *)((char *)&work->busyCount);
+        work->busyCount = work->busyCount + 1;
+        func_021F0F30(icon, b, 0);
+        func_021F1144(work, icon, (void *)a, s, 0, (int)((u8 *)&task->timer));
     }
 }
 
@@ -2446,27 +2308,27 @@ void func_021F13A0(char *this, int a, int b, int c, int s)
 
 
 
-void func_021F1418(void *h, u8 *t)
+void func_021F1418(void *h, BeaconViewIconMoveTask *task)
 {
     void *this;
 
-    this = ((struct Obj01676 *)t)->fC;
-    if (((struct Obj01676 *)t)->f10 > 0)
+    this = (void *)task->work;
+    if (task->timer > 0)
         return;
-    if (t[0] == 0) {
-        func_021F0EA4(((struct Obj01676 *)t)->f8, 1);
-        if (((struct Obj01676 *)t)->f4 == 1) {
-            func_021F150C(this, ((struct Obj01676 *)t)->f8, t + 0x10);
-            func_021F0ED0(((struct Obj01676 *)t)->f8, 1);
+    if (task->phase == 0) {
+        func_021F0EA4(task->entry, 1);
+        if (task->mode == 1) {
+            func_021F150C(this, task->entry, (u8 *)&task->timer);
+            func_021F0ED0(task->entry, 1);
         } else {
-            func_021F1484(this, t[1], ((struct Obj01676 *)t)->f8, 0, t + 0x10);
+            func_021F1484(this, task->slot, task->entry, 0, (u8 *)&task->timer);
         }
-        t[0] = t[0] + 1;
+        task->phase = task->phase + 1;
         return;
     }
-    if (*(int * *)&((struct Obj01676 *)t)->f14 != 0)
-        *(*(int * *)&((struct Obj01676 *)t)->f14) = *(*(int * *)&((struct Obj01676 *)t)->f14) - 1;
-    func_02031194(h);
+    if (task->busyCounter != 0)
+        *(task->busyCounter) = *(task->busyCounter) - 1;
+    TCBL_DeleteTask(h);
 }
 
 
@@ -2482,24 +2344,24 @@ void func_021F1418(void *h, u8 *t)
 
 
 
-void func_021F1484(char *this, int a, u8 *b, u8 *c, void *s)
+void func_021F1484(BeaconViewWork *work, int a, BeaconViewEntry *icon, BeaconViewEntry *otherIcon, void *s)
 {
     int i;
-    u8 *e;
+    BeaconViewEntry *newIcon;
 
-    if (b != 0) {
+    if (icon != 0) {
         if (a == 0)
-            b[2] = 5;
+            icon->state = 5;
         else
-            b[2] = 0;
-        func_021F1218((char *)b, -13 * (1 - b[2]), -40 * (1 - b[2]));
-        func_021F0EA4((char *)b, 1);
+            icon->state = 0;
+        func_021F1218(icon, -13 * (1 - icon->state), -40 * (1 - icon->state));
+        func_021F0EA4(icon, 1);
     }
     for (i = 0; i < 5; i++) {
-        e = (u8 *)(this + 0x1b8) + i * 0x34;
-        if (e[1] != 0xff) {
-            if (c == 0 || e[0] != c[0])
-                func_021F155C(this, e, a, 0, s);
+        newIcon = &work->icons[i];
+        if (newIcon->peerSlot != 0xff) {
+            if (otherIcon == 0 || newIcon->index != otherIcon->index)
+                func_021F155C(work, newIcon, a, 0, s);
         }
     }
 }
@@ -2517,18 +2379,18 @@ void func_021F1484(char *this, int a, u8 *b, u8 *c, void *s)
 
 
 
-void func_021F150C(u8 *this, u8 *p, void *s)
+void func_021F150C(BeaconViewWork *work, BeaconViewEntry *icon, void *s)
 {
     int k;
 
-    p[2] = 1;
-    func_021F1218((char *)p, -208, 0);
-    func_021F0EA4((char *)p, 1);
+    icon->state = 1;
+    func_021F1218(icon, -208, 0);
+    func_021F0EA4(icon, 1);
     k = 0;
-    if (this[0x7b] != 0)
+    if (work->recordCount != 0)
         k = 8;
-    func_021F155C((char *)this, p, 2, (u8)k, s);
-    func_021F1484((char *)this, 1, 0, p, s);
+    func_021F155C(work, icon, 2, (u8)k, s);
+    func_021F1484(work, 1, 0, icon, s);
 }
 
 
@@ -2544,29 +2406,29 @@ void func_021F150C(u8 *this, u8 *p, void *s)
 
 
 
-void func_021F155C(char *p, u8 *e, int mode, u8 delay, int *r)
+void func_021F155C(BeaconViewWork *work, BeaconViewEntry *icon, int mode, u8 delay, int *r)
 {
-    u8 *t;
+    BeaconViewIconSlideTask *task;
 
-    t = func_02031290(func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1704, 0x28, 0));
-    func_02082BCC(t, 0, 0x28);
-    t[0xc] = mode;
-    if (t[0xc] == 0) {
-        e[2] = e[2] - 1;
-    } else if (t[0xc] == 1) {
-        e[2] = e[2] + 1;
+    task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)func_021F1704, sizeof(BeaconViewIconSlideTask), 0));
+    func_02082BCC(task, 0, sizeof(BeaconViewIconSlideTask));
+    task->mode = mode;
+    if (task->mode == 0) {
+        icon->state = icon->state - 1;
+    } else if (task->mode == 1) {
+        icon->state = icon->state + 1;
     }
-    *(char **)(t + 4) = p;
-    *(u8 **)(t + 8) = e;
-    *(s16_021EFEC0 *)(t + 0x10) = (1 - e[2]) * -13;
-    *(s16_021EFEC0 *)(t + 0x12) = (1 - e[2]) * -40;
-    *(int *)(t + 0x14) = FX32_CONST(*(s16_021EFEC0 *)(e + 8));
-    *(int *)(t + 0x18) = FX32_CONST(*(s16_021EFEC0 *)(e + 0xa));
-    t[0xe] = 8;
-    t[0xd] = delay;
-    *(int *)(t + 0x1c) = func_0207C768(FX32_CONST(*(s16_021EFEC0 *)(t + 0x10) - *(s16_021EFEC0 *)(e + 8)), FX32_CONST(t[0xe]));
-    *(int *)(t + 0x20) = func_0207C768(FX32_CONST(*(s16_021EFEC0 *)(t + 0x12) - *(s16_021EFEC0 *)(e + 0xa)), FX32_CONST(t[0xe]));
-    *(int **)(t + 0x24) = r;
+    task->work = work;
+    task->entry = icon;
+    task->targetX = (1 - icon->state) * -13;
+    task->targetY = (1 - icon->state) * -40;
+    task->x = FX32_CONST(icon->x);
+    task->y = FX32_CONST(icon->y);
+    task->steps = 8;
+    task->delay = delay;
+    task->deltaX = func_0207C768(FX32_CONST(task->targetX - icon->x), FX32_CONST(task->steps));
+    task->deltaY = func_0207C768(FX32_CONST(task->targetY - icon->y), FX32_CONST(task->steps));
+    task->busyCounter = r;
     (*r)++;
 }
 
@@ -2583,42 +2445,42 @@ void func_021F155C(char *p, u8 *e, int mode, u8 delay, int *r)
 
 
 
-void func_021F1704(void *h, char *t)
+void func_021F1704(void *h, BeaconViewIconSlideTask *task)
 {
-    u8 *e;
+    BeaconViewEntry *icon;
 
-    switch (((struct Obj00710 *)t)->f0) {
+    switch (task->phase) {
     case 0:
-        if (((struct Obj00710 *)t)->fD != 0) {
-            ((struct Obj00710 *)t)->fD = ((struct Obj00710 *)t)->fD - 1;
+        if (task->delay != 0) {
+            task->delay = task->delay - 1;
             return;
         }
-        ((struct Obj00710 *)t)->fF = ((struct Obj00710 *)t)->fF + 1;
-        if (((struct Obj00710 *)t)->fF < ((struct Obj00710 *)t)->fE) {
-            int x = ((struct Obj00710 *)t)->f14 + ((struct Obj00710 *)t)->f1C;
-            int y = ((struct Obj00710 *)t)->f18 + ((struct Obj00710 *)t)->f20;
-            ((struct Obj00710 *)t)->f14 = x;
-            ((struct Obj00710 *)t)->f18 = y;
-            func_021F1218((char *)(*(u8 * *)&((struct Obj00710 *)t)->f8), (short)(x >> 12), (short)(y >> 12));
+        task->step = task->step + 1;
+        if (task->step < task->steps) {
+            int x = task->x + task->deltaX;
+            int y = task->y + task->deltaY;
+            task->x = x;
+            task->y = y;
+            func_021F1218(task->entry, (short)(x >> 12), (short)(y >> 12));
             return;
         }
-        func_021F1218((char *)(*(u8 * *)&((struct Obj00710 *)t)->f8), ((struct Obj00710 *)t)->f10, ((struct Obj00710 *)t)->f12);
-        e = *(u8 * *)&((struct Obj00710 *)t)->f8;
-        if (e[2] == 0 || e[2] == 5) {
-            ((struct Obj00710 *)t)->f0 = ((struct Obj00710 *)t)->f0 + 1;
+        func_021F1218(task->entry, task->targetX, task->targetY);
+        icon = task->entry;
+        if (icon->state == 0 || icon->state == 5) {
+            task->phase = task->phase + 1;
             return;
         }
         break;
     case 1:
     default:
-        e = *(u8 * *)&((struct Obj00710 *)t)->f8;
-        if (((struct Obj00225 *)e)->f2C != 0)
+        icon = task->entry;
+        if (icon->busy != 0)
             return;
-        func_021F0EDC((char *)e);
+        func_021F0EDC(icon);
         break;
     }
-    **(int * *)&((struct Obj00710 *)t)->f24 = **(int * *)&((struct Obj00710 *)t)->f24 - 1;
-    func_02031194(h);
+    *task->busyCounter = *task->busyCounter - 1;
+    TCBL_DeleteTask(h);
 }
 
 
@@ -2633,25 +2495,25 @@ void func_021F1704(void *h, char *t)
 
 
 
-void func_021F178C(char *this, u8 a, int *p)
+void func_021F178C(BeaconViewWork *work, u8 a, int *p)
 {
-    u8 *r;
+    BeaconViewScrollStepTask *task;
     int v;
 
-    r = func_02031290(func_020311B8(((struct Obj20428 *)this)->fA0, (void *)func_021F17D8, 0xc, 0));
-    func_02082BCC(r, 0, 0xc);
-    r[0] = a;
-    if (r[0] == 0) {
-        r[3] = 0;
+    task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)func_021F17D8, 0xc, 0));
+    func_02082BCC(task, 0, 0xc);
+    task->phase = a;
+    if (task->phase == 0) {
+        task->position = 0;
         v = 0x10;
     } else {
         v = 0x40;
-        r[3] = v;
+        task->position = v;
         v -= 0x50;
     }
-    r[4] = v;
-    r[1] = 4;
-    *(int * *)&((struct Obj04311 *)r)->f8 = p;
+    task->delta = v;
+    task->steps = 4;
+    task->busyCounter = p;
     *p = *p + 1;
 }
 
@@ -2666,20 +2528,20 @@ void func_021F178C(char *this, u8 a, int *p)
 
 
 
-void func_021F17D8(void *task, u8 *q)
+void func_021F17D8(void *task, BeaconViewScrollStepTask *taskData)
 {
     u32 old;
     int x;
-    old = q[2];
-    q[2] = old + 1;
-    if (old < q[1]) {
-        x = ((struct Obj03636 *)q)->f3;
-        q[3] = x + ((struct Obj03636 *)q)->f4;
-        func_02040618(6, 3, ((struct Obj03636 *)q)->f3);
+    old = taskData->step;
+    taskData->step = old + 1;
+    if (old < taskData->steps) {
+        x = *(signed char *)&taskData->position;
+        taskData->position = x + *(signed char *)&taskData->delta;
+        func_02040618(6, 3, *(signed char *)&taskData->position);
         return;
     }
-    (**(int * *)&((struct Obj03636 *)q)->f8)--;
-    func_02031194(task);
+    (*taskData->busyCounter)--;
+    TCBL_DeleteTask(task);
 }
 
 
@@ -2692,28 +2554,28 @@ void func_021F17D8(void *task, u8 *q)
 
 
 
-int func_021F180C(char *this, int x, int flag)
+int func_021F180C(BeaconViewWork *work, int x, int flag)
 {
     int k;
 
     k = func_02165E24(x);
     if (flag != 0) {
-        func_02165FCC(x, *(int *)&((struct Obj00007 *)this)->f110, ((struct Obj00007 *)this)->f96);
-        func_021F18C4(this, 0x12);
+        func_02165FCC(x, *(int *)&work->wordSet, work->uiHeapId);
+        func_021F18C4(work, 0x12);
         return 1;
     }
     switch (k) {
     case 1:
         return 0;
     case 0x12:
-        return func_021F199C(this, (void *)x, 0);
+        return func_021F199C(work, (void *)x, 0);
     case 0x32:
-        return func_021F199C(this, (void *)x, 1);
+        return func_021F199C(work, (void *)x, 1);
     case 0x18:
-        func_02165374(func_0200C1C8((struct Blk34 *)(((struct Obj00007 *)this)->f14)));
+        func_02165374(func_0200C1C8((struct Blk34 *)(work->playerBlock)));
         break;
     }
-    func_021F1888(this, (Rec_021EFEC0 *)x);
+    func_021F1888(work, (Rec_021EFEC0 *)x);
     return 1;
 }
 
@@ -2725,11 +2587,11 @@ int func_021F180C(char *this, int x, int flag)
 
 
 
-void func_021F1888(char *p, Rec_021EFEC0 *r)
+void func_021F1888(BeaconViewWork *work, Rec_021EFEC0 *r)
 {
-    func_02165FCC((int)r, (int)(((struct Obj00007 *)p)->f110), ((struct Obj00007 *)p)->f96);
-    func_021F0A98(p, (u8)func_021F0DC0(r));
-    func_021F18E0(p, *(u32 *)&((struct Obj00007 *)p)->f11C, (int *)(p + 0xa8));
+    func_02165FCC((int)r, (int)((void *)work->wordSet), work->uiHeapId);
+    func_021F0A98(work, (u8)func_021F0DC0(r));
+    func_021F18E0(work, work->formatBuffer, (int *)((char *)&work->busyCount));
 }
 
 
@@ -2740,10 +2602,10 @@ void func_021F1888(char *p, Rec_021EFEC0 *r)
 
 
 
-void func_021F18C4(char *p, int b)
+void func_021F18C4(BeaconViewWork *work, int b)
 {
-    func_021F0A98(p, b);
-    func_021F18E0(p, *(u32 *)&((struct Obj00007 *)p)->f11C, (int *)(p + 0xa8));
+    func_021F0A98(work, b);
+    func_021F18E0(work, work->formatBuffer, (int *)((char *)&work->busyCount));
 }
 
 
@@ -2755,17 +2617,17 @@ void func_021F18C4(char *p, int b)
 
 
 
-void func_021F18E0(char *p, u32 a, int *c)
+void func_021F18E0(BeaconViewWork *work, u32 a, int *c)
 {
-    u8 *r;
+    BeaconViewFadeTask *task;
 
-    r = func_02031290(func_020311B8(*(u32 *)&((struct Obj00007 *)p)->fA0, (void *)func_021F1930, 0x10, 0));
-    func_02082BCC(r, 0, 0x10);
-    func_02045838((struct U16Vec *)(*(u32 *)&((struct Obj00007 *)p)->f120), (struct U16Vec *)a);
-    *(char * *)&((struct Obj09798 *)r)->f8 = p;
-    r[1] = 0x5a;
-    func_021F05E8((u8 *)p, 4, 2);
-    *(int * *)&((struct Obj09798 *)r)->fC = c;
+    task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)func_021F1930, sizeof(BeaconViewFadeTask), 0));
+    func_02082BCC(task, 0, sizeof(BeaconViewFadeTask));
+    func_02045838((struct U16Vec *)(work->stringList), (struct U16Vec *)a);
+    task->work = work;
+    task->duration = 0x5a;
+    func_021F05E8(work, 4, 2);
+    task->busyCounter = c;
     (*c)++;
 }
 
@@ -2778,28 +2640,28 @@ void func_021F18E0(char *p, u32 a, int *c)
 
 
 
-void func_021F1930(void *task, u8 *s)
+void func_021F1930(void *task, BeaconViewFadeTask *taskData)
 {
-    if (((struct Obj02751 *)s)->f4 != 0)
+    if (taskData->frames != 0)
         return;
-    switch (s[0]) {
+    switch (taskData->phase) {
     case 0:
-        func_021F0B80(*(char * *)&((struct Obj02751 *)s)->f8, (void *)(((struct Obj20431 *)(*(char * *)&((struct Obj02751 *)s)->f8))->f120), (unsigned int)(s + 4));
-        s[0]++;
+        func_021F0B80(taskData->work, (void *)(taskData->work->stringList), (unsigned int)((u8 *)&taskData->frames));
+        taskData->phase++;
         return;
     case 1:
-        func_021F178C(*(char * *)&((struct Obj02751 *)s)->f8, 0, (int *)(s + 4));
-        s[0]++;
+        func_021F178C(taskData->work, 0, (int *)((u8 *)&taskData->frames));
+        taskData->phase++;
         return;
     case 2:
-        if (func_021F0BA8(s + 1) != 0) {
-            func_021F178C(*(char * *)&((struct Obj02751 *)s)->f8, 1, (int *)(s + 4));
-            s[0]++;
+        if (func_021F0BA8((u8 *)&taskData->duration) != 0) {
+            func_021F178C(taskData->work, 1, (int *)((u8 *)&taskData->frames));
+            taskData->phase++;
         }
         return;
     default:
-        (**(int * *)&((struct Obj02751 *)s)->fC)--;
-        func_02031194(task);
+        (*taskData->busyCounter)--;
+        TCBL_DeleteTask(task);
         return;
     }
 }
@@ -2813,7 +2675,7 @@ void func_021F1930(void *task, u8 *s)
 
 
 
-int func_021F199C(char *p, void *x, int flag)
+int func_021F199C(BeaconViewWork *work, void *x, int flag)
 {
     int r;
 
@@ -2823,11 +2685,11 @@ int func_021F199C(char *p, void *x, int flag)
         r = func_02165D20(x);
     if (r == 0x30 || r > 0x2d)
         return 0;
-    if (r == sub_02010EA0(r, *(u8 * *)&((struct Obj00007 *)p)->f24))
+    if (r == GPOWER_GetActiveIdOfSameType(r, *(u8 * *)&work->powerRecord))
         return 0;
-    func_02165FCC((int)x, *(u32 *)&((struct Obj00007 *)p)->f110, ((struct Obj00007 *)p)->f96);
-    func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00007 *)p)->f110), (void *)(*(u32 *)&((struct Obj00007 *)p)->f11C), (void *)(*(u32 *)&((struct Obj00007 *)p)->f118));
-    func_021F1A28(p, r, 1, (int *)(p + 0xa8));
+    func_02165FCC((int)x, work->wordSet, work->uiHeapId);
+    func_0201F250((struct WordSet *)(work->wordSet), (void *)(work->formatBuffer), (void *)(*(u32 *)&work->messageBuffer));
+    func_021F1A28(work, r, 1, (int *)((char *)&work->busyCount));
     return 1;
 }
 
@@ -2839,9 +2701,9 @@ int func_021F199C(char *p, void *x, int flag)
 
 
 
-void func_021F1A08(char *p)
+void func_021F1A08(BeaconViewWork *work)
 {
-    func_021F1A28(p, ((struct Obj20433 *)p)->f28, 0, (int *)(p + 0xa8));
+    func_021F1A28(work, work->powerId, 0, (int *)((char *)&work->busyCount));
 }
 
 
@@ -2852,9 +2714,9 @@ void func_021F1A08(char *p)
 
 
 
-void func_021F1A18(char *p, int b)
+void func_021F1A18(BeaconViewWork *work, int b)
 {
-    func_021F1A28(p, b, 2, (int *)(p + 0xa8));
+    func_021F1A28(work, b, 2, (int *)((char *)&work->busyCount));
 }
 
 
@@ -2867,58 +2729,58 @@ void func_021F1A18(char *p, int b)
 
 
 /*
- * Byte-correct; the only wildcard is the bl to func_02010FA0 (blocker: no
+ * Byte-correct; the only wildcard is the bl to GPOWER_GetPowerCost (blocker: no
  * witness outside the range for an unlabelled arm9 leaf, the integrator's; it sits
- * in the word run after sub_02010EA0/func_02010EEC). Verified leaf C
+ * in the word run after GPOWER_GetActiveIdOfSameType/GPOWER_GetSelectedMinutesLeft). Verified leaf C
  * (EXACT, arm9 0x02010FA0, thumb, `one --thumb` with no --region):
  *   typedef unsigned short u16;
- *   u16 func_02010FA0(unsigned char *rec, int slot)
+ *   u16 GPOWER_GetPowerCost(unsigned char *rec, int slot)
  *   { return *(u16 *)(rec + slot * 0xc + 2); }
  * `u8 c` and `int flag` with `flag = 0` after the p[0x7f] store are what
  * put the flag's zero store after the argument copies.
  */
-void func_021F1A28(char *p, int b, u8 c, int *r)
+void func_021F1A28(BeaconViewWork *work, int b, u8 c, int *r)
 {
     void *h;
     int flag;
-    u8 *t;
+    BeaconViewPowerAnimTask *task;
 
-    h = func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1B94, 0x24, 0);
-    t = func_02031290(h);
-    func_02082BCC(t, 0, 0x24);
-    p[0x7f] = 0x30;
+    h = TCBL_AddTask(work->taskList, (void *)func_021F1B94, sizeof(BeaconViewPowerAnimTask), 0);
+    task = TCBL_GetWork(h);
+    func_02082BCC(task, 0, sizeof(BeaconViewPowerAnimTask));
+    work->powerIdArg = 0x30;
     flag = 0;
     if (c == 0)
         flag = 1;
-    p[0x80] = flag;
-    *(char **)(t + 0x1c) = p;
-    t[2] = 0x5a;
-    *(int *)(t + 0xc) = b;
-    t[3] = c;
-    func_0201F184((struct WordSet *)(*(u32 *)(p + 0x110)), 1, b);
-    if (t[3] == 0) {
-        *(u16 *)(t + 0x12) = func_02010FA0((struct Rec02010FA0 *)(*(u32 *)(p + 0x24)), b);
-        *(u16 *)(t + 0x10) = func_02007FB8((u8 *)(*(u32 *)(p + 0x18)), 0x23f, *(u16 *)(p + 0x96));
-        func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x110)), 2, *(u16 *)(t + 0x12), 3, 0, 1);
-        func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x110)), 3, *(u16 *)(t + 0x10), 3, 0, 1);
-        if (b == sub_02010EA0(b, (u8 *)(*(u32 *)(p + 0x24)))) {
-            *(u16 *)(t + 0x14) = func_02010EEC();
-            if (*(u16 *)(t + 0x14) != 0) {
-                *(u16 *)(t + 0x16) = *(u16 *)(t + 0x14) / 60;
-                *(u16 *)(t + 0x18) = *(u16 *)(t + 0x14) % 60;
-                func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x110)), 4, *(u16 *)(t + 0x16), 3, 0, 1);
-                func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x110)), 5, *(u16 *)(t + 0x18), 2, 0, 1);
+    work->powerFlagArg = flag;
+    task->work = work;
+    task->duration = 0x5a;
+    task->powerId = b;
+    task->mode = c;
+    func_0201F184((struct WordSet *)(work->wordSet), 1, b);
+    if (task->mode == 0) {
+        task->cost = GPOWER_GetPowerCost((struct Rec02010FA0 *)(work->powerRecord), b);
+        task->nameStringId = func_02007FB8((u8 *)(work->messageArchive), 0x23f, work->uiHeapId);
+        func_0201EFA4((struct WordSet *)(work->wordSet), 2, task->cost, 3, 0, 1);
+        func_0201EFA4((struct WordSet *)(work->wordSet), 3, task->nameStringId, 3, 0, 1);
+        if (b == GPOWER_GetActiveIdOfSameType(b, (u8 *)(work->powerRecord))) {
+            task->minutesLeft = GPOWER_GetSelectedMinutesLeft();
+            if (task->minutesLeft != 0) {
+                task->hours = task->minutesLeft / 60;
+                task->minutes = task->minutesLeft % 60;
+                func_0201EFA4((struct WordSet *)(work->wordSet), 4, task->hours, 3, 0, 1);
+                func_0201EFA4((struct WordSet *)(work->wordSet), 5, task->minutes, 2, 0, 1);
             }
         }
     }
-    if (t[3] != 0)
-        func_021F05E8((u8 *)p, 0, 2);
-    func_021F05E8((u8 *)p, 1, 2);
-    func_021F05E8((u8 *)p, 2, 2);
-    func_021F05E8((u8 *)p, 3, 2);
-    if (*(u16 *)(t + 0x14) != 0 || *(u16 *)(t + 0x10) < *(u16 *)(t + 0x12))
-        func_02031288(h, (int)((void *)func_021F1CF0));
-    *(int **)(t + 0x20) = r;
+    if (task->mode != 0)
+        func_021F05E8(work, 0, 2);
+    func_021F05E8(work, 1, 2);
+    func_021F05E8(work, 2, 2);
+    func_021F05E8(work, 3, 2);
+    if (task->minutesLeft != 0 || task->nameStringId < task->cost)
+        TCBL_SetTaskFunc(h, (int)((void *)func_021F1CF0));
+    task->busyCounter = r;
     (*r)++;
 }
 
@@ -2931,76 +2793,76 @@ void func_021F1A28(char *p, int b, u8 c, int *r)
 
 
 
-void func_021F1B94(void *h, u8 *t)
+void func_021F1B94(void *h, BeaconViewPowerAnimTask *task)
 {
-    char *p;
+    BeaconViewWork *work;
     int r;
 
-    p = *(char * *)&((struct Obj01037 *)t)->f1C;
-    if (((struct Obj01037 *)t)->f8 > 0)
+    work = task->work;
+    if (task->timer > 0)
         return;
-    switch (t[0]) {
+    switch (task->phase) {
     case 0:
-        func_021F0A98(p, d_021F352C[t[3]]);
-        func_021F0B80(p, (void *)(*(u32 *)&((struct Obj00007 *)p)->f11C), (unsigned int)((int *)(t + 8)));
-        t[0]++;
+        func_021F0A98(work, d_021F352C[task->mode]);
+        func_021F0B80(work, (void *)(work->formatBuffer), (unsigned int)((int *)((u8 *)&task->timer)));
+        task->phase++;
         break;
     case 1:
-        func_021F178C(p, 0, (int *)(t + 8));
-        t[0]++;
+        func_021F178C(work, 0, (int *)((u8 *)&task->timer));
+        task->phase++;
         break;
     case 2:
-        func_021F029C(p, 1);
-        func_021F0C04(p, 0);
-        func_021F0B64(p);
-        func_021F0E04(p, 0);
-        t[0]++;
+        func_021F029C(work, 1);
+        func_021F0C04(work, 0);
+        func_021F0B64(work);
+        func_021F0E04(work, 0);
+        task->phase++;
         break;
     case 3:
-        r = func_021F0C70(p, 0);
+        r = func_021F0C70(work, 0);
         if (r < 0)
             break;
-        t[5] = r;
-        switch (t[5]) {
+        task->result = r;
+        switch (task->result) {
         case 0:
-            func_021F253C(p, 6);
-            t[0] = 3;
+            func_021F253C(work, 6);
+            task->phase = 3;
             break;
         case 1:
-            p[0x7f] = ((struct Obj01037 *)t)->fC;
-            func_021F253C(p, 5);
-            t[0] = 4;
+            work->powerIdArg = task->powerId;
+            func_021F253C(work, 5);
+            task->phase = 4;
             break;
         case 2:
-            t[0] = 5;
+            task->phase = 5;
             break;
         }
         break;
     case 4:
-        if (*(u8 *)&((struct Obj00007 *)p)->f7F != 0x30) {
-            p[0x7f] = 0x30;
-            t[0] = 3;
+        if (*(u8 *)&work->powerIdArg != 0x30) {
+            work->powerIdArg = 0x30;
+            task->phase = 3;
             break;
         }
-        func_021F0D38(p);
-        t[0] = 6;
+        func_021F0D38(work);
+        task->phase = 6;
         break;
     case 5:
-        if (func_021F0CF8(p, t[5]) == 0)
+        if (func_021F0CF8(work, task->result) == 0)
             break;
-        t[0]++;
+        task->phase++;
         break;
     case 6:
-        func_021F0B10(p, 1, (int)((int *)(t + 8)));
-        func_021F0E04(p, 1);
-        func_021F178C(p, 1, (int *)(t + 8));
-        t[0]++;
+        func_021F0B10(work, 1, (int)((int *)((u8 *)&task->timer)));
+        func_021F0E04(work, 1);
+        func_021F178C(work, 1, (int *)((u8 *)&task->timer));
+        task->phase++;
         break;
     default:
-        func_021F05E8((u8 *)p, 4, 0);
-        func_021F029C(p, 0);
-        (**(int * *)&((struct Obj01037 *)t)->f20)--;
-        func_02031194(h);
+        func_021F05E8(work, 4, 0);
+        func_021F029C(work, 0);
+        (*task->busyCounter)--;
+        TCBL_DeleteTask(h);
         break;
     }
 }
@@ -3013,72 +2875,72 @@ void func_021F1B94(void *h, u8 *t)
 
 
 
-void func_021F1CF0(void *h, u8 *t)
+void func_021F1CF0(void *h, BeaconViewPowerAnimTask *task)
 {
-    char *p;
+    BeaconViewWork *work;
     int r;
 
-    p = *(char * *)&((struct Obj00879 *)t)->f1C;
-    if (((struct Obj00879 *)t)->f8 > 0)
+    work = task->work;
+    if (task->timer > 0)
         return;
-    switch (t[0]) {
+    switch (task->phase) {
     case 0:
-        if (((struct Obj00879 *)t)->f14 != 0)
-            func_021F0A98(p, (u8)((((struct Obj00879 *)t)->f16 != 0 ? 1 : 0) + 9));
-        else if (((struct Obj00879 *)t)->f10 < ((struct Obj00879 *)t)->f12)
-            func_021F0A98(p, (u8)8);
-        func_021F0B80(p, (void *)(*(u32 *)&((struct Obj00007 *)p)->f11C), (unsigned int)((int *)(t + 8)));
-        t[0]++;
+        if (task->minutesLeft != 0)
+            func_021F0A98(work, (u8)((task->hours != 0 ? 1 : 0) + 9));
+        else if (task->nameStringId < task->cost)
+            func_021F0A98(work, (u8)8);
+        func_021F0B80(work, (void *)(work->formatBuffer), (unsigned int)((int *)((u8 *)&task->timer)));
+        task->phase++;
         break;
     case 1:
-        func_021F178C(p, 0, (int *)(t + 8));
-        t[0]++;
+        func_021F178C(work, 0, (int *)((u8 *)&task->timer));
+        task->phase++;
         break;
     case 2:
-        func_021F0E04(p, 0);
-        t[0]++;
+        func_021F0E04(work, 0);
+        task->phase++;
         break;
     case 3:
-        func_021F0C04(p, 1);
-        func_021F0B64(p);
-        t[0]++;
+        func_021F0C04(work, 1);
+        func_021F0B64(work);
+        task->phase++;
         break;
     case 4:
-        r = func_021F0C70(p, 1);
+        r = func_021F0C70(work, 1);
         if (r < 0)
             break;
-        t[5] = r;
-        if (t[5] == 0) {
-            func_021F253C(p, 7);
-            p[0x79] = 1;
-            t[0] = 5;
+        task->result = r;
+        if (task->result == 0) {
+            func_021F253C(work, 7);
+            work->resetFlag = 1;
+            task->phase = 5;
         } else {
-            t[0] = 6;
+            task->phase = 6;
         }
         break;
     case 5:
-        if (((struct Obj00007 *)p)->f79 != 0) {
-            t[0] = 4;
+        if (*(unsigned char *)&work->resetFlag != 0) {
+            task->phase = 4;
             break;
         }
-        func_021F0D9C(p);
-        t[0] = 7;
+        func_021F0D9C(work);
+        task->phase = 7;
         break;
     case 6:
-        if (func_021F0D5C(p, t[5]) == 0)
+        if (func_021F0D5C(work, task->result) == 0)
             break;
-        t[0]++;
+        task->phase++;
         break;
     case 7:
-        func_021F0B10(p, 1, (int)((int *)(t + 8)));
-        func_021F0E04(p, 1);
-        func_021F178C(p, 1, (int *)(t + 8));
-        t[0]++;
+        func_021F0B10(work, 1, (int)((int *)((u8 *)&task->timer)));
+        func_021F0E04(work, 1);
+        func_021F178C(work, 1, (int *)((u8 *)&task->timer));
+        task->phase++;
         break;
     default:
-        func_021F05E8((u8 *)p, 4, (int)0);
-        (**(int * *)&((struct Obj00879 *)t)->f20)--;
-        func_02031194(h);
+        func_021F05E8(work, 4, (int)0);
+        (*task->busyCounter)--;
+        TCBL_DeleteTask(h);
         break;
     }
 }
@@ -3091,24 +2953,24 @@ void func_021F1CF0(void *h, u8 *t)
 
 
 
-void func_021F1E40(char *p, char *q, void *x, int flag)
+void func_021F1E40(BeaconViewWork *work, BeaconViewEntry *icon, void *x, int flag)
 {
     void *t;
-    u8 *r;
+    BeaconViewIconWaitTask *task;
 
-    t = func_020311B8(((struct Obj20436 *)p)->fA0, (void *)func_021F1EAC, 0x18, 0);
-    r = func_02031290(t);
-    func_02082BCC(r, 0, 0x18);
-    *(char * *)&((struct Obj05121 *)r)->f10 = p;
-    *(char * *)&((struct Obj05121 *)r)->f8 = q;
-    r[1] = 0x5a;
-    ((struct Obj00225 *)q)->f30 = t;
+    t = TCBL_AddTask(work->taskList, (void *)func_021F1EAC, 0x18, 0);
+    task = TCBL_GetWork(t);
+    func_02082BCC(task, 0, 0x18);
+    task->work = work;
+    task->entry = icon;
+    task->delay = 0x5a;
+    *(void * *)&icon->activeTask = t;
     if (flag)
-        ((struct Obj05121 *)r)->fC = 1;
+        task->timer = 1;
     else
-        ((struct Obj05121 *)r)->fC = func_02165E24((int)x);
-    func_021F0FC8(p, (u8 *)q, func_02165FC0(((struct Obj05121 *)r)->fC));
-    func_021F0ED0(q, flag ? 0 : 1);
+        task->timer = func_02165E24((int)x);
+    func_021F0FC8(work, icon, func_02165FC0(task->timer));
+    func_021F0ED0(icon, flag ? 0 : 1);
 }
 
 
@@ -3119,25 +2981,25 @@ void func_021F1E40(char *p, char *q, void *x, int flag)
 
 
 
-void func_021F1EAC(void *task, u8 *s)
+void func_021F1EAC(void *task, BeaconViewIconWaitTask *taskData)
 {
-    if (s[0] == 0) {
-        u8 c = s[1];
-        s[1] = c - 1;
+    if (taskData->phase == 0) {
+        u8 c = taskData->delay;
+        taskData->delay = c - 1;
         if (c != 0)
             return;
-        if (((struct Obj02113 *)s)->fC == 1 || ((struct Obj02113 *)s)->fC == 0x18 || ((struct Obj02113 *)s)->fC == 0x31) {
-            func_021F1080((char *)(((struct Obj02113 *)s)->f10), (char *)(*(u32 *)&((struct Obj02113 *)s)->f8), 1, 0);
-            s[0]++;
+        if (taskData->timer == 1 || taskData->timer == 0x18 || taskData->timer == 0x31) {
+            func_021F1080(taskData->work, taskData->entry, 1, 0);
+            taskData->phase++;
             return;
         }
     } else {
-        if (((struct Obj20437 *)(*(char * *)&((struct Obj02113 *)s)->f8))->f2C != 0)
+        if ((unsigned int)taskData->entry->busy != 0)
             return;
     }
-    ((struct Obj20438 *)(*(char * *)&((struct Obj02113 *)s)->f8))->f30 = 0;
-    func_021F0ED0(*(char * *)&((struct Obj02113 *)s)->f8, 0);
-    func_02031194(task);
+    *(unsigned int *)&taskData->entry->activeTask = 0;
+    func_021F0ED0(taskData->entry, 0);
+    TCBL_DeleteTask(task);
 }
 
 
@@ -3147,13 +3009,13 @@ void func_021F1EAC(void *task, u8 *s)
 
 
 
-void func_021F1F00(char *p, int a)
+void func_021F1F00(BeaconViewWork *work, int a)
 {
-    u8 *q;
+    BeaconViewEntry *icon;
     u8 index;
-    index = func_021659F0(*(u8 * *)&((struct Obj13066 *)p)->f3C, a + ((struct Obj13066 *)p)->f7C);
-    q = func_021F0F44((u8 *)p, index);
-    func_021F1F34(p, q, (int *)(p + 0xa8));
+    index = func_021659F0(*(u8 * *)&work->recordLog, a + work->scrollTop);
+    icon = func_021F0F44(work, index);
+    func_021F1F34(work, icon, (int *)((char *)&work->busyCount));
     func_021F0DD8(0x54c);
 }
 
@@ -3165,19 +3027,19 @@ void func_021F1F00(char *p, int a)
 
 
 
-void func_021F1F34(char *p, u8 *q, int *r)
+void func_021F1F34(BeaconViewWork *work, BeaconViewEntry *icon, int *r)
 {
-    u8 *t;
+    BeaconViewWindowATask *task;
 
-    t = func_02031290(func_020311B8(((struct Obj20439 *)p)->fA0, (void *)func_021F1F9C, 0x14, 0));
-    func_02082BCC(t, 0, 0x14);
-    *(char * *)&((struct Obj04312 *)t)->fC = p;
-    *(u8 * *)&((struct Obj04312 *)t)->f8 = q;
-    t[2] = 2;
-    t[3] = (q[0] + 4) << 4;
-    func_02021FD8((struct Chan02021FD8 *)(((struct Obj20441 *)(*(char * *)&((struct Obj04312 *)t)->fC))->fAC), 3, t[3], 0x10, 4, 0x7fff);
+    task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)func_021F1F9C, sizeof(BeaconViewWindowATask), 0));
+    func_02082BCC(task, 0, sizeof(BeaconViewWindowATask));
+    task->work = work;
+    task->entry = icon;
+    task->interval = 2;
+    task->paletteOffset = (icon->index + 4) << 4;
+    func_02021FD8((struct Chan02021FD8 *)(task->work->paletteAnim), 3, task->paletteOffset, 0x10, 4, 0x7fff);
     if (r != 0) {
-        *(int * *)&((struct Obj04312 *)t)->f10 = r;
+        task->busyCounter = r;
         (*r)++;
     }
 }
@@ -3190,24 +3052,24 @@ void func_021F1F34(char *p, u8 *q, int *r)
 
 
 
-void func_021F1F9C(void *task, u8 *s)
+void func_021F1F9C(void *task, BeaconViewWindowATask *taskData)
 {
-    u8 c = s[0];
+    u8 c = taskData->phase;
 
     if (c < 2) {
-        if (s[1]++ >= s[2]) {
-            func_02021FD8((struct Chan02021FD8 *)(((struct Obj20443 *)(*(char * *)&((struct Obj02752 *)s)->fC))->fAC), 3, s[3], 0x10, (c % 2) << 2, 0x7fff);
-            s[0]++;
-            s[1] = 0;
+        if (taskData->counter++ >= taskData->interval) {
+            func_02021FD8((struct Chan02021FD8 *)(taskData->work->paletteAnim), 3, taskData->paletteOffset, 0x10, (c % 2) << 2, 0x7fff);
+            taskData->phase++;
+            taskData->counter = 0;
         }
     } else {
         int *r;
 
-        func_02021FD8((struct Chan02021FD8 *)(((struct Obj20444 *)(*(char * *)&((struct Obj02752 *)s)->fC))->fAC), 3, s[3], 0x10, 0, 0x7fff);
-        r = *(int * *)&((struct Obj02752 *)s)->f10;
+        func_02021FD8((struct Chan02021FD8 *)(taskData->work->paletteAnim), 3, taskData->paletteOffset, 0x10, 0, 0x7fff);
+        r = taskData->busyCounter;
         if (r != 0)
             (*r)--;
-        func_02031194(task);
+        TCBL_DeleteTask(task);
     }
 }
 
@@ -3219,25 +3081,25 @@ void func_021F1F9C(void *task, u8 *s)
 
 
 
-void func_021F201C(char *p, char *q, void *text, u16 x, u8 y, u8 a5, u16 col, u32 a7)
+void func_021F201C(BeaconViewWork *work, BeaconViewWindow *window, void *text, u16 x, u8 y, u8 a5, u16 col, u32 a7)
 {
     u32 w;
     u32 v;
 
-    func_02043B5C((struct CharBuf *)(((struct Obj06135 *)q)->f4), a5);
-    if (((struct Obj07634 *)p)->f7A != 0) {
-        func_0201C7D0(((struct Obj06135 *)q)->f4, x, y, text, ((struct Obj07634 *)p)->fB0, col);
-        w = ((struct Obj06135 *)q)->f0;
+    func_02043B5C((struct CharBuf *)((unsigned int)window->bitmap), a5);
+    if (work->windowShown != 0) {
+        func_0201C7D0((unsigned int)window->bitmap, x, y, text, work->font, col);
+        w = (unsigned int)window->handle;
         func_02045334((struct Descriptor *)w);
         func_02045374((struct Cfg *)w);
         func_020409B4(func_02045730((struct Descriptor *)w));
         return;
     }
-    v = ((struct Obj07634 *)p)->fB4;
-    func_0201C724((void *)v, (u32)func_02045770((struct Descriptor *)((struct Obj06135 *)q)->f8), x, y, (u32)text,
-                  ((struct Obj07634 *)p)->fB0, col);
-    ((struct Obj06135 *)q)->fC = 1;
-    func_021F20A8(p, q, (int *)a7);
+    v = work->printQueue;
+    func_0201C724((void *)v, (u32)func_02045770((struct Descriptor *)(unsigned int)window->layout), x, y, (u32)text,
+                  work->font, col);
+    window->drawn = 1;
+    func_021F20A8(work, window, (int *)a7);
 }
 
 
@@ -3247,15 +3109,15 @@ void func_021F201C(char *p, char *q, void *text, u16 x, u8 y, u8 a5, u16 col, u3
 
 
 
-void func_021F20A8(char *p, char *q, int *r)
+void func_021F20A8(BeaconViewWork *work, BeaconViewWindow *window, int *r)
 {
-    u8 *t;
-    t = func_02031290(func_020311B8(((struct Obj20446 *)p)->fA0, (void *)func_021F20E4, 0x10, 0));
-    func_02082BCC(t, 0, 0x10);
-    *(char * *)&((struct Obj09799 *)t)->f8 = p;
-    *(char * *)&((struct Obj09799 *)t)->f4 = q;
+    BeaconViewWindowBTask *task;
+    task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)func_021F20E4, sizeof(BeaconViewWindowBTask), 0));
+    func_02082BCC(task, 0, sizeof(BeaconViewWindowBTask));
+    task->work = work;
+    task->window = window;
     if (r != 0) {
-        *(int * *)&((struct Obj09799 *)t)->fC = r;
+        task->busyCounter = r;
         (*r)++;
     }
 }
@@ -3267,27 +3129,27 @@ void func_021F20A8(char *p, char *q, int *r)
 
 
 
-void func_021F20E4(void *task, char *q)
+void func_021F20E4(void *task, BeaconViewWindowBTask *taskData)
 {
-    u8 *s;
+    u8 *drawn;
     u32 v;
     int *r;
 
-    v = ((struct Obj20448 *)(*(char * *)&((struct Obj06136 *)q)->f8))->fB4;
-    s = *(u8 * *)&((struct Obj06136 *)q)->f4 + 8;
-    if (s[4] != 0) {
-        if (func_0201C6C4((struct PrintSys *)v, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj06137 *)s)->f0))) == 0) {
-            func_02045334((struct Descriptor *)((struct Obj06137 *)s)->f0);
-            s[4] = 0;
+    v = taskData->work->printQueue;
+    drawn = (u8 *)&taskData->window->layout;
+    if (drawn[4] != 0) {
+        if (func_0201C6C4((struct PrintSys *)v, (void *)((u32)func_02045770(*(struct Descriptor **)drawn))) == 0) {
+            func_02045334(*(struct Descriptor **)drawn);
+            drawn[4] = 0;
         }
     }
-    if (s[4] == 0) {
-        func_02045374((struct Cfg *)(**(u32 * *)&((struct Obj06136 *)q)->f4));
-        func_02041B6C(func_02045730((struct Descriptor *)(**(u32 * *)&((struct Obj06136 *)q)->f4)));
-        r = *(int * *)&((struct Obj06136 *)q)->fC;
+    if (drawn[4] == 0) {
+        func_02045374((struct Cfg *)taskData->window->handle);
+        func_02041B6C(func_02045730((struct Descriptor *)taskData->window->handle));
+        r = taskData->busyCounter;
         if (r != 0)
             (*r)--;
-        func_02031194(task);
+        TCBL_DeleteTask(task);
     }
 }
 
@@ -3298,19 +3160,19 @@ void func_021F20E4(void *task, char *q)
 
 
 
-void func_021F2144(char *p, char *q, void *text, u16 col, u32 a4)
+void func_021F2144(BeaconViewWork *work, BeaconViewEntry *icon, void *text, u16 col, u32 a4)
 {
     u32 *t;
 
-    t = (u32 *)(q + 0x18);
+    t = (u32 *)((char *)&icon->textWindow);
     func_02043B5C((struct CharBuf *)t[1], 0);
-    if (((struct Obj07635 *)p)->f7A != 0) {
-        func_0201C7D0((u32)((void *)t[1]), 0, 0, text, (u32)((void *)(((struct Obj07635 *)p)->fB0)), col);
+    if (work->windowShown != 0) {
+        func_0201C7D0((u32)((void *)t[1]), 0, 0, text, (u32)((void *)(work->font)), col);
         func_020257D0((struct Obj *)t[0]);
         return;
     }
-    func_0201C724((void *)(((struct Obj07635 *)p)->fB4), t[1], 0, 0, (u32)text, ((struct Obj07635 *)p)->fB0, col);
-    func_021F21B0(p, q, (int *)a4);
+    func_0201C724((void *)(work->printQueue), t[1], 0, 0, (u32)text, work->font, col);
+    func_021F21B0(work, icon, (int *)a4);
 }
 
 
@@ -3320,20 +3182,20 @@ void func_021F2144(char *p, char *q, void *text, u16 col, u32 a4)
 
 
 
-void func_021F21B0(char *p, char *q, int *r)
+void func_021F21B0(BeaconViewWork *work, BeaconViewEntry *icon, int *r)
 {
     void *t;
-    u8 *s;
+    BeaconViewWindowCTask *task;
 
-    t = func_020311B8(((struct Obj20452 *)p)->fA0, (void *)func_021F21F8, 0x10, 0);
-    s = func_02031290(t);
-    func_02082BCC(s, 0, 0x10);
-    *(char * *)&((struct Obj07637 *)s)->f8 = p;
-    *(char * *)&((struct Obj07637 *)s)->f0 = q;
-    *(char * *)&((struct Obj07637 *)s)->f4 = q + 0x18;
-    ((struct Obj20453 *)q)->f2C = t;
+    t = TCBL_AddTask(work->taskList, (void *)func_021F21F8, sizeof(BeaconViewWindowCTask), 0);
+    task = TCBL_GetWork(t);
+    func_02082BCC(task, 0, sizeof(BeaconViewWindowCTask));
+    task->work = work;
+    task->entry = icon;
+    *(char * *)&task->windowRef = (char *)&icon->textWindow;
+    *(void * *)&icon->busy = t;
     if (r != 0) {
-        *(int * *)&((struct Obj07637 *)s)->fC = r;
+        task->busyCounter = r;
         (*r)++;
     }
 }
@@ -3344,16 +3206,16 @@ void func_021F21B0(char *p, char *q, int *r)
 
 
 
-void func_021F21F8(void *task, char *q)
+void func_021F21F8(void *task, BeaconViewWindowCTask *taskData)
 {
     int *r;
-    if (func_0201C6C4((struct PrintSys *)(((struct Obj20455 *)(*(char * *)&((struct Obj07638 *)q)->f8))->fB4), (void *)((*(u32 **)(q + 4))[1])) == 0) {
-        func_020257D0((struct Obj *)(**(u32 * *)&((struct Obj07638 *)q)->f4));
-        r = *(int * *)&((struct Obj07638 *)q)->fC;
+    if (func_0201C6C4((struct PrintSys *)(taskData->work->printQueue), (void *)((taskData->windowRef)[1])) == 0) {
+        func_020257D0((struct Obj *)(*taskData->windowRef));
+        r = taskData->busyCounter;
         if (r != 0)
             (*r)--;
-        ((struct Obj20458 *)(*(char * *)&((struct Obj07638 *)q)->f0))->f2C = 0;
-        func_02031194(task);
+        *(unsigned int *)&taskData->entry->busy = 0;
+        TCBL_DeleteTask(task);
     }
 }
 
@@ -3363,34 +3225,34 @@ void func_021F21F8(void *task, char *q)
 
 
 
-char *func_021F2234(u32 a0, u32 a1)
+BeaconViewWork *func_021F2234(u32 a0, u32 a1)
 {
-    char *p;
+    BeaconViewWork *work;
     void *v;
 
-    p = func_02030734(0x70, 0x3d0, 1, d_021F36A0, 0x8d);
-    ((struct Obj00007 *)p)->f0 = a0;
-    ((struct Obj00007 *)p)->f4 = (u32)func_020120F4((const struct Ctx *)a0);
-    ((struct Obj00007 *)p)->f8 = v = func_0201210C((void *)a0);
-    ((struct Obj00007 *)p)->f10 = func_02188E30(v);
-    ((struct Obj00007 *)p)->fC = a1;
-    ((struct Obj00007 *)p)->f98 = 0x70;
-    ((struct Obj00007 *)p)->f94 = 0x15;
-    ((struct Obj00007 *)p)->f96 = 0x8070;
-    ((struct Obj00007 *)p)->f9C = func_020490F4(0xad, ((struct Obj00007 *)p)->f98);
-    func_021F27D4((u8 *)p);
-    func_021F2908(p);
-    func_021F2A8C((u8 *)p, ((struct Obj00007 *)p)->f9C);
-    func_021F2C1C(p);
-    func_021F2D20((Work_021F2A8C *)p, ((struct Obj00007 *)p)->f9C);
-    func_021F2F44(p, ((struct Obj00007 *)p)->f9C);
-    func_021F3058(p);
-    ((struct Obj00007 *)p)->f7A = 1;
-    func_021EFEC0((u8 *)p);
-    ((struct Obj00007 *)p)->f7A = 0;
-    *(u32 *)&((struct Obj00007 *)p)->f60 = 0;
-    func_021F0208((u8 *)p, 1);
-    return p;
+    work = func_02030734(0x70, 0x3d0, 1, d_021F36A0, 0x8d);
+    *(unsigned int *)&work->fieldSystem = a0;
+    work->saveInfo = (u32)func_020120F4((const struct Ctx *)a0);
+    work->sessionInfo = v = func_0201210C((void *)a0);
+    work->bgConfig = func_02188E30(v);
+    work->initArg = a1;
+    work->mainHeapId = 0x70;
+    work->tempHeapId = 0x15;
+    work->uiHeapId = 0x8070;
+    work->bgResource = func_020490F4(0xad, work->mainHeapId);
+    func_021F27D4(work);
+    func_021F2908(work);
+    func_021F2A8C(work, work->bgResource);
+    func_021F2C1C(work);
+    func_021F2D20(work, work->bgResource);
+    func_021F2F44(work, work->bgResource);
+    func_021F3058(work);
+    work->windowShown = 1;
+    func_021EFEC0(work);
+    work->windowShown = 0;
+    *(u32 *)&work->lastRequest = 0;
+    func_021F0208(work, 1);
+    return work;
 }
 
 
@@ -3399,78 +3261,78 @@ char *func_021F2234(u32 a0, u32 a1)
 
 
 
-void func_021F22FC(char *p)
+void func_021F22FC(BeaconViewWork *work)
 {
-    func_0203115C((struct Tcbl *)(((struct Obj00812 *)p)->fA0));
-    func_021F30B4(p);
-    func_021F2FCC(p);
-    func_021F2EDC(p);
-    func_021F2CC4(p);
-    func_021F2BD4(p);
-    func_021F2A04(p);
-    func_021F28DC(p);
-    func_02049238((void *)((struct Obj00812 *)p)->f9C);
-    func_020307B0(p);
+    TCBL_DeleteAllTasks((struct Tcbl *)(work->taskList));
+    func_021F30B4(work);
+    func_021F2FCC(work);
+    func_021F2EDC(work);
+    func_021F2CC4(work);
+    func_021F2BD4(work);
+    func_021F2A04(work);
+    func_021F28DC(work);
+    func_02049238((void *)(unsigned int)work->bgResource);
+    func_020307B0(work);
 }
 
 
 
 
 
-void func_021F2344(char *p, int a1)
+void func_021F2344(BeaconViewWork *work, int a1)
 {
     int f;
 
-    if (((struct Obj00007 *)p)->f60 != a1) {
+    if (work->lastRequest != a1) {
         int c;
 
-        if (((struct Obj00007 *)p)->f72 != 0 && a1 == 0) {
+        if (work->endRequest != 0 && a1 == 0) {
             c = 1;
         } else {
             c = 0;
         }
         if (c == 0) {
             f = 1;
-            ((struct Obj00007 *)p)->f60 = a1;
+            work->lastRequest = a1;
             if (a1 != 0) {
                 f = 0;
             }
-            func_021F0208((u8 *)p, f);
+            func_021F0208(work, f);
         }
     }
-    if (((struct Obj00007 *)p)->f70 != 0) {
+    if (work->eventFlags != 0) {
         if (a1 == 0) {
-            func_021F2544(p);
+            func_021F2544(work);
             return;
         }
         return;
     }
     if (a1 != 0) {
-        func_020310C4((struct Tcbl *)(*(int *)&((struct Obj00007 *)p)->fA0));
-        switch (((struct Obj00007 *)p)->f68) {
+        func_020310C4((struct Tcbl *)(*(int *)&work->taskList));
+        switch (work->mode) {
         case 0:
-            ((struct Obj00007 *)p)->f68 = func_021F2674(p);
+            work->mode = func_021F2674(work);
             break;
         case 1:
-            ((struct Obj00007 *)p)->f68 = func_021F26D8((u8 *)p);
+            work->mode = func_021F26D8(work);
             break;
         case 2:
-            ((struct Obj00007 *)p)->f68 = func_021F26F0((u8 *)p);
+            work->mode = func_021F26F0(work);
             break;
         case 3:
-            ((struct Obj00007 *)p)->f68 = func_021F2714(p);
+            work->mode = func_021F2714(work);
             break;
         case 4:
-            ((struct Obj00007 *)p)->f68 = func_021F27B4((u8 *)p);
+            work->mode = func_021F27B4(work);
             break;
         case 5:
-            ((struct Obj00007 *)p)->f68 = func_021F27CC(p);
+            work->mode = func_021F27CC(work);
             break;
         case 6:
         case 7:
             break;
         }
-        func_02165888(((struct Obj00007 *)p)->f38);
+        func_02165888(work->receiveQueue);
     }
 }
 
@@ -3483,76 +3345,76 @@ void func_021F2344(char *p, int a1)
  * (both EXACT, thumb, `one --thumb` with no --region):
  *   0x020275B8 (12 bytes incl. pool word 0x0B0E):
  *     typedef unsigned char u8;
- *     void func_020275B8(char *p, u8 v) { p[0xb0e] = v; }
+ *     void BEACON_STATUS_SetViewTop(char *p, u8 v) { p[0xb0e] = v; }
  *   0x020275D0 (12 bytes incl. pool word 0x0B0C):
- *     void *func_020275D0(char *p) { return p + 0xb0c; }
+ *     void *BEACON_STATUS_GetViewFlags(char *p) { return p + 0xb0c; }
  * 0x53 is ov083's id (func_021F5260/func_021F5368 are ov083 children).
  *
- * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/func_020275A8,
+ * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/BEACON_STATUS_GetLog,
  *   AC, B8, D0 EXACT); the tool still reports them unresolved, so the label seeding for
  *   0x020275A8/AC/B8/D0 (asm/layout, not this lane) is the only blocker.
  */
-u32 func_021F23F8(char *p)
+u32 func_021F23F8(BeaconViewWork *work)
 {
-    return func_0201C4E4(*(struct PrintSys **)(p + 0xB4));
+    return func_0201C4E4(*(struct PrintSys * *)&work->printQueue);
 }
 
 
-void *func_021F2404(char *p, int go)
+void *func_021F2404(BeaconViewWork *work, int go)
 {
     void *r;
     Args args;
 
     if (go == 0)
         return 0;
-    switch (*(u16 *)(p + 0x70)) {
+    switch (work->eventFlags) {
     case 2:
-        func_02158614((void *)(*(int *)(p + 0x1c)));
+        func_02158614((void *)(work->playerProfile));
     case 1:
     case 3:
-        func_020275B8(*(void **)(p + 0x34), 0);
-        r = func_021F254C(p, (unsigned)(func_021945A4(*(void **)p, (u32)(*(void **)(p + 8)), 0)), 0, 3);
+        BEACON_STATUS_SetViewTop(*(void * *)&work->beaconStatus, 0);
+        r = func_021F254C(work, (unsigned)(func_021945A4(work->fieldSystem, (u32)(work->sessionInfo), 0)), 0, 3);
         break;
     case 4:
-        r = func_021F254C(p, (unsigned)(func_02164B38(*(void **)p, *(void **)(p + 8), *(u8 *)(p + 0x7e) + *(u8 *)(p + 0x7c))), 1, 0);
+        r = func_021F254C(work, (unsigned)(func_02164B38(work->fieldSystem, work->sessionInfo, work->touchedRow + work->scrollTop)), 1, 0);
         break;
     case 5:
-        args.a = *(u8 *)(p + 0x7f);
-        args.b = *(u8 *)(p + 0x80);
-        r = func_021F254C(p, (unsigned)(func_020124AC(*(void **)p, (u32)ov083_id, (void *)func_021F5260, (u32)(&args))), 2, *(u32 *)(p + 0xd0));
-        p[0x7f] = 0x30;
+        args.a = *(u8 *)&work->powerIdArg;
+        args.b = *(u8 *)&work->powerFlagArg;
+        r = func_021F254C(work, (unsigned)(func_020124AC(work->fieldSystem, (u32)ov083_id, (void *)func_021F5260, (u32)(&args))), 2, work->slots[1].taskMenu);
+        work->powerIdArg = 0x30;
         break;
     case 6:
-        r = func_021F254C(p, (unsigned)(func_020124AC(*(void **)p, (u32)ov083_id, (void *)func_021F5368, (u32)(*(void **)(p + 8)))), 2, *(u32 *)(p + 0xc0));
+        r = func_021F254C(work, (unsigned)(func_020124AC(work->fieldSystem, (u32)ov083_id, (void *)func_021F5368, (u32)(work->sessionInfo))), 2, work->slots[0].taskMenu);
         break;
     case 7:
-        r = func_021F254C(p, (unsigned)(func_020124AC(*(void **)p, (u32)ov083_id, (void *)func_021F5368, (u32)(*(void **)(p + 8)))), 2, *(u32 *)(p + 0xf0));
-        p[0x79] = 0;
+        r = func_021F254C(work, (unsigned)(func_020124AC(work->fieldSystem, (u32)ov083_id, (void *)func_021F5368, (u32)(work->sessionInfo))), 2, work->slots[3].taskMenu);
+        work->resetFlag = 0;
         break;
     case 8:
-        r = func_021F254C(p, (unsigned)((void *)func_021CD2A4((u32)(*(void **)p), (u32)(*(void **)(p + 8)), 0, 7, (u32)func_020275D0((char *)(*(int *)(p + 0x34))))), 0, 1);
+        r = func_021F254C(work, (unsigned)((void *)func_021CD2A4((u32)(work->fieldSystem), (u32)(work->sessionInfo), 0, 7, (u32)BEACON_STATUS_GetViewFlags((char *)(work->beaconStatus)))), 0, 1);
         break;
     default:
         return 0;
     }
-    func_021F2544(p);
+    func_021F2544(work);
     return r;
 }
 
 
 
 
-void func_021F253C(char *p, int v)
+void func_021F253C(BeaconViewWork *work, int v)
 {
-    ((struct Obj20459 *)p)->f70 = v;
+    work->eventFlags = v;
 }
 
 
 
 
-void func_021F2544(char *p)
+void func_021F2544(BeaconViewWork *work)
 {
-    ((struct Obj20460 *)p)->f70 = 0;
+    work->eventFlags = 0;
 }
 
 
@@ -3561,19 +3423,19 @@ void func_021F2544(char *p)
 
 
 
-Desc *func_021F254C(char *p, unsigned a, unsigned b, unsigned c)
+Desc *func_021F254C(BeaconViewWork *work, unsigned a, unsigned b, unsigned c)
 {
     Desc *d;
     Work_021F254C *w;
-    d = (Desc *)func_020122C0(((struct Obj07639 *)p)->f0, 0, func_021F2588, 0x1c);
+    d = (Desc *)func_020122C0(work->fieldSystem, 0, func_021F2588, 0x1c);
     w = func_020124E8((struct Obj *)d);
-    w->owner = p;
-    w->f04 = ((struct Obj07639 *)p)->f0;
-    w->f08 = ((struct Obj07639 *)p)->f8;
+    w->owner = work;
+    w->f04 = work->fieldSystem;
+    w->f08 = (unsigned int)work->sessionInfo;
     w->f10 = a;
     w->f14 = b;
     w->f18 = c;
-    ((struct Obj07639 *)p)->f72 = 1;
+    work->endRequest = 1;
     return d;
 }
 
@@ -3587,23 +3449,23 @@ Desc *func_021F254C(char *p, unsigned a, unsigned b, unsigned c)
 int func_021F2588(int a0, int a1, int *st)
 {
     int r;
-    char *o;
+    BeaconViewWork *work;
 
     r = 0;
-    o = (char *)st[3];
+    work = (BeaconViewWork *)st[3];
     switch (st[5]) {
     case 0:
-        r = func_021F25D4((u8 *)o, st);
+        r = func_021F25D4(work, st);
         break;
     case 1:
-        r = func_021F2608(o, st);
+        r = func_021F2608(work, st);
         break;
     case 2:
-        r = func_021F2624((int)o, st);
+        r = func_021F2624((int)work, st);
         break;
     }
     if (r) {
-        ((struct Obj09800 *)o)->f72 = 0;
+        work->endRequest = 0;
         func_0201235C((struct S0201235C *)a0, (u32 *)st[4]);
     }
     return 0;
@@ -3615,15 +3477,15 @@ int func_021F2588(int a0, int a1, int *st)
 
 
 
-int func_021F25D4(u8 *p, int *st)
+int func_021F25D4(BeaconViewWork *work, int *st)
 {
     switch (st[0]) {
     case 0:
-        func_021F05E8(p, st[6], 1);
+        func_021F05E8(work, st[6], 1);
         st[0]++;
         return 0;
     case 1:
-        if (func_021F0668((char *)p, st[6]) != 0)
+        if (func_021F0668(work, st[6]) != 0)
             return 0;
         break;
     }
@@ -3636,10 +3498,10 @@ int func_021F25D4(u8 *p, int *st)
 
 
 
-int func_021F2608(char *p, int *unused)
+int func_021F2608(BeaconViewWork *work, int *unused)
 {
-    func_020310C4(*(struct Tcbl * *)&((struct Obj09800 *)p)->fA0);
-    if (((struct Obj09800 *)p)->fA8 == 0)
+    func_020310C4(*(struct Tcbl * *)&work->taskList);
+    if (work->busyCount == 0)
         return 1;
     return 0;
 }
@@ -3657,13 +3519,13 @@ int func_021F2624(int a0, int *st)
 
     switch (st[0]) {
     case 0:
-        func_0202822C((char *)h, 1);
+        APP_TASKMENU_WIN_SetDecide((char *)h, 1);
         st[0]++;
         break;
     case 1:
         func_02028178((u8 *)h);
-        if (func_02028230((u8 *)h)) {
-            func_020282A4((struct Obj *)h);
+        if (APP_TASKMENU_WIN_IsFinish((u8 *)h)) {
+            APP_TASKMENU_WIN_ResetDecide((struct Obj *)h);
             return 1;
         }
         break;
@@ -3677,10 +3539,10 @@ int func_021F2624(int a0, int *st)
 
 
 
-void func_021F2664(int a, char *p)
+void func_021F2664(int a, BeaconViewWork *work)
 {
-    if (*(struct S02021D50 * *)&((struct Obj13067 *)p)->fAC)
-        func_02021D50(*(struct S02021D50 * *)&((struct Obj13067 *)p)->fAC);
+    if (*(struct S02021D50 * *)&work->paletteAnim)
+        PALANM_TransferPalettes(*(struct S02021D50 * *)&work->paletteAnim);
 }
 
 
@@ -3690,31 +3552,31 @@ void func_021F2664(int a, char *p)
 
 
 
-int func_021F2674(char *p)
+int func_021F2674(BeaconViewWork *work)
 {
     int r;
 
-    if (func_021F00C8(p)) {
-        ((struct Obj00188 *)p)->f74 = 90;
+    if (func_021F00C8(work)) {
+        work->waitFrames = 90;
         return 2;
     }
-    if (func_021F0078(p)) {
+    if (func_021F0078(work)) {
         return 0;
     }
-    r = func_021EFF7C((u8 *)p);
+    r = func_021EFF7C(work);
     if (r == 0) {
-        if (((struct Obj00188 *)p)->f74 != 0) {
-            ((struct Obj00188 *)p)->f74 = ((struct Obj00188 *)p)->f74 - 1;
+        if (work->waitFrames != 0) {
+            work->waitFrames = work->waitFrames - 1;
             return 0;
         }
-        if (func_021F0114((u8 *)p) == 1) {
-            ((struct Obj00188 *)p)->f74 = 90;
+        if (func_021F0114(work) == 1) {
+            work->waitFrames = 90;
             return 2;
         }
-        if (func_021F0140((u8 *)p) == 0) {
+        if (func_021F0140(work) == 0) {
             return 0;
         }
-        ((struct Obj00188 *)p)->f74 = 90;
+        work->waitFrames = 90;
         return 1;
     }
     return r;
@@ -3726,11 +3588,11 @@ int func_021F2674(char *p)
 
 
 
-int func_021F26D8(u8 *p)
+int func_021F26D8(BeaconViewWork *work)
 {
-    if (func_021F02C4(p) == 0)
+    if (func_021F02C4(work) == 0)
         return 1;
-    ((struct Obj00007 *)p)->f6C = 0;
+    work->step = 0;
     return 2;
 }
 
@@ -3740,12 +3602,12 @@ int func_021F26D8(u8 *p)
 
 
 
-int func_021F26F0(u8 *p)
+int func_021F26F0(BeaconViewWork *work)
 {
-    if (((struct Obj00007 *)p)->fA8 != 0)
+    if (work->busyCount != 0)
         return 2;
-    func_021F05E8(p, 4, 0);
-    func_021F067C((char *)p);
+    func_021F05E8(work, 4, 0);
+    func_021F067C(work);
     return 0;
 }
 
@@ -3761,33 +3623,33 @@ int func_021F26F0(u8 *p)
  *           cleared zero is shared with its third argument, which is what
  *           puts the zero in r2 for the three stores.
  */
-int func_021F2714(char *p)
+int func_021F2714(BeaconViewWork *work)
 {
     int r;
 
-    if (((struct Obj00007 *)p)->f82 == 0) {
-        r = func_021F0050((unsigned char *)p);
-        if (r != ((struct Obj00007 *)p)->f84 || r == -1) {
-            ((struct Obj00007 *)p)->f82 = 1;
+    if (work->fadeStarted == 0) {
+        r = func_021F0050(work);
+        if (r != work->slideTarget || r == -1) {
+            work->fadeStarted = 1;
         }
-        ((struct Obj00007 *)p)->f88 = ((struct Obj00007 *)p)->f88 + 1;
+        work->slideTimer = work->slideTimer + 1;
     }
-    if (((struct Obj00007 *)p)->f82 != 0) {
-        if (((struct Obj00007 *)p)->fA8 > 0) {
+    if (work->fadeStarted != 0) {
+        if (work->busyCount > 0) {
             return 3;
         }
-        ((struct Obj00007 *)p)->f82 = 0;
-        ((struct Obj00007 *)p)->f88 = 0;
-        ((struct Obj00007 *)p)->f81 = 0;
-        if (((struct Obj00007 *)p)->f83 == 0) {
-            func_021F05E8((u8 *)p, 4, 0);
+        work->fadeStarted = 0;
+        work->slideTimer = 0;
+        *(unsigned char *)&work->animActive = 0;
+        if (work->fadeResult == 0) {
+            func_021F05E8(work, 4, 0);
         }
-        func_021F067C(p);
-        func_021F029C(p, 0);
-        return ((struct Obj00007 *)p)->f83;
+        func_021F067C(work);
+        func_021F029C(work, 0);
+        return work->fadeResult;
     }
-    if (((struct Obj00007 *)p)->fA8 == 0) {
-        func_021F028C((unsigned char *)p);
+    if (work->busyCount == 0) {
+        func_021F028C(work);
     }
     return 3;
 }
@@ -3801,11 +3663,11 @@ int func_021F2714(char *p)
 /*
  * note: extent follower 0x021F27CC is already filed separately.
  */
-int func_021F27B4(u8 *p)
+int func_021F27B4(BeaconViewWork *work)
 {
-    if (func_021F03EC(p) == 0)
+    if (func_021F03EC(work) == 0)
         return 4;
-    ((struct Obj00007 *)p)->f6C = 0;
+    work->step = 0;
     return 0;
 }
 
@@ -3816,9 +3678,9 @@ int func_021F27B4(u8 *p)
 
 
 
-int func_021F27CC(char *p)
+int func_021F27CC(BeaconViewWork *work)
 {
-    return func_021F0438((u8 *)p);
+    return func_021F0438(work);
 }
 
 
@@ -3832,8 +3694,8 @@ int func_021F27CC(char *p)
  *           wildcarded because their targets are unlabelled arm9 leaves with no
  *           caller outside this range (the integrator's, inside arm9). Each was verified
  *           EXACT with `one --thumb` and no --region:
- *             0x020275A8  u32 func_020275A8(u32 a) { return a; }
- *             0x020275AC  u8 func_020275AC(u8 *p) { return p[0xb0e]; }
+ *             0x020275A8  u32 BEACON_STATUS_GetLog(u32 a) { return a; }
+ *             0x020275AC  u8 BEACON_STATUS_GetViewTop(u8 *p) { return p[0xb0e]; }
  *             0x02010F7C  u32 func_02010F7C(u32 heap)
  *                         { return func_02048F60(0x26, 0, heap); }
  *                         (func_02048F60 0x02048F60 arm, a tail call)
@@ -3841,43 +3703,43 @@ int func_021F27CC(char *p)
  *           The min of p[0x7b] and 4 must be an if/else of two stores: the
  *           ternary inverts the branch (blo for bhs; b).
  *
- * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/func_020275A8,
+ * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/BEACON_STATUS_GetLog,
  *   AC, B8, D0 EXACT); the tool still reports them unresolved, so the label seeding for
  *   0x020275A8/AC/B8/D0 (asm/layout, not this lane) is the only blocker.
  */
-void func_021F27D4(u8 *p)
+void func_021F27D4(BeaconViewWork *work)
 {
     u32 sv;
     u32 s2;
 
-    *(u32 *)(p + 0x34) = func_02012A54((const struct BigObj *)(*(u32 *)(p + 4)));
-    *(u32 *)(p + 0x3c) = func_020275A8(*(u32 *)(p + 0x34));
-    p[0x7b] = func_02165B04((u8 *)(*(u32 *)(p + 0x3c)));
-    p[0x7c] = func_020275AC((u8 *)(*(u32 *)(p + 0x34)));
-    if (p[0x7b] < 4)
-        p[0x7d] = p[0x7b];
+    *(u32 *)&work->beaconStatus = func_02012A54((const struct BigObj *)(work->saveInfo));
+    *(u32 *)&work->recordLog = BEACON_STATUS_GetLog(*(u32 *)&work->beaconStatus);
+    work->recordCount = func_02165B04((u8 *)(*(u32 *)&work->recordLog));
+    work->scrollTop = BEACON_STATUS_GetViewTop((u8 *)(*(u32 *)&work->beaconStatus));
+    if (work->recordCount < 4)
+        work->visibleRows = work->recordCount;
     else
-        p[0x7d] = 4;
-    p[0x7f] = 0x30;
-    p[0x78] = func_02012FFC();
-    sv = (u32)func_02012EBC((struct Big *)(*(u32 *)(p + 4)));
-    *(u32 *)(p + 0x28) = func_0200BF10((struct Rec1B0 *)func_0200BE48((void *)sv));
-    *(u32 *)(p + 0x1c) = func_02012138((const struct Ctx *)(*(u32 *)p));
-    *(u32 *)(p + 0x20) = func_0201283C((const struct BigObj *)(*(u32 *)(p + 4)));
-    *(u32 *)(p + 0x18) = (u32)func_0201292C((const struct BigObj *)(*(u32 *)(p + 4)));
-    *(u32 *)(p + 0x14) = (u32)func_0200C0E8((void *)sv);
-    *(u32 *)(p + 0x2d4) = func_0200C1DC((struct Blk34 *)(*(u32 *)(p + 0x14)));
+        work->visibleRows = 4;
+    *(u8 *)&work->powerIdArg = 0x30;
+    work->languageCode = func_02012FFC();
+    sv = (u32)func_02012EBC((struct Big *)(work->saveInfo));
+    *(u32 *)&work->powerId = func_0200BF10((struct Rec1B0 *)func_0200BE48((void *)sv));
+    *(u32 *)&work->playerProfile = func_02012138((const struct Ctx *)(*(u32 *)&work->fieldSystem));
+    *(u32 *)&work->optionData = func_0201283C((const struct BigObj *)(work->saveInfo));
+    work->messageArchive = (u32)func_0201292C((const struct BigObj *)(work->saveInfo));
+    *(u32 *)&work->playerBlock = (u32)func_0200C0E8((void *)sv);
+    work->playTime = func_0200C1DC((struct Blk34 *)(*(u32 *)&work->playerBlock));
     s2 = (u32)func_02008730((void *)sv);
-    *(u32 *)(p + 0x2c) = (u16)func_02008530((const struct Sub0200852CObj *)s2);
-    p[0x30] = func_02008550((const struct Sub0200852CObj *)s2);
-    p[0x31] = func_02008554((const struct Sub0200852CObj *)s2);
-    p[0x32] = 0x15;
-    *(u32 *)(p + 0x38) = (u32)func_02165B2C(*(u16 *)(p + 0x98));
-    *(u32 *)(p + 0x40) = (u32)func_02165B10(*(u16 *)(p + 0x98));
-    *(u32 *)(p + 0x44) = (u32)func_02165B10(*(u16 *)(p + 0x98));
-    *(u32 *)(p + 0x4c) = (u32)func_02165B10(*(u16 *)(p + 0x98));
-    *(u32 *)(p + 0x24) = (u32)func_02010F7C(*(u16 *)(p + 0x98));
-    func_021F0684(p, p + 0x58, p + 0x59);
+    work->profileId = (u16)func_02008530((const struct Sub0200852CObj *)s2);
+    work->gender = func_02008550((const struct Sub0200852CObj *)s2);
+    work->languageId = func_02008554((const struct Sub0200852CObj *)s2);
+    work->styleId = 0x15;
+    *(u32 *)&work->receiveQueue = (u32)func_02165B2C(work->mainHeapId);
+    *(u32 *)&work->recordBuffer = (u32)func_02165B10(work->mainHeapId);
+    work->ownRecord = (u32)func_02165B10(work->mainHeapId);
+    *(u32 *)&work->currentRecord = (u32)func_02165B10(work->mainHeapId);
+    work->powerRecord = (u32)func_02010F7C(work->mainHeapId);
+    func_021F0684(work, (u8 *)&work->previousIdA, (u8 *)&work->previousIdB);
 }
 
 
@@ -3889,14 +3751,14 @@ void func_021F27D4(u8 *p)
 /*
  * note: two alignment padding bytes at 0x021F2906 follow the body.
  */
-void func_021F28DC(char *p)
+void func_021F28DC(BeaconViewWork *work)
 {
-    func_02165940(((struct Obj05123 *)p)->f38);
-    func_02010F8C(((struct Obj05123 *)p)->f24);
-    func_020307B0(((struct Obj05123 *)p)->f4C);
-    func_020307B0(((struct Obj05123 *)p)->f44);
-    func_020307B0(((struct Obj05123 *)p)->f40);
-    func_020307B0(((struct Obj05123 *)p)->f38);
+    func_02165940((void *)work->receiveQueue);
+    func_02010F8C((void *)work->powerRecord);
+    func_020307B0((void *)work->currentRecord);
+    func_020307B0((void *)work->ownRecord);
+    func_020307B0((void *)work->recordBuffer);
+    func_020307B0((void *)work->receiveQueue);
 }
 
 
@@ -3906,23 +3768,23 @@ void func_021F28DC(char *p)
 
 
 
-void func_021F2908(char *p)
+void func_021F2908(BeaconViewWork *work)
 {
-    ((struct Obj00007 *)p)->fA0 = func_0203101C(((struct Obj00007 *)p)->f98, ((struct Obj00007 *)p)->f98, 0x10, 0x80);
-    ((struct Obj00007 *)p)->fA4 = func_020056A0((void *)func_021F2664, p, 0);
-    ((struct Obj00007 *)p)->fAC = (u32)func_02021518(((struct Obj00007 *)p)->f98);
-    func_0202155C((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), 1, 0x1c0, ((struct Obj00007 *)p)->f98);
-    func_0202155C((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), 3, 0x200, ((struct Obj00007 *)p)->f98);
-    ((struct Obj00007 *)p)->fB4 = func_0201C440((void *)(((struct Obj00007 *)p)->f98));
-    func_0201C4C8((struct PrintSys *)(((struct Obj00007 *)p)->fB4), 1);
-    func_0201C4DC((struct PrintSys *)(((struct Obj00007 *)p)->fB4), 0x1f4, 0);
-    ((struct Obj00007 *)p)->fB0 = func_021904AC((u8 *)func_02188C54((u8 *)(*(u32 *)&((struct Obj00007 *)p)->f8)));
+    *(void * *)&work->taskList = func_0203101C(work->mainHeapId, work->mainHeapId, 0x10, 0x80);
+    work->updateTask = func_020056A0((void *)func_021F2664, work, 0);
+    work->paletteAnim = (u32)func_02021518(work->mainHeapId);
+    func_0202155C((struct PalAnmSlot *)(work->paletteAnim), 1, 0x1c0, work->mainHeapId);
+    func_0202155C((struct PalAnmSlot *)(work->paletteAnim), 3, 0x200, work->mainHeapId);
+    work->printQueue = func_0201C440((void *)(work->mainHeapId));
+    PRINTSYS_QUE_SetForceQueue((struct PrintSys *)(work->printQueue), 1);
+    PRINTSYS_QUE_SetLimitTick((struct PrintSys *)(work->printQueue), 0x1f4, 0);
+    work->font = func_021904AC((u8 *)func_02188C54((u8 *)(*(u32 *)&work->sessionInfo)));
     func_0201DD68();
-    ((struct Obj00007 *)p)->f110 = func_0201EC64(((struct Obj00007 *)p)->f98);
-    ((struct Obj00007 *)p)->f114 = func_02045B38(1, 2, 8, ((struct Obj00007 *)p)->f98);
-    ((struct Obj00007 *)p)->f118 = func_020457B0(0xd9, ((struct Obj00007 *)p)->f98);
-    ((struct Obj00007 *)p)->f11C = func_020457B0(0xd9, ((struct Obj00007 *)p)->f98);
-    ((struct Obj00007 *)p)->f120 = func_020457B0(0xd9, ((struct Obj00007 *)p)->f98);
+    *(void * *)&work->wordSet = func_0201EC64(work->mainHeapId);
+    work->messageBank = func_02045B38(1, 2, 8, work->mainHeapId);
+    work->messageBuffer = func_020457B0(0xd9, work->mainHeapId);
+    *(void * *)&work->formatBuffer = func_020457B0(0xd9, work->mainHeapId);
+    *(void * *)&work->stringList = func_020457B0(0xd9, work->mainHeapId);
 }
 
 
@@ -3932,22 +3794,22 @@ void func_021F2908(char *p)
 
 
 
-void func_021F2A04(char *p)
+void func_021F2A04(BeaconViewWork *work)
 {
-    func_02045808((struct U16Vec *)(((struct Obj00812 *)p)->f120));
-    func_02045808((struct U16Vec *)(((struct Obj00812 *)p)->f11C));
-    func_02045808((struct U16Vec *)(((struct Obj00812 *)p)->f118));
-    func_02045C04((Rec_021F254C *)(((struct Obj00812 *)p)->f114));
-    func_0201ED04((struct WordSet *)(((struct Obj00812 *)p)->f110));
-    func_0201C6EC((struct PrintSys *)(((struct Obj00812 *)p)->fB4));
-    func_0201C4C0((struct PrintSys *)(((struct Obj00812 *)p)->fB4));
+    func_02045808((struct U16Vec *)((int)work->stringList));
+    func_02045808((struct U16Vec *)((int)work->formatBuffer));
+    func_02045808((struct U16Vec *)((int)work->messageBuffer));
+    func_02045C04(work->messageBank);
+    func_0201ED04((struct WordSet *)((int)work->wordSet));
+    func_0201C6EC((struct PrintSys *)((int)work->printQueue));
+    func_0201C4C0((struct PrintSys *)((int)work->printQueue));
     func_0201DD68();
-    func_020215A0((struct PalAnmSlot *)(((struct Obj00812 *)p)->fAC), 3);
-    func_020215A0((struct PalAnmSlot *)(((struct Obj00812 *)p)->fAC), 1);
-    func_02021540((void *)(((struct Obj00812 *)p)->fAC));
-    ((struct Obj00812 *)p)->fAC = 0;
-    func_02030EAC((struct Node *)(((struct Obj00812 *)p)->fA4));
-    func_02031140((struct S02031140 *)(*(int *)&((struct Obj00812 *)p)->fA0));
+    func_020215A0((struct PalAnmSlot *)((int)work->paletteAnim), 3);
+    func_020215A0((struct PalAnmSlot *)((int)work->paletteAnim), 1);
+    func_02021540((void *)((int)work->paletteAnim));
+    *(int *)&work->paletteAnim = 0;
+    func_02030EAC((struct Node *)((int)work->updateTask));
+    func_02031140((struct S02031140 *)(*(int *)&work->taskList));
 }
 
 
@@ -3960,7 +3822,7 @@ void func_021F2A04(char *p)
 /*
  * volatile: 0x021F2ACE ldr / 0x021F2AD6 str of 0x04001000 (REG_DB_DISPCNT_SUB read-modify-write); 0x021F2ADC strh to 0x04001050 (hardware registers)
  */
-void func_021F2A8C(u8 *p, void *h)
+void func_021F2A8C(BeaconViewWork *work, void *h)
 {
     func_0203FCA0(4, (const struct BgTemplate *)d_021F3608, 0);
     func_0203FCA0(5, (const struct BgTemplate *)d_021F3628, 0);
@@ -3969,12 +3831,12 @@ void func_021F2A8C(u8 *p, void *h)
     func_02082A7C(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
-    func_020216B4((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), (void *)h, 0x13, ((struct Obj00007 *)p)->f96, 1, 0x1a0, 0);
-    func_02021640((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), 0x17, 5, ((struct Obj00007 *)p)->f96, 1, 0x20, 0xd0);
-    func_02049658((void *)h, 0x14, 7, 0, 0, 1, ((struct Obj00007 *)p)->f96);
-    func_020498F4((void *)h, 0x15, 5, 0, 0x800, 1, ((struct Obj00007 *)p)->f96);
-    func_020498F4((void *)h, 0x16, 6, 0, 0x800, 1, ((struct Obj00007 *)p)->f96);
-    func_020498F4((void *)h, 0x17, 7, 0, 0x800, 1, ((struct Obj00007 *)p)->f96);
+    PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)(work->paletteAnim), (void *)h, 0x13, work->uiHeapId, 1, 0x1a0, 0);
+    PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)(work->paletteAnim), 0x17, 5, work->uiHeapId, 1, 0x20, 0xd0);
+    func_02049658((void *)h, 0x14, 7, 0, 0, 1, work->uiHeapId);
+    func_020498F4((void *)h, 0x15, 5, 0, 0x800, 1, work->uiHeapId);
+    func_020498F4((void *)h, 0x16, 6, 0, 0x800, 1, work->uiHeapId);
+    func_020498F4((void *)h, 0x17, 7, 0, 0x800, 1, work->uiHeapId);
     func_0207D63C(0x04001050, 4, 0x1e, 0xd, 3);
     func_02040588(4, 1);
     func_02040588(5, 1);
@@ -3989,7 +3851,7 @@ void func_021F2A8C(u8 *p, void *h)
 
 
 
-void func_021F2BD4(char *p)
+void func_021F2BD4(BeaconViewWork *work)
 {
     unsigned short z = 0;
 
@@ -4011,29 +3873,29 @@ void func_021F2BD4(char *p)
 
 
 
-void func_021F2C1C(char *p)
+void func_021F2C1C(BeaconViewWork *work)
 {
     int i;
     int z;
 
     z = 0;
-    ((struct Obj00007 *)p)->fBC = func_02028590(9, 0, 1, ((struct Obj00007 *)p)->f98);
-    ((struct Obj00007 *)p)->fB8 = (unsigned int)func_02027F60(4, 0xe, ((struct Obj00007 *)p)->fB0, ((struct Obj00007 *)p)->fB4, ((struct Obj00007 *)p)->f98);
+    work->taskMenuCursor = func_02028590(9, 0, 1, work->mainHeapId);
+    work->taskMenuState = (unsigned int)func_02027F60(4, 0xe, work->font, work->printQueue, work->mainHeapId);
     i = 0;
     do {
-        *(unsigned *)(p + i * 16 + 0xc4) = (unsigned int)func_02045EC0((struct MsgBank *)(*(unsigned *)&((struct Obj00007 *)p)->f114), i + 0xc);
-        *(unsigned short *)(p + i * 16 + 0xc8) = 0x39e3;
-        *(int *)(p + i * 16 + 0xcc) = z;
-        *(int *)(p + i * 16 + 0xc0) = z;
+        work->slots[i].label = (unsigned int)func_02045EC0((struct MsgBank *)(*(unsigned *)&work->messageBank), i + 0xc);
+        work->slots[i].textColor = 0x39e3;
+        work->slots[i].labelId = z;
+        *(int *)&work->slots[i].taskMenu = z;
         i++;
     } while (i < 3);
     z = 0;
     i = 0;
     do {
-        *(unsigned *)(p + i * 16 + 0xf4) = (unsigned int)func_02045EC0((struct MsgBank *)(*(unsigned *)&((struct Obj00007 *)p)->f114), i + 0xf);
-        *(unsigned short *)(p + i * 16 + 0xf8) = 0x39e3;
-        *(int *)(p + i * 16 + 0xfc) = z;
-        *(int *)(p + i * 16 + 0xf0) = z;
+        (&work->slots[3])[i].label = (unsigned int)func_02045EC0((struct MsgBank *)(*(unsigned *)&work->messageBank), i + 0xf);
+        (&work->slots[3])[i].textColor = 0x39e3;
+        (&work->slots[3])[i].labelId = z;
+        *(int *)&(&work->slots[3])[i].taskMenu = z;
         i++;
     } while (i < 2);
 }
@@ -4045,24 +3907,24 @@ void func_021F2C1C(char *p)
 
 
 
-void func_021F2CC4(char *p)
+void func_021F2CC4(BeaconViewWork *work)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        if (*(int *)(p + i * 16 + 0xf0) != 0) {
-            func_02028148((u8 *)(*(int *)(p + i * 16 + 0xf0)));
+        if (*(int *)&(&work->slots[3])[i].taskMenu != 0) {
+            func_02028148((u8 *)(*(int *)&(&work->slots[3])[i].taskMenu));
         }
-        func_02045808((struct U16Vec *)(*(int *)(p + i * 16 + 0xf4)));
+        func_02045808((struct U16Vec *)(*(int *)&(&work->slots[3])[i].label));
     }
     for (i = 0; i < 3; i++) {
-        if (*(int *)(p + i * 16 + 0xc0) != 0) {
-            func_02028148((u8 *)(*(int *)(p + i * 16 + 0xc0)));
+        if (*(int *)&work->slots[i].taskMenu != 0) {
+            func_02028148((u8 *)(*(int *)&work->slots[i].taskMenu));
         }
-        func_02045808((struct U16Vec *)(*(int *)(p + i * 16 + 0xc4)));
+        func_02045808((struct U16Vec *)(*(int *)&work->slots[i].label));
     }
-    func_02027FD8((struct TaskMenuState *)(((struct Obj00812 *)p)->fB8));
-    func_02028604(((struct Obj00812 *)p)->fBC);
+    func_02027FD8((struct TaskMenuState *)((int)work->taskMenuState));
+    func_02028604(work->taskMenuCursor);
 }
 
 
@@ -4073,11 +3935,9 @@ void func_021F2CC4(char *p)
 
 
 /*
- * note:     the work block must be a struct with the two Ent arrays as members:
- *           raw (p + K)[i] offsets fold the base into one register and the
- *           frame comes out 0x10 bytes short.
+ * Loads the resource lists, palette files and per-icon files of the view.
  */
-void func_021F2D20(Work_021F2A8C *p, void *h)
+void func_021F2D20(BeaconViewWork *work, void *h)
 {
     void *h2;
     ResSpec3 a;
@@ -4085,28 +3945,28 @@ void func_021F2D20(Work_021F2A8C *p, void *h)
     ResSpec3 c;
     int i;
 
-    h2 = func_020490F4(0x20, p->heap);
+    h2 = func_020490F4(0x20, work->uiHeapId);
     a = d_021F35BC;
-    func_021F30D4((char *)((Work_021F2A8C *)p), p->l134, a.s, h);
+    func_021F30D4(work, &work->panelLists.palettes, a.s, h);
     b = d_021F35D4;
-    func_021F30D4((char *)((Work_021F2A8C *)p), p->l164, b.s, h);
+    func_021F30D4(work, &work->statusLists.palettes, b.s, h);
     c = d_021F35C8;
-    func_021F30D4((char *)((Work_021F2A8C *)p), p->l14c, c.s, h2);
-    func_020216B4((struct PalAnmSlot *)p->fac, h, 0, p->heap, 3, 0x1c0, 0);
-    func_02021640((struct PalAnmSlot *)p->fac, 0, 1, p->heap, 3, 0x20, 0xe0);
-    p->r3c4.res = func_02049250(h, 4, p->heap2);
-    func_02062A98(p->r3c4.res, (void **)(&p->r3c4.hdr));
-    p->r3c4.data = ((struct Obj20461 *)(p->r3c4.hdr))->fC;
-    p->r3b8.res = func_02049250(h2, 0, p->heap2);
-    func_02062A98(p->r3b8.res, (void **)(&p->r3b8.hdr));
-    p->r3b8.data = ((struct Obj20462 *)(p->r3b8.hdr))->fC;
+    func_021F30D4(work, &work->iconLists.palettes, c.s, h2);
+    PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)work->paletteAnim, h, 0, work->uiHeapId, 3, 0x1c0, 0);
+    PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)work->paletteAnim, 0, 1, work->uiHeapId, 3, 0x20, 0xe0);
+    work->panelPalette.res = func_02049250(h, 4, work->mainHeapId);
+    func_02062A98(work->panelPalette.res, (void **)(&work->panelPalette.header));
+    work->panelPalette.data = (u16 *)((u32 *)work->panelPalette.header)[3];
+    work->iconPalette.res = func_02049250(h2, 0, work->mainHeapId);
+    func_02062A98(work->iconPalette.res, (void **)(&work->iconPalette.header));
+    work->iconPalette.data = (u16 *)((u32 *)work->iconPalette.header)[3];
     for (i = 0; i < 16; i++) {
-        p->e1[i].res = func_02049250(h2, i + 0x31, p->heap2);
-        func_02062A00(p->e1[i].res, &p->e1[i].data);
+        work->iconRes[i].file = func_02049250(h2, i + 0x31, work->mainHeapId);
+        func_02062A00(work->iconRes[i].file, &work->iconRes[i].data);
     }
     for (i = 0; i < 12; i++) {
-        p->e2[i].res = func_02049250(h, i + 7, p->heap2);
-        func_02062A00(p->e2[i].res, &p->e2[i].data);
+        work->statusRes[i].file = func_02049250(h, i + 7, work->mainHeapId);
+        func_02062A00(work->statusRes[i].file, &work->statusRes[i].data);
     }
     DC_FlushAll();
     func_02049238(h2);
@@ -4119,21 +3979,21 @@ void func_021F2D20(Work_021F2A8C *p, void *h)
 
 
 
-void func_021F2EDC(char *p)
+void func_021F2EDC(BeaconViewWork *work)
 {
     int i;
 
     for (i = 0; i < 12; i++) {
-        func_020307B0((void *)(*(int *)(p + 0x2dc + i * 8)));
+        func_020307B0((void *)(*(int *)((char *)&work->statusRes[0].file + i * 8)));
     }
     for (i = 0; i < 16; i++) {
-        func_020307B0((void *)(*(int *)(p + 0x33c + i * 8)));
+        func_020307B0((void *)(*(int *)((char *)&work->iconRes[0].file + i * 8)));
     }
-    func_020307B0((void *)(((struct Obj00812 *)p)->f3CC));
-    func_020307B0((void *)(((struct Obj00812 *)p)->f3C0));
-    func_021F31A8(p, (T_021F31A8 *)(p + 0x14c));
-    func_021F31A8(p, (T_021F31A8 *)(p + 0x164));
-    func_021F31A8(p, (T_021F31A8 *)(p + 0x134));
+    func_020307B0((void *)((int)work->panelPalette.res));
+    func_020307B0((void *)((int)work->iconPalette.res));
+    func_021F31A8(work, &work->iconLists);
+    func_021F31A8(work, &work->statusLists);
+    func_021F31A8(work, &work->panelLists);
 }
 
 
@@ -4147,19 +4007,19 @@ void func_021F2EDC(char *p)
  * note:     func_0204B258 takes two arguments (twin ov029_func_021F1DE8): the
  *           0x12C result still in r1 at that call is its second argument.
  */
-void func_021F2F44(char *p, void *a)
+void func_021F2F44(BeaconViewWork *work, void *a)
 {
     T16 t;
     int i;
 
-    ((struct Obj00007 *)p)->f128 = func_0204B100(0x40, 0, ((struct Obj00007 *)p)->f94);
+    work->actorBank = func_0204B100(0x40, 0, work->tempHeapId);
     t = d_021F35E0;
-    ((struct Obj00007 *)p)->f12C = func_0204B034((u8 *)(&t), 1, ((struct Obj00007 *)p)->f98);
-    func_0204B258(((struct Obj00007 *)p)->f128, ((struct Obj00007 *)p)->f12C);
-    ((struct Obj00007 *)p)->f124 = func_02025538(((struct Obj00007 *)p)->f98, ((struct Obj00007 *)p)->f128);
-    func_021F3264((S_021F254C *)p);
+    work->actorResource = func_0204B034((u8 *)(&t), 1, work->mainHeapId);
+    func_0204B258(work->actorBank, work->actorResource);
+    work->actorSystem = func_02025538(work->mainHeapId, work->actorBank);
+    func_021F3264(work);
     for (i = 0; i < 5; i++) {
-        func_021F32F8(p, i);
+        func_021F32F8(work, i);
     }
     func_02043598(0x10, 1);
 }
@@ -4171,18 +4031,18 @@ void func_021F2F44(char *p, void *a)
 
 
 
-void func_021F2FCC(char *p)
+void func_021F2FCC(BeaconViewWork *work)
 {
     int i;
 
     func_02043598(0x10, 0);
     for (i = 0; i < 5; i++) {
-        func_021F34C8(p, (unsigned char)i);
+        func_021F34C8((char *)work, (unsigned char)i);
     }
-    func_021F32D4(p);
-    func_02025588((void *)(((struct Obj00812 *)p)->f124));
-    func_0204B084(((struct Obj00812 *)p)->f12C);
-    func_0204B1CC((struct Bank *)(((struct Obj00812 *)p)->f128));
+    func_021F32D4(work);
+    func_02025588((void *)((int)work->actorSystem));
+    func_0204B084((int)work->actorResource);
+    func_0204B1CC((struct Bank *)((int)work->actorBank));
 }
 
 
@@ -4190,14 +4050,14 @@ void func_021F2FCC(char *p)
 
 
 
-void func_021F3010(T_021F254C *p, unsigned a, unsigned b, unsigned c, unsigned char d, unsigned char e, unsigned char f)
+void func_021F3010(BeaconViewWindow *window, unsigned a, unsigned b, unsigned c, unsigned char d, unsigned char e, unsigned char f)
 {
     void *w;
-    p->f0 = func_020450F0((void *)a, c, d, e, f, b, 1);
-    p->f4 = func_02045770(p->f0);
-    w = p->f0;
-    p->fc = 0;
-    p->f8 = w;
+    window->handle = func_020450F0((void *)a, c, d, e, f, b, 1);
+    window->bitmap = func_02045770(window->handle);
+    w = window->handle;
+    window->drawn = 0;
+    window->layout = w;
     func_02045334(w);
     func_02045374(w);
     func_020409B4(func_02045730(w));
@@ -4207,28 +4067,28 @@ void func_021F3010(T_021F254C *p, unsigned a, unsigned b, unsigned c, unsigned c
 
 
 
-void func_021F3058(char *p)
+void func_021F3058(BeaconViewWork *work)
 {
-    func_021F3010((T_021F254C *)(p + 0x17C), 6, 1, 2, 0x16, 0x1C, 6);
-    func_021F3010((T_021F254C *)(p + 0x190), 4, 0xD, 1, 0x15, 0xF, 3);
-    func_021F3010((T_021F254C *)(p + 0x1A4), 7, 4, 0, 0x13, 6, 2);
+    func_021F3010(&work->windows[0], 6, 1, 2, 0x16, 0x1C, 6);
+    func_021F3010(&work->windows[1], 4, 0xD, 1, 0x15, 0xF, 3);
+    func_021F3010(&work->windows[2], 7, 4, 0, 0x13, 6, 2);
 }
 
 
 
 
-void func_021F30B4(char *p)
+void func_021F30B4(BeaconViewWork *work)
 {
     int i;
     for (i = 0; i < 3; i++)
-        func_020452E8(*(struct Descriptor **)(p + i * 20 + 0x17c));
+        func_020452E8(*(struct Descriptor * *)&work->windows[i].handle);
 }
 
 
 
 
 
-void func_021F30D4(char *this, ResList *out, const ResSpec *spec, void *arc)
+void func_021F30D4(BeaconViewWork *work, BeaconViewResList *out, const ResSpec *spec, void *arc)
 {
     int i;
 
@@ -4236,39 +4096,39 @@ void func_021F30D4(char *this, ResList *out, const ResSpec *spec, void *arc)
     for (i = 0; i < 3; i++) {
         out[i].count = spec[i].count;
         if (out[i].count != 0)
-            out[i].items = func_02030734(((struct Obj07640 *)this)->f94, out[i].count << 2, 1, d_021F36A0, 0x4C3);
+            out[i].items = func_02030734(work->tempHeapId, out[i].count << 2, 1, d_021F36A0, 0x4C3);
     }
     for (i = 0; i < out[0].count; i++)
-        out[0].items[i] = func_0204ABF0(arc, spec[0].base + i, 1, 0, ((struct Obj07640 *)this)->f94);
+        out[0].items[i] = func_0204ABF0(arc, spec[0].base + i, 1, 0, work->tempHeapId);
     for (i = 0; i < out[1].count; i++)
-        out[1].items[i] = func_0204A6C8(arc, spec[1].base + i, 0, 1, ((struct Obj07640 *)this)->f94);
+        out[1].items[i] = func_0204A6C8(arc, spec[1].base + i, 0, 1, work->tempHeapId);
     for (i = 0; i < out[2].count; i++)
-        out[2].items[i] = func_0204AF28(arc, spec[2].base + i * 2, spec[2].base + 1 + i * 2, ((struct Obj07640 *)this)->f94);
+        out[2].items[i] = func_0204AF28(arc, spec[2].base + i * 2, spec[2].base + 1 + i * 2, work->tempHeapId);
 }
 
 
 
 
-void func_021F31A8(void *unused, T_021F31A8 *p)
+void func_021F31A8(BeaconViewWork *work, BeaconViewResSet *set)
 {
     unsigned i;
     int j;
-    for (i = 0; i < p->n2; i++)
-        func_0204AFD8(p->a2[i]);
-    for (i = 0; i < p->n1; i++)
-        func_0204A8D4(p->a1[i]);
-    for (i = 0; i < p->n0; i++)
-        func_0204ADA4(p->a0[i]);
+    for (i = 0; i < set->cells.count; i++)
+        func_0204AFD8(set->cells.items[i]);
+    for (i = 0; i < set->images.count; i++)
+        func_0204A8D4(set->images.items[i]);
+    for (i = 0; i < set->palettes.count; i++)
+        func_0204ADA4(set->palettes.items[i]);
     for (j = 0; j < 3; j++) {
-        if (((unsigned *)p)[j * 2 + 1] != 0)
-            func_020307B0((void *)(((unsigned *)p)[j * 2 + 1]));
+        if ((&set->palettes)[j].items != 0)
+            func_020307B0((&set->palettes)[j].items);
     }
 }
 
 
 
 
-void *func_021F3214(char *p, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z)
+void *func_021F3214(BeaconViewWork *work, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z)
 {
     Rect r;
     void *res;
@@ -4277,7 +4137,7 @@ void *func_021F3214(char *p, unsigned a, unsigned b, unsigned c, short x, short 
     r.w = w;
     r.h = h;
     r.z = z;
-    res = func_0204B294((void *)((struct Obj13068 *)p)->f128, a, b, c, &r, 0, ((struct Obj13068 *)p)->f94);
+    res = func_0204B294((void *)(unsigned int)work->actorBank, a, b, c, &r, 0, work->tempHeapId);
     func_0204B92C(res, 1);
     func_0204BA20(res, 0);
     return res;
@@ -4287,28 +4147,25 @@ void *func_021F3214(char *p, unsigned a, unsigned b, unsigned c, short x, short 
 
 
 /*
- * note:     the object array at +0x2BC must be a struct array member: raw
- *           (p + i * 4) arithmetic schedules p+i*4 ahead of &d[i] (2-byte DIFF).
+ * Creates the six decoration actors stored in the actors array of the work.
  */
-void func_021F3264(S_021F254C *p)
+void func_021F3264(BeaconViewWork *work)
 {
     int i;
     for (i = 0; i < 6; i++) {
-        p->o[i] = func_021F3214((char *)p, *p->b, *p->a, *p->c, d_021F35F0[i].x, d_021F35F0[i].y, i * 3 + 1, 1, 1);
-        func_0204B3DC(p->o[i], 1);
+        work->actors[i] = func_021F3214(work, *work->panelLists.images.items, *work->panelLists.palettes.items, *work->panelLists.cells.items, d_021F35F0[i].x, d_021F35F0[i].y, i * 3 + 1, 1, 1);
+        func_0204B3DC(work->actors[i], 1);
     }
 }
 
 
 
-void func_021F32D4(char *p)
+void func_021F32D4(BeaconViewWork *work)
 {
     int i;
-    char *q;
     for (i = 0; i < 6; i++) {
-        q = p + i * 4;
-        func_0204B3DC(*(struct Obj * *)&((struct Obj13069 *)q)->f2BC, 0);
-        func_0204B3B4(*(struct Obj * *)&((struct Obj13069 *)q)->f2BC);
+        func_0204B3DC(work->actors[i], 0);
+        func_0204B3B4(work->actors[i]);
     }
 }
 
@@ -4318,44 +4175,63 @@ void func_021F32D4(char *p)
 /*
  * Builds the 0x34-byte record at +0x1B8 that func_021F34C8 tears down.
  */
-void func_021F32F8(char *p, u8 idx)
+void func_021F32F8(BeaconViewWork *work, u8 idx)
 {
-    Rec_021F254C *r;
+    BeaconViewEntry *icon;
     Tmpl t;
 
-    r = (Rec_021F254C *)(p + 0x1b8 + idx * 0x34);
-    func_02082BCC(r, 0, 0x34);
-    r->f00 = idx;
-    r->f01 = 0xff;
-    r->f02 = 0;
-    r->f28 = ((struct Obj00007 *)p)->fB4;
-    r->x = idx * 13;
-    r->y = idx * 0x28;
-    r->f0c = func_021F3214(p, **(u32 * *)&((struct Obj00007 *)p)->f140, **(u32 * *)&((struct Obj00007 *)p)->f138, **(u32 * *)&((struct Obj00007 *)p)->f148,
-                           r->x, r->y, 0, 3, idx + 0x14);
-    func_0204B6F4(r->f0c, (u8)idx, 0);
-    r->f10 = func_021F3214(p, (*(u32 **)(p + 0x158))[idx], **(u32 * *)&((struct Obj00007 *)p)->f138, **(u32 * *)&((struct Obj00007 *)p)->f160,
-                           r->x + 0x20, r->y + 0x18, 0, 3, idx + 10);
-    func_0204B6F4(r->f10, (u8)(idx + 9), 1);
-    r->f14 = func_021F3214(p, (*(u32 **)(p + 0x170))[idx], **(u32 * *)&((struct Obj00007 *)p)->f138, **(u32 * *)&((struct Obj00007 *)p)->f178,
-                           r->x + 0x3c, r->y + 0x18, 0, 3, idx + 5);
-    r->f1c = func_02043678(0xc, 2, 0x20, ((struct Obj00007 *)p)->f98);
-    t.bmp = r->f1c;
-    t.x = r->x + 0x48;
-    t.y = r->y + 0x10;
-    t.f08 = **(u32 * *)&((struct Obj00007 *)p)->f138;
+    icon = &work->icons[idx];
+    func_02082BCC(icon, 0, 0x34);
+    icon->index = idx;
+    icon->peerSlot = 0xff;
+    icon->state = 0;
+    icon->sharedValue = work->printQueue;
+    icon->x = idx * 13;
+    icon->y = idx * 0x28;
+    icon->panelActor = func_021F3214(work, *work->panelLists.images.items, *work->panelLists.palettes.items, *work->panelLists.cells.items,
+                                     icon->x, icon->y, 0, 3, idx + 0x14);
+    func_0204B6F4(icon->panelActor, (u8)idx, 0);
+    icon->iconActor = func_021F3214(work, work->iconLists.images.items[idx], *work->panelLists.palettes.items, *work->iconLists.cells.items,
+                                    icon->x + 0x20, icon->y + 0x18, 0, 3, idx + 10);
+    func_0204B6F4(icon->iconActor, (u8)(idx + 9), 1);
+    icon->statusActor = func_021F3214(work, work->statusLists.images.items[idx], *work->panelLists.palettes.items, *work->statusLists.cells.items,
+                                      icon->x + 0x3c, icon->y + 0x18, 0, 3, idx + 5);
+    icon->textBitmap = func_02043678(0xc, 2, 0x20, work->mainHeapId);
+    t.bmp = icon->textBitmap;
+    t.x = icon->x + 0x48;
+    t.y = icon->y + 0x10;
+    t.f08 = *work->panelLists.palettes.items;
     t.f0c = 3;
     t.f10 = 0;
     t.f11 = 3;
     t.f12 = 0;
     t.f14 = 1;
-    r->f18 = func_020255A0(((struct Obj00007 *)p)->f124, (const struct Param *)(&t));
-    r->f20 = func_020457B0(0xb, ((struct Obj00007 *)p)->f98);
-    r->f24 = func_020457B0(8, ((struct Obj00007 *)p)->f98);
-    func_02043B5C(r->f1c, 0);
-    func_020257D0(r->f18);
-    func_02025774(r->f18, 0);
-    func_0204B3DC(r->f0c, 0);
-    func_0204B3DC(r->f10, 0);
-    func_0204B3DC(r->f14, 0);
+    icon->textWindow = func_020255A0(work->actorSystem, (const struct Param *)(&t));
+    icon->nameString = func_020457B0(0xb, work->mainHeapId);
+    icon->messageString = func_020457B0(8, work->mainHeapId);
+    func_02043B5C(icon->textBitmap, 0);
+    func_020257D0(icon->textWindow);
+    func_02025774(icon->textWindow, 0);
+    func_0204B3DC(icon->panelActor, 0);
+    func_0204B3DC(icon->iconActor, 0);
+    func_0204B3DC(icon->statusActor, 0);
+}
+
+/* Frees the strings, window, bitmap and actors of one list slot and clears it. */
+void func_021F34C8(char *work, int index)
+{
+    BeaconViewEntry *entry = (BeaconViewEntry *)(work + 0x1B8 + index * 0x34);
+
+    func_02045808(entry->messageString);
+    func_02045808(entry->nameString);
+    func_02025774(entry->textWindow, 0);
+    func_0202570C(entry->textWindow);
+    func_020437AC(entry->textBitmap);
+    func_0204B3DC(entry->statusActor, 0);
+    func_0204B3B4(entry->statusActor);
+    func_0204B3DC(entry->iconActor, 0);
+    func_0204B3B4(entry->iconActor);
+    func_0204B3DC(entry->panelActor, 0);
+    func_0204B3B4(entry->panelActor);
+    func_02082BCC(entry, 0, sizeof(BeaconViewEntry));
 }

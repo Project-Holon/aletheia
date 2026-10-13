@@ -1,5 +1,5 @@
 /*
- * function: func_02155B14
+ * function: DWC_RAP_SendMessage
  * address:  0x02155B14
  * packet:   pkt_ov009_02155B14
  * region:   ov009
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021A8264     0x021A8264  data  ov009  a4
- *   func_02155A80  0x02155A80  thumb  ov009
- *   func_0216B838  0x0216B838  arm
+ *   _pRapWork     0x021A8264  data  ov009  a4
+ *   DWC_RAP_SendPacket  0x02155A80  thumb  ov009
+ *   DWC_GetMyAID  0x0216B838  arm
  */
 
 typedef unsigned char u8;
@@ -25,20 +25,20 @@ typedef struct {
     u8 flag;
 } G;
 
-extern G *d_021A8264;
-int func_02155A80(void *src, int len, int c);
-unsigned char func_0216B838(void);
+extern G *_pRapWork;
+int DWC_RAP_SendPacket(void *src, int len, int c);
+unsigned char DWC_GetMyAID(void);
 
-int func_02155B14(int a, int b)
+int DWC_RAP_SendMessage(int a, int b)
 {
-    if (d_021A8264->flag == 0)
+    if (_pRapWork->flag == 0)
         return 0;
-    if (func_02155A80((void *)a, b, 1) == 0)
+    if (DWC_RAP_SendPacket((void *)a, b, 1) == 0)
         return 0;
-    d_021A8264->flag = 0;
-    if (d_021A8264->cb != 0) {
-        int r = func_0216B838();
-        d_021A8264->cb(r, a, (u16)b);
+    _pRapWork->flag = 0;
+    if (_pRapWork->cb != 0) {
+        int r = DWC_GetMyAID();
+        _pRapWork->cb(r, a, (u16)b);
     }
     return 1;
 }

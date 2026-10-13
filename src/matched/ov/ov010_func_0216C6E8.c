@@ -30,13 +30,13 @@
  *     u8 langIndex;
  *     u8 resident;
  * };
- * extern char g_020A7E8C[];
+ * extern char MSGDATA_AllocSite[];
  * extern void *sub_02030734(u32,u32,int,const char *,u16);
  * extern void func_020307B0(void *);
- * extern void func_020495F4(void *,u32,void *);
+ * extern void ARC_TOOL_ReadHandle(void *,u32,void *);
  * extern void func_0204960C(void *,u32);
- * extern void func_0204581C(void *);
- * extern void func_02045A00(void *,const void *,u16);
+ * extern void STRBUF_Clear(void *);
+ * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
  * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
@@ -44,14 +44,14 @@
  *     u32 size;
  *     struct MsgEntry *e;
  *     if (index >= bank->file->count) {
- *         func_0204581C(dest);
+ *         STRBUF_Clear(dest);
  *         return;
  *     }
  *     func_02046180(bank);
  *     if (bank->resident == 0) {
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *         func_0204960C(bank->stream,pos + (index * 8 + 4));
- *         func_020495F4(bank->stream,8,&bank->cache);
+ *         ARC_TOOL_ReadHandle(bank->stream,8,&bank->cache);
  *         e = &bank->cache;
  *     } else {
  *         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
@@ -60,17 +60,17 @@
  *         void *buf;
  *         size = e->len * 2;
  *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
- *                            0,g_020A7E8C,0xd6);
+ *                            0,MSGDATA_AllocSite,0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
- *             func_020495F4(bank->stream,size,buf);
- *             func_02045A00(dest,buf,e->len);
+ *             ARC_TOOL_ReadHandle(bank->stream,size,buf);
+ *             STRBUF_SetChars(dest,buf,e->len);
  *             func_020307B0(buf);
  *         }
  *     } else {
- *         func_02045A00(dest,(u8 *)bank->base + e->off,e->len);
+ *         STRBUF_SetChars(dest,(u8 *)bank->base + e->off,e->len);
  *     }
  *     func_02045E04(dest,index);
  * }
@@ -83,10 +83,10 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_020457B0  0x020457B0  arm
- *   sub_02045B38   0x02045B38  arm
+ *   MSGDATA_CreateFromArchive   0x02045B38  arm
  *   func_02045CAC  0x02045CAC  arm
  *   func_02045C04  0x02045C04  arm
- *   func_0202435C  0x0202435C  thumb
+ *   PMSI_PARAM_ToString  0x0202435C  thumb
  *   func_02012964  0x02012964  thumb
  *   func_0216DE94  0x0216DE94  thumb  ov010
  *   func_0216D88C  0x0216D88C  thumb  ov010
@@ -136,10 +136,10 @@ extern u32 func_02188C54(u8 *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_02045C04(struct Rec *rec);
-extern void *func_0202435C(void *slots, unsigned int heap);
+extern void *PMSI_PARAM_ToString(void *slots, unsigned int heap);
 extern u32 func_02012964(const struct BigObj *p);
 extern void *func_0216DE94(void *p, u32 id);
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
@@ -173,14 +173,14 @@ void *func_0216C6E8(u8 *d, void *sys, u32 idx, u16 id, u8 dir)
     t->id = id;
     if (*(u16 *)((u32)d + 0xA0 + idx * 0x120) == 0xFFFF) {
         t->name = func_020457B0(0x300, 4);
-        bank = sub_02045B38(0, 2, 0xB8, 4);
+        bank = MSGDATA_CreateFromArchive(0, 2, 0xB8, 4);
         n = *(u16 *)((u32)d + 0xA2 + idx * 0x120);
         if (n >= 0x3AE)
             n = 0;
         func_02045CAC(bank, n, t->name);
         func_02045C04(bank);
     } else {
-        t->name = func_0202435C((u16 *)((u32)d + 0xA0 + idx * 0x120), 4);
+        t->name = PMSI_PARAM_ToString((u16 *)((u32)d + 0xA0 + idx * 0x120), 4);
     }
     func_0216D88C(func_0216DE94((void *)func_02012964(ctx), t->id), &t->pos);
     m = func_02188C58(proc);

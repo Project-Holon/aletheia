@@ -8,21 +8,22 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201CA2C
+ * function: PRINTSYS_PutGlyph4bpp
  *
  * symbols:
- *   g_02146558   0x02146558  data
+ *   _pGlyphBmp   0x02146558  data
+ *   GF_FONT_ReadGlyph  0x0201DB04  thumb
  *
  * One of the two printsys.c glyph blitters, both of which forward the caller's
- * pen record to func_0201DB04 and then hand the result to a renderer reached
+ * pen record to GF_FONT_ReadGlyph and then hand the result to a renderer reached
  * through the module object at 0x02146558.  The pair is cut here rather than
- * matched as one range because func_0201DB04 is reached from exactly two places
+ * matched as one range because GF_FONT_ReadGlyph is reached from exactly two places
  * in the image, 0x0201CA4C and 0x0201CA98, one in each function: matched
  * together neither site has a witness, matched apart each is the other's `label`
  * witness.  That is
  * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.
  *
- * Its sibling at 0x0201CA78 stays parked (src/pending/sub_0201CA78.c): it calls
+ * Its sibling at 0x0201CA78 stays parked (src/pending/PRINTSYS_PutGlyph8bpp.c): it calls
  * 0x02043AAC, and 0x0201CABC is the only branch to that address anywhere in the
  * image, so no cut reaches it.
  *
@@ -41,17 +42,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void *g_02146558;
+extern void *_pGlyphBmp;
 
 struct Bmp;
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 struct Font;
-extern void func_0201DB04(struct Font *p, u16 ch, void *c, void *d);
+extern void GF_FONT_ReadGlyph(struct Font *p, u16 ch, void *c, void *d);
 
-void sub_0201CA2C(void *a, s32 b, u32 c, u32 d, u16 e, const u8 *f)
+void PRINTSYS_PutGlyph4bpp(void *a, s32 b, u32 c, u32 d, u16 e, const u8 *f)
 {
-    func_0201DB04((struct Font *)d, e, func_020437D4(g_02146558), (void *)f);
-    func_020439A0(g_02146558, a, 0, 0, b + f[0], c, f[1], f[3], 0);
+    GF_FONT_ReadGlyph((struct Font *)d, e, func_020437D4(_pGlyphBmp), (void *)f);
+    func_020439A0(_pGlyphBmp, a, 0, 0, b + f[0], c, f[1], f[3], 0);
 }
 

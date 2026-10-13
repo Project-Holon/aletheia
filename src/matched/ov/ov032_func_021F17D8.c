@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02040618 0x02040618 arm
- *   func_02031194 0x02031194 arm
+ *   TCBL_DeleteTask 0x02031194 arm
  */
 #include "../include/Obj03636.h"
 
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
 struct TcblNode;
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 void func_021F17D8(void *task, u8 *q)
 {
     u32 old;
@@ -33,5 +33,5 @@ void func_021F17D8(void *task, u8 *q)
         return;
     }
     (**(int * *)&((struct Obj03636 *)q)->f8)--;
-    func_02031194(task);
+    TCBL_DeleteTask(task);
 }

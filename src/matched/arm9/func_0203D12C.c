@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0203CD98  0x0203CD98  arm
- *   func_02037A44  0x02037A44  arm
+ *   GFL_NET_SYSTEM_SetDeviceMode  0x02037A44  arm
  *
  * EXACT*, not EXACT: the inferred extent runs on to 0x0203D17C because the
  * four eight-byte ARM long-branch veneers at 0x0203D14C, 0x0203D158,
@@ -32,12 +32,12 @@
  */
 
 extern int func_0203CD98(void);
-extern void func_02037A44(int a);
+extern void GFL_NET_SYSTEM_SetDeviceMode(int a);
 
 void func_0203D12C(int a)
 {
     if (func_0203CD98() == 0)
         return;
 
-    func_02037A44(a);
+    GFL_NET_SYSTEM_SetDeviceMode(a);
 }

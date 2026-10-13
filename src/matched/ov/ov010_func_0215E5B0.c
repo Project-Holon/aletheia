@@ -15,21 +15,21 @@
  * states on it for modes 1-2 (with field 0xA0 clear) or 5, or copies the two
  * values into it and calls func_0215E364.
  *
- * MATCH, bytes exact. Blocker: func_0201313C (arm9, Thumb) is an unlabelled
- * leaf (a .word after func_02013128's pool), so neither label nor
+ * MATCH, bytes exact. Blocker: BTL_SETUP_GetParty (arm9, Thumb) is an unlabelled
+ * leaf (a .word after BTL_SETUP_SetParty's pool), so neither label nor
  * sole-ref/code reaches it. It is EXACT from
- *     void *func_0201313C(void *p, int i)
+ *     void *BTL_SETUP_GetParty(void *p, int i)
  *     { return ((void **)((char *)p + 0x24))[i]; }
- * as src/matched/arm9/func_0201313C.c (pkt_0201313C), outside this ov lane's
+ * as src/matched/arm9/BTL_SETUP_GetParty.c (pkt_0201313C), outside this ov lane's
  * write set; once that shard exists this file verifies EXACT.
  * The local declaration order (mon, species, v, idx, tbl, b) is load-bearing.
  *
- * 2026-10-05 (wave D8): The arm9 leaf func_0201313C now has an EXACT witness src/matched/arm9/func_0201313C.c (pkt_0201313C); once its shard exists this file verifies EXACT.
+ * 2026-10-05 (wave D8): The arm9 leaf BTL_SETUP_GetParty now has an EXACT witness src/matched/arm9/BTL_SETUP_GetParty.c (pkt_0201313C); once its shard exists this file verifies EXACT.
  *
  * symbols:
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb
- *   func_0201313C  0x0201313C  thumb
+ *   BTL_SETUP_GetParty  0x0201313C  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02012EBC  0x02012EBC  thumb
@@ -62,7 +62,7 @@ struct Rec44;
 struct SaveBlock;
 extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02012AC8(const struct Rec44 *p);
-extern void *func_0201313C(void *p, int v);
+extern void *BTL_SETUP_GetParty(void *p, int v);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void *func_02012EBC(struct Big *p);
@@ -90,7 +90,7 @@ void func_0215E5B0(void *a0, Work *w)
         return;
     }
     func_02012AC8(func_020127A4(a0));
-    mon = func_0201AB28(func_0201313C(w, 1), 0);
+    mon = func_0201AB28(BTL_SETUP_GetParty(w, 1), 0);
     species = func_02017E1C(mon, 5, 0);
     v = func_02017E1C(mon, 0xA0, 0);
     b = func_02017E1C(mon, 0x9D, 0);

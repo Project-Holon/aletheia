@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0206A124
+ * function: NNS_G3dPlttSetPlttKey
  * address:  0x0206A124
  * packet:   pkt_020694D8
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_0206A124(int *p, int v){ p[0xb] = v; }
+void NNS_G3dPlttSetPlttKey(int *p, int v){ p[0xb] = v; }

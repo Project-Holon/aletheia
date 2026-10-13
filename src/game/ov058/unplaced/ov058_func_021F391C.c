@@ -25,65 +25,57 @@
  *   func_0207AF1C  0x0207AF1C  thumb
  *   d_020A1B38     0x020A1B38  data  a2
  */
+#include "../unit_021F36C0_types.h"
 
-typedef unsigned short u16;
-typedef signed short s16;
+extern void func_021F391C(Gimmick58Work *work, struct FieldMap *fieldMap, int leadModel, int trailModel);
 
-typedef struct {
-    int a;
-    int b;
-    int c;
-} V;
-
-extern s16 d_020A1B38[];
-
-typedef unsigned char  u8;
-extern u16 func_02188C84(u8 *p);
-extern int func_02188D2C(int *p);
-extern int func_021BE480(char *p, unsigned i, int j);
-extern void  func_021BE4A4(void *p, int i, u16 j, int v);
-extern void  func_0207AF1C(void *m, int a, int b);
-
-void func_021F391C(void *unused, void *a, int i, int j)
+/*
+ * Put the four models of one lane at their start: the eastbound lead and
+ * trail (turned by the sine/cosine pair at angle step 0x400) and the
+ * westbound lead and trail (pair 0xC00). The cosine values are separate
+ * locals (two stack slots) while the sine value reuses one register; the
+ * cosine declared before the sine puts the sine in r7.
+ */
+void func_021F391C(Gimmick58Work *work, struct FieldMap *fieldMap, int leadModel, int trailModel)
 {
-    void *s;
-    V *e;
-    int y;
-    int x;
-    int y2;
+    FldExpObjCnt *expObj;
+    G3dObjectStatus *model;
+    int cosEast;
+    int sinValue;
+    int cosWest;
 
-    func_02188C84(a);
-    s = (void *)func_02188D2C(a);
+    func_02188C84(fieldMap);
+    expObj = func_02188D2C(fieldMap);
 
-    e = (V *)func_021BE480(s, (int)0, (u16)i);
-    e->a = 0x1770000;
-    e->b = 0x50000;
-    e->c = 0x2100000;
-    x = d_020A1B38[0x800];
-    y = d_020A1B38[0x801];
-    func_0207AF1C((char *)e + 0x18, x, y);
-    func_021BE4A4(s, 0, i, 1);
+    model = func_021BE480(expObj, 0, (u16)leadModel);
+    model->trans.x = GIMMICK58_TRACK_MIN_X;
+    model->trans.y = GIMMICK58_TRAIN_Y;
+    model->trans.z = GIMMICK58_EAST_TRACK_Z;
+    sinValue = d_020A1B38[0x800];
+    cosEast = d_020A1B38[0x801];
+    func_0207AF1C(&model->rotate, sinValue, cosEast);
+    func_021BE4A4(expObj, 0, leadModel, 1);
 
-    e = (V *)func_021BE480(s, (int)0, (u16)j);
-    e->a = 0x1710000;
-    e->b = 0x50000;
-    e->c = 0x2100000;
-    func_0207AF1C((char *)e + 0x18, x, y);
-    func_021BE4A4(s, 0, j, 1);
+    model = func_021BE480(expObj, 0, (u16)trailModel);
+    model->trans.x = GIMMICK58_TRACK_MIN_X - GIMMICK58_TRAIL_GAP;
+    model->trans.y = GIMMICK58_TRAIN_Y;
+    model->trans.z = GIMMICK58_EAST_TRACK_Z;
+    func_0207AF1C(&model->rotate, sinValue, cosEast);
+    func_021BE4A4(expObj, 0, trailModel, 1);
 
-    e = (V *)func_021BE480(s, (int)0, (u16)(i + 2));
-    e->a = 0x1C60000;
-    e->b = 0x50000;
-    e->c = 0x20B0000;
-    x = d_020A1B38[0x1800];
-    y2 = d_020A1B38[0x1801];
-    func_0207AF1C((char *)e + 0x18, x, y2);
-    func_021BE4A4(s, 0, i + 2, 1);
+    model = func_021BE480(expObj, 0, (u16)(leadModel + 2));
+    model->trans.x = GIMMICK58_TRACK_MAX_X;
+    model->trans.y = GIMMICK58_TRAIN_Y;
+    model->trans.z = GIMMICK58_WEST_TRACK_Z;
+    sinValue = d_020A1B38[0x1800];
+    cosWest = d_020A1B38[0x1801];
+    func_0207AF1C(&model->rotate, sinValue, cosWest);
+    func_021BE4A4(expObj, 0, leadModel + 2, 1);
 
-    e = (V *)func_021BE480(s, (int)0, (u16)(j + 2));
-    e->a = 0x1CC0000;
-    e->b = 0x50000;
-    e->c = 0x20B0000;
-    func_0207AF1C((char *)e + 0x18, x, y2);
-    func_021BE4A4(s, 0, j + 2, 1);
+    model = func_021BE480(expObj, 0, (u16)(trailModel + 2));
+    model->trans.x = GIMMICK58_TRACK_MAX_X + GIMMICK58_TRAIL_GAP;
+    model->trans.y = GIMMICK58_TRAIN_Y;
+    model->trans.z = GIMMICK58_WEST_TRACK_Z;
+    func_0207AF1C(&model->rotate, sinValue, cosWest);
+    func_021BE4A4(expObj, 0, trailModel + 2, 1);
 }

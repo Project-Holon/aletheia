@@ -18,11 +18,11 @@
  *   func_0201A920  0x0201A920  thumb
  *   func_020173EC  0x020173EC  thumb
  *   func_02030734  0x02030734  arm
- *   func_0201756C  0x0201756C  thumb
+ *   POKE_TOOL_SetupPartyParam  0x0201756C  thumb
  *   func_02017E40  0x02017E40  thumb
  *   func_0201A98C  0x0201A98C  thumb
  *   func_021AA304  0x021AA304  thumb  ov021
- *   func_020135C0  0x020135C0  thumb
+ *   BTL_SETUP_SetupDemo  0x020135C0  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
@@ -69,12 +69,12 @@ extern void *func_02013090(u32 heap);
 extern void *func_0201A920(u16 heap);
 extern u32 func_020173EC(void);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern void func_0201756C(void *mon, u16 species, u16 level, u64 id);
+extern void POKE_TOOL_SetupPartyParam(void *mon, u16 species, u16 level, u64 id);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 struct Info;
 extern void func_021AA304(struct Info *out, void *a1, void *a2);
-extern void func_020135C0(void *bs, void *ctx, void *p1, void *p2, Loc *loc, u32 heap);
+extern void BTL_SETUP_SetupDemo(void *bs, void *ctx, void *p1, void *p2, Loc *loc, u32 heap);
 extern u32 func_020307B0(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
@@ -101,13 +101,13 @@ void *func_0216E95C(void *sys, u32 arg, u32 heap)
     party1 = func_0201A920(h);
     party2 = func_0201A920(h);
     mon = func_02030734(h, func_020173EC(), 1, d_02172B54, 0x1DA);
-    func_0201756C(mon, 572, 7, 0);
+    POKE_TOOL_SetupPartyParam(mon, 572, 7, 0);
     func_02017E40(mon, 0x36, 1);
     func_02017E40(mon, 0x37, 45);
     func_02017E40(mon, 0x38, 0);
     func_02017E40(mon, 0x39, 0);
     func_0201A98C(party1, mon);
-    func_0201756C(mon, 504, 2, 0);
+    POKE_TOOL_SetupPartyParam(mon, 504, 2, 0);
     func_02017E40(mon, 0x36, 33);
     func_02017E40(mon, 0x37, 43);
     func_02017E40(mon, 0x38, 0);
@@ -116,7 +116,7 @@ void *func_0216E95C(void *sys, u32 arg, u32 heap)
     func_021AA304((struct Info *)(&loc), ctx, (void *)arg);
     loc.f04 = 5;
     loc.f00 = 0;
-    func_020135C0(bs, ctx, party1, party2, &loc, heap);
+    BTL_SETUP_SetupDemo(bs, ctx, party1, party2, &loc, heap);
     func_020307B0(mon);
     func_020307B0(party2);
     func_020307B0(party1);

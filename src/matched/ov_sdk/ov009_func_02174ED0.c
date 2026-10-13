@@ -12,7 +12,7 @@
  * sdk:      DWCi_QR2ClientMsgCallback (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
  * symbols:
- *   func_0216B994                0x0216B994 arm   ov009
+ *   DWC_GetState                0x0216B994 arm   ov009
  *   func_02175F3C                0x02175F3C arm   ov009
  *   func_02082D44                0x02082D44 arm
  *   func_020949F4                0x020949F4 arm
@@ -41,7 +41,7 @@ struct DWCstBinaryMessage {
     int pid;
 };
 
-extern int func_0216B994(void);
+extern int DWC_GetState(void);
 extern int func_02175F3C(void);
 extern void func_02082D44(void *srcp, void *dstp, u32 size);
 extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
@@ -55,8 +55,8 @@ void func_02174ED0(char *data, int len)
     int boolResult;
     int offset = 0;
 
-    if (func_0216B994() != 4) {
-        if (func_0216B994() != 5)
+    if (DWC_GetState() != 4) {
+        if (DWC_GetState() != 5)
             return;
         if (((struct DWCstMatchControl *)func_02175F3C())->f14 != 2 && ((struct DWCstMatchControl *)func_02175F3C())->f14 != 3)
             return;

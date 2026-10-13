@@ -1,5 +1,5 @@
 /*
- * function: func_02037288
+ * function: GFL_NET_SYSTEM_InitWork
  * address:  0x02037288
  * packet:   pkt_02037288
  * region:   arm9
@@ -26,12 +26,12 @@
  * symbols:
  *   lbl_021469D0   0x021469D0  data
  *   str_020A7A24   0x020A7A24  data
- *   func_0203D680  0x0203D680  arm
- *   func_02037258  0x02037258  arm
+ *   GFL_NET_GetMaxConnectNum  0x0203D680  arm
+ *   GFL_NET_SYSTEM_GetSendSize  0x02037258  arm
  *   func_02030734  0x02030734  arm
- *   func_0203D6BC  0x0203D6BC  arm
- *   func_02036AF4  0x02036AF4  arm
- *   func_02037478  0x02037478  arm
+ *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
+ *   GFL_NET_QUEUE_Init  0x02036AF4  arm
+ *   GFL_NET_SYSTEM_ResetBuffers  0x02037478  arm
  */
 
 typedef unsigned char  u8;
@@ -54,21 +54,21 @@ struct Net {
 
 extern struct Net *lbl_021469D0;
 extern char str_020A7A24[];
-extern u32 func_0203D680(void);
-extern u32 func_02037258(void);
+extern u32 GFL_NET_GetMaxConnectNum(void);
+extern u32 GFL_NET_SYSTEM_GetSendSize(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0203D6BC(void);
-extern void func_02036AF4(u8 *p, u32 n, u32 a, u32 b);
-extern void func_02037478(void);
+extern u32 GFL_NET_GetChildSendSize(void);
+extern void GFL_NET_QUEUE_Init(u8 *p, u32 n, u32 a, u32 b);
+extern void GFL_NET_SYSTEM_ResetBuffers(void);
 
-int func_02037288(u32 a0, u32 heap, u32 c)
+int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c)
 {
     u32 n;
     u32 m;
 
     if (lbl_021469D0 == 0) {
-        n = func_0203D680();
-        m = func_02037258();
+        n = GFL_NET_GetMaxConnectNum();
+        m = GFL_NET_SYSTEM_GetSendSize();
         lbl_021469D0 = func_02030734(heap, 0x1f0, 1, str_020A7A24, 0xdd);
         if (c != 0)
             lbl_021469D0->f1E0 = m + 0x40;
@@ -81,18 +81,18 @@ int func_02037288(u32 a0, u32 heap, u32 c)
                                           str_020A7A24, 0xe8);
         lbl_021469D0->f10 = func_02030734(heap, n * lbl_021469D0->f1E0, 1,
                                           str_020A7A24, 0xe9);
-        lbl_021469D0->f00 = func_02030734(heap, func_0203D6BC(), 1,
+        lbl_021469D0->f00 = func_02030734(heap, GFL_NET_GetChildSendSize(), 1,
                                           str_020A7A24, 0xec);
-        lbl_021469D0->f04 = func_02030734(heap, func_0203D6BC() * 15, 1,
+        lbl_021469D0->f04 = func_02030734(heap, GFL_NET_GetChildSendSize() * 15, 1,
                                           str_020A7A24, 0xed);
         lbl_021469D0->f08 = func_02030734(heap, m, 1, str_020A7A24, 0xee);
         lbl_021469D0->f0C = func_02030734(heap, m * 2, 1, str_020A7A24, 0xef);
-        func_02036AF4((u8 *)lbl_021469D0 + 0xcc, 0x64,
+        GFL_NET_QUEUE_Init((u8 *)lbl_021469D0 + 0xcc, 0x64,
                       (u32)((u8 *)lbl_021469D0 + 0x1c), heap);
-        func_02036AF4((u8 *)lbl_021469D0 + 0xf4, 0xb4,
+        GFL_NET_QUEUE_Init((u8 *)lbl_021469D0 + 0xf4, 0xb4,
                       (u32)((u8 *)lbl_021469D0 + 0x3c), heap);
         lbl_021469D0->f1AC = 1;
-        func_02037478();
+        GFL_NET_SYSTEM_ResetBuffers();
     }
     *(u16 *)((u8 *)lbl_021469D0 + 0x100 + 0xe4) = 0;
     *((u8 *)lbl_021469D0 + 0x1e7) = 0;

@@ -19,12 +19,12 @@
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204B294 0x0204B294 arm
  *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B800 0x0204B800 arm
+ *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   func_0204B688 0x0204B688 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
  *   func_02049DF4 0x02049DF4 arm
- *   func_0204AA94 0x0204AA94 arm
+ *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   func_020307B0 0x020307B0 arm
  *   d_021BC128 0x021BC128 data a2
  *   d_021BC150 0x021BC150 data a1
@@ -52,7 +52,7 @@ typedef struct {
 extern const unsigned short d_021BC128[];
 extern const Tile d_021BC150[];
 extern void *func_02049DF4(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned short a4);
-extern void func_0204AA94(int a, void *b, unsigned int c, int d, int e);
+extern void CLACT_TransferCharacterPart(int a, void *b, unsigned int c, int d, int e);
 extern unsigned int func_020307B0(void *p);
 
 typedef struct {
@@ -77,7 +77,7 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, unsigned short, unsigned short);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -155,8 +155,8 @@ void func_021BB79C(Ent *p, unsigned x, unsigned y, int z, int row)
             p->m[row][j] = (int)func_0204A6C8(arc, func_020275F8(id), 0, ifv, p->f0);
             ta = d_021BC150[id].b << 7;
             tb = d_021BC150[id].a << 11;
-            func_0204AA94((int)((void *)p->m[row][j]), (void *)(data + (tb + ta)), 0x80, 0, ifv);
-            func_0204AA94((int)((void *)p->m[row][j]), (void *)(data + ((tb + (1 << 10)) + ta)), 0x80, 0x80, ifv);
+            CLACT_TransferCharacterPart((int)((void *)p->m[row][j]), (void *)(data + (tb + ta)), 0x80, 0, ifv);
+            CLACT_TransferCharacterPart((int)((void *)p->m[row][j]), (void *)(data + ((tb + (1 << 10)) + ta)), 0x80, 0x80, ifv);
         }
     }
     func_020307B0(handle);
@@ -164,7 +164,7 @@ void func_021BB79C(Ent *p, unsigned x, unsigned y, int z, int row)
         if (p->m[row][j] != -1) {
             p->n[row][j] = func_0204B294(p->f24, (u32)p->m[row][j], (u32)p->fc8, (u32)p->fcc, &rr[j], (unsigned short)tern, p->f0);
             func_0204B6F4(p->n[row][j], func_020275EC(sel[j]), 1);
-            func_0204B800(p->n[row][j], 2);
+            CLACT_SetActorDrawPriority(p->n[row][j], 2);
             func_0204B688(p->n[row][j], 1);
         }
     }

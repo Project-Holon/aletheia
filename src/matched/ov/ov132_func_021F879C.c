@@ -40,7 +40,7 @@
  *   func_020479D8 0x020479D8 arm
  *   func_02047970 0x02047970 arm
  *   func_0204A600 0x0204A600 arm
- *   func_0204F7DC 0x0204F7DC arm
+ *   BILLBOARD_Draw 0x0204F7DC arm
  *   func_0204A648 0x0204A648 arm
  *   func_0202208C 0x0202208C thumb
  *   func_020221A4 0x020221A4 thumb
@@ -88,7 +88,7 @@ extern void func_021F51F4(void **p);
 extern void func_021F718C(char *p);
 extern void func_021F6F8C(u8 *);
 extern void func_02047964(void),func_020479D8(void),func_02047970(void),func_0204A600(void),func_0204A648(void);
-extern void func_0204F7DC(struct Board *b, struct Camera *cam, struct Lights *lights);
+extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
 int func_021F879C(u8 *p)
 {
     u32 tick;
@@ -159,7 +159,7 @@ int func_021F879C(u8 *p)
     func_021F51F4((void **)(*(u8 * *)&((struct Obj00191 *)p)->f34));
     func_021F718C((char *)(*(u8 * *)&((struct Obj00191 *)p)->f40));
     func_021F6F8C(*(u8 * *)&((struct Obj00191 *)p)->f3C);
-    func_0204F7DC(((struct Obj00191 *)p)->fAC,((struct Obj00191 *)p)->fA8,0);
+    BILLBOARD_Draw(((struct Obj00191 *)p)->fAC,((struct Obj00191 *)p)->fA8,0);
     func_021F9ED4(*(u8 * *)&((struct Obj00191 *)p)->f6C);
     func_021F9E4C(p);
     func_02047970(); func_0204A600();

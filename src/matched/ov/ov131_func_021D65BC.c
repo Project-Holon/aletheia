@@ -1,5 +1,5 @@
 /*
- * function: func_021D65BC
+ * function: P_STATUS_ProcMain
  * address:  0x021D65BC
  * packet:   pkt_021D65BC
  * region:   ov131
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D44C8  0x021D44C8  thumb
+ *   P_STATUS_MainSeq  0x021D44C8  thumb
  *
  * Addresses are Black-image addresses.
  */
 
-extern int func_021D44C8(char *p);
+extern int P_STATUS_MainSeq(char *p);
 
-int func_021D65BC(int a, int b, int c, int d)
+int P_STATUS_ProcMain(int a, int b, int c, int d)
 {
-    int r = func_021D44C8((char *)d);
+    int r = P_STATUS_MainSeq((char *)d);
 
     if (r == 1)
         return 1;

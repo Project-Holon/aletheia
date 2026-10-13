@@ -1,5 +1,5 @@
 /*
- * function: func_0202BFF0
+ * function: ISS_ZONE_SYS_StepFade
  * address:  0x0202BFF0
  * packet:   pkt_0202BFF0
  * region:   arm9
@@ -15,10 +15,11 @@
  *   _fmul   0x0209C77C  arm
  *   _fsub   0x0209CB8C  arm
  *   _f2s    0x0209C494  arm
+ *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *
  * The record's active window: while +0x12 exceeds the running +0x14 counter,
  * bump the counter and push a percentage to the +0xe and +0x10 gauges
- * (func_02005F24).  The two gauges differ only in the numerator: the first
+ * (GFL_USE_SetBgmTrackVolume).  The two gauges differ only in the numerator: the first
  * scales the counter, the second the counter brought round by one.
  *
  * Each gauge id is bound to a local before the counter is stored and before
@@ -38,8 +39,8 @@
  * _ffltu, _fdiv, _fmul, _fsub and _f2s, which is what the relocations carry.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202BFF0.c \
- *       --func func_0202BFF0 --addr 0x0202BFF0 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_ZONE_SYS_StepFade.c \
+ *       --func ISS_ZONE_SYS_StepFade --addr 0x0202BFF0 --thumb --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -57,14 +58,14 @@ struct Obj {
     u16 f14;
 };
 
-extern void func_02005F24(u32 a0, u32 a1);
+extern void GFL_USE_SetBgmTrackVolume(u32 a0, u32 a1);
 extern float _ffltu(u32 v);
 extern float _fdiv(float a, float b);
 extern float _fmul(float a, float b);
 extern float _fsub(float a, float b);
 extern int   _f2s(float a);
 
-void func_0202BFF0(struct Obj *o)
+void ISS_ZONE_SYS_StepFade(struct Obj *o)
 {
     u16 id;
 
@@ -74,13 +75,13 @@ void func_0202BFF0(struct Obj *o)
     id = o->fxe;
     o->f14 += 1;
     if (id != 0) {
-        func_02005F24(id, _f2s(_fmul(127.0f,
+        GFL_USE_SetBgmTrackVolume(id, _f2s(_fmul(127.0f,
                                       _fdiv(_ffltu(o->f14),
                                             _ffltu(o->f12)))));
     }
     id = o->f10;
     if (id != 0) {
-        func_02005F24(id, _f2s(_fmul(127.0f,
+        GFL_USE_SetBgmTrackVolume(id, _f2s(_fmul(127.0f,
                                       _fsub(1.0f,
                                             _fdiv(_ffltu(o->f14),
                                                   _ffltu(o->f12))))));

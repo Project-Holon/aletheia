@@ -1,5 +1,5 @@
 /*
- * function: func_021570B8
+ * function: DWC_RAPCOMMON_DestroyHeap
  * address:  0x021570B8
  * packet:   pkt_ov009_021570B8
  * region:   ov009
@@ -14,7 +14,7 @@
  *   d_021A1C78  0x021A1C78  data  ov009  a1
  *   d_021A1C7C  0x021A1C7C  data  ov009  a1
  *   func_02034714  0x02034714  arm
- *   func_02156F14  0x02156F14  thumb  ov009
+ *   DWC_RAPCOMMON_ReleaseSubHeap  0x02156F14  thumb  ov009
  *   func_02060C94  0x02060C94  arm
  *   func_020307B0  0x020307B0  arm
  */
@@ -41,17 +41,17 @@ extern char d_021A1C78[];
 extern char d_021A1C7C[];
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02156F14(void);
+extern void DWC_RAPCOMMON_ReleaseSubHeap(void);
 extern void func_02060C94(void *heap);
 extern u32 func_020307B0(void *p);
 
-void func_021570B8(void)
+void DWC_RAPCOMMON_DestroyHeap(void)
 {
     if (d_021A8268 == 0) {
         func_02034714(d_021A1C78, 0, d_021A1C78);
     }
     if (d_021A8268->f1C == 1 || d_021A8268->fC != 0) {
-        func_02156F14();
+        DWC_RAPCOMMON_ReleaseSubHeap();
     }
     func_02060C94((void *)d_021A8268->f0);
     func_020307B0((void *)d_021A8268->f4);

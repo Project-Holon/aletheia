@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200575C",
-    "sub_02005768"
+    "GFL_USE_GetArcPath",
+    "GFL_USE_WaitInputReady"
+   ],
+   "addresses": [
+    "0x0200575C",
+    "0x02005768"
    ]
   },
   {
@@ -34,9 +38,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02005794",
-    "sub_020057A0",
-    "sub_020057AC"
+    "GFL_USE_MuteSound",
+    "GFL_USE_UnmuteSound",
+    "GFL_USE_SetSleepVolumeHooks"
+   ],
+   "addresses": [
+    "0x02005794",
+    "0x020057A0",
+    "0x020057AC"
    ]
   },
   {
@@ -51,19 +60,34 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020057DC",
-    "sub_020057E8",
-    "sub_02005834",
-    "sub_02005858",
-    "sub_02005888",
-    "sub_020058D0",
-    "sub_02005900",
-    "sub_0200590C",
-    "sub_02005924",
-    "sub_0200597C",
-    "sub_020059A0",
-    "sub_020059C8",
-    "sub_02005A00"
+    "GFL_USE_SetSndStackHeap",
+    "GFL_USE_InitSndSlot",
+    "GFL_USE_BeginSndSlot",
+    "GFL_USE_EndSndSlot",
+    "GFL_USE_InitSndStack",
+    "GFL_USE_GetCurrentBgmId",
+    "GFL_USE_GetSndStackDepth",
+    "GFL_USE_GetCurrentSndHandle",
+    "GFL_USE_LoadBgmData",
+    "GFL_USE_SaveSeqBankState",
+    "GFL_USE_FinishBgmLoad",
+    "GFL_USE_UnloadBgmData",
+    "GFL_USE_PushSndSlot"
+   ],
+   "addresses": [
+    "0x020057DC",
+    "0x020057E8",
+    "0x02005834",
+    "0x02005858",
+    "0x02005888",
+    "0x020058D0",
+    "0x02005900",
+    "0x0200590C",
+    "0x02005924",
+    "0x0200597C",
+    "0x020059A0",
+    "0x020059C8",
+    "0x02005A00"
    ]
   }
  ]

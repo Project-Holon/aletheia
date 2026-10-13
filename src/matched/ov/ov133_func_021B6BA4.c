@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * note 2026-10-05 (wD9r lane78): EXACT. Closed by declaring func_02049658 with its real return type u32
- *   (it returns sub_0204968C's u32 result, as the matched sibling func_02049624 does), not void. The void
+ *   (it returns ARC_UTIL_UploadBgChar's u32 result, as the matched sibling func_02049624 does), not void. The void
  *   prototype hoisted 4 into r7 and turned later zeros into adds rN,r6,#0 copies. 0xd and -128 are literals.
  *   See docs/idioms/a-getter-declared-void-changes-constant-hoisting.md.
  * symbols:

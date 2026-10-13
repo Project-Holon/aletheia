@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201600C  0x0201600C  thumb
+ *   MCSS_CheckPaletteFade  0x0201600C  thumb
  *   func_021F935C  0x021F935C  thumb  ov094
  *   func_021FFD9C  0x021FFD9C  thumb  ov094
  *   func_022019F4  0x022019F4  thumb  ov094
@@ -38,7 +38,7 @@ typedef struct {
 
 extern int func_022019F4(char *p, int key);
 extern int func_021FFD9C(char *p, int key);
-extern int func_0201600C(void *h);
+extern int MCSS_CheckPaletteFade(void *h);
 extern int func_021F935C(int x);
 
 int func_021FFCB0(Work *w, int key)
@@ -46,7 +46,7 @@ int func_021FFCB0(Work *w, int key)
     int r = 0;
 
     if (func_021FFD9C((char *)w, key))
-        r = func_0201600C(w->e[func_022019F4((char *)w, key)].h);
+        r = MCSS_CheckPaletteFade(w->e[func_022019F4((char *)w, key)].h);
     if (func_021F935C(key) & w->m514
         || func_021F935C(key) & w->m518
         || func_021F935C(key) & w->m524

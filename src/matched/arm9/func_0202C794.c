@@ -12,14 +12,14 @@
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
- *   func_0201297C  0x0201297C  thumb
+ *   GAME_DATA_GetMusicalWork  0x0201297C  thumb
  *   func_0215E6A8  0x0215E6A8  thumb
  *   func_0202C8B8  0x0202C8B8  thumb
  *   func_0202C934  0x0202C934  thumb
  *   func_0202C970  0x0202C970  thumb
  *   func_0202C824  0x0202C824  thumb
  *   func_021647E8  0x021647E8  thumb  ov010
- *   func_02013C10  0x02013C10  thumb
+ *   ZONEDATA_GetWeatherId  0x02013C10  thumb
  *
  * note:     wave 16: promoted.  0x021647E8 is the unlabelled ov010 tail-call
  *           thunk matched in src/matched/func_021647E8.c (`matched, overlay`
@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_0201297C(const struct BigObj *p);
+extern u32 GAME_DATA_GetMusicalWork(const struct BigObj *p);
 extern u32 func_0215E6A8(u32 a, u16 b);
 typedef signed int     s32;
 extern s32 func_0202C8B8(void *a0, u32 a1, u32 a2);
@@ -45,12 +45,12 @@ extern s32 func_0202C934(void *a0, u32 a1, u32 a2);
 extern u32 func_0202C970(void *a, void *b, u32 c);
 extern int func_0202C824(int a0);
 extern u32 func_021647E8(void *arg, unsigned int b);
-extern u32 func_02013C10(u32 id);
+extern u32 ZONEDATA_GetWeatherId(u32 id);
 
 u8 func_0202C794(void *a0, u32 a1)
 {
     u32 ctx = (u32)func_020120F4(a0);
-    u32 saved = func_0201297C((const struct BigObj *)ctx);
+    u32 saved = GAME_DATA_GetMusicalWork((const struct BigObj *)ctx);
     u32 r;
 
     r = func_0215E6A8(ctx, (u16)a1);
@@ -72,5 +72,5 @@ u8 func_0202C794(void *a0, u32 a1)
     if (func_0202C824(ctx) != 0) {
         return (u8)func_021647E8((void *)saved, (u16)a1);
     }
-    return (u8)func_02013C10((u16)a1);
+    return (u8)ZONEDATA_GetWeatherId((u16)a1);
 }

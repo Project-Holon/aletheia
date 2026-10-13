@@ -49,6 +49,9 @@
  * copy, and adding one here costs an instruction the original does not have;
  * all 120 permutations of the five locals and every spelling of the two
  * operands rank flat at sixteen.
+ *
+ * symbols:
+ *   POKE_PERSONAL_LoadFormTable  0x0201AF80  thumb
  */
 
 typedef unsigned char  u8;
@@ -75,7 +78,7 @@ extern int func_0200C780(u32 v);
 extern int func_0200C7A0(u32 v);
 extern u32   func_0200CED4(struct Blk37 *p, u16 id);
 extern u32   func_0200D064(struct Blk37 *p, u16 id);
-extern u16 *func_0201AF80(u32 heap, u16 *countOut);
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_020307B0(void *p);
 
 u16 func_0200D2D8(void *a0);
@@ -91,7 +94,7 @@ u16 func_0200D368(struct Blk37 *p, u32 heap)
     u16 *t;
 
     n = 0;
-    t = func_0201AF80(heap, 0);
+    t = POKE_PERSONAL_LoadFormTable(heap, 0);
     for (i = 1; i <= 0x289; i++) {
         if (func_0200D064(p, i) == 1 && t[i] != 0x3E7 && func_0200C7A0(i) == 1) {
             n = (u16)(n + 1);

@@ -1,0 +1,136 @@
+/*
+ * file:     msgsearch.c
+ * unit:     yes
+ * function: func_021B6C74, func_021B6CCC, func_021B6CE0, func_021B6D70
+ * address:  0x021B6C74
+ * region:   ov067
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_020457B0  0x020457B0  arm
+ *   func_02045808  0x02045808  arm
+ *   d_021B9558     0x021B9558  data  a1
+ *   ENV_SetResourceSet  0x020307B0  arm
+ *   func_020458F8 0x020458F8 arm
+ *   func_02082A7C 0x02082A7C arm
+ *   func_02045F50 0x02045F50 arm
+ *   func_02045CAC 0x02045CAC arm
+ *   STRBUF_GetChars  0x02045A90  arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+#include "msgsearch_types.h"
+
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_02082BCC(void *p, u32 v, u32 n);
+extern struct StrBuf *func_020457B0(u32 capacity, u16 heapId);
+extern void func_02045808(struct StrBuf *str);
+extern void ENV_SetResourceSet(void *p);
+extern u16 func_020458F8(struct StrBuf *str);
+extern void func_02082A7C(u32 value, void *dest, u32 size);
+extern u16 func_02045F50(const struct MsgBank *bank);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, struct StrBuf *dest);
+extern u16 *STRBUF_GetChars(struct StrBuf *str);
+MsgSearch *func_021B6C74(struct MsgBank **banks, u32 bankCount, u16 heapId);
+void func_021B6CCC(MsgSearch *search);
+u32 func_021B6CE0(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf *prefix, MsgSearchHit *hits, u32 maxHits);
+int func_021B6D70(struct StrBuf *prefix, struct StrBuf *text, u32 length);
+extern const char d_021B9558[];
+
+
+MsgSearch *func_021B6C74(struct MsgBank **banks, u32 bankCount, u16 heapId)
+{
+    u32 size;
+    MsgSearch *search;
+    u32 i;
+
+    size = bankCount * sizeof(struct MsgBank *) + MSGSEARCH_HEADER_SIZE;
+    search = func_02030734(heapId, size, 0, d_021B9558, 0x40);
+    i = 0;
+    func_02082BCC(search, 0, size);
+    search->bankCount = bankCount;
+    for (i = 0; i < bankCount; i++) {
+        search->bank[i] = banks[i];
+    }
+    search->scratch = func_020457B0(0x80, heapId);
+    return search;
+}
+
+
+void func_021B6CCC(MsgSearch *search)
+{
+    func_02045808(search->scratch);
+    ENV_SetResourceSet(search);
+}
+
+
+/*
+ * Finds the messages of one bank that start with prefix. Fills hits with up to
+ * maxHits matches (unused entries are set to -1) and returns how many
+ * messages matched in all. Messages are compared with func_021B6D70.
+ */
+u32 func_021B6CE0(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf *prefix, MsgSearchHit *hits, u32 maxHits)
+{
+    u32 matchCount;
+    u32 messageCount;
+    struct MsgBank *bank;
+    u32 messageIndex, hitCount, prefixLength;
+
+    matchCount = 0;
+    prefixLength = func_020458F8(prefix);
+    func_02082A7C(-1, hits, maxHits * sizeof(MsgSearchHit));
+    if (prefixLength) {
+        messageCount = func_02045F50(search->bank[bankIndex]);
+        bank = search->bank[bankIndex];
+        messageIndex = 0;
+        hitCount = 0;
+        for (;; messageIndex++) {
+            if (messageIndex >= messageCount) break;
+            if (hitCount >= maxHits) break;
+            func_02045CAC(bank, messageIndex, search->scratch);
+            if (func_021B6D70(prefix, search->scratch, func_020458F8(prefix))) {
+                if (hitCount < maxHits) {
+                    hits[hitCount].bankIndex = bankIndex;
+                    hits[hitCount].messageIndex = messageIndex;
+                    hitCount++;
+                }
+                matchCount++;
+            }
+        }
+    }
+    return matchCount;
+}
+
+
+/* Returns 1 when both strings are at least length characters long and their first length characters are equal. */
+int func_021B6D70(struct StrBuf *prefix, struct StrBuf *text, u32 length)
+{
+    u16 *prefixChars;
+    u16 *textChars;
+    u32 i;
+
+    if (func_020458F8(prefix) < length) {
+        return 0;
+    }
+    if (func_020458F8(text) < length) {
+        return 0;
+    }
+    prefixChars = STRBUF_GetChars(prefix);
+    textChars = STRBUF_GetChars(text);
+    for (i = 0; i < length; i++) {
+        if (*prefixChars++ != *textChars++) {
+            return 0;
+        }
+    }
+    return 1;
+}

@@ -1,5 +1,5 @@
 /*
- * function: func_02016630
+ * function: MCSS_LoadResourceShared
  * address:  0x02016630
  * packet:   pkt_020163C4
  * region:   arm9
@@ -9,16 +9,22 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The mcss.c rebind routine (line 0x8AB), twin of func_020163C4.  Closed
+ * The mcss.c rebind routine (line 0x8AB), twin of MCSS_LoadResource.  Closed
  * in wave 15 from 21 bytes out by the same declaration: the descriptor
  * parameter is const struct Src *, which fixes the argument load order
  * at every constructor call site.  History:
- * docs/notes/func_02016630.c.txt.
+ * docs/notes/MCSS_LoadResourceShared.c.txt.
  *
  * symbols:
  *   MIi_CpuCopy16  0x02082A60  arm
  *   data_020A72CC  0x020A72CC  data
- *   func_02016880  0x02016880  thumb
+ *   MCSS_TransTextureTask  0x02016880  thumb
+ *   MCSS_ApplyMosaic  0x02016C60  thumb
+ *   ARC_UTIL_LoadCellBankFromHandle  0x02049FFC  arm
+ *   ARC_UTIL_LoadMultiCellBankFromHandle  0x0204A07C  arm
+ *   ARC_UTIL_LoadAnimBankFromHandle  0x0204A0FC  arm
+ *   ARC_UTIL_LoadMultiAnimBankFromHandle  0x0204A17C  arm
+ *   MCSS_SetAnimeIndex  0x02016028  thumb
  */
 #include "../include/Obj00696.h"
 
@@ -30,10 +36,10 @@ struct Obj_02016880;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 struct ArcFile;
-extern void *func_02049FFC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_0204A07C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_0204A0FC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_0204A17C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadMultiCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
@@ -41,11 +47,11 @@ struct Task;
 struct Work;
 extern void func_02063790(u32 *p);
 extern void func_020637D4(u32 *p);
-extern void sub_02016028(void *p, u32 flag);
-extern void func_02016C60(struct Work *a0, struct Task *a1);
+extern void MCSS_SetAnimeIndex(void *p, u32 flag);
+extern void MCSS_ApplyMosaic(struct Work *a0, struct Task *a1);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
-extern void func_02016880(void *a0, struct Obj_02016880 *a1);
+extern void MCSS_TransTextureTask(void *a0, struct Obj_02016880 *a1);
 
 extern char data_020A72CC[];
 
@@ -87,7 +93,7 @@ struct Src {
     void *f1c;
 };
 
-void func_02016630(struct Ctx *a0, u32 idx, const struct Src *a2)
+void MCSS_LoadResourceShared(struct Ctx *a0, u32 idx, const struct Src *a2)
 {
     u8 *a1 = (u8 *)a0->f14[idx];
     void *h;
@@ -100,17 +106,17 @@ void func_02016630(struct Ctx *a0, u32 idx, const struct Src *a2)
     func_02063790((u32 *)(a1 + 0x9C));
     func_020637D4((u32 *)(a1 + 0xC0));
 
-    ((struct Obj00696 *)a1)->fC = func_02049FFC(h, (u32)(((struct Src *)a2)->f0c), 0,
+    ((struct Obj00696 *)a1)->fC = ARC_UTIL_LoadCellBankFromHandle(h, (u32)(((struct Src *)a2)->f0c), 0,
                                           (u32)((void *)(a1 + 0x10)),
                                           (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
-    ((struct Obj00696 *)a1)->f1C = func_0204A07C(h, (u32)a2->f10, 1, (u32)(a1 + 0x20),
+    ((struct Obj00696 *)a1)->f1C = ARC_UTIL_LoadMultiCellBankFromHandle(h, (u32)a2->f10, 1, (u32)(a1 + 0x20),
                                           (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
     flag = 1;
-    ((struct Obj00696 *)a1)->f14 = func_0204A0FC(h, (u32)a2->f14, 0, (u32)(a1 + 0x18),
+    ((struct Obj00696 *)a1)->f14 = ARC_UTIL_LoadAnimBankFromHandle(h, (u32)a2->f14, 0, (u32)(a1 + 0x18),
                                           (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
-    ((struct Obj00696 *)a1)->f24 = func_0204A17C(h, (u32)a2->f18, 0, (u32)(a1 + 0x28),
+    ((struct Obj00696 *)a1)->f24 = ARC_UTIL_LoadMultiAnimBankFromHandle(h, (u32)a2->f18, 0, (u32)(a1 + 0x28),
                                           (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
-    sub_02016028(a1, 0);
+    MCSS_SetAnimeIndex(a1, 0);
 
     q = func_02049250(h, (u32)a2->f1c, (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
     *(u32 * *)&((struct Obj00696 *)a1)->f2C = q;
@@ -151,12 +157,12 @@ void func_02016630(struct Ctx *a0, u32 idx, const struct Src *a2)
         }
     }
     if (((*(u32 *)(a1 + (5 << 6)) << 4) >> 0x1C) != 0) {
-        func_02016C60((struct Work *)a1, (struct Task *)p);
+        MCSS_ApplyMosaic((struct Work *)a1, (struct Task *)p);
     }
     if (a0->f08 != 0) {
-        ((struct Obj00696 *)a1)->f0 = func_02030DA8(a0->f08, func_02016880, p, 0);
+        ((struct Obj00696 *)a1)->f0 = func_02030DA8(a0->f08, MCSS_TransTextureTask, p, 0);
     } else {
-        ((struct Obj00696 *)a1)->f0 = func_020056A0(func_02016880, p, 0);
+        ((struct Obj00696 *)a1)->f0 = func_020056A0(MCSS_TransTextureTask, p, 0);
     }
 }
 

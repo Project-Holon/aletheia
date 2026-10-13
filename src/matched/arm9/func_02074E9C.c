@@ -9,15 +9,15 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0207457C  0x0207457C  arm
+ *   NNS_SndArcGetFileSize  0x0207457C  arm
  *   func_0207482C  0x0207482C  arm
- *   func_020745A4  0x020745A4  arm
+ *   NNS_SndArcReadFile  0x020745A4  arm
  *   DC_StoreRange  0x020862D4  arm
  *
  * The generic "load this resource whole" worker, funnelled into by the four
  * sibling loaders func_02074F3C / func_02074FA8 / func_02075014 / func_02075080,
  * each of which passes its own teardown callback as the second argument.
- * Five steps, each answering 0 on failure: size the entry (func_0207457C),
+ * Five steps, each answering 0 on failure: size the entry (NNS_SndArcGetFileSize),
  * refuse a null output cell, allocate size+0x20 through func_0207482C with the
  * callback / cookie / heap triple, read the whole entry into it, and flush the
  * range with DC_StoreRange before returning the buffer.
@@ -42,9 +42,9 @@
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern u32   func_0207457C(u32 a);
+extern u32   NNS_SndArcGetFileSize(u32 a);
 extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
-extern int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset);
+extern int NNS_SndArcReadFile(u32 idx, void *dst_buf, int total_len, u32 offset);
 extern void  DC_StoreRange(void *addr, u32 size);
 
 void *func_02074E9C(u32 a, u32 b, u32 c, u32 d, u32 *out)
@@ -52,12 +52,12 @@ void *func_02074E9C(u32 a, u32 b, u32 c, u32 d, u32 *out)
     u32 len;
     void *p;
 
-    len = func_0207457C(a);
+    len = NNS_SndArcGetFileSize(a);
     if (len == 0) return 0;
     if (out == 0) return 0;
     p = (void *)func_0207482C(out, len + 0x20, b, c, d);
     if (p == 0) return 0;
-    if (func_020745A4(a, p, len, 0) != len) return 0;
+    if (NNS_SndArcReadFile(a, p, len, 0) != len) return 0;
     DC_StoreRange(p, len);
     return p;
 }

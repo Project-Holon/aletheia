@@ -13,7 +13,7 @@
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021B9A24  0x021B9A24  thumb  ov093
  *   func_021E85F8  0x021E85F8  thumb  ov093
- *   sub_0201C1BC   0x0201C1BC  thumb
+ *   WAZA_TOOL_GetCategory   0x0201C1BC  thumb
  *   func_021DB99C  0x021DB99C  thumb  ov093
  *   func_021D76BC  0x021D76BC  thumb  ov093
  */
@@ -22,7 +22,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 extern int func_021D775C(int key);
 extern int func_021B9A24(u32 a, u32 b);
 extern int func_021E85F8(int c);
-extern u32 sub_0201C1BC(u16 move);
+extern u32 WAZA_TOOL_GetCategory(u16 move);
 extern int func_021DB99C(int t);
 extern int func_021D76BC(int key, u32 val);
 
@@ -42,7 +42,7 @@ void func_021DB93C(int a, int b, int x)
             ok = 1;
         } else {
             t = func_021D775C(0x12);
-            if (sub_0201C1BC(t) == 10)
+            if (WAZA_TOOL_GetCategory(t) == 10)
                 ok = 1;
             else if (func_021DB99C(t) != 0)
                 ok = 1;

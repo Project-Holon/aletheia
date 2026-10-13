@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469D8     0x021469D8  data
+ *   _pCommandWork     0x021469D8  data
  *   func_02082BCC  0x02082BCC  arm
  *
  * Clears the 16-byte slot whose +0xC key matches, over the same four slots
@@ -34,12 +34,12 @@ struct Entry {
     u32 d;
 };
 
-extern struct Entry *g_021469D8;
+extern struct Entry *_pCommandWork;
 extern void func_02082BCC(int dst, int value, int size);
 
 void func_0203A5E4(u32 key)
 {
-    struct Entry *e = g_021469D8;
+    struct Entry *e = _pCommandWork;
     int i;
 
     if (e == 0)

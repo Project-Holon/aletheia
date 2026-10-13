@@ -11,7 +11,7 @@
  *
  * Binds one cell-bank row to an animation object: stores the row pointer at
  * +0x34, writes the "no cell bound" sentinel -1 at +0x38, opens the SRT block
- * at +0x3c through func_02064140 and finishes with the object's own two-call
+ * at +0x3c through NNSi_G2dSrtcInitControl and finishes with the object's own two-call
  * tail.  The sibling of func_020642C8, which does the same fixups after an
  * eight-argument forward.
  *
@@ -28,14 +28,14 @@
  * Under the pin this SAME C is 60 bytes, 0 mismatches, all three sites label.
  *
  * symbols:
- *   func_02064140  0x02064140  arm
+ *   NNSi_G2dSrtcInitControl  0x02064140  arm
  *   func_02062F38  0x02062F38  arm
  *   func_0206434C  0x0206434C  arm
  */
 #include "../include/Obj11539.h"
 typedef unsigned int   u32;
 struct O02064140;
-extern void func_02064140(struct O02064140 *o, u32 a);
+extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 extern int func_02062F38(int a0);
 extern void func_0206434C(char *self, int v);
 
@@ -43,7 +43,7 @@ void func_0206428C(char *self, int a1, char *c)
 {
     *(char * *)&((struct Obj11539 *)self)->f34 = c;
     ((struct Obj11539 *)self)->f38 = -1;
-    func_02064140((struct O02064140 *)(self + 0x3c), 1);
+    NNSi_G2dSrtcInitControl((struct O02064140 *)(self + 0x3c), 1);
     func_02062F38((int)self);
     func_0206434C(self, a1);
 }

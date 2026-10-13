@@ -1,5 +1,5 @@
 /*
- * function: func_0204BBC8
+ * function: CLACT_LinkUnit
  * address:  0x0204BBC8
  * packet:   pkt_0204B954
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A74   0x02146A74  data
+ *   g_ClactSystem   0x02146A74  data
  *
  * Link a cell-actor bank into the singleton's priority-ordered ring at
  * +0x100.  The ring is circular and doubly linked through +0x10 (next) and
  * +0x14 (prev); the sort key is the u8 at +0x0f that
- * src/matched/sub_0204B100.c stores from its caller's flag.
+ * src/matched/CLACT_CreateUnit.c stores from its caller's flag.
  *
  * Empty ring: the bank becomes the head and both of its own links point at
  * itself.  The three stores are written through the global each time, which
@@ -32,8 +32,8 @@
  * docs/idioms/a-reloaded-loop-invariant-means-the-loop-was-not-rotated.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BBC8.c \
- *       --func func_0204BBC8 --addr 0x0204BBC8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_LinkUnit.c \
+ *       --func CLACT_LinkUnit --addr 0x0204BBC8 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Mgr.h"
@@ -47,27 +47,27 @@ struct Bank {
     struct Bank *prev;   /* 0x14 */
 };
 
-extern struct Mgr *g_02146A74;
+extern struct Mgr *g_ClactSystem;
 
-void func_0204BBC8(struct Bank *bank)
+void CLACT_LinkUnit(struct Bank *bank)
 {
     struct Bank *cur;
     struct Bank *prev;
 
-    if (g_02146A74->head == 0) {
-        g_02146A74->head = bank;
-        g_02146A74->head->next = bank;
-        g_02146A74->head->prev = bank;
+    if (g_ClactSystem->head == 0) {
+        g_ClactSystem->head = bank;
+        g_ClactSystem->head->next = bank;
+        g_ClactSystem->head->prev = bank;
         return;
     }
 
-    cur = g_02146A74->head;
+    cur = g_ClactSystem->head;
 loop:
     if (cur->prio > bank->prio) {
         goto found;
     }
     cur = cur->next;
-    if (cur != g_02146A74->head) {
+    if (cur != g_ClactSystem->head) {
         goto loop;
     }
 found:

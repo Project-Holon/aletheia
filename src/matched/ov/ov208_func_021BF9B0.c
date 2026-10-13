@@ -46,7 +46,7 @@
  *   ov208_func_021BDBB8  0x021BDBB8  thumb  ov208
  *   ov208_func_021BDC48  0x021BDC48  thumb  ov208
  *   ov208_func_021BC3A4  0x021BC3A4  thumb  ov208
- *   func_02012BF8  0x02012BF8  thumb
+ *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
  *   ov208_func_021BDC14  0x021BDC14  thumb  ov208
  *   ov208_func_021BE840  0x021BE840  thumb  ov208
  *   ov208_func_021BE82C  0x021BE82C  thumb  ov208
@@ -130,7 +130,7 @@ extern void ov208_func_021BDAD4(void *s, int v);
 extern void ov208_func_021BDBB8(void *s, u32 kind);
 extern void ov208_func_021BDC48(void *s, u32 on);
 extern int  ov208_func_021BC3A4(int key);
-extern int func_02012BF8(int a0, int a1);
+extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void ov208_func_021BDC14(void *s, int b);
 extern int  ov208_func_021BE840(void *icon);
 extern void ov208_func_021BE82C(void *icon, int kind);
@@ -228,7 +228,7 @@ int ov208_func_021BF9B0(void *proc, int *seq, u16 *heap, u8 *p, int key)
         }
         ov208_func_021BDC48(scene, 0);
         W(0x88) = 0;
-        ov208_func_021BDC14(scene, func_02012BF8(ov208_func_021BC3A4(key), 18));
+        ov208_func_021BDC14(scene, GAME_DATA_CheckSaveFlag(ov208_func_021BC3A4(key), 18));
         if (ov208_func_021BE840(icon) != 2) {
             ov208_func_021BE82C(icon, 1);
             ov208_func_021BE844(icon);

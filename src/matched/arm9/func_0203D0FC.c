@@ -1,5 +1,5 @@
 /*
- * function: func_0203D0FC
+ * function: GFL_NET_EndDeviceWrapper
  * address:  0x0203D0FC
  * packet:   pkt_0203D0FC
  * region:   arm9
@@ -14,11 +14,11 @@
  * site resolves as `matched` and the file no longer needs its old cap.
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_0203C010  0x0203C010  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_STATE_EndDevice  0x0203C010  arm
  *
  * Two calls and nothing else: reset the sub-state, then re-enter the state
- * whose constructor src/matched/func_0203C010.c reproduces.  This function
+ * whose constructor src/matched/GFL_NET_STATE_EndDevice.c reproduces.  This function
  * was parked at MATCH until 0x0203C010 was matched - that call was its only
  * open relocation site, and the callee's single branch site image-wide is
  * this one.
@@ -26,15 +26,15 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D0FC.c \
- *       --func func_0203D0FC --addr 0x0203D0FC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_EndDeviceWrapper.c \
+ *       --func GFL_NET_EndDeviceWrapper --addr 0x0203D0FC --cc 1.1p1 --arm
  */
 
-extern void *func_0203D788(void);
-extern void func_0203C010(void);
+extern void *GFL_NET_GetSession(void);
+extern void GFL_NET_STATE_EndDevice(void);
 
-void func_0203D0FC(int a)
+void GFL_NET_EndDeviceWrapper(int a)
 {
-    func_0203D788();
-    func_0203C010();
+    GFL_NET_GetSession();
+    GFL_NET_STATE_EndDevice();
 }

@@ -11,14 +11,14 @@
  *   Run 2 also left ov114 0x021B973C unresolved; S23 has since verified its
  *   pkt_ov114_021B973C shard. No caller retry while ARM9 remains blocked.
  * blocker: 0x020071D8 Thumb, verified EXACT in blocker-71D8-r1.log:
- *   extern unsigned int func_02031994(void *, int *);
- *   unsigned int func_020071D8(char *p, int *out) {
- *       return func_02031994(*(void **)(p + 0x10), out);
+ *   extern unsigned int BACKUP_SYSTEM_GetWork(void *, int *);
+ *   unsigned int SAVE_CONTROL_GetWorkArea(char *p, int *out) {
+ *       return BACKUP_SYSTEM_GetWork(*(void **)(p + 0x10), out);
  *   }
- *   symbols: func_02031994 0x02031994 arm
+ *   symbols: BACKUP_SYSTEM_GetWork 0x02031994 arm
  * symbols:
  *   func_0203CD98 0x0203CD98 arm
- *   func_020071D8 0x020071D8 thumb
+ *   SAVE_CONTROL_GetWorkArea 0x020071D8 thumb
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
  *   func_021B95D4 0x021B95D4 thumb ov114
@@ -38,7 +38,7 @@ extern int func_021B973C(char *p);
 extern int func_021B9748(u8 *p);
 extern int func_021BE79C(void *handle, void *value_p, unsigned long length);
 struct Ctrl020071D8;
-extern void *func_020071D8(struct Ctrl020071D8 *ctrl, int *out);
+extern void *SAVE_CONTROL_GetWorkArea(struct Ctrl020071D8 *ctrl, int *out);
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8490(char *p);
 void func_021D8520(char *p)
@@ -47,7 +47,7 @@ void func_021D8520(char *p)
     unsigned int v;
     if (func_0203CD98()) {
         if (func_021B95D4(9,*(void **)(p+0x10))) {
-            v=(unsigned int)func_020071D8(*(void **)(p+0x28),&x);
+            v=(unsigned int)SAVE_CONTROL_GetWorkArea(*(void **)(p+0x28),&x);
             func_021BE79C((void *)func_021B973C(*(void **)(p+0x10)),(void *)v,0x80000);
             if (!func_021B9748(*(void **)(p+0x10)))
                 func_021D6EE0((u8 *)p,(int)func_021D8490,0x6fa);

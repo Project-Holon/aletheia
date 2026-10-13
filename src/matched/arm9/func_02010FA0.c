@@ -1,5 +1,5 @@
 /*
- * function: func_02010FA0
+ * function: GPOWER_GetPowerCost
  * address:  0x02010FA0
  * packet:   pkt_02010FA0
  * region:   arm9
@@ -21,7 +21,7 @@ struct Rec02010FA0 {
     unsigned char pad[8];
 };
 
-unsigned int func_02010FA0(struct Rec02010FA0 *p, int idx)
+unsigned int GPOWER_GetPowerCost(struct Rec02010FA0 *p, int idx)
 {
     return p[idx].f;
 }

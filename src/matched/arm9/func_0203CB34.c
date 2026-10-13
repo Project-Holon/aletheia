@@ -1,5 +1,5 @@
 /*
- * function: func_0203CB34
+ * function: GFL_NET_SetupHeaps
  * address:  0x0203CB34
  * packet:   pkt_0203CB34
  * region:   arm9
@@ -10,13 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
+ *   _pNetState     0x021469DC  data
+ *   GFL_NET_WM_ICON_EasyEnd  0x020370C8  arm
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203CB34.c \
- *       --func func_0203CB34 --addr 0x0203CB34 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SetupHeaps.c \
+ *       --func GFL_NET_SetupHeaps --addr 0x0203CB34 --cc 1.1p1 --arm
  */
 
 typedef signed char   s8;
@@ -26,11 +27,11 @@ typedef unsigned int  u32;
 
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern void func_020371AC(unsigned short a, unsigned int b);
-extern void func_020370C8(void);
+extern void GFL_NET_WM_ICON_EasyEnd(void);
 extern int func_0200F17C(u32 sel);
 extern void func_0200F234(u32 a);
 
-void func_0203CB34(u32 a, u32 b, u32 c, u32 d)
+void GFL_NET_SetupHeaps(u32 a, u32 b, u32 c, u32 d)
 {
     u32 *p = (u32 *)func_0200F17C(1);
     u32 v = a;
@@ -46,5 +47,5 @@ void func_0203CB34(u32 a, u32 b, u32 c, u32 d)
     }
 
     func_020371AC(0, 0);
-    func_020370C8();
+    GFL_NET_WM_ICON_EasyEnd();
 }

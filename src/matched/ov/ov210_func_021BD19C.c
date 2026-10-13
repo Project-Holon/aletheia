@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021BCE58  0x021BCE58  thumb  ov210
- *   func_02021ED8  0x02021ED8  thumb
+ *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   func_021BFF68  0x021BFF68  thumb  ov210
  *   func_020061E4  0x020061E4  thumb
  *   func_021BE314  0x021BE314  thumb  ov210
@@ -19,7 +19,7 @@
  *   func_021BE324  0x021BE324  thumb  ov210
  *   func_021BEDB8  0x021BEDB8  thumb  ov210
  *   func_021BCF38  0x021BCF38  thumb  ov210
- *   func_0202EA40  0x0202EA40  thumb
+ *   BLINK_PALANM_Update  0x0202EA40  thumb
  * 2026-10-02: bytes identical. Only blocker: func_021BE314 has no witness yet.
  * Lane 07 filed src/matched/ov/ov210_func_021BE314.c (EXACT); after its shard
  * exists, re-verify; this should then be EXACT and move to src/matched/ov/.
@@ -38,7 +38,7 @@ typedef signed char    s8;
 typedef signed int     s32;
 extern int func_021BCE58(char *p);
 struct Row;
-extern u32 func_02021ED8(const char *ptr);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern u32 func_021BFF68(int p);
 extern void func_020061E4(u32 id);
 extern u32 func_021BE314(u8 *p, u32 a);
@@ -46,11 +46,11 @@ extern u32 func_021BE2F4(u8 *p, u32 a, u32 b, u32 c);
 extern void func_021BE324(u8 *p);
 extern void func_021BEDB8(int p, int i, int v);
 extern void func_021BCF38(u8 *p);
-extern s32 func_0202EA40(struct Row *p);
+extern s32 BLINK_PALANM_Update(struct Row *p);
 
 u32 func_021BD19C(u8 *p)
 {
-    if (func_021BCE58((char *)p) == 1 || func_02021ED8((const char *)(*(u32 *)&((struct Obj00085 *)p)->fC)) != 0) {
+    if (func_021BCE58((char *)p) == 1 || PALANM_GetFadeRequestBits((const char *)(*(u32 *)&((struct Obj00085 *)p)->fC)) != 0) {
         return 4;
     }
     switch (func_021BFF68((int)p)) {
@@ -103,6 +103,6 @@ u32 func_021BD19C(u8 *p)
         func_021BEDB8((int)p, 2, 9);
         return func_021BE2F4(p, 1, 2, 0x1a);
     }
-    func_0202EA40((struct Row *)(((struct Obj00085 *)p)->f2B4));
+    BLINK_PALANM_Update((struct Row *)(((struct Obj00085 *)p)->f2B4));
     return 4;
 }

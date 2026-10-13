@@ -1,5 +1,5 @@
 /*
- * function: func_0202C250
+ * function: ISS_SWITCH_SYS_IsActiveSetZone
  * address:  0x0202C250
  * packet:   pkt_0202C250
  * region:   arm9
@@ -18,8 +18,8 @@
  *   sub_0202C348  0x0202C348  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C250.c \
- *       --func func_0202C250 --addr 0x0202C250 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_IsActiveSetZone.c \
+ *       --func ISS_SWITCH_SYS_IsActiveSetZone --addr 0x0202C250 --thumb --cc 1.1p1
  */
 
 typedef unsigned int u32;
@@ -28,7 +28,7 @@ struct Obj0202C244;
 extern u32 sub_0202C24C(struct Obj0202C244 *p);
 extern u32 sub_0202C348(void *a, void *b);
 
-u32 func_0202C250(u32 *p, u32 v)
+u32 ISS_SWITCH_SYS_IsActiveSetZone(u32 *p, u32 v)
 {
     u32 f = sub_0202C24C((struct Obj0202C244 *)p);
 

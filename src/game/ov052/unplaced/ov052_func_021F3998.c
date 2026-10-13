@@ -15,19 +15,31 @@
  *   d_021F39DC     0x021F39DC  data  ov052  a4
  */
 
-typedef struct { int key; int val; } E;
-extern E d_021F39DC[];
+/* One zone table entry of the Battle Subway gimmick (field_gimmick_bsubway.c). */
+typedef struct BsubwayZoneEntry {
+    int zoneId;
+    int slotId;
+} BsubwayZoneEntry;
 
-void func_021F3998(int a0, int *a1, int *a2)
+#define BSUBWAY_ZONE_ENTRY_COUNT 10
+
+extern BsubwayZoneEntry d_021F39DC[];
+
+/*
+ * Looks the zone up in the zone table. Returns the gimmick work slot of the
+ * zone and the table index (the index of its handlers); both 0 for an
+ * unknown zone.
+ */
+void func_021F3998(int zoneId, int *slotId, int *handlerIndex)
 {
     int i;
-    for (i = 0; i < 10; i++) {
-        if (a0 == d_021F39DC[i].key) {
-            *a1 = d_021F39DC[i].val;
-            *a2 = i;
+    for (i = 0; i < BSUBWAY_ZONE_ENTRY_COUNT; i++) {
+        if (zoneId == d_021F39DC[i].zoneId) {
+            *slotId = d_021F39DC[i].slotId;
+            *handlerIndex = i;
             return;
         }
     }
-    *a1 = 0;
-    *a2 = 0;
+    *slotId = 0;
+    *handlerIndex = 0;
 }

@@ -15,18 +15,20 @@
  *   func_020307B0  0x020307B0  arm
  */
 
-typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021F007C(char *p);
-extern u32 func_020307B0(void *p);
+struct NoGearWork;
+
+extern void func_021F007C(struct NoGearWork *work);
+extern u32 func_020307B0(void *block);
 
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
 
-void func_021F0118(char *p)
+/* Frees the BG resources of the panel, clears the sub screen blend, frees the work. */
+void func_021F0118(struct NoGearWork *work)
 {
-    func_021F007C(p);
+    func_021F007C(work);
     REG_DB_BLDCNT_SUB = 0;
-    func_020307B0(p);
+    func_020307B0(work);
 }

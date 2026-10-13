@@ -1,5 +1,5 @@
 /*
- * function: func_021563EC
+ * function: DWC_RAP_IsVchatActive
  * address: 0x021563EC
  * packet: pkt_ov009_021563EC
  * region: ov009
@@ -10,9 +10,9 @@
  * status: EXACT
  * Unlabelled accessor blocking owned ov099 caller 021BFDA8.
  * symbols:
- *   d_021A8264 0x021A8264 data ov009 a4
+ *   _pRapWork 0x021A8264 data ov009 a4
  */
-extern char *d_021A8264;
-int func_021563EC(void) {
- return *(int *)(d_021A8264+0x76c);
+extern char *_pRapWork;
+int DWC_RAP_IsVchatActive(void) {
+ return *(int *)(_pRapWork+0x76c);
 }

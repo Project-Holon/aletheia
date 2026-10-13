@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02009860          0x02009860  thumb
- *   sub_020099C8           0x020099C8  thumb
- *   sub_02009A1C           0x02009A1C  thumb
+ *   WIFILIST_GetDwcFriendData           0x020099C8  thumb
+ *   WIFILIST_IsFriendDataValid           0x02009A1C  thumb
  *   sub_0200F34C           0x0200F34C  thumb
  *   sub_0200F594           0x0200F594  thumb
  *   sub_0201283C           0x0201283C  thumb
@@ -34,8 +34,8 @@ extern int   DWC_IsValidFriendData(const void *friendData);
 typedef unsigned int   u32;
 struct Sub020097BCFriend;
 struct Sub020097BCObj;
-extern struct Sub020097BCFriend *sub_020099C8(struct Sub020097BCObj *obj, int i);
-extern int sub_02009A1C(struct Sub020097BCObj *obj, u32 i);
+extern struct Sub020097BCFriend *WIFILIST_GetDwcFriendData(struct Sub020097BCObj *obj, int i);
+extern int WIFILIST_IsFriendDataValid(struct Sub020097BCObj *obj, u32 i);
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 extern int   sub_0200F34C(void *a, void *b, void *c);
 extern void  sub_0200F594(void *a0, void *a1, void *a2, int a3, void *a4,
@@ -51,10 +51,10 @@ int func_0200F5EC(void *a0, void *a1, void *a2, void *a3)
     }
 
     for (i = 0; i < 0x20; i++) {
-        void *src = sub_020099C8(obj, i);
+        void *src = WIFILIST_GetDwcFriendData(obj, i);
         int mode;
 
-        if (sub_02009A1C(obj, i) == 0) {
+        if (WIFILIST_IsFriendDataValid(obj, i) == 0) {
             sub_0200F594(a0, a1, a2, i, a3, 0);
             return 1;
         }

@@ -39,14 +39,14 @@
  *   func_02045374 0x02045374 arm
  *   func_02045334 0x02045334 arm
  *   func_02041B6C 0x02041B6C arm
- *   sub_020456F8  0x020456F8  arm
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_0201F7A8  0x0201F7A8  thumb
- *   sub_020452E8  0x020452E8  arm
- *   func_020185F4 0x020185F4 thumb
+ *   BMP_WIN_Delete  0x020452E8  arm
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_0201BA68 0x0201BA68 thumb
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204B294 0x0204B294 arm
- *   func_0201BBE8 0x0201BBE8 thumb
+ *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_020490F4  0x020490F4  arm
  *   func_0201BC3C  0x0201BC3C  thumb
@@ -75,9 +75,9 @@
  *   func_0202EE8C  0x0202EE8C  thumb
  *   func_0202020C  0x0202020C  thumb
  *   func_0201F868  0x0201F868  thumb
- *   func_02156BC4  0x02156BC4  thumb  ov009
- *   func_02156330  0x02156330  thumb  ov009
- *   func_021563C0  0x021563C0  thumb  ov009
+ *   DWC_RAP_SetVchatEnabled  0x02156BC4  thumb  ov009
+ *   DWC_RAP_EnableLocalVchat  0x02156330  thumb  ov009
+ *   DWC_RAP_StartVchatDefaultHeap  0x021563C0  thumb  ov009
  *   func_021C24A4  0x021C24A4  thumb  ov099
  *   func_021C2864  0x021C2864  thumb  ov099
  *   func_020399A8  0x020399A8  arm
@@ -341,14 +341,14 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02041B6C(u32_021BBA4C);
-extern void sub_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_0201F7A8(void *desc, u32_021BBC0C kind);
-extern u32_021BBC0C sub_020452E8(struct Descriptor *d);
-extern void *func_020185F4(void *);
+extern u32_021BBC0C BMP_WIN_Delete(struct Descriptor *d);
+extern void *POKE_TOOL_GetBoxParam(void *);
 extern u32_021BBC34 func_0201BA68(void *);
 extern s32_021BBC34 func_0204A6C8(void *a, u32_021BBC34 b, u32_021BBC34 c, u32_021BBC34 a3, u16 flags);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern int func_0201BBE8(void *);
+extern int POKE_TOOL_GetIconPalette(void *);
 extern void func_0204B6F4(struct Obj *o, u32_021BBC34 v, u32_021BBC34 flag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0201BC3C(void);
@@ -376,9 +376,9 @@ extern void func_0202F038(u8 *p);
 extern u8 *func_0202EE8C(u32_021BC090 a, void *b, u8 c, u8 d, u16 e);
 extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 extern u32_021BC0C4 func_0201F868(void *p);
-extern void func_02156BC4(int);
-extern int func_02156330(void);
-extern void func_021563C0(int a);
+extern void DWC_RAP_SetVchatEnabled(int);
+extern int DWC_RAP_EnableLocalVchat(void);
+extern void DWC_RAP_StartVchatDefaultHeap(int a);
 extern void func_021C24A4(void *w, int v);
 extern void func_021C2864(void *a, u8 v);
 extern struct Entry *func_020399A8(void);
@@ -659,9 +659,9 @@ void func_021BBA4C(char *p,void *party)
 void func_021BBC0C(S_021BB954 *s)
 {
     if (s->f1A0 != 0) {
-        sub_020456F8(s->f1A0);
+        BMP_WIN_ClearScreen(s->f1A0);
         func_0201F7A8(s->f1A0, 1);
-        sub_020452E8(s->f1A0);
+        BMP_WIN_Delete(s->f1A0);
         s->f1A0 = 0;
     }
 }
@@ -684,7 +684,7 @@ void func_021BBC34(char *p, void *a, int k, u32_021BBC34 o)
     n = func_0201AA18(a);
     for (i=0;i<n;i++) {
         base = p + k*4;
-        mon = func_020185F4(func_0201AB28(a,i));
+        mon = POKE_TOOL_GetBoxParam(func_0201AB28(a,i));
         rec.a = i*40+22;
         rec.b = 54;
         rec.c = 0;
@@ -693,7 +693,7 @@ void func_021BBC34(char *p, void *a, int k, u32_021BBC34 o)
         dst = base+i*4;
         *(int *)&((struct Obj07943 *)dst)->f118 = func_0204A6C8((void *)o,func_0201BA68(mon),0,0,0x21);
         *(u32_021BBC34 *)&((struct Obj07943 *)dst)->f150 = (u32_021BBC34)func_0204B294((void *)((struct Obj03731 *)p)->f110,((struct Obj07943 *)dst)->f118,*(u32_021BBC34 *)&((struct Obj03731 *)p)->f148,*(u32_021BBC34 *)&((struct Obj03731 *)p)->f14C,&rec,0,0x21);
-        func_0204B6F4(((struct Obj07943 *)dst)->f150,func_0201BBE8(mon),1);
+        func_0204B6F4(((struct Obj07943 *)dst)->f150,POKE_TOOL_GetIconPalette(mon),1);
     }
 }
 
@@ -949,8 +949,8 @@ void func_021BC104(char *p)
     char *q = (char *)((Ov099Work *)p)->f248;
 
     if (((struct Obj13686 *)q)->f44 != 0 && ((struct Obj13686 *)q)->f45 != 0) {
-        func_02156BC4(1);
-        func_021563C0(func_02156330());
+        DWC_RAP_SetVchatEnabled(1);
+        DWC_RAP_StartVchatDefaultHeap(DWC_RAP_EnableLocalVchat());
         func_021C24A4(p, 0x2A);
         func_021C2864(((Ov099Work *)p)->f8, 1);
     } else {

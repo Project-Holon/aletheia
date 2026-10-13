@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02020D5C",
+   "name": "BMP_CURSOR_Draw",
    "address": "0x02020D5C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02020DC8",
+   "name": "BMP_CURSOR_SetTileBitmap",
    "address": "0x02020DC8",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    }
   },
   {
-   "name": "func_02020DEC",
+   "name": "FILE_UTIL_OpenById",
    "address": "0x02020DEC",
    "kind": "game",
    "region": "arm9",
@@ -196,7 +196,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020213E0",
+   "name": "PALANM_IsOutsideReservedIdRange",
    "address": "0x020213E0",
    "kind": "game",
    "region": "arm9",
@@ -208,7 +208,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02021438",
+   "name": "PALANM_StopTimer",
    "address": "0x02021438",
    "kind": "game",
    "region": "arm9",

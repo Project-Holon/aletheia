@@ -13,7 +13,7 @@
  *   func_0215A5DC  0x0215A5DC  thumb  ov010
  *   func_0215A5F4  0x0215A5F4  thumb  ov010
  *   func_02158FB8  0x02158FB8  thumb  ov010
- *   func_020120F0  0x020120F0  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_02158FBC  0x02158FBC  thumb  ov010
  */
@@ -27,7 +27,7 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5F4(void *p);
 struct Ctx;
 extern u32 func_02158FB8(void *p);
-extern u32 func_020120F0(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern u32 func_020307B0(void *p);
 extern int func_02158FBC();
 
@@ -48,7 +48,7 @@ t4 = a0 + 0;
     a0 = func_02158FB8((void *)a0);
 loc_0215C6B4:
 t5 = a0 + 0;
-    a0 = func_020120F0(t6);
+    a0 = GAMESYSTEM_GetProcStatus(t6);
 loc_0215C6BC:
     if (a0 == 0) goto loc_0215C6C4;
 loc_0215C6C0:

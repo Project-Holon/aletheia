@@ -1,5 +1,5 @@
 /*
- * function: func_021543BC
+ * function: EVENT_MENUPROC_Entry
  * address:  0x021543BC
  * packet:   pkt_ov003_021543BC
  * region:   ov003
@@ -13,14 +13,14 @@
  * ov010 func_0215CCE8's MATCH.
  *
  * symbols:
- *   func_0215437C  0x0215437C  thumb  ov003
+ *   EVENT_MENUPROC_Create  0x0215437C  thumb  ov003
  */
 
 typedef struct { unsigned a; unsigned b; } Arg;
 
-extern void *func_0215437C(void *p, int a, int b);
+extern void *EVENT_MENUPROC_Create(void *p, int a, int b);
 
-void *func_021543BC(void *h, Arg *arg)
+void *EVENT_MENUPROC_Entry(void *h, Arg *arg)
 {
-    return func_0215437C(h, arg->a, arg->b);
+    return EVENT_MENUPROC_Create(h, arg->a, arg->b);
 }

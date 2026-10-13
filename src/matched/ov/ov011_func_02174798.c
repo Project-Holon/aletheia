@@ -1,5 +1,5 @@
 /*
- * function: func_02174798
+ * function: INTRUDE_COMM_RecvReturnResult
  * address: 0x02174798
  * packet: pkt_ov011_02174798
  * region: ov011
@@ -17,9 +17,9 @@
 
 typedef unsigned char  u8;
 void func_02161FF0(u8 *p, int v);
-void func_02174798(int a, int b, int c, u8 *p);
+void INTRUDE_COMM_RecvReturnResult(int a, int b, int c, u8 *p);
 
-void func_02174798(int a, int b, int c, u8 *p)
+void INTRUDE_COMM_RecvReturnResult(int a, int b, int c, u8 *p)
 {
     func_02161FF0(p + 0x35c, c);
 }

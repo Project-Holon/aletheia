@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_02066B38
+ * function: NNSi_G2dResetCellTransferState
  * address:  0x02066B38
  * packet:   pkt_02066ABC
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   gUnk_02148B20  0x02148B20  data
+ *   sCellTransferStateManager  0x02148B20  data
  *   sub_020640B0   0x020640B0  arm
  *
  * Release one 0x30-byte cell of the bank whose array pointer lives at
@@ -30,8 +30,8 @@
  * `MI_CpuFill8` over a sub-range.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02066B38.c \
- *       --func sub_02066B38 --addr 0x02066B38 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G2dResetCellTransferState.c \
+ *       --func NNSi_G2dResetCellTransferState --addr 0x02066B38 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -55,13 +55,13 @@ struct Bank {
     struct Cell *cells;
 };
 
-extern struct Bank gUnk_02148B20;
+extern struct Bank sCellTransferStateManager;
 typedef signed int     s32;
 extern void sub_020640B0(s32 *tbl);
 
-void sub_02066B38(u32 idx)
+void NNSi_G2dResetCellTransferState(u32 idx)
 {
-    struct Cell *c = &gUnk_02148B20.cells[idx];
+    struct Cell *c = &sCellTransferStateManager.cells[idx];
 
     sub_020640B0((s32 *)c);
     c->unk_0c = 0;

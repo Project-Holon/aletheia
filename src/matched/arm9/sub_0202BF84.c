@@ -1,5 +1,5 @@
 /*
- * function: func_0202BF84
+ * function: ISS_ZONE_SYS_ClearActive
  * address:  0x0202BF84
  * packet:   pkt_0202BEBC
  * region:   arm9
@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-void func_0202BF84(u32 *p)
+void ISS_ZONE_SYS_ClearActive(u32 *p)
 {
     if (*p != 0) {
         *p = 0;

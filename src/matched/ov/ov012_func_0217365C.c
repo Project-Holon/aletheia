@@ -1,5 +1,5 @@
 /*
- * function: func_0217365C
+ * function: UNION_COMM_InitChatLog
  * address:  0x0217365C
  * packet:   pkt_ov012_0217365C
  * region:   ov012
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
 
-void func_0217365C(u8 *p)
+void UNION_COMM_InitChatLog(u8 *p)
 {
     int i;
     int v;

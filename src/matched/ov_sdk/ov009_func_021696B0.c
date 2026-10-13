@@ -14,7 +14,7 @@
  * symbols:
  *   func_02168FF0  0x02168FF0  arm  ov009
  *   func_020591CC  0x020591CC  arm
- *   func_02059A10  0x02059A10  arm
+ *   DWC_SetGsProfileId  0x02059A10  arm
  *   func_0205915C  0x0205915C  arm
  *   func_02059214  0x02059214  arm
  *   func_0205912C  0x0205912C  arm
@@ -37,7 +37,7 @@ extern struct FriendGlobal g_021AA860;
 
 extern int func_02168FF0(int index);
 extern int func_020591CC(void *friendData);
-extern void func_02059A10(void *friendData, int pid);
+extern void DWC_SetGsProfileId(void *friendData, int pid);
 extern int func_0205915C(void *friendData);
 extern void func_02059214(void *friendData);
 extern int func_0205912C(void *friendData);
@@ -61,7 +61,7 @@ int func_021696B0(u8 *friendList, int friendListLen, int profileID)
             if (pid_i != func_02168FF0(j))
                 continue;
             if (func_020591CC(friendList + i * 12) == 2 && func_020591CC(friendList + j * 12) == 3)
-                func_02059A10(friendList + i * 12, pid_i);
+                DWC_SetGsProfileId(friendList + i * 12, pid_i);
             if (func_0205915C(friendList + j * 12)) {
                 func_02059214(friendList + i * 12);
                 if (func_0205912C(g_021AA860.ctl->friendList + i * 12))

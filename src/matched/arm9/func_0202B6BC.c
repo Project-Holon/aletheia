@@ -1,5 +1,5 @@
 /*
- * function: func_0202B6BC
+ * function: ISS_SYS_Delete3ds
  * address:  0x0202B6BC
  * packet:   pkt_0202B67C
  * region:   arm9
@@ -8,13 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   ISS_3DS_SYS_Delete  0x0202B8E4  thumb
  */
 #include "../include/Obj02011.h"
 
 struct Obj;
-extern void func_0202B8E4(struct Obj *o);
-void func_0202B6BC(int a0)
+extern void ISS_3DS_SYS_Delete(struct Obj *o);
+void ISS_SYS_Delete3ds(int a0)
 {
-    func_0202B8E4((struct Obj *)(((struct Obj02011 *)a0)->f24));
+    ISS_3DS_SYS_Delete((struct Obj *)(((struct Obj02011 *)a0)->f24));
     ((struct Obj02011 *)a0)->f24 = 0;
 }

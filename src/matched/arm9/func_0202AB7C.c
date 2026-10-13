@@ -1,5 +1,5 @@
 /*
- * function: func_0202AB7C
+ * function: ISS_CITY_SYS_InitUnits
  * address:  0x0202AB7C
  * packet:   pkt_0202A188
  * region:   arm9
@@ -8,21 +8,24 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * closed:   blocker func_0202AB7C.c is now a manifest entry (matched class)
+ * closed:   blocker ISS_CITY_SYS_InitUnits.c is now a manifest entry (matched class)
  *
- * A bare tail-call thunk to func_0202AB8C.
+ * A bare tail-call thunk to ISS_CITY_SYS_LoadUnits.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202AB7C.c \
- *       --func func_0202AB7C --addr 0x0202AB7C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_CITY_SYS_InitUnits.c \
+ *       --func ISS_CITY_SYS_InitUnits --addr 0x0202AB7C --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   ISS_CITY_SYS_LoadUnits  0x0202AB8C  thumb
  */
 
 struct A;
-extern void func_0202AB8C(struct A *a0, void *a1);
+extern void ISS_CITY_SYS_LoadUnits(struct A *a0, void *a1);
 
 struct Node;
 
-void func_0202AB7C(struct Node *p, void *heapId)
+void ISS_CITY_SYS_InitUnits(struct Node *p, void *heapId)
 {
-    func_0202AB8C((struct A *)p, heapId);
+    ISS_CITY_SYS_LoadUnits((struct A *)p, heapId);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021746FC
+ * function: UNION_MAIN_StepPlayEffectAtFixedSpot
  * address:  0x021746FC
  * packet:   pkt_ov012_021746FC
  * region:   ov012
@@ -24,7 +24,7 @@ typedef struct {
 typedef unsigned short u16;
 extern void *func_02184D38(void *p, int unused, int a, const int *q, u16 s, int t);
 
-int func_021746FC(int a, int b, int c, int d, int e, int *out, u8 *cnt)
+int UNION_MAIN_StepPlayEffectAtFixedSpot(int a, int b, int c, int d, int e, int *out, u8 *cnt)
 {
     P s;
     int z;

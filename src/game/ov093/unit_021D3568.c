@@ -54,116 +54,98 @@
  *   func_021D5B68  0x021D5B68  thumb  ov093
  *   func_021D6064  0x021D6064  thumb  ov093
  */
-#include "../../matched/include/Obj21166.h"
-#include "../../matched/include/Obj18381.h"
-#include "../../matched/include/Obj18383.h"
-#include "../../matched/include/Obj18385.h"
-#include "../../matched/include/Obj18387.h"
-#include "../../matched/include/Obj07795.h"
-#include "../../matched/include/Obj21181.h"
+#include "unit_021D3568_types.h"
 
-struct Unk021D5FA4;
-struct UtilWork;
-struct Work;
-struct S;
-struct UtilSlots;
-struct S2;
-union Slot;
-typedef unsigned char u8;
+/*
+ * Server command handlers of the battle client (module BTL_CLIENT): each
+ * one is a row of the client command table, whose second column is the
+ * command id (given per handler below). The first part drives the battle
+ * view; the second part applies a state change to one Pokemon.
+ */
 
-typedef unsigned short u16;
+extern u32 func_021CD9E0(struct BtlClient *client);
+extern u8 func_021B8E70(struct BtlMain *main, u32 position);
+extern void func_021EA3E8(struct BtlvCore *view, int viewPosA, int viewPosB, u32 param);
+extern int func_021EA3F8(struct BtlvCore *view);
+extern int func_021B8D8C(struct BtlMain *main, struct BtlPokeContainer *container, u32 pokeId);
+extern struct BtlPokeParam *func_021B9934(struct BtlPokeContainer *container, int pokeId);
+extern void func_021D66D8(struct BtlPokeParam *pokeParam, u8 form);
+extern void func_021EA888(struct BtlvCore *view, int viewPos);
+extern int func_021EA8A4(struct BtlvCore *view);
+extern void func_021EA768(struct BtlvCore *view, u32 position, u32 flag);
+extern int func_021EA778(struct BtlvCore *view, u32 position);
+extern void func_021EA788(struct BtlvCore *view, u32 position);
+extern int func_021EA798(struct BtlvCore *view, u32 position);
+extern void func_021D5F90(struct BtlPokeParam *pokeParam, u16 damage);
+extern void func_021D5FA4(struct BtlPokeParam *pokeParam, u16 amount);
+extern void func_021D5608(struct BtlPokeParam *pokeParam, u8 slot, u8 amount);
+extern void func_021D5640(struct BtlPokeParam *pokeParam, u32 slot, u32 amount);
+extern void func_021D56CC(struct BtlPokeParam *pokeParam, u8 slot);
+extern void func_021D5FB8(struct BtlPokeParam *pokeParam);
+extern u16 func_021D5674(struct BtlPokeParam *pokeParam, u32 slot, u8 amount);
+extern u16 func_021D56A0(struct BtlPokeParam *pokeParam, u32 slot, u8 amount);
+extern u8 func_021D5DC0(struct BtlPokeParam *pokeParam, int statIndex, u8 steps);
+extern u8 func_021D5E38(struct BtlPokeParam *pokeParam, int statIndex, u8 steps);
+extern void func_021D5EA8(struct BtlPokeParam *pokeParam, int statIndex, u8 stage);
+extern int func_021D5EFC(struct BtlPokeParam *pokeParam);
+extern void func_021D5F08(struct BtlPokeParam *pokeParam);
+extern int func_021D5F38(struct BtlPokeParam *pokeParam, int delta);
+extern void func_021D6034(struct BtlPokeParam *pokeParam, int sickIndex, union SickCont cont);
+extern void func_021D61F0(struct BtlPokeParam *pokeParam);
+extern void func_021D6238(struct BtlPokeParam *pokeParam, int sickIndex);
+extern void *func_021B9AEC(struct BtlPokeContainer *container, int clientId);
+extern void func_021B9C10(void *party, int indexA, int indexB);
+extern struct BtlPokeParam *func_021B9BF0(void *party, u32 index);
+extern void func_021D63EC(struct BtlPokeParam *pokeParam, u16 threshold);
+extern void func_021D6580(struct BtlPokeParam *pokeParam);
+extern void func_021D66B0(struct BtlPokeParam *pokeParam, int species);
+extern void func_021D8090(u32 packed, u8 *out);
+extern u32 func_0689C9F8(u32 index);
+extern int func_021D5B68(struct BtlPokeParam *pokeParam);
+extern int func_021D6064(struct BtlPokeParam *pokeParam, u32 sickIndex, union SickCont *outCont, int *outCured);
 
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-typedef struct { int x; } S;
-
-extern u32 func_021CD9E0(u8 *p);
-extern u8 func_021B8E70(u8 *p, u32 k);
-extern void func_021EA3E8(void *ctx, int a, int b, u32 c);
-extern int func_021EA3F8(int a);
-extern int func_021B8D8C(void *p, void *a, u32 b);
-extern u8 *func_021B9934(char *p, int i);
-extern void func_021D66D8(u8 *m, u8 v);
-extern void func_021EA888(char *ctx, int a);
-extern int func_021EA8A4(u32 *p);
-extern void func_021EA768(u32 *p, u32 a2, u32 a3);
-extern int func_021EA778(u32 *p, u32 a2);
-extern void func_021EA788(u32 *p, u32 a2);
-extern int func_021EA798(u32 *p, u32 a2);
-extern void func_021D5F90(u8 *, u16);
-extern void func_021D5FA4(struct Unk021D5FA4 *, u16);
-extern void func_021D5608(struct UtilWork *, u8, u8);
-extern void func_021D5640(struct Work *p, u32 i, u32 n);
-extern void func_021D56CC(struct Work *, u8);
-extern void func_021D5FB8(u8 *p);
-extern u16 func_021D5674(u8 *p, u32 i, u8 n);
-extern u16 func_021D56A0(u8 *p, u32 i, u8 n);
-extern u8 func_021D5DC0(s8 *, int, u8);
-extern u8 func_021D5E38(s8 *, int, u8);
-extern void func_021D5EA8(u8 *p, int i, u8 n);
-extern int func_021D5EFC(char *p);
-extern void func_021D5F08(char *p);
-extern int func_021D5F38(struct S *, int);
-extern void func_021D6034(u8 *, int, S);
-extern void func_021D61F0(struct UtilSlots *p);
-extern void func_021D6238(struct UtilSlots *, int);
-extern char *func_021B9AEC(char *p, int i);
-extern void func_021B9C10(u32 *p, int a, int b);
-extern u32 func_021B9BF0(struct S2 *p, u32 i);
-extern void func_021D63EC(u8 *p, u16 n);
-extern void func_021D6580(void *p);
-extern void func_021D66B0(u8 *p, int n);
-extern void func_021D8090(u32 v, u8 *out);
-extern u32 func_0689C9F8(u32 i);
-extern int func_021D5B68(void *p);
-extern int func_021D6064(u8 *p, u32 k, union Slot *out, int *changed);
-int func_021D3568(u32 *a, int *b, u32 *c);
-int func_021D35C8(u32 *a, int *b, u32 *c);
-int func_021D3630(u32 *a, int *b, u32 *c);
-int func_021D3688(u32 *a, int *b, u32 *c);
-int func_021D36CC(char *p, int *state, unsigned int *q);
-int func_021D36EC(u32 *a, int b, u32 *c);
-int func_021D370C(u32 *a, int b, u32 *c);
-int func_021D3734(u32 *a, int b, u32 *c);
-int func_021D375C(u32 *a, int b, u32 *c);
-int func_021D377C(u8 *p, int b, u32 *q);
-int func_021D3794(u32 *a, int b, u32 *c);
-int func_021D37B8(u32 *a, int b, u32 *c);
-int func_021D37DC(u32 *a, int b, u32 *c);
-int func_021D37FC(u32 *a, int b, u32 *c);
-int func_021D381C(u32 *a, int b, u32 *c);
-int func_021D3894(u8 *p, int b, u32 *q);
-int func_021D38AC(u8 *p, int b, u32 *q);
-int func_021D38C4(u32 *a, int b, u32 *c);
-int func_021D38E0(u32 *a, int b, u32 *c);
-int func_021D3900(u8 *p, int b, u32 *q);
-int func_021D3918(u32 *a, int b, u32 *c);
-int func_021D3934(char *a, int b, u32 *s);
-int func_021D3988(u32 *a, int b, u32 *c);
-int func_021D39A8(u8 *a, int b, u32 *s);
+int func_021D3568(struct BtlClient *client, int *seq, u32 *args);
+int func_021D35C8(struct BtlClient *client, int *seq, u32 *args);
+int func_021D3630(struct BtlClient *client, int *seq, u32 *args);
+int func_021D3688(struct BtlClient *client, int *seq, u32 *args);
+int func_021D36CC(struct BtlClient *client, int *seq, u32 *args);
+int func_021D36EC(struct BtlClient *client, int *seq, u32 *args);
+int func_021D370C(struct BtlClient *client, int *seq, u32 *args);
+int func_021D3734(struct BtlClient *client, int *seq, u32 *args);
+int func_021D375C(struct BtlClient *client, int *seq, u32 *args);
+int func_021D377C(struct BtlClient *client, int *seq, u32 *args);
+int func_021D3794(struct BtlClient *client, int *seq, u32 *args);
+int func_021D37B8(struct BtlClient *client, int *seq, u32 *args);
+int func_021D37DC(struct BtlClient *client, int *seq, u32 *args);
+int func_021D37FC(struct BtlClient *client, int *seq, u32 *args);
+int func_021D381C(struct BtlClient *client, int *seq, u32 *args);
+int func_021D3894(struct BtlClient *client, int *seq, u32 *args);
+int func_021D38AC(struct BtlClient *client, int *seq, u32 *args);
+int func_021D38C4(struct BtlClient *client, int *seq, u32 *args);
+int func_021D38E0(struct BtlClient *client, int *seq, u32 *args);
+int func_021D3900(struct BtlClient *client, int *seq, u32 *args);
+int func_021D3918(struct BtlClient *client, int *seq, u32 *args);
+int func_021D3934(struct BtlClient *client, int *seq, u32 *args);
+int func_021D3988(struct BtlClient *client, int *seq, u32 *args);
+int func_021D39A8(struct BtlClient *client, int *seq, u32 *args);
 
 
-int func_021D3568(u32 *a, int *b, u32 *c)
+/* Command 0x4F. Two battle positions swap places in the view; args: positionA, positionB, animation. */
+int func_021D3568(struct BtlClient *client, int *seq, u32 *args)
 {
-    int x;
-    int y;
+    int viewPosA;
+    int viewPosB;
 
-    if (*b == 0) {
-        if (func_021CD9E0((u8 *)a) != 0) {
+    if (*seq == 0) {
+        if (func_021CD9E0(client) != 0) {
             return 1;
         }
-        x = func_021B8E70((u8 *)a[0], (u8)c[0]);
-        y = func_021B8E70((u8 *)a[0], (u8)c[1]);
-        func_021EA3E8((void *)a[0x15], x, y, (u16)c[2]);
-        (*b)++;
+        viewPosA = func_021B8E70(client->main, (u8)args[0]);
+        viewPosB = func_021B8E70(client->main, (u8)args[1]);
+        func_021EA3E8(client->view, viewPosA, viewPosB, (u16)args[2]);
+        (*seq)++;
     } else {
-        if (func_021EA3F8(a[0x15]) != 0) {
+        if (func_021EA3F8(client->view) != 0) {
             return 1;
         }
     }
@@ -171,20 +153,21 @@ int func_021D3568(u32 *a, int *b, u32 *c)
 }
 
 
-int func_021D35C8(u32 *a, int *b, u32 *c)
+/* Command 0x50. A Pokemon changes form; args: pokeId, form. */
+int func_021D35C8(struct BtlClient *client, int *seq, u32 *args)
 {
-    int x;
+    int viewPos;
 
-    switch (*b) {
+    switch (*seq) {
     case 0:
-        x = func_021B8E70((u8 *)a[0], func_021B8D8C((void *)a[0], (void *)a[1], (u8)c[0]));
-        func_021D66D8(func_021B9934((char *)a[1], (u8)c[0]), (u8)c[1]);
-        func_021EA888((char *)a[0x15], x);
-        (*b)++;
+        viewPos = func_021B8E70(client->main, func_021B8D8C(client->main, client->pokeContainer, (u8)args[0]));
+        func_021D66D8(func_021B9934(client->pokeContainer, (u8)args[0]), (u8)args[1]);
+        func_021EA888(client->view, viewPos);
+        (*seq)++;
         break;
     case 1:
-        if (func_021EA8A4((u32 *)a[0x15]) != 0) {
-            (*b)++;
+        if (func_021EA8A4(client->view) != 0) {
+            (*seq)++;
         }
         break;
     default:
@@ -194,22 +177,23 @@ int func_021D35C8(u32 *a, int *b, u32 *c)
 }
 
 
-int func_021D3630(u32 *a, int *b, u32 *c)
+/* Command 0x58. Show the status panel of a Pokemon; args: pokeId. */
+int func_021D3630(struct BtlClient *client, int *seq, u32 *args)
 {
-    int s;
+    int position;
 
-    s = func_021B8D8C((void *)a[0], (void *)a[1], (u8)c[0]);
-    switch (*b) {
+    position = func_021B8D8C(client->main, client->pokeContainer, (u8)args[0]);
+    switch (*seq) {
     case 0:
-        if (func_021CD9E0((u8 *)a) != 0) {
+        if (func_021CD9E0(client) != 0) {
             return 1;
         }
-        func_021EA768((u32 *)a[0x15], s, 1);
-        (*b)++;
+        func_021EA768(client->view, position, 1);
+        (*seq)++;
         break;
     case 1:
-        if (func_021EA778((u32 *)a[0x15], s) != 0) {
-            (*b)++;
+        if (func_021EA778(client->view, position) != 0) {
+            (*seq)++;
         }
         break;
     default:
@@ -219,18 +203,19 @@ int func_021D3630(u32 *a, int *b, u32 *c)
 }
 
 
-int func_021D3688(u32 *a, int *b, u32 *c)
+/* Command 0x01. Hide the status panel of a Pokemon; args: pokeId. */
+int func_021D3688(struct BtlClient *client, int *seq, u32 *args)
 {
-    int s;
+    int position;
 
-    s = func_021B8D8C((void *)a[0], (void *)a[1], (u8)c[0]);
-    switch (*b) {
+    position = func_021B8D8C(client->main, client->pokeContainer, (u8)args[0]);
+    switch (*seq) {
     case 0:
-        func_021EA788((u32 *)a[0x15], s);
-        (*b)++;
+        func_021EA788(client->view, position);
+        (*seq)++;
         break;
     case 1:
-        if (func_021EA798((u32 *)a[0x15], s) != 0) {
+        if (func_021EA798(client->view, position) != 0) {
             return 1;
         }
         break;
@@ -239,231 +224,247 @@ int func_021D3688(u32 *a, int *b, u32 *c)
 }
 
 /*
+ * Command 0x02. Subtract HP; args: pokeId, damage.
  * extent: compiled 30 bytes followed by two zero alignment bytes.
  */
-int func_021D36CC(char *p, int *state, unsigned int *q)
+int func_021D36CC(struct BtlClient *client, int *seq, u32 *args)
 {
-    func_021D5F90(func_021B9934(*(char * *)&((struct Obj21166 *)p)->f4, (u8)q[0]), q[1]);
+    func_021D5F90(func_021B9934(client->pokeContainer, (u8)args[0]), args[1]);
     return 1;
 }
 
-int func_021D36EC(u32 *a, int b, u32 *c)
+/* Command 0x03. Add HP up to the maximum; args: pokeId, amount. */
+int func_021D36EC(struct BtlClient *client, int *seq, u32 *args)
 {
-    u8 *m;
+    struct BtlPokeParam *pokeParam;
 
-    m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5FA4((struct Unk021D5FA4 *)m, c[1]);
+    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    func_021D5FA4(pokeParam, args[1]);
     return 1;
 }
 
-int func_021D370C(u32 *a, int b, u32 *c)
+/* Command 0x05. Subtract PP of a move in both the original and the working copy; args: pokeId, moveSlot, amount. */
+int func_021D370C(struct BtlClient *client, int *seq, u32 *args)
 {
-    u8 *m;
-    u8 k, n;
-    k = c[1];
-    n = c[2];
-    m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5608((struct UtilWork *)m, k, n);
+    struct BtlPokeParam *pokeParam;
+    u8 moveSlot, amount;
+    moveSlot = args[1];
+    amount = args[2];
+    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    func_021D5608(pokeParam, moveSlot, amount);
     return 1;
 }
 
-int func_021D3734(u32 *a, int b, u32 *c)
+/* Command 0x06. Subtract PP of a move in the working copy only; args: pokeId, moveSlot, amount. */
+int func_021D3734(struct BtlClient *client, int *seq, u32 *args)
 {
-    u8 *m;
-    u8 k, n;
-    k = c[1];
-    n = c[2];
-    m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5640((struct Work *)m, k, n);
+    struct BtlPokeParam *pokeParam;
+    u8 moveSlot, amount;
+    moveSlot = args[1];
+    amount = args[2];
+    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    func_021D5640(pokeParam, moveSlot, amount);
     return 1;
 }
 
-int func_021D375C(u32 *a, int b, u32 *c)
+/* Command 0x07. Mark a move slot as used; args: pokeId, moveSlot. */
+int func_021D375C(struct BtlClient *client, int *seq, u32 *args)
 {
-    u8 *m;
-    u8 k;
-    k = c[1];
-    m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D56CC((struct Work *)m, k);
+    struct BtlPokeParam *pokeParam;
+    u8 moveSlot;
+    moveSlot = args[1];
+    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    func_021D56CC(pokeParam, moveSlot);
+    return 1;
+}
+
+
+/* Command 0x04. Set HP to 0; args: pokeId. */
+int func_021D377C(struct BtlClient *client, int *seq, u32 *args)
+{
+    func_021D5FB8(func_021B9934(client->pokeContainer, (u8)*args));
+    return 1;
+}
+
+/* Command 0x08. Restore PP of the original move; args: pokeId, moveSlot, amount. */
+int func_021D3794(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    func_021D5674(pokeParam, (u8)args[1], args[2]);
+    return 1;
+}
+
+/* Command 0x09. Restore PP of the working move copy; args: pokeId, moveSlot, amount. */
+int func_021D37B8(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    func_021D56A0(pokeParam, (u8)args[1], args[2]);
+    return 1;
+}
+
+/* Command 0x0A. Raise one stat stage; args: pokeId, statIndex, steps. */
+int func_021D37DC(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    func_021D5DC0(pokeParam, args[1], args[2]);
+    return 1;
+}
+
+/* Command 0x0B. Lower one stat stage; args: pokeId, statIndex, steps. */
+int func_021D37FC(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    func_021D5E38(pokeParam, args[1], args[2]);
+    return 1;
+}
+
+
+/* Command 0x0C. Set all seven stat stages; args: pokeId, then one stage per stat. */
+int func_021D381C(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    func_021D5EA8(pokeParam, 1, args[1]);
+    func_021D5EA8(pokeParam, 2, args[2]);
+    func_021D5EA8(pokeParam, 3, args[3]);
+    func_021D5EA8(pokeParam, 4, args[4]);
+    func_021D5EA8(pokeParam, 5, args[5]);
+    func_021D5EA8(pokeParam, 6, args[6]);
+    func_021D5EA8(pokeParam, 7, args[7]);
+    return 1;
+}
+
+
+/* Command 0x0D. Recover lowered stat stages; args: pokeId. */
+int func_021D3894(struct BtlClient *client, int *seq, u32 *args)
+{
+    func_021D5EFC(func_021B9934(client->pokeContainer, (u8)*args));
+    return 1;
+}
+
+
+/* Command 0x0E. Reset all stat stages to neutral; args: pokeId. */
+int func_021D38AC(struct BtlClient *client, int *seq, u32 *args)
+{
+    func_021D5F08(func_021B9934(client->pokeContainer, (u8)*args));
+    return 1;
+}
+
+/* Command 0x0F. Change the critical hit stage; args: pokeId, delta. */
+int func_021D38C4(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    func_021D5F38(pokeParam, args[1]);
+    return 1;
+}
+
+/*
+ * Command 0x10. Store a status condition; args: pokeId, sickIndex, condition.
+ * lever: A declared one-word local assigned from args[2] preserves all 32
+ * bits and emits the otherwise unused frame word. A cast lvalue at
+ * args+2 compiled 30 bytes with the wrong frame and redundant address add.
+ */
+int func_021D38E0(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    union SickCont cont;
+
+    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    cont.raw = args[2];
+    func_021D6034(pokeParam, args[1], cont);
+    return 1;
+}
+
+
+/* Command 0x11. Clear the major status; args: pokeId. */
+int func_021D3900(struct BtlClient *client, int *seq, u32 *args)
+{
+    func_021D61F0(func_021B9934(client->pokeContainer, (u8)*args));
+    return 1;
+}
+
+/* Command 0x12. Clear one status condition; args: pokeId, sickIndex. */
+int func_021D3918(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    func_021D6238(pokeParam, args[1]);
     return 1;
 }
 
 
 /*
- * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl func_021D5FB8; movs r0, #1; pop {r3, pc}.
+ * Command 0x13. A party member comes into battle: swap the two party
+ * entries, reload the incoming Pokemon and arm its turn threshold; args[3]
+ * is the threshold. The indices and the client come from the client work.
  */
-int func_021D377C(u8 *p, int b, u32 *q)
+int func_021D3934(struct BtlClient *client, int *seq, u32 *args)
 {
-    func_021D5FB8(func_021B9934(*(char * *)&((struct Obj18381 *)p)->f4, (u8)*q));
+    u8 indexFrom;
+    u8 indexTo;
+    void *party;
+    struct BtlPokeParam *incoming;
+
+    indexFrom = client->swapFrom;
+    indexTo = client->swapTo;
+    party = func_021B9AEC(client->pokeContainer, (u8)(client->swapClientId));
+    if (indexFrom != indexTo)
+        func_021B9C10(party, indexFrom, indexTo);
+    incoming = func_021B9BF0(party, indexFrom);
+    func_021D63EC(incoming, args[3]);
+    func_021D6580(incoming);
     return 1;
 }
 
-int func_021D3794(u32 *a, int b, u32 *c)
+/* Command 0x15. Set the two types of a Pokemon from a species; args: pokeId, species. */
+int func_021D3988(struct BtlClient *client, int *seq, u32 *args)
 {
-    u8 *m;
+    struct BtlPokeParam *pokeParam;
 
-    m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5674(m, (u8)c[1], c[2]);
-    return 1;
-}
-
-int func_021D37B8(u32 *a, int b, u32 *c)
-{
-    u8 *m;
-
-    m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D56A0(m, (u8)c[1], c[2]);
-    return 1;
-}
-
-int func_021D37DC(u32 *a, int b, u32 *c)
-{
-    u8 *m;
-
-    m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5DC0((s8 *)m, c[1], c[2]);
-    return 1;
-}
-
-int func_021D37FC(u32 *a, int b, u32 *c)
-{
-    u8 *m;
-
-    m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5E38((s8 *)m, c[1], c[2]);
-    return 1;
-}
-
-
-int func_021D381C(u32 *a, int b, u32 *c)
-{
-    u8 *m;
-
-    m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5EA8(m, 1, c[1]);
-    func_021D5EA8(m, 2, c[2]);
-    func_021D5EA8(m, 3, c[3]);
-    func_021D5EA8(m, 4, c[4]);
-    func_021D5EA8(m, 5, c[5]);
-    func_021D5EA8(m, 6, c[6]);
-    func_021D5EA8(m, 7, c[7]);
+    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    func_021D66B0(pokeParam, (u16)args[1]);
     return 1;
 }
 
 
 /*
- * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl func_021D5EFC; movs r0, #1; pop {r3, pc}.
+ * Command 0x17. Clear status conditions on several Pokemon; args:
+ * pokeCount, sickCount, packed poke ids (six 5-bit values). Each sick index
+ * comes from func_0689C9F8; a zero index ends the list.
  */
-int func_021D3894(u8 *p, int b, u32 *q)
+int func_021D39A8(struct BtlClient *client, int *seq, u32 *args)
 {
-    func_021D5EFC((char *)func_021B9934(*(char * *)&((struct Obj18383 *)p)->f4, (u8)*q));
-    return 1;
-}
-
-
-/*
- * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl func_021D5F08; movs r0, #1; pop {r3, pc}.
- */
-int func_021D38AC(u8 *p, int b, u32 *q)
-{
-    func_021D5F08((char *)func_021B9934(*(char * *)&((struct Obj18385 *)p)->f4, (u8)*q));
-    return 1;
-}
-
-int func_021D38C4(u32 *a, int b, u32 *c)
-{
-    u8 *m;
-
-    m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5F38((struct S *)m, c[1]);
-    return 1;
-}
-
-/*
- * lever: A declared one-word S local assigned from c[2] preserves all 32
- * bits and emits the otherwise unused frame word. A cast S lvalue at
- * c+2 compiled 30 bytes with the wrong frame and redundant address add.
- */
-int func_021D38E0(u32 *a, int b, u32 *c)
-{
-    u8 *m;
-    S s;
-
-    m = func_021B9934((char *)a[1], (u8)c[0]);
-    s.x = c[2];
-    func_021D6034(m, c[1], s);
-    return 1;
-}
-
-
-/*
- * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl func_021D61F0; movs r0, #1; pop {r3, pc}.
- */
-int func_021D3900(u8 *p, int b, u32 *q)
-{
-    func_021D61F0((struct UtilSlots *)func_021B9934(*(char * *)&((struct Obj18387 *)p)->f4, (u8)*q));
-    return 1;
-}
-
-int func_021D3918(u32 *a, int b, u32 *c)
-{
-    u8 *m;
-
-    m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D6238((struct UtilSlots *)m, c[1]);
-    return 1;
-}
-
-
-int func_021D3934(char *a, int b, u32 *s)
-{
-    u8 x;
-    u8 y;
-    char *l;
-    void *e;
-
-    x = ((struct Obj07795 *)a)->f13C;
-    y = ((struct Obj07795 *)a)->f140;
-    l = func_021B9AEC(*(char * *)&((struct Obj07795 *)a)->f4, (u8)(((struct Obj07795 *)a)->f138));
-    if (x != y)
-        func_021B9C10((u32 *)l, x, y);
-    e = (void *)func_021B9BF0((struct S2 *)l, x);
-    func_021D63EC(e, s[3]);
-    func_021D6580(e);
-    return 1;
-}
-
-int func_021D3988(u32 *a, int b, u32 *c)
-{
-    u8 *m;
-
-    m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D66B0(m, (u16)c[1]);
-    return 1;
-}
-
-
-int func_021D39A8(u8 *a, int b, u32 *s)
-{
-    u8 buf[6];
+    u8 pokeIds[6];
     u32 i;
-    u32 n;
-    u32 m;
+    u32 sickCount;
+    u32 pokeCount;
     u32 j;
-    u32 t;
-    u8 *q;
+    u32 sickIndex;
+    struct BtlPokeParam *pokeParam;
 
-    n = s[1];
-    m = s[0];
-    func_021D8090(s[2], buf);
-    for (i = 0; i < n; i++) {
-        t = func_0689C9F8(i);
-        if (t == 0)
+    sickCount = args[1];
+    pokeCount = args[0];
+    func_021D8090(args[2], pokeIds);
+    for (i = 0; i < sickCount; i++) {
+        sickIndex = func_0689C9F8(i);
+        if (sickIndex == 0)
             break;
-        for (j = 0; j < m; j++) {
-            q = func_021B9934((char *)(*(u8 * *)&((struct Obj21181 *)a)->f4), buf[j]);
-            if (func_021D5B68(q) == 0)
-                func_021D6064(q, t, 0, 0);
+        for (j = 0; j < pokeCount; j++) {
+            pokeParam = func_021B9934(client->pokeContainer, pokeIds[j]);
+            if (func_021D5B68(pokeParam) == 0)
+                func_021D6064(pokeParam, sickIndex, 0, 0);
         }
     }
     return 1;

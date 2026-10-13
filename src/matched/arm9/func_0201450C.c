@@ -1,5 +1,5 @@
 /*
- * function: func_0201450C
+ * function: FIELD_STATUS_FieldCloseNoSoundWaitEvent
  * address:  0x0201450C
  * packet:   pkt_0201450C
  * region:   arm9
@@ -25,6 +25,7 @@
  * symbols:
  *   func_02188BD8  0x02188BD8  thumb  ov021
  *   func_0215FA44  0x0215FA44  thumb  ov010
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *
  * Byte-correct at all 70 bytes; 2 of 4 relocation sites stay wildcarded.
  * Seeded from an arm9 dispatcher (arm9_main calls the same pair at 0x020144A8
@@ -36,8 +37,8 @@
  * than arm9 or runtime code.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0201450C.c \
- *       --func func_0201450C --addr 0x0201450C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/FIELD_STATUS_FieldCloseNoSoundWaitEvent.c \
+ *       --func FIELD_STATUS_FieldCloseNoSoundWaitEvent --addr 0x0201450C --cc 1.1p1 --thumb
  * wave15:   overlay callees are unlabelled Thumb starts: 0x0215FA34 and
  *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
  *           0x02188BD8 in ov021; need seeds in those overlays' listings.
@@ -49,10 +50,10 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Ctx;
 extern void func_02188BD8(u8 *obj);
-extern u32 func_020120F0(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern void func_0215FA44(void);
 
-int func_0201450C(int a0, int *a1, int *a2)
+int FIELD_STATUS_FieldCloseNoSoundWaitEvent(int a0, int *a1, int *a2)
 {
     int v7 = a2[0];
     int v6 = a2[1];
@@ -64,7 +65,7 @@ int func_0201450C(int a0, int *a1, int *a2)
         *a1 = *a1 + 1;
         break;
     case 1:
-        if (func_020120F0((const struct Ctx *)v7) == 0) {
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)v7) == 0) {
             if (a2[3] != 0) {
                 func_0215FA44();
             }

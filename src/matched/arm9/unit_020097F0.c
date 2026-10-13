@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020097F0
+ * function: WIFILIST_Copy
  *
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
@@ -36,7 +36,7 @@ struct Sub020097BCObj {
     u8 unk000[0x7C4];
 };
 
-void sub_020097F0(const struct Sub020097BCObj *src, struct Sub020097BCObj *dest)
+void WIFILIST_Copy(const struct Sub020097BCObj *src, struct Sub020097BCObj *dest)
 {
     MI_CpuCopy8(src, dest, sizeof(struct Sub020097BCObj));
 }

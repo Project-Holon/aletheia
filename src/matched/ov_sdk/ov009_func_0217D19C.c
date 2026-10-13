@@ -21,8 +21,8 @@
  *
  * symbols:
  *   func_0217F0FC  0x0217F0FC  arm  ov009
- *   func_0217F108  0x0217F108  arm  ov009
- *   func_0217F114  0x0217F114  arm  ov009
+ *   gsiEnterCriticalSection  0x0217F108  arm  ov009
+ *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
  *   func_0217D188  0x0217D188  arm  ov009
  *   g_021AD000     0x021AD000  data
  *   g_021AD008     0x021AD008  data
@@ -37,8 +37,8 @@ typedef struct {
 } GSIDebugState;
 
 extern void func_0217F0FC(void *mutex);
-extern void func_0217F108(void *mutex);
-extern void func_0217F114(void *mutex);
+extern void gsiEnterCriticalSection(void *mutex);
+extern void gsiLeaveCriticalSection(void *mutex);
 extern void func_0217D188(int a, int b, int c, int d, int e);
 extern GSIDebugState g_021AD000;
 extern int g_021AD008[];
@@ -52,7 +52,7 @@ void func_0217D19C(int cat, int type, int level, const char *fmt, va_list args)
         g_021AD000.initialized = 1;
         func_0217F0FC(g_021AD008);
     }
-    func_0217F108(g_021AD008);
+    gsiEnterCriticalSection(g_021AD008);
     enabled = g_021AD020[cat][type];
     if (enabled & level) {
         if (g_021AD000.callback != 0)
@@ -60,5 +60,5 @@ void func_0217D19C(int cat, int type, int level, const char *fmt, va_list args)
         else
             func_0217D188(cat, type, level, (int)fmt, (int)args);
     }
-    func_0217F114(g_021AD008);
+    gsiLeaveCriticalSection(g_021AD008);
 }

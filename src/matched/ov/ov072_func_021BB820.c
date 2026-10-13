@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * closed 2026-10-05 (recoup integrator): func_02049658 returns u32 (its matched definition
- *   tail-returns sub_0204968C). With the void declaration the later register zeros were
+ *   tail-returns ARC_UTIL_UploadBgChar). With the void declaration the later register zeros were
  *   copied from the pooled zero web; with the real return type they are fresh movs. EXACT
  *   in c99 and c.
  * checks: 1 own 0203F8F4/45088 one, 3FC28 one, 3FCA0 three, 40588 two, 490F4 two, 49B68 six, 49658/498F4 seven, 49B40 six, 40C14 four; SDK82BCC three and49238 one confirmed by matched ov0729E38 caller; 2 same-region/sibling graphics callers refreshed; 3 enum register-zero prototype variants and unsigned-long u32 each compile328/68 flat; 4 enum-zero and sub-word parameter idioms read, no fresh improving lever; 5 full idiom directory and matched neighbours refreshed. Prior permuter300 remains spent. Next hypothesis: genuine palette request storage type for the tail zero web.
@@ -28,7 +28,7 @@
  * range at the (0xf,5) call (the stack zeros of the last three handle calls
  * as a separate value), which no type change above reached.
  *
- * renewed: Wave75 R29, 3 iteration + 2 check runs. Enum stack-zero72 bytes and enum palette-size74 worse; loop-init after first call flat68. Const BG table CCERR repaired with readonly callee prototype, then flat68. Own arm9 unit_02049B40 and sub_02049658/498F4 re-read (6/7 args, u16 final heap); fresh ov070/071 callers and idioms. Earlier permuter300 remains consumed; best C retained.
+ * renewed: Wave75 R29, 3 iteration + 2 check runs. Enum stack-zero72 bytes and enum palette-size74 worse; loop-init after first call flat68. Const BG table CCERR repaired with readonly callee prototype, then flat68. Own arm9 unit_02049B40 and ARC_UTIL_UploadBgCharFromHandle/498F4 re-read (6/7 args, u16 final heap); fresh ov070/071 callers and idioms. Earlier permuter300 remains consumed; best C retained.
  * Graphics init; the seven 0x28-byte BG entries at d_021BBC28 are the
  * ones func_021BB968 tears down.
  *

@@ -7,6 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   PALANM_RequestFade  0x0202173C  thumb  arm9
  */
 #include "../include/Obj00025.h"
 typedef unsigned char u8;
@@ -14,10 +17,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 typedef struct PalAnmObj PalAnmObj;
-extern int func_0202173C(PalAnmObj *, u16, u16, s16, u8, u8, u16, void *);
+extern int PALANM_RequestFade(PalAnmObj *, u16, u16, s16, u8, u8, u16, void *);
 void func_021BC4B4(char *p)
 {
-    func_0202173C(*(PalAnmObj * *)&((struct Obj00025 *)p)->f98, 1, 0xBBFF, 2, 0, 10, 0, ((struct Obj00025 *)p)->f150);
-    func_0202173C(*(PalAnmObj * *)&((struct Obj00025 *)p)->f98, 4, 0xCF, 2, 0, 10, 0, ((struct Obj00025 *)p)->f150);
+    PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj00025 *)p)->f98, 1, 0xBBFF, 2, 0, 10, 0, ((struct Obj00025 *)p)->f150);
+    PALANM_RequestFade(*(PalAnmObj * *)&((struct Obj00025 *)p)->f98, 4, 0xCF, 2, 0, 10, 0, ((struct Obj00025 *)p)->f150);
     ((struct Obj00025 *)p)->f15C = 1;
 }

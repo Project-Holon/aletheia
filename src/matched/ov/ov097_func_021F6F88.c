@@ -17,9 +17,9 @@
  * into a local and adds (r = obj; r += 0xb4) gives DIFF.
  * symbols:
  *   func_020490F4 0x020490F4 arm
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_0201BA68 0x0201BA68 thumb
- *   func_0201BABC 0x0201BABC thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0201BC3C 0x0201BC3C thumb
  *   func_0204ACEC 0x0204ACEC arm
@@ -39,9 +39,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_020490F4(u32 id, u32 heap);
-extern void *func_020185F4(void *);
+extern void *POKE_TOOL_GetBoxParam(void *);
 extern u32 func_0201BA68(void *);
-extern u32 func_0201BABC(u32, u32, u32, u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
 extern int func_0204A6C8(void *, u32, u32, u32, u16);
 extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *, u32, u32, u32, u16);
@@ -70,9 +70,9 @@ void func_021F6F88(int p)
     icons = IconBase(p);
     for (i = 0; i < 6; i++) {
         if (*(void **)(p + i * 4 + 0xf8) != 0)
-            icon = func_0201BA68(func_020185F4(*(void **)(p + i * 4 + 0xf8)));
+            icon = func_0201BA68(POKE_TOOL_GetBoxParam(*(void **)(p + i * 4 + 0xf8)));
         else
-            icon = func_0201BABC(0, 0, 0, 0);
+            icon = POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0);
         *(int *)(icons + i * 4) = func_0204A6C8(h, icon, 0, 0, 0x71);
     }
     *(int *)&((struct Obj00410 *)p)->fD8 = func_0204ACEC(h, func_0201BC3C(), 0, 0, 0x71);

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A84     0x02146A84  data
+ *   g_pDmaChannels     0x02146A84  data
  *   func_02050B14  0x02050B14  arm
  *
  * blocker:  02050B14 (arm, from header) has no witness outside
@@ -23,7 +23,7 @@
  *           no source reaches it).  Chain row.
  *
  *           All 164 concrete bytes reproduce, including the third site
- *           (g_02146A84, literal x5).  The counter is `int`, not `u32`: the
+ *           (g_pDmaChannels, literal x5).  The counter is `int`, not `u32`: the
  *           loop's back edge is `blt`.
  *
  * Sweep the four 16-byte slots of the global bank at 0x02146A84 and retire
@@ -53,26 +53,26 @@ typedef struct Slot {
     u32        : 29;
 } Slot;
 
-extern struct G_02146A84 *g_02146A84;
+extern struct G_02146A84 *g_pDmaChannels;
 extern void func_02050B14(u32 i);
 
 void func_02050A70(void)
 {
     int i;
 
-    if (((Slot *)g_02146A84) == 0)
+    if (((Slot *)g_pDmaChannels) == 0)
         return;
 
     for (i = 0; i < 4; i++) {
-        if (((Slot *)g_02146A84)[i].active) {
-            ((Slot *)g_02146A84)[i].active = 0;
-            if (((Slot *)g_02146A84)[i].unk08 >> 11) {
+        if (((Slot *)g_pDmaChannels)[i].active) {
+            ((Slot *)g_pDmaChannels)[i].active = 0;
+            if (((Slot *)g_pDmaChannels)[i].unk08 >> 11) {
                 func_02050B14(i);
-                ((Slot *)g_02146A84)[i].torn = 1;
+                ((Slot *)g_pDmaChannels)[i].torn = 1;
             }
         }
-        if (((Slot *)g_02146A84)[i].kill) {
-            ((Slot *)g_02146A84)[i].kill = 0;
+        if (((Slot *)g_pDmaChannels)[i].kill) {
+            ((Slot *)g_pDmaChannels)[i].kill = 0;
             func_02050B14(i);
         }
     }

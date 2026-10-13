@@ -9,7 +9,7 @@
  * status: EXACT*
  * tail: 0x021C48FA..0x021C48FC is a zero alignment halfword.
  * symbols:
- *   func_0202822C 0x0202822C thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   func_021C47C4 0x021C47C4 thumb ov136
  *   func_021C44FC 0x021C44FC thumb ov136
  *   func_020362DC 0x020362DC arm
@@ -17,6 +17,9 @@
  *   func_020456F8 0x020456F8 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
+ *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb  arm9
+ *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb  arm9
+ *   APP_TASKMENU_WIN_ResetDecide  0x020282A4  thumb  arm9
  */
 #include "../include/Obj01413.h"
 typedef unsigned char u8;
@@ -25,10 +28,10 @@ typedef unsigned int u32;
 struct Descriptor;
 struct Obj;
 struct Rec3;
-extern void func_0202822C(char *p, int v);
-extern void func_02028218(struct Obj *obj, u32 a);
-extern u32 func_02028230(u8 *p);
-extern void func_020282A4(struct Obj *obj);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
+extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 extern void func_021C47C4(u8 *, int);
 extern u32 func_0201CE30(void *p);
 extern u32 func_020362DC(void);
@@ -44,14 +47,14 @@ int func_021C483C(u8 *p)
     void *q;
     switch (((struct Obj01413 *)p)->f8) {
     case 0:
-        func_0202822C(((struct Obj01413 *)p)->f128, 1);
-        func_02028218(((struct Obj01413 *)p)->f12C, 0);
+        APP_TASKMENU_WIN_SetDecide(((struct Obj01413 *)p)->f128, 1);
+        APP_TASKMENU_WIN_SetActive(((struct Obj01413 *)p)->f12C, 0);
         ((struct Obj01413 *)p)->f8 = 1;
         break;
     case 1:
-        if (func_02028230(((struct Obj01413 *)p)->f128) != 0) {
-            func_020282A4(((struct Obj01413 *)p)->f128);
-            func_02028218(((struct Obj01413 *)p)->f128, 1);
+        if (APP_TASKMENU_WIN_IsFinish(((struct Obj01413 *)p)->f128) != 0) {
+            APP_TASKMENU_WIN_ResetDecide(((struct Obj01413 *)p)->f128);
+            APP_TASKMENU_WIN_SetActive(((struct Obj01413 *)p)->f128, 1);
             func_021C47C4(p, 2);
             ((struct Obj01413 *)p)->f8 = 2;
         }

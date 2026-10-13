@@ -1,5 +1,5 @@
 /*
- * function: func_02178524
+ * function: DWCi_MOV_WH_ChildConnectAuto
  * address:  0x02178524
  * packet:   pkt_ov014_02178524
  * region:   ov014
@@ -15,7 +15,7 @@
  * symbols:
  *   g_021797A8     0x021797A8  data   ov014  a4
  *   func_02178138  0x02178138  thumb  ov014
- *   func_0217863C  0x0217863C  thumb  ov014
+ *   DWCi_MOV_WH_StateInStartScan  0x0217863C  thumb  ov014
  *   func_02082BCC  0x02082BCC  arm
  */
 typedef unsigned char u8;
@@ -25,9 +25,9 @@ typedef unsigned int u32;
 extern u8 *g_021797A8;
 void func_02178138(int state);
 void func_02082BCC(void *p, u32 v, u32 n);
-int func_0217863C(void);
+int DWCi_MOV_WH_StateInStartScan(void);
 
-int func_02178524(u32 a, const u16 *b, u32 c)
+int DWCi_MOV_WH_ChildConnectAuto(u32 a, const u16 *b, u32 c)
 {
     func_02178138(2);
     if (b != 0) {
@@ -42,7 +42,7 @@ int func_02178524(u32 a, const u16 *b, u32 c)
     *(u16 *)(g_021797A8 + 0x1EB2) = c;
     *(u16 *)(g_021797A8 + 0x1406) = 1;
     *(u16 *)(g_021797A8 + 0x1EB4) = 1;
-    if (func_0217863C() == 0) {
+    if (DWCi_MOV_WH_StateInStartScan() == 0) {
         func_02178138(9);
         return 0;
     }

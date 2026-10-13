@@ -14,10 +14,10 @@
  *   func_02040588 0x02040588 arm
  *   func_021BB200 0x021BB200 thumb ov091
  *   func_02051614 0x02051614 arm
- *   func_02051574 0x02051574 arm
+ *   PARTICLE_UpdateAllSystems 0x02051574 arm
  *   func_02047964 0x02047964 arm
  *   func_020479D8 0x020479D8 arm
- *   func_02051534 0x02051534 arm
+ *   PARTICLE_DrawAllSystems 0x02051534 arm
  *   func_02047970 0x02047970 arm
  *   func_02006BD0 0x02006BD0 thumb
  */
@@ -31,10 +31,10 @@ extern int func_02006238(void);
 extern u32 func_02017E1C(void *,u32,u32);
 extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
 extern u32 func_02006BD0(u32 i);
-extern int func_02051574(void);
+extern int PARTICLE_UpdateAllSystems(void);
 extern void func_02047964(void);
 extern void func_020479D8(void);
-extern int func_02051534(void);
+extern int PARTICLE_DrawAllSystems(void);
 extern void func_02047970(void);
 #define W(o) (*(u32 *)(p+(o)))
 void func_021BD9C8(u8 *p)
@@ -62,9 +62,9 @@ void func_021BD9C8(u8 *p)
             if (func_02006BD0(W(0x274)) == 0) p[0xc] = 0x10;
         }
     }
-    func_02051574();
+    PARTICLE_UpdateAllSystems();
     func_02047964();
     func_020479D8();
-    func_02051534();
+    PARTICLE_DrawAllSystems();
     func_02047970();
 }

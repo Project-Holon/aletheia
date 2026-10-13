@@ -14,12 +14,12 @@
  *   typedef unsigned short u16; typedef unsigned int u32;
  *   extern u32 sub_0201BD28(u16, u32);
  *   symbols: sub_0201BD28 0x0201BD28 thumb
- *   u32 func_0201C1E8(u16 id) { return sub_0201BD28(id, 2); }
+ *   u32 WAZA_TOOL_GetDamageType(u16 id) { return sub_0201BD28(id, 2); }
  * lever: a separately narrowed u8 level local avoids the extra r0-to-r2
  *   copy from narrowing an inline call argument. value * scale selects
  *   the original multiplication destination; scale * value adds a copy.
  * symbols:
- *   func_0201C1E8 0x0201C1E8 thumb
+ *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
  *   func_021D74F8 0x021D74F8 thumb ov093
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021D75EC 0x021D75EC thumb ov093
@@ -46,7 +46,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0201C1E8(int a);
+extern int WAZA_TOOL_GetDamageType(int a);
 extern void func_021D74F8(int);
 extern u8 func_021D5440(u8 *);
 extern void func_021D75EC(int, u32);
@@ -71,7 +71,7 @@ struct Unk021D62A8;
 extern int func_021D62A8(struct Unk021D62A8 *p);
 int func_021C1E74(u8 *p, u8 *a, u8 *b, u8 *c, u32 d, u32 e, u32 f, int g, u16 *out)
 {
-    int category = func_0201C1E8(*(u16 *)c);
+    int category = WAZA_TOOL_GetDamageType(*(u16 *)c);
     int flag = 0;
     u32 result;
     u32 x;

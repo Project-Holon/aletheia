@@ -1,5 +1,5 @@
 /*
- * function: func_0206E5EC
+ * function: NNS_G3dMdlSetMdlPolygonIDAll
  * address:  0x0206E5EC
  * packet:   pkt_0206E394
  * region:   arm9
@@ -18,8 +18,8 @@
  * re-read from memory every iteration.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206E5EC.c \
- *       --func func_0206E5EC --addr 0x0206E5EC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dMdlSetMdlPolygonIDAll.c \
+ *       --func NNS_G3dMdlSetMdlPolygonIDAll --addr 0x0206E5EC --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -32,7 +32,7 @@ typedef struct {
 
 extern void func_0206E4FC(Obj0206E5EC *p, u32 idx, u32 a);
 
-void func_0206E5EC(Obj0206E5EC *p, u32 a)
+void NNS_G3dMdlSetMdlPolygonIDAll(Obj0206E5EC *p, u32 a)
 {
     u32 i = 0;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0202CFEC
+ * function: BGWINFRM_SetClipArea
  * address:  0x0202CFEC
  * packet:   pkt_0202CFEC
  * region:   arm9
@@ -41,7 +41,7 @@ struct Obj {
     struct Ent *ents;
 };
 
-void func_0202CFEC(struct Obj *o, u32 i, u8 a, u8 b, s8 c, s8 d)
+void BGWINFRM_SetClipArea(struct Obj *o, u32 i, u8 a, u8 b, s8 c, s8 d)
 {
     o->ents[i].a = a;
     o->ents[i].b = b;

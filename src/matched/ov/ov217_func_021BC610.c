@@ -13,6 +13,7 @@
  *
  * symbols:
  *   func_021BC610  0x021BC610  thumb  ov217
+ *   PALANM_TransferPalettes  0x02021D50  thumb  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -26,13 +27,13 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct S02021D50;
-extern void func_02021D50(struct S02021D50 *p);
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void func_020419E4();
 extern void func_0204A648();
 void func_021BC610(u32 a0, u32 a1)
 {
     func_020419E4();
     func_0204A648();
-    func_02021D50((struct S02021D50 *)(((struct Obj25865 *)((u8*)a1 + 0))->f98));
+    PALANM_TransferPalettes((struct S02021D50 *)(((struct Obj25865 *)((u8*)a1 + 0))->f98));
 }
 

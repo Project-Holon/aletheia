@@ -1,5 +1,5 @@
 /*
- * function: func_0202B66C
+ * function: ISS_SYS_DeleteRoad
  * address:  0x0202B66C
  * packet:   pkt_0202B59C
  * region:   arm9
@@ -9,12 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Releases the +0x14 field through func_0202B1EC (the OS_FreeToHeap thunk)
+ * Releases the +0x14 field through ISS_ROAD_SYS_Delete (the OS_FreeToHeap thunk)
  * and clears it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B66C.c \
- *       --func func_0202B66C --addr 0x0202B66C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SYS_DeleteRoad.c \
+ *       --func ISS_SYS_DeleteRoad --addr 0x0202B66C --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   ISS_ROAD_SYS_Delete  0x0202B1EC  thumb
  */
 #include "../include/Obj02011.h"
 
@@ -23,10 +26,10 @@ typedef unsigned int  u32;
 
 struct Obj;
 
-extern void func_0202B1EC(void *ptr);
+extern void ISS_ROAD_SYS_Delete(void *ptr);
 
-void func_0202B66C(struct Obj *o)
+void ISS_SYS_DeleteRoad(struct Obj *o)
 {
-    func_0202B1EC((void *)(((struct Obj02011 *)o)->f14));
+    ISS_ROAD_SYS_Delete((void *)(((struct Obj02011 *)o)->f14));
     ((struct Obj02011 *)o)->f14 = 0;
 }

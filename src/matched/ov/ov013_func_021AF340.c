@@ -1,5 +1,5 @@
 /*
- * function: func_021AF340
+ * function: VCT_ADPCM_Decode4Bit
  * address:  0x021AF340
  * packet:   pkt_ov013_021AF340
  * region:   ov013
@@ -14,8 +14,8 @@
  * at 0x021B3A0C, step table (s16[89]) at 0x021B3A1C.
  *
  * symbols:
- *   d_021B3A0C     0x021B3A0C  data  ov013  a1
- *   d_021B3A1C     0x021B3A1C  data  ov013  a2
+ *   gAdpcmIndexTable4     0x021B3A0C  data  ov013  a1
+ *   gAdpcmStepTable     0x021B3A1C  data  ov013  a2
  */
 
 typedef unsigned char u8;
@@ -28,8 +28,8 @@ typedef struct AdpcmState {
     u8 index;
 } AdpcmState;
 
-extern const s8 d_021B3A0C[16];
-extern const s16 d_021B3A1C[89];
+extern const s8 gAdpcmIndexTable4[16];
+extern const s16 gAdpcmStepTable[89];
 
 static inline s16 AdpcmDecodeNibble(AdpcmState *st, int code)
 {
@@ -40,7 +40,7 @@ static inline s16 AdpcmDecodeNibble(AdpcmState *st, int code)
 
     idx = st->index;
     pred = st->pred;
-    step = d_021B3A1C[idx];
+    step = gAdpcmStepTable[idx];
     diff = step >> 3;
     if (code & 4) {
         diff += step;
@@ -62,7 +62,7 @@ static inline s16 AdpcmDecodeNibble(AdpcmState *st, int code)
             pred = 32767;
         }
     }
-    idx += d_021B3A0C[code];
+    idx += gAdpcmIndexTable4[code];
     if (idx < 0) {
         idx = 0;
     } else if (idx > 88) {
@@ -73,7 +73,7 @@ static inline s16 AdpcmDecodeNibble(AdpcmState *st, int code)
     return (s16)pred;
 }
 
-void func_021AF340(const u8 *src, s16 *dst, u32 n, AdpcmState *st)
+void VCT_ADPCM_Decode4Bit(const u8 *src, s16 *dst, u32 n, AdpcmState *st)
 {
     u32 i;
 

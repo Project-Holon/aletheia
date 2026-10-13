@@ -1,7 +1,7 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * function: func_020103E4
+ * function: WIH_DWC_Delete
  * address:  0x020103E4
  * packet:   pkt_02010360
  * region:   arm9
@@ -25,15 +25,15 @@
  *           setter (`ldr r1,[pc,#8]; ldr r2,[r1]; ldr r1,[pc,#8]; str r0,
  *           [r2,r1]; bx lr`), printed as .word data.  SEED REQUEST: `ov014
  *           0x0217963C thumb`; the two bl sites then witness each other and
- *           this file and sub_02010360 go EXACT unchanged.
+ *           this file and WIH_DWC_Create go EXACT unchanged.
  *
  * symbols:
- *   g_021461E0        0x021461E0  data
- *   sWihDwc           0x020A7240  data
+ *   gWihDwc        0x021461E0  data
+ *   sWihDwcAssertArg           0x020A7240  data
  *   ov015_id          0x0000000F  data
  *   func_02034714     0x02034714  arm
- *   func_0217963C     0x0217963C  thumb  ov014
- *   func_0203D7FC     0x0203D7FC  arm
+ *   WIH_SetBeaconFoundCallback     0x0217963C  thumb  ov014
+ *   GFL_NET_FreeAligned     0x0203D7FC  arm
  *   func_02034A5C     0x02034A5C  arm
  *
  * "wih_dwc.c" teardown, the counterpart of func_02010360 (same packet):
@@ -55,16 +55,16 @@
  * The call at 0x0217963C is a branch into overlay space (it is why the
  * listing prints it as .inst.w "outside this region").  Its argument is a
  * literal zero, and that same zero is what the store at +0x30 writes: mwcc
- * materialises it once, keeps it in r4 across both func_0203D7FC calls and
+ * materialises it once, keeps it in r4 across both GFL_NET_FreeAligned calls and
  * stores it, which is the `movs r4, #0` beside the `movs r0, #0`.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020103E4.c \
- *       --func func_020103E4 --addr 0x020103E4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/WIH_DWC_Delete.c \
+ *       --func WIH_DWC_Delete --addr 0x020103E4 --cc 1.1p1 --thumb
  *   MATCH, 72 bytes, 7 relocation sites, 6 resolved, 1 wildcard:
- *     +001A THM_CALL func_0217963C - unresolved, no outside witness.
+ *     +001A THM_CALL WIH_SetBeaconFoundCallback - unresolved, no outside witness.
  */
 #include "../include/Obj11238.h"
 #include "../include/G_WihCtx.h"
@@ -72,23 +72,23 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern struct WihCtx g_021461E0;
-extern u8  sWihDwc;
+extern struct WihCtx gWihDwc;
+extern u8  sWihDwcAssertArg;
 extern u8  ov015_id[];
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_0217963C(u32 v);
-extern void func_0203D7FC(void *p);
+extern void WIH_SetBeaconFoundCallback(u32 v);
+extern void GFL_NET_FreeAligned(void *p);
 extern void func_02034A5C(int handle);
 
-void func_020103E4(u8 *p)
+void WIH_DWC_Delete(u8 *p)
 {
-    if ((*(u32 *)&g_021461E0) == 0) {
-        func_02034714((const char *)(&sWihDwc), 0, (const char *)(&sWihDwc));
+    if ((*(u32 *)&gWihDwc) == 0) {
+        func_02034714((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
-    func_0217963C(0);
-    func_0203D7FC((void *)((struct Obj11238 *)p)->f300);
-    func_0203D7FC(p);
-    (*(u32 *)&g_021461E0) = 0;
+    WIH_SetBeaconFoundCallback(0);
+    GFL_NET_FreeAligned((void *)((struct Obj11238 *)p)->f300);
+    GFL_NET_FreeAligned(p);
+    (*(u32 *)&gWihDwc) = 0;
     func_02034A5C((int)ov015_id);
 }

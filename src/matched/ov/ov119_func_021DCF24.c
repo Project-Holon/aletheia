@@ -15,7 +15,7 @@
  *   func_021E5EF8 0x021E5EF8 thumb ov119
  *   func_021E5D84 0x021E5D84 thumb ov119
  *   func_021DC720 0x021DC720 thumb ov119
- *   func_020275E0 0x020275E0 thumb
+ *   BEACON_STATUS_DoNothing 0x020275E0 thumb
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   func_0203A5E4 0x0203A5E4 arm
  *   func_021E31BC 0x021E31BC thumb ov119
@@ -38,7 +38,7 @@ extern unsigned int func_020307B0(void *p);
 extern void func_021E5EF8(void *);
 extern void func_021E5D84(char *);
 extern void func_021DC720(char *);
-extern void func_020275E0(void);
+extern void BEACON_STATUS_DoNothing(void);
 extern int func_021D8A24(void *);
 struct S020315D4;
 typedef unsigned int   u32;
@@ -59,7 +59,7 @@ int func_021DCF24(void *owner,int unused,int keep,char *p)
     func_020307B0(((struct Obj00001 *)p)->f10A4);
     func_020307B0(((struct Obj00001 *)p)->f10A8);
     func_021E5EF8(p+0x950);func_021E5EF8(p+0x964);func_021E5EF8(p+0x978);
-    func_021E5D84(p);func_021DC720(p);func_020275E0();
+    func_021E5D84(p);func_021DC720(p);BEACON_STATUS_DoNothing();
     if(func_021D8A24(p))func_0203A5E4(0xc00);
     func_021E31BC(p);
     func_020307B0(((struct Obj00001 *)p)->f5DC);func_020307B0(((struct Obj00001 *)p)->f5E0);

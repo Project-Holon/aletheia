@@ -1,5 +1,5 @@
 /*
- * function: func_021D4964
+ * function: P_STATUS_LoadObjResource
  * address: 0x021D4964
  * packet: pkt_ov131_021D4964
  * region: ov131
@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * following: 0x021D4F22 is two bytes of alignment padding before func_021D4F24.
+ * following: 0x021D4F22 is two bytes of alignment padding before P_STATUS_DeleteObjResource.
  * lever: the loop store associates (p+i*4)+0x130; the second constructor result after func_02027770/74 is stored at +0x120.
  * initialization: resource handles come from the original constructors; no uninitialized local or added success assumption. The u8 counter visits 0..16.
  * symbols:
@@ -20,10 +20,10 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_020413B0 0x020413B0 arm
  *   func_02049238 0x02049238 arm
- *   func_021D67EC 0x021D67EC thumb ov131
- *   func_021D7B4C 0x021D7B4C thumb ov131
- *   func_021D9980 0x021D9980 thumb ov131
- *   func_021D8884 0x021D8884 thumb ov131
+ *   P_STA_SUB_LoadArcGraphics 0x021D67EC thumb ov131
+ *   P_STA_INFO_LoadResources 0x021D7B4C thumb ov131
+ *   P_STA_SKILL_LoadArcGraphics 0x021D9980 thumb ov131
+ *   P_STA_RIBBON_LoadArcGraphics 0x021D8884 thumb ov131
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -64,14 +64,14 @@ extern int func_02027748(void);
 extern int func_0202774C(int);
 extern int func_02027750(int);
 extern int func_02027754(int);
-extern void func_021D67EC(u16 *,int,void *);
-extern void func_021D7B4C(u8 *,u8 *,void *);
-extern void func_021D9980(u8 *,u8 *,void *);
-extern void func_021D8884(u8 *,u8 *,void *);
+extern void P_STA_SUB_LoadArcGraphics(u16 *,int,void *);
+extern void P_STA_INFO_LoadResources(u8 *,u8 *,void *);
+extern void P_STA_SKILL_LoadArcGraphics(u8 *,u8 *,void *);
+extern void P_STA_RIBBON_LoadArcGraphics(u8 *,u8 *,void *);
 #define H (*(u16 *)p)
 #define I(k) (*(int *)(p+(k)))
 #define P(k) (*(void **)(p+(k)))
-void func_021D4964(u8 *p)
+void P_STATUS_LoadObjResource(u8 *p)
 {
     u32 x, y;
     void *a;
@@ -139,9 +139,9 @@ void func_021D4964(u8 *p)
     x=func_02027738(1,2); y=func_02027740(1,2);
     I(0x104)=func_0204AF28(b,x,y,H);
     func_02049238(b);
-    func_021D67EC((u16 *)p,I(0x88),a);
-    func_021D7B4C(p,P(0x8c),a);
-    func_021D9980(p,P(0x90),a);
-    func_021D8884(p,P(0x94),a);
+    P_STA_SUB_LoadArcGraphics((u16 *)p,I(0x88),a);
+    P_STA_INFO_LoadResources(p,P(0x8c),a);
+    P_STA_SKILL_LoadArcGraphics(p,P(0x90),a);
+    P_STA_RIBBON_LoadArcGraphics(p,P(0x94),a);
     func_02049238(a);
 }

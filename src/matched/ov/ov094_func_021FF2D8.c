@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_022019F4  0x022019F4  thumb  ov094
- *   func_02015DF8  0x02015DF8  thumb
+ *   MCSS_GetAnmStopFlag  0x02015DF8  thumb
  */
 
 typedef struct {
@@ -30,7 +30,7 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(char *p, int key);
-extern int func_02015DF8(void *h);
+extern int MCSS_GetAnmStopFlag(void *h);
 
 int func_021FF2D8(Work *w, int key)
 {
@@ -40,5 +40,5 @@ int func_021FF2D8(Work *w, int key)
         return 0;
     if (w->e[idx].h == 0)
         return 0;
-    return func_02015DF8(w->e[idx].h);
+    return MCSS_GetAnmStopFlag(w->e[idx].h);
 }

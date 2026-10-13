@@ -11,10 +11,10 @@
  * that call's argument setup rather than before the touch-mode setter.
  * symbols:
  *   func_0204B3F4 0x0204B3F4 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_020355D8 0x020355D8 arm
  *   func_021BB034 0x021BB034 thumb ov225
- *   func_02028218 0x02028218 thumb
+ *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  *   func_0204B404 0x0204B404 arm
  *   func_021BB074 0x021BB074 thumb ov225
  *   func_021BB1F4 0x021BB1F4 thumb ov225
@@ -43,10 +43,10 @@ typedef unsigned short u16;
 typedef unsigned u32;
 struct Obj;struct Vec2 {short x,y;};
 extern u32 func_0204B3F4(struct Obj *);
-extern u32 func_02035CB8(u32 *,u32 *),func_02035D20(u32 *,u32 *);
+extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *),func_02035D20(u32 *,u32 *);
 extern void func_020355D8(u8);
 extern u16 func_021BB034(u16 **),func_021BB074(u16 **),func_021BB044(u16 **);
-extern void func_02028218(struct Obj *obj, u32 a);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern void func_0204B404(struct Obj *,const struct Vec2 *,u32);
 extern u16 func_021BB1F4(void *,u16,u16);
 extern void func_021BB088(char *);
@@ -59,11 +59,11 @@ int func_021BAE2C(char *p)
     struct Vec2 click;
     if(func_0204B3F4(*(struct Obj * *)&((struct Obj00074 *)p)->f5C)==0) return 0;
     if(((struct Obj00074 *)p)->f88) {
-        if(func_02035CB8(&dragx,&dragy)) {
+        if(TOUCHPANEL_GetPointCont(&dragx,&dragy)) {
             int offset;
             u16 selection,end;
             func_020355D8(1);
-            func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
             offset=0;
             drag.x=240;
             if(dragy>=8) offset=dragy-8;
@@ -89,7 +89,7 @@ int func_021BAE2C(char *p)
             int offset;
             u16 selection,end;
             func_020355D8(1);
-            func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
             offset=0;
             func_020061E4(0x548);
             ((struct Obj00074 *)p)->f88=1;

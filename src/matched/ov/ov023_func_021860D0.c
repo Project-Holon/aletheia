@@ -12,7 +12,7 @@
  * symbols:
  *   func_02039338  0x02039338  arm
  *   func_020399A8  0x020399A8  arm
- *   func_0203D56C  0x0203D56C  arm
+ *   GFL_NET_ResetSendQueue  0x0203D56C  arm
  *   func_0203D3A8  0x0203D3A8  arm
  *   func_02186A04  0x02186A04  thumb  ov023
  *   func_021869C0  0x021869C0  thumb  ov023
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 struct Entry;
 extern u16 func_02039338(void);
 extern struct Entry *func_020399A8(void);
-extern int  func_0203D56C(void *h);
+extern int  GFL_NET_ResetSendQueue(void *h);
 typedef unsigned int   u32;
 extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_02186A04(char *a, char *b);
@@ -38,7 +38,7 @@ void func_021860D0(char *p)
 
     if (func_02039338() == 0) {
         h = func_020399A8();
-        if (func_0203D56C(h) == 0)
+        if (GFL_NET_ResetSendQueue(h) == 0)
             return;
         func_02186A04(p + 0x9e4c, p + 0x928c);
         ((struct Obj01221 *)p)->f9E51 = ((struct Obj01221 *)p)->f9E6C;
@@ -47,7 +47,7 @@ void func_021860D0(char *p)
     } else {
         h = func_020399A8();
         func_021869C0(p + 0x420c, p + 0x928c);
-        if (func_0203D56C(h) == 0)
+        if (GFL_NET_ResetSendQueue(h) == 0)
             return;
         if (func_0203D3A8(func_020399A8(), 0x2901, 6, (u32)(p + 0x420c)) == 1)
             func_02186958(p + 0x928c);

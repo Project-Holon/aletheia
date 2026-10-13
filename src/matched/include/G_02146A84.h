@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_02146A84_H
 #define ALETHEIA_G_02146A84_H
-/* g_02146A84 (arm9) */
+/* g_pDmaChannels (arm9) */
 struct G_02146A84 {
     unsigned int unk00;
     unsigned int unk04;

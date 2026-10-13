@@ -1,5 +1,5 @@
 /*
- * function: func_0204F428
+ * function: BILLBOARD_AddElem
  * address:  0x0204F428
  * packet:   pkt_0204F428
  * region:   arm9
@@ -46,7 +46,7 @@ struct Board {
     u16 count1;
 };
 
-s32 func_0204F428(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode)
+s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode)
 {
     s32 i;
 

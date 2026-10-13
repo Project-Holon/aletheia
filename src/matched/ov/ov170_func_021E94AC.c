@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202CF8C 0x0202CF8C thumb
+ *   BGWINFRM_GetBgFrame 0x0202CF8C thumb
  */
 #include "../include/Obj23947.h"
 typedef struct {
@@ -27,10 +27,10 @@ typedef struct {
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct WinMgr;
-extern u8 func_0202CF8C(struct WinMgr *mgr, u32 idx);
+extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
 int func_021E94AC(Obj *p,int a,int b) {
  p->work->flag=1;
- p->work->rest=func_0202CF8C(*(struct WinMgr * *)&((struct Obj23947 *)((char *)p->work))->f74,7);
+ p->work->rest=BGWINFRM_GetBgFrame(*(struct WinMgr * *)&((struct Obj23947 *)((char *)p->work))->f74,7);
  p->work->lo=13;
  p->work->hi=12;
  p->work->a=0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02037F48
+ * function: GFL_NET_SYSTEM_SendWireless
  * address:  0x02037F48
  * packet:   pkt_02037F48
  * region:   arm9
@@ -19,11 +19,11 @@
  * symbols:
  *   lbl_021469D0   0x021469D0  data
  *   d_020A7A20     0x020A7A20  data
- *   func_0203D788  0x0203D788  arm
- *   func_0203D6BC  0x0203D6BC  arm
- *   func_0203D680  0x0203D680  arm
- *   func_02037D98  0x02037D98  arm
- *   func_020387A0  0x020387A0  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
+ *   GFL_NET_GetMaxConnectNum  0x0203D680  arm
+ *   GFL_NET_SYSTEM_PackSendData  0x02037D98  arm
+ *   GFL_NET_SYSTEM_RecvChildData  0x020387A0  arm
  */
 
 typedef unsigned char u8;
@@ -32,26 +32,26 @@ typedef signed int s32;
 
 extern u8 *lbl_021469D0;
 extern u8 d_020A7A20[];
-extern void *func_0203D788(void);
-extern u32 func_0203D6BC(void);
-extern u32 func_0203D680(void);
-extern int func_02037D98(int a);
-extern int func_020387A0(u32 i, u8 *p, s32 n);
+extern void *GFL_NET_GetSession(void);
+extern u32 GFL_NET_GetChildSendSize(void);
+extern u32 GFL_NET_GetMaxConnectNum(void);
+extern int GFL_NET_SYSTEM_PackSendData(int a);
+extern int GFL_NET_SYSTEM_RecvChildData(u32 i, u8 *p, s32 n);
 
-void func_02037F48(void)
+void GFL_NET_SYSTEM_SendWireless(void)
 {
     s32 i;
     s32 n;
     u32 v;
     u8 *p;
 
-    p = func_0203D788();
+    p = GFL_NET_GetSession();
 
     if (((u32 (*)(void)) * (u32 *)(*(u32 *)(p + 0x340) + 0x58))() == 0)
         return;
 
     if (*(u8 *)(lbl_021469D0 + 0x1EB) != 0)
-        func_02037D98(1);
+        GFL_NET_SYSTEM_PackSendData(1);
 
     if (((u32 (*)(u32)) * (u32 *)(*(u32 *)(p + 0x340) + 0x5C))(*(u32 *)lbl_021469D0) != 1)
         goto fail;
@@ -59,13 +59,13 @@ void func_02037F48(void)
     *(u8 *)(d_020A7A20 + 1) = 4;
     *(u8 *)(lbl_021469D0 + 0x1EB) = 1;
 
-    v = func_0203D6BC();
-    n = func_0203D680();
+    v = GFL_NET_GetChildSendSize();
+    n = GFL_NET_GetMaxConnectNum();
     i = 0;
     if (n > 0) {
         v = (unsigned short)v;
         do {
-        func_020387A0((unsigned short)i,
+        GFL_NET_SYSTEM_RecvChildData((unsigned short)i,
                       (u8 *)(((u32 (*)(u32))
                            * (u32 *)(*(u32 *)(p + 0x340) + 0x60))(i)), v);
             i++;

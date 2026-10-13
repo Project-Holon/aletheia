@@ -22,8 +22,11 @@
  *   func_0200C720  0x0200C720  thumb
  *   sub_0200C7A0   0x0200C7A0  thumb
  *   sub_0200CED4   0x0200CED4  thumb
- *   sub_0201AF80   0x0201AF80  thumb
+ *   POKE_PERSONAL_LoadFormTable   0x0201AF80  thumb
  *   func_020307B0  0x020307B0  arm
+ *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
+ *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
+ *   POKE_TOOL_GetGender  0x02017F00  thumb
  */
 struct Big;
 struct Sub020071CCCtrl;
@@ -111,21 +114,21 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_0201ADE4(u32 a, int b, u32 c);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
-extern u32 func_02017D30(struct Sav *p);
-extern u32 func_02017D70(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern u32   func_02017E1C(void *m, u32 field, u32 arg);
-extern u8    func_02017F00(void *m);
+extern u8    POKE_TOOL_GetGender(void *m);
 extern u32   func_02017EAC(void *m);
 extern u32 func_0200C720(u32 v);
 extern void func_0200C818(u8 *p, u32 idx, int sel, int half);
 extern void func_0200C738(u8 *p, u32 a1, u32 a2);
-extern u16 *func_0201AF80(u32 heap, u16 *countOut);
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_020307B0(void *p);
 extern int func_0200D310(void *a0, int a1);
 extern int func_0200C780(u32 v);
 extern u32 sub_0200CED4(struct Blk37 *p, u16 id);
 extern int sub_0200C7A0(u32 v);
-extern u16 *sub_0201AF80(u32 heap, u16 *countOut);
+extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern int func_0200C7A0(u32 v);
 extern u32 func_02005728(u32 range);
 u32 func_0200C7C0(u16 id);
@@ -832,18 +835,18 @@ void func_0200CDE0(struct Blk37 *p, void *m)
     u16 id;
     s32 y;
 
-    saved = func_02017D30(m);
+    saved = POKE_TOOL_DecodePartyParam(m);
     if (func_02017E1C(m, 0x4C, 0) == 1) {
-        func_02017D70(m, saved);
+        POKE_TOOL_EncodePartyParam(m, saved);
         return;
     }
     id = (u16)func_02017E1C(m, 5, 0);
     v0 = func_02017E1C(m, 0, 0);
     v6F = func_02017E1C(m, 0x6F, 0);
     v0C = func_02017E1C(m, 0xC, 0);
-    f = func_02017F00(m);
+    f = POKE_TOOL_GetGender(m);
     g = func_02017EAC(m);
-    func_02017D70(m, saved);
+    POKE_TOOL_EncodePartyParam(m, saved);
     if (func_0200C720(id) != 0) {
         return;
     }
@@ -914,7 +917,7 @@ u16 func_0200CF54(struct Blk37 *p, u32 heap)
     u16 *t;
 
     n = 0;
-    t = func_0201AF80(heap, 0);
+    t = POKE_PERSONAL_LoadFormTable(heap, 0);
     for (i = 1; i <= 0x289; i++) {
         if (func_0200CED4(p, i) == 1 && t[i] != 0x3E7) {
             n = (u16)(n + 1);
@@ -935,17 +938,17 @@ void func_0200CFA0(struct Blk37 *p, void *m)
     u32 v6F;
     u16 id;
 
-    saved = func_02017D30(m);
+    saved = POKE_TOOL_DecodePartyParam(m);
     if (func_02017E1C(m, 0x4C, 0) == 1) {
-        func_02017D70(m, saved);
+        POKE_TOOL_EncodePartyParam(m, saved);
         return;
     }
     id = (u16)func_02017E1C(m, 5, 0);
     v0 = func_02017E1C(m, 0, 0);
     v6F = func_02017E1C(m, 0x6F, 0);
-    f = func_02017F00(m);
+    f = POKE_TOOL_GetGender(m);
     g = func_02017EAC(m);
-    func_02017D70(m, saved);
+    POKE_TOOL_EncodePartyParam(m, saved);
     if (func_0200C720(id) != 0) {
         return;
     }
@@ -1057,7 +1060,7 @@ u16 func_0200D0F8(struct Blk37 *p, u32 heap)
     u16 *t;
 
     n = 0;
-    t = func_0201AF80(heap, 0);
+    t = POKE_PERSONAL_LoadFormTable(heap, 0);
     for (i = 1; i <= 0x289; i++) {
         if (func_0200D064(p, i) == 1 && t[i] != 0x3E7) {
             n = (u16)(n + 1);
@@ -1235,7 +1238,7 @@ u16 func_0200D2D8(void *a0)
 
 int sub_0200D310(void *a0, int a1)
 {
-    u16 *t = sub_0201AF80(a1, 0);
+    u16 *t = POKE_PERSONAL_LoadFormTable(a1, 0);
     u16 i;
     u16 n = 0;
 
@@ -1305,7 +1308,7 @@ u16 func_0200D368(struct Blk37 *p, u32 heap)
     u16 *t;
 
     n = 0;
-    t = func_0201AF80(heap, 0);
+    t = POKE_PERSONAL_LoadFormTable(heap, 0);
     for (i = 1; i <= 0x289; i++) {
         if (func_0200D064(p, i) == 1 && t[i] != 0x3E7 && func_0200C7A0(i) == 1) {
             n = (u16)(n + 1);

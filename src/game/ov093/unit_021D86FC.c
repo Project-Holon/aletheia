@@ -16,42 +16,80 @@
  *   d_021F07C8 0x021F07C8 data ov093 a4
  *   func_021D775C 0x021D775C thumb ov093
  *   func_021D7704 0x021D7704 thumb ov093
- *   func_0201C1E8 0x0201C1E8 thumb
+ *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
  *   d_021F0740 0x021F0740 data ov093 a4
  *   func_021C8288 0x021C8288 thumb ov093
  *   d_021F05D8 0x021F05D8 data a4
  */
-typedef unsigned char u8;
+#include "unit_021D8434_types.h"
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-extern int func_021D775C(int);
-extern void func_021D7704(int,int);
-extern int func_0201C1E8(int);
-extern int func_021C8288(u8 *p);
-void func_021D86FC(int a,int b,int c);
-u8 *func_021D8728(u32 *p);
-void func_021D8734(int a,int b,int c);
-void func_021D8760(int a,int b,int c);
-u8 *func_021D8788(u32 *p);
-void func_021D8794(int a,int b,int c);
-u8 *func_021D87BC(u32 *p);
+void func_021D86FC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+u8 *func_021D8728(u32 *packedInfo);
+void func_021D8734(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021D8760(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+u8 *func_021D8788(u32 *packedInfo);
+void func_021D8794(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+u8 *func_021D87BC(u32 *packedInfo);
 extern u8 d_021F07C8[];
 extern u8 d_021F0740[];
 extern u8 d_021F05D8[];
 
-void func_021D86FC(int a,int b,int c) { u8 k; if (c==func_021D775C(4)) { k=func_021D775C(22); if (k==14 || k==9) func_021D7704(53,2048); } }
+/* Thick Fat: halves the attack power of fire and ice moves against the owner. */
+void func_021D86FC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+{
+    u8 moveType;
 
-u8 *func_021D8728(u32 *p) { *p=1; return d_021F07C8; }
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID)) {
+        moveType = func_021D775C(BTL_EVAR_MOVE_TYPE);
+        if (moveType == POKETYPE_ICE || moveType == POKETYPE_FIRE)
+            func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_0_5);
+    }
+}
 
-void func_021D8734(int a,int b,int c) { if (c==func_021D775C(3)) { if (func_0201C1E8((u16)func_021D775C(18))==1) func_021D7704(53,8192); } }
+/* Huge Power and Pure Power: handler table. */
+u8 *func_021D8728(u32 *packedInfo)
+{
+    *packedInfo = 1;
+    return d_021F07C8;
+}
 
-void func_021D8760(int a,int b,int c) { if (c==func_021D775C(2)) { if (func_021C8288((u8 *)b)==2) func_021D7704(53,8192); } }
+/* Huge Power and Pure Power: doubles the attack power of physical moves. */
+void func_021D8734(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+{
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID)) {
+        if (WAZA_TOOL_GetDamageType((u16)func_021D775C(BTL_EVAR_MOVE_ID)) == WAZA_DAMAGE_PHYSICAL)
+            func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_2_0);
+    }
+}
 
-u8 *func_021D8788(u32 *p) { *p=1; return d_021F0740; }
+/* Swift Swim: doubles the speed in rain. */
+void func_021D8760(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+{
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        if (func_021C8288(flow) == BTL_WEATHER_RAIN)
+            func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_2_0);
+    }
+}
 
-void func_021D8794(int a,int b,int c) { if (c==func_021D775C(2)) { if (func_021C8288((u8 *)b)==1) func_021D7704(53,8192); } }
+/* Swift Swim: handler table. */
+u8 *func_021D8788(u32 *packedInfo)
+{
+    *packedInfo = 1;
+    return d_021F0740;
+}
 
-u8 *func_021D87BC(u32 *p) { *p=1; return d_021F05D8; }
+/* Chlorophyll: doubles the speed in sun. */
+void func_021D8794(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+{
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        if (func_021C8288(flow) == BTL_WEATHER_SUN)
+            func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_2_0);
+    }
+}
+
+/* Chlorophyll: handler table. */
+u8 *func_021D87BC(u32 *packedInfo)
+{
+    *packedInfo = 1;
+    return d_021F05D8;
+}

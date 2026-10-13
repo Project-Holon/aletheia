@@ -1,6 +1,6 @@
 /*
  * file:     unit_021A0A1C.c
- * function: func_021A0A1C
+ * function: SBServerListSetLastError
  * address:  0x021A0A1C
  * packet:   pkt_02155168
  * region:   ov009
@@ -15,7 +15,7 @@
 
 #include "unit_0219E1EC_types.h"
 
-void func_021A0A1C(SBServerList *slist, char *lastError)
+void SBServerListSetLastError(SBServerList *slist, char *lastError)
 {
     slist->lasterror = lastError;
 }

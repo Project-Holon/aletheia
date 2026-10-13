@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204D360
+ * function: CLACT_SetMultiCellAnimSeq
  * address:  0x0204D360
  * packet:   pkt_0204CA74
  * region:   arm9
@@ -14,14 +14,14 @@
  *   sub_020627D8  0x020627D8  arm
  *   sub_0206434C  0x0206434C  arm
  *
- * The second copy of sub_0204D340: same body, same two callees, emitted
+ * The second copy of CLACT_SetCellAnimSeq: same body, same two callees, emitted
  * again thirty-two bytes later.  Two adjacent dispatch-table slots each got
  * their own definition and nothing folded them, so the only difference
  * between the two functions in the image is the PC24 displacement.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204D360.c \
- *       --func sub_0204D360 --addr 0x0204D360 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetMultiCellAnimSeq.c \
+ *       --func CLACT_SetMultiCellAnimSeq --addr 0x0204D360 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -42,7 +42,7 @@ struct AnimSequence;
 extern struct AnimSequence *sub_020627D8(struct AnimBank *bank, u32 idx);
 extern void  sub_0206434C(struct Rec *r, void *v);
 
-void sub_0204D360(struct Obj *o, u32 idx)
+void CLACT_SetMultiCellAnimSeq(struct Obj *o, u32 idx)
 {
     sub_0206434C(&o->unk_0c, sub_020627D8(o->unk_08, idx));
 }

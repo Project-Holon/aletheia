@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200A170",
+   "name": "MYSTERY_DATA_HasAnyCard",
    "address": "0x0200A170",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200A1A8",
+   "name": "MYSTERY_DATA_IsEventFlag",
    "address": "0x0200A1A8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200A350",
+   "name": "MYSTERY_DATA_IsMainSave",
    "address": "0x0200A350",
    "kind": "game",
    "region": "arm9",

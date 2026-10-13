@@ -1,5 +1,5 @@
 /*
- * function: func_0202ADD8
+ * function: ISS_CITY_SYS_FindUnitIndex
  * address:  0x0202ADD8
  * packet:   pkt_0202ADD8
  * region:   arm9
@@ -24,7 +24,7 @@ struct Container {
 
 extern u32 sub_0202AF30(void *obj);
 
-u8 func_0202ADD8(struct Container *p, u32 key)
+u8 ISS_CITY_SYS_FindUnitIndex(struct Container *p, u32 key)
 {
     int i;
     u8 count = p->count;

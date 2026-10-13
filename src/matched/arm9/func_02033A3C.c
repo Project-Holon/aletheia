@@ -1,5 +1,5 @@
 /*
- * function: func_02033A3C
+ * function: SAVEDATA_QueryBlockSize
  * address:  0x02033A3C
  * packet:   pkt_020339D0
  * region:   arm9
@@ -23,7 +23,7 @@ extern const u8 str_020A78CC[];
 extern const u8 str_020A78D8[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-u32 func_02033A3C(u32 *p, u32 i)
+u32 SAVEDATA_QueryBlockSize(u32 *p, u32 i)
 {
     FP fp;
     u32 base = p[0];

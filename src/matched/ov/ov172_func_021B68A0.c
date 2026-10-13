@@ -9,7 +9,7 @@
  * status: EXACT
  * Lever: initialize the result after the guards, before the descriptor stores.
  * symbols:
- *   func_02085D3C 0x02085D3C arm
+ *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_021B6918 0x021B6918 arm ov172
  *   func_021B6920 0x021B6920 arm ov172
  *   func_021B6928 0x021B6928 arm ov172
@@ -22,7 +22,7 @@
 #include "../include/Obj01264.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern int func_021B6918(void);
 extern void func_021B6920(int);
 extern int func_021B6928(u32, u32);
@@ -37,8 +37,8 @@ void func_021B68A0(char *p)
     u32 width;
     u32 height;
     if (((struct Obj01264 *)p)->f10 != 0) return;
-    if ((func_02085D3C() == 1 ? func_021B6918() : 0) != 0) return;
-    if (func_02085D3C() == 1) func_021B6920(0);
+    if ((OS_IsRunOnTwl() == 1 ? func_021B6918() : 0) != 0) return;
+    if (OS_IsRunOnTwl() == 1) func_021B6920(0);
     result = 0;
     ((struct Obj01264 *)p)->f34 = 0;
     ((struct Obj01264 *)p)->f36 = func_021B697C(p);
@@ -46,7 +46,7 @@ void func_021B68A0(char *p)
     ((struct Obj01264 *)p)->f3A = func_021B699C(p);
     width = func_021B6938(p);
     height = func_021B6944(p);
-    if (func_02085D3C() == 1) result = func_021B6928(width, height);
-    if (func_02085D3C() == 1) func_021B6930(result);
+    if (OS_IsRunOnTwl() == 1) result = func_021B6928(width, height);
+    if (OS_IsRunOnTwl() == 1) func_021B6930(result);
     ((struct Obj01264 *)p)->f14 = 0;
 }

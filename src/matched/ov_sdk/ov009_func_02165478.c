@@ -1,5 +1,5 @@
 /*
- * function: func_02165478
+ * function: WCM_DisconnectAsync
  * address:  0x02165478
  * packet:   pkt_ov009_02165478
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_02165A4C  0x02165A4C  arm  ov009
+ *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   func_02166BD8  0x02166BD8  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   WCMi_NwmifDisconnectAsync  0x02731CFC  arm  twl
@@ -39,12 +39,12 @@ typedef struct WCMState WCMState;
 extern struct WCMState g_021AA7D4;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void func_02165A4C(unsigned char phase);
+extern void WCMi_SetPhase(unsigned char phase);
 extern long func_02166BD8(void);
 extern int OS_IsRunOnTwl(void);
 extern long WCMi_NwmifDisconnectAsync(void);
 
-long func_02165478(void)
+long WCM_DisconnectAsync(void)
 {
     unsigned long e;
     long wcmResult;
@@ -69,7 +69,7 @@ long func_02165478(void)
         break;
     }
     if (((WCMWork *)g_021AA7D4.work)->resetting == 1) {
-        func_02165A4C(10);
+        WCMi_SetPhase(10);
         ((WCMWork *)g_021AA7D4.work)->notify = 6;
     } else {
         switch (((WCMWork *)g_021AA7D4.work)->deviceId) {

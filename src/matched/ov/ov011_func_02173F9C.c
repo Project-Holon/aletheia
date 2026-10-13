@@ -1,5 +1,5 @@
 /*
- * function: func_02173F9C
+ * function: INTRUDE_CMD_RecvRecordAccept
  * address: 0x02173F9C
  * packet: pkt_ov011_02173F9C
  * region: ov011
@@ -11,16 +11,16 @@
  * symbols:
  *   func_02175B34 0x02175B34 thumb ov011
  *   func_0203D378 0x0203D378 arm
- *   func_021759C0 0x021759C0 thumb ov011
+ *   INTRUDE_COMM_AddSessionMember 0x021759C0 thumb ov011
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 u8 *func_02175B34(u8 *p);
 u32 func_0203D378(void);
-void func_021759C0(u8 *a, u8 b);
+void INTRUDE_COMM_AddSessionMember(u8 *a, u8 b);
 
-void func_02173F9C(int a, int b, void *c, u8 *d)
+void INTRUDE_CMD_RecvRecordAccept(int a, int b, void *c, u8 *d)
 {
     func_02175B34(d + 0x1ac);
-    if (func_0203D378()) func_021759C0(d + 0x1ac, a);
+    if (func_0203D378()) INTRUDE_COMM_AddSessionMember(d + 0x1ac, a);
 }

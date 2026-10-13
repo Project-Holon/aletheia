@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02155E9C",
+   "name": "DWC_RAP_OnConnectionClosed",
    "address": "0x02155E9C",
    "kind": "game",
    "region": "ov009",

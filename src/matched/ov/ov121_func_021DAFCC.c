@@ -12,7 +12,7 @@
  * symbols:
  *   func_021DA2C8 0x021DA2C8 thumb ov121
  *   func_021D9B34 0x021D9B34 thumb ov121
- *   func_021DD9CC 0x021DD9CC thumb ov121
+ *   MYSTERY_ALBUM_StepIntro 0x021DD9CC thumb ov121
  *   func_021DA8AC 0x021DA8AC thumb ov121
  */
 #include "../include/Obj10417.h"
@@ -21,11 +21,11 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_021DA2C8(u8 *p);
 extern int func_021D9B34(u8 *p);
-extern void func_021DD9CC(char *p);
+extern void MYSTERY_ALBUM_StepIntro(char *p);
 extern int func_021DA8AC(u32 *p);
 static inline void update(void *p)
 {
-    if(p) func_021DD9CC(p);
+    if(p) MYSTERY_ALBUM_StepIntro(p);
 }
 void func_021DAFCC(char *p)
 {

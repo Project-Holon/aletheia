@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02157170",
+   "name": "DWC_RAPCOMMON_HandleNetError",
    "address": "0x02157170",
    "kind": "game",
    "region": "ov009",

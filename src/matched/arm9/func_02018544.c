@@ -1,5 +1,5 @@
 /*
- * function: func_02018544
+ * function: POKE_TOOL_GetLevelMinExp
  * address:  0x02018544
  * packet:   pkt_02018544
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201854C 0x0201854C thumb
+ *   POKE_TOOL_GetBoxLevelMinExp 0x0201854C thumb
  */
 typedef unsigned int u32;
-extern u32 func_0201854C(void *);
-u32 func_02018544(void *p) { return func_0201854C(p); }
+extern u32 POKE_TOOL_GetBoxLevelMinExp(void *);
+u32 POKE_TOOL_GetLevelMinExp(void *p) { return POKE_TOOL_GetBoxLevelMinExp(p); }

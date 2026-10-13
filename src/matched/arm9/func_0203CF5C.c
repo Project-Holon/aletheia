@@ -1,5 +1,5 @@
 /*
- * function: func_0203CF5C
+ * function: GFL_NET_Main
  * address:  0x0203CF5C
  * packet:   pkt_0203CF5C
  * region:   arm9
@@ -10,51 +10,51 @@
  * status:   EXACT
  *           --suggest-split offers nothing (single function, all four
  *           unresolved sites' only witnesses are inside this range).
- * blocker:  func_0203EA9C, func_0203DC70, func_02039D94, func_02037C10 (label,
+ * blocker:  GFL_NET_LOWER_DATA_MainSend, GFL_NET_IRC_WIRELESS_Main, GFL_NET_HANDLE_Main, GFL_NET_SYSTEM_Main (label,
  *           all four) -- each has no witness outside 0203CF5C..0203CFA0; every
  *           branch to them in the image is this function's own call. Four of
  *           the eight sites resolve. Every concrete byte of the body
- *           reproduces. Note the chain is two levels deep: func_0203B1D8,
+ *           reproduces. Note the chain is two levels deep: GFL_NET_STATE_Main,
  *           also called here, is itself a documented DIFF
- *           (docs/notes/pkt_0203B1D8.c.txt) and func_02037154 is a pending
+ *           (docs/notes/pkt_0203B1D8.c.txt) and GFL_NET_WM_ICON_EasyMain is a pending
  *           MATCH park.
  * symbols:
- *   func_0203D788 0x0203D788  arm
- *   func_0203EA9C 0x0203EA9C  arm
- *   func_0203DC70 0x0203DC70  arm
- *   func_0203B1D8 0x0203B1D8  arm
- *   func_02037154 0x02037154  arm
- *   func_02039D94 0x02039D94  arm
- *   func_02037C10 0x02037C10  arm
- *   func_02039594 0x02039594  arm
+ *   GFL_NET_GetSession 0x0203D788  arm
+ *   GFL_NET_LOWER_DATA_MainSend 0x0203EA9C  arm
+ *   GFL_NET_IRC_WIRELESS_Main 0x0203DC70  arm
+ *   GFL_NET_STATE_Main 0x0203B1D8  arm
+ *   GFL_NET_WM_ICON_EasyMain 0x02037154  arm
+ *   GFL_NET_HANDLE_Main 0x02039D94  arm
+ *   GFL_NET_SYSTEM_Main 0x02037C10  arm
+ *   GFL_NET_SYSTEM_IsSendEnable 0x02039594  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_0203D788(void);
-extern void func_0203EA9C(void);
-extern void func_0203DC70(void);
-extern u32 func_0203B1D8(void);
-extern void func_02037154(void);
-extern void func_02039D94(void);
-extern int func_02037C10(void);
-extern int func_02039594(void);
+extern void *GFL_NET_GetSession(void);
+extern void GFL_NET_LOWER_DATA_MainSend(void);
+extern void GFL_NET_IRC_WIRELESS_Main(void);
+extern u32 GFL_NET_STATE_Main(void);
+extern void GFL_NET_WM_ICON_EasyMain(void);
+extern void GFL_NET_HANDLE_Main(void);
+extern int GFL_NET_SYSTEM_Main(void);
+extern int GFL_NET_SYSTEM_IsSendEnable(void);
 
-u32 func_0203CF5C(void)
+u32 GFL_NET_Main(void)
 {
-    u8 *p = func_0203D788();
+    u8 *p = GFL_NET_GetSession();
 
-    func_0203EA9C();
-    func_0203DC70();
-    if (func_0203B1D8() != 0) {
+    GFL_NET_LOWER_DATA_MainSend();
+    GFL_NET_IRC_WIRELESS_Main();
+    if (GFL_NET_STATE_Main() != 0) {
         return 1;
     }
     if (p == 0) {
         return 1;
     }
-    func_02037154();
-    func_02039D94();
-    func_02037C10();
-    return func_02039594();
+    GFL_NET_WM_ICON_EasyMain();
+    GFL_NET_HANDLE_Main();
+    GFL_NET_SYSTEM_Main();
+    return GFL_NET_SYSTEM_IsSendEnable();
 }

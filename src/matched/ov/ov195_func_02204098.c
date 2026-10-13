@@ -11,11 +11,11 @@
  * symbols:
  *   func_02204D5C 0x02204D5C thumb ov195
  *   func_02204DDC 0x02204DDC thumb ov195
- *   sub_0203133C 0x0203133C arm
+ *   PROCSYS_Delete 0x0203133C arm
  *   sub_02030EAC 0x02030EAC arm
  *   sub_020307B0 0x020307B0 arm
- *   sub_02045808 0x02045808 arm
- *   sub_020315D4 0x020315D4 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
 #include "../include/Obj08345.h"
@@ -25,22 +25,22 @@ struct Node;
 struct U16Vec;
 extern void func_02204D5C(int, int *);
 extern void func_02204DDC(int, int *);
-extern void sub_0203133C(struct S020314B8 *);
+extern void PROCSYS_Delete(struct S020314B8 *);
 extern void sub_02030EAC(struct Node *);
 typedef unsigned int   u32;
 extern u32 sub_020307B0(void *p);
-extern void sub_02045808(struct U16Vec *);
-extern void sub_020315D4(struct S020315D4 *);
+extern void STRBUF_Delete(struct U16Vec *);
+extern void PROCSYS_FreeProcWork(struct S020315D4 *);
 extern void func_020306F0(unsigned int heap);
 int func_02204098(struct S020315D4 *a, int unused, int b, int *p)
 {
     func_02204D5C(b, p);
-    sub_0203133C(*(struct S020314B8 * *)&((struct Obj08345 *)p)->f11C);
+    PROCSYS_Delete(*(struct S020314B8 * *)&((struct Obj08345 *)p)->f11C);
     sub_02030EAC(*(struct Node * *)&((struct Obj08345 *)p)->f38);
     func_02204DDC(b, p);
     sub_020307B0(((struct Obj08345 *)p)->f100);
-    sub_02045808(*(struct U16Vec * *)&((struct Obj08345 *)p)->f14);
-    sub_020315D4(a);
+    STRBUF_Delete(*(struct U16Vec * *)&((struct Obj08345 *)p)->f14);
+    PROCSYS_FreeProcWork(a);
     func_020306F0(0x94);
     return 1;
 }

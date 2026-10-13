@@ -11,16 +11,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020057DC, sub_020057E8, sub_02005834, sub_02005858,
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
+ * function: GFL_USE_SetSndStackHeap, GFL_USE_InitSndSlot, GFL_USE_BeginSndSlot, GFL_USE_EndSndSlot,
+ *           GFL_USE_InitSndStack, GFL_USE_GetCurrentBgmId, GFL_USE_GetSndStackDepth, GFL_USE_GetCurrentSndHandle,
+ *           GFL_USE_LoadBgmData, GFL_USE_SaveSeqBankState, GFL_USE_FinishBgmLoad, GFL_USE_UnloadBgmData,
+ *           GFL_USE_PushSndSlot
  *
  * symbols:
- *   sub_020057DC_Cur    0x020AA1AC  data
- *   sub_020057DC_Table  0x020AA1B8  data
- *   func_02072DB0       0x02072DB0  arm
- *   func_02072E9C       0x02072E9C  arm
+ *   _SndStack    0x020AA1AC  data
+ *   _SndSlots  0x020AA1B8  data
+ *   NNS_SndPlayerSetPlayableSeqCount       0x02072DB0  arm
+ *   NNS_SndHandleInit       0x02072E9C  arm
  *   func_02072EA8       0x02072EA8  arm
  *   func_02074894       0x02074894  arm
  *   func_020748E0       0x020748E0  arm
@@ -28,23 +28,23 @@
  *
  * The accessors of a six element table of 0x1C byte connection slots at
  * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
+ * 0x020AA1AC.  GFL_USE_GetCurrentSndHandle, which returns the address of the current
  * slot's payload, was already matched as a single function in
  * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
+ * here.  NNS_SndHandleInit is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
  * which is what the payload at offset 8 of a slot is.
  *
  * What the range teaches:
  *
  *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
+ *    relocation addend rather than in the instruction.  GFL_USE_InitSndSlot stores
  *    to five different fields of one slot and loads five different pool
  *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
  *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
  *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
  *    the compiler folds the member offset into the symbol instead.  Reading
  *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
+ *  - the constant -1 is never materialised on its own.  GFL_USE_InitSndSlot needs
  *    a 0 for the first store and derives the -1 for the next four from it
  *    with `subs r1, r4, #1`.
  *
@@ -59,7 +59,7 @@
  * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
  * function.  Shrinking the range cannot help, because the witness is the call
  * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
+ * The function also needs GFL_USE_MuteSound `local`, for the pool word at
  * 0x020057D8 that holds its address.  It closes the day anything else in the
  * image calls 0x02035108.
  */
@@ -70,40 +70,40 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern struct Sub020057DCCur sub_020057DC_Cur;
-extern struct Sub020057DCSlot sub_020057DC_Table[];
+extern struct Sub020057DCCur _SndStack;
+extern struct Sub020057DCSlot _SndSlots[];
 
-extern void func_02072DB0(int idx, int v);
-extern void func_02072E9C(void **r0);
+extern void NNS_SndPlayerSetPlayableSeqCount(int idx, int v);
+extern void NNS_SndHandleInit(void **r0);
 extern void func_02072EA8(u32 * volatile *pp);
 struct S;
 extern int   func_02074894(struct S *a);
 extern void  func_020748E0(u32 *a, u32 b);
 extern u32 func_02074AC4(u32 a, u32 b, u32 c);
 
-void sub_020057E8(u32 i);
-void sub_02005834(u32 v);
+void GFL_USE_InitSndSlot(u32 i);
+void GFL_USE_BeginSndSlot(u32 v);
 
-void sub_020057DC(u32 **a)
+void GFL_USE_SetSndStackHeap(u32 **a)
 {
-    sub_020057DC_Cur.unk08 = a;
+    _SndStack.unk08 = a;
 }
 
-void sub_020057E8(u32 i)
+void GFL_USE_InitSndSlot(u32 i)
 {
-    sub_020057DC_Table[i].unk00 = 0;
-    sub_020057DC_Table[i].unk04 = 0xFFFF;
-    func_02072EA8((u32 * volatile*)(&sub_020057DC_Table[i].unk08));
-    sub_020057DC_Table[i].unk0C = -1;
-    sub_020057DC_Table[i].unk10 = -1;
-    sub_020057DC_Table[i].unk14 = -1;
-    sub_020057DC_Table[i].unk18 = -1;
+    _SndSlots[i].unk00 = 0;
+    _SndSlots[i].unk04 = 0xFFFF;
+    func_02072EA8((u32 * volatile*)(&_SndSlots[i].unk08));
+    _SndSlots[i].unk0C = -1;
+    _SndSlots[i].unk10 = -1;
+    _SndSlots[i].unk14 = -1;
+    _SndSlots[i].unk18 = -1;
 }
 
-void sub_02005834(u32 v)
+void GFL_USE_BeginSndSlot(u32 v)
 {
     struct Sub020057DCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
+        &_SndSlots[_SndStack.index];
 
     slot->unk0C = v;
     slot->unk10 = v;
@@ -112,34 +112,34 @@ void sub_02005834(u32 v)
     slot->unk00 = 1;
 }
 
-void sub_02005858(void)
+void GFL_USE_EndSndSlot(void)
 {
     struct Sub020057DCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
+        &_SndSlots[_SndStack.index];
 
     func_02072EA8((u32 * volatile*)(&slot->unk08));
-    func_020748E0(*sub_020057DC_Cur.unk08, slot->unk0C);
-    sub_020057E8(sub_020057DC_Cur.index);
+    func_020748E0(*_SndStack.unk08, slot->unk0C);
+    GFL_USE_InitSndSlot(_SndStack.index);
 }
 
-void sub_02005888(u16 a)
+void GFL_USE_InitSndStack(u16 a)
 {
     int i;
 
-    sub_020057DC_Cur.unk00 = a;
-    sub_020057DC_Cur.index = 0;
+    _SndStack.unk00 = a;
+    _SndStack.index = 0;
     for (i = 0; i < 6; i++) {
-        sub_020057E8(i);
-        func_02072E9C((void **)(&sub_020057DC_Table[i].unk08));
+        GFL_USE_InitSndSlot(i);
+        NNS_SndHandleInit((void **)(&_SndSlots[i].unk08));
     }
-    func_02072DB0(sub_020057DC_Cur.unk00, 6);
-    sub_02005834(func_02074894((struct S *)*sub_020057DC_Cur.unk08));
+    NNS_SndPlayerSetPlayableSeqCount(_SndStack.unk00, 6);
+    GFL_USE_BeginSndSlot(func_02074894((struct S *)*_SndStack.unk08));
 }
 
-u16 sub_020058D0(void)
+u16 GFL_USE_GetCurrentBgmId(void)
 {
     struct Sub020057DCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
+        &_SndSlots[_SndStack.index];
     u16 v;
 
     if (slot->unk00 == 0) {
@@ -152,84 +152,84 @@ u16 sub_020058D0(void)
     return v;
 }
 
-u32 sub_02005900(void)
+u32 GFL_USE_GetSndStackDepth(void)
 {
-    return sub_020057DC_Cur.index;
+    return _SndStack.index;
 }
 
-u32 *sub_0200590C(void)
+u32 *GFL_USE_GetCurrentSndHandle(void)
 {
-    return &sub_020057DC_Table[sub_020057DC_Cur.index].unk08;
+    return &_SndSlots[_SndStack.index].unk08;
 }
 
-int sub_02005924(u32 a)
+int GFL_USE_LoadBgmData(u32 a)
 {
     struct Sub020057DCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
+        &_SndSlots[_SndStack.index];
     int r;
 
-    if (func_02074AC4(a, 3, (u32)(*sub_020057DC_Cur.unk08)) == 0) {
+    if (func_02074AC4(a, 3, (u32)(*_SndStack.unk08)) == 0) {
         return 0;
     }
-    slot->unk14 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
-    r = func_02074AC4(a, 4, (u32)(*sub_020057DC_Cur.unk08));
+    slot->unk14 = func_02074894((struct S *)*_SndStack.unk08);
+    r = func_02074AC4(a, 4, (u32)(*_SndStack.unk08));
     if (r == 0) {
         return 0;
     }
-    slot->unk18 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
+    slot->unk18 = func_02074894((struct S *)*_SndStack.unk08);
     slot->unk04 = a;
     return r;
 }
 
-void sub_0200597C(void)
+void GFL_USE_SaveSeqBankState(void)
 {
     struct Sub020057DCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
+        &_SndSlots[_SndStack.index];
 
-    slot->unk14 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
+    slot->unk14 = func_02074894((struct S *)*_SndStack.unk08);
 }
 
-int sub_020059A0(u32 a)
+int GFL_USE_FinishBgmLoad(u32 a)
 {
     struct Sub020057DCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
+        &_SndSlots[_SndStack.index];
 
-    slot->unk18 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
+    slot->unk18 = func_02074894((struct S *)*_SndStack.unk08);
     slot->unk04 = a;
     return 1;
 }
 
-void sub_020059C8(void)
+void GFL_USE_UnloadBgmData(void)
 {
     struct Sub020057DCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
+        &_SndSlots[_SndStack.index];
 
     if (slot->unk00 == 0) {
         return;
     }
     slot->unk04 = 0xFFFF;
-    func_020748E0(*sub_020057DC_Cur.unk08, slot->unk10);
+    func_020748E0(*_SndStack.unk08, slot->unk10);
     slot->unk14 = slot->unk10;
     slot->unk18 = slot->unk10;
 }
 
-int sub_02005A00(void)
+int GFL_USE_PushSndSlot(void)
 {
     struct Sub020057DCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
+        &_SndSlots[_SndStack.index];
     u32 v;
 
-    if (sub_020057DC_Cur.index >= 5) {
+    if (_SndStack.index >= 5) {
         return 0;
     }
     if (slot->unk14 != -1) {
-        func_020748E0(*sub_020057DC_Cur.unk08, slot->unk14);
+        func_020748E0(*_SndStack.unk08, slot->unk14);
         slot->unk18 = -1;
         v = slot->unk14;
     } else {
         v = slot->unk10;
     }
-    sub_020057DC_Cur.index++;
-    sub_02005834(v);
+    _SndStack.index++;
+    GFL_USE_BeginSndSlot(v);
     return 1;
 }

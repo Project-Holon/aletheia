@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200A3D0",
+   "name": "MYSTERY_DATA_Unload",
    "address": "0x0200A3D0",
    "kind": "game",
    "region": "arm9",
@@ -30,15 +30,15 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200A3FC",
-    "func_0200A400",
-    "func_0200A418",
-    "func_0200A41C",
-    "func_0200A43C",
-    "func_0200A480",
-    "func_0200A49C",
-    "func_0200A4B8",
-    "func_0200A50C",
+    "MYSTERY_DATA_GetSaveType",
+    "MYSTERY_DATA_GetCardMax",
+    "MYSTERY_DATA_GetBuffer",
+    "MYSTERY_DATA_GetEventFlags",
+    "MYSTERY_DATA_GetCardSlot",
+    "MYSTERY_DATA_Encrypt",
+    "MYSTERY_DATA_Decrypt",
+    "MYSTERY_DATA_EncryptBuffer",
+    "MYSTERY_DATA_DecryptBuffer",
     "func_0200A53C",
     "func_0200A544",
     "func_0200A5F8",
@@ -49,6 +49,27 @@
     "func_0200A644",
     "func_0200A680",
     "func_0200A6BC"
+   ],
+   "addresses": [
+    "0x0200A3FC",
+    "0x0200A400",
+    "0x0200A418",
+    "0x0200A41C",
+    "0x0200A43C",
+    "0x0200A480",
+    "0x0200A49C",
+    "0x0200A4B8",
+    "0x0200A50C",
+    "0x0200A53C",
+    "0x0200A544",
+    "0x0200A5F8",
+    "0x0200A604",
+    "0x0200A628",
+    "0x0200A630",
+    "0x0200A640",
+    "0x0200A644",
+    "0x0200A680",
+    "0x0200A6BC"
    ]
   }
  ]

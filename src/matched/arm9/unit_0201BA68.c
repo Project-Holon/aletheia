@@ -10,20 +10,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201BA68, sub_0201BABC
+ * function: POKE_TOOL_GetGraphicIndex, POKE_TOOL_CalcGraphicIndex
  *
- * The graphics index of a Pokemon: sub_0201BA68 unpacks the four values that
- * decide it out of the record and sub_0201BABC turns them into a member number
- * of archive 7.  The pair that follows them, sub_0201BB5C and sub_0201BBE8, is
+ * The graphics index of a Pokemon: POKE_TOOL_GetGraphicIndex unpacks the four values that
+ * decide it out of the record and POKE_TOOL_CalcGraphicIndex turns them into a member number
+ * of archive 7.  The pair that follows them, POKE_TOOL_CalcIconPalette and POKE_TOOL_GetIconPalette, is
  * the same index arithmetic over a different table and is parked in
  * src/pending/unit_0201BB5C.c because that table has no witness; the cut
  * between the two pairs is what lets this half land
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
  *
- * sub_0201BA68 brackets its four reads with func_02017DBC and func_02017DE4,
+ * POKE_TOOL_GetGraphicIndex brackets its four reads with func_02017DBC and func_02017DE4,
  * which is the pair the region uses around a run of raw field reads; that is
  * why the reads here are func_02017E88 and not the func_02017E1C of
- * src/matched/sub_02018A7C.c.  The fourth read is written inline as the call's
+ * src/matched/POKE_TOOL_CalcParam.c.  The fourth read is written inline as the call's
  * fourth argument rather than bound to a local, which is what puts it in r3
  * with the other three already in place.
  *
@@ -82,9 +82,9 @@ extern u32  func_02017E88(void *mon, u32 id, u32 v);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern u32  func_020490A8(u32 kind, u32 member);
 
-u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
+u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 
-u32 sub_0201BA68(void *mon)
+u32 POKE_TOOL_GetGraphicIndex(void *mon)
 {
     u32 save;
     u32 species;
@@ -96,12 +96,12 @@ u32 sub_0201BA68(void *mon)
     species = func_02017E88(mon, 5, 0);
     form = func_02017E88(mon, 0x6F, 0);
     gender = func_02017E88(mon, 0x6E, 0);
-    r = sub_0201BABC(species, form, gender, func_02017E88(mon, 0x4C, 0));
+    r = POKE_TOOL_CalcGraphicIndex(species, form, gender, func_02017E88(mon, 0x4C, 0));
     func_02017DE4(mon, save);
     return r;
 }
 
-u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg)
+u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg)
 {
     u32 first;
     u32 hidden;

@@ -13,7 +13,7 @@
  * src/matched/arm9, which closes the former MATCH.
  *
  * symbols:
- *   func_02015CF8  0x02015CF8  thumb
+ *   MCSS_GetRotate  0x02015CF8  thumb
  *   func_021F935C  0x021F935C  thumb  ov094
  *   func_0220074C  0x0220074C  thumb  ov094
  *   func_02200C0C  0x02200C0C  thumb  ov094
@@ -21,10 +21,10 @@
  *   func_022019F4  0x022019F4  thumb  ov094
  *
  * Byte-correct; MATCH blocked on one unlabelled ARM9 Thumb leaf (the integrator's; no
- * witness outside the range): func_02015CF8 (copies three words from +0xF8).
+ * witness outside the range): MCSS_GetRotate (copies three words from +0xF8).
  * Verified C (match.py one, no --region, --thumb, EXACT):
  *   typedef unsigned int u32;
- *   void func_02015CF8(void *p, u32 *out)
+ *   void MCSS_GetRotate(void *p, u32 *out)
  *   {
  *       out[0] = *(u32 *)((char *)p + 0xF8);
  *       out[1] = *(u32 *)((char *)p + 0xFC);
@@ -56,7 +56,7 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern int func_022019F4(char *p, int key);
-extern void func_02015CF8(void *p, u32 *out);
+extern void MCSS_GetRotate(void *p, u32 *out);
 extern int func_021F935C(int x);
 extern void func_0220074C(Work *w, int i, int kind, VecFx32 *p, VecFx32 *q, int n,
                           int f48, int f4c, void *fn, void (*cb)(void *), int flip, u8 f50);
@@ -72,7 +72,7 @@ void func_021FF730(Work *w, int i, int kind, VecFx32 *q, int n, int f48, int f4c
         return;
     if (w->e[idx].h == 0)
         return;
-    func_02015CF8(w->e[idx].h, (u32 *)(&cur));
+    MCSS_GetRotate(w->e[idx].h, (u32 *)(&cur));
     w->cnt[3][i]++;
     func_0220074C(w, i, kind, &cur, q, n, f48, f4c, (void *)func_02200C0C, func_02200C98, 1, w->cnt[3][i]);
     w->mask[1] |= func_021F935C(i);

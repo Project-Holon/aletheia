@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200DF10, func_0200DF40, func_0200DF4C, func_0200DF58,
- *           func_0200DF94, func_0200DFB4, func_0200DFCC
+ * function: BSUBWAY_SAVEDATA_SetHistory, func_0200DF40, func_0200DF4C, func_0200DF58,
+ *           func_0200DF94, func_0200DFB4, BSUBWAY_SAVEDATA_InitStats
  *
  * 200 bytes, 0x0200DF10..0x0200DFD8, 7 functions, five of which carry no
  * label in the generated listing.
@@ -46,7 +46,7 @@
  * symbols:
  *   MI_CpuCopy8         0x02082D44  arm
  *   MI_CpuFill8         0x02082BCC  arm
- *   func_0200DF58_File  0x020A71F8  data
+ *   sFileName_bsubway_savedata  0x020A71F8  data
  */
 
 typedef unsigned char  u8;
@@ -57,7 +57,7 @@ typedef signed int     s32;
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern const char func_0200DF58_File[];
+extern const char sFileName_bsubway_savedata[];
 
 struct SubEnt {
     u16 unk00;
@@ -82,7 +82,7 @@ struct RecSlot {
     struct Buf3FC unk794;
 };
 
-void func_0200DF10(struct RecSlot *p, const void *src, u8 a, u8 b)
+void BSUBWAY_SAVEDATA_SetHistory(struct RecSlot *p, const void *src, u8 a, u8 b)
 {
     MI_CpuCopy8(src, &p->unk794, sizeof(p->unk794));
     p->unk103 = a;
@@ -103,7 +103,7 @@ u8 func_0200DF4C(struct RecSlot *p)
 struct Buf3FC *func_0200DF58(struct RecSlot *p, u32 heap)
 {
     struct Buf3FC *copy = func_02030734(heap, sizeof(p->unk794), 1,
-                                        func_0200DF58_File, 0x508);
+                                        sFileName_bsubway_savedata, 0x508);
 
     MI_CpuCopy8(&p->unk794, copy, sizeof(p->unk794));
     return copy;
@@ -128,7 +128,7 @@ u32 func_0200DFB4(struct SubEnt *e)
            | (e->unk14[3] << 24);
 }
 
-void func_0200DFCC(void *p)
+void BSUBWAY_SAVEDATA_InitStats(void *p)
 {
     MI_CpuFill8(p, 0, 0x42);
 }

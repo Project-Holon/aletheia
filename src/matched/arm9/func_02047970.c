@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C     0x02146A5C  data
+ *   _G3dSystem     0x02146A5C  data
  *   func_0206DB80  0x0206DB80  arm
  *
  * Set the context's +0x94 word to one, after letting func_0206DB80 run
@@ -30,11 +30,11 @@ struct Ctx {
     u32 unk_94;
 };
 
-extern struct Ctx *g_02146A5C;
+extern struct Ctx *_G3dSystem;
 extern void func_0206DB80(void);
 
 void func_02047970(void)
 {
     func_0206DB80();
-    g_02146A5C->unk_94 = 1;
+    _G3dSystem->unk_94 = 1;
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204D4B4
+ * function: CLACT_SetVramAnimIndex
  * address:  0x0204D4B4
  * packet:   pkt_0204D478
  * region:   arm9
@@ -17,7 +17,7 @@
  *   sub_02064AB4  0x02064AB4  arm
  *
  * The third row-0 handler of the table at 0x020A1394 (row map in
- * src/matched/func_0204D324.c).  Same shape as the two in
+ * src/matched/CLACT_SetAnimSeq.c).  Same shape as the two in
  * src/matched/unit_0204D494.c, tail calling the +0xc subobject through a pool
  * word, but to a different target.  It saves nothing, so disasm.py gives it
  * no label.
@@ -31,8 +31,8 @@
  * as `label` if an overlay turns out to call it directly.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204D4B4.c \
- *       --func sub_0204D4B4 --addr 0x0204D4B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_SetVramAnimIndex.c \
+ *       --func CLACT_SetVramAnimIndex --addr 0x0204D4B4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -46,7 +46,7 @@ struct Obj0204D4B4 {
 
 extern void sub_02064AB4(char *self, unsigned int i);
 
-void sub_0204D4B4(struct Obj0204D4B4 *o, u32 i)
+void CLACT_SetVramAnimIndex(struct Obj0204D4B4 *o, u32 i)
 {
     sub_02064AB4((char *)(&o->unk_0c), i);
 }

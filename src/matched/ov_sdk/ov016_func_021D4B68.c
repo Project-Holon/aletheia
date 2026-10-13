@@ -16,7 +16,7 @@
  *   func_020788AC  0x020788AC  arm
  *   func_02078C18  0x02078C18  arm
  *   func_02088234  0x02088234  arm
- *   func_02078C28  0x02078C28  arm
+ *   FS_GetLength  0x02078C28  arm
  *   func_021D4C9C  0x021D4C9C  arm  ov016
  *   func_021D6414  0x021D6414  arm  ov016
  *   func_02078B70  0x02078B70  arm
@@ -38,7 +38,7 @@ extern int func_02078C18(FSFile *file, char *path);
 extern void func_02088234(void);
 typedef unsigned int   u32;
 struct FSFile;
-extern u32 func_02078C28(struct FSFile *a0);
+extern u32 FS_GetLength(struct FSFile *a0);
 extern int func_021D4C9C(char *a, char *b, int n);
 extern void *func_021D6414(unsigned long size, int alignment);
 typedef signed int     s32;
@@ -62,7 +62,7 @@ void *func_021D4B68(char *path, unsigned long *size, int alignment)
     func_020788AC(&file);
     if (!func_02078C18(&file, path))
         func_02088234();
-    siz = func_02078C28((struct FSFile *)(&file));
+    siz = FS_GetLength((struct FSFile *)(&file));
     if (size)
         *size = siz;
     if (func_021D4C9C(path, g_021DBFE0, 2))

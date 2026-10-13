@@ -1,5 +1,5 @@
 /*
- * function: func_02031590
+ * function: PROCSYS_FreeProc
  * address:  0x02031590
  * packet:   pkt_020314F4
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02031590(void *ptr)
+void PROCSYS_FreeProc(void *ptr)
 {
     func_020307B0(ptr);
 }

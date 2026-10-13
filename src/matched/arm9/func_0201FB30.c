@@ -1,5 +1,5 @@
 /*
- * function: func_0201FB30
+ * function: BMP_MENU_StepSelection
  * address:  0x0201FB30
  * packet:   pkt_0201FA04
  * region:   arm9
@@ -20,8 +20,8 @@
  * one _s32_div_f call per direction, not a division and a modulo.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201FB30.c \
- *       --func func_0201FB30 --addr 0x0201FB30 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENU_StepSelection.c \
+ *       --func BMP_MENU_StepSelection --addr 0x0201FB30 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -46,7 +46,7 @@ struct Obj {
 
 extern s32 _s32_div_f(s32 num, s32 den);
 
-int func_0201FB30(struct Obj *o, u32 dir)
+int BMP_MENU_StepSelection(struct Obj *o, u32 dir)
 {
     s8 next;
     u8 cols;

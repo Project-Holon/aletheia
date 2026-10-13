@@ -12,7 +12,7 @@
  * sdk:      dispCell (libdwcutil.TWL.HYB.a window.o)
  *
  * symbols:
- *   func_021D4FEC  0x021D4FEC  arm  ov016
+ *   DWCi_CELLlGetState  0x021D4FEC  arm  ov016
  *   func_021D5250  0x021D5250  arm  ov016
  *   func_021D4FF4  0x021D4FF4  arm  ov016
  */
@@ -22,7 +22,7 @@ typedef enum {
     EFF_HIDE = 0x200
 } Eff;
 
-extern unsigned char func_021D4FEC(char *p);
+extern unsigned char DWCi_CELLlGetState(char *p);
 extern void func_021D5250(void *cell, int idx, int *x, int *y);
 extern void func_021D4FF4(void *cell, int idx, Eff eff, int affine);
 
@@ -34,7 +34,7 @@ void func_021D19F4(void *cell, int y)
     int cy;
     int i;
 
-    num = func_021D4FEC(cell);
+    num = DWCi_CELLlGetState(cell);
     for (i = 0; i < num; i++) {
         func_021D5250(cell, i, &x, &cy);
         if (cy >= y && cy < 192)

@@ -1,5 +1,5 @@
 /*
- * function: func_0200A3D0
+ * function: MYSTERY_DATA_Unload
  * address:  0x0200A3D0
  * packet:   pkt_0200A3D0
  * region:   arm9
@@ -39,8 +39,8 @@
  * `const u32`.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0200A3D0.c \
- *       --func func_0200A3D0 --addr 0x0200A3D0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/MYSTERY_DATA_Unload.c \
+ *       --func MYSTERY_DATA_Unload --addr 0x0200A3D0 --cc 1.1p1 --thumb
  */
 #include "../include/Obj11228.h"
 
@@ -52,7 +52,7 @@ extern void func_021DFDB8(void *v);
 extern void func_02034A5C(int p);
 extern void func_02082BCC(void *p, int c, u32 n);
 
-void func_0200A3D0(void *obj)
+void MYSTERY_DATA_Unload(void *obj)
 {
     switch (((struct Obj11228 *)obj)->f4) {
     case 0:

@@ -1,7 +1,7 @@
 /*
  * file:     unit_021542C0.c
  * unit:     yes
- * function: func_021542C0, func_021542CC
+ * function: func_021542C0, EVENT_WORLDTRADE_Create
  * address:  0x021542C0
  * region:   ov004
  * compiler: dsi/1.1p1
@@ -34,7 +34,7 @@
  *   func_0201292C  0x0201292C  thumb
  *   func_0200CA38  0x0200CA38  thumb
  *   func_02009CC0  0x02009CC0  thumb
- *   func_02154390  0x02154390  thumb  ov004
+ *   EVENT_WORLDTRADE_Main  0x02154390  thumb  ov004
  */
 struct GameData;
 struct GameSystem;
@@ -104,26 +104,26 @@ void *func_02008C58(void *saveControl);
 struct MyItem *func_0201292C(const struct GameData *gameData);
 u32 func_0200CA38(struct WorldTradeSave *worldTradeSave);
 int func_02009CC0(void *battleRecordData);
-u32 func_02154390(void *event, u32 *seq, WorldTradeEventWork *work);
+u32 EVENT_WORLDTRADE_Main(void *event, u32 *seq, WorldTradeEventWork *work);
 int func_021542C0(int gameSystem, Pair *request);
-int func_021542CC(int gameSystem, int fieldMap, int unused);
+int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused);
 
 
 /* Overlay entry point: unpacks the request and creates the event. */
 int func_021542C0(int gameSystem, Pair *request)
 {
-    return func_021542CC(gameSystem, request->fieldMap, request->unused);
+    return EVENT_WORLDTRADE_Create(gameSystem, request->fieldMap, request->unused);
 }
 
 
-int func_021542CC(int gameSystem, int fieldMap, int unused)
+int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
 {
     int gameData;
     int event;
     WorldTradeEventWork *work;
 
     gameData = (int)func_020120F4((const struct GameSystem *)gameSystem);
-    event = (int)func_020122C0((void *)gameSystem, 0, func_02154390, 0x54);
+    event = (int)func_020122C0((void *)gameSystem, 0, EVENT_WORLDTRADE_Main, 0x54);
     if (func_02026454(func_02012138((const struct GameSystem *)gameSystem)))
         func_02026400(func_02012138((const struct GameSystem *)gameSystem));
     work = func_020124E8((struct GameEvent *)event);

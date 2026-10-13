@@ -15,7 +15,7 @@
  *   func_02158E7C  0x02158E7C  thumb
  *   func_021588D0  0x021588D0  thumb
  *   func_02158BFC  0x02158BFC  thumb
- *   func_02011298  0x02011298  thumb
+ *   VM_Control  0x02011298  thumb
  *   func_02158CB4  0x02158CB4  thumb
  *   func_02158F18  0x02158F18  thumb
  */
@@ -25,7 +25,7 @@ struct ScriptVm;
 extern int *func_02158E7C(u16 a, int b, int c, int d, int e, int f);
 extern int func_021588D0(int);
 extern int *func_02158BFC(int a0, int a1, int a2, int a3, int a4);
-extern int func_02011298(struct ScriptVm *vm);
+extern int VM_Control(struct ScriptVm *vm);
 extern int func_02158CB4(int a0);
 extern int func_02158F18(int a0);
 
@@ -38,7 +38,7 @@ void func_02158A34(int a, int b, u16 c, int d)
         b = t;
     }
     r = (int)func_02158BFC(4, b, func_021588D0(a), c, d);
-    while (func_02011298((struct ScriptVm *)r) == 1)
+    while (VM_Control((struct ScriptVm *)r) == 1)
         ;
     func_02158CB4(r);
     if (t != 0)

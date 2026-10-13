@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_021469BC    0x021469BC  data
+ *   gUiState    0x021469BC  data
  *   func_02035080 0x02035080  arm
  *   func_02035120 0x02035120  arm
  */
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *g_021469BC;
+extern u8 *gUiState;
 struct Obj02035080;
 struct Obj02035120;
 extern void func_02035080(struct Obj02035080 *p, u32 a, u32 b);
@@ -26,7 +26,7 @@ extern void func_02035120(struct Obj02035120 *p, u32 a, u32 b);
 
 void func_0203508C(u32 a, u32 b, u32 c)
 {
-    u8 *g = g_021469BC;
+    u8 *g = gUiState;
 
     if (g[0x41] != 0) {
         if (((struct Obj08822 *)g)->f18 != 0) {
@@ -36,6 +36,6 @@ void func_0203508C(u32 a, u32 b, u32 c)
             ((void (*)(u32))a)(c);
         }
     }
-    func_02035080((struct Obj02035080 *)g_021469BC, a, c);
-    func_02035120((struct Obj02035120 *)g_021469BC, b, c);
+    func_02035080((struct Obj02035080 *)gUiState, a, c);
+    func_02035120((struct Obj02035120 *)gUiState, b, c);
 }

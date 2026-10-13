@@ -13,11 +13,11 @@
  * record at +0x74 is empty, picks an entry with func_02164E04 and copies it in.
  *
  * symbols:
- *   func_0203D0FC  0x0203D0FC  arm
+ *   GFL_NET_EndDeviceWrapper  0x0203D0FC  arm
  *   func_02164E04  0x02164E04  thumb ov010
  *   func_02082BCC  0x02082BCC  arm
- *   func_0203CF3C  0x0203CF3C  arm
- *   func_02026A60  0x02026A60  thumb
+ *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
+ *   GAME_BEACON_ReceiveInfo  0x02026A60  thumb
  *   func_02177BF4  0x02177BF4  thumb ov014
  *
  * Addresses are Black-image addresses.
@@ -37,12 +37,12 @@ typedef struct Ent {
     u8 rest : 2;
 } Ent;
 
-extern void  func_0203D0FC(int a);
+extern void  GFL_NET_EndDeviceWrapper(int a);
 extern Ent  *func_02164E04(u8 *obj, int *out);
 extern void  func_02082BCC(void *dst, int v, int n);
-extern void *func_0203CF3C(u32 a);
+extern void *GFL_NET_GetScanResultMac(u32 a);
 struct Req;
-extern int func_02026A60(struct Req *r);
+extern int GAME_BEACON_ReceiveInfo(struct Req *r);
 extern void func_02177BF4(unsigned int idx);
 
 u8 *func_02164D6C(u8 *obj, int *arg)
@@ -55,7 +55,7 @@ u8 *func_02164D6C(u8 *obj, int *arg)
         return 0;
     }
     if (((struct Obj09313 *)obj)->f4 == 1) {
-        func_0203D0FC(0);
+        GFL_NET_EndDeviceWrapper(0);
         ((struct Obj09313 *)obj)->f4 = 2;
         return 0;
     }
@@ -70,12 +70,12 @@ u8 *func_02164D6C(u8 *obj, int *arg)
                 rec[0] = e->b0;
                 rec[1] = e->lo;
                 rec[2] = e->hi;
-                src = func_0203CF3C((u32)*arg);
+                src = GFL_NET_GetScanResultMac((u32)*arg);
                 for (i = 0; i < 6; i++) {
                     rec[3 + i] = src[i];
                 }
             } else if (e->kind == 2) {
-                func_02026A60((struct Req *)((u8 *)e + 8));
+                GAME_BEACON_ReceiveInfo((struct Req *)((u8 *)e + 8));
                 func_02177BF4(*arg);
             }
         }

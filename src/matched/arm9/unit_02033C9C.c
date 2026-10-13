@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02033C9C
+ * function: AREAMAN_Delete
  *
  * Four to eight byte function with no prologue at all: a pool word and a
  * bx, exactly the tail-call veneer idiom recorded in
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 
 extern u32 func_020307B0(void *p);
 
-u32 sub_02033C9C(void *a)
+u32 AREAMAN_Delete(void *a)
 {
     return func_020307B0(a);
 }

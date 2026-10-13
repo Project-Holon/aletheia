@@ -24,7 +24,7 @@
  *   func_02049238  0x02049238  arm
  *   func_0204B294  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_0204B974  0x0204B974  arm
+ *   CLACT_StopActorAnim  0x0204B974  arm
  *   func_021B62E0  0x021B62E0  thumb  ov067
  *   func_021B6520  0x021B6520  thumb  ov067
  *   d_021BBB8C     0x021BBB8C  data  a4
@@ -66,7 +66,7 @@ struct Obj;
 extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B92C(struct Obj *p, u32 v);
 struct Actor;
-extern void func_0204B974(struct Actor *a);
+extern void CLACT_StopActorAnim(struct Actor *a);
 extern u32 func_021B62E0(Req *r, int heap);
 extern void func_021B6520(u8 *p, u32 v);
 extern Tbl d_021BBB8C;
@@ -91,7 +91,7 @@ void func_021B9E38(u32 *o, u32 a1, u32 a2, u8 a3, u8 s0, u8 s1, u32 s2, u16 heap
     s.c = 7;
     o[5] = (u32)func_0204B294((void *)a2, o[1], o[0], o[2], &s, 0, heap);
     func_0204B92C((struct Obj *)o[5], 1);
-    func_0204B974((struct Actor *)o[5]);
+    CLACT_StopActorAnim((struct Actor *)o[5]);
     t = d_021BBB8C;
     func_02082BCC(&r, 0, 0x20);
     r.f0 = (u8 *)&t;

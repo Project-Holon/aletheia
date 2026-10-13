@@ -11,11 +11,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02005C3C, sub_02005C44
+ * function: GFL_USE_GetBgmHandle, GFL_USE_GetBgmNo
  *
  * symbols:
- *   sub_020058D0  0x020058D0  thumb
- *   sub_0200590C  0x0200590C  thumb
+ *   GFL_USE_GetCurrentBgmId  0x020058D0  thumb
+ *   GFL_USE_GetCurrentSndHandle  0x0200590C  thumb
  *
  * Two eight byte forwarders, one `ldr r3, [pc]` and one `bx r3` each.  Both
  * targets are Thumb and both are reached from elsewhere in the image, so the
@@ -28,15 +28,15 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16  sub_020058D0(void);
-extern u32 *sub_0200590C(void);
+extern u16  GFL_USE_GetCurrentBgmId(void);
+extern u32 *GFL_USE_GetCurrentSndHandle(void);
 
-u32 *sub_02005C3C(void)
+u32 *GFL_USE_GetBgmHandle(void)
 {
-    return sub_0200590C();
+    return GFL_USE_GetCurrentSndHandle();
 }
 
-u16 sub_02005C44(void)
+u16 GFL_USE_GetBgmNo(void)
 {
-    return sub_020058D0();
+    return GFL_USE_GetCurrentBgmId();
 }

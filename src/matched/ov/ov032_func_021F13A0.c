@@ -16,7 +16,7 @@
  *   func_021F1144 0x021F1144 thumb
  *   func_021F1418 0x021F1418 thumb
  *   func_020311B8 0x020311B8 arm
- *   func_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
  */
 #include "../include/Obj00007.h"
@@ -31,7 +31,7 @@ extern void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t);
 struct S02030FB4;
 extern void func_021F1418(void *h, u8 *t);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern void *func_02031290(struct S02030FB4 *p);
+extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
 
 void func_021F13A0(char *this, int a, int b, int c, int s)
@@ -41,7 +41,7 @@ void func_021F13A0(char *this, int a, int b, int c, int s)
 
     e = func_021F0F44(this, 0xff);
     if (e != 0) {
-        r = func_02031290(func_020311B8(*(u32 *)&((struct Obj00007 *)this)->fA0, (void *)func_021F1418, 0x18, 0));
+        r = TCBL_GetWork(func_020311B8(*(u32 *)&((struct Obj00007 *)this)->fA0, (void *)func_021F1418, 0x18, 0));
         func_02082BCC(r, 0, 0x18);
         *(char * *)&((struct Obj06134 *)r)->fC = this;
         r[1] = c;

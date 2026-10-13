@@ -25,7 +25,7 @@
  *   func_0202D7D8 0x0202D7D8 thumb
  *   func_0202D898 0x0202D898 thumb
  *   func_0202D81C 0x0202D81C thumb
- *   func_0204B570 0x0204B570 arm
+ *   CLACT_SetActorAffineMode 0x0204B570 arm
  *   d_021DFBB0 0x021DFBB0 data a4
  *   d_021DF99C 0x021DF99C data a4
  */
@@ -57,7 +57,7 @@ extern int func_0202D7C8(int a0);
 extern int func_0202D7D8(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
 extern int func_0202D898(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int func_0202D81C(void *,u32,u32,u32,u32,u32,u32,u32,u32,u16);
-extern void func_0204B570(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 void *func_021DCFC8(const Desc *p,u16 heap)
 {
     char *out;
@@ -102,7 +102,7 @@ void *func_021DCFC8(const Desc *p,u16 heap)
     ((struct Obj00237 *)out)->f8C=second.b;
     ((struct Obj00237 *)out)->f90=p->w[1]&3;
     ((struct Obj00237 *)out)->f20=func_0204B294((void *)p->w[6],((struct Obj00237 *)out)->f14,((struct Obj00237 *)out)->f10,((struct Obj00237 *)out)->f18,&second,((struct Obj00237 *)out)->f98,heap);
-    func_0204B570(((struct Obj00237 *)out)->f20,2);
+    CLACT_SetActorAffineMode(((struct Obj00237 *)out)->f20,2);
     func_0204B688(((struct Obj00237 *)out)->f20,1);
     func_0204B3DC(((struct Obj00237 *)out)->f20,0);
     return out;

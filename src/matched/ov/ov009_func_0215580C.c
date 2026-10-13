@@ -1,5 +1,5 @@
 /*
- * function: func_0215580C
+ * function: DWC_RAP_StartMatchWithFilter
  * address:  0x0215580C
  * packet:   pkt_ov009_0215580C
  * region:   ov009
@@ -10,29 +10,29 @@
  * status:   EXACT
  *
  * In state 6 of the ov009 work block: resets n slots, enters state 7 and
- * hands func_0216B284 and three registrars the ov009 callbacks.
+ * hands DWC_ConnectToAnybodyAsync and three registrars the ov009 callbacks.
  *
  * The two callback leaves it passes were unlabelled; their own EXACT
  * shards (wave 2) witness them.
  *
  * symbols:
- *   d_021A8264     0x021A8264  data  ov009  a4
+ *   _pRapWork     0x021A8264  data  ov009  a4
  *   d_021A1C5C     0x021A1C5C  data  ov009  a1
  *   func_02034714  0x02034714  arm
- *   func_02156C60  0x02156C60  thumb  ov009
- *   func_02156C00  0x02156C00  thumb  ov009
- *   func_02155374  0x02155374  thumb  ov009
- *   func_0216B284  0x0216B284  arm
+ *   DWC_RAP_FreeRecvBuffers  0x02156C60  thumb  ov009
+ *   DWC_RAP_AllocRecvBuffer  0x02156C00  thumb  ov009
+ *   DWC_RAP_SetState  0x02155374  thumb  ov009
+ *   DWC_ConnectToAnybodyAsync  0x0216B284  arm
  *   func_02177138  0x02177138  arm
  *   func_02177160  0x02177160  arm
- *   func_0216B634  0x0216B634  arm
+ *   DWC_SetConnectionClosedCallback  0x0216B634  arm
  *   func_02177188  0x02177188  arm
- *   func_02155674  0x02155674  thumb  ov009
- *   func_02155D3C  0x02155D3C  thumb  ov009
- *   func_02155D80  0x02155D80  thumb  ov009
- *   func_02155DCC  0x02155DCC  thumb  ov009
- *   func_02155E9C  0x02155E9C  thumb  ov009
- *   func_02155BDC  0x02155BDC  thumb  ov009
+ *   DWC_RAP_OnNewClientNop  0x02155674  thumb  ov009
+ *   DWC_RAP_OnMatched  0x02155D3C  thumb  ov009
+ *   DWC_RAP_OnSendComplete  0x02155D80  thumb  ov009
+ *   DWC_RAP_OnReceive  0x02155DCC  thumb  ov009
+ *   DWC_RAP_OnConnectionClosed  0x02155E9C  thumb  ov009
+ *   DWC_RAP_OnReceiveTimeout  0x02155BDC  thumb  ov009
  */
 
 typedef unsigned char  u8;
@@ -50,48 +50,48 @@ typedef struct {
 
 typedef void (*Fn)(void);
 
-extern G *d_021A8264;
+extern G *_pRapWork;
 extern char d_021A1C5C[];
 typedef unsigned int   u32;
 void func_02034714(const char *expr, u32 line, const char *file);
-void func_02156C60(void);
-void func_02156C00(u32 a);
-void func_02155374(int v);
-int func_0216B284(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
+void DWC_RAP_FreeRecvBuffers(void);
+void DWC_RAP_AllocRecvBuffer(u32 a);
+void DWC_RAP_SetState(int v);
+int DWC_ConnectToAnybodyAsync(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
 int func_02177138(int a, int b);
 int func_02177160(int a, int b);
-int func_0216B634(int a, int b);
+int DWC_SetConnectionClosedCallback(int a, int b);
 int func_02177188(int a, int b);
-void func_02155674(void);
-void func_02155D3C(int a, int b, int c, int d, int e);
-void func_02155D80(int a, u32 i);
-void func_02155DCC(u32 a, u8 *p, int c);
-void func_02155E9C(int a, int b, int c, u32 d);
-void func_02155BDC(unsigned int n);
+void DWC_RAP_OnNewClientNop(void);
+void DWC_RAP_OnMatched(int a, int b, int c, int d, int e);
+void DWC_RAP_OnSendComplete(int a, u32 i);
+void DWC_RAP_OnReceive(u32 a, u8 *p, int c);
+void DWC_RAP_OnConnectionClosed(int a, int b, int c, u32 d);
+void DWC_RAP_OnReceiveTimeout(unsigned int n);
 
-int func_0215580C(int a0, int n, int a2, int a3)
+int DWC_RAP_StartMatchWithFilter(int a0, int n, int a2, int a3)
 {
     int i;
 
-    if (d_021A8264 == 0)
+    if (_pRapWork == 0)
         func_02034714(d_021A1C5C, 0, d_021A1C5C);
-    if (d_021A8264->state != 6)
+    if (_pRapWork->state != 6)
         return 0;
-    func_02156C60();
+    DWC_RAP_FreeRecvBuffers();
     for (i = 0; i < n; i++)
-        func_02156C00(i);
-    func_02155374(7);
-    d_021A8264->n = n;
-    if (func_0216B284(1, n, (char *)a0, (Fn)func_02155D3C, 0, func_02155674, 0, (void *)a2, (void *)a3,
+        DWC_RAP_AllocRecvBuffer(i);
+    DWC_RAP_SetState(7);
+    _pRapWork->n = n;
+    if (DWC_ConnectToAnybodyAsync(1, n, (char *)a0, (Fn)DWC_RAP_OnMatched, 0, DWC_RAP_OnNewClientNop, 0, (void *)a2, (void *)a3,
                       0, 0, 0) == 0)
         return 0;
-    d_021A8264->w75C = 0;
-    func_02177138((int)((Fn)func_02155D80), 0);
-    func_02177160((int)((Fn)func_02155DCC), 0);
-    func_0216B634((int)((Fn)func_02155E9C), 0);
-    func_02177188((int)((Fn)func_02155BDC), 0);
-    d_021A8264->w760 = 0;
-    d_021A8264->b7A1 = 1;
-    d_021A8264->w758 = 0x3EF;
+    _pRapWork->w75C = 0;
+    func_02177138((int)((Fn)DWC_RAP_OnSendComplete), 0);
+    func_02177160((int)((Fn)DWC_RAP_OnReceive), 0);
+    DWC_SetConnectionClosedCallback((int)((Fn)DWC_RAP_OnConnectionClosed), 0);
+    func_02177188((int)((Fn)DWC_RAP_OnReceiveTimeout), 0);
+    _pRapWork->w760 = 0;
+    _pRapWork->b7A1 = 1;
+    _pRapWork->w758 = 0x3EF;
     return 1;
 }

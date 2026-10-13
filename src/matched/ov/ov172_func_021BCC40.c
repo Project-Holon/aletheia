@@ -18,12 +18,12 @@
  *   func_02045770  0x02045770  arm
  *   func_02043B5C  0x02043B5C  arm
  *   func_020457B0  0x020457B0  arm
- *   func_0202E930  0x0202E930  thumb
+ *   COMM_PLAYER_SUPPORT_GetRecordFieldPtr  0x0202E930  thumb
  *   func_02045994  0x02045994  arm
  *   func_0201C724  0x0201C724  thumb
  *   func_02045808  0x02045808  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0202E938  0x0202E938  thumb
+ *   COMM_PLAYER_SUPPORT_GetRecordField  0x0202E938  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
  *   func_0201ED04  0x0201ED04  thumb
@@ -72,13 +72,13 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *win);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern u16 *func_0202E930(void *p);
+extern u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(void *p);
 struct Strbuf;
 extern void func_02045994(struct Strbuf *o, const u16 *src, unsigned int len);
 extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u16 func_0202E938(void *p);
+extern u16 COMM_PLAYER_SUPPORT_GetRecordField(void *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201ED04(struct WordSet *p);
@@ -119,7 +119,7 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
         func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj02882 *)row)->f14)), 0);
         str = (u32)func_020457B0(0x20, heap);
         if (((struct Obj01166 *)e)->f18 == 0x20)
-            func_02045994((struct Strbuf *)str, func_0202E930(((struct Obj01166 *)e)->f14), 8);
+            func_02045994((struct Strbuf *)str, COMM_PLAYER_SUPPORT_GetRecordFieldPtr(((struct Obj01166 *)e)->f14), 8);
         else
             func_02045994((struct Strbuf *)str, (const u16 *)(*(char * *)&((struct Obj01166 *)e)->f14 + 0x1a), 8);
         func_0201C724((void *)sys, (u32)func_02045770((struct Descriptor *)((struct Obj02882 *)row)->f14), 6, 0, str, font, 0x3c40);
@@ -127,7 +127,7 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
         fmt = (u32)func_02045EC0((struct MsgBank *)msgs, 0xe);
         buf = (u32)func_020457B0(0x20, heap);
         if (((struct Obj01166 *)e)->f18 == 0x20)
-            func_0201EFA4((struct WordSet *)ws, 0, func_0202E938(((struct Obj01166 *)e)->f14), 5, 2, 1);
+            func_0201EFA4((struct WordSet *)ws, 0, COMM_PLAYER_SUPPORT_GetRecordField(((struct Obj01166 *)e)->f14), 5, 2, 1);
         else
             func_0201EFA4((struct WordSet *)ws, 0, ((struct Obj24102 *)(*(char * *)&((struct Obj01166 *)e)->f14))->f18, 5, 2, 1);
         func_0201F250((struct WordSet *)ws, (void *)buf, (void *)fmt);

@@ -1,5 +1,5 @@
 /*
- * function: func_02023B48
+ * function: WIPE_SUB_SetWindowVisible
  * address:  0x02023B48
  * packet:   pkt_02023AB0
  * region:   arm9
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 #define REG_DISPCNT     (*(volatile u32 *)0x04000000)
 #define REG_DISPCNT_SUB (*(volatile u32 *)0x04001000)
 
-void func_02023B48(u32 val, u32 engine)
+void WIPE_SUB_SetWindowVisible(u32 val, u32 engine)
 {
     if (engine == 0) {
         REG_DISPCNT = (REG_DISPCNT & 0xffff1fff) | (val << 13);

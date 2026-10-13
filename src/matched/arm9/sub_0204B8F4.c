@@ -1,5 +1,5 @@
 /*
- * function: sub_0204B8F4
+ * function: CLACT_GetActorAnimFrame
  * address:  0x0204B8F4
  * packet:   pkt_0204B454
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0204D444   0x0204D444  arm
+ *   CLACT_GetAnimObject   0x0204D444  arm
  *
- * Read +0x10 of the record sub_0204D444 hands back for the sub-object
+ * Read +0x10 of the record CLACT_GetAnimObject hands back for the sub-object
  * embedded at +0x68 of the 0x0204Bxxx object (see
  * src/matched/unit_0204B898.c for the family).  The call result is
  * dereferenced in place, so no register is spent copying it
@@ -24,8 +24,8 @@
  * layout/function_starts.txt.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204B8F4.c \
- *       --func sub_0204B8F4 --addr 0x0204B8F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetActorAnimFrame.c \
+ *       --func CLACT_GetActorAnimFrame --addr 0x0204B8F4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -46,9 +46,9 @@ struct Obj {
     struct Sub unk_68;
 };
 
-extern struct Node *sub_0204D444(struct Obj *o);
+extern struct Node *CLACT_GetAnimObject(struct Obj *o);
 
-u32 sub_0204B8F4(struct Obj *p)
+u32 CLACT_GetActorAnimFrame(struct Obj *p)
 {
-    return sub_0204D444((struct Obj *)(&p->unk_68))->unk_10;
+    return CLACT_GetAnimObject((struct Obj *)(&p->unk_68))->unk_10;
 }

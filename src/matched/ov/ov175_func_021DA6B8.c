@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203CA98 0x0203CA98 arm
+ *   GFL_NET_STATE_GetError 0x0203CA98 arm
  *   func_0200FB24 0x0200FB24 thumb
  *   func_021DAE18 0x021DAE18 thumb ov175
  *   func_020399A8 0x020399A8 arm
@@ -49,7 +49,7 @@ typedef struct Sys {
 } Sys;
 typedef signed int     s32;
 struct Link;
-extern u32 func_0203CA98(void);
+extern u32 GFL_NET_STATE_GetError(void);
 extern u32 func_0200FB24(void);
 extern void func_021DAE18(char *obj);
 extern struct Entry *func_020399A8(void);
@@ -85,7 +85,7 @@ int func_021DA6B8(char *p, u32 *out)
 
     if (out != 0)
         *out = *(u32 *)(p + 0x16c);
-    s = (Sys *)func_0203CA98();
+    s = (Sys *)GFL_NET_STATE_GetError();
     if (s->fc - 0x3f0 <= 1)
         *(u32 *)(p + 0x160) = 1;
     if (func_0200FB24() == 1) {

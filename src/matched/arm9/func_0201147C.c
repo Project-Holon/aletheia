@@ -11,15 +11,15 @@
  *
  * symbols:
  *   func_02030734   0x02030734  arm
- *   func_020116C0  0x020116C0  thumb
- *   func_020116E0  0x020116E0  thumb
- *   func_02011770  0x02011770  thumb
- *   func_020117D8  0x020117D8  thumb
- *   func_0201183C  0x0201183C  thumb
- *   sIcaAnimeFile  0x020A7270  data
+ *   ICA_ANIME_Clear  0x020116C0  thumb
+ *   ICA_ANIME_LoadHeader  0x020116E0  thumb
+ *   ICA_ANIME_AllocBuffer  0x02011770  thumb
+ *   ICA_ANIME_SetBuffer  0x020117D8  thumb
+ *   ICA_ANIME_LoadFrames  0x0201183C  thumb
+ *   _IcaAnimeFileName  0x020A7270  data
  *
 
- * The 0x74-byte sibling of func_02011428 in the same original file: same
+ * The 0x74-byte sibling of ICA_ANIME_CreateWithFullBuffer in the same original file: same
  * allocation, shared init and class initialiser, but the load call forwards
  * the two stacked arguments rather than a field.
  *
@@ -46,23 +46,23 @@ struct IcaAnime {
 
 typedef signed int     s32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_020116C0(struct IcaAnime *p);
-extern void  func_020116E0(u8 *p, u32 a, u32 b, u32 c);
-extern void func_02011770(u8 *p, int n);
-extern int   func_020117D8(u8 *p, int v1, u8 *v2, int v3);
-extern void func_0201183C(struct IcaAnime *s, s32 q);
-extern u8    sIcaAnimeFile;
+extern void  ICA_ANIME_Clear(struct IcaAnime *p);
+extern void  ICA_ANIME_LoadHeader(u8 *p, u32 a, u32 b, u32 c);
+extern void ICA_ANIME_AllocBuffer(u8 *p, int n);
+extern int   ICA_ANIME_SetBuffer(u8 *p, int v1, u8 *v2, int v3);
+extern void ICA_ANIME_LoadFrames(struct IcaAnime *s, s32 q);
+extern u8    _IcaAnimeFileName;
 
 
 void *func_0201147C(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5)
 {
-    struct IcaAnime *p = func_02030734(heap, 0x38, 0, (const char *)&sIcaAnimeFile, 0x74);
+    struct IcaAnime *p = func_02030734(heap, 0x38, 0, (const char *)&_IcaAnimeFileName, 0x74);
 
-    func_020116C0(p);
-    func_020116E0((u8 *)p, a1, a2, heap);
-    if (func_020117D8((u8 *)p, a3, (u8 *)a4, a5) == 0) {
+    ICA_ANIME_Clear(p);
+    ICA_ANIME_LoadHeader((u8 *)p, a1, a2, heap);
+    if (ICA_ANIME_SetBuffer((u8 *)p, a3, (u8 *)a4, a5) == 0) {
         return 0;
     }
-    func_0201183C(p, 0);
+    ICA_ANIME_LoadFrames(p, 0);
     return p;
 }

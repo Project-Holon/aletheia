@@ -24,12 +24,13 @@
  *   func_021DBF04 0x021DBF04 thumb ov121
  *   func_021DC02C 0x021DC02C thumb ov121
  *   func_021DD24C 0x021DD24C thumb ov121
- *   func_021DE0AC 0x021DE0AC thumb ov121
+ *   MYSTERY_ALBUM_RequestSetup 0x021DE0AC thumb ov121
  *   func_021DC08C 0x021DC08C thumb ov121
  *   func_021DCEC4 0x021DCEC4 thumb ov121
  *   d_021DFBB0 0x021DFBB0 data a4
  *   d_021DF8FC 0x021DF8FC data a4
  *   d_021DF890 0x021DF890 data a4
+ *   MYSTERY_DATA_GetCardSlotNum  0x0200A348  thumb  arm9
  */
 #include "../include/Obj00910.h"
 typedef unsigned char u8;
@@ -45,7 +46,7 @@ extern void func_02082A7C(int,void *,int);
 extern void *func_0203084C(u32 heapId);
 extern void func_02040618(u32,u32,u32);
 struct Obj;
-extern u32 func_0200A348(struct Obj *);
+extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern u32 func_0200A0E4(u8 *p, u32 a);
 extern int func_0200A000(char *p, int idx, void *buf);
 extern void func_021DBDF4(char *,const Record *,char *,u16);
@@ -58,7 +59,7 @@ extern u32 func_021DBDBC(u32 p);
 extern int func_021DBF04(int *p);
 extern char *func_021DC02C(void *);
 extern void *func_021DD24C(void *,void *,void *,u16);
-extern void func_021DE0AC(u8 *p, u32 b);
+extern void MYSTERY_ALBUM_RequestSetup(u8 *p, u32 b);
 extern void func_021DC08C(void *task, u32 *state, char *p);
 extern void func_021DCEC4(void *arg, int *state, char *p);
 char *func_021DAC18(const Input *src,u16 heap)
@@ -80,7 +81,7 @@ char *func_021DAC18(const Input *src,u16 heap)
     func_02082A7C(-1,out+0xb48,32);
     func_02082A7C(-1,out+0xb88,32);
     func_02082A7C(-1,out+0xb68,32);
-    for(i=0;i<func_0200A348(((struct Obj00910 *)out)->fC);i++) {
+    for(i=0;i<MYSTERY_DATA_GetCardSlotNum(((struct Obj00910 *)out)->fC);i++) {
         if(func_0200A0E4(((struct Obj00910 *)out)->fC,i)) {
             count++;
             func_0200A000(((struct Obj00910 *)out)->fC,i,&record);
@@ -105,7 +106,7 @@ char *func_021DAC18(const Input *src,u16 heap)
             if(func_021DBF04((int *)(out+40+j*0xdc)))
                 *(void **)(out+0xa7c+j*4)=func_021DD24C(func_021DC02C(out+40+j*0xdc),((struct Obj00910 *)out)->fAB0,(void *)src->w[8],heap);
         }
-        func_021DE0AC(((struct Obj00910 *)out)->fA7C,0);
+        MYSTERY_ALBUM_RequestSetup(((struct Obj00910 *)out)->fA7C,0);
         func_0203084C(29);
     }
     func_02040618(3,3,0);

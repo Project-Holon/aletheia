@@ -10,14 +10,14 @@
  * status: EXACT*
  * note: Two zero alignment bytes follow the compiled 38-byte body.
  * symbols:
- *   func_021753D0 0x021753D0 thumb ov011
+ *   INTRUDE_COMM_TryStartRequest 0x021753D0 thumb ov011
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct Rec { u32 words[14]; } Rec;
-int func_021753D0(u8 *p, int i, u8 v);
+int INTRUDE_COMM_TryStartRequest(u8 *p, int i, u8 v);
 
 void func_02173A04(int a, int b, Rec *c, u8 *d)
 {
-    if (func_021753D0(d, a, ((u8 *)c)[1]) == 1) *(Rec *)(d + 0x11c) = *c;
+    if (INTRUDE_COMM_TryStartRequest(d, a, ((u8 *)c)[1]) == 1) *(Rec *)(d + 0x11c) = *c;
 }

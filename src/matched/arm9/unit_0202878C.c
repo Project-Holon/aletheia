@@ -8,27 +8,27 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0202878C, func_02028794, func_020287A8, func_020287B4,
- *           func_020287CC, func_020287E4, func_020287F8, func_0202880C,
- *           func_02028828
+ * function: PLAYER_VOLUME_FADER_Update, PLAYER_VOLUME_FADER_SetTarget, PLAYER_VOLUME_FADER_SetMute, PLAYER_VOLUME_FADER_Init,
+ *           PLAYER_VOLUME_FADER_StartFade, PLAYER_VOLUME_FADER_SetLevel, PLAYER_VOLUME_FADER_Tick, PLAYER_VOLUME_FADER_GetLevel,
+ *           PLAYER_VOLUME_FADER_Apply
  *
  * The tail of player_volume_fader.c (its file string is carried by
- * func_02028760, outside this packet): a nine byte record holding a channel
+ * PLAYER_VOLUME_FADER_Create, outside this packet): a nine byte record holding a channel
  * id, a start and a target level, a duration and an elapsed count, and the
- * eight entry points that drive it.  func_0202880C is the interpolation,
- * func_02028828 is the "push the current level at the mixer" step every
- * mutator ends with, and func_020287F8 is the per-frame tick.
+ * eight entry points that drive it.  PLAYER_VOLUME_FADER_GetLevel is the interpolation,
+ * PLAYER_VOLUME_FADER_Apply is the "push the current level at the mixer" step every
+ * mutator ends with, and PLAYER_VOLUME_FADER_Tick is the per-frame tick.
  *
  * The nine functions are one file because five of them are reached only from
  * inside it and two of those five are reached only through a tail call's pool
  * word, which is not a branch and therefore not a `label` witness
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  In one object they are
  * `local` and need no image evidence.  Nothing outside the file loses a
- * witness by the merge: the two externally called entry points, func_020287A8
- * and func_020287B4, are called with real branches from outside the packet
+ * witness by the merge: the two externally called entry points, PLAYER_VOLUME_FADER_SetMute
+ * and PLAYER_VOLUME_FADER_Init, are called with real branches from outside the packet
  * (docs/idioms/a-unit-attests-only-its-own-start-address.md).
  *
- * func_0202880C's division is the compiler's signed helper at 0x0209C0A4 and
+ * PLAYER_VOLUME_FADER_GetLevel's division is the compiler's signed helper at 0x0209C0A4 and
  * not a shift, which is what says the operands are `int` rather than unsigned
  * (docs/idioms/runtime-helper-reloc.md).  The difference of the two levels is
  * the multiply's destination register, so the level pair is the left operand
@@ -43,7 +43,7 @@
  *
  * symbols:
  *   _s32_div_f     0x0209C0A4  arm
- *   func_02072D98  0x02072D98  arm
+ *   NNS_SndPlayerSetPlayerVolume  0x02072D98  arm
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0202878C.c \
@@ -64,35 +64,35 @@ struct Fader {
     u8  unk08;
 };
 
-extern void func_02072D98(u32 channel, u32 level);
+extern void NNS_SndPlayerSetPlayerVolume(u32 channel, u32 level);
 
-void func_020287F8(struct Fader *s);
-void func_020287CC(struct Fader *s, u8 target, u16 frames);
-void func_020287E4(struct Fader *s, u8 level);
-u32  func_0202880C(struct Fader *s);
-void func_02028828(struct Fader *s);
+void PLAYER_VOLUME_FADER_Tick(struct Fader *s);
+void PLAYER_VOLUME_FADER_StartFade(struct Fader *s, u8 target, u16 frames);
+void PLAYER_VOLUME_FADER_SetLevel(struct Fader *s, u8 level);
+u32  PLAYER_VOLUME_FADER_GetLevel(struct Fader *s);
+void PLAYER_VOLUME_FADER_Apply(struct Fader *s);
 
-void func_0202878C(struct Fader *s)
+void PLAYER_VOLUME_FADER_Update(struct Fader *s)
 {
-    func_020287F8(s);
+    PLAYER_VOLUME_FADER_Tick(s);
 }
 
-void func_02028794(struct Fader *s, u8 level, u16 frames)
+void PLAYER_VOLUME_FADER_SetTarget(struct Fader *s, u8 level, u16 frames)
 {
     if (frames == 0) {
-        func_020287E4(s, level);
+        PLAYER_VOLUME_FADER_SetLevel(s, level);
     } else {
-        func_020287CC(s, level, frames);
+        PLAYER_VOLUME_FADER_StartFade(s, level, frames);
     }
 }
 
-void func_020287A8(struct Fader *s, u8 mute)
+void PLAYER_VOLUME_FADER_SetMute(struct Fader *s, u8 mute)
 {
     s->unk08 = mute;
-    func_02028828(s);
+    PLAYER_VOLUME_FADER_Apply(s);
 }
 
-void func_020287B4(struct Fader *s)
+void PLAYER_VOLUME_FADER_Init(struct Fader *s)
 {
     s->unk00 = 0;
     s->unk01 = 0x7F;
@@ -100,35 +100,35 @@ void func_020287B4(struct Fader *s)
     s->unk04 = 0;
     s->unk06 = 0;
     s->unk08 = 0;
-    func_02028828(s);
+    PLAYER_VOLUME_FADER_Apply(s);
 }
 
-void func_020287CC(struct Fader *s, u8 target, u16 frames)
+void PLAYER_VOLUME_FADER_StartFade(struct Fader *s, u8 target, u16 frames)
 {
-    s->unk01 = func_0202880C(s);
+    s->unk01 = PLAYER_VOLUME_FADER_GetLevel(s);
     s->unk02 = target;
     s->unk04 = frames;
     s->unk06 = 0;
 }
 
-void func_020287E4(struct Fader *s, u8 level)
+void PLAYER_VOLUME_FADER_SetLevel(struct Fader *s, u8 level)
 {
     s->unk01 = level;
     s->unk02 = level;
     s->unk04 = 0;
     s->unk06 = 0;
-    func_02028828(s);
+    PLAYER_VOLUME_FADER_Apply(s);
 }
 
-void func_020287F8(struct Fader *s)
+void PLAYER_VOLUME_FADER_Tick(struct Fader *s)
 {
     if (s->unk06 < s->unk04) {
         s->unk06 = s->unk06 + 1;
-        func_02028828(s);
+        PLAYER_VOLUME_FADER_Apply(s);
     }
 }
 
-u32 func_0202880C(struct Fader *s)
+u32 PLAYER_VOLUME_FADER_GetLevel(struct Fader *s)
 {
     u16 elapsed;
     u8 from;
@@ -147,12 +147,12 @@ u32 func_0202880C(struct Fader *s)
     return level;
 }
 
-void func_02028828(struct Fader *s)
+void PLAYER_VOLUME_FADER_Apply(struct Fader *s)
 {
-    u32 level = func_0202880C(s);
+    u32 level = PLAYER_VOLUME_FADER_GetLevel(s);
 
     if (s->unk08 != 0) {
         level = 0;
     }
-    func_02072D98(s->unk00, level);
+    NNS_SndPlayerSetPlayerVolume(s->unk00, level);
 }

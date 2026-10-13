@@ -14,17 +14,17 @@
  * Extra open callee of DWCi_StopLogin (0x0216A3B8).
  *
  * symbols:
- *   func_02178EF4  0x02178EF4  arm  ov009
+ *   DWCi_Auth_ShutdownAuthentication  0x02178EF4  arm  ov009
  *   stpLoginCnt    0x021AA874  data
  */
 
 extern char *stpLoginCnt;
-extern void func_02178EF4(void);
+extern void DWCi_Auth_ShutdownAuthentication(void);
 
 void func_0216A42C(void)
 {
     if (stpLoginCnt == 0) return;
-    func_02178EF4();
+    DWCi_Auth_ShutdownAuthentication();
     *(int *)(stpLoginCnt + 4) = 0;
     *(int *)(stpLoginCnt + 0x30) = 0;
 }

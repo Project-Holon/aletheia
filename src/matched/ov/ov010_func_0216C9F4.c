@@ -12,16 +12,16 @@
  * symbols:
  *   func_02161824  0x02161824  thumb  ov010
  *   func_02012374  0x02012374  thumb
- *   func_02029BCC  0x02029BCC  thumb
+ *   FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask  0x02029BCC  thumb
  *   func_02188CE8  0x02188CE8  thumb  ov021
  *   func_021AAABC  0x021AAABC  thumb  ov021
  *   func_02189A08  0x02189A08  thumb  ov021
  *   func_021CF498  0x021CF498  thumb  ov021
- *   func_020144DC  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_0216C9CC  0x0216C9CC  thumb  ov010
- *   func_02029C00  0x02029C00  thumb
- *   func_020145CC  0x020145CC  thumb
- *   func_02029CC0  0x02029CC0  thumb
+ *   FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask  0x02029C00  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
+ *   FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask  0x02029CC0  thumb
  *   func_021BE92C  0x021BE92C  thumb  ov021
  */
 
@@ -31,16 +31,16 @@ struct Ctx;
 struct Evt;
 extern void *func_02161824(void *a, void *b);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_02029BCC(void *a, u32 b);
+extern void *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(void *a, u32 b);
 extern u32 func_02188CE8(u8 *p);
 extern void func_021AAABC(int);
 extern int func_02189A08(unsigned char *p);
 extern void func_021CF498(struct Ctx *c, u32 x, int idx);
-extern int func_020144DC(int, int);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int, int);
 extern void *func_0216C9CC(void *a, void *b, void *c);
-extern void *func_02029C00(void *a);
-extern void *func_020145CC(void *a0);
-extern void *func_02029CC0(void *a);
+extern void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *a);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
+extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *a);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 
 int func_0216C9F4(int a, int *st, int *o)
@@ -53,7 +53,7 @@ int func_0216C9F4(int a, int *st, int *o)
         (*st)++;
         break;
     case 1:
-        func_02012374((struct Evt *)a, func_02029BCC((void *)x, *(unsigned short *)(o[2] + 0x18)));
+        func_02012374((struct Evt *)a, FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask((void *)x, *(unsigned short *)(o[2] + 0x18)));
         (*st)++;
         break;
     case 2:
@@ -62,7 +62,7 @@ int func_0216C9F4(int a, int *st, int *o)
         (*st)++;
         break;
     case 3:
-        func_02012374((struct Evt *)a, (struct Evt **)func_020144DC(x, y));
+        func_02012374((struct Evt *)a, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(x, y));
         (*st)++;
         break;
     case 4:
@@ -70,15 +70,15 @@ int func_0216C9F4(int a, int *st, int *o)
         (*st)++;
         break;
     case 5:
-        func_02012374((struct Evt *)a, func_02029C00((void *)x));
+        func_02012374((struct Evt *)a, FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask((void *)x));
         (*st)++;
         break;
     case 6:
-        func_02012374((struct Evt *)a, func_020145CC((void *)x));
+        func_02012374((struct Evt *)a, FIELD_STATUS_CreateFieldOpenEvent((void *)x));
         (*st)++;
         break;
     case 7:
-        func_02012374((struct Evt *)a, func_02029CC0((void *)x));
+        func_02012374((struct Evt *)a, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask((void *)x));
         (*st)++;
         break;
     case 8:

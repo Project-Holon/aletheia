@@ -13,13 +13,16 @@
  * Addresses are Black-image addresses.
  */
 
-int func_021F5B44(int *o)
+#include "../../ov077/enceff_base_types.h"
+#include "../../ov077/enceff_grid_types.h"
+
+int func_021F5B44(EncEffGridCell *cell)
 {
-    if (o[12] < 0x40) {
-        o[7] += 0x200;
-        o[12]++;
+    if (cell->phase < 0x40) {
+        cell->angleY += 0x200;
+        cell->phase++;
     } else {
-        o[14] = 1;
+        cell->finished = 1;
     }
-    return o[14];
+    return cell->finished;
 }

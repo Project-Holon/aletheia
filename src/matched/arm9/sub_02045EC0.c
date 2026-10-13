@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_02045EC0
+ * function: MSGDATA_AllocString
  * address:  0x02045EC0
  * packet:   pkt_02045EC0
  * region:   arm9
@@ -11,10 +11,10 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02046180  0x02046180  arm
+ *   MSGDATA_RefreshLanguage  0x02046180  arm
  *   sub_0204960C  0x0204960C  arm
  *   sub_020495F4  0x020495F4  arm
- *   sub_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   sub_02045CAC  0x02045CAC  arm
  *
  * Message bank string allocator and loader: given a bank and an entry index,
@@ -23,8 +23,8 @@
  * sub_02045CAC, and returns the allocated buffer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045EC0.c \
- *       --func sub_02045EC0 --addr 0x02045EC0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_AllocString.c \
+ *       --func MSGDATA_AllocString --addr 0x02045EC0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -57,20 +57,20 @@ struct MsgBank {
 };
 
 struct Obj;
-extern void sub_02046180(struct Obj *o);
+extern void MSGDATA_RefreshLanguage(struct Obj *o);
 extern void  sub_0204960C(void *stream, u32 offset);
 struct ArcFile;
 struct U16Vec;
 extern void sub_020495F4(struct ArcFile *arc, u32 size, void *dst);
-extern struct U16Vec *sub_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void  sub_02045CAC(struct MsgBank *bank, u32 index, void *buf);
 
-void *sub_02045EC0(struct MsgBank *bank, u32 index)
+void *MSGDATA_AllocString(struct MsgBank *bank, u32 index)
 {
     struct MsgEntry *e;
     void *buf;
 
-    sub_02046180((struct Obj *)bank);
+    MSGDATA_RefreshLanguage((struct Obj *)bank);
 
     if (bank->resident == 0) {
         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
@@ -82,7 +82,7 @@ void *sub_02045EC0(struct MsgBank *bank, u32 index)
         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
     }
 
-    buf = sub_020457B0(e->len, bank->heapId);
+    buf = STRBUF_Create(e->len, bank->heapId);
     sub_02045CAC(bank, index, buf);
     return buf;
 }

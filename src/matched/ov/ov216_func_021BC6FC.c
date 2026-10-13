@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call getter: loads p[0x52] and tail-calls sub_020452E8.
+ * Tail-call getter: loads p[0x52] and tail-calls BMP_WIN_Delete.
  *
  * symbols:
- *   sub_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -20,9 +20,9 @@
 typedef unsigned int u32;
 
 struct Descriptor;
-extern u32 sub_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 u32 func_021BC6FC(u32 *p)
 {
-    return sub_020452E8((struct Descriptor *)p[0x52]);
+    return BMP_WIN_Delete((struct Descriptor *)p[0x52]);
 }

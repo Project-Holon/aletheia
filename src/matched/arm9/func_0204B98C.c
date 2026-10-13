@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204D444  0x0204D444  arm
+ *   CLACT_GetAnimObject  0x0204D444  arm
  *
- * Read the u32 at +0x0c of the record func_0204D444 selects out of the cell
- * actor's +0x68 sub-object.  The pair func_0204B95C / func_0204B974 writes the
- * same field through func_0204D410's record instead.
+ * Read the u32 at +0x0c of the record CLACT_GetAnimObject selects out of the cell
+ * actor's +0x68 sub-object.  The pair CLACT_StartActorAnim / CLACT_StopActorAnim writes the
+ * same field through CLACT_GetAnimCtrl's record instead.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0204B98C.c \
@@ -38,9 +38,9 @@ struct Actor {
     struct Ctl ctl;   /* 0x68 */
 };
 
-extern struct Rec *func_0204D444(struct Ctl *c);
+extern struct Rec *CLACT_GetAnimObject(struct Ctl *c);
 
 u32 func_0204B98C(struct Actor *a)
 {
-    return func_0204D444(&a->ctl)->value;
+    return CLACT_GetAnimObject(&a->ctl)->value;
 }

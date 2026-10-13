@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0201134C  0x0201134C  thumb
- *   func_020113B0  0x020113B0  thumb
+ *   VM_Jump  0x020113B0  thumb
  *   func_021895AC  0x021895AC  thumb  ov096
  *   func_0218A378  0x0218A378  thumb  ov096
  */
@@ -28,7 +28,7 @@ typedef int s32;
 struct Cursor;
 extern u32 func_0201134C(struct Cursor *p);
 struct Cur;
-extern void func_020113B0(struct Cur *c, u32 v);
+extern void VM_Jump(struct Cur *c, u32 v);
 extern int func_021895AC(u8 *, u8 *);
 extern int func_0218A378(u8 *, int, int);
 
@@ -54,6 +54,6 @@ int func_02189FC0(struct Cursor *a, u8 *b)
     }
     if (flag == 1)
         return func_021895AC((u8 *)a, b);
-    func_020113B0((struct Cur *)a, (u32)((u8 *)base + (base[m] | (base[m + 1] << 16))));
+    VM_Jump((struct Cur *)a, (u32)((u8 *)base + (base[m] | (base[m + 1] << 16))));
     return ((struct Obj13669 *)b)->fC4;
 }

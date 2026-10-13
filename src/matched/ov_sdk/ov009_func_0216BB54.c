@@ -1,5 +1,5 @@
 /*
- * function: func_0216BB54
+ * function: DWCi_GetConnectionAID
  * address:  0x0216BB54
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,14 +12,14 @@
  * Byte at +1 of the block, or 0xff when there is none.
  *
  * symbols:
- *   func_02195E78  0x02195E78  arm  ov009
+ *   gt2GetConnectionData  0x02195E78  arm  ov009
  */
 
-extern int func_02195E78(const int *p);
+extern int gt2GetConnectionData(const int *p);
 
-int func_0216BB54(const int *a0)
+int DWCi_GetConnectionAID(const int *a0)
 {
-    unsigned char *p = (unsigned char *)func_02195E78(a0);
+    unsigned char *p = (unsigned char *)gt2GetConnectionData(a0);
 
     return p ? *(unsigned char *)(p + 1) : 0xff;
 }

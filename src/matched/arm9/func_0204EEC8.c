@@ -1,5 +1,5 @@
 /*
- * function: func_0204EEC8
+ * function: BILLBOARD_SetImageFormat
  * address:  0x0204EEC8
  * packet:   pkt_0204EE0C
  * region:   arm9
@@ -55,7 +55,7 @@ extern const u32 gTexSizeTbl[];
 extern const struct Pair8 gTexParamS[];
 extern const struct Pair8 gTexParamT[];
 
-void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c)
+void BILLBOARD_SetImageFormat(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c)
 {
     s32 sb = (fmt & 0x70) >> 4;
 

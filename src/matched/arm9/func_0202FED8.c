@@ -1,5 +1,5 @@
 /*
- * function: func_0202FED8
+ * function: GFL_HEAP_AddRecord
  * address:  0x0202FED8
  * packet:   pkt_0202FED8
  * region:   arm9
@@ -47,7 +47,7 @@ typedef struct {
 extern Ctx0202FED8 g_02146954;
 extern void *func_02060C5C(void *start, u32 size, u32 attr);
 
-int func_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3)
+int GFL_HEAP_AddRecord(u32 a0, u32 a1, u32 a2, u32 a3)
 {
     int i;
 

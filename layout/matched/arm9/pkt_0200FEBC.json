@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0200FEBC",
+   "name": "GFL_NET_ERR_RestoreDisplay",
    "address": "0x0200FEBC",
    "kind": "game",
    "region": "arm9",

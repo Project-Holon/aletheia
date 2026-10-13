@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "KeyValHashKey",
+   "name": "PARTICLE_KillAllEffects",
    "address": "0x02051620",
    "kind": "sdk",
    "region": "arm9",

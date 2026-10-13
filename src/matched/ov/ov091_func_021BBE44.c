@@ -15,7 +15,7 @@
  * symbols:
  *   func_02028148  0x02028148  thumb
  *   func_02028178  0x02028178  thumb
- *   func_02028218  0x02028218  thumb
+ *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb
  */
 
 typedef unsigned int   u32;
@@ -23,7 +23,7 @@ typedef unsigned char  u8;
 struct Obj;
 extern void func_02028148(u8 *p);
 extern void func_02028178(u8 *p);
-extern void func_02028218(struct Obj *obj, u32 a);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 
 void func_021BBE44(int x)
 {
@@ -40,5 +40,5 @@ void func_021BBE50(int x)
 void func_021BBE5C(int x, int f)
 {
     if (x != 0)
-        func_02028218((struct Obj *)x, f);
+        APP_TASKMENU_WIN_SetActive((struct Obj *)x, f);
 }

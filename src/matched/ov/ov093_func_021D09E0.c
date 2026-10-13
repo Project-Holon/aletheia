@@ -17,9 +17,9 @@
  * count store gets an edge to it (height 7), and it issues second, as in the original. Passes 1 to 5
  * (all 5 B or more) tried every source shape of the entry block; none can change this edge.
  * symbols:
- *   func_0201C314 0x0201C314 thumb
- *   func_0201C1C8 0x0201C1C8 thumb
- *   func_0201C1D8 0x0201C1D8 thumb
+ *   WAZA_TOOL_IsDamaging 0x0201C314 thumb
+ *   WAZA_TOOL_GetType 0x0201C1C8 thumb
+ *   WAZA_TOOL_GetPower 0x0201C1D8 thumb
  *   func_021D57FC 0x021D57FC thumb ov093
  *   func_021B9C00 0x021B9C00 thumb ov093
  *   func_021D5B68 0x021D5B68 thumb ov093
@@ -40,9 +40,9 @@ extern int func_021D5B68(void *);
 extern u8 func_021D5448(struct QG *p);
 extern u8 func_021D5584(struct UtilWork *p, u32 i);
 extern u16 func_021D54C0(u8 *p, int i);
-extern u32 func_0201C314(void *);
-extern u8 func_0201C1C8(void *);
-extern u16 func_0201C1D8(void *);
+extern u32 WAZA_TOOL_IsDamaging(void *);
+extern u8 WAZA_TOOL_GetType(void *);
+extern u16 WAZA_TOOL_GetPower(void *);
 extern int func_021D799C(int, u16);
 void func_021D09E0(u8 *p, u8 *order, u8 count, void *target)
 {
@@ -65,10 +65,10 @@ void func_021D09E0(u8 *p, u8 *order, u8 count, void *target)
             for (j = 0; j < n; j++) {
                 if (func_021D5584(mon, j)) {
                     move = func_021D54C0(mon, j);
-                    if (func_0201C314((void *)(u32)move)) {
+                    if (WAZA_TOOL_IsDamaging((void *)(u32)move)) {
                         int kind;
-                        kind = func_0201C1C8((void *)(u32)move);
-                        power = func_0201C1D8((void *)(u32)move);
+                        kind = WAZA_TOOL_GetType((void *)(u32)move);
+                        power = WAZA_TOOL_GetPower((void *)(u32)move);
                         if (power < 10) power = 60;
                         switch (func_021D799C(kind, type)) {
                         case 5: power *= 4; break;

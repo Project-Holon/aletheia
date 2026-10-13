@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   BRIGHTNESS_Set  0x02023F60  thumb  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -18,11 +19,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_02023F60(u32 a0, u32 a1, u32 mask);
+extern void BRIGHTNESS_Set(u32 a0, u32 a1, u32 mask);
 
 u32 func_021BE360(u32 a, u32 b, u32 *c)
 {
-    func_02023F60((s16)*c, 0x1d, 1);
+    BRIGHTNESS_Set((s16)*c, 0x1d, 1);
     return 1;
 }
 

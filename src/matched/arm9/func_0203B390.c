@@ -1,5 +1,5 @@
 /*
- * function: func_0203B390
+ * function: GFL_NET_STATE_ChangeoverConnect
  * address:  0x0203B390
  * packet:   pkt_0203B390
  * region:   arm9
@@ -15,7 +15,7 @@
  * was looking at the wrong constant.  What the original hoists is not the
  * `1`, it is the 0x200 -- `mov r4, #0x200` at +0x24, before the compare
  * chain -- and r4 then serves FOUR uses: the length argument of
- * func_02037A6C, the second argument of func_02037928 on the alt path, and
+ * GFL_NET_SYSTEM_ConnectToParent, the second argument of GFL_NET_SYSTEM_StartBeaconScan on the alt path, and
  * the base of both line numbers (`add r3, r4, #0x45` = 0x245 and
  * `add r3, r4, #0x4a` = 0x24A).  Binding it to ONE local `u32 n = 0x200;`
  * declared before the guards gives it a live range that spans both arms,
@@ -26,14 +26,14 @@
  * EXACT on the first compile with that change; no permuter search needed.
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_02037A6C  0x02037A6C  arm
- *   func_02037928  0x02037928  arm
- *   func_0203B2FC  0x0203B2FC  arm
- *   func_0203B344  0x0203B344  arm
- *   func_0203AD80  0x0203AD80  arm
- *   func_0203B01C  0x0203B01C  arm
- *   g_021469DC     0x021469DC  data
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_SYSTEM_ConnectToParent  0x02037A6C  arm
+ *   GFL_NET_SYSTEM_StartBeaconScan  0x02037928  arm
+ *   GFL_NET_STATE_GetChildWaitTime  0x0203B2FC  arm
+ *   GFL_NET_STATE_GetParentWaitTime  0x0203B344  arm
+ *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
+ *   GFL_NET_STATE_ExtendConnectTimer  0x0203B01C  arm
+ *   _pNetState     0x021469DC  data
  *   str_0203B950   0x0203B950  data
  */
 
@@ -42,17 +42,17 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern struct Sys *g_021469DC;
-extern void func_0203B01C(void);
+extern struct Sys *_pNetState;
+extern void GFL_NET_STATE_ExtendConnectTimer(void);
 extern char str_0203B950[];
 
-extern void *func_0203D788(void);
-extern u32   func_02037A6C(u32 a, u32 b, u32 c, u32 d);
+extern void *GFL_NET_GetSession(void);
+extern u32   GFL_NET_SYSTEM_ConnectToParent(u32 a, u32 b, u32 c, u32 d);
 typedef unsigned short u16;
-extern u32 func_02037928(u32 a0, u16 a1);
-extern u32 func_0203B2FC(char *p);
-extern u32 func_0203B344(char *p);
-extern void  func_0203AD80(u32 ctx, void *tag, u32 val, u32 line);
+extern u32 GFL_NET_SYSTEM_StartBeaconScan(u32 a0, u16 a1);
+extern u32 GFL_NET_STATE_GetChildWaitTime(char *p);
+extern u32 GFL_NET_STATE_GetParentWaitTime(char *p);
+extern void  GFL_NET_STATE_ChangeStateDebug(u32 ctx, void *tag, u32 val, u32 line);
 
 struct Vt {
     u8  pad_00[0x78];
@@ -72,9 +72,9 @@ struct Slot {
     u8  f57;
 };
 
-void func_0203B390(struct Slot *p)
+void GFL_NET_STATE_ChangeoverConnect(struct Slot *p)
 {
-    struct Obj *q = (struct Obj *)func_0203D788();
+    struct Obj *q = (struct Obj *)GFL_NET_GetSession();
     u32 n = 0x200;
 
     if (q->f340->f78() == 0)
@@ -82,13 +82,13 @@ void func_0203B390(struct Slot *p)
     if (p->f53 == 0 || p->f56 == 1)
         goto alt;
 
-    if (func_02037A6C(1, (u32)&p->f57, n, (u32)func_0203B01C) == 0)
+    if (GFL_NET_SYSTEM_ConnectToParent(1, (u32)&p->f57, n, (u32)GFL_NET_STATE_ExtendConnectTimer) == 0)
         return;
-    func_0203AD80((*(u32 *)&g_021469DC), str_0203B950, func_0203B2FC((char *)p), n + 0x45);
+    GFL_NET_STATE_ChangeStateDebug((*(u32 *)&_pNetState), str_0203B950, GFL_NET_STATE_GetChildWaitTime((char *)p), n + 0x45);
     return;
 
 alt:
-    if (func_02037928(1, n) == 0)
+    if (GFL_NET_SYSTEM_StartBeaconScan(1, n) == 0)
         return;
-    func_0203AD80((*(u32 *)&g_021469DC), str_0203B950, func_0203B344((char *)p), n + 0x4a);
+    GFL_NET_STATE_ChangeStateDebug((*(u32 *)&_pNetState), str_0203B950, GFL_NET_STATE_GetParentWaitTime((char *)p), n + 0x4a);
 }

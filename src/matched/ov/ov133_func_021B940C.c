@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   d_021BA594 0x021BA594 data ov133 a1
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_02035C08 0x02035C08 arm
  *   func_021B96D8 0x021B96D8 thumb ov133
  *   func_020061E4 0x020061E4 thumb
@@ -29,7 +29,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 bytes[12]; } Rects;
 extern const Rects d_021BA594;
-extern unsigned int func_02035CB8(unsigned int *outA, unsigned int *outB);
+extern unsigned int TOUCHPANEL_GetPointCont(unsigned int *outA, unsigned int *outB);
 extern int func_02035C08(const void *);
 extern void func_021B96D8(char *p);
 typedef unsigned int   u32;
@@ -47,7 +47,7 @@ int func_021B940C(u8 *p)
 {
     Rects rects = d_021BA594;
     void *obj;
-    func_02035CB8((unsigned int *)(p + 0x1c), (unsigned int *)(p + 0x20));
+    TOUCHPANEL_GetPointCont((unsigned int *)(p + 0x1c), (unsigned int *)(p + 0x20));
     switch (func_02035C08(&rects)) {
     case 0:
         func_021B96D8((char *)p);

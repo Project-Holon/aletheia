@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B864 0x0204B864 arm
+ *   CLACT_GetActorBgPriority 0x0204B864 arm
  */
 #include "../include/Obj24827.h"
-extern unsigned func_0204B864(unsigned char *);
-unsigned func_021FB5B8(char *p) { return func_0204B864(*(unsigned char * *)&((struct Obj24827 *)p)->f0); }
+extern unsigned CLACT_GetActorBgPriority(unsigned char *);
+unsigned func_021FB5B8(char *p) { return CLACT_GetActorBgPriority(*(unsigned char * *)&((struct Obj24827 *)p)->f0); }

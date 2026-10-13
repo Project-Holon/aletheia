@@ -1,5 +1,5 @@
 /*
- * function: func_0215683C
+ * function: DWC_RAP_SetOwnStatus
  * address: 0x0215683C
  * packet: pkt_ov009_0215683C
  * region: ov009
@@ -17,7 +17,7 @@ extern char d_021A1C5C[];
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern int func_021688FC(char *, unsigned long);
-int func_0215683C(char *a, int b)
+int DWC_RAP_SetOwnStatus(char *a, int b)
 {
     if (b > 32)
         func_02034714(d_021A1C5C, 0, d_021A1C5C);

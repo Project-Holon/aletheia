@@ -1,5 +1,5 @@
 /*
- * function: func_020522E4
+ * function: BUTTON_MAN_Ucs2CharToSjis
  * address:  0x020522E4
  * packet:   pkt_020522E4
  * region:   arm9
@@ -11,7 +11,7 @@
  * symbols:
  *   func_02045A98  0x02045A98  arm
  *
- * The per-character encoder behind func_02052274: one UCS-2 code unit to
+ * The per-character encoder behind BUTTON_MAN_ConvertUcs2ToSjis: one UCS-2 code unit to
  * Shift-JIS.  The terminator (func_02045A98's value) writes a NUL and raises
  * *stop; printable ASCII is copied; hiragana, both katakana runs and the
  * full-width A-Z, a-z and 0-9 are offset into their Shift-JIS rows and
@@ -31,7 +31,7 @@ typedef unsigned int u32;
 
 extern u16 func_02045A98(void);
 
-int func_020522E4(u16 *src, char *dst, u32 *stop)
+int BUTTON_MAN_Ucs2CharToSjis(u16 *src, char *dst, u32 *stop)
 {
     int two = 0;
     u16 c = *src;

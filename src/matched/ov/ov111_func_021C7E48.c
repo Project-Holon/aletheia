@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02035C08  0x02035C08  arm
- *   func_02035BA4  0x02035BA4  arm
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_HitCont  0x02035BA4  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_020362DC  0x020362DC  arm
  *   func_020061E4  0x020061E4  thumb
  *   func_021C7F2C  0x021C7F2C  thumb
@@ -99,8 +99,8 @@ typedef struct {
 } Work;
 
 extern int func_02035C08(const void *rects);
-extern int func_02035BA4(const void *rects);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern int TOUCHPANEL_HitCont(const void *rects);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32 a);
 extern void func_021C7F2C(Work *p, int sel, int flag);
@@ -120,10 +120,10 @@ int func_021C7E48(Work *p)
     int c;
 
     ret = func_02035C08(d_021C898C);
-    a = func_02035BA4(d_021C898C);
+    a = TOUCHPANEL_HitCont(d_021C898C);
     b = func_02035C08(d_021C8808);
-    c = func_02035BA4(d_021C8808);
-    func_02035CB8((u32 *)(&x), (u32 *)(&y));
+    c = TOUCHPANEL_HitCont(d_021C8808);
+    TOUCHPANEL_GetPointCont((u32 *)(&x), (u32 *)(&y));
     if (func_020362DC() & 2) {
         func_020061E4(0x551);
         flag = 1;

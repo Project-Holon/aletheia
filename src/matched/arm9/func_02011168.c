@@ -1,5 +1,5 @@
 /*
- * function: func_02011168
+ * function: GPOWER_ApplyExpRate
  * address:  0x02011168
  * packet:   pkt_0201102C
  * region:   arm9
@@ -18,8 +18,8 @@
  * tables; the first arm returns early, the second falls into the shared exit.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02011168.c \
- *       --func func_02011168 --addr 0x02011168 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_ApplyExpRate.c \
+ *       --func GPOWER_ApplyExpRate --addr 0x02011168 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 extern u8 g_02146208[];
 extern u8 g_02146228[];
 
-u32 func_02011168(u32 v)
+u32 GPOWER_ApplyExpRate(u32 v)
 {
     if (g_02146208[0x1b] != 0x30)
         return *(u16 *)(g_02146228 + 0x10) * v / 100;

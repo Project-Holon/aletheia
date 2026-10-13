@@ -8,14 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02012924, func_0201292C, func_02012934, func_0201293C,
- *           func_02012944, func_02012950, func_0201295C, func_02012964,
- *           func_0201296C, func_02012974, func_0201297C, func_02012984,
- *           func_0201298C, func_02012994, func_020129A0, func_020129AC,
+ * function: GAME_DATA_GetMapMatrix, func_0201292C, func_02012934, func_0201293C,
+ *           func_02012944, func_02012950, GAME_DATA_GetBagCursor, func_02012964,
+ *           func_0201296C, func_02012974, GAME_DATA_GetMusicalWork, func_02012984,
+ *           GAME_DATA_SetSeason, func_02012994, GAME_DATA_SetSubscreenMode, func_020129AC,
  *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, func_020129FC, func_02012A24, func_02012A30,
- *           func_02012A38, func_02012A44, func_02012A4C, func_02012A54,
- *           func_02012A60, func_02012A90, func_02012AA0, func_02012AA4,
+ *           func_020129F0, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, func_02012A30,
+ *           func_02012A38, func_02012A44, GAME_DATA_SetFieldMode, func_02012A54,
+ *           GAME_DATA_InitPlayerWork, func_02012A90, func_02012AA0, func_02012AA4,
  *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
  *           func_02012AC8, func_02012ACC, func_02012AD0
  *
@@ -34,14 +34,14 @@
  *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
  *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
  *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and func_02012A60
- *    onwards are its constructor and accessors.  func_02012A60 is the
+ *  - Rec44 is the 0x44-byte record func_02012950 indexes, and GAME_DATA_InitPlayerWork
+ *    onwards are its constructor and accessors.  GAME_DATA_InitPlayerWork is the
  *    constructor: its store order is the source's statement order, and the
  *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
  *    are what make +0x10 a union of a four-halfword view (the one
  *    func_02012AA4 copies whole) and a five-field view.
  *
- * func_020129FC is a post-increment and not an assignment:
+ * GAME_DATA_IncWalkCount is a post-increment and not an assignment:
  * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
  * `n = p->unk1C8; p->unk1C8 = n + 1; return n;` does not, and the two are
  * otherwise the same eighteen instructions.  See
@@ -146,7 +146,7 @@ struct BigObj {
     u32 unk690;
 };
 
-u32 func_02012924(const struct BigObj *p)
+u32 GAME_DATA_GetMapMatrix(const struct BigObj *p)
 {
     return p->unk18C;
 }
@@ -176,7 +176,7 @@ struct Rec44 *func_02012950(struct Sub24 *p, u32 i)
     return &p->unk24[i];
 }
 
-u32 func_0201295C(const struct BigObj *p)
+u32 GAME_DATA_GetBagCursor(const struct BigObj *p)
 {
     return p->unk1A4;
 }
@@ -196,7 +196,7 @@ u32 func_02012974(const struct BigObj *p)
     return p->unk1B0;
 }
 
-u32 func_0201297C(const struct BigObj *p)
+u32 GAME_DATA_GetMusicalWork(const struct BigObj *p)
 {
     return p->unk690;
 }
@@ -206,7 +206,7 @@ u8 func_02012984(const struct BigObj *p)
     return p->unk1C4;
 }
 
-void func_0201298C(struct BigObj *p, u8 v)
+void GAME_DATA_SetSeason(struct BigObj *p, u8 v)
 {
     p->unk1C4 = v;
 }
@@ -216,7 +216,7 @@ u8 func_02012994(const struct BigObj *p)
     return p->unk1C5;
 }
 
-void func_020129A0(struct BigObj *p, u8 v)
+void GAME_DATA_SetSubscreenMode(struct BigObj *p, u8 v)
 {
     p->unk1C5 = v;
 }
@@ -254,7 +254,7 @@ void func_020129F0(struct BigObj *p)
     p->unk1C8 = 0;
 }
 
-u8 func_020129FC(struct BigObj *p)
+u8 GAME_DATA_IncWalkCount(struct BigObj *p)
 {
     if (p->unk1C9 != 0) {
         return p->unk1C8++;
@@ -262,7 +262,7 @@ u8 func_020129FC(struct BigObj *p)
     return 0;
 }
 
-u8 func_02012A24(const struct BigObj *p)
+u8 GAME_DATA_IsWalkCountEnabled(const struct BigObj *p)
 {
     return p->unk1C9;
 }
@@ -282,7 +282,7 @@ u32 func_02012A44(const struct BigObj *p)
     return p->unk1BC;
 }
 
-void func_02012A4C(struct BigObj *p, u32 v)
+void GAME_DATA_SetFieldMode(struct BigObj *p, u32 v)
 {
     p->unk1BC = v;
 }
@@ -292,7 +292,7 @@ u32 func_02012A54(const struct BigObj *p)
     return p->unk68C;
 }
 
-void func_02012A60(struct Rec44 *p)
+void GAME_DATA_InitPlayerWork(struct Rec44 *p)
 {
     p->unk3D = 0;
     p->unk3A = 0;

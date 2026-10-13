@@ -16,7 +16,7 @@
  *   g_0214BAB4       0x0214BAB4  data
  *   func_02082AA8    0x02082AA8  arm
  *   g_020A84C0     0x020A84C0  data
- *   func_02085D3C  0x02085D3C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   MI_SendNDmaGXCommandAsyncFast  0x027300F0  arm  twl
  *   MI_SendNDmaGXCommandAsync  0x0272FEF4  arm  twl
  *   func_02082960  0x02082960  arm
@@ -39,7 +39,7 @@ struct GeState {
 typedef void (*MICallback)(void *arg);
 
 extern void func_02082AA8(const void *src, void *dst, u32 n);
-extern int  func_02085D3C(void);
+extern int  OS_IsRunOnTwl(void);
 extern void MI_SendNDmaGXCommandAsyncFast(u32 ndma, const void *src, u32 sz, MICallback cb, void *arg);
 extern void MI_SendNDmaGXCommandAsync(u32 ndma, const void *src, u32 sz, MICallback cb, void *arg);
 extern void func_02082960(u32 dma, const void *src, u32 sz, MICallback cb, void *arg);
@@ -96,7 +96,7 @@ void func_0206DB80(void)
 
 
 /*
- * Spin on the word at +4 of the same global func_0206DB40/60 hold the head
+ * Spin on the word at +4 of the same global NNS_G3dGeSetBuffer/60 hold the head
  * pointer in.  The `volatile` is load-bearing: without it mwccarm proves the
  * word cannot change inside the empty loop and collapses the re-read into a
  * single load plus a self-branch (24 bytes against the original's 20, and the
@@ -136,7 +136,7 @@ void func_0206DBF4(void *arg)
  * Otherwise flush the buffer, raise the in-flight word at +4 and start an
  * async GX-command DMA with the completion callback func_0206DBF4
  * (clears *arg) and arg = &g_0214BAB4.busy. The +8 word selects the Fast
- * variant; on TWL hardware (func_02085D3C) an id above 3 is an NDMA channel
+ * variant; on TWL hardware (OS_IsRunOnTwl) an id above 3 is an NDMA channel
  * id - 4 handled by the TWL-only routines at 0x027300F0 / 0x0272FEF4.
  *
  * EXACT under ../2.0/sp2 (dsi/1.1p1 pushes {r3-r8,lr} and is 12 bytes
@@ -159,7 +159,7 @@ void func_0206DC00(const u32 *src, u32 sz)
     func_0206DB80();
     g_0214BAB4.busy = 1;
     if (g_0214BAB4.f8) {
-        if (func_02085D3C()) {
+        if (OS_IsRunOnTwl()) {
             u32 id = g_020A84C0;
             u32 dma = id > 3 ? (u32)-1 : id;
             if (dma == (u32)-1)
@@ -170,7 +170,7 @@ void func_0206DC00(const u32 *src, u32 sz)
             func_02082960(g_020A84C0 > 3 ? (u32)-1 : g_020A84C0, src, sz, func_0206DBF4, (void *)&g_0214BAB4.busy);
         }
     } else {
-        if (func_02085D3C()) {
+        if (OS_IsRunOnTwl()) {
             u32 id = g_020A84C0;
             u32 dma = id > 3 ? (u32)-1 : id;
             if (dma == (u32)-1)

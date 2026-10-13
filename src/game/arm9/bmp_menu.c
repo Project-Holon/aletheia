@@ -1,7 +1,7 @@
 /*
  * file:     bmp_menu.c
  * unit:     yes
- * function: func_0201F53C, func_0201F548, func_0201F554, func_0201F57C, func_0201F5BC, func_0201F5DC, func_0201F614, func_0201F628, func_0201F73C, func_0201F79C, func_0201F7A8, func_0201F81C, func_0201F868, func_0201F878, func_0201F898, func_0201F8B8, func_0201F8F4, func_0201F91C, func_0201F93C, func_0201F9D0, func_0201F9E8, func_0201FA04, func_0201FAD0, func_0201FB30, func_0201FC1C, func_0201FC5C, func_0201FD18, func_0201FD54, func_0201FDA0, func_0201FEBC, func_0201FEF4
+ * function: func_0201F53C, func_0201F548, func_0201F554, func_0201F57C, func_0201F5BC, func_0201F5DC, func_0201F614, func_0201F628, func_0201F73C, func_0201F79C, func_0201F7A8, func_0201F81C, func_0201F868, func_0201F878, func_0201F898, BMP_MENUWORK_FindFreeEntry, func_0201F8F4, func_0201F91C, BMP_MENU_Create, BMP_MENU_Add, BMP_MENU_Delete, BMP_MENU_ProcessInput, BMP_MENU_MoveCursor, BMP_MENU_StepSelection, BMP_MENU_GetMaxItemWidth, BMP_MENU_DrawItems, BMP_MENU_DrawCursor, BMP_MENU_GetItemPixelPos, func_0201FDA0, func_0201FEBC, BMP_MENU_DeleteYesNo
  * address:  0x0201F53C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -31,8 +31,8 @@
  *   func_02045874  0x02045874  arm
  *   func_02045808  0x02045808  arm
  *   sBmpMenuFile    0x020A7384  data
- *   func_02020D18   0x02020D18  thumb
- *   func_02020DC8   0x02020DC8  thumb
+ *   BMP_CURSOR_Create   0x02020D18  thumb
+ *   BMP_CURSOR_SetTileBitmap   0x02020DC8  thumb
  *   func_020362DC  0x020362DC  arm
  *   func_020061E4  0x020061E4  thumb
  *   func_02045770  0x02045770  arm
@@ -40,7 +40,7 @@
  *   _s32_div_f  0x0209C0A4  arm
  *   func_02043B5C   0x02043B5C  arm
  *   func_0201C6FC   0x0201C6FC  thumb
- *   func_02020D5C   0x02020D5C  thumb
+ *   BMP_CURSOR_Draw   0x02020D5C  thumb
  *   func_02045B38   0x02045B38  arm
  *   func_02045C04   0x02045C04  arm
  *   MI_CpuFill8     0x02082BCC  arm
@@ -50,23 +50,13 @@
  *   func_0201C440   0x0201C440  thumb
  *   func_02045374   0x02045374  arm
  *   func_02045334   0x02045334  arm
+ *   BMP_CURSOR_Delete  0x02020D3C  thumb
  */
-struct Descriptor;
-struct Slot;
+struct BmpWin;
 struct MsgBank;
 struct U16Vec;
-struct Obj;
-struct D;
-struct Bmp;
-struct StrObj;
-struct CharBuf;
-struct Desc;
-struct Handle;
-struct PrintSys;
-struct Cfg;
-struct Font;
+struct BmpCursor;
 struct GfFont;
-struct Rec;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
@@ -78,142 +68,138 @@ typedef signed short s16;
 typedef signed char s8;
 
 typedef struct {
-    const void *str;    /* +0x00 */
-    u32         param;  /* +0x04 */
+    union {
+        const void *text;   /* +0x00  item text */
+        void       *handle; /* same word read as an owned string handle */
+        u32         raw;    /* 0 = free entry, 0xFFFFFFFF = list terminator */
+    } u;
+    u32 value;              /* +0x04  value returned when chosen */
 } BmpMenuWork;
 
-struct Slot {
-    union {
-        u32   raw;
-        void *ptr;
-    } u;
-    u32 tag;
-};
-
 typedef struct {
-    void *cell;         /* +0x00 */
-    u8    drawn;        /* +0x04 */
+    struct BmpWin *win;     /* +0x00 */
+    u8    printed;          /* +0x04  set after an item was printed */
 } PrintUtil;
 
 typedef struct {
-    BmpMenuWork *items; /* +0x00 */
-    void *win;          /* +0x04 */
-    u8   font;          /* +0x08 */
-    u8   xmax;          /* +0x09  columns */
-    u8   ymax;          /* +0x0A  rows    */
-    u8   lineSpc : 4;   /* +0x0B */
-    u8   cDisp   : 2;
-    u8   bf0b6   : 2;
-    u16  unk0c;         /* +0x0C */
-    u16  unk0e;         /* +0x0E */
-    u32  unk10;         /* +0x10 */
-    PrintUtil *util;    /* +0x14 */
-    void *que;          /* +0x18 */
-    void *fontH;        /* +0x1C */
-    u32  unk20;         /* +0x20 */
+    BmpMenuWork *items;     /* +0x00 */
+    struct BmpWin *win;     /* +0x04 */
+    u8   fontId;            /* +0x08 */
+    u8   numColumns;        /* +0x09 */
+    u8   itemsPerColumn;    /* +0x0A */
+    u8   lineSpacing : 4;   /* +0x0B */
+    u8   cursorMode  : 2;   /* 1 = no cursor drawn */
+    u8   wrap        : 2;   /* nonzero = cursor wraps at the ends */
+    u16  xPad;              /* +0x0C */
+    u16  lineHeight;        /* +0x0E */
+    u32  reserved10;        /* +0x10  zero, never read */
+    PrintUtil *util;        /* +0x14 */
+    void *que;              /* +0x18  print queue */
+    struct GfFont *fontH;   /* +0x1C */
+    u32  committed;         /* +0x20  window committed to VRAM */
 } BmpMenuHeader;
 
 typedef struct {
-    BmpMenuHeader hdr;  /* +0x00 */
-    void *cursor;       /* +0x24 */
-    u32 cancel;         /* +0x28 */
-    u8  pad2c;
-    u8  pos;            /* +0x2D */
-    u8  width;          /* +0x2E */
-    u8  px;             /* +0x2F */
-    u8  py;             /* +0x30 */
-    u8  xspc;           /* +0x31 */
-    u8  yspc;           /* +0x32 */
-    u8  lastDir;        /* +0x33 */
-    u16 heap;           /* +0x34 */
+    BmpMenuHeader header;   /* +0x00 */
+    struct BmpCursor *cursor; /* +0x24 */
+    u32 cancelMask;         /* +0x28 */
+    u8  pad2C;
+    u8  selected;           /* +0x2D */
+    u8  colWidth;           /* +0x2E */
+    u8  originX;            /* +0x2F */
+    u8  originY;            /* +0x30 */
+    u8  xPad;               /* +0x31 */
+    u8  lineHeight;         /* +0x32 */
+    u8  movedDir;           /* +0x33  direction accepted this frame, 1..4 */
+    u16 heapId;             /* +0x34 */
     u16 pad36;
 } BmpMenu;
 
 typedef int            s32;
 
 typedef struct {
-    u8  frame;   /* +0 */
+    u8  bgFrame; /* +0 */
     u8  x;       /* +1 */
     u8  y;       /* +2 */
-    u8  pal;     /* +3 */
-    u16 chr;     /* +4  callers pass it as base */
+    u8  palette; /* +3 */
+    u16 charBase; /* +4  callers pass it as base */
 } WinDat;
 
-extern void func_02049624(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void *func_020496E4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a5, u32 a6);
+extern void func_02049624(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 flagA, u32 flagB, u32 heapId);
+extern void func_02049B40(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u32 heapId);
+extern void *func_020496E4(u32 arcId, u32 fileId, u32 layer, u32 flagA, u32 flagB, u32 heapId);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
-extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5,
-                          u32 a6);
-extern u8 func_02045730(struct Descriptor *p);
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
-extern u8 func_02045748(struct Descriptor *p);
-extern u8 func_02045750(struct Descriptor *p);
+extern void func_02041300(u32 bgId, u32 tile, u8 x, u8 y, u8 width, u8 height,
+                          u32 palette);
+extern u8 func_02045730(struct BmpWin *p);
+extern u8 func_02045758(struct BmpWin *p);
+extern u8 func_02045760(struct BmpWin *p);
+extern u8 func_02045748(struct BmpWin *p);
+extern u8 func_02045750(struct BmpWin *p);
 extern void func_020409B4(u32 index);
 extern void func_02041B6C(u32 bit);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
+extern struct U16Vec *func_02045874(const struct U16Vec *src, u32 heapId);
 extern void func_02045808(struct U16Vec *vec);
-extern void *func_02020D18(u32 heap);
-extern void func_02020DC8(char *p, int a);
-extern void func_02020D3C(struct D *p);
+extern struct BmpCursor *BMP_CURSOR_Create(u32 heap);
+extern void BMP_CURSOR_SetTileBitmap(struct BmpCursor *cursor, int heapId);
+extern void BMP_CURSOR_Delete(struct BmpCursor *p);
 extern u32  func_020362DC(void);
 extern void func_020061E4(u32 id);
-extern void *func_02045770(struct Descriptor *p);
-extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void *func_02045770(struct BmpWin *p);
+extern void func_02043AF4(void *bitmap, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern s32 _s32_div_f(s32 num, s32 den);
-extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-extern void func_02020D5C(struct Desc *d, u32 x, u32 y, struct Handle *h, void *dst, u32 f);
+extern u32 func_0201D304(const void *str, struct GfFont *font, u32 flags);
+extern void func_02043B5C(void *bitmap, u8 value);
+extern void func_0201C6FC(void *que, void *bitmap, u32 x, u32 y, const void *str, struct GfFont *font);
+extern void BMP_CURSOR_Draw(struct BmpCursor *c, u32 x, u32 y, PrintUtil *util, void *que, struct GfFont *font);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 func_02045C04(struct MsgBank *bank);
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201DC80(struct Font *p);
-extern u32 func_0201C440(void *p);
-extern void func_02045374(struct Cfg *cfg);
-extern void func_02045334(struct Descriptor *d);
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_0201D83C(void *ptr);
-extern u32 func_020452E8(struct Descriptor *d);
-u8 func_0201F53C(int i);
-u8 func_0201F548(int i);
-void func_0201F554(u32 a, u32 b, u32 c, u32 d);
-void func_0201F57C(u32 a, u32 b, u32 c, u16 d);
-void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
-void *func_0201F5DC(void *a0, u32 a1, u32 a2, u16 a3);
-void func_0201F614(int a, u32 x);
-void func_0201F628(u16 id, u8 x, u8 y, u8 w, u8 h, u32 pal, u16 base);
-void func_0201F73C(struct Descriptor *a0, int a1, u16 a2, u32 a3);
-void func_0201F79C(void *desc, u32 kind, u32 base, u32 pal);
-void func_0201F7A8(void *desc, u32 kind);
-BmpMenuWork *func_0201F81C(u32 n, u32 heap);
-u32 func_0201F868(void *p);
-void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-void func_0201F898(struct Slot *table, u32 a, u32 b, u32 tag);
-struct Slot *func_0201F8B8(struct Slot *s, u32 *tag_out);
-void func_0201F8F4(struct Slot *s);
-u32 func_0201F91C(struct Slot *s);
-BmpMenu *func_0201F93C(const BmpMenuHeader *hdr, u8 px, u8 py, u8 pos, u16 heap, u32 cancel);
-BmpMenu *func_0201F9D0(const BmpMenuHeader *hdr, u8 px, u8 py, u8 pos, u16 heap, u32 cancel);
-void func_0201F9E8(BmpMenu *o, u8 *out);
-u32 func_0201FA04(BmpMenu *o);
-int func_0201FAD0(BmpMenu *o, u32 dir, u32 sound);
-int func_0201FB30(BmpMenu *o, u32 dir);
-u32 func_0201FC1C(BmpMenu *o);
-void func_0201FC5C(BmpMenu *m);
-void func_0201FD18(BmpMenu *m);
-void func_0201FD54(BmpMenu *m, u8 *x, u8 *y, u8 pos);
-BmpMenu *func_0201FDA0(const WinDat *winDat, u16 base, u8 pal, u8 pos, u16 heap);
-u32 func_0201FEBC(BmpMenu *p);
-void func_0201FEF4(BmpMenu *o);
+extern struct BmpWin *func_020450F0(u32 bgFrame, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slotId);
+extern struct GfFont *func_0201D7EC(int fontKind, int flagA, int flagB, int flagC, u32 heapId);
+extern u32 func_0201DC80(struct GfFont *p);
+extern void *func_0201C440(void *heapIdAsPtr);
+extern void func_02045374(struct BmpWin *cfg);
+extern void func_02045334(struct BmpWin *win);
+extern u32 func_0201C4E4(void *que);
+extern void func_0201C6EC(void *que);
+extern void func_0201C4C0(void *que);
+extern u32 func_0201D83C(struct GfFont *font);
+extern u32 func_020452E8(struct BmpWin *win);
+u8 func_0201F53C(int index);
+u8 func_0201F548(int index);
+void func_0201F554(u32 layer, u32 tileOffset, u32 frameId, u32 heapId);
+void func_0201F57C(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
+void func_0201F5BC(u32 layer, u32 tileOffset, u32 palSlot, u32 frameId, u16 heapId);
+void *func_0201F5DC(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
+void func_0201F614(int layer, u32 packedOffsets);
+void func_0201F628(u16 bgId, u8 x, u8 y, u8 width, u8 height, u32 palette, u16 tileBase);
+void func_0201F73C(struct BmpWin *win, int commitMode, u16 tileBase, u32 palette);
+void func_0201F79C(struct BmpWin *desc, u32 commitMode, u32 tileBase, u32 palette);
+void func_0201F7A8(struct BmpWin *desc, u32 commitMode);
+BmpMenuWork *func_0201F81C(u32 count, u32 heapId);
+u32 func_0201F868(void *items);
+void func_0201F878(BmpMenuWork *items, struct MsgBank *bank, u32 msgId, u32 param, u32 heapId);
+void func_0201F898(BmpMenuWork *items, const struct U16Vec *src, u32 param, u32 heapId);
+BmpMenuWork *BMP_MENUWORK_FindFreeEntry(BmpMenuWork *items, u32 *outTerminatorValue);
+void func_0201F8F4(BmpMenuWork *items);
+u32 func_0201F91C(BmpMenuWork *items);
+BmpMenu *BMP_MENU_Create(const BmpMenuHeader *header, u8 originX, u8 originY, u8 startPos, u16 heapId, u32 cancelMask);
+BmpMenu *BMP_MENU_Add(const BmpMenuHeader *header, u8 originX, u8 originY, u8 startPos, u16 heapId, u32 cancelMask);
+void BMP_MENU_Delete(BmpMenu *menu, u8 *outSelected);
+u32 BMP_MENU_ProcessInput(BmpMenu *menu);
+int BMP_MENU_MoveCursor(BmpMenu *menu, u32 dir, u32 sfxId);
+int BMP_MENU_StepSelection(BmpMenu *menu, u32 dir);
+u32 BMP_MENU_GetMaxItemWidth(BmpMenu *menu);
+void BMP_MENU_DrawItems(BmpMenu *menu);
+void BMP_MENU_DrawCursor(BmpMenu *menu);
+void BMP_MENU_GetItemPixelPos(BmpMenu *menu, u8 *outX, u8 *outY, u8 itemPos);
+BmpMenu *func_0201FDA0(const WinDat *winData, u16 tileBase, u8 palette, u8 startPos, u16 heapId);
+u32 func_0201FEBC(BmpMenu *menu);
+void BMP_MENU_DeleteYesNo(BmpMenu *menu);
 extern u8 sub_0209E8C8_Map[];
 extern u8 sub_0209E8CA_Map[];
 extern char sBmpMenuWorkFile[];
@@ -227,9 +213,9 @@ extern char sBmpMenuFile[];
 
 
 
-u8 func_0201F53C(int i)
+u8 func_0201F53C(int index)
 {
-    return sub_0209E8C8_Map[i];
+    return sub_0209E8C8_Map[index];
 }
 
 
@@ -271,9 +257,9 @@ u8 func_0201F53C(int i)
  *   python tools/match.py one --src src/matched/func_0201F548.c \
  *       --func func_0201F548 --addr 0x0201F548 --cc 1.1p1 --thumb
  */
-u8 func_0201F548(int i)
+u8 func_0201F548(int index)
 {
-    return sub_0209E8CA_Map[i];
+    return sub_0209E8CA_Map[index];
 }
 
 
@@ -303,9 +289,9 @@ u8 func_0201F548(int i)
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201F554.c  *       --addr 0x0201F554 --thumb
  */
-void func_0201F554(u32 a, u32 b, u32 c, u32 d)
+void func_0201F554(u32 layer, u32 tileOffset, u32 frameId, u32 heapId)
 {
-    func_02049624(5, func_0201F53C(c), a, b, 0, 0, d);
+    func_02049624(5, func_0201F53C(frameId), layer, tileOffset, 0, 0, heapId);
 }
 
 
@@ -316,14 +302,14 @@ void func_0201F554(u32 a, u32 b, u32 c, u32 d)
 
 
 
-void func_0201F57C(u32 a, u32 b, u32 c, u16 d)
+void func_0201F57C(u32 layer, u32 palSlot, u32 frameId, u16 heapId)
 {
-    u32 t = func_0201F548(c);
+    u32 palFileId = func_0201F548(frameId);
 
-    if (a < 4) {
-        func_02049B40(5, t, 0, b * 32, 0x20, d);
+    if (layer < 4) {
+        func_02049B40(5, palFileId, 0, palSlot * 32, 0x20, heapId);
     } else {
-        func_02049B40(5, t, 4, b * 32, 0x20, d);
+        func_02049B40(5, palFileId, 4, palSlot * 32, 0x20, heapId);
     }
 }
 
@@ -347,10 +333,10 @@ void func_0201F57C(u32 a, u32 b, u32 c, u16 d)
  *   python tools/match.py one --src src/matched/func_0201F5BC.c \
  *       --func func_0201F5BC --addr 0x0201F5BC --cc 1.1p1 --thumb
  */
-void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e)
+void func_0201F5BC(u32 layer, u32 tileOffset, u32 palSlot, u32 frameId, u16 heapId)
 {
-    func_0201F554(a, b, d, e);
-    func_0201F57C(a, c, d, e);
+    func_0201F554(layer, tileOffset, frameId, heapId);
+    func_0201F57C(layer, palSlot, frameId, heapId);
 }
 
 
@@ -365,12 +351,12 @@ void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e)
  *   python tools/match.py one --src src/matched/func_0201F5DC.c \
  *       --func func_0201F5DC --addr 0x0201F5DC --cc 1.1p1 --thumb
  */
-void *func_0201F5DC(void *a0, u32 a1, u32 a2, u16 a3)
+void *func_0201F5DC(u32 layer, u32 palSlot, u32 frameId, u16 heapId)
 {
-    void *r = func_020496E4(5, func_0201F53C(a2), (u32)a0, 0, 0, a3);
+    void *charResult = func_020496E4(5, func_0201F53C(frameId), layer, 0, 0, heapId);
 
-    func_0201F57C((u32)a0, a1, a2, a3);
-    return r;
+    func_0201F57C(layer, palSlot, frameId, heapId);
+    return charResult;
 }
 
 
@@ -381,9 +367,9 @@ void *func_0201F5DC(void *a0, u32 a1, u32 a2, u16 a3)
 
 
 
-void func_0201F614(int a, u32 x)
+void func_0201F614(int layer, u32 packedOffsets)
 {
-    func_0203FB44((int)a, (u16)x, (u16)(x >> 16));
+    func_0203FB44(layer, (u16)packedOffsets, (u16)(packedOffsets >> 16));
 }
 
 
@@ -457,25 +443,25 @@ void func_0201F614(int a, u32 x)
  *   python tools/match.py one --src src/matched/func_0201F628.c \
  *       --func func_0201F628 --addr 0x0201F628 --cc 1.1p1 --thumb
  */
-void func_0201F628(u16 id, u8 x, u8 y, u8 w, u8 h, u32 pal, u16 base)
+void func_0201F628(u16 bgId, u8 x, u8 y, u8 width, u8 height, u32 palette, u16 tileBase)
 {
-    u32 y0;
-    u32 x0;
-    u32 x1;
-    u32 y1;
+    u32 top;
+    u32 left;
+    u32 right;
+    u32 bottom;
 
-    y0 = y - 1;
-    x0 = x - 1;
-    func_02041300(id, base,            x0, y0, 1, 1, pal);
-    func_02041300(id, (u16)(base + 1), x,      y0, w, 1, pal);
-    x1 = x + w;
-    func_02041300(id, (u16)(base + 2), x1, y0, 1, 1, pal);
-    func_02041300(id, (u16)(base + 3), x0, y,      1, h, pal);
-    func_02041300(id, (u16)(base + 5), x1, y,      1, h, pal);
-    y1 = y + h;
-    func_02041300(id, (u16)(base + 6), x0, y1, 1, 1, pal);
-    func_02041300(id, (u16)(base + 7), x,      y1, w, 1, pal);
-    func_02041300(id, (u16)(base + 8), x1, y1, 1, 1, pal);
+    top = y - 1;
+    left = x - 1;
+    func_02041300(bgId, tileBase,            left, top, 1, 1, palette);
+    func_02041300(bgId, (u16)(tileBase + 1), x,      top, width, 1, palette);
+    right = x + width;
+    func_02041300(bgId, (u16)(tileBase + 2), right, top, 1, 1, palette);
+    func_02041300(bgId, (u16)(tileBase + 3), left, y,      1, height, palette);
+    func_02041300(bgId, (u16)(tileBase + 5), right, y,      1, height, palette);
+    bottom = y + height;
+    func_02041300(bgId, (u16)(tileBase + 6), left, bottom, 1, 1, palette);
+    func_02041300(bgId, (u16)(tileBase + 7), x,      bottom, width, 1, palette);
+    func_02041300(bgId, (u16)(tileBase + 8), right, bottom, 1, 1, palette);
 }
 
 
@@ -489,20 +475,20 @@ void func_0201F628(u16 id, u8 x, u8 y, u8 w, u8 h, u32 pal, u16 base)
  *   exists outside the range under test. --suggest-split confirms no
  *   partition frees it (best partition: 0 pieces, function left out).
  */
-void func_0201F73C(struct Descriptor *a0, int a1, u16 a2, u32 a3)
+void func_0201F73C(struct BmpWin *win, int commitMode, u16 tileBase, u32 palette)
 {
-    u8 ctx = func_02045730(a0);
-    u8 v10 = func_02045758(a0);
-    u8 v14 = func_02045760(a0);
-    u8 v18 = func_02045748(a0);
-    u8 v0  = func_02045750(a0);
+    u8 bgId = func_02045730(win);
+    u8 x = func_02045758(win);
+    u8 y = func_02045760(win);
+    u8 width = func_02045748(win);
+    u8 height = func_02045750(win);
 
-    func_0201F628(ctx, v10, v14, v18, v0, a3, a2);
+    func_0201F628(bgId, x, y, width, height, palette, tileBase);
 
-    if (a1 == 0) {
-        func_020409B4(ctx);
-    } else if (a1 == 1) {
-        func_02041B6C(ctx);
+    if (commitMode == 0) {
+        func_020409B4(bgId);
+    } else if (commitMode == 1) {
+        func_02041B6C(bgId);
     }
 }
 
@@ -526,9 +512,9 @@ void func_0201F73C(struct Descriptor *a0, int a1, u16 a2, u32 a3)
  *   python tools/match.py one --src src/matched/func_0201F79C.c \
  *       --func func_0201F79C --addr 0x0201F79C --cc 1.1p1 --thumb
  */
-void func_0201F79C(void *desc, u32 kind, u32 base, u32 pal)
+void func_0201F79C(struct BmpWin *desc, u32 commitMode, u32 tileBase, u32 palette)
 {
-    func_0201F73C(desc, kind, (u16)base, pal);
+    func_0201F73C(desc, commitMode, (u16)tileBase, palette);
 }
 
 
@@ -555,26 +541,26 @@ void func_0201F79C(void *desc, u32 kind, u32 base, u32 pal)
  *   python tools/match.py one --src src/matched/func_0201F7A8.c \
  *       --func func_0201F7A8 --addr 0x0201F7A8 --cc 1.1p1 --thumb
  */
-void func_0201F7A8(void *desc, u32 kind)
+void func_0201F7A8(struct BmpWin *desc, u32 commitMode)
 {
-    u8 id;
-    u8 a;
-    u8 b;
-    u8 c;
-    u8 d;
+    u8 bgId;
+    u8 x;
+    u8 y;
+    u8 width;
+    u8 height;
 
-    id = func_02045730(desc);
-    a = func_02045758(desc);
-    b = func_02045760(desc);
-    c = func_02045748(desc);
-    d = func_02045750(desc);
-    func_02041300(id, 0, (u8)(a - 1), (u8)(b - 1), (u8)(c + 2), (u8)(d + 2), 0);
-    if (kind == 0) {
-        func_020409B4(id);
+    bgId = func_02045730(desc);
+    x = func_02045758(desc);
+    y = func_02045760(desc);
+    width = func_02045748(desc);
+    height = func_02045750(desc);
+    func_02041300(bgId, 0, (u8)(x - 1), (u8)(y - 1), (u8)(width + 2), (u8)(height + 2), 0);
+    if (commitMode == 0) {
+        func_020409B4(bgId);
         return;
     }
-    if (kind == 1) {
-        func_02041B6C(id);
+    if (commitMode == 1) {
+        func_02041B6C(bgId);
     }
 }
 
@@ -601,21 +587,21 @@ void func_0201F7A8(void *desc, u32 kind)
  *   python tools/match.py one --src src/matched/func_0201F81C.c \
  *       --func func_0201F81C --addr 0x0201F81C --thumb
  */
-BmpMenuWork *func_0201F81C(u32 n, u32 heap)
+BmpMenuWork *func_0201F81C(u32 count, u32 heapId)
 {
-    BmpMenuWork *p;
-    u32 i;
+    BmpMenuWork *items;
+    u32 idx;
 
-    p = func_02030734((u16)heap, (n + 1) * sizeof(BmpMenuWork), 1, sBmpMenuWorkFile, 0x29);
-    if (p != 0) {
-        for (i = 0; i < n; i++) {
-            p[i].str = 0;
-            p[i].param = 0;
+    items = func_02030734((u16)heapId, (count + 1) * sizeof(BmpMenuWork), 1, sBmpMenuWorkFile, 0x29);
+    if (items != 0) {
+        for (idx = 0; idx < count; idx++) {
+            items[idx].u.text = 0;
+            items[idx].value = 0;
         }
-        p[i].str = (const void *)0xFFFFFFFF;
-        p[i].param = heap;
+        items[idx].u.raw = 0xFFFFFFFF;
+        items[idx].value = heapId;
     }
-    return p;
+    return items;
 }
 
 
@@ -638,10 +624,10 @@ BmpMenuWork *func_0201F81C(u32 n, u32 heap)
  *   python tools/match.py one --src src/matched/func_0201F868.c \
  *       --func func_0201F868 --addr 0x0201F868 --cc 1.1p1 --thumb
  */
-u32 func_0201F868(void *p)
+u32 func_0201F868(void *items)
 {
-    func_0201F8F4(p);
-    return func_020307B0(p);
+    func_0201F8F4(items);
+    return func_020307B0(items);
 }
 
 
@@ -653,7 +639,7 @@ u32 func_0201F868(void *p)
 
 
 /*
- * Claims a slot through func_0201F8B8 and, if one was free, fills it with the
+ * Claims a slot through BMP_MENUWORK_FindFreeEntry and, if one was free, fills it with the
  * handle func_02045EC0 returns and the caller's tag.  The tag word the
  * claim function writes back is never used here; it lands in the pushed r3
  * home slot at sp+0, which is exactly why the prologue pushes r3 at all.
@@ -664,15 +650,15 @@ u32 func_0201F868(void *p)
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0201F878.c  *       --func func_0201F878 --addr 0x0201F878 --cc 1.1p1 --thumb
  */
-void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap)
+void func_0201F878(BmpMenuWork *items, struct MsgBank *bank, u32 msgId, u32 param, u32 heapId)
 {
-    struct Slot *slot;
+    BmpMenuWork *entry;
     u32          unused;
 
-    slot = func_0201F8B8(table, &unused);
-    if (slot != 0) {
-        slot->u.ptr = func_02045EC0((struct MsgBank *)a, b);
-        slot->tag = tag;
+    entry = BMP_MENUWORK_FindFreeEntry(items, &unused);
+    if (entry != 0) {
+        entry->u.handle = func_02045EC0(bank, msgId);
+        entry->value = param;
     }
 }
 
@@ -682,7 +668,7 @@ void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap)
 
 
 /*
- * Claims a slot through func_0201F8B8 and, if one was free, fills it with the
+ * Claims a slot through BMP_MENUWORK_FindFreeEntry and, if one was free, fills it with the
  * handle func_02045874 returns and the caller's third argument.  Note the
  * argument roles are not the same as in the neighbouring func_0201F878: here
  * the builder takes the caller's *fourth* argument and the slot's tag word
@@ -696,15 +682,15 @@ void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap)
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0201F898.c  *       --func func_0201F898 --addr 0x0201F898 --cc 1.1p1 --thumb
  */
-void func_0201F898(struct Slot *table, u32 a, u32 b, u32 tag)
+void func_0201F898(BmpMenuWork *items, const struct U16Vec *src, u32 param, u32 heapId)
 {
-    struct Slot *slot;
-    u32          unused;
+    BmpMenuWork *entry;
+    u32          unusedTerminator;
 
-    slot = func_0201F8B8(table, &unused);
-    if (slot != 0) {
-        slot->u.ptr = func_02045874((struct U16Vec *)a, tag);
-        slot->tag = b;
+    entry = BMP_MENUWORK_FindFreeEntry(items, &unusedTerminator);
+    if (entry != 0) {
+        entry->u.handle = func_02045874(src, heapId);
+        entry->value = param;
     }
 }
 
@@ -734,23 +720,23 @@ void func_0201F898(struct Slot *table, u32 a, u32 b, u32 tag)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F8B8.c \
- *       --func func_0201F8B8 --addr 0x0201F8B8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_FindFreeEntry.c \
+ *       --func BMP_MENUWORK_FindFreeEntry --addr 0x0201F8B8 --cc 1.1p1 --thumb
  */
-struct Slot *func_0201F8B8(struct Slot *s, u32 *tag_out)
+BmpMenuWork *BMP_MENUWORK_FindFreeEntry(BmpMenuWork *items, u32 *outTerminatorValue)
 {
-    struct Slot *free_slot;
+    BmpMenuWork *freeEntry;
 
-    while (s->u.raw != 0) {
-        if (s->u.raw == 0xFFFFFFFF)
+    while (items->u.raw != 0) {
+        if (items->u.raw == 0xFFFFFFFF)
             return 0;
-        s++;
+        items++;
     }
-    free_slot = s;
-    while (s->u.raw != 0xFFFFFFFF)
-        s++;
-    *tag_out = s->tag;
-    return free_slot;
+    freeEntry = items;
+    while (items->u.raw != 0xFFFFFFFF)
+        items++;
+    *outTerminatorValue = items->value;
+    return freeEntry;
 }
 
 
@@ -782,17 +768,17 @@ struct Slot *func_0201F8B8(struct Slot *s, u32 *tag_out)
  *   python tools/match.py one --src src/matched/func_0201F8F4.c \
  *       --func func_0201F8F4 --addr 0x0201F8F4 --cc 1.1p1 --thumb
  */
-void func_0201F8F4(struct Slot *s)
+void func_0201F8F4(BmpMenuWork *items)
 {
-    if (s->u.raw == 0xFFFFFFFF)
+    if (items->u.raw == 0xFFFFFFFF)
         return;
     do {
-        if (s->u.ptr == 0)
+        if (items->u.handle == 0)
             return;
-        func_02045808(s->u.ptr);
-        s->u.raw = 0;
-        s++;
-    } while (s->u.raw != 0xFFFFFFFF);
+        func_02045808(items->u.handle);
+        items->u.raw = 0;
+        items++;
+    } while (items->u.raw != 0xFFFFFFFF);
 }
 
 
@@ -802,7 +788,7 @@ void func_0201F8F4(struct Slot *s)
 
 /*
  * Counts the occupied entries of the same eight-byte-stride table
- * func_0201F8B8 claims from, stopping at the 0xFFFFFFFF terminator.  An empty
+ * BMP_MENUWORK_FindFreeEntry claims from, stopping at the 0xFFFFFFFF terminator.  An empty
  * table returns zero without entering the loop.
  *
  * Two shape facts.  The terminator constant is `subs r1, r3, #1` off the
@@ -819,19 +805,19 @@ void func_0201F8F4(struct Slot *s)
  *   python tools/match.py one --src src/matched/func_0201F91C.c \
  *       --func func_0201F91C --addr 0x0201F91C --cc 1.1p1 --thumb
  */
-u32 func_0201F91C(struct Slot *s)
+u32 func_0201F91C(BmpMenuWork *items)
 {
-    u32 n;
+    u32 count;
 
-    n = 0;
-    if (s->u.raw != 0xFFFFFFFF) {
+    count = 0;
+    if (items->u.raw != 0xFFFFFFFF) {
         do {
-            if (s->u.ptr != 0)
-                n++;
-            s++;
-        } while (s->u.raw != 0xFFFFFFFF);
+            if (items->u.handle != 0)
+                count++;
+            items++;
+        } while (items->u.raw != 0xFFFFFFFF);
     }
-    return n;
+    return count;
 }
 
 
@@ -842,11 +828,11 @@ u32 func_0201F91C(struct Slot *s)
 /*
  * bmp_menu.c constructor (line 0x61, __FILE__ 0x020A7384 "bmp_menu.c"):
  * allocate the 0x38-byte menu, copy the 0x24-byte header in, create the
- * cursor, record cancel mask, start position, widest item (func_0201FC1C),
- * heap id and the pixel origin, then draw (func_0201FC5C) and place the
- * cursor (func_0201FD18).
+ * cursor, record cancelMask mask, start position, widest item (BMP_MENU_GetMaxItemWidth),
+ * heap id and the pixel origin, then draw (BMP_MENU_DrawItems) and place the
+ * cursor (BMP_MENU_DrawCursor).
  *
- * The residue in docs/notes/func_0201F93C.c.txt (the stack-passed u16 heap
+ * The residue in docs/notes/BMP_MENU_Create.c.txt (the stack-passed u16 heap
  * cached once in a callee-saved register instead of reloaded, 92 bytes out)
  * depended on the conversion at the allocation call: the allocator's heap
  * parameter is `u32`, and the explicit `(u32)(int)heap` keeps that site's
@@ -861,27 +847,27 @@ u32 func_0201F91C(struct Slot *s)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F93C.c \
- *       --func func_0201F93C --addr 0x0201F93C --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENU_Create.c \
+ *       --func BMP_MENU_Create --addr 0x0201F93C --thumb
  */
-BmpMenu *func_0201F93C(const BmpMenuHeader *hdr, u8 px, u8 py, u8 pos, u16 heap, u32 cancel)
+BmpMenu *BMP_MENU_Create(const BmpMenuHeader *header, u8 originX, u8 originY, u8 startPos, u16 heapId, u32 cancelMask)
 {
-    BmpMenu *m = func_02030734((u32)(int)heap, sizeof(BmpMenu), 1, sBmpMenuFile, 0x61);
+    BmpMenu *menu = func_02030734((u32)(int)heapId, sizeof(BmpMenu), 1, sBmpMenuFile, 0x61);
 
-    m->hdr = *hdr;
-    m->cursor = func_02020D18(heap);
-    m->cancel = cancel;
-    m->pos = pos;
-    m->width = func_0201FC1C(m);
-    m->heap = heap;
-    m->px = px;
-    m->py = py;
-    func_02020DC8(m->cursor, (u32)heap);
-    m->xspc = m->hdr.unk0c;
-    m->yspc = m->hdr.unk0e;
-    func_0201FC5C(m);
-    func_0201FD18(m);
-    return m;
+    menu->header = *header;
+    menu->cursor = BMP_CURSOR_Create(heapId);
+    menu->cancelMask = cancelMask;
+    menu->selected = startPos;
+    menu->colWidth = BMP_MENU_GetMaxItemWidth(menu);
+    menu->heapId = heapId;
+    menu->originX = originX;
+    menu->originY = originY;
+    BMP_CURSOR_SetTileBitmap(menu->cursor, (u32)heapId);
+    menu->xPad = menu->header.xPad;
+    menu->lineHeight = menu->header.lineHeight;
+    BMP_MENU_DrawItems(menu);
+    BMP_MENU_DrawCursor(menu);
+    return menu;
 }
 
 
@@ -889,7 +875,7 @@ BmpMenu *func_0201F93C(const BmpMenuHeader *hdr, u8 px, u8 py, u8 pos, u16 heap,
 
 
 /*
- * A pass-through onto func_0201F93C: the four register arguments are never
+ * A pass-through onto BMP_MENU_Create: the four register arguments are never
  * touched and only the two stacked ones are copied down into the new frame.
  * The fifth is a halfword and needs `add r4, sp, #0x10` + `ldrh` because
  * Thumb has no halfword load with an sp base; the sixth is a word and loads
@@ -899,18 +885,18 @@ BmpMenu *func_0201F93C(const BmpMenuHeader *hdr, u8 px, u8 py, u8 pos, u16 heap,
  * in the image except the one in this function, and the range cannot be cut
  * smaller than the single function, so no witness exists.  0x0201F93C is a
  * 148-byte constructor (debug allocator at 0x02030734, 0x38 bytes, line 97,
- * a nine-word ldm/stm copy of the caller's descriptor, then func_0201FC1C)
+ * a nine-word ldm/stm copy of the caller's descriptor, then BMP_MENU_GetMaxItemWidth)
  * and was not attempted in wave 20B for budget reasons, not for difficulty.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F9D0.c \
- *       --func func_0201F9D0 --addr 0x0201F9D0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENU_Add.c \
+ *       --func BMP_MENU_Add --addr 0x0201F9D0 --cc 1.1p1 --thumb
  */
-BmpMenu *func_0201F9D0(const BmpMenuHeader *hdr, u8 px, u8 py, u8 pos, u16 heap, u32 cancel)
+BmpMenu *BMP_MENU_Add(const BmpMenuHeader *header, u8 originX, u8 originY, u8 startPos, u16 heapId, u32 cancelMask)
 {
-    return func_0201F93C(hdr, px, py, pos, heap, cancel);
+    return BMP_MENU_Create(header, originX, originY, startPos, heapId, cancelMask);
 }
 
 
@@ -918,13 +904,13 @@ BmpMenu *func_0201F9D0(const BmpMenuHeader *hdr, u8 px, u8 py, u8 pos, u16 heap,
 
 
 
-void func_0201F9E8(BmpMenu *o, u8 *out)
+void BMP_MENU_Delete(BmpMenu *menu, u8 *outSelected)
 {
-    if (out != 0) {
-        *out = o->pos;
+    if (outSelected != 0) {
+        *outSelected = menu->selected;
     }
-    func_02020D3C((struct D *)o->cursor);
-    func_020307B0(o);
+    BMP_CURSOR_Delete(menu->cursor);
+    func_020307B0(menu);
 }
 
 
@@ -935,86 +921,85 @@ void func_0201F9E8(BmpMenu *o, u8 *out)
  * The menu's per-frame input step.  Field +0x33 is cleared first and holds
  * the direction that was accepted this frame (1..4).  A is a confirm: it
  * plays 0x54C and answers the selected entry's second word.  Any bit in the
- * caller-supplied cancel mask at +0x28 plays 0x551 and answers -2.  The four
- * direction bits each ask func_0201FAD0 to move the cursor with its own
+ * caller-supplied cancelMask mask at +0x28 plays 0x551 and answers -2.  The four
+ * direction bits each ask BMP_MENU_MoveCursor to move the cursor with its own
  * sound id; a successful move records the direction at +0x33.  Every
  * direction path answers -1, and a frame with nothing pressed answers -1 as
  * well, spelled off the last mask constant so it costs no extra byte.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201FA04.c \
- *       --func func_0201FA04 --addr 0x0201FA04 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENU_ProcessInput.c \
+ *       --func BMP_MENU_ProcessInput --addr 0x0201FA04 --cc 1.1p1 --thumb
  */
-u32 func_0201FA04(BmpMenu *o)
+u32 BMP_MENU_ProcessInput(BmpMenu *menu)
 {
-    u32 keys = func_020362DC();
-    u32 one = 1;
+    u32 pressed = func_020362DC();
 
-    o->lastDir = 0;
+    menu->movedDir = 0;
 
-    if (keys & one) {
+    if (pressed & 1) {
         func_020061E4(0x54C);
-        return o->hdr.items[o->pos].param;
+        return menu->header.items[menu->selected].value;
     }
-    if (keys & o->cancel) {
+    if (pressed & menu->cancelMask) {
         func_020061E4(0x551);
-        return one - 3;
+        return -2;
     }
-    if (keys & 0x40) {
-        if (func_0201FAD0(o, 0, 0x548) == 1) {
-            o->lastDir = (u8)one;
+    if (pressed & 0x40) {
+        if (BMP_MENU_MoveCursor(menu, 0, 0x548) == 1) {
+            menu->movedDir = 1;
         }
         return -1;
     }
-    if (keys & 0x80) {
-        if (func_0201FAD0(o, one, 0x548) == 1) {
-            o->lastDir = 2;
+    if (pressed & 0x80) {
+        if (BMP_MENU_MoveCursor(menu, 1, 0x548) == 1) {
+            menu->movedDir = 2;
         }
         return -1;
     }
-    if (keys & 0x20) {
-        if (func_0201FAD0(o, 2, 0x548) == 1) {
-            o->lastDir = 3;
+    if (pressed & 0x20) {
+        if (BMP_MENU_MoveCursor(menu, 2, 0x548) == 1) {
+            menu->movedDir = 3;
         }
         return -1;
     }
-    if (keys & 0x10) {
-        if (func_0201FAD0(o, 3, 0x548) == 1) {
-            o->lastDir = 4;
+    if (pressed & 0x10) {
+        if (BMP_MENU_MoveCursor(menu, 3, 0x548) == 1) {
+            menu->movedDir = 4;
         }
         return -1;
     }
-    return 0x10 - 0x11;
+    return -1;
 }
 
 
 
 /*
- * Commit a cursor move: remember where the cursor was, ask func_0201FB30 to
+ * Commit a cursor move: remember where the cursor was, ask BMP_MENU_StepSelection to
  * step it, and on a refusal answer 0 without side effects.  On a move, redraw
- * from the old cell through func_0201FD54 into an on-stack pair, repaint at
+ * from the old cell through BMP_MENU_GetItemPixelPos into an on-stack pair, repaint at
  * the new position with func_02043AF4 and play the sound id the caller passed
  * in r2.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201FAD0.c \
- *       --func func_0201FAD0 --addr 0x0201FAD0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENU_MoveCursor.c \
+ *       --func BMP_MENU_MoveCursor --addr 0x0201FAD0 --cc 1.1p1 --thumb
  */
-int func_0201FAD0(BmpMenu *o, u32 dir, u32 sound)
+int BMP_MENU_MoveCursor(BmpMenu *menu, u32 dir, u32 sfxId)
 {
-    u8 cell[2];
-    u8 old;
+    u8 cellXY[2];
+    u8 oldSelected;
 
-    old = o->pos;
-    if (func_0201FB30(o, dir) == 0) {
+    oldSelected = menu->selected;
+    if (BMP_MENU_StepSelection(menu, dir) == 0) {
         return 0;
     }
 
-    func_0201FD54(o, &cell[1], &cell[0], old);
-    func_02043AF4((struct Bmp *)((u32)func_02045770((struct Descriptor *)o->hdr.win)), cell[1], cell[0], o->xspc,
-                  o->yspc, 0xff);
-    func_0201FD18(o);
-    func_020061E4(sound);
+    BMP_MENU_GetItemPixelPos(menu, &cellXY[1], &cellXY[0], oldSelected);
+    func_02043AF4(func_02045770(menu->header.win), cellXY[1], cellXY[0], menu->xPad,
+                  menu->lineHeight, 0xff);
+    BMP_MENU_DrawCursor(menu);
+    func_020061E4(sfxId);
     return 1;
 }
 
@@ -1030,135 +1015,135 @@ int func_0201FAD0(BmpMenu *o, u32 dir, u32 sound)
  * one _s32_div_f call per direction, not a division and a modulo.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201FB30.c \
- *       --func func_0201FB30 --addr 0x0201FB30 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENU_StepSelection.c \
+ *       --func BMP_MENU_StepSelection --addr 0x0201FB30 --cc 1.1p1 --thumb
  */
-int func_0201FB30(BmpMenu *o, u32 dir)
+int BMP_MENU_StepSelection(BmpMenu *menu, u32 dir)
 {
-    s8 next;
-    u8 cols;
-    u8 cur;
+    s8 nextPos;
+    u8 perColumn;
+    u8 curPos;
 
     if (dir == 0) {
-        cols = o->hdr.ymax;
-        if (cols <= 1) {
+        perColumn = menu->header.itemsPerColumn;
+        if (perColumn <= 1) {
             return 0;
         }
-        cur = o->pos;
-        if (cur % cols == 0) {
-            if (o->hdr.bf0b6 == 0) {
+        curPos = menu->selected;
+        if (curPos % perColumn == 0) {
+            if (menu->header.wrap == 0) {
                 return 0;
             }
-            next = (s8)(cur + (cols - 1));
+            nextPos = (s8)(curPos + (perColumn - 1));
         } else {
-            next = (s8)(cur - 1);
+            nextPos = (s8)(curPos - 1);
         }
     } else if (dir == 1) {
-        cols = o->hdr.ymax;
-        if (cols <= 1) {
+        perColumn = menu->header.itemsPerColumn;
+        if (perColumn <= 1) {
             return 0;
         }
-        cur = o->pos;
-        if (cur % cols == cols - 1) {
-            if (o->hdr.bf0b6 == 0) {
+        curPos = menu->selected;
+        if (curPos % perColumn == perColumn - 1) {
+            if (menu->header.wrap == 0) {
                 return 0;
             }
-            next = (s8)(cur - (cols - 1));
+            nextPos = (s8)(curPos - (perColumn - 1));
         } else {
-            next = (s8)(cur + 1);
+            nextPos = (s8)(curPos + 1);
         }
     } else if (dir == 2) {
-        u8 rows = o->hdr.xmax;
+        u8 numColumns = menu->header.numColumns;
 
-        if (rows <= 1) {
+        if (numColumns <= 1) {
             return 0;
         }
-        cols = o->hdr.ymax;
-        cur = o->pos;
-        if (cur < cols) {
-            if (o->hdr.bf0b6 == 0) {
+        perColumn = menu->header.itemsPerColumn;
+        curPos = menu->selected;
+        if (curPos < perColumn) {
+            if (menu->header.wrap == 0) {
                 return 0;
             }
-            next = (s8)(cur + cols * (rows - 1));
+            nextPos = (s8)(curPos + perColumn * (numColumns - 1));
         } else {
-            next = (s8)(cur - cols);
+            nextPos = (s8)(curPos - perColumn);
         }
     } else {
-        u8 rows = o->hdr.xmax;
+        u8 numColumns = menu->header.numColumns;
 
-        if (rows <= 1) {
+        if (numColumns <= 1) {
             return 0;
         }
-        cur = o->pos;
-        cols = o->hdr.ymax;
-        if (cur >= cols * (rows - 1)) {
-            if (o->hdr.bf0b6 == 0) {
+        curPos = menu->selected;
+        perColumn = menu->header.itemsPerColumn;
+        if (curPos >= perColumn * (numColumns - 1)) {
+            if (menu->header.wrap == 0) {
                 return 0;
             }
-            next = (s8)(cur % cols);
+            nextPos = (s8)(curPos % perColumn);
         } else {
-            next = (s8)(cur + cols);
+            nextPos = (s8)(curPos + perColumn);
         }
     }
 
-    if (o->hdr.items[next].param == -3) {
+    if (menu->header.items[nextPos].value == -3) {
         return 0;
     }
-    o->pos = (u8)next;
+    menu->selected = (u8)nextPos;
     return 1;
 }
 
 
 
-u32 func_0201FC1C(BmpMenu *o)
+u32 BMP_MENU_GetMaxItemWidth(BmpMenu *menu)
 {
-    u32 best = 0;
-    u8 i;
+    u32 maxWidth = 0;
+    u8 idx;
 
-    for (i = 0; i < o->hdr.xmax * o->hdr.ymax; i++) {
-        u32 r = (u8)func_0201D304((struct StrObj *)o->hdr.items[i].str, (u32)o->hdr.fontH, 0);
+    for (idx = 0; idx < menu->header.numColumns * menu->header.itemsPerColumn; idx++) {
+        u32 width = (u8)func_0201D304(menu->header.items[idx].u.text, menu->header.fontH, 0);
 
-        if (best < r) {
-            best = r;
+        if (maxWidth < width) {
+            maxWidth = width;
         }
     }
-    return best;
+    return maxWidth;
 }
 
 
 
 
-static inline void PrintUtil_Print(PrintUtil *util, void *que, s32 x, s32 y, const void *str, void *font)
+static inline void PrintUtil_Print(PrintUtil *util, void *que, s32 x, s32 y, const void *str, struct GfFont *font)
 {
-    func_0201C6FC(que, (u32)func_02045770(util->cell), x, y, (void *)str, (u32)font);
-    util->drawn = 1;
+    func_0201C6FC(que, func_02045770(util->win), x, y, str, font);
+    util->printed = 1;
 }
 
 
 
 
 /*
- * bmp_menu.c: the three drawing helpers the constructor func_0201F93C calls.
- *   func_0201FC5C  clear the window bitmap to 0xFF and print every item of
- *                  the xmax * ymax grid (column-major index j + i * ymax)
- *                  through the print-util inline (the func_02020D5C shape:
- *                  print via func_0201C6FC, then util->drawn = 1).
- *   func_0201FD18  unless the cursor-display bitfield (+0x0B bits 4..5) is 1,
+ * bmp_menu.c: the three drawing helpers the constructor BMP_MENU_Create calls.
+ *   BMP_MENU_DrawItems  clear the window bitmap to 0xFF and print every item of
+ *                  the numColumns * itemsPerColumn grid (column-major index j + i * itemsPerColumn)
+ *                  through the print-util inline (the BMP_CURSOR_Draw shape:
+ *                  print via func_0201C6FC, then util->printed = 1).
+ *   BMP_MENU_DrawCursor  unless the cursor-display bitfield (+0x0B bits 4..5) is 1,
  *                  place the cursor at the pixel position of the current item.
- *   func_0201FD54  item index -> pixel position: column = pos / ymax, row =
- *                  pos % ymax.
+ *   BMP_MENU_GetItemPixelPos  item index -> pixel position: column = pos / itemsPerColumn, row =
+ *                  pos % itemsPerColumn.
  *
  * Declaration facts that closed them (all three had DIFF notes,
  * docs/notes/pkt_0201FC5C.c.txt and lane2_func_0201FD54.c.txt):
  *  - 0x0209C0A4 is _s32_div_f (layout/runtime_arm9.txt), which returns the
  *    quotient in r0 and the remainder in r1: the "unexplained" r1 of the
- *    second call in func_0201FD54 is `pos % ymax`, not a register tie
+ *    second call in BMP_MENU_GetItemPixelPos is `pos % itemsPerColumn`, not a register tie
  *    (docs/idioms/div-and-mod-are-two-calls.md).
  *  - header byte +0x0B is three UNSIGNED bitfields 4:2:2 (func_0201FDA0
  *    writes them with 0x0F / 0x30 / 0xC0 masks); an unsigned field gives the
- *    `lsrs` func_0201FD18 needs where a shift expression gave `asrs`.
+ *    `lsrs` BMP_MENU_DrawCursor needs where a shift expression gave `asrs`.
  *  - the print call is an inline taking the util handle first, which is what
- *    keeps the handle in a spill slot across the call in func_0201FC5C.
+ *    keeps the handle in a spill slot across the call in BMP_MENU_DrawItems.
  *
  * Addresses are Black-image addresses.
  *
@@ -1166,44 +1151,44 @@ static inline void PrintUtil_Print(PrintUtil *util, void *que, s32 x, s32 y, con
  *   python tools/match.py tu --src src/matched/unit_0201FC5C.c \
  *       --addr 0x0201FC5C --thumb
  */
-void func_0201FC5C(BmpMenu *m)
+void BMP_MENU_DrawItems(BmpMenu *menu)
 {
-    u8 i, j;
-    u8 x, step;
+    u8 col, row;
+    u8 x, colStep;
 
-    func_02043B5C(func_02045770(m->hdr.win), 0xFF);
-    x = m->px;
-    step = m->width + m->xspc * 2;
-    for (i = 0; i < m->hdr.xmax; i++) {
-        for (j = 0; j < m->hdr.ymax; j++) {
-            PrintUtil_Print(m->hdr.util, m->hdr.que, x,
-                            (u8)(m->py + j * (m->yspc + m->hdr.lineSpc)),
-                            m->hdr.items[j + i * m->hdr.ymax].str, m->hdr.fontH);
+    func_02043B5C(func_02045770(menu->header.win), 0xFF);
+    x = menu->originX;
+    colStep = menu->colWidth + menu->xPad * 2;
+    for (col = 0; col < menu->header.numColumns; col++) {
+        for (row = 0; row < menu->header.itemsPerColumn; row++) {
+            PrintUtil_Print(menu->header.util, menu->header.que, x,
+                            (u8)(menu->originY + row * (menu->lineHeight + menu->header.lineSpacing)),
+                            menu->header.items[row + col * menu->header.itemsPerColumn].u.text, menu->header.fontH);
         }
-        x += step;
+        x += colStep;
     }
 }
 
 
 
 
-void func_0201FD18(BmpMenu *m)
+void BMP_MENU_DrawCursor(BmpMenu *menu)
 {
     u8 x, y;
 
-    if (m->hdr.cDisp != 1) {
-        func_0201FD54(m, &x, &y, m->pos);
-        func_02020D5C(m->cursor, x, y, (struct Handle *)m->hdr.util, m->hdr.que, (u32)m->hdr.fontH);
+    if (menu->header.cursorMode != 1) {
+        BMP_MENU_GetItemPixelPos(menu, &x, &y, menu->selected);
+        BMP_CURSOR_Draw(menu->cursor, x, y, menu->header.util, menu->header.que, menu->header.fontH);
     }
 }
 
 
 
 
-void func_0201FD54(BmpMenu *m, u8 *x, u8 *y, u8 pos)
+void BMP_MENU_GetItemPixelPos(BmpMenu *menu, u8 *outX, u8 *outY, u8 itemPos)
 {
-    *x = (pos / m->hdr.ymax) * (m->width + m->xspc * 2);
-    *y = m->py + (pos % m->hdr.ymax) * (m->yspc + m->hdr.lineSpc);
+    *outX = (itemPos / menu->header.itemsPerColumn) * (menu->colWidth + menu->xPad * 2);
+    *outY = menu->originY + (itemPos % menu->header.itemsPerColumn) * (menu->lineHeight + menu->header.lineSpacing);
 }
 
 
@@ -1211,8 +1196,8 @@ void func_0201FD54(BmpMenu *m, u8 *x, u8 *y, u8 pos)
 
 static inline void PrintUtil_Init(PrintUtil *util, void *cell)
 {
-    util->cell = cell;
-    util->drawn = 0;
+    util->win = cell;
+    util->printed = 0;
 }
 
 
@@ -1221,7 +1206,7 @@ static inline void PrintUtil_Init(PrintUtil *util, void *cell)
 /*
  * bmp_menu.c: the yes/no menu builder (message archive 2 entry 0xE9, a
  * two-item BmpMenuWork list, a BmpMenuHeader filled on the stack, then
- * func_0201F9D0 and the window upload).  docs/notes/pkt_0201FC5C.c.txt.
+ * BMP_MENU_Add and the window upload).  docs/notes/pkt_0201FC5C.c.txt.
  *
  * THE LEVER (wave 18, lane ties_a; it was DIFF 284/284, 2 bytes out for
  * five waves: the r3 home store `str r3, [sp, #0x14]` scheduled after
@@ -1231,41 +1216,41 @@ static inline void PrintUtil_Init(PrintUtil *util, void *cell)
  * callee-stays-behind-a-spill-store.md is the same lever; with u16 heap
  * and the old u32 prototypes the body narrows at every call.
  */
-BmpMenu *func_0201FDA0(const WinDat *winDat, u16 base, u8 pal, u8 pos, u16 heap)
+BmpMenu *func_0201FDA0(const WinDat *winData, u16 tileBase, u8 palette, u8 startPos, u16 heapId)
 {
-    BmpMenuHeader hdr;
-    void *msg;
-    BmpMenuWork *list;
-    BmpMenu *m;
+    BmpMenuHeader header;
+    struct MsgBank *yesNoText;
+    BmpMenuWork *items;
+    BmpMenu *menu;
 
-    msg = func_02045B38(0, 2, 0xE9, heap);
-    list = func_0201F81C(2, (int)(u16)heap);
-    func_0201F878((struct Slot *)list, (u32)msg, 0, 0, heap);
-    func_0201F878((struct Slot *)list, (u32)msg, 1, -2, heap);
-    func_02045C04(msg);
+    yesNoText = func_02045B38(0, 2, 0xE9, heapId);
+    items = func_0201F81C(2, (int)(u16)heapId);
+    func_0201F878(items, yesNoText, 0, 0, heapId);
+    func_0201F878(items, yesNoText, 1, -2, heapId);
+    func_02045C04(yesNoText);
 
-    MI_CpuFill8(&hdr, 0, sizeof(hdr));
-    hdr.items = list;
-    hdr.win = (void *)func_020450F0(winDat->frame, winDat->x, winDat->y, 7, 4, winDat->pal, 1);
-    hdr.xmax = 1;
-    hdr.ymax = 2;
-    hdr.lineSpc = 1;
-    hdr.cDisp = 0;
-    hdr.bf0b6 = 0;
-    hdr.util = func_02030734(heap, sizeof(PrintUtil), 1, sBmpMenuFile, 0x263);
-    hdr.fontH = func_0201D7EC(0x17, 0, 0, 0, heap);
-    hdr.unk0e = func_0201DC80(hdr.fontH);
-    hdr.unk0c = 10;
-    PrintUtil_Init(hdr.util, hdr.win);
-    hdr.que = (void *)func_0201C440((void *)heap);
-    hdr.unk20 = 0;
+    MI_CpuFill8(&header, 0, sizeof(header));
+    header.items = items;
+    header.win = func_020450F0(winData->bgFrame, winData->x, winData->y, 7, 4, winData->palette, 1);
+    header.numColumns = 1;
+    header.itemsPerColumn = 2;
+    header.lineSpacing = 1;
+    header.cursorMode = 0;
+    header.wrap = 0;
+    header.util = func_02030734(heapId, sizeof(PrintUtil), 1, sBmpMenuFile, 0x263);
+    header.fontH = func_0201D7EC(0x17, 0, 0, 0, heapId);
+    header.lineHeight = func_0201DC80(header.fontH);
+    header.xPad = 10;
+    PrintUtil_Init(header.util, header.win);
+    header.que = func_0201C440((void *)heapId);
+    header.committed = 0;
 
-    m = func_0201F9D0(&hdr, 0xE, 0, pos, heap, 2);
-    func_02045374(hdr.win);
-    func_0201F73C(hdr.win, 0, base, pal);
-    func_020409B4(func_02045730(hdr.win));
-    func_02045334(hdr.win);
-    return m;
+    menu = BMP_MENU_Add(&header, 0xE, 0, startPos, heapId, 2);
+    func_02045374(header.win);
+    func_0201F73C(header.win, 0, tileBase, palette);
+    func_020409B4(func_02045730(header.win));
+    func_02045334(header.win);
+    return menu;
 }
 
 
@@ -1276,32 +1261,32 @@ BmpMenu *func_0201FDA0(const WinDat *winDat, u16 base, u8 pal, u8 pos, u16 heap)
  *   python tools/match.py one --src src/pending/func_0201FEBC.c \
  *       --func func_0201FEBC --addr 0x0201FEBC --cc 1.1p1 --thumb
  */
-u32 func_0201FEBC(BmpMenu *p)
+u32 func_0201FEBC(BmpMenu *menu)
 {
-    u32 r = func_0201FA04(p);
-    u32 t = func_0201C4E4((struct PrintSys *)p->hdr.que);
+    u32 result = BMP_MENU_ProcessInput(menu);
+    u32 printDone = func_0201C4E4(menu->header.que);
 
-    if (p->hdr.unk20 == 0 && t != 0) {
-        func_02045334((struct Descriptor *)p->hdr.win);
-        p->hdr.unk20 = 1;
+    if (menu->header.committed == 0 && printDone != 0) {
+        func_02045334(menu->header.win);
+        menu->header.committed = 1;
     }
-    if (r != 0xffffffff) {
-        func_0201FEF4(p);
+    if (result != 0xffffffff) {
+        BMP_MENU_DeleteYesNo(menu);
     }
-    return r;
+    return result;
 }
 
 
 
 
-void func_0201FEF4(BmpMenu *o)
+void BMP_MENU_DeleteYesNo(BmpMenu *menu)
 {
-    func_0201C6EC((struct PrintSys *)o->hdr.que);
-    func_0201C4C0((struct PrintSys *)o->hdr.que);
-    func_020307B0(o->hdr.util);
-    func_0201F7A8(o->hdr.win, 0);
-    func_0201D83C(o->hdr.fontH);
-    func_0201F868(o->hdr.items);
-    func_020452E8(o->hdr.win);
-    func_0201F9E8(o, 0);
+    func_0201C6EC(menu->header.que);
+    func_0201C4C0(menu->header.que);
+    func_020307B0(menu->header.util);
+    func_0201F7A8(menu->header.win, 0);
+    func_0201D83C(menu->header.fontH);
+    func_0201F868(menu->header.items);
+    func_020452E8(menu->header.win);
+    BMP_MENU_Delete(menu, 0);
 }

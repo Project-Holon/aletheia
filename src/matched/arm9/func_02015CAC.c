@@ -1,5 +1,5 @@
 /*
- * function: func_02015CAC
+ * function: MCSS_SetScale
  * address:  0x02015CAC
  * packet:   pkt_02015CAC
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled Thumb leaf in the ARM9 module. Copies three words into the
- * structure at +0xEC. The inverse of func_02015C94.
+ * structure at +0xEC. The inverse of MCSS_GetScale.
  *
  * Addresses are Black-image addresses.
  */
@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-void func_02015CAC(void *p, u32 *src)
+void MCSS_SetScale(void *p, u32 *src)
 {
     ((struct Obj00933 *)p)->fEC = src[0];
     ((struct Obj00933 *)p)->fF0 = src[1];

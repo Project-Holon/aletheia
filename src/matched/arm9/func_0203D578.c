@@ -1,5 +1,5 @@
 /*
- * function: func_0203D578
+ * function: GFL_NET_IsSendQueueEntryOfHandle
  * address:  0x0203D578
  * packet:   pkt_0203D578
  * region:   arm9
@@ -9,23 +9,27 @@
  * isa:      arm
  * status:   EXACT
  *
- * Forwards the first argument through func_020395EC and passes the result
- * with the second argument to func_02039468.
+ * Forwards the first argument through GFL_NET_HANDLE_GetNetHandleID and passes the result
+ * with the second argument to GFL_NET_SYSTEM_IsSendQueueEntry.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D578.c \
- *       --func func_0203D578 --addr 0x0203D578 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_IsSendQueueEntryOfHandle.c \
+ *       --func GFL_NET_IsSendQueueEntryOfHandle --addr 0x0203D578 --arm --cc 1.1p1
+ *
+ * symbols:
+ *   GFL_NET_SYSTEM_IsSendQueueEntry  0x02039468  arm
+ *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
  */
 
 typedef unsigned int u32;
 
 struct Entry;
-extern int func_020395EC(struct Entry *a);
-extern void func_02039468(u32 b, u32 r);
+extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
+extern void GFL_NET_SYSTEM_IsSendQueueEntry(u32 b, u32 r);
 
-void func_0203D578(int a, u32 b)
+void GFL_NET_IsSendQueueEntryOfHandle(int a, u32 b)
 {
-    u32 r = func_020395EC((void *)a);
+    u32 r = GFL_NET_HANDLE_GetNetHandleID((void *)a);
 
-    func_02039468(b, r);
+    GFL_NET_SYSTEM_IsSendQueueEntry(b, r);
 }

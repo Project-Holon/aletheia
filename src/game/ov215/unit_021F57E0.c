@@ -17,13 +17,13 @@
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_0204E720 0x0204E720 arm
- *   func_02031324 0x02031324 arm
+ *   PROCSYS_Create 0x02031324 arm
  *   func_0203D34C 0x0203D34C arm
  *   func_0203133C 0x0203133C arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   func_020362DC 0x020362DC arm
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   func_0204E804 0x0204E804 arm
  *   func_021F6A3C 0x021F6A3C thumb ov215
  *   func_021F6A44 0x021F6A44 thumb ov215
@@ -31,7 +31,7 @@
  *   func_02012944 0x02012944 thumb
  *   func_02012AC8 0x02012AC8 thumb
  *   func_02013E4C 0x02013E4C thumb
- *   func_02017B24 0x02017B24 thumb
+ *   POKE_TOOL_HatchEgg 0x02017B24 thumb
  *   func_0200CA1C 0x0200CA1C thumb
  *   func_0200CFA0 0x0200CFA0 thumb
  *   func_0200CDE0 0x0200CDE0 thumb
@@ -48,7 +48,7 @@
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200C0F0 0x0200C0F0 thumb
  *   func_0216C028 0x0216C028 thumb ov010
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   d_021F5580 0x021F5580 data ov194 a4
  *   func_0216C0E4 0x0216C0E4 thumb ov010
  *   func_020457B0 0x020457B0 arm
@@ -103,18 +103,18 @@
  *   func_0204AFD8 0x0204AFD8 arm
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204B908 0x0204B908 arm
+ *   CLACT_SetActorAnimIndex 0x0204B908 arm
  *   func_0204B98C 0x0204B98C arm
- *   func_02005E30 0x02005E30 thumb
- *   func_02005D28  0x02005D28  thumb
- *   func_02005DE4  0x02005DE4  thumb
- *   func_02005E50  0x02005E50  thumb
- *   func_02005E64  0x02005E64  thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
+ *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb
+ *   GFL_USE_PushBgm  0x02005E64  thumb
  *   func_02005F38  0x02005F38  thumb
- *   func_020063B4  0x020063B4  thumb
- *   func_02005D90 0x02005D90 thumb
- *   func_02005E9C 0x02005E9C thumb
- *   func_02005DF8 0x02005DF8 thumb
+ *   GFL_USE_StepBgmLoad  0x020063B4  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   abs_id_C2 0xC2 data
  */
 #include "../../matched/include/Obj03371.h"
@@ -180,10 +180,10 @@ extern void func_0203064C(u32,u32,u32);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,u32,u32);
 extern void func_0204E720(u32,int,int,int);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 extern void func_0203D34C(u32,u32);
 extern void func_0203133C(struct S020314B8 *),func_020315D4(struct S020315D4 *),func_020306F0(u32);
-extern u32 func_020362DC(void),func_02031330(void *);
+extern u32 func_020362DC(void),PROCSYS_Main(void *);
 extern int func_0204E804(void);
 extern void func_021F6A3C(char *);
 extern int func_021F6A44(char *);
@@ -191,7 +191,7 @@ extern void *func_020127A4(struct SaveBlock *);
 extern u8 *func_02012944(void *);
 extern u16 func_02012AC8(const struct Rec44 *);
 extern u32 func_02013E4C(u32);
-extern void func_02017B24(void *,u32,u32,u32);
+extern void POKE_TOOL_HatchEgg(void *,u32,u32,u32);
 extern void *func_0200CA1C(void *);
 extern void func_0200CFA0(struct Blk37 *,void *),func_0200CDE0(struct Blk37 *,void *);
 extern void func_021F6A48(char *p, int a);
@@ -201,7 +201,7 @@ extern int func_021F6228(void *,char *),func_021F601C(void *,char *),func_021F62
 extern void func_021F602C(void *,char *),func_020355D8(u8);
 extern void *func_02012EBC(struct Big *),*func_0200C0F0(void *);
 extern int *func_0216C028(u16,int,int,int,int);
-extern void func_02031348(void *,u32,u32,u32);
+extern void PROCSYS_Push(void *,u32,u32,u32);
 extern int func_0216C0E4(int *);
 extern struct U16Vec *func_020457B0(u32,u32);
 extern void func_0216C0D4(int *,int),func_02017E40(void *,u32,u32),func_02045808(struct U16Vec *);
@@ -247,18 +247,18 @@ extern void func_0204B3B4(struct Obj *p);
 extern void func_0204AFD8(unsigned);
 extern void func_0204A8D4(unsigned);
 extern void func_0204ADA4(unsigned);
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern u32 func_0204B98C(struct Actor *a);
-extern void func_02005E30(u32 a);
-extern void func_02005D28(void);
-extern void func_02005DE4(void *p);
-extern int  func_02005E50(void);
-extern int func_02005E64(void);
+extern void GFL_USE_FadeOutBgm(u32 a);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int  GFL_USE_IsBgmFading(void);
+extern int GFL_USE_PushBgm(void);
 extern int  func_02005F38(void);
-extern u32 func_020063B4(u8 *a0, u32 *a1, u32 a2);
-extern void func_02005D90(unsigned, unsigned);
-extern int func_02005E9C(void);
-extern void func_02005DF8(u32 a);
+extern u32 GFL_USE_StepBgmLoad(u8 *a0, u32 *a1, u32 a2);
+extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_FadeInBgmFull(u32 a);
 int func_021F57E0(void *a,int unused,u32 c);
 int func_021F584C(struct S020315D4 *task,int unused,u32 a,char *p);
 int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p);
@@ -307,7 +307,7 @@ int func_021F57E0(void *a,int unused,u32 c)
     func_021F5C20(c,p);
     func_021F5EB8(c,p);
     func_0204E720(3,16,16,0);
-    ((struct Obj03371 *)p)->f88=(unsigned int)func_02031324(((struct Obj03371 *)p)->f0);
+    ((struct Obj03371 *)p)->f88=(unsigned int)PROCSYS_Create(((struct Obj03371 *)p)->f0);
     func_0203D34C(0,((struct Obj03371 *)p)->f0);
     return 1;
 }
@@ -334,7 +334,7 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
     int *child;
     struct U16Vec *vec;
     func_020362DC();
-    active=func_02031330((void *)p[34]);
+    active=PROCSYS_Main((void *)p[34]);
     if(active==1)return 0;
     switch(p[4]) {
     case 0:
@@ -349,7 +349,7 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
     case 6:
         p[4]=7;
         save=func_020127A4((struct SaveBlock *)a[0]);trainer=func_02012944((void *)a[0]);
-        func_02017B24((void *)a[1],(u32)trainer,func_02013E4C(func_02012AC8(save)),((struct Obj00186 *)p)->f0);
+        POKE_TOOL_HatchEgg((void *)a[1],(u32)trainer,func_02013E4C(func_02012AC8(save)),((struct Obj00186 *)p)->f0);
         dex=func_0200CA1C((void *)a[0]);func_0200CFA0(dex,(void *)a[1]);func_0200CDE0(dex,(void *)a[1]);
         func_021F6A48((char *)p[32],(int)((void *)a[1]));break;
     case 7:if(func_021F6A84((char *)p[32])){p[4]=8;func_021F6A98((char *)p[32]);}break;
@@ -367,7 +367,7 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
             block=func_0200C0F0(func_02012EBC((struct Big *)a[0]));
             func_021F5CFC((u32)a,(char *)p);p[4]=15;
             child=func_0216C028(((struct Obj00186 *)p)->f0,(int)a[1],10,0,(int)block);p[33]=(u32)child;
-            func_02031348((void *)p[34],(u32)&abs_id_C2,(u32)&d_021F5580,(u32)child);
+            PROCSYS_Push((void *)p[34],(u32)&abs_id_C2,(u32)&d_021F5580,(u32)child);
         }break;
     case 15:
         if(active!=1){
@@ -511,7 +511,7 @@ void func_021F5E68(int unused, struct S021F5E68 *p)
     unsigned char i;
     for (i = 0; i < 6; i++)
     {
-        func_0204B908((int)p->slots[i], 0);
+        CLACT_SetActorAnimIndex((int)p->slots[i], 0);
         func_0204B92C(p->slots[i], 1);
     }
 }
@@ -537,7 +537,7 @@ int func_021F5E90(int unused, struct S021F5E68 *p)
 
 int func_021F5EB8(int a, char *b)
 {
-    func_02005E30(0x1e);
+    GFL_USE_FadeOutBgm(0x1e);
     ((struct Obj25739 *)b)->f18 = 1;
     return 1;
 }
@@ -556,9 +556,9 @@ void func_021F5ECC(u8 *p, u8 *q)
     case 0:
         break;
     case 1:
-        if (func_02005E50() == 0) {
-            func_02005DE4((void *)1);
-            func_02005E64();
+        if (GFL_USE_IsBgmFading() == 0) {
+            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_PushBgm();
             ((struct Obj04634 *)q)->f18 = 0;
         }
         break;
@@ -567,13 +567,13 @@ void func_021F5ECC(u8 *p, u8 *q)
             ((struct Obj04634 *)q)->f18 = 0;
         break;
     case 3:
-        if (func_020063B4((u8 *)0x3F3, (u32 *)(q + 0x24), 0) != 0)
+        if (GFL_USE_StepBgmLoad((u8 *)0x3F3, (u32 *)(q + 0x24), 0) != 0)
             ((struct Obj04634 *)q)->f18 = 4;
         break;
     case 4:
         break;
     case 5:
-        if (func_020063B4((u8 *)0x519, (u32 *)(q + 0x24), 0) != 0)
+        if (GFL_USE_StepBgmLoad((u8 *)0x519, (u32 *)(q + 0x24), 0) != 0)
             ((struct Obj04634 *)q)->f18 = 6;
         break;
     case 6:
@@ -583,8 +583,8 @@ void func_021F5ECC(u8 *p, u8 *q)
         }
         break;
     case 7:
-        if (func_02005E50() == 0) {
-            func_02005D28();
+        if (GFL_USE_IsBgmFading() == 0) {
+            GFL_USE_CancelChangeAndStopBgm();
             ((struct Obj04634 *)q)->f18 = 0;
         }
         break;
@@ -605,7 +605,7 @@ int func_021F5F74(void *unused,char *p)
 
 void func_021F5F84(void *unused, char *p)
 {
-    func_02005D90(0x3f2, 0xffff);
+    GFL_USE_CancelChangeAndPlayBgm(0x3f2, 0xffff);
     ((struct Obj25741 *)p)->f18 = 2;
 }
 
@@ -621,7 +621,7 @@ int func_021F5FA0(void *unused, char *p)
 void func_021F5FB0(void *unused, char *p)
 {
     ((struct Obj14707 *)p)->f24 = 0;
-    func_020063B4((u8 *)0x3f3, (u32 *)(p + 0x24), 1);
+    GFL_USE_StepBgmLoad((u8 *)0x3f3, (u32 *)(p + 0x24), 1);
     ((struct Obj14707 *)p)->f18 = 3;
 }
 
@@ -637,24 +637,24 @@ int func_021F5FCC(void *unused, char *p)
 
 void func_021F5FDC(void *a0, void *a1)
 {
-    func_02005DE4((void *)1);
-    func_02005E64();
+    GFL_USE_SetBgmPlayerParam((void *)1);
+    GFL_USE_PushBgm();
 }
 
 
 
 void func_021F5FEC(void *a0, void *a1)
 {
-    func_02005E9C();
-    func_02005DE4(0);
-    func_02005DF8(6);
+    GFL_USE_PopBgm();
+    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_FadeInBgmFull(6);
 }
 
 
 void func_021F6000(void *unused, char *p)
 {
     ((struct Obj14708 *)p)->f24 = 0;
-    func_020063B4((u8 *)0x519, (u32 *)(p + 0x24), 1);
+    GFL_USE_StepBgmLoad((u8 *)0x519, (u32 *)(p + 0x24), 1);
     ((struct Obj14708 *)p)->f18 = 5;
 }
 
@@ -671,7 +671,7 @@ int func_021F601C(void *unused, char *p)
 
 void func_021F602C(void *unused, char *p)
 {
-    func_02005E30(0x3c);
+    GFL_USE_FadeOutBgm(0x3c);
     ((struct Obj25745 *)p)->f18 = 7;
 }
 

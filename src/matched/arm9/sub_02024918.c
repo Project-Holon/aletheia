@@ -1,5 +1,5 @@
 /*
- * function: func_02024918
+ * function: PMS_WORD_SetSaveEntry
  * address:  0x02024918
  * packet:   pkt_02024838
  * region:   arm9
@@ -28,7 +28,7 @@ struct Obj02024838 {
 
 extern void MI_CpuCopy8(void *dest, const void *src, u32 size);
 
-void func_02024918(const struct Obj02024838 *p, s32 idx, void *dest)
+void PMS_WORD_SetSaveEntry(const struct Obj02024838 *p, s32 idx, void *dest)
 {
     if (idx < 0 || idx >= 20) {
         return;

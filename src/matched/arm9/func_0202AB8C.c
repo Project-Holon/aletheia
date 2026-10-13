@@ -1,12 +1,12 @@
 /*
  * Graduated from src/pending/; promoted once its blocker became a manifest entry.
  *
- * Previously blocked at MATCH on `label`: func_0202AEEC has exactly one branch reference
+ * Previously blocked at MATCH on `label`: ISS_CITY_UNIT_Create has exactly one branch reference
  * image-wide, this function's own call, so no witness exists outside the
- * compared range and no cut helps.  It closes when func_0202AEEC (pkt_0202AEEC)
+ * compared range and no cut helps.  It closes when ISS_CITY_UNIT_Create (pkt_0202AEEC)
  * acquires a manifest entry or a second caller appears.
  *
- * function: func_0202AB8C
+ * function: ISS_CITY_SYS_LoadUnits
  * address:  0x0202AB8C
  * packet:   pkt_0202AB8C
  * region:   arm9
@@ -19,8 +19,8 @@
  * symbols:
  *   func_02049030  0x02049030  arm
  *   func_02030734  0x02030734  arm
- *   func_0202AEEC  0x0202AEEC  thumb
- *   g_020A76E8     0x020A76E8  data
+ *   ISS_CITY_UNIT_Create  0x0202AEEC  thumb
+ *   ISS_CITY_SYS_sSourceFileName     0x020A76E8  data
  */
 typedef int s32;
 typedef unsigned char u8;
@@ -35,17 +35,17 @@ struct A {
 extern u32 func_02049030(u32 a);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u8 *func_0202AEEC(u32 a, u32 b);
-extern const char g_020A76E8[];
+extern u8 *ISS_CITY_UNIT_Create(u32 a, u32 b);
+extern const char ISS_CITY_SYS_sSourceFileName[];
 
-void func_0202AB8C(struct A *a0, void *a1)
+void ISS_CITY_SYS_LoadUnits(struct A *a0, void *a1)
 {
     s32 n = func_02049030(0x84);
     s32 i;
 
     a0->unk18 = n;
-    a0->unk14 = func_02030734((u32)a1, n << 2, 0, g_020A76E8, 0x14d);
+    a0->unk14 = func_02030734((u32)a1, n << 2, 0, ISS_CITY_SYS_sSourceFileName, 0x14d);
     for (i = 0; i < n; i++) {
-        a0->unk14[i] = (u32)func_0202AEEC((u32)a1, i);
+        a0->unk14[i] = (u32)ISS_CITY_UNIT_Create((u32)a1, i);
     }
 }

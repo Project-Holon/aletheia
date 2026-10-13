@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0205841C
+ * function: SPLRandom_VecFx32_XY
  * address:  0x0205841C
  * packet:   pkt_020583CC
  * region:   arm9
@@ -25,7 +25,7 @@ struct VecFx32 {
 extern int g_02146A8C;
 extern void func_0207CCA4(const struct VecFx32 *src, struct VecFx32 *dst);
 
-void func_0205841C(struct VecFx32 *v)
+void SPLRandom_VecFx32_XY(struct VecFx32 *v)
 {
     g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
     v->x = g_02146A8C >> 8;
@@ -35,7 +35,7 @@ void func_0205841C(struct VecFx32 *v)
     func_0207CCA4(v, v);
 }
 
-void func_02058478(struct VecFx32 *v)
+void SPLRandom_VecFx32(struct VecFx32 *v)
 {
     g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
     v->x = g_02146A8C >> 8;

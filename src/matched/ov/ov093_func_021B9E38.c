@@ -14,7 +14,7 @@
  *   func_02008494  0x02008494  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02008510  0x02008510  thumb
- *   func_0202428C  0x0202428C  thumb
+ *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  */
 #include "../include/Obj01371.h"
 
@@ -26,7 +26,7 @@ extern void func_02008494(void *src, void *dst);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_02008510(void *a, int tag);
-extern void func_0202428C(void *a);
+extern void PMSI_PARAM_ClearSentence(void *a);
 
 void func_021B9E38(char *p, int a, int b)
 {
@@ -42,6 +42,6 @@ void func_021B9E38(char *p, int a, int b)
         f = 1;
     ((struct Obj01371 *)p)->f8 = f;
     ((struct Obj01371 *)p)->f4 = (int)func_02008510(((struct Obj01371 *)p)->f0, 0x12);
-    func_0202428C(p + 0x18);
-    func_0202428C(p + 0x20);
+    PMSI_PARAM_ClearSentence(p + 0x18);
+    PMSI_PARAM_ClearSentence(p + 0x20);
 }

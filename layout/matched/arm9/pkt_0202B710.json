@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202B710",
+   "name": "ISS_SYS_Update3ds",
    "address": "0x0202B710",
    "kind": "game",
    "region": "arm9",

@@ -20,7 +20,7 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204B974 0x0204B974 arm
+ *   CLACT_StopActorAnim 0x0204B974 arm
  *   d_021B7481 0x021B7481 data a1
  */
 #include "../include/Obj00476.h"
@@ -41,7 +41,7 @@ extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
 struct Actor;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B974(struct Actor *a);
+extern void CLACT_StopActorAnim(struct Actor *a);
 void func_021B7004(u8 *p, u8 *q)
 {
     int step;
@@ -66,10 +66,10 @@ void func_021B7004(u8 *p, u8 *q)
     *(u32 *)&((struct Obj00476 *)q)->f28 = (u32)func_0204B294((void *)((struct Obj01422 *)p)->f50, ((struct Obj00476 *)q)->f20, ((struct Obj00476 *)q)->f1C, ((struct Obj00476 *)q)->f24, &req, 0, ((struct Obj01422 *)p)->f0);
     func_0204B3DC(((struct Obj00476 *)q)->f28, 1);
     func_0204B92C(((struct Obj00476 *)q)->f28, 1);
-    func_0204B974(((struct Obj00476 *)q)->f28);
+    CLACT_StopActorAnim(((struct Obj00476 *)q)->f28);
     req.id = 1;
     *(u32 *)&((struct Obj00476 *)q)->f2C = (u32)func_0204B294((void *)((struct Obj01422 *)p)->f50, ((struct Obj00476 *)q)->f20, ((struct Obj00476 *)q)->f1C, ((struct Obj00476 *)q)->f24, &req, 0, ((struct Obj01422 *)p)->f0);
     func_0204B3DC(((struct Obj00476 *)q)->f2C, 1);
     func_0204B92C(((struct Obj00476 *)q)->f2C, 1);
-    func_0204B974(((struct Obj00476 *)q)->f2C);
+    CLACT_StopActorAnim(((struct Obj00476 *)q)->f2C);
 }

@@ -1,5 +1,5 @@
 /*
- * function: KeyValHashKey
+ * function: PARTICLE_KillAllEffects
  * address:  0x02051620
  * packet:   pkt_02051620
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern void func_020524C8(void *p);
 
-void KeyValHashKey(void **p)
+void PARTICLE_KillAllEffects(void **p)
 {
     func_020524C8(*p);
 }

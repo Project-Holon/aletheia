@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021BE00C 0x021BE00C thumb ov172
- *   func_0203D644 0x0203D644 arm
+ *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   func_021B8050 0x021B8050 thumb ov172
  *   func_0203CD98 0x0203CD98 arm
  *   func_0203D010 0x0203D010 arm
@@ -17,7 +17,7 @@
  *   func_02179328 0x02179328 thumb ov014
  *   func_021B8130 0x021B8130 thumb ov172
  *   func_021B8614 0x021B8614 thumb ov172
- *   func_0203CFF0 0x0203CFF0 arm
+ *   GFL_NET_ConnectMacAddressParent 0x0203CFF0 arm
  *   func_02039ACC 0x02039ACC arm
  *   func_020399A8 0x020399A8 arm
  *   func_020399B8 0x020399B8 arm
@@ -42,7 +42,7 @@ typedef struct {
     u8 rest : 6;
 } Flags;
 extern u16 func_021BE00C(u16 *p);
-extern void func_0203D644(int a);
+extern void GFL_NET_SetWaitMode(int a);
 extern void func_021B8050(void *a, void *b);
 extern int func_0203CD98(void);
 extern void func_0203D010(void);
@@ -50,7 +50,7 @@ extern void func_0203D01C(void);
 extern void func_02179328(void *v);
 extern int func_021B8130(void *a0, u8 *a1);
 extern void func_021B8614(int unused, int unused2, void *p);
-extern void func_0203CFF0(void *p);
+extern void GFL_NET_ConnectMacAddressParent(void *p);
 extern int func_02039ACC(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -77,7 +77,7 @@ void func_021B7E34(void *p, char *q)
         if (((struct Obj00289 *)q)->f178 == 0)
             break;
         if (((struct Obj00289 *)q)->f178 == 5) {
-            func_0203D644(0);
+            GFL_NET_SetWaitMode(0);
             ((struct Obj00289 *)q)->f8 = 5;
             ((struct Obj00289 *)q)->f174 = ((struct Obj00289 *)q)->f178;
         } else {
@@ -104,7 +104,7 @@ void func_021B7E34(void *p, char *q)
         case 4:
             if (((struct Obj00289 *)q)->f174 == 2)
                 func_021B8614((int)p, (int)q, q + 0x64);
-            func_0203CFF0(q + 0x17c);
+            GFL_NET_ConnectMacAddressParent(q + 0x17c);
             ((struct Obj00289 *)q)->f8 = 3;
             break;
         }

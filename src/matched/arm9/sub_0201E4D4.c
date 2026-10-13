@@ -1,5 +1,5 @@
 /*
- * function: sub_0201E4D4
+ * function: GF_FONT_ReadBits
  * address:  0x0201E4D4
  * packet:   pkt_0201E4D4
  * region:   arm9
@@ -21,8 +21,8 @@
  * together.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201E4D4.c
- *       --func sub_0201E4D4 --addr 0x0201E4D4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GF_FONT_ReadBits.c
+ *       --func GF_FONT_ReadBits --addr 0x0201E4D4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ struct BitReader {
 
 extern const u8 g_0209E74C[];
 
-u8 sub_0201E4D4(struct BitReader *r, u8 n)
+u8 GF_FONT_ReadBits(struct BitReader *r, u8 n)
 {
     u8  hi;
     u32 lo;

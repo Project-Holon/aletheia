@@ -19,7 +19,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   sub_02007CC8   0x02007CC8  thumb
+ *   MYITEM_SAVEDATA_CopyPocket   0x02007CC8  thumb
  *   func_021B61C8  0x021B61C8  thumb  ov070
  *   func_02020F14  0x02020F14  thumb
  *   func_02020F20  0x02020F20  thumb
@@ -57,7 +57,7 @@ typedef struct Ent {
 extern char d_021BBBC0[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void sub_02007CC8(u8 *base, void *buf, u32 id, int save);
+extern void MYITEM_SAVEDATA_CopyPocket(u8 *base, void *buf, u32 id, int save);
 extern int func_021B61C8(u8 *p);
 extern void *func_02020F14(u32 a);
 extern int func_02020F20(int h, int id, u16 heap);
@@ -81,7 +81,7 @@ void func_021B7F54(Obj *o)
 
     ents = func_02030734(o->heap, 0x9B0, 0, d_021BBBC0, 0xB35);
     items = func_02030734(o->heap, 0x4D8, 0, d_021BBBC0, 0xB36);
-    sub_02007CC8(o->save, items, o->pocket, 1);
+    MYITEM_SAVEDATA_CopyPocket(o->save, items, o->pocket, 1);
     n = func_021B61C8((u8 *)o);
     h = (int)func_02020F14(o->heap);
     for (i = 0; i < n; i++) {
@@ -97,7 +97,7 @@ void func_021B7F54(Obj *o)
     for (i = 0; i < n; i++) {
         items[i] = ents[i].item;
     }
-    sub_02007CC8(o->save, items, o->pocket, 0);
+    MYITEM_SAVEDATA_CopyPocket(o->save, items, o->pocket, 0);
     func_020307B0(items);
     func_020307B0(ents);
 }

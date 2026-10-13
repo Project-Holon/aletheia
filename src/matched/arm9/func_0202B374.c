@@ -1,5 +1,5 @@
 /*
- * function: func_0202B374
+ * function: ISS_DUNGEON_SYS_FindRecord
  * address:  0x0202B374
  * packet:   pkt_0202B374
  * region:   arm9
@@ -35,7 +35,7 @@ typedef struct Container {
     Item * volatile items;
 } Container;
 
-Item *func_0202B374(Container *c, u16 id)
+Item *ISS_DUNGEON_SYS_FindRecord(Container *c, u16 id)
 {
     int i;
     int n;

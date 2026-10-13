@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02023DDC",
+   "name": "WIPE_SUB_WindowRectTask",
    "address": "0x02023DDC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02023F60",
+   "name": "BRIGHTNESS_Set",
    "address": "0x02023F60",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202419C",
+   "name": "PMSI_PARAM_IsSameInput",
    "address": "0x0202419C",
    "kind": "game",
    "region": "arm9",

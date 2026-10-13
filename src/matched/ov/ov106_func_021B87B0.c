@@ -21,7 +21,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   func_0201C7A4 0x0201C7A4 thumb
- *   func_0201BABC 0x0201BABC thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0201BB5C 0x0201BB5C thumb
  *   func_02045808 0x02045808 arm
  *   func_020490F4 0x020490F4 arm
@@ -55,7 +55,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
 extern void func_02045808(struct U16Vec *vec);
-extern u32 func_0201BABC(u32,u32,u32,u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -89,7 +89,7 @@ void func_021B87B0(u8 *p,const Item *item,void *sys,u32 first,u32 second,void *m
  width=func_0201D304(text,font,0)>>1;
  func_0201C7A4(*(void **)(p+4),194-width,5,text,(void *)font);
  func_02045808(text);func_02045808(c);func_02045808(b);func_02045808(a);
- member=func_0201BABC(item->number,item->a,item->b,item->c);
+ member=POKE_TOOL_CalcGraphicIndex(item->number,item->a,item->b,item->c);
  mode1=func_0201BC40(); mode2=func_0201BCB4();
  arc=func_020490F4(7,heap);
  *(u32 *)(p+20)=func_0204A6C8(arc,member,0,2,heap);

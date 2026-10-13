@@ -22,7 +22,7 @@
  * template) only reach an overlay loader through func_0215C63C, so no
  * class attests them.
  *
- * 2026-10-05 (wave D9): d_021BA758 now resolves with the ov099 token on its symbols line (`data  ov099  a1`; other covering overlays stay contested or unresolved). Only ov071_id remains: it reaches func_0215C63C, which is not in match.py OVERLAY_ID_CONSUMERS (forwards r2 to func_020120B4 r1); a data token on the id line does not help. Needs the consumer entry (tools), not C.
+ * 2026-10-05 (wave D9): d_021BA758 now resolves with the ov099 token on its symbols line (`data  ov099  a1`; other covering overlays stay contested or unresolved). Only ov071_id remains: it reaches func_0215C63C, which is not in match.py OVERLAY_ID_CONSUMERS (forwards r2 to GAMESYSTEM_CallProc r1); a data token on the id line does not help. Needs the consumer entry (tools), not C.
  *
  * symbols:
  *   func_0215A5DC  0x0215A5DC  thumb  ov010
@@ -37,7 +37,7 @@
  *   func_0215840C  0x0215840C  thumb  ov010
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
- *   func_02175648  0x02175648  thumb  ov011
+ *   INTRUDE_COMM_BuildLocalProfile  0x02175648  thumb  ov011
  *   func_0215C63C  0x0215C63C  thumb  ov010
  *   d_021728F0     0x021728F0  data  a1
  *   d_021BA758     0x021BA758  data  ov099  a1
@@ -93,7 +93,7 @@ extern int func_02175FB4(u8 *p);
 extern Name20 *func_0215840C(LinkState *s, int idx);
 extern void *func_02012EBC(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
-extern void func_02175648(void *sv, struct Out *o);
+extern void INTRUDE_COMM_BuildLocalProfile(void *sv, struct Out *o);
 extern void func_0215C63C(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
 extern const char d_021728F0[];
 extern const u8 d_021BA758[];
@@ -123,7 +123,7 @@ int func_0215C95C(void *c, void *vm)
         w->remote = 1;
     } else {
         func_0200BE48(func_02012EBC(q));
-        func_02175648(q, (struct Out *)(&w->profile));
+        INTRUDE_COMM_BuildLocalProfile(q, (struct Out *)(&w->profile));
         idx = 0;
         w->remote = 0;
     }

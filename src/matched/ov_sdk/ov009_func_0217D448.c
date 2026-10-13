@@ -1,5 +1,5 @@
 /*
- * function: func_0217D448
+ * function: gsiLargeIntCompare
  * address:  0x0217D448
  * packet:   pkt_02156B70
  * region:   ov009
@@ -17,7 +17,7 @@
 
 typedef unsigned int u32;
 
-int func_0217D448(const u32 *a, u32 n, const u32 *b, u32 m)
+int gsiLargeIntCompare(const u32 *a, u32 n, const u32 *b, u32 m)
 {
     while (a[n - 1] == 0 && n != 0)
         n--;

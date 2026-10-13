@@ -11,40 +11,40 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02005FF4, sub_02006118, sub_02006138
+ * function: GFL_USE_UpdateBgmChange, GFL_USE_InitSeSlots, GFL_USE_GetSeHandle
  *
  * symbols:
  *   sub_02005FF4_State  0x020AA260  data
  *   sub_02006118_Table  0x020AA294  data
- *   sub_020058D0        0x020058D0  thumb
- *   sub_0200590C        0x0200590C  thumb
- *   sub_0200597C        0x0200597C  thumb
- *   sub_020059A0        0x020059A0  thumb
- *   sub_02005D14        0x02005D14  thumb
- *   sub_02005F90        0x02005F90  thumb
- *   sub_02006300        0x02006300  thumb
- *   sub_02006394        0x02006394  thumb
+ *   GFL_USE_GetCurrentBgmId        0x020058D0  thumb
+ *   GFL_USE_GetCurrentSndHandle        0x0200590C  thumb
+ *   GFL_USE_SaveSeqBankState        0x0200597C  thumb
+ *   GFL_USE_FinishBgmLoad        0x020059A0  thumb
+ *   GFL_USE_StopBgm        0x02005D14  thumb
+ *   GFL_USE_CancelBgmChange        0x02005F90  thumb
+ *   GFL_USE_StartLoaderThread        0x02006300  thumb
+ *   GFL_USE_IsLoaderDone        0x02006394  thumb
  *   _s32_div_f          0x0209C0A4  arm
- *   func_020746B0       0x020746B0  arm
+ *   NNS_SndArcSetReadChunkSize       0x020746B0  arm
  *   func_020755A8       0x020755A8  arm
- *   func_02072E9C       0x02072E9C  arm
- *   func_02072F34       0x02072F34  arm
+ *   NNS_SndHandleInit       0x02072E9C  arm
+ *   NNS_SndHandleSetSeqPriority       0x02072F34  arm
  *   func_02085A38       0x02085A38  arm
  *
  * The three state connection pump, plus the initialiser and the address-of
  * accessor for the five entry table at 0x020AA294.
  *
- * sub_02005FF4 is where the signal strength bar comes from: `unk24` counts
+ * GFL_USE_UpdateBgmChange is where the signal strength bar comes from: `unk24` counts
  * up towards `unk2C` while the current access point matches the one being
  * connected to and back down towards zero when it does not, and the value
- * handed to func_02072F34 is `unk24 * 0x7F / unk2C` or `unk24 * 0x7F /
+ * handed to NNS_SndHandleSetSeqPriority is `unk24 * 0x7F / unk2C` or `unk24 * 0x7F /
  * unk30`.  Both divisions are signed, so they call the compiler's own
  * `_s32_div_f` helper rather than `_u32_div_f`: `unk24` is a `u16` that
  * promotes to `int` and the two limits are `int`.  Getting that wrong is not
  * a codegen difference but a relocation with a different symbol name, and
  * the name is what the harness resolves against.
  *
- * sub_02006138 carries no label: it is `lsls`, `adds`, `adds`, `bx lr`, the
+ * GFL_USE_GetSeHandle carries no label: it is `lsls`, `adds`, `adds`, `bx lr`, the
  * address of one table entry's second word, and it saves nothing, so
  * disasm.py's prologue sweep cannot see it.
  */
@@ -74,24 +74,24 @@ struct Sub02005FF4State {
 extern struct Sub02005FF4State sub_02005FF4_State;
 extern struct Sub02006118Entry sub_02006118_Table[];
 
-extern u16  sub_020058D0(void);
-extern u32 *sub_0200590C(void);
-extern void sub_0200597C(void);
-extern int  sub_020059A0(u32 a);
-extern void sub_02005D14(void);
-extern void sub_02005F90(void);
-extern void sub_02006300(u32 a, int mode);
-extern int  sub_02006394(void);
-extern void func_020746B0(int p0);
+extern u16  GFL_USE_GetCurrentBgmId(void);
+extern u32 *GFL_USE_GetCurrentSndHandle(void);
+extern void GFL_USE_SaveSeqBankState(void);
+extern int  GFL_USE_FinishBgmLoad(u32 a);
+extern void GFL_USE_StopBgm(void);
+extern void GFL_USE_CancelBgmChange(void);
+extern void GFL_USE_StartLoaderThread(u32 a, int mode);
+extern int  GFL_USE_IsLoaderDone(void);
+extern void NNS_SndArcSetReadChunkSize(int p0);
 extern u32  func_020755A8(u32 req, int a, int b, int c, u32 arg);
-extern void func_02072E9C(void **r0);
-extern void func_02072F34(u32 *req, int level);
+extern void NNS_SndHandleInit(void **r0);
+extern void NNS_SndHandleSetSeqPriority(u32 *req, int level);
 extern void func_02085A38(u32 msec);
 
-void sub_02005FF4(void)
+void GFL_USE_UpdateBgmChange(void)
 {
-    u32 *req = sub_0200590C();
-    u16 id = sub_020058D0();
+    u32 *req = GFL_USE_GetCurrentSndHandle();
+    u16 id = GFL_USE_GetCurrentBgmId();
 
     if (sub_02005FF4_State.unk1C == 0) {
         return;
@@ -102,48 +102,48 @@ void sub_02005FF4(void)
             if (id != sub_02005FF4_State.unk28) {
                 if (sub_02005FF4_State.unk24 != 0) {
                     sub_02005FF4_State.unk24--;
-                    func_02072F34(req, sub_02005FF4_State.unk24 * 0x7F /
+                    NNS_SndHandleSetSeqPriority(req, sub_02005FF4_State.unk24 * 0x7F /
                                        sub_02005FF4_State.unk30);
                     return;
                 }
-                func_02072F34(req, 0);
+                NNS_SndHandleSetSeqPriority(req, 0);
             } else {
                 if (sub_02005FF4_State.unk24 < sub_02005FF4_State.unk2C) {
                     sub_02005FF4_State.unk24++;
-                    func_02072F34(req, sub_02005FF4_State.unk24 * 0x7F /
+                    NNS_SndHandleSetSeqPriority(req, sub_02005FF4_State.unk24 * 0x7F /
                                        sub_02005FF4_State.unk2C);
                     return;
                 }
-                sub_02005F90();
+                GFL_USE_CancelBgmChange();
                 return;
             }
         }
-        sub_02005D14();
+        GFL_USE_StopBgm();
         if (sub_02005FF4_State.unk28 == 0) {
-            sub_02005F90();
+            GFL_USE_CancelBgmChange();
             return;
         }
-        func_020746B0(0x1300);
-        sub_02006300(sub_02005FF4_State.unk28, 0);
+        NNS_SndArcSetReadChunkSize(0x1300);
+        GFL_USE_StartLoaderThread(sub_02005FF4_State.unk28, 0);
         sub_02005FF4_State.unk24 = 0;
         sub_02005FF4_State.unk20 = 1;
         return;
     case 1:
-        if (sub_02006394() == 1) {
-            sub_0200597C();
-            sub_02006300(sub_02005FF4_State.unk28, 1);
+        if (GFL_USE_IsLoaderDone() == 1) {
+            GFL_USE_SaveSeqBankState();
+            GFL_USE_StartLoaderThread(sub_02005FF4_State.unk28, 1);
             sub_02005FF4_State.unk20 = 2;
             return;
         }
         func_02085A38(1);
         return;
     case 2:
-        if (sub_02006394() == 1) {
-            func_020746B0(0);
-            sub_020059A0(sub_02005FF4_State.unk28);
-            func_020755A8((u32)sub_0200590C(), 0, -1, -1,
+        if (GFL_USE_IsLoaderDone() == 1) {
+            NNS_SndArcSetReadChunkSize(0);
+            GFL_USE_FinishBgmLoad(sub_02005FF4_State.unk28);
+            func_020755A8((u32)GFL_USE_GetCurrentSndHandle(), 0, -1, -1,
                           sub_02005FF4_State.unk28);
-            func_02072F34(req, 0);
+            NNS_SndHandleSetSeqPriority(req, 0);
             sub_02005FF4_State.unk20 = 0;
             return;
         }
@@ -152,17 +152,17 @@ void sub_02005FF4(void)
     }
 }
 
-void sub_02006118(void)
+void GFL_USE_InitSeSlots(void)
 {
     int i;
 
     for (i = 0; i < 5; i++) {
         sub_02006118_Table[i].unk00 = 0;
-        func_02072E9C((void **)(&sub_02006118_Table[i].unk04));
+        NNS_SndHandleInit((void **)(&sub_02006118_Table[i].unk04));
     }
 }
 
-u32 *sub_02006138(int i)
+u32 *GFL_USE_GetSeHandle(int i)
 {
     return &sub_02006118_Table[i].unk04;
 }

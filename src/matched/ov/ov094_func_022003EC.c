@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02017100  0x02017100  thumb
+ *   MCSS_TOOL_MakeAddWorkFromPP  0x02017100  thumb
  *   func_02017E1C  0x02017E1C  thumb
- *   func_020172AC  0x020172AC  thumb
+ *   MCSS_TOOL_SetSpindaSpotHook  0x020172AC  thumb
  */
 typedef unsigned int u32;
 
@@ -22,9 +22,9 @@ typedef struct {
 } Work;
 
 struct Stats;
-extern void func_02017100(void *p, struct Stats *out, u32 lvl);
+extern void MCSS_TOOL_MakeAddWorkFromPP(void *p, struct Stats *out, u32 lvl);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_020172AC(int a0, int a1);
+extern void MCSS_TOOL_SetSpindaSpotHook(int a0, int a1);
 
 void func_022003EC(Work *w, void *p, int *a, int flags)
 {
@@ -32,6 +32,6 @@ void func_022003EC(Work *w, void *p, int *a, int flags)
 
     if (flags & 1)
         v = 0;
-    func_02017100(p, (struct Stats *)a, v);
-    func_020172AC((int)w->obj, func_02017E1C(p, 0, 0));
+    MCSS_TOOL_MakeAddWorkFromPP(p, (struct Stats *)a, v);
+    MCSS_TOOL_SetSpindaSpotHook((int)w->obj, func_02017E1C(p, 0, 0));
 }

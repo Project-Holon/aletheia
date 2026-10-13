@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020169E8",
+   "name": "MCSS_UpdatePaletteFade",
    "address": "0x020169E8",
    "kind": "game",
    "region": "arm9",

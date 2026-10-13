@@ -1,5 +1,5 @@
 /*
- * function: func_021DBF0C
+ * function: P_STA_OAM_FreeCellRes
  * address: 0x021DBF0C
  * packet: pkt_ov131_021DBF0C
  * region: ov131
@@ -12,7 +12,7 @@
  */
 typedef unsigned int   u32;
 extern void func_0204AFD8(u32 i);
-void func_021DBF0C(int *p) {
+void P_STA_OAM_FreeCellRes(int *p) {
  int i;
  for (i = 0; i < 3; i++) {
   if (p[2 + i] != -1) {

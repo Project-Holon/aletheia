@@ -14,8 +14,8 @@
  * matched definition reads r1. Callers in ov118 pass two arguments.
  *
  * symbols:
- *   func_02015C30    0x02015C30  thumb
- *   func_02015C48    0x02015C48  thumb
+ *   MCSS_GetPosition    0x02015C30  thumb
+ *   MCSS_SetPosition    0x02015C48  thumb
  *   func_021DFC28    0x021DFC28  thumb  ov119
  *   func_021DFBF0    0x021DFBF0  thumb  ov119
  *   _s32_to_float    0x0209BDBC  arm
@@ -32,8 +32,8 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef int s32;
 
-extern void func_02015C30(void *p, u32 *out);
-extern void func_02015C48(void *p, u32 *src);
+extern void MCSS_GetPosition(void *p, u32 *out);
+extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_021DFC28(void *, int);
 extern u32 func_021DFBF0(u32, u32, void *, int);
 extern float _s32_to_float(s32);
@@ -59,7 +59,7 @@ void func_021DFC68(void *p, int a1)
             func_021DFC28(p, a1);
             return;
         }
-        func_02015C30((void *)(((struct Obj00826 *)p)->f0), &vec[0]);
+        MCSS_GetPosition((void *)(((struct Obj00826 *)p)->f0), &vec[0]);
         vec[3] = func_021DFBF0(((struct Obj00826 *)p)->f1C, ((struct Obj00826 *)p)->f28, p, 0);
         if (((struct Obj00826 *)p)->f16 != 0) {
             float q = 374.0f * __fdiv(_s32_to_float((s32)(vec[0] - vec[3])), 4096.0f);
@@ -67,8 +67,8 @@ void func_021DFC68(void *p, int a1)
         }
         vec[4] = func_021DFBF0(((struct Obj00826 *)p)->f20, ((struct Obj00826 *)p)->f2C, p, 1);
         vec[5] = func_021DFBF0(((struct Obj00826 *)p)->f24, ((struct Obj00826 *)p)->f30, p, 0);
-        func_02015C48((void *)(((struct Obj00826 *)p)->f0), &vec[3]);
+        MCSS_SetPosition((void *)(((struct Obj00826 *)p)->f0), &vec[3]);
         return;
     }
-    func_02015C48((void *)(((struct Obj00826 *)p)->f0), (u32 *)((char *)p + 0x28));
+    MCSS_SetPosition((void *)(((struct Obj00826 *)p)->f0), (u32 *)((char *)p + 0x28));
 }

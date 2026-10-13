@@ -1,5 +1,5 @@
 /*
- * function: func_02015F40
+ * function: MCSS_SetCellCallback
  * address:  0x02015F40
  * packet:   pkt_02015F40
  * region:   arm9
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02064D70  0x02064D70  arm
+ *   NNSi_G2dMCEnumAnimBank  0x02064D70  arm
  */
-extern void func_02064D70(void *, void *, unsigned);
+extern void NNSi_G2dMCEnumAnimBank(void *, void *, unsigned);
 
-void func_02015F40(char *p, unsigned flags, void *callback)
+void MCSS_SetCellCallback(char *p, unsigned flags, void *callback)
 {
-    func_02064D70(p + 0x68, callback, flags);
+    NNSi_G2dMCEnumAnimBank(p + 0x68, callback, flags);
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020433E0  0x020433E0  arm
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   data_021C3AA0  0x021C3AA0  data
  *
  * Hands the block at 0x021C3AA0 to an arm9 routine.
@@ -25,10 +25,10 @@ typedef signed long    s32;
 typedef int BOOL;
 
 struct DispVram;
-extern void sub_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern u8 data_021C3AA0[];
 
 void func_021BE030(void)
 {
-    sub_020433E0((const struct DispVram *)data_021C3AA0);
+    BG_SYS_SetVramBanks((const struct DispVram *)data_021C3AA0);
 }

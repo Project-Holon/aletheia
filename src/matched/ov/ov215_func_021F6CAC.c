@@ -10,11 +10,11 @@
  * status: EXACT*
  * trailing: existing follower 021F6CC0 in its own matched shard.
  * symbols:
- *   func_02015EA0 0x02015EA0 thumb
- *   sub_02015BA4 0x02015BA4 thumb
+ *   MCSS_SetVanishFlag 0x02015EA0 thumb
+ *   MCSS_Del 0x02015BA4 thumb
  */
 #include "../include/Obj10941.h"
 
-extern void func_02015EA0(void *);
-extern void sub_02015BA4(void *,void *);
-void func_021F6CAC(char *p){func_02015EA0(((struct Obj10941 *)p)->f34);sub_02015BA4(((struct Obj10941 *)p)->f30,((struct Obj10941 *)p)->f34);}
+extern void MCSS_SetVanishFlag(void *);
+extern void MCSS_Del(void *,void *);
+void func_021F6CAC(char *p){MCSS_SetVanishFlag(((struct Obj10941 *)p)->f34);MCSS_Del(((struct Obj10941 *)p)->f30,((struct Obj10941 *)p)->f34);}

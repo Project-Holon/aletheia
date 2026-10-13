@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  * blocker: every concrete byte matches (312 of 312); the two THM_CALL
- * sites to func_02021F3C stay wildcarded because 0x02021F3C is an
+ * sites to PALANM_GetColor stay wildcarded because 0x02021F3C is an
  * unlabelled arm9 Thumb leaf (a bare `cmp r2, #1` entry, no lr save), so
  * no class attests it. The leaf verifies EXACT with this body
  * (`one --thumb`, no --region), outside this lane's write set (arm9):
  *
  *   typedef struct { u16 *a; u16 *b; int pad[3]; } Slot;
- *   u16 func_02021F3C(Slot *s, int idx, int which, u16 pos)
+ *   u16 PALANM_GetColor(Slot *s, int idx, int which, u16 pos)
  *   {
  *       if (which == 1) {
  *           return s[idx].a[pos];
@@ -31,11 +31,11 @@
  *   func_021B6E00  0x021B6E00  thumb  ov071
  *   func_021B6E0C  0x021B6E0C  thumb  ov071
  *   func_021B6E18  0x021B6E18  thumb  ov071
- *   func_02021F3C  0x02021F3C  thumb
+ *   PALANM_GetColor  0x02021F3C  thumb
  *   func_02021FD8  0x02021FD8  thumb
  *   func_021B6DB4  0x021B6DB4  thumb  ov071
  *   d_021BABE0     0x021BABE0  data  a1
-  * note 2026-10-05 (D8 lane16): witness func_02021F3C filed as src/matched/arm9/func_02021F3C.c (EXACT); this file becomes EXACT once the integrator seeds that label/manifest. Body unchanged.
+  * note 2026-10-05 (D8 lane16): witness PALANM_GetColor filed as src/matched/arm9/PALANM_GetColor.c (EXACT); this file becomes EXACT once the integrator seeds that label/manifest. Body unchanged.
  */
 
 typedef unsigned char u8;
@@ -58,7 +58,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern int func_021B6E00(unsigned int x);
 extern int func_021B6E0C(unsigned int x);
 extern int func_021B6E18(int);
-extern u16 func_02021F3C(int base, int idx, int which, u16 pos);
+extern u16 PALANM_GetColor(int base, int idx, int which, u16 pos);
 extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void func_021B6DB4(int *p, int a, int idx);
 
@@ -95,7 +95,7 @@ void func_021B6C7C(int *p, int idx)
         e->v = v;
         for (i = 0; i < n; i++) {
             func_02021FD8((struct Chan02021FD8 *)(*(int *)p[1]), (int)idx, (u16)(a + i), (u16)1, v >> 8,
-                          func_02021F3C(*(int *)p[1], idx, 1, b + i));
+                          PALANM_GetColor(*(int *)p[1], idx, 1, b + i));
         }
         break;
     case 2:
@@ -112,7 +112,7 @@ void func_021B6C7C(int *p, int idx)
             }
             for (i = 0; i < n; i++) {
                 func_02021FD8((struct Chan02021FD8 *)(*(int *)p[1]), (int)idx, (u16)(a + i), (u16)1, e->v >> 8,
-                              func_02021F3C(*(int *)p[1], idx, 1, b + i));
+                              PALANM_GetColor(*(int *)p[1], idx, 1, b + i));
             }
         } else {
             e->timer--;

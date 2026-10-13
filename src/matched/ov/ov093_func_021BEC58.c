@@ -10,8 +10,8 @@
  * status: EXACT
  * budget: 2 iteration one; scheduling variant1/2 consumed; no checks/permuter.
  * symbols:
- *   func_0201C1BC 0x0201C1BC thumb
- *   func_0201BEB8 0x0201BEB8 thumb
+ *   WAZA_TOOL_GetCategory 0x0201C1BC thumb
+ *   WAZA_TOOL_GetFlag 0x0201BEB8 thumb
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021D5B68 0x021D5B68 thumb ov093
  *   func_021BEC2C 0x021BEC2C thumb ov093
@@ -76,8 +76,8 @@ struct Buf { u32 wpos, rpos; };
 struct S { u32 id[6]; u16 a[6], b[6]; u8 c[6]; u16 d[6]; u8 n, max, f44, f45; };
 struct Rec { u32 value; u16 kind; u8 data, flag; };
 struct O { u32 pos; struct Rec r[120]; };
-extern u32 func_0201C1BC(u16);
-extern u32 func_0201BEB8(u16, u32);
+extern u32 WAZA_TOOL_GetCategory(u16);
+extern u32 WAZA_TOOL_GetFlag(u16, u32);
 extern u8 func_021D5440(u8 *p);
 extern int func_021D5B68(void *);
 extern void func_021BEC2C(u8 *p, u8 *a, int c);
@@ -123,7 +123,7 @@ extern int func_021C4F64(u8 *, u8 *);
 int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d)
 {
     u32 lock;
-    u32 action = func_0201C1BC(key);
+    u32 action = WAZA_TOOL_GetCategory(key);
     u8 id = func_021D5440(a);
     int active = 1;
     int execute = 0;
@@ -132,7 +132,7 @@ int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d)
     int result;
     struct State *s;
     func_021BEC2C(p, a, key);
-    if (func_0201BEB8(key, 1)) {
+    if (WAZA_TOOL_GetFlag(key, 1)) {
         switch (func_021BFC08(p, a, d, key)) {
         case 0: break;
         case 1: return execute;
@@ -209,7 +209,7 @@ int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d)
         if (s->a != 0) {
             if (s->b == 0) func_021BFBD0(p, key, *(u8 * *)&((struct Obj00003 *)p)->f4A8, pos);
             func_021BF03C((struct O *)(p + 0x1c));
-            if (!func_021D5B68(a) && func_0201BEB8(key, 2)) func_021C60EC(p, a, 12);
+            if (!func_021D5B68(a) && WAZA_TOOL_GetFlag(key, 2)) func_021C60EC(p, a, 12);
             func_021BF244(p, id, key);
         } else {
             func_021BF27C(p, id, key);

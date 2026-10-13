@@ -16,7 +16,7 @@
  *   func_02048F4C  0x02048F4C  arm
  *   func_020834C0  0x020834C0  arm
  *   func_020307B0  0x020307B0  arm
- *   sArcUtil3730   0x020A7F30  data
+ *   arc_util_file   0x020A7F30  data
  *
  * The out-parameter twin of func_0204A1BC directly above it: the handle
  * func_020490A8 returns is written through the fifth (stack) argument and
@@ -32,7 +32,7 @@ extern void *      func_02030734(u32 a0, u32 a1, int a2, const char *file, u16 l
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 extern int         func_020834C0(int a0, int a1);
 extern u32 func_020307B0(void *p);
-extern const char  sArcUtil3730[];
+extern const char  arc_util_file[];
 
 int func_0204A298(int a0, int a1, int a2, int a3, u32 *out)
 {
@@ -41,14 +41,14 @@ int func_0204A298(int a0, int a1, int a2, int a3, u32 *out)
 
     *out = func_020490A8(a0, a1);
     if (a2 != 0) {
-        r = (int)func_02030734((u16)((a3 & 0x7fff) | 0x8000), *out, 0, sArcUtil3730, 1642);
+        r = (int)func_02030734((u16)((a3 & 0x7fff) | 0x8000), *out, 0, arc_util_file, 1642);
     } else {
-        r = (int)func_02030734(a3, *out, 0, sArcUtil3730, 1646);
+        r = (int)func_02030734(a3, *out, 0, arc_util_file, 1646);
     }
     func_02048F4C((void *)r, a0, a1);
     if (a2 != 0) {
         *out = ((struct Obj16075 *)r)->f0 >> 8;
-        t = (int)func_02030734(a3, *out, 0, sArcUtil3730, 1656);
+        t = (int)func_02030734(a3, *out, 0, arc_util_file, 1656);
         func_020834C0(r, t);
         func_020307B0((void *)r);
         r = t;

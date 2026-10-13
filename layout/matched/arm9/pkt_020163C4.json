@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020163C4",
+   "name": "MCSS_LoadResource",
    "address": "0x020163C4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02016630",
+   "name": "MCSS_LoadResourceShared",
    "address": "0x02016630",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02016880",
+   "name": "MCSS_TransTextureTask",
    "address": "0x02016880",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201691C",
+   "name": "MCSS_TransPaletteTask",
    "address": "0x0201691C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02016984",
+   "name": "MCSS_InitAnimCtrl",
    "address": "0x02016984",
    "kind": "game",
    "region": "arm9",

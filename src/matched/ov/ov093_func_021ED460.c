@@ -12,7 +12,7 @@
  * symbols:
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  *   func_021EDA04  0x021EDA04  thumb  ov093
- *   func_02031194  0x02031194  arm  arm9
+ *   TCBL_DeleteTask  0x02031194  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,7 +21,7 @@ extern int func_021F7EB4(void);
 struct E;
 extern void func_021EDA04(struct E *e);
 struct TcblNode;
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 void func_021ED460(void *task, struct Q *q)
 {
     switch (q->state) {
@@ -33,7 +33,7 @@ void func_021ED460(void *task, struct Q *q)
         break;
     case 1:
         (*q->cnt)--;
-        func_02031194(task);
+        TCBL_DeleteTask(task);
         break;
     }
 }

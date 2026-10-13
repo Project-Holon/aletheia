@@ -21,7 +21,7 @@
  * parameter costs on this front end; see
  * docs/idioms/address-of-a-register-parameter-is-a-push-of-all-four.md.  The
  * seed is passed by value and updated in place through that home slot, so a
- * caller's seed is never modified, which is what lets func_02018D34 mask the
+ * caller's seed is never modified, which is what lets POKE_TOOL_DecodeBoxBlock mask the
  * same area twice with the same seed to undo itself.
  *
  * func_02019A7C carries no label in the generated listing.

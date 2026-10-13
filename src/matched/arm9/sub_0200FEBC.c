@@ -1,5 +1,5 @@
 /*
- * function: sub_0200FEBC
+ * function: GFL_NET_ERR_RestoreDisplay
  * address:  0x0200FEBC
  * packet:   pkt_0200FEBC
  * region:   arm9
@@ -16,7 +16,7 @@
  *   G2_GetBG1CharPtr          0x0207E24C  arm
  *   G2_GetBG1ScrPtr           0x0207DFB4  arm
  *   MIi_CpuCopy16             0x02082A60  arm
- *   func_0203D828             0x0203D828  arm
+ *   GFL_NET_GetIrcParams             0x0203D828  arm
  *   GX_SetGraphicsMode        0x0207D4B0  arm
  *   func_020809A0             0x020809A0  arm
  *   func_020808F4             0x020808F4  arm
@@ -25,14 +25,14 @@
  *   GX_HBlankIntr             0x0207D3AC  arm
  *   GX_VBlankIntr             0x0207D3E4  arm
  *   OS_WaitIrq                0x0208459C  arm
- *   g_0214617C                0x0214617C  data
+ *   gNetErrWork                0x0214617C  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200FEBC.c  *       --func sub_0200FEBC --addr 0x0200FEBC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_NET_ERR_RestoreDisplay.c  *       --func GFL_NET_ERR_RestoreDisplay --addr 0x0200FEBC --cc 1.1p1 --thumb
  *
- * net_err.c: restore the 2D state sub_0200FD38 saved (docs/families/
+ * net_err.c: restore the 2D state GFL_NET_ERR_SaveDisplayAndDraw saved (docs/families/
  * net_err.h).  Wave 14 closed the 43-byte bitfield-unpack schedule of
- * docs/notes/sub_0200FEBC.c.txt: G2_SetBG1Control's parameters are the
+ * docs/notes/GFL_NET_ERR_RestoreDisplay.c.txt: G2_SetBG1Control's parameters are the
  * SDK's ENUM types (GXBGScrSizeText, GXBGColorMode, GXBGScrBase,
  * GXBGCharBase, GXBGExtPltt), not int.  With enum parameters mwcc
  * materialises each bitfield argument into a temporary, right to left,
@@ -107,7 +107,7 @@ extern void func_020435F4(u32 a);
 extern void *G2_GetBG1CharPtr(void);
 extern void *G2_GetBG1ScrPtr(void);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
-extern void func_0203D828(u32 *a, u32 *b);
+extern void GFL_NET_GetIrcParams(u32 *a, u32 *b);
 extern void GX_SetGraphicsMode(u32 dispMode, u32 bgMode, u32 bg0_2d3d);
 extern int func_020809A0(void);
 extern int func_020808F4(void);
@@ -116,7 +116,7 @@ extern void GX_SetBankForSubBG(u32 bank);
 extern BOOL GX_HBlankIntr(BOOL on);
 extern BOOL GX_VBlankIntr(BOOL on);
 extern u32  OS_WaitIrq(BOOL clear, u32 mask);
-extern u8   g_0214617C[];
+extern u8   gNetErrWork[];
 
 #define reg_GX_MASTER_BRIGHT     (*(volatile u16 *)0x0400006C)
 #define reg_GXS_DB_MASTER_BRIGHT (*(volatile u16 *)0x0400106C)
@@ -169,9 +169,9 @@ static inline void G2_SetBG1Offset(int hOffset, int vOffset)
     reg_G2_BG1OFS = (u32)(((hOffset << 0) & 0x1FF) | ((vOffset << 16) & 0x1FF0000));
 }
 
-void sub_0200FEBC(BOOL keepDark)
+void GFL_NET_ERR_RestoreDisplay(BOOL keepDark)
 {
-    NetErrWork *w = (NetErrWork *)g_0214617C;
+    NetErrWork *w = (NetErrWork *)gNetErrWork;
     u32 x;
     u32 y;
 
@@ -190,7 +190,7 @@ void sub_0200FEBC(BOOL keepDark)
     G2_SetBG1Control(w->bg1Cnt.screenSize, w->bg1Cnt.colorMode, w->bg1Cnt.screenBase,
                      w->bg1Cnt.charBase, w->bg1Cnt.bgExtPltt);
     G2_BG1Mosaic(w->bg1Cnt.mosaic);
-    func_0203D828(&x, &y);
+    GFL_NET_GetIrcParams(&x, &y);
     G2_SetBG1Offset(x, y);
     GX_SetGraphicsMode(w->dispCnt.dispMode, w->dispCnt.bgMode, w->dispCnt.bg0_2d3d);
     GX_SetVisiblePlane(w->dispCnt.visiblePlane);

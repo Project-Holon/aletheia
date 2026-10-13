@@ -21,10 +21,10 @@
  *   func_021DA8B0 0x021DA8B0 thumb ov121
  *   func_021DA8B8 0x021DA8B8 thumb ov121
  *   func_021DC08C 0x021DC08C thumb ov121
- *   func_021DE014 0x021DE014 thumb ov121
- *   func_0200A0C8 0x0200A0C8 thumb
- *   func_0200A2B8 0x0200A2B8 thumb
- *   func_0200A2D8 0x0200A2D8 thumb
+ *   MYSTERY_ALBUM_IsIntroIdle 0x021DE014 thumb ov121
+ *   MYSTERY_DATA_HasCardSpace 0x0200A0C8 thumb
+ *   MYSTERY_DATA_SaveStart 0x0200A2B8 thumb
+ *   MYSTERY_DATA_SaveMain 0x0200A2D8 thumb
  *   func_02082BCC 0x02082BCC arm
  */
 #include "../include/Obj00253.h"
@@ -44,10 +44,10 @@ extern int func_021DA178(char *p);
 extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021DA8B8(u32 *p);
 extern void func_021DC08C(void *task, u32 *state, char *p);
-extern int func_021DE014(char *p);
-extern u32 func_0200A0C8(u8 *p);
-extern void func_0200A2B8(void *a0, int a1);
-extern int func_0200A2D8(void *a0, int a1);
+extern int MYSTERY_ALBUM_IsIntroIdle(char *p);
+extern u32 MYSTERY_DATA_HasCardSpace(u8 *p);
+extern void MYSTERY_DATA_SaveStart(void *a0, int a1);
+extern int MYSTERY_DATA_SaveMain(void *a0, int a1);
 extern void func_02082BCC(void *,int,int);
 void func_021DCCE4(void *arg,u32 *state,char *p)
 {
@@ -60,7 +60,7 @@ void func_021DCCE4(void *arg,u32 *state,char *p)
         break;
     case 1:
         if (!((struct Obj00253 *)p)->f0) *state=5;
-        else if (func_0200A0C8(((struct Obj00253 *)p)->fC)) *state=5;
+        else if (MYSTERY_DATA_HasCardSpace(((struct Obj00253 *)p)->fC)) *state=5;
         else *state=2;
         break;
     case 2:
@@ -118,14 +118,14 @@ void func_021DCCE4(void *arg,u32 *state,char *p)
         break;
     case 8:
         ready=1;
-        if (((struct Obj00253 *)p)->fAAC && !func_021DE014(((struct Obj00253 *)p)->fAAC)) ready=0;
+        if (((struct Obj00253 *)p)->fAAC && !MYSTERY_ALBUM_IsIntroIdle(((struct Obj00253 *)p)->fAAC)) ready=0;
         if (ready) {
-            func_0200A2B8(((struct Obj00253 *)p)->fC,(int)(((struct Obj00253 *)p)->f20));
+            MYSTERY_DATA_SaveStart(((struct Obj00253 *)p)->fC,(int)(((struct Obj00253 *)p)->f20));
             *state=9;
         }
         break;
     case 9:
-        if (func_0200A2D8(((struct Obj00253 *)p)->fC,(int)(((struct Obj00253 *)p)->f20))==2) *state=10;
+        if (MYSTERY_DATA_SaveMain(((struct Obj00253 *)p)->fC,(int)(((struct Obj00253 *)p)->f20))==2) *state=10;
         break;
     case 10:
         if (((struct Obj00253 *)p)->fABC) {

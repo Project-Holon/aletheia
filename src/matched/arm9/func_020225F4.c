@@ -1,5 +1,5 @@
 /*
- * function: func_020225F4
+ * function: WIPE_SUB_ResolveColor
  * address:  0x020225F4
  * packet:   pkt_02022174
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * Sentinel resolver for the dual-screen text cluster: 0xFFFF in the caller's
  * value means "use the object's own default", which lives in the u16 at
- * +0x150, the same sentinel colour slot func_0202223C and func_02022268 read.
+ * +0x150, the same sentinel colour slot func_0202223C and WIPE_SetMstBrightColor read.
  * Any other value passes through untouched, which is what fixes the return
  * type as u32 rather than u16: the pass-through arm carries no truncation.
  *
@@ -21,8 +21,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020225F4.c \
- *       --func func_020225F4 --addr 0x020225F4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_ResolveColor.c \
+ *       --func WIPE_SUB_ResolveColor --addr 0x020225F4 --cc 1.1p1 --thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,7 +33,7 @@ struct TextObj {
     u16 f150;
 };
 
-u32 func_020225F4(struct TextObj *obj, u32 value)
+u32 WIPE_SUB_ResolveColor(struct TextObj *obj, u32 value)
 {
     if (value == 0xFFFF)
         value = obj->f150;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DA8BC",
+   "name": "P_STA_SKILL_HideMovesPage",
    "address": "0x021DA8BC",
    "kind": "game",
    "region": "ov131",

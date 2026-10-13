@@ -1,7 +1,7 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * function: func_0204CC6C
+ * function: CLACT_ApplyActorTransform
  * address:  0x0204CC6C
  * packet:   pkt_0204CC6C
  * region:   arm9
@@ -24,7 +24,7 @@
  * Each has exactly one branch reference image-wide and it is the call in this
  * function, so `label` cannot see them and a single function cannot be split.
  * Closing all three turns this file EXACT and makes it the `matched` witness
- * that src/pending/func_0204CB44.c's last open site needs.
+ * that src/pending/CLACT_DrawActor.c's last open site needs.
  *
  * What it does.  Publishes the cell actor's two coordinate pairs into the
  * render state.  Each s16 field is converted with the same inlined helper:
@@ -101,7 +101,7 @@ extern void func_02066080(struct Obj02066080 *c);
 
 #define CONV(d, v) do { s32 _t = (v); if (_t > 0) { (d) = (f32)(_t << 12) + 0.5f; } else { (d) = (f32)(_t << 12) - 0.5f; } } while (0)
 
-void func_0204CC6C(struct Obj *o)
+void CLACT_ApplyActorTransform(struct Obj *o)
 {
     f32 a, b;
     s32 i;
@@ -144,6 +144,6 @@ void func_0204CC6C(struct Obj *o)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204CC6C.c \
- *       --func func_0204CC6C --addr 0x0204CC6C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_ApplyActorTransform.c \
+ *       --func CLACT_ApplyActorTransform --addr 0x0204CC6C --cc 1.1p1 --arm
  */

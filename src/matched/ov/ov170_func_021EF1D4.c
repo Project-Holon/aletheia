@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035BA4 0x02035BA4 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_HitCont 0x02035BA4 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   d_021F0034 0x021F0034 data a1
  */
 
-extern int func_02035BA4(const void *p);
-extern unsigned func_02035CB8(unsigned *outA, unsigned *outB);
+extern int TOUCHPANEL_HitCont(const void *p);
+extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
 extern const unsigned char d_021F0034[];
 
 int func_021EF1D4(unsigned *a, unsigned *b)
 {
-    if (func_02035BA4(d_021F0034) != -1) {
-        func_02035CB8(a, b);
+    if (TOUCHPANEL_HitCont(d_021F0034) != -1) {
+        TOUCHPANEL_GetPointCont(a, b);
         return 1;
     }
     return 0;

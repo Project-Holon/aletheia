@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020275DC 0x020275DC thumb
+ *   BEACON_STATUS_IsLocked 0x020275DC thumb
  *   func_021DD90C 0x021DD90C thumb ov119
  *   func_021D9468 0x021D9468 thumb ov119
  *   func_021D8A50 0x021D8A50 thumb ov119
@@ -18,7 +18,7 @@
  *   func_02028178 0x02028178 thumb
  *   func_020399A8 0x020399A8 arm
  *   func_0203D3A8 0x0203D3A8 arm
- *   func_0201DE00 0x0201DE00 thumb
+ *   GF_FONT_GetTextColor 0x0201DE00 thumb
  *   func_0201DD78 0x0201DD78 thumb
  *   func_020310C4 0x020310C4 arm
  *   func_0201C4E4 0x0201C4E4 thumb
@@ -26,8 +26,8 @@
  *   func_02047964 0x02047964 arm
  *   func_02048AD0 0x02048AD0 arm
  *   func_020479D8 0x020479D8 arm
- *   func_02014C08 0x02014C08 thumb
- *   func_02014D2C 0x02014D2C thumb
+ *   MCSS_Main 0x02014C08 thumb
+ *   MCSS_Draw 0x02014D2C thumb
  *   func_021E31B4 0x021E31B4 thumb ov119
  *   func_02047970 0x02047970 arm
  *   func_021D8A24 0x021D8A24 thumb ov119
@@ -35,10 +35,10 @@
  *   func_0200F7C0 0x0200F7C0 thumb
  *   func_021B9774 0x021B9774 thumb ov114
  *   func_021B9838 0x021B9838 thumb ov114
- *   func_02156DC4 0x02156DC4 thumb ov009
- *   func_02156ED0 0x02156ED0 thumb ov009
- *   func_0203D29C 0x0203D29C arm
- *   func_02157170 0x02157170 thumb ov009
+ *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
+ *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb ov009
+ *   GFL_NET_IsNetTypeWifi 0x0203D29C arm
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   func_0200FB38 0x0200FB38 thumb
  *   func_021DC818 0x021DC818 thumb ov119
  *   func_0202223C 0x0202223C thumb
@@ -49,10 +49,10 @@ typedef struct Bits {u8 low:4,high:4;} Bits;
 struct Light;
 struct McssSys;
 struct Tcbl;
-extern int func_020275DC(void);
+extern int BEACON_STATUS_IsLocked(void);
 extern int func_021D8A24(void *);
 extern u32 func_0200FB24(void);
-extern u32 func_0203D29C(void);
+extern u32 GFL_NET_IsNetTypeWifi(void);
 extern void func_021DD90C(u8 *p, int i, int msg, int force);
 extern void func_021D9468(void *,int,void *);
 extern void func_021D8A50(void *);
@@ -62,7 +62,7 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned short u16;
 extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
-extern void func_0201DE00(u8 *,u8 *,u8 *);
+extern void GF_FONT_GetTextColor(u8 *,u8 *,u8 *);
 extern void func_0201DD78(u32,u32,u32);
 extern void func_020310C4(struct Tcbl *p);
 struct PrintSys;
@@ -71,16 +71,16 @@ extern void func_021DF978(void *);
 extern void func_02047964(void);
 extern void func_02048AD0(struct Light *l);
 extern void func_020479D8(void);
-extern void func_02014C08(char *);
-extern void func_02014D2C(struct McssSys *sys);
+extern void MCSS_Main(char *);
+extern void MCSS_Draw(struct McssSys *sys);
 extern void func_021E31B4(void *);
 extern void func_02047970(void);
 extern void func_0200F7C0(unsigned);
 extern void func_021B9774(u8 *);
 extern void func_021B9838(u8 *);
-extern void func_02156DC4(int,int);
-extern void func_02156ED0(void);
-extern int func_02157170(int a0, int a1);
+extern void DWC_RAP_SetErrorCallback(int,int);
+extern void DWC_RAPCOMMON_DestroySubHeap(void);
+extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
 extern void func_0200FB38(void);
 extern void func_021DC818(char *);
 extern void func_0202223C(unsigned,unsigned);
@@ -93,7 +93,7 @@ int func_021DCD38(int a,int b,int c,char *p)
     void (*callback)(char *)=*(void (**)(char *))(p+0x5ec);
     int i;
     u8 rgb[3];
-    if(func_020275DC()) return 0;
+    if(BEACON_STATUS_IsLocked()) return 0;
     if(callback) {
         callback(p);
         I(0xf2c)++;
@@ -110,21 +110,21 @@ int func_021DCD38(int a,int b,int c,char *p)
         if(func_0203D3A8((struct Entry *)((unsigned)func_020399A8()),0xc17,0,0)) ((Bits *)(p+0x11fb))->high=0;
     }
     if(P(0x744)) {
-        func_0201DE00(&rgb[2],&rgb[1],&rgb[0]);
+        GF_FONT_GetTextColor(&rgb[2],&rgb[1],&rgb[0]);
         func_0201DD78(1,2,15);
         func_020310C4(P(0x744));
         func_0201DD78(rgb[2],rgb[1],rgb[0]);
         func_0201C4E4(P(0x740));
     }
     func_021DF978(p);func_02047964();func_02048AD0(P(0x810));func_020479D8();
-    func_02014C08(P(0x840));func_02014D2C(P(0x840));func_021E31B4(p);func_02047970();
+    MCSS_Main(P(0x840));MCSS_Draw(P(0x840));func_021E31B4(p);func_02047970();
     if(func_021D8A24(p) && I(0xef8)==0 && func_0200FB24()) {
         if(B(0x11f7)) func_0200F7C0(41);
         if(P(0)) {
             func_021B9774(P(0));func_021B9838(P(0));P(0)=0;
-            func_02156DC4(0,0);func_02156ED0();
+            DWC_RAP_SetErrorCallback(0,0);DWC_RAPCOMMON_DestroySubHeap();
         }
-        if(func_0203D29C()) func_02157170(1,1);
+        if(GFL_NET_IsNetTypeWifi()) DWC_RAPCOMMON_HandleNetError(1,1);
         else if(I(0x118c)!=1) func_0200FB38();
         *(int *)((char *)P(8)+8)=2;
         func_021DC818(p);

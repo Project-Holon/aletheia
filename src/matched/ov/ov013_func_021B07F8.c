@@ -1,5 +1,5 @@
 /*
- * function: func_021B07F8
+ * function: VCT_SESSION_QueueFrame
  * address: 0x021B07F8
  * packet: pkt_ov013_021B07F8
  * region: ov013
@@ -15,7 +15,7 @@
  * G7L4 form: opt_propagation off, `(i < 3) ? 1 : 0` while loop, magic and divisor as named locals.
  * symbols:
  *   d_021B3C84     0x021B3C84  data  ov013  a4
- *   d_021B3CB0     0x021B3CB0  data  ov013  a4
+ *   gVctMembers     0x021B3CB0  data  ov013  a4
  *   d_021B42C0     0x021B42C0  data  ov013  a4
  *   func_02082B0C  0x02082B0C  arm
  *   func_020870D0  0x020870D0  arm
@@ -61,12 +61,12 @@ typedef struct
   u32 f8;
 } PacketHeader;
 extern Ctx3C84 d_021B3C84;
-extern Req * const d_021B3CB0[3];
+extern Req * const gVctMembers[3];
 extern struct Ctx42C0 d_021B42C0;
 extern void func_02082B0C(const void *src, void *dst, u32 n);
 extern u64 func_020870D0(void);
 #pragma opt_propagation off
-int func_021B07F8(const u8 *src, u32 n)
+int VCT_SESSION_QueueFrame(const u8 *src, u32 n)
 {
   PacketHeader *hdr;
   u32 i;
@@ -88,7 +88,7 @@ int func_021B07F8(const u8 *src, u32 n)
   i = 0;
   while ((i < 3) ? (1) : (0))
   {
-    if ((0 != d_021B3CB0[i]) && (d_021B3CB0[i]->fC == 2))
+    if ((0 != gVctMembers[i]) && (gVctMembers[i]->fC == 2))
     {
       found = 1;
       break;

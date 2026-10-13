@@ -1,5 +1,5 @@
 /*
- * function: sub_0204AF28
+ * function: CLACT_RegisterCellAnim
  * address:  0x0204AF28
  * packet:   pkt_0204ADEC
  * region:   arm9
@@ -11,14 +11,14 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A74     0x02146A74  data
+ *   g_ClactSystem     0x02146A74  data
  *   func_02049250  0x02049250  arm
- *   func_0204E074  0x0204E074  arm
+ *   CLACT_LoadCellAnimBanks  0x0204E074  arm
  *
  * Claim the first live slot of the 0x14-byte entry pool that lives at
  * +0x104 of the singleton behind 0x02146A74, build its two handles through
  * func_02049250 (same owner and same mode for both, second argument
- * differing), publish the pair with func_0204E074 and hand the slot index
+ * differing), publish the pair with CLACT_LoadCellAnimBanks and hand the slot index
  * back.
  *
  * The scan is an inlined helper, which is what puts the "not found" answer
@@ -37,14 +37,14 @@
  * must also be the guard-plus-do-while form: a plain `for` hoists the
  * entries load above the guard.
  *
- * Previously capped at MATCH: the PC24 at +0xa0 (func_0204E074) had no
+ * Previously capped at MATCH: the PC24 at +0xa0 (CLACT_LoadCellAnimBanks) had no
  * witness outside 0204AF28..0204AFD8, this function being 0x0204E074's only
- * caller image-wide.  src/matched/func_0204E074.c now reproduces that range
+ * caller image-wide.  src/matched/CLACT_LoadCellAnimBanks.c now reproduces that range
  * EXACT, so the site resolves in the `matched` class and the file is EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204AF28.c \
- *       --func sub_0204AF28 --addr 0x0204AF28 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_RegisterCellAnim.c \
+ *       --func CLACT_RegisterCellAnim --addr 0x0204AF28 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -71,15 +71,15 @@ struct Ctx {
     struct Pool pool;
 };
 
-extern struct Ctx *g_02146A74;
+extern struct Ctx *g_ClactSystem;
 
 struct ArcFile;
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern s32 func_0204E074(struct Pool *pool, s32 idx, void *a, void *b);
+extern s32 CLACT_LoadCellAnimBanks(struct Pool *pool, s32 idx, void *a, void *b);
 
-s32 sub_0204AF28(void *owner, u32 first, u32 second, u32 mode)
+s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode)
 {
-    struct Pool *pool = &g_02146A74->pool;
+    struct Pool *pool = &g_ClactSystem->pool;
     struct Entry *entry;
     s32 idx;
 
@@ -97,12 +97,12 @@ s32 sub_0204AF28(void *owner, u32 first, u32 second, u32 mode)
     }
     idx = -1;
 found:
-    entry = &g_02146A74->pool.entries[idx];
+    entry = &g_ClactSystem->pool.entries[idx];
 
     entry->unk_00 = func_02049250(owner, first, mode);
     entry->unk_04 = func_02049250(owner, second, mode);
 
-    func_0204E074(&g_02146A74->pool, idx, entry->unk_00, entry->unk_04);
+    CLACT_LoadCellAnimBanks(&g_ClactSystem->pool, idx, entry->unk_00, entry->unk_04);
 
     return idx;
 }

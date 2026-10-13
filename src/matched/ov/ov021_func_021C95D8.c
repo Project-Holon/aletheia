@@ -10,7 +10,7 @@
  * status:   EXACT
  * The `adds r4, r6, #0` before the first loop is the second loop's counter
  * initialised to 0 and shared as the first loop's constant 0 argument; both
- * loops use one counter i. Callee widths from arm9 func_02048744.
+ * loops use one counter i. Callee widths from arm9 G3D_UTIL_BuildUnitObjectsLoaded.
  * symbols:
  *   func_021AC1AC  0x021AC1AC  thumb  ov021
  *   func_021AC1CC  0x021AC1CC  thumb  ov021

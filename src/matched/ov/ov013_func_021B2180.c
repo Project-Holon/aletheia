@@ -1,5 +1,5 @@
 /*
- * function: func_021B2180
+ * function: VCT_SESSION_SendPeerReply
  * address: 0x021B2180
  * packet: pkt_ov013_021B2180
  * region: ov013
@@ -9,16 +9,16 @@
  * isa: arm
  * status: EXACT
  * symbols:
- *   d_021B60D8 0x021B60D8 data a4
- *   func_021B25B0 0x021B25B0 arm ov013
+ *   gVctSession 0x021B60D8 data a4
+ *   VCT_SESSION_SendReply 0x021B25B0 arm ov013
  */
 
 #include "../include/G_Sess.h"
 
-extern struct Sess d_021B60D8;
-extern int func_021B25B0(int, int);
-int func_021B2180(int a, int b)
+extern struct Sess gVctSession;
+extern int VCT_SESSION_SendReply(int, int);
+int VCT_SESSION_SendPeerReply(int a, int b)
 {
-    if (((int *)&d_021B60D8)[4] == 2) return -3;
-    return func_021B25B0(a,b);
+    if (((int *)&gVctSession)[4] == 2) return -3;
+    return VCT_SESSION_SendReply(a,b);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     iss_dungeon_sys.c
  * unit:     yes
- * function: func_0202B230, func_0202B254, func_0202B28C, func_0202B2A4, func_0202B2BC, func_0202B2CC, func_0202B2FC, func_0202B360, func_0202B374, func_0202B3A0, func_0202B3EC, func_0202B404, func_0202B420, func_0202B424, func_0202B42C, func_0202B434, func_0202B438, func_0202B454, func_0202B47C, func_0202B490, func_0202B49C
+ * function: ISS_ROAD_SYS_UpdateVolume, ISS_ROAD_SYS_HasPlayerMoved, ISS_ROAD_SYS_FadeIn, ISS_ROAD_SYS_FadeOut, ISS_ROAD_SYS_ApplyVolume, ISS_DUNGEON_SYS_ApplyTrack, ISS_DUNGEON_SYS_CreateTable, ISS_DUNGEON_SYS_DeleteTable, ISS_DUNGEON_SYS_FindRecord, ISS_DUNGEON_SYS_Create, ISS_DUNGEON_SYS_Delete, ISS_DUNGEON_SYS_Update, ISS_DUNGEON_SYS_SetTargetAreaId, ISS_DUNGEON_SYS_Start, ISS_DUNGEON_SYS_Stop, func_0202B434, func_0202B438, ISS_DUNGEON_SYS_ResetTracks, ISS_DUNGEON_SYS_Activate, ISS_DUNGEON_SYS_Deactivate, ISS_DUNGEON_SYS_SelectRecord
  * address:  0x0202B230
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,604 +14,413 @@
  *
  * symbols:
  *   func_02012984  0x02012984  thumb
+ *   GFL_USE_GetBgmHandle  0x02005C3C  thumb
+ *   GFL_USE_SetBgmTrackParams  0x02005EE0  thumb
+ *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
+ *   NNS_SndHandleSetTrackPitch  0x02073018  arm
  */
-#include "../../matched/include/Obj03001.h"
-#include "../../matched/include/Obj15831.h"
-#include "../../matched/include/Obj05726.h"
-#include "../../matched/include/Obj15832.h"
-#include "../../matched/include/Obj03438.h"
-#include "../../matched/include/Obj15834.h"
-#include "../../matched/include/Obj02009.h"
-#include "../../matched/include/Obj15835.h"
-#include "../../matched/include/Obj15836.h"
-#include "../../matched/include/Obj15837.h"
-#include "../../matched/include/Obj15838.h"
-#include "../../matched/include/Obj11315.h"
-
-struct Rec44;
-struct Vec12;
+struct PlayerWork;
+struct GameData;
 struct Obj;
-struct Node;
-struct BigObj;
 typedef unsigned char u8;
 
 typedef unsigned int  u32;
-
-struct S {
-    u32 a;
-    u32 b;
-    u32 c;
-};
 
 typedef signed int    s32;
 
 typedef unsigned short u16;
 
-typedef struct Item {
-    u16 id;
-    u8 pad[0x1a];
-} Item;
+typedef signed short  s16;
 
-typedef struct Container {
+typedef struct PlayerPosition {
+    u32 x, y, z;
+} PlayerPosition;
+
+/* Footstep-road sound state (same layout as in iss_road_sys.c). */
+typedef struct IssRoadSys {
+    u32 isActive;
+    s32 volume;
+    struct PlayerWork *player;
+    PlayerPosition lastPosition;
+} IssRoadSys;
+
+/* One 0x1c-byte row of the dungeon sound table (archive 0x92), keyed by area id. */
+typedef struct DungeonSoundRecord {
+    u16 areaId;
+    u8 pad02[2];
+    s16 trackValue[4];
+    u16 trackSlot[4];
+    u8 pad14[8];
+} DungeonSoundRecord;
+
+typedef struct DungeonSoundTable {
     u8 count;
-    u8 pad[3];
-    Item * volatile items;
-} Container;
+    u8 pad01[3];
+    DungeonSoundRecord * volatile records;
+} DungeonSoundTable;
 
-extern struct Vec12 *func_02012AA0(struct Rec44 *p);
-extern void func_02005F24(u32 a, u32 b);
-extern void func_02005EE0(u32 a, u32 b, u32 c, u32 d);
-extern u32 *func_02005C3C(void);
-extern void func_02073018(struct Obj *o, u32 v, u32 w);
+/* Dungeon-area sound state, 0x38 bytes. */
+typedef struct IssDungeonSys {
+    u16 heapId;
+    u8 pad02[2];
+    struct PlayerWork *player;
+    struct GameData *gameData;
+    u32 isActive;
+    u16 currentAreaId;
+    u16 targetAreaId;
+    DungeonSoundTable *table;
+    DungeonSoundRecord *record;
+    u16 lastTrackSlot;
+    u8 pad1E[2];
+    u16 trackOffset[4];
+    u16 trackScale[4];
+    u16 trackValue[4];
+} IssDungeonSys;
+
+extern PlayerPosition *func_02012AA0(struct PlayerWork *player);
+extern void GFL_USE_SetBgmTrackVolume(u32 a, u32 b);
+extern void GFL_USE_SetBgmTrackParams(u32 a, u32 b, u32 c, u32 d);
+extern u32 *GFL_USE_GetBgmHandle(void);
+extern void NNS_SndHandleSetTrackPitch(struct Obj *o, u32 v, u32 w);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02049030(u32 a);
 extern void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
 extern u32 func_020307B0(void *p);
-extern u8 func_02012984(const struct BigObj *p);
-void func_0202B230(u8 *p);
-u32 func_0202B254(u8 *p);
-void func_0202B28C(u8 *p);
-void func_0202B2A4(u8 *p);
-void func_0202B2BC(u8 *p);
-void func_0202B2CC(u8 *p, u32 idx);
-u8 *func_0202B2FC(u32 heapId);
-void func_0202B360(u8 *p);
-Item *func_0202B374(Container *c, u16 id);
-struct Node *func_0202B3A0(u32 a, u32 b, u32 heapId);
-void func_0202B3EC(u8 *p);
-void func_0202B404(u8 *p);
-void func_0202B420(u8 *p, u16 v);
-void func_0202B424(u8 *a0);
-void func_0202B42C(u8 *a0);
-u32 func_0202B434(u8 *p);
-u32 func_0202B438(u8 *p, u16 id);
-void func_0202B454(char *p);
-void func_0202B47C(u8 *p);
-void func_0202B490(u8 *p);
-void func_0202B49C(u8 *p, u16 id);
-
-
-
-
-
-
-
-
+extern u8 func_02012984(const struct GameData *gd);
+void ISS_ROAD_SYS_UpdateVolume(IssRoadSys *road);
+u32 ISS_ROAD_SYS_HasPlayerMoved(IssRoadSys *road);
+void ISS_ROAD_SYS_FadeIn(IssRoadSys *road);
+void ISS_ROAD_SYS_FadeOut(IssRoadSys *road);
+void ISS_ROAD_SYS_ApplyVolume(IssRoadSys *road);
+void ISS_DUNGEON_SYS_ApplyTrack(DungeonSoundRecord *record, u32 trackIndex);
+DungeonSoundTable *ISS_DUNGEON_SYS_CreateTable(u32 heapId);
+void ISS_DUNGEON_SYS_DeleteTable(DungeonSoundTable *table);
+DungeonSoundRecord *ISS_DUNGEON_SYS_FindRecord(DungeonSoundTable *table, u16 areaId);
+IssDungeonSys *ISS_DUNGEON_SYS_Create(struct GameData *gameData, struct PlayerWork *player, u32 heapId);
+void ISS_DUNGEON_SYS_Delete(IssDungeonSys *dungeon);
+void ISS_DUNGEON_SYS_Update(IssDungeonSys *dungeon);
+void ISS_DUNGEON_SYS_SetTargetAreaId(IssDungeonSys *dungeon, u16 areaId);
+void ISS_DUNGEON_SYS_Start(IssDungeonSys *dungeon);
+void ISS_DUNGEON_SYS_Stop(IssDungeonSys *dungeon);
+u32 func_0202B434(IssDungeonSys *dungeon);
+u32 func_0202B438(IssDungeonSys *dungeon, u16 areaId);
+void ISS_DUNGEON_SYS_ResetTracks(IssDungeonSys *dungeon);
+void ISS_DUNGEON_SYS_Activate(IssDungeonSys *dungeon);
+void ISS_DUNGEON_SYS_Deactivate(IssDungeonSys *dungeon);
+void ISS_DUNGEON_SYS_SelectRecord(IssDungeonSys *dungeon, u16 areaId);
 
 /*
- * When the object is active, polls it and either advances or retreats.
+ * Road sound update. When the road sound is active, raises the volume if the
+ * player moved since the last call, otherwise lowers it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B230.c \
- *       --func func_0202B230 --addr 0x0202B230 --thumb --cc 1.1p1
- *
- * Closed by the `matched` class: 0x0202B254 was filed as an EXACT entry this wave (pkt_0202B230).
+ *   python tools/match.py one --src src/matched/ISS_ROAD_SYS_UpdateVolume.c \
+ *       --func ISS_ROAD_SYS_UpdateVolume --addr 0x0202B230 --thumb --cc 1.1p1
  */
-void func_0202B230(u8 *p)
+void ISS_ROAD_SYS_UpdateVolume(IssRoadSys *road)
 {
-    if (((struct Obj03001 *)p)->f0 == 0) {
+    if (road->isActive == 0) {
         return;
     }
-    if (func_0202B254(p) != 0) {
-        func_0202B28C(p);
+    if (ISS_ROAD_SYS_HasPlayerMoved(road) != 0) {
+        ISS_ROAD_SYS_FadeIn(road);
     } else {
-        func_0202B2A4(p);
+        ISS_ROAD_SYS_FadeOut(road);
     }
 }
 
-
-
-
-
-
-
-
-
 /*
- * Compares the 12 bytes at +0xc against the record func_02012AA0 returns from
- * the pointer at +8, then copies the record over them either way, and reports
- * whether they differed.
+ * Compares the 12-byte last position against the player's current position,
+ * then stores the current position either way, and reports whether they
+ * differed.
  *
  * The guard has to be written as a conjunction of equalities over subscripts:
  * `if (s[0] == d[0] && s[1] == d[1] && s[2] == d[2]) differ = 0; else differ = 1;`
  * Each test then branches *away* to the shared "1" block and the "0" block falls
- * through, which is the original's shape (movs r3,#0; b over; movs r3,#1).  The
- * disjunction of inequalities - `differ = (s[0] != d[0]) || ...` - is the same
- * value but emits the last test with the opposite polarity and an inline
- * `movs r3,#1`, five bytes away; the ternary spelling of the same conjunction
- * keeps the polarity but moves the copy, and loses the match.
- *
- * Closes the blocker of src/pending/func_0202B230.c, and through it
- * src/pending/func_0202B1F4.c and src/pending/func_0202B6CC.c.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B254.c \
- *       --func func_0202B254 --addr 0x0202B254 --thumb --cc 1.1p1
+ * through, which is the original shape (movs r3,#0; b over; movs r3,#1).  The
+ * disjunction of inequalities is the same value but emits the last test with
+ * the opposite polarity; the ternary spelling keeps the polarity but moves the
+ * copy, and loses the match.
  */
-u32 func_0202B254(u8 *p)
+u32 ISS_ROAD_SYS_HasPlayerMoved(IssRoadSys *road)
 {
-    u32 *s = (u32 *)func_02012AA0((struct Rec44 *)(((struct Obj03001 *)p)->f8));
-    int differ;
+    u32 *position = (u32 *)func_02012AA0(road->player);
+    int moved;
 
-    if (s[0] == ((struct Obj03001 *)p)->fC && s[1] == ((struct Obj03001 *)p)->f10 &&
-        s[2] == ((struct Obj03001 *)p)->f14) {
-        differ = 0;
+    if (position[0] == road->lastPosition.x && position[1] == road->lastPosition.y &&
+        position[2] == road->lastPosition.z) {
+        moved = 0;
     } else {
-        differ = 1;
+        moved = 1;
     }
-    *(struct S *)(p + 0xc) = *(struct S *)s;
-    return (u32)differ;
+    road->lastPosition = *(PlayerPosition *)position;
+    return (u32)moved;
 }
 
-
-
-
-
-
-
-
-
 /*
- * Raises the object's signed +4 value by 8, saturating at 0x7f, and
- * refreshes it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B28C.c \
- *       --func func_0202B28C --addr 0x0202B28C --thumb --cc 1.1p1
+ * Raises the signed volume by 8, saturating at 0x7f, and applies it.
  */
-void func_0202B28C(u8 *p)
+void ISS_ROAD_SYS_FadeIn(IssRoadSys *road)
 {
-    s32 v = (s32)((struct Obj03001 *)p)->f4;
+    s32 volume = road->volume;
 
-    if (v < 0x7f) {
-        v += 8;
-        if (v > 0x7f) {
-            v = 0x7f;
+    if (volume < 0x7f) {
+        volume += 8;
+        if (volume > 0x7f) {
+            volume = 0x7f;
         }
-        ((struct Obj03001 *)p)->f4 = (u32)v;
-        func_0202B2BC(p);
+        road->volume = volume;
+        ISS_ROAD_SYS_ApplyVolume(road);
     }
 }
 
-
-
-
-
-
-
-
-
 /*
- * Lowers the object's +4 value by 8, saturating at 0, and refreshes it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B2A4.c \
- *       --func func_0202B2A4 --addr 0x0202B2A4 --thumb --cc 1.1p1
+ * Lowers the volume by 8, saturating at 0, and applies it.
  */
-void func_0202B2A4(u8 *p)
+void ISS_ROAD_SYS_FadeOut(IssRoadSys *road)
 {
-    s32 v = (s32)((struct Obj03001 *)p)->f4;
+    s32 volume = road->volume;
 
-    if (v > 0) {
-        v -= 8;
-        if (v < 0) {
-            v = 0;
+    if (volume > 0) {
+        volume -= 8;
+        if (volume < 0) {
+            volume = 0;
         }
-        ((struct Obj03001 *)p)->f4 = (u32)v;
-        func_0202B2BC(p);
+        road->volume = volume;
+        ISS_ROAD_SYS_ApplyVolume(road);
     }
 }
 
-
-
-
-
-
-
-
-
 /*
- * Tail-calls func_02005F24(0x300, value).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B2BC.c \
- *       --func func_0202B2BC --addr 0x0202B2BC --thumb --cc 1.1p1
+ * Tail-calls GFL_USE_SetBgmTrackVolume(0x300, volume).
  */
-void func_0202B2BC(u8 *p)
+void ISS_ROAD_SYS_ApplyVolume(IssRoadSys *road)
 {
-    func_02005F24(0x300, ((struct Obj15831 *)p)->f4);
+    GFL_USE_SetBgmTrackVolume(0x300, road->volume);
 }
 
-
-
-
-
-
-
-
-
 /*
- * closed:   blocker func_0202B2CC.c is now a manifest entry (matched class)
- *
- * Indexed-eighth-of-a-word helper: a u16 lane at 0xc+2i and a signed u16 lane
- * at 4+2i of the same record, fed to the tile/VRAM helpers.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0202B2CC.c \
- *       --func func_0202B2CC --addr 0x0202B2CC --thumb --cc 1.1p1
+ * Applies one track of a sound record: its trackSlot entry to the tile/VRAM
+ * helper, and its signed trackValue entry to the second helper.
  */
-void func_0202B2CC(u8 *p, u32 idx)
+void ISS_DUNGEON_SYS_ApplyTrack(DungeonSoundRecord *record, u32 trackIndex)
 {
-    u32 off = idx << 1;
+    u32 offset = trackIndex << 1;
 
-    func_02005EE0(0xffff, *(u16 *)(p + 0xc + off), 0xffffffff, 0);
-    func_02073018((struct Obj *)func_02005C3C(), 0xfcff, (u32)*(short *)(p + 4 + off));
+    GFL_USE_SetBgmTrackParams(0xffff, *(u16 *)((u8 *)record + 0xc + offset), 0xffffffff, 0);
+    NNS_SndHandleSetTrackPitch((struct Obj *)GFL_USE_GetBgmHandle(), 0xfcff, (u32)*(short *)((u8 *)record + 4 + offset));
 }
 
-
-
-
-
-
-
-
-
 /*
- * closed:   blocker func_0202B3A0.c is now a manifest entry (matched class)
- *
- * Builds a table node: a count byte is fetched from func_02049030, then that
- * many 0x1c-byte records are allocated and each one formatted in place.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0202B2FC.c \
- *       --func func_0202B2FC --addr 0x0202B2FC --thumb --cc 1.1p1
+ * Builds the sound table: a count byte is fetched from func_02049030, then
+ * that many 0x1c-byte records are allocated and each one loaded from archive
+ * 0x92.
  */
-u8 *func_0202B2FC(u32 heapId)
+DungeonSoundTable *ISS_DUNGEON_SYS_CreateTable(u32 heapId)
 {
     u32 i;
-    u8 *p = (u8 *)func_02030734(heapId, 8, 0, (const void *)0x020A7718, 0x77);
+    DungeonSoundTable *table = (DungeonSoundTable *)func_02030734(heapId, 8, 0, (const void *)0x020A7718, 0x77);
 
-    p[0] = (u8)func_02049030(0x92);
-    ((struct Obj05726 *)p)->f4 = (u32)func_02030734(heapId, 0x1c * p[0], 0,
+    table->count = (u8)func_02049030(0x92);
+    table->records = (DungeonSoundRecord *)func_02030734(heapId, 0x1c * table->count, 0,
                                          (const void *)0x020A7718, 0x79);
 
-    for (i = 0; (int)i < (int)p[0]; i++) {
-        func_02048F74((u8 *)(((struct Obj05726 *)p)->f4 + i * 0x1c), 0x92, i, 0, (u32 *)0x1c);
+    for (i = 0; (int)i < (int)table->count; i++) {
+        func_02048F74((u8 *)table->records + i * 0x1c, 0x92, i, 0, (u32 *)0x1c);
     }
-    return p;
+    return table;
 }
 
-
-
-
-
-
-
-
-
 /*
- * Releases the +4 pointer and then the object itself through the heap
- * release.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B360.c \
- *       --func func_0202B360 --addr 0x0202B360 --thumb --cc 1.1p1
+ * Releases the record array and then the table itself.
  */
-void func_0202B360(u8 *p)
+void ISS_DUNGEON_SYS_DeleteTable(DungeonSoundTable *table)
 {
-    func_020307B0(((struct Obj15832 *)p)->f4);
-    func_020307B0(p);
+    func_020307B0(table->records);
+    func_020307B0(table);
 }
 
-
-
-
-
-
-
-
-
 /*
- * iss_dungeon_sys.c: find the 0x1C-byte item whose id matches, or NULL.
- * Three shape facts close it (docs/notes/pkt_0202B374.c.txt had 6, later
- * 31, bytes out):
- *   - the loop is written as its own guard plus do/while, with the items
+ * Finds the record whose area id matches, or NULL.
+ * Three shape facts close it:
+ *   - the loop is written as its own guard plus do/while, with the records
  *     base loaded inside the guard (the image loads it after `cmp; ble`);
- *   - the items pointer member is volatile, so the hit path re-reads it
- *     (`ldr r0, [r0, #4]`) instead of reusing the loop's base;
- *   - the count goes through a copy local before the bound (found by
- *     tools/permuter.py, temp(tmp=c->count)): it swaps the bound and the
- *     base between r7 and r6 to the image's choice.
+ *   - the records pointer member is volatile, so the hit path re-reads it
+ *     (`ldr r0, [r0, #4]`) instead of reusing the loop base;
+ *   - the count goes through a copy local before the bound, which swaps the
+ *     bound and the base between r7 and r6 to the image choice.
  */
-Item *func_0202B374(Container *c, u16 id)
+DungeonSoundRecord *ISS_DUNGEON_SYS_FindRecord(DungeonSoundTable *table, u16 areaId)
 {
     int i;
     int n;
-    Item *it;
-    int count = c->count;
+    DungeonSoundRecord *records;
+    int count = table->count;
 
     n = count;
     i = 0;
     if (i < n) {
-        it = c->items;
+        records = table->records;
         do {
-            if (id == it[i].id)
-                return &c->items[i];
+            if (areaId == records[i].areaId)
+                return &table->records[i];
             i++;
         } while (i < n);
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-
 /*
- * closed:   blocker func_0202B3A0.c is now a manifest entry (matched class)
- *
- * Allocates a 0x38-byte node, fills its header fields, resolves the +0x14
- * sub-object through func_0202B2FC and runs func_0202B454 over it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B3A0.c \
- *       --func func_0202B3A0 --addr 0x0202B3A0 --thumb --cc 1.1p1
+ * Allocates a 0x38-byte dungeon sound state, fills its header fields,
+ * builds the sound table through ISS_DUNGEON_SYS_CreateTable and resets the track state
+ * with ISS_DUNGEON_SYS_ResetTracks.
  */
-struct Node *func_0202B3A0(u32 a, u32 b, u32 heapId)
+IssDungeonSys *ISS_DUNGEON_SYS_Create(struct GameData *gameData, struct PlayerWork *player, u32 heapId)
 {
-    struct Node *p = (struct Node *)func_02030734(heapId, 0x38, 0,
+    IssDungeonSys *dungeon = (IssDungeonSys *)func_02030734(heapId, 0x38, 0,
                                                   (const void *)0x020A7718, 0x109);
 
-    ((struct Obj03438 *)((u8 *)p))->f0 = (u16)heapId;
-    ((struct Obj03438 *)p)->f8 = a;
-    ((struct Obj03438 *)p)->f4 = b;
-    ((struct Obj03438 *)p)->fC = 0;
-    ((struct Obj03438 *)p)->f10 = 0xffff;
-    ((struct Obj03438 *)p)->f12 = 0xffff;
-    ((struct Obj03438 *)p)->f14 = (u32)func_0202B2FC(heapId);
-    ((struct Obj03438 *)p)->f18 = 0;
-    func_0202B454((char *)p);
-    return p;
+    dungeon->heapId = (u16)heapId;
+    dungeon->gameData = gameData;
+    dungeon->player = player;
+    dungeon->isActive = 0;
+    dungeon->currentAreaId = 0xffff;
+    dungeon->targetAreaId = 0xffff;
+    dungeon->table = ISS_DUNGEON_SYS_CreateTable(heapId);
+    dungeon->record = 0;
+    ISS_DUNGEON_SYS_ResetTracks(dungeon);
+    return dungeon;
 }
 
-
-
-
-
-
-
-
-
 /*
- * Runs the destructor chain: func_0202B42C, then releases the +0x14
- * sub-object and the object itself.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B3EC.c \
- *       --func func_0202B3EC --addr 0x0202B3EC --thumb --cc 1.1p1
+ * Runs the destructor chain: ISS_DUNGEON_SYS_Stop (deactivate), then releases the
+ * table and the dungeon state itself.
  */
-void func_0202B3EC(u8 *p)
+void ISS_DUNGEON_SYS_Delete(IssDungeonSys *dungeon)
 {
-    func_0202B42C(p);
-    func_0202B360(*(u8 * *)&((struct Obj15834 *)p)->f14);
-    func_020307B0(p);
+    ISS_DUNGEON_SYS_Stop(dungeon);
+    ISS_DUNGEON_SYS_DeleteTable(dungeon->table);
+    func_020307B0(dungeon);
 }
 
-
-
-
-
-
-
 /*
- * When the object is active and its +0x10 and +0x12 halfwords differ,
- * latches the new value and re-resolves the current record.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B404.c \
- *       --func func_0202B404 --addr 0x0202B404 --thumb --cc 1.1p1
+ * When active and the current and target area ids differ, latches the
+ * target and re-selects the record.
  */
-void func_0202B404(u8 *p)
+void ISS_DUNGEON_SYS_Update(IssDungeonSys *dungeon)
 {
-    u16 a;
-    u16 b;
+    u16 current;
+    u16 target;
 
-    if (((struct Obj02009 *)p)->fC == 0) {
+    if (dungeon->isActive == 0) {
         return;
     }
-    a = ((struct Obj02009 *)p)->f10;
-    b = ((struct Obj02009 *)p)->f12;
-    if (a == b) {
+    current = dungeon->currentAreaId;
+    target = dungeon->targetAreaId;
+    if (current == target) {
         return;
     }
-    ((struct Obj02009 *)p)->f10 = b;
-    func_0202B49C(p, ((struct Obj02009 *)p)->f10);
+    dungeon->currentAreaId = target;
+    ISS_DUNGEON_SYS_SelectRecord(dungeon, dungeon->currentAreaId);
 }
 
-
-
-
-
-
 /*
- * A four-byte setter for the halfword at +0x12.  Unlabelled in the listing
- * (it saves nothing and is chased by a linker thunk at 0x0202B424), absent
- * from the worklist, and filed straight from the bytes.  It is the blocker of
- * src/pending/func_0202B7C8.c, which reaches it through a pool word and so
- * has no other witness.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B420.c \
- *       --func func_0202B420 --addr 0x0202B420 --thumb --cc 1.1p1
+ * A four-byte setter for the target area id.
  */
-void func_0202B420(u8 *p, u16 v)
+void ISS_DUNGEON_SYS_SetTargetAreaId(IssDungeonSys *dungeon, u16 areaId)
 {
-    ((struct Obj15835 *)p)->f12 = v;
+    dungeon->targetAreaId = areaId;
 }
 
-
-
-
-
 /*
- * An eight-byte tail-call thunk: the pool word at +4 holds 0x0202B47C, the callee's
+ * An eight-byte tail-call thunk: the pool word at +4 holds 0x0202B47C, the callee
  * address with its Thumb bit set (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
- * Unlabelled in the listing and absent from the worklist - found by scanning
- * the image for the `ldr r3, [pc, #0]; bx r3` shape whose following word names
- * an existing manifest entry - and filed from the bytes.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B424.c \
- *       --func func_0202B424 --addr 0x0202B424 --thumb --cc 1.1p1
  */
-void func_0202B424(u8 *a0)
+void ISS_DUNGEON_SYS_Start(IssDungeonSys *dungeon)
 {
-    func_0202B47C(a0);
+    ISS_DUNGEON_SYS_Activate(dungeon);
 }
 
-
-
-
 /*
- * A bare tail-call thunk to func_0202B490.  The callee is an unlabelled leaf,
+ * A bare tail-call thunk to ISS_DUNGEON_SYS_Deactivate.  The callee is an unlabelled leaf,
  * so its ISA has to be declared here; with `symbols:` absent the name
  * convention defaults it to ARM and the `matched` class refuses the EXACT
  * entry at 0x0202B490 on the ISA mismatch.
  */
-void func_0202B42C(u8 *a0)
+void ISS_DUNGEON_SYS_Stop(IssDungeonSys *dungeon)
 {
-    func_0202B490(a0);
+    ISS_DUNGEON_SYS_Deactivate(dungeon);
 }
 
-
-
 /*
- * Returns the object's +0xc word.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B434.c \
- *       --func func_0202B434 --addr 0x0202B434 --thumb --cc 1.1p1
+ * Returns the active flag.
  */
-u32 func_0202B434(u8 *p)
+u32 func_0202B434(IssDungeonSys *dungeon)
 {
-    return ((struct Obj15836 *)p)->fC;
+    return dungeon->isActive;
 }
 
-
-
-
 /*
- * Returns 1 when the object's +0x14 sub-object holds a record with the
- * given id, else 0.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B438.c \
- *       --func func_0202B438 --addr 0x0202B438 --thumb --cc 1.1p1
+ * Returns 1 when the table holds a record with the given area id, else 0.
  */
-u32 func_0202B438(u8 *p, u16 id)
+u32 func_0202B438(IssDungeonSys *dungeon, u16 areaId)
 {
-    u8 *q = *(u8 * *)&((struct Obj15837 *)p)->f14;
+    DungeonSoundTable *table = dungeon->table;
 
-    if (q == 0) {
+    if (table == 0) {
         return 0;
     }
-    return (u8 *)func_0202B374((Container *)q, id) != 0 ? 1 : 0;
+    return ISS_DUNGEON_SYS_FindRecord(table, areaId) != 0 ? 1 : 0;
 }
 
-
-
-
-void func_0202B454(char *p)
+/*
+ * Resets the last track slot and the per-track offset, scale and value
+ * arrays to their idle values (scale 0x100 is unity).
+ */
+void ISS_DUNGEON_SYS_ResetTracks(IssDungeonSys *dungeon)
 {
     int i;
-    ((struct Obj15838 *)p)->f1C = 0xffff;
+    dungeon->lastTrackSlot = 0xffff;
     for (i = 0; i < 4; i++) {
-        *(unsigned short *)(p + i * 2 + 0x20) = 0;
-        *(unsigned short *)(p + i * 2 + 0x28) = 0x100;
-        *(unsigned short *)(p + i * 2 + 0x30) = 0;
+        dungeon->trackOffset[i] = 0;
+        dungeon->trackScale[i] = 0x100;
+        dungeon->trackValue[i] = 0;
     }
 }
 
-
-
-
 /*
- * When the object is idle, marks it active and resolves its current
- * record.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B47C.c \
- *       --func func_0202B47C --addr 0x0202B47C --thumb --cc 1.1p1
+ * When idle, marks the dungeon sound active and selects the record of the
+ * current area id.
  */
-void func_0202B47C(u8 *p)
+void ISS_DUNGEON_SYS_Activate(IssDungeonSys *dungeon)
 {
-    if (((struct Obj02009 *)p)->fC == 0) {
-        ((struct Obj02009 *)p)->fC = 1;
-        func_0202B49C(p, ((struct Obj02009 *)p)->f10);
+    if (dungeon->isActive == 0) {
+        dungeon->isActive = 1;
+        ISS_DUNGEON_SYS_SelectRecord(dungeon, dungeon->currentAreaId);
     }
 }
 
-
-
-
 /*
- * Clears the object's active word when it is set.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B490.c \
- *       --func func_0202B490 --addr 0x0202B490 --thumb --cc 1.1p1
+ * Clears the active flag when it is set.
  */
-void func_0202B490(u8 *p)
+void ISS_DUNGEON_SYS_Deactivate(IssDungeonSys *dungeon)
 {
-    if (((struct Obj11315 *)p)->fC != 0) {
-        ((struct Obj11315 *)p)->fC = 0;
+    if (dungeon->isActive != 0) {
+        dungeon->isActive = 0;
     }
 }
 
-
-
-
 /*
- * closed:   blocker func_0202B2CC.c is now a manifest entry (matched class)
- *
- * Resolves the node's 0x14 descriptor into the 0x18 slot and, when that
- * succeeds, feeds the resolved handle and the key derived from the node's
- * second word to func_0202B2CC.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0202B49C.c \
- *       --func func_0202B49C --addr 0x0202B49C --thumb --cc 1.1p1
+ * Looks the area id up in the table, stores the found record, and when one
+ * exists applies the track selected by the game data area index through
+ * ISS_DUNGEON_SYS_ApplyTrack.
  */
-void func_0202B49C(u8 *p, u16 id)
+void ISS_DUNGEON_SYS_SelectRecord(IssDungeonSys *dungeon, u16 areaId)
 {
-    u32 r = (u32)(u8 *)func_0202B374((Container *)((u8 *)(((struct Obj02009 *)p)->f14)), id);
+    u32 found = (u32)ISS_DUNGEON_SYS_FindRecord(dungeon->table, areaId);
 
-    ((struct Obj02009 *)p)->f18 = r;
-    if (r != 0) {
-        func_0202B2CC((u8 *)(((struct Obj02009 *)p)->f18), func_02012984((const struct BigObj *)(((struct Obj02009 *)p)->f8)));
+    dungeon->record = (DungeonSoundRecord *)found;
+    if (found != 0) {
+        ISS_DUNGEON_SYS_ApplyTrack(dungeon->record, func_02012984(dungeon->gameData));
     }
 }

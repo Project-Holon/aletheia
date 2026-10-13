@@ -17,6 +17,7 @@
  *   DWCi_BTNlEnable                  0x021BCB84  arm
  *   DWCi_ChangeScene                 0x021C0E40  arm
  *   procScene                        0x021CADAC  arm
+ *   DWCi_SceneSetRakuButton_draw  0x021CAE04  arm
  */
 typedef unsigned int   u32;
 
@@ -26,7 +27,7 @@ extern void DWCi_ChangeScene(void (*scene)());
 extern void func_02085A38(u32 msec);
 extern void func_021CAF78(void);
 extern void func_021CADCC(void);
-extern void func_021CAE04(void);
+extern void DWCi_SceneSetRakuButton_draw(void);
 extern void func_021CAE08(void);
 void func_021CADAC(void);
 
@@ -48,6 +49,6 @@ void func_021CADAC(void)
     func_02085A38(0xa);
     func_021CAF78();
     func_021CADCC();
-    func_021CAE04();
+    DWCi_SceneSetRakuButton_draw();
     func_021CAE08();
 }

@@ -25,8 +25,8 @@
  *   func_020355C4 0x020355C4 arm
  *   func_021C0F14 0x021C0F14 thumb ov110
  *   func_020061E4 0x020061E4 thumb
- *   func_02024910 0x02024910 thumb
- *   func_02024464 0x02024464 thumb
+ *   PMS_WORD_GetSaveEntry 0x02024910 thumb
+ *   PMSI_PARAM_IsComplete 0x02024464 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,8 +41,8 @@ extern int func_021C0F14(u8 *);
 typedef unsigned int   u32;
 struct T;
 extern void func_020061E4(u32 a);
-extern void *func_02024910(char *p, int idx);
-extern int func_02024464(struct T *p, u32 a1);
+extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
+extern int PMSI_PARAM_IsComplete(struct T *p, u32 a1);
 int func_021C133C(void *unused,u8 *p)
 {
     int result=-1;
@@ -78,7 +78,7 @@ int func_021C133C(void *unused,u8 *p)
         if(p[0x44]==16) done=1;
     }
     if(done) {
-        if(func_02024464(func_02024910(*(void **)(p+0x20),p[0x95]),*(u16 *)(p+4))) *(int *)(p+0xa0)=8;
+        if(PMSI_PARAM_IsComplete(PMS_WORD_GetSaveEntry(*(void **)(p+0x20),p[0x95]),*(u16 *)(p+4))) *(int *)(p+0xa0)=8;
         else *(int *)(p+0xa0)=11;
         return 1;
     }

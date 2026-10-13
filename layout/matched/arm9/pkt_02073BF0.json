@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02073EE4",
+   "name": "NNS_SndStartTimer",
    "address": "0x02073EE4",
    "kind": "game",
    "region": "arm9",

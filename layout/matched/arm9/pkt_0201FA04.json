@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201FA04",
+   "name": "BMP_MENU_ProcessInput",
    "address": "0x0201FA04",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201FAD0",
+   "name": "BMP_MENU_MoveCursor",
    "address": "0x0201FAD0",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0201FB30",
+   "name": "BMP_MENU_StepSelection",
    "address": "0x0201FB30",
    "kind": "game",
    "region": "arm9",

@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02013ED8",
-    "sub_02013EEC",
-    "sub_02013F2C",
-    "sub_02013F6C"
+    "ZONEDATA_GetFieldEffectSetId",
+    "ZONEDATA_GetFogId",
+    "ZONEDATA_GetLightId",
+    "ZONEDATA_GetFieldSkillMapEffect"
+   ],
+   "addresses": [
+    "0x02013ED8",
+    "0x02013EEC",
+    "0x02013F2C",
+    "0x02013F6C"
    ]
   },
   {
@@ -36,16 +42,28 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02013FD8",
-    "sub_02013FEC",
-    "sub_02013FFC",
-    "sub_0201400C",
-    "sub_02014018",
-    "sub_02014024",
-    "sub_02014034",
-    "sub_02014044",
-    "sub_0201405C",
-    "sub_02014068"
+    "ZONEDATA_GetExpObjSetId",
+    "ZONEDATA_IsZoneInTableDFDC",
+    "ZONEDATA_IsZoneInTableDFB8",
+    "ZONEDATA_IsRawZoneF6",
+    "ZONEDATA_IsRawZoneF7",
+    "ZONEDATA_IsZoneInTableDFD2",
+    "ZONEDATA_IsRawZoneGroup4CTo69",
+    "ZONEDATA_IsRawZone176Or17A",
+    "ZONEDATA_GetMapSubType",
+    "ZONEDATA_IsParentZoneD6"
+   ],
+   "addresses": [
+    "0x02013FD8",
+    "0x02013FEC",
+    "0x02013FFC",
+    "0x0201400C",
+    "0x02014018",
+    "0x02014024",
+    "0x02014034",
+    "0x02014044",
+    "0x0201405C",
+    "0x02014068"
    ]
   },
   {
@@ -60,18 +78,28 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020140B4",
-    "sub_020140BC",
-    "sub_020140C0",
-    "sub_020140CC",
-    "sub_020140D8",
-    "sub_020140DC",
-    "sub_020140E0",
-    "sub_020140E4"
+    "ZONEDATA_DeleteAreaData",
+    "ZONEDATA_GetAreaTexSetId",
+    "ZONEDATA_GetAreaItaAnimeId",
+    "ZONEDATA_GetAreaItpAnimeId",
+    "ZONEDATA_GetAreaInnerOuter",
+    "ZONEDATA_GetAreaLightType",
+    "ZONEDATA_GetAreaEdgeMarkType",
+    "ZONEDATA_GetAreaBillboardColor"
+   ],
+   "addresses": [
+    "0x020140B4",
+    "0x020140BC",
+    "0x020140C0",
+    "0x020140CC",
+    "0x020140D8",
+    "0x020140DC",
+    "0x020140E0",
+    "0x020140E4"
    ]
   },
   {
-   "name": "sub_020140E8",
+   "name": "ZONEDATA_IsSeasonArea",
    "address": "0x020140E8",
    "kind": "game",
    "region": "arm9",
@@ -94,10 +122,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02014274",
-    "sub_020142A4",
-    "sub_020142D0",
-    "sub_020142D8"
+    "ZONEDATA_ExitDirToDir",
+    "ZONEDATA_DirToExitDir",
+    "ZONEDATA_GetEventWorkSize",
+    "ZONEDATA_InitEventWork"
+   ],
+   "addresses": [
+    "0x02014274",
+    "0x020142A4",
+    "0x020142D0",
+    "0x020142D8"
    ]
   },
   {
@@ -112,10 +146,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020143CC",
-    "sub_020143D8",
-    "sub_020143F0",
-    "sub_0201440C"
+    "ZONEDATA_GetEventWorkAddress",
+    "ZONEDATA_ClearEventWorkRange",
+    "ZONEDATA_ClearTimeFlags",
+    "ZONEDATA_PopTimeFlagsCleared"
+   ],
+   "addresses": [
+    "0x020143CC",
+    "0x020143D8",
+    "0x020143F0",
+    "0x0201440C"
    ]
   }
  ]

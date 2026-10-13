@@ -69,11 +69,11 @@
  *   func_0216D570  0x0216D570  thumb  ov010
  *   func_0216D57C  0x0216D57C  thumb  ov010
  *   func_020124E4  0x020124E4  thumb
- *   func_02011428  0x02011428  thumb
- *   func_02011608  0x02011608  thumb
+ *   ICA_ANIME_CreateWithFullBuffer  0x02011428  thumb
+ *   ICA_ANIME_GetFrameNum  0x02011608  thumb
  *   func_020061E4  0x020061E4  thumb
  *   func_02011558  0x02011558  thumb
- *   func_02011688  0x02011688  thumb
+ *   ICA_ANIME_GetTranslateAt  0x02011688  thumb
  *   d_021F4320     0x021F4320  data  a4
  *   d_021F4198     0x021F4198  data  a2
  *   d_021F40F0     0x021F40F0  data  a2
@@ -84,489 +84,486 @@
  *   d_021F40B4     0x021F40B4  data  a2
  *   d_021F4080     0x021F4080  data  a1
  */
-#include "../../matched/include/G__anon_E.h"
-#include "../../matched/include/Obj20502.h"
-#include "../../matched/include/Obj04319.h"
-
-struct Big;
-struct Ctx;
-struct Rec94;
-struct Desc;
-struct Obj00020;
-struct VecFx32;
-struct IcaAnime;
-struct Obj;
-struct Rec12;
-struct Obj11244;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
+#include "../ov021/fld_exp_obj_types.h"
+#include "unit_021F36C0_types.h"
 
 typedef signed short s16;
 
-typedef struct {
-    int a;
-    int b;
-    int c;
-} V;
+/*
+ * Same layout as FieldCameraView, FieldCameraMoveChannels and
+ * FieldCameraMoveRequest (ov021/field_camera_types.h), which cannot be
+ * included here: it and the expansion object types both define VecFx32.
+ */
+typedef struct Gimmick41CameraView {
+    VecFx32 eye;
+    VecFx32 target;
+    VecFx32 shift;
+    u16 pitch;
+    u16 yaw;
+    int distance;
+    u16 fov;
+    u16 reserved;
+} Gimmick41CameraView;
 
-typedef struct {
-    V v[10];
-} T;
+typedef struct Gimmick41CameraChannels {
+    u32 shift;
+    u32 pitch;
+    u32 yaw;
+    u32 distance;
+    u32 fov;
+    u32 target;
+} Gimmick41CameraChannels;
 
-typedef unsigned int u32;
+typedef struct Gimmick41CameraRequest {
+    Gimmick41CameraView goal;
+    Gimmick41CameraChannels channels;
+} Gimmick41CameraRequest;
 
-typedef signed int     s32;
+/* Cannon positions: the table is read in full. */
+typedef struct Gimmick41PosTable {
+    VecFx32 pos[GIMMICK41_CANNON_COUNT];
+} Gimmick41PosTable;
 
-typedef struct { int x, y, z; } Vec;
+typedef struct Gimmick41DirTable {
+    u8 direction[GIMMICK41_DIRECTION_COUNT];
+} Gimmick41DirTable;
 
-typedef struct { int id; int x, y, z; int k; } Ent;
+extern FldExpObjCnt *func_02188D2C(struct FieldMap *fieldMap);
+extern u16 func_02188C84(struct FieldMap *fieldMap);
+extern void *func_02189764(struct FieldMap *fieldMap, int id, int heapId, int size);
+extern void func_021897A0(struct FieldMap *fieldMap, int id);
+extern void *func_021897BC(struct FieldMap *fieldMap, int id);
+extern struct GameSystem *func_02188C80(struct FieldMap *fieldMap);
+extern struct FieldPlayer *func_02188CB4(struct FieldMap *fieldMap);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GimmickWork *func_02012EC4(struct GameData *gameData);
+extern void *func_0200B3A4(struct GimmickWork *gimmickWork, u32 gimmickId);
+extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent,
+                                       GameEventFunc func, u32 workSize);
+extern void func_021BE418(FldExpObjCnt *expObj, u16 unitIndex);
+extern G3dObjectStatus *func_021BE480(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
+extern void func_021BE4A4(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, int cullDraw);
+extern void func_021BE580(FldExpObjCnt *expObj);
+extern FldExpObjAnime *func_021BE674(FldExpObjCnt *expObj, int unitIndex, unsigned modelIndex, int animeIndex);
+extern void func_021BE6B0(FldExpObjAnime *anime, int paused);
+extern void func_021BE6B8(FldExpObjAnime *anime, int loop);
+extern void func_021BE6CC(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex, int frame);
+extern int func_021BE6E8(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex);
+extern void func_021BE700(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int enable);
+extern void func_021BE760(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
+extern void func_0207AF1C(void *matrix, int sin, int cos);
+extern void func_021A3038(struct FieldPlayer *player, VecFx32 *out);
+extern void func_021A3044(struct FieldPlayer *player, const VecFx32 *pos);
+extern u16 func_021A3050(struct FieldPlayer *player);
+extern struct Mmdl *func_021A3074(struct FieldPlayer *player);
+extern void func_0216DAC8(struct Mmdl *mmdl, int flag);
+extern u32 *func_0216D548(struct Mmdl *mmdl, u32 bit);
+extern struct Mmdl *func_0216D568(struct Mmdl *mmdl, u32 bit);
+extern u32 *func_0216D550(struct Mmdl *mmdl, u32 bit);
+extern char *func_0216D570(struct Mmdl *mmdl, u32 bit);
+extern u32 func_0216D57C(struct Mmdl *mmdl, u32 bit);
+extern int func_02158780(struct GameEvent *event, u16 scriptId, int arg1, int arg2, u16 heapId);
+extern void func_020061E4(u32 seId);
+extern struct IcaAnime *ICA_ANIME_CreateWithFullBuffer(u32 heapId, u32 arcId, u32 dataId, void *buffer, u32 bufferSize);
+extern u32 ICA_ANIME_GetFrameNum(struct IcaAnime *anime);
+extern void func_02011558(struct IcaAnime *anime);
+extern u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *anime, VecFx32 *out, u32 frame);
+extern void func_0218F0A8(struct FieldCamera *camera);
+extern u32 func_0218F0E8(struct FieldCamera *camera);
+extern void func_0218F818(struct FieldCamera *camera);
+extern void func_0218F878(struct FieldCamera *camera);
+extern void func_0218F05C(struct FieldCamera *camera);
+extern void func_0218F900(struct FieldCamera *camera, Gimmick41CameraRequest *request, int frames);
+extern int func_0218FE50(struct FieldCamera *camera);
+extern void func_0218E13C(struct FieldCamera *camera, u32 mode);
+extern void func_0218EC54(struct FieldCamera *camera);
+extern int func_0218EC60(u32 camera);
+extern void func_0218F930(struct FieldCamera *camera, VecFx32 *eyeGoal, VecFx32 *targetGoal,
+                          Gimmick41CameraChannels *channels, u16 frames);
+extern Gimmick41CameraView *func_0218FE70(struct FieldCamera *camera);
+extern void func_0218F9C4(struct FieldCamera *camera, Gimmick41CameraChannels *channels, u16 frames);
 
-typedef struct { u16 a; u16 b; u8 e; u8 c; u8 d; u8 f; } Anim;
+void func_021F36C0(struct FieldMap *fieldMap);
+void func_021F37B8(struct FieldMap *fieldMap);
+void func_021F37D4(struct FieldMap *fieldMap);
+struct GameEvent *func_021F37E0(struct GameSystem *gameSystem);
+int func_021F3884(struct GameEvent *event, int *seq, void *eventWork);
+u8 func_021F3EE4(int cellX, int cellZ);
+u16 func_021F3F18(int direction);
+int func_021F3F44(int facing);
+int func_021F3F70(int direction, int turns);
+int func_021F3FC0(unsigned int facing, int cannonIndex);
 
-typedef struct { u8 pad[0x24]; u16 a; u16 b; u8 pad2[8]; int c; int d; int e; int f; int g; u8 pad3[4]; } Req;
-
-typedef struct { int a, b, c, d, e, f; } Six;
-
-typedef struct {
-    u8 b[4];
-} T4;
-
-extern int func_02188D2C(int *p);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void  func_021BE760(void *p, void *a, int b);
-extern int func_021BE480(char *p, unsigned i, int j);
-extern void  func_021BE4A4(void *p, int i, u16 j, int v);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern void func_021BE6B8(unsigned char *p, int v);
-extern void  func_0207AF1C(void *m, int a, int b);
-extern int *func_021897BC(char *, int);
-extern void func_021897A0(u8 *, int);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern void func_021BE418(u8 *, u16);
-extern void func_021BE580(void *);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern u16 func_021A3050(u8 *p);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E4(struct Obj *p);
-extern void *func_02188C58(void *);
-extern void func_0218F0A8(u8 *a);
-extern u32 func_0218F0E8(u8 *a);
-extern void *func_02011428(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4);
-extern u32 func_02011608(struct Obj11244 *p);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern void func_021BE6CC(void *, int, u16, u16, int);
-extern int func_021BE6E8(int a, int b, int c, int d);
-extern void func_021BE6B0(unsigned char *p, int v);
-extern void func_0218F818(u8 *a);
-extern void func_020061E4(u32);
-extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
-extern void func_0218F900(u8 *a, void *p, int n);
-extern int func_0218FE50(u8 *a);
-extern void func_0218E13C(u8 *a, u32 s);
-extern void *func_021A3074(u8 *p);
-extern void func_0216DAC8(unsigned int *p, unsigned int v);
-extern u32 *func_0216D548(u32 *p, u32 v);
-extern void *func_0216D568(void *p, u32 v);
-extern void func_021A3044(u8 *p, void *v);
-extern u32 *func_0216D550(u32 *p, u32 v);
-extern void func_02011558(struct IcaAnime *p);
-extern void func_0218F05C(unsigned char *a);
-extern void func_0218F878(u8 *a);
-extern u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx);
-extern void func_0218EC54(u8 *p);
-extern void func_0218ECE4(void *, Vec *);
-extern void func_0218F930(u8 *p, u8 *a, u8 *b, u32 *c, u16 v);
-extern u8 *func_0218FE70(u8 *p);
-extern int func_0218EC60(u32 a);
-extern void func_0218F9C4(u8 *p, u8 *src, u16 v);
-extern char *func_0216D570(char *p, u32 v);
-extern u32 func_0216D57C(void *p, u32 v);
-extern void func_021F4000(u8 *p, u8 *obj);
-void func_021F36C0(void *a0);
-void func_021F37B8(u8 *p);
-void func_021F37D4(int *p);
-int func_021F37E0(void *a);
-int func_021F3884(void *a0, int *state);
-u8 func_021F3EE4(int a, int b);
-u16 func_021F3F18(int x);
-int func_021F3F44(int x);
-int func_021F3F70(int a, int b);
-int func_021F3FC0(unsigned int a, int i);
-void func_021F3FD8(unsigned char *p);
-void func_021F3FEC(unsigned char *p);
 extern int d_021F40A4;
-extern T d_021F4208;
+extern Gimmick41PosTable d_021F4208;
 extern const u8 d_021F4660[];
 extern s16 d_020A1B38[];
-extern Ent d_021F4320[][4];
-extern Anim d_021F4198[];
-extern struct _anon_E d_021F40F0[];
+extern Gimmick41Flight d_021F4320[][GIMMICK41_DIRECTION_COUNT];
+extern Gimmick41CameraInfo d_021F4198[];
+extern Gimmick41CannonCell d_021F40F0[];
 extern u16 d_021F4084[];
 extern u16 d_021F408C[];
 extern u16 d_021F4094[];
 extern u16 d_021F409C[];
 extern u16 d_021F40B4[];
-extern T4 d_021F4080;
+extern Gimmick41DirTable d_021F4080;
 
-
-
-void func_021F36C0(void *a0)
+/* Load the cannon models, place and turn them, and stop their animations. */
+void func_021F36C0(struct FieldMap *fieldMap)
 {
-    char *e;
+    G3dObjectStatus *status;
     unsigned int i;
     u8 j;
-    int k;
-    T tbl;
-    void *s;
+    int sinCosIndex;
+    Gimmick41PosTable cannonPos;
+    FldExpObjCnt *expObj;
 
-    s = (void *)func_02188D2C(a0);
-    func_02189764(a0, 1, func_02188C84(a0), 0x730);
-    func_021BE760(s, &d_021F40A4, 0);
+    expObj = func_02188D2C(fieldMap);
+    func_02189764(fieldMap, 1, func_02188C84(fieldMap), sizeof(Gimmick41Work));
+    func_021BE760(expObj, (const G3dUtilSetup *)&d_021F40A4, 0);
     i = 0;
-    tbl = d_021F4208;
-    for (; i < 10; i = (u8)(i + 1)) {
-        e = (char *)func_021BE480(s, (int)0, (u16)i);
-        func_021BE4A4(s, 0, i, 1);
-        *(V *)e = tbl.v[i];
-        k = ((d_021F4660[i] << 14) >> 4) * 2;
-        func_0207AF1C(e + 0x18, d_020A1B38[k], d_020A1B38[k + 1]);
-        for (j = 0; j < 4; j++) {
-            func_021BE6B8(func_021BE674(s, 0, (u16)i, (u16)(j * 2)), 0);
-            func_021BE6B8(func_021BE674(s, 0, (u16)i, (u16)(j * 2 + 1)), 0);
+    cannonPos = d_021F4208;
+    for (; i < GIMMICK41_CANNON_COUNT; i = (u8)(i + 1)) {
+        status = func_021BE480(expObj, 0, (u16)i);
+        func_021BE4A4(expObj, 0, i, 1);
+        status->trans = cannonPos.pos[i];
+        sinCosIndex = ((d_021F4660[i] << 14) >> 4) * 2;
+        func_0207AF1C(&status->rotate, d_020A1B38[sinCosIndex], d_020A1B38[sinCosIndex + 1]);
+        for (j = 0; j < GIMMICK41_DIRECTION_COUNT; j++) {
+            func_021BE6B8(func_021BE674(expObj, 0, (u16)i, (u16)(j * 2)), 0);
+            func_021BE6B8(func_021BE674(expObj, 0, (u16)i, (u16)(j * 2 + 1)), 0);
         }
     }
 }
 
-
-void func_021F37B8(u8 *p)
+void func_021F37B8(struct FieldMap *fieldMap)
 {
-    int x = func_02188D2C((int *)p);
-    func_021897A0(p, 1);
-    func_021BE418((u8 *)x, 0);
+    FldExpObjCnt *expObj = func_02188D2C(fieldMap);
+
+    func_021897A0(fieldMap, 1);
+    func_021BE418(expObj, 0);
 }
 
-
-
-void func_021F37D4(int *p)
+void func_021F37D4(struct FieldMap *fieldMap)
 {
-    func_021BE580((void *)func_02188D2C(p));
+    func_021BE580(func_02188D2C(fieldMap));
 }
-
-
-
-int func_021F37E0(void *a)
-{
-    void *s;
-    void *t;
-    u8 *p;
-    int v[3];
-    int x;
-    int y;
-    int d;
-    u8 idx;
-    int r;
-
-    s = func_0201210C((void *)a);
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(s))), 5);
-    p = (u8 *)func_021897BC(s, 1);
-    t = func_02188CB4((void *)s);
-    func_021A3038(t, (struct VecFx32 *)v);
-    x = v[0] / 0x10000;
-    y = v[2] / 0x10000;
-    d = func_021A3050(t);
-    switch (d) {
-    case 0:
-        y -= 2;
-        break;
-    case 1:
-        y += 2;
-        break;
-    case 2:
-        x -= 2;
-        break;
-    case 3:
-        x += 2;
-        break;
-    }
-    idx = func_021F3EE4(x, y);
-    if (idx >= 10) {
-        return 0;
-    }
-    r = (int)func_020122C0(a, 0, func_021F3884, 0);
-    p[0] = idx;
-    p[1] = d;
-    return r;
-}
-
-
 
 /*
- * Closed 2026-10-05 (wD9r lane 36), after many waves at an "s keeps r7" allocator residue. The residue
- * was source shape, not the allocator:
- *   - case 1: c and len read into locals (c first), and the clamp written as an if/else with BOTH
- *     stores (0x71C and 0x71E) in each arm; tail merging rebuilds the image's single join store and
- *     its empty-arm `b`. This alone moves s to its spill slot [sp,#0x24] and gives frame 0xE8.
- *   - cases 2, 4, 5: `v = func_021BE6E8(...)` then `v / 4096` at each compare (the r*2 index is then
- *     computed before the divide, as in the image).
- *   - all aggregate locals (req, pos, base, end, start, path, fin) are block-scoped where they are
- *     used; their slots then follow the order of appearance, and `Vec x = {0, 0, 0}` gives the
- *     `add rN,sp,#K; str [rN]` zeroing form.
- *   - the tail after the switch is `if (w[2] != 0) { ... } return 0;` (one shared epilogue).
- *   - the tail uses its own local m2 (declared between r and sel) for its spill slot.
+ * Field event check: the player faces the cell two steps before a cannon.
+ * Create the launch event for that cannon; null when no cannon stands there.
  */
-int func_021F3884(void *a0, int *state)
+struct GameEvent *func_021F37E0(struct GameSystem *gameSystem)
 {
-    void *ctx;
-    void *s;
-    u8 *w;
-    void *obj;
-    void *cam;
-    int v;
-    u16 b0;
-    u16 n;
-    int row;
-    int r;
-    void *m2;
-    int sel;
-    u16 len;
-    int c;
-    u16 i1;
-    u16 i3;
-    u16 i4;
-    u16 i6;
-    u16 idx;
-    void *m;
+    struct FieldMap *fieldMap;
+    struct FieldPlayer *player;
+    Gimmick41Work *work;
+    VecFx32 playerPos;
+    int cellX;
+    int cellZ;
+    int facing;
+    u8 cannonIndex;
+    struct GameEvent *event;
 
-    ctx = func_0201210C(func_020124E4(a0));
-    s = (void *)func_02188D2C(ctx);
-    w = (u8 *)func_021897BC(ctx, 1);
-    obj = func_02188C58(ctx);
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(ctx))), 5);
-    switch (*state) {
+    fieldMap = func_0201210C(gameSystem);
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), 5);
+    work = func_021897BC(fieldMap, 1);
+    player = func_02188CB4(fieldMap);
+    func_021A3038(player, &playerPos);
+    cellX = playerPos.x / 0x10000;
+    cellZ = playerPos.z / 0x10000;
+    facing = func_021A3050(player);
+    switch (facing) {
     case 0:
-        func_0218F0A8(obj);
-        func_021F3FEC(w + 0x720);
-        (*state)++;
+        cellZ -= 2;
         break;
     case 1:
-        if ((int)func_0218F0E8(obj) != 0)
-            break;
-        row = w[0];
-        sel = func_021F3F44(w[1]);
-        v = d_021F4320[w[0]][sel].id;
-        if (v == -1)
-            return 1;
-        *(u32 *)(w + 0x714) = (u32)func_02011428((int)0x8015, (int)0x79, (int)v, (u32)(w + 4), (int)0x708);
-        *(u16 *)(w + 0x71A) = func_02011608((struct Obj11244 *)(*(u32 *)(w + 0x714)));
-        idx = (u16)d_021F4320[row][sel].k;
-        c = d_021F4198[idx].c;
-        len = d_021F4198[idx].d;
-        n = *(u16 *)(w + 0x71A);
-        if (c + len >= n) {
-            *(u16 *)(w + 0x71C) = n - (len + 1);
-            *(u16 *)(w + 0x71E) = len;
-        } else {
-            *(u16 *)(w + 0x71C) = c;
-            *(u16 *)(w + 0x71E) = len;
-        }
-        w[3] = 0;
-        b0 = w[0];
-        i1 = func_021F3F18(func_021F3FC0(w[1], b0));
-        func_021BE700(s, 0, (u16)b0, (u16)i1, 1);
-        func_021BE700(s, 0, (u16)b0, (u16)(i1 + 1), 1);
-        func_021BE6CC(s, 0, b0, i1, 0);
-        func_021BE6CC(s, 0, b0, i1 + 1, 0);
-        func_0218F818(obj);
-        (*state)++;
+        cellZ += 2;
         break;
     case 2:
-        b0 = w[0];
-        r = func_021F3FC0(w[1], b0);
-        v = func_021BE6E8((int)s, 0, (u16)b0, (u16)func_021F3F18(r));
-        if (v / 4096 == d_021F4084[r])
-            func_020061E4(0x698);
-        if (v / 4096 < d_021F408C[r])
-            break;
-        i3 = func_021F3F18(r);
-        func_021BE6B0(func_021BE674(s, 0, (u16)b0, (u16)i3), 1);
-        func_021BE6B0(func_021BE674(s, 0, (u16)b0, (u16)(i3 + 1)), 1);
-        func_02158780(a0, 2, 0, 0, (int)0x8015);
-        idx = (u16)d_021F4320[w[0]][func_021F3F44(w[1])].k;
-        {
-        Req req;
-        req.a = d_021F4198[idx].a;
-        req.b = d_021F4198[idx].b;
-        req.c = 0;
-        req.d = 1;
-        req.e = 1;
-        req.f = 0;
-        req.g = 0;
-        func_0218F900(obj, &req, d_021F4198[idx].e);
-        }
-        (*state)++;
+        cellX -= 2;
         break;
     case 3:
-        if (func_0218FE50(obj) != 0)
+        cellX += 2;
+        break;
+    }
+    cannonIndex = func_021F3EE4(cellX, cellZ);
+    if (cannonIndex >= GIMMICK41_CANNON_COUNT) {
+        return 0;
+    }
+    event = func_020122C0(gameSystem, 0, func_021F3884, 0);
+    work->cannonIndex = cannonIndex;
+    work->facing = facing;
+    return event;
+}
+
+/*
+ * Launch event, run frame by frame. Seq 0 starts the camera bounce setup and
+ * the cannon animations, 1 loads the flight animation, 2 waits for the
+ * cannon to fire, 3 hides the player, 4 waits for the flight start frame,
+ * 5 moves the player with the flight animation and the camera, 6 ends.
+ *
+ * Closed 2026-10-05 (wD9r lane 36), after many waves at an "s keeps r7" allocator residue. The residue
+ * was source shape, not the allocator:
+ *   - seq 1: followFrames and returnFrames read into locals (followFrames first), and the clamp written
+ *     as an if/else with BOTH stores (cameraFollowEndFrame and cameraReturnFrames) in each arm; tail
+ *     merging rebuilds the image's single join store and its empty-arm `b`. This alone moves expObj to
+ *     its spill slot [sp,#0x24] and gives frame 0xE8.
+ *   - seq 2, 4, 5: `animeValue = func_021BE6E8(...)` then `animeValue / 4096` at each compare (the r*2
+ *     index is then computed before the divide, as in the image).
+ *   - all aggregate locals (request, pos, base, end, start, channels) are block-scoped where they are
+ *     used; their slots then follow the order of appearance, and `VecFx32 x = {0, 0, 0}` gives the
+ *     `add rN,sp,#K; str [rN]` zeroing form.
+ *   - the tail after the switch is `if (work->flying != 0) { ... } return 0;` (one shared epilogue).
+ *   - the tail uses its own local tailPlayerMmdl (declared between direction and ringIndex) for its
+ *     spill slot.
+ */
+int func_021F3884(struct GameEvent *event, int *seq, void *eventWork)
+{
+    struct FieldMap *fieldMap;
+    FldExpObjCnt *expObj;
+    Gimmick41Work *work;
+    struct FieldCamera *camera;
+    struct FieldPlayer *player;
+    int animeValue;
+    u16 cannonIndex;
+    u16 frameCount;
+    int cannonRow;
+    int direction;
+    struct Mmdl *tailPlayerMmdl;
+    int ringIndex;
+    u16 returnFrames;
+    int followFrames;
+    u16 initAnimeSlot;
+    u16 pauseAnimeSlot;
+    u16 playAnimeSlot;
+    u16 endAnimeSlot;
+    u16 cameraInfoIndex;
+    struct Mmdl *playerMmdl;
+
+    fieldMap = func_0201210C(func_020124E4(event));
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    camera = func_02188C58(fieldMap);
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), 5);
+    switch (*seq) {
+    case 0:
+        func_0218F0A8(camera);
+        func_021F3FEC(&work->bounce);
+        (*seq)++;
+        break;
+    case 1:
+        if ((int)func_0218F0E8(camera) != 0)
             break;
-        func_0218E13C(obj, (int)2);
-        m = func_021A3074(func_02188CB4(ctx));
-        func_0216DAC8(m, (int)1);
-        func_0216D548(m, (int)0x200);
-        func_0216D568(m, (int)0x8000);
-        b0 = w[0];
-        i4 = func_021F3F18(func_021F3FC0(w[1], b0));
-        func_021BE6B0(func_021BE674(s, 0, (u16)b0, (u16)i4), 0);
-        func_021BE6B0(func_021BE674(s, 0, (u16)b0, (u16)(i4 + 1)), 0);
+        cannonRow = work->cannonIndex;
+        ringIndex = func_021F3F44(work->facing);
+        animeValue = d_021F4320[work->cannonIndex][ringIndex].icaDataId;
+        if (animeValue == -1)
+            return 1;
+        work->flightAnime = ICA_ANIME_CreateWithFullBuffer(0x8015, 0x79, animeValue, work->icaBuffer, 0x708);
+        work->frameCount = ICA_ANIME_GetFrameNum(work->flightAnime);
+        cameraInfoIndex = d_021F4320[cannonRow][ringIndex].cameraInfoIndex;
+        followFrames = d_021F4198[cameraInfoIndex].followFrames;
+        returnFrames = d_021F4198[cameraInfoIndex].returnFrames;
+        frameCount = work->frameCount;
+        if (followFrames + returnFrames >= frameCount) {
+            work->cameraFollowEndFrame = frameCount - (returnFrames + 1);
+            work->cameraReturnFrames = returnFrames;
+        } else {
+            work->cameraFollowEndFrame = followFrames;
+            work->cameraReturnFrames = returnFrames;
+        }
+        work->cameraArrived = 0;
+        cannonIndex = work->cannonIndex;
+        initAnimeSlot = func_021F3F18(func_021F3FC0(work->facing, cannonIndex));
+        func_021BE700(expObj, 0, (u16)cannonIndex, (u16)initAnimeSlot, 1);
+        func_021BE700(expObj, 0, (u16)cannonIndex, (u16)(initAnimeSlot + 1), 1);
+        func_021BE6CC(expObj, 0, cannonIndex, initAnimeSlot, 0);
+        func_021BE6CC(expObj, 0, cannonIndex, initAnimeSlot + 1, 0);
+        func_0218F818(camera);
+        (*seq)++;
+        break;
+    case 2:
+        cannonIndex = work->cannonIndex;
+        direction = func_021F3FC0(work->facing, cannonIndex);
+        animeValue = func_021BE6E8(expObj, 0, (u16)cannonIndex, (u16)func_021F3F18(direction));
+        if (animeValue / 4096 == d_021F4084[direction])
+            func_020061E4(0x698);
+        if (animeValue / 4096 < d_021F408C[direction])
+            break;
+        pauseAnimeSlot = func_021F3F18(direction);
+        func_021BE6B0(func_021BE674(expObj, 0, (u16)cannonIndex, (u16)pauseAnimeSlot), 1);
+        func_021BE6B0(func_021BE674(expObj, 0, (u16)cannonIndex, (u16)(pauseAnimeSlot + 1)), 1);
+        func_02158780(event, 2, 0, 0, 0x8015);
+        cameraInfoIndex = d_021F4320[work->cannonIndex][func_021F3F44(work->facing)].cameraInfoIndex;
+        {
+        Gimmick41CameraRequest request;
+        request.goal.pitch = d_021F4198[cameraInfoIndex].pitch;
+        request.goal.yaw = d_021F4198[cameraInfoIndex].yaw;
+        request.channels.shift = 0;
+        request.channels.pitch = 1;
+        request.channels.yaw = 1;
+        request.channels.distance = 0;
+        request.channels.fov = 0;
+        func_0218F900(camera, &request, d_021F4198[cameraInfoIndex].moveFrames);
+        }
+        (*seq)++;
+        break;
+    case 3:
+        if (func_0218FE50(camera) != 0)
+            break;
+        func_0218E13C(camera, 2);
+        playerMmdl = func_021A3074(func_02188CB4(fieldMap));
+        func_0216DAC8(playerMmdl, 1);
+        func_0216D548(playerMmdl, 0x200);
+        func_0216D568(playerMmdl, 0x8000);
+        cannonIndex = work->cannonIndex;
+        playAnimeSlot = func_021F3F18(func_021F3FC0(work->facing, cannonIndex));
+        func_021BE6B0(func_021BE674(expObj, 0, (u16)cannonIndex, (u16)playAnimeSlot), 0);
+        func_021BE6B0(func_021BE674(expObj, 0, (u16)cannonIndex, (u16)(playAnimeSlot + 1)), 0);
         func_020061E4(0x699);
-        (*state)++;
+        (*seq)++;
         break;
     case 4:
-        b0 = w[0];
-        r = func_021F3FC0(w[1], b0);
-        v = func_021BE6E8((int)s, 0, (u16)b0, (u16)func_021F3F18(r));
-        if (v / 4096 < d_021F409C[r])
+        cannonIndex = work->cannonIndex;
+        direction = func_021F3FC0(work->facing, cannonIndex);
+        animeValue = func_021BE6E8(expObj, 0, (u16)cannonIndex, (u16)func_021F3F18(direction));
+        if (animeValue / 4096 < d_021F409C[direction])
             break;
         func_020061E4(0x6A0);
-        w[2] = 1;
-        *(u16 *)(w + 0x718) = 0;
-        (*state)++;
+        work->flying = 1;
+        work->frame = 0;
+        (*seq)++;
         break;
     case 5:
-        b0 = w[0];
-        r = func_021F3FC0(w[1], b0);
-        v = func_021BE6E8((int)s, 0, (u16)b0, (u16)func_021F3F18(r));
-        if (v / 4096 == d_021F4094[r]) {
+        cannonIndex = work->cannonIndex;
+        direction = func_021F3FC0(work->facing, cannonIndex);
+        animeValue = func_021BE6E8(expObj, 0, (u16)cannonIndex, (u16)func_021F3F18(direction));
+        if (animeValue / 4096 == d_021F4094[direction]) {
             func_020061E4(0x696);
-            if (w[3] == 0) {
-                func_021F3FD8(w);
-                func_0218E13C(obj, (int)1);
+            if (work->cameraArrived == 0) {
+                func_021F3FD8(work);
+                func_0218E13C(camera, 1);
             }
-            func_0216DAC8(func_021A3074(func_02188CB4(ctx)), (int)0);
+            func_0216DAC8(func_021A3074(func_02188CB4(fieldMap)), 0);
         }
-        if (w[2] != 0)
+        if (work->flying != 0)
             break;
-        cam = func_02188CB4(ctx);
+        player = func_02188CB4(fieldMap);
         {
-            Vec pos = {0, 0, 0};
-            Ent *e = &d_021F4320[w[0]][func_021F3F44(w[1])];
-            pos.x = (e->x << 16) + 0x8000;
-            pos.y = e->y << 16;
-            pos.z = (e->z << 16) + 0x8000;
-            func_021A3044(cam, &pos);
+            VecFx32 pos = {0, 0, 0};
+            Gimmick41Flight *flight = &d_021F4320[work->cannonIndex][func_021F3F44(work->facing)];
+            pos.x = (flight->landX << 16) + 0x8000;
+            pos.y = flight->landY << 16;
+            pos.z = (flight->landZ << 16) + 0x8000;
+            func_021A3044(player, &pos);
         }
-        (*state)++;
+        (*seq)++;
         break;
     case 6:
-        func_0216D550(func_021A3074(func_02188CB4(ctx)), (int)0x200);
-        func_02011558((struct IcaAnime *)(*(u32 *)(w + 0x714)));
-        b0 = w[0];
-        i6 = func_021F3F18(func_021F3FC0(w[1], b0));
-        func_021BE700(s, 0, (u16)b0, (u16)i6, 0);
-        func_021BE700(s, 0, (u16)b0, (u16)(i6 + 1), 0);
-        func_0218F05C(obj);
-        func_0218F878(obj);
+        func_0216D550(func_021A3074(func_02188CB4(fieldMap)), 0x200);
+        func_02011558(work->flightAnime);
+        cannonIndex = work->cannonIndex;
+        endAnimeSlot = func_021F3F18(func_021F3FC0(work->facing, cannonIndex));
+        func_021BE700(expObj, 0, (u16)cannonIndex, (u16)endAnimeSlot, 0);
+        func_021BE700(expObj, 0, (u16)cannonIndex, (u16)(endAnimeSlot + 1), 0);
+        func_0218F05C(camera);
+        func_0218F878(camera);
         return 1;
     }
-    if (w[2] != 0) {
+    if (work->flying != 0) {
         {
-            Vec base = {0, 0, 0};
-            b0 = w[0];
-            if (func_02011688((struct IcaAnime *)(*(u32 *)(w + 0x714)), (struct Rec12 *)(&base), *(u16 *)(w + 0x718)) != 0) {
-                base.x += (d_021F40F0[b0].a << 16) + 0x8000;
-                base.y += d_021F40F0[b0].pad << 16;
-                base.z += (d_021F40F0[b0].b << 16) + 0x8000;
-                func_021A3044(func_02188CB4(ctx), &base);
+            VecFx32 flightPos = {0, 0, 0};
+            cannonIndex = work->cannonIndex;
+            if (ICA_ANIME_GetTranslateAt(work->flightAnime, &flightPos, work->frame) != 0) {
+                flightPos.x += (d_021F40F0[cannonIndex].x << 16) + 0x8000;
+                flightPos.y += d_021F40F0[cannonIndex].y << 16;
+                flightPos.z += (d_021F40F0[cannonIndex].z << 16) + 0x8000;
+                func_021A3044(func_02188CB4(fieldMap), &flightPos);
             }
         }
-        if (*(int *)(w + 0x724) != 0 && *(u16 *)(w + 0x718) < *(u16 *)(w + 0x71C)) {
-            Vec end;
-            Vec start;
-            Six path;
-            func_021A3038(func_02188CB4(ctx), (struct VecFx32 *)(&end));
-            if (*(int *)(w + 0x728) == 0) {
-                func_0218EC54(obj);
-                func_0218ECE4(obj, &start);
-                path.f = 1;
-                path.e = 0;
-                path.a = 0;
-                path.b = 0;
-                path.c = 0;
-                path.d = 0;
-                func_0218F930(obj, (u8 *)(&start), (u8 *)(&end), (u32 *)(&path), *(u16 *)(w + 0x71C) - *(u16 *)(w + 0x718));
-                *(int *)(w + 0x728) = 1;
+        if (work->bounce.finished != 0 && work->frame < work->cameraFollowEndFrame) {
+            VecFx32 playerPos;
+            VecFx32 eyePos;
+            Gimmick41CameraChannels channels;
+            func_021A3038(func_02188CB4(fieldMap), &playerPos);
+            if (work->bounce.cameraMoveStarted == 0) {
+                func_0218EC54(camera);
+                func_0218ECE4(camera, &eyePos);
+                channels.target = 1;
+                channels.fov = 0;
+                channels.shift = 0;
+                channels.pitch = 0;
+                channels.yaw = 0;
+                channels.distance = 0;
+                func_0218F930(camera, &eyePos, &playerPos, &channels, work->cameraFollowEndFrame - work->frame);
+                work->bounce.cameraMoveStarted = 1;
             } else {
-                *(Vec *)(func_0218FE70(obj) + 0xC) = end;
+                func_0218FE70(camera)->target = playerPos;
             }
         }
-        if (*(u16 *)(w + 0x718) == *(u16 *)(w + 0x71C)) {
-            if (*(int *)(w + 0x720) != 0)
-                *(int *)(w + 0x720) = 0;
-            func_0218EC60((u32)obj);
-            func_0218E13C(obj, (int)0);
+        if (work->frame == work->cameraFollowEndFrame) {
+            if (work->bounce.active != 0)
+                work->bounce.active = 0;
+            func_0218EC60((u32)camera);
+            func_0218E13C(camera, 0);
             {
-            Six fin;
-            fin.a = 1;
-            fin.b = 1;
-            fin.c = 1;
-            fin.d = 1;
-            fin.e = 1;
-            fin.f = 0;
-            func_0218F9C4(obj, (u8 *)(&fin), *(u16 *)(w + 0x71E));
+            Gimmick41CameraChannels returnChannels;
+            returnChannels.shift = 1;
+            returnChannels.pitch = 1;
+            returnChannels.yaw = 1;
+            returnChannels.distance = 1;
+            returnChannels.fov = 1;
+            returnChannels.target = 0;
+            func_0218F9C4(camera, &returnChannels, work->cameraReturnFrames);
             }
-            w[3] = 1;
+            work->cameraArrived = 1;
         }
-        row = w[0];
-        idx = (u16)d_021F4320[row][func_021F3F44(w[1])].k;
-        m2 = func_021A3074(func_02188CB4(ctx));
-        if (*(u16 *)(w + 0x718) == *(u16 *)(w + 0x71A) - 1 - d_021F40B4[idx] && idx != 11) {
-            func_0216D570(m2, (int)0x8000);
+        cannonRow = work->cannonIndex;
+        cameraInfoIndex = d_021F4320[cannonRow][func_021F3F44(work->facing)].cameraInfoIndex;
+        tailPlayerMmdl = func_021A3074(func_02188CB4(fieldMap));
+        if (work->frame == work->frameCount - 1 - d_021F40B4[cameraInfoIndex] && cameraInfoIndex != 11) {
+            func_0216D570(tailPlayerMmdl, 0x8000);
             func_020061E4(0x697);
         }
-        if (idx == 11) {
-            if (*(u16 *)(w + 0x718) == 0x46)
+        if (cameraInfoIndex == 11) {
+            if (work->frame == 0x46)
                 func_020061E4(0x6A1);
-            if (*(u16 *)(w + 0x718) + 8 >= *(u16 *)(w + 0x71A)) {
-                if ((int)func_0216D57C(m2, (int)0x8000) != 0)
-                    func_0216D570(m2, (int)0x8000);
+            if (work->frame + 8 >= work->frameCount) {
+                if ((int)func_0216D57C(tailPlayerMmdl, 0x8000) != 0)
+                    func_0216D570(tailPlayerMmdl, 0x8000);
             }
         }
-        *(u16 *)(w + 0x718) += 1;
-        if (*(u16 *)(w + 0x718) >= *(u16 *)(w + 0x71A))
-            w[2] = 0;
-        func_021F4000(w + 0x720, obj);
+        work->frame += 1;
+        if (work->frame >= work->frameCount)
+            work->flying = 0;
+        func_021F4000(&work->bounce, camera);
     }
     return 0;
 }
 
-
-
-u8 func_021F3EE4(int a, int b)
+/* Find the cannon whose cell is (cellX, cellZ); GIMMICK41_CANNON_COUNT when none. */
+u8 func_021F3EE4(int cellX, int cellZ)
 {
     u8 i;
 
-    for (i = 0; i < 10; i++) {
-        if (a == d_021F40F0[i].a && b == d_021F40F0[i].b) {
+    for (i = 0; i < GIMMICK41_CANNON_COUNT; i++) {
+        if (cellX == d_021F40F0[i].x && cellZ == d_021F40F0[i].z) {
             return i;
         }
     }
     return i;
 }
 
-
 /*
- * An unlabelled leaf (no lr save) next to func_021F3F44: maps 0..3 to an even
- * index. Callee of func_021F3884.
+ * An unlabelled leaf (no lr save) next to func_021F3F44: the first animation
+ * slot of a direction (two slots per direction). Callee of func_021F3884.
  */
-u16 func_021F3F18(int x)
+u16 func_021F3F18(int direction)
 {
-    switch (x) {
+    switch (direction) {
     case 0: return 0;
     case 1: return 2;
     case 2: return 4;
@@ -575,10 +572,10 @@ u16 func_021F3F18(int x)
     return 0;
 }
 
-
-int func_021F3F44(int x)
+/* Player facing (0 up, 1 down, 2 left, 3 right) to the index in the direction ring. */
+int func_021F3F44(int facing)
 {
-    switch (x) {
+    switch (facing) {
     case 0: return 0;
     case 1: return 1;
     case 3: return 2;
@@ -587,48 +584,45 @@ int func_021F3F44(int x)
     return 0;
 }
 
-
-
-int func_021F3F70(int a, int b)
+/* Turn a ring direction by a number of quarter turns. */
+int func_021F3F70(int direction, int turns)
 {
-    T4 t = d_021F4080;
+    Gimmick41DirTable ring = d_021F4080;
     u8 i;
-    u8 j;
+    u8 turned;
 
-    for (i = 0; i < 4; i++) {
-        if (t.b[i] == a) {
-            j = (i + b) % 4;
-            return t.b[j];
+    for (i = 0; i < GIMMICK41_DIRECTION_COUNT; i++) {
+        if (ring.direction[i] == direction) {
+            turned = (i + turns) % 4;
+            return ring.direction[turned];
         }
     }
-    return a;
+    return direction;
 }
 
-
-int func_021F3FC0(unsigned int a, int i)
+/* The direction of a cannon as the player sees it: facing turned by the cannon rotation. */
+int func_021F3FC0(unsigned int facing, int cannonIndex)
 {
-    return func_021F3F70(func_021F3F44(a), d_021F4660[i]);
+    return func_021F3F70(func_021F3F44(facing), d_021F4660[cannonIndex]);
 }
 
-
-void func_021F3FD8(unsigned char *p)
+/* Start the camera bounce. */
+void func_021F3FD8(Gimmick41Work *work)
 {
-    func_021F3FEC(p + 0x720);
-    ((struct Obj20502 *)p)->f720 = 1;
+    func_021F3FEC(&work->bounce);
+    work->bounce.active = 1;
 }
-
-
 
 /*
  * extent: 18 bytes of code followed by two zero alignment bytes.
  */
-void func_021F3FEC(unsigned char *p)
+void func_021F3FEC(Gimmick41Bounce *bounce)
 {
-    ((struct Obj04319 *)p)->f0 = 0;
-    ((struct Obj04319 *)p)->f4 = 0;
-    ((struct Obj04319 *)p)->f8 = 0;
-    p[13] = 0;
-    p[12] = 0;
-    p[14] = 0;
-    p[15] = 0;
+    bounce->active = 0;
+    bounce->finished = 0;
+    bounce->cameraMoveStarted = 0;
+    bounce->phase = 0;
+    bounce->wait = 0;
+    bounce->downSteps = 0;
+    bounce->tick = 0;
 }

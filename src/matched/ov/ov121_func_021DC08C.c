@@ -17,7 +17,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_0204B878 0x0204B878 arm
  *   func_0204B404 0x0204B404 arm
- *   func_021DDF5C 0x021DDF5C thumb ov121
+ *   MYSTERY_ALBUM_StartIntro 0x021DDF5C thumb ov121
  *   func_021DBDB8 0x021DBDB8 thumb ov121
  *   func_021DBF04 0x021DBF04 thumb ov121
  *   func_021DA8B0 0x021DA8B0 thumb ov121
@@ -44,7 +44,7 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u32 func_0203633C(void);
 extern int func_02035C60(void);
 extern u32 func_020362DC(void);
-extern void func_021DDF5C(u8 *p);
+extern void MYSTERY_ALBUM_StartIntro(u8 *p);
 extern void func_020061E4(u32 a);
 extern int func_021DBDB8(char *);
 struct Vec2;
@@ -80,7 +80,7 @@ void func_021DC08C(void *task,u32 *state,char *p)
         changed=0;delta=0;
         if(func_02035C60()) {
             ((struct Obj00061 *)p)->fAAC=*(void **)((u32)p+0xa7c+(u16)(((struct Obj00061 *)p)->fACC+*(u32 *)&((struct Obj00061 *)p)->fAC8*4)*4);
-            if(((struct Obj00061 *)p)->fAAC) func_021DDF5C(((struct Obj00061 *)p)->fAAC);
+            if(((struct Obj00061 *)p)->fAAC) MYSTERY_ALBUM_StartIntro(((struct Obj00061 *)p)->fAAC);
         }
         if(repeat==512) delta=-1;
         else if(repeat==256) delta=1;

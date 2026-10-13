@@ -1,5 +1,5 @@
 /*
- * function: func_021D7810
+ * function: P_STA_SUB_UpdateLapFrames
  * address:  0x021D7810
  * packet:   pkt_021D7810
  * region:   ov131
@@ -20,7 +20,7 @@ typedef struct
     u8 f9a;
 } Ring;
 
-void func_021D7810(int unused, Ring *p, int mode)
+void P_STA_SUB_UpdateLapFrames(int unused, Ring *p, int mode)
 {
     if (mode == 1)
     {

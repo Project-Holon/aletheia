@@ -14,23 +14,23 @@
  * second buffer argument prevents CSE; b34 is one two-bit assignment.
  * blocker: ARM9 0x02015D94 and 0x02015D88 have no outside witness.
  * Verified scratch C, EXACT (blocker_02015D94_r1.log):
- * void func_02015D94(char *p, int *src) {
+ * void MCSS_SetShadowOffset(char *p, int *src) {
  *     *(int *)(p + 0x17c) = src[0];
  *     *(int *)(p + 0x180) = src[1];
  *     *(int *)(p + 0x184) = src[2];
  * }
  * Verified scratch C, EXACT (blocker_02015D88_r1.log):
  * typedef unsigned short u16;
- * void func_02015D88(char *p, u16 value) { *(u16 *)(p + 0x17a) = value; }
+ * void MCSS_SetShadowRotateZ(char *p, u16 value) { *(u16 *)(p + 0x17a) = value; }
  * symbols:
  *   func_02017E1C 0x02017E1C thumb
  *   func_02017EAC 0x02017EAC thumb
  *   func_02019C90 0x02019C90 thumb
  *   func_0202D034 0x0202D034 thumb
- *   func_020159C8 0x020159C8 thumb
- *   func_02015FD4 0x02015FD4 thumb
- *   func_02015D94 0x02015D94 thumb
- *   func_02015D88 0x02015D88 thumb
+ *   MCSS_Add 0x020159C8 thumb
+ *   MCSS_SetShadowAlpha 0x02015FD4 thumb
+ *   MCSS_SetShadowOffset 0x02015D94 thumb
+ *   MCSS_SetShadowRotateZ 0x02015D88 thumb
  *   func_02015F2C 0x02015F2C thumb
  *   func_022003EC 0x022003EC thumb ov094
  *   func_022018A8 0x022018A8 thumb ov094
@@ -58,10 +58,10 @@ struct Sub150;
 extern u32 func_02017EAC(void *p);
 extern u32 func_02019C90(u16, u16, u32);
 extern int func_0202D034(u32, u32);
-extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
-extern void func_02015FD4(char *p, int v);
-extern void func_02015D94(char *p, int *src);
-extern void func_02015D88(char *p, u16 value);
+extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
+extern void MCSS_SetShadowAlpha(char *p, int v);
+extern void MCSS_SetShadowOffset(char *p, int *src);
+extern void MCSS_SetShadowRotateZ(char *p, u16 value);
 extern void func_02015F2C(void *, u32, void *, u32);
 extern void func_022003EC(void *, void *, int *, int);
 extern void func_022018A8(void *, Vec *, int);
@@ -95,7 +95,7 @@ void func_021FEEA8(char *w, void *src, int key)
             *(int *)(w + 0x48 + off) |= 2;
         func_022003EC(w, src, (int *)(w + 0xc + off), key);
         func_022018A8(w, &vectors.pos, key);
-        *(void **)(w + 8 + off) = func_020159C8(((struct Obj13604 *)w)->f4, vectors.pos.x, vectors.pos.y, vectors.pos.z, (void *)((u32)w + 0xc + off));
+        *(void **)(w + 8 + off) = MCSS_Add(((struct Obj13604 *)w)->f4, vectors.pos.x, vectors.pos.y, vectors.pos.z, (void *)((u32)w + 0xc + off));
         func_0220055C(w, key, 1);
         *(u32 *)(w + 0x34 + off) = func_02017E1C(src, 5, 0);
         *(u32 *)(w + 0x38 + off) = func_02017E1C(src, 0x6f, 0);
@@ -111,10 +111,10 @@ void func_021FEEA8(char *w, void *src, int key)
             visible = 1;
         }
         if (visible == 0)
-            func_02015FD4(*(void **)(w + 8 + off), 0);
+            MCSS_SetShadowAlpha(*(void **)(w + 8 + off), 0);
         else {
-            func_02015D94(*(void **)(w + 8 + off), (int *)(&vectors.orient));
-            func_02015D88(*(void **)(w + 8 + off), angle);
+            MCSS_SetShadowOffset(*(void **)(w + 8 + off), (int *)(&vectors.orient));
+            MCSS_SetShadowRotateZ(*(void **)(w + 8 + off), angle);
         }
         ((Flags *)(w + 0x54 + off))->b34 = 3;
         func_022006B4(w, key);

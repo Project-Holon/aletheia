@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02011EC0",
+   "name": "GAMESYSTEM_ProcEnd",
    "address": "0x02011EC0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02011EEC",
+   "name": "GAMESYSTEM_SetupInitWork",
    "address": "0x02011EEC",
    "kind": "game",
    "region": "arm9",
@@ -42,7 +42,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02011F24"
+    "GAMESYSTEM_GetWorkSize"
+   ],
+   "addresses": [
+    "0x02011F24"
    ]
   },
   {
@@ -57,11 +60,11 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020120F0",
+    "GAMESYSTEM_GetProcStatus",
     "func_020120F4",
     "func_020120F8",
     "func_02012104",
-    "func_02012108",
+    "GAMESYSTEM_SetEvent",
     "func_0201210C",
     "func_02012110",
     "func_02012114",
@@ -69,9 +72,26 @@
     "func_0201212C",
     "func_02012134",
     "func_02012138",
-    "func_0201213C",
-    "func_02012144",
+    "GAMESYSTEM_SetCommBlocked",
+    "GAMESYSTEM_IsCommBlocked",
     "func_0201214C"
+   ],
+   "addresses": [
+    "0x020120F0",
+    "0x020120F4",
+    "0x020120F8",
+    "0x02012104",
+    "0x02012108",
+    "0x0201210C",
+    "0x02012110",
+    "0x02012114",
+    "0x02012124",
+    "0x0201212C",
+    "0x02012134",
+    "0x02012138",
+    "0x0201213C",
+    "0x02012144",
+    "0x0201214C"
    ]
   },
   {

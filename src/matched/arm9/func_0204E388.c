@@ -1,5 +1,5 @@
 /*
- * function: func_0204E388
+ * function: TEXTPRINT_SjisToGlyphCodes
  * address:  0x0204E388
  * packet:   pkt_0204E130
  * region:   arm9
@@ -13,8 +13,8 @@
  *           are the single caller site and neither packet is this lane's.
  *
  * symbols:
- *   func_0204E410  0x0204E410  arm
- *   func_0204E4C0  0x0204E4C0  arm
+ *   TEXTPRINT_AsciiToGlyphCode  0x0204E410  arm
+ *   TEXTPRINT_SjisToGlyphCode  0x0204E4C0  arm
  *   func_02045A98  0x02045A98  arm
  *
  * Byte-identical at 136 bytes with every concrete byte right; only the two
@@ -35,11 +35,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern u16 func_0204E410(u8 c);
-extern u16 func_0204E4C0(u16 c);
+extern u16 TEXTPRINT_AsciiToGlyphCode(u8 c);
+extern u16 TEXTPRINT_SjisToGlyphCode(u16 c);
 extern u16 func_02045A98(void);
 
-void func_0204E388(char *p, u16 *out, int max)
+void TEXTPRINT_SjisToGlyphCodes(char *p, u16 *out, int max)
 {
     int n = 0;
     u16 c;
@@ -49,9 +49,9 @@ void func_0204E388(char *p, u16 *out, int max)
 
         p++;
         if ((ch >= 0x81 && ch <= 0x9f) || ch >= 0xe0)
-            c = func_0204E4C0((u16)((ch << 8) + (u8)*p++));
+            c = TEXTPRINT_SjisToGlyphCode((u16)((ch << 8) + (u8)*p++));
         else
-            c = func_0204E410(ch);
+            c = TEXTPRINT_AsciiToGlyphCode(ch);
         if (c != 0xfffe) {
             *out++ = c;
             n++;

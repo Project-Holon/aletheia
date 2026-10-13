@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02023EF4 0x02023EF4 thumb
+ *   BRIGHTNESS_ChangeRequest 0x02023EF4 thumb
  */
 
-extern void func_02023EF4(int, int, int, int, int);
+extern void BRIGHTNESS_ChangeRequest(int, int, int, int, int);
 
 int func_021BE374(int a0, int a1, int *src)
 {
-    func_02023EF4((unsigned char)src[0], (short)src[1], (short)src[2], 0x1d, 1);
+    BRIGHTNESS_ChangeRequest((unsigned char)src[0], (short)src[1], (short)src[2], 0x1d, 1);
     return 1;
 }

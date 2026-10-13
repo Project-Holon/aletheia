@@ -9,7 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Twin of ov078 func_021F5698 with different constants.
+ * Twin of ov078 func_021F5698 with different constants: faster, higher drops
+ * and a longer wait after the last one.
  *
  * symbols:
  *   func_0201210C  0x0201210C  thumb
@@ -19,42 +20,42 @@
  *   func_021F5748  0x021F5748  thumb  ov078
  * Addresses are Black-image addresses.
  */
-#include "../../../matched/include/Obj03672.h"
+#include "../../ov077/enceff_base_types.h"
+#include "../enceff_ripple_types.h"
 
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned int u32;
-
-struct Ctx;
+struct GameSystem;
+struct GameEvent;
+struct EncEffWork;
+struct FieldMap;
 struct Desc;
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02189A08(unsigned char *p);
-extern u32 func_021CF52C(u32 *p, int size, int heap);
+extern struct FieldMap *func_0201210C(struct GameSystem *gameSystem);
+extern struct EncEffWork *func_02189A08(struct FieldMap *fieldMap);
+extern void *func_021CF52C(struct EncEffWork *eff, u32 size, u32 heapId);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int func_021F5748(void *task, int *st);
+extern int func_021F5748(struct GameEvent *event, int *state);
 
-void *func_021F5AFC(void *a)
+void *func_021F5AFC(void *gameSystem)
 {
-    u8 *w;
-    void *h;
+    EncEffRipple *ripple;
+    void *event;
     int i;
 
-    w = (u8 *)func_021CF52C((u32 *)func_02189A08((unsigned char *)((int)func_0201210C(a))), 0x19E0, 0x50);
-    h = func_020122C0(a, 0, (void (*)(void))func_021F5748, 0);
-    ((struct Obj03672 *)w)->f19CA = 7;
-    ((struct Obj03672 *)w)->f19C8 = 0;
-    ((struct Obj03672 *)w)->f19CC = 2;
-    ((struct Obj03672 *)w)->f19D0 = 0x555;
-    ((struct Obj03672 *)w)->f19CE = 0x2d;
-    ((struct Obj03672 *)w)->f19D8 = 0x37;
-    ((struct Obj03672 *)w)->f19DC = 0;
-    for (i = 0; i < 0x339; i++) {
-        s16 *e = (s16 *)(w + i * 6);
+    ripple = func_021CF52C(func_02189A08(func_0201210C(gameSystem)), sizeof(EncEffRipple), 0x50);
+    event = func_020122C0(gameSystem, 0, func_021F5748, 0);
+    ripple->count = 7;
+    ripple->wait = 0;
+    ripple->period = 2;
+    ripple->height = 0x555;
+    ripple->next = 0x2d;
+    ripple->startDelay = 0x37;
+    ripple->fadeStarted = 0;
+    for (i = 0; i < RIPPLE_VERTEX_COUNT; i++) {
+        EncEffRippleVertex *vertex = &ripple->vertex[i];
 
-        e[0] = ((i % 33) << 12) / 16;
-        e[1] = ((i / 33) << 12) / 16;
-        e[2] = 0;
+        vertex->x = ((i % RIPPLE_COLS) << 12) / 16;
+        vertex->y = ((i / RIPPLE_COLS) << 12) / 16;
+        vertex->z = 0;
     }
-    ((struct Obj03672 *)w)->f19D4 = 3;
-    return h;
+    ripple->fadeScreens = 3;
+    return event;
 }

@@ -10,17 +10,17 @@
  * status: EXACT
  *
  * 2026-10-03 (wave B3): all concrete bytes match. The one open relocation is
- * the call to func_02015F04 (unlabelled arm9 Thumb leaf). Its witness is
- * filed as src/matched/arm9/func_02015F04.c (EXACT); once the integrator
+ * the call to MCSS_GetSizeX (unlabelled arm9 Thumb leaf). Its witness is
+ * filed as src/matched/arm9/MCSS_GetSizeX.c (EXACT); once the integrator
  * seeds 0x02015F04 in layout/function_starts.txt this re-verifies as EXACT.
  * The empty-then if/else on *dir gives the original `bge; b` shape.
  *
  * symbols:
  *   func_02017E1C 0x02017E1C thumb
- *   func_02017F00 0x02017F00 thumb
- *   func_02015F04 0x02015F04 thumb
- *   func_02015F14 0x02015F14 thumb
- *   func_02015C78 0x02015C78 thumb
+ *   POKE_TOOL_GetGender 0x02017F00 thumb
+ *   MCSS_GetSizeX 0x02015F04 thumb
+ *   MCSS_GetOfsX 0x02015F14 thumb
+ *   MCSS_SetOfsPosition 0x02015C78 thumb
  *   _fgr 0x0209BBB0 arm
  *   _fmul 0x0209C77C arm
  *   _fadd 0x0209C95C arm
@@ -52,10 +52,10 @@ typedef signed short   s16;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u8 func_02017F00(void *p);
-extern u16 func_02015F04(void *p);
-extern s16 func_02015F14(void *p);
-extern void func_02015C78(void *p, u32 *src);
+extern u8 POKE_TOOL_GetGender(void *p);
+extern u16 MCSS_GetSizeX(void *p);
+extern s16 MCSS_GetOfsX(void *p);
+extern void MCSS_SetOfsPosition(void *p, u32 *src);
 
 #define F32_TO_FX32(f) ((int)(((f) > 0) ? ((f) * 4096.0f + 0.5f) : ((f) * 4096.0f - 0.5f)))
 
@@ -70,7 +70,7 @@ void func_021E33FC(void *p0, int *dir, int p2, void *mon)
 
     a = func_02017E1C(mon, 5, 0);
     b = func_02017E1C(mon, 0x6f, 0);
-    c = func_02017F00(mon);
+    c = POKE_TOOL_GetGender(mon);
     if (p2 == 0)
         flag = 1;
     found = 0;
@@ -88,8 +88,8 @@ void func_021E33FC(void *p0, int *dir, int p2, void *mon)
         }
     }
     if (!found) {
-        func_02015F04(p0);
-        c = func_02015F14(p0);
+        MCSS_GetSizeX(p0);
+        c = MCSS_GetOfsX(p0);
         if (*dir < 0)
             f = 0.33f * (float)c;
         else
@@ -98,5 +98,5 @@ void func_021E33FC(void *p0, int *dir, int p2, void *mon)
         v.y = 0;
         v.z = 0;
     }
-    func_02015C78(p0, (u32 *)(&v));
+    MCSS_SetOfsPosition(p0, (u32 *)(&v));
 }

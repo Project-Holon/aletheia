@@ -18,20 +18,20 @@
  * last-argument-write.md), the two loads transposed, 8 bytes out; the same C
  * under ../2.0/sp2 (also ../1.2/sp2, ../2.0/sp2p2) is 12 bytes, 0 mismatches.
  * Neighbour func_02061BD0 carries the same ../2.0/sp2 pin.
- * Witness for ov131 func_021D48E4.
+ * Witness for ov131 P_STATUS_ExitGraphics.
  *
  * symbols:
  *   func_02061B5C  0x02061B5C  arm
- *   g_02146B80     0x02146B80  data
+ *   sVramTransferTaskQueue     0x02146B80  data
  */
 
 #include "../include/G_Queue.h"
 
 typedef unsigned char  u8;
 extern void func_02061B5C(u8 *p);
-extern struct Queue g_02146B80;
+extern struct Queue sVramTransferTaskQueue;
 
 void func_02061C30(void)
 {
-    func_02061B5C((u8 *)((char *)&g_02146B80));
+    func_02061B5C((u8 *)((char *)&sVramTransferTaskQueue));
 }

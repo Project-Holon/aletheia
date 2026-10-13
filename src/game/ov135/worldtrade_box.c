@@ -21,9 +21,9 @@
  *   ov067_id  0x00000043  data
  *   func_0203CD98 0x0203CD98 arm
  *   func_0205D074 0x0205D074 arm
- *   func_020370F4 0x020370F4 arm
+ *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
  *   func_021C7C1C 0x021C7C1C arm ov114
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   func_02030D28 0x02030D28 arm
  *   func_02202770 0x02202770 thumb ov135
  *   func_020221A4 0x020221A4 thumb
@@ -67,7 +67,7 @@
  *   func_02027A04 0x02027A04 thumb
  *   data_02202C2C 0x02202C2C data a4
  *   func_0204B404  0x0204B404  arm
- *   func_0205CCD8  0x0205CCD8  arm
+ *   DWC_GetLinkLevel  0x0205CCD8  arm
  *   sub_02012FFC  0x02012FFC  thumb  arm9
  *   g_02202BFC  0x02202BFC  data  ov135
  *   func_021FFCD4  0x021FFCD4  thumb
@@ -118,7 +118,7 @@
  *   func_0204B878  0x0204B878  arm
  *   func_020355C4  0x020355C4  arm
  *   func_0204B84C  0x0204B84C  arm
- *   func_0204B974  0x0204B974  arm
+ *   CLACT_StopActorAnim  0x0204B974  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   tbl_02202D24   0x02202D24  data  a2
  *   tbl_02202C50   0x02202C50  data  a2
@@ -135,18 +135,18 @@
  *   tbl_02202DA4  0x02202DA4  data  a1
  *   d_02203B68 0x02203B68 data a4
  *   func_02202840  0x02202840  thumb  ov135
- *   sub_02045EC0   0x02045EC0  arm
+ *   MSGDATA_AllocString   0x02045EC0  arm
  *   func_0201F250  0x0201F250  thumb
- *   sub_02045770   0x02045770  arm
- *   sub_02043B5C   0x02043B5C  arm
- *   sub_02045334   0x02045334  arm
- *   sub_02045374   0x02045374  arm
+ *   BMP_WIN_GetBmp   0x02045770  arm
+ *   BMP_Clear   0x02043B5C  arm
+ *   BMP_WIN_TransferChars   0x02045334  arm
+ *   BMP_WIN_MakeScreen   0x02045374  arm
  *   unit_02045730  0x02045730  arm
  *   sub_020409B4   0x020409B4  arm
  *   func_0201F73C  0x0201F73C  thumb
- *   sub_02045808   0x02045808  arm
+ *   STRBUF_Delete   0x02045808  arm
  *   func_02202858  0x02202858  thumb  ov135
- *   func_0201BABC  0x0201BABC  thumb
+ *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   func_02082B0C  0x02082B0C  arm
  *   func_0201BB5C  0x0201BB5C  thumb
  *   GX_LoadOBJ     0x0207E780  arm
@@ -159,7 +159,7 @@
  *   func_0200785C  0x0200785C  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_020185F4  0x020185F4  thumb
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_02045CAC  0x02045CAC  arm
  *   func_02045770  0x02045770  arm
  *   func_02043B5C  0x02043B5C  arm
@@ -168,7 +168,7 @@
  *   func_0200ADB4  0x0200ADB4  thumb
  *   func_0200AD9C  0x0200AD9C  thumb
  *   func_02019CE0  0x02019CE0  thumb
- *   func_02031348  0x02031348  arm
+ *   PROCSYS_Push  0x02031348  arm
  *   str_02203B6C   0x02203B6C  data  a1
  *   d_021E75B4     0x021E75B4  data  ov119
  *   d_021E75CC     0x021E75CC  data  ov119
@@ -231,6 +231,15 @@
  *   tbl_0220301C 0x0220301C data a4
  *   tbl_02202FC4 0x02202FC4 data a4
  *   str_02203C18 0x02203C18 data a1
+ *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GAME_DATA_SaveCancel  0x02012E08  thumb  arm9
+ *   POKE_TOOL_ChangeBoxForm  0x020179B8  thumb  arm9
+ *   POKE_TOOL_CalcBoxLevel  0x02018438  thumb  arm9
+ *   PROCSYS_Create  0x02031324  arm  arm9
+ *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm  arm9
+ *   BG_SYS_ClearMainPlanes  0x020434CC  arm  arm9
+ *   BG_SYS_ClearSubPlanes  0x02043588  arm  arm9
  */
 #include "worldtrade_types.h"
 #include "../../matched/include/Obj00018.h"
@@ -431,21 +440,21 @@ extern void func_0203064C(u32 a, u32 b, u32 c);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void *func_02202608(u32 heap);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 extern u32 func_02030CB0(u32 n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void func_022026D8(void *ctx, u32 arg);
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_0204335C(u32 keep);
-extern void func_02005DE4(void *p);
-extern void func_02005D28(void);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern int func_0203CD98(void);
 extern int func_0205D074(void);
-extern u32 func_020370F4(u32);
+extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
 extern void func_021C7C1C(void);
-extern u32 func_02031330(void *);
+extern u32 PROCSYS_Main(void *);
 extern void func_02030D28(struct Ctx *c);
 extern void func_02202770(void *);
 extern u32 func_020221A4(void);
@@ -489,7 +498,7 @@ extern void func_02027974(void *);
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern int func_0205CCD8(void);
+extern int DWC_GetLinkLevel(void);
 extern signed char sub_02012FFC(void);
 extern void func_021FFCD4(u8 *p);
 extern void func_0204ADA4(u32 v);
@@ -504,8 +513,8 @@ extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 v);
 extern void func_0207D658(u32 addr, int plane, int brightness);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 a);
 extern void func_0203F8F4(u16 heapId);
@@ -516,7 +525,7 @@ extern void func_02030EAC(struct Node *n);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_02012E08(char *p);
+extern void GAME_DATA_SaveCancel(char *p);
 extern void func_0200F7C0(u32 c);
 extern void func_021FFFE8(u8 *, u32, u32);
 extern void func_021FFD44(char *p);
@@ -546,7 +555,7 @@ extern void func_0204B92C(struct Obj *, u32);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern u8 func_020355C4(void);
 extern void func_0204B84C(u32, int);
-extern void func_0204B974(struct Actor *a);
+extern void CLACT_StopActorAnim(struct Actor *a);
 extern void func_0204B3B4(struct Obj *p);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
@@ -569,28 +578,28 @@ extern u32 func_0201F868(void *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern int func_020179B8(int a0, int a1);
+extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
 extern u32 func_0201AA18(void *p);
 extern u32 func_0204B98C(struct Actor *a);
 extern u32 func_02202840(u8 *p);
 extern int func_02035C60(void);
-extern void *sub_02045EC0(struct MsgBank *bank, u32 index);
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void *sub_02045770(struct Descriptor *p);
-extern void sub_02043B5C(struct CharBuf *buf, u8 value);
-extern void sub_02045334(struct Descriptor *a);
-extern void sub_02045374(struct Cfg *cfg);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *a);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 unit_02045730(u32 a);
 extern void sub_020409B4(u32 index);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern void sub_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern void func_02082B0C(const void *src, void *dst, u32 n);
 extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
-extern u32 func_02018438(void *p);
+extern u32 POKE_TOOL_CalcBoxLevel(void *p);
 extern void GX_LoadOBJ(const void *src, u32 offset, u32 size);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern u32 func_02017DBC(struct Sav *p);
@@ -598,7 +607,7 @@ extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32 func_0202136C(u16 v);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern void func_0200785C(void *save, u32 box, void *dest);
-extern void *func_020185F4(void *a);
+extern void *POKE_TOOL_GetBoxParam(void *a);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern int func_020078C4(void *save, u32 box);
 extern u32 func_02017E1C(void *a, u32 b, u32 c);
@@ -607,7 +616,7 @@ extern u8 func_020076B4(void *save);
 extern void *func_0200ADB4(void *sys);
 extern void func_0200AD9C(void *sys, void *mon);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
-extern void func_02031348(void *h, u32 id, void *a, void *b);
+extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
 extern u8 func_02012984(const struct BigObj *p);
 extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 extern struct Party *func_0201A920(u32 heap);
@@ -872,7 +881,7 @@ int func_021F4580(void *proc, int *seq, Args_021F4580 *args)
     func_02082BCC(p, 0, sizeof(Work));
     g_02203F80 = p;
     p->fEA8 = func_02202608(0x48);
-    p->f12F0 = func_02031324(0x48);
+    p->f12F0 = PROCSYS_Create(0x48);
     p->recMem = func_02030734(0x48, func_02030CB0(8), 0, str_02203AF8, 0xA1);
     p->rec_p = func_02030CBC(8, p->recMem);
     func_022026D8(p->tail, args->x20);
@@ -883,10 +892,10 @@ int func_021F4580(void *proc, int *seq, Args_021F4580 *args)
     p->msg[1] = func_02045B38(0, 2, 0x46, 0x48);
     p->msg[4] = func_02045B38(0, 2, 0xE7, 0x48);
     func_021F489C((Work *)p, (Args *)args);
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_021F5074(p);
-    func_02005DE4(0);
-    func_02005D28();
+    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_CancelChangeAndStopBgm();
     return 1;
 }
 
@@ -898,10 +907,10 @@ int func_021F46A8(void *unused0, int *state, void *unused2, Work *p)
 {
     if (func_0203CD98() != 0) {
         func_0205D074();
-        func_020370F4(func_021F4EB4());
+        GFL_NET_WM_ICON_EasySetLevel(func_021F4EB4());
     }
     func_021C7C1C();
-    p->busy_u = func_02031330(p->f12F0);
+    p->busy_u = PROCSYS_Main(p->f12F0);
     func_02030D28(p->rec_p);
     func_02202770((u8 *)p + 0xfa0);
     switch (*state) {
@@ -943,7 +952,7 @@ int func_021F46A8(void *unused0, int *state, void *unused2, Work *p)
 
 int func_021F47C0(void *ctx, int unused1, int unused2, Work *p)
 {
-    func_02005D28();
+    GFL_USE_CancelChangeAndStopBgm();
     func_021F50EC(p);
     func_021F49A4(p);
     func_02045C04(p->names);
@@ -1311,7 +1320,7 @@ void func_021F4EA0(u32 a, u16 b, u16 c)
 
 int func_021F4EB4(void)
 {
-    return 3 - func_0205CCD8();
+    return 3 - DWC_GetLinkLevel();
 }
 
 
@@ -1513,8 +1522,8 @@ void func_021F5060(void)
 
 void func_021F5074(Work *p)
 {
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     func_02043534(0);
     func_020435F4(0);
     func_021F4EDC(p);
@@ -1558,7 +1567,7 @@ void func_021F50EC(Work *p)
 
 void func_021F513C(WorldtradeBoxObj1 *p)
 {
-    func_02012E08(func_020120F4((const struct Ctx *)(*(u32 *)(p->f0 + 0x40))));
+    GAME_DATA_SaveCancel(func_020120F4((const struct Ctx *)(*(u32 *)(p->f0 + 0x40))));
     func_0200F7C0(0x29);
 }
 
@@ -1767,7 +1776,7 @@ void func_021F5420(Work *p)
     p->sub.f3C = (u32)func_0204B294((void *)p->sub.f0, p->sub.f28, p->sub.f8, p->sub.f30, &s, 0, 0x48);
     func_0204B878((struct Obj *)p->sub.f3C, 0xc);
     func_0204B92C((struct Obj *)p->sub.f3C, 1);
-    func_0204B974((struct Actor *)p->sub.f3C);
+    CLACT_StopActorAnim((struct Actor *)p->sub.f3C);
     func_0204B3DC((struct Obj *)p->sub.f3C, 0);
     func_0204B3DC((struct Obj *)p->fD38, 1);
     func_021F4EA0(p->fD38, 0x37, 0xa8);
@@ -2297,7 +2306,7 @@ int func_021F61D4(Work *p)
                 func_0201AB28(p->ctx->party, p->slot);
             }
             if (func_02017E88(mon, 5, 0) == 0x1EC) {
-                func_020179B8((int)mon, 0);
+                POKE_TOOL_ChangeBoxForm((int)mon, 0);
             }
             func_021F6474((Work *)((Work *)p));
         }
@@ -2536,18 +2545,18 @@ int func_021F6604(Work *p)
  */
 void func_021F663C(Work *p, u32 b, u32 c, u32 d, u32 e, u32 sel)
 {
-    u32 v = (u32)sub_02045EC0((struct MsgBank *)(*(u32 *)&p->bank), b);
+    u32 v = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&p->bank), b);
     u32 h;
 
     func_0201F250((struct WordSet *)(*(u32 *)&p->words), (void *)((*(unsigned int *)&p->str)), (void *)v);
     h = *(u32 *)((u8 *)p + (sel == 0 ? 0xd40 : 0xdd0));
-    sub_02043B5C((struct CharBuf *)((u32)sub_02045770((struct Descriptor *)h)), 0xf);
-    sub_02045334((struct Descriptor *)h);
-    sub_02045374((struct Cfg *)h);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)h)), 0xf);
+    BMP_WIN_TransferChars((struct Descriptor *)h);
+    BMP_WIN_MakeScreen((struct Cfg *)h);
     sub_020409B4(unit_02045730(h));
     func_0201F73C((void *)h, 0, 1, 0xe);
     func_02202858((void *)h, 0, (void *)((*(unsigned int *)&p->str)), 0, 0, (u8 *)p + 0xfa0);
-    sub_02045808((struct U16Vec *)v);
+    STRBUF_Delete((struct U16Vec *)v);
 }
 
 
@@ -2578,7 +2587,7 @@ u32 func_021F66C8(u32 a, u32 b, u32 c, u32 d)
 void func_021F66F0(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot, u32 f8, u32 arc, IconRec *rec)
 {
     CharData_p02 *cd;
-    void *buf = (void *)func_021F66C8(arc, func_0201BABC(species, form, gender, isEgg), (u32)(&cd), 0x48);
+    void *buf = (void *)func_021F66C8(arc, POKE_TOOL_CalcGraphicIndex(species, form, gender, isEgg), (u32)(&cd), 0x48);
 
     func_02082B0C(cd->pixels, rec->pixels, 0x200);
     rec->vram = (slot * 16 + 0x1c) * 32;
@@ -2596,7 +2605,7 @@ void func_021F66F0(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot, u32 f
  */
 void func_021F6748(u32 a, u8 *q)
 {
-    q[3] = func_02018438((void *)a);
+    q[3] = POKE_TOOL_CalcBoxLevel((void *)a);
 }
 
 
@@ -2714,7 +2723,7 @@ void func_021F68A4(Work *p, int box)
         int n = func_0201AA18(p->ctx->party);
 
         for (i = 0; i < n; i++) {
-            void *mon = func_020185F4(func_0201AB28(p->ctx->party, i));
+            void *mon = POKE_TOOL_GetBoxParam(func_0201AB28(p->ctx->party, i));
 
             func_021F6748((u32)mon, (u8 *)(&p->info_p[i]));
             func_021F67A8(mon, p->icon[i], p->item[i], &species[i], i, arc, (Info *)(&p->info_p[i]), &icons[i]);
@@ -2765,7 +2774,7 @@ void *func_021F6B40(void *party, void *save, int box, int slot)
         if (slot > (int)func_0201AA18(party) - 1) {
             return 0;
         }
-        return func_020185F4(func_0201AB28(party, slot));
+        return POKE_TOOL_GetBoxParam(func_0201AB28(party, slot));
     }
     return func_02007A18(save, box, slot);
 }
@@ -2897,7 +2906,7 @@ int func_021F6CDC(void *mon, WorldtradeBoxObj7 *want)
 
     t.species = func_02017E88(mon, 5, 0);
     t.form = func_02017E88(mon, 0x6E, 0) + 1;
-    t.gender = func_02018438(mon);
+    t.gender = POKE_TOOL_CalcBoxLevel(mon);
     return func_021F6C80((WorldtradeBoxObj9 *)(&t), want);
 }
 
@@ -2912,10 +2921,10 @@ void func_021F6D14(Deposit *dst, Work *p)
 
     m.species = func_02017E88(p->mon, 5, 0);
     m.form = func_02017E88(p->mon, 0x6E, 0) + 1;
-    m.gender = func_02018438(p->mon);
+    m.gender = POKE_TOOL_CalcBoxLevel(p->mon);
     dst->have = m;
     func_021F8554((WorldtradeBoxObj5 *)dst, p);
-    e = func_020185F4(p->list[p->cur]);
+    e = POKE_TOOL_GetBoxParam(p->list[p->cur]);
     w.species = func_02017E88(e, 5, 0);
     w.form = func_02017E88(e, 0x6E, 0) + 1;
     w.b3 = 0;
@@ -3022,7 +3031,7 @@ int func_021F6E58(Work *p)
         func_02034714((void *)0x02203B80, 0, (void *)0x02203B80);
         break;
     }
-    func_02031348(p->f12F0, (u32)ov119_id, tmpl, p->req);
+    PROCSYS_Push(p->f12F0, (u32)ov119_id, tmpl, p->req);
     p->fB8 = 1;
     p->f12E4 = 0;
     return 1;
@@ -3078,7 +3087,7 @@ int func_021F6FD4(Work *p)
                 w->fC = 1;
                 w->f10 = 0;
                 func_02034A5C((u32)ov067_id);
-                func_02031348(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
+                PROCSYS_Push(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
                 p->state_i = 1;
             } else {
                 func_021F4EC0(p, 1, 0);
@@ -3118,7 +3127,7 @@ int func_021F6FD4(Work *p)
                     w->fC = 1;
                     w->f10 = 0;
                     func_02034A5C((u32)ov067_id);
-                    func_02031348(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
+                    PROCSYS_Push(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
                     p->state_i = 1;
                 } else {
                     func_021F4EC0(p, 1, 0);
@@ -3247,7 +3256,7 @@ void func_021F7374(Work *p)
         b = 0;
         func_02007664((void *)p->ctx->box, p->box_u, p->pos);
         func_020076D0((void *)p->ctx->box, (int *)(&a), (int *)(&b));
-        func_0200752C((void **)p->ctx->box, a, (const struct Sub02007454Entry *)((u32)func_020185F4((void *)e)));
+        func_0200752C((void **)p->ctx->box, a, (const struct Sub02007454Entry *)((u32)POKE_TOOL_GetBoxParam((void *)e)));
     }
 }
 
@@ -3326,18 +3335,18 @@ int func_021F74F8(WorldtradeBoxObj1 *p)
  */
 void func_021F7538(Work *p, u32 b, u32 c, u32 d, u32 e)
 {
-    u32 v = (u32)sub_02045EC0((struct MsgBank *)(*(u32 *)&p->bank), b);
+    u32 v = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&p->bank), b);
     u32 h;
 
     func_0201F250((struct WordSet *)(*(u32 *)&p->words), (void *)((*(unsigned int *)&p->str)), (void *)v);
-    sub_02043B5C((struct CharBuf *)((u32)sub_02045770((struct Descriptor *)p->frame)), 0xf);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->frame)), 0xf);
     h = p->frame;
-    sub_02045334((struct Descriptor *)h);
-    sub_02045374((struct Cfg *)h);
+    BMP_WIN_TransferChars((struct Descriptor *)h);
+    BMP_WIN_MakeScreen((struct Cfg *)h);
     sub_020409B4(unit_02045730(h));
     func_0201F73C((void *)(p->frame), 0, 1, 0xe);
     func_02202858((void *)(p->frame), 0, (void *)((*(unsigned int *)&p->str)), 0, 0, (u8 *)p + 0xfa0);
-    sub_02045808((struct U16Vec *)v);
+    STRBUF_Delete((struct U16Vec *)v);
 }
 
 
@@ -3459,7 +3468,7 @@ void func_021F7878(Work *p)
     p->mark=func_0204B294(p->res,(unsigned int)p->set2,(unsigned int)p->set[1],(unsigned int)p->set3,&pos,0,0x48);
     func_0204B878(p->mark,12);
     func_0204B92C(p->mark,1);
-    func_0204B974(p->mark);
+    CLACT_StopActorAnim(p->mark);
     func_0204B3DC(p->mark,0);
     pos.x=0xE4;
     pos.y=0x75;
@@ -4052,7 +4061,7 @@ void func_021F8358(void *bank, void *ws, void **win, void *mon, MonTag *out, voi
     tmp = func_020457B0(0xB, 0x48);
     func_02017E88(mon, 0x73, (u32)name);
     form = func_02017E88(mon, 0x6E, 0) + 1;
-    gender = func_02018438(mon);
+    gender = POKE_TOOL_CalcBoxLevel(mon);
     has = func_02017E88(mon, 0xAD, 0);
     title = func_02045EC0(bank, 0x6E);
     func_0201EFA4(ws, 3, gender, 3, 0, 1);
@@ -4147,7 +4156,7 @@ void func_021F8554(WorldtradeBoxObj5 *dst, Work *p)
     } else {
         species = func_02017E88(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {
-            func_020179B8((int)p->mon, 0);
+            POKE_TOOL_ChangeBoxForm((int)p->mon, 0);
         }
         func_022026A0(p->mon, (u32)dst);
     }

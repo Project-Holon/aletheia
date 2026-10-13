@@ -9,12 +9,12 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0207466C  0x0207466C  arm
- *   func_020745A4  0x020745A4  arm
- *   func_020742FC  0x020742FC  arm
+ *   NNS_SndArcGetFileAddress  0x0207466C  arm
+ *   NNS_SndArcReadFile  0x020745A4  arm
+ *   NNS_SndArcGetCurrent  0x020742FC  arm
  *   func_0207482C  0x0207482C  arm
  *   func_020752D4  0x020752D4  arm
- *   func_02074694  0x02074694  arm
+ *   NNS_SndArcSetFileAddress  0x02074694  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   DC_StoreRange  0x020862D4  arm
@@ -23,7 +23,7 @@
  *
  * The fifth leaf loader of the sound-archive cluster, the one whose payload
  * is a wave-archive offset table that has to be split: unless the entry is
- * already resident (func_0207466C returns non-zero, which is returned as is)
+ * already resident (NNS_SndArcGetFileAddress returns non-zero, which is returned as is)
  * read the 0x3c-byte header into the scratch object at 0x0214EA54, take the
  * table size (count at +0x38, four bytes per entry), allocate header + two
  * tables + 0x20 with func_020752D4 as the teardown callback, read header and
@@ -58,13 +58,13 @@ typedef unsigned int  u32;
 extern struct ArcHdr d_0214EA54;
 extern struct ArcHdr d_0214EA54_hdr;
 
-extern u32   func_0207466C(u32 idx);
-extern int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset);
+extern u32   NNS_SndArcGetFileAddress(u32 idx);
+extern int NNS_SndArcReadFile(u32 idx, void *dst_buf, int total_len, u32 offset);
 struct Global;
 extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
-extern struct Global *func_020742FC(void);
+extern struct Global *NNS_SndArcGetCurrent(void);
 extern void func_020752D4(int a, int b, int c, int d);
-extern void func_02074694(u32 idx, u32 val);
+extern void NNS_SndArcSetFileAddress(u32 idx, u32 val);
 extern void  MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void  DC_StoreRange(void *addr, u32 size);
@@ -78,29 +78,29 @@ u32 func_020750EC(u32 idx, u32 *heap, int flag)
     struct ArcHdr *p;
     u32 sz;
 
-    r = func_0207466C(idx);
+    r = NNS_SndArcGetFileAddress(idx);
     if (r == 0) {
-        if (func_020745A4(idx, &d_0214EA54, 0x3c, 0) != 0x3c)
+        if (NNS_SndArcReadFile(idx, &d_0214EA54, 0x3c, 0) != 0x3c)
             return 0;
         sz = d_0214EA54_hdr.count * 4;
         total = sz * 2;
         if (heap == 0)
             return 0;
         if (flag != 0)
-            cookie = (u32)func_020742FC();
+            cookie = (u32)NNS_SndArcGetCurrent();
         else
             cookie = 0;
         p = (struct ArcHdr *)func_0207482C(heap, total + 0x5c, (u32)func_020752D4, cookie, idx);
         if (p == 0)
             return 0;
-        n = func_020745A4(idx, p, sz + 0x3c, 0);
+        n = NNS_SndArcReadFile(idx, p, sz + 0x3c, 0);
         if (n != sz + 0x3c)
             return 0;
         MI_CpuCopy8(p->off, &p->off[p->count], sz);
         MI_CpuFill8(p->off, 0, sz);
         DC_StoreRange(p, total + 0x3c);
         if (flag != 0)
-            func_02074694(idx, (u32)p);
+            NNS_SndArcSetFileAddress(idx, (u32)p);
         r = (u32)p;
     }
     return r;

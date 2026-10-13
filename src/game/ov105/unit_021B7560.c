@@ -30,11 +30,11 @@
  *   func_0204E804 0x0204E804 arm
  *   func_021B71E4 0x021B71E4 thumb ov101
  *   func_021B63D0 0x021B63D0 thumb ov101
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   func_020056A0 0x020056A0 thumb
  *   d_021B89D8 0x021B89D8 data a4
  *   func_02030EAC 0x02030EAC arm
@@ -62,7 +62,7 @@
  *   func_0203F9B4 0x0203F9B4 arm
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_0204ABF0 0x0204ABF0 arm
@@ -71,7 +71,7 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B84C 0x0204B84C arm
- *   func_0204B800 0x0204B800 arm
+ *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B878 0x0204B878 arm
  *   d_020A1448 0x020A1448 data a4
@@ -120,6 +120,7 @@
  *   func_02061CA4 0x02061CA4 arm
  *   func_020061E4 0x020061E4 thumb
  *   d_021B8984 0x021B8984 data a1
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  */
 #include "../../matched/include/Obj03234.h"
 #include "../../matched/include/Obj22237.h"
@@ -236,11 +237,11 @@ extern void func_0204E720(u32,int,int,int);
 extern int func_0204E804(void);
 extern void func_021B71E4(int);
 extern int func_021B63D0(Obj *);
-extern void func_0204335C(u32 keep);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
+extern void BG_SYS_ClearMainPlanes(void);
 extern void *func_020056A0(void (*)(void *),void *,int);
 extern void func_02030EAC(struct Node *);
 extern void func_0203F8F4(int);
@@ -264,7 +265,7 @@ extern void func_0203F9B4(void);
 extern void func_020419E4(void);
 extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern void *func_0204ABF0(void *,int,int,int,int);
@@ -273,7 +274,7 @@ extern s32_021B7A88 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void *func_0204B294(void *,void *,void *,void *,void *,int,int);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B84C(void *,int);
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B3B4(struct Obj *p);
@@ -321,7 +322,7 @@ extern int func_021B8860(u8 *);
 extern int func_021B7250(int *);
 extern int func_02035C60(void);
 extern void func_020061E4(u32);
-extern void func_02005D90(int,int);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern int func_02005F38(void);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
@@ -481,8 +482,8 @@ int func_021B7778(void *a,u32 *state,void *b,u8 *p)
 
 
 void func_021B784C(u8 *p,int a) {
- func_02082BCC(p,0,0xb0); func_0204335C(0); func_020433E0((const struct DispVram *)d_021B89D8);
- func_0204363C(0); func_0204361C(); func_020434CC();
+ func_02082BCC(p,0,0xb0); BG_SYS_ClearGraphicsMemory(0); func_020433E0((const struct DispVram *)d_021B89D8);
+ func_0204363C(0); func_0204361C(); BG_SYS_ClearMainPlanes();
  func_021B7A88((void **)(p+4),d_021B89D8,a); func_021B78F4((void **)p,a);
  ((struct Obj22239 *)p)->fAC=func_020056A0((void (*)(void *))func_021B78E0,p,0);
 }
@@ -575,7 +576,7 @@ void func_021B7A88(void **p,const void *config,int heap)
     func_02082BCC(p,0,0xa8);
     func_0204A48C((const struct Cfg *)d_020A1448,(unsigned int)config,heap);
     p[0]=func_0204B100(128,0,heap);
-    func_0204B270(p[0]);
+    CLACT_SetUnitDefaultRenderer(p[0]);
     func_020434DC(16,1); func_02043598(16,1);
     archive=func_020490F4(0x5e,heap);
     p[1]=func_0204ABF0(archive,12,0,0,heap);
@@ -587,10 +588,10 @@ void func_021B7A88(void **p,const void *config,int heap)
     func_02082BCC(pos2,0,8);
     pos2[0]=128; pos2[1]=96;
     p[41]=func_0204B294(p[0],p[2],p[1],p[3],pos2,0,heap);
-    func_0204B3DC(p[41],0); func_0204B84C(p[41],0); func_0204B800(p[41],0);
+    func_0204B3DC(p[41],0); func_0204B84C(p[41],0); CLACT_SetActorDrawPriority(p[41],0);
     func_0204B92C(p[41],1); func_0204B878(p[41],11);
     for(i=0;i<3;++i) {
-        func_0204B3DC(p[4+i],0); func_0204B84C(p[4+i],0); func_0204B800(p[4+i],0);
+        func_0204B3DC(p[4+i],0); func_0204B84C(p[4+i],0); CLACT_SetActorDrawPriority(p[4+i],0);
     }
 }
 
@@ -862,10 +863,10 @@ void func_021B80E8(u8 *p,u16 *state) {
   if((((struct Obj01709 *)p)->f198)++>50) {
    ((struct Obj01709 *)p)->f198=0;
    switch(func_021B87E8(CTX[12],0)) {
-   case 5:func_02005D90(0x527,65535);break;
-   case 4:func_02005D90(0x528,65535);break;
-   case 1:case 2:case 3:func_02005D90(0x529,65535);break;
-   case 0:func_02005D90(0x529,65535);break;
+   case 5:GFL_USE_CancelChangeAndPlayBgm(0x527,65535);break;
+   case 4:GFL_USE_CancelChangeAndPlayBgm(0x528,65535);break;
+   case 1:case 2:case 3:GFL_USE_CancelChangeAndPlayBgm(0x529,65535);break;
+   case 0:GFL_USE_CancelChangeAndPlayBgm(0x529,65535);break;
    default:break;
    }
    *state=6;

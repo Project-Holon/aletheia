@@ -1,5 +1,5 @@
 /*
- * function: func_02023BFC
+ * function: WIPE_SUB_SetWindowOutside
  * address:  0x02023BFC
  * packet:   pkt_02023AB0
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 #define REG_BLDCNT     (*(volatile u16 *)0x0400004A)
 #define REG_BLDCNT_SUB (*(volatile u16 *)0x0400104A)
 
-void func_02023BFC(u32 a, u32 flag, u32 engine)
+void WIPE_SUB_SetWindowOutside(u32 a, u32 flag, u32 engine)
 {
     u32 val;
 

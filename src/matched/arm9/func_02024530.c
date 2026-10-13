@@ -1,5 +1,5 @@
 /*
- * function: func_02024530
+ * function: PMSI_PARAM_GetSentenceId
  * address:  0x02024530
  * packet:   pkt_02024530
  * region:   arm9
@@ -15,4 +15,4 @@
 
  */
 typedef unsigned short u16;
-unsigned int func_02024530(const u16 *p) { return p[1]; }
+unsigned int PMSI_PARAM_GetSentenceId(const u16 *p) { return p[1]; }

@@ -1,54 +1,48 @@
 count/bytes of uncovered pieces per region and class
 region                        pad       veneer         leaf         func         frag         data   src fns  code range
-arm9                            -            -         9/72            -         8/84      15/2922      6824  0x02004000-0x0209D86C
+arm9                            -       10/104    585/10240    496/27716            -      32/4610      5720  0x02004000-0x0209D86C
 arm9_autoload0_ITCM          1/32            -            -            -            -            -        11  0x01FF8000-0x01FF8804
-twl                             -            -         2/56            -        2/112     4/159142       332  0x02700000-0x02732D54
-ov010                           -            -         4/16            -            -         2/56      1732  0x02155160-0x0216FED8
-ov012                           -            -         1/12            -            -            -       151  0x02172BC0-0x02175380
-ov013                           -            -            -        1/460            -            -       114  0x021AEB20-0x021B39F8
-ov016                           -            -         1/12            -            -            -       889  0x021B6100-0x021D77A8
-ov018                           -            -            -            -            -          1/4       226  0x0217AE20-0x02182B4C
-ov019                           -            -            -            -            -          1/8       193  0x0217AE20-0x0217FFE4
-ov020                           -            -            -            -            -         2/24       178  0x02183B60-0x02187DA4
-ov021                           -            -          1/4            -            -         5/32      4379  0x02187F00-0x021D3594
-ov039                           -            -            -        1/824            -            -        26  0x021F36C0-0x021F4BB8
-ov055                           -            -         1/16            -            -            -        34  0x021F39C0-0x021F45C0
-ov070                           -            -            -        1/588            -            -       154  0x021B6100-0x021BB944
-ov093                           -     386/6176            -            -            -         4/16      3272  0x021B6100-0x021EFCF0
-ov094                           -            -            -            -            -         1/76       576  0x021F6560-0x02209CE8
-ov095                           -     512/8192        2/132            -            -            -       240  0x06898020-0x0689D608
-ov099                           -            -            -            -            -          1/4       442  0x021B95A0-0x021C2878
-ov121                           -            -            -            -            -         1/24       237  0x021D6660-0x021DF4E4
-ov132                           -            -         3/32            -            -            -       249  0x021F8480-0x021FDA78
-ov135                           -            -            -            -            -          1/4       532  0x021F4580-0x02202BA4
-ov136                           -            -            -            -            -          1/4       169  0x021C3CC0-0x021C7750
-ov137                           -            -            -            -            -         2/16       292  0x021DC860-0x021E1A28
-ov170                           -            -            -            -            -         4/40       580  0x021DC860-0x021EF78C
-ov175                           -            -            -            -            -          2/8       371  0x021D4240-0x021E2C30
-ov197                           -            -            -            -            -          1/4        99  0x0220B120-0x0220DA08
-ov198                           -            -            -            -            -         6/72       187  0x0220B120-0x02211A54
-ov207                           -            -            -            -            -          1/4        31  0x0220AF40-0x0220BAA8
-ov210                           -            -            -            -            -         4/32       190  0x021BC240-0x021C0714
+twl                             -            -            -            -        2/112     1/159028       339  0x02700000-0x02732D54
+ov006                           -            -         1/24        1/112            -            -         7  0x021542C0-0x02154C28
+ov009                           -            -        9/108        5/232            -            -      1660  0x02155160-0x021A1974
+ov011                           -            -         3/40            -            -            -       223  0x02172BC0-0x021768C4
+ov012                           -            -            -        3/116            -            -       148  0x02172BC0-0x02175380
+ov014                           -            -       36/576      36/2452            -            -        97  0x02177020-0x02179670
+ov016                           -            -         2/24            -            -            -       892  0x021B6100-0x021D77A8
+ov021                           -            -          1/4            -            -            -      4378  0x02187F00-0x021D3594
+ov093                           -     386/6176            -        1/104            -            -      3270  0x021B6100-0x021EFCF0
+ov095                           -     520/8256            -            -            -            -       234  0x06898020-0x0689D608
+ov098                           -            -            -         1/60            -            -        38  0x021B6100-0x021B6D70
+ov101                           -            -         4/80        4/412            -            -        82  0x021B6100-0x021B7404
+ov131                           -            -         2/44        2/772            -            -       158  0x021D4240-0x021DBF9C
+ov172                           -       58/464            -            -            -            -       299  0x021B6100-0x021C4D00
 ov230                           -       18/648          1/4      10/1492            -      24/4224         4  0x02187F00-0x02189958
-TOTAL                        1/32    916/15016       25/356      13/3364       10/196    83/166716
+TOTAL                        1/32    992/15648    644/11144    559/33468        2/112    57/167862
 
 by kind (hidden = no listing label, labeled = starts at a listing function label)
-hidden                       1/32     100/1600       24/344       2/1412        4/172    83/166716
-labeled                         -    816/13416         1/12      11/1952         6/24            -
+hidden                       1/32            -       54/528            -        2/112    56/167162
+labeled                         -    992/15648    590/10616    559/33468            -        1/700
 
-code pieces (leaf+func+frag): 48, 3916 bytes: strong 30, weak 18; hidden 30, labeled 18
-code pieces whose start is a matched (EXACT/EXACT*) function in layout/matched but is not defined in src/game: 7, 36 bytes
-code pieces of 100 bytes or more: 8
-  ov039 0x021F36FC   824 func  hidden  
-  ov070 0x021B86B8   588 func  hidden  
-  ov013 0x021B3084   460 func  labeled 
+code pieces (leaf+func+frag): 1205, 44724 bytes: strong 1196, weak 9; hidden 56, labeled 1149
+code pieces whose start is a matched (EXACT/EXACT*) function in layout/matched but is not defined in src/game: 481, 21800 bytes
+code pieces of 100 bytes or more: 86
+  ov131 0x021D44C8   540 func  labeled 
   ov230 0x021896D0   392 func  labeled 
+  arm9 0x0201AE1C   336 leaf  labeled 
+  arm9 0x02016FC8   312 func  labeled 
+  arm9 0x0203AA94   300 func  labeled 
+  arm9 0x02005FF4   292 func  labeled 
+  arm9 0x02048E34   280 func  labeled 
   ov230 0x021895B8   280 func  labeled 
-  ov230 0x02188BD0   144 func  labeled 
-  ov230 0x0218949C   140 func  labeled 
-  ov230 0x02188B48   136 func  labeled 
+  arm9 0x0202CB4C   268 func  labeled 
+  arm9 0x0201BDB4   260 leaf  labeled 
+  arm9 0x0200D5D0   256 func  labeled 
+  arm9 0x0203ABC0   236 func  labeled 
+  ov131 0x021D6F54   232 func  labeled 
+  ov014 0x02177888   228 func  labeled 
+  arm9 0x02006868   224 func  labeled 
 
-src/game functions: 35385 defined; extent from listing trace 34446, from decode only 939, grown by decode 670, untraceable (covered to the next label) 1
-header function: entries with no definition in the .c files and no SDK/runtime shard: 0
-definitions whose name resolves to no address (helpers, ignored): 1054
+src/game functions: 34136 defined; extent from listing trace 33747, from decode only 389, grown by decode 2, untraceable (covered to the next label) 0
+header function: entries with no definition in the .c files and no SDK/runtime shard: 287
+definitions whose name resolves to no address (helpers, ignored): 2265
 rows with a draft under --drafts: 0

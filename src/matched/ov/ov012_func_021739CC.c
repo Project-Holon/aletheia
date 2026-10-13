@@ -1,5 +1,5 @@
 /*
- * function: func_021739CC
+ * function: UNION_COMMAND_SendConnectSync
  * address: 0x021739CC
  * packet: pkt_ov012_021739CC
  * region: ov012
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
-int func_021739CC(void)
+int UNION_COMMAND_SendConnectSync(void)
 {
     return func_0203D3A8(func_020399A8(), 0x1400, 0, 0);
 }

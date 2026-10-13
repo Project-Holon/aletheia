@@ -1,5 +1,5 @@
 /*
- * function: func_020292C0
+ * function: FIELD_SOUND_SYSTEM_UpdateFadingOutToLoadAndPush
  * address:  0x020292C0
  * packet:   pkt_02029250
  * region:   arm9
@@ -8,24 +8,30 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb
+ *   FIELD_SOUND_SYSTEM_SetState  0x02029344  thumb
+ *   FIELD_SOUND_SYSTEM_StartLoadingRequestedBgm  0x02029408  thumb
+ *   FIELD_SOUND_SYSTEM_IsSaving  0x0202947C  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int func_02005E50(void);
-extern u32  func_0202947C(u8 *p);
-extern u32 func_02029408(u8 *p);
-extern void func_02029344(void *obj, u32 value);
+extern int GFL_USE_IsBgmFading(void);
+extern u32  FIELD_SOUND_SYSTEM_IsSaving(u8 *p);
+extern u32 FIELD_SOUND_SYSTEM_StartLoadingRequestedBgm(u8 *p);
+extern void FIELD_SOUND_SYSTEM_SetState(void *obj, u32 value);
 
-void func_020292C0(u8 *p)
+void FIELD_SOUND_SYSTEM_UpdateFadingOutToLoadAndPush(u8 *p)
 {
-    if (func_02005E50() != 0) {
+    if (GFL_USE_IsBgmFading() != 0) {
         return;
     }
-    if (func_0202947C(p) != 0) {
+    if (FIELD_SOUND_SYSTEM_IsSaving(p) != 0) {
         return;
     }
-    func_02029408(p);
-    func_02029344(p, 0xc);
+    FIELD_SOUND_SYSTEM_StartLoadingRequestedBgm(p);
+    FIELD_SOUND_SYSTEM_SetState(p, 0xc);
 }

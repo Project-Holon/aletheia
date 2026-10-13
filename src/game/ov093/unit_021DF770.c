@@ -17,36 +17,38 @@
  *   d_021F14C4     0x021F14C4  data   ov093  a4
  *   d_021F13C4     0x021F13C4  data   ov093  a4
  */
-void func_021DF93C(int, int, int, int);
-void func_021DF770(int a, int b, int c);
-int *func_021DF77C(int *p);
-void func_021DF788(int a, int b, int c);
-int *func_021DF794(int *p);
-extern int d_021F14C4[];
-extern int d_021F13C4[];
+#include "unit_021DF3A4_types.h"
 
+extern const BtlEventHandler d_021F14C4[];
+extern const BtlEventHandler d_021F13C4[];
 
-void func_021DF770(int a, int b, int c)
+void func_021DF770(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF77C(int *handlerCount);
+void func_021DF788(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF794(int *handlerCount);
+
+/* Black Belt. */
+void func_021DF770(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 1);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_FIGHTING);
 }
 
-
-int *func_021DF77C(int *p)
+/* Magnet. */
+const BtlEventHandler *func_021DF77C(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F14C4;
 }
 
-
-void func_021DF788(int a, int b, int c)
+/* Magnet. */
+void func_021DF788(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 12);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_ELECTRIC);
 }
 
-
-int *func_021DF794(int *p)
+/* Metal Coat. */
+const BtlEventHandler *func_021DF794(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F13C4;
 }

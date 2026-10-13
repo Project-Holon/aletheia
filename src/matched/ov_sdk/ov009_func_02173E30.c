@@ -12,13 +12,13 @@
  * sdk:      DWCi_HandleQR2Error (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
  * symbols:
- *   func_0216B994  0x0216B994  arm  ov009
+ *   DWC_GetState  0x0216B994  arm  ov009
  *   func_0216A3B8  0x0216A3B8  arm  ov009
  *   func_0216EB68  0x0216EB68  arm  ov009
  *   DWCi_SetError  0x02059F54  arm
  */
 
-extern int func_0216B994(void);
+extern int DWC_GetState(void);
 extern void func_0216A3B8(int dwcError, int errorCode);
 extern void func_0216EB68(int dwcError, int errorCode);
 extern void DWCi_SetError(int dwcError, int errorCode);
@@ -52,7 +52,7 @@ int func_02173E30(int error)
         errorCode = -20;
         break;
     }
-    switch (func_0216B994()) {
+    switch (DWC_GetState()) {
     case 2:
         func_0216A3B8(dwcError, errorCode - 64000);
         break;

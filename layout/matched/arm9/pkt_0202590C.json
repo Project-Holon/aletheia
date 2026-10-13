@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202597C",
+   "name": "BMP_OAM_SetObjMode",
    "address": "0x0202597C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020259C4",
+   "name": "BMP_OAM_SetDrawPriority",
    "address": "0x020259C4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02025A0C",
+   "name": "BMP_OAM_SetBgPriority",
    "address": "0x02025A0C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02025A54",
+   "name": "BMP_OAM_SetPalette",
    "address": "0x02025A54",
    "kind": "game",
    "region": "arm9",

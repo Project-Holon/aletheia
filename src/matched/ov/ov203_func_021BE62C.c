@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02011608 0x02011608 thumb
+ *   ICA_ANIME_GetFrameNum 0x02011608 thumb
  */
 #include "../include/Obj25316.h"
 typedef unsigned char u8;
@@ -18,5 +18,5 @@ typedef unsigned int u32;
 struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
 struct Obj11244;
-extern u32 func_02011608(struct Obj11244 *p);
-u32 func_021BE62C(char *p) { return func_02011608(((struct Obj25316 *)p)->f18); }
+extern u32 ICA_ANIME_GetFrameNum(struct Obj11244 *p);
+u32 func_021BE62C(char *p) { return ICA_ANIME_GetFrameNum(((struct Obj25316 *)p)->f18); }

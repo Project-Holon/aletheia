@@ -16,8 +16,8 @@
  *
  * symbols:
  *   g_021797A8          0x021797A8  data   ov014  a4
- *   func_0217945C       0x0217945C  thumb  ov014
- *   func_021788FC       0x021788FC  thumb  ov014
+ *   DWCi_MOV_WH_StateInEndKeyShare       0x0217945C  thumb  ov014
+ *   DWCi_MOV_WH_EndScan       0x021788FC  thumb  ov014
  *   func_02178138       0x02178138  thumb  ov014
  *   func_02178C50       0x02178C50  thumb  ov014
  *   func_021784AC       0x021784AC  thumb  ov014
@@ -29,8 +29,8 @@ typedef int BOOL;
 
 extern u8 *g_021797A8;
 
-extern void func_0217945C(void);
-extern BOOL func_021788FC(void);
+extern void DWCi_MOV_WH_StateInEndKeyShare(void);
+extern BOOL DWCi_MOV_WH_EndScan(void);
 extern void func_02178138(int state);
 extern BOOL func_02178C50(void);
 extern BOOL func_021784AC(void);
@@ -44,7 +44,7 @@ BOOL func_02179498(void)
         return 1;
 
     if (*(int *)(g_021797A8 + 0x1E98) != 0) {
-        func_0217945C();
+        DWCi_MOV_WH_StateInEndKeyShare();
         return 1;
     }
 
@@ -52,8 +52,8 @@ BOOL func_02179498(void)
         return 0;
 
     if (state == 2) {
-        if (!func_021788FC())
-            func_0217945C();
+        if (!DWCi_MOV_WH_EndScan())
+            DWCi_MOV_WH_StateInEndKeyShare();
         return 1;
     }
 
@@ -62,7 +62,7 @@ BOOL func_02179498(void)
 
     if (state != 5 && state != 4) {
         func_02178138(3);
-        func_0217945C();
+        DWCi_MOV_WH_StateInEndKeyShare();
         return 1;
     }
 
@@ -71,24 +71,24 @@ BOOL func_02179498(void)
     switch (*(int *)(g_021797A8 + 0x1E74)) {
     case 5:
         if (WM_EndDataSharing(g_021797A8 + 0x1444) != 0) {
-            func_0217945C();
+            DWCi_MOV_WH_StateInEndKeyShare();
             break;
         }
     case 1:
         if (!func_02178C50())
-            func_0217945C();
+            DWCi_MOV_WH_StateInEndKeyShare();
         break;
     case 2:
     case 3:
         break;
     case 4:
         if (WM_EndDataSharing(g_021797A8 + 0x1444) != 0) {
-            func_0217945C();
+            DWCi_MOV_WH_StateInEndKeyShare();
             break;
         }
     case 0:
         if (!func_021784AC())
-            func_0217945C();
+            DWCi_MOV_WH_StateInEndKeyShare();
         break;
     }
     return 1;

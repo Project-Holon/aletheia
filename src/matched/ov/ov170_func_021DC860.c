@@ -23,7 +23,7 @@
  *   func_020076A4 0x020076A4 thumb
  *   func_020078C4 0x020078C4 thumb
  *   func_020076B4 0x020076B4 thumb
- *   func_02031324 0x02031324 arm
+ *   PROCSYS_Create 0x02031324 arm
  */
 #include "../include/Obj01948.h"
 typedef unsigned char u8;
@@ -38,7 +38,7 @@ extern u8 func_020076A4(void *);
 typedef unsigned int   u32;
 extern int func_020078C4(void *save, u32 box);
 extern u8 func_020076B4(void *);
-extern void *func_02031324(int a0);
+extern void *PROCSYS_Create(int a0);
 int func_021DC860(void *manager, int unused, void **context)
 {
     u8 *p;
@@ -63,6 +63,6 @@ int func_021DC860(void *manager, int unused, void **context)
     p[0x20] = 0;
     p[0x1f] = 0;
     p[0x21] = 1;
-    ((struct Obj01948 *)p)->f4 = func_02031324(75);
+    ((struct Obj01948 *)p)->f4 = PROCSYS_Create(75);
     return 1;
 }

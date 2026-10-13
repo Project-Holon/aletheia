@@ -1,5 +1,5 @@
 /*
- * function: func_021D694C
+ * function: P_STA_SUB_DeleteObjects
  * address: 0x021D694C
  * packet: pkt_ov131_021D694C
  * region: ov131
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-void func_021D694C(void *a,unsigned char *p) {
+void P_STA_SUB_DeleteObjects(void *a,unsigned char *p) {
  u8 i;
  func_0204B3B4(((struct Obj10507 *)p)->f48);
  func_0204B3B4(((struct Obj10507 *)p)->f44);

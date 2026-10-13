@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201394C",
+   "name": "BTL_SETUP_ChangeToSubway",
    "address": "0x0201394C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02013980",
+   "name": "BTL_SETUP_AllocRecordBuffer",
    "address": "0x02013980",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02014CF0",
+   "name": "MCSS_SetLoadHook",
    "address": "0x02014CF0",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_02016380",
+   "name": "MCSS_RequestAnimeStopAtStart",
    "address": "0x02016380",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_020173C8",
+   "name": "MCSS_TOOL_AnimeStopCallback",
    "address": "0x020173C8",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_020267FC
+ * function: GAME_BEACON_SendIfRequested
  * address:  0x020267FC
  * packet:   pkt_020266E0
  * region:   arm9
@@ -12,7 +12,7 @@
  * symbols:
  *   func_0203CD98  0x0203CD98  arm
  *   func_0217778C  0x0217778C  thumb
- *   g_02146940     0x02146940  data
+ *   GAME_BEACON_Work     0x02146940  data
  */
 
 typedef unsigned char  u8;
@@ -20,17 +20,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 
-extern char *g_02146940;
+extern char *GAME_BEACON_Work;
 
 extern int func_0203CD98(void);
 extern void func_0217778C(void);
 
-void func_020267FC(void)
+void GAME_BEACON_SendIfRequested(void)
 {
-    if (*(u8 *)(g_02146940 + 0x62) == 1) {
+    if (*(u8 *)(GAME_BEACON_Work + 0x62) == 1) {
         if (func_0203CD98() == 1) {
             func_0217778C();
-            *(u8 *)(g_02146940 + 0x62) = 0;
+            *(u8 *)(GAME_BEACON_Work + 0x62) = 0;
         }
     }
 }

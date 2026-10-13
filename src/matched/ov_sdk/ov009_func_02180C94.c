@@ -18,13 +18,13 @@
  * r4).  Same close as gsUdpReceivedRoutingCB (0x02180A64) and ov009_func_0217ECA4.
  *
  * symbols:
- *   func_02180404                  0x02180404  arm ov009
+ *   gsUdpEngineContext                  0x02180404  arm ov009
  *   func_02198620                  0x02198620  arm ov009
  *   func_0217D254                  0x0217D254  arm ov009
  *   func_02184234                  0x02184234  arm ov009
  *   func_021843E8                  0x021843E8  arm ov009
- *   func_02195B2C                  0x02195B2C  arm ov009
- *   func_02195B38                  0x02195B38  arm ov009
+ *   gt2Accept                  0x02195B2C  arm ov009
+ *   gt2Reject                  0x02195B38  arm ov009
  *   func_02184200                  0x02184200  arm ov009
  *   func_02184324                  0x02184324  arm ov009
  *   func_02180420                  0x02180420  arm ov009
@@ -81,13 +81,13 @@ typedef struct GT2ConnectionCallbacks {
     void (*ping)(void *, int);
 } GT2ConnectionCallbacks;
 
-extern GSUdpEngineObject *func_02180404(void);
+extern GSUdpEngineObject *gsUdpEngineContext(void);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
 extern void func_02184234(void *array, void *newElem);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
-extern int func_02195B2C(void *connection, GT2ConnectionCallbacks *callbacks);
-extern void func_02195B38(void *connection, unsigned char *message, int len);
+extern int gt2Accept(void *connection, GT2ConnectionCallbacks *callbacks);
+extern void gt2Reject(void *connection, unsigned char *message, int len);
 extern int func_02184200(void *array);
 extern void func_02184324(void *array, int n);
 extern int func_02180420(void *theFirstHandler, void *theSecondHandler);
@@ -108,7 +108,7 @@ void func_02180C94(void *socket, void *connection, unsigned int ip, unsigned sho
     char anAddr[22];
     GT2ConnectionCallbacks aCallbacks;
 
-    aUdp = func_02180404();
+    aUdp = gsUdpEngineContext();
     func_0217D254(12, 0, 16, g_021A3A8C, func_02198620(ip, port, anAddr));
 
     if (len >= 16) {
@@ -123,7 +123,7 @@ void func_02180C94(void *socket, void *connection, unsigned int ip, unsigned sho
             aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))func_021806A8;
             aCallbacks.ping = (void (*)(void *, int))func_02180924;
             aCallbacks.received = (void (*)(void *, unsigned char *, int, int))func_02180A64;
-            func_02195B2C(aRemotePeer.mConnection, &aCallbacks);
+            gt2Accept(aRemotePeer.mConnection, &aCallbacks);
             func_0217D254(12, 0, 16, g_021A3AB8);
             return;
         }
@@ -135,6 +135,6 @@ void func_02180C94(void *socket, void *connection, unsigned int ip, unsigned sho
         return;
     }
 
-    func_02195B38(connection, 0, 0);
+    gt2Reject(connection, 0, 0);
     func_02184324(aUdp->mRemotePeers, func_02184200(aUdp->mRemotePeers) - 1);
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0207D148
+ * function: FX_Init
  * address:  0x0207D148
  * packet:   pkt_0207D148
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-void func_0207D148(void){ }
+void FX_Init(void){ }

@@ -34,95 +34,98 @@
  *   _ffix          0x0209C494  arm
  *   _s32_div_f     0x0209C0A4  arm
  */
-#include "../../matched/include/Obj13494.h"
+#include "unit_021DE7E4_types.h"
 
-struct S;
-struct QL;
-typedef unsigned char u8;
+struct BtlEventFactor;
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-extern int func_021D775C(int);
-extern void func_021D7704(int,int);
-extern int func_021DD008(int);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 v);
-extern void *func_021C7CF4(int *p, int i);
-extern int func_021D7B74(u8 *p, u32 k);
-extern int func_0689C8CC(u16 v);
-extern u16 func_021D679C(u8 *p);
-extern u16 func_021D67A8(struct QL *p);
-extern int func_021DCFF8(int a, int b);
-void func_021DEBB4(int a,int b,int c);
-int *func_021DEBE0(int *p);
-void func_021DEBEC(int a, void *b, int c);
-void func_021DEC44(int a,int b,int c);
-int *func_021DEC64(int *p);
-void func_021DEC70(int a, void *b, int c);
+extern int func_021D775C(int key);
+extern void func_021D7704(int key, int multiplier);
+extern int func_021DD008(struct BtlEventFactor *factor);
+extern void *func_021C88A4(void *flow, int cmdKind, int pokeId);
+extern void func_021C88C8(void *flow, void *cmd);
+extern void func_021C8838(HandExStr *str, int strType, int strId);
+extern void func_021C8860(HandExStr *str, u32 arg);
+extern void *func_021C7CF4(void *flow, int pokeId);
+extern int func_021D7B74(void *pokeParam, u32 divisor);
+extern int func_0689C8CC(u16 moveId);
+extern u16 func_021D679C(void *pokeParam);
+extern u16 func_021D67A8(void *pokeParam);
+extern int func_021DCFF8(struct BtlEventFactor *factor, int index);
+extern u16 func_021D70A8(struct BtlEventFactor *factor);
 extern int d_021F16DC;
 extern int d_021F13BC;
 
-/*
- * extent: includes store-return follower 0x021DEBE0.
- */
-void func_021DEBB4(int a,int b,int c) { if(c==func_021D775C(3)) { if(func_021D775C(56)>3) func_021D7704(53,func_021DD008(a)); } }
-
-int *func_021DEBE0(int *p) { *p=2; return &d_021F16DC; }
-
-
-void func_021DEBEC(int a, void *b, int c)
+/* Expert Belt: a super effective hit (affinity above 3) is boosted by the item's ratio. */
+void func_021DEBB4(struct BtlEventFactor *factor, void *flow, int pokeId)
 {
-    void *m;
-    u8 *r;
-
-    if (c == func_021D775C(3)) {
-        m = func_021C7CF4(b, c);
-        r = (u8 *)func_021C88A4(b, 7, c);
-        r[6] = c;
-        ((struct Obj13494 *)r)->f4 = func_021D7B74(m, 10);
-        func_021C8838(r + 12, 2, 0x3f5);
-        func_021C8860((struct S *)(r + 12), c);
-        func_021C88C8(b, r);
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID)) {
+        if (func_021D775C(BTL_EVAR_AFFINITY_SCALED) > BTL_AFFINITY_SUPER_EFFECTIVE_ABOVE)
+            func_021D7704(BTL_EVAR_POWER_RATIO, func_021DD008(factor));
     }
 }
 
-/*
- * extent: includes store-return follower 0x021DEC64.
- */
-void func_021DEC44(int a,int b,int c) { if(c==func_021D775C(3)) func_021D7704(53,func_021DD008(a)); }
-
-int *func_021DEC64(int *p) { *p=1; return &d_021F13BC; }
-
-
-void func_021DEC70(int a, void *b, int c)
+int *func_021DEBE0(int *count)
 {
-    void *m;
-    u16 n;
-    u16 v;
-    u16 id;
-    int t;
-    float x;
+    *count = 2;
+    return &d_021F16DC;
+}
 
-    if (c == func_021D775C(3)) {
-        if (func_0689C8CC(func_021D775C(0x12)) == 0) {
-            m = func_021C7CF4(b, c);
-            n = (int)func_021D679C(m);
-            if (n >= 1) {
-                id = func_021D775C(0x12);
-                if (id == func_021D67A8(m)) {
-                    v = n * func_021DCFF8(a, 2) + 100;
-                    if (v > 200)
-                        v = 200;
-                    if (v != 0)
-                        x = 0.5f + (float)(v << 12);
+/* Life Orb: the attacker loses a tenth of its maximum HP after dealing damage. */
+void func_021DEBEC(struct BtlEventFactor *factor, void *flow, int pokeId)
+{
+    void *attacker;
+    HandExLoseHp *cmd;
+
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID)) {
+        attacker = func_021C7CF4(flow, pokeId);
+        cmd = (HandExLoseHp *)func_021C88A4(flow, 7, pokeId);
+        cmd->pokeId = pokeId;
+        cmd->amount = func_021D7B74(attacker, 10);
+        func_021C8838(&cmd->str, HANDEX_STR_SET, 0x3f5);
+        func_021C8860(&cmd->str, pokeId);
+        func_021C88C8(flow, cmd);
+    }
+}
+
+/* Life Orb: the attacker's damage is boosted by the item's ratio. */
+void func_021DEC44(struct BtlEventFactor *factor, void *flow, int pokeId)
+{
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID))
+        func_021D7704(BTL_EVAR_POWER_RATIO, func_021DD008(factor));
+}
+
+int *func_021DEC64(int *count)
+{
+    *count = 1;
+    return &d_021F13BC;
+}
+
+/* Metronome: each consecutive use of the same move adds the item's step to the power, up to 200 percent. */
+void func_021DEC70(struct BtlEventFactor *factor, void *flow, int pokeId)
+{
+    void *attacker;
+    u16 streak;
+    u16 percent;
+    u16 moveId;
+    int ratio;
+    float scaled;
+
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID)) {
+        if (func_0689C8CC(func_021D775C(BTL_EVAR_MOVE_ID)) == 0) {
+            attacker = func_021C7CF4(flow, pokeId);
+            streak = (int)func_021D679C(attacker);
+            if (streak >= 1) {
+                moveId = func_021D775C(BTL_EVAR_MOVE_ID);
+                if (moveId == func_021D67A8(attacker)) {
+                    percent = streak * func_021DCFF8(factor, 2) + 100;
+                    if (percent > 200)
+                        percent = 200;
+                    if (percent != 0)
+                        scaled = 0.5f + (float)(percent << 12);
                     else
-                        x = (float)(v << 12) - 0.5f;
-                    t = (int)x;
-                    func_021D7704(0x35, t / 100);
+                        scaled = (float)(percent << 12) - 0.5f;
+                    ratio = (int)scaled;
+                    func_021D7704(BTL_EVAR_POWER_RATIO, ratio / 100);
                 }
             }
         }

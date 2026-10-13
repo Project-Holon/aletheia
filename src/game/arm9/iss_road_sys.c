@@ -1,7 +1,7 @@
 /*
  * file:     iss_road_sys.c
  * unit:     yes
- * function: func_0202B1AC, func_0202B1EC, func_0202B1F4, func_0202B1FC, func_0202B204, func_0202B20C, func_0202B224
+ * function: ISS_ROAD_SYS_Create, ISS_ROAD_SYS_Delete, ISS_ROAD_SYS_Update, ISS_ROAD_SYS_Start, ISS_ROAD_SYS_Stop, ISS_ROAD_SYS_Activate, ISS_ROAD_SYS_Deactivate
  * address:  0x0202B1AC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,138 +14,137 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
+ *   ISS_ROAD_SYS_UpdateVolume  0x0202B230  thumb
+ *   ISS_ROAD_SYS_ApplyVolume  0x0202B2BC  thumb
  */
-#include "../../matched/include/Obj08802.h"
-#include "../../matched/include/Obj11313.h"
 
-struct Rec44;
-struct Vec12;
+struct PlayerWork;
 typedef unsigned char u8;
 
 typedef unsigned int  u32;
 
-typedef struct Copy {
-    u32 a, b, c;
-} Copy;
+typedef struct PlayerPosition {
+    u32 x, y, z;
+} PlayerPosition;
 
-struct Node {
-    u32 f0, f4, f8;
-    Copy body;
-};
+/* Footstep-road sound state: volume rises while the player moves, falls when still. */
+typedef struct IssRoadSys {
+    u32 isActive;
+    u32 volume;
+    struct PlayerWork *player;
+    PlayerPosition lastPosition;
+} IssRoadSys;
 
 typedef unsigned short u16;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct Vec12 *func_02012AA0(struct Rec44 *p);
+extern struct PlayerPosition *func_02012AA0(struct PlayerWork *player);
 extern u32 func_020307B0(void *p);
-extern void func_0202B230(u8 *p);
-extern void func_0202B2BC(u8 *p);
-struct Node *func_0202B1AC(u32 a, u32 heapId);
-void func_0202B1EC(void *ptr);
-void func_0202B1F4(u8 *a0);
-void func_0202B1FC(u8 *a0);
-void func_0202B204(u8 *a0);
-void func_0202B20C(u8 *p);
-void func_0202B224(u8 *p);
+extern void ISS_ROAD_SYS_UpdateVolume(IssRoadSys *road);
+extern void ISS_ROAD_SYS_ApplyVolume(IssRoadSys *road);
+IssRoadSys *ISS_ROAD_SYS_Create(u32 player, u32 heapId);
+void ISS_ROAD_SYS_Delete(void *road);
+void ISS_ROAD_SYS_Update(IssRoadSys *road);
+void ISS_ROAD_SYS_Start(IssRoadSys *road);
+void ISS_ROAD_SYS_Stop(IssRoadSys *road);
+void ISS_ROAD_SYS_Activate(IssRoadSys *road);
+void ISS_ROAD_SYS_Deactivate(IssRoadSys *road);
 
 
 
 
 
 /*
- * Allocates a 0x18-byte node with the allocator entry point, zeroes its
- * first two words, stores the first argument at +8, and copies a 12-byte
- * record from func_02012AA0(first) into +0xc.
+ * Allocates a 0x18-byte road state with the allocator entry point, clears
+ * its active flag and volume, stores the player at +8, and copies the
+ * player's 12-byte position into +0xc.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B1AC.c \
- *       --func func_0202B1AC --addr 0x0202B1AC --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_ROAD_SYS_Create.c  *       --func ISS_ROAD_SYS_Create --addr 0x0202B1AC --thumb --cc 1.1p1
  */
-struct Node *func_0202B1AC(u32 a, u32 heapId)
+IssRoadSys *ISS_ROAD_SYS_Create(u32 player, u32 heapId)
 {
-    struct Node *p = (struct Node *)func_02030734(heapId, 0x18, 0,
-                                                  (const void *)0x020A7708, 0x4a);
-    const Copy *s;
+    IssRoadSys *road = (IssRoadSys *)func_02030734(heapId, 0x18, 0,
+                                                   (const void *)0x020A7708, 0x4a);
+    const PlayerPosition *position;
 
-    p->f0 = 0;
-    p->f4 = 0;
-    p->f8 = a;
+    road->isActive = 0;
+    road->volume = 0;
+    road->player = (struct PlayerWork *)player;
 
-    s = (const Copy *)func_02012AA0((struct Rec44 *)a);
-    p->body = *s;
-    return p;
+    position = (const PlayerPosition *)func_02012AA0((struct PlayerWork *)player);
+    road->lastPosition = *position;
+    return road;
 }
 
 
 
 
 
-void func_0202B1EC(void *ptr)
+void ISS_ROAD_SYS_Delete(void *road)
 {
-    func_020307B0(ptr);
+    func_020307B0(road);
 }
 
 
 
 
 /*
- * A bare tail-call thunk to func_0202B230.
+ * A bare tail-call thunk to ISS_ROAD_SYS_UpdateVolume.
  *
  * Closed by the `matched` class: 0x0202B230 was filed as an EXACT entry in this wave.
  */
-void func_0202B1F4(u8 *a0)
+void ISS_ROAD_SYS_Update(IssRoadSys *road)
 {
-    func_0202B230(a0);
+    ISS_ROAD_SYS_UpdateVolume(road);
 }
 
 
 
 /*
- * A bare tail-call thunk to func_0202B20C.
+ * A bare tail-call thunk to ISS_ROAD_SYS_Activate.
  */
-void func_0202B1FC(u8 *a0)
+void ISS_ROAD_SYS_Start(IssRoadSys *road)
 {
-    func_0202B20C(a0);
+    ISS_ROAD_SYS_Activate(road);
 }
 
 
 
-void func_0202B204(u8 *a0)
+void ISS_ROAD_SYS_Stop(IssRoadSys *road)
 {
-    func_0202B224(a0);
+    ISS_ROAD_SYS_Deactivate(road);
 }
 
 
 
 /*
- * When the object is idle, marks it started, clears its +4 value and
- * refreshes it through func_0202B2BC.
+ * When the road sound is idle, marks it active, clears its volume and
+ * applies the volume through ISS_ROAD_SYS_ApplyVolume.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B20C.c \
- *       --func func_0202B20C --addr 0x0202B20C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_ROAD_SYS_Activate.c  *       --func ISS_ROAD_SYS_Activate --addr 0x0202B20C --thumb --cc 1.1p1
  */
-void func_0202B20C(u8 *p)
+void ISS_ROAD_SYS_Activate(IssRoadSys *road)
 {
-    if (((struct Obj08802 *)p)->f0 == 0) {
-        ((struct Obj08802 *)p)->f0 = 1;
-        ((struct Obj08802 *)p)->f4 = 0;
-        func_0202B2BC(p);
+    if (road->isActive == 0) {
+        road->isActive = 1;
+        road->volume = 0;
+        ISS_ROAD_SYS_ApplyVolume(road);
     }
 }
 
 
 
 /*
- * Clears the object's state word when it is set.
+ * Clears the active flag when it is set.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B224.c \
- *       --func func_0202B224 --addr 0x0202B224 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_ROAD_SYS_Deactivate.c  *       --func ISS_ROAD_SYS_Deactivate --addr 0x0202B224 --thumb --cc 1.1p1
  */
-void func_0202B224(u8 *p)
+void ISS_ROAD_SYS_Deactivate(IssRoadSys *road)
 {
-    if (((struct Obj11313 *)p)->f0 != 0) {
-        ((struct Obj11313 *)p)->f0 = 0;
+    if (road->isActive != 0) {
+        road->isActive = 0;
     }
 }

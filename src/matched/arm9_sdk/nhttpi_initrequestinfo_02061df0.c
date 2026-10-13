@@ -1,5 +1,5 @@
 /*
- * function: NHTTPi_InitRequestInfo
+ * function: NNSi_GfdClearBlockListHead
  * address:  0x02061DF0
  * packet:   pkt_02060000
  * region:   arm9
@@ -18,13 +18,13 @@
  *
  * Zero the first word of the request-info object.  Recovered signature
  * from the member DWARF (NHTTP_request.c:36): void
- * NHTTPi_InitRequestInfo(NHTTPRequestInfo *reqInfo_p); one word store, so
+ * NNSi_GfdClearBlockListHead(NHTTPRequestInfo *reqInfo_p); one word store, so
  * the first member is a 32-bit field.
  */
 
 typedef unsigned int u32;
 
-void NHTTPi_InitRequestInfo(u32 *reqInfo_p)
+void NNSi_GfdClearBlockListHead(u32 *reqInfo_p)
 {
     *reqInfo_p = 0;
 }

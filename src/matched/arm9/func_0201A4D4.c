@@ -14,7 +14,7 @@
  *   func_02045808 0x02045808  arm
  *   func_02045B38 0x02045B38  arm
  *   func_02045EC0 0x02045EC0  arm
- *   tbl_0209E444  0x0209E444  data
+ *   POKE_REGULATION_LineFns  0x0209E444  data
  *
  * Wave 17 lane untried_small. What closed it (from 6 halfwords out): the heap
  * id parameter a2 is u16. The image homes it to the stack and reloads it for
@@ -36,7 +36,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045808(struct U16Vec *vec);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u8 tbl_0209E444[];
+extern u8 POKE_REGULATION_LineFns[];
 
 u8 *func_0201A4D4(u8 *a0, u32 a1, u16 a2, u32 a3)
 {
@@ -60,7 +60,7 @@ u8 *func_0201A4D4(u8 *a0, u32 a1, u16 a2, u32 a3)
         ((struct Obj11261 *)q)->f4 = (u32)func_02045EC0((struct MsgBank *)(((struct Obj06868 *)v7)->f0), i);
         ((struct Obj11261 *)q)->f1C =
             ((u32 (*)(u8 *, u32, u8 *, u32, u32))
-                 (*(u32 *)(tbl_0209E444 + off)))(a0, a1, v7, v10, a2);
+                 (*(u32 *)(POKE_REGULATION_LineFns + off)))(a0, a1, v7, v10, a2);
     }
     func_02045808((struct U16Vec *)v10);
     return v7;

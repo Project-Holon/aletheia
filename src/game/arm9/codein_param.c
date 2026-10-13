@@ -1,7 +1,7 @@
 /*
  * file:     codein_param.c
  * unit:     yes
- * function: func_0202E4EC, func_0202E54C, func_0202E560, func_0202E610, func_0202E688
+ * function: CODEIN_PARAM_Create, func_0202E54C, SCREENTEX_Create, SCREENTEX_CaptureDisplay, SCREENTEX_SetupCamera
  * address:  0x0202E4EC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -19,8 +19,8 @@
  *   codein_param_File 0x020A77D0  data
  *   func_02045808  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
- *   g_020A033C     0x020A033C  data
- *   g_020A77E0     0x020A77E0  data
+ *   SCREENTEX_WorkTemplate     0x020A033C  data
+ *   screentex_File     0x020A77E0  data
  *   func_02046C94  0x02046C94  arm
  *   func_02046C9C  0x02046C9C  arm
  *   func_02069FD0  0x02069FD0  arm
@@ -28,7 +28,7 @@
  *   func_0206E964  0x0206E964  arm
  *   func_02080C44  0x02080C44  arm
  *   func_02082D44  0x02082D44  arm
- *   g_020A02D0      0x020A02D0  data
+ *   SCREENTEX_CaptureBanks      0x020A02D0  data
  *   GX_GetBankForTex   0x02080C44  arm
  *   GX_SetBankForLCDC  0x0208068C  arm
  *   GX_SetBankForTex   0x02080294  arm
@@ -36,17 +36,17 @@
  *   func_02087AE4   0x02087AE4  arm
  *   func_02080B98   0x02080B98  arm
  *   func_02080964   0x02080964  arm
- *   g_020A02B8        0x020A02B8  data
- *   g_020A02C4        0x020A02C4  data
- *   g_020A0300        0x020A0300  data
+ *   SCREENTEX_CameraTarget        0x020A02B8  data
+ *   SCREENTEX_CameraPosition        0x020A02C4  data
+ *   SCREENTEX_CameraBlockTemplate        0x020A0300  data
  *   FX_SinCosTable_   0x020A1B38  data
- *   g_020A2B38        0x020A2B38  data
+ *   SCREENTEX_RotationSinCos        0x020A2B38  data
  *   g_02148B54        0x02148B54  data
  *   g_02148B98        0x02148B98  data
  *   g_02148BCC        0x02148BCC  data
- *   g_02148D8C        0x02148D8C  data
- *   g_02148D98        0x02148D98  data
- *   g_02148DA4        0x02148DA4  data
+ *   SCREENTEX_CameraPositionOut        0x02148D8C  data
+ *   SCREENTEX_CameraTargetOut        0x02148D98  data
+ *   SCREENTEX_CameraUpOut        0x02148DA4  data
  *   func_02047A60     0x02047A60  arm
  *   MTX_PerspectiveW  0x0207C408  arm
  *   MTX_LookAt        0x0207BCA0  arm
@@ -118,26 +118,26 @@ extern void MTX_PerspectiveW(fx32 a, fx32 b, fx32 c, fx32 d, fx32 e, fx32 f, voi
 extern void MTX_LookAt(const VecFx32 *cam, const VecFx32 *tgt,
                        const VecFx32 *up, void *mtx);
 extern void MTX_RotX33_(void *mtx, fx32 sinv, fx32 cosv);
-struct CodeinParam *func_0202E4EC(u32 heapId, u32 mode, u32 initialPage, u32 maxLength, u32 *values);
-void sub_0202E54C(struct CodeinParam *param);
-void *func_0202E560(u32 heapId, u32 slotCount);
-void func_0202E610(u32 captureIndex, u32 copyIndex);
-void func_0202E688(u32 dst);
+struct CodeinParam *CODEIN_PARAM_Create(u32 heapId, u32 mode, u32 initialPage, u32 maxLength, u32 *values);
+void CODEIN_PARAM_Delete(struct CodeinParam *param);
+void *SCREENTEX_Create(u32 heapId, u32 slotCount);
+void SCREENTEX_CaptureDisplay(u32 captureIndex, u32 copyIndex);
+void SCREENTEX_SetupCamera(u32 dst);
 extern const char codein_param_File[];
-extern char g_020A033C[];
-extern char g_020A77E0[];
-extern struct CaptureBank g_020A02D0[];
-extern VecFx32 g_020A02C4;
-extern VecFx32 g_020A02B8;
-extern CameraBlock g_020A0300;
+extern char SCREENTEX_WorkTemplate[];
+extern char screentex_File[];
+extern struct CaptureBank SCREENTEX_CaptureBanks[];
+extern VecFx32 SCREENTEX_CameraPosition;
+extern VecFx32 SCREENTEX_CameraTarget;
+extern CameraBlock SCREENTEX_CameraBlockTemplate;
 extern const s16 FX_SinCosTable_[];
-extern s16      g_020A2B38[];
+extern s16      SCREENTEX_RotationSinCos[];
 extern u32      g_02148B54[];
 extern u32      g_02148B98[];
 extern u32      g_02148BCC[];
-extern VecFx32  g_02148D8C;
-extern VecFx32  g_02148D98;
-extern VecFx32  g_02148DA4;
+extern VecFx32  SCREENTEX_CameraPositionOut;
+extern VecFx32  SCREENTEX_CameraTargetOut;
+extern VecFx32  SCREENTEX_CameraUpOut;
 
 
 
@@ -161,7 +161,7 @@ extern VecFx32  g_02148DA4;
  *
  * TU: codein_param.c (__FILE__ 0x020A77D0, line 0x37).
  */
-struct CodeinParam *func_0202E4EC(u32 heapId, u32 mode, u32 initialPage, u32 maxLength, u32 *values)
+struct CodeinParam *CODEIN_PARAM_Create(u32 heapId, u32 mode, u32 initialPage, u32 maxLength, u32 *values)
 {
     int i;
     struct CodeinParam *param;
@@ -201,7 +201,7 @@ struct CodeinParam *func_0202E4EC(u32 heapId, u32 mode, u32 initialPage, u32 max
  *   python tools/match.py tu --src src/matched/unit_0202E54C.c \
  *       --addr 0x0202E54C --thumb
  */
-void sub_0202E54C(struct CodeinParam *param)
+void CODEIN_PARAM_Delete(struct CodeinParam *param)
 {
     func_02045808(param->text);
     func_020307B0(param);
@@ -236,10 +236,10 @@ void sub_0202E54C(struct CodeinParam *param)
  * loads the same template, to reach EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0202E560.c \
- *       --func func_0202E560 --addr 0x0202E560 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/SCREENTEX_Create.c \
+ *       --func SCREENTEX_Create --addr 0x0202E560 --cc 1.1p1 --thumb
  */
-void *func_0202E560(u32 heapId, u32 slotCount)
+void *SCREENTEX_Create(u32 heapId, u32 slotCount)
 {
     void *control;
     void *work;
@@ -248,9 +248,9 @@ void *func_0202E560(u32 heapId, u32 slotCount)
     u32 vramBanks;
     u32 slotBits;
 
-    control = func_02030734(heapId, func_02046C94(), 0, g_020A77E0, 0x3b);
-    work = func_02030734(heapId, 0x8c, 0, g_020A77E0, 0x3c);
-    func_02082D44(g_020A033C, work, 0x8c);
+    control = func_02030734(heapId, func_02046C94(), 0, screentex_File, 0x3b);
+    work = func_02030734(heapId, 0x8c, 0, screentex_File, 0x3c);
+    func_02082D44(SCREENTEX_WorkTemplate, work, 0x8c);
     func_02046C9C(control, 2, (u32)work);
     texHeader = func_0206E964(work);
     texSize = func_02069FD0((int)texHeader);
@@ -304,16 +304,16 @@ void *func_0202E560(u32 heapId, u32 slotCount)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0202E610.c \
- *       --func func_0202E610 --addr 0x0202E610 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/SCREENTEX_CaptureDisplay.c \
+ *       --func SCREENTEX_CaptureDisplay --addr 0x0202E610 --cc 1.1p1 --thumb
  */
-void func_0202E610(u32 captureIndex, u32 copyIndex)
+void SCREENTEX_CaptureDisplay(u32 captureIndex, u32 copyIndex)
 {
     u32 savedTexBank = GX_GetBankForTex();
     u32 currentTexBank;
 
-    GX_SetBankForLCDC(g_020A02D0[captureIndex].lcdcBank);
-    *(u32 *)0x04000064 = (g_020A02D0[captureIndex].captureControl << 16) | 0x80300010;
+    GX_SetBankForLCDC(SCREENTEX_CaptureBanks[captureIndex].lcdcBank);
+    *(u32 *)0x04000064 = (SCREENTEX_CaptureBanks[captureIndex].captureControl << 16) | 0x80300010;
 
     func_02087AE4();
     func_02087AE4();
@@ -322,7 +322,7 @@ void func_0202E610(u32 captureIndex, u32 copyIndex)
 
     if (captureIndex != copyIndex) {
         currentTexBank = func_02080964();
-        MIi_CpuCopyFast(g_020A02D0[captureIndex].vramAddress, g_020A02D0[copyIndex].vramAddress, 0xC << 13);
+        MIi_CpuCopyFast(SCREENTEX_CaptureBanks[captureIndex].vramAddress, SCREENTEX_CaptureBanks[copyIndex].vramAddress, 0xC << 13);
         func_02080B98();
         GX_SetBankForTex(currentTexBank);
     }
@@ -400,24 +400,24 @@ static inline void MTX_Perspective(fx32 fovySin, fx32 fovyCos, fx32 aspect,
  * pool words is carried by sole-ref/self now.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202E688.c \
- *       --func func_0202E688 --addr 0x0202E688 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCREENTEX_SetupCamera.c \
+ *       --func SCREENTEX_SetupCamera --addr 0x0202E688 --cc 1.1p1 --thumb
  */
-void func_0202E688(u32 dst)
+void SCREENTEX_SetupCamera(u32 dst)
 {
-    VecFx32 cam = g_020A02C4;
+    VecFx32 cam = SCREENTEX_CameraPosition;
     VecFx32 up = { 0, 0, 0 };
-    VecFx32 tgt = g_020A02B8;
-    CameraBlock block = g_020A0300;
+    VecFx32 tgt = SCREENTEX_CameraTarget;
+    CameraBlock block = SCREENTEX_CameraBlockTemplate;
 
     MTX_Perspective(FX_SinIdx(0xE38), FX_CosIdx(0xE38), 0x1555, 0x1000,
                     0x400000, g_02148B54);
     g_02148BCC[31] &= ~0x50u;
-    g_02148D8C = cam;
-    g_02148D98 = tgt;
-    g_02148DA4 = up;
+    SCREENTEX_CameraPositionOut = cam;
+    SCREENTEX_CameraTargetOut = tgt;
+    SCREENTEX_CameraUpOut = up;
     MTX_LookAt(&cam, &tgt, &up, g_02148B98);
     g_02148BCC[31] &= ~0xe8u;
-    MTX_RotX33_(&block.rotation, g_020A2B38[0], g_020A2B38[1]);
+    MTX_RotX33_(&block.rotation, SCREENTEX_RotationSinCos[0], SCREENTEX_RotationSinCos[1]);
     func_02047A60((void *)dst, block.params);
 }

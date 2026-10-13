@@ -1,5 +1,5 @@
 /*
- * function: func_020291C4
+ * function: FIELD_SOUND_SYSTEM_UpdateFadingOutToPush
  * address:  0x020291C4
  * packet:   pkt_0202918C
  * region:   arm9
@@ -10,25 +10,31 @@
  * status:   EXACT*
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020291C4.c \
- *       --func func_020291C4 --addr 0x020291C4 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/FIELD_SOUND_SYSTEM_UpdateFadingOutToPush.c \
+ *       --func FIELD_SOUND_SYSTEM_UpdateFadingOutToPush --addr 0x020291C4 --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb
+ *   FIELD_SOUND_SYSTEM_SetState  0x02029344  thumb
+ *   FIELD_SOUND_SYSTEM_FinishRequest  0x02029364  thumb
+ *   FIELD_SOUND_SYSTEM_PushCurrentBgm  0x0202939C  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct T;
-extern int func_02005E50(void);
-extern void func_0202939C(struct T *p);
-extern void func_02029344(void *obj, u32 value);
-extern void func_02029364(u8 *p);
+extern int GFL_USE_IsBgmFading(void);
+extern void FIELD_SOUND_SYSTEM_PushCurrentBgm(struct T *p);
+extern void FIELD_SOUND_SYSTEM_SetState(void *obj, u32 value);
+extern void FIELD_SOUND_SYSTEM_FinishRequest(u8 *p);
 
-void func_020291C4(u8 *p)
+void FIELD_SOUND_SYSTEM_UpdateFadingOutToPush(u8 *p)
 {
-    if (func_02005E50() != 0) {
+    if (GFL_USE_IsBgmFading() != 0) {
         return;
     }
-    func_0202939C((struct T *)p);
-    func_02029344(p, 0);
-    func_02029364(p);
+    FIELD_SOUND_SYSTEM_PushCurrentBgm((struct T *)p);
+    FIELD_SOUND_SYSTEM_SetState(p, 0);
+    FIELD_SOUND_SYSTEM_FinishRequest(p);
 }

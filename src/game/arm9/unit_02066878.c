@@ -1,6 +1,6 @@
 /*
  * file:     unit_02066878.c
- * function: func_02066878
+ * function: NNSi_G2dGetCellTransferState
  * address:  0x02066878
  * packet:   pkt_02066754
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02148B20       0x02148B20  data
+ *   sCellTransferStateManager       0x02148B20  data
  */
 
 typedef unsigned char u8;
@@ -24,9 +24,9 @@ struct CellTransferStateManager {
     u32 pStates;
 };
 
-extern struct CellTransferStateManager g_02148B20;
+extern struct CellTransferStateManager sCellTransferStateManager;
 
-u8 *func_02066878(u32 stateIdx)
+u8 *NNSi_G2dGetCellTransferState(u32 stateIdx)
 {
-    return (u8 *)g_02148B20.pStates + stateIdx * 0x30;
+    return (u8 *)sCellTransferStateManager.pStates + stateIdx * 0x30;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02015E70
+ * function: MCSS_ResetAnmStopFlagAlways
  * address:  0x02015E70
  * packet:   pkt_02015E70
  * region:   arm9
@@ -20,7 +20,7 @@ struct R {
     unsigned int f : 2;
 };
 
-void func_02015E70(void *p)
+void MCSS_ResetAnmStopFlagAlways(void *p)
 {
     ((struct R *)((char *)p + 0x140))->f &= ~2u;
 }

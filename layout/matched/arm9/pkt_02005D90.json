@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ArrayDeleteAt",
+   "name": "GFL_USE_CancelChangeAndPlayBgm",
    "address": "0x02005D90",
    "kind": "sdk",
    "region": "arm9",

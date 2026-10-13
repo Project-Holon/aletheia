@@ -1,5 +1,5 @@
 /*
- * function: func_021543BC
+ * function: EVENT_MENUPROC_Entry
  * address:  0x021543BC
  * packet:   pkt_ov003_021543BC
  * region:   ov003
@@ -13,15 +13,15 @@
  * ov010 func_0215CCE8's MATCH.
  *
  * symbols:
- *   func_0215437C  0x0215437C  thumb  ov003
+ *   EVENT_MENUPROC_Create  0x0215437C  thumb  ov003
  */
 
 typedef struct { unsigned fieldMap; unsigned procKind; } LaunchRequest;
 
-extern void *func_0215437C(void *gameSystem, int fieldMap, int procKind);
+extern void *EVENT_MENUPROC_Create(void *gameSystem, int fieldMap, int procKind);
 
 /* Overlay entry point: unpacks the request and creates the event. */
-void *func_021543BC(void *gameSystem, LaunchRequest *request)
+void *EVENT_MENUPROC_Entry(void *gameSystem, LaunchRequest *request)
 {
-    return func_0215437C(gameSystem, request->fieldMap, request->procKind);
+    return EVENT_MENUPROC_Create(gameSystem, request->fieldMap, request->procKind);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02015FAC",
+   "name": "MCSS_GetAlpha",
    "address": "0x02015FAC",
    "kind": "game",
    "region": "arm9",

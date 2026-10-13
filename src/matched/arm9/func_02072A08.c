@@ -1,5 +1,5 @@
 /*
- * function: func_02072A08
+ * function: NNS_SndWaveOutFreeChannel
  * address:  0x02072A08
  * packet:   pkt_020729C0
  * region:   arm9
@@ -18,7 +18,7 @@
  * The parameter is an INDEX, not a mask: `mov r2,#1 / mvn r0, r2, lsl r0` at
  * 0x02072A0C shows the shift happening INSIDE the complement, i.e. `~(1u << b)`
  * as one expression.  Spelling it `u32 m = 1u << b; ... &= ~m;` splits the
- * complement out and costs an extra instruction.  Compare func_020729A4, whose
+ * complement out and costs an extra instruction.  Compare SND_CHANNEL_ClearClaimedMask, whose
  * `mvn r0, r0` on the bare parameter proves IT takes a mask.
  *
  * NO PIN NEEDED: EXACT under both dsi/1.1p1 and ../2.0/sp2 (the base pool word
@@ -31,8 +31,8 @@
  * address to resolve; the C was always byte-correct.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02072A08.c \
- *       --func func_02072A08 --addr 0x02072A08 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/NNS_SndWaveOutFreeChannel.c \
+ *       --func NNS_SndWaveOutFreeChannel --addr 0x02072A08 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Global0214DEC0.h"
@@ -41,7 +41,7 @@ typedef unsigned int u32;
 
 extern struct Global0214DEC0 g_0214DEC0;
 
-void func_02072A08(u32 bit)
+void NNS_SndWaveOutFreeChannel(u32 bit)
 {
     g_0214DEC0.flags4 &= ~(1U << bit);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D9670
+ * function: P_STA_RIBBON_HideDetail
  * address: 0x021D9670
  * packet: pkt_ov131_021D9670
  * region: ov131
@@ -25,7 +25,7 @@ extern void func_0204B3B4(struct Obj *p);
 extern void func_02041570(int,u16);
 extern void func_02041B6C(u32 bit);
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
-void func_021D9670(u8 *a,u8 *p)
+void P_STA_RIBBON_HideDetail(u8 *a,u8 *p)
 {
     u8 *q;
     if(((struct Obj06485 *)p)->f4==1) {

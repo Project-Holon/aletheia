@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov014/net_whpipe.c and filed here.
  *
  * symbols:
- *   func_02178034 0x02178034 thumb ov014
+ *   NET_WHPIPE_StartAutoSearch 0x02178034 thumb ov014
  */
 
-extern int func_02178034(void);
+extern int NET_WHPIPE_StartAutoSearch(void);
 int func_0217726C(void);
 
 int func_0217726C(void)
 {
-    return func_02178034();
+    return NET_WHPIPE_StartAutoSearch();
 }

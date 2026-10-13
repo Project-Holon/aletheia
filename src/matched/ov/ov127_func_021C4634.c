@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   d_021C5FE4 0x021C5FE4 data a4
- *   func_0204B8A0 0x0204B8A0 arm
+ *   CLACT_ChangeActorAnimSeq 0x0204B8A0 arm
  */
 #include "../include/Obj14021.h"
 #include "../include/Obj14022.h"
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void (*const d_021C5FE4[])(u8 *);
 struct Obj;
-extern void func_0204B8A0(struct Obj *p, u16 v);
+extern void CLACT_ChangeActorAnimSeq(struct Obj *p, u16 v);
 void func_021C4634(u8 *p)
 {
     void (*f)(u8 *);
@@ -31,15 +31,15 @@ void func_021C4634(u8 *p)
 void func_021C464C(u8 *p, u32 i)
 {
     ((struct Obj14021 *)p)->f10 = i;
-    func_0204B8A0(((struct Obj14021 *)p)->f4, i);
+    CLACT_ChangeActorAnimSeq(((struct Obj14021 *)p)->f4, i);
 }
 void func_021C465C(u8 *p, u32 i)
 {
     ((struct Obj14022 *)p)->f10 = i;
-    func_0204B8A0(((struct Obj14022 *)p)->f4, 4);
+    CLACT_ChangeActorAnimSeq(((struct Obj14022 *)p)->f4, 4);
 }
 void func_021C466C(u8 *p, u32 i)
 {
     ((struct Obj14023 *)p)->f10 = i;
-    func_0204B8A0(((struct Obj14023 *)p)->f4, i + 5);
+    CLACT_ChangeActorAnimSeq(((struct Obj14023 *)p)->f4, i + 5);
 }

@@ -11,6 +11,7 @@
  *
  * symbols:
  *   func_021C4DE4   0x021C4DE4  arm
+ *   DWCi_IPTlUpdate  0x021D656C  arm
  *
  * Run the job, then select mode 0 and run the four ov016 steps.
  * Addresses are Black-image addresses.
@@ -20,14 +21,14 @@
  *       --func func_021C4DE4 --addr 0x021C4DE4 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_021D656C(void);
+extern void DWCi_IPTlUpdate(void);
 extern void func_021D75D0(int);
 extern void func_021C4BDC(void);
 extern void func_021C4C18(void);
 
 void func_021C4DE4(void)
 {
-    func_021D656C();
+    DWCi_IPTlUpdate();
     func_021D75D0(0);
     func_021C4BDC();
     func_021C4C18();

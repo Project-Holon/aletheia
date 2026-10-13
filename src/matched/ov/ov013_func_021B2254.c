@@ -1,5 +1,5 @@
 /*
- * function: func_021B2254
+ * function: VCT_SESSION_RemovePeer
  * address:  0x021B2254
  * packet:   pkt_ov013_021B2254
  * region:   ov013
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B60D8  0x021B60D8  data  ov013  a4
- *   d_021B4BD0  0x021B4BD0  data  ov013  a4
- *   func_021B2A20  0x021B2A20  arm  ov013
+ *   gVctSession  0x021B60D8  data  ov013  a4
+ *   gVctGroup  0x021B4BD0  data  ov013  a4
+ *   VCT_SESSION_FindPeer  0x021B2A20  arm  ov013
  */
 
 typedef struct Ctx {
@@ -23,21 +23,21 @@ typedef struct Ctx {
     int state;
 } Ctx;
 
-extern Ctx d_021B60D8;
-extern int d_021B4BD0;
+extern Ctx gVctSession;
+extern int gVctGroup;
 struct N;
-extern struct N *func_021B2A20(int id);
+extern struct N *VCT_SESSION_FindPeer(int id);
 
-int func_021B2254(int a)
+int VCT_SESSION_RemovePeer(int a)
 {
     int r;
 
-    if (d_021B60D8.state != 3)
+    if (gVctSession.state != 3)
         return -2;
-    r = (int)func_021B2A20(a);
+    r = (int)VCT_SESSION_FindPeer(a);
     if (r == 0)
         return -1;
-    d_021B60D8.cb(a, 9, r, d_021B60D8.arg);
-    d_021B4BD0--;
+    gVctSession.cb(a, 9, r, gVctSession.arg);
+    gVctGroup--;
     return 0;
 }

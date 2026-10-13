@@ -1,5 +1,5 @@
 /*
- * function: func_021DDC58
+ * function: MYSTERY_ALBUM_LoadBgWithTilemap
  * address: 0x021DDC58
  * packet: pkt_ov121_021DDC58
  * region: ov121
@@ -30,7 +30,7 @@ extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 extern void func_02049238(void *);
-void func_021DDC58(const unsigned *p,void *context,u16 heap)
+void MYSTERY_ALBUM_LoadBgWithTilemap(const unsigned *p,void *context,u16 heap)
 {
     int which=0;
     int resource;

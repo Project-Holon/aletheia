@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203568C
+ * function: UI_GetPowerState
  * address:  0x0203568C
  * packet:   pkt_0203568C
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_0203568C(void){ return *(unsigned char *)((*(int *)(0x21469BC) + 63)); }
+int UI_GetPowerState(void){ return *(unsigned char *)((*(int *)(0x21469BC) + 63)); }

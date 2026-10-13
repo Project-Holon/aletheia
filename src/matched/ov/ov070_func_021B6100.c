@@ -10,17 +10,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02036270 0x02036270 arm
+ *   KEY_SetRepeatSpeed 0x02036270 arm
  *   func_021B6138 0x021B6138 thumb ov070
  */
 #include "../include/Obj00002.h"
 #include "../include/Obj20659.h"
-extern int func_02036270(int a0, int a1);
+extern int KEY_SetRepeatSpeed(int a0, int a1);
 extern void func_021B6138(char *p);
 void func_021B6100(char *p, int k)
 {
     *(int *)&((struct Obj00002 *)p)->f4F8 = k;
-    func_02036270(((struct Obj00002 *)p)->f86C, ((struct Obj00002 *)p)->f870);
+    KEY_SetRepeatSpeed(((struct Obj00002 *)p)->f86C, ((struct Obj00002 *)p)->f870);
 }
 void func_021B6120(char *p)
 {

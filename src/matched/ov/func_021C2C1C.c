@@ -10,6 +10,9 @@
  * status:   EXACT
  *
  * symbols:
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb  arm9
+ *   GFL_USE_PushBgm  0x02005E64  thumb  arm9
  *   (none)
 
  * Moves the object at +0xB8 from state 1 to state 2.
@@ -17,16 +20,16 @@
 #include "../include/Obj00146.h"
 
 
-extern int func_02005E50(void);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
 
 void func_021C2C1C(int unused, char *p, int a2)
 {
     if (((struct Obj00146 *)p)->fB8 == 1) {
-        if (func_02005E50() == 0) {
-            func_02005DE4((void *)1);
-            func_02005E64();
+        if (GFL_USE_IsBgmFading() == 0) {
+            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_PushBgm();
             ((struct Obj00146 *)p)->fB8 = 2;
         }
     }

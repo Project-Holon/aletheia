@@ -11,14 +11,14 @@
  * blocker: 0x0203CB00 ARM verified MATCH, 52 bytes; copied from
  *   ov099_func_021BEB68.c (leaf-cb00-r1.log); no retry of the integrator's blocker.
  *   extern char *d_021469DC;
- *   extern void func_0203CADC(void);
- *   int func_0203CB00(void) {
+ *   extern void GFL_NET_STATE_FatalError(void);
+ *   int GFL_NET_STATE_IsFatalError(void) {
  *       if (d_021469DC != 0) {
- *           if (*(void **)(d_021469DC + 8) == (void *)func_0203CADC) return 1;
+ *           if (*(void **)(d_021469DC + 8) == (void *)GFL_NET_STATE_FatalError) return 1;
  *       }
  *       return 0;
  *   }
- *   symbols: d_021469DC 0x021469DC data; func_0203CADC 0x0203CADC arm.
+ *   symbols: d_021469DC 0x021469DC data; GFL_NET_STATE_FatalError 0x0203CADC arm.
  *   Leaf's unresolved site is ARM9 0x0203CADC. No overlay leaf filed.
  * note (2026-10-04, lane17): lane17 wave D2: leaf func_021BDD98 (16 bytes, range test) filed EXACT as src/matched/ov/ov099_func_021BDD98.c. The 0x021BDD98 relocation still reports no witness because it has no shard yet; re-run after the integrator registers the leaf. Body and other 10 relocations are byte-correct.
  * note (2026-10-05, wD9r lane82): the enum-typed offset local (a stand-in) is removed. The real
@@ -28,7 +28,7 @@
  *   uses as st + 0x28 / st - 0x80 gives DIFF.
  *
  * symbols:
- *   func_0203CB00 0x0203CB00 arm
+ *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
  *   func_021BE900 0x021BE900 thumb ov099
  *   func_021B97F4 0x021B97F4 thumb ov099
  *   func_021BE2A8 0x021BE2A8 thumb ov099
@@ -39,7 +39,7 @@
  *   func_021BDD98 0x021BDD98 thumb ov099
  *   func_021B9AE0 0x021B9AE0 thumb ov099
  */
-extern int func_0203CB00(void);
+extern int GFL_NET_STATE_IsFatalError(void);
 extern void func_021BE900(char *);
 extern int func_021B97F4(char *);
 extern void *func_021BE2A8(char *,int);
@@ -54,7 +54,7 @@ int func_021C0858(char *p,int ret) {
     void *q; unsigned r; int v;
     char *st;
     st=p+0x24c;
-    if(func_0203CB00()){func_021BE900(p);return ret;}
+    if(GFL_NET_STATE_IsFatalError()){func_021BE900(p);return ret;}
     q=func_021BE2A8(p,func_021B97F4(p+0x274));
     if(!func_021BA928(p))return ret;
     r=func_021BDD48(p,st);

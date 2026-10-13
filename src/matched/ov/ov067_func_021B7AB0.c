@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_021B806C  0x021B806C  thumb  ov067
  *   func_021B8460  0x021B8460  thumb  ov067
  *   func_021B8B74  0x021B8B74  thumb  ov067
  *   func_021B8C4C  0x021B8C4C  thumb  ov067
  *   func_020355C4  0x020355C4  arm
  *   func_020362DC  0x020362DC  arm
- *   func_0202EA40  0x0202EA40  thumb
+ *   BLINK_PALANM_Update  0x0202EA40  thumb
  *   func_021B9344  0x021B9344  thumb  ov067
  */
 
@@ -43,7 +43,7 @@ typedef struct S {
     u8 f96;
 } S;
 
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int func_021B806C(S *p);
 extern int func_021B8460(S *p);
 extern int func_021B8B74(S *p);
@@ -52,7 +52,7 @@ struct Row;
 extern u8 func_020355C4(void);
 extern u32 func_020362DC(void);
 typedef signed int     s32;
-extern s32 func_0202EA40(struct Row *p);
+extern s32 BLINK_PALANM_Update(struct Row *p);
 extern void func_021B9344(S *p);
 
 int func_021B7AB0(S *p)
@@ -60,7 +60,7 @@ int func_021B7AB0(S *p)
     int buf;
     int ret = -1;
 
-    if (func_02035CB8((u32 *)(&buf), (u32 *)(&p->f54)) == 0) {
+    if (TOUCHPANEL_GetPointCont((u32 *)(&buf), (u32 *)(&p->f54)) == 0) {
         p->f54 = -1;
         p->f86_b5 = 0;
     }
@@ -90,7 +90,7 @@ int func_021B7AB0(S *p)
         break;
     }
     p->f58 = p->f54;
-    func_0202EA40(p->f30);
+    BLINK_PALANM_Update(p->f30);
     func_021B9344(p);
     return ret;
 }

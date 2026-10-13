@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A4 0x021797A4 data ov014 a4
+ *   g_pWhPipeWork 0x021797A4 data ov014 a4
  *   func_02178E4C 0x02178E4C thumb ov014
  */
 
-extern unsigned char *g_021797A4;
+extern unsigned char *g_pWhPipeWork;
 extern int func_02178E4C(void);
-int func_02177AA8(void) { if (g_021797A4 != 0) { if (func_02178E4C() == 1) return 1; return 0; } return 1; }
+int func_02177AA8(void) { if (g_pWhPipeWork != 0) { if (func_02178E4C() == 1) return 1; return 0; } return 1; }

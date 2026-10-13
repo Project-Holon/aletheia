@@ -13,7 +13,7 @@
  *   func_0203159C 0x0203159C arm
  *   fill 0x02082BCC arm
  *   func_020120F4 0x020120F4 thumb
- *   func_020124F4 0x020124F4 thumb
+ *   GAME_DATA_Create 0x020124F4 thumb
  *   func_0201C440 0x0201C440 thumb
  *   func_0201D7EC 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
@@ -52,7 +52,7 @@ extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void fill(void *,int,u32);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_020124F4(u16);
+extern void *GAME_DATA_Create(u16);
 struct GfFont;
 extern u32 func_0201C440(void *);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
@@ -83,7 +83,7 @@ int func_021B7560(void *sys,u32 unused,void **args) {
     p=func_0203159C(sys,0x648,67);
     fill(p,0,0x648);
     if(*args)((struct Obj00978 *)p)->f628=func_020120F4(*args);
-    else ((struct Obj00978 *)p)->f628=func_020124F4(1);
+    else ((struct Obj00978 *)p)->f628=GAME_DATA_Create(1);
     *(u32 *)&((struct Obj00978 *)p)->f61C=func_0201C440((void *)67);
     ((struct Obj00978 *)p)->f618=(u32)func_0201D7EC(23,0,0,0,67);
     ((struct Obj00978 *)p)->f620=func_02045B38(0,2,50,67);

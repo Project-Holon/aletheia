@@ -11,19 +11,19 @@
  *
  * symbols:
  *   func_021EF770 0x021EF770 thumb
- *   func_0202CF98 0x0202CF98 thumb
+ *   BGWINFRM_GetPos 0x0202CF98 thumb
  */
 
 typedef signed char s8;
 
 typedef unsigned int u32;
 struct WinMgr;
-extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 
 int func_021EF770(struct WinMgr *mgr)
 {
     s8 buf[2];
-    func_0202CF98(mgr, 9, &buf[1], &buf[0]);
+    BGWINFRM_GetPos(mgr, 9, &buf[1], &buf[0]);
     if (buf[1] == 0x15) {
         return 1;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_0215523C
+ * function: GFL_NET_DEVWIFI_StartFriendMatch
  * address: 0x0215523C
  * packet: pkt_ov009_0215523C
  * region: ov009
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov009/dwc_rap_p01.c and filed here.
  *
  * symbols:
- *   func_02156888 0x02156888 thumb ov009
+ *   DWC_RAP_StartFriendMatch 0x02156888 thumb ov009
  */
 
-int func_02156888(int a, int b, int c);
-int func_0215523C(int a, int b, int c);
+int DWC_RAP_StartFriendMatch(int a, int b, int c);
+int GFL_NET_DEVWIFI_StartFriendMatch(int a, int b, int c);
 
-int func_0215523C(int a, int b, int c)
+int GFL_NET_DEVWIFI_StartFriendMatch(int a, int b, int c)
 {
-    return func_02156888(a, b, c);
+    return DWC_RAP_StartFriendMatch(a, b, c);
 }

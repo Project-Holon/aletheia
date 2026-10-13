@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203D0D0
+ * function: GFL_NET_IRC_WIRELESS_Exit
  * address:  0x0203D0D0
  * packet:   pkt_0203CDD4
  * region:   arm9
@@ -9,7 +9,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   GFL_NET_IRC_WIRELESS_Destroy  0x0203D9EC  arm
  */
 
-extern void func_0203D9EC(void);
-void func_0203D0D0(void){ func_0203D9EC(); }
+extern void GFL_NET_IRC_WIRELESS_Destroy(void);
+void GFL_NET_IRC_WIRELESS_Exit(void){ GFL_NET_IRC_WIRELESS_Destroy(); }

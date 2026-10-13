@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202FE68",
+   "name": "GFL_HEAP_RegisterBlockHeapImpl",
    "address": "0x0202FE68",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202FF98",
+   "name": "GFL_HEAP_Delete",
    "address": "0x0202FF98",
    "kind": "game",
    "region": "arm9",

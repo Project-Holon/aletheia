@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202865C
+ * function: APP_KEYCURSOR_Animate
  * address:  0x0202865C
  * packet:   pkt_02028618
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02028618  0x02028618  thumb
+ *   APP_KEYCURSOR_DrawMark  0x02028618  thumb
  *   func_020437DC  0x020437DC  arm
  *   func_020437E4  0x020437E4  arm
  *   func_020439A0  0x020439A0  arm
@@ -37,17 +37,17 @@ struct Ctx {
     u8    f05;
 };
 
-extern void func_02028618(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
+extern void APP_KEYCURSOR_DrawMark(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
 extern u16  func_020437DC(const struct Bmp *bmp);
 extern u16 func_020437E4(const struct Bmp *bmp);
 extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 
-void func_0202865C(struct Ctx *ctx, const struct Bmp *bmp, u32 color)
+void APP_KEYCURSOR_Animate(struct Ctx *ctx, const struct Bmp *bmp, u32 color)
 {
     u16 w;
     u16 h;
 
-    func_02028618(ctx, bmp, color);
+    APP_KEYCURSOR_DrawMark(ctx, bmp, color);
 
     ctx->f05 = ctx->f05 + 1;
     if (ctx->f05 >= 8) {

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_0204D410
+ * function: CLACT_GetAnimCtrl
  * address:  0x0204D410
  * packet:   pkt_0204CA74
  * region:   arm9
@@ -11,11 +11,11 @@
  * status:   EXACT
  *
  * symbols:
- *   gUnk_020A1394  0x020A1394  data
- *   sub_0204D410   0x0204D410  arm
- *   sub_0204D42C   0x0204D42C  arm
- *   sub_0204D434   0x0204D434  arm
- *   sub_0204D43C   0x0204D43C  arm
+ *   g_ClactAnimFuncTable  0x020A1394  data
+ *   CLACT_GetAnimCtrl   0x0204D410  arm
+ *   CLACT_GetCellAnimCtrl   0x0204D42C  arm
+ *   CLACT_GetMultiCellAnimCtrl   0x0204D434  arm
+ *   CLACT_GetVramAnimCtrl   0x0204D43C  arm
  *
  * One index-dispatch thunk plus the three handlers it dispatches to, 52
  * bytes end to end with no padding.  The object's first word is a small
@@ -29,12 +29,12 @@
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
  * `blx` plus `push {r3, lr}` rather than a tail `bx` is the ordinary
  * non-tail form: the result is returned unchanged, which is what lets
- * sub_0204D3A0 write through it directly.
+ * CLACT_SetAnimFrame write through it directly.
  *
  * This file was parked at MATCH* while 0x020A13E8 was read as a table
  * object of its own, which left the ABS32 without a witness.  It is row 7
  * of the one eight-by-three array based at 0x020A1394; see
- * src/matched/func_0204D324.c for the row map and the reasoning.  The base
+ * src/matched/CLACT_SetAnimSeq.c for the row map and the reasoning.  The base
  * is attested `literal` by the pool word at 0x0204D490, outside this range.
  *
  * Verified with:
@@ -53,26 +53,26 @@ struct Obj {
 
 typedef void *(*DispatchFn)(struct Obj *o);
 
-extern DispatchFn const gUnk_020A1394[][3];
+extern DispatchFn const g_ClactAnimFuncTable[][3];
 
 struct Rec;
 
-struct Rec *sub_0204D410(struct Obj *o)
+struct Rec *CLACT_GetAnimCtrl(struct Obj *o)
 {
-    return gUnk_020A1394[7][o->type](o);
+    return g_ClactAnimFuncTable[7][o->type](o);
 }
 
-void *sub_0204D42C(struct Obj *o)
-{
-    return &o->unk_0c;
-}
-
-void *sub_0204D434(struct Obj *o)
+void *CLACT_GetCellAnimCtrl(struct Obj *o)
 {
     return &o->unk_0c;
 }
 
-void *sub_0204D43C(struct Obj *o)
+void *CLACT_GetMultiCellAnimCtrl(struct Obj *o)
+{
+    return &o->unk_0c;
+}
+
+void *CLACT_GetVramAnimCtrl(struct Obj *o)
 {
     return &o->unk_0c;
 }

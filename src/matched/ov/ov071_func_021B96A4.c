@@ -12,7 +12,7 @@
  * symbols:
  *   func_0201F554  0x0201F554  thumb
  *   func_0201F548  0x0201F548  thumb
- *   func_020215EC  0x020215EC  thumb
+ *   PALANM_LoadArcPaletteToSlotAt  0x020215EC  thumb
  *   func_020450F0  0x020450F0  arm
  *   func_02045770  0x02045770  arm
  *   func_02043B5C  0x02043B5C  arm
@@ -31,7 +31,7 @@ struct Descriptor;
 struct PalAnmSlot;
 extern void func_0201F554(u32 a, u32 b, u32 c, u32 d);
 extern u8 func_0201F548(int i);
-extern void func_020215EC(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
+extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -41,7 +41,7 @@ extern void func_020409B4(u32 a);
 void func_021B96A4(char *a, void **b)
 {
     func_0201F554(4, 1, 0, 0x61);
-    func_020215EC(*b, 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
+    PALANM_LoadArcPaletteToSlotAt(*b, 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
     ((struct Obj04341 *)a)->f280 = (void *)func_020450F0(4, 1, 0x13, 0x1e, 4, 0xd, 1);
     func_02043B5C(func_02045770(((struct Obj04341 *)a)->f280), 0xff);
     ((struct Obj04341 *)a)->f284 = (void *)func_020450F0(4, 0, 0, 0x20, 3, 0xd, 1);

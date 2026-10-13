@@ -33,10 +33,10 @@
  *   func_0204A648 0x0204A648 arm
  *   func_02005728 0x02005728 thumb
  *   func_02040618 0x02040618 arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0202223C 0x0202223C thumb
- *   func_02022224 0x02022224 thumb
+ *   WIPE_ResetWndMask 0x02022224 thumb
  *   func_020433E0 0x020433E0 arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   func_02045088 0x02045088 arm
@@ -46,7 +46,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_0207D63C 0x0207D63C arm
  *   d_021B7450 0x021B7450 data a4
  *   d_021B7388 0x021B7388 data a4
@@ -128,19 +128,19 @@
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
  *   func_02030734 0x02030734 arm
- *   func_020124F4 0x020124F4 thumb
+ *   GAME_DATA_Create 0x020124F4 thumb
  *   func_0203630C 0x0203630C arm
  *   d_021B74AC 0x021B74AC data
- *   func_02012704 0x02012704 thumb
+ *   GAME_DATA_Delete 0x02012704 thumb
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   d_021B74BC 0x021B74BC data
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_020056EC 0x020056EC thumb
- *   func_0204B95C 0x0204B95C arm
+ *   CLACT_StartActorAnim 0x0204B95C arm
  *   func_0204B98C 0x0204B98C arm
- *   func_0204B918 0x0204B918 arm
- *   func_0204B974 0x0204B974 arm
+ *   CLACT_GetActorAnimSeqCount 0x0204B918 arm
+ *   CLACT_StopActorAnim 0x0204B974 arm
  *   d_021B7485 0x021B7485 data a1
  *   d_021B7481 0x021B7481 data a1
  *   func_02049BDC 0x02049BDC arm
@@ -318,9 +318,9 @@ extern void func_0204A600(void);
 extern void func_0204A648(void);
 extern int func_02005728(int);
 extern void func_02040618(unsigned,unsigned,unsigned);
-extern void func_020434CC(void),func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 extern void func_0202223C(u32_021B63DC a, u32_021B63DC color);
-extern u32_021B63DC func_02022224(void *win);
+extern u32_021B63DC WIPE_ResetWndMask(void *win);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0203F8F4(u16),func_02045088(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
@@ -329,7 +329,7 @@ extern void func_0204A48C(const struct Cfg *cfg, u32_021B63DC arg, u32_021B63DC 
 extern void func_020434DC(u32_021B63DC mask, u32_021B63DC enable);
 extern void func_02043598(u32_021B63DC mask, u32_021B63DC enable);
 extern struct Bank *func_0204B100(int count, u8 flag, u32_021B63DC heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_0204A5AC(void),func_020403F4(unsigned),func_020450C8(void),func_0203F9B4(void);
 extern void func_0203FCA0(unsigned,const struct BgTemplate *,unsigned);
@@ -396,15 +396,15 @@ extern void func_021B7378(char *);
 extern void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
 extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020124F4(u16);
+extern void *GAME_DATA_Create(u16);
 extern unsigned int func_0203630C(void);
-extern void func_021B61C4(unsigned char *),func_02012704(unsigned char *),func_020315D4(struct S020315D4 *),func_020306F0(unsigned int);
+extern void func_021B61C4(unsigned char *),GAME_DATA_Delete(unsigned char *),func_020315D4(struct S020315D4 *),func_020306F0(unsigned int);
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern unsigned func_020056EC(unsigned);
-extern void func_0204B95C(struct Actor *a);
-extern void func_0204B974(struct Actor *a);
+extern void CLACT_StartActorAnim(struct Actor *a);
+extern void CLACT_StopActorAnim(struct Actor *a);
 extern u32 func_0204B98C(struct Actor *a);
-extern u16 func_0204B918(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
 extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void *func_02049DF4(void *,unsigned,unsigned,unsigned,unsigned short);
 extern void func_02082A90(int, int, int);
@@ -576,25 +576,25 @@ void func_021B63B0(void) {func_0204A648();func_02040618(1,0,func_02005728(256));
  *   one --arm, no region: MATCH, 16 bytes, blocker434CC.log; concrete bytes agree,
  *   unresolved 020434B4 is also omitted from that owner unit's function header.
  *   Scratch copy of owner unit also verifies TU EXACT: blocker434unit.log.
- *   extern void func_0204349C(void),func_020434B4(void);
- *   void func_020434CC(void) {func_0204349C();func_020434B4();}
+ *   extern void BG_SYS_ClearMainBgPlanes(void),BG_SYS_ClearMainObjPlane(void);
+ *   void BG_SYS_ClearMainPlanes(void) {BG_SYS_ClearMainBgPlanes();BG_SYS_ClearMainObjPlane();}
  *   one --arm, no region: EXACT, 16 bytes, blocker43588.log.
- *   extern void func_02043558(void),func_02043570(void);
- *   void func_02043588(void) {func_02043558();func_02043570();}
+ *   extern void BG_SYS_ClearSubBgPlanes(void),BG_SYS_ClearSubObjPlane(void);
+ *   void BG_SYS_ClearSubPlanes(void) {BG_SYS_ClearSubBgPlanes();BG_SYS_ClearSubObjPlane();}
  *   retained without an overlay token, ROM pool +0128 names 020A1448.
  * volatile: DISPCNT reads/writes 021B63EE..021B63FE; blend writes 021B6420/6424; POWCNT1 read/write 021B6426..642E.
  */
 void func_021B63DC(u8 *p)
 {
     Config c;
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     *(volatile u32_021B63DC *)0x04000000 &= ~0x1F00;
     *(volatile u32_021B63DC *)0x04001000 &= ~0x1F00;
     func_0202223C(0,0);
     func_0202223C(1,0);
-    func_02022224(0);
-    func_02022224((void *)1);
+    WIPE_ResetWndMask(0);
+    WIPE_ResetWndMask((void *)1);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile u16 *)0x04000304 |=0x8000;
@@ -613,7 +613,7 @@ void func_021B63DC(u8 *p)
     func_020434DC(16,1);
     func_02043598(16,1);
     *(void **)(p+80)=func_0204B100(16,0,*(u16 *)p);
-    func_0204B270(*(void **)(p+80));
+    CLACT_SetUnitDefaultRenderer(*(void **)(p+80));
     func_0207D63C((void *)0x04000050,1,30,16,4);
 }
 
@@ -878,7 +878,7 @@ int func_021B6BC4(void *ctx,int unused,char *arg)
     p=func_0203159C(ctx,0x8c,0x55);
     if(arg==0) {
         arg=func_02030734(0x55,8,0,d_021B74AC,0x3b8);
-        ((struct Obj10673 *)arg)->f4=func_020124F4(1);
+        ((struct Obj10673 *)arg)->f4=GAME_DATA_Create(1);
         ((struct Obj10673 *)arg)->f0=1;
         if(func_0203630C() & 0x100) ((struct Obj10673 *)arg)->f0=5;
     }
@@ -889,7 +889,7 @@ int func_021B6BC4(void *ctx,int unused,char *arg)
 }
 
 
-int func_021B6C2C(struct S020315D4 *a,unsigned unused,int own,unsigned char *p) {func_021B61C4(p);if(own==0){func_02012704(*(unsigned char * *)&((struct Obj24204 *)(*(char * *)&((struct Obj00681 *)p)->f30))->f4);func_020307B0(((struct Obj00681 *)p)->f30);}func_020315D4(a);func_020306F0(85);return 1;}
+int func_021B6C2C(struct S020315D4 *a,unsigned unused,int own,unsigned char *p) {func_021B61C4(p);if(own==0){GAME_DATA_Delete(*(unsigned char * *)&((struct Obj24204 *)(*(char * *)&((struct Obj00681 *)p)->f30))->f4);func_020307B0(((struct Obj00681 *)p)->f30);}func_020315D4(a);func_020306F0(85);return 1;}
 
 
 
@@ -982,15 +982,15 @@ void func_021B6D3C(u8 *p,u8 *q)
     }
     ((struct Obj00185 *)q)->f30+=(u16)(func_020056EC(2)+1);
     if(((struct Obj00185 *)q)->f30>=150) {
-        func_0204B95C(((struct Obj00185 *)q)->f28);
+        CLACT_StartActorAnim(((struct Obj00185 *)q)->f28);
         func_0204B9A0(((struct Obj00185 *)q)->f28);
         ((struct Obj00185 *)q)->f30=0;
     }
     if(((struct Obj00185 *)q)->f34==1 || ((struct Obj00185 *)q)->f38!=0) {
-        if(func_0204B98C(((struct Obj00185 *)q)->f2C)==0) func_0204B95C(((struct Obj00185 *)q)->f2C);
+        if(func_0204B98C(((struct Obj00185 *)q)->f2C)==0) CLACT_StartActorAnim(((struct Obj00185 *)q)->f2C);
     } else {
-        if(func_0204B98C(((struct Obj00185 *)q)->f2C)==1 && func_0204B918(((struct Obj00185 *)q)->f2C)==0)
-            func_0204B974(((struct Obj00185 *)q)->f2C);
+        if(func_0204B98C(((struct Obj00185 *)q)->f2C)==1 && CLACT_GetActorAnimSeqCount(((struct Obj00185 *)q)->f2C)==0)
+            CLACT_StopActorAnim(((struct Obj00185 *)q)->f2C);
     }
     if(((struct Obj00185 *)q)->f38!=0) (((struct Obj00185 *)q)->f38)--;
 }
@@ -1053,12 +1053,12 @@ void func_021B7004(u8 *p, u8 *q)
     *(u32 *)&((struct Obj00476 *)q)->f28 = (u32)func_0204B294((void *)((struct Obj01422 *)p)->f50, ((struct Obj00476 *)q)->f20, ((struct Obj00476 *)q)->f1C, ((struct Obj00476 *)q)->f24, &req, 0, ((struct Obj01422 *)p)->f0);
     func_0204B3DC(((struct Obj00476 *)q)->f28, 1);
     func_0204B92C(((struct Obj00476 *)q)->f28, 1);
-    func_0204B974(((struct Obj00476 *)q)->f28);
+    CLACT_StopActorAnim(((struct Obj00476 *)q)->f28);
     req.id = 1;
     *(u32 *)&((struct Obj00476 *)q)->f2C = (u32)func_0204B294((void *)((struct Obj01422 *)p)->f50, ((struct Obj00476 *)q)->f20, ((struct Obj00476 *)q)->f1C, ((struct Obj00476 *)q)->f24, &req, 0, ((struct Obj01422 *)p)->f0);
     func_0204B3DC(((struct Obj00476 *)q)->f2C, 1);
     func_0204B92C(((struct Obj00476 *)q)->f2C, 1);
-    func_0204B974(((struct Obj00476 *)q)->f2C);
+    CLACT_StopActorAnim(((struct Obj00476 *)q)->f2C);
 }
 
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02043B98
+ * function: BMP_Blit4bpp
  * address:  0x02043B98
  * packet:   pkt_02043B98
  * region:   arm9
@@ -11,11 +11,11 @@
  *
  * bmp.c blit worker, 4bpp tiled source onto a 4bpp tiled destination,
  * byte read-modify-write of one nibble, optional colour key (0xFFFF =
- * none).  The 4bpp sibling of func_02043F4C (same dispatcher arm, same
+ * none).  The 4bpp sibling of BMP_Blit8bpp (same dispatcher arm, same
  * inlined clip helper, same parameter types) and the byte-store sibling
- * of func_020445F4.
+ * of BMP_Blit4bppToVram.
  *
- * Levers on top of func_02043F4C's, each measured:
+ * Levers on top of BMP_Blit8bpp's, each measured:
  *   - the store is written `(v << sh) | (*p & (0xf0 >> sh))`: the other
  *     operand order lets the compiler hoist the *p load above the source
  *     read, which costs a spill slot (984 bytes against 948);
@@ -63,7 +63,7 @@ static inline s32 ClipRect(struct Surf *src, const struct Surf *dst, s32 *x, s32
     return 1;
 }
 
-void func_02043B98(struct Surf *src, struct Surf *dst, s32 x, s32 y, s32 dx, s32 dy,
+void BMP_Blit4bpp(struct Surf *src, struct Surf *dst, s32 x, s32 y, s32 dx, s32 dy,
                    u32 w, u32 h, u16 key)
 {
     s32 srow, drow;

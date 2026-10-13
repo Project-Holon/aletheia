@@ -1,5 +1,5 @@
 /*
- * function: func_0202E09C
+ * function: PMS_DRAW_InitElem
  * address:  0x0202E09C
  * packet:   pkt_0202E09C
  * region:   arm9
@@ -12,7 +12,7 @@
  *           the image compares with blt; u32 gave blo (1 byte)
  *
  * symbols:
- *   func_0202DFEC  0x0202DFEC  thumb
+ *   PMS_DRAW_CreateDecoActor  0x0202DFEC  thumb
  *
  */
 #include "../include/Obj11318.h"
@@ -22,14 +22,14 @@ typedef unsigned short u16;
 typedef unsigned int  u32;
 
 struct Res;
-extern void *func_0202DFEC(struct Res *a, u16 b);
+extern void *PMS_DRAW_CreateDecoActor(struct Res *a, u16 b);
 
-void func_0202E09C(u8 *o, struct Res *a, u16 b)
+void PMS_DRAW_InitElem(u8 *o, struct Res *a, u16 b)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        *(u32 *)(o + 8 + i * 4) = (u32)func_0202DFEC(a, b);
+        *(u32 *)(o + 8 + i * 4) = (u32)PMS_DRAW_CreateDecoActor(a, b);
     }
     ((struct Obj11318 *)o)->f18 = (((struct Obj11318 *)o)->f18 & ~1) | 4;
 }

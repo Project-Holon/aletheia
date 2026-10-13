@@ -1,5 +1,5 @@
 /*
- * function: func_020117D8
+ * function: ICA_ANIME_SetBuffer
  * address:  0x020117D8
  * packet:   pkt_020117D8
  * region:   arm9
@@ -16,15 +16,15 @@
  * nothing is written and the call answers 0.  +0x18 records the row count.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020117D8.c \
- *       --func func_020117D8 --addr 0x020117D8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ICA_ANIME_SetBuffer.c \
+ *       --func ICA_ANIME_SetBuffer --addr 0x020117D8 --cc 1.1p1 --thumb
  */
 #include "../include/Obj00064.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-int func_020117D8(u8 *a0, int a1, u8 *a2, int a3)
+int ICA_ANIME_SetBuffer(u8 *a0, int a1, u8 *a2, int a3)
 {
     int total;
     int step;

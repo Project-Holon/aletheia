@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02036670",
+   "name": "GFL_NET_QUEUE_GetFreeNode",
    "address": "0x02036670",
    "kind": "game",
    "region": "arm9",

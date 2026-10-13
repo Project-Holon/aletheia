@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * sub_0201BF58 is declared here as returning a one-halfword struct (the
+ * WAZA_TOOL_GetSickCont is declared here as returning a one-halfword struct (the
  * store of r0 with no sign extension and the dead-looking second strh are
  * the struct-return temp plus its copy); its own file says s16.
  * func_021D7C70's first argument and func_021C25A4's sixth are structs
@@ -17,7 +17,7 @@
  *
  * symbols:
  *   sub_0201BD28  0x0201BD28  thumb
- *   sub_0201BF58  0x0201BF58  thumb
+ *   WAZA_TOOL_GetSickCont  0x0201BF58  thumb
  *   func_021D7C70  0x021D7C70  thumb  ov093
  *   func_021C3244  0x021C3244  thumb  ov093
  *   func_021C3254  0x021C3254  thumb  ov093
@@ -34,7 +34,7 @@ typedef struct { u16 v; } W;
 typedef struct { u32 x; } O;
 
 extern u32 sub_0201BD28(u16 id, u32 field);
-extern W sub_0201BF58(u16 id);
+extern W WAZA_TOOL_GetSickCont(u16 id);
 extern void func_021D7C70(W w, u32 b, O *out);
 extern void func_021C3244(u32 c);
 extern u32 func_021C3254(u32 c);
@@ -48,7 +48,7 @@ void func_021C3184(u8 *p, const u16 *q, u32 r, u32 c)
     O out;
     W v;
     s = sub_0201BD28(*q, 0xB);
-    v = sub_0201BF58(*q);
+    v = WAZA_TOOL_GetSickCont(*q);
     func_021D7C70(v, r, &out);
     func_021C3244(c);
     for (t = func_021C3254(c); t != 0; t = func_021C3264(c)) {

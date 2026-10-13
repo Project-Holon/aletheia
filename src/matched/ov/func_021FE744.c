@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_021F513C  0x021F513C  thumb  ov135
- *   func_02006210  0x02006210  thumb
+ *   GFL_USE_StopAllSe  0x02006210  thumb
  *   func_0200FBB0  0x0200FBB0  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
- *   func_0203CA04  0x0203CA04  arm
- *   func_0203C968  0x0203C968  arm
+ *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
+ *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
  *   func_021C866C  0x021C866C  arm
  *   func_021C86A8  0x021C86A8  arm
  *
@@ -47,11 +47,11 @@ typedef signed int s32;
 extern u32 func_021C866C(u8 *p);
 extern s32 func_021C86A8(void);
 extern void func_021F513C(u8 *p);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern u32 func_0200FBB0(void);
 extern void func_0200FBA0(void);
-extern void func_0203CA04(void);
-extern void func_0203C968(void);
+extern void GFL_NET_STATE_SetWifiError(void);
+extern void GFL_NET_STATE_ClearErrorMode(void);
 
 int func_021FE744(u8 *p)
 {
@@ -74,26 +74,26 @@ int func_021FE744(u8 *p)
             break;
         case 1:
         case 13:
-            func_02006210();
+            GFL_USE_StopAllSe();
             ((struct Obj04907 *)p)->f28 = 0x1e;
             func_0200FBB0();
-            func_0203CA04();
+            GFL_NET_STATE_SetWifiError();
             func_0200FBA0();
-            func_0203C968();
+            GFL_NET_STATE_ClearErrorMode();
             break;
         case 2:
-            func_02006210();
+            GFL_USE_StopAllSe();
             func_021F513C(p);
             break;
         case 0:
         case 3:
-            func_02006210();
+            GFL_USE_StopAllSe();
             ((struct Obj04907 *)p)->f28 = 0x16;
             break;
         }
     } else {
         if (++((struct Obj04907 *)p)->fF8C == 0x1c20) {
-            func_02006210();
+            GFL_USE_StopAllSe();
             func_021F513C(p);
         }
     }

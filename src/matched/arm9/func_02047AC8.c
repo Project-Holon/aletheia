@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C      0x02146A5C  data
- *   g_02148B4C      0x02148B4C  data
- *   g_02148C08      0x02148C08  data
+ *   _G3dSystem      0x02146A5C  data
+ *   g_renderState      0x02148B4C  data
+ *   g_renderStateIdentityMtx      0x02148C08  data
  *   func_02047788   0x02047788  arm
  *   func_0204755C   0x0204755C  arm
- *   func_02047B4C   0x02047B4C  arm
- *   func_02047C8C   0x02047C8C  arm
- *   func_0206A9DC   0x0206A9DC  arm
- *   func_0206AA0C   0x0206AA0C  arm
+ *   G3D_SYSTEM_CheckObjectCulling   0x02047B4C  arm
+ *   G3D_SYSTEM_DrawRenderObj   0x02047C8C  arm
+ *   NNS_G3dGlbBaseTrans   0x0206A9DC  arm
+ *   NNS_G3dGlbBaseScale   0x0206AA0C  arm
  *   MI_Copy36B      0x02082B60  arm
  *
  * The sibling of func_02047A60 with a result: the same bring-up (the two
  * sub-objects of the argument at +0xC and +0x18, the `bic 0xa4` on word 63
- * of 0x02148B4C, the context's +0x88 callback) and then func_02047B4C,
- * whose value is returned and whose `== 1` gates the func_02047C8C release.
+ * of 0x02148B4C, the context's +0x88 callback) and then G3D_SYSTEM_CheckObjectCulling,
+ * whose value is returned and whose `== 1` gates the G3D_SYSTEM_DrawRenderObj release.
  *
- * NOTE ON func_02047B4C's ARITY.  src/matched/func_02047B4C.c declares it
- * `int func_02047B4C(void)` and is EXACT that way; here it must be declared
+ * NOTE ON G3D_SYSTEM_CheckObjectCulling's ARITY.  src/matched/G3D_SYSTEM_CheckObjectCulling.c declares it
+ * `int G3D_SYSTEM_CheckObjectCulling(void)` and is EXACT that way; here it must be declared
  * as taking one pointer, because the original saves this function's own
  * first argument in r5 across the whole body purely to set r0 before the
  * call (+0x0008 `mov r5, r0`, +0x0054 `mov r0, r5`).  A `void` declaration
@@ -50,17 +50,17 @@ struct Arg {
 
 struct Ctx { u8 pad_00[0x88]; void (*f88)(void); };
 
-extern struct Ctx *g_02146A5C;
-extern u32 g_02148B4C[];
-extern u32 g_02148C08[];
+extern struct Ctx *_G3dSystem;
+extern u32 g_renderState[];
+extern u32 g_renderStateIdentityMtx[];
 
 extern int func_02047788(int *p);
 extern int func_0204755C(int *p);
-extern int   func_02047B4C(void *p);
+extern int   G3D_SYSTEM_CheckObjectCulling(void *p);
 struct P02047C8C;
-extern void func_02047C8C(struct P02047C8C *p);
-extern void  func_0206A9DC(void *p);
-extern void  func_0206AA0C(VecFx32 *p);
+extern void G3D_SYSTEM_DrawRenderObj(struct P02047C8C *p);
+extern void  NNS_G3dGlbBaseTrans(void *p);
+extern void  NNS_G3dGlbBaseScale(VecFx32 *p);
 extern void  MI_Copy36B(const void *src, void *dst);
 
 int func_02047AC8(void *a0, struct Arg *a1)
@@ -69,13 +69,13 @@ int func_02047AC8(void *a0, struct Arg *a1)
     int   s;
 
     r = (void *)func_0204755C((int *)func_02047788(a0));
-    func_0206A9DC(a1);
-    MI_Copy36B(&a1->m18, g_02148C08);
-    g_02148B4C[63] = g_02148B4C[63] & ~0xa4u;
-    func_0206AA0C(&a1->v0c);
-    g_02146A5C->f88();
-    s = func_02047B4C(a0);
+    NNS_G3dGlbBaseTrans(a1);
+    MI_Copy36B(&a1->m18, g_renderStateIdentityMtx);
+    g_renderState[63] = g_renderState[63] & ~0xa4u;
+    NNS_G3dGlbBaseScale(&a1->v0c);
+    _G3dSystem->f88();
+    s = G3D_SYSTEM_CheckObjectCulling(a0);
     if (s == 1)
-        func_02047C8C(r);
+        G3D_SYSTEM_DrawRenderObj(r);
     return s;
 }

@@ -12,8 +12,8 @@
  * sdk:      WcmWmcbDisconnect (libwcm.TWL.HYB.a wmif.o)
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
- *   func_02165A4C  0x02165A4C  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
+ *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   func_02166E5C  0x02166E5C  arm  ov009
  *   func_021659B4  0x021659B4  arm  ov009
  *
@@ -32,8 +32,8 @@ typedef struct WCMWork {
     unsigned short field22E8;
 } WCMWork;
 
-extern int func_021657C8(void);
-extern void func_02165A4C(unsigned char phase);
+extern int WCMi_GetSystemWork(void);
+extern void WCMi_SetPhase(unsigned char phase);
 extern void func_02166E5C(void);
 extern void func_021659B4(short result, void *para0, void *para1, long para2);
 
@@ -41,27 +41,27 @@ void func_021676E4(void *arg)
 {
     WCMWork *wcmw;
 
-    wcmw = (WCMWork *)func_021657C8();
+    wcmw = (WCMWork *)WCMi_GetSystemWork();
     switch (((WMCallback *)arg)->errcode) {
     case 0:
         if (wcmw->phase == 12) {
-            func_02165A4C(10);
+            WCMi_SetPhase(10);
             func_02166E5C();
             return;
         }
         wcmw->field22E8 = 0;
-        func_02165A4C(3);
+        WCMi_SetPhase(3);
         func_021659B4(0, (unsigned char *)wcmw + 0x12E0, 0, 0x481);
         return;
     case 1:
     case 3:
-        func_02165A4C(10);
+        WCMi_SetPhase(10);
         func_02166E5C();
         return;
     case 2:
     case 4:
     default:
-        func_02165A4C(11);
+        WCMi_SetPhase(11);
         func_021659B4(7, (unsigned char *)wcmw + 0x12E0, 0, 0x493);
         return;
     }

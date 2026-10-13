@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Blocker (evidence class: none image-wide): both calls to func_02021728
+ * Blocker (evidence class: none image-wide): both calls to PALANM_GetDefaultWork
  * (0x02021728, arm9, Thumb) are inside this function; that address is an
  * unlabelled arm9 leaf (the integrator's) with no outside witness. Verified C for it
  * (EXACT, region arm9, --cc 1.1p1 --thumb, no relocations):
  *
- *   int func_02021728(char *p, int i)
+ *   int PALANM_GetDefaultWork(char *p, int i)
  *   {
  *       return *(int *)(p + i * 0x14);
  *   }
@@ -22,7 +22,7 @@
  * Its neighbour func_02021730 (matched) is the same with +4.
  *
  * symbols:
- *   func_02021728  0x02021728  thumb
+ *   PALANM_GetDefaultWork  0x02021728  thumb
  *   func_02021730  0x02021730  thumb
  *   func_02021F64  0x02021F64  thumb
  *   func_02082D44  0x02082D44  arm
@@ -33,7 +33,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 
 extern u16 d_021F31B6[];
-extern int func_02021728(char *p, int i);
+extern int PALANM_GetDefaultWork(char *p, int i);
 extern int func_02021730(char *p, int i);
 extern void func_02021F64(u16 *src, u16 *dst, int count, int weight, u16 color);
 extern void func_02082D44(void *src, void *dst, int n);
@@ -44,7 +44,7 @@ void func_021F0DB4(char *p, int mode)
     int i;
 
     if (mode == 0) {
-        a = (char *)func_02021728(*(char **)(p + 0x210), 3);
+        a = (char *)PALANM_GetDefaultWork(*(char **)(p + 0x210), 3);
         b = (char *)func_02021730(*(char **)(p + 0x210), 3);
         for (i = 0; i < 14; i++) {
             if (0xFBEE & (1 << i)) {
@@ -53,7 +53,7 @@ void func_021F0DB4(char *p, int mode)
                 func_02082D44(a + i * 0x20, b + i * 0x20, 0x20);
             }
         }
-        a = (char *)func_02021728(*(char **)(p + 0x210), 1);
+        a = (char *)PALANM_GetDefaultWork(*(char **)(p + 0x210), 1);
         b = (char *)func_02021730(*(char **)(p + 0x210), 1);
         for (i = 0; i < 14; i++) {
             if (0x3E & (1 << i)) {

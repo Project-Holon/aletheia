@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020AA194     0x020AA194  data  a4
+ *   _GflUse     0x020AA194  data  a4
  */
 
 #include "../include/G_GflSys.h"
 
-extern struct GflSys g_020AA194;
+extern struct GflSys _GflUse;
 
 int func_02005654(int a, int b)
 {
-    int v = *(int *)((char *)&(*(int *)&g_020AA194) + 8);
+    int v = *(int *)((char *)&(*(int *)&_GflUse) + 8);
 
     if (v != 0) {
         return 0;
     }
 
-    *(int *)((char *)&(*(int *)&g_020AA194) + 8) = a;
-    (*(int *)&g_020AA194) = b;
+    *(int *)((char *)&(*(int *)&_GflUse) + 8) = a;
+    (*(int *)&_GflUse) = b;
     return 1;
 }

@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204F5A8 0x0204F5A8 arm
- *   func_0204F150 0x0204F150 arm
+ *   BILLBOARD_FreeElem 0x0204F5A8 arm
+ *   BILLBOARD_DeleteImage 0x0204F150 arm
  */
 typedef unsigned int u32;
-extern void func_0204F5A8(void *, u32);
+extern void BILLBOARD_FreeElem(void *, u32);
 typedef unsigned char  u8;
-extern void func_0204F150(u8 *a0, int i);
+extern void BILLBOARD_DeleteImage(u8 *a0, int i);
 void func_021F6B80(u32 *a, u32 *b)
 {
-    func_0204F5A8((void *)a[1], b[6]);
-    func_0204F150((void *)a[1], b[5]);
+    BILLBOARD_FreeElem((void *)a[1], b[6]);
+    BILLBOARD_DeleteImage((void *)a[1], b[5]);
     b[0]=0;
 }
 void func_021F6B9C(void *a, u32 *b, u32 *c)

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0200F6D8",
+   "name": "GFL_NET_ERR_Init",
    "address": "0x0200F6D8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0200F734",
+   "name": "GFL_NET_ERR_CheckNetError",
    "address": "0x0200F734",
    "kind": "game",
    "region": "arm9",
@@ -42,10 +42,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0200F7C0",
-    "sub_0200F7DC",
-    "sub_0200F7E8",
-    "sub_0200F7F4"
+    "GFL_NET_ERR_HaltWithMessage",
+    "GFL_NET_ERR_Halt",
+    "GFL_NET_ERR_SetKeepDark",
+    "GFL_NET_ERR_ClearKeepDark"
+   ],
+   "addresses": [
+    "0x0200F7C0",
+    "0x0200F7DC",
+    "0x0200F7E8",
+    "0x0200F7F4"
    ]
   }
  ]

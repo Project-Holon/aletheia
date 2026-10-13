@@ -1,5 +1,5 @@
 /*
- * function: func_0201756C
+ * function: POKE_TOOL_SetupPartyParam
  * address:  0x0201756C
  * packet:   pkt_0201756C
  * region:   arm9
@@ -25,7 +25,7 @@ typedef unsigned long long u64;
 struct Mon;
 extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 
-void func_0201756C(void *obj, u16 species, u16 level, u64 id)
+void POKE_TOOL_SetupPartyParam(void *obj, u16 species, u16 level, u64 id)
 {
     func_02017588(obj, species, level, id, 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02061C44
+ * function: NNS_GfdDoVramTransfer
  * address:  0x02061C44
  * packet:   pkt_02061C44
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_02146B80  0x02146B80  data
+ *   sVramTransferTaskQueue  0x02146B80  data
  *   func_02061BB0  0x02061BB0  arm
  *   func_02061BD0  0x02061BD0  arm
  *   func_02061B2C  0x02061B2C  arm
@@ -38,19 +38,19 @@ typedef struct Node {
     u32  f0c;   /* 0x0c, byte size consumed */
 } Node;
 
-extern struct Queue g_02146B80;
+extern struct Queue sVramTransferTaskQueue;
 extern u32 func_02061BB0(u8 *p);
 struct Obj02061BD0;
 extern u32 func_02061BD0(struct Obj02061BD0 *p);
 extern void func_02061B2C(u32 *s);
 
-void func_02061C44(void)
+void NNS_GfdDoVramTransfer(void)
 {
-    Node *n = (Node *)func_02061BB0((u8 *)(&g_02146B80));
+    Node *n = (Node *)func_02061BB0((u8 *)(&sVramTransferTaskQueue));
 
-    while (func_02061BD0((struct Obj02061BD0 *)(&g_02146B80)) != 0) {
+    while (func_02061BD0((struct Obj02061BD0 *)(&sVramTransferTaskQueue)) != 0) {
         func_02061B2C((u32 *)n);
-        g_02146B80.total -= n->f0c;
-        n = (Node *)func_02061BB0((u8 *)(&g_02146B80));
+        sVramTransferTaskQueue.total -= n->f0c;
+        n = (Node *)func_02061BB0((u8 *)(&sVramTransferTaskQueue));
     }
 }

@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
- *   func_02165A4C  0x02165A4C  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
+ *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   func_020862B8  0x020862B8  arm  twl
  *   NWM_StartScanEx  0x02703088  arm  twl
  *   WcmEditScanExParam  0x02732B70  arm  twl
@@ -34,8 +34,8 @@ typedef struct NetWork {
     u32 sendCount;
 } NetWork;
 
-extern NetWork *func_021657C8(void);
-extern void func_02165A4C(u8 phase);
+extern NetWork *WCMi_GetSystemWork(void);
+extern void WCMi_SetPhase(u8 phase);
 extern void func_020862B8(u32 buf, u32 len);
 extern int NWM_StartScanEx(void *cb, void *buf);
 extern void WcmEditScanExParam(u32 a, u32 b, u32 c);
@@ -43,7 +43,7 @@ extern void WcmNwmcbScanEx(void);
 
 int WCMi_NwmifBeginSearchAsync(u32 a, u32 b, u32 c)
 {
-    NetWork *w = func_021657C8();
+    NetWork *w = WCMi_GetSystemWork();
 
     switch (w->state) {
     case 5:
@@ -60,14 +60,14 @@ int WCMi_NwmifBeginSearchAsync(u32 a, u32 b, u32 c)
         w->sendCount++;
         switch (NWM_StartScanEx(WcmNwmcbScanEx, &w->sendBuf)) {
         case 2:
-            func_02165A4C(5);
+            WCMi_SetPhase(5);
             w->phase = 3;
             return 3;
         case 6:
             return 4;
         case 3:
         default:
-            func_02165A4C(11);
+            WCMi_SetPhase(11);
             return 7;
         }
     }

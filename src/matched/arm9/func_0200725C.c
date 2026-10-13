@@ -1,5 +1,5 @@
 /*
- * function: func_0200725C
+ * function: SAVE_CONTROL_LoadExtraSave
  * address:  0x0200725C
  * packet:   pkt_02007248
  * region:   arm9
@@ -13,27 +13,27 @@
  *   func_0200725C_Table  0x0209D950  data
  *   func_02008784        0x02008784  thumb
  *   func_020087D4        0x020087D4  thumb
- *   func_0203192C        0x0203192C  arm
- *   func_02031DC0        0x02031DC0  arm
+ *   BACKUP_SYSTEM_Create        0x0203192C  arm
+ *   BACKUP_SYSTEM_LoadLinked        0x02031DC0  arm
  *
  * One of nine save-stream slots the save_control block tracks at +0x14.
  * The slot is opened through the backup-system stream constructor, the open
  * is checked by func_02008784, and on success the record is committed by
- * func_02031DC0.
+ * BACKUP_SYSTEM_LoadLinked.
  *
  * Two findings closed this function and its sibling (the other of the pair
  * is noted in each file):
  *
- * 1. func_02031DC0's second and third arguments are (heap, buf), NOT
+ * 1. BACKUP_SYSTEM_LoadLinked's second and third arguments are (heap, buf), NOT
  *    (buf, heap).  The image names the order directly: heap is loaded into
  *    r1 from its stack home and the func_020087D4 result is dereferenced
  *    into r2.  Every statement reordering, temporary and pointer/type
  *    variation leaves a flat 5-byte residue at exactly those two loads --
  *    tools/permuter.py could not move it at all in 74 (0x0200725C) and 90
  *    (0x020072CC) mutations -- because the residue is in the DECLARATION,
- *    not the body.  Compare src/matched/func_02031DC0.c, whose own
+ *    not the body.  Compare src/matched/BACKUP_SYSTEM_LoadLinked.c, whose own
  *    parameters are (Obj *, u32 a1, u32 a2) with a1 passed straight to
- *    func_02031FE0/func_02032688; this file fixes which of the two is heap.
+ *    BACKUP_SYSTEM_LoadDoubleCopy/BACKUP_SYSTEM_LoadSingleCopy; this file fixes which of the two is heap.
  *
  * 2. The heap parameter is u8, not u32.  With u32 the constant set-up sinks
  *    past the incoming spill (`str r2, [sp]` moves four halfwords later),
@@ -67,17 +67,17 @@ struct Ctrl {
 
 extern struct Desc func_0200725C_Table[];
 
-extern u32 func_0203192C(void *a, void *b);
+extern u32 BACKUP_SYSTEM_Create(void *a, void *b);
 struct Obj02031DC0;
 extern int func_02008784(void *sys, u32 index);
 extern u32 *func_020087D4(void *sys, u32 index);
-extern int func_02031DC0(struct Obj02031DC0 *a0, u32 a1, u32 a2);
+extern int BACKUP_SYSTEM_LoadLinked(struct Obj02031DC0 *a0, u32 a1, u32 a2);
 
-u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap)
+u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap)
 {
-    ctrl->unk14[id] = (void *)func_0203192C(&func_0200725C_Table[id], (void *)heap);
+    ctrl->unk14[id] = (void *)BACKUP_SYSTEM_Create(&func_0200725C_Table[id], (void *)heap);
     if (func_02008784(ctrl, id) == 0) {
         return 0;
     }
-    func_02031DC0(ctrl->unk14[id], heap, *func_020087D4(ctrl, id));
+    BACKUP_SYSTEM_LoadLinked(ctrl->unk14[id], heap, *func_020087D4(ctrl, id));
 }

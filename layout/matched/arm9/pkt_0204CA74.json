@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204C944",
+   "name": "CLACT_DrawUnit",
    "address": "0x0204C944",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204CA74",
+   "name": "CLACT_FindActorBefore",
    "address": "0x0204CA74",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204CAAC",
+   "name": "CLACT_FindActorAfter",
    "address": "0x0204CAAC",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204CAE4",
+   "name": "CLACT_ClearActor",
    "address": "0x0204CAE4",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204CEB4",
+   "name": "CLACT_UpdateActorAutoAnim",
    "address": "0x0204CEB4",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204CED8",
+   "name": "CLACT_ApplyActorInit",
    "address": "0x0204CED8",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204CF40",
+   "name": "CLACT_ApplyActorResources",
    "address": "0x0204CF40",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204CF74",
+   "name": "CLACT_GetSurfaceOrigin",
    "address": "0x0204CF74",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204CFA4",
+   "name": "CLACT_InitActorRequest",
    "address": "0x0204CFA4",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204CFDC",
+   "name": "CLACT_CreateActorCore",
    "address": "0x0204CFDC",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204D048",
+   "name": "CLACT_CreateActorFull",
    "address": "0x0204D048",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204D104",
+   "name": "CLACT_ExitAnimCtl",
    "address": "0x0204D104",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204D134",
+   "name": "CLACT_GetAnimCtlKind",
    "address": "0x0204D134",
    "kind": "game",
    "region": "arm9",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204D158",
+   "name": "CLACT_InitCellAnimCtl",
    "address": "0x0204D158",
    "kind": "game",
    "region": "arm9",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204D2DC",
+   "name": "CLACT_ExitMultiCellAnimCtl",
    "address": "0x0204D2DC",
    "kind": "game",
    "region": "arm9",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204D300",
+   "name": "CLACT_ExitVramAnimCtl",
    "address": "0x0204D300",
    "kind": "game",
    "region": "arm9",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204D324",
+   "name": "CLACT_SetAnimSeq",
    "address": "0x0204D324",
    "kind": "game",
    "region": "arm9",
@@ -211,7 +211,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204D340",
+   "name": "CLACT_SetCellAnimSeq",
    "address": "0x0204D340",
    "kind": "game",
    "region": "arm9",
@@ -223,7 +223,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204D360",
+   "name": "CLACT_SetMultiCellAnimSeq",
    "address": "0x0204D360",
    "kind": "game",
    "region": "arm9",
@@ -235,7 +235,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204D380",
+   "name": "CLACT_SetVramAnimSeq",
    "address": "0x0204D380",
    "kind": "game",
    "region": "arm9",
@@ -247,7 +247,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204D3A0",
+   "name": "CLACT_SetAnimFrame",
    "address": "0x0204D3A0",
    "kind": "game",
    "region": "arm9",
@@ -270,7 +270,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204D410"
+    "CLACT_GetAnimCtrl"
+   ],
+   "addresses": [
+    "0x0204D410"
    ]
   },
   {
@@ -285,7 +288,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204D444"
+    "CLACT_GetAnimObject"
+   ],
+   "addresses": [
+    "0x0204D444"
    ]
   }
  ]

@@ -13,19 +13,19 @@
  *   D0C4 tail-forwards r0 unchanged; full DA68 body reads only that u32,
  *   copies it unchanged to singleton+74, no arithmetic or narrowing.
  *   scratch-only DA68 one --arm (no region), fixed flags: EXACT20, literal15.
- *   Verified C (not filed ARM9): extern unsigned char *g_021469F0;
- *   void func_0203DA68(unsigned int value) {
- *       *(unsigned int *)(g_021469F0+0x74)=value;
+ *   Verified C (not filed ARM9): extern unsigned char *gNetIrcWirelessLink;
+ *   void GFL_NET_IRC_WIRELESS_SetSessionParamValue(unsigned int value) {
+ *       *(unsigned int *)(gNetIrcWirelessLink+0x74)=value;
  *   }
  *   caller-only TU suggest-split MATCH256: two witnesses, both inside this
  *   sole function; zero viable pieces. Do not file overlay leaves while capped.
- * note 2026-10-04 (wD2 lane18): still MATCH, only unresolved relocations remain: callee func_0203D0C4 (veneer to 0x0203DA68) still has no witness; func_0203DA68 filed EXACT as src/matched/arm9/func_0203DA68.c, integrator must regenerate labels so the veneer resolves.
+ * note 2026-10-04 (wD2 lane18): still MATCH, only unresolved relocations remain: callee GFL_NET_IRC_WIRELESS_SetSessionParam (veneer to 0x0203DA68) still has no witness; GFL_NET_IRC_WIRELESS_SetSessionParamValue filed EXACT as src/matched/arm9/GFL_NET_IRC_WIRELESS_SetSessionParamValue.c, integrator must regenerate labels so the veneer resolves.
  * symbols:
  *   d_021BB83C 0x021BB83C data a4
  *   func_0203CBAC 0x0203CBAC arm
- *   func_0203D0C4 0x0203D0C4 arm
- *   func_0203D164 0x0203D164 arm
- *   func_0203D0AC 0x0203D0AC arm
+ *   GFL_NET_IRC_WIRELESS_SetSessionParam 0x0203D0C4 arm
+ *   GFL_NET_IRC_WIRELESS_SetRetryRequest 0x0203D164 arm
+ *   GFL_NET_SetGameKindOverride 0x0203D0AC arm
  *   func_021BAAEC 0x021BAAEC thumb ov100
  *   func_021BA290 0x021BA290 thumb ov100
  *   func_021B95B8 0x021B95B8 thumb ov100
@@ -42,9 +42,9 @@ struct Req {
 };
 extern const struct Req d_021BB83C;
 extern void func_0203CBAC(struct Req *,u32,u32);
-extern void func_0203D0C4(u32);
-extern void func_0203D164(int);
-extern void func_0203D0AC(int);
+extern void GFL_NET_IRC_WIRELESS_SetSessionParam(u32);
+extern void GFL_NET_IRC_WIRELESS_SetRetryRequest(int);
+extern void GFL_NET_SetGameKindOverride(int);
 extern int func_021BAAEC(int,int);
 extern void func_021BA290(int,int);
 extern void func_021B95B8(u8 *,u32);
@@ -97,17 +97,17 @@ void func_021BAB08(int p)
     func_0203CBAC(&req,0,p);
     switch(*(int *)(p+0x24c)) {
     case 10:
-        func_0203D0C4((u32)func_021BAAEC);
-        func_0203D164(1);
-        func_0203D0AC(17);
+        GFL_NET_IRC_WIRELESS_SetSessionParam((u32)func_021BAAEC);
+        GFL_NET_IRC_WIRELESS_SetRetryRequest(1);
+        GFL_NET_SetGameKindOverride(17);
         break;
     case 9:
-        func_0203D0C4((u32)func_021BAAEC);
-        func_0203D164(zero);
-        func_0203D0AC(17);
+        GFL_NET_IRC_WIRELESS_SetSessionParam((u32)func_021BAAEC);
+        GFL_NET_IRC_WIRELESS_SetRetryRequest(zero);
+        GFL_NET_SetGameKindOverride(17);
         break;
     case 5:
-        func_0203D0AC(37);
+        GFL_NET_SetGameKindOverride(37);
         break;
     }
     func_021BA290(p,0);

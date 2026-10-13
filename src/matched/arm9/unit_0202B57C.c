@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202B57C, sub_0202B580
+ * function: ISS_SYS_Get3dsSys, ISS_SYS_GetDungeonSys
  *
  * Two word getters, at offsets 0x24 and 0x18, packed into a single 8-byte
  * pair with no gap. Neither has a relocation.
@@ -24,12 +24,12 @@
 
 typedef unsigned int u32;
 
-u32 sub_0202B57C(void *obj)
+u32 ISS_SYS_Get3dsSys(void *obj)
 {
     return ((struct Obj17265 *)obj)->f24;
 }
 
-u32 sub_0202B580(void *obj)
+u32 ISS_SYS_GetDungeonSys(void *obj)
 {
     return ((struct Obj17266 *)obj)->f18;
 }

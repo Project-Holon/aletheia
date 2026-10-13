@@ -1,5 +1,5 @@
 /*
- * function: func_020267BC
+ * function: GAME_BEACON_Setup
  * address:  0x020267BC
  * packet:   pkt_020266E0
  * region:   arm9
@@ -11,7 +11,8 @@
  * blocker:  02026D88 label
  *
  * symbols:
- *   g_02146940     0x02146940  data
+ *   GAME_BEACON_Work     0x02146940  data
+ *   GAME_BEACON_BuildMyInfo  0x02026D88  thumb
  */
 
 typedef unsigned char  u8;
@@ -19,20 +20,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 
-extern u32 *g_02146940;
+extern u32 *GAME_BEACON_Work;
 
 struct Rec;
-extern void func_02026D88(struct Rec *o, void *sys);
+extern void GAME_BEACON_BuildMyInfo(struct Rec *o, void *sys);
 extern int func_02012FCC(int p0);
 struct PlayTime;
 extern u16 func_0200864C(const struct PlayTime *p);
 
-void func_020267BC(u32 a0)
+void GAME_BEACON_Setup(u32 a0)
 {
-    u32 *p = g_02146940;
+    u32 *p = GAME_BEACON_Work;
 
     *p++ = a0;
-    func_02026D88((struct Rec *)p, (void *)a0);
-    *(u16 *)((char *)g_02146940 + 0xbb0) =
+    GAME_BEACON_BuildMyInfo((struct Rec *)p, (void *)a0);
+    *(u16 *)((char *)GAME_BEACON_Work + 0xbb0) =
         func_0200864C((const struct PlayTime *)func_02012FCC((int)((void *)a0)));
 }

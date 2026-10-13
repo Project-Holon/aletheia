@@ -15,14 +15,14 @@
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
- * extern const u16 func_0200B98C_Table[];
- * u64 func_0200B98C(char *p,int selector,int index) {
+ * extern const u16 BattleRecModeTable[];
+ * u64 BATTLE_REC_GetHeaderParam(char *p,int selector,int index) {
  *   int i;u16 v;
  *   switch(selector) {
  *   case 0: v=((u16 *)p)[index];if(v>0x289)return 0;return v;
  *   case 1: return *(u8 *)(p+index+0x18)&0x7f;
  *   case 2: v=*(u16 *)(p+0x24);if(v>0x270f)return 0x270f;return v;
- *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==func_0200B98C_Table[i])return i;return 0;
+ *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==BattleRecModeTable[i])return i;return 0;
  *   case 4: return *(u64 *)(p+0x38);
  *   case 5: return *(u8 *)(p+0x2a);
  *   case 6: return (*(u8 *)(p+index+0x18)&0x80)>>7;
@@ -42,19 +42,19 @@
  *   func_021DD0F4 0x021DD0F4 thumb ov183
  *   func_021FD170 0x021FD170 thumb ov186
  *   func_02082BCC 0x02082BCC arm
- *   func_0200B98C 0x0200B98C thumb
+ *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   func_021FF54C 0x021FF54C thumb ov186
  *   func_021FF648 0x021FF648 thumb ov186
  *   func_021FF72C 0x021FF72C thumb ov186
  *   func_021FF698 0x021FF698 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_02012EBC 0x02012EBC thumb
- *   func_0200B938 0x0200B938 thumb
+ *   BATTLE_REC_SetData 0x0200B938 thumb
  *   func_021F9C50 0x021F9C50 thumb ov186
  *   func_02035C60 0x02035C60 arm
  *   func_02035D20 0x02035D20 arm
  *   func_020061E4 0x020061E4 thumb
- *   func_02006254 0x02006254 thumb
+ *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   func_021FD744 0x021FD744 thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021DBC68 0x021DBC68 thumb ov183
@@ -70,19 +70,19 @@ extern void func_021DCE28(char *,char *),func_021DCE48(char *,char *),func_021DD
 extern void func_021DD0AC(char *,char *),func_021DD0F4(char *,char *);
 extern void func_021FD170(char *p, char *q, void *text);
 extern void func_02082BCC(void *,int,u32);
-extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
+extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern void func_021FF54C(char *p, int kind, const int *values);
 extern int func_021FF648(char *p);
 extern int func_021FF72C(char *p, int *out);
 extern int func_021FF698(char *,int,int *);
 extern void func_021FD860(int,int,int *);
 extern void *func_02012EBC(struct Big *p);
-extern void func_0200B938(const void *,const void *,const void *,unsigned int);
+extern void BATTLE_REC_SetData(const void *,const void *,const void *,unsigned int);
 extern void func_021F9C50(S *);
 extern int func_02035C60(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020061E4(u32 a);
-extern int func_02006254(u32 a);
+extern int GFL_USE_IsSeqPlaying(u32 a);
 extern int func_021FD744(int *a);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021DBC68(int a, int b, char *p);
@@ -108,7 +108,7 @@ void func_021DC228(int *a,int *state,char *p)
     case 4: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=5;break;
     case 5:
         func_02082BCC(&t,0,8);
-        t=func_0200B98C(*(void **)(p+0xc4),4,0);
+        t=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),4,0);
         func_021FF54C(*(void **)(*(char **)(p+0xd0)+0x24),3,(const int *)(&t));
         *(int *)(p+0xbc)=0;*state=6;break;
     case 6:
@@ -120,7 +120,7 @@ void func_021DC228(int *a,int *state,char *p)
     case 7:
         if(!func_021FF72C(*(void **)(*(char **)(p+0xd0)+0x24),&message)) {
             if(func_021FF698(*(char **)(*(char **)(p+0xd0)+0x24),(int)&source,&index)) {
-                func_0200B938(source,source+0x80,source+0xc4,(unsigned int)func_02012EBC(*(void **)(*(char **)(p+0xd0)+0x28)));
+                BATTLE_REC_SetData(source,source+0x80,source+0xc4,(unsigned int)func_02012EBC(*(void **)(*(char **)(p+0xd0)+0x28)));
                 **(long long **)(*(char **)(p+0xd0)+0x2c)=index;
                 **(int **)(p+0xd0)=1;
                 func_021F9C50(*(S **)(*(char **)(p+0xd0)+0x14));*state=8;
@@ -140,7 +140,7 @@ void func_021DC228(int *a,int *state,char *p)
     case 8: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=9;break;
     case 9: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
     case 10:
-        if(!func_02006254(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int *)(*(int *)(p+8)));}
+        if(!GFL_USE_IsSeqPlaying(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int *)(*(int *)(p+8)));}
         break;
     case 12: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
     case 13: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;

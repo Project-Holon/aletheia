@@ -19,14 +19,14 @@
  *   func_0200C1B0 0x0200C1B0 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_02005654 0x02005654 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02034F84 0x02034F84 arm
  *   d_021F6EA0 0x021F6EA0 data a4
  *   func_02034FB8 0x02034FB8 arm
  *   func_02030EAC 0x02030EAC arm
  *   func_0200566C 0x0200566C thumb
- *   func_020370C8 0x020370C8 arm
- *   func_02005D28 0x02005D28 thumb
+ *   GFL_NET_WM_ICON_EasyEnd 0x020370C8 arm
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_0201296C 0x0201296C thumb
  *   func_020143CC 0x020143CC thumb
  *   func_020307B0 0x020307B0 arm
@@ -46,7 +46,7 @@
  *   func_020788AC 0x020788AC arm
  *   func_02078C18 0x02078C18 arm
  *   func_02078B44 0x02078B44 arm
- *   func_02078C28 0x02078C28 arm
+ *   FS_GetLength 0x02078C28 arm
  *   func_02078B70 0x02078B70 arm
  *   func_02078A80 0x02078A80 arm
  *   func_02034714 0x02034714 arm
@@ -54,12 +54,12 @@
  *   func_0204A600 0x0204A600 arm
  *   func_0204A648 0x0204A648 arm
  *   func_02012E40 0x02012E40 thumb
- *   func_02012E08 0x02012E08 thumb
+ *   GAME_DATA_SaveCancel 0x02012E08 thumb
  *   func_0202208C 0x0202208C thumb
  *   func_020221A4 0x020221A4 thumb
  *   func_0202EB44 0x0202EB44 thumb
  *   func_02012FFC 0x02012FFC thumb
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_0200C184 0x0200C184 thumb
  *   func_0200575C 0x0200575C thumb
  *   func_02012F2C 0x02012F2C thumb
@@ -69,8 +69,8 @@
  *   d_021F6E08 0x021F6E08 data a4
  *   d_021F6E0C 0x021F6E0C data a4
  *   func_02040618 0x02040618 arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_020433E0 0x020433E0 arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   func_02045088 0x02045088 arm
@@ -78,11 +78,11 @@
  *   func_02040588 0x02040588 arm
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_0202223C 0x0202223C thumb
- *   func_02022224 0x02022224 thumb
+ *   WIPE_ResetWndMask 0x02022224 thumb
  *   d_021F6C10 0x021F6C10 data a4
  *   d_021F6B00 0x021F6B00 data a4
  *   d_021F6B50 0x021F6B50 data a4
@@ -145,7 +145,7 @@
  *   func_020457B0 0x020457B0 arm
  *   func_0201F250 0x0201F250 thumb
  *   func_020458F8 0x020458F8 arm
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   func_02082A60 0x02082A60 arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_020774A0 0x020774A0 arm
@@ -154,10 +154,10 @@
  *   func_02178E4C 0x02178E4C thumb ov014
  *   func_02178E84 0x02178E84 thumb ov014
  *   func_02179498 0x02179498 thumb ov014
- *   func_02179158 0x02179158 thumb ov014
+ *   WIH_FreeWork 0x02179158 thumb ov014
  *   func_021790E4 0x021790E4 thumb ov014
- *   func_02037010 0x02037010 arm
- *   func_02037118 0x02037118 arm
+ *   GFL_NET_WM_ICON_EasyStart 0x02037010 arm
+ *   GFL_NET_WM_ICON_EasySetScreen 0x02037118 arm
  *   func_020351F8 0x020351F8 arm
  *   func_021F18EC 0x021F18EC thumb ov107
  *   func_021F17E0 0x021F17E0 thumb ov107
@@ -165,8 +165,8 @@
  *   func_0204B878 0x0204B878 arm
  *   func_02179570 0x02179570 thumb ov014
  *   func_0208EE9C 0x0208EE9C arm
- *   func_020370F4 0x020370F4 arm
- *   func_02037154 0x02037154 arm
+ *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
+ *   GFL_NET_WM_ICON_EasyMain 0x02037154 arm
  *   d_021F6D68 0x021F6D68 data ov107 a4
  *   d_021F6D70 0x021F6D70 data ov107 a4
  *   d_021F6D60 0x021F6D60 data ov107 a4
@@ -206,18 +206,18 @@
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
  *   func_0203630C 0x0203630C arm
- *   func_020124F4 0x020124F4 thumb
- *   func_02012704 0x02012704 thumb
+ *   GAME_DATA_Create 0x020124F4 thumb
+ *   GAME_DATA_Delete 0x02012704 thumb
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0200FBB0 0x0200FBB0 thumb
- *   func_0200F7B8 0x0200F7B8 thumb
- *   func_0200F83C 0x0200F83C thumb
- *   func_02035544 0x02035544 arm
+ *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
+ *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
+ *   UI_SoftReset 0x02035544 arm
  *   func_0200FB38 0x0200FB38 thumb
  *   func_02087D28 0x02087D28 arm
- *   func_0203D7C8 0x0203D7C8 arm
+ *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   func_021F5904 0x021F5904 arm ov107
  *   func_021F5B4C 0x021F5B4C arm ov107
  *   func_021F1B3C 0x021F1B3C arm ov107
@@ -236,7 +236,7 @@
  *   func_021F1BE0 0x021F1BE0 arm ov107
  *   func_021F5F74 0x021F5F74 arm ov107
  *   func_021F1B64 0x021F1B64 arm ov107
- *   func_0203D7FC 0x0203D7FC arm
+ *   GFL_NET_FreeAligned 0x0203D7FC arm
  *   d_021F6EC8 0x021F6EC8 data a4
  *   d_021F6EDE 0x021F6EDE data a2
  *   d_021F6EDF 0x021F6EDF data a1
@@ -245,23 +245,23 @@
  *   d_021F6EE2 0x021F6EE2 data a1
  *   d_021F6EE3 0x021F6EE3 data a1
  *   d_021F6EE4 0x021F6EE4 data a2
- *   func_020173E8 0x020173E8 thumb
+ *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   d_021F6E28 0x021F6E28 data a4
- *   func_0203E6C0 0x0203E6C0 arm
+ *   GFL_NET_LOWER_DATA_Exit 0x0203E6C0 arm
  *   func_02039ACC 0x02039ACC arm
  *   func_020399A8 0x020399A8 arm
  *   func_020399B8 0x020399B8 arm
- *   func_0203D394 0x0203D394 arm
+ *   GFL_NET_IsHandleReady 0x0203D394 arm
  *   func_02039CB4 0x02039CB4 arm
  *   func_0203D7BC 0x0203D7BC arm
  *   request_021F6C94 0x021F6C94 data a4
  *   func_0203CBAC 0x0203CBAC arm
- *   func_0203E5F8 0x0203E5F8 arm
+ *   GFL_NET_LOWER_DATA_Init 0x0203E5F8 arm
  *   func_0203CEAC 0x0203CEAC arm
  *   func_0203CD98  0x0203CD98  arm
  *   func_0203D01C 0x0203D01C arm
- *   func_0203E758 0x0203E758 arm
- *   func_02017550  0x02017550  thumb
+ *   GFL_NET_LOWER_DATA_SetSendData 0x0203E758 arm
+ *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
  *   func_0203D378  0x0203D378  arm
  *   func_0203996C  0x0203996C  arm
  *   func_0203D3F8  0x0203D3F8  arm
@@ -614,24 +614,24 @@ extern void *func_0200C0F0(void *);
 extern void func_0200C1B0(struct Blk34 *,u32);
 extern void *func_020056A0(u32,u32,u32);
 extern int func_02005654(int,int);
-extern void func_02005D90(u32,u16);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
 extern void func_02034F84(u32);
 extern void func_02034FB8(u32 v);
 extern void func_02030EAC(struct Node *n);
 extern void func_0200566C(void);
-extern void func_020370C8(void);
-extern void func_02005D28(void);
+extern void GFL_NET_WM_ICON_EasyEnd(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern u32 func_0201296C(const struct BigObj *p);
 extern u32 func_020143CC(u32 a, u32 b);
 extern u32 func_020307B0(void *p);
 extern void func_021F1520(char *p);
 extern u8 func_02012E40(const u8 *);
-extern void func_02012E08(char *p);
+extern void GAME_DATA_SaveCancel(char *p);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_020221A4(void);
 extern int func_0202EB44(void);
 extern signed char func_02012FFC(void);
-extern void func_02005E30(u32);
+extern void GFL_USE_FadeOutBgm(u32);
 extern void func_0203D34C(u32,u32);
 extern void func_021F1628(void *,int);
 extern void func_021F1704(void *,int,int);
@@ -650,7 +650,7 @@ extern int func_02078C18(File *,const char *);
 extern int func_02078A80(File *);
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
-extern u32 func_02078C28(struct FSFile *a0);
+extern u32 FS_GetLength(struct FSFile *a0);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02012F2C(int *p);
@@ -661,10 +661,10 @@ extern void *func_021F15B0(void *);
 extern void func_0204A600(void *);
 extern void func_0204A648(void);
 extern void func_02040618(unsigned,unsigned,unsigned);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0202223C(u32,u32);
-extern u32 func_02022224(void *);
+extern u32 WIPE_ResetWndMask(void *);
 extern void func_020433E0(const struct DispVram *);
 extern void func_0203F8F4(u16);
 extern void func_02045088(u16);
@@ -672,7 +672,7 @@ extern void func_0203FC28(struct DispConfig *);
 extern void func_02040588(u32 which, unsigned char enable);
 extern void func_0204A48C(const struct Cfg *,u32,u32);
 extern struct Bank *func_0204B100(int,u8,u32);
-extern void func_0204B270(struct Bank *);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
 extern void func_020434DC(u32,u32);
 extern void func_02043598(u32,u32);
 extern void func_0204B3B4(struct Obj *p);
@@ -726,7 +726,7 @@ extern u32 func_021F1B00(u8 *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u16 func_020458F8(struct U16Vec *vec);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void func_02082A60(const void *, void *, int);
 extern int func_02034AC4(s32_021EF444 handle);
 extern void func_020774A0(int (*callback)(void));
@@ -734,10 +734,10 @@ extern void func_02034A5C(int);
 extern int func_02178E4C(void);
 extern int func_02178E84(void);
 extern int func_02179498(void);
-extern void func_02179158(void);
+extern void WIH_FreeWork(void);
 extern int func_021790E4(u32,int,int);
-extern void func_02037010(u32,u32,u32,u32);
-extern void func_02037118(u32,u32);
+extern void GFL_NET_WM_ICON_EasyStart(u32,u32,u32,u32);
+extern void GFL_NET_WM_ICON_EasySetScreen(u32,u32);
 extern void func_020351F8(u32 a, u32 b);
 extern void func_021F18EC(void *);
 extern void func_021F17E0(void *,int);
@@ -745,8 +745,8 @@ extern void func_021F1B38(u8 *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_02179570(void (*cb)(int));
 extern int func_0208EE9C(void);
-extern u32 func_020370F4(u32);
-extern void func_02037154(void);
+extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
+extern void GFL_NET_WM_ICON_EasyMain(void);
 extern u16 func_02179024(void);
 extern void func_02082D44(const void *,void *,unsigned);
 extern int func_02035C08(const void *);
@@ -781,18 +781,18 @@ extern int func_0203CDBC(void);
 extern void func_0203064C(u32,u32,u32);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern unsigned int func_0203630C(void);
-extern void *func_020124F4(u16);
-extern void func_02012704(unsigned char *);
+extern void *GAME_DATA_Create(u16);
+extern void GAME_DATA_Delete(unsigned char *);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(u32);
 extern u32 func_0200FB24(void);
 extern int func_0200FBB0(void);
-extern void func_0200F7B8(int);
-extern void func_0200F83C(void);
-extern void func_02035544(int);
+extern void GFL_NET_ERR_ShowScreen(int);
+extern void GFL_NET_ERR_ShowSimpleScreen(void);
+extern void UI_SoftReset(int);
 extern void func_0200FB38(void);
 extern void func_02087D28(struct OSOwnerInfoEx *info);
-extern void *func_0203D7C8(u32,u32,const char *,u16);
+extern void *GFL_NET_AllocAligned(u32,u32,const char *,u16);
 extern int func_021F5904(void *,MBUser *,int,int,u16);
 extern int func_021F5B4C(u16,u16);
 extern void func_021F1B3C(void (*)(u16,u32,u8 *));
@@ -807,23 +807,23 @@ extern u32 func_0208799C(u32);
 extern int func_021F1BE0(u16);
 extern void func_021F5F74(void);
 extern void *func_021F1B64(u16);
-extern void func_0203D7FC(void *);
-extern u32 func_020173E8(void);
-extern void func_0203E6C0(void);
+extern void GFL_NET_FreeAligned(void *);
+extern u32 POKE_TOOL_GetBoxParamSize(void);
+extern void GFL_NET_LOWER_DATA_Exit(void);
 extern int func_02039ACC(void);
 extern void *func_020399A8(void);
 extern int func_020399B8(void *);
-extern int func_0203D394(void *);
+extern int GFL_NET_IsHandleReady(void *);
 extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 extern void func_0203D7BC(int);
 extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
-extern void func_0203E5F8(int,int);
+extern void GFL_NET_LOWER_DATA_Init(int,int);
 extern int func_0203CEAC(int);
 extern int func_0203CD98(void);
 extern void func_0203D01C(void);
 extern void func_02039C68(struct Link *, unsigned int, unsigned int);
-extern void func_0203E758(int,int,int,int);
-void func_02017550(struct Sav *);
+extern void GFL_NET_LOWER_DATA_SetSendData(int,int,int,int);
+void POKE_TOOL_ClearBoxParam(struct Sav *);
 u32 func_0203D378(void);
 struct Entry *func_0203996C(s32_021F11F0 idx);
 u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
@@ -961,7 +961,7 @@ void func_021EE740(u8 *p) {
  }
  ((struct Obj00057 *)p)->f4=func_020056A0((u32)func_021EEEAC,(u32)p,8);
  if(!p[0x28]) func_02005654((int)func_021EEEB4,0);
- else { func_02005654((int)func_021EEEF8,0); func_02005D90(1154,0xffff); }
+ else { func_02005654((int)func_021EEEF8,0); GFL_USE_CancelChangeAndPlayBgm(1154,0xffff); }
  ((struct Obj00057 *)p)->f1C=0;
  ((struct Obj00057 *)p)->f44=0;
  ((struct Obj00057 *)p)->f48=0;
@@ -976,8 +976,8 @@ void func_021EE740(u8 *p) {
 
 void func_021EE824(u8 *p) {
  void *q; u16 *a,*b;
- func_02034FB8(16); func_02030EAC(((struct Obj00979 *)p)->f4);func_0200566C();func_020370C8();
- if(p[40]==1) func_02005D28();
+ func_02034FB8(16); func_02030EAC(((struct Obj00979 *)p)->f4);func_0200566C();GFL_NET_WM_ICON_EasyEnd();
+ if(p[40]==1) GFL_USE_CancelChangeAndStopBgm();
  else { q=(void *)func_0201296C(((struct Obj22274 *)(*(u8 * *)&((struct Obj00979 *)p)->f8))->f4); a=(u16 *)func_020143CC((u32)q,16384);b=(u16 *)func_020143CC((u32)q,16385);*a=((struct Obj00979 *)p)->f38;*b=((struct Obj00979 *)p)->f3A; }
  if(((struct Obj00979 *)p)->f60) func_020307B0(((struct Obj00979 *)p)->f60);
  func_021F0E40(((struct Obj00979 *)p)->fC);func_021F1520(((struct Obj00979 *)p)->f68);func_021EF080((char *)p);
@@ -990,7 +990,7 @@ static inline void load_payload(u8 *p) {
  File file; void *name;
  name=func_0200575C(142);func_020788AC(&file);
  if(!func_02078C18(&file,name))func_02034714(d_021F6E08,0,d_021F6E08);
- func_02078B44((struct FSFile *)(&file),0,0);W(100)=func_02078C28((struct FSFile *)(&file));
+ func_02078B44((struct FSFile *)(&file),0,0);W(100)=FS_GetLength((struct FSFile *)(&file));
  P(96)=func_02030734(H(0),W(100),1,d_021F6E0C,660);
  func_02078B70((struct FSFile *)(&file),P(96),W(100));
  if(!func_02078A80(&file))func_02034714(d_021F6E08,0,d_021F6E08);
@@ -1005,7 +1005,7 @@ int func_021EE894(u8 *p) {
  func_021F0E6C(O);
  if(W(16)==1 && W(32)!=2 && W(32)!=3) {
   W(24)=func_02012E40(SAVE);
-  if(W(24)==1)func_02012E08(SAVE);
+  if(W(24)==1)GAME_DATA_SaveCancel(SAVE);
   W(32)=2;func_021EFC1C(p,3);
  }
  switch(PHASE) {
@@ -1017,7 +1017,7 @@ int func_021EE894(u8 *p) {
   }break;
  case 2:
   if(*(u8 *)P(8)==0)func_0202208C(0,0,0,0,6,1,H(0));
-  else {func_0202208C(0,0,0,32767,6,1,H(0));func_02005E30(6);}
+  else {func_0202208C(0,0,0,32767,6,1,H(0));GFL_USE_FadeOutBgm(6);}
   W(32)=3;break;
  case 3:if(func_020221A4()==1)return 1;break;
  case 4:func_021F1628(M,5);func_021F1704(M,43,func_02012FFC());W(32)=5;break;
@@ -1134,11 +1134,11 @@ void func_021EEEF8(void) { d_021F6EA0.f2++; if(d_021F6EA0.f2>=5){d_021F6EA0.f2=0
  */
 void func_021EEF28(u8 *p) {
  struct Cfg cfg;
- func_020434CC();func_02043588();
+ BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();
  *(volatile u32 *)0x04000000 &= 0xffffe0ff;
  *(volatile u32 *)0x04001000 &= 0xffffe0ff;
  func_0202223C(0,0);func_0202223C(1,0);
- func_02022224((void *)0);func_02022224((void *)1);
+ WIPE_ResetWndMask((void *)0);WIPE_ResetWndMask((void *)1);
  *(volatile u16 *)0x04000050=0;
  *(volatile u16 *)0x04001050=0;
  *(volatile u16 *)0x04000304 |= 0x8000;
@@ -1153,7 +1153,7 @@ void func_021EEF28(u8 *p) {
  cfg=d_020A1448;cfg.dimensions[0]=64;
  func_0204A48C(&cfg,(u32)&d_021F6C10,((struct Obj00057 *)p)->f0);
  *(struct Bank * *)&((struct Obj00057 *)p)->f6C=func_0204B100(8,0,((struct Obj00057 *)p)->f0);
- func_0204B270(*(struct Bank * *)&((struct Obj00057 *)p)->f6C);
+ CLACT_SetUnitDefaultRenderer(*(struct Bank * *)&((struct Obj00057 *)p)->f6C);
  func_020434DC(16,1);func_02043598(16,1);
 }
 
@@ -1326,10 +1326,10 @@ void func_021EF588(u8 *p)
     la = (u32)func_020458F8(a);
     lb = (u32)func_020458F8(b);
     dst = w->f50;
-    src = func_02045A90(a);
+    src = STRBUF_GetChars(a);
     func_02082A60(src, dst, la * 2);
     dst = w->f54;
-    src = func_02045A90(b);
+    src = STRBUF_GetChars(b);
     func_02082A60(src, dst, lb * 2);
     func_02045808(a);
     func_02045808(b);
@@ -1395,15 +1395,15 @@ int func_021EF79C(u8 *p)
  void *q;
  if(func_02178E4C()==9 || func_02178E4C()==10){
   ((struct Obj00072 *)p)->f30=0;((struct Obj00072 *)p)->f14=1;
-  if(func_02179498()==1){func_021F0DB4();func_02179158();return 1;}return 0;
+  if(func_02179498()==1){func_021F0DB4();WIH_FreeWork();return 1;}return 0;
  }
  switch(p[0x24]){
  case 0:
   d_021F6EA0.f8=0;((struct Obj00072 *)p)->f1C=1;
   func_021790E4(((struct Obj00072 *)p)->f0,(int)func_021EFC10,0);
-  func_02037010(240,0,0,((struct Obj00072 *)p)->f0);
-  if(p[0x28]==0)func_02037118(0,((struct Obj00072 *)p)->f0);
-  else func_02037118(1,((struct Obj00072 *)p)->f0);
+  GFL_NET_WM_ICON_EasyStart(240,0,0,((struct Obj00072 *)p)->f0);
+  if(p[0x28]==0)GFL_NET_WM_ICON_EasySetScreen(0,((struct Obj00072 *)p)->f0);
+  else GFL_NET_WM_ICON_EasySetScreen(1,((struct Obj00072 *)p)->f0);
   p[0x24]=1;func_020351F8((u32)func_021EFCA8,(u32)p);break;
  case 1:
   if(func_02178E4C()==1 && func_02178E84()==1)p[0x24]=2;break;
@@ -1428,9 +1428,9 @@ int func_021EF79C(u8 *p)
  case 5:((struct Obj00072 *)p)->f30=1;p[0x24]=6;break;
  case 8:p[0x24]=6;break;
  case 6:d_021F6EA0.f8=0;func_02179570((void (*)(int))((int (*)(int))func_021EFC10));((struct Obj00072 *)p)->f1C=0;p[0x24]=7;break;
- case 7:if(d_021F6EA0.f8==1){func_020351F8(0,0);func_02179158();return 1;}break;
+ case 7:if(d_021F6EA0.f8==1){func_020351F8(0,0);WIH_FreeWork();return 1;}break;
  }
- func_020370F4(3-func_0208EE9C());func_02037154();return 0;
+ GFL_NET_WM_ICON_EasySetLevel(3-func_0208EE9C());GFL_NET_WM_ICON_EasyMain();return 0;
 }
 
 
@@ -2068,8 +2068,8 @@ int func_021F05DC(void) { func_02043534(0);func_020435F4(0);func_02040588(d_021F
 int func_021F0608(void *task,void *arg,Save *save){Ctx_021F0608 *p;
 if(!func_0203CDBC())return 0;
 func_0203064C(1,93,0x130000);p=func_0203159C(task,188,93);
-if(!save){save=func_02030734(93,8,0,d_021F6E0C,2788);if(func_0203630C()&256)save->f00=1;else{save->f00=0;save->f04=func_020124F4(93);}}
-if(save->f00==1)save->f04=func_020124F4(93);
+if(!save){save=func_02030734(93,8,0,d_021F6E0C,2788);if(func_0203630C()&256)save->f00=1;else{save->f00=0;save->f04=GAME_DATA_Create(93);}}
+if(save->f00==1)save->f04=GAME_DATA_Create(93);
 p->f00=93;p->f08=save;p->f10=0;p->f14=0;p->f18=0;func_021EE740((u8 *)p);return 1;}
 
 
@@ -2089,10 +2089,10 @@ p->f00=93;p->f08=save;p->f10=0;p->f14=0;p->f18=0;func_021EE740((u8 *)p);return 1
  */
 int func_021F0694(void *task,int unused,int keep,Ctx_021F0694 *p){int mode;u32 a,b,c;
 a=p->f10;mode=0;c=p->f18;b=p->f14;if(p->f08->f00==1)mode=1;func_021EE824((u8 *)p);
-if(!keep){func_02012704(p->f08->f04);func_020307B0(p->f08);}else if(p->f08->f00==1){func_02012704(p->f08->f04);func_020307B0(p->f08);}
+if(!keep){GAME_DATA_Delete(p->f08->f04);func_020307B0(p->f08);}else if(p->f08->f00==1){GAME_DATA_Delete(p->f08->f04);func_020307B0(p->f08);}
 func_020315D4(task);func_020306F0(93);
-if(a==1){if(mode){if(c==1||func_0200FB24()==1){func_0200FBB0();func_0200F7B8(1);}else func_0200F7B8(0);}else if(c==1){func_0200FBB0();func_0200F7B8(1);}}
-if(b==1)func_0200F83C();if(mode==1)func_02035544(0);return 1;}
+if(a==1){if(mode){if(c==1||func_0200FB24()==1){func_0200FBB0();GFL_NET_ERR_ShowScreen(1);}else GFL_NET_ERR_ShowScreen(0);}else if(c==1){func_0200FBB0();GFL_NET_ERR_ShowScreen(1);}}
+if(b==1)GFL_NET_ERR_ShowSimpleScreen();if(mode==1)UI_SoftReset(0);return 1;}
 
 
 
@@ -2121,7 +2121,7 @@ int func_021F0728(int a,int b,int c,u8 *p) { if(func_021EE894(p)==1)return 1;if(
 void func_021F0754(int a,int b){User user;MBUser mb;u8 buffer[20];Zero *zero;
 func_02087D28((struct OSOwnerInfoEx *)(&user));mb.f00=user.f01;mb.f01=user.f1A;func_02082D44(user.f04,mb.f02,user.f1A*2);mb.f00hi=0;
 zero=(Zero *)buffer;zero->words[0]=0;zero->words[1]=0;zero->words[2]=0;zero->words[3]=0;zero->words[4]=0;d_021F6EB4=*zero;
-d_021F6EAC.f04=func_0203D7C8(93,45312,d_021F6E1C,158);
+d_021F6EAC.f04=GFL_NET_AllocAligned(93,45312,d_021F6E1C,158);
 if(func_021F5904(d_021F6EAC.f04,&mb,a,b,1))func_02034714(d_021F6E24, 0, d_021F6E24);
 func_021F5B4C(256,1);func_021F1B3C(func_021F0B2C);func_021F0D1C(1);}
 
@@ -2268,7 +2268,7 @@ void func_021F0B2C(u16 aid,u32 event,u8 *p)
  case 12:
   if(func_021F0D28()==4)func_021F0D1C(5);else func_021F0D1C(0);
   if(d_021F6EAC.f00){func_020307B0(d_021F6EAC.f00);d_021F6EAC.f00=0;}
-  if(d_021F6EAC.f04){func_0203D7FC(d_021F6EAC.f04);d_021F6EAC.f04=0;}break;
+  if(d_021F6EAC.f04){GFL_NET_FreeAligned(d_021F6EAC.f04);d_021F6EAC.f04=0;}break;
  case 13:
   switch(((struct Obj04440 *)p)->f0){case 1:case 2:case 9:func_021F0D1C(7);break;case 8:break;}break;
  case 1:case 4:case 5:case 6:case 8:case 11:
@@ -2324,7 +2324,7 @@ int func_021F0D34(u16 aid)
 
 
 
-void func_021F0DB4(void) {if(d_021F6EAC.f00) {func_020307B0(d_021F6EAC.f00);d_021F6EAC.f00=0;}if(d_021F6EAC.f04) {func_0203D7FC(d_021F6EAC.f04);d_021F6EAC.f04=0;}}
+void func_021F0DB4(void) {if(d_021F6EAC.f00) {func_020307B0(d_021F6EAC.f00);d_021F6EAC.f00=0;}if(d_021F6EAC.f04) {GFL_NET_FreeAligned(d_021F6EAC.f04);d_021F6EAC.f04=0;}}
 
 
 
@@ -2346,7 +2346,7 @@ u32 func_021F0DDC(void) { return d_021F6EAC.f18; }
 
 
 
-Object *func_021F0DE8(u16 heap){Object *p;p=func_02030734(heap,40,1,d_021F6E28,159);p->f00=heap;p->f04=0;p->f14=0;p->f18=0;p->f0C=0;p->f08=0;p->f10=func_02030734(p->f00,6*func_020173E8()+4,1,d_021F6E28,169);return p;}
+Object *func_021F0DE8(u16 heap){Object *p;p=func_02030734(heap,40,1,d_021F6E28,159);p->f00=heap;p->f04=0;p->f14=0;p->f18=0;p->f0C=0;p->f08=0;p->f10=func_02030734(p->f00,6*POKE_TOOL_GetBoxParamSize()+4,1,d_021F6E28,169);return p;}
 
 
 
@@ -2357,7 +2357,7 @@ Object *func_021F0DE8(u16 heap){Object *p;p=func_02030734(heap,40,1,d_021F6E28,1
 
 
 
-void func_021F0E40(State_021F0DB4 *p) { if(((struct Obj10259 *)p)->f14)func_020307B0(((struct Obj10259 *)p)->f14);if(p->flag==1)func_0203E6C0();func_020307B0(((struct Obj10259 *)p)->f10);func_020307B0(p); }
+void func_021F0E40(State_021F0DB4 *p) { if(((struct Obj10259 *)p)->f14)func_020307B0(((struct Obj10259 *)p)->f14);if(p->flag==1)GFL_NET_LOWER_DATA_Exit();func_020307B0(((struct Obj10259 *)p)->f10);func_020307B0(p); }
 
 
 
@@ -2370,7 +2370,7 @@ void func_021F0E40(State_021F0DB4 *p) { if(((struct Obj10259 *)p)->f14)func_0203
 /*
  * extent: two zero padding bytes follow the epilogue.
  */
-void func_021F0E6C(State_021F0E6C *p){switch(p->f04){case 0:break;case 1:if(func_02039ACC()==1)p->f04=2;break;case 2:if(func_020399B8(func_020399A8())==1)p->f04=3;break;case 3:if(func_0203D394(func_020399A8())==1){p->f04=6;func_0203D7BC(1);}break;case 4:if(func_02039CB4(func_020399A8(),64,4)==1){p->f04=5;func_0203D7BC(0);}break;case 5:case 6:default:break;}
+void func_021F0E6C(State_021F0E6C *p){switch(p->f04){case 0:break;case 1:if(func_02039ACC()==1)p->f04=2;break;case 2:if(func_020399B8(func_020399A8())==1)p->f04=3;break;case 3:if(GFL_NET_IsHandleReady(func_020399A8())==1){p->f04=6;func_0203D7BC(1);}break;case 4:if(func_02039CB4(func_020399A8(),64,4)==1){p->f04=5;func_0203D7BC(0);}break;case 5:case 6:default:break;}
 if(p->f0C!=p->f08&&p->f08!=0){if(func_021F11F0(p,10,p->f08)==1)p->f0C=p->f08;}}
 
 
@@ -2415,7 +2415,7 @@ void func_021F0EFC(State_021F0EFC *p)
     p->f1a.b04=0;
     p->f1a.b05=0;
     p->f20=0;
-    func_0203E5F8(p->heap,0);
+    GFL_NET_LOWER_DATA_Init(p->heap,0);
 }
 
 
@@ -2426,7 +2426,7 @@ void func_021F0EFC(State_021F0EFC *p)
 
 
 
-void func_021F0FE8(State_021F0FE8 *p) { func_0203CEAC(0); func_0203E6C0(); p->flag=0; p->f4=0; }
+void func_021F0FE8(State_021F0FE8 *p) { func_0203CEAC(0); GFL_NET_LOWER_DATA_Exit(); p->flag=0; p->f4=0; }
 
 
 
@@ -2723,7 +2723,7 @@ int func_021F116C(Ov107Ctx_021F116C *p)
 
 
 
-void func_021F1174(int a,int b,int c) { func_0203E758(b,c,2,1); }
+void func_021F1174(int a,int b,int c) { GFL_NET_LOWER_DATA_SetSendData(b,c,2,1); }
 
 
 
@@ -2741,7 +2741,7 @@ void func_021F1184(Ov107Ctx_021F1184 *p)
     list->f00 = 0;
     list->f02 = 0;
     for (i = 0; i < 6; i++) {
-        func_02017550((struct Sav *)((unsigned char *)p->f10 + i * func_020173E8() + 4));
+        POKE_TOOL_ClearBoxParam((struct Sav *)((unsigned char *)p->f10 + i * POKE_TOOL_GetBoxParamSize() + 4));
     }
     p->f18.b1 = 0;
     p->f18.b2 = 0;
@@ -2776,7 +2776,7 @@ u8 func_021F11C4(u8 *p) { return *(u8 *)(((struct Obj22296 *)p)->f10); }
 
 void *func_021F11CC(Ov107Ctx_021F11CC *p, int i)
 {
-    return p->f10 + i * func_020173E8() + 4;
+    return p->f10 + i * POKE_TOOL_GetBoxParamSize() + 4;
 }
 
 

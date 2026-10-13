@@ -1,5 +1,5 @@
 /*
- * function: func_021D5BAC
+ * function: P_STATUS_SearchPokemon
  * address: 0x021D5BAC
  * packet: pkt_ov131_021D5BAC
  * region: ov131
@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D6064 0x021D6064 thumb ov131
- *   func_021D62F4 0x021D62F4 thumb ov131
+ *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
+ *   P_STATUS_HasRibbon 0x021D62F4 thumb ov131
  */
 #include "../include/Obj03284.h"
 typedef unsigned int   u32;
-extern void *func_021D6064(unsigned char *p);
+extern void *P_STATUS_GetPokePara(unsigned char *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern int func_021D62F4(char *p, void *q);
-int func_021D5BAC(unsigned char *p,int direction,unsigned short *out) {
+extern int P_STATUS_HasRibbon(char *p, void *q);
+int P_STATUS_SearchPokemon(unsigned char *p,int direction,unsigned short *out) {
  int result=0;
  int old;
  int done;
@@ -27,10 +27,10 @@ int func_021D5BAC(unsigned char *p,int direction,unsigned short *out) {
  if(direction==1 && ((struct Obj03284 *)p)->f18>=(*(unsigned char **)(p+8))[14]-1) {done=1;continue;}
  if(direction==0 && ((struct Obj03284 *)p)->f18==0) {done=1;continue;}
  if(direction==1) ++((struct Obj03284 *)p)->f18; else --((struct Obj03284 *)p)->f18;
- m=func_021D6064(p);
+ m=P_STATUS_GetPokePara(p);
  if(func_02017E88(m,169,0)!=0) {
  if(func_02017E88(m,76,0)!=1 || ((struct Obj03284 *)p)->f58==0) {
- if(((struct Obj03284 *)p)->f58!=2 || func_021D62F4((char *)p,m)!=0) {done=1;result=1;}
+ if(((struct Obj03284 *)p)->f58!=2 || P_STATUS_HasRibbon((char *)p,m)!=0) {done=1;result=1;}
  }
  }
  } while(done==0);

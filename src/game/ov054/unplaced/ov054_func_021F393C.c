@@ -18,9 +18,20 @@
  *   func_021C4E08  0x021C4E08  thumb  ov093
  */
 
-extern int func_021C4E08(void *, int);
+/* Sound object and gimmick work of unit_021F36C0.c; only the fields used here. */
+struct SoundObj;
 
-int func_021F393C(char *a, int b)
+typedef struct Gimmick54Work {
+    unsigned short heapId;
+    unsigned short reserved02;
+    void *iss3ds;
+    struct SoundObj *soundObj[2];
+} Gimmick54Work;
+
+extern void func_021C4E08(struct SoundObj *obj, int frame);
+
+/* Restarts the animation of one sound object at its first frame. */
+void func_021F393C(Gimmick54Work *work, int index)
 {
-    return func_021C4E08(*(void **)(a + 4 * b + 8), 0);
+    func_021C4E08(work->soundObj[index], 0);
 }

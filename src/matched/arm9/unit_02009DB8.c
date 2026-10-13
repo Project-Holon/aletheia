@@ -17,6 +17,10 @@
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuMove   0x02083194  arm
+ *   MYSTATUS_GetId  0x02008530  thumb
+ *   MYSTATUS_GetOutfit  0x02008554  thumb
+ *   MYSTATUS_SetOutfit  0x02008558  thumb
+ *   MYSTATUS_GetAvatarId  0x0200855C  thumb
  *
  * alias: the body of the 0xD54-byte record whose head is
  * src/matched/unit_02009D9C.c.  It is a hundred-slot most-recently-used list
@@ -54,10 +58,10 @@ struct Sub0200852CObj {
 };
 
 extern int sub_02008468(void);
-extern u32 sub_02008530(const struct Sub0200852CObj *obj);
-extern u8  sub_02008554(const struct Sub0200852CObj *obj);
-extern void sub_02008558(struct Sub0200852CObj *obj, u8 value);
-extern u8  sub_0200855C(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
+extern u8  MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
+extern void MYSTATUS_SetOutfit(struct Sub0200852CObj *obj, u8 value);
+extern u8  MYSTATUS_GetAvatarId(const struct Sub0200852CObj *obj);
 
 struct Sub02009D9CObj {
     struct Sub0200852CObj unk000[100];
@@ -73,8 +77,8 @@ int sub_02009DB8(struct Sub02009D9CObj *obj, u32 id)
     int i;
 
     for (i = 0; i < 100; i++) {
-        if (sub_0200855C(&obj->unk000[i]) != 0
-            && id == sub_02008530(&obj->unk000[i])) {
+        if (MYSTATUS_GetAvatarId(&obj->unk000[i]) != 0
+            && id == MYSTATUS_GetId(&obj->unk000[i])) {
             return i;
         }
     }
@@ -83,7 +87,7 @@ int sub_02009DB8(struct Sub02009D9CObj *obj, u32 id)
 
 void sub_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p)
 {
-    u32 id = sub_02008530(p);
+    u32 id = MYSTATUS_GetId(p);
     u32 size = sub_02008468();
     int i;
 
@@ -92,7 +96,7 @@ void sub_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p)
     }
     i = sub_02009DB8(obj, id);
     if (i != -1) {
-        sub_02008558(&obj->unk000[i], sub_02008554(p));
+        MYSTATUS_SetOutfit(&obj->unk000[i], MYSTATUS_GetOutfit(p));
         return;
     }
     MI_CpuMove(obj->unk000, &obj->unk000[1], size * 99);
@@ -104,7 +108,7 @@ u32 sub_02009E40(struct Sub02009D9CObj *obj, u32 i)
     if (i >= 100) {
         i = 0;
     }
-    return sub_02008530(&obj->unk000[i]);
+    return MYSTATUS_GetId(&obj->unk000[i]);
 }
 
 struct Sub0200852CObj *sub_02009E54(struct Sub02009D9CObj *obj, u32 i)
@@ -131,7 +135,7 @@ int sub_02009E8C(struct Sub02009D9CObj *obj)
     int i;
 
     for (i = 0; i < 100; i++) {
-        if (sub_0200855C(&obj->unk000[i]) == 0) {
+        if (MYSTATUS_GetAvatarId(&obj->unk000[i]) == 0) {
             break;
         }
     }

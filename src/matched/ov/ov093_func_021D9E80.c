@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021D775C   0x021D775C  thumb ov093
- *   func_0201BEB8   0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag   0x0201BEB8  thumb
  *   func_021C7CF4   0x021C7CF4  thumb ov093
  *   func_021D5B68   0x021D5B68  thumb ov093
  *   func_021C88A4   0x021C88A4  thumb ov093
@@ -30,7 +30,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 extern int func_021D775C(int a);
-extern u32 func_0201BEB8(u16 id, u32 bit);
+extern u32 WAZA_TOOL_GetFlag(u16 id, u32 bit);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5B68(void *p);
 extern void *func_021C88A4(char *p, int a, int b);
@@ -50,7 +50,7 @@ void func_021D9E80(int a, int b, int c)
         return;
     if (func_021D775C(0x46) != 0)
         return;
-    if (func_0201BEB8(func_021D775C(0x12), 0) == 0)
+    if (WAZA_TOOL_GetFlag(func_021D775C(0x12), 0) == 0)
         return;
     k = func_021D775C(3);
     m = func_021C7CF4((int *)b, k);

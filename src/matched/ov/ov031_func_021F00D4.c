@@ -17,14 +17,14 @@
  *   func_021F0680  0x021F0680  thumb  ov031
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_021F0584  0x021F0584  thumb  ov031
- *   func_021736C8  0x021736C8  thumb  ov012
+ *   UNION_COMM_SetChatType  0x021736C8  thumb  ov012
  *   func_021F0B98  0x021F0B98  thumb  ov031
  *   func_021F0D64  0x021F0D64  thumb  ov031
  *   func_021F0FE0  0x021F0FE0  thumb  ov031
  *   func_021F0C34  0x021F0C34  thumb  ov031
  *   func_021F0DB0  0x021F0DB0  thumb  ov031
  *   func_021F0EF4  0x021F0EF4  thumb  ov031
- *   func_02173934  0x02173934  thumb  ov012
+ *   UNION_MAIN_SetAppealNo  0x02173934  thumb  ov012
  */
 #include "../include/Obj01128.h"
 #include "../include/Obj07628.h"
@@ -43,14 +43,14 @@ extern void func_021F0680(char *p, u8 *b);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern int func_021F0584(int *p, u8 *flag);
-extern void func_021736C8(u8 *a, int v);
+extern void UNION_COMM_SetChatType(u8 *a, int v);
 extern int func_021F0B98(char *o);
 extern int func_021F0D64(char *p);
 extern void func_021F0FE0(char *p, u8 *q);
 extern void func_021F0C34(char *a, unsigned char *b);
 extern int func_021F0DB0(u8 *a0, char *a1, u8 *a2);
 extern void func_021F0EF4(char *p, u8 *q);
-extern void func_02173934(u8 *p, int v);
+extern void UNION_MAIN_SetAppealNo(u8 *p, int v);
 
 void func_021F00D4(char *p, int mode)
 {
@@ -78,18 +78,18 @@ void func_021F00D4(char *p, int mode)
             case 0:
                 break;
             case 1:
-                func_021736C8(q, 2);
+                UNION_COMM_SetChatType(q, 2);
                 break;
             case 2:
-                func_021736C8(q, 3);
+                UNION_COMM_SetChatType(q, 3);
                 break;
             case 3:
                 break;
             case 4:
-                func_021736C8(q, 4);
+                UNION_COMM_SetChatType(q, 4);
                 break;
             case 5:
-                func_021736C8(q, 5);
+                UNION_COMM_SetChatType(q, 5);
                 break;
             }
         }
@@ -106,5 +106,5 @@ void func_021F00D4(char *p, int mode)
         func_021F0EF4(p, q + 0x30E0);
     }
     if (func_02026454(s) == 3 && q != 0)
-        func_02173934(q, ((struct Obj01128 *)p)->f30);
+        UNION_MAIN_SetAppealNo(q, ((struct Obj01128 *)p)->f30);
 }

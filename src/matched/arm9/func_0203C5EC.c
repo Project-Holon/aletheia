@@ -1,5 +1,5 @@
 /*
- * function: func_0203C5EC
+ * function: GFL_NET_STATE_IsWifiDisconnectFinal
  * address:  0x0203C5EC
  * packet:   pkt_0203C5EC
  * region:   arm9
@@ -12,14 +12,14 @@
  * Unlabelled ARM leaf: byte at +0x4a of the card task object.
  *
  * symbols:
- *   g_021469DC  0x021469DC  data
+ *   _pNetState  0x021469DC  data
  */
 
 #include "../include/G_Sys.h"
 
-extern struct Sys *g_021469DC;
+extern struct Sys *_pNetState;
 
-int func_0203C5EC(void)
+int GFL_NET_STATE_IsWifiDisconnectFinal(void)
 {
-    return g_021469DC->f4a;
+    return _pNetState->f4a;
 }

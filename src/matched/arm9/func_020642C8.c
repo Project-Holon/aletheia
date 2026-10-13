@@ -20,7 +20,7 @@
  *      against 132, 64 concrete out.  Marking that field `volatile` is what
  *      keeps both stores.
  *   2. With only (1), the self+0x34 store sinks below the `add r0, r7, #0x3c`
- *      / `mov r1, #1` argument setup for func_02064140 (11 concrete bytes at
+ *      / `mov r1, #1` argument setup for NNSi_G2dSrtcInitControl (11 concrete bytes at
  *      the right size).  Marking that field `volatile` too pins it above
  *      them, matching 0x0206431C.
  * Both are plain field stores in the real source; `volatile` here is standing
@@ -38,7 +38,7 @@
  *
  * symbols:
  *   func_02066890  0x02066890  arm
- *   func_02064140  0x02064140  arm
+ *   NNSi_G2dSrtcInitControl  0x02064140  arm
  *   func_02062F38  0x02062F38  arm
  *   func_0206434C  0x0206434C  arm
  */
@@ -48,7 +48,7 @@
 typedef unsigned int u32;
 extern void func_02066890(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 struct O02064140;
-extern void func_02064140(struct O02064140 *o, u32 a);
+extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 extern int func_02062F38(int a0);
 extern void func_0206434C(char *self, int v);
 
@@ -59,7 +59,7 @@ void func_020642C8(char *self, int a1, char *c, int d,
     *(volatile int *)&((struct Obj08900 *)self)->f38 = d;
     *(char *volatile *)&((struct Obj08900 *)self)->f34 = c;
     *(volatile int *)&((struct Obj08900 *)self)->f38 = d;
-    func_02064140((struct O02064140 *)(self + 0x3c), 1);
+    NNSi_G2dSrtcInitControl((struct O02064140 *)(self + 0x3c), 1);
     func_02062F38((int)self);
     func_0206434C(self, a1);
 }

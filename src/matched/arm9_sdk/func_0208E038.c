@@ -1,5 +1,5 @@
 /*
- * function: func_0208E038
+ * function: WmInitCore
  * address:  0x0208E038
  * packet:   pkt_0208E038
  * region:   arm9
@@ -105,7 +105,7 @@ extern BOOL OS_SendMessage(OSMessageQueue *mq, void *msg, s32 flags);
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
 extern void WmReceiveFifo(int tag, u32 fifo_buf_adr, BOOL err);
 
-WMErrCode func_0208E038(void *wmSysBuf, u16 dmaNo, u32 bufSize)
+WMErrCode WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize)
 {
     OSIntrMode e;
 

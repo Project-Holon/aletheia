@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   d_020A75A8  0x020A75A8  data
+ *   sTrainerClassBgmTable  0x020A75A8  data
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u16 key; u16 val; } Pair;
-extern Pair d_020A75A8[];
+extern Pair sTrainerClassBgmTable[];
 
 u16 func_02029E20(u32 k)
 {
     int i;
-    for (i = 0; d_020A75A8[i].key != 0x69; i++) {
-        if (k == d_020A75A8[i].key)
-            return d_020A75A8[i].val;
+    for (i = 0; sTrainerClassBgmTable[i].key != 0x69; i++) {
+        if (k == sTrainerClassBgmTable[i].key)
+            return sTrainerClassBgmTable[i].val;
     }
     return 0x45A;
 }

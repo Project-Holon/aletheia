@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021F1080  0x021F1080  thumb
- *   func_02026D48  0x02026D48  thumb
+ *   GAME_BEACON_GetReceivedFramesByTrainerId  0x02026D48  thumb
  *   func_021F2144  0x021F2144  thumb  ov032
  */
 #include "../include/Obj00225.h"
@@ -20,14 +20,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 func_02026D48(u16 v);
+extern u16 GAME_BEACON_GetReceivedFramesByTrainerId(u16 v);
 extern void func_021F2144(char *p, char *q, void *text, u16 col, u32 a4);
 
 void func_021F1080(char *p, char *q, int r, int t)
 {
     u8 c;
 
-    c = (func_02026D48(((struct Obj00225 *)q)->f6) >= 0x2a30) ? 1 : 0;
+    c = (GAME_BEACON_GetReceivedFramesByTrainerId(((struct Obj00225 *)q)->f6) >= 0x2a30) ? 1 : 0;
     if (c == ((struct Obj00225 *)q)->f5 && r == 0) {
         return;
     }

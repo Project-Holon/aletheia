@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02021D50  0x02021D50  thumb
+ *   PALANM_TransferPalettes  0x02021D50  thumb
  *   func_0204A648  0x0204A648  arm
  *
  * Addresses are Black-image addresses.
@@ -18,11 +18,11 @@
 #include "../include/Obj23114.h"
 
 struct S02021D50;
-extern void func_02021D50(struct S02021D50 *p);
+extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void func_0204A648(void);
 
 void func_021D893C(int a, char *p)
 {
-    func_02021D50((struct S02021D50 *)(((struct Obj23114 *)p)->f290));
+    PALANM_TransferPalettes((struct S02021D50 *)(((struct Obj23114 *)p)->f290));
     func_0204A648();
 }

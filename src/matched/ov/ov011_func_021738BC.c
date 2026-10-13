@@ -1,5 +1,5 @@
 /*
- * function: func_021738BC
+ * function: INTRUDE_COMM_RecvPeerLeft
  * address: 0x021738BC
  * packet: pkt_ov011_021738BC
  * region: ov011
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { void *sys; void *obj; } Work;
 extern void func_02167658(Work *, int);
-void func_021738BC(int a, int b, int *c, u8 *d, void *e)
+void INTRUDE_COMM_RecvPeerLeft(int a, int b, int *c, u8 *d, void *e)
 {
     int i;
     u32 bit;

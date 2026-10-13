@@ -23,7 +23,7 @@
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021B9A24 0x021B9A24 thumb ov093
  *   func_021B8D8C 0x021B8D8C thumb ov093
- *   func_0201BEB8 0x0201BEB8 thumb
+ *   WAZA_TOOL_GetFlag 0x0201BEB8 thumb
  *   func_021B8778 0x021B8778 thumb ov093
  *   func_021B98A4 0x021B98A4 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
@@ -42,7 +42,7 @@ struct Unk021B8CB0;
 extern u8 func_021D5440(u8 *p);
 extern int func_021B9A24(u32, u32);
 extern int func_021B8D8C(void *, void *, u32);
-extern u32 func_0201BEB8(u16, u32);
+extern u32 WAZA_TOOL_GetFlag(u16, u32);
 extern u8 func_021B8778(struct Unk021B8CB0 **p, int k, u8 *out);
 extern u8 *func_021B98A4(char * const *q, u8 b);
 extern int func_021D59B4(u8 *p, int k);
@@ -67,7 +67,7 @@ int func_021CAFD8(u8 *p, u32 mode, void *m, const u16 *item, u8 self, void *out)
     if (func_021B9A24(func_021D5440(m), func_021D5440(previous))) goto fail;
     position = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), func_021D5440(m));
     func_021CB154(out, previous);
-    if (func_0201BEB8(*item, 0xb)) target = 0x600 | position;
+    if (WAZA_TOOL_GetFlag(*item, 0xb)) target = 0x600 | position;
     else target = 0x100 | position;
     n = func_021B8778(*(void **)(p + 4), target, indices);
     for (j = 0; j < 3; j++) members[j] = 0;

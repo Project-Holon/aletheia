@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02006E2C  0x02006E2C  thumb
+ *   SND_MIC_GetBufferAligned  0x02006E2C  thumb
  *   func_02007BD0  0x02007BD0  thumb
  */
 
 typedef unsigned int   u32;
-extern u32 func_02006E2C(void);
+extern u32 SND_MIC_GetBufferAligned(void);
 typedef signed char    s8;
 struct PerapVoice;
 extern void func_02007BD0(struct PerapVoice *p, const s8 *src);
 
 void func_02006E18(void *a0)
 {
-    void *res = (void *)func_02006E2C();
+    void *res = (void *)SND_MIC_GetBufferAligned();
     func_02007BD0(a0, res);
 }

@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02050088",
+   "name": "BILLBOARD_ACT_InitSlot",
    "address": "0x02050088",
    "kind": "game",
    "region": "arm9",

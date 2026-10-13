@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   s0x020A725C       0x020A725C  data
+ *   sNetSaveFile       0x020A725C  data
  *   func_0201093C     0x0201093C  thumb
  *   func_02010888     0x02010888  thumb
  *   func_02030734     0x02030734  arm
@@ -19,7 +19,7 @@
  *   func_02039C68     0x02039C68  arm
  *   func_020307B0     0x020307B0  arm
  *   func_0200FB24     0x0200FB24  thumb
- *   func_02012E08     0x02012E08  thumb
+ *   GAME_DATA_SaveCancel     0x02012E08  thumb
  *
  * The whole range 0x0201088C..0x0201093C: two constructors for the same
  * 0x14-byte object, its destructor-or-poll, and the eight-byte tail-call
@@ -73,7 +73,7 @@ struct Sub0201088CObj {
     u32 f10;        /* +0x10 */
 };
 
-extern u8   s0x020A725C;
+extern u8   sNetSaveFile;
 extern void *func_02030734(u32 a, u32 b, int c, const char *file, u16 line);
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -83,13 +83,13 @@ extern void func_02010888(u8 *p, u32 v);
 extern void func_0201093C(u8 *p);
 extern u32 func_020307B0(void *p);
 extern u32  func_0200FB24(void);
-extern void func_02012E08(char *p);
+extern void GAME_DATA_SaveCancel(char *p);
 
 void *func_0201088C(u32 heap, u32 a1)
 {
     struct Sub0201088CObj *p;
 
-    p = func_02030734(heap, 0x14, 1, (const char *)&s0x020A725C, 0x75);
+    p = func_02030734(heap, 0x14, 1, (const char *)&sNetSaveFile, 0x75);
     p->f0c = a1;
     func_02039C68((struct Link *)func_020399A8(), 0x71, 8);
     func_02010888((u8 *)p, (u32)func_0201093C);
@@ -100,7 +100,7 @@ void *func_020108C4(u32 heap, u32 a1, u32 a2, u32 a3)
 {
     struct Sub0201088CObj *p;
 
-    p = func_02030734(heap, 0x14, 1, (const char *)&s0x020A725C, 0x87);
+    p = func_02030734(heap, 0x14, 1, (const char *)&sNetSaveFile, 0x87);
     p->f0 = a2;
     p->f4 = a3;
     p->f0c = a1;
@@ -115,7 +115,7 @@ u32 func_02010904(struct Sub0201088CObj *p)
         p->f8(p);
     if (func_0200FB24() != 0) {
         if (p->f0c != 0)
-            func_02012E08((char *)p->f0c);
+            GAME_DATA_SaveCancel((char *)p->f0c);
         return 1;
     }
     if (p->f8 == 0)

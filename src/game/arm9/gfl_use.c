@@ -1,7 +1,7 @@
 /*
  * file:     gfl_use.c
  * unit:     yes
- * function: func_02005124, func_020051D8, func_02005204, func_0200520C, func_02005230, func_0200523C, func_020052EC, func_0200530C, func_02005328, func_020053EC, sub_02005430, func_02005438, func_02005440, sub_0200545C, func_020055F8, func_0200560C, func_02005610, func_02005624, func_02005640, func_02005654, func_0200566C, func_0200567C, func_020056A0, func_020056BC, func_020056C8, func_020056D0, func_020056EC, func_02005728, func_0200575C, func_02005768, func_02005794, func_020057AC, func_020057C4, func_020057DC, func_020057E8, func_02005834, func_02005858, func_02005888, func_020058D0, func_02005900, func_0200590C, func_02005924, func_0200597C, func_020059A0, func_020059C8, func_02005A00, func_02005A4C, func_02005A98, func_02005B04, func_02005B24, func_02005B74
+ * function: func_02005124, GFL_USE_IsNetQuiet, GFL_USE_HBlankHandler, GFL_USE_VBlankHandler, GFL_USE_PostIrqUpdate, GFL_USE_InitGameSystems, GFL_USE_UpdateFrameSubsystems, GFL_USE_ApplySoundModeFromConfig, GFL_USE_InitSdk, GFL_USE_PollPowerExit, GFL_USE_PollTwlService, GFL_USE_CtrdgDummyInit, GFL_USE_OnPreExit, GFL_USE_InitSystem, GFL_USE_PollFrameInput, func_0200560C, func_02005610, func_02005624, GFL_USE_CallVBlankHook, func_02005654, func_0200566C, GFL_USE_RunMainTasks, func_020056A0, func_020056BC, func_020056C8, func_020056D0, func_020056EC, func_02005728, func_0200575C, func_02005768, func_02005794, GFL_USE_SetSleepVolumeHooks, GFL_USE_IsMuteHookActive, GFL_USE_SetSndStackHeap, func_020057E8, func_02005834, func_02005858, GFL_USE_InitSndStack, func_020058D0, func_02005900, func_0200590C, func_02005924, func_0200597C, func_020059A0, func_020059C8, func_02005A00, func_02005A4C, GFL_USE_LoadWaveArcSet, func_02005B04, GFL_USE_InitSound, GFL_USE_ResetSound
  * address:  0x02005124
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -21,37 +21,37 @@
  *   GX_HBlankIntr          0x0207D3AC  arm
  *   GX_VBlankIntr          0x0207D3E4  arm
  *   OS_EnableInterrupts    0x02087974  arm
- *   func_02047990          0x02047990  arm
+ *   G3D_SYSTEM_SwapBuffersMain          0x02047990  arm
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   OS_SleepThreadDirect   0x02085760  arm
  *   OS_WaitIrq             0x0208459C  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
  *   _WorkerThread             0x020AA354  data
  *   func_020392B8  0x020392B8  arm
- *   func_0203D26C  0x0203D26C  arm
- *   func_0203D29C  0x0203D29C  arm
+ *   GFL_NET_IsNetTypeBeacon  0x0203D26C  arm
+ *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
  *   func_02034704   0x02034704  arm
  *   func_0200FB6C   0x0200FB6C  thumb
- *   func_02006C00   0x02006C00  thumb
- *   func_02006C2C   0x02006C2C  thumb
+ *   PM_VOICE_GetCryIndex   0x02006C00  thumb
+ *   PM_VOICE_PrepareCry   0x02006C2C  thumb
  *   ov010_id        0x0000000A  data
  *   ov011_id        0x0000000B  data
- *   func_02023FD8  0x02023FD8  thumb
- *   func_02022174  0x02022174  thumb
+ *   BRIGHTNESS_ChangeMain  0x02023FD8  thumb
+ *   WIPE_SYS_Main  0x02022174  thumb
  *   func_0200F734  0x0200F734  thumb
- *   func_02005BC0  0x02005BC0  thumb
- *   func_020065FC  0x020065FC  thumb
- *   func_02026728  0x02026728  thumb
- *   func_02010DCC  0x02010DCC  thumb
- *   sub_02005C28  0x02005C28  thumb
+ *   GFL_USE_UpdateSound  0x02005BC0  thumb
+ *   PM_VOICE_StopFinished  0x020065FC  thumb
+ *   GAME_BEACON_Update  0x02026728  thumb
+ *   GPOWER_CountDownTimers  0x02010DCC  thumb
+ *   GFL_USE_SetStereoOutput  0x02005C28  thumb
  *   sub_02008390  0x02008390  thumb
- *   func_02086368       0x02086368  arm
+ *   OS_Init       0x02086368  arm
  *   OS_InitTick         0x02086FE8  arm
  *   OS_InitAlarm        0x02087208  arm
  *   RTC_Init            0x02088788  arm
  *   GX_Init             0x0207D204  arm
- *   func_0207D148       0x0207D148  arm
+ *   FX_Init       0x0207D148  arm
  *   OS_GetConsoleType   0x02085CBC  arm
  *   SCFG_SetCpuSpeed    0x0208C988  arm
  *   FS_Init             0x0207AD04  arm
@@ -65,7 +65,7 @@
  *   _PreExitState          0x020A9E80  data
  *   _PreExitCallbackInfo          0x020A9E84  data
  *   func_020351D0  0x020351D0  arm
- *   func_02061C44  0x02061C44  arm
+ *   NNS_GfdDoVramTransfer  0x02061C44  arm
  *   func_020911A0  0x020911A0  arm
  *   _GflUse      0x020AA194  data
  *   s_gfl_use_c     0x020A7004  data
@@ -93,8 +93,8 @@
  *   func_02035108  0x02035108  arm
  *   _SndStack    0x020AA1AC  data
  *   _SndSlots  0x020AA1B8  data
- *   func_02072DB0       0x02072DB0  arm
- *   func_02072E9C       0x02072E9C  arm
+ *   NNS_SndPlayerSetPlayableSeqCount       0x02072DB0  arm
+ *   NNS_SndHandleInit       0x02072E9C  arm
  *   func_02072EA8       0x02072EA8  arm
  *   func_02074894       0x02074894  arm
  *   func_020748E0       0x020748E0  arm
@@ -112,6 +112,29 @@
  *   PM_ReadyToExit  0x027314F0  arm  twl
  *   PM_SetAutoExit  0x027315C0  arm  twl
  *   PM_AppendPreExitCallback  0x0273154C  arm  twl
+ *   GFL_USE_CancelChangeDefaultFade  0x02005F5C  thumb
+ *   GFL_USE_InitSeSlots  0x02006118  thumb
+ *   PM_VOICE_Init  0x02006544  thumb
+ *   SAVE_CONTROL_Create  0x02006F20  thumb
+ *   CONFIG_ApplyAppliedFlag  0x02008414  thumb
+ *   WIH_DWC_CreateFilterBuffer  0x02010794  thumb
+ *   WIH_DWC_ResetFilterState  0x020107CC  thumb
+ *   GPOWER_Init  0x02010DB4  thumb
+ *   POKE_TOOL_InitSystem  0x020173D0  thumb
+ *   PRINTSYS_Init  0x0201C41C  thumb
+ *   GAME_BEACON_Create  0x020266E0  thumb
+ *   GFL_HEAP_Init  0x02030608  arm
+ *   PROCSYS_CreateGlobal  0x0203129C  arm
+ *   PROCSYS_MainGlobal  0x020312B4  arm
+ *   PROCSYS_PushGlobal  0x020312CC  arm
+ *   BACKUP_SYSTEM_Init  0x020316C8  arm
+ *   GFL_NET_SetupHeaps  0x0203CB34  arm
+ *   ARC_TOOL_SetTable  0x02048CEC  arm
+ *   TEXTPRINT_Init  0x0204E130  arm
+ *   FADE_Create  0x0204E5E8  arm
+ *   FADE_Update  0x0204E638  arm
+ *   FADE_SetSpeed  0x0204E6F4  arm
+ *   NNS_SndArcGetGroupInfo  0x02074518  arm
  */
 #define reg_EXMEMCNT (*(volatile u16 *)0x04000204)
 #define reg_IME      (*(volatile u16 *)0x04000208)
@@ -202,53 +225,53 @@ extern u32  OS_EnableIrqMask(u32 mask);
 extern void GX_HBlankIntr(BOOL enable);
 extern void GX_VBlankIntr(BOOL enable);
 extern u32  OS_EnableInterrupts(void);
-extern void func_02047990(void);
+extern void G3D_SYSTEM_SwapBuffersMain(void);
 extern BOOL OS_IsThreadTerminated(struct OSThread *thread);
 extern void OS_SleepThreadDirect(struct OSThread *thread, void *queue);
 extern void OS_WaitIrq(BOOL clear, u32 mask);
 extern void OS_WakeupThreadDirect(struct OSThread *thread);
 extern int func_020392B8(void);
-extern u32 func_0203D26C(void);
-extern u32 func_0203D29C(void);
+extern u32 GFL_NET_IsNetTypeBeacon(void);
+extern u32 GFL_NET_IsNetTypeWifi(void);
 extern void func_02082594(u32 mode);
 extern int func_02034AC4(int overlayId);
-extern void func_0201C41C(void *arg);
-extern void func_0203CB34(u32 netType, u32 flagB, u32 flagC, u32 heapId);
-extern void func_02010794(u32 heapId);
-extern void func_020107CC(void);
-extern void func_020312CC(int mode, u32 table, u32 option);
-extern struct SaveCtrl *func_02006F20(int heapId);
+extern void PRINTSYS_Init(void *arg);
+extern void GFL_NET_SetupHeaps(u32 netType, u32 flagB, u32 flagC, u32 heapId);
+extern void WIH_DWC_CreateFilterBuffer(u32 heapId);
+extern void WIH_DWC_ResetFilterState(void);
+extern void PROCSYS_PushGlobal(int mode, u32 table, u32 option);
+extern struct SaveCtrl *SAVE_CONTROL_Create(int heapId);
 extern struct SaveData *func_020070A4(void);
 extern struct Config *func_0200873C(struct SaveData *save);
-extern u8 func_02008414(const struct Config *config);
+extern u8 CONFIG_ApplyAppliedFlag(const struct Config *config);
 extern void func_02012FF0(struct SaveData *save);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(u32 kind);
 extern void func_02034704(u32 handler);
 extern void func_0201F344(u16 heapId);
-extern void func_020173D0(u32 heapId);
-extern void func_02006544(u16 heapId, u32 loadVoiceFn, u32 getVoiceFn);
+extern void POKE_TOOL_InitSystem(u32 heapId);
+extern void PM_VOICE_Init(u16 heapId, u32 loadVoiceFn, u32 getVoiceFn);
 extern void func_020082DC(void);
-extern void func_020266E0(u32 heapId);
-extern void func_02010DB4(void);
+extern void GAME_BEACON_Create(u32 heapId);
+extern void GPOWER_Init(void);
 extern void func_0200FB6C(void);
-extern void func_02006C00(u32 species, u32 form, u32 *out);
-extern u32 func_02006C2C(u32 species, u32 form, void **rec, void **owner, u32 *rate1, u32 *rate2, u32 *addr, u8 *cryPitch);
-extern void func_02023FD8(void);
-extern void func_02022174(void);
+extern void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *out);
+extern u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **rec, void **owner, u32 *rate1, u32 *rate2, u32 *addr, u8 *cryPitch);
+extern void BRIGHTNESS_ChangeMain(void);
+extern void WIPE_SYS_Main(void);
 extern void func_0200F734(void);
-extern void func_02005BC0(void);
-extern void func_020065FC(void);
-extern void func_02026728(void);
-extern void func_02010DCC(void);
+extern void GFL_USE_UpdateSound(void);
+extern void PM_VOICE_StopFinished(void);
+extern void GAME_BEACON_Update(void);
+extern void GPOWER_CountDownTimers(void);
 extern unsigned int sub_02008390(const struct Config *config);
-extern void sub_02005C28(u32 stereo);
-extern void func_02086368(void);
+extern void GFL_USE_SetStereoOutput(u32 stereo);
+extern void OS_Init(void);
 extern void OS_InitTick(void);
 extern void OS_InitAlarm(void);
 extern void RTC_Init(void);
 extern void GX_Init(void);
-extern void func_0207D148(void);
+extern void FX_Init(void);
 extern u32  OS_GetConsoleType(void);
 extern void SCFG_SetCpuSpeed(int speed);
 extern void FS_Init(int dma);
@@ -263,7 +286,7 @@ extern int func_020351D0(u32 mode);
 extern int PM_GetAutoExit(void);
 extern int PM_ReadyToExit(void);
 /* ARM, and attested by a branch to it from an overlay. */
-extern void func_02061C44(void);
+extern void NNS_GfdDoVramTransfer(void);
 extern void func_020911A0(void);
 extern void PM_SetAutoExit(int v);
 extern u32   OS_IsRunOnTwl(void);
@@ -273,36 +296,36 @@ extern void *OS_InitAlloc(u32 id, void *lo, void *hi, u32 n);
 extern void  OS_SetArenaLo(u32 id, void *lo);
 extern u32   OS_CreateExtraHeap(u32 id);
 extern void *OS_AllocFromHeap(u32 id, u32 heap, u32 size);
-extern void func_02030608(u32 arenaTable, u32 arenaCount, u32 heapCount, u32 flags);
+extern void GFL_HEAP_Init(u32 arenaTable, u32 arenaCount, u32 heapCount, u32 flags);
 extern void  func_02030BA4(u32 size);
 extern void  func_0203064C(u32 arenaId, u32 heapId, u32 size);
 extern void  func_02030678(void *block, u32 size, u32 heapId);
 extern void  func_0203EF5C(u32 mode);
-extern void func_02048CEC(u32 table, u32 count);
+extern void ARC_TOOL_SetTable(u32 table, u32 count);
 extern void func_02034E24(u32 heapId, u8 mode);
 extern void  func_02034978(void);
 extern void func_020346EC(u32 mode, u32 flags, u32 waitCallback);
 extern void func_0203499C(u32 heapId, int n0, int n1, int n2);
-extern void  func_0203129C(u32 heapId);
+extern void  PROCSYS_CreateGlobal(u32 heapId);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, unsigned short line);
 extern u32   func_02030CB0(u32 capacity);
 extern struct TcbList *func_02030CBC(u32 capacity, void *buf);
-extern void  func_0204E5E8(u32 heapId);
-extern void func_020316C8(u32 kind, u32 callbackA, u32 callbackB);
-extern void  func_0204E130(u32 heapId);
+extern void  FADE_Create(u32 heapId);
+extern void BACKUP_SYSTEM_Init(u32 kind, u32 callbackA, u32 callbackB);
+extern void  TEXTPRINT_Init(u32 heapId);
 extern void  func_0203F3B4(void);
-extern void func_0204E6F4(s32 speed);
+extern void FADE_SetSpeed(s32 speed);
 extern void  func_0202F768(void);
 extern void func_0202F774(u32 on);
 extern void func_02034F5C(void);
 extern int func_0200F2D4(void);
-extern int func_020312B4(void);
+extern int PROCSYS_MainGlobal(void);
 extern void func_0203F3F0(void);
 extern int func_02030D28(struct TcbList *list);
 extern struct Tcb *func_02030DA8(struct TcbList *list, void (*callback)(struct Tcb *, void *), void *work, u32 priority);
 extern int func_020419E4(int);
 extern int func_02050A70(int);
-extern int func_0204E638(int);
+extern int FADE_Update(int);
 extern void  func_0203F034(u32 seed);
 extern void func_0203F258(struct GflRandom *out);
 extern unsigned int func_0203630C(void);
@@ -311,8 +334,8 @@ extern void func_02072788(u32 volume);
 /* Registers a pair of callbacks.  ARM, and in another packet's territory. */
 extern void func_0203508C(u32 onCallback, u32 offCallback, u32 arg);
 extern u32  func_02035108(void);
-extern void func_02072DB0(int playerNo, int count);
-extern void func_02072E9C(u32 **handle);
+extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int count);
+extern void NNS_SndHandleInit(u32 **handle);
 extern void func_02072EA8(u32 **handle);
 extern int   func_02074894(struct SndHeap *heap);
 extern void  func_020748E0(struct SndHeap *heap, u32 state);
@@ -324,62 +347,62 @@ extern struct SndHeap *func_020746E8(char *buf, u32 size);
 extern void func_02073FB8(char *arc, char *path, struct SndHeap *heap, u32 riskCheck);
 extern void SNDEXi_Init(void);
 extern u32 func_020754C4(struct SndHeap *heap);
-extern void *func_02074518(int index);
+extern void *NNS_SndArcGetGroupInfo(int index);
 extern void func_02074A54(int index, struct SndHeap *heap);
-extern void func_02006118(void);
-extern void func_02005F5C(void);
+extern void GFL_USE_InitSeSlots(void);
+extern void GFL_USE_CancelChangeDefaultFade(void);
 void NitroMain(void);
-int func_020051D8(void);
-void func_02005204(void);
-void func_0200520C(void);
-void func_02005230(void);
-void func_0200523C(void);
-void func_020052EC(void);
-void sub_0200530C(const struct Config *config);
-void func_02005328(void);
-void func_020053EC(void);
-void sub_02005430(void);
-void func_02005438(void);
-void func_02005440(void);
-void sub_0200545C(void);
-void func_020055F8(void);
-void sub_0200560C(void);
-void sub_02005610(void);
-struct Tcb *sub_02005624(void (*callback)(struct Tcb *, void *), void *work, u32 priority);
-void sub_02005640(void);
-u32 sub_02005654(void (*hook)(void *), void *hookArg);
-void sub_0200566C(void);
-void func_0200567C(void);
-struct Tcb *sub_020056A0(void (*callback)(struct Tcb *, void *), void *work, u32 priority);
+int GFL_USE_IsNetQuiet(void);
+void GFL_USE_HBlankHandler(void);
+void GFL_USE_VBlankHandler(void);
+void GFL_USE_PostIrqUpdate(void);
+void GFL_USE_InitGameSystems(void);
+void GFL_USE_UpdateFrameSubsystems(void);
+void GFL_USE_ApplySoundModeFromConfig(const struct Config *config);
+void GFL_USE_InitSdk(void);
+void GFL_USE_PollPowerExit(void);
+void GFL_USE_PollTwlService(void);
+void GFL_USE_CtrdgDummyInit(void);
+void GFL_USE_OnPreExit(void);
+void GFL_USE_InitSystem(void);
+void GFL_USE_PollFrameInput(void);
+void GFL_USE_NoOpFrameHook(void);
+void GFL_USE_RunHBlankTasks(void);
+struct Tcb *GFL_USE_AddHBlankTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority);
+void GFL_USE_CallVBlankHook(void);
+u32 GFL_USE_SetVBlankHook(void (*hook)(void *), void *hookArg);
+void GFL_USE_ClearVBlankHook(void);
+void GFL_USE_RunMainTasks(void);
+struct Tcb *GFL_USE_AddMainTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority);
 struct TcbList *sub_020056BC(void);
-void sub_020056C8(struct GflRandom *rand);
-void sub_020056D0(void);
-u32 sub_020056EC(u32 range);
-u32 sub_02005728(u32 range);
-void *sub_0200575C(u32 index);
-void sub_02005768(void);
-void sub_02005794(void);
-void sub_020057A0(void);
-void sub_020057AC(void);
-int func_020057C4(void);
-void sub_020057DC(struct SndHeap **heapPtr);
-void sub_020057E8(u32 level);
-void sub_02005834(u32 state);
-void sub_02005858(void);
-void sub_02005888(u16 playerNo);
-u16 sub_020058D0(void);
-u32 sub_02005900(void);
-u32 **sub_0200590C(void);
-int sub_02005924(u32 bgmId);
-void sub_0200597C(void);
-int sub_020059A0(u32 bgmId);
-void sub_020059C8(void);
-int sub_02005A00(void);
-int sub_02005A4C(void);
-struct SndWaveSetHeader *func_02005A98(const u32 *waveArcIds, u32 count);
-void sub_02005B04(const struct SndWaveSetHeader *header);
-void func_02005B24(void);
-void func_02005B74(int clearHeap);
+void GFL_USE_InitRandomState(struct GflRandom *rand);
+void GFL_USE_InitRandom(void);
+u32 GFL_USE_GetRandom(u32 range);
+u32 GFL_USE_GetRandomBelow(u32 range);
+void *GFL_USE_GetArcPath(u32 index);
+void GFL_USE_WaitInputReady(void);
+void GFL_USE_MuteSound(void);
+void GFL_USE_UnmuteSound(void);
+void GFL_USE_SetSleepVolumeHooks(void);
+int GFL_USE_IsMuteHookActive(void);
+void GFL_USE_SetSndStackHeap(struct SndHeap **heapPtr);
+void GFL_USE_InitSndSlot(u32 level);
+void GFL_USE_BeginSndSlot(u32 state);
+void GFL_USE_EndSndSlot(void);
+void GFL_USE_InitSndStack(u16 playerNo);
+u16 GFL_USE_GetCurrentBgmId(void);
+u32 GFL_USE_GetSndStackDepth(void);
+u32 **GFL_USE_GetCurrentSndHandle(void);
+int GFL_USE_LoadBgmData(u32 bgmId);
+void GFL_USE_SaveSeqBankState(void);
+int GFL_USE_FinishBgmLoad(u32 bgmId);
+void GFL_USE_UnloadBgmData(void);
+int GFL_USE_PushSndSlot(void);
+int GFL_USE_PopSndSlot(void);
+struct SndWaveSetHeader *GFL_USE_LoadWaveArcSet(const u32 *waveArcIds, u32 count);
+void GFL_USE_ReleaseWaveArcSet(const struct SndWaveSetHeader *header);
+void GFL_USE_InitSound(void);
+void GFL_USE_ResetSound(int clearHeap);
 extern struct OSThread _WorkerThread;
 extern u32  SDK_AUTOLOAD_MAIN_TWL_START[];
 extern u8 ov010_id[];
@@ -418,29 +441,29 @@ void NitroMain(void)
 {
     BOOL isNetQuiet;
 
-    func_02005328();
-    sub_0200545C();
-    OS_SetIrqFunction(2, func_02005204);
-    OS_SetIrqFunction(1, func_0200520C);
+    GFL_USE_InitSdk();
+    GFL_USE_InitSystem();
+    OS_SetIrqFunction(2, GFL_USE_HBlankHandler);
+    OS_SetIrqFunction(1, GFL_USE_VBlankHandler);
     (void)OS_EnableIrqMask(3);
     (void)OS_EnableIrq();
     GX_HBlankIntr(1);
     GX_VBlankIntr(1);
     (void)OS_EnableInterrupts();
-    func_0200523C();
+    GFL_USE_InitGameSystems();
     for (;;) {
-        func_020053EC();
-        func_020055F8();
-        func_020052EC();
-        sub_0200560C();
-        func_02047990();
-        isNetQuiet = func_020051D8();
+        GFL_USE_PollPowerExit();
+        GFL_USE_PollFrameInput();
+        GFL_USE_UpdateFrameSubsystems();
+        GFL_USE_NoOpFrameHook();
+        G3D_SYSTEM_SwapBuffersMain();
+        isNetQuiet = GFL_USE_IsNetQuiet();
         if (isNetQuiet)
             MI_SetMainMemoryPriority(0);
         if (!OS_IsThreadTerminated(&_WorkerThread))
             OS_SleepThreadDirect(&_WorkerThread, 0);
         OS_WaitIrq(1, 1);
-        func_02005230();
+        GFL_USE_PostIrqUpdate();
         if (!OS_IsThreadTerminated(&_WorkerThread))
             OS_WakeupThreadDirect(&_WorkerThread);
         if (isNetQuiet)
@@ -452,34 +475,34 @@ void NitroMain(void)
 /*
  * Boot path, 0x020051D8..0x0200520C: a three-step readiness test (each
  * step its own early `return 0`, per the image's four epilogues) and the
- * unlabelled forwarding thunk func_02005204 to sub_02005610
+ * unlabelled forwarding thunk GFL_USE_HBlankHandler to GFL_USE_RunHBlankTasks
  * (src/matched/unit_0200560C.c), a pool-word tail call.
  *
- * Rewritten wave 16 from src/pending/func_020051D8.c, a one-line generated
+ * Rewritten wave 16 from src/pending/GFL_USE_IsNetQuiet.c, a one-line generated
  * body with implicit declarations that was EXACT* on its own.
  * Integrator: seed 0x02005204 (unlabelled follower, member of this unit).
  */
-int func_020051D8(void)
+int GFL_USE_IsNetQuiet(void)
 {
     if (func_020392B8() > 1)
         return 0;
-    if (func_0203D26C() != 0)
+    if (GFL_NET_IsNetTypeBeacon() != 0)
         return 0;
-    if (func_0203D29C() == 0)
+    if (GFL_NET_IsNetTypeWifi() == 0)
         return 1;
     return 0;
 }
 
 
-void func_02005204(void)
+void GFL_USE_HBlankHandler(void)
 {
-    sub_02005610();
+    GFL_USE_RunHBlankTasks();
 }
 
 
 /*
  * One of the three callers of the boot path's scene switch (.text init
- * helpers): run func_02005640, set bit 0 of the word at the end of the
+ * helpers): run GFL_USE_CallVBlankHook, set bit 0 of the word at the end of the
  * arm9_autoload1_main_twl region, then enter mode 3.
  *
  * The address is *two* pool words, not one: the listing writes
@@ -489,25 +512,25 @@ void func_02005204(void)
  * byte offset to it rather than writing the absolute address: a constant
  * 0x02FE3FF8 pools as a single word with no relocation at all (47 other
  * sites in the image hold 0x02FE3000 outright).  Same finding as
- * src/pending/sub_02030534.c's header, where the base is 0x02FE0000 and the
+ * src/pending/GFL_HEAP_InitSystemHeap.c's header, where the base is 0x02FE0000 and the
  * offset 0x3000 fits an `add`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200520C.c \
- *       --func func_0200520C --addr 0x0200520C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_USE_VBlankHandler.c \
+ *       --func GFL_USE_VBlankHandler --addr 0x0200520C --cc 1.1p1 --thumb
  */
-void func_0200520C(void)
+void GFL_USE_VBlankHandler(void)
 {
-    sub_02005640();
+    GFL_USE_CallVBlankHook();
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3FF8) |= 1;
     func_02082594(3);
 }
 
 
-void func_02005230(void)
+void GFL_USE_PostIrqUpdate(void)
 {
-    sub_02005430();
-    func_0200567C();
+    GFL_USE_PollTwlService();
+    GFL_USE_RunMainTasks();
 }
 
 
@@ -529,56 +552,56 @@ void func_02005230(void)
  *     (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md)
  *   * 0x02006C01 and 0x02006C2D are two Thumb function pointers. Written as
  *     plain integers mwcc folds the second to `adds r2, r1, #0x2c` off the
- *     first; written as `&func_02006C00` / `&func_02006C2C` the two ABS32
+ *     first; written as `&PM_VOICE_GetCryIndex` / `&PM_VOICE_PrepareCry` the two ABS32
  *     relocations keep both pool words, which is the original's shape.
  */
-void func_0200523C(void)
+void GFL_USE_InitGameSystems(void)
 {
     int netHeapId = 0xC;
 
     func_02034AC4((int)ov010_id);
     func_02034AC4((int)ov011_id);
-    func_0201C41C(0);
-    func_0203CB34(1, 0, 1, netHeapId);
-    func_02010794(netHeapId);
-    func_020107CC();
-    func_020312CC(netHeapId - 0xD, (u32)(void *)0x020A0480, 0);
-    func_02006F20(7);
-    func_02008414(func_0200873C(func_020070A4()));
+    PRINTSYS_Init(0);
+    GFL_NET_SetupHeaps(1, 0, 1, netHeapId);
+    WIH_DWC_CreateFilterBuffer(netHeapId);
+    WIH_DWC_ResetFilterState();
+    PROCSYS_PushGlobal(netHeapId - 0xD, (u32)(void *)0x020A0480, 0);
+    SAVE_CONTROL_Create(7);
+    CONFIG_ApplyAppliedFlag(func_0200873C(func_020070A4()));
     func_02012FF0(func_020070A4());
     func_0200F6B8();
     func_0200F6D8(8);
     func_02034704((u32)&func_0200FB6C);
     func_0201F344(0);
-    func_020173D0(0);
-    func_02005B24();
-    func_02006544(1, (u32)&func_02006C00, (u32)&func_02006C2C);
-    sub_0200530C(func_0200873C(func_020070A4()));
+    POKE_TOOL_InitSystem(0);
+    GFL_USE_InitSound();
+    PM_VOICE_Init(1, (u32)&PM_VOICE_GetCryIndex, (u32)&PM_VOICE_PrepareCry);
+    GFL_USE_ApplySoundModeFromConfig(func_0200873C(func_020070A4()));
     func_020082DC();
-    func_020266E0(1);
-    func_02010DB4();
+    GAME_BEACON_Create(1);
+    GPOWER_Init();
 }
 
 
 /*
  * Seven unconditional calls in a row, no arguments and no return value: the
- * tail of the boot sequence, run immediately after func_0200520C.  Every
+ * tail of the boot sequence, run immediately after GFL_USE_VBlankHandler.  Every
  * callee is an ordinary Thumb `bl` (the second halfword's bit 12 is set in
  * all seven encodings, so none of them is a BLX to ARM code).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020052EC.c \
- *       --func func_020052EC --addr 0x020052EC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_USE_UpdateFrameSubsystems.c \
+ *       --func GFL_USE_UpdateFrameSubsystems --addr 0x020052EC --cc 1.1p1 --thumb
  */
-void func_020052EC(void)
+void GFL_USE_UpdateFrameSubsystems(void)
 {
-    func_02023FD8();
-    func_02022174();
+    BRIGHTNESS_ChangeMain();
+    WIPE_SYS_Main();
     func_0200F734();
-    func_02005BC0();
-    func_020065FC();
-    func_02026728();
-    func_02010DCC();
+    GFL_USE_UpdateSound();
+    PM_VOICE_StopFinished();
+    GAME_BEACON_Update();
+    GPOWER_CountDownTimers();
 }
 
 
@@ -606,12 +629,12 @@ void func_020052EC(void)
  *   python tools/match.py tu --src src/matched/unit_0200530C.c \
  *       --addr 0x0200530C --thumb
  */
-void sub_0200530C(const struct Config *config)
+void GFL_USE_ApplySoundModeFromConfig(const struct Config *config)
 {
     if (sub_02008390(config) == 0) {
-        sub_02005C28(1);
+        GFL_USE_SetStereoOutput(1);
     } else {
-        sub_02005C28(0);
+        GFL_USE_SetStereoOutput(0);
     }
 }
 
@@ -622,7 +645,7 @@ void sub_0200530C(const struct Config *config)
  *           SCFG_SetCpuSpeed (0x0208C988), FS_TryLoadTable (0x0207ACB4,
  *           two sites, both here), PM_GetAmp (0x0208C030) and the veneer at
  *           0x020053E4, and the only pool reference to _TwlServiceBuf,
- *           func_02005440 and _PreExitCallbackInfo.  --suggest-split reports
+ *           GFL_USE_OnPreExit and _PreExitCallbackInfo.  --suggest-split reports
  *           "0 piece(s), 1 function left out": no cut frees any site,
  *           because the single witness for each is the call inside this
  *           function.  Unblocks only when a second caller of any of these
@@ -639,20 +662,20 @@ void sub_0200530C(const struct Config *config)
  * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02005328.c \
- *       --func func_02005328 --addr 0x02005328 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GFL_USE_InitSdk.c \
+ *       --func GFL_USE_InitSdk --addr 0x02005328 --cc 1.1p1 --thumb
  */
-void func_02005328(void)
+void GFL_USE_InitSdk(void)
 {
     u32 amp;
     void *tableSize;
 
-    func_02086368();
+    OS_Init();
     OS_InitTick();
     OS_InitAlarm();
     RTC_Init();
     GX_Init();
-    func_0207D148();
+    FX_Init();
     if (OS_GetConsoleType() & 0x03000000) {
         SCFG_SetCpuSpeed(1);
         *(volatile u32 *)0x04004008 &= 0xFFFFDFFF;
@@ -666,7 +689,7 @@ void func_02005328(void)
     sub_02061C0C(_TwlServiceBuf, 0x30);
     if (sub_0202EB0C()) {
         _PreExitState[0] = 0;
-        _PreExitState[1] = (u32)func_02005440;
+        _PreExitState[1] = (u32)GFL_USE_OnPreExit;
         _PreExitState[2] = 0;
         PM_AppendPreExitCallback(_PreExitCallbackInfo);
     }
@@ -676,7 +699,7 @@ void func_02005328(void)
 }
 
 
-void func_020053EC(void)
+void GFL_USE_PollPowerExit(void)
 {
     if (_PreExitState[0] == 0) {
         return;
@@ -714,9 +737,9 @@ void func_020053EC(void)
  *   python tools/match.py tu --src src/matched/unit_02005430.c \
  *       --addr 0x02005430 --thumb
  */
-void sub_02005430(void)
+void GFL_USE_PollTwlService(void)
 {
-    func_02061C44();
+    NNS_GfdDoVramTransfer();
 }
 
 
@@ -729,16 +752,16 @@ void sub_02005430(void)
  * is four bytes of code plus its own two-word literal pool.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02005438.c \
- *       --func func_02005438 --addr 0x02005438 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GFL_USE_CtrdgDummyInit.c \
+ *       --func GFL_USE_CtrdgDummyInit --addr 0x02005438 --cc 1.1p1 --thumb
  */
-void func_02005438(void)
+void GFL_USE_CtrdgDummyInit(void)
 {
     func_020911A0();
 }
 
 
-void func_02005440(void)
+void GFL_USE_OnPreExit(void)
 {
     PM_SetAutoExit(0);
     _PreExitState[0] = 1;
@@ -755,8 +778,8 @@ void func_02005440(void)
  * and the task/callback installs.
  *
  * Closed in wave 14.  The pool was misread by one word in the older note
- * (docs/notes/sub_0200545C.c.txt): 0x020A6C58 is func_02048CEC's argument
- * and 0x02005769 (sub_02005768, src/matched/unit_0200575C.c) is
+ * (docs/notes/GFL_USE_InitSystem.c.txt): 0x020A6C58 is ARC_TOOL_SetTable's argument
+ * and 0x02005769 (GFL_USE_WaitInputReady, src/matched/unit_0200575C.c) is
  * func_020346EC's third, and the two words 0x0202F769 / 0x0202F775 are
  * Thumb pointers to two unlabelled callback leaves of time_icon.c, filed
  * EXACT this wave as src/matched/func_0202F768.c and func_0202F774.c, which
@@ -764,10 +787,10 @@ void func_02005440(void)
  * sole-ref.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200545C.c \
- *       --func sub_0200545C --addr 0x0200545C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_USE_InitSystem.c \
+ *       --func GFL_USE_InitSystem --addr 0x0200545C --cc 1.1p1 --thumb
  */
-void sub_0200545C(void)
+void GFL_USE_InitSystem(void)
 {
     if (OS_IsRunOnTwl() == 0) {
         void *hi = OS_GetArenaHi(0);
@@ -777,9 +800,9 @@ void sub_0200545C(void)
     }
 
     if (OS_IsRunOnTwl() != 0) {
-        func_02030608((u32)_ArenaTableTwl, 2, 0xAD, 0);
+        GFL_HEAP_Init((u32)_ArenaTableTwl, 2, 0xAD, 0);
     } else {
-        func_02030608((u32)_ArenaTableDs, 2, 0xAD, 0);
+        GFL_HEAP_Init((u32)_ArenaTableDs, 2, 0xAD, 0);
     }
 
     func_02030BA4(0x2000);
@@ -792,17 +815,17 @@ void sub_0200545C(void)
     }
 
     func_0203EF5C(0);
-    func_02048CEC((u32)_ArcPathTable, 0xEB);
+    ARC_TOOL_SetTable((u32)_ArcPathTable, 0xEB);
     func_02034E24(0, 0);
 
     if (OS_GetConsoleType() & 0x81000000) {
         func_02034978();
     } else {
-        func_020346EC(0, 0, (u32)sub_02005768);
+        func_020346EC(0, 0, (u32)GFL_USE_WaitInputReady);
     }
 
     func_0203499C(0, 0x10, 4, 4);
-    func_0203129C(0);
+    PROCSYS_CreateGlobal(0);
 
     _GflUse.runtime = func_02030734(0, 0x28, 0, (const char *)s_gfl_use_c, 0x117);
     _GflUse.runtime->hblankTaskBuf = func_02030734(0, func_02030CB0(4), 0, (const char *)s_gfl_use_c, 0x119);
@@ -810,23 +833,23 @@ void sub_0200545C(void)
     _GflUse.runtime->mainTaskBuf = func_02030734(0, func_02030CB0(0x10), 0, (const char *)s_gfl_use_c, 0x11C);
     _GflUse.runtime->mainTasks = func_02030CBC(0x10, _GflUse.runtime->mainTaskBuf);
 
-    sub_020056D0();
-    func_0204E5E8(0);
-    func_020316C8(7, (u32)func_0202F768, (u32)func_0202F774);
-    func_0204E130(0);
+    GFL_USE_InitRandom();
+    FADE_Create(0);
+    BACKUP_SYSTEM_Init(7, (u32)func_0202F768, (u32)func_0202F774);
+    TEXTPRINT_Init(0);
     func_0203F3B4();
     _GflUse.frameCount = 0;
-    sub_0200566C();
-    sub_020057AC();
-    func_0204E6F4(2);
+    GFL_USE_ClearVBlankHook();
+    GFL_USE_SetSleepVolumeHooks();
+    FADE_SetSpeed(2);
 }
 
 
-void func_020055F8(void)
+void GFL_USE_PollFrameInput(void)
 {
     func_02034F5C();
     func_0200F2D4();
-    func_020312B4();
+    PROCSYS_MainGlobal();
     func_0203F3F0();
 }
 
@@ -835,19 +858,19 @@ void func_020055F8(void)
  * Part of a translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/000_02004000.s.
  *
- *           sub_02005654, sub_0200566C
+ *           GFL_USE_SetVBlankHook, GFL_USE_ClearVBlankHook
  *
  * Six functions on the one system record at 0x020AA194 that the whole of this
  * packet reaches its state through.  Three of the six carry no label, because
- * they save nothing: sub_0200560C is two bytes of `bx lr` padded to four, the
+ * they save nothing: GFL_USE_NoOpFrameHook is two bytes of `bx lr` padded to four, the
  * empty hook shape
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md records;
- * sub_02005610 is a tail call through a pool word; and sub_02005654 is a two
+ * GFL_USE_RunHBlankTasks is a tail call through a pool word; and GFL_USE_SetVBlankHook is a two
  * arm register-and-return.
  *
- * sub_02005640 calls the hook at +8 with the argument at +0 when the hook is
- * present, sub_02005654 installs the pair only when the slot is free, and
- * sub_0200566C clears both.  In all three the store to +8 comes before the
+ * GFL_USE_CallVBlankHook calls the hook at +8 with the argument at +0 when the hook is
+ * present, GFL_USE_SetVBlankHook installs the pair only when the slot is free, and
+ * GFL_USE_ClearVBlankHook clears both.  In all three the store to +8 comes before the
  * store to +0, which is the source order.
  *
  * The record's +0x10 is the object src/matched/unit_020056A0.c calls its
@@ -860,24 +883,24 @@ void func_020055F8(void)
  *   python tools/match.py tu --src src/matched/unit_0200560C.c \
  *       --addr 0x0200560C --thumb
  */
-void sub_0200560C(void)
+void GFL_USE_NoOpFrameHook(void)
 {
 }
 
 
-void sub_02005610(void)
+void GFL_USE_RunHBlankTasks(void)
 {
     func_02030D28(_GflUse.runtime->hblankTasks);
 }
 
 
-struct Tcb *sub_02005624(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
+struct Tcb *GFL_USE_AddHBlankTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
 {
     return func_02030DA8(_GflUse.runtime->hblankTasks, callback, work, priority);
 }
 
 
-void sub_02005640(void)
+void GFL_USE_CallVBlankHook(void)
 {
     if (_GflUse.vblankHook != 0) {
         _GflUse.vblankHook(_GflUse.vblankHookArg);
@@ -885,7 +908,7 @@ void sub_02005640(void)
 }
 
 
-u32 sub_02005654(void (*hook)(void *), void *hookArg)
+u32 GFL_USE_SetVBlankHook(void (*hook)(void *), void *hookArg)
 {
     if (_GflUse.vblankHook != 0) {
         return 0;
@@ -896,16 +919,16 @@ u32 sub_02005654(void (*hook)(void *), void *hookArg)
 }
 
 
-void sub_0200566C(void)
+void GFL_USE_ClearVBlankHook(void)
 {
     _GflUse.vblankHook = 0;
     _GflUse.vblankHookArg = 0;
 }
 
 
-void func_0200567C(void)
+void GFL_USE_RunMainTasks(void)
 {
-    func_0204E638(func_02050A70(func_020419E4(func_02030D28(_GflUse.runtime->mainTasks))));
+    FADE_Update(func_02050A70(func_020419E4(func_02030D28(_GflUse.runtime->mainTasks))));
     _GflUse.frameCount++;
 }
 
@@ -932,20 +955,20 @@ void func_0200567C(void)
  * so is the high half of the seed, but the helper is called with r1 and r3
  * both zeroed, which is two operands already widened to 64 bits; that is
  * `(seed >> 32) * range` on a `u64` seed and not a `umull` of two words, and
- * taking the returned r1 is the `>> 32`.  sub_020056EC is the same draw with
+ * taking the returned r1 is the `>> 32`.  GFL_USE_GetRandom is the same draw with
  * a range of zero meaning "the whole word", and its two arms merge on r1,
  * which is why the zero arm loads the high half into r1 and moves rather than
  * loading it into r0.
  *
- * sub_020056EC reloads the high half from memory after the step and
- * sub_02005728 keeps it in the register the `adcs` left it in.  That is not a
+ * GFL_USE_GetRandom reloads the high half from memory after the step and
+ * GFL_USE_GetRandomBelow keeps it in the register the `adcs` left it in.  That is not a
  * difference in the source: it falls out of the branch in the first one, and
  * both come from the same expression.
  *
  * Three of the six carry no label, all because they save nothing.
- * sub_020056BC is a two load getter and sub_020056C8 is a tail call through a
- * pool word.  sub_020056C8 is in this range rather than a range of its own
- * because sub_020056D0 is its only caller anywhere in the image, so the call
+ * sub_020056BC is a two load getter and GFL_USE_InitRandomState is a tail call through a
+ * pool word.  GFL_USE_InitRandomState is in this range rather than a range of its own
+ * because GFL_USE_InitRandom is its only caller anywhere in the image, so the call
  * has to be the `local` class; splitting them leaves it with no witness at
  * all.
  *
@@ -970,12 +993,12 @@ void func_0200567C(void)
  *       discards its only witness.  Seeding the label would not help: nothing
  *       in the image branches to 0x02005610 either.
  *   0x0200520C..0x02005230, 36 bytes.  `label`, the only caller of
- *       sub_02005640 is the `bl` at 0x0200520E.  sub_02005640 is matched, in
+ *       GFL_USE_CallVBlankHook is the `bl` at 0x0200520E.  GFL_USE_CallVBlankHook is matched, in
  *       src/matched/unit_0200560C.c, but it is 0x434 bytes away with two
  *       blocked functions and three linker veneers in between, so no
  *       contiguous range makes the site `local`.
  *   0x02005230..0x0200523C, 12 bytes.  `label` twice: the only caller of
- *       sub_02005430 is the `bl` at 0x02005232 and the only caller of
+ *       GFL_USE_PollTwlService is the `bl` at 0x02005232 and the only caller of
  *       sub_0200567C is the `bl` at 0x02005236.  Same obstruction as above in
  *       both directions at once.
  *   0x0200523C..0x020052EC, 176 bytes.  19 unresolved sites, 18 of them
@@ -1023,7 +1046,7 @@ void func_0200567C(void)
  *   python tools/match.py tu --src src/matched/unit_020056A0.c \
  *       --addr 0x020056A0 --thumb
  */
-struct Tcb *sub_020056A0(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
+struct Tcb *GFL_USE_AddMainTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
 {
     return func_02030DA8(_GflUse.runtime->mainTasks, callback, work, priority);
 }
@@ -1035,20 +1058,20 @@ struct TcbList *sub_020056BC(void)
 }
 
 
-void sub_020056C8(struct GflRandom *rand)
+void GFL_USE_InitRandomState(struct GflRandom *rand)
 {
     func_0203F258(rand);
 }
 
 
-void sub_020056D0(void)
+void GFL_USE_InitRandom(void)
 {
-    sub_020056C8(&_GflUse.runtime->rand);
-    func_0203F034(sub_020056EC(0));
+    GFL_USE_InitRandomState(&_GflUse.runtime->rand);
+    func_0203F034(GFL_USE_GetRandom(0));
 }
 
 
-u32 sub_020056EC(u32 range)
+u32 GFL_USE_GetRandom(u32 range)
 {
     struct GflRandom *rand = &_GflUse.runtime->rand;
     u32 value;
@@ -1063,7 +1086,7 @@ u32 sub_020056EC(u32 range)
 }
 
 
-u32 sub_02005728(u32 range)
+u32 GFL_USE_GetRandomBelow(u32 range)
 {
     struct GflRandom *rand = &_GflUse.runtime->rand;
 
@@ -1076,11 +1099,11 @@ u32 sub_02005728(u32 range)
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/000_02004000.s.
  *
- * A pointer table lookup and a spin loop.  sub_0200575C was already matched
+ * A pointer table lookup and a spin loop.  GFL_USE_GetArcPath was already matched
  * as a single function in arm9/legacy.json; it is the first function of this
  * range and is absorbed here.
  *
- * sub_02005768 waits until four bits of func_0203630C's result are all set,
+ * GFL_USE_WaitInputReady waits until four bits of func_0203630C's result are all set,
  * pumping func_02034F5C once per turn.  The four masks are 0x200, 0x100,
  * 0x400 and 0x800 and none of them is materialised with a literal pool word:
  * the compiler builds 0x100 with `movs`/`lsls` and then derives the other
@@ -1090,13 +1113,13 @@ u32 sub_02005728(u32 range)
  * source, and their order in the source is 0x200, 0x100, 0x400, 0x800, not
  * the ascending order the hoisted constants suggest.
  */
-void *sub_0200575C(u32 index)
+void *GFL_USE_GetArcPath(u32 index)
 {
     return _ArcPathTable[index];
 }
 
 
-void sub_02005768(void)
+void GFL_USE_WaitInputReady(void)
 {
     u32 keyState;
 
@@ -1144,7 +1167,7 @@ void sub_02005768(void)
  * The function at 0x020057C4 immediately after this range stays open and is
  * not part of this file: it is the only caller of 0x02035108 anywhere in the
  * image, so the one witness for that call is the call itself and no cut can
- * put it outside the range under test.  It also needs sub_02005794 local, for
+ * put it outside the range under test.  It also needs GFL_USE_MuteSound local, for
  * the pool word at 0x020057D8, which is why it cannot simply be given a range
  * of its own either.  `python tools/match.py tu --src ... --suggest-split`
  * reports both constraints.
@@ -1153,21 +1176,21 @@ void sub_02005768(void)
  *   python tools/match.py tu --src src/matched/unit_02005794.c \
  *       --addr 0x02005794 --thumb
  */
-void sub_02005794(void)
+void GFL_USE_MuteSound(void)
 {
     func_02072788(0);
 }
 
 
-void sub_020057A0(void)
+void GFL_USE_UnmuteSound(void)
 {
     func_02072788(0x7F);
 }
 
 
-void sub_020057AC(void)
+void GFL_USE_SetSleepVolumeHooks(void)
 {
-    func_0203508C((u32)sub_02005794, (u32)sub_020057A0, 0);
+    func_0203508C((u32)GFL_USE_MuteSound, (u32)GFL_USE_UnmuteSound, 0);
 }
 
 
@@ -1182,21 +1205,21 @@ void sub_020057AC(void)
  * the target list expected, because the callee is another lane's row.
  *
  * "Is the master volume callback still the initial one": the pool word is
- * sub_02005794 with its Thumb bit set (0x02005795) and is compared against the
+ * GFL_USE_MuteSound with its Thumb bit set (0x02005795) and is compared against the
  * word func_02035108 hands back, so the C compares the call's result with the
  * *address* of the thunk - which is why the constant is a relocation and not a
  * plain literal.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020057C4.c \
- *       --func func_020057C4 --addr 0x020057C4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_USE_IsMuteHookActive.c \
+ *       --func GFL_USE_IsMuteHookActive --addr 0x020057C4 --cc 1.1p1 --thumb
  */
-int func_020057C4(void)
+int GFL_USE_IsMuteHookActive(void)
 {
     u32 hook;
 
     hook = func_02035108();
-    return hook == (u32)sub_02005794;
+    return hook == (u32)GFL_USE_MuteSound;
 }
 
 
@@ -1204,29 +1227,29 @@ int func_020057C4(void)
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/000_02004000.s.
  *
- *           sub_02005888, sub_020058D0, sub_02005900, sub_0200590C,
- *           sub_02005924, sub_0200597C, sub_020059A0, sub_020059C8,
- *           sub_02005A00
+ *           GFL_USE_InitSndStack, GFL_USE_GetCurrentBgmId, GFL_USE_GetSndStackDepth, GFL_USE_GetCurrentSndHandle,
+ *           GFL_USE_LoadBgmData, GFL_USE_SaveSeqBankState, GFL_USE_FinishBgmLoad, GFL_USE_UnloadBgmData,
+ *           GFL_USE_PushSndSlot
  *
  * The accessors of a six element table of 0x1C byte connection slots at
  * 0x020AA1B8 and of the one word "which slot is current" record at
- * 0x020AA1AC.  sub_0200590C, which returns the address of the current
+ * 0x020AA1AC.  GFL_USE_GetCurrentSndHandle, which returns the address of the current
  * slot's payload, was already matched as a single function in
  * arm9/legacy.json; it is the last function of this range and is absorbed
- * here.  func_02072E9C is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
+ * here.  NNS_SndHandleInit is NHTTPi_InitRequestInfo in layout/symbols_sdk.txt,
  * which is what the payload at offset 8 of a slot is.
  *
  * What the range teaches:
  *
  *  - a field of `table[i]` with a run time `i` puts the field offset in the
- *    relocation addend rather than in the instruction.  sub_020057E8 stores
+ *    relocation addend rather than in the instruction.  GFL_USE_InitSndSlot stores
  *    to five different fields of one slot and loads five different pool
  *    words, 0x020AA1B8, 0x020AA1BC, 0x020AA1C4, 0x020AA1C8, 0x020AA1CC and
  *    0x020AA1D0, which are the table's address plus 0, 4, 0xC, 0x10, 0x14
  *    and 0x18.  Thumb's register-offset `str` has no immediate to spare, so
  *    the compiler folds the member offset into the symbol instead.  Reading
  *    those pool words as six separate objects would be the wrong conclusion.
- *  - the constant -1 is never materialised on its own.  sub_020057E8 needs
+ *  - the constant -1 is never materialised on its own.  GFL_USE_InitSndSlot needs
  *    a 0 for the first store and derives the -1 for the next four from it
  *    with `subs r1, r4, #1`.
  *
@@ -1241,17 +1264,17 @@ int func_020057C4(void)
  * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
  * function.  Shrinking the range cannot help, because the witness is the call
  * itself, and the target is ARM library code that cannot be made `local`.
- * The function also needs sub_02005794 `local`, for the pool word at
+ * The function also needs GFL_USE_MuteSound `local`, for the pool word at
  * 0x020057D8 that holds its address.  It closes the day anything else in the
  * image calls 0x02035108.
  */
-void sub_020057DC(struct SndHeap **heapPtr)
+void GFL_USE_SetSndStackHeap(struct SndHeap **heapPtr)
 {
     _SndStack.heapPtr = heapPtr;
 }
 
 
-void sub_020057E8(u32 level)
+void GFL_USE_InitSndSlot(u32 level)
 {
     _SndSlots[level].inUse = 0;
     _SndSlots[level].bgmId = 0xFFFF;
@@ -1263,7 +1286,7 @@ void sub_020057E8(u32 level)
 }
 
 
-void sub_02005834(u32 state)
+void GFL_USE_BeginSndSlot(u32 state)
 {
     struct SndSlot *slot =
         &_SndSlots[_SndStack.top];
@@ -1276,33 +1299,33 @@ void sub_02005834(u32 state)
 }
 
 
-void sub_02005858(void)
+void GFL_USE_EndSndSlot(void)
 {
     struct SndSlot *slot =
         &_SndSlots[_SndStack.top];
 
     func_02072EA8(&slot->handle);
     func_020748E0(*_SndStack.heapPtr, slot->baseState);
-    sub_020057E8(_SndStack.top);
+    GFL_USE_InitSndSlot(_SndStack.top);
 }
 
 
-void sub_02005888(u16 playerNo)
+void GFL_USE_InitSndStack(u16 playerNo)
 {
     int i;
 
     _SndStack.playerNo = playerNo;
     _SndStack.top = 0;
     for (i = 0; i < 6; i++) {
-        sub_020057E8(i);
-        func_02072E9C(&_SndSlots[i].handle);
+        GFL_USE_InitSndSlot(i);
+        NNS_SndHandleInit(&_SndSlots[i].handle);
     }
-    func_02072DB0(_SndStack.playerNo, 6);
-    sub_02005834(func_02074894(*_SndStack.heapPtr));
+    NNS_SndPlayerSetPlayableSeqCount(_SndStack.playerNo, 6);
+    GFL_USE_BeginSndSlot(func_02074894(*_SndStack.heapPtr));
 }
 
 
-u16 sub_020058D0(void)
+u16 GFL_USE_GetCurrentBgmId(void)
 {
     struct SndSlot *slot =
         &_SndSlots[_SndStack.top];
@@ -1319,19 +1342,19 @@ u16 sub_020058D0(void)
 }
 
 
-u32 sub_02005900(void)
+u32 GFL_USE_GetSndStackDepth(void)
 {
     return _SndStack.top;
 }
 
 
-u32 **sub_0200590C(void)
+u32 **GFL_USE_GetCurrentSndHandle(void)
 {
     return &_SndSlots[_SndStack.top].handle;
 }
 
 
-int sub_02005924(u32 bgmId)
+int GFL_USE_LoadBgmData(u32 bgmId)
 {
     struct SndSlot *slot =
         &_SndSlots[_SndStack.top];
@@ -1351,7 +1374,7 @@ int sub_02005924(u32 bgmId)
 }
 
 
-void sub_0200597C(void)
+void GFL_USE_SaveSeqBankState(void)
 {
     struct SndSlot *slot =
         &_SndSlots[_SndStack.top];
@@ -1360,7 +1383,7 @@ void sub_0200597C(void)
 }
 
 
-int sub_020059A0(u32 bgmId)
+int GFL_USE_FinishBgmLoad(u32 bgmId)
 {
     struct SndSlot *slot =
         &_SndSlots[_SndStack.top];
@@ -1371,7 +1394,7 @@ int sub_020059A0(u32 bgmId)
 }
 
 
-void sub_020059C8(void)
+void GFL_USE_UnloadBgmData(void)
 {
     struct SndSlot *slot =
         &_SndSlots[_SndStack.top];
@@ -1386,7 +1409,7 @@ void sub_020059C8(void)
 }
 
 
-int sub_02005A00(void)
+int GFL_USE_PushSndSlot(void)
 {
     struct SndSlot *slot =
         &_SndSlots[_SndStack.top];
@@ -1403,7 +1426,7 @@ int sub_02005A00(void)
         state = slot->preBgmState;
     }
     _SndStack.top++;
-    sub_02005834(state);
+    GFL_USE_BeginSndSlot(state);
     return 1;
 }
 
@@ -1424,7 +1447,7 @@ int sub_02005A00(void)
  * `Cur.index` is signed: the guard is `cmp r0, #0` / `bgt`, and written
  * against an unsigned field this compiler emits `bne` instead.
  */
-int sub_02005A4C(void)
+int GFL_USE_PopSndSlot(void)
 {
     struct SndSlot *slot;
     int level;
@@ -1433,7 +1456,7 @@ int sub_02005A4C(void)
     if (_SndStack.top <= 0) {
         return 0;
     }
-    sub_02005858();
+    GFL_USE_EndSndSlot();
     level = _SndStack.top - 1;
     slot = &_SndSlots[level];
     bgmId = slot->bgmId;
@@ -1463,10 +1486,10 @@ int sub_02005A4C(void)
  * skid test is `bls`.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02005A98.c \
- *       --func func_02005A98 --addr 0x02005A98 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GFL_USE_LoadWaveArcSet.c \
+ *       --func GFL_USE_LoadWaveArcSet --addr 0x02005A98 --cc 1.1p1 --thumb
  */
-struct SndWaveSetHeader *func_02005A98(const u32 *waveArcIds, u32 count)
+struct SndWaveSetHeader *GFL_USE_LoadWaveArcSet(const u32 *waveArcIds, u32 count)
 {
     struct SndSlot *slot;
     struct SndWaveSetHeader *header;
@@ -1475,7 +1498,7 @@ struct SndWaveSetHeader *func_02005A98(const u32 *waveArcIds, u32 count)
 
     slot = &_SndSlots[_SndStack.top];
     savedState = slot->baseState;
-    sub_02005858();
+    GFL_USE_EndSndSlot();
     i = 0;
     header = func_0207482C(*_SndStack.heapPtr, 8, 0, 0, 0);
     for (i = 0; i < count; i++) {
@@ -1483,7 +1506,7 @@ struct SndWaveSetHeader *func_02005A98(const u32 *waveArcIds, u32 count)
     }
     header->count = count;
     header->savedState = savedState;
-    sub_02005834(func_02074894(*_SndStack.heapPtr));
+    GFL_USE_BeginSndSlot(func_02074894(*_SndStack.heapPtr));
     return header;
 }
 
@@ -1497,13 +1520,13 @@ struct SndWaveSetHeader *func_02005A98(const u32 *waveArcIds, u32 count)
  * function immediately before it, 0x02005A98, cannot be attested: the only
  * `blx` to func_02074A6C anywhere in the image is the one inside it.
  */
-void sub_02005B04(const struct SndWaveSetHeader *header)
+void GFL_USE_ReleaseWaveArcSet(const struct SndWaveSetHeader *header)
 {
     u32 savedState = header->savedState;
 
-    sub_02005858();
+    GFL_USE_EndSndSlot();
     func_020748E0(*_SndStack.heapPtr, savedState);
-    sub_02005834(savedState);
+    GFL_USE_BeginSndSlot(savedState);
 }
 
 
@@ -1518,14 +1541,14 @@ void sub_02005B04(const struct SndWaveSetHeader *header)
  * handler installer, then run the console-type-specific tail.  The function
  * takes no arguments: its first call, func_020726D0 (sound init), is
  * `void (void)` and reads neither r0 nor r1, so the r0/r1 the caller
- * func_0200523C leaves behind are dead
+ * GFL_USE_InitGameSystems leaves behind are dead
  * (docs/idioms/an-argument-passed-through-a-register-must-be-named-in-the-c.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02005B24.c \
- *       --func func_02005B24 --addr 0x02005B24 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GFL_USE_InitSound.c \
+ *       --func GFL_USE_InitSound --addr 0x02005B24 --cc 1.1p1 --thumb
  */
-void func_02005B24(void)
+void GFL_USE_InitSound(void)
 {
     struct SndHeap *heap;
 
@@ -1533,25 +1556,25 @@ void func_02005B24(void)
     heap = func_020746E8(_SndHeapBuf, 0x95AD0);
     _SndState.heap = heap;
     func_02073FB8(_SndArc, _SndArcPath, heap, 0);
-    func_02005B74(1);
+    GFL_USE_ResetSound(1);
     if (OS_IsRunOnTwl() == 1) {
         SNDEXi_Init();
     }
 }
 
 
-void func_02005B74(int clearHeap)
+void GFL_USE_ResetSound(int clearHeap)
 {
     func_020754C4(_SndState.heap);
-    sub_020057DC(&_SndState.heap);
+    GFL_USE_SetSndStackHeap(&_SndState.heap);
     if (clearHeap != 0) {
-        func_02074518(0);
+        NNS_SndArcGetGroupInfo(0);
         func_02074A54(0, _SndState.heap);
         _SndState.currentBgm = 0;
     }
-    func_02006118();
-    sub_02005888(0);
-    func_02005F5C();
+    GFL_USE_InitSeSlots();
+    GFL_USE_InitSndStack(0);
+    GFL_USE_CancelChangeDefaultFade();
     _SndState.activeMask = 0;
     _SndState.countdown = 0;
     _SndState.active = 0;

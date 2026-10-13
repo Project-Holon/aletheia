@@ -1,5 +1,5 @@
 /*
- * function: func_02029F8C
+ * function: RINGTONE_SYS_TickRing
  * address:  0x02029F8C
  * packet:   pkt_02029F6C
  * region:   arm9
@@ -21,7 +21,7 @@ extern int func_02006224(u32 a0);
 extern void func_020061F8(int a);
 extern void func_0200616C(void *arg, int i);
 
-int func_02029F8C(u16 *p)
+int RINGTONE_SYS_TickRing(u16 *p)
 {
     if (p[2] != 0) {
         p[2] = p[2] - 1;

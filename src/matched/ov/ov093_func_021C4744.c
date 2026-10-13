@@ -12,8 +12,8 @@
  * typedef unsigned int u32;
  * typedef struct { u32 a[8]; } Block;
  * typedef struct { u32 mode, old, other; Block current, previous; } State;
- * 0x0202E7E0 EXACT: u32 func_0202E7E0(State *p) { return p->mode; }
- * 0x0202E7E4 EXACT: void func_0202E7E4(State *p) {
+ * 0x0202E7E0 EXACT: u32 COMM_PLAYER_SUPPORT_GetMode(State *p) { return p->mode; }
+ * 0x0202E7E4 EXACT: void COMM_PLAYER_SUPPORT_SavePreviousAndSuspend(State *p) {
  *     p->old = p->mode; p->previous = p->current; p->mode = 3;
  * }
  * lever: a u64 draw and a separate u32 slot preserve the high-product register.
@@ -31,16 +31,16 @@
  *  func_021D59B4 0x021D59B4 thumb ov093
  *  func_021C334C 0x021C334C thumb ov093
  *  func_021CD64C 0x021CD64C thumb ov093
- *  func_0202E7E0 0x0202E7E0 thumb
- *  func_0202E7E4 0x0202E7E4 thumb
-  * note 2026-10-05 (D8 lane16): witnesses func_0202E7E0 and func_0202E7E4 filed as src/matched/arm9/func_0202E7E0.c and func_0202E7E4.c (both EXACT); this file becomes EXACT once the integrator seeds them.
+ *  COMM_PLAYER_SUPPORT_GetMode 0x0202E7E0 thumb
+ *  COMM_PLAYER_SUPPORT_SavePreviousAndSuspend 0x0202E7E4 thumb
+  * note 2026-10-05 (D8 lane16): witnesses COMM_PLAYER_SUPPORT_GetMode and COMM_PLAYER_SUPPORT_SavePreviousAndSuspend filed as src/matched/arm9/COMM_PLAYER_SUPPORT_GetMode.c and COMM_PLAYER_SUPPORT_SavePreviousAndSuspend.c (both EXACT); this file becomes EXACT once the integrator seeds them.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern u32 func_021B8630(u32 **p);
-extern u32 func_0202E7E0(void *);
+extern u32 COMM_PLAYER_SUPPORT_GetMode(void *);
 extern u8 func_021B8FF4(u8 *);
 extern u8 *func_021BB85C(u8 *p, unsigned int i);
 extern void *func_021B990C(char *p, unsigned int i, unsigned int j);
@@ -52,7 +52,7 @@ extern u8 *func_021B9934(char *, int);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021C334C(u8 *p, u8 *q, int a, int b);
 extern void func_021CD64C(void *w, u8 id, ...);
-extern void func_0202E7E4(void *);
+extern void COMM_PLAYER_SUPPORT_SavePreviousAndSuspend(void *);
 void func_021C4744(u8 *p)
 {
     u8 list[4];
@@ -66,7 +66,7 @@ void func_021C4744(u8 *p)
     int live;
     work = (void *)func_021B8630(*(void **)(p + 4));
     if (work == 0) return;
-    mode = func_0202E7E0(work);
+    mode = COMM_PLAYER_SUPPORT_GetMode(work);
     if (mode == 0 || mode == 3) return;
     side = func_021B8FF4(*(u8 **)(p + 4));
     desc = func_021BB85C(*(void **)p, (int)side);
@@ -93,6 +93,6 @@ void func_021C4744(u8 *p)
     if (value == 0) return;
     if (func_021C334C(p, m, (u16)value, (u32)0)) {
         func_021CD64C(*(void **)(p + 12), (u32)0x5a, 0x53, 4, id, 0xffff0000);
-        func_0202E7E4(work);
+        COMM_PLAYER_SUPPORT_SavePreviousAndSuspend(work);
     }
 }

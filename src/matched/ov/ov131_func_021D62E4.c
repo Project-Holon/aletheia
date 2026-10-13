@@ -1,5 +1,5 @@
 /*
- * function: func_021D62E4
+ * function: P_STATUS_CanUseButtons
  * address:  0x021D62E4
  * packet:   pkt_021D62E4
  * region:   ov131
@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021D62E4(char *p)
+int P_STATUS_CanUseButtons(char *p)
 {
     char *q = *(char * *)&((struct Obj23130 *)p)->f8;
 

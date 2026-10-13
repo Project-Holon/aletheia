@@ -12,8 +12,8 @@
  * symbols:
  *   func_021F9260  0x021F9260  thumb  ov094
  *   func_021F89BC  0x021F89BC  thumb  ov094
- *   func_0204B570  0x0204B570  arm
- *   func_0204B5AC  0x0204B5AC  arm
+ *   CLACT_SetActorAffineMode  0x0204B570  arm
+ *   CLACT_SetActorScale  0x0204B5AC  arm
  */
 typedef struct {
     int a, b;
@@ -33,10 +33,10 @@ extern int func_021F9260(void *m, int *out);
 extern void func_021F89BC(void *p);
 typedef unsigned int   u32;
 struct Actor;
-extern void func_0204B570(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 struct Obj;
 struct Pair;
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 
 void func_02201FF4(void *a, Obj *o)
 {
@@ -46,8 +46,8 @@ void func_02201FF4(void *a, Obj *o)
 
     v[0] = o->x;
     v[1] = o->y;
-    func_0204B570(t[o->idx].h, 1);
-    func_0204B5AC(t[o->idx].h, (struct Pair *)v);
+    CLACT_SetActorAffineMode(t[o->idx].h, 1);
+    CLACT_SetActorScale(t[o->idx].h, (struct Pair *)v);
     if (r == 1)
         func_021F89BC(a);
 }

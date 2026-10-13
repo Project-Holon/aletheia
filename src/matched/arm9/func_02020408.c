@@ -1,5 +1,5 @@
 /*
- * function: func_02020408
+ * function: BMP_MENULIST_PrintItem
  * address:  0x02020408
  * packet:   pkt_02020408
  * region:   arm9
@@ -15,14 +15,14 @@
  *   func_0201C7D0  0x0201C7D0  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02020408.c \
- *       --func func_02020408 --addr 0x02020408 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENULIST_PrintItem.c \
+ *       --func BMP_MENULIST_PrintItem --addr 0x02020408 --thumb
  *
  * Print one item's text into the menu window.  f38top selects the override
  * colours at +0x34/+0x35 (set by unit_02020268's func_02020298) over the
  * list's own at +0x17/+0x18; sel picks func_0201C724 (which also marks the
  * target dirty) over func_0201C7D0.  Closed in wave 13; the 2026-09-21 note
- * (docs/notes/func_02020408.c.txt) had it at 314 of 338 bytes.
+ * (docs/notes/BMP_MENULIST_PrintItem.c.txt) had it at 314 of 338 bytes.
  *
  * The packed colour is a 5:5:5 triple built by a masking macro,
  *     ((l & 0x1f) << 10) | ((s & 0x1f) << 5) | (b & 0x1f)
@@ -82,7 +82,7 @@ extern void *func_02045770(struct Descriptor *win);
 extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0201C7D0(u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
 
-void func_02020408(struct Obj *obj, const void *text, u32 x, u32 y, u32 sel)
+void BMP_MENULIST_PrintItem(struct Obj *obj, const void *text, u32 x, u32 y, u32 sel)
 {
     if (text == 0)
         return;

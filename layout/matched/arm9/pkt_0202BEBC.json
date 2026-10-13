@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202BEBC",
+   "name": "ISS_ZONE_SYS_Update",
    "address": "0x0202BEBC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202BEE4",
+   "name": "ISS_ZONE_SYS_Stop",
    "address": "0x0202BEE4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202BF84",
+   "name": "ISS_ZONE_SYS_ClearActive",
    "address": "0x0202BF84",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202BF90",
+   "name": "ISS_ZONE_SYS_BeginFade",
    "address": "0x0202BF90",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202BFC4",
+   "name": "ISS_ZONE_SYS_FindRecord",
    "address": "0x0202BFC4",
    "kind": "game",
    "region": "arm9",

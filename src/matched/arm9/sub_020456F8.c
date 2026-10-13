@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020456F8
+ * function: BMP_WIN_ClearScreen
  *
  * symbols:
  *   sub_02041300  0x02041300  arm
@@ -34,8 +34,8 @@
  * directly.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020456F8.c \
- *       --func sub_020456F8 --addr 0x020456F8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_WIN_ClearScreen.c \
+ *       --func BMP_WIN_ClearScreen --addr 0x020456F8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -57,7 +57,7 @@ struct Descriptor {
 
 extern void sub_02041300(int a, int b, int c, int d, int e, int f, int g);
 
-void sub_020456F8(struct Descriptor *d)
+void BMP_WIN_ClearScreen(struct Descriptor *d)
 {
     sub_02041300(d->unk2, 0, d->unk3, d->unk4, d->unk5, d->unk6, 0);
 }

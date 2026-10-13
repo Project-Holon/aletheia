@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: func_0204A0FC, func_0204A13C, func_0204A17C
+ * function: ARC_UTIL_LoadAnimBankFromHandle, ARC_UTIL_LoadMultiAnimBankFromArchive, ARC_UTIL_LoadMultiAnimBankFromHandle
  * address:  0x0204A0FC
  * packet:   pkt_0204A03C
  * region:   arm9
@@ -29,7 +29,7 @@ extern int func_02062920(u32 a, u32 *out);
 extern int   func_0206267C(void *ptr, u32 val);
 extern u32 func_020307B0(void *p);
 
-void *func_0204A0FC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {
@@ -41,7 +41,7 @@ void *func_0204A0FC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *func_0204A13C(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = (void *)func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
@@ -53,7 +53,7 @@ void *func_0204A13C(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *func_0204A17C(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {

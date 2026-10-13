@@ -12,7 +12,7 @@
  * abi: E6E0's r0 return is consumed.
  * symbols:
  *   func_0207D63C 0x0207D63C arm
- *   func_0204E6E0 0x0204E6E0 arm
+ *   FADE_GetSpeed 0x0204E6E0 arm
  *   func_0209C0A4 0x0209C0A4 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   func_020434DC 0x020434DC arm
@@ -22,7 +22,7 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_0207D63C(u32,int,int,int,int);
-extern int func_0204E6E0(void);
+extern int FADE_GetSpeed(void);
 extern int func_0209C0A4(int,int);
 extern u32 _u32_div_f(u32,u32);
 extern void func_020434DC(u32,u32);
@@ -38,7 +38,7 @@ int func_021FE9D4(char *p,int *state)
         if(((struct Obj01285 *)p)->f4&2)func_0207D63C(0x04001050,3,7,a,b);
         ((struct Obj01285 *)p)->f10=0;
         duration=((struct Obj01285 *)p)->f18;
-        if(duration==0)duration=func_0209C0A4(16,func_0204E6E0());
+        if(duration==0)duration=func_0209C0A4(16,FADE_GetSpeed());
         ((struct Obj01285 *)p)->f14=duration;
         *state=1;
         break;

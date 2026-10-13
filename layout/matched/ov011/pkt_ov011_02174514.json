@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02174514",
+   "name": "INTRUDE_COMM_RecvSupportMode",
    "address": "0x02174514",
    "kind": "game",
    "region": "ov011",

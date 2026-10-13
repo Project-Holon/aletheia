@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: sub_0204B92C, sub_0204B944
+ * function: CLACT_SetActorAutoAnim, CLACT_GetActorAutoAnim
  * address:  0x0204B92C
  * packet:   pkt_0204B84C
  * region:   arm9
@@ -30,12 +30,12 @@ struct Obj {
     u32 unk_60_26 : 6;
 };
 
-void sub_0204B92C(struct Obj *p, u32 v)
+void CLACT_SetActorAutoAnim(struct Obj *p, u32 v)
 {
     p->unk_60_25 = v;
 }
 
-u32 sub_0204B944(struct Obj *p)
+u32 CLACT_GetActorAutoAnim(struct Obj *p)
 {
     return p->unk_60_25;
 }

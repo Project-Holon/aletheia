@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02023E9C
+ * function: BRIGHTNESS_ChangeInit
  * address:  0x02023E9C
  * packet:   pkt_02023E0C
  * region:   arm9
@@ -62,7 +62,7 @@ struct Interp {
     u32 f1c;
 };
 
-void func_02023E9C(struct Interp *p, u16 steps, s16 from, s16 to,
+void BRIGHTNESS_ChangeInit(struct Interp *p, u16 steps, s16 from, s16 to,
                    u32 a4, u32 a5)
 {
     p->f1c = 1;

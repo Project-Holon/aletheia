@@ -18,11 +18,11 @@
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200E0B0  0x0200E0B0  thumb
  *   func_02012138  0x02012138  thumb
- *   func_021767A0  0x021767A0  thumb  ov011
+ *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   func_021673C4  0x021673C4  thumb  ov010
  *   func_021673A8  0x021673A8  thumb  ov010
  *   func_02158344  0x02158344  thumb  ov010
- *   func_02176880  0x02176880  thumb  ov011
+ *   INTRUDE_COMM_GetPartnerRecord  0x02176880  thumb  ov011
  *   d_02171EF4 0x02171EF4 data a4
  *   func_02012FB0  0x02012FB0  thumb
  *   func_02030734  0x02030734  arm
@@ -68,10 +68,10 @@
  *   func_02005654  0x02005654  thumb
  *   func_0207AD40 0x0207AD40 arm
  *   func_02017E1C  0x02017E1C  thumb
- *   func_020144DC  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02012374  0x02012374  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb  ov021
  *   func_0216559C  0x0216559C  thumb  ov010
@@ -88,17 +88,17 @@
  *   func_0216BF9C  0x0216BF9C  thumb  ov010
  *   func_0215A5E4  0x0215A5E4  thumb  ov010
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02024044  0x02024044  thumb
+ *   PMSI_PARAM_Create  0x02024044  thumb
  *   func_0200E6F0  0x0200E6F0  thumb
  *   func_0200E6FC  0x0200E6FC  thumb
- *   func_02024108  0x02024108  thumb
- *   func_0202411C  0x0202411C  thumb
- *   func_02024128  0x02024128  thumb
- *   func_02024124  0x02024124  thumb
- *   func_02024134  0x02024134  thumb
+ *   PMSI_PARAM_SetSentence  0x02024108  thumb
+ *   PMSI_PARAM_CheckCanceled  0x0202411C  thumb
+ *   PMSI_PARAM_GetWords  0x02024128  thumb
+ *   PMSI_PARAM_GetWord  0x02024124  thumb
+ *   PMSI_PARAM_GetSentence  0x02024134  thumb
  *   func_020124E4  0x020124E4  thumb
  *   func_0200E714  0x0200E714  thumb
- *   func_020240FC  0x020240FC  thumb
+ *   PMSI_PARAM_Delete  0x020240FC  thumb
  *   ov110_id       0x0000006E  data   a1
  *   d_021C39B8     0x021C39B8  data   ov110  a4
  *   func_0201210C  0x0201210C  thumb
@@ -107,7 +107,7 @@
  *   func_0202C794  0x0202C794  thumb
  *   func_021A1BE4  0x021A1BE4  thumb  ov021
  *   func_021A1BDC  0x021A1BDC  thumb  ov021
- *   func_020129A0  0x020129A0  thumb
+ *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
  *   ov_id_D9  0x000000D9  data
  *   d_021C3FE0  0x021C3FE0  data  ov217
  *   d_02172A00 0x02172A00 data a1
@@ -134,319 +134,334 @@
  *   func_020409B4  0x020409B4  arm
  *   func_02045808  0x02045808  arm
  *   func_02190788  0x02190788  thumb
- *   func_02012EC0  0x02012EC0  thumb
+ *   GAME_DATA_GetSaveControlWork  0x02012EC0  thumb
  *   func_0200C0E8  0x0200C0E8  thumb
  *   func_0200C224  0x0200C224  thumb
  *   func_0200C1DC  0x0200C1DC  thumb
  *   func_0200C1C4  0x0200C1C4  thumb
  */
-#include "../../matched/include/Obj12051.h"
-#include "../../matched/include/Obj17727.h"
-#include "../../matched/include/Obj07308.h"
-#include "../../matched/include/Obj00005.h"
-#include "../../matched/include/Obj05899.h"
-#include "../../matched/include/Obj00565.h"
-#include "../../matched/include/Obj17729.h"
-#include "../../matched/include/Obj17730.h"
-#include "../../matched/include/Obj17731.h"
-
-struct Big;
-struct Ctx;
-struct Desc;
-struct Obj;
-struct Stream;
-struct Sub02009470Ent;
-struct Sub02009470Obj;
-struct Sub0200852CObj;
-struct IcaAnime;
-struct Evt;
-struct BigObj;
-struct Rec0200E6FC;
-struct Rec0200E714;
-struct MsgBank;
-struct WordSet;
-struct O_02166B0C;
-struct Fx;
-struct Descriptor;
-struct U16Vec;
-struct Blk34;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-struct Rec {
-    u8 pad[0x50];
-    u32 : 6;
-    u32 a : 4;
-    u32 b : 4;
-};
-
-typedef struct Entry32 {
-    u32 id : 11;
-    u32 rest : 21;
-} Entry32;
-
-typedef struct LinkRecord {
-    Entry32 list[20];   /* 0x00 */
-    u32 count : 6;      /* 0x50 */
-    u32 st849 : 4;
-    u32 st848 : 4;
-    u32 kind : 4;
-    u32 page : 6;
-    u32 rest : 8;
-} LinkRecord;
-
-struct WorkA {
-    u8 pad00[0x10];
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u16 *f1c;
-};
-
 typedef signed short   s16;
-
-struct Task {
-    u8 f00;
-    u8 pad01[7];
-    u16 h[20];
-    u8 flag[232];
-    u8 pad118[4];
-    u32 f11c;
-    u32 f120;
-    u32 f124;
-};
-
-struct S {
-    u8 pad0;
-    u8 f1;
-    u16 f2;
-    int f4;
-    u8 pad8[0x114];
-    u16 *p11c;
-    u16 *p120;
-    u16 *p124;
-};
-
-struct E {
-    u32 val;
-    u32 key;
-};
-
-struct P {
-    u16 pad[2];
-    u16 f4;
-};
 
 typedef signed int     s32;
 
-typedef struct ChoiceWork {
-    u32 kind;           /* 0x00 */
-    u16 *var0;          /* 0x04 */
-    u16 *var1;          /* 0x08 */
-    u16 *result;        /* 0x0C */
-    void *win;          /* 0x10 */
-    u32 msg;            /* 0x14 */
-    u32 hasMsg;         /* 0x18 */
-} ChoiceWork;
+struct GameSystem;
+struct GameData;
+struct ScriptVm;
+struct GameTask;
+struct FieldMap;
+struct GameEvent;
+struct SymbolMapSave;
+struct SymbolMapSaveEntry;
+struct MsgBank;
+struct WordSet;
+struct InfoWindow;
+struct StrBuf;
+struct ReportBlock;
+struct Pokemon;
 
-typedef struct Res4 {
-    u16 a;
-    u16 b;
-} Res4;
+/* One list entry of the link record: an 11-bit id and 21 bits of payload. */
+typedef struct SymbolMapEntry {
+    u32 id : 11;
+    u32 payload : 21;
+} SymbolMapEntry;
 
-typedef struct Res8 {
-    u16 pad[2];
-    u16 a;
-    u16 b;
-} Res8;
+/* The 0x54-byte record two players exchange over the link. */
+typedef struct SymbolMapLinkRecord {
+    SymbolMapEntry entries[20];   /* 0x00 */
+    u32 entryCount : 6;           /* 0x50 */
+    u32 symbolIndex : 4;          /* 0..6, low part of the grid table index */
+    u32 symbolGroup : 4;          /* multiplied by 7 in the grid table index */
+    u32 state : 4;                /* 4 = local record */
+    u32 page : 6;
+    u32 reserved : 8;
+} SymbolMapLinkRecord;
 
-typedef struct Work {
-    u32 kind;       /* 0x00 */
-    u16 *out0;      /* 0x04 */
-    u16 *out1;      /* 0x08 */
-    u16 *done;      /* 0x0C */
-    void *task;     /* 0x10 */
-    u32 f14;        /* 0x14 */
-    u32 f18;        /* 0x18 */
-} Work;
+/* Holder of the link record pointer (first field of the owner struct). */
+typedef struct SymbolMapOwner {
+    SymbolMapLinkRecord *linkRecord;
+} SymbolMapOwner;
 
-struct O_02166B0C {
-    u16 pad0[8];
-    int f10;
-    int f14;
-    int f18;
-};
+/* Progress record updated by the ov203 task. */
+typedef struct SymbolMapProgress {
+    u8 pad00[4];
+    s16 lastResult;               /* 0x04 */
+    u8 pad06[2];
+    int bestRank;                 /* 0x08 */
+} SymbolMapProgress;
 
-struct O_021671FC {
-    u16 id;
-    u16 pad2[3];
-    int f8;
-    int pad0c[2];
-    int f14;
-    int f18;
-    int f1c;
-};
+/* Work of the ov203 record task (created by func_0216666C). */
+typedef struct SymbolMapRecordWork {
+    u32 linkWork[2];              /* 0x00, set up by the proc link starter */
+    int lastResult;               /* 0x08 */
+    u8 pad0C[4];
+    u32 measuredValue;            /* 0x10, written by ov203 */
+    u32 resultCode;               /* 0x14, 2 = completed */
+    SymbolMapProgress *progress;  /* 0x18 */
+    u16 *outCompleted;            /* 0x1C */
+} SymbolMapRecordWork;
 
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
-extern void *func_0200E0B0(void *p);
-extern u32 func_02012138(const struct Ctx *p);
-extern u8 func_021767A0(void *a, void *b);
-extern u8 func_021673C4(u8 *p);
-extern u8 func_021673A8(u8 *p);
-extern int func_02158344(int a0);
-extern u8 *func_02176880(u8 *p);
-extern int func_02012FB0(u8 *p);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u16 func_0216749C(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n);
+/* Header of the save sync block: a count and a list of byte items. */
+typedef struct SaveSyncBlock {
+    u8 type;                      /* 0x00 */
+    u8 count;                     /* 0x01 */
+    u8 variant;                   /* 0x02 */
+    u8 items[1];                  /* 0x03, count entries */
+} SaveSyncBlock;
+
+/* Work of the ov218 picker task. ov218 writes the result bytes in the first 8 bytes. */
+typedef struct SymbolMapPickerWork {
+    u8 mode;                      /* 0x00 */
+    u8 resultKind;                /* 0x01, written by ov218 */
+    u16 resultValue;              /* 0x02, written by ov218 */
+    int resultCode;               /* 0x04, 1 = picked */
+    u16 candidateIds[20];         /* 0x08 */
+    u8 ownedFlags[232];           /* 0x30, entries 1..232 */
+    u8 pad118[4];
+    u16 *outKind;                 /* 0x11C */
+    u16 *outValue;                /* 0x120 */
+    u16 *outPicked;               /* 0x124 */
+} SymbolMapPickerWork;
+
+/* One 0x1C-byte entry of the event state table; only the value at +0x14 is read. */
+typedef struct EventStateEntry {
+    u8 pad00[0x14];
+    u32 value;                    /* 0x14 */
+    u8 pad18[4];
+} EventStateEntry;
+
+/* Special location record: only the zone id is read. */
+typedef struct SpecialLocation {
+    u16 pad00[2];
+    u16 zoneId;                   /* 0x04 */
+} SpecialLocation;
+
+typedef struct ZoneRemapEntry {
+    u32 target;
+    u32 source;
+} ZoneRemapEntry;
+
+/* Work of the ov215 task: runs the field close event, the ov215 proc and the field open event. */
+typedef struct PokeEventWork {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    struct GameData *gameData;      /* 0x04 */
+    u32 transitionArg;              /* 0x08, argument of the field close and open events */
+    struct Pokemon *poke;           /* 0x0C */
+    struct {
+        struct GameData *gameData;
+        struct Pokemon *poke;
+    } procParam;                    /* 0x10 */
+} PokeEventWork;
+
+/* Work of the PMS input task. */
+typedef struct PmsInputWork {
+    u32 kind;                       /* 0x00 */
+    u16 *outWord0;                  /* 0x04 */
+    u16 *outWord1;                  /* 0x08 */
+    u16 *outResult;                 /* 0x0C */
+    void *pmsParam;                 /* 0x10 */
+    u32 sentenceId;                 /* 0x14 */
+    u32 hasSentence;                /* 0x18 */
+} PmsInputWork;
+
+typedef struct PmsInputWords {
+    u16 first;
+    u16 second;
+} PmsInputWords;
+
+typedef struct PmsInputSentence {
+    u16 header[2];
+    u16 first;
+    u16 second;
+} PmsInputSentence;
+
+/* Heap block handed to ov217: it holds the game system. */
+typedef struct ResearchTopParam {
+    struct GameSystem *gameSystem;
+} ResearchTopParam;
+
+/* Work of the ov217 task (close field, run ov217, open field). */
+typedef struct ResearchTopTaskWork {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    int transitionArg;              /* 0x04, argument of the field close and open events */
+    ResearchTopParam *param;        /* 0x08 */
+} ResearchTopTaskWork;
+
+/* Work of the research report task. */
+typedef struct ResearchReportWork {
+    u16 heapId;                     /* 0x00 */
+    u8 pad02[2];
+    struct GameSystem *gameSystem;  /* 0x04 */
+    struct GameData *gameData;      /* 0x08 */
+    struct FieldMap *fieldMap;      /* 0x0C */
+    void *fx;                       /* 0x10 */
+    struct InfoWindow *window;      /* 0x14 */
+    struct MsgBank *msgBank;        /* 0x18 */
+    struct WordSet *wordSet;        /* 0x1C */
+} ResearchReportWork;
+
+extern void *func_020120F4(const struct GameSystem *gameSystem);
+extern void *func_02012EBC(struct GameData *gameData);
+extern void *func_0200E0B0(void *saveControl);
+extern u32 func_02012138(const struct GameSystem *gameSystem);
+extern u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData);
+extern u8 func_021673C4(u8 *saveData);
+extern u8 func_021673A8(u8 *saveData);
+extern int func_02158344(int comm);
+extern u8 *INTRUDE_COMM_GetPartnerRecord(u8 *link);
+extern int func_02012FB0(u8 *gameData);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+extern u16 func_0216749C(SymbolMapEntry *entries, SymbolMapEntry *out, u32 capacity, int page, u8 *count);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Obj *p);
-extern void func_02161CDC(void *, void *, u8, u8);
+extern struct GameTask *func_020122C0(void *parent, void *reserved, void *mainFunc, u32 workSize);
+extern void *func_020124E8(struct GameTask *task);
+extern void func_02161CDC(void *work, void *gameSystem, u8 startFlag, u8 param);
 extern int func_020307B0();
-extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern u8 *func_02012ED0(struct Big *p);
-extern u16 func_02159B10(void *, void *);
-extern u16 func_02011330(struct Stream *s);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_021C87A0(void *p, u32 i);
-extern u32 func_021C87AC(void *p, u32 i);
-extern u32 func_021C87B8(void *p, u32 i, u32 j);
-extern u32 func_021C87C8(void *p, u32 i);
-extern void func_0215897C(void *, void *);
-extern struct Sub02009470Obj *func_02009470(void *sys);
-extern u32 func_02009794(const struct Sub02009470Obj *obj, u32 n);
-extern u8 func_020095C8(const struct Sub02009470Obj *obj);
-extern struct Sub02009470Ent *func_0200973C(struct Sub02009470Obj *obj, int i);
-extern u8 func_0200856C(const struct Sub0200852CObj *obj);
-extern int func_02012F38(int base);
-extern void func_0207AD58(void *dst, int a, int b);
-extern void func_0207D59C(void *reg, void *m, int a, int b, int c, int d);
-extern int func_02005654(int a, int b);
-extern void func_0207AD40(void *);
+extern void func_02012444(struct GameTask *task, u32 overlayId, u32 procTable, u32 param);
+extern void *func_0215A5F4(void *work);
+extern void *func_0215A5DC(void *work);
+extern u8 *func_02012ED0(struct GameData *gameData);
+extern u16 func_02159B10(void *vm, void *work);
+extern u16 func_02011330(struct ScriptVm *vm);
+extern u16 *func_02159AE8(void *vm, void *work);
+extern u32 func_021C87A0(void *eventState, u32 index);
+extern u32 func_021C87AC(void *eventState, u32 index);
+extern u32 func_021C87B8(void *eventState, u32 index, u32 index2);
+extern u32 func_021C87C8(void *eventState, u32 index);
+extern void func_0215897C(void *scriptSystem, void *task);
+extern struct SymbolMapSave *func_02009470(void *saveControl);
+extern u32 func_02009794(const struct SymbolMapSave *save, u32 index);
+extern u8 func_020095C8(const struct SymbolMapSave *save);
+extern struct SymbolMapSaveEntry *func_0200973C(struct SymbolMapSave *save, int index);
+extern u8 func_0200856C(const struct SymbolMapSaveEntry *entry);
+extern SaveSyncBlock *func_02012F38(struct GameData *gameData);
+extern void func_0207AD58(void *dst, int scaleX, int scaleY);
+extern void func_0207D59C(void *reg, void *matrix, int centerX, int centerY, int unusedA, int unusedB);
+extern int func_02005654(int callback, int param);
+extern void func_0207AD40(void *matrix);
 extern void func_0200566C(void);
-extern u32   func_02017E1C(void *obj, u32 key, u32 off);
-extern int func_020144DC(int a0, int a1);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern void *func_020145CC(void *a0);
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern void  func_0216559C(u16 x);
-extern u32 func_02013E40(u32 a);
-extern struct P *func_02012894(void *a);
-extern u32 func_0201296C(const struct BigObj *p);
-extern void *func_02012F08(int *p);
-extern u8 *func_02012944(void *p);
-extern u8 func_02009590(void *a, u32 b, u32 c);
-extern u32 func_020142E8(void *bitmap, s32 id);
-extern int func_0216BF9C(void *a, int i, void *b);
-extern void *func_0215A5E4(void *vm);
+extern u32   func_02017E1C(void *poke, u32 key, u32 extra);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int transitionArg);
+extern void func_02012374(struct GameTask *task, struct GameEvent **event);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procTable, void *param);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
+extern int func_021BE8D4(void *gameSystem, int transitionArg, int sel, int d);
+extern int func_021BE92C(void *gameSystem, int transitionArg, int sel, int d, int e, u8 f, u8 g);
+extern void  func_0216559C(u16 species);
+extern u32 func_02013E40(u32 zoneId);
+extern SpecialLocation *func_02012894(void *gameData);
+extern u32 func_0201296C(const struct GameData *gameData);
+extern void *func_02012F08(void *gameData);
+extern u8 *func_02012944(void *gameData);
+extern u8 func_02009590(void *save, u32 b, u32 c);
+extern u32 func_020142E8(void *eventWork, s32 flagId);
+extern int func_0216BF9C(void *miscSave, int keyId, void *myStatus);
+extern void *func_0215A5E4(void *work);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern struct Obj *func_02024044(u32 kind, u32 a1, void *src, u32 flag, void *sys, u32 hh);
-extern void *func_0200E6F0(u32 a);
-extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-extern void func_02024108(u16 *dst, const u16 *src);
-extern int func_0202411C(unsigned char *p);
-extern void  func_02024128(void *t, Res4 *out);
-extern unsigned int func_02024124(unsigned short *p);
-extern void func_02024134(char *a, void *b);
-extern void *func_020124E4(struct Obj *p);
-extern void func_0200E714(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src);
-extern void  func_020240FC(void *t);
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188C6C(u8 *p);
-extern u16 func_02188C9C(u8 *p);
-extern u8 func_0202C794(void *a0, u32 a1);
+extern void *PMSI_PARAM_Create(u32 mode, u32 a1, void *src, u32 flag, void *saveControl, u32 hh);
+extern void *func_0200E6F0(u32 saveControl);
+extern void func_0200E6FC(void *table, int index, void *dst);
+extern void PMSI_PARAM_SetSentence(u16 *pmsParam, const u16 *sentence);
+extern int PMSI_PARAM_CheckCanceled(unsigned char *pmsParam);
+extern void  PMSI_PARAM_GetWords(void *pmsParam, PmsInputWords *out);
+extern unsigned int PMSI_PARAM_GetWord(unsigned short *pmsParam);
+extern void PMSI_PARAM_GetSentence(char *pmsParam, void *out);
+extern void *func_020124E4(struct GameTask *task);
+extern void func_0200E714(void *table, int index, void *src);
+extern void  PMSI_PARAM_Delete(void *pmsParam);
+extern void *func_0201210C(const struct GameSystem *gameSystem);
+extern u32 func_02188C6C(u8 *fieldMap);
+extern u16 func_02188C9C(u8 *fieldMap);
+extern u8 func_0202C794(void *gameSystem, u32 a1);
 extern void func_021A1BE4(int a, int b);
 extern void func_021A1BDC(int a, int b);
-extern void func_020129A0(struct BigObj *p, u8 v);
-extern int func_0219077C(u8 *p);
+extern void GAME_DATA_SetSubscreenMode(struct GameData *gameData, u8 mode);
+extern int func_0219077C(struct InfoWindow *window);
 extern u32 func_020362DC(void);
-extern void func_02082BCC(void *, int, int);
-extern u16 func_02188C84(u8 *p);
-extern u32 func_02188C54(u8 *p);
+extern void func_02082BCC(void *dst, int value, int size);
+extern u16 func_02188C84(void *fieldMap);
+extern u32 func_02188C54(void *fieldMap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern int func_02045C04();
-extern void *func_02190708(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
+extern struct InfoWindow *func_02190708(void *fx, struct MsgBank *msgBank, u16 x, u16 y, u16 width, u16 height);
 extern int func_02190728();
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct WordSet *func_0201EC64(u32 heapId);
 extern int func_0201ED04();
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern struct StrBuf *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201F02C(struct WordSet *wordSet, u32 index, void *myStatus);
+extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201F31C(struct WordSet *p);
-extern int func_02190758(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_021907C0(u8 *p);
-extern u8 func_02045730(struct Descriptor *p);
+extern void func_0201F250(struct WordSet *wordSet, void *dst, void *src);
+extern void func_0201F31C(struct WordSet *wordSet);
+extern int func_02190758(struct InfoWindow *window, u32 b, u32 c, u32 text);
+extern u32 func_021907C0(struct InfoWindow *window);
+extern u8 func_02045730(void *bmpWin);
 extern void func_020409B4(u32 index);
-extern void func_02045808(struct U16Vec *vec);
+extern void func_02045808(struct StrBuf *buf);
 extern int func_02190788();
-extern void *func_02012EC0(struct Big *p);
-extern void *func_0200C0E8(void *sys);
-extern u8 func_0200C224(struct Blk34 *p);
-extern u32 func_0200C1DC(struct Blk34 *p);
-extern u32 func_0200C1C4(struct Blk34 *p);
+extern void *GAME_DATA_GetSaveControlWork(struct GameData *gameData);
+extern void *func_0200C0E8(void *saveControlWork);
+extern u8 func_0200C224(struct ReportBlock *block);
+extern u32 func_0200C1DC(struct ReportBlock *block);
+extern u32 func_0200C1C4(struct ReportBlock *block);
 u8 func_0216630C();
 int func_02166324(u8 *grid, int id);
 int func_021663F4();
-int func_02166434(void *a, u32 *out0, u32 *out1);
-u32 func_0216649C(void *p);
-LinkRecord *func_021664CC(u16 heap, void *sys, u32 *start);
-int func_021665D0(int a0, int a1);
-int func_021665F0(int a0, int a1, int a2);
-int func_02166618(int a0);
-int func_0216662C(int a0);
-int func_02166640(int a0);
-u32 func_02166658(void *p, u32 i);
-void *func_0216666C(void *a, void *b, void *c);
-void func_021666A4(int a0);
+int func_02166434(void *gameSystem, u32 *outSymbolIndex, u32 *outSymbolGroup);
+u8 *func_0216649C(void *gameSystem);
+SymbolMapLinkRecord *func_021664CC(u16 heapId, void *gameSystem, u32 *outStart);
+int func_021665D0(void *gameSystem, int cellId);
+int func_021665F0(void *gameSystem, int cellId, int dir);
+int func_02166618(int cellId);
+int func_0216662C(int cellId);
+int func_02166640(int cellId);
+u32 func_02166658(void *entries, u32 index);
+void *func_0216666C(void *gameSystem, void *progress, void *outCompleted);
+void func_021666A4(SymbolMapOwner *owner);
 int func_021666B8(void *task, u32 *state);
-int func_0216670C(void *p);
-void func_02166714(u8 *p, int n);
-int func_02166734(void *a, void *b);
-int func_021667E0(void *a, void *b);
-int func_02166824(int a0, int a1);
-int func_02166834(int a0, int a1);
-void *func_02166854(void *a, int b, u32 c, u32 d, u32 e);
-int func_02166908(void *a, int *st);
-int func_02166980(int a0, int a1);
-int func_021669C0(int a0, int a1);
-int func_02166A00(void *a, void *b);
+int func_0216670C(void *progress);
+void func_02166714(SymbolMapProgress *progress, int value);
+int func_02166734(void *vm, void *work);
+int func_021667E0(void *vm, void *work);
+int func_02166824(SaveSyncBlock *block, unsigned index);
+int func_02166834(SaveSyncBlock *block, int sel);
+void *func_02166854(void *gameSystem, int mode, u32 outKind, u32 outValue, u32 outPicked);
+int func_02166908(void *task, int *state);
+int func_02166980(void *vm, void *work);
+int func_021669C0(void *vm, void *work);
+int func_02166A00(void *vm, void *work);
 void func_02166A6C(void);
 void func_02166B0C(void);
 void func_02166B2C(void);
-u32 func_02166B58(void *obj, u32 *mode, u32 *args);
-void *func_02166C4C(void *a, void *b, void *c);
-u32 func_02166C7C(void *a, u32 b);
-int func_02166CD0(void *a, u32 msg);
-int func_02166D30(void *c, void *vm);
-u32 func_02166E50(void *obj, u32 *mode);
-int func_02166F1C(void *a, void *b);
-int func_02166F9C(void *a, int *st, int *p);
-void *func_02167044(void *a, void *b);
-int func_02167080(void *a, int *st, struct O_02166B0C *o, int a3);
-void *func_021670F8(void *p);
-void func_0216711C(u8 *p, void *sys);
-struct MsgBank *func_02167154(int a0, int a1, int a2, int a3);
-int func_02167168(int a0);
-void func_02167178(struct O_02166B0C *o);
-int func_021671CC(int a0);
-struct WordSet *func_021671DC(int a0);
-int func_021671EC(int a0);
-void func_021671FC(struct O_021671FC *o);
-void func_021672B4(int a0);
-int func_021672D0(int a0);
-int func_021672E4(int a0);
-int func_021672F8(int a0);
-int func_0216730C(unsigned int n);
+u32 func_02166B58(void *task, u32 *state, PokeEventWork *work);
+void *func_02166C4C(void *gameSystem, void *transitionArg, void *poke);
+u32 func_02166C7C(void *gameData, u32 zoneId);
+int func_02166CD0(void *gameData, u32 flagId);
+int func_02166D30(void *vm, void *work);
+u32 func_02166E50(void *task, u32 *state);
+int func_02166F1C(void *vm, void *work);
+int func_02166F9C(void *task, int *state, ResearchTopTaskWork *work);
+void *func_02167044(void *gameSystem, void *transitionArg);
+int func_02167080(void *task, int *state, ResearchReportWork *work, int extra);
+void *func_021670F8(void *gameSystem);
+void func_0216711C(ResearchReportWork *work, void *gameSystem);
+struct MsgBank *func_02167154(ResearchReportWork *work, int stateRef, ResearchReportWork *workCopy, int extra);
+int func_02167168(ResearchReportWork *work);
+void func_02167178(ResearchReportWork *work);
+int func_021671CC(ResearchReportWork *work);
+struct WordSet *func_021671DC(ResearchReportWork *work);
+int func_021671EC(ResearchReportWork *work);
+void func_021671FC(ResearchReportWork *work);
+void func_021672B4(ResearchReportWork *work);
+int func_021672D0(ResearchReportWork *work);
+int func_021672E4(ResearchReportWork *work);
+int func_021672F8(ResearchReportWork *work);
+int func_0216730C(unsigned int kind);
 extern u8 *d_02171EF4[];
 extern const char d_021729EC[];
 extern u8 ov203_id[];
@@ -457,7 +472,7 @@ extern float d_02172BA4[2];
 extern float d_021729FC;
 extern char ov215_id[];
 extern char d_021F7118[];
-extern struct E d_02171F2C[2];
+extern ZoneRemapEntry d_02171F2C[2];
 extern char ov110_id[];
 extern char d_021C39B8[];
 extern char ov_id_D9[];
@@ -465,9 +480,10 @@ extern char d_021C3FE0[];
 extern const char d_02172A00[];
 
 
-
-
-
+/*
+ * Finds the position of a cell id in a 30-entry grid (three columns). The
+ * result defaults to 1 when the id is absent.
+ */
 u8 func_0216630C(grid, id)
 u8 *grid;
 int id;
@@ -481,9 +497,10 @@ int id;
     return 1;
 }
 
-
-
-
+/*
+ * Picks the tile of a cell from the grid: id 1 and id 5 have their own
+ * tiles, the others depend on the left, right, upper and lower neighbours.
+ */
 int func_02166324(u8 *grid, int id)
 {
     int pos = func_0216630C(grid, id);
@@ -543,99 +560,84 @@ int func_02166324(u8 *grid, int id)
     return 0x119;
 }
 
-
-
-
-
-
 /*
- * Finds the position of a value in a byte list (func_0216630C) and returns
- * the entry a step away from it: 0 = three back, 1 = three on, 2 = one
- * back, 3 = one on; any other direction returns the default.
+ * Finds the position of a cell id in a grid (func_0216630C) and returns the
+ * cell a step away from it: 0 = three back, 1 = three on, 2 = one back,
+ * 3 = one on; any other direction returns the cell id itself.
  */
-int func_021663F4(list, def, dir, a3)
-u8 *list;
-int def;
+int func_021663F4(grid, cellId, dir, extra)
+u8 *grid;
+int cellId;
 unsigned dir;
-int a3;
+int extra;
 {
-    int i = func_0216630C((u8 *)list, def, dir, a3);
+    int pos = func_0216630C((u8 *)grid, cellId, dir, extra);
 
     switch (dir) {
     case 0:
-        return list[i - 3];
+        return grid[pos - 3];
     case 1:
-        return list[i + 3];
+        return grid[pos + 3];
     case 2:
-        return list[i - 1];
+        return grid[pos - 1];
     case 3:
-        return list[i + 1];
+        return grid[pos + 1];
     }
-    return def;
+    return cellId;
 }
 
-
-
-
-
 /*
- * Reads two 4-bit values (bitfields at bits 6..9 and 10..13 of the word at +0x50 of
- * the record behind func_02176880) into the out parameters, or takes them
- * from the two ov010 accessors when func_021767A0 answers 4.
+ * Reads the symbol index and group of the current selection (two 4-bit
+ * fields of the link record) into the out parameters, or takes them from
+ * the two ov010 save accessors when the exchange state is 4.
  */
-int func_02166434(void *a, u32 *out0, u32 *out1)
+int func_02166434(void *gameSystem, u32 *outSymbolIndex, u32 *outSymbolGroup)
 {
-    void *t;
-    u8 *sav;
-    void *r;
-    struct Rec *rec;
+    void *gameData;
+    u8 *saveData;
+    void *comm;
+    SymbolMapLinkRecord *record;
 
-    t = func_020120F4(a);
-    sav = func_0200E0B0(func_02012EBC(t));
-    r = (void *)func_02012138(a);
-    if (func_021767A0(r, t) == 4) {
-        *out0 = func_021673C4(sav);
-        *out1 = func_021673A8(sav);
+    gameData = func_020120F4(gameSystem);
+    saveData = func_0200E0B0(func_02012EBC(gameData));
+    comm = (void *)func_02012138(gameSystem);
+    if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
+        *outSymbolIndex = func_021673C4(saveData);
+        *outSymbolGroup = func_021673A8(saveData);
         return 1;
     }
-    r = (void *)func_02158344((int)r);
-    if (r == 0) {
-        *out0 = 0;
-        *out1 = 0;
+    comm = (void *)func_02158344((int)comm);
+    if (comm == 0) {
+        *outSymbolIndex = 0;
+        *outSymbolGroup = 0;
         return 0;
     }
-    rec = (struct Rec *)func_02176880(r);
-    *out0 = rec->a;
-    *out1 = rec->b;
+    record = (SymbolMapLinkRecord *)INTRUDE_COMM_GetPartnerRecord(comm);
+    *outSymbolIndex = record->symbolIndex;
+    *outSymbolGroup = record->symbolGroup;
     return 1;
 }
 
-
-
-
 /*
- * A zero case with a default continuation keeps the failure exit first.
- * Returns the full-word pointer payload from the selected table slot.
+ * Returns the grid of the current selection from the table of 7 symbols
+ * per group, or 0 when there is no selection. A zero case with a default
+ * continuation keeps the failure exit first.
  */
-u32 func_0216649C(void *p) {
-    u32 a;
-    u32 b;
-    switch (func_02166434(p, &a, &b)) {
+u8 *func_0216649C(void *gameSystem) {
+    u32 symbolIndex;
+    u32 symbolGroup;
+    switch (func_02166434(gameSystem, &symbolIndex, &symbolGroup)) {
     case 0: return 0;
     default: break;
     }
-    return *(u32 *)((u32)d_02171EF4 + (a + b * 7u) * 4u);
+    return d_02171EF4[symbolIndex + symbolGroup * 7u];
 }
-
-
-
-
 
 /*
  * Builds the 0x54-byte record sent over the link: locally from the
  * selected list page plus three packed status fields (with the page
- * start written to *start), or as a copy of the partner's record when
- * the exchange is not in state 4 (*start = 530).
+ * start written to *outStart), or as a copy of the partner's record when
+ * the exchange is not in state 4 (*outStart = 530).
  *
  * recoup 2026-10-05 (lane Y5): EXACT in c99 and c. The older draft was DIFF10/260: the
  * fifth argument store of the second allocation sat after the argument copies. Fix: the
@@ -644,233 +646,148 @@ u32 func_0216649C(void *p) {
  * derive 530 from the held 0x1DC; a constant local did not change the schedule.
  * Twin search: grep -rl -E "func_0216749C|func_021673C4|func_021673A8" src/matched src/pending
  * (hits ov010 02166434, 021673C4, 021673A8, 0216749C, ov011 02174D5C); ov010 02166434 has
- * the same front half and was the shape source. Callees return real types: func_021767A0 u8,
+ * the same front half and was the shape source. Callees return real types: INTRUDE_COMM_GetPartnerSlot u8,
  * func_02012FB0 int, func_0216749C u16, func_021673C4/A8 u8, func_02030734 void *.
  */
-LinkRecord *func_021664CC(u16 heap, void *sys, u32 *start)
+SymbolMapLinkRecord *func_021664CC(u16 heapId, void *gameSystem, u32 *outStart)
 {
-    void *p;
-    void *st;
-    void *field;
-    void *link;
-    LinkRecord *rec;
+    void *gameData;
+    void *saveData;
+    void *comm;
+    void *partnerLink;
+    SymbolMapLinkRecord *record;
     u32 page;
-    u8 n;
+    u8 count;
 
-    p = func_020120F4(sys);
-    st = func_0200E0B0(func_02012EBC(p));
-    field = (void *)func_02012138(sys);
-    if (func_021767A0(field, p) == 4) {
-        page = func_02012FB0(p);
-        rec = func_02030734(heap, sizeof(LinkRecord), 1, d_021729EC, 0x1C9);
-        *start = func_0216749C(st, rec->list, 20, page, &n);
-        rec->count = n;
-        rec->st849 = func_021673C4(st);
-        rec->st848 = func_021673A8(st);
-        rec->kind = 4;
-        rec->page = page;
-        return rec;
+    gameData = func_020120F4(gameSystem);
+    saveData = func_0200E0B0(func_02012EBC(gameData));
+    comm = (void *)func_02012138(gameSystem);
+    if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
+        page = func_02012FB0(gameData);
+        record = func_02030734(heapId, sizeof(SymbolMapLinkRecord), 1, d_021729EC, 0x1C9);
+        *outStart = func_0216749C(saveData, record->entries, 20, page, &count);
+        record->entryCount = count;
+        record->symbolIndex = func_021673C4(saveData);
+        record->symbolGroup = func_021673A8(saveData);
+        record->state = 4;
+        record->page = page;
+        return record;
     }
-    link = (void *)func_02158344((int)field);
-    if (link == 0)
+    partnerLink = (void *)func_02158344((int)comm);
+    if (partnerLink == 0)
         return 0;
-    rec = func_02030734(heap, sizeof(LinkRecord), 1, d_021729EC, 0x1DC);
-    MI_CpuCopy8(func_02176880(link), rec, sizeof(LinkRecord));
-    *start = 530;
-    return rec;
+    record = func_02030734(heapId, sizeof(SymbolMapLinkRecord), 1, d_021729EC, 0x1DC);
+    MI_CpuCopy8(INTRUDE_COMM_GetPartnerRecord(partnerLink), record, sizeof(SymbolMapLinkRecord));
+    *outStart = 530;
+    return record;
 }
 
-
-
-
-
-
-int func_021665D0(int a0, int a1)
+/* Tile of a cell of the current selection's grid (0x118 when there is no grid). */
+int func_021665D0(void *gameSystem, int cellId)
 {
-    int t4;
-    void *p;
+    u8 *grid = func_0216649C(gameSystem);
 
-t4 = a1 + 0;
-    p = (void *)func_0216649C((void *)a0);
-loc_021665D8:
-    if (p == 0) goto loc_021665E8;
-loc_021665DC:
-a1 = t4 + 1;
-a1 = a1 << 0x18;
-a1 = (unsigned)a1 >> 0x18;
-    a0 = func_02166324(p, a1);
-loc_021665E6:
-    return a0;
-loc_021665E8:
-a0 = 0x46;
-a0 = a0 << 2;
-    return a0;}
+    if (grid != 0)
+        return func_02166324(grid, (u8)(cellId + 1));
+    return 0x118;
+}
 
-
-
-
-
-
-int func_021665F0(int a0, int a1, int a2)
+/* Neighbour of a cell in a direction, as a 0-based id (4 when there is no grid). */
+int func_021665F0(void *gameSystem, int cellId, int dir)
 {
-    int t4;
-    int t5;
-    void *p;
+    u8 *grid = func_0216649C(gameSystem);
 
-t5 = a1 + 0;
-t4 = a2 + 0;
-    p = (void *)func_0216649C((void *)a0);
-loc_021665FA:
-    if (p == 0) goto loc_02166614;
-loc_021665FE:
-a1 = t5 + 1;
-a1 = a1 << 0x18;
-a2 = t4 << 0x18;
-a1 = (unsigned)a1 >> 0x18;
-a2 = (unsigned)a2 >> 0x18;
-    a0 = func_021663F4(p, a1, a2);
-loc_0216660C:
-a0 = a0 << 0x18;
-a0 = (unsigned)a0 >> 0x18;
-a0 = a0 - 1;
-    return a0;
-loc_02166614:
-a0 = 4;
-    return a0;}
-
-
-
-
-
+    if (grid != 0)
+        return (u8)func_021663F4(grid, (u8)(cellId + 1), (u8)dir) - 1;
+    return 4;
+}
 
 /*
  * Unlabelled leaf: true when the argument plus one, truncated to a byte,
- * is 1.
+ * is 1 (the home cell).
  */
-int func_02166618(int a0)
+int func_02166618(int cellId)
 {
-    if ((u8)(a0 + 1) == 1)
+    if ((u8)(cellId + 1) == 1)
         return 1;
     return 0;
 }
 
-
-
-
-
-
-
-
-int func_0216662C(int a0)
+/* True when the cell id plus one, truncated to a byte, is 5 (the blank cell). */
+int func_0216662C(int cellId)
 {
-
-a0 = a0 + 1;
-a0 = a0 << 0x18;
-a0 = (unsigned)a0 >> 0x18;
-    if (a0 != 5) goto loc_0216663A;
-loc_02166636:
-a0 = 1;
-    return a0;
-loc_0216663A:
-a0 = 0;
-    return a0;}
-
-
-
-
-
+    if ((u8)(cellId + 1) == 5)
+        return 1;
+    return 0;
+}
 
 /*
  * Unlabelled leaf (sole blocker of ov018 func_0217C37C): true when the
- * argument plus one, truncated to a byte, is 2, 3 or 4. Twin of
- * func_02166618.
+ * argument plus one, truncated to a byte, is 2, 3 or 4 (a plain cell).
+ * Twin of func_02166618.
  */
-int func_02166640(int a0)
+int func_02166640(int cellId)
 {
-    u8 t = a0 + 1;
+    u8 internalId = cellId + 1;
 
-    if ((u8)(t + 0xFE) <= 2)
+    if ((u8)(internalId + 0xFE) <= 2)
         return 1;
     return 0;
 }
 
-
-
-
-
-
 /*
  * Unlabelled leaf (no lr save) called from func_02166734 case 4; 18 bytes
- * plus 2 bytes of alignment padding before func_0216666C.
+ * plus 2 bytes of alignment padding before func_0216666C. Reads the u32 at
+ * +0x14 of a 0x1C-byte entry, or 10 when there is no table.
  */
-u32 func_02166658(void *p, u32 i)
+u32 func_02166658(void *entries, u32 index)
 {
-    if (p == 0)
+    if (entries == 0)
         return 10;
-    return *(u32 *)((u8 *)p + i * 0x1C + 0x14);
+    return ((EventStateEntry *)entries)[index].value;
 }
 
-
-
-
-
-void *func_0216666C(void *a, void *b, void *c) {
-    void *task;
-    void **w;
-    task = func_020122C0(a, 0, func_021666B8, 32);
-    w = func_020124E8(task);
-    w[6] = b;
-    w[7] = c;
-    func_02161CDC(w, a, 1, 0);
-    ((int *)w)[2] = func_0216670C(b);
+/*
+ * Creates the ov203 record task: it links a comm proc, remembers the
+ * progress record and the completion flag, and copies the last result.
+ */
+void *func_0216666C(void *gameSystem, void *progress, void *outCompleted) {
+    struct GameTask *task;
+    SymbolMapRecordWork *work;
+    task = func_020122C0(gameSystem, 0, func_021666B8, 32);
+    work = func_020124E8(task);
+    work->progress = progress;
+    work->outCompleted = outCompleted;
+    func_02161CDC(work, gameSystem, 1, 0);
+    work->lastResult = func_0216670C(progress);
     return task;
 }
 
-
-
-
-
-
-void func_021666A4(int a0)
+void func_021666A4(SymbolMapOwner *owner)
 {
-    int t4;
+    if (owner->linkRecord != 0) {
+        func_020307B0(owner->linkRecord);
+        owner->linkRecord = 0;
+    }
+}
 
-t4 = a0 + 0;
-a0 = ((struct Obj12051 *)((char *)t4))->f0;
-    if (a0 == 0) goto loc_021666B6;
-loc_021666AE:
-    a0 = func_020307B0(a0);
-loc_021666B2:
-a0 = 0;
-((struct Obj12051 *)((char *)t4))->f0 = a0;
-loc_021666B6:
-    return;}
-
-
-
-
-
+/* Task main of func_0216666C: runs ov203, then stores its result and the completion flag. */
 int func_021666B8(void *task, u32 *state)
 {
-    struct WorkA *w = func_020124E8(task);
+    SymbolMapRecordWork *work = func_020124E8(task);
     switch (*state) {
     case 0:
-        func_02012444(task, (u32)ov203_id, (u32)d_021BFB3C, (u32)w);
+        func_02012444(task, (u32)ov203_id, (u32)d_021BFB3C, (u32)work);
         *state = *state + 1;
         break;
     case 1:
-        if (w->f14 == 2) *w->f1c = 1;
-        else *w->f1c = 0;
-        func_02166714((u8 *)w->f18, w->f10);
+        if (work->resultCode == 2) *work->outCompleted = 1;
+        else *work->outCompleted = 0;
+        func_02166714(work->progress, work->measuredValue);
         return 1;
     }
     return 0;
 }
-
-
-
-
-
 
 /*
  * generated: lane O24 (ov010 leaf/wrapper sweep)
@@ -884,25 +801,20 @@ int func_021666B8(void *task, u32 *state)
  *   python tools/match.py one --src src/matched/func_0216670C.c \
  *       --func func_0216670C --addr 0x0216670C --region ov010 --cc dsi/1.1p1 --thumb
  */
-int func_0216670C(void *p) { return ((struct Obj17727 *)p)->f4; }
+int func_0216670C(void *progress) { return ((SymbolMapProgress *)progress)->lastResult; }
 
-
-
-
-
-void func_02166714(u8 *p, int n) {
-    int q;
-    ((struct Obj07308 *)p)->f4 = n;
-    q = ((struct Obj07308 *)p)->f4 / 1350;
-    if (((struct Obj07308 *)p)->f8 <= q) ((struct Obj07308 *)p)->f8 = q;
+/* Stores a result and raises the best rank when the result / 1350 beats it. */
+void func_02166714(SymbolMapProgress *progress, int value) {
+    int rank;
+    progress->lastResult = value;
+    rank = progress->lastResult / 1350;
+    if (progress->bestRank <= rank) progress->bestRank = rank;
 }
 
-
-
-
-
-
 /*
+ * Script command: queries the event state by sub-command (4..8, the
+ * others answer 0) and writes the answer to a script variable.
+ *
  * The five unlabelled leaf callees are filed as their own shards
  * (matched witnesses): ov010_func_02166658.c, ov021_func_021C87A0.c,
  * ov021_func_021C87AC.c, ov021_func_021C87B8.c, ov021_func_021C87C8.c.
@@ -916,168 +828,128 @@ void func_02166714(u8 *p, int n) {
  *   (a/p colours swapped, direct branches). An inline switch helper is the
  *   same DIFF21.
  */
-int func_02166734(void *a, void *b)
+int func_02166734(void *vm, void *work)
 {
-    u8 *p;
-    u32 x;
-    u16 k;
-    u32 y;
+    u8 *eventState;
+    u32 index;
+    u16 subCommand;
+    u32 index2;
+    u16 *out;
 
-    func_0215A5F4(b);
-    p = func_02012ED0((struct Big *)func_020120F4((const struct Ctx *)func_0215A5DC(b)));
-    x = func_02159B10(a, b);
-    k = func_02011330((struct Stream *)a);
-    y = func_02159B10(a, b);
-    a = func_02159AE8(a, b);
-    switch (k) {
+    func_0215A5F4(work);
+    eventState = func_02012ED0(func_020120F4(func_0215A5DC(work)));
+    index = func_02159B10(vm, work);
+    subCommand = func_02011330(vm);
+    index2 = func_02159B10(vm, work);
+    out = func_02159AE8(vm, work);
+    switch (subCommand) {
     case 4:
-        *(u16 *)a = func_02166658(*(void **)p, x);
+        *out = func_02166658(*(void **)eventState, index);
         break;
     case 5:
-        *(u16 *)a = func_021C87A0(*(void **)p, x);
+        *out = func_021C87A0(*(void **)eventState, index);
         break;
     case 6:
-        *(u16 *)a = func_021C87AC(*(void **)p, x);
+        *out = func_021C87AC(*(void **)eventState, index);
         break;
     case 7:
-        *(u16 *)a = func_021C87B8(*(void **)p, x, y);
+        *out = func_021C87B8(*(void **)eventState, index, index2);
         break;
     case 8:
-        if (func_021C87C8(*(void **)p, x) != 0)
-            *(u16 *)a = 1;
+        if (func_021C87C8(*(void **)eventState, index) != 0)
+            *out = 1;
         else
-            *(u16 *)a = 0;
+            *out = 0;
         break;
     case 0:
     case 1:
     case 2:
     case 3:
     default:
-        *(u16 *)a = 0;
+        *out = 0;
         break;
     }
     return 0;
 }
 
-
-
-
-
-
 /*
- * The returned task remains live as func_0215897C's second argument.
+ * Script command: starts the ov203 record task for the progress record in
+ * the event state. The returned task remains live as func_0215897C's second
+ * argument.
  */
-int func_021667E0(void *a, void *b)
+int func_021667E0(void *vm, void *work)
 {
-    void *x = func_0215A5F4(b);
-    void *y = func_0215A5DC(b);
-    void **p;
-    void *r;
-    p = (void **)func_02012ED0(func_020120F4(y));
-    r = func_0216666C(y, *p, func_02159AE8(a, b));
-    if (r == 0)
+    void *scriptSystem = func_0215A5F4(work);
+    void *gameSystem = func_0215A5DC(work);
+    void **eventState;
+    void *task;
+    eventState = (void **)func_02012ED0(func_020120F4(gameSystem));
+    task = func_0216666C(gameSystem, *eventState, func_02159AE8(vm, work));
+    if (task == 0)
         return 1;
-    func_0215897C(x, r);
+    func_0215897C(scriptSystem, task);
     return 1;
 }
 
-
-
-
-
-
-
-
-int func_02166824(int a0, int a1)
+/* Reads item `index` of the save sync block, or 0xB when out of range. */
+int func_02166824(SaveSyncBlock *block, unsigned index)
 {
-    int a2;
-a2 = *(u8 *)((char *)a0 + 1);
-    if ((unsigned)a1 < (unsigned)a2) goto loc_0216682E;
-loc_0216682A:
-a0 = 0xb;
-    return a0;
-loc_0216682E:
-a0 = a0 + a1;
-a0 = *(u8 *)((char *)a0 + 3);
-    return a0;}
-
-
-
-
-
-
-
-
-int func_02166834(int a0, int a1)
-{
-
-    if (a1 == 0) goto loc_02166842;
-loc_02166838:
-    if (a1 == 1) goto loc_02166846;
-loc_0216683C:
-    if (a1 == 2) goto loc_0216684A;
-loc_02166840:
-    goto loc_0216684E;
-loc_02166842:
-a0 = *(u8 *)((char *)a0 + 1);
-    return a0;
-loc_02166846:
-a0 = *(u8 *)&((struct Obj00005 *)((char *)a0))->f0;
-    return a0;
-loc_0216684A:
-a0 = *(u8 *)((char *)a0 + 2);
-    return a0;
-loc_0216684E:
-a0 = 0;
-    return a0;}
-
-
-
-
-
-
-/*
- * Creates the 0x128-byte task for func_02166908, stores its arguments,
- * then fills a 232-entry flag byte table (+0x30) and a 20-entry halfword
- * table (+0x08) from a lookup object, zero padding the halfwords.
- */
-void *func_02166854(void *a, int b, u32 c, u32 d, u32 e)
-{
-    void *task;
-    struct Task *t;
-    void *o;
-    int i;
-    int n;
-    int j;
-
-    task = func_020122C0(a, 0, func_02166908, 0x128);
-    t = func_020124E8(task);
-    t->f00 = b;
-    t->f124 = e;
-    t->f11c = c;
-    t->f120 = d;
-    o = func_02009470(func_02012EBC(func_020120F4(a)));
-    for (i = 1; i < 0xE9; i++) {
-        j = i - 1;
-        if (func_02009794(o, i))
-            t->flag[j] = 1;
-        else
-            t->flag[j] = 0;
-    }
-    n = func_020095C8(o);
-    if (n > 20)
-        n = 20;
-    for (i = 0; i < n; i++)
-        t->h[i] = func_0200856C((const struct Sub0200852CObj *)func_0200973C(o, i));
-    for (; i < 20; i++)
-        t->h[i] = 0;
-    return task;
+    if (index >= block->count)
+        return 0xb;
+    return block->items[index];
 }
 
+/* Reads a header byte of the save sync block: 0 = count, 1 = type, 2 = variant. */
+int func_02166834(SaveSyncBlock *block, int sel)
+{
+    switch (sel) {
+    case 0:
+        return block->count;
+    case 1:
+        return block->type;
+    case 2:
+        return block->variant;
+    }
+    return 0;
+}
 
+/*
+ * Creates the ov218 picker task: it copies the mode and the three output
+ * pointers, then fills a 232-entry owned-flag table (+0x30) and a 20-entry
+ * halfword table (+0x08) from the save object, zero padding the halfwords.
+ */
+void *func_02166854(void *gameSystem, int mode, u32 outKind, u32 outValue, u32 outPicked)
+{
+    struct GameTask *task;
+    SymbolMapPickerWork *work;
+    struct SymbolMapSave *save;
+    int i;
+    int count;
+    int flagIndex;
 
-
-
+    task = func_020122C0(gameSystem, 0, func_02166908, 0x128);
+    work = func_020124E8(task);
+    work->mode = mode;
+    work->outPicked = (u16 *)outPicked;
+    work->outKind = (u16 *)outKind;
+    work->outValue = (u16 *)outValue;
+    save = func_02009470(func_02012EBC(func_020120F4(gameSystem)));
+    for (i = 1; i < 0xE9; i++) {
+        flagIndex = i - 1;
+        if (func_02009794(save, i))
+            work->ownedFlags[flagIndex] = 1;
+        else
+            work->ownedFlags[flagIndex] = 0;
+    }
+    count = func_020095C8(save);
+    if (count > 20)
+        count = 20;
+    for (i = 0; i < count; i++)
+        work->candidateIds[i] = func_0200856C(func_0200973C(save, i));
+    for (; i < 20; i++)
+        work->candidateIds[i] = 0;
+    return task;
+}
 
 /*
  * Former blocker: ABS32 for 0x000000DA (overlay id 218) and 0x021BAB5C (its callback table) have no
@@ -1086,181 +958,117 @@ void *func_02166854(void *a, int b, u32 c, u32 d, u32 e)
  *
  * 2026-10-05 (D8 lane 15): the callback table d_021BAB5C lives in ov218 (loaded by this function); the data line now carries the ov218 token and the relocation resolves.
  */
-int func_02166908(void *a, int *st)
+int func_02166908(void *task, int *state)
 {
-    struct S *s = func_020124E8(a);
-    switch (*st) {
+    SymbolMapPickerWork *work = func_020124E8(task);
+    switch (*state) {
     case 0:
-        func_02012444(a, (u32)ov_id_DA, (u32)d_021BAB5C, (u32)s);
-        *st = *st + 1;
+        func_02012444(task, (u32)ov_id_DA, (u32)d_021BAB5C, (u32)work);
+        *state = *state + 1;
         break;
     case 1:
-        if (s->f4 == 1) {
-            *s->p124 = 1;
-            *s->p11c = s->f1;
-            *s->p120 = s->f2;
+        if (work->resultCode == 1) {
+            *work->outPicked = 1;
+            *work->outKind = work->resultKind;
+            *work->outValue = work->resultValue;
         } else {
-            *s->p124 = 0;
-            *s->p11c = 0;
-            *s->p120 = 0;
+            *work->outPicked = 0;
+            *work->outKind = 0;
+            *work->outValue = 0;
         }
         return 1;
     }
     return 0;
 }
 
+/*
+ * Script command: reads item `index` (u8-truncated sub-command) of the save
+ * sync block into a script variable.
+ */
+int func_02166980(void *vm, void *work)
+{
+    SaveSyncBlock *block;
+    int index;
+    void *gameData;
+    u16 *out;
 
+    func_0215A5F4(work);
+    gameData = func_0215A5DC(work);
+    gameData = func_020120F4(gameData);
+    block = func_02012F38(gameData);
+    index = (u8)func_02011330(vm);
+    out = func_02159AE8(vm, work);
+    *out = func_02166824(block, index);
+    return 0;
+}
 
+/* Script command: reads a header byte of the save sync block into a script variable. */
+int func_021669C0(void *vm, void *work)
+{
+    void *gameData;
+    u16 *out;
+    int sel;
+    SaveSyncBlock *block;
 
-
+    func_0215A5F4(work);
+    gameData = func_0215A5DC(work);
+    gameData = func_020120F4(gameData);
+    block = func_02012F38(gameData);
+    sel = func_02159B10(vm, work);
+    out = func_02159AE8(vm, work);
+    *out = func_02166834(block, sel);
+    return 0;
+}
 
 /*
- * blocked:  listing 64 compiled 62
+ * Script command: starts the ov218 picker task (mode and three output
+ * variables from the script).
  */
-int func_02166980(int a0, int a1)
+int func_02166A00(void *vm, void *work)
 {
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    void *p;
-
-t6 = a1 + 0;
-t5 = a0 + 0;
-a0 = t6 + 0;
-    func_0215A5F4((void *)a0);
-loc_0216698C:
-a0 = t6 + 0;
-    p = func_0215A5DC((void *)a0);
-loc_02166992:
-    p = func_020120F4((const struct Ctx *)p);
-loc_02166996:
-    a0 = func_02012F38((int)p);
-loc_0216699A:
-t7 = a0 + 0;
-a0 = t5 + 0;
-    a0 = func_02011330((struct Stream *)a0);
-loc_021669A2:
-a0 = a0 << 0x18;
-t4 = (unsigned)a0 >> 0x18;
-a0 = t5 + 0;
-a1 = t6 + 0;
-    a0 = (int)func_02159AE8((void *)a0, (void *)a1); /* int-typed on purpose: pointer local changes codegen */
-loc_021669AE:
-t5 = a0 + 0;
-a0 = t7 + 0;
-a1 = t4 + 0;
-    a0 = func_02166824(a0, a1);
-loc_021669B8:
-*(u16 *)&((struct Obj00005 *)((char *)t5))->f0 = a0;
-a0 = 0;
-    return a0;}
-
-
-
-
-
-
-int func_021669C0(int a0, int a1)
-{
-    int t4;
-    int t5;
-    int t6;
-    int t7;
-    void *ctx;
-    u16 *q;
-    void *v0;
-    void *v1;
-
-t4 = a1 + 0;
-t5 = a0 + 0;
-a0 = t4 + 0;
-    v0 = func_0215A5F4((void *)a0);
-loc_021669CC:
-a0 = t4 + 0;
-    v1 = func_0215A5DC((void *)a0);
-loc_021669D2:
-    ctx = func_020120F4((const struct Ctx *)v1);
-loc_021669D6:
-    a0 = func_02012F38((int)ctx);
-loc_021669DA:
-t6 = a0 + 0;
-a0 = t5 + 0;
-a1 = t4 + 0;
-    a0 = (int)func_02159B10((void *)a0, (void *)a1);
-loc_021669E4:
-t7 = a0 + 0;
-a0 = t5 + 0;
-a1 = t4 + 0;
-    q = func_02159AE8((void *)a0, (void *)a1);
-loc_021669EE:
-a0 = t6 + 0;
-a1 = t7 + 0;
-    a0 = func_02166834(a0, a1);
-loc_021669F8:
-*q = a0;
-a0 = 0;
-    return a0;}
-
-
-
-
-
-
-int func_02166A00(void *a, void *b)
-{
-    void *r6 = func_0215A5F4((void *)b);
-    void *r7 = func_0215A5DC((void *)b);
-    int v1;
-    unsigned short *v2;
-    unsigned short *v3;
-    unsigned short *v4;
-    int t;
-    func_02012F38((int)func_020120F4((void *)r7));
-    v1 = func_02159B10(a, b);
-    v2 = func_02159AE8((void *)a, (void *)b);
-    v3 = func_02159AE8((void *)a, (void *)b);
-    v4 = func_02159AE8((void *)a, (void *)b);
-    t = (int)func_02166854(r7, v1, (u32)v2, (u32)v3, (u32)v4);
-    if (t == 0)
+    void *scriptSystem = func_0215A5F4(work);
+    void *gameSystem = func_0215A5DC(work);
+    int mode;
+    unsigned short *outKind;
+    unsigned short *outValue;
+    unsigned short *outPicked;
+    int task;
+    func_02012F38(func_020120F4(gameSystem));
+    mode = func_02159B10(vm, work);
+    outKind = func_02159AE8(vm, work);
+    outValue = func_02159AE8(vm, work);
+    outPicked = func_02159AE8(vm, work);
+    task = (int)func_02166854(gameSystem, mode, (u32)outKind, (u32)outValue, (u32)outPicked);
+    if (task == 0)
         return 1;
-    func_0215897C(r6, (void *)t);
+    func_0215897C(scriptSystem, (void *)task);
     return 1;
 }
 
-
-
-
+/* Per-frame callback: during VBlank, grows the BG2 scale and rewrites the BG2 matrix. */
 void func_02166A6C(void)
 {
-    int i;
-    int m[4];
-    float x;
-    float t;
-    float z = 0.0f;
+    int fixedScale;
+    int matrix[4];
+    float scale;
+    float rounded;
+    float zero = 0.0f;
     if (*(volatile u16 *)0x04000004 & 1) {
-        x = d_02172BA4[0] + d_021729FC;
-        d_02172BA4[0] = x;
-        if (1.0f / x > z)
-            t = 4096.0f * (1.0f / x) + 0.5f;
+        scale = d_02172BA4[0] + d_021729FC;
+        d_02172BA4[0] = scale;
+        if (1.0f / scale > zero)
+            rounded = 4096.0f * (1.0f / scale) + 0.5f;
         else
-            t = 4096.0f * (1.0f / x) - 0.5f;
-        i = (int)t;
-        func_0207AD58(m, i, i);
-        func_0207D59C((void *)0x04000020, m, 0x80, 0x5c, 0, 0);
+            rounded = 4096.0f * (1.0f / scale) - 0.5f;
+        fixedScale = (int)rounded;
+        func_0207AD58(matrix, fixedScale, fixedScale);
+        func_0207D59C((void *)0x04000020, matrix, 0x80, 0x5c, 0, 0);
     }
 }
 
-
-
-
-
-
-
-
 /*
- * Unlabelled leaf: stores 0x3F800000 and 0 into a two-word datum, then
- * tail-calls func_02005654(func_02166A6C, 0).
+ * Unlabelled leaf: stores 0x3F800000 and 0 into a two-word datum (scale
+ * 1.0, unused 0), then tail-calls func_02005654(func_02166A6C, 0).
  */
 void func_02166B0C(void)
 {
@@ -1269,70 +1077,59 @@ void func_02166B0C(void)
     func_02005654((int)func_02166A6C, 0);
 }
 
-
-
-
-
-
-
+/* Resets the BG2 matrix to identity and stops the per-frame callback. */
 void func_02166B2C(void) {
-    int m[4];
-    func_0207AD40(m);
-    func_0207D59C((void *)0x04000020, m, 128, 92, 0, 0);
+    int matrix[4];
+    func_0207AD40(matrix);
+    func_0207D59C((void *)0x04000020, matrix, 128, 92, 0, 0);
     func_0200566C();
 }
 
-
-
-
-
-
-
-
 /*
- * Stage machine on *mode, same family as ov002 func_021542C0.  The second
- * argument to func_020120B4 is pooled 0xD7 (215), a linker overlay id for
- * ov215; the third, 0x021F7118, lies in its window.
+ * Stage machine on *state, same family as ov002 func_021542C0.  The second
+ * argument to GAMESYSTEM_CallProc is pooled 0xD7 (215), a linker overlay id for
+ * ov215; the third, 0x021F7118, lies in its window. Skips straight to the
+ * end unless the Pokemon is an egg that is not flagged invalid.
  */
-u32 func_02166B58(void *obj, u32 *mode, u32 *args)
+u32 func_02166B58(void *task, u32 *state, PokeEventWork *work)
 {
-    u32 a0 = args[0];
-    u32 a1 = args[1];
-    u32 a2 = args[2];
+    struct GameSystem *gameSystem = work->gameSystem;
+    struct GameData *gameData = work->gameData;
+    u32 transitionArg = work->transitionArg;
 
-    switch (*mode) {
+    switch (*state) {
     case 0:
-        if (func_02017E1C((void *)args[3], 0x4C, 0) == 0 || func_02017E1C((void *)args[3], 3, 0) == 1) {
-            *mode = 7;
+        if (func_02017E1C(work->poke, 0x4C, 0) == 0 || func_02017E1C(work->poke, 3, 0) == 1) {
+            *state = 7;
         } else {
-            *mode = 1;
+            *state = 1;
         }
         break;
     case 1:
-        args[4] = a1;
-        args[5] = args[3];
-        *mode = 2;
+        work->procParam.gameData = gameData;
+        work->procParam.poke = work->poke;
+        *state = 2;
         break;
     case 2:
-        func_02012374(obj, (struct Evt **)func_021BE8D4((void *)a0, a2, 0, 0));
-        *mode = 3;
+        func_02012374(task, (struct GameEvent **)func_021BE8D4(gameSystem, transitionArg, 0, 0));
+        *state = 3;
         break;
     case 3:
-        func_02012374(obj, (struct Evt **)func_020144DC(a0, a2));
-        *mode = 4;
+        func_02012374(task, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, transitionArg));
+        *state = 4;
         break;
     case 4:
-        func_020120B4((struct IcaAnime *)a0, (u32)ov215_id, d_021F7118, &args[4]);
-        *mode = 5;
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov215_id, d_021F7118, &work->procParam);
+        *state = 5;
         break;
     case 5:
-        func_02012374(obj, func_020145CC((void *)a0));
-        *mode = 6;
+        func_02012374(task, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        *state = 6;
         break;
     case 6:
-        func_02012374(obj, (struct Evt **)func_021BE92C((void *)a0, a2, 0, 0, 1, 0, 0));
-        func_0216559C(func_02017E1C((void *)args[3], 5, 0));
-        *mode = 7;
+        func_02012374(task, (struct GameEvent **)func_021BE92C(gameSystem, transitionArg, 0, 0, 1, 0, 0));
+        func_0216559C(func_02017E1C(work->poke, 5, 0));
+        *state = 7;
         break;
     case 7:
         return 1;
@@ -1340,611 +1137,494 @@ u32 func_02166B58(void *obj, u32 *mode, u32 *args)
     return 0;
 }
 
-
-
-
-
-
-
-void *func_02166C4C(void *a, void *b, void *c) {
-    void *task;
-    void **w;
-    task = func_020122C0(a, 0, func_02166B58, 24);
-    w = func_020124E8(task);
-    w[0] = a;
-    w[2] = b;
-    w[1] = func_020120F4(a);
-    w[3] = c;
+/* Creates the ov215 task (see func_02166B58). */
+void *func_02166C4C(void *gameSystem, void *transitionArg, void *poke) {
+    struct GameTask *task;
+    PokeEventWork *work;
+    task = func_020122C0(gameSystem, 0, func_02166B58, 24);
+    work = func_020124E8(task);
+    work->gameSystem = gameSystem;
+    work->transitionArg = (u32)transitionArg;
+    work->gameData = func_020120F4(gameSystem);
+    work->poke = poke;
     return task;
 }
 
-
-
-
-
-
-
-
-u32 func_02166C7C(void *a, u32 b)
+/*
+ * Maps a zone id to the zone it is shown as: the special location's zone
+ * for zone 0x1A6, a table entry when the zone has one, else the zone
+ * parent itself.
+ *
+ * stand-in: the goto and the word load plus u16 truncation of the table
+ * entry are the only forms that give the original bytes; a break loop or
+ * a halfword field access changes them.
+ */
+u32 func_02166C7C(void *gameData, u32 zoneId)
 {
-    u32 v = func_02013E40(b);
-    u32 r;
+    u32 parentZone = func_02013E40(zoneId);
+    u32 remapped;
     int i;
-    if (v == 0x1A6)
-        return func_02013E40(func_02012894(a)->f4);
+    if (parentZone == 0x1A6)
+        return func_02013E40(func_02012894(gameData)->zoneId);
     for (i = 0; i < 2; i++) {
-        if (d_02171F2C[i].key == v) {
-            r = (u16)*(u32 *)((char *)d_02171F2C + i * 8);
+        if (d_02171F2C[i].source == parentZone) {
+            remapped = (u16)*(u32 *)((char *)d_02171F2C + i * 8);
             goto done;
         }
     }
-    r = 0xFFFF;
+    remapped = 0xFFFF;
 done:
-    if (r != 0xFFFF)
-        v = (u16)r;
-    return v;
+    if (remapped != 0xFFFF)
+        parentZone = (u16)remapped;
+    return parentZone;
 }
 
-
-
-
-
-
-
-int func_02166CD0(void *a, u32 msg)
+/*
+ * Checks an event flag; 0xF000 asks whether the beacon trainer key is set
+ * and 0xF001 whether the save object holds an entry, every other id is a
+ * plain zone event flag.
+ */
+int func_02166CD0(void *gameData, u32 flagId)
 {
-    int r7 = func_0201296C(a);
-    int r0 = (int)func_02012F08(a);
-    int r6 = (int)func_02012944(a);
-    u32 t;
-    int res;
-    t = (u32)func_02009470(func_02012EBC(a));
-    switch (msg) {
+    void *eventWork = (void *)func_0201296C(gameData);
+    void *miscSave = func_02012F08(gameData);
+    void *myStatus = func_02012944(gameData);
+    void *save;
+    int result;
+    save = func_02009470(func_02012EBC(gameData));
+    switch (flagId) {
     case 0xF000:
-        return func_0216BF9C((void *)r0, 1, (void *)r6);
+        return func_0216BF9C(miscSave, 1, myStatus);
     case 0xF001:
-        res = 0;
-        if (func_02009590((void *)t, r6, 0) >= 1)
-            res = 1;
-        return res;
+        result = 0;
+        if (func_02009590(save, (u32)myStatus, 0) >= 1)
+            result = 1;
+        return result;
     }
-    return func_020142E8((void *)r7, msg);
+    return func_020142E8(eventWork, flagId);
 }
-
-
-
-
-
-
 
 /*
  * Script command: reads a kind and three variable pointers, starts the
  * func_02166E50 task over a 0x1C-byte work, and for kinds 0..5 opens the
- * matching window (func_02024044), optionally filled with a message.
+ * matching PMS input (PMSI_PARAM_Create), optionally filled with a sentence.
  *
  * MATCH, first draft (2026-09-28 tree_ov010_4): byte-correct; the one
  * wildcard is the bl to arm9 0x02024108, a Thumb function (`ldrh r2, [r1]`
  * ...) with no witness outside this file (seed for the ARM9 session).
  */
-int func_02166D30(void *c, void *vm)
+int func_02166D30(void *vm, void *work)
 {
-    u8 buf[8];
-    u16 *result;
-    u16 *var1;
-    u16 *var0;
-    void *sys;
-    void *heap;
-    void *owner;
-    ChoiceWork *w;
-    void *task;
+    u8 sentenceBuf[8];
+    u16 *outResult;
+    u16 *outWord1;
+    u16 *outWord0;
+    void *gameSystem;
+    void *gameData;
+    void *scriptSystem;
+    PmsInputWork *inputWork;
+    struct GameTask *task;
     u16 kind;
     u32 mode;
 
-    sys = func_0215A5DC(vm);
-    heap = func_0215A5E4(vm);
-    owner = func_0215A5F4(vm);
-    kind = func_02159B10(c, vm);
-    var0 = func_02159AE8(c, vm);
-    var1 = func_02159AE8(c, vm);
-    result = func_02159AE8(c, vm);
+    gameSystem = func_0215A5DC(work);
+    gameData = func_0215A5E4(work);
+    scriptSystem = func_0215A5F4(work);
+    kind = func_02159B10(vm, work);
+    outWord0 = func_02159AE8(vm, work);
+    outWord1 = func_02159AE8(vm, work);
+    outResult = func_02159AE8(vm, work);
     mode = 0;
-    task = func_020122C0(sys, 0, func_02166E50, sizeof(ChoiceWork));
-    w = func_020124E8(task);
-    MI_CpuFill8(w, 0, sizeof(ChoiceWork));
-    w->kind = kind;
-    w->var0 = var0;
-    w->var1 = var1;
-    w->result = result;
-    *result = 0;
+    task = func_020122C0(gameSystem, 0, func_02166E50, sizeof(PmsInputWork));
+    inputWork = func_020124E8(task);
+    MI_CpuFill8(inputWork, 0, sizeof(PmsInputWork));
+    inputWork->kind = kind;
+    inputWork->outWord0 = outWord0;
+    inputWork->outWord1 = outWord1;
+    inputWork->outResult = outResult;
+    *outResult = 0;
     switch (kind) {
     case 0:
-        w->msg = 1;
-        w->hasMsg = 1;
+        inputWork->sentenceId = 1;
+        inputWork->hasSentence = 1;
         mode = 2;
         break;
     case 1:
-        w->msg = 2;
-        w->hasMsg = 1;
+        inputWork->sentenceId = 2;
+        inputWork->hasSentence = 1;
         mode = 2;
         break;
     case 2:
-        w->msg = 3;
-        w->hasMsg = 1;
+        inputWork->sentenceId = 3;
+        inputWork->hasSentence = 1;
         mode = 2;
         break;
     case 3:
-        w->msg = 4;
-        w->hasMsg = 1;
+        inputWork->sentenceId = 4;
+        inputWork->hasSentence = 1;
         mode = 2;
         break;
     case 4:
-        w->hasMsg = 0;
+        inputWork->hasSentence = 0;
         break;
     case 5:
-        w->hasMsg = 0;
+        inputWork->hasSentence = 0;
         mode = 1;
         break;
     default:
-        w->win = 0;
-        func_0215897C(owner, task);
+        inputWork->pmsParam = 0;
+        func_0215897C(scriptSystem, task);
         return 1;
     }
-    w->win = func_02024044(mode, 0, 0, 0, func_02012EBC(heap), 1);
-    if (w->hasMsg) {
-        func_0200E6FC(func_0200E6F0((u32)func_02012EBC(func_020120F4(sys))), w->msg, (struct Rec0200E6FC *)buf);
-        func_02024108(w->win, (const u16 *)buf);
+    inputWork->pmsParam = PMSI_PARAM_Create(mode, 0, 0, 0, func_02012EBC(gameData), 1);
+    if (inputWork->hasSentence) {
+        func_0200E6FC(func_0200E6F0((u32)func_02012EBC(func_020120F4(gameSystem))), inputWork->sentenceId, sentenceBuf);
+        PMSI_PARAM_SetSentence(inputWork->pmsParam, (const u16 *)sentenceBuf);
     }
-    func_0215897C(owner, task);
+    func_0215897C(scriptSystem, task);
     return 1;
 }
 
-
-
-
-
-
-
 /*
  * Two-stage task: stage 0 starts an ov110 sub-task (pooled 0x6E is the
- * overlay id, 0x021C39B8 a table in its window) on the work at +0x10;
+ * overlay id, 0x021C39B8 a table in its window) on the PMS parameter at +0x10;
  * stage 1 reads back its result by the kind at +0x00 into the u16 outputs
- * at +0x04/+0x08 and flags +0x0C, then frees the work.
+ * at +0x04/+0x08 and flags +0x0C, then frees the parameter.
  *
  * Byte-correct (lane B5, run 1).  7 of 14 sites unresolved, no C change helps:
  *   - ov110_id 0x6E: overlay_id refuses, func_02012444 is not in
  *     OVERLAY_ID_CONSUMERS (it stores a1 in a descriptor for the state
- *     machine func_0201240C rather than passing it straight to a loader).
+ *     machine GAME_EVENT_CallProcSeq rather than passing it straight to a loader).
  *   - d_021C39B8: with the ov110 token the hint is "contested" and no
  *     overlay_id site loads ov110; without it, "no witness".  Resolves once
  *     ov110_id does.
  *   - arm9 unlabelled leaves 0x0202411C, 0x02024124, 0x02024128,
- *     0x02024134 (a .word run in asm/arm9/main.s after func_020240FC) and
+ *     0x02024134 (a .word run in asm/arm9/main.s after PMSI_PARAM_Delete) and
  *     0x0200E714: no witness outside this range; each needs its own EXACT
  *     arm9 entry (matched class).
  * Same blocker family as ov010_func_02166908 / ov010_func_0216B004.
  *
  * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
  */
-u32 func_02166E50(void *obj, u32 *mode)
+u32 func_02166E50(void *task, u32 *state)
 {
-    Work *w = func_020124E8(obj);
-    void *t = w->task;
-    Res4 r4;
-    Res8 r8;
-    u16 v;
-    u16 done;
+    PmsInputWork *work = func_020124E8(task);
+    void *pmsParam = work->pmsParam;
+    PmsInputWords words;
+    PmsInputSentence sentence;
+    u16 second;
+    u16 result;
 
-    switch (*mode) {
+    switch (*state) {
     case 0:
-        if (t == 0) {
+        if (pmsParam == 0) {
             return 1;
         }
-        func_02012444(obj, (u32)ov110_id, (u32)d_021C39B8, (u32)t);
-        (*mode)++;
+        func_02012444(task, (u32)ov110_id, (u32)d_021C39B8, (u32)pmsParam);
+        (*state)++;
         break;
     case 1:
-        if (func_0202411C(t) != 0) {
-            done = 0;
+        if (PMSI_PARAM_CheckCanceled(pmsParam) != 0) {
+            result = 0;
         } else {
-            if (w->kind == 5) {
-                func_02024128(t, &r4);
-                *w->out0 = r4.a;
-                v = r4.b;
-            } else if (w->kind == 4) {
-                *w->out0 = func_02024124(t);
-                v = 0;
+            if (work->kind == 5) {
+                PMSI_PARAM_GetWords(pmsParam, &words);
+                *work->outWord0 = words.first;
+                second = words.second;
+            } else if (work->kind == 4) {
+                *work->outWord0 = PMSI_PARAM_GetWord(pmsParam);
+                second = 0;
             } else {
-                func_02024134(t, &r8);
-                if (w->f18 != 0) {
-                    func_0200E714(func_0200E6F0((u32)func_02012EBC(func_020120F4(func_020124E4(obj)))), w->f14, (struct Rec0200E714 *)(&r8));
+                PMSI_PARAM_GetSentence(pmsParam, &sentence);
+                if (work->hasSentence != 0) {
+                    func_0200E714(func_0200E6F0((u32)func_02012EBC(func_020120F4(func_020124E4(task)))), work->sentenceId, (&sentence));
                 }
-                *w->out0 = r8.a;
-                v = r8.b;
+                *work->outWord0 = sentence.first;
+                second = sentence.second;
             }
-            *w->out1 = v;
-            done = 1;
+            *work->outWord1 = second;
+            result = 1;
         }
-        *w->done = done;
-        func_020240FC(w->task);
+        *work->outResult = result;
+        PMSI_PARAM_Delete(work->pmsParam);
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-
-int func_02166F1C(void *a, void *b)
+/*
+ * Script command: reads a sub-screen id (0xFFFF = default) and an enable
+ * flag, calls one of two field map functions and sets the sub-screen mode.
+ */
+int func_02166F1C(void *vm, void *work)
 {
-    void *s4;
-    void *s0;
-    void *s8;
-    int r7;
-    int r4;
-    int r5;
-    func_0215A5F4(b);
-    s4 = func_0215A5DC((void *)b);
-    s0 = func_0215A5E4((void *)b);
-    s8 = func_0201210C((void *)s4);
-    r7 = func_02188C6C((u8 *)s8);
-    r4 = func_02159B10(a, b);
-    r5 = func_02159B10(a, b);
-    if (r4 == 0xFFFF)
-        r4 = func_0202C794(s4, func_02188C9C(s8));
-    if (r5 != 0)
-        func_021A1BE4(r7, r4);
+    void *gameSystem;
+    void *gameData;
+    void *fieldMap;
+    int fieldState;
+    int modeId;
+    int enable;
+    func_0215A5F4(work);
+    gameSystem = func_0215A5DC(work);
+    gameData = func_0215A5E4(work);
+    fieldMap = func_0201210C(gameSystem);
+    fieldState = func_02188C6C(fieldMap);
+    modeId = func_02159B10(vm, work);
+    enable = func_02159B10(vm, work);
+    if (modeId == 0xFFFF)
+        modeId = func_0202C794(gameSystem, func_02188C9C(fieldMap));
+    if (enable != 0)
+        func_021A1BE4(fieldState, modeId);
     else
-        func_021A1BDC(r7, r4);
-    func_020129A0(s0, r4 & 0xff);
+        func_021A1BDC(fieldState, modeId);
+    GAME_DATA_SetSubscreenMode(gameData, modeId & 0xff);
     return 0;
 }
 
-
-
-
-
-
-
-int func_02166F9C(void *a, int *st, int *p)
+/*
+ * Task main of func_02167044: closes the field, runs ov217 (pooled 0xD9)
+ * on the heap block, opens the field and frees the block.
+ */
+int func_02166F9C(void *task, int *state, ResearchTopTaskWork *work)
 {
-    int p0 = p[0];
-    int p1 = p[1];
-    switch (*st) {
+    struct GameSystem *gameSystem = work->gameSystem;
+    int transitionArg = work->transitionArg;
+    switch (*state) {
     case 0:
-        func_02012374(a, (struct Evt **)func_021BE8D4((void *)p0, p1, 0, 0));
-        *st = 1;
+        func_02012374(task, (struct GameEvent **)func_021BE8D4(gameSystem, transitionArg, 0, 0));
+        *state = 1;
         break;
     case 1:
-        func_02012374(a, (struct Evt **)func_020144DC(p0, p1));
-        *st = 2;
+        func_02012374(task, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, transitionArg));
+        *state = 2;
         break;
     case 2:
-        func_020120B4((struct IcaAnime *)p0, (u32)ov_id_D9, d_021C3FE0, (void *)p[2]);
-        *st = 3;
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov_id_D9, d_021C3FE0, work->param);
+        *state = 3;
         break;
     case 3:
-        func_02012374(a, (struct Evt **)((int)func_020145CC((void *)p0)));
-        *st = 4;
+        func_02012374(task, (struct GameEvent **)((int)FIELD_STATUS_CreateFieldOpenEvent(gameSystem)));
+        *state = 4;
         break;
     case 4:
-        func_02012374(a, (struct Evt **)func_021BE92C((void *)p0, p1, 0, 0, 1, 0, 0));
-        *st = 5;
+        func_02012374(task, (struct GameEvent **)func_021BE92C(gameSystem, transitionArg, 0, 0, 1, 0, 0));
+        *state = 5;
         break;
     case 5:
-        func_020307B0((void *)p[2]);
+        func_020307B0(work->param);
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-void *func_02167044(void *a, void *b) {
-    void *task;
-    void **w;
-    void **q;
-    task = func_020122C0(a, 0, func_02166F9C, 12);
-    w = func_020124E8(task);
-    w[0] = a;
-    w[1] = b;
-    q = func_02030734(4, 4, 0, d_02172A00, 117);
-    w[2] = q;
-    q[0] = a;
+/* Creates the ov217 task (see func_02166F9C) with a 4-byte heap block that holds the game system. */
+void *func_02167044(void *gameSystem, void *transitionArg) {
+    struct GameTask *task;
+    ResearchTopTaskWork *work;
+    ResearchTopParam *param;
+    task = func_020122C0(gameSystem, 0, func_02166F9C, 12);
+    work = func_020124E8(task);
+    work->gameSystem = gameSystem;
+    work->transitionArg = (int)transitionArg;
+    param = func_02030734(4, 4, 0, d_02172A00, 117);
+    work->param = param;
+    param->gameSystem = gameSystem;
     return task;
 }
 
-
-
-
-
-
-
-int func_02167080(void *a, int *st, struct O_02166B0C *o, int a3)
+/*
+ * Task main of the research report: builds the message window (stage 0),
+ * waits for it to open (1), waits for a key press (2) and tears it all down (3).
+ */
+int func_02167080(void *task, int *state, ResearchReportWork *work, int extra)
 {
-    switch (*st) {
+    switch (*state) {
     case 0:
-        func_02167154((int)o, (int)st, (int)o, a3);
-        func_02167178(o);
-        func_021671DC((int)o);
-        func_021671FC((struct O_021671FC *)o);
-        *st = *st + 1;
+        func_02167154(work, (int)state, work, extra);
+        func_02167178(work);
+        func_021671DC(work);
+        func_021671FC(work);
+        *state = *state + 1;
         break;
     case 1:
-        if (func_0219077C((u8 *)o->f14) == 1)
-            *st = *st + 1;
+        if (func_0219077C(work->window) == 1)
+            *state = *state + 1;
         break;
     case 2:
         if (func_020362DC() & 0xf3)
-            *st = *st + 1;
+            *state = *state + 1;
         break;
     case 3:
-        func_021672B4((int)o);
-        func_021671EC((int)o);
-        func_021671CC((int)o);
-        func_02167168((int)o);
+        func_021672B4(work);
+        func_021671EC(work);
+        func_021671CC(work);
+        func_02167168(work);
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-void *func_021670F8(void *p) {
-    void *task;
-    task = func_020122C0(p, 0, func_02167080, 32);
-    func_0216711C(func_020124E8(task), p);
+void *func_021670F8(void *gameSystem) {
+    struct GameTask *task;
+    task = func_020122C0(gameSystem, 0, func_02167080, 32);
+    func_0216711C(func_020124E8(task), gameSystem);
     return task;
 }
-
-
-
-
 
 /*
  * extent: two zero alignment bytes at 0x02167152 precede the next function.
  */
-void func_0216711C(u8 *p, void *sys) {
-    void *field;
-    field = func_0201210C(sys);
-    func_02082BCC(p, 0, 32);
-    ((struct Obj05899 *)p)->f0 = func_02188C84(field);
-    ((struct Obj05899 *)p)->f4 = sys;
-    ((struct Obj05899 *)p)->f8 = func_020120F4(sys);
-    ((struct Obj05899 *)p)->fC = field;
-    ((struct Obj05899 *)p)->f10 = func_02188C54(field);
+void func_0216711C(ResearchReportWork *work, void *gameSystem) {
+    void *fieldMap;
+    fieldMap = func_0201210C(gameSystem);
+    func_02082BCC(work, 0, 32);
+    work->heapId = func_02188C84(fieldMap);
+    work->gameSystem = gameSystem;
+    work->gameData = func_020120F4(gameSystem);
+    work->fieldMap = fieldMap;
+    work->fx = (void *)func_02188C54(fieldMap);
 }
 
-
-
-
-
-
-struct MsgBank *func_02167154(int a0, int a1, int a2, int a3)
+/* Loads the report message bank. */
+struct MsgBank *func_02167154(ResearchReportWork *work, int stateRef, ResearchReportWork *workCopy, int extra)
 {
-    int t4;
     struct MsgBank *bank;
 
-t4 = a0 + 0;
-a3 = ((struct Obj00565 *)((char *)t4))->f0;
-a0 = 0;
-a1 = 3;
-a2 = 0x2f;
-    bank = func_02045B38(a0, a1, a2, a3);
-loc_02167164:
-*(struct MsgBank * *)&((struct Obj00565 *)t4)->f18 = bank;
-    return bank;}
+    bank = func_02045B38(0, 3, 0x2f, work->heapId);
+    work->msgBank = bank;
+    return bank;
+}
 
-
-
-
-
-
-int func_02167168(int a0)
+int func_02167168(ResearchReportWork *work)
 {
-    int t4;
+    func_02045C04(work->msgBank);
+    work->msgBank = 0;
+    return 0;
+}
 
-t4 = a0 + 0;
-a0 = *(int *)&((struct Obj00565 *)t4)->f18;
-    a0 = func_02045C04(a0);
-loc_02167172:
-a0 = 0;
-*(int *)&((struct Obj00565 *)t4)->f18 = a0;
-    return a0;}
-
-
-
-
-
-
-void func_02167178(struct O_02166B0C *o)
+/* Opens the info window; it is 4 lines high for report kind 0 and 8 lines for the others. */
+void func_02167178(ResearchReportWork *work)
 {
-    int a;
-    int b;
-    int c;
-    switch (func_021672D0((int)o)) {
+    int x;
+    int width;
+    int height;
+    switch (func_021672D0(work)) {
     case 0:
-        a = 1;
-        b = 0x1e;
-        c = 4;
+        x = 1;
+        width = 0x1e;
+        height = 4;
         break;
     case 1:
     case 2:
     case 3:
     case 4:
     case 5:
-        a = 1;
-        b = 0x1e;
-        c = 8;
+        x = 1;
+        width = 0x1e;
+        height = 8;
         break;
     }
-    o->f14 = (int)func_02190708((struct Fx *)o->f10, o->f18, a, a, b, c);
+    work->window = func_02190708(work->fx, work->msgBank, x, x, width, height);
 }
 
-
-
-
-
-
-int func_021671CC(int a0)
+int func_021671CC(ResearchReportWork *work)
 {
-    int t4;
-
-t4 = a0 + 0;
-a0 = ((struct Obj00565 *)t4)->f14;
-    a0 = func_02190728(a0);
-loc_021671D6:
-a0 = 0;
-((struct Obj00565 *)t4)->f14 = a0;
-    return a0;}
-
-
-
-
-
-
-struct WordSet *func_021671DC(int a0)
-{
-    int t4;
-    struct WordSet *ws;
-
-t4 = a0 + 0;
-a0 = ((struct Obj00565 *)((char *)t4))->f0;
-    ws = func_0201EC64(a0);
-loc_021671E6:
-*(struct WordSet * *)&((struct Obj00565 *)t4)->f1C = ws;
-    return ws;}
-
-
-
-
-int func_021671EC(int a0)
-{
-    int t4;
-
-t4 = a0 + 0;
-a0 = *(int *)&((struct Obj00565 *)t4)->f1C;
-    a0 = func_0201ED04(a0);
-loc_021671F6:
-a0 = 0;
-*(int *)&((struct Obj00565 *)t4)->f1C = a0;
-    return a0;}
-
-
-
-
-void func_021671FC(struct O_021671FC *o)
-{
-    void *r4;
-    void *r6;
-    int r7;
-    int s8;
-    int sc;
-    r4 = func_020457B0(0x100, o->id);
-    r6 = func_020457B0(0x100, o->id);
-    r7 = func_021672D0((int)o);
-    s8 = func_021672E4((int)o);
-    sc = func_021672F8((int)o);
-    r7 = func_0216730C(r7);
-    func_0201F02C((struct WordSet *)o->f1c, 0, func_02012944((void *)o->f8));
-    func_0201EFA4((struct WordSet *)o->f1c, 1, s8, 5, 1, 1);
-    func_0201EFA4((struct WordSet *)o->f1c, 2, sc, 5, 1, 1);
-    func_02045CAC((struct MsgBank *)o->f18, r7, r4);
-    func_0201F250((struct WordSet *)o->f1c, r6, r4);
-    func_0201F31C((struct WordSet *)o->f1c);
-    func_02190758(o->f14, 8, 0, (u32)r6);
-    func_020409B4(func_02045730((void *)func_021907C0((u8 *)o->f14)));
-    func_02045808(r4);
-    func_02045808(r6);
+    func_02190728(work->window);
+    work->window = 0;
+    return 0;
 }
 
-
-
-
-
-void func_021672B4(int a0)
+struct WordSet *func_021671DC(ResearchReportWork *work)
 {
-    int t4;
+    struct WordSet *wordSet;
 
-    t4 = a0;
-    func_02190788(((struct Obj00565 *)t4)->f14);
-    func_020409B4(func_02045730((struct Descriptor *)func_021907C0((u8 *)((struct Obj00565 *)t4)->f14)));
+    wordSet = func_0201EC64(work->heapId);
+    work->wordSet = wordSet;
+    return wordSet;
 }
 
-
-
-
-
-
-int func_021672D0(int a0)
+int func_021671EC(ResearchReportWork *work)
 {
-    void *big;
-    void *sys;
+    func_0201ED04(work->wordSet);
+    work->wordSet = 0;
+    return 0;
+}
 
-
-a0 = ((struct Obj17729 *)a0)->f8;
-    big = func_02012EC0((struct Big *)a0);
-loc_021672D8:
-    sys = func_0200C0E8(big);
-loc_021672DC:
-    a0 = func_0200C224(sys);
-loc_021672E0:
-    return a0;}
-
-
-
-
-
-
-int func_021672E4(int a0)
+/* Formats the report text (player name and two numbers) and prints it in the info window. */
+void func_021671FC(ResearchReportWork *work)
 {
-    void *big;
-    void *sys;
+    struct StrBuf *rawText;
+    struct StrBuf *formattedText;
+    int messageId;
+    int numberA;
+    int numberB;
+    rawText = func_020457B0(0x100, work->heapId);
+    formattedText = func_020457B0(0x100, work->heapId);
+    messageId = func_021672D0(work);
+    numberA = func_021672E4(work);
+    numberB = func_021672F8(work);
+    messageId = func_0216730C(messageId);
+    func_0201F02C(work->wordSet, 0, func_02012944(work->gameData));
+    func_0201EFA4(work->wordSet, 1, numberA, 5, 1, 1);
+    func_0201EFA4(work->wordSet, 2, numberB, 5, 1, 1);
+    func_02045CAC(work->msgBank, messageId, rawText);
+    func_0201F250(work->wordSet, formattedText, rawText);
+    func_0201F31C(work->wordSet);
+    func_02190758(work->window, 8, 0, (u32)formattedText);
+    func_020409B4(func_02045730((void *)func_021907C0(work->window)));
+    func_02045808(rawText);
+    func_02045808(formattedText);
+}
 
-
-a0 = ((struct Obj17730 *)a0)->f8;
-    big = func_02012EC0((struct Big *)a0);
-loc_021672EC:
-    sys = func_0200C0E8(big);
-loc_021672F0:
-    a0 = func_0200C1DC(sys);
-loc_021672F4:
-    return a0;}
-
-
-
-
-
-
-int func_021672F8(int a0)
+void func_021672B4(ResearchReportWork *work)
 {
-    void *big;
-    void *sys;
+    func_02190788(work->window);
+    func_020409B4(func_02045730((void *)func_021907C0(work->window)));
+}
 
-
-a0 = ((struct Obj17731 *)a0)->f8;
-    big = func_02012EC0((struct Big *)a0);
-loc_02167300:
-    sys = func_0200C0E8(big);
-loc_02167304:
-    a0 = func_0200C1C4(sys);
-loc_02167308:
-    return a0;}
-
-
-
-
-
-int func_0216730C(unsigned int n)
+/* Report kind (0..5) from the research report block. */
+int func_021672D0(ResearchReportWork *work)
 {
-    switch (n) {
+    void *gameDataSave;
+    void *block;
+    int result;
+
+    gameDataSave = GAME_DATA_GetSaveControlWork(work->gameData);
+    block = func_0200C0E8(gameDataSave);
+    result = func_0200C224(block);
+    return result;
+}
+
+/* First number of the research report block. */
+int func_021672E4(ResearchReportWork *work)
+{
+    void *gameDataSave;
+    void *block;
+    int result;
+
+    gameDataSave = GAME_DATA_GetSaveControlWork(work->gameData);
+    block = func_0200C0E8(gameDataSave);
+    result = func_0200C1DC(block);
+    return result;
+}
+
+/* Second number of the research report block. */
+int func_021672F8(ResearchReportWork *work)
+{
+    void *gameDataSave;
+    void *block;
+    int result;
+
+    gameDataSave = GAME_DATA_GetSaveControlWork(work->gameData);
+    block = func_0200C0E8(gameDataSave);
+    result = func_0200C1C4(block);
+    return result;
+}
+
+/* Message id of the report text for a report kind (0..5), 0 otherwise. */
+int func_0216730C(unsigned int kind)
+{
+    switch (kind) {
     case 0:
         return 0x174;
     case 1:

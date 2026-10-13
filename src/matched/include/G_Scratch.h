@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_SCRATCH_H
 #define ALETHEIA_G_SCRATCH_H
-/* g_0214655C (arm9) */
+/* _PrintJobWork (arm9) */
 struct Scratch {
     signed short unk00;
     signed short unk02;

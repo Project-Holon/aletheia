@@ -14,7 +14,7 @@
  *
  * symbols:
  *   g_021CF964  0x021CF964  data
- *   func_0215F644 0x0215F644 arm
+ *   SOC_Close 0x0215F644 arm
  *   func_02085A38 0x02085A38 arm
  *   func_0215EBB4 0x0215EBB4 arm
  *   func_021BA850 0x021BA850 arm ov114
@@ -84,7 +84,7 @@ extern void func_02088168(u32 *buffer);
 extern void func_02162248(void *, int);
 extern int func_0215F4DC(int, int *, int, int);
 extern void func_0215F428(int, int, int);
-extern int func_0215F644(int socket);
+extern int SOC_Close(int socket);
 extern void func_02085A38(unsigned long msec);
 extern void func_0215EBB4(void);
 extern void func_021BA850(int a);
@@ -148,9 +148,9 @@ int func_021B9CFC(int unused, Req_021B9C80 *req_p, int socket)
     int error;
     int elapsed;
 
-    error = func_0215F644(socket);
+    error = SOC_Close(socket);
     if (error == 0 || error == -26) {
-        for (elapsed = 0; (error = func_0215F644(socket)) == -26 && elapsed <= 10000; elapsed += 500) {
+        for (elapsed = 0; (error = SOC_Close(socket)) == -26 && elapsed <= 10000; elapsed += 500) {
             func_02085A38(500);
             func_0215EBB4();
         }

@@ -13,14 +13,14 @@
  *   d_0220AF20     0x0220AF20  data   ov094  a4
  *   func_021F6A18  0x021F6A18  thumb  ov094
  *   func_021F6E1C  0x021F6E1C  thumb  ov094
- *   func_02021ED8  0x02021ED8  thumb
+ *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  */
 typedef unsigned int u32;
 
 extern char *d_0220AF20;
 extern int func_021F6A18(char *p);
 extern int func_021F6E1C(char *p);
-extern u32 func_02021ED8(const char *ptr);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
 int func_021F8324(u32 a)
 {
@@ -33,7 +33,7 @@ int func_021F8324(u32 a)
     if (a == 1 || a == 2 || a == 4)
         y = func_021F6E1C((char *)(*(u32 *)(d_0220AF20 + 0x198)));
     if (a - 3 <= 1) {
-        z = func_02021ED8((const char *)(*(int *)(d_0220AF20 + 0x18C))) != 0;
+        z = PALANM_GetFadeRequestBits((const char *)(*(int *)(d_0220AF20 + 0x18C))) != 0;
     }
     if (x == 1 || y == 1 || z == 1)
         return 1;

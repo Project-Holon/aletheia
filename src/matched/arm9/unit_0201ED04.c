@@ -19,6 +19,10 @@
  *
  * symbols:
  *   unk_020A7370   0x020A7370  data
+ *   PMSI_PARAM_ValidateWord  0x020246C8  thumb
+ *   PMSI_PARAM_ValidateDecoValue  0x0202473C  thumb
+ *   PMS_WORD_LoadString  0x02024838  thumb
+ *   STRBUF_Clear  0x0204581C  arm
  *
  * 760 bytes, 0x0201ED04..0x0201EFFC, 22 functions, the body of wordset.c.
  * The file name is attested at the constructor 0x0201EC74, which is just
@@ -82,14 +86,14 @@ struct Rec;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0204581C(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
 extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02045C04(struct Rec *rec);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_020246C8(u16 *p, u32 mode, u32 flag);
-extern u32 func_0202473C(u32 *p, u32 a);
-extern void func_02024838(u32 id, void *dest, u32 heap);
+extern u32 PMSI_PARAM_ValidateWord(u16 *p, u32 mode, u32 flag);
+extern u32 PMSI_PARAM_ValidateDecoValue(u32 *p, u32 a);
+extern void PMS_WORD_LoadString(u32 id, void *dest, u32 heap);
 extern void func_0201F35C(void *ctx, s32 n, u32 kind, u32 mode, u32 flag);
 
 struct Tag {
@@ -152,7 +156,7 @@ void func_0201ED50(struct Tag *t)
 void func_0201ED64(struct WordSet *p, u32 i)
 {
     func_0201ED50(&p->entries[i].tag);
-    func_0204581C(p->entries[i].str);
+    STRBUF_Clear(p->entries[i].str);
 }
 
 void func_0201ED84(struct WordSet *p, u32 i, const void *src,
@@ -280,8 +284,8 @@ void func_0201EFC8(struct WordSet *p, u32 i, u32 v)
 {
     u16 x = v;
 
-    func_020246C8(&x, 0, 0);
-    func_02024838((u16)x, p->buf, (u16)p->heap);
+    PMSI_PARAM_ValidateWord(&x, 0, 0);
+    PMS_WORD_LoadString((u16)x, p->buf, (u16)p->heap);
     func_0201ED84(p, i, p->buf, 0);
 }
 

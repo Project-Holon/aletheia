@@ -14,8 +14,8 @@
  *   func_020399A8 0x020399A8 arm
  *   func_0203D1A4 0x0203D1A4 arm
  *   func_0203D1C0 0x0203D1C0 arm
- *   func_0203E808 0x0203E808 arm
- *   func_0203E8C8 0x0203E8C8 arm
+ *   GFL_NET_LOWER_DATA_CreatePostWork 0x0203E808 arm
+ *   GFL_NET_LOWER_DATA_DeletePostWork 0x0203E8C8 arm
  *   func_021BE00C 0x021BE00C thumb ov172
  *   func_021BDFDC 0x021BDFDC thumb ov172
  *   func_021BE058 0x021BE058 thumb ov172
@@ -32,8 +32,8 @@ struct Link;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(struct Link *p);
 extern u32 func_0203D1C0(u32 index);
-extern void func_0203E808(u32 a, int b, u32 c, u32 d);
-extern void func_0203E8C8(int a);
+extern void GFL_NET_LOWER_DATA_CreatePostWork(u32 a, int b, u32 c, u32 d);
+extern void GFL_NET_LOWER_DATA_DeletePostWork(int a);
 extern u16 func_021BE00C(u16 *p);
 extern u32 func_021BDFDC(void *p);
 extern void func_021BE058(void *p, u32 v);
@@ -67,7 +67,7 @@ void func_021B8454(void *a, char *q)
                     for (j = 0; j < 3; j++) {
                         u32 m = 1 << j;
                         if (!(m & *(u8 *)(q + 0x170))) {
-                            func_0203E808(0xC000, i, w, *(u32 *)(q + j * 4 + 0x164));
+                            GFL_NET_LOWER_DATA_CreatePostWork(0xC000, i, w, *(u32 *)(q + j * 4 + 0x164));
                             *(u8 *)(q + 0x170) |= (u8)m;
                             *(u8 *)(e + 0x78) = j;
                             break;
@@ -86,7 +86,7 @@ void func_021B8454(void *a, char *q)
             if (*(u32 *)(e2 + 0x64) == 1) {
                 *(u32 *)(e2 + 0x64) = 0;
                 if (*(u32 *)(e2 + 0x70) == 0) {
-                    func_0203E8C8(i);
+                    GFL_NET_LOWER_DATA_DeletePostWork(i);
                     *(u8 *)(q + 0x170) -= (u8)(1 << *(u8 *)(e2 + 0x78));
                 }
                 if (*(u8 *)(q + 0x3AE) == i)

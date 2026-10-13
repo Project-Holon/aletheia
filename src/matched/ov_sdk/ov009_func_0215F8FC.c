@@ -1,5 +1,5 @@
 /*
- * function: func_0215F8FC
+ * function: SOC_Startup
  * address:  0x0215F8FC
  * packet:   pkt_ov009_0215F8FC
  * region:   ov009
@@ -77,7 +77,7 @@ extern void func_0215F8D0(void *ptr);
 extern SOCStatics g_021AA4BC;
 extern SOCLConfig g_021AA50C;
 
-int func_0215F8FC(const SOCConfig *config)
+int SOC_Startup(const SOCConfig *config)
 {
     g_021AA4BC.soclConfig.use_dhcp = (config->flag == 1);
     g_021AA4BC.soclConfig.my_ip = SOC_HtoNl(config->addr);

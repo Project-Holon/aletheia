@@ -12,6 +12,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02014134.c \
  *       --func func_02014134 --addr 0x02014134 --cc 1.1p1 --thumb
+ *
+ * symbols:
+ *   ZONEDATA_ExitDirToDir  0x02014274  thumb
  */
 #include "../include/Obj00193.h"
 
@@ -22,7 +25,7 @@ typedef signed short s16;
 typedef signed char s8;
 typedef signed int s32;
 
-extern u32  func_02014274(u32 a);
+extern u32  ZONEDATA_ExitDirToDir(u32 a);
 extern u8 func_0201441C(int i);
 
 void func_02014134(u8 *p, u16 b, int c, u16 d, u16 e, u16 f, u16 g, s16 h)
@@ -37,5 +40,5 @@ void func_02014134(u8 *p, u16 b, int c, u16 d, u16 e, u16 f, u16 g, s16 h)
     *(u16 *)&((struct Obj00193 *)p)->f10 = f;
     *(u16 *)(p + 0x16) = g;
     *(u16 *)&((struct Obj00193 *)p)->f14 = h;
-    *(u8 *)(p + 0x13) = func_0201441C(func_02014274(d));
+    *(u8 *)(p + 0x13) = func_0201441C(ZONEDATA_ExitDirToDir(d));
 }

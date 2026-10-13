@@ -1,5 +1,5 @@
 /*
- * function: func_0205A12C
+ * function: DWCi_GetAllocateHeader
  * address:  0x0205A12C
  * packet:   pkt_0205A12C
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void *func_0205A12C(char *p)
+void *DWCi_GetAllocateHeader(char *p)
 {
     return p - 0x20;
 }

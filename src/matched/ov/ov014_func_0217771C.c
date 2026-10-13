@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A4 0x021797A4 data ov014 a4
+ *   g_pWhPipeWork 0x021797A4 data ov014 a4
  *   func_0217731C 0x0217731C thumb ov014
  */
 
 typedef unsigned char u8;
-extern u8 *g_021797A4;
+extern u8 *g_pWhPipeWork;
 extern int func_0217731C(u8 *obj);
-int func_0217771C(u8 *obj) { u8 *base = g_021797A4; void (*fn)(void); if (func_0217731C(obj) == 0) return 0; fn = *(void (**)(void))(base + 0xC60); if (fn != 0) fn(); return 1; }
+int func_0217771C(u8 *obj) { u8 *base = g_pWhPipeWork; void (*fn)(void); if (func_0217731C(obj) == 0) return 0; fn = *(void (**)(void))(base + 0xC60); if (fn != 0) fn(); return 1; }

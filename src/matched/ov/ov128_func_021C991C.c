@@ -25,10 +25,10 @@
  *   func_02045334 0x02045334 arm
  *   func_021CA4B4 0x021CA4B4 thumb ov128
  *   func_02025C88 0x02025C88 thumb
- *   func_0202DA04 0x0202DA04 thumb
- *   func_0202DA48 0x0202DA48 thumb
- *   func_0202DA18 0x0202DA18 thumb
- *   func_0202DA6C 0x0202DA6C thumb
+ *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
+ *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
+ *   POKEGRA_RegisterTrainerPalette 0x0202DA18 thumb
+ *   POKEGRA_RegisterTrainerCellAnim 0x0202DA6C thumb
  *   func_02049238 0x02049238 arm
  *   func_0204B294 0x0204B294 arm
  *   d_021CA640 0x021CA640 data a2
@@ -57,11 +57,11 @@ extern void func_021C6C94(char **,int);
 extern int func_021C6C20(u8 *,u8 *,int);
 extern void func_02045334(struct Descriptor *),func_021CA4B4(char *);
 extern u32 func_02025C88(u32);
-extern int func_0202DA04(int);
-extern u32 func_0202DA48(u32,u32,u32,u32);
+extern int POKEGRA_OpenTrainerHandle(int);
+extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
 typedef signed int     s32;
-extern s32 func_0202DA18(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern int func_0202DA6C(int a0, int a1, int a2, unsigned short a3);
+extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern int POKEGRA_RegisterTrainerCellAnim(int a0, int a1, int a2, unsigned short a3);
 extern void func_02049238(void *);
 struct Obj;
 extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
@@ -95,10 +95,10 @@ void func_021C991C(u8 *p,u8 *q,u8 *ctx,u16 heap)
     for(i=0;i<10;i++) func_021CA4B4(*(char **)(p+i*8+0x128));
     bounds=d_021CA640;
     id=func_02025C88(func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),8));
-    archive=func_0202DA04(heap);
-    ((struct Obj00773 *)p)->f17C=func_0202DA48(archive,id,0,heap);
-    ((struct Obj00773 *)p)->f180=func_0202DA18(archive,id,0,192,heap);
-    ((struct Obj00773 *)p)->f184=func_0202DA6C(id,2,0,heap);
+    archive=POKEGRA_OpenTrainerHandle(heap);
+    ((struct Obj00773 *)p)->f17C=POKEGRA_RegisterTrainerCgr(archive,id,0,heap);
+    ((struct Obj00773 *)p)->f180=POKEGRA_RegisterTrainerPalette(archive,id,0,192,heap);
+    ((struct Obj00773 *)p)->f184=POKEGRA_RegisterTrainerCellAnim(id,2,0,heap);
     func_02049238((void *)archive);
     ((struct Obj00773 *)p)->f178=(u32)func_0204B294((void *)((struct Obj00329 *)ctx)->f138,((struct Obj00773 *)p)->f17C,
         ((struct Obj00773 *)p)->f180,((struct Obj00773 *)p)->f184,&bounds,0,heap);

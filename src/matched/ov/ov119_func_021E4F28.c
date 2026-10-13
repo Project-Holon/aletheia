@@ -12,7 +12,7 @@
  *   func_021E5158 0x021E5158 thumb ov119
  *   func_021DF6B4 0x021DF6B4 thumb ov119
  *   func_020355C4 0x020355C4 arm
- *   func_0204B800 0x0204B800 arm
+ *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   func_0204B404 0x0204B404 arm
  */
 #include "../include/Obj05334.h"
@@ -23,7 +23,7 @@ typedef struct Pt { s16 x, y; } Pt;
 extern int func_021E5158(int);
 extern int func_021DF6B4(char *, int, int);
 extern u8 func_020355C4(void);
-extern void func_0204B800(int, u8);
+extern void CLACT_SetActorDrawPriority(int, u8);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
@@ -56,10 +56,10 @@ void func_021E4F28(char *p)
             if (func_021DF6B4(p, y, j) && func_020355C4() == 1) {
                 b.y -= 8;
                 q = p + row * 20 + j * 4;
-                func_0204B800(((struct Obj08071 *)q)->fAC0, 11);
+                CLACT_SetActorDrawPriority(((struct Obj08071 *)q)->fAC0, 11);
             } else {
                 q = p + row * 20 + j * 4;
-                func_0204B800(((struct Obj08071 *)q)->fAC0, 0x1c - i);
+                CLACT_SetActorDrawPriority(((struct Obj08071 *)q)->fAC0, 0x1c - i);
             }
             func_0204B404((struct Obj *)(((struct Obj08071 *)q)->fAC0), (const struct Vec2 *)(&b), 1);
             if (*(u8 *)(p + row * 5 + j + 0xebc)) {

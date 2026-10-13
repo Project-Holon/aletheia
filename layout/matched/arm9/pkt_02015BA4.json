@@ -18,11 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02015BA4",
-    "sub_02015BF0",
-    "sub_02015C00",
-    "sub_02015C0C",
-    "sub_02015C1C"
+    "MCSS_Del",
+    "MCSS_SetOrthoMode",
+    "MCSS_ResetOrthoMode",
+    "MCSS_SetOrthoBillboardFlag",
+    "MCSS_ResetOrthoBillboardFlag"
+   ],
+   "addresses": [
+    "0x02015BA4",
+    "0x02015BF0",
+    "0x02015C00",
+    "0x02015C0C",
+    "0x02015C1C"
    ]
   }
  ]

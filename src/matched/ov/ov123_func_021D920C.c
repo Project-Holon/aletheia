@@ -14,9 +14,9 @@
  *   func_021D5E8C 0x021D5E8C thumb ov123
  *   func_021D5B70 0x021D5B70 thumb ov123
  *   func_0203CD98 0x0203CD98 arm
- *   func_02156DE0 0x02156DE0 thumb ov009
+ *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   func_021B9838 0x021B9838 thumb ov114
- *   func_02156DC4 0x02156DC4 thumb ov009
+ *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
@@ -34,9 +34,9 @@ extern void func_021D5644(char *p);
 extern void func_021D5E8C(u8 *p);
 extern void func_021D5B70(char *p);
 extern int func_0203CD98(void);
-extern void func_02156DE0(int,int);
+extern void DWC_RAP_SetErrorHookCallback(int,int);
 extern void func_021B9838(u8 *p);
-extern void func_02156DC4(int,int);
+extern void DWC_RAP_SetErrorCallback(int,int);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int handle);
@@ -57,10 +57,10 @@ int func_021D920C(void *a, int b, int c, char *p)
     if (((struct Obj00990 *)p)->f40) func_020307B0(((struct Obj00990 *)p)->f40);
     if (((struct Obj00990 *)p)->fC) func_020307B0(((struct Obj00990 *)p)->fC);
     if (((struct Obj00990 *)p)->f44) func_020307B0(((struct Obj00990 *)p)->f44);
-    if (func_0203CD98()) func_02156DE0(0,0);
+    if (func_0203CD98()) DWC_RAP_SetErrorHookCallback(0,0);
     if (((struct Obj00990 *)p)->f10) {
         func_021B9838(((struct Obj00990 *)p)->f10);
-        func_02156DC4(0,0);
+        DWC_RAP_SetErrorCallback(0,0);
     }
     func_020315D4(a);
     func_020306F0(98);

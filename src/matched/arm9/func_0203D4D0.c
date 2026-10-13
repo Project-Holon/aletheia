@@ -12,10 +12,10 @@
  *
  * symbols:
  *   func_0203D798  0x0203D798  arm
- *   func_0203D394  0x0203D394  arm
- *   func_020395EC  0x020395EC  arm
- *   func_02039468  0x02039468  arm
- *   func_02038C18  0x02038C18  arm
+ *   GFL_NET_IsHandleReady  0x0203D394  arm
+ *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
+ *   GFL_NET_SYSTEM_IsSendQueueEntry  0x02039468  arm
+ *   GFL_NET_SYSTEM_SetSendQueue  0x02038C18  arm
  *
  * TU: net.c.
  *
@@ -41,21 +41,21 @@ typedef unsigned int u32;
 
 extern void *func_0203D798(void);
 struct NetEntry;
-extern u32 func_0203D394(struct NetEntry *e);
+extern u32 GFL_NET_IsHandleReady(struct NetEntry *e);
 struct Entry;
-extern int func_020395EC(struct Entry *a);
-extern u32   func_02039468(u32 a, u32 b);
-extern int func_02038C18(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
+extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
+extern u32   GFL_NET_SYSTEM_IsSendQueueEntry(u32 a, u32 b);
+extern int GFL_NET_SYSTEM_SetSendQueue(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 
 u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g,
                   u32 h)
 {
     func_0203D798();
-    if (func_0203D394((struct NetEntry *)entry) == 0 && c >= 0x11) {
+    if (GFL_NET_IsHandleReady((struct NetEntry *)entry) == 0 && c >= 0x11) {
         return 0;
     }
-    if (g != 0 && func_02039468(c, func_020395EC((void *)entry)) != 0) {
+    if (g != 0 && GFL_NET_SYSTEM_IsSendQueueEntry(c, GFL_NET_HANDLE_GetNetHandleID((void *)entry)) != 0) {
         return 0;
     }
-    return func_02038C18(c, e, d, f, func_020395EC((void *)entry), mask, h);
+    return GFL_NET_SYSTEM_SetSendQueue(c, e, d, f, GFL_NET_HANDLE_GetNetHandleID((void *)entry), mask, h);
 }

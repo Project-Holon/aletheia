@@ -7,6 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   BGWINFRM_GetPos  0x0202CF98  thumb  arm9
+ *   BGWINFRM_GetSize  0x0202CFC0  thumb  arm9
  */
 #include "../include/Obj00412.h"
 typedef unsigned char u8;
@@ -21,14 +25,14 @@ struct Control {
 };
 typedef unsigned int u32;
 struct WinMgr;
-extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
+extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void BGWINFRM_GetSize(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
 int func_021C71D0(u8 *p, int v, int w)
 {
     struct Temp { s8 b, a; u16 c, d; } t;
     struct Control *q;
-    func_0202CF98(**(void ** *)&((struct Obj00412 *)p)->f8, v, &t.a, &t.b);
-    func_0202CFC0(**(void ** *)&((struct Obj00412 *)p)->f8, v, &t.d, &t.c);
+    BGWINFRM_GetPos(**(void ** *)&((struct Obj00412 *)p)->f8, v, &t.a, &t.b);
+    BGWINFRM_GetSize(**(void ** *)&((struct Obj00412 *)p)->f8, v, &t.d, &t.c);
     q = (struct Control *)(*(u8 * *)&((struct Obj00412 *)p)->f8 + 0x300);
     q->enabled = 1;
     q->mode = 2;

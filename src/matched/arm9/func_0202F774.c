@@ -13,7 +13,7 @@
  *   func_0202F788  0x0202F788  thumb
  *
  * time_icon.c.  The second unlabelled tail-call leaf of the callback pair
- * sub_0200545C hands to func_020316C8: a flag mapped to mode 2 (clear) or
+ * GFL_USE_InitSystem hands to BACKUP_SYSTEM_Init: a flag mapped to mode 2 (clear) or
  * 1 (set) for func_0202F788.  Filed apart from func_0202F768 so each pool
  * word witnesses the other (see that file).  Seed 0x0202F774.
  *

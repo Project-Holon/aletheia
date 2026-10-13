@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  */
 #include "../include/Obj14525.h"
 
 typedef unsigned int   u32;
-extern void func_02005E30(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
 
 void func_02204F78(int a, char *b)
 {
     if (((struct Obj14525 *)b)->f30 == 4) {
-        func_02005E30(0x3c);
+        GFL_USE_FadeOutBgm(0x3c);
         ((struct Obj14525 *)b)->f30 = 6;
     }
 }

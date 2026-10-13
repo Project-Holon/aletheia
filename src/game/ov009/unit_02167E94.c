@@ -1,6 +1,6 @@
 /*
  * file:     unit_02167E94.c
- * function: func_02167E94
+ * function: DWCi_Np_GetConsoleIdPrefix
  * address:  0x02167E94
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern char g_021A1F68[];
 
-void *func_02167E94(void)
+void *DWCi_Np_GetConsoleIdPrefix(void)
 {
     return g_021A1F68;
 }

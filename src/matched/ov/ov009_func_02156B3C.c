@@ -1,5 +1,5 @@
 /*
- * function: func_02156B3C
+ * function: DWC_RAP_OnNewClient
  * address: 0x02156B3C
  * packet: pkt_ov009_02156B3C
  * region: ov009
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef void (*Callback)(u16, int);
 extern u8 *g_021A8264;
-void func_02156B3C(int a)
+void DWC_RAP_OnNewClient(int a)
 {
     *(int *)(g_021A8264 + 0x774) = a;
     if (*(Callback *)(g_021A8264 + 0x29c) != 0)

@@ -1,5 +1,5 @@
 /*
- * function: func_02075FCC
+ * function: CARDi_GetAccessLevel
  * address:  0x02075FCC
  * packet:   pkt_02075DA0
  * region:   arm9
@@ -24,8 +24,8 @@
  * 0x02076050 (already filed) carries no label.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02075FCC.c \
- *       --func func_02075FCC --addr 0x02075FCC --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/CARDi_GetAccessLevel.c \
+ *       --func CARDi_GetAccessLevel --addr 0x02075FCC --arm --cc 1.1p1
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -44,7 +44,7 @@ typedef struct { u8 pad[0x1b4]; Access access; } Hdr;
 extern int OS_GetBootType(void);
 extern BOOL OS_IsRunOnTwl(void);
 extern Hdr *func_02075E04(void);
-u32 func_02075FCC(void)
+u32 CARDi_GetAccessLevel(void)
 {
     u32 result = 0;
     Hdr *hdr;

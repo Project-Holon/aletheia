@@ -13,7 +13,7 @@
  * function has no label; all concrete bytes reproduce.
  *
  * symbols:
- *   func_02021ED8  0x02021ED8  thumb
+ *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -26,10 +26,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_02021ED8(const char *ptr);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 u32 func_021BC55C(u32 a0)
 {
-    if (func_02021ED8((const char *)(((struct Obj25858 *)((u8*)a0))->f98)) == 0) {
+    if (PALANM_GetFadeRequestBits((const char *)(((struct Obj25858 *)((u8*)a0))->f98)) == 0) {
     return 1;
     }
     return 0;

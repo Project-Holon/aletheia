@@ -22,7 +22,7 @@
  *   func_02041B6C  0x02041B6C  arm
  *   func_02045B38  0x02045B38  arm
  *   func_02045C04  0x02045C04  arm
- *   func_02012F5C  0x02012F5C  thumb
+ *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   func_020089F4  0x020089F4  thumb
  *   func_02025C9C  0x02025C9C  thumb
  *
@@ -71,7 +71,7 @@ extern void func_02045334(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02045C04(struct Rec *rec);
-extern void *func_02012F5C(void **h);
+extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern u8 func_020089F4(const struct Sub020089A8Obj *obj);
 extern u32 func_02025C9C(u32 x);
 
@@ -82,7 +82,7 @@ void func_021C61EC(Work *p, int k, int flush)
     u32 w;
 
     bank = func_02045B38(0, 2, 0xBF, p->heap);
-    if (func_020089F4(func_02012F5C(p->f24->f4))) {
+    if (func_020089F4(GAME_DATA_GetSaveBlock21(p->f24->f4))) {
         str = func_02045EC0(bank, func_02025C9C(k));
     } else {
         str = func_02045EC0(bank, 0);

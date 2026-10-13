@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02155DA4",
+   "name": "DWC_RAP_UpdatePeerVchatFlag",
    "address": "0x02155DA4",
    "kind": "game",
    "region": "ov009",

@@ -11,14 +11,14 @@
  * Trailing two bytes are zero alignment padding.
  * symbols:
  *   func_0203F0A8 0x0203F0A8 arm
- *   func_02015E04 0x02015E04 thumb
+ *   MCSS_SetAnmStopFlag 0x02015E04 thumb
  *   func_021BF744 0x021BF744 thumb ov204
  *   _ull_mul 0x0209C054 arm
  */
 #include "../include/Obj06674.h"
 
 extern unsigned int func_0203F0A8(void);
-extern void func_02015E04(void *);
+extern void MCSS_SetAnmStopFlag(void *);
 extern void func_021BF744(char *, unsigned int, unsigned int, unsigned int);
 
 void func_021BF898(char *p)
@@ -31,7 +31,7 @@ void func_021BF898(char *p)
             func_021BF744(p, 1, 0, 1);
             return;
         }
-        func_02015E04(((struct Obj06674 *)p)->f14);
+        MCSS_SetAnmStopFlag(((struct Obj06674 *)p)->f14);
         --((struct Obj06674 *)p)->f68;
     }
 }

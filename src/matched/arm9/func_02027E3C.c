@@ -1,5 +1,5 @@
 /*
- * function: func_02027E3C
+ * function: APP_TASKMENU_UpdateTouch
  * address:  0x02027E3C
  * packet:   pkt_02027D44
  * region:   arm9
@@ -17,7 +17,7 @@
  * symbols:
  *   func_02035C08  0x02035C08  arm
  *   func_020355D8  0x020355D8  arm
- *   func_02027B30  0x02027B30  thumb
+ *   APP_TASKMENU_SetWinActive  0x02027B30  thumb
  *   func_020061E4  0x020061E4  thumb
  */
 #include "../include/Obj00104.h"
@@ -29,10 +29,10 @@ typedef unsigned int   u32;
 extern int  func_02035C08(const void *key);
 extern void func_020355D8(u8 v);
 struct S;
-extern void func_02027B30(u32 a0, struct S *s, int mode);
+extern void APP_TASKMENU_SetWinActive(u32 a0, struct S *s, int mode);
 extern void func_020061E4(u32 id);
 
-void func_02027E3C(u8 *m)
+void APP_TASKMENU_UpdateTouch(u8 *m)
 {
     u8  rect[0x24];
     u32 top;
@@ -63,10 +63,10 @@ void func_02027E3C(u8 *m)
     }
     one = 1;
     func_020355D8(one);
-    func_02027B30(((u32 *)*(u32 * *)&((struct Obj00104 *)m)->f18)[m[0]], (struct S *)(*(u32 *)&((struct Obj00104 *)m)->f34), 0);
+    APP_TASKMENU_SetWinActive(((u32 *)*(u32 * *)&((struct Obj00104 *)m)->f18)[m[0]], (struct S *)(*(u32 *)&((struct Obj00104 *)m)->f34), 0);
     m[0] = (u8)hit;
     *(int *)&((struct Obj00104 *)m)->fC = one;
-    func_02027B30(((u32 *)*(u32 * *)&((struct Obj00104 *)m)->f18)[m[0]], (struct S *)(*(u32 *)&((struct Obj00104 *)m)->f34), one);
+    APP_TASKMENU_SetWinActive(((u32 *)*(u32 * *)&((struct Obj00104 *)m)->f18)[m[0]], (struct S *)(*(u32 *)&((struct Obj00104 *)m)->f34), one);
     if (m[0] == 0) {
         func_020061E4(0x54C);
         return;

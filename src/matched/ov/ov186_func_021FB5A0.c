@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_0204B84C  0x0204B84C  arm
- *   func_02025A0C  0x02025A0C  thumb
+ *   BMP_OAM_SetBgPriority  0x02025A0C  thumb
  */
 
 extern void func_0204B84C(int, unsigned int);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_02025A0C(u8 *g, u32 a);
+extern void BMP_OAM_SetBgPriority(u8 *g, u32 a);
 
 void func_021FB5A0(int *p, int b)
 {
     func_0204B84C(p[0], b);
-    func_02025A0C((u8 *)p[1], b);
+    BMP_OAM_SetBgPriority((u8 *)p[1], b);
 }

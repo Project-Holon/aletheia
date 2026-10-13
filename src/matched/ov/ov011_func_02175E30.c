@@ -1,5 +1,5 @@
 /*
- * function: func_02175E30
+ * function: INTRUDE_COMM_RecordResultOutcome
  * address:  0x02175E30
  * packet:   pkt_ov011_02175E30
  * region:   ov011
@@ -36,7 +36,7 @@ extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int func_021584F4(int a0, int a1);
 
-void func_02175E30(void *a, u8 *b, Rec *c)
+void INTRUDE_COMM_RecordResultOutcome(void *a, u8 *b, Rec *c)
 {
     u8 *d;
     u32 v;

@@ -12,7 +12,7 @@
  * symbols:
  *   func_021F10D8 0x021F10D8 thumb
  *   func_02165CB4 0x02165CB4 thumb ov010
- *   func_020215BC 0x020215BC thumb
+ *   PALANM_CopyToSlot 0x020215BC thumb
  */
 #include "../include/Obj00007.h"
 
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 extern u8 func_02165CB4(int a);
 typedef unsigned int   u32;
 struct PalAnmSlot;
-extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
 void func_021F10D8(char *this, u8 *p, int a)
 {
@@ -37,6 +37,6 @@ void func_021F10D8(char *this, u8 *p, int a)
     } else {
         k = 0x35;
     }
-    func_020215BC((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)this)->fAC), *(u16 * *)&((struct Obj00007 *)this)->f3C8 + 0x30, (int)3, (u16)((p[0] + 4) * 16 + 8), 10);
-    func_020215BC((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)this)->fAC), *(u16 * *)&((struct Obj00007 *)this)->f3C8 + k, (int)3, (u16)((p[0] + 4) * 16 + 8), v * 2);
+    PALANM_CopyToSlot((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)this)->fAC), *(u16 * *)&((struct Obj00007 *)this)->f3C8 + 0x30, (int)3, (u16)((p[0] + 4) * 16 + 8), 10);
+    PALANM_CopyToSlot((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)this)->fAC), *(u16 * *)&((struct Obj00007 *)this)->f3C8 + k, (int)3, (u16)((p[0] + 4) * 16 + 8), v * 2);
 }

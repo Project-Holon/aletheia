@@ -1,5 +1,5 @@
 /*
- * function: func_0204EFC8
+ * function: BILLBOARD_AddImageFromArchive
  * address:  0x0204EFC8
  * packet:   pkt_0204EE0C
  * region:   arm9
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204EE0C   0x0204EE0C  arm
- *   func_0204EE64   0x0204EE64  arm
- *   func_0204EEC8   0x0204EEC8  arm
+ *   BILLBOARD_FindFreeImage   0x0204EE0C  arm
+ *   BILLBOARD_BindImageResource   0x0204EE64  arm
+ *   BILLBOARD_SetImageFormat   0x0204EEC8  arm
  *   func_02046DB8   0x02046DB8  arm
  *
- * The second wrapper, one call longer than func_0204EF58: the handle it seats
+ * The second wrapper, one call longer than BILLBOARD_AddImage: the handle it seats
  * the slot with is func_02046DB8(a1, a2) rather than a1 directly, and the
  * trailing parameters are one word and two bytes rather than two bytes
  * (`ldr` at sp+0x20, `ldrb` at sp+0x24 and sp+0x28).
  *
- * The frame and the scan out-parameter are the same as func_0204EF58's, and
+ * The frame and the scan out-parameter are the same as BILLBOARD_AddImage's, and
  * the slot base is again re-read for each call.
  */
 
@@ -49,20 +49,20 @@ struct Desc {
 
 struct Struct_0204EE0C;
 struct Struct_0204EE64;
-extern int func_0204EE0C(struct Struct_0204EE0C *p, int *out_index);
-extern void func_0204EE64(struct Struct_0204EE64 *p, u32 heapId);
+extern int BILLBOARD_FindFreeImage(struct Struct_0204EE0C *p, int *out_index);
+extern void BILLBOARD_BindImageResource(struct Struct_0204EE64 *p, u32 heapId);
 typedef signed int     s32;
 struct Cell;
-extern void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c);
+extern void BILLBOARD_SetImageFormat(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c);
 extern void *func_02046DB8(u32 a0, u32 a1);
 
-u32 func_0204EFC8(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6)
+u32 BILLBOARD_AddImageFromArchive(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6)
 {
     u32 idx;
 
-    if (func_0204EE0C((struct Struct_0204EE0C *)desc, (int *)(&idx)) == 1) {
-        func_0204EE64((struct Struct_0204EE64 *)(&desc->slots[idx]), (u32)func_02046DB8(a1, a2));
-        func_0204EEC8((struct Cell *)(&desc->slots[idx]), a3, a4, a5, a6);
+    if (BILLBOARD_FindFreeImage((struct Struct_0204EE0C *)desc, (int *)(&idx)) == 1) {
+        BILLBOARD_BindImageResource((struct Struct_0204EE64 *)(&desc->slots[idx]), (u32)func_02046DB8(a1, a2));
+        BILLBOARD_SetImageFormat((struct Cell *)(&desc->slots[idx]), a3, a4, a5, a6);
     }
     return idx;
 }

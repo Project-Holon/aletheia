@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note:     func_02030CBC takes (n, mem) (sub_0200545C): the 0xB8 result
+ * note:     func_02030CBC takes (n, mem) (GFL_USE_InitSystem): the 0xB8 result
  *           left in r1 before `blx func_02030CBC` is its second argument.
  *
  * symbols:
@@ -16,7 +16,7 @@
  *   func_02030734 0x02030734 arm
  *   func_02030CBC 0x02030CBC arm
  *   func_02021518 0x02021518 thumb
- *   func_02021EE4 0x02021EE4 thumb
+ *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   func_0202155C 0x0202155C thumb
  *   func_020216D4 0x020216D4 thumb
  *   d_021F0E60 0x021F0E60 data ov033 a1
@@ -32,7 +32,7 @@ extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 struct Obj02021EE4;
 struct PalAnmSlot;
 extern void *func_02021518(u32 heap);
-extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern const char d_021F0E60[];
@@ -42,7 +42,7 @@ void func_021F0B74(char *p)
     ((struct Obj01512 *)p)->fB8 = func_02030734(((struct Obj01512 *)p)->f0, func_02030CB0(2), 1, d_021F0E60, 0x6DF);
     ((struct Obj01512 *)p)->fB4 = func_02030CBC(2, ((struct Obj01512 *)p)->fB8);
     ((struct Obj01512 *)p)->fBC = (unsigned int)func_02021518(((struct Obj01512 *)p)->f0);
-    func_02021EE4((struct Obj02021EE4 *)(((struct Obj01512 *)p)->fBC), 1);
+    PALANM_SetAutoTransfer((struct Obj02021EE4 *)(((struct Obj01512 *)p)->fBC), 1);
     func_0202155C((struct PalAnmSlot *)(((struct Obj01512 *)p)->fBC), 1, 0x60, ((struct Obj01512 *)p)->f0);
     func_0202155C((struct PalAnmSlot *)(((struct Obj01512 *)p)->fBC), 3, 0x80, ((struct Obj01512 *)p)->f0);
     func_020216D4((struct PalAnmSlot *)(((struct Obj01512 *)p)->fBC), 1, 0, 0x60);

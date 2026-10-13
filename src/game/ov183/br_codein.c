@@ -72,9 +72,9 @@
  *   d_021E3280 0x021E3280 data a4
  *   func_021FC240  0x021FC240  thumb  ov186
  *   func_02025538 0x02025538 thumb
- *   func_0200B928 0x0200B928 thumb
- *   func_0200B910 0x0200B910 thumb
- *   func_0200B98C 0x0200B98C thumb
+ *   BATTLE_REC_GetHeader 0x0200B928 thumb
+ *   BATTLE_REC_GetWork 0x0200B910 thumb
+ *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   func_021FD15C 0x021FD15C thumb ov186
  *   func_02025588 0x02025588 thumb
  *   func_02012E40 0x02012E40 thumb
@@ -90,12 +90,12 @@
  *   func_021FF72C 0x021FF72C thumb ov186
  *   func_021FF698 0x021FF698 thumb ov186
  *   func_02012EBC 0x02012EBC thumb
- *   func_0200B938 0x0200B938 thumb
- *   func_02006254 0x02006254 thumb
+ *   BATTLE_REC_SetData 0x0200B938 thumb
+ *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   func_021D7630 0x021D7630 thumb ov125
  *   d_021E3960 0x021E3960 data a1
  *   func_02034714 0x02034714 arm
- *   func_0200B490 0x0200B490 thumb
+ *   BATTLE_REC_DecodeWork 0x0200B490 thumb
  *   func_02012DAC 0x02012DAC thumb
  *   func_02012DD0 0x02012DD0 thumb
  *   func_021FC21C 0x021FC21C thumb ov186
@@ -104,7 +104,7 @@
  *   func_020457B0 0x020457B0 arm
  *   func_02045808 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0200D6D0 0x0200D6D0 thumb
+ *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   func_0200D6EC 0x0200D6EC thumb
  *   func_0200D774 0x0200D774 thumb
  *   func_0201EE0C 0x0201EE0C thumb
@@ -119,7 +119,7 @@
  *   func_0201BC40 0x0201BC40 thumb
  *   func_0201BCB4 0x0201BCB4 thumb
  *   func_0204AF28 0x0204AF28 arm
- *   func_0201BABC 0x0201BABC thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204B294 0x0204B294 arm
  *   func_0204B688 0x0204B688 arm
@@ -158,7 +158,7 @@
  *   func_020142E8 0x020142E8 thumb
  *   func_0204B878 0x0204B878 arm
  *   d_021E3358 0x021E3358 data a4
- *   func_0200DFD8 0x0200DFD8 thumb
+ *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
  *   func_02012944 0x02012944 thumb
  *   func_0201F02C 0x0201F02C thumb
  *   d_021E3574 0x021E3574 data a4
@@ -191,12 +191,12 @@
  *   func_021FCD0C 0x021FCD0C thumb ov186
  *   func_021FCDA8 0x021FCDA8 thumb ov186
  *   func_0204B3F4 0x0204B3F4 arm
- *   func_0204B7C8 0x0204B7C8 arm
+ *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   func_0204B714 0x0204B714 arm
- *   func_0204B784 0x0204B784 arm
+ *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   func_02049E74 0x02049E74 arm
  *   func_0204A9D0 0x0204A9D0 arm
- *   func_0204AB84 0x0204AB84 arm
+ *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   func_020307B0 0x020307B0 arm
  *   d_021E37A8 0x021E37A8 data a4
  *   d_021E3734 0x021E3734 data a2
@@ -232,28 +232,28 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B454 0x0204B454 arm
- *   func_0204B8C4 0x0204B8C4 arm
- *   func_0204B898 0x0204B898 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   func_0204B98C 0x0204B98C arm
  *   func_0202570C 0x0202570C thumb
  *   d_021E3850 0x021E3850 data a4
  *   func_0201C7A4 0x0201C7A4 thumb
  *   func_020255A0 0x020255A0 thumb
  *   func_020257D0 0x020257D0 thumb
- *   func_0202597C 0x0202597C thumb
+ *   BMP_OAM_SetObjMode 0x0202597C thumb
  *   d_021E3868 0x021E3868 data a4
  *   func_02051C88 0x02051C88 arm
- *   func_0204B5AC 0x0204B5AC arm
+ *   CLACT_SetActorScale 0x0204B5AC arm
  *   d_021E3998 0x021E3998 data a4
  *   d_021E397C 0x021E397C data a4
  *   d_021E3858 0x021E3858 data a4
- *   func_02045AA8 0x02045AA8 arm
+ *   STRBUF_Append 0x02045AA8 arm
  *   func_0201F35C 0x0201F35C thumb
  *   _ull_mul 0x0209C054 arm
  *   d_021E3880 0x021E3880 data a2
  *   func_02051B84 0x02051B84 arm
  *   d_021E38E0 0x021E38E0 data a4
- *   func_0200B570 0x0200B570 thumb
+ *   BATTLE_REC_Load 0x0200B570 thumb
  *   func_021FF67C 0x021FF67C thumb ov186
  *   func_021FD19C 0x021FD19C thumb ov186
  *   d_021E39B4 0x021E39B4 data a4
@@ -517,9 +517,9 @@ extern void *func_020056A0(void (*)(void),void *,int);
 extern void func_02030EAC(struct Node *n);
 extern void func_021FC240(char *p, void *owner, unsigned short heap);
 extern void * func_02025538(unsigned,void *);
-extern char * func_0200B928(void);
-extern struct ObjC4 *func_0200B910(void);
-extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
+extern char * BATTLE_REC_GetHeader(void);
+extern struct ObjC4 *BATTLE_REC_GetWork(void);
+extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern void func_021FD15C(void *,int);
 extern void func_02025588(void *p);
 extern u8 func_02012E40(const u8 *o);
@@ -535,11 +535,11 @@ extern int func_021FF648(char *p);
 extern int func_021FF72C(char *p, int *out);
 extern int func_021FF698(char *,int,int *);
 extern void *func_02012EBC(struct Big *p);
-extern void func_0200B938(const void *,const void *,const void *,unsigned int);
-extern int func_02006254(u32 a);
+extern void BATTLE_REC_SetData(const void *,const void *,const void *,unsigned int);
+extern int GFL_USE_IsSeqPlaying(u32 a);
 extern int func_021D7630(void *a, int x, u16 *state, u16 *b, u16 c);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_0200B490(void);
+extern void BATTLE_REC_DecodeWork(void);
 extern int func_02012DAC(int),func_02012DD0(u8 *);
 extern int func_021FC21C(char *);
 extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
@@ -547,7 +547,7 @@ extern void func_021FC7C4(char *,void *,void *,u16);
 extern struct U16Vec *func_020457B0(u32 capacity, u16 heapId);
 extern void func_02045808(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_0200D6D0(const void *,u32);
+extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 extern void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
 extern u32 func_0200D6EC(struct RecGet *p);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
@@ -557,7 +557,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
 extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern u32 func_0201BABC(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void func_0204B688(struct Actor *actor, u32 value);
@@ -586,7 +586,7 @@ extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
 extern u32 func_0201296C(const struct BigObj *p);
 extern u32 func_020142E8(void *,int);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern u16 func_0200DFD8(Row *,int,int);
+extern u16 BSUBWAY_SAVEDATA_GetStat(Row *,int,int);
 extern u8 *func_02012944(void *p);
 extern void func_0201F02C(struct WordSet *,u32,void *);
 extern void func_02045CAC(struct MsgBank *,u32,void *);
@@ -615,11 +615,11 @@ extern int func_0201BC3C(void);
 extern int func_0201BC40(void);
 extern u32 func_0204B3F4(struct Obj *p);
 extern u32 func_0204B714(struct Obj *o);
-extern void func_0204B7C8(const char *src, struct Struct36 *dst);
-extern void func_0204B784(char *dst, const struct Struct36 *src);
+extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
+extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 extern void *func_02049E74(void *,u32,u32,u32,u16);
 extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
-extern void func_0204AB84(u32,struct Rec *);
+extern void CLACT_GetCharacterProxy(u32,struct Rec *);
 extern u32 func_020307B0(void *p);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
@@ -642,20 +642,20 @@ extern void func_02051C6C(void *);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B8C4(struct Obj *p, u32 value);
-extern u16 func_0204B898(struct Obj *p);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern u32 func_0204B98C(struct Actor *a);
 extern void func_0202570C(struct Grid *);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void func_020257D0(struct Obj *o);
-extern void func_0202597C(u8 *g, u32 a);
+extern void BMP_OAM_SetObjMode(u8 *g, u32 a);
 extern s32 func_02051C88(struct Ctx *c);
-extern void func_0204B5AC(struct Obj *dst, Point *src);
-extern void func_02045AA8(struct U16Vec *dst, struct U16Vec *src);
+extern void CLACT_SetActorScale(struct Obj *dst, Point *src);
+extern void STRBUF_Append(struct U16Vec *dst, struct U16Vec *src);
 extern void func_0201F35C(void *, int, u32, u32, u32);
 extern void *func_02051B84(u8 *,int,int,int);
-extern u32 func_0200B570(void *a, u16 heap, u32 *dp, u32 id);
+extern u32 BATTLE_REC_Load(void *a, u16 heap, u32 *dp, u32 id);
 extern u32 func_021FF67C(u8 *p, unsigned long long *out);
 extern void func_021FD19C(char *p, void *q, void *text);
 extern void func_021D76A8(int,int,int);
@@ -1259,14 +1259,14 @@ void func_021DB924(int a0, struct CodeinWorkF *p)
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
- * extern const u16 func_0200B98C_Table[];
- * u64 func_0200B98C(char *p,int selector,int index) {
+ * extern const u16 BattleRecModeTable[];
+ * u64 BATTLE_REC_GetHeaderParam(char *p,int selector,int index) {
  *   int i;u16 v;
  *   switch(selector) {
  *   case 0: v=((u16 *)p)[index];if(v>0x289)return 0;return v;
  *   case 1: return *(u8 *)(p+index+0x18)&0x7f;
  *   case 2: v=*(u16 *)(p+0x24);if(v>0x270f)return 0x270f;return v;
- *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==func_0200B98C_Table[i])return i;return 0;
+ *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==BattleRecModeTable[i])return i;return 0;
  *   case 4: return *(u64 *)(p+0x38);
  *   case 5: return *(u8 *)(p+0x2a);
  *   case 6: return (*(u8 *)(p+index+0x18)&0x80)>>7;
@@ -1303,16 +1303,16 @@ int func_021DB940(int *task,int *state,char *q)
         *(int *)(p+0xc8)=*(unsigned char *)(s+*(int *)(s+0x171c)+0x16f8);
         break;
     case 0:
-        *(char **)(p+0xc4)=func_0200B928();*(char **)(p+0xc0)=(char *)func_0200B910();
+        *(char **)(p+0xc4)=BATTLE_REC_GetHeader();*(char **)(p+0xc0)=(char *)BATTLE_REC_GetWork();
         *(int *)(p+0xc8)=1;i=0;goto set_cc;
     case 1: case 2: case 3:
-        *(char **)(p+0xc4)=func_0200B928();*(char **)(p+0xc0)=(char *)func_0200B910();
-        *(int *)(p+0xc8)=func_0200B98C(*(void **)(p+0xc4),5,0);*(int *)(p+0xcc)=0;break;
+        *(char **)(p+0xc4)=BATTLE_REC_GetHeader();*(char **)(p+0xc0)=(char *)BATTLE_REC_GetWork();
+        *(int *)(p+0xc8)=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),5,0);*(int *)(p+0xcc)=0;break;
     case 5:
         if(*(int *)(*(char **)(p+0xd0)+0x34)==0) {
             *(int *)(p+0xc4)=0;*(int *)(p+0xc0)=0;
         }else {
-            *(char **)(p+0xc4)=func_0200B928();*(char **)(p+0xc0)=(char *)func_0200B910();
+            *(char **)(p+0xc4)=BATTLE_REC_GetHeader();*(char **)(p+0xc0)=(char *)BATTLE_REC_GetWork();
             *(int *)(p+0xc8)=**(int **)(*(char **)(p+0xd0)+0x3c);
         }
         i=1;
@@ -1514,14 +1514,14 @@ void func_021DBD40(int *task,int b,char *p) { if(((struct CodeinWorkB *)p)->fB0)
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
- * extern const u16 func_0200B98C_Table[];
- * u64 func_0200B98C(char *p,int selector,int index) {
+ * extern const u16 BattleRecModeTable[];
+ * u64 BATTLE_REC_GetHeaderParam(char *p,int selector,int index) {
  *   int i;u16 v;
  *   switch(selector) {
  *   case 0: v=((u16 *)p)[index];if(v>0x289)return 0;return v;
  *   case 1: return *(u8 *)(p+index+0x18)&0x7f;
  *   case 2: v=*(u16 *)(p+0x24);if(v>0x270f)return 0x270f;return v;
- *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==func_0200B98C_Table[i])return i;return 0;
+ *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==BattleRecModeTable[i])return i;return 0;
  *   case 4: return *(u64 *)(p+0x38);
  *   case 5: return *(u8 *)(p+0x2a);
  *   case 6: return (*(u8 *)(p+index+0x18)&0x80)>>7;
@@ -1551,7 +1551,7 @@ void func_021DBD7C(int *task,int *state,char *p)
             args.x=x;args.y=y;
             func_021FD860((void *)(*(int *)(p+0x10)), 1, &args);
             func_021F9BF4(*(unsigned **)(*(char **)(p+0xd0)+0x14),10);
-            *(u64 *)(*(char **)(p+0xd0)+0x1c)=func_0200B98C(*(void **)(p+0xc4),4,0);
+            *(u64 *)(*(char **)(p+0xd0)+0x1c)=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),4,0);
             func_021FD73C(task,(int)func_021DBCF4);
         }
         if(func_021DD2BC(p,x,y)) {
@@ -1698,14 +1698,14 @@ void func_021DBFB0(int *a,int *state,char *p)
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
- * extern const u16 func_0200B98C_Table[];
- * u64 func_0200B98C(char *p,int selector,int index) {
+ * extern const u16 BattleRecModeTable[];
+ * u64 BATTLE_REC_GetHeaderParam(char *p,int selector,int index) {
  *   int i;u16 v;
  *   switch(selector) {
  *   case 0: v=((u16 *)p)[index];if(v>0x289)return 0;return v;
  *   case 1: return *(u8 *)(p+index+0x18)&0x7f;
  *   case 2: v=*(u16 *)(p+0x24);if(v>0x270f)return 0x270f;return v;
- *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==func_0200B98C_Table[i])return i;return 0;
+ *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==BattleRecModeTable[i])return i;return 0;
  *   case 4: return *(u64 *)(p+0x38);
  *   case 5: return *(u8 *)(p+0x2a);
  *   case 6: return (*(u8 *)(p+index+0x18)&0x80)>>7;
@@ -1737,7 +1737,7 @@ void func_021DC228(int *a,int *state,char *p)
     case 4: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=5;break;
     case 5:
         func_02082BCC(&t,0,8);
-        t=func_0200B98C(*(void **)(p+0xc4),4,0);
+        t=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),4,0);
         func_021FF54C(*(void **)(*(char **)(p+0xd0)+0x24),3,(const int *)(&t));
         *(int *)(p+0xbc)=0;*state=6;break;
     case 6:
@@ -1749,7 +1749,7 @@ void func_021DC228(int *a,int *state,char *p)
     case 7:
         if(!func_021FF72C(*(void **)(*(char **)(p+0xd0)+0x24),&message)) {
             if(func_021FF698(*(char **)(*(char **)(p+0xd0)+0x24),(int)&source,&index)) {
-                func_0200B938(source,source+0x80,source+0xc4,(unsigned int)func_02012EBC(*(void **)(*(char **)(p+0xd0)+0x28)));
+                BATTLE_REC_SetData(source,source+0x80,source+0xc4,(unsigned int)func_02012EBC(*(void **)(*(char **)(p+0xd0)+0x28)));
                 **(long long **)(*(char **)(p+0xd0)+0x2c)=index;
                 **(int **)(p+0xd0)=1;
                 func_021F9C50((S_021DB2E0 *)(*(S_021DBFB0 **)(*(char **)(p+0xd0)+0x14)));*state=8;
@@ -1769,7 +1769,7 @@ void func_021DC228(int *a,int *state,char *p)
     case 8: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=9;break;
     case 9: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=10;break;
     case 10:
-        if(!func_02006254(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int *)(*(int *)(p+8)));}
+        if(!GFL_USE_IsSeqPlaying(0x701)) {func_021DD0F4(p,*(char **)(p+0xd0));func_021FD744((int *)(*(int *)(p+8)));}
         break;
     case 12: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=13;break;
     case 13: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=14;break;
@@ -1793,14 +1793,14 @@ void func_021DC228(int *a,int *state,char *p)
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
- * extern const u16 func_0200B98C_Table[];
- * u64 func_0200B98C(char *p,int selector,int index) {
+ * extern const u16 BattleRecModeTable[];
+ * u64 BATTLE_REC_GetHeaderParam(char *p,int selector,int index) {
  *   int i;u16 v;
  *   switch(selector) {
  *   case 0: v=((u16 *)p)[index];if(v>0x289)return 0;return v;
  *   case 1: return *(u8 *)(p+index+0x18)&0x7f;
  *   case 2: v=*(u16 *)(p+0x24);if(v>0x270f)return 0x270f;return v;
- *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==func_0200B98C_Table[i])return i;return 0;
+ *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==BattleRecModeTable[i])return i;return 0;
  *   case 4: return *(u64 *)(p+0x38);
  *   case 5: return *(u8 *)(p+0x2a);
  *   case 6: return (*(u8 *)(p+index+0x18)&0x80)>>7;
@@ -1824,8 +1824,8 @@ void func_021DC4FC(int *a,int *state,char *p)
     case 4:
         if(*(int *)(*(char **)(p+0xd0)+8)>3) func_02034714(d_021E3960,0,d_021E3960);
         if(func_021D7630((void *)(*(int *)(*(char **)(p+0xd0)+0x28)),*(int *)(*(char **)(p+0xd0)+8),(u16 *)(p+0xb6),(u16 *)(p+0xb8),*(u16 *)(p+0xb4))==2) {
-            func_0200B490();
-            *(int *)(p+0xc8)=(int)func_0200B98C(*(void **)(p+0xc4),5,0);
+            BATTLE_REC_DecodeWork();
+            *(int *)(p+0xc8)=(int)BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),5,0);
             *state=5;
         }
         break;
@@ -1885,7 +1885,7 @@ void func_021DC638(int *a,int *state,char *p)
     case 19: func_021FE784((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC),2,3,1);*state=20;break;
     case 20: if(func_021FE7B0(((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->fC)) *state=21;break;
     case 21:
-        if(!func_02006254(0x701)) {
+        if(!GFL_USE_IsSeqPlaying(0x701)) {
             func_021DD0F4(p,((struct CodeinWorkB *)p)->fD0);
             **(int * *)&((struct CodeinWorkB *)p)->fD0=1;
             func_021F9C50((S_021DB2E0 *)(*(S * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f14));
@@ -1910,14 +1910,14 @@ void func_021DC638(int *a,int *state,char *p)
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
- * extern const u16 func_0200B98C_Table[];
- * u64 func_0200B98C(char *p,int selector,int index) {
+ * extern const u16 BattleRecModeTable[];
+ * u64 BATTLE_REC_GetHeaderParam(char *p,int selector,int index) {
  *   int i;u16 v;
  *   switch(selector) {
  *   case 0: v=((u16 *)p)[index];if(v>0x289)return 0;return v;
  *   case 1: return *(u8 *)(p+index+0x18)&0x7f;
  *   case 2: v=*(u16 *)(p+0x24);if(v>0x270f)return 0x270f;return v;
- *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==func_0200B98C_Table[i])return i;return 0;
+ *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==BattleRecModeTable[i])return i;return 0;
  *   case 4: return *(u64 *)(p+0x38);
  *   case 5: return *(u8 *)(p+0x2a);
  *   case 6: return (*(u8 *)(p+index+0x18)&0x80)>>7;
@@ -1956,7 +1956,7 @@ void func_021DC8EC(char *p,char *q)
                 void *name;
                 void *message;
                 text=func_020457B0(128,*(u16 *)(p+0xb4));
-                name=func_0200D6D0(*(void **)(p+0xc0),*(u16 *)(p+0xb4));
+                name=GDS_PROFILE_CreateNameStr(*(void **)(p+0xc0),*(u16 *)(p+0xb4));
                 message=func_02045EC0(bank,d->message);
                 func_0201EE0C(words,0,name,func_0200D6EC(*(RecGet **)(p+0xc0)),1,2);
                 func_0201F250(words,text,message);
@@ -1967,7 +1967,7 @@ void func_021DC8EC(char *p,char *q)
             case 1:
                 {
                 u32 selector;
-                selector=func_0200B98C(*(void **)(p+0xc4),3,0);
+                selector=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),3,0);
                 text=func_02045EC0(bank,selector+d->message);
                 func_021FC868(*(void **)(slot+0x30),0,1,0);ready=1;break;
                 }
@@ -1978,7 +1978,7 @@ void func_021DC8EC(char *p,char *q)
                 u32 low,middle,high;
                 void *message;
                 void *temporary;
-                value=func_0200B98C(*(void **)(p+0xc4),4,0);
+                value=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),4,0);
                 low=value%100000ULL;
                 quotient=value/100000ULL;
                 middle=quotient%100000ULL;
@@ -1997,7 +1997,7 @@ void func_021DC8EC(char *p,char *q)
                 if(func_021DD25C(*(void **)(p+0xc4))) {
                     u32 count;
                     void *message;
-                    count=func_0200B98C(*(void **)(p+0xc4),2,0);
+                    count=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),2,0);
                     text=func_020457B0(128,*(u16 *)(p+0xb4));
                     message=func_02045EC0(bank,d->message);
                     func_0201EFA4(words,0,count,4,0,1);func_0201F250(words,text,message);func_02045808((U16Vec *)message);
@@ -2030,12 +2030,12 @@ void func_021DC8EC(char *p,char *q)
 
 /*
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
- * blocker-symbols: func_0200B98C_Table 0x0209DDCC data a4
+ * blocker-symbols: BattleRecModeTable 0x0209DDCC data a4
  *   typedef unsigned char u8;
  *   typedef unsigned short u16;
  *   typedef unsigned long long u64;
- *   extern const u16 func_0200B98C_Table[];
- *   u64 func_0200B98C(char *p, int selector, int index)
+ *   extern const u16 BattleRecModeTable[];
+ *   u64 BATTLE_REC_GetHeaderParam(char *p, int selector, int index)
  *   {
  *       int i;
  *       u16 v;
@@ -2052,7 +2052,7 @@ void func_021DC8EC(char *p,char *q)
  *           return v;
  *       case 3:
  *           for (i = 0; i < 0x29; i++) {
- *               if (*(u16 *)(p + 0x26) == func_0200B98C_Table[i]) return i;
+ *               if (*(u16 *)(p + 0x26) == BattleRecModeTable[i]) return i;
  *           }
  *           return 0;
  *       case 4:
@@ -2097,9 +2097,9 @@ void func_021DCBD8(char *p,void *manager,void *party,u16 heap)
     do {
         for(i=start;i<end;i++) {
             species[n]=255;
-            v=func_0200B98C(party,0,i);
-            f=func_0200B98C(party,1,i);
-            h=func_0200B98C(party,6,i);
+            v=BATTLE_REC_GetHeaderParam(party,0,i);
+            f=BATTLE_REC_GetHeaderParam(party,1,i);
+            h=BATTLE_REC_GetHeaderParam(party,6,i);
             if(v) {species[n]=v;forms[n]=f;half[n]=h;n++;}
         }
         for(i=n;i<end;i++) {species[n]=0;forms[n]=0;half[n]=0;n++;}
@@ -2117,7 +2117,7 @@ void func_021DCBD8(char *p,void *manager,void *party,u16 heap)
         v2=species[j];
         if(v2) {
             h2=half[j];f2=forms[j];
-            *(u32 *)(slot+0x50)=func_0204A6C8(archive,func_0201BABC(v2,f2,h2,0),0,0,heap);
+            *(u32 *)(slot+0x50)=func_0204A6C8(archive,POKE_TOOL_CalcGraphicIndex(v2,f2,h2,0),0,0,heap);
             func_02082BCC(&pos,0,8);
             pos.x=coords[j].x+8;pos.y=coords[j].y-12;pos.z=1;pos.a=12-count;
             *(void **)(p+count*4+0x80)=func_0204B294(manager,(u32)(*(void **)(slot+0x50)),(u32)(*(void **)(p+0x48)),(u32)(*(void **)(p+0x4c)),&pos,0,heap);
@@ -2364,12 +2364,12 @@ void func_021DD1D4(char *p, char *q)
 
 /*
  * 2026-10-05 (D8 lane19): re-verified, status unchanged; sole blocker is arm9 callee 0x0200B98C (no witness outside the caller). Needs a label seed. Source is byte-correct; no C change possible.
- * blocker-symbols: func_0200B98C_Table 0x0209DDCC data a4
+ * blocker-symbols: BattleRecModeTable 0x0209DDCC data a4
  *   typedef unsigned char u8;
  *   typedef unsigned short u16;
  *   typedef unsigned long long u64;
- *   extern const u16 func_0200B98C_Table[];
- *   u64 func_0200B98C(char *p, int selector, int index)
+ *   extern const u16 BattleRecModeTable[];
+ *   u64 BATTLE_REC_GetHeaderParam(char *p, int selector, int index)
  *   {
  *       int i;
  *       u16 v;
@@ -2385,7 +2385,7 @@ void func_021DD1D4(char *p, char *q)
  *           return v;
  *       case 3:
  *           for (i = 0; i < 0x29; i++) {
- *               if (*(u16 *)(p + 0x26) == func_0200B98C_Table[i]) return i;
+ *               if (*(u16 *)(p + 0x26) == BattleRecModeTable[i]) return i;
  *           }
  *           return 0;
  *       case 4: return *(u64 *)(p + 0x38);
@@ -2396,7 +2396,7 @@ void func_021DD1D4(char *p, char *q)
  *       }
  *   }
  */
-int func_021DD228(void *p) { switch((int)func_0200B98C(p,3,0)) { case 16: case 17: case 18: case 19: case 22: return 1; case 20: case 21: default: return 0; } }
+int func_021DD228(void *p) { switch((int)BATTLE_REC_GetHeaderParam(p,3,0)) { case 16: case 17: case 18: case 19: case 22: return 1; case 20: case 21: default: return 0; } }
 
 
 
@@ -2409,7 +2409,7 @@ int func_021DD228(void *p) { switch((int)func_0200B98C(p,3,0)) { case 16: case 1
 
 
 
-int func_021DD25C(void *p) { int result; int v; result=0; v=(int)func_0200B98C(p,3,0); if(v==20) goto yes; if(v==21) goto yes; if(v!=22) goto no; yes: return 1; no: return result; }
+int func_021DD25C(void *p) { int result; int v; result=0; v=(int)BATTLE_REC_GetHeaderParam(p,3,0); if(v==20) goto yes; if(v==21) goto yes; if(v!=22) goto no; yes: return 1; no: return result; }
 
 
 
@@ -3331,11 +3331,11 @@ void func_021DE404(struct CodeinWorkA *p,char *q)
         func_021FC868(((struct CodeinSlotA *)slot)->f1C,0,1,0);
         switch(i) {
         case 0: func_0201F02C((struct WordSet *)words,0,func_02012944((*(void * *)&((struct CodeinArgA *)q)->f10))); break;
-        case 7: func_0201EFA4((struct WordSet *)words,0,func_0200DFD8(*(Row * *)&((struct CodeinArgA *)q)->f14,5,0),4,1,1); break;
-        case 8: func_0201EFA4((struct WordSet *)words,0,func_0200DFD8(*(Row * *)&((struct CodeinArgA *)q)->f14,6,0),4,1,1); break;
-        case 9: func_0201EFA4((struct WordSet *)words,0,func_0200DFD8(*(Row * *)&((struct CodeinArgA *)q)->f14,7,0),4,1,1); break;
-        case 10: func_0201EFA4((struct WordSet *)words,0,func_0200DFD8(*(Row * *)&((struct CodeinArgA *)q)->f14,8,0),4,1,1); break;
-        case 11: func_0201EFA4((struct WordSet *)words,0,func_0200DFD8(*(Row * *)&((struct CodeinArgA *)q)->f14,9,0),4,1,1); break;
+        case 7: func_0201EFA4((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,5,0),4,1,1); break;
+        case 8: func_0201EFA4((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,6,0),4,1,1); break;
+        case 9: func_0201EFA4((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,7,0),4,1,1); break;
+        case 10: func_0201EFA4((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,8,0),4,1,1); break;
+        case 11: func_0201EFA4((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,9,0),4,1,1); break;
         default: text=func_02045EC0((struct MsgBank *)bank,rec->value); flag=0; break;
         }
         if(flag) {
@@ -3373,8 +3373,8 @@ void func_021DE55C(struct CodeinWorkA *p,char *q)
         slot=(char *)p+i*4;
         ((struct CodeinSlotA *)slot)->f1C=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f6C);
         func_021FC868(((struct CodeinSlotA *)slot)->f1C,0,1,0);
-        if(i>=8 && i<=12) {value=func_0200DFD8(*(Row * *)&((struct CodeinArgA *)q)->f14,i-3,1);flag=1;}
-        else if(i>=13 && i<=17) {value=func_0200DFD8(*(Row * *)&((struct CodeinArgA *)q)->f14,i-8,2);flag=1;}
+        if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-3,1);flag=1;}
+        else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-8,2);flag=1;}
         else {text=func_02045EC0((struct MsgBank *)bank,rec->value);flag=0;}
         if(flag) {
             base=func_02045EC0((struct MsgBank *)bank,rec->value);
@@ -3412,8 +3412,8 @@ void func_021DE66C(struct CodeinWorkA *p,char *q)
         slot=(char *)p+i*4;
         ((struct CodeinSlotA *)slot)->f1C=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,p->f4,p->f6C);
         func_021FC868(((struct CodeinSlotA *)slot)->f1C,0,1,0);
-        if(i>=8 && i<=12) {value=func_0200DFD8(*(Row * *)&((struct CodeinArgA *)q)->f14,i-8,1);flag=1;}
-        else if(i>=13 && i<=17) {value=func_0200DFD8(*(Row * *)&((struct CodeinArgA *)q)->f14,i-13,2);flag=1;}
+        if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-8,1);flag=1;}
+        else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)q)->f14,i-13,2);flag=1;}
         else {text=func_02045EC0((struct MsgBank *)bank,rec->value);flag=0;}
         if(flag) {
             base=func_02045EC0((struct MsgBank *)bank,rec->value);
@@ -3496,17 +3496,17 @@ void func_021DE780(struct CodeinWorkA *p, char *q)
  *     u8                    resident;
  * };
  *
- * extern char g_020A7E8C[];
+ * extern char MSGDATA_AllocSite[];
  * extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
  *                           u16 tag);
  * extern void func_020307B0(void *p);
- * extern void func_020495F4(void *stream, u32 size, void *dest);
+ * extern void ARC_TOOL_ReadHandle(void *stream, u32 size, void *dest);
  * extern void func_0204960C(void *stream, u32 pos);
- * extern void func_0204581C(void *dest);
- * extern void func_02045A00(void *dest, const void *src, u16 len);
+ * extern void STRBUF_Clear(void *dest);
+ * extern void STRBUF_SetChars(void *dest, const void *src, u16 len);
  * extern void func_02045E04(void *dest, u32 index);
  * extern u8 func_020461B8(const void *file);
- * extern void func_02046110(struct MsgBank *bank);
+ * extern void MSGDATA_LoadBank(struct MsgBank *bank);
  * extern void func_02046180(struct MsgBank *bank);
  *
  * void func_02045CAC(struct MsgBank *bank, u32 index, void *dest)
@@ -3515,7 +3515,7 @@ void func_021DE780(struct CodeinWorkA *p, char *q)
  *     struct MsgEntry *e;
  *
  *     if (index >= bank->file->count) {
- *         func_0204581C(dest);
+ *         STRBUF_Clear(dest);
  *         return;
  *     }
  *
@@ -3525,7 +3525,7 @@ void func_021DE780(struct CodeinWorkA *p, char *q)
  *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *
  *         func_0204960C(bank->stream, pos + (index * 8 + 4));
- *         func_020495F4(bank->stream, 8, &bank->cache);
+ *         ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache);
  *         e = &bank->cache;
  *     } else {
  *         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
@@ -3536,17 +3536,17 @@ void func_021DE780(struct CodeinWorkA *p, char *q)
  *
  *         size = e->len * 2;
  *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000), size,
- *                            0, g_020A7E8C, 0xd6);
+ *                            0, MSGDATA_AllocSite, 0xd6);
  *         if (buf != 0) {
  *             func_0204960C(bank->stream,
  *                           e->off + (bank->origin
  *                               + bank->file->langOff[bank->langIndex]));
- *             func_020495F4(bank->stream, size, buf);
- *             func_02045A00(dest, buf, e->len);
+ *             ARC_TOOL_ReadHandle(bank->stream, size, buf);
+ *             STRBUF_SetChars(dest, buf, e->len);
  *             func_020307B0(buf);
  *         }
  *     } else {
- *         func_02045A00(dest, (u8 *)bank->base + e->off, e->len);
+ *         STRBUF_SetChars(dest, (u8 *)bank->base + e->off, e->len);
  *     }
  *
  *     func_02045E04(dest, index);
@@ -3928,7 +3928,7 @@ void func_021DEE7C(int *task,u32 *state,char *p)
             }
             if(success) {
                 for(i=0;i<(*(struct Data_021DB2E0 **)(*(char **)(p+0x108)+0x1c))->count;i++) {
-                    *(u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i+0x16f8)=(u8)func_0200B98C((u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i*0xc4+0x80),5,0);
+                    *(u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i+0x16f8)=(u8)BATTLE_REC_GetHeaderParam((u8 *)(*(char **)(*(char **)(p+0x108)+0x1c)+i*0xc4+0x80),5,0);
                 }
                 func_021FD73C(task,(int)func_021DF18C);
             } else {
@@ -4159,7 +4159,7 @@ void func_021DF428(struct State_021DF428 *p,u32 mgr,u16 heap)
         for(j=0;j<6;j++) {
             species=e.species[j];
             if(species==0) species=1;
-            p->indices[i][j]=func_0204A6C8(archive,func_0201BABC(species,e.form[j],e.gender[j],0),0,0,heap);
+            p->indices[i][j]=func_0204A6C8(archive,POKE_TOOL_CalcGraphicIndex(species,e.form[j],e.gender[j],0),0,0,heap);
             pos.x=j*0x18+0x6e;
             pos.y=i*0x18+0x48;
             pos.a=6-j;
@@ -4227,18 +4227,18 @@ void func_021DF620(struct State_021DF428 *p,int first,short step,u16 heap)
             if(step==1 && i!=4) {
                 src=p->sprites[i+1][j]; dst=p->sprites[i][j];
                 if(func_0204B3F4((struct Obj *)src)) {
-                    func_0204B7C8(src,(struct Struct36 *)(&forward));
+                    CLACT_GetActorImageProxy(src,(struct Struct36 *)(&forward));
                     value=func_0204B714((struct Obj *)src);
-                    func_0204B784(dst,(const struct Struct36 *)(&forward));
+                    CLACT_SetActorImageProxy(dst,(const struct Struct36 *)(&forward));
                     func_0204B6F4((struct Obj *)dst,value,0);
                     func_0204B3DC((struct Obj *)dst,1);
                 } else func_0204B3DC((struct Obj *)dst,0);
             } else if(step==-1 && i!=4) {
                 src=p->sprites[3-i][j]; dst=p->sprites[4-i][j];
                 if(func_0204B3F4((struct Obj *)src)) {
-                    func_0204B7C8(src,(struct Struct36 *)(&back));
+                    CLACT_GetActorImageProxy(src,(struct Struct36 *)(&back));
                     value=func_0204B714((struct Obj *)src);
-                    func_0204B784(dst,(const struct Struct36 *)(&back));
+                    CLACT_SetActorImageProxy(dst,(const struct Struct36 *)(&back));
                     func_0204B6F4((struct Obj *)dst,value,0);
                     func_0204B3DC((struct Obj *)dst,1);
                 } else func_0204B3DC((struct Obj *)dst,0);
@@ -4252,10 +4252,10 @@ void func_021DF620(struct State_021DF428 *p,int first,short step,u16 heap)
         if(step==1) i=4; else if(step==-1) i=0;
         func_021DF838((int)((u32)p->source+(i+first)*0xc4),(char *)&entries);
         if(entries.species[j]) {
-            handle=func_02049E74(archive,func_0201BABC(entries.species[j],entries.form[j],entries.gender[j],0),0,(u32)&data,mode);
+            handle=func_02049E74(archive,POKE_TOOL_CalcGraphicIndex(entries.species[j],entries.form[j],entries.gender[j],0),0,(u32)&data,mode);
             func_0204A9D0(p->indices[p->cursor][j],(struct Sub0204A9D0 *)data);
-            func_0204AB84(p->indices[p->cursor][j],&loaded);
-            func_0204B784(p->sprites[i][j],(const struct Struct36 *)(&loaded));
+            CLACT_GetCharacterProxy(p->indices[p->cursor][j],&loaded);
+            CLACT_SetActorImageProxy(p->sprites[i][j],(const struct Struct36 *)(&loaded));
             func_0204B6F4((struct Obj *)p->sprites[i][j],func_0201BB5C(entries.species[j],entries.form[j],entries.gender[j],0),0);
             func_020307B0(handle);
             func_0204B3DC((struct Obj *)p->sprites[i][j],1);
@@ -4274,12 +4274,12 @@ void func_021DF620(struct State_021DF428 *p,int first,short step,u16 heap)
 
 /*
  * 2026-10-05 (D8 lane19): re-verified, status unchanged; sole blocker is arm9 callee 0x0200B98C (no witness outside the caller). Needs a label seed. Source is byte-correct; no C change possible.
- * blocker-symbols: func_0200B98C_Table 0x0209DDCC data a4
+ * blocker-symbols: BattleRecModeTable 0x0209DDCC data a4
  * + *   typedef unsigned char u8;
  *   typedef unsigned short u16;
  *   typedef unsigned long long u64;
- *   extern const u16 func_0200B98C_Table[];
- *   u64 func_0200B98C(char *p, int selector, int index)
+ *   extern const u16 BattleRecModeTable[];
+ *   u64 BATTLE_REC_GetHeaderParam(char *p, int selector, int index)
  *   {
  *       int i;
  *       u16 v;
@@ -4296,7 +4296,7 @@ void func_021DF620(struct State_021DF428 *p,int first,short step,u16 heap)
  *           return v;
  *       case 3:
  *           for (i = 0; i < 0x29; i++) {
- *               if (*(u16 *)(p + 0x26) == func_0200B98C_Table[i]) return i;
+ *               if (*(u16 *)(p + 0x26) == BattleRecModeTable[i]) return i;
  *           }
  *           return 0;
  *       case 4:
@@ -4322,7 +4322,7 @@ void func_021DF838(int p, char *out)
     unsigned int count;
     func_02082BCC(out, 0, 0x48);
     base = (void *)(p + 0x80);
-    switch ((int)func_0200B98C(base, 3, 0)) {
+    switch ((int)BATTLE_REC_GetHeaderParam(base, 3, 0)) {
     case 16: case 17: case 18: case 19: case 22:
         special = 1;
         count = 9;
@@ -4334,9 +4334,9 @@ void func_021DF838(int p, char *out)
     }
     for (i = 0; i < count; i++) {
         if (special && i >= 3 && i <= 5) continue;
-        a = func_0200B98C(base, 0, i);
-        b = func_0200B98C(base, 1, i);
-        c = func_0200B98C(base, 6, i);
+        a = BATTLE_REC_GetHeaderParam(base, 0, i);
+        b = BATTLE_REC_GetHeaderParam(base, 1, i);
+        c = BATTLE_REC_GetHeaderParam(base, 6, i);
         if (a >= 0x28B) a = 0;
         if (a != 0) {
             *(int *)(out + n * 4) = a;
@@ -5283,7 +5283,7 @@ void func_021E0D38(struct Coordinates *p, int index)
     pos[0] = height / 2 + p->rect[index + 12][2];
     pos[1] = width / 2 + p->rect[index + 12][0];
     func_0204B404(((struct CodeinWorkA *)p)->f1B0, (const struct Vec2 *)pos, 1);
-    func_0204B8C4(((struct CodeinWorkA *)p)->f1B0, 0);
+    CLACT_SetActorAnimFrame(((struct CodeinWorkA *)p)->f1B0, 0);
 }
 
 
@@ -5295,7 +5295,7 @@ void func_021E0D90(char *p)
 {
     int i, state;
     for (i = 1; i < 3; i++) {
-        state = func_0204B898(*(void **)(p + i * 28 + 0x194));
+        state = CLACT_GetActorAnimSeq(*(void **)(p + i * 28 + 0x194));
         if (state == 3) {
             if (!func_0204B98C(*(void **)(p + i * 28 + 0x194))) {
                 func_0204B878(*(void **)(p + i * 28 + 0x194), *(int *)(p + i * 28 + 0x188));
@@ -5305,7 +5305,7 @@ void func_021E0D90(char *p)
             }
         } else {
             if (state != *(int *)(p + i * 28 + 0x188)) func_0204B878(*(void **)(p + i * 28 + 0x194), *(int *)(p + i * 28 + 0x188));
-            if (func_0204B898(*(void **)(p + i * 28 + 0x194)) != 3) {
+            if (CLACT_GetActorAnimSeq(*(void **)(p + i * 28 + 0x194)) != 3) {
                 if (((struct CodeinWorkA *)p)->f2FC == 1) func_021E0CE8(p, 1, 0);
                 else func_021E0CE8(p, 1, 1);
             }
@@ -5463,7 +5463,7 @@ void func_021E111C(const Object *object,Index index,int x,int y,int unused)
         grid=func_020255A0(object->f300,(const struct Param *)(&desc));
         *slot=grid;
         func_020257D0((struct Obj *)((int)grid));
-        func_0202597C((u8 *)((int)*slot),1);
+        BMP_OAM_SetObjMode((u8 *)((int)*slot),1);
     }
     func_020437AC((struct Obj020437AC *)handle);
     func_02045808((struct U16Vec *)source);
@@ -5663,13 +5663,13 @@ int func_021E13FC(char *p) {
                 if(i>=((struct CodeinWorkA *)p)->f248&&i<((struct CodeinWorkA *)p)->f24C){
                     factor=*(int *)((u32)d_021E3998+((struct CodeinRecordA *)record)->f19*4);
                     scale.x=factor;scale.y=factor;
-                    func_0204B5AC(((struct CodeinRecordA *)record)->fC,&scale);
+                    CLACT_SetActorScale(((struct CodeinRecordA *)record)->fC,&scale);
                     ++((struct CodeinRecordA *)record)->f19;
                 }
                 if(i>=((struct CodeinWorkA *)p)->f250&&i<((struct CodeinWorkA *)p)->f254){
                     factor=*(int *)((u32)d_021E397C+((struct CodeinRecordA *)record)->f19*4);
                     scale.x=factor;scale.y=factor;
-                    func_0204B5AC(((struct CodeinRecordA *)record)->fC,&scale);
+                    CLACT_SetActorScale(((struct CodeinRecordA *)record)->fC,&scale);
                     ++((struct CodeinRecordA *)record)->f19;
                 }
             }
@@ -5703,7 +5703,7 @@ int func_021E13FC(char *p) {
             if(((struct CodeinRecordA *)record)->f19!=6){
                 factor=*(int *)((u32)d_021E3998+((struct CodeinRecordA *)record)->f19*4);
                 scale.x=factor;scale.y=factor;
-                func_0204B5AC(((struct CodeinRecordA *)record)->fC,&scale);
+                CLACT_SetActorScale(((struct CodeinRecordA *)record)->fC,&scale);
                 ++((struct CodeinRecordA *)record)->f19;
             }
         }
@@ -5712,7 +5712,7 @@ int func_021E13FC(char *p) {
             if(((struct CodeinRecordA *)record)->f19!=6){
                 factor=*(int *)((u32)d_021E397C+((struct CodeinRecordA *)record)->f19*4);
                 scale.x=factor;scale.y=factor;
-                func_0204B5AC(((struct CodeinRecordA *)record)->fC,&scale);
+                CLACT_SetActorScale(((struct CodeinRecordA *)record)->fC,&scale);
                 ++((struct CodeinRecordA *)record)->f19;
             }
         }
@@ -5792,7 +5792,7 @@ void func_021E1708(char *p)
       tmp = *((u32 *) record);
       digit = tmp - 1;
       func_0201F35C(text, digit, 1, 1, 1);
-      func_02045AA8(*((void **) (p + 0x33C)), text);
+      STRBUF_Append(*((void **) (p + 0x33C)), text);
       *((int *) ((((u32) p) + (group * 4)) + 0x354)) *= 10;
       *((int *) ((((u32) p) + (group * 4)) + 0x354)) += digit;
       used++;
@@ -6141,7 +6141,7 @@ void func_021E1E3C(int *task,int *state,struct CodeinWorkB *p) {
     int result;
     switch(*state) {
     case 0:
-        func_0200B570(func_02012EBC((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f14)),89,&out,0);
+        BATTLE_REC_Load(func_02012EBC((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f14)),89,&out,0);
         if(out==1)*state=1;else func_021FD73C((int *)task,(int)func_021E1DF0);break;
     case 1:
         p->f1C=0;func_021FF54C((*(void * *)&((struct CodeinSubA *)(*(char * *)&p->f18))->f10),2,0);*state=2;break;
@@ -6515,8 +6515,8 @@ void func_021E26B8(int *task,State_021E21E0 *state,char *p) {
         result=func_021FF72C(*(void **)(*(char **)(p+0x3c)+12),(int *)(&msg));
         if(result==0) {
             if(func_021FF698(*(void **)(*(char **)(p+0x3c)+12),(int)(&rec),&extra)) {
-                func_0200B938(rec,rec+0x80,rec+0xc4,(unsigned int)func_02012EBC(*(void **)(*(char **)(p+0x3c)+0x14)));
-                found=0;value=func_0200B98C((u8 *)func_0200B928(),4,0);
+                BATTLE_REC_SetData(rec,rec+0x80,rec+0xc4,(unsigned int)func_02012EBC(*(void **)(*(char **)(p+0x3c)+0x14)));
+                found=0;value=BATTLE_REC_GetHeaderParam((u8 *)BATTLE_REC_GetHeader(),4,0);
                 i=1;arg=*(char **)(p+0x3c);
                 for(;i<=3;i++) {
                     if(*(u64 *)(*(char **)(arg+0x18)+i*8+0x30)==value) {found=1;break;}
@@ -6649,19 +6649,19 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
 /*
  * 2026-10-05 (D8 lane19): re-verified, status unchanged; sole blocker is arm9 callee 0x0200B98C (no witness outside the caller). Needs a label seed. Source is byte-correct; no C change possible.
  * lever: Write the zero halfwords in source order p+0x40 then p+0x42; the reversed spelling exchanged those two store addresses.
- * blocker-symbols: func_0200B98C_Table 0x0209DDCC data a4
+ * blocker-symbols: BattleRecModeTable 0x0209DDCC data a4
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
- * extern const u16 func_0200B98C_Table[];
- * u64 func_0200B98C(char *p,int selector,int index) {
+ * extern const u16 BattleRecModeTable[];
+ * u64 BATTLE_REC_GetHeaderParam(char *p,int selector,int index) {
  *     int i;
  *     u16 v;
  *     switch(selector) {
  *     case 0: v=((u16 *)p)[index];if(v>0x289)return 0;return v;
  *     case 1: return *(u8 *)(p+index+0x18)&0x7f;
  *     case 2: v=*(u16 *)(p+0x24);if(v>0x270f)return 0x270f;return v;
- *     case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==func_0200B98C_Table[i])return i;return 0;
+ *     case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==BattleRecModeTable[i])return i;return 0;
  *     case 4: return *(u64 *)(p+0x38);
  *     case 5: return *(u8 *)(p+0x2a);
  *     case 6: return (*(u8 *)(p+index+0x18)&0x80)>>7;
@@ -6699,7 +6699,7 @@ void func_021E2C2C(int *task,unsigned *state,char *p)
         ++*(int *)(p+0x44);break;
     case 4:
         func_02082BCC(&cfg,0,8);
-        cfg.wide=func_0200B98C((u8 *)func_0200B928(),4,0);
+        cfg.wide=BATTLE_REC_GetHeaderParam((u8 *)BATTLE_REC_GetHeader(),4,0);
         func_021FF54C(*(char **)(*(char **)(p+0x3c)+12),8,(const int *)(&cfg));
         func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x13f);
         *(int *)(p+0x48)=0;++*(int *)(p+0x44);++*state;break;

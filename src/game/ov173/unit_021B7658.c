@@ -15,7 +15,7 @@
  * symbols:
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   d_021B820C 0x021B820C data a4
@@ -57,14 +57,14 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   d_021B85E0 0x021B85E0 data a4
- *   func_0204B8C4  0x0204B8C4  arm
+ *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   func_0202208C 0x0202208C thumb
  *   k_83 0x00000083 data a1
  *   func_021B6460 0x021B6460 thumb ov173
  *   func_021B7438 0x021B7438 thumb ov173
  *   func_020120F4 0x020120F4 thumb
- *   func_020120B4 0x020120B4 thumb
- *   d_021DC800 0x021DC800 data a4 ov131
+ *   GAMESYSTEM_CallProc 0x020120B4 thumb
+ *   gPokeStatusProcData 0x021DC800 data a4 ov131
  *   func_021B63AC  0x021B63AC  thumb  ov173
  *   func_0203D34C  0x0203D34C  arm
  *   func_02025CD0 0x02025CD0 thumb
@@ -76,13 +76,13 @@
  *   func_020260E4 0x020260E4 thumb
  *   func_021B71C4 0x021B71C4 thumb ov173
  *   func_021B70D8 0x021B70D8 thumb ov173
- *   func_02027FEC 0x02027FEC thumb
+ *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   func_02028148 0x02028148 thumb
  *   func_0202614C 0x0202614C thumb
  *   func_020409B4 0x020409B4 arm
- *   func_0202822C 0x0202822C thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   func_0204B98C 0x0204B98C arm
- *   func_02028230 0x02028230 thumb
+ *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   func_021B7460  0x021B7460  thumb  ov173
  *   func_021B7568 0x021B7568 thumb ov173
  */
@@ -143,7 +143,7 @@ typedef struct {short x,y;u16 z;u8 a,b;} Position;
 
 extern void func_0204A48C(const struct Cfg *,u32,u32);
 extern struct Bank *func_0204B100(int,u8,u32);
-extern void func_0204B270(struct Bank *);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
 extern void func_020434DC(u32,u32);
 extern void func_02043598(u32,u32);
 extern void func_0204B3B4(struct Obj *);
@@ -183,12 +183,12 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
-void func_0204B8C4(struct Obj *p, u32 value);
+void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021B6460(char *);
 extern u16 func_021B7438(char **);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern void func_021B63AC(u8 *p);
 extern void func_0203D34C(u32 a, u32 b);
 extern struct Struct_02025CD0 *func_02025CD0(u32,u32,u32,u32,u8,u16);
@@ -198,13 +198,13 @@ extern void func_021B71C4(char *,int);
 extern void func_020061E4(unsigned);
 extern void func_021B70D8(char *);
 extern void func_020260E4(struct Sound *obj, u8 sel);
-extern u32 func_02027FEC(u32, u32, u32, u32, u8, u16);
+extern u32 APP_TASKMENU_WIN_Create(u32, u32, u32, u32, u8, u16);
 extern void func_02028148(u8 *p);
 extern void func_0202614C(struct Sound *obj, u32 idx);
 extern void func_020409B4(u32);
-extern void func_0202822C(char *,int);
+extern void APP_TASKMENU_WIN_SetDecide(char *,int);
 extern u32 func_0204B98C(struct Actor *a);
-extern u32 func_02028230(u8 *p);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void func_021B7460(char *p, u32 v);
 extern u8 func_021B7568(void ***p);
 void func_021B7658(u8 *p, void *a1);
@@ -239,14 +239,14 @@ int func_021B817C(char *p);
 extern const struct Cfg d_021B820C;
 extern u8 d_021B8250[];
 extern const Row d_021B85E0[];
-extern char d_021DC800[];
+extern char gPokeStatusProcData[];
 extern char k_83[];
 extern u8 d_021B81DC[];
 extern const u8 d_021B83A8[];
 
 
 
-void func_021B7658(u8 *p, void *a1) {Offset off;struct Bank *b;func_0204A48C(&d_021B820C,(u32)d_021B8250,79);off=OFFSET;b=func_0204B100(14,0,79);off+=242;*(struct Bank **)(p+off)=b;func_0204B270(b);func_020434DC(16,1);func_02043598(16,1);}
+void func_021B7658(u8 *p, void *a1) {Offset off;struct Bank *b;func_0204A48C(&d_021B820C,(u32)d_021B8250,79);off=OFFSET;b=func_0204B100(14,0,79);off+=242;*(struct Bank **)(p+off)=b;CLACT_SetUnitDefaultRenderer(b);func_020434DC(16,1);func_02043598(16,1);}
 
 
 
@@ -376,17 +376,17 @@ void func_021B7ADC(unsigned char *p, u32 idx, int unused)
         local[0] = 0x82;
         local[1] = idx * 0x18 + 0x54;
         func_0204B404((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
-        func_0204B8C4((struct Obj *)(((struct Obj05451 *)p)->f10C), 0);
+        CLACT_SetActorAnimFrame((struct Obj *)(((struct Obj05451 *)p)->f10C), 0);
     } else if (idx < 6) {
         local[0] = (idx - 4) * 0x28;
         local[1] = 0xa8;
         func_0204B404((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
-        func_0204B8C4((struct Obj *)(((struct Obj05451 *)p)->f10C), 1);
+        CLACT_SetActorAnimFrame((struct Obj *)(((struct Obj05451 *)p)->f10C), 1);
     } else {
         local[0] = 0xc0;
         local[1] = 0xa0;
         func_0204B404((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
-        func_0204B8C4((struct Obj *)(((struct Obj05451 *)p)->f10C), 2);
+        CLACT_SetActorAnimFrame((struct Obj *)(((struct Obj05451 *)p)->f10C), 2);
     }
 }
 
@@ -413,7 +413,7 @@ int func_021B7B8C(char *p)
     ((struct Obj02217 *)p)->f18D = 2;
     ((struct Obj02217 *)p)->f190 = zero;
     ((struct Obj02217 *)p)->f198 = zero;
-    func_020120B4(((struct Obj24187 *)(*(char * *)&((struct Obj02217 *)p)->f0))->fC, (u32)k_83, d_021DC800, p + 0x180);
+    GAMESYSTEM_CallProc(((struct Obj24187 *)(*(char * *)&((struct Obj02217 *)p)->f0))->fC, (u32)k_83, gPokeStatusProcData, p + 0x180);
     return 12;
 }
 
@@ -568,8 +568,8 @@ void func_021B7EB0(char *p, int flag)
 {
     if (flag == 1) {
         if (*(u32 *)&((struct Obj00362 *)p)->f220 == 0) {
-            *(u32 *)&((struct Obj00362 *)p)->f220 = func_02027FEC(((struct Obj00362 *)p)->f1DC, (u32)(p + 0x1e4), 13, 21, 9, 0x4f);
-            *(u32 *)&((struct Obj00362 *)p)->f224 = func_02027FEC(((struct Obj00362 *)p)->f1DC, (u32)(p + 0x1f0), 22, 21, 9, 0x4f);
+            *(u32 *)&((struct Obj00362 *)p)->f220 = APP_TASKMENU_WIN_Create(((struct Obj00362 *)p)->f1DC, (u32)(p + 0x1e4), 13, 21, 9, 0x4f);
+            *(u32 *)&((struct Obj00362 *)p)->f224 = APP_TASKMENU_WIN_Create(((struct Obj00362 *)p)->f1DC, (u32)(p + 0x1f0), 22, 21, 9, 0x4f);
             func_0202614C(((struct Obj00362 *)p)->f1C8, 8);
             ((struct Obj00362 *)p)->f1CE = 1;
             return;
@@ -625,8 +625,8 @@ void func_021B7F64(char *p)
 
 void func_021B7FD0(u8 *p,int direction)
 {
-    func_0204B8C4(((struct Obj02506 *)p)->f108,0);
-    func_0204B8C4(((struct Obj02506 *)p)->f104,0);
+    CLACT_SetActorAnimFrame(((struct Obj02506 *)p)->f108,0);
+    CLACT_SetActorAnimFrame(((struct Obj02506 *)p)->f104,0);
     if(direction>0) {
         if(((struct Obj24192 *)(*(u8 * *)&((struct Obj02506 *)p)->f0))->f16+4 < ((struct Obj02506 *)p)->f1B8) func_0204B878(((struct Obj02506 *)p)->f104,10);
         else func_0204B878(((struct Obj02506 *)p)->f104,23);
@@ -674,11 +674,11 @@ int func_021B80A4(char *p, u16 v)
 
 
 
-int func_021B80C4(u8 *p,u16 n) {u8 *q;q=p+464;((struct Obj08266 *)q)->fA=1;((struct Obj08266 *)q)->f6=0;((struct Obj08266 *)q)->f8=n;func_0202822C(*(char **)(p+((struct Obj08266 *)q)->f6*4+544),1);return 13;}
+int func_021B80C4(u8 *p,u16 n) {u8 *q;q=p+464;((struct Obj08266 *)q)->fA=1;((struct Obj08266 *)q)->f6=0;((struct Obj08266 *)q)->f8=n;APP_TASKMENU_WIN_SetDecide(*(char **)(p+((struct Obj08266 *)q)->f6*4+544),1);return 13;}
 
 
 
-int func_021B80EC(char *p,unsigned short id) {unsigned short *q=(unsigned short *)(p+0x1d0);q[5]=1;q[3]=1;q[4]=id;func_0202822C(*(char **)((unsigned)p+q[3]*4+0x220),1);return 13;}
+int func_021B80EC(char *p,unsigned short id) {unsigned short *q=(unsigned short *)(p+0x1d0);q[5]=1;q[3]=1;q[4]=id;APP_TASKMENU_WIN_SetDecide(*(char **)((unsigned)p+q[3]*4+0x220),1);return 13;}
 
 
 
@@ -689,7 +689,7 @@ int func_021B8110(u8 *p)
     if(((struct Obj05452 *)s)->fA==0) {
         if(func_0204B98C(*(void **)(p+260+((struct Obj05452 *)s)->f6*4))==0) return ((struct Obj05452 *)s)->f8;
     } else if(((struct Obj05452 *)s)->fA==1) {
-        if(func_02028230(*(void **)(p+544+((struct Obj05452 *)s)->f6*4))!=0) {
+        if(APP_TASKMENU_WIN_IsFinish(*(void **)(p+544+((struct Obj05452 *)s)->f6*4))!=0) {
             func_021B7EB0((char *)p,0);
             return ((struct Obj05452 *)s)->f8;
         }

@@ -1,5 +1,5 @@
 /*
- * function: sub_02018488
+ * function: POKE_TOOL_IsBoxOwnedByPlayer
  * address:  0x02018488
  * packet:   pkt_02018488
  * note:     132 bytes, one function
@@ -45,11 +45,11 @@
  * the `lsls #0x18` / `lsrs #0x18` pair at 0x02018494.
  *
  * symbols:
- *   g_021462F0  0x021462F0  data
- *   g_021462B0  0x021462B0  data
+ *   gNameBuf  0x021462F0  data
+ *   gNameCompareBuf  0x021462B0  data
  *
  * Verified with
- *   python tools/match.py tu --src src/pending/sub_02018488.c \
+ *   python tools/match.py tu --src src/pending/POKE_TOOL_IsBoxOwnedByPlayer.c \
  *       --addr 0x02018488 --thumb
  */
 
@@ -67,10 +67,10 @@ extern u32 func_020084F8(void *dst, u32 value, u32 size);
 typedef unsigned short u16;
 extern u32 func_0201F448(const u16 *a, const u16 *b);
 
-extern u8 g_021462F0[];
-extern u8 g_021462B0[];
+extern u8 gNameBuf[];
+extern u8 gNameCompareBuf[];
 
-u32 sub_02018488(void *p, void *mail)
+u32 POKE_TOOL_IsBoxOwnedByPlayer(void *p, void *mail)
 {
     u32 d;
     u32 c;
@@ -83,9 +83,9 @@ u32 sub_02018488(void *p, void *mail)
     b = func_02017E88(p, 7, 0);
     c = func_02008550(mail);
     d = func_02017E88(p, 0x9A, 0);
-    func_020084F8(mail, (u32)g_021462F0, 0x20);
-    func_02017E88(p, 0x8E, (u32)g_021462B0);
-    if (a == b && c == d && func_0201F448((const u16 *)g_021462F0, (const u16 *)g_021462B0) != 0) {
+    func_020084F8(mail, (u32)gNameBuf, 0x20);
+    func_02017E88(p, 0x8E, (u32)gNameCompareBuf);
+    if (a == b && c == d && func_0201F448((const u16 *)gNameBuf, (const u16 *)gNameCompareBuf) != 0) {
         r = 1;
     }
     func_02017DE4(p, lock);

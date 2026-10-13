@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02039A2C
+ * function: GFL_NET_HANDLE_RequestNegotiation
  * address:  0x02039A2C
  * packet:   pkt_020399B8
  * region:   arm9
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 struct Entry;
 extern u16 func_02039338(void);
 extern struct Entry *func_0203996C(s32 idx);
-void func_02039A2C(int a)
+void GFL_NET_HANDLE_RequestNegotiation(int a)
 {
     char *q;
     if (func_02039338())

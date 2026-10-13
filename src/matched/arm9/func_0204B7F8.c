@@ -1,5 +1,5 @@
 /*
- * function: func_0204B7F8
+ * function: CLACT_GetActorPaletteIndex
  * address:  0x0204B7F8
  * packet:   pkt_0204B764
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Same as func_0204B7F0 one field up, at +0x5e.  Unlabelled leaf for the
+ * Same as CLACT_GetActorCharacterIndex one field up, at +0x5e.  Unlabelled leaf for the
  * same reason.
  *
  * symbols:
@@ -20,7 +20,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-u16 func_0204B7F8(u8 *p)
+u16 CLACT_GetActorPaletteIndex(u8 *p)
 {
     return ((struct Obj16081 *)p)->f5E;
 }

@@ -16,7 +16,7 @@
  * 0x022132C4).
  *
  * symbols:
- *   sub_02034A5C   0x02034A5C  arm
+ *   GF_OVERLAY_Unload   0x02034A5C  arm
  *   ov188_id       0x000000BC  data  a1
  */
 
@@ -24,9 +24,9 @@ typedef unsigned int u32;
 
 extern char ov188_id[];
 typedef signed int     s32;
-extern void sub_02034A5C(s32 handle);
+extern void GF_OVERLAY_Unload(s32 handle);
 
 void func_0200BA68(void)
 {
-    sub_02034A5C((u32)ov188_id);
+    GF_OVERLAY_Unload((u32)ov188_id);
 }

@@ -11,15 +11,15 @@
  * lever: two-case result switch sorts compares while preserving case body order; the equivalent if chain differed21 bytes.
  * blocker: ARM9 0x0200FB4C has no outside code-start witness; three own calls unresolved. TU --suggest-split leaves caller out.
  * blocker-C: copied verified32B Thumb EXACT from ov116_func_021D7200.c header, prior scratch blocker-1.log, dsi/1.1p1 -O4,p.
- * extern unsigned char g_0214617C[],g_021461BC[];
- * void func_0200FB4C(int a) {
- *   if(*(int *)(g_0214617C+44)!=2) {
- *     *(int *)(g_0214617C+96)=a;
+ * extern unsigned char gNetErrWork[],g_021461BC[];
+ * void GFL_NET_ERR_RaiseFatal(int a) {
+ *   if(*(int *)(gNetErrWork+44)!=2) {
+ *     *(int *)(gNetErrWork+96)=a;
  *     g_021461BC[26]=1;g_021461BC[25]=1;
- *     *(int *)(g_0214617C+44)=2;
+ *     *(int *)(gNetErrWork+44)=2;
  *   }
  * }
- * Blocker symbols: g_0214617C 0x0214617C data; g_021461BC 0x021461BC data.
+ * Blocker symbols: gNetErrWork 0x0214617C data; g_021461BC 0x021461BC data.
  * abi: CE58 retains visibly loaded third argument despite its two-argument setter body.
  * symbols:
  *   func_021B95D4 0x021B95D4 thumb ov114
@@ -30,7 +30,7 @@
  *   func_021B99DC 0x021B99DC thumb ov114
  *   func_021B9790 0x021B9790 thumb ov114
  *   func_021B97F4 0x021B97F4 thumb ov114
- *   func_0200FB4C 0x0200FB4C thumb
+ *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  *   func_021DC610 0x021DC610 thumb ov175
  *   func_021DCE58 0x021DCE58 thumb ov175
  *   func_021B9774 0x021B9774 thumb ov114
@@ -45,7 +45,7 @@ extern void func_021B9838(u8 *);
 extern int func_021B99DC(u8 *);
 extern int func_021B9790(u8 *);
 extern u8 *func_021B97F4(u8 *p);
-extern void func_0200FB4C(u32);
+extern void GFL_NET_ERR_RaiseFatal(u32);
 extern int func_021DC610(u32);
 extern void func_021DCE58(char *,unsigned long,u32);
 extern void func_021B9774(u8 *);
@@ -75,11 +75,11 @@ int func_021DC908(char *p)
         if(status==0) {
             data=(u32 *)func_021B97F4(*(u8 **)(p+0x121c));
             switch(result) {
-            case 0x1f7: *(u32 *)(p+0x12c)=3;func_0200FB4C(0x3e);return 0;
-            case 0x1f6: *(u32 *)(p+0x12c)=3;func_0200FB4C(0x3f);return 0;
+            case 0x1f7: *(u32 *)(p+0x12c)=3;GFL_NET_ERR_RaiseFatal(0x3e);return 0;
+            case 0x1f6: *(u32 *)(p+0x12c)=3;GFL_NET_ERR_RaiseFatal(0x3f);return 0;
             default:
                 if(*data==0) *(u32 *)(p+0x12c)=4;
-                else {func_0200FB4C(func_021DC610(*data));*(u32 *)(p+0x12c)=3;}
+                else {GFL_NET_ERR_RaiseFatal(func_021DC610(*data));*(u32 *)(p+0x12c)=3;}
                 break;
             }
         } else if(status!=15) {

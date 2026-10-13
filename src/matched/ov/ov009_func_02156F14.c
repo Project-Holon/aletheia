@@ -1,5 +1,5 @@
 /*
- * function: func_02156F14
+ * function: DWC_RAPCOMMON_ReleaseSubHeap
  * address:  0x02156F14
  * packet:   pkt_ov009_02156F14
  * region:   ov009
@@ -27,7 +27,7 @@ extern struct Obj *d_021A8268;
 extern void func_02060C94(void *heap);
 extern u32 func_020307B0(void *p);
 extern void func_020306F0(u32 heap);
-void func_02156F14(void)
+void DWC_RAPCOMMON_ReleaseSubHeap(void)
 {
     if (d_021A8268->fC != 0) {
         func_02060C94((void *)d_021A8268->f8);

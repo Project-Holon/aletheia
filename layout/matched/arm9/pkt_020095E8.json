@@ -44,7 +44,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020097BC"
+    "WIFILIST_GetWorkSize"
+   ],
+   "addresses": [
+    "0x020097BC"
    ]
   },
   {
@@ -59,7 +62,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020097F0"
+    "WIFILIST_Copy"
+   ],
+   "addresses": [
+    "0x020097F0"
    ]
   },
   {
@@ -74,14 +80,24 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02009860",
-    "sub_02009864",
-    "sub_02009918",
-    "sub_020099C8",
-    "sub_020099D4",
-    "sub_020099E4",
-    "sub_02009A00",
-    "sub_02009A1C"
+    "WIFILIST_GetWork",
+    "WIFILIST_GetFriendInfoField",
+    "WIFILIST_SetFriendInfoField",
+    "WIFILIST_GetDwcFriendData",
+    "WIFILIST_GetFriendInfo",
+    "WIFILIST_CopyFriendNameToStrbuf",
+    "WIFILIST_StoreFriendNameFromStrbuf",
+    "WIFILIST_IsFriendDataValid"
+   ],
+   "addresses": [
+    "0x02009860",
+    "0x02009864",
+    "0x02009918",
+    "0x020099C8",
+    "0x020099D4",
+    "0x020099E4",
+    "0x02009A00",
+    "0x02009A1C"
    ]
   },
   {

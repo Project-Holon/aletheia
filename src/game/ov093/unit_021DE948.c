@@ -15,11 +15,28 @@
  *   d_021F18EC 0x021F18EC data a4
  *   func_021D775C 0x021D775C thumb ov093
  *   func_021D7704 0x021D7704 thumb ov093
- *   func_0201C1E8 0x0201C1E8 thumb
+ *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
  */
-extern int func_021D775C(int);
+#include "unit_021DE7E4_types.h"
+
+struct BtlEventFactor;
+
+extern int func_021D775C(int key);
+extern void func_021D7704(int key, int multiplier);
+extern int WAZA_TOOL_GetDamageType(int moveId);
 extern int d_021F18EC;
-extern void func_021D7704(int,int);
-extern int func_0201C1E8(int a);
-void func_021DE948(int a,int b,int c) { if(c==func_021D775C(3)) { if(func_0201C1E8((unsigned short)func_021D775C(18))==1) func_021D7704(53,6144); } }
-int *func_021DE974(int *p) { *p=3; return &d_021F18EC; }
+
+/* Choice Band: 1.5 times power for physical moves. */
+void func_021DE948(struct BtlEventFactor *factor, void *flow, int pokeId)
+{
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID)) {
+        if (WAZA_TOOL_GetDamageType((u16)func_021D775C(BTL_EVAR_MOVE_ID)) == 1)
+            func_021D7704(BTL_EVAR_POWER_RATIO, 6144);
+    }
+}
+
+int *func_021DE974(int *count)
+{
+    *count = 3;
+    return &d_021F18EC;
+}

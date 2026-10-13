@@ -1,5 +1,5 @@
 /*
- * function: func_021DBAD0
+ * function: P_STA_OAM_CreateBitmapActors
  * address: 0x021DBAD0
  * packet: pkt_ov131_021DBAD0
  * region: ov131
@@ -14,12 +14,12 @@
  *   func_020437DC 0x020437DC arm
  *   func_020437E4 0x020437E4 arm
  *   func_020490F4 0x020490F4 arm
- *   func_021DBEA4 0x021DBEA4 thumb ov131
+ *   P_STA_OAM_GetCellResMode 0x021DBEA4 thumb ov131
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204B294 0x0204B294 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_02049238 0x02049238 arm
- *   d_021DC854 0x021DC854 data a1
+ *   P_STA_OAM_FileName 0x021DC854 data a1
  */
 #include "../include/Obj01549.h"
 #include "../include/Obj06487.h"
@@ -36,14 +36,14 @@ extern u16 func_020437DC(const struct Bmp *bmp);
 extern u16 func_020437E4(const struct Bmp *bmp);
 extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
-extern int func_021DBEA4(u8 *p, int screen, u32 owner);
+extern int P_STA_OAM_GetCellResMode(u8 *p, int screen, u32 owner);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_02049238(void *);
-extern const char d_021DC854[];
-u8 *func_021DBAD0(u8 *a,const u8 *b)
+extern const char P_STA_OAM_FileName[];
+u8 *P_STA_OAM_CreateBitmapActors(u8 *a,const u8 *b)
 {
     struct Desc d={0};
     u8 *blk;
@@ -53,7 +53,7 @@ u8 *func_021DBAD0(u8 *a,const u8 *b)
     u8 *e;
     int mode;
     void *bm;
-    blk=func_02030734(((struct Obj06487 *)a)->f4,0x24,1,d_021DC854,0x8a);
+    blk=func_02030734(((struct Obj06487 *)a)->f4,0x24,1,P_STA_OAM_FileName,0x8a);
     bm=*(void *const *)&((struct Obj01549 *)b)->f0;
     ((struct Obj06488 *)blk)->f0=bm;
     cols=((u32)func_020437DC(bm)>>6)&0xff;
@@ -68,7 +68,7 @@ u8 *func_021DBAD0(u8 *a,const u8 *b)
     for(i=0;i<rows;i++) {
         for(j=0;j<cols;j++) {
             row=blk+i*cols*4;
-            mode=func_021DBEA4(a,*(const u32 *)&((struct Obj01549 *)b)->f14,(u32)heap);
+            mode=P_STA_OAM_GetCellResMode(a,*(const u32 *)&((struct Obj01549 *)b)->f14,(u32)heap);
             e=row+j*4;
             ((struct Obj10527 *)e)->f14=(void *)func_0204A6C8(heap,7,0,*(const u32 *)&((struct Obj01549 *)b)->f14,((struct Obj06487 *)a)->f4);
             d.x=*(const s16 *)&((struct Obj01549 *)b)->f4+(j<<6);

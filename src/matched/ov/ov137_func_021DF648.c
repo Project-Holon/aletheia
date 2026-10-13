@@ -17,7 +17,7 @@
  *   func_02010904 0x02010904 thumb
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0200FBB0 0x0200FBB0 thumb
- *   func_0200F7B8 0x0200F7B8 thumb
+ *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  *   func_0202223C 0x0202223C thumb
  *   func_0202F038 0x0202F038 thumb
  *   func_02010934 0x02010934 thumb
@@ -28,7 +28,7 @@ struct Sub0201088CObj;
 extern u32 func_02010904(struct Sub0201088CObj *p);
 extern unsigned func_0200FB24(void);
 extern u32 func_0200FBB0(void);
-extern u32 func_0200F7B8(u32 a0);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern void func_0202223C(unsigned, unsigned);
 extern void func_0202F038(u8 *p);
 extern void func_02010934(struct Sub0201088CObj *p);
@@ -38,7 +38,7 @@ int func_021DF648(u8 *p)
     ready = func_02010904(*(void **)(p + 3488));
     if (func_0200FB24()) {
         func_0200FBB0();
-        func_0200F7B8(1);
+        GFL_NET_ERR_ShowScreen(1);
         func_0202223C(0, 0);
         func_0202223C(1, 0);
         return 0;

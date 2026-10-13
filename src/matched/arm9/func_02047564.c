@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C     0x02146A5C  data
- *   g_020A7EA8     0x020A7EA8  data
+ *   _G3dSystem     0x02146A5C  data
+ *   G3D_SYSTEM_FileName     0x020A7EA8  data
  *   func_02030734  0x02030734  arm
  *   func_0206E9A4  0x0206E9A4  arm
- *   func_02047554  0x02047554  arm
+ *   G3D_SYSTEM_GetRenderTexRes  0x02047554  arm
  *   func_0206E964  0x0206E964  arm
- *   func_0206E364  0x0206E364  arm
+ *   NNS_G3dAllocAnmObj  0x0206E364  arm
  *   func_02069C74  0x02069C74  arm
  *
  * g3d_system.c.  Allocate a 12-byte record from the context heap (tag
  * 0x59D1, owner a1), fetch animation a2 from a1's resource
  * (func_0206E9A4), allocate the animation object against a0's model
- * (func_0206E364) and initialise it with a0's texture when a0 has one
- * (func_02047554 / func_0206E964, then func_02069C74).
+ * (NNS_G3dAllocAnmObj) and initialise it with a0's texture when a0 has one
+ * (G3D_SYSTEM_GetRenderTexRes / func_0206E964, then func_02069C74).
  *
  * The lever (wave 16) is `const` on the read-only owner parameter a1 (and
  * the record field that keeps it): with a1 const the a1->f04 load may move
@@ -66,14 +66,14 @@ struct G3dRec {
     const struct G3dOwner *unk_08;
 };
 
-extern struct G3dCtx *g_02146A5C;
-extern char g_020A7EA8[];
+extern struct G3dCtx *_G3dSystem;
+extern char G3D_SYSTEM_FileName[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 *func_0206E9A4(u8 *p, u32 idx);
-extern int func_02047554(int *p);
+extern int G3D_SYSTEM_GetRenderTexRes(int *p);
 extern unsigned char *func_0206E964(unsigned char *p);
-extern u32  func_0206E364(struct G3dCtx *a0, int a1, u32 a2);
+extern u32  NNS_G3dAllocAnmObj(struct G3dCtx *a0, int a1, u32 a2);
 extern void func_02069C74(u32 a0, int a1, u32 a2, int a3);
 
 struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2)
@@ -83,14 +83,14 @@ struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int
     u32 y;
     int z = 0;
 
-    r = func_02030734(g_02146A5C->heap_id, 0xC, 0, g_020A7EA8, 0x6D2);
+    r = func_02030734(_G3dSystem->heap_id, 0xC, 0, G3D_SYSTEM_FileName, 0x6D2);
     r->tag = 0x59D1;
     r->unk_08 = a1;
     x = (int)func_0206E9A4((u8 *)a1->f04, a2);
     y = a0->f04->handle;
-    if (func_02047554((int *)a0) != 0)
+    if (G3D_SYSTEM_GetRenderTexRes((int *)a0) != 0)
         z = (int)func_0206E964((unsigned char *)a0->f0c->handle);
-    r->unk_04 = func_0206E364(g_02146A5C, x, y);
+    r->unk_04 = NNS_G3dAllocAnmObj(_G3dSystem, x, y);
     func_02069C74(r->unk_04, x, y, z);
     return r;
 }

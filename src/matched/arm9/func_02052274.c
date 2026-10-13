@@ -1,5 +1,5 @@
 /*
- * function: func_02052274
+ * function: BUTTON_MAN_ConvertUcs2ToSjis
  * address:  0x02052274
  * packet:   pkt_02052274
  * region:   arm9
@@ -9,10 +9,10 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_020522E4  0x020522E4  arm
+ *   BUTTON_MAN_Ucs2CharToSjis  0x020522E4  arm
  *
  * Convert a run of n wide characters at `a` into the narrow buffer at `b`,
- * stopping early when the converter raises its flag.  func_020522E4 is the
+ * stopping early when the converter raises its flag.  BUTTON_MAN_Ucs2CharToSjis is the
  * per-character encoder next door; it returns 1 when it wrote two bytes and
  * something else when it wrote one, and it reports "stop" by storing 1 into
  * the scratch word it is handed.
@@ -44,17 +44,17 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02052274.c \
- *       --func func_02052274 --addr 0x02052274 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_ConvertUcs2ToSjis.c \
+ *       --func BUTTON_MAN_ConvertUcs2ToSjis --addr 0x02052274 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 typedef unsigned short u16;
-extern int func_020522E4(u16 *src, char *dst, u32 *stop);
+extern int BUTTON_MAN_Ucs2CharToSjis(u16 *src, char *dst, u32 *stop);
 
-void func_02052274(u8 *a, u8 *b, u32 n)
+void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32 n)
 {
     u32 scratch;
     u32 z;
@@ -68,7 +68,7 @@ void func_02052274(u8 *a, u8 *b, u32 n)
     z = i;
     do {
         scratch = z;
-        if (func_020522E4((u16 *)(a + i * 2), (char *)(b + j), &scratch) == 1)
+        if (BUTTON_MAN_Ucs2CharToSjis((u16 *)(a + i * 2), (char *)(b + j), &scratch) == 1)
             j += 2;
         else
             j += 1;

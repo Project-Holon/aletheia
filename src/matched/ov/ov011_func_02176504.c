@@ -1,5 +1,5 @@
 /*
- * function: func_02176504
+ * function: INTRUDE_COMM_PartyProcMain
  * address:  0x02176504
  * packet:   pkt_ov011_02176504
  * region:   ov011
@@ -13,22 +13,22 @@
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_02012138  0x02012138  thumb
- *   func_02031330  0x02031330  arm
+ *   PROCSYS_Main  0x02031330  arm
  *   func_0200FB24  0x0200FB24  thumb
  *   func_0203CDBC  0x0203CDBC  arm
  *   func_020399A8  0x020399A8  arm
- *   func_02013790  0x02013790  thumb
- *   func_02013128  0x02013128  thumb
+ *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
+ *   BTL_SETUP_SetParty  0x02013128  thumb
  *   func_02039338  0x02039338  arm
- *   func_0203A424  0x0203A424  arm
+ *   GFL_NET_HANDLE_SetUserInfo  0x0203A424  arm
  *   func_02039CB4  0x02039CB4  arm
  *   func_02034AC4  0x02034AC4  arm
  *   func_0203A574  0x0203A574  arm
- *   func_02031348  0x02031348  arm
+ *   PROCSYS_Push  0x02031348  arm
  *   func_0203CD98  0x0203CD98  arm
  *   func_0203A5E4  0x0203A5E4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_020130DC  0x020130DC  thumb
+ *   BTL_SETUP_FreeSlots  0x020130DC  thumb
  *   ov093_id       0x0000005D  data  a1
  *   d_021F03C4     0x021F03C4  data  ov093  a4
  *   d_021EFDAC     0x021EFDAC  data  ov093  a4
@@ -64,36 +64,36 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *a);
-extern u32 func_02031330(void *a);
+extern u32 PROCSYS_Main(void *a);
 extern u32 func_0200FB24(void);
 extern int func_0203CDBC(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern void func_02013790(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
-extern void func_02013128(void *p, void *src, int i);
+extern void BTL_SETUP_SetupCommSingle(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
+extern void BTL_SETUP_SetParty(void *p, void *src, int i);
 extern u16 func_02039338(void);
-extern void func_0203A424(char *p, int a, int b, int c);
+extern void GFL_NET_HANDLE_SetUserInfo(char *p, int a, int b, int c);
 struct Link;
 extern u32 func_02039CB4(struct Link *a, u32 b, u32 c);
 extern int func_02034AC4(int id);
 extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
-extern void func_02031348(u32 a, int b, void *c, Work *w);
+extern void PROCSYS_Push(u32 a, int b, void *c, Work *w);
 extern int func_0203CD98(void);
 extern void func_0203A5E4(u32 key);
 extern void func_02034A5C(int handle);
-extern void func_020130DC(Work *w);
+extern void BTL_SETUP_FreeSlots(Work *w);
 extern char d_021F03C4[];
 extern u8 ov093_id[];
 extern char d_021EFDAC[];
 
-int func_02176504(void *a0, int *state, Obj *obj, Work *work)
+int INTRUDE_COMM_PartyProcMain(void *a0, int *state, Obj *obj, Work *work)
 {
     int h;
     int busy;
 
     h = (int)func_020120F4((const struct Ctx *)obj->w0);
     func_02012138((const struct Ctx *)obj->w0);
-    busy = func_02031330((void *)work->wF4);
+    busy = PROCSYS_Main((void *)work->wF4);
     if (func_0200FB24() != 0 || func_0203CDBC() == 1) {
         if (*state > 0 && *state < 6) {
             *state = 7;
@@ -101,8 +101,8 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
     }
     switch (*state) {
     case 0:
-        func_02013790((u32)work, h, (int)func_020399A8(), 1, 4);
-        func_02013128(work, (void *)work->wF8, 0);
+        BTL_SETUP_SetupCommSingle((u32)work, h, (int)func_020399A8(), 1, 4);
+        BTL_SETUP_SetParty(work, (void *)work->wF8, 0);
         if (func_02039338() < obj->b4) {
             work->b21 = 0;
         } else {
@@ -115,7 +115,7 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
         (*state)++;
         break;
     case 1:
-        func_0203A424((char *)((int)func_020399A8()), 0x15, 2, (u16)((1 << obj->b4) | (1 << func_02039338())));
+        GFL_NET_HANDLE_SetUserInfo((char *)((int)func_020399A8()), 0x15, 2, (u16)((1 << obj->b4) | (1 << func_02039338())));
         (*state)++;
         break;
     case 2:
@@ -127,7 +127,7 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
         }
         break;
     case 3:
-        func_0203A424((char *)((int)func_020399A8()), 0x16, 2, (u16)((1 << obj->b4) | (1 << func_02039338())));
+        GFL_NET_HANDLE_SetUserInfo((char *)((int)func_020399A8()), 0x16, 2, (u16)((1 << obj->b4) | (1 << func_02039338())));
         (*state)++;
         break;
     case 4:
@@ -136,7 +136,7 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
         }
         break;
     case 5:
-        func_02031348(work->wF4, -1, d_021EFDAC, work);
+        PROCSYS_Push(work->wF4, -1, d_021EFDAC, work);
         (*state)++;
         break;
     case 6:
@@ -151,7 +151,7 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
             }
             func_02034A5C((int)ov093_id);
         }
-        func_020130DC(work);
+        BTL_SETUP_FreeSlots(work);
         return 1;
     }
     return 0;

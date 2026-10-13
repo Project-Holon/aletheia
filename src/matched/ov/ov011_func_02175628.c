@@ -1,5 +1,5 @@
 /*
- * function: func_02175628
+ * function: INTRUDE_COMM_HasConnectedPeers
  * address: 0x02175628
  * packet: pkt_ov011_02175628
  * region: ov011
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
 extern int func_0203D1B4(void);
-int func_02175628(void)
+int INTRUDE_COMM_HasConnectedPeers(void)
 {
     if (func_0200FB24() != 0) return 0;
     if (func_0203D1B4() > 1) return 1;

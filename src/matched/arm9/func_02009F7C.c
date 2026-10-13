@@ -1,5 +1,5 @@
 /*
- * function: func_02009F7C
+ * function: MYSTERY_DATA_CloseCardGap
  * address:  0x02009F7C
  * packet:   pkt_02009F7C
  * region:   arm9
@@ -8,26 +8,31 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   MYSTERY_DATA_CheckCardExist  0x02009F50  thumb
+ *   MYSTERY_DATA_GetCardMax  0x0200A400  thumb
+ *   MYSTERY_DATA_GetCardSlot  0x0200A43C  thumb
  */
 
 typedef unsigned char u8;
 typedef struct { int w[0x33]; } Slot;
 typedef unsigned int   u32;
 struct Obj;
-extern u32 func_0200A400(struct Obj *obj);
-extern int func_02009F50(char *p, unsigned int idx);
-extern void *func_0200A43C(struct Obj *obj, u32 index);
+extern u32 MYSTERY_DATA_GetCardMax(struct Obj *obj);
+extern int MYSTERY_DATA_CheckCardExist(char *p, unsigned int idx);
+extern void *MYSTERY_DATA_GetCardSlot(struct Obj *obj, u32 index);
 extern void func_02082BCC(void *dst, int v, int n);
-void func_02009F7C(void *p, unsigned int idx)
+void MYSTERY_DATA_CloseCardGap(void *p, unsigned int idx)
 {
     unsigned int i;
-    unsigned int n = (unsigned int)func_0200A400(p);
-    if (func_02009F50(p, idx) != 0)
+    unsigned int n = (unsigned int)MYSTERY_DATA_GetCardMax(p);
+    if (MYSTERY_DATA_CheckCardExist(p, idx) != 0)
         return;
     for (i = idx; i < n - 1; i++) {
-        void *dst = func_0200A43C(p, i);
-        void *src = func_0200A43C(p, i + 1);
+        void *dst = MYSTERY_DATA_GetCardSlot(p, i);
+        void *src = MYSTERY_DATA_GetCardSlot(p, i + 1);
         *(Slot *)dst = *(Slot *)src;
     }
-    func_02082BCC(func_0200A43C(p, i), 0, 0xcc);
+    func_02082BCC(MYSTERY_DATA_GetCardSlot(p, i), 0, 0xcc);
 }

@@ -14,7 +14,7 @@
  *   func_020127A4  0x020127A4  thumb
  *   func_02012A30  0x02012A30  thumb
  *   func_02012134  0x02012134  thumb
- *   func_02029DBC  0x02029DBC  thumb
+ *   FIELD_SOUND_SYSTEM_LowerVolume  0x02029DBC  thumb
  *   func_02013CC8  0x02013CC8  thumb
  *   func_02013CE0  0x02013CE0  thumb
  *   func_0216F7BC  0x0216F7BC  thumb  ov010
@@ -31,7 +31,7 @@ extern u16 *func_020127A4();
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
 extern u32 func_02012134(u32 *p);
-extern void func_02029DBC(u8 *a, u32 b);
+extern void FIELD_SOUND_SYSTEM_LowerVolume(u8 *a, u32 b);
 extern u32 func_02013CC8(u32 id);
 extern u32 func_02013CE0(u32 id);
 extern int *func_0216F7BC();
@@ -45,7 +45,7 @@ void func_0216117C(int *a0, int a1)
     int *r;
 
     s = func_02012A30(h);
-    func_02029DBC((u8 *)s, func_02012134((u32 *)(*(int *)a0[6])));
+    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)s, func_02012134((u32 *)(*(int *)a0[6])));
     if (func_02013CC8(v) != 0 || (int)func_02013CE0((u16)v) != 0) {
         f = 0;
     }

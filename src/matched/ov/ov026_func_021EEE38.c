@@ -13,7 +13,7 @@
  *   func_021EEE38  0x021EEE38  thumb  ov026
  *   func_020056EC  0x020056EC  thumb
  *   _u32_div_f     0x0209C2B0  arm
- *   func_0204B908  0x0204B908  arm
+ *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   func_021A21B8  0x021A21B8  thumb  ov021
  *   func_021A21C8  0x021A21C8  thumb  ov021
  *   func_021A2630  0x021A2630  thumb  ov021
@@ -33,7 +33,7 @@ typedef struct {
 } Pt;
 
 extern u32 func_020056EC(u32 v);
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern int *func_021A21B8(int *p);
 extern void *func_021A21C8(void *p, int a1);
 extern unsigned char *func_021A2630(unsigned char *o);
@@ -62,7 +62,7 @@ void func_021EEE38(int a, int n, int idx)
         h = func_021A2638((unsigned char *)obj);
         r = func_020056EC(0);
         m = r % 3;
-        func_0204B908(h, (u16)m);
+        CLACT_SetActorAnimIndex(h, (u16)m);
         e[2] = e[4] = (r & 15) + (m + 1) * 14;
         e[4] = d_021EFD08[w[2] / 60] * e[4] / 10;
         e[2] = d_021EFD08[w[2] / 60] * e[2] / 10;

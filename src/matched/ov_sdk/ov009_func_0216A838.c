@@ -16,7 +16,7 @@
  *   func_02178E70  0x02178E70  arm  ov009
  *   func_02178E80  0x02178E80  arm  ov009
  *   func_02178EA0  0x02178EA0  arm  ov009
- *   func_02178EF4  0x02178EF4  arm  ov009
+ *   DWCi_Auth_ShutdownAuthentication  0x02178EF4  arm  ov009
  *   func_020596C8  0x020596C8  arm
  *   func_0216A68C  0x0216A68C  arm  ov009
  *   func_02178F00  0x02178F00  arm  ov009
@@ -52,7 +52,7 @@ extern void func_02178DB4(void);
 extern int func_02178E70(void);
 extern int func_02178E80(void);
 extern void func_02178EA0(char *authtoken, char *partnerchallenge);
-extern void func_02178EF4();
+extern void DWCi_Auth_ShutdownAuthentication();
 extern int func_020596C8(void *userdata);
 extern void func_0216A68C(void *callback, int next_state);
 extern unsigned long long func_02178F00(void);
@@ -71,7 +71,7 @@ void func_0216A838(void)
 		return;
 	if (func_02178E80()) {
 		func_02178EA0(g_021AA874->authToken, g_021AA874->partnerChallenge);
-		func_02178EF4();
+		DWCi_Auth_ShutdownAuthentication();
 		if (func_020596C8(g_021AA874->userdata)) {
 			func_0216A68C(func_0216A4D4, 2);
 			return;

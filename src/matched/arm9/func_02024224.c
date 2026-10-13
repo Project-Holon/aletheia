@@ -1,5 +1,5 @@
 /*
- * function: func_02024224
+ * function: PMSI_PARAM_SetUiInputMode
  * address:  0x02024224
  * packet:   pkt_02024224
  * region:   arm9
@@ -15,4 +15,4 @@
  *   func_020355D8 0x020355D8 arm
  */
 extern void func_020355D8(void *);
-void func_02024224(void *a,void *b) { func_020355D8(b); }
+void PMSI_PARAM_SetUiInputMode(void *a,void *b) { func_020355D8(b); }

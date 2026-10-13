@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02012158",
+   "name": "GAMESYSTEM_SetAlwaysNetFlag",
    "address": "0x02012158",
    "kind": "game",
    "region": "arm9",
@@ -34,7 +34,7 @@
    ]
   },
   {
-   "name": "func_02012220",
+   "name": "GAMESYSTEM_OnSleep",
    "address": "0x02012220",
    "kind": "game",
    "region": "arm9",
@@ -46,7 +46,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02012248",
+   "name": "GAMESYSTEM_RegisterSleepCallback",
    "address": "0x02012248",
    "kind": "game",
    "region": "arm9",
@@ -58,7 +58,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02012258",
+   "name": "GAMESYSTEM_ReleaseSleepCallback",
    "address": "0x02012258",
    "kind": "game",
    "region": "arm9",
@@ -70,7 +70,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02012264",
+   "name": "GAMESYSTEM_IsSleepBlocked",
    "address": "0x02012264",
    "kind": "game",
    "region": "arm9",
@@ -82,7 +82,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_020122C0",
+   "name": "GAME_EVENT_Create",
    "address": "0x020122C0",
    "kind": "game",
    "region": "arm9",
@@ -105,14 +105,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020124E4",
-    "sub_020124E8",
-    "sub_020124EC",
-    "sub_020124F0"
+    "GAME_EVENT_GetGameSystem",
+    "GAME_EVENT_GetWork",
+    "GAME_EVENT_GetSeq",
+    "GAME_EVENT_GetParent"
+   ],
+   "addresses": [
+    "0x020124E4",
+    "0x020124E8",
+    "0x020124EC",
+    "0x020124F0"
    ]
   },
   {
-   "name": "sub_020127D0",
+   "name": "GAME_DATA_GetUnionInfo",
    "address": "0x020127D0",
    "kind": "game",
    "region": "arm9",

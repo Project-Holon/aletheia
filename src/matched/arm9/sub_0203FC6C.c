@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020434CC  0x020434CC  arm
- *   func_02043588  0x02043588  arm
+ *   BG_SYS_ClearMainPlanes  0x020434CC  arm
+ *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   func_0207D4B0  0x0207D4B0  arm
  *   func_0207D518  0x0207D518  arm
  *
@@ -38,14 +38,14 @@ struct BgVramReq {
 
 extern u32 func_0207D4B0(u32 a, u32 b, u32 c);
 extern u32 func_0207D518(u32 a);
-extern void func_020434CC(u32 handle);
-extern void func_02043588(u32 handle);
+extern void BG_SYS_ClearMainPlanes(u32 handle);
+extern void BG_SYS_ClearSubPlanes(u32 handle);
 
 void func_0203FC6C(const struct BgVramReq *req, u32 which)
 {
     if (which == 0) {
-        func_020434CC(func_0207D4B0(req->unk_00, req->unk_04, req->unk_0c));
+        BG_SYS_ClearMainPlanes(func_0207D4B0(req->unk_00, req->unk_04, req->unk_0c));
     } else {
-        func_02043588(func_0207D518(req->unk_08));
+        BG_SYS_ClearSubPlanes(func_0207D518(req->unk_08));
     }
 }

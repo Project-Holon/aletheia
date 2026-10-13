@@ -20,21 +20,21 @@
  */
 
 typedef unsigned char u8;
-typedef enum { SLOT_0 } Slot;
+typedef enum { SPOT_INDEX_FIRST } SpotIndex;
 
-struct Pos;
-struct Rec;
-extern int func_0216FE2C(struct Rec *tbl, int idx, struct Pos *pos, u8 *flags);
+struct SpotPosition;
+struct SpotRecord;
+extern int func_0216FE2C(struct SpotRecord *spots, int index, struct SpotPosition *position, u8 *unlockMask);
 
-int func_0216FEAC(void *tbl, void *pos, u8 *flags)
+int func_0216FEAC(void *spots, void *position, u8 *unlockMask)
 {
-    Slot i;
-    int n;
+    SpotIndex index;
+    int count;
 
-    n = 0;
-    for (i = 0; i < 0x30; i++) {
-        if (func_0216FE2C(tbl, i, pos, flags) == 0)
-            n++;
+    count = 0;
+    for (index = 0; index < 0x30; index++) {
+        if (func_0216FE2C(spots, index, position, unlockMask) == 0)
+            count++;
     }
-    return n;
+    return count;
 }

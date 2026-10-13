@@ -11,7 +11,7 @@
  *
  * symbols:
  *   g_EnvModule   0x02146954  data
- *   sub_0202FBAC  0x0202FBAC  arm
+ *   GFL_HEAP_GetHeap  0x0202FBAC  arm
  *   sub_0202FED8  0x0202FED8  arm
  *   sub_02060CA0  0x02060CA0  arm
  *
@@ -41,7 +41,7 @@
  * `and r0, r0, r1` read the same register), so the mask must be spelled the
  * same way on both identifiers rather than folded into one of them.
  *
- * sub_0202FBAC is declared here with a u16 parameter, not the u32 of
+ * GFL_HEAP_GetHeap is declared here with a u16 parameter, not the u32 of
  * src/matched/unit_0202FBAC.c: the `lsl #16` / `lsr #16` pair after the mask
  * is the argument truncation and nothing else in the function produces it
  * (docs/idioms/unequal-shift-pair-is-a-narrowing-cast-folded-with-a-shift.md,
@@ -69,7 +69,7 @@ struct EnvEntry {
 
 extern struct EnvModule g_EnvModule;
 
-extern void *sub_0202FBAC(u32 idx);
+extern void *GFL_HEAP_GetHeap(u32 idx);
 struct ExpHeap;
 extern void *sub_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 extern int sub_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3);
@@ -92,7 +92,7 @@ int sub_0202FDC4(u32 src, u32 dst, u32 param)
         goto fail;
     }
 
-    res = sub_0202FBAC((u16)(src & 0x7fff));
+    res = GFL_HEAP_GetHeap((u16)(src & 0x7fff));
     if (res == 0) {
         g_EnvModule.error = 2;
         goto fail;

@@ -1,5 +1,5 @@
 /*
- * function: func_02178B98
+ * function: DWCi_MOV_WH_StateOutStartChildMP
  * address:  0x02178B98
  * packet:   pkt_ov014_02178B98
  * region:   ov014
@@ -13,10 +13,10 @@
  *   func_02178138  0x02178138  thumb  ov014
  *   func_0217814C  0x0217814C  thumb  ov014
  *   func_02179498  0x02179498  thumb  ov014
- *   func_0203D6BC  0x0203D6BC  arm
- *   func_0203D680  0x0203D680  arm
- *   func_0203D5D4  0x0203D5D4  arm
- *   func_0209004C  0x0209004C  arm
+ *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
+ *   GFL_NET_GetMaxConnectNum  0x0203D680  arm
+ *   GFL_NET_GetGameKind  0x0203D5D4  arm
+ *   WM_StartDataSharing  0x0209004C  arm
  */
 #include "../include/Obj12474.h"
 #include "../include/G_S.h"
@@ -29,12 +29,12 @@ extern struct S *g_021797A8;
 void func_02178138(int a);
 void func_0217814C(int a);
 int func_02179498(void);
-u32 func_0203D6BC(void);
-u32 func_0203D680(void);
-u32 func_0203D5D4(void);
-int func_0209004C(void *p, int a, u32 mask, u32 b, int c);
+u32 GFL_NET_GetChildSendSize(void);
+u32 GFL_NET_GetMaxConnectNum(void);
+u32 GFL_NET_GetGameKind(void);
+int WM_StartDataSharing(void *p, int a, u32 mask, u32 b, int c);
 
-void func_02178B98(u8 *m)
+void DWCi_MOV_WH_StateOutStartChildMP(u8 *m)
 {
     u32 v = ((struct Obj12474 *)m)->f2;
     u32 mask;
@@ -54,13 +54,13 @@ void func_02178B98(u8 *m)
             int r;
             int n;
 
-            who = func_0203D6BC();
-            n = func_0203D680() - 1;
+            who = GFL_NET_GetChildSendSize();
+            n = GFL_NET_GetMaxConnectNum() - 1;
             mask = (u16)((1 << (n + 1)) - 1);
             c = 1;
-            if (func_0203D5D4() == 2)
+            if (GFL_NET_GetGameKind() == 2)
                 c = 0;
-            r = func_0209004C(((u8 *)g_021797A8) + 0x1444, 0xD, mask, (u16)who, c);
+            r = WM_StartDataSharing(((u8 *)g_021797A8) + 0x1444, 0xD, mask, (u16)who, c);
             if (r != 0) {
                 func_0217814C(r);
                 func_02179498();

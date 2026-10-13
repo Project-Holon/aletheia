@@ -18,7 +18,7 @@
  * disasm.py does not trace it); seed that start to make the extent exact.
  *
  * symbols:
- *   func_0215F854  0x0215F854  arm  ov009
+ *   SOC_Fcntl  0x0215F854  arm  ov009
  *   func_0217D254  0x0217D254  arm  ov009
  *   g_021A3740     0x021A3740  data
  *   g_021A374C     0x021A374C  data
@@ -26,7 +26,7 @@
  *   g_021A3784     0x021A3784  data
  */
 
-extern int func_0215F854(int sock, int cmd, int arg);
+extern int SOC_Fcntl(int sock, int cmd, int arg);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern char g_021A3740[];
 extern char g_021A374C[];
@@ -38,12 +38,12 @@ int func_0217EE50(int sock, int isblocking)
     int val;
     int rcode;
 
-    val = func_0215F854(sock, 3, 0);
+    val = SOC_Fcntl(sock, 3, 0);
     if (isblocking)
         val &= ~4;
     else
         val |= 4;
-    rcode = func_0215F854(sock, 4, val);
+    rcode = SOC_Fcntl(sock, 4, val);
     if (rcode == 0) {
         func_0217D254(12, 0, 0x10, g_021A375C, sock, isblocking ? g_021A3740 : g_021A374C);
         return 1;

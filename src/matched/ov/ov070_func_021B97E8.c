@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT
  *
- * blocked: func_0201C1E8 (arm9 unlabelled leaf, the integrator's; 12 bytes, tail stub)
+ * blocked: WAZA_TOOL_GetDamageType (arm9 unlabelled leaf, the integrator's; 12 bytes, tail stub)
  * has no witness outside this function. Verified C for the leaf (EXACT,
  * thumb, arm9, no region):
  *   extern int func_0201BD28(int, int);   // symbols: func_0201BD28 0x0201BD28 thumb
- *   int func_0201C1E8(int a) { return func_0201BD28(a, 2); }
+ *   int WAZA_TOOL_GetDamageType(int a) { return func_0201BD28(a, 2); }
  *
  * symbols:
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_021B61B8  0x021B61B8  thumb  ov070
  *   func_021B616C  0x021B616C  thumb  ov070
  *   func_020212B0  0x020212B0  thumb
- *   func_0201C1E8  0x0201C1E8  thumb
- *   func_0201C1C8  0x0201C1C8  thumb
+ *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
+ *   WAZA_TOOL_GetType  0x0201C1C8  thumb
  */
 
 typedef unsigned short u16;
@@ -32,8 +32,8 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern int func_021B61B8(u8 *p);
 extern unsigned short *func_021B616C(char *, int);
 extern u16 func_020212B0(u16 id);
-extern int func_0201C1E8(int);
-extern u8 func_0201C1C8(void *p);
+extern int WAZA_TOOL_GetDamageType(int);
+extern u8 WAZA_TOOL_GetType(void *p);
 
 void func_021B97E8(char *p, int mode)
 {
@@ -48,7 +48,7 @@ void func_021B97E8(char *p, int mode)
     }
     r = func_020212B0(*func_021B616C(p, func_021B61B8((u8 *)p)));
     if (r != 0) {
-        func_0204B3DC((struct Obj *)(*(int *)(p + func_0201C1E8(r) * 4 + 0x6C0)), mode);
-        func_0204B3DC((struct Obj *)(*(int *)(p + func_0201C1C8((void *)r) * 4 + 0x6CC)), mode);
+        func_0204B3DC((struct Obj *)(*(int *)(p + WAZA_TOOL_GetDamageType(r) * 4 + 0x6C0)), mode);
+        func_0204B3DC((struct Obj *)(*(int *)(p + WAZA_TOOL_GetType((void *)r) * 4 + 0x6CC)), mode);
     }
 }

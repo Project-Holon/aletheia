@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216B1E0",
+   "name": "DWC_UpdateServersAsync",
    "address": "0x0216B1E0",
    "kind": "sdk",
    "region": "ov009",

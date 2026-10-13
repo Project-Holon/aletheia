@@ -1,5 +1,5 @@
 /*
- * function: sub_02032C84
+ * function: BACKUP_SYSTEM_WriteCrcTable
  * address:  0x02032C84
  * packet:   pkt_020328E0
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02031EAC  0x02031EAC  arm
- *   func_02031ECC  0x02031ECC  arm
- *   func_020336B8  0x020336B8  arm
+ *   BACKUP_SYSTEM_GetAreaAddr  0x02031EAC  arm
+ *   BACKUP_SYSTEM_GetCrcTable  0x02031ECC  arm
+ *   FLASH_ACCESS_StartWrite  0x020336B8  arm
  *   unk_02146994   0x02146994  data
  *
  * savedata.c.  Writes the trailing block of a backup record: the length is
@@ -23,7 +23,7 @@
  * down to three saved registers.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02032C84.c \n *       --func sub_02032C84 --addr 0x02032C84 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_WriteCrcTable.c \n *       --func BACKUP_SYSTEM_WriteCrcTable --addr 0x02032C84 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -41,17 +41,17 @@ struct SaveBackup {
 
 extern struct { u8 pad000[0x208]; u32 unk208; } *unk_02146994;
 
-extern u32 func_02031EAC(u32 *p, u32 sel);
-extern int func_02031ECC(int p0);
-extern int func_020336B8(u32 a0, u32 a1, u32 a2, void *a3);
+extern u32 BACKUP_SYSTEM_GetAreaAddr(u32 *p, u32 sel);
+extern int BACKUP_SYSTEM_GetCrcTable(int p0);
+extern int FLASH_ACCESS_StartWrite(u32 a0, u32 a1, u32 a2, void *a3);
 
-int sub_02032C84(struct SaveBackup *p, u32 sel)
+int BACKUP_SYSTEM_WriteCrcTable(struct SaveBackup *p, u32 sel)
 {
     u32 dst;
     u32 src;
 
-    dst = p->unk30 + func_02031EAC((u32 *)p, sel);
+    dst = p->unk30 + BACKUP_SYSTEM_GetAreaAddr((u32 *)p, sel);
     dst = dst - 0x10 - p->unk140;
-    src = func_02031ECC((int)p);
-    return func_020336B8(dst, src, p->unk140, (void *)unk_02146994->unk208);
+    src = BACKUP_SYSTEM_GetCrcTable((int)p);
+    return FLASH_ACCESS_StartWrite(dst, src, p->unk140, (void *)unk_02146994->unk208);
 }

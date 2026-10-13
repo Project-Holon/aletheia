@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Unlabelled Thumb leaf (prints as .word data in ov010.s), the sole blocker
- * of ov011 func_02173368 +00CA: returns the top five bits of the second
+ * of ov011 INTRUDE_COMM_ScanCallback +00CA: returns the top five bits of the second
  * word of its argument.
  *
  * Addresses are Black-image addresses.

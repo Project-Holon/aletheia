@@ -27,6 +27,7 @@
  *   endScene                         0x021CBAF4  arm   ov016
  *   DWCi_IPTlCheckTrigger            0x021d6824 arm
  *   DWCi_BTNlSet                     0x021bcb28 arm
+ *   DWCi_SceneSetSearch_draw  0x021CBAC4  arm
  */
 #include "../../matched/include/G_SearchBss.h"
 
@@ -46,7 +47,7 @@ extern int DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern void DWCi_ChangeScene(void (*scene)());
 extern void func_021CBAA0(void);
-extern void func_021CBAC4(void);
+extern void DWCi_SceneSetSearch_draw(void);
 extern void func_021CBAC8(void);
 extern void func_021CB978(void);
 extern void DWCi_SNDlStop(void);
@@ -74,7 +75,7 @@ static void procInit2(void)
 
 
 /*
- * Call func_021CBAA0, func_021CBAC4, func_021CBAC8, func_021CB978.
+ * Call func_021CBAA0, DWCi_SceneSetSearch_draw, func_021CBAC8, func_021CB978.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -84,7 +85,7 @@ static void procInit2(void)
 void func_021CB960(void)
 {
     func_021CBAA0();
-    func_021CBAC4();
+    DWCi_SceneSetSearch_draw();
     func_021CBAC8();
     func_021CB978();
 }

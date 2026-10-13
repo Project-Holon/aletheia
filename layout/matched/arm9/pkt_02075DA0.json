@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02075FCC",
+   "name": "CARDi_GetAccessLevel",
    "address": "0x02075FCC",
    "kind": "game",
    "region": "arm9",

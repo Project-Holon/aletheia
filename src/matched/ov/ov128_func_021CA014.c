@@ -11,7 +11,7 @@
  *        cast the u16 counter to int for its bound, and share failure via done.
  * symbols:
  *   func_02045A98 0x02045A98 arm
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   _ull_mul 0x0209C054 arm
  */
 typedef unsigned short u16;
@@ -19,11 +19,11 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 extern u16 func_02045A98(void);
 struct U16Vec;
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 u64 func_021CA014(void *p,int *ok)
 {
     u16 end=func_02045A98();
-    u16 *text=func_02045A90(p);
+    u16 *text=STRBUF_GetChars(p);
     u64 value;
     u16 i;
     u16 digit;

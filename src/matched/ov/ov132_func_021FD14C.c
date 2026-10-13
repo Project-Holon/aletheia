@@ -19,7 +19,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02030734 0x02030734 arm
  *   func_02008468 0x02008468 thumb
- *   func_020173E8 0x020173E8 thumb
+ *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_020399A8 0x020399A8 arm
  *   func_0203D3F8 0x0203D3F8 arm
@@ -32,7 +32,7 @@ typedef struct {u16 heap;u8 pad[0x12a];u32 value;void *first,*second;char *buffe
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int func_02008468(void);
-extern u32 func_020173E8(void);
+extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern void func_02082D44(void *,void *,u32);
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -44,12 +44,12 @@ u32 func_021FD14C(Owner *p)
     char *q, *t;
     if(p->buffer) func_020307B0(p->buffer);
     a=func_02008468();
-    b=func_020173E8();
+    b=POKE_TOOL_GetBoxParamSize();
     q=func_02030734(p->heap,a+4+b,0,d_021FDE5C,0x533);
     p->buffer=q;
     t=q+4+func_02008468();
     func_02082D44(&p->value,q,4);
     func_02082D44(p->first,q+4,func_02008468());
-    func_02082D44(p->second,t,func_020173E8());
-    return func_0203D3F8((u32)func_020399A8(),0xff,0x1101,func_02008468()+4+func_020173E8(),(u32)p->buffer,1,0,1);
+    func_02082D44(p->second,t,POKE_TOOL_GetBoxParamSize());
+    return func_0203D3F8((u32)func_020399A8(),0xff,0x1101,func_02008468()+4+POKE_TOOL_GetBoxParamSize(),(u32)p->buffer,1,0,1);
 }

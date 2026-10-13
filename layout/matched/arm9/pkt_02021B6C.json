@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02021B6C",
+   "name": "PALANM_StepFadeWait",
    "address": "0x02021B6C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02021BC8",
+   "name": "PALANM_ApplyFade",
    "address": "0x02021BC8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02021CA8",
+   "name": "PALANM_StepFadeValue",
    "address": "0x02021CA8",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02022004",
+   "name": "PALANM_BlendChannelMask",
    "address": "0x02022004",
    "kind": "game",
    "region": "arm9",

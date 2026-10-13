@@ -1,5 +1,5 @@
 /*
- * function: sub_02033FB0
+ * function: AREAMAN_AllocShortDown
  * address:  0x02033FB0
  * packet:   pkt_02033CA8
  * region:   arm9
@@ -13,16 +13,16 @@
  *   g_RunLenAny    0x020A06A0  data
  *   g_RunLenTail   0x020A05A0  data
  *   g_RunLenHead   0x020A04A0  data
- *   func_02034348  0x02034348  arm
- *   func_020343C0  0x020343C0  arm
+ *   AREAMAN_FindClearRunDown  0x02034348  arm
+ *   AREAMAN_MarkUsed  0x020343C0  arm
  *
  * areaman.c.  The downward bit-at-a-time run scanner: the short-run arm of
- * sub_02033F64's dispatch (see src/pending/sub_02033F64.c), the mirror of
- * sub_02033CFC walking towards lower addresses.
+ * AREAMAN_AllocDown's dispatch (see src/pending/AREAMAN_AllocDown.c), the mirror of
+ * AREAMAN_AllocShortUp walking towards lower addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02033FB0.c \
- *       --func sub_02033FB0 --addr 0x02033FB0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/AREAMAN_AllocShortDown.c \
+ *       --func AREAMAN_AllocShortDown --addr 0x02033FB0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -42,10 +42,10 @@ extern const u8 g_RunLenAny[256];
 extern const u8 g_RunLenTail[256];
 extern const u8 g_RunLenHead[256];
 
-extern s32 func_02034348(u32 byte, u32 bit, u32 len);
-extern s32 func_020343C0(struct AreaMan *p, s32 start, u32 len);
+extern s32 AREAMAN_FindClearRunDown(u32 byte, u32 bit, u32 len);
+extern s32 AREAMAN_MarkUsed(struct AreaMan *p, s32 start, u32 len);
 
-s32 sub_02033FB0(struct AreaMan *p, u32 start, u32 limit, u32 len)
+s32 AREAMAN_AllocShortDown(struct AreaMan *p, u32 start, u32 limit, u32 len)
 {
     s32 i;
     s32 last;
@@ -60,7 +60,7 @@ s32 sub_02033FB0(struct AreaMan *p, u32 start, u32 limit, u32 len)
     found = -1;
 
     if ((start & 7) != 0) {
-        bit = func_02034348(p->bits[i], start & 7, len);
+        bit = AREAMAN_FindClearRunDown(p->bits[i], start & 7, len);
         if (bit != -1) {
             found = bit + i * 8;
             goto done;
@@ -69,7 +69,7 @@ s32 sub_02033FB0(struct AreaMan *p, u32 start, u32 limit, u32 len)
 
     while (i >= lastByte) {
         if (g_RunLenAny[p->bits[i]] >= len) {
-            bit = func_02034348(p->bits[i], 7, len);
+            bit = AREAMAN_FindClearRunDown(p->bits[i], 7, len);
             if (bit != -1) {
                 found = bit + i * 8;
                 goto done;
@@ -88,7 +88,7 @@ s32 sub_02033FB0(struct AreaMan *p, u32 start, u32 limit, u32 len)
 
 done:
     if (found != -1 && found >= last) {
-        if (func_020343C0(p, found, len) == 0) {
+        if (AREAMAN_MarkUsed(p, found, len) == 0) {
             found = -1;
         }
         return found;

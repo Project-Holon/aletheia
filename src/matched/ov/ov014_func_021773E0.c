@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_021797A4     0x021797A4  data   a4
+ *   g_pWhPipeWork     0x021797A4  data   a4
  *   func_0203D798  0x0203D798  arm
  *   func_0217731C  0x0217731C  thumb  ov014
  *   func_0203EFC8  0x0203EFC8  arm
@@ -34,7 +34,7 @@ typedef struct W {
     u8 flag;
 } W;
 
-extern W *g_021797A4;
+extern W *g_pWhPipeWork;
 extern void *func_0203D798(void);
 extern int func_0217731C(u8 *p);
 typedef signed int     s32;
@@ -45,7 +45,7 @@ extern void func_02082D44(void *src, void *dst, int n);
 int func_021773E0(u8 *p)
 {
     int i;
-    W *base = g_021797A4;
+    W *base = g_pWhPipeWork;
 
     func_0203D798();
     if (func_0217731C(p) == 0)

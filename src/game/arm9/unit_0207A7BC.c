@@ -1,6 +1,6 @@
 /*
  * file:     unit_0207A7BC.c
- * function: func_0207A7BC
+ * function: FS_GetFileImageTop
  * address:  0x0207A7BC
  * packet:   pkt_0207A7BC
  * region:   arm9
@@ -12,7 +12,7 @@
  */
 #include "../../matched/include/Obj02340.h"
 
-void *func_0207A7BC(char *file)
+void *FS_GetFileImageTop(char *file)
 {
     return ((struct Obj02340 *)file)->f24;
 }

@@ -14,8 +14,8 @@
  *
  * symbols:
  *   func_0689B514  0x0689B514  thumb
- *   sub_020082B8  0x020082B8  thumb
- *   sub_020082D4  0x020082D4  thumb
+ *   MYITEM_SAVEDATA_SetBattlePocketCursors  0x020082B8  thumb
+ *   MYITEM_SAVEDATA_SetLastBattleItem  0x020082D4  thumb
  *   func_021B8E70  0x021B8E70  thumb  ov093
  *   func_021ED118  0x021ED118  thumb  ov093
  *   func_021ED1B0   0x021ED1B0  thumb  ov093
@@ -211,8 +211,8 @@ typedef struct {
     u32 obj;                   /* 0x28 */
 } CbSlot;
 
-extern void sub_020082B8(struct MyItemSave *p, const s16 *a, const s16 *b);
-extern void sub_020082D4(struct MyItemSave *p, u16 a, u16 b);
+extern void MYITEM_SAVEDATA_SetBattlePocketCursors(struct MyItemSave *p, const s16 *a, const s16 *b);
+extern void MYITEM_SAVEDATA_SetLastBattleItem(struct MyItemSave *p, u16 a, u16 b);
 extern u8 func_021B8E70(u8 *p, u32 k);
 extern void func_021ED118(u8 *p, int a, int b, u32 c, u32 d, int e, u8 f);
 extern u8 *func_021E9100(u8 *p, int n);
@@ -381,8 +381,8 @@ u8 func_021EA04C(u8 *p)
 void func_021EA058(char *p)
 {
     if (((struct Obj04374 *)p)->fDE != 0 && ((struct Obj04374 *)p)->f12C != 6 && ((struct Obj04374 *)p)->fD0 != 1) {
-        sub_020082B8(((struct Obj04374 *)p)->fE4, (s16 *)(p + 0xf8), (s16 *)(p + 0x100));
-        sub_020082D4(((struct Obj04374 *)p)->fE4, ((struct Obj04374 *)p)->fDE, ((struct Obj04374 *)p)->fF2);
+        MYITEM_SAVEDATA_SetBattlePocketCursors(((struct Obj04374 *)p)->fE4, (s16 *)(p + 0xf8), (s16 *)(p + 0x100));
+        MYITEM_SAVEDATA_SetLastBattleItem(((struct Obj04374 *)p)->fE4, ((struct Obj04374 *)p)->fDE, ((struct Obj04374 *)p)->fF2);
     }
 }
 

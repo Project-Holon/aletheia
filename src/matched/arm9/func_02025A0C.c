@@ -1,5 +1,5 @@
 /*
- * function: func_02025A0C
+ * function: BMP_OAM_SetBgPriority
  * address:  0x02025A0C
  * packet:   pkt_0202590C
  * region:   arm9
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_0204B84C(void *p, u32 a);
 
-void func_02025A0C(u8 *g, u32 a)
+void BMP_OAM_SetBgPriority(u8 *g, u32 a)
 {
     int i;
     int j;

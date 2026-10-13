@@ -19,6 +19,7 @@
  * symbols:
  *   g_02153FB4  0x02153FB4  data
  *   g_02153FB8  0x02153FB8  data
+ *   __register_global_object  0x0209D850  arm
  */
 struct Node;
 typedef unsigned char u8;
@@ -30,7 +31,7 @@ typedef struct
 
 typedef unsigned int   u32;
 
-extern void func_0209D850(u32 a, u32 b, struct Node *node);
+extern void __register_global_object(u32 a, u32 b, struct Node *node);
 void func_0209D724(void);
 int func_0209D728(int a);
 void func_0209D774(void *p);
@@ -60,7 +61,7 @@ int func_0209D728(int a)
     if (g_02153FB4 == 0x40)
         return -1;
 
-    func_0209D850(r, a, (struct Node *)(&g_02153FB8[g_02153FB4++]));
+    __register_global_object(r, a, (struct Node *)(&g_02153FB8[g_02153FB4++]));
     return r;
 }
 void func_0209D774(void *p){ }

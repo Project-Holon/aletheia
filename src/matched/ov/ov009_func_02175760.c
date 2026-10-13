@@ -1,5 +1,5 @@
 /*
- * function: func_02175760
+ * function: DWCi_GetNumConnectionHost
  * address:  0x02175760
  * packet:   pkt_02155168
  * region:   ov009
@@ -14,12 +14,13 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_0216B804  0xfunc_0216B804  arm
+ *   DWC_GetNumConnectionHost  0x0216B804  arm
+ *   DWC_GetNumConnectionHost  0xfunc_0216B804  arm
  */
 
-extern void func_0216B804(void);
+extern void DWC_GetNumConnectionHost(void);
 
-void func_02175760(void)
+void DWCi_GetNumConnectionHost(void)
 {
-    func_0216B804();
+    DWC_GetNumConnectionHost();
 }

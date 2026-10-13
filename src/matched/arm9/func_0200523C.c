@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0200523C
+ * function: GFL_USE_InitGameSystems
  * address:  0x0200523C
  * packet:   pkt_02005230
  * region:   arm9
@@ -27,16 +27,29 @@
  *     (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md)
  *   * 0x02006C01 and 0x02006C2D are two Thumb function pointers. Written as
  *     plain integers mwcc folds the second to `adds r2, r1, #0x2c` off the
- *     first; written as `&func_02006C00` / `&func_02006C2C` the two ABS32
+ *     first; written as `&PM_VOICE_GetCryIndex` / `&PM_VOICE_PrepareCry` the two ABS32
  *     relocations keep both pool words, which is the original's shape.
  *
  * symbols:
  *   func_02034704   0x02034704  arm
  *   func_0200FB6C   0x0200FB6C  thumb
- *   func_02006C00   0x02006C00  thumb
- *   func_02006C2C   0x02006C2C  thumb
+ *   PM_VOICE_GetCryIndex   0x02006C00  thumb
+ *   PM_VOICE_PrepareCry   0x02006C2C  thumb
  *   ov010_id        0x0000000A  data
  *   ov011_id        0x0000000B  data
+ *   GFL_USE_ApplySoundModeFromConfig  0x0200530C  thumb
+ *   GFL_USE_InitSound  0x02005B24  thumb
+ *   PM_VOICE_Init  0x02006544  thumb
+ *   SAVE_CONTROL_Create  0x02006F20  thumb
+ *   CONFIG_ApplyAppliedFlag  0x02008414  thumb
+ *   WIH_DWC_CreateFilterBuffer  0x02010794  thumb
+ *   WIH_DWC_ResetFilterState  0x020107CC  thumb
+ *   GPOWER_Init  0x02010DB4  thumb
+ *   POKE_TOOL_InitSystem  0x020173D0  thumb
+ *   PRINTSYS_Init  0x0201C41C  thumb
+ *   GAME_BEACON_Create  0x020266E0  thumb
+ *   PROCSYS_PushGlobal  0x020312CC  arm
+ *   GFL_NET_SetupHeaps  0x0203CB34  arm
  */
 
 typedef unsigned char u8;
@@ -47,58 +60,58 @@ extern int func_02034AC4(int handle);
 struct SaveCtrl;
 struct Sub02007084Ctrl;
 struct Sub02008700Obj;
-extern void func_0201C41C(void *arg);
-extern void func_0203CB34(u32 a, u32 b, u32 c, u32 d);
-extern void func_02010794(u32 a0);
-extern void func_020107CC(void);
-extern void func_020312CC(u32 a0, u32 a1, u32 a2);
-extern struct SaveCtrl *func_02006F20(int heap);
+extern void PRINTSYS_Init(void *arg);
+extern void GFL_NET_SetupHeaps(u32 a, u32 b, u32 c, u32 d);
+extern void WIH_DWC_CreateFilterBuffer(u32 a0);
+extern void WIH_DWC_ResetFilterState(void);
+extern void PROCSYS_PushGlobal(u32 a0, u32 a1, u32 a2);
+extern struct SaveCtrl *SAVE_CONTROL_Create(int heap);
 extern struct Sub02007084Ctrl *func_020070A4(void);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 struct Flags02008414;
-extern u8 func_02008414(const struct Flags02008414 *p);
+extern u8 CONFIG_ApplyAppliedFlag(const struct Flags02008414 *p);
 extern void func_02012FF0(void *val);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(u32 kind);
 extern void func_02034704(u32 a0);
 extern void func_0201F344(u16 heap);
-extern void func_020173D0(u32 heap);
-extern void func_02005B24(void);
-extern void func_02006544(u16 a0, u32 a1, u32 a2);
-extern void func_0200530C(void *obj);
+extern void POKE_TOOL_InitSystem(u32 heap);
+extern void GFL_USE_InitSound(void);
+extern void PM_VOICE_Init(u16 a0, u32 a1, u32 a2);
+extern void GFL_USE_ApplySoundModeFromConfig(void *obj);
 extern void func_020082DC(void);
-extern void func_020266E0(u32 a0);
-extern void func_02010DB4(void);
+extern void GAME_BEACON_Create(u32 a0);
+extern void GPOWER_Init(void);
 
 extern void func_0200FB6C(void);
-extern void func_02006C00(u32 species, u32 form, u32 *out);
-extern u32 func_02006C2C(u32 species, u32 form, void **rec, void **owner, u32 *rate1, u32 *rate2, u32 *addr, u8 *cryPitch);
+extern void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *out);
+extern u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **rec, void **owner, u32 *rate1, u32 *rate2, u32 *addr, u8 *cryPitch);
 extern u8 ov010_id[];
 extern u8 ov011_id[];
 
-void func_0200523C(void)
+void GFL_USE_InitGameSystems(void)
 {
     int v = 0xC;
 
     func_02034AC4((int)ov010_id);
     func_02034AC4((int)ov011_id);
-    func_0201C41C(0);
-    func_0203CB34(1, 0, 1, v);
-    func_02010794(v);
-    func_020107CC();
-    func_020312CC(v - 0xD, (u32)(void *)0x020A0480, 0);
-    func_02006F20(7);
-    func_02008414((const struct Flags02008414 *)func_0200873C(func_020070A4()));
+    PRINTSYS_Init(0);
+    GFL_NET_SetupHeaps(1, 0, 1, v);
+    WIH_DWC_CreateFilterBuffer(v);
+    WIH_DWC_ResetFilterState();
+    PROCSYS_PushGlobal(v - 0xD, (u32)(void *)0x020A0480, 0);
+    SAVE_CONTROL_Create(7);
+    CONFIG_ApplyAppliedFlag((const struct Flags02008414 *)func_0200873C(func_020070A4()));
     func_02012FF0(func_020070A4());
     func_0200F6B8();
     func_0200F6D8(8);
     func_02034704((u32)&func_0200FB6C);
     func_0201F344(0);
-    func_020173D0(0);
-    func_02005B24();
-    func_02006544(1, (u32)&func_02006C00, (u32)&func_02006C2C);
-    func_0200530C(func_0200873C(func_020070A4()));
+    POKE_TOOL_InitSystem(0);
+    GFL_USE_InitSound();
+    PM_VOICE_Init(1, (u32)&PM_VOICE_GetCryIndex, (u32)&PM_VOICE_PrepareCry);
+    GFL_USE_ApplySoundModeFromConfig(func_0200873C(func_020070A4()));
     func_020082DC();
-    func_020266E0(1);
-    func_02010DB4();
+    GAME_BEACON_Create(1);
+    GPOWER_Init();
 }

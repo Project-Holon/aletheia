@@ -15,16 +15,16 @@
  * symbols:
  *   DWCi_ChangeScene                 0x021C0E40  arm
  *   DWCi_EFFlCheck                   0x021D5580  arm
- *   func_021C4FD0                    0x021C4FD0  arm
+ *   DWCi_SceneSetAossComplete_procScene                    0x021C4FD0  arm
  */
 typedef _Bool bool;
 
 extern bool DWCi_EFFlCheck(int lcd);
 extern void DWCi_ChangeScene(void (*scene)());
-extern void func_021C4FD0(void);
+extern void DWCi_SceneSetAossComplete_procScene(void);
 
 static void procInit1(void)
 {
     if (!DWCi_EFFlCheck(0))
-        DWCi_ChangeScene(func_021C4FD0);
+        DWCi_ChangeScene(DWCi_SceneSetAossComplete_procScene);
 }

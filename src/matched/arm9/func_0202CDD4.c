@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202CDD4
+ * function: BGWINFRM_UpdateMove
  * address:  0x0202CDD4
  * packet:   pkt_0202CDD4
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202CC70  0x0202CC70  thumb
+ *   BGWINFRM_HideFrame  0x0202CC70  thumb
  *   sub_0202CC58   0x0202CC58  thumb
  */
 
@@ -43,16 +43,16 @@ struct WinMgr {
     struct Win *wins;
 };
 
-extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 extern void sub_0202CC58(struct WinMgr *mgr, u32 idx);
 
-u32 func_0202CDD4(struct WinMgr *mgr, u32 idx)
+u32 BGWINFRM_UpdateMove(struct WinMgr *mgr, u32 idx)
 {
     if (mgr->wins[idx].unk04_13 == 0) {
         return 0;
     }
 
-    func_0202CC70(mgr, idx);
+    BGWINFRM_HideFrame(mgr, idx);
     mgr->wins[idx].x = mgr->wins[idx].x + mgr->wins[idx].dx;
     mgr->wins[idx].y = mgr->wins[idx].y + mgr->wins[idx].dy;
     sub_0202CC58(mgr, idx);

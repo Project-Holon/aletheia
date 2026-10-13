@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D7EAC",
+   "name": "P_STA_INFO_HidePage",
    "address": "0x021D7EAC",
    "kind": "game",
    "region": "ov131",

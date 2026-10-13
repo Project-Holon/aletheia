@@ -1,5 +1,5 @@
 /*
- * function: func_02023D60
+ * function: WIPE_SUB_RequestWindowRect
  * address:  0x02023D60
  * packet:   pkt_02023D60
  * region:   arm9
@@ -28,7 +28,7 @@ struct Rec {
 
 extern void func_020056A0(u32 fn, void *rec, u32 one);
 
-void func_02023D60(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f)
+void WIPE_SUB_RequestWindowRect(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f)
 {
     struct Rec *r = (struct Rec *)(p + 0x80 + f * 32 + e * 16);
 

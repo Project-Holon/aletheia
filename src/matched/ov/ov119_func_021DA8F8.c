@@ -15,7 +15,7 @@
  *   func_021D8AA8 0x021D8AA8 thumb ov119
  *   func_021DD1B8 0x021DD1B8 thumb ov119
  *   func_021DF904 0x021DF904 thumb ov119
- *   func_0215642C 0x0215642C thumb ov009
+ *   DWC_RAP_SetVchatTalkLock 0x0215642C thumb ov009
  *   func_02045CAC 0x02045CAC arm
  *   func_021E1024 0x021E1024 thumb ov119
  *   func_021DD528 0x021DD528 thumb ov119
@@ -45,7 +45,7 @@ struct TaskMenu;
 extern void func_021E1098(char *);
 extern void func_021DD1B8(char *);
 extern void func_021DF904(void *);
-extern void func_0215642C(int);
+extern void DWC_RAP_SetVchatTalkLock(int);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *);
 extern void func_021DD528(char *,int);
@@ -67,7 +67,7 @@ void func_021DA8F8(char *p)
  func_021E1098(p);
  if(func_021D8AA8(p)) {
   func_021DD1B8(p);func_021DF904(p);
-  if(((struct Obj03773 *)p)->f118C==2) func_0215642C(0);
+  if(((struct Obj03773 *)p)->f118C==2) DWC_RAP_SetVchatTalkLock(0);
   func_02045CAC((struct MsgBank *)(((struct Obj03773 *)p)->f720),134,(void *)(((struct Obj03773 *)p)->f738));func_021E1024(p);
   func_021DD528(p,0);func_021DD68C(p);
   ((struct Obj03773 *)p)->f11E8=0;((struct Obj03773 *)p)->f11E9=0;

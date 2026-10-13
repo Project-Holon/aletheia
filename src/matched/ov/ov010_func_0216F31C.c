@@ -19,7 +19,7 @@
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200E6F0  0x0200E6F0  thumb
  *   func_0200E714  0x0200E714  thumb
- *   func_0202715C  0x0202715C  thumb
+ *   GAME_BEACON_SetPms  0x0202715C  thumb
  */
 
 typedef unsigned short u16;
@@ -31,7 +31,7 @@ extern int func_0216F088(int a0);
 extern void *func_02012EBC(struct Big *p);
 extern int func_0200E6F0(void);
 extern void func_0200E714(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src);
-extern void func_0202715C(u32 a0);
+extern void GAME_BEACON_SetPms(u32 a0);
 
 int func_0216F31C(char *a)
 {
@@ -51,7 +51,7 @@ int func_0216F31C(char *a)
         *(u16 *)(w + 0x70) = src[2];
         *(u16 *)(w + 0x72) = src[3];
         func_0200E714((struct Rec0200E714 *)t, 0, *(void **)(a + 0x14));
-        func_0202715C((u32)(*(void **)(a + 0x14)));
+        GAME_BEACON_SetPms((u32)(*(void **)(a + 0x14)));
     }
     return 1;
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02020268, func_02020298, func_020202EC, func_020202FC, func_02020314, func_02020324, func_02020344, func_02020350
+ * function: BMP_MENULIST_SetColors, func_02020298, func_020202EC, func_020202FC, func_02020314, func_02020324, func_02020344, func_02020350
  * address:  0x02020268
  * packet:   pkt_02020268
  * region:   arm9
@@ -26,7 +26,7 @@
  * 0x020222CD; see docs/notes/pkt_02022940.c.txt, wave 11).  The 32 bytes
  * the worklist counted are func_02020298's last eight instructions.
  *
- *   func_02020268  set the three colour nibbles f17hi / f18lo / f18hi
+ *   BMP_MENULIST_SetColors  set the three colour nibbles f17hi / f18lo / f18hi
  *   func_02020298  set the override nibbles f34lo / f34hi / f35lo and the
  *                  override flag f38top (func_0201FF30 seeds the same
  *                  three from f17hi / f18lo / f18hi)
@@ -87,7 +87,7 @@ struct Obj {
     u16 f42;
 };
 
-void func_02020268(struct Obj *obj, u8 a, u8 b, u8 c)
+void BMP_MENULIST_SetColors(struct Obj *obj, u8 a, u8 b, u8 c)
 {
     obj->f17hi = a;
     obj->f18lo = b;

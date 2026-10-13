@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B83E8.c
  * unit:     yes
- * function: func_021B83E8, func_021B83F4
+ * function: AOSS_FD_ZERO, AOSS_FD_SET
  * address:  0x021B83E8
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -12,15 +12,15 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-#include "../../matched/include/Obj09184.h"
-#include "../../matched/include/Obj12103.h"
+/* Poll entry of the socket library (same layout as in aoss.o's users). */
+typedef struct {
+    int   fd;
+    short events;
+    short revents;
+} SOCPollFD;
 
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-void func_021B83E8(void *rec);
-int func_021B83F4(int v, void *rec);
+void AOSS_FD_ZERO(SOCPollFD *pollFd);
+int AOSS_FD_SET(int fd, SOCPollFD *pollFd);
 
 
 /*
@@ -28,20 +28,20 @@ int func_021B83F4(int v, void *rec);
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021B83E8.c \
- *       --func func_021B83E8 --addr 0x021B83E8 --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/AOSS_FD_ZERO.c \
+ *       --func AOSS_FD_ZERO --addr 0x021B83E8 --region ov016 --cc dsi/1.1p1 --thumb
  */
-void func_021B83E8(void *rec)
+void AOSS_FD_ZERO(SOCPollFD *pollFd)
 {
-    ((struct Obj09184 *)rec)->f0 = 0;
-    ((struct Obj09184 *)rec)->f4 = 0;
-    ((struct Obj09184 *)rec)->f6 = 0;
+    pollFd->fd = 0;
+    pollFd->events = 0;
+    pollFd->revents = 0;
 }
 
 
-int func_021B83F4(int v, void *rec)
+int AOSS_FD_SET(int fd, SOCPollFD *pollFd)
 {
-    ((struct Obj12103 *)rec)->f0 = v;
-    ((struct Obj12103 *)rec)->f4 = 1;
+    pollFd->fd = fd;
+    pollFd->events = 1;
     return 1;
 }

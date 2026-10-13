@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02156690",
+   "name": "DWC_RAP_ProgressDisconnect",
    "address": "0x02156690",
    "kind": "game",
    "region": "ov009",

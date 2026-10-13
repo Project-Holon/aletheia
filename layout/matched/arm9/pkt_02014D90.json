@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020155A0",
+   "name": "MCSS_DrawShadow",
    "address": "0x020155A0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020159C8",
+   "name": "MCSS_Add",
    "address": "0x020159C8",
    "kind": "game",
    "region": "arm9",

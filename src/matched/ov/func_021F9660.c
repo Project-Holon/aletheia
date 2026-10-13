@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0202CF98  0x0202CF98  thumb
+ *   BGWINFRM_GetPos  0x0202CF98  thumb
  *   func_02045770  0x02045770  arm
  *   func_02043B5C  0x02043B5C  arm
  *   func_02045334  0x02045334  arm
@@ -21,7 +21,7 @@
  *
  * Redraw the text windows of layout `mode` (0..6): clear and refresh the
  * first n windows of the window table, and when the second brightness
- * byte read by func_0202CF98 is 0x10 reset the two BG2 screen blocks
+ * byte read by BGWINFRM_GetPos is 0x10 reset the two BG2 screen blocks
  * (func_02041300) and commit them; then refresh window 14 (and 15 for
  * layout 6) and schedule the +0x50 screen.
  */
@@ -39,7 +39,7 @@ typedef struct {
 } Obj;
 
 struct WinMgr;
-extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
@@ -55,7 +55,7 @@ void func_021F9660(Obj *p, int mode)
     s8 bright[2];
     int i = 0;
 
-    func_0202CF98(p->f18, 0, &bright[1], &bright[0]);
+    BGWINFRM_GetPos(p->f18, 0, &bright[1], &bright[0]);
     switch (mode) {
     case 4:
         for (i = 0; i < 9; i++) {

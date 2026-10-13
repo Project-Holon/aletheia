@@ -22,7 +22,7 @@
  * symbols:
  *   func_02017DBC  0x02017DBC  thumb
  *   func_02017DE4  0x02017DE4  thumb
- *   func_02018488  0x02018488  thumb
+ *   POKE_TOOL_IsBoxOwnedByPlayer  0x02018488  thumb
  *   func_0202F2F4  0x0202F2F4  thumb
  *   func_0202F30C  0x0202F30C  thumb
  *   func_0202F3AC  0x0202F3AC  thumb
@@ -34,7 +34,7 @@ typedef unsigned int u32;
 struct Sav;
 extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
-extern u32 func_02018488(void *p, void *mail);
+extern u32 POKE_TOOL_IsBoxOwnedByPlayer(void *p, void *mail);
 extern void func_0202F2F4(void *a0, u32 a1);
 extern void func_0202F30C(void *a0, u32 a1, u32 a2);
 extern void func_0202F3AC(void *a0, u32 a1);
@@ -59,7 +59,7 @@ void func_0202F1B4(u32 a, u32 b, u32 c, u32 d, u32 e)
         func_0202F47C((void *)a);
         break;
     case 2:
-        if (func_02018488((void *)a, (void *)c) == 1) {
+        if (POKE_TOOL_IsBoxOwnedByPlayer((void *)a, (void *)c) == 1) {
             func_0202F30C((void *)a, d, 1);
             func_0202F41C(a, c, e);
         } else {

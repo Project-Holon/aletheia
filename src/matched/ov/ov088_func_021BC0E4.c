@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020312F8  0x020312F8  arm
+ *   PROCSYS_ReplaceGlobal  0x020312F8  arm
  *   d_021BD818     0x021BD818  data  a4
  *   ov088_id       0x00000058  data  a1
  */
 
 typedef unsigned int   u32;
-extern void func_020312F8(u32 a1, u32 a2, u32 a3);
+extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern char d_021BD818[];
 extern char ov088_id[];
 
 void func_021BC0E4(void)
 {
-    func_020312F8((u32)ov088_id, (u32)d_021BD818, 0);
+    PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)d_021BD818, 0);
 }

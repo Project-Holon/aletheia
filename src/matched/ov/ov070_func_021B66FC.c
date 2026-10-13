@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202EA40  0x0202EA40  thumb
+ *   BLINK_PALANM_Update  0x0202EA40  thumb
  *   func_0201C6B4  0x0201C6B4  thumb
  *   func_021B61B8  0x021B61B8  thumb  ov070
  *   func_021B63F8  0x021B63F8  thumb  ov070
@@ -41,7 +41,7 @@ struct Obj;
 struct PrintSys;
 struct Row;
 typedef signed int     s32;
-extern s32 func_0202EA40(struct Row *p);
+extern s32 BLINK_PALANM_Update(struct Row *p);
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern int func_021B61B8(u8 *p);
 extern u32  func_021B63F8(u8 *p);
@@ -66,7 +66,7 @@ void func_021B66FC(u8 *p)
 {
     int a;
 
-    func_0202EA40((struct Row *)(*(u32 *)&((struct Obj00002 *)p)->f850));
+    BLINK_PALANM_Update((struct Row *)(*(u32 *)&((struct Obj00002 *)p)->f850));
     if (func_0201C6B4((const struct PrintSys *)(*(u32 *)&((struct Obj00002 *)p)->f50C)) == 0)
         return;
     a = func_021B61B8(p);

@@ -14,7 +14,7 @@
  *   func_020275E4   0x020275E4  thumb
  *   func_02049DB4   0x02049DB4  arm
  *   func_02049B40   0x02049B40  arm
- *   sFile_020A74E0  0x020A74E0  data
+ *   app_taskmenu_File  0x020A74E0  data
  *
  * Allocate and zero a 0x18-byte record ("app_taskmenu.c", line 0x2c6) and
  * fill it: two u16 ids at +0/+2, two words at +0x10/+0x14, then two
@@ -37,7 +37,7 @@ extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 extern u32   func_020275E4(void);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void  func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
-extern const char sFile_020A74E0[];
+extern const char app_taskmenu_File[];
 
 struct R {
     u16 a;
@@ -55,7 +55,7 @@ struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap)
     u32 sel;
 
     sel = 0;
-    r = (struct R *)func_02030734(heap, 0x18, 0, sFile_020A74E0, 0x2c6);
+    r = (struct R *)func_02030734(heap, 0x18, 0, app_taskmenu_File, 0x2c6);
     MI_CpuFill8(r, 0, 0x18);
     r->a = a0;
     r->b = a1;

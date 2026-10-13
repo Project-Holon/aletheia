@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02076B80
+ * function: CARD_WaitBackupAsync
  * address:  0x02076B80
  * packet:   pkt_02076B80
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 
 extern void func_02076050(void);
-void func_02076B80(void){ func_02076050(); }
+void CARD_WaitBackupAsync(void){ func_02076050(); }

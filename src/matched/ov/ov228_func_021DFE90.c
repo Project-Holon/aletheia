@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf in ov228: returns the byte at +0x378 of the overlay's
- * work object (0x378 built as 0xDE << 2).  Caller: arm9 sub_0200A358
+ * work object (0x378 built as 0xDE << 2).  Caller: arm9 MYSTERY_DATA_Load
  * (mystery_data.c).  Integrator: seed ov228 0x021DFE90.
  */
 

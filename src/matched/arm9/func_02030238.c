@@ -1,5 +1,5 @@
 /*
- * function: func_02030238
+ * function: GFL_HEAP_InitAllocator
  * address:  0x02030238
  * packet:   pkt_02030164
  * region:   arm9
@@ -27,7 +27,7 @@
  * Initialise a block in the heap: the heap id is bit-15-flagged like
  * sub_02030098's, and the low fifteen bits select the arena to store.
  *
- *   u32 func_02030238(void *p, u32 heapId, s32 size)
+ *   u32 GFL_HEAP_InitAllocator(void *p, u32 heapId, s32 size)
  *
  * The length is normalised to positive and then re-signed by the heap's
  * direction flag, which is what the two conditional negations around the
@@ -37,18 +37,18 @@
  * mask with 0x7fff is scheduled after the tst, so the mask constant costs
  * a pool word while the flag test is immediate.
  *
- * The arena is passed straight from sub_0202FBAC's return into r1 with no
+ * The arena is passed straight from GFL_HEAP_GetHeap's return into r1 with no
  * local bound in between, so the call is the nested form
- * func_02061358(p, sub_0202FBAC(heapId & 0x7fff), len).
+ * func_02061358(p, GFL_HEAP_GetHeap(heapId & 0x7fff), len).
  *
  * symbols:
  *   g_EnvModule           0x02146954  data
- *   sub_0202FBAC          0x0202FBAC  arm
+ *   GFL_HEAP_GetHeap          0x0202FBAC  arm
  *   func_02061358         0x02061358  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02030238.c \
- *       --func func_02030238 --addr 0x02030238 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GFL_HEAP_InitAllocator.c \
+ *       --func GFL_HEAP_InitAllocator --addr 0x02030238 --cc 1.1p1 --arm
  */
 
 #include "../include/G_EnvModule.h"
@@ -67,11 +67,11 @@ struct EnvEntry {
 };
 
 extern struct EnvModule g_EnvModule;
-extern void *sub_0202FBAC(u32 idx);
+extern void *GFL_HEAP_GetHeap(u32 idx);
 struct S02061358;
 extern void func_02061358(struct S02061358 *s, u32 a, u32 b);
 
-u32 func_02030238(void *p, u32 heapId, s32 size)
+u32 GFL_HEAP_InitAllocator(void *p, u32 heapId, s32 size)
 {
     s32 len;
 
@@ -86,7 +86,7 @@ u32 func_02030238(void *p, u32 heapId, s32 size)
         g_EnvModule.error = 1;
         goto fail;
     }
-    func_02061358(p, (u32)sub_0202FBAC(heapId & 0x7FFF), len);
+    func_02061358(p, (u32)GFL_HEAP_GetHeap(heapId & 0x7FFF), len);
     g_EnvModule.error = 0;
     return 1;
 

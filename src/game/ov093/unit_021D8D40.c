@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_021D775C  0x021D775C  thumb  ov093
- *   func_0201C1E8  0x0201C1E8  thumb
+ *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
  *   func_021D7704  0x021D7704  thumb  ov093
  *   func_021C8010  0x021C8010  thumb  ov093
  *   func_021C7F68  0x021C7F68  thumb  ov093
@@ -33,9 +33,9 @@
  *   d_021F0608 0x021F0608 data a4
  *   d_021F07E0     0x021F07E0  data   ov093  a4
  */
-struct QF;
-struct S;
-struct QQ;
+struct BtlPokeParam;
+struct BtlMessage;
+struct BtlEventFactor;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
@@ -48,86 +48,77 @@ typedef signed short s16;
 
 typedef signed int s32;
 
-struct Hd { u32 lo : 23; u32 flag : 1; u32 hi : 8; };
+/* Header word of the server command made by func_021C88A4. */
+struct BtlCmdHeader { u32 lowBits : 23; u32 announce : 1; u32 kind : 8; };
 
 extern int func_021D775C(int key);
-extern int func_0201C1E8(int a);
-extern void func_021D7704(int a, int b);
-extern int func_021C8010(u8 *p, unsigned int v);
-extern u8 func_021C7F68(int *p, int b, u8 *out);
-extern void *func_021C7CF4(int *p, int i);
-extern int func_021D59B4(u8 *p, int k);
-extern u16 func_021D5444(struct QF *p);
-extern int func_021C8288(u8 *p);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 val);
-extern void func_021C88C8(void *a, void *b);
-extern u16 func_021D70A8(struct QQ *p);
-extern int func_021B9A24(unsigned int a, unsigned int b);
-void func_021D8D40(int u, int a, int b, int c);
-int *func_021D8D90(int *p);
-int func_021D8D9C(void *a, int k, u8 *buf, int v);
-int func_021D8E00(void *a, int b);
-void func_021D8E1C(int a, void *b, int c, int *d);
-void func_021D8E58(int a, void *b, int c, int *d);
-void func_021D8E7C(int u, void *a, u32 b, u32 c, u8 d);
-void func_021D8EDC(int u, int a, int b, int *p);
-void func_021D8F1C(int a, void *b, int c, int *d);
-void func_021D8F54(int a, void *b, int c, int *d);
-void func_021D8F84(int u, int a, int b, int *p);
-void func_021D8FCC(int u, int a, int b);
-void func_021D901C(int u, int a, int b);
-int *func_021D9064(int *p);
-void func_021D9070(int u, int a, int b);
-int *func_021D90DC(int *p);
-void func_021D90E8(int a, int b, int c);
-void *func_021D910C(int *p);
-/*
- * lever: func_021C7F68 returns a u8 count, so n is a u8 and the count is spilled and reloaded.
- */
+extern int WAZA_TOOL_GetDamageType(int moveId);
+extern void func_021D7704(int key, int multiplier);
+extern int func_021C8010(void *server, unsigned int pokeId);
+extern u8 func_021C7F68(void *server, int sideKey, u8 *out);
+extern void *func_021C7CF4(void *server, int pokeId);
+extern int func_021D59B4(u8 *pokeParam, int statKey);
+extern u16 func_021D5444(struct BtlPokeParam *pokeParam);
+extern int func_021C8288(void *server);
+extern void *func_021C88A4(char *server, int cmdKind, int pokeId);
+extern void func_021C8838(void *message, int kind, int stringId);
+extern void func_021C8860(struct BtlMessage *message, u32 arg);
+extern void func_021C88C8(void *server, void *cmd);
+extern u16 func_021D70A8(struct BtlEventFactor *factor);
+extern int func_021B9A24(unsigned int pokeIdA, unsigned int pokeIdB);
+void func_021D8D40(struct BtlEventFactor *factor, void *server, int pokeId, u8 *work);
+int *func_021D8D90(int *handlerCount);
+int func_021D8D9C(void *server, int pokeId, u8 *idBuf, int abilityId);
+int func_021D8E00(void *server, int pokeId);
+void func_021D8E1C(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021D8E58(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021D8E7C(struct BtlEventFactor *factor, void *server, u32 pokeId, u32 form, u8 announce);
+void func_021D8EDC(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021D8F1C(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021D8F54(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021D8F84(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021D8FCC(struct BtlEventFactor *factor, void *server, int pokeId);
+void func_021D901C(struct BtlEventFactor *factor, void *server, int pokeId);
+int *func_021D9064(int *handlerCount);
+void func_021D9070(struct BtlEventFactor *factor, void *server, int pokeId);
+int *func_021D90DC(int *handlerCount);
+void func_021D90E8(struct BtlEventFactor *factor, void *server, int pokeId);
+void *func_021D910C(int *handlerCount);
 extern int d_021F06A0[];
 extern int d_021F0E1C[];
 extern unsigned int d_021F0608;
 extern int d_021F07E0[];
 
-
-
-
-void func_021D8D40(int u, int a, int b, int c)
+/* Plus/Minus (ability 57/58): power event of the owner, special move, an ally has Plus or Minus. */
+void func_021D8D40(struct BtlEventFactor *factor, void *server, int pokeId, u8 *work)
 {
-    if (b == func_021D775C(3)) {
-        if (func_021D8D9C((void *)a, b, (u8 *)c, 0x39) != 0 || func_021D8D9C((void *)a, b, (u8 *)c, 0x3a) != 0) {
-            if (func_0201C1E8((u16)func_021D775C(0x12)) == 2)
+    if (pokeId == func_021D775C(3)) {
+        if (func_021D8D9C(server, pokeId, work, 0x39) != 0 || func_021D8D9C(server, pokeId, work, 0x3a) != 0) {
+            if (WAZA_TOOL_GetDamageType((u16)func_021D775C(0x12)) == 2)
                 func_021D7704(0x35, 6 << 10);
         }
     }
 }
 
-
-
-
-int *func_021D8D90(int *p)
+int *func_021D8D90(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F06A0;
 }
 
-
-
-
-int func_021D8D9C(void *a, int k, u8 *buf, int v)
+/* Collects the pokemon on the side of pokeId into idBuf; true if another one has ability abilityId. */
+int func_021D8D9C(void *server, int pokeId, u8 *idBuf, int abilityId)
 {
-    int t;
-    u8 n;
+    int side;
+    u8 count;
     u8 i;
 
-    t = func_021C8010(a, k);
-    if (t != 6) {
-        n = func_021C7F68(a, (u16)((7 << 8) | t), buf);
-        for (i = 0; i < n; i++) {
-            if (k != buf[i]) {
-                if (v == func_021D59B4(func_021C7CF4(a, buf[i]), 0x11))
+    side = func_021C8010(server, pokeId);
+    if (side != 6) {
+        count = func_021C7F68(server, (u16)((7 << 8) | side), idBuf);
+        for (i = 0; i < count; i++) {
+            if (pokeId != idBuf[i]) {
+                if (abilityId == func_021D59B4(func_021C7CF4(server, idBuf[i]), 0x11))
                     return 1;
             }
         }
@@ -135,184 +126,122 @@ int func_021D8D9C(void *a, int k, u8 *buf, int v)
     return 0;
 }
 
-
-
-
-
-
-
-/*
- * Caller uses the forwarder's live pointer return and forwards r1.
- */
-int func_021D8E00(void *a, int b)
+/* True if the pokemon is Cherrim (species 421). */
+int func_021D8E00(void *server, int pokeId)
 {
-    if (func_021D5444(func_021C7CF4(a, b)) == 0x1a5) return 1;
+    if (func_021D5444(func_021C7CF4(server, pokeId)) == 0x1a5) return 1;
     return 0;
 }
 
-
-
-
-
-
-
-/*
- * The thunk's caller supplies r0 and consumes its forwarded return.
- */
-void func_021D8E1C(int a, void *b, int c, int *d)
+/* Flower Gift: Cherrim takes the sunshine form when the weather is sun; marks the work flag. */
+void func_021D8E1C(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (func_021D8E00(b, c)) {
-        func_021D8E7C(a, b, c, (unsigned char)(func_021C8288(b) == 1), 1);
-        *d = 1;
+    if (func_021D8E00(server, pokeId)) {
+        func_021D8E7C(factor, server, pokeId, (unsigned char)(func_021C8288(server) == 1), 1);
+        *work = 1;
     }
 }
 
-
-
-
-
-
-
-void func_021D8E58(int a, void *b, int c, int *d)
+void func_021D8E58(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (c == func_021D775C(2)) func_021D8E1C(a, b, c, d);
+    if (pokeId == func_021D775C(2)) func_021D8E1C(factor, server, pokeId, work);
 }
 
-
-
-
-
-
-
-
-void func_021D8E7C(int u, void *a, u32 b, u32 c, u8 d)
+/* Queues a form change of pokeId to form, unless it already has that form. */
+void func_021D8E7C(struct BtlEventFactor *factor, void *server, u32 pokeId, u32 form, u8 announce)
 {
-    u8 *r;
+    u8 *cmd;
 
-    if (c != func_021D59B4(func_021C7CF4((int *)((int)a), b), 0x13)) {
-        r = func_021C88A4(a, 0x39, b);
-        r[4] = b;
-        r[5] = c;
-        ((struct Hd *)r)->flag = d;
-        func_021C8838(r + 8, 2, 0xde);
-        func_021C8860((struct S *)(r + 8), b);
-        func_021C88C8(a, r);
+    if (form != func_021D59B4(func_021C7CF4(server, pokeId), 0x13)) {
+        cmd = func_021C88A4(server, 0x39, pokeId);
+        cmd[4] = pokeId;
+        cmd[5] = form;
+        ((struct BtlCmdHeader *)cmd)->announce = announce;
+        func_021C8838(cmd + 8, 2, 0xde);
+        func_021C8860((struct BtlMessage *)(cmd + 8), pokeId);
+        func_021C88C8(server, cmd);
     }
 }
 
-
-
-
-
-
-
-
-void func_021D8EDC(int u, int a, int b, int *p)
+void func_021D8EDC(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (*p != 0 && func_021D8E00((void *)a, b) != 0)
-        func_021D8E7C(u, (void *)a, (int)b, (u8)(func_021C8288((u8 *)a) == 1), 1);
+    if (*work != 0 && func_021D8E00(server, pokeId) != 0)
+        func_021D8E7C(factor, server, pokeId, (u8)(func_021C8288(server) == 1), 1);
 }
 
-
-
-
-
-
-void func_021D8F1C(int a, void *b, int c, int *d)
+void func_021D8F1C(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (*d && c == func_021D775C(2) && func_021D8E00(b, c))
-        func_021D8E7C(a, b, c, 0, 0);
+    if (*work && pokeId == func_021D775C(2) && func_021D8E00(server, pokeId))
+        func_021D8E7C(factor, server, pokeId, 0, 0);
 }
 
-
-
-
-
-
-void func_021D8F54(int a, void *b, int c, int *d)
+void func_021D8F54(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (*d && func_021D8E00(b, c)) func_021D8E7C(a, b, c, 0, 0);
+    if (*work && func_021D8E00(server, pokeId)) func_021D8E7C(factor, server, pokeId, 0, 0);
 }
 
-
-
-
-
-
-
-void func_021D8F84(int u, int a, int b, int *p)
+void func_021D8F84(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    int t;
+    int factorKey;
 
-    if (*p != 0 && func_021D8E00((void *)a, b) != 0) {
-        if (b == func_021D775C(2)) {
-            t = func_021D775C(0x10);
-            if (t != func_021D70A8((void *)u))
-                func_021D8E7C(u, (void *)a, b, 0, 0);
+    if (*work != 0 && func_021D8E00(server, pokeId) != 0) {
+        if (pokeId == func_021D775C(2)) {
+            factorKey = func_021D775C(0x10);
+            if (factorKey != func_021D70A8(factor))
+                func_021D8E7C(factor, server, pokeId, 0, 0);
         }
     }
 }
 
-
-
-
-
-
-void func_021D8FCC(int u, int a, int b)
+/* Flower Gift: ally of the attacker, sun, physical move: attack x1.5. */
+void func_021D8FCC(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    u8 k;
+    u8 attackerId;
 
-    if (func_021D8E00((void *)a, b) != 0 && func_021C8288((u8 *)a) == 1) {
-        k = func_021D775C(3);
-        if (func_021B9A24(b, k) != 0) {
-            if (func_0201C1E8((u16)func_021D775C(0x12)) == 1)
+    if (func_021D8E00(server, pokeId) != 0 && func_021C8288(server) == 1) {
+        attackerId = func_021D775C(3);
+        if (func_021B9A24(pokeId, attackerId) != 0) {
+            if (WAZA_TOOL_GetDamageType((u16)func_021D775C(0x12)) == 1)
                 func_021D7704(0x35, 3 << 11);
         }
     }
 }
 
-
-
-
-
-
-void func_021D901C(int u, int a, int b)
+/* Flower Gift: ally of the defender, sun, special move: special defense x1.5. */
+void func_021D901C(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    u8 k;
+    u8 defenderId;
 
-    if (func_021D8E00((void *)a, b) != 0 && func_021C8288((u8 *)a) == 1) {
-        k = func_021D775C(4);
-        if (func_021B9A24(b, k) != 0) {
+    if (func_021D8E00(server, pokeId) != 0 && func_021C8288(server) == 1) {
+        defenderId = func_021D775C(4);
+        if (func_021B9A24(pokeId, defenderId) != 0) {
             if (func_021D775C(0x1a) == 2)
                 func_021D7704(0x35, 6 << 10);
         }
     }
 }
 
-
-
-int *func_021D9064(int *p)
+int *func_021D9064(int *handlerCount)
 {
-    *p = 11;
+    *handlerCount = 11;
     return d_021F0E1C;
 }
 
-
-
-void func_021D9070(int u, int a, int b)
+/* Rivalry: same gender x1.25, opposite gender x0.75, genderless no change. */
+void func_021D9070(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    void *p;
-    void *q;
-    u8 x;
-    u8 y;
+    void *attacker;
+    void *defender;
+    u8 attackerGender;
+    u8 defenderGender;
 
-    if (b == func_021D775C(3)) {
-        p = func_021C7CF4((int *)a, b);
-        q = func_021C7CF4((int *)a, (u8)func_021D775C(4));
-        x = func_021D59B4(p, 0x12);
-        y = func_021D59B4(q, 0x12);
-        if (x != 2 && y != 2) {
-            if (x == y) {
+    if (pokeId == func_021D775C(3)) {
+        attacker = func_021C7CF4(server, pokeId);
+        defender = func_021C7CF4(server, (u8)func_021D775C(4));
+        attackerGender = func_021D59B4(attacker, 0x12);
+        defenderGender = func_021D59B4(defender, 0x12);
+        if (attackerGender != 2 && defenderGender != 2) {
+            if (attackerGender == defenderGender) {
                 func_021D7704(0x31, 5 << 10);
                 return;
             }
@@ -321,17 +250,16 @@ void func_021D9070(int u, int a, int b)
     }
 }
 
-
-int *func_021D90DC(int *p)
+int *func_021D90DC(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F07E0;
 }
 
-
-void func_021D90E8(int a, int b, int c)
+/* Technician: moves with base power 60 or less x1.5. */
+void func_021D90E8(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    if (c == func_021D775C(3) && (unsigned int)func_021D775C(0x30) <= 0x3c) func_021D7704(0x31, 0x30 << 7);
+    if (pokeId == func_021D775C(3) && (unsigned int)func_021D775C(0x30) <= 0x3c) func_021D7704(0x31, 0x30 << 7);
 }
 
-void *func_021D910C(int *p) { *p = 1; return &d_021F0608; }
+void *func_021D910C(int *handlerCount) { *handlerCount = 1; return &d_021F0608; }

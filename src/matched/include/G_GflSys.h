@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_GFLSYS_H
 #define ALETHEIA_G_GFLSYS_H
-/* g_020AA194 (arm9) */
+/* _GflUse (arm9) */
 struct GflHeaps;
 struct GflSys {
     void *unk00;

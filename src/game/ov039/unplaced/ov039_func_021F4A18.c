@@ -20,7 +20,7 @@
  *   func_021F48C0 0x021F48C0 thumb ov039
  *   func_020120F4 0x020120F4 thumb
  *   func_02012A30 0x02012A30 thumb
- *   func_02028B18 0x02028B18 thumb
+ *   FIELD_SOUND_SYSTEM_TransferSlot 0x02028B18 thumb
  *   func_02047790 0x02047790 arm
  *   func_02047674 0x02047674 arm
  *   func_0207C9D0 0x0207C9D0 arm
@@ -64,7 +64,7 @@ extern int func_021F3DE4(void *p, u16 j, u16 k);
 extern void func_021F48C0(u8 *a, int idx, int x, int *out);
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02028B18(struct SoundSys2 *s, u32 id, u32 who);
+extern void FIELD_SOUND_SYSTEM_TransferSlot(struct SoundSys2 *s, u32 id, u32 who);
 extern int func_02047790(int a, u16 n);
 extern int func_02047674(int p);
 extern void func_0207C9D0(const Vec *a, const Vec *b, Vec *out);
@@ -148,5 +148,5 @@ void func_021F4A18(void *a0, Rec *a1)
         else if (d >= 0x8000)
             vol = 0x3C;
     }
-    func_02028B18(snd, 0x68A, vol);
+    FIELD_SOUND_SYSTEM_TransferSlot(snd, 0x68A, vol);
 }

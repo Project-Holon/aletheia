@@ -1,5 +1,5 @@
 /*
- * function: func_02154560
+ * function: EVENT_GTSNEGO_InitWork
  * address:  0x02154560
  * packet:   pkt_02154560
  * region:   ov001
@@ -50,7 +50,7 @@ void func_02082D44(u32 a, void *p, u32 b);
 
 extern char d_021546A0[];
 
-void *func_02154560(void *obj_in, void *p, int a, int b)
+void *EVENT_GTSNEGO_InitWork(void *obj_in, void *p, int a, int b)
 {
     void *obj;
 

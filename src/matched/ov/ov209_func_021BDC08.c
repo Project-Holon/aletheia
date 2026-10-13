@@ -15,7 +15,7 @@
  *   func_021BD890 0x021BD890 thumb ov209
  *   func_0200CA54 0x0200CA54 thumb
  *   func_0200CA38 0x0200CA38 thumb
- *   func_02012BF8 0x02012BF8 thumb
+ *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   d_021BE9F0 0x021BE9F0 data a4
  */
 #include "../include/Obj04617.h"
@@ -39,7 +39,7 @@ extern void func_021BD8D8(char *p, u32 idx, u32 value);
 extern void func_021BD890(char *, int, int);
 extern u32 func_0200CA54(struct Blk37 *p);
 extern u32 func_0200CA38(struct Blk37 *p);
-extern int func_02012BF8(int, int);
+extern int GAME_DATA_CheckSaveFlag(int, int);
 void func_021BDC08(char *p)
 {
     unsigned i;
@@ -66,6 +66,6 @@ void func_021BDC08(char *p)
     if (((struct Obj25573 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f8 == 1) {
         func_021BD8D8(p, 8, 0);
         func_021BD8D8(p, 5, 0);
-    } else if (func_02012BF8(**(int * *)&((struct Obj04617 *)p)->f0, 15) == 1)
+    } else if (GAME_DATA_CheckSaveFlag(**(int * *)&((struct Obj04617 *)p)->f0, 15) == 1)
         func_021BD890(p, 5, 7);
 }

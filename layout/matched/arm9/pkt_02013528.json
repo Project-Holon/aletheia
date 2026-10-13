@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02013528",
+   "name": "BTL_SETUP_SetupComm",
    "address": "0x02013528",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020135C0",
+   "name": "BTL_SETUP_SetupDemo",
    "address": "0x020135C0",
    "kind": "game",
    "region": "arm9",
@@ -90,7 +90,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02013790"
+    "BTL_SETUP_SetupCommSingle"
+   ],
+   "addresses": [
+    "0x02013790"
    ]
   },
   {
@@ -105,7 +108,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020137C0"
+    "BTL_SETUP_SetupCommDouble"
+   ],
+   "addresses": [
+    "0x020137C0"
    ]
   },
   {
@@ -120,7 +126,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020137F0"
+    "BTL_SETUP_SetupCommMulti"
+   ],
+   "addresses": [
+    "0x020137F0"
    ]
   },
   {
@@ -135,7 +144,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02013864"
+    "BTL_SETUP_SetupCommTriple"
+   ],
+   "addresses": [
+    "0x02013864"
    ]
   },
   {
@@ -150,7 +162,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02013894"
+    "BTL_SETUP_SetupCommRotation"
+   ],
+   "addresses": [
+    "0x02013894"
    ]
   },
   {
@@ -165,11 +180,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02013930"
+    "BTL_SETUP_ClearWithSlots"
+   ],
+   "addresses": [
+    "0x02013930"
    ]
   },
   {
-   "name": "func_020139B0",
+   "name": "ZONEDATA_Init",
    "address": "0x020139B0",
    "kind": "game",
    "region": "arm9",
@@ -197,8 +215,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02013A48",
-    "sub_02013A80"
+    "ZONEDATA_Exit",
+    "ZONEDATA_SetChangeZoneEnable"
+   ],
+   "addresses": [
+    "0x02013A48",
+    "0x02013A80"
    ]
   },
   {
@@ -213,15 +235,26 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02013AD0",
+    "ZONEDATA_GetHeader",
     "sub_02013B10",
-    "sub_02013B38",
-    "sub_02013B44",
-    "sub_02013B50",
-    "sub_02013B5C",
-    "sub_02013B68",
-    "sub_02013B74",
-    "sub_02013B90"
+    "ZONEDATA_GetAreaId",
+    "ZONEDATA_GetMatrixId",
+    "ZONEDATA_GetMapType",
+    "ZONEDATA_GetScriptArcId",
+    "ZONEDATA_GetMsgArcId",
+    "ZONEDATA_GetStartPos",
+    "ZONEDATA_GetStartRailPos"
+   ],
+   "addresses": [
+    "0x02013AD0",
+    "0x02013B10",
+    "0x02013B38",
+    "0x02013B44",
+    "0x02013B50",
+    "0x02013B5C",
+    "0x02013B68",
+    "0x02013B74",
+    "0x02013B90"
    ]
   }
  ]

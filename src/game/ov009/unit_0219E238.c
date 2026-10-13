@@ -1,6 +1,6 @@
 /*
  * file:     unit_0219E238.c
- * function: func_0219E238
+ * function: SBServerGetPrivateInetAddress
  * address:  0x0219E238
  * packet:   pkt_02155168
  * region:   ov009
@@ -15,7 +15,7 @@
 
 #include "unit_0219E1EC_types.h"
 
-unsigned int func_0219E238(const SBServer *server)
+unsigned int SBServerGetPrivateInetAddress(const SBServer *server)
 {
     return server->privateip;
 }

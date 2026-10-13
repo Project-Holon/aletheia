@@ -1,5 +1,5 @@
 /*
- * function: func_020337B8
+ * function: FLASH_ACCESS_PollWrite
  * address:  0x020337B8
  * packet:   pkt_02033534
  * region:   arm9
@@ -15,7 +15,7 @@
  *   func_02075EAC  0x02075EAC  arm
  *   func_02084F10  0x02084F10  arm
  *   func_02075DD8  0x02075DD8  arm
- *   func_020338B8  0x020338B8  arm
+ *   FLASH_ACCESS_EndAccess  0x020338B8  arm
  */
 
 typedef unsigned char  u8;
@@ -27,9 +27,9 @@ extern u32  g_02146998;
 extern void func_02075EAC(void *a);
 extern void func_02084F10(void *a);
 extern u32  func_02075DD8(void);
-extern void func_020338B8(u16 a, u32 b, void (*cb)(u32));
+extern void FLASH_ACCESS_EndAccess(u16 a, u32 b, void (*cb)(u32));
 
-int func_020337B8(u16 a0, u32 *a1, u32 a2)
+int FLASH_ACCESS_PollWrite(u16 a0, u32 *a1, u32 a2)
 {
     if (g_020A789C[0] == 1) {
         func_02075EAC((void *)a0);
@@ -48,11 +48,11 @@ int func_020337B8(u16 a0, u32 *a1, u32 a2)
         case 7:
         default:
             *a1 = 0;
-            func_020338B8(a0, 0, (void (*)(u32))a2);
+            FLASH_ACCESS_EndAccess(a0, 0, (void (*)(u32))a2);
             break;
         case 6:
             *a1 = 0;
-            func_020338B8(a0, 1, (void (*)(u32))a2);
+            FLASH_ACCESS_EndAccess(a0, 1, (void (*)(u32))a2);
             break;
         }
         return 1;

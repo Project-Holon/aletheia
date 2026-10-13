@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Eight byte tail-call thunk to func_020188B4
+ * Eight byte tail-call thunk to POKE_TOOL_CheckBoxTmCompat
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md). Filed as the relocation
  * witness for ov021 func_021B62C8 (wave A1).
  *
  * symbols:
- *   func_020188B4  0x020188B4  thumb
+ *   POKE_TOOL_CheckBoxTmCompat  0x020188B4  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 func_020188B4(void *p, int v);
+extern u32 POKE_TOOL_CheckBoxTmCompat(void *p, int v);
 
 u32 func_020188AC(void *p, int v)
 {
-    return func_020188B4(p, v);
+    return POKE_TOOL_CheckBoxTmCompat(p, v);
 }

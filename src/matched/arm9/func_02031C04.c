@@ -1,5 +1,5 @@
 /*
- * function: func_02031C04
+ * function: BACKUP_SYSTEM_CancelSave
  * address:  0x02031C04
  * packet:   pkt_0203195C
  * region:   arm9
@@ -10,18 +10,22 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02031C04.c \\
- *       --func func_02031C04 --addr 0x02031C04 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_CancelSave.c \\
+ *       --func BACKUP_SYSTEM_CancelSave --addr 0x02031C04 --arm --cc 1.1p1
+ *
+ * symbols:
+ *   BACKUP_SYSTEM_InitSaveSeq  0x02032970  arm
+ *   BACKUP_SYSTEM_CancelSaveSeq  0x020331D0  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct SaveBackup;
-extern void func_02032970(struct SaveBackup *p, u32 flag);
-extern void func_020331D0(struct SaveBackup *p);
+extern void BACKUP_SYSTEM_InitSaveSeq(struct SaveBackup *p, u32 flag);
+extern void BACKUP_SYSTEM_CancelSaveSeq(struct SaveBackup *p);
 
-void func_02031C04(struct SaveBackup *a0)
+void BACKUP_SYSTEM_CancelSave(struct SaveBackup *a0)
 {
-    func_020331D0(a0);
+    BACKUP_SYSTEM_CancelSaveSeq(a0);
 }

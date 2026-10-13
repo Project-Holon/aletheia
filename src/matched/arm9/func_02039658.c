@@ -1,5 +1,5 @@
 /*
- * function: func_02039658
+ * function: GFL_NET_HANDLE_ResetHandle
  * address:  0x02039658
  * packet:   pkt_02039658
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203A28C  0x0203A28C  arm
+ *   GFL_NET_HANDLE_SetBitMask  0x0203A28C  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02082BCC  0x02082BCC  arm
- *   func_02037BE8  0x02037BE8  arm
+ *   GFL_NET_SYSTEM_ResetMachineBuffer  0x02037BE8  arm
  *
  * Reset one slot entry while KEEPING its eight resource pointers.  The eight
  * pointers at +8 are stashed on the stack, each live one's 0x10-byte record
@@ -21,8 +21,8 @@
  * 0x50-byte entry is wiped, and the eight pointers are written straight back
  * -- so the resource objects survive the reset and only the entry's state
  * does not.  A real slot index (anything but the 0xFF own-slot spelling)
- * first has its bit cleared out of the +0x40 mask through func_0203A28C and
- * its +0x3E companion zeroed.  func_02039834 and func_020398B4 both drive
+ * first has its bit cleared out of the +0x40 mask through GFL_NET_HANDLE_SetBitMask and
+ * its +0x3E companion zeroed.  GFL_NET_HANDLE_InitWork and GFL_NET_HANDLE_ExitWork both drive
  * this in a loop over the nine slots.
  *
  * THE STACK BUFFER HOLDS NINE POINTERS, NOT EIGHT, AND ONLY EIGHT ARE USED.
@@ -41,18 +41,18 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02039658.c \
- *       --func func_02039658 --addr 0x02039658 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_ResetHandle.c \
+ *       --func GFL_NET_HANDLE_ResetHandle --addr 0x02039658 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_0203A28C(u16 mask, u32 idx, u32 set);
+extern u16 GFL_NET_HANDLE_SetBitMask(u16 mask, u32 idx, u32 set);
 extern u32 func_020307B0(void *p);
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern void func_02037BE8(u32 idx);
+extern void GFL_NET_SYSTEM_ResetMachineBuffer(u32 idx);
 
 struct Entry {
     void *obj;
@@ -63,7 +63,7 @@ struct Entry {
     u16   key40;
 };
 
-void func_02039658(struct Entry *e, u32 idx)
+void GFL_NET_HANDLE_ResetHandle(struct Entry *e, u32 idx)
 {
     void *saved[9];
     int i;
@@ -71,7 +71,7 @@ void func_02039658(struct Entry *e, u32 idx)
     if (idx != 0xff) {
         u16 h = e->key40;
         e->key3e = 0;
-        e->key40 = func_0203A28C(h, idx, 0);
+        e->key40 = GFL_NET_HANDLE_SetBitMask(h, idx, 0);
     }
 
     for (i = 0; i < 8; i++) {
@@ -90,5 +90,5 @@ void func_02039658(struct Entry *e, u32 idx)
     for (i = 0; i < 8; i++)
         e->slot[i] = saved[i];
 
-    func_02037BE8(idx);
+    GFL_NET_SYSTEM_ResetMachineBuffer(idx);
 }

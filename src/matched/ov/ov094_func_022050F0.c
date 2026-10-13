@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201DE00  0x0201DE00  thumb
+ *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   func_020457B0  0x020457B0  arm
  *   func_0201EC64  0x0201EC64  thumb
  *   func_0201DD78  0x0201DD78  thumb
@@ -21,7 +21,7 @@
  *   func_02045808  0x02045808  arm
  *   func_0201ED04  0x0201ED04  thumb
  *   func_02049F34  0x02049F34  arm
- *   func_020215BC  0x020215BC  thumb
+ *   PALANM_CopyToSlot  0x020215BC  thumb
  *   func_020307B0  0x020307B0  arm
  *   d_0220A7FC     0x0220A7FC  data
  *   d_0220A94C     0x0220A94C  data
@@ -63,7 +63,7 @@ typedef struct Res {
     u16 *fc;
 } Res;
 
-extern void func_0201DE00(u8 *, u8 *, u8 *);
+extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
@@ -81,7 +81,7 @@ extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern u32 func_020307B0(void *p);
 
 extern const int d_0220A7FC[2][6][2];
@@ -105,7 +105,7 @@ void func_022050F0(char *s, Out *out, const Info *p)
 
     n = (((struct Obj01909 *)s)->f50 == 2) ? 6 : 4;
     k = (((struct Obj01909 *)s)->f50 == 2) ? 1 : 0;
-    func_0201DE00(&c[2], &c[1], &c[0]);
+    GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     v = func_020457B0(12, (u16)((((struct Obj01909 *)s)->f240 & 0x7fff) | 0x8000));
     h = (int)func_0201EC64((u16)((((struct Obj01909 *)s)->f240 & 0x7fff) | 0x8000));
     func_0201DD78(1, 2, 0);
@@ -132,12 +132,12 @@ void func_022050F0(char *s, Out *out, const Info *p)
         m = 2;
     for (i = 0; i < m; i++) {
         r = func_02049F34(11, 0xd3, (u32)(&res), (u16)((((struct Obj01909 *)s)->f240 & 0x7fff) | 0x8000));
-        func_020215BC((struct PalAnmSlot *)(((struct Obj01909 *)s)->f64), res->fc, 1, (u16)(i * 16 + 0x70), 0x20);
+        PALANM_CopyToSlot((struct PalAnmSlot *)(((struct Obj01909 *)s)->f64), res->fc, 1, (u16)(i * 16 + 0x70), 0x20);
         func_020307B0(r);
     }
     for (m *= 2; i < m; i++) {
         r = func_02049F34(11, 0xd4, (u32)(&res), (u16)((((struct Obj01909 *)s)->f240 & 0x7fff) | 0x8000));
-        func_020215BC((struct PalAnmSlot *)(((struct Obj01909 *)s)->f64), res->fc, 1, (u16)(i * 16 + 0x70), 0x20);
+        PALANM_CopyToSlot((struct PalAnmSlot *)(((struct Obj01909 *)s)->f64), res->fc, 1, (u16)(i * 16 + 0x70), 0x20);
         func_020307B0(r);
     }
 }

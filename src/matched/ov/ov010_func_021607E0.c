@@ -21,13 +21,13 @@
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb  ov021
  *   func_02012374  0x02012374  thumb
- *   func_020144DC  0x020144DC  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   func_0201210C  0x0201210C  thumb
  *   func_02188DA0  0x02188DA0  thumb  ov021
  *   func_02188DB0  0x02188DB0  thumb  ov021
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -83,13 +83,13 @@ extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 struct Ctx;
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_020144DC(int a0, int a1);
-extern void *func_020145CC(void *a);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a);
 extern void *func_0201210C(const struct Ctx *p);
 extern void func_02188DA0(void);
 extern void func_02188DB0(u8 *a);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern u32 func_020307B0(void *p);
 
 int func_021607E0(void *evt, u32 *state, Task *t)
@@ -150,12 +150,12 @@ int func_021607E0(void *evt, u32 *state, Task *t)
     case 7:
         if (func_02160A64(&t->cb) == 0)
             break;
-        func_02012374(evt, (struct Evt **)func_020144DC((int)t->owner->f00, (int)t->owner->f04));
+        func_02012374(evt, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)t->owner->f00, (int)t->owner->f04));
         *state = 11;
         break;
     case 8:
         func_02160A7C(&t->cb);
-        func_02012374(evt, func_020145CC(t->owner->f00));
+        func_02012374(evt, FIELD_STATUS_CreateFieldOpenEvent(t->owner->f00));
         *state = 9;
         break;
     case 9:
@@ -180,11 +180,11 @@ int func_021607E0(void *evt, u32 *state, Task *t)
         t->work = work;
         if (d_021712CC[t->proc].f04 == 0)
             break;
-        func_020120B4(t->owner->f00, (u32)d_021712CC[t->proc].f00, d_021712CC[t->proc].f04, work);
+        GAMESYSTEM_CallProc(t->owner->f00, (u32)d_021712CC[t->proc].f00, d_021712CC[t->proc].f04, work);
         *state = 12;
         break;
     case 12:
-        if (func_020120F0(t->owner->f00) != 0)
+        if (GAMESYSTEM_GetProcStatus(t->owner->f00) != 0)
             break;
         *state = 13;
         break;

@@ -18,7 +18,7 @@
  *   func_021F2BD4 0x021F2BD4 thumb
  *   func_021F2A04 0x021F2A04 thumb
  *   func_021F28DC 0x021F28DC thumb
- *   func_0203115C 0x0203115C arm
+ *   TCBL_DeleteAllTasks 0x0203115C arm
  *   func_02049238 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -34,13 +34,13 @@ extern void func_021F2BD4(char *p);
 extern void func_021F2A04(char *p);
 extern void func_021F28DC(char *p);
 struct Tcbl;
-extern void func_0203115C(struct Tcbl *p);
+extern void TCBL_DeleteAllTasks(struct Tcbl *p);
 extern void func_02049238(u32 a);
 extern u32 func_020307B0(void *p);
 
 void func_021F22FC(char *p)
 {
-    func_0203115C((struct Tcbl *)(((struct Obj00812 *)p)->fA0));
+    TCBL_DeleteAllTasks((struct Tcbl *)(((struct Obj00812 *)p)->fA0));
     func_021F30B4(p);
     func_021F2FCC(p);
     func_021F2EDC(p);

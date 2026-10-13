@@ -14,7 +14,7 @@
  * symbols:
  *   func_0217D254  0x0217D254  arm   ov009
  *   func_021C02C8  0x021C02C8  arm   ov114
- *   func_0217F25C  0x0217F25C  arm   ov009
+ *   SocketStartUp  0x0217F25C  arm   ov009
  *   func_021C3A38  0x021C3A38  arm   ov114
  *   func_021C109C  0x021C109C  arm   ov114
  *   g_021CEFF8     0x021CEFF8  data
@@ -47,7 +47,7 @@ typedef struct GHIConnection {
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_021C02C8(GHIConnection *, char *, int);
-extern void func_0217F25C();
+extern void SocketStartUp();
 extern GHIBool func_021C3A38(GHIConnection *);
 extern int func_021C109C(int, int);
 extern char g_021CEFF8[];
@@ -62,7 +62,7 @@ void func_021C3BAC(GHIConnection *connection)
 
     func_0217D254(8, (char *)3, 16, g_021CEFF8);
     func_021C02C8(connection, 0, 0);
-    func_0217F25C();
+    SocketStartUp();
     if (func_021C3A38(connection) == GHI_FALSE) {
         connection->f124 = 1;
         connection->f40 = 3;

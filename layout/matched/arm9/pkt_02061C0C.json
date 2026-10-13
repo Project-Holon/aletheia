@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02061CA4",
+   "name": "NNS_GfdRegisterNewVramTransferTask",
    "address": "0x02061CA4",
    "kind": "game",
    "region": "arm9",

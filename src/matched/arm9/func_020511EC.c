@@ -1,5 +1,5 @@
 /*
- * function: func_020511EC
+ * function: PARTICLE_AllocWorkSlot15
  * address: 0x020511EC
  * packet: pkt_arm9_020511EC
  * region: arm9
@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/arm9/particle_p06.c and filed here.
  *
  * symbols:
- *   g_02146A88 0x02146A88 data
+ *   g_pParticleMan 0x02146A88 data
  */
 
 typedef unsigned int   u32;
@@ -23,12 +23,12 @@ typedef struct {
     u8 *cur;
 } Arena_02050F1C;
 
-void *func_020511EC(u32 size);
-extern u32 *g_02146A88;
+void *PARTICLE_AllocWorkSlot15(u32 size);
+extern u32 *g_pParticleMan;
 
-void *func_020511EC(u32 size)
+void *PARTICLE_AllocWorkSlot15(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88[15];
+    Arena_02050F1C *a = (Arena_02050F1C *)g_pParticleMan[15];
     u32 q = (u32)a->cur + size;
     u32 r = (u32)a->cur;
     if (q & 3) {

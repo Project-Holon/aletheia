@@ -1,7 +1,7 @@
 /*
  * file:     flash_access.c
  * unit:     yes
- * function: func_02033534, func_020335AC, func_020335E8, func_020336A4, func_020336B8, func_020337B8, func_0203386C, func_020338B8, func_020338F8
+ * function: FLASH_ACCESS_Identify, FLASH_ACCESS_Write, FLASH_ACCESS_Read, FLASH_ACCESS_OnWriteDone, FLASH_ACCESS_StartWrite, FLASH_ACCESS_PollWrite, FLASH_ACCESS_CancelWrite, FLASH_ACCESS_EndAccess, FLASH_ACCESS_GetBusyFlag
  * address:  0x02033534
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -23,11 +23,11 @@
  *   func_02075EAC  0x02075EAC  arm
  *   func_02084F10  0x02084F10  arm
  *   CARDi_RequestStreamCommand 0x02076AC0  arm
- *   func_02076B80           0x02076B80  arm
+ *   CARD_WaitBackupAsync           0x02076B80  arm
  *   _WriteDone  0x020A789C  data
  *   _AccessBusy     0x02146998  data
  *   func_02075DD8  0x02075DD8  arm
- *   func_02076B8C 0x02076B8C  arm
+ *   CARD_TryWaitBackupAsync 0x02076B8C  arm
  *   func_02076B98 0x02076B98  arm
  */
 typedef unsigned char  u8;
@@ -45,19 +45,19 @@ extern void func_02084F10(u16 lock_id);
 extern int  CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void *callback,
                                        void *arg, int is_async, int req_type,
                                        int req_retry, int req_mode);
-extern int  func_02076B80(void);
+extern int  CARD_WaitBackupAsync(void);
 extern u32  func_02075DD8(void);
-extern u32  func_02076B8C(void);
+extern u32  CARD_TryWaitBackupAsync(void);
 extern void func_02076B98(void);
-int func_02033534(u32 unused_arg);
-u32 func_020335AC(u32 flash_addr, u32 ram_src, u32 size, u32 on_error);
-int func_020335E8(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(void));
-void func_020336A4(void);
-u16 func_020336B8(u32 flash_addr, u32 ram_src, u32 size, void *on_error);
-int func_020337B8(u16 lock_id, u32 *success, u32 on_error);
-void func_0203386C(u16 lock_id);
-void func_020338B8(u16 lock_id, u32 no_response, FlashErrorFunc on_error);
-void *func_020338F8(void);
+int FLASH_ACCESS_Identify(u32 unused_arg);
+u32 FLASH_ACCESS_Write(u32 flash_addr, u32 ram_src, u32 size, u32 on_error);
+int FLASH_ACCESS_Read(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(void));
+void FLASH_ACCESS_OnWriteDone(void);
+u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_error);
+int FLASH_ACCESS_PollWrite(u16 lock_id, u32 *success, u32 on_error);
+void FLASH_ACCESS_CancelWrite(u16 lock_id);
+void FLASH_ACCESS_EndAccess(u16 lock_id, u32 no_response, FlashErrorFunc on_error);
+void *FLASH_ACCESS_GetBusyFlag(void);
 extern const u8 flash_access_File[];
 extern const u8 flash_access_LockIdAssert[];
 extern u32 _WriteDone;
@@ -73,7 +73,7 @@ extern u32 _AccessBusy;
  * The unused argument is only the leftover first register of the lock-id
  * call; the SDK function takes none.
  */
-int func_02033534(u32 unused_arg)
+int FLASH_ACCESS_Identify(u32 unused_arg)
 {
     int lock_id = func_02084EB8(unused_arg);
     u32 type;
@@ -99,12 +99,12 @@ int func_02033534(u32 unused_arg)
  * costs a `mov r4, #0` + `str r4, [sp]` and 8 bytes of frame the original
  * does not have.
  */
-u32 func_020335AC(u32 flash_addr, u32 ram_src, u32 size, u32 on_error)
+u32 FLASH_ACCESS_Write(u32 flash_addr, u32 ram_src, u32 size, u32 on_error)
 {
     u32 success;
-    u16 lock_id = func_020336B8(flash_addr, ram_src, size, (void *)on_error);
+    u16 lock_id = FLASH_ACCESS_StartWrite(flash_addr, ram_src, size, (void *)on_error);
 
-    while (func_020337B8(lock_id, &success, on_error) == 0) {
+    while (FLASH_ACCESS_PollWrite(lock_id, &success, on_error) == 0) {
         ;
     }
     return success;
@@ -121,7 +121,7 @@ u32 func_020335AC(u32 flash_addr, u32 ram_src, u32 size, u32 on_error)
  * no lr, so disasm.py gives it no label and infers this function as 188 -> 208
  * bytes.
  */
-int func_020335E8(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(void))
+int FLASH_ACCESS_Read(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(void))
 {
     int lock_id = func_02084EB8(flash_addr);
     int result;
@@ -131,7 +131,7 @@ int func_020335E8(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(void))
     }
     func_02075E9C((u16)lock_id);
     result = CARDi_RequestStreamCommand(flash_addr, ram_dst, size, 0, 0, 1, 6, 1, 0);
-    result = func_02076B80();
+    result = CARD_WaitBackupAsync();
     func_02075EAC((u16)lock_id);
     func_02084F10((u16)lock_id);
     if (result == 0 && on_error != 0) {
@@ -146,7 +146,7 @@ int func_020335E8(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(void))
  * FLASH_ACCESS_StartWrite; raises the flag that StartWrite lowers before the
  * asynchronous request and that FLASH_ACCESS_PollWrite tests.
  */
-void func_020336A4(void)
+void FLASH_ACCESS_OnWriteDone(void)
 {
     _WriteDone = 1;
 }
@@ -160,7 +160,7 @@ void func_020336A4(void)
  * callback.  Returns the lock id for the poll.  _AccessBusy is raised before
  * the probe.
  */
-u16 func_020336B8(u32 flash_addr, u32 ram_src, u32 size, void *on_error)
+u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_error)
 {
     int lock_id = func_02084EB8(flash_addr);
     u32 probe;
@@ -172,11 +172,11 @@ u16 func_020336B8(u32 flash_addr, u32 ram_src, u32 size, void *on_error)
 
     _AccessBusy = 1;
     if (CARDi_RequestStreamCommand(0, (u32)&probe, FLASH_PROBE_LEN, 0, 0, 0, 6, 1, 0) == 0) {
-        func_020338B8((u16)lock_id, 1, on_error);
+        FLASH_ACCESS_EndAccess((u16)lock_id, 1, on_error);
     }
 
     _WriteDone = 0;
-    CARDi_RequestStreamCommand(ram_src, flash_addr, size, func_020336A4, 0, 1, 7, 10, 2);
+    CARDi_RequestStreamCommand(ram_src, flash_addr, size, FLASH_ACCESS_OnWriteDone, 0, 1, 7, 10, 2);
     return (u16)lock_id;
 }
 
@@ -188,7 +188,7 @@ u16 func_020336B8(u32 flash_addr, u32 ram_src, u32 size, void *on_error)
  * other code fails with no_response = 0.  Returns 1 once finished, 0 while the
  * write is still running.
  */
-int func_020337B8(u16 lock_id, u32 *success, u32 on_error)
+int FLASH_ACCESS_PollWrite(u16 lock_id, u32 *success, u32 on_error)
 {
     if (_WriteDone == 1) {
         func_02075EAC(lock_id);
@@ -207,11 +207,11 @@ int func_020337B8(u16 lock_id, u32 *success, u32 on_error)
         case 7:
         default:
             *success = 0;
-            func_020338B8(lock_id, 0, (FlashErrorFunc)on_error);
+            FLASH_ACCESS_EndAccess(lock_id, 0, (FlashErrorFunc)on_error);
             break;
         case 6:
             *success = 0;
-            func_020338B8(lock_id, 1, (FlashErrorFunc)on_error);
+            FLASH_ACCESS_EndAccess(lock_id, 1, (FlashErrorFunc)on_error);
             break;
         }
         return 1;
@@ -225,11 +225,11 @@ int func_020337B8(u16 lock_id, u32 *success, u32 on_error)
  * outstanding request and wait for it; then, if an access is still marked
  * busy, unlock, release the lock id and clear _AccessBusy.
  */
-void func_0203386C(u16 lock_id)
+void FLASH_ACCESS_CancelWrite(u16 lock_id)
 {
-    if (func_02076B8C() == 0) {
+    if (CARD_TryWaitBackupAsync() == 0) {
         func_02076B98();
-        func_02076B80();
+        CARD_WaitBackupAsync();
     }
     if (_AccessBusy != 1) {
         return;
@@ -245,7 +245,7 @@ void func_0203386C(u16 lock_id)
  * _AccessBusy and report to on_error (when set) whether the device gave no
  * response.
  */
-void func_020338B8(u16 lock_id, u32 no_response, FlashErrorFunc on_error)
+void FLASH_ACCESS_EndAccess(u16 lock_id, u32 no_response, FlashErrorFunc on_error)
 {
     func_02075EAC(lock_id);
     func_02084F10(lock_id);
@@ -260,7 +260,7 @@ void func_020338B8(u16 lock_id, u32 no_response, FlashErrorFunc on_error)
  * FLASH_ACCESS_GetBusyFlag: accessor for _AccessBusy, returned through a
  * pointer-typed result because the callers store it that way.
  */
-void *func_020338F8(void)
+void *FLASH_ACCESS_GetBusyFlag(void)
 {
     return (void *)_AccessBusy;
 }

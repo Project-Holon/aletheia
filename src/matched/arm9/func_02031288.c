@@ -1,5 +1,5 @@
 /*
- * function: func_02031288
+ * function: TCBL_SetTaskFunc
  * address:  0x02031288
  * packet:   pkt_02031288
  * region:   arm9
@@ -10,4 +10,4 @@
  * status:   EXACT
  */
 
-void func_02031288(int *p, int v){ p[5] = v; }
+void TCBL_SetTaskFunc(int *p, int v){ p[5] = v; }

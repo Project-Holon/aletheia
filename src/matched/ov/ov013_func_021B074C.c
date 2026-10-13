@@ -1,5 +1,5 @@
 /*
- * function: func_021B074C
+ * function: VCT_SESSION_RemoveMember
  * address: 0x021B074C
  * packet: pkt_ov013_021B074C
  * region: ov013
@@ -15,41 +15,41 @@
  * is a named local set before the counter read, so the zero is born before the counter value
  * (zero r2, counter r1).
  * symbols:
- *   d_021B3CB0 0x021B3CB0 data ov013 a4
+ *   gVctMembers 0x021B3CB0 data ov013 a4
  *   d_021B3CBC 0x021B3CBC data ov013 a4
  *   d_021B3C84 0x021B3C84 data ov013 a4
- *   func_021B1A48 0x021B1A48 arm ov013
- *   func_021B1720 0x021B1720 arm ov013
- *   func_021B133C 0x021B133C arm ov013
- *   func_021B3018 0x021B3018 arm ov013
+ *   VCT_AUDIO_DetachReceiveSource 0x021B1A48 arm ov013
+ *   VCT_AUDIO_FlushReadyQueue 0x021B1720 arm ov013
+ *   VCT_AUDIO_FlushPendingSlot 0x021B133C arm ov013
+ *   VCT_DSP_ResetVoiceGate 0x021B3018 arm ov013
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef struct { u8 pad0[8]; u32 f8; } Req;
 typedef struct { u8 pad0[4]; u32 f4; u8 pad8[12]; int f14; u8 pad18[8]; int f20; } Ctx;
-extern Req *d_021B3CB0[3];
+extern Req *gVctMembers[3];
 extern char d_021B3CBC[];
 extern Ctx d_021B3C84;
-extern void func_021B1A48(char *p);
-extern void func_021B1720(u32 i);
-extern void func_021B133C(u32 i);
-extern void func_021B3018(void);
+extern void VCT_AUDIO_DetachReceiveSource(char *p);
+extern void VCT_AUDIO_FlushReadyQueue(u32 i);
+extern void VCT_AUDIO_FlushPendingSlot(u32 i);
+extern void VCT_DSP_ResetVoiceGate(void);
 #pragma opt_propagation off
-void func_021B074C(const Req *p)
+void VCT_SESSION_RemoveMember(const Req *p)
 {
     u32 i;
     int n;
     Req *z;
     i = 0;
     do {
-        if(d_021B3CB0[i]==p) {
+        if(gVctMembers[i]==p) {
             z = 0;
             n = d_021B3C84.f20;
-            d_021B3CB0[i]=z;
+            gVctMembers[i]=z;
             d_021B3C84.f20 = n - 1;
-            func_021B1A48(d_021B3CBC+i*0x94);
-            func_021B1720(i);
-            func_021B133C(i);
+            VCT_AUDIO_DetachReceiveSource(d_021B3CBC+i*0x94);
+            VCT_AUDIO_FlushReadyQueue(i);
+            VCT_AUDIO_FlushPendingSlot(i);
             d_021B3C84.f4 &= ~p->f8;
             break;
         }
@@ -57,7 +57,7 @@ void func_021B074C(const Req *p)
     } while(i<3);
     if(d_021B3C84.f20==0) {
         d_021B3C84.f14=1;
-        func_021B3018();
+        VCT_DSP_ResetVoiceGate();
         d_021B3C84.f4=0;
     }
 }

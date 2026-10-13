@@ -10,7 +10,7 @@
  * symbols:
  *   func_0201AA18 0x0201AA18 thumb
  *   func_0201AB28 0x0201AB28 thumb
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_021EC45C 0x021EC45C thumb ov170
  *   func_021EC000 0x021EC000 thumb ov170
  */
@@ -19,7 +19,7 @@
 #include "../include/Obj24005.h"
 extern unsigned func_0201AA18(void *);
 extern void *func_0201AB28(void *, unsigned);
-extern void *func_020185F4(void *);
+extern void *POKE_TOOL_GetBoxParam(void *);
 extern void func_021EC45C(unsigned char *, void *, int);
 extern void func_021EC000(char *, int, int);
 void func_021EC4FC(unsigned char *p)
@@ -27,7 +27,7 @@ void func_021EC4FC(unsigned char *p)
     unsigned n = func_0201AA18(((struct Obj24004 *)(*(char * *)&((struct Obj06550 *)p)->f0))->f8);
     unsigned i;
     for (i = 0; i < n; i++) {
-        func_021EC45C(p, func_020185F4(func_0201AB28(((struct Obj24005 *)(*(char * *)&((struct Obj06550 *)p)->f0))->f8, i)),
+        func_021EC45C(p, POKE_TOOL_GetBoxParam(func_0201AB28(((struct Obj24005 *)(*(char * *)&((struct Obj06550 *)p)->f0))->f8, i)),
                        *(unsigned char *)(*(char * *)&((struct Obj06550 *)p)->f2C + i + 0x3DF0));
         func_021EC000(*(char * *)&((struct Obj06550 *)p)->f2C, *(unsigned char *)(*(char * *)&((struct Obj06550 *)p)->f2C + i + 0x3DF0), 0);
     }

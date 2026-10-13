@@ -1,5 +1,5 @@
 /*
- * function: func_02050A00
+ * function: BILLBOARD_ACT_CmdLoop
  * address:  0x02050A00
  * packet:   pkt_02050984
  * region:   arm9
@@ -9,14 +9,14 @@
  * isa:      arm
  * status:   EXACT
  *
- * The third arm of the handler table func_02050984 dispatches through (see
- * src/pending/func_02050984.c).  88 bytes, a leaf: the command halfword at
+ * The third arm of the handler table BILLBOARD_ACT_GetControlHandler dispatches through (see
+ * src/pending/BILLBOARD_ACT_GetControlHandler.c).  88 bytes, a leaf: the command halfword at
  * c->f02 packs two bytes, a repeat count in the high half and a value in the
  * low half.  While the entry's repeat counter at +0x14 is below the count,
  * store the value at +0x10 and bump the counter; once it reaches the count,
  * reset the counter and advance +0x10 by one instead.  +0x12 is zeroed on
  * both paths.  Returns 0 (the "command consumed, keep going" verdict the
- * dispatcher in func_02050944 tests).
+ * dispatcher in BILLBOARD_ACT_RunControlCommand tests).
  *
  * The comparison is SIGNED (`bge`), so both sides are promoted `int`s and the
  * counter is compared as an int, not as an unsigned halfword.
@@ -34,8 +34,8 @@
  *     after it, which is the last 8 bytes (88 bytes, 8 out).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050A00.c \
- *       --func func_02050A00 --addr 0x02050A00 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_CmdLoop.c \
+ *       --func BILLBOARD_ACT_CmdLoop --addr 0x02050A00 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -52,7 +52,7 @@ struct Cmd {
     u16 f02;
 };
 
-int func_02050A00(struct Ent *e, struct Cmd *c)
+int BILLBOARD_ACT_CmdLoop(struct Ent *e, struct Cmd *c)
 {
     int v = c->f02;
     int n = e->f14;

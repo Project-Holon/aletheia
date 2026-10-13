@@ -1,5 +1,5 @@
 /*
- * function: func_02047B4C
+ * function: G3D_SYSTEM_CheckObjectCulling
  * address:  0x02047B4C
  * packet:   pkt_020479D8
  * region:   arm9
@@ -13,12 +13,12 @@
  *   func_02047788  0x02047788  arm
  *   func_0204755C  0x0204755C  arm
  *   func_0206DDA4  0x0206DDA4  arm
- *   func_02047C04  0x02047C04  arm
+ *   G3D_SYSTEM_BoxTest  0x02047C04  arm
  *
  * Copy the six s16 of the sub-record at +0x18..0x22 into a local, register
  * it via func_0206DDA4 (the three-argument command/buffer/count shape of
  * src/matched/func_0206A884.c), broadcast the +0x24 word into a three-word
- * buffer, hand the halfword block to func_02047C04, and report failure as
+ * buffer, hand the halfword block to G3D_SYSTEM_BoxTest, and report failure as
  * zero.  The `+ 0x14` is folded with a null test on the owning pointer, so
  * a null owner leaves the base at zero rather than at 0x14.
  *
@@ -56,9 +56,9 @@ struct Block {
 extern int func_02047788(int *p);
 extern int func_0204755C(int *p);
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
-extern int           func_02047C04(void *p);
+extern int           G3D_SYSTEM_BoxTest(void *p);
 
-int func_02047B4C(void *a0)
+int G3D_SYSTEM_CheckObjectCulling(void *a0)
 {
     struct Block blk;
     u32 buf[3];
@@ -84,7 +84,7 @@ int func_02047B4C(void *a0)
     buf[2] = buf[0];
     func_0206DDA4(0x1B, buf, 3);
 
-    if (func_02047C04(&blk) == 0) {
+    if (G3D_SYSTEM_BoxTest(&blk) == 0) {
         ret = 0;
     }
 

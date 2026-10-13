@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020123D8",
+   "name": "GAME_EVENT_StartByCreator",
    "address": "0x020123D8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201240C",
+   "name": "GAME_EVENT_CallProcSeq",
    "address": "0x0201240C",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02012474",
+   "name": "GAME_EVENT_OverlaySeq",
    "address": "0x02012474",
    "kind": "game",
    "region": "arm9",

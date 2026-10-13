@@ -12,7 +12,7 @@
  * sdk:      DWCi_QR2NatnegCallback (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
  * symbols:
- *   func_0216BA08  0x0216BA08  arm  ov009
+ *   DWC_IsServerMyself  0x0216BA08  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_0217695C  0x0217695C  arm  ov009
  *   func_02175F4C  0x02175F4C  arm  ov009
@@ -35,7 +35,7 @@ typedef struct MatchCnt {
     unsigned char f6D8;
 } MatchCnt;
 
-extern int func_0216BA08(void);
+extern int DWC_IsServerMyself(void);
 extern int func_02175F3C(void);
 extern int func_0217695C(void);
 extern void func_02175F4C(int status);
@@ -46,7 +46,7 @@ void func_02174D28(int cookie)
 {
     int nnError;
 
-    if (func_0216BA08() == 0 && ((MatchCnt *)func_02175F3C())->f57C != 0)
+    if (DWC_IsServerMyself() == 0 && ((MatchCnt *)func_02175F3C())->f57C != 0)
         return;
     if (((MatchCnt *)func_02175F3C())->f61C == 1) {
         if (func_0217695C() == 0)

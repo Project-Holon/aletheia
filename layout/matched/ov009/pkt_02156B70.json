@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02156B70",
+   "name": "DWC_RAP_GetVchatEnabled",
    "address": "0x02156B70",
    "kind": "game",
    "region": "ov009",
@@ -97,7 +97,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215F714",
+   "name": "SOC_GetSockName",
    "address": "0x0215F714",
    "kind": "sdk",
    "region": "ov009",
@@ -172,7 +172,7 @@
    }
   },
   {
-   "name": "func_0217D448",
+   "name": "gsiLargeIntCompare",
    "address": "0x0217D448",
    "kind": "sdk",
    "region": "ov009",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215523C",
+   "name": "GFL_NET_DEVWIFI_StartFriendMatch",
    "address": "0x0215523C",
    "kind": "game",
    "region": "ov009",

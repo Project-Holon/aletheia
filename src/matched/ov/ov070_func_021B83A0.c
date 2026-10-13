@@ -12,14 +12,14 @@
  * The original explicitly narrows r1 before 0202E448; its extern uses u16.
  * symbols:
  *   func_0202E448 0x0202E448 thumb
- *   func_02012BF8 0x02012BF8 thumb
+ *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  */
 #include "../include/Obj20669.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_0202E448(u32 id);
-extern int func_02012BF8(int p, int value);
+extern int GAME_DATA_CheckSaveFlag(int p, int value);
 int func_021B83A0(char *p, int value)
 {
-    return func_02012BF8(((struct Obj20669 *)p)->f0, (int)func_0202E448((u16)value));
+    return GAME_DATA_CheckSaveFlag(((struct Obj20669 *)p)->f0, (int)func_0202E448((u16)value));
 }

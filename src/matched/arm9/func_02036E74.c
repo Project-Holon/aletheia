@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02036E74
+ * function: GFL_NET_WM_ICON_SetLevel
  * address:  0x02036E74
  * packet:   pkt_02036CA8
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int *func_02036E74(int *p, int v){ if (v < 4) *p = v;  return p; }
+int *GFL_NET_WM_ICON_SetLevel(int *p, int v){ if (v < 4) *p = v;  return p; }

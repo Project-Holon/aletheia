@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   sub_0201BD28 0x0201BD28 thumb
- *   sub_0201BF58 0x0201BF58 thumb
+ *   WAZA_TOOL_GetSickCont 0x0201BF58 thumb
  *   func_021D7C70 0x021D7C70 thumb ov093
  *   func_021D74F8 0x021D74F8 thumb ov093
  *   func_021D5440 0x021D5440 thumb ov093
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 typedef struct { u16 v; } W;
 typedef struct { u32 v; } Word;
 extern u32 sub_0201BD28(u16, u32);
-extern W sub_0201BF58(u16);
+extern W WAZA_TOOL_GetSickCont(u16);
 extern void func_021D7C70(W, u32, Word *);
 extern void func_021D74F8(int);
 extern u8 func_021D5440(u8 *p);
@@ -55,7 +55,7 @@ u32 func_021C236C(u8 *p, u16 id, u8 *a, u8 *b, Word *dest)
     u8 changedRate;
     u8 veto;
     s = sub_0201BD28(id, 11);
-    w = sub_0201BF58(id);
+    w = WAZA_TOOL_GetSickCont(id);
     rate = sub_0201BD28(id, 12);
     func_021D7C70(w, (u32)a, &out);
     func_021D74F8(0x1d7c);

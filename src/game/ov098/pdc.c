@@ -1,7 +1,7 @@
 /*
  * file:     pdc.c
  * unit:     yes
- * function: func_021B6100, func_021B613C, func_021B6140, func_021B6144, func_021B6148, func_021B614C, func_021B6150, func_021B6154, func_021B6158, func_021B615C, func_021B61A4, func_021B61C4, func_021B61E8, func_021B6308, func_021B632C, func_021B6364, func_021B636C, func_021B6438, func_021B644C, func_021B6504, func_021B6578, func_021B6750, func_021B67A4, func_021B67D4, func_021B68DC, func_021B6910, func_021B694C, func_021B6988, func_021B69C4, func_021B6A00, func_021B6A3C, func_021B6B5C, func_021B6B68, func_021B6B74, func_021B6B8C, func_021B6C34, func_021B6C60, func_021B6C90
+ * function: func_021B6100, func_021B613C, func_021B6140, func_021B6144, func_021B6148, func_021B614C, func_021B6150, func_021B6154, func_021B6158, func_021B615C, func_021B61A4, func_021B61C4, func_021B61E8, func_021B6308, func_021B632C, func_021B6364, func_021B636C, func_021B6438, func_021B644C, func_021B6504, func_021B6578, func_021B6750, func_021B67A4, func_021B67D4, func_021B68DC, func_021B6910, func_021B694C, func_021B6988, IRC_COMPATIBLE_ProcExit, func_021B6A00, func_021B6A3C, func_021B6B5C, func_021B6B68, func_021B6B74, func_021B6B8C, func_021B6C34, func_021B6C60, func_021B6C90
  * address:  0x021B6100
  * region:   ov098
  * compiler: dsi/1.1p1
@@ -75,29 +75,29 @@
  *   func_021F7CFC 0x021F7CFC thumb ov094
  *   func_021F7C0C 0x021F7C0C thumb ov094
  *   func_02007F1C 0x02007F1C thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02005F38 0x02005F38 thumb
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
  *   func_0204E720 0x0204E720 arm
  *   func_0204E804 0x0204E804 arm
- *   func_0202142C 0x0202142C thumb
+ *   PALANM_GetPairedCodeForFirst 0x0202142C thumb
  *   func_02017E40 0x02017E40 thumb
- *   func_02005E30  0x02005E30  thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   func_0207D55C 0x0207D55C arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_02045B38 0x02045B38 arm
- *   func_02008374 0x02008374 thumb
+ *   CONFIG_GetTextSpeed 0x02008374 thumb
  *   func_02013080 0x02013080 thumb
  *   func_020457B0 0x020457B0 arm
  *   func_0201EC64 0x0201EC64 thumb
  *   func_02041300 0x02041300 arm
  *   func_02040C14 0x02040C14 arm
  *   func_020496E4 0x020496E4 arm
- *   func_020215EC 0x020215EC thumb
+ *   PALANM_LoadArcPaletteToSlotAt 0x020215EC thumb
  *   func_020450F0 0x020450F0 arm
  *   func_02045374 0x02045374 arm
- *   func_020454E0 0x020454E0 arm
+ *   BMP_WIN_DrawFrame 0x020454E0 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02040588 0x02040588 arm
  *   d_021B6E74 0x021B6E74 data a4
@@ -113,7 +113,7 @@
  *   func_0201F250  0x0201F250  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_021B6CDC 0x021B6CDC thumb ov098
- *   func_0201CE20 0x0201CE20 thumb
+ *   PRINTSYS_PrintStreamRun 0x0201CE20 thumb
  *   func_0201CE30 0x0201CE30 thumb
  *   func_0201CE38 0x0201CE38 thumb
  *   func_0201DD68 0x0201DD68 thumb
@@ -122,7 +122,7 @@
  *   func_02045334  0x02045334  arm
  *   func_0201DD78  0x0201DD78  thumb
  *   func_0201CCE4  0x0201CCE4  thumb
- *   func_0201CE0C  0x0201CE0C  thumb
+ *   PRINTSYS_PrintStreamStop  0x0201CE0C  thumb
  *   func_0201C7A4  0x0201C7A4  thumb
  *   func_0207D63C  0x0207D63C  arm
  */
@@ -265,29 +265,29 @@ extern void func_0220C834(u8 *);
 extern void func_021F7CFC(u32, u16, u8, int, int);
 extern void func_021F7C0C(void);
 extern u32 func_02007F1C(u8 *, u16, u16, u16);
-extern void func_02005D90(u32, u16);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32, u16);
 extern int func_02005F38(void);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_0204E720(u32, int, int, int);
 extern int func_0204E804(void);
-extern unsigned short func_0202142C(int a0);
+extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
 extern void func_02017E40(void *, u32, u32);
-extern void func_02005E30(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
 extern int func_0207D55C(volatile u16 *reg);
 extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
 extern struct MsgBank *func_02045B38(u32, u32, u32, u32);
-extern u32 func_02008374(int);
+extern u32 CONFIG_GetTextSpeed(int);
 extern signed char func_02013080(u32);
 extern struct U16Vec *func_020457B0(u32, u32);
 extern struct WordSet *func_0201EC64(u32);
 extern void func_02041300(u32, int, int, int, u8, u8, u8);
 extern void func_02040C14(u32, u32, u32, u32);
 extern u32 func_020496E4(u32, u32, u32, u32, u32, u16);
-extern void func_020215EC(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16, u16);
+extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16, u16);
 extern u32 func_020450F0(u32, u32, u32, u32, u8, u8, u8);
 extern void func_02045374(struct Cfg *);
-extern void func_020454E0(struct Cfg *, u16, u32);
+extern void BMP_WIN_DrawFrame(struct Cfg *, u16, u32);
 extern void func_020409B4(u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02045808(struct U16Vec *vec);
@@ -301,7 +301,7 @@ extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern int func_021B6CDC(u8 *);
-extern void func_0201CE20(void *);
+extern void PRINTSYS_PrintStreamRun(void *);
 extern u32 func_0201CE30(void *);
 extern void func_0201CE38(void *);
 extern void func_0201DD68(void);
@@ -310,7 +310,7 @@ extern void func_02043B5C(struct CharBuf *, u8);
 extern void func_02045334(struct Descriptor *);
 extern void func_0201DD78(u32, u32, u32);
 extern void *func_0201CCE4(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
-extern void func_0201CE0C(void *);
+extern void PRINTSYS_PrintStreamStop(void *);
 extern void func_0201C7A4(void *, short, short, void *, void *);
 extern void func_0207D63C(int, int, int, int, int);
 struct P_021B6100 *func_021B6100(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u16 heap);
@@ -341,7 +341,7 @@ void func_021B68DC(u8 *p);
 void func_021B6910(struct PdcWork *p, void *q);
 void func_021B694C(struct PdcWork *p, u8 *q);
 void func_021B6988(struct PdcWork *p, void *q);
-void func_021B69C4(struct PdcWork *p, void *q);
+void IRC_COMPATIBLE_ProcExit(struct PdcWork *p, void *q);
 void func_021B6A00(u8 *p,u8 *q);
 int func_021B6A3C(u8 *p);
 void func_021B6B5C(char *p);
@@ -719,17 +719,17 @@ int func_021B6578(struct P_021B61C4 *p)
         break;
     case 6:
         if (!func_021F7EB4()) {
-            func_021B69C4((struct PdcWork *)((int)p->object), (void *)((int)p->parent));
+            IRC_COMPATIBLE_ProcExit((struct PdcWork *)((int)p->object), (void *)((int)p->parent));
             (p->state)++;
         }
         break;
     case 7:
-        if (func_021B6B74(p->object)) func_02005D90(0x518, 0xffff);
+        if (func_021B6B74(p->object)) GFL_USE_CancelChangeAndPlayBgm(0x518, 0xffff);
         if (func_021B6A3C(p->object)) (p->state)++;
         break;
     case 8:
         if (!func_02005F38()) {
-            func_021F7C0C(); func_02005D90(0x47c, 0xffff);
+            func_021F7C0C(); GFL_USE_CancelChangeAndPlayBgm(0x47c, 0xffff);
             (p->state)++;
         }
         break;
@@ -747,7 +747,7 @@ int func_021B6578(struct P_021B61C4 *p)
         break;
     case 11:
         if (!func_0204E804()) {
-            t = func_0202142C(p->h32);
+            t = PALANM_GetPairedCodeForFirst(p->h32);
             func_02017E40((void *)func_021B6140(p->parent), 152, t);
             return 1;
         }
@@ -772,7 +772,7 @@ int func_021B6750(char *p)
     case 1:
         if (func_021B6A3C((u8 *)(((struct Obj03730 *)p)->f14)) != 0) {
             func_0204E720(3, 0, 0x10, 2);
-            func_02005E30(8);
+            GFL_USE_FadeOutBgm(8);
             ((struct Obj03730 *)p)->f60 = ((struct Obj03730 *)p)->f60 + 1;
         }
         break;
@@ -808,16 +808,16 @@ u8 *func_021B67D4(void *a, void *b, void *c, u32 heap)
     ((struct Obj01704 *)p)->f28 = c;
     *(struct MsgBank * *)&((struct Obj01704 *)p)->f20 = func_02045B38(0, 2, 0x56, ((struct Obj01704 *)p)->f44);
     ((struct Obj01704 *)p)->f24 = a;
-    ((struct Obj01704 *)p)->f34 = func_02013080(func_02008374((int)b));
+    ((struct Obj01704 *)p)->f34 = func_02013080(CONFIG_GetTextSpeed((int)b));
     *(struct U16Vec * *)&((struct Obj01704 *)p)->f2C = func_020457B0(0x100, heap);
     *(struct WordSet * *)&((struct Obj01704 *)p)->f30 = func_0201EC64(heap);
     func_02041300(1, 0, 0, 0, 32, 32, 17);
     func_02040C14(1, 0, 1, 0);
     idx = func_020496E4(11, 89, 1, 0, 0, ((struct Obj01704 *)p)->f44);
-    func_020215EC((struct PalAnmSlot *)func_021F86E0(), 11, 90, ((struct Obj01704 *)p)->f44, 0, 32, 0, 0);
+    PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)func_021F86E0(), 11, 90, ((struct Obj01704 *)p)->f44, 0, 32, 0, 0);
     *(u32 *)&((struct Obj01704 *)p)->f1C = func_020450F0(1, 1, 19, 30, 4, 0, 0);
     func_02045374(*(struct Cfg * *)&((struct Obj01704 *)p)->f1C);
-    func_020454E0(*(struct Cfg * *)&((struct Obj01704 *)p)->f1C, idx, 0);
+    BMP_WIN_DrawFrame(*(struct Cfg * *)&((struct Obj01704 *)p)->f1C, idx, 0);
     func_020409B4(1);
     func_02040588(1, 0);
     func_021B6C34((char *)p + 4, *(int *)&((struct Obj01704 *)p)->f1C);
@@ -875,7 +875,7 @@ void func_021B6988(struct PdcWork *p, void *q) {
 
 
 
-void func_021B69C4(struct PdcWork *p, void *q) {
+void IRC_COMPATIBLE_ProcExit(struct PdcWork *p, void *q) {
     void *r;
     int t;
     r = func_02045EC0(p->f20, 2);
@@ -906,7 +906,7 @@ int func_021B6A3C(u8 *p)
             p[0x39] = 6;
             break;
         }
-        if (((struct Obj00466 *)p)->f0) func_0201CE20(((struct Obj00466 *)p)->f0);
+        if (((struct Obj00466 *)p)->f0) PRINTSYS_PrintStreamRun(((struct Obj00466 *)p)->f0);
         p[0x39]++;
     case 2:
         if (((struct Obj00466 *)p)->f0) {
@@ -988,7 +988,7 @@ void func_021B6B8C(char *a, int b)
     func_0201DD78(1, 9, 0xc);
     func_02040588(1, 1);
     if (b != 0) {
-        func_0201CE0C(*(void **)a = func_0201CCE4(*(u32 *)(a + 0x1c), 0, 0,
+        PRINTSYS_PrintStreamStop(*(void **)a = func_0201CCE4(*(u32 *)(a + 0x1c), 0, 0,
                                   *(int *)(a + 0x2c), *(int *)(a + 0x24),
                                   *(int *)(a + 0x34), *(int *)(a + 0x28), 0,
                                   *(u16 *)(a + 0x44), 0xc));

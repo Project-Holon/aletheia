@@ -18,28 +18,28 @@
  * instead of from the IME address (0x04000208 >> 11).
  *
  * symbols:
- *   func_02005328          0x02005328  thumb
- *   sub_0200545C           0x0200545C  thumb
+ *   GFL_USE_InitSdk          0x02005328  thumb
+ *   GFL_USE_InitSystem           0x0200545C  thumb
  *   OS_SetIrqFunction      0x02084774  arm
  *   OS_EnableIrqMask       0x02084968  arm
  *   GX_HBlankIntr          0x0207D3AC  arm
  *   GX_VBlankIntr          0x0207D3E4  arm
  *   OS_EnableInterrupts    0x02087974  arm
- *   func_0200523C          0x0200523C  thumb
- *   func_020053EC          0x020053EC  thumb
- *   func_020055F8          0x020055F8  thumb
- *   func_020052EC          0x020052EC  thumb
- *   sub_0200560C          0x0200560C  thumb
- *   func_02047990          0x02047990  arm
- *   func_020051D8          0x020051D8  thumb
+ *   GFL_USE_InitGameSystems          0x0200523C  thumb
+ *   GFL_USE_PollPowerExit          0x020053EC  thumb
+ *   GFL_USE_PollFrameInput          0x020055F8  thumb
+ *   GFL_USE_UpdateFrameSubsystems          0x020052EC  thumb
+ *   GFL_USE_NoOpFrameHook          0x0200560C  thumb
+ *   G3D_SYSTEM_SwapBuffersMain          0x02047990  arm
+ *   GFL_USE_IsNetQuiet          0x020051D8  thumb
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   OS_SleepThreadDirect   0x02085760  arm
  *   OS_WaitIrq             0x0208459C  arm
- *   func_02005230          0x02005230  thumb
+ *   GFL_USE_PostIrqUpdate          0x02005230  thumb
  *   OS_WakeupThreadDirect  0x02085868  arm
- *   func_02005204          0x02005204  thumb
- *   func_0200520C          0x0200520C  thumb
- *   g_020AA354             0x020AA354  data
+ *   GFL_USE_HBlankHandler          0x02005204  thumb
+ *   GFL_USE_VBlankHandler          0x0200520C  thumb
+ *   _WorkerThread             0x020AA354  data
  */
 
 typedef unsigned short u16;
@@ -51,28 +51,28 @@ typedef int            BOOL;
 
 struct OSThread;
 
-extern void func_02005328(void);
-extern void sub_0200545C(void);
+extern void GFL_USE_InitSdk(void);
+extern void GFL_USE_InitSystem(void);
 extern void OS_SetIrqFunction(u32 mask, void (*fn)(void));
 extern u32  OS_EnableIrqMask(u32 mask);
 extern void GX_HBlankIntr(BOOL enable);
 extern void GX_VBlankIntr(BOOL enable);
 extern u32  OS_EnableInterrupts(void);
-extern void func_0200523C(void);
-extern void func_020053EC(void);
-extern void func_020055F8(void);
-extern void func_020052EC(void);
-extern void sub_0200560C(void);
-extern void func_02047990(void);
-extern BOOL func_020051D8(void);
+extern void GFL_USE_InitGameSystems(void);
+extern void GFL_USE_PollPowerExit(void);
+extern void GFL_USE_PollFrameInput(void);
+extern void GFL_USE_UpdateFrameSubsystems(void);
+extern void GFL_USE_NoOpFrameHook(void);
+extern void G3D_SYSTEM_SwapBuffersMain(void);
+extern BOOL GFL_USE_IsNetQuiet(void);
 extern BOOL OS_IsThreadTerminated(struct OSThread *thread);
 extern void OS_SleepThreadDirect(struct OSThread *thread, void *queue);
 extern void OS_WaitIrq(BOOL clear, u32 mask);
-extern void func_02005230(void);
+extern void GFL_USE_PostIrqUpdate(void);
 extern void OS_WakeupThreadDirect(struct OSThread *thread);
-extern void func_02005204(void);
-extern void func_0200520C(void);
-extern struct OSThread g_020AA354;
+extern void GFL_USE_HBlankHandler(void);
+extern void GFL_USE_VBlankHandler(void);
+extern struct OSThread _WorkerThread;
 
 static inline u16 OS_EnableIrq(void)
 {
@@ -90,31 +90,31 @@ void NitroMain(void)
 {
     BOOL busy;
 
-    func_02005328();
-    sub_0200545C();
-    OS_SetIrqFunction(2, func_02005204);
-    OS_SetIrqFunction(1, func_0200520C);
+    GFL_USE_InitSdk();
+    GFL_USE_InitSystem();
+    OS_SetIrqFunction(2, GFL_USE_HBlankHandler);
+    OS_SetIrqFunction(1, GFL_USE_VBlankHandler);
     (void)OS_EnableIrqMask(3);
     (void)OS_EnableIrq();
     GX_HBlankIntr(1);
     GX_VBlankIntr(1);
     (void)OS_EnableInterrupts();
-    func_0200523C();
+    GFL_USE_InitGameSystems();
     for (;;) {
-        func_020053EC();
-        func_020055F8();
-        func_020052EC();
-        sub_0200560C();
-        func_02047990();
-        busy = func_020051D8();
+        GFL_USE_PollPowerExit();
+        GFL_USE_PollFrameInput();
+        GFL_USE_UpdateFrameSubsystems();
+        GFL_USE_NoOpFrameHook();
+        G3D_SYSTEM_SwapBuffersMain();
+        busy = GFL_USE_IsNetQuiet();
         if (busy)
             MI_SetMainMemoryPriority(0);
-        if (!OS_IsThreadTerminated(&g_020AA354))
-            OS_SleepThreadDirect(&g_020AA354, 0);
+        if (!OS_IsThreadTerminated(&_WorkerThread))
+            OS_SleepThreadDirect(&_WorkerThread, 0);
         OS_WaitIrq(1, 1);
-        func_02005230();
-        if (!OS_IsThreadTerminated(&g_020AA354))
-            OS_WakeupThreadDirect(&g_020AA354);
+        GFL_USE_PostIrqUpdate();
+        if (!OS_IsThreadTerminated(&_WorkerThread))
+            OS_WakeupThreadDirect(&_WorkerThread);
         if (busy)
             MI_SetMainMemoryPriority(1);
     }

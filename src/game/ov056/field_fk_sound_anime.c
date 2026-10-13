@@ -32,281 +32,253 @@
  *   d_021F4400  0x021F4400  data  ov056  a1
  *   func_02011558  0x02011558  thumb
  *   sub_020307B0   0x020307B0  arm
- *   func_02011608  0x02011608  thumb
+ *   ICA_ANIME_GetFrameNum  0x02011608  thumb
  *   func_020115EC  0x020115EC  thumb
  *   func_02011610  0x02011610  thumb
- *   func_02011660  0x02011660  thumb
+ *   ICA_ANIME_GetScale  0x02011660  thumb
  *   func_02011638  0x02011638  thumb
  *   func_021F423C  0x021F423C  thumb  ov056
- *   sub_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
-#include "../../matched/include/Obj07669.h"
-#include "../../matched/include/Obj07670.h"
+#include "unit_021F36C0_types.h"
 
-struct Ctx;
-struct BigObj;
-struct SoundSys2;
-struct IcaAnime;
-struct Obj11244;
-struct Rec12;
-typedef unsigned char  u8;
-
-typedef unsigned int   u32;
-
-typedef unsigned short u16;
-
-typedef signed short   s16;
-
-typedef struct {
-    u32 f0;
-    u32 f4;
-    u16 f8;
-    s16 fa;
-    int fc;
-} S3ECC;
-
-typedef struct {
-    u16 *f0;
-    u16 f4;
-    u32 f8;
-    int fc;
-} S3F30;
-
-typedef signed int     s32;
-
-extern u32 func_02188C98(u8 *p);
-extern u32 func_0218DC6C(u8 *p);
-extern int func_0218C654(int a, int b, int c);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012A30(const struct BigObj *p);
-extern int func_0218C6F4(unsigned char *p, int b, int id);
-extern void func_02028A7C(struct SoundSys2 *s, u32 id);
-extern u32 func_0201296C(const struct BigObj *p);
-extern u32 func_020143CC(u32 a, u32 b);
-extern void func_02028B50(u8 *p, int a0);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_02011510(u16 heap, u32 b, u32 c, u32 d);
-extern void func_02082D44(void *dst, void *src, int n);
-extern void func_02011558(struct IcaAnime *p);
-extern u32 sub_020307B0(void *p);
-extern u32 func_02011608(struct Obj11244 *p);
-extern void func_020115EC(struct IcaAnime *p, s32 v);
-extern u32 func_02011610(struct IcaAnime *p, struct Rec12 *dst);
-extern u32 func_02011660(struct IcaAnime *p, struct Rec12 *dst);
-extern u32 func_02011638(struct IcaAnime *p, struct Rec12 *dst);
-extern void func_021F423C(u8 *p, u32 idx);
-extern void sub_020061E4(u32 a);
-void func_021F3E94(void *unused, u8 *b, u8 *c);
-void func_021F3EC8(void *unused, u8 *b, u8 *c);
-void func_021F3ECC(int a, int b, S3ECC *c);
-void func_021F3F30(int a, int b, S3F30 *c);
-void func_021F3F7C(void *a, void *b, u8 *c);
-void func_021F3F94(void *a, void *b, u8 *c);
-void func_021F3FB8(int a, int b, S3F30 *c);
-void func_021F4004(void *a, void *b, u8 *c);
-void func_021F401C(void *a, void *b, u8 *c);
-u32 *func_021F4040(void *a, u32 b, u32 c, u32 d, u16 e);
-void func_021F408C(struct IcaAnime **pp);
-int func_021F40A0(int *p);
-void func_021F4224(u8 *p, u32 idx);
-extern u8 d_021F4284[];
-extern int d_021F425C[];
-extern char d_021F4400[];
+extern void func_02082D44(const void *src, void *dst, int size);
+extern u32 sub_020307B0(void *memory);
+extern struct IcaAnime *func_02011510(u16 heapId, u32 arcId, u32 dataId, u32 bufFrameNum);
+extern u32 func_02011610(struct IcaAnime *anime, VecFx32 *translate);
+extern u32 ICA_ANIME_GetScale(struct IcaAnime *anime, VecFx32 *scale);
+extern u32 func_02011638(struct IcaAnime *anime, VecFx32 *rotate);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+
+void func_021F3E94(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkFrameSoundWork *work);
+void func_021F3EC8(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkFrameSoundWork *work);
+void func_021F3ECC(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkFrameSoundWork *work);
+void func_021F3F30(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
+void func_021F3F7C(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
+void func_021F3F94(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
+void func_021F3FB8(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
+void func_021F4004(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
+void func_021F401C(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
 
 
 /*
+ * Init of the proc that plays a sound at listed frames of a building
+ * animation (template d_021F435C). Remembers the building model and the
+ * sound system.
+ *
  * note:     first entry of the callback triple at 0x021F4364
  *           {0x021F3E95, 0x021F3EC9, 0x021F3ECD}; r0 is unused. The second
  *           entry, func_021F3EC8, is an unlabelled empty callback (bx lr)
  *           right after the lead's pool, then 2 bytes of padding.
  */
-void func_021F3E94(void *unused, u8 *b, u8 *c)
+void func_021F3E94(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkFrameSoundWork *work)
 {
-    u32 r;
+    struct BuildModelMan *man;
 
-    r = func_0218DC6C((u8 *)func_02188C98(b));
-    *(int *)(c + 0x4) = func_0218C654((int)r, 0, (int)d_021F4284);
-    *(u32 *)(c + 0x0) = r;
-    *(u32 *)(c + 0xC) = func_02012A30((const struct BigObj *)func_020120F4((const struct Ctx *)func_02188C80(b)));
+    man = func_0218DC6C(func_02188C98(fieldMap));
+    work->entry = func_0218C654(man, 0, &d_021F4284);
+    work->man = man;
+    work->soundSys = func_02012A30(func_020120F4(func_02188C80(fieldMap)));
 }
 
 
-void func_021F3EC8(void *unused, u8 *b, u8 *c)
+/* Exit of that proc: nothing to undo. */
+void func_021F3EC8(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkFrameSoundWork *work)
 {
 }
 
 
-void func_021F3ECC(int a, int b, S3ECC *c)
+/*
+ * Update of that proc: when the building animation is at one of the listed
+ * frames it plays the hit sound and starts a countdown; when the countdown
+ * ends it plays the closing sound.
+ */
+void func_021F3ECC(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkFrameSoundWork *work)
 {
     int i;
-    int r;
+    int frame;
 
     i = 0;
-    r = func_0218C6F4((unsigned char *)c->f0, c->f4, 0);
+    frame = func_0218C6F4(work->man, work->entry, 0);
     for (; i < 2; i++) {
-        if (r == d_021F425C[i]) {
-            func_02028A7C((struct SoundSys2 *)c->fc, 0x743);
-            c->f8 = 1;
-            c->fa = 0x1f;
+        if (frame == d_021F425C[i]) {
+            func_02028A7C(work->soundSys, FK_SE_FRAME_HIT);
+            work->hitActive = 1;
+            work->hitCountdown = 0x1f;
             break;
         }
     }
-    if (c->f8 != 0) {
-        c->fa = c->fa - 1;
-        if (c->fa <= 0) {
-            func_02028A7C((struct SoundSys2 *)c->fc, 0x76e);
-            c->f8 = 0;
-            c->fa = 0;
+    if (work->hitActive != 0) {
+        work->hitCountdown = work->hitCountdown - 1;
+        if (work->hitCountdown <= 0) {
+            func_02028A7C(work->soundSys, FK_SE_FRAME_HIT_END);
+            work->hitActive = 0;
+            work->hitCountdown = 0;
         }
     }
 }
 
 
-void func_021F3F30(int a, int b, S3F30 *c)
+/*
+ * Init of the proc that plays an ambient sound (template d_021F4374) until the
+ * script work variable FK_AMBIENT_STOP_WORK_ID is not 0.
+ */
+void func_021F3F30(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work)
 {
-    int r5;
+    struct GameData *gameData;
 
-    r5 = (int)func_020120F4(func_02188C80((void *)b));
-    c->f8 = func_0201296C((const struct BigObj *)r5);
-    c->fc = func_02012A30((const struct BigObj *)r5);
-    c->f0 = (u16 *)func_020143CC(c->f8, 0x4001);
-    if (*c->f0 == 0) {
-        func_02028A7C((struct SoundSys2 *)c->fc, 0x756);
-        c->f4 = 0;
+    gameData = func_020120F4(func_02188C80(fieldMap));
+    work->eventWork = func_0201296C(gameData);
+    work->soundSys = func_02012A30(gameData);
+    work->stopVar = func_020143CC(work->eventWork, FK_AMBIENT_STOP_WORK_ID);
+    if (*work->stopVar == 0) {
+        func_02028A7C(work->soundSys, FK_SE_AMBIENT_A);
+        work->stopped = 0;
         return;
     }
-    c->f4 = 1;
+    work->stopped = 1;
 }
 
 
-void func_021F3F7C(void *a, void *b, u8 *c)
+/* Exit of that proc: stops the sound if it still plays. */
+void func_021F3F7C(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work)
 {
-    if (*(u16 *)(c + 4) == 0) {
-        func_02028B50(*(u8 **)(c + 0xc), 0x756);
+    if (work->stopped == 0) {
+        func_02028B50(work->soundSys, FK_SE_AMBIENT_A);
     }
 }
 
 
-void func_021F3F94(void *a, void *b, u8 *c)
+/* Update of that proc: stops the sound when the script variable is set. */
+void func_021F3F94(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work)
 {
-    if (*(u16 *)(((struct Obj07669 *)c)->f0) != 0 && ((struct Obj07669 *)c)->f4 == 0) {
-        func_02028B50((u8 *)(((struct Obj07669 *)c)->fC), 0x756);
-        ((struct Obj07669 *)c)->f4 = 1;
+    if (*work->stopVar != 0 && work->stopped == 0) {
+        func_02028B50(work->soundSys, FK_SE_AMBIENT_A);
+        work->stopped = 1;
     }
 }
 
 
-void func_021F3FB8(int a, int b, S3F30 *c)
+/* Same as func_021F3F30 for the second ambient sound (template d_021F438C). */
+void func_021F3FB8(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work)
 {
-    int r5;
+    struct GameData *gameData;
 
-    r5 = (int)func_020120F4(func_02188C80((void *)b));
-    c->f8 = func_0201296C((const struct BigObj *)r5);
-    c->fc = func_02012A30((const struct BigObj *)r5);
-    c->f0 = (u16 *)func_020143CC(c->f8, 0x4001);
-    if (*c->f0 == 0) {
-        func_02028A7C((struct SoundSys2 *)c->fc, 0x7ef);
-        c->f4 = 0;
+    gameData = func_020120F4(func_02188C80(fieldMap));
+    work->eventWork = func_0201296C(gameData);
+    work->soundSys = func_02012A30(gameData);
+    work->stopVar = func_020143CC(work->eventWork, FK_AMBIENT_STOP_WORK_ID);
+    if (*work->stopVar == 0) {
+        func_02028A7C(work->soundSys, FK_SE_AMBIENT_B);
+        work->stopped = 0;
         return;
     }
-    c->f4 = 1;
+    work->stopped = 1;
 }
 
 
-void func_021F4004(void *a, void *b, u8 *c)
+void func_021F4004(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work)
 {
-    if (*(u16 *)(c + 4) == 0) {
-        func_02028B50(*(u8 **)(c + 0xc), 0x7ef);
+    if (work->stopped == 0) {
+        func_02028B50(work->soundSys, FK_SE_AMBIENT_B);
     }
 }
 
 
-void func_021F401C(void *a, void *b, u8 *c)
+void func_021F401C(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work)
 {
-    if (*(u16 *)(((struct Obj07670 *)c)->f0) != 0 && ((struct Obj07670 *)c)->f4 == 0) {
-        func_02028B50((u8 *)(((struct Obj07670 *)c)->fC), 0x7ef);
-        ((struct Obj07670 *)c)->f4 = 1;
+    if (*work->stopVar != 0 && work->stopped == 0) {
+        func_02028B50(work->soundSys, FK_SE_AMBIENT_B);
+        work->stopped = 1;
     }
 }
 
 
 /*
- * Allocates a 0x1C-byte record from heap e, fills word 0 from
- * func_02011510(e, b, c, d) and copies 0x12 bytes of a into it at +8.
- * The u16 heap e is re-read with ldrh from its stack slot before each call,
+ * Allocates a 0x1C-byte record from the heap, starts the ICA animation of
+ * the file (arcId, dataId) and copies the 0x12 bytes of sound ids into it at +8.
+ * The u16 heap is re-read with ldrh from its stack slot before each call,
  * so both callees take it as u16 (see
  * a-u16-stack-parameter-reloaded-per-call-means-u16-callee-parameters.md);
- * with u32 callee parameters e stayed in r5 and c/d spilled.
+ * with u32 callee parameters the heap stayed in r5 and the other arguments spilled.
  */
-u32 *func_021F4040(void *a, u32 b, u32 c, u32 d, u16 e)
+FkSoundAnime *func_021F4040(const void *soundIds, u32 arcId, u32 dataId, u32 bufFrameNum, u16 heapId)
 {
-    u32 *r;
+    FkSoundAnime *sound;
 
-    r = func_02030734(e, 0x1c, 1, d_021F4400, 0x4d);
-    r[1] = 0;
-    r[0] = func_02011510(e, b, c, d);
-    func_02082D44(a, r + 2, 0x12);
-    return r;
+    sound = func_02030734(heapId, sizeof(FkSoundAnime), 1, d_021F4400, 0x4d);
+    sound->frame = 0;
+    sound->anime = func_02011510(heapId, arcId, dataId, bufFrameNum);
+    func_02082D44(soundIds, sound->soundId, 0x12);
+    return sound;
 }
 
 
 /*
+ * Deletes the sound anime.
+ *
  * extent:   EXACT* covers only the 2-byte alignment pad at 0x021F409E;
  *           the follower 0x021F40A0 is separately matched (pkt_021F40A0).
  */
-void func_021F408C(struct IcaAnime **pp)
+void func_021F408C(FkSoundAnime *sound)
 {
-    func_02011558(*pp);
-    sub_020307B0(pp);
+    func_02011558(sound->anime);
+    sub_020307B0(sound);
 }
 
 
 /*
+ * Steps the sound anime by one frame and acts on its nine channels (three
+ * translation, three scale, three rotation values): a channel at
+ * FK_SOUND_CHANNEL_PLAY starts the sound of that channel, one at
+ * FK_SOUND_CHANNEL_STOP stops it. Returns 1 on the last frame.
+ *
  * Unblocked (2026-09-26 recursive MATCH unblocker, arm9 0x0200..0x0202):
  *   both wildcarded relocations are now `matched`.
- *   - func_02011608: EXACT, src/matched/func_02011608.c (pkt_02011608).
- *   - func_02011660: already an EXACT member of the game_unit
+ *   - ICA_ANIME_GetFrameNum: EXACT, src/matched/ICA_ANIME_GetFrameNum.c (pkt_02011608).
+ *   - ICA_ANIME_GetScale: already an EXACT member of the game_unit
  *     src/matched/unit_02011610.c (pkt_020113F0); that unit's `function:`
  *     header now lists all three copies, so the manifest covers 0x02011660.
  *   All 23 relocations resolve; EXACT* because the extent runs to the next
  *   unlabelled follower.
  */
-int func_021F40A0(int *p)
+int func_021F40A0(FkSoundAnime *sound)
 {
-    int flag;
-    int a[3], b[3], c[3];
-    int x = func_02011608((struct Obj11244 *)p[0]) << 12;
+    int done;
+    VecFx32 translate, scale, rotate;
+    int length = ICA_ANIME_GetFrameNum(sound->anime) << 12;
 
-    if (x <= p[1]) {
-        flag = 1;
-        p[1] = x - 0x1000;
+    if (length <= sound->frame) {
+        done = 1;
+        sound->frame = length - 0x1000;
     } else {
-        flag = 0;
+        done = 0;
     }
-    func_020115EC((struct IcaAnime *)p[0], p[1]);
-    func_02011610((struct IcaAnime *)p[0], (struct Rec12 *)a);
-    func_02011660((struct IcaAnime *)p[0], (struct Rec12 *)b);
-    func_02011638((struct IcaAnime *)p[0], (struct Rec12 *)c);
-    if (a[0] == 0x1000) func_021F4224((u8 *)p, 0); else if (a[0] == 0x2000) func_021F423C((u8 *)p, 0);
-    if (a[1] == 0x1000) func_021F4224((u8 *)p, 1); else if (a[1] == 0x2000) func_021F423C((u8 *)p, 1);
-    if (a[2] == 0x1000) func_021F4224((u8 *)p, 2); else if (a[2] == 0x2000) func_021F423C((u8 *)p, 2);
-    if (b[0] == 0x1000) func_021F4224((u8 *)p, 3); else if (b[0] == 0x2000) func_021F423C((u8 *)p, 3);
-    if (b[1] == 0x1000) func_021F4224((u8 *)p, 4); else if (b[1] == 0x2000) func_021F423C((u8 *)p, 4);
-    if (b[2] == 0x1000) func_021F4224((u8 *)p, 5); else if (b[2] == 0x2000) func_021F423C((u8 *)p, 5);
-    if (c[0] == 0x1000) func_021F4224((u8 *)p, 6); else if (c[0] == 0x2000) func_021F423C((u8 *)p, 6);
-    if (c[1] == 0x1000) func_021F4224((u8 *)p, 7); else if (c[1] == 0x2000) func_021F423C((u8 *)p, 7);
-    if (c[2] == 0x1000) func_021F4224((u8 *)p, 8); else if (c[2] == 0x2000) func_021F423C((u8 *)p, 8);
-    p[1] += 0x1000;
-    return flag;
+    func_020115EC(sound->anime, sound->frame);
+    func_02011610(sound->anime, &translate);
+    ICA_ANIME_GetScale(sound->anime, &scale);
+    func_02011638(sound->anime, &rotate);
+    if (translate.x == FK_SOUND_CHANNEL_PLAY) func_021F4224(sound, 0); else if (translate.x == FK_SOUND_CHANNEL_STOP) func_021F423C(sound, 0);
+    if (translate.y == FK_SOUND_CHANNEL_PLAY) func_021F4224(sound, 1); else if (translate.y == FK_SOUND_CHANNEL_STOP) func_021F423C(sound, 1);
+    if (translate.z == FK_SOUND_CHANNEL_PLAY) func_021F4224(sound, 2); else if (translate.z == FK_SOUND_CHANNEL_STOP) func_021F423C(sound, 2);
+    if (scale.x == FK_SOUND_CHANNEL_PLAY) func_021F4224(sound, 3); else if (scale.x == FK_SOUND_CHANNEL_STOP) func_021F423C(sound, 3);
+    if (scale.y == FK_SOUND_CHANNEL_PLAY) func_021F4224(sound, 4); else if (scale.y == FK_SOUND_CHANNEL_STOP) func_021F423C(sound, 4);
+    if (scale.z == FK_SOUND_CHANNEL_PLAY) func_021F4224(sound, 5); else if (scale.z == FK_SOUND_CHANNEL_STOP) func_021F423C(sound, 5);
+    if (rotate.x == FK_SOUND_CHANNEL_PLAY) func_021F4224(sound, 6); else if (rotate.x == FK_SOUND_CHANNEL_STOP) func_021F423C(sound, 6);
+    if (rotate.y == FK_SOUND_CHANNEL_PLAY) func_021F4224(sound, 7); else if (rotate.y == FK_SOUND_CHANNEL_STOP) func_021F423C(sound, 7);
+    if (rotate.z == FK_SOUND_CHANNEL_PLAY) func_021F4224(sound, 8); else if (rotate.z == FK_SOUND_CHANNEL_STOP) func_021F423C(sound, 8);
+    sound->frame += 0x1000;
+    return done;
 }
 
 
-void func_021F4224(u8 *p, u32 idx)
+/* Plays the sound effect of a channel, if it has one. */
+void func_021F4224(FkSoundAnime *sound, u32 channel)
 {
-    u16 v = *(u16 *)(p + idx * 2 + 8);
+    u16 seId = sound->soundId[channel];
 
-    if (v != 0xffff) {
-        sub_020061E4(v);
+    if (seId != FK_SOUND_NONE) {
+        GFL_USE_PlaySeDefaultVolume(seId);
     }
 }

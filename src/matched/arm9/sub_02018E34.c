@@ -1,5 +1,5 @@
 /*
- * function: func_02018E34
+ * function: POKE_TOOL_GetBoxValueRaw
  * address:  0x02018E34
  * region:   arm9
  * packet:   pkt_02018DB4
@@ -11,9 +11,9 @@
  *
  * 1236 bytes, one function, a 176 case jump table.  The read accessor over
  * the encrypted block area of the 0xDC byte record, and the larger half of
- * poke_tool.c's get/set dispatcher quartet.  func_02018DB4
- * (src/matched/sub_02018DB4.c) owns ids 0x9D to 0xA8 and forwards everything
- * else here; the writer twin is func_02019388 (src/matched/sub_02019388.c).
+ * poke_tool.c's get/set dispatcher quartet.  POKE_TOOL_GetPartyValueRaw
+ * (src/matched/POKE_TOOL_GetPartyValueRaw.c) owns ids 0x9D to 0xA8 and forwards everything
+ * else here; the writer twin is POKE_TOOL_SetBoxValueRaw (src/matched/POKE_TOOL_SetBoxValueRaw.c).
  *
  * Of the eighteen relocation sites, three are calls to 0x0209C074 (_ll_shl,
  * the compiler's own 64 bit shift helper) and one is to func_02019BBC; a scan
@@ -53,13 +53,13 @@
  *   0x36..0x39 B +0x00 u16[4]
  *   0x3A..0x3D B +0x08 u8[4]
  *   0x3E..0x41 B +0x0C u8[4]
- *   0x42..0x45 derived                     func_0201C158(B move[i], B +0x0C[i])
+ *   0x42..0x45 derived                     WAZA_TOOL_GetMaxPP(B move[i], B +0x0C[i])
  *                                          when the move is non zero, else 0
  *   0x46..0x4B B +0x10 bits 0..29          six 5 bit fields
  *   0x4C       B +0x10 bit 30              1 when flag bit 2 is set
  *   0x4D..0x6C B +0x14 u32                 32 flag bits, bit (id - 0x4D)
  *   0x6D       B +0x18 bit 0
- *   0x6E       derived, and it WRITES      func_02017F50(species, form, seed),
+ *   0x6E       derived, and it WRITES      POKE_TOOL_CalcGender(species, form, seed),
  *                                          stored into B +0x18 bits 1..2, then
  *                                          the block-area checksum is recomputed
  *   0x6F       B +0x18 bits 3..7           form
@@ -87,7 +87,7 @@
  *   0x9C       D +0x1E u16
  *   0x9E       derived                     func_0201850C(species, form, exp)
  *   0x9D, 0x9F..0xA8                       gaps here; the party area, owned by
- *                                          func_02018DB4
+ *                                          POKE_TOOL_GetPartyValueRaw
  *   0xA9       derived                     species != 0
  *   0xAA       derived                     flag bit 2, else B +0x10 bit 30
  *   0xAB       derived                     species, or 650 when it is an egg
@@ -152,13 +152,16 @@
  * what calls 0x0209C074 (_ll_shl).
  *
  * Verified with
- *   python tools/match.py one --src src/pending/sub_02018E34.c \
- *       --func func_02018E34 --addr 0x02018E34 --cc 1.1p1
+ *   python tools/match.py one --src src/pending/POKE_TOOL_GetBoxValueRaw.c \
+ *       --func POKE_TOOL_GetBoxValueRaw --addr 0x02018E34 --cc 1.1p1
  *
  * symbols:
  *   _ll_shl        0x0209C074  arm
  *   gMsgBank       0x020A7370  data
  *   func_02019BBC  0x02019BBC  thumb
+ *   POKE_TOOL_CalcGender  0x02017F50  thumb
+ *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
+ *   MSGDATA_ReadUnits  0x02045F5C  arm
  */
 
 typedef unsigned char      u8;
@@ -243,18 +246,18 @@ struct MsgBank;
 struct MsgData;
 struct Strbuf;
 extern u32 func_0201850C(u16 species, u16 form, u32 exp);
-extern u8   func_02017F50(u32 species, u16 form, u32 pid);
-extern u8 func_0201C158(u16 move, u32 ppUp);
+extern u8   POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
+extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
 extern u32 func_02019BBC(u32 item);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 
 extern void *gMsgBank;
 
-u32 func_02018E34(struct Mon *p, u32 id, u32 v)
+u32 POKE_TOOL_GetBoxValueRaw(struct Mon *p, u32 id, u32 v)
 {
     u32 r = 0;
     struct BlockA *a = (struct BlockA *)func_02019C38(p, p->unk00, 0);
@@ -352,7 +355,7 @@ u32 func_02018E34(struct Mon *p, u32 id, u32 v)
     case 0x42: case 0x43: case 0x44: case 0x45:
         id -= 0x42;
         if (b->moves[id] != 0) {
-            r = func_0201C158(b->moves[id], b->ppUp[id]);
+            r = WAZA_TOOL_GetMaxPP(b->moves[id], b->ppUp[id]);
         }
         break;
     case 0x46: r = b->iv0; break;
@@ -382,7 +385,7 @@ u32 func_02018E34(struct Mon *p, u32 id, u32 v)
         break;
     case 0x6D: r = b->f0; break;
     case 0x6E:
-        r = func_02017F50(a->species, b->f2, p->unk00);
+        r = POKE_TOOL_CalcGender(a->species, b->f2, p->unk00);
         b->f1 = (u8)r;
         p->unk06 = func_02019A9C((const u16 *)p->unk08, 0x80);
         break;
@@ -399,7 +402,7 @@ u32 func_02018E34(struct Mon *p, u32 id, u32 v)
         break;
     case 0x74:
         if (p->b2 != 0) {
-            func_02045F5C(gMsgBank, 651, (void *)v, 11);
+            MSGDATA_ReadUnits(gMsgBank, 651, (void *)v, 11);
         } else {
             func_0201F41C(c->unk00, (void *)v, 11);
         }

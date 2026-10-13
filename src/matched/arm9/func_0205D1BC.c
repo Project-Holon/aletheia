@@ -1,5 +1,5 @@
 /*
- * function: func_0205D1BC
+ * function: GetIrregularError
  * address:  0x0205D1BC
  * packet:   pkt_0205D1BC
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_0205D1BC(void)
+int GetIrregularError(void)
 {
     return ~5;
 }

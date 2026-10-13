@@ -15,7 +15,7 @@
  *   func_021FB964 0x021FB964 thumb ov186
  *   func_021FC6A4 0x021FC6A4 thumb ov186
  *   func_021FC868 0x021FC868 thumb ov186
- *   func_0200DFD8 0x0200DFD8 thumb
+ *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   func_020457B0 0x020457B0 arm
  *   func_0201EFA4 0x0201EFA4 thumb
@@ -42,7 +42,7 @@ extern int func_021FC21C(char *);
 extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern void *func_021FC6A4(u16,u32,u16,u16,u8,u8,void *,u16);
 extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
-extern u16 func_0200DFD8(Row *,int,int);
+extern u16 BSUBWAY_SAVEDATA_GetStat(Row *,int,int);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern struct U16Vec *func_020457B0(u32,u32);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -71,11 +71,11 @@ void func_021DE404(char *p,char *q)
         func_021FC868(((struct Obj10739 *)slot)->f1C,0,1,0);
         switch(i) {
         case 0: func_0201F02C((struct WordSet *)words,0,func_02012944(((struct Obj00440 *)q)->f10)); break;
-        case 7: func_0201EFA4((struct WordSet *)words,0,func_0200DFD8(*(Row * *)&((struct Obj00440 *)q)->f14,5,0),4,1,1); break;
-        case 8: func_0201EFA4((struct WordSet *)words,0,func_0200DFD8(*(Row * *)&((struct Obj00440 *)q)->f14,6,0),4,1,1); break;
-        case 9: func_0201EFA4((struct WordSet *)words,0,func_0200DFD8(*(Row * *)&((struct Obj00440 *)q)->f14,7,0),4,1,1); break;
-        case 10: func_0201EFA4((struct WordSet *)words,0,func_0200DFD8(*(Row * *)&((struct Obj00440 *)q)->f14,8,0),4,1,1); break;
-        case 11: func_0201EFA4((struct WordSet *)words,0,func_0200DFD8(*(Row * *)&((struct Obj00440 *)q)->f14,9,0),4,1,1); break;
+        case 7: func_0201EFA4((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct Obj00440 *)q)->f14,5,0),4,1,1); break;
+        case 8: func_0201EFA4((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct Obj00440 *)q)->f14,6,0),4,1,1); break;
+        case 9: func_0201EFA4((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct Obj00440 *)q)->f14,7,0),4,1,1); break;
+        case 10: func_0201EFA4((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct Obj00440 *)q)->f14,8,0),4,1,1); break;
+        case 11: func_0201EFA4((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct Obj00440 *)q)->f14,9,0),4,1,1); break;
         default: text=func_02045EC0((struct MsgBank *)bank,rec->value); flag=0; break;
         }
         if(flag) {

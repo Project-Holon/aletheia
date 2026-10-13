@@ -1,5 +1,5 @@
 /*
- * function: sub_02032930
+ * function: BACKUP_SYSTEM_WriteFooterLastByte
  * address:  0x02032930
  * packet:   pkt_020328E0
  * region:   arm9
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02031EAC  0x02031EAC  arm
- *   func_020336B8  0x020336B8  arm
+ *   BACKUP_SYSTEM_GetAreaAddr  0x02031EAC  arm
+ *   FLASH_ACCESS_StartWrite  0x020336B8  arm
  *   unk_02146994   0x02146994  data
  *
- * savedata.c.  The one byte twin of sub_020328E0: same area and staging
+ * savedata.c.  The one byte twin of BACKUP_SYSTEM_WriteFooterBody: same area and staging
  * buffer, but it rewrites only the single trailing byte of the record.
- * Unlike sub_020328E0 it does not touch 0x02031F54 first, so nothing has to
+ * Unlike BACKUP_SYSTEM_WriteFooterBody it does not touch 0x02031F54 first, so nothing has to
  * survive the call and the function gets away with three saved registers.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02032930.c  *       --func sub_02032930 --addr 0x02032930 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_WriteFooterLastByte.c  *       --func BACKUP_SYSTEM_WriteFooterLastByte --addr 0x02032930 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -52,13 +52,13 @@ struct SaveMain {
 
 extern struct SaveMain *unk_02146994;
 
-extern u32 func_02031EAC(u32 *p, u32 sel);
-extern int func_020336B8(u32 a0, u32 a1, u32 a2, void *a3);
+extern u32 BACKUP_SYSTEM_GetAreaAddr(u32 *p, u32 sel);
+extern int FLASH_ACCESS_StartWrite(u32 a0, u32 a1, u32 a2, void *a3);
 
-int sub_02032930(struct SaveBackup *p, u32 sel)
+int BACKUP_SYSTEM_WriteFooterLastByte(struct SaveBackup *p, u32 sel)
 {
     u32 area = p->unk30;
-    u32 end = area + func_02031EAC((u32 *)p, sel);
+    u32 end = area + BACKUP_SYSTEM_GetAreaAddr((u32 *)p, sel);
 
-    return func_020336B8(end - 1, p->unk34 + (area - 1), 1, (void *)unk_02146994->unk208);
+    return FLASH_ACCESS_StartWrite(end - 1, p->unk34 + (area - 1), 1, (void *)unk_02146994->unk208);
 }

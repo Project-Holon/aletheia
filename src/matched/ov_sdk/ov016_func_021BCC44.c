@@ -14,7 +14,7 @@
  * symbols:
  *   func_021D5250  0x021d5250  arm  ov016
  *   func_021BCBB4  0x021bcbb4  arm  ov016
- *   func_021D771C  0x021d771c  arm  ov016
+ *   DWCi_TSKlSetParam  0x021d771c  arm  ov016
  *   g_021DE508  0x021de508  data
  *   func_021BCCB0  0x021bccb0  arm  ov016
  */
@@ -27,7 +27,7 @@ extern struct tagMEMBTN *g_021DE508;
 
 extern void func_021D5250(void *cell, int idx, int *x, int *y);
 extern void func_021BCBB4(int y);
-extern void func_021D771C(char *p, unsigned int v);
+extern void DWCi_TSKlSetParam(char *p, unsigned int v);
 extern void func_021BCCB0(void *task);
 
 void func_021BCC44(void *task)
@@ -40,5 +40,5 @@ void func_021BCC44(void *task)
     if (y > 168)
         return;
     func_021BCBB4(168);
-    func_021D771C(task, (unsigned int)func_021BCCB0);
+    DWCi_TSKlSetParam(task, (unsigned int)func_021BCCB0);
 }

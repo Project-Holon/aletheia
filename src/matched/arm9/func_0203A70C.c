@@ -1,5 +1,5 @@
 /*
- * function: func_0203A70C
+ * function: GFL_NET_COMMAND_GetRecvFunc
  * address:  0x0203A70C
  * packet:   pkt_0203A574
  * region:   arm9
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203A67C  0x0203A67C  arm
+ *   GFL_NET_COMMAND_GetCommandTable  0x0203A67C  arm
  */
 
 typedef unsigned int u32;
 
 struct BaseTable;
-extern struct BaseTable *func_0203A67C(u32 cmd);
+extern struct BaseTable *GFL_NET_COMMAND_GetCommandTable(u32 cmd);
 
-int func_0203A70C(u32 idx)
+int GFL_NET_COMMAND_GetRecvFunc(u32 idx)
 {
-    int *p = (int *)func_0203A67C(idx);
+    int *p = (int *)GFL_NET_COMMAND_GetCommandTable(idx);
     if (p != 0) {
         char *base = (char *)*p;
         u32 off = ((idx << 24) >> 21);

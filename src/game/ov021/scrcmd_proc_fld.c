@@ -239,32 +239,9 @@
  *   g_021F438C     0x021F438C  data  ov056  a4
  *   g_021F435C     0x021F435C  data  ov056  a4
  */
-#include "../../matched/include/Obj00037.h"
-#include "../../matched/include/Obj09614.h"
-#include "../../matched/include/Obj00030.h"
-#include "../../matched/include/Obj00030.h"
-#include "../../matched/include/Obj12842.h"
-#include "../../matched/include/Obj05048.h"
-#include "../../matched/include/Obj05049.h"
-#include "../../matched/include/Obj19995.h"
-#include "../../matched/include/Obj00037.h"
-#include "../../matched/include/Obj12843.h"
-#include "../../matched/include/Obj19996.h"
-#include "../../matched/include/Obj03599.h"
-#include "../../matched/include/Obj06037.h"
-#include "../../matched/include/Obj02389.h"
-#include "../../matched/include/Obj03132.h"
-#include "../../matched/include/Obj00357.h"
-#include "../../matched/include/Obj02711.h"
-#include "../../matched/include/Obj12844.h"
-#include "../../matched/include/Obj02712.h"
-#include "../../matched/include/Obj07523.h"
-#include "../../matched/include/Obj01502.h"
-#include "../../matched/include/Obj02390.h"
-#include "../../matched/include/Obj00810.h"
-#include "../../matched/include/Obj19998.h"
-#include "../../matched/include/Obj01503.h"
-#include "../../matched/include/Obj01121.h"
+
+#include "scrcmd_proc_fld_types.h"
+#include "fieldmap_types.h"
 
 struct Ctx;
 struct MsgBank;
@@ -302,216 +279,97 @@ struct Sub02009210Obj;
 struct Blk38;
 struct Stream;
 struct Cursor;
+struct ScrcmdWork;
 struct Blk021D2D50;
-typedef unsigned char  u8;
 
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef struct Work_021B3158 {
-    u8 state;
-    u8 sub;
-    u8 b2;
-    u8 b3;
-    u32 f04;
-    u8 f08;
-    u8 pad9[0x3];
-    u32 f0c;
-    u32 f10;
-    u32 f14;
-    u8 pad18[0xC];
-    u16 h24;
-    u16 h26;
-    u32 f28;
-    u8 pad2C[0x4];
-    u32 w30[6];
-} Work_021B3158;
-
-typedef struct Buf24 {
-    u32 w[6];
-} Buf24;
-
-typedef signed int     s32;
-
-typedef signed short   s16_021B3370;
-
-typedef struct {
-    u16 id;
-    u16 pad;
-    u32 val;
-} Entry;
-
-typedef struct {
-    u8 _00[4];
-    u16 heap;
-    u8 _06[0x1a];
-    Entry list[40];
-    u16 count;
-    u8 mode;
-    u8 _163[0x1d];
-    Entry *buf;
-    u8 _184[4];
-    u32 win;
-} Obj;
-
-typedef struct { u16 a, b, c; u8 d, e; } Rect_021B3158;
-
-typedef short          s16_021B3D60;
-
-typedef struct {
-    u32 f0;
-    u8  f4;
-    u8  f5;
-    u8  f6;
-    u8  f7;
-    u16 f8;
-} WinTmpl;
-
-typedef struct {
-    void *arr;
-    void *cb04;
-    void *cb08;
-    u32 w0c;
-    u16 count;
-    u16 rows;
-    u8 f14;
-    u8 f15;
-    u8 f16;
-    u8 f17lo : 4;
-    u8 f17hi : 4;
-    u8 f18lo : 4;
-    u8 f18hi : 4;
-    u8 f19;
-    u16 f1Alo : 3;
-    u16 f1Amid : 4;
-    u16 f1Apad : 2;
-    u16 f1Amid2 : 6;
-    u16 f1Atop : 1;
-    void *w1c;
-    u16 h20;
-    u16 h22;
-    u32 w24;
-    void *w28;
-    u32 w2c;
-    u32 w30;
-} Tmpl;
-
-typedef struct {
-    u16 id;
-    u16 pad;
-    u32 v;
-} Ent_021B3158;
-
-typedef signed short   s16_021B4710;
-
-typedef signed short   s16_021B4878;
+/* Six enable flags handed to the field region object. */
+typedef struct LayerFlags {
+    u32 flag[6];
+} LayerFlags;
 
 typedef signed char    s8;
 
-typedef short s16_021B4894;
+/* Argument block of the field events that take the field map (ov006 / ov004 callbacks). */
+typedef struct FieldEventArgs {
+    void *fieldMap;
+    u32 reserved;
+} FieldEventArgs;
 
-typedef signed short   s16;
+/* 0x2C-byte work block built here and handed to the ov170 process. */
+typedef struct Ov170EventWork {
+    void *gameData;         /* 0x00 */
+    u32 boxManager;         /* 0x04 */
+    void *party;            /* 0x08: replaced by a heap copy when kind is 4 */
+    u32 myItem;             /* 0x0c */
+    u8 *myStatus;           /* 0x10 */
+    u32 extraData;          /* 0x14: heap block only when kind is 4 */
+    u32 saveStateA;         /* 0x18 */
+    u32 saveStateB;         /* 0x1c */
+    u32 reserved20;         /* 0x20 */
+    u32 kind;               /* 0x24: hand-off kind, 4 copies the party */
+    u16 result;             /* 0x28: written by the ov170 process, 1 means success */
+    u16 reserved2A;         /* 0x2a */
+} Ov170EventWork;
 
-typedef struct {
-    u32 x;
-    u32 y;
-    u32 w;
-    u32 h;
-} Rect_021B4878;
+/* 0xc-byte record passed alongside it. */
+typedef struct Ov170EventHandoff {
+    void *gameData;                 /* 0x00 */
+    unsigned short *resultVar;      /* 0x04: script variable that receives the flag */
+    Ov170EventWork *work;           /* 0x08 */
+} Ov170EventHandoff;
 
-typedef struct {
-    void *a;
-    u32 b;
-} Pair;
+/* One wild encounter entry: species and form in 4 bytes. */
+typedef struct EncounterSlot {
+    u16 species : 11;
+    u16 form : 5;
+    u16 reserved;
+} EncounterSlot;
 
-typedef struct {
-    u8  pad0[8];
-    u32 f8;
-    u8  pad1[0x18];
-    u32 f24;
-    u16 f28;
-} Sub;
+/* 0xE8-byte encounter table record filled by func_0215E2B8. */
+typedef struct EncounterRecord {
+    u8  reserved00[5];
+    u8  hasSetA;
+    u8  hasSetB;
+    u8  reserved07[0xc0 - 7];
+    EncounterSlot setA[5];
+    EncounterSlot setB[5];
+} EncounterRecord;
 
-typedef struct {
-    u32 a;
-    u16 *out;
-    Sub *s;
-} Work_021B4878;
+/* Field region record read from archive 0xA3 (0x2C bytes). */
+typedef struct FieldRegionRecord {
+    u16 areaWidth;
+    u16 areaHeight;
+    u32 areaFlags;
+    VecFx32 origin;
+    LayerFlags layers;
+} FieldRegionRecord;
 
-/* 0x2c-byte work block built here and handed to the ov170 process */
-typedef struct {
-    void *w;            /* 0x00 */
-    u32 f04;            /* 0x04 */
-    void *f08;          /* 0x08 */
-    u32 f0C;            /* 0x0c */
-    u8 *f10;            /* 0x10 */
-    u32 f14;            /* 0x14 */
-    u32 f18;            /* 0x18 */
-    u32 f1C;            /* 0x1c */
-    u32 f20;            /* 0x20 */
-    u32 kind;           /* 0x24 */
-    u32 f28;            /* 0x28 */
-} Work021B4D60;
+/* Field region parameter block (0x48 bytes) handed to the field region object. */
+typedef struct FieldRegionParam {
+    u32 reserved00[3];
+    VecFx32 origin;         /* 0x0c */
+    u32 reserved18[3];
+    u16 areaWidth;          /* 0x24 */
+    u16 areaHeight;         /* 0x26 */
+    u32 areaFlags;          /* 0x28 */
+    u32 reserved2C;
+    LayerFlags layers;      /* 0x30: six layer enable flags */
+} FieldRegionParam;
 
-/* 0xc-byte record passed alongside it */
-typedef struct {
-    void *w;                /* 0x00 */
-    unsigned short *name;   /* 0x04 */
-    Work021B4D60 *work;     /* 0x08 */
-} Rec021B4D60;
-
-typedef struct {
-    u16 id : 11;
-    u16 lv : 5;
-    u16 pad;
-} Ent_021B4878;
-
-typedef struct {
-    u8  pad0[5];
-    u8  hasA;
-    u8  hasB;
-    u8  pad7[0xc0 - 7];
-    Ent_021B4878 a[5];
-    Ent_021B4878 b[5];
-} Rec_021B51BC;
-
-
-typedef struct { u32 w[3]; } V12;
-
-
-typedef struct {
-    u16 h0;
-    u16 h2;
-    u32 f4;
-    V12 v8;
-    Buf24 v14;
-} Src;
-
-typedef struct {
-    u32 pad0[3];
-    V12 v0c;
-    u32 pad18[3];
-    u16 h24;
-    u16 h26;
-    u32 f28;
-    u32 pad2c;
-    Buf24 v30;
-} Out_021B542C;
-
-typedef struct {
-    u16 h0;
-    u16 h2;
-    u16 h4;
-    u16 h6;
-    u16 h8;
-    u16 ha;
-    u16 hc;
-    u8 be;
-    u8 bf;
-    u32 w10;
-    u32 w14;
-} Rec_021B5528;
+/* Custom event record built from eight script values. */
+typedef struct CustomEventParam {
+    u16 eventId;            /* 0x00 */
+    u16 eventKind;          /* 0x02 */
+    u16 mapX;               /* 0x04 */
+    u16 mapY;               /* 0x06 */
+    u16 mapZ;               /* 0x08 */
+    u16 reserved0A;         /* 0x0a */
+    u16 facing;             /* 0x0c */
+    u8 kind;                /* 0x0e */
+    u8 kindCopy;            /* 0x0f */
+    u32 scriptId;           /* 0x10 */
+    u32 reserved14;         /* 0x14 */
+} CustomEventParam;
 
 typedef enum { B_FALSE, B_TRUE } Bool;
 
@@ -613,7 +471,7 @@ extern void func_0204A8D4(u32 i);
 extern void func_0204ADA4(u32 i);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_0201C7D0(void *x, s16_021B3D60 y, s16_021B3D60 z, void *s, void *w, u16 v);
+extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern u32 func_0201C440(void *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
@@ -633,7 +491,7 @@ extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 extern void func_0201EF6C(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
 extern void func_0201F14C(struct WordSet *p, u32 i, u32 v);
 extern signed char func_02012FFC(void);
-extern struct Rec *func_0201CD10(u32 a0, s16_021B4710 a1, s16_021B4710 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
+extern struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 extern unsigned int func_0203633C(void);
 extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
 extern u16 *func_02159AE8(void *a0, void *a1);
@@ -684,7 +542,7 @@ extern u16 func_021AAB48(char *p);
 extern void *func_0200D418(void *sys);
 extern u8 func_0200D488(struct Blk38 *p, u32 i);
 extern void func_0215E440(void *sys, u8 which);
-extern int func_0215E2B8(Rec_021B51BC *r, void *h, u32 k, u32 x);
+extern int func_0215E2B8(EncounterRecord *r, void *h, u32 k, u32 x);
 extern u8 func_02012984(const struct BigObj *p);
 extern u32 func_02005728(u32 range);
 extern u32 func_02159168(u32);
@@ -696,8 +554,8 @@ extern void func_02159144(int n);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void func_0218F818(u8 *a);
 extern void func_0218EC54(u8 *p);
-extern u16 func_02011330(struct Stream *s);
-extern u32 func_0201134C(struct Cursor *p);
+extern u16 func_02011330(struct ScriptVm *vm);
+extern u32 func_0201134C(struct ScriptVm *vm);
 extern void func_0218F900(u8 *a, void *p, int n);
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 extern void func_0218FA40(u8 *p, u16 v);
@@ -708,109 +566,109 @@ extern u32 func_021F36C8(u32 idx);
 extern void func_0218E17C(u32 *p, u32 v);
 extern u32 func_02188D24(u8 *p);
 extern int *func_021BB990(int a, int *d, const int *c);
-int func_021B3158(u32 a, u32 b);
-void func_021B3258(int ctx, u8 *a, int b, int c);
-void func_021B331C(u8 *w, int b);
-u32 func_021B3350(u8 *w);
-void func_021B3370(char *w);
-void func_021B3470(char *p);
-u8 func_021B34F4(u8 *p);
-void func_021B3568(u8 *w, u32 b);
-int func_021B35A4(u32 a, char *p, u32 c, u8 d);
-u32 func_021B3834(u8 *p, int n);
-void func_021B385C(char *p, int idx, int mode, int val, int arg);
-void func_021B38E0(char *p, int a, int b, int c);
-void func_021B39C4(Obj *p, int idx);
-void func_021B3A64(char *p, int i);
-void func_021B3B04(char *w);
-int func_021B3B14(char *p, int a);
-void func_021B3B84(char *p);
-void func_021B3BD8(char *p);
-void func_021B3C58(u8 *w);
-void func_021B3C78(char *p);
-void func_021B3CFC(char *w);
-void func_021B3D60(char *w, u32 b);
-void func_021B3DEC(char *w);
-void func_021B3F00(u8 *w);
-void func_021B3F3C(char *w);
-void func_021B3FA0(char *w);
-void func_021B40A8(u8 *w);
-void func_021B40D4(char *w);
-void func_021B41AC(char *w, u16 b);
-void func_021B4264(char *w, u32 b);
-void func_021B42D0(char *w, u32 a, u32 b);
-void func_021B43EC(char *w);
+int func_021B3158(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+void func_021B3258(int ctx, ShopWork *a, int b, int c);
+void func_021B331C(ShopWork *w, int b);
+u32 func_021B3350(ShopWork *w);
+void func_021B3370(ShopWork *w);
+void func_021B3470(ShopWork *p);
+u8 func_021B34F4(ShopWork *p);
+void func_021B3568(ShopWork *w, u32 b);
+int func_021B35A4(u32 a, ShopWork *p, u32 c, u8 d);
+u32 func_021B3834(ShopItem *items, int n);
+void func_021B385C(ShopWork *p, int idx, int mode, int val, int arg);
+void func_021B38E0(ShopWork *p, int a, int b, int c);
+void func_021B39C4(ShopWork *p, int idx);
+void func_021B3A64(ShopWork *p, int i);
+void func_021B3B04(ShopWork *w);
+int func_021B3B14(ShopWork *p, int a);
+void func_021B3B84(ShopWork *p);
+void func_021B3BD8(ShopWork *p);
+void func_021B3C58(ShopWork *w);
+void func_021B3C78(ShopWork *p);
+void func_021B3CFC(ShopWork *w);
+void func_021B3D60(ShopWork *w, u32 b);
+void func_021B3DEC(ShopWork *w);
+void func_021B3F00(ShopWork *w);
+void func_021B3F3C(ShopWork *w);
+void func_021B3FA0(ShopWork *w);
+void func_021B40A8(ShopWork *w);
+void func_021B40D4(ShopWork *w);
+void func_021B41AC(ShopWork *w, u16 b);
+void func_021B4264(ShopWork *w, u32 b);
+void func_021B42D0(ShopWork *w, u32 a, u32 b);
+void func_021B43EC(ShopWork *w);
 void func_021B44CC(void *a, u32 b, int c, int d, u32 e, u32 f, u16 g);
 void func_021B4510(u8 *p, int a, u8 b);
 void func_021B45A0(u32 ctx, int a, u8 b);
 void func_021B468C(u32 a, u32 idx);
-void func_021B46FC(u8 *w);
+void func_021B46FC(ShopWork *w);
 int func_021B4710(void);
-void func_021B4714(u8 *p, u32 sel, u32 c, u32 d);
-void func_021B4804(char *w, u32 a);
+void func_021B4714(ShopWork *p, u32 sel, u32 c, u32 d);
+void func_021B4804(ShopWork *w, u32 a);
 void func_021B4878(u32 a);
-void func_021B4894(char *w, u32 b);
-void func_021B4918(char *w, u32 a, u16 b, u32 c, u16 d);
-void func_021B4984(char *w, u32 a, u32 b, u32 c);
+void func_021B4894(ShopWork *w, u32 b);
+void func_021B4918(ShopWork *w, u32 a, u16 b, u32 c, u16 d);
+void func_021B4984(ShopWork *w, u32 a, u32 b, u32 c);
 int func_021B49EC(s16 *p, int max, int key);
-int func_021B4AA4(char *w);
+int func_021B4AA4(ShopWork *w);
 void func_021B4BA4(int i);
-int func_021B4BEC(u32 a, u32 b);
-int func_021B4C14(u32 a, u32 b);
-int func_021B4C34(u32 a, u32 b);
-int func_021B4C54(u32 a, u32 b);
-int func_021B4C98(u32 a, u32 b);
-int func_021B4CDC(u32 a, u32 b);
-void func_021B4D14(volatile Work_021B4878 *w);
-int func_021B4D60(Work021B4D60 *c, void *vm);
-int func_021B4E58(u32 a, u32 b);
-int func_021B4E9C(u32 a, u32 b);
-int func_021B4EE0(u32 a, u32 b);
-int func_021B4F1C(u32 a, u32 b);
-int func_021B4F68(u32 a, u32 b);
-int func_021B4FB0(u32 a, u32 b);
-int func_021B5008(u32 a, u32 b);
-int func_021B503C(u32 a, u32 b);
-int func_021B5094(u32 a, u32 b);
-int func_021B50D0(u32 a, u32 b);
-int func_021B50F8(u32 a, u32 b);
-int func_021B5128(u32 a, u32 b);
-int func_021B5154(u32 a, u32 b);
-u16 func_021B5190(u16 *arr, u16 n, u16 v);
-int func_021B51BC(void *a, void *b);
-int func_021B52A4(void *a, u32 b);
-int func_021B52E0(void **p);
-int func_021B52FC(u32 a, u32 b);
-int func_021B536C(u32 a, u32 b);
-int func_021B538C(u32 a, u32 b, u32 c, u32 d);
-int func_021B53A4(u32 a, u32 b, u32 c, u32 d);
-int func_021B53BC(struct Cursor *a0, int a1);
-int func_021B542C(int a0, int a1);
-int func_021B5498(u32 a, u32 b);
-int func_021B54D4(u32 a, u32 b, u32 c, u32 d);
-int func_021B54FC(void *a, void *b);
-int func_021B5528(int a0, int a1);
-int func_021B55C8(void *a);
-int func_021B55F0(void *a);
-int func_021B5610(void *a0, void *a1);
-int func_021B5650(void *a, void *b);
-int func_021B568C(int a0, int a1);
-extern const Buf24 d_021D9738;
+int func_021B4BEC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B4C14(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B4C34(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B4C54(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B4C98(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B4CDC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+void func_021B4D14(volatile Ov170EventHandoff *handoff);
+int func_021B4D60(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B4E58(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B4E9C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B4EE0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B4F1C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B4F68(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B4FB0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B5008(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B503C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B5094(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B50D0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B50F8(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B5128(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B5154(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+u16 func_021B5190(u16 *values, u16 count, u16 value);
+int func_021B51BC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B52A4(void *fieldMap, void *fieldRegion);
+int func_021B52E0(void **eventWork);
+int func_021B52FC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B536C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B538C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B53A4(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B53BC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B542C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B5498(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B54D4(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B54FC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B5528(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B55C8(void *event);
+int func_021B55F0(void *event);
+int func_021B5610(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B5650(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int func_021B568C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+extern const LayerFlags d_021D9738;
 extern const u8 d_021D9440[];
 extern u8 d_021D946C[];
 extern u8 d_021D95DE[];
 extern u16 *d_021DE1A8[];
-extern Entry *d_021DE164[];
+extern ShopItem *d_021DE164[];
 extern u8 d_021D9430[];
-extern const Rect_021B3158 d_021D96E0;
-extern const Rect_021B3158 d_021D96E8;
-extern const Rect_021B3158 d_021D96F0;
-extern const Rect_021B3158 d_021D96F8;
-extern const Rect_021B3158 d_021D9700;
-extern WinTmpl *d_021DE18C[];
-extern WinTmpl *d_021DE170[];
+extern const ShopActorPlacement d_021D96E0;
+extern const ShopActorPlacement d_021D96E8;
+extern const ShopActorPlacement d_021D96F0;
+extern const ShopActorPlacement d_021D96F8;
+extern const ShopActorPlacement d_021D9700;
+extern ShopWindowTemplate *d_021DE18C[];
+extern ShopWindowTemplate *d_021DE170[];
 extern u32 d_021D945C[];
-extern const Rect_021B4878 d_021D9654[];
+extern const ShopMaskRect d_021D9654[];
 extern u8 abs_id_6[];
 extern u8 abs_id_4[];
 extern u8 abs_id_01[];
@@ -838,60 +696,60 @@ extern u32 g_021F435C[];
  *
  * Addresses are Black-image addresses.
  */
-int func_021B3158(u32 a, u32 b)
+int func_021B3158(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    Work_021B3158 **slot;
-    Work_021B3158 *w;
-    void *t;
-    void *x;
-    void *h;
-    Buf24 buf;
+    ShopTask **slot;
+    ShopTask *task;
+    void *gameSystem;
+    void *fieldMap;
+    void *fieldRegion;
+    LayerFlags layers;
 
-    slot = func_02158FB4(func_0215A5F4((void *)b));
-    w = *slot;
-    t = func_0215A5DC((void *)b);
-    x = func_0201210C((void *)t);
-    h = func_02188C58(x);
-    switch (w->state) {
+    slot = func_02158FB4(func_0215A5F4(cmdWork));
+    task = *slot;
+    gameSystem = func_0215A5DC(cmdWork);
+    fieldMap = func_0201210C((void *)gameSystem);
+    fieldRegion = func_02188C58(fieldMap);
+    switch (task->state) {
     case 0:
-        func_0218F0A8(h);
-        w->state++;
+        func_0218F0A8(fieldRegion);
+        task->state++;
         break;
     case 1:
-        if (func_0218F0E8(h) == 0) {
-            w->state++;
+        if (func_0218F0E8(fieldRegion) == 0) {
+            task->state++;
         }
         break;
     case 2:
-        func_021B30C8((u32 *)w, (u32)x, h);
-        w->state++;
+        func_021B30C8((u32 *)task, (u32)fieldMap, fieldRegion);
+        task->state++;
         break;
     case 3:
-        if (func_0218FE50(h) == 0) {
-            w->state++;
-            w->f08 = 0;
+        if (func_0218FE50(fieldRegion) == 0) {
+            task->state++;
+            task->shop.state = 0;
             func_02193060(0);
         }
         break;
     case 4:
-        if (func_021B35A4((u32)t, (char *)(&w->f08), w->b2, w->b3)) {
-            w->state++;
+        if (func_021B35A4((u32)gameSystem, &task->shop, task->shopKind, task->shopVariant)) {
+            task->state++;
         }
         break;
     case 5:
-        buf = d_021D9738;
-        func_0218F9C4(h, (u8 *)(&buf), 8);
-        w->state++;
-        w->sub = 0;
+        layers = d_021D9738;
+        func_0218F9C4(fieldRegion, (u8 *)(&layers), 8);
+        task->state++;
+        task->subState = 0;
         break;
     case 6:
-        if (func_0218FE50(h) == 0) {
-            func_0218EC60((u32)h);
-            func_0218F1AC(h, w->f04);
-            func_0218F05C(h);
-            func_0218F878(h);
+        if (func_0218FE50(fieldRegion) == 0) {
+            func_0218EC60((u32)fieldRegion);
+            func_0218F1AC(fieldRegion, task->fieldRegionArg);
+            func_0218F05C(fieldRegion);
+            func_0218F878(fieldRegion);
             func_02193060(1);
-            w->state++;
+            task->state++;
         }
         break;
     case 7:
@@ -906,71 +764,71 @@ int func_021B3158(u32 a, u32 b)
 
 
 
-void func_021B3258(int ctx, u8 *a, int b, int c)
+void func_021B3258(int gameSystem, ShopWork *shop, int shopKind, int shopVariant)
 {
-    void *t = func_020120F4((void *)ctx);
-    int r;
+    void *gameData = func_020120F4((void *)gameSystem);
+    int tableKind;
 
-    func_02012944(t);
-    a[354] = 0;
-    b = func_021B3B14((char *)a, b);
-    r = b;
-    switch (r) {
+    func_02012944(gameData);
+    shop->isTmShop = 0;
+    shopKind = func_021B3B14(shop, shopKind);
+    tableKind = shopKind;
+    switch (tableKind) {
     case 255:
-        func_02012F08(t);
-        func_021B38E0((char *)a, r, c, func_0200C258());
+        func_02012F08(gameData);
+        func_021B38E0(shop, tableKind, shopVariant, func_0200C258());
         break;
     case 254:
-        func_021B39C4((Obj *)a, 0);
-        a[355] = 1;
+        func_021B39C4(shop, 0);
+        shop->usesBattlePoints = 1;
         break;
     case 253:
-        a[355] = 1;
-        a[354] = 1;
-        func_021B39C4((Obj *)a, 1);
+        shop->usesBattlePoints = 1;
+        shop->isTmShop = 1;
+        func_021B39C4(shop, 1);
         break;
     case 247:
     case 248:
     case 249:
     case 250:
     case 251:
-        func_021B3A64((char *)a, r);
+        func_021B3A64(shop, tableKind);
         break;
     default:
-        func_021B38E0((char *)a, r, c, 0);
+        func_021B38E0(shop, tableKind, shopVariant, 0);
         break;
     }
-    func_021B331C(a, a[355]);
-    func_021B3BD8((char *)a);
-    func_021B3FA0((char *)a);
-    func_021B3F00(a);
-    func_021B40D4((char *)a);
-    func_021B43EC((char *)a);
+    func_021B331C(shop, shop->usesBattlePoints);
+    func_021B3BD8(shop);
+    func_021B3FA0(shop);
+    func_021B3F00(shop);
+    func_021B40D4(shop);
+    func_021B43EC(shop);
 }
 
 
 
 
 
-void func_021B331C(u8 *w, int b)
+void func_021B331C(ShopWork *shop, int usesBattlePoints)
 {
-    if (b == 1) {
-        ((struct Obj00037 *)w)->f194 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0xd);
+    if (usesBattlePoints == 1) {
+        shop->priceFormat = func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0xd);
     } else {
-        ((struct Obj00037 *)w)->f194 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0xc);
+        shop->priceFormat = func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0xc);
     }
-    ((struct Obj00037 *)w)->f1A0 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0xe);
+    shop->soldOutText = func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0xe);
 }
 
 
 
 
-u32 func_021B3350(u8 *w)
+u32 func_021B3350(ShopWork *shop)
 {
-    if (w[0x163] == 0) {
-        return func_0200C274((struct Blk34 *)(((struct Obj09614 *)w)->fC));
+    if (shop->usesBattlePoints == 0) {
+        return func_0200C274((struct Blk34 *)(shop->moneyData));
     } else {
-        return func_0200DABC((struct Blk1AC *)(((struct Obj09614 *)w)->f18));
+        return func_0200DABC((struct Blk1AC *)(shop->battlePointData));
     }
 }
 
@@ -981,48 +839,48 @@ u32 func_021B3350(u8 *w)
 
 
 
-void func_021B3370(char *w)
+void func_021B3370(ShopWork *shop)
 {
-    u32 n;
-    u32 k;
-    u32 lim;
+    u32 money;
+    u32 ownedCount;
+    u32 price;
 
-    n = func_021B3350((u8 *)w);
-    k = func_02007FB8((u8 *)(((struct Obj00030 *)w)->f10), ((struct Obj00030 *)w)->f1FC, ((struct Obj00030 *)w)->f4);
-    if (func_02007E3C((u8 *)(((struct Obj00030 *)w)->f10), ((struct Obj00030 *)w)->f1FC, 1, ((struct Obj00030 *)w)->f4) == 0) {
-        func_021B4714((u8 *)w, 10, ((struct Obj00030 *)w)->f1FC, 0);
-        w[0] = 10;
-        w[1] = 4;
+    money = func_021B3350(shop);
+    ownedCount = func_02007FB8((u8 *)(shop->bagData), shop->itemId, shop->heapId);
+    if (func_02007E3C((u8 *)(shop->bagData), shop->itemId, 1, shop->heapId) == 0) {
+        func_021B4714(shop, 10, shop->itemId, 0);
+        shop->state = SHOP_STATE_MESSAGE_WAIT;
+        shop->nextState = SHOP_STATE_LIST_RESUME;
         return;
     }
-    lim = ((struct Obj00030 *)w)->f200;
-    if (n < lim) {
-        if (((struct Obj00030 *)w)->f163 == 0) {
-            func_021B4714((u8 *)w, 3, ((struct Obj00030 *)w)->f1FC, 0);
+    price = shop->price;
+    if (money < price) {
+        if (shop->usesBattlePoints == 0) {
+            func_021B4714(shop, 3, shop->itemId, 0);
         } else {
-            func_021B4714((u8 *)w, 0x10, ((struct Obj00030 *)w)->f1FC, 0);
+            func_021B4714(shop, 0x10, shop->itemId, 0);
         }
-        w[0] = 10;
-        w[1] = 4;
-    } else if (n >= lim && n < lim * 2) {
-        func_021B4804(w, ((struct Obj00030 *)w)->f162);
-        w[0] = 10;
-        w[1] = 5;
-    } else if (((struct Obj00030 *)w)->f162 == 0) {
-        func_021B4714((u8 *)w, 4, ((struct Obj00030 *)w)->f1FC, 0);
-        w[0] = 10;
-        w[1] = 2;
-        ((struct Obj00030 *)w)->f204 = n / ((struct Obj00030 *)w)->f200;
-        if (((struct Obj00030 *)w)->f204 > 99) {
-            ((struct Obj00030 *)w)->f204 = 99;
+        shop->state = SHOP_STATE_MESSAGE_WAIT;
+        shop->nextState = SHOP_STATE_LIST_RESUME;
+    } else if (money >= price && money < price * 2) {
+        func_021B4804(shop, shop->isTmShop);
+        shop->state = SHOP_STATE_MESSAGE_WAIT;
+        shop->nextState = SHOP_STATE_YESNO_OPEN;
+    } else if (shop->isTmShop == 0) {
+        func_021B4714(shop, 4, shop->itemId, 0);
+        shop->state = SHOP_STATE_MESSAGE_WAIT;
+        shop->nextState = SHOP_STATE_QUANTITY_ENTER;
+        shop->maxQuantity = money / shop->price;
+        if (shop->maxQuantity > 99) {
+            shop->maxQuantity = 99;
         }
-        if (((struct Obj00030 *)w)->f204 + k > func_0200823C(((struct Obj00030 *)w)->f1FC)) {
-            ((struct Obj00030 *)w)->f204 = func_0200823C(((struct Obj00030 *)w)->f1FC) - k;
+        if (shop->maxQuantity + ownedCount > func_0200823C(shop->itemId)) {
+            shop->maxQuantity = func_0200823C(shop->itemId) - ownedCount;
         }
     } else {
-        func_021B4804(w, ((struct Obj00030 *)w)->f162);
-        w[0] = 10;
-        w[1] = 6;
+        func_021B4804(shop, shop->isTmShop);
+        shop->state = SHOP_STATE_MESSAGE_WAIT;
+        shop->nextState = SHOP_STATE_YESNO_OPEN_NOICON;
     }
 }
 
@@ -1034,35 +892,36 @@ void func_021B3370(char *w)
 
 
 
-void func_021B3470(char *p)
+void func_021B3470(ShopWork *shop)
 {
-    void *q;
-    int r;
-    char *e;
+    void *window;
+    int selection;
+    ShopWork *row;
 
-    if (func_0201C6B4(((struct Obj00030 *)p)->f1B0) == 0) {
+    if (func_0201C6B4(shop->printSys) == 0) {
         return;
     }
-    if (((struct Obj00030 *)p)->f20A == 0) {
-        q = ((struct Obj00030 *)p)->f16C;
-        func_02045334(q);
-        func_02045374(q);
-        func_020409B4(func_02045730(q));
-        ((struct Obj00030 *)p)->f20A = ((struct Obj00030 *)p)->f20A + 1;
+    if (shop->introShown == 0) {
+        window = (void *)shop->windows[SHOP_WIN_LIST];
+        func_02045334(window);
+        func_02045374(window);
+        func_020409B4(func_02045730(window));
+        shop->introShown = shop->introShown + 1;
     }
-    r = func_020200CC(((struct Obj00030 *)p)->f1A4);
-    if (r == -1) {
+    selection = func_020200CC(shop->listMenu);
+    if (selection == -1) {
         return;
     }
-    if (r == -2) {
-        *p = 11;
+    if (selection == -2) {
+        shop->state = SHOP_STATE_EXIT;
         return;
     }
-    e = p + r * 8;
-    ((struct Obj00030 *)p)->f1FC = ((struct Obj12842 *)e)->f20;
-    *(int *)&((struct Obj00030 *)p)->f200 = ((struct Obj12842 *)e)->f24;
-    ((struct Obj00030 *)p)->f208 = 1;
-    func_021B3370(p);
+    /* stand-in: the row is reached as base + selection * 8 plus the field offset */
+    row = (ShopWork *)((char *)shop + selection * 8);
+    shop->itemId = row->items[0].itemId;
+    shop->price = row->items[0].price;
+    shop->quantity = 1;
+    func_021B3370(shop);
 }
 
 
@@ -1073,25 +932,25 @@ void func_021B3470(char *p)
 
 
 
-u8 func_021B34F4(u8 *p)
+u8 func_021B34F4(ShopWork *shop)
 {
-    int r = func_0201CE30(((struct Obj05048 *)p)->f1B8);
+    int printState = func_0201CE30(shop->messagePrinter);
 
-    if (r == 2) {
-        func_0201CE48(((struct Obj05048 *)p)->f1B8);
-        return p[1];
+    if (printState == 2) {
+        func_0201CE48(shop->messagePrinter);
+        return shop->nextState;
     }
-    if (r == 0) {
+    if (printState == 0) {
         if ((func_0203630C() & 1) || (func_0203630C() & 2)) {
-            func_0201CE5C(((struct Obj05048 *)p)->f1B8, 0);
+            func_0201CE5C(shop->messagePrinter, 0);
         }
-    } else if (r == 1) {
+    } else if (printState == 1) {
         if ((func_020362DC() & 1) || (func_020362DC() & 2)) {
-            func_0201CE38(((struct Obj05048 *)p)->f1B8);
+            func_0201CE38(shop->messagePrinter);
             func_020061E4(1351);
         }
     }
-    return p[0];
+    return shop->state;
 }
 
 
@@ -1102,16 +961,16 @@ u8 func_021B34F4(u8 *p)
 
 
 
-void func_021B3568(u8 *w, u32 b)
+void func_021B3568(ShopWork *shop, u32 cost)
 {
-    if (w[0x163] == 0) {
-        func_0200C29C((struct Blk34 *)(((struct Obj05049 *)w)->fC), b);
-        func_02008DAC((struct Sub02008C20Obj *)(((struct Obj05049 *)w)->f14), 0x16, b);
+    if (shop->usesBattlePoints == 0) {
+        func_0200C29C((struct Blk34 *)(shop->moneyData), cost);
+        func_02008DAC((struct Sub02008C20Obj *)(shop->recordData), 0x16, cost);
     } else {
-        func_0200DA98((struct Blk1AC *)(((struct Obj05049 *)w)->f18), b);
-        func_02008DAC((struct Sub02008C20Obj *)(((struct Obj05049 *)w)->f14), 0x22, b);
+        func_0200DA98((struct Blk1AC *)(shop->battlePointData), cost);
+        func_02008DAC((struct Sub02008C20Obj *)(shop->recordData), 0x22, cost);
     }
-    func_02008DF0((struct Sub02008C20Obj *)(((struct Obj05049 *)w)->f14), 0x15);
+    func_02008DF0((struct Sub02008C20Obj *)(shop->recordData), 0x15);
 }
 
 
@@ -1125,107 +984,107 @@ void func_021B3568(u8 *w, u32 b)
 /*
  * Addresses are Black-image addresses.
  */
-int func_021B35A4(u32 a, char *p, u32 c, u8 d)
+int func_021B35A4(u32 gameSystem, ShopWork *shop, u32 shopKind, u8 shopVariant)
 {
-    int r;
-    u32 q;
+    int selection;
+    void *printSys;
 
-    switch (((struct Obj00030 *)p)->f0) {
-    case 0:
-        func_021B3258(a, (u8 *)p, c, d);
-        (((struct Obj00030 *)p)->f0)++;
+    switch (shop->state) {
+    case SHOP_STATE_INIT:
+        func_021B3258(gameSystem, shop, shopKind, shopVariant);
+        (shop->state)++;
         break;
-    case 1:
-        func_021B3470(p);
+    case SHOP_STATE_LIST_POLL:
+        func_021B3470(shop);
         break;
-    case 2:
-        func_021B41AC(p, ((struct Obj00030 *)p)->f1FC);
-        func_021B42D0(p, ((struct Obj00030 *)p)->f208, ((struct Obj00030 *)p)->f200);
-        func_0204B3DC((struct Obj *)((struct Obj00030 *)p)->f1CC, 1);
-        ((struct Obj00030 *)p)->f0 = 3;
+    case SHOP_STATE_QUANTITY_ENTER:
+        func_021B41AC(shop, shop->itemId);
+        func_021B42D0(shop, shop->quantity, shop->price);
+        func_0204B3DC((struct Obj *)shop->quantityArrowActor, 1);
+        shop->state = SHOP_STATE_QUANTITY_STEP;
         break;
-    case 3:
-        ((struct Obj00030 *)p)->f0 = func_021B4AA4(p);
+    case SHOP_STATE_QUANTITY_STEP:
+        shop->state = func_021B4AA4(shop);
         break;
-    case 4:
+    case SHOP_STATE_LIST_RESUME:
         func_021B4BA4(0);
-        func_02045374((struct Cfg *)(*(u32 *)&((struct Obj00030 *)p)->f16C));
-        func_02045374((struct Cfg *)(((struct Obj00030 *)p)->f178));
+        func_02045374((struct Cfg *)(shop->windows[SHOP_WIN_LIST]));
+        func_02045374((struct Cfg *)(shop->windows[SHOP_WIN_DESCRIPTION]));
         func_02041B6C(1);
-        func_0204B3DC((struct Obj *)((struct Obj00030 *)p)->f1CC, 0);
-        func_02020234((u8 *)(*(u32 *)&((struct Obj00030 *)p)->f1A4));
-        ((struct Obj00030 *)p)->f0 = 1;
+        func_0204B3DC((struct Obj *)shop->quantityArrowActor, 0);
+        func_02020234((u8 *)(shop->listMenu));
+        shop->state = SHOP_STATE_LIST_POLL;
         break;
-    case 5:
+    case SHOP_STATE_YESNO_OPEN:
         func_021B4BA4(1);
-        func_02045374((struct Cfg *)(*(u32 *)&((struct Obj00030 *)p)->f16C));
-        func_0204B3DC((struct Obj *)((struct Obj00030 *)p)->f1CC, 0);
-        ((struct Obj00030 *)p)->f184 = func_0201FDA0(d_021D9440, 1, 9, 0, ((struct Obj00030 *)p)->f4);
-        if (((struct Obj00030 *)p)->f162 != 1) {
-            func_021B41AC(p, ((struct Obj00030 *)p)->f1FC);
+        func_02045374((struct Cfg *)(shop->windows[SHOP_WIN_LIST]));
+        func_0204B3DC((struct Obj *)shop->quantityArrowActor, 0);
+        shop->yesNoMenu = func_0201FDA0(d_021D9440, 1, 9, 0, shop->heapId);
+        if (shop->isTmShop != 1) {
+            func_021B41AC(shop, shop->itemId);
         }
-        ((struct Obj00030 *)p)->f0 = 7;
+        shop->state = SHOP_STATE_YESNO_POLL;
         break;
-    case 6:
+    case SHOP_STATE_YESNO_OPEN_NOICON:
         func_021B4BA4(1);
-        func_02045374((struct Cfg *)(*(u32 *)&((struct Obj00030 *)p)->f16C));
-        func_0204B3DC((struct Obj *)((struct Obj00030 *)p)->f1CC, 0);
-        ((struct Obj00030 *)p)->f184 = func_0201FDA0(d_021D9440, 1, 9, 0, ((struct Obj00030 *)p)->f4);
-        ((struct Obj00030 *)p)->f0 = 7;
+        func_02045374((struct Cfg *)(shop->windows[SHOP_WIN_LIST]));
+        func_0204B3DC((struct Obj *)shop->quantityArrowActor, 0);
+        shop->yesNoMenu = func_0201FDA0(d_021D9440, 1, 9, 0, shop->heapId);
+        shop->state = SHOP_STATE_YESNO_POLL;
         break;
-    case 7:
-        r = func_0201FEBC((u8 *)(((struct Obj00030 *)p)->f184));
-        if (r == -1) {
-        } else if (r == 0) {
-            ((struct Obj00030 *)p)->f0 = 8;
+    case SHOP_STATE_YESNO_POLL:
+        selection = func_0201FEBC((u8 *)(shop->yesNoMenu));
+        if (selection == -1) {
+        } else if (selection == 0) {
+            shop->state = SHOP_STATE_PURCHASE;
             func_021B4BA4(1);
-            func_02020234((u8 *)(*(u32 *)&((struct Obj00030 *)p)->f1A4));
-            func_02045374((struct Cfg *)(*(u32 *)&((struct Obj00030 *)p)->f16C));
+            func_02020234((u8 *)(shop->listMenu));
+            func_02045374((struct Cfg *)(shop->windows[SHOP_WIN_LIST]));
             func_02041B6C(1);
-        } else if (r == -2) {
-            ((struct Obj00030 *)p)->f0 = 4;
+        } else if (selection == -2) {
+            shop->state = SHOP_STATE_LIST_RESUME;
         }
         break;
-    case 8:
+    case SHOP_STATE_PURCHASE:
         func_020061E4(0x655);
-        func_021B4714((u8 *)p, 9, ((struct Obj00030 *)p)->f1FC, *(s16_021B3370 *)&((struct Obj00030 *)p)->f208 > 1);
-        func_021B3568((u8 *)p, ((struct Obj00030 *)p)->f200 * *(s16_021B3370 *)&((struct Obj00030 *)p)->f208);
-        func_021B40D4(p);
-        func_02007E50((u8 *)(((struct Obj00030 *)p)->f10), ((struct Obj00030 *)p)->f1FC, ((struct Obj00030 *)p)->f208, ((struct Obj00030 *)p)->f4);
-        ((struct Obj00030 *)p)->f0 = 10;
-        *(u8 *)&((struct Obj00030 *)p)->f1 = 9;
+        func_021B4714(shop, 9, shop->itemId, *(s16 *)&shop->quantity > 1);
+        func_021B3568(shop, shop->price * *(s16 *)&shop->quantity);
+        func_021B40D4(shop);
+        func_02007E50((u8 *)(shop->bagData), shop->itemId, shop->quantity, shop->heapId);
+        shop->state = SHOP_STATE_MESSAGE_WAIT;
+        shop->nextState = SHOP_STATE_BONUS_ITEM;
         break;
-    case 9:
-        if (((struct Obj00030 *)p)->f1FC == 4 && *(s16_021B3370 *)&((struct Obj00030 *)p)->f208 >= 10) {
-            func_021B4714((u8 *)p, 15, ((struct Obj00030 *)p)->f1FC, *(s16_021B3370 *)&((struct Obj00030 *)p)->f208 > 1);
-            func_02007E50((u8 *)(((struct Obj00030 *)p)->f10), 12, 1, ((struct Obj00030 *)p)->f4);
-            func_02008DF0((struct Sub02008C20Obj *)(((struct Obj00030 *)p)->f14), 0x1F);
-            ((struct Obj00030 *)p)->f0 = 10;
-            *(u8 *)&((struct Obj00030 *)p)->f1 = 4;
+    case SHOP_STATE_BONUS_ITEM:
+        if (shop->itemId == 4 && *(s16 *)&shop->quantity >= 10) {
+            func_021B4714(shop, 15, shop->itemId, *(s16 *)&shop->quantity > 1);
+            func_02007E50((u8 *)(shop->bagData), 12, 1, shop->heapId);
+            func_02008DF0((struct Sub02008C20Obj *)(shop->recordData), 0x1F);
+            shop->state = SHOP_STATE_MESSAGE_WAIT;
+            shop->nextState = SHOP_STATE_LIST_RESUME;
         } else {
-            ((struct Obj00030 *)p)->f0 = 4;
+            shop->state = SHOP_STATE_LIST_RESUME;
         }
         break;
-    case 10:
-        ((struct Obj00030 *)p)->f0 = func_021B34F4((u8 *)p);
+    case SHOP_STATE_MESSAGE_WAIT:
+        shop->state = func_021B34F4(shop);
         break;
-    case 11:
-        func_021B46FC((u8 *)p);
-        func_021B3F3C(p);
-        func_021B40A8((u8 *)p);
-        func_021B3C58((u8 *)p);
-        func_021B3B04(p);
-        func_021B3B84(p);
+    case SHOP_STATE_EXIT:
+        func_021B46FC(shop);
+        func_021B3F3C(shop);
+        func_021B40A8(shop);
+        func_021B3C58(shop);
+        func_021B3B04(shop);
+        func_021B3B84(shop);
         return 1;
     }
-    func_0201C4E4((struct PrintSys *)(*(u32 *)&((struct Obj00030 *)p)->f1B0));
-    q = *(u32 *)&((struct Obj00030 *)p)->f1B0;
-    if (((struct Obj00030 *)p)->f1AC != 0 && func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00030 *)p)->f1A8))) == 0) {
-        func_02045334((struct Descriptor *)((struct Obj00030 *)p)->f1A8);
-        ((struct Obj00030 *)p)->f1AC = 0;
+    func_0201C4E4((struct PrintSys *)(shop->printSys));
+    printSys = shop->printSys;
+    if (shop->printerBusy != 0 && func_0201C6C4((struct PrintSys *)printSys, (void *)((u32)func_02045770((struct Descriptor *)shop->listWindow))) == 0) {
+        func_02045334((struct Descriptor *)shop->listWindow);
+        shop->printerBusy = 0;
     }
-    func_020310C4((struct Tcbl *)(((struct Obj00030 *)p)->f1B4));
-    func_020310C4((struct Tcbl *)(((struct Obj00030 *)p)->f1B4));
+    func_020310C4((struct Tcbl *)(shop->tcbList));
+    func_020310C4((struct Tcbl *)(shop->tcbList));
     return 0;
 }
 
@@ -1237,15 +1096,15 @@ int func_021B35A4(u32 a, char *p, u32 c, u8 d)
 
 
 
-u32 func_021B3834(u8 *p, int n)
+u32 func_021B3834(ShopItem *items, int count)
 {
-    u32 r = func_02021288(((struct Obj19995 *)p)->f0);
+    u32 result = func_02021288(items[0].itemId);
     int i;
 
-    for (i = 0; i < n; i++) {
-        func_02021288(*(u16 *)(p + i * 8));
+    for (i = 0; i < count; i++) {
+        func_02021288(items[i].itemId);
     }
-    return r;
+    return result;
 }
 
 
@@ -1255,15 +1114,15 @@ u32 func_021B3834(u8 *p, int n)
 
 
 
-void func_021B385C(char *p, int idx, int mode, int val, int arg)
+void func_021B385C(ShopWork *shop, int slotIndex, int isTmShop, int itemId, int msgBank)
 {
-    if (mode == 1) {
-        func_0201EFA4(((struct Obj00037 *)p)->f190, 0, val - 327, 2, 2, 1);
-        func_0201EF34(((struct Obj00037 *)p)->f190, 1, func_020212B0((u16)val));
-        func_0201F250(((struct Obj00037 *)p)->f190, ((struct Obj00037 *)p)->f198, ((struct Obj00037 *)p)->f19C);
-        func_0201F898((struct Slot *)(*(char * *)&((struct Obj00037 *)p)->f180 + idx * 8), (u32)(((struct Obj00037 *)p)->f198), idx, ((struct Obj00037 *)p)->f4);
+    if (isTmShop == 1) {
+        func_0201EFA4(shop->wordSet, 0, itemId - 327, 2, 2, 1);
+        func_0201EF34(shop->wordSet, 1, func_020212B0((u16)itemId));
+        func_0201F250(shop->wordSet, shop->textBuffer, shop->cancelText);
+        func_0201F898((struct Slot *)((char *)shop->itemSlots + slotIndex * 8), (u32)(shop->textBuffer), slotIndex, shop->heapId);
     } else {
-        func_0201F878((struct Slot *)(*(char * *)&((struct Obj00037 *)p)->f180 + idx * 8), arg, val, idx, ((struct Obj00037 *)p)->f4);
+        func_0201F878((struct Slot *)((char *)shop->itemSlots + slotIndex * 8), msgBank, itemId, slotIndex, shop->heapId);
     }
 }
 
@@ -1275,45 +1134,46 @@ void func_021B385C(char *p, int idx, int mode, int val, int arg)
 
 
 /*
- * Spill slots: the image puts the idx*4 offset at sp+4, q at sp+8, n at sp+0xc.
+ * Spill slots: the image puts the tableIndex*4 offset at sp+4, msgBank at sp+8, itemCount at sp+0xc.
  * A single-def offset local is folded into a compiler temporary, and temps
  * take slots above every spilled local; the second (redundant) assignment in
- * the flag arm keeps off a real local, and declaration order (n, q, ..., off;
+ * the flag arm keeps off a real local, and declaration order (itemCount, msgBank, ..., tableOffset;
  * last declared lowest) gives the image layout.
  */
-void func_021B38E0(char *p, int a, int b, int c)
+void func_021B38E0(ShopWork *shop, int shopKind, int shopVariant, int tierIndex)
 {
-    int n;
-    void *q = func_02045B38(0, 2, 54, ((struct Obj00037 *)p)->f4);
-    int idx;
-    int k;
-    int v;
-    char *e;
-    int off;
+    int itemCount;
+    void *msgBank = func_02045B38(0, 2, 54, shop->heapId);
+    int tableIndex;
+    int row;
+    int itemId;
+    ShopWork *rowBase;
+    int tableOffset;
 
-    if (a == 0xff) {
-        idx = d_021D946C[c];
+    if (shopKind == 0xff) {
+        tableIndex = d_021D946C[tierIndex];
     } else {
-        idx = b + 6;
+        tableIndex = shopVariant + 6;
     }
-    off = idx * 4;
-    if (func_02021288(**(u16 **)((char *)d_021DE1A8 + off))) {
-        ((struct Obj00037 *)p)->f162 = 1;
-        off = idx * 4;
+    tableOffset = tableIndex * 4;
+    if (func_02021288(**(u16 **)((char *)d_021DE1A8 + tableOffset))) {
+        shop->isTmShop = 1;
+        tableOffset = tableIndex * 4;
     }
-    n = d_021D95DE[idx];
-    ((struct Obj00037 *)p)->f180 = func_0201F81C(n + 1, ((struct Obj00037 *)p)->f4);
-    for (k = 0; k < n; k++) {
-        v = (*(u16 **)((char *)d_021DE1A8 + off))[k];
-        func_021B385C(p, k, ((struct Obj00037 *)p)->f162, v, (int)q);
-        e = p + k * 8;
-        ((struct Obj12843 *)e)->f20 = v;
-        ((struct Obj12843 *)e)->f24 = func_0201102C(func_02020FE4((void *)v, 0, ((struct Obj00037 *)p)->f4));
+    itemCount = d_021D95DE[tableIndex];
+    shop->itemSlots = func_0201F81C(itemCount + 1, shop->heapId);
+    for (row = 0; row < itemCount; row++) {
+        itemId = (*(u16 **)((char *)d_021DE1A8 + tableOffset))[row];
+        func_021B385C(shop, row, shop->isTmShop, itemId, (int)msgBank);
+        /* stand-in: the row is reached as base + row * 8 plus the field offset */
+        rowBase = (ShopWork *)((char *)shop + row * 8);
+        rowBase->items[0].itemId = itemId;
+        rowBase->items[0].price = func_0201102C(func_02020FE4((void *)itemId, 0, shop->heapId));
     }
-    ((struct Obj00037 *)p)->f160 = k;
-    func_021B3834((u8 *)(p + 32), ((struct Obj00037 *)p)->f160);
-    func_0201F878((struct Slot *)(*(char * *)&((struct Obj00037 *)p)->f180 + k * 8), (u32)(((struct Obj00037 *)p)->f188), 11, -2, ((struct Obj00037 *)p)->f4);
-    func_02045C04(q);
+    shop->itemCount = row;
+    func_021B3834(shop->items, shop->itemCount);
+    func_0201F878((struct Slot *)((char *)shop->itemSlots + row * 8), (u32)(shop->shopMsgBank), 11, -2, shop->heapId);
+    func_02045C04(msgBank);
 }
 
 
@@ -1323,26 +1183,26 @@ void func_021B38E0(char *p, int a, int b, int c)
 
 
 
-void func_021B39C4(Obj *p, int idx)
+void func_021B39C4(ShopWork *shop, int tableIndex)
 {
-    int i;
-    Entry *tbl;
-    u32 h;
-    int n;
+    int row;
+    ShopItem *table;
+    u32 msgBank;
+    int itemCount;
 
-    i = 0;
-    h = (u32)func_02045B38(0, 2, 0x36, p->heap);
-    tbl = d_021DE164[idx];
-    n = d_021D9430[idx];
-    p->buf = func_0201F81C(n + 1, p->heap);
-    for (; i < n; i++) {
-        func_021B385C((char *)p, i, p->mode, tbl[i].id, h);
-        p->list[i].id = tbl[i].id;
-        p->list[i].val = tbl[i].val;
+    row = 0;
+    msgBank = (u32)func_02045B38(0, 2, 0x36, shop->heapId);
+    table = d_021DE164[tableIndex];
+    itemCount = d_021D9430[tableIndex];
+    shop->itemSlots = func_0201F81C(itemCount + 1, shop->heapId);
+    for (; row < itemCount; row++) {
+        func_021B385C(shop, row, shop->isTmShop, table[row].itemId, msgBank);
+        shop->items[row].itemId = table[row].itemId;
+        shop->items[row].price = table[row].price;
     }
-    p->count = i;
-    func_0201F878((struct Slot *)(p->buf + i), p->win, 0xb, -2, p->heap);
-    func_02045C04((struct Rec *)h);
+    shop->itemCount = row;
+    func_0201F878((struct Slot *)((char *)shop->itemSlots + row * 8), (u32)shop->shopMsgBank, 0xb, -2, shop->heapId);
+    func_02045C04((struct Rec *)msgBank);
 }
 
 
@@ -1352,18 +1212,18 @@ void func_021B39C4(Obj *p, int idx)
 
 
 
-void func_021B3A64(char *p, int i)
+void func_021B3A64(ShopWork *shop, int kind)
 {
-    int k = 0;
-    void *q = func_02045B38(0, 2, 54, ((struct Obj00037 *)p)->f4);
+    int row = 0;
+    void *msgBank = func_02045B38(0, 2, 54, shop->heapId);
 
-    func_02186670(((struct Obj00037 *)p)->f1C, p + 32, (u16 *)(p + 352), i - 247, ((struct Obj00037 *)p)->f4);
-    ((struct Obj00037 *)p)->f180 = func_0201F81C(((struct Obj00037 *)p)->f160 + 1, ((struct Obj00037 *)p)->f4);
-    for (; k < ((struct Obj00037 *)p)->f160; k++) {
-        func_021B385C(p, k, ((struct Obj00037 *)p)->f162, *(u16 *)(p + 32 + k * 8), (int)q);
+    func_02186670((char *)shop->shopTable, (char *)shop->items, &shop->itemCount, kind - 247, shop->heapId);
+    shop->itemSlots = func_0201F81C(shop->itemCount + 1, shop->heapId);
+    for (; row < shop->itemCount; row++) {
+        func_021B385C(shop, row, shop->isTmShop, shop->items[row].itemId, (int)msgBank);
     }
-    func_0201F878((struct Slot *)(*(char * *)&((struct Obj00037 *)p)->f180 + k * 8), (u32)(((struct Obj00037 *)p)->f188), 11, -2, ((struct Obj00037 *)p)->f4);
-    func_02045C04(q);
+    func_0201F878((struct Slot *)((char *)shop->itemSlots + row * 8), (u32)(shop->shopMsgBank), 11, -2, shop->heapId);
+    func_02045C04(msgBank);
 }
 
 
@@ -1378,9 +1238,9 @@ void func_021B3A64(char *p, int i)
  *
  * Addresses are Black-image addresses.
  */
-void func_021B3B04(char *w)
+void func_021B3B04(ShopWork *shop)
 {
-    func_0201F868(((struct Obj19996 *)w)->f180);
+    func_0201F868(shop->itemSlots);
 }
 
 
@@ -1390,15 +1250,15 @@ void func_021B3B04(char *w)
 
 
 
-int func_021B3B14(char *p, int a)
+int func_021B3B14(ShopWork *shop, int shopKind)
 {
-    ((struct Obj00037 *)p)->f188 = func_02045B38(0, 3, 423, ((struct Obj00037 *)p)->f4);
-    ((struct Obj00037 *)p)->f18C = func_02045B38(0, 2, 53, ((struct Obj00037 *)p)->f4);
-    ((struct Obj00037 *)p)->f190 = func_0201EC64(((struct Obj00037 *)p)->f4);
-    ((struct Obj00037 *)p)->f198 = func_020457B0(200, ((struct Obj00037 *)p)->f4);
-    ((struct Obj00037 *)p)->f1B4 = func_0203101C(((struct Obj00037 *)p)->f4, ((struct Obj00037 *)p)->f4, 32, 32);
-    ((struct Obj00037 *)p)->f19C = func_02045EC0(((struct Obj00037 *)p)->f188, 29);
-    return a;
+    shop->shopMsgBank = func_02045B38(0, 3, 423, shop->heapId);
+    shop->itemMsgBank = func_02045B38(0, 2, 53, shop->heapId);
+    shop->wordSet = func_0201EC64(shop->heapId);
+    shop->textBuffer = func_020457B0(200, shop->heapId);
+    shop->tcbList = func_0203101C(shop->heapId, shop->heapId, 32, 32);
+    shop->cancelText = func_02045EC0(shop->shopMsgBank, 29);
+    return shopKind;
 }
 
 
@@ -1408,16 +1268,16 @@ int func_021B3B14(char *p, int a)
 
 
 
-void func_021B3B84(char *p)
+void func_021B3B84(ShopWork *shop)
 {
-    func_02031140(((struct Obj03599 *)p)->f1B4);
-    func_0201ED04(((struct Obj03599 *)p)->f190);
-    func_02045808(((struct Obj03599 *)p)->f19C);
-    func_02045808(((struct Obj03599 *)p)->f198);
-    func_02045808(((struct Obj03599 *)p)->f1A0);
-    func_02045808(((struct Obj03599 *)p)->f194);
-    func_02045C04(((struct Obj03599 *)p)->f188);
-    func_02045C04(((struct Obj03599 *)p)->f18C);
+    func_02031140(shop->tcbList);
+    func_0201ED04(shop->wordSet);
+    func_02045808(shop->cancelText);
+    func_02045808(shop->textBuffer);
+    func_02045808(shop->soldOutText);
+    func_02045808(shop->priceFormat);
+    func_02045C04(shop->shopMsgBank);
+    func_02045C04(shop->itemMsgBank);
 }
 
 
@@ -1427,17 +1287,17 @@ void func_021B3B84(char *p)
 
 
 
-void func_021B3BD8(char *p)
+void func_021B3BD8(ShopWork *shop)
 {
-    void *q;
+    void *archive;
 
     *(volatile u16 *)0x04000050 = 0;
-    q = func_020490F4(54, ((struct Obj06037 *)p)->f4);
-    func_02049B68(q, 1, 0, 0, 96, ((struct Obj06037 *)p)->f4);
-    func_02049658(q, 0, 2, 100, 0, 0, ((struct Obj06037 *)p)->f4);
-    func_02049990(q, 2, 2, 0, 100, 0, 0, ((struct Obj06037 *)p)->f4);
-    func_02049238(q);
-    func_0201F5BC(1, 228, 9, 0, ((struct Obj06037 *)p)->f4);
+    archive = func_020490F4(54, shop->heapId);
+    func_02049B68(archive, 1, 0, 0, 96, shop->heapId);
+    func_02049658(archive, 0, 2, 100, 0, 0, shop->heapId);
+    func_02049990(archive, 2, 2, 0, 100, 0, 0, shop->heapId);
+    func_02049238(archive);
+    func_0201F5BC(1, 228, 9, 0, shop->heapId);
     func_020414EC(1);
     func_0204047C(2, 1);
 }
@@ -1449,7 +1309,7 @@ void func_021B3BD8(char *p)
 
 
 
-void func_021B3C58(u8 *w)
+void func_021B3C58(ShopWork *shop)
 {
     func_020414EC(1);
     func_020414EC(2);
@@ -1464,16 +1324,16 @@ void func_021B3C58(u8 *w)
 
 
 
-void func_021B3C78(char *p)
+void func_021B3C78(ShopWork *shop)
 {
-    void *q = func_020490F4(54, ((struct Obj02389 *)p)->f4);
+    void *archive = func_020490F4(54, shop->heapId);
 
-    ((struct Obj02389 *)p)->f1D4 = (void *)func_0204AC18(q, 10, 0, 0, 0, 1, ((struct Obj02389 *)p)->f4);
-    ((struct Obj02389 *)p)->f1D8 = (void *)func_0204A6C8(q, 7, 0, 0, ((struct Obj02389 *)p)->f4);
-    ((struct Obj02389 *)p)->f1E4 = (void *)func_0204A6C8(q, 4, 0, 0, ((struct Obj02389 *)p)->f4);
-    ((struct Obj02389 *)p)->f1DC = (void *)func_0204AF28(q, 8, 9, ((struct Obj02389 *)p)->f4);
-    ((struct Obj02389 *)p)->f1E8 = (void *)func_0204AF28(q, 5, 6, ((struct Obj02389 *)p)->f4);
-    func_02049238(q);
+    shop->arrowCharRes = (u32)func_0204AC18(archive, 10, 0, 0, 0, 1, shop->heapId);
+    shop->cursorPlttRes = (u32)func_0204A6C8(archive, 7, 0, 0, shop->heapId);
+    shop->arrowPlttRes = (u32)func_0204A6C8(archive, 4, 0, 0, shop->heapId);
+    shop->cursorCellRes = (u32)func_0204AF28(archive, 8, 9, shop->heapId);
+    shop->arrowCellRes = (u32)func_0204AF28(archive, 5, 6, shop->heapId);
+    func_02049238(archive);
 }
 
 
@@ -1483,11 +1343,11 @@ void func_021B3C78(char *p)
 
 
 
-void func_021B3CFC(char *w)
+void func_021B3CFC(ShopWork *shop)
 {
-    ((struct Obj00037 *)w)->f1EC = (void *)func_0204AC18(((struct Obj00037 *)w)->f1F8, func_02020E60(1, 2), 0, 0x20, 0, 1, ((struct Obj00037 *)w)->f4);
-    ((struct Obj00037 *)w)->f1F0 = (void *)func_0204A6C8(((struct Obj00037 *)w)->f1F8, func_02020E60(1, 1), 0, 0, ((struct Obj00037 *)w)->f4);
-    ((struct Obj00037 *)w)->f1F4 = (void *)func_0204AF28(((struct Obj00037 *)w)->f1F8, 1, 0, ((struct Obj00037 *)w)->f4);
+    shop->iconCharRes = (u32)func_0204AC18(shop->iconArchive, func_02020E60(1, 2), 0, 0x20, 0, 1, shop->heapId);
+    shop->iconPlttRes = (u32)func_0204A6C8(shop->iconArchive, func_02020E60(1, 1), 0, 0, shop->heapId);
+    shop->iconCellRes = (u32)func_0204AF28(shop->iconArchive, 1, 0, shop->heapId);
 }
 
 
@@ -1496,23 +1356,23 @@ void func_021B3CFC(char *w)
 
 
 
-void func_021B3D60(char *w, u32 b)
+void func_021B3D60(ShopWork *shop, u32 itemId)
 {
-    u32 y;
-    u32 x;
-    u32 p;
-    u32 q;
+    u32 plttData;
+    u32 charData;
+    u32 charBuf;
+    u32 plttBuf;
 
-    if (b <= 0x272) {
-        p = (u32)func_02049F78((void *)(((struct Obj03132 *)w)->f1F8), func_02020E60(b, 2), (u32)(&x), ((struct Obj03132 *)w)->f4);
-        q = (u32)func_02049E74((void *)(((struct Obj03132 *)w)->f1F8), func_02020E60(b, 1), 0, (u32)(&y), ((struct Obj03132 *)w)->f4);
-        func_0204ADEC(((struct Obj03132 *)w)->f1EC, x, 1);
-        func_0204A9D0(((struct Obj03132 *)w)->f1F0, (struct Sub0204A9D0 *)y);
-        func_020307B0((void *)p);
-        func_020307B0((void *)q);
-        func_0204B3DC((struct Obj *)((struct Obj03132 *)w)->f1D0, 1);
+    if (itemId <= 0x272) {
+        charBuf = (u32)func_02049F78((void *)(shop->iconArchive), func_02020E60(itemId, 2), (u32)(&charData), shop->heapId);
+        plttBuf = (u32)func_02049E74((void *)(shop->iconArchive), func_02020E60(itemId, 1), 0, (u32)(&plttData), shop->heapId);
+        func_0204ADEC(shop->iconCharRes, charData, 1);
+        func_0204A9D0(shop->iconPlttRes, (struct Sub0204A9D0 *)plttData);
+        func_020307B0((void *)charBuf);
+        func_020307B0((void *)plttBuf);
+        func_0204B3DC((struct Obj *)shop->iconActor, 1);
     } else {
-        func_0204B3DC((struct Obj *)((struct Obj03132 *)w)->f1D0, 0);
+        func_0204B3DC((struct Obj *)shop->iconActor, 0);
     }
 }
 
@@ -1522,22 +1382,22 @@ void func_021B3D60(char *w, u32 b)
 
 
 
-void func_021B3DEC(char *w)
+void func_021B3DEC(ShopWork *shop)
 {
-    ((struct Obj00357 *)w)->f1C0 = (int)func_0204B294((void *)((struct Obj00357 *)w)->f1BC, ((struct Obj00357 *)w)->f1D8, ((struct Obj00357 *)w)->f1D4,
-                                        ((struct Obj00357 *)w)->f1DC, &d_021D96E0, 0, ((struct Obj00357 *)w)->f4);
-    ((struct Obj00357 *)w)->f1C4 = (int)func_0204B294((void *)((struct Obj00357 *)w)->f1BC, ((struct Obj00357 *)w)->f1E4, ((struct Obj00357 *)w)->f1D4,
-                                        ((struct Obj00357 *)w)->f1E8, &d_021D96E8, 0, ((struct Obj00357 *)w)->f4);
-    ((struct Obj00357 *)w)->f1C8 = (int)func_0204B294((void *)((struct Obj00357 *)w)->f1BC, ((struct Obj00357 *)w)->f1E4, ((struct Obj00357 *)w)->f1D4,
-                                        ((struct Obj00357 *)w)->f1E8, &d_021D96F0, 0, ((struct Obj00357 *)w)->f4);
-    ((struct Obj00357 *)w)->f1CC = (int)func_0204B294((void *)((struct Obj00357 *)w)->f1BC, ((struct Obj00357 *)w)->f1E4, ((struct Obj00357 *)w)->f1D4,
-                                        ((struct Obj00357 *)w)->f1E8, &d_021D96F8, 0, ((struct Obj00357 *)w)->f4);
-    func_0204B92C((struct Obj *)((struct Obj00357 *)w)->f1CC, 1);
-    ((struct Obj00357 *)w)->f1D0 = (int)func_0204B294((void *)((struct Obj00357 *)w)->f1BC, ((struct Obj00357 *)w)->f1F0, ((struct Obj00357 *)w)->f1EC,
-                                        ((struct Obj00357 *)w)->f1F4, &d_021D9700, 0, ((struct Obj00357 *)w)->f4);
-    func_0204B3DC((struct Obj *)((struct Obj00357 *)w)->f1C4, 0);
-    func_0204B3DC((struct Obj *)((struct Obj00357 *)w)->f1C8, 0);
-    func_0204B3DC((struct Obj *)((struct Obj00357 *)w)->f1CC, 0);
+    shop->cursorActor = (int)func_0204B294((void *)shop->cellSystem, shop->cursorPlttRes, shop->arrowCharRes,
+                                        shop->cursorCellRes, &d_021D96E0, 0, shop->heapId);
+    shop->arrowUpActor = (int)func_0204B294((void *)shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
+                                        shop->arrowCellRes, &d_021D96E8, 0, shop->heapId);
+    shop->arrowDownActor = (int)func_0204B294((void *)shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
+                                        shop->arrowCellRes, &d_021D96F0, 0, shop->heapId);
+    shop->quantityArrowActor = (int)func_0204B294((void *)shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
+                                        shop->arrowCellRes, &d_021D96F8, 0, shop->heapId);
+    func_0204B92C((struct Obj *)shop->quantityArrowActor, 1);
+    shop->iconActor = (int)func_0204B294((void *)shop->cellSystem, shop->iconPlttRes, shop->iconCharRes,
+                                        shop->iconCellRes, &d_021D9700, 0, shop->heapId);
+    func_0204B3DC((struct Obj *)shop->arrowUpActor, 0);
+    func_0204B3DC((struct Obj *)shop->arrowDownActor, 0);
+    func_0204B3DC((struct Obj *)shop->quantityArrowActor, 0);
 }
 
 
@@ -1546,14 +1406,14 @@ void func_021B3DEC(char *w)
 
 
 
-void func_021B3F00(u8 *w)
+void func_021B3F00(ShopWork *shop)
 {
-    ((struct Obj00037 *)w)->f1BC = (u32)func_0204B100(5, 1, ((struct Obj00037 *)w)->f4);
-    func_0204B22C((struct Bank *)(((struct Obj00037 *)w)->f1BC), 1);
-    func_021B3C78((char *)w);
-    ((struct Obj00037 *)w)->f1F8 = func_020490F4(0x19, ((struct Obj00037 *)w)->f4);
-    func_021B3CFC((char *)w);
-    func_021B3DEC((char *)w);
+    shop->cellSystem = func_0204B100(5, 1, shop->heapId);
+    func_0204B22C((struct Bank *)(shop->cellSystem), 1);
+    func_021B3C78(shop);
+    shop->iconArchive = func_020490F4(0x19, shop->heapId);
+    func_021B3CFC(shop);
+    func_021B3DEC(shop);
 }
 
 
@@ -1562,18 +1422,18 @@ void func_021B3F00(u8 *w)
 
 
 
-void func_021B3F3C(char *w)
+void func_021B3F3C(ShopWork *shop)
 {
-    func_0204AFD8((u32)(((struct Obj02711 *)w)->f1F4));
-    func_0204AFD8((u32)(((struct Obj02711 *)w)->f1E8));
-    func_0204AFD8((u32)(((struct Obj02711 *)w)->f1DC));
-    func_0204A8D4((u32)(((struct Obj02711 *)w)->f1F0));
-    func_0204A8D4((u32)(((struct Obj02711 *)w)->f1E4));
-    func_0204A8D4((u32)(((struct Obj02711 *)w)->f1D8));
-    func_0204ADA4((u32)(((struct Obj02711 *)w)->f1EC));
-    func_0204ADA4((u32)(((struct Obj02711 *)w)->f1D4));
-    func_02049238(((struct Obj02711 *)w)->f1F8);
-    func_0204B1CC(((struct Obj02711 *)w)->f1BC);
+    func_0204AFD8((u32)(shop->iconCellRes));
+    func_0204AFD8((u32)(shop->arrowCellRes));
+    func_0204AFD8((u32)(shop->cursorCellRes));
+    func_0204A8D4((u32)(shop->iconPlttRes));
+    func_0204A8D4((u32)(shop->arrowPlttRes));
+    func_0204A8D4((u32)(shop->cursorPlttRes));
+    func_0204ADA4((u32)(shop->iconCharRes));
+    func_0204ADA4((u32)(shop->arrowCharRes));
+    func_02049238(shop->iconArchive);
+    func_0204B1CC(shop->cellSystem);
 }
 
 
@@ -1582,42 +1442,42 @@ void func_021B3F3C(char *w)
 
 
 
-void func_021B3FA0(char *w)
+void func_021B3FA0(ShopWork *shop)
 {
-    WinTmpl **tbl;
-    WinTmpl *e;
+    ShopWindowTemplate **templates;
+    ShopWindowTemplate *template;
     int i;
-    u32 t;
-    u32 bg;
+    u32 headerText;
+    u32 window;
 
-    tbl = d_021DE18C;
-    if (((struct Obj00037 *)w)->f163 != 1) {
-        tbl = d_021DE170;
+    templates = d_021DE18C;
+    if (shop->usesBattlePoints != 1) {
+        templates = d_021DE170;
     }
-    for (i = 0; i < 7; i++) {
-        e = tbl[i];
-        ((u32 *)(w + 0x164))[i] = func_020450F0((u8)e->f0, e->f4, e->f5, e->f6, e->f7, (u8)e->f8, 1);
+    for (i = 0; i < SHOP_WIN_COUNT; i++) {
+        template = templates[i];
+        shop->windows[i] = func_020450F0((u8)template->bgId, template->x, template->y, template->width, template->height, (u8)template->paletteNum, 1);
     }
-    t = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0x14);
-    func_0201C7D0((void *)((u32)func_02045770((struct Descriptor *)((struct Obj00037 *)w)->f164)), 0, 0, (void *)t, (void *)(((struct Obj00037 *)w)->f8), 0x3C4F);
-    func_02045808((struct U16Vec *)t);
-    ((struct Obj00037 *)w)->f1A8 = ((struct Obj00037 *)w)->f16C;
-    ((struct Obj00037 *)w)->f1AC = 0;
-    ((struct Obj00037 *)w)->f1B0 = func_0201C440((void *)(((struct Obj00037 *)w)->f4));
-    if (((struct Obj00037 *)w)->f163 == 1) {
-        bg = ((struct Obj00037 *)w)->f168;
-        func_02045334((struct Descriptor *)bg);
-        func_02045374((struct Cfg *)bg);
-        func_020409B4(func_02045730((struct Descriptor *)bg));
+    headerText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0x14);
+    func_0201C7D0((void *)((u32)func_02045770((struct Descriptor *)shop->windows[SHOP_WIN_HEADER])), 0, 0, (void *)headerText, (void *)(shop->fontInfo), 0x3C4F);
+    func_02045808((struct U16Vec *)headerText);
+    shop->listWindow = shop->windows[SHOP_WIN_LIST];
+    shop->printerBusy = 0;
+    shop->printSys = (void *)func_0201C440((void *)(shop->heapId));
+    if (shop->usesBattlePoints == 1) {
+        window = shop->windows[SHOP_WIN_MONEY];
+        func_02045334((struct Descriptor *)window);
+        func_02045374((struct Cfg *)window);
+        func_020409B4(func_02045730((struct Descriptor *)window));
     } else {
-        bg = ((struct Obj00037 *)w)->f164;
-        func_02045334((struct Descriptor *)bg);
-        func_02045374((struct Cfg *)bg);
-        func_020409B4(func_02045730((struct Descriptor *)bg));
-        bg = ((struct Obj00037 *)w)->f168;
-        func_02045334((struct Descriptor *)bg);
-        func_02045374((struct Cfg *)bg);
-        func_020409B4(func_02045730((struct Descriptor *)bg));
+        window = shop->windows[SHOP_WIN_HEADER];
+        func_02045334((struct Descriptor *)window);
+        func_02045374((struct Cfg *)window);
+        func_020409B4(func_02045730((struct Descriptor *)window));
+        window = shop->windows[SHOP_WIN_MONEY];
+        func_02045334((struct Descriptor *)window);
+        func_02045374((struct Cfg *)window);
+        func_020409B4(func_02045730((struct Descriptor *)window));
     }
 }
 
@@ -1627,14 +1487,14 @@ void func_021B3FA0(char *w)
 
 
 
-void func_021B40A8(u8 *w)
+void func_021B40A8(ShopWork *shop)
 {
     int i;
 
-    func_0201C6EC((struct PrintSys *)(((struct Obj12844 *)w)->f1B0));
-    func_0201C4C0((struct PrintSys *)(((struct Obj12844 *)w)->f1B0));
-    for (i = 0; i < 7; i++) {
-        func_020452E8((struct Descriptor *)(*(u32 *)(w + 0x164 + i * 4)));
+    func_0201C6EC((struct PrintSys *)(shop->printSys));
+    func_0201C4C0((struct PrintSys *)(shop->printSys));
+    for (i = 0; i < SHOP_WIN_COUNT; i++) {
+        func_020452E8((struct Descriptor *)(shop->windows[i]));
     }
 }
 
@@ -1644,29 +1504,29 @@ void func_021B40A8(u8 *w)
 
 
 
-void func_021B40D4(char *w)
+void func_021B40D4(ShopWork *shop)
 {
-    u32 t7, t6, s, bg;
+    u32 formatText, expandedText, bitmap, window;
 
-    if (((struct Obj00037 *)w)->f163 == 1) {
-        t7 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0x16);
-        t6 = (u32)func_020457B0(10, ((struct Obj00037 *)w)->f4);
-        func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), 0, func_0200DABC((struct Blk1AC *)(((struct Obj00037 *)w)->f18)), 4, 1, 1);
+    if (shop->usesBattlePoints == 1) {
+        formatText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0x16);
+        expandedText = (u32)func_020457B0(10, shop->heapId);
+        func_0201EFA4((struct WordSet *)(shop->wordSet), 0, func_0200DABC((struct Blk1AC *)(shop->battlePointData)), 4, 1, 1);
     } else {
-        t7 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0x15);
-        t6 = (u32)func_020457B0(10, ((struct Obj00037 *)w)->f4);
-        func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), 0, func_0200C274((struct Blk34 *)(((struct Obj00037 *)w)->fC)), 7, 1, 1);
+        formatText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0x15);
+        expandedText = (u32)func_020457B0(10, shop->heapId);
+        func_0201EFA4((struct WordSet *)(shop->wordSet), 0, func_0200C274((struct Blk34 *)(shop->moneyData)), 7, 1, 1);
     }
-    func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), (void *)t6, (void *)t7);
-    s = (u32)func_02045770((struct Descriptor *)((struct Obj00037 *)w)->f168);
-    func_02043B5C((struct CharBuf *)s, 0);
-    func_0201C7D0((void *)s, 0, 0, (void *)t6, (void *)(((struct Obj00037 *)w)->f8), 0x3C4F);
-    bg = ((struct Obj00037 *)w)->f168;
-    func_02045334((struct Descriptor *)bg);
-    func_02045374((struct Cfg *)bg);
-    func_020409B4(func_02045730((struct Descriptor *)bg));
-    func_02045808((struct U16Vec *)t6);
-    func_02045808((struct U16Vec *)t7);
+    func_0201F250((struct WordSet *)(shop->wordSet), (void *)expandedText, (void *)formatText);
+    bitmap = (u32)func_02045770((struct Descriptor *)shop->windows[SHOP_WIN_MONEY]);
+    func_02043B5C((struct CharBuf *)bitmap, 0);
+    func_0201C7D0((void *)bitmap, 0, 0, (void *)expandedText, (void *)(shop->fontInfo), 0x3C4F);
+    window = shop->windows[SHOP_WIN_MONEY];
+    func_02045334((struct Descriptor *)window);
+    func_02045374((struct Cfg *)window);
+    func_020409B4(func_02045730((struct Descriptor *)window));
+    func_02045808((struct U16Vec *)expandedText);
+    func_02045808((struct U16Vec *)formatText);
 }
 
 
@@ -1682,24 +1542,24 @@ void func_021B40D4(char *w)
  *
  * Addresses are Black-image addresses.
  */
-void func_021B41AC(char *w, u16 b)
+void func_021B41AC(ShopWork *shop, u16 itemId)
 {
-    u32 t7, t6, s, bg;
+    u32 formatText, expandedText, bitmap, window;
 
-    t7 = (u32)func_02045EC0((struct MsgBank *)(((struct Obj02712 *)w)->f188), 0x17);
-    t6 = (u32)func_020457B0(0x14, ((struct Obj02712 *)w)->f4);
-    func_0201F73C((void *)(((struct Obj02712 *)w)->f170), 2, 0xE4, 9);
-    func_0201EFA4((struct WordSet *)(((struct Obj02712 *)w)->f190), 0, func_02007FB8((u8 *)(((struct Obj02712 *)w)->f10), b, ((struct Obj02712 *)w)->f4), 3, 0, 1);
-    func_0201F250((struct WordSet *)(((struct Obj02712 *)w)->f190), (void *)t6, (void *)t7);
-    s = (u32)func_02045770((struct Descriptor *)((struct Obj02712 *)w)->f170);
-    func_02043B5C((struct CharBuf *)s, 0xF);
-    func_0201C7D0((void *)s, 0, 0, (void *)t6, (void *)(((struct Obj02712 *)w)->f8), 0x44F);
-    bg = ((struct Obj02712 *)w)->f170;
-    func_02045334((struct Descriptor *)bg);
-    func_02045374((struct Cfg *)bg);
-    func_020409B4(func_02045730((struct Descriptor *)bg));
-    func_02045808((struct U16Vec *)t6);
-    func_02045808((struct U16Vec *)t7);
+    formatText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0x17);
+    expandedText = (u32)func_020457B0(0x14, shop->heapId);
+    func_0201F73C((void *)(shop->windows[SHOP_WIN_OWNED]), 2, 0xE4, 9);
+    func_0201EFA4((struct WordSet *)(shop->wordSet), 0, func_02007FB8((u8 *)(shop->bagData), itemId, shop->heapId), 3, 0, 1);
+    func_0201F250((struct WordSet *)(shop->wordSet), (void *)expandedText, (void *)formatText);
+    bitmap = (u32)func_02045770((struct Descriptor *)shop->windows[SHOP_WIN_OWNED]);
+    func_02043B5C((struct CharBuf *)bitmap, 0xF);
+    func_0201C7D0((void *)bitmap, 0, 0, (void *)expandedText, (void *)(shop->fontInfo), 0x44F);
+    window = shop->windows[SHOP_WIN_OWNED];
+    func_02045334((struct Descriptor *)window);
+    func_02045374((struct Cfg *)window);
+    func_020409B4(func_02045730((struct Descriptor *)window));
+    func_02045808((struct U16Vec *)expandedText);
+    func_02045808((struct U16Vec *)formatText);
 }
 
 
@@ -1708,23 +1568,23 @@ void func_021B41AC(char *w, u16 b)
 
 
 
-void func_021B4264(char *w, u32 b)
+void func_021B4264(ShopWork *shop, u32 itemId)
 {
-    u32 win;
-    u32 t;
-    u32 bg;
+    u32 bitmap;
+    u32 text;
+    u32 window;
 
-    win = (u32)func_02045770((struct Descriptor *)((struct Obj07523 *)w)->f178);
-    func_02043B5C((struct CharBuf *)win, 0);
-    if (b <= 0x272) {
-        t = (u32)func_02045EC0((struct MsgBank *)(((struct Obj07523 *)w)->f18C), b);
-        func_0201C7D0((void *)win, 0, 0, (void *)t, (void *)(((struct Obj07523 *)w)->f8), 0x3C40);
-        func_02045808((struct U16Vec *)t);
+    bitmap = (u32)func_02045770((struct Descriptor *)shop->windows[SHOP_WIN_DESCRIPTION]);
+    func_02043B5C((struct CharBuf *)bitmap, 0);
+    if (itemId <= 0x272) {
+        text = (u32)func_02045EC0((struct MsgBank *)(shop->itemMsgBank), itemId);
+        func_0201C7D0((void *)bitmap, 0, 0, (void *)text, (void *)(shop->fontInfo), 0x3C40);
+        func_02045808((struct U16Vec *)text);
     }
-    bg = ((struct Obj07523 *)w)->f178;
-    func_02045334((struct Descriptor *)bg);
-    func_02045374((struct Cfg *)bg);
-    func_020409B4(func_02045730((struct Descriptor *)bg));
+    window = shop->windows[SHOP_WIN_DESCRIPTION];
+    func_02045334((struct Descriptor *)window);
+    func_02045374((struct Cfg *)window);
+    func_020409B4(func_02045730((struct Descriptor *)window));
 }
 
 
@@ -1733,33 +1593,33 @@ void func_021B4264(char *w, u32 b)
 
 
 
-void func_021B42D0(char *w, u32 a, u32 b)
+void func_021B42D0(ShopWork *shop, u32 quantity, u32 price)
 {
-    u32 t1, t2, t3, s, bg;
+    u32 quantityFormat, totalFormat, text, bitmap, window;
 
-    t1 = (u32)func_02045EC0((struct MsgBank *)(((struct Obj01502 *)w)->f188), 0x18);
-    t2 = (u32)func_02045EC0((struct MsgBank *)(((struct Obj01502 *)w)->f188), d_021D945C[((struct Obj01502 *)w)->f163]);
-    t3 = (u32)func_020457B0(0x14, ((struct Obj01502 *)w)->f4);
-    s = (u32)func_02045770((struct Descriptor *)((struct Obj01502 *)w)->f174);
-    func_02043B5C((struct CharBuf *)s, 0xF);
-    func_0201F73C((void *)(((struct Obj01502 *)w)->f174), 2, 0xE4, 9);
-    func_0201EFA4((struct WordSet *)(((struct Obj01502 *)w)->f190), 0, a, 2, 0, 1);
-    func_0201F250((struct WordSet *)(((struct Obj01502 *)w)->f190), (void *)t3, (void *)t1);
-    func_0201C7D0((void *)s, 0, 0, (void *)t3, (void *)(((struct Obj01502 *)w)->f8), 0x44F);
-    func_0201EFA4((struct WordSet *)(((struct Obj01502 *)w)->f190), 0, a * b, 7, 1, 1);
-    func_0201F250((struct WordSet *)(((struct Obj01502 *)w)->f190), (void *)t3, (void *)t2);
-    if (((struct Obj01502 *)w)->f163 == 0) {
-        func_0201C7D0((void *)s, 0x23, 0, (void *)t3, (void *)(((struct Obj01502 *)w)->f8), 0x44F);
+    quantityFormat = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), 0x18);
+    totalFormat = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), d_021D945C[shop->usesBattlePoints]);
+    text = (u32)func_020457B0(0x14, shop->heapId);
+    bitmap = (u32)func_02045770((struct Descriptor *)shop->windows[SHOP_WIN_QUANTITY]);
+    func_02043B5C((struct CharBuf *)bitmap, 0xF);
+    func_0201F73C((void *)(shop->windows[SHOP_WIN_QUANTITY]), 2, 0xE4, 9);
+    func_0201EFA4((struct WordSet *)(shop->wordSet), 0, quantity, 2, 0, 1);
+    func_0201F250((struct WordSet *)(shop->wordSet), (void *)text, (void *)quantityFormat);
+    func_0201C7D0((void *)bitmap, 0, 0, (void *)text, (void *)(shop->fontInfo), 0x44F);
+    func_0201EFA4((struct WordSet *)(shop->wordSet), 0, quantity * price, 7, 1, 1);
+    func_0201F250((struct WordSet *)(shop->wordSet), (void *)text, (void *)totalFormat);
+    if (shop->usesBattlePoints == 0) {
+        func_0201C7D0((void *)bitmap, 0x23, 0, (void *)text, (void *)(shop->fontInfo), 0x44F);
     } else {
-        func_0201C7D0((void *)s, 0x1D, 0, (void *)t3, (void *)(((struct Obj01502 *)w)->f8), 0x44F);
+        func_0201C7D0((void *)bitmap, 0x1D, 0, (void *)text, (void *)(shop->fontInfo), 0x44F);
     }
-    bg = ((struct Obj01502 *)w)->f174;
-    func_02045334((struct Descriptor *)bg);
-    func_02045374((struct Cfg *)bg);
-    func_020409B4(func_02045730((struct Descriptor *)bg));
-    func_02045808((struct U16Vec *)t3);
-    func_02045808((struct U16Vec *)t2);
-    func_02045808((struct U16Vec *)t1);
+    window = shop->windows[SHOP_WIN_QUANTITY];
+    func_02045334((struct Descriptor *)window);
+    func_02045374((struct Cfg *)window);
+    func_020409B4(func_02045730((struct Descriptor *)window));
+    func_02045808((struct U16Vec *)text);
+    func_02045808((struct U16Vec *)totalFormat);
+    func_02045808((struct U16Vec *)quantityFormat);
 }
 
 
@@ -1772,40 +1632,40 @@ void func_021B42D0(char *w, u32 a, u32 b)
  * Builds a 0x34-byte list template on the stack (layout as read by
  * func_0201FF30) and creates the list object from it.
  */
-void func_021B43EC(char *w)
+void func_021B43EC(ShopWork *shop)
 {
-    Tmpl t;
+    ShopListTemplate listTemplate;
 
-    t.arr = ((struct Obj00037 *)w)->f180;
-    t.cb04 = (void *)func_021B468C;
-    if (((struct Obj00037 *)w)->f162 == 0) {
-        t.cb08 = (void *)func_021B4510;
+    listTemplate.items = shop->itemSlots;
+    listTemplate.cursorMoveFunc = (void *)func_021B468C;
+    if (shop->isTmShop == 0) {
+        listTemplate.printFunc = (void *)func_021B4510;
     } else {
-        t.cb08 = (void *)func_021B45A0;
+        listTemplate.printFunc = (void *)func_021B45A0;
     }
-    t.w0c = ((struct Obj00037 *)w)->f16C;
-    t.count = func_0201F91C(((struct Obj00037 *)w)->f180);
-    t.rows = 7;
-    t.f14 = 0;
-    t.f15 = 0;
-    t.f16 = 0;
-    t.f17lo = 8;
-    t.f17hi = 0xC;
-    t.f18lo = 0;
-    t.f18hi = 0xD;
-    t.f1Alo = 0;
-    t.f1Amid = 0;
-    t.f1Apad = 1;
-    t.f1Amid2 = 0;
-    t.f1Atop = 1;
-    t.w1c = w;
-    t.h20 = 0xC;
-    t.h22 = 0x10;
-    t.w24 = 0;
-    t.w28 = w + 0x1A8;
-    t.w2c = ((struct Obj00037 *)w)->f1B0;
-    t.w30 = ((struct Obj00037 *)w)->f8;
-    ((struct Obj00037 *)w)->f1A4 = (unsigned int)func_0201FF30((struct Src *)(&t), 0, 0, ((struct Obj00037 *)w)->f4);
+    listTemplate.window = shop->windows[SHOP_WIN_LIST];
+    listTemplate.count = func_0201F91C(shop->itemSlots);
+    listTemplate.visibleRows = 7;
+    listTemplate.headerX = 0;
+    listTemplate.itemX = 0;
+    listTemplate.cursorX = 0;
+    listTemplate.fgColor = 8;
+    listTemplate.shadowColor = 0xC;
+    listTemplate.bgColor = 0;
+    listTemplate.cursorColor = 0xD;
+    listTemplate.lineSpacing = 0;
+    listTemplate.cursorType = 0;
+    listTemplate.reservedBits = 1;
+    listTemplate.flagBits = 0;
+    listTemplate.cancelable = 1;
+    listTemplate.userData = shop;
+    listTemplate.cursorSpriteX = 0xC;
+    listTemplate.cursorSpriteY = 0x10;
+    listTemplate.reserved24 = 0;
+    listTemplate.activeWindowRef = &shop->listWindow;
+    listTemplate.printSys = shop->printSys;
+    listTemplate.fontInfo = shop->fontInfo;
+    shop->listMenu = func_0201FF30((struct Src *)(&listTemplate), 0, 0, shop->heapId);
 }
 
 
@@ -1813,12 +1673,12 @@ void func_021B43EC(char *w)
 
 
 
-void func_021B44CC(void *a, u32 b, int c, int d, u32 e, u32 f, u16 g)
+void func_021B44CC(void *printSys, u32 bitmap, int x, int y, u32 text, u32 fontInfo, u16 colorBits)
 {
-    if (d <= 8) {
-        func_0201C7D0((void *)b, c, d, (void *)e, (void *)f, g);
+    if (y <= 8) {
+        func_0201C7D0((void *)bitmap, x, y, (void *)text, (void *)fontInfo, colorBits);
     } else {
-        func_0201C724(a, b, (s16_021B3370)c, (s16_021B3370)d, e, f, (u32)g);
+        func_0201C724(printSys, bitmap, (s16)x, (s16)y, text, fontInfo, (u32)colorBits);
     }
 }
 
@@ -1835,20 +1695,20 @@ void func_021B44CC(void *a, u32 b, int c, int d, u32 e, u32 f, u16 g)
  *
  * Addresses are Black-image addresses.
  */
-void func_021B4510(u8 *p, int a, u8 b)
+void func_021B4510(u8 *listMenu, int row, u8 y)
 {
-    char *w;
-    u32 lo;
-    int hi;
+    ShopWork *shop;
+    u32 textWidth;
+    int windowWidth;
 
-    w = (char *)func_02020D0C(p);
-    if (a != -2) {
-        func_0201EFA4((struct WordSet *)(((struct Obj02390 *)w)->f190), 1, *(u32 *)(w + a * 8 + 0x24), 5, 0, 1);
-        func_0201F250((struct WordSet *)(((struct Obj02390 *)w)->f190), (void *)(((struct Obj02390 *)w)->f198), (void *)(((struct Obj02390 *)w)->f194));
-        lo = func_0201D304((struct StrObj *)(((struct Obj02390 *)w)->f198), ((struct Obj02390 *)w)->f8, 0);
-        hi = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)((struct Obj02390 *)w)->f16C)));
-        func_021B44CC((void *)(((struct Obj02390 *)w)->f1B0), (u32)func_02045770((struct Descriptor *)((struct Obj02390 *)w)->f16C), hi - lo, b,
-                      ((struct Obj02390 *)w)->f198, ((struct Obj02390 *)w)->f8, 0x31A0);
+    shop = (ShopWork *)func_02020D0C(listMenu);
+    if (row != -2) {
+        func_0201EFA4((struct WordSet *)(shop->wordSet), 1, shop->items[row].price, 5, 0, 1);
+        func_0201F250((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)(shop->priceFormat));
+        textWidth = func_0201D304((struct StrObj *)(shop->textBuffer), shop->fontInfo, 0);
+        windowWidth = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)shop->windows[SHOP_WIN_LIST])));
+        func_021B44CC((void *)(shop->printSys), (u32)func_02045770((struct Descriptor *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
+                      (u32)shop->textBuffer, shop->fontInfo, 0x31A0);
     }
 }
 
@@ -1862,26 +1722,26 @@ void func_021B4510(u8 *p, int a, u8 b)
  * moves the reload of its spill slot to just before the last call; as int or
  * u32 the reload is hoisted above the hi - lo subtraction.
  */
-void func_021B45A0(u32 ctx, int a, u8 b)
+void func_021B45A0(u32 listMenu, int row, u8 y)
 {
-    char *w;
-    u32 lo;
-    int hi;
+    ShopWork *shop;
+    u32 textWidth;
+    int windowWidth;
 
-    w = (char *)func_02020D0C((void *)ctx);
-    if (a != -2) {
-        if (func_02007F68((u8 *)(((struct Obj00810 *)w)->f10), ((Ent_021B3158 *)(w + 0x20))[a].id, 1, ((struct Obj00810 *)w)->f4) != 0) {
-            lo = func_0201D304((struct StrObj *)(((struct Obj00810 *)w)->f1A0), ((struct Obj00810 *)w)->f8, 0);
-            hi = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)((struct Obj00810 *)w)->f16C)));
-            func_021B44CC((void *)(((struct Obj00810 *)w)->f1B0), (u32)func_02045770((struct Descriptor *)((struct Obj00810 *)w)->f16C), hi - lo, b,
-                          ((struct Obj00810 *)w)->f1A0, ((struct Obj00810 *)w)->f8, 0x31A0);
+    shop = (ShopWork *)func_02020D0C((void *)listMenu);
+    if (row != -2) {
+        if (func_02007F68((u8 *)(shop->bagData), shop->items[row].itemId, 1, shop->heapId) != 0) {
+            textWidth = func_0201D304((struct StrObj *)(shop->soldOutText), shop->fontInfo, 0);
+            windowWidth = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)shop->windows[SHOP_WIN_LIST])));
+            func_021B44CC((void *)(shop->printSys), (u32)func_02045770((struct Descriptor *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
+                          (u32)shop->soldOutText, shop->fontInfo, 0x31A0);
         } else {
-            func_0201EFA4((struct WordSet *)(((struct Obj00810 *)w)->f190), 1, ((Ent_021B3158 *)(w + 0x20))[a].v, 5, 1, 1);
-            func_0201F250((struct WordSet *)(((struct Obj00810 *)w)->f190), (void *)(((struct Obj00810 *)w)->f198), (void *)(((struct Obj00810 *)w)->f194));
-            lo = func_0201D304((struct StrObj *)(((struct Obj00810 *)w)->f198), ((struct Obj00810 *)w)->f8, 0);
-            hi = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)((struct Obj00810 *)w)->f16C)));
-            func_021B44CC((void *)(((struct Obj00810 *)w)->f1B0), (u32)func_02045770((struct Descriptor *)((struct Obj00810 *)w)->f16C), hi - lo, b,
-                          ((struct Obj00810 *)w)->f198, ((struct Obj00810 *)w)->f8, 0x31A0);
+            func_0201EFA4((struct WordSet *)(shop->wordSet), 1, shop->items[row].price, 5, 1, 1);
+            func_0201F250((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)(shop->priceFormat));
+            textWidth = func_0201D304((struct StrObj *)(shop->textBuffer), shop->fontInfo, 0);
+            windowWidth = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)shop->windows[SHOP_WIN_LIST])));
+            func_021B44CC((void *)(shop->printSys), (u32)func_02045770((struct Descriptor *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
+                          (u32)shop->textBuffer, shop->fontInfo, 0x31A0);
         }
     }
 }
@@ -1891,24 +1751,24 @@ void func_021B45A0(u32 ctx, int a, u8 b)
 
 
 
-void func_021B468C(u32 a, u32 idx)
+void func_021B468C(u32 listMenu, u32 row)
 {
-    u16 v[4];
-    char *w;
-    char *t;
+    u16 cursorPos[4];
+    ShopWork *shop;
+    ShopItem *items;
 
-    w = (char *)func_02020D0C((void *)a);
-    func_020202FC((struct Obj *)a, &v[1], &v[0]);
-    v[2] = 0xAC;
-    v[3] = v[0] * 16 + 0x16;
-    func_0204B404((struct Obj *)(((struct Obj03132 *)w)->f1C0), (const struct Vec2 *)(&v[2]), 0);
-    if (idx < 0x28) {
-        t = w + 0x20;
-        func_021B4264(w, *(u16 *)(t + idx * 8));
-        func_021B3D60(w, *(u16 *)(t + idx * 8));
+    shop = (ShopWork *)func_02020D0C((void *)listMenu);
+    func_020202FC((struct Obj *)listMenu, &cursorPos[1], &cursorPos[0]);
+    cursorPos[2] = 0xAC;
+    cursorPos[3] = cursorPos[0] * 16 + 0x16;
+    func_0204B404((struct Obj *)(shop->cursorActor), (const struct Vec2 *)(&cursorPos[2]), 0);
+    if (row < 0x28) {
+        items = shop->items;
+        func_021B4264(shop, items[row].itemId);
+        func_021B3D60(shop, items[row].itemId);
     } else {
-        func_021B4264(w, 0xFFFF);
-        func_021B3D60(w, 0xFFFF);
+        func_021B4264(shop, 0xFFFF);
+        func_021B3D60(shop, 0xFFFF);
     }
 }
 
@@ -1917,12 +1777,12 @@ void func_021B468C(u32 a, u32 idx)
 
 
 
-void func_021B46FC(u8 *w)
+void func_021B46FC(ShopWork *shop)
 {
-    u16 a;
-    u16 b;
+    u16 scrollPos;
+    u16 cursorPos;
 
-    func_0202020C((struct Obj *)(((struct Obj19998 *)w)->f1A4), &a, &b);
+    func_0202020C((struct Obj *)(shop->listMenu), &scrollPos, &cursorPos);
 }
 
 
@@ -1943,50 +1803,50 @@ int func_021B4710(void)
 
 
 
-void func_021B4714(u8 *p, u32 sel, u32 c, u32 d)
+void func_021B4714(ShopWork *shop, u32 messageId, u32 itemId, u32 plural)
 {
-    u32 flag;
-    u32 v;
-    u32 h;
+    u32 isPlural;
+    u32 messageText;
+    u32 window;
 
-    if (sel == 9 && d != 0)
-        flag = 1;
+    if (messageId == 9 && plural != 0)
+        isPlural = 1;
     else
-        flag = 0;
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01503 *)p)->f17C)), 0xf);
-    func_0201F73C((void *)(((struct Obj01503 *)p)->f17C), 0, 0xe4, 9);
-    func_0201EF6C((struct WordSet *)(((struct Obj01503 *)p)->f190), 0, c, flag, 0);
-    func_0201F14C((struct WordSet *)(((struct Obj01503 *)p)->f190), 1, func_02020FE4((void *)c, 5, ((struct Obj01503 *)p)->f4));
-    v = (u32)func_02045EC0((struct MsgBank *)(((struct Obj01503 *)p)->f188), sel);
-    func_0201F250((struct WordSet *)(((struct Obj01503 *)p)->f190), (void *)(((struct Obj01503 *)p)->f198), (void *)v);
-    func_02045808((struct U16Vec *)v);
-    ((struct Obj01503 *)p)->f1B8 = (u32)func_0201CD10(((struct Obj01503 *)p)->f17C, 0, 0, ((struct Obj01503 *)p)->f198,
-                                        ((struct Obj01503 *)p)->f8, func_02012FFC(),
-                                        ((struct Obj01503 *)p)->f1B4, 0, ((struct Obj01503 *)p)->f4, 0xffff,
+        isPlural = 0;
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)shop->windows[SHOP_WIN_MESSAGE])), 0xf);
+    func_0201F73C((void *)(shop->windows[SHOP_WIN_MESSAGE]), 0, 0xe4, 9);
+    func_0201EF6C((struct WordSet *)(shop->wordSet), 0, itemId, isPlural, 0);
+    func_0201F14C((struct WordSet *)(shop->wordSet), 1, func_02020FE4((void *)itemId, 5, shop->heapId));
+    messageText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), messageId);
+    func_0201F250((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)messageText);
+    func_02045808((struct U16Vec *)messageText);
+    shop->messagePrinter = func_0201CD10(shop->windows[SHOP_WIN_MESSAGE], 0, 0, (u32)shop->textBuffer,
+                                        shop->fontInfo, func_02012FFC(),
+                                        (u32)shop->tcbList, 0, shop->heapId, 0xffff,
                                         (u32)func_021B4710);
-    h = ((struct Obj01503 *)p)->f17C;
-    func_02045334((struct Descriptor *)h);
-    func_02045374((struct Cfg *)h);
-    func_020409B4(func_02045730((struct Descriptor *)h));
+    window = shop->windows[SHOP_WIN_MESSAGE];
+    func_02045334((struct Descriptor *)window);
+    func_02045374((struct Cfg *)window);
+    func_020409B4(func_02045730((struct Descriptor *)window));
 }
 
 
 
 
 
-void func_021B4804(char *w, u32 a)
+void func_021B4804(ShopWork *shop, u32 isTmShop)
 {
-    if (((struct Obj00030 *)w)->f162 == 1) {
-        if (((struct Obj00030 *)w)->f163 == 1) {
-            func_021B4984(w, 8, ((struct Obj00030 *)w)->f1FC, ((struct Obj00030 *)w)->f200);
+    if (shop->isTmShop == 1) {
+        if (shop->usesBattlePoints == 1) {
+            func_021B4984(shop, 8, shop->itemId, shop->price);
         } else {
-            func_021B4984(w, 7, ((struct Obj00030 *)w)->f1FC, ((struct Obj00030 *)w)->f200);
+            func_021B4984(shop, 7, shop->itemId, shop->price);
         }
     } else {
-        if (((struct Obj00030 *)w)->f163 == 1) {
-            func_021B4918(w, 6, ((struct Obj00030 *)w)->f1FC, ((struct Obj00030 *)w)->f200, ((struct Obj00030 *)w)->f208);
+        if (shop->usesBattlePoints == 1) {
+            func_021B4918(shop, 6, shop->itemId, shop->price, shop->quantity);
         } else {
-            func_021B4918(w, 5, ((struct Obj00030 *)w)->f1FC, ((struct Obj00030 *)w)->f200, ((struct Obj00030 *)w)->f208);
+            func_021B4918(shop, 5, shop->itemId, shop->price, shop->quantity);
         }
     }
 }
@@ -1999,30 +1859,30 @@ void func_021B4804(char *w, u32 a)
  *
  * Addresses are Black-image addresses.
  */
-void func_021B4878(u32 a)
+void func_021B4878(u32 window)
 {
-func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)a)), 15);
-    func_0201F73C((void *)a, 0, 228, 9);
+func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)window)), 15);
+    func_0201F73C((void *)window, 0, 228, 9);
 }
 
 
 
 
-void func_021B4894(char *w, u32 b)
+void func_021B4894(ShopWork *shop, u32 messageId)
 {
-    u32 t;
-    u32 win;
+    u32 messageText;
+    u32 window;
 
-    t = (u32)func_02045EC0((struct MsgBank *)(((struct Obj01121 *)w)->f188), b);
-    func_0201F250((struct WordSet *)(((struct Obj01121 *)w)->f190), (void *)(((struct Obj01121 *)w)->f198), (void *)t);
-    func_02045808((struct U16Vec *)t);
-    ((struct Obj01121 *)w)->f1B8 = (u32)func_0201CD10(((struct Obj01121 *)w)->f17C, 0, 0, ((struct Obj01121 *)w)->f198,
-                                        ((struct Obj01121 *)w)->f8, func_02012FFC(), ((struct Obj01121 *)w)->f1B4, 0,
-                                        ((struct Obj01121 *)w)->f4, 0xFFFF, 0);
-    win = ((struct Obj01121 *)w)->f17C;
-    func_02045334((struct Descriptor *)win);
-    func_02045374((struct Cfg *)win);
-    func_020409B4(func_02045730((struct Descriptor *)win));
+    messageText = (u32)func_02045EC0((struct MsgBank *)(shop->shopMsgBank), messageId);
+    func_0201F250((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)messageText);
+    func_02045808((struct U16Vec *)messageText);
+    shop->messagePrinter = func_0201CD10(shop->windows[SHOP_WIN_MESSAGE], 0, 0, (u32)shop->textBuffer,
+                                        shop->fontInfo, func_02012FFC(), (u32)shop->tcbList, 0,
+                                        shop->heapId, 0xFFFF, 0);
+    window = shop->windows[SHOP_WIN_MESSAGE];
+    func_02045334((struct Descriptor *)window);
+    func_02045374((struct Cfg *)window);
+    func_020409B4(func_02045730((struct Descriptor *)window));
 }
 
 
@@ -2035,53 +1895,53 @@ void func_021B4894(char *w, u32 b)
  *
  * Addresses are Black-image addresses.
  */
-void func_021B4918(char *w, u32 a, u16 b, u32 c, u16 d)
+void func_021B4918(ShopWork *shop, u32 messageId, u16 itemId, u32 price, u16 quantity)
 {
-    func_021B4878(((struct Obj01121 *)w)->f17C);
-    func_0201EF6C((struct WordSet *)(((struct Obj01121 *)w)->f190), 0, b, 0, 0);
-    func_0201EFA4((struct WordSet *)(((struct Obj01121 *)w)->f190), 1, d, 2, 0, 1);
-    func_0201EFA4((struct WordSet *)(((struct Obj01121 *)w)->f190), 2, d * c, 7, 0, 1);
-    func_021B4894((char *)((u32)w), a);
+    func_021B4878(shop->windows[SHOP_WIN_MESSAGE]);
+    func_0201EF6C((struct WordSet *)(shop->wordSet), 0, itemId, 0, 0);
+    func_0201EFA4((struct WordSet *)(shop->wordSet), 1, quantity, 2, 0, 1);
+    func_0201EFA4((struct WordSet *)(shop->wordSet), 2, quantity * price, 7, 0, 1);
+    func_021B4894(shop, messageId);
 }
 
 
 
 
-void func_021B4984(char *w, u32 a, u32 b, u32 c)
+void func_021B4984(ShopWork *shop, u32 messageId, u32 itemId, u32 price)
 {
-    func_021B4878(((struct Obj01121 *)w)->f17C);
-    func_0201EFA4((struct WordSet *)(((struct Obj01121 *)w)->f190), 0, b - 327, 2, 2, 1);
-    func_0201EF34((struct WordSet *)(((struct Obj01121 *)w)->f190), 1, func_020212B0(b));
-    func_0201EFA4((struct WordSet *)(((struct Obj01121 *)w)->f190), 2, c, 5, 0, 1);
-    func_021B4894((char *)((u32)w), a);
+    func_021B4878(shop->windows[SHOP_WIN_MESSAGE]);
+    func_0201EFA4((struct WordSet *)(shop->wordSet), 0, itemId - 327, 2, 2, 1);
+    func_0201EF34((struct WordSet *)(shop->wordSet), 1, func_020212B0(itemId));
+    func_0201EFA4((struct WordSet *)(shop->wordSet), 2, price, 5, 0, 1);
+    func_021B4894(shop, messageId);
 }
 
 
 
 
-int func_021B49EC(s16 *p, int max, int key)
+int func_021B49EC(s16 *value, int maxValue, int step)
 {
-    int s = *p;
-    switch (key) {
+    int oldValue = *value;
+    switch (step) {
     case -1:
-        *p = s - 1;
-        if (*p <= 0) *p = max;
-        if (*p == s) return 0;
+        *value = oldValue - 1;
+        if (*value <= 0) *value = maxValue;
+        if (*value == oldValue) return 0;
         return 2;
     case -10:
-        *p = s - 10;
-        if (*p <= 0) *p = 1;
-        if (*p == s) return 0;
+        *value = oldValue - 10;
+        if (*value <= 0) *value = 1;
+        if (*value == oldValue) return 0;
         return 2;
     case 1:
-        *p = s + 1;
-        if (*p > max) *p = 1;
-        if (*p == s) return 0;
+        *value = oldValue + 1;
+        if (*value > maxValue) *value = 1;
+        if (*value == oldValue) return 0;
         return 1;
     case 10:
-        *p = s + 10;
-        if (*p > max) *p = max;
-        if (*p == s) return 0;
+        *value = oldValue + 10;
+        if (*value > maxValue) *value = maxValue;
+        if (*value == oldValue) return 0;
         return 1;
     }
     return 0;
@@ -2090,40 +1950,40 @@ int func_021B49EC(s16 *p, int max, int key)
 
 
 
-int func_021B4AA4(char *w)
+int func_021B4AA4(ShopWork *shop)
 {
     if (func_0203633C() & 0x40) {
-        if (func_021B49EC((s16 *)(w + 0x208), (u16)((struct Obj00030 *)w)->f204, 1) != 0) {
+        if (func_021B49EC((s16 *)&shop->quantity, (u16)shop->maxQuantity, 1) != 0) {
             func_020061E4(0x548);
-            func_021B42D0(w, ((struct Obj00030 *)w)->f208, ((struct Obj00030 *)w)->f200);
+            func_021B42D0(shop, shop->quantity, shop->price);
         }
     } else if (func_0203633C() & 0x80) {
-        if (func_021B49EC((s16 *)(w + 0x208), (u16)((struct Obj00030 *)w)->f204, -1) != 0) {
+        if (func_021B49EC((s16 *)&shop->quantity, (u16)shop->maxQuantity, -1) != 0) {
             func_020061E4(0x548);
-            func_021B42D0(w, ((struct Obj00030 *)w)->f208, ((struct Obj00030 *)w)->f200);
+            func_021B42D0(shop, shop->quantity, shop->price);
         }
     } else if (func_0203633C() & 0x20) {
-        if (func_021B49EC((s16 *)(w + 0x208), (u16)((struct Obj00030 *)w)->f204, -10) != 0) {
+        if (func_021B49EC((s16 *)&shop->quantity, (u16)shop->maxQuantity, -10) != 0) {
             func_020061E4(0x548);
-            func_021B42D0(w, ((struct Obj00030 *)w)->f208, ((struct Obj00030 *)w)->f200);
+            func_021B42D0(shop, shop->quantity, shop->price);
         }
     } else if (func_0203633C() & 0x10) {
-        if (func_021B49EC((s16 *)(w + 0x208), (u16)((struct Obj00030 *)w)->f204, 10) != 0) {
+        if (func_021B49EC((s16 *)&shop->quantity, (u16)shop->maxQuantity, 10) != 0) {
             func_020061E4(0x548);
-            func_021B42D0(w, ((struct Obj00030 *)w)->f208, ((struct Obj00030 *)w)->f200);
+            func_021B42D0(shop, shop->quantity, shop->price);
         }
     }
     if (func_020362DC() & 1) {
         func_020061E4(0x54C);
-        func_021B4804(w, ((struct Obj00030 *)w)->f162);
-        *(u8 *)&((struct Obj00030 *)w)->f1 = 6;
-        return 10;
+        func_021B4804(shop, shop->isTmShop);
+        shop->nextState = SHOP_STATE_YESNO_OPEN_NOICON;
+        return SHOP_STATE_MESSAGE_WAIT;
     }
     if (func_020362DC() & 2) {
         func_020061E4(0x551);
-        return 4;
+        return SHOP_STATE_LIST_RESUME;
     }
-    return 3;
+    return SHOP_STATE_QUANTITY_STEP;
 }
 
 
@@ -2145,64 +2005,64 @@ void func_021B4BA4(int i)
 
 
 
-int func_021B4BEC(u32 a, u32 b)
+int func_021B4BEC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *d = func_0215A5DC((void *)b);
-    u16 *o = func_02159AE8((void *)a, (void *)b);
+    void *gameSystem = func_0215A5DC(cmdWork);
+    u16 *resultVar = func_02159AE8(vm, cmdWork);
 
-    *o = func_021896F4((void *)func_02012138(d));
+    *resultVar = func_021896F4((void *)func_02012138(gameSystem));
     return 1;
 }
 
 
 
 
-int func_021B4C14(u32 a, u32 b)
+int func_021B4C14(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-*func_02159AE8((void *)a, (void *)b) = func_02009CE4((struct Sub020097BCObj *)func_0201283C(func_0215A5E4((void *)b)));
+*func_02159AE8(vm, cmdWork) = func_02009CE4((struct Sub020097BCObj *)func_0201283C(func_0215A5E4(cmdWork)));
 return 0;
 }
 
 
 
 
-int func_021B4C34(u32 a, u32 b)
+int func_021B4C34(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-*func_02159AE8((void *)a, (void *)b) = func_02009A34((struct Sub020097BCObj *)func_0201283C(func_0215A5E4((void *)b)));
+*func_02159AE8(vm, cmdWork) = func_02009A34((struct Sub020097BCObj *)func_0201283C(func_0215A5E4(cmdWork)));
 return 0;
 }
 
 
 
 
-int func_021B4C54(u32 a, u32 b)
+int func_021B4C54(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    Pair p;
-    void *r5;
-    void *r4;
+    FieldEventArgs args;
+    void *scriptWork;
+    void *gameSystem;
 
-    r5 = func_0215A5F4((void *)b);
-    r4 = func_0215A5DC((void *)b);
-    p.a = func_0201210C((void *)r4);
-    p.b = 0;
-    func_0215897C(r5, func_020124AC(r4, (u32)abs_id_6, (void *)func_02154C20, (u32)(&p)));
+    scriptWork = func_0215A5F4(cmdWork);
+    gameSystem = func_0215A5DC(cmdWork);
+    args.fieldMap = func_0201210C(gameSystem);
+    args.reserved = 0;
+    func_0215897C(scriptWork, func_020124AC(gameSystem, (u32)abs_id_6, (void *)func_02154C20, (u32)(&args)));
     return 1;
 }
 
 
 
 
-int func_021B4C98(u32 a, u32 b)
+int func_021B4C98(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    Pair p;
-    void *r5;
-    void *r4;
+    FieldEventArgs args;
+    void *scriptWork;
+    void *gameSystem;
 
-    r5 = func_0215A5F4((void *)b);
-    r4 = func_0215A5DC((void *)b);
-    p.a = func_0201210C((void *)r4);
-    p.b = 0;
-    func_0215897C(r5, func_020124AC(r4, (u32)abs_id_4, (void *)func_021542C0, (u32)(&p)));
+    scriptWork = func_0215A5F4(cmdWork);
+    gameSystem = func_0215A5DC(cmdWork);
+    args.fieldMap = func_0201210C(gameSystem);
+    args.reserved = 0;
+    func_0215897C(scriptWork, func_020124AC(gameSystem, (u32)abs_id_4, (void *)func_021542C0, (u32)(&args)));
     return 1;
 }
 
@@ -2217,46 +2077,45 @@ int func_021B4C98(u32 a, u32 b)
  *
  * Addresses are Black-image addresses.
  */
-int func_021B4CDC(u32 a, u32 b)
+int func_021B4CDC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *r5;
-    void *r4;
+    void *scriptWork;
+    void *gameSystem;
 
-    r5 = func_0215A5F4((void *)b);
-    r4 = func_0215A5DC((void *)b);
-    func_0215897C(r5, func_020124AC(r4, (u32)abs_id_01, (u32 (*)(void *, u32))func_02154694, (u32)func_0201210C((void *)r4)));
+    scriptWork = func_0215A5F4(cmdWork);
+    gameSystem = func_0215A5DC(cmdWork);
+    func_0215897C(scriptWork, func_020124AC(gameSystem, (u32)abs_id_01, (u32 (*)(void *, u32))func_02154694, (u32)func_0201210C(gameSystem)));
     return 1;
 }
 
 
 
 
-void func_021B4D14(volatile Work_021B4878 *w)
+void func_021B4D14(volatile Ov170EventHandoff *handoff)
 {
-    u32 r1;
-    u32 v;
-    Sub *s;
+    u32 resultFlag;
+    u32 result;
+    Ov170EventWork *work;
 
-    if (w->s->f24 == 4) {
-        func_0200BB58(func_0200BAC8(func_02012EBC((struct Big *)w->a)), (u8 *)w->s->f8);
+    if (handoff->work->kind == 4) {
+        func_0200BB58(func_0200BAC8(func_02012EBC((struct Big *)handoff->gameData)), (u8 *)handoff->work->party);
     }
-    s = w->s;
-    if (s->f24 == 4) {
-        func_020307B0((void *)s->f8);
+    work = handoff->work;
+    if (work->kind == 4) {
+        func_020307B0(work->party);
     }
-    v = w->s->f28;
-    if (v == 0 || v != 1)
-        r1 = 0;
+    result = handoff->work->result;
+    if (result == 0 || result != 1)
+        resultFlag = 0;
     else
-        r1 = 1;
-    *w->out = r1;
-    func_020307B0(w->s);
+        resultFlag = 1;
+    *handoff->resultVar = resultFlag;
+    func_020307B0(handoff->work);
 }
 
 
 
 
-/* c arrives as the command object and is then reused for the new work block (one register; a separate local changes codegen) */
 /*
  * Script command: builds a 0x2C-byte work (save handles, the hand-off kind
  * at +0x24) and a 12-byte hand-off record, then launches overlay 0xAA
@@ -2264,10 +2123,11 @@ void func_021B4D14(volatile Work_021B4878 *w)
  * and parks the task in the script's slot.  Same shape as the ov010
  * pending func_0215C7E0.
  *
- * The work pointer is written back into the first parameter (c): with a
- * separate local, c/work and the save handle w swap r4/r5 whatever the
- * declaration order (docs/idioms/reassigning-a-parameter-to-the-callee-
- * result-keeps-its-register.md).
+ * The new work block is assigned to the first parameter (vm) and then
+ * read through the typed pointer work: with an independent local, work and
+ * the save handle gameData swap r4/r5 whatever the declaration order
+ * (docs/idioms/reassigning-a-parameter-to-the-callee-result-keeps-its-
+ * register.md).
  *
  * Blocker (MATCH, every concrete byte right, 24 of 25 sites resolved): the
  * pool word 0x000000AA (ov170_id, +0xF0) has no witness.  It is the
@@ -2283,196 +2143,198 @@ void func_021B4D14(volatile Work_021B4878 *w)
  *
  * Addresses are Black-image addresses.
  */
-int func_021B4D60(Work021B4D60 *c, void *vm)
+int func_021B4D60(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *slot;
-    void *sys;
-    void *w;
-    void *x;
-    void *y;
-    void *z;
-    unsigned short *r7;
+    void *scriptWork;
+    void *gameSystem;
+    void *gameData;
+    void *saveControl;
+    void *saveStateSource;
+    void *fieldMap;
+    unsigned short *resultVar;
     u32 kind;
-    Rec021B4D60 *h;
-    void *s;
+    Ov170EventHandoff *handoff;
+    void *saveBlock;
+    Ov170EventWork *work;
 
-    slot = func_0215A5F4(vm);
-    sys = func_0215A5DC(vm);
-    w = func_020120F4(sys);
-    x = func_02012EBC(w);
-    y = func_0200CA1C(w);
-    z = func_0201210C(sys);
-    r7 = func_02159AE8(c, vm);
-    kind = func_02159B10(c, vm);
-    c = func_02030734(4, 0x2c, 0, d_021DE220, 0x7c);
-    c->w = w;
-    c->f04 = func_0201293C(w);
-    c->f08 = func_02012934(w);
-    c->f0C = (u32)func_0201292C(w);
-    c->f10 = func_02012944(w);
-    c->f18 = (u32)func_0200873C(x);
-    c->f1C = func_0200CA38(y);
-    c->kind = kind;
-    c->f14 = 0;
+    scriptWork = func_0215A5F4(cmdWork);
+    gameSystem = func_0215A5DC(cmdWork);
+    gameData = func_020120F4(gameSystem);
+    saveControl = func_02012EBC(gameData);
+    saveStateSource = func_0200CA1C(gameData);
+    fieldMap = func_0201210C(gameSystem);
+    resultVar = func_02159AE8(vm, cmdWork);
+    kind = func_02159B10(vm, cmdWork);
+    vm = func_02030734(4, 0x2c, 0, d_021DE220, 0x7c);
+    work = (Ov170EventWork *)vm;
+    work->gameData = gameData;
+    work->boxManager = func_0201293C(gameData);
+    work->party = func_02012934(gameData);
+    work->myItem = (u32)func_0201292C(gameData);
+    work->myStatus = func_02012944(gameData);
+    work->saveStateA = (u32)func_0200873C(saveControl);
+    work->saveStateB = func_0200CA38(saveStateSource);
+    work->kind = kind;
+    work->extraData = 0;
     if (kind == 4) {
-        s = func_0200BAC8(x);
-        c->f08 = func_0200BAF4((int)s, 4);
-        c->f14 = func_0200BBFC(s, 3);
+        saveBlock = func_0200BAC8(saveControl);
+        work->party = func_0200BAF4((int)saveBlock, 4);
+        work->extraData = func_0200BBFC(saveBlock, 3);
     }
-    h = func_02030734(4, 0xc, 0, d_021DE220, 0x90);
-    h->w = w;
-    h->name = r7;
-    h->work = c;
-    func_0215897C(slot, func_02014840(sys, (int)z, (u32)ov170_id, (int)d_021EF78C, (int)c, (int)((void *)func_021B4D14), (int)h));
+    handoff = func_02030734(4, 0xc, 0, d_021DE220, 0x90);
+    handoff->gameData = gameData;
+    handoff->resultVar = resultVar;
+    handoff->work = work;
+    func_0215897C(scriptWork, func_02014840(gameSystem, (int)fieldMap, (u32)ov170_id, (int)d_021EF78C, (int)work, (int)((void *)func_021B4D14), (int)handoff));
     return 1;
 }
 
 
 
 
-int func_021B4E58(u32 a, u32 b)
+int func_021B4E58(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *r6;
-    void *r7;
-    void *z;
+    void *scriptWork;
+    void *gameSystem;
+    void *fieldMap;
 
-    r6 = func_0215A5F4((void *)b);
-    r7 = func_0215A5DC((void *)b);
-    z = func_0201210C((void *)r7);
-    func_0215897C(r6, (void *)func_021CD2A4((u32)r7, (u32)z, 0, 5, (u32)func_02159AE8((void *)a, (void *)b)));
+    scriptWork = func_0215A5F4(cmdWork);
+    gameSystem = func_0215A5DC(cmdWork);
+    fieldMap = func_0201210C(gameSystem);
+    func_0215897C(scriptWork, (void *)func_021CD2A4((u32)gameSystem, (u32)fieldMap, 0, 5, (u32)func_02159AE8(vm, cmdWork)));
     return 1;
 }
 
 
 
 
-int func_021B4E9C(u32 a, u32 b)
+int func_021B4E9C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *r6;
-    void *r7;
-    void *z;
+    void *scriptWork;
+    void *gameSystem;
+    void *fieldMap;
 
-    r6 = func_0215A5F4((void *)b);
-    r7 = func_0215A5DC((void *)b);
-    z = func_0201210C((void *)r7);
-    func_0215897C(r6, (void *)func_021CD2A4((u32)r7, (u32)z, 0, 6, (u32)func_02159AE8((void *)a, (void *)b)));
+    scriptWork = func_0215A5F4(cmdWork);
+    gameSystem = func_0215A5DC(cmdWork);
+    fieldMap = func_0201210C(gameSystem);
+    func_0215897C(scriptWork, (void *)func_021CD2A4((u32)gameSystem, (u32)fieldMap, 0, 6, (u32)func_02159AE8(vm, cmdWork)));
     return 1;
 }
 
 
 
 
-int func_021B4EE0(u32 a, u32 b)
+int func_021B4EE0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *s = func_0215A5F4((void *)b);
-    void *d = func_0215A5DC((void *)b);
+    void *scriptWork = func_0215A5F4(cmdWork);
+    void *gameSystem = func_0215A5DC(cmdWork);
 
-    func_0201210C((void *)d);
-    func_0215898C((int)s, (int)func_0215F8A8(d, func_02159B10((void *)a, (void *)b)));
-    func_02011290((struct ScriptVm *)a);
+    func_0201210C(gameSystem);
+    func_0215898C((int)scriptWork, (int)func_0215F8A8(gameSystem, func_02159B10(vm, cmdWork)));
+    func_02011290(vm);
     return 1;
 }
 
 
 
 
-int func_021B4F1C(u32 a, u32 b)
+int func_021B4F1C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    u32 r7;
-    u32 r5;
-    void *r6;
-    void *r4;
+    u32 saveBlock;
+    u32 eventArg;
+    void *scriptWork;
+    void *gameSystem;
 
-    r7 = (u32)func_02009210(func_02012EBC(func_0215A5E4((void *)b)));
-    r5 = func_02159B10((void *)a, (void *)b);
-    r6 = func_0215A5F4((void *)b);
-    r4 = func_0215A5DC((void *)b);
-    func_020090D8((struct Sub020090B0Obj *)r7, 1);
-    func_0215897C(r6, func_02168BBC(r4, (void *)r5));
+    saveBlock = (u32)func_02009210(func_02012EBC(func_0215A5E4(cmdWork)));
+    eventArg = func_02159B10(vm, cmdWork);
+    scriptWork = func_0215A5F4(cmdWork);
+    gameSystem = func_0215A5DC(cmdWork);
+    func_020090D8((struct Sub020090B0Obj *)saveBlock, 1);
+    func_0215897C(scriptWork, func_02168BBC(gameSystem, (void *)eventArg));
     return 1;
 }
 
 
 
 
-int func_021B4F68(u32 a, u32 b)
+int func_021B4F68(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *r5;
-    void *r4;
-    void *r6;
+    void *gameSystem;
+    void *scriptWork;
+    void *fieldMap;
 
-    r5 = func_0215A5DC((void *)b);
-    r4 = func_0215A5F4((void *)b);
-    r6 = func_0201210C((void *)r5);
-    func_0215897C(r4, func_020146F8(r5, (int)r6, (int)abs_id_DB, (int)d_02185F0C, (int)func_020120F4(r5)));
+    gameSystem = func_0215A5DC(cmdWork);
+    scriptWork = func_0215A5F4(cmdWork);
+    fieldMap = func_0201210C(gameSystem);
+    func_0215897C(scriptWork, func_020146F8(gameSystem, (int)fieldMap, (int)abs_id_DB, (int)d_02185F0C, (int)func_020120F4(gameSystem)));
     return 1;
 }
 
 
 
 
-int func_021B4FB0(u32 a, u32 b)
+int func_021B4FB0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *r0;
-    void *r7;
-    u32 r4;
-    unsigned short *x;
-    u32 y;
+    void *scriptWork;
+    void *gameSystem;
+    u32 flag;
+    unsigned short *resultVar;
+    u32 flagBool;
 
-    r0 = func_0215A5F4((void *)b);
-    r7 = func_0215A5DC((void *)b);
-    func_02012EBC(func_020120F4(r7));
-    func_0201210C((void *)r7);
-    r4 = func_02159B10((void *)a, (void *)b);
-    x = func_02159AE8((void *)a, (void *)b);
-    if (r4 == 0 || r4 != 1)
-        y = 0;
+    scriptWork = func_0215A5F4(cmdWork);
+    gameSystem = func_0215A5DC(cmdWork);
+    func_02012EBC(func_020120F4(gameSystem));
+    func_0201210C(gameSystem);
+    flag = func_02159B10(vm, cmdWork);
+    resultVar = func_02159AE8(vm, cmdWork);
+    if (flag == 0 || flag != 1)
+        flagBool = 0;
     else
-        y = 1;
-    func_0215897C(r0, func_021C5BD0(r7, y, (u32)x));
+        flagBool = 1;
+    func_0215897C(scriptWork, func_021C5BD0(gameSystem, flagBool, (u32)resultVar));
     return 1;
 }
 
 
 
 
-int func_021B5008(u32 a, u32 b)
+int func_021B5008(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *d = func_0215A5DC((void *)b);
-    void *s = func_0215A5F4((void *)b);
+    void *gameSystem = func_0215A5DC(cmdWork);
+    void *scriptWork = func_0215A5F4(cmdWork);
 
-    func_0215897C(s, func_021D30B8(d, func_02159AE8((void *)a, (void *)b)));
+    func_0215897C(scriptWork, func_021D30B8(gameSystem, func_02159AE8(vm, cmdWork)));
     return 1;
 }
 
 
 
 
-int func_021B503C(u32 a, u32 b)
+int func_021B503C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *r4;
-    u32 s0;
-    u32 r7;
-    u32 r5;
+    void *scriptWork;
+    u32 eventParam0;
+    u32 eventParam1;
+    u32 eventParam2;
 
-    r4 = func_0215A5F4((void *)b);
-    s0 = func_02159B10((void *)a, (void *)b);
-    r7 = func_02159B10((void *)a, (void *)b);
-    r5 = func_02159B10((void *)a, (void *)b);
-    func_02158F54(r4);
-    func_0215897C(r4, (void *)func_021AA0A0(func_02188CE8((u8 *)(((u32 *)func_02158F58((int)r4))[1])), s0, (u8)r7, r5));
+    scriptWork = func_0215A5F4(cmdWork);
+    eventParam0 = func_02159B10(vm, cmdWork);
+    eventParam1 = func_02159B10(vm, cmdWork);
+    eventParam2 = func_02159B10(vm, cmdWork);
+    func_02158F54(scriptWork);
+    func_0215897C(scriptWork, (void *)func_021AA0A0(func_02188CE8((u8 *)(((u32 *)func_02158F58((int)scriptWork))[1])), eventParam0, (u8)eventParam1, eventParam2));
     return 1;
 }
 
 
 
 
-int func_021B5094(u32 a, u32 b)
+int func_021B5094(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *s = func_0215A5F4((void *)b);
-    void *d = func_0215A5DC((void *)b);
+    void *scriptWork = func_0215A5F4(cmdWork);
+    void *gameSystem = func_0215A5DC(cmdWork);
 
-    func_0215897C(s, (void *)func_021BE92C(d, (int)func_0201210C((void *)d), 0, 0, 1, 0, 0));
+    func_0215897C(scriptWork, (void *)func_021BE92C(gameSystem, (int)func_0201210C(gameSystem), 0, 0, 1, 0, 0));
     return 1;
 }
 
@@ -2482,50 +2344,50 @@ int func_021B5094(u32 a, u32 b)
 /*
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
  */
-int func_021B50D0(u32 a, u32 b)
+int func_021B50D0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    u32 x = func_02012A44(func_0215A5E4((void *)b));
-    u16 *o = func_02159AE8((void *)a, (void *)b);
+    u32 flagValue = func_02012A44(func_0215A5E4(cmdWork));
+    u16 *resultVar = func_02159AE8(vm, cmdWork);
 
-    *o = func_0216EFCC(x);
+    *resultVar = func_0216EFCC(flagValue);
     return 0;
 }
 
 
 
 
-int func_021B50F8(u32 a, u32 b)
+int func_021B50F8(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *s = func_0215A5F4((void *)b);
-    void *d = func_0215A5DC((void *)b);
+    void *scriptWork = func_0215A5F4(cmdWork);
+    void *gameSystem = func_0215A5DC(cmdWork);
 
-    func_0215897C(s, func_0216E95C(d, (u32)func_0201210C((void *)d), 4));
+    func_0215897C(scriptWork, func_0216E95C(gameSystem, (u32)func_0201210C(gameSystem), 4));
     return 1;
 }
 
 
 
 
-int func_021B5128(u32 a, u32 b)
+int func_021B5128(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *w = func_0201210C(func_0215A5DC((void *)b));
-    u16 *o = func_02159AE8((void *)a, (void *)b);
+    void *fieldMap = func_0201210C(func_0215A5DC(cmdWork));
+    u16 *resultVar = func_02159AE8(vm, cmdWork);
 
-    *o = func_021AAB48((char *)func_02188CE8(w));
+    *resultVar = func_021AAB48((char *)func_02188CE8(fieldMap));
     return 0;
 }
 
 
 
 
-int func_021B5154(u32 a, u32 b)
+int func_021B5154(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *e = func_0215A5E4((void *)b);
-    u32 g = (u32)func_0200D418(func_02012EBC(e));
-    u8 k = func_02159B10((void *)a, (void *)b);
+    void *gameData = func_0215A5E4(cmdWork);
+    u32 flagBlock = (u32)func_0200D418(func_02012EBC(gameData));
+    u8 flagIndex = func_02159B10(vm, cmdWork);
 
-    if (func_0200D488((struct Blk38 *)g, k) == 0) {
-        func_0215E440(e, k);
+    if (func_0200D488((struct Blk38 *)flagBlock, flagIndex) == 0) {
+        func_0215E440(gameData, flagIndex);
     }
     return 0;
 }
@@ -2533,17 +2395,17 @@ int func_021B5154(u32 a, u32 b)
 
 
 
-u16 func_021B5190(u16 *arr, u16 n, u16 v)
+u16 func_021B5190(u16 *values, u16 count, u16 value)
 {
     int i;
 
-    for (i = 0; i < n; i++) {
-        if (v == arr[i]) {
-            return n;
+    for (i = 0; i < count; i++) {
+        if (value == values[i]) {
+            return count;
         }
     }
-    arr[n] = v;
-    return n + 1;
+    values[count] = value;
+    return count + 1;
 }
 
 
@@ -2554,55 +2416,55 @@ u16 func_021B5190(u16 *arr, u16 n, u16 v)
  *
  * Addresses are Black-image addresses.
  */
-int func_021B51BC(void *a, void *b)
+int func_021B51BC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    Rec_021B51BC rec;
-    u32 x;
-    u16 i;
-    void *h;
-    u16 *out;
-    void *sys;
-    u16 *list;
-    u16 j;
-    u16 n;
+    EncounterRecord record;
+    u32 season;
+    u16 tableIndex;
+    void *archive;
+    u16 *resultVar;
+    void *gameData;
+    u16 *speciesList;
+    u16 slot;
+    u16 count;
 
-    n = 0;
-    sys = func_0215A5E4(b);
-    out = func_02159AE8(a, b);
-    x = func_02012984(sys);
-    h = func_020490F4(0x7e, 0x8015);
-    list = func_02030734(0x8015, 0x78, 1, d_021DE234, 0xf8);
-    for (i = 0; i < 6; i++) {
-        if (func_0215E2B8(&rec, h, d_021D98D0[i], x)) {
-            if (rec.hasA) {
-                for (j = 0; j < 5; j++) {
-                    n = func_021B5190(list, n, rec.a[j].id);
+    count = 0;
+    gameData = func_0215A5E4(cmdWork);
+    resultVar = func_02159AE8(vm, cmdWork);
+    season = func_02012984(gameData);
+    archive = func_020490F4(0x7e, 0x8015);
+    speciesList = func_02030734(0x8015, 0x78, 1, d_021DE234, 0xf8);
+    for (tableIndex = 0; tableIndex < 6; tableIndex++) {
+        if (func_0215E2B8(&record, archive, d_021D98D0[tableIndex], season)) {
+            if (record.hasSetA) {
+                for (slot = 0; slot < 5; slot++) {
+                    count = func_021B5190(speciesList, count, record.setA[slot].species);
                 }
             }
-            if (rec.hasB) {
-                for (j = 0; j < 5; j++) {
-                    n = func_021B5190(list, n, rec.b[j].id);
+            if (record.hasSetB) {
+                for (slot = 0; slot < 5; slot++) {
+                    count = func_021B5190(speciesList, count, record.setB[slot].species);
                 }
             }
         }
     }
-    *out = list[func_02005728(n)];
-    func_020307B0(list);
-    func_02049238(h);
+    *resultVar = speciesList[func_02005728(count)];
+    func_020307B0(speciesList);
+    func_02049238(archive);
     return 0;
 }
 
 
 
 
-int func_021B52A4(void *a, u32 b)
+int func_021B52A4(void *fieldMap, void *fieldRegion)
 {
-func_0218F878((u8 *)b);
-if (func_0218F0F8((u8 *)b) != 0) {
-    func_0218F05C((unsigned char *)b);
+func_0218F878(fieldRegion);
+if (func_0218F0F8(fieldRegion) != 0) {
+    func_0218F05C(fieldRegion);
 }
-if (func_02188CFC((u8 *)a) == 1) {
-    func_021BB260(func_02188C5C((u8 *)a), 1);
+if (func_02188CFC(fieldMap) == 1) {
+    func_021BB260(func_02188C5C(fieldMap), 1);
 }
 return func_02159168(0);
 }
@@ -2610,36 +2472,36 @@ return func_02159168(0);
 
 
 
-int func_021B52E0(void **p)
+int func_021B52E0(void **eventWork)
 {
-    void *w = func_0201210C(p[0]);
+    void *fieldMap = func_0201210C(eventWork[0]);
 
-    func_021B52A4(w, (u32)func_02188C58(w));
+    func_021B52A4(fieldMap, func_02188C58(fieldMap));
     return 1;
 }
 
 
 
 
-int func_021B52FC(u32 a, u32 b)
+int func_021B52FC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *r6;
-    void *r4;
-    void *r5;
+    void *gameSystem;
+    void *fieldMap;
+    void *fieldRegion;
 
-    r6 = func_0215A5DC((void *)b);
-    r4 = func_0201210C((void *)r6);
-    r5 = func_02188C58(r4);
+    gameSystem = func_0215A5DC(cmdWork);
+    fieldMap = func_0201210C(gameSystem);
+    fieldRegion = func_02188C58(fieldMap);
     func_02159144(0);
-    if (func_0218F0F8(r5) != 0) {
-        func_0218F0A8(r5);
-        r5 = func_0215A5F4((void *)b);
-        func_0215897C(r5, func_020122C0(r6, 0, (void *)func_021B55C8, 0));
-        if (func_02188CFC(r4) == 1) {
-            func_021BB260(func_02188C5C(r4), 0);
+    if (func_0218F0F8(fieldRegion) != 0) {
+        func_0218F0A8(fieldRegion);
+        fieldRegion = func_0215A5F4(cmdWork);
+        func_0215897C(fieldRegion, func_020122C0(gameSystem, 0, (void *)func_021B55C8, 0));
+        if (func_02188CFC(fieldMap) == 1) {
+            func_021BB260(func_02188C5C(fieldMap), 0);
         }
     } else {
-        func_0218F818(r5);
+        func_0218F818(fieldRegion);
     }
     return 1;
 }
@@ -2647,164 +2509,164 @@ int func_021B52FC(u32 a, u32 b)
 
 
 
-int func_021B536C(u32 a, u32 b)
+int func_021B536C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *w = func_0201210C(func_0215A5DC((void *)b));
+    void *fieldMap = func_0201210C(func_0215A5DC(cmdWork));
 
-    func_021B52A4(w, (u32)func_02188C58(w));
+    func_021B52A4(fieldMap, func_02188C58(fieldMap));
     return 0;
 }
 
 
 
 
-int func_021B538C(u32 a, u32 b, u32 c, u32 d)
+int func_021B538C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-func_0218EC54(func_02188C58(func_0201210C(func_0215A5DC((void *)b))));
+func_0218EC54(func_02188C58(func_0201210C(func_0215A5DC(cmdWork))));
 return 0;
 }
 
 
 
 
-int func_021B53A4(u32 a, u32 b, u32 c, u32 d)
+int func_021B53A4(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-func_0218EC60((u32)func_02188C58(func_0201210C(func_0215A5DC((void *)b))));
+func_0218EC60((u32)func_02188C58(func_0201210C(func_0215A5DC(cmdWork))));
 return 0;
 }
 
 
 
 
-int func_021B53BC(struct Cursor *a0, int a1)
+int func_021B53BC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    Work_021B3158 o;
-    int r4;
+    FieldRegionParam param;
+    void *fieldRegion;
 
-    r4 = (int)func_02188C58(func_0201210C(func_0215A5DC((void *)a1)));
-    o.h24 = func_02011330((struct Stream *)a0);
-    o.h26 = func_02011330((struct Stream *)a0);
-    o.f28 = func_0201134C(a0);
-    o.f0c = func_0201134C(a0);
-    o.f10 = func_0201134C(a0);
-    o.f14 = func_0201134C(a0);
-    o.w30[0] = 0;
-    o.w30[1] = 1;
-    o.w30[2] = 1;
-    o.w30[3] = 1;
-    o.w30[4] = 0;
-    o.w30[5] = 1;
-    func_0218F900((u8 *)r4, &o, func_02011330((struct Stream *)a0));
+    fieldRegion = func_02188C58(func_0201210C(func_0215A5DC(cmdWork)));
+    param.areaWidth = func_02011330(vm);
+    param.areaHeight = func_02011330(vm);
+    param.areaFlags = func_0201134C(vm);
+    param.origin.x = func_0201134C(vm);
+    param.origin.y = func_0201134C(vm);
+    param.origin.z = func_0201134C(vm);
+    param.layers.flag[0] = 0;
+    param.layers.flag[1] = 1;
+    param.layers.flag[2] = 1;
+    param.layers.flag[3] = 1;
+    param.layers.flag[4] = 0;
+    param.layers.flag[5] = 1;
+    func_0218F900(fieldRegion, &param, func_02011330(vm));
     return 0;
 }
 
 
 
 
-int func_021B542C(int a0, int a1)
+int func_021B542C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    Src s;
-    Out_021B542C o;
-    int r5;
-    int r6;
-    int r4;
+    FieldRegionRecord record;
+    FieldRegionParam param;
+    void *fieldRegion;
+    int memberIndex;
+    int regionIndex;
 
-    r5 = (int)func_02188C58(func_0201210C(func_0215A5DC((void *)a1)));
-    r6 = func_02011330((struct Stream *)a0);
-    r4 = func_02011330((struct Stream *)a0);
-    func_02048F4C(&s, 0xa3, r6);
-    o.h24 = s.h0;
-    o.h26 = s.h2;
-    o.f28 = s.f4;
-    o.v0c = s.v8;
-    o.v30 = s.v14;
-    func_0218F900((u8 *)r5, &o, r4);
+    fieldRegion = func_02188C58(func_0201210C(func_0215A5DC(cmdWork)));
+    memberIndex = func_02011330(vm);
+    regionIndex = func_02011330(vm);
+    func_02048F4C(&record, 0xa3, memberIndex);
+    param.areaWidth = record.areaWidth;
+    param.areaHeight = record.areaHeight;
+    param.areaFlags = record.areaFlags;
+    param.origin = record.origin;
+    param.layers = record.layers;
+    func_0218F900(fieldRegion, &param, regionIndex);
     return 0;
 }
 
 
 
 
-int func_021B5498(u32 a, u32 b)
+int func_021B5498(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    u32 v[6];
-    void *x = func_02188C58(func_0201210C(func_0215A5DC((void *)b)));
-    u16 k = func_02011330((struct Stream *)a);
+    LayerFlags layers;
+    void *fieldRegion = func_02188C58(func_0201210C(func_0215A5DC(cmdWork)));
+    u16 regionIndex = func_02011330(vm);
 
-    v[0] = 1;
-    v[1] = 1;
-    v[2] = 1;
-    v[3] = 1;
-    v[4] = 1;
-    v[5] = 1;
-    func_0218F9C4((u8 *)x, (u8 *)v, k);
+    layers.flag[0] = 1;
+    layers.flag[1] = 1;
+    layers.flag[2] = 1;
+    layers.flag[3] = 1;
+    layers.flag[4] = 1;
+    layers.flag[5] = 1;
+    func_0218F9C4(fieldRegion, (u8 *)&layers, regionIndex);
     return 0;
 }
 
 
 
 
-int func_021B54D4(u32 a, u32 b, u32 c, u32 d)
+int func_021B54D4(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-func_0218FA40(func_02188C58(func_0201210C(func_0215A5DC((void *)b))), func_02011330((struct Stream *)a));
+func_0218FA40(func_02188C58(func_0201210C(func_0215A5DC(cmdWork))), func_02011330(vm));
 return 0;
 }
 
 
 
 
-int func_021B54FC(void *a, void *b)
+int func_021B54FC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *s = func_0215A5F4(b);
-    void *d = func_0215A5DC(b);
+    void *scriptWork = func_0215A5F4(cmdWork);
+    void *gameSystem = func_0215A5DC(cmdWork);
 
-    func_0215897C(s, func_020122C0(d, 0, func_021B55F0, 0));
+    func_0215897C(scriptWork, func_020122C0(gameSystem, 0, func_021B55F0, 0));
     return 1;
 }
 
 
 
 
-int func_021B5528(int a0, int a1)
+int func_021B5528(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int v0 = func_02159B10((void *)a0, (void *)a1);
-    int v1 = func_02159B10((void *)a0, (void *)a1);
-    int v2 = func_02159B10((void *)a0, (void *)a1);
-    int v3 = func_02159B10((void *)a0, (void *)a1);
-    int v4 = func_02159B10((void *)a0, (void *)a1);
-    int v5 = func_02159B10((void *)a0, (void *)a1);
-    int v6 = func_02159B10((void *)a0, (void *)a1);
-    int v7 = func_02159B10((void *)a0, (void *)a1);
-    void *r;
-    void *o;
-    Rec_021B5528 s;
+    int arg0 = func_02159B10(vm, cmdWork);
+    int arg1 = func_02159B10(vm, cmdWork);
+    int arg2 = func_02159B10(vm, cmdWork);
+    int arg3 = func_02159B10(vm, cmdWork);
+    int arg4 = func_02159B10(vm, cmdWork);
+    int arg5 = func_02159B10(vm, cmdWork);
+    int arg6 = func_02159B10(vm, cmdWork);
+    int arg7 = func_02159B10(vm, cmdWork);
+    void *scriptWork;
+    void *gameSystem;
+    CustomEventParam param;
 
-    r = func_0215A5F4((void *)a1);
-    o = func_0215A5DC((void *)a1);
-    s.h0 = v0;
-    s.h2 = v1;
-    s.w10 = v2;
-    s.bf = v3;
-    s.be = v3;
-    s.w14 = 0;
-    s.h4 = v4;
-    s.h6 = v5;
-    s.h8 = v6;
-    s.ha = 0;
-    s.hc = v7;
-    func_0215897C(r, func_021D2D50((void *)o, (struct Blk021D2D50 *)(&s)));
+    scriptWork = func_0215A5F4(cmdWork);
+    gameSystem = func_0215A5DC(cmdWork);
+    param.eventId = arg0;
+    param.eventKind = arg1;
+    param.scriptId = arg2;
+    param.kindCopy = arg3;
+    param.kind = arg3;
+    param.reserved14 = 0;
+    param.mapX = arg4;
+    param.mapY = arg5;
+    param.mapZ = arg6;
+    param.reserved0A = 0;
+    param.facing = arg7;
+    func_0215897C(scriptWork, func_021D2D50(gameSystem, (struct Blk021D2D50 *)(&param)));
     return 1;
 }
 
 
 
 
-int func_021B55C8(void *a)
+int func_021B55C8(void *event)
 {
-    u8 *x = func_02188C58(func_0201210C(func_020124E4(a)));
+    u8 *fieldRegion = func_02188C58(func_0201210C(func_020124E4(event)));
 
-    if (func_0218F0E8(x) == 0) {
-        func_0218F818(x);
+    if (func_0218F0E8(fieldRegion) == 0) {
+        func_0218F818(fieldRegion);
         return 1;
     }
     return 0;
@@ -2813,24 +2675,24 @@ int func_021B55C8(void *a)
 
 
 
-int func_021B55F0(void *a)
+int func_021B55F0(void *event)
 {
-    int x = func_0218FE50(func_02188C58(func_0201210C(func_020124E4(a))));
+    int busy = func_0218FE50(func_02188C58(func_0201210C(func_020124E4(event))));
 
-    return x != 0 ? B_FALSE : B_TRUE;
+    return busy != 0 ? B_FALSE : B_TRUE;
 }
 
 
 
 
-int func_021B5610(void *a0, void *a1)
+int func_021B5610(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *r6 = func_0215A5F4(a1);
-    void *r7 = func_0215A5DC(a1);
-    u8 *t = func_0201210C(r7);
-    unsigned int v = func_02159B10(a0, a1);
+    void *scriptWork = func_0215A5F4(cmdWork);
+    void *gameSystem = func_0215A5DC(cmdWork);
+    u8 *fieldMap = func_0201210C(gameSystem);
+    unsigned int slotNumber = func_02159B10(vm, cmdWork);
 
-    func_0215897C(r6, func_021F36C0(r7, t, (u16)(v - 1)));
+    func_0215897C(scriptWork, func_021F36C0(gameSystem, fieldMap, (u16)(slotNumber - 1)));
     return 1;
 }
 
@@ -2840,37 +2702,37 @@ int func_021B5610(void *a0, void *a1)
 /*
  * func_021F36C8 is the ov056 slot-table lookup (src/matched/ov/ov056_func_021F36C8.c).
  */
-int func_021B5650(void *a, void *b)
+int func_021B5650(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *w = func_0201210C(func_0215A5DC(b));
-    unsigned int k = func_02159B10(a, b);
-    u32 *x = func_02188C58(w);
+    void *fieldMap = func_0201210C(func_0215A5DC(cmdWork));
+    unsigned int slotNumber = func_02159B10(vm, cmdWork);
+    u32 *fieldRegion = func_02188C58(fieldMap);
 
-    func_0218E17C(x, func_021F36C8((u16)(k - 1)));
+    func_0218E17C(fieldRegion, func_021F36C8((u16)(slotNumber - 1)));
     return 0;
 }
 
 
 
 
-int func_021B568C(int a0, int a1)
+int func_021B568C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int r4 = func_02188D24(func_0201210C(func_0215A5DC((void *)a1)));
+    int regionTable = func_02188D24(func_0201210C(func_0215A5DC(cmdWork)));
 
-    switch (func_02159B10((void *)a0, (void *)a1)) {
+    switch (func_02159B10(vm, cmdWork)) {
     case 0:
         break;
     case 1:
-        func_021BB990((int)ov56_id, (int *)r4, (const int *)g_021F4344);
+        func_021BB990((int)ov56_id, (int *)regionTable, (const int *)g_021F4344);
         break;
     case 2:
-        func_021BB990((int)ov56_id, (int *)r4, (const int *)g_021F4374);
+        func_021BB990((int)ov56_id, (int *)regionTable, (const int *)g_021F4374);
         break;
     case 3:
-        func_021BB990((int)ov56_id, (int *)r4, (const int *)g_021F438C);
+        func_021BB990((int)ov56_id, (int *)regionTable, (const int *)g_021F438C);
         break;
     case 4:
-        func_021BB990((int)ov56_id, (int *)r4, (const int *)g_021F435C);
+        func_021BB990((int)ov56_id, (int *)regionTable, (const int *)g_021F435C);
         break;
     }
     return 0;

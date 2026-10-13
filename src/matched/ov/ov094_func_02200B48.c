@@ -13,8 +13,8 @@
  * src/matched/arm9, which closes the former MATCH.
  *
  * symbols:
- *   func_02015D4C  0x02015D4C  thumb
- *   func_02015D64  0x02015D64  thumb
+ *   MCSS_GetDrawScale  0x02015D4C  thumb
+ *   MCSS_SetDrawScale  0x02015D64  thumb
  *   func_021F89BC  0x021F89BC  thumb  ov094
  *   func_021F9260  0x021F9260  thumb  ov094
  *   func_022019F4  0x022019F4  thumb  ov094
@@ -24,13 +24,13 @@
  * and no --region (cc 1.1p1, -O4,p), packets pkt_02015D4C / pkt_02015D64:
  *
  *   typedef unsigned int u32;
- *   void func_02015D4C(void *p, u32 *out)   // 0x02015D4C, 64 B extent
+ *   void MCSS_GetDrawScale(void *p, u32 *out)   // 0x02015D4C, 64 B extent
  *   {
  *       out[0] = *(u32 *)((char *)p + 0x110);
  *       out[1] = *(u32 *)((char *)p + 0x114);
  *       out[2] = *(u32 *)((char *)p + 0x118);
  *   }
- *   void func_02015D64(void *p, u32 *src)  // 0x02015D64, inverse
+ *   void MCSS_SetDrawScale(void *p, u32 *src)  // 0x02015D64, inverse
  *   {
  *       *(u32 *)((char *)p + 0x110) = src[0];
  *       *(u32 *)((char *)p + 0x114) = src[1];
@@ -72,8 +72,8 @@ typedef struct {
 } Ctx;
 
 typedef unsigned int   u32;
-extern void func_02015D4C(void *p, u32 *out);
-extern void func_02015D64(void *p, u32 *src);
+extern void MCSS_GetDrawScale(void *p, u32 *out);
+extern void MCSS_SetDrawScale(void *p, u32 *src);
 extern void func_021F89BC(void *h);
 extern int func_021F9260(Mover *m, VecFx32 *out);
 extern int func_022019F4(char *p, int key);
@@ -97,9 +97,9 @@ void func_02200B48(void *h, Ctx *c)
         func_021F89BC(h);
         return;
     }
-    func_02015D4C(w->e[i].h, (u32 *)(&v));
+    MCSS_GetDrawScale(w->e[i].h, (u32 *)(&v));
     r = func_021F9260(&c->mv, &v);
-    func_02015D64(w->e[i].h, (u32 *)(&v));
+    MCSS_SetDrawScale(w->e[i].h, (u32 *)(&v));
     if (r == 1)
         func_021F89BC(h);
 }

@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02024158  0x02024158  thumb
+ *   PMSI_PARAM_HasInitialSentence  0x02024158  thumb
  *
  * Byte-correct but witness-blocked (MATCH).
- * +0008 ABS32 func_02024158          -> unresolved: 02024158 (arm, from name) has no witness outside 021BF7C4..021BF7D0
+ * +0008 ABS32 PMSI_PARAM_HasInitialSentence          -> unresolved: 02024158 (arm, from name) has no witness outside 021BF7C4..021BF7D0
  */
 #include "../include/Obj22393.h"
 
@@ -24,5 +24,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern u32 func_02024158(const u8 *p);
-u32 func_021BF7C4(u8 *p) { return func_02024158((const u8 *)(((struct Obj22393 *)p)->f0)); }
+extern u32 PMSI_PARAM_HasInitialSentence(const u8 *p);
+u32 func_021BF7C4(u8 *p) { return PMSI_PARAM_HasInitialSentence((const u8 *)(((struct Obj22393 *)p)->f0)); }

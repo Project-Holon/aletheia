@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb  arm9
  *
 
  *
@@ -18,9 +19,9 @@
 
 typedef unsigned int u32;
 
-extern void *func_020185F4(void *a);
+extern void *POKE_TOOL_GetBoxParam(void *a);
 
 u32 func_022026BC(void *mon)
 {
-    return (u32)func_020185F4(mon);
+    return (u32)POKE_TOOL_GetBoxParam(mon);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0201A5FC
+ * function: POKE_REGULATION_CheckOrder
  * address:  0x0201A5FC
  * packet:   pkt_0201A5FC
  * region:   arm9
@@ -14,11 +14,11 @@
  *   func_0201AA18   0x0201AA18  thumb
  *   func_0201AB28   0x0201AB28  thumb
  *   func_02017E1C   0x02017E1C  thumb
- *   func_0201A26C   0x0201A26C  thumb
- *   func_02019DA4   0x02019DA4  thumb
+ *   POKE_REGULATION_AdjustLevel   0x0201A26C  thumb
+ *   POKE_REGULATION_CheckPokemon   0x02019DA4  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A5FC.c  *       --func func_0201A5FC --addr 0x0201A5FC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_REGULATION_CheckOrder.c  *       --func POKE_REGULATION_CheckOrder --addr 0x0201A5FC --cc 1.1p1 --thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,10 +29,10 @@ extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u32 func_0201AA18(void *a1);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_0201A26C(void *a0, u32 a1);
-extern int func_02019DA4(void *a0, void *a1);
+extern u32 POKE_REGULATION_AdjustLevel(void *a0, u32 a1);
+extern int POKE_REGULATION_CheckPokemon(void *a0, void *a1);
 
-int func_0201A5FC(void *a0, void *a1, u8 *a2, char *a3, u32 *a4)
+int POKE_REGULATION_CheckOrder(void *a0, void *a1, u8 *a2, char *a3, u32 *a4)
 {
     u8 count = 0;
     u32 arr5c[6] = {0};
@@ -71,8 +71,8 @@ int func_0201A5FC(void *a0, void *a1, u8 *a2, char *a3, u32 *a4)
         p = func_0201AB28(a1, n);
         v18 = func_02017E1C(p, 5, 0);
         v6 = func_02017E1C(p, 6, 0);
-        v14 = (u32)func_0201A26C(a0, func_02017E1C(p, 0x9e, 0));
-        r = func_02019DA4(a0, p);
+        v14 = (u32)POKE_REGULATION_AdjustLevel(a0, func_02017E1C(p, 0x9e, 0));
+        r = POKE_REGULATION_CheckPokemon(a0, p);
         if (r != 0) {
             if (a4 != 0)
                 *a4 |= r;

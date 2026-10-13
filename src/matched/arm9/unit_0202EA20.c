@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202EA20
+ * function: BLINK_PALANM_Delete
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
@@ -39,7 +39,7 @@ struct Obj0202EA20 {
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-u32 sub_0202EA20(struct Obj0202EA20 *p)
+u32 BLINK_PALANM_Delete(struct Obj0202EA20 *p)
 {
     func_020307B0(p->unk04);
     func_020307B0(p->unk00);

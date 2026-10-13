@@ -23,7 +23,7 @@
  *   func_02012204 0x02012204 thumb
  *   func_02026454 0x02026454 thumb
  *   func_02026400 0x02026400 thumb
- *   func_02012158 0x02012158 thumb
+ *   GAMESYSTEM_SetAlwaysNetFlag 0x02012158 thumb
  *   func_020121CC 0x020121CC thumb
  */
 #include "../include/Obj01129.h"
@@ -47,7 +47,7 @@ struct IcaAnime;
 extern u32 func_02012204(const struct Ctx *p);
 extern u32 func_02026454(void *h);
 extern void func_02026400(struct Comm *p);
-extern void func_02012158(char *p, unsigned int v);
+extern void GAMESYSTEM_SetAlwaysNetFlag(char *p, unsigned int v);
 extern u32 func_020121CC(struct IcaAnime *p);
 
 int func_021F037C(char *p)
@@ -68,7 +68,7 @@ int func_021F037C(char *p)
     case 2:
         if (func_021F0370(p) != 0) {
             if (func_021F0364(p) == 0) {
-                func_02012158(((struct Obj01129 *)p)->f4, 1);
+                GAMESYSTEM_SetAlwaysNetFlag(((struct Obj01129 *)p)->f4, 1);
                 func_020121CC(((struct Obj01129 *)p)->f4);
                 v = 3;
             } else {

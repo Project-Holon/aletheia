@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020494F4
+ * function: ARC_TOOL_GetHandleMemberOffsetOut
  * address:  0x020494F4
  * packet:   pkt_02049250
  * region:   arm9
@@ -14,8 +14,8 @@
  *   func_02034734      0x02034734  arm
  *   func_02078B44      0x02078B44  arm
  *   func_02078B70      0x02078B70  arm
- *   func_020494F4_File 0x020A7EE0  data
- *   func_020494F4_Msg  0x020A7F18  data
+ *   arc_tool_file 0x020A7EE0  data
+ *   arc_tool_msg_member_bounds  0x020A7F18  data
  *
  * Store the absolute image offset of one archive member through an out
  * parameter.  Only the FAT entry's start word is read; the end word is
@@ -27,7 +27,7 @@
  * (docs/idioms/a-free-variadic-argument-is-the-value-the-guard-compared.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020494F4.c  *       --func func_020494F4 --addr 0x020494F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_GetHandleMemberOffsetOut.c  *       --func ARC_TOOL_GetHandleMemberOffsetOut --addr 0x020494F4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -41,8 +41,8 @@ struct ArcFile {
     u16 count;
 };
 
-extern const char func_020494F4_File[];
-extern const char func_020494F4_Msg[];
+extern const char arc_tool_file[];
+extern const char arc_tool_msg_member_bounds[];
 
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
 typedef signed int     s32;
@@ -50,12 +50,12 @@ struct FSFile;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
-void func_020494F4(struct ArcFile *arc, u32 member, u32 *out)
+void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcFile *arc, u32 member, u32 *out)
 {
     u32 start;
 
     if (arc->count <= member) {
-        func_02034734(func_020494F4_File, 713, func_020494F4_Msg,
+        func_02034734(arc_tool_file, 713, arc_tool_msg_member_bounds,
                       arc->count, member);
     }
 

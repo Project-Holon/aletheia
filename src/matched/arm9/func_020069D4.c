@@ -1,5 +1,5 @@
 /*
- * function: func_020069D4
+ * function: PM_VOICE_Prepare
  * address:  0x020069D4
  * packet:   pkt_020069D4
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02006768  0x02006768  thumb
- *   func_02006948  0x02006948  thumb
- *   func_020067E0  0x020067E0  thumb
- *   func_02006BE0  0x02006BE0  thumb
+ *   PM_VOICE_NextSlot  0x02006768  thumb
+ *   PM_VOICE_Stop  0x02006948  thumb
+ *   PM_VOICE_LoadWave  0x020067E0  thumb
+ *   PM_VOICE_ReverseBytes  0x02006BE0  thumb
  *   g_02140504     0x02140504  data
  *   g_02140488     0x02140488  data
  *
@@ -23,7 +23,7 @@
  * and sp+0x18.
  *
  * a1 is spilled to the [sp+0x10] slot because it is live across the first
- * 3-argument indirect call; the index comes back from func_02006768 and is
+ * 3-argument indirect call; the index comes back from PM_VOICE_NextSlot and is
  * spilled to [sp+0x14] because it is the return value.
  *
  * The struct at 0x02140504 is used twice off the same pool word: its +0x24
@@ -44,29 +44,29 @@ extern char g_02140504[];
 extern char g_02140488[];
 
 typedef unsigned short u16;
-extern u16 func_02006768(void);
+extern u16 PM_VOICE_NextSlot(void);
 struct Sub02006948;
-extern void func_02006948(struct Sub02006948 *e);
+extern void PM_VOICE_Stop(struct Sub02006948 *e);
 struct Sub02006544Entry;
-extern int func_020067E0(struct Sub02006544Entry *e, unsigned int v);
-extern void func_02006BE0(u8 *a, unsigned int b);
+extern int PM_VOICE_LoadWave(struct Sub02006544Entry *e, unsigned int v);
+extern void PM_VOICE_ReverseBytes(u8 *a, unsigned int b);
 
-int func_020069D4(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8)
+int PM_VOICE_Prepare(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8)
 {
     int buf;
     int idx;
     char *e;
 
     (*(void (**)(int, int, int *))(g_02140504 + 0x24))(a0, a1, &buf);
-    idx = func_02006768();
+    idx = PM_VOICE_NextSlot();
     e = (char *)(g_02140488 + idx * 0x34);
     if (*(int *)&((struct Obj01457 *)e)->f0 == 1)
-        func_02006948((struct Sub02006948 *)e);
+        PM_VOICE_Stop((struct Sub02006948 *)e);
     if ((*(int (**)(int, int, int, char *, char *, char *, char *, char *))(
              g_02140504 + 0x28))(a0, a1, a8, e + 0x10, e + 8, e + 0xc, e + 0x20, e + 0x1c) == 0)
-        func_020067E0((struct Sub02006544Entry *)e, (unsigned int)buf);
+        PM_VOICE_LoadWave((struct Sub02006544Entry *)e, (unsigned int)buf);
     if (a7 != 0)
-        func_02006BE0(*(u8 * *)&((struct Obj01457 *)e)->f10, ((struct Obj01457 *)e)->f8);
+        PM_VOICE_ReverseBytes(*(u8 * *)&((struct Obj01457 *)e)->f10, ((struct Obj01457 *)e)->f8);
     e[0x28] = (u8)a2;
     *(int *)&((struct Obj01457 *)e)->f2C = a3;
     e[0x1d] = (u8)a5;

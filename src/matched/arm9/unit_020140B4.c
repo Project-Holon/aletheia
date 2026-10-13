@@ -10,20 +10,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020140B4, sub_020140BC, sub_020140C0, sub_020140CC,
- *           sub_020140D8, sub_020140DC, sub_020140E0, sub_020140E4
+ * function: ZONEDATA_DeleteAreaData, ZONEDATA_GetAreaTexSetId, ZONEDATA_GetAreaItaAnimeId, ZONEDATA_GetAreaItpAnimeId,
+ *           ZONEDATA_GetAreaInnerOuter, ZONEDATA_GetAreaLightType, ZONEDATA_GetAreaEdgeMarkType, ZONEDATA_GetAreaBillboardColor
  *
  * symbols:
  *   sub_020307B0  0x020307B0  arm
  *
- * alias: sub_020140B4 is a bare tail call to the ARM function
+ * alias: ZONEDATA_DeleteAreaData is a bare tail call to the ARM function
  * sub_020307B0: the compiler cannot tell caller and callee interwork, so
  * it always spends a pool word and `bx` rather than ever emitting a direct
  * branch (docs/idioms/tail-call-is-a-pool-word-and-bx.md), even though the
  * wrapper's own body is otherwise empty.
  *
- * sub_020140BC through sub_020140E4 are seven more leaf accessors on a
- * small object passed in directly (not through sub_02013AD0()), hiding in
+ * ZONEDATA_GetAreaTexSetId through ZONEDATA_GetAreaBillboardColor are seven more leaf accessors on a
+ * small object passed in directly (not through ZONEDATA_GetHeader()), hiding in
  * the same way: none of the seven save `lr`, so disasm.py's prologue sweep
  * never labels them and they print as a run of `.word`s between two
  * literal pools (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
@@ -53,46 +53,46 @@ struct Sub020140BCObj {
 
 extern u32 sub_020307B0(void *p);
 
-u32 sub_020140B4(void *a)
+u32 ZONEDATA_DeleteAreaData(void *a)
 {
     return sub_020307B0(a);
 }
 
-u16 sub_020140BC(struct Sub020140BCObj *p)
+u16 ZONEDATA_GetAreaTexSetId(struct Sub020140BCObj *p)
 {
     return p->f02;
 }
 
-u32 sub_020140C0(struct Sub020140BCObj *p)
+u32 ZONEDATA_GetAreaItaAnimeId(struct Sub020140BCObj *p)
 {
     if (p->f04 == 0xFF)
         return (u32)-1;
     return p->f04;
 }
 
-u32 sub_020140CC(struct Sub020140BCObj *p)
+u32 ZONEDATA_GetAreaItpAnimeId(struct Sub020140BCObj *p)
 {
     if (p->f05 == 0xFF)
         return (u32)-1;
     return p->f05;
 }
 
-u8 sub_020140D8(struct Sub020140BCObj *p)
+u8 ZONEDATA_GetAreaInnerOuter(struct Sub020140BCObj *p)
 {
     return p->f06;
 }
 
-u8 sub_020140DC(struct Sub020140BCObj *p)
+u8 ZONEDATA_GetAreaLightType(struct Sub020140BCObj *p)
 {
     return p->f07;
 }
 
-u8 sub_020140E0(struct Sub020140BCObj *p)
+u8 ZONEDATA_GetAreaEdgeMarkType(struct Sub020140BCObj *p)
 {
     return p->f08;
 }
 
-u8 sub_020140E4(struct Sub020140BCObj *p)
+u8 ZONEDATA_GetAreaBillboardColor(struct Sub020140BCObj *p)
 {
     return p->f09;
 }

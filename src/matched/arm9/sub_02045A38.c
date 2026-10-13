@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02045A38
+ * function: STRBUF_ToChars
  *
  * symbols:
  *   g_020A7E7C  0x020A7E7C  data
@@ -42,8 +42,8 @@
  * predicated on `eq`, so it costs no branch.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045A38.c \
- *       --func sub_02045A38 --addr 0x02045A38 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/STRBUF_ToChars.c \
+ *       --func STRBUF_ToChars --addr 0x02045A38 --cc 1.1p1 --arm
  */
 
 #include "../include/G_AllocStamp.h"
@@ -60,7 +60,7 @@ struct U16Vec {
 
 /*
  * The global based at 0x020A7E7C is one small object, not two independent
- * words: sub_020457B0 loads 0x020A7E80 out of a pool as the allocator's
+ * words: STRBUF_Create loads 0x020A7E80 out of a pool as the allocator's
  * fourth argument, and that word is this symbol plus four
  * (docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md).
  * Reading it as a separate object splits one symbol into two and loses
@@ -70,7 +70,7 @@ struct U16Vec {
 
 extern struct AllocStamp g_020A7E7C;
 
-void sub_02045A38(struct U16Vec *vec, u16 *out, u32 n)
+void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n)
 {
     u32 i;
     u16 v;

@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02029C00
+ * function: FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask
  *
  * Part of the (task body, task spawner) family that makes up the tail of
  * field_sound_system.c.  A second spawner for the body at 0x02029658, this one with the two command
  * parameters fixed at 60 and 30 instead of taken from its caller.
  *
- * It is a file of its own because the body it parks, func_02029658, already
+ * It is a file of its own because the body it parks, FIELD_SOUND_SYSTEM_PopTask, already
  * has a manifest entry of its own (src/matched/unit_02029658.c), so the ABS32
  * pool word here is carried by the `matched` class and needs no merge.
  *
@@ -23,6 +23,9 @@
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02029C00.c  *       --addr 0x02029C00 --thumb
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_PopTask  0x02029658  thumb
  */
 
 typedef unsigned short u16;
@@ -38,7 +41,7 @@ struct Work {
 
 typedef u32 (*TaskFn)(void *task, u32 *state, struct Work *work);
 
-extern u32 func_02029658(void *task, u32 *state, struct Work *work);
+extern u32 FIELD_SOUND_SYSTEM_PopTask(void *task, u32 *state, struct Work *work);
 
 struct Ctx;
 struct Desc;
@@ -49,10 +52,10 @@ extern void *func_020124E8(struct Obj *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
 
-void *func_02029C00(void *a)
+void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *a)
 {
     void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029658, 0x10);
+    void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_PopTask, 0x10);
     struct Work *work = func_020124E8(task);
 
     work->unk04 = (void *)func_02012A30(x);

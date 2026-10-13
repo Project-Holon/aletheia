@@ -13,7 +13,7 @@
  *
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_021657C8  0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  *   func_02166784  0x02166784  arm  ov009
  *   func_02166710  0x02166710  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
@@ -34,7 +34,7 @@ typedef struct WCMWork {
 } WCMWork;
 
 extern unsigned long OS_DisableInterrupts(void);
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 extern unsigned char func_02166784(void);
 extern WMLinkLevel func_02166710(unsigned char rssi);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
@@ -46,7 +46,7 @@ WMLinkLevel func_021666C8(void)
     WMLinkLevel ret;
 
     e = OS_DisableInterrupts();
-    w = (WCMWork *)func_021657C8();
+    w = (WCMWork *)WCMi_GetSystemWork();
     ret = WM_LINK_LEVEL_0;
     if (w != 0 && w->phase == 9) {
         ret = func_02166710(func_02166784());

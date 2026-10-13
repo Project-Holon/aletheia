@@ -12,7 +12,7 @@
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_0204B294 0x0204B294 arm
- *   func_0204B8D4 0x0204B8D4 arm
+ *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   func_02030DA8 0x02030DA8 arm
  *   func_021E121C 0x021E121C thumb ov137
  */
@@ -25,7 +25,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02082BCC(void *, int, u32);
 struct Obj;
 extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
-extern void func_0204B8D4(struct Obj *p, u32 arg);
+extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void func_02030DA8(void *, void (*)(void *, int *), void *, int);
 extern void func_021E121C(void *, int *);
 void func_021E129C(char *p)
@@ -39,7 +39,7 @@ void func_021E129C(char *p)
     pos.b = 0;
     pos.a = 0;
     q[5] = (int)func_0204B294((void *)((struct Obj02209 *)p)->fD68, ((struct Obj02209 *)p)->fD6C, ((struct Obj02209 *)p)->fD70, ((struct Obj02209 *)p)->fD74, &pos, 0, 114);
-    func_0204B8D4((struct Obj *)q[5], 4096);
+    CLACT_AddActorAnimFrame((struct Obj *)q[5], 4096);
     q[4] = (int)p;
     func_02030DA8(((struct Obj02209 *)p)->fD98, func_021E121C, q, 0);
 }

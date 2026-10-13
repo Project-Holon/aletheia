@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203B6EC",
+   "name": "GFL_NET_STATE_ChangeoverStartParent",
    "address": "0x0203B6EC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203B758",
+   "name": "GFL_NET_STATE_ChangeoverChildNegotiation",
    "address": "0x0203B758",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203B794",
+   "name": "GFL_NET_STATE_ChildNegotiationWait",
    "address": "0x0203B794",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203B7F8",
+   "name": "GFL_NET_STATE_ParentNegotiationWait",
    "address": "0x0203B7F8",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203B90C",
+   "name": "GFL_NET_STATE_ChangeoverStopChild",
    "address": "0x0203B90C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203B950",
+   "name": "GFL_NET_STATE_ChangeoverChildMain",
    "address": "0x0203B950",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203BBB0",
+   "name": "GFL_NET_STATE_ChangeoverRestart",
    "address": "0x0203BBB0",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203BC58",
+   "name": "GFL_NET_STATE_ChangeChangeoverMode",
    "address": "0x0203BC58",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203BCE0",
+   "name": "GFL_NET_STATE_ChangeoverStopChildDevice",
    "address": "0x0203BCE0",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203BDEC",
+   "name": "GFL_NET_STATE_WaitDisconnect",
    "address": "0x0203BDEC",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203BE5C",
+   "name": "GFL_NET_STATE_RecvExitCommand",
    "address": "0x0203BE5C",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203BEAC",
+   "name": "GFL_NET_STATE_IsExitReady",
    "address": "0x0203BEAC",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203C044",
+   "name": "GFL_NET_STATE_SetMPMode",
    "address": "0x0203C044",
    "kind": "game",
    "region": "arm9",

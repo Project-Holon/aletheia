@@ -12,7 +12,7 @@
  * sdk:      WCMi_ShelterRssi (libwcm.TWL.HYB.a util.o)
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  *   g_021AA814  0x021AA814  data ov009
  *   g_021AA815  0x021AA815  data ov009
  *
@@ -26,14 +26,14 @@ typedef struct WCMWork {
 
 extern unsigned char g_021AA814;
 extern unsigned char g_021AA815[16];
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 
 void func_02166804(unsigned char rssi)
 {
     WCMWork *w;
     int raw;
 
-    w = (WCMWork *)func_021657C8();
+    w = (WCMWork *)WCMi_GetSystemWork();
     switch (w->deviceId) {
     case 1:
     default:

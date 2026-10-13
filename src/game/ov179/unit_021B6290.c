@@ -19,7 +19,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_020362DC 0x020362DC arm
  *   func_02005F38 0x02005F38 thumb
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   d_021B6A04 0x021B6A04 data a4
  */
 #include "../../matched/include/Obj24466.h"
@@ -39,7 +39,7 @@ extern void func_02082A90(int, int, int);
 extern u32 func_020307B0(void *p);
 extern u32 func_020362DC(void);
 extern int func_02005F38(void);
-extern void func_02005E30(unsigned v);
+extern void GFL_USE_FadeOutBgm(unsigned v);
 void func_021B6290(char *p, u32 a, u32 b, u32 c);
 void func_021B62B8(char *p, u32 a, u32 b, u32 c);
 void func_021B62E0(char *p, u32 a, u32 b, u32 c);
@@ -95,7 +95,7 @@ int func_021B6380(char *p)
 {
     if (((unsigned char *)*(char * *)&((struct Obj08292 *)p)->f0)[2] != 0 && (func_020362DC() & 0xB) != 0) {
         if (func_02005F38() == 1)
-            func_02005E30(8);
+            GFL_USE_FadeOutBgm(8);
         ((struct Obj08292 *)p)->f6050 = 1;
         (*(char **)p)[3] = 1;
     }

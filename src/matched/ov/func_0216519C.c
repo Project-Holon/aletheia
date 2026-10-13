@@ -14,7 +14,7 @@
  * record fields, then jump to the shared submitter.
  *
  * symbols:
- *   func_020273F8   0x020273F8  thumb
+ *   GAME_BEACON_SetDetailsBattleTrainer   0x020273F8  thumb
  */
 #include "../include/Obj05718.h"
 
@@ -22,12 +22,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_020273F8(void *, unsigned);
+extern void GAME_BEACON_SetDetailsBattleTrainer(void *, unsigned);
 
 void func_0216519C(void *a0, unsigned a1)
 {
     ((struct Obj05718 *)a0)->f30 = 0x6;
     ((struct Obj05718 *)a0)->f34 = a1;
-    func_020273F8(a0, a1);
+    GAME_BEACON_SetDetailsBattleTrainer(a0, a1);
 }
 

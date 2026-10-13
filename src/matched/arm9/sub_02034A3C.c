@@ -1,5 +1,5 @@
 /*
- * function: sub_02034A3C
+ * function: GF_OVERLAY_ReleaseSlot
  * address:  0x02034A3C
  * packet:   pkt_02034714
  * region:   arm9
@@ -21,8 +21,8 @@
  * src/matched/unit_02079164.c attested its own callee.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034A3C.c \
- *       --func sub_02034A3C --addr 0x02034A3C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_ReleaseSlot.c \
+ *       --func GF_OVERLAY_ReleaseSlot --addr 0x02034A3C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -34,7 +34,7 @@ struct Obj02034A3C {
 
 extern int func_020792B8(u32 a, u32 b);
 
-void sub_02034A3C(struct Obj02034A3C *p)
+void GF_OVERLAY_ReleaseSlot(struct Obj02034A3C *p)
 {
     func_020792B8(0, p->unk00);
     p->unk04 = 0;

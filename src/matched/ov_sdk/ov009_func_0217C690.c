@@ -13,13 +13,13 @@
  *
  * symbols:
  *   func_0217ED38                  0x0217ED38  arm ov009
- *   func_0215F650                  0x0215F650  arm ov009
+ *   SOC_GetHostByName                  0x0215F650  arm ov009
  */
 
 struct SOCSockAddrIn { unsigned char len; unsigned char family; unsigned short port; unsigned long addr; };
 struct SOCHostEnt { char *name; char **aliases; short addrType; short length; unsigned char **addrList; };
 extern int func_0217ED38(int a);
-extern struct SOCHostEnt *func_0215F650(char *name);
+extern struct SOCHostEnt *SOC_GetHostByName(char *name);
 int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr)
 {
     struct SOCHostEnt *host;
@@ -27,7 +27,7 @@ int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr)
     saddr->port = (unsigned short)((((unsigned short)port >> 8) & 0xff) | (((unsigned short)port << 8) & 0xff00));
     saddr->addr = func_0217ED38((int)hostname);
     if (saddr->addr == 0xFFFFFFFF) {
-        host = func_0215F650(hostname);
+        host = SOC_GetHostByName(hostname);
         if (host == 0) return 0;
         saddr->addr = *(unsigned long *)host->addrList[0];
     }

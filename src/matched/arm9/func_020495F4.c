@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020495F4
+ * function: ARC_TOOL_ReadHandle
  * address:  0x020495F4
  * packet:   pkt_02049250
  * region:   arm9
@@ -21,8 +21,8 @@
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020495F4.c \
- *       --func func_020495F4 --addr 0x020495F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_ReadHandle.c \
+ *       --func ARC_TOOL_ReadHandle --addr 0x020495F4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ typedef signed int     s32;
 struct FSFile;
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
-void func_020495F4(struct ArcFile *arc, u32 size, void *dst)
+void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst)
 {
     func_02078B70((struct FSFile *)arc, dst, size);
 }

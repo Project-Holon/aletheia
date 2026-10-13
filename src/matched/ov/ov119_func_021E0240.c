@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012F14 0x02012F14 thumb
+ *   GAME_DATA_GetSaveBlock1F 0x02012F14 thumb
  *   func_02009D9C 0x02009D9C thumb
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  */
-extern void *func_02012F14(void **);
+extern void *GAME_DATA_GetSaveBlock1F(void **);
 extern unsigned func_02009D9C(void);
 extern void func_02082D44(void *, void *, int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021E0240(void **h, void *dst)
 {
-    void *src = func_02012F14(h);
+    void *src = GAME_DATA_GetSaveBlock1F(h);
     func_02082D44(dst, src, func_02009D9C());
     func_020307B0(dst);
 }

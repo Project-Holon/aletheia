@@ -10,8 +10,8 @@
  * trailing: 2-byte alignment padding at 0x021BCE0A.
  * symbols:
  *   func_02041EE4 0x02041EE4 arm
- *   func_0202CB4C 0x0202CB4C thumb
- *   func_0202CD94 0x0202CD94 thumb
+ *   BGWINFRM_PutFrame 0x0202CB4C thumb
+ *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
  *   func_021BEE58 0x021BEE58 thumb ov210
  *   func_021BEE38 0x021BEE38 thumb ov210
  * BEE38 parameters widened: original call uses signed full-width loads.
@@ -21,8 +21,8 @@ typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
 extern void func_02041EE4(u32 index, u32 a, u32 b);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void func_0202CD94(struct WinMgr *mgr);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern void func_021BEE58(char *, int, short *, short *, unsigned short);
 extern void func_021BEE38(char *p, int idx, int a, short b, unsigned short c);
 void func_021BCDA4(char *p)
@@ -31,8 +31,8 @@ void func_021BCDA4(char *p)
     short x, y;
     func_02041EE4(4, 3, 48);
     func_02041EE4(7, 3, 48);
-    func_0202CB4C(*(struct WinMgr * *)&((struct Obj14673 *)p)->f20, 0, 0, 27);
-    func_0202CD94(*(struct WinMgr * *)&((struct Obj14673 *)p)->f20);
+    BGWINFRM_PutFrame(*(struct WinMgr * *)&((struct Obj14673 *)p)->f20, 0, 0, 27);
+    BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((struct Obj14673 *)p)->f20);
     for (i = 2; i <= 4; i++) {
         func_021BEE58(p, i, &x, &y, 0);
         y += 48;

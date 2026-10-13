@@ -1,5 +1,5 @@
 /*
- * function: ArrayDeleteAt
+ * function: GFL_USE_CancelChangeAndPlayBgm
  * address:  0x02005D90
  * packet:   pkt_02005D90
  * region:   arm9
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02005F90 0x02005F90 thumb
- *   func_02005D34 0x02005D34 thumb
+ *   GFL_USE_CancelBgmChange 0x02005F90 thumb
+ *   GFL_USE_PlayBgm 0x02005D34 thumb
  */
 
 typedef unsigned int u32;
-extern void func_02005F90(void);
-extern void *func_02005D34(u32 a0, u32 a1);
+extern void GFL_USE_CancelBgmChange(void);
+extern void *GFL_USE_PlayBgm(u32 a0, u32 a1);
 
-void ArrayDeleteAt(u32 a0, u32 a1)
+void GFL_USE_CancelChangeAndPlayBgm(u32 a0, u32 a1)
 {
-    func_02005F90();
-    func_02005D34(a0, a1);
+    GFL_USE_CancelBgmChange();
+    GFL_USE_PlayBgm(a0, a1);
 }

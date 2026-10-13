@@ -1,7 +1,7 @@
 /*
  * file:     tcbl.c
  * unit:     yes
- * function: func_020306F0, func_02030734, func_020307B0, func_020307C8, func_020307E0, func_02030830, func_0203084C, func_02030880, func_020308B8, func_02030958, func_02030984, func_020309B8, func_02030A00, func_02030A2C, func_02030A5C, func_02030A7C, func_02030B50, func_02030BA4, func_02030BBC, func_02030BC8, sub_02030BD4, func_02030C44, func_02030C68, func_02030CB0, func_02030CBC, sub_02030CF4, func_02030D28, func_02030DA4, func_02030DA8, func_02030DC8, func_02030EAC, func_02030EE8, func_02030EF0, func_02030F04, func_02030F34, func_02030F50, func_02030F70, func_02030FB4, sub_02030FC8, func_0203101C, func_020310C4, func_02031140, func_0203115C, func_02031194, func_020311B8, func_02031288, func_02031290
+ * function: func_020306F0, func_02030734, func_020307B0, func_020307C8, func_020307E0, func_02030830, func_0203084C, func_02030880, func_020308B8, func_02030958, func_02030984, func_020309B8, func_02030A00, func_02030A2C, func_02030A5C, func_02030A7C, func_02030B50, func_02030BA4, func_02030BBC, func_02030BC8, sub_02030BD4, func_02030C44, func_02030C68, func_02030CB0, func_02030CBC, sub_02030CF4, func_02030D28, func_02030DA4, func_02030DA8, func_02030DC8, func_02030EAC, func_02030EE8, TCBL_GetTaskSlot, TCBL_PopFreeTask, TCBL_PushFreeTask, TCBL_InitTaskLinks, TCBL_FreeTask, TCBL_GetTaskWork, TCBL_BuildFreeList, func_0203101C, func_020310C4, func_02031140, TCBL_DeleteAllTasks, TCBL_DeleteTask, func_020311B8, TCBL_SetTaskFunc, TCBL_GetWork
  * address:  0x020306F0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,13 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   sub_0202FF98           0x0202FF98 arm
- *   func_02030524          0x02030524 arm
+ *   GFL_HEAP_Delete           0x0202FF98 arm
+ *   GFL_HEAP_GetLastError          0x02030524 arm
  *   OS_Terminate           0x02088234 arm
  *   sub_02030098           0x02030098 arm
  *   MIi_CpuClear32         0x02082A7C arm
- *   func_02030164          0x02030164 arm
- *   func_02030238          0x02030238 arm
+ *   GFL_HEAP_FreeMemory          0x02030164 arm
+ *   GFL_HEAP_InitAllocator          0x02030238 arm
  *   sub_020302A4           0x020302A4 arm
  *   sub_02030344           0x02030344 arm
  *   sub_020304CC           0x020304CC arm
@@ -37,8 +37,8 @@
  *   func_0209128C          0x0209128C arm
  *   func_02060F50          0x02060F50 arm
  *   func_02030534          0x02030534 arm
- *   func_020305C4          0x020305C4 arm
- *   sub_020305E4           0x020305E4 arm
+ *   GFL_HEAP_AllocSystem          0x020305C4 arm
+ *   GFL_HEAP_FreeSystem           0x020305E4 arm
  *   gWatchedHeapId         0x020A7820 data
  *   gHeapBlockReport       0x02146970 data
  *   gHeapBlockReportName   0x0214697C data
@@ -123,13 +123,13 @@ struct TcblSystem {
     struct TcblTask   *freeList;
 };
 
-extern u32  sub_0202FF98(u32 heapId);
-extern u16  func_02030524(void);
+extern u32  GFL_HEAP_Delete(u32 heapId);
+extern u16  GFL_HEAP_GetLastError(void);
 extern void OS_Terminate(void);
 extern void *sub_02030098(u32 heapId, u32 size);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern u32 func_02030164(void *p);
-extern u32 func_02030238(void *p, u32 heapId, s32 size);
+extern u32 GFL_HEAP_FreeMemory(void *p);
+extern u32 GFL_HEAP_InitAllocator(void *p, u32 heapId, s32 size);
 extern u32 sub_020302A4(void *p, u32 size);
 extern void *sub_02030344(u32 heapId);
 extern u32 sub_020304CC(u32 heapId);
@@ -147,8 +147,8 @@ extern void *sub_0203038C(u32 heapId);
 extern void func_0209128C(int x);
 extern void func_02060F50(int *heap, HeapVisitFunc visitor, u32 userParam);
 extern signed int func_02030534(u32 size);
-extern void *func_020305C4(u32 size);
-extern int sub_020305E4(u32 idx);
+extern void *GFL_HEAP_AllocSystem(u32 size);
+extern int GFL_HEAP_FreeSystem(u32 idx);
 void func_020306F0(u32 heapId);
 void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 u32 sub_020307B0(void *block);
@@ -180,22 +180,22 @@ void func_02030DA4(void);
 struct TcbTask *sub_02030DA8(struct TcbSystem *sys, TcbFunc func, void *work, u32 priority);
 struct TcbTask *sub_02030DC8(struct TcbSystem *sys, TcbFunc func, void *work, u32 priority);
 void sub_02030EAC(struct TcbTask *task);
-u32 sub_02030EE8(struct TcblSystem *tcbl);
-struct TcblTask *sub_02030EF0(struct TcblSystem *tcbl, u32 index);
-struct TcblTask *func_02030F04(struct TcblSystem *tcbl);
-void sub_02030F34(struct TcblSystem *tcbl, struct TcblTask *task);
-void sub_02030F50(struct TcblSystem *tcbl, struct TcblTask *task);
-void sub_02030F70(struct TcblTask *task);
-void *sub_02030FB4(struct TcblTask *task);
-void sub_02030FC8(struct TcblSystem *tcbl);
-struct TcblSystem *sub_0203101C(u16 heapId, u16 workHeapId, u32 taskCount, u32 workSize);
-void sub_020310C4(struct TcblSystem *tcbl);
-void sub_02031140(struct TcblSystem *tcbl);
-void sub_0203115C(struct TcblSystem *tcbl);
-void sub_02031194(struct TcblTask *task);
+u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
+struct TcblTask *TCBL_GetTaskSlot(struct TcblSystem *tcbl, u32 index);
+struct TcblTask *TCBL_PopFreeTask(struct TcblSystem *tcbl);
+void TCBL_PushFreeTask(struct TcblSystem *tcbl, struct TcblTask *task);
+void TCBL_InitTaskLinks(struct TcblSystem *tcbl, struct TcblTask *task);
+void TCBL_FreeTask(struct TcblTask *task);
+void *TCBL_GetTaskWork(struct TcblTask *task);
+void TCBL_BuildFreeList(struct TcblSystem *tcbl);
+struct TcblSystem *TCBL_Create(u16 heapId, u16 workHeapId, u32 taskCount, u32 workSize);
+void TCBL_Main(struct TcblSystem *tcbl);
+void TCBL_Destroy(struct TcblSystem *tcbl);
+void TCBL_DeleteAllTasks(struct TcblSystem *tcbl);
+void TCBL_DeleteTask(struct TcblTask *task);
 struct TcblTask *sub_020311B8(struct TcblSystem *tcbl, TcblFunc func, u32 workSize, u32 priority);
-void func_02031288(struct TcblTask *task, TcblFunc func);
-void *sub_02031290(struct TcblTask *task);
+void TCBL_SetTaskFunc(struct TcblTask *task, TcblFunc func);
+void *TCBL_GetWork(struct TcblTask *task);
 extern s32 gWatchedHeapId;
 extern struct HeapBlockReport gHeapBlockReport;
 extern char gHeapBlockReportName[0x13];
@@ -221,10 +221,10 @@ extern const char tcbl_File[];
  * instead of 68; the switch is what pushes both arms past the shared
  * `pop {r4, pc}` and leaves two forward `beq`s.
  *
- * The PC24 at +0x10 (sub_0202FF98) has no `label` witness: func_020306F0
+ * The PC24 at +0x10 (GFL_HEAP_Delete) has no `label` witness: func_020306F0
  * is 0x0202FF98's only caller image-wide, and the two are not contiguous,
  * so no unit can make the site `local` either.  It resolves on class
- * `matched` against src/matched/sub_0202FF98.c.
+ * `matched` against src/matched/GFL_HEAP_Delete.c.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020306F0.c \
@@ -234,8 +234,8 @@ void func_020306F0(u32 heapId)
 {
     sub_02030A5C(heapId);
 
-    if (sub_0202FF98(heapId) == 0) {
-        u32 errorPolicy = func_02030524();
+    if (GFL_HEAP_Delete(heapId) == 0) {
+        u32 errorPolicy = GFL_HEAP_GetLastError();
 
         switch (errorPolicy) {
         case 1:
@@ -286,7 +286,7 @@ void func_020306F0(u32 heapId)
  * header+0x16. It is *not* the classic __FILE__/__LINE__ pair: the sites
  * that call this pass addresses above the arm9 static image end
  * (0x020A6800 per layout/layout.json), i.e. BSS globals, not string
- * constants. See src/matched/sub_020457B0.c for a worked caller.
+ * constants. See src/matched/STRBUF_Create.c for a worked caller.
  *
  * Shape notes:
  *
@@ -324,7 +324,7 @@ void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag)
 
     block = sub_02030098(heapId, size);
     if (block == 0) {
-        func_02030524();
+        GFL_HEAP_GetLastError();
         sub_02030958(heapId, size, site, tag);
         OS_Terminate();
     } else {
@@ -369,7 +369,7 @@ void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag)
 u32 sub_020307B0(void *block)
 {
     sub_02030A2C(block);
-    return func_02030164(block);
+    return GFL_HEAP_FreeMemory(block);
 }
 
 
@@ -382,7 +382,7 @@ u32 sub_020307B0(void *block)
 
 void func_020307C8(void *block, u32 heapId, s32 newSize)
 {
-    if (func_02030238(block, heapId, newSize) == 0) {
+    if (GFL_HEAP_InitAllocator(block, heapId, newSize) == 0) {
         OS_Terminate();
     }
 }
@@ -433,7 +433,7 @@ void sub_020307E0(void *block, u32 size)
     if (sub_020302A4(block, size) != 0) {
         return;
     }
-    switch (func_02030524()) {
+    switch (GFL_HEAP_GetLastError()) {
     case 0:
         break;
     case 1:
@@ -525,7 +525,7 @@ void *sub_0203084C(u32 heapId)
 
     heapHead = (void *)sub_020304CC(heapId);
     if (heapHead == 0) {
-        errorPolicy = func_02030524();
+        errorPolicy = GFL_HEAP_GetLastError();
         if (errorPolicy != 1 && errorPolicy != 2 && errorPolicy == 3) {
             OS_Terminate();
         }
@@ -679,7 +679,7 @@ int sub_020308B8(u8 *nameBuf, const char *blockName)
  * Body: sub_02030428 maps the public heap id to the heap's arena handle
  * (it masks the id, range-checks it against the count at +8 of the heap
  * table, records an error code at +0xe on failure and otherwise tail-calls
- * sub_0202FBAC), that handle is then walked by sub_02060E6C and dumped by
+ * GFL_HEAP_GetHeap), that handle is then walked by sub_02060E6C and dumped by
  * sub_02060E94 with a mode of 4, and sub_02030B50 is passed the original
  * public id. The handle value is live across two calls, so it costs r4,
  * and the id costs r5.
@@ -1071,7 +1071,7 @@ void func_02030BA4(u32 size)
  * witness under the honesty rule: the only reference to 0x020305C4
  * anywhere is this call, inside the range under test, and the address
  * carried no func_ label. It closed when 0x020305C4 was seeded into
- * layout/function_starts.txt and written as src/matched/func_020305C4.c,
+ * layout/function_starts.txt and written as src/matched/GFL_HEAP_AllocSystem.c,
  * which makes the site `matched`.
  *
  * Verified with:
@@ -1080,7 +1080,7 @@ void func_02030BA4(u32 size)
  */
 void *sub_02030BBC(u32 size)
 {
-    return func_020305C4(size);
+    return GFL_HEAP_AllocSystem(size);
 }
 
 
@@ -1091,8 +1091,8 @@ void *sub_02030BBC(u32 size)
 
 
 /*
- * A four-instruction tail call to sub_020305E4 (src/matched/sub_020305E4.c,
- * pkt_02030534), attested by the `matched` class: sub_020305E4's own EXACT
+ * A four-instruction tail call to GFL_HEAP_FreeSystem (src/matched/GFL_HEAP_FreeSystem.c,
+ * pkt_02030534), attested by the `matched` class: GFL_HEAP_FreeSystem's own EXACT
  * entry pins its address, and this call is the only branch to it found in
  * the ROM.
  *
@@ -1102,7 +1102,7 @@ void *sub_02030BBC(u32 size)
  */
 int sub_02030BC8(u32 idx)
 {
-    return sub_020305E4(idx);
+    return GFL_HEAP_FreeSystem(idx);
 }
 
 
@@ -1518,10 +1518,10 @@ void sub_02030EAC(struct TcbTask *task)
  * A plain word accessor at offset 0x10. No relocations.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030EE8.c \
- *       --func sub_02030EE8 --addr 0x02030EE8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TCBL_IsDeletePending.c \
+ *       --func TCBL_IsDeletePending --addr 0x02030EE8 --cc 1.1p1
  */
-u32 sub_02030EE8(struct TcblSystem *tcbl)
+u32 TCBL_IsDeletePending(struct TcblSystem *tcbl)
 {
     return tcbl->deletePending;
 }
@@ -1537,10 +1537,10 @@ u32 sub_02030EE8(struct TcblSystem *tcbl)
  * base. No relocations.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030EF0.c \
- *       --func sub_02030EF0 --addr 0x02030EF0 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TCBL_GetTaskSlot.c \
+ *       --func TCBL_GetTaskSlot --addr 0x02030EF0 --cc 1.1p1
  */
-struct TcblTask *sub_02030EF0(struct TcblSystem *tcbl, u32 index)
+struct TcblTask *TCBL_GetTaskSlot(struct TcblSystem *tcbl, u32 index)
 {
     return (struct TcblTask *)(index * (tcbl->workSize + 0x18) + (u32)tcbl->taskTable);
 }
@@ -1550,7 +1550,7 @@ struct TcblTask *sub_02030EF0(struct TcblSystem *tcbl, u32 index)
 
 
 
-struct TcblTask *func_02030F04(struct TcblSystem *tcbl)
+struct TcblTask *TCBL_PopFreeTask(struct TcblSystem *tcbl)
 {
     struct TcblTask *task = tcbl->freeList;
 
@@ -1575,10 +1575,10 @@ struct TcblTask *func_02030F04(struct TcblSystem *tcbl)
  * was one, and stores the new node as the head. No relocations.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030F34.c \
- *       --func sub_02030F34 --addr 0x02030F34 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TCBL_PushFreeTask.c \
+ *       --func TCBL_PushFreeTask --addr 0x02030F34 --cc 1.1p1
  */
-void sub_02030F34(struct TcblSystem *tcbl, struct TcblTask *task)
+void TCBL_PushFreeTask(struct TcblSystem *tcbl, struct TcblTask *task)
 {
     struct TcblTask *oldHead = tcbl->freeList;
 
@@ -1612,10 +1612,10 @@ void sub_02030F34(struct TcblSystem *tcbl, struct TcblTask *task)
  * materialised between them, filling the load slot.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030F50.c \
- *       --func sub_02030F50 --addr 0x02030F50 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCBL_InitTaskLinks.c \
+ *       --func TCBL_InitTaskLinks --addr 0x02030F50 --cc 1.1p1 --arm
  */
-void sub_02030F50(struct TcblSystem *tcbl, struct TcblTask *task)
+void TCBL_InitTaskLinks(struct TcblSystem *tcbl, struct TcblTask *task)
 {
     task->owner = tcbl;
     task->prev = &tcbl->sentinel;
@@ -1633,7 +1633,7 @@ void sub_02030F50(struct TcblSystem *tcbl, struct TcblTask *task)
 /*
  * Destroy one task-callback node: release the work block the registrar
  * allocated for it at +0x10 (if it owns one), clear the callback so a walk
- * already inside sub_020310C4 cannot call it again, unlink it from the
+ * already inside TCBL_Main cannot call it again, unlink it from the
  * manager's circular list and push it back on the free list.
  *
  * The callback is cleared before the free rather than after, which is what
@@ -1649,10 +1649,10 @@ void sub_02030F50(struct TcblSystem *tcbl, struct TcblTask *task)
  * reloads and loses eight bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030F70.c \
- *       --func sub_02030F70 --addr 0x02030F70 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCBL_FreeTask.c \
+ *       --func TCBL_FreeTask --addr 0x02030F70 --cc 1.1p1 --arm
  */
-void sub_02030F70(struct TcblTask *task)
+void TCBL_FreeTask(struct TcblTask *task)
 {
     task->func = 0;
     if (task->work != 0) {
@@ -1660,7 +1660,7 @@ void sub_02030F70(struct TcblTask *task)
     }
     task->prev->next = task->next;
     task->next->prev = task->prev;
-    sub_02030F34(task->owner, task);
+    TCBL_PushFreeTask(task->owner, task);
 }
 
 
@@ -1674,10 +1674,10 @@ void sub_02030F70(struct TcblTask *task)
  * shape. No relocations.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030FB4.c \
- *       --func sub_02030FB4 --addr 0x02030FB4 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TCBL_GetTaskWork.c \
+ *       --func TCBL_GetTaskWork --addr 0x02030FB4 --cc 1.1p1
  */
-void *sub_02030FB4(struct TcblTask *task)
+void *TCBL_GetTaskWork(struct TcblTask *task)
 {
     void *work = task->work;
 
@@ -1691,8 +1691,8 @@ void *sub_02030FB4(struct TcblTask *task)
 
 /*
  * Build the free list of the task-control-block pool: walk every row of the
- * stride table, self-link it (sub_02030F50) and push it on the free list
- * (sub_02030F34).  The row address comes from sub_02030EF0, already matched
+ * stride table, self-link it (TCBL_InitTaskLinks) and push it on the free list
+ * (TCBL_PushFreeTask).  The row address comes from TCBL_GetTaskSlot, already matched
  * as `index * (tcbl->workSize + 0x18) + tcbl->taskTable`.
  *
  * The count is re-read from +0x00 at the bottom of the loop, which is what
@@ -1700,17 +1700,17 @@ void *sub_02030FB4(struct TcblTask *task)
  * would have kept it in a register and cost a push.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02030FC8.c \
- *       --func sub_02030FC8 --addr 0x02030FC8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCBL_BuildFreeList.c \
+ *       --func TCBL_BuildFreeList --addr 0x02030FC8 --cc 1.1p1 --arm
  */
-void sub_02030FC8(struct TcblSystem *tcbl)
+void TCBL_BuildFreeList(struct TcblSystem *tcbl)
 {
     u32 i;
 
     for (i = 0; i < tcbl->taskCount; i++) {
-        struct TcblTask *task = sub_02030EF0(tcbl, i);
-        sub_02030F50(tcbl, task);
-        sub_02030F34(tcbl, task);
+        struct TcblTask *task = TCBL_GetTaskSlot(tcbl, i);
+        TCBL_InitTaskLinks(tcbl, task);
+        TCBL_PushFreeTask(tcbl, task);
     }
 }
 
@@ -1721,14 +1721,14 @@ void sub_02030FC8(struct TcblSystem *tcbl)
  * Constructor of the task-callback list (tcbl.c).  A 0x38-byte manager is
  * allocated first, then the row table: stride is the work size rounded up
  * to a word plus the 0x18-byte node header, times the row count, which is
- * the same stride sub_02030EF0 recomputes when indexing the table.
+ * the same stride TCBL_GetTaskSlot recomputes when indexing the table.
  *
  * The rounded stride is derived from the parameter, not re-read from the
  * field just stored at +0x04: the original stores r6 unchanged and then
  * does `add r1, r6, #3 / bic r1, r1, #3` on the same register, with no
  * reload in between.
  *
- * sub_02030FC8 builds the free list out of the table, and sub_02030F50
+ * TCBL_BuildFreeList builds the free list out of the table, and TCBL_InitTaskLinks
  * self-links the sentinel node embedded at +0x18, after which +0x30 (the
  * walk cursor) is cleared.
  *
@@ -1738,10 +1738,10 @@ void sub_02030FC8(struct TcblSystem *tcbl)
  * 207.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203101C.c \
- *       --func sub_0203101C --addr 0x0203101C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCBL_Create.c \
+ *       --func TCBL_Create --addr 0x0203101C --cc 1.1p1 --arm
  */
-struct TcblSystem *sub_0203101C(u16 heapId, u16 workHeapId, u32 taskCount, u32 workSize)
+struct TcblSystem *TCBL_Create(u16 heapId, u16 workHeapId, u32 taskCount, u32 workSize)
 {
     struct TcblSystem *tcbl;
 
@@ -1754,8 +1754,8 @@ struct TcblSystem *sub_0203101C(u16 heapId, u16 workHeapId, u32 taskCount, u32 w
     tcbl->taskTable = sub_02030734(heapId, (((workSize + 3) & ~3) + 0x18) * taskCount, 0,
                                    tcbl_File, 207);
     tcbl->freeList = 0;
-    sub_02030FC8(tcbl);
-    sub_02030F50(tcbl, &tcbl->sentinel);
+    TCBL_BuildFreeList(tcbl);
+    TCBL_InitTaskLinks(tcbl, &tcbl->sentinel);
     tcbl->current = 0;
     return tcbl;
 }
@@ -1767,9 +1767,9 @@ struct TcblSystem *sub_0203101C(u16 heapId, u16 workHeapId, u32 taskCount, u32 w
  * Run one pass over the task-callback list: for every node still linked to
  * the sentinel at +0x18, clear the manager's "current node was destroyed"
  * flag at +0x10, invoke the node's callback at +0x14 with the node and its
- * work area (sub_02030FB4, the "owned or embedded" accessor), then advance.
+ * work area (TCBL_GetTaskWork, the "owned or embedded" accessor), then advance.
  * If the callback set the flag, the node is unlinked and returned to the
- * free list by sub_02030F70, so its successor has to be read out before the
+ * free list by TCBL_FreeTask, so its successor has to be read out before the
  * call.
  *
  * The walk cursor lives in the manager at +0x30 rather than in a local, so
@@ -1785,10 +1785,10 @@ struct TcblSystem *sub_0203101C(u16 heapId, u16 workHeapId, u32 taskCount, u32 w
  * docs/idioms/a-loop-carried-local-beside-a-re-read-field-keeps-both-loads.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020310C4.c \
- *       --func sub_020310C4 --addr 0x020310C4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCBL_Main.c \
+ *       --func TCBL_Main --addr 0x020310C4 --cc 1.1p1 --arm
  */
-void sub_020310C4(struct TcblSystem *tcbl)
+void TCBL_Main(struct TcblSystem *tcbl)
 {
     struct TcblTask *sentinel = &tcbl->sentinel;
     struct TcblTask *cur;
@@ -1799,12 +1799,12 @@ void sub_020310C4(struct TcblSystem *tcbl)
         struct TcblTask *task = tcbl->current;
 
         tcbl->deletePending = 0;
-        task->func(task, sub_02030FB4(task));
+        task->func(task, TCBL_GetTaskWork(task));
         if (tcbl->deletePending == 0) {
             tcbl->current = tcbl->current->next;
         } else {
             struct TcblTask *next = tcbl->current->next;
-            sub_02030F70(tcbl->current);
+            TCBL_FreeTask(tcbl->current);
             tcbl->current = next;
         }
         cur = tcbl->current;
@@ -1823,10 +1823,10 @@ void sub_020310C4(struct TcblSystem *tcbl)
  * role here is the heap free, so the call goes to the local definition.)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02031140.c \
- *       --func sub_02031140 --addr 0x02031140 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TCBL_Destroy.c \
+ *       --func TCBL_Destroy --addr 0x02031140 --cc 1.1p1
  */
-void sub_02031140(struct TcblSystem *tcbl)
+void TCBL_Destroy(struct TcblSystem *tcbl)
 {
     sub_020307B0(tcbl->taskTable);
     sub_020307B0(tcbl);
@@ -1837,22 +1837,22 @@ void sub_02031140(struct TcblSystem *tcbl)
 
 /*
  * Destroy every node still registered with the manager.  The walk cursor at
- * +0x30 is published on each step for the same reason sub_020310C4 publishes
- * it: a callback destroying itself through sub_02031194 compares against it.
+ * +0x30 is published on each step for the same reason TCBL_Main publishes
+ * it: a callback destroying itself through TCBL_DeleteTask compares against it.
  *
- * The successor is read out before the call because sub_02030F70 unlinks the
+ * The successor is read out before the call because TCBL_FreeTask unlinks the
  * node and pushes it on the free list, so its own +0x08 is no longer the
  * list's.  The cursor store follows the advance rather than preceding it,
  * which is what puts `mov r0, r5` before `str r5, [r6, #0x30]`.
  *
- * Unlike sub_020310C4 the cursor is not cleared on exit: the loop leaves the
+ * Unlike TCBL_Main the cursor is not cleared on exit: the loop leaves the
  * sentinel's own address parked there.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203115C.c \
- *       --func sub_0203115C --addr 0x0203115C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCBL_DeleteAllTasks.c \
+ *       --func TCBL_DeleteAllTasks --addr 0x0203115C --cc 1.1p1 --arm
  */
-void sub_0203115C(struct TcblSystem *tcbl)
+void TCBL_DeleteAllTasks(struct TcblSystem *tcbl)
 {
     struct TcblTask *sentinel;
     struct TcblTask *cur;
@@ -1863,7 +1863,7 @@ void sub_0203115C(struct TcblSystem *tcbl)
     tcbl->current = cur;
     while (cur != sentinel) {
         next = cur->next;
-        sub_02030F70(cur);
+        TCBL_FreeTask(cur);
         cur = next;
         tcbl->current = next;
     }
@@ -1875,20 +1875,20 @@ void sub_0203115C(struct TcblSystem *tcbl)
 /*
  * The public "unregister this node" entry.  A node that asks to be destroyed
  * while the dispatcher is standing on it cannot be unlinked here, because
- * sub_020310C4 still has to read its successor: the request is deferred by
+ * TCBL_Main still has to read its successor: the request is deferred by
  * setting the manager's flag at +0x10, which the dispatcher tests after every
- * callback and turns into the sub_02030F70 call itself.  Any other node goes
+ * callback and turns into the TCBL_FreeTask call itself.  Any other node goes
  * straight through.
  *
  * The owner is reached through the node's own +0x00 back-pointer, which is
- * what sub_02030F50 planted there, so the caller does not have to know the
+ * what TCBL_InitTaskLinks planted there, so the caller does not have to know the
  * manager.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02031194.c \
- *       --func sub_02031194 --addr 0x02031194 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCBL_DeleteTask.c \
+ *       --func TCBL_DeleteTask --addr 0x02031194 --cc 1.1p1 --arm
  */
-void sub_02031194(struct TcblTask *task)
+void TCBL_DeleteTask(struct TcblTask *task)
 {
     struct TcblSystem *tcbl;
 
@@ -1897,7 +1897,7 @@ void sub_02031194(struct TcblTask *task)
         tcbl->deletePending = 1;
         return;
     }
-    sub_02030F70(task);
+    TCBL_FreeTask(task);
 }
 
 
@@ -1910,15 +1910,15 @@ void sub_02031194(struct TcblTask *task)
  *
  * The work area is the row the constructor already reserved unless the caller
  * asks for more than the manager's own stride at +0x04, in which case a block
- * is allocated here and the pointer is parked at +0x10; sub_02030FB4 is the
- * accessor that picks between the two, and sub_02030F70 frees exactly the
+ * is allocated here and the pointer is parked at +0x10; TCBL_GetTaskWork is the
+ * accessor that picks between the two, and TCBL_FreeTask frees exactly the
  * pointer this function may have stored.
  *
  * EXACT*, not EXACT: the eight bytes at 0x02031288 (`str r1, [r0, #0x14]`
  * then `bx lr`, the setter for a node's callback field) save no lr, so
  * disasm.py gives them no label and this function's inferred extent runs past
  * its own two pool words to 0x02031290, where the already-matched veneer
- * src/matched/sub_02031290.c starts
+ * src/matched/TCBL_GetWork.c starts
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  The extra
  * bytes compare equal; seeding 0x02031288 into layout/function_starts.txt is
  * the integrator's call and the witness is the pool that closes this function
@@ -1936,7 +1936,7 @@ struct TcblTask *sub_020311B8(struct TcblSystem *tcbl, TcblFunc func, u32 workSi
     struct TcblTask *sentinel;
 
     sentinel = &tcbl->sentinel;
-    task = func_02030F04(tcbl);
+    task = TCBL_PopFreeTask(tcbl);
     if (task == 0) {
         return 0;
     }
@@ -1965,22 +1965,22 @@ struct TcblTask *sub_020311B8(struct TcblSystem *tcbl, TcblFunc func, u32 workSi
 
 
 
-void func_02031288(struct TcblTask *task, TcblFunc func){ task->func = func; }
+void TCBL_SetTaskFunc(struct TcblTask *task, TcblFunc func){ task->func = func; }
 
 
 
 
 /*
- * A four-instruction tail call to sub_02030FB4 (src/matched/sub_02030FB4.c,
+ * A four-instruction tail call to TCBL_GetTaskWork (src/matched/TCBL_GetTaskWork.c,
  * this same packet), one section back. The mwccarm one-section-per-function
  * rule means even a same-file neighbour is reached through a pool word and
  * `bx`; see docs/idioms/tail-call-is-a-pool-word-and-bx.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02031290.c \
- *       --func sub_02031290 --addr 0x02031290 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TCBL_GetWork.c \
+ *       --func TCBL_GetWork --addr 0x02031290 --cc 1.1p1
  */
-void *sub_02031290(struct TcblTask *task)
+void *TCBL_GetWork(struct TcblTask *task)
 {
-    return sub_02030FB4(task);
+    return TCBL_GetTaskWork(task);
 }

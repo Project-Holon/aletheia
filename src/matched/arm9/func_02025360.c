@@ -1,5 +1,5 @@
 /*
- * function: func_02025360
+ * function: ACTOR_TOOL_AllocRun
  * address:  0x02025360
  * packet:   pkt_02025360
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * actor_tool.c: allocate a run of len free (0xFF) slots in one bank and
  * stamp every slot of the run with its start index; returns the start, or 0.
- * func_020253D4 frees what this stamps.
+ * ACTOR_TOOL_FreeRun frees what this stamps.
  *
  * THE LEVER (wave 18, lane ties_b; it was DIFF 116/116, 21 out after wave
  * 17, docs/notes/pkt_02025360.c.txt): the scan loop's bound is written
@@ -29,7 +29,7 @@ struct ActorTool {
     u8  count[2];
     u8  slot[2][16];
 };
-int func_02025360(struct ActorTool *p, int len, u32 bank)
+int ACTOR_TOOL_AllocRun(struct ActorTool *p, int len, u32 bank)
 {
     int i, j, end;
     u32 sel = 1;

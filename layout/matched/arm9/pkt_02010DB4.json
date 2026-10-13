@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02010E14",
+   "name": "GPOWER_Activate",
    "address": "0x02010E14",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "sub_02010EA0",
+   "name": "GPOWER_GetActiveIdOfSameType",
    "address": "0x02010EA0",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02010EB4",
+   "name": "GPOWER_GetActiveIdByType",
    "address": "0x02010EB4",
    "kind": "game",
    "region": "arm9",

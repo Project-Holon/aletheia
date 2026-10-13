@@ -20,14 +20,14 @@
  *   func_02158344  0x02158344  thumb  ov010
  *   func_0202208C  0x0202208C  thumb
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0217440C  0x0217440C  thumb  ov011
- *   func_0217446C  0x0217446C  thumb  ov011
+ *   INTRUDE_COMM_SendBusyBegin  0x0217440C  thumb  ov011
+ *   INTRUDE_COMM_SendBusyEnd  0x0217446C  thumb  ov011
  *   func_020221A4  0x020221A4  thumb
  *   func_0202648C  0x0202648C  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02031348  0x02031348  arm
+ *   PROCSYS_Push  0x02031348  arm
  *   func_0201DD78  0x0201DD78  thumb
- *   func_02031330  0x02031330  arm
+ *   PROCSYS_Main  0x02031330  arm
  *   func_020310C4  0x020310C4  arm
  *   func_0201C4E4  0x0201C4E4  thumb
  *   func_0204A600  0x0204A600  arm
@@ -52,14 +52,14 @@ extern int func_02158344(int a0);
 struct Tcbl;
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_0200FB24(void);
-extern u32 func_0217440C(void);
-extern u32 func_0217446C(void);
+extern u32 INTRUDE_COMM_SendBusyBegin(void);
+extern u32 INTRUDE_COMM_SendBusyEnd(void);
 extern u32 func_020221A4(void);
 extern u32 func_0202648C(void *obj);
 extern u32 func_02026454(void *obj);
-extern void func_02031348(int h, int id, int a, void *b);
+extern void PROCSYS_Push(int h, int id, int a, void *b);
 extern void func_0201DD78(u32, u32, u32);
-extern u32 func_02031330(void *h);
+extern u32 PROCSYS_Main(void *h);
 extern void func_020310C4(struct Tcbl *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_0204A600(void);
@@ -82,7 +82,7 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
     case 1:
         if (r == 0 || func_0200FB24() != 0)
             (*seq)++;
-        else if (func_0217440C() == 1)
+        else if (INTRUDE_COMM_SendBusyBegin() == 1)
             (*seq)++;
         break;
     case 2:
@@ -94,23 +94,23 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
             mywk[0x126] = 1;
         if (mywk[0x126] == 0) {
             if (mywk[0x135] == 0) {
-                func_02031348(((struct Obj00712 *)mywk)->f12C, -1, d_021BA774[mywk[0x134]].a, mywk + 0xF8);
+                PROCSYS_Push(((struct Obj00712 *)mywk)->f12C, -1, d_021BA774[mywk[0x134]].a, mywk + 0xF8);
                 mywk[0x135] = 1;
             }
             if (mywk[0x136] == 0) {
                 func_0201DD78(0xF, 2, 0);
-                func_02031348(((struct Obj00712 *)mywk)->f130, -1, d_021BA774[mywk[0x134]].b, mywk + 0xF8);
+                PROCSYS_Push(((struct Obj00712 *)mywk)->f130, -1, d_021BA774[mywk[0x134]].b, mywk + 0xF8);
                 mywk[0x136] = 1;
             }
         }
-        s2 = func_02031330((void *)((struct Obj00712 *)mywk)->f130);
+        s2 = PROCSYS_Main((void *)((struct Obj00712 *)mywk)->f130);
         k = mywk[0x124];
         if (k == 4 || (s2 != 1 && mywk[0x126] == 1)) {
             mywk[0x125] = 1;
         } else if (mywk[0x134] != k && d_021BA774[mywk[0x134]].a != d_021BA774[k].a) {
             mywk[0x125] = 1;
         }
-        s1 = func_02031330((void *)((struct Obj00712 *)mywk)->f12C);
+        s1 = PROCSYS_Main((void *)((struct Obj00712 *)mywk)->f12C);
         if (s1 == 1 && s2 == 1)
             break;
         if (mywk[0x126] == 1 || mywk[0x124] == 4) {
@@ -133,7 +133,7 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
     case 5:
         if (r == 0 || func_0200FB24() != 0)
             (*seq)++;
-        else if (func_0217446C() == 1)
+        else if (INTRUDE_COMM_SendBusyEnd() == 1)
             (*seq)++;
         break;
     case 6:

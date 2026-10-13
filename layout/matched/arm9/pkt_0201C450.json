@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201C450",
-    "sub_0201C4C0",
-    "sub_0201C4C8",
-    "sub_0201C4DC"
+    "PRINTSYS_QUE_CreateEx",
+    "PRINTSYS_QUE_Delete",
+    "PRINTSYS_QUE_SetForceQueue",
+    "PRINTSYS_QUE_SetLimitTick"
+   ],
+   "addresses": [
+    "0x0201C450",
+    "0x0201C4C0",
+    "0x0201C4C8",
+    "0x0201C4DC"
    ]
   },
   {
@@ -36,9 +42,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201C6B4",
-    "sub_0201C6C4",
-    "sub_0201C6EC"
+    "PRINTSYS_QUE_IsFinished",
+    "PRINTSYS_QUE_IsExistTarget",
+    "PRINTSYS_QUE_Clear"
+   ],
+   "addresses": [
+    "0x0201C6B4",
+    "0x0201C6C4",
+    "0x0201C6EC"
    ]
   }
  ]

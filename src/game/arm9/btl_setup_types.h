@@ -4,14 +4,14 @@
 /*
  * Objects of game_data.c and btl_setup.c.
  *
- * GameData is the 0x6B0-byte object that func_020124F4 allocates (anchor
- * game_data.c) and func_02012704 frees. The offsets come from that
+ * GameData is the 0x6B0-byte object that GAME_DATA_Create allocates (anchor
+ * game_data.c) and GAME_DATA_Delete frees. The offsets come from that
  * constructor and from the accessors in btl_setup.c; names are inferred
  * from what each constructor call creates and what each accessor is used
  * for, so the thin ones can still be refined.
  *
  * BattleSetupParam is the 0xF0-byte object that func_02013090 allocates
- * (anchor btl_setup.c) and the builders func_0201347C..func_02013894 fill.
+ * (anchor btl_setup.c) and the builders func_0201347C..BTL_SETUP_SetupCommRotation fill.
  */
 
 /* A map position kept by the game data object (0x1C bytes). */
@@ -109,7 +109,7 @@ struct GameData {
     unsigned char    walkCount;
     unsigned char    walkCountEnabled;
     unsigned char    enterMode;
-    unsigned char    exitMode;
+    unsigned char    ownNetId;
     unsigned char    intrudeCount;
     unsigned char    intrudeId;
     unsigned char    isSaving;
@@ -142,7 +142,12 @@ struct FieldSituation {
     unsigned char  minute;
 };
 
-/* Trainer slot of a battle (0x28 bytes, func_02013234). */
+/* Random number generator state of a battle (24 bytes, copied by value). */
+struct BattleRngState {
+    unsigned int words[6];
+};
+
+/* Trainer slot of a battle (0x28 bytes, BTL_SETUP_CreateTrainerData). */
 struct BattleTrainerData {
     unsigned int  trainerId;
     unsigned int  trainerType;
@@ -170,7 +175,7 @@ struct BattleSetupParam {
     unsigned char            ownsSlots;
     struct Party            *party[4];
     void                    *playerStatus[4];
-    void                    *extraSlot;
+    unsigned char            voiceFlags[4];
     struct BattleTrainerData *trainerData[4];
     struct GameData         *gameData;
     struct Config           *config;
@@ -187,12 +192,23 @@ struct BattleSetupParam {
     unsigned char            pad81;
     unsigned short           statusFlags;
     unsigned short           levelCap;
-    unsigned char            resultCounts[6];
+    unsigned short           resultCount;
+    int                      moneyDelta;
     unsigned int             moneyRate;
     unsigned char            resultValue[4];
     void                    *recordBuffer;
-    unsigned char            resultWork[0x29];
-    unsigned char            bitFlags;
+    unsigned int             recordSize;
+    struct BattleRngState    rng;
+    unsigned char            resultWork[13];
+    union {
+        unsigned char            bitFlags;
+        struct {
+            unsigned char recordInvalid : 1;
+            unsigned char recordComplete : 1;
+            unsigned char hidePlayerNames : 1;
+            unsigned char flagsRest : 5;
+        } bits;
+    };
     unsigned char            resultFlags[6];
     unsigned char            resultExtra[0x28];
 };

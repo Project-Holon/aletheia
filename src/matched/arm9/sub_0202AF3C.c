@@ -1,5 +1,5 @@
 /*
- * function: func_0202AF3C
+ * function: ISS_CITY_UNIT_Copy
  * address:  0x0202AF3C
  * packet:   pkt_0202AF34
  * region:   arm9
@@ -26,7 +26,7 @@ struct MyStruct {
     u8  d[6];
 };
 
-void func_0202AF3C(const struct MyStruct *src, struct MyStruct *dst)
+void ISS_CITY_UNIT_Copy(const struct MyStruct *src, struct MyStruct *dst)
 {
     int i;
 

@@ -12,22 +12,22 @@
  * symbols:
  *   func_02045770  0x02045770  arm
  *   func_020311B8  0x020311B8  arm
- *   func_02031290  0x02031290  arm
- *   func_02045A90  0x02045A90  arm
+ *   TCBL_GetWork  0x02031290  arm
+ *   STRBUF_GetChars  0x02045A90  arm
  *   func_0201CEE0  0x0201CEE0  thumb
- *   func_0201C808  0x0201C808  thumb
- *   sub_0201CDF4   0x0201CDF4  thumb
+ *   PRINTSYS_SetupJob  0x0201C808  thumb
+ *   PRINTSYS_SplitWait   0x0201CDF4  thumb
  *
  * The printsys text-record constructor: registers func_0201CEE0 as a
  * task with a 0x50-byte work area, builds the PrintCtx at +0x34 through
- * func_0201C808, splits the signed speed argument into the sign/magnitude
+ * PRINTSYS_SetupJob, splits the signed speed argument into the sign/magnitude
  * pairs at +0x18..+0x1D, and initialises every other field of struct Rec
  * (the same layout src/matched/func_0201CEE0.c consumes).  Returns the
  * record.
  *
  * The two-load swap the notes carried at +0x28/+0x30 (a4 read before a1)
  * was a declaration fact, not a scheduling one:
- *  - func_0201C808's real prototype (src/matched/sub_0201C808.c) is
+ *  - PRINTSYS_SetupJob's real prototype (src/matched/PRINTSYS_SetupJob.c) is
  *    (struct PrintCtx *, void *, void *, s16, s16), so a1 and a2 are s16
  *    parameters here;
  *  - the byte stored to +0x20 is the tenth argument declared `u16 a9`.
@@ -93,12 +93,12 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void *func_020311B8(u32 a0, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
-extern void *func_02031290(struct S02030FB4 *p);
+extern void *TCBL_GetWork(struct S02030FB4 *p);
 struct U16Vec;
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void  func_0201CEE0(void *task, struct Rec *p);
-extern void func_0201C808(struct PrintCtx *p, void *w, void *x, u32 y, s16 z);
-extern void  sub_0201CDF4(s32 v, u8 *out);
+extern void PRINTSYS_SetupJob(struct PrintCtx *p, void *w, void *x, u32 y, s16 z);
+extern void  PRINTSYS_SplitWait(s32 v, u8 *out);
 
 struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3,
                           u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9,
@@ -111,11 +111,11 @@ struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3,
 
     h = (u32)func_02045770((struct Descriptor *)a0);
     r = func_020311B8(a6, (void *)func_0201CEE0, 0x50, a7);
-    o = func_02031290(r);
+    o = TCBL_GetWork(r);
 
     o->task = r;
-    func_0201C808(&o->ctx, (void *)a4, (void *)h, a1, a2);
-    sub_0201CDF4(a5, pair);
+    PRINTSYS_SetupJob(&o->ctx, (void *)a4, (void *)h, a1, a2);
+    PRINTSYS_SplitWait(a5, pair);
     o->f19 = pair[1];
     {
         u8 lo = pair[0];
@@ -128,7 +128,7 @@ struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3,
         o->f1d = hi;
         o->f1b = hi;
     }
-    o->cur = func_02045A90((struct U16Vec *)a3);
+    o->cur = STRBUF_GetChars((struct U16Vec *)a3);
     o->wait = 0;
     o->cb = (u8 (*)(u32))a10;
     o->f28 = 0;

@@ -13,7 +13,7 @@
  *   func_0200CA1C 0x0200CA1C thumb
  *   func_0200CA8C 0x0200CA8C thumb
  *   func_02030734 0x02030734 arm
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   func_021C8F90 0x021C8F90 thumb ov212
  *   d_021C99A0 0x021C99A0 data a1
  *   d_021C8108 0x021C8108 data ov208 a4
@@ -26,7 +26,7 @@ struct Blk37;struct Obj020314F4;
 extern void *func_0200CA1C(void *);
 extern u16 func_0200CA8C(struct Blk37 *);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern void func_02031348(struct Obj020314F4 *,unsigned,unsigned,unsigned);
+extern void PROCSYS_Push(struct Obj020314F4 *,unsigned,unsigned,unsigned);
 extern int func_021C8F90(char *,int);
 extern const char d_021C99A0[];
 extern const unsigned d_021C8108[];
@@ -45,7 +45,7 @@ void func_021C91C4(char *p)
     for(i=0;i<((struct Obj04629 *)q)->fC;i++){
         if((*(u16 **)(q+8))[i]==selected){((struct Obj04629 *)q)->fE=i;break;}
     }
-    func_02031348(*(struct Obj020314F4 * *)&((struct Obj04628 *)p)->f4,(unsigned)ov208_id,(unsigned)d_021C8108,(unsigned)q);
+    PROCSYS_Push(*(struct Obj020314F4 * *)&((struct Obj04628 *)p)->f4,(unsigned)ov208_id,(unsigned)d_021C8108,(unsigned)q);
     ((struct Obj04628 *)p)->f28=q;
     func_021C8F90(p,6);
 }

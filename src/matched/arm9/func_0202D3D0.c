@@ -1,5 +1,5 @@
 /*
- * function: func_0202D3D0
+ * function: POKEGRA_DrawSpindaSpots
  * address:  0x0202D3D0
  * packet:   pkt_0202D2EC
  * region:   arm9
@@ -18,7 +18,7 @@
  * table), locate the pixel's byte in a 12-tile-wide 8x8 tile layout and, when
  * its nibble is colour 1..3, move it to 6..8 (+5 low, +0x50 high).
  *
- * WHAT CLOSED IT (docs/notes/func_0202D3D0.c.txt: 216 against 216, 29 to 39
+ * WHAT CLOSED IT (docs/notes/POKEGRA_DrawSpindaSpots.c.txt: 216 against 216, 29 to 39
  * bytes out, "idx in r0 / v in r2" allocation never reached by sixteen
  * spellings, permuter flat): there is NO hoisted byte local.  Each arm reads
  * the pixel byte itself and updates it with a compound assignment,
@@ -43,7 +43,7 @@ struct Obj {
     u8 *blob;
 };
 
-void func_0202D3D0(struct Obj *obj, u32 a1)
+void POKEGRA_DrawSpindaSpots(struct Obj *obj, u32 a1)
 {
     u8 *blob = obj->blob;
     int i;

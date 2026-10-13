@@ -1,5 +1,5 @@
 /*
- * function: func_02156E30
+ * function: DWC_RAPCOMMON_CreateSubHeap
  * address:  0x02156E30
  * packet:   pkt_ov009_02156E30
  * region:   ov009
@@ -62,7 +62,7 @@ extern void *func_02060C5C(void *start, u32 size, u32 attr);
 extern u32 func_02060F18(char *p, u32 v);
 extern u16 func_02060F40(char *p, u16 v);
 
-void func_02156E30(u32 a, u32 b, u32 c, u32 d)
+void DWC_RAPCOMMON_CreateSubHeap(u32 a, u32 b, u32 c, u32 d)
 {
     if (d_021A8268 == 0) {
         func_02034714(d_021A1C78, 0, d_021A1C78);

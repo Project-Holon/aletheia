@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02028218",
+   "name": "APP_TASKMENU_WIN_SetActive",
    "address": "0x02028218",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202822E",
+   "name": "APP_TASKMENU_WIN_SetDecideReturn",
    "address": "0x0202822E",
    "kind": "game",
    "region": "arm9",

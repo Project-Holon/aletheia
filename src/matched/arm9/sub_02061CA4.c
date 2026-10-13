@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_02061CA4
+ * function: NNS_GfdRegisterNewVramTransferTask
  * address:  0x02061CA4
  * packet:   pkt_02061C0C
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146B80     0x02146B80  data
+ *   sVramTransferTaskQueue     0x02146B80  data
  *   func_02061860  0x02061860  arm
  *   func_02061BC0  0x02061BC0  arm
  *   func_02061B74  0x02061B74  arm
@@ -34,8 +34,8 @@
  * func_02061BC0 is likewise a matched entry now.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02061CA4.c \
- *       --func sub_02061CA4 --addr 0x02061CA4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_GfdRegisterNewVramTransferTask.c \
+ *       --func NNS_GfdRegisterNewVramTransferTask --addr 0x02061CA4 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Queue.h"
@@ -51,26 +51,26 @@ struct Req {
     s32 size;
 };
 
-extern struct Queue g_02146B80;
+extern struct Queue sVramTransferTaskQueue;
 
 extern int func_02061860(u8 *p);
 extern u32 func_02061BC0(u8 *p);
 extern int func_02061B74(char *p);
 
-s32 sub_02061CA4(void *p, u32 a, u32 b, s32 size)
+s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size)
 {
     struct Req *req;
 
-    if (func_02061860((u8 *)(&g_02146B80)) != 0) {
+    if (func_02061860((u8 *)(&sVramTransferTaskQueue)) != 0) {
         return 0;
     }
 
-    req = (struct Req *)func_02061BC0((u8 *)(&g_02146B80));
+    req = (struct Req *)func_02061BC0((u8 *)(&sVramTransferTaskQueue));
     req->unk_00 = p;
     req->unk_04 = b;
     req->unk_08 = a;
     req->size = size;
-    func_02061B74((char *)(&g_02146B80));
-    g_02146B80.total += req->size;
+    func_02061B74((char *)(&sVramTransferTaskQueue));
+    sVramTransferTaskQueue.total += req->size;
     return 1;
 }

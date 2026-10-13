@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204CFDC
+ * function: CLACT_CreateActorCore
  * address:  0x0204CFDC
  * packet:   pkt_0204CA74
  * region:   arm9
@@ -11,12 +11,12 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0204C8E4  0x0204C8E4  arm
- *   sub_0204D0C4  0x0204D0C4  arm
- *   sub_0204CED8  0x0204CED8  arm
- *   sub_0204CF40  0x0204CF40  arm
- *   sub_0204C98C  0x0204C98C  arm
- *   sub_0204B3DC  0x0204B3DC  arm
+ *   CLACT_GetFreeActor  0x0204C8E4  arm
+ *   CLACT_InitAnimCtl  0x0204D0C4  arm
+ *   CLACT_ApplyActorInit  0x0204CED8  arm
+ *   CLACT_ApplyActorResources  0x0204CF40  arm
+ *   CLACT_LinkActor  0x0204C98C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *
  * Allocate one object out of the owner's pool, back-link it, initialise its
  * embedded sub-object at +0x68 from the request, apply the two field
@@ -33,19 +33,19 @@
  * entry to act as a `matched` witness; all three now have one and the C in
  * this file is unchanged.
  *
- *   0x0204C8E4, the allocator, is src/matched/sub_0204C8E4.c.  Its own
+ *   0x0204C8E4, the allocator, is src/matched/CLACT_GetFreeActor.c.  Its own
  *     blocker was the GF_ASSERT expression string, folded onto the
  *     file-name symbol
  *     (docs/idioms/an-assert-expression-string-rides-the-file-name-symbol.md).
- *   0x0204D0C4, the sub-object initialiser, is src/matched/sub_0204D0C4.c.
+ *   0x0204D0C4, the sub-object initialiser, is src/matched/CLACT_InitAnimCtl.c.
  *     Its handler table 0x020A13DC is row 6 of the array based at
  *     0x020A1394, not a symbol of its own.
- *   0x0204CF40 is src/matched/sub_0204CF40.c, which unstuck once
+ *   0x0204CF40 is src/matched/CLACT_ApplyActorResources.c, which unstuck once
  *     0x0204B728 landed (one `const` on a struct assignment's source).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CFDC.c \
- *       --func sub_0204CFDC --addr 0x0204CFDC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_CreateActorCore.c \
+ *       --func CLACT_CreateActorCore --addr 0x0204CFDC --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -68,22 +68,22 @@ struct Req {
 };
 
 struct Owner;
-extern struct Obj *sub_0204C8E4(struct Owner *ow);
-extern void sub_0204D0C4(struct Sub *s, void *c, u32 e);
-extern void sub_0204CED8(struct Obj *o, const struct Req *r, u32 space);
-extern void sub_0204CF40(struct Obj *o, const struct Req *r);
-extern void sub_0204C98C(void *owner, struct Obj *o);
-extern void sub_0204B3DC(struct Obj *o, u32 enable);
+extern struct Obj *CLACT_GetFreeActor(struct Owner *ow);
+extern void CLACT_InitAnimCtl(struct Sub *s, void *c, u32 e);
+extern void CLACT_ApplyActorInit(struct Obj *o, const struct Req *r, u32 space);
+extern void CLACT_ApplyActorResources(struct Obj *o, const struct Req *r);
+extern void CLACT_LinkActor(void *owner, struct Obj *o);
+extern void CLACT_SetActorDrawEnable(struct Obj *o, u32 enable);
 
-struct Obj *sub_0204CFDC(void *owner, const struct Req *r, void *c, u32 space, u16 e)
+struct Obj *CLACT_CreateActorCore(void *owner, const struct Req *r, void *c, u32 space, u16 e)
 {
-    struct Obj *o = sub_0204C8E4(owner);
+    struct Obj *o = CLACT_GetFreeActor(owner);
 
     o->owner = owner;
-    sub_0204D0C4(&o->unk_68, c, e);
-    sub_0204CED8(o, r, space);
-    sub_0204CF40(o, c);
-    sub_0204C98C(owner, o);
-    sub_0204B3DC(o, 1);
+    CLACT_InitAnimCtl(&o->unk_68, c, e);
+    CLACT_ApplyActorInit(o, r, space);
+    CLACT_ApplyActorResources(o, c);
+    CLACT_LinkActor(owner, o);
+    CLACT_SetActorDrawEnable(o, 1);
     return o;
 }

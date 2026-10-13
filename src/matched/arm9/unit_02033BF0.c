@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_02033BF0, sub_02033BF8
+ * function: SAVEDATA_GetTableMax, SAVEDATA_GetTotalSize
  *
  * Two plain field accessors on the same object, no relocations. Called
  * repeatedly through the rest of this packet.
@@ -29,12 +29,12 @@ struct Obj02033BF0 {
     u32 unk0c;
 };
 
-u32 sub_02033BF0(struct Obj02033BF0 *p)
+u32 SAVEDATA_GetTableMax(struct Obj02033BF0 *p)
 {
     return p->unk04;
 }
 
-u32 sub_02033BF8(struct Obj02033BF0 *p)
+u32 SAVEDATA_GetTotalSize(struct Obj02033BF0 *p)
 {
     return p->unk0c;
 }

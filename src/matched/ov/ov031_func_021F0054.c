@@ -15,7 +15,7 @@
  *   func_02037174  0x02037174  arm
  *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   func_0201C4E4  0x0201C4E4  thumb
- *   func_0202DBC4  0x0202DBC4  thumb
+ *   PMS_DRAW_Main  0x0202DBC4  thumb
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
  *   func_02045334  0x02045334  arm
@@ -32,7 +32,7 @@ extern void func_02037174(void);
 extern void G2x_SetBlendBrightness_(volatile u16 *reg, int plane, int brightness);
 struct PrintSys;
 extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_0202DBC4(u8 *p);
+extern void PMS_DRAW_Main(u8 *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
@@ -67,7 +67,7 @@ void func_021F0054(struct Obj *p, int mode)
     else
         G2x_SetBlendBrightness_(&REG_DB_BLDCNT_SUB, 0x3F, -8);
     func_0201C4E4((struct PrintSys *)p->w40);
-    func_0202DBC4((void *)p->w7c);
+    PMS_DRAW_Main((void *)p->w7c);
     for (i = 0; i < 3; i++) {
         if (p->b[i] == 1) {
             u32 q = p->w40;

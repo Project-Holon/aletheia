@@ -1,5 +1,5 @@
 /*
- * function: func_020518AC
+ * function: BUTTON_MAN_FindRowData
  * address:  0x020518AC
  * packet:   pkt_02051838
  * region:   arm9
@@ -32,8 +32,8 @@
  * shorter and every branch target shifts.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020518AC.c \
- *       --func func_020518AC --addr 0x020518AC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_FindRowData.c \
+ *       --func BUTTON_MAN_FindRowData --addr 0x020518AC --cc 1.1p1 --arm
  */
 #include "../include/Obj16187.h"
 
@@ -64,7 +64,7 @@ extern void func_02058180(struct A *a, struct B *b, volatile int *c);
 extern void func_02058204(struct Obj *o, struct Src *s, int *dst);
 extern void func_020582CC(struct Obj *o, void *s, int *dst);
 
-void *func_020518AC(void *obj, int kind)
+void *BUTTON_MAN_FindRowData(void *obj, int kind)
 {
     struct Blk *b = *(struct Blk * *)&((struct Obj16187 *)obj)->f20;
     int i;

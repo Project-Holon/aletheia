@@ -1,5 +1,5 @@
 /*
- * function: func_020598C4
+ * function: DWC_GetFriendKey
  * address:  0x020598C4
  * packet:   pkt_020598C4
  * region:   arm9
@@ -19,7 +19,7 @@
 extern unsigned long DWCi_Acc_GetFlag_DataType(void *userdata);
 extern unsigned long long DWCi_Acc_GetFriendKey(void *data);
 
-unsigned long long func_020598C4(void *frienddata)
+unsigned long long DWC_GetFriendKey(void *frienddata)
 {
     if (DWCi_Acc_GetFlag_DataType(frienddata) != 2) {
         return 0;

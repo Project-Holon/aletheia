@@ -1,5 +1,5 @@
 /*
- * function: func_021DA488
+ * function: P_STA_SKILL_PrintMoveDetail
  * address: 0x021DA488
  * packet: pkt_ov131_021DA488
  * region: ov131
@@ -13,20 +13,22 @@
  * AB84 copies all 36 output bytes at 0204AB9C..0204ABB0 before B784
  * reads them. Other scalar arithmetic uses u8 indices or constants.
  * symbols:
- *   func_0201C1E8 0x0201C1E8 thumb
+ *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
  *   func_02027604 0x02027604 thumb
- *   func_021D6064 0x021D6064 thumb ov131
- *   func_021D618C 0x021D618C thumb ov131
- *   func_021D6214 0x021D6214 thumb ov131
+ *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
+ *   P_STATUS_PrintMsgToWin 0x021D618C thumb ov131
+ *   P_STATUS_PrintWordSetMsgToWin 0x021D6214 thumb ov131
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
- *   func_0204AB84 0x0204AB84 arm
- *   func_0204B784 0x0204B784 arm
+ *   CLACT_GetCharacterProxy 0x0204AB84 arm
+ *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045808 0x02045808 arm
  *   func_02045C04 0x02045C04 arm
+ *   WAZA_TOOL_GetPower  0x0201C1D8  thumb  arm9
+ *   WAZA_TOOL_IsAlwaysHit  0x0201C1F4  thumb  arm9
  */
 #include "../include/Obj01408.h"
 #include "../include/Obj04513.h"
@@ -37,7 +39,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { u32 w[9]; } Record;
-extern void *func_021D6064(u8 *);
+extern void *P_STATUS_GetPokePara(u8 *);
 struct CharBuf;
 struct Descriptor;
 struct MsgBank;
@@ -48,33 +50,33 @@ struct WordSet;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern void func_021D618C(unsigned char *p, unsigned int a, int b, int c, unsigned short d, unsigned short e);
-extern void func_021D6214(unsigned char *p, unsigned int a, void *b, int c, unsigned short d, unsigned short e, unsigned short f);
+extern void P_STATUS_PrintMsgToWin(unsigned char *p, unsigned int a, int b, int c, unsigned short d, unsigned short e);
+extern void P_STATUS_PrintWordSetMsgToWin(unsigned char *p, unsigned int a, void *b, int c, unsigned short d, unsigned short e, unsigned short f);
 struct Struct36;
-extern int func_0201C1E8(int a);
-extern void func_0204AB84(u32 idx, struct Rec *dst);
-extern void func_0204B784(char *dst, const struct Struct36 *src);
+extern int WAZA_TOOL_GetDamageType(int a);
+extern void CLACT_GetCharacterProxy(u32 idx, struct Rec *dst);
+extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 extern u8 func_02027604(u8);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern u32 func_0201C1D8(u16);
+extern u32 WAZA_TOOL_GetPower(u16);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 func_0201BD28(u16,u32);
-extern u32 func_0201C1F4(u16 id);
+extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern u32 func_02045C04(struct Rec *rec);
-void func_021DA488(u8 *a,u8 *p)
+void P_STA_SKILL_PrintMoveDetail(u8 *a,u8 *p)
 {
     void *data,*object1,*object2,*table,*str;
     u8 i;
     int zero,one,id,kind;
     u32 count,value;
     Record record;
-    data=func_021D6064(a);
+    data=P_STATUS_GetPokePara(a);
     zero=0;
     for(i=8;i<=11;i++) func_02043B5C(func_02045770(*(void **)(p+0x5c+i*4)),zero);
     if(p[41]<4) id=func_02017E88(data,p[41]+54,zero);
@@ -83,27 +85,27 @@ void func_021DA488(u8 *a,u8 *p)
         else id=func_02017E88(data,54,0);
     } else id=((struct Obj23164 *)(*(u8 * *)&((struct Obj04513 *)a)->f8))->f14;
     one=1;
-    func_021D618C(a,(unsigned int)(((struct Obj01408 *)p)->f7C),149,1,one,15424);
-    kind=func_0201C1E8((u16)id);
-    func_0204AB84(*(u32 *)(a+(kind+16)*4+152),(struct Rec *)(&record));
-    func_0204B784(((struct Obj01408 *)p)->f94,(const struct Struct36 *)(&record));
+    P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f7C),149,1,one,15424);
+    kind=WAZA_TOOL_GetDamageType((u16)id);
+    CLACT_GetCharacterProxy(*(u32 *)(a+(kind+16)*4+152),(struct Rec *)(&record));
+    CLACT_SetActorImageProxy(((struct Obj01408 *)p)->f94,(const struct Struct36 *)(&record));
     func_0204B6F4(((struct Obj01408 *)p)->f94,func_02027604(kind),1);
-    func_021D618C(a,(unsigned int)(((struct Obj01408 *)p)->f80),147,1,one,15424);
-    count=func_0201C1D8(id);
-    if(count<=1) func_021D618C(a,(unsigned int)(((struct Obj01408 *)p)->f80),154,87,one,1088);
+    P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f80),147,1,one,15424);
+    count=WAZA_TOOL_GetPower(id);
+    if(count<=1) P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f80),154,87,one,1088);
     else {
         object1=func_0201EC64(((struct Obj04513 *)a)->f0);
         func_0201EFA4(object1,0,count,3,one,one);
-        func_021D6214(a,(unsigned int)(((struct Obj01408 *)p)->f80),object1,150,81,one,1088);
+        P_STATUS_PrintWordSetMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f80),object1,150,81,one,1088);
         func_0201ED04(object1);
     }
-    func_021D618C(a,(unsigned int)(((struct Obj01408 *)p)->f84),148,1,1,15424);
+    P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f84),148,1,1,15424);
     value=func_0201BD28(id,4);
-    if(func_0201C1F4(id)==1 || value==0) func_021D618C(a,(unsigned int)(((struct Obj01408 *)p)->f84),154,87,1,1088);
+    if(WAZA_TOOL_IsAlwaysHit(id)==1 || value==0) P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f84),154,87,1,1088);
     else {
         object2=func_0201EC64(((struct Obj04513 *)a)->f0);
         func_0201EFA4(object2,0,value,3,1,1);
-        func_021D6214(a,(unsigned int)(((struct Obj01408 *)p)->f84),object2,151,81,1,1088);
+        P_STATUS_PrintWordSetMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f84),object2,151,81,1,1088);
         func_0201ED04(object2);
     }
     table=func_02045B38(0,2,202,((struct Obj04513 *)a)->f0);

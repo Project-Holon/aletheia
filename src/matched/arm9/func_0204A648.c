@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A74    0x02146A74  data
- *   func_0204BB04 0x0204BB04  arm
- *   func_0204BB20 0x0204BB20  arm
- *   func_0204BCF4 0x0204BCF4  arm
- *   func_0204C7A4 0x0204C7A4  arm
+ *   g_ClactSystem    0x02146A74  data
+ *   CLACT_IsSystemActive 0x0204BB04  arm
+ *   CLACT_SetOamPending 0x0204BB20  arm
+ *   CLACT_ApplyOamManagers 0x0204BCF4  arm
+ *   CLACT_ExecuteTransfers 0x0204C7A4  arm
  *
  * The cell-actor manager's teardown pass, and the exact inverse of
- * src/pending/sub_0204A600.c: each guard re-reads the context pointer from
+ * src/pending/CLACT_DrawSystem.c: each guard re-reads the context pointer from
  * its slot (the two `popeq` exits are the short-circuit returns, which is why
  * neither guard is predicated), the +0xEC latch decides whether the +0xE0
  * sub-object is released, and the flag goes back to 1.
  *
  * The 0x0204BCF4 call site resolves off the `label` class (its own
- * src/pending/func_0204BCF4.c is capped, but the branch has witnesses outside
+ * src/pending/CLACT_ApplyOamManagers.c is capped, but the branch has witnesses outside
  * this range), so this file is EXACT.
  *
  * Verified with:
@@ -36,26 +36,26 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern struct Mgr *g_02146A74;
+extern struct Mgr *g_ClactSystem;
 
-extern u32  func_0204BB04(void);
-extern void func_0204BB20(u32 v);
+extern u32  CLACT_IsSystemActive(void);
+extern void CLACT_SetOamPending(u32 v);
 struct Obj;
 struct Table;
-extern void func_0204BCF4(struct Obj *o);
-extern void func_0204C7A4(struct Table *t);
+extern void CLACT_ApplyOamManagers(struct Obj *o);
+extern void CLACT_ExecuteTransfers(struct Table *t);
 
 void func_0204A648(void)
 {
-    if (g_02146A74 == 0)
+    if (g_ClactSystem == 0)
         return;
-    if (func_0204BB04() == 0)
+    if (CLACT_IsSystemActive() == 0)
         return;
 
-    func_0204BCF4((struct Obj *)g_02146A74);
+    CLACT_ApplyOamManagers((struct Obj *)g_ClactSystem);
 
-    if (g_02146A74->field_EC != 0)
-        func_0204C7A4((struct Table *)((char *)g_02146A74 + 0xe0));
+    if (g_ClactSystem->field_EC != 0)
+        CLACT_ExecuteTransfers((struct Table *)((char *)g_ClactSystem + 0xe0));
 
-    func_0204BB20(1);
+    CLACT_SetOamPending(1);
 }

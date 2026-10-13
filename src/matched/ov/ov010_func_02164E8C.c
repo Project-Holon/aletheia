@@ -12,9 +12,9 @@
  * extent: trailing two zero alignment bytes at 02164EB2; next labelled function 02164EB4.
  * symbols:
  *   func_02164EB4 0x02164EB4 thumb ov010
- *   func_020267E4 0x020267E4 thumb
+ *   GAME_BEACON_GetMyInfo 0x020267E4 thumb
  
- * 2026-10-05 (D8 lane 15): 020267E4 now filed EXACT as src/matched/arm9/func_020267E4.c (MI_CpuCopy8(d_02146940+4, p, 0x5C)).
+ * 2026-10-05 (D8 lane 15): 020267E4 now filed EXACT as src/matched/arm9/GAME_BEACON_GetMyInfo.c (MI_CpuCopy8(GAME_BEACON_Work+4, p, 0x5C)).
  * Re-run after the integrator regenerates the layout; expected EXACT.
  */
 typedef unsigned char u8;
@@ -22,6 +22,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Hdr { u8 x[2]; u8 b0:1; u8 b1:5; u8 b6:1; u8 b7:1; } Hdr;
 extern void func_02164EB4(Hdr *,void *);
-extern void func_020267E4(void *);
+extern void GAME_BEACON_GetMyInfo(void *);
 typedef struct Obj { void *src; u8 gap[12]; Hdr hdr; } Obj;
-void *func_02164E8C(Obj *p) { func_02164EB4(&p->hdr,p->src); func_020267E4((u8 *)p+0x18); p->hdr.b1=2; return &p->hdr; }
+void *func_02164E8C(Obj *p) { func_02164EB4(&p->hdr,p->src); GAME_BEACON_GetMyInfo((u8 *)p+0x18); p->hdr.b1=2; return &p->hdr; }

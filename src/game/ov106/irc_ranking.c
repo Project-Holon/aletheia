@@ -17,7 +17,7 @@
  *   func_0203159C 0x0203159C arm
  *   fill 0x02082BCC arm
  *   func_020120F4 0x020120F4 thumb
- *   func_020124F4 0x020124F4 thumb
+ *   GAME_DATA_Create 0x020124F4 thumb
  *   func_0201C440 0x0201C440 thumb
  *   func_0201D7EC 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
@@ -33,7 +33,7 @@
  *   func_02045C04 0x02045C04 arm
  *   func_0201D83C 0x0201D83C thumb
  *   func_0201C4C0 0x0201C4C0 thumb
- *   func_02012704 0x02012704 thumb
+ *   GAME_DATA_Delete 0x02012704 thumb
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   func_02082BCC 0x02082BCC arm
@@ -83,16 +83,16 @@
  *   d_021B94B8 0x021B94B8 data a4
  *   func_0204A48C 0x0204A48C arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_0204B1CC 0x0204B1CC arm
  *   func_0204A5AC 0x0204A5AC arm
- *   func_0204335C 0x0204335C arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_020433E0 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0204361C 0x0204361C arm
- *   func_020434CC 0x020434CC arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   func_0201DD60 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   d_021B94F4 0x021B94F4 data a4
@@ -110,7 +110,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
  *   func_0201C7A4 0x0201C7A4 thumb
- *   func_0201BABC 0x0201BABC thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0201BB5C 0x0201BB5C thumb
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204AF28 0x0204AF28 arm
@@ -125,7 +125,7 @@
  *   func_020437AC 0x020437AC arm
  *   func_0204B454 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
- *   func_02049EB4 0x02049EB4 arm
+ *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02041090 0x02041090 arm
  *   func_020413B0 0x020413B0 arm
@@ -137,7 +137,7 @@
  *   func_02045924 0x02045924 arm
  *   d_021B9680 0x021B9680 data a1
  *   func_02035D20 0x02035D20 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_020362DC 0x020362DC arm
  *   func_0203630C 0x0203630C arm
  *   func_02035C38 0x02035C38 arm
@@ -348,7 +348,7 @@ extern void func_0203064C(u32,u32,u32);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void fill(void *,int,u32);
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_020124F4(u16);
+extern void *GAME_DATA_Create(u16);
 extern u32 func_0201C440(void *);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -363,7 +363,7 @@ extern void func_02025588(void *);
 extern u32 func_02045C04(struct Rec *rec);
 extern u32 func_0201D83C(void *ptr);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_02012704(u8 *p);
+extern void GAME_DATA_Delete(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern u32 func_0201C4E4(struct PrintSys *ps);
@@ -405,18 +405,18 @@ extern void func_0203F9B4(void);
 extern void func_020419E4(void);
 extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 extern u32 func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_0204A600(void);
 extern void func_0204A648(void);
-extern void func_0204335C(u32);
+extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0204363C(u32);
 extern void func_0204361C(void);
-extern void func_020434CC(void);
+extern void BG_SYS_ClearMainPlanes(void);
 extern void func_0201DD60(void);
 extern void *func_020056A0(void (*)(void *, u8 *), void *, int);
 extern void func_02030EAC(struct Node *n);
@@ -433,7 +433,7 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C7A4(void *,s16_021B87B0,s16_021B87B0,void *,void *);
-extern u32 func_0201BABC(u32,u32,u32,u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
@@ -448,7 +448,7 @@ extern void func_0204AFD8(u32);
 extern void func_020437AC(struct Obj020437AC *);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(void *,Pair_021B80AC *,u16);
-extern void *func_02049EB4(u32,u32,u32,u32,u16);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32,u32,u32,u32,u16);
 extern u32 func_020307B0(void *p);
 extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8);
@@ -464,7 +464,7 @@ extern u16 func_0200A8E4(struct Rec *r, u32 index);
 extern u32 func_0200A8F8(struct Rec *r, u32 index);
 extern void func_0200A908(void *,u32,u16 *,u8 *,u8 *,u8 *);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 extern int func_02035C38(void);
@@ -579,7 +579,7 @@ int func_021B7560(void *sys,u32 unused,void **args) {
     p=func_0203159C(sys,0x648,67);
     fill(p,0,0x648);
     if(*args)((struct Obj00978 *)p)->f628=func_020120F4(*args);
-    else ((struct Obj00978 *)p)->f628=func_020124F4(1);
+    else ((struct Obj00978 *)p)->f628=GAME_DATA_Create(1);
     *(u32 *)&((struct Obj00978 *)p)->f61C=func_0201C440((void *)67);
     ((struct Obj00978 *)p)->f618=(u32)func_0201D7EC(23,0,0,0,67);
     ((struct Obj00978 *)p)->f620=func_02045B38(0,2,50,67);
@@ -622,7 +622,7 @@ int func_021B7798(void *a,int b,int *state,u8 *p)
  func_021B8FC4(p+0x600); func_021B8D9C(p+0x5D4);func_021B78AC(p+0x28);
  func_02025588(((struct Obj03744 *)p)->f624);func_021B807C(p);func_021B8D5C(((struct Obj03744 *)p)->f63C);
  func_02045C04(((struct Obj03744 *)p)->f620);func_0201D83C(((struct Obj03744 *)p)->f618);func_0201C4C0(((struct Obj03744 *)p)->f61C);
- if(*state==0)func_02012704(((struct Obj03744 *)p)->f628);
+ if(*state==0)GAME_DATA_Delete(((struct Obj03744 *)p)->f628);
  func_020315D4(a);func_020306F0(67);return 1;
 }
 
@@ -904,7 +904,7 @@ void func_021B7F88(void **p, int a, int b) {
     func_02082BCC(p,0,0x14);
     func_0204A48C((const struct Cfg *)d_021B94B8,a,b);
     *p=func_0204B100(128,0,b);
-    func_0204B270(*p);
+    CLACT_SetUnitDefaultRenderer(*p);
     func_020434DC(16,1);
     func_02043598(16,1);
 }
@@ -957,11 +957,11 @@ void func_021B7FF8(u8 *p, void *a, u32 b) {
  *(volatile unsigned short *)0x04001050=0;
  *(volatile unsigned *)0x04000000 &= ~0xe000;
  *(volatile unsigned *)0x04001000 &= ~0xe000;
- func_0204335C(0);
+ BG_SYS_ClearGraphicsMemory(0);
  func_020433E0((const struct DispVram *)d_021B94F4);
  func_0204363C(1);
  func_0204361C();
- func_020434CC();
+ BG_SYS_ClearMainPlanes();
  func_0201DD60();
  func_021B7D14((u32 *)p,a,b);
  func_021B7F88((void **)(p+0x10),(int)d_021B94F4,b);
@@ -1302,7 +1302,7 @@ void func_021B87B0(u8 *p,const Item_021B87B0 *item,void *sys,u32 first,u32 secon
  width=func_0201D304(text,font,0)>>1;
  func_0201C7A4(*(void **)(p+4),194-width,5,text,(void *)font);
  func_02045808(text);func_02045808(c);func_02045808(b);func_02045808(a);
- member=func_0201BABC(item->number,item->a,item->b,item->c);
+ member=POKE_TOOL_CalcGraphicIndex(item->number,item->a,item->b,item->c);
  mode1=func_0201BC40(); mode2=func_0201BCB4();
  arc=func_020490F4(7,heap);
  *(u32 *)(p+20)=func_0204A6C8(arc,member,0,2,heap);
@@ -1386,7 +1386,7 @@ void func_021B8AD0(u8 *p,u8 *a,u16 b) {
     func_02082BCC(p,0,384);
     x=func_021B7F7C(a,1);
     y=func_021B7F7C(a,0);
-    allocation=func_02049EB4(77,5,0,(u32)&data,b);
+    allocation=ARC_UTIL_LoadPaletteDataFromArchive(77,5,0,(u32)&data,b);
     table=(int)data+12;
     for(i=0;i<3;i++) {
         for(j=0;j<32;j++) {
@@ -1507,7 +1507,7 @@ void func_021B8DA8(int *p) {
     if(func_02035D20((u32 *)(&x),(u32 *)(&y))) {
         p[0]=x;p[1]=y;p[2]=x;p[3]=y;p[4]=x;p[5]=y;
         p[6]=0;p[7]=0;p[8]=0;
-    } else if(func_02035CB8((u32 *)(&x),(u32 *)(&y))) {
+    } else if(TOUCHPANEL_GetPointCont((u32 *)(&x),(u32 *)(&y))) {
         d=y-p[1];
         if(d<0)d=-d;
         if(d>=1) {

@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02005A4C"
+    "GFL_USE_PopSndSlot"
+   ],
+   "addresses": [
+    "0x02005A4C"
    ]
   },
   {
@@ -33,7 +36,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02005B04"
+    "GFL_USE_ReleaseWaveArcSet"
+   ],
+   "addresses": [
+    "0x02005B04"
    ]
   },
   {
@@ -48,7 +54,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02005C18"
+    "GFL_USE_ClearSndHeap"
+   ],
+   "addresses": [
+    "0x02005C18"
    ]
   },
   {
@@ -63,8 +72,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02005C3C",
-    "sub_02005C44"
+    "GFL_USE_GetBgmHandle",
+    "GFL_USE_GetBgmNo"
+   ],
+   "addresses": [
+    "0x02005C3C",
+    "0x02005C44"
    ]
   },
   {
@@ -79,9 +92,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02005C4C",
-    "sub_02005C64",
-    "sub_02005C8C"
+    "GFL_USE_GetTargetBgmNo",
+    "GFL_USE_IsLoaderBusy",
+    "GFL_USE_IsCardIrqEnabled"
+   ],
+   "addresses": [
+    "0x02005C4C",
+    "0x02005C64",
+    "0x02005C8C"
    ]
   },
   {
@@ -96,12 +114,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02005CA4",
-    "sub_02005CBC",
-    "sub_02005CE0",
-    "sub_02005D08",
-    "sub_02005D14",
-    "sub_02005D28"
+    "GFL_USE_SetPlayersAudible",
+    "GFL_USE_SetPlayerVolumes",
+    "GFL_USE_IsSeqStartAllowed",
+    "GFL_USE_SetSeqStartFilter",
+    "GFL_USE_StopBgm",
+    "GFL_USE_CancelChangeAndStopBgm"
+   ],
+   "addresses": [
+    "0x02005CA4",
+    "0x02005CBC",
+    "0x02005CE0",
+    "0x02005D08",
+    "0x02005D14",
+    "0x02005D28"
    ]
   }
  ]

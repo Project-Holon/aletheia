@@ -1,5 +1,5 @@
 /*
- * function: func_021B6BFC
+ * function: IRC_COMPATIBLE_StepRunnerIsBusy
  * address:  0x021B6BFC
  * packet:   pkt_ov101_021B6BFC
  * region:   ov101
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   PROCSYS_Main  0x02031330  arm  arm9
  */
 #include "../include/Obj22113.h"
 
@@ -18,5 +21,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern unsigned int func_02031330(void *);
-unsigned int func_021B6BFC(u8 *p) { return func_02031330((void *)((struct Obj22113 *)p)->f0); }
+extern unsigned int PROCSYS_Main(void *);
+unsigned int IRC_COMPATIBLE_StepRunnerIsBusy(u8 *p) { return PROCSYS_Main((void *)((struct Obj22113 *)p)->f0); }

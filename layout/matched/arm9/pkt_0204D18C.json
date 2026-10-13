@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204D18C",
+   "name": "CLACT_InitMultiCellAnimCtl",
    "address": "0x0204D18C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204D224",
+   "name": "CLACT_InitVramAnimCtl",
    "address": "0x0204D224",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204D2C8",
+   "name": "CLACT_ExitCellAnimCtl",
    "address": "0x0204D2C8",
    "kind": "game",
    "region": "arm9",

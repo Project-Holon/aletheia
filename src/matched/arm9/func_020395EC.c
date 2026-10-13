@@ -1,5 +1,5 @@
 /*
- * function: func_020395EC
+ * function: GFL_NET_HANDLE_GetNetHandleID
  * address:  0x020395EC
  * packet:   pkt_020395EC
  * region:   arm9
@@ -16,7 +16,7 @@
  *   str_020A7A68   0x020A7A68  data
  *   str_020A7A78   0x020A7A78  data
  *   func_02034714  0x02034714  arm
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *   func_0203996C  0x0203996C  arm
  */
 
@@ -28,17 +28,17 @@ extern const u8 str_020A7A78[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 typedef signed int     s32;
 struct Entry;
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 struct Entry;
 
 extern struct Entry *func_0203996C(s32 idx);
 
-int func_020395EC(struct Entry *a)
+int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a)
 {
     struct Entry *v;
     int i;
 
-    func_0203D788();
+    GFL_NET_GetSession();
     v = func_0203996C(0xff);
     if (v == a) {
         return 0xff;

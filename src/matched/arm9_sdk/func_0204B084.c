@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_020307B0 0x020307B0 arm
- *   func_0204BE28 0x0204BE28 arm
+ *   CLACT_ExitRenderer 0x0204BE28 arm
  */
 
 typedef unsigned int u32;
 struct OamState;
-extern void func_0204BE28(struct OamState *p);
+extern void CLACT_ExitRenderer(struct OamState *p);
 extern u32 sub_020307B0(void *p);
 
 void func_0204B084(struct OamState *p)
 {
-    func_0204BE28(p);
+    CLACT_ExitRenderer(p);
     sub_020307B0(p);
 }

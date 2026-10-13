@@ -1,5 +1,5 @@
 /*
- * function: func_02017B4C
+ * function: POKE_TOOL_HatchBoxEgg
  * address:  0x02017B4C
  * packet:   pkt_02017A20
  * region:   arm9
@@ -19,7 +19,7 @@
  *
  * WHAT WAS WRONG IN THE EARLIER NOTE, AND WHAT CLOSED IT
  * -----------------------------------------------------
- * docs/notes/func_02017B4C.diff.c.txt records this function as a 104-byte
+ * docs/notes/POKE_TOOL_HatchBoxEgg.diff.c.txt records this function as a 104-byte
  * DIFF at 120 bytes against 124, and that source is four bytes short with the
  * whole body misaligned.  The note's skeleton is correct; only two
  * declarations are wrong, and they are the whole difference.
@@ -49,27 +49,27 @@
  * every other matched file in the family (unit_02017E64.c, unit_0201854C.c,
  * unit_02018430.c all declare func_02017E88 returning u32).
  *
- * The third argument of func_02017E64 is a plain u32 and not a pointer: the
+ * The third argument of POKE_TOOL_SetBoxValue is a plain u32 and not a pointer: the
  * note spells it `void *` and passes `(void *)0x78`, which compiles the same
  * here but is a claim the bytes do not support, since id 9 is a byte field.
  *
  * Nothing here is version specific: 5, 9, 0x4C, 0x6F and 0x74 are field
- * selectors and 0x20 is a halfword count.  g_020A7370 and g_021462F0 are
+ * selectors and 0x20 is a halfword count.  g_020A7370 and gNameBuf are
  * globals, so their addresses are build properties.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02017B4C.c \
- *       --func func_02017B4C --addr 0x02017B4C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_TOOL_HatchBoxEgg.c \
+ *       --func POKE_TOOL_HatchBoxEgg --addr 0x02017B4C --cc 1.1p1 --thumb
  *
  * symbols:
  *   func_02017DBC  0x02017DBC  thumb
  *   func_02017E88  0x02017E88  thumb
- *   func_02017E64  0x02017E64  thumb
- *   func_02045F5C  0x02045F5C  arm
+ *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
+ *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   func_0202F1B4  0x0202F1B4  thumb
  *   func_02017DE4  0x02017DE4  thumb
  *   g_020A7370     0x020A7370  data
- *   g_021462F0     0x021462F0  data
+ *   gNameBuf     0x021462F0  data
  */
 
 typedef unsigned char  u8;
@@ -79,25 +79,25 @@ typedef unsigned int   u32;
 struct Sav;
 extern u32 func_02017DBC(struct Sav *p);
 extern u32  func_02017E88(void *a0, u32 a1, u32 a2);
-extern void func_02017E64(void *a0, u32 a1, u32 a2);
+extern void POKE_TOOL_SetBoxValue(void *a0, u32 a1, u32 a2);
 struct MsgData;
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern void func_0202F1B4(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 
 extern void *g_020A7370;
-extern u8    g_021462F0[];
+extern u8    gNameBuf[];
 
-u32 func_02017B4C(void *a0, u32 a1, u32 a2, u32 a3)
+u32 POKE_TOOL_HatchBoxEgg(void *a0, u32 a1, u32 a2, u32 a3)
 {
     u8  v = (u8)func_02017DBC(a0);
     u16 w = (u16)func_02017E88(a0, 5, 0);
 
     func_02017E88(a0, 0x6f, 0);
-    func_02017E64(a0, 0x4c, 0);
-    func_02017E64(a0, 9, 0x78);
-    func_02045F5C(g_020A7370, w, (u16 *)g_021462F0, 0x20);
-    func_02017E64(a0, 0x74, (u32)g_021462F0);
+    POKE_TOOL_SetBoxValue(a0, 0x4c, 0);
+    POKE_TOOL_SetBoxValue(a0, 9, 0x78);
+    MSGDATA_ReadUnits(g_020A7370, w, (u16 *)gNameBuf, 0x20);
+    POKE_TOOL_SetBoxValue(a0, 0x74, (u32)gNameBuf);
     func_0202F1B4((u32)a0, 2, a1, a2, a3);
     return func_02017DE4(a0, v);
 }

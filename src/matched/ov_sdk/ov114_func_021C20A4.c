@@ -20,7 +20,7 @@
  *   func_021BFBD0                    0x021bfbd0 arm  ov114
  *   func_021C2A78                    0x021c2a78 arm  ov114
  *   func_021C1DEC                    0x021c1dec arm  ov114
- *   func_0217F2BC                    0x0217f2bc arm  ov009
+ *   msleep                    0x0217f2bc arm  ov009
  *   g_021D3B64                       0x021d3b64 data
  */
 
@@ -62,7 +62,7 @@ extern int func_021BFC54(int a, int *out, char *buf, int n);
 extern int func_021BFBD0(unsigned int a0, unsigned int *a1, int a2, int a3);
 extern int func_021C2A78(GHIConnection *connection);
 extern int func_021C1DEC(GHIConnection *connection);
-extern void func_0217F2BC(unsigned int msec);
+extern void msleep(unsigned int msec);
 extern int g_021D3B64;
 
 int func_021C20A4(const char *URL, const char *headers, char *buffer, int bufferSize,
@@ -126,7 +126,7 @@ int func_021C20A4(const char *URL, const char *headers, char *buffer, int buffer
 
     if (blocking) {
         while (!func_021C1DEC(connection))
-            func_0217F2BC(10);
+            msleep(10);
         return 0;
     }
 

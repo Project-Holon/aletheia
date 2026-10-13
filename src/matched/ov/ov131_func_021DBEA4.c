@@ -1,5 +1,5 @@
 /*
- * function: func_021DBEA4
+ * function: P_STA_OAM_GetCellResMode
  * address: 0x021DBEA4
  * packet: pkt_ov131_021DBEA4
  * region: ov131
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int     s32;
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-int func_021DBEA4(u8 *p, int screen, u32 owner)
+int P_STA_OAM_GetCellResMode(u8 *p, int screen, u32 owner)
 {
     int mode;
     u32 bits;

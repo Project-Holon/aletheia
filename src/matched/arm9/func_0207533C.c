@@ -10,8 +10,8 @@
  * status:   EXACT
  * symbols:
  *   func_0207482C  0x0207482C  arm
- *   func_020745A4  0x020745A4  arm
- *   func_0208A638  0x0208A638  arm
+ *   NNS_SndArcReadFile  0x020745A4  arm
+ *   SNDi_GetBankWaveArcTable  0x0208A638  arm
  *   func_0208A640  0x0208A640  arm
  *   func_0208A674  0x0208A674  arm
  *   func_020752F4  0x020752F4  arm
@@ -20,7 +20,7 @@
  * Bank-entry loader.  Skip the work if the entry is already resident
  * (func_0208A674), otherwise take the entry's byte range from the object's
  * offset table and stream it in: allocate range+0x20 through func_0207482C
- * with func_020752F4 as the teardown callback, read it with func_020745A4,
+ * with func_020752F4 as the teardown callback, read it with NNS_SndArcReadFile,
  * flush it with DC_StoreRange and publish it with func_0208A640.  Returns 1
  * for "resident on exit" (already-resident and success both), 0 for failure.
  *
@@ -42,7 +42,7 @@
  * out.  The assignment is an extra definition point for the address value,
  * which is what makes the allocator number it before the four parameters --
  * the mechanism docs/notes/permuter.md describes for the `temp` mutation.
- * Likewise `n = func_0208A638(o); n = n - 1;` must be TWO statements; folded
+ * Likewise `n = SNDi_GetBankWaveArcTable(o); n = n - 1;` must be TWO statements; folded
  * into one the subtract is scheduled after the compare.  Both levers were
  * found by tools/permuter.py (`--mode hill --budget 800 --jobs 8 --types`,
  * closing at compile 573 with `split-assign(n) ; temp(tmp=e[0]) ; expand(e x2)`
@@ -69,10 +69,10 @@ typedef struct {
 } Bank;
 
 extern u32   func_0208A674(Bank *o, u32 i);
-extern void *func_0208A638(char *p);
+extern void *SNDi_GetBankWaveArcTable(char *p);
 extern void  func_0208A640(Bank *o, u32 i, void *p);
 extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
-extern int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset);
+extern int NNS_SndArcReadFile(u32 idx, void *dst_buf, int total_len, u32 offset);
 extern void  DC_StoreRange(void *addr, u32 size);
 extern void func_020752F4(u32 a, u32 n, u32 x, u32 y);
 
@@ -87,7 +87,7 @@ u32 func_0207533C(Bank *o, u32 i, u32 h, u32 *heap)
   u32 tmp;
   if (func_0208A674(o, i) != 0)
     return 1;
-  n = (u32)func_0208A638((char *)o);
+  n = (u32)SNDi_GetBankWaveArcTable((char *)o);
   n = n - 1;
   e = &o->f3c[o->f38 + i];
   tmp = (&o->f3c[o->f38 + i])[0];
@@ -102,7 +102,7 @@ u32 func_0207533C(Bank *o, u32 i, u32 h, u32 *heap)
   p = (void *)func_0207482C(heap, len + 0x20, (u32) func_020752F4, (u32) o, i);
   if (p == 0)
     return 0;
-  if (func_020745A4(h, p, len, off) != len)
+  if (NNS_SndArcReadFile(h, p, len, off) != len)
     return 0;
   DC_StoreRange(p, len);
   func_0208A640(o, i, p);

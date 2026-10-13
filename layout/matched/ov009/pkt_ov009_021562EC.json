@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021562EC",
-    "func_0215631C",
-    "func_02156330"
+    "DWC_RAP_GetMyAidIfConnected",
+    "DWC_RAP_OnVchatStopped",
+    "DWC_RAP_EnableLocalVchat"
+   ],
+   "addresses": [
+    "0x021562EC",
+    "0x0215631C",
+    "0x02156330"
    ],
    "evidence": {
     "sole-ref": [

@@ -1,7 +1,7 @@
 /*
  * file:     unit_0215F650.c
  * unit:     yes
- * function: func_0215F650, func_0215F714, func_0215F7B0, func_0215F7E8, func_0215F854, func_0215F8A4, FreeFunc_SOCL, func_0215F8FC, func_0215FA90, SOC_InetNtoA, func_0215FAD0, func_0215FB28, func_0215FBAC, func_0215FBCC
+ * function: SOC_GetHostByName, SOC_GetSockName, SOC_GetHostID, SOC_SetResolver, SOC_Fcntl, func_0215F8A4, FreeFunc_SOCL, SOC_Startup, SOC_Cleanup, SOC_InetNtoA, SOC_InetAtoN, SOC_InetNtoP, func_0215FBAC, SOC_Poll
  * address:  0x0215F650
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -126,16 +126,16 @@ extern void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8);
 extern int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);
 extern int func_0215EFB0(int s);
 extern void func_02085A38(unsigned long msec);
-HostEnt *func_0215F650(const char *name);
-int func_0215F714(u8 *sock, u8 *sockAddr);
+HostEnt *SOC_GetHostByName(const char *name);
+int SOC_GetSockName(u8 *sock, u8 *sockAddr);
 long SOC_GetHostID(void);
-int func_0215F7E8(unsigned long *dns1, unsigned long *dns2);
-int func_0215F854(Sock *s, int cmd, int flags);
-int func_0215F8FC(const SOCConfig *config);
-int func_0215FAD0(char *cp, unsigned long *inp);
+int SOC_SetResolver(unsigned long *dns1, unsigned long *dns2);
+int SOC_Fcntl(Sock *s, int cmd, int flags);
+int SOC_Startup(const SOCConfig *config);
+int SOC_InetAtoN(char *cp, unsigned long *inp);
 char *SOC_InetNtoP(int af, void *src, char *dst, unsigned int len);
 void func_0215FBAC(unsigned addr32, unsigned char *addr4);
-int func_0215FBCC(PollFD *fds, unsigned int nfds, long long timeout);
+int SOC_Poll(PollFD *fds, unsigned int nfds, long long timeout);
 extern SOCStatics g_021AA4BC;
 extern u32 g_021AA4BC_ip;
 extern unsigned char *g_021AA4D4[2];
@@ -147,14 +147,14 @@ extern char g_021A1D2C[];
 
 #define SWAP32(x) ((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
 extern int func_0215EBF0(void);
-int func_0215FA90(void);
+int SOC_Cleanup(void);
 
 
 
 /*
  * sdk:      SOC_GetHostByName (libsoc.TWL.HYB.a(soc.o))
  */
-HostEnt *func_0215F650(const char *name)
+HostEnt *SOC_GetHostByName(const char *name)
 {
 	unsigned long ipAddr;
 
@@ -182,7 +182,7 @@ HostEnt *func_0215F650(const char *name)
  * byte-swapped port (halfword at sock+0xb0, 0 when no host id) and the
  * byte-swapped host id from SOCL_GetHostID. A null socket returns -0x27.
  */
-int func_0215F714(u8 *sock, u8 *sockAddr)
+int SOC_GetSockName(u8 *sock, u8 *sockAddr)
 {
     u32 hostId;
     u16 port;
@@ -217,7 +217,7 @@ long SOC_GetHostID(void)
 /*
  * sdk:      SOC_SetResolver (libsoc.TWL.HYB.a(soc.o))
  */
-int func_0215F7E8(unsigned long *dns1, unsigned long *dns2)
+int SOC_SetResolver(unsigned long *dns1, unsigned long *dns2)
 {
 	return func_0215EEE0(SWAP32(*dns1), SWAP32(*dns2));
 }
@@ -227,7 +227,7 @@ int func_0215F7E8(unsigned long *dns1, unsigned long *dns2)
 /*
  * sdk:      SOC_Fcntl (libsoc.TWL.HYB.a(soc.o))
  */
-int func_0215F854(Sock *s, int cmd, int flags)
+int SOC_Fcntl(Sock *s, int cmd, int flags)
 {
 	if (s == 0) {
 		return -1;
@@ -283,7 +283,7 @@ static void FreeFunc_SOCL(void *ptr)
  * is written as a struct overlay named by offset and the call argument as its
  * own extern.
  */
-int func_0215F8FC(const SOCConfig *config)
+int SOC_Startup(const SOCConfig *config)
 {
     g_021AA4BC.soclConfig.use_dhcp = (config->flag == 1);
     g_021AA4BC.soclConfig.my_ip = SWAP32(config->addr);
@@ -305,7 +305,7 @@ int func_0215F8FC(const SOCConfig *config)
  * Tail call to SOCL_Cleanup; sits between SOC_Startup and SOC_InetNtoA in
  * soc.o, so it is SOC_Cleanup.
  */
-int func_0215FA90(void)
+int SOC_Cleanup(void)
 {
     return func_0215EBF0();
 }
@@ -322,7 +322,7 @@ char *SOC_InetNtoA(struct SOCInAddr in)
 /*
  * sdk:      SOC_InetAtoN (libsoc.TWL.HYB.a(soc.o))
  */
-int func_0215FAD0(char *cp, unsigned long *inp)
+int SOC_InetAtoN(char *cp, unsigned long *inp)
 {
 	unsigned long ipAddr;
 
@@ -370,7 +370,7 @@ void func_0215FBAC(unsigned addr32, unsigned char *addr4)
 /*
  * sdk:      SOC_Poll (libsoc.TWL.HYB.a(soc.o))
  */
-int func_0215FBCC(PollFD *fds, unsigned int nfds, long long timeout)
+int SOC_Poll(PollFD *fds, unsigned int nfds, long long timeout)
 {
 	PollFD *fp;
 	int is_enable_timeout;

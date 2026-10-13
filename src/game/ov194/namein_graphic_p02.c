@@ -32,7 +32,7 @@
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B404  0x0204B404  arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B95C  0x0204B95C  arm
+ *   CLACT_StartActorAnim  0x0204B95C  arm
  *   func_021F4F60 0x021F4F60 thumb ov194
  *   func_021F4DD0 0x021F4DD0 thumb ov194
  *   func_02045808 0x02045808 arm
@@ -44,7 +44,7 @@
  *   func_0201D304 0x0201D304 thumb
  *   func_0201C724 0x0201C724 thumb
  *   func_0201C6FC 0x0201C6FC thumb
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   GX_GetBankForLCDC 0x02045A98 arm
  *   func_021F4ED8 0x021F4ED8 thumb ov194
  *   func_021F4E18 0x021F4E18 thumb ov194
@@ -150,7 +150,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32_021F1E28 v);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32_021F1E28 which);
 extern void func_0204B3DC(struct Obj *p, u32_021F1E28 v);
-extern void func_0204B95C(struct Actor *a);
+extern void CLACT_StartActorAnim(struct Actor *a);
 extern void func_021F4F60(void *);
 extern void func_021F4DD0(void *);
 extern void func_02045808(struct U16Vec *vec);
@@ -162,7 +162,7 @@ extern void func_02045994(struct Strbuf *o, const u16 *src, u32_021F1FB4 len);
 extern u32_021F1FB4 func_0201D304(struct StrObj *s, u32_021F1FB4 a, u32_021F1FB4 b);
 extern void func_0201C724(void *owner, u32_021F1FB4 a, u32_021F1FB4 b, u32_021F1FB4 c, u32_021F1FB4 d, u32_021F1FB4 e, u16 f);
 extern void func_0201C6FC(struct PrintSys *p, u32_021F1FB4 a, u32_021F1FB4 b, u32_021F1FB4 c, void *s, u32_021F1FB4 e);
-extern void func_0204B8C4(struct Obj *p, u32_021F1FB4 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32_021F1FB4 value);
 extern unsigned int GX_GetBankForLCDC(void);
 extern u16 func_021F4ED8(const char *p, const u16 *b);
 extern int func_021F4E18(int,int,u16 *,int,u8 *);
@@ -304,7 +304,7 @@ void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
     for (i = *(u16 *)(p + 0x22); i < 16; i++) {
         func_0204B3DC((struct Obj *)(*(int *)(p + i * 4 + 0x44)), 0);
     }
-    func_0204B95C((struct Actor *)(*(int *)(p + *(u16 *)(p + 0x1e) * 4 + 0x44)));
+    CLACT_StartActorAnim((struct Actor *)(*(int *)(p + *(u16 *)(p + 0x1e) * 4 + 0x44)));
     *(int *)(p + 0x28) = 1;
     func_021F1FB4(p);
 }
@@ -346,12 +346,12 @@ int func_021F1FB4(u8 *p)
    func_02045334(((struct Obj00418 *)p)->f40);
   }
   for(i=0;i<((struct Obj00418 *)p)->f22;i++){
-   func_0204B8C4(*(void **)(p+i*4+0x44),0);
+   CLACT_SetActorAnimFrame(*(void **)(p+i*4+0x44),0);
    func_0204B878(*(void **)(p+i*4+0x44),1);
    func_0204B3DC(*(void **)(p+i*4+0x44),1);
   }
   for(;i<16;i++){
-   func_0204B8C4(*(void **)(p+i*4+0x44),0);
+   CLACT_SetActorAnimFrame(*(void **)(p+i*4+0x44),0);
    func_0204B878(*(void **)(p+i*4+0x44),1);
    func_0204B3DC(*(void **)(p+i*4+0x44),0);
   }

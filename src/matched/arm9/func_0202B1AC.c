@@ -1,5 +1,5 @@
 /*
- * function: func_0202B1AC
+ * function: ISS_ROAD_SYS_Create
  * address:  0x0202B1AC
  * packet:   pkt_0202AFFC
  * region:   arm9
@@ -14,8 +14,8 @@
  * record from func_02012AA0(first) into +0xc.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B1AC.c \
- *       --func func_0202B1AC --addr 0x0202B1AC --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_ROAD_SYS_Create.c \
+ *       --func ISS_ROAD_SYS_Create --addr 0x0202B1AC --thumb --cc 1.1p1
  */
 
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ struct Rec44;
 struct Vec12;
 extern struct Vec12 *func_02012AA0(struct Rec44 *p);
 
-struct Node *func_0202B1AC(u32 a, u32 heapId)
+struct Node *ISS_ROAD_SYS_Create(u32 a, u32 heapId)
 {
     struct Node *p = (struct Node *)func_02030734(heapId, 0x18, 0,
                                                   (const void *)0x020A7708, 0x4a);

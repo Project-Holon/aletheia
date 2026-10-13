@@ -1,5 +1,5 @@
 /*
- * function: sub_02045210
+ * function: BMP_WIN_Alloc
  * address:  0x02045210
  * packet:   pkt_020445F4
  * region:   arm9
@@ -16,9 +16,9 @@
  *   func_02030734  0x02030734  arm
  *   func_02043678  0x02043678  arm
  *
- * The constructor shared by sub_020450F0 and sub_02045180: build the
+ * The constructor shared by BMP_WIN_Create and BMP_WIN_CreateAt: build the
  * sixteen-byte descriptor for one BG layer on the subsystem heap recorded by
- * sub_02045088, fill in its geometry, and attach the tile buffer
+ * BMP_WIN_Init, fill in its geometry, and attach the tile buffer
  * func_02043678 hands back.
  *
  *   +0x00  u16  two bitfields: a 15-bit tag set to 0x7fb2, and the 8bpp
@@ -50,8 +50,8 @@
  * docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045210.c \
- *       --func sub_02045210 --addr 0x02045210 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_WIN_Alloc.c \
+ *       --func BMP_WIN_Alloc --addr 0x02045210 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -80,7 +80,7 @@ struct Bmp;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 
-struct BgLayer *sub_02045210(u32 layer, u32 screenBase, u32 charBase,
+struct BgLayer *BMP_WIN_Alloc(u32 layer, u32 screenBase, u32 charBase,
                              u8 width, u8 height, u8 palette, u32 charOffset,
                              u8 is8bpp)
 {

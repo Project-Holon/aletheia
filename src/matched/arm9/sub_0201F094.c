@@ -25,6 +25,7 @@
  *
  * symbols:
  *   func_02025B94  0x02025B94  thumb
+ *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201F094.c \
@@ -44,7 +45,7 @@ struct Rec;
 extern u32 func_02045C04(struct Rec *rec);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u16 func_02045F50(const struct Obj *o);
-extern void  sub_02008500(void *a, void *b);
+extern void  MYSTATUS_NameToStrbuf(void *a, void *b);
 extern u32   func_02025B94(u32 a);
 extern u32 func_0202A230(void *a, u32 idx);
 extern void func_0200785C(void *save, u32 box, void *dest);

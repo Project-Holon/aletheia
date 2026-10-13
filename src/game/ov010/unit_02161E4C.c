@@ -32,11 +32,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern char *func_02161DC4(char *p, int id, unsigned mode);
+extern char *func_02161DC4(char *entryTable, int entryId, unsigned listSelect);
 
-int func_02161E4C(void *a0, int id, unsigned mode)
+/*
+ * Returns 1 when the entry with this id exists in the selected list(s) of
+ * the table (listSelect 0: first list, 1: second list, 2: both).
+ */
+int func_02161E4C(void *entryTable, int entryId, unsigned listSelect)
 {
-    if (func_02161DC4(a0, id, mode))
+    if (func_02161DC4(entryTable, entryId, listSelect))
         return 1;
     return 0;
 }

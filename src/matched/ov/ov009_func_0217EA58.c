@@ -1,5 +1,5 @@
 /*
- * function: func_0217EA58
+ * function: gsiMemoryMalloc
  * address: 0x0217EA58
  * packet: pkt_ov009_0217EA58
  * region: ov009
@@ -16,9 +16,9 @@
  */
 
 extern void *func_020913D0(unsigned long heap);
-void *func_0217EA58(unsigned long heap);
+void *gsiMemoryMalloc(unsigned long heap);
 
-void *func_0217EA58(unsigned long heap)
+void *gsiMemoryMalloc(unsigned long heap)
 {
     return func_020913D0(heap);
 }

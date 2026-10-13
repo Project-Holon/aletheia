@@ -1,5 +1,5 @@
 /*
- * function: func_0215F714
+ * function: SOC_GetSockName
  * address:  0x0215F714
  * packet:   pkt_02156B70
  * region:   ov009
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 
 extern int func_0215EF48(void);
 
-int func_0215F714(u8 *p, u8 *dst)
+int SOC_GetSockName(u8 *p, u8 *dst)
 {
     u32 r;
     u16 t;

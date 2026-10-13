@@ -1,5 +1,5 @@
 /*
- * function: func_02155F58
+ * function: DWC_RAP_HandleError
  * address:  0x02155F58
  * packet:   pkt_ov009_02155F58
  * region:   ov009
@@ -56,7 +56,7 @@
  *   Open idea: an identical statement in the r == 0 path and after the DWC call that survives cross-jumping
  *   and then vanishes (coalesced copy); no natural source found. Draft code unchanged.
  * 2026-10-05 (wD9r lane83): still 4 bytes (440 vs 436). Callee prototypes from matched definitions:
- *   func_021C5B80 (ov114) returns int, DWC_GdbShutdown (ov175 021E1340) returns int, func_020111E8 returns
+ *   func_021C5B80 (ov114) returns int, DWC_GdbShutdown (ov175 021E1340) returns int, GPOWER_GetSpecialPowerId returns
  *   u32; all three applied: same 440 B (kept the draft's void externs). Tried: `if (r == 0) goto tail;`
  *   with case 4 ending `goto tail;` (both edges to one label): same bne/b. Scan of asm/overlays: 483 far
  *   Thumb conditional branches land on a `b`; in matched code the reused `b` is always itself the kept
@@ -119,13 +119,13 @@
  *   used, so the r == 0 edge targets that join block in the IR and is not an island reuse. No new form found.
  * symbols:
  *   g_021A8264  0x021A8264  data  ov009  a4
- *   func_02155374  0x02155374  thumb  ov009
+ *   DWC_RAP_SetState  0x02155374  thumb  ov009
  *   func_02059E38  0x02059E38  arm
  *   func_02059F18  0x02059F18  arm
- *   func_0203C9AC  0x0203C9AC  arm
+ *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  *   func_0205CC20  0x0205CC20  arm
- *   func_020111E8  0x020111E8  thumb
- *   func_0216AD50  0x0216AD50  arm  ov009
+ *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
+ *   DWC_ShutdownFriendsMatch  0x0216AD50  arm  ov009
  *   func_021C5B80  0x021C5B80  arm  ov114
  *   DWC_GdbShutdown  0x021E1340  arm
  */
@@ -137,17 +137,17 @@ typedef unsigned int   u32;
 typedef int (*Cb)(u32, u32, u32, int);
 
 extern u8 *g_021A8264;
-extern void func_02155374(int v);
+extern void DWC_RAP_SetState(int v);
 extern int func_02059E38(int *a, int *b);
 extern void func_02059F18(void);
-extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
+extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 extern void func_0205CC20(void);
-extern u32 func_020111E8(void);
-extern void func_0216AD50(void);
+extern u32 GPOWER_GetSpecialPowerId(void);
+extern void DWC_ShutdownFriendsMatch(void);
 extern int func_021C5B80(void);
 extern void DWC_GdbShutdown(void);
 
-int func_02155F58(void)
+int DWC_RAP_HandleError(void)
 {
     int a, b;
     int r;
@@ -173,13 +173,13 @@ int func_02155F58(void)
     case 1:
         func_02059F18();
         if (g_021A8264 != 0 && *(u32 *)(g_021A8264 + 0x754) == 0xE)
-            func_02155374(6);
+            DWC_RAP_SetState(6);
         break;
     case 2:
         if (a <= -40000 && a >= -41999)
             DWC_GdbShutdown();
         if (g_021A8264 != 0 && *(u32 *)(g_021A8264 + 0x754) == 0xE)
-            func_02155374(6);
+            DWC_RAP_SetState(6);
         break;
     case 4:
         if (a <= -40000 && a >= -41999) {
@@ -198,7 +198,7 @@ int func_02155F58(void)
             case 3: case 6: case 7: case 8: case 9: case 10: case 11:
             case 14: case 18: case 19: case 20:
                 if (g_021A8264[0x7A9] == 1) {
-                    func_0216AD50();
+                    DWC_ShutdownFriendsMatch();
                     g_021A8264[0x7A9] = 0;
                 }
                 /* fall through */
@@ -210,12 +210,12 @@ int func_02155F58(void)
             }
         }
         if (g_021A8264 != 0)
-            func_02155374(0x10);
+            DWC_RAP_SetState(0x10);
         break;
     case 7:
         if (g_021A8264 != 0) {
             Cb f;
-            func_02155374(0x11);
+            DWC_RAP_SetState(0x11);
             f = *(Cb *)(g_021A8264 + 0x2A8);
             if (f != 0)
                 ((void (*)(int))f)(-a);
@@ -226,13 +226,13 @@ int func_02155F58(void)
     }
     if (g_021A8264[0x79E] != 0) {
         ret = 0x3EE;
-        func_0203C9AC(a, b, r, ret);
+        GFL_NET_STATE_SetError(a, b, r, ret);
     } else if (*(u32 *)(g_021A8264 + 0x754) == 0x14) {
         ret = 0x3F0;
-        func_0203C9AC(a, b, r, ret);
+        GFL_NET_STATE_SetError(a, b, r, ret);
     } else if (r != 0) {
-        func_0203C9AC(a, b, r, 0);
-        func_020111E8();
+        GFL_NET_STATE_SetError(a, b, r, 0);
+        GPOWER_GetSpecialPowerId();
     }
     return ret;
 }

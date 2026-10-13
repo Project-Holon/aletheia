@@ -25,7 +25,7 @@
  * changes.
  *
  * What it is: the cache-side of a record reader.  It asks
- * func_0201D768(p, func_02045A90(c), (u16)func_0201D69C(c), 2) for a slot
+ * func_0201D768(p, STRBUF_GetChars(c), (u16)func_0201D69C(c), 2) for a slot
  * keyed by the record at `c`, stores a second slot for `b` (0x1c/0x1c) in a
  * stack local, zero-initialises a 4-byte stack local through a third call,
  * and then walks the list hanging off p->f10 through func_0201D7C4 until it
@@ -33,7 +33,7 @@
  * offset against p->f4 (u16) before a 4-byte memcpy into the local.  When
  * p->f10 is null it installs the two slots instead.
  *
- * Two details that cost a compile each: func_02045A90 is ARM, not Thumb (the
+ * Two details that cost a compile each: STRBUF_GetChars is ARM, not Thumb (the
  * symbols: block says `arm`, and the harness refuses the call otherwise), and
  * the offset is truncated to u16 twice -- once right after the subtraction and
  * once after the +0x1c -- which is the `(u16)(...) + 0x1c` spelling in a u16
@@ -47,7 +47,7 @@
  *   func_0201D69C  0x0201D69C  thumb
  *   func_0201D768  0x0201D768  thumb
  *   func_0201D7C4  0x0201D7C4  thumb
- *   func_02045A90  0x02045A90  arm
+ *   STRBUF_GetChars  0x02045A90  arm
  *   memcpy         0x02082D44  arm
  */
 
@@ -70,7 +70,7 @@ struct Ring;
 extern void *func_0201D768(struct Ring *ring, const u8 *src, u16 len, u16 unit);
 extern void *func_0201D7C4(struct PrintSys *p, void *q);
 struct U16Vec;
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void *memcpy(void *dst, const void *src, u32 n);
 
 void func_0201D6D8(Blk *p, void *b, void *c)
@@ -81,7 +81,7 @@ void func_0201D6D8(Blk *p, void *b, void *c)
     u32 v;
     u32 x;
 
-    x = (u32)func_0201D768((struct Ring *)p, (void *)func_02045A90(c),
+    x = (u32)func_0201D768((struct Ring *)p, (void *)STRBUF_GetChars(c),
                            (u16)func_0201D69C(c), 2);
     e = func_0201D768((struct Ring *)p, b, 0x1c, 0x1c);
     v = 0;

@@ -23,10 +23,10 @@
  *   func_0208A054  0x0208A054  arm
  *   func_02060614  0x02060614  arm
  *   func_02089D6C  0x02089D6C  arm
- *   func_02075C08  0x02075C08  arm
- *   func_02075BD4  0x02075BD4  arm
+ *   NNS_SndFaderUpdate  0x02075C08  arm
+ *   NNS_SndFaderGet  0x02075BD4  arm
  *   func_020893D0  0x020893D0  arm
- *   func_02075C20  0x02075C20  arm
+ *   NNS_SndFaderIsFinished  0x02075C20  arm
  *   func_02089378  0x02089378  arm
  *   SND_PrepareSeq                  0x02089350  arm
  *   SND_SetTrackAllocatableChannel  0x0208948C  arm
@@ -93,9 +93,9 @@ extern void func_02074758(void **a0);
 extern void func_02072EA8(u32 * volatile *pp);
 extern u32 func_0208A054(void);
 extern int func_02089D6C(u32 tag);
-extern void func_02075C08(struct LerpObj *obj);
-extern s32 func_02075BD4(struct Obj *o);
-extern int func_02075C20(struct LerpObj *obj);
+extern void NNS_SndFaderUpdate(struct LerpObj *obj);
+extern s32 NNS_SndFaderGet(struct Obj *o);
+extern int NNS_SndFaderIsFinished(struct LerpObj *obj);
 extern int func_02075B94(void *a, int b);
 extern int func_02075BAC(void *a, int b, int c);
 extern void func_020893D0(u32 player, int vol);
@@ -218,7 +218,7 @@ void func_0207312C(void)
  *  - The volume sum is `e + (c + (b + a))` with the curve read bound to its
  *    own local `e`: the accumulator is the second operand (see
  *    docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
- *    Binding the SUM to a local instead forces it before the func_02075BD4
+ *    Binding the SUM to a local instead forces it before the NNS_SndFaderGet
  *    call and costs 30+ bytes.
  *  - The last 8 bytes were the ISSUE ORDER of the three curve reads alone:
  *    b41, then b40, then f04->b20.  Any other order permutes sl/sb/r8.
@@ -251,12 +251,12 @@ void func_020731E0(void)
             func_0207368C(v);
         } else {
             s32 a, b, c;
-            func_02075C08((struct LerpObj *)(&v->env));
+            NNS_SndFaderUpdate((struct LerpObj *)(&v->env));
             a = tbl[v->b41];
             b = tbl[v->b40];
             c = tbl[v->f04->b20];
             {
-                s32 e = tbl[func_02075BD4((struct Obj *)(&v->env)) >> 8];
+                s32 e = tbl[NNS_SndFaderGet((struct Obj *)(&v->env)) >> 8];
                 vol = e + (c + (b + a));
             }
             if (vol < lo) {
@@ -268,7 +268,7 @@ void func_020731E0(void)
                 func_020893D0(v->b3c, vol);
                 v->h3e = (s16)vol;
             }
-            if (v->b2c == 2 && func_02075C20((struct LerpObj *)(&v->env)) != 0) {
+            if (v->b2c == 2 && NNS_SndFaderIsFinished((struct LerpObj *)(&v->env)) != 0) {
                 func_020735EC(v);
             }
             if (v->b2f != 0) {

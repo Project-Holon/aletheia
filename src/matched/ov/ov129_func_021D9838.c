@@ -12,7 +12,7 @@
  *   func_0204A48C 0x0204A48C arm
  *   func_020434DC 0x020434DC arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  */
 #include "../include/Obj14057.h"
 
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 void func_021D9838(char *p,unsigned a)  {
     Config c = d_020A1448;
     ((unsigned char *)&c)[8] = 16;
@@ -36,5 +36,5 @@ void func_021D9838(char *p,unsigned a)  {
     func_0204A48C((const struct Cfg *)(&c),a,50);
     func_020434DC(16,1);
     ((struct Obj14057 *)p)->f25C=func_0204B100(64,0,50);
-    func_0204B270(((struct Obj14057 *)p)->f25C);
+    CLACT_SetUnitDefaultRenderer(((struct Obj14057 *)p)->f25C);
 }

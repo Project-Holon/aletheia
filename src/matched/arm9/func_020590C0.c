@@ -1,5 +1,5 @@
 /*
- * function: func_020590C0
+ * function: DWCi_Acc_GetGsProfileId
  * address:  0x020590C0
  * packet:   pkt_020590C0
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_020590C0(int *p)
+int DWCi_Acc_GetGsProfileId(int *p)
 {
     return p[1];
 }

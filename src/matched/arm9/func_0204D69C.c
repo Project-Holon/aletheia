@@ -1,5 +1,5 @@
 /*
- * function: func_0204D69C
+ * function: CLACT_GetCellUserAttrTable
  * address: 0x0204D69C
  * packet: pkt_arm9_0204D69C
  * region: arm9
@@ -43,9 +43,9 @@ typedef struct {
     ClactInner *f74;
 } ClactObj;
 
-ClactTbl *func_0204D69C(ClactObj *o);
+ClactTbl *CLACT_GetCellUserAttrTable(ClactObj *o);
 
-ClactTbl *func_0204D69C(ClactObj *o)
+ClactTbl *CLACT_GetCellUserAttrTable(ClactObj *o)
 {
     ClactBlk *b = o->f04->blk14;
     if (b == 0 || b->tag != 0x55434154) {

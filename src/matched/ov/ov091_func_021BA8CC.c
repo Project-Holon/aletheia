@@ -16,9 +16,9 @@
  *   func_02045374  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_02017F90  0x02017F90  thumb
+ *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
  *   func_021BB56C  0x021BB56C  thumb  ov091
- *   func_0204B8F4  0x0204B8F4  arm
+ *   CLACT_GetActorAnimFrame  0x0204B8F4  arm
  *   func_0204B404  0x0204B404  arm
  */
 #include "../include/Obj20873.h"
@@ -53,9 +53,9 @@ extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-extern u32 func_02017F90(void *p);
+extern u32 POKE_TOOL_GetStatusCondition(void *p);
 extern void func_021BB56C(u32 p, int x, int y, u16 *out);
-extern u32 func_0204B8F4(struct Obj *p);
+extern u32 CLACT_GetActorAnimFrame(struct Obj *p);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_021BA8CC(u32 a, S *s)
@@ -75,9 +75,9 @@ void func_021BA8CC(u32 a, S *s)
             func_02041B6C(func_02045730((struct Descriptor *)a));
         }
     }
-    if (s->w10 == 1 && func_02017F90((void *)s->w0) == 0 && s->h6 != 0) {
+    if (s->w10 == 1 && POKE_TOOL_GetStatusCondition((void *)s->w0) == 0 && s->h6 != 0) {
         func_021BB56C((u32)s, 0x1a, 0x13, (u16 *)buf);
-        if (func_0204B8F4((struct Obj *)s->w30) == 1)
+        if (CLACT_GetActorAnimFrame((struct Obj *)s->w30) == 1)
             buf[1] = buf[1] - 6;
         func_0204B404((struct Obj *)s->w30, (const struct Vec2 *)buf, 0);
     }

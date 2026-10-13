@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B074C",
+   "name": "VCT_SESSION_RemoveMember",
    "address": "0x021B074C",
    "kind": "game",
    "region": "ov013",

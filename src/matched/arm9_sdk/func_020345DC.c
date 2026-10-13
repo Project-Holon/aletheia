@@ -1,5 +1,5 @@
 /*
- * function: func_020345DC
+ * function: VMAN_Delete
  * address:  0x020345DC
  * packet:   pkt_02034520
  * region:   arm9
@@ -8,18 +8,21 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   AREAMAN_Delete  0x02033C9C  arm
  */
 
 struct Struct020345DC {
     void *ptr;
 };
 
-extern unsigned int func_02033C9C(void *a);
+extern unsigned int AREAMAN_Delete(void *a);
 typedef unsigned int   u32;
 extern u32 sub_020307B0(void *p);
 
-void func_020345DC(struct Struct020345DC *obj)
+void VMAN_Delete(struct Struct020345DC *obj)
 {
-    func_02033C9C(obj->ptr);
+    AREAMAN_Delete(obj->ptr);
     sub_020307B0(obj);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02165164
+ * function: WCM_BeginSearchAsync
  * address:  0x02165164
  * packet:   pkt_ov009_02165164
  * region:   ov009
@@ -38,7 +38,7 @@ extern long func_02166A24(void *bssid, void *essid, unsigned long option);
 extern int OS_IsRunOnTwl(void);
 extern long WCMi_NwmifBeginSearchAsync(void *bssid, void *essid, unsigned long option);
 
-long func_02165164(void *bssid, void *essid, unsigned long option)
+long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option)
 {
     long wcmResult;
     unsigned long e;

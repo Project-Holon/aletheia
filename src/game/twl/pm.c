@@ -16,6 +16,7 @@
  *   MI_WaitNDma  0x0272FCB0  arm
  *   MI_StopNDma  0x0272FCE0  arm
  *   MI_StopAllNDma  0x0272FD18  arm
+ *   OSi_DisableInterruptsAndHalt  0x020882C0  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -58,7 +59,7 @@ extern void func_0207D42C(void);
 extern void func_02087A04(u32 n);
 extern void func_02082658(void);
 extern void MI_StopAllNDma(void);
-extern void func_020882C0(void);
+extern void OSi_DisableInterruptsAndHalt(void);
 
 void PM_ReadyToExit(void);
 void PMi_FinalizeDebugger(void);
@@ -204,7 +205,7 @@ void PMi_CallPostExitCallbackAndReset(int flag)
     func_02082658();
     MI_StopAllNDma();
     PMi_FinalizeDebugger();
-    func_020882C0();
+    OSi_DisableInterruptsAndHalt();
 }
 
 int PMi_TryLockForReset(void)

@@ -11,10 +11,10 @@
  *   func_021C23B8 0x021C23B8 thumb ov099
  *   func_021C27E0 0x021C27E0 thumb ov099
  *   func_021BDD48 0x021BDD48 thumb ov099
- *   func_02156A3C 0x02156A3C thumb ov009
+ *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   func_021BA874 0x021BA874 thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
- *   func_0203C3EC 0x0203C3EC arm
+ *   GFL_NET_STATE_GetWifiState 0x0203C3EC arm
  *   func_021BA8EC 0x021BA8EC thumb ov099
  *   func_021C282C 0x021C282C thumb ov099
  *   func_021C18C8 0x021C18C8 thumb ov099
@@ -27,10 +27,10 @@ typedef unsigned short u16;
 extern int func_021C23B8(int i);
 extern void func_021C27E0(void *);
 extern u8 func_021BDD48(char *, void *);
-extern int func_02156A3C(void);
+extern int DWC_RAP_GetTargetFriendIndex(void);
 extern void func_021BA874(char *, int);
 extern void func_021BAAB8(char *, int, int);
-extern int func_0203C3EC(void);
+extern int GFL_NET_STATE_GetWifiState(void);
 extern void func_021BA8EC(char *);
 extern int func_021C282C(u8 *p);
 extern void func_021C18C8(char *p, int kind, int value);
@@ -47,10 +47,10 @@ int func_021BFA28(char *p, int ret)
     if (((struct Obj03223 *)p)->f1C4 < 0) {
         ((struct Obj03223 *)p)->f1CC = 0x3d;
     } else if (v != 1 && v != 2) {
-        func_021BA874(p, func_02156A3C());
+        func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
         func_021BAAB8(p, 0xd, 0);
         ((struct Obj03223 *)p)->f1CC = 0x13;
-    } else if (func_0203C3EC() == 1) {
+    } else if (GFL_NET_STATE_GetWifiState() == 1) {
         func_021BA8EC(p);
         func_021C282C(((struct Obj03223 *)p)->f8);
         ((struct Obj03223 *)p)->f1351 = 0;

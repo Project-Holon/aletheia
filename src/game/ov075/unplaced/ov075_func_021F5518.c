@@ -28,87 +28,71 @@
  *   func_021CF560  0x021CF560  thumb  ov021
  *   func_02012374  0x02012374  thumb
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+#include "../../ov021/fieldmap_types.h"
+#include "../unit_021F5260_types.h"
 
-typedef struct Work {
-    int f0;
-    u32 f4;
-    int f8;
-    u32 fC;
-    int f10;
-    u32 f14;
-    u8 pad18[0xC];
-    u32 f24;
-    int (*f28)(void *sys);
-} Work;
-
-struct Ctx;
-struct Obj;
-extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void func_021F54A0(char *p);
+extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern void func_021F54A0(EncEffScreenTexWork *work);
 extern void func_0204047C(int idx, u16 val);
-extern u32 func_021899F0(u8 *p);
+extern int func_021899F0(struct FieldMap *fieldMap);
+extern void func_021899F8(struct FieldMap *fieldMap, int drawMode);
 extern u16 func_02080C44(void);
 extern void func_02080B98(void);
 extern void func_02080294(u32 bank);
-extern u32 func_021F54E0(void);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_021899F8(u8 *p, u32 v);
-struct Evt;
-extern int func_02189A08(unsigned char *p);
-extern u32 func_021CF560(u32 *p);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern struct EncEff *func_02189A08(struct FieldMap *fieldMap);
+extern void *func_021CF560(struct EncEff *eff);
+extern void func_02012374(struct GameEvent *parent, struct GameEvent *child);
+extern u32 func_021F54E0(void);
 
-int func_021F5518(void *task, int *st, Work *w)
+int func_021F5518(struct GameEvent *event, int *state, EncEffScreenTexWork *work)
 {
-    void *t;
-    void *v;
-    u32 bank;
-    int r;
+    struct GameSystem *gameSystem;
+    struct FieldMap *fieldMap;
+    u32 texBanks;
+    struct GameEvent *child;
 
-    t = func_020124E4(task);
-    v = func_0201210C(t);
-    switch (*st) {
+    gameSystem = func_020124E4(event);
+    fieldMap = func_0201210C(gameSystem);
+    switch (*state) {
     case 0:
-        func_021F54A0((char *)w);
-        *st = *st + 1;
+        func_021F54A0(work);
+        *state = *state + 1;
         break;
     case 1:
-        if (w->f10 != 0) {
+        if (work->captureDone != 0) {
             func_0204047C(0, 0);
             func_0204047C(2, 3);
-            w->fC = func_021899F0((u8 *)v);
-            bank = func_02080C44();
-            w->f4 = bank;
-            w->f8 = 0;
-            if ((bank & 8) == 0) {
-                w->f4 = bank | 8;
-                w->f8 = 1;
+            work->savedDrawMode = func_021899F0(fieldMap);
+            texBanks = func_02080C44();
+            work->texBanks = texBanks;
+            work->addedTexBank = 0;
+            if ((texBanks & 8) == 0) {
+                work->texBanks = texBanks | 8;
+                work->addedTexBank = 1;
             }
             func_02080B98();
-            func_02080294(w->f4);
-            w->f14 = func_021F54E0();
-            *st = *st + 1;
+            func_02080294(work->texBanks);
+            work->texParam = func_021F54E0();
+            *state = *state + 1;
         }
         break;
     case 2:
         func_02040588(2, 1);
         func_02040588(0, 1);
-        func_021899F8((u8 *)v, 2);
-        r = w->f28(t);
-        w->f24 = func_021CF560((u32 *)func_02189A08((unsigned char *)((int)v)));
-        func_02012374(task, (struct Evt **)r);
-        *st = *st + 1;
+        func_021899F8(fieldMap, 2);
+        child = work->start(gameSystem);
+        work->effectWork = func_021CF560(func_02189A08(fieldMap));
+        func_02012374(event, child);
+        *state = *state + 1;
         break;
     case 3:
-        if (w->f8 == 1) {
-            w->f4 &= ~8;
-            func_02080294(w->f4);
+        if (work->addedTexBank == 1) {
+            work->texBanks &= ~8;
+            func_02080294(work->texBanks);
         }
-        func_021899F8((u8 *)v, w->fC);
+        func_021899F8(fieldMap, work->savedDrawMode);
         return 1;
     }
     return 0;

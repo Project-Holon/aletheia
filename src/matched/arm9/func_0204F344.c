@@ -1,5 +1,5 @@
 /*
- * function: func_0204F344
+ * function: BILLBOARD_CalcImageFrameRange
  * address:  0x0204F344
  * packet:   pkt_0204F344
  * region:   arm9
@@ -27,7 +27,7 @@ struct Rec_0204F344 {
     u32 f14;        /* +0x14 */
 };
 
-void func_0204F344(void *a0, u32 a1, int a2, int *out, int *in, u8 flag)
+void BILLBOARD_CalcImageFrameRange(void *a0, u32 a1, int a2, int *out, int *in, u8 flag)
 {
     struct Rec_0204F344 *p =
         (struct Rec_0204F344 *)(*(u8 * *)&((struct Obj16133 *)a0)->f4 + a1 * 0x28);

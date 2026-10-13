@@ -19,11 +19,11 @@
  *   func_02049658 0x02049658 arm
  *   func_020450F0 0x020450F0 arm
  *   func_02045374 0x02045374 arm
- *   func_0202CA3C 0x0202CA3C thumb
- *   func_0202CB18 0x0202CB18 thumb
- *   func_0202CB4C 0x0202CB4C thumb
- *   func_0202CEBC 0x0202CEBC thumb
- *   func_0202CC58 0x0202CC58 thumb
+ *   BGWINFRM_AddFrame 0x0202CA3C thumb
+ *   BGWINFRM_SetFrameDataArcHandle 0x0202CB18 thumb
+ *   BGWINFRM_PutFrame 0x0202CB4C thumb
+ *   BGWINFRM_PutBmpWin 0x0202CEBC thumb
+ *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  */
 #include "../include/Obj01922.h"
 typedef unsigned char u8;
@@ -43,11 +43,11 @@ extern void func_021BC120(u8 *);
 extern void func_021BC160(void *);
 extern void func_021BC23C(void *);
 extern void func_021BC1B8(u8 *);
-extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
-extern void func_0202CB18(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
-extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
+extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
 void func_021BBD60(u8 *p,u32 a)
 {
     func_021BC068(p,(void *)a);
@@ -65,10 +65,10 @@ void func_021BBD60(u8 *p,u32 a)
     func_021BC160(p);
     func_021BC23C(p);
     func_021BC1B8(p);
-    func_0202CA3C(((struct Obj01922 *)p)->f1B4,0,0,32,6);
-    func_0202CB18(((struct Obj01922 *)p)->f1B4,0,(void *)a,25,0);
-    func_0202CB4C(((struct Obj01922 *)p)->f1B4,0,0,0);
-    func_0202CEBC(((struct Obj01922 *)p)->f1B4,0,((struct Obj01922 *)p)->fC);
-    func_0202CC58(((struct Obj01922 *)p)->f1B4,0);
+    BGWINFRM_AddFrame(((struct Obj01922 *)p)->f1B4,0,0,32,6);
+    BGWINFRM_SetFrameDataArcHandle(((struct Obj01922 *)p)->f1B4,0,(void *)a,25,0);
+    BGWINFRM_PutFrame(((struct Obj01922 *)p)->f1B4,0,0,0);
+    BGWINFRM_PutBmpWin(((struct Obj01922 *)p)->f1B4,0,((struct Obj01922 *)p)->fC);
+    BGWINFRM_ShowFrame(((struct Obj01922 *)p)->f1B4,0);
     ((struct Obj01922 *)p)->f1B8=0;
 }

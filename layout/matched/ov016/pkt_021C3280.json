@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C3280",
+   "name": "DWCi_SceneOptMovComm_procScene",
    "address": "0x021C3280",
    "kind": "game",
    "region": "ov016",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C34E0",
+   "name": "DWCi_SceneOptMovComplete_procScene",
    "address": "0x021C34E0",
    "kind": "game",
    "region": "ov016",
@@ -37,7 +37,7 @@
    }
   },
   {
-   "name": "func_021C3714",
+   "name": "DWCi_SceneOptMovConfirm_procScene",
    "address": "0x021C3714",
    "kind": "game",
    "region": "ov016",
@@ -55,7 +55,7 @@
    }
   },
   {
-   "name": "func_021C39A4",
+   "name": "DWCi_SceneOptMovConfirm1_procScene",
    "address": "0x021C39A4",
    "kind": "game",
    "region": "ov016",
@@ -73,7 +73,7 @@
    }
   },
   {
-   "name": "func_021C3C94",
+   "name": "DWCi_SceneOptMovDisconnect_procScene",
    "address": "0x021C3C94",
    "kind": "game",
    "region": "ov016",
@@ -90,7 +90,7 @@
    }
   },
   {
-   "name": "func_021C3F30",
+   "name": "DWCi_SceneOptMovFailure_procScene",
    "address": "0x021C3F30",
    "kind": "game",
    "region": "ov016",

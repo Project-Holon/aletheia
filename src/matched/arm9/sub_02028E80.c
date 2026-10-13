@@ -1,5 +1,5 @@
 /*
- * function: func_02028E80
+ * function: FIELD_SOUND_SYSTEM_DequeueRequest
  * address:  0x02028E80
  * packet:   pkt_02028DCC
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_02028DB8  0x02028DB8  thumb
+ *   FIELD_SOUND_SYSTEM_HasPendingRequest  0x02028DB8  thumb
  *   _s32_div_f     0x0209C0A4  arm
  */
 
@@ -32,13 +32,13 @@ struct Sys {
     u8         head;
 };
 
-extern int func_02028DB8(void *obj);
+extern int FIELD_SOUND_SYSTEM_HasPendingRequest(void *obj);
 
-void func_02028E80(struct Sys *s)
+void FIELD_SOUND_SYSTEM_DequeueRequest(struct Sys *s)
 {
     s32 tail = s->tail;
 
-    if (func_02028DB8(s) != 0) {
+    if (FIELD_SOUND_SYSTEM_HasPendingRequest(s) != 0) {
         s->queue[tail].unk00 = 0;
         s->tail = (tail + 1) % 10;
     }

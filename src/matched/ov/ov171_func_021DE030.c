@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B944 0x0204B944 arm
- *   func_0204B8D4 0x0204B8D4 arm
+ *   CLACT_GetActorAutoAnim 0x0204B944 arm
+ *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   func_0204A600 0x0204A600 arm
  */
 #include "../include/Obj10660.h"
@@ -18,8 +18,8 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
-extern u32 func_0204B944(struct Obj *);
-extern void func_0204B8D4(struct Obj *,u32);
+extern u32 CLACT_GetActorAutoAnim(struct Obj *);
+extern void CLACT_AddActorAnimFrame(struct Obj *,u32);
 extern void func_0204A600(void);
 void func_021DE030(u8 *p)
 {
@@ -27,8 +27,8 @@ void func_021DE030(u8 *p)
     u8 *element;
     for(i=0;i<16;i++) {
         element=p+i*4;
-        if(((struct Obj10660 *)element)->fB74!=0 && func_0204B944(*(struct Obj * *)&((struct Obj10660 *)element)->fB74)!=1)
-            func_0204B8D4(*(struct Obj * *)&((struct Obj10660 *)element)->fB74,4096);
+        if(((struct Obj10660 *)element)->fB74!=0 && CLACT_GetActorAutoAnim(*(struct Obj * *)&((struct Obj10660 *)element)->fB74)!=1)
+            CLACT_AddActorAnimFrame(*(struct Obj * *)&((struct Obj10660 *)element)->fB74,4096);
     }
     func_0204A600();
 }

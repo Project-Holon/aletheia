@@ -1,5 +1,5 @@
 /*
- * function: func_02173638
+ * function: INTRUDE_COMM_IsEqual
  * address: 0x02173638
  * packet: pkt_ov011_02173638
  * region: ov011
@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/ov011/intrude_comm.c and filed here.
  */
 
-int func_02173638(int a, int b)
+int INTRUDE_COMM_IsEqual(int a, int b)
 {
     if (a == b)
         return 1;

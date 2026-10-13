@@ -13,6 +13,8 @@
  * func_021837A4; the byte count it reports is rounded up to a word count and
  * stored at c[0].  Returns 1 when the object validates, 0 when the fill loop
  * reports nothing produced.
+ *
+ * symbols:
  */
 
 typedef unsigned int u32;

@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02005E9C  0x02005E9C  thumb
+ *   GFL_USE_PopBgm  0x02005E9C  thumb
  */
 #include "../include/Obj22749.h"
 
 typedef unsigned char u8;
 
-extern int func_02005E9C(void);
+extern int GFL_USE_PopBgm(void);
 
 void func_021DFD64(void *p)
 {
     u8 *b = p;
 
-    func_02005E9C();
+    GFL_USE_PopBgm();
     ((struct Obj22749 *)b)->f11F8 -= 1;
 }

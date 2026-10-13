@@ -13,10 +13,10 @@
  *   g_021797A8     0x021797A8  data   ov014  a4
  *   func_02178138  0x02178138  thumb  ov014
  *   func_02178168  0x02178168  thumb  ov014
- *   func_0208EF30  0x0208EF30  arm
- *   func_0203D6CC  0x0203D6CC  arm
- *   func_0203D6BC  0x0203D6BC  arm
- *   func_0203D680  0x0203D680  arm
+ *   WM_GetDispersionBeaconPeriod  0x0208EF30  arm
+ *   GFL_NET_GetParentSendSize  0x0203D6CC  arm
+ *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
+ *   GFL_NET_GetMaxConnectNum  0x0203D680  arm
  */
 
 typedef unsigned char u8;
@@ -27,11 +27,11 @@ extern u8 *g_021797A8;
 
 extern void func_02178138(int state);
 extern BOOL func_02178168(void);
-extern u16 func_0208EF30(void);
+extern u16 WM_GetDispersionBeaconPeriod(void);
 typedef unsigned int   u32;
-extern u32 func_0203D6CC(void);
-extern u32 func_0203D6BC(void);
-extern u32 func_0203D680(void);
+extern u32 GFL_NET_GetParentSendSize(void);
+extern u32 GFL_NET_GetChildSendSize(void);
+extern u32 GFL_NET_GetMaxConnectNum(void);
 
 BOOL func_02179288(int mode, u16 a, int b, u16 c)
 {
@@ -40,13 +40,13 @@ BOOL func_02179288(int mode, u16 a, int b, u16 c)
     func_02178138(3);
     *(u16 *)(g_021797A8 + 0xC) = a;
     *(u16 *)(g_021797A8 + 0x32) = b;
-    *(u16 *)(g_021797A8 + 0x18) = func_0208EF30();
-    if (func_0203D6CC() != 0) {
-        *(u16 *)(g_021797A8 + 0x34) = func_0203D6CC();
+    *(u16 *)(g_021797A8 + 0x18) = WM_GetDispersionBeaconPeriod();
+    if (GFL_NET_GetParentSendSize() != 0) {
+        *(u16 *)(g_021797A8 + 0x34) = GFL_NET_GetParentSendSize();
     } else {
-        *(u16 *)(g_021797A8 + 0x34) = func_0203D6BC() * func_0203D680() + 4;
+        *(u16 *)(g_021797A8 + 0x34) = GFL_NET_GetChildSendSize() * GFL_NET_GetMaxConnectNum() + 4;
     }
-    *(u16 *)(g_021797A8 + 0x36) = func_0203D6BC();
+    *(u16 *)(g_021797A8 + 0x36) = GFL_NET_GetChildSendSize();
     *(u16 *)(g_021797A8 + 0x10) = c;
     *(u16 *)(g_021797A8 + 0x16) = 0;
     *(u16 *)(g_021797A8 + 0x12) = 0;

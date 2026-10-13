@@ -11,7 +11,7 @@
  * blocker:  02072EC8 (arm) reached only by the `blx` inside this function
  *
  * symbols:
- *   func_02072EC8  0x02072EC8  arm
+ *   NNS_SndPlayerGetActiveSeqCount  0x02072EC8  arm
  *
  * `a0` is incremented in place before the call, so the source added one to
  * the parameter rather than passing a computed local; the boolean comes back
@@ -25,9 +25,9 @@
 typedef unsigned int u32;
 
 typedef unsigned short u16;
-extern u16 func_02072EC8(u32 idx);
+extern u16 NNS_SndPlayerGetActiveSeqCount(u32 idx);
 
 int func_02006224(u32 a0)
 {
-    return func_02072EC8(a0 + 1) != 0;
+    return NNS_SndPlayerGetActiveSeqCount(a0 + 1) != 0;
 }

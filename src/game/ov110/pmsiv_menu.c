@@ -14,15 +14,15 @@
  *
  * symbols:
  *   func_02041300 0x02041300 arm
- *   func_0202CB4C 0x0202CB4C thumb
- *   func_0202CC58 0x0202CC58 thumb
+ *   BGWINFRM_PutFrame 0x0202CB4C thumb
+ *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  *   func_02030EAC 0x02030EAC arm
  *   func_02005624 0x02005624 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_021BBE80 0x021BBE80 thumb ov110
  *   func_02040618 0x02040618 arm
- *   func_0204B4EC 0x0204B4EC arm
- *   func_0204B49C 0x0204B49C arm
+ *   CLACT_GetActorSurfacePosAxis 0x0204B4EC arm
+ *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049F78 0x02049F78 arm
  *   func_02082A60 0x02082A60 arm
@@ -49,19 +49,19 @@
  *   func_0201DD78 0x0201DD78 thumb
  *   func_0201C7A4 0x0201C7A4 thumb
  *   func_0201D304 0x0201D304 thumb
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   func_02045994 0x02045994 arm
  *   func_0201D670 0x0201D670 thumb
  *   func_0201D688 0x0201D688 thumb
  *   func_02043AF4 0x02043AF4 arm
- *   func_02024508 0x02024508 thumb
- *   func_02024520 0x02024520 thumb
+ *   PMSI_PARAM_IsDecoWord 0x02024508 thumb
+ *   PMSI_PARAM_GetDecoId 0x02024520 thumb
  *   func_02045730 0x02045730 arm
  *   func_02045758 0x02045758 arm
  *   func_02045760 0x02045760 arm
  *   func_0204B404 0x0204B404 arm
  *   func_020416D4 0x020416D4 arm
- *   func_02024838 0x02024838 thumb
+ *   PMS_WORD_LoadString 0x02024838 thumb
  *   func_02041648 0x02041648 arm
  *   func_02041664 0x02041664 arm
  *   func_021B9BA4 0x021B9BA4 thumb ov110
@@ -83,20 +83,20 @@
  *   func_02028148 0x02028148 thumb
  *   func_020409B4 0x020409B4 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02027FEC 0x02027FEC thumb
- *   func_020282AC 0x020282AC thumb
+ *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
+ *   APP_TASKMENU_WIN_ChangePalette 0x020282AC thumb
  *   func_021BF7C4 0x021BF7C4 thumb ov110
  *   func_021BF6DC 0x021BF6DC thumb ov110
- *   func_0204B898 0x0204B898 arm
+ *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   d_021C38DF 0x021C38DF data a1
  *   d_021C38D4 0x021C38D4 data a1
  *   func_021BF824 0x021BF824 thumb ov110
  *   func_021BF7FC 0x021BF7FC thumb ov110
  *   func_021BF808 0x021BF808 thumb ov110
- *   func_020282A4 0x020282A4 thumb
- *   func_02028218 0x02028218 thumb
- *   func_0202822C 0x0202822C thumb
- *   func_02028230 0x02028230 thumb
+ *   APP_TASKMENU_WIN_ResetDecide 0x020282A4 thumb
+ *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
+ *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   func_0204B3F4 0x0204B3F4 arm
  *   func_020490F4 0x020490F4 arm
  *   func_0204A6C8 0x0204A6C8 arm
@@ -134,9 +134,9 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data
  *   func_0203159C 0x0203159C arm
- *   func_02024144 0x02024144 thumb
- *   func_0202421C 0x0202421C thumb
- *   func_02024168 0x02024168 thumb
+ *   PMSI_PARAM_GetInputMode 0x02024144 thumb
+ *   PMSI_PARAM_GetUiInputMode 0x0202421C thumb
+ *   PMSI_PARAM_GetResult 0x02024168 thumb
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030CBC 0x02030CBC arm
  *   func_021B95A0 0x021B95A0 thumb ov110
@@ -147,11 +147,11 @@
  *   func_021BF508 0x021BF508 thumb ov110
  *   d_021C3908 0x021C3908 data a1
  *   d_021C3C78 0x021C3C78 data a1
- *   func_0202452C 0x0202452C thumb
- *   func_02024584 0x02024584 thumb
- *   func_02024530 0x02024530 thumb
- *   func_02024598 0x02024598 thumb
- *   func_02024224 0x02024224 thumb
+ *   PMSI_PARAM_GetSentenceType 0x0202452C thumb
+ *   PMSI_PARAM_GetSentenceCount 0x02024584 thumb
+ *   PMSI_PARAM_GetSentenceId 0x02024530 thumb
+ *   PMSI_PARAM_SetSentenceId 0x02024598 thumb
+ *   PMSI_PARAM_SetUiInputMode 0x02024224 thumb
  *   func_02051C6C 0x02051C6C arm
  *   func_021B9B20 0x021B9B20 thumb ov110
  *   func_02030DA4 0x02030DA4 arm
@@ -177,8 +177,8 @@
  *   d_021C395C 0x021C395C data a1
  *   func_02035C60 0x02035C60 arm
  *   func_02035D20 0x02035D20 arm
- *   func_02035D40 0x02035D40 arm
- *   func_02024158 0x02024158 thumb
+ *   TOUCHPANEL_HitPoint 0x02035D40 arm
+ *   PMSI_PARAM_HasInitialSentence 0x02024158 thumb
  *   func_021BAC00 0x021BAC00 thumb ov110
  *   _u32_div_f 0x0209C2B0 arm
  *   func_021BAC30 0x021BAC30 thumb ov110
@@ -358,15 +358,15 @@ typedef struct { unsigned char b[16]; } Box_021BE890;
 typedef struct { u8 b[8]; } Box_021BE8B4;
 
 extern void func_02041300(unsigned, int, int, int, u8, u8, u8);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
 extern void func_02030EAC(struct Node *n);
 extern void *func_02005624(u32 a, u32 b, u32 c);
 extern void *func_020056A0(void *, void *, unsigned);
 extern void func_021BBE80(void);
 extern void func_02040618(unsigned,unsigned,unsigned);
-extern short func_0204B4EC(void *,u16,unsigned);
-extern void func_0204B49C(void *,short,u16,unsigned);
+extern short CLACT_GetActorSurfacePosAxis(void *,u16,unsigned);
+extern void CLACT_SetActorSurfacePosAxis(void *,short,u16,unsigned);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082A60(const void *, void *, int);
@@ -393,19 +393,19 @@ extern void func_0201DD78(u32,u32,u32);
 extern void func_0201C7A4(void *,short,short,void *,void *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_02045808(struct U16Vec *vec);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void func_02045994(struct Strbuf *,const u16 *,u32);
 extern u32 func_0201D670(const u16 *,u32);
 extern u16 *func_0201D688(u16 *);
 extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern u32 func_02024508(u32);
-extern u32 func_02024520(u32);
+extern u32 PMSI_PARAM_IsDecoWord(u32);
+extern u32 PMSI_PARAM_GetDecoId(u32);
 extern u8 func_02045730(struct Descriptor *);
 extern u8 func_02045758(struct Descriptor *);
 extern u8 func_02045760(struct Descriptor *);
 extern void func_0204B404(struct Obj *p, const struct Vec2_021BC5BC *delta, u32 which);
 extern u8 func_020416D4(u32);
-extern void func_02024838(u32,void *,u32);
+extern void PMS_WORD_LoadString(u32,void *,u32);
 extern unsigned int func_02041648(u8 channel);
 extern u32 func_02041664(u8 channel);
 extern void *func_021B9BA4(void (*fn)(void *, u8 *), u8 *p, int n);
@@ -429,18 +429,18 @@ extern u32 func_0204B98C(struct Actor *a);
 extern void func_02028148(u8 *p);
 extern void func_020409B4(u32 index);
 extern void *func_02045EC0(struct MsgBank *,u32);
-extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
-extern void func_020282AC(struct T *,u16 *,u32,u32,u16);
+extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
+extern void APP_TASKMENU_WIN_ChangePalette(struct T *,u16 *,u32,u32,u16);
 extern u32 func_021BF7C4(u8 *);
 extern u8 func_021BF6DC(u8 *);
-extern u16 func_0204B898(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern int func_021BF824(u8 *);
 extern u8 func_021BF7FC(u8 *p);
 extern int func_021BF808(u8 *);
-extern void func_020282A4(struct Obj *obj);
-extern void func_02028218(struct Obj *obj, u32 a);
-extern void func_0202822C(char *,int);
-extern u32 func_02028230(u8 *);
+extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
+extern void APP_TASKMENU_WIN_SetDecide(char *,int);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *);
 extern u32 func_0204B3F4(struct Obj *p);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204A6C8(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
@@ -474,9 +474,9 @@ extern int func_02051C88(struct Ctx *c);
 extern void func_020306F0(u32);
 extern void func_02034A5C(int);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-extern u32 func_02024144(const u8 *);
-extern u32 func_0202421C(void *);
-extern void func_02024168(const struct Input *p, u16 *a, u16 *b);
+extern u32 PMSI_PARAM_GetInputMode(const u8 *);
+extern u32 PMSI_PARAM_GetUiInputMode(void *);
+extern void PMSI_PARAM_GetResult(const struct Input *p, u16 *a, u16 *b);
 extern u32 func_02030CB0(u32);
 extern struct Ctx *func_02030CBC(u32,struct Ctx *);
 extern void *func_021B95A0(u32,void *);
@@ -485,11 +485,11 @@ extern void *func_02051B84(u8 *,int,int,int);
 extern u8 *func_021BAEDC(void *,void *,u16);
 extern void func_021BF4F8(u8 *,u32);
 extern void func_021BF508(u8 *p, int *q);
-extern int func_0202452C(const u16 *p);
-extern u8 func_02024584(u32 i);
-extern unsigned int func_02024530(const u16 *p);
-extern void func_02024598(void *, int, int);
-extern void func_02024224(void *,void *);
+extern int PMSI_PARAM_GetSentenceType(const u16 *p);
+extern u8 PMSI_PARAM_GetSentenceCount(u32 i);
+extern unsigned int PMSI_PARAM_GetSentenceId(const u16 *p);
+extern void PMSI_PARAM_SetSentenceId(void *, int, int);
+extern void PMSI_PARAM_SetUiInputMode(void *,void *);
 extern void func_02051C6C(void *);
 extern void func_021B9B20(u8 *);
 extern void func_02030DA4(void *);
@@ -510,8 +510,8 @@ extern int func_021BF680(u8 *);
 extern int func_02035C08(const void *p);
 extern int func_02035C60(void);
 extern unsigned int func_02035D20(unsigned int *outA, unsigned int *outB);
-extern unsigned int func_02035D40(struct Ctx *ctx, unsigned int a, unsigned int b);
-extern u32 func_02024158(const u8 *p);
+extern unsigned int TOUCHPANEL_HitPoint(struct Ctx *ctx, unsigned int a, unsigned int b);
+extern u32 PMSI_PARAM_HasInitialSentence(const u8 *p);
 extern void func_021BAC00(u8 *p, u8 *b, u8 n);
 extern void func_021BAC30(u8 *,int);
 extern int func_021B9C90(unsigned int a, int b);
@@ -669,8 +669,8 @@ void func_021BBE8C(void *unused, u8 *p)
     ((struct Obj04447 *)p)->f1AC = 0;
     if (((struct Obj04447 *)p)->f1B8) {
         func_02041300(0, 0, 0, 0, 32, 6, 17);
-        func_0202CB4C(((struct Obj04447 *)p)->f1B4, 0, 0, (s8)(-((struct Obj04447 *)p)->f198 / 8));
-        func_0202CC58(((struct Obj04447 *)p)->f1B4, 0);
+        BGWINFRM_PutFrame(((struct Obj04447 *)p)->f1B4, 0, 0, (s8)(-((struct Obj04447 *)p)->f198 / 8));
+        BGWINFRM_ShowFrame(((struct Obj04447 *)p)->f1B4, 0);
         ((struct Obj04447 *)p)->f1B8 = 0;
     }
 }
@@ -709,11 +709,11 @@ int func_021BBF54(Obj_021BBF54 *p)
     ((struct Obj01053 *)b)->f198=((struct Obj01053 *)b)->f198+delta;
     func_02040618(4,3,((struct Obj01053 *)b)->f19A);
     for(i=0;i<2;i++) {
-        short pos=func_0204B4EC(p->desc[i],i,1)-delta;
-        func_0204B49C(p->desc[i],pos,i,1);
+        short pos=CLACT_GetActorSurfacePosAxis(p->desc[i],i,1)-delta;
+        CLACT_SetActorSurfacePosAxis(p->desc[i],pos,i,1);
         for(j=0;j<2;j++) {
-            short pos=func_0204B4EC(p->items[j][i],i,1)-delta;
-            func_0204B49C(p->items[j][i],pos,i,1);
+            short pos=CLACT_GetActorSurfacePosAxis(p->items[j][i],i,1)-delta;
+            CLACT_SetActorSurfacePosAxis(p->items[j][i],pos,i,1);
         }
     }
     b[0x19c]++;
@@ -925,7 +925,7 @@ int func_021BC340(Obj_021BC340 *p,void *desc,u8 bank)
 /*
  * extent: two bytes of zero alignment padding after return.
  */
-void func_021BC458(u8 *p,u8 *a) { ((struct Obj05292 *)p)->f0=func_021BF708(*(u8 * *)&((struct Obj22370 *)a)->f4,42); *(u16 * *)&((struct Obj05292 *)p)->f4=func_02045A90(((struct Obj05292 *)p)->f0); if(**(u16 * *)&((struct Obj05292 *)p)->f4==0xF000) ((struct Obj05292 *)p)->f8=1; else ((struct Obj05292 *)p)->f8=0; }
+void func_021BC458(u8 *p,u8 *a) { ((struct Obj05292 *)p)->f0=func_021BF708(*(u8 * *)&((struct Obj22370 *)a)->f4,42); *(u16 * *)&((struct Obj05292 *)p)->f4=STRBUF_GetChars(((struct Obj05292 *)p)->f0); if(**(u16 * *)&((struct Obj05292 *)p)->f4==0xF000) ((struct Obj05292 *)p)->f8=1; else ((struct Obj05292 *)p)->f8=0; }
 
 
 
@@ -1041,8 +1041,8 @@ void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2_021BC5BC *input,u3
     font=func_021BAC44(*(u8 * *)&((struct Obj10277 *)p)->f0);
     if(id==0xffff) return;
     func_021BC564((short *)input,(short *)(&base));
-    if(func_02024508(id)!=0) {
-        index=func_02024520(id)-1;
+    if(PMSI_PARAM_IsDecoWord(id)!=0) {
+        index=PMSI_PARAM_GetDecoId(id)-1;
         layer=func_021BC6D0(func_02045730(window));
         pos.x=base.x+func_02045758(window)*8;
         pos.y=base.y+func_02045760(window)*8;
@@ -1052,7 +1052,7 @@ void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2_021BC5BC *input,u3
         func_0204B3DC((struct Obj_021BC160 *)sprite, 1);
         func_0204B84C(sprite, (int)(func_020416D4(func_02045730(window))));
     } else {
-        func_02024838(id,((struct Obj10277 *)p)->f30,42);
+        PMS_WORD_LoadString(id,((struct Obj10277 *)p)->f30,42);
         func_0201DD78((u32)3, (u32)4, (u32)14);
         func_0201C7A4(func_02045770(window), (short)base.x, (short)base.y, ((struct Obj10277 *)p)->f30, (void *)font);
     }
@@ -1524,8 +1524,8 @@ void func_021BCB50(Object_021BCB50 *p)
         p->records[i].s=func_02045EC0(p->bank,i+14);
         p->records[i].x=0x39e3;
         p->records[i].flag=(i==1);
-        p->menus[i]=(struct T *)func_02027FEC((u32)p->windows[i],(u32)&records[i],23,(u8)(i*3+18),9,42);
-        func_020282AC(p->menus[i],p->windows[i],8,0x3545,0x7b2c);
+        p->menus[i]=(struct T *)APP_TASKMENU_WIN_Create((u32)p->windows[i],(u32)&records[i],23,(u8)(i*3+18),9,42);
+        APP_TASKMENU_WIN_ChangePalette(p->menus[i],p->windows[i],8,0x3545,0x7b2c);
     }
     func_021BCD44((u8 *)p);
     func_020409B4(0);
@@ -1581,7 +1581,7 @@ void func_021BCCA8(Object *p) {
     old=-1; new=-1;
     selected=func_021BF6E4(((struct Obj13784 *)p)->f4);
     for(i=1;i<=5;i++) {
-        state=func_0204B898(p->items[i]);
+        state=CLACT_GetActorAnimSeq(p->items[i]);
         if(state==d_021C38DF[i*2+1]) { old=i; break; }
     }
     for(i=0;i<5;i++) {
@@ -1604,9 +1604,9 @@ void func_021BCCA8(Object *p) {
 void func_021BCD44(u8 *p)
 {
     if (func_021BF824(*(u8 * *)&((struct Obj06389 *)p)->f4) != 0) {
-        func_020282AC(((struct Obj06389 *)p)->f64, *(u16 * *)&((struct Obj06389 *)p)->f34, 8, 0x3545, 0x7b2c);
+        APP_TASKMENU_WIN_ChangePalette(((struct Obj06389 *)p)->f64, *(u16 * *)&((struct Obj06389 *)p)->f34, 8, 0x3545, 0x7b2c);
     } else {
-        func_020282AC(((struct Obj06389 *)p)->f64, *(u16 * *)&((struct Obj06389 *)p)->f34, 14, 0x3545, 0x7b2c);
+        APP_TASKMENU_WIN_ChangePalette(((struct Obj06389 *)p)->f64, *(u16 * *)&((struct Obj06389 *)p)->f34, 14, 0x3545, 0x7b2c);
     }
 }
 
@@ -1618,13 +1618,13 @@ void func_021BCD44(u8 *p)
 
 void func_021BCD80(u8 *p) {
     if (func_021BF7FC(*(u8 * *)&((struct Obj01144 *)p)->f4))
-        func_020282AC(((struct Obj01144 *)p)->f64,((struct Obj01144 *)p)->f34,8,0x3545,0x7b2c);
+        APP_TASKMENU_WIN_ChangePalette(((struct Obj01144 *)p)->f64,((struct Obj01144 *)p)->f34,8,0x3545,0x7b2c);
     else
-        func_020282AC(((struct Obj01144 *)p)->f64,((struct Obj01144 *)p)->f34,14,0x3545,0x7b2c);
+        APP_TASKMENU_WIN_ChangePalette(((struct Obj01144 *)p)->f64,((struct Obj01144 *)p)->f34,14,0x3545,0x7b2c);
     if (func_021BF808(*(u8 * *)&((struct Obj01144 *)p)->f4))
-        func_020282AC(((struct Obj01144 *)p)->f68,((struct Obj01144 *)p)->f38,8,0x3545,0x7b2c);
+        APP_TASKMENU_WIN_ChangePalette(((struct Obj01144 *)p)->f68,((struct Obj01144 *)p)->f38,8,0x3545,0x7b2c);
     else
-        func_020282AC(((struct Obj01144 *)p)->f68,((struct Obj01144 *)p)->f38,14,0x3545,0x7b2c);
+        APP_TASKMENU_WIN_ChangePalette(((struct Obj01144 *)p)->f68,((struct Obj01144 *)p)->f38,14,0x3545,0x7b2c);
 }
 
 
@@ -1687,7 +1687,7 @@ void func_021BCE54(char *p) { if (func_021BF6DC(*(u8 * *)&((struct Obj10278 *)p)
 
 
 
-int func_021BCE70(char *p) { int result; if (func_021BF6DC(*(u8 * *)&((struct Obj06390 *)p)->f4)==1) { result=1; if (func_021BCFF0(p,1)) { func_020282A4(((struct Obj06390 *)p)->f68); return result; } } else { return 1; } return 0; }
+int func_021BCE70(char *p) { int result; if (func_021BF6DC(*(u8 * *)&((struct Obj06390 *)p)->f4)==1) { result=1; if (func_021BCFF0(p,1)) { APP_TASKMENU_WIN_ResetDecide(((struct Obj06390 *)p)->f68); return result; } } else { return 1; } return 0; }
 
 
 
@@ -1783,9 +1783,9 @@ void func_021BCF7C(u8 *p, int n, int v) {
     void **a = (void **)(p + 0x64);
     if (a[n]) {
         for (i = 0; i < 3; i++) {
-            if (*(void **)(p + 0x64 + i * 4)) func_02028218(*(void **)(p + 0x64 + i * 4), 0);
+            if (*(void **)(p + 0x64 + i * 4)) APP_TASKMENU_WIN_SetActive(*(void **)(p + 0x64 + i * 4), 0);
         }
-        func_02028218(a[n], v);
+        APP_TASKMENU_WIN_SetActive(a[n], v);
     }
 }
 
@@ -1795,7 +1795,7 @@ void func_021BCF7C(u8 *p, int n, int v) {
 
 
 
-void func_021BCFBC(char *p,u32 index,int value) { int i; for(i=0;i<3;i++) { if (*(void **)((u32)p+(u32)i*4+0x64)) func_02028218(*(void **)((u32)p+(u32)i*4+0x64),0); } if (*(void **)((u32)p+index*4+0x64)) func_0202822C(*(char **)((u32)p+index*4+0x64),value); }
+void func_021BCFBC(char *p,u32 index,int value) { int i; for(i=0;i<3;i++) { if (*(void **)((u32)p+(u32)i*4+0x64)) APP_TASKMENU_WIN_SetActive(*(void **)((u32)p+(u32)i*4+0x64),0); } if (*(void **)((u32)p+index*4+0x64)) APP_TASKMENU_WIN_SetDecide(*(char **)((u32)p+index*4+0x64),value); }
 
 
 
@@ -1803,7 +1803,7 @@ void func_021BCFBC(char *p,u32 index,int value) { int i; for(i=0;i<3;i++) { if (
 
 
 
-u32 func_021BCFF0(char *p,u32 index) { return func_02028230(*(u8 **)((u32)p+index*4+0x64)); }
+u32 func_021BCFF0(char *p,u32 index) { return APP_TASKMENU_WIN_IsFinish(*(u8 **)((u32)p+index*4+0x64)); }
 
 
 
@@ -1960,8 +1960,8 @@ void func_021BD264(Object_021BD264 *p) {
         p->records[i].s=func_02045EC0(p->bank,i+18);
         p->records[i].x=0x39e3;
         p->records[i].flag=i==2;
-        p->windows[i]=(void *)func_02027FEC((u32)p->a[i],(u32)(&p->records[i]),(u8)(5+9*i),(int)21,9,42);
-        func_020282AC(p->windows[i],p->a[i],8,0x3545,0x7b2c);
+        p->windows[i]=(void *)APP_TASKMENU_WIN_Create((u32)p->a[i],(u32)(&p->records[i]),(u8)(5+9*i),(int)21,9,42);
+        APP_TASKMENU_WIN_ChangePalette(p->windows[i],p->a[i],8,0x3545,0x7b2c);
     }
     func_021BCD80((u8 *)p);
     func_020409B4(0);
@@ -2176,9 +2176,9 @@ u8 *func_021BD5C4(struct Obj0203159C *owner,u8 *input)
     struct Ctx *q;
     p=func_0203159C(owner,128,41);
     *(u8 **)p=input;
-    *(u32 *)(p+4)=func_02024144(input);
-    *(u32 *)(p+0x70)=func_0202421C(*(u8 **)p);
-    func_02024168((const struct Input *)(*(u8 **)p),(u16 *)(p+0x10),(u16 *)(p+8));
+    *(u32 *)(p+4)=PMSI_PARAM_GetInputMode(input);
+    *(u32 *)(p+0x70)=PMSI_PARAM_GetUiInputMode(*(u8 **)p);
+    PMSI_PARAM_GetResult((const struct Input *)(*(u8 **)p),(u16 *)(p+0x10),(u16 *)(p+8));
     if(*(u32 *)(p+4)==2) func_021BD690(p+0x64,(u16 *)(p+8));
     q=func_02030734(41,func_02030CB0(5),0,d_021C3C78,579);
     *(struct Ctx **)(p+0x78)=q;
@@ -2207,14 +2207,14 @@ u8 *func_021BD5C4(struct Obj0203159C *owner,u8 *input)
  * No witness outside this caller; tu --suggest-split leaves it out.
  * Scratch one verdict EXACT (4 bytes), fixed compiler/flags, no region:
  * typedef unsigned short u16;
- * unsigned int func_02024530(const u16 *p) { return p[1]; }
+ * unsigned int PMSI_PARAM_GetSentenceId(const u16 *p) { return p[1]; }
  * Extent remainder: two-byte zero alignment padding.
  */
 void func_021BD690(u8 *p, u16 *out)
 {
-    *(short *)p=func_0202452C(out);
-    p[3]=func_02024584(*(short *)p);
-    p[2]=func_02024530(out);
+    *(short *)p=PMSI_PARAM_GetSentenceType(out);
+    p[3]=PMSI_PARAM_GetSentenceCount(*(short *)p);
+    p[2]=PMSI_PARAM_GetSentenceId(out);
 }
 
 
@@ -2229,9 +2229,9 @@ void func_021BD6B4(State_021BD6B4 *p, void *out) {
         p->b = 0;
         p->a++;
         if (p->a >= 5) p->a = 0;
-        p->c = func_02024584(p->a);
+        p->c = PMSI_PARAM_GetSentenceCount(p->a);
     }
-    func_02024598(out, p->a, p->b);
+    PMSI_PARAM_SetSentenceId(out, p->a, p->b);
 }
 
 
@@ -2242,8 +2242,8 @@ void func_021BD6B4(State_021BD6B4 *p, void *out) {
 
 void func_021BD6F8(State_021BD6F8 *p,void *out) {
  p->b--;
- if(p->b<0) { p->a--; if(p->a<0) p->a=4; p->c=func_02024584(p->a); p->b=p->c-1; }
- func_02024598(out,p->a,p->b);
+ if(p->b<0) { p->a--; if(p->a<0) p->a=4; p->c=PMSI_PARAM_GetSentenceCount(p->a); p->b=p->c-1; }
+ PMSI_PARAM_SetSentenceId(out,p->a,p->b);
 }
 
 
@@ -2256,8 +2256,8 @@ void func_021BD740(u8 *p,void *out,int v)
 {
     p[2]=0;
     ((struct Obj05295 *)p)->f0=v;
-    p[3]=func_02024584(((struct Obj05295 *)p)->f0);
-    func_02024598(out,((struct Obj05295 *)p)->f0,*(s8 *)&((struct Obj05295 *)p)->f2);
+    p[3]=PMSI_PARAM_GetSentenceCount(((struct Obj05295 *)p)->f0);
+    PMSI_PARAM_SetSentenceId(out,((struct Obj05295 *)p)->f0,*(s8 *)&((struct Obj05295 *)p)->f2);
 }
 
 
@@ -2267,7 +2267,7 @@ void func_021BD740(u8 *p,void *out,int v)
 
 void func_021BD764(u8 *p,void *a)
 {
-    func_02024224(*(void **)p,*(void **)(p+0x70));
+    PMSI_PARAM_SetUiInputMode(*(void **)p,*(void **)(p+0x70));
     func_02051C6C(*(void **)(p+0x44));
     func_021B9B20(*(u8 **)(p+0x14));
     func_02030DA4(*(void **)(p+0x7c));
@@ -2430,12 +2430,12 @@ int func_021BDAA4(u8 *p) {
  if(!func_02035C60()) return -1;
  result=func_02035C08(&d_021C395C);
  if(result!=-1) {
-  if(func_02024158((const u8 *)(((struct Obj10282 *)p)->f0))) { if((unsigned)(result-2)<=3) result=-1; return result; }
+  if(PMSI_PARAM_HasInitialSentence((const u8 *)(((struct Obj10282 *)p)->f0))) { if((unsigned)(result-2)<=3) result=-1; return result; }
   return result;
  }
  count=func_021BABE8(((struct Obj10282 *)p)->f14);
  func_02035D20((unsigned int *)(&x),(unsigned int *)(&y));
- for(i=0;i<count;i++) { func_021BAC00(((struct Obj10282 *)p)->f14,(u8 *)(&box),i); if(func_02035D40((struct Ctx *)(&box),x,y)!=-1) return i+6; }
+ for(i=0;i<count;i++) { func_021BAC00(((struct Obj10282 *)p)->f14,(u8 *)(&box),i); if(TOUCHPANEL_HitPoint((struct Ctx *)(&box),x,y)!=-1) return i+6; }
  return -1;
 }
 
@@ -2445,7 +2445,7 @@ int func_021BDAA4(u8 *p) {
 int func_021BDB50(u32 *p) {
  u32 x,y;
  int result;
- if(func_02024158((const u8 *)(*p))) return -1;
+ if(PMSI_PARAM_HasInitialSentence((const u8 *)(*p))) return -1;
  if(!func_02035D20(&x,&y)) return -1;
  if(y>168) { result=x/24U-1; if(result>=0 && result<5) return result; }
  return -1;
@@ -2601,7 +2601,7 @@ int func_021BDEF0(u8 *p,u32 *q)
         p[0x68]=func_021BABE8(*(u8 * *)&((struct Obj00012 *)p)->f14);
         *q=1;
     case 1:
-        if(func_02024158((const u8 *)(*(u32 *)&((struct Obj00012 *)p)->f0))) {
+        if(PMSI_PARAM_HasInitialSentence((const u8 *)(*(u32 *)&((struct Obj00012 *)p)->f0))) {
             if(((struct Obj00012 *)p)->f38&32) break;
             if(((struct Obj00012 *)p)->f38&16) break;
         }
@@ -2946,7 +2946,7 @@ int func_021BE800(u8 *a0) {
  func_02035D20((u32 *)(&x),(u32 *)(&y));
  for(i=0;i<4;i++) {
   box.b[0]=24*i+56; box.b[1]=box.b[0]+16;
-  for(j=0;j<3;j++) { box.b[2]=80*j+12; box.b[3]=box.b[2]+72; if(func_02035D40((struct Ctx *)(&box),x,y)!=-1) return j+3*i; }
+  for(j=0;j<3;j++) { box.b[2]=80*j+12; box.b[3]=box.b[2]+72; if(TOUCHPANEL_HitPoint((struct Ctx *)(&box),x,y)!=-1) return j+3*i; }
  }
  return -1;
 }

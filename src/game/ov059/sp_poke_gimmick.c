@@ -43,477 +43,385 @@
  *   func_021BE6BC  0x021BE6BC  thumb  ov021
  *   func_021F3D9C  0x021F3D9C  thumb  ov059
  */
-#include "../../matched/include/Obj20584.h"
+#include "../ov021/fld_exp_obj_types.h"
+#include "sp_poke_gimmick_types.h"
 
-struct Ctx;
-struct Desc;
-struct Obj;
-typedef unsigned short u16;
+extern u16 func_02188C84(struct FieldMap *fieldMap);
+extern void *func_02189764(struct FieldMap *fieldMap, int id, int heapId, int size);
+extern void func_021897A0(struct FieldMap *fieldMap, int id);
+extern void func_021BE760(FldExpObjCnt *expObj, const G3dUtilSetup *setup, int unitIndex);
+extern void func_021BE310(FldExpObjCnt *expObj, const G3dUtilSetup *setup, int unitIndex);
+extern void func_021BE418(FldExpObjCnt *expObj, u16 unitIndex);
+extern void func_021BE4B4(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int hidden);
+extern void func_021BE6B8(FldExpObjAnime *anime, int loop);
+extern void func_021BE6B0(FldExpObjAnime *anime, int paused);
+extern void func_021BE700(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex, int enable);
+extern void func_021BE580(FldExpObjCnt *expObj);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern u32 func_020307B0(void *memory);
+extern void func_020061E4(u32 seId);
+extern VecFx32 *func_021BE480(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex);
+extern void func_021BE6CC(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex, int frame);
+extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent,
+                                       GameEventFunc func, u32 workSize);
 
-typedef unsigned char  u8;
+void func_021F36C0(struct FieldMap *fieldMap);
+void func_021F376C(struct FieldMap *fieldMap);
+void func_021F3788(struct FieldMap *fieldMap);
+void func_021F3794(struct FieldMap *fieldMap);
+void func_021F3840(struct FieldMap *fieldMap);
+void func_021F385C(struct FieldMap *fieldMap);
+void func_021F3868(struct FieldMap *fieldMap);
+void func_021F3980(struct FieldMap *fieldMap);
+void func_021F39AC(struct FieldMap *fieldMap);
+struct GameEvent *func_021F39B8(struct GameSystem *gameSystem, int side, VecFx32 *from, const VecFx32 *to,
+                                fx32 bump, int frames);
+void func_021F3AA0(struct GameSystem *gameSystem, int side, VecFx32 *pos);
+void func_021F3B40(struct GameSystem *gameSystem, int side);
+void func_021F3B68(struct GameSystem *gameSystem, int side);
+int func_021F3B90(struct GameEvent *event, int *seq, void *eventWork);
+int func_021F3C6C(struct GameEvent *event, int *seq, void *eventWork);
+int func_021F3CB8(struct GameEvent *event, int *seq, void *eventWork);
+void func_021F3CFC(struct GameSystem *gameSystem, VecFx32 *pos, u16 removeObjectId, u16 addObjectId);
 
-typedef unsigned int u32;
-
-typedef struct {
-    int a;
-    int b;
-    int c;
-} V;
-
-typedef struct {
-    int b;
-    V c;
-    V d;
-    int e;
-    u16 f;
-    u16 g;
-} W;
-
-typedef struct {
-    int b;
-    V c;
-    V d;
-    int e;
-    u16 f;
-    u16 g;
-} W_021F3B90;
-
-typedef struct {
-    u8 pad[0x24];
-    u16 *p24;
-} W_021F3CFC;
-
-extern int func_02188D2C(int *p);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void func_021BE760(int a, void *b, int c);
-extern void func_021BE4B4(char *p, int i, int j, int v);
-extern void *func_021BE674(void *p, int i, u16 j, u16 k);
-extern void func_021BE6B8(unsigned char *p, int v);
-extern void func_021BE6B0(unsigned char *p, int v);
-extern void func_021BE700(void *p, int i, u16 j, u16 k, int flag);
-extern void func_021897A0(unsigned char *p, int id);
-extern void func_021BE418(unsigned char *p, unsigned short i);
-extern void func_021BE580(void *p);
-extern int *func_021897BC(char *p, int idx);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021BE310(void *a, void *b, int c);
-extern u32 func_020307B0(void *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void func_020061E4(u32 a);
-extern V *func_021BE480(void *p, int i, u16 j);
-extern void func_021BE6CC(void *p, int i, u16 j, u16 k, int flag);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E4(struct Obj *p);
-extern int func_021BE6E8(int a, int b, int c, int d);
-extern int func_021BE6BC(int *p);
-extern int func_021F3D9C(void *a);
-void func_021F36C0(int a);
-void func_021F376C(unsigned char *p);
-void func_021F3788(void *p);
-void func_021F3794(void *a);
-void func_021F3840(unsigned char *p);
-void func_021F385C(void *p);
-void func_021F3868(void *a);
-void func_021F3980(unsigned char *p);
-void func_021F39AC(void *p);
-void *func_021F39B8(void *a, int b, V *c, const V *d, int e, int f);
-void func_021F3AA0(void *a, int b, V *c);
-void func_021F3B40(void *p, int v);
-void func_021F3B68(void *p, int v);
-int func_021F3B90(void *a);
-int func_021F3C6C(void *a);
-int func_021F3CB8(void *a);
-void func_021F3CFC(void *a, V *b, u16 c, u16 d);
-extern char d_021F3E94[];
-extern char d_021F3E84[];
+extern G3dUtilSetup d_021F3E94;
+extern G3dUtilSetup d_021F3E84;
+extern G3dUtilSetup d_021F3E74;
 extern char d_021F4080[];
-extern char d_021F3E74[];
 
-
-
-
-
-
-
-
-void func_021F36C0(int a)
+/* First two-model variant: add the unit, hide both models and stop all their animations. */
+void func_021F36C0(struct FieldMap *fieldMap)
 {
     int i;
-    int r5;
-    int z;
-    int r7;
+    FldExpObjCnt *expObj;
+    FldExpObjAnime *anime;
 
-    r5 = func_02188D2C((int *)a);
-    func_02189764((unsigned char *)a, 1, func_02188C84((u8 *)a), 0x28);
-    func_021BE760(r5, d_021F3E94, 0);
-    i = 0;
-    func_021BE4B4((char *)r5, 0, 1, 1);
-    func_021BE4B4((char *)r5, 0, 0, 1);
-    for (i = 0; i < 3; i++) {
-        z = 0;
-        r7 = (int)func_021BE674((void *)r5, z, z, i);
-        func_021BE6B8((unsigned char *)r7, z);
-        func_021BE6B0((unsigned char *)r7, 1);
-        func_021BE700((void *)r5, z, z, i, z);
-        r7 = (int)func_021BE674((void *)r5, z, 1, i);
-        func_021BE6B8((unsigned char *)r7, z);
-        func_021BE6B0((unsigned char *)r7, 1);
-        func_021BE700((void *)r5, z, 1, i, z);
+    expObj = func_02188D2C(fieldMap);
+    func_02189764(fieldMap, 1, func_02188C84(fieldMap), 0x28);
+    func_021BE760(expObj, &d_021F3E94, 0);
+    func_021BE4B4(expObj, 0, 1, 1);
+    func_021BE4B4(expObj, 0, 0, 1);
+    for (i = 0; i < SP_POKE_GIMMICK_ANIME_COUNT; i++) {
+        anime = func_021BE674(expObj, 0, 0, i);
+        func_021BE6B8(anime, 0);
+        func_021BE6B0(anime, 1);
+        func_021BE700(expObj, 0, 0, i, 0);
+        anime = func_021BE674(expObj, 0, 1, i);
+        func_021BE6B8(anime, 0);
+        func_021BE6B0(anime, 1);
+        func_021BE700(expObj, 0, 1, i, 0);
     }
 }
 
-
-
-
-
-
-
-
-void func_021F376C(unsigned char *p)
+void func_021F376C(struct FieldMap *fieldMap)
 {
-    void *s;
-    s = (void *)func_02188D2C((int *)p);
-    func_021897A0(p, 1);
-    func_021BE418(s, 0);
+    FldExpObjCnt *expObj;
+
+    expObj = func_02188D2C(fieldMap);
+    func_021897A0(fieldMap, 1);
+    func_021BE418(expObj, 0);
 }
 
-
-
-
-
-
-void func_021F3788(void *p)
+void func_021F3788(struct FieldMap *fieldMap)
 {
-    func_021BE580((void *)func_02188D2C((int *)p));
+    func_021BE580(func_02188D2C(fieldMap));
 }
 
-
-
-
-
-
-
-void func_021F3794(void *a)
+/* Second two-model variant, same setup with its own unit. */
+void func_021F3794(struct FieldMap *fieldMap)
 {
     int i;
-    void *s;
-    u8 *e;
+    FldExpObjCnt *expObj;
+    FldExpObjAnime *anime;
 
-    s = (void *)func_02188D2C(a);
-    func_02189764(a, 1, func_02188C84(a), 0x28);
-    func_021BE760((int)s, d_021F3E84, 0);
-    func_021BE4B4(s, 0, 1, 1);
-    func_021BE4B4(s, 0, 0, 1);
-    for (i = 0; i < 3; i++) {
-        e = (u8 *)func_021BE674(s, 0, 0, i);
-        func_021BE6B8(e, 0);
-        func_021BE6B0(e, 1);
-        func_021BE700(s, 0, 0, (u16)i, 0);
-        e = (u8 *)func_021BE674(s, 0, 1, i);
-        func_021BE6B8(e, 0);
-        func_021BE6B0(e, 1);
-        func_021BE700(s, 0, 1, (u16)i, 0);
+    expObj = func_02188D2C(fieldMap);
+    func_02189764(fieldMap, 1, func_02188C84(fieldMap), 0x28);
+    func_021BE760(expObj, &d_021F3E84, 0);
+    func_021BE4B4(expObj, 0, 1, 1);
+    func_021BE4B4(expObj, 0, 0, 1);
+    for (i = 0; i < SP_POKE_GIMMICK_ANIME_COUNT; i++) {
+        anime = func_021BE674(expObj, 0, 0, i);
+        func_021BE6B8(anime, 0);
+        func_021BE6B0(anime, 1);
+        func_021BE700(expObj, 0, 0, i, 0);
+        anime = func_021BE674(expObj, 0, 1, i);
+        func_021BE6B8(anime, 0);
+        func_021BE6B0(anime, 1);
+        func_021BE700(expObj, 0, 1, i, 0);
     }
 }
 
-
-
-
-
-
-
-void func_021F3840(unsigned char *p)
+void func_021F3840(struct FieldMap *fieldMap)
 {
-    void *s;
-    s = (void *)func_02188D2C((int *)p);
-    func_021897A0(p, 1);
-    func_021BE418(s, 0);
+    FldExpObjCnt *expObj;
+
+    expObj = func_02188D2C(fieldMap);
+    func_021897A0(fieldMap, 1);
+    func_021BE418(expObj, 0);
 }
 
-
-
-
-void func_021F385C(void *p)
+void func_021F385C(struct FieldMap *fieldMap)
 {
-    func_021BE580((void *)func_02188D2C((int *)p));
+    func_021BE580(func_02188D2C(fieldMap));
 }
 
-
-
-
-
-void func_021F3868(void *a)
+/* Set up the gimmick: work, the three models, and the list of map objects to swap. */
+void func_021F3868(struct FieldMap *fieldMap)
 {
     int i;
-    void *s;
-    int z;
-    u8 *e;
-    int h;
-    u8 *w;
+    FldExpObjCnt *expObj;
+    FldExpObjAnime *anime;
+    int heapId;
+    SpPokeGimmickWork *work;
 
-    s = (void *)func_02188D2C(a);
-    h = (func_02188C84(a) & 0x7FFF) | 0x8000;
-    func_02189764(a, 1, (u16)h, 0x28);
-    w = (u8 *)func_021897BC(a, 1);
-    ((struct Obj20584 *)w)->f24 = func_02030734((u16)h, 4, 1, d_021F4080, 0x1D1);
-    i = 0;
-    func_021BE310(s, d_021F3E74, 0);
-    func_021BE4B4(s, 0, 1, 1);
-    func_021BE4B4(s, 0, 0, 1);
-    for (i = 0; i < 3; i++) {
-        z = 0;
-        e = (u8 *)func_021BE674(s, z, z, i);
-        func_021BE6B8(e, z);
-        func_021BE6B0(e, 1);
-        func_021BE700(s, z, z, i, z);
-        e = (u8 *)func_021BE674(s, z, 1, i);
-        func_021BE6B8(e, z);
-        func_021BE6B0(e, 1);
-        func_021BE700(s, z, 1, i, z);
+    expObj = func_02188D2C(fieldMap);
+    heapId = (func_02188C84(fieldMap) & 0x7FFF) | 0x8000;
+    func_02189764(fieldMap, 1, (u16)heapId, 0x28);
+    work = func_021897BC(fieldMap, 1);
+    work->swapObjectIds = func_02030734((u16)heapId, 4, 1, d_021F4080, 0x1D1);
+    func_021BE310(expObj, &d_021F3E74, 0);
+    func_021BE4B4(expObj, 0, 1, 1);
+    func_021BE4B4(expObj, 0, 0, 1);
+    for (i = 0; i < SP_POKE_GIMMICK_ANIME_COUNT; i++) {
+        anime = func_021BE674(expObj, 0, 0, i);
+        func_021BE6B8(anime, 0);
+        func_021BE6B0(anime, 1);
+        func_021BE700(expObj, 0, 0, i, 0);
+        anime = func_021BE674(expObj, 0, 1, i);
+        func_021BE6B8(anime, 0);
+        func_021BE6B0(anime, 1);
+        func_021BE700(expObj, 0, 1, i, 0);
     }
-    for (i = 0; i < 3; i++) {
-        e = (u8 *)func_021BE674(s, 0, 2, i);
-        func_021BE6B8(e, 0);
-        func_021BE6B0(e, 1);
-        func_021BE700(s, 0, 2, i, 0);
+    for (i = 0; i < SP_POKE_GIMMICK_ANIME_COUNT; i++) {
+        anime = func_021BE674(expObj, 0, SP_POKE_GIMMICK_EFFECT_MODEL, i);
+        func_021BE6B8(anime, 0);
+        func_021BE6B0(anime, 1);
+        func_021BE700(expObj, 0, SP_POKE_GIMMICK_EFFECT_MODEL, i, 0);
     }
 }
 
-
-
-
-
-void func_021F3980(unsigned char *p)
+void func_021F3980(struct FieldMap *fieldMap)
 {
-    void *s;
-    int *o;
-    s = (void *)func_02188D2C((int *)p);
-    o = func_021897BC((char *)p, 1);
-    func_020307B0((void *)o[9]);
-    func_021897A0(p, 1);
-    func_021BE418(s, 0);
+    FldExpObjCnt *expObj;
+    SpPokeGimmickWork *work;
+
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    func_020307B0(work->swapObjectIds);
+    func_021897A0(fieldMap, 1);
+    func_021BE418(expObj, 0);
 }
 
-
-void func_021F39AC(void *p)
+void func_021F39AC(struct FieldMap *fieldMap)
 {
-    func_021BE580((void *)func_02188D2C((int *)p));
+    func_021BE580(func_02188D2C(fieldMap));
 }
 
-
-
-
-void *func_021F39B8(void *a, int b, V *c, const V *d, int e, int f)
+/*
+ * Script command: put the model of one side at from, show it, stop its
+ * animations and start the event that moves it to to over frames, along an
+ * arc that rises by bump over the middle of the move. Side 0 plays a sound.
+ */
+struct GameEvent *func_021F39B8(struct GameSystem *gameSystem, int side, VecFx32 *from, const VecFx32 *to,
+                                fx32 bump, int frames)
 {
     int i;
-    void *t;
-    void *s;
-    void *r;
-    W *w;
-    int flag;
+    struct FieldMap *fieldMap;
+    FldExpObjCnt *expObj;
+    struct GameEvent *event;
+    SpPokeGimmickWork *work;
+    int model;
 
-    t = func_0201210C(a);
-    flag = 1;
-    w = (W *)func_021897BC(t, 1);
-    s = (void *)func_02188D2C(t);
-    if (b == 0) {
-        flag = 0;
+    fieldMap = func_0201210C(gameSystem);
+    model = 1;
+    work = func_021897BC(fieldMap, 1);
+    expObj = func_02188D2C(fieldMap);
+    if (side == 0) {
+        model = 0;
         func_020061E4(0x566);
     }
-    *func_021BE480(s, 0, flag) = *c;
-    func_021BE4B4(s, 0, (u16)flag, 0);
-    for (i = 0; i < 3; i++) {
-        func_021BE6B0(func_021BE674(s, 0, flag, i), 1);
-        func_021BE700(s, 0, flag, i, 0);
-        func_021BE6CC(s, 0, flag, i, 0);
+    *func_021BE480(expObj, 0, model) = *from;
+    func_021BE4B4(expObj, 0, (u16)model, 0);
+    for (i = 0; i < SP_POKE_GIMMICK_ANIME_COUNT; i++) {
+        func_021BE6B0(func_021BE674(expObj, 0, model, i), 1);
+        func_021BE700(expObj, 0, model, i, 0);
+        func_021BE6CC(expObj, 0, model, i, 0);
     }
-    w->c = *c;
-    w->d = *d;
-    w->f = f;
-    w->g = 0;
-    w->e = e;
-    r = func_020122C0(a, 0, func_021F3B90, 0);
-    w->b = b;
-    return r;
+    work->moveFrom = *from;
+    work->moveTo = *to;
+    work->moveFrames = frames;
+    work->moveElapsed = 0;
+    work->moveBump = bump;
+    event = func_020122C0(gameSystem, 0, func_021F3B90, 0);
+    work->side = side;
+    return event;
 }
 
-
-
-
-
-void func_021F3AA0(void *a, int b, V *c)
+/* Script command: put the model of one side at pos, show it and start its animations. */
+void func_021F3AA0(struct GameSystem *gameSystem, int side, VecFx32 *pos)
 {
     int i;
-    void *t;
-    void *s;
-    int flag;
+    struct FieldMap *fieldMap;
+    FldExpObjCnt *expObj;
+    int model;
 
-    t = func_0201210C(a);
-    func_021897BC(t, 1);
-    flag = 1;
-    s = (void *)func_02188D2C(t);
-    if (b == 0) {
-        flag = 0;
+    fieldMap = func_0201210C(gameSystem);
+    func_021897BC(fieldMap, 1);
+    model = 1;
+    expObj = func_02188D2C(fieldMap);
+    if (side == 0) {
+        model = 0;
         func_020061E4(0x567);
     } else {
         func_020061E4(0x793);
     }
-    *func_021BE480(s, 0, flag) = *c;
-    func_021BE4B4(s, 0, (u16)flag, 0);
-    for (i = 0; i < 3; i++) {
-        func_021BE6B0(func_021BE674(s, 0, flag, i), 0);
-        func_021BE700(s, 0, flag, i, 1);
-        func_021BE6CC(s, 0, flag, i, 0);
+    *func_021BE480(expObj, 0, model) = *pos;
+    func_021BE4B4(expObj, 0, (u16)model, 0);
+    for (i = 0; i < SP_POKE_GIMMICK_ANIME_COUNT; i++) {
+        func_021BE6B0(func_021BE674(expObj, 0, model, i), 0);
+        func_021BE700(expObj, 0, model, i, 1);
+        func_021BE6CC(expObj, 0, model, i, 0);
     }
 }
 
-
-
-
-
-void func_021F3B40(void *p, int v)
+/* Script command: start the event that waits until the animation of one side is far enough. */
+void func_021F3B40(struct GameSystem *gameSystem, int side)
 {
-    int *o;
-    o = func_021897BC(func_0201210C(p), 1);
-    func_020122C0(p, 0, func_021F3C6C, 0);
-    *o = v;
+    SpPokeGimmickWork *work;
+
+    work = func_021897BC(func_0201210C(gameSystem), 1);
+    func_020122C0(gameSystem, 0, func_021F3C6C, 0);
+    work->side = side;
 }
 
-
-
-
-void func_021F3B68(void *p, int v)
+/* Script command: start the event that waits until the animation of one side has ended. */
+void func_021F3B68(struct GameSystem *gameSystem, int side)
 {
-    int *o;
-    o = func_021897BC(func_0201210C(p), 1);
-    func_020122C0(p, 0, func_021F3CB8, 0);
-    *o = v;
+    SpPokeGimmickWork *work;
+
+    work = func_021897BC(func_0201210C(gameSystem), 1);
+    func_020122C0(gameSystem, 0, func_021F3CB8, 0);
+    work->side = side;
 }
-
-
-
 
 /*
- * note:     the task callback func_021F39B8 installs: steps w->g towards
- *           w->f and interpolates a position between w->c and w->d with a
- *           bump of w->e on the middle axis. Each difference goes through
- *           the named temporary k (the original computes it into r1 and
- *           copies it to r0 for muls; inline, it lands in r0 and the
- *           function is 6 bytes short). The tail is one if with the
- *           return 1 inside it (the inverse early return flips the blo).
+ * Event the move command (func_021F39B8) starts: steps moveElapsed towards
+ * moveFrames and interpolates a position between moveFrom and moveTo with a
+ * bump of moveBump on the middle axis. Each difference goes through the
+ * named temporary delta (the original computes it into r1 and copies it to
+ * r0 for muls; inline, it lands in r0 and the function is 6 bytes short).
+ * The tail is one if with the return 1 inside it (the inverse early return
+ * flips the blo).
  */
-int func_021F3B90(void *a)
+int func_021F3B90(struct GameEvent *event, int *seq, void *eventWork)
 {
-    void *t;
-    void *s;
-    W_021F3B90 *w;
-    int flag;
-    int n;
-    int d;
-    int k;
-    V pos;
+    struct FieldMap *fieldMap;
+    FldExpObjCnt *expObj;
+    SpPokeGimmickWork *work;
+    int model;
+    int elapsed;
+    int frames;
+    int delta;
+    VecFx32 pos;
 
-    t = func_0201210C(func_020124E4(a));
-    s = (void *)func_02188D2C(t);
-    flag = 1;
-    w = (W_021F3B90 *)func_021897BC(t, 1);
-    if (w->b == 0)
-        flag = 0;
-    w->g++;
-    n = w->g;
-    d = w->f;
-    k = w->d.a - w->c.a;
-    pos.a = w->c.a + k * n / d;
-    k = w->d.b - w->c.b;
-    pos.b = w->c.b + k * n / d;
-    k = w->d.c - w->c.c;
-    pos.c = w->c.c + k * n / d;
-    if (n >= (d + 1) / 2)
-        n = d - n;
-    pos.b += w->e * n / d;
-    *func_021BE480(s, 0, flag) = pos;
-    if (w->g >= w->f) {
-        if (w->b == 1)
-            func_021BE4B4(s, 0, (u16)flag, 1);
+    fieldMap = func_0201210C(func_020124E4(event));
+    expObj = func_02188D2C(fieldMap);
+    model = 1;
+    work = func_021897BC(fieldMap, 1);
+    if (work->side == 0)
+        model = 0;
+    work->moveElapsed++;
+    elapsed = work->moveElapsed;
+    frames = work->moveFrames;
+    delta = work->moveTo.x - work->moveFrom.x;
+    pos.x = work->moveFrom.x + delta * elapsed / frames;
+    delta = work->moveTo.y - work->moveFrom.y;
+    pos.y = work->moveFrom.y + delta * elapsed / frames;
+    delta = work->moveTo.z - work->moveFrom.z;
+    pos.z = work->moveFrom.z + delta * elapsed / frames;
+    if (elapsed >= (frames + 1) / 2)
+        elapsed = frames - elapsed;
+    pos.y += work->moveBump * elapsed / frames;
+    *func_021BE480(expObj, 0, model) = pos;
+    if (work->moveElapsed >= work->moveFrames) {
+        if (work->side == 1)
+            func_021BE4B4(expObj, 0, (u16)model, 1);
         return 1;
     }
     return 0;
 }
 
-
-
-
-int func_021F3C6C(void *a)
+/* Event: ends when the animation of the side has played up to its wait frame. */
+int func_021F3C6C(struct GameEvent *event, int *seq, void *eventWork)
 {
-    void *t;
-    void *s;
-    int lim;
-    int flag;
-    int *p;
+    struct FieldMap *fieldMap;
+    FldExpObjCnt *expObj;
+    int waitFrame;
+    int model;
+    SpPokeGimmickWork *work;
 
-    t = func_0201210C(func_020124E4(a));
-    s = (void *)func_02188D2C(t);
-    p = func_021897BC(t, 1);
-    flag = 1;
-    if (*p == 0) {
-        lim = 0x5000;
-        flag = 0;
+    fieldMap = func_0201210C(func_020124E4(event));
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    model = 1;
+    if (work->side == 0) {
+        waitFrame = SP_POKE_GIMMICK_SIDE0_WAIT_FRAME;
+        model = 0;
     } else {
-        lim = 0x22000;
+        waitFrame = SP_POKE_GIMMICK_SIDE1_WAIT_FRAME;
     }
-    if (func_021BE6E8((int)s, 0, (u16)flag, 0) >= lim) {
+    if (func_021BE6E8(expObj, 0, (u16)model, 0) >= waitFrame) {
         return 1;
     }
     return 0;
 }
 
-
-
-
-int func_021F3CB8(void *a)
+/* Event: ends when the animation of the side has stopped. */
+int func_021F3CB8(struct GameEvent *event, int *seq, void *eventWork)
 {
-    void *t;
-    void *s;
-    int flag;
-    int *p;
+    struct FieldMap *fieldMap;
+    FldExpObjCnt *expObj;
+    int model;
+    SpPokeGimmickWork *work;
 
-    t = func_0201210C(func_020124E4(a));
-    s = (void *)func_02188D2C(t);
-    p = func_021897BC(t, 1);
-    flag = 1;
-    if (*p == 0) {
-        flag = 0;
+    fieldMap = func_0201210C(func_020124E4(event));
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    model = 1;
+    if (work->side == 0) {
+        model = 0;
     }
-    if (func_021BE6BC((void *)func_021BE674(s, 0, (u16)flag, 0))) {
+    if (func_021BE6BC(func_021BE674(expObj, 0, (u16)model, 0))) {
         return 1;
     }
     return 0;
 }
 
-
-
-
-void func_021F3CFC(void *a, V *b, u16 c, u16 d)
+/*
+ * Script command: put the effect model at pos, start its animations and
+ * start the event that removes the map object removeObjectId and adds
+ * addObjectId when the effect reaches its swap frame.
+ */
+void func_021F3CFC(struct GameSystem *gameSystem, VecFx32 *pos, u16 removeObjectId, u16 addObjectId)
 {
     int i;
-    void *t;
-    void *s;
-    W_021F3CFC *w;
-    u16 *q;
+    struct FieldMap *fieldMap;
+    FldExpObjCnt *expObj;
+    SpPokeGimmickWork *work;
+    u16 *objectIds;
 
-    t = func_0201210C(a);
-    w = (W_021F3CFC *)func_021897BC(t, 1);
-    s = (void *)func_02188D2C(t);
-    q = w->p24;
-    q[0] = c;
-    q[1] = d;
-    *func_021BE480(s, 0, 2) = *b;
-    func_021BE4B4(s, 0, 2, 0);
-    for (i = 0; i < 3; i++) {
-        func_021BE6B0((void *)func_021BE674(s, 0, (u16)2, (u16)i), 0);
-        func_021BE700(s, 0, 2, i, 1);
-        func_021BE6CC(s, 0, 2, i, 0);
+    fieldMap = func_0201210C(gameSystem);
+    work = func_021897BC(fieldMap, 1);
+    expObj = func_02188D2C(fieldMap);
+    objectIds = work->swapObjectIds;
+    objectIds[0] = removeObjectId;
+    objectIds[1] = addObjectId;
+    *func_021BE480(expObj, 0, SP_POKE_GIMMICK_EFFECT_MODEL) = *pos;
+    func_021BE4B4(expObj, 0, SP_POKE_GIMMICK_EFFECT_MODEL, 0);
+    for (i = 0; i < SP_POKE_GIMMICK_ANIME_COUNT; i++) {
+        func_021BE6B0(func_021BE674(expObj, 0, SP_POKE_GIMMICK_EFFECT_MODEL, i), 0);
+        func_021BE700(expObj, 0, SP_POKE_GIMMICK_EFFECT_MODEL, i, 1);
+        func_021BE6CC(expObj, 0, SP_POKE_GIMMICK_EFFECT_MODEL, i, 0);
     }
-    func_020122C0(a, 0, func_021F3D9C, 0);
+    func_020122C0(gameSystem, 0, func_021F3D9C, 0);
 }

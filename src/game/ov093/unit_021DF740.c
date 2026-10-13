@@ -14,20 +14,22 @@
  *   d_021F13B4     0x021F13B4  data   ov093  a4
  *   func_021DF93C  0x021DF93C  thumb  ov093
  */
+#include "unit_021DF3A4_types.h"
 
-void func_021DF93C(int, int, int, int);
+extern const BtlEventHandler d_021F13B4[];
 
-void func_021DF740(int a, int b, int c)
+void func_021DF740(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF74C(int *handlerCount);
+
+/* Miracle Seed. */
+void func_021DF740(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 11);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_GRASS);
 }
 
-
-extern int d_021F13B4[];
-int *func_021DF74C(int *p);
-
-int *func_021DF74C(int *p)
+/* Black Glasses. */
+const BtlEventHandler *func_021DF74C(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F13B4;
 }

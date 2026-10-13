@@ -18,12 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02045C44",
+    "MSGDATA_CreateFromMemory",
     "func_02045CAC"
+   ],
+   "addresses": [
+    "0x02045C44",
+    "0x02045CAC"
    ]
   },
   {
-   "name": "sub_02045E04",
+   "name": "MSGDATA_DecryptStrbuf",
    "address": "0x02045E04",
    "kind": "game",
    "region": "arm9",
@@ -35,7 +39,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02045E3C",
+   "name": "MSGDATA_DecryptUnits",
    "address": "0x02045E3C",
    "kind": "game",
    "region": "arm9",
@@ -47,7 +51,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02045F50",
+   "name": "MSGDATA_GetMessageCount",
    "address": "0x02045F50",
    "kind": "game",
    "region": "arm9",
@@ -59,7 +63,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02046180",
+   "name": "MSGDATA_RefreshLanguage",
    "address": "0x02046180",
    "kind": "game",
    "region": "arm9",
@@ -71,7 +75,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020461B8",
+   "name": "MSGDATA_GetLanguageIndex",
    "address": "0x020461B8",
    "kind": "game",
    "region": "arm9",
@@ -83,7 +87,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020461D4",
+   "name": "MSGDATA_SetLanguage",
    "address": "0x020461D4",
    "kind": "sdk",
    "region": "arm9",

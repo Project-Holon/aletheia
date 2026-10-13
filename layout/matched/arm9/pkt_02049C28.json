@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02049C28",
+   "name": "ARC_UTIL_UploadPalette",
    "address": "0x02049C28",
    "kind": "game",
    "region": "arm9",

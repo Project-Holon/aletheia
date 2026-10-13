@@ -26,7 +26,7 @@
  *   func_021BA128 0x021BA128 thumb ov093
  *   func_021BA648 0x021BA648 thumb ov093
  *   func_021B9460 0x021B9460 thumb ov093
- *   func_0201A918 0x0201A918 thumb
+ *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  */
 #include "../include/Obj00764.h"
 #include "../include/Obj20948.h"
@@ -52,7 +52,7 @@ extern int func_021B8B9C(unsigned char *p, unsigned char k);
 extern void func_021BA128(struct S *p, int i, void *x);
 extern void func_021BA648(char *p, u8 k, void *dst);
 extern void func_021B9460(char *a, char *b, u8 c);
-extern int func_0201A918(void);
+extern int POKE_REGULATION_GetDataSize(void);
 int func_021B7758(u8 *p,u32 *state)
 {
     u8 *q;
@@ -80,7 +80,7 @@ int func_021B7758(u8 *p,u32 *state)
             if (!p[0x471]) *state = 10;
             else {
                 if (p[0x46e]) {
-                    ((struct Obj00764 *)p)->f2C4 = func_021D4D24(func_0201A918(), (((struct Obj00764 *)p)->f468 & 0x7fff) | 0x8000);
+                    ((struct Obj00764 *)p)->f2C4 = func_021D4D24(POKE_REGULATION_GetDataSize(), (((struct Obj00764 *)p)->f468 & 0x7fff) | 0x8000);
                 }
                 p[0x470] = 0;
                 ++*state;

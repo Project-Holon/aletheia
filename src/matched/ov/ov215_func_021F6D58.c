@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02015E04 0x02015E04 thumb
- *   func_02015F50 0x02015F50 thumb
+ *   MCSS_SetAnmStopFlag 0x02015E04 thumb
+ *   MCSS_SetPaletteFade 0x02015F50 thumb
  */
 #include "../include/Obj14712.h"
 typedef unsigned char u8;
 struct McssFade;
-extern void func_02015E04(void *);
+extern void MCSS_SetAnmStopFlag(void *);
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern void func_02015F50(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
-void func_021F6D58(char *p){func_02015E04(((struct Obj14712 *)p)->f34);func_02015F50(*(struct McssFade * *)&((struct Obj14712 *)p)->f34,0,16,0,32767);}
+extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
+void func_021F6D58(char *p){MCSS_SetAnmStopFlag(((struct Obj14712 *)p)->f34);MCSS_SetPaletteFade(*(struct McssFade * *)&((struct Obj14712 *)p)->f34,0,16,0,32767);}

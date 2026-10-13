@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_02026BFC
+ * function: GAME_BEACON_GetLogFromWork
  * address:  0x02026BFC
  * packet:   pkt_0202685C
  * region:   arm9
@@ -10,20 +10,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Five unlabelled leaves between func_02026A60 and func_02026CA0
+ * Five unlabelled leaves between GAME_BEACON_ReceiveInfo and GAME_BEACON_GetNextNewLogIndex
  * (0x02026BFC..0x02026CA0), tu-verified: two ring-slot accessors, their
- * g_GameBeacon tail-call wrappers, and the +0xBA8 count getter.
- *   sub_02026BFC  slot n of the ring if n is below the s8 at +0xBAE
- *   sub_02026C1C  sub_02026BFC(g_GameBeacon, n)
- *   sub_02026C30  the slot n records back from the hi cursor, wrapped at 30;
+ * GAME_BEACON_Work tail-call wrappers, and the +0xBA8 count getter.
+ *   GAME_BEACON_GetLogFromWork  slot n of the ring if n is below the s8 at +0xBAE
+ *   GAME_BEACON_GetLog  GAME_BEACON_GetLogFromWork(GAME_BEACON_Work, n)
+ *   GAME_BEACON_GetLogByReceiveNoFromWork  the slot n records back from the hi cursor, wrapped at 30;
  *                 the zero test on count - n is `c - n == 0` (a `subs`),
  *                 not `c == n` (a `cmp`)
- *   sub_02026C78  sub_02026C30(g_GameBeacon, n)
- *   sub_02026C8C  the +0xBA8 insert count
+ *   GAME_BEACON_GetLogByReceiveNo  GAME_BEACON_GetLogByReceiveNoFromWork(GAME_BEACON_Work, n)
+ *   GAME_BEACON_GetReceiveCount  the +0xBA8 insert count
  * None has an lr save, so the integrator should seed all five starts.
  *
  * symbols:
- *   g_GameBeacon  0x02146940  data
+ *   GAME_BEACON_Work  0x02146940  data
  */
 #include "../include/Obj11840.h"
 #include "../include/Obj17251.h"
@@ -32,9 +32,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *g_GameBeacon;
+extern u8 *GAME_BEACON_Work;
 
-void *sub_02026BFC(u8 *base, int n)
+void *GAME_BEACON_GetLogFromWork(u8 *base, int n)
 {
     int c = ((struct Obj17251 *)base)->fBAE;
     if (c == 0 || c - n <= 0)
@@ -42,12 +42,12 @@ void *sub_02026BFC(u8 *base, int n)
     return base + 0x64 + n * 0x60;
 }
 
-void *sub_02026C1C(int n)
+void *GAME_BEACON_GetLog(int n)
 {
-    return sub_02026BFC(g_GameBeacon, n);
+    return GAME_BEACON_GetLogFromWork(GAME_BEACON_Work, n);
 }
 
-void *sub_02026C30(u8 *base, int n)
+void *GAME_BEACON_GetLogByReceiveNoFromWork(u8 *base, int n)
 {
     u32 c = ((struct Obj11840 *)base)->fBA8;
     int j;
@@ -61,12 +61,12 @@ void *sub_02026C30(u8 *base, int n)
     return base + 0x64 + j * 0x60;
 }
 
-void *sub_02026C78(int n)
+void *GAME_BEACON_GetLogByReceiveNo(int n)
 {
-    return sub_02026C30(g_GameBeacon, n);
+    return GAME_BEACON_GetLogByReceiveNoFromWork(GAME_BEACON_Work, n);
 }
 
-u32 sub_02026C8C(void)
+u32 GAME_BEACON_GetReceiveCount(void)
 {
-    return *(u32 *)(g_GameBeacon + 0xBA8);
+    return *(u32 *)(GAME_BEACON_Work + 0xBA8);
 }

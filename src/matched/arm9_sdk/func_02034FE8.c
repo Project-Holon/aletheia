@@ -11,6 +11,7 @@
  *
  * symbols:
  *   func_02034FD4 0x02034FD4 arm
+ *   gUiState  0x021469BC  data
  */
 
 typedef unsigned char u8;
@@ -19,10 +20,10 @@ struct UiCtx {
     u8 pad00[0x38];
     u8 always;
 };
-#define g_021469BC (*(struct UiCtx **)0x021469BC)
+#define gUiState (*(struct UiCtx **)0x021469BC)
 extern u32 func_02034FD4(struct UiCtx *p, u8 flags);
 
 u32 func_02034FE8(u8 flags)
 {
-    return func_02034FD4(g_021469BC, flags);
+    return func_02034FD4(gUiState, flags);
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02006C2C
+ * function: PM_VOICE_PrepareCry
  * address:  0x02006C2C
  * packet:   pkt_02006C2C
  * region:   arm9
@@ -47,8 +47,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02006C2C.c \
- *       --func func_02006C2C --addr 0x02006C2C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PM_VOICE_PrepareCry.c \
+ *       --func PM_VOICE_PrepareCry --addr 0x02006C2C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -63,7 +63,7 @@ typedef signed char    s8;
 extern void func_02007B68(s8 *dest, const s8 *src);
 extern void  func_02048F4C(void *dst, u32 archive_id, u32 member);
 
-u32 func_02006C2C(u32 species, u32 form, void **rec, void **owner,
+u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **rec, void **owner,
                   u32 *rate1, u32 *rate2, u32 *addr, u8 *cryPitch)
 {
     u16 entry[2];

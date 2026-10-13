@@ -21,8 +21,8 @@
  *   func_02178138  0x02178138  thumb  ov014
  *   func_0217814C  0x0217814C  thumb  ov014
  *   func_021791F8  0x021791F8  thumb  ov014
- *   func_0208F370  0x0208F370  arm
- *   func_0208F380  0x0208F380  arm
+ *   WM_Initialize  0x0208F370  arm
+ *   WM_InitializeForListening  0x0208F380  arm
  */
 
 typedef unsigned char u8;
@@ -34,8 +34,8 @@ extern void func_02178138(int state);
 extern void func_0217814C(int err);
 typedef unsigned short u16;
 extern void func_021791F8(u16 *arg);
-extern int func_0208F370(void *buf, void (*cb)(void *), int dma);
-extern int func_0208F380(void *buf, void (*cb)(void *), int dma, int x);
+extern int WM_Initialize(void *buf, void (*cb)(void *), int dma);
+extern int WM_InitializeForListening(void *buf, void (*cb)(void *), int dma, int x);
 
 BOOL func_021791A0(int a, int flag)
 {
@@ -43,9 +43,9 @@ BOOL func_021791A0(int a, int flag)
 
     func_02178138(3);
     if (flag == 0)
-        r = func_0208F370(g_021797A8 + 0x40, (void (*)(void *))func_021791F8, 2);
+        r = WM_Initialize(g_021797A8 + 0x40, (void (*)(void *))func_021791F8, 2);
     else
-        r = func_0208F380(g_021797A8 + 0x40, (void (*)(void *))func_021791F8, 2, 0);
+        r = WM_InitializeForListening(g_021797A8 + 0x40, (void (*)(void *))func_021791F8, 2, 0);
     if (r != 2) {
         func_0217814C(r);
         func_02178138(10);

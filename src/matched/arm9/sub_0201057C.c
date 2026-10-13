@@ -1,5 +1,5 @@
 /*
- * function: func_0201057C
+ * function: WIH_DWC_IsPrivacyBeacon
  * address:  0x0201057C
  * packet:   pkt_02010068
  * region:   arm9
@@ -18,7 +18,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201057C.c \
- *       --func func_0201057C --addr 0x0201057C --cc 1.1p1
+ *       --func WIH_DWC_IsPrivacyBeacon --addr 0x0201057C --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -30,7 +30,7 @@ struct Ctx {
     u16 unk2C;
 };
 
-u32 func_0201057C(const struct Ctx *p)
+u32 WIH_DWC_IsPrivacyBeacon(const struct Ctx *p)
 {
     if (p->unk2C & 0x10) {
         return 1;

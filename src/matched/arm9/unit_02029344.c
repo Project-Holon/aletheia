@@ -10,11 +10,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02029344, sub_02029348
+ * function: FIELD_SOUND_SYSTEM_SetState, FIELD_SOUND_SYSTEM_ClearRequest
  *
  * Two leaf helpers on the same object as the six checker/trampoline pairs of
- * pkt_0202918C's neighbour packets: sub_02029344 is a plain word setter at
- * offset 4, and sub_02029348 clears four fields (two words at +0xc/+0x1c,
+ * pkt_0202918C's neighbour packets: FIELD_SOUND_SYSTEM_SetState is a plain word setter at
+ * offset 4, and FIELD_SOUND_SYSTEM_ClearRequest clears four fields (two words at +0xc/+0x1c,
  * two halfwords at +0x18/+0x1a) that the checker wrappers elsewhere test and
  * arm. Neither function has a relocation of any kind.
  *
@@ -28,12 +28,12 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void sub_02029344(void *obj, u32 value)
+void FIELD_SOUND_SYSTEM_SetState(void *obj, u32 value)
 {
     ((struct Obj17256 *)obj)->f4 = value;
 }
 
-void sub_02029348(void *obj)
+void FIELD_SOUND_SYSTEM_ClearRequest(void *obj)
 {
     ((struct Obj01618 *)obj)->f1C = 0;
     ((struct Obj01618 *)obj)->fC = 0;

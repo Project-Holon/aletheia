@@ -1,5 +1,5 @@
 /*
- * function: func_0202846C
+ * function: APP_TASKMENU_WIN_IsUpdateTrans
  * address:  0x0202846C
  * packet:   pkt_02027FEC
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202846C.c \\
- *       --func func_0202846C --addr 0x0202846C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/APP_TASKMENU_WIN_IsUpdateTrans.c \\
+ *       --func APP_TASKMENU_WIN_IsUpdateTrans --addr 0x0202846C --thumb --cc 1.1p1
  */
 #include "../include/Obj15793.h"
 
@@ -22,7 +22,7 @@ typedef signed int     s32;
 
 
 
-u32 func_0202846C(u8 *p)
+u32 APP_TASKMENU_WIN_IsUpdateTrans(u8 *p)
 {
     return ((struct Obj15793 *)p)->fC;
 }

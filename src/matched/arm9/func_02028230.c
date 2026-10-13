@@ -1,5 +1,5 @@
 /*
- * function: func_02028230
+ * function: APP_TASKMENU_WIN_IsFinish
  * address:  0x02028230
  * packet:   pkt_02027FEC
  * region:   arm9
@@ -13,8 +13,8 @@
  *   _s32_div_f   0x0209C0A4  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02028230.c \
- *       --func func_02028230 --addr 0x02028230 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/APP_TASKMENU_WIN_IsFinish.c \
+ *       --func APP_TASKMENU_WIN_IsFinish --addr 0x02028230 --thumb --cc 1.1p1
  */
 #include "../include/Obj00864.h"
 
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_02028230(u8 *p)
+u32 APP_TASKMENU_WIN_IsFinish(u8 *p)
 {
     s32 r = 0x10 / (s32)((struct Obj00864 *)p)->f12;
 

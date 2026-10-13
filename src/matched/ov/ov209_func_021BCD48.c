@@ -26,7 +26,7 @@
  *   func_021BC868 0x021BC868 thumb ov209
  *   func_021BC52C 0x021BC52C thumb ov209
  *   func_021BC704 0x021BC704 thumb ov209
- *   func_02021ED8 0x02021ED8 thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  */
 #include "../include/Obj00088.h"
 typedef unsigned short u16;
@@ -35,7 +35,7 @@ extern const char ov067_id[];
 extern void func_02043534(u32);
 extern void func_020435F4(u32);
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern u32 func_02021ED8(const char *);
+extern u32 PALANM_GetFadeRequestBits(const char *);
 extern void func_02034A5C(int);
 extern int func_021BC91C(char *);
 extern void func_021BC810(void);
@@ -50,7 +50,7 @@ extern void func_021BC868(char *);
 extern void func_021BC704(char *);
 int func_021BCD48(char *p)
 {
-    if (func_021BC91C(p) == 1 || func_02021ED8(*(char * *)&((struct Obj00088 *)p)->fC) != 0) return 1;
+    if (func_021BC91C(p) == 1 || PALANM_GetFadeRequestBits(*(char * *)&((struct Obj00088 *)p)->fC) != 0) return 1;
     func_021BC2FC(p);
     func_021BC2B0(p);
     func_021BC810();

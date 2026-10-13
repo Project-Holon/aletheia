@@ -17,7 +17,7 @@
  *   add; signed interpretation supplies original signed modulo and comparison.
  * symbols:
  *   func_021BA928 0x021BA928 thumb ov099
- *   func_02156B8C 0x02156B8C thumb ov009
+ *   DWC_RAP_GetNewClientAid 0x02156B8C thumb ov009
  *   func_021C23C0 0x021C23C0 thumb ov099
  *   func_021BA874 0x021BA874 thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
@@ -36,7 +36,7 @@ struct W;
 struct Work;
 struct S;
 extern int func_021BA928(struct W *);
-extern int func_02156B8C(void);
+extern int DWC_RAP_GetNewClientAid(void);
 extern unsigned char func_021C23C0(void *a);
 extern void func_021BA874(struct Work *, int);
 extern void func_021BAAB8(char *, int, int);
@@ -57,7 +57,7 @@ int func_021C09C0(char *p, int ret)
     Off off;
     u32 counter;
     func_021BA928((struct W *)p);
-    if (func_02156B8C() != -1) ((struct Obj00008 *)p)->f1CC = 11;
+    if (DWC_RAP_GetNewClientAid() != -1) ((struct Obj00008 *)p)->f1CC = 11;
     off = K242;
     if (func_021C23C0((void *)(*(u16 *)(p + off) - 1)) == 0) {
         func_021BA874((struct Work *)p, *(u16 *)(p + off) - 1);

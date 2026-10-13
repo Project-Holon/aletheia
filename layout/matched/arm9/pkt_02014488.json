@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020144DC",
+   "name": "FIELD_STATUS_CreateFieldCloseEvent",
    "address": "0x020144DC",
    "kind": "game",
    "region": "arm9",

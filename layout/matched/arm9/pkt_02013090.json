@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201320C",
+   "name": "BTL_SETUP_InitCommFieldSituation",
    "address": "0x0201320C",
    "kind": "game",
    "region": "arm9",

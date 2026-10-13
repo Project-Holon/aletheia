@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_02010068
+ * function: GFL_NET_ERR_LoadScreenGraphics
  * address:  0x02010068
  * packet:   pkt_02010068
  * region:   arm9
@@ -78,7 +78,7 @@ extern int func_02062B30(void *file, void **out);
 extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 
-void sub_02010068(u32 a0)
+void GFL_NET_ERR_LoadScreenGraphics(u32 a0)
 {
     void *h;
     struct res0 *r0p;

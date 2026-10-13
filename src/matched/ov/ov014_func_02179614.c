@@ -1,5 +1,5 @@
 /*
- * function: func_02179614
+ * function: WIH_GetBeaconSendCount
  * address: 0x02179614
  * packet: pkt_ov014_02179614
  * region: ov014
@@ -13,4 +13,4 @@
  */
 typedef unsigned char u8;
 extern u8 *g_021797A8;
-unsigned short func_02179614(void) { return *(unsigned short *)(g_021797A8 + 0x1EBA); }
+unsigned short WIH_GetBeaconSendCount(void) { return *(unsigned short *)(g_021797A8 + 0x1EBA); }

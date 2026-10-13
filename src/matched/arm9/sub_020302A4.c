@@ -51,7 +51,7 @@
  *
  * symbols:
  *   g_EnvModule     0x02146954  data
- *   sub_0202FBAC    0x0202FBAC  arm
+ *   GFL_HEAP_GetHeap    0x0202FBAC  arm
  *   sub_02060CD0    0x02060CD0  arm
  *   sub_02060F90    0x02060F90  arm
  *
@@ -83,7 +83,7 @@ struct HeapBlock {
 };
 
 extern struct EnvModule g_EnvModule;
-extern void *sub_0202FBAC(u32 idx);
+extern void *GFL_HEAP_GetHeap(u32 idx);
 struct HeapHead;
 extern u32 sub_02060CD0(struct HeapHead *heap, void *memBlock, u32 size);
 extern int sub_02060F90(char *p);
@@ -101,7 +101,7 @@ u32 sub_020302A4(void *p, u32 size)
         g_EnvModule.error = 2;
         goto fail;
     }
-    arena = sub_0202FBAC(hdr->heapId);
+    arena = GFL_HEAP_GetHeap(hdr->heapId);
     if (arena == 0) {
         g_EnvModule.error = 3;
         goto fail;

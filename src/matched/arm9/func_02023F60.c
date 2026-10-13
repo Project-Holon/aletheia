@@ -1,5 +1,5 @@
 /*
- * function: func_02023F60
+ * function: BRIGHTNESS_Set
  * address:  0x02023F60
  * packet:   pkt_02023DDC
  * region:   arm9
@@ -11,6 +11,7 @@
  *
  * symbols:
  *   func_0207D658  0x0207D658  arm
+ *   BRIGHTNESS_ChangeReset  0x02023F98  thumb
  */
 
 typedef unsigned char  u8;
@@ -19,9 +20,9 @@ typedef unsigned int   u32;
 
 
 extern void func_0207D658(u32 addr, int plane, int brightness);
-extern void func_02023F98(u32 mask);
+extern void BRIGHTNESS_ChangeReset(u32 mask);
 
-void func_02023F60(u32 a0, u32 a1, u32 mask)
+void BRIGHTNESS_Set(u32 a0, u32 a1, u32 mask)
 {
     if (mask & 1) {
         func_0207D658(0x04000050, a1, a0);
@@ -29,5 +30,5 @@ void func_02023F60(u32 a0, u32 a1, u32 mask)
     if (mask & 2) {
         func_0207D658(0x04001050, a1, a0);
     }
-    func_02023F98(mask);
+    BRIGHTNESS_ChangeReset(mask);
 }

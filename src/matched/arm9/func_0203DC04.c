@@ -1,5 +1,5 @@
 /*
- * function: func_0203DC04
+ * function: GFL_NET_IRC_WIRELESS_OnSyncReady
  * address:  0x0203DC04
  * packet:   pkt_0203DAC4
  * region:   arm9
@@ -15,7 +15,7 @@
  * integrator's layout/function_starts.txt, not for this file.
  *
  * symbols:
- *   g_021469F0     0x021469F0  data
+ *   gNetIrcWirelessLink     0x021469F0  data
  *   func_02039338  0x02039338  arm
  */
 
@@ -24,18 +24,18 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern struct Ctx *g_021469F0;
+extern struct Ctx *gNetIrcWirelessLink;
 typedef unsigned short u16;
 extern u16 func_02039338(void);
 
-void func_0203DC04(void)
+void GFL_NET_IRC_WIRELESS_OnSyncReady(void)
 {
-    if (g_021469F0 == 0)
+    if (gNetIrcWirelessLink == 0)
         return;
-    g_021469F0->f102 = 1;
-    if (g_021469F0->f106 != 0) {
-        g_021469F0->f105 = g_021469F0->f106 - 1;
+    gNetIrcWirelessLink->f102 = 1;
+    if (gNetIrcWirelessLink->f106 != 0) {
+        gNetIrcWirelessLink->f105 = gNetIrcWirelessLink->f106 - 1;
     } else {
-        g_021469F0->f105 = func_02039338();
+        gNetIrcWirelessLink->f105 = func_02039338();
     }
 }

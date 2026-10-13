@@ -1,6 +1,6 @@
 /*
  * file:     unit_0206DF14.c
- * function: func_0206DF14
+ * function: NNS_G3dInit
  * address:  0x0206DF14
  * packet:   pkt_0206DB40
  * region:   arm9
@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206DF14.c \
- *       --func func_0206DF14 --addr 0x0206DF14 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dInit.c \
+ *       --func NNS_G3dInit --addr 0x0206DF14 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -25,7 +25,7 @@ extern void func_0206A700(void);
  * block, then set the geometry FIFO interrupt condition (GXSTAT bits 30..31)
  * to 2, "FIFO empty".
  */
-void func_0206DF14(void)
+void NNS_G3dInit(void)
 {
     func_0207D988();
     func_0206A700();

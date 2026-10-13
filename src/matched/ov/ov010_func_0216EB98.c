@@ -14,7 +14,7 @@
  *           keeps proc in r0 through the dispatch, the index in r1 and the
  *           r2 copy of proc for cases 2 and 10 (457 -> 2 bytes). The ov230
  *           probe calls resolve with the `ov230d` token, prototypes copied
- *           from the matched twin src/matched/arm9/func_02011D9C.c.
+ *           from the matched twin src/matched/arm9/GAMESYSTEM_ProcInit.c.
  * residue:  case 7 zeroes its spilled `ok` (sp+0xC) through r2 in the image
  *           (`movs r2,#0; str r2,[sp,#0xc]` at 0x0216ECCC), r0 in the compile.
  *           No change from ok as u32, u8, enum, function-scope, passed as the
@@ -36,7 +36,7 @@
  *           reads only p0; both sites here set only r0 (`ldr r0,[sp,#0x10];
  *           bl`). The C below declares both with one parameter.
  * runs:     4 iteration + checks (2 + 2 + 1) + permuter 300; one cleanup run.
- * checks:   1 every callee re-derived from its matched definition: func_02189A08 takes the live proc in r0 (fixed), F054/2F20 definitions over-declare (conflict above); 2 twin func_02011D9C gives the ov230d probe tokens and prototypes (resolved 3 sites), u32 start local no change; 3 ok as u32 / enum no change; 4 u8 flag idiom (a-narrow-flag-local-is-spilled) no change, zero-register idioms read; 5 idioms re-listed, nothing new applies
+ * checks:   1 every callee re-derived from its matched definition: func_02189A08 takes the live proc in r0 (fixed), F054/2F20 definitions over-declare (conflict above); 2 twin GAMESYSTEM_ProcInit gives the ov230d probe tokens and prototypes (resolved 3 sites), u32 start local no change; 3 ok as u32 / enum no change; 4 u8 flag idiom (a-narrow-flag-local-is-spilled) no change, zero-register idioms read; 5 idioms re-listed, nothing new applies
  * note:     2026-10-05 wave P19 lane 6 recoup: byte-correct (612/612, 0 bytes off).
  *           Lever: case 7 writes ok in both arms (`if (probe == ~f) ok = 1; else ok = 0;`
  *           with `int ok;` uninitialised), which moves the spilled zero to r2 (was r0,
@@ -44,7 +44,7 @@
  *           2 B), function-scope ok, ok as the probe seed or a separate zero local, probe
  *           result in a local (3 B), ternary sum (258 B). Data words resolve with
  *           `data ov093` / `data ov092` tokens. Leaf witnesses filed:
- *           src/matched/arm9/func_0202E80C.c and src/matched/ov/ov010_func_0216EFDC.c (both
+ *           src/matched/arm9/COMM_PLAYER_SUPPORT_StashMode.c and src/matched/ov/ov010_func_0216EFDC.c (both
  *           EXACT c99 and c); the three unresolved call sites resolve once the integrator
  *           refreshes the manifest. Callee arity conflicts (matched definitions
  *           over-declare, callers pass less): func_0216F054 and func_02012F20.
@@ -56,20 +56,20 @@
  *   func_02012444  0x02012444  thumb
  *   func_02012B38  0x02012B38  thumb
  *   func_02012F20  0x02012F20  thumb
- *   func_02012F50  0x02012F50  thumb
+ *   GAME_DATA_GetListCursor  0x02012F50  thumb
  *   func_0201447C  0x0201447C  thumb
- *   func_020144DC  0x020144DC  thumb
- *   func_020145CC  0x020145CC  thumb
- *   func_02029B28  0x02029B28  thumb
- *   func_02029BCC  0x02029BCC  thumb
- *   func_02029C00  0x02029C00  thumb
- *   func_02029CC0  0x02029CC0  thumb
- *   func_0202E79C  0x0202E79C  thumb
- *   func_0202E80C  0x0202E80C  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
+ *   FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask  0x02029B28  thumb
+ *   FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask  0x02029BCC  thumb
+ *   FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask  0x02029C00  thumb
+ *   FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask  0x02029CC0  thumb
+ *   COMM_PLAYER_SUPPORT_Init  0x0202E79C  thumb
+ *   COMM_PLAYER_SUPPORT_StashMode  0x0202E80C  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_020056A0  0x020056A0  thumb
- *   func_02011D34  0x02011D34  thumb
+ *   GAMESYSTEM_ReadTimerTwice  0x02011D34  thumb
  *   _u32_div_f     0x0209C2B0  arm
  *   func_0215F6E8  0x0215F6E8  thumb  ov010
  *   func_02168D30  0x02168D30  thumb  ov010
@@ -138,20 +138,20 @@ extern void func_0201235C(struct S0201235C *o, u32 *out);
 extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern void *func_02012B38(const struct BigObj *p);
 extern int func_02012F20(int p0);
-extern void *func_02012F50(void *base);
+extern void *GAME_DATA_GetListCursor(void *base);
 extern u8 func_0201447C(struct Sub02014444Obj *o, u8 v);
-extern int func_020144DC(int a0, int a1);
-extern void *func_020145CC(void *sys);
-extern void *func_02029B28(void *a, u16 b);
-extern void *func_02029BCC(void *a, u32 b);
-extern void *func_02029C00(void *a);
-extern void *func_02029CC0(void *a);
-extern void func_0202E79C(u8 *p);
-extern void func_0202E80C(u32 *p);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *sys);
+extern void *FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask(void *a, u16 b);
+extern void *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(void *a, u32 b);
+extern void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *a);
+extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *a);
+extern void COMM_PLAYER_SUPPORT_Init(u8 *p);
+extern void COMM_PLAYER_SUPPORT_StashMode(u32 *p);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern void *func_020056A0(void (*callback)(void *, void *), void *work, u32 key);
-extern void func_02011D34(void);
+extern void GAMESYSTEM_ReadTimerTwice(void);
 extern void *func_0215F6E8(void *sys);
 extern void func_02168D30(struct Record *r, struct Result *s);
 extern int func_0216EFDC(int *w);
@@ -177,7 +177,7 @@ int func_0216EB98(void *evt, u32 *state, Work *w)
 
     switch (*state) {
     case 0:
-        func_02012374(evt, func_02029BCC(sys, w->f08->f18));
+        func_02012374(evt, FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(sys, w->f08->f18));
         (*state)++;
         break;
     case 1:
@@ -185,12 +185,12 @@ int func_0216EB98(void *evt, u32 *state, Work *w)
         (*state)++;
         break;
     case 2:
-        func_02012374(evt, (void *)func_020144DC((int)sys, (int)proc));
+        func_02012374(evt, (void *)FIELD_STATUS_CreateFieldCloseEvent((int)sys, (int)proc));
         (*state)++;
         break;
     case 3:
         func_0201447C(func_02012B38(p04), 1);
-        func_0202E79C((u8 *)func_02012F20((int)p04));
+        COMM_PLAYER_SUPPORT_Init((u8 *)func_02012F20((int)p04));
         func_02012444(evt, (u32)ov093_id, (u32)d_021EFDAC, (u32)w->f08);
         (*state)++;
         break;
@@ -203,7 +203,7 @@ int func_0216EB98(void *evt, u32 *state, Work *w)
     case 5:
         func_02034AC4((s32)ov230_id);
         func_0201447C(func_02012B38(p04), 0);
-        func_0202E80C((void *)func_02012F20((int)p04));
+        COMM_PLAYER_SUPPORT_StashMode((void *)func_02012F20((int)p04));
         (*state)++;
         break;
     case 6: {
@@ -214,7 +214,7 @@ int func_0216EB98(void *evt, u32 *state, Work *w)
         sum += ok ? 0 : 0x3D1;
         func_0216EFF0((int *)w, p04);
         if (w->f1c != 0)
-            func_02168D30(*(void **)func_02012F50(p04), (struct Result *)w->f08);
+            func_02168D30(*(void **)GAME_DATA_GetListCursor(p04), (struct Result *)w->f08);
         (*state)++;
         ok = 0;
         if (func_02188354((void (*)(void))func_0216E680, (void (*)(void))func_0216F070, 0) == ~(u32)func_0216F070)
@@ -231,9 +231,9 @@ int func_0216EB98(void *evt, u32 *state, Work *w)
             ok = 0;
         sum += ok * 0x9D;
         if (w->f18 == 0 && func_0216EFDC((int *)w) == 1)
-            func_02012374(evt, func_02029B28(sys, 0x1E));
+            func_02012374(evt, FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask(sys, 0x1E));
         else
-            func_02012374(evt, func_02029C00(sys));
+            func_02012374(evt, FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(sys));
         func_02034A5C((s32)ov230_id);
         (*state)++;
         break;
@@ -248,11 +248,11 @@ int func_0216EB98(void *evt, u32 *state, Work *w)
             func_0201235C(evt, func_0215F6E8(sys));
             return 0;
         }
-        func_02012374(evt, func_020145CC(sys));
+        func_02012374(evt, FIELD_STATUS_CreateFieldOpenEvent(sys));
         (*state)++;
         break;
     case 9:
-        func_02012374(evt, func_02029CC0(sys));
+        func_02012374(evt, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(sys));
         (*state)++;
         break;
     case 10:
@@ -265,7 +265,7 @@ int func_0216EB98(void *evt, u32 *state, Work *w)
         return 1;
     }
     if (sum % 0x1933 != 0) {
-        func_020056A0((void (*)(void *, void *))func_02011D34, 0, 0x7F);
+        func_020056A0((void (*)(void *, void *))GAMESYSTEM_ReadTimerTwice, 0, 0x7F);
         g_0214624C++;
     }
     return 0;

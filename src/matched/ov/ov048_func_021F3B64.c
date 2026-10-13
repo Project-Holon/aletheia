@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012F68  0x02012F68  thumb
+ *   GAME_DATA_GetSaveBlock42  0x02012F68  thumb
  *   func_0200EC14  0x0200EC14  thumb
  *   func_0200EC2C  0x0200EC2C  thumb
  *   func_020457B0  0x020457B0  arm
@@ -30,7 +30,7 @@ typedef struct St {
     u8 pad[10];
 } St;
 
-extern void *func_02012F68(void **h);
+extern void *GAME_DATA_GetSaveBlock42(void **h);
 struct U16Vec;
 extern int func_0200EC14(char *p);
 struct Src0200EC2C;
@@ -45,7 +45,7 @@ void func_021F3B64(u16 *p, u32 *out, int *cnt)
     int i;
     St st;
 
-    s = func_02012F68((void **)(((int *)p)[2]));
+    s = GAME_DATA_GetSaveBlock42((void **)(((int *)p)[2]));
     *cnt = func_0200EC14(s);
     for (i = 0; i < *cnt; i++) {
         st.p0 = func_020457B0(0x40, p[0]);

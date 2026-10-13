@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0209D850
+ * function: __register_global_object
  * address:  0x0209D850
  * packet:   pkt_0209D784
  * region:   arm9
@@ -14,7 +14,7 @@
  *           while the compiled function is 32.  The next real label after
  *           this run of list nodes and descriptor data is far below.
  * symbols:
- *   g_listHead  0x021542B8  data
+ *   __global_destructor_chain  0x021542B8  data
  */
 
 typedef unsigned int u32;
@@ -26,12 +26,12 @@ struct DestructorChain
     u32 object;
 };
 
-extern struct DestructorChain *g_listHead;
+extern struct DestructorChain *__global_destructor_chain;
 
-void func_0209D850(u32 object, u32 destructor, struct DestructorChain *chain)
+void __register_global_object(u32 object, u32 destructor, struct DestructorChain *chain)
 {
-    chain->next = g_listHead;
+    chain->next = __global_destructor_chain;
     chain->destructor = destructor;
     chain->object = object;
-    g_listHead = chain;
+    __global_destructor_chain = chain;
 }

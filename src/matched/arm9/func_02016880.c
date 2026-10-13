@@ -1,5 +1,5 @@
 /*
- * function: func_02016880
+ * function: MCSS_TransTextureTask
  * address:  0x02016880
  * packet:   pkt_020163C4
  * region:   arm9
@@ -46,7 +46,7 @@ extern u32 sub_020307B0(void *p);
 struct Node;
 extern void sub_02030EAC(struct Node *n);
 
-void func_02016880(void *a0, struct Obj_02016880 *a1)
+void MCSS_TransTextureTask(void *a0, struct Obj_02016880 *a1)
 {
     if (a1->f28 == 0) {
         u32 v = *(volatile u16 *)0x04000006;

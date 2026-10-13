@@ -11,9 +11,9 @@
  * symbols:
  *   func_021E1634 0x021E1634 thumb ov137
  *   func_02062A98 0x02062A98 arm
- *   func_020215BC 0x020215BC thumb
+ *   PALANM_CopyToSlot 0x020215BC thumb
  *   func_020307B0 0x020307B0 arm
- *   func_02022004 0x02022004 thumb
+ *   PALANM_BlendChannelMask 0x02022004 thumb
  *   func_02062A00 0x02062A00 arm
  *   func_02040B1C 0x02040B1C arm
  *   func_02062B30 0x02062B30 arm
@@ -32,9 +32,9 @@ typedef signed int     s32;
 struct NitroFileHeader;
 struct PalAnmSlot;
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
-extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern u32 func_020307B0(void *p);
-extern void func_02022004(u32,u32,u16,u32,u32);
+extern void PALANM_BlendChannelMask(u32,u32,u16,u32,u32);
 extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern int func_02062B30(void *,void **);
@@ -46,13 +46,13 @@ void func_021DFC74(char *p)
     u8 *data;
     buf=func_021E1634(p,17,0);
     func_02062A98(buf,(void **)(p+0xd64));
-    func_020215BC(((struct Obj00835 *)p)->fD78,((struct Obj23767 *)(*(u8 * *)&((struct Obj00835 *)p)->fD64))->fC,0,0,64);
+    PALANM_CopyToSlot(((struct Obj00835 *)p)->fD78,((struct Obj23767 *)(*(u8 * *)&((struct Obj00835 *)p)->fD64))->fC,0,0,64);
     func_020307B0(buf);
     buf=func_021E1634(p,20,0);
     func_02062A98(buf,(void **)(p+0xd64));
-    func_020215BC(((struct Obj00835 *)p)->fD78,((struct Obj23768 *)(*(u8 * *)&((struct Obj00835 *)p)->fD64))->fC,1,0,64);
+    PALANM_CopyToSlot(((struct Obj00835 *)p)->fD78,((struct Obj23768 *)(*(u8 * *)&((struct Obj00835 *)p)->fD64))->fC,1,0,64);
     func_020307B0(buf);
-    func_02022004(*(u32 *)&((struct Obj00835 *)p)->fD78,1,65535,8,0);
+    PALANM_BlendChannelMask(*(u32 *)&((struct Obj00835 *)p)->fD78,1,65535,8,0);
     buf=func_021E1634(p,16,0);
     func_02062A00(buf,(void **)(p+0xd60));
     data=*(u8 * *)&((struct Obj00835 *)p)->fD60;

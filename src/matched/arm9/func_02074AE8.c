@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02074518  0x02074518  arm
+ *   NNS_SndArcGetGroupInfo  0x02074518  arm
  *   func_02074BEC  0x02074BEC  arm
  *   func_02074C70  0x02074C70  arm
  *   func_02074CD0  0x02074CD0  arm
@@ -54,7 +54,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 struct Entry { u8 kind; u8 b1; u16 h2; u32 f4; };
 struct Table { u32 count; struct Entry entries[1]; };
 
-extern void *func_02074518(int index);
+extern void *NNS_SndArcGetGroupInfo(int index);
 extern u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern u32 func_02074C70(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern u32 func_02074CD0(u32 a, u32 flags, u32 c, u32 d, u32 *out);
@@ -67,7 +67,7 @@ u32 func_02074AE8(u32 index, u32 arg)
     struct Entry *e;
     u32 r;
 
-    t = func_02074518(index);
+    t = NNS_SndArcGetGroupInfo(index);
     if (t == 0) {
         return 1;
     }

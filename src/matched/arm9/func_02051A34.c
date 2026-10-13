@@ -1,5 +1,5 @@
 /*
- * function: func_02051A34
+ * function: BUTTON_MAN_GetUserData
  * address:  0x02051A34
  * packet:   pkt_02051A34
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * Unlabelled ARM leaf in the ARM9 module: an 8-byte load helper,
- * `return p[0x94/4]`. The getter half of func_02051A2C.
+ * `return p[0x94/4]`. The getter half of BUTTON_MAN_SetUserData.
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj16193.h"
 
-int func_02051A34(void *p)
+int BUTTON_MAN_GetUserData(void *p)
 {
     return ((struct Obj16193 *)p)->f94;
 }

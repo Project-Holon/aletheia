@@ -13,9 +13,9 @@
  *   func_02089B38  0x02089B38  arm
  *   func_02089CD4  0x02089CD4  arm
  *   func_02085E50  0x02085E50  arm
- *   func_020729A4  0x020729A4  arm
- *   func_02072974  0x02072974  arm
- *   func_02072A08  0x02072A08  arm
+ *   SND_CHANNEL_ClearClaimedMask  0x020729A4  arm
+ *   SND_CHANNEL_UnlockChannels  0x02072974  arm
+ *   NNS_SndWaveOutFreeChannel  0x02072A08  arm
  *   func_0208972C  0x0208972C  arm
  *
  * Shutdown of the global sequence object g_0214E9FC: release its channel
@@ -26,8 +26,8 @@
  *
  * THE LEVER (after four passes and 2215 permuter candidates flat on the
  * body, docs/notes/func_02073DFC.c.txt): two extern signatures.
- * func_020729A4 and func_02072974 each take the field their guard just
- * tested -- func_020729A4(s->f28), func_02072974(s->f20) -- exactly as
+ * SND_CHANNEL_ClearClaimedMask and SND_CHANNEL_UnlockChannels each take the field their guard just
+ * tested -- SND_CHANNEL_ClearClaimedMask(s->f28), SND_CHANNEL_UnlockChannels(s->f20) -- exactly as
  * their own matched sources declare them (`u32 mask`, `u32 chan`).  The
  * image's `ldr r0,[r4,#0x28]; cmp r0,#0; beq; bl` was always passing it.
  * Declared void(void), the three callee-saved locals rotated r5/r6/r7.
@@ -48,9 +48,9 @@ extern s32  func_02089D40(void);
 extern void func_02089B38(s32 a);
 extern void func_02089CD4(s32 a);
 extern s32  func_02085E50(void *p, s32 b, s32 c);
-extern void func_020729A4(u32 mask);
-extern void func_02072974(u32 chan);
-extern void func_02072A08(u32 bit);
+extern void SND_CHANNEL_ClearClaimedMask(u32 mask);
+extern void SND_CHANNEL_UnlockChannels(u32 chan);
+extern void NNS_SndWaveOutFreeChannel(u32 bit);
 extern void func_0208972C(s32 a, s32 b, s32 c, s32 d);
 
 void func_02073DFC(void)
@@ -78,13 +78,13 @@ void func_02073DFC(void)
     }
 
     if (s->f28 != 0) {
-        func_020729A4(s->f28);
+        SND_CHANNEL_ClearClaimedMask(s->f28);
     }
     if (s->f20 != 0) {
-        func_02072974(s->f20);
+        SND_CHANNEL_UnlockChannels(s->f20);
     }
     if (on) {
-        func_02072A08(s->f2c);
+        NNS_SndWaveOutFreeChannel(s->f2c);
     }
     if (s->f04 == 1) {
         func_0208972C(0, 0, 0, 0);

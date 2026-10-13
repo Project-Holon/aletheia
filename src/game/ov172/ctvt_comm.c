@@ -20,28 +20,28 @@
  *   g_021C6EB4    0x021C6EB4  data  ov172
  *   func_020061E4 0x020061E4 thumb
  *   func_021BE100  0x021BE100  thumb  ov172
- *   func_02085D3C  0x02085D3C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_021B69D0  0x021B69D0  thumb  ov172
  *   func_021B69D8  0x021B69D8  thumb  ov172
  *   func_02030734 0x02030734 arm
  *   func_021BE0D8 0x021BE0D8 thumb ov172
- *   func_0203D7C8 0x0203D7C8 arm
+ *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   func_021C1A80 0x021C1A80 arm ov172
  *   func_021BE004 0x021BE004 thumb ov172
  *   func_02012944 0x02012944 thumb
  *   func_02008494 0x02008494 thumb
- *   func_0203E5F8 0x0203E5F8 arm
+ *   GFL_NET_LOWER_DATA_Init 0x0203E5F8 arm
  *   d_021C71F4 0x021C71F4 data a4
- *   func_0203E6C0 0x0203E6C0 arm
+ *   GFL_NET_LOWER_DATA_Exit 0x0203E6C0 arm
  *   func_020307B0 0x020307B0 arm
- *   func_0203D7FC 0x0203D7FC arm
+ *   GFL_NET_FreeAligned 0x0203D7FC arm
  *   func_021BE00C 0x021BE00C thumb ov172
- *   func_0203D644 0x0203D644 arm
+ *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   func_0203CD98 0x0203CD98 arm
  *   func_0203D010 0x0203D010 arm
  *   func_0203D01C 0x0203D01C arm
  *   func_02179328 0x02179328 thumb ov014
- *   func_0203CFF0 0x0203CFF0 arm
+ *   GFL_NET_ConnectMacAddressParent 0x0203CFF0 arm
  *   func_02039ACC 0x02039ACC arm
  *   func_020399A8 0x020399A8 arm
  *   func_020399B8 0x020399B8 arm
@@ -57,8 +57,8 @@
  *   func_0203D7BC  0x0203D7BC  arm
  *   func_0203D1A4 0x0203D1A4 arm
  *   func_0203D1B4 0x0203D1B4 arm
- *   func_0203EA54 0x0203EA54 arm
- *   func_0203E758 0x0203E758 arm
+ *   GFL_NET_LOWER_DATA_IsSendFinished 0x0203EA54 arm
+ *   GFL_NET_LOWER_DATA_SetSendData 0x0203E758 arm
  *   func_02082A90 0x02082A90 arm
  *   func_021C2B74 0x021C2B74 arm ov172
  *   func_021BDFDC 0x021BDFDC thumb ov172
@@ -68,17 +68,17 @@
  *   func_021BE0FC 0x021BE0FC thumb ov172
  *   func_021BE0AC 0x021BE0AC thumb ov172
  *   func_021B77B8 0x021B77B8 thumb ov172
- *   func_02179650 0x02179650 thumb ov014
+ *   WIH_SetScanWaitFrames 0x02179650 thumb ov014
  *   func_0203D1C0 0x0203D1C0 arm
- *   func_0203E808 0x0203E808 arm
- *   func_0203E8C8 0x0203E8C8 arm
+ *   GFL_NET_LOWER_DATA_CreatePostWork 0x0203E808 arm
+ *   GFL_NET_LOWER_DATA_DeletePostWork 0x0203E8C8 arm
  *   func_021BE058 0x021BE058 thumb ov172
  *   func_021BE0A8 0x021BE0A8 thumb ov172
  *   func_021BE2F0 0x021BE2F0 thumb ov172
- *   func_0203EA70 0x0203EA70 arm
+ *   GFL_NET_LOWER_DATA_IsPostComplete 0x0203EA70 arm
  *   func_021B7724 0x021B7724 thumb ov172
- *   func_0203E96C 0x0203E96C arm
- *   func_0203E9DC 0x0203E9DC arm
+ *   GFL_NET_LOWER_DATA_GetPostBuffer 0x0203E96C arm
+ *   GFL_NET_LOWER_DATA_GetPostRecvSize 0x0203E9DC arm
  *   func_021BFFC4 0x021BFFC4 arm ov172
  *   func_021B7714 0x021B7714 thumb ov172
  *   func_0203D3F8 0x0203D3F8 arm
@@ -97,9 +97,9 @@
  *   func_021BA194 0x021BA194 thumb ov172
  *   d_021C6EC0 0x021C6EC0 data a2
  *   func_021B6E88 0x021B6E88 thumb ov172
- *   sub_020399A8  0x020399A8  arm
- *   sub_02039C68  0x02039C68  arm
- *   sub_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   func_02082A60 0x02082A60 arm
  *   d_021C7200 0x021C7200 data a4
  *   func_02049658 0x02049658 arm
@@ -159,9 +159,9 @@
  *   d_021C6F77 0x021C6F77 data a1
  *   func_021B69E0 0x021B69E0 thumb ov172
  *   func_021BA174 0x021BA174 thumb ov172
- *   func_02035BA4 0x02035BA4 arm
+ *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   func_0200616C 0x0200616C thumb
- *   func_02006268 0x02006268 thumb
+ *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   d_021C6F8F 0x021C6F8F data a1
  *   func_0209BDBC 0x0209BDBC arm
  *   func_0209C95C 0x0209C95C arm
@@ -186,7 +186,7 @@
  *   func_020437D4  0x020437D4  arm
  *   d_021C6F6E     0x021C6F6E  data
  *   func_02035D20 0x02035D20 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_0208B24C 0x0208B24C arm
  *   func_0208B8B0 0x0208B8B0 arm
  *   func_0208BEF0 0x0208BEF0 arm
@@ -200,7 +200,7 @@
  *   func_0200566C  0x0200566C  thumb
  *   func_021BA1D8  0x021BA1D8  thumb  ov172
  *   func_0208B4B8 0x0208B4B8 arm
- *   func_02072CC4 0x02072CC4 arm
+ *   NNS_SndWaveOutIsPlaying 0x02072CC4 arm
  *   func_021BA1E4 0x021BA1E4 thumb ov172
  *   func_0208B500 0x0208B500 arm
  *   func_0208B528 0x0208B528 arm
@@ -379,27 +379,27 @@ extern u32 func_021BE078(void *p);
 extern u32 func_021BE0A4(void *p);
 extern void func_020061E4(unsigned int);
 extern int func_021BE100(void);
-extern int func_02085D3C();
+extern int OS_IsRunOnTwl();
 extern void func_021B69D0(void *p);
 extern void func_021B69D8(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_021BE0D8(void *p);
-extern void *func_0203D7C8(u32 heap, u32 size, const char *file, u16 line);
+extern void *GFL_NET_AllocAligned(u32 heap, u32 size, const char *file, u16 line);
 extern unsigned long func_021C1A80(unsigned long width, unsigned long height, unsigned long sampling, unsigned long option);
 extern u32 func_021BE004(void *p);
 extern u8 *func_02012944(void *p);
 extern void func_02008494(void *src, void *dst);
-extern void func_0203E5F8(int a0, int a1);
-extern void func_0203E6C0(void);
+extern void GFL_NET_LOWER_DATA_Init(int a0, int a1);
+extern void GFL_NET_LOWER_DATA_Exit(void);
 extern u32 func_020307B0(void *p);
-extern void func_0203D7FC(void *);
+extern void GFL_NET_FreeAligned(void *);
 extern u16 func_021BE00C(u16 *p);
-extern void func_0203D644(int a);
+extern void GFL_NET_SetWaitMode(int a);
 extern int func_0203CD98(void);
 extern void func_0203D010(void);
 extern void func_0203D01C(void);
 extern void func_02179328(void *v);
-extern void func_0203CFF0(void *p);
+extern void GFL_NET_ConnectMacAddressParent(void *p);
 extern int func_02039ACC(void);
 extern struct Entry *func_020399A8(void);
 extern u32 func_020399B8(u8 *p);
@@ -414,8 +414,8 @@ extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern void func_0203D7BC(u8 a0);
 extern u32 func_0203D1A4(struct Link *p);
 extern int func_0203D1B4(void);
-extern int func_0203EA54(void);
-extern void func_0203E758(int, int, int, int);
+extern int GFL_NET_LOWER_DATA_IsSendFinished(void);
+extern void GFL_NET_LOWER_DATA_SetSendData(int, int, int, int);
 extern void func_02082A90(const void *, void *, u32);
 extern unsigned long func_021C2B74(void *src, unsigned char *dst, int limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option);
 extern u32 func_021BDFDC(void *);
@@ -425,17 +425,17 @@ extern u32 func_021BE0F8(void *);
 extern void func_021BE0FC(void *, u32);
 extern u32 func_021BE0AC(void *);
 extern u32 func_021B77B8(void *, u32);
-extern void func_02179650(u16 v);
+extern void WIH_SetScanWaitFrames(u16 v);
 extern u32 func_0203D1C0(u32 index);
-extern void func_0203E808(u32 a, int b, u32 c, u32 d);
-extern void func_0203E8C8(int a);
+extern void GFL_NET_LOWER_DATA_CreatePostWork(u32 a, int b, u32 c, u32 d);
+extern void GFL_NET_LOWER_DATA_DeletePostWork(int a);
 extern void func_021BE058(void *p, u32 v);
 extern void func_021BE0A8(void *p, u32 v);
 extern void func_021BE2F0(u32 *p, void *q);
-extern int func_0203EA70(unsigned int idx);
+extern int GFL_NET_LOWER_DATA_IsPostComplete(unsigned int idx);
 extern void func_021B7724(void *a, char *b, int c);
-extern int func_0203E96C(unsigned int idx);
-extern int func_0203E9DC(unsigned int idx);
+extern int GFL_NET_LOWER_DATA_GetPostBuffer(unsigned int idx);
+extern int GFL_NET_LOWER_DATA_GetPostRecvSize(unsigned int idx);
 extern int func_021BFFC4(unsigned char *data, unsigned long size, void *dst,
                          short *width, short *height, unsigned long option);
 extern void func_021B7714(void *a, char *b, int c);
@@ -454,9 +454,9 @@ extern void func_02082A7C();
 extern void func_021B69F0(void);
 extern int func_021BA194(int unused, int a, void *buf, unsigned n);
 extern void func_021B6E88(char *p, void *q);
-extern struct Entry *sub_020399A8(void);
-extern void sub_02039C68(struct Link *a, u32 b, u32 c);
-extern u32 sub_02039CB4(struct Link *a, u32 b, u32 c);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, u32 b, u32 c);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, u32 b, u32 c);
 extern void func_02082A60(const void *, void *, u32);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -511,9 +511,9 @@ extern int func_02035C08(const void *);
 extern void func_020355D8(u8 v);
 extern void func_021B69E0(void);
 extern int func_021BA174(int unused, void *a, void *buf, unsigned n);
-extern int func_02035BA4(const void *);
+extern int TOUCHPANEL_HitCont(const void *);
 extern void func_0200616C(void *, int);
-extern void func_02006268(int i, u32 a, u32 b, u32 c);
+extern void GFL_USE_SetSeSlotParams(int i, u32 a, u32 b, u32 c);
 extern int func_0209BDBC(int a);
 extern int func_0209C95C(int a, int b);
 extern int func_0209CB8C(int a, int b);
@@ -534,7 +534,7 @@ extern u32 func_021BE0D0(void *p);
 extern int func_0209C0A4(int a, u16 b);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void func_0208B24C(void);
 extern void func_0208B8B0(void);
 extern u32 func_0208BEF0(u32);
@@ -544,7 +544,7 @@ extern int func_02005654(int, int);
 extern void func_0200566C(void);
 extern void func_021BA1D8(void *p);
 extern void *func_0208B4B8(void);
-extern int func_02072CC4(struct O *);
+extern int NNS_SndWaveOutIsPlaying(struct O *);
 extern void func_021BA1E4(void *);
 extern MICResult func_0208B500(MICAutoParam *);
 extern int func_0208B528(void);
@@ -901,7 +901,7 @@ void func_021B7B3C(int x, int y, int z)
     if (r != 1) {
         return;
     }
-    r = func_02085D3C(r);
+    r = OS_IsRunOnTwl(r);
     if (r != 1) {
         return;
     }
@@ -984,11 +984,11 @@ char *func_021B7BA8(void *p, u16 heap)
         func_021B8614((int)p, (int)q, q + 0x64 + i * 0x40);
     for (i = 0; i < 3; i++) {
         if (func_021BE0D8(p) == 0 || i == 0)
-            *(void **)(q + 0x164 + i * 4) = func_0203D7C8(heap, 3 << 14, d_021C71F4, 0x107);
+            *(void **)(q + 0x164 + i * 4) = GFL_NET_AllocAligned(heap, 3 << 14, d_021C71F4, 0x107);
     }
-    ((struct Obj00386 *)q)->f188 = func_0203D7C8(heap, func_021C1A80(0x80, 0xc0, 1, 4), d_021C71F4, 0x10c);
-    ((struct Obj00386 *)q)->f18C = func_0203D7C8(heap, 0xc000, d_021C71F4, 0x10e);
-    ((struct Obj00386 *)q)->f190 = func_0203D7C8(heap, 0xc000, d_021C71F4, 0x10f);
+    ((struct Obj00386 *)q)->f188 = GFL_NET_AllocAligned(heap, func_021C1A80(0x80, 0xc0, 1, 4), d_021C71F4, 0x10c);
+    ((struct Obj00386 *)q)->f18C = GFL_NET_AllocAligned(heap, 0xc000, d_021C71F4, 0x10e);
+    ((struct Obj00386 *)q)->f190 = GFL_NET_AllocAligned(heap, 0xc000, d_021C71F4, 0x10f);
     ((struct Obj00386 *)q)->f170 = 0;
     ((struct Obj00386 *)q)->f182 = 0;
     ((struct Obj00386 *)q)->f184 = 0;
@@ -1019,7 +1019,7 @@ char *func_021B7BA8(void *p, u16 heap)
     func_02008494(func_02012944((void *)(*((u32 *)func_021BE004(p)))), q + 0x40);
     ((struct Obj00386 *)q)->f60 = func_021BE100();
     ((struct Obj00386 *)q)->f0 = 1;
-    func_0203E5F8(heap, 0);
+    GFL_NET_LOWER_DATA_Init(heap, 0);
     return q;
 }
 
@@ -1035,15 +1035,15 @@ char *func_021B7BA8(void *p, u16 heap)
 void func_021B7DCC(void *p, char *q)
 {
     u8 i;
-    func_0203E6C0();
+    GFL_NET_LOWER_DATA_Exit();
     func_020307B0(((struct Obj06559 *)q)->f1A8);
     func_020307B0(((struct Obj06559 *)q)->f1A4);
-    func_0203D7FC(((struct Obj06559 *)q)->f18C);
-    func_0203D7FC(((struct Obj06559 *)q)->f190);
-    func_0203D7FC(((struct Obj06559 *)q)->f188);
+    GFL_NET_FreeAligned(((struct Obj06559 *)q)->f18C);
+    GFL_NET_FreeAligned(((struct Obj06559 *)q)->f190);
+    GFL_NET_FreeAligned(((struct Obj06559 *)q)->f188);
     for (i = 0; i < 3; i++) {
         if (func_021BE0D8(p) == 0 || i == 0)
-            func_0203D7FC(*(void **)(q + i * 4 + 0x164));
+            GFL_NET_FreeAligned(*(void **)(q + i * 4 + 0x164));
     }
     func_020307B0(q);
 }
@@ -1068,7 +1068,7 @@ void func_021B7E34(void *p, char *q)
         if (((struct Obj00289 *)q)->f178 == 0)
             break;
         if (((struct Obj00289 *)q)->f178 == 5) {
-            func_0203D644(0);
+            GFL_NET_SetWaitMode(0);
             ((struct Obj00289 *)q)->f8 = 5;
             ((struct Obj00289 *)q)->f174 = ((struct Obj00289 *)q)->f178;
         } else {
@@ -1095,7 +1095,7 @@ void func_021B7E34(void *p, char *q)
         case 4:
             if (((struct Obj00289 *)q)->f174 == 2)
                 func_021B8614((int)p, (int)q, q + 0x64);
-            func_0203CFF0(q + 0x17c);
+            GFL_NET_ConnectMacAddressParent(q + 0x17c);
             ((struct Obj00289 *)q)->f8 = 3;
             break;
         }
@@ -1418,7 +1418,7 @@ void func_021B8154(void *a, char *b)
     for (i = 0; i < 4; i++) func_021B8628(a, (int)b, (int *)(b + 0x64 + i * 0x40), i);
     if (B(4) > 1) {
         if (W(0x184) == 1) {
-            if (func_0203EA54() == 1) W(0x184) = 0;
+            if (GFL_NET_LOWER_DATA_IsSendFinished() == 1) W(0x184) = 0;
         } else {
             u8 c1 = B(0x182);
             u8 c2 = B(0x183);
@@ -1434,7 +1434,7 @@ void func_021B8154(void *a, char *b)
                         s24 = func_021B77E8(a, r7);
                         res = func_021C2B74((void *)W(0x18c), (unsigned char *)W(0x190), s1c, (unsigned char *)W(0x188), s20, s24, 0x46, 1, 4);
                         if (res != 0) {
-                            func_0203E758(W(0x190), res, B(0x182), 0);
+                            GFL_NET_LOWER_DATA_SetSendData(W(0x190), res, B(0x182), 0);
                             B(0x183) = 0;
                             W(0x184) = 1;
                         }
@@ -1500,16 +1500,16 @@ void func_021B8154(void *a, char *b)
 
 /*
  * note (2026-10-05, wD4 lane17): still MATCH, only the ov014 leaf 02179650 (pengy range, no label) is unresolved.
- * note 2026-10-04 wD2 lane01: still MATCH. Symbols line already has `thumb ov014`; match.py still says no witness (ov009/ov014 overlap, 021797A8-area leaf func_02179650 unlabelled in pengy's ov014). Needs a matched/labelled leaf at 0x02179650 in ov014 (pengy range, not touched).
+ * note 2026-10-04 wD2 lane01: still MATCH. Symbols line already has `thumb ov014`; match.py still says no witness (ov009/ov014 overlap, 021797A8-area leaf WIH_SetScanWaitFrames unlabelled in pengy's ov014). Needs a matched/labelled leaf at 0x02179650 in ov014 (pengy range, not touched).
  * note 2026-10-02: byte-correct. Only open relocation: the tail-call target 0x02179650 (pool word 0x02179651)
  *   is an unlabelled thumb leaf in ov014 ("ldr r1, =g_021797A8; ldr r2, [r1]; ldr r1, =0x1EC2; strh r0, [r2, r1]; bx lr").
  *   ov014 is outside this lane (pengy range); seeding 0x02179650 there closes this one.
- * note 2026-10-05 (wD8 lane06): re-run, still MATCH. Only blocker: func_02179650, an unlabelled Thumb leaf in ov014
+ * note 2026-10-05 (wD8 lane06): re-run, still MATCH. Only blocker: WIH_SetScanWaitFrames, an unlabelled Thumb leaf in ov014
  *   (pengy's overlay, not same-overlay, so the witness exception does not apply). Seeding that label closes this.
  */
 void func_021B8448(void *p, char *q)
 {
-    func_02179650(5);
+    WIH_SetScanWaitFrames(5);
 }
 
 
@@ -1553,7 +1553,7 @@ void func_021B8454(void *a, char *q)
                     for (j = 0; j < 3; j++) {
                         u32 m = 1 << j;
                         if (!(m & *(u8 *)(q + 0x170))) {
-                            func_0203E808(0xC000, i, w, *(u32 *)(q + j * 4 + 0x164));
+                            GFL_NET_LOWER_DATA_CreatePostWork(0xC000, i, w, *(u32 *)(q + j * 4 + 0x164));
                             *(u8 *)(q + 0x170) |= (u8)m;
                             *(u8 *)(e + 0x78) = j;
                             break;
@@ -1572,7 +1572,7 @@ void func_021B8454(void *a, char *q)
             if (*(u32 *)(e2 + 0x64) == 1) {
                 *(u32 *)(e2 + 0x64) = 0;
                 if (*(u32 *)(e2 + 0x70) == 0) {
-                    func_0203E8C8(i);
+                    GFL_NET_LOWER_DATA_DeletePostWork(i);
                     *(u8 *)(q + 0x170) -= (u8)(1 << *(u8 *)(e2 + 0x78));
                 }
                 if (*(u8 *)(q + 0x3AE) == i)
@@ -1680,18 +1680,18 @@ void func_021B8628(void *a, int b, int *t, int c)
                 t[6] = 2;
             break;
         case 2:
-            if (func_0203EA70(c) == 0) {
+            if (GFL_NET_LOWER_DATA_IsPostComplete(c) == 0) {
                 func_021B7724(a, r, c);
                 t[6] = 3;
             }
             break;
         case 3:
-            if (func_0203EA70(c) == 1) {
+            if (GFL_NET_LOWER_DATA_IsPostComplete(c) == 1) {
                 x = func_021B7830(a, r, c);
                 dims[1] = func_021B77B8(a, (u32)r);
                 dims[0] = func_021B77E8(a, (u32)r);
-                data = func_0203E96C(c);
-                func_021BFFC4((unsigned char *)data, func_0203E9DC(c), (void *)x, &dims[1], &dims[0], 0);
+                data = GFL_NET_LOWER_DATA_GetPostBuffer(c);
+                func_021BFFC4((unsigned char *)data, GFL_NET_LOWER_DATA_GetPostRecvSize(c), (void *)x, &dims[1], &dims[0], 0);
                 func_021B7714(a, r, c);
                 t[6] = 1;
             }
@@ -2007,7 +2007,7 @@ char *func_021B8B20(int i, char *q)
  */
 void func_021B8B34(void *p, u32 a, u32 b)
 {
-    sub_02039C68((struct Link *)sub_020399A8(), b, 0x20);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), b, 0x20);
 }
 
 
@@ -2018,7 +2018,7 @@ void func_021B8B34(void *p, u32 a, u32 b)
 
 int func_021B8B48(void *p, u32 a, u32 b)
 {
-    return sub_02039CB4((struct Link *)sub_020399A8(), b, 0x20);
+    return GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), b, 0x20);
 }
 
 
@@ -2029,7 +2029,7 @@ int func_021B8B48(void *p, u32 a, u32 b)
 
 u32 func_021B8B5C(void *unused, u32 unused2)
 {
-    return func_0203D1A4((struct Link *)((u32)sub_020399A8()));
+    return func_0203D1A4((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()));
 }
 
 
@@ -2861,7 +2861,7 @@ void func_021B99B4(void *a0, char *a1)
 void func_021B99F4(void *unused, u8 *q)
 {
     u32 a = func_02035C08(d_021C6F8F);
-    u32 b = func_02035BA4(d_021C6F8F);
+    u32 b = TOUCHPANEL_HitCont(d_021C6F8F);
     int flag = -1;
     int changed = 0;
     if (a != -1) {
@@ -2895,7 +2895,7 @@ void func_021B99F4(void *unused, u8 *q)
         int angle;
         angle = (q[13] - 4) * 64;
         func_0200616C((void *)1644, 1);
-        func_02006268(1, -1, angle, -1);
+        GFL_USE_SetSeSlotParams(1, -1, angle, -1);
     }
 }
 
@@ -3168,7 +3168,7 @@ int func_021B9F4C(int a, int b, int mode)
     u32 x, y;
     int dx, dy, d;
     if (mode == 0) func_02035D20(&x, &y);
-    else func_02035CB8(&x, &y);
+    else TOUCHPANEL_GetPointCont(&x, &y);
     if (y >= 104) {
         dx = 128 - x;
         dy = 104 - y;
@@ -3195,9 +3195,9 @@ void *func_021B9F9C(u32 heap)
     func_0208B8B0();
     func_0208BEF0(1);
     func_0208BF54(80);
-    if (func_02085D3C() == 1) SNDEXi_SetIirFilter(0, (void *)d_021C720C);
+    if (OS_IsRunOnTwl() == 1) SNDEXi_SetIirFilter(0, (void *)d_021C720C);
     func_021BA1B4((char *)p, heap);
-    p[1] = (u32)func_0203D7C8(heap, 51200, d_021C7218, 134);
+    p[1] = (u32)GFL_NET_AllocAligned(heap, 51200, d_021C7218, 134);
     p[0] = 0;
     p[2] = 0;
     *((u8 *)p + 16) = 0;
@@ -3216,7 +3216,7 @@ void func_021BA01C(char *p)
     func_021BA120((u32 *)p);
     func_021BA1D8(p);
     func_0208BEF0(0);
-    func_0203D7FC(((struct Obj04554 *)p)->f4);
+    GFL_NET_FreeAligned(((struct Obj04554 *)p)->f4);
     func_020307B0(p);
 }
 
@@ -3233,7 +3233,7 @@ void func_021BA050(u32 *p)
         }
     }
     if (p[3] == 1) {
-        if (func_02072CC4((struct O *)p[8]) == 0) p[3] = 0;
+        if (NNS_SndWaveOutIsPlaying((struct O *)p[8]) == 0) p[3] = 0;
     }
     func_021BA1E4(p);
 }

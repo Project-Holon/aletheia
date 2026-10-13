@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void sub_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void func_021F4224(u8 *p, u32 idx)
 {
     u16 v = *(u16 *)(p + idx * 2 + 8);
 
     if (v != 0xffff) {
-        sub_020061E4(v);
+        GFL_USE_PlaySeDefaultVolume(v);
     }
 }

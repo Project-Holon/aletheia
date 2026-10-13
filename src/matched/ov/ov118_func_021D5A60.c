@@ -19,7 +19,7 @@
  *   func_021E3208  0x021E3208  thumb
  *   func_021D8FA4  0x021D8FA4  thumb
  *   func_021E36C8  0x021E36C8  thumb  ov119
- *   func_02015EA0  0x02015EA0  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
  *   func_021E2F34  0x021E2F34  thumb
  *   func_021E2D70  0x021E2D70  thumb
  *   func_021E2FB0  0x021E2FB0  thumb ov119
@@ -48,7 +48,7 @@ extern void func_021E5284(void *p, int a);
 extern void func_021E3208(void *p, int a);
 extern void *func_021D8FA4(void *, int);
 extern void func_021E36C8(void *p, int a, int b, void *mon, int c);
-extern void func_02015EA0(void *p);
+extern void MCSS_SetVanishFlag(void *p);
 extern void func_021E2F34(void *w);
 extern void func_021E2D70(void *w, int a);
 extern void func_021E2FB0(char *p);
@@ -78,10 +78,10 @@ void func_021D5A60(u8 *p)
     func_021E36C8(p, 1, 0, func_021D8FA4(p, 1), 1);
     func_021E36C8(p, 2, 0, func_021D8FA4(p, 0), 1);
     func_021E36C8(p, 3, 1, func_021D8FA4(p, 1), 1);
-    func_02015EA0((void *)OBJ(0));
-    func_02015EA0((void *)OBJ(1));
-    func_02015EA0((void *)OBJ(2));
-    func_02015EA0((void *)OBJ(3));
+    MCSS_SetVanishFlag((void *)OBJ(0));
+    MCSS_SetVanishFlag((void *)OBJ(1));
+    MCSS_SetVanishFlag((void *)OBJ(2));
+    MCSS_SetVanishFlag((void *)OBJ(3));
     func_021E2F34(WORK);
     func_021E2D70(WORK, 3);
     func_021E2FB0((char *)WORK);

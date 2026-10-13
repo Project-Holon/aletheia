@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020399EC  0x020399EC  arm
+ *   GFL_NET_HANDLE_GetNegotiationNum  0x020399EC  arm
  */
 
-extern int func_020399EC(void);
+extern int GFL_NET_HANDLE_GetNegotiationNum(void);
 
 int func_0203D1B4(void)
 {
-    return func_020399EC();
+    return GFL_NET_HANDLE_GetNegotiationNum();
 }

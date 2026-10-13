@@ -1,5 +1,5 @@
 /*
- * function: func_0204E410
+ * function: TEXTPRINT_AsciiToGlyphCode
  * address:  0x0204E410
  * packet:   pkt_0204E410
  * region:   arm9
@@ -13,9 +13,9 @@
  * `match.py one` prints MATCH only because the two pool words it needs are
  * attesting nothing outside this range:
  *
- *   +00A4 ABS32 g_020A1480 -> unresolved: 020A1480 (data) has no witness
+ *   +00A4 ABS32 g_TextPrintSymbolKeys -> unresolved: 020A1480 (data) has no witness
  *          outside 0204E410..0204E4C0
- *   +00A8 ABS32 g_020A1482 -> unresolved: 020A1482 (data) has no witness
+ *   +00A8 ABS32 g_TextPrintSymbolGlyphs -> unresolved: 020A1482 (data) has no witness
  *          outside 0204E410..0204E4C0
  *
  * Blocking class: literal (own-pool-only data).  0x020A1480 holds sixteen
@@ -30,7 +30,7 @@
  * local *inside* the loop body
  *
  *     u32 off = i << 2;
- *     if (c == g_020A1480[i * 4]) return *(u16 *)((u8 *)g_020A1482 + off);
+ *     if (c == g_TextPrintSymbolKeys[i * 4]) return *(u16 *)((u8 *)g_TextPrintSymbolGlyphs + off);
  *
  * With the offset written inline at both sites the loop counter is coloured
  * into r3, which forces the byte offset to be re-derived inside the equal
@@ -39,18 +39,18 @@
  * took the residue from 25 bytes to 0.
  *
  * symbols:
- *   g_020A1480  0x020A1480  data
- *   g_020A1482  0x020A1482  data
+ *   g_TextPrintSymbolKeys  0x020A1480  data
+ *   g_TextPrintSymbolGlyphs  0x020A1482  data
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 g_020A1480[];
-extern u16 g_020A1482[];
+extern u8 g_TextPrintSymbolKeys[];
+extern u16 g_TextPrintSymbolGlyphs[];
 
-u16 func_0204E410(u8 c)
+u16 TEXTPRINT_AsciiToGlyphCode(u8 c)
 {
     u32 i;
 
@@ -65,8 +65,8 @@ u16 func_0204E410(u8 c)
     for (i = 0; i < 0x10; i++) {
         u32 off = i << 2;
 
-        if (c == g_020A1480[i * 4])
-            return *(u16 *)((u8 *)g_020A1482 + off);
+        if (c == g_TextPrintSymbolKeys[i * 4])
+            return *(u16 *)((u8 *)g_TextPrintSymbolGlyphs + off);
     }
     return 0x101;
 }

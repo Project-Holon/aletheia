@@ -53,7 +53,7 @@ typedef struct GT2ConnectionCallbacks {
 } GT2ConnectionCallbacks;
 
 /* shared callees, named by address */
-extern GSUdpEngineObject *func_02180404(void);
+extern GSUdpEngineObject *gsUdpEngineContext(void);
 extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
 extern void ArrayFree(void *array);
 extern int func_02184200(void *array);

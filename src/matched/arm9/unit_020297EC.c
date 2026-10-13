@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_020297EC, func_02029830
+ * function: FIELD_SOUND_SYSTEM_PushAndPlayTask, func_02029830
  *
  * One of the (task body, task spawner) pairs that make up the tail of
  * field_sound_system.c.  The body issues a command 3 with a literal 6 and a command 7 in the same
@@ -25,7 +25,8 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_02012A30  0x02012A30  thumb
- *   func_020289F8  0x020289F8  thumb
+ *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
+ *   FIELD_SOUND_SYSTEM_GetQueueDepth  0x020288C4  thumb
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_020297EC.c  *       --addr 0x020297EC --thumb
@@ -49,8 +50,8 @@ struct Ctx;
 struct Desc;
 struct Obj;
 struct Sys;
-extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
-extern s32 func_020288C4(struct Sys *s);
+extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
+extern s32 FIELD_SOUND_SYSTEM_GetQueueDepth(struct Sys *s);
 extern u32 func_020289B8(struct Sys *s);
 
 extern void *func_020120F4(const struct Ctx *p);
@@ -59,14 +60,14 @@ extern void *func_020124E8(struct Obj *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
 
-u32 func_020297EC(void *task, u32 *state, struct Work *work)
+u32 FIELD_SOUND_SYSTEM_PushAndPlayTask(void *task, u32 *state, struct Work *work)
 {
     void *sys = work->unk04;
 
     switch (*state) {
     case 0:
-        func_020289F8(sys, 3, 0, 6, 0);
-        func_020289F8(sys, 7, work->unk08, 0, 0);
+        FIELD_SOUND_SYSTEM_PostRequest(sys, 3, 0, 6, 0);
+        FIELD_SOUND_SYSTEM_PostRequest(sys, 7, work->unk08, 0, 0);
         (*state)++;
         break;
     case 1:
@@ -78,7 +79,7 @@ u32 func_020297EC(void *task, u32 *state, struct Work *work)
 void *func_02029830(void *a, u32 b)
 {
     void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_020297EC, 0x10);
+    void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_PushAndPlayTask, 0x10);
     struct Work *work = func_020124E8(task);
 
     work->unk04 = (void *)func_02012A30(x);

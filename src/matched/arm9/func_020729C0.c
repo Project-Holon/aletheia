@@ -15,7 +15,7 @@
  * Channel allocator, allocate-by-index over the 8-bit bitmap at g_0214DEC0+4.
  * Walks i = 0..7 with a running bit that starts at 1 and doubles, sets and
  * returns the first free index, returns -1 (`mvn r0,#0`) when all eight are
- * taken.  Matched src/matched/func_02072A08.c is the matching free.
+ * taken.  Matched src/matched/NNS_SndWaveOutFreeChannel.c is the matching free.
  *
  * Two levers, both visible in the image:
  *   - the loop bound is a LITERAL 8 (`cmp r0,#8` / `blt`), signed, not a

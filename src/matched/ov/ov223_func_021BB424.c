@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02028218 0x02028218 thumb
- *   func_0202822C 0x0202822C thumb
- *   func_02028230 0x02028230 thumb
+ *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
+ *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
+ *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  */
 #include "../include/Obj00084.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Obj;extern void func_02028218(struct Obj *,u32);extern void func_0202822C(char *,int);
-void func_021BB424(char *p) {u32 off;off=0x260;func_02028218(*(struct Obj **)(p+off),1);func_0202822C(*(char **)(p+off),1);}
-extern u32 func_02028230(u8 *);
-u32 func_021BB440(char *p) {return func_02028230(*(u8 * *)&((struct Obj00084 *)p)->f260);}
+struct Obj;extern void APP_TASKMENU_WIN_SetActive(struct Obj *,u32);extern void APP_TASKMENU_WIN_SetDecide(char *,int);
+void func_021BB424(char *p) {u32 off;off=0x260;APP_TASKMENU_WIN_SetActive(*(struct Obj **)(p+off),1);APP_TASKMENU_WIN_SetDecide(*(char **)(p+off),1);}
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *);
+u32 func_021BB440(char *p) {return APP_TASKMENU_WIN_IsFinish(*(u8 * *)&((struct Obj00084 *)p)->f260);}

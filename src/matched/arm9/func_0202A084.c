@@ -1,5 +1,5 @@
 /*
- * function: func_0202A084
+ * function: RINGTONE_SYS_PostEvent
  * address:  0x0202A084
  * packet:   pkt_0202A084
  * region:   arm9
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   tbl_0209FED4   0x0209FED4  data  a1
+ *   sRingtoneTransitions   0x0209FED4  data  a1
  *   func_02072788  0x02072788  arm
- *   func_0202A02C  0x0202A02C  thumb
- *   func_0202A01C  0x0202A01C  thumb
- *   func_02029FF8  0x02029FF8  thumb
+ *   RINGTONE_SYS_SetBgmMuted  0x0202A02C  thumb
+ *   RINGTONE_SYS_StopRing  0x0202A01C  thumb
+ *   RINGTONE_SYS_StartRing  0x02029FF8  thumb
  *
  * ringtone_sys.c: the ringtone state machine.  The next state is a byte of
  * the 4-column transition table at 0x0209FED4, tbl[state][event]; a plain
@@ -27,36 +27,36 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern const u8 tbl_0209FED4[][4];
+extern const u8 sRingtoneTransitions[][4];
 extern void func_02072788(int vol);
-extern int func_0202A02C(int a0, int a1);
-extern int func_0202A01C(int a0);
+extern int RINGTONE_SYS_SetBgmMuted(int a0, int a1);
+extern int RINGTONE_SYS_StopRing(int a0);
 typedef unsigned short u16;
-extern void func_02029FF8(u16 *p);
+extern void RINGTONE_SYS_StartRing(u16 *p);
 
-void func_0202A084(u32 *p, int event)
+void RINGTONE_SYS_PostEvent(u32 *p, int event)
 {
-    u8 v = tbl_0209FED4[*p][event];
+    u8 v = sRingtoneTransitions[*p][event];
 
     switch (v) {
     case 0:
         func_02072788(0x7f);
-        func_0202A02C((int)p, 0);
-        func_0202A01C((int)p);
+        RINGTONE_SYS_SetBgmMuted((int)p, 0);
+        RINGTONE_SYS_StopRing((int)p);
         break;
     case 1:
         func_02072788(0x7f);
-        func_0202A02C((int)p, 1);
-        func_02029FF8((u16 *)p);
+        RINGTONE_SYS_SetBgmMuted((int)p, 1);
+        RINGTONE_SYS_StartRing((u16 *)p);
         break;
     case 2:
         func_02072788(0);
-        func_0202A01C((int)p);
+        RINGTONE_SYS_StopRing((int)p);
         break;
     case 3:
         func_02072788(0x7f);
-        func_0202A02C((int)p, 1);
-        func_02029FF8((u16 *)p);
+        RINGTONE_SYS_SetBgmMuted((int)p, 1);
+        RINGTONE_SYS_StartRing((u16 *)p);
         break;
     }
     *p = v;

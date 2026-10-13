@@ -11,6 +11,7 @@
  *
  * symbols:
  *   func_021BF6B0 0x021BF6B0 arm
+ *   DWCi_TSKlSetParam  0x021D771C  arm
  *
  * Feed the two words at +0x58 and +0x5c of the object behind 0x021DE560 to the library.
  * Addresses are Black-image addresses.
@@ -18,10 +19,10 @@
 
 typedef unsigned char  u8;
 extern void func_021D4F60(u8 *p);
-extern void func_021D771C(char *p, unsigned int v);
+extern void DWCi_TSKlSetParam(char *p, unsigned int v);
 
 void func_021BF6B0(void)
 {
     func_021D4F60((u8 *)(*(int *)(*(char **)0x021DE560 + 0x58)));
-    func_021D771C((char *)(*(int *)(*(char **)0x021DE560 + 0x5c)), (unsigned int)((void *)0x021C0528));
+    DWCi_TSKlSetParam((char *)(*(int *)(*(char **)0x021DE560 + 0x5c)), (unsigned int)((void *)0x021C0528));
 }

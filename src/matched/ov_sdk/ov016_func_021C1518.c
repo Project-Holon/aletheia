@@ -14,18 +14,18 @@
  * symbols:
  *   func_021BC7F0  0x021BC7F0  thumb  ov016
  *   OS_Terminate  0x02088234  arm
- *   g_021DE594  0x021DE594  data
+ *   gRakuStatus  0x021DE594  data
  */
 
 extern int func_021BC7F0(int a);
 extern void OS_Terminate(void);
-extern int *g_021DE594;
+extern int *gRakuStatus;
 
 int func_021C1518(void)
 {
 	int prm[0x3a];
 
-	switch (*g_021DE594) {
+	switch (*gRakuStatus) {
 	case 0:
 	case 1:
 	case 3:

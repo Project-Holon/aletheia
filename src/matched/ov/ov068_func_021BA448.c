@@ -94,13 +94,13 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_020355C4  0x020355C4  arm
  *   func_020355D8  0x020355D8  arm
- *   func_02028218  0x02028218  thumb
- *   func_0202822C  0x0202822C  thumb
+ *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb
+ *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
  *   func_021B63D0  0x021B63D0  thumb  ov067
  *   func_021B6470  0x021B6470  thumb  ov067
  *   func_021B6448  0x021B6448  thumb  ov067
  *   func_021B65A8  0x021B65A8  thumb  ov067
- *   func_02012BE0  0x02012BE0  thumb
+ *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   d_021BB550     0x021BB550  data  a4
  *   func_020061E4_2  0x020061E4  thumb
  *   d_021BB560     0x021BB560  data  ov068  a4
@@ -134,13 +134,13 @@ extern void func_020061E4(u32 a);
 extern void func_020061E4_2(int id);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
-extern void func_02028218(struct Obj *obj, u32 a);
-extern void func_0202822C(char *p, int v);
+extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void func_021B63D0(struct S *p);
 extern int func_021B6470(u8 *p);
 extern int func_021B6448(u8 *p);
 extern int func_021B65A8(unsigned char *p, int id);
-extern void func_02012BE0(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
 void func_021BA448(W *p, void *obj, void *arg)
 {
@@ -227,15 +227,15 @@ void func_021BA448(W *p, void *obj, void *arg)
     }
     if (flag) {
         if (p->fC == 3) {
-            func_02028218((struct Obj *)p->f34[0], 0);
-            func_02028218((struct Obj *)p->f34[1], 0);
+            APP_TASKMENU_WIN_SetActive((struct Obj *)p->f34[0], 0);
+            APP_TASKMENU_WIN_SetActive((struct Obj *)p->f34[1], 0);
         } else if (p->f10 != 0) {
-            func_02028218((struct Obj *)p->f34[p->fC], 0);
-            func_0202822C((char *)p->f34[p->fC], 1);
-            func_02028218((struct Obj *)p->f34[p->fC ^ 1], 0);
+            APP_TASKMENU_WIN_SetActive((struct Obj *)p->f34[p->fC], 0);
+            APP_TASKMENU_WIN_SetDecide((char *)p->f34[p->fC], 1);
+            APP_TASKMENU_WIN_SetActive((struct Obj *)p->f34[p->fC ^ 1], 0);
         } else {
-            func_02028218((struct Obj *)p->f34[p->fC], 1);
-            func_02028218((struct Obj *)p->f34[p->fC ^ 1], 0);
+            APP_TASKMENU_WIN_SetActive((struct Obj *)p->f34[p->fC], 1);
+            APP_TASKMENU_WIN_SetActive((struct Obj *)p->f34[p->fC ^ 1], 0);
         }
     }
     if (p->f10 == 0) {
@@ -252,9 +252,9 @@ void func_021BA448(W *p, void *obj, void *arg)
         if (r != 0) {
             if (r == 6) {
                 if (func_021B65A8((unsigned char *)p->f8, 6))
-                    func_02012BE0((void *)p->f3C, 0x18, 1);
+                    GAME_DATA_SetSaveFlag((void *)p->f3C, 0x18, 1);
                 else
-                    func_02012BE0((void *)p->f3C, 0x18, 0);
+                    GAME_DATA_SetSaveFlag((void *)p->f3C, 0x18, 0);
                 p->fC = 3;
             }
         } else {

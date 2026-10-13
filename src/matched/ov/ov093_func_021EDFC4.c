@@ -11,6 +11,7 @@
  * symbols:
  *   func_020437D4 0x020437D4 arm
  *   func_02040B1C 0x02040B1C arm
+ *   GFL_USE_IsSeqPlaying  0x02006254  thumb  arm9
  */
 #include "../include/Obj00623.h"
 typedef unsigned char u8;
@@ -20,7 +21,7 @@ struct Bmp;
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_020061E4(u32 a);
-extern int func_02006254(u32 a);
+extern int GFL_USE_IsSeqPlaying(u32 a);
 static inline void G2_BG2Mosaic(int enable)
 {
     if (enable) *(volatile u16 *)0x0400000c |= 0x40;
@@ -74,7 +75,7 @@ int func_021EDFC4(u8 *p)
         p[0xd]++;
         break;
     case 5:
-        if (func_02006254(0x54e) == 0) p[0xd]++;
+        if (GFL_USE_IsSeqPlaying(0x54e) == 0) p[0xd]++;
         break;
     default:
         return 1;

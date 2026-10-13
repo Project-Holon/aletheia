@@ -8,13 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
  */
 
 extern int func_0200F300(void);
-extern void func_02005DE4(void *p);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
 
 void func_02208D24(int a)
 {
     if (func_0200F300() != 1)
-        func_02005DE4((void *)a);
+        GFL_USE_SetBgmPlayerParam((void *)a);
 }

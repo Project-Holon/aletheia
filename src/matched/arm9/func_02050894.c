@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02050738   0x02050738  arm
+ *   BILLBOARD_ACT_UploadSlotPalette   0x02050738  arm
  *
  * PROMOTED from src/pending/func_02050894.c: it was parked at MATCH because
  * the only branch in the image to 0x02050738 is the one inside this function.
@@ -22,7 +22,7 @@
  * Moves one word between two parallel record arrays of the object: the index
  * is read out of the 40-byte record table at p+24, the value out of the
  * 8-byte-pair array at p+12, the value is stored back into the record the
- * index names, and the record is handed to func_02050738.
+ * index names, and the record is handed to BILLBOARD_ACT_UploadSlotPalette.
  *
  * The listing's extent runs 140 bytes because the follower at 0x020508C4 is an
  * unlabelled leaf accessor (no prologue that saves lr).
@@ -56,7 +56,7 @@ struct S40 {
     u32 f36;
 };
 
-extern u32 func_02050738(void *p, void *q);
+extern u32 BILLBOARD_ACT_UploadSlotPalette(void *p, void *q);
 
 int func_02050894(void *p, int idx, int j)
 {
@@ -66,5 +66,5 @@ int func_02050894(void *p, int idx, int j)
     u32 v = arr[j].w;
 
     arr[e].w = v;
-    return func_02050738(p, &arr[e]);
+    return BILLBOARD_ACT_UploadSlotPalette(p, &arr[e]);
 }

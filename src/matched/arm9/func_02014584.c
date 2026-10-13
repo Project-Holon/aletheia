@@ -1,5 +1,5 @@
 /*
- * function: func_02014584
+ * function: FIELD_STATUS_FieldOpenEvent
  * address:  0x02014584
  * packet:   pkt_02014584
  * region:   arm9
@@ -11,6 +11,8 @@
  *
  * symbols:
  *   func_02188BE8  0x02188BE8  thumb ov021
+ *   GAMESYSTEM_CallFieldProc  0x020120C0  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *
  * blocker:  020120C0 - unresolved (thumb, from name): no witness outside
  *           02014584..020145CA.  This is the chain class of the band brief:
@@ -36,27 +38,27 @@
  *     costs 36 bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02014584.c \
- *       --func func_02014584 --addr 0x02014584 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/FIELD_STATUS_FieldOpenEvent.c \
+ *       --func FIELD_STATUS_FieldOpenEvent --addr 0x02014584 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int   u32;
 struct Ctx;
 struct IcaAnime;
-extern u32 func_020120F0(const struct Ctx *p);
-extern void func_020120C0(struct IcaAnime *p);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
+extern void GAMESYSTEM_CallFieldProc(struct IcaAnime *p);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern int  func_02188BE8(void *v);
 
-int func_02014584(int a0, int *a1, int *a2)
+int FIELD_STATUS_FieldOpenEvent(int a0, int *a1, int *a2)
 {
     int v = *a2;
 
     switch (*a1) {
     case 0:
-        if (func_020120F0((const struct Ctx *)v) == 0) {
-            func_020120C0((struct IcaAnime *)v);
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)v) == 0) {
+            GAMESYSTEM_CallFieldProc((struct IcaAnime *)v);
             *a1 = *a1 + 1;
         }
         break;

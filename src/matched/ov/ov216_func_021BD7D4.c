@@ -10,7 +10,7 @@
  * lever: u8 direction puts the r3 home first; caller 021BD948 supplies ldrb direction in r3.
  * symbols:
  *   sub_020311B8 0x020311B8 arm
- *   sub_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_021BD854 0x021BD854 thumb ov216
  *   func_021BD13C 0x021BD13C thumb ov216
@@ -25,7 +25,7 @@ struct Tcbl;
 struct TcblNode;
 struct S02030FB4;
 extern struct TcblNode *sub_020311B8(struct Tcbl *, void (*)(struct TcblNode *, void *), u32, u32);
-extern void *sub_02031290(struct S02030FB4 *);
+extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void MI_CpuFill8(void *, int, int);
 extern void func_021BD854(struct TcblNode *, char *);
 extern void func_021BD13C(u8 *p, int a);
@@ -33,7 +33,7 @@ extern void func_021BD0E4(char *p, u8 index, u32 enable);
 void func_021BD7D4(char *owner, u8 index, int position, u8 direction, int *counter)
 {
     char *work;
-    work = sub_02031290((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj00051 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD854, 24, 0));
+    work = TCBL_GetWork((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj00051 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD854, 24, 0));
     MI_CpuFill8(work, 0, 24);
     *(char * *)&((struct Obj02553 *)work)->fC = owner + 0x15c + index * 128;
     ((struct Obj02553 *)work)->f0 = index;

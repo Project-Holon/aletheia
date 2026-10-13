@@ -1,5 +1,5 @@
 /*
- * function: func_02049C28
+ * function: ARC_UTIL_UploadPalette
  * address:  0x02049C28
  * packet:   pkt_02049C28
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A1364     0x020A1364  data
+ *   ARC_UTIL_gPaletteLoadFns     0x020A1364  data
  *   func_02062AD4  0x02062AD4  arm
  *   func_02062A98  0x02062A98  arm
  *   func_020862F0  0x020862F0  arm
@@ -59,7 +59,7 @@ struct Pltt {
 };
 
 typedef void (*LoadFn)(u32 data, u32 dest, u32 size);
-extern const LoadFn g_020A1364[];
+extern const LoadFn ARC_UTIL_gPaletteLoadFns[];
 
 typedef signed int     s32;
 struct NitroFileHeader;
@@ -76,7 +76,7 @@ extern void func_0207F6A8(void);
 extern void func_0207F754(void);
 extern u32 func_020307B0(void *p);
 
-void func_02049C28(void *file, u32 kind, u32 offset, u32 dest, u32 size)
+void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size)
 {
     struct Pltt *pltt;
     u16 *pmcp;
@@ -98,22 +98,22 @@ void func_02049C28(void *file, u32 kind, u32 offset, u32 dest, u32 size)
         switch (kind) {
         case 2:
             func_0207F308();
-            g_020A1364[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
             func_0207F428();
             break;
         case 6:
             func_0207F5B0();
-            g_020A1364[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
             func_0207F65C();
             break;
         case 3:
             func_0207F47C();
-            g_020A1364[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
             func_0207F560();
             break;
         case 7:
             func_0207F6A8();
-            g_020A1364[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
             func_0207F754();
             break;
         case 0:
@@ -121,7 +121,7 @@ void func_02049C28(void *file, u32 kind, u32 offset, u32 dest, u32 size)
         case 4:
         case 5:
         default:
-            g_020A1364[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
             break;
         }
     }

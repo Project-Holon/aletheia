@@ -1,5 +1,5 @@
 /*
- * function: func_02195E48
+ * function: gt2GetOutgoingBufferSize
  * address:  0x02195E48
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Word at +0x54.
  */
 
-int func_02195E48(const int *p)
+int gt2GetOutgoingBufferSize(const int *p)
 {
     return p[0x15];
 }

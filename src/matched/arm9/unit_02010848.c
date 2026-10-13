@@ -8,11 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02010848, func_02010864, func_02010884
+ * function: WIH_DWC_GetAlertLevel, WIH_DWC_RequestAlertLevel, WIH_DWC_Dummy
  * symbols:
- *   g_021461E0     0x021461E0  data
+ *   gWihDwc     0x021461E0  data
  *
- * wih_dwc.c: three unlabelled leaves after sub_020107FC (whose listing extent
+ * wih_dwc.c: three unlabelled leaves after WIH_DWC_FindSlotByKey (whose listing extent
  * runs to 0x02010888 because none of them saves lr): a getter of the halfword
  * at +0x312 of the object behind 0x021461E0 (0 when there is none), a raising
  * setter of the halfword at +0x314 (only upward, and only below 4; the first
@@ -36,23 +36,23 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern struct WihCtx g_021461E0;
+extern struct WihCtx gWihDwc;
 
-u16 func_02010848(void)
+u16 WIH_DWC_GetAlertLevel(void)
 {
-    if ((*(u8 * *)&g_021461E0) != 0)
-        return *(u16 *)((*(u8 * *)&g_021461E0) + 0x312);
+    if ((*(u8 * *)&gWihDwc) != 0)
+        return *(u16 *)((*(u8 * *)&gWihDwc) + 0x312);
     return 0;
 }
 
-void func_02010864(u32 v)
+void WIH_DWC_RequestAlertLevel(u32 v)
 {
-    u8 *o = (*(u8 * *)&g_021461E0);
+    u8 *o = (*(u8 * *)&gWihDwc);
 
     if (o != 0 && (int)((struct Obj11819 *)o)->f314 < (int)v && v < 4)
         ((struct Obj11819 *)o)->f314 = v;
 }
 
-void func_02010884(void)
+void WIH_DWC_Dummy(void)
 {
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02026504
+ * function: GAME_COMM_PushInfoMessage
  * address:  0x02026504
  * packet:   pkt_02026504
  * region:   arm9
@@ -65,7 +65,7 @@ extern void func_02008500(void *a, void *b);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
-void func_02026504(struct Obj *o, u32 id0, u32 id1, u32 v)
+void GAME_COMM_PushInfoMessage(struct Obj *o, u32 id0, u32 id1, u32 v)
 {
     struct Ring *r;
     u32 h0;

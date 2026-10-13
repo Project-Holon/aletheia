@@ -1,6 +1,6 @@
 /*
  * file:     unit_020432E4.c
- * function: sub_020432E4
+ * function: BG_SYS_ApplyCenterOp
  * address:  0x020432E4
  * packet:   pkt_02042B24
  * region:   arm9
@@ -42,7 +42,7 @@ enum {
     BG_CENTER_Y_SUB = 14
 };
 
-void sub_020432E4(struct Bg *bg, u32 opcode, u32 operand)
+void BG_SYS_ApplyCenterOp(struct Bg *bg, u32 opcode, u32 operand)
 {
     switch (opcode) {
     case BG_CENTER_X_SET:

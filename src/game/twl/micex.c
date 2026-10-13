@@ -10,6 +10,9 @@
  * isa:      arm
  * sdk:      libmicex.TWL.HYB.a micex.o
  * status:   EXACT
+ *
+ * symbols:
+ *   MICEXi_GetLimitedSamplingCallback  0x0208B7B0  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -34,7 +37,7 @@ typedef struct {
     u32 val14;
 } MicexState;
 
-extern MicexState *func_0208B7B0(void);
+extern MicexState *MICEXi_GetLimitedSamplingCallback(void);
 extern u32 func_02087988(void);
 extern void func_0208799C(u32);
 extern void func_02085D94(u32 *, u32 *, u32);
@@ -68,7 +71,7 @@ u32 MICEXi_StartLimitedSampling(const MicexReq *a0) {
 }
 
 u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *a0, u32 a1, u32 a2) {
-    MicexState *st = func_0208B7B0();
+    MicexState *st = MICEXi_GetLimitedSamplingCallback();
     u8 flags;
     u8 tmp;
     u32 mode;
@@ -158,7 +161,7 @@ u32 MICEXi_StopLimitedSampling(void) {
 }
 
 u32 MICEXi_StopLimitedSamplingAsync(u32 a0, u32 a1) {
-    MicexState *st = func_0208B7B0();
+    MicexState *st = MICEXi_GetLimitedSamplingCallback();
     u32 irq = func_02087988();
 
     if (st->busy != 0) {

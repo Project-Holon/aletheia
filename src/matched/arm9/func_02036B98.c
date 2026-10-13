@@ -1,5 +1,5 @@
 /*
- * function: func_02036B98
+ * function: GFL_NET_QUEUE_IsCommandQueued
  * address:  0x02036B98
  * packet:   pkt_02036B98
  * region:   arm9
@@ -23,15 +23,15 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02036B98.c \
- *       --func func_02036B98 --addr 0x02036B98 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_QUEUE_IsCommandQueued.c \
+ *       --func GFL_NET_QUEUE_IsCommandQueued --addr 0x02036B98 --cc 1.1p1 --arm
  */
 #include "../include/Obj11350.h"
 #include "../include/Obj15907.h"
 
 typedef unsigned short u16;
 
-int func_02036B98(char *p, int v)
+int GFL_NET_QUEUE_IsCommandQueued(char *p, int v)
 {
     int   i;
     char *e = *(char * *)&((struct Obj11350 *)p)->f18;

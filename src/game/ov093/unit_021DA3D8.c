@@ -27,67 +27,64 @@
  *   func_021C8838 0x021C8838 thumb ov093
  *   func_021C8860 0x021C8860 thumb ov093
  *   func_021C88C8 0x021C88C8 thumb ov093
- *   func_0201C1E8 0x0201C1E8 thumb
- *   func_0201C1D8 0x0201C1D8 thumb
- *   func_0201C1BC 0x0201C1BC thumb
+ *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
+ *   WAZA_TOOL_GetPower 0x0201C1D8 thumb
+ *   WAZA_TOOL_GetCategory 0x0201C1BC thumb
  *   d_021F0980 0x021F0980 data a4
  *   func_021D57FC   0x021D57FC  thumb ov093
- *   sub_0201C1BC    0x0201C1BC  thumb
- *   func_0201C314   0x0201C314  thumb
- *   sub_0201C1C8    0x0201C1C8  thumb
+ *   WAZA_TOOL_GetCategory    0x0201C1BC  thumb
+ *   WAZA_TOOL_IsDamaging   0x0201C314  thumb
+ *   WAZA_TOOL_GetType    0x0201C1C8  thumb
  *   func_021D799C   0x021D799C  thumb ov093
  */
-struct QG;
-struct S;
-typedef unsigned char u8;
+#include "unit_021D9ADC_types.h"
 
-typedef unsigned short u16;
+/* Move ids Forewarn rates as counter moves. */
+#define MOVE_COUNTER 68
+#define MOVE_MIRROR_COAT 243
+#define MOVE_METAL_BURST 368
+#define MOVE_CATEGORY_OHKO 9
+/* Type affinity value of a hit that is neither resisted nor super effective. */
+#define AFFINITY_NORMAL 3
 
-typedef unsigned int u32;
+/* One candidate move Forewarn may reveal: the foe that owns it and the move. */
+typedef struct { u8 pokeId, pad; u16 moveId; } ForewarnCandidate;
 
-typedef struct { u8 id, pad; u16 move; } Entry;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-extern int func_021D775C(int);
-extern u8 func_021C7D54(u8 *p, u8 *k, u8 *out);
-extern void *func_021C7CF4(int *p, int i);
-extern u8 *func_021C8120(u8 *p, int b);
-extern u8 func_021D5448(struct QG *p);
-extern u8 func_021D5440(u8 *p);
-extern u16 func_021D54C0(u8 *p, int i);
-extern int func_0201C1E8(int a);
-extern u16 func_0201C1D8(void *p);
-extern u32 func_0201C1BC(u16);
-extern u32 func_021D78AC(u32);
-extern void func_021C88B4(void *, int, int);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C8838(void *, int, int);
-extern void func_021C8860(struct S *p, u32 val);
-extern void func_021C88C8(void *, void *);
-extern u16 func_021D57FC(void *p);
-extern u32 sub_0201C1BC(u16 move);
-extern u32 func_0201C314(void *p);
-extern u8 sub_0201C1C8(void *p);
-extern int func_021D799C(int a, int b);
-void func_021DA3D8(int a, void *b, int c);
-int *func_021DA51C(int *p);
-void func_021DA528(int a, int b, int c);
-int func_021DA5BC(void *a, void *b);
+extern int func_021D775C(int varId);
+extern u8 func_021C7D54(struct BtlServerFlow *flow, int pokeId, u8 *outFoeIds);
+extern struct BtlPokeParam *func_021C7CF4(struct BtlServerFlow *flow, int pokeId);
+extern u8 *func_021C8120(struct BtlServerFlow *flow, int size);
+extern u8 func_021D5448(struct BtlPokeParam *pokeParam);
+extern u8 func_021D5440(struct BtlPokeParam *pokeParam);
+extern u16 func_021D54C0(struct BtlPokeParam *pokeParam, int moveIndex);
+extern int WAZA_TOOL_GetDamageType(int moveId);
+extern u16 WAZA_TOOL_GetPower(u16 moveId);
+extern u32 WAZA_TOOL_GetCategory(u16 moveId);
+extern u32 func_021D78AC(u32 range);
+extern void func_021C88B4(struct BtlServerFlow *flow, int kind, int pokeId);
+extern void *func_021C88A4(struct BtlServerFlow *flow, int kind, int pokeId);
+extern void func_021C8838(struct HandExMessage *message, int kind, int messageId);
+extern void func_021C8860(struct HandExMessage *message, u32 arg);
+extern void func_021C88C8(struct BtlServerFlow *flow, void *record);
+extern u16 func_021D57FC(struct BtlPokeParam *pokeParam);
+extern u32 WAZA_TOOL_IsDamaging(u16 moveId);
+extern u8 WAZA_TOOL_GetType(u16 moveId);
+extern int func_021D799C(int attackType, int defenderTypes);
+void func_021DA3D8(int myHandle, struct BtlServerFlow *flow, int pokeId);
+int *func_021DA51C(int *handlerCount);
+void func_021DA528(int myHandle, struct BtlServerFlow *flow, int pokeId);
+int func_021DA5BC(struct BtlPokeParam *myPoke, struct BtlPokeParam *foe);
 extern int d_021F0980;
 
-static inline u32 score(u16 move)
+/* Forewarn's rating of a move: its power, or a fixed rating for variable-power moves. */
+static inline u32 getMoveThreat(u16 moveId)
 {
     u32 value;
-    if (func_0201C1E8(move)) {
-        value = (u8)func_0201C1D8((void *)move);
+    if (WAZA_TOOL_GetDamageType(moveId)) {
+        value = (u8)WAZA_TOOL_GetPower(moveId);
         if (value == 1) {
-            if (func_0201C1BC(move) == 9) value = 150;
-            else if (move == 68 || move == 243 || move == 368) value = 120;
+            if (WAZA_TOOL_GetCategory(moveId) == MOVE_CATEGORY_OHKO) value = 150;
+            else if (moveId == MOVE_COUNTER || moveId == MOVE_MIRROR_COAT || moveId == MOVE_METAL_BURST) value = 120;
             else value = 80;
         }
     } else {
@@ -96,91 +93,96 @@ static inline u32 score(u16 move)
     return value;
 }
 
-void func_021DA3D8(int a, void *b, int c)
+/* Forewarn: on entering the field, reveal the strongest move among the foes
+   (ties are chosen at random). */
+void func_021DA3D8(int myHandle, struct BtlServerFlow *flow, int pokeId)
 {
-    u8 buf[4];
-    void *q;
-    Entry *entries;
-    u8 n, m, i;
-    u16 move;
-    u8 count, j, choice;
-    u32 best, value;
-    u8 *p;
-    if (c != func_021D775C(2)) return;
-    n = func_021C7D54(b, (u8 *)c, buf);
-    best = 0;
-    count = 0;
-    entries = (Entry *)func_021C8120(b, 12);
-    for (i = 0; i < n; i++) {
-        q = func_021C7CF4(b, buf[i]);
-        m = func_021D5448(q);
-        for (j = 0; j < m; j++) {
-            move = func_021D54C0(q, j);
-            value = score(move);
-            if (value >= best) {
-                if (value > best) { best = value; count = 0; }
-                entries[count].id = func_021D5440(q);
-                entries[count].move = move;
-                count++;
+    u8 foeIds[4];
+    struct BtlPokeParam *foe;
+    ForewarnCandidate *candidates;
+    u8 foeCount, moveCount, i;
+    u16 moveId;
+    u8 candidateCount, j, choice;
+    u32 bestThreat, threat;
+    struct HandExMessageRecord *record;
+    if (pokeId != func_021D775C(HANDVAR_POKE_ID)) return;
+    foeCount = func_021C7D54(flow, pokeId, foeIds);
+    bestThreat = 0;
+    candidateCount = 0;
+    candidates = (ForewarnCandidate *)func_021C8120(flow, 12);
+    for (i = 0; i < foeCount; i++) {
+        foe = func_021C7CF4(flow, foeIds[i]);
+        moveCount = func_021D5448(foe);
+        for (j = 0; j < moveCount; j++) {
+            moveId = func_021D54C0(foe, j);
+            threat = getMoveThreat(moveId);
+            if (threat >= bestThreat) {
+                if (threat > bestThreat) { bestThreat = threat; candidateCount = 0; }
+                candidates[candidateCount].pokeId = func_021D5440(foe);
+                candidates[candidateCount].moveId = moveId;
+                candidateCount++;
             }
         }
     }
-    if (count == 0) return;
-    choice = func_021D78AC(count);
-    func_021C88B4(b, 2, c);
-    p = func_021C88A4(b, 4, c);
-    func_021C8838(p + 4, 2, 0x1b1);
-    func_021C8860((struct S *)(p + 4), entries[choice].id);
-    func_021C8860((struct S *)(p + 4), entries[choice].move);
-    func_021C88C8(b, p);
-    func_021C88B4(b, 3, c);
+    if (candidateCount == 0) return;
+    choice = func_021D78AC(candidateCount);
+    func_021C88B4(flow, HANDEX_ABILITY_WINDOW_IN, pokeId);
+    record = func_021C88A4(flow, HANDEX_KIND_MESSAGE, pokeId);
+    func_021C8838(&record->message, HANDEX_MESSAGE_SET, 0x1b1);
+    func_021C8860(&record->message, candidates[choice].pokeId);
+    func_021C8860(&record->message, candidates[choice].moveId);
+    func_021C88C8(flow, record);
+    func_021C88B4(flow, HANDEX_ABILITY_WINDOW_OUT, pokeId);
 }
 
-int *func_021DA51C(int *p) { *p = 2; return &d_021F0980; }
+int *func_021DA51C(int *handlerCount) { *handlerCount = 2; return &d_021F0980; }
 
 
-void func_021DA528(int a, int b, int c)
+/* Anticipation: on entering the field, announce it if a foe has a move that is
+   super effective against this Pokemon or is a one-hit KO. */
+void func_021DA528(int myHandle, struct BtlServerFlow *flow, int pokeId)
 {
-    u8 buf[4];
-    u8 n;
+    u8 foeIds[4];
+    u8 foeCount;
     u8 i;
-    void *q;
-    u8 *p;
+    struct BtlPokeParam *myPoke;
+    struct HandExMessageRecord *record;
 
-    if (c != func_021D775C(2))
+    if (pokeId != func_021D775C(HANDVAR_POKE_ID))
         return;
-    n = func_021C7D54((u8 *)b, (u8 *)c, buf);
-    q = func_021C7CF4((int *)b, c);
-    for (i = 0; i < n; i++) {
-        if (func_021DA5BC(q, func_021C7CF4((int *)b, buf[i])) != 0)
+    foeCount = func_021C7D54(flow, pokeId, foeIds);
+    myPoke = func_021C7CF4(flow, pokeId);
+    for (i = 0; i < foeCount; i++) {
+        if (func_021DA5BC(myPoke, func_021C7CF4(flow, foeIds[i])) != 0)
             break;
     }
-    if (i == n)
+    if (i == foeCount)
         return;
-    func_021C88B4((void *)b, 2, c);
-    p = func_021C88A4((char *)b, 4, c);
-    func_021C8838(p + 4, 2, 0x1b4);
-    func_021C8860((struct S *)(p + 4), c);
-    func_021C88C8((void *)b, p);
-    func_021C88B4((void *)b, 3, c);
+    func_021C88B4(flow, HANDEX_ABILITY_WINDOW_IN, pokeId);
+    record = func_021C88A4(flow, HANDEX_KIND_MESSAGE, pokeId);
+    func_021C8838(&record->message, HANDEX_MESSAGE_SET, 0x1b4);
+    func_021C8860(&record->message, pokeId);
+    func_021C88C8(flow, record);
+    func_021C88B4(flow, HANDEX_ABILITY_WINDOW_OUT, pokeId);
 }
 
 
-int func_021DA5BC(void *a, void *b)
+/* Whether the foe has a one-hit KO move or a damaging move super effective against myPoke. */
+int func_021DA5BC(struct BtlPokeParam *myPoke, struct BtlPokeParam *foe)
 {
-    u16 s;
-    u8 n;
+    u16 myTypes;
+    u8 moveCount;
     u8 i;
-    u16 t;
+    u16 moveId;
 
-    s = func_021D57FC(a);
-    n = func_021D5448(b);
-    for (i = 0; i < n; i++) {
-        t = func_021D54C0(b, i);
-        if (sub_0201C1BC(t) == 9)
+    myTypes = func_021D57FC(myPoke);
+    moveCount = func_021D5448(foe);
+    for (i = 0; i < moveCount; i++) {
+        moveId = func_021D54C0(foe, i);
+        if (WAZA_TOOL_GetCategory(moveId) == MOVE_CATEGORY_OHKO)
             return 1;
-        if (func_0201C314((void *)t) != 0) {
-            if (func_021D799C(sub_0201C1C8((void *)t), s) > 3)
+        if (WAZA_TOOL_IsDamaging(moveId) != 0) {
+            if (func_021D799C(WAZA_TOOL_GetType(moveId), myTypes) > AFFINITY_NORMAL)
                 return 1;
         }
     }
@@ -189,10 +191,9 @@ int func_021DA5BC(void *a, void *b)
 
 
 extern int d_021F09A0[];
-int *func_021DA618(int *p);
 
-int *func_021DA618(int *p)
+int *func_021DA618(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F09A0;
 }

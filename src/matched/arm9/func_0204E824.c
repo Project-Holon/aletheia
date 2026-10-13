@@ -1,5 +1,5 @@
 /*
- * function: func_0204E824
+ * function: FADE_ApplyBrightness
  * address:  0x0204E824
  * packet:   pkt_0204E6F4
  * region:   arm9
@@ -25,8 +25,8 @@
  *   g_02146A7C     0x02146A7C  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204E824.c \
- *       --func func_0204E824 --addr 0x0204E824 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/FADE_ApplyBrightness.c \
+ *       --func FADE_ApplyBrightness --addr 0x0204E824 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Run0204E720.h"
@@ -39,7 +39,7 @@ extern struct Run0204E720 *g_02146A7C;
 typedef unsigned short u16;
 extern void func_0207D534(volatile u16 *reg, int brightness);
 
-void func_0204E824(void)
+void FADE_ApplyBrightness(void)
 {
     if (g_02146A7C->unk00 & 1)
         func_0207D534((void *)0x0400006c, -g_02146A7C->unk08);

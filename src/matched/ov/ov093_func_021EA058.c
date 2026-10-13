@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020082B8  0x020082B8  thumb
- *   sub_020082D4  0x020082D4  thumb
+ *   MYITEM_SAVEDATA_SetBattlePocketCursors  0x020082B8  thumb
+ *   MYITEM_SAVEDATA_SetLastBattleItem  0x020082D4  thumb
  */
 #include "../include/Obj04374.h"
 
@@ -21,13 +21,13 @@ typedef unsigned int u32;
 typedef signed short s16;
 
 struct MyItemSave;
-extern void sub_020082B8(struct MyItemSave *p, const s16 *a, const s16 *b);
-extern void sub_020082D4(struct MyItemSave *p, u16 a, u16 b);
+extern void MYITEM_SAVEDATA_SetBattlePocketCursors(struct MyItemSave *p, const s16 *a, const s16 *b);
+extern void MYITEM_SAVEDATA_SetLastBattleItem(struct MyItemSave *p, u16 a, u16 b);
 
 void func_021EA058(char *p)
 {
     if (((struct Obj04374 *)p)->fDE != 0 && ((struct Obj04374 *)p)->f12C != 6 && ((struct Obj04374 *)p)->fD0 != 1) {
-        sub_020082B8(((struct Obj04374 *)p)->fE4, (s16 *)(p + 0xf8), (s16 *)(p + 0x100));
-        sub_020082D4(((struct Obj04374 *)p)->fE4, ((struct Obj04374 *)p)->fDE, ((struct Obj04374 *)p)->fF2);
+        MYITEM_SAVEDATA_SetBattlePocketCursors(((struct Obj04374 *)p)->fE4, (s16 *)(p + 0xf8), (s16 *)(p + 0x100));
+        MYITEM_SAVEDATA_SetLastBattleItem(((struct Obj04374 *)p)->fE4, ((struct Obj04374 *)p)->fDE, ((struct Obj04374 *)p)->fF2);
     }
 }

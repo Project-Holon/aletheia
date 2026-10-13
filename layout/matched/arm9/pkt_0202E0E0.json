@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202E0E0",
+   "name": "PMS_DRAW_UpdateElem",
    "address": "0x0202E0E0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202E38C",
+   "name": "PMS_DRAW_ClearElem",
    "address": "0x0202E38C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202E3E4",
+   "name": "PMS_DRAW_SetElemVisible",
    "address": "0x0202E3E4",
    "kind": "game",
    "region": "arm9",

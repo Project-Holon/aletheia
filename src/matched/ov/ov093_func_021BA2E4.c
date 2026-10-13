@@ -10,7 +10,7 @@
  * status: EXACT
  * lever: separate per-site product temporaries reproduce the scalar-add operand order.
  * symbols:
- *   func_0201B818 0x0201B818 thumb
+ *   NATSUKI_CalcParty 0x0201B818 thumb
  *   func_0201AA18 0x0201AA18 thumb
  *   func_0201AB28 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
@@ -51,7 +51,7 @@ extern unsigned short func_021BA020(char *p, int i);
 extern int func_021D7F60(u32);
 extern char *func_021B8714(char **);
 struct Rec534;
-extern void func_0201B818(void *a0, int a1, int a2);
+extern void NATSUKI_CalcParty(void *a0, int a1, int a2);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
@@ -87,7 +87,7 @@ void func_021BA2E4(char *p)
         func_021B97A0(p + 0x1b0, p, (u8)p[0x46c]);
         list = (void *)func_021B985C(p + 0x1b0, (u8)p[0x46c]);
         if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 == 1 && func_021D7F60((u16)(u32)func_021BA020(p, 1)))
-            func_0201B818(list, *(u16 *)(func_021B8714((char **)p) + 10), (u16)((((struct Obj00324 *)p)->f468 & 0x7fff) | 0x8000));
+            NATSUKI_CalcParty(list, *(u16 *)(func_021B8714((char **)p) + 10), (u16)((((struct Obj00324 *)p)->f468 & 0x7fff) | 0x8000));
         if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 == 1) {
             n = func_0201AA18(list);
             for (i0 = 0; i0 < n; i0++) {

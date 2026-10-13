@@ -1,5 +1,5 @@
 /*
- * function: func_0203B1B0
+ * function: GFL_NET_STATE_BeaconScan
  * address:  0x0203B1B0
  * packet:   pkt_0203DC70
  * region:   arm9
@@ -9,23 +9,23 @@
  * isa:      arm
  * status:   EXACT
  *
- * Tail-call wrapper over func_0203AD80 (the object at 0x021469DC, the
- * callback func_0203B170, 0, 0x1BC).  An unlabelled ARM leaf, filed as the
- * witness chain for func_0203D010 (state 10 of func_0203DC70).
+ * Tail-call wrapper over GFL_NET_STATE_ChangeStateDebug (the object at 0x021469DC, the
+ * callback GFL_NET_STATE_StartBeaconScan, 0, 0x1BC).  An unlabelled ARM leaf, filed as the
+ * witness chain for func_0203D010 (state 10 of GFL_NET_IRC_WIRELESS_Main).
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
- *   func_0203B170  0x0203B170  arm
- *   func_0203AD80  0x0203AD80  arm
+ *   _pNetState     0x021469DC  data
+ *   GFL_NET_STATE_StartBeaconScan  0x0203B170  arm
+ *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
  */
 
-extern void *g_021469DC;
-extern void func_0203B170(void);
+extern void *_pNetState;
+extern void GFL_NET_STATE_StartBeaconScan(void);
 typedef unsigned short u16;
 struct NetState;
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
 
-void func_0203B1B0(void)
+void GFL_NET_STATE_BeaconScan(void)
 {
-    func_0203AD80(g_021469DC, func_0203B170, 0, 0x1BC);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, GFL_NET_STATE_StartBeaconScan, 0, 0x1BC);
 }

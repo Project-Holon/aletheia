@@ -1,5 +1,5 @@
 /*
- * function: func_02048258
+ * function: G3D_UTIL_LoadUnitResourcesFromArchive
  * address:  0x02048258
  * packet:   pkt_02047E88
  * region:   arm9
@@ -24,8 +24,8 @@
  * store it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02048258.c \
- *       --func func_02048258 --addr 0x02048258 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_LoadUnitResourcesFromArchive.c \
+ *       --func G3D_UTIL_LoadUnitResourcesFromArchive --addr 0x02048258 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -55,7 +55,7 @@ struct Holder {
 
 extern void *func_02046E24(u32 a0, u32 a1);
 
-void func_02048258(struct Owner *owner, u16 index, struct Holder *p, u32 a4,
+void G3D_UTIL_LoadUnitResourcesFromArchive(struct Owner *owner, u16 index, struct Holder *p, u32 a4,
                    u32 a5)
 {
     struct Slot *slot = (struct Slot *)((u8 *)owner + index * 8);

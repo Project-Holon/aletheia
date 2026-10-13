@@ -12,14 +12,14 @@
  *
  * symbols:
  *   func_021C59B0  0x021C59B0  thumb  ov111
- *   func_02012F5C  0x02012F5C  thumb
+ *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   func_020089CC  0x020089CC  thumb
  *   func_02082D44  0x02082D44  arm
  *   func_02012944  0x02012944  thumb
  *   func_02008558  0x02008558  thumb
  *   func_02008A14  0x02008A14  thumb
  *   func_02008A1C  0x02008A1C  thumb
- *   func_0202DC08  0x0202DC08  thumb
+ *   PMS_DRAW_Delete  0x0202DC08  thumb
  *   func_021C5874  0x021C5874  thumb  ov111
  *   func_021C42C0  0x021C42C0  thumb  ov111
  *   func_021C6F4C  0x021C6F4C  thumb  ov111
@@ -93,14 +93,14 @@ struct Obj;
 struct S020315D4;
 struct Sub0200852CObj;
 struct Sub020089A8Obj;
-extern void *func_02012F5C(void **h);
+extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern void *func_020089CC(void *p);
 extern void func_02082D44(const void *src, void *dst, u32 size);
 extern u8 *func_02012944(void *p);
 extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
 extern void func_02008A14(void *p, u32 v);
 extern void func_02008A1C(struct Sub020089A8Obj *obj, u8 value);
-extern void func_0202DC08(struct Obj *p);
+extern void PMS_DRAW_Delete(struct Obj *p);
 extern void func_021C5874(void);
 extern void func_021C42C0(Work *p);
 extern void func_021C6F4C(Anim *a);
@@ -121,16 +121,16 @@ int func_021C40DC(void *man, int *state, Args *args, Work *p)
 
     if (!p->info->f4_5) {
         func_021C59B0(p->pix, p->info->bitmap);
-        func_02082D44(p->info->bitmap, func_020089CC(func_02012F5C(p->args->f4)), 0x600);
+        func_02082D44(p->info->bitmap, func_020089CC(GAME_DATA_GetSaveBlock21(p->args->f4)), 0x600);
     }
     if (args->f8 != 0) {
         a = func_02012944(p->args->f4);
-        b = func_02012F5C(p->args->f4);
+        b = GAME_DATA_GetSaveBlock21(p->args->f4);
         func_02008558(a, p->info->b6);
         func_02008A14(b, p->info->f48);
         func_02008A1C(b, p->info->f4_4);
     }
-    func_0202DC08(p->f32B0);
+    PMS_DRAW_Delete(p->f32B0);
     func_021C5874();
     func_021C42C0(p);
     func_021C6F4C(&p->anim);

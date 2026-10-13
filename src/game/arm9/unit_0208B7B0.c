@@ -1,6 +1,6 @@
 /*
  * file:     unit_0208B7B0.c
- * function: func_0208B7B0
+ * function: MICEXi_GetLimitedSamplingCallback
  * address:  0x0208B7B0
  * packet:   pkt_0208B7B0
  * region:   arm9
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 
 extern void func_02152FE4(void);
 
-void *func_0208B7B0(void)
+void *MICEXi_GetLimitedSamplingCallback(void)
 {
     return (void *)func_02152FE4;
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202CA3C
+ * function: BGWINFRM_AddFrame
  * address:  0x0202CA3C
  * packet:   pkt_0202CA3C
  * region:   arm9
@@ -18,7 +18,7 @@
  * storage from the debug allocator on the manager's own heap id, then
  * writes the two 6-bit size bitfields, the bg index, the scroll pair, the
  * dirty bit and the default clip box (0, 0x20, 0, 0x18).  Same struct Win
- * as src/matched/sub_0202CAC4.c and src/matched/func_0202CDD4.c.
+ * as src/matched/sub_0202CAC4.c and src/matched/BGWINFRM_UpdateMove.c.
  *
  * The __FILE__ pool word 0x020A7790 spells "bgwinfrm.c"
  * (layout/file_anchors.txt line 119), which names this unit's source file.
@@ -56,7 +56,7 @@ struct WinMgr {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char str_020A7790[];
 
-void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h)
+void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h)
 {
     struct Win *win = &mgr->wins[idx];
 

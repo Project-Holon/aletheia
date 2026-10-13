@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * The 16-bit member of the set / add / subtract family that sub_02043264
- * and sub_020432E4 cover for the 32-bit registers: opcodes 0..2 on the
+ * and BG_SYS_ApplyCenterOp cover for the 32-bit registers: opcodes 0..2 on the
  * halfword at +0x18.  Three comparisons rather than a table, because the
  * arms are too few to be worth one; the last arm is folded into predicated
  * `ldrheq`/`subeq`/`strheq` in the fall-through block and only the first

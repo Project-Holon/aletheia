@@ -12,7 +12,7 @@
  * symbols:
  *   func_02026478  0x02026478  thumb
  *   func_02012E40  0x02012E40  thumb
- *   func_02175060  0x02175060  thumb ov011
+ *   INTRUDE_COMM_UpdatePlayerObject  0x02175060  thumb ov011
  */
 #include "../include/Obj01838.h"
 
@@ -27,7 +27,7 @@ typedef struct Fl {
 typedef unsigned int   u32;
 u32 func_02026478(void *obj);
 u8 func_02012E40(const u8 *o);
-void func_02175060(u8 *p, int i);
+void INTRUDE_COMM_UpdatePlayerObject(u8 *p, int i);
 
 void func_02175004(u8 *p)
 {
@@ -41,7 +41,7 @@ void func_02175004(u8 *p)
     }
     for (i = 0; i < 3; i++) {
         if (p[0x927] & (1 << i)) {
-            func_02175060(p, i);
+            INTRUDE_COMM_UpdatePlayerObject(p, i);
             p[0x927] ^= (u8)(1 << i);
         }
     }

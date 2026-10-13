@@ -19,10 +19,10 @@
  *   func_02045334  0x02045334  arm
  *   func_021B85DC  0x021B85DC  thumb  ov093
  *   func_0201CD10  0x0201CD10  thumb
- *   func_0201CE0C  0x0201CE0C  thumb
+ *   PRINTSYS_PrintStreamStop  0x0201CE0C  thumb
  *   func_021B86C0  0x021B86C0  thumb  ov093
- *   func_0201CE20  0x0201CE20  thumb  arm9
- *   func_0201CED4  0x0201CED4  thumb  arm9
+ *   PRINTSYS_PrintStreamRun  0x0201CE20  thumb  arm9
+ *   PRINTSYS_PrintStreamIsOverrideSpeed  0x0201CED4  thumb  arm9
  *   func_0201CE8C  0x0201CE8C  thumb  arm9
  *   func_02013080  0x02013080  thumb  arm9
  *   func_0201CEB8  0x0201CEB8  thumb  arm9
@@ -34,11 +34,11 @@
  *   func_0201DD68  0x0201DD68  thumb  arm9
  *   func_0201CE48  0x0201CE48  thumb  arm9
  *   func_0201CE38  0x0201CE38  thumb  arm9
- *   func_02006254  0x02006254  thumb  arm9
+ *   GFL_USE_IsSeqPlaying  0x02006254  thumb  arm9
  *   func_020061E4  0x020061E4  thumb  arm9
  *   func_021F7B2C  0x021F7B2C  thumb  ov094
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
- *   func_02006210  0x02006210  thumb
+ *   GFL_USE_StopAllSe  0x02006210  thumb
  *   func_021B98AC  0x021B98AC  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   func_021B8E70  0x021B8E70  thumb  ov093
@@ -52,9 +52,9 @@
  *   func_021D5864  0x021D5864  thumb  ov093
  *   func_021F7EE8  0x021F7EE8  thumb  ov094
  *   func_020311B8  0x020311B8  arm
- *   func_02031290  0x02031290  arm
+ *   TCBL_GetWork  0x02031290  arm
  *   func_021F7A28  0x021F7A28  thumb  ov094
- *   func_02031194  0x02031194  arm
+ *   TCBL_DeleteTask  0x02031194  arm
  *   func_021B9920  0x021B9920  thumb  ov093
  *   func_021F87D4  0x021F87D4  thumb  ov094
  *   func_021D5844  0x021D5844  thumb  ov093
@@ -82,10 +82,11 @@
  *   func_020437D4 0x020437D4 arm
  *   func_021F86E0 0x021F86E0 thumb ov094
  *   func_021F86D4 0x021F86D4 thumb ov094
- *   func_02021ED8 0x02021ED8 thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   func_020437EC 0x020437EC arm
  *   func_02082A90 0x02082A90 arm
  *   func_021EEE24 0x021EEE24 thumb ov093
+ *   PALANM_RequestFade  0x0202173C  thumb  arm9
  */
 #include "../../matched/include/Obj02796.h"
 #include "../../matched/include/Obj00027.h"
@@ -286,10 +287,10 @@ extern void func_0201C7A4(void *x, s16_021ECE60 y, s16_021ECE60 z, void *s, void
 extern void func_02045334(struct Descriptor *d);
 extern int func_021B85DC(unsigned char *p);
 extern struct Rec *func_0201CD10(u32 a0, s16_021ECEB8 a1, s16_021ECEB8 a2, u32 a3, u32 a4, s32_021ECEB8 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
-extern void func_0201CE0C(void *p);
+extern void PRINTSYS_PrintStreamStop(void *p);
 extern u8 func_021B86C0(u8 **);
-extern void func_0201CE20(void *);
-extern u32 func_0201CED4(struct Rec *p);
+extern void PRINTSYS_PrintStreamRun(void *);
+extern u32 PRINTSYS_PrintStreamIsOverrideSpeed(struct Rec *p);
 extern void func_0201CE8C(struct Rec *p, s32_021ECF68 v);
 extern signed char func_02013080(u32 idx);
 extern void func_0201CEB8(struct Rec *p);
@@ -301,11 +302,11 @@ extern int func_02035C60(void);
 extern void func_0201DD68(void);
 extern void func_0201CE48(struct Rec3 *p);
 extern void func_0201CE38(void *);
-extern int func_02006254(u32 a);
+extern int GFL_USE_IsSeqPlaying(u32 a);
 extern void func_020061E4(u32 a);
 extern void func_021F7B2C(u8 *);
 extern int func_021F7EB4(void);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern u8 *func_021B98AC(char *const *q, u8 b);
 extern int func_021D59B4(u8 *p, int k);
 extern u8 func_021B8E70(u8 *p, u32 k);
@@ -319,9 +320,9 @@ extern void func_021F7F04(int);
 extern void *func_021D5864(struct Work *p);
 extern void func_021F7EE8(void *, int);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern void *func_02031290(struct S02030FB4 *p);
+extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void func_021F7A28(int a, u32 b);
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 extern u8 *func_021B9920(void *p, u32 i, u8 j);
 extern void func_021F87D4(u32 v);
 extern void *func_021D5844(void *m);
@@ -349,8 +350,8 @@ extern void func_02040618(u32, u32, u32);
 extern void *func_020437D4(const struct Bmp *bmp);
 extern int func_021F86E0(void);
 extern void *func_021F86D4(void);
-extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
-extern u32 func_02021ED8(const char *ptr);
+extern int PALANM_RequestFade(void *, u16, u16, s16, u8, u8, u16, void *);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern u32 func_020437EC(const struct Bmp *bmp);
 extern void func_02082A90(const void *, void *, u32);
 extern void func_021EEE24(u32, u16, u32, ...);
@@ -464,7 +465,7 @@ void func_021ECEB8(u8 *a, u32 b, u16 s, u32 c)
                       ((struct Obj00027 *)a)->f2C, 0,
                       ((struct Obj00027 *)a)->f13C, 0xc, c);
     ((struct Obj00027 *)a)->f30 = o;
-    func_0201CE0C(o);
+    PRINTSYS_PrintStreamStop(o);
     a[0x13f] = 0;
     a[0x13e] = 0;
     if (s == 0xff) {
@@ -517,16 +518,16 @@ int func_021ECF68(struct T_021ECF68 *p)
             break;
         }
         if (p->h30 != 0)
-            func_0201CE20(p->h30);
+            PRINTSYS_PrintStreamRun(p->h30);
         p->b13f = p->b13f + 1;
     case 2:
         if (p->h30 != 0) {
             if (func_021B86C0(p->owner) == 0) {
                 if ((func_0203630C() & 3) != 0 || func_02035C38() != 0) {
-                    if (func_0201CED4(p->h30) == 0)
+                    if (PRINTSYS_PrintStreamIsOverrideSpeed(p->h30) == 0)
                         func_0201CE8C(p->h30, func_02013080(2));
                 } else {
-                    if (func_0201CED4(p->h30) != 0)
+                    if (PRINTSYS_PrintStreamIsOverrideSpeed(p->h30) != 0)
                         func_0201CEB8(p->h30);
                 }
             }
@@ -575,7 +576,7 @@ int func_021ECF68(struct T_021ECF68 *p)
         p->h148 = p->h14a;
         break;
     case 6:
-        if (func_02006254(0x547) == 0) {
+        if (GFL_USE_IsSeqPlaying(0x547) == 0) {
             p->b13f = 7;
             return 1;
         }
@@ -635,7 +636,7 @@ int func_021ED158(int *st, u8 *b)
         break;
     case 2:
         if (func_021F7EB4() == 0) {
-            func_02006210();
+            GFL_USE_StopAllSe();
             goto inc;
         }
         break;
@@ -816,7 +817,7 @@ void func_021ED318(char *p, u16 k, u16 a, int flag)
         func_021F7F04(k);
         return;
     }
-    t = func_02031290(func_020311B8(((struct Obj21591 *)p)->f2C, (void *)func_021ED384, 0x10, 1));
+    t = TCBL_GetWork(func_020311B8(((struct Obj21591 *)p)->f2C, (void *)func_021ED384, 0x10, 1));
     ((struct Obj05231 *)t)->f6 = k;
     *(char * *)&((struct Obj05231 *)t)->f0 = p + 0x48 + k * 0xc;
     *(char * *)&((struct Obj05231 *)t)->fC = p + 0x42;
@@ -861,7 +862,7 @@ void func_021ED384(u32 a, u8 *t)
         break;
     case 2:
         (**(u8 * *)&((struct Obj03709 *)t)->fC)--;
-        func_02031194((struct TcblNode *)a);
+        TCBL_DeleteTask((struct TcblNode *)a);
         break;
     }
 }
@@ -875,7 +876,7 @@ void func_021ED384(u32 a, u8 *t)
 
 
 /*
- * Lever: the record from func_02031290 is a struct pointer, not u8 *: the
+ * Lever: the record from TCBL_GetWork is a struct pointer, not u8 *: the
  * cnt field is then forwarded across the st store instead of being reloaded
  * (u8 * base plus a local kept in r1 gave 84 bytes out).
  */
@@ -885,7 +886,7 @@ void func_021ED3D4(char *p, u8 k, int a, u8 b, int flag)
     u8 *m;
     u8 y;
 
-    t = (struct T *)func_02031290(func_020311B8(((struct Obj10119 *)p)->f2C, (void *)func_021ED460, 0xc, 1));
+    t = (struct T *)TCBL_GetWork(func_020311B8(((struct Obj10119 *)p)->f2C, (void *)func_021ED460, 0xc, 1));
     t->e = p + 0x48 + k * 0xc;
     t->cnt = (u8 *)p + 0x41;
     t->st = 0;
@@ -929,7 +930,7 @@ void func_021ED460(void *task, struct Q *q)
         break;
     case 1:
         (*q->cnt)--;
-        func_02031194(task);
+        TCBL_DeleteTask(task);
         break;
     }
 }
@@ -1052,7 +1053,7 @@ void func_021ED590(char *p, u8 k, u32 a)
     struct S_021ECE60 *t;
 
     if (k != 6) {
-        t = (struct S_021ECE60 *)func_02031290(func_020311B8(((struct Obj13568 *)p)->f2C, (void *)func_021ED5E8, 0x18, 1));
+        t = (struct S_021ECE60 *)TCBL_GetWork(func_020311B8(((struct Obj13568 *)p)->f2C, (void *)func_021ED5E8, 0x18, 1));
         t->p = p;
         t->k = k;
         t->a = a;
@@ -1094,7 +1095,7 @@ void func_021ED5E8(u32 x, struct S_021ED5D8 *t)
             func_021F803C(((struct Obj21598 *)(t->w))->f134,
                           func_021B98AC(*(char *const * *)&((struct Obj21599 *)(t->w))->f138, t->k), t->v);
             (*t->cnt)--;
-            func_02031194((struct TcblNode *)x);
+            TCBL_DeleteTask((struct TcblNode *)x);
         }
         break;
     }
@@ -1108,7 +1109,7 @@ void func_021ED660(char *p, u32 k, u32 a, u32 b)
 {
     struct S_021ED724 *t;
 
-    t = (struct S_021ED724 *)func_02031290(func_020311B8(((struct Obj10120 *)p)->f2C, (void *)func_021ED724, 0x18, 1));
+    t = (struct S_021ED724 *)TCBL_GetWork(func_020311B8(((struct Obj10120 *)p)->f2C, (void *)func_021ED724, 0x18, 1));
     t->v = func_021D5844(func_021B98AC(*(char *const * *)&((struct Obj10120 *)p)->f138,
                                               func_021B8ED8(*(u8 * *)&((struct Obj10120 *)p)->f134, a)));
     t->w = p;
@@ -1127,7 +1128,7 @@ void func_021ED6BC(char *p, u32 k, u32 a)
 {
     struct S_021ED724 *t;
 
-    t = (struct S_021ED724 *)func_02031290(func_020311B8(((struct Obj10121 *)p)->f2C, (void *)func_021ED724, 0x18, 1));
+    t = (struct S_021ED724 *)TCBL_GetWork(func_020311B8(((struct Obj10121 *)p)->f2C, (void *)func_021ED724, 0x18, 1));
     t->v = func_021D5844(func_021B98AC(*(char *const * *)&((struct Obj10121 *)p)->f138,
                                               func_021B8ED8(*(u8 * *)&((struct Obj10121 *)p)->f134, k)));
     t->w = p;
@@ -1159,7 +1160,7 @@ void func_021ED724(u32 x, struct S_021ED724 *t)
     case 1:
         if (func_021F7EB4() == 0) {
             (*t->cnt)--;
-            func_02031194((struct TcblNode *)x);
+            TCBL_DeleteTask((struct TcblNode *)x);
         }
         break;
     }
@@ -1280,7 +1281,7 @@ int func_021ED814(struct S_021ED7C8 *s)
 void func_021ED8AC(u8 *p)
 {
     struct Q_021ED8AC *q;
-    q = func_02031290(func_020311B8((u32)(((struct Obj21604 *)p)->f2C), (void *)func_021ED8E8, 0xc, 1));
+    q = TCBL_GetWork(func_020311B8((u32)(((struct Obj21604 *)p)->f2C), (void *)func_021ED8E8, 0xc, 1));
     q->a = p;
     q->c = p + 0x40;
     q->b = 0;
@@ -1314,7 +1315,7 @@ void func_021ED8E8(int a,struct Q_021ED8E8 *q)
     case 1:
         if (func_021ED814((struct S_021ED7C8 *)((struct S *)(q->f00 + 0x154))) != 0) {
             (*q->f08)--;
-            func_02031194((struct TcblNode *)a);
+            TCBL_DeleteTask((struct TcblNode *)a);
         }
         break;
     }
@@ -1635,14 +1636,14 @@ int func_021EDCA8(u8 *p)
         ctx = func_021F86D4();
         mask = 1 << (p[0xa] + 1);
         func_020061E4(0x54d);
-        func_0202173C(pal, 1, mask, 0, 16, 0, 0x7fff, ctx);
+        PALANM_RequestFade(pal, 1, mask, 0, 16, 0, 0x7fff, ctx);
         p[0xd]++;
         break;
     case 5:
-        if (func_02021ED8((const char *)func_021F86E0()) == 0) p[0xd]++;
+        if (PALANM_GetFadeRequestBits((const char *)func_021F86E0()) == 0) p[0xd]++;
         break;
     case 6:
-        if (func_02006254(0x54d) == 0 && func_02006254(0x573) == 0) return 1;
+        if (GFL_USE_IsSeqPlaying(0x54d) == 0 && GFL_USE_IsSeqPlaying(0x573) == 0) return 1;
         break;
     }
     return 0;
@@ -1799,7 +1800,7 @@ int func_021EDFC4(u8 *p)
         p[0xd]++;
         break;
     case 5:
-        if (func_02006254(0x54e) == 0) p[0xd]++;
+        if (GFL_USE_IsSeqPlaying(0x54e) == 0) p[0xd]++;
         break;
     default:
         return 1;

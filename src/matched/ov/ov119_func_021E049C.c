@@ -26,24 +26,24 @@
  *   sub_02030734   0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
- *   sub_02008FFC   0x02008FFC  thumb
- *   sub_02008FEC   0x02008FEC  thumb
+ *   MAIL_GetBoxSize   0x02008FFC  thumb
+ *   MAIL_GetBox   0x02008FEC  thumb
  *   sub_02008C20   0x02008C20  thumb
  *   func_02012F2C  0x02012F2C  thumb
  *   func_02012FCC  0x02012FCC  thumb
- *   sub_020086F0   0x020086F0  thumb
- *   sub_020076A4   0x020076A4  thumb
+ *   PLAYTIME_GetStamp   0x020086F0  thumb
+ *   BOX_SAVEDATA_GetUsableBoxCount   0x020076A4  thumb
  *   func_0201A920  0x0201A920  thumb
  *   func_0201AC2C  0x0201AC2C  thumb
- *   sub_02007A9C   0x02007A9C  thumb
- *   sub_02007AF4   0x02007AF4  thumb
+ *   BOX_SAVEDATA_GetBoxPageSize   0x02007A9C  thumb
+ *   BOX_SAVEDATA_GetBoxPokemon   0x02007AF4  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02017E40  0x02017E40  thumb
  *   func_0202136C  0x0202136C  thumb
  *   func_02009020  0x02009020  thumb
  *   func_02008F08  0x02008F08  thumb
- *   sub_0200903C   0x0200903C  thumb
+ *   MAIL_SetSlot   0x0200903C  thumb
  *   func_02008EAC  0x02008EAC  thumb
  *   func_0200856C  0x0200856C  thumb
  *   func_02008570  0x02008570  thumb
@@ -51,7 +51,7 @@
  *   func_02025C1C  0x02025C1C  thumb
  *   func_02025C30  0x02025C30  thumb
  *   func_02008574  0x02008574  thumb
- *   func_02012F14  0x02012F14  thumb
+ *   GAME_DATA_GetSaveBlock1F  0x02012F14  thumb
  *   sub_02009DE8   0x02009DE8  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_02009470  0x02009470  thumb
@@ -64,8 +64,8 @@
  *   func_0200CDE0  0x0200CDE0  thumb
  *   sub_02009EB0   0x02009EB0  thumb
  *   func_02017988  0x02017988  thumb
- *   sub_0201AB48   0x0201AB48  thumb
- *   sub_020185F4   0x020185F4  thumb
+ *   POKEPARTY_SetMember   0x0201AB48  thumb
+ *   POKE_TOOL_GetBoxParam   0x020185F4  thumb
  *   func_020075B0  0x020075B0  thumb
  *   sub_0201283C   0x0201283C  thumb
  *   sub_02009BB8   0x02009BB8  thumb
@@ -103,27 +103,27 @@ extern int func_021E0410(char *p, void *party, int idx);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
-extern u32 sub_02008FFC(void);
-extern struct Sub02008F80Obj *sub_02008FEC(void *sys);
+extern u32 MAIL_GetBoxSize(void);
+extern struct Sub02008F80Obj *MAIL_GetBox(void *sys);
 extern u32 sub_02008C20(void);
 extern void *func_02012F2C(int *p);
 struct BigObj;
 struct Sub020075B0Entry;
 struct Sub02008C20Obj;
 extern int func_02012FCC(int p0);
-extern void sub_020086F0(const struct PlayTime *p, struct PlayTimeStamp *out);
-extern u8 sub_020076A4(void *save);
+extern void PLAYTIME_GetStamp(const struct PlayTime *p, struct PlayTimeStamp *out);
+extern u8 BOX_SAVEDATA_GetUsableBoxCount(void *save);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
-extern u32 sub_02007A9C(void);
-extern struct Sub02007AC8Entry *sub_02007AF4(void **save, u32 box);
+extern u32 BOX_SAVEDATA_GetBoxPageSize(void);
+extern struct Sub02007AC8Entry *BOX_SAVEDATA_GetBoxPokemon(void **save, u32 box);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_0202136C(u16 v);
 extern int func_02009020(void *obj, int v);
 extern void *func_02008F08(int a0);
-extern void sub_0200903C(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
+extern void MAIL_SetSlot(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
 extern void func_02008EAC(struct Sub02008EACObj *obj);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
@@ -131,7 +131,7 @@ extern u8 func_02008564(const struct Sub0200852CObj *obj);
 extern u32 func_02025C1C(u32 a, u32 b, u32 c);
 extern u32 func_02025C30(u32 a, u32 b, u32 c);
 extern void func_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
-extern void *func_02012F14(void **h);
+extern void *GAME_DATA_GetSaveBlock1F(void **h);
 extern void sub_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
@@ -144,8 +144,8 @@ extern void *func_0200CA1C(void *sys);
 extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern void sub_02009EB0(struct Sub02009D9CObj *obj);
 extern u32 func_02017988(void *p, u32 a);
-extern void sub_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src);
-extern void *sub_020185F4(void *mon);
+extern void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src);
+extern void *POKE_TOOL_GetBoxParam(void *mon);
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 extern u32 sub_0201283C(const struct BigObj *p);
 extern void sub_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
@@ -175,9 +175,9 @@ static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)
 
 static inline void *copy_a(void *sys, u16 heapId)
 {
-    void *buf = sub_02030734(heapId, sub_02008FFC(), 0, d_021E811C, 0x163);
+    void *buf = sub_02030734(heapId, MAIL_GetBoxSize(), 0, d_021E811C, 0x163);
 
-    GFL_STD_MemCopy(sub_02008FEC(sys), buf, sub_02008FFC());
+    GFL_STD_MemCopy(MAIL_GetBox(sys), buf, MAIL_GetBoxSize());
     return buf;
 }
 
@@ -203,33 +203,33 @@ void func_021E049C(char *p)
         I(p, 0x614) = func_021E0138(I(p, 0x82C), H(p, 0x5F4));
         I(p, 0x618) = func_021E01A0(I(p, 0x82C), H(p, 0x5F4));
         I(p, 0x61C) = func_021E0200(I(p, 0x82C), H(p, 0x5F4));
-        sub_020086F0((void *)func_02012FCC((int)I(p, 0x82C)), (struct PlayTimeStamp *)(p + 0x628));
-        if (T(p)->box == sub_020076A4(I(p, 0x828))) {
+        PLAYTIME_GetStamp((void *)func_02012FCC((int)I(p, 0x82C)), (struct PlayTimeStamp *)(p + 0x628));
+        if (T(p)->box == BOX_SAVEDATA_GetUsableBoxCount(I(p, 0x828))) {
             I(p, 0x620) = func_0201A920(H(p, 0x5F4));
             func_0201AC2C(I(p, 0x838), I(p, 0x620));
             W(p, 0x62C) = func_021E0410(p, I(p, 0x838), T(p)->slot);
         } else {
-            I(p, 0x624) = sub_02030734(H(p, 0x5F4), sub_02007A9C(), 0, d_021E8130, 0x271);
-            GFL_STD_MemCopy(sub_02007AF4(I(p, 0x828), T(p)->box), I(p, 0x624), sub_02007A9C());
+            I(p, 0x624) = sub_02030734(H(p, 0x5F4), BOX_SAVEDATA_GetBoxPageSize(), 0, d_021E8130, 0x271);
+            GFL_STD_MemCopy(BOX_SAVEDATA_GetBoxPokemon(I(p, 0x828), T(p)->box), I(p, 0x624), BOX_SAVEDATA_GetBoxPageSize());
         }
     } else {
         Trade *t = T(p);
-        if (t->box == sub_020076A4(I(p, 0x828)))
+        if (t->box == BOX_SAVEDATA_GetUsableBoxCount(I(p, 0x828)))
             func_021E0410(p, I(p, 0x838), t->slot);
         p[0x11F7] = 1;
     }
 
     {
         Trade *t = T(p);
-        if (t->box != sub_020076A4(I(p, 0x828))) {
+        if (t->box != BOX_SAVEDATA_GetUsableBoxCount(I(p, 0x828))) {
             mon = func_0201AB28(t->party, 0);
             if (func_0202136C(func_02017E1C(mon, 6, 0))) {
-                void *o = sub_02008FEC(I(p, 0x82C));
+                void *o = MAIL_GetBox(I(p, 0x82C));
                 int idx = func_02009020(o, 0);
                 if (idx != -1) {
                     void *buf = func_02008F08(H(p, 0x5F4));
                     func_02017E1C(mon, 0xA7, (u32)buf);
-                    sub_0200903C(o, 0, idx, buf);
+                    MAIL_SetSlot(o, 0, idx, buf);
                     func_02008EAC(buf);
                     func_02017E40(mon, 0xA7, (u32)buf);
                     func_02017E40(mon, 6, 0);
@@ -248,7 +248,7 @@ void func_021E049C(char *p)
             func_02008574(I(p, 0x834), 0, 0);
     }
 
-    sub_02009DE8(func_02012F14(I(p, 0x82C)), I(p, 0x834));
+    sub_02009DE8(GAME_DATA_GetSaveBlock1F(I(p, 0x82C)), I(p, 0x834));
     obj = func_02009470(func_02012EBC(I(p, 0x82C)));
     list[0] = I(p, 0x830);
     list[1] = I(p, 0x834);
@@ -284,18 +284,18 @@ void func_021E049C(char *p)
     }
     func_0200CDE0(func_0200CA1C(I(p, 0x82C)), mon);
     if (W(p, 0x118C) == 3)
-        sub_02009EB0(func_02012F14(I(p, 0x82C)));
+        sub_02009EB0(GAME_DATA_GetSaveBlock1F(I(p, 0x82C)));
     if (func_02017E1C(mon, 5, 0) == 0x1EC && func_02017E1C(mon, 0x6F, 0) == 1) {
         func_02017988(mon, 0);
         func_0200CDE0(func_0200CA1C(I(p, 0x82C)), mon);
     }
     {
         Trade *t = T(p);
-        if (t->box == sub_020076A4(I(p, 0x828))) {
-            sub_0201AB48(I(p, 0x838), t->slot, mon);
+        if (t->box == BOX_SAVEDATA_GetUsableBoxCount(I(p, 0x828))) {
+            POKEPARTY_SetMember(I(p, 0x838), t->slot, mon);
         } else {
             t = T(p);
-            func_020075B0(I(p, 0x828), t->box, t->slot, sub_020185F4(mon));
+            func_020075B0(I(p, 0x828), t->box, t->slot, POKE_TOOL_GetBoxParam(mon));
         }
     }
     switch (W(p, 0x118C)) {

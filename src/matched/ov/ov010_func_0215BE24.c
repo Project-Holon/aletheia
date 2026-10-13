@@ -15,7 +15,7 @@
  *
  * Levers (2026-09-28 tree_ov010_4): the allocation check as
  * `if (a && b) {...} else fail` (moves the failure block after the name
- * test), the name test as `== 0` (func_0204589C answers "equal"), and the
+ * test), the name test as `== 0` (STRBUF_IsEqual answers "equal"), and the
  * version read into a local before the compare (`cmp r0, r1`).
  *
  * symbols:
@@ -29,7 +29,7 @@
  *   func_0215A5CC  0x0215A5CC  thumb  ov010
  *   func_020457B0  0x020457B0  arm
  *   func_02008500  0x02008500  thumb
- *   func_0204589C  0x0204589C  arm
+ *   STRBUF_IsEqual  0x0204589C  arm
  *   func_02045808  0x02045808  arm
  *   func_02008550  0x02008550  thumb
  *   g0209DF08      0x0209DF08  data  a1
@@ -52,7 +52,7 @@ extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u16 func_0215A5CC(void *a0);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02008500(void *player, void *str);
-extern int func_0204589C(struct Buf *a, struct Buf *b);
+extern int STRBUF_IsEqual(struct Buf *a, struct Buf *b);
 extern void func_02045808(struct U16Vec *vec);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 g0209DF08;
@@ -86,7 +86,7 @@ int func_0215BE24(void *c, void *vm)
     if (a != 0 && b != 0) {
         func_02017E1C(mon, 0x8D, (u32)a);
         func_02008500(player, b);
-        if (func_0204589C(a, b) == 0) {
+        if (STRBUF_IsEqual(a, b) == 0) {
             func_02045808(a);
             func_02045808(b);
             *res = 0;

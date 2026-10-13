@@ -15,7 +15,7 @@
  *   func_02202A50  0x02202A50  thumb
  *   func_02202B20  0x02202B20  thumb
  *   func_02045334  0x02045334  arm
- *   func_0202CEBC  0x0202CEBC  thumb
+ *   BGWINFRM_PutBmpWin  0x0202CEBC  thumb
  */
 
 typedef signed char s8;
@@ -33,7 +33,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02202A50(void *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y);
 extern void func_02202B20(struct Obj *p, int arg1, void *arg2, int arg3, int arg4);
 extern void func_02045334(struct Descriptor *d);
-extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
+extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 
 void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages)
 {
@@ -42,5 +42,5 @@ void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages)
     func_02202B20(ctx, 0, win, 0x10, 0);
     func_02202A50(ctx, pages, 2, 0, win, 0x18, 0);
     func_02045334(win);
-    func_0202CEBC(mgr, 0, win);
+    BGWINFRM_PutBmpWin(mgr, 0, win);
 }

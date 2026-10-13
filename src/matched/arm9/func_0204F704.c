@@ -1,5 +1,5 @@
 /*
- * function: func_0204F704
+ * function: BILLBOARD_GetElemVisible
  * address:  0x0204F704
  * packet:   pkt_0204F704
  * region:   arm9
@@ -27,7 +27,7 @@ struct Ent {
     u8  pad_1a[2];
 };
 
-u32 func_0204F704(u8 *a0, int i)
+u32 BILLBOARD_GetElemVisible(u8 *a0, int i)
 {
     struct Ent *e = &((struct Ent *)((struct Obj *)a0)->f8)[i];
 

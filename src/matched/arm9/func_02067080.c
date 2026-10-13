@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02148B48      0x02148B48  data
+ *   sOamSoftEmuContext      0x02148B48  data
  *   tbl_020A17F0    0x020A17F0  data
  *   tbl_020A17D8    0x020A17D8  data
  *
@@ -18,7 +18,7 @@
  * position back as fx32, undo the double-affine centring, rotate it by the
  * 2x2 SR matrix, apply the renderer's affine overwrite mode, correct for the
  * rotation centre (NNSi_G2dAdjustDifferenceOfRotateOrientation) and add the
- * base translation.  g_02148B48 is pTheInstance_; the two u16 [3][4] tables
+ * base translation.  sOamSoftEmuContext is pTheInstance_; the two u16 [3][4] tables
  * are NNSi_objSizeWTbl / NNSi_objSizeHTbl.  Only caller: func_02067340
  * (DrawCellToSurface2D_).
  *
@@ -65,7 +65,7 @@ typedef struct { fx32 x; fx32 y; } NNSG2dFVec2;
 typedef struct { fx32 _00; fx32 _01; fx32 _10; fx32 _11; } MtxFx22;
 
 typedef struct RndCore { u32 f00; u32 affineOverwriteMode; } RndCore;
-extern RndCore *g_02148B48;
+extern RndCore *sOamSoftEmuContext;
 extern const u16 tbl_020A17F0[3][4];   /* NNSi_objSizeWTbl */
 extern const u16 tbl_020A17D8[3][4];   /* NNSi_objSizeHTbl */
 
@@ -197,8 +197,8 @@ void func_02067080(const MtxFx22 *pMtxSR, GXOamAttr *pOam, NNSG2dFVec2 *pBaseTra
     NNSi_G2dRemovePositionAdjustmentFromDoubleAffineOBJ(pOam, &objTrans);
     MulMtx22(pMtxSR, &objTrans, &objTrans);
 
-    if (g_02148B48->affineOverwriteMode != 0) {
-        if (g_02148B48->affineOverwriteMode == 2) {
+    if (sOamSoftEmuContext->affineOverwriteMode != 0) {
+        if (sOamSoftEmuContext->affineOverwriteMode == 2) {
             effectTypeAfter = GX_OAM_EFFECT_AFFINE_DOUBLE;
         } else {
             effectTypeAfter = GX_OAM_EFFECT_AFFINE;

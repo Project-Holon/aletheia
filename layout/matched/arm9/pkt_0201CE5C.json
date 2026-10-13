@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201CE5C",
-    "sub_0201CE8C",
-    "sub_0201CEB8",
-    "sub_0201CED4"
+    "PRINTSYS_PrintStreamShortWait",
+    "PRINTSYS_PrintStreamSetSpeed",
+    "PRINTSYS_PrintStreamResetSpeed",
+    "PRINTSYS_PrintStreamIsOverrideSpeed"
+   ],
+   "addresses": [
+    "0x0201CE5C",
+    "0x0201CE8C",
+    "0x0201CEB8",
+    "0x0201CED4"
    ]
   }
  ]

@@ -1,5 +1,5 @@
 /*
- * function: func_020514F4
+ * function: PARTICLE_UpdateSystem
  * address:  0x020514F4
  * packet:   pkt_02051504
  * region:   arm9
@@ -14,22 +14,22 @@
  * four-byte gap between packet pkt_02051230 (ends 0x020514F4) and packet
  * pkt_02051504 (starts 0x02051504) - the last instruction word of the
  * 0x02051414 dump plus a pool word.  The listing does label it
- * (`func_020514F4` at asm/arm9/src/019_0204D434.s:5680), but its only caller
- * in the whole image is the `bl` at 0x02051594 inside func_02051574, which is
+ * (`PARTICLE_UpdateSystem` at asm/arm9/src/019_0204D434.s:5680), but its only caller
+ * in the whole image is the `bl` at 0x02051594 inside PARTICLE_UpdateAllSystems, which is
  * itself inside pkt_02051504's range, so the `label` class cannot attest it for
  * that caller.  Filing it here as its own entry makes it a `matched` witness
- * for func_02051574 instead, which is the only reason it is in this shard.
+ * for PARTICLE_UpdateAllSystems instead, which is the only reason it is in this shard.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020514F4.c \
- *       --func func_020514F4 --addr 0x020514F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_UpdateSystem.c \
+ *       --func PARTICLE_UpdateSystem --addr 0x020514F4 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
 extern int func_02052770(u32 a);
 
-int func_020514F4(u32 *p)
+int PARTICLE_UpdateSystem(u32 *p)
 {
     return func_02052770(*p);
 }

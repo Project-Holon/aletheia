@@ -1,5 +1,5 @@
 /*
- * function: func_02037258
+ * function: GFL_NET_SYSTEM_GetSendSize
  * address:  0x02037258
  * packet:   pkt_02037234
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_0203D6BC  0x0203D6BC  arm
- *   func_0203D680  0x0203D680  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
+ *   GFL_NET_GetMaxConnectNum  0x0203D680  arm
  *
  * The current capacity, or the measured one: when the state object's byte at
  * +0x64 is set and its halfword at +0x6C is non-zero, that halfword is the
@@ -27,8 +27,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02037258.c \
- *       --func func_02037258 --addr 0x02037258 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_GetSendSize.c \
+ *       --func GFL_NET_SYSTEM_GetSendSize --addr 0x02037258 --cc 1.1p1 --arm
  */
 #include "../include/Obj08828.h"
 
@@ -36,16 +36,16 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0203D788(void);
-extern u32  func_0203D6BC(void);
-extern u32  func_0203D680(void);
+extern void *GFL_NET_GetSession(void);
+extern u32  GFL_NET_GetChildSendSize(void);
+extern u32  GFL_NET_GetMaxConnectNum(void);
 
-u32 func_02037258(void)
+u32 GFL_NET_SYSTEM_GetSendSize(void)
 {
     u8 *p;
 
-    p = func_0203D788();
+    p = GFL_NET_GetSession();
     if (p[0x64] != 0 && ((struct Obj08828 *)p)->f6C != 0)
         return ((struct Obj08828 *)p)->f6C;
-    return func_0203D6BC() * func_0203D680();
+    return GFL_NET_GetChildSendSize() * GFL_NET_GetMaxConnectNum();
 }

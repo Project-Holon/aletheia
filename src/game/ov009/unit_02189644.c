@@ -1,6 +1,6 @@
 /*
  * file:     unit_02189644.c
- * function: func_02189644
+ * function: gpiSendOrBufferChar
  * address:  0x02189644
  * packet:   pkt_02155168
  * region:   ov009
@@ -14,7 +14,7 @@
  * helper (connection, peer, character); its caller only tests the result.
  */
 
-int func_02189644(void)
+int gpiSendOrBufferChar(void)
 {
     return 0;
 }

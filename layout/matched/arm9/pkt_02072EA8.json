@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02072EC8",
+   "name": "NNS_SndPlayerGetActiveSeqCount",
    "address": "0x02072EC8",
    "kind": "game",
    "region": "arm9",
@@ -47,8 +47,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02072F34",
-    "func_02072F48"
+    "NNS_SndHandleSetSeqPriority",
+    "NNS_SndHandleSetPlayerPriority"
+   ],
+   "addresses": [
+    "0x02072F34",
+    "0x02072F48"
    ]
   },
   {
@@ -63,15 +67,26 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02072F88",
-    "func_02072FA8",
-    "func_02072FC8",
-    "func_02072FE8",
-    "func_02073018",
-    "func_02073038",
-    "func_02073058",
-    "func_02073078",
-    "func_02073098"
+    "NNS_SndHandlePause",
+    "NNS_SndHandleSetTrackPause",
+    "NNS_SndHandleSetTrackMute",
+    "NNS_SndHandleSetTrackVolume",
+    "NNS_SndHandleSetTrackPitch",
+    "NNS_SndHandleSetTrackPan",
+    "NNS_SndHandleSetTrackModDepth",
+    "NNS_SndHandleSetTrackModSpeed",
+    "NNS_SndHandleStop"
+   ],
+   "addresses": [
+    "0x02072F88",
+    "0x02072FA8",
+    "0x02072FC8",
+    "0x02072FE8",
+    "0x02073018",
+    "0x02073038",
+    "0x02073058",
+    "0x02073078",
+    "0x02073098"
    ],
    "evidence": {
     "sdk": [
@@ -88,7 +103,7 @@
    }
   },
   {
-   "name": "func_020730DC",
+   "name": "NNS_SndHandleSetSweep",
    "address": "0x020730DC",
    "kind": "game",
    "region": "arm9",
@@ -100,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02073108",
+   "name": "NNS_SndHandleReadTrackInfo",
    "address": "0x02073108",
    "kind": "game",
    "region": "arm9",

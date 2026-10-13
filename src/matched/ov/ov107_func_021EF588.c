@@ -23,7 +23,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_02045808 0x02045808 arm
  *   func_020458F8 0x020458F8 arm
- *   func_02045A90 0x02045A90 arm
+ *   STRBUF_GetChars 0x02045A90 arm
  *   func_02082A60 0x02082A60 arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02040588 0x02040588 arm
@@ -72,7 +72,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
 typedef signed int     s32;
 extern u16 func_020458F8(struct U16Vec *vec);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void func_02082A60(const void *, void *, int);
 extern int func_02034AC4(s32 handle);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -116,10 +116,10 @@ void func_021EF588(u8 *p)
     la = (u32)func_020458F8(a);
     lb = (u32)func_020458F8(b);
     dst = w->f50;
-    src = func_02045A90(a);
+    src = STRBUF_GetChars(a);
     func_02082A60(src, dst, la * 2);
     dst = w->f54;
-    src = func_02045A90(b);
+    src = STRBUF_GetChars(b);
     func_02082A60(src, dst, lb * 2);
     func_02045808(a);
     func_02045808(b);

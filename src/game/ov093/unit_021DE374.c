@@ -20,32 +20,32 @@
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
  */
+#include "unit_021DDC44_types.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+extern int func_021D775C(int varId);
+extern int func_021DCFF8(struct BtlEventFactor *factor, int paramIndex);
+extern void func_021D7704(int varId, s32 ratio);
 
-extern int func_021D775C(int key);
-extern int func_021DCFF8(int a, int b);
-typedef signed int     s32;
-extern void func_021D7704(int key, s32 m);
+void func_021DE374(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
 
-void func_021DE374(int a, int b, int c)
+/* Bright Powder, accuracy event: lowers the attacker's accuracy by the item percent (the holder is the defender). */
+void func_021DE374(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u32 v;
+    u32 percentLeft;
 
-    if (c == func_021D775C(4)) {
-        v = 100 - func_021DCFF8(a, 2);
-        func_021D7704(0x35, (int)(v > 0 ? (float)(v << 12) + 0.5f : (float)(v << 12) - 0.5f) / 100);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID)) {
+        percentLeft = 100 - func_021DCFF8(factor, BTL_ITEM_PARAM_VALUE);
+        func_021D7704(BTL_EVAR_RATIO, (int)(percentLeft > 0 ? (float)(percentLeft << 12) + 0.5f : (float)(percentLeft << 12) - 0.5f) / 100);
     }
 }
 
 
 extern int d_021F156C[];
-int *func_021DE3C8(int *p);
+int *func_021DE3C8(int *handlerCount);
 
-int *func_021DE3C8(int *p)
+/* Handler table getter of Macho Brace. */
+int *func_021DE3C8(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F156C;
 }

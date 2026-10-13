@@ -1,7 +1,7 @@
 /*
  * file:     unit_021542C0.c
  * unit:     yes
- * function: func_021542C0, func_021543E8
+ * function: func_021542C0, EVENT_WIFIBATTLEMATCH_Create
  * address:  0x021542C0
  * region:   ov002
  * compiler: dsi/1.1p1
@@ -15,16 +15,16 @@
  * symbols:
  *   func_02012138  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02005C44  0x02005C44  thumb
- *   func_02005E30  0x02005E30  thumb
- *   func_020144DC  0x020144DC  thumb
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02012374  0x02012374  thumb
  *   func_020120F4  0x020120F4  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
- *   func_02005D90  0x02005D90  thumb
- *   func_02005DF8  0x02005DF8  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
@@ -69,16 +69,16 @@ typedef struct WifiBattleMatchEventWork {
 
 extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
 extern u32 func_02026454(void *gameComm);
-extern u16 func_02005C44(void);
-extern void func_02005E30(u32 frames);
-extern int func_020144DC(int gameSystem, int fieldMap);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_FadeOutBgm(u32 frames);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
 extern void func_02012374(struct GameEvent *event, struct GameEvent **newEvent);
 extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
-extern u32 func_020120F0(const struct GameSystem *gameSystem);
-extern void  func_02005D90(u32 bgmNo, u32 fadeTarget);
-extern void func_02005DF8(u32 frames);
-extern void *func_020145CC(void *gameSystem);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
+extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
+extern void GFL_USE_FadeInBgmFull(u32 frames);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 extern u32 func_020307B0(void *p);
 extern int func_021BE8D4(void *gameSystem, int fieldMap, int sel, int d);
@@ -87,7 +87,7 @@ void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
 void func_02026400(struct GameComm *gameComm);
 void *func_020124E8(struct GameEvent *event);
 u32 func_021542C0(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *work);
-void *func_021543E8(void *gameSystem, int fieldMap, int entryMode, int ratedFlag, int matchKind);
+void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, int fieldMap, int entryMode, int ratedFlag, int matchKind);
 extern char ov199_id[];
 extern char d_02213C4C[];
 extern char d_02154460[];
@@ -101,8 +101,8 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *w
     switch (*seq) {
     case 0:
         if (func_02026454(func_02012138(gameSystem)) == 0) {
-            work->savedBgmNo = func_02005C44();
-            func_02005E30(6);
+            work->savedBgmNo = GFL_USE_GetBgmNo();
+            GFL_USE_FadeOutBgm(6);
             (*seq)++;
         }
         break;
@@ -112,7 +112,7 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *w
         (*seq)++;
         break;
     case 2:
-        func_02012374(event, (struct GameEvent **)func_020144DC((int)gameSystem, work->fieldMap));
+        func_02012374(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, work->fieldMap));
         (*seq)++;
         break;
     case 3:
@@ -122,11 +122,11 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *w
         param->gameData = func_020120F4(gameSystem);
         param->matchKind = work->matchKind;
         param->ratedFlag = work->ratedFlag;
-        func_020120B4(gameSystem, (u32)ov199_id, d_02213C4C, work->param);
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov199_id, d_02213C4C, work->param);
         (*seq)++;
         break;
     case 4:
-        if (func_020120F0(gameSystem) == 0) {
+        if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
             func_020307B0(work->param);
             (*seq)++;
         }
@@ -135,9 +135,9 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *w
         (*seq)++;
         break;
     case 6:
-        func_02012374(event, func_020145CC(gameSystem));
-        func_02005D90(work->savedBgmNo, 0xFFFF);
-        func_02005DF8(0x3C);
+        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        GFL_USE_CancelChangeAndPlayBgm(work->savedBgmNo, 0xFFFF);
+        GFL_USE_FadeInBgmFull(0x3C);
         (*seq)++;
         break;
     case 7:
@@ -155,7 +155,7 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *w
 /*
  * Allocator + guard + link setup, stores five constructor arguments.
  */
-void *func_021543E8(void *gameSystem, int fieldMap, int entryMode, int ratedFlag, int matchKind)
+void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, int fieldMap, int entryMode, int ratedFlag, int matchKind)
 {
     void *event = func_020122C0(gameSystem, 0, func_021542C0, 0x20);
     WifiBattleMatchEventWork *work;

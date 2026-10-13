@@ -30,7 +30,7 @@
  *   func_02045C04  0x02045C04  arm
  *   func_0209C0A4  0x0209C0A4  arm
  *   func_0201BD28  0x0201BD28  thumb
- *   func_02005D90  0x02005D90  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   func_02005F38  0x02005F38  thumb
  *   func_021E9634  0x021E9634  thumb  ov093
  *   func_021E9D04  0x021E9D04  thumb  ov093
@@ -138,7 +138,7 @@ extern int func_021E9E80(u8 *p);
 extern int func_021F7EB4(void);
 extern void func_021F7CFC(u32 a, u16 b, u8 c, int d, int e);
 extern int func_021EA720(u32 *p);
-extern void func_02005D90(u32 a, u32 b);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
 extern int func_02005F38(void);
 extern void func_021F7C0C(void);
 extern u32 func_02045C04(struct Rec *rec);
@@ -283,7 +283,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         break;
     case 18:
         if (func_021EA720((u32 *)p)) {
-            func_02005D90(0x518, 0xFFFF);
+            GFL_USE_CancelChangeAndPlayBgm(0x518, 0xFFFF);
         }
         if (func_021EA710((u32 *)p)) {
             (*state)++;

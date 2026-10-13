@@ -1,5 +1,5 @@
 /*
- * function: sub_0204AFD8
+ * function: CLACT_ReleaseCellAnim
  * address:  0x0204AFD8
  * packet:   pkt_0204ACEC
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A74   0x02146A74  data
+ *   g_ClactSystem   0x02146A74  data
  *   sub_020307B0 0x020307B0  arm
  *
  * Tear down one entry of the 0x14-byte table hanging off +0x114 of the
@@ -19,15 +19,15 @@
  *
  * The entry address is bound to a named local (r4) and survives both
  * calls, so neither the global nor the index multiply is recomputed after
- * the first store, unlike sub_0204ADA4 next door
+ * the first store, unlike CLACT_ReleasePalette next door
  * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
  * The first load reads through the register-offset form `ldr r0,[r2,r1]`
  * before the `add` that materialises the cursor; that is scheduling, not
  * a second addressing mode in the source.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204AFD8.c \
- *       --func sub_0204AFD8 --addr 0x0204AFD8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ReleaseCellAnim.c \
+ *       --func CLACT_ReleaseCellAnim --addr 0x0204AFD8 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Mgr.h"
@@ -42,12 +42,12 @@ struct Slot {
     u32   unk_10;
 };
 
-extern struct Mgr *g_02146A74;
+extern struct Mgr *g_ClactSystem;
 extern u32 sub_020307B0(void *p);
 
-void sub_0204AFD8(u32 i)
+void CLACT_ReleaseCellAnim(u32 i)
 {
-    struct Slot *s = &((struct Slot *)g_02146A74->tb)[i];
+    struct Slot *s = &((struct Slot *)g_ClactSystem->tb)[i];
 
     if (s->unk_00 != 0) {
         sub_020307B0(s->unk_00);

@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203A634",
+   "name": "GFL_NET_COMMAND_GetHeaderSize",
    "address": "0x0203A634",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203A67C",
+   "name": "GFL_NET_COMMAND_GetCommandTable",
    "address": "0x0203A67C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203A70C",
+   "name": "GFL_NET_COMMAND_GetRecvFunc",
    "address": "0x0203A70C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203A730",
+   "name": "GFL_NET_COMMAND_GetCommandWork",
    "address": "0x0203A730",
    "kind": "game",
    "region": "arm9",

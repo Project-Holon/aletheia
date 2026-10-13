@@ -1,5 +1,5 @@
 /*
- * function: func_021795A4
+ * function: WIH_GetOwnAid
  * address: 0x021795A4
  * packet: pkt_ov014_021795A4
  * region: ov014
@@ -13,7 +13,7 @@
  */
 typedef unsigned char u8;
 extern u8 *g_021797A8;
-unsigned short func_021795A4(void)
+unsigned short WIH_GetOwnAid(void)
 {
     if (g_021797A8 != 0) return *(unsigned short *)(g_021797A8 + 0x1EA8);
     return 0;

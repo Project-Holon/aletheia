@@ -1,5 +1,5 @@
 /*
- * function: func_0202411C
+ * function: PMSI_PARAM_CheckCanceled
  * address:  0x0202411C
  * packet:   pkt_0202411C
  * region:   arm9
@@ -15,7 +15,7 @@
  *   (none - no relocations)
  */
 
-int func_0202411C(unsigned char *p)
+int PMSI_PARAM_CheckCanceled(unsigned char *p)
 {
     return p[1];
 }

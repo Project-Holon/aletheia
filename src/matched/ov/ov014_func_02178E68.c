@@ -1,5 +1,5 @@
 /*
- * function: func_02178E68
+ * function: DWCi_MOV_WH_GetLastError
  * address: 0x02178E68
  * packet: pkt_ov014_02178E68
  * region: ov014
@@ -16,4 +16,4 @@
 
 typedef unsigned char u8;
 extern struct S *g_021797A8;
-int func_02178E68(void) { if (((u8 *)g_021797A8) != 0) return *(int *)(((u8 *)g_021797A8) + 0x1E98); return 0; }
+int DWCi_MOV_WH_GetLastError(void) { if (((u8 *)g_021797A8) != 0) return *(int *)(((u8 *)g_021797A8) + 0x1E98); return 0; }

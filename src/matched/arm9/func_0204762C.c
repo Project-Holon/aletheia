@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A5C      0x02146A5C  data
- *   func_0206E388   0x0206E388  arm
+ *   _G3dSystem      0x02146A5C  data
+ *   NNS_G3dFreeAnmObj   0x0206E388  arm
  *   func_020307B0   0x020307B0  arm
  *
  * The sibling of func_02047504 for the other record tag: 0x59D1 instead of
- * 0x7A14 and func_0206E388 instead of func_0206E358.  Everything else,
+ * 0x7A14 and NNS_G3dFreeAnmObj instead of NNS_G3dFreeRenderObj.  Everything else,
  * including the register allocation and the reuse of the pooled tag for the
  * decrement, is identical.
  *
@@ -33,9 +33,9 @@ struct Rec {
     u32 unk_04;
 };
 
-extern u32 g_02146A5C;
+extern u32 _G3dSystem;
 struct Obj02061330;
-extern void func_0206E388(struct Obj02061330 *ctx, int field);
+extern void NNS_G3dFreeAnmObj(struct Obj02061330 *ctx, int field);
 extern u32 func_020307B0(void *p);
 
 void func_0204762C(struct Rec *p)
@@ -45,7 +45,7 @@ void func_0204762C(struct Rec *p)
     if (p->tag != 0x59D1)
         return;
 
-    func_0206E388((struct Obj02061330 *)g_02146A5C, p->unk_04);
+    NNS_G3dFreeAnmObj((struct Obj02061330 *)_G3dSystem, p->unk_04);
     p->tag = 0x59D1 - 1;
     func_020307B0(p);
 }

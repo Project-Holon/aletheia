@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200B784
+ * function: BATTLE_REC_GetModeLayout
  *
  * 84 bytes, 0x0200B784..0x0200B7D8, one function, which carries a label in the
  * generated listing.
@@ -31,29 +31,29 @@
  *
  * This is a file of its own rather than part of the range that follows it
  * because 0x0209DDCC is named by exactly two literal pool words in the whole
- * image, this function's and func_0200B7D8's, so a range holding both has no
+ * image, this function's and BATTLE_REC_MakeHeader's, so a range holding both has no
  * witness left.  Cut between them and this one is attested by the other's
  * pool word.  See
  * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.  The cut
- * does not save func_0200B7D8, which is the only caller of this function and
+ * does not save BATTLE_REC_MakeHeader, which is the only caller of this function and
  * therefore cannot be split away from it and attested at the same time; it is
  * parked in src/pending/unit_0200B7D8.c.
  *
  * symbols:
- *   func_0200B784_Table  0x0209DDCC  data
+ *   BattleRecModeTable  0x0209DDCC  data
  */
 
 typedef unsigned short u16;
 typedef signed int     s32;
 
-extern const u16 func_0200B784_Table[];
+extern const u16 BattleRecModeTable[];
 
-void func_0200B784(u16 mode, s32 *sides, s32 *members)
+void BATTLE_REC_GetModeLayout(u16 mode, s32 *sides, s32 *members)
 {
     s32 i;
 
     for (i = 0; i < 0x29; i++) {
-        if (mode == func_0200B784_Table[i]) {
+        if (mode == BattleRecModeTable[i]) {
             switch (i) {
             case 0x10:
             case 0x11:

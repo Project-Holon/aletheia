@@ -10,7 +10,7 @@
  * symbols:
  *   d_021E203C 0x021E203C data a4
  *   func_020061E4 0x020061E4 thumb
- *   func_0204B8D4 0x0204B8D4 arm
+ *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   func_0204B98C 0x0204B98C arm
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_020307B0 0x020307B0 arm
@@ -23,7 +23,7 @@ extern const Table d_021E203C;
 struct Node;
 extern void func_020061E4(u32 a);
 struct Obj;
-extern void func_0204B8D4(struct Obj *p, u32 arg);
+extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern u32 func_0204B98C(struct Actor *);
 extern void func_0204B3B4(struct Obj *p);
 extern u32 func_020307B0(void *p);
@@ -41,7 +41,7 @@ void func_021E121C(void *task, int *p)
                 p[3]++;
             }
         }
-        func_0204B8D4((struct Obj *)p[5], 0x1800);
+        CLACT_AddActorAnimFrame((struct Obj *)p[5], 0x1800);
         if (func_0204B98C((struct Actor *)p[5]) == 0) p[0]++;
         break;
     case 1:

@@ -1,5 +1,5 @@
 /*
- * function: func_0206DB60
+ * function: NNS_G3dGeReleaseBuffer
  * address:  0x0206DB60
  * packet:   pkt_0206DB40
  * region:   arm9
@@ -12,8 +12,8 @@
  * symbols:
  *   g_0214BAB4       0x0214BAB4  data
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206DB60.c \
- *       --func func_0206DB60 --addr 0x0206DB60 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dGeReleaseBuffer.c \
+ *       --func NNS_G3dGeReleaseBuffer --addr 0x0206DB60 --cc 1.1p1 --arm
  */
 
 #include "../include/G_GeState.h"
@@ -21,7 +21,7 @@
 extern struct GeState g_0214BAB4;
 extern void   func_0206DB80(void);
 
-void *func_0206DB60(void)
+void *NNS_G3dGeReleaseBuffer(void)
 {
     void *r;
 

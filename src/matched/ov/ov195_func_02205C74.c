@@ -14,7 +14,7 @@
  *   func_02030734 0x02030734 arm
  *   func_020173EC 0x020173EC thumb
  *   func_02019CE0 0x02019CE0 thumb
- *   func_020178D8 0x020178D8 thumb
+ *   POKE_TOOL_ChangeSpecies 0x020178D8 thumb
  *   func_0220609C 0x0220609C thumb ov195
  *   func_02206108 0x02206108 thumb ov195
  *   func_022063E0 0x022063E0 thumb ov195
@@ -53,7 +53,7 @@ struct RecDC;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020173EC(void);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
-extern void func_020178D8(void *p, u32 a);
+extern void POKE_TOOL_ChangeSpecies(void *p, u32 a);
 extern void func_0220609C(char *a);
 extern void func_02206108(Owner *o);
 extern void func_022063E0(Owner *o);
@@ -70,7 +70,7 @@ Owner *func_02205C74(u16 heap, u32 f08, void *res0, u16 f0c)
     if (f08 == 0) {
         o->res1 = func_02030734(o->heap, func_020173EC(), 1, d_02208F68, 0x213);
         func_02019CE0(o->res0, o->res1);
-        func_020178D8(o->res1, o->f0c);
+        POKE_TOOL_ChangeSpecies(o->res1, o->f0c);
     }
     if (o->f08 == 0)
         o->f14 = 0;

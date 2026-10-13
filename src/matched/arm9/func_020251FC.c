@@ -1,5 +1,5 @@
 /*
- * function: func_020251FC
+ * function: INFOWIN_LoadGraphics
  * address:  0x020251FC
  * packet:   pkt_020251FC
  * region:   arm9
@@ -49,7 +49,7 @@ extern void  ENV_SetResourceSet(void *a);
 extern void  func_02041300(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void  func_020409B4(u32 a);
 
-void func_020251FC(u32 a, u32 b, u32 c)
+void INFOWIN_LoadGraphics(u32 a, u32 b, u32 c)
 {
     void *env;
     u32 sel = 0;

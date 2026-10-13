@@ -11,26 +11,26 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020067E0, sub_02006868
+ * function: PM_VOICE_LoadWave, PM_VOICE_StartChannels
  *
  * symbols:
- *   sub_0200674C   0x0200674C  thumb
- *   func_02072A44  0x02072A44  arm
+ *   PM_VOICE_ScaleVolume   0x0200674C  thumb
+ *   NNS_SndWaveOutAllocChannel  0x02072A44  arm
  *   func_02072AA0  0x02072AA0  arm
- *   func_02074450  0x02074450  arm
- *   func_0207457C  0x0207457C  arm
- *   func_020745A4  0x020745A4  arm
- *   func_0208A638  0x0208A638  arm
+ *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
+ *   NNS_SndArcGetFileSize  0x0207457C  arm
+ *   NNS_SndArcReadFile  0x020745A4  arm
+ *   SNDi_GetBankWaveArcTable  0x0208A638  arm
  *   _ll_udiv       0x0209C00C  arm
  *
- * The loader and the player.  sub_020067E0 resolves an id to a resource,
+ * The loader and the player.  PM_VOICE_LoadWave resolves an id to a resource,
  * reads the header at the end of the loaded block and fills in the entry's
- * four playback fields; sub_02006868 opens one or two channels for the
+ * four playback fields; PM_VOICE_StartChannels opens one or two channels for the
  * entry and marks it running.
  *
  * Three things in here are worth keeping.
  *
- * The first word of the object func_02074450 returns is read with a
+ * The first word of the object NNS_SndArcGetWaveArcInfo returns is read with a
  * `lsls #8` / `lsrs #8` pair, which is a 24 bit unsigned bitfield and not a
  * mask; src/matched/unit_020064B8.c matched the same object through the
  * same entry point and
@@ -38,9 +38,9 @@
  * finding.
  *
  * The byte at +0x1E of an entry is two four bit unsigned bitfields, not one
- * value: sub_02006868 reads it twice, once as `lsls #0x1C` / `lsrs #0x1C`
+ * value: PM_VOICE_StartChannels reads it twice, once as `lsls #0x1C` / `lsrs #0x1C`
  * and once as `lsls #0x18` / `lsrs #0x1C`, and passes each to
- * func_02072A44.  The same byte is written in sub_02006544 with a
+ * NNS_SndWaveOutAllocChannel.  The same byte is written in PM_VOICE_Init with a
  * `bics`/`orrs` pair against 0x0F and against 0xF0.  The first declared
  * field is the low nibble, so this front end allocates a `u8` bitfield from
  * the least significant end.
@@ -56,18 +56,18 @@
  * promoted to `int` and then converted costs.
  *
  * The two functions of this range are separated from the two before them
- * and from sub_02006948 after them by what the evidence allows rather than
- * by taste.  sub_020067A4's only branch in the image is the `bl` at
- * 0x0200697C inside sub_02006948, so a range holding both has no witness for
+ * and from PM_VOICE_Stop after them by what the evidence allows rather than
+ * by taste.  PM_VOICE_ResetParams's only branch in the image is the `bl` at
+ * 0x0200697C inside PM_VOICE_Stop, so a range holding both has no witness for
  * it; ending this range at 0x02006948 leaves the pool word at 0x020067DC,
  * which is the other kind of witness for the same address, outside it.
  *
- * The near miss immediately after this range is sub_02006948,
+ * The near miss immediately after this range is PM_VOICE_Stop,
  * 0x02006948..0x02006984, 60 bytes.  Evidence class `label`, witness census
  * 2 image wide and 2 inside the range, for each of three separate targets:
  * func_02072BDC is branched to from 0x0200694E and 0x02006966, func_02072D20
  * from 0x02006954 and 0x0200696C, and func_02072A88 from 0x0200695A and
- * 0x02006972, and every one of those six sites is inside sub_02006948
+ * 0x02006972, and every one of those six sites is inside PM_VOICE_Stop
  * itself.  ov172 holds the words 0x02072A88 and 0x02072BDC in its own
  * literal pools, but overlay pool words are deliberately not admitted to
  * the `literal` class, and nothing anywhere branches to those three
@@ -121,16 +121,16 @@ struct Sub020067E0Wave {
     u16 unk04;
 };
 
-extern u8   sub_0200674C(u8 volume);
-extern u32  func_02072A44(u32 kind);
+extern u8   PM_VOICE_ScaleVolume(u8 volume);
+extern u32  NNS_SndWaveOutAllocChannel(u32 kind);
 extern int  func_02072AA0(u32 channel, u32 a, void *data, u32 b, u32 c,
                           u32 length, u32 loop, u8 volume, u32 rate, u8 pan);
-extern void *func_02074450(int index);
-extern u32  func_0207457C(u32 group);
-extern int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset);
-extern void *func_0208A638(char *p);
+extern void *NNS_SndArcGetWaveArcInfo(int index);
+extern u32  NNS_SndArcGetFileSize(u32 group);
+extern int NNS_SndArcReadFile(u32 idx, void *dst_buf, int total_len, u32 offset);
+extern void *SNDi_GetBankWaveArcTable(char *p);
 
-int sub_020067E0(struct Sub02006544Entry *e, u32 id)
+int PM_VOICE_LoadWave(struct Sub02006544Entry *e, u32 id)
 {
     struct Sub020067E0Head *p;
     struct Sub020067E0Block *block;
@@ -139,15 +139,15 @@ int sub_020067E0(struct Sub02006544Entry *e, u32 id)
     u32 size;
     int r;
 
-    p = func_02074450(id);
+    p = NNS_SndArcGetWaveArcInfo(id);
     if (p == 0) {
         return 0;
     }
-    handle = func_0207457C(p->unk00);
+    handle = NNS_SndArcGetFileSize(p->unk00);
     if (handle == 0) {
         return 0;
     }
-    r = func_020745A4(p->unk00, e->unk04, handle, 0);
+    r = NNS_SndArcReadFile(p->unk00, e->unk04, handle, 0);
     if (r == -1) {
         return 0;
     }
@@ -156,7 +156,7 @@ int sub_020067E0(struct Sub02006544Entry *e, u32 id)
     }
     block = e->unk04;
     wave = (struct Sub020067E0Wave *)((u8 *)block + block->unk3C);
-    func_0208A638((char *)block);
+    SNDi_GetBankWaveArcTable((char *)block);
     size = block->unk08 - block->unk3C;
     e->unk10 = (u8 *)wave + 0xC;
     e->unk08 = size - 0xC;
@@ -165,7 +165,7 @@ int sub_020067E0(struct Sub02006544Entry *e, u32 id)
     return 1;
 }
 
-int sub_02006868(struct Sub02006544Entry *e)
+int PM_VOICE_StartChannels(struct Sub02006544Entry *e)
 {
     int v;
 
@@ -175,16 +175,16 @@ int sub_02006868(struct Sub02006544Entry *e)
     if (e->unk08 == 0) {
         return 0;
     }
-    e->unk14 = func_02072A44(e->unk1E);
+    e->unk14 = NNS_SndWaveOutAllocChannel(e->unk1E);
     if (e->unk14 == 0) {
         return 0;
     }
     if (func_02072AA0(e->unk14, 0, e->unk10, 0, 0, e->unk08, e->unk0C,
-                      sub_0200674C(e->unk1C), e->unk20, e->unk28) == 0) {
+                      PM_VOICE_ScaleVolume(e->unk1C), e->unk20, e->unk28) == 0) {
         return 0;
     }
     if (e->unk2C == 1) {
-        e->unk18 = func_02072A44(e->unk1E_4);
+        e->unk18 = NNS_SndWaveOutAllocChannel(e->unk1E_4);
         if (e->unk18 == 0) {
             return 0;
         }
@@ -196,7 +196,7 @@ int sub_02006868(struct Sub02006544Entry *e)
             v = 0x7F;
         }
         if (func_02072AA0(e->unk18, 0, e->unk10, 0, 0, e->unk08, e->unk0C,
-                          sub_0200674C((u8)v), e->unk20 + e->unk24,
+                          PM_VOICE_ScaleVolume((u8)v), e->unk20 + e->unk24,
                           e->unk28) == 0) {
             return 0;
         }

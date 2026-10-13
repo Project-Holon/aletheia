@@ -1,5 +1,5 @@
 /*
- * function: sub_0200A358
+ * function: MYSTERY_DATA_Load
  * address:  0x0200A358
  * packet:   pkt_0200A358
  * region:   arm9
@@ -16,9 +16,9 @@
  *           prototype now takes the pointer func_021DFC20 returned (the
  *           callee-arity lever; same bytes, it was a live leftover before).
  * symbols:
- *   sub_020071CC   0x020071CC  thumb
- *   sub_020071EC   0x020071EC  thumb
- *   sub_0200A480   0x0200A480  thumb
+ *   SAVE_CONTROL_GetBlock   0x020071CC  thumb
+ *   SAVE_CONTROL_HasFlashSave   0x020071EC  thumb
+ *   MYSTERY_DATA_Encrypt   0x0200A480  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_021DFC20  0x021DFC20  thumb  ov228
@@ -28,7 +28,7 @@
  *
  * WHAT CHANGED THIS WAVE (docs/notes/pkt_0200A358.c.txt had this row at DIFF,
  * 112 bytes against 120, 91 concrete bytes out).  The note's C spelled the
- * dispatch on a2 as `if (a2 == 1) t = sub_020071EC(a1);` with `t` initialised
+ * dispatch on a2 as `if (a2 == 1) t = SAVE_CONTROL_HasFlashSave(a1);` with `t` initialised
  * to 1.  The original is a SWITCH with an explicit empty-ish case 0:
  *
  *   0200A36A  cmp r4, #0 / beq  ->  0200A374: b 0200A37E  (t = 1)
@@ -43,12 +43,12 @@
  * register allocation -- the `if` form spilled a3 to `[sp]` where the
  * original keeps it in r7 -- and takes the row from 91 concrete bytes out to
  * zero in one edit.  The 0xE4 pool word is the same absolute linker symbol
- * func_0200A3D0 next door uses
+ * MYSTERY_DATA_Unload next door uses
  * (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/pending/func_0200A358.c \
- *       --func sub_0200A358 --addr 0x0200A358 --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/pending/MYSTERY_DATA_Load.c \
+ *       --func MYSTERY_DATA_Load --addr 0x0200A358 --cc 1.1p1 --thumb
  */
 #include "../include/Obj04037.h"
 
@@ -57,10 +57,10 @@ typedef unsigned int  u32;
 
 struct Sub020071CCCtrl;
 struct Sub020071E4Ctrl;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern u8    sub_020071EC(const struct Sub020071E4Ctrl *ctrl);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
+extern u8    SAVE_CONTROL_HasFlashSave(const struct Sub020071E4Ctrl *ctrl);
 struct Obj;
-extern void  sub_0200A480(struct Obj *p);
+extern void  MYSTERY_DATA_Encrypt(struct Obj *p);
 extern int func_02034AC4(int id);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
 extern void *func_021DFC20(u32 heap);
@@ -68,7 +68,7 @@ extern u8 func_021DFE90(u8 *p);
 extern void *func_021DFEAC(u8 *p);
 extern u8    ov_id_E4[];
 
-void sub_0200A358(u8 *p, void *ctrl, int a2, int a3)
+void MYSTERY_DATA_Load(u8 *p, void *ctrl, int a2, int a3)
 {
     int t;
     void *w;
@@ -79,14 +79,14 @@ void sub_0200A358(u8 *p, void *ctrl, int a2, int a3)
         t = 1;
         break;
     case 1:
-        t = sub_020071EC((const struct Sub020071E4Ctrl *)ctrl);
+        t = SAVE_CONTROL_HasFlashSave((const struct Sub020071E4Ctrl *)ctrl);
         break;
     default:
         t = 1;
         break;
     }
     if (t != 0) {
-        ((struct Obj04037 *)p)->f0 = (u32)sub_020071CC((struct Sub020071CCCtrl *)ctrl, 0x22);
+        ((struct Obj04037 *)p)->f0 = (u32)SAVE_CONTROL_GetBlock((struct Sub020071CCCtrl *)ctrl, 0x22);
         ((struct Obj04037 *)p)->f4 = 1;
         return;
     }
@@ -97,6 +97,6 @@ void sub_0200A358(u8 *p, void *ctrl, int a2, int a3)
     ((struct Obj04037 *)p)->f4 = 0;
     if (func_021DFE90((void *)((struct Obj04037 *)p)->f8) == 0) {
         func_02082BCC((void *)((struct Obj04037 *)p)->f0, 0, 0x368);
-        sub_0200A480((struct Obj *)p);
+        MYSTERY_DATA_Encrypt((struct Obj *)p);
     }
 }

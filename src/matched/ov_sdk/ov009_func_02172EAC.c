@@ -19,7 +19,7 @@
  *   func_021763AC  0x021763AC  arm  ov009
  *   func_0216FF2C  0x0216FF2C  arm  ov009
  *   func_021719A4  0x021719A4  arm  ov009
- *   func_0216BEA4  0x0216BEA4  arm  ov009
+ *   DWCi_CloseConnectionHard  0x0216BEA4  arm  ov009
  *   func_0217653C  0x0217653C  arm  ov009
  *   func_02173C84  0x02173C84  arm  ov009
  *
@@ -63,7 +63,7 @@ extern int func_02175F3C(void);
 extern char *func_021763AC(int pid);
 extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
 extern int func_021719A4(int error);
-extern int func_0216BEA4(u8 aid);
+extern int DWCi_CloseConnectionHard(u8 aid);
 extern void func_0217653C(void);
 extern u8 func_02173C84(int profileID, int arg);
 
@@ -127,13 +127,13 @@ static int func_02172EAC(u32 bitmap)
 
     ((DWCstMatchControl *)func_02175F3C())->closeState = 1;
     if (bShutdownNewNode) {
-        func_0216BEA4(((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo.aid);
+        DWCi_CloseConnectionHard(((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo.aid);
         func_0217653C();
     }
     for (i = 0; i < senddataLen; i++) {
         aid = func_02173C84(senddata[i], 0);
         if (aid != 0xff)
-            func_0216BEA4(aid);
+            DWCi_CloseConnectionHard(aid);
     }
     ((DWCstMatchControl *)func_02175F3C())->closeState = 0;
     return bRet;

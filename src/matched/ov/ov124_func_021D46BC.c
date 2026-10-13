@@ -18,6 +18,8 @@
  *   func_020409B4 0x020409B4 arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045808 0x02045808 arm
+ *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb  arm9
+ *   APP_TASKMENU_WIN_ClearScreen  0x0202843C  thumb  arm9
  */
 #include "../include/Obj00068.h"
 typedef unsigned char u8;
@@ -48,9 +50,9 @@ extern void func_02045374(struct Cfg *cfg);
 extern void func_0201F73C(void *, int, int, int);
 extern void func_020409B4(u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02027FEC(u32, u32, u32, u32, u8, u16);
+extern u32 APP_TASKMENU_WIN_Create(u32, u32, u32, u32, u8, u16);
 extern void func_02045808(struct U16Vec *vec);
-extern void func_0202843C(u8 *);
+extern void APP_TASKMENU_WIN_ClearScreen(u8 *);
 void func_021D46BC(char *p)
 {
     Request req;
@@ -78,15 +80,15 @@ void func_021D46BC(char *p)
     req.text = (u32)func_02045EC0(((struct Obj00068 *)p)->f2C, 24);
     req.color = 0x39e3;
     req.flag = 0;
-    ((struct Obj00068 *)p)->f3C = func_02027FEC(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 11, 21, 11, ((struct Obj00068 *)p)->f0);
+    ((struct Obj00068 *)p)->f3C = APP_TASKMENU_WIN_Create(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 11, 21, 11, ((struct Obj00068 *)p)->f0);
     func_02045808((void *)req.text);
     req.text = (u32)func_02045EC0(((struct Obj00068 *)p)->f2C, 26);
-    *(u32 *)&((struct Obj00068 *)p)->f38 = func_02027FEC(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 0, 21, 11, ((struct Obj00068 *)p)->f0);
+    *(u32 *)&((struct Obj00068 *)p)->f38 = APP_TASKMENU_WIN_Create(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 0, 21, 11, ((struct Obj00068 *)p)->f0);
     func_02045808((void *)req.text);
     req.text = (u32)func_02045EC0(((struct Obj00068 *)p)->f2C, 25);
     req.flag = 1;
-    ((struct Obj00068 *)p)->f40 = func_02027FEC(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 22, 21, 10, ((struct Obj00068 *)p)->f0);
+    ((struct Obj00068 *)p)->f40 = APP_TASKMENU_WIN_Create(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 22, 21, 10, ((struct Obj00068 *)p)->f0);
     func_02045808((void *)req.text);
-    func_0202843C(*(u8 * *)&((struct Obj00068 *)p)->f38);
+    APP_TASKMENU_WIN_ClearScreen(*(u8 * *)&((struct Obj00068 *)p)->f38);
     *(u16 *)0x050005e2 = 0;
 }

@@ -1,7 +1,7 @@
 /*
  * file:     battle_rec.c
  * unit:     yes
- * function: func_0200B2A4, func_0200B348, func_0200B358, func_0200B364, func_0200B368, func_0200B37C, func_0200B394, func_0200B3A4, func_0200B3A8, func_0200B3AC, func_0200B3B0, func_0200B3C8, func_0200B3DC, func_0200B400, func_0200B424, func_0200B438, func_0200B440, func_0200B448, func_0200B45C, func_0200B480, func_0200B490, func_0200B4B8, func_0200B4E0, func_0200B570, func_0200B5A4, func_0200B5CC, func_0200B67C, func_0200B6E0, func_0200B784, func_0200B7D8, func_0200B888, func_0200B8AC, func_0200B900, func_0200B908, func_0200B910, func_0200B91C, func_0200B928, func_0200B934, func_0200B938, func_0200B98C, func_0200BA38, func_0200BA44, func_0200BA58, func_0200BA68, func_0200BA78, func_0200BA80, func_0200BAC8, func_0200BAD4, sub_0200BAF4, func_0200BB58, func_0200BBA8, func_0200BBC8, func_0200BBD8, func_0200BBEC, func_0200BBFC, func_0200BC10, func_0200BC20, func_0200BC2C, func_0200BC4C, func_0200BC88, func_0200BCA0, func_0200BCA8, func_0200BCB8, func_0200BCD8, func_0200BCEC, func_0200BD48, func_0200BD98, func_0200BDA0, func_0200BDB0, func_0200BDBC, func_0200BDC4, func_0200BDE4, func_0200BDF8, func_0200BDFC, func_0200BE00, func_0200BE24, func_0200BE48, func_0200BE54, func_0200BE6C, func_0200BE84, func_0200BF08, func_0200BF10, func_0200BF18, func_0200BF54, func_0200BF70, func_0200BF78, func_0200BF94, func_0200BFA4, func_0200C054, func_0200C058, func_0200C0E8, func_0200C0F0, func_0200C0FC, func_0200C104, func_0200C10C, func_0200C11C, func_0200C164, func_0200C184, func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4, func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4, func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224, func_0200C22C, func_0200C234, func_0200C248, func_0200C258, func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0, func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C, func_0200C324, func_0200C32C, func_0200C334, func_0200C33C, func_0200C344, func_0200C34C, func_0200C358, func_0200C364, func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C, func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0, func_0200C3EC
+ * function: func_0200B2A4, func_0200B348, func_0200B358, func_0200B364, func_0200B368, func_0200B37C, func_0200B394, func_0200B3A4, func_0200B3A8, func_0200B3AC, func_0200B3B0, func_0200B3C8, BATTLE_REC_Create, BATTLE_REC_AllocWork, func_0200B424, BATTLE_REC_Delete, BATTLE_REC_GetWorkSize, BATTLE_REC_Clear, BATTLE_REC_IsDataExist, BATTLE_REC_ClearWork, BATTLE_REC_DecodeWork, BATTLE_REC_EncodeWork, BATTLE_REC_LoadToWork, BATTLE_REC_Load, BATTLE_REC_LoadAlloc, func_0200B5CC, BATTLE_REC_SaveSeq, func_0200B6E0, BATTLE_REC_GetModeLayout, BATTLE_REC_MakeHeader, BATTLE_REC_IsMagicBroken, BATTLE_REC_IsValid, BATTLE_REC_Decode, BATTLE_REC_Encode, BATTLE_REC_GetWork, BATTLE_REC_GetBody, BATTLE_REC_GetHeader, BATTLE_REC_GetHeaderOf, BATTLE_REC_SetData, BATTLE_REC_GetHeaderParam, func_0200BA38, BATTLE_REC_SetBodyCrc, func_0200BA58, func_0200BA68, func_0200BA78, func_0200BA80, func_0200BAC8, func_0200BAD4, sub_0200BAF4, func_0200BB58, func_0200BBA8, func_0200BBC8, func_0200BBD8, func_0200BBEC, func_0200BBFC, func_0200BC10, func_0200BC20, func_0200BC2C, func_0200BC4C, func_0200BC88, func_0200BCA0, func_0200BCA8, func_0200BCB8, func_0200BCD8, func_0200BCEC, func_0200BD48, func_0200BD98, func_0200BDA0, func_0200BDB0, func_0200BDBC, func_0200BDC4, func_0200BDE4, func_0200BDF8, func_0200BDFC, func_0200BE00, func_0200BE24, func_0200BE48, func_0200BE54, func_0200BE6C, func_0200BE84, func_0200BF08, func_0200BF10, func_0200BF18, func_0200BF54, func_0200BF70, func_0200BF78, func_0200BF94, func_0200BFA4, func_0200C054, func_0200C058, func_0200C0E8, func_0200C0F0, func_0200C0FC, func_0200C104, func_0200C10C, func_0200C11C, func_0200C164, func_0200C184, func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4, func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4, func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224, func_0200C22C, func_0200C234, func_0200C248, func_0200C258, func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0, func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C, func_0200C324, func_0200C32C, func_0200C334, func_0200C33C, func_0200C344, func_0200C34C, func_0200C358, func_0200C364, func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C, func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0, func_0200C3EC
  * address:  0x0200B2A4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -18,480 +18,423 @@
  *   func_0201AB28   0x0201AB28  thumb
  *   func_02017E1C   0x02017E1C  thumb
  *   func_0200B254   0x0200B254  thumb
- *   func_0200B3DC_File  0x020A71C4  data
+ *   _BattleRecFileName  0x020A71C4  data
  *   func_020307B0   0x020307B0  arm
- *   gObj_0214616C   0x0214616C  data
+ *   pBattleRec   0x0214616C  data
  *   MIi_CpuClear32  0x02082A7C  arm
  *   func_0203F2FC   0x0203F2FC  arm
  *   func_0203F1FC  0x0203F1FC  arm
- *   func_0200B784_Table  0x0209DDCC  data
  *   MI_CpuFill8          0x02082BCC  arm
  *   func_0203F37C  0x0203F37C  arm
  *   func_0203F328  0x0203F328  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   d_0209DDCC 0x0209DDCC data
- *   sub_02034AC4   0x02034AC4  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
+ *   BattleRecModeTable 0x0209DDCC data
  *   ov188_id       0x000000BC  data  a1
- *   sub_02034A5C   0x02034A5C  arm
  *   func_02045B38  0x02045B38  arm
- *   func_02045F5C  0x02045F5C  arm
+ *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   func_02045C04  0x02045C04  arm
- *   sub_0201747C   0x0201747C  thumb
- *   sub_02017E88   0x02017E88  thumb
- *   sub_0201A920   0x0201A920  thumb
- *   sub_0201A954   0x0201A954  thumb
- *   sub_0201A98C   0x0201A98C  thumb
- *   sub_0200BBEC   0x0200BBEC  thumb
- *   sub_02017550  0x02017550  thumb
- *   sub_0201AA18  0x0201AA18  thumb
- *   sub_0201AB28  0x0201AB28  thumb
- *   sub_020185F4  0x020185F4  thumb
- *   sub_0200BAD4  0x0200BAD4  thumb
- *   func_021763BC   0x021763BC  thumb
+ *   INTRUDE_COMM_ResetOutcomes   0x021763BC  thumb
  *   GX_GetBankForLCDC  0x02045A98  arm
  *   func_0200864C  0x0200864C  thumb
  *   func_02008650  0x02008650  thumb
  *   func_02008654  0x02008654  thumb
  *   _ull_mul       0x0209C054  arm
- *   g_02146170     0x02146170  data  a8
+ *   _PlayTimeLatch  0x02146170  data  a8
  *   func_02045EC0    0x02045EC0  arm
  *   func_02045A38    0x02045A38  arm
  *   func_02045808    0x02045808  arm
- *   memset           0x02082BCC  arm
+ *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
+ *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  */
-#include "../../matched/include/Obj07120.h"
-
-struct Rec1E;
-struct BattleRec;
-struct Struct_0200B37C;
-struct Sub020071CCCtrl;
-struct Ctrl;
-struct Sub020072A4Ctrl;
-struct Sub020073D8Ctrl;
-struct Big;
-struct Sub02007324Ctrl;
-struct Mon;
-struct MsgBank;
-struct MsgData;
-struct Party;
-struct PartyMon;
-struct Rec;
-struct Sav;
-struct Grp330;
-struct Ent88;
-struct PlayTime;
-struct U16Vec;
-struct Blk34;
 typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef signed int     s32;
-
 typedef unsigned short u16;
-
-struct Rec2FC {
-    u8 unk000[0x2FC];
-};
-
-struct Rec94 {
-    s32 unk00;
-    s32 unk04[32];
-    u8  unk84[0x10];
-};
-
-struct Struct_0200B37C {
-    int header;
-    int entries[32];
-};
-
-struct QRec {
-    u16 unk00[0x0C];
-    u8  unk18[0x0C];
-    u16 unk24;
-    u16 unk26;
-    u16 unk28;
-    u8  unk2A;
-    u8  unk2B;
-    u8  unk2C[0x0C];
-    u8  unk38[8];
-    u16 unk40;
-    u16 unk42;
-};
-
-struct Ent70 {
-    u8  unk00[4];
-    u16 f04_0 : 2;
-    u16 f04_2 : 1;
-    u16 f04_3 : 13;
-    u16 unk06;
-    u8  unk08[0x24];
-    u32 f2C_0 : 30;
-    u32 f2C_30 : 1;
-    u32 f2C_31 : 1;
-    u8  f30_0 : 1;
-    u8  f30_1 : 2;
-    u8  f30_3 : 5;
-    u8  unk31[0x3F];
-};
-
-struct Grp2A4 {
-    struct Ent70 ent[6];
-    u32 unk2A0;
-};
-
-struct RecC4 {
-    u8  unk0000[0xC3C];
-    struct Grp2A4 unkC3C[4];
-    u8  unk16CC[0x10C];
-    u16 unk17D8;
-    u16 unk17DA;
-    u16 unk17DC;
-    u16 unk17DE;
-};
-
-struct BattleRec {
-    u8  unk00[0x80];
-    struct QRec unk80;
-    struct RecC4 unkC4;
-};
-
+typedef unsigned int u32;
+typedef signed int s32;
 typedef unsigned long long u64;
 
-struct Ent88 {
-    u32 unk00[0x22];
+/* Objects owned by other files; only pointers to them pass through here. */
+struct SaveControl;
+struct GameData;
+struct Party;
+struct MsgData;
+struct StrBuf;
+struct PlayTime;
+struct RegulationParty;
+
+/* A party Pokemon (0xDC bytes) and a boxed Pokemon (0x88 bytes).  Both are
+ * declared as words: the copies of them are eight-byte stepped ldm/stm loops. */
+struct PokeParam {
+    u32 data[0x37];
 };
 
-struct Grp330 {
-    struct Ent88 ent[6];
+struct BoxMon {
+    u32 data[0x22];
 };
 
-struct Rec35C {
-    struct Grp330 unk000;
-    u8 unk330[0x14];
-    u8 unk344[0x18];
+/* Save block 0x2F: battle competition data (read by digitalcardcheck,
+ * battle_championship_flow and wifibattlematch). */
+struct BattleCompetitionSave {
+    u8 data[0x2FC];
 };
 
-struct Payload {
-    u32 unk00[0x37];
+/* Save block 0x30: the field gimmick work.  The id says which gimmick owns the
+ * two work areas; -1 is none. */
+struct GimmickWork {
+    s32 id;
+    s32 work[32];
+    u8  subWork[0x10];
 };
 
-struct Slot {
-    u32 unk00;
-    struct Payload unk04;
-    u32 unkE0;
+/* Battle recorder.  The header is a 0x44-byte summary of the recorded battle
+ * (shown in lists without decoding the body); the body holds the battle
+ * setup and the four parties.  Both carry the magic BATTLE_REC_MAGIC and a
+ * CRC. */
+struct BattleRecHeader {
+    u16 species[12];
+    u8  formGender[12];     /* form in bits 0..6, gender in bit 7 */
+    u16 battleCount;
+    u16 mode;
+    u16 magic;
+    u8  secure;
+    u8  version;
+    u8  unusedBytes[0x0C];
+    u64 dataNumber;
+    u16 crc;
+    u16 padding;
 };
 
-struct Obj {
-    struct Slot slot[2];
-    u32 unk1C8;
-    u8  unk1CC[0x358 - 0x1CC];
-    u16 unk358;
+/* A compact Pokemon record inside the battle record body. */
+struct BattleRecPoke {
+    u32 personality;
+    u16 fastMode : 2;
+    u16 badEgg : 1;
+    u16 unusedBits : 13;
+    u16 species;
+    u8  info[0x24];
+    u32 ivs : 30;
+    u32 isEgg : 1;
+    u32 hasNickname : 1;
+    u8  fatefulEncounter : 1;
+    u8  gender : 2;
+    u8  form : 5;
+    u8  detail[0x3F];
 };
 
-typedef struct {
-    int active;
-    u8 data[0xDC];
+struct BattleRecParty {
+    struct BattleRecPoke poke[6];
     u32 count;
-} E;
-
-struct Blk32 {
-    u8 unk000[0x1CC];
 };
 
-struct Rec1B0_0200BDBC {
-    u8  unk00[0x0C];
-    u16 unk0C;
-    u16 unk0E;
-    u8  unk10[0x1A0 - 0x10];
-    u8  unk1A0;
-    u8  unk1A1[0x0F];
+struct BattleRecBody {
+    u8  setup[0xC3C];
+    struct BattleRecParty party[4];
+    u8  playerInfo[0x10C];
+    u16 magic;
+    u16 unusedHalf;
+    u16 crc;
+    u16 padding;
 };
 
-typedef struct {
-    u16 f00[9];
-    u8  f12;
-} Slot;
-
-typedef struct {
-    u8   unk000[0x10];
-    Slot slot[20];
-} Rec;
-
-struct Rec1B0_0200BF08 {
-    u8  unk000[0x1A0];
-    u8  unk1A0;
-    u8  unk1A1[2];
-    u8  unk1A3;
-    u32 unk1A4;
-    unsigned long long unk1A8;
+struct BattleRecSave {
+    u8  profile[0x80];
+    struct BattleRecHeader head;
+    struct BattleRecBody body;
 };
 
-typedef struct {
-    u8  pad00[0x14];
-    u32 f14;
-    u8  pad18[0x20 - 0x18];
-    u8  f20[0x12];
-    u8  f32[0x12];
-    u8  f44;
-    u8  f45;
-    u8  f46;
-    u8  f47;
-    u8  f48;
-    u8  f49;
-} Obj;
-
-struct Ent58 {
-    u16 v[6];
+/* Save block 0x31: the Battle Box, six boxed Pokemon and the box name.
+ * func_0200BBEC indexes the group array with a 0x330 stride. */
+struct BoxMonGroup {
+    struct BoxMon mon[6];
 };
 
-struct Bits0A {
-    u8 f0 : 6;
-    u8 f6 : 1;
-    u8 f7 : 1;
+struct BattleBoxSave {
+    struct BoxMonGroup group;
+    u16 boxName[10];
+    u8  unusedData[0x14];
+    u16 lockFlags;
+    u16 padding;
 };
 
-union U64Pair {
-    unsigned long long q;
+/* Save block 0x32: the day care, two slots and the egg flag. */
+struct DaycareSlot {
+    s32 inUse;
+    struct PokeParam mon;
+    u32 steps;
+};
+
+struct DaycareSave {
+    struct DaycareSlot slot[2];
+    u32 eggReady;
+};
+
+/* Save block 0x35: the Entralink (intrude) record. */
+struct IntrudeOccupy {
+    u8  info[0x0C];
+    u16 missionScore;
+    u16 missionBonusScore;
+};
+
+/* 19 bytes rounded to 20 by the two-byte alignment; memberIds[8] is the
+ * free-slot marker. */
+struct IntrudeLogEntry {
+    u16 memberIds[9];
+    u8  kind;
+};
+
+struct IntrudeSave {
+    struct IntrudeOccupy occupy;
+    struct IntrudeLogEntry log[20];
+    u8  monolithLevel;
+    u8  obtainedFlags[2];
+    u8  padding;
+    u32 missionClearCount;
+    u64 playSeconds;
+};
+
+/* Save block 0x34: the C-Gear beacon record (greeting and thanks messages and
+ * their counters, survey points, recent partners). */
+struct BeaconSelect {
+    u8 kind : 6;
+    u8 enabled : 1;
+    u8 isSingle : 1;
+};
+
+union BeaconTime {
+    u64 value;
     struct {
         u32 lo;
         u32 hi;
-    } w;
+    } half;
 };
 
-struct Blk34 {
-    u32 unk00;
-    u32 unk04;
-    u16 unk08;
-    struct Bits0A unk0A;
-    u8  unk0B;
-    u8  unk0C[8];
-    u32 f14_0  : 28;
-    u32 f14_28 : 4;
-    u32 unk18;
-    u32 unk1C;
-    u16 unk20[9];
-    u16 unk32[9];
-    u8  unk44;
-    u8  unk45;
-    u8  unk46;
-    u8  unk47[3];
-    u16 unk4A[3];
-    union U64Pair unk50;
-    struct Ent58 unk58[8];
-    u32 unkB8[8];
-    u32 unkD8;
-    u32 unkDC;
-    volatile u16 unkE0;
-    u16 unkE2;
+struct BeaconTeam {
+    u16 species[6];
 };
 
-extern void func_0200B1F8(struct Rec1E *p);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_0200B254(struct Rec1E *p, int id, u8 n, s32 value);
-extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern void  func_02082A90(void *dest, const void *src, u32 size);
-extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
+struct BeaconSave {
+    u32 points;
+    u32 flags;
+    u16 selectId;
+    struct BeaconSelect select;
+    u8  padding;
+    u8  inputFlags[8];
+    u32 bestScore : 28;
+    u32 rank : 4;
+    u32 greetCount;
+    u32 thanksCount;
+    u16 greetMessage[9];
+    u16 thanksMessage[9];
+    u8  mode;
+    u8  slotStates;         /* 2 bits per slot */
+    u8  entryCount;
+    u8  recentIds[3];
+    u16 recentValues[3];
+    union BeaconTime lastTime;
+    struct BeaconTeam teams[8];
+    u32 hashedIds[8];
+    u32 unusedWord;
+    u32 recorderFlag;
+    /* stand-in: volatile keeps the two reads of func_0200C3C0 (compare, then
+     * subtract); every ordinary spelling folds them into one load, and a
+     * 16-bit bitfield changes the getter and setter. */
+    volatile u16 gatePoints;
+    u16 unusedHalf;
+    u8  unusedTail[8];
+};
+
+#define BATTLE_REC_MAGIC 0xE281
+
+extern void func_0200B1F8(struct RegulationParty *party);
+extern void func_0200B254(struct RegulationParty *party, int field, u8 slot, s32 value);
+extern u32 func_0201AA18(struct Party *party);
+extern struct PokeParam *func_0201AB28(struct Party *party, u32 index);
+extern u32 func_02017E1C(struct PokeParam *mon, u32 param, u32 arg);
+extern u32 func_02017E88(struct BoxMon *mon, u32 param, u32 arg);
+extern void MI_CpuFill8(void *dest, u8 value, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dest, u32 size);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern u32 func_0203F2FC(const u8 *p, u32 len);
-extern u32  func_020072CC(void *save, u32 id, u32 heap, void *buf, u32 size);
-extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
-extern u32 func_0200725C(void *save, u32 id, u32 heap);
-extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void *func_02012EBC(struct Big *p);
-extern void func_02007324(struct Sub02007324Ctrl *ctrl, u32 id, u32 heap, u32 a, u32 b);
-extern void  func_02012E4C(u8 *a, u32 c);
-extern int func_02012E7C(char *p, int a1);
-extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
-extern void func_0203F37C(void *p, u32 size, u32 seed);
-extern void func_0203F328(u16 *p, u32 size, u32 seed);
-extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern int func_02034AC4(s32 handle);
-extern void func_02034A5C(s32 handle);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern u32 func_02045C04(struct Rec *rec);
-extern void *func_020271CC(void *a, u32 id);
-extern void func_02017550(struct Sav *p);
+extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *save, u32 id, u32 heap);
+extern void func_020072A4(struct SaveControl *save, u32 id);
+extern u32 func_020072CC(struct SaveControl *save, u32 id, u32 heap, void *buf, u32 size);
+extern void func_02007324(struct SaveControl *save, u32 id, u32 heap, void *buf, u32 size);
+extern void func_0200734C(struct SaveControl *save, u32 id);
+extern void *func_020073D8(struct SaveControl *save, u32 id, u32 arg);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 func_020307B0(void *mem);
+extern u32 func_0203F2FC(const u8 *data, u32 size);
+extern u16 func_0203F1FC(const u8 *data, u32 size);
+extern void func_0203F328(void *data, u32 size, u32 code);
+extern void func_0203F37C(void *data, u32 size, u32 code);
+extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern void func_02012E4C(struct GameData *gameData, u32 id);
+extern int func_02012E7C(struct GameData *gameData, int id);
+extern int func_02034AC4(u32 overlayId);
+extern void func_02034A5C(u32 overlayId);
+extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern u32 func_02045C04(struct MsgData *msg);
+extern struct StrBuf *func_02045EC0(struct MsgData *msg, u32 msgIndex);
+extern void func_02045A38(struct StrBuf *str, u16 *out, u32 maxLen);
+extern void func_02045808(struct StrBuf *str);
+extern void POKE_TOOL_ClearBoxParam(struct BoxMon *mon);
 extern struct Party *func_0201A920(u32 heap);
-extern void func_0201A954(struct Party *p, s32 capacity);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern void *func_020185F4(void *a);
-extern u32   func_02017E88(void *e, u32 a, u32 b);
-extern void *func_0201747C(struct Mon *p, u32 heap);
-extern int sub_02034AC4(s32 handle);
-extern void sub_02034A5C(s32 handle);
-extern struct Party *sub_0201A920(u32 heap);
-extern void sub_0201A954(struct Party *p, s32 capacity);
-extern u32 sub_0201A98C(struct Party *p, const struct PartyMon *src);
-extern u32 sub_02017E88(void *p, u32 id, u32 v);
-extern void *sub_0201747C(struct Mon *p, u32 heap);
-extern void *sub_0200BBEC(void *base, u32 i, u32 j);
-extern void sub_02017550(struct Sav *p);
-extern u32 sub_0201AA18(void *p);
-extern void *sub_0201AB28(void *p, u32 idx);
-extern void *sub_020185F4(void *p);
-extern void sub_0200BAD4(struct Grp330 *p, u32 g, u32 i, const struct Ent88 *src);
-extern void func_021763BC(void *p);
+extern void func_0201A954(struct Party *party, s32 capacity);
+extern u32 func_0201A98C(struct Party *party, const struct PokeParam *mon);
+extern struct BoxMon *POKE_TOOL_GetBoxParam(struct PokeParam *mon);
+extern struct PokeParam *func_0201747C(struct BoxMon *mon, u32 heap);
+extern void INTRUDE_COMM_ResetOutcomes(struct IntrudeOccupy *occupy);
 extern u16 GX_GetBankForLCDC(void);
-extern u16 func_0200864C(const struct PlayTime *p);
-extern u8 func_02008650(const struct PlayTime *p);
-extern u8 func_02008654(const struct PlayTime *p);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
-extern void func_02045808(struct U16Vec *vec);
-extern void *memset(void *dst, int c, u32 n);
-void func_0200B2A4(int a0, int a1);
-void func_0200B348(struct Rec2FC *p);
-void *func_0200B358(void *sys);
+extern u16 func_0200864C(const struct PlayTime *time);
+extern u8 func_02008650(const struct PlayTime *time);
+extern u8 func_02008654(const struct PlayTime *time);
+void func_0200B2A4(struct RegulationParty *dest, struct Party *party);
+void func_0200B348(struct BattleCompetitionSave *competition);
+struct BattleCompetitionSave *func_0200B358(struct SaveControl *save);
 u32 func_0200B364(void);
-void func_0200B368(struct Rec94 *p);
-void func_0200B37C(struct Struct_0200B37C *p);
-s32 *func_0200B394(struct Rec94 *p, s32 value);
-s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-u8 *func_0200B3A8(struct Rec94 *p, u32 a1);
-s32 func_0200B3AC(struct Rec94 *p);
-void func_0200B3B0(struct Rec94 *dest, void *sys);
-void func_0200B3C8(void *sys, const struct Rec94 *src);
-void *func_0200B3DC(u32 heap);
-void func_0200B400(u32 heap);
+void func_0200B368(struct GimmickWork *gimmick);
+void func_0200B37C(struct GimmickWork *gimmick);
+s32 *func_0200B394(struct GimmickWork *gimmick, s32 id);
+s32 *func_0200B3A4(struct GimmickWork *gimmick, u32 id);
+u8 *func_0200B3A8(struct GimmickWork *gimmick, u32 id);
+s32 func_0200B3AC(struct GimmickWork *gimmick);
+void func_0200B3B0(const struct GimmickWork *src, struct SaveControl *save);
+void func_0200B3C8(struct SaveControl *save, struct GimmickWork *dest);
+struct BattleRecSave *BATTLE_REC_Create(u32 heap);
+void BATTLE_REC_AllocWork(u32 heap);
 void func_0200B424(void);
-void func_0200B438(void *p);
-u32 func_0200B440(void);
-void func_0200B448(struct BattleRec *p);
-u32 func_0200B45C(void);
-void func_0200B480(void);
-void func_0200B490(void);
-void func_0200B4B8(void);
-u32 func_0200B4E0(void *a, struct BattleRec *b, u32 heap, u32 *d, u32 id);
-u32 func_0200B570(void *a, u16 heap, u32 *dp, u32 id);
-struct BattleRec *func_0200B5A4(void *a, u32 heap, u32 *dp, u32 id);
-u32 func_0200B5CC(void *a, u32 heap, u32 *dp, u32 id);
-u32 func_0200B67C(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e);
-u32 func_0200B6E0(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub);
-void func_0200B784(u16 mode, s32 *sides, s32 *members);
-void func_0200B7D8(void *h, struct QRec *q, const struct RecC4 *src, u32 mode, u32 e);
-u32 func_0200B888(void *a, struct BattleRec *b);
-u32 func_0200B8AC(void *a, struct BattleRec *b);
-void func_0200B900(void *a, u32 b, u32 c);
-void func_0200B908(void *a, u32 b, u32 c);
-struct BattleRec *func_0200B910(void);
-u8 *func_0200B91C(void);
-u8 *func_0200B928(void);
-u8 *func_0200B934(struct BattleRec *p);
-void func_0200B938(const void *a, const void *b, const void *c);
-u64 func_0200B98C(u8 *p, int selector, int index);
-u32 func_0200BA38(u32 v);
-void func_0200BA44(struct RecC4 *p);
+void BATTLE_REC_Delete(struct BattleRecSave *rec);
+u32 BATTLE_REC_GetWorkSize(void);
+void BATTLE_REC_Clear(struct BattleRecSave *rec);
+u32 BATTLE_REC_IsDataExist(void);
+void BATTLE_REC_ClearWork(void);
+void BATTLE_REC_DecodeWork(void);
+void BATTLE_REC_EncodeWork(void);
+u32 BATTLE_REC_LoadToWork(struct SaveControl *save, struct BattleRecSave *rec, u32 heap, u32 *result, u32 id);
+u32 BATTLE_REC_Load(struct SaveControl *save, u16 heap, u32 *result, u32 id);
+struct BattleRecSave *BATTLE_REC_LoadAlloc(struct SaveControl *save, u32 heap, u32 *result, u32 id);
+u32 func_0200B5CC(struct SaveControl *save, u32 heap, u32 *result, u32 id);
+u32 BATTLE_REC_SaveSeq(struct GameData *gameData, struct BattleRecSave *rec, u32 id, u16 *seq, u16 heap);
+u32 func_0200B6E0(struct GameData *gameData, u16 heap, u32 modeIndex, u32 battleCount, u32 id, u16 *seq, u16 *subSeq);
+void BATTLE_REC_GetModeLayout(u16 mode, s32 *sides, s32 *members);
+void BATTLE_REC_MakeHeader(struct SaveControl *save, struct BattleRecHeader *head, const struct BattleRecBody *body, u32 modeIndex, u32 battleCount);
+u32 BATTLE_REC_IsMagicBroken(struct SaveControl *save, struct BattleRecSave *rec);
+u32 BATTLE_REC_IsValid(struct SaveControl *save, struct BattleRecSave *rec);
+void BATTLE_REC_Decode(void *data, u32 size, u32 code);
+void BATTLE_REC_Encode(void *data, u32 size, u32 code);
+struct BattleRecSave *BATTLE_REC_GetWork(void);
+struct BattleRecBody *BATTLE_REC_GetBody(void);
+struct BattleRecHeader *BATTLE_REC_GetHeader(void);
+struct BattleRecHeader *BATTLE_REC_GetHeaderOf(struct BattleRecSave *rec);
+void BATTLE_REC_SetData(const void *profile, const struct BattleRecHeader *head, const struct BattleRecBody *body);
+u64 BATTLE_REC_GetHeaderParam(const struct BattleRecHeader *head, int param, int index);
+u32 func_0200BA38(u32 version);
+void BATTLE_REC_SetBodyCrc(struct BattleRecBody *body);
 void func_0200BA58(void);
 void func_0200BA68(void);
 u32 func_0200BA78(void);
-void func_0200BA80(struct Rec35C *p);
-void *func_0200BAC8(void *p);
-void func_0200BAD4(struct Grp330 *p, u32 g, u32 i, const struct Ent88 *src);
-void *sub_0200BAF4(int a0, int a1);
-void func_0200BB58(u8 *a0, u8 *a1);
-u32 func_0200BBA8(void *a);
-void func_0200BBC8(struct Obj *p, u32 v);
-void func_0200BBD8(struct Obj *p, int v);
-void *func_0200BBEC(void *base, u32 i, u32 j);
-u32 func_0200BBFC(struct Obj *p, u32 mask);
-void func_0200BC10(struct Obj *p);
-void func_0200BC20(struct Obj *p);
-struct Payload *func_0200BC2C(struct Obj *p, s32 i);
-void func_0200BC4C(struct Obj *p, s32 i, const struct Payload *src);
-void func_0200BC88(struct Obj *p, s32 i);
-u32 func_0200BCA0(struct Obj *p);
-u32 func_0200BCA8(struct Obj *p, u32 i);
-u32 func_0200BCB8(struct Obj *p);
-u32 func_0200BCD8(struct Obj *p, u32 i);
-void func_0200BCEC(struct Obj *p, s32 a, s32 b);
-void func_0200BD48(E *e, u32 add);
+void func_0200BA80(struct BattleBoxSave *box);
+struct BattleBoxSave *func_0200BAC8(struct SaveControl *save);
+void func_0200BAD4(struct BoxMonGroup *groups, u32 group, u32 index, const struct BoxMon *src);
+struct Party *sub_0200BAF4(struct BoxMonGroup *box, int heap);
+void func_0200BB58(struct BoxMonGroup *box, struct Party *party);
+u32 func_0200BBA8(struct BoxMonGroup *box);
+void func_0200BBC8(struct BattleBoxSave *box, u32 flags);
+void func_0200BBD8(struct BattleBoxSave *box, int flags);
+struct BoxMon *func_0200BBEC(struct BoxMonGroup *groups, u32 group, u32 index);
+u32 func_0200BBFC(struct BattleBoxSave *box, u32 flags);
+void func_0200BC10(struct DaycareSave *daycare);
+void func_0200BC20(struct DaycareSave *daycare);
+struct PokeParam *func_0200BC2C(struct DaycareSave *daycare, s32 slot);
+void func_0200BC4C(struct DaycareSave *daycare, s32 slot, const struct PokeParam *mon);
+void func_0200BC88(struct DaycareSave *daycare, s32 slot);
+u32 func_0200BCA0(struct DaycareSave *daycare);
+u32 func_0200BCA8(struct DaycareSave *daycare, u32 slot);
+u32 func_0200BCB8(struct DaycareSave *daycare);
+u32 func_0200BCD8(struct DaycareSave *daycare, u32 slot);
+void func_0200BCEC(struct DaycareSave *daycare, s32 slotA, s32 slotB);
+void func_0200BD48(struct DaycareSlot *slots, u32 steps);
 u32 func_0200BD98(void);
-void func_0200BDA0(struct Blk32 *p);
-void *func_0200BDB0(void *sys);
+void func_0200BDA0(struct DaycareSave *daycare);
+struct DaycareSave *func_0200BDB0(struct SaveControl *save);
 u32 func_0200BDBC(void);
-void func_0200BDC4(struct Rec1B0_0200BDBC *p);
-void func_0200BDE4(struct Rec1B0_0200BDBC *p);
-u16 func_0200BDF8(struct Rec1B0_0200BDBC *p);
-u16 func_0200BDFC(struct Rec1B0_0200BDBC *p);
-void func_0200BE00(struct Rec1B0_0200BDBC *p, s32 v);
-void func_0200BE24(struct Rec1B0_0200BDBC *p, s32 v);
-u16 *func_0200BE48(void *sys);
-void func_0200BE54(void *sys, const u16 *src);
-void func_0200BE6C(void *sys, u16 *dest);
-void func_0200BE84(Rec *p, Slot *q);
-void func_0200BF08(struct Rec1B0_0200BF08 *p, u32 v);
-u8 func_0200BF10(struct Rec1B0_0200BF08 *p);
-void func_0200BF18(struct Rec1B0_0200BF08 *p, s32 id);
-void func_0200BF54(struct Rec1B0_0200BF08 *p, u8 *dest, u32 n);
-u32 func_0200BF70(struct Rec1B0_0200BF08 *p);
-u32 func_0200BF78(struct Rec1B0_0200BF08 *p);
-unsigned long long func_0200BF94(struct Rec1B0_0200BF08 *p);
-u64 func_0200BFA4(u8 *p, void *q, u32 mode);
+void func_0200BDC4(struct IntrudeSave *intrude);
+void func_0200BDE4(struct IntrudeSave *intrude);
+u16 func_0200BDF8(struct IntrudeSave *intrude);
+u16 func_0200BDFC(struct IntrudeSave *intrude);
+void func_0200BE00(struct IntrudeSave *intrude, s32 add);
+void func_0200BE24(struct IntrudeSave *intrude, s32 add);
+struct IntrudeSave *func_0200BE48(struct SaveControl *save);
+void func_0200BE54(struct SaveControl *save, const u16 *src);
+void func_0200BE6C(struct SaveControl *save, u16 *dest);
+void func_0200BE84(struct IntrudeSave *intrude, struct IntrudeLogEntry *entry);
+void func_0200BF08(struct IntrudeSave *intrude, u32 level);
+u8 func_0200BF10(struct IntrudeSave *intrude);
+void func_0200BF18(struct IntrudeSave *intrude, s32 id);
+void func_0200BF54(struct IntrudeSave *intrude, u8 *dest, u32 size);
+u32 func_0200BF70(struct IntrudeSave *intrude);
+u32 func_0200BF78(struct IntrudeSave *intrude);
+u64 func_0200BF94(struct IntrudeSave *intrude);
+u64 func_0200BFA4(struct IntrudeSave *intrude, const struct PlayTime *time, u32 mode);
 u32 func_0200C054(void);
-void func_0200C058(Obj *p);
-void *func_0200C0E8(void *sys);
-void *func_0200C0F0(void *sys);
-void func_0200C0FC(struct Blk34 *p, u32 i, u8 v);
-u8 func_0200C104(struct Blk34 *p, u32 i);
-void func_0200C10C(struct Blk34 *p);
-void func_0200C11C(struct Blk34 *p, u16 a, u32 b, u32 c, u32 d);
-void func_0200C164(const struct Blk34 *p, u32 *a, u32 *b, u32 *c, u32 *d);
-u32 func_0200C184(struct Blk34 *p);
-void func_0200C18C(struct Blk34 *p, u32 v);
-u8 func_0200C1A4(struct Blk34 *p);
-void func_0200C1B0(struct Blk34 *p, u32 v);
-u32 func_0200C1C4(struct Blk34 *p);
-u32 func_0200C1C8(struct Blk34 *p);
-u32 func_0200C1DC(struct Blk34 *p);
-u32 func_0200C1E0(struct Blk34 *p);
-u16 *func_0200C1F4(struct Blk34 *p);
-void func_0200C1F8(struct Blk34 *p, const u16 *src);
-u16 *func_0200C20C(struct Blk34 *p);
-void func_0200C210(struct Blk34 *p, const u16 *src);
-u8 func_0200C224(struct Blk34 *p);
-void func_0200C22C(struct Blk34 *p, u8 v);
-u32 func_0200C234(struct Blk34 *p, u32 bit);
-void func_0200C248(struct Blk34 *p, u32 bit);
-u32 func_0200C258(struct Blk34 *p);
-u32 func_0200C274(struct Blk34 *p);
-u32 func_0200C278(struct Blk34 *p, u32 v);
-u32 func_0200C29C(struct Blk34 *p, u32 v);
-void func_0200C2B0(struct Blk34 *p, u32 i, const u16 *src);
-void func_0200C2D0(struct Blk34 *p, u32 i, u16 *dest);
-void func_0200C2F0(struct Blk34 *p, u32 i, u8 v);
-u8 func_0200C308(struct Blk34 *p, u32 i);
-u8 func_0200C31C(struct Blk34 *p);
-void func_0200C324(struct Blk34 *p, u8 v);
-u8 func_0200C32C(struct Blk34 *p);
-void func_0200C334(struct Blk34 *p, u8 v);
-int func_0200C33C(struct Blk34 *p, u32 i);
-void func_0200C344(struct Blk34 *p, u8 i, u8 v);
-u16 func_0200C34C(struct Blk34 *p, u32 i);
-void func_0200C358(struct Blk34 *p, u32 i, int v);
-void func_0200C364(struct Blk34 *p, u8 i, int v);
-unsigned long long func_0200C37C(struct Blk34 *p);
-void func_0200C384(struct Blk34 *p, u32 lo, u32 hi);
-void func_0200C38C(struct Blk34 *p, s32 i, u32 v);
-u32 func_0200C39C(struct Blk34 *p, s32 i);
-u16 func_0200C3B0(struct Blk34 *p);
-void func_0200C3B8(struct Blk34 *p, u16 v);
-void func_0200C3C0(struct Blk34 *p, u16 v);
-u8 func_0200C3E0(struct Blk34 *p);
-void func_0200C3EC(struct Blk34 *p, u32 v);
-extern const char func_0200B3DC_File[];
-extern struct BattleRec *gObj_0214616C;
-extern const u16 func_0200B784_Table[];
-extern const u16 func_0200B98C_Table[];
-extern const u16 d_0209DDCC[];
+void func_0200C058(struct BeaconSave *beacon);
+struct BeaconSave *func_0200C0E8(struct SaveControl *save);
+struct BeaconSave *func_0200C0F0(struct SaveControl *save);
+void func_0200C0FC(struct BeaconSave *beacon, u32 index, u8 value);
+u8 func_0200C104(struct BeaconSave *beacon, u32 index);
+void func_0200C10C(struct BeaconSave *beacon);
+void func_0200C11C(struct BeaconSave *beacon, u16 id, u32 kind, u32 enabled, u32 single);
+void func_0200C164(const struct BeaconSave *beacon, u32 *id, u32 *kind, u32 *enabled, u32 *single);
+u32 func_0200C184(struct BeaconSave *beacon);
+void func_0200C18C(struct BeaconSave *beacon, u32 score);
+u8 func_0200C1A4(struct BeaconSave *beacon);
+void func_0200C1B0(struct BeaconSave *beacon, u32 rank);
+u32 func_0200C1C4(struct BeaconSave *beacon);
+u32 func_0200C1C8(struct BeaconSave *beacon);
+u32 func_0200C1DC(struct BeaconSave *beacon);
+u32 func_0200C1E0(struct BeaconSave *beacon);
+u16 *func_0200C1F4(struct BeaconSave *beacon);
+void func_0200C1F8(struct BeaconSave *beacon, struct StrBuf *message);
+u16 *func_0200C20C(struct BeaconSave *beacon);
+void func_0200C210(struct BeaconSave *beacon, struct StrBuf *message);
+u8 func_0200C224(struct BeaconSave *beacon);
+void func_0200C22C(struct BeaconSave *beacon, u8 mode);
+u32 func_0200C234(struct BeaconSave *beacon, u32 bit);
+void func_0200C248(struct BeaconSave *beacon, u32 bit);
+u32 func_0200C258(struct BeaconSave *beacon);
+u32 func_0200C274(struct BeaconSave *beacon);
+u32 func_0200C278(struct BeaconSave *beacon, u32 add);
+u32 func_0200C29C(struct BeaconSave *beacon, u32 sub);
+void func_0200C2B0(struct BeaconSave *beacon, u32 index, const u16 *species);
+void func_0200C2D0(struct BeaconSave *beacon, u32 index, u16 *species);
+void func_0200C2F0(struct BeaconSave *beacon, u32 slot, u8 state);
+u8 func_0200C308(struct BeaconSave *beacon, u32 slot);
+u8 func_0200C31C(struct BeaconSave *beacon);
+void func_0200C324(struct BeaconSave *beacon, u8 states);
+u8 func_0200C32C(struct BeaconSave *beacon);
+void func_0200C334(struct BeaconSave *beacon, u8 count);
+int func_0200C33C(struct BeaconSave *beacon, u32 index);
+void func_0200C344(struct BeaconSave *beacon, u8 index, u8 id);
+u16 func_0200C34C(struct BeaconSave *beacon, u32 index);
+void func_0200C358(struct BeaconSave *beacon, u32 index, int value);
+void func_0200C364(struct BeaconSave *beacon, u8 index, int add);
+u64 func_0200C37C(struct BeaconSave *beacon);
+void func_0200C384(struct BeaconSave *beacon, u32 lo, u32 hi);
+void func_0200C38C(struct BeaconSave *beacon, s32 index, u32 value);
+u32 func_0200C39C(struct BeaconSave *beacon, s32 index);
+u16 func_0200C3B0(struct BeaconSave *beacon);
+void func_0200C3B8(struct BeaconSave *beacon, u16 points);
+void func_0200C3C0(struct BeaconSave *beacon, u16 sub);
+u8 func_0200C3E0(struct BeaconSave *beacon);
+void func_0200C3EC(struct BeaconSave *beacon, u32 flag);
+extern const char _BattleRecFileName[];
+extern struct BattleRecSave *pBattleRec;
+extern const u16 BattleRecModeTable[];
 extern char ov188_id[];
-extern u64 g_02146170;
+extern u64 _PlayTimeLatch;
 
 
 
@@ -507,19 +450,19 @@ extern u64 g_02146170;
  * the count is a call, so it is re-evaluated on the loop back-edge, and the
  * third argument of every accumulate call is truncated to u8.
  */
-void func_0200B2A4(int a0, int a1)
+void func_0200B2A4(struct RegulationParty *dest, struct Party *party)
 {
     int i;
 
-    func_0200B1F8((struct Rec1E *)a0);
-    for (i = 0; i < (int)func_0201AA18((void *)a1); i++) {
-        int obj = (int)func_0201AB28((void *)a1, i);
+    func_0200B1F8(dest);
+    for (i = 0; i < (int)func_0201AA18(party); i++) {
+        struct PokeParam *mon = func_0201AB28(party, i);
 
-        if (func_02017E1C((void *)obj, 0xa9, 0) != 0) {
-            func_0200B254((struct Rec1E *)a0, 0, i, func_02017E1C((void *)obj, 5, 0));
-            func_0200B254((struct Rec1E *)a0, 1, i, func_02017E1C((void *)obj, 0x6f, 0));
-            func_0200B254((struct Rec1E *)a0, 2, i, func_02017E1C((void *)obj, 6, 0) != 0);
-            func_0200B254((struct Rec1E *)a0, 3, i, func_02017E1C((void *)obj, 0x6e, 0));
+        if (func_02017E1C(mon, 0xa9, 0) != 0) {
+            func_0200B254(dest, 0, i, func_02017E1C(mon, 5, 0));
+            func_0200B254(dest, 1, i, func_02017E1C(mon, 0x6f, 0));
+            func_0200B254(dest, 2, i, func_02017E1C(mon, 6, 0) != 0);
+            func_0200B254(dest, 3, i, func_02017E1C(mon, 0x6e, 0));
         }
     }
 }
@@ -561,9 +504,9 @@ void func_0200B2A4(int a0, int a1)
  * This unit stops at 0x0200B37C because of a near miss there; see
  * src/matched/unit_0200B394.c for what it is.
  */
-void func_0200B348(struct Rec2FC *p)
+void func_0200B348(struct BattleCompetitionSave *competition)
 {
-    MI_CpuFill8(p, 0, sizeof(struct Rec2FC));
+    MI_CpuFill8(competition, 0, sizeof(struct BattleCompetitionSave));
 }
 
 
@@ -575,9 +518,9 @@ void func_0200B348(struct Rec2FC *p)
 
 
 
-void *func_0200B358(void *sys)
+struct BattleCompetitionSave *func_0200B358(struct SaveControl *save)
 {
-    return func_020071CC(sys, 0x2F);
+    return func_020071CC(save, 0x2F);
 }
 
 
@@ -591,7 +534,7 @@ void *func_0200B358(void *sys)
 
 u32 func_0200B364(void)
 {
-    return sizeof(struct Rec94);
+    return sizeof(struct GimmickWork);
 }
 
 
@@ -603,10 +546,10 @@ u32 func_0200B364(void)
 
 
 
-void func_0200B368(struct Rec94 *p)
+void func_0200B368(struct GimmickWork *gimmick)
 {
-    MI_CpuFill8(p, 0, sizeof(struct Rec94));
-    p->unk00 = -1;
+    MI_CpuFill8(gimmick, 0, sizeof(struct GimmickWork));
+    gimmick->id = -1;
 }
 
 
@@ -617,12 +560,12 @@ void func_0200B368(struct Rec94 *p)
 
 
 
-void func_0200B37C(struct Struct_0200B37C *p)
+void func_0200B37C(struct GimmickWork *gimmick)
 {
     int i;
-    p->header = -1;
+    gimmick->id = -1;
     for (i = 0; i < 32; i++) {
-        p->entries[i] = 0;
+        gimmick->work[i] = 0;
     }
 }
 
@@ -638,7 +581,7 @@ void func_0200B37C(struct Struct_0200B37C *p)
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
- *           func_0200B3B0, func_0200B3C8, func_0200B3DC
+ *           func_0200B3B0, func_0200B3C8, BATTLE_REC_Create
  *
  * 108 bytes, 0x0200B394..0x0200B400, 7 functions, four of which carry no
  * label in the generated listing.
@@ -646,7 +589,7 @@ void func_0200B37C(struct Struct_0200B37C *p)
  * alias: 0x020A71C4 spells "battle_rec.c", the third original source file
  * name recovered by this project, attested by the `string` class off the
  * terminator of "regulation.c" at 0x020A71C2.  The constructor at 0x0200B3DC
- * allocates 0x2000 bytes at line 0x67 and hands them to func_0200B448, which
+ * allocates 0x2000 bytes at line 0x67 and hands them to BATTLE_REC_Clear, which
  * is the first function of the next packet.
  *
  * Near miss, and the reason this unit starts at 0x0200B394 rather than
@@ -661,11 +604,11 @@ void func_0200B37C(struct Struct_0200B37C *p)
  * original had a reason to spend and this source does not give it.  Nineteen
  * bytes differ and the size is right to the padding.
  */
-s32 *func_0200B394(struct Rec94 *p, s32 value)
+s32 *func_0200B394(struct GimmickWork *gimmick, s32 id)
 {
-    func_0200B37C((struct Struct_0200B37C *)p);
-    p->unk00 = value;
-    return p->unk04;
+    func_0200B37C(gimmick);
+    gimmick->id = id;
+    return gimmick->work;
 }
 
 
@@ -675,9 +618,9 @@ s32 *func_0200B394(struct Rec94 *p, s32 value)
 
 
 
-s32 *func_0200B3A4(struct Rec94 *p, u32 b)
+s32 *func_0200B3A4(struct GimmickWork *gimmick, u32 id)
 {
-    return p->unk04;
+    return gimmick->work;
 }
 
 
@@ -687,9 +630,9 @@ s32 *func_0200B3A4(struct Rec94 *p, u32 b)
 
 
 
-u8 *func_0200B3A8(struct Rec94 *p, u32 a1)
+u8 *func_0200B3A8(struct GimmickWork *gimmick, u32 id)
 {
-    return p->unk84;
+    return gimmick->subWork;
 }
 
 
@@ -699,9 +642,9 @@ u8 *func_0200B3A8(struct Rec94 *p, u32 a1)
 
 
 
-s32 func_0200B3AC(struct Rec94 *p)
+s32 func_0200B3AC(struct GimmickWork *gimmick)
 {
-    return p->unk00;
+    return gimmick->id;
 }
 
 
@@ -711,9 +654,9 @@ s32 func_0200B3AC(struct Rec94 *p)
 
 
 
-void func_0200B3B0(struct Rec94 *dest, void *sys)
+void func_0200B3B0(const struct GimmickWork *src, struct SaveControl *save)
 {
-    func_02082A90(dest, func_020071CC(sys, 0x30), sizeof(struct Rec94));
+    MIi_CpuCopy32(src, func_020071CC(save, 0x30), sizeof(struct GimmickWork));
 }
 
 
@@ -723,9 +666,9 @@ void func_0200B3B0(struct Rec94 *dest, void *sys)
 
 
 
-void func_0200B3C8(void *sys, const struct Rec94 *src)
+void func_0200B3C8(struct SaveControl *save, struct GimmickWork *dest)
 {
-    func_02082A90(func_020071CC(sys, 0x30), src, sizeof(struct Rec94));
+    MIi_CpuCopy32(func_020071CC(save, 0x30), dest, sizeof(struct GimmickWork));
 }
 
 
@@ -735,12 +678,12 @@ void func_0200B3C8(void *sys, const struct Rec94 *src)
 
 
 
-void *func_0200B3DC(u32 heap)
+struct BattleRecSave *BATTLE_REC_Create(u32 heap)
 {
-    void *p = func_02030734(heap, 0x2000, 1, func_0200B3DC_File, 0x67);
+    struct BattleRecSave *rec = func_02030734(heap, 0x2000, 1, _BattleRecFileName, 0x67);
 
-    func_0200B448(p);
-    return p;
+    BATTLE_REC_Clear(rec);
+    return rec;
 }
 
 
@@ -760,12 +703,12 @@ void *func_0200B3DC(u32 heap)
  * r4, so the range arrives as a run of `.word`s.  See
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
  *
- * alias: this continues "battle_rec.c", whose constructor func_0200B3DC is
- * the last function of src/matched/unit_0200B394.c and is what func_0200B400
+ * alias: this continues "battle_rec.c", whose constructor BATTLE_REC_Create is
+ * the last function of src/matched/unit_0200B394.c and is what BATTLE_REC_AllocWork
  * calls.  The object it builds is hung off the single global at 0x0214616C,
  * the same one src/matched/unit_0200B900.c reads.
  *
- * func_0200B400 frees the old object before building the new one and clears
+ * BATTLE_REC_AllocWork frees the old object before building the new one and clears
  * the global in between, which is a guard the source wrote rather than dead
  * code: the store of NULL is inside the `if`, and the fresh pointer is
  * assigned unconditionally afterwards.  The address of the global is
@@ -773,18 +716,18 @@ void *func_0200B3DC(u32 heap)
  * store, because the pool word is reloaded after the call rather than kept
  * in the callee-saved register that already holds it.
  *
- * func_0200B440 returns 0x18A4 out of its own pool word, which is the
+ * BATTLE_REC_GetWorkSize returns 0x18A4 out of its own pool word, which is the
  * "a block file opens with a function returning its own size" shape this
  * region keeps producing, except that here the size belongs to whatever the
  * next file allocates rather than to the 0x2000 buffer above it.
  */
-void func_0200B400(u32 heap)
+void BATTLE_REC_AllocWork(u32 heap)
 {
-    if (gObj_0214616C != 0) {
-        func_020307B0(gObj_0214616C);
-        gObj_0214616C = 0;
+    if (pBattleRec != 0) {
+        func_020307B0(pBattleRec);
+        pBattleRec = 0;
     }
-    gObj_0214616C = func_0200B3DC(heap);
+    pBattleRec = BATTLE_REC_Create(heap);
 }
 
 
@@ -797,8 +740,8 @@ void func_0200B400(u32 heap)
 
 void func_0200B424(void)
 {
-    func_020307B0(gObj_0214616C);
-    gObj_0214616C = 0;
+    func_020307B0(pBattleRec);
+    pBattleRec = 0;
 }
 
 
@@ -809,9 +752,9 @@ void func_0200B424(void)
 
 
 
-void func_0200B438(void *p)
+void BATTLE_REC_Delete(struct BattleRecSave *rec)
 {
-    func_020307B0(p);
+    func_020307B0(rec);
 }
 
 
@@ -822,9 +765,9 @@ void func_0200B438(void *p)
 
 
 
-u32 func_0200B440(void)
+u32 BATTLE_REC_GetWorkSize(void)
 {
-    return 0x18A4;
+    return sizeof(struct BattleRecSave);
 }
 
 
@@ -839,37 +782,37 @@ u32 func_0200B440(void)
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
- *           func_0200B4B8
+ *           BATTLE_REC_EncodeWork
  *
  * 152 bytes, 0x0200B448..0x0200B4E0, 5 functions, three of which carry no
  * label in the generated listing.
  *
- * alias: this continues "battle_rec.c"; func_0200B448 is the buffer clear the
- * constructor func_0200B3DC calls, and the object is the 0x18A4-byte record
+ * alias: this continues "battle_rec.c"; BATTLE_REC_Clear is the buffer clear the
+ * constructor BATTLE_REC_Create calls, and the object is the 0x18A4-byte record
  * at 0x0214616C that src/matched/unit_0200B400.c allocates and
  * src/matched/unit_0200B938.c publishes.
  *
  * Two things are worth recording.
  *
- *  - func_0200B490 and func_0200B4B8 are the same four instructions of
- *    checksum arithmetic as func_0200B938, but as **tail calls**, and that
+ *  - BATTLE_REC_DecodeWork and BATTLE_REC_EncodeWork are the same four instructions of
+ *    checksum arithmetic as BATTLE_REC_SetData, but as **tail calls**, and that
  *    changes the callee's arity.  A tail call needs r3 for the branch target,
- *    so the fourth argument func_0200B938 passes cannot be passed here: the
+ *    so the fourth argument BATTLE_REC_SetData passes cannot be passed here: the
  *    `ldrh r3` that loads the halfword is overwritten by the `ldr r3, [pc]`
- *    that loads func_0200B900's address.  The callee is therefore declared
+ *    that loads BATTLE_REC_Decode's address.  The callee is therefore declared
  *    with three parameters in this file and with four in
  *    src/matched/unit_0200B900.c, and both are right, because nothing in
- *    func_0200B900 reads its arguments.  A four-argument call here compiles
+ *    BATTLE_REC_Decode reads its arguments.  A four-argument call here compiles
  *    to `push {r3, lr}` / `bl` / `pop` and is eight bytes longer.
  *  - the length 0x17DC is reached as `subs r1, #0xc4` off the 0x18A0 the
  *    halfword load already needed, and 0x18A0 itself is a pool word rather
- *    than a `movs`, so the file spends one pool word where func_0200B938
+ *    than a `movs`, so the file spends one pool word where BATTLE_REC_SetData
  *    spends none for the same value.  That is a consequence of the tail call
  *    having no register to spare, not of the source.
  */
-void func_0200B448(struct BattleRec *p)
+void BATTLE_REC_Clear(struct BattleRecSave *rec)
 {
-    MIi_CpuClear32(0, p, sizeof(struct BattleRec));
+    MIi_CpuClear32(0, rec, sizeof(struct BattleRecSave));
 }
 
 
@@ -879,9 +822,9 @@ void func_0200B448(struct BattleRec *p)
 
 
 
-u32 func_0200B45C(void)
+u32 BATTLE_REC_IsDataExist(void)
 {
-    if (func_0203F2FC((const u8 *)(&gObj_0214616C->unkC4), sizeof(gObj_0214616C->unkC4))
+    if (func_0203F2FC((const u8 *)(&pBattleRec->body), sizeof(pBattleRec->body))
         != 0) {
         return 1;
     }
@@ -896,9 +839,9 @@ u32 func_0200B45C(void)
 
 
 
-void func_0200B480(void)
+void BATTLE_REC_ClearWork(void)
 {
-    func_0200B448(gObj_0214616C);
+    BATTLE_REC_Clear(pBattleRec);
 }
 
 
@@ -909,11 +852,11 @@ void func_0200B480(void)
 
 
 
-void func_0200B490(void)
+void BATTLE_REC_DecodeWork(void)
 {
-    u16 v = gObj_0214616C->unkC4.unk17DC;
+    u16 crc = pBattleRec->body.crc;
 
-    func_0200B900(&gObj_0214616C->unkC4, 0x17DC, v + ((v ^ 0xFFFF) << 16));
+    BATTLE_REC_Decode(&pBattleRec->body, 0x17DC, crc + ((crc ^ 0xFFFF) << 16));
 }
 
 
@@ -924,11 +867,11 @@ void func_0200B490(void)
 
 
 
-void func_0200B4B8(void)
+void BATTLE_REC_EncodeWork(void)
 {
-    u16 v = gObj_0214616C->unkC4.unk17DC;
+    u16 crc = pBattleRec->body.crc;
 
-    func_0200B908(&gObj_0214616C->unkC4, 0x17DC, v + ((v ^ 0xFFFF) << 16));
+    BATTLE_REC_Encode(&pBattleRec->body, 0x17DC, crc + ((crc ^ 0xFFFF) << 16));
 }
 
 
@@ -950,7 +893,7 @@ void func_0200B4B8(void)
  * name at 0x020A71C4 is attested and src/matched/unit_0200B448.c for the
  * 0x18A4-byte record these work on.
  *
- * func_0200B4E0 loads a saved battle record and classifies the result into
+ * BATTLE_REC_LoadToWork loads a saved battle record and classifies the result into
  * the caller's status word: 0 when the block is absent, 3 when the load
  * failed, 0 again when the record's own check rejects it, 2 when the second
  * check does, and 1 when it is good.  Every arm writes the status and returns
@@ -958,47 +901,47 @@ void func_0200B4B8(void)
  * return, which is the compiler reusing one constant and not two statements.
  *
  * The address of the checksummed sub-record is a named local, not
- * `&b->unkC4` written out at each of the three uses: with the local the base
+ * `&rec->body` written out at each of the three uses: with the local the base
  * is formed once as `adds r0, #0xc4` and the field offset 0x17DC is the
  * register operand, and written inline the compiler folds 0xC4 + 0x17DC into
  * one pool word of 0x18A0 and then subtracts 0xC4 back off it, which is two
  * instructions more.
  *
  * This range stops at 0x0200B5CC and src/matched/unit_0200B5CC.c starts
- * there, because func_0200B888 and func_0200B8AC are each called exactly
- * twice in the image, once from func_0200B4E0 and once from func_0200B5CC;
+ * there, because BATTLE_REC_IsMagicBroken and BATTLE_REC_IsValid are each called exactly
+ * twice in the image, once from BATTLE_REC_LoadToWork and once from func_0200B5CC;
  * one range holding both pairs has no witness left for either and caps at
  * MATCH with every byte right.  Cut between them, each file is the other's
  * witness.  See
  * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md. *
  */
-u32 func_0200B4E0(void *a, struct BattleRec *b, u32 heap, u32 *d, u32 id)
+u32 BATTLE_REC_LoadToWork(struct SaveControl *save, struct BattleRecSave *rec, u32 heap, u32 *result, u32 id)
 {
-    struct RecC4 *r;
-    u16 v;
+    struct BattleRecBody *body;
+    u16 crc;
 
-    *d = func_020072CC(a, id, heap, b, 0x2000);
-    func_020072A4(a, id);
-    if (*d == 0) {
-        *d = 0;
+    *result = func_020072CC(save, id, heap, rec, 0x2000);
+    func_020072A4(save, id);
+    if (*result == 0) {
+        *result = 0;
         return 1;
     }
-    if (*d != 1) {
-        *d = 3;
+    if (*result != 1) {
+        *result = 3;
         return 1;
     }
-    r = &b->unkC4;
-    v = r->unk17DC;
-    func_0200B900(r, 0x17DC, v + ((v ^ 0xFFFF) << 16));
-    if (func_0200B888(a, b) == 1) {
-        *d = 0;
+    body = &rec->body;
+    crc = body->crc;
+    BATTLE_REC_Decode(body, 0x17DC, crc + ((crc ^ 0xFFFF) << 16));
+    if (BATTLE_REC_IsMagicBroken(save, rec) == 1) {
+        *result = 0;
         return 1;
     }
-    if (func_0200B8AC(a, b) == 0) {
-        *d = 2;
+    if (BATTLE_REC_IsValid(save, rec) == 0) {
+        *result = 2;
         return 1;
     }
-    *d = 1;
+    *result = 1;
     return 1;
 }
 
@@ -1009,14 +952,14 @@ u32 func_0200B4E0(void *a, struct BattleRec *b, u32 heap, u32 *d, u32 id)
 
 
 
-u32 func_0200B570(void *a, u16 heap, u32 *dp, u32 id)
+u32 BATTLE_REC_Load(struct SaveControl *save, u16 heap, u32 *result, u32 id)
 {
-    if (gObj_0214616C != 0) {
-        func_0200B448(gObj_0214616C);
+    if (pBattleRec != 0) {
+        BATTLE_REC_Clear(pBattleRec);
     } else {
-        func_0200B400(heap);
+        BATTLE_REC_AllocWork(heap);
     }
-    return func_0200B4E0(a, gObj_0214616C, heap, dp, id);
+    return BATTLE_REC_LoadToWork(save, pBattleRec, heap, result, id);
 }
 
 
@@ -1026,12 +969,12 @@ u32 func_0200B570(void *a, u16 heap, u32 *dp, u32 id)
 
 
 
-struct BattleRec *func_0200B5A4(void *a, u32 heap, u32 *dp, u32 id)
+struct BattleRecSave *BATTLE_REC_LoadAlloc(struct SaveControl *save, u32 heap, u32 *result, u32 id)
 {
-    struct BattleRec *p = func_0200B3DC(heap);
+    struct BattleRecSave *rec = BATTLE_REC_Create(heap);
 
-    func_0200B4E0(a, p, heap, dp, id);
-    return p;
+    BATTLE_REC_LoadToWork(save, rec, heap, result, id);
+    return rec;
 }
 
 
@@ -1047,44 +990,44 @@ struct BattleRec *func_0200B5A4(void *a, u32 heap, u32 *dp, u32 id)
  * 176 bytes, 0x0200B5CC..0x0200B67C, one function, which carries a label in
  * the generated listing.
  *
- * alias: inside "battle_rec.c".  The same classification func_0200B4E0 does,
+ * alias: inside "battle_rec.c".  The same classification BATTLE_REC_LoadToWork does,
  * over a record the save system already holds rather than one just read, and
  * with a `func_020072A4` release on every path instead of only on entry.  See
  * src/matched/unit_0200B4E0.c for why the two are separate files. *
  */
-u32 func_0200B5CC(void *a, u32 heap, u32 *dp, u32 id)
+u32 func_0200B5CC(struct SaveControl *save, u32 heap, u32 *result, u32 id)
 {
-    struct BattleRec *p;
-    struct RecC4 *r;
-    u16 v;
+    struct BattleRecSave *rec;
+    struct BattleRecBody *body;
+    u16 crc;
 
-    *dp = func_0200725C(a, id, heap);
-    p = func_020073D8(a, id, 0);
-    if (*dp == 0) {
-        *dp = 0;
-        func_020072A4(a, id);
+    *result = SAVE_CONTROL_LoadExtraSave(save, id, heap);
+    rec = func_020073D8(save, id, 0);
+    if (*result == 0) {
+        *result = 0;
+        func_020072A4(save, id);
         return 0;
     }
-    if (*dp != 1) {
-        *dp = 3;
-        func_020072A4(a, id);
+    if (*result != 1) {
+        *result = 3;
+        func_020072A4(save, id);
         return 0;
     }
-    r = &p->unkC4;
-    v = r->unk17DC;
-    func_0200B900(r, 0x17DC, v + ((v ^ 0xFFFF) << 16));
-    if (func_0200B888(a, p) == 1) {
-        *dp = 0;
-        func_020072A4(a, id);
+    body = &rec->body;
+    crc = body->crc;
+    BATTLE_REC_Decode(body, 0x17DC, crc + ((crc ^ 0xFFFF) << 16));
+    if (BATTLE_REC_IsMagicBroken(save, rec) == 1) {
+        *result = 0;
+        func_020072A4(save, id);
         return 0;
     }
-    if (func_0200B8AC(a, p) == 0) {
-        *dp = 2;
-        func_020072A4(a, id);
+    if (BATTLE_REC_IsValid(save, rec) == 0) {
+        *result = 2;
+        func_020072A4(save, id);
         return 0;
     }
-    *dp = 1;
-    func_020072A4(a, id);
+    *result = 1;
+    func_020072A4(save, id);
     return 1;
 }
 
@@ -1100,7 +1043,7 @@ u32 func_0200B5CC(void *a, u32 heap, u32 *dp, u32 id)
  * What held it open, and what closed it.  Two call targets have exactly one
  * caller in the whole image and that caller is here:
  *
- *   0x02007324  reached only from 0x0200B6A6, inside func_0200B67C
+ *   0x02007324  reached only from 0x0200B6A6, inside BATTLE_REC_SaveSeq
  *   0x0200B7D8  reached only from 0x0200B71A, inside func_0200B6E0
  *
  * Shrinking the range to one function keeps the call that needs the witness in
@@ -1113,7 +1056,7 @@ u32 func_0200B5CC(void *a, u32 heap, u32 *dp, u32 id)
  * wrong anyway: the two belong to different original files.
  *
  * alias: inside "battle_rec.c"; the two steps of the record-save state machine
- * that func_0200B4E0 and func_0200B5CC read back.
+ * that BATTLE_REC_LoadToWork and func_0200B5CC read back.
  *
  * Three things cost time here.
  *
@@ -1126,30 +1069,30 @@ u32 func_0200B5CC(void *a, u32 heap, u32 *dp, u32 id)
  *    bytes, and none of them in the arithmetic.  src/matched/unit_0200C9EC.c
  *    declares the same extern with one parameter.
  *  - inside case 0 the two sub-record pointers have to be assigned
- *    `q = &p->unk80;` first and `r = &p->unkC4;` second.  The second assignment
- *    is the last use of `p`, so it takes over `p`'s register and the first one
+ *    `head = &rec->head;` first and `body = &rec->body;` second.  The second
+ *    assignment is the last use of `rec`, so it takes over `rec`'s register and the first one
  *    gets the copy; writing them the other way round swaps which of the two is
  *    the `adds rD, rP, #0` and is five bytes.
  *  - the state word is read with `switch (*state)` over the constants 0 and 1,
  *    which is the `cmp #0` / `beq` / `cmp #1` / `beq` / `b` chain the original
  *    has; an `if` / `else if` inverts the first test.
  */
-u32 func_0200B67C(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e)
+u32 BATTLE_REC_SaveSeq(struct GameData *gameData, struct BattleRecSave *rec, u32 id, u16 *seq, u16 heap)
 {
-    void *h = func_02012EBC(a);
-    u32 r;
+    struct SaveControl *save = func_02012EBC(gameData);
+    u32 result;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        func_02007324(h, c, e, (u32)gObj_0214616C, 0x2000);
-        func_02012E4C(a, c);
-        (*state)++;
+        func_02007324(save, id, heap, pBattleRec, 0x2000);
+        func_02012E4C(gameData, id);
+        (*seq)++;
         break;
     case 1:
-        r = func_02012E7C(a, c);
-        if (r == 2 || r == 3) {
-            func_0200734C(h, c);
-            return r;
+        result = func_02012E7C(gameData, id);
+        if (result == 2 || result == 3) {
+            func_0200734C(save, id);
+            return result;
         }
         break;
     }
@@ -1161,36 +1104,36 @@ u32 func_0200B67C(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e)
 
 
 
-u32 func_0200B6E0(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub)
+u32 func_0200B6E0(struct GameData *gameData, u16 heap, u32 modeIndex, u32 battleCount, u32 id, u16 *seq, u16 *subSeq)
 {
-    void *h;
-    struct BattleRec *p;
-    struct QRec *q;
-    struct RecC4 *r;
-    u16 v;
+    struct SaveControl *save;
+    struct BattleRecSave *rec;
+    struct BattleRecHeader *head;
+    struct BattleRecBody *body;
+    u16 crc;
 
-    h = func_02012EBC(a);
+    save = func_02012EBC(gameData);
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        p = gObj_0214616C;
-        if (p == 0) {
+        rec = pBattleRec;
+        if (rec == 0) {
             return 3;
         }
-        q = &p->unk80;
-        r = &p->unkC4;
-        func_0200B7D8(h, q, r, c, d);
-        q->unk28 = 0xE281;
-        q->unk40 = func_0203F1FC((const u8 *)q, 0x38);
-        r->unk17D8 = 0xE281;
-        func_0200BA44(r);
-        v = r->unk17DC;
-        func_0200B908(r, 0x17DC, v + ((v ^ 0xFFFF) << 16));
-        *sub = 0;
-        (*state)++;
+        head = &rec->head;
+        body = &rec->body;
+        BATTLE_REC_MakeHeader(save, head, body, modeIndex, battleCount);
+        head->magic = BATTLE_REC_MAGIC;
+        head->crc = func_0203F1FC((const u8 *)head, 0x38);
+        body->magic = BATTLE_REC_MAGIC;
+        BATTLE_REC_SetBodyCrc(body);
+        crc = body->crc;
+        BATTLE_REC_Encode(body, 0x17DC, crc + ((crc ^ 0xFFFF) << 16));
+        *subSeq = 0;
+        (*seq)++;
         break;
     case 1:
-        return func_0200B67C(a, gObj_0214616C, e, sub, b);
+        return BATTLE_REC_SaveSeq(gameData, pBattleRec, id, subSeq, heap);
     }
     return 0;
 }
@@ -1223,20 +1166,20 @@ u32 func_0200B6E0(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub)
  *
  * This is a file of its own rather than part of the range that follows it
  * because 0x0209DDCC is named by exactly two literal pool words in the whole
- * image, this function's and func_0200B7D8's, so a range holding both has no
+ * image, this function's and BATTLE_REC_MakeHeader's, so a range holding both has no
  * witness left.  Cut between them and this one is attested by the other's
  * pool word.  See
  * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.  The cut
- * does not save func_0200B7D8, which is the only caller of this function and
+ * does not save BATTLE_REC_MakeHeader, which is the only caller of this function and
  * therefore cannot be split away from it and attested at the same time; it is
  * parked in src/pending/unit_0200B7D8.c.
  */
-void func_0200B784(u16 mode, s32 *sides, s32 *members)
+void BATTLE_REC_GetModeLayout(u16 mode, s32 *sides, s32 *members)
 {
     s32 i;
 
     for (i = 0; i < 0x29; i++) {
-        if (mode == func_0200B784_Table[i]) {
+        if (mode == BattleRecModeTable[i]) {
             switch (i) {
             case 0x10:
             case 0x11:
@@ -1272,7 +1215,7 @@ void func_0200B784(u16 mode, s32 *sides, s32 *members)
  * alias: inside "battle_rec.c".  It builds the 0x44-byte battle header out of
  * the party records that live at +0xC3C of the 0x17E0-byte second half of the
  * record.  The layout, four sides of three or two of six, comes from
- * func_0200B784, and the group stride 0x2A4 is six 0x70-byte entries plus a
+ * BATTLE_REC_GetModeLayout, and the group stride 0x2A4 is six 0x70-byte entries plus a
  * word.  An entry is skipped when either of two bits is set, and those two
  * bitfield reads are the only evidence in the image for those field widths.
  *
@@ -1282,43 +1225,43 @@ void func_0200B784(u16 mode, s32 *sides, s32 *members)
  * the explicit `& 0x7F` on a field that is already five bits wide is what puts
  * the `movs r1, #0x7f` / `ands` pair there, and dropping it loses four bytes.
  *
- * This range starts at 0x0200B7D8 rather than at func_0200B784, which is its
+ * This range starts at 0x0200B7D8 rather than at BATTLE_REC_GetModeLayout, which is its
  * only caller, because 0x0209DDCC is named by exactly two literal pool words
- * in the whole image: this function's at 0x0200B880 and func_0200B784's at
+ * in the whole image: this function's at 0x0200B880 and BATTLE_REC_GetModeLayout's at
  * 0x0200B7D4.  One range holding both has no witness for the table at all.
  * Cut between them and each pool word attests the other file.  See
  * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.  The call
- * to func_0200B784 survives the cut because three overlay branches reach that
+ * to BATTLE_REC_GetModeLayout survives the cut because three overlay branches reach that
  * address from outside this region.
  */
-void func_0200B7D8(void *h, struct QRec *q, const struct RecC4 *src, u32 mode,
-                   u32 e)
+void BATTLE_REC_MakeHeader(struct SaveControl *save, struct BattleRecHeader *head, const struct BattleRecBody *body, u32 modeIndex,
+                   u32 battleCount)
 {
     s32 nsides;
     s32 nmembers;
-    u16 kind;
-    s32 i;
-    s32 j;
-    s32 k;
+    u16 mode;
+    s32 side;
+    s32 member;
+    s32 slot;
 
-    k = 0;
-    MI_CpuFill8(q, 0, sizeof(struct QRec));
-    kind = func_0200B784_Table[mode];
-    func_0200B784(kind, &nsides, &nmembers);
-    for (i = 0; i < nsides; i++) {
-        for (j = 0; j < nmembers; j++) {
-            const struct Ent70 *t = &src->unkC3C[i].ent[j];
+    slot = 0;
+    MI_CpuFill8(head, 0, sizeof(struct BattleRecHeader));
+    mode = BattleRecModeTable[modeIndex];
+    BATTLE_REC_GetModeLayout(mode, &nsides, &nmembers);
+    for (side = 0; side < nsides; side++) {
+        for (member = 0; member < nmembers; member++) {
+            const struct BattleRecPoke *poke = &body->party[side].poke[member];
 
-            if (t->f2C_30 == 0 && t->f04_2 == 0) {
-                q->unk00[k] = t->unk06;
-                q->unk18[k] = (u8)((t->f30_3 & 0x7F) | (t->f30_1 << 7));
+            if (poke->isEgg == 0 && poke->badEgg == 0) {
+                head->species[slot] = poke->species;
+                head->formGender[slot] = (u8)((poke->form & 0x7F) | (poke->gender << 7));
             }
-            k++;
+            slot++;
         }
     }
-    q->unk24 = e;
-    q->unk26 = kind;
-    q->unk2B = 100;
+    head->battleCount = battleCount;
+    head->mode = mode;
+    head->version = 100;
 }
 
 
@@ -1339,15 +1282,15 @@ void func_0200B7D8(void *h, struct QRec *q, const struct RecC4 *src, u32 mode,
  * those two are separate files.
  *
  * 0xE281 is the record's magic, stamped into both halves by func_0200B6E0 and
- * into the 0x44-byte header's +0x28 by func_0200B938.  func_0200B888 answers
- * "this record is NOT stamped", so its result is 1 on failure; func_0200B8AC
+ * into the 0x44-byte header's +0x28 by BATTLE_REC_SetData.  BATTLE_REC_IsMagicBroken answers
+ * "this record is NOT stamped", so its result is 1 on failure; BATTLE_REC_IsValid
  * answers "this record is whole", checking the magic in both halves and then
  * both checksums.
  *
- * Both take a first parameter they never read.  func_0200B888 reaches the
+ * Both take a first parameter they never read.  BATTLE_REC_IsMagicBroken reaches the
  * 0x17D8 field of the second half as one folded offset 0x189C off the record
  * pointer, because the source names the field through the record rather than
- * through a local, while func_0200B8AC needs a local for the sub-record and so
+ * through a local, while BATTLE_REC_IsValid needs a local for the sub-record and so
  * carries 0x17D8 in a register instead; the difference is two instructions and
  * is a statement about the source rather than about the value.
  *
@@ -1356,11 +1299,11 @@ void func_0200B7D8(void *h, struct QRec *q, const struct RecC4 *src, u32 mode,
  * operand order flips and the entry is two bytes out.  See
  * docs/idioms/cmp-operand-order-names-the-temporary.md.
  */
-u32 func_0200B888(void *a, struct BattleRec *b)
+u32 BATTLE_REC_IsMagicBroken(struct SaveControl *save, struct BattleRecSave *rec)
 {
-    struct QRec *q = &b->unk80;
+    struct BattleRecHeader *head = &rec->head;
 
-    if (b->unkC4.unk17D8 != 0xE281 || q->unk28 != 0xE281) {
+    if (rec->body.magic != BATTLE_REC_MAGIC || head->magic != BATTLE_REC_MAGIC) {
         return 1;
     }
     return 0;
@@ -1371,21 +1314,21 @@ u32 func_0200B888(void *a, struct BattleRec *b)
 
 
 
-u32 func_0200B8AC(void *a, struct BattleRec *b)
+u32 BATTLE_REC_IsValid(struct SaveControl *save, struct BattleRecSave *rec)
 {
-    struct RecC4 *r = &b->unkC4;
-    struct QRec *q = &b->unk80;
-    u16 sum;
+    struct BattleRecBody *body = &rec->body;
+    struct BattleRecHeader *head = &rec->head;
+    u16 crc;
 
-    if (r->unk17D8 != 0xE281 || q->unk28 != 0xE281) {
+    if (body->magic != BATTLE_REC_MAGIC || head->magic != BATTLE_REC_MAGIC) {
         return 0;
     }
-    sum = func_0203F1FC((const u8 *)q, 0x38);
-    if (sum != q->unk40) {
+    crc = func_0203F1FC((const u8 *)head, 0x38);
+    if (crc != head->crc) {
         return 0;
     }
-    sum = func_0203F1FC((const u8 *)r, 0x17DC);
-    if (sum == r->unk17DC) {
+    crc = func_0203F1FC((const u8 *)body, 0x17DC);
+    if (crc == body->crc) {
         return 1;
     }
     return 0;
@@ -1401,7 +1344,7 @@ u32 func_0200B8AC(void *a, struct BattleRec *b)
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
- *           func_0200B928, func_0200B934
+ *           BATTLE_REC_GetHeader, BATTLE_REC_GetHeaderOf
  *
  * 56 bytes, 0x0200B900..0x0200B938, 6 functions, none of which carries a
  * label in the generated listing.
@@ -1419,13 +1362,13 @@ u32 func_0200B8AC(void *a, struct BattleRec *b)
  * call that names its arguments, even when every one of them is already in
  * the right register, comes out as `push {r3, lr}; blx; pop {r3, pc}`, which
  * is four instructions and eight bytes wrong.  The callers do pass four
- * arguments through func_0200B900 (func_0200B938 sets r0 through r3 before
+ * arguments through BATTLE_REC_Decode (BATTLE_REC_SetData sets r0 through r3 before
  * the `bl`), so the forwarding is real and is simply not expressible here.
  * See docs/idioms/tail-call-is-a-pool-word-and-bx.md.
  */
-void func_0200B900(void *a, u32 b, u32 c)
+void BATTLE_REC_Decode(void *data, u32 size, u32 code)
 {
-    func_0203F37C(a, b, c);
+    func_0203F37C(data, size, code);
 }
 
 
@@ -1434,9 +1377,9 @@ void func_0200B900(void *a, u32 b, u32 c)
 
 
 
-void func_0200B908(void *a, u32 b, u32 c)
+void BATTLE_REC_Encode(void *data, u32 size, u32 code)
 {
-    func_0203F328(a, b, c);
+    func_0203F328(data, size, code);
 }
 
 
@@ -1445,9 +1388,9 @@ void func_0200B908(void *a, u32 b, u32 c)
 
 
 
-struct BattleRec *func_0200B910(void)
+struct BattleRecSave *BATTLE_REC_GetWork(void)
 {
-    return gObj_0214616C;
+    return pBattleRec;
 }
 
 
@@ -1456,9 +1399,9 @@ struct BattleRec *func_0200B910(void)
 
 
 
-u8 *func_0200B91C(void)
+struct BattleRecBody *BATTLE_REC_GetBody(void)
 {
-    return (u8 *)&gObj_0214616C->unkC4;
+    return &pBattleRec->body;
 }
 
 
@@ -1467,9 +1410,9 @@ u8 *func_0200B91C(void)
 
 
 
-u8 *func_0200B928(void)
+struct BattleRecHeader *BATTLE_REC_GetHeader(void)
 {
-    return (u8 *)&gObj_0214616C->unk80;
+    return &pBattleRec->head;
 }
 
 
@@ -1478,9 +1421,9 @@ u8 *func_0200B928(void)
 
 
 
-u8 *func_0200B934(struct BattleRec *p)
+struct BattleRecHeader *BATTLE_REC_GetHeaderOf(struct BattleRecSave *rec)
 {
-    return (u8 *)&p->unk80;
+    return &rec->head;
 }
 
 
@@ -1496,8 +1439,8 @@ u8 *func_0200B934(struct BattleRec *p)
  * the generated listing.
  *
  * The publisher of the battle record: three copies into the single object at
- * 0x0214616C and then a checksum word handed to func_0200B900.  The object is
- * 0x18A4 bytes, which is what func_0200B440 in src/matched/unit_0200B400.c
+ * 0x0214616C and then a checksum word handed to BATTLE_REC_Decode.  The object is
+ * 0x18A4 bytes, which is what BATTLE_REC_GetWorkSize in src/matched/unit_0200B400.c
  * returns, so the record is pinned from both ends: 0x80 + 0x44 + 0x17E0 is
  * exactly 0x18A4.
  *
@@ -1511,15 +1454,15 @@ u8 *func_0200B934(struct BattleRec *p)
  * The range stops at 0x0200B98C because of a near miss there; see
  * src/matched/unit_0200BA38.c. *
  */
-void func_0200B938(const void *a, const void *b, const void *c)
+void BATTLE_REC_SetData(const void *profile, const struct BattleRecHeader *head, const struct BattleRecBody *body)
 {
-    u16 v;
+    u16 crc;
 
-    MI_CpuCopy8(b, &gObj_0214616C->unk80, sizeof(gObj_0214616C->unk80));
-    MI_CpuCopy8(c, &gObj_0214616C->unkC4, sizeof(gObj_0214616C->unkC4));
-    MI_CpuCopy8(a, gObj_0214616C->unk00, sizeof(gObj_0214616C->unk00));
-    v = gObj_0214616C->unkC4.unk17DC;
-    func_0200B900(&gObj_0214616C->unkC4, 0x17DC, v + ((v ^ 0xFFFF) << 16));
+    MI_CpuCopy8(head, &pBattleRec->head, sizeof(pBattleRec->head));
+    MI_CpuCopy8(body, &pBattleRec->body, sizeof(pBattleRec->body));
+    MI_CpuCopy8(profile, pBattleRec->profile, sizeof(pBattleRec->profile));
+    crc = pBattleRec->body.crc;
+    BATTLE_REC_Decode(&pBattleRec->body, 0x17DC, crc + ((crc ^ 0xFFFF) << 16));
 }
 
 
@@ -1531,37 +1474,37 @@ void func_0200B938(const void *a, const void *b, const void *c)
  * A record field getter: selector picks the field, the result is 64-bit.
  * Callers: ov183 0x021DD228, 0x021DD25C, 0x021DEE7C, 0x021DF838 and others.
  */
-u64 func_0200B98C(u8 *p, int selector, int index)
+u64 BATTLE_REC_GetHeaderParam(const struct BattleRecHeader *head, int param, int index)
 {
     int i;
-    u16 v;
-    switch (selector) {
+    u16 value;
+    switch (param) {
     case 0:
-        v = ((u16 *)p)[index];
-        if (v > 0x289)
+        value = head->species[index];
+        if (value > 0x289)
             return 0;
-        return v;
+        return value;
     case 1:
-        return (p + index)[0x18] & 0x7f;
+        return head->formGender[index] & 0x7f;
     case 2:
-        v = *(u16 *)(p + 0x24);
-        if (v > 9999)
+        value = head->battleCount;
+        if (value > 9999)
             return 9999;
-        return v;
+        return value;
     case 3:
         for (i = 0; i < 41; i++) {
-            if (*(u16 *)(p + 0x26) == d_0209DDCC[i])
+            if (head->mode == BattleRecModeTable[i])
                 return i;
         }
         return 0;
     case 4:
-        return *(u64 *)(p + 0x38);
+        return head->dataNumber;
     case 5:
-        return p[0x2a];
+        return head->secure;
     case 6:
-        return ((p + index)[0x18] & 0x80) >> 7;
+        return (head->formGender[index] & 0x80) >> 7;
     case 7:
-        return p[0x2b];
+        return head->version;
     }
     return 0;
 }
@@ -1577,12 +1520,12 @@ u64 func_0200B98C(u8 *p, int selector, int index)
  * 32 bytes, 0x0200BA38..0x0200BA58, 2 functions, one of which carries a
  * label in the generated listing.
  *
- * func_0200BA44 stamps the record's own checksum into its last halfword, and
+ * BATTLE_REC_SetBodyCrc stamps the record's own checksum into its last halfword, and
  * 0x17DC is both the length checksummed and the store's offset, so the
  * compiler holds it in one register and the store is a register-offset
  * `strh`; 0x17DC is far past the 62-byte reach of the immediate form anyway.
  *
- * Near miss, and the reason this range starts at 0x0200BA38: func_0200B98C,
+ * Near miss, and the reason this range starts at 0x0200BA38: BATTLE_REC_GetHeaderParam,
  * 172 bytes, an eight-case dispatcher returning `long long`.  Every case, the
  * jump table and the three pool words reproduce; what does not is one
  * instruction in the `case 3` table search.  The original keeps the loop
@@ -1604,9 +1547,9 @@ u64 func_0200B98C(u8 *p, int selector, int index)
  * literal.  Both are now matched on their own: src/matched/arm9/
  * func_0200BA58.c and func_0200BA68.c. *
  */
-u32 func_0200BA38(u32 v)
+u32 func_0200BA38(u32 version)
 {
-    if (v <= 100) {
+    if (version <= 100) {
         return 1;
     }
     return 0;
@@ -1616,9 +1559,9 @@ u32 func_0200BA38(u32 v)
 
 
 
-void func_0200BA44(struct RecC4 *p)
+void BATTLE_REC_SetBodyCrc(struct BattleRecBody *body)
 {
-    p->unk17DC = func_0203F1FC((const u8 *)p, 0x17DC);
+    body->crc = func_0203F1FC((const u8 *)body, 0x17DC);
 }
 
 
@@ -1632,7 +1575,7 @@ void func_0200BA44(struct RecC4 *p)
  */
 void func_0200BA58(void)
 {
-    sub_02034AC4((u32)ov188_id);
+    func_02034AC4((u32)ov188_id);
 }
 
 
@@ -1646,7 +1589,7 @@ void func_0200BA58(void)
  */
 void func_0200BA68(void)
 {
-    sub_02034A5C((u32)ov188_id);
+    func_02034A5C((u32)ov188_id);
 }
 
 
@@ -1678,26 +1621,26 @@ void func_0200BA68(void)
  */
 u32 func_0200BA78(void)
 {
-    return sizeof(struct Rec35C);
+    return sizeof(struct BattleBoxSave);
 }
 
 
 
 
 
-void func_0200BA80(struct Rec35C *p)
+void func_0200BA80(struct BattleBoxSave *box)
 {
     u32 i;
-    void *h;
+    struct MsgData *msg;
 
-    MI_CpuFill8(p, 0, sizeof(struct Rec35C));
+    MI_CpuFill8(box, 0, sizeof(struct BattleBoxSave));
     for (i = 0; i < 6; i++) {
-        func_02017550((struct Sav *)&p->unk000.ent[i]);
+        POKE_TOOL_ClearBoxParam(&box->group.mon[i]);
     }
-    h = func_02045B38(0, 2, 9, 1);
-    if (h != 0) {
-        func_02045F5C(h, 6, (u16 *)p->unk330, sizeof(p->unk330));
-        func_02045C04(h);
+    msg = func_02045B38(0, 2, 9, 1);
+    if (msg != 0) {
+        MSGDATA_ReadUnits(msg, 6, box->boxName, sizeof(box->boxName));
+        func_02045C04(msg);
     }
 }
 
@@ -1710,9 +1653,9 @@ void func_0200BA80(struct Rec35C *p)
  * Unlabelled leaf accessor matched to give overlay call sites a `matched`
  * witness.  Addresses are Black-image addresses.
  */
-void *func_0200BAC8(void *p)
+struct BattleBoxSave *func_0200BAC8(struct SaveControl *save)
 {
-    return func_020071CC(p, 0x31);
+    return func_020071CC(save, 0x31);
 }
 
 
@@ -1740,9 +1683,9 @@ void *func_0200BAC8(void *p)
  * Its only caller, func_0200BB58, is therefore outside this range and is what
  * attests it. *
  */
-void func_0200BAD4(struct Grp330 *p, u32 g, u32 i, const struct Ent88 *src)
+void func_0200BAD4(struct BoxMonGroup *groups, u32 group, u32 index, const struct BoxMon *src)
 {
-    p[g].ent[i] = *src;
+    groups[group].mon[index] = *src;
 }
 
 
@@ -1750,41 +1693,36 @@ void func_0200BAD4(struct Grp330 *p, u32 g, u32 i, const struct Ent88 *src)
 
 
 /*
- * packet line: 100 bytes, 7 of 7 relocations resolved by label
- *
- * Closed 2026-09-22 by tools/permuter.py (--mode anneal, 823 compiles).
- * The lever: the (a1 & 0x7fff) | 0x8000 mask is NOT a loop-invariant local
- * hoisted above the loop.  It is recomputed inside the loop body, after the
- * sub_02017E88 test result is bound to its own local.  Hoisting it (the
- * shape every earlier pass wrote) swaps r6 and r7 across the whole body:
- * five instructions, 5 concrete bytes out, which --explain reports as
- * r6->r7 x3 / r7->r6 x2.  Recomputing it inside gives the mask value the
- * later first-definition point the allocator needs to leave h in r6.
+ * Build a party from the Battle Box members, up to the first empty slot.
+ * The temporary-heap value (heap & 0x7fff) | 0x8000 is computed inside the
+ * loop, after the existence test is bound to its own local; hoisted above
+ * the loop it swaps r6 and r7 across the body.  One local holds the boxed
+ * Pokemon and then the party Pokemon made from it, as in the original.
  *
  * `i` is u32, not int: the loop bound at +0x0058 is `blo`, not `blt`.
  * The failing test `break`s out of the loop (beq to the epilogue at
  * +0x005A), it does not `continue`.
  */
-void *sub_0200BAF4(int a0, int a1)
+struct Party *sub_0200BAF4(struct BoxMonGroup *box, int heap)
 {
-    void *h;
+    struct Party *party;
     u32 i;
 
-    h = sub_0201A920(a1);
-    sub_0201A954(h, 6);
+    party = func_0201A920(heap);
+    func_0201A954(party, 6);
     for (i = 0; i < 6; i++) {
-        void *p = sub_0200BBEC((void *)a0, 0, i);
-        int ok = sub_02017E88(p, 0xa9, 0);
-        int v  = (a1 & 0x7fff) | 0x8000;
+        void *mon = func_0200BBEC(box, 0, i);
+        int exists = func_02017E88(mon, 0xa9, 0);
+        int tempHeap = (heap & 0x7fff) | 0x8000;
 
-        if (ok == 0) {
+        if (exists == 0) {
             break;
         }
-        p = sub_0201747C(p, (u16)v);
-        sub_0201A98C(h, p);
-        func_020307B0(p);
+        mon = func_0201747C(mon, (u16)tempHeap);
+        func_0201A98C(party, mon);
+        func_020307B0(mon);
     }
-    return h;
+    return party;
 }
 
 
@@ -1792,22 +1730,22 @@ void *sub_0200BAF4(int a0, int a1)
 
 
 /*
- * Clear the six 0x88-byte slots of a0, then walk a1's list.  The bound of the
- * second loop is a call - sub_0201AA18(a1) is re-invoked at the bottom of
+ * Clear the six Battle Box slots, then copy each party member in.  The bound
+ * of the second loop is a call: func_0201AA18(party) is re-invoked at the bottom of
  * every iteration and its result compared against the counter (`cmp r5, r0`
  * right after the `bl`), and the entry test is the peeled copy of that same
- * call, which is exactly how mwcc lowers `for (i = 0; i < f(a1); i++)`.
+ * call, which is exactly how mwcc lowers `for (i = 0; i < f(party); i++)`.
  */
-void func_0200BB58(u8 *a0, u8 *a1)
+void func_0200BB58(struct BoxMonGroup *box, struct Party *party)
 {
     u32 i;
-    u32 k = 0;
+    u32 group = 0;
 
     for (i = 0; i < 6; i++)
-        sub_02017550((struct Sav *)(a0 + i * 0x88));
+        POKE_TOOL_ClearBoxParam(&box->mon[i]);
 
-    for (i = 0; i < (u32)sub_0201AA18(a1); i++)
-        sub_0200BAD4((struct Grp330 *)a0, k, i, sub_020185F4(sub_0201AB28(a1, i)));
+    for (i = 0; i < (u32)func_0201AA18(party); i++)
+        func_0200BAD4(box, group, i, POKE_TOOL_GetBoxParam(func_0201AB28(party, i)));
 }
 
 
@@ -1838,14 +1776,14 @@ void func_0200BB58(u8 *a0, u8 *a1)
  * give the counter a live range reaching back past the id's last use; the
  * best is fifteen and the ranking is flat between fifteen and twenty-eight. *
  */
-u32 func_0200BBA8(void *a)
+u32 func_0200BBA8(struct BoxMonGroup *box)
 {
-    u32 r = 0;
+    u32 result = 0;
 
-    if (func_02017E88(func_0200BBEC(a, 0, 0), 0xA9, 0) != 0) {
-        r = 1;
+    if (func_02017E88(func_0200BBEC(box, 0, 0), 0xA9, 0) != 0) {
+        result = 1;
     }
-    return r;
+    return result;
 }
 
 
@@ -1871,9 +1809,8 @@ u32 func_0200BBA8(void *a)
  * src/matched/unit_0200BD98.c returns as the size of the save block with id
  * 0x32, so the record is pinned from both ends.  The halfword of bits at
  * +0x358 that func_0200BBC8, func_0200BBD8 and func_0200BBFC reach is past
- * that end and therefore belongs to some other object the same file also
- * serves; it is declared here as one struct only because nothing in the range
- * distinguishes the two.  The three sizes are pinned by the three
+ * that end: it is the lock flags of the 0x35C-byte Battle Box record.  The
+ * three sizes are pinned by the three
  * `ldm`/`stm` copies and agree: 0x1B pairs plus a word is the 0xDC payload
  * func_0200BC4C stores, and 0x1C pairs plus a word is the whole 0xE4 slot
  * func_0200BCEC swaps through a stack temporary.  See
@@ -1891,33 +1828,33 @@ u32 func_0200BBA8(void *a)
  * single epilogue the original has; see
  * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
  */
-void func_0200BBC8(struct Obj *p, u32 v)
+void func_0200BBC8(struct BattleBoxSave *box, u32 flags)
 {
-    p->unk358 |= (u16)v;
+    box->lockFlags |= (u16)flags;
 }
 
 
 
 
-void func_0200BBD8(struct Obj *p, int v)
+void func_0200BBD8(struct BattleBoxSave *box, int flags)
 {
-    p->unk358 &= ~v;
+    box->lockFlags &= ~flags;
 }
 
 
 
 
-void *func_0200BBEC(void *base, u32 i, u32 j)
+struct BoxMon *func_0200BBEC(struct BoxMonGroup *groups, u32 group, u32 index)
 {
-    return (u8 *)base + i * 0x330 + j * 0x88;
+    return &groups[group].mon[index];
 }
 
 
 
 
-u32 func_0200BBFC(struct Obj *p, u32 mask)
+u32 func_0200BBFC(struct BattleBoxSave *box, u32 flags)
 {
-    if ((p->unk358 & mask) != 0) {
+    if ((box->lockFlags & flags) != 0) {
         return 1;
     }
     return 0;
@@ -1926,111 +1863,111 @@ u32 func_0200BBFC(struct Obj *p, u32 mask)
 
 
 
-void func_0200BC10(struct Obj *p)
+void func_0200BC10(struct DaycareSave *daycare)
 {
-    if (p->unk1C8 != 1) {
-        p->unk1C8 = 1;
+    if (daycare->eggReady != 1) {
+        daycare->eggReady = 1;
     }
 }
 
 
 
 
-void func_0200BC20(struct Obj *p)
+void func_0200BC20(struct DaycareSave *daycare)
 {
-    p->unk1C8 = 0;
+    daycare->eggReady = 0;
 }
 
 
 
 
-struct Payload *func_0200BC2C(struct Obj *p, s32 i)
+struct PokeParam *func_0200BC2C(struct DaycareSave *daycare, s32 slot)
 {
-    if (i < 0 || i >= 2 || p->slot[i].unk00 != 1) {
-        i = 0;
+    if (slot < 0 || slot >= 2 || daycare->slot[slot].inUse != 1) {
+        slot = 0;
     }
-    return &p->slot[i].unk04;
+    return &daycare->slot[slot].mon;
 }
 
 
 
 
-void func_0200BC4C(struct Obj *p, s32 i, const struct Payload *src)
+void func_0200BC4C(struct DaycareSave *daycare, s32 slot, const struct PokeParam *mon)
 {
-    if (i >= 0 && i < 2 && p->slot[i].unk00 != 1) {
-        p->slot[i].unk04 = *src;
-        p->slot[i].unk00 = 1;
-        p->slot[i].unkE0 = 0;
-    }
-}
-
-
-
-
-void func_0200BC88(struct Obj *p, s32 i)
-{
-    if (i >= 0 && i < 2 && p->slot[i].unk00 == 1) {
-        p->slot[i].unk00 = 0;
+    if (slot >= 0 && slot < 2 && daycare->slot[slot].inUse != 1) {
+        daycare->slot[slot].mon = *mon;
+        daycare->slot[slot].inUse = 1;
+        daycare->slot[slot].steps = 0;
     }
 }
 
 
 
 
-u32 func_0200BCA0(struct Obj *p)
+void func_0200BC88(struct DaycareSave *daycare, s32 slot)
 {
-    return p->unk1C8;
+    if (slot >= 0 && slot < 2 && daycare->slot[slot].inUse == 1) {
+        daycare->slot[slot].inUse = 0;
+    }
 }
 
 
 
 
-u32 func_0200BCA8(struct Obj *p, u32 i)
+u32 func_0200BCA0(struct DaycareSave *daycare)
 {
-    if (i >= 2) {
+    return daycare->eggReady;
+}
+
+
+
+
+u32 func_0200BCA8(struct DaycareSave *daycare, u32 slot)
+{
+    if (slot >= 2) {
         return 0;
     }
-    return p->slot[i].unk00;
+    return daycare->slot[slot].inUse;
 }
 
 
 
 
-u32 func_0200BCB8(struct Obj *p)
+u32 func_0200BCB8(struct DaycareSave *daycare)
 {
-    s32 i;
-    u32 n = 0;
+    s32 slot;
+    u32 count = 0;
 
-    for (i = 0; i < 2; i++) {
-        if (p->slot[i].unk00 == 1) {
-            n++;
+    for (slot = 0; slot < 2; slot++) {
+        if (daycare->slot[slot].inUse == 1) {
+            count++;
         }
     }
-    return n;
+    return count;
 }
 
 
 
 
-u32 func_0200BCD8(struct Obj *p, u32 i)
+u32 func_0200BCD8(struct DaycareSave *daycare, u32 slot)
 {
-    if (i >= 2) {
+    if (slot >= 2) {
         return 0;
     }
-    return p->slot[i].unkE0;
+    return daycare->slot[slot].steps;
 }
 
 
 
 
-void func_0200BCEC(struct Obj *p, s32 a, s32 b)
+void func_0200BCEC(struct DaycareSave *daycare, s32 slotA, s32 slotB)
 {
-    struct Slot tmp;
+    struct DaycareSlot tmp;
 
-    if (a >= 0 && a < 2 && b >= 0 && b < 2) {
-        tmp = p->slot[a];
-        p->slot[a] = p->slot[b];
-        p->slot[b] = tmp;
+    if (slotA >= 0 && slotA < 2 && slotB >= 0 && slotB < 2) {
+        tmp = daycare->slot[slotA];
+        daycare->slot[slotA] = daycare->slot[slotB];
+        daycare->slot[slotB] = tmp;
     }
 }
 
@@ -2041,17 +1978,17 @@ void func_0200BCEC(struct Obj *p, s32 a, s32 b)
  * Unlabelled arm9 leaf, filed as the relocation witness for ov021 func_021C3378
  * (wave A1, lane 13).
  */
-void func_0200BD48(E *e, u32 add)
+void func_0200BD48(struct DaycareSlot *slots, u32 steps)
 {
     int i;
-    u64 v;
+    u64 total;
 
     for (i = 0; i < 2; i++) {
-        if (e[i].active == 1) {
-            v = (u64)e[i].count + add;
-            if (v > 0xFFFFFFFF)
-                v = 0xFFFFFFFF;
-            e[i].count = v;
+        if (slots[i].inUse == 1) {
+            total = (u64)slots[i].steps + steps;
+            if (total > 0xFFFFFFFF)
+                total = 0xFFFFFFFF;
+            slots[i].steps = total;
         }
     }
 }
@@ -2079,22 +2016,22 @@ void func_0200BD48(E *e, u32 add)
  */
 u32 func_0200BD98(void)
 {
-    return sizeof(struct Blk32);
+    return sizeof(struct DaycareSave);
 }
 
 
 
 
-void func_0200BDA0(struct Blk32 *p)
+void func_0200BDA0(struct DaycareSave *daycare)
 {
-    MI_CpuFill8(p, 0, sizeof(struct Blk32));
+    MI_CpuFill8(daycare, 0, sizeof(struct DaycareSave));
 }
 
 
 
-void *func_0200BDB0(void *sys)
+struct DaycareSave *func_0200BDB0(struct SaveControl *save)
 {
-    return func_020071CC(sys, 0x32);
+    return func_020071CC(save, 0x32);
 }
 
 
@@ -2116,7 +2053,7 @@ void *func_0200BDB0(void *sys)
  * register rather than materialising 0x1A0 again; that is the compiler's
  * doing and not a second constant in the source.
  *
- * func_0200BDE4 hands the first sixteen bytes to func_021763BC, which lives
+ * func_0200BDE4 hands the first sixteen bytes to INTRUDE_COMM_ResetOutcomes, which lives
  * in overlay address space.  The call is attested because ov019's generated
  * listing carries a `func_` label at 0x021763BC and branches elsewhere in the
  * image reach it; see "Callees that live in an overlay" in docs/MATCHING.md.
@@ -2124,67 +2061,67 @@ void *func_0200BDB0(void *sys)
  * func_0200BE00 and func_0200BE24 are the same clamped adder over two
  * neighbouring `u16` counters, and the ceiling 999 arrives from a literal
  * pool in each of them because it does not fit a Thumb immediate.  The
- * increment has to be written `p->f += v` with a **signed** parameter: the
+ * increment has to be written `field += add` with a **signed** parameter: the
  * comparison is a signed `ble`, and spelling the store as
- * `p->f = p->f + (u16)v` adds the truncation pair the store already does for
+ * `field = field + (u16)add` adds the truncation pair the store already does for
  * free.
  */
 u32 func_0200BDBC(void)
 {
-    return sizeof(struct Rec1B0_0200BDBC);
+    return sizeof(struct IntrudeSave);
 }
 
 
 
 
-void func_0200BDC4(struct Rec1B0_0200BDBC *p)
+void func_0200BDC4(struct IntrudeSave *intrude)
 {
-    MI_CpuFill8(p, 0, sizeof(struct Rec1B0_0200BDBC));
-    func_0200BDE4(p);
-    p->unk1A0 = 0x30;
+    MI_CpuFill8(intrude, 0, sizeof(struct IntrudeSave));
+    func_0200BDE4(intrude);
+    intrude->monolithLevel = 0x30;
 }
 
 
 
-void func_0200BDE4(struct Rec1B0_0200BDBC *p)
+void func_0200BDE4(struct IntrudeSave *intrude)
 {
-    MI_CpuFill8(p, 0, 0x10);
-    func_021763BC(p);
+    MI_CpuFill8(&intrude->occupy, 0, sizeof(intrude->occupy));
+    INTRUDE_COMM_ResetOutcomes(&intrude->occupy);
 }
 
 
 
-u16 func_0200BDF8(struct Rec1B0_0200BDBC *p)
+u16 func_0200BDF8(struct IntrudeSave *intrude)
 {
-    return p->unk0C;
+    return intrude->occupy.missionScore;
 }
 
 
 
-u16 func_0200BDFC(struct Rec1B0_0200BDBC *p)
+u16 func_0200BDFC(struct IntrudeSave *intrude)
 {
-    return p->unk0E;
+    return intrude->occupy.missionBonusScore;
 }
 
 
 
-void func_0200BE00(struct Rec1B0_0200BDBC *p, s32 v)
+void func_0200BE00(struct IntrudeSave *intrude, s32 add)
 {
-    if (p->unk0C + v > 999) {
-        p->unk0C = 999;
+    if (intrude->occupy.missionScore + add > 999) {
+        intrude->occupy.missionScore = 999;
     } else {
-        p->unk0C += v;
+        intrude->occupy.missionScore += add;
     }
 }
 
 
 
-void func_0200BE24(struct Rec1B0_0200BDBC *p, s32 v)
+void func_0200BE24(struct IntrudeSave *intrude, s32 add)
 {
-    if (p->unk0E + v > 999) {
-        p->unk0E = 999;
+    if (intrude->occupy.missionBonusScore + add > 999) {
+        intrude->occupy.missionBonusScore = 999;
     } else {
-        p->unk0E += v;
+        intrude->occupy.missionBonusScore += add;
     }
 }
 
@@ -2206,34 +2143,34 @@ void func_0200BE24(struct Rec1B0_0200BDBC *p, s32 v)
  * what gives the original's six instruction body, and so does the equivalent
  * `do`/`while (--i != 0)`.
  */
-u16 *func_0200BE48(void *sys)
+struct IntrudeSave *func_0200BE48(struct SaveControl *save)
 {
-    return func_020071CC(sys, 0x35);
+    return func_020071CC(save, 0x35);
 }
 
 
 
 
-void func_0200BE54(void *sys, const u16 *src)
+void func_0200BE54(struct SaveControl *save, const u16 *src)
 {
-    u16 *d = func_0200BE48(sys);
+    u16 *dest = (u16 *)&func_0200BE48(save)->occupy;
     u32 i;
 
     for (i = 8; i != 0; i--) {
-        *d++ = *src++;
+        *dest++ = *src++;
     }
 }
 
 
 
 
-void func_0200BE6C(void *sys, u16 *dest)
+void func_0200BE6C(struct SaveControl *save, u16 *dest)
 {
-    const u16 *s = func_0200BE48(sys);
+    const u16 *src = (const u16 *)&func_0200BE48(save)->occupy;
     u32 i;
 
     for (i = 8; i != 0; i--) {
-        *dest++ = *s++;
+        *dest++ = *src++;
     }
 }
 
@@ -2241,24 +2178,21 @@ void func_0200BE6C(void *sys, u16 *dest)
 
 
 /*
- * A 20-entry table of 20-byte records at p+0x10 (not at p: p+0x10..p+0x1A0
- * is exactly 20 * 0x14, and p+0x1A0 is the byte func_0200BF08 of
- * src/matched/unit_0200BF08.c sets).  Insert a copy of *q into the first
- * record whose `f00[8] == 0`, else drop the oldest record and append.
+ * Add a log entry to the 20-entry intrude log at +0x10 when the own id is
+ * one of its member ids: into the first free entry (memberIds[8] == 0), else
+ * drop the oldest entry and append.
  *
- * The record is `u16 f00[9]; u8 f12;` -- 19 bytes rounded to 20 by its
- * two-byte alignment, which is why `*s = *q;` is a 10-iteration ldrh/strh
- * loop and not a five-word ldm/stm pair: an align-2 aggregate has no
- * four-byte move to use.  `f00[8]` is the free-slot marker and it is what
- * the scan loop tests at [slot+0x10].
+ * The entry is 19 bytes rounded to 20 by its two-byte alignment, which is
+ * why `*log = *entry;` is a 10-iteration ldrh/strh loop and not a five-word
+ * ldm/stm pair: an align-2 aggregate has no four-byte move to use.
  *
  * Declaration order decides the register plan here, and it is not the
- * order the statements run in: with `u16 stamp;` declared before
- * `Slot *s = p->slot;` the same body compiles to the same 130 bytes with a
+ * order the statements run in: with `u16 ownId;` declared before
+ * `log = intrude->log;` the same body compiles to the same 130 bytes with a
  * different allocation (p in r5, q in r4, the cursor demoted to the
- * scratch r2, 47 bytes out).  Declaring `s` first makes the cursor's live
+ * scratch r2, 47 bytes out).  Declaring `log` first makes the cursor's live
  * range start before the GX_GetBankForLCDC call, so it earns a
- * callee-saved register (p -> r6, q -> r5, cursor -> r4) and the whole
+ * callee-saved register (intrude -> r6, entry -> r5, log -> r4) and the whole
  * prologue lines up.  See docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
  *
  * GX_GetBankForLCDC takes no arguments and returns the u16 bank mask
@@ -2273,35 +2207,35 @@ void func_0200BE6C(void *sys, u16 *dest)
  *   python tools/match.py one --src src/matched/func_0200BE84.c \
  *       --func func_0200BE84 --addr 0x0200BE84 --cc 1.1p1 --thumb
  */
-void func_0200BE84(Rec *p, Slot *q)
+void func_0200BE84(struct IntrudeSave *intrude, struct IntrudeLogEntry *entry)
 {
-    Slot *s = p->slot;
-    u16 stamp;
+    struct IntrudeLogEntry *log = intrude->log;
+    u16 ownId;
     int i;
 
-    stamp = GX_GetBankForLCDC();
+    ownId = GX_GetBankForLCDC();
 
     for (i = 0; i < 8; i++) {
-        if (stamp == q->f00[i]) {
+        if (ownId == entry->memberIds[i]) {
             break;
         }
     }
     if (i == 8) {
         return;
     }
-    if (q->f12 >= 0x12) {
+    if (entry->kind >= 0x12) {
         return;
     }
-    for (i = 0; i < 20; i++, s++) {
-        if (s->f00[8] == 0) {
-            *s = *q;
+    for (i = 0; i < 20; i++, log++) {
+        if (log->memberIds[8] == 0) {
+            *log = *entry;
             return;
         }
     }
     for (i = 1; i < 20; i++) {
-        p->slot[i - 1] = p->slot[i];
+        intrude->log[i - 1] = intrude->log[i];
     }
-    p->slot[19] = *q;
+    intrude->log[19] = *entry;
 }
 
 
@@ -2336,62 +2270,62 @@ void func_0200BE84(Rec *p, Slot *q)
  * docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md
  * and not evidence of a second object.
  */
-void func_0200BF08(struct Rec1B0_0200BF08 *p, u32 v)
+void func_0200BF08(struct IntrudeSave *intrude, u32 level)
 {
-    p->unk1A0 = v;
+    intrude->monolithLevel = level;
 }
 
 
 
-u8 func_0200BF10(struct Rec1B0_0200BF08 *p)
+u8 func_0200BF10(struct IntrudeSave *intrude)
 {
-    return p->unk1A0;
+    return intrude->monolithLevel;
 }
 
 
 
-void func_0200BF18(struct Rec1B0_0200BF08 *p, s32 id)
+void func_0200BF18(struct IntrudeSave *intrude, s32 id)
 {
-    s32 n = id - 0x21;
+    s32 bit = id - 0x21;
 
-    if (n >= 0 && id <= 0x26) {
-        p->unk1A1[n / 8] |= (u8)(1 << (n % 8));
+    if (bit >= 0 && id <= 0x26) {
+        intrude->obtainedFlags[bit / 8] |= (u8)(1 << (bit % 8));
     }
 }
 
 
 
-void func_0200BF54(struct Rec1B0_0200BF08 *p, u8 *dest, u32 n)
+void func_0200BF54(struct IntrudeSave *intrude, u8 *dest, u32 size)
 {
     s32 i;
 
     for (i = 0; i < 2; i++) {
-        dest[i] = p->unk1A1[i];
+        dest[i] = intrude->obtainedFlags[i];
     }
 }
 
 
 
-u32 func_0200BF70(struct Rec1B0_0200BF08 *p)
+u32 func_0200BF70(struct IntrudeSave *intrude)
 {
-    return p->unk1A4;
+    return intrude->missionClearCount;
 }
 
 
 
-u32 func_0200BF78(struct Rec1B0_0200BF08 *p)
+u32 func_0200BF78(struct IntrudeSave *intrude)
 {
-    if (p->unk1A4 < 99999) {
-        p->unk1A4++;
+    if (intrude->missionClearCount < 99999) {
+        intrude->missionClearCount++;
     }
-    return p->unk1A4;
+    return intrude->missionClearCount;
 }
 
 
 
-unsigned long long func_0200BF94(struct Rec1B0_0200BF08 *p)
+u64 func_0200BF94(struct IntrudeSave *intrude)
 {
-    return p->unk1A8;
+    return intrude->playSeconds;
 }
 
 
@@ -2415,27 +2349,27 @@ unsigned long long func_0200BF94(struct Rec1B0_0200BF08 *p)
  *
  * Integrator: seed 0x0200C054 (unlabelled follower, member of this unit).
  */
-u64 func_0200BFA4(u8 *p, void *q, u32 mode)
+u64 func_0200BFA4(struct IntrudeSave *intrude, const struct PlayTime *time, u32 mode)
 {
-    u64 hh, mm, ss;
-    u64 v;
+    u64 hours, minutes, seconds;
+    u64 now;
 
-    hh = func_0200864C(q);
-    mm = func_02008650(q);
-    ss = func_02008654(q);
-    v = mm * 60 + hh * 3600 + ss;
+    hours = func_0200864C(time);
+    minutes = func_02008650(time);
+    seconds = func_02008654(time);
+    now = minutes * 60 + hours * 3600 + seconds;
 
     switch (mode) {
     case 0:
-        g_02146170 = v;
+        _PlayTimeLatch = now;
         break;
     case 1:
-        ((struct Obj07120 *)p)->f1A8 = ((struct Obj07120 *)p)->f1A8 + (v - g_02146170);
+        intrude->playSeconds = intrude->playSeconds + (now - _PlayTimeLatch);
         break;
     case 2:
-        return ((struct Obj07120 *)p)->f1A8 + (v - g_02146170);
+        return intrude->playSeconds + (now - _PlayTimeLatch);
     }
-    return ((struct Obj07120 *)p)->f1A8;
+    return intrude->playSeconds;
 }
 
 
@@ -2443,34 +2377,34 @@ u64 func_0200BFA4(u8 *p, void *q, u32 mode)
 
 u32 func_0200C054(void)
 {
-    return 0xEC;
+    return sizeof(struct BeaconSave);
 }
 
 
 
 
-void func_0200C058(Obj *p)
+void func_0200C058(struct BeaconSave *beacon)
 {
-    void *a;
-    void *b;
-    void *c;
+    struct MsgData *msg;
+    struct StrBuf *greet;
+    struct StrBuf *thanks;
 
-    memset(p, 0, 0xec);
-    func_0200C10C((struct Blk34 *)p);
-    p->f14 &= 0xf0000000;
-    a = func_02045B38(0, 3, 0x2f, 0x8007);
-    b = func_02045EC0(a, 0x151);
-    func_02045A38(b, (u16 *)p->f20, 9);
-    func_02045808(b);
-    c = func_02045EC0(a, 0x159);
-    func_02045A38(c, (u16 *)p->f32, 9);
-    func_02045808(c);
-    func_02045C04(a);
-    p->f44 = 0;
-    p->f46 = 0;
-    p->f47 = 0xff;
-    p->f48 = 0xff;
-    p->f49 = 0xff;
+    MI_CpuFill8(beacon, 0, sizeof(struct BeaconSave));
+    func_0200C10C(beacon);
+    beacon->bestScore = 0;
+    msg = func_02045B38(0, 3, 0x2f, 0x8007);
+    greet = func_02045EC0(msg, 0x151);
+    func_02045A38(greet, beacon->greetMessage, 9);
+    func_02045808(greet);
+    thanks = func_02045EC0(msg, 0x159);
+    func_02045A38(thanks, beacon->thanksMessage, 9);
+    func_02045808(thanks);
+    func_02045C04(msg);
+    beacon->mode = 0;
+    beacon->entryCount = 0;
+    beacon->recentIds[0] = 0xff;
+    beacon->recentIds[1] = 0xff;
+    beacon->recentIds[2] = 0xff;
 }
 
 
@@ -2524,402 +2458,402 @@ void func_0200C058(Obj *p)
  *    64-bit value and func_0200C384 stores the two halves from two register
  *    arguments.
  */
-void *func_0200C0E8(void *sys)
+struct BeaconSave *func_0200C0E8(struct SaveControl *save)
 {
-    return func_0200C0F0(sys);
+    return func_0200C0F0(save);
 }
 
 
 
 
-void *func_0200C0F0(void *sys)
+struct BeaconSave *func_0200C0F0(struct SaveControl *save)
 {
-    return func_020071CC(sys, 0x34);
+    return func_020071CC(save, 0x34);
 }
 
 
 
 
-void func_0200C0FC(struct Blk34 *p, u32 i, u8 v)
+void func_0200C0FC(struct BeaconSave *beacon, u32 index, u8 value)
 {
-    p->unk0C[i] = v;
+    beacon->inputFlags[index] = value;
 }
 
 
 
-u8 func_0200C104(struct Blk34 *p, u32 i)
+u8 func_0200C104(struct BeaconSave *beacon, u32 index)
 {
-    return p->unk0C[i];
+    return beacon->inputFlags[index];
 }
 
 
 
-void func_0200C10C(struct Blk34 *p)
+void func_0200C10C(struct BeaconSave *beacon)
 {
-    MI_CpuFill8(p->unk0C, 0, sizeof(p->unk0C));
+    MI_CpuFill8(beacon->inputFlags, 0, sizeof(beacon->inputFlags));
 }
 
 
 
-void func_0200C11C(struct Blk34 *p, u16 a, u32 b, u32 c, u32 d)
+void func_0200C11C(struct BeaconSave *beacon, u16 id, u32 kind, u32 enabled, u32 single)
 {
-    p->unk08 = a;
-    p->unk0A.f0 = b;
-    p->unk0A.f6 = c;
-    p->unk0A.f7 = (d == 1);
+    beacon->selectId = id;
+    beacon->select.kind = kind;
+    beacon->select.enabled = enabled;
+    beacon->select.isSingle = (single == 1);
 }
 
 
 
-void func_0200C164(const struct Blk34 *p, u32 *a, u32 *b, u32 *c, u32 *d)
+void func_0200C164(const struct BeaconSave *beacon, u32 *id, u32 *kind, u32 *enabled, u32 *single)
 {
-    *a = p->unk08;
-    *b = p->unk0A.f0;
-    *c = p->unk0A.f6;
-    *d = p->unk0A.f7;
+    *id = beacon->selectId;
+    *kind = beacon->select.kind;
+    *enabled = beacon->select.enabled;
+    *single = beacon->select.isSingle;
 }
 
 
 
-u32 func_0200C184(struct Blk34 *p)
+u32 func_0200C184(struct BeaconSave *beacon)
 {
-    return p->f14_0;
+    return beacon->bestScore;
 }
 
 
 
-void func_0200C18C(struct Blk34 *p, u32 v)
+void func_0200C18C(struct BeaconSave *beacon, u32 score)
 {
-    p->f14_0 = v;
+    beacon->bestScore = score;
 }
 
 
 
-u8 func_0200C1A4(struct Blk34 *p)
+u8 func_0200C1A4(struct BeaconSave *beacon)
 {
-    return p->f14_28;
+    return beacon->rank;
 }
 
 
 
-void func_0200C1B0(struct Blk34 *p, u32 v)
+void func_0200C1B0(struct BeaconSave *beacon, u32 rank)
 {
-    p->f14_28 = v;
+    beacon->rank = rank;
 }
 
 
 
-u32 func_0200C1C4(struct Blk34 *p)
+u32 func_0200C1C4(struct BeaconSave *beacon)
 {
-    return p->unk18;
+    return beacon->greetCount;
 }
 
 
 
-u32 func_0200C1C8(struct Blk34 *p)
+u32 func_0200C1C8(struct BeaconSave *beacon)
 {
-    if (p->unk18 < 99999) {
-        p->unk18++;
+    if (beacon->greetCount < 99999) {
+        beacon->greetCount++;
     }
-    return p->unk18;
+    return beacon->greetCount;
 }
 
 
 
-u32 func_0200C1DC(struct Blk34 *p)
+u32 func_0200C1DC(struct BeaconSave *beacon)
 {
-    return p->unk1C;
+    return beacon->thanksCount;
 }
 
 
 
-u32 func_0200C1E0(struct Blk34 *p)
+u32 func_0200C1E0(struct BeaconSave *beacon)
 {
-    if (p->unk1C < 99999) {
-        p->unk1C++;
+    if (beacon->thanksCount < 99999) {
+        beacon->thanksCount++;
     }
-    return p->unk1C;
+    return beacon->thanksCount;
 }
 
 
 
-u16 *func_0200C1F4(struct Blk34 *p)
+u16 *func_0200C1F4(struct BeaconSave *beacon)
 {
-    return p->unk20;
+    return beacon->greetMessage;
 }
 
 
 
-void func_0200C1F8(struct Blk34 *p, const u16 *src)
+void func_0200C1F8(struct BeaconSave *beacon, struct StrBuf *message)
 {
-    func_02045A38((struct U16Vec *)src, p->unk20, 9);
+    func_02045A38(message, beacon->greetMessage, 9);
 }
 
 
 
-u16 *func_0200C20C(struct Blk34 *p)
+u16 *func_0200C20C(struct BeaconSave *beacon)
 {
-    return p->unk32;
+    return beacon->thanksMessage;
 }
 
 
 
-void func_0200C210(struct Blk34 *p, const u16 *src)
+void func_0200C210(struct BeaconSave *beacon, struct StrBuf *message)
 {
-    func_02045A38((struct U16Vec *)src, p->unk32, 9);
+    func_02045A38(message, beacon->thanksMessage, 9);
 }
 
 
 
-u8 func_0200C224(struct Blk34 *p)
+u8 func_0200C224(struct BeaconSave *beacon)
 {
-    return p->unk44;
+    return beacon->mode;
 }
 
 
 
-void func_0200C22C(struct Blk34 *p, u8 v)
+void func_0200C22C(struct BeaconSave *beacon, u8 mode)
 {
-    p->unk44 = v;
+    beacon->mode = mode;
 }
 
 
 
-u32 func_0200C234(struct Blk34 *p, u32 bit)
+u32 func_0200C234(struct BeaconSave *beacon, u32 bit)
 {
-    return (p->unk04 & (1 << bit)) != 0;
+    return (beacon->flags & (1 << bit)) != 0;
 }
 
 
 
-void func_0200C248(struct Blk34 *p, u32 bit)
+void func_0200C248(struct BeaconSave *beacon, u32 bit)
 {
-    p->unk04 |= 1 << bit;
+    beacon->flags |= 1 << bit;
 }
 
 
 
-u32 func_0200C258(struct Blk34 *p)
+u32 func_0200C258(struct BeaconSave *beacon)
 {
-    u32 n = 0;
-    u32 v;
+    u32 count = 0;
+    u32 bits;
 
-    for (v = p->unk04; v != 0; v >>= 1) {
-        if (v & 1) {
-            n++;
+    for (bits = beacon->flags; bits != 0; bits >>= 1) {
+        if (bits & 1) {
+            count++;
         }
     }
-    return n;
+    return count;
 }
 
 
 
-u32 func_0200C274(struct Blk34 *p)
+u32 func_0200C274(struct BeaconSave *beacon)
 {
-    return p->unk00;
+    return beacon->points;
 }
 
 
 
-u32 func_0200C278(struct Blk34 *p, u32 v)
+u32 func_0200C278(struct BeaconSave *beacon, u32 add)
 {
-    if (v > 9999999) {
-        p->unk00 = 9999999;
+    if (add > 9999999) {
+        beacon->points = 9999999;
     } else {
-        p->unk00 += v;
+        beacon->points += add;
     }
-    if (p->unk00 > 9999999) {
-        p->unk00 = 9999999;
+    if (beacon->points > 9999999) {
+        beacon->points = 9999999;
     }
-    return p->unk00;
+    return beacon->points;
 }
 
 
 
-u32 func_0200C29C(struct Blk34 *p, u32 v)
+u32 func_0200C29C(struct BeaconSave *beacon, u32 sub)
 {
-    if (p->unk00 < v) {
-        p->unk00 = 0;
+    if (beacon->points < sub) {
+        beacon->points = 0;
     } else {
-        p->unk00 -= v;
+        beacon->points -= sub;
     }
-    return p->unk00;
+    return beacon->points;
 }
 
 
 
-void func_0200C2B0(struct Blk34 *p, u32 i, const u16 *src)
+void func_0200C2B0(struct BeaconSave *beacon, u32 index, const u16 *species)
 {
-    s32 j;
+    s32 i;
 
-    for (j = 0; j < 6; j++) {
-        p->unk58[i].v[j] = src[j];
-    }
-}
-
-
-
-void func_0200C2D0(struct Blk34 *p, u32 i, u16 *dest)
-{
-    s32 j;
-
-    for (j = 0; j < 6; j++) {
-        dest[j] = p->unk58[i].v[j];
+    for (i = 0; i < 6; i++) {
+        beacon->teams[index].species[i] = species[i];
     }
 }
 
 
 
-void func_0200C2F0(struct Blk34 *p, u32 i, u8 v)
+void func_0200C2D0(struct BeaconSave *beacon, u32 index, u16 *species)
 {
-    p->unk45 |= (u8)(v << (i * 2));
-}
+    s32 i;
 
-
-
-u8 func_0200C308(struct Blk34 *p, u32 i)
-{
-    return (u8)((p->unk45 >> (i * 2)) & 3);
-}
-
-
-
-u8 func_0200C31C(struct Blk34 *p)
-{
-    return p->unk45;
-}
-
-
-
-void func_0200C324(struct Blk34 *p, u8 v)
-{
-    p->unk45 = v;
-}
-
-
-
-u8 func_0200C32C(struct Blk34 *p)
-{
-    return p->unk46;
-}
-
-
-
-void func_0200C334(struct Blk34 *p, u8 v)
-{
-    p->unk46 = v;
-}
-
-
-
-int func_0200C33C(struct Blk34 *p, u32 i)
-{
-    return p->unk47[i];
-}
-
-
-
-void func_0200C344(struct Blk34 *p, u8 i, u8 v)
-{
-    p->unk47[i] = v;
-}
-
-
-
-u16 func_0200C34C(struct Blk34 *p, u32 i)
-{
-    return p->unk4A[i];
-}
-
-
-
-void func_0200C358(struct Blk34 *p, u32 i, int v)
-{
-    p->unk4A[i] = v;
-}
-
-
-
-void func_0200C364(struct Blk34 *p, u8 i, int v)
-{
-    u32 n = p->unk4A[i];
-
-    n += v;
-    if (n > 0xFFFF) {
-        n = 0xFFFF;
-    }
-    p->unk4A[i] = n;
-}
-
-
-
-unsigned long long func_0200C37C(struct Blk34 *p)
-{
-    return p->unk50.q;
-}
-
-
-
-void func_0200C384(struct Blk34 *p, u32 lo, u32 hi)
-{
-    p->unk50.w.lo = lo;
-    p->unk50.w.hi = hi;
-}
-
-
-
-void func_0200C38C(struct Blk34 *p, s32 i, u32 v)
-{
-    if (i < 8) {
-        p->unkB8[i] = v;
+    for (i = 0; i < 6; i++) {
+        species[i] = beacon->teams[index].species[i];
     }
 }
 
 
 
-u32 func_0200C39C(struct Blk34 *p, s32 i)
+void func_0200C2F0(struct BeaconSave *beacon, u32 slot, u8 state)
 {
-    if (i >= 8) {
+    beacon->slotStates |= (u8)(state << (slot * 2));
+}
+
+
+
+u8 func_0200C308(struct BeaconSave *beacon, u32 slot)
+{
+    return (u8)((beacon->slotStates >> (slot * 2)) & 3);
+}
+
+
+
+u8 func_0200C31C(struct BeaconSave *beacon)
+{
+    return beacon->slotStates;
+}
+
+
+
+void func_0200C324(struct BeaconSave *beacon, u8 states)
+{
+    beacon->slotStates = states;
+}
+
+
+
+u8 func_0200C32C(struct BeaconSave *beacon)
+{
+    return beacon->entryCount;
+}
+
+
+
+void func_0200C334(struct BeaconSave *beacon, u8 count)
+{
+    beacon->entryCount = count;
+}
+
+
+
+int func_0200C33C(struct BeaconSave *beacon, u32 index)
+{
+    return beacon->recentIds[index];
+}
+
+
+
+void func_0200C344(struct BeaconSave *beacon, u8 index, u8 id)
+{
+    beacon->recentIds[index] = id;
+}
+
+
+
+u16 func_0200C34C(struct BeaconSave *beacon, u32 index)
+{
+    return beacon->recentValues[index];
+}
+
+
+
+void func_0200C358(struct BeaconSave *beacon, u32 index, int value)
+{
+    beacon->recentValues[index] = value;
+}
+
+
+
+void func_0200C364(struct BeaconSave *beacon, u8 index, int add)
+{
+    u32 value = beacon->recentValues[index];
+
+    value += add;
+    if (value > 0xFFFF) {
+        value = 0xFFFF;
+    }
+    beacon->recentValues[index] = value;
+}
+
+
+
+u64 func_0200C37C(struct BeaconSave *beacon)
+{
+    return beacon->lastTime.value;
+}
+
+
+
+void func_0200C384(struct BeaconSave *beacon, u32 lo, u32 hi)
+{
+    beacon->lastTime.half.lo = lo;
+    beacon->lastTime.half.hi = hi;
+}
+
+
+
+void func_0200C38C(struct BeaconSave *beacon, s32 index, u32 value)
+{
+    if (index < 8) {
+        beacon->hashedIds[index] = value;
+    }
+}
+
+
+
+u32 func_0200C39C(struct BeaconSave *beacon, s32 index)
+{
+    if (index >= 8) {
         return 0;
     }
-    return p->unkB8[i];
+    return beacon->hashedIds[index];
 }
 
 
 
-u16 func_0200C3B0(struct Blk34 *p)
+u16 func_0200C3B0(struct BeaconSave *beacon)
 {
-    return p->unkE0;
+    return beacon->gatePoints;
 }
 
 
 
-void func_0200C3B8(struct Blk34 *p, u16 v)
+void func_0200C3B8(struct BeaconSave *beacon, u16 points)
 {
-    p->unkE0 = v;
+    beacon->gatePoints = points;
 }
 
 
 
-void func_0200C3C0(struct Blk34 *p, u16 v)
+void func_0200C3C0(struct BeaconSave *beacon, u16 sub)
 {
-    if (v <= p->unkE0) {
-        p->unkE0 = p->unkE0 - v;
+    if (sub <= beacon->gatePoints) {
+        beacon->gatePoints = beacon->gatePoints - sub;
     } else {
-        p->unkE0 = 0;
+        beacon->gatePoints = 0;
     }
 }
 
 
 
-u8 func_0200C3E0(struct Blk34 *p)
+u8 func_0200C3E0(struct BeaconSave *beacon)
 {
-    return p->unkDC;
+    return beacon->recorderFlag;
 }
 
 
 
-void func_0200C3EC(struct Blk34 *p, u32 v)
+void func_0200C3EC(struct BeaconSave *beacon, u32 flag)
 {
-    p->unkDC = v;
+    beacon->recorderFlag = flag;
 }

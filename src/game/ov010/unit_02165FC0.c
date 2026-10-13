@@ -51,471 +51,309 @@
  *   func_0200E024  0x0200E024  thumb
  *   func_0200E18C  0x0200E18C  thumb
  */
-struct U16Vec;
+#include "../arm9/game_beacon_types.h"
+
+struct StrBuf;
 struct WordSet;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef short s16;
-
-typedef struct Row {
-    u8 a;
-    u8 b;
-} Row;
-
-typedef struct Rec_02165FCC Rec_02165FCC;
 
 typedef signed int     s32;
 
-typedef struct Rec_02166164 {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02166164;
+/* Per action type row of the table at 0x02171CE8. */
+typedef struct ActionTypeRow {
+    u8 printKind;           /* BeaconPrintKind used by the record printer */
+    u8 viewVariant;         /* variant the beacon view passes to its layout code */
+} ActionTypeRow;
 
-typedef struct RecW {
-    u8 pad00[0x34];
-    u32 f34;            /* 0x34 */
-} RecW;
+/* How the value of an action is registered for printing. */
+enum BeaconPrintKind {
+    BEACON_PRINT_TRAINER_NO = 1,
+    BEACON_PRINT_MONS_NO = 2,
+    BEACON_PRINT_NICKNAME = 3,
+    BEACON_PRINT_MONS_NO_AND_NICKNAME = 4,
+    BEACON_PRINT_ITEM_NO = 5,
+    BEACON_PRINT_SPECIAL_VALUE = 6,
+    BEACON_PRINT_PRESET_EVENT = 7,
+    BEACON_PRINT_DISTRIBUTION_MONS_NO = 8,
+    BEACON_PRINT_DISTRIBUTION_ITEM_NO = 9,
+    BEACON_PRINT_COUNT_VALUE = 10,
+    BEACON_PRINT_WORD_VALUE = 11,
+    BEACON_PRINT_BYTE_VALUE = 12,
+    BEACON_PRINT_HALFWORD_VALUE = 13,
+    BEACON_PRINT_FREE_TEXT = 14,
+    BEACON_PRINT_NONE = 15
+};
 
-typedef struct RecB {
-    u8 pad00[0x34];
-    u8 f34;             /* 0x34 */
-} RecB;
-
-typedef struct Rec_02166168 {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02166168;
-
-typedef struct Rec_02166180 {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02166180;
-
-typedef struct Rec_02166198 {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02166198;
-
-typedef struct Rec_0216619C {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_0216619C;
-
-typedef struct Rec_021661B4 {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_021661B4;
-
-typedef struct Rec_021661CC {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_021661CC;
-
-typedef struct Rec_021661EC {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_021661EC;
-
-typedef struct Rec_02166200 {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02166200;
-
-typedef struct Rec_02166218 {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02166218;
-
-typedef struct Rec_02166230 {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02166230;
-
-typedef struct Rec_02166248 {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02166248;
-
-typedef struct Rec_0216625C {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_0216625C;
-
-typedef struct Rec_0216626C {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_0216626C;
-
-typedef struct Rec_0216627C {
-    u8 pad00[0xC];
-    u32 pad0c : 16;
-    u32 a : 10;
-    u32 b : 6;
-    u8 pad10[0x32 - 0x10];
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_0216627C;
-
+/* One-word struct: the record move in func_0216628C needs a word copy. */
 typedef struct {
-    u32 w;
-} W;
+    u32 word;
+} RecordWord;
 
-extern void func_0201F31C(struct WordSet *p);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
-extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EF4C(struct WordSet *p, u32 i, u32 v);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_0201F104(struct WordSet *p, u32 i, u32 a);
-extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
-extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
-extern void func_0201F1E0(struct WordSet *p, u32 i, u32 v);
-extern void func_02165C34(struct Rec_02165FCC *r, void *buf);
-extern u8 func_02165D08(struct Rec_02165FCC *r);
-extern int func_02165D8C(int a0, int a1);
-extern u16 func_02165E24(Rec_02165FCC *r);
-extern u16 func_02165E34(struct Rec_02165FCC *r);
-extern u16 func_02165E78(struct Rec_02165FCC *r);
-extern u16 func_02165E8C(struct Rec_02165FCC *r);
-extern u16 func_02165E9C(struct Rec_02165FCC *r);
-extern u16 func_02165EAC(struct Rec_02165FCC *r);
-extern void func_02165ECC(struct Rec_02165FCC *r, void *buf);
-extern u16 func_02165F30(struct Rec_02165FCC *r);
-extern u32 func_02165F64(struct Rec_02165FCC *r);
-extern u16 func_02165F74(struct Rec_02165FCC *r);
-extern u32 func_02165F84(struct Rec_02165FCC *r);
-extern u8 func_02165F94(struct Rec_02165FCC *r);
-extern u16 func_02165FA4(struct Rec_02165FCC *r);
-extern u8 func_02165FB4(u16 type);
-extern u32 func_0200E184(u32 slot);
-extern u32 func_0200E164(u32 *obj, u32 kind);
-extern void func_0200E06C(char *p);
-extern void func_0200E27C(u8 *obj, int idx);
-extern void func_0200E024(void *obj);
-extern void func_0200E18C(u32 *obj, u32 slot);
-u8 func_02165FC0(u32 type);
-void func_02165FCC(Rec_02165FCC *r, void *win, u32 heap);
-int func_02166164(Rec_02166164 *r);
-int func_02166168(Rec_02166168 *r);
-int func_02166180(Rec_02166180 *r);
-int func_02166198(Rec_02166198 *r);
-int func_0216619C(Rec_0216619C *r);
-int func_021661B4(Rec_021661B4 *r);
-int func_021661CC(Rec_021661CC *r);
-int func_021661EC(RecW *r);
-int func_02166200(Rec_02166200 *r);
-int func_02166218(Rec_02166218 *r);
-int func_02166230(Rec_02166230 *r);
-int func_02166248(RecW *r);
-int func_0216625C(RecB *r);
-int func_0216626C(Rec_0216626C *r);
-int func_0216627C(Rec_0216627C *r);
-int func_0216628C(u32 *obj, u32 slot);
-extern const Row d_02171CE8[];
+extern void func_0201F31C(struct WordSet *wordSet);
+extern struct StrBuf *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045808(struct StrBuf *buf);
+extern void func_0201EE0C(struct WordSet *wordSet, u32 bufferIndex, const void *str, u32 sex, u32 flag, u32 language);
+extern void func_0201EE60(struct WordSet *wordSet, u32 bufferIndex, u16 value);
+extern void func_0201EF34(struct WordSet *wordSet, u32 bufferIndex, u32 value);
+extern void func_0201EF40(struct WordSet *wordSet, u32 bufferIndex, u32 value);
+extern void func_0201EF4C(struct WordSet *wordSet, u32 bufferIndex, u32 value);
+extern void func_0201EFA4(struct WordSet *wordSet, u32 bufferIndex, u32 value, u32 digits, u32 padding, u32 flag);
+extern void func_0201F104(struct WordSet *wordSet, u32 bufferIndex, u32 value);
+extern void func_0201F134(struct WordSet *wordSet, u32 bufferIndex, u32 value);
+extern void func_0201F184(struct WordSet *wordSet, u32 bufferIndex, s32 value);
+extern void func_0201F1E0(struct WordSet *wordSet, u32 bufferIndex, u32 value);
+extern void func_02165C34(GameBeaconInfo *info, void *buf);
+extern u8 func_02165D08(GameBeaconInfo *info);
+extern int func_02165D8C(int info, int buf);
+extern u16 func_02165E24(GameBeaconInfo *info);
+extern u16 func_02165E34(GameBeaconInfo *info);
+extern u16 func_02165E78(GameBeaconInfo *info);
+extern u16 func_02165E8C(GameBeaconInfo *info);
+extern u16 func_02165E9C(GameBeaconInfo *info);
+extern u16 func_02165EAC(GameBeaconInfo *info);
+extern void func_02165ECC(GameBeaconInfo *info, void *buf);
+extern u16 func_02165F30(GameBeaconInfo *info);
+extern u32 func_02165F64(GameBeaconInfo *info);
+extern u16 func_02165F74(GameBeaconInfo *info);
+extern u32 func_02165F84(GameBeaconInfo *info);
+extern u8 func_02165F94(GameBeaconInfo *info);
+extern u16 func_02165FA4(GameBeaconInfo *info);
+extern u8 func_02165FB4(u16 actionType);
+extern u32 func_0200E184(u32 recordIndex);
+extern u32 func_0200E164(u32 *save, u32 band);
+extern void func_0200E06C(char *save);
+extern void func_0200E27C(u8 *save, int recordIndex);
+extern void func_0200E024(void *save);
+extern void func_0200E18C(u32 *save, u32 recordIndex);
+u8 func_02165FC0(u32 actionType);
+void func_02165FCC(GameBeaconInfo *info, struct WordSet *wordSet, u32 heapId);
+int func_02166164(GameBeaconInfo *info);
+int func_02166168(GameBeaconInfo *info);
+int func_02166180(GameBeaconInfo *info);
+int func_02166198(GameBeaconInfo *info);
+int func_0216619C(GameBeaconInfo *info);
+int func_021661B4(GameBeaconInfo *info);
+int func_021661CC(GameBeaconInfo *info);
+int func_021661EC(GameBeaconInfo *info);
+int func_02166200(GameBeaconInfo *info);
+int func_02166218(GameBeaconInfo *info);
+int func_02166230(GameBeaconInfo *info);
+int func_02166248(GameBeaconInfo *info);
+int func_0216625C(GameBeaconInfo *info);
+int func_0216626C(GameBeaconInfo *info);
+int func_0216627C(GameBeaconInfo *info);
+int func_0216628C(u32 *save, u32 recordIndex);
+extern const ActionTypeRow d_02171CE8[];
 
 
 /*
- * Second byte of the two-byte table row for a record type.
+ * Second byte of the two-byte table row for an action type.
  */
-u8 func_02165FC0(u32 type)
+u8 func_02165FC0(u32 actionType)
 {
-    return d_02171CE8[type].b;
+    return d_02171CE8[actionType].viewVariant;
 }
 
 
 /*
- * Print a record into a text window: its name into slot 0, then the
- * type-specific value (number, string or item) into slots 1 and 2.
+ * Registers the words of a record for message printing: its name into
+ * buffer 0, then the action-specific value (number, string or item) into
+ * buffers 1 and 2.
  */
-void func_02165FCC(Rec_02165FCC *r, void *win, u32 heap)
+void func_02165FCC(GameBeaconInfo *info, struct WordSet *wordSet, u32 heapId)
 {
-    void *str;
-    u8 kind;
-    u32 v;
+    struct StrBuf *buf;
+    u8 printKind;
+    u32 value;
 
-    func_0201F31C(win);
-    str = func_020457B0(0x21, heap);
-    if (str == 0)
+    func_0201F31C(wordSet);
+    buf = func_020457B0(0x21, heapId);
+    if (buf == 0)
         return;
-    func_02165C34(r, str);
-    func_0201EE0C(win, 0, str, 0, 1, 2);
-    kind = func_02165FB4(func_02165E24(r));
-    switch (kind) {
-    case 1:
-        v = func_02165F30(r);
-        func_0201F104(win, 1, v);
-        func_0201F134(win, 2, v);
+    func_02165C34(info, buf);
+    func_0201EE0C(wordSet, 0, buf, 0, 1, 2);
+    printKind = func_02165FB4(func_02165E24(info));
+    switch (printKind) {
+    case BEACON_PRINT_TRAINER_NO:
+        value = func_02165F30(info);
+        func_0201F104(wordSet, 1, value);
+        func_0201F134(wordSet, 2, value);
         break;
-    case 2:
-    case 4:
-        func_0201EE60(win, 1, func_02165E34(r));
-        if (kind == 2)
+    case BEACON_PRINT_MONS_NO:
+    case BEACON_PRINT_MONS_NO_AND_NICKNAME:
+        func_0201EE60(wordSet, 1, func_02165E34(info));
+        if (printKind == BEACON_PRINT_MONS_NO)
             break;
-    case 3:
-        func_02165ECC(r, str);
-        func_0201EE0C(win, 2, str, 0, 1, 2);
+    case BEACON_PRINT_NICKNAME:
+        func_02165ECC(info, buf);
+        func_0201EE0C(wordSet, 2, buf, 0, 1, 2);
         break;
-    case 5:
-        func_0201EF4C(win, 1, func_02165E78(r));
+    case BEACON_PRINT_ITEM_NO:
+        func_0201EF4C(wordSet, 1, func_02165E78(info));
         break;
-    case 6:
-        func_0201EFA4(win, 1, func_02165F74(r), 3, 0, 1);
+    case BEACON_PRINT_SPECIAL_VALUE:
+        func_0201EFA4(wordSet, 1, func_02165F74(info), 3, 0, 1);
         break;
-    case 7:
-        func_0201EFA4(win, 1, func_02165F64(r), 3, 0, 1);
+    case BEACON_PRINT_PRESET_EVENT:
+        func_0201EFA4(wordSet, 1, func_02165F64(info), 3, 0, 1);
         break;
-    case 8:
-        func_0201EE60(win, 1, func_02165E9C(r));
+    case BEACON_PRINT_DISTRIBUTION_MONS_NO:
+        func_0201EE60(wordSet, 1, func_02165E9C(info));
         break;
-    case 9:
-        func_0201EF40(win, 1, func_02165EAC(r));
+    case BEACON_PRINT_DISTRIBUTION_ITEM_NO:
+        func_0201EF40(wordSet, 1, func_02165EAC(info));
         break;
-    case 10:
-        func_0201EF34(win, 1, func_02165E8C(r));
+    case BEACON_PRINT_COUNT_VALUE:
+        func_0201EF34(wordSet, 1, func_02165E8C(info));
         break;
-    case 11:
-        func_0201EFA4(win, 1, func_02165F84(r), 1, 0, 1);
+    case BEACON_PRINT_WORD_VALUE:
+        func_0201EFA4(wordSet, 1, func_02165F84(info), 1, 0, 1);
         break;
-    case 12:
-        func_0201F1E0(win, 1, func_02165F94(r));
+    case BEACON_PRINT_BYTE_VALUE:
+        func_0201F1E0(wordSet, 1, func_02165F94(info));
         break;
-    case 13:
-        func_0201F184(win, 1, func_02165FA4(r));
+    case BEACON_PRINT_HALFWORD_VALUE:
+        func_0201F184(wordSet, 1, func_02165FA4(info));
         break;
-    case 14:
-        func_02165D8C((int)r, (int)str);
-        func_0201EE0C(win, 1, str, func_02165D08(r), 1, 2);
+    case BEACON_PRINT_FREE_TEXT:
+        func_02165D8C((int)info, (int)buf);
+        func_0201EE0C(wordSet, 1, buf, func_02165D08(info), 1, 2);
         break;
-    case 15:
+    case BEACON_PRINT_NONE:
         break;
     }
-    func_02045808(str);
+    func_02045808(buf);
 }
 
 
 /*
- * Record field validator: returns 1 when the field is out of range.
+ * Record field validators: each returns 1 when the field it checks is out
+ * of range for its action kind. This one accepts everything.
  */
-int func_02166164(Rec_02166164 *r)
+int func_02166164(GameBeaconInfo *info)
 {
     return 0;
 }
 
 
-int func_02166168(Rec_02166168 *r)
+/* Trainer number at +0x34 must be 1..0x267. */
+int func_02166168(GameBeaconInfo *info)
 {
-    if (r->f34 == 0 || r->f34 >= 0x268)
+    if (info->actionData.value == 0 || info->actionData.value >= 0x268)
         return 1;
     return 0;
 }
 
 
-int func_02166180(Rec_02166180 *r)
+/* Pokemon number at +0x32 must be 1..0x289. */
+int func_02166180(GameBeaconInfo *info)
 {
-    if (r->f32 == 0 || r->f32 > 0x289)
+    if (info->actionArg == 0 || info->actionArg > 0x289)
         return 1;
     return 0;
 }
 
 
-int func_02166198(Rec_02166198 *r)
+/* Accepts everything (actions without a value). */
+int func_02166198(GameBeaconInfo *info)
 {
     return 0;
 }
 
 
-int func_0216619C(Rec_0216619C *r)
+/* Pokemon number at +0x32 must be 1..0x289 (actions that also carry a nickname). */
+int func_0216619C(GameBeaconInfo *info)
 {
-    if (r->f32 == 0 || r->f32 > 0x289)
+    if (info->actionArg == 0 || info->actionArg > 0x289)
         return 1;
     return 0;
 }
 
 
-int func_021661B4(Rec_021661B4 *r)
+/* Item number at +0x34 must be 1..0x272. */
+int func_021661B4(GameBeaconInfo *info)
 {
-    if (r->f34 == 0 || r->f34 > 0x272)
+    if (info->actionData.value == 0 || info->actionData.value > 0x272)
         return 1;
     return 0;
 }
 
 
-int func_021661CC(Rec_021661CC *r)
+/* Play time: hours must be at most 999 and minutes at most 59. */
+int func_021661CC(GameBeaconInfo *info)
 {
-    if (r->a > 999 || r->b > 59)
+    if (info->playHours > 999 || info->playMinutes > 59)
         return 1;
     return 0;
 }
 
 
-int func_021661EC(RecW *r)
+/* Count value at +0x34 (32 bit) must be at most 99999. */
+int func_021661EC(GameBeaconInfo *info)
 {
-    if (r->f34 > 99999)
+    if (info->actionData.wordValue > 99999)
         return 1;
     return 0;
 }
 
 
-int func_02166200(Rec_02166200 *r)
+/* Distributed pokemon number at +0x34 must be 1..0x289. */
+int func_02166200(GameBeaconInfo *info)
 {
-    if (r->f34 == 0 || r->f34 > 0x289)
+    if (info->actionData.value == 0 || info->actionData.value > 0x289)
         return 1;
     return 0;
 }
 
 
-int func_02166218(Rec_02166218 *r)
+/* Distributed item number at +0x36 must be 1..0x272. */
+int func_02166218(GameBeaconInfo *info)
 {
-    if (r->f36 == 0 || r->f36 > 0x272)
+    if (info->actionData.special.itemNo == 0 || info->actionData.special.itemNo > 0x272)
         return 1;
     return 0;
 }
 
 
-int func_02166230(Rec_02166230 *r)
+/* Move number at +0x34 must be 1..0x22F. */
+int func_02166230(GameBeaconInfo *info)
 {
-    if (r->f34 == 0 || r->f34 >= 0x230)
+    if (info->actionData.value == 0 || info->actionData.value >= 0x230)
         return 1;
     return 0;
 }
 
 
-int func_02166248(RecW *r)
+/* Preset event number at +0x34 (32 bit) must be 1..7. */
+int func_02166248(GameBeaconInfo *info)
 {
-    if (r->f34 == 0 || r->f34 > 7)
+    if (info->actionData.wordValue == 0 || info->actionData.wordValue > 7)
         return 1;
     return 0;
 }
 
 
-int func_0216625C(RecB *r)
+/* Byte value at +0x34 must be at most 6. */
+int func_0216625C(GameBeaconInfo *info)
 {
-    if (r->f34 > 6)
+    if (info->actionData.byteValue > 6)
         return 1;
     return 0;
 }
 
 
-int func_0216626C(Rec_0216626C *r)
+/* Halfword value at +0x34 must be below 0x30. */
+int func_0216626C(GameBeaconInfo *info)
 {
-    if (r->f34 >= 0x30)
+    if (info->actionData.value >= 0x30)
         return 1;
     return 0;
 }
 
 
-int func_0216627C(Rec_0216627C *r)
+/* Distribution serial at +0x38 must be below 0x30. */
+int func_0216627C(GameBeaconInfo *info)
 {
-    if (r->f38 >= 0x30)
+    if (info->actionData.special.serial >= 0x30)
         return 1;
     return 0;
 }
@@ -524,13 +362,15 @@ int func_0216627C(Rec_0216627C *r)
 /*
  * closed 2026-10-05: the unlabelled leaves it calls are now matched files, so every relocation resolves.
  *
- * Maps the slot's kind (0..3, via the 0x0200E184 thunk) to a new kind,
- * asks func_0200E164 for a free slot, and moves the word at obj[slot]
- * there; kind 3 also runs func_0200E27C on it. Returns 0 on failure.
+ * Moves a record of the symbol save to the paired band: maps the band of
+ * the record (0..3, via the 0x0200E184 thunk) to the paired band (0 and 2,
+ * 1 and 3), asks func_0200E164 for a free index in that band, and moves
+ * the word at save[recordIndex] there; band 3 also runs func_0200E27C on
+ * it. Returns 0 on failure.
  *
  * 2026-10-05 (P25L5): all 128 bytes match. The word move is a one-word
- * struct copy (W, lever "one-word structs for word copies"); the plain
- * u32 copy gave 8 bytes off (cmp r5,#3 after the str, dst*4 in r0).
+ * struct copy (RecordWord, lever "one-word structs for word copies"); the
+ * plain u32 copy gave 8 bytes off (cmp r5,#3 after the str, dst*4 in r0).
  * Only blocker: func_0200E184 is a Thumb veneer (ldr r3,[pc]; bx r3) to
  * the real function at 0x0200E0BC (44 bytes, maps a value to 0..3 by a
  * 4-entry threshold table). It has no witness outside this function, so
@@ -541,35 +381,35 @@ int func_0216627C(Rec_0216627C *r)
  * locals, per-arm store (45 off), each pragma (scheduling, peephole,
  * opt_propagation, opt_common_subs, opt_lifetimes, opt_dead_assignments).
  */
-int func_0216628C(u32 *obj, u32 slot)
+int func_0216628C(u32 *save, u32 recordIndex)
 {
-    u32 kind;
-    u32 dst;
+    u32 targetBand;
+    u32 newIndex;
 
-    switch (func_0200E184(slot)) {
+    switch (func_0200E184(recordIndex)) {
     case 0:
-        kind = 2;
+        targetBand = 2;
         break;
     case 1:
-        kind = 3;
+        targetBand = 3;
         break;
     case 2:
-        kind = 0;
+        targetBand = 0;
         break;
     case 3:
-        kind = 1;
+        targetBand = 1;
         break;
     default:
         return 0;
     }
-    dst = func_0200E164(obj, kind);
-    if (dst == 0xFFFF)
+    newIndex = func_0200E164(save, targetBand);
+    if (newIndex == 0xFFFF)
         return 0;
-    func_0200E06C((char *)obj);
-    ((W *)obj)[dst] = ((W *)obj)[slot];
-    if (kind == 3)
-        func_0200E27C((u8 *)obj, (u16)dst);
-    func_0200E024(obj);
-    func_0200E18C(obj, slot);
+    func_0200E06C((char *)save);
+    ((RecordWord *)save)[newIndex] = ((RecordWord *)save)[recordIndex];
+    if (targetBand == 3)
+        func_0200E27C((u8 *)save, (u16)newIndex);
+    func_0200E024(save);
+    func_0200E18C(save, recordIndex);
     return 1;
 }

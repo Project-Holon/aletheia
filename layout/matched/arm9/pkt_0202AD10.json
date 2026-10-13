@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202AD10",
+   "name": "ISS_CITY_SYS_UpdateFadeIn",
    "address": "0x0202AD10",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202AD44",
+   "name": "ISS_CITY_SYS_UpdateFadeOut",
    "address": "0x0202AD44",
    "kind": "game",
    "region": "arm9",

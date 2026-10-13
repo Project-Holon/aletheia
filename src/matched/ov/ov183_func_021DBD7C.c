@@ -14,14 +14,14 @@
  * typedef unsigned char u8;
  * typedef unsigned short u16;
  * typedef unsigned long long u64;
- * extern const u16 func_0200B98C_Table[];
- * u64 func_0200B98C(char *p,int selector,int index) {
+ * extern const u16 BattleRecModeTable[];
+ * u64 BATTLE_REC_GetHeaderParam(char *p,int selector,int index) {
  *   int i;u16 v;
  *   switch(selector) {
  *   case 0: v=((u16 *)p)[index];if(v>0x289)return 0;return v;
  *   case 1: return *(u8 *)(p+index+0x18)&0x7f;
  *   case 2: v=*(u16 *)(p+0x24);if(v>0x270f)return 0x270f;return v;
- *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==func_0200B98C_Table[i])return i;return 0;
+ *   case 3: for(i=0;i<0x29;i++)if(*(u16 *)(p+0x26)==BattleRecModeTable[i])return i;return 0;
  *   case 4: return *(u64 *)(p+0x38);
  *   case 5: return *(u8 *)(p+0x2a);
  *   case 6: return (*(u8 *)(p+index+0x18)&0x80)>>7;
@@ -38,7 +38,7 @@
  *   func_021F9BA0 0x021F9BA0 thumb ov186
  *   func_021F9BF4 0x021F9BF4 thumb ov186
  *   func_021F9C50 0x021F9C50 thumb ov186
- *   func_0200B98C 0x0200B98C thumb
+ *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021DBEB0 0x021DBEB0 thumb ov183
  *   func_021DBCF4 0x021DBCF4 thumb ov183
@@ -56,7 +56,7 @@ typedef unsigned char  u8;
 extern void func_021F9BA0(unsigned *ctx);
 extern void func_021F9BF4(unsigned *,unsigned);
 extern void func_021F9C50(S *);
-extern unsigned long long func_0200B98C(u8 *p, int selector, int index);
+extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021DBEB0(int *task, int *state, char *p);
 extern void func_021DBCF4(int *task, int *state, char *p);
@@ -83,7 +83,7 @@ void func_021DBD7C(int *task,int *state,char *p)
             args[0]=x;args[1]=y;
             func_021FD860(*(int *)(p+0x10),1,args);
             func_021F9BF4(*(unsigned **)(*(char **)(p+0xd0)+0x14),10);
-            *(u64 *)(*(char **)(p+0xd0)+0x1c)=func_0200B98C(*(void **)(p+0xc4),4,0);
+            *(u64 *)(*(char **)(p+0xd0)+0x1c)=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),4,0);
             func_021FD73C(task,(int)func_021DBCF4);
         }
         if(func_021DD2BC(p,x,y)) {

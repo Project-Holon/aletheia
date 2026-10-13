@@ -9,9 +9,9 @@
  * status: EXACT
  * blocker: ARM9 0x020275EC has no witness outside this caller.
  * Verified scratch-only with one --thumb, no --region: EXACT, 12 bytes.
- * symbols for blocker: d_0209FCF8 0x0209FCF8 data a1
- * extern const unsigned char d_0209FCF8[];
- * unsigned func_020275EC(unsigned char i) { return d_0209FCF8[i]; }
+ * symbols for blocker: _PokeTypePltOffset 0x0209FCF8 data a1
+ * extern const unsigned char _PokeTypePltOffset[];
+ * unsigned func_020275EC(unsigned char i) { return _PokeTypePltOffset[i]; }
  * symbols:
  *   d_021EFD34 0x021EFD34 data a4
  *   func_021EBEE0 0x021EBEE0 thumb ov170

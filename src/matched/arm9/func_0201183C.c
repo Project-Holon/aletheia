@@ -1,5 +1,5 @@
 /*
- * function: func_0201183C
+ * function: ICA_ANIME_LoadFrames
  * address:  0x0201183C
  * packet:   pkt_0201183C
  * region:   arm9
@@ -17,7 +17,7 @@
  *   _fsub          0x0209CB8C  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   func_02030734  0x02030734  arm
- *   data_020A7270  0x020A7270  data
+ *   _IcaAnimeFileName  0x020A7270  data
  *   func_020307B0  0x020307B0  arm
  *   func_0204944C  0x0204944C  arm
  *
@@ -72,13 +72,13 @@ struct IcaAnime {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern u8    data_020A7270;
+extern u8    _IcaAnimeFileName;
 struct ArcFile;
 extern void  func_0204944C(struct ArcFile *a, u32 b, u32 ofs, u32 size, void *dst);
 
 #define FX_F32_TO_FX32(x) ((s32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
 
-void func_0201183C(struct IcaAnime *s, s32 q)
+void ICA_ANIME_LoadFrames(struct IcaAnime *s, s32 q)
 {
     s32 i;
     s32 k;
@@ -98,7 +98,7 @@ void func_0201183C(struct IcaAnime *s, s32 q)
     if (s->f2c != 0) size += s->f18 * 0xc;
     if (s->f28 != 0) size += s->f18 * 0xc;
 
-    f = (volatile float *)func_02030734((u16)((s->f00 & 0x7fff) | 0x8000), size, 0, (const char *)&data_020A7270, 0x2bd);
+    f = (volatile float *)func_02030734((u16)((s->f00 & 0x7fff) | 0x8000), size, 0, (const char *)&_IcaAnimeFileName, 0x2bd);
     i = 0;
     func_0204944C((struct ArcFile *)s->f04, s->f08, ofs, size, (void *)f);
 

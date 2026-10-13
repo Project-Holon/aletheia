@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_02013EC0  0x02013EC0  thumb
+ *   ZONEDATA_GetEncountId  0x02013EC0  thumb
  *   func_020493D4  0x020493D4  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   func_0204944C  0x0204944C  arm
@@ -26,7 +26,7 @@ struct R {
 };
 
 extern void func_02082BCC(void *p, int v, int n);
-extern u32 func_02013EC0(u32 id);
+extern u32 ZONEDATA_GetEncountId(u32 id);
 struct ArcFile;
 extern u32 func_020493D4(struct ArcFile *arc, u32 member);
 struct ArcFile;
@@ -38,7 +38,7 @@ int func_0215E2B8(struct R *r, int a, int b, int n)
     int v;
 
     func_02082BCC(r, 0, 0xe8);
-    v = func_02013EC0(b);
+    v = ZONEDATA_GetEncountId(b);
     if (v == 0xffff) {
         return 0;
     }

@@ -13,7 +13,7 @@
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_020124F4 0x020124F4 thumb
+ *   GAME_DATA_Create 0x020124F4 thumb
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200A300 0x0200A300 thumb
  *   func_021D9624 0x021D9624 thumb ov121
@@ -32,7 +32,7 @@
  *   func_021D91BC 0x021D91BC thumb ov121
  *   func_021D9254 0x021D9254 thumb ov121
  *   func_021D9288 0x021D9288 thumb ov121
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   ov114_id 0x00000072 data
  */
 typedef unsigned char u8;
@@ -43,7 +43,7 @@ extern void func_0203064C(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *, int, int);
-extern void *func_020124F4(u16 id);
+extern void *GAME_DATA_Create(u16 id);
 struct Big;
 struct GfFont;
 struct MsgBank;
@@ -66,7 +66,7 @@ extern void *func_021DE2A0(void *arg, int heap);
 extern void func_021D91BC(u8 *p, void *q, u16 h);
 extern void func_021D9254(char *p, int n);
 extern void func_021D9288(unsigned *p, unsigned v);
-extern void func_02005D90(int, int);
+extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 extern char ov114_id[];
 int func_021D6660(void *a, u32 b, u32 c)
 {
@@ -76,7 +76,7 @@ int func_021D6660(void *a, u32 b, u32 c)
     p = func_0203159C(a, 0x69C, 29);
     func_02082BCC(p, 0, 0x69C);
     *(u32 *)(p + 0x3B4) = c;
-    *(void **)(p + 0x3B8) = func_020124F4(29);
+    *(void **)(p + 0x3B8) = GAME_DATA_Create(29);
     *(void **)(p + 0x3BC) = func_0200A300(func_02012EBC(*(void **)(p + 0x3B8)), (void *)1, (void *)29);
     *(u8 **)(p + 0x394) = func_021D9624(1, 29);
     func_021D6924((u16 *)(p + 0x390), 29);
@@ -93,6 +93,6 @@ int func_021D6660(void *a, u32 b, u32 c)
     func_021D91BC(p + 0x138, p + 0x294, 29);
     func_021D9254((char *)p + 0x138, 0);
     func_021D9288((unsigned int *)(p + 0x138), 1);
-    func_02005D90(1154, 0xFFFF);
+    GFL_USE_CancelChangeAndPlayBgm(1154, 0xFFFF);
     return 1;
 }

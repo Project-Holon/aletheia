@@ -1,5 +1,5 @@
 /*
- * function: func_0202DCD4
+ * function: PMS_DRAW_SetDecoVisible
  * address:  0x0202DCD4
  * packet:   pkt_0202DCD4
  * region:   arm9
@@ -32,7 +32,7 @@ struct Obj0202DCC4 {
 
 extern u32 sub_0202DCC4(const struct Obj0202DCC4 *p, u32 i);
 
-void func_0202DCD4(struct Obj0202DCC4 *p, u32 i, u32 val)
+void PMS_DRAW_SetDecoVisible(struct Obj0202DCC4 *p, u32 i, u32 val)
 {
     if (sub_0202DCC4(p, i) != 0) {
         p->unk0C[i].unk18_2 = val;

@@ -1,5 +1,5 @@
 /*
- * function: func_020454E0
+ * function: BMP_WIN_DrawFrame
  * address:  0x020454E0
  * packet:   pkt_020454E0
  * region:   arm9
@@ -50,7 +50,7 @@ struct Cfg {
 extern u8 func_02041680(int channel);
 extern void func_02041300(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
 
-void func_020454E0(struct Cfg *cfg, u16 base, u32 pal)
+void BMP_WIN_DrawFrame(struct Cfg *cfg, u16 base, u32 pal)
 {
     if (func_02041680(cfg->unk_02) != 1) {
         pal &= 0xf;

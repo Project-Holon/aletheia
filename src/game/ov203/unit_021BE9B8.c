@@ -15,21 +15,21 @@
  * symbols:
  *   d_021C3B98 0x021C3B98 data a4
  *   func_020311B8 0x020311B8 arm
- *   func_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   func_02080C54 0x02080C54 arm
  *   func_020056A0 0x020056A0 thumb
  *   func_0207D4B0 0x0207D4B0 arm
  *   func_0208068C 0x0208068C arm
  *   func_02082AC0 0x02082AC0 arm
- *   func_02031194 0x02031194 arm
+ *   TCBL_DeleteTask 0x02031194 arm
  *   func_02030EAC 0x02030EAC arm
  *   func_0200616C 0x0200616C thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_02006148 0x02006148 thumb
- *   func_020062BC 0x020062BC thumb
- *   func_02006268 0x02006268 thumb
+ *   GFL_USE_SetSeSlotVolume 0x020062BC thumb
+ *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   sub_020311B8 0x020311B8 arm
- *   sub_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021BF7AC 0x021BF7AC thumb
  *   sub_0207C768 0x0207C768 arm
@@ -37,8 +37,8 @@
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_02005D90 0x02005D90 thumb
- *   func_02005D28 0x02005D28 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  */
 #include "../../matched/include/Obj10864.h"
 #include "../../matched/include/Obj02919.h"
@@ -82,27 +82,27 @@ struct Owner { u8 pad[0x20]; struct Tcbl *manager; };
 struct Work { struct Owner *owner; u8 state,kind,target,pad; int duration,start,end,current,step; };
 
 extern void *func_020311B8(void *, void (*)(void *, void *), unsigned, unsigned);
-extern void *func_02031290(struct S02030FB4 *p);
+extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern unsigned short func_02080C54(void);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0208068C(int);
 extern void func_02082AC0(unsigned,void *,unsigned);
-extern void func_02031194(struct TcblNode *);
+extern void TCBL_DeleteTask(struct TcblNode *);
 extern void func_02030EAC(struct Node *n);
 extern void func_0200616C(void *,int);
 extern void func_020061E4(unsigned);
 extern int func_02006148(unsigned);
-extern void func_020062BC(int,unsigned);
-extern void func_02006268(int,unsigned,unsigned,unsigned);
+extern void GFL_USE_SetSeSlotVolume(int,unsigned);
+extern void GFL_USE_SetSeSlotParams(int,unsigned,unsigned,unsigned);
 extern void func_020061F8(int);
 extern struct TcblNode *sub_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
-extern void *sub_02031290(struct S02030FB4 *);
+extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void func_02082BCC(void *,u32,u32);
 extern int func_021BF7AC(char *p, int v);
 extern u32 sub_0207C768(u32,u32);
-extern void func_02005D90(int,int);
-extern void func_02005D28(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 void * func_021BE9B8(void *p,unsigned a,unsigned b);
 void func_021BE9E8(int a);
 void *func_021BE9F8(void *manager, const Config_021BE9E8 *source);
@@ -143,7 +143,7 @@ void *func_021BE9F8(void *manager, const Config_021BE9E8 *source)
     void *task;
     char *ctx;
     task = func_020311B8(manager, (void (*)(void *, void *))func_021BEAB8, 56, 5);
-    ctx = func_02031290(task);
+    ctx = TCBL_GetWork(task);
     *(Config_021BE9E8 *)(ctx + 4) = *source;
     ((struct Obj10864 *)ctx)->f34 = task;
     ((struct Obj10864 *)ctx)->f30 = 0;
@@ -165,7 +165,7 @@ void func_021BEA48(int *s,unsigned a,unsigned b,unsigned c)
     case 14:func_02082AC0(0,(void *)0x06860000,0x20000);break;
     default:func_0208068C(0);break;
     }
-    func_02031194((struct TcblNode *)s[13]);
+    TCBL_DeleteTask((struct TcblNode *)s[13]);
 }
 
 
@@ -218,9 +218,9 @@ void func_021BEBC8(void *unused,int ignored,int *s)
     int channel;
     if(s[4]!=-1){func_0200616C((void *)s[0],s[4]);channel=s[4];}
     else {func_020061E4(s[0]);channel=func_02006148(s[0]);}
-    if(s[1]!=-1)func_020062BC(channel,s[1]);
-    if(s[2]!=-1)func_02006268(channel,-1,-1,s[2]);
-    if(s[3]!=-1)func_02006268(channel,-1,s[3],-1);
+    if(s[1]!=-1)GFL_USE_SetSeSlotVolume(channel,s[1]);
+    if(s[2]!=-1)GFL_USE_SetSeSlotParams(channel,-1,-1,s[2]);
+    if(s[3]!=-1)GFL_USE_SetSeSlotParams(channel,-1,s[3],-1);
 }
 
 
@@ -261,7 +261,7 @@ void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int 
     struct Work *work;
     float a,b,c;
     int final;
-    work=sub_02031290((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BED94,0x1c,0));
+    work=TCBL_GetWork((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BED94,0x1c,0));
     func_02082BCC(work,0,0x1c);
     work->owner=owner;
     work->kind=kind;
@@ -283,19 +283,19 @@ void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int 
 
 
 
-void func_021BED94(struct TcblNode *p,char *q) { int old;old=((struct Obj02919 *)q)->f8;((struct Obj02919 *)q)->f8=old-1;if(old>0){func_021BEDCC(((struct Obj02919 *)q)->f5,((struct Obj02919 *)q)->f6,((struct Obj02919 *)q)->f14>>12);((struct Obj02919 *)q)->f14+=((struct Obj02919 *)q)->f18;}else {func_021BEDCC(((struct Obj02919 *)q)->f5,((struct Obj02919 *)q)->f6,((struct Obj02919 *)q)->f10);func_02031194(p);} }
+void func_021BED94(struct TcblNode *p,char *q) { int old;old=((struct Obj02919 *)q)->f8;((struct Obj02919 *)q)->f8=old-1;if(old>0){func_021BEDCC(((struct Obj02919 *)q)->f5,((struct Obj02919 *)q)->f6,((struct Obj02919 *)q)->f14>>12);((struct Obj02919 *)q)->f14+=((struct Obj02919 *)q)->f18;}else {func_021BEDCC(((struct Obj02919 *)q)->f5,((struct Obj02919 *)q)->f6,((struct Obj02919 *)q)->f10);TCBL_DeleteTask(p);} }
 
 
 
 void func_021BEDCC(int mode,int channel,int value)
 {
-    switch(mode){case 0:func_020062BC(channel,value);break;case 1:func_02006268(channel,-1,-1,value);break;case 2:func_02006268(channel,-1,value,-1);break;}
+    switch(mode){case 0:GFL_USE_SetSeSlotVolume(channel,value);break;case 1:GFL_USE_SetSeSlotParams(channel,-1,-1,value);break;case 2:GFL_USE_SetSeSlotParams(channel,-1,value,-1);break;}
 }
 
 
 
-void func_021BEE04(int a,int b,int *s){func_02005D90(s[0],0xffff);}
+void func_021BEE04(int a,int b,int *s){GFL_USE_CancelChangeAndPlayBgm(s[0],0xffff);}
 
 
 
-void func_021BEE14(void){func_02005D28();}
+void func_021BEE14(void){GFL_USE_CancelChangeAndStopBgm();}

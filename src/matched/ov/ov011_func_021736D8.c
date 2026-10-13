@@ -1,5 +1,5 @@
 /*
- * function: func_021736D8
+ * function: INTRUDE_COMM_IsLinked
  * address:  0x021736D8
  * packet:   pkt_021736D8
  * region:   ov011
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02175628  0x02175628  thumb
+ *   INTRUDE_COMM_HasConnectedPeers  0x02175628  thumb
  */
 
-int func_02175628(void);
+int INTRUDE_COMM_HasConnectedPeers(void);
 
-int func_021736D8(void)
+int INTRUDE_COMM_IsLinked(void)
 {
-    return func_02175628();
+    return INTRUDE_COMM_HasConnectedPeers();
 }

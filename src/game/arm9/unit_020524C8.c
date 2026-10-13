@@ -1565,7 +1565,7 @@ SPLNode *func_02058300(SPLList *list, SPLNode *node)
 
 
 /*
- * Handler row 0 of the 3D-rig table searched by func_020518AC: adds the three
+ * Handler row 0 of the 3D-rig table searched by BUTTON_MAN_FindRowData: adds the three
  * s16 components of o to dst[0..2].  Same compiler as its sibling
  * func_02058204 (1.1p1 merges the first two loads into an ldm).  The middle
  * argument is unused but kept for the handler signature func_02058204 has.
@@ -5270,7 +5270,7 @@ void func_020528A8(u32 a0)
 /*
  * The rig's per-frame node walk: for every node on h->list, age it, maybe
  * dispatch it, and maybe retire it onto the recycle list.  This is the callee
- * src/pending/func_020514F4.c was capped on.
+ * src/pending/PARTICLE_UpdateSystem.c was capped on.
  *
  * Per node, with c = *n->f20 (the node's class record, doubly indirected):
  *   - if n's "expired" bit (+0x24 bit 4) is clear and the node's age n->f4c
@@ -5428,7 +5428,7 @@ void func_020526A8(struct Head_020524C8 *h, u32 a)
 
 
 /*
- * Promote-first callee of src/pending/func_020515B4.c (parks lane 2).
+ * Promote-first callee of src/pending/PARTICLE_StartEffect.c (parks lane 2).
  * Pops one node off the list at p+0x10, runs the loader for the node and
  * (p->f28 + (arg1 << 5), arg2), then hands the node to func_020583CC; the
  * node is discarded when bit 14 of the word at *(node->f20) is set.

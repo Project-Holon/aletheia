@@ -1,5 +1,5 @@
 /*
- * function: func_0204C6E4
+ * function: CLACT_ExitTransferPool
  * address:  0x0204C6E4
  * packet:   pkt_0204BD64
  * region:   arm9
@@ -11,22 +11,22 @@
  *
  * symbols:
  *   sub_020307B0   0x020307B0  arm
- *   func_0204C788  0x0204C788  arm
+ *   CLACT_FreeTransferEntries  0x0204C788  arm
  *
- * The inverse of src/matched/func_0204C660.c: release the 0x30-byte record
+ * The inverse of src/matched/CLACT_InitTransferPool.c: release the 0x30-byte record
  * array, drop the free-list built over it, and clear the constructed flag at
  * +0x0c.  An unconstructed object is an early return predicated onto the
  * entry compare.
  *
  * The zero is materialised once into a callee-saved register and used for
  * both stores, because the second store lands after the call to
- * func_0204C788; that is also what forces the store to +0x00 to be written
+ * CLACT_FreeTransferEntries; that is also what forces the store to +0x00 to be written
  * before the call rather than after
  * (docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C6E4.c \
- *       --func func_0204C6E4 --addr 0x0204C6E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_ExitTransferPool.c \
+ *       --func CLACT_ExitTransferPool --addr 0x0204C6E4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -39,9 +39,9 @@ struct Pool {
 };
 
 extern u32 sub_020307B0(void *p);
-extern void func_0204C788(struct Pool *p);
+extern void CLACT_FreeTransferEntries(struct Pool *p);
 
-void func_0204C6E4(struct Pool *p)
+void CLACT_ExitTransferPool(struct Pool *p)
 {
     if (p->ready == 0) {
         return;
@@ -49,6 +49,6 @@ void func_0204C6E4(struct Pool *p)
 
     sub_020307B0(p->recs);
     p->recs = 0;
-    func_0204C788(p);
+    CLACT_FreeTransferEntries(p);
     p->ready = 0;
 }

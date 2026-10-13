@@ -12,10 +12,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02044BF0  0x02044BF0  arm
- *   func_02044CE0  0x02044CE0  arm
- *   func_02044D88  0x02044D88  arm
- *   func_02044EBC  0x02044EBC  arm
+ *   BMP_FillRect4bpp  0x02044BF0  arm
+ *   BMP_FillRect8bpp  0x02044CE0  arm
+ *   BMP_FillRect4bppVram  0x02044D88  arm
+ *   BMP_FillRect8bppVram  0x02044EBC  arm
  *
  * bmp.c's six-argument fill dispatcher, the single-bitmap sibling of the
  * blit dispatcher at 0x020439A0: the same two-level switch on the source
@@ -32,17 +32,17 @@
  * then `== 0x20`.
  *
  * Every one of the 104 concrete bytes is reproduced; all four relocations
- * stay wildcarded for the same reason as src/pending/sub_020439A0.c: each of
+ * stay wildcarded for the same reason as src/pending/BMP_Blit.c: each of
  * the four fill workers is called from this dispatcher and from nowhere else
  * in the image, so no site has a `label` witness outside the compared range,
  * none of the four is in the manifest, and the range is one function so
  * there is no cut.  0x02044CE0 already has a near-miss note,
- * docs/notes/sub_02044CE0.c.txt.
+ * docs/notes/BMP_FillRect8bpp.c.txt.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02043AF4.c \
+ *   python tools/match.py one --src src/pending/BMP_FillRect.c \
  *       --func func_02043AF4 --addr 0x02043AF4 --cc 1.1p1 --arm
  */
 
@@ -56,28 +56,28 @@ struct Bmp {
     u16 unk0A;
 };
 
-extern void func_02044BF0(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5,
+extern void BMP_FillRect4bpp(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5,
                           u32 a6);
-extern void func_02044CE0(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5,
+extern void BMP_FillRect8bpp(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5,
                           u32 a6);
-extern void func_02044D88(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5,
+extern void BMP_FillRect4bppVram(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5,
                           u32 a6);
-extern void func_02044EBC(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5,
+extern void BMP_FillRect8bppVram(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5,
                           u32 a6);
 
 void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
 {
     if (b->unk0A != 2) {
         if (b->unk08 == 0x20) {
-            func_02044BF0(b, a2, a3, a4, a5, a6);
+            BMP_FillRect4bpp(b, a2, a3, a4, a5, a6);
         } else {
-            func_02044CE0(b, a2, a3, a4, a5, a6);
+            BMP_FillRect8bpp(b, a2, a3, a4, a5, a6);
         }
     } else {
         if (b->unk08 == 0x20) {
-            func_02044D88(b, a2, a3, a4, a5, a6);
+            BMP_FillRect4bppVram(b, a2, a3, a4, a5, a6);
         } else {
-            func_02044EBC(b, a2, a3, a4, a5, a6);
+            BMP_FillRect8bppVram(b, a2, a3, a4, a5, a6);
         }
     }
 }

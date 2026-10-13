@@ -1,5 +1,5 @@
 /*
- * function: func_0208EA80
+ * function: WMi_DeleteSleepCallback
  * address:  0x0208EA80
  * packet:   pkt_0208EA80
  * region:   arm9
@@ -11,4 +11,4 @@
  */
 
 extern void func_0208C86C(void *);
-void func_0208EA80(void){ func_0208C86C((void *)0x02153060); }
+void WMi_DeleteSleepCallback(void){ func_0208C86C((void *)0x02153060); }

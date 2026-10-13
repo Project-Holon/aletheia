@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020173E8  0x020173E8  thumb
- *   func_02017550  0x02017550  thumb
+ *   POKE_TOOL_GetBoxParamSize  0x020173E8  thumb
+ *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
  */
 
 typedef struct {
@@ -34,9 +34,9 @@ typedef struct {
 } Ov107Ctx;
 
 typedef unsigned int   u32;
-u32 func_020173E8(void);
+u32 POKE_TOOL_GetBoxParamSize(void);
 struct Sav;
-void func_02017550(struct Sav *);
+void POKE_TOOL_ClearBoxParam(struct Sav *);
 
 void func_021F1184(Ov107Ctx *p)
 {
@@ -47,7 +47,7 @@ void func_021F1184(Ov107Ctx *p)
     list->f00 = 0;
     list->f02 = 0;
     for (i = 0; i < 6; i++) {
-        func_02017550((struct Sav *)((unsigned char *)p->f10 + i * func_020173E8() + 4));
+        POKE_TOOL_ClearBoxParam((struct Sav *)((unsigned char *)p->f10 + i * POKE_TOOL_GetBoxParamSize() + 4));
     }
     p->f18.b1 = 0;
     p->f18.b2 = 0;

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02011F24
+ * function: GAMESYSTEM_GetWorkSize
  *
  * Four bytes, `movs r0, #0x34; bx lr`: the sizeof getter of the context record
  * whose accessors are src/matched/unit_020120F0.c and
@@ -43,7 +43,7 @@ struct Ctx {
     u8    unk33_1 : 7;
 };
 
-u32 func_02011F24(void)
+u32 GAMESYSTEM_GetWorkSize(void)
 {
     return sizeof(struct Ctx);
 }

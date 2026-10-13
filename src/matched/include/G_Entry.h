@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_ENTRY_H
 #define ALETHEIA_G_ENTRY_H
-/* g_021469D8 (arm9) */
+/* _pCommandWork (arm9) */
 struct Entry {
     unsigned int a;
     unsigned int b;

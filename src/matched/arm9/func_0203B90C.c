@@ -1,5 +1,5 @@
 /*
- * function: func_0203B90C
+ * function: GFL_NET_STATE_ChangeoverStopChild
  * address:  0x0203B90C
  * packet:   pkt_0203B6EC
  * region:   arm9
@@ -10,13 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469DC     0x021469DC  data
+ *   _pNetState     0x021469DC  data
+ *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B90C.c \
- *       --func func_0203B90C --addr 0x0203B90C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverStopChild.c \
+ *       --func GFL_NET_STATE_ChangeoverStopChild --addr 0x0203B90C --cc 1.1p1 --arm
  */
 
 #include "../include/G_Sys.h"
@@ -25,16 +27,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern struct Sys *g_021469DC;
+extern struct Sys *_pNetState;
 
-extern u8 *func_0203D788(void);
+extern u8 *GFL_NET_GetSession(void);
 struct NetState;
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
 
-void func_0203B90C(void)
+void GFL_NET_STATE_ChangeoverStopChild(void)
 {
-    if ((*(u32 (**)(void))(*(u32 *)(func_0203D788() + 0x340) + 0x78))() == 0)
+    if ((*(u32 (**)(void))(*(u32 *)(GFL_NET_GetSession() + 0x340) + 0x78))() == 0)
         return;
 
-    func_0203AD80((struct NetState *)((u8 *)g_021469DC), (void *)0x0203B6EC, 0, 0x371);
+    GFL_NET_STATE_ChangeStateDebug((struct NetState *)((u8 *)_pNetState), (void *)0x0203B6EC, 0, 0x371);
 }

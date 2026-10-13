@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02039338 0x02039338 arm
- *   func_0203D7B0 0x0203D7B0 arm
+ *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   func_021DCF50 0x021DCF50 thumb ov137
  *   func_021841A4 0x021841A4 thumb ov022
  *   func_021DE4B4 0x021DE4B4 thumb ov137
@@ -17,7 +17,7 @@
  */
 typedef unsigned short u16;
 extern u16 func_02039338(void);
-extern void func_0203D7B0(unsigned char a0);
+extern void GFL_NET_SetAutoExit(unsigned char a0);
 typedef unsigned char  u8;
 extern void *func_021DCF50(u8 *p);
 extern int func_021841A4(unsigned char *p);
@@ -26,11 +26,11 @@ extern void func_021DD93C(char *, int);
 int func_021DD79C(char *p, int state) {
     if (func_02039338() == 0) {
         int zero = 0;
-        func_0203D7B0(0);
+        GFL_NET_SetAutoExit(0);
         if ((unsigned)func_021841A4(func_021DCF50((u8 *)p)) >= 2)
             func_021DE4B4(p, 2, zero);
     } else {
-        func_0203D7B0(1);
+        GFL_NET_SetAutoExit(1);
         func_021DE4B4(p, 8, 0);
     }
     func_021DD93C(p, 3);

@@ -72,11 +72,11 @@
  *   func_021D97C4 0x021D97C4 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_0200BBD8 0x0200BBD8 thumb
- *   func_0200DFE4 0x0200DFE4 thumb
+ *   BSUBWAY_SAVEDATA_SetStat 0x0200DFE4 thumb
  *   func_0200B1F8 0x0200B1F8 thumb
  *   func_021DB3A4 0x021DB3A4 thumb
  *   func_021DB478 0x021DB478 thumb
- *   func_0200DFD8 0x0200DFD8 thumb
+ *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
  *   func_021D9D50 0x021D9D50 thumb
  *   func_021D905C 0x021D905C thumb
  */
@@ -150,12 +150,12 @@ extern void func_021D97A4(char *);
 extern int func_021D97C4(char *);
 extern void func_02082D44(const void *,void *,unsigned);
 extern void func_0200BBD8(struct Obj *p, int v);
-extern void func_0200DFE4(unsigned,unsigned,unsigned,unsigned);
+extern void BSUBWAY_SAVEDATA_SetStat(unsigned,unsigned,unsigned,unsigned);
 struct Rec1E;
 extern void func_0200B1F8(struct Rec1E *);
 extern void func_021DB3A4(char *,unsigned,int,unsigned);
 extern int func_021DB478(char *);
-extern unsigned func_0200DFD8(unsigned,unsigned,unsigned);
+extern unsigned BSUBWAY_SAVEDATA_GetStat(unsigned,unsigned,unsigned);
 extern int func_021D9D50(char *obj, u32 *rec);
 extern void func_021D905C(u32 sys);
 #define W(k) (*(u32 *)(p+(k)))
@@ -261,7 +261,7 @@ void func_021D6DB8(int *sys,int *state,char *p)
         item=(u32)func_0200B204((struct RecBig *)func_0200B358((void *)saved),0);
         func_02082D44(p+0x10c,(void *)W(0x108),0x160);
         func_0200BBD8(box,1);func_0200B110((struct Reg2 *)W(0x108),10,1);
-        func_0200DFE4(ctx[4],10,0,0);func_0200DFE4(ctx[4],10,1,0);func_0200DFE4(ctx[4],10,2,0);
+        BSUBWAY_SAVEDATA_SetStat(ctx[4],10,0,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,1,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,2,0);
         func_0200B1F8((struct Rec1E *)item);func_02012DAC(*(u32 *)ctx[2]);*state=44;break;
     case 44:r=func_02012DD0((unsigned char *)*(u32 *)ctx[2]);if(r==2)*state=37;else if(r==3)*state=45;break;
     case 45:func_021E8738((int *)W(0x2c),W(0x14),0x40,1);func_021E8AB4((u32)sys,55);*state=56;break;
@@ -270,7 +270,7 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 48:
         r=func_021DB478(H);if(r==1){*(u32 *)CTX[8]=0x708;*state=49;}
         if(r!=0)switch(func_021D9F04(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;}break;
-    case 49:if(((u32 *)CTX[13])[4]!=func_0200DFD8(ctx[4],10,0))*state=50;else *state=55;break;
+    case 49:if(((u32 *)CTX[13])[4]!=BSUBWAY_SAVEDATA_GetStat(ctx[4],10,0))*state=50;else *state=55;break;
     case 50:func_021E8738((int *)W(0x2c),W(0x14),0x3a,2);func_021E8AB4((u32)sys,51);*state=56;break;
     case 51:func_021D9D50(p,(void *)ctx[13]);func_02012DAC(*(u32 *)ctx[2]);*state=52;break;
     case 52:if(func_02012DD0((unsigned char *)*(u32 *)ctx[2])==2)*state=55;break;

@@ -15,7 +15,7 @@
  *   func_0216FEF0  0x0216FEF0  arm  ov009
  *   func_021763AC  0x021763AC  arm  ov009
  *   func_021700C8  0x021700C8  arm  ov009
- *   func_0216B838  0x0216B838  arm  ov009
+ *   DWC_GetMyAID  0x0216B838  arm  ov009
  *   func_02177848  0x02177848  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_021861A8  0x021861A8  arm  ov009
@@ -45,7 +45,7 @@ extern int func_0216FEF0(unsigned char command, int pid);
 struct DWCstBinaryMessage;
 extern char *func_021763AC(int pid);
 extern void func_021700C8(struct DWCstBinaryMessage *message, unsigned char command, unsigned long *data, int len);
-extern unsigned char func_0216B838(void);
+extern unsigned char DWC_GetMyAID(void);
 extern int func_02177848(unsigned char from, unsigned char to, const void *data, int size, int flag);
 extern char *func_02175F3C(void);
 extern int func_021861A8(void *conn, int pid);
@@ -67,7 +67,7 @@ int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned shor
     if (func_0216FEF0(command, pid) != 0) {
         node = (unsigned char *)func_021763AC(pid);
         func_021700C8((struct DWCstBinaryMessage *)(&ctrl), command, (long unsigned int *)data, len);
-        func_02177848(func_0216B838(), node[0x16], &ctrl, ctrl.len + 0x14, 0);
+        func_02177848(DWC_GetMyAID(), node[0x16], &ctrl, ctrl.len + 0x14, 0);
         result = 0;
     } else if (func_021861A8(*(void **)func_02175F3C(), pid) != 0) {
         n = 0;

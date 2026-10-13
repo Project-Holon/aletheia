@@ -21,6 +21,7 @@
  *   AESi_Unlock  0x02707BDC  arm
  *   AESi_FlushRange  0x02707C2C  arm
  *   AESi_InvalidateRange  0x02707C48  arm
+ *   PXI_Init  0x02088498  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -55,7 +56,7 @@ extern u32 OS_ReceiveMessage(u32 *q, u32 *msg, u32 flags);
 extern void func_02085D94(u32 *q, u32 *buf, u32 count);
 extern void func_020885A0(u32 tag, void (*cb)(u32, u32, u32));
 extern u32 func_020885EC(u32 tag, u32 arg);
-extern void func_02088498(void);
+extern void PXI_Init(void);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void AESi_PxiSendCmd(u32 cmd, void *data, u32 size);
 extern void AESi_PxiSendResult(u32 a, u32 b);
@@ -107,7 +108,7 @@ void AESi_Init(void) {
     }
     func_02085D94(data_02735AAC, data_02735A9C_msg, 1);
     AESi_InitLock();
-    func_02088498();
+    PXI_Init();
     func_020885A0(0x13, PxiCallback);
     while (func_020885EC(0x13, 1) == 0) {
     }

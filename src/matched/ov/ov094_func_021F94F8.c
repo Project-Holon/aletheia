@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201127C  0x0201127C  thumb
+ *   VM_Start  0x0201127C  thumb
  *   func_02011324  0x02011324  thumb
  *   func_02040588  0x02040588  arm
  *   func_02048F60  0x02048F60  arm
@@ -61,7 +61,7 @@ typedef struct {
 } T;
 
 struct ScriptVm;
-extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
+extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 extern void *func_02011324(struct ScriptVm *vm);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
@@ -151,5 +151,5 @@ void func_021F94F8(void *vm, u32 a1, u32 a2, u16 id, Quad *q)
     t->f4 = 0;
     t->b12 = 0;
     t->f25c = 8;
-    func_0201127C(vm, t->f1e8 + *(int *)(p + off));
+    VM_Start(vm, t->f1e8 + *(int *)(p + off));
 }

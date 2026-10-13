@@ -1,5 +1,5 @@
 /*
- * function: func_0202685C
+ * function: GAME_BEACON_AddLog
  * address:  0x0202685C
  * packet:   pkt_0202685C
  * region:   arm9
@@ -88,7 +88,7 @@ static inline u32 calc(struct Req *r, int id)
     return v;
 }
 
-void func_0202685C(u8 *base, struct Req *r)
+void GAME_BEACON_AddLog(u8 *base, struct Req *r)
 {
     void *bag;
     void *sys;

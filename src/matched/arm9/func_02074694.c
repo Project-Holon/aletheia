@@ -1,5 +1,5 @@
 /*
- * function: func_02074694
+ * function: NNS_SndArcSetFileAddress
  * address:  0x02074694
  * packet:   pkt_0207457C
  * region:   arm9
@@ -36,7 +36,7 @@ struct Context {
 
 extern struct Context *ptr_0214EA50;
 
-void func_02074694(u32 idx, u32 val)
+void NNS_SndArcSetFileAddress(u32 idx, u32 val)
 {
     struct Context *ctx = ptr_0214EA50;
     struct TableHeader *tbl = ctx->table;

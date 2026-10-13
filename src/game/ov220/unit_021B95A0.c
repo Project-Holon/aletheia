@@ -21,9 +21,9 @@
  *   func_0201C440 0x0201C440 thumb
  *   func_0204047C 0x0204047C arm
  *   func_020056A0 0x020056A0 thumb
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0207D518 0x0207D518 arm
- *   func_02043558 0x02043558 arm
+ *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
@@ -36,7 +36,7 @@
  *   func_020409B4 0x020409B4 arm
  *   func_0204E720 0x0204E720 arm
  *   func_0203D34C 0x0203D34C arm
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   bgtable 0x021BA370 data a4
  *   resources 0x021BA4E0 data a4
  *   func_020403F4 0x020403F4 arm
@@ -48,14 +48,14 @@
  *   func_020306F0 0x020306F0 arm
  *   func_021BA178 0x021BA178 thumb ov220
  *   d_021BA370 0x021BA370 data a4
- *   func_02005E50 0x02005E50 thumb
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005E64 0x02005E64 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_PushBgm 0x02005E64 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_0204E804 0x0204E804 arm
  *   func_02005F38 0x02005F38 thumb
- *   func_02005E9C 0x02005E9C thumb
- *   func_02005DF8 0x02005DF8 thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   func_020362DC 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   func_02035D20 0x02035D20 arm
@@ -75,7 +75,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0201BC3C 0x0201BC3C thumb
- *   func_0201BABC 0x0201BABC thumb
+ *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0201BC40 0x0201BC40 thumb
  *   func_0201BCB4 0x0201BCB4 thumb
  *   func_0201BB5C 0x0201BB5C thumb
@@ -107,7 +107,7 @@
  *   d_021BA354 0x021BA354 data ov220 a1
  *   d_021BA314 0x021BA314 data a1
  *   d_021BA3A8 0x021BA3A8 data a2
- *   sub_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_02045C04 0x02045C04 arm
  *   func_0201C6C4  0x0201C6C4  thumb
  */
@@ -184,11 +184,11 @@ extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201C440(void*);
 extern void func_0204047C(int,u16);
 extern void *func_020056A0(u32,u32,u32);
-extern void func_02043588(void),func_02043558(void),func_0207D518(int);
+extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D518(int);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
-extern void func_02043598(u32,u32),func_020409B4(u32),func_0203D34C(u32,u32),func_02005E30(u32);
+extern void func_02043598(u32,u32),func_020409B4(u32),func_0203D34C(u32,u32),GFL_USE_FadeOutBgm(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void*,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -203,8 +203,8 @@ extern u32 func_0201D83C(void *ptr);
 extern void func_020306F0(unsigned int heap);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_021BA178(unsigned char *p);
-extern int func_02005E50(void),func_02005E64(void),func_02005E9C(void),func_02005F38(void),func_0204E804(void);
-extern void func_02005DE4(void*),func_02005D90(u32,u16),func_02005DF8(u32);
+extern int GFL_USE_IsBgmFading(void),GFL_USE_PushBgm(void),GFL_USE_PopBgm(void),func_02005F38(void),func_0204E804(void);
+extern void GFL_USE_SetBgmPlayerParam(void*),GFL_USE_CancelChangeAndPlayBgm(u32,u16),GFL_USE_FadeInBgmFull(u32);
 extern u32 func_020362DC(void);
 extern u32 func_02035D20(u32*,u32*);
 extern u32 func_0201C4E4(struct PrintSys *ps);
@@ -226,7 +226,7 @@ extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern int func_0201BC3C(void);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
-extern u32 func_0201BABC(u32, u32, u32, u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
 extern u32 func_0201BB5C(u32, u32, u32, u32);
 extern void func_0204B3B4(struct Obj *p);
 extern void func_0204AFD8(unsigned),func_0204A8D4(unsigned),func_0204ADA4(unsigned);
@@ -248,7 +248,7 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201ED04(struct WordSet *p);
-extern u32 sub_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_02045C04(struct Rec *rec);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 int func_021B95A0(void *host,void *unused,void *args);
@@ -311,7 +311,7 @@ int func_021B95A0(void *host,void *unused,void *args)
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 |= 0x10000;
-    func_02043588();func_0207D518(0);func_02043558();
+    BG_SYS_ClearSubPlanes();func_0207D518(0);BG_SYS_ClearSubBgPlanes();
     i=0;
     do {
         const struct Row *r=(const struct Row *)((u32)bgtable+i*44);
@@ -328,7 +328,7 @@ int func_021B95A0(void *host,void *unused,void *args)
     func_02049658(owner,resources[variant].b,4,0,0,0,heap);
     func_020498F4(owner,resources[variant].c,4,0,0,0,heap);
     func_02049238(owner);func_020409B4(4);func_0204E720(3,16,16,0);func_0203D34C(0,*(u16 *)p);
-    if (*(u32 *)(*(char **)(p+4)+0xC) && *(u32 *)(p+0xB0)!=7) func_02005E30(6);
+    if (*(u32 *)(*(char **)(p+4)+0xC) && *(u32 *)(p+0xB0)!=7) GFL_USE_FadeOutBgm(6);
     return 1;
 }
 
@@ -381,11 +381,11 @@ int func_021B97F4(void *unused, u32 *state, void *unused2, char *p)
     case 0:
         flag=1;
         if (((struct Obj26059 *)(*(char * *)&((struct Obj03379 *)p)->f4))->fC && ((struct Obj03379 *)p)->fB0!=7) {
-            if (func_02005E50()) flag=0;
+            if (GFL_USE_IsBgmFading()) flag=0;
             else {
-                func_02005DE4((void *)1);
-                func_02005E64();
-                func_02005D90(*(const u32 *)((u32)sounds+((struct Obj03379 *)p)->fB0*12),0xFFFF);
+                GFL_USE_SetBgmPlayerParam((void *)1);
+                GFL_USE_PushBgm();
+                GFL_USE_CancelChangeAndPlayBgm(*(const u32 *)((u32)sounds+((struct Obj03379 *)p)->fB0*12),0xFFFF);
             }
         }
         if (flag) {func_0204E720(3,16,0,0);*state=1;}
@@ -398,7 +398,7 @@ int func_021B97F4(void *unused, u32 *state, void *unused2, char *p)
         break;
     case 2:
         if (!func_02005F38()) {
-            func_02005E9C();func_02005DE4(0);func_02005DF8(6);*state=3;
+            GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(6);*state=3;
         }
         break;
     case 3:
@@ -507,7 +507,7 @@ void func_021B99DC(char *p)
       if (i == 0)
         *((u32 *) (p + i * 12 + 0x20)) = func_0204ACEC(owner, func_0201BC3C(), 0, 32, *((u16 *) p));
       res = p + i * 12;
-      *((u32 *) (res + 0x1C)) = func_0204A6C8(owner, func_0201BABC(species, form, gender, 0), 0, 0, *((u16 *) p));
+      *((u32 *) (res + 0x1C)) = func_0204A6C8(owner, POKE_TOOL_CalcGraphicIndex(species, form, gender, 0), 0, 0, *((u16 *) p));
       *((u32 *) (res + 0x24)) = func_0204AF28(owner, func_0201BC40(), func_0201BCB4(), *((u16 *) p));
       func_02082BCC(&param, 0, 8);
       param.x = *((const s16 *) (coords + i * 4));
@@ -674,7 +674,7 @@ void func_021B9CBC(struct Obj *p)
 
 
 
-void func_021B9FF0(u8*p){u8 i;for(i=0;i<4;i++)if(*(struct Descriptor**)(p+96+i*4))sub_020452E8(*(struct Descriptor**)(p+96+i*4));if(*(struct Rec* *)&((struct Obj01297 *)p)->f5C)func_02045C04(*(struct Rec* *)&((struct Obj01297 *)p)->f5C);}
+void func_021B9FF0(u8*p){u8 i;for(i=0;i<4;i++)if(*(struct Descriptor**)(p+96+i*4))BMP_WIN_Delete(*(struct Descriptor**)(p+96+i*4));if(*(struct Rec* *)&((struct Obj01297 *)p)->f5C)func_02045C04(*(struct Rec* *)&((struct Obj01297 *)p)->f5C);}
 
 
 

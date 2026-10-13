@@ -29,104 +29,80 @@
  *   d_021F1534     0x021F1534  data   ov093  a4
  *   d_021F145C     0x021F145C  data   ov093  a4
  */
-struct S;
-struct QQ;
-struct QF;
-typedef unsigned char u8;
+#include "unit_021DF3A4_types.h"
 
-typedef unsigned short u16;
+extern const BtlEventHandler d_021F161C[];
+extern const BtlEventHandler d_021F1534[];
+extern const BtlEventHandler d_021F145C[];
 
-typedef unsigned int u32;
+void func_021DF3A4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF3F8(int *handlerCount);
+void func_021DF404(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DF420(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF42C(int *handlerCount);
+void func_021DF438(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF480(int *handlerCount);
 
-extern int func_021E889C(int a, int b, int c);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 v);
-extern void func_021C888C(u8 *p, u32 v);
-extern u16 func_021D70A8(struct QQ *p);
-extern int func_021D775C(int);
-extern void func_021C8408(u8 *, int);
-extern void *func_021C7CF4(int *p, int i);
-extern u16 func_021D5444(struct QF *p);
-extern void func_021D7704(int key, int m);
-void func_021DF3A4(int a, void *b, int c);
-int *func_021DF3F8(int *p);
-void func_021DF404(int a, u8 *b, int c);
-void func_021DF420(int a, u8 *b, int c);
-int *func_021DF42C(int *p);
-void func_021DF438(int self, int a, int b);
-int *func_021DF480(int *p);
-extern int d_021F161C[];
-extern int d_021F1534[];
-extern int d_021F145C[];
-
-
-
-void func_021DF3A4(int a, void *b, int c)
+/* Smoke Ball (guess): after the escape check passes, show the escape message with its sound. */
+void func_021DF3A4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 *r;
+    TokuseiMessageCmd *msg;
 
-    if (func_021E889C(a, (int)b, c) != 0) {
-        r = (u8 *)func_021C88A4(b, 4, c);
-        func_021C8838(r + 4, 2, 0x3ec);
-        func_021C8860((struct S *)(r + 4), c);
-        func_021C8860((struct S *)(r + 4), func_021D70A8((void *)a));
-        func_021C888C(r + 4, 0x56a);
-        func_021C88C8(b, r);
+    if (func_021E889C(factor, flow, pokeId) != 0) {
+        msg = (TokuseiMessageCmd *)func_021C88A4(flow, BTL_CMD_KIND_MESSAGE, pokeId);
+        func_021C8838(&msg->strParam, BTL_STR_TYPE_STANDARD, 0x3ec);
+        func_021C8860(&msg->strParam, pokeId);
+        func_021C8860(&msg->strParam, func_021D70A8(factor));
+        func_021C888C(&msg->strParam, 0x56a);
+        func_021C88C8(flow, msg);
     }
 }
 
-
-
-int *func_021DF3F8(int *p)
+/* Amulet Coin and Luck Incense: two entries. */
+const BtlEventHandler *func_021DF3F8(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F161C;
 }
 
-
-
-void func_021DF404(int a, u8 *b, int c)
+/* Amulet Coin: when the holder enters, flag the prize money as doubled. */
+void func_021DF404(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(2))
-        func_021C8408(b, c);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID))
+        func_021C8408(flow, pokeId);
 }
-
-
 
 /*
- * Sibling of func_021DF3B0 against the func_021DFE08 probe.
+ * Amulet Coin: the same flag again at the second enter event, without the
+ * holder check.
  */
-void func_021DF420(int a, u8 *b, int c)
+void func_021DF420(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021C8408(b, c);
+    func_021C8408(flow, pokeId);
 }
 
-
-int *func_021DF42C(int *p)
+const BtlEventHandler *func_021DF42C(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F1534;
 }
 
-
-void func_021DF438(int self, int a, int b)
+/* Griseous Orb: 1.2 times power for Dragon and Ghost moves of a Giratina. */
+void func_021DF438(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 v;
+    u8 moveType;
 
-    if (b != func_021D775C(3))
+    if (pokeId != func_021D775C(BTL_EVAR_ATTACKER_ID))
         return;
-    if (func_021D5444(func_021C7CF4((int *)a, b)) != 0x1e7)
+    if (func_021D5444(func_021C7CF4(flow, pokeId)) != BTL_SPECIES_GIRATINA)
         return;
-    v = func_021D775C(0x16);
-    if (v == 0xf || v == 7)
-        func_021D7704(0x31, 0x1333);
+    moveType = func_021D775C(BTL_EVAR_MOVE_TYPE);
+    if (moveType == BTL_TYPE_DRAGON || moveType == BTL_TYPE_GHOST)
+        func_021D7704(BTL_EVAR_MOVE_POWER_RATIO, 0x1333);
 }
 
-
-int *func_021DF480(int *p)
+const BtlEventHandler *func_021DF480(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F145C;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0217478C
+ * function: DWCi_DebugPrintServerList
  * address:  0x0217478C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,6 +12,6 @@
  * Empty stub; nothing but a return.
  */
 
-void func_0217478C(void)
+void DWCi_DebugPrintServerList(void)
 {
 }

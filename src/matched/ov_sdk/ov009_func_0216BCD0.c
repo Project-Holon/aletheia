@@ -1,5 +1,5 @@
 /*
- * function: func_0216BCD0
+ * function: DWCi_GetAIDBitmapFromList
  * address:  0x0216BCD0
  * packet:   pkt_02155168
  * region:   ov009
@@ -16,7 +16,7 @@
 
  */
 
-int func_0216BCD0(unsigned char *p, int n)
+int DWCi_GetAIDBitmapFromList(unsigned char *p, int n)
 {
     int m = 0;
     int i;

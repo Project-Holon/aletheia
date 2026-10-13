@@ -1,5 +1,5 @@
 /*
- * function: func_02172E48
+ * function: UNION_COMM_Update
  * address:  0x02172E48
  * packet:   pkt_ov012_02172E48
  * region:   ov012
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02172D7C  0x02172D7C  thumb  ov012
+ *   UNION_COMM_UpdateReset  0x02172D7C  thumb  ov012
  *   func_0203CD98  0x0203CD98  arm
  *   func_0217778C  0x0217778C  thumb  ov014
- *   func_021730C8  0x021730C8  thumb  ov012
- *   func_0217303C  0x0217303C  thumb  ov012
- *   func_02172FF0  0x02172FF0  thumb  ov012
- *   func_02172EEC  0x02172EEC  thumb  ov012
+ *   UNION_COMM_UpdateBeaconScan  0x021730C8  thumb  ov012
+ *   UNION_COMM_UpdateColosseum  0x0217303C  thumb  ov012
+ *   UNION_COMM_SendEntryReplies  0x02172FF0  thumb  ov012
+ *   UNION_COMM_UpdateConnectSync  0x02172EEC  thumb  ov012
  *   func_0200FB24  0x0200FB24  thumb
  *   func_0203D378  0x0203D378  arm
  *   func_02172D38  0x02172D38  thumb  ov012
@@ -38,21 +38,21 @@ typedef struct {
     Obj *obj;
 } Work;
 
-extern int func_02172D7C(u8 *p);
+extern int UNION_COMM_UpdateReset(u8 *p);
 extern int func_0203CD98(void);
 extern void func_0217778C(void);
-extern void func_021730C8(u8 *self);
-extern void func_0217303C(Work *w);
-extern void func_02172FF0(u8 *w);
-extern void func_02172EEC(Work *w);
+extern void UNION_COMM_UpdateBeaconScan(u8 *self);
+extern void UNION_COMM_UpdateColosseum(Work *w);
+extern void UNION_COMM_SendEntryReplies(u8 *w);
+extern void UNION_COMM_UpdateConnectSync(Work *w);
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
 extern u32 func_0203D378(void);
 extern void func_02172D38(u8 *p);
 
-void func_02172E48(int a, int b, Work *w)
+void UNION_COMM_Update(int a, int b, Work *w)
 {
-    if (func_02172D7C((u8 *)w) == 1) {
+    if (UNION_COMM_UpdateReset((u8 *)w) == 1) {
         return;
     }
     if (func_0203CD98() == 0) {
@@ -62,10 +62,10 @@ void func_02172E48(int a, int b, Work *w)
         func_0217778C();
         w->f2829 = 0;
     }
-    func_021730C8((u8 *)w);
-    func_0217303C(w);
-    func_02172FF0((u8 *)w);
-    func_02172EEC(w);
+    UNION_COMM_UpdateBeaconScan((u8 *)w);
+    UNION_COMM_UpdateColosseum(w);
+    UNION_COMM_SendEntryReplies((u8 *)w);
+    UNION_COMM_UpdateConnectSync(w);
     if (func_0200FB24() != 0 && func_0203D378() == 1 && w->obj != 0
         && w->obj->f0 == 1 && w->f2831 == 0x2a && w->obj->f1 == 0) {
         func_02172D38((u8 *)w);

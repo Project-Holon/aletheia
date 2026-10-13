@@ -18,7 +18,7 @@
  *   func_02084EB8  0x02084EB8  arm
  *   CTRDGi_LockByProcessor         0x020910D0  arm
  *   func_02087988  0x02087988  arm
- *   func_02084EB0  0x02084EB0  arm
+ *   OS_ReadOwnerOfLockWord  0x02084EB0  arm
  *   func_02084DA4  0x02084DA4  arm
  *   func_0208799C  0x0208799C  arm
  *   func_02004490  0x02004490  thumb
@@ -82,7 +82,7 @@ extern void func_0200421A(u32 *out, void *p, u32 v);
 extern u16 func_02084EB8(void);
 extern void CTRDGi_LockByProcessor(u16 lockID, CTRDGLockByProc *info);
 extern u32 func_02087988(void);
-extern unsigned short func_02084EB0(char *p);
+extern unsigned short OS_ReadOwnerOfLockWord(char *p);
 extern u32 func_02084DA4(u32 a);
 extern void func_0208799C(u32 h);
 extern void func_02004490(u32 v);
@@ -198,7 +198,7 @@ void func_020910D0(u32 a0, u32 *a1)
 
     while (1) {
         a1[1] = func_02087988();
-        t = func_02084EB0((void *)0x02FFFFE8) & 0x40;
+        t = OS_ReadOwnerOfLockWord((void *)0x02FFFFE8) & 0x40;
         a1[0] = t;
         if (t != 0)
             return;

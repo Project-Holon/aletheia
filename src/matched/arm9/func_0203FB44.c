@@ -13,7 +13,7 @@
  * symbols:
  *   g_02146A44     0x02146A44  data
  *   sub_020416B8   0x020416B8  arm
- *   func_0203422C  0x0203422C  arm
+ *   AREAMAN_Free  0x0203422C  arm
  *   _u32_div_f     0x0209C2B0  arm
  *
  * TU: bg_sys.c.
@@ -50,7 +50,7 @@ extern struct BgSys *g_02146A44;
 typedef signed int     s32;
 struct AreaMan;
 extern u8 sub_020416B8(int channel);
-extern void func_0203422C(struct AreaMan *p, u32 start, s32 len);
+extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
 void func_0203FB44(u32 layer, u32 offset, u32 size)
 {
@@ -64,14 +64,14 @@ void func_0203FB44(u32 layer, u32 offset, u32 size)
     case 1:
     case 2:
     case 3:
-        func_0203422C(p->unk_168, offset,
+        AREAMAN_Free(p->unk_168, offset,
                       ((size % unit) ? 1 : 0) + size / unit);
         break;
     case 4:
     case 5:
     case 6:
     case 7:
-        func_0203422C(p->unk_16c, offset,
+        AREAMAN_Free(p->unk_16c, offset,
                       ((size % unit) ? 1 : 0) + size / unit);
         break;
     }

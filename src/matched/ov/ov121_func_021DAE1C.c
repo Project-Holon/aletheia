@@ -11,7 +11,7 @@
  * lever: The slot array at +0xa7c is the same layout as func_021DBC08;
  * its member access keeps the offset loaded before the loop index.
  * symbols:
- *   func_021DD980 0x021DD980 thumb ov121
+ *   MYSTERY_ALBUM_Delete 0x021DD980 thumb ov121
  *   func_021DD1FC 0x021DD1FC thumb ov121
  *   func_021D9E04 0x021D9E04 thumb ov121
  *   func_02040618 0x02040618 arm
@@ -19,7 +19,7 @@
  *   func_021DA280 0x021DA280 thumb ov121
  *   func_021DB528 0x021DB528 thumb ov121
  *   func_021DB3E8 0x021DB3E8 thumb ov121
- *   func_0200A348 0x0200A348 thumb
+ *   MYSTERY_DATA_GetCardSlotNum 0x0200A348 thumb
  *   func_021DBEE4 0x021DBEE4 thumb ov121
  *   func_020414EC 0x020414EC arm
  *   func_02041B6C 0x02041B6C arm
@@ -29,7 +29,7 @@
 #include "../include/Obj01058.h"
 typedef unsigned int u32;
 typedef struct Obj { char pad[0xa7c]; char *slots[12]; } Obj;
-extern void func_021DD980(char *);
+extern void MYSTERY_ALBUM_Delete(char *);
 extern void func_021DD1FC(void **);
 typedef unsigned char  u8;
 extern void func_021D9E04(u8 *p);
@@ -38,7 +38,7 @@ extern void func_021DA2A8(u8 *p);
 extern void func_021DA280(u8 *p);
 extern void func_021DB528(char *,int);
 extern void func_021DB3E8(char *);
-extern u32 func_0200A348(struct Obj *);
+extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern void func_021DBEE4(u32 p);
 extern void func_020414EC(u32);
 extern void func_02041B6C(u32);
@@ -51,7 +51,7 @@ void func_021DAE1C(Obj *obj)
     u32 j;
     for(i=0;i<12;i++) {
         if(obj->slots[i]) {
-            func_021DD980(obj->slots[i]);
+            MYSTERY_ALBUM_Delete(obj->slots[i]);
             obj->slots[i]=0;
         }
     }
@@ -67,7 +67,7 @@ void func_021DAE1C(Obj *obj)
     func_021DB528(p,1);
     func_021DB528(p,0);
     func_021DB3E8(p);
-    for(j=0;j<func_0200A348(((struct Obj01058 *)p)->fC);j++)
+    for(j=0;j<MYSTERY_DATA_GetCardSlotNum(((struct Obj01058 *)p)->fC);j++)
         func_021DBEE4((u32)(p+0x28+j*0xdc));
     func_020414EC(4);
     func_020414EC(6);

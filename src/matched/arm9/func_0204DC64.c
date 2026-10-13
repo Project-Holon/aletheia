@@ -1,5 +1,5 @@
 /*
- * function: func_0204DC64
+ * function: CLACT_FreeCharacterTable
  * address:  0x0204DC64
  * packet:   pkt_0204DACC
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_0204DC64(void *ptr)
+void CLACT_FreeCharacterTable(void *ptr)
 {
     func_020307B0(ptr);
 }

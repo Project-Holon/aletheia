@@ -15,14 +15,14 @@
  * 2026-10-05: data hints now carry an overlay token that has a witness; EXACT.
  *
  * symbols:
- *   func_02031330  0x02031330  arm
+ *   PROCSYS_Main  0x02031330  arm
  *   func_02034AC4  0x02034AC4  arm
  *   func_0203A574  0x0203A574  arm
  *   func_020399A8  0x020399A8  arm
- *   func_0203D594  0x0203D594  arm
+ *   GFL_NET_StartTimingSync  0x0203D594  arm
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0203D5A0  0x0203D5A0  arm
- *   func_02031348  0x02031348  arm
+ *   GFL_NET_CheckTimingSync  0x0203D5A0  arm
+ *   PROCSYS_Push  0x02031348  arm
  *   func_0203A5E4  0x0203A5E4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   id_0000005D    0x0000005D  data  a1
@@ -33,14 +33,14 @@
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Entry;
-extern unsigned int func_02031330(void *p);
+extern unsigned int PROCSYS_Main(void *p);
 extern int func_02034AC4(s32 handle);
 extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern struct Entry *func_020399A8(void);
-extern void func_0203D594(int, int);
+extern void GFL_NET_StartTimingSync(int, int);
 extern u32 func_0200FB24(void);
-extern int func_0203D5A0(int, int);
-extern void func_02031348(int, int, char *, int);
+extern int GFL_NET_CheckTimingSync(int, int);
+extern void PROCSYS_Push(int, int, char *, int);
 extern void func_0203A5E4(u32 key);
 extern void func_02034A5C(s32 handle);
 extern char id_0000005D[];
@@ -49,12 +49,12 @@ extern char d_021EFDAC[];
 
 int func_0216C8CC(int a, int *st, int *o, int *x)
 {
-    int r = func_02031330((void *)x[0]);
+    int r = PROCSYS_Main((void *)x[0]);
     switch (*st) {
     case 0:
         func_02034AC4((s32)id_0000005D);
         func_0203A574(0x100, (u32)d_021F03C4, 9, 0);
-        func_0203D594((int)func_020399A8(), 0xc8);
+        GFL_NET_StartTimingSync((int)func_020399A8(), 0xc8);
         *st = 1;
         break;
     case 1:
@@ -62,12 +62,12 @@ int func_0216C8CC(int a, int *st, int *o, int *x)
             *st = 4;
             break;
         }
-        if (func_0203D5A0((int)func_020399A8(), 0xc8) == 0)
+        if (GFL_NET_CheckTimingSync((int)func_020399A8(), 0xc8) == 0)
             break;
         *st = 2;
         break;
     case 2:
-        func_02031348(x[0], ~0, d_021EFDAC, o[1]);
+        PROCSYS_Push(x[0], ~0, d_021EFDAC, o[1]);
         *st = 3;
         break;
     case 3:

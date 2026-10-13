@@ -17,7 +17,7 @@
  * blocker: 0x02024144 Thumb EXACT4, blocker-24144-one.log terminal0:
  *   typedef unsigned char u8;
  *   typedef unsigned int u32;
- *   u32 func_02024144(const u8 *p) { return p[0]; }
+ *   u32 PMSI_PARAM_GetInputMode(const u8 *p) { return p[0]; }
  * blocker: 0x02024168 Thumb EXACT50, blocker-24168-two.log terminal0:
  *   typedef unsigned char u8;
  *   typedef unsigned short u16;
@@ -25,7 +25,7 @@
  *   typedef struct Input {
  *       u8 mode; u8 pad01[15]; u16 values10[4]; u16 values18[2];
  *   } Input;
- *   void func_02024168(const Input *p,u16 *a,u16 *b) {
+ *   void PMSI_PARAM_GetResult(const Input *p,u16 *a,u16 *b) {
  *       Pair v;
  *       switch(p->mode) {
  *       case 0: a[0]=p->values18[0]; break;
@@ -42,9 +42,9 @@
  *   Original explicitly sets the otherwise ignored 2421C input.
  * symbols:
  *   func_0203159C 0x0203159C arm
- *   func_02024144 0x02024144 thumb
- *   func_0202421C 0x0202421C thumb
- *   func_02024168 0x02024168 thumb
+ *   PMSI_PARAM_GetInputMode 0x02024144 thumb
+ *   PMSI_PARAM_GetUiInputMode 0x0202421C thumb
+ *   PMSI_PARAM_GetResult 0x02024168 thumb
  *   func_021BD690 0x021BD690 thumb ov110
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030734 0x02030734 arm
@@ -65,10 +65,10 @@ typedef unsigned int u32;
 struct Obj0203159C;
 struct Ctx;
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-extern u32 func_02024144(const u8 *);
-extern u32 func_0202421C(void *);
+extern u32 PMSI_PARAM_GetInputMode(const u8 *);
+extern u32 PMSI_PARAM_GetUiInputMode(void *);
 struct Input;
-extern void func_02024168(const struct Input *p, u16 *a, u16 *b);
+extern void PMSI_PARAM_GetResult(const struct Input *p, u16 *a, u16 *b);
 extern void func_021BD690(u8 *,u16 *);
 extern u32 func_02030CB0(u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
@@ -88,9 +88,9 @@ u8 *func_021BD5C4(struct Obj0203159C *owner,u8 *input)
     struct Ctx *q;
     p=func_0203159C(owner,128,41);
     *(u8 **)p=input;
-    *(u32 *)(p+4)=func_02024144(input);
-    *(u32 *)(p+0x70)=func_0202421C(*(u8 **)p);
-    func_02024168((const struct Input *)(*(u8 **)p),(u16 *)(p+0x10),(u16 *)(p+8));
+    *(u32 *)(p+4)=PMSI_PARAM_GetInputMode(input);
+    *(u32 *)(p+0x70)=PMSI_PARAM_GetUiInputMode(*(u8 **)p);
+    PMSI_PARAM_GetResult((const struct Input *)(*(u8 **)p),(u16 *)(p+0x10),(u16 *)(p+8));
     if(*(u32 *)(p+4)==2) func_021BD690(p+0x64,(u16 *)(p+8));
     q=func_02030734(41,func_02030CB0(5),0,d_021C3C78,579);
     *(struct Ctx **)(p+0x78)=q;

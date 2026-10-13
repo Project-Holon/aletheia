@@ -9,9 +9,9 @@
  * unit: yes
  * status: EXACT
  * symbols:
- *   func_02157170 0x02157170 thumb ov009
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   func_0200FB24 0x0200FB24 thumb
- *   func_0203CA98 0x0203CA98 arm
+ *   GFL_NET_STATE_GetError 0x0203CA98 arm
  *   func_021D7158 0x021D7158 thumb ov116
  *   func_021D7200 0x021D7200 thumb ov116
  *   func_021D7184 0x021D7184 thumb ov116
@@ -20,10 +20,10 @@
  *   func_021D80CC 0x021D80CC thumb ov116
  */
 typedef unsigned char u8;
-extern int func_02157170(int,int);
+extern int DWC_RAPCOMMON_HandleNetError(int,int);
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
-extern u32 func_0203CA98(void);
+extern u32 GFL_NET_STATE_GetError(void);
 extern int func_021D7158(u8 *p);
 extern int func_021D7200(int *p);
 extern int func_021D7184(int *p);
@@ -33,9 +33,9 @@ extern int func_021D80CC(void *);
 int func_021D7B00(u8 *p) {
     int yes=1;
     int no=0;
-    if(func_02157170(1,0)!=0) return no;
+    if(DWC_RAPCOMMON_HandleNetError(1,0)!=0) return no;
     if(func_0200FB24()!=0) {
-        func_0203CA98();
+        GFL_NET_STATE_GetError();
         return no;
     }
     if(func_021D7158(p+0x182c)!=0) {

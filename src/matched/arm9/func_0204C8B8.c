@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0204C8B8
+ * function: CLACT_ExecuteTransfer
  * address:  0x0204C8B8
  * packet:   pkt_0204BD64
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A138C     0x020A138C  data
+ *   g_ClactTransferFuncs     0x020A138C  data
  *   DC_FlushRange  0x020862F0  arm
  *
  * Blocked at MATCH: all 44 concrete bytes are correct, but the ABS32 at
@@ -32,12 +32,12 @@
  * copy: the first and third are loaded a second time here because
  * DC_FlushRange may have written them.
  *
- * This function is the sole blocker for src/pending/func_0204C7A4.c, whose
+ * This function is the sole blocker for src/pending/CLACT_ExecuteTransfers.c, whose
  * only call to it is the one branch reference it has image wide.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204C8B8.c \
- *       --func func_0204C8B8 --addr 0x0204C8B8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_ExecuteTransfer.c \
+ *       --func CLACT_ExecuteTransfer --addr 0x0204C8B8 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -49,12 +49,12 @@ struct Xfer {
     u32   kind;
 };
 
-extern void (*g_020A138C[])(void *src, u32 arg, u32 size);
+extern void (*g_ClactTransferFuncs[])(void *src, u32 arg, u32 size);
 
 extern void DC_FlushRange(void *addr, u32 size);
 
-void func_0204C8B8(struct Xfer *x)
+void CLACT_ExecuteTransfer(struct Xfer *x)
 {
     DC_FlushRange(x->src, x->size);
-    g_020A138C[x->kind](x->src, x->unk_04, x->size);
+    g_ClactTransferFuncs[x->kind](x->src, x->unk_04, x->size);
 }

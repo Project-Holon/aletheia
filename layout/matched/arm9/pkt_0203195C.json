@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203195C",
+   "name": "BACKUP_SYSTEM_Delete",
    "address": "0x0203195C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02031994",
+   "name": "BACKUP_SYSTEM_GetWork",
    "address": "0x02031994",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020319A4",
+   "name": "BACKUP_SYSTEM_GetRecordWork",
    "address": "0x020319A4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020319C0",
+   "name": "BACKUP_SYSTEM_ClearWork",
    "address": "0x020319C0",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02031B8C",
+   "name": "BACKUP_SYSTEM_StartSave",
    "address": "0x02031B8C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02031C04",
+   "name": "BACKUP_SYSTEM_CancelSave",
    "address": "0x02031C04",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02031C10",
+   "name": "BACKUP_SYSTEM_InitLinkedSave",
    "address": "0x02031C10",
    "kind": "game",
    "region": "arm9",

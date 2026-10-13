@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469BC    0x021469BC  data
+ *   gUiState    0x021469BC  data
  *   func_0203512C 0x0203512C  arm
  *
- * Tail call: func_0203512C(*g_021469BC, fn, arg).  Called from func_02012248
- * and func_02012258.
+ * Tail call: func_0203512C(*gUiState, fn, arg).  Called from GAMESYSTEM_RegisterSleepCallback
+ * and GAMESYSTEM_ReleaseSleepCallback.
  */
 
 typedef unsigned int u32;
 
-extern void *g_021469BC;
+extern void *gUiState;
 struct Obj02035120;
 extern void func_0203512C(struct Obj02035120 *p, u32 a, u32 b);
 
 void func_02035138(void *fn, u32 arg)
 {
-    func_0203512C(g_021469BC, (u32)fn, arg);
+    func_0203512C(gUiState, (u32)fn, arg);
 }

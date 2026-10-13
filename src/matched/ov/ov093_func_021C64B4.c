@@ -15,13 +15,13 @@
  * that leaf (`one` --thumb, no --region, EXACT, 12 bytes):
  *
  *   extern u32 sub_0201BD28(void *p, u32 id);   // symbols: sub_0201BD28 0x0201BD28 thumb
- *   u32 sub_0201C1E8(void *p) { return sub_0201BD28(p, 2); }
+ *   u32 WAZA_TOOL_GetDamageType(void *p) { return sub_0201BD28(p, 2); }
  *
  * Once the leaf's shard exists re-run this file; it should go EXACT.
  *
  * symbols:
- *   sub_0201C1C8   0x0201C1C8  thumb
- *   sub_0201C1E8   0x0201C1E8  thumb
+ *   WAZA_TOOL_GetType   0x0201C1C8  thumb
+ *   WAZA_TOOL_GetDamageType   0x0201C1E8  thumb
  *   sub_0201BD28   0x0201BD28  thumb
  *   func_021D57FC  0x021D57FC  thumb  ov093
  *   func_021D74F8  0x021D74F8  thumb  ov093
@@ -36,8 +36,8 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u8 sub_0201C1C8(void *p);
-extern int sub_0201C1E8(int a);
+extern u8 WAZA_TOOL_GetType(void *p);
+extern int WAZA_TOOL_GetDamageType(int a);
 extern u32 sub_0201BD28(u16 id, u32 field);
 extern u16 func_021D57FC(void *p);
 extern void func_021D74F8(int line);
@@ -65,9 +65,9 @@ void func_021C64B4(u8 *p, u16 q, u8 *a, struct Out64B4 *out)
     int line = 11464;
     func_021D74F8(line);
     func_021D75EC(2, func_021D5440(a));
-    func_021D7630(0x16, sub_0201C1C8((void *)q));
+    func_021D7630(0x16, WAZA_TOOL_GetType((void *)q));
     func_021D75A8(0x1C, func_021D57FC(a));
-    func_021D75A8(0x1A, sub_0201C1E8(q));
+    func_021D75A8(0x1A, WAZA_TOOL_GetDamageType(q));
     func_021D75A8(0x1B, sub_0201BD28(q, 0x1B));
     func_021D7630(0x4B, 0);
     func_021D70F0(p, 0x28);

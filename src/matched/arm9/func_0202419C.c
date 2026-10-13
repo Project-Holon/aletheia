@@ -1,5 +1,5 @@
 /*
- * function: func_0202419C
+ * function: PMSI_PARAM_IsSameInput
  * address:  0x0202419C
  * packet:   pkt_02023DDC
  * region:   arm9
@@ -9,6 +9,9 @@
  * isa:      thumb
  * status:   EXACT*
 
+ *
+ * symbols:
+ *   PMSI_PARAM_Compare  0x02024534  thumb
  */
 
 typedef unsigned char  u8;
@@ -23,9 +26,9 @@ struct Obj {
 };
 
 struct Data;
-extern int func_02024534(const struct Data *p1, const struct Data *p2);
+extern int PMSI_PARAM_Compare(const struct Data *p1, const struct Data *p2);
 
-u32 func_0202419C(struct Obj *p, u16 *q, u32 a)
+u32 PMSI_PARAM_IsSameInput(struct Obj *p, u16 *q, u32 a)
 {
     switch (p->f0) {
     case 0:
@@ -42,5 +45,5 @@ u32 func_0202419C(struct Obj *p, u16 *q, u32 a)
         break;
     }
 
-    return func_02024534((const struct Data *)((u8 *)p + 0x10), (const struct Data *)a);
+    return PMSI_PARAM_Compare((const struct Data *)((u8 *)p + 0x10), (const struct Data *)a);
 }

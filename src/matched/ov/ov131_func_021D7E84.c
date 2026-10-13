@@ -1,5 +1,5 @@
 /*
- * function: func_021D7E84
+ * function: P_STA_INFO_DeleteWindows
  * address: 0x021D7E84
  * packet: pkt_ov131_021D7E84
  * region: ov131
@@ -13,7 +13,7 @@
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 func_020452E8(struct Descriptor *d);
-void func_021D7E84(void *p,void **q) {
+void P_STA_INFO_DeleteWindows(void *p,void **q) {
  unsigned char i;
  for(i=0;i<10;i++) {
   func_020452E8(q[3+i]);

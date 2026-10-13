@@ -12,7 +12,7 @@
  *           Caller explicitly supplies idx in r1 to func_021A21C8.
  * symbols:
  *   func_020056EC 0x020056EC thumb
- *   func_0204B908 0x0204B908 arm
+ *   CLACT_SetActorAnimIndex 0x0204B908 arm
  *   func_021A21B8 0x021A21B8 thumb ov021
  *   func_021A21C8 0x021A21C8 thumb ov021
  *   func_021A2630 0x021A2630 thumb ov021
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 
 extern u32 func_020056EC(u32);
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern int *func_021A21B8(int *);
 extern void *func_021A21C8(void *p, int a1);
 extern unsigned char *func_021A2630(unsigned char *);
@@ -82,6 +82,6 @@ void func_021EF634(int *a, int n, int idx)
         } else {
             m = r % 4;
         }
-        func_0204B908(h, (u16)m);
+        CLACT_SetActorAnimIndex(h, (u16)m);
     }
 }

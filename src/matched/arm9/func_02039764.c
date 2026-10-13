@@ -1,5 +1,5 @@
 /*
- * function: func_02039764
+ * function: GFL_NET_HANDLE_CreateHandle
  * address:  0x02039764
  * packet:   pkt_02039764
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0203D798  0x0203D798  arm
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *   func_0203996C  0x0203996C  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02082BCC  0x02082BCC  arm
@@ -26,15 +26,15 @@
  * after it out of the heap named by the record's +0x56 halfword (line 0xC7);
  * a peer slot keeps a null array on both sides of the wipe.
  *
- * This is func_02039834's per-slot worker and the constructive twin of
- * func_02039658 (which keeps the resource pointers rather than
+ * This is GFL_NET_HANDLE_InitWork's per-slot worker and the constructive twin of
+ * GFL_NET_HANDLE_ResetHandle (which keeps the resource pointers rather than
  * reallocating them).
  *
  * TWO LEVERS, and only one of them is an allocation tie.
  *
  * IT RETURNS THE ENTRY.  The image's `mov r0, r8` at +0xBC, between the
  * +0x46 store and the +0x49 store, is the return value: both callers
- * (func_02039834, func_020398B4) discard it, so nothing downstream forces
+ * (GFL_NET_HANDLE_InitWork, GFL_NET_HANDLE_ExitWork) discard it, so nothing downstream forces
  * it, but written `void` the function is four bytes short and that `mov` is
  * simply missing.  A dead-looking `mov r0, <callee-saved>` just before the
  * epilogue of a function whose callers ignore the result is the tell.
@@ -55,8 +55,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02039764.c \
- *       --func func_02039764 --addr 0x02039764 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_CreateHandle.c \
+ *       --func GFL_NET_HANDLE_CreateHandle --addr 0x02039764 --cc 1.1p1 --arm
  */
 #include "../include/Obj15944.h"
 typedef unsigned char  u8;
@@ -66,7 +66,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 struct Entry;
 extern void *func_0203D798(void);
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 extern struct Entry *func_0203996C(s32 idx);
 extern u32 func_020307B0(void *p);
 extern void func_02082BCC(void *p, u32 v, u32 n);
@@ -84,14 +84,14 @@ struct Entry {
     u8    f4a;
 };
 
-struct Entry *func_02039764(u32 idx)
+struct Entry *GFL_NET_HANDLE_CreateHandle(u32 idx)
 {
     struct Entry *e;
     u8 *g;
     int i;
 
     g = func_0203D798();
-    func_0203D788();
+    GFL_NET_GetSession();
     e = (struct Entry *)func_0203996C(idx);
 
     if (idx == 0xff) {

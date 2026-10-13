@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201A5FC",
+   "name": "POKE_REGULATION_CheckOrder",
    "address": "0x0201A5FC",
    "kind": "game",
    "region": "arm9",
@@ -30,11 +30,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201A920",
-    "sub_0201A948",
-    "sub_0201A954",
-    "sub_0201A98C",
-    "sub_0201A9C8"
+    "POKEPARTY_Create",
+    "POKEPARTY_Init",
+    "POKEPARTY_InitEx",
+    "POKEPARTY_Add",
+    "POKEPARTY_RemoveMember"
+   ],
+   "addresses": [
+    "0x0201A920",
+    "0x0201A948",
+    "0x0201A954",
+    "0x0201A98C",
+    "0x0201A9C8"
    ]
   },
   {
@@ -49,8 +56,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201AA14",
-    "sub_0201AA18"
+    "POKEPARTY_GetCapacity",
+    "POKEPARTY_GetCount"
+   ],
+   "addresses": [
+    "0x0201AA14",
+    "0x0201AA18"
    ]
   },
   {
@@ -65,8 +76,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201AB28",
-    "sub_0201AB34"
+    "POKEPARTY_GetMember",
+    "POKEPARTY_IsMemberBattleReady"
+   ],
+   "addresses": [
+    "0x0201AB28",
+    "0x0201AB34"
    ]
   },
   {
@@ -81,15 +96,26 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201AC2C",
-    "sub_0201AC44",
-    "sub_0201AC80",
-    "sub_0201ACC4",
-    "sub_0201ACDC",
-    "sub_0201AD0C",
-    "sub_0201AD18",
-    "sub_0201AD40",
-    "sub_0201AD58"
+    "POKEPARTY_Copy",
+    "POKEPARTY_HasSpecies",
+    "POKEPARTY_GetAliveNonEggCount",
+    "POKEPARTY_GetSlotFlag",
+    "POKEPARTY_SetSlotFlag",
+    "POKEPARTY_GetSaveData",
+    "POKEPARTY_IsBattleReady",
+    "POKEPARTY_IsNotEgg",
+    "POKEPARTY_FindFirst"
+   ],
+   "addresses": [
+    "0x0201AC2C",
+    "0x0201AC44",
+    "0x0201AC80",
+    "0x0201ACC4",
+    "0x0201ACDC",
+    "0x0201AD0C",
+    "0x0201AD18",
+    "0x0201AD40",
+    "0x0201AD58"
    ]
   },
   {
@@ -104,7 +130,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201ADA4"
+    "POKE_PERSONAL_LoadData"
+   ],
+   "addresses": [
+    "0x0201ADA4"
    ]
   },
   {
@@ -119,8 +148,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201ADD0",
-    "sub_0201ADE4"
+    "POKE_PERSONAL_LoadDataDirect",
+    "POKE_PERSONAL_Create"
+   ],
+   "addresses": [
+    "0x0201ADD0",
+    "0x0201ADE4"
    ]
   }
  ]

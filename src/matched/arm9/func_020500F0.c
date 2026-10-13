@@ -9,12 +9,12 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02033CA8  0x02033CA8  arm
- *   func_0204EF58  0x0204EF58  arm
- *   func_0204F10C  0x0204F10C  arm
+ *   AREAMAN_Alloc  0x02033CA8  arm
+ *   BILLBOARD_AddImage  0x0204EF58  arm
+ *   BILLBOARD_TrimImageResource  0x0204F10C  arm
  *
  * billboard_act.c: take n slot indices from the pool at +0x14 and fill one
- * slot record per request (0: board slot, 1: board slot plus func_0204F10C,
+ * slot record per request (0: board slot, 1: board slot plus BILLBOARD_TrimImageResource,
  * 2: an external payload word with the 0xFFFF sentinel id).  The 28-byte
  * scheduling wall of the earlier notes was the missing `const` on the
  * request array (its byte loads then batch ahead of the outgoing-argument
@@ -42,27 +42,27 @@ struct BbActSys {
 
 typedef signed int     s32;
 struct AreaMan;
-extern s32 func_02033CA8(struct AreaMan *p, u32 len);
-extern u16  func_0204EF58(void *board, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
-extern void func_0204F10C(void *board, u32 id);
+extern s32 AREAMAN_Alloc(struct AreaMan *p, u32 len);
+extern u16  BILLBOARD_AddImage(void *board, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern void BILLBOARD_TrimImageResource(void *board, u32 id);
 
 u16 func_020500F0(struct BbActSys *o, const struct BbActRec *recs, u32 n)
 {
     int base;
     u32 i;
 
-    base = func_02033CA8((struct AreaMan *)o->f14, n);
+    base = AREAMAN_Alloc((struct AreaMan *)o->f14, n);
     for (i = 0; i < n; i++) {
         const struct BbActRec *e = &recs[i];
         u16 id;
         switch (e->type) {
         case 0:
-            o->f0C[base + i].id = func_0204EF58(o->f04, e->f00, e->b4, e->b5, e->b6, e->b7);
+            o->f0C[base + i].id = BILLBOARD_AddImage(o->f04, e->f00, e->b4, e->b5, e->b6, e->b7);
             o->f0C[base + i].val = 0;
             break;
         case 1:
-            id = func_0204EF58(o->f04, e->f00, e->b4, e->b5, e->b6, e->b7);
-            func_0204F10C(o->f04, id);
+            id = BILLBOARD_AddImage(o->f04, e->f00, e->b4, e->b5, e->b6, e->b7);
+            BILLBOARD_TrimImageResource(o->f04, id);
             o->f0C[base + i].id = id;
             o->f0C[base + i].val = 0;
             break;

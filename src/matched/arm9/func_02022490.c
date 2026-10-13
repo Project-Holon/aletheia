@@ -1,5 +1,5 @@
 /*
- * function: func_02022490
+ * function: WIPE_SetHBlankSlot
  * address:  0x02022490
  * packet:   pkt_02022490
  * region:   arm9
@@ -12,17 +12,17 @@
  * symbols:
  *   g_021468A4     0x021468A4  data
  *   func_02005624  0x02005624  thumb
- *   func_02022478  0x02022478  thumb
- *   func_020225F0  0x020225F0  thumb
+ *   WIPE_HBlankSlotsTask  0x02022478  thumb
+ *   WIPE_DummyHBlank  0x020225F0  thumb
  *
  * Arms one entry of the two-slot callback block at +0x74 of the dual-screen
- * text cluster: the exact inverse of func_020224DC.  It publishes the
+ * text cluster: the exact inverse of WIPE_ClearHBlankSlot.  It publishes the
  * context pointer at ctx[idx], the handler at fn[idx] (falling back to the
- * do-nothing func_020225F0 when the caller passes none, the same convention
- * func_02022458 uses), and marks the slot live with arg[idx] = 1.  Before
+ * do-nothing WIPE_DummyHBlank when the caller passes none, the same convention
+ * WIPE_InitHBlankSlots uses), and marks the slot live with arg[idx] = 1.  Before
  * any of that, if BOTH user words are still zero the block was idle, so it
- * registers the dispatcher func_02022478 as a task through func_02005624 and
- * parks the handle at g_021468A4 +0x54 -- the same handle func_020224DC
+ * registers the dispatcher WIPE_HBlankSlotsTask as a task through func_02005624 and
+ * parks the handle at g_021468A4 +0x54 -- the same handle WIPE_ClearHBlankSlot
  * releases once both words go back to zero.
  *
  * CLOSED 2026-09-21 by tools/permuter.py after this address had resisted
@@ -53,7 +53,7 @@
  * `--lang c99` on the command line or it reports CCERR; the manifest path
  * reads the header and is unaffected.
  *
- * Data flow checked against both neighbours: func_020224DC clears arg[idx]
+ * Data flow checked against both neighbours: WIPE_ClearHBlankSlot clears arg[idx]
  * first and only then tests both words, this function tests both words first
  * and only then writes, so the handle is created exactly once per
  * idle-to-live transition and released exactly once per live-to-idle one.
@@ -61,25 +61,25 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02022490.c \
- *       --func func_02022490 --addr 0x02022490 --cc 1.1p1 --thumb --lang c99
+ *   python tools/match.py one --src src/matched/WIPE_SetHBlankSlot.c \
+ *       --func WIPE_SetHBlankSlot --addr 0x02022490 --cc 1.1p1 --thumb --lang c99
  */
 #include "../include/Obj11272.h"
 #include "../include/G_G021468A4.h"
 typedef unsigned int u32;
 
 extern struct G021468A4 g_021468A4;
-extern void func_02022478(int a0, int *p);
-extern void func_020225F0(void);
+extern void WIPE_HBlankSlotsTask(int a0, int *p);
+extern void WIPE_DummyHBlank(void);
 extern void *func_02005624(u32 a, u32 b, u32 c);
 
-void func_02022490(char *p, int a1, int a2, int a3)
+void WIPE_SetHBlankSlot(char *p, int a1, int a2, int a3)
 {
     int i4;
 
     if (((struct Obj11272 *)p)->f10 == 0 && ((struct Obj11272 *)p)->f14 == 0)
         *(u32 *)(((char *)&g_021468A4) + 0x54) =
-            (u32)func_02005624((int)func_02022478, (u32)p, 0);
+            (u32)func_02005624((int)WIPE_HBlankSlotsTask, (u32)p, 0);
 
     i4 = a3 * 4;
     *(u32 *)(p + i4) = a1;
@@ -89,6 +89,6 @@ void func_02022490(char *p, int a1, int a2, int a3)
     if (a2 != 0)
         ((u32 *)(q + i4))[2] = a2;
     else
-        ((u32 *)((char *)p + i4))[2] = (u32)func_020225F0;
+        ((u32 *)((char *)p + i4))[2] = (u32)WIPE_DummyHBlank;
     ((u32 *)((char *)p + i4))[4] = 1;
 }

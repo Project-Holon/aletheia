@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02006210 0x02006210 thumb
+ *   GFL_USE_StopAllSe 0x02006210 thumb
  *   func_021FFB20 0x021FFB20 thumb ov135
  *   func_021FF474 0x021FF474 thumb ov135
  */
 #include "../include/Obj03832.h"
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 typedef unsigned char  u8;
 extern void func_021FFB20(u8 *p, int count, int flag);
 extern void func_021FF474(void *, void *, int, void *);
 int func_021FE7F0(char *p)
 {
     if (((struct Obj03832 *)p)->f12E8 == 0) {
-        func_02006210();
+        GFL_USE_StopAllSe();
         func_021FFB20((u8 *)p, ((struct Obj03832 *)p)->fD0, 1);
         if (((struct Obj03832 *)p)->fD0 == 0)
             func_021FF474(((struct Obj03832 *)p)->fDB0, ((struct Obj03832 *)p)->fB6C, 0, p + 0xfa0);

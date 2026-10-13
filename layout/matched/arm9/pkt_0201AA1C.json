@@ -18,12 +18,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201AA1C",
-    "sub_0201AA50",
-    "sub_0201AA88",
-    "sub_0201AAD4",
-    "sub_0201AB08",
-    "sub_0201AB18"
+    "POKEPARTY_GetNonEggCount",
+    "POKEPARTY_GetBattleReadyCount",
+    "POKEPARTY_GetEggCount",
+    "POKEPARTY_GetBadEggCount",
+    "POKEPARTY_FindFirstBattleReady",
+    "POKEPARTY_FindFirstNonEgg"
+   ],
+   "addresses": [
+    "0x0201AA1C",
+    "0x0201AA50",
+    "0x0201AA88",
+    "0x0201AAD4",
+    "0x0201AB08",
+    "0x0201AB18"
    ]
   }
  ]

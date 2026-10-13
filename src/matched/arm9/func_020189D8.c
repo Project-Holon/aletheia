@@ -1,5 +1,5 @@
 /*
- * function: func_020189D8
+ * function: POKE_TOOL_GetBoxNatureStatMod
  * address:  0x020189D8
  * packet:   pkt_020189D8
  * region:   arm9
@@ -8,7 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * blocker:  +0012 THM_CALL func_020189F0       : 020189F0 (thumb, from name) has no witness outside 020189D8..020189F0
+ * blocker:  +0012 THM_CALL POKE_TOOL_GetNatureStatModByNature       : 020189F0 (thumb, from name) has no witness outside 020189D8..020189F0
+ *
+ * symbols:
+ *   POKE_TOOL_GetNatureStatModByNature  0x020189F0  thumb
  */
 
 typedef unsigned char u8;
@@ -16,9 +19,9 @@ typedef unsigned int u32;
 
 typedef signed char    s8;
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern s8 func_020189F0(u8 nature, u32 stat);
+extern s8 POKE_TOOL_GetNatureStatModByNature(u8 nature, u32 stat);
 
-s8 func_020189D8(void *m, u32 a1)
+s8 POKE_TOOL_GetBoxNatureStatMod(void *m, u32 a1)
 {
-    return func_020189F0((u8)func_02017E88(m, 0x70, 0), a1);
+    return POKE_TOOL_GetNatureStatModByNature((u8)func_02017E88(m, 0x70, 0), a1);
 }

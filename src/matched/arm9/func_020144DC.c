@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020144DC
+ * function: FIELD_STATUS_CreateFieldCloseEvent
  * address:  0x020144DC
  * packet:   pkt_02014488
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj06860.h"
 
-int func_020144DC(int a0, int a1){ int t0, t1, t2; t0 = func_020122C0((int)a0, (int)0, (int)0x2014489, (int)0x10); t1 = func_020124E8((int)t0); ((struct Obj06860 *)((char *)((t1 + 0))))->f0 = (int)(a0 + 0); ((struct Obj06860 *)((char *)((t1 + 0))))->f4 = (int)(a1 + 0); t2 = func_020120F4((int)((a0 + 0) + 0)); ((struct Obj06860 *)((char *)((t1 + 0))))->f8 = (int)t2; ((struct Obj06860 *)((char *)((t1 + 0))))->fC = (int)1; return ((t0 + 0) + 0); }
+int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1){ int t0, t1, t2; t0 = func_020122C0((int)a0, (int)0, (int)0x2014489, (int)0x10); t1 = func_020124E8((int)t0); ((struct Obj06860 *)((char *)((t1 + 0))))->f0 = (int)(a0 + 0); ((struct Obj06860 *)((char *)((t1 + 0))))->f4 = (int)(a1 + 0); t2 = func_020120F4((int)((a0 + 0) + 0)); ((struct Obj06860 *)((char *)((t1 + 0))))->f8 = (int)t2; ((struct Obj06860 *)((char *)((t1 + 0))))->fC = (int)1; return ((t0 + 0) + 0); }

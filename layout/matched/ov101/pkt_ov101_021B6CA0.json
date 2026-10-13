@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B6CA0",
-    "func_021B6CF8"
+    "IRC_COMPATIBLE_MenuStepCreateArgs",
+    "IRC_COMPATIBLE_MenuStepDestroyArgs"
+   ],
+   "addresses": [
+    "0x021B6CA0",
+    "0x021B6CF8"
    ]
   }
  ]

@@ -15,8 +15,8 @@
  *   d_02186AFC     0x02186AFC  data  ov023  a4
  *   d_02186AB4     0x02186AB4  data  ov023  a4
  *   func_02035C08  0x02035C08  arm
- *   func_02035BA4  0x02035BA4  arm
- *   func_02035CB8  0x02035CB8  arm
+ *   TOUCHPANEL_HitCont  0x02035BA4  arm
+ *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_02035C38  0x02035C38  arm
  *   func_02039338  0x02039338  arm
  *   func_0204B878  0x0204B878  arm
@@ -64,8 +64,8 @@ extern char d_02186AFC[];
 extern char d_02186AB4[];
 
 extern int  func_02035C08(const void *p);
-extern int  func_02035BA4(const void *p);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern int  TOUCHPANEL_HitCont(const void *p);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int  func_02035C38(void);
 extern u16 func_02039338(void);
 struct Obj;
@@ -158,17 +158,17 @@ void func_021850A0(char *p)
             break;
         }
     }
-    r = func_02035BA4(d_02186AB4);
+    r = TOUCHPANEL_HitCont(d_02186AB4);
     func_0204B3DC((struct Obj *)*(u32 *)(p + 0x60 + func_02039338() * 4), 0);
     if (r != -1) {
-        func_02035CB8((u32 *)(&tx), (u32 *)(&ty));
+        TOUCHPANEL_GetPointCont((u32 *)(&tx), (u32 *)(&ty));
         func_0218506C((void *)(*(int *)(p + 0x60 + func_02039338() * 4)), tx, ty);
         func_0204B3DC((struct Obj *)*(u32 *)(p + 0x60 + func_02039338() * 4), 1);
     }
     x = 0;
     y = 0;
     if (func_02035C38() == 1) {
-        func_02035CB8((u32 *)(&x), (u32 *)(&y));
+        TOUCHPANEL_GetPointCont((u32 *)(&x), (u32 *)(&y));
         path.e[0].n = 2;
         path.e[0].a = ((Path *)(p + 0x4244))->e[1].a;
         path.e[0].b = ((Path *)(p + 0x4244))->e[1].b;

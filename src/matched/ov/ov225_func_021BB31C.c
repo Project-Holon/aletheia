@@ -15,7 +15,7 @@
  *   func_021BA158 0x021BA158 thumb ov225
  *   func_021BA154 0x021BA154 thumb ov225
  *   func_02028178 0x02028178 thumb
- *   func_02028230 0x02028230 thumb
+ *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   func_021BB53C 0x021BB53C thumb ov225
  */
 #include "../include/Obj00691.h"
@@ -32,7 +32,7 @@ extern unsigned func_021BA158(char *p);
 extern unsigned func_021BA154(char *p);
 typedef unsigned int   u32;
 extern void func_02028178(u8 *p);
-extern u32 func_02028230(u8 *p);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern int func_021BB53C(char *);
 int func_021BB31C(char *p)
 {
@@ -65,7 +65,7 @@ int func_021BB31C(char *p)
         if (((struct Obj00691 *)p)->f18==0) {
             if (func_021BB53C(p)) ((struct Obj00691 *)p)->f18=3;
         } else {
-            if (func_02028230((u8 *)(*(char **)(p+0xc+**(u8 * *)&((struct Obj00691 *)p)->f0*4)))) {
+            if (APP_TASKMENU_WIN_IsFinish((u8 *)(*(char **)(p+0xc+**(u8 * *)&((struct Obj00691 *)p)->f0*4)))) {
                 unsigned value;
                 if (**(u8 * *)&((struct Obj00691 *)p)->f0==0) value=2;
                 else if (**(u8 * *)&((struct Obj00691 *)p)->f0==1) value=3;

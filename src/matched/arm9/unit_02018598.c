@@ -8,11 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02018598, func_020185A0, func_020185B0
+ * function: func_02018598, POKE_TOOL_GetBoxNature, POKE_TOOL_SetNature
  *
  * The middle piece of the run 0x0201854C..0x0201862C.  Its two neighbours are
  * parked in src/pending/: func_02018584 is the only caller of func_02019BA4
- * in the image and func_020185C4 the only caller of func_02018A7C, so neither
+ * in the image and func_020185C4 the only caller of POKE_TOOL_CalcParam, so neither
  * has a witness outside itself and no cut reaches them.
  *
  * func_02018598 carries no label: it is the eight byte pool-word tail call of
@@ -32,19 +32,19 @@ extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
 extern void func_020185C4(void *p);
 
-u8 func_020185A0(void *p);
+u8 POKE_TOOL_GetBoxNature(void *p);
 
 u8 func_02018598(void *p)
 {
-    return func_020185A0(p);
+    return POKE_TOOL_GetBoxNature(p);
 }
 
-u8 func_020185A0(void *p)
+u8 POKE_TOOL_GetBoxNature(void *p)
 {
     return (u8)func_02017E88(p, 0x70, 0);
 }
 
-void func_020185B0(void *p, u32 v)
+void POKE_TOOL_SetNature(void *p, u32 v)
 {
     func_02017E40(p, 0x70, v);
     func_020185C4(p);

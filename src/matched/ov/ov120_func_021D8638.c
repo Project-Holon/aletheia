@@ -12,7 +12,7 @@
  * blocker:  MATCH (tail-call ABS32 to 0x0202822C: no witness outside the range; the only reference image-wide is this pool word)
  *
  * symbols:
- *   func_0202822C  0x0202822C  thumb
+ *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0202822C(char *p, int v);
+extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 
 void func_021D8638(u8 *p)
 {
-    func_0202822C(((struct Obj22848 *)p)->fC4, 1);
+    APP_TASKMENU_WIN_SetDecide(((struct Obj22848 *)p)->fC4, 1);
 }

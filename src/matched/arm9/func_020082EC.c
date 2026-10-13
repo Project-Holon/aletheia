@@ -1,5 +1,5 @@
 /*
- * function: func_020082EC
+ * function: CONFIG_Create
  * address:  0x020082EC
  * packet:   pkt_020082EC
  * region:   arm9
@@ -10,6 +10,7 @@
  * status:   EXACT
  * symbols:
  *   g_020A70A0      0x020A70A0  data
+ *   CONFIG_Init  0x02008320  thumb
  */
 
 extern char g_020A70A0[];
@@ -17,11 +18,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Flags02008320;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02008320(struct Flags02008320 *p);
+extern void CONFIG_Init(struct Flags02008320 *p);
 
-void *func_020082EC(int a0)
+void *CONFIG_Create(int a0)
 {
     void *p = func_02030734((unsigned short)a0, 4, 0, g_020A70A0, 0x4d);
-    func_02008320(p);
+    CONFIG_Init(p);
     return p;
 }

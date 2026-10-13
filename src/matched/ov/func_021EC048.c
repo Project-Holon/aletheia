@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_SetActorDrawPriority  0x0204B800  arm  arm9
  *
  * Tail call with the table word at the pooled offset.
  */
@@ -18,8 +19,8 @@
 
 typedef unsigned int   u32;
 struct Node;
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 void func_021EC048(char *p, int i, int c)
 {
-    func_0204B800((struct Node *)(*(int *)(p + i * 4 + 0x9E74)), (unsigned char)c);
+    CLACT_SetActorDrawPriority((struct Node *)(*(int *)(p + i * 4 + 0x9E74)), (unsigned char)c);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02031F54",
+   "name": "BACKUP_SYSTEM_SetFooter",
    "address": "0x02031F54",
    "kind": "game",
    "region": "arm9",

@@ -14,7 +14,7 @@
  *   func_02006238 0x02006238 thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_021D8A24 0x021D8A24 thumb ov119
- *   func_0203D29C 0x0203D29C arm
+ *   GFL_NET_IsNetTypeWifi 0x0203D29C arm
  *   func_020399A8 0x020399A8 arm
  *   func_0203D3F8 0x0203D3F8 arm
  */
@@ -26,7 +26,7 @@ extern void func_021E4598(char *);
 extern void func_020061E4(u32 a);
 extern int func_02006238(void);
 extern int func_021D8A24(void *);
-extern u32 func_0203D29C(void);
+extern u32 GFL_NET_IsNetTypeWifi(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
@@ -41,7 +41,7 @@ void func_021DB7AC(char *p,int a,int b)
     func_021E4598(p);
     if(func_02006238()==0 && a) func_020061E4(0x72b);
     if(func_021D8A24(p) && b) {
-        if(func_0203D29C()) {
+        if(GFL_NET_IsNetTypeWifi()) {
             if(H(0x107c)%16==0) {
                 func_0203D3F8((u32)func_020399A8(),255,0xc0c,2,(u32)(p+0x107c),0,1,1);
                 return;

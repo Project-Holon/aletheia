@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02166040",
+   "name": "WCMi_BssDescCopy",
    "address": "0x02166040",
    "kind": "sdk",
    "region": "ov009",

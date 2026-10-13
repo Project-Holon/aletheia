@@ -1,5 +1,5 @@
 /*
- * function: func_021736C8
+ * function: UNION_COMM_SetChatType
  * address:  0x021736C8
  * packet:   pkt_ov012_021736C8
  * region:   ov012
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_021736C8(u8 *a, int v)
+void UNION_COMM_SetChatType(u8 *a, int v)
 {
     u8 *p = a + 0x2830;
     p[0xf] = v;

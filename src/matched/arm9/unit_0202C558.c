@@ -17,8 +17,8 @@
  *   sub_0202C72C   0x0202C72C  thumb
  *   sub_0202C670   0x0202C670  thumb
  *   sub_0202C688   0x0202C688  thumb
- *   func_0202C6A0  0x0202C6A0  thumb
- *   func_0202C6AC  0x0202C6AC  thumb
+ *   ISS_SWITCH_SetOnState  0x0202C6A0  thumb
+ *   ISS_SWITCH_SetOffState  0x0202C6AC  thumb
  *   sub_0202C5F0   0x0202C5F0  thumb
  *   sub_0202C710   0x0202C710  thumb
  *
@@ -42,7 +42,7 @@
  *   0x0202C710  src/matched/sub_0202C710.c   (needed sub_0202C6C4 first)
  *
  * The other three resolve as they always did: sub_0202C72C by `label`
- * from its two direct callers, func_0202C6A0 and func_0202C6AC by
+ * from its two direct callers, ISS_SWITCH_SetOnState and ISS_SWITCH_SetOffState by
  * `matched` from src/matched/unit_0202C6A0.c. The address range starts at
  * 0x0202C558 and not 0x0202C548 only because sub_0202C550 was split out
  * of the middle of the run; sub_0202C548 is src/matched/sub_0202C548.c.
@@ -57,8 +57,8 @@ typedef unsigned int u32;
 extern u32 sub_0202C72C(void *p);
 extern u32 sub_0202C670(void *p);
 extern u32 sub_0202C688(void *p);
-extern u32 func_0202C6A0(void *p);
-extern u32 func_0202C6AC(void *p);
+extern u32 ISS_SWITCH_SetOnState(void *p);
+extern u32 ISS_SWITCH_SetOffState(void *p);
 extern u32 sub_0202C5F0(void *p);
 extern u32 sub_0202C710(void *p, u32 v);
 
@@ -79,12 +79,12 @@ u32 sub_0202C568(void *p)
 
 u32 sub_0202C570(void *p)
 {
-    return func_0202C6A0(p);
+    return ISS_SWITCH_SetOnState(p);
 }
 
 u32 sub_0202C578(void *p)
 {
-    return func_0202C6AC(p);
+    return ISS_SWITCH_SetOffState(p);
 }
 
 u32 sub_0202C580(void *p)

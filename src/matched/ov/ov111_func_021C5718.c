@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_020061E4  0x020061E4  thumb
- *   func_02012F5C  0x02012F5C  thumb
+ *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   sub_02008A00  0x02008A00  thumb
  *   func_021C3EF8  0x021C3EF8  thumb
  *   func_021C61EC  0x021C61EC  thumb
@@ -62,7 +62,7 @@ typedef struct {
 
 struct Sub020089A8Obj;
 extern void func_020061E4(u32 a);
-extern void *func_02012F5C(void **h);
+extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern struct Sub020089A8Obj *sub_02008A00(struct Sub020089A8Obj *obj);
 extern void func_021C3EF8(Info *info);
 extern void func_021C61EC(Work *p, int v, int a);
@@ -99,7 +99,7 @@ void func_021C5718(Work *p, int sel, int *seq)
         break;
     case 6:
         if (p->args->cfg->f4_6) {
-            sub_02008A00(func_02012F5C(p->args->f4));
+            sub_02008A00(GAME_DATA_GetSaveBlock21(p->args->f4));
             func_020061E4(0x548);
             func_021C3EF8(p->info);
             func_021C61EC(p, p->info->b6, 1);

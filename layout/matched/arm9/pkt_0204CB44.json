@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204CB44",
+   "name": "CLACT_DrawActor",
    "address": "0x0204CB44",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204CBB0",
+   "name": "CLACT_SetupActorDraw",
    "address": "0x0204CBB0",
    "kind": "game",
    "region": "arm9",

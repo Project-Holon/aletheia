@@ -1,7 +1,7 @@
 /*
  * file:     unit_021CD67C.c
  * unit:     yes
- * function: func_021CD67C, func_021CD68C
+ * function: DWCi_SceneSetTestCompletet_procScene, DWCi_SceneSetTestCompletet_draw
  * address:  0x021CD67C
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -13,22 +13,22 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
 extern void func_021CD79C(void);
-void func_021CD67C(void);
-void func_021CD68C(void);
+void DWCi_SceneSetTestCompletet_procScene(void);
+void DWCi_SceneSetTestCompletet_draw(void);
 
 
 /*
- * Call func_021CD79C, func_021CD68C.
+ * Call func_021CD79C, DWCi_SceneSetTestCompletet_draw.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CD67C.c \
- *       --func func_021CD67C --addr 0x021CD67C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetTestCompletet_procScene.c \
+ *       --func DWCi_SceneSetTestCompletet_procScene --addr 0x021CD67C --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021CD67C(void)
+void DWCi_SceneSetTestCompletet_procScene(void)
 {
     func_021CD79C();
-    func_021CD68C();
+    DWCi_SceneSetTestCompletet_draw();
 }
 
 /*
@@ -36,9 +36,9 @@ void func_021CD67C(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CD68C.c \
- *       --func func_021CD68C --addr 0x021CD68C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetTestCompletet_draw.c \
+ *       --func DWCi_SceneSetTestCompletet_draw --addr 0x021CD68C --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021CD68C(void)
+void DWCi_SceneSetTestCompletet_draw(void)
 {
 }

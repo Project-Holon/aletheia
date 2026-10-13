@@ -1,5 +1,5 @@
 /*
- * function: func_0204B908
+ * function: CLACT_SetActorAnimIndex
  * address:  0x0204B908
  * packet:   pkt_0204B908
  * region:   arm9
@@ -8,9 +8,12 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   CLACT_SetAnimIndex  0x0204D478  arm
  */
 
 typedef unsigned int   u32;
 struct Obj0204D478;
-extern void *func_0204D478(struct Obj0204D478 *o, u32 arg);
-void func_0204B908(int a0, int a1){ func_0204D478((struct Obj0204D478 *)((int)(a0 + 0x68)), (int)a1); }
+extern void *CLACT_SetAnimIndex(struct Obj0204D478 *o, u32 arg);
+void CLACT_SetActorAnimIndex(int a0, int a1){ CLACT_SetAnimIndex((struct Obj0204D478 *)((int)(a0 + 0x68)), (int)a1); }

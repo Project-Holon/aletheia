@@ -1,5 +1,5 @@
 /*
- * function: func_0206EACC
+ * function: NNSi_G3dTexPatAnmGetTrackByIdx
  * address:  0x0206EACC
  * packet:   pkt_0206E964
  * region:   arm9
@@ -19,15 +19,15 @@
  * predicates the body (see docs/idioms/a-factored-tail-lets-the-compiler-predicate-the-arms.md);
  * as gotos the original's `beq`/`bcs` branches survive.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206EACC.c \
- *       --func func_0206EACC --addr 0x0206EACC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G3dTexPatAnmGetTrackByIdx.c \
+ *       --func NNSi_G3dTexPatAnmGetTrackByIdx --addr 0x0206EACC --cc 1.1p1 --arm
  */
 #include "../include/Obj11641.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-unsigned char *func_0206EACC(void *p, u32 idx)
+unsigned char *NNSi_G3dTexPatAnmGetTrackByIdx(void *p, u32 idx)
 {
     unsigned char *q = (unsigned char *)p + 12;
     u16 off;

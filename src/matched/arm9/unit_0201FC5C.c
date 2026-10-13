@@ -8,35 +8,35 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201FC5C, func_0201FD18, func_0201FD54
+ * function: BMP_MENU_DrawItems, BMP_MENU_DrawCursor, BMP_MENU_GetItemPixelPos
  * symbols:
  *   func_02045770   0x02045770  arm
  *   func_02043B5C   0x02043B5C  arm
  *   func_0201C6FC   0x0201C6FC  thumb
- *   func_02020D5C   0x02020D5C  thumb
+ *   BMP_CURSOR_Draw   0x02020D5C  thumb
  *   _s32_div_f      0x0209C0A4  arm
  *
- * bmp_menu.c: the three drawing helpers the constructor func_0201F93C calls.
- *   func_0201FC5C  clear the window bitmap to 0xFF and print every item of
+ * bmp_menu.c: the three drawing helpers the constructor BMP_MENU_Create calls.
+ *   BMP_MENU_DrawItems  clear the window bitmap to 0xFF and print every item of
  *                  the xmax * ymax grid (column-major index j + i * ymax)
- *                  through the print-util inline (the func_02020D5C shape:
+ *                  through the print-util inline (the BMP_CURSOR_Draw shape:
  *                  print via func_0201C6FC, then util->drawn = 1).
- *   func_0201FD18  unless the cursor-display bitfield (+0x0B bits 4..5) is 1,
+ *   BMP_MENU_DrawCursor  unless the cursor-display bitfield (+0x0B bits 4..5) is 1,
  *                  place the cursor at the pixel position of the current item.
- *   func_0201FD54  item index -> pixel position: column = pos / ymax, row =
+ *   BMP_MENU_GetItemPixelPos  item index -> pixel position: column = pos / ymax, row =
  *                  pos % ymax.
  *
  * Declaration facts that closed them (all three had DIFF notes,
  * docs/notes/pkt_0201FC5C.c.txt and lane2_func_0201FD54.c.txt):
  *  - 0x0209C0A4 is _s32_div_f (layout/runtime_arm9.txt), which returns the
  *    quotient in r0 and the remainder in r1: the "unexplained" r1 of the
- *    second call in func_0201FD54 is `pos % ymax`, not a register tie
+ *    second call in BMP_MENU_GetItemPixelPos is `pos % ymax`, not a register tie
  *    (docs/idioms/div-and-mod-are-two-calls.md).
  *  - header byte +0x0B is three UNSIGNED bitfields 4:2:2 (func_0201FDA0
  *    writes them with 0x0F / 0x30 / 0xC0 masks); an unsigned field gives the
- *    `lsrs` func_0201FD18 needs where a shift expression gave `asrs`.
+ *    `lsrs` BMP_MENU_DrawCursor needs where a shift expression gave `asrs`.
  *  - the print call is an inline taking the util handle first, which is what
- *    keeps the handle in a spill slot across the call in func_0201FC5C.
+ *    keeps the handle in a spill slot across the call in BMP_MENU_DrawItems.
  *
  * Addresses are Black-image addresses.
  *
@@ -102,7 +102,7 @@ struct Desc;
 struct Handle;
 struct PrintSys;
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-extern void func_02020D5C(struct Desc *d, u32 x, u32 y, struct Handle *h, void *dst, u32 f);
+extern void BMP_CURSOR_Draw(struct Desc *d, u32 x, u32 y, struct Handle *h, void *dst, u32 f);
 
 static inline void PrintUtil_Print(PrintUtil *util, void *que, s32 x, s32 y, const void *str, void *font)
 {
@@ -110,9 +110,9 @@ static inline void PrintUtil_Print(PrintUtil *util, void *que, s32 x, s32 y, con
     util->drawn = 1;
 }
 
-void func_0201FD54(BmpMenu *m, u8 *x, u8 *y, u8 pos);
+void BMP_MENU_GetItemPixelPos(BmpMenu *m, u8 *x, u8 *y, u8 pos);
 
-void func_0201FC5C(BmpMenu *m)
+void BMP_MENU_DrawItems(BmpMenu *m)
 {
     u8 i, j;
     u8 x, step;
@@ -130,17 +130,17 @@ void func_0201FC5C(BmpMenu *m)
     }
 }
 
-void func_0201FD18(BmpMenu *m)
+void BMP_MENU_DrawCursor(BmpMenu *m)
 {
     u8 x, y;
 
     if (m->hdr.cDisp != 1) {
-        func_0201FD54(m, &x, &y, m->pos);
-        func_02020D5C(m->cursor, x, y, (struct Handle *)m->hdr.util, m->hdr.que, (u32)m->hdr.fontH);
+        BMP_MENU_GetItemPixelPos(m, &x, &y, m->pos);
+        BMP_CURSOR_Draw(m->cursor, x, y, (struct Handle *)m->hdr.util, m->hdr.que, (u32)m->hdr.fontH);
     }
 }
 
-void func_0201FD54(BmpMenu *m, u8 *x, u8 *y, u8 pos)
+void BMP_MENU_GetItemPixelPos(BmpMenu *m, u8 *x, u8 *y, u8 pos)
 {
     *x = (pos / m->hdr.ymax) * (m->width + m->xspc * 2);
     *y = m->py + (pos % m->hdr.ymax) * (m->yspc + m->hdr.lineSpc);

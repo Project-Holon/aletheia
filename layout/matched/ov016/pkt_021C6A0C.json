@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C6A0C",
+   "name": "DWCi_SceneSetEdit32_draw",
    "address": "0x021C6A0C",
    "kind": "game",
    "region": "ov016",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C7718",
+   "name": "DWCi_SceneSetEditAddress_draw",
    "address": "0x021C7718",
    "kind": "game",
    "region": "ov016",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C8188",
+   "name": "DWCi_SceneSetError_draw",
    "address": "0x021C8188",
    "kind": "game",
    "region": "ov016",

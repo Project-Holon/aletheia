@@ -1,5 +1,5 @@
 /*
- * function: func_02018480
+ * function: POKE_TOOL_IsOwnedByPlayer
  * address:  0x02018480
  * packet:   pkt_02018480
  * region:   arm9
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * Eight byte thunk (pool word and bx) that forwards both arguments to
- * func_02018488. Witness for the ov093 caller func_021BCFAC.
+ * POKE_TOOL_IsBoxOwnedByPlayer. Witness for the ov093 caller func_021BCFAC.
  *
  * symbols:
- *   func_02018480  0x02018480  thumb
- *   func_02018488  0x02018488  thumb
+ *   POKE_TOOL_IsOwnedByPlayer  0x02018480  thumb
+ *   POKE_TOOL_IsBoxOwnedByPlayer  0x02018488  thumb
  */
 
 typedef unsigned int   u32;
-extern u32 func_02018488(void *p, void *mail);
+extern u32 POKE_TOOL_IsBoxOwnedByPlayer(void *p, void *mail);
 
-int func_02018480(void *p, int q)
+int POKE_TOOL_IsOwnedByPlayer(void *p, int q)
 {
-    return func_02018488(p, (void *)q);
+    return POKE_TOOL_IsBoxOwnedByPlayer(p, (void *)q);
 }

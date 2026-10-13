@@ -21,7 +21,7 @@
  *   func_021B76C8  0x021B76C8  thumb  ov067
  *   func_0204B404  0x0204B404  arm
  *   d_021B94C4     0x021B94C4  data  a1
- *   func_02035D40  0x02035D40  arm
+ *   TOUCHPANEL_HitPoint  0x02035D40  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B92C  0x0204B92C  arm
  *   d_021B94D0     0x021B94D0  data  a2
@@ -87,7 +87,7 @@ extern u8 func_021B76C8(u32 a, u32 b, u32 c);
 struct Ctx;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern u32 func_02035D40(struct Ctx *ctx, u32 a, u32 b);
+extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void *func_02045770(struct Descriptor *p);
@@ -164,7 +164,7 @@ void func_021B7378(S *p)
         if (!handled && touch != 0) {
             int res;
             rect = d_021B94C4;
-            res = (int)func_02035D40((struct Ctx *)(&rect), x, y);
+            res = (int)TOUCHPANEL_HitPoint((struct Ctx *)(&rect), x, y);
             if (res != -1) {
                 if (res == 0) {
                     func_020061E4(0x54d);

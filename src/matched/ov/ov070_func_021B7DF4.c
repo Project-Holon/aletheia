@@ -17,7 +17,7 @@
  * symbols:
  *   func_021B61B8  0x021B61B8  thumb  ov070
  *   func_021B616C  0x021B616C  thumb  ov070
- *   func_02035BA4  0x02035BA4  arm
+ *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   func_0203633C  0x0203633C  arm
  *   func_020061E4  0x020061E4  thumb
  *   func_0204B878  0x0204B878  arm
@@ -58,7 +58,7 @@ extern HitTbl d_021BB960;
 
 extern int func_021B61B8(u8 *p);
 extern void *func_021B616C(u8 *p, int i);
-extern int func_02035BA4(const void *p);
+extern int TOUCHPANEL_HitCont(const void *p);
 extern unsigned int func_0203633C(void);
 extern void func_020061E4(unsigned int id);
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -77,7 +77,7 @@ int func_021B7DF4(Obj *o)
     saved = o->num;
     e = func_021B616C((u8 *)o, func_021B61B8((u8 *)o));
     tbl = d_021BB960;
-    hit = func_02035BA4(&tbl);
+    hit = TOUCHPANEL_HitCont(&tbl);
     if (hit != -1) {
         o->repeat++;
         changed = 1;

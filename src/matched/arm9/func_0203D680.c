@@ -1,5 +1,5 @@
 /*
- * function: func_0203D680
+ * function: GFL_NET_GetMaxConnectNum
  * address:  0x0203D680
  * packet:   pkt_0203D680
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *   func_02034714  0x02034714  arm
- *   file_020A7CA0  0x020A7CA0  data
+ *   sNetFileName  0x020A7CA0  data
  *   file_020A7CF8  0x020A7CF8  data
  *
  * Returns the net context's +0x60 byte, reporting through func_02034714 with
@@ -23,23 +23,23 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D680.c \
- *       --func func_0203D680 --addr 0x0203D680 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_GetMaxConnectNum.c \
+ *       --func GFL_NET_GetMaxConnectNum --addr 0x0203D680 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 extern void func_02034714(const char *file, u32 line, const char *msg);
-extern const char file_020A7CA0[];
+extern const char sNetFileName[];
 extern const char file_020A7CF8[];
 
-u32 func_0203D680(void)
+u32 GFL_NET_GetMaxConnectNum(void)
 {
-    u8 *p = func_0203D788();
+    u8 *p = GFL_NET_GetSession();
 
     if (p[0x60] > 8)
-        func_02034714(file_020A7CA0, 0x593, file_020A7CF8);
+        func_02034714(sNetFileName, 0x593, file_020A7CF8);
     return p[0x60];
 }

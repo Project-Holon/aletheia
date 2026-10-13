@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020457B0
+ * function: STRBUF_Create
  *
  * symbols:
  *   sub_02030734  0x02030734  arm
@@ -45,8 +45,8 @@
  * them.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020457B0.c \
- *       --func sub_020457B0 --addr 0x020457B0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/STRBUF_Create.c \
+ *       --func STRBUF_Create --addr 0x020457B0 --cc 1.1p1 --arm
  */
 
 #include "../include/G_AllocStamp.h"
@@ -64,7 +64,7 @@ struct U16Vec {
 
 /*
  * The global based at 0x020A7E7C is one small object, not two independent
- * words: sub_020457B0 loads 0x020A7E80 out of a pool as the allocator's
+ * words: STRBUF_Create loads 0x020A7E80 out of a pool as the allocator's
  * fourth argument, and that word is this symbol plus four
  * (docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md).
  * Reading it as a separate object splits one symbol into two and loses
@@ -76,7 +76,7 @@ extern struct AllocStamp g_020A7E7C;
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 
-struct U16Vec *sub_020457B0(u32 capacity, u32 heapId)
+struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId)
 {
     struct U16Vec *vec;
 

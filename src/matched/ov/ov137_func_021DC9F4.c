@@ -11,9 +11,9 @@
  * func_020307B0 0x020307B0 arm
  * func_02030734 0x02030734 arm
  * func_02082BCC 0x02082BCC arm
- * func_02031348 0x02031348 arm
+ * PROCSYS_Push 0x02031348 arm
  * d_021E2260 0x021E2260 data a4
- * d_021DC800 0x021DC800 data a4 ov131
+ * gPokeStatusProcData 0x021DC800 data a4 ov131
  * d_021E1A44 0x021E1A44 data a4
  * d_00000083 0x00000083 data a1
  */
@@ -30,8 +30,8 @@ extern void *func_0200CA1C(void *);
 extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA18(void *p);
 extern u32 func_0200CA38(struct Blk37 *p);
-extern void func_02031348(void *,int,const void *,void *);
-extern const u8 d_021E2260[],d_021DC800[],d_021E1A44[],d_00000083[];
+extern void PROCSYS_Push(void *,int,const void *,void *);
+extern const u8 d_021E2260[],gPokeStatusProcData[],d_021E1A44[],d_00000083[];
 int func_021DC9F4(u32 *p)
 {
     u32 *v=(u32 *)p[6];
@@ -56,11 +56,11 @@ int func_021DC9F4(u32 *p)
         *(u32 *)(p[7]+24)=func_0200CA38(q);
         p[1]=sel;
         *(u8 *)(p[7]+15)=sel;
-        func_02031348((void *)p[8],(int)d_00000083,d_021DC800,(void *)p[7]);
+        PROCSYS_Push((void *)p[8],(int)d_00000083,gPokeStatusProcData,(void *)p[7]);
         p[0]=3;
     } else {
         *(u32 *)(p[3]+4)=sel;
-        func_02031348((void *)p[8],-1,d_021E1A44,(void *)p[3]);
+        PROCSYS_Push((void *)p[8],-1,d_021E1A44,(void *)p[3]);
         *(u32 *)p[3]=3;
         p[0]=4;
     }

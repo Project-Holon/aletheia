@@ -1,5 +1,5 @@
 /*
- * function: func_0202AF28
+ * function: ISS_CITY_UNIT_Delete
  * address:  0x0202AF28
  * packet:   pkt_0202AEBC
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_0202AF28(void *ptr)
+void ISS_CITY_UNIT_Delete(void *ptr)
 {
     func_020307B0(ptr);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02064140
+ * function: NNSi_G2dSrtcInitControl
  * address:  0x02064140
  * packet:   pkt_020640DC
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02064150    0x02064150  arm
+ *   NNSi_G2dSrtcResetSrtData    0x02064150  arm
  */
 
 typedef unsigned char u8;
@@ -21,10 +21,10 @@ struct O02064140 {
     u32 unk0;
 };
 
-extern int func_02064150(int a0);
+extern int NNSi_G2dSrtcResetSrtData(int a0);
 
-void func_02064140(struct O02064140 *o, u32 a)
+void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a)
 {
     o->unk0 = a;
-    func_02064150((int)o);
+    NNSi_G2dSrtcResetSrtData((int)o);
 }

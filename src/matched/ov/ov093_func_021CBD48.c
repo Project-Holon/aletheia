@@ -17,7 +17,7 @@
  *   func_021B8714 0x021B8714 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   func_021B8724 0x021B8724 thumb ov093
- *   func_020113F0 0x020113F0 thumb
+ *   TIMEZONE_GetTimeZoneOfHour 0x020113F0 thumb
  *   func_021CBE98 0x021CBE98 thumb ov093
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
@@ -32,7 +32,7 @@ extern int func_021BA1A8(char **p, int m);
 extern char *func_021B8714(char **);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021B8724(char *p, void *m);
-extern int func_020113F0(int row, int col);
+extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
 extern int func_021CBE98(u16);
 int func_021CBD48(u8 *p, void *unused, void *q, int k)
 {
@@ -69,7 +69,7 @@ int func_021CBD48(u8 *p, void *unused, void *q, int k)
         return value;
     case 13:
         p = (u8 *)func_021B8714(*(char ***)(p+4));
-        flag = func_020113F0(p[9],p[12]);
+        flag = TIMEZONE_GetTimeZoneOfHour(p[9],p[12]);
         if ((unsigned)(*(int *)p - 4) <= 1) return 0x3800;
         if (func_021CBE98(*(int *)p)) {
             if ((u8)(flag + 253) <= 1) return 0x3800;

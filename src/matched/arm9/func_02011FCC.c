@@ -1,5 +1,5 @@
 /*
- * function: func_02011FCC
+ * function: GAMESYSTEM_Main
  * address:  0x02011FCC
  * packet:   pkt_02011FB8
  * region:   arm9
@@ -13,10 +13,10 @@
  * remaining wildcards are call sites whose targets live in OTHER PACKETS and
  * have no witness outside this range:
  *
- *   +0034  bl func_02012380   -> pkt_02012380
+ *   +0034  bl GAME_EVENT_Control   -> pkt_02012380
  *   +003A  bl func_0202627C   -> pkt_0202627C
- *   +0052  bl func_0202B500   -> pkt_0202B500
- *   +0058  bl func_02021464   -> pkt_02021464
+ *   +0052  bl ISS_SYS_Update   -> pkt_0202B500
+ *   +0058  bl PALANM_UpdateTimer   -> pkt_02021464
  *
  * Each reports `no witness outside 02011FCC..02012060`, i.e. the only branch
  * anywhere in the image reaching them is the call in this function, so the
@@ -36,62 +36,62 @@
  *    cached in a register, so it is spelled as the field every time.
  *
  * symbols:
- *   func_020120A4  0x020120A4  thumb
- *   func_02012A24  0x02012A24  thumb
+ *   GAMESYSTEM_UpdateEventActiveFlag  0x020120A4  thumb
+ *   GAME_DATA_IsWalkCountEnabled  0x02012A24  thumb
  *   func_02035614  0x02035614  arm
- *   func_020129FC  0x020129FC  thumb
- *   func_020123D8  0x020123D8  thumb
- *   func_0201205C  0x0201205C  thumb
- *   func_02012380  0x02012380  thumb
+ *   GAME_DATA_IncWalkCount  0x020129FC  thumb
+ *   GAME_EVENT_StartByCreator  0x020123D8  thumb
+ *   GAMESYSTEM_UpdateAutoComm  0x0201205C  thumb
+ *   GAME_EVENT_Control  0x02012380  thumb
  *   func_0202627C  0x0202627C  thumb
- *   func_02031330  0x02031330  arm
+ *   PROCSYS_Main  0x02031330  arm
  *   func_02012A30  0x02012A30  thumb
- *   func_02028A14  0x02028A14  thumb
- *   func_0202B500  0x0202B500  thumb
- *   func_02021464  0x02021464  thumb
- *   func_0200F7B8  0x0200F7B8  thumb
+ *   FIELD_SOUND_SYSTEM_Update  0x02028A14  thumb
+ *   ISS_SYS_Update  0x0202B500  thumb
+ *   PALANM_UpdateTimer  0x02021464  thumb
+ *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
  */
 #include "../include/Obj01458.h"
 
-extern void func_020120A4(char *p);
+extern void GAMESYSTEM_UpdateEventActiveFlag(char *p);
 struct BigObj;
-extern unsigned char func_02012A24(const struct BigObj *p);
+extern unsigned char GAME_DATA_IsWalkCountEnabled(const struct BigObj *p);
 extern void func_02035614(int v);
-extern unsigned char func_020129FC(struct BigObj *h);
+extern unsigned char GAME_DATA_IncWalkCount(struct BigObj *h);
 typedef unsigned int   u32;
-extern int func_020123D8(void *o, u32 (*fn)(void *, void *), void *a2);
+extern int GAME_EVENT_StartByCreator(void *o, u32 (*fn)(void *, void *), void *a2);
 struct IcaAnime;
-extern void func_0201205C(struct IcaAnime *p);
+extern void GAMESYSTEM_UpdateAutoComm(struct IcaAnime *p);
 struct T;
-extern int func_02012380(void *p);
+extern int GAME_EVENT_Control(void *p);
 struct Comm;
 extern void func_0202627C(struct Comm *p);
-extern unsigned int func_02031330(void *p);
+extern unsigned int PROCSYS_Main(void *p);
 extern unsigned int func_02012A30(const struct BigObj *p);
-extern void func_02028A14(struct T *p);
-extern void func_0202B500(unsigned char *p);
-extern void func_02021464(unsigned char *p);
-extern u32 func_0200F7B8(u32 a0);
+extern void FIELD_SOUND_SYSTEM_Update(struct T *p);
+extern void ISS_SYS_Update(unsigned char *p);
+extern void PALANM_UpdateTimer(unsigned char *p);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 
-int func_02011FCC(char *p)
+int GAMESYSTEM_Main(char *p)
 {
-    func_020120A4(p);
-    if (func_02012A24((const struct BigObj *)((struct Obj01458 *)p)->f1C) != 0)
+    GAMESYSTEM_UpdateEventActiveFlag(p);
+    if (GAME_DATA_IsWalkCountEnabled((const struct BigObj *)((struct Obj01458 *)p)->f1C) != 0)
         func_02035614(0x1e);
-    if (func_020129FC((struct BigObj *)((struct Obj01458 *)p)->f1C) == 0) {
-        func_020123D8(p, (unsigned int (*)(void *, void *))((struct Obj01458 *)p)->f10, (void *)((struct Obj01458 *)p)->f14);
-        func_0201205C((struct IcaAnime *)p);
-        func_02012380(p);
+    if (GAME_DATA_IncWalkCount((struct BigObj *)((struct Obj01458 *)p)->f1C) == 0) {
+        GAME_EVENT_StartByCreator(p, (unsigned int (*)(void *, void *))((struct Obj01458 *)p)->f10, (void *)((struct Obj01458 *)p)->f14);
+        GAMESYSTEM_UpdateAutoComm((struct IcaAnime *)p);
+        GAME_EVENT_Control(p);
         func_0202627C((struct Comm *)((struct Obj01458 *)p)->f24);
     }
-    ((struct Obj01458 *)p)->fC = func_02031330((void *)((struct Obj01458 *)p)->f8);
-    func_02028A14((struct T *)func_02012A30((const struct BigObj *)((struct Obj01458 *)p)->f1C));
-    func_0202B500((unsigned char *)((struct Obj01458 *)p)->f2C);
-    func_02021464((unsigned char *)((struct Obj01458 *)p)->f1C);
-    if (func_02012A24((const struct BigObj *)((struct Obj01458 *)p)->f1C) != 0)
+    ((struct Obj01458 *)p)->fC = PROCSYS_Main((void *)((struct Obj01458 *)p)->f8);
+    FIELD_SOUND_SYSTEM_Update((struct T *)func_02012A30((const struct BigObj *)((struct Obj01458 *)p)->f1C));
+    ISS_SYS_Update((unsigned char *)((struct Obj01458 *)p)->f2C);
+    PALANM_UpdateTimer((unsigned char *)((struct Obj01458 *)p)->f1C);
+    if (GAME_DATA_IsWalkCountEnabled((const struct BigObj *)((struct Obj01458 *)p)->f1C) != 0)
         func_02035614(0x3c);
     if (((struct Obj01458 *)p)->fC == 2 || ((struct Obj01458 *)p)->fC == 0)
-        func_0200F7B8(0);
+        GFL_NET_ERR_ShowScreen(0);
     if (((struct Obj01458 *)p)->fC == 0 && ((struct Obj01458 *)p)->f18 == 0)
         return 1;
     return 0;

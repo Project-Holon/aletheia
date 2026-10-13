@@ -25,7 +25,7 @@
  *   EXACT, 52 bytes, 1 of 1 relocation site resolved.
  *
  * symbols:
- *   func_02062B64  0x02062B64  arm
+ *   NNS_G2dFindBinaryBlock  0x02062B64  arm
  */
 typedef unsigned int u32;
 typedef int BOOL;
@@ -36,13 +36,13 @@ typedef struct {
 } Blk;
 
 struct NitroFileHeader;
-extern void *func_02062B64(struct NitroFileHeader *file, u32 signature);
+extern void *NNS_G2dFindBinaryBlock(struct NitroFileHeader *file, u32 signature);
 
 BOOL func_02062B30(void *file, void **out)
 {
     Blk *b = 0;
 
-    b = func_02062B64(file, 0x5343524E);
+    b = NNS_G2dFindBinaryBlock(file, 0x5343524E);
     if (b) {
         *out = (void *)(b + 1);
         return 1;

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020363D4
+ * function: KEY_SetCont
  * address:  0x020363D4
  * packet:   pkt_020363B8
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj11345.h"
 
-int func_020363D4(int a0, int a1, int a2){ int t0; t0 = func_0203521C((int)a0); ((struct Obj11345 *)((char *)(t0)))->f24 = (int)a2; ((struct Obj11345 *)((char *)(t0)))->f18 = (int)a1; return t0; }
+int KEY_SetCont(int a0, int a1, int a2){ int t0; t0 = func_0203521C((int)a0); ((struct Obj11345 *)((char *)(t0)))->f24 = (int)a2; ((struct Obj11345 *)((char *)(t0)))->f18 = (int)a1; return t0; }

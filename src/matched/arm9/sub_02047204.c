@@ -12,7 +12,7 @@
  * symbols:
  *   func_0206E964  0x0206E964  arm
  *   func_0206A00C  0x0206A00C  arm
- *   func_0206A12C  0x0206A12C  arm
+ *   NNS_G3dPlttLoad  0x0206A12C  arm
  *   DC_FlushRange  0x020862F0  arm
  *
  * Publish the built buffer: locate its last record with 0x0206E964, bail out
@@ -54,7 +54,7 @@ struct BufHdr {
 extern unsigned char *func_0206E964(unsigned char *p);
 struct Up;
 extern void func_0206A00C(struct Up *u, u32 wrap);
-extern void  func_0206A12C(void *rec, u32 flag);
+extern void  NNS_G3dPlttLoad(void *rec, u32 flag);
 extern void  DC_FlushRange(void *addr, u32 size);
 
 u32 func_02047204(struct Tagged *p)
@@ -67,6 +67,6 @@ u32 func_02047204(struct Tagged *p)
     }
     DC_FlushRange(buf, buf->size);
     func_0206A00C(last, 1);
-    func_0206A12C(last, 1);
+    NNS_G3dPlttLoad(last, 1);
     return 1;
 }

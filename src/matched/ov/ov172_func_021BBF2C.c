@@ -45,6 +45,8 @@
  *   func_021BD038  0x021BD038  thumb  ov172
  *   func_021BD0C4  0x021BD0C4  thumb  ov172
  *   func_021BD134  0x021BD134  thumb  ov172
+ *   GFL_USE_StopAllSe  0x02006210  thumb  arm9
+ *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb  arm9
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -89,10 +91,10 @@ extern u32 func_020221A4(void);
 extern int func_02035C60(void);
 extern u32 func_0204B98C(struct Actor *a);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern u32 func_02028230(u8 *p);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void func_02028148(u8 *p);
 extern void func_02028178(u8 *p);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern void func_020061E4(u32 id);
 extern void func_0200616C(void *arg, int i);
 extern void func_0201F7A8(void *desc, u32 kind);
@@ -181,7 +183,7 @@ int func_021BBF2C(void *a0, char *p)
             }
             break;
         }
-        if (func_02028230((void *)W(0x1c)) != 1)
+        if (APP_TASKMENU_WIN_IsFinish((void *)W(0x1c)) != 1)
             break;
         if (W(0x18) == 2) {
             t = func_021BDFE4(a0);
@@ -225,7 +227,7 @@ int func_021BBF2C(void *a0, char *p)
         if (func_021BE054(a0) >= 2) {
             if (W(0x28) == 0) {
                 t = func_021BDFDC(a0);
-                func_02006210();
+                GFL_USE_StopAllSe();
                 func_020061E4(0x73e);
                 func_021B7B64((int)a0, (char *)t);
             }
@@ -282,7 +284,7 @@ int func_021BBF2C(void *a0, char *p)
         break;
     case 12:
         if (func_021BE054(a0) >= 2 && W(0x28) == 0) {
-            func_02006210();
+            GFL_USE_StopAllSe();
             W(0x28) = 1;
             func_020061E4(0x73e);
         }

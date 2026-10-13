@@ -13,7 +13,7 @@
  * symbols:
  *   func_02030734      0x02030734  arm
  *   MI_CpuFill8        0x02082BCC  arm
- *   func_02021518_File 0x020A73BC  data
+ *   sPalAnmFileName 0x020A73BC  data
  *
  * Allocate and zero the 0x120-byte palette-animation context.  0x120 is out
  * of Thumb immediate range, so the compiler materialises the tag 88 first
@@ -43,14 +43,14 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern const char func_02021518_File[];
+extern const char sPalAnmFileName[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *dest, u32 data, u32 size);
 
 void *func_02021518(u32 heap)
 {
-    void *p = func_02030734((u16)heap, 0x120, 0, func_02021518_File, 88);
+    void *p = func_02030734((u16)heap, 0x120, 0, sPalAnmFileName, 88);
     MI_CpuFill8(p, 0, 0x120);
     return p;
 }

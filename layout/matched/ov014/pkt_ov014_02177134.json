@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02177134",
-    "func_02177140",
-    "func_02177148"
+    "GFL_NET_DEVWIRELESS_SetConnectCallback",
+    "GFL_NET_DEVWIRELESS_StartParent",
+    "GFL_NET_DEVWIRELESS_StartChildScan"
+   ],
+   "addresses": [
+    "0x02177134",
+    "0x02177140",
+    "0x02177148"
    ]
   }
  ]

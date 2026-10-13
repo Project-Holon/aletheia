@@ -1,5 +1,5 @@
 /*
- * function: func_021757C4
+ * function: INTRUDE_COMM_UpdateSession
  * address:  0x021757C4
  * packet:   pkt_ov011_021757C4
  * region:   ov011
@@ -11,14 +11,14 @@
  * symbols:
  *   func_0203D378  0x0203D378  arm
  *   func_02175B14  0x02175B14  thumb  ov011
- *   func_02175894  0x02175894  thumb  ov011
+ *   INTRUDE_COMM_GetSessionElapsed  0x02175894  thumb  ov011
  *   func_02026478  0x02026478  thumb
  *   func_02012B58  0x02012B58  thumb
- *   func_02175D34  0x02175D34  thumb  ov011
- *   func_02176158  0x02176158  thumb  ov011
- *   func_02176194  0x02176194  thumb  ov011
- *   func_02175A34  0x02175A34  thumb  ov011
- *   func_02175AE8  0x02175AE8  thumb  ov011
+ *   INTRUDE_COMM_PromoteRequestToResult  0x02175D34  thumb  ov011
+ *   INTRUDE_COMM_SendProposalReplies  0x02176158  thumb  ov011
+ *   INTRUDE_COMM_SendPendingReplies  0x02176194  thumb  ov011
+ *   INTRUDE_COMM_UpdateSessionSends  0x02175A34  thumb  ov011
+ *   INTRUDE_COMM_UpdateSessionResult  0x02175AE8  thumb  ov011
  */
 
 typedef unsigned char u8;
@@ -51,38 +51,38 @@ typedef struct {
 
 extern u32 func_0203D378(void);
 extern int func_02175B14(u8 *p);
-extern int func_02175894(u8 *p);
+extern int INTRUDE_COMM_GetSessionElapsed(u8 *p);
 struct BigObj;
 extern u32 func_02026478(void *obj);
 extern u8 func_02012B58(const struct BigObj *p);
-extern void func_02175D34(Ctx *c, Work *w, int a);
-extern void func_02176158(int a, u8 *p);
-extern void func_02176194(Ctx *c, Work *w);
-extern void func_02175A34(void *a, u8 *b);
-extern void func_02175AE8(int ctx, u8 *p);
+extern void INTRUDE_COMM_PromoteRequestToResult(Ctx *c, Work *w, int a);
+extern void INTRUDE_COMM_SendProposalReplies(int a, u8 *p);
+extern void INTRUDE_COMM_SendPendingReplies(Ctx *c, Work *w);
+extern void INTRUDE_COMM_UpdateSessionSends(void *a, u8 *b);
+extern void INTRUDE_COMM_UpdateSessionResult(int ctx, u8 *p);
 
-void func_021757C4(Ctx *c, Work *w)
+void INTRUDE_COMM_UpdateSession(Ctx *c, Work *w)
 {
     int x;
 
     if (func_0203D378() == 1 && func_02175B14((u8 *)w) == 1) {
         if (w->bD8 == 4) {
             if (w->hA8 != 0) {
-                if (w->b19C == 0 && func_02175894((u8 *)w) > w->hA8) {
+                if (w->b19C == 0 && INTRUDE_COMM_GetSessionElapsed((u8 *)w) > w->hA8) {
                     w->b19C = 1;
                 }
-            } else if (w->f1 == 1 && func_02175894((u8 *)w) > w->hAA) {
+            } else if (w->f1 == 1 && INTRUDE_COMM_GetSessionElapsed((u8 *)w) > w->hAA) {
                 x = func_02026478((void *)c->w4);
                 if (w->bE3 == 0) {
-                    func_02175D34(c, w, func_02012B58((const struct BigObj *)x));
+                    INTRUDE_COMM_PromoteRequestToResult(c, w, func_02012B58((const struct BigObj *)x));
                 }
             }
-        } else if (w->f1 == 1 && func_02175894((u8 *)w) > w->hAA) {
+        } else if (w->f1 == 1 && INTRUDE_COMM_GetSessionElapsed((u8 *)w) > w->hAA) {
             w->f4 = 1;
         }
     }
-    func_02176158((int)c, (u8 *)w);
-    func_02176194(c, w);
-    func_02175A34(c, (u8 *)w);
-    func_02175AE8((int)c, (u8 *)w);
+    INTRUDE_COMM_SendProposalReplies((int)c, (u8 *)w);
+    INTRUDE_COMM_SendPendingReplies(c, w);
+    INTRUDE_COMM_UpdateSessionSends(c, (u8 *)w);
+    INTRUDE_COMM_UpdateSessionResult((int)c, (u8 *)w);
 }

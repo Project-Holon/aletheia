@@ -12,7 +12,7 @@
  * symbols:
  *   g_020A15E8    0x020A15E8  data
  *   func_02035C38 0x02035C38  arm
- *   func_02035BA4 0x02035BA4  arm
+ *   TOUCHPANEL_HitCont 0x02035BA4  arm
  *   func_02035C08 0x02035C08  arm
  *   func_02035C60 0x02035C60  arm
  *
@@ -49,7 +49,7 @@ struct Ctx {
 extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
 
 extern s32 func_02035C38(void);
-extern int func_02035BA4(const void *p);
+extern int TOUCHPANEL_HitCont(const void *p);
 extern int func_02035C08(const void *p);
 extern s32 func_02035C60(void);
 
@@ -64,7 +64,7 @@ s32 func_02051C88(struct Ctx *c)
     a = 0;
     h = func_02035C38();
     if (h != 0) {
-        a = func_02035BA4((const void *)c->f00);
+        a = TOUCHPANEL_HitCont((const void *)c->f00);
         b = func_02035C08((const void *)c->f00);
         sel = func_02035C60();
 

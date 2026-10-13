@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203D2CC
+ * function: GFL_NET_RestartByNetType
  * address:  0x0203D2CC
  * packet:   pkt_0203D1B4
  * region:   arm9
@@ -14,11 +14,11 @@
  *   g_020A7CA0     0x020A7CA0  data
  *   g_020A7CE8     0x020A7CE8  data
  *   func_0203D798  0x0203D798  arm
- *   func_0203D788  0x0203D788  arm
- *   func_020338F8  0x020338F8  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   FLASH_ACCESS_GetBusyFlag  0x020338F8  arm
  *   func_02034714  0x02034714  arm
- *   func_02037010  0x02037010  arm
- *   func_020370C8  0x020370C8  arm
+ *   GFL_NET_WM_ICON_EasyStart  0x02037010  arm
+ *   GFL_NET_WM_ICON_EasyEnd  0x020370C8  arm
  *
  * TU: net.c.  This is the function that names it: the assert call at
  * 0x0203D2EC passes the string at 0x020A7CA0, which reads "net.c", with
@@ -26,13 +26,13 @@
  *
  * Refresh of the on-screen connection indicator.  Both accessors are
  * called even though they return the same singleton field (func_0203D798
- * null-checks it, func_0203D788 does not); the original keeps both results
+ * null-checks it, GFL_NET_GetSession does not); the original keeps both results
  * live in r4 and r5 and uses r4 only for the mode test, so the two calls
  * are in the source, not an artefact.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D2CC.c \
- *       --func func_0203D2CC --addr 0x0203D2CC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_RestartByNetType.c \
+ *       --func GFL_NET_RestartByNetType --addr 0x0203D2CC --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -53,18 +53,18 @@ extern char g_020A7CA0[];
 extern char g_020A7CE8[];
 
 extern void *func_0203D798(void);
-extern void *func_0203D788(void);
-extern u32  func_020338F8(void);
+extern void *GFL_NET_GetSession(void);
+extern u32  FLASH_ACCESS_GetBusyFlag(void);
 extern void func_02034714(const char *file, u32 line, const char *msg);
-extern void func_02037010(u32 a, u32 b, u32 c, u32 d);
-extern void func_020370C8(void);
+extern void GFL_NET_WM_ICON_EasyStart(u32 a, u32 b, u32 c, u32 d);
+extern void GFL_NET_WM_ICON_EasyEnd(void);
 
-void func_0203D2CC(void)
+void GFL_NET_RestartByNetType(void)
 {
     struct NetState *a = func_0203D798();
-    struct NetState *b = func_0203D788();
+    struct NetState *b = GFL_NET_GetSession();
 
-    if (func_020338F8() == 1) {
+    if (FLASH_ACCESS_GetBusyFlag() == 1) {
         func_02034714(g_020A7CA0, 868, g_020A7CE8);
         return;
     }
@@ -74,8 +74,8 @@ void func_0203D2CC(void)
         if ((u8)(b->mode + 0xff) <= 1) {
             flag = 1;
         }
-        func_02037010(b->unk_5c, b->unk_5e, flag, b->unk_56);
+        GFL_NET_WM_ICON_EasyStart(b->unk_5c, b->unk_5e, flag, b->unk_56);
     } else {
-        func_020370C8();
+        GFL_NET_WM_ICON_EasyEnd();
     }
 }

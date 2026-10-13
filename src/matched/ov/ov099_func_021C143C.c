@@ -14,7 +14,7 @@
  *   func_021BDD54 0x021BDD54 thumb ov099
  *   func_020399A8 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
- *   func_02156A3C 0x02156A3C thumb ov009
+ *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   func_021BA874 0x021BA874 thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  */
@@ -28,7 +28,7 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern void func_02039C68(struct Link *, unsigned, unsigned);
-extern int func_02156A3C(void);
+extern int DWC_RAP_GetTargetFriendIndex(void);
 extern void func_021BA874(char *, int);
 extern void func_021BAAB8(char *, int, int);
 int func_021C143C(char *p, int ret)
@@ -43,7 +43,7 @@ int func_021C143C(char *p, int ret)
                 func_02039C68((struct Link *)func_020399A8(), 15, 10);
                 ((struct Obj06359 *)p)->f1CC = 44;
             } else {
-                func_021BA874(p, func_02156A3C());
+                func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
                 func_021BAAB8(p, 13, 0);
                 ((struct Obj06359 *)p)->f1CC = 19;
             }

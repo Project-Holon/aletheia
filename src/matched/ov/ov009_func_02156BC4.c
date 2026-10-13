@@ -1,5 +1,5 @@
 /*
- * function: func_02156BC4
+ * function: DWC_RAP_SetVchatEnabled
  * address:  0x02156BC4
  * packet:   pkt_ov009_02156BC4
  * region:   ov009
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern int g_021A8264;
 
-void func_02156BC4(int v)
+void DWC_RAP_SetVchatEnabled(int v)
 {
     *(u16 *)((char *)(int *)g_021A8264 + 0x782) = v;
 }

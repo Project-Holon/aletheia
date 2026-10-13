@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020224DC",
+   "name": "WIPE_ClearHBlankSlot",
    "address": "0x020224DC",
    "kind": "game",
    "region": "arm9",

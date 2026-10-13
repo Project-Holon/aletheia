@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217F124",
+   "name": "gsiStringToInt64",
    "address": "0x0217F124",
    "kind": "game",
    "region": "ov009",

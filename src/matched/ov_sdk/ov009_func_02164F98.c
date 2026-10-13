@@ -1,5 +1,5 @@
 /*
- * function: func_02164F98
+ * function: WCM_StartupAsync
  * address:  0x02164F98
  * packet:   pkt_ov009_02164F98
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_021657D8  0x021657D8  arm  ov009
+ *   WcmConfigure  0x021657D8  arm  ov009
  *   func_0208EE60  0x0208EE60  arm
  *   func_02166880  0x02166880  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
@@ -38,13 +38,13 @@ extern struct WCMState g_021AA7D4;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 struct WCMConfig;
-extern void func_021657D8(struct WCMConfig *config, void (*notify)(void *));
+extern void WcmConfigure(struct WCMConfig *config, void (*notify)(void *));
 extern unsigned short func_0208EE60(void);
 extern long func_02166880(void);
 extern int OS_IsRunOnTwl(void);
 extern long WCMi_NwmifStartupAsync(void);
 
-long func_02164F98(void *config, void (*notify)(void *))
+long WCM_StartupAsync(void *config, void (*notify)(void *))
 {
     unsigned long e;
     long wcmResult;
@@ -56,7 +56,7 @@ long func_02164F98(void *config, void (*notify)(void *))
     }
     switch (((WCMWork *)g_021AA7D4.work)->phase) {
     case 1:
-        func_021657D8(config, notify);
+        WcmConfigure(config, notify);
         break;
     case 2:
         OS_RestoreInterrupts(e);

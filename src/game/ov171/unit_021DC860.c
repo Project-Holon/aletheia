@@ -22,9 +22,9 @@
  *   func_02030EAC  0x02030EAC  arm
  *   func_020419E4 0x020419E4 arm
  *   func_0204A648 0x0204A648 arm
- *   func_02021D50 0x02021D50 thumb
+ *   PALANM_TransferPalettes 0x02021D50 thumb
  *   d_02FE0000 0x02FE0000 data a4
- *   func_0204335C  0x0204335C  arm
+ *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   func_020433E0  0x020433E0  arm
  *   d_021DEB20 0x021DEB20 data a4
  *   func_0203F8F4 0x0203F8F4 arm
@@ -53,9 +53,9 @@
  *   func_0202155C  0x0202155C  thumb
  *   func_020215A0  0x020215A0  thumb
  *   func_02021540  0x02021540  thumb
- *   func_02022004 0x02022004 thumb
- *   func_02021EE4 0x02021EE4 thumb
- *   func_02021ED8 0x02021ED8 thumb
+ *   PALANM_BlendChannelMask 0x02022004 thumb
+ *   PALANM_SetAutoTransfer 0x02021EE4 thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   func_0207D63C  0x0207D63C  arm
  *   func_02045B38 0x02045B38 arm
  *   func_0201D7EC 0x0201D7EC thumb
@@ -67,12 +67,12 @@
  *   func_0201ED04 0x0201ED04 thumb
  *   func_0201D83C 0x0201D83C thumb
  *   func_02045C04 0x02045C04 arm
- *   func_02012F68 0x02012F68 thumb
+ *   GAME_DATA_GetSaveBlock42 0x02012F68 thumb
  *   func_0200EC14 0x0200EC14 thumb
  *   func_0200EC98 0x0200EC98 thumb
  *   func_0200EC2C 0x0200EC2C thumb
  *   func_02012EBC 0x02012EBC thumb
- *   func_0200725C 0x0200725C thumb
+ *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   func_020073D8 0x020073D8 thumb
  *   func_0200ECD0 0x0200ECD0 thumb
  *   func_0200ECC4 0x0200ECC4 thumb
@@ -120,11 +120,11 @@
  *   func_0201EF34 0x0201EF34 thumb
  *   func_020456F8 0x020456F8 arm
  *   func_0204A5AC  0x0204A5AC  arm
- *   func_0204B944 0x0204B944 arm
- *   func_0204B8D4 0x0204B8D4 arm
+ *   CLACT_GetActorAutoAnim 0x0204B944 arm
+ *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   func_0204A600 0x0204A600 arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   func_0204B878 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B98C  0x0204B98C  arm
@@ -159,7 +159,7 @@
  *   func_0203F6D8 0x0203F6D8 arm
  *   func_0203F684 0x0203F684 arm
  *   _ll_mul 0x0209C054 arm
- *   func_0204B800 0x0204B800 arm
+ *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   func_02025538 0x02025538 thumb
  *   func_02043678 0x02043678 arm
  *   func_020255A0 0x020255A0 thumb
@@ -300,8 +300,8 @@ extern void func_020306F0(unsigned int heap);
 extern int func_020056A0(void (*)(void), int *, int);
 extern int func_02030EAC(int);
 extern void func_020419E4(void),func_0204A648(void);
-extern void func_02021D50(struct S02021D50*);
-extern void func_0204335C(u32 keep);
+extern void PALANM_TransferPalettes(struct S02021D50*);
+extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_0203F8F4(u16);
 extern void func_0203FC28(struct DispConfig *);
@@ -320,9 +320,9 @@ extern void *func_02021518(u32 heap);
 extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern u32 func_02021540(void *a0);
-extern void func_02022004(unsigned, unsigned, u16, unsigned, unsigned);
-extern void func_02021EE4(struct Obj02021EE4 *o, int v);
-extern u32 func_02021ED8(const char*);
+extern void PALANM_BlendChannelMask(unsigned, unsigned, u16, unsigned, unsigned);
+extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
+extern u32 PALANM_GetFadeRequestBits(const char*);
 extern void func_0207D63C(int, int, int, int, int);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
@@ -334,12 +334,12 @@ extern void func_0201C4C0(struct PrintSys *p);
 extern unsigned int func_0201ED04(struct WordSet *p);
 extern u32 func_0201D83C(void *ptr);
 extern u32 func_02045C04(struct Rec *rec);
-extern void *func_02012F68(void **h);
+extern void *GAME_DATA_GetSaveBlock42(void **h);
 extern int func_0200EC14(char *p);
 extern void func_0200EC98(const u8 *o, struct Out0200EC98 *out);
 extern void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst);
 extern void *func_02012EBC(struct Big *p);
-extern u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
+extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern int func_0200ECD0(char *o, int idx);
 extern u32 func_0200ECC4(char *o, u32 n);
@@ -384,11 +384,11 @@ extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_020456F8(struct Descriptor *);
 extern void func_0204A5AC(void);
-extern u32 func_0204B944(struct Obj *);
-extern void func_0204B8D4(struct Obj *,u32);
+extern u32 CLACT_GetActorAutoAnim(struct Obj *);
+extern void CLACT_AddActorAnimFrame(struct Obj *,u32);
 extern void func_0204A600(void);
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_0204B8C4(struct Obj *,u32);
+extern void CLACT_SetActorAnimFrame(struct Obj *,u32);
 extern void func_0204B878(struct Obj *,u16);
 extern void func_0204B92C(struct Obj *,u32);
 extern u32 func_0204B98C(struct Actor *a);
@@ -418,7 +418,7 @@ extern u32 func_02017ED8(u32, u32);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern s16 func_0203F6D8(s32 x);
 extern short func_0203F684(unsigned short x);
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void *func_02025538(unsigned int a0, void *a1);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
@@ -577,7 +577,7 @@ int func_021DC8D4(int *p)
 /*
  * lever: enum address base preserves split pools; halfword offset closes r1/r2 allocation; const input retains reads.
  */
-void func_021DC8E4(void*unused,const u8*p){enum Offset{check=0x3ff8};u16 off;enum Base{start=0x02fe0000};enum Base base;func_020419E4();func_0204A648();func_02021D50(*(struct S02021D50*const *)&((struct Obj24049 *)p)->fB30);base=start;off=check;*(u32*)((u32)base+off)|=1;}
+void func_021DC8E4(void*unused,const u8*p){enum Offset{check=0x3ff8};u16 off;enum Base{start=0x02fe0000};enum Base base;func_020419E4();func_0204A648();PALANM_TransferPalettes(*(struct S02021D50*const *)&((struct Obj24049 *)p)->fB30);base=start;off=check;*(u32*)((u32)base+off)|=1;}
 
 
 
@@ -586,7 +586,7 @@ void func_021DC8E4(void*unused,const u8*p){enum Offset{check=0x3ff8};u16 off;enu
 
 void func_021DC910(void)
 {
-    func_0204335C(0);
+    BG_SYS_ClearGraphicsMemory(0);
     func_020433E0((const struct DispVram *)0x021DEB20);
 }
 
@@ -676,15 +676,15 @@ void func_021DCBA4(char *p)
 {
     unsigned i;
     for (i=0; i<6; i++)
-        func_02022004(((struct Obj10658 *)p)->fB30, 2, (1<<i)|(1<<(i+6)), (unsigned char)p[0xb3a+i], 0);
-    func_02021EE4((struct Obj02021EE4 *)(((struct Obj10658 *)p)->fB30), 1);
+        PALANM_BlendChannelMask(((struct Obj10658 *)p)->fB30, 2, (1<<i)|(1<<(i+6)), (unsigned char)p[0xb3a+i], 0);
+    PALANM_SetAutoTransfer((struct Obj02021EE4 *)(((struct Obj10658 *)p)->fB30), 1);
 }
 
 
 
 
 
-int func_021DCBE8(u8*p){if(func_02021ED8(*(char* *)&((struct Obj14284 *)p)->fB30))return 1;func_02021EE4((struct Obj02021EE4 *)(*(u32 *)&((struct Obj14284 *)p)->fB30),0);return 0;}
+int func_021DCBE8(u8*p){if(PALANM_GetFadeRequestBits(*(char* *)&((struct Obj14284 *)p)->fB30))return 1;PALANM_SetAutoTransfer((struct Obj02021EE4 *)(*(u32 *)&((struct Obj14284 *)p)->fB30),0);return 0;}
 
 
 
@@ -768,7 +768,7 @@ void func_021DCCC8(struct P *p)
     }
     s = p->s;
     if (s->f4 == 0) {
-        void *h = func_02012F68(s->f0);
+        void *h = GAME_DATA_GetSaveBlock42(s->f0);
         p->rows[0].cnt = func_0200EC14(h);
         func_0200EC98(h, (struct Out0200EC98 *)p->rows[0].hdr);
         for (k = 0; k < p->rows[0].cnt; k++)
@@ -778,7 +778,7 @@ void func_021DCCC8(struct P *p)
         u32 id;
         c = func_02012EBC(s->f0);
         id = 8;
-        if (func_0200725C(c, id, 0x8c) == 1) {
+        if (SAVE_CONTROL_LoadExtraSave(c, id, 0x8c) == 1) {
             o = func_020073D8(c, id, 0);
             if (o) {
                 for (j = 0; j < 15; j++) {
@@ -1519,8 +1519,8 @@ void func_021DE030(u8 *p)
     u8 *element;
     for(i=0;i<16;i++) {
         element=p+i*4;
-        if(((struct Obj10660 *)element)->fB74!=0 && func_0204B944(*(struct Obj * *)&((struct Obj10660 *)element)->fB74)!=1)
-            func_0204B8D4(*(struct Obj * *)&((struct Obj10660 *)element)->fB74,4096);
+        if(((struct Obj10660 *)element)->fB74!=0 && CLACT_GetActorAutoAnim(*(struct Obj * *)&((struct Obj10660 *)element)->fB74)!=1)
+            CLACT_AddActorAnimFrame(*(struct Obj * *)&((struct Obj10660 *)element)->fB74,4096);
     }
     func_0204A600();
 }
@@ -1545,7 +1545,7 @@ void func_021DE064(int *p, int i, int a)
 void func_021DE080(u8 *p, int i, int value)
 {
     struct Obj **base=(struct Obj **)(p+0xb74);
-    func_0204B8C4(*(struct Obj **)((u32)base+i*4),0);
+    CLACT_SetActorAnimFrame(*(struct Obj **)((u32)base+i*4),0);
     func_0204B878(*(struct Obj **)((u32)base+i*4),value);
     func_0204B92C(*(struct Obj **)((u32)base+i*4),1);
 }
@@ -1817,7 +1817,7 @@ void func_021DE684(u8 *p)
     }
     for(i=0;i<*(u16 *)(p+((struct Obj10661 *)p)->fC5E*0xbc+0xc4);i++) {
         r=*(void **)(p+order[i]*4+0xb74);
-        if(r) func_0204B800(r,i);
+        if(r) CLACT_SetActorDrawPriority(r,i);
     }
 }
 

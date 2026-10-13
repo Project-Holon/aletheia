@@ -1,6 +1,6 @@
 /*
  * file:     unit_02084E2C.c
- * function: func_02084E2C
+ * function: OS_UnLockCard
  * address:  0x02084E2C
  * packet:   pkt_02084E2C
  * region:   arm9
@@ -17,7 +17,7 @@
 extern void func_02084E10(void);
 
 /* hand-written in the original: ldr r1, =target; bx r1 stub, a compiled tail call uses ip */
-asm void func_02084E2C(void)
+asm void OS_UnLockCard(void)
 {
     ldr r1, =func_02084E10
     bx	r1

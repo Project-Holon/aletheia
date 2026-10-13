@@ -12,7 +12,7 @@
  * symbols:
  *   func_021B6C90 0x021B6C90 thumb ov098
  *   func_021B6CDC 0x021B6CDC thumb ov098
- *   func_0201CE20 0x0201CE20 thumb
+ *   PRINTSYS_PrintStreamRun 0x0201CE20 thumb
  *   func_0201CE30 0x0201CE30 thumb
  *   func_0201CE38 0x0201CE38 thumb
  *   func_0201CE48 0x0201CE48 thumb
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 struct Rec3;
 extern void func_021B6C90(char *, int);
 extern int func_021B6CDC(u8 *);
-extern void func_0201CE20(void *);
+extern void PRINTSYS_PrintStreamRun(void *);
 extern u32 func_0201CE30(void *);
 extern void func_0201CE38(void *);
 extern void func_0201CE48(struct Rec3 *);
@@ -46,7 +46,7 @@ int func_021B6A3C(u8 *p)
             p[0x39] = 6;
             break;
         }
-        if (((struct Obj00466 *)p)->f0) func_0201CE20(((struct Obj00466 *)p)->f0);
+        if (((struct Obj00466 *)p)->f0) PRINTSYS_PrintStreamRun(((struct Obj00466 *)p)->f0);
         p[0x39]++;
     case 2:
         if (((struct Obj00466 *)p)->f0) {

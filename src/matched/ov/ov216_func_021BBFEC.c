@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT*
  * Verified EXACT Thumb C copied from parked ov032_func_021F27D4 header:
- * u32 func_020275A8(u32 a) { return a; }
+ * u32 BEACON_STATUS_GetLog(u32 a) { return a; }
  * Singleton TU --suggest-split leaves caller out; no viable partition.
  * Trailing 021BC0B2..021BC0B4 is zero alignment padding.
  * lever: array index uses p[47]++ so byte count advances before the store.
  * symbols:
  *   func_02165B10 0x02165B10 thumb ov010
  *   func_02012A54 0x02012A54 thumb
- *   func_020275A8 0x020275A8 thumb
+ *   BEACON_STATUS_GetLog 0x020275A8 thumb
  *   func_02165B04 0x02165B04 thumb ov010
  *   func_02165AC4 0x02165AC4 thumb ov010
  *   func_02165B5C 0x02165B5C thumb ov010
@@ -30,7 +30,7 @@ typedef unsigned int u32;
 struct Queue; struct Rec; struct BigObj;
 extern u8 *func_02165B10(u32);
 extern u32 func_02012A54(const struct BigObj *);
-extern u32 func_020275A8(u32 a);
+extern u32 BEACON_STATUS_GetLog(u32 a);
 extern u8 func_02165B04(u8 *);
 extern int func_02165AC4(struct Queue *,struct Rec *,u16 *,int);
 extern int func_02165B5C(struct Rec *);
@@ -42,7 +42,7 @@ void func_021BBFEC(u8 *p)
     int i,count;
     *(u8 **)(p+40)=func_02165B10(*(u16 *)p);
     *(u32 *)(p+32)=func_02012A54(*(const struct BigObj **)(*(u8 **)(p+20)+4));
-    *(void **)(p+36)=(void *)func_020275A8((u32)(*(void **)(p+32)));
+    *(void **)(p+36)=(void *)BEACON_STATUS_GetLog((u32)(*(void **)(p+32)));
     count=func_02165B04(*(u8 **)(p+36));
     p[48]=255;
     for(i=0;i<count;i++){

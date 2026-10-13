@@ -1,5 +1,5 @@
 /*
- * function: func_021B641C
+ * function: ERROR_SCREEN_Teardown
  * address:  0x021B641C
  * packet:   pkt_ov017_021B641C
  * region:   ov017
@@ -20,27 +20,33 @@
  */
 
 typedef unsigned int u32;
-
 typedef unsigned short u16;
+
+#define REG_DISPCNT_MAIN       (*(volatile u32 *)0x04000000)
+#define REG_MASTER_BRIGHT_MAIN ((volatile u16 *)0x0400006C)
+#define REG_MASTER_BRIGHT_SUB  ((volatile u16 *)0x0400106C)
+#define PLTT_MAIN_BG           0x05000000
+
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_020435F4(u32 planes);
 extern void *func_0207E24C(void);
-extern void func_02082A48(int, u32, u32);
+extern void func_02082A48(int value, u32 dst, u32 size);
 extern void *func_0207DFB4(void);
 extern int func_020809A0(void);
 extern int func_020808F4(void);
 
-void func_021B641C(void)
+/* Error screen teardown: fade out, hide the planes, clear character data, tile map and palette, disable the main BGs. */
+void ERROR_SCREEN_Teardown(void)
 {
-    func_0207D534((volatile u16 *)0x0400006C, -16);
-    func_0207D534((volatile u16 *)0x0400106C, -16);
+    func_0207D534(REG_MASTER_BRIGHT_MAIN, -16);
+    func_0207D534(REG_MASTER_BRIGHT_SUB, -16);
     func_020435F4(0);
     func_02082A48(0, (u32)func_0207E24C(), 0x4000);
     func_02082A48(0, (u32)func_0207DFB4(), 0x800);
-    func_02082A48(0x7FFF, 0x05000000, 0x20);
-    *(volatile u32 *)0x04000000 &= 0xFFFFE0FF;
+    func_02082A48(0x7FFF, PLTT_MAIN_BG, 0x20);
+    REG_DISPCNT_MAIN &= 0xFFFFE0FF;
     func_020809A0();
     func_020808F4();
-    func_0207D534((volatile u16 *)0x0400006C, 0);
-    func_0207D534((volatile u16 *)0x0400106C, 0);
+    func_0207D534(REG_MASTER_BRIGHT_MAIN, 0);
+    func_0207D534(REG_MASTER_BRIGHT_SUB, 0);
 }

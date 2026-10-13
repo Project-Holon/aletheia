@@ -10,13 +10,13 @@
  * blocker: ARM9 020434CC in unit_0204349C.c missing function: entry;
  *   one MATCH (020434B4 unwitnessed), enclosing 0204349C TU EXACT:
  *   extern unsigned d_02146A48[];
- *   void func_0204349C(void) { d_02146A48[1]&=16; }
- *   void func_020434B4(void) { d_02146A48[1]&=15; }
- *   void func_020434CC(void) { func_0204349C(); func_020434B4(); }
+ *   void BG_SYS_ClearMainBgPlanes(void) { d_02146A48[1]&=16; }
+ *   void BG_SYS_ClearMainObjPlane(void) { d_02146A48[1]&=15; }
+ *   void BG_SYS_ClearMainPlanes(void) { BG_SYS_ClearMainBgPlanes(); BG_SYS_ClearMainObjPlane(); }
  * blocker: ARM9 02043588 in unit_02043570.c missing function: entry;
  *   one EXACT, fixed compiler/flags ARM:
- *   extern void func_02043558(void),func_02043570(void);
- *   void func_02043588(void) { func_02043558(); func_02043570(); }
+ *   extern void BG_SYS_ClearSubBgPlanes(void),BG_SYS_ClearSubObjPlane(void);
+ *   void BG_SYS_ClearSubPlanes(void) { BG_SYS_ClearSubBgPlanes(); BG_SYS_ClearSubObjPlane(); }
  * blocker: ARM9 data 020A1448 has no witness; little-endian word at 021F8BC8
  *   is 48 14 0A 02 and reaches 0204A48C as r0. ARM9 data ownership prevents filing.
  * note: 02046440 heap extern is u16 because original caller loads it with ldrh;
@@ -24,8 +24,8 @@
  * volatile: GX display 021F89AE/021F89B8/021F8B40, power 021F89DC,
  *   3D control 021F8AB4/021F8ABC/021F8ACA, window 021F8B50/021F8B64.
  * symbols:
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_020433E0 0x020433E0 arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   func_02045088 0x02045088 arm
@@ -44,7 +44,7 @@
  *   func_02043598 0x02043598 arm
  *   func_0207D63C 0x0207D63C arm
  *   func_0202223C 0x0202223C thumb
- *   func_02022224 0x02022224 thumb
+ *   WIPE_ResetWndMask 0x02022224 thumb
  *   func_021F8DA0 0x021F8DA0 thumb ov132
  *   d_021FDBA0 0x021FDBA0 data a4
  *   d_021FDAA0 0x021FDAA0 data a4
@@ -82,9 +82,9 @@ extern const u32 d_021FDB00[];
 extern const u32 d_021FDB20[];
 extern const u32 d_021FDAB0[];
 extern const u32 d_020A1448[];
-extern void func_020434CC(void),func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 extern void func_0202223C(u32,u32);
-extern u32 func_02022224(void *);
+extern u32 WIPE_ResetWndMask(void *);
 struct BgTemplate;
 struct Blk3;
 struct Cfg;
@@ -121,10 +121,10 @@ void func_021F899C(u8 *p)
     Blob28 big;
     Vec3 small;
     void *light,*board;
-    func_020434CC(); func_02043588();
+    BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     GX_SetVisiblePlane(0); GXS_SetVisiblePlane(0);
     func_0202223C(0,0); func_0202223C(1,0);
-    func_02022224(0); func_02022224((void *)1);
+    WIPE_ResetWndMask(0); WIPE_ResetWndMask((void *)1);
     GX_SetDispSelect(SUB_MAIN);
     func_020433E0((const struct DispVram *)d_021FDBA0);
     func_0203F8F4(*(u16 *)p); func_02045088(*(u16 *)p);

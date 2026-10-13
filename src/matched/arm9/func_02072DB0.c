@@ -1,5 +1,5 @@
 /*
- * function: func_02072DB0
+ * function: NNS_SndPlayerSetPlayableSeqCount
  * address:  0x02072DB0
  * packet:   pkt_02072A44
  * region:   arm9
@@ -17,7 +17,7 @@
  */
 
 extern char g_0214E47C[];
-void func_02072DB0(int idx, int v)
+void NNS_SndPlayerSetPlayableSeqCount(int idx, int v)
 {
     *(int *)(g_0214E47C + idx * 0x24) = (unsigned short)v;
 }

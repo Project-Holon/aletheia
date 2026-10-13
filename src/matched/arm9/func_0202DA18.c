@@ -1,5 +1,5 @@
 /*
- * function: func_0202DA18
+ * function: POKEGRA_RegisterTrainerPalette
  * address:  0x0202DA18
  * packet:   pkt_0202DA18
  * region:   arm9
@@ -8,16 +8,19 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   POKEGRA_GetTrainerPalArcIndex  0x0202D61C  thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_0202D61C(u32 a, u32 b);
+extern u32  POKEGRA_GetTrainerPalArcIndex(u32 a, u32 b);
 typedef signed int     s32;
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-s32 func_0202DA18(u32 a, u32 b, u32 c, u32 d, u16 e)
+s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e)
 {
-    return func_0204AC18((void *)a, func_0202D61C(b, 0), c, d, 0, 1, e);
+    return func_0204AC18((void *)a, POKEGRA_GetTrainerPalArcIndex(b, 0), c, d, 0, 1, e);
 }

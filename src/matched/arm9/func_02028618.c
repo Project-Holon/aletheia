@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02028618
+ * function: APP_KEYCURSOR_DrawMark
  * address:  0x02028618
  * packet:   pkt_02028618
  * region:   arm9
@@ -38,7 +38,7 @@ extern u16  func_020437DC(const struct Bmp *bmp);
 extern u16 func_020437E4(const struct Bmp *bmp);
 extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 
-void func_02028618(struct Ctx *ctx, const struct Bmp *bmp, u32 color)
+void APP_KEYCURSOR_DrawMark(struct Ctx *ctx, const struct Bmp *bmp, u32 color)
 {
     u16 w = func_020437DC(bmp) - 11;
     u16 h = func_020437E4(bmp) - 9;

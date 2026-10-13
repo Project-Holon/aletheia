@@ -1,5 +1,5 @@
 /*
- * function: func_021561C0
+ * function: DWC_RAP_StepSession
  * address:  0x021561C0
  * packet:   pkt_ov009_021561C0
  * region:   ov009
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021A8264     0x021A8264  data  ov009  a4
- *   func_02156CF4  0x02156CF4  thumb  ov009
- *   func_0216AE88  0x0216AE88  arm
- *   func_021567B8  0x021567B8  thumb  ov009
- *   func_021AEE14  0x021AEE14  thumb  ov013
- *   func_0216B908  0x0216B908  arm
- *   func_0216B838  0x0216B838  arm
- *   func_021AF238  0x021AF238  thumb  ov013
- *   func_02155F58  0x02155F58  thumb  ov009
- *   func_0215615C  0x0215615C  thumb  ov009
- *   func_02155C70  0x02155C70  thumb  ov009
+ *   _pRapWork     0x021A8264  data  ov009  a4
+ *   DWC_RAP_FlushDeletedFriends  0x02156CF4  thumb  ov009
+ *   DWC_ProcessFriendsMatch  0x0216AE88  arm
+ *   DWC_RAP_PollFriendStatus  0x021567B8  thumb  ov009
+ *   VCT_MAIN_Update  0x021AEE14  thumb  ov013
+ *   DWC_GetAIDBitmap  0x0216B908  arm
+ *   DWC_GetMyAID  0x0216B838  arm
+ *   VCT_MAIN_ConnectPeers  0x021AF238  thumb  ov013
+ *   DWC_RAP_HandleError  0x02155F58  thumb  ov009
+ *   DWC_RAP_SendHeartbeat  0x0215615C  thumb  ov009
+ *   DWC_RAP_ClearPeerCounters  0x02155C70  thumb  ov009
  */
 
 typedef unsigned char u8;
@@ -45,54 +45,54 @@ typedef struct {
     u8 b79f;            /* 0x79f */
 } G;
 
-extern G *d_021A8264;
-void func_02156CF4(void);
-void func_0216AE88(void);
-void func_021567B8(void);
-void func_021AEE14(int);
-int func_0216B908(void);
-unsigned char func_0216B838(void);
-int func_021AF238(u32 mask, int n);
-int func_02155F58(void);
-int func_0215615C(u32 idx);
-void func_02155C70(void);
+extern G *_pRapWork;
+void DWC_RAP_FlushDeletedFriends(void);
+void DWC_ProcessFriendsMatch(void);
+void DWC_RAP_PollFriendStatus(void);
+void VCT_MAIN_Update(int);
+int DWC_GetAIDBitmap(void);
+unsigned char DWC_GetMyAID(void);
+int VCT_MAIN_ConnectPeers(u32 mask, int n);
+int DWC_RAP_HandleError(void);
+int DWC_RAP_SendHeartbeat(u32 idx);
+void DWC_RAP_ClearPeerCounters(void);
 
-int func_021561C0(void)
+int DWC_RAP_StepSession(void)
 {
     G *g;
     int i;
 
-    func_02156CF4();
-    func_0216AE88();
-    func_021567B8();
-    if (d_021A8264->f76c != 0) {
+    DWC_RAP_FlushDeletedFriends();
+    DWC_ProcessFriendsMatch();
+    DWC_RAP_PollFriendStatus();
+    if (_pRapWork->f76c != 0) {
         int v;
-        if (d_021A8264->h794 == 1 && d_021A8264->f790 == 1 && d_021A8264->h796 == 1)
+        if (_pRapWork->h794 == 1 && _pRapWork->f790 == 1 && _pRapWork->h796 == 1)
             v = 0;
         else
             v = 1;
-        func_021AEE14(v);
-        g = d_021A8264;
-        if (g->aid != func_0216B908() && g->b79f == 0 && g->s782 != 0) {
-            if (func_021AF238(func_0216B908(), func_0216B838()) != 0)
-                d_021A8264->aid = func_0216B908();
+        VCT_MAIN_Update(v);
+        g = _pRapWork;
+        if (g->aid != DWC_GetAIDBitmap() && g->b79f == 0 && g->s782 != 0) {
+            if (VCT_MAIN_ConnectPeers(DWC_GetAIDBitmap(), DWC_GetMyAID()) != 0)
+                _pRapWork->aid = DWC_GetAIDBitmap();
         }
     }
-    if (d_021A8264->state == 0x14) {
-        int r = func_02155F58();
+    if (_pRapWork->state == 0x14) {
+        int r = DWC_RAP_HandleError();
         if (r == 0)
             return 0x3eb;
         return r;
     }
-    if (d_021A8264->state == 0x13)
+    if (_pRapWork->state == 0x13)
         return 0x3ec;
-    if (d_021A8264->state == 9 || d_021A8264->state == 10) {
-        for (i = 0; i < d_021A8264->n; i++) {
-            if (d_021A8264->cnt[i]++ >= 0xf0 && d_021A8264->f760 == 0 && func_0215615C(i) != 0) {
-                func_02155C70();
+    if (_pRapWork->state == 9 || _pRapWork->state == 10) {
+        for (i = 0; i < _pRapWork->n; i++) {
+            if (_pRapWork->cnt[i]++ >= 0xf0 && _pRapWork->f760 == 0 && DWC_RAP_SendHeartbeat(i) != 0) {
+                DWC_RAP_ClearPeerCounters();
                 break;
             }
         }
     }
-    return func_02155F58();
+    return DWC_RAP_HandleError();
 }

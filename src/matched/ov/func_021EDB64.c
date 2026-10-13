@@ -10,6 +10,8 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_TransferCharacterPart  0x0204AA94  arm  arm9
+ *   CLACT_GetActorCharacterIndex  0x0204B7F0  arm  arm9
  *
  * Detach slot i then hand the a*0x400 span of the 0x3E70 pool to
  *   the 0x400/0/0 emitter.
@@ -20,11 +22,11 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u16 func_0204B7F0(u8 *p);
-extern void func_0204AA94(int a, void *b, u32 c, int d, int e);
+extern u16 CLACT_GetActorCharacterIndex(u8 *p);
+extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
 void func_021EDB64(char *p, int a, int i)
 {
     int q = ((struct Obj18524 *)p)->f2C;
-    int x = func_0204B7F0((u8 *)(*(int *)(q + i * 4 + 0x9E74)));
-    func_0204AA94(x, (void *)(q + 0x3E70 + a * 0x400), 0x400, 0, 0);
+    int x = CLACT_GetActorCharacterIndex((u8 *)(*(int *)(q + i * 4 + 0x9E74)));
+    CLACT_TransferCharacterPart(x, (void *)(q + 0x3E70 + a * 0x400), 0x400, 0, 0);
 }

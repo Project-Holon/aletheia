@@ -1,5 +1,5 @@
 /*
- * function: func_0204C83C
+ * function: CLACT_RequestTransfer
  * address:  0x0204C83C
  * packet:   pkt_0204BD64
  * region:   arm9
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A74     0x02146A74  data
- *   func_0204C804  0x0204C804  arm
- *   func_0204C8A4  0x0204C8A4  arm
+ *   g_ClactSystem     0x02146A74  data
+ *   CLACT_GetFreeTransferEntry  0x0204C804  arm
+ *   CLACT_SetTransferEntry  0x0204C8A4  arm
  *
- * The per-record callback src/matched/func_0204C660.c hands to func_02066934,
+ * The per-record callback src/matched/CLACT_InitTransferPool.c hands to NNS_G2dInitCellTransferStateManager,
  * which is why its address only ever appears as a pool word and never as a
  * branch target.
  *
@@ -24,13 +24,13 @@
  * on the fall-through.  Giving it a default value in the C adds that `mov`
  * and four bytes, so the original's C had an `if`/`else if` with no `else`.
  *
- * The handle passed to func_0204C8A4 is func_0204C804's return value left in
+ * The handle passed to CLACT_SetTransferEntry is CLACT_GetFreeTransferEntry's return value left in
  * r0, not a reload; the selector chain in between touches only r4 and the
  * flags.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C83C.c \
- *       --func func_0204C83C --addr 0x0204C83C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_RequestTransfer.c \
+ *       --func CLACT_RequestTransfer --addr 0x0204C83C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -45,20 +45,20 @@ struct Sys {
     struct Sub unk_0e0;   /* 0xe0 */
 };
 
-extern struct Sys *g_02146A74;
+extern struct Sys *g_ClactSystem;
 
 struct Entry;
 struct Pool;
-extern struct Entry *func_0204C804(struct Pool *p);
+extern struct Entry *CLACT_GetFreeTransferEntry(struct Pool *p);
 struct Entry;
-extern void func_0204C8A4(struct Entry *e, u32 sel, u32 a, u32 b, u32 c);
+extern void CLACT_SetTransferEntry(struct Entry *e, u32 sel, u32 a, u32 b, u32 c);
 
-u32 func_0204C83C(u32 kind, u32 a, u32 b, u32 c)
+u32 CLACT_RequestTransfer(u32 kind, u32 a, u32 b, u32 c)
 {
     void *h;
     u32   sel;
 
-    h = func_0204C804((struct Pool *)(&g_02146A74->unk_0e0));
+    h = CLACT_GetFreeTransferEntry((struct Pool *)(&g_ClactSystem->unk_0e0));
 
     if (kind == 0x13) {
         sel = 0;
@@ -67,7 +67,7 @@ u32 func_0204C83C(u32 kind, u32 a, u32 b, u32 c)
     }
 
     if (c != 0) {
-        func_0204C8A4(h, sel, a, b, c);
+        CLACT_SetTransferEntry(h, sel, a, b, c);
     }
 
     return 1;

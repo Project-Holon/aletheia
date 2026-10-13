@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_021DB7AC 0x021DB7AC thumb ov119
  *   func_02035C38 0x02035C38 arm
  */
 typedef short s16;
 typedef unsigned int   u32;
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 struct Obj;
 extern void func_0204B92C(struct Obj *,unsigned int),func_021DB7AC(char *,int,int);
 extern int func_02035C38(void);
@@ -25,7 +25,7 @@ void func_021DB89C(char *p)
 {
     int x,y,i;
     if(I(0xf60)) return;
-    if(func_02035CB8((u32 *)(&x),(u32 *)(&y))) {
+    if(TOUCHPANEL_GetPointCont((u32 *)(&x),(u32 *)(&y))) {
         if(I(0x1088)) {
             if((unsigned)x>=64 && (unsigned)x<192 && (unsigned)y>=168 && (unsigned)y<188) {
                 int previous;

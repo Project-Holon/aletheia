@@ -1,5 +1,5 @@
 /*
- * function: func_02175144
+ * function: COLOSSEUM_UpdateReadyState
  * address:  0x02175144
  * packet:   pkt_ov012_02175144
  * region:   ov012
@@ -12,8 +12,8 @@
  * symbols:
  *   func_0203D378  0x0203D378  arm
  *   func_0203D1B4  0x0203D1B4  arm
- *   func_02174ED8  0x02174ED8  thumb  ov012
- *   func_02174E9C  0x02174E9C  thumb  ov012
+ *   COLOSSEUM_SendAllReady  0x02174ED8  thumb  ov012
+ *   COLOSSEUM_SendCancelAck  0x02174E9C  thumb  ov012
  */
 
 typedef unsigned char u8;
@@ -21,10 +21,10 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u32 func_0203D378(void);
 extern int func_0203D1B4(void);
-extern u32 func_02174ED8(void);
-extern u32 func_02174E9C(int v);
+extern u32 COLOSSEUM_SendAllReady(void);
+extern u32 COLOSSEUM_SendCancelAck(int v);
 
-void func_02175144(u8 *p)
+void COLOSSEUM_UpdateReadyState(u8 *p)
 {
     int cnt;
     int i;
@@ -40,7 +40,7 @@ void func_02175144(u8 *p)
         }
     }
     if (cnt == func_0203D1B4()) {
-        if (func_02174ED8() == 1) {
+        if (COLOSSEUM_SendAllReady() == 1) {
             z = 0;
             for (i = 0; i < 4; i++) {
                 p[0xd4 + i] = z;
@@ -50,7 +50,7 @@ void func_02175144(u8 *p)
     } else {
         z = 0;
         for (i = 0; i < 4; i++) {
-            if (p[0xd8 + i] == 1 && func_02174E9C(i) == 1) {
+            if (p[0xd8 + i] == 1 && COLOSSEUM_SendCancelAck(i) == 1) {
                 p[0xd8 + i] = z;
             }
         }

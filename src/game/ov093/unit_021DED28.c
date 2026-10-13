@@ -26,94 +26,71 @@
  *   d_021F152C     0x021F152C  data   ov093  a4
  *   d_021F143C     0x021F143C  data   ov093  a4
  */
-#include "../../matched/include/Obj12154.h"
+#include "unit_021DE7E4_types.h"
 
-union U;
-struct QQ;
-struct S;
-typedef unsigned int   u32;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
+struct BtlEventFactor;
 
 extern int func_021D775C(int key);
-extern int func_021D76BC(int key, u32 val);
-extern void func_021E8C9C(union U *p, int v);
-int func_021DCFF8(int a, int b);
-int func_0209C2B0(int a, int b);
-extern u16 func_021D70A8(struct QQ *p);
-void *func_021C88A4(char *p, int a, int b);
-void func_021C8838(void *p, int a, int b);
-void func_021C8860(struct S *p, unsigned int a);
-void func_021C88C8(void *a, void *b);
-void func_021DED28(int a, int b, int c);
-int *func_021DED60(int *p);
-void func_021DED6C(void *a, int b, int c);
-int *func_021DEDEC(int *p);
+extern int func_021D76BC(int key, u32 value);
+extern void func_021E8C9C(u32 *sickCont, int value);
+extern int func_021DCFF8(struct BtlEventFactor *factor, int index);
+extern int func_0209C2B0(int dividend, int divisor);
+extern u16 func_021D70A8(struct BtlEventFactor *factor);
+extern void *func_021C88A4(void *flow, int cmdKind, int pokeId);
+extern void func_021C8838(HandExStr *str, int strType, int strId);
+extern void func_021C8860(HandExStr *str, u32 arg);
+extern void func_021C88C8(void *flow, void *cmd);
 extern int d_021F152C[];
 extern int d_021F143C[];
 
-
-void func_021DED28(int a, int b, int c)
+/* Grip Claw: a binding status applied by the holder is stretched to the longer duration. */
+void func_021DED28(struct BtlEventFactor *factor, void *flow, int pokeId)
 {
-    int t;
+    int sickCont;
 
-    if (c == func_021D775C(3) && func_021D775C(0x1d) == 8) {
-        t = func_021D775C(0x1e);
-        func_021E8C9C((union U *)(&t), 8);
-        func_021D76BC(0x1e, t);
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID) && func_021D775C(BTL_EVAR_SICK_ID) == BTL_SICK_BIND) {
+        sickCont = func_021D775C(BTL_EVAR_SICK_CONT);
+        func_021E8C9C((u32 *)&sickCont, 8);
+        func_021D76BC(BTL_EVAR_SICK_CONT, sickCont);
     }
 }
 
-
-int *func_021DED60(int *p)
+int *func_021DED60(int *count)
 {
-    *p = 1;
+    *count = 1;
     return d_021F152C;
 }
 
-
 /*
- * Three func_021D775C gates (3, 0x4d zero, 0x32 non-zero), then the 0x32
- * handle and func_021DCFF8(a, 2) go to the ARM helper at 0x0209C2B0, whose
- * zero result becomes 1.  Record #5 gets c and that halfword plus the same
- * two-string tail as func_021DD908.  The second argument lives on the stack
- * because all six saved registers are taken.
+ * Shell Bell: after the holder dealt damage (and no other effect blocks it),
+ * it recovers the damage divided by the item's parameter, at least 1 HP.
  */
-void func_021DED6C(void *a, int b, int c)
+void func_021DED6C(struct BtlEventFactor *factor, void *flow, int pokeId)
 {
-    int r, v;
-    u8 *p;
+    int damage, amount;
+    HandExRecoverHp *cmd;
 
-    if (c != func_021D775C(3))
+    if (pokeId != func_021D775C(BTL_EVAR_ATTACKER_ID))
         return;
-    if (func_021D775C(0x4d) != 0)
+    if (func_021D775C(BTL_EVAR_NO_EFFECT_FLAG) != 0)
         return;
-    r = func_021D775C(0x32);
-    if (r == 0)
+    damage = func_021D775C(BTL_EVAR_DAMAGE);
+    if (damage == 0)
         return;
-    v = func_0209C2B0(r, func_021DCFF8((int)a, 2));
-    if (v == 0)
-        v = 1;
-    p = func_021C88A4((char *)b, 5, c);
-    ((struct Obj12154 *)p)->f6 = c;
-    ((struct Obj12154 *)p)->f4 = v;
-    func_021C8838(p + 8, 2, 0x392);
-    func_021C8860((struct S *)(p + 8), c);
-    func_021C8860((struct S *)(p + 8), func_021D70A8(a));
-    func_021C88C8((void *)b, p);
+    amount = func_0209C2B0(damage, func_021DCFF8(factor, 2));
+    if (amount == 0)
+        amount = 1;
+    cmd = (HandExRecoverHp *)func_021C88A4(flow, HANDEX_KIND_RECOVER_HP, pokeId);
+    cmd->pokeId = pokeId;
+    cmd->amount = amount;
+    func_021C8838(&cmd->str, HANDEX_STR_SET, 0x392);
+    func_021C8860(&cmd->str, pokeId);
+    func_021C8860(&cmd->str, func_021D70A8(factor));
+    func_021C88C8(flow, cmd);
 }
 
-
-int *func_021DEDEC(int *p)
+int *func_021DEDEC(int *count)
 {
-    *p = 1;
+    *count = 1;
     return d_021F143C;
 }

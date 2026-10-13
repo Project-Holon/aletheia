@@ -33,7 +33,7 @@
  *   func_0689CA1C  0x0689CA1C  thumb
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   d_021F2BB8     0x021F2BB8  data   ov093  a4
  */
 struct S;
@@ -71,7 +71,7 @@ extern u32 func_021D78AC(u32);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern int func_0689CA1C(int e);
-extern int func_0201BEB8(int bag, int item);
+extern int WAZA_TOOL_GetFlag(int bag, int item);
 void func_021E6AD8(int x, int a, int c);
 int *func_021E6B14(int *p);
 void func_021E6B20(int x, int a, int b);
@@ -258,7 +258,7 @@ void func_021E6CDC(int x, int a, int c, u32 *d)
             cnt = 0;
             for (; i < n; i++) {
                 e = func_021D54C0(m, i);
-                if (func_0689CA1C(e) == 0 && func_0201BEB8(e, 1) == 0) {
+                if (func_0689CA1C(e) == 0 && WAZA_TOOL_GetFlag(e, 1) == 0) {
                     d[cnt++] = e;
                 }
             }

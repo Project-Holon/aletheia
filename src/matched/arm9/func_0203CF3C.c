@@ -1,5 +1,5 @@
 /*
- * function: func_0203CF3C
+ * function: GFL_NET_GetScanResultMac
  * address:  0x0203CF3C
  * packet:   pkt_0203CDD4
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *
  * The same vtable dispatch as src/matched/func_0203CF10.c, one slot further
  * on (+0x2C) and without the null test: the state object is assumed live and
@@ -19,8 +19,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203CF3C.c \
- *       --func func_0203CF3C --addr 0x0203CF3C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_GetScanResultMac.c \
+ *       --func GFL_NET_GetScanResultMac --addr 0x0203CF3C --cc 1.1p1 --arm
  */
 #include "../include/Obj15975.h"
 
@@ -29,14 +29,14 @@ typedef unsigned int  u32;
 
 typedef void *(*Fn)(u32);
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 
-void *func_0203CF3C(u32 a)
+void *GFL_NET_GetScanResultMac(u32 a)
 {
     u8  *p;
     Fn   f;
 
-    p = func_0203D788();
+    p = GFL_NET_GetSession();
     f = *(Fn *)(((struct Obj15975 *)p)->f340 + 0x2C);
     return f(a);
 }

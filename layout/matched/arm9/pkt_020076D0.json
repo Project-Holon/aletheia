@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020076D0"
+    "BOX_SAVEDATA_FindFreeSlot"
+   ],
+   "addresses": [
+    "0x020076D0"
    ]
   }
  ]

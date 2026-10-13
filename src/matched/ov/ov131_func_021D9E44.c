@@ -1,5 +1,5 @@
 /*
- * function: func_021D9E44
+ * function: P_STA_SKILL_ApplyStatsScreen
  * address: 0x021D9E44
  * packet: pkt_ov131_021D9E44
  * region: ov131
@@ -35,7 +35,7 @@ extern void func_02040AE0(u32 index, const void *src, u32 mode);
 extern void func_02041B6C(u32);
 extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-void func_021D9E44(u8 *a,u8 *p)
+void P_STA_SKILL_ApplyStatsScreen(u8 *a,u8 *p)
 {
     u8 i;
     void *cell;

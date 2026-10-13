@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_020452E8",
+   "name": "BMP_WIN_Delete",
    "address": "0x020452E8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02045334",
+   "name": "BMP_WIN_TransferChars",
    "address": "0x02045334",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020456F8",
+   "name": "BMP_WIN_ClearScreen",
    "address": "0x020456F8",
    "kind": "game",
    "region": "arm9",
@@ -54,24 +54,40 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02045730",
-    "sub_02045738",
-    "sub_02045740",
-    "sub_02045748",
-    "sub_02045750",
-    "sub_02045758",
-    "sub_02045760",
-    "sub_02045768",
-    "sub_02045770",
-    "sub_02045778",
-    "sub_02045780",
-    "sub_02045788",
-    "sub_02045790",
-    "sub_02045798"
+    "BMP_WIN_GetBgLayer",
+    "BMP_WIN_GetWidth",
+    "BMP_WIN_GetHeight",
+    "BMP_WIN_GetDispWidth",
+    "BMP_WIN_GetDispHeight",
+    "BMP_WIN_GetPosX",
+    "BMP_WIN_GetPosY",
+    "BMP_WIN_GetCharOffset",
+    "BMP_WIN_GetBmp",
+    "BMP_WIN_GetPalette",
+    "BMP_WIN_SetPosX",
+    "BMP_WIN_SetPosY",
+    "BMP_WIN_SetDispHeight",
+    "BMP_WIN_SetPalette"
+   ],
+   "addresses": [
+    "0x02045730",
+    "0x02045738",
+    "0x02045740",
+    "0x02045748",
+    "0x02045750",
+    "0x02045758",
+    "0x02045760",
+    "0x02045768",
+    "0x02045770",
+    "0x02045778",
+    "0x02045780",
+    "0x02045788",
+    "0x02045790",
+    "0x02045798"
    ]
   },
   {
-   "name": "sub_020457A0",
+   "name": "STRBUF_SetEosChar",
    "address": "0x020457A0",
    "kind": "game",
    "region": "arm9",
@@ -83,7 +99,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020457B0",
+   "name": "STRBUF_Create",
    "address": "0x020457B0",
    "kind": "game",
    "region": "arm9",
@@ -95,7 +111,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02045808",
+   "name": "STRBUF_Delete",
    "address": "0x02045808",
    "kind": "game",
    "region": "arm9",
@@ -107,7 +123,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204581C",
+   "name": "STRBUF_Clear",
    "address": "0x0204581C",
    "kind": "game",
    "region": "arm9",
@@ -119,7 +135,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02045838",
+   "name": "STRBUF_Copy",
    "address": "0x02045838",
    "kind": "game",
    "region": "arm9",
@@ -131,7 +147,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02045874",
+   "name": "STRBUF_Clone",
    "address": "0x02045874",
    "kind": "game",
    "region": "arm9",
@@ -143,7 +159,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020458F8",
+   "name": "STRBUF_GetLength",
    "address": "0x020458F8",
    "kind": "game",
    "region": "arm9",
@@ -155,7 +171,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02045900",
+   "name": "STRBUF_Truncate",
    "address": "0x02045900",
    "kind": "game",
    "region": "arm9",
@@ -167,7 +183,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02045A38",
+   "name": "STRBUF_ToChars",
    "address": "0x02045A38",
    "kind": "game",
    "region": "arm9",
@@ -179,7 +195,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02045A90",
+   "name": "STRBUF_GetChars",
    "address": "0x02045A90",
    "kind": "game",
    "region": "arm9",

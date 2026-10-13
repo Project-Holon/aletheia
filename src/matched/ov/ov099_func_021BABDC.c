@@ -15,7 +15,7 @@
  * symbols:
  *   func_02020D0C  0x02020D0C  thumb
  *   func_021C27E0  0x021C27E0  thumb  ov099
- *   func_02020268  0x02020268  thumb
+ *   BMP_MENULIST_SetColors  0x02020268  thumb
  */
 #include "../include/Obj22019.h"
 
@@ -25,7 +25,7 @@ typedef unsigned long  u32;
 extern u32 func_02020D0C(u8 *p);
 extern int func_021C27E0(void *a);
 struct Obj;
-extern void func_02020268(struct Obj *obj, u8 a, u8 b, u8 c);
+extern void BMP_MENULIST_SetColors(struct Obj *obj, u8 a, u8 b, u8 c);
 
 void func_021BABDC(void *obj, int k)
 {
@@ -35,13 +35,13 @@ void func_021BABDC(void *obj, int k)
         switch (k) {
         case 4:
         case 5:
-            func_02020268(obj, 2, 15, 2);
+            BMP_MENULIST_SetColors(obj, 2, 15, 2);
             break;
         default:
-            func_02020268(obj, 1, 15, 2);
+            BMP_MENULIST_SetColors(obj, 1, 15, 2);
             break;
         }
     } else {
-        func_02020268(obj, 1, 15, 2);
+        BMP_MENULIST_SetColors(obj, 1, 15, 2);
     }
 }

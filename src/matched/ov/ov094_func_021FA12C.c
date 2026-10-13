@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * witness: arm9 func_02051380 filed as src/matched/arm9/func_02051380.c.
+ * witness: arm9 PARTICLE_SetupSystemNoHandlers filed as src/matched/arm9/PARTICLE_SetupSystemNoHandlers.c.
  * witness: func_021FC9F4 filed as src/matched/ov/ov094_func_021FC9F4.c.
  * symbols:
  *   func_0201134C 0x0201134C thumb
@@ -15,8 +15,8 @@
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
  *   func_0205121C 0x0205121C arm
- *   func_02050C30 0x02050C30 arm
- *   func_02051380 0x02051380 arm
+ *   PARTICLE_CreateSystem 0x02050C30 arm
+ *   PARTICLE_SetupSystemNoHandlers 0x02051380 arm
  *   func_020056A0 0x020056A0 thumb
  *   func_021FE38C 0x021FE38C thumb ov094
  *   func_021FD15C 0x021FD15C thumb ov094
@@ -37,8 +37,8 @@ extern void func_020113D0(char *p, int val);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_020307B0(void *p);
 extern int func_0205121C(u32 a, u32 b, u32 c);
-extern void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
-extern void func_02051380(void *, void *);
+extern void *PARTICLE_CreateSystem(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
+extern void PARTICLE_SetupSystemNoHandlers(void *, void *);
 extern void *func_020056A0(void (*)(void), void *, int);
 extern unsigned int func_021FE38C(char *, unsigned int);
 extern int func_021FD15C(char *, unsigned int, int *);
@@ -62,9 +62,9 @@ int func_021FA12C(void *a, char *s)
         buffer = func_02030734((u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000), 0x4800, 0, d_0220AE68, line);
         resource = (void *)func_0205121C(6, key, (u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000));
         if (buffer != 0 && resource != 0) {
-            *(void **)(s + 12 + slot * 4) = func_02050C30((u32)buffer, 0x4800, 0, 5, 6, 0x36, (u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000));
+            *(void **)(s + 12 + slot * 4) = PARTICLE_CreateSystem((u32)buffer, 0x4800, 0, 5, 6, 0x36, (u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000));
             if (*(void **)(s + 12 + slot * 4) != 0) {
-                func_02051380(*(void **)(s + 12 + slot * 4), resource);
+                PARTICLE_SetupSystemNoHandlers(*(void **)(s + 12 + slot * 4), resource);
                 line += 10;
                 cb = func_02030734((u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000), 12, 0, d_0220AE68, line);
                 cb->state = s;

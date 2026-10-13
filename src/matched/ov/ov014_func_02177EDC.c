@@ -1,5 +1,5 @@
 /*
- * function: func_02177EDC
+ * function: NET_WHPIPE_SetAcceptChild
  * address: 0x02177EDC
  * packet: pkt_ov014_02177EDC
  * region: ov014
@@ -11,11 +11,11 @@
  * evidence: 79328 stores its r0 payload unchanged; caller passes a function pointer.
  * symbols:
  *   func_02179328 0x02179328 thumb ov014
- *   func_02177ED4 0x02177ED4 thumb ov014
- *   func_02177ED8 0x02177ED8 thumb ov014
+ *   NET_WHPIPE_AcceptChild 0x02177ED4 thumb ov014
+ *   NET_WHPIPE_RejectChild 0x02177ED8 thumb ov014
  */
 
 extern void func_02179328(void *v);
-extern int func_02177ED4(void);
-extern int func_02177ED8(void);
-void func_02177EDC(int a) { if (a != 0) func_02179328(func_02177ED4); else func_02179328(func_02177ED8); }
+extern int NET_WHPIPE_AcceptChild(void);
+extern int NET_WHPIPE_RejectChild(void);
+void NET_WHPIPE_SetAcceptChild(int a) { if (a != 0) func_02179328(NET_WHPIPE_AcceptChild); else func_02179328(NET_WHPIPE_RejectChild); }

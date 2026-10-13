@@ -27,7 +27,7 @@
  * DISCRIMINATING PIN: dsi/1.1p1 compiles the same C to DIFF.
  *
  * symbols:
- *   g_02148B4C     0x02148B4C  data
+ *   g_renderState     0x02148B4C  data
  *   g_020A82B8     0x020A82B8  data
  *   func_0206DDA4  0x0206DDA4  arm
  *   func_0206DE88  0x0206DE88  arm
@@ -62,7 +62,7 @@ typedef struct {
     u8 padec[0xfc - 0xec];
     u32 flag;
 } Glb;
-extern Glb g_02148B4C;
+extern Glb g_renderState;
 
 typedef struct {
     u32 w0;
@@ -218,11 +218,11 @@ void func_0206D778(RS *rs, u32 opt)
         }
 
         if (!CallBackCheck_C(rs, 13, timing)) {
-            if (g_02148B4C.flag & 1) {
-                func_0206DDA4(0x1c, &g_02148B4C.unkE0, 3);
-                func_0206DDA4(0x1a, &g_02148B4C.unkBC, 9);
+            if (g_renderState.flag & 1) {
+                func_0206DDA4(0x1c, &g_renderState.unkE0, 3);
+                func_0206DDA4(0x1a, &g_renderState.unkBC, 9);
                 func_0206DDA4(0x19, &m, 12);
-            } else if (g_02148B4C.flag & 2) {
+            } else if (g_renderState.flag & 2) {
                 func_0206DDA4(0x19, &m, 12);
             } else {
                 func_0206DDA4(0x19, func_0206AAD4(), 12);

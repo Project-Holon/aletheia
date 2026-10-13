@@ -1,5 +1,5 @@
 /*
- * function: func_020290F0
+ * function: FIELD_SOUND_SYSTEM_HandleModeState2
  * address:  0x020290F0
  * packet:   pkt_02028FD0
  * region:   arm9
@@ -8,30 +8,36 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_SetState  0x02029344  thumb
+ *   FIELD_SOUND_SYSTEM_FinishRequest  0x02029364  thumb
+ *   FIELD_SOUND_SYSTEM_FadeInCurrentBgm  0x02029374  thumb
+ *   FIELD_SOUND_SYSTEM_PlayRequestedBgmNow  0x0202945C  thumb
  */
 #include "../include/Obj16754.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02029374(u8 *p);
-extern void func_02029344(void *p, u32 v);
-extern void func_0202945C(u8 *p);
-extern void func_02029364(u8 *p);
+extern void FIELD_SOUND_SYSTEM_FadeInCurrentBgm(u8 *p);
+extern void FIELD_SOUND_SYSTEM_SetState(void *p, u32 v);
+extern void FIELD_SOUND_SYSTEM_PlayRequestedBgmNow(u8 *p);
+extern void FIELD_SOUND_SYSTEM_FinishRequest(u8 *p);
 
-void func_020290F0(u8 *p)
+void FIELD_SOUND_SYSTEM_HandleModeState2(u8 *p)
 {
     switch (((struct Obj16754 *)p)->f1C) {
     case 0:
         break;
     case 1:
-        func_02029374(p);
-        func_02029344(p, 4);
+        FIELD_SOUND_SYSTEM_FadeInCurrentBgm(p);
+        FIELD_SOUND_SYSTEM_SetState(p, 4);
         break;
     case 7:
-        func_0202945C(p);
-        func_02029344(p, 1);
-        func_02029364(p);
+        FIELD_SOUND_SYSTEM_PlayRequestedBgmNow(p);
+        FIELD_SOUND_SYSTEM_SetState(p, 1);
+        FIELD_SOUND_SYSTEM_FinishRequest(p);
         break;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02155388
+ * function: DWC_RAP_IsWorkAllocated
  * address:  0x02155388
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern struct _anon_Work *g_021A8264;
 
-int func_02155388(void)
+int DWC_RAP_IsWorkAllocated(void)
 {
     return ((char *)g_021A8264) != 0;
 }

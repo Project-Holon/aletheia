@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021567B8",
+   "name": "DWC_RAP_PollFriendStatus",
    "address": "0x021567B8",
    "kind": "game",
    "region": "ov009",

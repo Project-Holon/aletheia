@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02015FF0",
+   "name": "MCSS_SetShadowVanishFlag",
    "address": "0x02015FF0",
    "kind": "game",
    "region": "arm9",

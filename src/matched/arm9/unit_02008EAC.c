@@ -11,13 +11,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02008EAC
+ * function: MAIL_Init
  *
  * symbols:
  *   unk_0209DF0C   0x0209DF0C  data
  *   unk_0209DF08   0x0209DF08  data
  *   func_02045A98  0x02045A98  arm
- *   func_0202428C  0x0202428C  thumb
+ *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   MIi_CpuClear16 0x02082A48  arm
  *
  * alias: the constructor of a 0x38-byte record.  It is the last function of
@@ -64,7 +64,7 @@ struct Sub0202428CObj {
     u16 unk06;
 };
 
-extern void func_0202428C(void *obj);
+extern void PMSI_PARAM_ClearSentence(void *obj);
 
 struct Sub02008EACObj {
     u32 unk00;
@@ -78,7 +78,7 @@ struct Sub02008EACObj {
     struct Sub0202428CObj unk20[3];
 };
 
-void sub_02008EAC(struct Sub02008EACObj *obj)
+void MAIL_Init(struct Sub02008EACObj *obj)
 {
     int i;
 
@@ -90,6 +90,6 @@ void sub_02008EAC(struct Sub02008EACObj *obj)
     MI_CpuFill16(obj->unk08, func_02045A98(), sizeof(obj->unk08));
     obj->unk1E = 0xFFFF;
     for (i = 0; i < 3; i++) {
-        func_0202428C(&obj->unk20[i]);
+        PMSI_PARAM_ClearSentence(&obj->unk20[i]);
     }
 }

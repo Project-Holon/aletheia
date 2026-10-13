@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200A034",
+   "name": "MYSTERY_DATA_AddCard",
    "address": "0x0200A034",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200A094",
+   "name": "MYSTERY_DATA_DeleteCard",
    "address": "0x0200A094",
    "kind": "game",
    "region": "arm9",

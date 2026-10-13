@@ -1,5 +1,5 @@
 /*
- * function: func_0203E758
+ * function: GFL_NET_LOWER_DATA_SetSendData
  * address:  0x0203E758
  * packet:   pkt_0203E484
  * region:   arm9
@@ -25,7 +25,7 @@ extern char s_020A7E00[];
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_020307B0(void *p);
-void func_0203E758(int a0, int a1, int a2, int a3)
+void GFL_NET_LOWER_DATA_SetSendData(int a0, int a1, int a2, int a3)
 {
     if (g_021469F4 == 0)
         func_02034714(s_020A7D74, 0x9f, s_020A7DA0);

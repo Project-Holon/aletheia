@@ -21,7 +21,7 @@
  *   func_021BA154 0x021BA154 thumb ov225
  *   func_021BAABC 0x021BAABC thumb ov225
  *   func_021BB034 0x021BB034 thumb ov225
- *   func_02028230 0x02028230 thumb
+ *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  */
 #include "../include/Obj00601.h"
 #include "../include/Obj26179.h"
@@ -43,7 +43,7 @@ extern unsigned func_021BA158(char *);
 extern unsigned func_021BA154(char *);
 extern int func_021BAABC(char *);
 extern u16 func_021BB034(u16 **);
-extern u32 func_02028230(u8 *);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *);
 int func_021BA760(char *p)
 {
  u8 i;
@@ -82,7 +82,7 @@ int func_021BA760(char *p)
   if(((struct Obj00601 *)p)->f84==0) {
    if(func_021BAABC(p)) ((struct Obj00601 *)p)->f84=4;
   } else {
-   if(func_02028230(*(u8 **)(p+func_021BB034((u16 **)p)*4+0xc))) {
+   if(APP_TASKMENU_WIN_IsFinish(*(u8 **)(p+func_021BB034((u16 **)p)*4+0xc))) {
     ((struct Obj26184 *)(*(char * *)&((struct Obj00601 *)p)->f0))->f10=1;
     ((struct Obj00601 *)p)->f84=1;
     ((struct Obj00601 *)p)->f90=1;

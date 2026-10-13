@@ -1,5 +1,5 @@
 /*
- * function: func_021542CC
+ * function: EVENT_WORLDTRADE_Create
  * address:  0x021542CC
  * packet:   pkt_ov004_021542CC
  * region:   ov004
@@ -31,7 +31,7 @@
  *   func_0201292C  0x0201292C  thumb
  *   func_0200CA38  0x0200CA38  thumb
  *   func_02009CC0  0x02009CC0  thumb
- *   func_02154390  0x02154390  thumb  ov004
+ *   EVENT_WORLDTRADE_Main  0x02154390  thumb  ov004
  */
 
 typedef unsigned int   u32;
@@ -69,16 +69,16 @@ struct Sub02008C20Obj *func_02008C58(void *sys);
 void *func_0201292C(const struct BigObj *p);
 u32 func_0200CA38(struct Blk37 *p);
 int func_02009CC0(void *a0);
-u32 func_02154390(void *obj, u32 *mode, u32 *args);
+u32 EVENT_WORLDTRADE_Main(void *obj, u32 *mode, u32 *args);
 
-int func_021542CC(int a, int b, int c)
+int EVENT_WORLDTRADE_Create(int a, int b, int c)
 {
     int r6;
     int h;
     int *p;
 
     r6 = (int)func_020120F4((const struct Ctx *)a);
-    h = (int)func_020122C0((void *)a, 0, func_02154390, 0x54);
+    h = (int)func_020122C0((void *)a, 0, EVENT_WORLDTRADE_Main, 0x54);
     if (func_02026454((void *)func_02012138((const struct Ctx *)a)))
         func_02026400((struct Comm *)func_02012138((const struct Ctx *)a));
     p = func_020124E8((struct Obj *)h);

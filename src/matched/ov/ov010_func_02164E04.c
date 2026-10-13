@@ -13,7 +13,7 @@
  * and returns its record; 0 when none.
  *
  * symbols:
- *   func_02178098  0x02178098  thumb ov014
+ *   NET_WHPIPE_GetEntryKind  0x02178098  thumb ov014
  *   func_0203CF10  0x0203CF10  arm
  *   func_02164F9C  0x02164F9C  thumb ov010
  *   func_02177BF4  0x02177BF4  thumb ov014
@@ -35,7 +35,7 @@ typedef struct Ent {
     u8 rest : 2;
 } Ent;
 
-extern u8 func_02178098(u8 i);
+extern u8 NET_WHPIPE_GetEntryKind(u8 i);
 extern u32 func_0203CF10(u32 a);
 extern Ent  *func_02164F9C(Ent *a, Ent *b);
 extern void func_02177BF4(unsigned int idx);
@@ -48,7 +48,7 @@ Ent *func_02164E04(u8 *obj, int *out)
     Ent *p;
     int r;
     for (i = 0; i < 16; i++) {
-        r = func_02178098(i);
+        r = NET_WHPIPE_GetEntryKind(i);
         if ((u32)(r - 2) > 1) {
             continue;
         }

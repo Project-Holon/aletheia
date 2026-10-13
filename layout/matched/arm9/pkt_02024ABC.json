@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020251D8",
+   "name": "INFOWIN_LoadCharacters",
    "address": "0x020251D8",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02025508",
+   "name": "ACTOR_TOOL_GetCharBlock",
    "address": "0x02025508",
    "kind": "game",
    "region": "arm9",

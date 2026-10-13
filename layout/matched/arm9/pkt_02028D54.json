@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02028D54",
+   "name": "FIELD_SOUND_SYSTEM_ProcessNextRequest",
    "address": "0x02028D54",
    "kind": "game",
    "region": "arm9",

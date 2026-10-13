@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020064F4",
-    "sub_02006504",
-    "sub_02006518"
+    "GFL_USE_StartSeq",
+    "GFL_USE_StopSeqAndUnload",
+    "GFL_USE_ClearPreloadedBgmBuffers"
+   ],
+   "addresses": [
+    "0x020064F4",
+    "0x02006504",
+    "0x02006518"
    ]
   },
   {
@@ -35,10 +40,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020065D8",
-    "sub_020065FC",
-    "sub_02006650",
-    "sub_02006674"
+    "PM_VOICE_StopAll",
+    "PM_VOICE_StopFinished",
+    "PM_VOICE_IsAnyActive",
+    "PM_VOICE_AllocBuffers"
+   ],
+   "addresses": [
+    "0x020065D8",
+    "0x020065FC",
+    "0x02006650",
+    "0x02006674"
    ]
   },
   {
@@ -53,13 +64,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020066E8",
-    "sub_02006734",
-    "sub_02006740",
-    "sub_0200674C",
-    "sub_02006768",
-    "sub_020067A4",
-    "sub_020067D0"
+    "PM_VOICE_FreeBuffers",
+    "PM_VOICE_SetMasterVolume",
+    "PM_VOICE_ResetMasterVolume",
+    "PM_VOICE_ScaleVolume",
+    "PM_VOICE_NextSlot",
+    "PM_VOICE_ResetParams",
+    "PM_VOICE_ClearSlot"
+   ],
+   "addresses": [
+    "0x020066E8",
+    "0x02006734",
+    "0x02006740",
+    "0x0200674C",
+    "0x02006768",
+    "0x020067A4",
+    "0x020067D0"
    ]
   },
   {
@@ -74,8 +94,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020067E0",
-    "sub_02006868"
+    "PM_VOICE_LoadWave",
+    "PM_VOICE_StartChannels"
+   ],
+   "addresses": [
+    "0x020067E0",
+    "0x02006868"
    ]
   },
   {
@@ -90,15 +114,26 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02006B20",
-    "sub_02006B3C",
-    "sub_02006B5C",
-    "sub_02006B78",
-    "sub_02006B94",
-    "sub_02006BB4",
+    "PM_VOICE_GetVolume",
+    "PM_VOICE_GetFrequency",
+    "PM_VOICE_GetData",
+    "PM_VOICE_GetDataSize",
+    "PM_VOICE_GetSampleRate",
+    "PM_VOICE_StopSlot",
     "sub_02006BD0",
-    "sub_02006BE0",
-    "sub_02006C00"
+    "PM_VOICE_ReverseBytes",
+    "PM_VOICE_GetCryIndex"
+   ],
+   "addresses": [
+    "0x02006B20",
+    "0x02006B3C",
+    "0x02006B5C",
+    "0x02006B78",
+    "0x02006B94",
+    "0x02006BB4",
+    "0x02006BD0",
+    "0x02006BE0",
+    "0x02006C00"
    ]
   },
   {
@@ -113,7 +148,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02006CAC"
+    "PM_VOICE_GetPerapVoiceSave"
+   ],
+   "addresses": [
+    "0x02006CAC"
    ]
   },
   {
@@ -128,9 +166,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02006D44",
-    "sub_02006D64",
-    "sub_02006D94"
+    "SND_MIC_Exit",
+    "SND_MIC_AddElapsed",
+    "SND_MIC_IsLimitReached"
+   ],
+   "addresses": [
+    "0x02006D44",
+    "0x02006D64",
+    "0x02006D94"
    ]
   },
   {
@@ -145,8 +188,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02006DAC",
-    "sub_02006DD8"
+    "SND_MIC_StartSampling",
+    "SND_MIC_StartRecording"
+   ],
+   "addresses": [
+    "0x02006DAC",
+    "0x02006DD8"
    ]
   }
  ]

@@ -1,5 +1,5 @@
 /*
- * function: func_02015D4C
+ * function: MCSS_GetDrawScale
  * address:  0x02015D4C
  * packet:   pkt_02015D4C
  * region:   arm9
@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-void func_02015D4C(void *p, u32 *out)
+void MCSS_GetDrawScale(void *p, u32 *out)
 {
     out[0] = ((struct Obj08767 *)p)->f110;
     out[1] = ((struct Obj08767 *)p)->f114;

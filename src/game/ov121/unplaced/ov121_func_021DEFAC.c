@@ -33,7 +33,7 @@
  *   func_02017588 0x02017588 thumb
  *   func_02017E40 0x02017E40 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_02017FA8 0x02017FA8 thumb
+ *   POKE_TOOL_SetDefaultMoves 0x02017FA8 thumb
  *   func_0201808C 0x0201808C thumb
  *   func_020180F4 0x020180F4 thumb
  *   func_02018A00 0x02018A00 thumb
@@ -115,7 +115,7 @@ extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_02017FA8(void *p);
+extern u32 POKE_TOOL_SetDefaultMoves(void *p);
 extern u32 func_0201808C(void *p, u32 move);
 extern void func_020180F4(void *p, int move);
 extern void func_02018A00(void *p, u32 species, u32 arg);
@@ -271,7 +271,7 @@ int func_021DEFAC(struct Rec *r, void *gs, u16 heap)
             }
             func_02017588(mon, r->species, level, id64, ivs, rnd);
             func_02017E40(mon, 6, r->f10);
-            func_02017FA8(mon);
+            POKE_TOOL_SetDefaultMoves(mon);
             for (i = 0; i < 4; i++) {
                 u16 m = mv[i];
                 if (m != 0 && m < 0x230) {

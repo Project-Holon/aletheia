@@ -1,5 +1,5 @@
 /*
- * function: sub_02034D60
+ * function: GF_OVERLAY_GetArea
  * address:  0x02034D60
  * packet:   pkt_02034978
  * region:   arm9
@@ -29,11 +29,11 @@
  *    registers but folds base + 0x4000 into a second relocated pool word
  *    (104 bytes).  Only the integer cast keeps both the add and the
  *    colouring (u32 and unsigned long both EXACT).  Same region symbol as
- *    src/matched/func_0200520C.c and src/matched/sub_02030534.c.
+ *    src/matched/GFL_USE_VBlankHandler.c and src/matched/GFL_HEAP_InitSystemHeap.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034D60.c \
- *       --func sub_02034D60 --addr 0x02034D60 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_GetArea.c \
+ *       --func GF_OVERLAY_GetArea --addr 0x02034D60 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -55,7 +55,7 @@ struct OverlayInfo {
 extern int FS_LoadOverlayInfo(struct OverlayInfo *info, u32 target, u32 id);
 extern const unsigned char SDK_AUTOLOAD_MAIN_TWL_START[];
 
-int sub_02034D60(u32 id)
+int GF_OVERLAY_GetArea(u32 id)
 {
     struct OverlayInfo info;
     u32 lo;

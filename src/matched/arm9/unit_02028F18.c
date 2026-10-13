@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02028F18
+ * function: FIELD_SOUND_SYSTEM_SetMode1
  * address:  0x02028F18
  * packet:   pkt_02028B50
  * region:   arm9
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02028FD0  0x02028FD0  thumb
+ *   FIELD_SOUND_SYSTEM_IsKindAllowedInState  0x02028FD0  thumb
  */
 
 typedef unsigned short u16;
@@ -28,44 +28,44 @@ struct SoundParam2 {
 };
 
 struct SoundParam;
-extern u32 func_02028FD0(struct SoundParam *obj, u32 kind);
+extern u32 FIELD_SOUND_SYSTEM_IsKindAllowedInState(struct SoundParam *obj, u32 kind);
 
-void func_02028F18(struct SoundParam2 *obj, u16 a1)
+void FIELD_SOUND_SYSTEM_SetMode1(struct SoundParam2 *obj, u16 a1)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 1)) {
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState((struct SoundParam *)obj, 1)) {
         obj->kind = 1;
         obj->val18 = a1;
     }
 }
 
-void func_02028F30(struct SoundParam2 *obj, u16 a1)
+void FIELD_SOUND_SYSTEM_SetMode2(struct SoundParam2 *obj, u16 a1)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 2)) {
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState((struct SoundParam *)obj, 2)) {
         obj->kind = 2;
         obj->val1a = a1;
     }
 }
 
-void func_02028F48(struct SoundParam2 *obj, u16 a1)
+void FIELD_SOUND_SYSTEM_SetMode3(struct SoundParam2 *obj, u16 a1)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 3)) {
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState((struct SoundParam *)obj, 3)) {
         obj->kind = 3;
         obj->val1a = a1;
     }
 }
 
-void func_02028F60(struct SoundParam2 *obj, u16 a1, u16 a2)
+void FIELD_SOUND_SYSTEM_SetMode4(struct SoundParam2 *obj, u16 a1, u16 a2)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 4)) {
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState((struct SoundParam *)obj, 4)) {
         obj->kind = 4;
         obj->val18 = a2;
         obj->val1a = a1;
     }
 }
 
-void func_02028F7C(struct SoundParam2 *obj, u32 a1, u16 a2, u16 a3)
+void FIELD_SOUND_SYSTEM_SetMode5(struct SoundParam2 *obj, u32 a1, u16 a2, u16 a3)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 5)) {
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState((struct SoundParam *)obj, 5)) {
         obj->kind = 5;
         obj->valC = a1;
         obj->val18 = a3;
@@ -73,18 +73,18 @@ void func_02028F7C(struct SoundParam2 *obj, u32 a1, u16 a2, u16 a3)
     }
 }
 
-void func_02028F9C(struct SoundParam2 *obj, u32 a1, u16 a2)
+void FIELD_SOUND_SYSTEM_SetMode6(struct SoundParam2 *obj, u32 a1, u16 a2)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 6)) {
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState((struct SoundParam *)obj, 6)) {
         obj->kind = 6;
         obj->valC = a1;
         obj->val1a = a2;
     }
 }
 
-void func_02028FB8(struct SoundParam2 *obj, u32 a1)
+void FIELD_SOUND_SYSTEM_SetMode7(struct SoundParam2 *obj, u32 a1)
 {
-    if (func_02028FD0((struct SoundParam *)obj, 7)) {
+    if (FIELD_SOUND_SYSTEM_IsKindAllowedInState((struct SoundParam *)obj, 7)) {
         obj->kind = 7;
         obj->valC = a1;
     }

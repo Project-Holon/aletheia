@@ -18,7 +18,7 @@
  *   func_0200C1B0 0x0200C1B0 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_02005654 0x02005654 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02034F84 0x02034F84 arm
  *   func_021EEEAC 0x021EEEAC thumb ov107
  *   func_021EEEB4 0x021EEEB4 thumb ov107
@@ -45,7 +45,7 @@ extern void *func_0200C0F0(void *);
 extern void func_0200C1B0(struct Blk34 *,u32);
 extern void *func_020056A0(u32,u32,u32);
 extern int func_02005654(int,int);
-extern void func_02005D90(u32,u16);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
 extern void func_02034F84(u32);
 extern void func_021EEEAC(void);
 extern void func_021EEEB4(void);
@@ -72,7 +72,7 @@ void func_021EE740(u8 *p) {
  }
  ((struct Obj00057 *)p)->f4=func_020056A0((u32)func_021EEEAC,(u32)p,8);
  if(!p[0x28]) func_02005654((int)func_021EEEB4,0);
- else { func_02005654((int)func_021EEEF8,0); func_02005D90(1154,0xffff); }
+ else { func_02005654((int)func_021EEEF8,0); GFL_USE_CancelChangeAndPlayBgm(1154,0xffff); }
  ((struct Obj00057 *)p)->f1C=0;
  ((struct Obj00057 *)p)->f44=0;
  ((struct Obj00057 *)p)->f48=0;

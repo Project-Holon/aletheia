@@ -52,7 +52,7 @@
  *   func_0208799C 0x0208799C arm
  *   func_021F5ADC 0x021F5ADC arm ov107
  *   func_021F6148 0x021F6148 arm ov107
- *   func_0208F370 0x0208F370 arm
+ *   WM_Initialize 0x0208F370 arm
  *   func_0208EAC8 0x0208EAC8 arm
  *   func_021F4628 0x021F4628 arm ov107
  *   func_02082A48  0x02082A48  arm
@@ -71,7 +71,7 @@
  *   MBi_EndTaskThread                0x021f67bc arm
  *   OS_RestoreInterrupts             0x0208799c arm
  *   MBi_OnReset                      0x021f5ed8 arm
- *   func_0208F938  0x0208F938  arm
+ *   WM_Disconnect  0x0208F938  arm
  *   func_021F6850  0x021F6850  arm  ov107
  *   WM_SetMPDataToPortEx             0x0208fcb4 arm
  *   func_021F6158 0x021F6158 arm ov107
@@ -772,7 +772,7 @@ extern unsigned long func_02087988(void);
 extern unsigned long func_0208799C(unsigned long state);
 extern int func_021F5ADC(unsigned short sendSize, unsigned short recvSize, unsigned short entry_num);
 extern void func_021F6148(unsigned short time);
-extern int func_0208F370(void *wmSysBuf, void *callback, unsigned short dmaNo);
+extern int WM_Initialize(void *wmSysBuf, void *callback, unsigned short dmaNo);
 extern int func_0208EAC8(void *callback);
 extern void func_021F4628(void);
 extern void func_02082A48(u16 data, void *destp, u32 size);
@@ -791,7 +791,7 @@ extern int MBi_IsTaskAvailable(void);
 extern void MBi_EndTaskThread(void (*callback)(struct MBiTaskInfo *));
 extern void MBi_OnReset(void);
 extern void OS_Terminate(void);
-extern int func_0208F938(void (*callback)(void *), u16 aid);
+extern int WM_Disconnect(void (*callback)(void *), u16 aid);
 extern void func_021F6850(u16 child_aid);
 extern int WM_SetMPDataToPortEx(void (*callback)(void *), void *arg, u16 *sendData, u16 sendDataSize, u16 destBitmap, u16 port, u16 prio);
 extern int func_021F6158(void *callback, unsigned short *sendData, unsigned short sendDataSize, unsigned short arg3, unsigned short pollbmp);
@@ -965,7 +965,7 @@ int func_021F5BE0(void)
     func_021F6148(0x1E);
     if (*(int *)(((unsigned char *)mbWm.ext) + 0x1320) == 0) {
         do {
-            errcode = func_0208F370(mbWm.wmSysBuf, *(void **)((u8 *)mbWm.work + 0x508), mbWm.WM_DMA_NO);
+            errcode = WM_Initialize(mbWm.wmSysBuf, *(void **)((u8 *)mbWm.work + 0x508), mbWm.WM_DMA_NO);
         } while (errcode == 4);
         if (errcode != 2) {
             return 8;
@@ -1116,7 +1116,7 @@ void MB_EndToIdle(void)
 void func_021F5FB0(u16 aid)
 {
 
-    func_0208F938(func_021F46C8, aid);
+    WM_Disconnect(func_021F46C8, aid);
     if (aid == 0 || aid >= 16)
         return;
     ((MBCommPWork *)mbWm.ext)->childversion[aid - 1] = 0;

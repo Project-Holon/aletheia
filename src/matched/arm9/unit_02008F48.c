@@ -11,18 +11,22 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02008F48
+ * function: MAIL_InitForPlayer
  *
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
+ *   MYSTATUS_GetName  0x020084F4  thumb
+ *   MYSTATUS_GetId  0x02008530  thumb
+ *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MAIL_Init  0x02008EAC  thumb
  *
  * alias: mail.c.  The record this fills in is the 0x38-byte object
  * src/matched/unit_02008EAC.c constructs and src/matched/unit_02008F80.c
  * accesses, and the file name is in the image: the allocator at 0x02008F08
  * passes 0x020A716C to the debug allocator and those bytes spell "mail.c".
  *
- * sub_020084F4 is four bytes, `bx lr`, and src/matched/unit_020084BC.c records
- * it as `void sub_020084F4(void)`.  This call site says what it is: its result
+ * MYSTATUS_GetName is four bytes, `bx lr`, and src/matched/unit_020084BC.c records
+ * it as `void MYSTATUS_GetName(void)`.  This call site says what it is: its result
  * feeds MI_CpuCopy8's source operand with no move in between, so it is an
  * identity accessor on its argument, declared here with the type that call
  * needs.  The declaration is a claim about the source, not about the bytes,
@@ -37,7 +41,7 @@
  *   {
  *       struct Mail *p = sub_02030734((u16)((heap & 0x7FFF) | 0x8000), 0x38,
  *                                     0, sub_02008F08_File, 135);
- *       sub_02008EAC(p);
+ *       MAIL_Init(p);
  *       return p;
  *   }
  *
@@ -64,13 +68,13 @@ typedef unsigned int   u32;
 struct Sub02008EACObj;
 struct Sub0200852CObj;
 
-extern void sub_02008EAC(struct Sub02008EACObj *obj);
+extern void MAIL_Init(struct Sub02008EACObj *obj);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 extern u8 *func_02012944(void *p);
-extern const void *sub_020084F4(const void *p);
-extern u32 sub_02008530(const struct Sub0200852CObj *obj);
-extern u8  sub_02008550(const struct Sub0200852CObj *obj);
+extern const void *MYSTATUS_GetName(const void *p);
+extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
+extern u8  MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 
 struct Sub02008EACObjLayout {
     u32 unk00;
@@ -81,15 +85,15 @@ struct Sub02008EACObjLayout {
     u8  unk08[0x10];
 };
 
-void sub_02008F48(struct Sub02008EACObjLayout *obj, u8 kind, u32 unused,
+void MAIL_InitForPlayer(struct Sub02008EACObjLayout *obj, u8 kind, u32 unused,
                   void *p)
 {
     struct Sub0200852CObj *src;
 
-    sub_02008EAC((struct Sub02008EACObj *)obj);
+    MAIL_Init((struct Sub02008EACObj *)obj);
     obj->unk07 = kind;
     src = (struct Sub0200852CObj *)func_02012944(p);
-    MI_CpuCopy8(sub_020084F4(src), obj->unk08, sizeof(obj->unk08));
-    obj->unk04 = sub_02008550(src);
-    obj->unk00 = sub_02008530(src);
+    MI_CpuCopy8(MYSTATUS_GetName(src), obj->unk08, sizeof(obj->unk08));
+    obj->unk04 = MYSTATUS_GetOutfitVariant(src);
+    obj->unk00 = MYSTATUS_GetId(src);
 }

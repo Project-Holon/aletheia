@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203D7B0 0x0203D7B0 arm
+ *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   func_0203D7BC 0x0203D7BC arm
  *   func_021D846C 0x021D846C thumb ov120
  *   func_021D63F4 0x021D63F4 thumb ov120
@@ -25,7 +25,7 @@
 #include "../include/Obj22835.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0203D7B0(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern void func_0203D7BC(u8 a0);
 extern void func_021D846C(u8 *);
 extern void func_021D63F4(u8 *p, int flag, int mode);
@@ -40,7 +40,7 @@ void func_021D5BEC(u8 *p)
 {
     if (((struct Obj22834 *)(*(u8 * *)&((struct Obj01056 *)p)->f48))->f1B0 != 1) {
         int zero = 0;
-        func_0203D7B0(0);
+        GFL_NET_SetAutoExit(0);
         func_0203D7BC(0);
         func_021D846C(*(u8 * *)&((struct Obj01056 *)p)->f40);
         func_021D63F4(((struct Obj01056 *)p)->f3C, 0, 0);

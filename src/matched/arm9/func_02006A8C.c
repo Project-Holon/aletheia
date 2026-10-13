@@ -11,8 +11,8 @@
  *
  * symbols:
  *   g_02140488  0x02140488  data
- *   func_0200674C  0x0200674C  thumb
- *   func_02072C18  0x02072C18  arm
+ *   PM_VOICE_ScaleVolume  0x0200674C  thumb
+ *   NNS_SndWaveOutSetVolume  0x02072C18  arm
  *
  * Pan two voices by a signed delta: both fields at +0x1C and +0x1D are
  * `s8` (the loads are `ldrsb`, see
@@ -51,9 +51,9 @@ struct Sub02006A8CVoice {
 };
 
 extern struct Sub02006A8CVoice g_02140488[];
-extern u8 func_0200674C(u8 volume);
+extern u8 PM_VOICE_ScaleVolume(u8 volume);
 struct S;
-extern void func_02072C18(struct S *s, u32 v);
+extern void NNS_SndWaveOutSetVolume(struct S *s, u32 v);
 
 void func_02006A8C(u32 idx, int delta)
 {
@@ -72,7 +72,7 @@ void func_02006A8C(u32 idx, int delta)
         v = 0x7F;
     }
     p->unk1C = (u8)v;
-    func_02072C18((struct S *)p->unk14, func_0200674C(p->unk1C));
+    NNS_SndWaveOutSetVolume((struct S *)p->unk14, PM_VOICE_ScaleVolume(p->unk1C));
     if (p->unk2C == 1) {
         v = *(signed char *)&p->unk1C + *(signed char *)&p->unk1D;
         if (v < 0) {
@@ -81,6 +81,6 @@ void func_02006A8C(u32 idx, int delta)
         if (v > 0x7F) {
             v = 0x7F;
         }
-        func_02072C18((struct S *)p->unk14, func_0200674C((u8)v));
+        NNS_SndWaveOutSetVolume((struct S *)p->unk14, PM_VOICE_ScaleVolume((u8)v));
     }
 }

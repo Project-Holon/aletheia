@@ -1,5 +1,5 @@
 /*
- * function: func_0201A374
+ * function: POKE_REGULATION_BuildPartySizeLine
  * address:  0x0201A374
  * packet:   pkt_0201A374
  * region:   arm9
@@ -23,8 +23,8 @@
  * func_0201F250.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A374.c \
- *       --func func_0201A374 --addr 0x0201A374 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_REGULATION_BuildPartySizeLine.c \
+ *       --func POKE_REGULATION_BuildPartySizeLine --addr 0x0201A374 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -39,7 +39,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
-void *func_0201A374(u8 *a0, u32 a1, u32 *a2, u32 a3, u16 a4)
+void *POKE_REGULATION_BuildPartySizeLine(u8 *a0, u32 a1, u32 *a2, u32 a3, u16 a4)
 {
     u32 mode;
     void *p;

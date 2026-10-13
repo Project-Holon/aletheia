@@ -1,5 +1,5 @@
 /*
- * function: func_0201624C
+ * function: MCSS_CreatePaletteCopyTask
  * address:  0x0201624C
  * packet:   pkt_020160D4
  * region:   arm9
@@ -12,7 +12,8 @@
  * symbols:
  *   MIi_CpuCopy16  0x02082A60  arm
  *   data_020A72CC  0x020A72CC  data
- *   func_0201691C  0x0201691C  thumb
+ *   MCSS_TransPaletteTask  0x0201691C  thumb
+ *   MCSS_DeletePaletteTask  0x02016C38  thumb
  */
 #include "../include/Obj01613.h"
 #include "../include/Obj06865.h"
@@ -24,10 +25,10 @@ typedef unsigned int   u32;
 struct Obj_0201691C;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
-extern int func_02016C38(int a0);
+extern int MCSS_DeletePaletteTask(int a0);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
-extern void func_0201691C(void *a0, struct Obj_0201691C *a1);
+extern void MCSS_TransPaletteTask(void *a0, struct Obj_0201691C *a1);
 
 extern char data_020A72CC[];
 
@@ -50,7 +51,7 @@ struct Obj {
     u32 f28;
 };
 
-void func_0201624C(u8 *a0, u8 *a1)
+void MCSS_CreatePaletteCopyTask(u8 *a0, u8 *a1)
 {
     struct Obj *p;
     u32 flag;
@@ -77,14 +78,14 @@ void func_0201624C(u8 *a0, u8 *a1)
     MIi_CpuCopy16(((struct Obj01613 *)a1)->fD4, p->f04->f0c, ((struct Obj01613 *)a1)->fDC);
 
     if (((struct Obj01613 *)a1)->f8 != 0) {
-        func_02016C38((int)(((struct Obj01613 *)a1)->f8));
+        MCSS_DeletePaletteTask((int)(((struct Obj01613 *)a1)->f8));
         ((struct Obj01613 *)a1)->f8 = (void *)flag;
     }
 
     if (((struct Obj06865 *)a0)->f8 != 0) {
-        ret = func_02030DA8(((struct Obj06865 *)a0)->f8, func_0201691C, p, 0);
+        ret = func_02030DA8(((struct Obj06865 *)a0)->f8, MCSS_TransPaletteTask, p, 0);
     } else {
-        ret = func_020056A0(func_0201691C, p, 0);
+        ret = func_020056A0(MCSS_TransPaletteTask, p, 0);
     }
     ((struct Obj01613 *)a1)->f8 = ret;
 

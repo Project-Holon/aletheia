@@ -1,5 +1,5 @@
 /*
- * function: func_0203D828
+ * function: GFL_NET_GetIrcParams
  * address:  0x0203D828
  * packet:   pkt_0203D7C8
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469E0  0x021469E0  data
+ *   gGFLNetMain  0x021469E0  data
  *
  * Reads back the two net_irc_wireless context words.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D828.c \
- *       --func func_0203D828 --addr 0x0203D828 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_GetIrcParams.c \
+ *       --func GFL_NET_GetIrcParams --addr 0x0203D828 --arm --cc 1.1p1
  */
 
 #include "../include/G_Singleton.h"
@@ -24,10 +24,10 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern struct Singleton g_021469E0;
+extern struct Singleton gGFLNetMain;
 
-void func_0203D828(u32 *a, u32 *b)
+void GFL_NET_GetIrcParams(u32 *a, u32 *b)
 {
-    *a = *(u32 *)(((u8 *)&g_021469E0) + 0xc);
-    *b = *(u32 *)(((u8 *)&g_021469E0) + 4);
+    *a = *(u32 *)(((u8 *)&gGFLNetMain) + 0xc);
+    *b = *(u32 *)(((u8 *)&gGFLNetMain) + 4);
 }

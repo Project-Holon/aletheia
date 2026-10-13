@@ -1,5 +1,5 @@
 /*
- * function: func_02027BF4
+ * function: APP_TASKMENU_UpdateCursorColorBlend
  * address:  0x02027BF4
  * packet:   pkt_02027BF4
  * region:   arm9
@@ -10,13 +10,13 @@
  *
  * symbols:
  *   tbl_020A1B38   0x020A1B38  data
- *   sub_02061CA4   0x02061CA4  arm
+ *   NNS_GfdRegisterNewVramTransferTask   0x02061CA4  arm
  *
- * Sibling of func_02027B60: advance the u16 phase by 0x400 (wrapping at
+ * Sibling of APP_TASKMENU_UpdateCursorColor: advance the u16 phase by 0x400 (wrapping at
  * 0x10000), take the sine-table value tbl_020A1B38[2*(phase>>4)+1], and
  * lerp channel by channel between two BGR555 colours c0 and c1 (the fifth
  * and sixth, stack, arguments); write the packed colour to *out and hand
- * it to sub_02061CA4 with 0xf (mode <= 3) or 0x1f.
+ * it to NNS_GfdRegisterNewVramTransferTask with 0xf (mode <= 3) or 0x1f.
  *
  * Closed in wave 12.  The 59-byte residue the earlier note read as
  * scheduling of the six-way colour unpack was the third parameter's type:
@@ -35,9 +35,9 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern s16 tbl_020A1B38[];
-extern s32 sub_02061CA4(void *p, u32 a, u32 b, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
-void func_02027BF4(u16 *phase, u16 *out, u16 mode, u32 slot,
+void APP_TASKMENU_UpdateCursorColorBlend(u16 *phase, u16 *out, u16 mode, u32 slot,
                    u16 c0, u16 c1)
 {
     s32 s;
@@ -67,8 +67,8 @@ void func_02027BF4(u16 *phase, u16 *out, u16 mode, u32 slot,
     *out = (u16)(r | (g << 5) | (b << 10));
 
     if (mode <= 3) {
-        sub_02061CA4((void *)0xf, slot * 32 + 0xc, (u32)out, 2);
+        NNS_GfdRegisterNewVramTransferTask((void *)0xf, slot * 32 + 0xc, (u32)out, 2);
     } else {
-        sub_02061CA4((void *)0x1f, slot * 32 + 0xc, (u32)out, 2);
+        NNS_GfdRegisterNewVramTransferTask((void *)0x1f, slot * 32 + 0xc, (u32)out, 2);
     }
 }

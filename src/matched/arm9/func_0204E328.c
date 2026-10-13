@@ -1,5 +1,5 @@
 /*
- * function: func_0204E328
+ * function: TEXTPRINT_PrintText
  * address:  0x0204E328
  * packet:   pkt_0204E130
  * region:   arm9
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   s_textprint_c   0x020A7F80  data
- *   func_0204E180   0x0204E180  arm
- *   func_0204E388   0x0204E388  arm
+ *   TEXTPRINT_PrintCodes   0x0204E180  arm
+ *   TEXTPRINT_SjisToGlyphCodes   0x0204E388  arm
  *
  * textprint.c's one-shot formatter: carve a 0x200-byte scratch buffer with
  * the three-argument allocator (heap id 0), format into its first 0x100
@@ -30,8 +30,8 @@
  * addresses).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204E328.c \
- *       --func func_0204E328 --addr 0x0204E328 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/TEXTPRINT_PrintText.c \
+ *       --func TEXTPRINT_PrintText --addr 0x0204E328 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -41,15 +41,15 @@ extern const char s_textprint_c[];
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_0204E180(void *buf, u32 a1);
-extern void func_0204E388(char *p, u16 *out, int max);
+extern void  TEXTPRINT_PrintCodes(void *buf, u32 a1);
+extern void TEXTPRINT_SjisToGlyphCodes(char *p, u16 *out, int max);
 extern u32 func_020307B0(void *p);
 
-void func_0204E328(u32 a0, u32 a1)
+void TEXTPRINT_PrintText(u32 a0, u32 a1)
 {
     void *buf = func_02030734(0, 0x200, 0, s_textprint_c, 0xae);
 
-    func_0204E388((char *)a0, buf, 0x100);
-    func_0204E180(buf, a1);
+    TEXTPRINT_SjisToGlyphCodes((char *)a0, buf, 0x100);
+    TEXTPRINT_PrintCodes(buf, a1);
     func_020307B0(buf);
 }

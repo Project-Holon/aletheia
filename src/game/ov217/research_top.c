@@ -63,7 +63,7 @@
  *   func_021C09C8  0x021C09C8  thumb  ov217
  *   func_021C09CC  0x021C09CC  thumb  ov217
  *   func_021C09C4  0x021C09C4  thumb  ov217
- *   func_020270E0  0x020270E0  thumb
+ *   GAME_BEACON_PopQuestionnaireUpdated  0x020270E0  thumb
  *   func_021C1038  0x021C1038  thumb  ov217
  *   func_021C09D8  0x021C09D8  thumb  ov217
  *   func_021C29F8  0x021C29F8  thumb  ov217
@@ -111,8 +111,8 @@
  *   d_021C2FF8  0x021C2FF8  data  a4
  *   func_0204A648  0x0204A648  arm
  *   func_02005654  0x02005654  thumb
- *   func_02035CB8 0x02035CB8 arm
- *   func_02035BA4 0x02035BA4 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
+ *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   func_0203630C 0x0203630C arm
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200E394 0x0200E394 thumb
@@ -121,7 +121,7 @@
  *   d_021C3080 0x021C3080 data a1
  *   d_021C30A8 0x021C30A8 data a1
  *   func_0200E440 0x0200E440 thumb
- *   func_02025A54  0x02025A54  thumb
+ *   BMP_OAM_SetPalette  0x02025A54  thumb
  *   _s32_div_f 0x0209C0A4 arm
  *   func_020413B0 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
@@ -144,7 +144,7 @@
  *   func_02041EE4 0x02041EE4 arm
  *   func_02040804  0x02040804  arm
  *   func_0209C0A4  0x0209C0A4  arm
- *   func_02021ED8  0x02021ED8  thumb
+ *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   d_021C326C 0x021C326C data a4
  *   d_021C3270 0x021C3270 data a4
  *   func_021C2A10  0x021C2A10  thumb  ov217
@@ -274,9 +274,9 @@
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201F250 0x0201F250 thumb
  *   d_021C3850 0x021C3850 data a2
- *   func_0204B9C4 0x0204B9C4 arm
+ *   CLACT_SetActorAnimLoopCount 0x0204B9C4 arm
  *   d_021C3A34 0x021C3A34 data a4
- *   func_0202173C 0x0202173C thumb
+ *   PALANM_RequestFade 0x0202173C thumb
  *   func_021C09B0  0x021C09B0  thumb  ov217
  *   func_021C11F4  0x021C11F4  thumb  ov217
  *   d_021C363C 0x021C363C data ov217 a1
@@ -317,6 +317,8 @@
  *   func_0207DB1C 0x0207DB1C arm
  *   func_0207DCF8 0x0207DCF8 arm
  *   d_021C365C 0x021C365C data a4
+ *   PALANM_TransferPalettes  0x02021D50  thumb  arm9
+ *   CLACT_SetActorAnimFrame  0x0204B8C4  arm  arm9
  */
 #include "../../matched/include/Obj10952.h"
 #include "../../matched/include/Obj25801.h"
@@ -719,11 +721,11 @@ extern u32 func_021C0E64();
 extern u32 func_021C09C8(void *p);
 extern u32 func_021C09CC(void *p);
 extern void func_021C09C4(u8 *p, u32 v);
-extern u8 func_020270E0(void);
+extern u8 GAME_BEACON_PopQuestionnaireUpdated(void);
 extern void func_021C1038(u8 *p, u8 palette);
 extern void func_021C09D8(u8 *p, u32 i);
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern u32 func_0204B8C4();
+extern u32 CLACT_SetActorAnimFrame();
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_0204B954(struct Actor *a, u32 v);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
@@ -768,14 +770,14 @@ extern int func_021C2A08(char *p);
 extern void func_0204A648(void);
 extern int func_02005654(int a, int b);
 extern void func_0200566C(void);
-extern int func_02035BA4(const void *p);
-extern u32 func_02035CB8(u32 *,u32 *);
+extern int TOUCHPANEL_HitCont(const void *p);
+extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *);
 extern u32 func_0203630C(void);
 extern void *func_02012EBC(struct Big *);
 extern void *func_0200E394(void *a0);
 extern int func_0200E44C(int p0, int p1);
 extern void func_0200E440(u8 *p, int value, int index);
-extern void func_02025A54(u8 *g, u32 a);
+extern void BMP_OAM_SetPalette(u8 *g, u32 a);
 extern int _s32_div_f(int, int);
 extern void func_02041B6C(u32 layer);
 extern u32 func_0204162C(int channel);
@@ -786,10 +788,10 @@ extern void func_02041EE4(unsigned layer,unsigned mode,unsigned value);
 extern u32 func_02040804(u32 layer);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern u32 func_0209C0A4(u32, u32);
-extern int func_0202173C(PalAnmObj *, u16, u16, s16, u8, u8, u16, void *);
-extern u32 func_02021ED8(const char *ptr);
+extern int PALANM_RequestFade(PalAnmObj *, u16, u16, s16, u8, u8, u16, void *);
+extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern u32 func_021C2A10();
-extern u32 func_02021D50(struct S02021D50 *p);
+extern u32 PALANM_TransferPalettes(struct S02021D50 *p);
 extern u32 func_020419E4();
 extern u32 func_021C0DF0(void *p);
 extern u32 func_021C0DF4(void *p);
@@ -892,7 +894,7 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0204B9C4(struct Actor *,unsigned);
+extern void CLACT_SetActorAnimLoopCount(struct Actor *,unsigned);
 extern u32 func_021C09B0(u32 *p);
 extern int func_021C11F4(u8 *p);
 extern void *func_0200E3A0(void *a);
@@ -2322,7 +2324,7 @@ void func_021BA1CC(void *p, u32 v)
 void func_021BA1D4(u32 a0)
 {
     if (((struct ResearchObjC *)a0)->f84 == 0) {
-    if (func_020270E0() == 1) {
+    if (GAME_BEACON_PopQuestionnaireUpdated() == 1) {
     ((struct ResearchObjC *)a0)->f84 = 1;
     func_021BA328(a0);
     }
@@ -2450,7 +2452,7 @@ u32 func_021BA328(u32 a0)
     func_0204B3DC((struct Obj *)v1, 1);
     func_0204B92C((struct Obj *)v1, 1);
     func_0204B954((struct Actor *)v1, 4096);
-    return func_0204B8C4(v1, 0);
+    return CLACT_SetActorAnimFrame(v1, 0);
 }
 
 
@@ -3556,7 +3558,7 @@ void func_021BAE00(u8 *p)
     int flag;
     u32 a,b;
     flag=func_02035C08(func_021C09B8(*(void **)p));
-    func_02035CB8(&a,&b);
+    TOUCHPANEL_GetPointCont(&a,&b);
     if(func_021BC6D0(p)!=0 || flag==0) {
         func_020061E4(0x551);
         func_021BBAD0((u32)p);
@@ -3595,7 +3597,7 @@ void func_021BAE00(u8 *p)
             }
         }
     } else {
-        if(func_02035BA4(p+0x90)==0 || func_02035C08(p+0x90)==0) {
+        if(TOUCHPANEL_HitCont(p+0x90)==0 || func_02035C08(p+0x90)==0) {
             if(func_021BC428(p)==1) {
                 func_021BB91C(p);
                 func_021BB910(p,4);
@@ -3620,7 +3622,7 @@ void func_021BAF70(char *p)
     u32 a;
     u32 b;
     flag = func_02035C08(func_021C09B8(*(void **)p));
-    func_02035CB8(&a, &b);
+    TOUCHPANEL_GetPointCont(&a, &b);
     if (trg & 0xc0) {
         func_021BC600(p);
     } else {
@@ -3678,7 +3680,7 @@ void func_021BAF70(char *p)
         func_021BB910((u8 *)p, (int)6);
         return;
     }
-    if (func_02035BA4(p + 0x90) == 0 || func_02035C08(p + 0x90) == 0) {
+    if (TOUCHPANEL_HitCont(p + 0x90) == 0 || func_02035C08(p + 0x90) == 0) {
         if (func_021BC428(p) == 1) {
             func_021BBDAC((u8 *)p);
             func_021BC0E8((u32)p);
@@ -3728,7 +3730,7 @@ void func_021BB200(struct ResearchTop *p)
 {
     int a;
     int b;
-    int r = func_02035CB8((unsigned int *)(&a), (unsigned int *)(&b));
+    int r = TOUCHPANEL_GetPointCont((unsigned int *)(&a), (unsigned int *)(&b));
     int m = func_021BB98C(p);
     switch (m) {
     case 0:
@@ -4477,7 +4479,7 @@ void func_021BBD14(void *p, u32 v)
 
 void func_021BBD18(int a, int b)
 {
-    func_02025A54((u8 *)func_021BC740((char *)a, b), 0);
+    BMP_OAM_SetPalette((u8 *)func_021BC740((char *)a, b), 0);
 }
 
 
@@ -4485,7 +4487,7 @@ void func_021BBD18(int a, int b)
 
 void func_021BBD28(int a, int b)
 {
-    func_02025A54((u8 *)func_021BC740((char *)a, b), 1);
+    BMP_OAM_SetPalette((u8 *)func_021BC740((char *)a, b), 1);
 }
 
 
@@ -5563,8 +5565,8 @@ int func_021BC4A0(void)
 
 void func_021BC4B4(char *p)
 {
-    func_0202173C(*(PalAnmObj * *)&((struct ResearchTop *)p)->f98, 1, 0xBBFF, 2, 0, 10, 0, ((struct ResearchTop *)p)->f150);
-    func_0202173C(*(PalAnmObj * *)&((struct ResearchTop *)p)->f98, 4, 0xCF, 2, 0, 10, 0, ((struct ResearchTop *)p)->f150);
+    PALANM_RequestFade(*(PalAnmObj * *)&((struct ResearchTop *)p)->f98, 1, 0xBBFF, 2, 0, 10, 0, ((struct ResearchTop *)p)->f150);
+    PALANM_RequestFade(*(PalAnmObj * *)&((struct ResearchTop *)p)->f98, 4, 0xCF, 2, 0, 10, 0, ((struct ResearchTop *)p)->f150);
     ((struct ResearchTop *)p)->f15C = 1;
 }
 
@@ -5582,8 +5584,8 @@ void func_021BC4B4(char *p)
 
 void func_021BC50C(char *p)
 {
-    func_0202173C(*(PalAnmObj * *)&((struct ResearchTop *)p)->f98, 1, 0xBBFF, 2, 10, 0, 0, ((struct ResearchTop *)p)->f150);
-    func_0202173C(*(PalAnmObj * *)&((struct ResearchTop *)p)->f98, 4, 0xCF, 2, 10, 0, 0, ((struct ResearchTop *)p)->f150);
+    PALANM_RequestFade(*(PalAnmObj * *)&((struct ResearchTop *)p)->f98, 1, 0xBBFF, 2, 10, 0, 0, ((struct ResearchTop *)p)->f150);
+    PALANM_RequestFade(*(PalAnmObj * *)&((struct ResearchTop *)p)->f98, 4, 0xCF, 2, 10, 0, 0, ((struct ResearchTop *)p)->f150);
     ((struct ResearchTop *)p)->f15C = 0;
 }
 
@@ -5601,7 +5603,7 @@ void func_021BC50C(char *p)
 
 u32 func_021BC55C(u32 a0)
 {
-    if (func_02021ED8((const char *)(((struct ResearchTop *)a0)->f98)) == 0) {
+    if (PALANM_GetFadeRequestBits((const char *)(((struct ResearchTop *)a0)->f98)) == 0) {
     return 1;
     }
     return 0;
@@ -5811,7 +5813,7 @@ void func_021BC610(u32 a0, u32 a1)
 {
     func_020419E4();
     func_0204A648();
-    func_02021D50((struct S02021D50 *)(((struct ResearchTop *)a1)->f98));
+    PALANM_TransferPalettes((struct S02021D50 *)(((struct ResearchTop *)a1)->f98));
 }
 
 
@@ -9434,7 +9436,7 @@ void func_021BEAF8(u8 *p)
 
 void func_021BEB40(u32 a0)
 {
-    func_02025A54((u8 *)(((struct ResearchObjB *)a0)->f3AC), 0);
+    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->f3AC), 0);
     func_021BF5BC((u8 *)a0, 5);
     func_021BF5BC((u8 *)a0, 6);
     func_021BF594((char *)a0, 2);
@@ -9446,7 +9448,7 @@ void func_021BEB40(u32 a0)
 
 void func_021BEB6C(u32 a0)
 {
-    func_02025A54((u8 *)(((struct ResearchObjB *)a0)->f3AC), 0);
+    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->f3AC), 0);
     func_021BF594((char *)a0, 3);
 }
 
@@ -9456,7 +9458,7 @@ void func_021BEB6C(u32 a0)
 
 void func_021BEB88(u32 a0)
 {
-    func_02025A54((u8 *)(((struct ResearchObjB *)a0)->f3AC), 1);
+    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->f3AC), 1);
     func_021BF5BC((u8 *)a0, 3);
 }
 
@@ -9466,7 +9468,7 @@ void func_021BEB88(u32 a0)
 
 void func_021BEBA4(u32 a0)
 {
-    func_02025A54((u8 *)(((struct ResearchObjB *)a0)->f3AC), 0);
+    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->f3AC), 0);
     func_021BF594((char *)a0, 4);
 }
 
@@ -9476,7 +9478,7 @@ void func_021BEBA4(u32 a0)
 
 void func_021BEBC0(u32 a0)
 {
-    func_02025A54((u8 *)(((struct ResearchObjB *)a0)->f3AC), 1);
+    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->f3AC), 1);
     func_021BF5BC((u8 *)a0, 5);
     func_021BF594((char *)a0, 6);
 }
@@ -9487,7 +9489,7 @@ void func_021BEBC0(u32 a0)
 
 void func_021BEBE4(u32 a0)
 {
-    func_02025A54((u8 *)(((struct ResearchObjB *)a0)->f3AC), 1);
+    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)a0)->f3AC), 1);
     func_021BF594((char *)a0, 5);
 }
 
@@ -10022,7 +10024,7 @@ void func_021BF4AC(char *p)
     func_0204B404(obj,&pos,table[12]);
     func_0204B3DC(obj,1);
     func_0204B92C(obj,1);
-    func_0204B9C4((struct Actor *)obj,2);
+    CLACT_SetActorAnimLoopCount((struct Actor *)obj,2);
 }
 
 
@@ -10136,8 +10138,8 @@ void func_021BF600(u8 *a0)
 
 void func_021BF60C(char *p)
 {
-    func_0202173C(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->f3B8,1,0xffff,3,0,7,0xffff,((struct ResearchObjB *)p)->f3BC);
-    func_0202173C(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->f3B8,4,0xffff,3,0,7,0xffff,((struct ResearchObjB *)p)->f3BC);
+    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->f3B8,1,0xffff,3,0,7,0xffff,((struct ResearchObjB *)p)->f3BC);
+    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->f3B8,4,0xffff,3,0,7,0xffff,((struct ResearchObjB *)p)->f3BC);
 }
 
 
@@ -10145,8 +10147,8 @@ void func_021BF60C(char *p)
 
 void func_021BF658(char *p)
 {
-    func_0202173C(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->f3B8,1,0xffff,3,7,0,0xffff,((struct ResearchObjB *)p)->f3BC);
-    func_0202173C(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->f3B8,4,0xffff,3,7,0,0xffff,((struct ResearchObjB *)p)->f3BC);
+    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->f3B8,1,0xffff,3,7,0,0xffff,((struct ResearchObjB *)p)->f3BC);
+    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)p)->f3B8,4,0xffff,3,7,0,0xffff,((struct ResearchObjB *)p)->f3BC);
 }
 
 
@@ -10162,7 +10164,7 @@ void func_021BF658(char *p)
  */
 u32 func_021BF6A4(u8 *a0)
 {
-    if (func_02021ED8((const char *)(((struct ResearchObjB *)a0)->f3B8)) == 0) {
+    if (PALANM_GetFadeRequestBits((const char *)(((struct ResearchObjB *)a0)->f3B8)) == 0) {
     return 1;
     }
     return 0;
@@ -10175,7 +10177,7 @@ u32 func_021BF6BC(u32 a0, u32 a1)
 {
     func_020419E4();
     func_0204A648();
-    return func_02021D50((struct S02021D50 *)((struct ResearchObjB *)a1)->f3B8);
+    return PALANM_TransferPalettes((struct S02021D50 *)((struct ResearchObjB *)a1)->f3B8);
 }
 
 
@@ -10183,7 +10185,7 @@ u32 func_021BF6BC(u32 a0, u32 a1)
 
 void func_021BF6D4(char *p)
 {
-    if (func_020270E0() == 1) {
+    if (GAME_BEACON_PopQuestionnaireUpdated() == 1) {
         u16 a = func_021BF834(p);
         if (a != (u16)(u32)func_021BF9CC((u32)p)) {
             ((struct ResearchObjB *)p)->f3D8 = 1;

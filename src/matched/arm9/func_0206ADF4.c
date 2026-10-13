@@ -23,22 +23,22 @@
  *       --func func_0206ADF4 --addr 0x0206ADF4 --cc ../2.0/sp2 --arm
  *
  * symbols:
- *   g_02148B4C   0x02148B4C  data
+ *   g_renderState   0x02148B4C  data
  *   g_02148CAC   0x02148CAC  data
  *   func_0206AD64  0x0206AD64  arm
  */
 
 typedef unsigned int u32;
 
-extern u32 g_02148B4C[];
+extern u32 g_renderState[];
 extern u32 g_02148CAC[];
 extern void func_0206AD64(void);
 
 u32 *func_0206ADF4(void)
 {
-    if ((g_02148B4C[0x3f] & 0x80) == 0) {
+    if ((g_renderState[0x3f] & 0x80) == 0) {
         func_0206AD64();
-        g_02148B4C[0x3f] |= 0x80;
+        g_renderState[0x3f] |= 0x80;
     }
     return g_02148CAC;
 }

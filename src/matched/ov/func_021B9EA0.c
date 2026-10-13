@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0204A8D4  0x0204A8D4  arm
- *   sub_0204ADA4  0x0204ADA4  arm
- *   sub_0204AFD8  0x0204AFD8  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *
  * Releases three pointers at +8, +0xC and +0x10 through three arm9 helpers.
  */
@@ -25,9 +25,9 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void sub_0204A8D4(u32 i);
-extern void sub_0204ADA4(u32 i);
-extern void sub_0204AFD8(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 
 typedef struct {
     char pad[8];
@@ -38,7 +38,7 @@ typedef struct {
 
 void func_021B9EA0(S *s)
 {
-    sub_0204A8D4((u32)s->f08);
-    sub_0204ADA4((u32)s->f0C);
-    sub_0204AFD8((u32)s->f10);
+    CLACT_ReleaseCharacter((u32)s->f08);
+    CLACT_ReleasePalette((u32)s->f0C);
+    CLACT_ReleaseCellAnim((u32)s->f10);
 }

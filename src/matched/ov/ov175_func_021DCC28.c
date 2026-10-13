@@ -10,15 +10,15 @@
  * status: EXACT
  * blocker: ARM9 0x0200FB4C has no outside code-start witness; four own calls unresolved. TU --suggest-split leaves caller out, zero viable pieces.
  * blocker-C: copied verified32B Thumb EXACT from ov116_func_021D7200.c header, prior scratch blocker-1.log, dsi/1.1p1 -O4,p.
- * extern unsigned char g_0214617C[],g_021461BC[];
- * void func_0200FB4C(int a) {
- *   if(*(int *)(g_0214617C+44)!=2) {
- *     *(int *)(g_0214617C+96)=a;
+ * extern unsigned char gNetErrWork[],g_021461BC[];
+ * void GFL_NET_ERR_RaiseFatal(int a) {
+ *   if(*(int *)(gNetErrWork+44)!=2) {
+ *     *(int *)(gNetErrWork+96)=a;
  *     g_021461BC[26]=1;g_021461BC[25]=1;
- *     *(int *)(g_0214617C+44)=2;
+ *     *(int *)(gNetErrWork+44)=2;
  *   }
  * }
- * Blocker symbols: g_0214617C 0x0214617C data; g_021461BC 0x021461BC data.
+ * Blocker symbols: gNetErrWork 0x0214617C data; g_021461BC 0x021461BC data.
  * abi: CE58 retains visibly loaded third argument despite its two-argument body; 9A14 reads live r1, the count last loaded by the loop.
  * symbols:
  *   func_021B98F8 0x021B98F8 thumb ov114
@@ -26,7 +26,7 @@
  *   func_021B9838 0x021B9838 thumb ov114
  *   func_021B99DC 0x021B99DC thumb ov114
  *   func_021B9790 0x021B9790 thumb ov114
- *   func_0200FB4C 0x0200FB4C thumb
+ *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  *   func_021B99B8 0x021B99B8 thumb ov114
  *   func_021B9774 0x021B9774 thumb ov114
  *   func_021DCE58 0x021DCE58 thumb ov175
@@ -43,7 +43,7 @@ extern int func_021B9748(u8 *);
 extern void func_021B9838(u8 *);
 extern int func_021B99DC(u8 *);
 extern int func_021B9790(u8 *);
-extern void func_0200FB4C(u32);
+extern void GFL_NET_ERR_RaiseFatal(u32);
 extern void func_021B99B8(u8 *);
 extern void func_021B9774(u8 *);
 extern void func_021DCE58(char *,unsigned long,u32);
@@ -88,10 +88,10 @@ int func_021DCC28(char *p,u8 *out)
         status=func_021B9790(*(u8 **)(p+0x121c));
         if(status==0) {
             switch(result) {
-            case 400: func_0200FB4C(0x41);release(p);return 3;
-            case 401: func_0200FB4C(0x42);release(p);return 3;
-            case 408: func_0200FB4C(0x44);release(p);return 3;
-            default: func_0200FB4C(0x43);release(p);return 3;
+            case 400: GFL_NET_ERR_RaiseFatal(0x41);release(p);return 3;
+            case 401: GFL_NET_ERR_RaiseFatal(0x42);release(p);return 3;
+            case 408: GFL_NET_ERR_RaiseFatal(0x44);release(p);return 3;
+            default: GFL_NET_ERR_RaiseFatal(0x43);release(p);return 3;
             case 200: (*(u32 *)(p+0x12c))++;break;
             }
         } else if(status!=15) {

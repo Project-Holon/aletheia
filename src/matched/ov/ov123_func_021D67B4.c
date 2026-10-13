@@ -10,11 +10,11 @@
  * symbols:
  *   func_021D6C90 0x021D6C90 thumb ov123
  *   func_0204B404 0x0204B404 arm
- *   func_0204B5AC 0x0204B5AC arm
+ *   CLACT_SetActorScale 0x0204B5AC arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B688 0x0204B688 arm
- *   func_0204B570 0x0204B570 arm
+ *   CLACT_SetActorAffineMode 0x0204B570 arm
  *   d_021DA734 0x021DA734 data a2
  *   d_021DA740 0x021DA740 data a4
  */
@@ -29,14 +29,14 @@ extern void func_021D6C90(char *p, int i, void *h);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 typedef unsigned int   u32;
 struct Actor;
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B570(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 void func_021D67B4(u8 *p, int i)
 {
     struct Pos pos;
@@ -45,8 +45,8 @@ void func_021D67B4(u8 *p, int i)
     func_021D6C90((char *)p,i,((struct Obj13980 *)p)->fB8);
     h = ((struct Obj13980 *)p)->fB8;
     pos = d_021DA734; pair = d_021DA740;
-    func_0204B404(h,(const struct Vec2 *)(&pos),0); func_0204B5AC(h,&pair);
+    func_0204B404(h,(const struct Vec2 *)(&pos),0); CLACT_SetActorScale(h,&pair);
     func_0204B92C(h,0); func_0204B3DC(h,0);
-    func_0204B688(h,1); func_0204B570(h,2);
+    func_0204B688(h,1); CLACT_SetActorAffineMode(h,2);
     *(void **)(p+i*24+0x40f4) = h;
 }

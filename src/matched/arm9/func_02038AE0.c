@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02038AE0
+ * function: GFL_NET_SYSTEM_BuildSendPacket
  * address:  0x02038AE0
  * packet:   pkt_02038AE0
  * region:   arm9
@@ -12,10 +12,10 @@
  *
  * symbols:
  *   func_0203D798  0x0203D798  arm
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_020366A8  0x020366A8  arm
- *   func_02036A50  0x02036A50  arm
+ *   GFL_NET_QUEUE_IsEmpty  0x020366A8  arm
+ *   GFL_NET_QUEUE_FillSendBuffer  0x02036A50  arm
  *   func_0203F1FC  0x0203F1FC  arm
  */
 
@@ -63,19 +63,19 @@ struct Sys
 };
 
 extern void *func_0203D798(void);
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 extern void MI_CpuFill8(void *, u8, u32);
-extern s32 func_020366A8(struct Conn *);
+extern s32 GFL_NET_QUEUE_IsEmpty(struct Conn *);
 struct Buf
 {
     void *ptr;
     u16 len;
 };
 
-extern int func_02036A50(u32 list, u16 *info);
+extern int GFL_NET_QUEUE_FillSendBuffer(u32 list, u16 *info);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 
-s32 func_02038AE0(struct Hdr *h, struct Conn *c, s32 len, u8 a3)
+s32 GFL_NET_SYSTEM_BuildSendPacket(struct Hdr *h, struct Conn *c, s32 len, u8 a3)
 {
     struct Glob *g;
     struct Sys *sys;
@@ -84,7 +84,7 @@ s32 func_02038AE0(struct Hdr *h, struct Conn *c, s32 len, u8 a3)
     u16 v;
 
     g = func_0203D798();
-    sys = func_0203D788();
+    sys = GFL_NET_GetSession();
 
     MI_CpuFill8(h, 0, (u32)len);
 
@@ -96,7 +96,7 @@ s32 func_02038AE0(struct Hdr *h, struct Conn *c, s32 len, u8 a3)
 
     h->f03 = sys->f340->f7c();
 
-    if (func_020366A8(c) == 0)
+    if (GFL_NET_QUEUE_IsEmpty(c) == 0)
     {
         if ((u8)(g->f65 + 0xfd) > 1)
             goto body;
@@ -111,7 +111,7 @@ body:
 
     buf.len = (u16)(len - 7);
     buf.ptr = &h->body[0];
-    if (func_02036A50((u32)c, (u16 *)(&buf)) == 0)
+    if (GFL_NET_QUEUE_FillSendBuffer((u32)c, (u16 *)(&buf)) == 0)
         c->f24 = 1;
 
     if (buf.len != 0xffff)

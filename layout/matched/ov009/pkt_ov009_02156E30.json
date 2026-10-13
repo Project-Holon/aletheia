@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02156E30",
+   "name": "DWC_RAPCOMMON_CreateSubHeap",
    "address": "0x02156E30",
    "kind": "game",
    "region": "ov009",

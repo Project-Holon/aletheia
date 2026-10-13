@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202AAF4",
+   "name": "ISS_CITY_SYS_Create",
    "address": "0x0202AAF4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202AB38",
+   "name": "ISS_CITY_SYS_Update",
    "address": "0x0202AB38",
    "kind": "game",
    "region": "arm9",
@@ -70,7 +70,7 @@
    ]
   },
   {
-   "name": "func_0202AB7C",
+   "name": "ISS_CITY_SYS_InitUnits",
    "address": "0x0202AB7C",
    "kind": "game",
    "region": "arm9",

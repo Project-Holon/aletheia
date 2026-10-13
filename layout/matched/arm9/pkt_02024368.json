@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202441C",
+   "name": "PMSI_PARAM_GetSourceString",
    "address": "0x0202441C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020244D4",
+   "name": "PMSI_PARAM_GetWordId",
    "address": "0x020244D4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020244F0",
+   "name": "PMSI_PARAM_GetWordRaw",
    "address": "0x020244F0",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020244F8",
+   "name": "PMSI_PARAM_IsDecoWordAt",
    "address": "0x020244F8",
    "kind": "game",
    "region": "arm9",

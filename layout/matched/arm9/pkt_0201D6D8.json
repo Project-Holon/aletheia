@@ -57,7 +57,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201D9C8"
+    "GF_FONT_FreeBuffers"
+   ],
+   "addresses": [
+    "0x0201D9C8"
    ]
   },
   {
@@ -72,9 +75,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201DAF0",
-    "sub_0201DB00",
-    "func_0201DB04"
+    "GF_FONT_FreeGlyphData",
+    "GF_FONT_ExitStreamedGlyphs",
+    "GF_FONT_ReadGlyph"
+   ],
+   "addresses": [
+    "0x0201DAF0",
+    "0x0201DB00",
+    "0x0201DB04"
    ]
   },
   {
@@ -89,8 +97,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201DC6C",
+    "GF_FONT_GetCharWidth",
     "func_0201DC80"
+   ],
+   "addresses": [
+    "0x0201DC6C",
+    "0x0201DC80"
    ]
   },
   {
@@ -105,9 +117,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201DD58",
+    "GF_FONT_GetFixedWidth",
     "func_0201DD60",
     "func_0201DD68"
+   ],
+   "addresses": [
+    "0x0201DD58",
+    "0x0201DD60",
+    "0x0201DD68"
    ]
   },
   {
@@ -122,8 +139,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201DE00",
-    "func_0201DE18"
+    "GF_FONT_GetTextColor",
+    "GF_FONT_IsTextColorDifferent"
+   ],
+   "addresses": [
+    "0x0201DE00",
+    "0x0201DE18"
    ]
   }
  ]

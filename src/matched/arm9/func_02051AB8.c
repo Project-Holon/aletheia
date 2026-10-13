@@ -1,5 +1,5 @@
 /*
- * function: func_02051AB8
+ * function: BUTTON_MAN_AppendList1
  * address:  0x02051AB8
  * packet:   pkt_02051A54
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Byte-for-byte the twin of func_02051A54 over the second table: same
+ * Byte-for-byte the twin of BUTTON_MAN_AppendList0 over the second table: same
  * indirect call through the handler at 0x020A8140 (two arguments forwarded,
  * a literal 0 in r2), same append-and-count shape, but the count halfword is
  * at base+0x25e and the elements at base+0x158, i.e. the parallel table 0x100
@@ -17,7 +17,7 @@
  *
  * symbols:
  *   g_020A8148   0x020A8148  data
- *   g_02146A88   0x02146A88  data
+ *   g_pParticleMan   0x02146A88  data
  */
 #include "../include/Obj11460.h"
 #include "../include/G_02146A88.h"
@@ -27,12 +27,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
-extern struct G_02146A88 *g_02146A88;
+extern struct G_02146A88 *g_pParticleMan;
 
-u32 func_02051AB8(u32 a, u32 b)
+u32 BUTTON_MAN_AppendList1(u32 a, u32 b)
 {
     u32 v = g_020A8148(a, b, 0);
-    u8 *base = g_02146A88->base;
+    u8 *base = g_pParticleMan->base;
     u16 n = ((struct Obj11460 *)base)->f25E;
 
     ((struct Obj11460 *)base)->f25E = n + 1;

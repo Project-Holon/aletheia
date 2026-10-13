@@ -1,5 +1,5 @@
 /*
- * function: func_021743A0
+ * function: INTRUDE_CMD_RecvTallyWord
  * address: 0x021743A0
  * packet: pkt_ov011_021743A0
  * region: ov011
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 void func_02082D44(void *d, void *s, int n);
 
-void func_021743A0(int a, int b, void *dst, u8 *p)
+void INTRUDE_CMD_RecvTallyWord(int a, int b, void *dst, u8 *p)
 {
     func_02082D44(dst, p + 0x358, 4);
 }

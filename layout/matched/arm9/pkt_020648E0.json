@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02064C10",
+   "name": "NNSi_G2dMCAnimUpdateBank",
    "address": "0x02064C10",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02064E3C",
+   "name": "NNSi_G2dRendererResetMtxSlot",
    "address": "0x02064E3C",
    "kind": "game",
    "region": "arm9",

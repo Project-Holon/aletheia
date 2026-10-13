@@ -18,9 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02014D2C",
-    "func_02014D90",
-    "func_02015590"
+    "MCSS_Draw"
+   ],
+   "addresses": [
+    "0x02014D2C"
    ],
    "evidence": {
     "sole-ref": [

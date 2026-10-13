@@ -1,5 +1,5 @@
 /*
- * function: func_0219E9C0
+ * function: SBServerSetICMPIP
  * address:  0x0219E9C0
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Stores a word at +0x10.
  */
 
-void func_0219E9C0(int *p, int v)
+void SBServerSetICMPIP(int *p, int v)
 {
     p[4] = v;
 }

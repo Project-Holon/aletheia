@@ -1,6 +1,6 @@
 /*
  * file:     unit_02066934.c
- * function: func_02066934
+ * function: NNS_G2dInitCellTransferStateManager
  * address:  0x02066934
  * packet:   pkt_02066890
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   gUnk_02148B20  0x02148B20  data
+ *   sCellTransferStateManager  0x02148B20  data
  *   sub_020640B0   0x020640B0  arm
  *
  * Publish the record pool (callback, count, array) into the global bank at
@@ -25,7 +25,7 @@
  * preheader, where r5 is the counter's zero: the stored value is
  * loop-invariant and r4 is mwcc rematerialising the constant 0 off the
  * known-zero counter register.  Reading the copy as `v = i++` puts it back
- * inside the loop and costs 17 bytes; docs/notes/func_02066934.c.txt (the
+ * inside the loop and costs 17 bytes; docs/notes/NNS_G2dInitCellTransferStateManager.c.txt (the
  * previous reading of this function, which called these stores "the record's
  * own loop index") is superseded by this file.
  *
@@ -36,8 +36,8 @@
  *     the constant hoistable into r4.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02066934.c \
- *       --func func_02066934 --addr 0x02066934 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G2dInitCellTransferStateManager.c \
+ *       --func NNS_G2dInitCellTransferStateManager --addr 0x02066934 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -54,17 +54,17 @@ struct CellTransferStateManager {
     struct CellTransferState *pStates;  /* 0x08 */
 };
 
-extern struct CellTransferStateManager gUnk_02148B20;
+extern struct CellTransferStateManager sCellTransferStateManager;
 typedef signed int     s32;
 extern void sub_020640B0(s32 *tbl);
 
-void func_02066934(struct CellTransferState *pStates, u32 numStates, void *pTransferFunc)
+void NNS_G2dInitCellTransferStateManager(struct CellTransferState *pStates, u32 numStates, void *pTransferFunc)
 {
     u32 i = 0;
 
-    gUnk_02148B20.pTransferFunc = pTransferFunc;
-    gUnk_02148B20.pStates       = pStates;
-    gUnk_02148B20.numStates     = numStates;
+    sCellTransferStateManager.pTransferFunc = pTransferFunc;
+    sCellTransferStateManager.pStates       = pStates;
+    sCellTransferStateManager.numStates     = numStates;
 
     if (numStates == 0) return;
 

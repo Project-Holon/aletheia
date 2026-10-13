@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   sub_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   d_0220DA68 0x0220DA68 data a4
  *   func_020452E8 0x020452E8 arm
  *   func_0220B774 0x0220B774 thumb
@@ -66,7 +66,7 @@ typedef signed short s16_0220B248;
 
 typedef unsigned long u32_0220B248;
 
-extern u32_0220B120 sub_020450F0(u32_0220B120,u32_0220B120,u32_0220B120,u32_0220B120,u8,u8,u8);
+extern u32_0220B120 BMP_WIN_Create(u32_0220B120,u32_0220B120,u32_0220B120,u32_0220B120,u8,u8,u8);
 extern u32_0220B188 func_020452E8(struct Descriptor *d);
 extern void func_0220B774(char *);
 extern void func_0220B880(char *);
@@ -91,12 +91,12 @@ void func_0220B248(char *p);
 extern const u8 d_0220DA68[];
 extern const char d_0220DA0D[];
 
-void func_0220B120(char *p) { ((struct Obj14542 *)p)->f24=sub_020450F0(4,1,19,30,4,12,1); func_0220B150(p,((struct Obj14542 *)p)->f532); }
+void func_0220B120(char *p) { ((struct Obj14542 *)p)->f24=BMP_WIN_Create(4,1,19,30,4,12,1); func_0220B150(p,((struct Obj14542 *)p)->f532); }
 
 /*
  * Declaring the table pointer before the counter restores r4/r5 allocation.
  */
-void func_0220B150(char *p,u8 unused) { const u8 *q; u32_0220B150 i; q=d_0220DA68; for(i=0;i<35;i++,q+=6) *(u32_0220B150 *)(p+i*8+0x28)=sub_020450F0(q[0],q[1],q[2],q[3],q[4],q[5],1); }
+void func_0220B150(char *p,u8 unused) { const u8 *q; u32_0220B150 i; q=d_0220DA68; for(i=0;i<35;i++,q+=6) *(u32_0220B150 *)(p+i*8+0x28)=BMP_WIN_Create(q[0],q[1],q[2],q[3],q[4],q[5],1); }
 
 
 void func_0220B188(char *a)

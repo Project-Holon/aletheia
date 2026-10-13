@@ -9,6 +9,8 @@
  * status: EXACT
  * symbols:
  *   d_021E8CEE 0x021E8CEE data a1
+ *   PMS_DRAW_Print  0x0202DC48  thumb  arm9
+ *   PMS_DRAW_SetPrintColor  0x0202DE64  thumb  arm9
  */
 typedef unsigned short u16;
 typedef struct { unsigned char bg, x, y, w; } WinTemplate;
@@ -53,8 +55,8 @@ extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
-extern void func_0202DE64(struct PmsDraw *p, u16 v);
-extern void func_0202DC48(void *, void *, const void *, unsigned);
+extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
+extern void PMS_DRAW_Print(void *, void *, const void *, unsigned);
 extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021E78B0(Work *p, const Record *data, unsigned font, void *print, void *msg, void *fmt, int alt, u16 heap)
 {
@@ -132,8 +134,8 @@ void func_021E78B0(Work *p, const Record *data, unsigned font, void *print, void
             color = 0x3C40;
             break;
         case 7:
-            func_0202DE64(p->list, color);
-            func_0202DC48(p->list, p->win[j], data->name, 0);
+            PMS_DRAW_SetPrintColor(p->list, color);
+            PMS_DRAW_Print(p->list, p->win[j], data->name, 0);
             draw = 0;
             break;
         }

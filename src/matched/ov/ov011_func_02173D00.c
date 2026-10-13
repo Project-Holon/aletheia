@@ -1,5 +1,5 @@
 /*
- * function: func_02173D00
+ * function: INTRUDE_CMD_RecvEntryIndex
  * address: 0x02173D00
  * packet: pkt_ov011_02173D00
  * region: ov011
@@ -12,8 +12,8 @@
  *       the next function's push at 02173D2C. No unit is created.
  * symbols:
  *   func_0203D378 0x0203D378 arm
- *   func_02175F34 0x02175F34 thumb ov011
- *   func_02175914 0x02175914 thumb ov011
+ *   INTRUDE_COMM_SetMemberEntry 0x02175F34 thumb ov011
+ *   INTRUDE_COMM_SetSessionEntrySendFlag 0x02175914 thumb ov011
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -24,13 +24,13 @@ typedef struct Ent {
     u8 f10, f11, f12, pad13;
     u8 f14[0x14];
 } Ent;
-void func_02175F34(void *w, Ent *tbl, u32 arg, int idx);
-void func_02175914(int a, int b);
+void INTRUDE_COMM_SetMemberEntry(void *w, Ent *tbl, u32 arg, int idx);
+void INTRUDE_COMM_SetSessionEntrySendFlag(int a, int b);
 
-void func_02173D00(u32 a, int b, int *c, u8 *d)
+void INTRUDE_CMD_RecvEntryIndex(u32 a, int b, int *c, u8 *d)
 {
     if (func_0203D378()) {
-        func_02175F34(d, (Ent *)(d + 0x1ac), a, *c);
-        func_02175914((int)(d + 0x1ac), *c);
+        INTRUDE_COMM_SetMemberEntry(d, (Ent *)(d + 0x1ac), a, *c);
+        INTRUDE_COMM_SetSessionEntrySendFlag((int)(d + 0x1ac), *c);
     }
 }

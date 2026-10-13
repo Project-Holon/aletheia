@@ -1,5 +1,5 @@
 /*
- * function: func_02067F9C
+ * function: NNS_G2dFontGetGlyphIndex
  * address:  0x02067F9C
  * packet:   pkt_02067F78
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * Range lookup over a singly linked list of key records: walk the chain hung
  * off (*a0)->f10 and hand the first record whose [lo, hi] halfword pair
- * contains `key` to func_02067EB0, which returns the mapped word.  No record
+ * contains `key` to NNSi_G2dFontGetGlyphIndexFromCMap, which returns the mapped word.  No record
  * holds the key: return the pooled 0xFFFF sentinel.  The record's link is at
  * +0x04 (used by the twin at 0x02067FE4) while the chain head here is the
  * +0x10 field of the object the caller's pointer points at.
@@ -21,7 +21,7 @@
  * conditionally on the first, which is a `&&`, not two nested guards.
  *
  * symbols:
- *   func_02067EB0  0x02067EB0  arm
+ *   NNSi_G2dFontGetGlyphIndexFromCMap  0x02067EB0  arm
  */
 
 typedef unsigned char  u8;
@@ -41,15 +41,15 @@ struct Obj {
 };
 
 struct Struct02067EB0;
-extern u32 func_02067EB0(struct Struct02067EB0 *tbl, u32 val);
+extern u32 NNSi_G2dFontGetGlyphIndexFromCMap(struct Struct02067EB0 *tbl, u32 val);
 
-u32 func_02067F9C(struct Obj **a0, u32 key)
+u32 NNS_G2dFontGetGlyphIndex(struct Obj **a0, u32 key)
 {
     struct Rec *r = (*a0)->chain;
 
     while (r != 0) {
         if (r->lo <= key && key <= r->hi) {
-            return func_02067EB0((struct Struct02067EB0 *)r, key);
+            return NNSi_G2dFontGetGlyphIndexFromCMap((struct Struct02067EB0 *)r, key);
         }
         r = r->next;
     }

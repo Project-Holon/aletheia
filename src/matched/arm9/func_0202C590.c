@@ -1,5 +1,5 @@
 /*
- * function: func_0202C590
+ * function: ISS_SWITCH_Alloc
  * address:  0x0202C590
  * packet:   pkt_0202C590
  * region:   arm9
@@ -16,7 +16,7 @@ extern char g_020A7780[];
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-void *func_0202C590(int a0)
+void *ISS_SWITCH_Alloc(int a0)
 {
     return func_02030734(a0, 0xc, 0, g_020A7780, 0x115);
 }

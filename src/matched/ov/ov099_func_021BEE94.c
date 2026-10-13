@@ -13,35 +13,35 @@
  * blocker: 0x0203CB00 ARM verified MATCH, 52 bytes; copied from
  *   ov099_func_021BEAEC.c, leaf-cb00-r1.log.
  *   extern char *d_021469DC;
- *   extern void func_0203CADC(void);
- *   int func_0203CB00(void) {
+ *   extern void GFL_NET_STATE_FatalError(void);
+ *   int GFL_NET_STATE_IsFatalError(void) {
  *       if (d_021469DC != 0) {
- *           if (*(void **)(d_021469DC + 8) == (void *)func_0203CADC) return 1;
+ *           if (*(void **)(d_021469DC + 8) == (void *)GFL_NET_STATE_FatalError) return 1;
  *       }
  *       return 0;
  *   }
- *   symbols: d_021469DC 0x021469DC data; func_0203CADC 0x0203CADC arm.
+ *   symbols: d_021469DC 0x021469DC data; GFL_NET_STATE_FatalError 0x0203CADC arm.
  *   Leaf's unresolved site is ARM9 0203CADC.
  * blocker: 0x0203C628 ARM verified EXACT, 52 bytes; copied from
  *   ov099_func_021BEC60.c, blocker-c628-1.log.
  *   extern char *d_021469DC;
- *   extern void func_0203C0F4(void);
- *   extern void func_0203C464(void);
- *   int func_0203C628(void) {
+ *   extern void GFL_NET_STATE_WifiLoginMain(void);
+ *   extern void GFL_NET_STATE_WifiConnected(void);
+ *   int GFL_NET_STATE_IsWifiLoginOrConnected(void) {
  *       void *v = *(void **)(d_021469DC + 8);
- *       return v == (void *)func_0203C0F4 || v == (void *)func_0203C464;
+ *       return v == (void *)GFL_NET_STATE_WifiLoginMain || v == (void *)GFL_NET_STATE_WifiConnected;
  *   }
- *   symbols: d_021469DC 0x021469DC data; func_0203C0F4 0x0203C0F4 arm;
- *     func_0203C464 0x0203C464 arm.
+ *   symbols: d_021469DC 0x021469DC data; GFL_NET_STATE_WifiLoginMain 0x0203C0F4 arm;
+ *     GFL_NET_STATE_WifiConnected 0x0203C464 arm.
  * symbols:
- *   func_0203CB00 0x0203CB00 arm
- *   func_0203C628 0x0203C628 arm
+ *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
+ *   GFL_NET_STATE_IsWifiLoginOrConnected 0x0203C628 arm
  */
 typedef unsigned int u32;
-extern int func_0203CB00(void);
-extern int func_0203C628(void);
+extern int GFL_NET_STATE_IsFatalError(void);
+extern int GFL_NET_STATE_IsWifiLoginOrConnected(void);
 int func_021BEE94(u32 p, int a) {
-    if (!func_0203CB00() && !func_0203C628()) return a;
+    if (!GFL_NET_STATE_IsFatalError() && !GFL_NET_STATE_IsWifiLoginOrConnected()) return a;
     *(u32 *)(p+460) = 10;
     return a;
 }

@@ -15,7 +15,7 @@
  *   func_0215A5E4  0x0215A5E4  thumb  ov010
  *   func_0201210C  0x0201210C  thumb
  *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02012F44  0x02012F44  thumb
+ *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   func_02012934  0x02012934  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_021F675C  0x021F675C  thumb
@@ -43,7 +43,7 @@ struct Desc;
 struct Obj;
 extern void *func_0201210C(const struct Ctx *p);
 extern unsigned int func_02159B10(void *a0, void *a1);
-extern void *func_02012F44(void *p);
+extern void *GAME_DATA_GetSaveBlock2A(void *p);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_021F675C(void *, int);
@@ -66,7 +66,7 @@ int func_0215D468(void *a, void *b)
     Ctx *c;
     func_0201210C(h);
     f = func_02159B10(a, b);
-    g = (u32)func_02012F44(q);
+    g = (u32)GAME_DATA_GetSaveBlock2A(q);
     k = func_021F675C(func_0201AB28(func_02012934(q), f), 4);
     r = func_020122C0(h, 0, (void *)func_0215DEF0, 4);
     c = func_020124E8(r);

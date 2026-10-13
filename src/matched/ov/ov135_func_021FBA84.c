@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202CAE4 0x0202CAE4 thumb
- *   func_0202CB4C 0x0202CB4C thumb
+ *   BGWINFRM_SetFrameDataArc 0x0202CAE4 thumb
+ *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   func_020355C4 0x020355C4 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B878 0x0204B878 arm
@@ -37,8 +37,8 @@ typedef signed char s8;
 struct WinMgr;
 extern const int tbl_02203324[];
 extern const Cell tbl_02203236[];
-extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
-extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern u8 func_020355C4(void);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -55,7 +55,7 @@ extern void func_021F4FF4(u32,u32,u32);
 int func_021FBA84(u8 *p)
 {
     u8 pages;
-    func_0202CAE4(((struct Obj00437 *)p)->f18,0,0x60,0x18,1);
+    BGWINFRM_SetFrameDataArc(((struct Obj00437 *)p)->f18,0,0x60,0x18,1);
     func_021F9260(p,3);
     ((struct Obj00437 *)p)->f58=func_021F8908((void **)(p+0x30),((struct Obj00437 *)p)->f28,((struct Obj00437 *)p)->f3A+tbl_02203324[((struct Obj00437 *)p)->f38]);
     func_021FB364(p,0,((struct Obj00437 *)p)->f58);
@@ -63,7 +63,7 @@ int func_021FBA84(u8 *p)
     pages=func_021F9EEC((u8 *)(((struct Obj00437 *)p)->f58),5);
     func_021FBF04(((struct Obj00437 *)p)->f18,((struct Obj00437 *)p)->f34,((struct Obj23404 *)(*(u8 * *)&((struct Obj00437 *)p)->f0))->f14,((struct Obj00437 *)p)->f56,pages);
     func_021FBEB8(((struct Obj00437 *)p)->f18,((struct Obj00437 *)p)->f20,((struct Obj23405 *)(*(u8 * *)&((struct Obj00437 *)p)->f0))->f38,0x4A,p+0x7C);
-    func_0202CB4C(((struct Obj00437 *)p)->f18,0,1,0);
+    BGWINFRM_PutFrame(((struct Obj00437 *)p)->f18,0,1,0);
     ((struct Obj00437 *)p)->f44=0;
     func_021F4FF4(((struct Obj00437 *)p)->f8,tbl_02203236[*(int *)(p+0x44)].x,tbl_02203236[*(int *)(p+0x44)].y);
     func_021F4FF4(((struct Obj00437 *)p)->fC,0xB0,0x88);

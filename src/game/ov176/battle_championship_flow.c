@@ -49,12 +49,12 @@
  *   func_0204E804 0x0204E804 arm
  *   func_02034714 0x02034714 arm
  *   d_0217E5E0 0x0217E5E0 data a1
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_02030734 0x02030734 arm
  *   d_0217E5E4 0x0217E5E4 data a1
  *   func_020307B0 0x020307B0 arm
  *   func_0202EB44 0x0202EB44 thumb
- *   func_0200B480 0x0200B480 thumb
+ *   BATTLE_REC_ClearWork 0x0200B480 thumb
  *   func_0217D398 0x0217D398 thumb ov176
  *   func_0217D434 0x0217D434 thumb ov176
  *   func_0217D44C 0x0217D44C thumb ov176
@@ -67,7 +67,7 @@
  *   func_021E8A00 0x021E8A00 thumb ov177
  *   func_021E8738  0x021E8738  thumb  ov177
  *   func_021E8844 0x021E8844 thumb ov177
- *   func_0200B45C 0x0200B45C thumb
+ *   BATTLE_REC_IsDataExist 0x0200B45C thumb
  *   func_021E58A4 0x021E58A4 thumb ov177
  *   func_0201EC74 0x0201EC74 thumb
  *   func_0217E00C 0x0217E00C thumb ov176
@@ -140,10 +140,10 @@
  *   func_0217D388 0x0217D388 thumb ov176
  *   func_0217E1FC 0x0217E1FC thumb ov176
  *   func_0217E23C 0x0217E23C thumb ov176
- *   func_0201A918 0x0201A918 thumb
+ *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_0200E994 0x0200E994 thumb
- *   func_02006210 0x02006210 thumb
+ *   GFL_USE_StopAllSe 0x02006210 thumb
  *   func_020399A8 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  *   func_02039CB4 0x02039CB4 arm
@@ -310,11 +310,11 @@ extern void func_021E8AA8(int a);
 extern void func_0204E720(u32_0217B014 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 extern void func_02034714(const char *expr, u32_0217B014 line, const char *file);
-extern void func_02005E30(u32_0217B064 a);
+extern void GFL_USE_FadeOutBgm(u32_0217B064 a);
 extern void *func_02030734(u32_0217B2E4 heapId, u32_0217B2E4 size, int clear, const char *site, u16 tag);
 extern u32_0217B344 func_020307B0(void *p);
 extern int func_0202EB44(void);
-extern void func_0200B480(void);
+extern void BATTLE_REC_ClearWork(void);
 extern int func_0217D398(Config *,int);
 extern void func_0217D434(int *p);
 extern int func_0217D44C(int *p);
@@ -327,7 +327,7 @@ extern void func_021E89D0(void *);
 extern int func_021E8A00(void *);
 extern void func_021E8738(int *p, int a, int b, int c);
 extern int func_021E8844(const int *);
-extern u32_0217B984 func_0200B45C(void);
+extern u32_0217B984 BATTLE_REC_IsDataExist(void);
 extern void func_021E58A4(int,int,u32_0217B984);
 extern void *func_0201EC74(u32_0217B984,u32_0217B984,u32_0217B984);
 extern void *func_0217E00C(int,int);
@@ -398,10 +398,10 @@ extern int func_0217E178(int *);
 extern void func_0217D388(int *,int *);
 extern int func_0217E1FC(int,int);
 extern int func_0217E23C(char *,void **);
-extern int func_0201A918(void);
+extern int POKE_REGULATION_GetDataSize(void);
 extern void func_02082D44(const void *,void *,u32_0217C628);
 extern u32_0217C628 func_0200E994(void *base, void *key);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern struct Entry *func_020399A8(void);
 extern void func_02039C68(struct Link *,u32_0217C628,u32_0217C628);
 extern u32_0217C628 func_02039CB4(struct Link *,u32_0217C628,u32_0217C628);
@@ -652,7 +652,7 @@ void func_0217B064(void *a,int *state,char *p)
     int mode;
     switch(*state){
     case 0:
-        if(((struct Obj24402 *)(*(char * *)&((struct Obj24401 *)p)->f28))->f8==0){func_02005E30(6);mode=12;}else mode=3;
+        if(((struct Obj24402 *)(*(char * *)&((struct Obj24401 *)p)->f28))->f8==0){GFL_USE_FadeOutBgm(6);mode=12;}else mode=3;
         func_0204E720(mode,0,16,0);
         *state=1;
         break;
@@ -878,7 +878,7 @@ void func_0217B4A0(int p,unsigned *state,int *q)
             switch(result) {
             case 0:
                 if(func_0202EB44()==0) func_021E8AA0((int *)p,(int)func_0217B7A0);
-                else {func_0200B480(); func_0217B970(q,2);}
+                else {BATTLE_REC_ClearWork(); func_0217B970(q,2);}
                 break;
             case 1: func_021E8AA0((int *)p,(int)func_0217B55C); break;
             case 2: func_021E8AA0((int *)p,(int)func_0217B594); break;
@@ -979,7 +979,7 @@ void func_0217B6AC(int p,unsigned *state,int *q)
             switch(result) {
             case 0:
                 if(func_0202EB44()==0) func_021E8AA0((int *)p,(int)func_0217B7A0);
-                else {func_0200B480(); func_0217B970(q,3);}
+                else {BATTLE_REC_ClearWork(); func_0217B970(q,3);}
                 break;
             case 1: func_021E8AA0((int *)p,(int)func_0217B768); break;
             case 2: func_021E8AA0((int *)p,(int)func_0217B620); break;
@@ -1105,7 +1105,7 @@ u8 *func_0217B984(Init_0217B970 *src,u32_0217B984 heap)
     func_02082BCC(p,0,size);
     *(Init_0217B970 *)(p+0x1a0)=*src;
     *(u16 *)(p+0x1c8)=heap;
-    *(u32_0217B984 *)(p+0x1d0)=func_0200B45C();
+    *(u32_0217B984 *)(p+0x1d0)=BATTLE_REC_IsDataExist();
     func_021E58A4(*(int *)(p+0x1b0),1,heap);
     *(void **)(p+0x2c)=func_0201EC74(8,0x40,heap);
     *(void **)(p+0x20)=func_02045B38(0,2,0x3a,heap);
@@ -1236,7 +1236,7 @@ void func_0217BBDC(int *sys,u32_0217BBDC *state,u8 *p)
             }else *state=26;
         }else *state=25;
         break;
-    case 22:func_0200B480();func_0217CFE8(p,10,2);*state=31;func_021E8AB4((u32_0217BBDC)sys,23);break;
+    case 22:BATTLE_REC_ClearWork();func_0217CFE8(p,10,2);*state=31;func_021E8AB4((u32_0217BBDC)sys,23);break;
     case 23:{
         void *base=func_0200B358(func_02012EBC(((struct Obj00053 *)p)->f1B8));
         void *entry=func_0200B204(base,1);
@@ -1403,7 +1403,7 @@ void func_0217C628(int *sys,u32_0217C628 *state,u8 *p)
     case 13:func_0217D388(*(int * *)&((struct Obj00241 *)p)->f1BC,(int *)p);if(func_0217E1FC(*(int *)&((struct Obj00241 *)p)->fC,*(int *)&((struct Obj00241 *)p)->f1BC))*state=14;break;
     case 14:{
         void *out;
-        if(func_0217E23C(*(char * *)&((struct Obj00241 *)p)->fC,&out)){func_02082D44(out,((struct Obj00241 *)p)->f1C0,func_0201A918()+0xd4);*state=15;}break;
+        if(func_0217E23C(*(char * *)&((struct Obj00241 *)p)->fC,&out)){func_02082D44(out,((struct Obj00241 *)p)->f1C0,POKE_REGULATION_GetDataSize()+0xd4);*state=15;}break;
     }
     case 15:
         if(((struct Obj24412 *)(*(u8 * *)&((struct Obj00241 *)p)->f1BC))->f40==((struct Obj24413 *)(*(u8 * *)&((struct Obj00241 *)p)->f1C0))->f40){
@@ -1411,14 +1411,14 @@ void func_0217C628(int *sys,u32_0217C628 *state,u8 *p)
             int b=func_0200E994(((struct Obj00241 *)p)->f34,*(u8 * *)&((struct Obj00241 *)p)->f1C0+0x20);
             ((struct Obj00241 *)p)->f1D4=(a!=0||(a==0&&b==0));
             *state=16;
-        }else{func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_02006210();*state=21;}
+        }else{func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);GFL_USE_StopAllSe();*state=21;}
         break;
     case 16:func_02039C68((struct Link *)func_020399A8(),0x48,0x1f);*state=17;break;
     case 17:if(func_02039CB4((struct Link *)func_020399A8(),0x48,0x1f))*state=18;break;
     case 18:if(func_0217E2C0((int)(((struct Obj00241 *)p)->fC),(int)((u32_0217C628 *)(p+0x1d4))))*state=19;break;
     case 19:if(func_0217E2F8(((struct Obj00241 *)p)->fC,(u32_0217C628 *)(p+0x1d8)))*state=20;break;
     case 20:
-        func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_02006210();
+        func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);GFL_USE_StopAllSe();
         if(((struct Obj00241 *)p)->f1D8&&((struct Obj00241 *)p)->f1D4){func_020061E4(0x63a);*state=27;}else *state=24;break;
     case 21:if(func_0217E1B8(*(int * *)&((struct Obj00241 *)p)->fC))*state=22;break;
     case 22:if(func_0217E1C0(*(int * *)&((struct Obj00241 *)p)->fC))*state=23;break;

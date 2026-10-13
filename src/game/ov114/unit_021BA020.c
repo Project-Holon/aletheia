@@ -16,9 +16,10 @@
  *   func_021BA014 0x021BA014 arm ov114
  *   func_021BEFCC  0x021BEFCC  arm  ov114
  *   func_021BEFD8  0x021BEFD8  arm  ov114
- *   func_0215FAD0 0x0215FAD0 arm
- *   func_0215F650 0x0215F650 arm
+ *   SOC_InetAtoN 0x0215FAD0 arm
+ *   SOC_GetHostByName 0x0215F650 arm
  *   func_021BA100 0x021BA100 arm ov114
+ *   SOC_Shutdown  0x0215F638  arm  ov009
  */
 typedef struct {
     int doCancel;
@@ -41,9 +42,9 @@ typedef struct {
 extern int func_021BA014(int socket, char *buf_p, int len, int flags);
 extern void func_021BEFCC(void);
 extern void func_021BEFD8(int);
-extern void func_0215F638(int, int);
-extern int func_0215FAD0(char *cp, SOCInAddr *inp);
-extern SOCHostEnt *func_0215F650(char *name);
+extern void SOC_Shutdown(int, int);
+extern int SOC_InetAtoN(char *cp, SOCInAddr *inp);
+extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern void func_021BA100(void *dst_p, void *src_p, int size);
 int func_021BA020(Req *req_p, int socket, char *buf_p, int len, int flags);
 void func_021BA068(int a, int b, int c);
@@ -72,7 +73,7 @@ void func_021BA068(int a, int b, int c)
 {
     func_021BEFCC();
     if (c >= 0)
-        func_0215F638(c, 2);
+        SOC_Shutdown(c, 2);
     func_021BEFD8(a);
 }
 
@@ -83,10 +84,10 @@ unsigned long func_021BA098(int unused, char *hostname_p)
     unsigned long addr = 0;
     SOCInAddr inAddr;
 
-    if (func_0215FAD0(hostname_p, &inAddr)) {
+    if (SOC_InetAtoN(hostname_p, &inAddr)) {
         addr = inAddr.addr;
     } else {
-        hostEnt = func_0215F650(hostname_p);
+        hostEnt = SOC_GetHostByName(hostname_p);
         if (hostEnt && hostEnt->h_length > 0) {
             func_021BA100(&addr, *hostEnt->h_addr_list, 4);
         }

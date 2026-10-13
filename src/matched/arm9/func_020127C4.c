@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_020127D0  0x020127D0  thumb
+ *   GAME_DATA_GetUnionInfo  0x020127D0  thumb
  *
  * Promoted from src/pending/func_020127C4.c (was MATCH, blocker 0x020127D0,
  * declared by the naming convention, i.e. ARM).  Two things had to happen:
  * the pool word is 0x020127D1 so the target is Thumb, and
- * src/matched/sub_020127D0.c has to exist as an EXACT entry for the
+ * src/matched/GAME_DATA_GetUnionInfo.c has to exist as an EXACT entry for the
  * `matched` class to reach it - both done, and the C never changed.
  *
  * Addresses are Black-image addresses.
@@ -27,9 +27,9 @@
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u8 *sub_020127D0(u8 *o, u32 idx);
+extern u8 *GAME_DATA_GetUnionInfo(u8 *o, u32 idx);
 
 u8 *func_020127C4(void *p)
 {
-    return sub_020127D0(p, 1);
+    return GAME_DATA_GetUnionInfo(p, 1);
 }

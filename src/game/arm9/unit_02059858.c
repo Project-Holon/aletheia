@@ -1,7 +1,7 @@
 /*
  * file:     unit_02059858.c
  * unit:     yes
- * function: DWCi_Acc_IsDirty, func_02059870, func_0205987C, func_020598C4, func_020598EC, func_0205994C, func_02059980, func_020599BC, func_02059A10, func_02059A44, func_02059A5C
+ * function: DWCi_Acc_IsDirty, DWC_ClearDirtyFlag, DWCi_Acc_ClearDirty, DWC_GetFriendKey, DWC_GetGsProfileId, DWC_CreateFriendKey, DWC_CreateFriendKeyToken, DWC_CreateExchangeToken, DWC_SetGsProfileId, func_02059A44, DWC_IsEqualFriendData
  * address:  0x02059858
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -67,16 +67,16 @@ extern void DWCi_Acc_LoginIdToUserName(void *loginid, unsigned long gamecode, ch
 extern unsigned long long DWCi_Acc_GetUserId(void *userdata);
 extern unsigned long DWCi_Acc_GetPlayerId(void *userdata);
 int DWCi_Acc_IsDirty(void *userdata);
-void func_02059870(struct DWCstAccUserData *userdata);
-void func_0205987C(struct DWCstAccUserData *userdata);
-unsigned long long func_020598C4(void *frienddata);
-int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
-unsigned long long func_0205994C(struct DWCstAccUserData *userdata);
-void func_02059980(void *token, unsigned long long friend_key);
-void func_020599BC(struct DWCstAccUserData *userdata, void *token);
-void func_02059A10(void *frienddata, int gs_profile_id);
+void DWC_ClearDirtyFlag(struct DWCstAccUserData *userdata);
+void DWCi_Acc_ClearDirty(struct DWCstAccUserData *userdata);
+unsigned long long DWC_GetFriendKey(void *frienddata);
+int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
+unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
+void DWC_CreateFriendKeyToken(void *token, unsigned long long friend_key);
+void DWC_CreateExchangeToken(struct DWCstAccUserData *userdata, void *token);
+void DWC_SetGsProfileId(void *frienddata, int gs_profile_id);
 void DWC_LoginIdToUserName(DWCstAccUserData *userdata, void *frienddata, char *username);
-int func_02059A5C(void *frienddata1, void *frienddata2);
+int DWC_IsEqualFriendData(void *frienddata1, void *frienddata2);
 
 int DWCi_Acc_IsDirty(void *userdata)
 {
@@ -84,9 +84,9 @@ int DWCi_Acc_IsDirty(void *userdata)
 }
 
 
-void func_02059870(struct DWCstAccUserData *userdata)
+void DWC_ClearDirtyFlag(struct DWCstAccUserData *userdata)
 {
-    func_0205987C(userdata);
+    DWCi_Acc_ClearDirty(userdata);
 }
 
 
@@ -95,7 +95,7 @@ void func_02059870(struct DWCstAccUserData *userdata)
 /*
  * sdk:      DWCi_Acc_ClearDirty (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
-void func_0205987C(struct DWCstAccUserData *userdata)
+void DWCi_Acc_ClearDirty(struct DWCstAccUserData *userdata)
 {
     struct MATHCRC32Table table;
 
@@ -110,7 +110,7 @@ void func_0205987C(struct DWCstAccUserData *userdata)
 /*
  * sdk:      DWC_GetFriendKey (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
-unsigned long long func_020598C4(void *frienddata)
+unsigned long long DWC_GetFriendKey(void *frienddata)
 {
     if (DWCi_Acc_GetFlag_DataType(frienddata) != 2) {
         return 0;
@@ -124,7 +124,7 @@ unsigned long long func_020598C4(void *frienddata)
 /*
  * sdk:      DWC_GetGsProfileId (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
-int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata)
+int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata)
 {
     unsigned long long friend_key;
     unsigned long type;
@@ -147,7 +147,7 @@ int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata)
 /*
  * sdk:      DWC_CreateFriendKey (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
-unsigned long long func_0205994C(struct DWCstAccUserData *userdata)
+unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata)
 {
     unsigned long long ret = 0;
 
@@ -163,7 +163,7 @@ unsigned long long func_0205994C(struct DWCstAccUserData *userdata)
 /*
  * sdk:      DWC_CreateFriendKeyToken (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
-void func_02059980(void *token, unsigned long long friend_key)
+void DWC_CreateFriendKeyToken(void *token, unsigned long long friend_key)
 {
     MI_CpuFill8(token, 0, 12);
     DWCi_Acc_SetFriendKey(token, friend_key);
@@ -176,7 +176,7 @@ void func_02059980(void *token, unsigned long long friend_key)
 /*
  * sdk:      DWC_CreateExchangeToken (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
-void func_020599BC(struct DWCstAccUserData *userdata, void *token)
+void DWC_CreateExchangeToken(struct DWCstAccUserData *userdata, void *token)
 {
     MI_CpuFill8(token, 0, 12);
     if (!DWCi_Acc_IsAuthentic(userdata)) {
@@ -192,7 +192,7 @@ void func_020599BC(struct DWCstAccUserData *userdata, void *token)
 /*
  * sdk:      DWC_SetGsProfileId (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
-void func_02059A10(void *frienddata, int gs_profile_id)
+void DWC_SetGsProfileId(void *frienddata, int gs_profile_id)
 {
     MI_CpuFill8(frienddata, 0, 12);
     DWCi_Acc_SetGsProfileId(frienddata, gs_profile_id);
@@ -211,7 +211,7 @@ void DWC_LoginIdToUserName(DWCstAccUserData *userdata, void *frienddata, char *u
 /*
  * sdk:      DWC_IsEqualFriendData (libdwcaccount.TWL.HYB.a(dwc_account.o))
  */
-int func_02059A5C(void *frienddata1, void *frienddata2)
+int DWC_IsEqualFriendData(void *frienddata1, void *frienddata2)
 {
     unsigned long type1;
     unsigned long type2;

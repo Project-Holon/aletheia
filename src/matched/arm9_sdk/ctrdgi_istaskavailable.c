@@ -1,5 +1,5 @@
 /*
- * function: CTRDGi_IsTaskAvailable
+ * function: NNS_G3dGeIsBufferExist
  * address:  0x0206DB24
  * packet:   pkt_02060000
  * region:   arm9
@@ -25,7 +25,7 @@
 
 extern struct GeState d_0214BAB4;
 
-int CTRDGi_IsTaskAvailable(void)
+int NNS_G3dGeIsBufferExist(void)
 {
     return *(void **)&(*(char *)&d_0214BAB4) != 0;
 }

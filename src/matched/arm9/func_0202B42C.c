@@ -1,5 +1,5 @@
 /*
- * function: func_0202B42C
+ * function: ISS_DUNGEON_SYS_Stop
  * address:  0x0202B42C
  * packet:   pkt_0202B1F4
  * region:   arm9
@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * A bare tail-call thunk to func_0202B490.  The callee is an unlabelled leaf,
+ * A bare tail-call thunk to ISS_DUNGEON_SYS_Deactivate.  The callee is an unlabelled leaf,
  * so its ISA has to be declared here; with `symbols:` absent the name
  * convention defaults it to ARM and the `matched` class refuses the EXACT
  * entry at 0x0202B490 on the ISA mismatch.
  *
  * symbols:
- *   func_0202B490  0x0202B490  thumb
+ *   ISS_DUNGEON_SYS_Deactivate  0x0202B490  thumb
  */
 
 typedef unsigned char  u8;
-extern void func_0202B490(u8 *p);
+extern void ISS_DUNGEON_SYS_Deactivate(u8 *p);
 
-void func_0202B42C(u8 *a0)
+void ISS_DUNGEON_SYS_Stop(u8 *a0)
 {
-    func_0202B490(a0);
+    ISS_DUNGEON_SYS_Deactivate(a0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0202B710
+ * function: ISS_SYS_Update3ds
  * address:  0x0202B710
  * packet:   pkt_0202B710
  * region:   arm9
@@ -15,18 +15,18 @@
  * so it can never be a manifest entry and `literal` has no outside pool word
  * either (permanent).  Every concrete byte reproduces.
  * symbols:
- *   func_0202B8F4  0x0202B8F4  thumb
+ *   ISS_3DS_SYS_Update  0x0202B8F4  thumb
  */
 #include "../include/Obj02010.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0202B8F4(u8 *a0);
+extern void ISS_3DS_SYS_Update(u8 *a0);
 
-void func_0202B710(u8 *o)
+void ISS_SYS_Update3ds(u8 *o)
 {
     if ((((struct Obj02010 *)o)->fC & 1) == 0) {
-        func_0202B8F4((u8 *)(((struct Obj02010 *)o)->f24));
+        ISS_3DS_SYS_Update((u8 *)(((struct Obj02010 *)o)->f24));
     }
 }

@@ -17,7 +17,7 @@
  *   func_021C0E40  0x021C0E40  arm  ov016
  *   func_021CFBD4  0x021CFBD4  arm  ov016
  *   func_0205BE6C  0x0205BE6C  arm
- *   func_020589C4  0x020589C4  arm
+ *   DWCi_BACKUPlGetWifi  0x020589C4  arm
  *   func_02082D44  0x02082D44  arm
  *   func_021BC8EC  0x021BC8EC  arm  ov016
  *   func_021D5CA8  0x021D5CA8  arm  ov016
@@ -41,7 +41,7 @@ extern int func_021D5580(int lcd);
 extern void func_021C0E40(unsigned int v);
 extern void *func_021CFBD4(void);
 extern int func_0205BE6C(void);
-extern void *func_020589C4();
+extern void *DWCi_BACKUPlGetWifi();
 extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
 extern void func_021BC8EC(void);
 extern void func_021D5CA8(int lcd);
@@ -89,8 +89,8 @@ void func_021CD458(void)
     unsigned char *map = func_021CFBD4();
     if (func_0205BE6C() == 0)
         return;
-    func_02082D44(func_020589C4(), map + 0xF0, 14);
-    func_02082D44(func_020589C4(), map + 0x1F0, 14);
+    func_02082D44(DWCi_BACKUPlGetWifi(), map + 0xF0, 14);
+    func_02082D44(DWCi_BACKUPlGetWifi(), map + 0x1F0, 14);
     func_021BC8EC();
     func_021D5CA8(0);
     func_021D6090(0, 21);

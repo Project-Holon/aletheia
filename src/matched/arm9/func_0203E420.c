@@ -1,5 +1,5 @@
 /*
- * function: func_0203E420
+ * function: GFL_NET_IRC_WIRELESS_GetBeaconData
  * address:  0x0203E420
  * packet:   pkt_0203DC70
  * region:   arm9
@@ -11,13 +11,13 @@
  *
  * net_irc_wireless.c.  Runs the context's +0x78 method on the caller's
  * argument, copies 0x4C bytes of its result to +0xB4 and returns the +0x90
- * buffer.  The earlier notes (func_0203E420.c.txt, pkt_0203E420.c.txt) read
+ * buffer.  The earlier notes (GFL_NET_IRC_WIRELESS_GetBeaconData.c.txt, pkt_0203E420.c.txt) read
  * the function as taking no argument; the image keeps r0 untouched through
  * the global load (`ldr r1, =g`), which is the argument being forwarded to
- * the method, the same shape as func_0203E458.
+ * the method, the same shape as GFL_NET_IRC_WIRELESS_GetBeaconCompare.
  *
  * symbols:
- *   g_021469F0     0x021469F0  data
+ *   gNetIrcWirelessLink     0x021469F0  data
  *   func_02082D44  0x02082D44  arm
  */
 
@@ -26,12 +26,12 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern struct Ctx *g_021469F0;
+extern struct Ctx *gNetIrcWirelessLink;
 extern void func_02082D44(const void *src, void *dst, u32 size);
 
-void *func_0203E420(void *arg)
+void *GFL_NET_IRC_WIRELESS_GetBeaconData(void *arg)
 {
-    struct Ctx *p = g_021469F0;
+    struct Ctx *p = gNetIrcWirelessLink;
     void *r;
 
     if (p == 0)

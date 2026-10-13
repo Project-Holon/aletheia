@@ -1,5 +1,5 @@
 /*
- * function: func_0202AB4C
+ * function: ISS_CITY_SYS_Start
  * address: 0x0202AB4C
  * packet: pkt_arm9_0202AB4C
  * region: arm9
@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/arm9/iss_city_sys.c and filed here.
  *
  * symbols:
- *   func_0202AC00 0x0202AC00 thumb
+ *   ISS_CITY_SYS_Enable 0x0202AC00 thumb
  */
 
 struct Rec44;
@@ -44,10 +44,10 @@ struct CitySys {
     u8 cur;
 };
 
-void func_0202AB4C(u8 *p);
-void func_0202AC00(struct CitySys *s);
+void ISS_CITY_SYS_Start(u8 *p);
+void ISS_CITY_SYS_Enable(struct CitySys *s);
 
-void func_0202AB4C(u8 *p)
+void ISS_CITY_SYS_Start(u8 *p)
 {
-    func_0202AC00((struct CitySys *)p);
+    ISS_CITY_SYS_Enable((struct CitySys *)p);
 }

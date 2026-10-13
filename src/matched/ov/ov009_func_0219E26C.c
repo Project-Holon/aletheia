@@ -1,5 +1,5 @@
 /*
- * function: func_0219E26C
+ * function: SBServerGetNext
  * address:  0x0219E26C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Word at +0x24.
  */
 
-int func_0219E26C(const int *p)
+int SBServerGetNext(const int *p)
 {
     return p[9];
 }

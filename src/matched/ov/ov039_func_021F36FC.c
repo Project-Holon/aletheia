@@ -42,7 +42,7 @@
  *   func_021BE674 0x021BE674 thumb ov021
  *   func_021BE6B0 0x021BE6B0 thumb ov021
  *   func_02028A7C 0x02028A7C thumb
- *   func_02028B18 0x02028B18 thumb
+ *   FIELD_SOUND_SYSTEM_TransferSlot 0x02028B18 thumb
  *   func_021BE700 0x021BE700 thumb ov021
  *   func_021BE6CC 0x021BE6CC thumb ov021
  *   func_021BE748 0x021BE748 thumb ov021
@@ -96,7 +96,7 @@ extern u32 func_02012A30(const struct BigObj *a);
 extern void *func_021BE674(char *base, int i, u8 j, int k);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern void func_02028A7C(struct SoundSys2 *s, u32 id);
-extern void func_02028B18(struct SoundSys2 *s, u32 id, u32 who);
+extern void FIELD_SOUND_SYSTEM_TransferSlot(struct SoundSys2 *s, u32 id, u32 who);
 extern void func_021BE700(void *p, int i, int j, u8 k, int flag);
 extern void func_021BE6CC(int a, int b, int c, int d, int e);
 extern int func_021BE748(u32 a);
@@ -177,5 +177,5 @@ void func_021F36FC(void *a)
     w->hold = -1;
     w->sel = 0xff;
     func_02028A7C((struct SoundSys2 *)snd, 0x68A);
-    func_02028B18((struct SoundSys2 *)snd, 0x68A, 0);
+    FIELD_SOUND_SYSTEM_TransferSlot((struct SoundSys2 *)snd, 0x68A, 0);
 }

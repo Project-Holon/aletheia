@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020215BC  0x020215BC  thumb
+ *   PALANM_CopyToSlot  0x020215BC  thumb
  *
  * Snapshot one palette bank into the animation slot that shadows it.  The
  * bank selector indexes both the hardware palette base and the slot array,
@@ -48,7 +48,7 @@ struct PalAnmSlot {
     u32  unk_10;
 };
 
-extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx,
+extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx,
                           u32 off, u16 size);
 
 void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size)
@@ -72,5 +72,5 @@ void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size)
         return;
     }
 
-    func_020215BC(slots, base + off, bank, off, (u16)size);
+    PALANM_CopyToSlot(slots, base + off, bank, off, (u16)size);
 }

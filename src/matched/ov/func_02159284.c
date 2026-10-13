@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0201134C  0x0201134C  thumb
- *   func_020113B4  0x020113B4  thumb
+ *   VM_Call  0x020113B4  thumb
  */
 #include "../include/Obj00005.h"
 
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_0201134C();
-extern int func_020113B4();
+extern int VM_Call();
 
 int func_02159284(int a0, int a1, int a2)
 {
@@ -33,7 +33,7 @@ a2 = a0 + 0;
 a1 = *(int *)&((struct Obj00005 *)t4)->f14;
 a0 = t4 + 0;
 a1 = a1 + a2;
-    a0 = func_020113B4(a0, a1, a2);
+    a0 = VM_Call(a0, a1, a2);
 loc_02159298:
 a0 = 0;
     return a0;}

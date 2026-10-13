@@ -1,5 +1,5 @@
 /*
- * function: func_02173BFC
+ * function: UNION_COMMAND_RecvColosseumEntry
  * address:  0x02173BFC
  * packet:   pkt_ov012_02173BFC
  * region:   ov012
@@ -29,7 +29,7 @@ extern void func_02087C6C(void *p);
 extern u8 *func_02012944(void *p);
 extern void func_021CD624(u8 *p, int i, u32 a, u32 b, void *c);
 
-void func_02173BFC(int a, int x, u8 *b, u8 *p)
+void UNION_COMMAND_RecvColosseumEntry(int a, int x, u8 *b, u8 *p)
 {
     int *r4;
     int r7;

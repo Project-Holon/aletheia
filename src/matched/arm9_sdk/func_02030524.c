@@ -1,5 +1,5 @@
 /*
- * function: func_02030524
+ * function: GFL_HEAP_GetLastError
  * address:  0x02030524
  * packet:   pkt_02030524
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 
 extern u16 d_02146954[];
 
-u16 func_02030524(void)
+u16 GFL_HEAP_GetLastError(void)
 {
     return *(u16 *)((char *)d_02146954 + 0xe);
 }

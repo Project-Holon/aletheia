@@ -11,7 +11,7 @@
  * symbols:
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021C2E4C 0x021C2E4C thumb ov093
- *   func_0201C020 0x0201C020 thumb
+ *   WAZA_TOOL_GetRankEffectCount 0x0201C020 thumb
  *   func_021C2F70 0x021C2F70 thumb ov093
  *   func_021C3008 0x021C3008 thumb ov093
  *   func_021CC8D8 0x021CC8D8 thumb ov093
@@ -27,7 +27,7 @@ enum Kind { K0, K1, K10 = 10 };
 struct Lock { u32 a:10; u32 b:9; u32 c:9; u32 d:1; u32 e:1; u32 f:1; u32 g:1; };
 extern u8 func_021D5440(u8 *p);
 extern u32 func_021C2E4C(u8 *);
-extern u8 func_0201C020(u16);
+extern u8 WAZA_TOOL_GetRankEffectCount(u16);
 extern void func_021C2F70(u8 *, u16, u32, u8 *, u8 *, s32 *, s32 *);
 extern int func_021C3008(u8 *, u8, u8 *, enum Kind, s32, u8, u16, u32, int, u32);
 extern u32 func_021CC8D8(void *, int);
@@ -47,7 +47,7 @@ int func_021C2E64(u8 *p, const u16 *q, u8 *a, u8 *b, int k)
     result = 0;
     id = func_021D5440(a);
     serial = func_021C2E4C(p);
-    count = func_0201C020(*q);
+    count = WAZA_TOOL_GetRankEffectCount(*q);
     for (i = 0; i < count; i++) {
         ok = 0;
         func_021C2F70(p, *q, i, a, b, (s32 *)&kind, &value);

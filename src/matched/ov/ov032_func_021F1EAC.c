@@ -13,7 +13,7 @@
  *   func_021F1EAC 0x021F1EAC thumb
  *   func_021F1080 0x021F1080 thumb
  *   func_021F0ED0 0x021F0ED0 thumb
- *   func_02031194 0x02031194 arm
+ *   TCBL_DeleteTask 0x02031194 arm
  */
 #include "../include/Obj02113.h"
 #include "../include/Obj20437.h"
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern void func_021F1080(char *p, char *q, int r, int t);
 extern void func_021F0ED0(char *q, int a);
 struct TcblNode;
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 
 void func_021F1EAC(void *task, u8 *s)
 {
@@ -45,5 +45,5 @@ void func_021F1EAC(void *task, u8 *s)
     }
     ((struct Obj20438 *)(*(char * *)&((struct Obj02113 *)s)->f8))->f30 = 0;
     func_021F0ED0(*(char * *)&((struct Obj02113 *)s)->f8, 0);
-    func_02031194(task);
+    TCBL_DeleteTask(task);
 }

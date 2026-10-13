@@ -21,7 +21,7 @@
  *   func_0208799C 0x0208799C arm
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
- *   func_0203D7FC 0x0203D7FC arm
+ *   GFL_NET_FreeAligned 0x0203D7FC arm
  *   func_02034714 0x02034714 arm
  *   d_021F6EAC 0x021F6EAC data a4
  *   d_021F6EC8 0x021F6EC8 data a4
@@ -47,7 +47,7 @@ extern void func_021F0D1C(u16);
 extern u32 func_02087988(void),func_0208799C(u32);
 extern void func_02082D44(const void *,void *,u32);
 extern u32 func_020307B0(void *p);
-extern void func_0203D7FC(void *);
+extern void GFL_NET_FreeAligned(void *);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 typedef struct {void *f00,*f04;u16 f08,f0A,f0C,f0E,f10,f12,f14;} Masks;
 extern struct Masks d_021F6EAC;
@@ -87,7 +87,7 @@ void func_021F0B2C(u16 aid,u32 event,u8 *p)
  case 12:
   if(func_021F0D28()==4)func_021F0D1C(5);else func_021F0D1C(0);
   if(P(0)){func_020307B0(P(0));P(0)=0;}
-  if(P(4)){func_0203D7FC(P(4));P(4)=0;}break;
+  if(P(4)){GFL_NET_FreeAligned(P(4));P(4)=0;}break;
  case 13:
   switch(((struct Obj04440 *)p)->f0){case 1:case 2:case 9:func_021F0D1C(7);break;case 8:break;}break;
  case 1:case 4:case 5:case 6:case 8:case 11:

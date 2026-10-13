@@ -28,9 +28,9 @@
  *   func_020450C8  0x020450C8  arm
  *   func_0201C7A4  0x0201C7A4  thumb
  *   func_02045924  0x02045924  arm
- *   func_0202DE5C  0x0202DE5C  thumb
- *   func_0202DC48  0x0202DC48  thumb
- *   func_0202DCB0  0x0202DCB0  thumb
+ *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb
+ *   PMS_DRAW_Print  0x0202DC48  thumb
+ *   PMS_DRAW_SetVisible  0x0202DCB0  thumb
  *   func_0201D304  0x0201D304  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   func_02045808  0x02045808  arm
@@ -38,7 +38,7 @@
  *   func_02045334  0x02045334  arm
  *   func_02045B38  0x02045B38  arm
  *   func_02045C04  0x02045C04  arm
- *   func_02012F5C  0x02012F5C  thumb
+ *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   func_020089F4  0x020089F4  thumb
  *   func_02025C9C  0x02025C9C  thumb
  *   d_021C876C     0x021C876C  data  a1
@@ -105,7 +105,7 @@
  *   func_02040618  0x02040618  arm
  *   func_0204A648  0x0204A648  arm
  *   func_020419E4  0x020419E4  arm
- *   func_02045A90  0x02045A90  arm
+ *   STRBUF_GetChars  0x02045A90  arm
  *   func_020457B0  0x020457B0  arm
  *   func_0201EC74  0x0201EC74  thumb
  *   func_020056A0  0x020056A0  thumb
@@ -1019,9 +1019,9 @@ extern u32 func_020452E8(struct Descriptor *d);
 extern void func_020450C8(void);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern void func_0202DE5C(struct PmsDraw *p, u8 v);
-extern void func_0202DC48(u32 a, u32 b, u32 c, u32 d);
-extern void func_0202DCB0(struct Obj0202DC98 *o, int i, u32 a1);
+extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
+extern void PMS_DRAW_Print(u32 a, u32 b, u32 c, u32 d);
+extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *o, int i, u32 a1);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
@@ -1029,7 +1029,7 @@ extern void func_02045374(struct Cfg *cfg);
 extern void func_02045334(struct Descriptor *d);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02045C04(struct Rec *rec);
-extern void *func_02012F5C(void **h);
+extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern u8 func_020089F4(const struct Sub020089A8Obj *obj);
 extern u32 func_02025C9C(u32 x);
 extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
@@ -1092,7 +1092,7 @@ extern void func_020306F0(u32 heap);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0204A648(void);
 extern void func_020419E4(void);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work_021C70EC *), Work_021C70EC *p, int pri);
@@ -1238,10 +1238,10 @@ void func_021C60CC(Work_021C60CC *p, void **bg, const Info_021C6000 *info)
     func_021C61EC((Work_021C61EC *)p, info->b6, 0);
     func_021C628C((Work_021C628C *)p, info->f48, 0);
     func_021C6954((Work_021C6954 *)p, bg[4], 0xD8, 8, 0, s, info->f20, 7, 1, 1, 0);
-    func_0202DE5C(p->f32B0, 0);
-    func_0202DC48((u32)p->f32B0, (u32)bg[5], (u32)p->info->f6C, 0);
+    PMS_DRAW_SetNullColorPalette(p->f32B0, 0);
+    PMS_DRAW_Print((u32)p->f32B0, (u32)bg[5], (u32)p->info->f6C, 0);
     if (p->f3034 != 0) {
-        func_0202DCB0(p->f32B0, 0, 0);
+        PMS_DRAW_SetVisible(p->f32B0, 0, 0);
     }
 }
 
@@ -1260,7 +1260,7 @@ void func_021C61EC(Work_021C61EC *p, int k, int flush)
     u32 w;
 
     bank = func_02045B38(0, 2, 0xBF, p->heap);
-    if (func_020089F4(func_02012F5C(p->f24->f4))) {
+    if (func_020089F4(GAME_DATA_GetSaveBlock21(p->f24->f4))) {
         str = func_02045EC0(bank, func_02025C9C(k));
     } else {
         str = func_02045EC0(bank, 0);
@@ -1827,7 +1827,7 @@ void func_021C7130(Work *p, Parent_021C7130 *parent)
     p->f20 = func_02045B38(0, 2, 0xBB, 0x27);
     for (i = 0; i < 7; i++) {
         p->f2C[i] = func_02045EC0(p->f20, i);
-        func_02045A90(p->f2C[i]);
+        STRBUF_GetChars(p->f2C[i]);
     }
     p->f28 = func_020457B0(0x68, 0x27);
     p->f24 = func_0201EC74(8, 0x40, 0x27);
@@ -1835,7 +1835,7 @@ void func_021C7130(Work *p, Parent_021C7130 *parent)
     p->f118 = 8;
     p->f144 = -1;
     func_021C80B4(p);
-    p->f184 = func_02012F5C(p->f108->f4);
+    p->f184 = GAME_DATA_GetSaveBlock21(p->f108->f4);
     func_021C8208(p);
 }
 

@@ -1,6 +1,6 @@
 /*
  * file:     unit_0219F0D8.c
- * function: func_0219F0D8
+ * function: ServerBrowserGetMyPublicIPAddr
  * address:  0x0219F0D8
  * packet:   pkt_02155168
  * region:   ov009
@@ -15,7 +15,7 @@
 
 #include "unit_0219E1EC_types.h"
 
-unsigned int func_0219F0D8(const ServerBrowser *browser)
+unsigned int ServerBrowserGetMyPublicIPAddr(const ServerBrowser *browser)
 {
     return browser->list.mypublicip;
 }

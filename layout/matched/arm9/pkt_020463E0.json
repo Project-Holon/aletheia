@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020463E0",
+   "name": "SYSTEMFONT_SetColors",
    "address": "0x020463E0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020467EC",
+   "name": "G3D_SYSTEM_GetProjection",
    "address": "0x020467EC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02046BFC",
+   "name": "G3D_SYSTEM_GetTexManagerMode",
    "address": "0x02046BFC",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02046C10",
+   "name": "G3D_SYSTEM_GetPlttManagerMode",
    "address": "0x02046C10",
    "kind": "game",
    "region": "arm9",

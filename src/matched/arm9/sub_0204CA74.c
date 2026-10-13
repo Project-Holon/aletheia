@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204CA74
+ * function: CLACT_FindActorBefore
  * address:  0x0204CA74
  * packet:   pkt_0204CA74
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0204B838  0x0204B838  arm
+ *   CLACT_GetActorDrawPriority  0x0204B838  arm
  *
  * Walk the circular list backwards from `head` and return the payload of
  * the first node whose key sorts strictly above `key`; if the walk comes
@@ -23,12 +23,12 @@
  * hit arm is two predicated instructions, `ldrhi` and `pophi`, so it never
  * reaches the shared tail.
  *
- * Its mirror image sub_0204CAAC walks the same list forwards, returns the
+ * Its mirror image CLACT_FindActorAfter walks the same list forwards, returns the
  * node instead of the payload and inverts the condition.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204CA74.c \
- *       --func sub_0204CA74 --addr 0x0204CA74 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_FindActorBefore.c \
+ *       --func CLACT_FindActorBefore --addr 0x0204CA74 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -38,14 +38,14 @@ struct Node {
     void        *payload;
 };
 
-extern int sub_0204B838(int a0);
+extern int CLACT_GetActorDrawPriority(int a0);
 
-void *sub_0204CA74(struct Node *head, u32 key)
+void *CLACT_FindActorBefore(struct Node *head, u32 key)
 {
     struct Node *n = head;
 
     do {
-        if (sub_0204B838((int)n) > key) {
+        if (CLACT_GetActorDrawPriority((int)n) > key) {
             return n->payload;
         }
         n = n->prev;

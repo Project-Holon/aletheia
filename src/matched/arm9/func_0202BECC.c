@@ -1,5 +1,5 @@
 /*
- * function: func_0202BECC
+ * function: ISS_ZONE_SYS_SwitchZone
  * address:  0x0202BECC
  * packet:   pkt_0202BECC
  * region:   arm9
@@ -10,13 +10,16 @@
  * status:   EXACT*
  *
  * Guarded one-argument forward: only when the node's first word is set does
- * func_0202BF90 get called with the node itself.
+ * ISS_ZONE_SYS_BeginFade get called with the node itself.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0202BECC.c \
- *       --func func_0202BECC --addr 0x0202BECC --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/pending/ISS_ZONE_SYS_SwitchZone.c \
+ *       --func ISS_ZONE_SYS_SwitchZone --addr 0x0202BECC --thumb --cc 1.1p1
 
  * Closed by the `matched` class: 0x0202BF90 was filed as an EXACT entry this wave (pkt_0202BEBC), matched with the object spelled as a struct.
+ *
+ * symbols:
+ *   ISS_ZONE_SYS_BeginFade  0x0202BF90  thumb
  */
 #include "../include/Obj03440.h"
 
@@ -24,11 +27,11 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct Obj;
-extern void func_0202BF90(struct Obj *o, u32 key);
+extern void ISS_ZONE_SYS_BeginFade(struct Obj *o, u32 key);
 
-void func_0202BECC(u8 *p, u32 key)
+void ISS_ZONE_SYS_SwitchZone(u8 *p, u32 key)
 {
     if (((struct Obj03440 *)p)->f0 != 0) {
-        func_0202BF90((struct Obj *)p, key);
+        ISS_ZONE_SYS_BeginFade((struct Obj *)p, key);
     }
 }

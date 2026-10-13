@@ -27,168 +27,143 @@
  *   func_021D62C4  0x021D62C4  thumb  ov093
  *   d_021F0778     0x021F0778  data   ov093  a4
  *   d_021F0768     0x021F0768  data   ov093  a4
- *   func_0201C314  0x0201C314  thumb
+ *   WAZA_TOOL_IsDamaging  0x0201C314  thumb
  *   func_021D76BC  0x021D76BC  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  *   d_021F0620     0x021F0620  data   ov093  a4
  *   d_021F05E8     0x021F05E8  data   ov093  a4
  */
-#include "../../matched/include/Obj06259.h"
-#include "../../matched/include/Obj21343.h"
+#include "unit_021DBAF0_types.h"
 
-struct Unk021D62A8;
-struct S;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-extern int func_021D775C(int);
-extern int func_021B9A24(unsigned int,unsigned int);
-extern void func_021D7704(int,int);
-extern int func_021C8010(u8 *p, unsigned int v);
-extern u8 func_021C7F68(int *p, int b, u8 *out);
-extern void *func_021C7CF4(int *p, int i);
-extern int func_021D62A8(struct Unk021D62A8 *p);
-extern int func_021D85C0(int a, u32 b);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *, void *);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern u32 func_0201C314(u16 id);
-extern int func_021D76BC(int key, u32 val);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 v);
-void func_021DC13C(int a,int b,unsigned int c);
-int *func_021DC164(int *p);
-void func_021DC170(int a, void *b, int c);
-int *func_021DC20C(int *p);
-void func_021DC218(int u, int a, int b);
-int *func_021DC250(int *p);
-void func_021DC25C(int u, int a, int b);
-int *func_021DC294(int *p);
-void func_021DC2A0(int u, void *a, u32 b);
-int *func_021DC320(int *p);
+extern int func_021D775C(int key);
+extern int func_021B9A24(unsigned int pokeIdA, unsigned int pokeIdB);
+extern void func_021D7704(int key, int ratio);
+extern int func_021C8010(struct BtlServerFlow *flow, unsigned int mask);
+extern u8 func_021C7F68(struct BtlServerFlow *flow, int posKey, u8 *out);
+extern struct BtlPokeParam *func_021C7CF4(struct BtlServerFlow *flow, int pokeId);
+extern int func_021D62A8(struct BtlPokeParam *bpp);
+extern int func_021D85C0(struct BtlServerFlow *flow, u32 percent);
+extern void *func_021C88A4(struct BtlServerFlow *flow, int cmdKind, int pokeId);
+extern void func_021C88C8(struct BtlServerFlow *flow, void *cmd);
+extern int func_021D62C4(struct BtlPokeParam *bpp, int sickId);
+extern u32 WAZA_TOOL_IsDamaging(u16 moveId);
+extern int func_021D76BC(int key, u32 value);
+extern void func_021C8838(BtlStrParam *strParam, int strType, int strId);
+extern void func_021C8860(BtlStrParam *strParam, u32 arg);
+void func_021DC13C(struct BtlEventFactor *factor, struct BtlServerFlow *flow, unsigned int ownerId);
+int *func_021DC164(int *handlerCount);
+void func_021DC170(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId);
+int *func_021DC20C(int *handlerCount);
+void func_021DC218(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId);
+int *func_021DC250(int *handlerCount);
+void func_021DC25C(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId);
+int *func_021DC294(int *handlerCount);
+void func_021DC2A0(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u32 ownerId);
+int *func_021DC320(int *handlerCount);
 extern int d_021F0780;
 extern int d_021F0778[];
 extern int d_021F0768[];
 extern int d_021F0620[];
 extern int d_021F05E8[];
 
-
-
-
-void func_021DC13C(int a,int b,unsigned int c) { unsigned char k; k=func_021D775C(4); if(k!=c && func_021B9A24(c,k)) func_021D7704(0x35,3<<10); }
-
-
-
-
-int *func_021DC164(int *p) { *p=1; return &d_021F0780; }
-
-
-
-
-void func_021DC170(int a, void *b, int c)
+/* Friend Guard: damage to an ally of the owner is reduced to three quarters. */
+void func_021DC13C(struct BtlEventFactor *factor, struct BtlServerFlow *flow, unsigned int ownerId)
 {
-    u8 buf[4];
-    u8 n;
-    u8 i;
-    u8 *p;
-    int two = 2;
+    unsigned char defenderId;
+    defenderId = func_021D775C(BTL_EVAR_DEFENDER_ID);
+    if (defenderId != ownerId && func_021B9A24(ownerId, defenderId))
+        func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_0_75);
+}
 
-    if (c == func_021D775C(2)) {
-        n = func_021C7F68(b, (u16)((two << 9) | func_021C8010(b, c)), buf);
-        for (i = 0; i < n; i++) {
-            if (buf[i] != c) {
-                if (func_021D62A8(func_021C7CF4(b, buf[i])) && func_021D85C0((int)b, 0x1e)) {
-                    p = func_021C88A4(b, 0xb, c);
-                    ((struct Obj06259 *)p)->f0 |= 2 << 22;
-                    ((struct Obj06259 *)p)->f0 |= 2 << 24;
-                    p[0x14] = 1;
-                    p[8] = buf[i];
-                    ((struct Obj06259 *)p)->f4 = 0x24;
-                    func_021C88C8(b, p);
+int *func_021DC164(int *handlerCount) { *handlerCount = 1; return &d_021F0780; }
+
+/* Healer: sometimes cures the major status condition of an ally. */
+void func_021DC170(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId)
+{
+    u8 allyIds[4];
+    u8 allyCount;
+    u8 i;
+    BtlCureSickCmd *cmd;
+
+    if (ownerId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        allyCount = func_021C7F68(flow, (u16)(0x400 | func_021C8010(flow, ownerId)), allyIds);
+        for (i = 0; i < allyCount; i++) {
+            if (allyIds[i] != ownerId) {
+                if (func_021D62A8(func_021C7CF4(flow, allyIds[i])) && func_021D85C0(flow, 30)) {
+                    cmd = func_021C88A4(flow, BTL_CMD_KIND_CURE_SICK, ownerId);
+                    cmd->flags |= BTL_CMD_FLAG_FROM_ABILITY;
+                    cmd->flags |= BTL_CMD_FLAG_ABILITY_ON_ALLY;
+                    cmd->showMessage = 1;
+                    cmd->pokeId = allyIds[i];
+                    cmd->sickIndex = BTL_CURE_ALL_MAJOR;
+                    func_021C88C8(flow, cmd);
                 }
             }
         }
     }
 }
 
-
-
-
-int *func_021DC20C(int *p)
+int *func_021DC20C(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F0778;
 }
 
-
-
-
-void func_021DC218(int u, int a, int b)
+/* Toxic Boost: while poisoned, the physical power of the owner is 1.5 times. */
+void func_021DC218(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId)
 {
-    if (b == func_021D775C(3) && func_021D62C4(func_021C7CF4((int *)a, b), 5) != 0
-        && func_021D775C(0x1a) == 1) {
-        func_021D7704(0x31, 3 << 11);
+    if (ownerId == func_021D775C(BTL_EVAR_ATTACKER_ID)
+        && func_021D62C4(func_021C7CF4(flow, ownerId), BTL_SICK_POISON) != 0
+        && func_021D775C(BTL_EVAR_DAMAGE_TYPE) == BTL_DAMAGE_TYPE_PHYSICAL) {
+        func_021D7704(BTL_EVAR_POWER_RATIO, BTL_RATIO_1_5);
     }
 }
 
-
-
-int *func_021DC250(int *p)
+int *func_021DC250(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F0768;
 }
 
-
-
-void func_021DC25C(int u, int a, int b)
+/* Flare Boost: while burned, the special power of the owner is 1.5 times. */
+void func_021DC25C(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId)
 {
-    if (b == func_021D775C(3) && func_021D62C4(func_021C7CF4((int *)a, b), 4) != 0
-        && func_021D775C(0x1a) == 2) {
-        func_021D7704(0x31, 3 << 11);
+    if (ownerId == func_021D775C(BTL_EVAR_ATTACKER_ID)
+        && func_021D62C4(func_021C7CF4(flow, ownerId), BTL_SICK_BURN) != 0
+        && func_021D775C(BTL_EVAR_DAMAGE_TYPE) == BTL_DAMAGE_TYPE_SPECIAL) {
+        func_021D7704(BTL_EVAR_POWER_RATIO, BTL_RATIO_1_5);
     }
 }
 
-
-int *func_021DC294(int *p)
+int *func_021DC294(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F0620;
 }
 
-
-void func_021DC2A0(int u, void *a, u32 b)
+/* Telepathy: damaging moves of an ally do not hit the owner. */
+void func_021DC2A0(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u32 ownerId)
 {
-    u8 *e;
-    u8 c;
-    if (b == func_021D775C(4)) {
-        c = func_021D775C(3);
-        if (func_021B9A24(b, c) != 0
-            && b != c
-            && func_0201C314(func_021D775C(0x12)) != 0
-            && func_021D76BC(0x40, 1) != 0) {
-            e = func_021C88A4(a, 4, b);
-            ((struct Obj21343 *)e)->f0 |= 1 << 23;
-            func_021C8838(e + 4, 2, 0x1d5);
-            func_021C8860((struct S *)(e + 4), b);
-            func_021C88C8(a, e);
+    BtlMessageCmd *cmd;
+    u8 attackerId;
+    if (ownerId == func_021D775C(BTL_EVAR_DEFENDER_ID)) {
+        attackerId = func_021D775C(BTL_EVAR_ATTACKER_ID);
+        if (func_021B9A24(ownerId, attackerId) != 0
+            && ownerId != attackerId
+            && WAZA_TOOL_IsDamaging(func_021D775C(BTL_EVAR_MOVE_ID)) != 0
+            && func_021D76BC(BTL_EVAR_NO_EFFECT_FLAG, 1) != 0) {
+            cmd = func_021C88A4(flow, BTL_CMD_KIND_MESSAGE, ownerId);
+            cmd->flags |= BTL_CMD_FLAG_FROM_ABILITY;
+            func_021C8838(&cmd->strParam, BTL_STR_TYPE_STD, BTL_MSG_TELEPATHY_AVOID);
+            func_021C8860(&cmd->strParam, ownerId);
+            func_021C88C8(flow, cmd);
         }
     }
 }
 
-
-int *func_021DC320(int *p)
+int *func_021DC320(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F05E8;
 }

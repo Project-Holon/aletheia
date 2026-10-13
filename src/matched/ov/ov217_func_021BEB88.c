@@ -13,6 +13,7 @@
  *
  * symbols:
  *   func_021BF5BC  0x021BF5BC  thumb  ov217
+ *   BMP_OAM_SetPalette  0x02025A54  thumb  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -25,11 +26,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02025A54(u8 *g, u32 a);
+extern void BMP_OAM_SetPalette(u8 *g, u32 a);
 extern u32 func_021BF5BC();
 u32 func_021BEB88(u32 a0)
 {
-    func_02025A54((u8 *)(((struct Obj25914 *)(((u8*)a0)))->f3AC), 1);
+    BMP_OAM_SetPalette((u8 *)(((struct Obj25914 *)(((u8*)a0)))->f3AC), 1);
     return func_021BF5BC(a0, 3);
 }
 

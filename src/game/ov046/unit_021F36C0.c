@@ -51,7 +51,7 @@
  *   func_02012374  0x02012374  thumb
  *   func_021BE6BC  0x021BE6BC  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_02006210  0x02006210  thumb
+ *   GFL_USE_StopAllSe  0x02006210  thumb
  *   func_021A3044  0x021A3044  thumb  ov021
  *   d_021F4130  0x021F4130  data  a4
  *   func_021BE4B4  0x021BE4B4  thumb  ov203
@@ -63,180 +63,158 @@
  *   func_021BB3DC  0x021BB3DC  thumb  ov021
  *   d_021F4430  0x021F4430  data  ov046  a4
  */
-#include "../../matched/include/Obj20520.h"
-#include "../../matched/include/Obj03644.h"
+#include "unit_021F36C0_types.h"
 
-struct Big;
-struct Ctx;
-struct Rec94;
-struct Obj00020;
-struct VecFx32;
-struct Desc;
-struct Obj;
-struct Evt;
-struct Rec;
-typedef unsigned int u32;
+struct FieldMap;
+struct GameSystem;
+struct GameData;
+struct FieldSave;
+struct FldExpObj;
+struct FldExpAnime;
+struct FldExpUnitDesc;
+struct FieldPlayer;
+struct FldMmdlSys;
+struct Mmdl;
+struct NogridMapper;
+struct GameEvent;
 
-typedef unsigned char u8;
+typedef int (*GameEventFunc)(struct GameEvent *event, int *state);
 
-typedef unsigned short u16;
+extern struct FldExpObj *func_02188D2C(struct FieldMap *fieldMap);
+extern struct GameSystem *func_02188C80(struct FieldMap *fieldMap);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct FieldSave *func_02012EC4(struct GameData *gameData);
+extern Gimmick46Save *func_0200B3A4(struct FieldSave *fieldSave, u32 blockId);
+extern u16 func_02188C84(struct FieldMap *fieldMap);
+extern Gimmick46Work *func_02189764(struct FieldMap *fieldMap, int workId, int heapId, int size);
+extern void func_021BE760(struct FldExpObj *expObj, struct FldExpUnitDesc *desc, int unitIndex);
+extern void func_021BE700(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex, int enabled);
+extern struct FieldPlayer *func_02188CB4(struct FieldMap *fieldMap);
+extern void func_021A3038(struct FieldPlayer *player, Vec3Fx *outPos);
+extern FldExpModel *func_021BE480(struct FldExpObj *expObj, unsigned int unitIndex, int modelIndex);
+extern void func_021BE4A4(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, int cullDraw);
+extern struct FldExpAnime *func_021BE674(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex);
+extern void func_021BE6B8(struct FldExpAnime *anime, int loop);
+extern void func_021BE6B0(struct FldExpAnime *anime, int paused);
+extern void func_0207AF1C(int *matrix, int sinValue, int cosValue);
+extern void func_021BE6CC(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex, int frame);
+extern int func_021BE748(struct FldExpAnime *anime);
+extern Gimmick46Work *func_021897BC(struct FieldMap *fieldMap, int workId);
+extern void func_021897A0(struct FieldMap *fieldMap, int workId);
+extern void func_021BE418(struct FldExpObj *expObj, u16 unitIndex);
+extern void func_021BE580(struct FldExpObj *expObj);
+extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc proc, u32 size);
+extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern void func_02012374(struct GameEvent *parent, struct GameEvent *child);
+extern int func_021BE6BC(struct FldExpAnime *anime);
+extern void func_020061E4(u32 se);
+extern void GFL_USE_StopAllSe(void);
+extern void func_021A3044(struct FieldPlayer *player, Vec3Fx *pos);
+extern void func_021BE4B4(struct FldExpObj *expObj, int unitIndex, int modelIndex, u32 hidden);
+extern struct FldMmdlSys *func_02188C7C(struct FieldMap *fieldMap);
+extern int func_0216DD1C(struct FldMmdlSys *mmdlSys, struct Mmdl **outMmdl, u32 *iterator);
+extern u16 func_0216D588(struct Mmdl *mmdl);
+extern void func_0216DAC8(struct Mmdl *mmdl, u32 vanish);
+extern struct NogridMapper *func_02188C5C(struct FieldMap *fieldMap);
+extern void func_021BB3DC(struct NogridMapper *mapper, int lineIndex, int enabled);
 
-typedef struct {
-    int a;
-    int b;
-    int c;
-} V;
+void func_021F36C0(struct FieldMap *fieldMap);
+void func_021F3838(struct FldExpObj *expObj, int modelIndex, Vec3Fx *pos, u16 *angle, int animCount, int cullDraw);
+void func_021F38D4(Gimmick46Save *save, struct FldExpObj *expObj, int unitIndex);
+void func_021F3A04(struct FieldMap *fieldMap);
+void func_021F3A28(struct FieldMap *fieldMap);
+void func_021F3A88(struct GameSystem *gameSystem, int unitIndex, int side);
+void func_021F3AD0(struct GameSystem *gameSystem, int unitIndex, int side);
+void func_021F3B18(struct GameSystem *gameSystem, int unitIndex);
+struct GameEvent *func_021F3B5C(struct GameSystem *gameSystem, int direction);
+int func_021F3BC8(Gimmick46Unit *unit);
+int func_021F3BE8(Gimmick46Unit *unit, int newPose);
+int func_021F3BFC(struct GameEvent *event, int *state);
+int func_021F3C8C(struct GameEvent *event, int *state);
+int func_021F3D40(struct GameEvent *event, int *state);
+int func_021F3DE8(struct GameEvent *event, int *state);
+int func_021F3EFC(struct GameEvent *event, int *state);
+void func_021F3FA8(struct FldExpObj *expObj, struct FieldMap *fieldMap, u32 hidden);
+struct Mmdl *func_021F4020(struct FieldMap *fieldMap, int objId);
+void func_021F4064(struct FieldMap *fieldMap, int objId, u32 vanish);
+void func_021F4078(struct FieldMap *fieldMap, int unitIndex, int pose);
+int func_021F40D8(Vec3Fx *pos);
 
-typedef signed int     s32;
-
-typedef signed short s16;
-
-typedef struct Q {
-    int a0;
-    int a4;
-    int *a8;
-    u8 c;
-    u8 d;
-    u8 e;
-    u8 pad;
-    int p10;
-    int p14;
-    int p18;
-    int p1c;
-    int p20;
-} Q;
-
-extern int func_02188D2C(int *p);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void func_021BE760(u32 p, void *a, int b);
-extern void func_021BE700(void *p, int i, u16 j, u16 k, int flag);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern int func_021F40D8(int *p);
-extern int func_021BE480(char *p, unsigned i, int j);
-extern void  func_021BE4A4(void *p, int i, u16 j, int v);
-extern void *func_021BE674(void *p, int i, u16 j, u16 k);
-extern void func_021BE6B8(unsigned char *p, int v);
-extern void func_021BE6B0(unsigned char *p, int v);
-extern void  func_0207AF1C(void *m, int a, int b);
-extern void func_021BE6CC(u32 a, int b, u16 c, u16 d, int e);
-extern int func_021BE748(u32 a);
-extern int *func_021897BC(char *,int);
-extern void func_021897A0(u8 *,int);
-extern void func_021BE418(u8 *,u16);
-extern void func_021BE580(u32);
-extern void *func_0201210C(const struct Ctx *p);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E4(struct Obj *p);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_021BE6BC(int *p);
-extern void func_020061E4(u32 a);
-extern void func_02006210(void);
-extern void func_021A3044(u8 *p, void *v);
-extern void func_021BE4B4(char *ctx, int b, int c, u32 d);
-extern void *func_02188C7C(unsigned char *p);
-extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
-extern u16 func_0216D588(void *p);
-extern void func_0216DAC8(u32 *,u32);
-extern u32 func_02188C5C(u8 *p);
-extern void func_021BB3DC(u32 *p, int b, int c);
-void func_021F36C0(void *a0);
-void func_021F3838(void *a0, int a1, V *a2, u16 *a3, int a4, int a5);
-void func_021F38D4(u8 *base, u32 t, int idx);
-void func_021F3A04(u32 a);
-void func_021F3A28(void *a);
-void func_021F3A88(void *a, int b, int c);
-void func_021F3AD0(void *a, int b, int c);
-void func_021F3B18(void *a, int b);
-void *func_021F3B5C(void *a, int b);
-int func_021F3BC8(int *p);
-int func_021F3BE8(int *p, int i);
-int func_021F3BFC(u32 a, int *b);
-int func_021F3C8C(u32 a, int *b);
-int func_021F3D40(u32 a, int *b);
-int func_021F3DE8(void *a, int *st);
-int func_021F3EFC(u32 a, int *b);
-void func_021F3FA8(char *a, u32 b, u32 c);
-int func_021F4020(u32 a, int b);
-void func_021F4064(u32 a,int b,u32 c);
-void func_021F4078(u32 a, int b, int c);
-extern int d_021F4120;
-extern u16 d_021F4108[];
-extern V d_021F4194[];
-extern V d_021F4170[];
-extern V d_021F4204[];
-extern V d_021F41B8;
-extern s16 d_020A1B38[];
-extern int d_021F41C4[][4];
-extern int d_021F4130[];
-extern int d_021F4430[][4][6];
+extern struct FldExpUnitDesc d_021F4120;
+extern u16 d_021F4108[];         /* initial angle per unit */
+extern Vec3Fx d_021F4194[];      /* body position per unit */
+extern Vec3Fx d_021F4170[];      /* lever position per unit (both levers) */
+extern Vec3Fx d_021F4204[];      /* button position, two per unit */
+extern Vec3Fx d_021F41B8;        /* position of the extra model */
+extern s16 d_020A1B38[];         /* sine and cosine pairs */
+extern int d_021F41C4[][4];      /* body animation for (old pose, new pose) plus 5 */
+extern int d_021F4130[];         /* height offsets of the hop, in tiles */
+extern int d_021F4430[][4][6];   /* walk lines (line, enabled) per (unit, pose) */
 
 
-
-void func_021F36C0(void *a0)
+void func_021F36C0(struct FieldMap *fieldMap)
 {
-    V tmp;
-    int vec[3];
-    u16 v;
-    int i;
-    u32 t;
-    u8 *w;
-    u8 *x;
-    int n;
-    int f;
+    Vec3Fx extraPos;
+    Vec3Fx playerPos;
+    u16 angle;
+    int unitIdx;
+    struct FldExpObj *expObj;
+    Gimmick46Save *save;
+    Gimmick46Work *work;
+    int firstModel;
+    int inside;
 
-    t = func_02188D2C(a0);
-    w = (u8 *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(a0))), 10);
-    x = func_02189764(a0, 1, func_02188C84(a0), 0x28);
-    func_021BE760(t, &d_021F4120, 0);
-    for (i = 0; i < 3; i++) {
-        v = 0;
-        v = d_021F4108[i];
-        n = i * 5;
-        func_021F3838((void *)t, n, &d_021F4194[i], &v, 8, 0);
-        func_021F3838((void *)t, n + 1, &d_021F4170[i], &v, 2, 0);
-        func_021F3838((void *)t, n + 2, &d_021F4170[i], &v, 2, 0);
-        func_021F3838((void *)t, n + 3, &d_021F4204[i * 2], 0, 1, 1);
-        func_021F3838((void *)t, n + 4, &d_021F4204[i * 2 + 1], 0, 1, 1);
-        func_021F38D4(w, t, i);
+    expObj = func_02188D2C(fieldMap);
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    work = func_02189764(fieldMap, 1, func_02188C84(fieldMap), sizeof(Gimmick46Work));
+    func_021BE760(expObj, &d_021F4120, 0);
+    for (unitIdx = 0; unitIdx < GIMMICK46_UNIT_COUNT; unitIdx++) {
+        /* Cleared and then set: the first store is in the original code. */
+        angle = 0;
+        angle = d_021F4108[unitIdx];
+        firstModel = unitIdx * GIMMICK46_MODELS_PER_UNIT;
+        func_021F3838(expObj, firstModel, &d_021F4194[unitIdx], &angle, 8, 0);
+        func_021F3838(expObj, firstModel + 1, &d_021F4170[unitIdx], &angle, 2, 0);
+        func_021F3838(expObj, firstModel + 2, &d_021F4170[unitIdx], &angle, 2, 0);
+        func_021F3838(expObj, firstModel + 3, &d_021F4204[unitIdx * 2], 0, 1, 1);
+        func_021F3838(expObj, firstModel + 4, &d_021F4204[unitIdx * 2 + 1], 0, 1, 1);
+        func_021F38D4(save, expObj, unitIdx);
     }
-    tmp = d_021F41B8;
-    func_021F3838((void *)t, 0xf, &tmp, 0, 0, 0);
-    func_021BE700((void *)t, 0, 0xf, 0, 1);
-    func_021A3038(func_02188CB4((void *)a0), (struct VecFx32 *)vec);
-    f = func_021F40D8(vec) != 0 ? 1 : 0;
-    func_021F3FA8((char *)t, (u32)a0, f);
-    ((struct Obj20520 *)x)->f24 = f;
-    for (i = 0; i < 3; i++)
-        func_021F4078((u32)a0, i, *(int *)(w + i * 12));
+    /* The position is copied to a local first; passing the table row
+     * directly changes the stack frame. */
+    extraPos = d_021F41B8;
+    func_021F3838(expObj, GIMMICK46_MODEL_EXTRA, &extraPos, 0, 0, 0);
+    func_021BE700(expObj, 0, GIMMICK46_MODEL_EXTRA, 0, 1);
+    func_021A3038(func_02188CB4(fieldMap), &playerPos);
+    inside = func_021F40D8(&playerPos) != 0 ? 1 : 0;
+    func_021F3FA8(expObj, fieldMap, inside);
+    work->playerInside = inside;
+    for (unitIdx = 0; unitIdx < GIMMICK46_UNIT_COUNT; unitIdx++)
+        func_021F4078(fieldMap, unitIdx, save->units[unitIdx].pose);
 }
 
 
 
-void func_021F3838(void *a0, int a1, V *a2, u16 *a3, int a4, int a5)
+void func_021F3838(struct FldExpObj *expObj, int modelIndex, Vec3Fx *pos, u16 *angle, int animCount, int cullDraw)
 {
-    char *e;
-    void *b;
-    int i;
-    int k;
+    FldExpModel *model;
+    struct FldExpAnime *anime;
+    int animIdx;
+    int tableIdx;
 
-    e = (char *)func_021BE480(a0, (int)0, (u16)a1);
-    *(V *)e = *a2;
-    if (a3) {
-        k = (*a3 >> 4) * 2;
-        func_0207AF1C(e + 0x18, d_020A1B38[k], d_020A1B38[k + 1]);
+    model = func_021BE480(expObj, (int)0, (u16)modelIndex);
+    model->pos = *pos;
+    if (angle) {
+        tableIdx = (*angle >> 4) * 2;
+        func_0207AF1C(model->rotation, d_020A1B38[tableIdx], d_020A1B38[tableIdx + 1]);
     }
-    func_021BE4A4(a0, 0, a1, a5);
-    for (i = 0; i < a4; i++) {
-        b = func_021BE674(a0, 0, a1, i);
-        func_021BE6B8(b, 0);
-        func_021BE6B0(b, 1);
-        func_021BE700(a0, 0, a1, i, 0);
+    func_021BE4A4(expObj, 0, modelIndex, cullDraw);
+    for (animIdx = 0; animIdx < animCount; animIdx++) {
+        anime = func_021BE674(expObj, 0, modelIndex, animIdx);
+        func_021BE6B8(anime, 0);
+        func_021BE6B0(anime, 1);
+        func_021BE700(expObj, 0, modelIndex, animIdx, 0);
     }
 }
 
@@ -248,58 +226,58 @@ void func_021F3838(void *a0, int a1, V *a2, u16 *a3, int a4, int a5)
 
 
 
-void func_021F38D4(u8 *base, u32 t, int idx)
+void func_021F38D4(Gimmick46Save *save, struct FldExpObj *expObj, int unitIdx)
 {
-    int *e;
-    int n;
-    int k;
-    u8 *p;
-    int m;
-    int n1;
-    u8 *q;
-    int k3;
-    int n2;
-    u8 *r;
+    Gimmick46Unit *unit;
+    int bodyModel;
+    int bodyAnim;
+    struct FldExpAnime *bodyAnime;
+    int leverAnim0;
+    int leverModel0;
+    struct FldExpAnime *leverAnime0;
+    int leverAnim1;
+    int leverModel1;
+    struct FldExpAnime *leverAnime1;
 
-    e = (int *)(base + idx * 12);
-    switch (e[0]) {
+    unit = &save->units[unitIdx];
+    switch (unit->pose) {
     case 0:
-        k = 1;
+        bodyAnim = 1;
         break;
     case 1:
-        k = 5;
+        bodyAnim = 5;
         break;
     case 3:
-        k = 0;
+        bodyAnim = 0;
         break;
     case 2:
-        k = 2;
+        bodyAnim = 2;
         break;
     default:
-        k = 1;
+        bodyAnim = 1;
         break;
     }
-    n = idx * 5;
-    p = func_021BE674((void *)t, 0, n, k);
-    func_021BE6B0(p, 0);
-    func_021BE700((void *)t, 0, n, k, 1);
-    func_021BE6CC(t, 0, n, k, func_021BE748((u32)p));
-    m = 1;
-    n1 = n + 1;
-    if (e[1] == 0)
-        m = 0;
-    q = func_021BE674((void *)t, 0, n1, m);
-    func_021BE6B0(q, 0);
-    func_021BE700((void *)t, 0, n1, m, 1);
-    func_021BE6CC(t, 0, n1, m, func_021BE748((u32)q));
-    k3 = 1;
-    n2 = n + 2;
-    if (e[2] == 0)
-        k3 = 0;
-    r = func_021BE674((void *)t, 0, n2, k3);
-    func_021BE6B0(r, 0);
-    func_021BE700((void *)t, 0, n2, k3, 1);
-    func_021BE6CC(t, 0, n2, k3, func_021BE748((u32)r));
+    bodyModel = unitIdx * GIMMICK46_MODELS_PER_UNIT;
+    bodyAnime = func_021BE674(expObj, 0, bodyModel, bodyAnim);
+    func_021BE6B0(bodyAnime, 0);
+    func_021BE700(expObj, 0, bodyModel, bodyAnim, 1);
+    func_021BE6CC(expObj, 0, bodyModel, bodyAnim, func_021BE748(bodyAnime));
+    leverAnim0 = 1;
+    leverModel0 = bodyModel + 1;
+    if (unit->leverOn[0] == 0)
+        leverAnim0 = 0;
+    leverAnime0 = func_021BE674(expObj, 0, leverModel0, leverAnim0);
+    func_021BE6B0(leverAnime0, 0);
+    func_021BE700(expObj, 0, leverModel0, leverAnim0, 1);
+    func_021BE6CC(expObj, 0, leverModel0, leverAnim0, func_021BE748(leverAnime0));
+    leverAnim1 = 1;
+    leverModel1 = bodyModel + 2;
+    if (unit->leverOn[1] == 0)
+        leverAnim1 = 0;
+    leverAnime1 = func_021BE674(expObj, 0, leverModel1, leverAnim1);
+    func_021BE6B0(leverAnime1, 0);
+    func_021BE700(expObj, 0, leverModel1, leverAnim1, 1);
+    func_021BE6CC(expObj, 0, leverModel1, leverAnim1, func_021BE748(leverAnime1));
 }
 
 
@@ -309,31 +287,39 @@ void func_021F38D4(u8 *base, u32 t, int idx)
 
 
 
-void func_021F3A04(u32 a) { u32 p; p=func_02188D2C((int *)a); func_021897BC((char *)a,1); func_021897A0((u8 *)a,1); func_021BE418((u8 *)p,0); }
-
-
-
-
-
-
-
-
-
-void func_021F3A28(void *a)
+void func_021F3A04(struct FieldMap *fieldMap)
 {
-    int v[3];
-    u32 r7 = func_02188D2C(a);
-    int *r6 = func_021897BC(a, 1);
-    int r4 = 1;
+    struct FldExpObj *expObj;
 
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(a))), 10);
-    func_021BE580(r7);
-    func_021A3038(func_02188CB4((void *)a), (struct VecFx32 *)v);
-    if (func_021F40D8(v) == 0)
-        r4 = 0;
-    if (r6[9] != r4) {
-        func_021F3FA8((char *)r7, (u32)a, r4);
-        r6[9] = r4;
+    expObj = func_02188D2C(fieldMap);
+    func_021897BC(fieldMap, 1);
+    func_021897A0(fieldMap, 1);
+    func_021BE418(expObj, 0);
+}
+
+
+
+
+
+
+
+
+
+void func_021F3A28(struct FieldMap *fieldMap)
+{
+    Vec3Fx playerPos;
+    struct FldExpObj *expObj = func_02188D2C(fieldMap);
+    Gimmick46Work *work = func_021897BC(fieldMap, 1);
+    int inside = 1;
+
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    func_021BE580(expObj);
+    func_021A3038(func_02188CB4(fieldMap), &playerPos);
+    if (func_021F40D8(&playerPos) == 0)
+        inside = 0;
+    if (work->playerInside != inside) {
+        func_021F3FA8(expObj, fieldMap, inside);
+        work->playerInside = inside;
     }
 }
 
@@ -345,18 +331,18 @@ void func_021F3A28(void *a)
 
 
 
-void func_021F3A88(void *a, int b, int c)
+void func_021F3A88(struct GameSystem *gameSystem, int unitIndex, int side)
 {
-    void *x = func_0201210C(a);
-    int p;
-    int *q;
+    struct FieldMap *fieldMap = func_0201210C(gameSystem);
+    Gimmick46Save *save;
+    Gimmick46Work *work;
 
-    p = (int)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
-    q = func_021897BC(x, 1);
-    q[0] = b;
-    q[1] = c;
-    q[2] = p + b * 12;
-    func_020122C0(a, 0, func_021F3BFC, 0);
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    work = func_021897BC(fieldMap, 1);
+    work->unitIndex = unitIndex;
+    work->side = side;
+    work->unit = &save->units[unitIndex];
+    func_020122C0(gameSystem, 0, func_021F3BFC, 0);
 }
 
 
@@ -367,18 +353,18 @@ void func_021F3A88(void *a, int b, int c)
 
 
 
-void func_021F3AD0(void *a, int b, int c)
+void func_021F3AD0(struct GameSystem *gameSystem, int unitIndex, int side)
 {
-    void *x = func_0201210C(a);
-    int p;
-    int *q;
+    struct FieldMap *fieldMap = func_0201210C(gameSystem);
+    Gimmick46Save *save;
+    Gimmick46Work *work;
 
-    p = (int)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
-    q = func_021897BC(x, 1);
-    q[0] = b;
-    q[1] = c;
-    q[2] = p + b * 12;
-    func_020122C0(a, 0, func_021F3C8C, 0);
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    work = func_021897BC(fieldMap, 1);
+    work->unitIndex = unitIndex;
+    work->side = side;
+    work->unit = &save->units[unitIndex];
+    func_020122C0(gameSystem, 0, func_021F3C8C, 0);
 }
 
 
@@ -389,17 +375,17 @@ void func_021F3AD0(void *a, int b, int c)
 
 
 
-void func_021F3B18(void *a, int b)
+void func_021F3B18(struct GameSystem *gameSystem, int unitIndex)
 {
-    void *x = func_0201210C(a);
-    int p;
-    int *q;
+    struct FieldMap *fieldMap = func_0201210C(gameSystem);
+    Gimmick46Save *save;
+    Gimmick46Work *work;
 
-    p = (int)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
-    q = func_021897BC(x, 1);
-    q[0] = b;
-    q[2] = p + b * 12;
-    func_020122C0(a, 0, func_021F3D40, 0);
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    work = func_021897BC(fieldMap, 1);
+    work->unitIndex = unitIndex;
+    work->unit = &save->units[unitIndex];
+    func_020122C0(gameSystem, 0, func_021F3D40, 0);
 }
 
 
@@ -412,28 +398,28 @@ void func_021F3B18(void *a, int b)
 
 /*
  * The negation is a multiply by 0xffffffff (see the idiom on
- * multiplying by minus one), and the +12 base is a separate local that
- * is formed after the func_020122C0 call.
+ * multiplying by minus one), and the hop data pointer is a separate local
+ * that is formed after the func_020122C0 call.
  */
-void *func_021F3B5C(void *a, int b)
+struct GameEvent *func_021F3B5C(struct GameSystem *gameSystem, int direction)
 {
-    void *x = func_0201210C(a);
-    char *q;
-    int *w;
-    void *r;
-    int v[3];
+    struct FieldMap *fieldMap = func_0201210C(gameSystem);
+    Gimmick46Work *work;
+    Gimmick46HopEvent *hop;
+    struct GameEvent *hopEvent;
+    Vec3Fx playerPos;
 
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
-    q = (char *)func_021897BC(x, 1);
-    r = func_020122C0(a, 0, func_021F3EFC, 0);
-    w = (int *)(q + 12);
-    ((unsigned char *)w)[3] = 0;
-    w[1] = 0x2000;
-    func_021A3038(func_02188CB4((void *)x), (struct VecFx32 *)v);
-    w[2] = v[1];
-    if (b == 2)
-        w[1] = w[1] * 0xffffffff;
-    return r;
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    work = func_021897BC(fieldMap, 1);
+    hopEvent = func_020122C0(gameSystem, 0, func_021F3EFC, 0);
+    hop = &work->event.hop;
+    hop->step = 0;
+    hop->speedX = GIMMICK46_HOP_SPEED;
+    func_021A3038(func_02188CB4(fieldMap), &playerPos);
+    hop->baseY = playerPos.y;
+    if (direction == 2)
+        hop->speedX = hop->speedX * 0xffffffff;
+    return hopEvent;
 }
 
 
@@ -443,14 +429,14 @@ void *func_021F3B5C(void *a, int b)
 
 
 
-int func_021F3BC8(int *p)
+int func_021F3BC8(Gimmick46Unit *unit)
 {
-    if (p[1] == 0) {
-        if (p[2] == 0)
+    if (unit->leverOn[0] == 0) {
+        if (unit->leverOn[1] == 0)
             return 0;
         return 3;
     }
-    if (p[2] == 0)
+    if (unit->leverOn[1] == 0)
         return 2;
     return 1;
 }
@@ -465,9 +451,9 @@ int func_021F3BC8(int *p)
 /*
  * Unlabelled leaf (no lr push) between func_021F3BC8 and func_021F3BFC.
  */
-int func_021F3BE8(int *p, int i)
+int func_021F3BE8(Gimmick46Unit *unit, int newPose)
 {
-    return d_021F41C4[*p][i] - 5;
+    return d_021F41C4[unit->pose][newPose] - 5;
 }
 
 
@@ -481,27 +467,25 @@ int func_021F3BE8(int *p, int i)
  * The 3/4 selector must be a ternary inside the sum with the ternary
  * first: an if-assigned local or `a0 * 5 + (...)` gets other registers.
  */
-int func_021F3BFC(u32 a, int *b)
+int func_021F3BFC(struct GameEvent *event, int *state)
 {
-    void *h = func_020124E4((void *)a);
-    void *x = func_0201210C(h);
-    Q *q;
-    int t;
-    int i;
+    struct GameSystem *gameSystem = func_020124E4(event);
+    struct FieldMap *fieldMap = func_0201210C(gameSystem);
+    Gimmick46Work *work;
 
-    func_02188D2C(x);
-    q = (Q *)func_021897BC(x, 1);
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
-    switch (*b) {
+    func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    switch (*state) {
     case 0:
-        q->c = (q->a4 == 0 ? 3 : 4) + q->a0 * 5;
-        q->d = 1;
-        q->p18 = 0;
-        q->e = 1;
-        q->p1c = 0x6d3;
-        q->p20 = -1;
-        func_02012374((void *)a, (struct Evt **)func_020122C0(h, 0, func_021F3DE8, 0));
-        (*b)++;
+        work->event.anim.modelIndex = (work->side == 0 ? GIMMICK46_MODEL_BUTTON_BASE : GIMMICK46_MODEL_BUTTON_BASE + 1) + work->unitIndex * GIMMICK46_MODELS_PER_UNIT;
+        work->event.anim.startCount = 1;
+        work->event.anim.animId[0] = 0;
+        work->event.anim.stopCount = 1;
+        work->event.anim.startSe = GIMMICK46_SE_BUTTON;
+        work->event.anim.endSe = GIMMICK46_SE_NONE;
+        func_02012374(event, func_020122C0(gameSystem, 0, func_021F3DE8, 0));
+        (*state)++;
         break;
     case 1:
         return 1;
@@ -514,33 +498,33 @@ int func_021F3BFC(u32 a, int *b)
 
 
 
-int func_021F3C8C(u32 a, int *b)
+int func_021F3C8C(struct GameEvent *event, int *state)
 {
-    void *h = func_020124E4((void *)a);
-    void *x = func_0201210C(h);
-    Q *q;
-    int r;
+    struct GameSystem *gameSystem = func_020124E4(event);
+    struct FieldMap *fieldMap = func_0201210C(gameSystem);
+    Gimmick46Work *work;
+    int newLeverState;
 
-    func_02188D2C(x);
-    r = 1;
-    q = (Q *)func_021897BC(x, 1);
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
-    switch (*b) {
+    func_02188D2C(fieldMap);
+    newLeverState = 1;
+    work = func_021897BC(fieldMap, 1);
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    switch (*state) {
     case 0:
-        if ((q->a8 + q->a4)[1] != 0)
-            r = 0;
-        q->c = (q->a4 == 0 ? 1 : 2) + q->a0 * 5;
-        q->d = 1;
-        q->p18 = r;
-        q->e = 2;
-        q->p1c = 0x6fc;
-        q->p20 = 0x6fd;
-        func_02012374((void *)a, (struct Evt **)func_020122C0(h, 0, func_021F3DE8, 0));
-        (q->a8 + q->a4)[1] = r;
-        (*b)++;
+        if (work->unit->leverOn[work->side] != 0)
+            newLeverState = 0;
+        work->event.anim.modelIndex = (work->side == 0 ? GIMMICK46_MODEL_LEVER_BASE : GIMMICK46_MODEL_LEVER_BASE + 1) + work->unitIndex * GIMMICK46_MODELS_PER_UNIT;
+        work->event.anim.startCount = 1;
+        work->event.anim.animId[0] = newLeverState;
+        work->event.anim.stopCount = 2;
+        work->event.anim.startSe = GIMMICK46_SE_LEVER_START;
+        work->event.anim.endSe = GIMMICK46_SE_LEVER_END;
+        func_02012374(event, func_020122C0(gameSystem, 0, func_021F3DE8, 0));
+        work->unit->leverOn[work->side] = newLeverState;
+        (*state)++;
         break;
     case 1:
-        return r;
+        return newLeverState;
     }
     return 0;
 }
@@ -549,33 +533,33 @@ int func_021F3C8C(u32 a, int *b)
 
 
 
-int func_021F3D40(u32 a, int *b)
+int func_021F3D40(struct GameEvent *event, int *state)
 {
-    void *h = func_020124E4((void *)a);
-    void *x = func_0201210C(h);
-    Q *q;
-    int t;
-    int y;
+    struct GameSystem *gameSystem = func_020124E4(event);
+    struct FieldMap *fieldMap = func_0201210C(gameSystem);
+    Gimmick46Work *work;
+    int newPose;
+    int bodyAnim;
 
-    func_02188D2C(x);
-    q = (Q *)func_021897BC(x, 1);
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
-    switch (*b) {
+    func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    switch (*state) {
     case 0:
-        t = func_021F3BC8(q->a8);
-        y = func_021F3BE8(q->a8, t);
-        q->c = q->a0 * 5;
-        q->d = 1;
-        q->p18 = y;
-        q->e = 8;
-        q->p1c = 0x6d4;
-        q->p20 = 0x6d9;
-        func_02012374((void *)a, (struct Evt **)func_020122C0(h, 0, func_021F3DE8, 0));
-        q->a8[0] = t;
-        (*b)++;
+        newPose = func_021F3BC8(work->unit);
+        bodyAnim = func_021F3BE8(work->unit, newPose);
+        work->event.anim.modelIndex = work->unitIndex * GIMMICK46_MODELS_PER_UNIT;
+        work->event.anim.startCount = 1;
+        work->event.anim.animId[0] = bodyAnim;
+        work->event.anim.stopCount = 8;
+        work->event.anim.startSe = GIMMICK46_SE_ROTATE_START;
+        work->event.anim.endSe = GIMMICK46_SE_ROTATE_END;
+        func_02012374(event, func_020122C0(gameSystem, 0, func_021F3DE8, 0));
+        work->unit->pose = newPose;
+        (*state)++;
         break;
     case 1:
-        func_021F4078((u32)x, q->a0, *q->a8);
+        func_021F4078(fieldMap, work->unitIndex, work->unit->pose);
         return 1;
     }
     return 0;
@@ -584,40 +568,40 @@ int func_021F3D40(u32 a, int *b)
 
 
 
-int func_021F3DE8(void *a, int *st)
+int func_021F3DE8(struct GameEvent *event, int *state)
 {
-    void *s;
-    u32 t;
-    u8 *w;
-    u8 k;
+    struct FieldMap *fieldMap;
+    struct FldExpObj *expObj;
+    Gimmick46AnimEvent *anim;
+    u8 modelIdx;
     int i;
-    u8 v;
+    u8 animIdx;
 
-    s = func_0201210C(func_020124E4(a));
-    t = func_02188D2C(s);
-    w = (u8 *)func_021897BC(s, 1) + 0xc;
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(s))), 10);
-    switch (*st) {
+    fieldMap = func_0201210C(func_020124E4(event));
+    expObj = func_02188D2C(fieldMap);
+    anim = &func_021897BC(fieldMap, 1)->event.anim;
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    switch (*state) {
     case 0:
-        k = w[0];
-        for (i = 0; i < w[2]; i++) {
-            func_021BE6B0((void *)func_021BE674((void *)t, 0, k, i), 1);
-            func_021BE700((void *)t, 0, k, (u8)i, 0);
+        modelIdx = anim->modelIndex;
+        for (i = 0; i < anim->stopCount; i++) {
+            func_021BE6B0(func_021BE674(expObj, 0, modelIdx, i), 1);
+            func_021BE700(expObj, 0, modelIdx, (u8)i, 0);
         }
-        for (i = 0; i < w[1]; i++) {
-            v = *(int *)(w + 0xc + i * 4);
-            func_021BE6B0((void *)func_021BE674((void *)t, 0, k, v), 0);
-            func_021BE700((void *)t, 0, k, (u8)v, 1);
-            func_021BE6CC(t, 0, k, v, 0);
-            func_020061E4(((struct Obj03644 *)w)->f10);
+        for (i = 0; i < anim->startCount; i++) {
+            animIdx = anim->animId[i];
+            func_021BE6B0(func_021BE674(expObj, 0, modelIdx, animIdx), 0);
+            func_021BE700(expObj, 0, modelIdx, (u8)animIdx, 1);
+            func_021BE6CC(expObj, 0, modelIdx, animIdx, 0);
+            func_020061E4(anim->startSe);
         }
-        (*st)++;
+        (*state)++;
         break;
     case 1:
-        if (func_021BE6BC((void *)func_021BE674((void *)t, 0, w[0], (((struct Obj03644 *)w)->fC)))) {
-            func_02006210();
-            if (((struct Obj03644 *)w)->f14 != -1)
-                func_020061E4(((struct Obj03644 *)w)->f14);
+        if (func_021BE6BC(func_021BE674(expObj, 0, anim->modelIndex, anim->animId[0]))) {
+            GFL_USE_StopAllSe();
+            if (anim->endSe != GIMMICK46_SE_NONE)
+                func_020061E4(anim->endSe);
             return 1;
         }
         break;
@@ -628,36 +612,33 @@ int func_021F3DE8(void *a, int *st)
 
 
 
-/*
- * The ov046 token is dropped from d_021F4130 (contested hint).
- */
-int func_021F3EFC(u32 a, int *b)
+int func_021F3EFC(struct GameEvent *event, int *state)
 {
-    void *x;
-    int *w;
-    int r = 1;
-    void *c;
-    int v[3];
+    struct FieldMap *fieldMap;
+    Gimmick46HopEvent *hop;
+    int done = 1;
+    struct FieldPlayer *player;
+    Vec3Fx pos;
 
-    x = func_0201210C(func_020124E4((void *)a));
-    func_02188D2C(x);
-    w = func_021897BC(x, 1) + 3;
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
-    switch (*b) {
+    fieldMap = func_0201210C(func_020124E4(event));
+    func_02188D2C(fieldMap);
+    hop = &func_021897BC(fieldMap, 1)->event.hop;
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    switch (*state) {
     case 0:
-        func_020061E4(0x55e);
-        (*b)++;
+        func_020061E4(GIMMICK46_SE_HOP_START);
+        (*state)++;
         break;
     case 1:
-        c = func_02188CB4((void *)x);
-        func_021A3038(c, (struct VecFx32 *)v);
-        v[0] = v[0] + w[1];
-        v[1] = w[2] + (d_021F4130[((u8 *)w)[3]] << 12);
-        func_021A3044(c, v);
-        ((u8 *)w)[3] = ((u8 *)w)[3] + 1;
-        if (((u8 *)w)[3] >= 8) {
-            func_020061E4(0x6d3);
-            return r;
+        player = func_02188CB4(fieldMap);
+        func_021A3038(player, &pos);
+        pos.x = pos.x + hop->speedX;
+        pos.y = hop->baseY + (d_021F4130[hop->step] << 12);
+        func_021A3044(player, &pos);
+        hop->step = hop->step + 1;
+        if (hop->step >= GIMMICK46_HOP_STEPS) {
+            func_020061E4(GIMMICK46_SE_HOP_END);
+            return done;
         }
         break;
     }
@@ -667,75 +648,81 @@ int func_021F3EFC(u32 a, int *b)
 
 
 
-void func_021F3FA8(char *a, u32 b, u32 c)
+void func_021F3FA8(struct FldExpObj *expObj, struct FieldMap *fieldMap, u32 hidden)
 {
-    func_021BE4B4(a, 0, 15, c);
-    func_021BE4B4(a, 0, 10, c);
-    func_021BE4B4(a, 0, 11, c);
-    func_021BE4B4(a, 0, 12, c);
-    func_021BE4B4(a, 0, 13, c);
-    func_021BE4B4(a, 0, 14, c);
-    func_021F4064(b, 4, c);
-    func_021F4064(b, 5, c);
-    func_021F4064(b, 9, c);
-    func_021F4064(b, 6, c);
+    func_021BE4B4(expObj, 0, 15, hidden);
+    func_021BE4B4(expObj, 0, 10, hidden);
+    func_021BE4B4(expObj, 0, 11, hidden);
+    func_021BE4B4(expObj, 0, 12, hidden);
+    func_021BE4B4(expObj, 0, 13, hidden);
+    func_021BE4B4(expObj, 0, 14, hidden);
+    func_021F4064(fieldMap, 4, hidden);
+    func_021F4064(fieldMap, 5, hidden);
+    func_021F4064(fieldMap, 9, hidden);
+    func_021F4064(fieldMap, 6, hidden);
 }
 
 
 
 
-int func_021F4020(u32 a, int b)
+struct Mmdl *func_021F4020(struct FieldMap *fieldMap, int objId)
 {
-    int s1 = 0;
-    int s0;
-    void *it = func_02188C7C((void *)a);
+    u32 iterator = 0;
+    struct Mmdl *mmdl;
+    struct FldMmdlSys *mmdlSys = func_02188C7C(fieldMap);
 
-    while (func_0216DD1C(it, (struct Rec **)(&s0), (u32 *)(&s1)) == 1) {
-        if (b == func_0216D588((void *)s0))
-            return s0;
+    while (func_0216DD1C(mmdlSys, &mmdl, &iterator) == 1) {
+        if (objId == func_0216D588(mmdl))
+            return mmdl;
     }
     return 0;
 }
 
 
 
-void func_021F4064(u32 a,int b,u32 c) { u32 *p; p=(u32 *)func_021F4020(a,b); if(p) func_0216DAC8(p,c); }
+void func_021F4064(struct FieldMap *fieldMap, int objId, u32 vanish)
+{
+    struct Mmdl *mmdl;
+
+    mmdl = func_021F4020(fieldMap, objId);
+    if (mmdl)
+        func_0216DAC8(mmdl, vanish);
+}
 
 
 
 
 /*
  * The table row is indexed inside the loop; the compiler hoists the
- * invariant row address (b's register reused for it). A `t = d[b][c]`
- * local before the loop colours b and the counter apart.
- * func_021BB3DC is ov021's thunk (reads r0-r2); ov214's label at the same
- * address is a different two-argument function.
+ * invariant row address (the register of pose is reused for it). A
+ * `t = d[unit][pose]` local before the loop colours pose and the counter
+ * apart. func_021BB3DC is ov021's thunk (reads r0-r2); ov214's label at the
+ * same address is a different two-argument function.
  */
-void func_021F4078(u32 a, int b, int c)
+void func_021F4078(struct FieldMap *fieldMap, int unitIndex, int pose)
 {
-    int v1[6];
-    int v2[6];
-    u32 h = func_02188C5C((u8 *)a);
+    int lines[6];
+    int enabled[6];
+    struct NogridMapper *mapper = func_02188C5C(fieldMap);
     int i;
 
     for (i = 0; i < 6; i++) {
-        v1[i] = d_021F4430[b][c][i];
-        v2[i] = 0;
+        lines[i] = d_021F4430[unitIndex][pose][i];
+        enabled[i] = 0;
     }
-    if (c != 1) {
-        v2[0] = 1;
-        v2[1] = 1;
+    if (pose != 1) {
+        enabled[0] = 1;
+        enabled[1] = 1;
     }
     for (i = 0; i < 6; i++)
-        func_021BB3DC((u32 *)h, v1[i], v2[i]);
+        func_021BB3DC(mapper, lines[i], enabled[i]);
 }
 
-int func_021F40D8(int *p)
+int func_021F40D8(Vec3Fx *pos)
 {
-    if (p[1] > 0x40000)
+    if (pos->y > 0x40000)
         return 0;
-    if (p[0] >= 0x100000 && p[2] >= 0x1e0000)
+    if (pos->x >= 0x100000 && pos->z >= 0x1e0000)
         return 1;
     return 0;
 }
-

@@ -1,5 +1,5 @@
 /*
- * function: func_02175954
+ * function: INTRUDE_COMM_StoreSessionRequest
  * address:  0x02175954
  * packet:   pkt_ov011_02175954
  * region:   ov011
@@ -25,7 +25,7 @@ typedef struct Rec {
     u8  pad2d[7];
 } Rec;
 
-int func_02175954(void *unused, u8 *o, Rec *src)
+int INTRUDE_COMM_StoreSessionRequest(void *unused, u8 *o, Rec *src)
 {
     Rec *dst;
     int r;

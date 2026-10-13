@@ -1,6 +1,6 @@
 /*
  * file:     unit_021C6A0C.c
- * function: func_021C6A0C
+ * function: DWCi_SceneSetEdit32_draw
  * address:  0x021C6A0C
  * packet:   pkt_021C6A0C
  * region:   ov016
@@ -11,16 +11,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C6A0C   0x021C6A0C  arm
+ *   DWCi_SceneSetEdit32_draw   0x021C6A0C  arm
  *
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C6A0C.c \
- *       --func func_021C6A0C --addr 0x021C6A0C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetEdit32_draw.c \
+ *       --func DWCi_SceneSetEdit32_draw --addr 0x021C6A0C --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void func_021C6A0C(void)
+void DWCi_SceneSetEdit32_draw(void)
 {
 }

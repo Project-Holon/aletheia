@@ -1,5 +1,5 @@
 /*
- * function: func_02156D5C
+ * function: DWC_RAP_GetResult
  * address:  0x02156D5C
  * packet:   pkt_02156D5C
  * region:   ov009
@@ -12,7 +12,7 @@
  * Returns the word at 0x758 of the ov009 work block.
  *
  * symbols:
- *   d_021A8264  0x021A8264  data  ov009  a4
+ *   _pRapWork  0x021A8264  data  ov009  a4
  */
 
 typedef unsigned char  u8;
@@ -28,9 +28,9 @@ typedef struct {
     char pad7A6[0x7AC - 0x7A6];
 } G;
 
-extern G *d_021A8264;
+extern G *_pRapWork;
 
-u32 func_02156D5C(void)
+u32 DWC_RAP_GetResult(void)
 {
-    return d_021A8264->err;
+    return _pRapWork->err;
 }

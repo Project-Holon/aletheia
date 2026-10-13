@@ -13,14 +13,14 @@
  *   func_021D62A8  0x021D62A8  thumb  ov093
  *   func_021D7AF0  0x021D7AF0  thumb  ov093
  *   func_021C557C  0x021C557C  thumb  ov093
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Unk021D62A8;
 extern int func_021D62A8(struct Unk021D62A8 *p);
-extern int func_0201BEB8(void *bag, int item);
+extern int WAZA_TOOL_GetFlag(void *bag, int item);
 extern int func_021D7AF0(u32 pct);
 extern void func_021C557C(u8 *p, u8 *a, int k, int flag);
 int func_021C0404(u8 *p, u8 *a, void *bag)
@@ -29,7 +29,7 @@ int func_021C0404(u8 *p, u8 *a, void *bag)
     int f = 0;
     int r = 0;
     if (k == 3) {
-        if (func_0201BEB8(bag, 10) != 0) {
+        if (WAZA_TOOL_GetFlag(bag, 10) != 0) {
             r = 1;
         } else if (func_021D7AF0(20) != 0) {
             f = 1;

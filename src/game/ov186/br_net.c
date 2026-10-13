@@ -20,19 +20,19 @@
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   sub_0204B294 0x0204B294 arm
- *   sub_0204B570 0x0204B570 arm
- *   sub_0204B5D4 0x0204B5D4 arm
- *   sub_0204B688 0x0204B688 arm
- *   sub_0204B3DC 0x0204B3DC arm
+ *   CLACT_CreateActor 0x0204B294 arm
+ *   CLACT_SetActorAffineMode 0x0204B570 arm
+ *   CLACT_SetActorScaleAxis 0x0204B5D4 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   d_02200D88 0x02200D88 data a4
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B49C 0x0204B49C arm
- *   func_0204B5D4 0x0204B5D4 arm
- *   func_0204B4EC 0x0204B4EC arm
+ *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
+ *   CLACT_SetActorScaleAxis 0x0204B5D4 arm
+ *   CLACT_GetActorSurfacePosAxis 0x0204B4EC arm
  *   func_0203F684 0x0203F684 arm
- *   func_0204B5E4 0x0204B5E4 arm
+ *   CLACT_GetActorScaleAxis 0x0204B5E4 arm
  *   ov125_id 0x0000007D data
  *   func_02034AC4 0x02034AC4 arm
  *   func_02030734 0x02030734 arm
@@ -40,11 +40,11 @@
  *   func_0200853C 0x0200853C thumb
  *   func_021D6660 0x021D6660 thumb ov125
  *   func_02012EBC 0x02012EBC thumb
- *   func_0200D59C 0x0200D59C thumb
- *   func_0200D5D0 0x0200D5D0 thumb
- *   func_02156DE0 0x02156DE0 thumb ov009
+ *   GDS_PROFILE_Create 0x0200D59C thumb
+ *   GDS_PROFILE_Init 0x0200D5D0 thumb
+ *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   d_02200D8C 0x02200D8C data a1
- *   func_0200D5C8 0x0200D5C8 thumb
+ *   GDS_PROFILE_Delete 0x0200D5C8 thumb
  *   func_021D6770 0x021D6770 thumb ov125
  *   func_020307B0 0x020307B0 arm
  *   func_02034A5C 0x02034A5C arm
@@ -57,9 +57,9 @@
  *   func_021D7414 0x021D7414 thumb ov125
  *   func_021D72EC 0x021D72EC thumb ov125
  *   func_021D72F8 0x021D72F8 thumb ov125
- *   func_02006210 0x02006210 thumb
- *   func_0200FB4C 0x0200FB4C thumb
- *   func_02157170 0x02157170 thumb ov009
+ *   GFL_USE_StopAllSe 0x02006210 thumb
+ *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   func_0200F7DC 0x0200F7DC thumb
  *   func_021D730C  0x021D730C  thumb  ov125
  *   func_021D67C8 0x021D67C8 thumb ov125
@@ -233,28 +233,28 @@ typedef struct { u32 v[10]; } Config_c;
 extern void * func_02082BCC(void *,u32,u32);
 extern int func_021FC124(char *,int,Triple *);
 extern void sub_02034714(const char *,u32,const char *);
-extern struct Obj *sub_0204B294(void *owner,u32 i,u32 j,u32 k,const void *position,u16 space,u16 heap);
-extern void sub_0204B570(struct Actor *,u32);
-extern void sub_0204B5D4(struct Actor *,u32,u32);
-extern void sub_0204B688(struct Actor *,u32);
-extern void sub_0204B3DC(struct Obj *,u32);
+extern struct Obj *CLACT_CreateActor(void *owner,u32 i,u32 j,u32 k,const void *position,u16 space,u16 heap);
+extern void CLACT_SetActorAffineMode(struct Actor *,u32);
+extern void CLACT_SetActorScaleAxis(struct Actor *,u32,u32);
+extern void CLACT_SetActorObjMode(struct Actor *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void func_0204B3B4(struct Obj *);
 extern void func_0204B3DC(struct Obj *,u32);
-extern void func_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis);
-extern void func_0204B5D4(struct Actor*,u32,u32);
-extern s16 func_0204B4EC(struct Actor *actor, u32_021FF0A0 space, u32_021FF0A0 axis);
+extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
+extern void CLACT_SetActorScaleAxis(struct Actor*,u32,u32);
+extern s16 CLACT_GetActorSurfacePosAxis(struct Actor *actor, u32_021FF0A0 space, u32_021FF0A0 axis);
 extern s16 func_0203F684(u16);
-extern u32_021FF334 func_0204B5E4(const struct Actor *actor, u32_021FF334 which);
+extern u32_021FF334 CLACT_GetActorScaleAxis(const struct Actor *actor, u32_021FF334 which);
 extern int func_02034AC4(int);
 extern void *func_02030734(unsigned int,unsigned int,int,const char *,u16);
 extern u8 *func_02012944(void *p);
 extern u32_021FF408 func_0200853C(const struct Sub0200852CObj *obj);
 extern int func_021D6660(char *p, char *a);
 extern void *func_02012EBC(struct Big *p);
-extern struct GdsProfile *func_0200D59C(u32_021FF408 heap);
-extern void func_0200D5D0(struct GdsProfile *p, void *sys);
-extern void func_02156DE0(int a, int b);
-extern void func_0200D5C8(struct GdsProfile *p);
+extern struct GdsProfile *GDS_PROFILE_Create(u32_021FF408 heap);
+extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
+extern void DWC_RAP_SetErrorHookCallback(int a, int b);
+extern void GDS_PROFILE_Delete(struct GdsProfile *p);
 extern void func_021D6770(char *p);
 extern u32_021FF4E4 func_020307B0(void *p);
 extern void func_02034A5C(int);
@@ -266,9 +266,9 @@ extern int func_021D74D8(void *unused, char **out);
 extern int func_021D7414(char *unused, char *dst, int n);
 extern int func_021D72EC(char *,int **);
 extern void func_021D72F8(char *);
-extern void func_02006210(void);
-extern void func_0200FB4C(unsigned int x);
-extern int func_02157170(int, int);
+extern void GFL_USE_StopAllSe(void);
+extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
+extern int DWC_RAPCOMMON_HandleNetError(int, int);
 extern void func_0200F7DC(void);
 extern int func_021D730C(char *p);
 extern int func_021D67C8(char*,const Block128*,const Block432*);
@@ -402,7 +402,7 @@ static inline int roundFixed(int x)
 
 
 /*
- * ABI: sub_0204B294 returns the allocated object pointer in r0.
+ * ABI: CLACT_CreateActor returns the allocated object pointer in r0.
  */
 void func_021FEEF4(char *p,u32 owner,char *resources,const Config_a *config,u16 heap)
 {
@@ -421,11 +421,11 @@ void func_021FEEF4(char *p,u32 owner,char *resources,const Config_a *config,u16 
     ((struct Obj02527 *)p)->f8=roundFixed(request.x);
     ((struct Obj02527 *)p)->fC=roundFixed(request.y);
     *(int *)&((struct Obj02527 *)p)->f14=config->z;
-    *(u32 *)&((struct Obj02527 *)p)->f4=(u32)sub_0204B294((void *)owner,triple.y,triple.z,triple.x,&request,((struct Obj02527 *)p)->f44,heap);
-    sub_0204B570(*(struct Actor * *)&((struct Obj02527 *)p)->f4,2);
-    sub_0204B5D4(*(struct Actor * *)&((struct Obj02527 *)p)->f4,((struct Obj02527 *)p)->f14,0);
-    sub_0204B688(*(struct Actor * *)&((struct Obj02527 *)p)->f4,0);
-    sub_0204B3DC(*(struct Obj * *)&((struct Obj02527 *)p)->f4,0);
+    *(u32 *)&((struct Obj02527 *)p)->f4=(u32)CLACT_CreateActor((void *)owner,triple.y,triple.z,triple.x,&request,((struct Obj02527 *)p)->f44,heap);
+    CLACT_SetActorAffineMode(*(struct Actor * *)&((struct Obj02527 *)p)->f4,2);
+    CLACT_SetActorScaleAxis(*(struct Actor * *)&((struct Obj02527 *)p)->f4,((struct Obj02527 *)p)->f14,0);
+    CLACT_SetActorObjMode(*(struct Actor * *)&((struct Obj02527 *)p)->f4,0);
+    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj02527 *)p)->f4,0);
     ((struct Obj02527 *)p)->f0=1;
 }
 
@@ -452,7 +452,7 @@ void func_021FF038(u8*p,u32 mode){switch(mode){case 0:*(void (**)(char*))(p+24)=
 
 
 /* Space is explicitly truncated to u16 at the original call. */
-void func_021FF074(u8*p){((struct Obj05508 *)p)->f14=410;func_0204B49C(*(struct Actor* *)&((struct Obj05508 *)p)->f4,((struct Obj05508 *)p)->f3C,(u16)(((struct Obj05508 *)p)->f44),0);func_0204B5D4(*(struct Actor* *)&((struct Obj05508 *)p)->f4,((struct Obj05508 *)p)->f14,0);}
+void func_021FF074(u8*p){((struct Obj05508 *)p)->f14=410;CLACT_SetActorSurfacePosAxis(*(struct Actor* *)&((struct Obj05508 *)p)->f4,((struct Obj05508 *)p)->f3C,(u16)(((struct Obj05508 *)p)->f44),0);CLACT_SetActorScaleAxis(*(struct Actor* *)&((struct Obj05508 *)p)->f4,((struct Obj05508 *)p)->f14,0);}
 
 
 
@@ -474,10 +474,10 @@ void func_021FF0A0(char *p)
     case 1:
         if(((struct Obj00153 *)p)->f24==3){
             ((struct Obj00153 *)p)->f1C=2;
-            if(func_0204B4EC(((struct Obj00153 *)p)->f4,(u16)(((struct Obj00153 *)p)->f44),0)>0)
-                value=0.5f+(float)(func_0204B4EC(((struct Obj00153 *)p)->f4,(u16)(((struct Obj00153 *)p)->f44),0)<<12);
+            if(CLACT_GetActorSurfacePosAxis(((struct Obj00153 *)p)->f4,(u16)(((struct Obj00153 *)p)->f44),0)>0)
+                value=0.5f+(float)(CLACT_GetActorSurfacePosAxis(((struct Obj00153 *)p)->f4,(u16)(((struct Obj00153 *)p)->f44),0)<<12);
             else
-                value=(float)(func_0204B4EC(((struct Obj00153 *)p)->f4,(u16)(((struct Obj00153 *)p)->f44),0)<<12)-0.5f;
+                value=(float)(CLACT_GetActorSurfacePosAxis(((struct Obj00153 *)p)->f4,(u16)(((struct Obj00153 *)p)->f44),0)<<12)-0.5f;
             ((struct Obj00153 *)p)->f10=(int)value;
             ((struct Obj00153 *)p)->f24=0;
         }else (((struct Obj00153 *)p)->f24)++;
@@ -493,12 +493,12 @@ void func_021FF0A0(char *p)
             ((struct Obj00153 *)p)->f10+=-direction*func_0203F684(((struct Obj00153 *)p)->f20*65535/360);
             ((struct Obj00153 *)p)->f20+=32;
             ((struct Obj00153 *)p)->f20%=360;
-            func_0204B49C(((struct Obj00153 *)p)->f4,((struct Obj00153 *)p)->f10>>12,(u16)(((struct Obj00153 *)p)->f44),0);
+            CLACT_SetActorSurfacePosAxis(((struct Obj00153 *)p)->f4,((struct Obj00153 *)p)->f10>>12,(u16)(((struct Obj00153 *)p)->f44),0);
             (((struct Obj00153 *)p)->f24)++;
         }
         break;
     case 3:
-        x=func_0204B4EC(((struct Obj00153 *)p)->f4,(u16)(((struct Obj00153 *)p)->f44),0);
+        x=CLACT_GetActorSurfacePosAxis(((struct Obj00153 *)p)->f4,(u16)(((struct Obj00153 *)p)->f44),0);
         if(((struct Obj00153 *)p)->f24==0){
             ((struct Obj00153 *)p)->f2C=((struct Obj00153 *)p)->f3C-x;
             ((struct Obj00153 *)p)->f2C/=((struct Obj00153 *)p)->f3A;
@@ -510,14 +510,14 @@ void func_021FF0A0(char *p)
             x+=(s16)((struct Obj00153 *)p)->f2C;
             (((struct Obj00153 *)p)->f24)++;
         }
-        func_0204B49C(((struct Obj00153 *)p)->f4,x,(u16)(((struct Obj00153 *)p)->f44),0);
+        CLACT_SetActorSurfacePosAxis(((struct Obj00153 *)p)->f4,x,(u16)(((struct Obj00153 *)p)->f44),0);
         break;
     case 4:func_021FF038((u8 *)p,2);break;
     }
     if(((struct Obj00153 *)p)->f1C==3){
         if(((struct Obj00153 *)p)->f14>410){
             ((struct Obj00153 *)p)->f14-=410;
-            func_0204B5D4(((struct Obj00153 *)p)->f4,((struct Obj00153 *)p)->f14,0);
+            CLACT_SetActorScaleAxis(((struct Obj00153 *)p)->f4,((struct Obj00153 *)p)->f14,0);
         }
     }
 }
@@ -539,7 +539,7 @@ void func_021FF248(char *p)
     switch(((struct Obj00595 *)p)->f1C){
     case 0:
         func_0204B3DC(((struct Obj00595 *)p)->f4,1);
-        func_0204B49C(((struct Obj00595 *)p)->f4,((struct Obj00595 *)p)->f3C,(u16)(((struct Obj00595 *)p)->f44),0);
+        CLACT_SetActorSurfacePosAxis(((struct Obj00595 *)p)->f4,((struct Obj00595 *)p)->f3C,(u16)(((struct Obj00595 *)p)->f44),0);
         if(((struct Obj00595 *)p)->f3C>0)value=0.5f+(float)(((struct Obj00595 *)p)->f3C<<12);
         else value=(float)(((struct Obj00595 *)p)->f3C<<12)-0.5f;
         ((struct Obj00595 *)p)->f10=(int)value;
@@ -552,12 +552,12 @@ void func_021FF248(char *p)
         position=((struct Obj00595 *)p)->f10+-(signed char)direction*(func_0203F684((u16)(((struct Obj00595 *)p)->f20*65535/360))*3);
         ((struct Obj00595 *)p)->f20+=((struct Obj00595 *)p)->f42;
         ((struct Obj00595 *)p)->f20%=360;
-        func_0204B49C(((struct Obj00595 *)p)->f4,position>>12,(u16)(((struct Obj00595 *)p)->f44),0);
+        CLACT_SetActorSurfacePosAxis(((struct Obj00595 *)p)->f4,position>>12,(u16)(((struct Obj00595 *)p)->f44),0);
         break;
     }
     if(((struct Obj00595 *)p)->f14>410){
         ((struct Obj00595 *)p)->f14-=410;
-        func_0204B5D4(((struct Obj00595 *)p)->f4,((struct Obj00595 *)p)->f14,0);
+        CLACT_SetActorScaleAxis(((struct Obj00595 *)p)->f4,((struct Obj00595 *)p)->f14,0);
     }
 }
 
@@ -568,7 +568,7 @@ void func_021FF248(char *p)
  * Verified blocker C: one --arm without region, fixed compiler/flags/lang, EXACT 16 (scratch b5e4.c and b5e4-verify.log).
  * typedef unsigned long u32;
  * typedef struct { char pad[0x14]; u32 a; u32 b; } Actor;
- * u32 func_0204B5E4(const Actor *p,u32 which)
+ * u32 CLACT_GetActorScaleAxis(const Actor *p,u32 which)
  * { if(which==0)return p->a; else return p->b; }
  * Width: space argument truncated by original caller to u16 despite callee u32.
  */
@@ -585,8 +585,8 @@ void func_021FF334(char *p)
         *(int *)(p+0x1C)=1;
         break;
     case 1:
-        x=func_0204B4EC(*(void **)(p+4),(u16)(*(u32_021FF334 *)(p+0x44)),0);
-        y=func_0204B5E4(*(void **)(p+4),0);
+        x=CLACT_GetActorSurfacePosAxis(*(void **)(p+4),(u16)(*(u32_021FF334 *)(p+0x44)),0);
+        y=CLACT_GetActorScaleAxis(*(void **)(p+4),0);
         if(*(int *)(p+0x24)==0){
             *(int *)(p+0x2C)=*(s16 *)(p+0x34)-x;
             *(int *)(p+0x2C)/=*(s16 *)(p+0x3A);
@@ -602,8 +602,8 @@ void func_021FF334(char *p)
             y+=*(int *)(p+0x30);
             (*(int *)(p+0x24))++;
         }
-        func_0204B49C(*(void **)(p+4),x,(u16)(*(u32_021FF334 *)(p+0x44)),0);
-        func_0204B5D4(*(void **)(p+4),y,0);
+        CLACT_SetActorSurfacePosAxis(*(void **)(p+4),x,(u16)(*(u32_021FF334 *)(p+0x44)),0);
+        CLACT_SetActorScaleAxis(*(void **)(p+4),y,0);
         break;
     case 2:func_021FF038((u8 *)p,0);break;
     }
@@ -633,10 +633,10 @@ char *func_021FF408(void *owner,void *arg,u32_021FF408 heap)
     func_021D6660(p,(char *)(&cfg));
     ((struct Obj06637 *)p)->f5A4=1;
     func_02012EBC(owner);
-    ((struct Obj06637 *)p)->f5A8=func_0200D59C(heap);
-    func_0200D5D0(((struct Obj06637 *)p)->f5A8,owner);
+    ((struct Obj06637 *)p)->f5A8=GDS_PROFILE_Create(heap);
+    GDS_PROFILE_Init(((struct Obj06637 *)p)->f5A8,owner);
     ((struct Obj06637 *)p)->f5AC=func_021FFB14(p,(int)((void *)func_021FF8E0),heap);
-    func_02156DE0((int)((void *)func_021FFB80),(int)p);
+    DWC_RAP_SetErrorHookCallback((int)((void *)func_021FFB80),(int)p);
     return p;
 }
 
@@ -645,9 +645,9 @@ char *func_021FF408(void *owner,void *arg,u32_021FF408 heap)
 
 void func_021FF4E4(char *p)
 {
-    func_02156DE0(0, 0);
+    DWC_RAP_SetErrorHookCallback(0, 0);
     func_021FFB50(((struct Obj08336 *)p)->f5AC);
-    func_0200D5C8(((struct Obj08336 *)p)->f5A8);
+    GDS_PROFILE_Delete(((struct Obj08336 *)p)->f5A8);
     if (((struct Obj08336 *)p)->f5A4) {
         func_021D6770(p);
         ((struct Obj08336 *)p)->f5A4 = 0;
@@ -801,10 +801,10 @@ int func_021FF72C(char *p,int *out)
             case 22000:
                 if(event[3]){
                     switch(event[3]){
-                    case 150:func_02006210();func_0200FB4C(65);result=3;break;
-                    case 151:func_02006210();func_0200FB4C(66);result=3;break;
-                    case 152:func_02006210();func_0200FB4C(68);result=3;break;
-                    case 153:func_02006210();func_0200FB4C(67);result=3;break;
+                    case 150:GFL_USE_StopAllSe();GFL_NET_ERR_RaiseFatal(65);result=3;break;
+                    case 151:GFL_USE_StopAllSe();GFL_NET_ERR_RaiseFatal(66);result=3;break;
+                    case 152:GFL_USE_StopAllSe();GFL_NET_ERR_RaiseFatal(68);result=3;break;
+                    case 153:GFL_USE_StopAllSe();GFL_NET_ERR_RaiseFatal(67);result=3;break;
                     default:if(out)*out=event[3]+261;result=2;break;
                     }
                 }
@@ -831,10 +831,10 @@ int func_021FF72C(char *p,int *out)
 int func_021FF88C(char *p)
 {
     if (!p) return 0;
-    switch (func_02157170(1, 0)) {
-    case 1: func_02006210(); return 1;
-    case 2: func_02006210(); ((struct Obj24863 *)p)->f5DC = 1; return 2;
-    case 3: func_02006210(); func_0200F7DC(); break;
+    switch (DWC_RAPCOMMON_HandleNetError(1, 0)) {
+    case 1: GFL_USE_StopAllSe(); return 1;
+    case 2: GFL_USE_StopAllSe(); ((struct Obj24863 *)p)->f5DC = 1; return 2;
+    case 3: GFL_USE_StopAllSe(); func_0200F7DC(); break;
     }
     return 0;
 }
@@ -1005,7 +1005,7 @@ int func_021FFB80(char *p, int b, int kind, int d)
             func_021D6770(p);
             ((struct Obj10800 *)p)->f5A4 = 0;
         }
-        func_02156DE0(0, 0);
+        DWC_RAP_SetErrorHookCallback(0, 0);
     }
     return 0;
 }
@@ -1206,28 +1206,28 @@ void func_021FFFCC(u8 *p) { int i; for(i=0;i<9;i++) { u8 *q=p+(u32)i*4; func_021
  *   021FFFF8..022000D0. Singleton tu --suggest-split confirms no viable cut.
  *   Existing integrator-owned unit_02045C44.c function verified EXACT344 with
  *   read-only fixed-flag one (ARM9-45CAC.log). No ARM9 file/shard writes.
- *   Its function: header lists only func_02045C44, omitting func_02045CAC.
+ *   Its function: header lists only MSGDATA_CreateFromMemory, omitting func_02045CAC.
  *   Verified C follows, using that unit's declarations:
  *   void func_02045CAC(struct MsgBank *bank, u32 index, void *dest) {
  *     u32 size; struct MsgEntry *e;
- *     if (index >= bank->file->count) { func_0204581C(dest); return; }
+ *     if (index >= bank->file->count) { STRBUF_Clear(dest); return; }
  *     func_02046180(bank);
  *     if (bank->resident == 0) {
  *       u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
  *       func_0204960C(bank->stream, pos + (index * 8 + 4));
- *       func_020495F4(bank->stream, 8, &bank->cache); e = &bank->cache;
+ *       ARC_TOOL_ReadHandle(bank->stream, 8, &bank->cache); e = &bank->cache;
  *     } else { e = (struct MsgEntry *)((u8 *)bank->base + 4) + index; }
  *     if (bank->resident == 0) {
  *       void *buf; size = e->len * 2;
  *       buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),
- *                         size, 0, g_020A7E8C, 0xd6);
+ *                         size, 0, MSGDATA_AllocSite, 0xd6);
  *       if (buf != 0) {
  *         func_0204960C(bank->stream, e->off + (bank->origin
  *                       + bank->file->langOff[bank->langIndex]));
- *         func_020495F4(bank->stream, size, buf);
- *         func_02045A00(dest, buf, e->len); func_020307B0(buf);
+ *         ARC_TOOL_ReadHandle(bank->stream, size, buf);
+ *         STRBUF_SetChars(dest, buf, e->len); func_020307B0(buf);
  *       }
- *     } else { func_02045A00(dest, (u8 *)bank->base + e->off, e->len); }
+ *     } else { STRBUF_SetChars(dest, (u8 *)bank->base + e->off, e->len); }
  *     func_02045E04(dest, index);
  *   }
  */

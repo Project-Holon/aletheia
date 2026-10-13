@@ -30,11 +30,11 @@
  *   func_02184234  0x02184234  arm  ov009
  *   func_02184200  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
- *   func_0219E1EC  0x0219E1EC  arm  ov009
- *   func_0219E218  0x0219E218  arm  ov009
- *   func_0219E264  0x0219E264  arm  ov009
+ *   SBServerGetPublicInetAddress  0x0219E1EC  arm  ov009
+ *   SBServerGetPublicQueryPortNBO  0x0219E218  arm  ov009
+ *   SBServerSetNext  0x0219E264  arm  ov009
  *   func_0218437C  0x0218437C  arm  ov009
- *   func_0219E26C  0x0219E26C  arm  ov009
+ *   SBServerGetNext  0x0219E26C  arm  ov009
  *   func_0219DFF8  0x0219DFF8  arm  ov009
  *   func_0218452C  0x0218452C  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
@@ -44,10 +44,10 @@
  *   func_0218474C  0x0218474C  arm  ov009
  *   func_021847BC  0x021847BC  arm  ov009
  *   func_021803BC  0x021803BC  arm  ov009
- *   func_021A0A1C  0x021A0A1C  arm  ov009
+ *   SBServerListSetLastError  0x021A0A1C  arm  ov009
  *   func_0217F264  0x0217F264  arm  ov009
  *   func_020946C8  0x020946C8  arm
- *   func_0217F25C  0x0217F25C  arm  ov009
+ *   SocketStartUp  0x0217F25C  arm  ov009
  *   g_021ACEF8  0x021ACEF8  data
  *   func_0209477C  0x0209477C  arm
  *   func_020949F4  0x020949F4  arm
@@ -182,11 +182,11 @@ extern void func_021843C8(int *p, int b);
 extern void func_02184234(void *array, void *newElem);
 extern int func_02184200(const int *p);
 extern void *func_02184208();
-extern int func_0219E1EC(const int *p);
-extern unsigned short func_0219E218(const unsigned short *p);
-extern void func_0219E264(int *p, int v);
+extern int SBServerGetPublicInetAddress(const int *p);
+extern unsigned short SBServerGetPublicQueryPortNBO(const unsigned short *p);
+extern void SBServerSetNext(int *p, int v);
 extern void func_0218437C(int a, int b);
-extern int func_0219E26C(const int *p);
+extern int SBServerGetNext(const int *p);
 extern void func_0219DFF8(void *elem);
 extern void func_0218452C(void *a);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
@@ -196,10 +196,10 @@ extern char *func_0217F1E0(char *s);
 extern void func_0218474C(void *t, void *e);
 extern int func_021847BC(void *t, void *k);
 extern int func_021803BC(char *dst, const char *src, unsigned int n);
-extern void func_021A0A1C(int *p, int v);
+extern void SBServerListSetLastError(int *p, int v);
 extern unsigned int func_0217F264(void);
 extern void func_020946C8(unsigned int seed);
-extern void func_0217F25C(void);
+extern void SocketStartUp(void);
 extern int func_0209477C(const u8 *s);
 extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern void func_021A02E0(SBServerList *slist);
@@ -463,7 +463,7 @@ int func_0219F6C8(SBServerList *slist, unsigned int ip, unsigned short port)
 	numservers = func_02184200(slist->servers);
 	for (i = 0; i < numservers; i++) {
 		server = *(void **)func_02184208(slist->servers, i);
-		if (ip == func_0219E1EC(server) && port == func_0219E218(server))
+		if (ip == SBServerGetPublicInetAddress(server) && port == SBServerGetPublicQueryPortNBO(server))
 			return i;
 	}
 	return -1;
@@ -480,9 +480,9 @@ int func_0219F6C8(SBServerList *slist, unsigned int ip, unsigned short port)
 void func_0219F738(SBServerList *slist, SBServer *server)
 {
     if (slist->deadlist == 0)
-        func_0219E264((int *)server, 0);
+        SBServerSetNext((int *)server, 0);
     else
-        func_0219E264((int *)server, (int)slist->deadlist);
+        SBServerSetNext((int *)server, (int)slist->deadlist);
     slist->deadlist = server;
 }
 
@@ -534,7 +534,7 @@ void func_0219F7D8(SBServerList *slist)
 	if (next == 0)
 		return;
 	for (server = next; server != 0; server = next) {
-		next = (void *)func_0219E26C(server);
+		next = (void *)SBServerGetNext(server);
 		func_0219DFF8(&server);
 	}
 	slist->deadlist = 0;
@@ -654,11 +654,11 @@ void func_0219F9A8(SBServerList *slist, char *queryForGamename, char *queryFromG
     slist->fromgamever = queryFromVersion;
     slist->currsortinfo.sortkey[0] = g_021A8230[0];
     slist->prevsortinfo.sortkey[0] = g_021A8230[0];
-    func_021A0A1C((int *)slist, (int)((char *)(unsigned char *)g_021A8230));
+    SBServerListSetLastError((int *)slist, (int)((char *)(unsigned char *)g_021A8230));
     slist->mLanAdapterOverride = 0;
     slist->backendgameflags = 0x80;
     func_020946C8(func_0217F264());
-    func_0217F25C();
+    SocketStartUp();
 }
 
 
@@ -674,7 +674,7 @@ void func_0219FAAC(SBServerList *slist)
 		char *e = g_021A821C;
 		char *s = (char *)slist->inbuffer;
 		if (func_020949F4((const u8 *)s, (const u8 *)e, (unsigned int)func_0209477C((const u8 *)e)) == 0) {
-			func_021A0A1C((int *)slist, (int)(s + (unsigned int)func_0209477C((const u8 *)q)));
+			SBServerListSetLastError((int *)slist, (int)(s + (unsigned int)func_0209477C((const u8 *)q)));
 			slist->ListCallback(slist, 5, g_021AEB00, slist->instance);
 		}
 	}

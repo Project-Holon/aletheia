@@ -1,5 +1,5 @@
 /*
- * function: func_021D72E8
+ * function: P_STA_SUB_PetRise
  * address: 0x021D72E8
  * packet: pkt_ov131_021D72E8
  * region: ov131
@@ -22,9 +22,9 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  *   d_020A1B38 0x020A1B38 data a2
- *   func_021D79A8 0x021D79A8 thumb ov131
- *   func_02015C78 0x02015C78 thumb
- *   func_02015E04 0x02015E04 thumb
+ *   P_STA_SUB_SetPetOffset 0x021D79A8 thumb ov131
+ *   MCSS_SetOfsPosition 0x02015C78 thumb
+ *   MCSS_SetAnmStopFlag 0x02015E04 thumb
  */
 #include "../include/Obj00831.h"
 typedef unsigned char u8;
@@ -33,10 +33,10 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef struct {int x,y,z;} Vec;
 extern const s16 d_020A1B38[];
-extern void func_021D79A8(void *p, unsigned char *q, int radius);
-extern void func_02015C78(void *p, u32 *src);
-extern void func_02015E04(void *);
-int func_021D72E8(u8 *p,u8 *q,int mode)
+extern void P_STA_SUB_SetPetOffset(void *p, unsigned char *q, int radius);
+extern void MCSS_SetOfsPosition(void *p, u32 *src);
+extern void MCSS_SetAnmStopFlag(void *);
+int P_STA_SUB_PetRise(u8 *p,u8 *q,int mode)
 {
     Vec v={0,0,0};
     u32 sum;
@@ -68,9 +68,9 @@ int func_021D72E8(u8 *p,u8 *q,int mode)
     if(height) f=0.5f+(float)(height*4096);
     else f=(float)(height*4096)-0.5f;
     v.y+=(int)f/16;
-    func_021D79A8(p,q,v.y);
-    func_02015C78(((struct Obj00831 *)q)->f0,(u32 *)(&v));
-    func_02015E04(((struct Obj00831 *)q)->f0);
+    P_STA_SUB_SetPetOffset(p,q,v.y);
+    MCSS_SetOfsPosition(((struct Obj00831 *)q)->f0,(u32 *)(&v));
+    MCSS_SetAnmStopFlag(((struct Obj00831 *)q)->f0);
     if(((struct Obj00831 *)q)->f66==0 && ((struct Obj00831 *)q)->f68==0) return 1;
     return 0;
 }

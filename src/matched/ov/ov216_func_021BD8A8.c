@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   sub_020311B8 0x020311B8 arm
- *   sub_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_021BD948 0x021BD948 thumb ov216
  *   func_021B6548 0x021B6548 thumb ov067
@@ -27,7 +27,7 @@ struct S02030FB4;
 struct Queue;
 struct Rec;
 extern struct TcblNode *sub_020311B8(struct Tcbl *, void (*)(struct TcblNode *, void *), u32, u32);
-extern void *sub_02031290(struct S02030FB4 *);
+extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void MI_CpuFill8(void *, int, int);
 extern void func_021BD948(struct TcblNode *task, char *work);
 extern int func_021B6548(unsigned char *p, unsigned int id, int v);
@@ -36,7 +36,7 @@ extern void func_021BD174(char *p, void *record, u16 unused, u8 slot);
 void func_021BD8A8(char *owner, int direction, int *counter)
 {
     char *work;
-    work = sub_02031290((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj00051 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD948, 24, 0));
+    work = TCBL_GetWork((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj00051 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD948, 24, 0));
     MI_CpuFill8(work, 0, 24);
     ((struct Obj05556 *)work)->f4 = direction;
     if (direction == 0) {

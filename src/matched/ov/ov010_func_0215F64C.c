@@ -11,7 +11,7 @@
  * former blocker: ABS32 0x000000CD (ov_id_00CD) has no witness outside the function (literal pool word only)
  *
  * symbols:
- *   func_02023F60  0x02023F60  thumb
+ *   BRIGHTNESS_Set  0x02023F60  thumb
  *   func_02012444  0x02012444  thumb
  *   d_021B9EC0     0x021B9EC0  data  a4
  *   ov_id_00CD     0x000000CD  data  a1
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 
 struct Evt;
 struct Obj;
-extern void func_02023F60(u32 a0, u32 a1, u32 mask);
+extern void BRIGHTNESS_Set(u32 a0, u32 a1, u32 mask);
 extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern u8 d_021B9EC0[];
 extern u8 ov_id_00CD[];
@@ -40,13 +40,13 @@ int func_0215F64C(int a0, int *st, int *a2)
 {
     switch (*st) {
     case 0:
-        func_02023F60(-16, 0x37, 1);
-        func_02023F60(-16, 0x3f, 2);
+        BRIGHTNESS_Set(-16, 0x37, 1);
+        BRIGHTNESS_Set(-16, 0x3f, 2);
         func_02012444((struct Obj *)a0, (u32)ov_id_00CD, (u32)d_021B9EC0, (u32)a2);
         (*st)++;
         break;
     case 1:
-        func_02023F60(0, 0x3f, 3);
+        BRIGHTNESS_Set(0, 0x3f, 3);
         func_02012374((struct Evt *)a0, (struct Evt **)func_0215FA1C(a2[0]));
         (*st)++;
         break;

@@ -17,7 +17,7 @@
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_02160FB4  0x02160FB4  thumb  ov010
- *   func_0202E474  0x0202E474  thumb
+ *   BAG_PARAM_Create  0x0202E474  thumb
  *   func_02008298  0x02008298  thumb
  */
 
@@ -30,7 +30,7 @@ struct MyItemSave;
 extern void *func_020120F4(const struct Ctx *);
 extern int func_02160FB4(void *);
 struct BigObj;
-extern void *func_0202E474(const struct BigObj *a0, int a1, int a2, int a3);
+extern void *BAG_PARAM_Create(const struct BigObj *a0, int a1, int a2, int a3);
 extern void func_02008298(struct MyItemSave *, u16);
 
 int *func_02160FE0(u8 *a0, int a1, int a2, const int *a3)
@@ -40,16 +40,16 @@ int *func_02160FE0(u8 *a0, int a1, int a2, const int *a3)
 
     switch (a2) {
     case 2:
-        r = func_0202E474((const struct BigObj *)h, (int)(a0 + 0x34), func_02160FB4((void *)**(int **)(a0 + 0x18)), 4);
+        r = BAG_PARAM_Create((const struct BigObj *)h, (int)(a0 + 0x34), func_02160FB4((void *)**(int **)(a0 + 0x18)), 4);
         if (a1 != -1) {
             func_02008298((struct MyItemSave *)r[3], (u16)a1);
         }
         break;
     case 0:
         if (a3[16] == 3) {
-            r = func_0202E474((const struct BigObj *)h, (int)(a0 + 0x34), 2, 4);
+            r = BAG_PARAM_Create((const struct BigObj *)h, (int)(a0 + 0x34), 2, 4);
         } else {
-            r = func_0202E474((const struct BigObj *)h, (int)(a0 + 0x34), func_02160FB4((void *)**(int **)(a0 + 0x18)), 4);
+            r = BAG_PARAM_Create((const struct BigObj *)h, (int)(a0 + 0x34), func_02160FB4((void *)**(int **)(a0 + 0x18)), 4);
         }
         break;
     case 1:
@@ -60,7 +60,7 @@ int *func_02160FE0(u8 *a0, int a1, int a2, const int *a3)
     case 7:
     case 8:
     default:
-        r = func_0202E474((const struct BigObj *)h, (int)(a0 + 0x34), func_02160FB4((void *)**(int **)(a0 + 0x18)), 4);
+        r = BAG_PARAM_Create((const struct BigObj *)h, (int)(a0 + 0x34), func_02160FB4((void *)**(int **)(a0 + 0x18)), 4);
         break;
     }
     return r;

@@ -15,10 +15,10 @@
  * MATCH: bytes identical; blocked on 0x02015C60, an unfiled unlabelled ARM9
  * Thumb leaf (the integrator's) with no witness outside this range. Verified C for it
  * (EXACT, `one --thumb`, no --region, cc 1.1p1, -O4,p; packet pkt_02015C60,
- * 64 B extent, out-direction twin of func_02015C78):
+ * 64 B extent, out-direction twin of MCSS_SetOfsPosition):
  *
  *   typedef unsigned int u32;
- *   void func_02015C60(void *p, u32 *out)
+ *   void MCSS_GetOfsPosition(void *p, u32 *out)
  *   {
  *       out[0] = *(u32 *)((char *)p + 0x11C);
  *       out[1] = *(u32 *)((char *)p + 0x120);
@@ -26,11 +26,11 @@
  *   }
  *
  * symbols:
- *   func_02015C30  0x02015C30  thumb
- *   func_02015C48  0x02015C48  thumb
- *   func_02015C60  0x02015C60  thumb
- *   func_02015C78  0x02015C78  thumb
- *   func_02015EA0  0x02015EA0  thumb
+ *   MCSS_GetPosition  0x02015C30  thumb
+ *   MCSS_SetPosition  0x02015C48  thumb
+ *   MCSS_GetOfsPosition  0x02015C60  thumb
+ *   MCSS_SetOfsPosition  0x02015C78  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
  *   func_022018A8  0x022018A8  thumb  ov094
  *   func_022019F4  0x022019F4  thumb  ov094
  */
@@ -55,11 +55,11 @@ typedef struct {
 
 extern int func_022019F4(char *p, int key);
 extern void func_022018A8(Work *w, Vec *out, int key);
-extern void func_02015C30(void *p, u32 *out);
-extern void func_02015C60(void *p, u32 *out);
-extern void func_02015C48(void *p, u32 *src);
-extern void func_02015C78(void *p, u32 *src);
-extern void func_02015EA0(void *h);
+extern void MCSS_GetPosition(void *p, u32 *out);
+extern void MCSS_GetOfsPosition(void *p, u32 *out);
+extern void MCSS_SetPosition(void *p, u32 *src);
+extern void MCSS_SetOfsPosition(void *p, u32 *src);
+extern void MCSS_SetVanishFlag(void *h);
 
 void func_022004BC(Work *w, int key)
 {
@@ -73,8 +73,8 @@ void func_022004BC(Work *w, int key)
     if (w->e[i].h == 0)
         return;
     func_022018A8(w, &want, key);
-    func_02015C30(w->e[i].h, (u32 *)(&cur));
-    func_02015C60(w->e[i].h, (u32 *)(&off));
+    MCSS_GetPosition(w->e[i].h, (u32 *)(&cur));
+    MCSS_GetOfsPosition(w->e[i].h, (u32 *)(&off));
     w->e[i].flags &= ~0x40;
     if (want.x == cur.x && want.y == cur.y && want.z == cur.z
         && off.x == 0 && off.y == 0 && off.z == 0)
@@ -83,7 +83,7 @@ void func_022004BC(Work *w, int key)
     off.x = 0;
     off.y = 0;
     off.z = 0;
-    func_02015C48(w->e[i].h, (u32 *)(&want));
-    func_02015C78(w->e[i].h, (u32 *)(&off));
-    func_02015EA0(w->e[i].h);
+    MCSS_SetPosition(w->e[i].h, (u32 *)(&want));
+    MCSS_SetOfsPosition(w->e[i].h, (u32 *)(&off));
+    MCSS_SetVanishFlag(w->e[i].h);
 }

@@ -23,9 +23,9 @@
  *   func_020362DC  0x020362DC  arm
  *   func_0204B98C  0x0204B98C  arm
  *   func_021BB0E0  0x021BB0E0  thumb  ov072
- *   func_0204B898  0x0204B898  arm
+ *   CLACT_GetActorAnimSeq  0x0204B898  arm
  *   func_0204B878  0x0204B878  arm
- *   func_0204B95C  0x0204B95C  arm
+ *   CLACT_StartActorAnim  0x0204B95C  arm
  */
 typedef short s16;
 typedef unsigned short u16;
@@ -47,9 +47,9 @@ extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
 extern u32 func_0204B98C(struct Actor *a);
 extern int func_021BB0E0(void *p);
-extern u16 func_0204B898(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B95C(struct Actor *a);
+extern void CLACT_StartActorAnim(struct Actor *a);
 
 void func_021B9F50(u32 *p, void *q)
 {
@@ -74,18 +74,18 @@ void func_021B9F50(u32 *p, void *q)
             hit = 1;
         }
         if (hit && func_0204B98C((void *)p[5]) == 0 && func_021BB0E0(q) == 0) {
-            if (func_0204B898((void *)p[5]) == 7)
+            if (CLACT_GetActorAnimSeq((void *)p[5]) == 7)
                 func_0204B878((void *)p[5], 9);
             else
                 func_0204B878((void *)p[5], 10);
-            func_0204B95C((void *)p[5]);
+            CLACT_StartActorAnim((void *)p[5]);
             p[6] = 7;
             p[7] = 1;
         }
         break;
     case 1:
         if (func_0204B98C((void *)p[5]) == 0) {
-            if (func_0204B898((void *)p[5]) == 9)
+            if (CLACT_GetActorAnimSeq((void *)p[5]) == 9)
                 func_0204B878((void *)p[5], 8);
             else
                 func_0204B878((void *)p[5], 7);

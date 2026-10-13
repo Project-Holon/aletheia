@@ -14,7 +14,7 @@
  * symbols:
  *   func_021B7268 0x021B7268 thumb ov180
  *   func_020061E4 0x020061E4 thumb
- *   func_02006254 0x02006254 thumb
+ *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   func_021B654C 0x021B654C thumb ov180
  *   func_021B65A0 0x021B65A0 thumb ov180
  *   func_021B6778 0x021B6778 thumb ov180
@@ -30,7 +30,7 @@
  *   func_021B7408 0x021B7408 thumb ov180
  *   func_021B727C 0x021B727C thumb ov180
  *   func_021B72B0 0x021B72B0 thumb ov180
- *   func_02006A64 0x02006A64 thumb
+ *   PM_VOICE_Start 0x02006A64 thumb
  *   func_021B746C 0x021B746C thumb ov180
  *   func_021B7488 0x021B7488 thumb ov180
  *   func_02006BD0 0x02006BD0 thumb
@@ -50,8 +50,8 @@ extern int func_021B72B0(char *,int);
 extern int func_021B74B4(int *p, int i);
 extern void func_020061E4(u32);
 typedef signed short   s16;
-extern int func_02006254(u32);
-extern int func_02006A64(u32);
+extern int GFL_USE_IsSeqPlaying(u32);
+extern int PM_VOICE_Start(u32);
 extern u32 func_02006BD0(u32 i);
 extern void func_021B654C(char *),func_021B65A0(char *),func_021B6778(char *),func_021B67EC(char *),func_021B761C(char *),func_021B78E0(char *),func_021B7C08(char *),func_021B7750(char *),func_021B727C(char *);
 extern void func_021B67C4(char *,int);
@@ -69,7 +69,7 @@ int func_021B6BAC(char *p) {
     case 0: ++((struct Obj00299 *)p)->f9190;return func_021B7268(p,32);
     case 1: func_020061E4(0x79B);++((struct Obj00299 *)p)->f9190;break;
     case 2: if(++((struct Obj00299 *)p)->f9188==48){func_020061E4(0x79C);((struct Obj00299 *)p)->f9188=0;++((struct Obj00299 *)p)->f9190;}break;
-    case 3: if(func_02006254(0x79C)==0){
+    case 3: if(GFL_USE_IsSeqPlaying(0x79C)==0){
         func_020061E4(0x79A);func_021B654C(p);func_021B65A0(p);func_021B6778(p);func_021B67EC(p);func_021B761C(p);func_021B78E0(p);func_021B7C08(p);func_021B7750(p);
         ++((struct Obj00299 *)p)->f9190;return func_021B7210(p,5);
     }break;
@@ -92,7 +92,7 @@ int func_021B6BAC(char *p) {
         if(coords[7]!=48)func_021B7438((u8 *)p,0,16,0);
         else if(busy==0){func_020061E4(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[7];((struct Obj00299 *)p)->f9162=coords[6];++((struct Obj00299 *)p)->f9190;}
         func_021B7C08(p);break;
-    case 11: if(func_021B72B0(p,0)==0){func_02006A64(((struct Obj00299 *)p)->f9184);func_021B746C((int *)p,4,1);func_021B7488((u8 *)p,4,6);++((struct Obj00299 *)p)->f9190;return func_021B7268(p,128);}break;
+    case 11: if(func_021B72B0(p,0)==0){PM_VOICE_Start(((struct Obj00299 *)p)->f9184);func_021B746C((int *)p,4,1);func_021B7488((u8 *)p,4,6);++((struct Obj00299 *)p)->f9190;return func_021B7268(p,128);}break;
     case 12: if(func_02006BD0(((struct Obj00299 *)p)->f9184)==0 && func_021B74B4((int *)p,4)==0)++((struct Obj00299 *)p)->f9190;break;
     case 13: func_021B7408((u8 *)p,0,&coords[5],&coords[4]);if(coords[5]!=-48)func_021B7438((u8 *)p,0,-16,0);else ++((struct Obj00299 *)p)->f9190;break;
     case 14: func_021B7408((u8 *)p,3,&coords[3],&coords[2]);if(coords[3]!=264)func_021B7438((u8 *)p,3,16,0);else ++((struct Obj00299 *)p)->f9190;func_021B7C08(p);break;

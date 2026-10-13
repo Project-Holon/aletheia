@@ -1,5 +1,5 @@
 /*
- * function: func_02173CCC
+ * function: UNION_COMMAND_RecvAppEntry
  * address:  0x02173CCC
  * packet:   pkt_ov012_02173CCC
  * region:   ov012
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern int func_02183BE8(u8 *s, int i);
 
-void func_02173CCC(int a, int x, int y, u8 *p)
+void UNION_COMMAND_RecvAppEntry(int a, int x, int y, u8 *p)
 {
     if (((struct Obj05918 *)p)->f3528 == 0) {
         func_02034714((void *)0x02175624, 0, (void *)0x02175624);

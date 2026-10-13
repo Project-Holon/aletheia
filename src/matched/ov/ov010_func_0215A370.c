@@ -14,13 +14,13 @@
  *
  * symbols:
  *   ov131_id       0x00000083  data
- *   d_021DC800     0x021DC800  data  ov131
+ *   gPokeStatusProcData     0x021DC800  data  ov131
  *   func_021BE8D4  0x021BE8D4  thumb
  *   func_021BE92C  0x021BE92C  thumb
  *   func_02012374  0x02012374  thumb
- *   func_020144DC  0x020144DC  thumb
- *   func_020145CC  0x020145CC  thumb
- *   func_020120B4  0x020120B4  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -38,16 +38,16 @@ typedef struct {
 } Ctx;
 
 extern u8 ov131_id[];
-extern u8 d_021DC800[];
+extern u8 gPokeStatusProcData[];
 
 extern void *func_021BE8D4(void *, void *, int, int);
 extern void *func_021BE92C(void *, void *, int, int, int, int, int);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 struct IcaAnime;
-extern int func_020144DC(int a0, int a1);
-extern void *func_020145CC(void *);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 func_020307B0(void *p);
 
 int func_0215A370(void *a, u32 *st, Ctx *c)
@@ -60,15 +60,15 @@ int func_0215A370(void *a, u32 *st, Ctx *c)
         *st = 1;
         break;
     case 1:
-        func_02012374(a, (struct Evt **)func_020144DC((int)p0, (int)c->f4));
+        func_02012374(a, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)p0, (int)c->f4));
         *st = 2;
         break;
     case 2:
-        func_020120B4(p0, (u32)ov131_id, d_021DC800, c->f8);
+        GAMESYSTEM_CallProc(p0, (u32)ov131_id, gPokeStatusProcData, c->f8);
         *st = 3;
         break;
     case 3:
-        func_02012374(a, func_020145CC(p0));
+        func_02012374(a, FIELD_STATUS_CreateFieldOpenEvent(p0));
         *st = 4;
         break;
     case 4:

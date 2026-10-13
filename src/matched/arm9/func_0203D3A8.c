@@ -12,8 +12,8 @@
  *
  * symbols:
  *   func_0203D798  0x0203D798  arm
- *   func_020395EC  0x020395EC  arm
- *   func_02038C18  0x02038C18  arm
+ *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
+ *   GFL_NET_SYSTEM_SetSendQueue  0x02038C18  arm
  *
  * TU: net.c.
  *
@@ -33,11 +33,11 @@ typedef unsigned int u32;
 struct Entry;
 
 extern void *func_0203D798(void);
-extern int func_020395EC(struct Entry *a);
-extern int   func_02038C18(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
+extern int   GFL_NET_SYSTEM_SetSendQueue(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 
 int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d)
 {
     func_0203D798();
-    return func_02038C18(b, d, c, 0, func_020395EC(a), 0xff, 0);
+    return GFL_NET_SYSTEM_SetSendQueue(b, d, c, 0, GFL_NET_HANDLE_GetNetHandleID(a), 0xff, 0);
 }

@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02005794, sub_020057A0, sub_020057AC
+ * function: GFL_USE_MuteSound, GFL_USE_UnmuteSound, GFL_USE_SetSleepVolumeHooks
  *
  * symbols:
  *   func_02072788  0x02072788  arm
@@ -50,7 +50,7 @@
  * The function at 0x020057C4 immediately after this range stays open and is
  * not part of this file: it is the only caller of 0x02035108 anywhere in the
  * image, so the one witness for that call is the call itself and no cut can
- * put it outside the range under test.  It also needs sub_02005794 local, for
+ * put it outside the range under test.  It also needs GFL_USE_MuteSound local, for
  * the pool word at 0x020057D8, which is why it cannot simply be given a range
  * of its own either.  `python tools/match.py tu --src ... --suggest-split`
  * reports both constraints.
@@ -68,20 +68,20 @@ extern void func_02072788(u32 volume);
 /* Registers a pair of callbacks.  ARM, and in another packet's territory. */
 extern void func_0203508C(u32 a, u32 b, u32 c);
 
-void sub_02005794(void);
-void sub_020057A0(void);
+void GFL_USE_MuteSound(void);
+void GFL_USE_UnmuteSound(void);
 
-void sub_02005794(void)
+void GFL_USE_MuteSound(void)
 {
     func_02072788(0);
 }
 
-void sub_020057A0(void)
+void GFL_USE_UnmuteSound(void)
 {
     func_02072788(0x7F);
 }
 
-void sub_020057AC(void)
+void GFL_USE_SetSleepVolumeHooks(void)
 {
-    func_0203508C((u32)sub_02005794, (u32)sub_020057A0, 0);
+    func_0203508C((u32)GFL_USE_MuteSound, (u32)GFL_USE_UnmuteSound, 0);
 }

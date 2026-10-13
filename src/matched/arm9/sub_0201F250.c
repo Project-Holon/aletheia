@@ -52,6 +52,11 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201F250.c \
  *       --func func_0201F250 --addr 0x0201F250 --cc 1.1p1 --thumb
+ *
+ * symbols:
+ *   STRBUF_Clear  0x0204581C  arm
+ *   STRBUF_GetChars  0x02045A90  arm
+ *   STRBUF_AppendChar  0x02045AFC  arm
  */
 
 typedef unsigned char  u8;
@@ -71,10 +76,10 @@ struct WordSet {
 };
 
 struct U16Vec;
-extern u16 *func_02045A90(struct U16Vec *vec);
-extern void func_0204581C(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
 extern u16  func_02045A98(void);
-extern void func_02045AFC(struct U16Vec *vec, u16 value);
+extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 
 extern u32   func_0201D5C4(void);
 extern u32   func_0201D5CC(const u16 *p);
@@ -93,8 +98,8 @@ void func_0201F250(struct WordSet *ws, void *dst, void *src)
     u32 i;
     struct Entry *e;
 
-    p = func_02045A90(src);
-    func_0204581C(dst);
+    p = STRBUF_GetChars(src);
+    STRBUF_Clear(dst);
     term = func_02045A98();
     marker = func_0201D5C4();
     while (p[0] != term) {
@@ -114,11 +119,11 @@ void func_0201F250(struct WordSet *ws, void *dst, void *src)
                 q = p;
                 p = func_0201D688(p);
                 while (q < p) {
-                    func_02045AFC(dst, *q++);
+                    STRBUF_AppendChar(dst, *q++);
                 }
             }
         } else {
-            func_02045AFC(dst, *p++);
+            STRBUF_AppendChar(dst, *p++);
         }
     }
 }

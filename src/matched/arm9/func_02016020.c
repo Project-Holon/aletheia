@@ -1,5 +1,5 @@
 /*
- * function: func_02016020
+ * function: MCSS_SetTextureTransAdrs
  * address:  0x02016020
  * packet:   pkt_02015F50
  * region:   arm9
@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-void func_02016020(void *p, u32 v)
+void MCSS_SetTextureTransAdrs(void *p, u32 v)
 {
     ((struct Obj15670 *)p)->f30 = v;
 }

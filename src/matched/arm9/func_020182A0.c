@@ -1,5 +1,5 @@
 /*
- * function: func_020182A0
+ * function: POKE_TOOL_ReplaceMoveSlot
  * address:  0x020182A0
  * packet:   pkt_020182A0
  * region:   arm9
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020182A8  0x020182A8  thumb
+ *   POKE_TOOL_ReplaceBoxMoveSlot  0x020182A8  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void func_020182A8(void *, u16, u8);
+extern void POKE_TOOL_ReplaceBoxMoveSlot(void *, u16, u8);
 
-void func_020182A0(void *p, u16 move, u8 slot)
+void POKE_TOOL_ReplaceMoveSlot(void *p, u16 move, u8 slot)
 {
-    func_020182A8(p, move, slot);
+    POKE_TOOL_ReplaceBoxMoveSlot(p, move, slot);
 }

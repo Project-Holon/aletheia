@@ -27,7 +27,7 @@
  *   func_0203CBAC  0x0203CBAC  arm
  *   d_02171C30     0x02171C30  data  ov010  a4
  *   func_02010360 0x02010360 thumb
- *   func_020103E4 0x020103E4 thumb
+ *   WIH_DWC_Delete 0x020103E4 thumb
  *   func_0203CEAC 0x0203CEAC arm
  *   func_020307B0 0x020307B0 arm
  *   func_0200FB24 0x0200FB24 thumb
@@ -36,8 +36,8 @@
  *   func_02026400  0x02026400  thumb
  *   func_02035390  0x02035390  arm
  *   func_020353B0  0x020353B0  arm
- *   func_020267FC  0x020267FC  thumb
- *   func_020264AC  0x020264AC  thumb
+ *   GAME_BEACON_SendIfRequested  0x020267FC  thumb
+ *   GAME_COMM_GetNotifyFlag  0x020264AC  thumb
  *   func_02012B70  0x02012B70  thumb
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb
@@ -47,45 +47,43 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02177BF4  0x02177BF4  thumb  ov014
  *   func_02010498  0x02010498  thumb
- *   func_0203D0FC  0x0203D0FC  arm
- *   func_02082BCC  0x02082BCC  arm
- *   func_0203CF3C  0x0203CF3C  arm
- *   func_02026A60  0x02026A60  thumb
- *   func_02178098  0x02178098  thumb ov014
+ *   GFL_NET_EndDeviceWrapper  0x0203D0FC  arm
+ *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
+ *   GAME_BEACON_ReceiveInfo  0x02026A60  thumb
+ *   NET_WHPIPE_GetEntryKind  0x02178098  thumb ov014
  *   func_0203CF10  0x0203CF10  arm
- *   func_020267E4 0x020267E4 thumb
+ *   GAME_BEACON_GetMyInfo 0x020267E4 thumb
  *   func_0203D1B4  0x0203D1B4  arm
- *   func_02039414  0x02039414  arm
- *   func_02085D3C  0x02085D3C  arm
+ *   GFL_NET_SYSTEM_CheckError  0x02039414  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_02087E60  0x02087E60  arm
  *   func_02012944  0x02012944  thumb
  *   func_02008530  0x02008530  thumb
- *   func_02082D44  0x02082D44  arm
- *   func_02012164  0x02012164  thumb
+ *   GAMESYSTEM_CanStartAutoComm  0x02012164  thumb
  *   func_0203CD98  0x0203CD98  arm
  *   func_02026454  0x02026454  thumb
  *   func_020263D8  0x020263D8  thumb
- *   func_0202708C  0x0202708C  thumb
- *   func_02027060   0x02027060  thumb
- *   func_02026FB8   0x02026FB8  thumb
- *   g_02146940      0x02146940  data
- *   func_020273C4   0x020273C4  thumb
- *   func_0202744C  0x0202744C  thumb
- *   func_020273DC   0x020273DC  thumb
- *   func_020273F8   0x020273F8  thumb
- *   func_02027414   0x02027414  thumb
- *   func_02027430   0x02027430  thumb
+ *   GAME_BEACON_IsSpecialPokemon  0x0202708C  thumb
+ *   GAME_BEACON_CheckActionPriority   0x02027060  thumb
+ *   GAME_BEACON_RequestSend   0x02026FB8  thumb
+ *   GAME_BEACON_Work      0x02146940  data
+ *   GAME_BEACON_SetDetailsBattleWildPoke   0x020273C4  thumb
+ *   GAME_BEACON_ResetDetails  0x0202744C  thumb
+ *   GAME_BEACON_SetDetailsBattleSpecialPoke   0x020273DC  thumb
+ *   GAME_BEACON_SetDetailsBattleTrainer   0x020273F8  thumb
+ *   GAME_BEACON_SetDetailsBattleLeader   0x02027414  thumb
+ *   GAME_BEACON_SetDetailsBattleBigFour   0x02027430  thumb
  *   d_02171CA0      0x02171CA0  data  ov010  a1
- *   func_020270AC  0x020270AC  thumb
+ *   GAME_BEACON_CopyStrbufCodes  0x020270AC  thumb
  *   func_0200C0F0 0x0200C0F0 thumb
  *   func_0200C20C 0x0200C20C thumb
  *   func_0201F41C 0x0201F41C thumb
  *   func_02045A38  0x02045A38  arm
  *   func_0203F4CC 0x0203F4CC arm
- *   func_02026CA0 0x02026CA0 thumb
- *   func_02026C1C 0x02026C1C thumb
- *   func_02026CE0 0x02026CE0 thumb
- *   func_02026D04   0x02026D04  thumb
+ *   GAME_BEACON_GetNextNewLogIndex 0x02026CA0 thumb
+ *   GAME_BEACON_GetLog 0x02026C1C thumb
+ *   GAME_BEACON_ClearNewFlag 0x02026CE0 thumb
+ *   GAME_BEACON_SetNewFlagByTrainerId   0x02026D04  thumb
  *   MIi_CpuCopy32  0x02082A90  arm
  *   MIi_CpuCopy16  0x02082A60  arm
  *   _s32_div_f  0x0209C0A4  arm
@@ -93,655 +91,394 @@
  *   d_02171CA8     0x02171CA8  data
  *   func_02045994  0x02045994  arm
  *   func_0200E3A4  0x0200E3A4  thumb
- *   func_02087D1C  0x02087D1C  arm
- *   func_0204581C  0x0204581C  arm
+ *   OSi_GetOwnerInfoExBuffer  0x02087D1C  arm
+ *   STRBUF_Clear  0x0204581C  arm
  *   func_02045924  0x02045924  arm
  *   d_02171CE8  0x02171CE8  data  a1
  */
-#include "../../matched/include/Obj07302.h"
-#include "../../matched/include/Obj12361.h"
-#include "../../matched/include/Obj12363.h"
-#include "../../matched/include/Obj18982.h"
-#include "../../matched/include/Obj18983.h"
-#include "../../matched/include/Obj18984.h"
-#include "../../matched/include/Obj09313.h"
-#include "../../matched/include/Obj18986.h"
-#include "../../matched/include/Obj18988.h"
-#include "../../matched/include/Obj12364.h"
-#include "../../matched/include/Obj18989.h"
-#include "../../matched/include/Obj12050.h"
-#include "../../matched/include/Obj00121.h"
-#include "../../matched/include/Obj05717.h"
-#include "../../matched/include/Obj05718.h"
-#include "../../matched/include/Obj05719.h"
-#include "../../matched/include/Obj05720.h"
-#include "../../matched/include/Obj18996.h"
-#include "../../matched/include/Obj17722.h"
-#include "../../matched/include/Obj17723.h"
-#include "../../matched/include/Obj19000.h"
-#include "../../matched/include/Obj17724.h"
-#include "../../matched/include/Obj17725.h"
-#include "../../matched/include/Obj19003.h"
-#include "../../matched/include/Obj07306.h"
-#include "../../matched/include/Obj17726.h"
+#include "../arm9/game_beacon_types.h"
 
-struct Desc;
-struct SeqWork2;
-struct Big;
-struct Ctx;
-struct Obj_02164B38;
-struct Req;
-struct Comm;
-struct Rec44;
-struct SaveBlock;
-struct BigObj;
-struct Sub0200852CObj;
-struct IcaAnime;
-struct Blk34;
-struct RtcTime;
-struct Queue;
-struct Rec;
+struct GameSystem;
+struct GameEvent;
+struct GameComm;
+struct PlayerWork;
+struct MyStatus;
+struct SaveControl;
+struct NetInitParam;
 struct Strbuf;
-struct U16Vec;
-typedef unsigned char u8;
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
+struct RtcTime {
+    int hour;
+    int minute;
+    int second;
+};
 
 typedef volatile u16 vu16;
 
-typedef struct LinkRec {
-    u8 kind;            /* 0x00 */
-    u8 f01;
-    u8 f02;
-    u8 data[6];         /* 0x03 */
-} LinkRec;
+/* ------------------------------------------------------------------ *
+ * calender.c (see misplaced.tsv): the calender event work, 0x1C bytes.
+ * ------------------------------------------------------------------ */
+typedef struct CalenderEventWork {
+    struct GameSystem *gameSystem;      /* 0x00 */
+    struct GameData *gameData;          /* 0x04 */
+    struct SaveControl *saveControl;    /* 0x08 */
+    u8 reserved[12];
+    u8 mode;                            /* 0x18 */
+} CalenderEventWork;
 
-typedef struct PollWork {
-    u8 pad00[0xA];
-    u16 last;           /* 0x0A */
-    u32 cooldown;       /* 0x0C */
-    u8 pad10[0x64];
-    LinkRec rec;        /* 0x74 */
-} PollWork;
+/* ------------------------------------------------------------------ *
+ * game_beacon_search.c: the wireless search for other games' beacons.
+ * ------------------------------------------------------------------ */
 
-typedef struct Handoff12 {
-    void *sys;          /* 0x00 */
-    u8 data[6];         /* 0x04 */
-    u8 pad[2];
-} Handoff12;
+/* The 8-byte header in front of the beacon info, read by the scan. */
+typedef struct GameBeaconSearchHeader {
+    u8  beaconType;             /* 0x00: 3 for this game */
+    u8  memberNum : 4;          /* 0x01: connected members */
+    u8  memberMax : 4;
+    u8  busy : 1;               /* 0x02: the sender cannot connect now */
+    u8  kind : 5;               /* 1 link request, 2 beacon info */
+    u8  twlWirelessOn : 1;
+    u8  isTwl : 1;
+    u8  reserved0 : 1;          /* 0x03 */
+    u8  lidClosed : 1;
+    u8  reserved1 : 6;
+    u32 trainerId;              /* 0x04 */
+} GameBeaconSearchHeader;
 
-typedef struct Ent {
-    u8 b0;
-    u8 lo : 4;
-    u8 hi : 4;
-    u8 flag : 1;
-    u8 kind : 5;
-    u8 rest : 2;
-} Ent;
+/* The beacon this game sends, 0x64 bytes. */
+typedef struct GameBeaconSearchBeacon {
+    GameBeaconSearchHeader header;      /* 0x00 */
+    GameBeaconInfo info;                /* 0x08 */
+} GameBeaconSearchBeacon;
 
-typedef struct Hdr_02164B38 { u8 x[2]; u8 b0:1; u8 b1:5; u8 b6:1; u8 b7:1; } Hdr_02164B38;
+/* The sender the scan chose to connect to, 9 bytes. */
+typedef struct GameBeaconSearchTarget {
+    u8 beaconType;              /* 0x00 */
+    u8 memberNum;               /* 0x01 */
+    u8 memberMax;               /* 0x02 */
+    u8 macAddress[6];           /* 0x03 */
+} GameBeaconSearchTarget;
 
-typedef struct Obj_02164B38 { void *src; u8 gap[12]; Hdr_02164B38 hdr; } Obj_02164B38;
+/* The search work, 0x84 bytes, made in func_02164B6C. */
+typedef struct GameBeaconSearchWork {
+    struct GameData *gameData;          /* 0x00 */
+    int state;                          /* 0x04: 0 stopped, 1 started, 2 scanning */
+    u8  connected;                      /* 0x08 */
+    u16 lastZoneId;                     /* 0x0A */
+    u32 scanDelay;                      /* 0x0C: frames before beacon info is read */
+    GameBeaconSearchBeacon beacon;      /* 0x10 */
+    GameBeaconSearchTarget target;      /* 0x74 */
+    u8 *wihDwc;                         /* 0x80 */
+} GameBeaconSearchWork;
 
-typedef struct Hdr_02164EB4 {
-    u8 f00;             /* 0x00 */
-    u8 f01_lo : 4;      /* 0x01 */
-    u8 f01_hi : 4;
-    u8 f02_0 : 1;       /* 0x02 */
-    u8 f02_1 : 5;
-    u8 f02_6 : 1;
-    u8 f02_7 : 1;
-    u8 f03_0 : 1;       /* 0x03 */
-    u8 f03_1 : 1;
-    u8 f03_2 : 6;
-    u32 f04;            /* 0x04 */
-} Hdr_02164EB4;
+/* The connect request made when a sender is found, 0x0C bytes. */
+typedef struct GameBeaconConnectRequest {
+    struct GameSystem *gameSystem;      /* 0x00 */
+    u8 macAddress[6];                   /* 0x04 */
+    u8 reserved[2];
+} GameBeaconConnectRequest;
 
-typedef struct Flags {
-    u32 b0 : 1;
-    u32 b1 : 4;
-    u32 b5 : 1;
-    u32 rest : 26;
-} Flags;
+/* The connect event handed to the comm system, 0x10 bytes. */
+typedef struct GameBeaconConnectEvent {
+    struct GameSystem *gameSystem;      /* 0x00 */
+    struct GameComm *gameComm;          /* 0x04 */
+    u8 macAddress[6];                   /* 0x08 */
+} GameBeaconConnectEvent;
 
-typedef struct Obj_02164F9C { u8 pad[3]; u8 lo:7; u8 hi:1; u8 gap[0x2c]; u16 event; } Obj_02164F9C;
+/* OS owner flags: only the two wireless bits are read here. */
+typedef struct OwnerFlags {
+    u32 wirelessOn : 1;
+    u32 reserved0 : 4;
+    u32 parentalWirelessOn : 1;
+    u32 reserved1 : 26;
+} OwnerFlags;
 
-typedef struct Rec {
-    u8 f00;
-    u8 pad01[2];
-    u8 lo : 7;
-    u8 hi : 1;
-    u8 pad04[12];
-    u16 f10;
-    u8 pad12[0x46];
-    u32 tail;
-} Rec;
+/* ------------------------------------------------------------------ *
+ * The table of received beacons, 0xB08 bytes.
+ * ------------------------------------------------------------------ */
+typedef struct GameBeaconInfoTable {
+    GameBeaconInfo info[30];    /* 0x000 */
+    u16 receiveTime[30];        /* 0xAC8: hour << 8 | minute */
+    u8  head;                   /* 0xB04: ring start */
+    u8  count;                  /* 0xB05 */
+} GameBeaconInfoTable;
 
-struct Queue {
-    struct Rec r[30];
-    u16 tag[30];
-    u8 head;
-    u8 count;
-};
+typedef int (*GameBeaconActionCheckFunc)(const GameBeaconInfo *info);
 
-typedef struct Rec_02165B5C {
-    u8 f00[3];
-    u8 f03 : 7;         /* 0x03 */
-    u8 f03_7 : 1;
-    u32 f04_0 : 17;     /* 0x04 */
-    u32 f04_17 : 10;
-    u32 f04_27 : 5;
-    u32 f08_0 : 17;     /* 0x08 */
-    u32 f08_17 : 5;
-    u32 f08_22 : 10;
-    u32 f0C_0 : 9;      /* 0x0C */
-    u32 f0C_9 : 3;
-    u32 f0C_12 : 4;
-    u32 f0C_16 : 10;
-    u32 f0C_26 : 6;
-    u8 pad10[0x30 - 0x10];
-    u16 f30;            /* 0x30 kind */
-    u8 pad32[0x48 - 0x32];
-    u16 f48_0 : 8;      /* 0x48 */
-    u16 f48_8 : 8;
-} Rec_02165B5C;
+/* Per-action attributes, 2 bytes. */
+typedef struct GameBeaconActionAttr {
+    u8 checkIndex;              /* index into d_02171CA8 */
+    u8 group;
+} GameBeaconActionAttr;
 
-typedef int (*RecCheck)(Rec_02165B5C *r);
-
-typedef signed char s8;
-
-typedef short s16;
-
-typedef struct Rec_02165C34 {
-    u8 pad00[0x12];
-    u16 name[8];        /* 0x12 */
-} Rec_02165C34;
-
-typedef struct {
-    u32 _pad0;
-    u32 _pad1;
-    u32 _pad2;
-    u32 field : 6;
-} S_02165C48;
-
-typedef struct {
-    u32 w0;
-    u32 lo : 27;
-    u32 hi : 5;
-} S_02165C50;
-
-struct Packed {u16 low:8,a:3,b:5;};
-
-struct R {u8 pad[0x48];struct Packed fields;u16 c,d;};
-
-struct Quad {u16 a,b,c,d;};
-
-typedef struct {
-    u32 w0;
-    u32 w4;
-    u32 w8;
-    u32 lo : 9;
-    u32 f : 3;
-    u32 hi : 20;
-} S_02165CB4;
-
-struct S_02165CD8 {
-    u8 pad0[12];
-    u32 : 12;
-    u32 f : 4;
-};
-
-struct S_02165CE8 {
-    u8 pad0[3];
-    u8 : 7;
-    u8 f3 : 1;
-    u8 pad4[8];
-    u32 : 6;
-    u32 f : 3;
-};
-
-struct S {u32 a,b,c;u32 low:16;u32 first:10;u32 second:6;};
-
-struct Bits_02165D28 { unsigned a; unsigned low:17; unsigned value:10; unsigned high:5; };
-
-struct Bits_02165D34 { unsigned a, b; unsigned low:22; unsigned value:10; };
-
-struct S_02165D40 {u32 a,b;u32 value:17;u32 rest:15;};
-
-struct S_02165D48 {u32 a;u32 value:17;u32 rest:15;};
-
-typedef struct Rec_02165E34 {
-    u8 pad00[0x30];
-    u16 type;           /* 0x30 */
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02165E34;
-
-typedef struct Rec_02165E78 {
-    u8 pad00[0x30];
-    u16 type;           /* 0x30 */
-    u16 f32;            /* 0x32 */
-    union {
-        u8 b;
-        u16 h;
-        u32 w;
-    } f34;              /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02165E78;
-
-typedef struct Rec_02165E8C {
-    u8 pad00[0x30];
-    u16 type;           /* 0x30 */
-    u16 f32;            /* 0x32 */
-    union {
-        u8 b;
-        u16 h;
-        u32 w;
-    } f34;              /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02165E8C;
-
-typedef struct Rec_02165E9C {
-    u8 pad00[0x30];
-    u16 type;           /* 0x30 */
-    u16 f32;            /* 0x32 */
-    union {
-        u8 b;
-        u16 h;
-        u32 w;
-    } f34;              /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02165E9C;
-
-typedef struct Rec_02165EAC {
-    u8 pad00[0x30];
-    u16 type;           /* 0x30 */
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02165EAC;
-
-typedef struct Rec_02165EBC {
-    u8 pad00[0x30];
-    u16 type;           /* 0x30 */
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02165EBC;
-
-typedef struct Rec_02165ECC {
-    u8 pad00[0x30];
-    u16 type;           /* 0x30 */
-    u8 pad32[2];
-    u16 text[11];       /* 0x34 */
-} Rec_02165ECC;
-
-typedef struct Rec_02165F30 {
-    u8 pad00[0x30];
-    u16 type;           /* 0x30 */
-    u16 f32;            /* 0x32 */
-    u16 f34;            /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02165F30;
-
-typedef struct Rec_02165F64 {
-    u8 pad00[0x30];
-    u16 type;           /* 0x30 */
-    u16 f32;            /* 0x32 */
-    union {
-        u8 b;
-        u16 h;
-        u32 w;
-    } f34;              /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02165F64;
-
-typedef struct Rec_02165F74 {
-    u8 pad00[0x30];
-    u16 type;           /* 0x30 */
-    u16 f32;            /* 0x32 */
-    union {
-        u8 b;
-        u16 h;
-        u32 w;
-    } f34;              /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02165F74;
-
-typedef struct Rec_02165F84 {
-    u8 pad00[0x30];
-    u16 type;           /* 0x30 */
-    u16 f32;            /* 0x32 */
-    union {
-        u8 b;
-        u16 h;
-        u32 w;
-    } f34;              /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02165F84;
-
-typedef struct Rec_02165F94 {
-    u8 pad00[0x30];
-    u16 type;           /* 0x30 */
-    u16 f32;            /* 0x32 */
-    union {
-        u8 b;
-        u16 h;
-        u32 w;
-    } f34;              /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02165F94;
-
-typedef struct Rec_02165FA4 {
-    u8 pad00[0x30];
-    u16 type;           /* 0x30 */
-    u16 f32;            /* 0x32 */
-    union {
-        u8 b;
-        u16 h;
-        u32 w;
-    } f34;              /* 0x34 */
-    u16 f36;            /* 0x36 */
-    u16 f38;            /* 0x38 */
-} Rec_02165FA4;
-
-typedef struct Row {
-    u8 a;
-    u8 b;
-} Row;
-
-extern struct Desc *func_020122C0(void *,void *,void *,u32);
-extern void *func_020124E8(struct Obj_02164B38 *p);
-extern int func_02164A2C(void *,u32 *,struct SeqWork2 *);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
-extern u32 func_02012138(const struct Ctx *p);
+extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, int (*func)(struct GameEvent *, u32 *, void *), u32 workSize);
+extern void *func_020124E8(struct GameEvent *event);
+extern int func_02164A2C(struct GameEvent *event, u32 *seq, void *work);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0202647C(void *obj);
-extern u32 func_0202648C(void *obj);
-extern void func_02030B50(void *p);
-extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
-extern u8 *func_02010360(int idx, void *heap);
-extern void func_020103E4(u8 *);
-extern int func_0203CEAC(int a0);
-extern u32 func_020307B0(void *p);
+extern u32 func_0202647C(struct GameComm *gameComm);
+extern u32 func_0202648C(struct GameComm *gameComm);
+extern void func_02030B50(u32 heapId);
+extern void func_0203CBAC(const struct NetInitParam *init, void (*callback)(void *work), void *work);
+extern u8 *func_02010360(int index, u32 heapId);
+extern void WIH_DWC_Delete(u8 *wihDwc);
+extern int func_0203CEAC(void (*callback)(void *work));
+extern u32 func_020307B0(void *memory);
 extern u32 func_0200FB24(void);
 extern void func_0200FBA0(void);
-extern u8 func_02012E40(const u8 *o);
-extern void func_02026400(struct Comm *p);
+extern u8 func_02012E40(const struct GameData *gameData);
+extern void func_02026400(struct GameComm *gameComm);
 extern int func_02035390(void);
 extern int func_020353B0(void);
-extern void func_020267FC(void);
-extern u32 func_020264AC(void *obj);
-extern int func_02012B70(const struct BigObj *p);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
-extern int func_02158570(u16 v);
+extern void GAME_BEACON_SendIfRequested(void);
+extern u32 GAME_COMM_GetNotifyFlag(struct GameComm *gameComm);
+extern int func_02012B70(const struct GameData *gameData);
+extern struct PlayerWork *func_020127A4(struct GameData *gameData);
+extern u16 func_02012AC8(const struct PlayerWork *playerWork);
+extern int func_02158570(u16 zoneId);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void func_0202640C(struct Comm *p, u32 a, u32 b);
-extern void MI_CpuFill8(void *, u8, u32);
-extern void func_02177BF4(u32 id);
+extern void func_0202640C(struct GameComm *gameComm, void (*callback)(void *work, int cancel), void *work);
+extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+extern void func_02177BF4(u32 index);
 extern void func_02010498(void);
-extern void  func_0203D0FC(int a);
-extern void func_02082BCC(void *, int, int);
-extern void *func_0203CF3C(u32 a);
-extern int func_02026A60(struct Req *r);
-extern u8 func_02178098(u8 i);
-extern u32 func_0203CF10(u32 a);
-extern void func_020267E4(void *);
+extern void GFL_NET_EndDeviceWrapper(int mode);
+extern u8 *GFL_NET_GetScanResultMac(u32 index);
+extern int GAME_BEACON_ReceiveInfo(const GameBeaconInfo *info);
+extern u8 NET_WHPIPE_GetEntryKind(u8 index);
+extern void *func_0203CF10(u32 index);
+extern void GAME_BEACON_GetMyInfo(GameBeaconInfo *info);
 extern int func_0203D1B4(void);
-extern u32 func_02039414(void);
-extern int func_02085D3C(void);
-extern Flags *func_02087E60(void);
-extern u8 *func_02012944(void *p);
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void  func_02082D44(void *src, void *dst, int n);
-extern u32 func_02012164(struct IcaAnime *p);
-extern int   func_0203CD98(void);
-extern u32 func_02026454(void *obj);
-extern void func_020263D8(struct Comm *p, u32 a1, u32 a2);
-extern int func_0202708C();
-extern u32 func_02027060(u32 a);
-extern void func_02026FB8(void *);
-extern void func_020273C4(void *, unsigned);
-extern int func_0202744C(void *);
-extern void func_020273DC(void *, unsigned);
-extern void func_020273F8(void *, unsigned);
-extern void func_02027414(void *, unsigned);
-extern void func_02027430(void *, unsigned);
-extern int func_020270AC();
-extern void *func_0200C0F0(void *);
-extern u16 *func_0200C20C(struct Blk34 *p);
-extern void func_0201F41C(const u16 *,u16 *,u32);
-extern int func_02045A38();
+extern u32 GFL_NET_SYSTEM_CheckError(void);
+extern int OS_IsRunOnTwl(void);
+extern OwnerFlags *func_02087E60(void);
+extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern u32 func_02008530(const struct MyStatus *myStatus);
+extern u32 GAMESYSTEM_CanStartAutoComm(const struct GameSystem *gameSystem);
+extern int func_0203CD98(void);
+extern u32 func_02026454(struct GameComm *gameComm);
+extern void func_020263D8(struct GameComm *gameComm, u32 kind, void *work);
+extern int GAME_BEACON_IsSpecialPokemon(u32 monsNo);
+extern u32 GAME_BEACON_CheckActionPriority(u32 action);
+extern void GAME_BEACON_RequestSend(GameBeaconRecord *record);
+extern void GAME_BEACON_SetDetailsBattleWildPoke(GameBeaconInfo *info, u32 monsNo);
+extern void GAME_BEACON_ResetDetails(GameBeaconInfo *info);
+extern void GAME_BEACON_SetDetailsBattleSpecialPoke(GameBeaconInfo *info, u32 monsNo);
+extern void GAME_BEACON_SetDetailsBattleTrainer(GameBeaconInfo *info, u32 trainerId);
+extern void GAME_BEACON_SetDetailsBattleLeader(GameBeaconInfo *info, u32 trainerId);
+extern void GAME_BEACON_SetDetailsBattleBigFour(GameBeaconInfo *info, u32 trainerId);
+extern void GAME_BEACON_CopyStrbufCodes(const struct Strbuf *str, u16 *dest);
+extern struct MyStatus *func_0200C0F0(struct SaveControl *saveControl);
+extern const u16 *func_0200C20C(const struct MyStatus *myStatus);
+extern void func_0201F41C(const u16 *src, u16 *dest, u32 length);
+extern void func_02045A38(const struct Strbuf *str, u16 *dest, u32 length);
 extern void func_0203F4CC(struct RtcTime *time);
-extern int func_02026CA0(int *);
-extern void *func_02026C1C(int n);
-extern void func_02026CE0(u32 n);
-extern int func_02026D04(const struct Rec *r);
+extern int GAME_BEACON_GetNextNewLogIndex(int *cursor);
+extern GameBeaconRecord *GAME_BEACON_GetLog(int index);
+extern void GAME_BEACON_ClearNewFlag(u32 index);
+extern int GAME_BEACON_SetNewFlagByTrainerId(const GameBeaconInfo *info);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
-extern int _s32_div_f(int a, int b);
-extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
+extern void func_02045994(struct Strbuf *str, const u16 *src, u32 length);
 extern u32 func_0200E3A4(const u8 *bits, int id);
-extern char *func_02087D1C(void);
-extern int func_0204581C(struct U16Vec *);
-extern int func_02045924();
-void *func_02164B38(void *a, void *b, u8 c);
-u8 *func_02164B6C(void *unused, void *arg);
-int func_02164BC4(int *st, int unused, int *q);
-void func_02164C04(u8 *p);
-int func_02164C20(int a,int b,u8 *p);
-int func_02164C38(int a,int b,u8 *p);
-void func_02164C5C(u8 *p);
-void func_02164C64(void *unused, void *sys, PollWork *w);
-u8 *func_02164D6C(u8 *obj, int *arg);
-Ent *func_02164E04(u8 *obj, int *out);
-void *func_02164E8C(Obj_02164B38 *p);
-void func_02164EB4(Hdr_02164EB4 *p, void *src);
+extern const u16 *OSi_GetOwnerInfoExBuffer(void);
+extern void STRBUF_Clear(struct Strbuf *str);
+extern void func_02045924(struct Strbuf *str, const u16 *src);
+struct GameEvent *func_02164B38(struct GameSystem *gameSystem, void *unused, u8 mode);
+GameBeaconSearchWork *func_02164B6C(void *unused, struct GameSystem *gameSystem);
+int func_02164BC4(int *seq, void *unused, GameBeaconSearchWork *work);
+void func_02164C04(void *arg);
+int func_02164C20(void *unused0, void *unused1, GameBeaconSearchWork *work);
+int func_02164C38(void *unused0, void *unused1, GameBeaconSearchWork *work);
+void func_02164C5C(void *arg);
+void func_02164C64(void *unused, struct GameSystem *gameSystem, GameBeaconSearchWork *work);
+GameBeaconSearchTarget *func_02164D6C(GameBeaconSearchWork *work, int *index);
+GameBeaconSearchBeacon *func_02164E04(GameBeaconSearchWork *work, int *index);
+GameBeaconSearchBeacon *func_02164E8C(GameBeaconSearchWork *work);
+void func_02164EB4(GameBeaconSearchBeacon *beacon, struct GameData *gameData);
 int func_02164F88(void);
 int func_02164F8C(void);
-int func_02164F90(int a, int b, u8 *c);
+int func_02164F90(void *unused0, void *unused1, GameBeaconSearchWork *work);
 void func_02164F98(void);
-Ent *func_02164F9C(Ent *p,Ent *q);
-void func_02164FC4(char *p);
-void func_02164FD0(u8 *obj, int flag);
-int func_0216505C(int a0);
-int func_02165078(int a0);
-int func_02165094(void *a0);
-void func_021650BC(void *a0, unsigned a1);
-int func_021650CC(void *a0);
-void func_021650F4(void *a0, unsigned a1);
-int func_02165104(void *a0);
-void func_0216512C(void *a0, unsigned a1);
-int func_0216513C(void *a0);
-void func_02165164(void *a0, unsigned a1);
-void func_02165174(void *a0);
-void func_0216519C(void *a0, unsigned a1);
-void func_021651AC(void *a0);
-void func_021651D4(void *a0, unsigned a1);
-void func_021651E4(void *a0);
-void func_0216520C(void *a0, unsigned a1);
-void func_0216521C(void *a0);
-void func_02165244(void *a0, unsigned a1);
-void func_02165254(void *a0);
-void func_0216527C(void *a0, unsigned a1);
-void func_0216528C(void *a0);
-void func_021652B4(void *a0, unsigned a1);
-void func_021652C4(void *a0);
-void func_021652EC(Obj_02164F9C *p,u32 v);
-void func_0216530C(void *a0);
-void func_02165334(void *a0, unsigned a1);
+GameBeaconSearchBeacon *func_02164F9C(GameBeaconSearchBeacon *beacon, GameBeaconSearchBeacon *best);
+void func_02164FC4(GameBeaconSearchWork *work);
+void func_02164FD0(void *arg, int cancel);
+void func_0216505C(u32 monsNo);
+void func_02165078(u32 monsNo);
+void func_02165094(u32 monsNo);
+void func_021650BC(GameBeaconInfo *info, u32 monsNo);
+void func_021650CC(u32 monsNo);
+void func_021650F4(GameBeaconInfo *info, u32 monsNo);
+void func_02165104(u32 monsNo);
+void func_0216512C(GameBeaconInfo *info, u32 monsNo);
+void func_0216513C(u32 monsNo);
+void func_02165164(GameBeaconInfo *info, u32 monsNo);
+void func_02165174(u32 trainerId);
+void func_0216519C(GameBeaconInfo *info, u32 trainerId);
+void func_021651AC(u32 trainerId);
+void func_021651D4(GameBeaconInfo *info, u32 trainerId);
+void func_021651E4(u32 trainerId);
+void func_0216520C(GameBeaconInfo *info, u32 trainerId);
+void func_0216521C(u32 trainerId);
+void func_02165244(GameBeaconInfo *info, u32 trainerId);
+void func_02165254(u32 trainerId);
+void func_0216527C(GameBeaconInfo *info, u32 trainerId);
+void func_0216528C(u32 trainerId);
+void func_021652B4(GameBeaconInfo *info, u32 trainerId);
+void func_021652C4(u32 version);
+void func_021652EC(GameBeaconInfo *info, u32 version);
+void func_0216530C(u32 itemNo);
+void func_02165334(GameBeaconInfo *info, u32 itemNo);
 void func_02165344(void);
-void func_02165368(void *a0);
-void func_02165374(unsigned a0);
-void func_021653B4(void *a0, unsigned a1);
+void func_02165368(GameBeaconInfo *info);
+void func_02165374(u32 eventId);
+void func_021653B4(GameBeaconInfo *info, u32 eventId);
 void func_021653C4(void);
-void func_021653E8(void *a0);
-void func_021653F4(u16 species);
-void func_02165418(void *a0);
-void func_02165424(void *a0);
-int func_0216544C(int a0, int a1);
-void func_02165468(void *a0);
-int func_02165490(int a0, int a1);
-void func_021654AC(void *a0);
-int func_021654D4(int a0, int a1);
-void func_021654F0(void *a0);
-int func_02165518(int a0, int a1);
-void func_02165534(void *a0);
-void func_0216555C(void *a0, unsigned a1);
+void func_021653E8(GameBeaconInfo *info);
+void func_021653F4(u16 monsNo);
+void func_02165418(GameBeaconInfo *info);
+void func_02165424(const struct Strbuf *name);
+void func_0216544C(GameBeaconInfo *info, const struct Strbuf *name);
+void func_02165468(const struct Strbuf *name);
+void func_02165490(GameBeaconInfo *info, const struct Strbuf *name);
+void func_021654AC(const struct Strbuf *name);
+void func_021654D4(GameBeaconInfo *info, const struct Strbuf *name);
+void func_021654F0(const struct Strbuf *name);
+void func_02165518(GameBeaconInfo *info, const struct Strbuf *name);
+void func_02165534(u32 count);
+void func_0216555C(GameBeaconInfo *info, u32 count);
 void func_0216556C(void);
-void func_02165590(void *a0);
-void func_0216559C(void *a0);
-void func_021655C4(void *a0, unsigned a1);
+void func_02165590(GameBeaconInfo *info);
+void func_0216559C(u32 monsNo);
+void func_021655C4(GameBeaconInfo *info, u32 monsNo);
 void func_021655D4(void);
-void func_021655F8(void *a0);
+void func_021655F8(GameBeaconInfo *info);
 void func_02165604(void);
-void func_02165628(void *a0);
-void func_02165634(void *a0);
-void func_0216565C(void *a0, unsigned a1);
+void func_02165628(GameBeaconInfo *info);
+void func_02165634(u32 value);
+void func_0216565C(GameBeaconInfo *info, u32 value);
 void func_0216566C(void);
-void func_02165690(void *a0);
+void func_02165690(GameBeaconInfo *info);
 void func_021656A0(void);
-void func_021656C4(void *a0);
-void func_021656D0(u8 a0);
-void func_021656F8(u8 *p, u8 v);
+void func_021656C4(GameBeaconInfo *info);
+void func_021656D0(u8 value);
+void func_021656F8(GameBeaconInfo *info, u8 value);
 void func_0216570C(void);
-void func_02165730(void *a0);
+void func_02165730(GameBeaconInfo *info);
 void func_0216573C(void);
-void func_02165760(void *a0);
-void func_0216576C(void *a0);
-int func_02165794(int a0, int a1);
-void func_021657B0(u16 v);
-void func_021657D8(void *a0, u16 a1);
-void func_021657E8(void *a,u16 b);
-void func_02165814(u8 *p,void *a,u16 b);
-void func_02165844(void *v);
-int func_0216586C(int a0, int a1);
-int func_02165888(int a0);
-int func_021658D4(struct Queue *q, struct Rec *out, u16 *tag);
-void func_02165940(unsigned char *p);
-int func_02165960(struct Queue *q, struct Rec *rec, int tag, int mode);
-int func_021659F0(u8 *q, int delta);
-int func_02165A10(struct Queue *q, struct Rec *rec, u16 tag, int *flag);
-int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta);
-u8 func_02165B04(u8 *q);
-u8 *func_02165B10(u32 heap);
-u8 *func_02165B2C(u32 heap);
-int func_02165B5C(Rec_02165B5C *r);
-int func_02165C10(u8 *p);
-void func_02165C34(Rec_02165C34 *r, void *buf);
-u32 func_02165C48(S_02165C48 *a0);
-u32 func_02165C50(S_02165C50 *a0);
-u8 func_02165C58(const u8 *p);
-u8 func_02165C5C(const u8 *p);
-int func_02165C60(int a0);
-int func_02165C78(int a0);
-void func_02165C90(const struct R *p,struct Quad *q);
-u8 func_02165CB4(S_02165CB4 *a0);
-void func_02165CC0(int a0, int a1);
-u8 func_02165CD8(struct S_02165CD8 *p);
-u16 func_02165CE4(u8 *r);
-u8 func_02165CE8(struct S_02165CE8 *p);
-u8 func_02165D08(Rec *r);
-void func_02165D10(const struct S *p,u16 *a,u16 *b);
-u8 func_02165D20(Rec *r);
-unsigned short func_02165D28(const struct Bits_02165D28 *p);
-unsigned short func_02165D34(const struct Bits_02165D34 *p);
-u32 func_02165D40(const struct S_02165D40 *p);
-u32 func_02165D48(const struct S_02165D48 *p);
-void func_02165D50(struct Rec *r, struct Strbuf *buf);
-int func_02165D6C(int a0, int a1);
-int func_02165D8C(int a0, int a1);
-unsigned func_02165DAC(const char *p);
-unsigned short func_02165DBC(const char *p);
-unsigned short func_02165DF0(const char *p);
-int func_02165E24(int a0);
-u16 func_02165E34(Rec_02165E34 *r);
-u16 func_02165E78(Rec_02165E78 *r);
-u16 func_02165E8C(Rec_02165E8C *r);
-u16 func_02165E9C(Rec_02165E9C *r);
-u16 func_02165EAC(Rec_02165EAC *r);
-u16 func_02165EBC(Rec_02165EBC *r);
-void func_02165ECC(Rec_02165ECC *r, void *buf);
-u16 func_02165F30(Rec_02165F30 *r);
-u32 func_02165F64(Rec_02165F64 *r);
-u16 func_02165F74(Rec_02165F74 *r);
-u32 func_02165F84(Rec_02165F84 *r);
-u8 func_02165F94(Rec_02165F94 *r);
-u16 func_02165FA4(Rec_02165FA4 *r);
-u8 func_02165FB4(u16 type);
+void func_02165760(GameBeaconInfo *info);
+void func_0216576C(const struct Strbuf *name);
+void func_02165794(GameBeaconInfo *info, const struct Strbuf *name);
+void func_021657B0(u16 value);
+void func_021657D8(GameBeaconInfo *info, u16 value);
+void func_021657E8(struct GameData *gameData, u16 trainerId);
+void func_02165814(GameBeaconInfo *info, struct GameData *gameData, u16 trainerId);
+void func_02165844(const struct Strbuf *text);
+void func_0216586C(GameBeaconInfo *info, const struct Strbuf *text);
+int func_02165888(GameBeaconInfoTable *table);
+int func_021658D4(GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime);
+void func_02165940(GameBeaconInfo *infoList);
+int func_02165960(GameBeaconInfoTable *table, const GameBeaconInfo *info, int receiveTime, int mode);
+int func_021659F0(const GameBeaconInfoTable *table, int offset);
+int func_02165A10(GameBeaconInfoTable *table, const GameBeaconInfo *info, u16 receiveTime, int *isNew);
+int func_02165AC4(const GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime, int offset);
+u8 func_02165B04(const GameBeaconInfoTable *table);
+GameBeaconInfo *func_02165B10(u32 heapId);
+GameBeaconInfoTable *func_02165B2C(u32 heapId);
+int func_02165B5C(const GameBeaconInfo *info);
+int func_02165C10(const GameBeaconInfo *info);
+void func_02165C34(const GameBeaconInfo *info, struct Strbuf *name);
+u32 func_02165C48(const GameBeaconInfo *info);
+u32 func_02165C50(const GameBeaconInfo *info);
+u8 func_02165C58(const GameBeaconInfo *info);
+u8 func_02165C5C(const GameBeaconInfo *info);
+u8 func_02165C60(const GameBeaconInfo *info);
+u8 func_02165C78(const GameBeaconInfo *info);
+void func_02165C90(const GameBeaconInfo *info, GameBeaconPms *pms);
+u8 func_02165CB4(const GameBeaconInfo *info);
+void func_02165CC0(u16 *rgb, const GameBeaconInfo *info);
+u8 func_02165CD8(const GameBeaconInfo *info);
+u16 func_02165CE4(const GameBeaconInfo *info);
+u8 func_02165CE8(const GameBeaconInfo *info);
+u8 func_02165D08(const GameBeaconInfo *info);
+void func_02165D10(const GameBeaconInfo *info, u16 *hours, u16 *minutes);
+u8 func_02165D20(const GameBeaconInfo *info);
+u16 func_02165D28(const GameBeaconInfo *info);
+u16 func_02165D34(const GameBeaconInfo *info);
+u32 func_02165D40(const GameBeaconInfo *info);
+u32 func_02165D48(const GameBeaconInfo *info);
+void func_02165D50(const GameBeaconInfo *info, struct Strbuf *greeting);
+void func_02165D6C(const GameBeaconInfo *info, struct Strbuf *name);
+void func_02165D8C(const GameBeaconInfo *info, struct Strbuf *text);
+unsigned func_02165DAC(const GameBeaconInfo *info);
+u16 func_02165DBC(const GameBeaconInfo *info);
+u16 func_02165DF0(const GameBeaconInfo *info);
+u16 func_02165E24(const GameBeaconInfo *info);
+u16 func_02165E34(const GameBeaconInfo *info);
+u16 func_02165E78(const GameBeaconInfo *info);
+u16 func_02165E8C(const GameBeaconInfo *info);
+u16 func_02165E9C(const GameBeaconInfo *info);
+u16 func_02165EAC(const GameBeaconInfo *info);
+u16 func_02165EBC(const GameBeaconInfo *info);
+void func_02165ECC(const GameBeaconInfo *info, struct Strbuf *nickname);
+u16 func_02165F30(const GameBeaconInfo *info);
+u32 func_02165F64(const GameBeaconInfo *info);
+u16 func_02165F74(const GameBeaconInfo *info);
+u32 func_02165F84(const GameBeaconInfo *info);
+u8 func_02165F94(const GameBeaconInfo *info);
+u16 func_02165FA4(const GameBeaconInfo *info);
+u8 func_02165FB4(u16 action);
 extern const char d_021729BC[];
-extern u8 d_02171C30[];
-extern char *g_02146940;
-extern u8 d_02171CA0[5];
+extern const struct NetInitParam d_02171C30;
+extern GameBeaconWork *GAME_BEACON_Work;
+extern const u8 d_02171CA0[5];
 extern const char d_021729D4[];
-extern const RecCheck d_02171CA8[];
-extern const Row d_02171CE8[];
+extern const GameBeaconActionCheckFunc d_02171CA8[];
+extern const GameBeaconActionAttr d_02171CE8[];
 
 
 
 
 
-void *func_02164B38(void *a, void *b, u8 c){void *t=func_020122C0(a,0,(void *)func_02164A2C,0x1c);u8 *p=func_020124E8(t);void *v=func_020120F4(a);((struct Obj07302 *)p)->f4=v;((struct Obj07302 *)p)->f8=func_02012EBC(v);((struct Obj07302 *)p)->f0=a; p[0x18]=c;return t;}
-
-
-
-
-
-
-/*
- * Allocates and initialises an 0x84-byte work record.
- *
- * Addresses are Black-image addresses.
- */
-u8 *func_02164B6C(void *unused, void *arg)
+struct GameEvent *func_02164B38(struct GameSystem *gameSystem, void *unused, u8 mode)
 {
-    u32 v = (u32)func_020120F4(arg);
-    void *w = (void *)func_02012138(arg);
-    u8 *p = func_02030734(5, 0x84, 1, d_021729BC, 0x9c);
-    ((struct Obj12361 *)p)->f0 = v;
-    ((struct Obj12361 *)p)->fA = 0x1ab;
-    if (func_0202647C(w) == 2 && func_0202648C(w) == 5) {
-        func_02164FC4((char *)p);
-    }
-    return p;
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02164A2C, sizeof(CalenderEventWork));
+    CalenderEventWork *work = func_020124E8(event);
+    struct GameData *gameData = func_020120F4(gameSystem);
+
+    work->gameData = gameData;
+    work->saveControl = func_02012EBC(gameData);
+    work->gameSystem = gameSystem;
+    work->mode = mode;
+    return event;
 }
 
-
-
-
-
-
-/*
- * Two-step state machine on *st: step 0 registers a callback, step 1 polls.
- *
- * Addresses are Black-image addresses.
- */
-int func_02164BC4(int *st, int unused, int *q)
+/* Allocates and initialises the search work. */
+GameBeaconSearchWork *func_02164B6C(void *unused, struct GameSystem *gameSystem)
 {
-    switch (*st) {
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameComm *gameComm = func_02012138(gameSystem);
+    GameBeaconSearchWork *work = func_02030734(5, sizeof(GameBeaconSearchWork), 1, d_021729BC, 0x9c);
+
+    work->gameData = gameData;
+    work->lastZoneId = 0x1ab;
+    if (func_0202647C(gameComm) == 2 && func_0202648C(gameComm) == 5) {
+        func_02164FC4(work);
+    }
+    return work;
+}
+
+int func_02164BC4(int *seq, void *unused, GameBeaconSearchWork *work)
+{
+    switch (*seq) {
     case 0:
-        func_02030B50((void *)12);
-        func_0203CBAC((struct Req *)d_02171C30, (u32)func_02164C04, (u32)q);
-        (*st)++;
+        func_02030B50(12);
+        func_0203CBAC(&d_02171C30, func_02164C04, work);
+        (*seq)++;
         break;
     case 1:
-        if (q[1] >= 1) {
+        if (work->state >= 1) {
             return 1;
         }
         break;
@@ -749,196 +486,162 @@ int func_02164BC4(int *st, int unused, int *q)
     return 0;
 }
 
+void func_02164C04(void *arg)
+{
+    GameBeaconSearchWork *work = arg;
 
+    work->state = 1;
+    work->wihDwc = func_02010360(4, 0x8005);
+}
 
+int func_02164C20(void *unused0, void *unused1, GameBeaconSearchWork *work)
+{
+    WIH_DWC_Delete(work->wihDwc);
+    func_0203CEAC(func_02164C5C);
+    return 1;
+}
 
+int func_02164C38(void *unused0, void *unused1, GameBeaconSearchWork *work)
+{
+    if (work->state == 0) {
+        func_020307B0(work);
+        if (func_0200FB24()) {
+            func_0200FBA0();
+        }
+        return 1;
+    }
+    return 0;
+}
 
-void func_02164C04(u8 *p){((struct Obj12363 *)p)->f4=1; ((struct Obj12363 *)p)->f80=func_02010360(4,(void *)0x8005);}
+void func_02164C5C(void *arg)
+{
+    GameBeaconSearchWork *work = arg;
 
-
-
-
-
-int func_02164C20(int a,int b,u8 *p) { func_020103E4(*(u8 * *)&((struct Obj18982 *)p)->f80); func_0203CEAC((int)func_02164C5C); return 1; }
-
-
-
-
-
-int func_02164C38(int a,int b,u8 *p) { if(((struct Obj18983 *)p)->f4==0) { func_020307B0(p); if(func_0200FB24()) func_0200FBA0(); return 1; } return 0; }
-
-
-
-
-
-void func_02164C5C(u8 *p) { ((struct Obj18984 *)p)->f4=0; }
-
-
-
-
-
+    work->state = 0;
+}
 
 static inline int PAD_DetectFold(void)
 {
     return (*(vu16 *)0x02FFFFA8 & 0x8000) >> 15;
 }
 
-
-
-
-
-
-/*
- * Per-frame poll of the wireless exchange while the field runs: stops the
- * field when a shutdown is pending, pulls the next received record
- * (func_02164D6C) and, for a new kind-2 record on an open lid with a free
- * field, starts the func_02164FD0 event with a 12-byte hand-off; any
- * other kind-2 record is dropped and its sender answered.
- *
- * MATCH (2026-09-28 tree_ov010_4): bytes exact with the kind-2 path as
- * nested ifs and a goto past the drop (the && chain puts the last-id
- * compare as `cmp r1, r0`). The one wildcard is the bl to ov011
- * 0x02177BF4, which has no label.
- *
- * 2026-10-05 (D8 lane 15): the ov011 hint on func_02177BF4 was wrong; the label is in ov014, so the symbols line now says ov014 and every relocation resolves.
- */
-void func_02164C64(void *unused, void *sys, PollWork *w)
+void func_02164C64(void *unused, struct GameSystem *gameSystem, GameBeaconSearchWork *work)
 {
-    void *field;
-    void *p;
-    u32 id;
-    LinkRec *rec;
-    Handoff12 *h;
-    u16 v;
+    struct GameComm *gameComm;
+    struct GameData *gameData;
+    int index;
+    GameBeaconSearchTarget *target;
+    GameBeaconConnectRequest *request;
+    u16 zoneId;
 
-    field = (void *)func_02012138(sys);
-    p = func_020120F4(sys);
-    id = 0;
-    if (func_02012E40(p) == 1)
+    gameComm = func_02012138(gameSystem);
+    gameData = func_020120F4(gameSystem);
+    index = 0;
+    if (func_02012E40(gameData) == 1)
         return;
     if (func_0200FB24()) {
-        func_02026400(field);
+        func_02026400(gameComm);
         return;
     }
     if (func_02035390() == 1 && func_020353B0() == 1) {
-        func_02026400(field);
+        func_02026400(gameComm);
         return;
     }
-    if (w->cooldown != 0)
-        w->cooldown--;
-    func_020267FC();
-    rec = (LinkRec *)func_02164D6C((u8 *)w, (int *)(&id));
-    if (rec != 0) {
-        if (rec->kind == 2) {
-            if (!PAD_DetectFold() && !func_020264AC(field) && !func_02012B70(p)) {
-                v = func_02012AC8(func_020127A4(p));
-                if (v != w->last) {
-                    w->last = v;
-                    if (func_02158570(v) == 1) {
-                        h = func_02030734(0x8005, sizeof(Handoff12), 1, d_021729BC, 0x154);
-                        h->sys = sys;
-                        MI_CpuCopy8(rec->data, h->data, 6);
-                        func_0202640C(field, (u32)func_02164FD0, (u32)h);
-                        goto end;
+    if (work->scanDelay != 0)
+        work->scanDelay--;
+    GAME_BEACON_SendIfRequested();
+    target = func_02164D6C(work, &index);
+    if (target != 0) {
+        if (target->beaconType == 2) {
+            if (!PAD_DetectFold() && !GAME_COMM_GetNotifyFlag(gameComm) && !func_02012B70(gameData)) {
+                zoneId = func_02012AC8(func_020127A4(gameData));
+                if (zoneId != work->lastZoneId) {
+                    work->lastZoneId = zoneId;
+                    if (func_02158570(zoneId) == 1) {
+                        request = func_02030734(0x8005, sizeof(GameBeaconConnectRequest), 1, d_021729BC, 0x154);
+                        request->gameSystem = gameSystem;
+                        MI_CpuCopy8(target->macAddress, request->macAddress, 6);
+                        func_0202640C(gameComm, func_02164FD0, request);
+                        goto end; /* the connect path skips the target reset; bytes need the goto */
                     }
                 }
             }
-            MI_CpuFill8(&w->rec, 0, sizeof(LinkRec));
-            func_02177BF4(id);
+            MI_CpuFill8(&work->target, 0, sizeof(GameBeaconSearchTarget));
+            func_02177BF4(index);
         } else {
-            rec->kind = 0;
+            target->beaconType = 0;
         }
     }
 end:
     func_02010498();
 }
 
-
-
-
-
-
-/*
- * Per-frame poll: state 1 finishes a request; otherwise, while the 9-byte
- * record at +0x74 is empty, picks an entry with func_02164E04 and copies it in.
- *
- * Addresses are Black-image addresses.
- */
-u8 *func_02164D6C(u8 *obj, int *arg)
+GameBeaconSearchTarget *func_02164D6C(GameBeaconSearchWork *work, int *index)
 {
-    Ent *e;
-    u8 *src;
+    GameBeaconSearchBeacon *beacon;
+    u8 *macAddress;
     int i;
-    u8 *rec = obj + 0x74;
-    if (((struct Obj09313 *)obj)->f4 == 0) {
+    GameBeaconSearchTarget *target = &work->target;
+
+    if (work->state == 0) {
         return 0;
     }
-    if (((struct Obj09313 *)obj)->f4 == 1) {
-        func_0203D0FC(0);
-        ((struct Obj09313 *)obj)->f4 = 2;
+    if (work->state == 1) {
+        GFL_NET_EndDeviceWrapper(0);
+        work->state = 2;
         return 0;
     }
-    if (rec[0] == 0) {
-        e = func_02164E04(obj, arg);
-        if (e != 0) {
-            if (e->flag != 0) {
-                func_02177BF4(*arg);
-            } else if (e->kind == 1) {
+    if (target->beaconType == 0) {
+        beacon = func_02164E04(work, index);
+        if (beacon != 0) {
+            if (beacon->header.busy != 0) {
+                func_02177BF4(*index);
+            } else if (beacon->header.kind == 1) {
                 i = 0;
-                func_02082BCC(rec, 0, 9);
-                rec[0] = e->b0;
-                rec[1] = e->lo;
-                rec[2] = e->hi;
-                src = func_0203CF3C((u32)*arg);
+                MI_CpuFill8(target, 0, sizeof(GameBeaconSearchTarget));
+                target->beaconType = beacon->header.beaconType;
+                target->memberNum = beacon->header.memberNum;
+                target->memberMax = beacon->header.memberMax;
+                macAddress = GFL_NET_GetScanResultMac(*index);
                 for (i = 0; i < 6; i++) {
-                    rec[3 + i] = src[i];
+                    target->macAddress[i] = macAddress[i];
                 }
-            } else if (e->kind == 2) {
-                func_02026A60((struct Req *)((u8 *)e + 8));
-                func_02177BF4(*arg);
+            } else if (beacon->header.kind == 2) {
+                GAME_BEACON_ReceiveInfo(&beacon->info);
+                func_02177BF4(*index);
             }
         }
     }
-    if (rec[0] == 0) {
-        rec = 0;
+    if (target->beaconType == 0) {
+        target = 0;
     }
-    return rec;
+    return target;
 }
 
-
-
-
-
-
-/*
- * Scans 16 slots for the best usable entry, stores its index through *out
- * and returns its record; 0 when none.
- *
- * Addresses are Black-image addresses.
- */
-Ent *func_02164E04(u8 *obj, int *out)
+GameBeaconSearchBeacon *func_02164E04(GameBeaconSearchWork *work, int *index)
 {
     int none = -1;
     int best = -1;
     int i;
-    Ent *p;
-    int r;
+    GameBeaconSearchBeacon *beacon;
+    int scanState;
+
     for (i = 0; i < 16; i++) {
-        r = func_02178098(i);
-        if ((u32)(r - 2) > 1) {
+        scanState = NET_WHPIPE_GetEntryKind(i);
+        if ((u32)(scanState - 2) > 1) {
             continue;
         }
-        if (r == 2 && ((struct Obj18986 *)obj)->fC != 0) {
+        if (scanState == 2 && work->scanDelay != 0) {
             continue;
         }
-        p = (Ent *)func_0203CF10(i);
-        if (p == 0) {
+        beacon = func_0203CF10(i);
+        if (beacon == 0) {
             continue;
         }
-        if (p->lo < p->hi) {
+        if (beacon->header.memberNum < beacon->header.memberMax) {
             if (best == none) {
                 best = i;
-            } else if (func_02164F9C(p, (Ent *)func_0203CF10(best)) == p) {
+            } else if (func_02164F9C(beacon, func_0203CF10(best)) == beacon) {
                 best = i;
             }
         } else {
@@ -946,1633 +649,841 @@ Ent *func_02164E04(u8 *obj, int *out)
         }
     }
     if (best != -1) {
-        *out = best;
-        return (Ent *)func_0203CF10(best);
+        *index = best;
+        return func_0203CF10(best);
     }
     return 0;
 }
 
-
-
-
-
-/*
- * diagnostic: tu --suggest-split found one image-wide witness, at 02164E9C inside this caller; no viable partition.
- * extent: trailing two zero alignment bytes at 02164EB2; next labelled function 02164EB4.
- *
- * 2026-10-05 (D8 lane 15): 020267E4 now filed EXACT as src/matched/arm9/func_020267E4.c (MI_CpuCopy8(d_02146940+4, p, 0x5C)).
- * Re-run after the integrator regenerates the layout; expected EXACT.
- */
-void *func_02164E8C(Obj_02164B38 *p) { func_02164EB4((Hdr_02164EB4 *)(&p->hdr), p->src); func_020267E4((u8 *)p+0x18); p->hdr.b1=2; return &p->hdr; }
-
-
-
-
-/*
- * Clears a 100-byte record and fills its header bitfields from SDK
- * queries; 0x02FFFFA8 is the shared-area halfword read as a cast
- * constant (no relocation).
- */
-void func_02164EB4(Hdr_02164EB4 *p, void *src)
+GameBeaconSearchBeacon *func_02164E8C(GameBeaconSearchWork *work)
 {
-    int v;
-    int t;
+    func_02164EB4(&work->beacon, work->gameData);
+    GAME_BEACON_GetMyInfo(&work->beacon.info);
+    work->beacon.header.kind = 2;
+    return &work->beacon;
+}
 
-    func_02082BCC(p, 0, 100);
-    p->f00 = 3;
-    p->f01_lo = (u8)func_0203D1B4();
-    p->f01_hi = 3;
-    p->f02_0 = (u8)func_02039414();
-    p->f02_1 = 0;
-    p->f04 = func_02008530((const struct Sub0200852CObj *)func_02012944(src));
-    p->f02_7 = (u8)func_02085D3C();
-    p->f02_6 = 0;
-    t = (*(volatile u16 *)0x02FFFFA8 & 0x8000) >> 15;
-    p->f03_1 = (u8)t;
-    if (p->f02_7 == 1) {
-        v = 1;
-        if (func_02087E60()->b0 == 0 || func_02087E60()->b5 == 0)
-            v = 0;
-        p->f02_6 = v;
+void func_02164EB4(GameBeaconSearchBeacon *beacon, struct GameData *gameData)
+{
+    int wirelessOn;
+    int lidClosed;
+
+    MI_CpuFill8(beacon, 0, sizeof(GameBeaconSearchBeacon));
+    beacon->header.beaconType = 3;
+    beacon->header.memberNum = func_0203D1B4();
+    beacon->header.memberMax = 3;
+    beacon->header.busy = GFL_NET_SYSTEM_CheckError();
+    beacon->header.kind = 0;
+    beacon->header.trainerId = func_02008530(func_02012944(gameData));
+    beacon->header.isTwl = OS_IsRunOnTwl();
+    beacon->header.twlWirelessOn = 0;
+    lidClosed = PAD_DetectFold();
+    beacon->header.lidClosed = lidClosed;
+    if (beacon->header.isTwl == 1) {
+        wirelessOn = 1;
+        if (func_02087E60()->wirelessOn == 0 || func_02087E60()->parentalWirelessOn == 0)
+            wirelessOn = 0;
+        beacon->header.twlWirelessOn = wirelessOn;
     }
 }
 
-
-
-/* Callback-table leaves: constant 100, constant 1, flag store, empty. */
 int func_02164F88(void)
 {
-    return 100;
+    return sizeof(GameBeaconSearchBeacon);
 }
-
-
 
 int func_02164F8C(void)
 {
     return 1;
 }
 
-
-
-int func_02164F90(int a, int b, u8 *c)
+int func_02164F90(void *unused0, void *unused1, GameBeaconSearchWork *work)
 {
-    c[8] = 1;
+    work->connected = 1;
     return 1;
 }
-
-
 
 void func_02164F98(void)
 {
 }
 
-
-
-
-
-
-
-Ent *func_02164F9C(Ent *p,Ent *q) { if(p->flag) return q; if(p->lo>=p->hi || p->lo<q->lo) return q; return p; }
-
-
-
-
-
-
-
-
-
-void func_02164FC4(char *p)
+/* Of two scanned beacons, keep the one that has room and fewer members. */
+GameBeaconSearchBeacon *func_02164F9C(GameBeaconSearchBeacon *beacon, GameBeaconSearchBeacon *best)
 {
-    ((struct Obj18988 *)p)->fC = 0x708;
+    if (beacon->header.busy)
+        return best;
+    if (beacon->header.memberNum >= beacon->header.memberMax || beacon->header.memberNum < best->header.memberNum)
+        return best;
+    return beacon;
 }
 
-
-
-
-
-
-
-
+void func_02164FC4(GameBeaconSearchWork *work)
+{
+    work->scanDelay = 0x708;
+}
 
 /*
- * Copies a 6-byte record out of the object, and when no flag / busy
- * checks trip allocates a 0x10-byte record holding it and registers it.
- *
- * Addresses are Black-image addresses.
+ * Connect callback of the request made in func_02164C64: when no other
+ * comm is running, it hands a 0x10-byte connect event to the comm system.
  */
-void func_02164FD0(u8 *obj, int flag)
+void func_02164FD0(void *arg, int cancel)
 {
-    u8 buf[6];
-    u32 o = ((struct Obj18989 *)obj)->f0;
-    u32 w;
-    u8 *p;
-    func_02082D44(obj + 4, buf, 6);
-    w = func_02012138((const struct Ctx *)o);
-    func_020307B0(obj);
-    if (flag == 0 && func_02012164((struct IcaAnime *)o) == 1 && func_020264AC((void *)w) == 0
-        && func_0203CD98() == 0 && func_02026454((void *)w) == 0) {
-        p = func_02030734(5, 0x10, 1, d_021729BC, 0x287);
-        ((struct Obj12364 *)p)->f0 = o;
-        ((struct Obj12364 *)p)->f4 = func_02012138((const struct Ctx *)o);
-        func_02082D44(buf, p + 8, 6);
-        func_020263D8((struct Comm *)w, 2, (u32)p);
+    u8 macAddress[6];
+    GameBeaconConnectRequest *request = arg;
+    struct GameSystem *gameSystem = request->gameSystem;
+    struct GameComm *gameComm;
+    GameBeaconConnectEvent *event;
+
+    MI_CpuCopy8(request->macAddress, macAddress, 6);
+    gameComm = func_02012138(gameSystem);
+    func_020307B0(request);
+    if (cancel == 0 && GAMESYSTEM_CanStartAutoComm(gameSystem) == 1 && GAME_COMM_GetNotifyFlag(gameComm) == 0
+        && func_0203CD98() == 0 && func_02026454(gameComm) == 0) {
+        event = func_02030734(5, sizeof(GameBeaconConnectEvent), 1, d_021729BC, 0x287);
+        event->gameSystem = gameSystem;
+        event->gameComm = func_02012138(gameSystem);
+        MI_CpuCopy8(macAddress, event->macAddress, 6);
+        func_020263D8(gameComm, 2, event);
+    }
+}
+/* ------------------------------------------------------------------ *
+ * Action setters: each pair checks that the action may be sent now,
+ * writes it into the own beacon and sends the beacon.
+ * ------------------------------------------------------------------ */
+
+/* Battle start against a pokemon: special pokemon have their own action. */
+void func_0216505C(u32 monsNo)
+{
+    if (GAME_BEACON_IsSpecialPokemon(monsNo)) {
+        func_02165104(monsNo);
+    } else {
+        func_02165094(monsNo);
     }
 }
 
-
-
-
-
-
-
-int func_0216505C(int a0)
+void func_02165078(u32 monsNo)
 {
-    int t4;
-
-t4 = a0 + 0;
-    a0 = func_0202708C(a0);
-loc_02165064:
-    if (a0 == 0) goto loc_02165070;
-loc_02165068:
-a0 = t4 + 0;
-    a0 = func_02165104((void *)a0);
-loc_0216506E:
-    return a0;
-loc_02165070:
-a0 = t4 + 0;
-    a0 = func_02165094((void *)a0);
-loc_02165076:
-    return a0;}
-
-
-
-
-
-
-
-int func_02165078(int a0)
-{
-    int t4;
-
-t4 = a0 + 0;
-    a0 = func_0202708C(a0);
-loc_02165080:
-    if (a0 == 0) goto loc_0216508C;
-loc_02165084:
-a0 = t4 + 0;
-    a0 = func_0216513C((void *)a0);
-loc_0216508A:
-    return a0;
-loc_0216508C:
-a0 = t4 + 0;
-    a0 = func_021650CC((void *)a0);
-loc_02165092:
-    return a0;}
-
-
-
-
-
-
-
-/*
- * Test the id against the overlay's table and, when it takes,
- * re-submit the record at the shared globals pointer.
- */
-int func_02165094(void *a0){
-    if (func_02027060(0x2)) {
-        func_021650BC(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_IsSpecialPokemon(monsNo)) {
+        func_0216513C(monsNo);
+    } else {
+        func_021650CC(monsNo);
     }
 }
 
-
-
-
-
-
-
-
-
-/*
- * blocked:   wild=4
- *
- * Stamp the fixed id halfword and the caller's value on the two
- * record fields, then jump to the shared submitter.
- */
-void func_021650BC(void *a0, unsigned a1)
+void func_02165094(u32 monsNo)
 {
-    ((struct Obj12050 *)a0)->f30 = 0x2;
-    ((struct Obj12050 *)a0)->f32 = a1;
-    func_020273C4(a0, a1);
-}
-
-
-
-
-
-
-
-
-
-int func_021650CC(void *a0){
-    if (func_02027060(0x3)) {
-        func_021650F4(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x02)) {
+        func_021650BC(&GAME_BEACON_Work->own.info, monsNo);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-
-/*
- * generated: lane O24 (ov010 leaf/wrapper sweep)
- *
- * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0202744C, the shape of the arm9 copy.
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
- *
- * Addresses are Black-image addresses.  --region ov010 is required: this
- * address is only ov010 in the overlay that defines it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_021650F4.c \
- *       --func func_021650F4 --addr 0x021650F4 --region ov010 --cc dsi/1.1p1 --thumb
- */
-void func_021650F4(void *a0, unsigned a1)
+void func_021650BC(GameBeaconInfo *info, u32 monsNo)
 {
-    ((struct Obj00121 *)a0)->f30 = 3;
-    ((struct Obj00121 *)a0)->f32 = a1;
-    func_0202744C(a0);
+    info->action = 0x02;
+    info->actionArg = monsNo;
+    GAME_BEACON_SetDetailsBattleWildPoke(info, monsNo);
 }
 
-
-
-
-
-
-
-
-
-int func_02165104(void *a0){
-    if (func_02027060(0x4)) {
-        func_0216512C(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+void func_021650CC(u32 monsNo)
+{
+    if (GAME_BEACON_CheckActionPriority(0x03)) {
+        func_021650F4(&GAME_BEACON_Work->own.info, monsNo);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-
-void func_0216512C(void *a0, unsigned a1)
+void func_021650F4(GameBeaconInfo *info, u32 monsNo)
 {
-    ((struct Obj05717 *)a0)->f30 = 0x4;
-    ((struct Obj05717 *)a0)->f32 = a1;
-    func_020273DC(a0, a1);
+    info->action = 0x03;
+    info->actionArg = monsNo;
+    GAME_BEACON_ResetDetails(info);
 }
 
-
-
-
-
-
-
-
-
-int func_0216513C(void *a0){
-    if (func_02027060(0x5)) {
-        func_02165164(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+void func_02165104(u32 monsNo)
+{
+    if (GAME_BEACON_CheckActionPriority(0x04)) {
+        func_0216512C(&GAME_BEACON_Work->own.info, monsNo);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-
-void func_02165164(void *a0, unsigned a1)
+void func_0216512C(GameBeaconInfo *info, u32 monsNo)
 {
-    ((struct Obj00121 *)a0)->f30 = 5;
-    ((struct Obj00121 *)a0)->f32 = a1;
-    func_0202744C(a0);
+    info->action = 0x04;
+    info->actionArg = monsNo;
+    GAME_BEACON_SetDetailsBattleSpecialPoke(info, monsNo);
 }
 
-
-
-
-
-
-
-
-
-void func_02165174(void *a0)
+void func_0216513C(u32 monsNo)
 {
-    if (func_02027060(0x6)) {
-        func_0216519C(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x05)) {
+        func_02165164(&GAME_BEACON_Work->own.info, monsNo);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-
-void func_0216519C(void *a0, unsigned a1)
+void func_02165164(GameBeaconInfo *info, u32 monsNo)
 {
-    ((struct Obj05718 *)a0)->f30 = 0x6;
-    ((struct Obj05718 *)a0)->f34 = a1;
-    func_020273F8(a0, a1);
+    info->action = 0x05;
+    info->actionArg = monsNo;
+    GAME_BEACON_ResetDetails(info);
 }
 
-
-
-
-
-
-
-
-
-void func_021651AC(void *a0)
+void func_02165174(u32 trainerId)
 {
-    if (func_02027060(0x7)) {
-        func_021651D4(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x06)) {
+        func_0216519C(&GAME_BEACON_Work->own.info, trainerId);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-
-/*
- * generated: lane O24 (ov010 leaf/wrapper sweep)
- *
- * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0202744C, the shape of the arm9 copy.
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
- *
- * Addresses are Black-image addresses.  --region ov010 is required: this
- * address is only ov010 in the overlay that defines it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_021651D4.c \
- *       --func func_021651D4 --addr 0x021651D4 --region ov010 --cc dsi/1.1p1 --thumb
- */
-void func_021651D4(void *a0, unsigned a1)
+void func_0216519C(GameBeaconInfo *info, u32 trainerId)
 {
-    ((struct Obj00121 *)a0)->f30 = 7;
-    ((struct Obj00121 *)a0)->f34 = a1;
-    func_0202744C(a0);
+    info->action = 0x06;
+    info->actionData.value = trainerId;
+    GAME_BEACON_SetDetailsBattleTrainer(info, trainerId);
 }
 
-
-
-
-
-
-
-
-
-void func_021651E4(void *a0)
+void func_021651AC(u32 trainerId)
 {
-    if (func_02027060(0x8)) {
-        func_0216520C(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x07)) {
+        func_021651D4(&GAME_BEACON_Work->own.info, trainerId);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-
-void func_0216520C(void *a0, unsigned a1)
+void func_021651D4(GameBeaconInfo *info, u32 trainerId)
 {
-    ((struct Obj05719 *)a0)->f30 = 0x8;
-    ((struct Obj05719 *)a0)->f34 = a1;
-    func_02027414(a0, a1);
+    info->action = 0x07;
+    info->actionData.value = trainerId;
+    GAME_BEACON_ResetDetails(info);
 }
 
-
-
-
-
-
-
-
-
-void func_0216521C(void *a0)
+void func_021651E4(u32 trainerId)
 {
-    if (func_02027060(0x9)) {
-        func_02165244(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x08)) {
+        func_0216520C(&GAME_BEACON_Work->own.info, trainerId);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-
-/*
- * generated: lane O24 (ov010 leaf/wrapper sweep)
- *
- * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0202744C, the shape of the arm9 copy.
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
- *
- * Addresses are Black-image addresses.  --region ov010 is required: this
- * address is only ov010 in the overlay that defines it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02165244.c \
- *       --func func_02165244 --addr 0x02165244 --region ov010 --cc dsi/1.1p1 --thumb
- */
-void func_02165244(void *a0, unsigned a1)
+void func_0216520C(GameBeaconInfo *info, u32 trainerId)
 {
-    ((struct Obj00121 *)a0)->f30 = 9;
-    ((struct Obj00121 *)a0)->f34 = a1;
-    func_0202744C(a0);
+    info->action = 0x08;
+    info->actionData.value = trainerId;
+    GAME_BEACON_SetDetailsBattleLeader(info, trainerId);
 }
 
-
-
-
-
-
-
-
-
-void func_02165254(void *a0)
+void func_0216521C(u32 trainerId)
 {
-    if (func_02027060(0xA)) {
-        func_0216527C(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x09)) {
+        func_02165244(&GAME_BEACON_Work->own.info, trainerId);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-
-void func_0216527C(void *a0, unsigned a1)
+void func_02165244(GameBeaconInfo *info, u32 trainerId)
 {
-    ((struct Obj05720 *)a0)->f30 = 0xA;
-    ((struct Obj05720 *)a0)->f34 = a1;
-    func_02027430(a0, a1);
+    info->action = 0x09;
+    info->actionData.value = trainerId;
+    GAME_BEACON_ResetDetails(info);
 }
 
-
-
-
-
-
-
-
-
-void func_0216528C(void *a0)
+void func_02165254(u32 trainerId)
 {
-    if (func_02027060(0xB)) {
-        func_021652B4(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x0A)) {
+        func_0216527C(&GAME_BEACON_Work->own.info, trainerId);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-
-/*
- * generated: lane O24 (ov010 leaf/wrapper sweep)
- *
- * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0202744C, the shape of the arm9 copy.
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
- *
- * Addresses are Black-image addresses.  --region ov010 is required: this
- * address is only ov010 in the overlay that defines it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_021652B4.c \
- *       --func func_021652B4 --addr 0x021652B4 --region ov010 --cc dsi/1.1p1 --thumb
- */
-void func_021652B4(void *a0, unsigned a1)
+void func_0216527C(GameBeaconInfo *info, u32 trainerId)
 {
-    ((struct Obj00121 *)a0)->f30 = 11;
-    ((struct Obj00121 *)a0)->f34 = a1;
-    func_0202744C(a0);
+    info->action = 0x0A;
+    info->actionData.value = trainerId;
+    GAME_BEACON_SetDetailsBattleBigFour(info, trainerId);
 }
 
-
-
-
-
-
-
-
-
-void func_021652C4(void *a0)
+void func_0216528C(u32 trainerId)
 {
-    if (func_02027060(0x12)) {
-        func_021652EC((struct Obj_02164F9C *)(g_02146940 + 4), (u32)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x0B)) {
+        func_021652B4(&GAME_BEACON_Work->own.info, trainerId);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-void func_021652EC(Obj_02164F9C *p,u32 v) { p->event=0x12; p->lo=(u8)v; func_0202744C(p); }
-
-
-
-
-
-
-
-
-
-void func_0216530C(void *a0)
+void func_021652B4(GameBeaconInfo *info, u32 trainerId)
 {
-    if (func_02027060(0x13)) {
-        func_02165334(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+    info->action = 0x0B;
+    info->actionData.value = trainerId;
+    GAME_BEACON_ResetDetails(info);
+}
+
+void func_021652C4(u32 version)
+{
+    if (GAME_BEACON_CheckActionPriority(0x12)) {
+        func_021652EC(&GAME_BEACON_Work->own.info, version);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-
-/*
- * generated: lane O24 (ov010 leaf/wrapper sweep)
- *
- * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0202744C, the shape of the arm9 copy.
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
- *
- * Addresses are Black-image addresses.  --region ov010 is required: this
- * address is only ov010 in the overlay that defines it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02165334.c \
- *       --func func_02165334 --addr 0x02165334 --region ov010 --cc dsi/1.1p1 --thumb
- */
-void func_02165334(void *a0, unsigned a1)
+void func_021652EC(GameBeaconInfo *info, u32 version)
 {
-    ((struct Obj00121 *)a0)->f30 = 19;
-    ((struct Obj00121 *)a0)->f34 = a1;
-    func_0202744C(a0);
+    info->action = 0x12;
+    info->infoVersion = (u8)version;
+    GAME_BEACON_ResetDetails(info);
 }
 
+void func_0216530C(u32 itemNo)
+{
+    if (GAME_BEACON_CheckActionPriority(0x13)) {
+        func_02165334(&GAME_BEACON_Work->own.info, itemNo);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
+    }
+}
 
+void func_02165334(GameBeaconInfo *info, u32 itemNo)
+{
+    info->action = 0x13;
+    info->actionData.value = itemNo;
+    GAME_BEACON_ResetDetails(info);
+}
 
-
-
-
-
-
-
-/*
- * Gate on an id test, then submit the record at the shared globals pointer.
- */
 void func_02165344(void)
 {
-    if (func_02027060(0x15)) {
-        func_02165368(g_02146940 + 4);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x15)) {
+        func_02165368(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-
-/*
- * generated: lane O24 (ov010 leaf/wrapper sweep)
- *
- * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0202744C, the shape of the arm9 copy.
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
- *
- * Addresses are Black-image addresses.  --region ov010 is required: this
- * address is only ov010 in the overlay that defines it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02165368.c \
- *       --func func_02165368 --addr 0x02165368 --region ov010 --cc dsi/1.1p1 --thumb
- */
-void func_02165368(void *a0)
+void func_02165368(GameBeaconInfo *info)
 {
-    ((struct Obj00121 *)a0)->f30 = 21;
-    func_0202744C(a0);
+    info->action = 0x15;
+    GAME_BEACON_ResetDetails(info);
 }
 
-
-
-
-
-
-
-
-/*
- * Looks the id up in a five-entry byte table; on a hit re-submits the
- * record at the shared globals pointer.
- */
-void func_02165374(unsigned a0)
+/* Only the preset events of d_02171CA0 are sent. */
+void func_02165374(u32 eventId)
 {
-    unsigned i;
+    u32 i;
 
-    if (func_02027060(0x16)) {
+    if (GAME_BEACON_CheckActionPriority(0x16)) {
         for (i = 0; i < 5; i++) {
-            if (a0 == d_02171CA0[i]) {
-                func_021653B4(g_02146940 + 4, a0);
-                func_02026FB8(g_02146940 + 4);
+            if (eventId == d_02171CA0[i]) {
+                func_021653B4(&GAME_BEACON_Work->own.info, eventId);
+                GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
                 return;
             }
         }
     }
 }
 
-
-
-
-
-
-
-
-/*
- * generated: lane O24 (ov010 leaf/wrapper sweep)
- *
- * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0202744C, the shape of the arm9 copy.
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
- *
- * Addresses are Black-image addresses.  --region ov010 is required: this
- * address is only ov010 in the overlay that defines it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_021653B4.c \
- *       --func func_021653B4 --addr 0x021653B4 --region ov010 --cc dsi/1.1p1 --thumb
- */
-void func_021653B4(void *a0, unsigned a1)
+void func_021653B4(GameBeaconInfo *info, u32 eventId)
 {
-    ((struct Obj00121 *)a0)->f30 = 22;
-    *(u32 *)((char *)a0 + 52) = a1;
-    func_0202744C(a0);
+    info->action = 0x16;
+    info->actionData.wordValue = eventId;
+    GAME_BEACON_ResetDetails(info);
 }
 
-
-
-
-
-
-
-
-/*
- * Gate on an id test, then submit the record at the shared globals
- * pointer.
- */
 void func_021653C4(void)
 {
-    if (func_02027060(0x17)) {
-        func_021653E8(g_02146940 + 4);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x17)) {
+        func_021653E8(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-/*
- * Short thunk: stamp the id halfword on the record and hand it
- * straight to the shared submitter.
- */
-void func_021653E8(void *a0)
+void func_021653E8(GameBeaconInfo *info)
 {
-    ((struct Obj00121 *)a0)->f30 = 0x17;
-    func_0202744C(a0);
+    info->action = 0x17;
+    GAME_BEACON_ResetDetails(info);
 }
 
-
-
-
-
-
-
-void func_021653F4(u16 species)
+void func_021653F4(u16 monsNo)
 {
-    if (func_02027060(0x1E)) {
-        func_02165418(g_02146940 + 4);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x1E)) {
+        func_02165418(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-void func_02165418(void *a0)
+void func_02165418(GameBeaconInfo *info)
 {
-    ((struct Obj00121 *)a0)->f30 = 0x1E;
-    func_0202744C(a0);
+    info->action = 0x1E;
+    GAME_BEACON_ResetDetails(info);
 }
 
-
-
-
-
-
-
-void func_02165424(void *a0)
+void func_02165424(const struct Strbuf *name)
 {
-    if (func_02027060(0x1F)) {
-        func_0216544C((int)(g_02146940 + 4), (int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x1F)) {
+        func_0216544C(&GAME_BEACON_Work->own.info, name);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-int func_0216544C(int a0, int a1)
+void func_0216544C(GameBeaconInfo *info, const struct Strbuf *name)
 {
-    int t4;
+    info->action = 0x1F;
+    GAME_BEACON_CopyStrbufCodes(name, info->actionData.nickname);
+    GAME_BEACON_ResetDetails(info);
+}
 
-t4 = a0 + 0;
-a0 = 0x1f;
-((struct Obj00121 *)t4)->f30 = a0;
-a0 = a1 + 0;
-a1 = t4 + 0;
-a1 = a1 + 0x34;
-    a0 = func_020270AC(a0, a1);
-loc_0216545E:
-a0 = t4 + 0;
-    a0 = func_0202744C((void *)a0);
-loc_02165464:
-    return a0;}
-
-
-
-
-
-
-
-void func_02165468(void *a0)
+void func_02165468(const struct Strbuf *name)
 {
-    if (func_02027060(0x20)) {
-        func_02165490((int)(g_02146940 + 4), (int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x20)) {
+        func_02165490(&GAME_BEACON_Work->own.info, name);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-int func_02165490(int a0, int a1)
+void func_02165490(GameBeaconInfo *info, const struct Strbuf *name)
 {
-    int t4;
+    info->action = 0x20;
+    GAME_BEACON_CopyStrbufCodes(name, info->actionData.nickname);
+    GAME_BEACON_ResetDetails(info);
+}
 
-t4 = a0 + 0;
-a0 = 0x20;
-((struct Obj00121 *)t4)->f30 = a0;
-a0 = a1 + 0;
-a1 = t4 + 0;
-a1 = a1 + 0x34;
-    a0 = func_020270AC(a0, a1);
-loc_021654A2:
-a0 = t4 + 0;
-    a0 = func_0202744C((void *)a0);
-loc_021654A8:
-    return a0;}
-
-
-
-
-
-
-
-void func_021654AC(void *a0)
+void func_021654AC(const struct Strbuf *name)
 {
-    if (func_02027060(0x21)) {
-        func_021654D4((int)(g_02146940 + 4), (int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x21)) {
+        func_021654D4(&GAME_BEACON_Work->own.info, name);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-int func_021654D4(int a0, int a1)
+void func_021654D4(GameBeaconInfo *info, const struct Strbuf *name)
 {
-    int t4;
+    info->action = 0x21;
+    GAME_BEACON_CopyStrbufCodes(name, info->actionData.nickname);
+    GAME_BEACON_ResetDetails(info);
+}
 
-t4 = a0 + 0;
-a0 = 0x21;
-((struct Obj00121 *)t4)->f30 = a0;
-a0 = a1 + 0;
-a1 = t4 + 0;
-a1 = a1 + 0x34;
-    a0 = func_020270AC(a0, a1);
-loc_021654E6:
-a0 = t4 + 0;
-    a0 = func_0202744C((void *)a0);
-loc_021654EC:
-    return a0;}
-
-
-
-
-
-
-
-void func_021654F0(void *a0)
+void func_021654F0(const struct Strbuf *name)
 {
-    if (func_02027060(0x22)) {
-        func_02165518((int)(g_02146940 + 4), (int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x22)) {
+        func_02165518(&GAME_BEACON_Work->own.info, name);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-int func_02165518(int a0, int a1)
+void func_02165518(GameBeaconInfo *info, const struct Strbuf *name)
 {
-    int t4;
+    info->action = 0x22;
+    GAME_BEACON_CopyStrbufCodes(name, info->actionData.nickname);
+    GAME_BEACON_ResetDetails(info);
+}
 
-t4 = a0 + 0;
-a0 = 0x22;
-((struct Obj00121 *)t4)->f30 = a0;
-a0 = a1 + 0;
-a1 = t4 + 0;
-a1 = a1 + 0x34;
-    a0 = func_020270AC(a0, a1);
-loc_0216552A:
-a0 = t4 + 0;
-    a0 = func_0202744C((void *)a0);
-loc_02165530:
-    return a0;}
-
-
-
-
-
-
-
-void func_02165534(void *a0)
+void func_02165534(u32 count)
 {
-    if (func_02027060(0x24)) {
-        func_0216555C(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x24)) {
+        func_0216555C(&GAME_BEACON_Work->own.info, count);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-/*
- * generated: lane O24 (ov010 leaf/wrapper sweep)
- *
- * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0202744C, the shape of the arm9 copy.
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
- *
- * Addresses are Black-image addresses.  --region ov010 is required: this
- * address is only ov010 in the overlay that defines it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0216555C.c \
- *       --func func_0216555C --addr 0x0216555C --region ov010 --cc dsi/1.1p1 --thumb
- */
-void func_0216555C(void *a0, unsigned a1)
+void func_0216555C(GameBeaconInfo *info, u32 count)
 {
-    ((struct Obj00121 *)a0)->f30 = 36;
-    ((struct Obj00121 *)a0)->f34 = a1;
-    func_0202744C(a0);
+    info->action = 0x24;
+    info->actionData.value = count;
+    GAME_BEACON_ResetDetails(info);
 }
-
-
-
-
-
-
 
 void func_0216556C(void)
 {
-    if (func_02027060(0x25)) {
-        func_02165590(g_02146940 + 4);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x25)) {
+        func_02165590(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-void func_02165590(void *a0)
+void func_02165590(GameBeaconInfo *info)
 {
-    ((struct Obj00121 *)a0)->f30 = 0x25;
-    func_0202744C(a0);
+    info->action = 0x25;
+    GAME_BEACON_ResetDetails(info);
 }
 
-
-
-
-
-
-
-void func_0216559C(void *a0)
+void func_0216559C(u32 monsNo)
 {
-    if (func_02027060(0x26)) {
-        func_021655C4(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x26)) {
+        func_021655C4(&GAME_BEACON_Work->own.info, monsNo);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-/*
- * generated: lane O24 (ov010 leaf/wrapper sweep)
- *
- * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0202744C, the shape of the arm9 copy.
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
- *
- * Addresses are Black-image addresses.  --region ov010 is required: this
- * address is only ov010 in the overlay that defines it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_021655C4.c \
- *       --func func_021655C4 --addr 0x021655C4 --region ov010 --cc dsi/1.1p1 --thumb
- */
-void func_021655C4(void *a0, unsigned a1)
+void func_021655C4(GameBeaconInfo *info, u32 monsNo)
 {
-    ((struct Obj00121 *)a0)->f30 = 38;
-    ((struct Obj00121 *)a0)->f32 = a1;
-    func_0202744C(a0);
+    info->action = 0x26;
+    info->actionArg = monsNo;
+    GAME_BEACON_ResetDetails(info);
 }
-
-
-
-
-
-
 
 void func_021655D4(void)
 {
-    if (func_02027060(0x27)) {
-        func_021655F8(g_02146940 + 4);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x27)) {
+        func_021655F8(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-void func_021655F8(void *a0)
+void func_021655F8(GameBeaconInfo *info)
 {
-    ((struct Obj00121 *)a0)->f30 = 0x27;
-    func_0202744C(a0);
+    info->action = 0x27;
+    GAME_BEACON_ResetDetails(info);
 }
-
-
-
-
-
-
 
 void func_02165604(void)
 {
-    if (func_02027060(0x28)) {
-        func_02165628(g_02146940 + 4);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x28)) {
+        func_02165628(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-void func_02165628(void *a0)
+void func_02165628(GameBeaconInfo *info)
 {
-    ((struct Obj00121 *)a0)->f30 = 0x28;
-    func_0202744C(a0);
+    info->action = 0x28;
+    GAME_BEACON_ResetDetails(info);
 }
 
-
-
-
-
-
-
-void func_02165634(void *a0)
+void func_02165634(u32 value)
 {
-    if (func_02027060(0x29)) {
-        func_0216565C(g_02146940 + 4, (unsigned int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x29)) {
+        func_0216565C(&GAME_BEACON_Work->own.info, value);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-/*
- * Stamp the fixed id halfword and the caller's value on the two
- * record fields, then jump to the shared submitter.
- */
-void func_0216565C(void *a0, unsigned a1)
+void func_0216565C(GameBeaconInfo *info, u32 value)
 {
-    ((struct Obj00121 *)a0)->f30 = 0x29;
-    *(u32 *)((char *)a0 + 0x34) = (u32)a1;
-    func_0202744C(a0);
+    info->action = 0x29;
+    info->actionData.wordValue = value;
+    GAME_BEACON_ResetDetails(info);
 }
-
-
-
-
-
-
 
 void func_0216566C(void)
 {
-    if (func_02027060(0x2A)) {
-        func_02165690(g_02146940 + 4);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x2A)) {
+        func_02165690(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-/*
- * generated: lane O24 (ov010 leaf/wrapper sweep)
- *
- * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0202744C, the shape of the arm9 copy.
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
- *
- * Addresses are Black-image addresses.  --region ov010 is required: this
- * address is only ov010 in the overlay that defines it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02165690.c \
- *       --func func_02165690 --addr 0x02165690 --region ov010 --cc dsi/1.1p1 --thumb
- */
-void func_02165690(void *a0)
+void func_02165690(GameBeaconInfo *info)
 {
-    ((struct Obj00121 *)a0)->f30 = 42;
-    *(u32 *)((char *)a0 + 52) = 0;
-    func_0202744C(a0);
+    info->action = 0x2A;
+    info->actionData.wordValue = 0;
+    GAME_BEACON_ResetDetails(info);
 }
-
-
-
-
-
 
 void func_021656A0(void)
 {
-    if (func_02027060(0x2B)) {
-        func_021656C4(g_02146940 + 4);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x2B)) {
+        func_021656C4(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-void func_021656C4(void *a0)
+void func_021656C4(GameBeaconInfo *info)
 {
-    ((struct Obj00121 *)a0)->f30 = 0x2B;
-    func_0202744C(a0);
+    info->action = 0x2B;
+    GAME_BEACON_ResetDetails(info);
 }
 
-
-
-
-
-
-void func_021656D0(u8 a0)
+void func_021656D0(u8 value)
 {
-    if (func_02027060(0x2C)) {
-        func_021656F8((u8 *)(g_02146940 + 4), a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x2C)) {
+        func_021656F8(&GAME_BEACON_Work->own.info, value);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
+void func_021656F8(GameBeaconInfo *info, u8 value)
+{
+    info->action = 0x2C;
+    info->actionData.byteValue = value;
+    GAME_BEACON_ResetDetails(info);
+}
 
-
-
-
-void func_021656F8(u8 *p, u8 v) { ((struct Obj00121 *)p)->f30=0x2c; p[0x34]=v; func_0202744C(p); }
-
-
-
-
-
-
-/*
- * Gate on an id test, then submit the record at the shared globals
- * pointer.
- */
 void func_0216570C(void)
 {
-    if (func_02027060(0x2D)) {
-        func_02165730(g_02146940 + 4);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x2D)) {
+        func_02165730(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-/*
- * Short thunk: stamp the id halfword on the record and hand it
- * straight to the shared submitter.
- */
-void func_02165730(void *a0)
+void func_02165730(GameBeaconInfo *info)
 {
-    ((struct Obj00121 *)a0)->f30 = 0x2D;
-    func_0202744C(a0);
+    info->action = 0x2D;
+    GAME_BEACON_ResetDetails(info);
 }
-
-
-
-
-
 
 void func_0216573C(void)
 {
-    if (func_02027060(0x2E)) {
-        func_02165760(g_02146940 + 4);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x2E)) {
+        func_02165760(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-void func_02165760(void *a0)
+void func_02165760(GameBeaconInfo *info)
 {
-    ((struct Obj00121 *)a0)->f30 = 0x2E;
-    func_0202744C(a0);
+    info->action = 0x2E;
+    GAME_BEACON_ResetDetails(info);
 }
 
-
-
-
-
-
-/*
- * Test id 0x2F against the overlay's table and, when it takes, file the
- * record at the shared globals pointer (sibling of func_02165634).
- */
-void func_0216576C(void *a0)
+void func_0216576C(const struct Strbuf *name)
 {
-    if (func_02027060(0x2F)) {
-        func_02165794((int)(g_02146940 + 4), (int)a0);
-        func_02026FB8(g_02146940 + 4);
+    if (GAME_BEACON_CheckActionPriority(0x2F)) {
+        func_02165794(&GAME_BEACON_Work->own.info, name);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-
-
-
-
-
-
-
-
-
-int func_02165794(int a0, int a1)
+void func_02165794(GameBeaconInfo *info, const struct Strbuf *name)
 {
-    int t4;
-
-t4 = a0 + 0;
-a0 = 0x2f;
-((struct Obj00121 *)t4)->f30 = a0;
-a0 = a1 + 0;
-a1 = t4 + 0;
-a1 = a1 + 0x34;
-    a0 = func_020270AC(a0, a1);
-loc_021657A6:
-a0 = t4 + 0;
-    a0 = func_0202744C((void *)a0);
-loc_021657AC:
-    return a0;}
-
-
-
-
-
-
-
-
-
-void func_021657B0(u16 v) { if(func_02027060(0x30)) { func_021657D8(g_02146940+4,v); func_02026FB8(g_02146940+4); } }
-
-
-
-
-
-
-
-
-
-
-void func_021657D8(void *a0, u16 a1)
-{
-    ((struct Obj00121 *)a0)->f30 = 48;
-    ((struct Obj00121 *)a0)->f34 = a1;
-    func_0202744C(a0);
+    info->action = 0x2F;
+    GAME_BEACON_CopyStrbufCodes(name, info->actionData.nickname);
+    GAME_BEACON_ResetDetails(info);
 }
 
-
-
-
-
-
-
-
-
-void func_021657E8(void *a,u16 b) { if(func_02027060(0x18)) { func_02165814((u8 *)g_02146940+4,a,b); func_02026FB8(g_02146940+4); } }
-
-
-
-
-
-
-
-void func_02165814(u8 *p,void *a,u16 b) { func_0201F41C(func_0200C20C(func_0200C0F0(func_02012EBC(a))),(u16 *)(p+0x34),9); ((struct Obj00121 *)p)->f30=0x18; ((struct Obj00121 *)p)->f46=b; func_0202744C(p); }
-
-
-
-
-
-
-
-void func_02165844(void *v) { if(func_02027060(0x31)) { func_0216586C((int)(g_02146940+4),(int)v); func_02026FB8(g_02146940+4); } }
-
-
-
-
-
-
-
-
-int func_0216586C(int a0, int a1)
+void func_021657B0(u16 value)
 {
-    int a2;
-    int t4;
+    if (GAME_BEACON_CheckActionPriority(0x30)) {
+        func_021657D8(&GAME_BEACON_Work->own.info, value);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
+    }
+}
 
-t4 = a0 + 0;
-a0 = a1 + 0;
-a1 = t4 + 0;
-a1 = a1 + 0x34;
-a2 = 9;
-    a0 = func_02045A38(a0, a1, a2);
-loc_0216587C:
-a0 = 0x31;
-((struct Obj00121 *)t4)->f30 = a0;
-a0 = t4 + 0;
-    a0 = func_0202744C((void *)a0);
-loc_02165886:
-    return a0;}
-
-
-
-
-
-
-
-int func_02165888(int a0)
+void func_021657D8(GameBeaconInfo *info, u16 value)
 {
-    int t[3];
-    int cur;
-    int n;
-    int h;
-    int k;
-    int r;
+    info->action = 0x30;
+    info->actionData.value = value;
+    GAME_BEACON_ResetDetails(info);
+}
 
-    n = 0;
-    cur = 0;
-    func_0203F4CC((struct RtcTime *)t);
-    h = (unsigned short)((t[0] << 8) | t[1]);
+void func_021657E8(struct GameData *gameData, u16 trainerId)
+{
+    if (GAME_BEACON_CheckActionPriority(0x18)) {
+        func_02165814(&GAME_BEACON_Work->own.info, gameData, trainerId);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
+    }
+}
+
+void func_02165814(GameBeaconInfo *info, struct GameData *gameData, u16 trainerId)
+{
+    func_0201F41C(func_0200C20C(func_0200C0F0(func_02012EBC(gameData))), info->actionData.text, 9);
+    info->action = 0x18;
+    info->actionData.special.targetTrainerId = trainerId;
+    GAME_BEACON_ResetDetails(info);
+}
+
+void func_02165844(const struct Strbuf *text)
+{
+    if (GAME_BEACON_CheckActionPriority(0x31)) {
+        func_0216586C(&GAME_BEACON_Work->own.info, text);
+        GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
+    }
+}
+
+void func_0216586C(GameBeaconInfo *info, const struct Strbuf *text)
+{
+    func_02045A38(text, info->actionData.text, 9);
+    info->action = 0x31;
+    GAME_BEACON_ResetDetails(info);
+}
+
+/* ------------------------------------------------------------------ *
+ * The table of received beacons (30 entries with their receive time).
+ * ------------------------------------------------------------------ */
+
+/* Moves the new beacon log entries into the table; returns how many. */
+int func_02165888(GameBeaconInfoTable *table)
+{
+    struct RtcTime time;
+    int cursor;
+    int added;
+    int receiveTime;
+    int logIndex;
+    int tableIndex;
+
+    added = 0;
+    cursor = 0;
+    func_0203F4CC(&time);
+    receiveTime = (u16)((time.hour << 8) | time.minute);
     for (;;) {
-        k = func_02026CA0(&cur);
-        if (k == 0x1e) {
+        logIndex = GAME_BEACON_GetNextNewLogIndex(&cursor);
+        if (logIndex == 30) {
             break;
         }
-        r = func_02165960((struct Queue *)a0, (struct Rec *)((int)func_02026C1C(k)), h, 0);
-        if (r == 0x1e) {
+        tableIndex = func_02165960(table, &GAME_BEACON_GetLog(logIndex)->info, receiveTime, 0);
+        if (tableIndex == 30) {
             break;
         }
-        func_02026CE0(k);
-        n++;
+        GAME_BEACON_ClearNewFlag(logIndex);
+        added++;
     }
-    return n;
+    return added;
 }
 
-
-
-
-
-
-
-/*
- * Pops the front record of a 30-slot queue (0x5c-byte records, then a
- * u16 tag per slot at +0xAC8): copies out slot 0 and its tag, shifts the
- * rest down one and clears the last record. Returns 0 when empty.
- */
-int func_021658D4(struct Queue *q, struct Rec *out, u16 *tag)
+/* Pops the first entry: copies it out and shifts the rest down. */
+int func_021658D4(GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime)
 {
     int i;
 
-    if (q->r[0].f00 == 0)
+    if (table->info[0].versionBit == 0)
         return 0;
-    *out = q->r[0];
-    *tag = q->tag[0];
+    *info = table->info[0];
+    *receiveTime = table->receiveTime[0];
     for (i = 1; i < 30; i++) {
-        q->r[i - 1] = q->r[i];
-        q->tag[i - 1] = q->tag[i];
+        table->info[i - 1] = table->info[i];
+        table->receiveTime[i - 1] = table->receiveTime[i];
     }
-    MI_CpuFill8(&q->r[29], 0, 0x5c);
+    MI_CpuFill8(&table->info[29], 0, sizeof(GameBeaconInfo));
     return 1;
 }
 
-
-
-
-/*
- * Sweep the 0x5c-strided record array and hand the first occupied slot to
- * the arm9 helper; the sweep stops at the first empty one.
- */
-void func_02165940(unsigned char *p)
-{
-    int i;
-
-    for (i = 0; i < 0x1E; i++) {
-        if (p[i * 0x5C] == 0)
-            break;
-        func_02026D04((const struct Rec *)(p + i * 0x5C));
-    }
-}
-
-
-
-
-/*
- * Inserts a record into the 30-slot queue (see func_021658D4): reuses the
- * first empty slot or the slot with the same f10; otherwise, when the
- * mode is 1, drops slot 0 by shifting everything down and appends.
- * Returns the slot used, or 30 when full and mode is not 1.
- */
-int func_02165960(struct Queue *q, struct Rec *rec, int tag, int mode)
+/* Hands every used entry back to the beacon log as new. */
+void func_02165940(GameBeaconInfo *infoList)
 {
     int i;
 
     for (i = 0; i < 30; i++) {
-        if (q->r[i].f00 == 0 || rec->f10 == q->r[i].f10) {
-            q->r[i] = *rec;
-            q->tag[i] = tag;
+        if (infoList[i].versionBit == 0)
+            break;
+        GAME_BEACON_SetNewFlagByTrainerId(&infoList[i]);
+    }
+}
+
+/*
+ * Stores the beacon in the first free entry or over the entry of the same
+ * trainer. When the table is full and mode is 1, the oldest entry is
+ * dropped. Returns the entry used, or 30 when nothing was stored.
+ */
+int func_02165960(GameBeaconInfoTable *table, const GameBeaconInfo *info, int receiveTime, int mode)
+{
+    int i;
+
+    for (i = 0; i < 30; i++) {
+        if (table->info[i].versionBit == 0 || info->trainerId == table->info[i].trainerId) {
+            table->info[i] = *info;
+            table->receiveTime[i] = receiveTime;
             return i;
         }
     }
     if (mode == 1) {
-        MIi_CpuCopy32(&q->r[1], &q->r[0], 29 * 0x5c);
-        MIi_CpuCopy16(&q->tag[1], &q->tag[0], 58);
-        q->r[29] = *rec;
-        q->tag[29] = tag;
+        MIi_CpuCopy32(&table->info[1], &table->info[0], 29 * sizeof(GameBeaconInfo));
+        MIi_CpuCopy16(&table->receiveTime[1], &table->receiveTime[0], 29 * sizeof(u16));
+        table->info[29] = *info;
+        table->receiveTime[29] = receiveTime;
         return 29;
     }
     return 30;
 }
 
-
-
-
-/*
- * Ring index of the 30-slot queue (func_021658D4): head byte at +0xB04
- * plus a signed offset, wrapped mod 30 (a negative offset is biased by
- * 30 first). Filed as the callee of 02165A10.
- */
-int func_021659F0(u8 *q, int delta)
+/* Ring use of the table: entry at a signed offset from the head. */
+int func_021659F0(const GameBeaconInfoTable *table, int offset)
 {
-    int h = q[0xB04];
+    int head = table->head;
 
-    if (delta < 0)
-        return (h + delta + 30) % 30;
-    return (h + delta) % 30;
+    if (offset < 0)
+        return (head + offset + 30) % 30;
+    return (head + offset) % 30;
 }
 
-
-
-
 /*
- * Ring-buffer variant of the queue insert (func_021659F0 maps a logical
- * index to a slot): replaces the record with the same f10 if present
- * before the first empty slot, else pushes a new head; the count byte
- * saturates at 30. *flag (optional) is 1 when a new slot was taken.
+ * Ring insert: replaces the entry of the same trainer, else pushes a new
+ * head. *isNew (optional) is 1 when a new entry was taken.
  */
-int func_02165A10(struct Queue *q, struct Rec *rec, u16 tag, int *flag)
+int func_02165A10(GameBeaconInfoTable *table, const GameBeaconInfo *info, u16 receiveTime, int *isNew)
 {
     int i;
-    int idx;
+    int index;
 
-    if (flag)
-        *flag = 0;
+    if (isNew)
+        *isNew = 0;
     for (i = 0; i < 30; i++) {
-        idx = func_021659F0((u8 *)q, i);
-        if (q->r[idx].f00 == 0)
+        index = func_021659F0(table, i);
+        if (table->info[index].versionBit == 0)
             break;
-        if (rec->f10 == q->r[idx].f10) {
-            q->r[idx] = *rec;
-            q->tag[idx] = tag;
+        if (info->trainerId == table->info[index].trainerId) {
+            table->info[index] = *info;
+            table->receiveTime[index] = receiveTime;
             return i;
         }
     }
-    if (flag)
-        *flag = 1;
-    idx = func_021659F0((u8 *)q, -1);
-    q->r[idx] = *rec;
-    q->tag[idx] = tag;
-    q->head = idx;
-    if (q->count < 30)
-        q->count++;
+    if (isNew)
+        *isNew = 1;
+    index = func_021659F0(table, -1);
+    table->info[index] = *info;
+    table->receiveTime[index] = receiveTime;
+    table->head = index;
+    if (table->count < 30)
+        table->count++;
     return 0;
 }
 
-
-
-
-/*
- * Reads the record and tag at a ring offset from the head of the queue
- * (func_021659F0 maps the offset to a slot); returns 0 for an empty slot.
- *
- * Follower 0x02165B04 (ldrb accessor of the count byte) is unlabelled.
- */
-int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta)
+int func_02165AC4(const GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime, int offset)
 {
-    int idx = func_021659F0((u8 *)q, delta);
+    int index = func_021659F0(table, offset);
 
-    if (q->r[idx].f00 == 0)
+    if (table->info[index].versionBit == 0)
         return 0;
-    *out = q->r[idx];
-    *tag = q->tag[idx];
+    *info = table->info[index];
+    *receiveTime = table->receiveTime[index];
     return 1;
 }
 
-
-
-
-/*
- * Count byte of the 30-record queue func_02165AC4 reads (head at +0xB04,
- * count at +0xB05). Unlabelled leaf reached from ov032 func_021F27D4.
- */
-u8 func_02165B04(u8 *q)
+u8 func_02165B04(const GameBeaconInfoTable *table)
 {
-    return q[0xb05];
+    return table->count;
 }
 
-
-
-u8 *func_02165B10(u32 heap) { return func_02030734(heap,0x5c,1,d_021729D4,0x1b3); }
-
-
-
-
-u8 *func_02165B2C(u32 heap) { u8 *p=func_02030734(heap,0xb08,1,d_021729D4,0x1c1); p[0xb04]=0; p[0xb05]=0; return p; }
-
-
-
-
-
-/*
- * Range check of a packed record: returns 1 (invalid) on the first field
- * out of range, else the verdict of the per-kind checker picked from
- * the table at 0x02171CA8 by func_02165FB4(kind).
- */
-int func_02165B5C(Rec_02165B5C *r)
+GameBeaconInfo *func_02165B10(u32 heapId)
 {
-    if (r->f30 == 0 || r->f30 >= 0x33)
+    return func_02030734(heapId, sizeof(GameBeaconInfo), 1, d_021729D4, 0x1b3);
+}
+
+GameBeaconInfoTable *func_02165B2C(u32 heapId)
+{
+    GameBeaconInfoTable *table = func_02030734(heapId, sizeof(GameBeaconInfoTable), 1, d_021729D4, 0x1c1);
+
+    table->head = 0;
+    table->count = 0;
+    return table;
+}
+
+/* ------------------------------------------------------------------ *
+ * Beacon info accessors.
+ * ------------------------------------------------------------------ */
+
+/* Returns 1 when a field is out of range or the action check fails. */
+int func_02165B5C(const GameBeaconInfo *info)
+{
+    if (info->action == 0 || info->action >= 0x33)
         return 1;
-    if (r->f48_0 >= 6)
+    if (info->detailsPms.bits.detailsType >= 6)
         return 1;
-    if (r->f0C_9 >= 6)
+    if (info->researchTeamRank >= 6)
         return 1;
-    if (r->f0C_16 > 999 || r->f0C_26 > 59)
+    if (info->playHours > 999 || info->playMinutes > 59)
         return 1;
-    if (r->f03 > 0x2D && r->f03 != 0x30)
+    if (info->infoVersion > 0x2D && info->infoVersion != 0x30)
         return 1;
-    if (r->f04_17 >= 427 || r->f08_22 >= 427)
+    if (info->zoneId >= 427 || info->townmapRootZoneId >= 427)
         return 1;
-    if (r->f04_0 > 99999 || r->f08_0 > 99999)
+    if (info->thanksCount > 99999 || info->passCount > 99999)
         return 1;
-    if (d_02171CA8[func_02165FB4(r->f30)](r) != 0)
+    if (d_02171CA8[func_02165FB4(info->action)](info) != 0)
         return 1;
     return 0;
 }
 
-
-
-
-
-int func_02165C10(u8 *p)
+int func_02165C10(const GameBeaconInfo *info)
 {
-    switch (((struct Obj18996 *)p)->f30) {
+    switch (info->action) {
     case 0x19:
     case 0x1A:
     case 0x1B:
@@ -2582,413 +1493,205 @@ int func_02165C10(u8 *p)
     return 0;
 }
 
-
-
-
-
-/*
- * Copy the eight-character name at +0x12 into a string buffer.
- */
-void func_02165C34(Rec_02165C34 *r, void *buf)
+void func_02165C34(const GameBeaconInfo *info, struct Strbuf *name)
 {
-    func_02045994(buf, r->name, 8);
+    func_02045994(name, info->name, 8);
 }
 
-
-
-
-
-/*
- * Recursive MATCH unblocker: callee of func_021BCDC0 (ov216) +0002. Coherent
- * Thumb code in ov010 (ARM data in ov009), so the ov010 shard makes that site
- * attest as `matched`.
- */
-u32 func_02165C48(S_02165C48 *a0)
+u32 func_02165C48(const GameBeaconInfo *info)
 {
-    return a0->field;
+    return info->pmVersion;
 }
 
-
-
-
-
-/*
- * Unlabelled Thumb leaf (prints as .word data in ov010.s), the sole blocker
- * of ov011 func_02173368 +00CA: returns the top five bits of the second
- * word of its argument.
- *
- * Addresses are Black-image addresses.
- */
-u32 func_02165C50(S_02165C50 *a0)
+u32 func_02165C50(const GameBeaconInfo *info)
 {
-    return a0->hi;
+    return info->language;
 }
 
-
-
-
-/*
- * blocker-leaf: ov216 021BD174 MATCH*; parent ownership cleared; no source/unit/shard; full original getter body read.
- * tail: next 4B getter 02165C5C, separately owned and filed.
- */
-u8 func_02165C58(const u8 *p) { return p[1]; }
-
-
-
-
-/*
- * blocker-leaf: ov216 021BD174 MATCH*; parent ownership cleared; no source/unit/shard; full original getter body read.
- */
-u8 func_02165C5C(const u8 *p) { return p[2]; }
-
-
-
-
-
-int func_02165C60(int a0)
+u8 func_02165C58(const GameBeaconInfo *info)
 {
-    int a1;
-
-a0 = a0 + 0x50;
-a1 = 0x1a;
-    a0 = func_0200E3A4((const u8 *)a0, a1);
-loc_02165C6A:
-    if (a0 != 0) goto loc_02165C72;
-loc_02165C6E:
-a0 = 0xff;
-    return a0;
-loc_02165C72:
-a0 = a0 << 0x18;
-a0 = (unsigned)a0 >> 0x18;
-    return a0;}
-
-
-
-
-
-
-
-
-int func_02165C78(int a0)
-{
-    int a1;
-
-a0 = a0 + 0x50;
-a1 = 0x19;
-    a0 = func_0200E3A4((const u8 *)a0, a1);
-loc_02165C82:
-    if (a0 != 0) goto loc_02165C8A;
-loc_02165C86:
-a0 = 0xff;
-    return a0;
-loc_02165C8A:
-a0 = a0 << 0x18;
-a0 = (unsigned)a0 >> 0x18;
-    return a0;}
-
-
-
-
-
-
-
-/*
- * blocker-leaf: ov216 021BD174 MATCH*; parent ownership cleared; no source/unit/shard; full original getter body read.
- * tail: 2B zero padding 02165CB2.
- */
-void func_02165C90(const struct R *p,struct Quad *q)
-{
-    q->a=p->fields.a;
-    q->b=p->fields.b;
-    q->c=p->c;
-    q->d=p->d;
+    return info->nation;
 }
 
-
-
-
-/*
- * Unlabelled Thumb leaf (prints as .word data in ov010.s), the sole blocker
- * of ov032 func_021F10D8 +000A: returns the three-bit field at bit 9 of the
- * fourth word of its argument.
- *
- * Addresses are Black-image addresses.
- */
-u8 func_02165CB4(S_02165CB4 *a0)
+u8 func_02165C5C(const GameBeaconInfo *info)
 {
-    return a0->f;
+    return info->area;
 }
 
-
-
-
-/*
- * Promoted from MATCH by the recursive-unblocker lane: 0x02087D1C now has an
- * EXACT arm9 shard entry (pkt_02087D1C), so the call resolves via `matched`.
- * Verified EXACT* (listing 144 vs compiled 24 is the multi-function extent;
- * the function's own bytes are exact).
- *
- * 2026-10-02: func_02087D1C returns a pointer, but it stays declared
- * `extern int func_02087D1C();` here.  A declaration-only fix (a pointer
- * return and a char * receiving local) does not keep the bytes: the
- * compiler moves the shift chain that builds t5.  A variant that folds the
- * shift chain into one expression,
- * `t5 = (unsigned)(*(int *)((char *)a1 + 0xc) << 0x10) >> 0x1c;`, with
- * `char *p = func_02087D1C();`, does match (EXACT, the same verdict as
- * this file against the current listings).  It changes code and not just
- * types, so it is kept outside the tree pending a decision:
- * docs/notes/func_02165CC0_variantF.c.txt.
- */
-void func_02165CC0(int a0, int a1)
+/* Questionnaire answers: 0xFF when the question has no answer. */
+u8 func_02165C60(const GameBeaconInfo *info)
 {
-    int t4;
-    int t5;
+    u32 answer = func_0200E3A4(info->questionnaire, 0x1a);
 
-t4 = a0 + 0;
-a0 = ((struct Obj17722 *)a1)->fC;
-a0 = a0 << 0x10;
-t5 = (unsigned)a0 >> 0x1c;
-    a0 = (int)func_02087D1C();
-loc_02165CCE:
-a1 = t5 << 0x1c;
-a1 = (unsigned)a1 >> 0x1b;
-a0 = *(u16 *)((char *)a0 + a1);
-((struct Obj17723 *)((char *)t4))->f0 = a0;
-    return;}
-
-
-
-
-/*
- * Unlabelled leaf, filed as the only overlay blocker of ov029 func_021F1CD8.
- */
-u8 func_02165CD8(struct S_02165CD8 *p)
-{
-    return p->f;
+    if (answer == 0)
+        return 0xff;
+    return answer;
 }
 
-
-
-
-/*
- * Unlabelled leaf, filed as a blocker of ov032 func_021F1144.
- */
-u16 func_02165CE4(u8 *r)
+u8 func_02165C78(const GameBeaconInfo *info)
 {
-    return ((struct Obj19000 *)r)->f10;
+    u32 answer = func_0200E3A4(info->questionnaire, 0x19);
+
+    if (answer == 0)
+        return 0xff;
+    return answer;
 }
 
-
-
-
-/*
- * Unlabelled leaf, filed as the only blocker of ov032 func_021F0F74.
- */
-u8 func_02165CE8(struct S_02165CE8 *p)
+void func_02165C90(const GameBeaconInfo *info, GameBeaconPms *pms)
 {
-    if (p->f3 == 0) {
-        return p->f;
+    pms->sentenceType = info->detailsPms.bits.pmsSentenceType;
+    pms->sentenceId = info->detailsPms.bits.pmsSentenceId;
+    pms->word[0] = info->pmsWord[0];
+    pms->word[1] = info->pmsWord[1];
+}
+
+u8 func_02165CB4(const GameBeaconInfo *info)
+{
+    return info->researchTeamRank;
+}
+
+/* The owner color table has 16 entries. */
+void func_02165CC0(u16 *rgb, const GameBeaconInfo *info)
+{
+    int color = info->favoriteColor;
+    const u16 *colorTable = OSi_GetOwnerInfoExBuffer();
+
+    *rgb = colorTable[color & 0xF];
+}
+
+u8 func_02165CD8(const GameBeaconInfo *info)
+{
+    return info->favoriteColor;
+}
+
+u16 func_02165CE4(const GameBeaconInfo *info)
+{
+    return info->trainerId;
+}
+
+/* Trainer appearance: the female ones follow the 8 male ones. */
+u8 func_02165CE8(const GameBeaconInfo *info)
+{
+    if (info->sex == 0) {
+        return info->trainerView;
     }
-    return p->f + 8;
+    return info->trainerView + 8;
 }
 
-
-
-
-/*
- * Top bit of byte 3.
- */
-u8 func_02165D08(Rec *r)
+u8 func_02165D08(const GameBeaconInfo *info)
 {
-    return r->hi;
+    return info->sex;
 }
 
-
-
-
-/*
- * blocker-leaf: ov216 021BD174 MATCH*; parent ownership cleared; no source/unit/shard; full original getter body read.
- * tail: 2B zero padding 02165D1E.
- */
-void func_02165D10(const struct S *p,u16 *a,u16 *b)
+void func_02165D10(const GameBeaconInfo *info, u16 *hours, u16 *minutes)
 {
-    *a=p->first;
-    *b=p->second;
+    *hours = info->playHours;
+    *minutes = info->playMinutes;
 }
 
-
-
-
-/*
- * Low seven bits of byte 3 (unlabelled leaf; sibling of func_02165D08).
- */
-u8 func_02165D20(Rec *r)
+u8 func_02165D20(const GameBeaconInfo *info)
 {
-    return r->lo;
+    return info->infoVersion;
 }
 
-
-
-/*
- * Parent-cleared leaf for ov216 021BCE04. ov010 coherent Thumb accessor;
- * overlapping ov009 address is interior ARM code, as explicit shows prove.
- */
-unsigned short func_02165D28(const struct Bits_02165D28 *p) { return p->value; }
-
-
-
-/*
- * Parent-cleared leaf for ov216021BD448 after same-region source/unit/shard
- * and SDK union checks. Coherent ov010 Thumb accessor; ov009 is interior ARM.
- */
-unsigned short func_02165D34(const struct Bits_02165D34 *p) { return p->value; }
-
-
-
-
-/*
- * blocker-leaf: ov216 021BD174 MATCH*; parent ownership cleared; no source/unit/shard; full original getter body read.
- * tail: next 8B getter 02165D48, separately owned and filed.
- */
-u32 func_02165D40(const struct S_02165D40 *p) { return p->value; }
-
-
-
-/*
- * blocker-leaf: ov216 021BD174 MATCH*; parent ownership cleared; no source/unit/shard; full original getter body read.
- */
-u32 func_02165D48(const struct S_02165D48 *p) { return p->value; }
-
-
-
-
-void func_02165D50(struct Rec *r, struct Strbuf *buf)
+u16 func_02165D28(const GameBeaconInfo *info)
 {
-    func_0204581C((struct U16Vec *)buf);
-    func_02045994(buf, (const u16 *)((char *)r + 0x20), 9);
+    return info->zoneId;
 }
 
-
-
-
-
-
-int func_02165D6C(int a0, int a1)
+u16 func_02165D34(const GameBeaconInfo *info)
 {
-    int a2;
-
-a2 = a0 + 0;
-a0 = ((struct Obj17724 *)a2)->f30;
-    if (a0 == 0x18) goto loc_02165D7E;
-loc_02165D76:
-a0 = a1 + 0;
-    a0 = func_0204581C((struct U16Vec *)a0);
-loc_02165D7C:
-    return a0;
-loc_02165D7E:
-a2 = a2 + 0x34;
-a0 = a1 + 0;
-a1 = a2 + 0;
-    a0 = func_02045924(a0, a1);
-loc_02165D88:
-    return a0;}
-
-
-
-
-
-
-int func_02165D8C(int a0, int a1)
-{
-    int a2;
-
-a2 = a0 + 0;
-a0 = ((struct Obj17725 *)a2)->f30;
-    if (a0 == 0x31) goto loc_02165D9E;
-loc_02165D96:
-a0 = a1 + 0;
-    a0 = func_0204581C((struct U16Vec *)a0);
-loc_02165D9C:
-    return a0;
-loc_02165D9E:
-a2 = a2 + 0x34;
-a0 = a1 + 0;
-a1 = a2 + 0;
-    a0 = func_02045924(a0, a1);
-loc_02165DA8:
-    return a0;}
-
-
-
-
-
-unsigned func_02165DAC(const char *p)
-{
-    unsigned a=(unsigned char)*(const unsigned short *)&((struct Obj19003 *)p)->f48;
-    if(a>=6) a=5;
-    return a;
+    return info->townmapRootZoneId;
 }
 
-
-
-
-
-unsigned short func_02165DBC(const char *p)
+u32 func_02165D40(const GameBeaconInfo *info)
 {
-    unsigned a=(unsigned char)*(const unsigned short *)&((struct Obj07306 *)p)->f48;
-    unsigned b=*(const unsigned short *)&((struct Obj07306 *)p)->f4E;
-    switch(a) { case 2: case 3: case 4:
-        if(b==0 || b>=616) b=1;
-        return b;
-    default: return 1;
+    return info->passCount;
+}
+
+u32 func_02165D48(const GameBeaconInfo *info)
+{
+    return info->thanksCount;
+}
+
+void func_02165D50(const GameBeaconInfo *info, struct Strbuf *greeting)
+{
+    STRBUF_Clear(greeting);
+    func_02045994(greeting, info->greeting, 9);
+}
+
+void func_02165D6C(const GameBeaconInfo *info, struct Strbuf *name)
+{
+    if (info->action != 0x18) {
+        STRBUF_Clear(name);
+    } else {
+        func_02045924(name, info->actionData.text);
     }
 }
 
-
-
-
-
-unsigned short func_02165DF0(const char *p)
+void func_02165D8C(const GameBeaconInfo *info, struct Strbuf *text)
 {
-    unsigned a=(unsigned char)*(const unsigned short *)&((struct Obj07306 *)p)->f48;
-    unsigned b=*(const unsigned short *)&((struct Obj07306 *)p)->f4E;
-    switch(a) { case 0: case 1:
-        if(b==0 || b>649) b=504;
-        return b;
-    default: return 504;
+    if (info->action != 0x31) {
+        STRBUF_Clear(text);
+    } else {
+        func_02045924(text, info->actionData.text);
     }
 }
 
-
-
-
-
-
-
-
-int func_02165E24(int a0)
+unsigned func_02165DAC(const GameBeaconInfo *info)
 {
+    unsigned type = info->detailsPms.bits.detailsType;
 
-a0 = ((struct Obj17726 *)a0)->f30;
-    if (a0 == 0) goto loc_02165E2E;
-loc_02165E2A:
-    if ((unsigned)a0 < (unsigned)0x33) goto loc_02165E30;
-loc_02165E2E:
-a0 = 1;
-loc_02165E30:
-    return a0;}
+    if (type >= 6)
+        type = 5;
+    return type;
+}
 
-
-
-
-
-
-/*
- * Returns the f32 halfword for the record types that carry one, else 0x1F8.
- */
-u16 func_02165E34(Rec_02165E34 *r)
+u16 func_02165DBC(const GameBeaconInfo *info)
 {
-    switch (r->type) {
+    unsigned type = info->detailsPms.bits.detailsType;
+    unsigned trainerNo = info->detailsValue;
+
+    switch (type) {
+    case 2:
+    case 3:
+    case 4:
+        if (trainerNo == 0 || trainerNo >= 616)
+            trainerNo = 1;
+        return trainerNo;
+    default:
+        return 1;
+    }
+}
+
+u16 func_02165DF0(const GameBeaconInfo *info)
+{
+    unsigned type = info->detailsPms.bits.detailsType;
+    unsigned monsNo = info->detailsValue;
+
+    switch (type) {
+    case 0:
+    case 1:
+        if (monsNo == 0 || monsNo > 649)
+            monsNo = 504;
+        return monsNo;
+    default:
+        return 504;
+    }
+}
+
+u16 func_02165E24(const GameBeaconInfo *info)
+{
+    u16 action = info->action;
+
+    if (action == 0 || action >= 0x33)
+        action = 1;
+    return action;
+}
+
+u16 func_02165E34(const GameBeaconInfo *info)
+{
+    switch (info->action) {
     case 2:
     case 3:
     case 4:
@@ -2997,108 +1700,52 @@ u16 func_02165E34(Rec_02165E34 *r)
     case 15:
     case 17:
     case 38:
-        return r->f32;
+        return info->actionArg;
     }
     return 0x1F8;
 }
 
-
-
-
-
-
-/*
- * Returns the f34 halfword of a type 0x13/0x23 record, else 0x11.
- */
-u16 func_02165E78(Rec_02165E78 *r)
+u16 func_02165E78(const GameBeaconInfo *info)
 {
-    if (r->type == 0x13 || r->type == 0x23)
-        return r->f34.h;
+    if (info->action == 0x13 || info->action == 0x23)
+        return info->actionData.value;
     return 0x11;
 }
 
-
-
-
-
-
-/*
- * Returns the f34.h payload of a type-0x24 record, else 1.
- */
-u16 func_02165E8C(Rec_02165E8C *r)
+u16 func_02165E8C(const GameBeaconInfo *info)
 {
-    if (r->type == 0x24)
-        return r->f34.h;
+    if (info->action == 0x24)
+        return info->actionData.value;
     return 1;
 }
 
-
-
-
-
-
-/*
- * Returns the f34.h payload of a type-0x19 record, else 0x1F8.
- */
-u16 func_02165E9C(Rec_02165E9C *r)
+u16 func_02165E9C(const GameBeaconInfo *info)
 {
-    if (r->type == 0x19)
-        return r->f34.h;
+    if (info->action == 0x19)
+        return info->actionData.special.monsNo;
     return 0x1F8;
 }
 
-
-
-
-
-
-/*
- * Returns the f36 payload of a type-0x1A record, else 0x11.
- */
-u16 func_02165EAC(Rec_02165EAC *r)
+u16 func_02165EAC(const GameBeaconInfo *info)
 {
-    if (r->type == 0x1A)
-        return r->f36;
+    if (info->action == 0x1A)
+        return info->actionData.special.itemNo;
     return 0x11;
 }
 
-
-
-
-
-
-/*
- * Returns the f38 payload of a type-0x32 record, else 0.
- */
-u16 func_02165EBC(Rec_02165EBC *r)
+u16 func_02165EBC(const GameBeaconInfo *info)
 {
-    if (r->type == 0x32)
-        return r->f38;
+    if (info->action == 0x32)
+        return info->actionData.special.serial;
     return 0;
 }
 
-
-
-
-
-
-/*
- * Clear a string buffer and copy the 11-character text at +0x34 into it;
- * the type switch that follows has no effect left in it.
- *
- * The image dispatches as a two-node switch tree (`cmp #0x26; bgt` to the
- * lone `cmp #0x2f`, then `subs #0x10; bmi` into a 0x10..0x26 table). 1.1p1
- * builds that tree only when the 16..38 cluster holds 10 or 11 case labels
- * (9 or fewer: compare chain; 12 or more: one 0x10..0x2F table). The table
- * holes and the listed cases all reach the same exit, so WHICH ten labels
- * the source had is not recoverable from the bytes; 16..24 and 38 are a
- * stand-in, only the endpoints are pinned (2026-09-28 tree_ov010_4).
- */
-void func_02165ECC(Rec_02165ECC *r, void *buf)
+/* The case list has no effect; the original keeps it after the copy. */
+void func_02165ECC(const GameBeaconInfo *info, struct Strbuf *nickname)
 {
-    func_0204581C(buf);
-    func_02045994(buf, r->text, 11);
-    switch (r->type) {
+    STRBUF_Clear(nickname);
+    func_02045994(nickname, info->actionData.nickname, 11);
+    switch (info->action) {
     case 16:
     case 17:
     case 18:
@@ -3114,112 +1761,56 @@ void func_02165ECC(Rec_02165ECC *r, void *buf)
     }
 }
 
-
-
-
-
-
-/*
- * Returns the f34 halfword for record types 6..11, else 1.
- */
-u16 func_02165F30(Rec_02165F30 *r)
+u16 func_02165F30(const GameBeaconInfo *info)
 {
-    switch (r->type) {
+    switch (info->action) {
     case 6:
     case 7:
     case 8:
     case 9:
     case 10:
     case 11:
-        return r->f34;
+        return info->actionData.value;
     }
     return 1;
 }
 
-
-
-
-
-
-/*
- * Returns the f34.w payload of a type-0x16 record, else 1.
- */
-u32 func_02165F64(Rec_02165F64 *r)
+u32 func_02165F64(const GameBeaconInfo *info)
 {
-    if (r->type == 0x16)
-        return r->f34.w;
+    if (info->action == 0x16)
+        return info->actionData.wordValue;
     return 1;
 }
 
-
-
-
-
-
-/*
- * Returns the f34.h payload of a type-0x14 record, else 1.
- */
-u16 func_02165F74(Rec_02165F74 *r)
+u16 func_02165F74(const GameBeaconInfo *info)
 {
-    if (r->type == 0x14)
-        return r->f34.h;
+    if (info->action == 0x14)
+        return info->actionData.value;
     return 1;
 }
 
-
-
-
-
-
-/*
- * Returns the f34.w payload of a type-0x29 record, else 1.
- */
-u32 func_02165F84(Rec_02165F84 *r)
+u32 func_02165F84(const GameBeaconInfo *info)
 {
-    if (r->type == 0x29)
-        return r->f34.w;
+    if (info->action == 0x29)
+        return info->actionData.wordValue;
     return 1;
 }
 
-
-
-
-
-
-/*
- * Returns the f34.b payload of a type-0x2C record, else 0.
- */
-u8 func_02165F94(Rec_02165F94 *r)
+u8 func_02165F94(const GameBeaconInfo *info)
 {
-    if (r->type == 0x2C)
-        return r->f34.b;
+    if (info->action == 0x2C)
+        return info->actionData.byteValue;
     return 0;
 }
 
-
-
-
-
-
-/*
- * Returns the f34.h payload of a type-0x30 record, else 0.
- */
-u16 func_02165FA4(Rec_02165FA4 *r)
+u16 func_02165FA4(const GameBeaconInfo *info)
 {
-    if (r->type == 0x30)
-        return r->f34.h;
+    if (info->action == 0x30)
+        return info->actionData.value;
     return 0;
 }
 
-
-
-
-
-
-/*
- * First byte of the two-byte table row for a record type.
- */
-u8 func_02165FB4(u16 type)
+u8 func_02165FB4(u16 action)
 {
-    return d_02171CE8[type].a;
+    return d_02171CE8[action].checkIndex;
 }

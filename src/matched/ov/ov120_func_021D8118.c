@@ -15,7 +15,7 @@
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
- *   func_0204581C 0x0204581C arm
+ *   STRBUF_Clear 0x0204581C arm
  *   func_02045CAC 0x02045CAC arm
  *   func_02045334 0x02045334 arm
  *   func_02045374 0x02045374 arm
@@ -34,7 +34,7 @@ struct U16Vec;
 struct WordSet;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0204581C(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
@@ -53,8 +53,8 @@ int func_021D8118(char *p, void *r, int n)
     if(!t[n]) t[n]=(void *)func_020450F0((u8)6,(u8)6,(u8)(n*6+1),(u8)24,4,11,1);
     q=t[n];
     func_02043B5C(func_02045770(q),0);
-    func_0204581C(*(void **)(p+0x20));
-    func_0204581C(*(void **)(p+0x18));
+    STRBUF_Clear(*(void **)(p+0x20));
+    STRBUF_Clear(*(void **)(p+0x18));
     func_0201F02C(*(void **)(p+0x10),0,r);
     func_0201EFA4(*(void **)(p+0x10),1,func_02008534(r),5,2,1);
     func_0201F048(*(void **)(p+0x10),2,func_0200856C(r));

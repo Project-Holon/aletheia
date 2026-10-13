@@ -1,5 +1,5 @@
 /*
- * function: func_02175144
+ * function: INTRUDE_COMM_LookupZonePair
  * address:  0x02175144
  * packet:   pkt_ov011_02175144
  * region:   ov011
@@ -25,7 +25,7 @@ typedef struct Ent {
 
 extern Ent d_02176AA0[8];
 
-int func_02175144(u16 v, u8 *out)
+int INTRUDE_COMM_LookupZonePair(u16 v, u8 *out)
 {
     int i;
     u8 k;

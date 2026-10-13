@@ -18,7 +18,7 @@
  * symbols:
  *   func_02188D2C  0x02188D2C  thumb  ov021
  *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_020114D0  0x020114D0  thumb
+ *   ICA_ANIME_CreateFull  0x020114D0  thumb
  *   func_02011558  0x02011558  thumb
  *   func_0216C270  0x0216C270  thumb  ov010
  *   func_0216C280  0x0216C280  thumb  ov010
@@ -82,7 +82,7 @@ struct IcaAnime;
 extern int func_02188D2C(int *p);
 struct Obj00020;
 extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_020114D0(u32 heap, u32 a1, u32 a2);
+extern void *ICA_ANIME_CreateFull(u32 heap, u32 a1, u32 a2);
 extern void func_02011558(struct IcaAnime *p);
 extern int func_0216C270(Work *w);
 extern void *func_0216C280(void *p);
@@ -118,7 +118,7 @@ int func_0216C2FC(void *evt, u32 *state, Work *w)
     func_02188D2C(w->field);
     switch (*state) {
     case 0:
-        w->anim = func_020114D0(w->f00, 0x9D, 0x19);
+        w->anim = ICA_ANIME_CreateFull(w->f00, 0x9D, 0x19);
         func_0216C280(w);
         func_0216C2A4(w);
         func_0218F0A8(w->f0c);

@@ -17,9 +17,9 @@
  *     int func_02010F7C(int a) { return func_02048F60(0x26, 0, a); }
  *   0x02010F94 thumb (EXACT, `one --thumb`, no --region):
  *     typedef struct { u8 pad[10]; u8 fA; u8 fB; } Rec;
- *     u8 func_02010F94(Rec *rec, int slot) { return rec[slot].fA; }
+ *     u8 GPOWER_GetPowerType(Rec *rec, int slot) { return rec[slot].fA; }
  *   0x02010FA0 thumb (verified EXACT in ov032_func_021F1A28.c's header):
- *     u16 func_02010FA0(unsigned char *rec, int slot)
+ *     u16 GPOWER_GetPowerCost(unsigned char *rec, int slot)
  *     { return *(u16 *)(rec + slot * 0xc + 2); }
  *   0x02010F8C thumb (verified in ov071_func_021B6458.c's header):
  *     void func_02010F8C(void *p) { void func_020307B0(void *); func_020307B0(p); }
@@ -31,14 +31,14 @@
  *   func_02010F7C  0x02010F7C  thumb
  *   func_02158768  0x02158768  thumb  ov010
  *   func_021589D0  0x021589D0  thumb  ov010
- *   func_02010F94  0x02010F94  thumb
- *   sub_02010E14   0x02010E14  thumb
+ *   GPOWER_GetPowerType  0x02010F94  thumb
+ *   GPOWER_Activate   0x02010E14  thumb
  *   func_02159058  0x02159058  thumb  ov010
  *   func_02158F74  0x02158F74  thumb  ov010
  *   func_021F5488  0x021F5488  thumb  ov083
- *   func_02010FA0  0x02010FA0  thumb
+ *   GPOWER_GetPowerCost  0x02010FA0  thumb
  *   func_0201292C  0x0201292C  thumb
- *   sub_02007F1C   0x02007F1C  thumb
+ *   MYITEM_SAVEDATA_RemoveItem   0x02007F1C  thumb
  *   func_021652C4  0x021652C4  thumb  ov010
  *   func_021657B0  0x021657B0  thumb  ov010
  *   func_02010F8C  0x02010F8C  thumb
@@ -56,14 +56,14 @@ struct BigObj;
 struct Desc;
 extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 extern int func_021589D0(int a0);
-extern unsigned int func_02010F94(struct Rec02010F94 *p, int idx);
-extern void sub_02010E14(int slot, u8 *rec, int select);
+extern unsigned int GPOWER_GetPowerType(struct Rec02010F94 *p, int idx);
+extern void GPOWER_Activate(int slot, u8 *rec, int select);
 extern int func_02159058(int a, int b, int c, int d, u16 e);
 extern void *func_02158F74(void *p);
 extern void  func_021F5488(void *a0, void *a1, int a2);
-extern u16   func_02010FA0(void *rec, int slot);
+extern u16   GPOWER_GetPowerCost(void *rec, int slot);
 extern void *func_0201292C(const struct BigObj *p);
-extern u32 sub_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 MYITEM_SAVEDATA_RemoveItem(u8 *base, u16 id, u16 qty, u16 d);
 extern void func_021652C4(void *a0);
 extern void  func_021657B0(int a0);
 extern void  func_02010F8C(void *p);
@@ -86,8 +86,8 @@ void *func_021F5260(void *a0, int *a1)
     if (id == 0x30 || id > 0x2D) {
         id = 0;
     }
-    x = func_02010F94(rec, id);
-    sub_02010E14(id, rec, a1[1]);
+    x = GPOWER_GetPowerType(rec, id);
+    GPOWER_Activate(id, rec, a1[1]);
     if (id == 0x27) {
         func_02159058((int)s, (u16)id, (u16)0xB, (u16)a1[1], (u32)0);
     } else {
@@ -95,8 +95,8 @@ void *func_021F5260(void *a0, int *a1)
     }
     func_021F5488(a0, func_02158F74(s), x);
     if (a1[1] != 0) {
-        q = func_02010FA0(rec, id);
-        sub_02007F1C(func_0201292C(obj), 0x23F, q, 0x8015);
+        q = GPOWER_GetPowerCost(rec, id);
+        MYITEM_SAVEDATA_RemoveItem(func_0201292C(obj), 0x23F, q, 0x8015);
         func_021652C4((void *)id);
     } else {
         func_021657B0(id);

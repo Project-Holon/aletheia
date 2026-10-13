@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_021797A4     0x021797A4  data  a4
+ *   g_pWhPipeWork     0x021797A4  data  a4
  *   func_02177888  0x02177888  thumb
- *   func_02177C1C  0x02177C1C  thumb
+ *   NET_WHPIPE_IsStateScanning  0x02177C1C  thumb
  *   func_02177744  0x02177744  thumb
- *   func_02179664  0x02179664  thumb
- *   func_021793F8  0x021793F8  thumb
+ *   WIH_SetScanTimerPaused  0x02179664  thumb
+ *   WIH_UpdateScanTimer  0x021793F8  thumb
  */
 
 typedef unsigned int u32;
@@ -27,10 +27,10 @@ struct Head {
 };
 
 void func_02177888(u32 a);
-int func_02177C1C(void);
+int NET_WHPIPE_IsStateScanning(void);
 void func_02177744(void);
-void func_02179664(unsigned char v);
-void func_021793F8(void);
+void WIH_SetScanTimerPaused(unsigned char v);
+void WIH_UpdateScanTimer(void);
 
 void func_0217796C(u32 arg)
 {
@@ -40,19 +40,19 @@ void func_0217796C(u32 arg)
     if (*(u32 *)0x021797A4 != 0)
         func_02177888(arg);
     if (*(u32 *)0x021797A4 != 0) {
-        if (func_02177C1C() != 0)
+        if (NET_WHPIPE_IsStateScanning() != 0)
             func_02177744();
     }
     if (*(u32 *)0x021797A4 != 0) {
         if (*(u16 *)((u8 *)*(u32 *)0x021797A4 + 0xC6C) != 0) {
-            func_02179664(1);
+            WIH_SetScanTimerPaused(1);
             ((u8 *)*(u32 *)0x021797A4)[0xCF3] = 1;
             if (((u8 *)*(u32 *)0x021797A4)[0xCF4] == 0)
                 *(u16 *)((u8 *)*(u32 *)0x021797A4 + 0xC6C) -= 1;
         } else {
-            func_02179664(0);
+            WIH_SetScanTimerPaused(0);
             ((u8 *)*(u32 *)0x021797A4)[0xCF3] = 0;
         }
     }
-    func_021793F8();
+    WIH_UpdateScanTimer();
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216BF38
+ * function: DWCi_LoginCallback
  * address:  0x0216BF38
  * packet:   pkt_ov009_0216BF38
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      DWCi_LoginCallback (libdwcmatch.TWL.HYB.a(dwc_main.o))
  *
  * symbols:
- *   func_0216BC84  0x0216BC84  arm  ov009
+ *   DWCi_SetState  0x0216BC84  arm  ov009
  *   func_0216909C  0x0216909C  arm  ov009
  *   g_021AA878  0x021AA878  data
  */
@@ -38,17 +38,17 @@ typedef struct DwcGlobal DwcGlobal;
 
 extern struct DwcGlobal g_021AA878;
 
-extern void func_0216BC84(int state);
+extern void DWCi_SetState(int state);
 extern void func_0216909C(void);
 
-void func_0216BF38(int error, int profileID)
+void DWCi_LoginCallback(int error, int profileID)
 {
 	if (error == 0) {
 		((DwcState *)g_021AA878.st)->profileID = profileID;
-		func_0216BC84(3);
+		DWCi_SetState(3);
 		func_0216909C();
 	} else {
-		func_0216BC84(0);
+		DWCi_SetState(0);
 	}
 	if (((DwcState *)g_021AA878.st)->loginCallback != 0)
 		((DwcState *)g_021AA878.st)->loginCallback(error, profileID, ((DwcState *)g_021AA878.st)->loginParam);

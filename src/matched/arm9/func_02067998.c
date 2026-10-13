@@ -25,7 +25,7 @@
  *   docs/notes/pkt_02066E30.c.txt records how close that row now is.
  *
  * Two levers, both needed:
- *   - the gate store `g_02148B48->gate = 1;` must precede the read of
+ *   - the gate store `sOamSoftEmuContext->gate = 1;` must precede the read of
  *     `lst->rows`, or the row base is loaded first and the first 0x10
  *     bytes of the loop body permute.
  *   - the entry test is `lst->count <= i` on the ZERO counter, not
@@ -33,7 +33,7 @@
  *     loop's own pre-test, hoisted, and `== 0` gives `popeq`.
  *
  * symbols:
- *   g_02148B48    0x02148B48  data
+ *   sOamSoftEmuContext    0x02148B48  data
  *   func_0206775C 0x0206775C  arm
  */
 
@@ -59,13 +59,13 @@ struct Hooks {
     void (*post)(struct Rig *, struct List *, u32);  /* 0x24 */
 };
 
-extern struct Rig *g_02148B48;
+extern struct Rig *sOamSoftEmuContext;
 
 extern void func_0206775C(u16 *row);
 
 void func_02067998(struct Hooks *h, struct List *lst)
 {
-    struct Rig *rig = g_02148B48;
+    struct Rig *rig = sOamSoftEmuContext;
     u32 i = 0;
 
     if (lst->count <= i)
@@ -74,20 +74,20 @@ void func_02067998(struct Hooks *h, struct List *lst)
     do {
         u16 *row;
 
-        g_02148B48->gate = 1;
+        sOamSoftEmuContext->gate = 1;
         row = (u16 *)((char *)lst->rows + i * 6);
         rig->row[0] = row[0];
         rig->row[1] = row[1];
         rig->row[2] = row[2];
 
         if (h->pre != 0)
-            h->pre(g_02148B48, lst, i);
+            h->pre(sOamSoftEmuContext, lst, i);
 
-        if (g_02148B48->gate != 0)
+        if (sOamSoftEmuContext->gate != 0)
             func_0206775C(&rig->row[0]);
 
         if (h->post != 0)
-            h->post(g_02148B48, lst, i);
+            h->post(sOamSoftEmuContext, lst, i);
 
         i = (u16)(i + 1);
     } while (lst->count > i);

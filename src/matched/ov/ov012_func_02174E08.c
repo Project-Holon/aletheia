@@ -1,5 +1,5 @@
 /*
- * function: func_02174E08
+ * function: COLOSSEUM_RecvReady
  * address:  0x02174E08
  * packet:   pkt_02174E08
  * region:   ov012
@@ -22,7 +22,7 @@ struct Obj19291 {
     void *f355C;
 };
 
-void func_02174E08(int index,int unused1,int unused2,u8 *ctx)
+void COLOSSEUM_RecvReady(int index,int unused1,int unused2,u8 *ctx)
 {
     u8 *p = *(u8 * *)&((struct Obj19291 *)ctx)->f355C;
     if (p) (p+index)[0xd4] = 1;

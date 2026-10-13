@@ -18,7 +18,7 @@
  *   func_02193710  0x02193710  arm  ov009
  *   func_02189D78  0x02189D78  arm  ov009
  *   func_0217EE50  0x0217EE50  arm  ov009
- *   func_0215F650  0x0215F650  arm  ov009
+ *   SOC_GetHostByName  0x0215F650  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
  *   func_0217ED54  0x0217ED54  arm  ov009
  *   func_0217F264  0x0217F264  arm  ov009
@@ -85,7 +85,7 @@ extern int func_0217EB18(int pf, int type, int protocol);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern int func_0217EE50(int sock, int isblocking);
-extern struct SOCHostEnt *func_0215F650(char *name);
+extern struct SOCHostEnt *SOC_GetHostByName(char *name);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int func_0217ED54(int sock);
 extern unsigned int func_0217F264(void);
@@ -119,7 +119,7 @@ int func_021903B0(void **connection, GPIOperation *operation)
         return 3;
     }
 
-    host = func_0215F650(g_021A5240);
+    host = SOC_GetHostByName(g_021A5240);
     if (host == 0) {
         func_02193710((int *)connection, 5, (int)g_021A52EC);
         func_02189D78((int *)connection, 3, 1);

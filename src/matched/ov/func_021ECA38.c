@@ -10,11 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
+ *   CLACT_SetActorAffineMode  0x0204B570  arm  arm9
+ *   CLACT_SetActorAffineOrigin  0x0204B588  arm  arm9
+ *   CLACT_SetActorScale  0x0204B5AC  arm  arm9
  *
  * Program the two 0x1000 spans of the frame handle and zero its head.
  *
  * Blocker resolved: 0x0204B5AC was matched in arm9 (src/matched/
- * func_0204B5AC.c, shard pkt_0204B5AC), so the call at +0022 attests as
+ * CLACT_SetActorScale.c, shard pkt_0204B5AC), so the call at +0022 attests as
  * `matched`.  Every concrete byte matches; the extent ran long because the
  * follower has no func_ label.
  */
@@ -22,19 +25,19 @@
 typedef unsigned int   u32;
 struct Actor;
 struct Pt;
-extern void func_0204B588(struct Actor *actor, const struct Pt *src);
+extern void CLACT_SetActorAffineOrigin(struct Actor *actor, const struct Pt *src);
 struct Obj;
 struct Pair;
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
-extern void func_0204B570(struct Actor *actor, u32 value);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 void func_021ECA38(int *p)
 {
     struct { unsigned short a[2]; int b[2]; } s;
     s.a[0] = 0;
     s.a[1] = 0;
-    func_0204B588((struct Actor *)(*p), (const struct Pt *)s.a);
+    CLACT_SetActorAffineOrigin((struct Actor *)(*p), (const struct Pt *)s.a);
     s.b[0] = 0x1000;
     s.b[1] = 0x1000;
-    func_0204B5AC((struct Obj *)(*p), (struct Pair *)s.b);
-    func_0204B570((struct Actor *)(*p), 0);
+    CLACT_SetActorScale((struct Obj *)(*p), (struct Pair *)s.b);
+    CLACT_SetActorAffineMode((struct Actor *)(*p), 0);
 }

@@ -15,7 +15,7 @@
  * symbols:
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_0201BD28 0x0201BD28 thumb
- *   func_0201C1BC 0x0201C1BC thumb
+ *   WAZA_TOOL_GetCategory 0x0201C1BC thumb
  *   func_021D74F8 0x021D74F8 thumb ov093
  *   func_021D75EC 0x021D75EC thumb ov093
  *   func_021D75A8 0x021D75A8 thumb ov093
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 typedef enum { KIND_NONE, KIND_FIRST, KIND_SECOND } Kind;
 extern u8 func_021D5440(u8 *);
 extern u32 func_0201BD28(u16, u32);
-extern u32 func_0201C1BC(u16);
+extern u32 WAZA_TOOL_GetCategory(u16);
 extern void func_021D74F8(int);
 extern void func_021D75EC(int, u32);
 extern void func_021D75A8(int, u32);
@@ -56,7 +56,7 @@ int func_021C6CAC(u8 *p, u8 *a, u16 b, int amount, int *out)
         v = func_0201BD28(b, 31);
         if (v) kind = KIND_SECOND;
     }
-    if (func_0201C1BC(b) == 8) return 0;
+    if (WAZA_TOOL_GetCategory(b) == 8) return 0;
     func_021D74F8(12019);
     func_021D75EC(3, n);
     func_021D75A8(0x35, v);

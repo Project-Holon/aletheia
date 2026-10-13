@@ -14,9 +14,9 @@
  *   func_0200AE54   0x0200AE54  thumb
  *   func_0201AA18   0x0201AA18  thumb
  *   func_0201AB28   0x0201AB28  thumb
- *   func_02019FD0   0x02019FD0  thumb
+ *   POKE_REGULATION_CheckPokemonFlags   0x02019FD0  thumb
  *   func_02017E1C   0x02017E1C  thumb
- *   func_0201A59C   0x0201A59C  thumb
+ *   POKE_REGULATION_FindValidOrder   0x0201A59C  thumb
  *
  * poke_tool.c (wave 13): the party legality check against a rule set.
  * Three parallel six-entry u16 arrays (species, item, form) are collected
@@ -24,7 +24,7 @@
  * 7 (duplicate species allowed), 8 (duplicate items allowed) and 0xB/0xC (a
  * required species/form) set bits 0x01/0x08/0x10/0x80 of *mask and the
  * error codes 4/2/3/7, a failing member check gives 5, and when nothing
- * failed func_0201A59C decides between 0 and 1.
+ * failed POKE_REGULATION_FindValidOrder decides between 0 and 1.
  *
  * WHAT CLOSED IT (docs/notes/func_0201A090.c.txt: 478 against 476, err
  * spilled to sp+8 with a six-register push): the arrays are indexed plainly,
@@ -48,9 +48,9 @@ struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u32   func_0201AA18(void *party);
 extern void *func_0201AB28(void *p, u32 idx);
-extern int   func_02019FD0(void *rules, void *mon, u32 *mask);
+extern int   POKE_REGULATION_CheckPokemonFlags(void *rules, void *mon, u32 *mask);
 extern u32   func_02017E1C(void *mon, u32 id, u32 v);
-extern int func_0201A59C(void *a0, void *a1, void *a2);
+extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
 
 int func_0201A090(void *rules, void *party, u32 *mask)
 {
@@ -81,7 +81,7 @@ int func_0201A090(void *rules, void *party, u32 *mask)
     }
     for (i = 0; i < (int)func_0201AA18(party); i++) {
         mon = func_0201AB28(party, i);
-        if (func_02019FD0(rules, mon, mask) == 0)
+        if (POKE_REGULATION_CheckPokemonFlags(rules, mon, mask) == 0)
             err = 5;
         if (func_02017E1C(mon, 0x4c, 0) == 0) {
             species[i] = func_02017E1C(mon, 5, 0);
@@ -123,7 +123,7 @@ int func_0201A090(void *rules, void *party, u32 *mask)
         *mask |= 0x80;
         err = 7;
     }
-    if (err == 0 && func_0201A59C(rules, party, 0) == 0)
+    if (err == 0 && POKE_REGULATION_FindValidOrder(rules, party, 0) == 0)
         err = 1;
     return err;
 }

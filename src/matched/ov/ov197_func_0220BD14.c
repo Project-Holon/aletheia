@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202CA0C 0x0202CA0C thumb
+ *   BGWINFRM_Delete 0x0202CA0C thumb
  */
 #include "../include/Obj25014.h"
 
 struct WinMgr;
-extern void func_0202CA0C(struct WinMgr *mgr);
+extern void BGWINFRM_Delete(struct WinMgr *mgr);
 
 void func_0220BD14(char *a)
 {
-    func_0202CA0C(*(struct WinMgr * *)&((struct Obj25014 *)a)->f520);
+    BGWINFRM_Delete(*(struct WinMgr * *)&((struct Obj25014 *)a)->f520);
 }

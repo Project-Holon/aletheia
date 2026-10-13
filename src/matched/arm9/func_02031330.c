@@ -1,5 +1,5 @@
 /*
- * function: func_02031330
+ * function: PROCSYS_Main
  * address:  0x02031330
  * packet:   pkt_02031324
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020313EC  0x020313EC  arm
+ *   PROCSYS_MainInternal  0x020313EC  arm
  */
 
-extern unsigned int func_020313EC(void *p);
+extern unsigned int PROCSYS_MainInternal(void *p);
 
-unsigned int func_02031330(void *p)
+unsigned int PROCSYS_Main(void *p)
 {
-    return func_020313EC(p);
+    return PROCSYS_MainInternal(p);
 }

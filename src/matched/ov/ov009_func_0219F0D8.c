@@ -1,5 +1,5 @@
 /*
- * function: func_0219F0D8
+ * function: ServerBrowserGetMyPublicIPAddr
  * address:  0x0219F0D8
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Word at +0x704.
  */
 
-int func_0219F0D8(const int *p)
+int ServerBrowserGetMyPublicIPAddr(const int *p)
 {
     return p[0x1c1];
 }

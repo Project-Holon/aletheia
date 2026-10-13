@@ -23,7 +23,7 @@
  *   func_021BA2D4 0x021BA2D4 thumb ov093
  *   func_02005F38 0x02005F38 thumb
  *   func_021F7C0C 0x021F7C0C thumb ov094
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_021B92A0 0x021B92A0 thumb ov093
  *   func_021EA614 0x021EA614 thumb ov093
  */
@@ -46,7 +46,7 @@ extern int func_021EA710(u32 *p);
 extern void func_021BA2D4(u32 p, u32 *q);
 extern int func_02005F38(void);
 extern void func_021F7C0C(void);
-extern void func_02005D90(u32, u32);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern void func_021B92A0(u8 *p);
 extern void func_021EA614(char *p, struct H *h);
 int func_021D2FD8(u32 *a, int *b, const u32 *c)
@@ -84,7 +84,7 @@ int func_021D2FD8(u32 *a, int *b, const u32 *c)
     case 3:
         if (!func_02005F38()) {
             func_021F7C0C();
-            func_02005D90(0x47c, 0xffff);
+            GFL_USE_CancelChangeAndPlayBgm(0x47c, 0xffff);
             func_021B92A0((u8 *)a[0]);
             if (c[3]) {
                 u8 *p = func_021B98AC((char *const *)a[1], (u8)c[0]);

@@ -1,5 +1,5 @@
 /*
- * function: func_02028C30
+ * function: FIELD_SOUND_SYSTEM_IsKnownSoundId
  * address:  0x02028C30
  * packet:   pkt_02028C30
  * region:   arm9
@@ -16,8 +16,8 @@
  * the table fails `string` (no printable run) and `data_table` (not a run
  * of in-region pointers).  This is the wall already recorded in
  * docs/notes/lane2_band_0_64_pass3.c.txt; it cannot close from C.
- * Consequence: src/pending/func_02028CB0.c stays MATCH* on the 02028C30
- * blocker -- only func_02028C50 of its two sites is closable.
+ * Consequence: src/pending/FIELD_SOUND_SYSTEM_IsSoundIdPlayable.c stays MATCH* on the 02028C30
+ * blocker -- only FIELD_SOUND_SYSTEM_IsSoundRecordChainValid of its two sites is closable.
  *
  * symbols:
  *   sTable_0209FDD0  0x0209FDD0  data
@@ -43,7 +43,7 @@ typedef unsigned int   u32;
 
 extern const u16 sTable_0209FDD0[];
 
-int func_02028C30(u32 v)
+int FIELD_SOUND_SYSTEM_IsKnownSoundId(u32 v)
 {
     u32 i;
 

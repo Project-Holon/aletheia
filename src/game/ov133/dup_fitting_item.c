@@ -20,12 +20,12 @@
  *   _s32_div_f 0x0209C0A4 arm
  *   func_0200A828 0x0200A828 thumb
  *   func_0200A834 0x0200A834 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_0203D34C 0x0203D34C arm
  *   d_021BA600 0x021BA600 data a4
  *   func_020355D8 0x020355D8 arm
  *   func_0200A6F8 0x0200A6F8 thumb
- *   func_02005D28 0x02005D28 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_0204ADA4 0x0204ADA4 arm
  *   func_0204A8D4 0x0204A8D4 arm
@@ -45,8 +45,8 @@
  *   func_020307B0 0x020307B0 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_020221A4 0x020221A4 thumb
- *   func_02005E50 0x02005E50 thumb
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_021FCDEC 0x021FCDEC thumb ov132
  *   func_021FCE00 0x021FCE00 thumb ov132
  *   func_021FD6A4 0x021FD6A4 thumb ov132
@@ -57,7 +57,7 @@
  *   func_02047964 0x02047964 arm
  *   func_020479D8 0x020479D8 arm
  *   func_02047970 0x02047970 arm
- *   func_0204F7DC 0x0204F7DC arm
+ *   BILLBOARD_Draw 0x0204F7DC arm
  *   func_02041EE4 0x02041EE4 arm
  *   func_0204152C 0x0204152C arm
  *   func_020450F0 0x020450F0 arm
@@ -79,16 +79,16 @@
  *   func_021F4D74 0x021F4D74 thumb ov112
  *   func_021F4AA4 0x021F4AA4 thumb ov112
  *   func_0204F32C 0x0204F32C arm
- *   func_0204F2E4 0x0204F2E4 arm
- *   func_0204F2FC 0x0204F2FC arm
+ *   BILLBOARD_GetImageTexKey 0x0204F2E4 arm
+ *   BILLBOARD_SetImageTexAddr 0x0204F2FC arm
  *   func_0204EDD0 0x0204EDD0 arm
  *   func_0204F044 0x0204F044 arm
- *   func_0204F1A0 0x0204F1A0 arm
+ *   BILLBOARD_ReleaseImageVramIfUsed 0x0204F1A0 arm
  *   func_0204A648 0x0204A648 arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0202223C 0x0202223C thumb
- *   func_02022224 0x02022224 thumb
+ *   WIPE_ResetWndMask 0x02022224 thumb
  *   func_020433E0 0x020433E0 arm
  *   func_02046440 0x02046440 arm
  *   func_02046BE0 0x02046BE0 arm
@@ -105,7 +105,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  *   func_0204B100 0x0204B100 arm
- *   func_0204B270 0x0204B270 arm
+ *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_0204EBD4 0x0204EBD4 arm
  *   d_021BA518 0x021BA518 data a4
  *   d_021BA3F4 0x021BA3F4 data a4
@@ -154,14 +154,14 @@
  *   func_02046FF8 0x02046FF8 arm
  *   func_02047388 0x02047388 arm
  *   func_020473B8 0x020473B8 arm
- *   func_020473EC 0x020473EC arm
+ *   G3D_SYSTEM_GetPlttDataAddr 0x020473EC arm
  *   func_02046F48 0x02046F48 arm
  *   func_02047250 0x02047250 arm
- *   func_0206A124 0x0206A124 arm
- *   func_0206A12C 0x0206A12C arm
+ *   NNS_G3dPlttSetPlttKey 0x0206A124 arm
+ *   NNS_G3dPlttLoad 0x0206A12C arm
  *   func_020862F0 0x020862F0 arm
- *   func_0204EFC8 0x0204EFC8 arm
- *   func_0204F428 0x0204F428 arm
+ *   BILLBOARD_AddImageFromArchive 0x0204EFC8 arm
+ *   BILLBOARD_AddElem 0x0204F428 arm
  *   func_0204F720 0x0204F720 arm
  *   d_020A8148    0x020A8148 data
  *   d_021BA3E0    0x021BA3E0 data ov133 a4
@@ -171,8 +171,8 @@
  *   _ffix 0x0209C494 arm
  *   func_021F4D40 0x021F4D40 thumb ov112
  *   func_021F4948 0x021F4948 thumb ov112
- *   func_0204F5A8 0x0204F5A8 arm
- *   func_0204F150 0x0204F150 arm
+ *   BILLBOARD_FreeElem 0x0204F5A8 arm
+ *   BILLBOARD_DeleteImage 0x0204F150 arm
  *   func_021F4E8C 0x021F4E8C thumb ov112
  *   func_021F4ED4 0x021F4ED4 thumb ov112
  *   func_0204F638 0x0204F638 arm
@@ -182,7 +182,7 @@
  *   d_021BA3E4 0x021BA3E4 data
  *   d_021BA3E8 0x021BA3E8 data
  *   func_02035C60 0x02035C60 arm
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   _fmul 0x0209C77C arm
  *   func_0203F768 0x0203F768 arm
  *   func_021F5450 0x021F5450 thumb ov112
@@ -467,11 +467,11 @@ extern void *func_020056A0(void *,void *,int);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern u32 func_0200A828(struct Big *p);
 extern void func_0200A834(struct Big *p, u8 value);
-extern void func_02005D90(int,int);
+extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void func_0203D34C(u32,u32);
 extern void func_020355D8(u8);
 extern void func_0200A6F8(struct Big *);
-extern void func_02005D28(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void func_0204B3B4(struct Obj *);
 extern void func_0204ADA4(u32);
 extern void func_0204A8D4(u32);
@@ -491,8 +491,8 @@ extern void func_0203F9B4(void);
 extern u32 func_020307B0(void *p);
 extern void func_020061E4(u32);
 extern u32 func_020221A4(void);
-extern int func_02005E50(void);
-extern void func_02005E30(u32);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_FadeOutBgm(u32);
 extern void func_021FCDEC(int,int);
 extern int func_021FCE00(char *p, int id);
 extern int func_021FD6A4(char *p);
@@ -500,7 +500,7 @@ extern void func_021F51E8(u8 *);
 extern void func_021F51F4(void **p);
 extern void func_021F4990(void *);
 extern void func_0204A600(void),func_02047964(void),func_020479D8(void),func_02047970(void);
-extern void func_0204F7DC(struct Board *b, struct Camera *cam, struct Lights *lights);
+extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
 extern void func_02041EE4(u32,u32,u32);
 extern void func_0204152C(int,u16);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
@@ -519,15 +519,15 @@ extern int func_021F4F70(int *);
 extern void func_021F4D74(u8 *, u8 *, int, u16);
 extern void func_021F4AA4(void *);
 extern void func_0204F32C(int p0, int p1, int p2);
-extern void func_0204F2E4(u8 *, int, u32 *);
-extern void func_0204F2FC(u8 *p, int i, u32 value);
+extern void BILLBOARD_GetImageTexKey(u8 *, int, u32 *);
+extern void BILLBOARD_SetImageTexAddr(u8 *p, int i, u32 value);
 extern void func_0204EDD0(int, u16 *, u16 *);
 extern int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
-extern void func_0204F1A0(struct Obj0204F1A0 *a0, u32 a1);
+extern void BILLBOARD_ReleaseImageVramIfUsed(struct Obj0204F1A0 *a0, u32 a1);
 extern void func_0204A648(void);
-extern void func_020434CC(void),func_02043588(void);
+extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 extern void func_0202223C(u32,u32);
-extern u32 func_02022224(void *);
+extern u32 WIPE_ResetWndMask(void *);
 extern void func_020433E0(const struct DispVram *c);
 extern void func_02046440(u32,u32,u32,u32,u16,u32,void (*)(void));
 extern void func_02046BE0(u32,u32);
@@ -542,7 +542,7 @@ extern void func_0207D63C(void *,int,int,int,int);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void func_020434DC(u32,u32),func_02043598(u32,u32);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void *func_0204EBD4(u8 *,void *);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -576,17 +576,17 @@ extern void func_021F4DE0(char *p, char *e, void *a2);
 extern int func_02046FF8(int *self);
 extern u32 func_02047388(struct Layer *layer);
 extern u32 func_020473B8(struct Layer *layer);
-extern int func_020473EC(int a0);
+extern int G3D_SYSTEM_GetPlttDataAddr(int a0);
 extern void *func_02046F48(struct Tagged *p);
 extern void *func_02047250(void *);
-extern void func_0206A124(int *p, int v);
-extern void func_0206A12C(void *, u32);
+extern void NNS_G3dPlttSetPlttKey(int *p, int v);
+extern void NNS_G3dPlttLoad(void *, u32);
 extern void func_020862F0(void *, u32);
-extern u32 func_0204EFC8(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
-extern s32 func_0204F428(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
+extern u32 BILLBOARD_AddImageFromArchive(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
+extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
 extern void func_0204F720(void *, u32, u32 *);
 extern u32 func_02005728(u32 range);
-extern void func_0204F5A8(void *,unsigned int),func_0204F150(u8 *,int);
+extern void BILLBOARD_FreeElem(void *,unsigned int),BILLBOARD_DeleteImage(u8 *,int);
 extern void func_021F4D40(u8 *p, u8 *e);
 extern void func_021F4948(u8 *);
 extern void func_021F4E8C(int, int, Vec *);
@@ -594,7 +594,7 @@ extern void func_021F4ED4(u32 unused, u32 p, u16 v);
 extern void func_0204F638(u8 *a0, int i, struct Trip *src);
 extern void func_0204F684(struct Manager0204F684 *mgr, int idx, const s16_021B765C *p12, const s16_021B765C *p14);
 extern int func_02035C60(void);
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int func_0203F768(int,int,int,int,int,int,int);
 extern u8 *func_021F5450(u8 *,int);
 extern int func_021F4B24(u8 *);
@@ -827,7 +827,7 @@ u8 *func_021B6100(u8 *parent, int heap)
     } else {
         *(u32 *)(p + 0x1840) = 0;
     }
-    func_02005D90(0x454, 0xffff);
+    GFL_USE_CancelChangeAndPlayBgm(0x454, 0xffff);
     func_0203D34C(0, *(u16 *)p);
     return p;
 }
@@ -841,7 +841,7 @@ void func_021B6294(char *p)
     u8 i;
     func_020355D8(1);
     func_0200A6F8(*(struct Big * *)&((struct Obj23308 *)(*(char * *)&((struct Obj01941 *)p)->f4))->f8);
-    func_02005D28();
+    GFL_USE_CancelChangeAndStopBgm();
     func_021B9BD0((unsigned char *)p);
     func_021B9F24((unsigned char *)p);
     func_0204B3B4(*(struct Obj * *)&((struct Obj01941 *)p)->f184C);
@@ -895,7 +895,7 @@ int func_021B63BC(Context *p)
         if(W(0x98)==1) func_021B8A30((u8 *)p);
         break;
     case 9:
-        if(func_020221A4()==1 && func_02005E50()==0) return 2;
+        if(func_020221A4()==1 && GFL_USE_IsBgmFading()==0) return 2;
         break;
     case 0: func_021B98A0((u8 *)p); break;
     case 1: func_021B75E0((u8 *)p); break;
@@ -917,7 +917,7 @@ int func_021B63BC(Context *p)
         B(0x18c0)++; func_021B9784((u8 *)p);
         if(B(0x18c0)>60) {
             if(*(u32 *)P(4)==0) {
-                func_0202208C(0,0,0,0x7fff,18,1,H(0)); func_02005E30(60); W(0x0c)=9; p->mode=1;
+                func_0202208C(0,0,0,0x7fff,18,1,H(0)); GFL_USE_FadeOutBgm(60); W(0x0c)=9; p->mode=1;
             } else {
                 func_021B9C08((u8 *)p,2,0); func_021FCDEC(*(int *)P(4),69); W(0x0c)=4;
             }
@@ -928,13 +928,13 @@ int func_021B63BC(Context *p)
         break;
     case 5:
         if(func_021FD6A4(*(void **)P(4))==1) {
-            func_0202208C(0,0,0,0x7fff,18,1,H(0)); func_02005E30(60); W(0x0c)=9; p->mode=1;
+            func_0202208C(0,0,0,0x7fff,18,1,H(0)); GFL_USE_FadeOutBgm(60); W(0x0c)=9; p->mode=1;
         }
         break;
     }
     func_021B9F5C((u8 *)p); func_021B8C6C((struct O *)p); func_021F51E8(P(0x187c));
     func_021F4990(P(0x1884)); func_0204A600(); func_02047964(); func_020479D8();
-    func_021F51F4((void **)P(0x187c)); func_0204F7DC((struct Board *)P(0x188c),(struct Camera *)P(0x1888),0); func_02047970();
+    func_021F51F4((void **)P(0x187c)); BILLBOARD_Draw((struct Board *)P(0x188c),(struct Camera *)P(0x1888),0); func_02047970();
     p->counter++;
     if(p->counter>1) {
         p->counter=0;
@@ -977,7 +977,7 @@ int func_021B63BC(Context *p)
     if(*(u32 *)P(4)!=0 && W(0x0c)!=7 && W(0x0c)!=8 && W(0x0c)!=9) {
         func_021BA0C8((u8 *)p,32);
         if(func_0200FB24()!=0) {
-            func_021BA0C8((u8 *)p,34); func_0202208C(0,0,0,0x7fff,18,1,H(0)); func_02005E30(60);
+            func_021BA0C8((u8 *)p,34); func_0202208C(0,0,0,0x7fff,18,1,H(0)); GFL_USE_FadeOutBgm(60);
             func_021BA0C8((u8 *)p,36); W(0x0c)=9; func_021BA0C8((u8 *)p,38);
         } else func_021BA0C8((u8 *)p,64);
     }
@@ -1017,13 +1017,13 @@ void func_021B6884(void *unused, u8 *p)
             table = (u8 *)func_021F4F10(*(u8 **)(p + 0x1884));
             *(u16 *)(p + 0x50) = *(u16 *)q;
             func_0204F32C((int)(*(void **)(p + 0x188c)), *(int *)(p + 0x54), (int)(&height));
-            func_0204F2E4(*(u8 **)(p + 0x188c), *(int *)(q + 4), &width);
-            func_0204F2FC(*(void **)(p + 0x188c), *(int *)(p + 0x54), width);
+            BILLBOARD_GetImageTexKey(*(u8 **)(p + 0x188c), *(int *)(q + 4), &width);
+            BILLBOARD_SetImageTexAddr(*(void **)(p + 0x188c), *(int *)(p + 0x54), width);
             flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + 0x50)));
             func_0204EDD0(flags, &sizes[1], &sizes[0]);
             index = func_0204F044(*(void **)(p + 0x188c), width, height, 0, flags, sizes[1], sizes[0]);
             func_021F4D74(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), *(u16 *)(p + 0x50), index);
-            func_0204F1A0(*(void **)(p + 0x188c), *(u32 *)(p + 0x54));
+            BILLBOARD_ReleaseImageVramIfUsed(*(void **)(p + 0x188c), *(u32 *)(p + 0x54));
             *(u32 *)(p + 0x54) = index;
         }
     }
@@ -1065,11 +1065,11 @@ static inline void select_display(DispSelect sel)
 void func_021B69AC(u8 *p)
 {
     Config cfg, board;
-    func_020434CC(); func_02043588();
+    BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     visible_main(0);
     visible_sub(0);
     func_0202223C(0,0); func_0202223C(1,0);
-    func_02022224(0); func_02022224((void *)1);
+    WIPE_ResetWndMask(0); WIPE_ResetWndMask((void *)1);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     select_display(DISP_SUB_MAIN);
@@ -1093,7 +1093,7 @@ void func_021B69AC(u8 *p)
     func_0204A48C((const struct Cfg *)(&cfg),(u32)d_021BA518,*(u16 *)p);
     func_020434DC(16,1); func_02043598(16,1);
     *(void **)(p+0x1848) = func_0204B100(24,0,*(u16 *)p);
-    func_0204B270(*(void **)(p+0x1848));
+    CLACT_SetUnitDefaultRenderer(*(void **)(p+0x1848));
     board = d_021BA5C4;
     *(void **)(p+0x188c) = func_0204EBD4((u8 *)&board,(void *)*(u16 *)p);
 }
@@ -1138,7 +1138,7 @@ void func_021B69AC(u8 *p)
 
 /*
  * note 2026-10-05 (wD9r lane78): EXACT. Closed by declaring func_02049658 with its real return type u32
- *   (it returns sub_0204968C's u32 result, as the matched sibling func_02049624 does), not void. The void
+ *   (it returns ARC_UTIL_UploadBgChar's u32 result, as the matched sibling func_02049624 does), not void. The void
  *   prototype hoisted 4 into r7 and turned later zeros into adds rN,r6,#0 copies. 0xd and -128 are literals.
  *   See docs/idioms/a-getter-declared-void-changes-constant-hoisting.md.
  */
@@ -1286,7 +1286,7 @@ void func_021B6F00(u8 *p)
         flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + i * 0x14 + 0xac)));
         func_0204EDD0(flags, &sizes[1], &sizes[0]);
         *(u32 *)(p + i * 0x14 + 0xb0) = func_0204F044(*(void **)(p + 0x188c), w, hgt, 0, flags, sizes[1], sizes[0]);
-        pal = (u16 *)func_020473EC((int)h);
+        pal = (u16 *)G3D_SYSTEM_GetPlttDataAddr((int)h);
         n = sz >> 1;
         for (k = 0; k < n; k++) {
             u16 c = pal[k];
@@ -1297,9 +1297,9 @@ void func_021B6F00(u8 *p)
         }
         buf = func_02046F48(h);
         res = func_02047250(h);
-        func_0206A124(res, vram);
+        NNS_G3dPlttSetPlttKey(res, vram);
         func_020862F0(buf, *(u32 *)(buf + 8));
-        func_0206A12C(res, 1);
+        NNS_G3dPlttLoad(res, 1);
         *(u32 *)(p + i * 0x14 + 0xb4) = func_0204F044(*(void **)(p + 0x188c), w, vram, 0, flags, sizes[1], sizes[0]);
         func_021F4B4C(h);
     }
@@ -1333,10 +1333,10 @@ void func_021B6F00(u8 *p)
     func_021F4B4C(h);
     }
 
-    *(u32 *)(p + 0x58) = func_0204EFC8(*(void **)(p + 0x188c), 0x2e, 0x19, 2, 0x22, 0x20, 0x20);
+    *(u32 *)(p + 0x58) = BILLBOARD_AddImageFromArchive(*(void **)(p + 0x188c), 0x2e, 0x19, 2, 0x22, 0x20, 0x20);
     for (k = 0; k < 14; k++) {
         Vec v3 = {0, 0, 0};
-        n = func_0204F428(*(void **)(p + 0x188c), *(u32 *)(p + 0x58), 0x1000, 0x1000, (struct Vec3 *)(&v3), 0x1f, 0, 0);
+        n = BILLBOARD_AddElem(*(void **)(p + 0x188c), *(u32 *)(p + 0x58), 0x1000, 0x1000, (struct Vec3 *)(&v3), 0x1f, 0, 0);
         *(u32 *)(p + k * 4 + 0x5c) = n;
         func_0204F720(*(void **)(p + 0x188c), n, d_021BA3E0);
     }
@@ -1420,13 +1420,13 @@ void func_021B7498(u8 *p)
     while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,((struct Obj00777 *)p)->f1884);e=next;}
     e=func_021BA184(((struct Obj00777 *)p)->f1828);
     while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,((struct Obj00777 *)p)->f1884);e=next;}
-    for(i=0;i<14;i++)func_0204F5A8(((struct Obj00777 *)p)->f188C,*(unsigned int *)(p+i*4+0x5c));
-    func_0204F150(*(u8 * *)&((struct Obj00777 *)p)->f188C,((struct Obj00777 *)p)->f58);
+    for(i=0;i<14;i++)BILLBOARD_FreeElem(((struct Obj00777 *)p)->f188C,*(unsigned int *)(p+i*4+0x5c));
+    BILLBOARD_DeleteImage(*(u8 * *)&((struct Obj00777 *)p)->f188C,((struct Obj00777 *)p)->f58);
     func_021F4D40((u8 *)(*(int *)&((struct Obj00777 *)p)->f1884),(u8 *)(((struct Obj00777 *)p)->f4C));
-    func_0204F150(*(u8 * *)&((struct Obj00777 *)p)->f188C,((struct Obj00777 *)p)->f54);
+    BILLBOARD_DeleteImage(*(u8 * *)&((struct Obj00777 *)p)->f188C,((struct Obj00777 *)p)->f54);
     for(i=0;i<((struct Obj00777 *)p)->fA8;i++){
-        func_0204F150(*(u8 **)(p+0x188c),*(int *)(p+i*20+0xb0));
-        func_0204F150(*(u8 **)(p+0x188c),*(int *)(p+i*20+0xb4));
+        BILLBOARD_DeleteImage(*(u8 **)(p+0x188c),*(int *)(p+i*20+0xb0));
+        BILLBOARD_DeleteImage(*(u8 **)(p+0x188c),*(int *)(p+i*20+0xb4));
     }
     func_021BA0F8(((struct Obj00777 *)p)->f181C);func_021BA0F8(((struct Obj00777 *)p)->f1820);
     func_021BA0F8(((struct Obj00777 *)p)->f1824);func_021BA0F8(((struct Obj00777 *)p)->f1828);
@@ -1863,7 +1863,7 @@ void func_021B7A18(u8 *p)
 void func_021B7A70(u8 *p)
 {
     int moved=0,other=0,hit=0,outer,n,dx,dy;
-    if(((struct Obj00004 *)p)->f183C==0){((struct Obj00004 *)p)->f14=func_02035C60();((struct Obj00004 *)p)->f18=func_02035CB8((u32 *)(p+0x1c),(u32 *)(p+0x20));}
+    if(((struct Obj00004 *)p)->f183C==0){((struct Obj00004 *)p)->f14=func_02035C60();((struct Obj00004 *)p)->f18=TOUCHPANEL_GetPointCont((u32 *)(p+0x1c),(u32 *)(p+0x20));}
     if(((struct Obj00004 *)p)->f14!=0 || ((struct Obj00004 *)p)->f18!=0){
         if(((struct Obj00004 *)p)->f20>176)((struct Obj00004 *)p)->f20=176;
         if(((struct Obj00004 *)p)->f20<16)((struct Obj00004 *)p)->f20=16;
@@ -2717,7 +2717,7 @@ int func_021B940C(u8 *p)
 {
     Rects rects = d_021BA594;
     void *obj;
-    func_02035CB8((unsigned int *)(p + 0x1c), (unsigned int *)(p + 0x20));
+    TOUCHPANEL_GetPointCont((unsigned int *)(p + 0x1c), (unsigned int *)(p + 0x20));
     switch (func_02035C08(&rects)) {
     case 0:
         func_021B96D8((char *)p);
@@ -2777,7 +2777,7 @@ void func_021B952C(u8 *p)
     *(int *)&((struct Obj00004 *)p)->f24 = ((struct Obj00004 *)p)->f1C;
     *(int *)&((struct Obj00004 *)p)->f28 = *(int *)&((struct Obj00004 *)p)->f20;
     ((struct Obj00004 *)p)->f14 = func_02035C60();
-    ((struct Obj00004 *)p)->f18 = func_02035CB8((unsigned int *)(p + 0x1c), (unsigned int *)(p + 0x20));
+    ((struct Obj00004 *)p)->f18 = TOUCHPANEL_GetPointCont((unsigned int *)(p + 0x1c), (unsigned int *)(p + 0x20));
     if (((struct Obj00004 *)p)->f14 == 1) {
         best = 0;
         distance = 256;

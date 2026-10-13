@@ -12,7 +12,7 @@
  *   g_021797A8     0x021797A8  data  a4
  *   func_02178138  0x02178138  thumb  ov014
  *   func_0217814C  0x0217814C  thumb  ov014
- *   func_021789C8  0x021789C8  thumb  ov014
+ *   DWCi_MOV_WH_StateInStartChild  0x021789C8  thumb  ov014
  */
 #include "../include/Obj12472.h"
 #include "../include/Obj12473.h"
@@ -25,7 +25,7 @@ typedef unsigned char u8;
 extern struct S *g_021797A8;
 void func_02178138(int a);
 void func_0217814C(int a);
-int func_021789C8(void);
+int DWCi_MOV_WH_StateInStartChild(void);
 
 void DWCi_MOV_WH_StateOutEndScan(u8 *m)
 {
@@ -40,7 +40,7 @@ void DWCi_MOV_WH_StateOutEndScan(u8 *m)
     g = ((u8 *)g_021797A8);
     if (((struct Obj12473 *)g)->f1EB4 != 0) {
         ((struct Obj12473 *)g)->f1EB4 = 0;
-        if (func_021789C8() == 0)
+        if (DWCi_MOV_WH_StateInStartChild() == 0)
             func_02178138(9);
     }
 }

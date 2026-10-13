@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020270AC  0x020270AC  thumb
- *   func_0202744C  0x0202744C  thumb
+ *   GAME_BEACON_CopyStrbufCodes  0x020270AC  thumb
+ *   GAME_BEACON_ResetDetails  0x0202744C  thumb
  */
 #include "../include/Obj00121.h"
 
@@ -19,8 +19,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_020270AC();
-extern int func_0202744C();
+extern int GAME_BEACON_CopyStrbufCodes();
+extern int GAME_BEACON_ResetDetails();
 
 int func_02165490(int a0, int a1)
 {
@@ -32,9 +32,9 @@ a0 = 0x20;
 a0 = a1 + 0;
 a1 = t4 + 0;
 a1 = a1 + 0x34;
-    a0 = func_020270AC(a0, a1);
+    a0 = GAME_BEACON_CopyStrbufCodes(a0, a1);
 loc_021654A2:
 a0 = t4 + 0;
-    a0 = func_0202744C(a0);
+    a0 = GAME_BEACON_ResetDetails(a0);
 loc_021654A8:
     return a0;}

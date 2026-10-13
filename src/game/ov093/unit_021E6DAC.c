@@ -21,14 +21,14 @@
  *   func_021C7F68  0x021C7F68  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D67A8  0x021D67A8  thumb  ov093
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   func_021D76BC  0x021D76BC  thumb  ov093
  *   func_021D5BB0 0x021D5BB0 thumb ov093
  *   func_021C804C 0x021C804C thumb ov093
  *   func_021C814C 0x021C814C thumb ov093
  *   func_021C8374 0x021C8374 thumb ov093
  *   func_021D8340 0x021D8340 thumb ov093
- *   func_0201C314 0x0201C314 thumb
+ *   WAZA_TOOL_IsDamaging 0x0201C314 thumb
  *   d_021F2968     0x021F2968  data    a4
  */
 struct QL;
@@ -46,14 +46,14 @@ extern u8 func_021B8C20(int kind, u32 flags, u32 v);
 extern u8 func_021C7F68(int *p, int b, u8 *out);
 extern void *func_021C7CF4(int *p, int i);
 extern u16 func_021D67A8(struct QL *p);
-extern u32 func_0201BEB8(u16 id, u32 bit);
+extern u32 WAZA_TOOL_GetFlag(u16 id, u32 bit);
 extern int func_021D76BC(int key, u32 val);
 extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern int func_021C804C(void *, u8, u32 *);
 extern int func_021C814C(u8 *p, u8 v);
 extern int func_021C8374(u8 *p, int i);
 extern u32 func_021D8340(u32 *);
-extern u32 func_0201C314(void *p);
+extern u32 WAZA_TOOL_IsDamaging(void *p);
 extern int func_0689C8BC(u32);
 void func_021E6DAC(int x, int a, int c, u8 *d);
 int *func_021E6E2C(int *p);
@@ -75,7 +75,7 @@ void func_021E6DAC(int x, int a, int c, u8 *d)
         }
         if (func_021C7F68((int *)a, k, d) != 0) {
             t = func_021D67A8(func_021C7CF4((int *)a, *d));
-            if (t == 0 || func_0201BEB8(t, 6) == 0) {
+            if (t == 0 || WAZA_TOOL_GetFlag(t, 6) == 0) {
                 func_021D76BC(0x41, 1);
                 return;
             }
@@ -121,7 +121,7 @@ void func_021E6E38(void *x, void *a, int c, u8 *d)
                     if (func_021C814C(a, v) != 0) {
                         if (func_021C8374(a, v) == 0) {
                             id = func_021D8340(&desc);
-                            if (id != 0 && func_0201C314((void *)id) != 0 && func_0689C8BC(id) == 0)
+                            if (id != 0 && WAZA_TOOL_IsDamaging((void *)id) != 0 && func_0689C8BC(id) == 0)
                                 ok = 1;
                         }
                     }

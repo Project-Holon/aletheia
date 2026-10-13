@@ -1,7 +1,7 @@
 /*
  * file:     unit_02064D70.c
  * unit:     yes
- * function: func_02064D70, func_02064E3C, func_02064EDC, func_02065020, func_02065134
+ * function: NNSi_G2dMCEnumAnimBank, NNSi_G2dRendererResetMtxSlot, NNSi_G2dMCMLoadCurrentMtxToCache, NNSi_G2dRendererBeforeDrawCell, NNSi_G2dRendererAfterDrawCell
  * address:  0x02064D70
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -134,11 +134,11 @@ struct CellDrawState {
 };
 
 extern void func_02082AC0(u32 data, void *dest, u32 size);
-void func_02064D70(MCAnimBank *bank, int (*visit)(void *, void *, void *, int), void *ctx);
-void func_02064E3C(void);
-void func_02064EDC(void);
-void func_02065020(struct CellDrawState *pDrawState, void *pCellData);
-void func_02065134(void *pDrawState, void *pCellData);
+void NNSi_G2dMCEnumAnimBank(MCAnimBank *bank, int (*visit)(void *, void *, void *, int), void *ctx);
+void NNSi_G2dRendererResetMtxSlot(void);
+void NNSi_G2dMCMLoadCurrentMtxToCache(void);
+void NNSi_G2dRendererBeforeDrawCell(struct CellDrawState *pDrawState, void *pCellData);
+void NNSi_G2dRendererAfterDrawCell(void *pDrawState, void *pCellData);
 extern struct RendererBss g_02147B88;
 extern fx32 g_02147B98[];
 extern MtxFx32 g_02147D18[];
@@ -159,7 +159,7 @@ extern MCMMtxState g_02147C18[32];
  * a bare `return;`: an `int` return materialises a value and changes both
  * epilogues.
  *
- * Two levers closed the 4-byte residue docs/notes/func_02064D70.c.txt
+ * Two levers closed the 4-byte residue docs/notes/NNSi_G2dMCEnumAnimBank.c.txt
  * records, and both are worth keeping:
  *
  *   The high-byte extract.  The image is three instructions,
@@ -180,10 +180,10 @@ extern MCMMtxState g_02147C18[32];
  *   and expand(f), 18 concrete bytes out -> 0.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02064D70.c \
- *       --func func_02064D70 --addr 0x02064D70 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dMCEnumAnimBank.c \
+ *       --func NNSi_G2dMCEnumAnimBank --addr 0x02064D70 --arm --cc 1.1p1
  */
-void func_02064D70(MCAnimBank *bank, int (*visit)(void *, void *, void *, int), void *ctx)
+void NNSi_G2dMCEnumAnimBank(MCAnimBank *bank, int (*visit)(void *, void *, void *, int), void *ctx)
 {
     u16  i;
     MCNameTable *table = bank->pHeader;
@@ -221,10 +221,10 @@ void func_02064D70(MCAnimBank *bank, int (*visit)(void *, void *, void *, int), 
  * entry in the u32 table at 0x02147B98 is cleared either way.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02064E3C.c \
- *       --func func_02064E3C --addr 0x02064E3C --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_G2dRendererResetMtxSlot.c \
+ *       --func NNSi_G2dRendererResetMtxSlot --addr 0x02064E3C --arm --cc 1.1p1
  */
-void func_02064E3C(void)
+void NNSi_G2dRendererResetMtxSlot(void)
 {
     u32 i = g_02147B88.stackPos_;
 
@@ -374,7 +374,7 @@ static inline BOOL NNSi_G2dMCMShouldCurrentMtxBeLoadedToMtxCache(void)
 
 
 
-void func_02064EDC(void)
+void NNSi_G2dMCMLoadCurrentMtxToCache(void)
 {
     if (NNSi_G2dMCMShouldCurrentMtxBeLoadedToMtxCache()) {
         MCMMtxState *pCurrentState = GetCuurentMtxState_();
@@ -451,7 +451,7 @@ static inline MtxFx32 *GetMtxEarly(void)
  *     does, with no volatile casts.
  * EXACT under dsi/1.1p1; ../2.0/sp2 is 280 bytes (no predication).
  */
-void func_02065020(struct CellDrawState *pDrawState, void *pCellData)
+void NNSi_G2dRendererBeforeDrawCell(struct CellDrawState *pDrawState, void *pCellData)
 {
     NNSG2dRenderSurface *v = g_02147B88.pCurrentInstance_->rendererCore.pCurrentTargetSurface;
 
@@ -484,14 +484,14 @@ void func_02065020(struct CellDrawState *pDrawState, void *pCellData)
  * docs/families/cluster_02064B68.h as an inline helper, but written
  * ELSE-FIRST with early returns: if (f04 != 0) copy tx/ty and return the
  * scratch matrix, else return &g_02147D18[slot].  The eq-first spelling (the
- * one func_02065020 matches with) is a register-allocation tie here: 2 bytes
- * out (lr/r4) on func_02065134 and 31 out on func_020653A4, where whether
+ * one NNSi_G2dRendererBeforeDrawCell matches with) is a register-allocation tie here: 2 bytes
+ * out (lr/r4) on NNSi_G2dRendererAfterDrawCell and 31 out on func_020653A4, where whether
  * the two arms' slot reads land in the same register decides whether they
  * are merged above the test.  Neither the permuter (hill + anneal 2000, no
  * single mutation moves it) nor any other compiler build closed the
  * eq-first form; the else-first form is EXACT on the first compile.
  */
-void func_02065134(void *pDrawState, void *pCellData)
+void NNSi_G2dRendererAfterDrawCell(void *pDrawState, void *pCellData)
 {
     NNSG2dRendererInstance *o = g_02147B88.pCurrentInstance_;
     NNSG2dRenderSurface *v = o->rendererCore.pCurrentTargetSurface;

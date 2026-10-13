@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020315D4
+ * function: PROCSYS_FreeProcWork
  *
  * symbols:
  *   ENV_SetResourceSet  0x020307B0  arm
@@ -17,8 +17,8 @@
  * ENV_SetResourceSet and clears the field.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020315D4.c \
- *       --func sub_020315D4 --addr 0x020315D4 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/PROCSYS_FreeProcWork.c \
+ *       --func PROCSYS_FreeProcWork --addr 0x020315D4 --cc 1.1p1
  */
 
 struct S020315D4 {
@@ -28,7 +28,7 @@ struct S020315D4 {
 
 extern void ENV_SetResourceSet(void *p);
 
-void sub_020315D4(struct S020315D4 *p)
+void PROCSYS_FreeProcWork(struct S020315D4 *p)
 {
     ENV_SetResourceSet(p->field14);
     p->field14 = 0;

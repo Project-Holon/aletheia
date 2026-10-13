@@ -1,5 +1,5 @@
 /*
- * function: func_02051B0C
+ * function: BUTTON_MAN_CallHandlerById
  * address:  0x02051B0C
  * packet:   pkt_02051A54
  * region:   arm9
@@ -31,8 +31,8 @@
  *   func_0207E388  0x0207E388  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051B0C.c \
- *       --func func_02051B0C --addr 0x02051B0C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_CallHandlerById.c \
+ *       --func BUTTON_MAN_CallHandlerById --addr 0x02051B0C --cc 1.1p1 --arm
  */
 
 extern void *func_0207E1F8(void);
@@ -44,7 +44,7 @@ extern int func_0207E280(void);
 extern void *func_0207E2F0(void);
 extern void *func_0207E388(void);
 
-int func_02051B0C(int i)
+int BUTTON_MAN_CallHandlerById(int i)
 {
     switch (i) {
     case 0: return (int)func_0207E1F8();

@@ -38,415 +38,251 @@
  *   d_021F13AC     0x021F13AC  data   ov093  a4
  *   d_021F137C     0x021F137C  data   ov093  a4
  */
-struct QF;
-struct S;
-struct QQ;
-typedef unsigned char u8;
+#include "unit_021DF3A4_types.h"
 
-typedef unsigned int   u32;
+extern const BtlEventHandler d_021F1464[];
+extern const BtlEventHandler d_021F151C[];
+extern const BtlEventHandler d_021F1514[];
+extern const BtlEventHandler d_021F167C[];
+extern const BtlEventHandler d_021F168C[];
+extern const BtlEventHandler d_021F169C[];
+extern const BtlEventHandler d_021F14F4[];
+extern const BtlEventHandler d_021F13FC[];
+extern const BtlEventHandler d_021F13AC[];
+extern const BtlEventHandler d_021F137C[];
 
-typedef unsigned short u16;
+void func_021DF48C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF498(int *handlerCount);
+void func_021DF4A4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF4B0(int *handlerCount);
+void func_021DF4BC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF4C8(int *handlerCount);
+void func_021DF4D4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DF4E0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int weather);
+const BtlEventHandler *func_021DF510(int *handlerCount);
+void func_021DF51C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DF548(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF588(int *handlerCount);
+void func_021DF594(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DF5F4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF634(int *handlerCount);
+void func_021DF640(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void func_021DF6AC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF6EC(int *handlerCount);
+void func_021DF6F8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF704(int *handlerCount);
+void func_021DF710(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF71C(int *handlerCount);
+void func_021DF728(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *func_021DF734(int *handlerCount);
 
-typedef struct Word { unsigned int v; } Word;
-
-typedef struct Rec_021DF48C {
-    int f00;
-    int f04;
-    Word f08;
-    unsigned char pad0c[3];
-    unsigned char id;
-} Rec_021DF48C;
-
-typedef struct Rec_021DF588 {
-    int f00;
-    int f04;
-    Word f08;
-    u8 f0c;
-    u8 pad0d[2];
-    u8 id;
-} Rec_021DF588;
-
-typedef struct Rec {
-    int f00;
-    int f04;
-    Word f08;
-    u8 f0c;
-    u8 pad0d[2];
-    u8 id;
-    u8 pad10[4];
-    u8 f14[8];
-    u32 f1c;
-} Rec;
-
-extern int func_021D775C(int);
-extern int func_021DCFF8(int a, int b);
-extern int func_021D76BC(int key, u32 val);
-extern void *func_021C7CF4(int *p, int i);
-extern u16 func_021D5444(struct QF *p);
-extern void func_021D7704(int, int);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
-extern Word func_021D7D18(int x);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 v);
-extern Word func_021E8A58(void);
-extern u16 func_021D70A8(struct QQ *p);
-void func_021DF93C(int, int, int, int);
-void func_021DF48C(void *a, int b, int c);
-int *func_021DF498(int *p);
-void func_021DF4A4(void *a, int b, int c);
-int *func_021DF4B0(int *p);
-void func_021DF4BC(void *a, int b, int c);
-int *func_021DF4C8(int *p);
-void func_021DF4D4(int a, int b, int c);
-void func_021DF4E0(void *a, int b, int c, int d);
-int *func_021DF510(int *p);
-void func_021DF51C(int a, int b, int c);
-void func_021DF548(void *self, void *q, int id);
-int *func_021DF588(int *p);
-void func_021DF594(void *self, void *q, int id);
-void func_021DF5F4(void *self, void *q, int id);
-int *func_021DF634(int *p);
-void func_021DF640(void *self, void *q, int id);
-void func_021DF6AC(void *self, void *q, int id);
-int *func_021DF6EC(int *p);
-void func_021DF6F8(int a, int b, int c);
-int *func_021DF704(int *p);
-void func_021DF710(int a, int b, int c);
-int *func_021DF71C(int *p);
-void func_021DF728(int a, int b, int c);
-int *func_021DF734(int *p);
-extern int d_021F1464[];
-extern int d_021F151C[];
-extern int d_021F1514[];
-extern int d_021F167C[];
-extern int d_021F168C[];
-extern int d_021F169C[];
-extern int d_021F14F4[];
-extern int d_021F13FC[];
-extern int d_021F13AC[];
-extern int d_021F137C[];
-
-
-
-
-
-
-
-
-
-void func_021DF48C(void *a, int b, int c)
+/* Icy Rock: hail lasts longer. */
+void func_021DF48C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF4E0(a, b, c, 3);
+    func_021DF4E0(factor, flow, pokeId, BTL_WEATHER_HAIL);
 }
 
-
-
-
-
-
-
-
-
-
-int *func_021DF498(int *p)
+const BtlEventHandler *func_021DF498(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F1464;
 }
 
-
-
-
-
-
-
-
-
-
-void func_021DF4A4(void *a, int b, int c)
+/* Smooth Rock: sandstorm lasts longer. */
+void func_021DF4A4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF4E0(a, b, c, 4);
+    func_021DF4E0(factor, flow, pokeId, BTL_WEATHER_SAND);
 }
 
-
-
-
-
-
-
-
-
-int *func_021DF4B0(int *p)
+const BtlEventHandler *func_021DF4B0(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F151C;
 }
 
-
-
-
-
-
-
-
-
-void func_021DF4BC(void *a, int b, int c)
+/* Heat Rock: sunshine lasts longer. */
+void func_021DF4BC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF4E0(a, b, c, 1);
+    func_021DF4E0(factor, flow, pokeId, BTL_WEATHER_SUN);
 }
 
-
-
-
-
-
-
-
-int *func_021DF4C8(int *p)
+const BtlEventHandler *func_021DF4C8(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F1514;
 }
 
-
-
-
-
-
-
-
-void func_021DF4D4(int a, int b, int c)
+/* Damp Rock: rain lasts longer. */
+void func_021DF4D4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF4E0((void *)a, b, c, 2);
+    func_021DF4E0(factor, flow, pokeId, BTL_WEATHER_RAIN);
 }
 
-
-
-
-
-
-
-
-void func_021DF4E0(void *a, int b, int c, int d)
+/* Weather rocks: when the holder sets the given weather, replace its turn count with the item parameter. */
+void func_021DF4E0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int weather)
 {
-    if (c == func_021D775C(3) && d == func_021D775C(0x39))
-        func_021D76BC(0x24, func_021DCFF8((int)a, 2));
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID) && weather == func_021D775C(BTL_EVAR_WEATHER))
+        func_021D76BC(BTL_EVAR_WEATHER_TURNS, func_021DCFF8(factor, BTL_ITEM_PARAM_BOOST_PERCENT));
 }
 
-
-
-
-
-
-
-int *func_021DF510(int *p)
+/* Light Ball: two entries. */
+const BtlEventHandler *func_021DF510(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F167C;
 }
 
-
-
-
-
-
-
-void func_021DF51C(int a, int b, int c)
+/* Light Ball: doubles the attack ratio of a Pikachu. */
+void func_021DF51C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(3) && func_021D5444(func_021C7CF4((int *)b, c)) == 0x19)
-        func_021D7704(0x35, 2 << 12);
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID) && func_021D5444(func_021C7CF4(flow, pokeId)) == BTL_SPECIES_PIKACHU)
+        func_021D7704(BTL_EVAR_RATIO, BTL_RATIO_2_0);
 }
 
-
-
-
-
-
-
-
-void func_021DF548(void *self, void *q, int id)
+/* Light Ball, Fling: paralyze the target. */
+void func_021DF548(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    Rec_021DF48C *r;
-    unsigned char tag;
+    BtlAddSickCmd *cmd;
+    unsigned char flingerId;
 
-    if (id != func_021D775C(2))
+    if (pokeId != func_021D775C(BTL_EVAR_POKE_ID))
         return;
-    tag = func_021D775C(3);
-    r = (Rec_021DF48C *)func_021C88A4(q, 12, tag);
-    r->id = id;
-    r->f04 = 1;
-    r->f08 = func_021D7D18(1);
-    func_021C88C8(q, r);
+    flingerId = func_021D775C(BTL_EVAR_ATTACKER_ID);
+    cmd = (BtlAddSickCmd *)func_021C88A4(flow, BTL_CMD_KIND_ADD_SICK, flingerId);
+    cmd->pokeId = pokeId;
+    cmd->sickKind = TKS_SICK_PARALYSIS;
+    cmd->sickCont = func_021D7D18(TKS_SICK_PARALYSIS);
+    func_021C88C8(flow, cmd);
 }
 
-
-
-
-
-
-int *func_021DF588(int *p)
+/* Toxic Orb: two entries. */
+const BtlEventHandler *func_021DF588(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F168C;
 }
 
-
-
-
-
-
-void func_021DF594(void *self, void *q, int id)
+/* Toxic Orb: at turn end badly poison the holder and show the message. */
+void func_021DF594(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    Rec_021DF588 *r;
+    BtlAddSickCmd *cmd;
 
-    if (id != func_021D775C(2))
+    if (pokeId != func_021D775C(BTL_EVAR_POKE_ID))
         return;
-    r = (Rec_021DF588 *)func_021C88A4(q, 12, id);
-    r->f04 = 5;
-    r->f08 = func_021E8A58();
-    r->f0c = 0;
-    r->id = id;
-    func_021C8838((u8 *)r + 0x14, 2, 0xf0);
-    func_021C8860((struct S *)((u8 *)r + 0x14), id);
-    func_021C8860((struct S *)((u8 *)r + 0x14), func_021D70A8(self));
-    func_021C88C8(q, r);
+    cmd = (BtlAddSickCmd *)func_021C88A4(flow, BTL_CMD_KIND_ADD_SICK, pokeId);
+    cmd->sickKind = TKS_SICK_POISON;
+    cmd->sickCont = func_021E8A58();
+    cmd->hideMessage = 0;
+    cmd->pokeId = pokeId;
+    func_021C8838(&cmd->strParam, BTL_STR_TYPE_STANDARD, 0xf0);
+    func_021C8860(&cmd->strParam, pokeId);
+    func_021C8860(&cmd->strParam, func_021D70A8(factor));
+    func_021C88C8(flow, cmd);
 }
-
-
-
-
-
-
 
 /*
- * When id matches the value for key 2, allocate a 12-byte record (tag from
- * key 3), fill it and post it to the queue.
+ * Toxic Orb, Fling: badly poison the target.
  *
- * func_021E8A58 returns a one-word struct by value; that is what reserves
+ * func_021E8A58 returns the condition record by value; that is what reserves
  * the empty frame word (push r3 / sub sp, #4). An int return drops it.
  */
-void func_021DF5F4(void *self, void *q, int id)
+void func_021DF5F4(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    Rec_021DF588 *r;
-    unsigned char tag;
+    BtlAddSickCmd *cmd;
+    unsigned char flingerId;
 
-    if (id != func_021D775C(2))
+    if (pokeId != func_021D775C(BTL_EVAR_POKE_ID))
         return;
-    tag = func_021D775C(3);
-    r = (Rec_021DF588 *)func_021C88A4(q, 12, tag);
-    r->id = id;
-    r->f04 = 5;
-    r->f08 = func_021E8A58();
-    func_021C88C8(q, r);
+    flingerId = func_021D775C(BTL_EVAR_ATTACKER_ID);
+    cmd = (BtlAddSickCmd *)func_021C88A4(flow, BTL_CMD_KIND_ADD_SICK, flingerId);
+    cmd->pokeId = pokeId;
+    cmd->sickKind = TKS_SICK_POISON;
+    cmd->sickCont = func_021E8A58();
+    func_021C88C8(flow, cmd);
 }
 
-
-
-
-
-int *func_021DF634(int *p)
+/* Flame Orb: two entries. */
+const BtlEventHandler *func_021DF634(int *handlerCount)
 {
-    *p = 2;
+    *handlerCount = 2;
     return d_021F169C;
 }
 
-
-
-
-
-void func_021DF640(void *self, void *q, int id)
+/* Flame Orb: at turn end burn the holder and show the message. */
+void func_021DF640(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    Rec *r;
+    BtlAddSickCmd *cmd;
 
-    if (id != func_021D775C(2))
+    if (pokeId != func_021D775C(BTL_EVAR_POKE_ID))
         return;
-    r = (Rec *)func_021C88A4(q, 12, id);
-    r->f04 = 4;
-    r->f08 = func_021D7D18(4);
-    r->f0c = 0;
-    r->id = id;
-    r->f1c = func_021D70A8(self);
-    func_021C8838(r->f14, 2, 0x102);
-    func_021C8860((struct S *)r->f14, id);
-    func_021C8860((struct S *)r->f14, func_021D70A8(self));
-    func_021C88C8(q, r);
+    cmd = (BtlAddSickCmd *)func_021C88A4(flow, BTL_CMD_KIND_ADD_SICK, pokeId);
+    cmd->sickKind = TKS_SICK_BURN;
+    cmd->sickCont = func_021D7D18(TKS_SICK_BURN);
+    cmd->hideMessage = 0;
+    cmd->pokeId = pokeId;
+    /* The message argument is written here and again by the second append below. */
+    cmd->strParam.args[1] = func_021D70A8(factor);
+    func_021C8838(&cmd->strParam, BTL_STR_TYPE_STANDARD, 0x102);
+    func_021C8860(&cmd->strParam, pokeId);
+    func_021C8860(&cmd->strParam, func_021D70A8(factor));
+    func_021C88C8(flow, cmd);
 }
 
-
-
-
-
-
-/*
- * Twin of func_021DF548 with kind 4.
- */
-void func_021DF6AC(void *self, void *q, int id)
+/* Flame Orb, Fling: burn the target. */
+void func_021DF6AC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    Rec *r;
-    unsigned char tag;
+    BtlAddSickCmd *cmd;
+    unsigned char flingerId;
 
-    if (id != func_021D775C(2))
+    if (pokeId != func_021D775C(BTL_EVAR_POKE_ID))
         return;
-    tag = func_021D775C(3);
-    r = (Rec *)func_021C88A4(q, 12, tag);
-    r->id = id;
-    r->f04 = 4;
-    r->f08 = func_021D7D18(4);
-    func_021C88C8(q, r);
+    flingerId = func_021D775C(BTL_EVAR_ATTACKER_ID);
+    cmd = (BtlAddSickCmd *)func_021C88A4(flow, BTL_CMD_KIND_ADD_SICK, flingerId);
+    cmd->pokeId = pokeId;
+    cmd->sickKind = TKS_SICK_BURN;
+    cmd->sickCont = func_021D7D18(TKS_SICK_BURN);
+    func_021C88C8(flow, cmd);
 }
 
-
-
-
-int *func_021DF6EC(int *p)
+/* Silver Powder. */
+const BtlEventHandler *func_021DF6EC(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F14F4;
 }
 
-
-
-
-void func_021DF6F8(int a, int b, int c)
+void func_021DF6F8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 6);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_BUG);
 }
 
-
-
-int *func_021DF704(int *p)
+/* Soft Sand. */
+const BtlEventHandler *func_021DF704(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F13FC;
 }
 
-
-
-void func_021DF710(int a, int b, int c)
+void func_021DF710(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 4);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_GROUND);
 }
 
-
-int *func_021DF71C(int *p)
+/* Hard Stone. */
+const BtlEventHandler *func_021DF71C(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F13AC;
 }
 
-
-void func_021DF728(int a, int b, int c)
+void func_021DF728(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(a, b, c, 5);
+    func_021DF93C(factor, flow, pokeId, BTL_TYPE_ROCK);
 }
 
-
-/*
- * sdk:      DWCi_ScSetUseSSL (libdwcsc.TWL.HYB.a(dwc_sc.o))
- */
-int *func_021DF734(int *p)
+/* Miracle Seed. */
+const BtlEventHandler *func_021DF734(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F137C;
 }

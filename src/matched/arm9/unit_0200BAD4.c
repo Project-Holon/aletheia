@@ -29,6 +29,12 @@
  * Its only caller, func_0200BB58, is therefore outside this range and is what
  * attests it. *
  * symbols:
+ *   BATTLE_REC_Decode  0x0200B900  thumb
+ *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
+ *   MSGDATA_ReadUnits  0x02045F5C  arm
+ *   pBattleRec  0x0214616C  data
+ *   BattleRecModeTable  0x0209DDCC  data
  *   (none)
  */
 
@@ -51,24 +57,24 @@ extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern u32 func_02045C04(struct Rec *rec);
 extern u32 func_020307B0(void *p);
 
-extern void  func_0200B900(void *a, u32 b, u32 c);
+extern void  BATTLE_REC_Decode(void *a, u32 b, u32 c);
 extern void *func_020271CC(void *a, u32 id);
-extern void func_02017550(struct Sav *p);
+extern void POKE_TOOL_ClearBoxParam(struct Sav *p);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0201A954(struct Party *p, s32 capacity);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32   func_0201AA18(void *list);
 extern void *func_0201AB28(void *list, u32 i);
-extern void *func_020185F4(void *a);
+extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32   func_02017E88(void *e, u32 a, u32 b);
 extern void *func_0201747C(struct Mon *p, u32 heap);
 extern void *func_0200BBEC(void *a, u32 b, u32 c);
 
-extern const u16 func_0200B98C_Table[];
+extern const u16 BattleRecModeTable[];
 
 struct RecC4 {
     u8  unk0000[0x17DC];
@@ -82,7 +88,7 @@ struct BattleRec {
     struct RecC4 unkC4;
 };
 
-extern struct BattleRec *gObj_0214616C;
+extern struct BattleRec *pBattleRec;
 
 struct QRec {
     u16 unk00[0x0C];

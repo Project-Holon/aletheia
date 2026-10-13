@@ -13,7 +13,7 @@
  * the arm9 helper; the sweep stops at the first empty one.
  *
  * symbols:
- *   func_02026D04   0x02026D04  thumb
+ *   GAME_BEACON_SetNewFlagByTrainerId   0x02026D04  thumb
  */
 
 typedef unsigned char u8;
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Rec;
-extern int func_02026D04(const struct Rec *r);
+extern int GAME_BEACON_SetNewFlagByTrainerId(const struct Rec *r);
 
 void func_02165940(unsigned char *p)
 {
@@ -30,7 +30,7 @@ void func_02165940(unsigned char *p)
     for (i = 0; i < 0x1E; i++) {
         if (p[i * 0x5C] == 0)
             break;
-        func_02026D04((const struct Rec *)(p + i * 0x5C));
+        GAME_BEACON_SetNewFlagByTrainerId((const struct Rec *)(p + i * 0x5C));
     }
 }
 

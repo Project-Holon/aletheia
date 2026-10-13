@@ -22,7 +22,7 @@
  *   * the `bl` at +0040 was declared `func_0203D70C8` / `0x0203D70C8`, an
  *     address with NINE hex digits.  The instruction is `bl #0x20370c8`, so
  *     the target is 0x020370C8 -- a stray `D`.  The real address is an EXACT
- *     manifest entry (src/matched/func_020370C8.c) and also carries 15
+ *     manifest entry (src/matched/GFL_NET_WM_ICON_EasyEnd.c) and also carries 15
  *     outside branches, so it attests as `label` immediately.
  *   * the ABS32 at +0054 was declared `g_0203CDD4 ... data`.  0x0203CDD4 is
  *     a traced ARM function start (it pushes lr), i.e. this is a FUNCTION
@@ -47,41 +47,41 @@
  *       --func func_0203CEAC --addr 0x0203CEAC --cc 1.1p1 --arm
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_0203DA20  0x0203DA20  arm
- *   func_0203C774  0x0203C774  arm
- *   func_0203BF9C  0x0203BF9C  arm
- *   func_020370C8  0x020370C8  arm
- *   func_0203CDD4  0x0203CDD4  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_IRC_WIRELESS_DestroyIfIdle  0x0203DA20  arm
+ *   GFL_NET_STATE_WifiLogout  0x0203C774  arm
+ *   GFL_NET_STATE_Exit  0x0203BF9C  arm
+ *   GFL_NET_WM_ICON_EasyEnd  0x020370C8  arm
+ *   GFL_NET_EndSession  0x0203CDD4  arm
  */
 #include "../include/Obj11371.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_0203D788(void);
-extern void func_0203DA20(void);
-extern void func_0203C774(u32 v);
-extern void func_0203BF9C(u32 v);
-extern void func_020370C8(void);
-extern void func_0203CDD4(void);
+extern void *GFL_NET_GetSession(void);
+extern void GFL_NET_IRC_WIRELESS_DestroyIfIdle(void);
+extern void GFL_NET_STATE_WifiLogout(u32 v);
+extern void GFL_NET_STATE_Exit(u32 v);
+extern void GFL_NET_WM_ICON_EasyEnd(void);
+extern void GFL_NET_EndSession(void);
 
 int func_0203CEAC(int a0)
 {
     u8 *p;
 
-    p = func_0203D788();
-    func_0203DA20();
+    p = GFL_NET_GetSession();
+    GFL_NET_IRC_WIRELESS_DestroyIfIdle();
     if (p != 0) {
         u8 t = p[0x65];
 
         ((struct Obj11371 *)p)->f348 = a0;
         if (t == 1) {
-            func_0203C774((u32)func_0203CDD4);
+            GFL_NET_STATE_WifiLogout((u32)GFL_NET_EndSession);
         } else {
-            func_0203BF9C((u32)func_0203CDD4);
+            GFL_NET_STATE_Exit((u32)GFL_NET_EndSession);
         }
-        func_020370C8();
+        GFL_NET_WM_ICON_EasyEnd();
         return 1;
     }
     return 0;

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020434CC 0x020434CC arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   func_020433E0 0x020433E0 arm
  *   func_02082A7C 0x02082A7C arm
  *   func_0203FCA0 0x0203FCA0 arm
@@ -27,7 +27,7 @@ typedef struct { BgTemplate rows[4]; } SubTemplates;
 extern const u32 d_021DA800[];
 extern const MainTemplates d_021DA638;
 extern const SubTemplates d_021DA698;
-extern void func_020434CC(void);
+extern void BG_SYS_ClearMainPlanes(void);
 struct BgTemplate;
 struct DispVram;
 extern void func_020433E0(const struct DispVram *c);
@@ -41,7 +41,7 @@ void func_021D8804(void)
 {
     MainTemplates main;
     SubTemplates sub;
-    func_020434CC();
+    BG_SYS_ClearMainPlanes();
     func_020433E0((const struct DispVram *)d_021DA800);
     func_02082A7C(0,(void *)0x06000000,0x80000);
     func_02082A7C(0,(void *)0x06200000,0x20000);

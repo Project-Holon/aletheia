@@ -1,5 +1,5 @@
 /*
- * function: func_021746EC
+ * function: INTRUDE_COMM_RecvUnionInfo
  * address:  0x021746EC
  * packet:   pkt_ov011_021746EC
  * region:   ov011
@@ -15,7 +15,7 @@
  *   func_021583EC  0x021583EC  thumb ov010
  *   func_021861F4  0x021861F4  thumb ov020
  *   func_02082D44  0x02082D44  arm
- *   func_02012800  0x02012800  thumb
+ *   GAME_DATA_TakeUnionInfo  0x02012800  thumb
  */
 #include "../include/Obj12421.h"
 
@@ -27,9 +27,9 @@ int func_021583EC(void *a0, int a1);
 typedef unsigned short u16;
 void func_021861F4(u16 *p, int x);
 void func_02082D44(void *d, void *s, int n);
-void func_02012800(u8 *obj, void *dst);
+void GAME_DATA_TakeUnionInfo(u8 *obj, void *dst);
 
-void func_021746EC(int a, int b, void *c, char *d)
+void INTRUDE_COMM_RecvUnionInfo(int a, int b, void *c, char *d)
 {
     int h;
     int s;
@@ -38,6 +38,6 @@ void func_021746EC(int a, int b, void *c, char *d)
     s = (int)func_020127D0((u8 *)h, 0);
     func_021861F4(c, func_021583EC((void *)h, a));
     func_02082D44(c, (void *)s, 0x1E8);
-    func_02012800((u8 *)h, c);
+    GAME_DATA_TakeUnionInfo((u8 *)h, c);
     d[0x90C] = 1;
 }

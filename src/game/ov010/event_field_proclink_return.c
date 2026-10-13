@@ -1,0 +1,549 @@
+/*
+ * file:     event_field_proclink_return.c
+ * unit:     yes
+ * function: func_02161E60, func_02161E78, func_02161E84, func_02161ECC, func_02161EEC, func_02161F00, func_02161F14, func_02161F54, func_02161F68, func_02161F74, func_02161F90, func_02161FEC, func_02161FF0, func_02162008, func_02162024, func_0216202C, func_02162038, func_02162040, func_02162048, func_0216208C, func_0216209C, func_021620A0, func_021620B0, func_0216210C, func_02162120, func_02162198, func_021621C0, func_021621E8, func_0216220C, func_02162230, func_02162254, func_02162278, func_02162298, func_021622AC, func_021622D8, func_021622F4, func_0216230C, func_02162330, func_02162358, func_02162370
+ * address:  0x02161E60
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Return-slot and proclink table code; continues the ov010 event_field_proclink.c unit (the functions before the eventdata_system.c anchor at 0x0216237C).
+ *
+ * symbols:
+ *   func_02045A98  0x02045A98  arm
+ *   func_021867C4  0x021867C4  thumb ov023
+ *   func_0218682C  0x0218682C  thumb
+ *   func_02186804  0x02186804  thumb
+ *   func_02039338  0x02039338  arm
+ *   func_02161DC4  0x02161DC4  thumb
+ *   func_02186520  0x02186520  thumb
+ *   d_0217144C     0x0217144C  data  ov010  a4
+ *   MI_CpuCopy8    0x02082D44  arm
+ *   func_0200FB24  0x0200FB24  thumb
+ *   d_02172990     0x02172990  data  ov010  a4
+ *   MI_CpuFill8    0x02082BCC  arm
+ */
+
+#include "../ov021/fldmmdl_rail_types.h"
+#include "fldmmdl_types.h"
+
+typedef unsigned int u32;
+
+/* One return request: the record key it belongs to, the proclink entry it
+ * names, and the handler type (index into d_02172990). */
+typedef struct EventSlot {
+    u32 key;            /* 0x00 */
+    u16 entryId;        /* 0x04 */
+    u16 handlerType;    /* 0x06 */
+} EventSlot;
+
+/* A proclink entry (0x18 bytes). */
+typedef struct ProcLinkEntry {
+    u8 active : 4;      /* 0x00: 0 = empty */
+    u8 idFilter : 4;    /*       nonzero: only the ids below may use it */
+    u8 age;             /* 0x01: usable while below 30 */
+    u8 value;           /* 0x02: usable while at most 100 */
+    u8 kind;            /* 0x03: 7 when set by func_02161F90 */
+    u16 allowedIds[8];  /* 0x04 */
+} ProcLinkEntry;
+
+/* The proclink table: two lists of 10 entries after an 8-byte head. */
+typedef struct ProcLinkSys {
+    u8 head[8];                     /* 0x00 */
+    ProcLinkEntry entries[2][10];   /* 0x08 and 0xF8 */
+} ProcLinkSys;
+
+/* A proclink request (9 + 1 bytes read here): mode at +2 (10 = none), link id at +9. */
+typedef struct ProcLinkRequest {
+    u16 reserved;       /* 0x00 */
+    u16 mode;           /* 0x02 */
+    u8 pad4[5];         /* 0x04 */
+    u8 linkId;          /* 0x09 */
+} ProcLinkRequest;
+
+typedef struct EventSlots EventSlots;
+
+/* One return handler (index = EventSlot.handlerType), table d_02172990. */
+typedef int (*ReturnHandlerFn)(EventSlots *slots, ProcLinkSys *procLink, void *slot, void *result);
+
+/* The return-slot record (0x48 bytes). */
+struct EventSlots {
+    u16 key;                /* 0x00 */
+    u16 flags;              /* 0x02: bits 0-2 slot, 3 default, 4 pending, 5-7 result */
+    u16 pendingKey;         /* 0x04 */
+    u8 pad6[2];
+    EventSlot slot[3];      /* 0x08 */
+    EventSlot defaultSlot;  /* 0x20 */
+    EventSlot pendingSlot;  /* 0x28 */
+    EventSlot resultSlot[3]; /* 0x30 */
+};
+
+extern u16 func_02045A98(void);
+extern int func_021867C4(int, int);
+extern u16 *func_0218682C(int h);
+extern void func_02186804(int);
+extern u16 func_02039338(void);
+extern ProcLinkEntry *func_02161DC4(ProcLinkSys *procLink, int linkId, unsigned mode);
+extern void func_02186520(ProcLinkRequest *request, int arg, ProcLinkEntry *entry);
+extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+extern u32 func_0200FB24(void);
+extern void MI_CpuFill8(void *dst, u8 val, u32 size);
+void func_02161E60(ProcLinkSys *procLink, int listIndex);
+void func_02161E78(ProcLinkEntry *entry);
+int func_02161E84(ProcLinkEntry *entry);
+int func_02161ECC(ProcLinkEntry *entry);
+void func_02161EEC(u16 *buf);
+void func_02161F00(ProcLinkRequest *request);
+void func_02161F14(u16 *result, ProcLinkRequest *request, int variant);
+void func_02161F54(EventSlots *slots);
+void func_02161F68(EventSlots *slots);
+void func_02161F74(EventSlots *slots, ProcLinkSys *procLink, int slotMask);
+void func_02161F90(int unused, ProcLinkRequest *request, ProcLinkSys *procLink, int arg, u16 linkId, u16 variant);
+void func_02161FEC(EventSlots *slots, u16 pendingKey);
+void func_02161FF0(EventSlots *slots, EventSlot *slot);
+void func_02162008(EventSlots *slots, int index, EventSlot *slot);
+int func_02162024(EventSlots *slots, int index, EventSlot *result);
+int func_0216202C(EventSlots *slots, EventSlot *result, u8 *pendingKey);
+void func_02162038(EventSlots *slots, int index);
+void func_02162040(EventSlots *slots);
+void func_02162048(EventSlots *slots, int entryId, int handlerIndex);
+int func_0216208C(EventSlots *slots, int unused);
+u16 func_0216209C(EventSlots *slots);
+void func_021620A0(EventSlots *slots);
+void func_021620B0(char *entries);
+int func_0216210C(int unused);
+void func_02162120(EventSlots *slots, ProcLinkSys *procLink, int slotMask);
+int func_02162198(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result);
+int func_021621C0(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result);
+int func_021621E8(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot);
+void func_0216220C(EventSlots *slots, EventSlot *slot);
+void func_02162230(EventSlots *slots, int index, EventSlot *slot);
+int func_02162254(EventSlots *slots, u16 index, EventSlot *out);
+void func_02162278(EventSlots *slots, int index, u16 entryId, u16 handlerType);
+void func_02162298(EventSlots *slots, int entryId, int handlerType);
+int func_021622AC(EventSlots *slots, int index, EventSlot *out);
+int func_021622D8(EventSlots *slots, EventSlot *out);
+void func_021622F4(EventSlots *slots);
+void func_0216230C(EventSlots *slots, unsigned index);
+void func_02162330(EventSlots *slots, unsigned index);
+void func_02162358(EventSlots *slots);
+int func_02162370(int value);
+extern int d_0217144C[];
+extern ReturnHandlerFn d_02172990[];
+
+void func_02161E60(ProcLinkSys *procLink, int listIndex)
+{
+    if (listIndex == 0)
+        func_021620B0((char *)procLink + 8);
+    else
+        func_021620B0((char *)procLink + 0xf8);
+}
+
+/*
+ *
+ * Tail call through a pool word and `bx r3`: a two-instruction
+ * thunk into MI_CpuFill8, the shape of the arm9 copy.
+ * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
+ *
+ * Addresses are Black-image addresses.  --region ov010 is required: this
+ * address is only ov010 in the overlay that defines it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02161E78.c \
+ *       --func func_02161E78 --addr 0x02161E78 --region ov010 --cc dsi/1.1p1 --thumb
+ */
+void func_02161E78(ProcLinkEntry *entry)
+{
+
+    MI_CpuFill8(entry, 0, 24);
+}
+
+int func_02161E84(ProcLinkEntry *entry)
+{
+    int curId = func_02045A98();
+    int i;
+    int found;
+    if (entry->age >= 30) return 0;
+    if (entry->value > 100) return 0;
+    if (entry->idFilter != 0) {
+        found = 0;
+        for (i = 0; i < 8; i++) {
+            if (curId == entry->allowedIds[i]) found = 1;
+        }
+        if (found == 0) return 0;
+    }
+    return 1;
+}
+
+int func_02161ECC(ProcLinkEntry *entry)
+{
+    if (entry->active == 0) return 0;
+    if (func_02161E84(entry) != 0) return 1;
+    return 0;
+}
+
+/*
+ * Fills ten halfwords with 0xFFFF.  A leaf with no lr-saving prologue,
+ * called only from arm9 (func_0200A848), so the listing emits it as data.
+ */
+void func_02161EEC(u16 *buf)
+{
+    int i;
+    for (i = 0; i < 10; i++)
+        buf[i] = 0xffff;
+}
+
+void func_02161F00(ProcLinkRequest *request)
+{
+    MI_CpuFill8(request, 0, 4);
+    request->mode = 10;
+}
+
+void func_02161F14(u16 *result, ProcLinkRequest *request, int variant)
+{
+    int handle;
+    u16 *record;
+    if (request->mode == 1) {
+        handle = func_021867C4(request->linkId, (u16)((variant & 0x7FFF) | 0x8000));
+        record = func_0218682C(handle);
+        result[0] = record[0x24 / 2];
+        result[1] = record[8 / 2];
+        func_02186804(handle);
+    } else {
+        result[0] = 0;
+        result[1] = 10;
+    }
+}
+
+void func_02161F54(EventSlots *slots)
+{
+    MI_CpuFill8(slots, 0, 0x48);
+    slots->key = func_02039338();
+}
+
+void func_02161F68(EventSlots *slots)
+{
+    MI_CpuFill8(slots, 0, 0x48);
+}
+
+void func_02161F74(EventSlots *slots, ProcLinkSys *procLink, int slotMask)
+{
+    if (func_0216210C((int)slots) == 0)
+        func_02162120(slots, procLink, slotMask);
+}
+
+void func_02161F90(int unused, ProcLinkRequest *request, ProcLinkSys *procLink, int arg, u16 linkId, u16 variant)
+{
+    ProcLinkEntry *entry;
+    int handle;
+    u16 *record;
+
+    entry = func_02161DC4(procLink, linkId, 1);
+    handle = (int)func_021867C4(linkId, variant);
+    record = func_0218682C(handle);
+    if (request->mode == 0)
+        entry->value = record[3];
+    else
+        entry->value = record[2];
+    entry->kind = 7;
+    func_02186804(handle);
+    func_02186520(request, arg, entry);
+    func_02161E78(entry);
+    func_02161E60(procLink, 1);
+}
+
+/*
+ * Unlabelled leaf, four bytes: strh r1, [r0, 4]; bx lr.
+ */
+/*
+ * Unlabelled leaf, four bytes: strh r1, [r0, #4]; bx lr.
+ */
+void func_02161FEC(EventSlots *slots, u16 pendingKey)
+{
+    slots->pendingKey = pendingKey;
+}
+
+void func_02161FF0(EventSlots *slots, EventSlot *slot)
+{
+    if (func_0216210C((int)slots) == 0)
+        func_0216220C(slots, slot);
+}
+
+void func_02162008(EventSlots *slots, int index, EventSlot *slot)
+{
+    if (func_0216210C((int)slots) == 0)
+        func_02162230(slots, index, slot);
+}
+
+int func_02162024(EventSlots *slots, int index, EventSlot *result)
+{
+    return func_021622AC(slots, index, result);
+}
+
+int func_0216202C(EventSlots *slots, EventSlot *result, u8 *pendingKey)
+{
+    *pendingKey = slots->pendingKey;
+    return func_021622D8(slots, result);
+}
+
+void func_02162038(EventSlots *slots, int index)
+{
+    func_02162330(slots, index);
+}
+
+/*
+ * The full target body overwrites r1/r2 with 0/8 before use; neither
+ * caller nor thunk supplies those legacy trailing parameters.
+ */
+void func_02162040(EventSlots *slots)
+{
+    func_02162358(slots);
+}
+
+void func_02162048(EventSlots *slots, int entryId, int handlerIndex)
+{
+    EventSlot slot;
+    int handlerType;
+
+    if (func_0216210C((int)slots) == 0) {
+        func_02162298(slots, entryId, handlerIndex);
+        return;
+    }
+    handlerType = d_0217144C[handlerIndex];
+    if (handlerType != 4) {
+        slot.key = slots->key;
+        slot.entryId = entryId;
+        slot.handlerType = handlerType;
+        func_0216220C(slots, &slot);
+    }
+}
+
+/*
+ * Unlabelled Thumb leaf (no lr save, prints as .word data in the listing),
+ * called from ov020 func_021871F8.
+ */
+int func_0216208C(EventSlots *slots, int unused)
+{
+    if (slots->flags & 8)
+        return 1;
+    return 0;
+}
+
+u16 func_0216209C(EventSlots *slots)
+{
+    return slots->defaultSlot.handlerType;
+}
+
+void func_021620A0(EventSlots *slots)
+{
+    func_02162358(slots);
+    func_021622F4(slots);
+}
+
+#pragma opt_propagation off
+
+/*
+ * The list is compacted: each empty 0x18-byte entry takes the next
+ * used entry after it. The copy destination is written through a second base name dst (= p) under
+ * pragma opt_propagation off, so `i * 0x18` is a common subexpression of two different bases. The
+ * front end then makes the offset its own temporary local, which takes the stack slot below the
+ * named counter i (sp+0 under sp+4), as in the image. With one base name the offset was a back-end
+ * spill temporary above i (7 B, 92/92); without the pragma dst folds into p (7 B).
+ */
+void func_021620B0(char *entries)
+{
+    int i;
+    int j;
+    char *dst;
+
+    dst = entries;
+    i = 0;
+    do {
+        if (func_02161ECC((ProcLinkEntry *)(entries + i * 0x18)) == 0) {
+            for (j = i + 1; j < 10; j++) {
+                if (func_02161ECC((ProcLinkEntry *)(entries + j * 0x18)) != 0) {
+                    MI_CpuCopy8(entries + j * 0x18, dst + i * 0x18, 0x18);
+                    func_02161E78((ProcLinkEntry *)(entries + j * 0x18));
+                    break;
+                }
+            }
+        }
+        i++;
+    } while (i < 10);
+}
+
+#pragma opt_propagation reset
+
+int func_0216210C(int unused)
+{
+    if (func_0200FB24() == 0)
+        return 0;
+    return 1;
+}
+
+void func_02162120(EventSlots *slots, ProcLinkSys *procLink, int slotMask)
+{
+    EventSlot result;
+    EventSlot slot;
+    int i;
+    int handled;
+
+    for (i = 0; i < 3; i++) {
+        if ((slotMask & (1 << i)) == 0) {
+            func_0216230C(slots, (u16)i);
+        } else if (func_02162254(slots, i, &slot) != 0) {
+            handled = d_02172990[slot.handlerType](slots, procLink, &slot, &result);
+            func_0216230C(slots, (u16)i);
+            if (handled != 0)
+                func_02162278(slots, (u16)i, result.entryId, result.handlerType);
+        }
+    }
+}
+
+int func_02162198(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result)
+{
+    result->key = slot->key;
+    result->entryId = slot->entryId;
+    if (func_02161DC4(procLink, slot->entryId, 1) != 0) result->handlerType = 0;
+    else result->handlerType = 1;
+    return 1;
+}
+
+int func_021621C0(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result)
+{
+    result->key = slot->key;
+    result->entryId = slot->entryId;
+    if (func_02161DC4(procLink, slot->entryId, 1) != 0) result->handlerType = 2;
+    else result->handlerType = 3;
+    return 1;
+}
+
+int func_021621E8(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot)
+{
+    ProcLinkEntry *entry;
+
+    entry = func_02161DC4(procLink, slot->entryId, 1);
+    if (entry != 0) {
+        func_02161E78(entry);
+        func_02161E60(procLink, 1);
+    }
+    return 0;
+}
+
+void func_0216220C(EventSlots *slots, EventSlot *slot)
+{
+    if (slot->key == slots->key) {
+        MI_CpuCopy8(slot, &slots->defaultSlot, 8);
+        slots->flags |= 8;
+    }
+}
+
+/*
+ * note:     caller 0x02162008 forwards all three of its arguments unchanged
+ *           (r0-r2); the copy is MI_CpuCopy8-shaped (src, dst, 8) into the
+ *           index-th eight-byte slot after an 8-byte head, then bit index of
+ *           the u16 at +2 is set.
+ */
+void func_02162230(EventSlots *slots, int index, EventSlot *slot)
+{
+    MI_CpuCopy8(slot, &slots->slot[index], 8);
+    slots->flags = (u16)(slots->flags | (1 << index));
+}
+
+int func_02162254(EventSlots *slots, u16 index, EventSlot *out)
+{
+    int result = 0;
+    if (slots->flags & (1 << index)) {
+        MI_CpuCopy8(&slots->slot[index], out, 8);
+        result = 1;
+    }
+    return result;
+}
+
+void func_02162278(EventSlots *slots, int index, u16 entryId, u16 handlerType)
+{
+    slots->resultSlot[index].key = index;
+    slots->resultSlot[index].entryId = entryId;
+    slots->resultSlot[index].handlerType = handlerType;
+    slots->flags = (u16)(slots->flags | (1 << (index + 5)));
+}
+
+void func_02162298(EventSlots *slots, int entryId, int handlerType)
+{
+    int pendingKey;
+    int flags;
+
+    slots->pendingSlot.handlerType = handlerType;
+    pendingKey = slots->pendingKey;
+    slots->pendingSlot.entryId = entryId;
+    flags = slots->flags;
+    slots->pendingSlot.key = pendingKey;
+    slots->flags = flags | 0x10;
+}
+
+int func_021622AC(EventSlots *slots, int index, EventSlot *out)
+{
+    int result = 0;
+    if (slots->flags & (1 << (index + 5))) {
+        MI_CpuCopy8(&slots->resultSlot[index], out, 8);
+        result = 1;
+    }
+    return result;
+}
+
+int func_021622D8(EventSlots *slots, EventSlot *out)
+{
+    int result = 0;
+    if (slots->flags & 16) {
+        MI_CpuCopy8(&slots->pendingSlot, out, 8);
+        result = 1;
+    }
+    return result;
+}
+
+void func_021622F4(EventSlots *slots)
+{
+    MI_CpuFill8(&slots->defaultSlot, 0, 8);
+    slots->flags = slots->flags & ~8;
+}
+
+/*
+ * domain: Primary calls at 0216213C/0216216E receive loop index 0..2
+ *   from 02162120 (zero at 0216212A; increment/test at 02162188..18C).
+ *   ov011 02172D70 passes Work+0x35C through 02161F74 to 02162120.
+ *   02172BC0 allocates 0x94C bytes and initializes that 0x48-byte record
+ *   with 02161F54. The clear spans offsets 8..31; the mask reads offset 2.
+ *   Thus primary shift counts 0..2 are defined; no arbitrary-u32 domain claim.
+ */
+void func_0216230C(EventSlots *slots, unsigned index) { MI_CpuFill8(&slots->slot[index],0,8); slots->flags = slots->flags & ~(1<<index); }
+
+/*
+ * domain: Primary ov011 call 02174C8C reaches this through thunk 02162038.
+ *   Its byte counter is zeroed at 02174C64..68, loaded at 02174C88, and
+ *   increments/tests against 3 at 02174C90..9A: index 0..2, shifts 5..7.
+ *   The record is Work+0x35C (02174C62/6A/8A); 02172BC0 allocates
+ *   0x94C bytes and 02161F54 initializes this 0x48-byte record.
+ *   Clears cover offsets 0x30..0x47; mask halfword offset 2 is initialized.
+ *   No arbitrary-u32 domain claim: all primary arithmetic stays in range.
+ */
+void func_02162330(EventSlots *slots, unsigned index) { MI_CpuFill8(&slots->resultSlot[index],0,8); slots->flags = slots->flags & ~(1<<(index+5)); }
+
+void func_02162358(EventSlots *slots)
+{
+    MI_CpuFill8(&slots->pendingSlot, 0, 8);
+    slots->flags = slots->flags & ~0x10;
+}
+
+/*
+ * Predicate: is the argument >= 7.
+ *
+ * Addresses are Black-image addresses.
+ */
+int func_02162370(int value)
+{
+    return value >= 7;
+}

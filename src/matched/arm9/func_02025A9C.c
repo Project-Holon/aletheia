@@ -1,5 +1,5 @@
 /*
- * function: func_02025A9C
+ * function: BMP_OAM_AcquireModeSlot
  * address:  0x02025A9C
  * packet:   pkt_02025A9C
  * region:   arm9
@@ -14,8 +14,8 @@
  *   func_0204AF28  0x0204AF28  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02025A9C.c \
- *       --func func_02025A9C --addr 0x02025A9C --thumb
+ *   python tools/match.py one --src src/matched/BMP_OAM_AcquireModeSlot.c \
+ *       --func BMP_OAM_AcquireModeSlot --addr 0x02025A9C --thumb
  *
  * Map the engine's DISPCNT OBJ-mapping bits (mask 0x00300010) to a slot
  * index 0/1/2 and lazily fill that slot through func_0204AF28 with the
@@ -53,7 +53,7 @@ extern const struct ModeEntry gModeTable[];
 typedef signed int     s32;
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 
-u32 func_02025A9C(struct Obj *obj, u32 engine, u32 arg)
+u32 BMP_OAM_AcquireModeSlot(struct Obj *obj, u32 engine, u32 arg)
 {
     volatile u32 *reg;
     u32 mode;

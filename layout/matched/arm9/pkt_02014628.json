@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02014628",
+   "name": "FIELD_STATUS_SubProcEvent",
    "address": "0x02014628",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02014758",
+   "name": "FIELD_STATUS_SubProcCallbackEvent",
    "address": "0x02014758",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020147B0",
+   "name": "FIELD_STATUS_SubProcNoFadeCallbackEvent",
    "address": "0x020147B0",
    "kind": "game",
    "region": "arm9",

@@ -33,7 +33,7 @@
  *   func_0203630C  0x0203630C  arm
  *   func_0201A354  0x0201A354  thumb
  *   func_02005728  0x02005728  thumb
- *   func_0201A59C  0x0201A59C  thumb
+ *   POKE_REGULATION_FindValidOrder  0x0201A59C  thumb
  *   func_020355D8  0x020355D8  arm
  *   func_021B660C  0x021B660C  thumb  ov091
  *   d_021BED0C     0x021BED0C  data  a1
@@ -114,7 +114,7 @@ extern u32 func_020307B0(void *p);
 extern u32 func_0203630C(void);
 extern void *func_0201A354(int a, int b);
 extern u32 func_02005728(u32 range);
-extern int func_0201A59C(void *a0, void *a1, void *a2);
+extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
 extern void func_020355D8(u8 v);
 extern int func_021B660C(u8 *p);
 
@@ -196,7 +196,7 @@ int func_021B6240(struct Obj0203159C *a0, int *seq, Q *q, P *p)
                 q->v90 = 1;
                 q->h60 = 0xff;
                 q->b94 = 0;
-                func_0201A59C(s, q->party, 0);
+                POKE_REGULATION_FindValidOrder(s, q->party, 0);
             } else if (func_0203630C() & 0x400) {
                 q->v34 = 5;
                 q->h44 = 0x2c;

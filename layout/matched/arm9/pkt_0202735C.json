@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202737C",
+   "name": "GAME_BEACON_SetInfoZone",
    "address": "0x0202737C",
    "kind": "game",
    "region": "arm9",

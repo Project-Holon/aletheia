@@ -1,5 +1,5 @@
 /*
- * function: func_02018A7C
+ * function: POKE_TOOL_CalcParam
  * address:  0x02018A7C
  * packet:   pkt_02018A7C
  * region:   arm9
@@ -26,8 +26,8 @@
  * ---------------------------------------------------------------------------
  * THE IDS, AND WHERE THE FIELD MAP FOR THEM IS
  * ---------------------------------------------------------------------------
- * The party-area ids are func_02018DB4's (src/matched/sub_02018DB4.c) and the
- * block-area ids are func_02018E34's (src/pending/sub_02018E34.c, whose header
+ * The party-area ids are POKE_TOOL_GetPartyValueRaw's (src/matched/POKE_TOOL_GetPartyValueRaw.c) and the
+ * block-area ids are POKE_TOOL_GetBoxValueRaw's (src/pending/POKE_TOOL_GetBoxValueRaw.c, whose header
  * carries the full map).  What this function uses:
  *
  *   read  0x9E  level          0xA1  current max HP   0xA0  current HP
@@ -109,8 +109,8 @@
  * base-stat table func_02019C54 hands back, not on this code.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/sub_02018A7C.c \
- *       --func func_02018A7C --addr 0x02018A7C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/POKE_TOOL_CalcParam.c \
+ *       --func POKE_TOOL_CalcParam --addr 0x02018A7C --cc 1.1p1
  *
  * symbols:
  *   _s32_div_f  0x0209C0A4  arm
@@ -126,7 +126,7 @@ extern u8 func_02018598(void *p);
 extern u32  func_02019B04(u32 a, u32 b, u32 n);
 extern void *func_02019C54(u32 a, u32 b);
 
-void func_02018A7C(void *p)
+void POKE_TOOL_CalcParam(void *p)
 {
     s32 cur;
     s32 level;

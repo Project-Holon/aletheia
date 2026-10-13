@@ -11,15 +11,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020079BC, sub_02007A18, sub_02007A68, sub_02007A80,
- *           sub_02007A9C, sub_02007AA4
+ * function: BOX_SAVEDATA_GetPokemonValue, BOX_SAVEDATA_GetPokemon, BOX_SAVEDATA_SetFlags, BOX_SAVEDATA_CheckFlags,
+ *           BOX_SAVEDATA_GetBoxPageSize, BOX_SAVEDATA_CreateWordHolder
  *
  * symbols:
  *   sub_020079BC_File  0x020A7068  data
  *   sub_02007AA4_File  0x020A706C  data
- *   sub_020074CC       0x020074CC  thumb
- *   sub_02007AF4       0x02007AF4  thumb
- *   sub_02017E88       0x02017E88  thumb
+ *   BOX_SAVEDATA_GetHeader       0x020074CC  thumb
+ *   BOX_SAVEDATA_GetBoxPokemon       0x02007AF4  thumb
+ *   POKE_TOOL_GetBoxValue       0x02017E88  thumb
  *   func_02034714      0x02034714  arm
  *   func_02030734      0x02030734  arm
  *
@@ -27,9 +27,9 @@
  * size of one box page, and the four byte allocation the box code hangs its
  * per-save state on.
  *
- * alias: the file identity is in the image.  sub_02007AA4 passes 0x020A706C
+ * alias: the file identity is in the image.  BOX_SAVEDATA_CreateWordHolder passes 0x020A706C
  * to the debug allocator at 0x02030734, and the bytes at 0x020A706C spell
- * "box_savedata.c".  That is this code.  sub_02007B20, further down the same
+ * "box_savedata.c".  That is this code.  PERAPVOICE_Create, further down the same
  * run, passes 0x020A707C instead, and those bytes spell "perapvoice.c", so a
  * translation unit boundary falls between the two and the run
  * 0x02007664..0x02007B54 is at least two original files rather than one.
@@ -48,7 +48,7 @@
  * which a string begins, which it is: the empty string at 0x020A7068 is not
  * one.  See "The string class" in docs/MATCHING.md.
  *
- * sub_02007A9C carries no label because it saves nothing: `movs r0, #0xFF`,
+ * BOX_SAVEDATA_GetBoxPageSize carries no label because it saves nothing: `movs r0, #0xFF`,
  * `lsls r0, r0, #4`, `bx lr`.  0xFF0 is 30 entries of 0x88 bytes, which is
  * one box, and it never reaches a literal pool because a byte shifted left
  * costs two halfwords against a pool word plus its `ldr`.
@@ -77,16 +77,16 @@ extern const char sub_020079BC_File[];
 extern const char sub_02007AA4_File[];
 
 struct Sub02007454Header;
-extern struct Sub02007454Header *sub_020074CC(void **save);
-extern struct Sub020079BCEntry  *sub_02007AF4(void **save, u32 box);
+extern struct Sub02007454Header *BOX_SAVEDATA_GetHeader(void **save);
+extern struct Sub020079BCEntry  *BOX_SAVEDATA_GetBoxPokemon(void **save, u32 box);
 typedef unsigned short u16;
-extern u32 sub_02017E88(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-int sub_020079BC(void **save, u32 box, u32 slot, int field, int arg)
+int BOX_SAVEDATA_GetPokemonValue(void **save, u32 box, u32 slot, int field, int arg)
 {
-    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
+    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)BOX_SAVEDATA_GetHeader(save);
 
     if (box >= 0x18 && box != -1) {
         func_02034714(sub_020079BC_File, 0, sub_020079BC_File);
@@ -97,12 +97,12 @@ int sub_020079BC(void **save, u32 box, u32 slot, int field, int arg)
     if (box == -1) {
         box = h->unk00;
     }
-    return sub_02017E88(&sub_02007AF4(save, box)[slot], field, arg);
+    return POKE_TOOL_GetBoxValue(&BOX_SAVEDATA_GetBoxPokemon(save, box)[slot], field, arg);
 }
 
-struct Sub020079BCEntry *sub_02007A18(void **save, u32 box, u32 slot)
+struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u32 slot)
 {
-    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
+    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)BOX_SAVEDATA_GetHeader(save);
 
     if (box >= 0x18 && box != -1) {
         func_02034714(sub_020079BC_File, 0, sub_020079BC_File);
@@ -113,19 +113,19 @@ struct Sub020079BCEntry *sub_02007A18(void **save, u32 box, u32 slot)
     if (box == -1) {
         box = h->unk00;
     }
-    return &sub_02007AF4(save, box)[slot];
+    return &BOX_SAVEDATA_GetBoxPokemon(save, box)[slot];
 }
 
-void sub_02007A68(void *save, u32 bits)
+void BOX_SAVEDATA_SetFlags(void *save, u32 bits)
 {
-    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
+    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)BOX_SAVEDATA_GetHeader(save);
 
     h->unk3DC |= (u8)bits;
 }
 
-int sub_02007A80(void *save, u32 bits)
+int BOX_SAVEDATA_CheckFlags(void *save, u32 bits)
 {
-    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
+    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)BOX_SAVEDATA_GetHeader(save);
 
     if (h->unk3DC & bits) {
         return 1;
@@ -133,12 +133,12 @@ int sub_02007A80(void *save, u32 bits)
     return 0;
 }
 
-u32 sub_02007A9C(void)
+u32 BOX_SAVEDATA_GetBoxPageSize(void)
 {
     return 0xFF0;
 }
 
-u32 *sub_02007AA4(u32 heap, u32 value)
+u32 *BOX_SAVEDATA_CreateWordHolder(u32 heap, u32 value)
 {
     u32 *p = func_02030734(heap, 4, 0, sub_02007AA4_File, 0x3B9);
 

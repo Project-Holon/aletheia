@@ -1,5 +1,5 @@
 /*
- * function: sub_02033E30
+ * function: AREAMAN_AllocLongUp
  * address:  0x02033E30
  * packet:   pkt_02033CA8
  * region:   arm9
@@ -12,19 +12,19 @@
  * symbols:
  *   g_RunLenTail   0x020A05A0  data
  *   g_RunLenHead   0x020A04A0  data
- *   func_020343C0  0x020343C0  arm
- *   func_02034508  0x02034508  arm
+ *   AREAMAN_MarkUsed  0x020343C0  arm
+ *   AREAMAN_TraceAlloc  0x02034508  arm
  *
  * areaman.c.  The word-at-a-time run scanner: the long-run arm of
- * sub_02033CC0's dispatch (see src/pending/unit_02033CA8.c), taken when the
- * requested run is eight bits or longer.  Where sub_02033CFC walks bit by
+ * AREAMAN_AllocUp's dispatch (see src/pending/unit_02033CA8.c), taken when the
+ * requested run is eight bits or longer.  Where AREAMAN_AllocShortUp walks bit by
  * bit, this one anchors on the trailing free run of byte `i`, skips whole
  * zero bytes, and then checks the leading free run of the byte the tail
  * lands in.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02033E30.c \
- *       --func sub_02033E30 --addr 0x02033E30 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/AREAMAN_AllocLongUp.c \
+ *       --func AREAMAN_AllocLongUp --addr 0x02033E30 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -43,10 +43,10 @@ struct AreaMan {
 extern const u8 g_RunLenTail[256];
 extern const u8 g_RunLenHead[256];
 
-extern s32 func_020343C0(struct AreaMan *p, s32 start, u32 len);
-extern void func_02034508(struct AreaMan *p, s32 pos, u32 len, u32 line);
+extern s32 AREAMAN_MarkUsed(struct AreaMan *p, s32 start, u32 len);
+extern void AREAMAN_TraceAlloc(struct AreaMan *p, s32 pos, u32 len, u32 line);
 
-s32 sub_02033E30(struct AreaMan *p, u32 start, u32 limit, u32 len)
+s32 AREAMAN_AllocLongUp(struct AreaMan *p, u32 start, u32 limit, u32 len)
 {
     u32 last;
     s32 lastByte;
@@ -90,10 +90,10 @@ s32 sub_02033E30(struct AreaMan *p, u32 start, u32 limit, u32 len)
                     found = (8 - run) + i * 8;
                 }
                 if (found != -1) {
-                    if (func_020343C0(p, found, len) == 0) {
+                    if (AREAMAN_MarkUsed(p, found, len) == 0) {
                         return -1;
                     }
-                    func_02034508(p, found, len, 0x1db);
+                    AREAMAN_TraceAlloc(p, found, len, 0x1db);
                     return found;
                 }
             }

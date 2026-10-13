@@ -1,5 +1,5 @@
 /*
- * function: func_02175280
+ * function: COLOSSEUM_SetupBattleInfo
  * address:  0x02175280
  * packet:   pkt_ov012_02175280
  * region:   ov012
@@ -34,7 +34,7 @@ extern void func_02175358(u8 *a, u8 *slot, u8 i, int d);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012F2C(int *p);
 
-void func_02175280(u8 *a, void *b, u8 *out, int d)
+void COLOSSEUM_SetupBattleInfo(u8 *a, void *b, u8 *out, int d)
 {
     int count;
     int i;

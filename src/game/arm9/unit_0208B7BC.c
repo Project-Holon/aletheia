@@ -19,7 +19,7 @@
  *   OS_GetCpsrIrq                  0x020879E0  arm
  *   PXIi_HandlerRecvFifoNotEmpty   0x02088688  arm
  *   s_02153000               0x02153000  data
- *   func_02088498            0x02088498  arm
+ *   PXI_Init            0x02088498  arm
  *   PXI_IsCallbackReady      0x020885EC  arm
  *   PXI_SetFifoRecvCallback  0x020885A0  arm
  *   SVC_WaitByLoop           0x02004490  thumb
@@ -113,7 +113,7 @@ typedef u32 OSIrqMask;
 extern int OS_GetProcMode(void);
 extern int OS_GetCpsrIrq(void);
 extern void PXIi_HandlerRecvFifoNotEmpty(void);
-extern void func_02088498(void);
+extern void PXI_Init(void);
 extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
 extern void SVC_WaitByLoop(int count);
@@ -294,7 +294,7 @@ void func_0208B8B0(void)
     g_02153000.work.lock = 0;
     g_02153000.work.callback = 0;
     *(vu32 *)0x02FFF684 = 0;
-    func_02088498();
+    PXI_Init();
     while (!PXI_IsCallbackReady(8, 1)) {
         SVC_WaitByLoop(100);
     }

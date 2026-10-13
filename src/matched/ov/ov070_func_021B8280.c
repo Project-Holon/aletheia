@@ -16,7 +16,7 @@
  *   func_021B822C  0x021B822C  thumb  ov070
  *   func_021B8F68  0x021B8F68  thumb  ov070
  *   func_02021014  0x02021014  thumb
- *   func_020213E0  0x020213E0  thumb
+ *   PALANM_IsOutsideReservedIdRange  0x020213E0  thumb
  *   func_021B83A0  0x021B83A0  thumb  ov070
  *   func_020307B0  0x020307B0  arm
  */
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
-extern u32 func_020213E0(u16 v);
+extern u32 PALANM_IsOutsideReservedIdRange(u16 v);
 extern int func_021B83A0(char *p, int value);
 extern u32 func_020307B0(void *p);
 
@@ -48,7 +48,7 @@ void func_021B8280(struct Obj *p, unsigned char *q)
             q[0] = 0xFF;
         }
         if (func_02021014(h, 3) == 0) {
-            if (func_020213E0(*e) == 1) {
+            if (PALANM_IsOutsideReservedIdRange(*e) == 1) {
                 q[1] = 6;
             }
             if (v != 2) {

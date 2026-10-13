@@ -14,7 +14,7 @@
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D5B40  0x021D5B40  thumb  ov093
- *   func_020213C0  0x020213C0  thumb
+ *   PALANM_IsColorCodeKnown  0x020213C0  thumb
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
@@ -31,7 +31,7 @@ extern int func_021D775C(int key);
 extern void *func_021C7CF4(int *p, int i);
 struct QI;
 extern u16 func_021D5B40(struct QI *p);
-extern int func_020213C0(u32 a);
+extern int PALANM_IsColorCodeKnown(u32 a);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
@@ -48,7 +48,7 @@ void func_021E65B0(int u, void *a, u32 b)
     if (b == func_021D775C(3)) {
         k = func_021D775C(6);
         t = (int)func_021D5B40(func_021C7CF4(a, k));
-        if (func_020213C0(t) != 0) {
+        if (PALANM_IsColorCodeKnown(t) != 0) {
             e = func_021C88A4(a, 0x20, b);
             e[6] = k;
             ((struct Obj06277 *)e)->f4 = 0;

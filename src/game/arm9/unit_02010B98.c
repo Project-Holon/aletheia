@@ -18,17 +18,18 @@
  *   func_0203064C  0x0203064C  arm
  *   func_0203159C  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
- *   func_02031324  0x02031324  arm
+ *   PROCSYS_Create  0x02031324  arm
  *   ov115_id       0x00000073  data  a1
  *   ov187_id       0x000000BB  data  a1
- *   d_021D6338     0x021D6338  data  ov115
+ *   gNetSaveMainProc     0x021D6338  data  ov115
  *   d_0220B294     0x0220B294  data
- *   d_021D654C     0x021D654C  data  ov115
- *   func_02031330  0x02031330  arm
- *   func_02031348  0x02031348  arm
- *   func_0200F7B8  0x0200F7B8  thumb
+ *   gNetSaveRetryProc     0x021D654C  data  ov115
+ *   PROCSYS_Main  0x02031330  arm
+ *   PROCSYS_Push  0x02031348  arm
+ *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_0205D074  0x0205D074  arm
+ *   GAME_DATA_Delete  0x02012704  thumb
  */
 #include "../../matched/include/Obj15614.h"
 #include "../../matched/include/Obj11242.h"
@@ -42,17 +43,17 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-extern void func_02012704(unsigned char *p);
+extern void GAME_DATA_Delete(unsigned char *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void  func_02043534(u32 a);
 extern void  func_020435F4(u32 a);
 extern void  func_0203064C(u32 a, u32 heap, u32 size);
 extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
-extern void *func_02031324(int a0);
-extern unsigned int func_02031330(void *p);
-extern void func_02031348(u32 h, void *ovl, void *proc, void *arg);
-extern u32 func_0200F7B8(u32 a0);
+extern void *PROCSYS_Create(int a0);
+extern unsigned int PROCSYS_Main(void *p);
+extern void PROCSYS_Push(u32 h, void *ovl, void *proc, void *arg);
+extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern void MI_CpuFill8(void *dst, u8 v, u32 size);
 extern int func_0205D074(void);
 int func_02010B98(int a0, int a1, int a2, int a3);
@@ -60,12 +61,12 @@ int func_02010BB8(void *ctx, int a1, int a2);
 int func_02010C34(u32 a0, u32 *seq, u32 a2, u8 *ctx);
 extern u8 ov115_id[];
 extern u8 ov187_id[];
-extern u8 d_021D6338[];
+extern u8 gNetSaveMainProc[];
 extern u8 d_0220B294[];
-extern u8 d_021D654C[];
+extern u8 gNetSaveRetryProc[];
 
 
-int func_02010B98(int a0, int a1, int a2, int a3){ int t2, t3; func_02012704((unsigned char *)((struct Obj15614 *)((char *)(a3)))->f44); func_020315D4((struct S020315D4 *)((a0 + 0) + 0)); t2 = func_020306F0((int)0x67); t3 = func_02087BCC((int)0); return 1; }
+int func_02010B98(int a0, int a1, int a2, int a3){ int t2, t3; GAME_DATA_Delete((unsigned char *)((struct Obj15614 *)((char *)(a3)))->f44); func_020315D4((struct S020315D4 *)((a0 + 0) + 0)); t2 = func_020306F0((int)0x67); t3 = func_02087BCC((int)0); return 1; }
 
 
 /*
@@ -75,7 +76,7 @@ int func_02010B98(int a0, int a1, int a2, int a3){ int t2, t3; func_02012704((un
  * words, masked first with ~0x1F00 and then with ~0xE000, and 0x04000050 /
  * 0x04001050 are the two BLDCNT halfwords zeroed -- then allocates a
  * 0x1A8-byte record at heap 0x5b, zeroes it, stores its third argument at
- * +0x00 and the heap's own handle (func_02031324(0x5b)) at +0x08.
+ * +0x00 and the heap's own handle (PROCSYS_Create(0x5b)) at +0x08.
  *
  * The four masked read-modify-writes are written as four separate compound
  * assignments in source order: the compiler reuses the two pooled addresses
@@ -104,7 +105,7 @@ int func_02010BB8(void *ctx, int a1, int a2)
     p = func_0203159C(ctx, 0x1a8, 0x5b);
     func_02082BCC(p, 0, 0x1a8);
     ((struct Obj11242 *)p)->f0 = (u32)a2;
-    ((struct Obj11242 *)p)->f8 = (unsigned int)func_02031324(0x5b);
+    ((struct Obj11242 *)p)->f8 = (unsigned int)PROCSYS_Create(0x5b);
     return 1;
 }
 
@@ -112,7 +113,7 @@ int func_02010BB8(void *ctx, int a1, int a2)
 /*
  * history:  was MATCH on evidence only (every concrete byte matched).  Wave 17:
  *           the overlay ids 0x73 / 0xBB (ov115_id, ov187_id) now resolve as
- *           `overlay_id` (id argument of func_02031348), and 0x0220B294
+ *           `overlay_id` (id argument of PROCSYS_Push), and 0x0220B294
  *           resolves.  Two ABS32 sites are left, the overlay-resident procs
  *           0x021D6338 / 0x021D654C.  Both ALSO sit in func_02010AC4's pool
  *           (0x02010B84..0x02010B94), which would attest them as `literal`,
@@ -134,10 +135,10 @@ int func_02010BB8(void *ctx, int a1, int a2)
  *           same function.  EXACT, seed round 10.
  *
  * net_save.c's save-SCREEN task step (record of func_02010BB8; *seq is the
- * step, ctx the record): polls the save proc's status (func_02031330),
- * drops to func_0200F7B8(0) on states 0/2, then walks eight steps that start
+ * step, ctx the record): polls the save proc's status (PROCSYS_Main),
+ * drops to GFL_NET_ERR_ShowScreen(0) on states 0/2, then walks eight steps that start
  * overlay 0x73's save procs and overlay 0xBB's proc on the +0x180 request
- * block via func_02031348, returning 1 at step 7.  The only non-obvious
+ * block via PROCSYS_Push, returning 1 at step 7.  The only non-obvious
  * spelling: the +0x194 flag is an if/else of two constant stores, which
  * lets the 1 already in r0 from the +0x188 store be reused.
  */
@@ -146,9 +147,9 @@ int func_02010C34(u32 a0, u32 *seq, u32 a2, u8 *ctx)
     int st;
     int flag;
 
-    st = func_02031330((void *)((struct Obj00645 *)ctx)->f8);
+    st = PROCSYS_Main((void *)((struct Obj00645 *)ctx)->f8);
     if (st == 2 || st == 0) {
-        func_0200F7B8(0);
+        GFL_NET_ERR_ShowScreen(0);
     }
     switch (*seq) {
     case 0:
@@ -170,7 +171,7 @@ int func_02010C34(u32 a0, u32 *seq, u32 a2, u8 *ctx)
         } else {
             ((struct Obj00645 *)ctx)->f194 = 0;
         }
-        func_02031348(((struct Obj00645 *)ctx)->f8, ov115_id, d_021D6338, ctx + 0x180);
+        PROCSYS_Push(((struct Obj00645 *)ctx)->f8, ov115_id, gNetSaveMainProc, ctx + 0x180);
         (*seq)++;
         break;
     case 2:
@@ -189,7 +190,7 @@ int func_02010C34(u32 a0, u32 *seq, u32 a2, u8 *ctx)
         ((struct Obj00645 *)ctx)->f180 = (*(u32 **)ctx)[1];
         ((struct Obj00645 *)ctx)->f184 = (*(u32 **)ctx)[0];
         *(u8 * *)&((struct Obj00645 *)ctx)->f188 = ctx + 0xc;
-        func_02031348(((struct Obj00645 *)ctx)->f8, ov187_id, d_0220B294, ctx + 0x180);
+        PROCSYS_Push(((struct Obj00645 *)ctx)->f8, ov187_id, d_0220B294, ctx + 0x180);
         (*seq)++;
         break;
     case 4:
@@ -207,7 +208,7 @@ int func_02010C34(u32 a0, u32 *seq, u32 a2, u8 *ctx)
         ((struct Obj00645 *)ctx)->f180 = **(u32 * *)&((struct Obj00645 *)ctx)->f0;
         ((struct Obj00645 *)ctx)->f184 = 0;
         *(u32 *)&((struct Obj00645 *)ctx)->f188 = 1;
-        func_02031348(((struct Obj00645 *)ctx)->f8, ov115_id, d_021D654C, ctx + 0x180);
+        PROCSYS_Push(((struct Obj00645 *)ctx)->f8, ov115_id, gNetSaveRetryProc, ctx + 0x180);
         ((struct Obj00645 *)ctx)->f4 = 0;
         (*seq)++;
         break;

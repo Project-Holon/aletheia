@@ -1,5 +1,5 @@
 /*
- * function: func_021567B8
+ * function: DWC_RAP_PollFriendStatus
  * address:  0x021567B8
  * packet:   pkt_ov009_021567B8
  * region:   ov009
@@ -25,7 +25,7 @@ extern int func_0205912C(u8 *);
 extern unsigned char func_02168848(void *p, int a, int b);
 extern void func_02082BCC(u8 *, u32, u32);
 
-void func_021567B8(void)
+void DWC_RAP_PollFriendStatus(void)
 {
     if (*(u8 **)(g_021A8264 + 0x100) != 0) {
         u32 i = *(u32 *)(g_021A8264 + 0x74c) & 0x1f;

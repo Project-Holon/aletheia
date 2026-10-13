@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_02051774  0x02051774  arm
- *   func_0205189C  0x0205189C  arm
- *   func_02051A2C  0x02051A2C  arm
- *   func_02051A24  0x02051A24  arm
+ *   BUTTON_MAN_SetAngle  0x0205189C  arm
+ *   BUTTON_MAN_SetUserData  0x02051A2C  arm
+ *   BUTTON_MAN_SetCallback  0x02051A24  arm
  *   func_021FDA28  0x021FDA28  thumb  ov094
  */
 typedef struct {
@@ -26,9 +26,9 @@ typedef struct {
 extern unsigned int func_02051774(void);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0205189C(struct Obj *o, u32 v);
-extern void func_02051A2C(void *p, int v);
-extern void func_02051A24(void *p, int v);
+extern void BUTTON_MAN_SetAngle(struct Obj *o, u32 v);
+extern void BUTTON_MAN_SetUserData(void *p, int v);
+extern void BUTTON_MAN_SetCallback(void *p, int v);
 extern void func_021FDA28(void *p, int active);
 
 void func_021FD9F0(void *p)
@@ -36,7 +36,7 @@ void func_021FD9F0(void *p)
     State *s = (State *)func_02051774();
 
     if (s->k3c != 0 && s->k0c < 0)
-        func_0205189C(p, 0x800);
-    func_02051A2C(p, (int)s);
-    func_02051A24(p, (int)func_021FDA28);
+        BUTTON_MAN_SetAngle(p, 0x800);
+    BUTTON_MAN_SetUserData(p, (int)s);
+    BUTTON_MAN_SetCallback(p, (int)func_021FDA28);
 }

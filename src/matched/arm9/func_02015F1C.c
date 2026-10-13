@@ -1,5 +1,5 @@
 /*
- * function: func_02015F1C
+ * function: MCSS_GetOfsY
  * address:  0x02015F1C
  * packet:   pkt_02015EE8
  * region:   arm9
@@ -11,14 +11,14 @@
  *
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Reads the s16 at
  * +0xA of the table the word at +0x2C points to; sibling of
- * func_02015F14.
+ * MCSS_GetOfsX.
  *
  * Addresses are Black-image addresses.
  */
 
 typedef signed short s16;
 
-s16 func_02015F1C(void *p)
+s16 MCSS_GetOfsY(void *p)
 {
     return (*(s16 **)((char *)p + 0x2C))[5];
 }

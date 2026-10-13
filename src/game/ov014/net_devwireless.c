@@ -14,8 +14,8 @@
  *
  * symbols:
  *   d_021796A0  0x021796A0  data  a4
- *   g_021797A0     0x021797A0  data   a4
- *   d_0217976C     0x0217976C  data   a1
+ *   sDevWirelessWork 0x021797A0  data   a4
+ *   sFileNetDevWireless 0x0217976C  data   a1
  *   func_02030734  0x02030734  arm
  *   func_0203D798  0x0203D798  arm
  *   func_02177280  0x02177280  thumb  ov014
@@ -23,7 +23,7 @@
  *   func_0217796C 0x0217796C thumb ov014
  *   func_021776C4 0x021776C4 thumb ov014
  *   func_020307B0 0x020307B0 arm
- *   func_02177EB0 0x02177EB0 thumb ov014
+ *   NET_WHPIPE_RequestEnd 0x02177EB0 thumb ov014
  *   func_02177560 0x02177560 thumb ov014
  */
 typedef unsigned char u8;
@@ -32,10 +32,11 @@ typedef unsigned int u32;
 
 typedef unsigned short u16;
 
-struct DevWireless {
-    u32 id;
-    void (*callback)(void *);
-};
+/* State of the wireless device layer; one block, allocated by the setup slot. */
+typedef struct DevWirelessWork {
+    u32 setupParam;                         /* second argument of the setup slot, kept for the owner */
+    void (*onEndedCallback)(void *result);  /* called once the pipe has shut down */
+} DevWirelessWork;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 *func_0203D798(void);
@@ -44,103 +45,111 @@ extern int func_02177AA8(void);
 extern void func_0217796C(u32);
 extern int func_021776C4(void);
 extern u32 func_020307B0(void *p);
-extern int func_02177EB0(int a);
+extern int NET_WHPIPE_RequestEnd(int a);
 extern void func_02177560(void);
-void *func_02177020(void);
-int func_02177028(int a, u32 b, int c, int d);
-int func_02177080(void (*cb)(void));
-int func_02177094(u32 a);
-int func_021770A0(void);
-int func_021770A8(void *arg);
-int func_021770CC(void (*cb)(void *));
-int func_021770EC(void);
-int func_021770F8(void);
-int func_021770FC(void);
-int func_02177100(void);
-extern struct DevWireless *g_021797A0;
-extern char d_0217976C[];
+void *GFL_NET_DEVWIRELESS_GetDeviceTable(void);
+int GFL_NET_DEVWIRELESS_Setup(int heapId, u32 setupParam, int wmParam, int userData);
+int GFL_NET_DEVWIRELESS_Begin(void (*doneCallback)(void));
+int GFL_NET_DEVWIRELESS_Update(u32 tick);
+int GFL_NET_DEVWIRELESS_RequestDisconnect(void);
+int GFL_NET_DEVWIRELESS_OnShutdownDone(void *result);
+int GFL_NET_DEVWIRELESS_Cleanup(void (*endCallback)(void *));
+int GFL_NET_DEVWIRELESS_ClearScanList(void);
+int GFL_NET_DEVWIRELESS_UnusedSlot7(void);
+int GFL_NET_DEVWIRELESS_UnusedSlot8(void);
+int GFL_NET_DEVWIRELESS_UnusedSlot9(void);
+extern DevWirelessWork *sDevWirelessWork;
+extern char sFileNetDevWireless[];
 
 
-void *func_02177020(void)
+/* Returns the device table (slot array at 0x021796A0) that the net core calls into. */
+void *GFL_NET_DEVWIRELESS_GetDeviceTable(void)
 {
     return (void *)0x021796A0;
 }
 
 
 
-int func_02177028(int a, u32 b, int c, int d)
+/* Slot 1: allocates the layer and starts the pipe; wmParam goes to the WH init, userData to the pipe callbacks. */
+int GFL_NET_DEVWIRELESS_Setup(int heapId, u32 setupParam, int wmParam, int userData)
 {
-    int ok;
-    struct DevWireless *p;
+    int forListening;
+    DevWirelessWork *work;
 
-    if (g_021797A0 != 0)
+    if (sDevWirelessWork != 0)
         return 0;
-    p = func_02030734(a, 8, 1, d_0217976C, 0xb4);
-    ok = 1;
-    g_021797A0 = p;
-    p->id = b;
+    work = func_02030734(heapId, 8, 1, sFileNetDevWireless, 0xb4);
+    forListening = 1;
+    sDevWirelessWork = work;
+    work->setupParam = setupParam;
     if (func_0203D798()[0x65] != 5)
-        ok = 0;
-    return func_02177280(a, c, d, ok);
+        forListening = 0;
+    return func_02177280(heapId, wmParam, userData, forListening);
 }
 
 
 /*
+ * Slot 2: nothing to start asynchronously; calls the done callback at once.
  * extent: trailing two-byte zero alignment padding.
  */
-int func_02177080(void (*cb)(void))
+int GFL_NET_DEVWIRELESS_Begin(void (*doneCallback)(void))
 {
-    if (cb != 0) {
+    if (doneCallback != 0) {
         func_02177AA8();
-        cb();
+        doneCallback();
     }
     return func_02177AA8();
 }
 
 
 /*
+ * Slot 3: per-frame update with the tick counter.
  * extent: lead and unlabelled tail-call follower at 0x021770A0.
  */
-int func_02177094(u32 a)
+int GFL_NET_DEVWIRELESS_Update(u32 tick)
 {
-    func_0217796C(a);
+    func_0217796C(tick);
     return 1;
 }
 
 
-int func_021770A0(void)
+/* Slot 4: asks the pipe to shut down (same target as slot 21). */
+int GFL_NET_DEVWIRELESS_RequestDisconnect(void)
 {
     return func_021776C4();
 }
 
 
-int func_021770A8(void *arg)
+/* Pipe end callback: reports to the owner, frees the layer. */
+int GFL_NET_DEVWIRELESS_OnShutdownDone(void *result)
 {
-    if (g_021797A0->callback != 0)
-        g_021797A0->callback(arg);
-    func_020307B0(g_021797A0);
-    g_021797A0=0;
+    if (sDevWirelessWork->onEndedCallback != 0)
+        sDevWirelessWork->onEndedCallback(result);
+    func_020307B0(sDevWirelessWork);
+    sDevWirelessWork = 0;
     return 1;
 }
 
 
-int func_021770CC(void (*cb)(void *))
+/* Slot 5: ends the pipe; endCallback runs when the end has finished. */
+int GFL_NET_DEVWIRELESS_Cleanup(void (*endCallback)(void *))
 {
-    if(g_021797A0 != 0) {
-        g_021797A0->callback = cb;
-        return func_02177EB0((int)func_021770A8);
+    if(sDevWirelessWork != 0) {
+        sDevWirelessWork->onEndedCallback = endCallback;
+        return NET_WHPIPE_RequestEnd((int)GFL_NET_DEVWIRELESS_OnShutdownDone);
     }
     return 1;
 }
 
 
-int func_021770EC(void) { func_02177560(); return 1; }
+/* Slot 6: forgets all scanned parents. */
+int GFL_NET_DEVWIRELESS_ClearScanList(void) { func_02177560(); return 1; }
 
 
-int func_021770F8(void) { return 1; }
+int GFL_NET_DEVWIRELESS_UnusedSlot7(void) { return 1; }
 
 
-int func_021770FC(void) { return 1; }
+int GFL_NET_DEVWIRELESS_UnusedSlot8(void) { return 1; }
 
 
-int func_02177100(void) { return 1; }
+int GFL_NET_DEVWIRELESS_UnusedSlot9(void) { return 1; }

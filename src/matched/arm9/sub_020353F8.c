@@ -1,5 +1,5 @@
 /*
- * function: sub_020353F8
+ * function: UI_IsSleepInhibited
  * address:  0x020353F8
  * packet:   pkt_020353B0
  * region:   arm9
@@ -15,7 +15,7 @@
  * the argument at +0x34 is fetched into r0 second.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020353F8.c \n *       --func sub_020353F8 --addr 0x020353F8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/UI_IsSleepInhibited.c \n *       --func UI_IsSleepInhibited --addr 0x020353F8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -39,7 +39,7 @@ struct UiCtx {
     u8      always;
 };
 
-int sub_020353F8(struct UiCtx *p)
+int UI_IsSleepInhibited(struct UiCtx *p)
 {
     if (p->always != 0) {
         return 1;

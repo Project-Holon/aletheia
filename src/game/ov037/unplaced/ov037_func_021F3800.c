@@ -15,31 +15,33 @@
  *   func_0200B3A4  0x0200B3A4  thumb
  */
 
-typedef unsigned char  u8;
-struct Big;
-struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-typedef signed int     s32;
+#include "../unit_021F36C0_types.h"
+
 typedef unsigned int   u32;
-struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
+struct GameSystem;
+struct GameData;
+struct GimmickWork;
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GimmickWork *func_02012EC4(struct GameData *gameData);
+extern void *func_0200B3A4(struct GimmickWork *gimmick, u32 gimmickId);
 
-void func_021F3800(unsigned int a0)
+/* Fills the three panel rows of gimmick 46 with their starting values. */
+void func_021F3800(unsigned int gameSystem)
 {
-    int *p = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)a0)), 10);
-    int *q;
-    int *r;
+    Gimmick46Work *work = func_0200B3A4(func_02012EC4(func_020120F4((const struct GameSystem *)gameSystem)), 10);
+    int *firstRow = work->panel[0];
+    int *secondRow;
+    int *thirdRow;
 
-    p[0] = 3;
-    p[1] = 0;
-    p[2] = 1;
-    q = p + 3;
-    q[0] = 1;
-    q[1] = 1;
-    q[2] = 1;
-    r = p + 6;
-    r[0] = 2;
-    r[1] = 1;
-    r[2] = 0;
+    firstRow[0] = 3;
+    firstRow[1] = 0;
+    firstRow[2] = 1;
+    secondRow = work->panel[1];
+    secondRow[0] = 1;
+    secondRow[1] = 1;
+    secondRow[2] = 1;
+    thirdRow = work->panel[2];
+    thirdRow[0] = 2;
+    thirdRow[1] = 1;
+    thirdRow[2] = 0;
 }

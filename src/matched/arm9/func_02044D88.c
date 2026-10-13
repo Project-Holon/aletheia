@@ -1,5 +1,5 @@
 /*
- * function: func_02044D88
+ * function: BMP_FillRect4bppVram
  * address:  0x02044D88
  * packet:   pkt_020445F4
  * region:   arm9
@@ -16,7 +16,7 @@
  * Levers (2026-09-22, wave 10), each measured:
  *   - the address is the family's single integer sum over (u32)s->pixels
  *     with the tile-row mask in a function-scope local and the in-tile row
- *     added afterwards (func_02044BF0);
+ *     added afterwards (BMP_FillRect4bpp);
  *   - hi/lo are u16 locals of a u32 halfword read: `hi = c >> 8` becomes
  *     the image's lsl #8 / lsr #16, and `lo = c & 0xff` its and / lsl #16
  *     with the lsr #16 folded into every use;
@@ -35,7 +35,7 @@ typedef signed int     s32;
 
 struct Surf { u8 *pixels; u16 width; u16 height; };
 
-void func_02044D88(struct Surf *s, s32 x, s32 y, s32 w, u16 h, u8 value)
+void BMP_FillRect4bppVram(struct Surf *s, s32 x, s32 y, s32 w, u16 h, u8 value)
 {
     s32 i;
     s32 j;

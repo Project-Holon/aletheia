@@ -45,222 +45,234 @@
  *   func_020124E4  0x020124E4  thumb
  *   func_021BE6BC  0x021BE6BC  thumb  ov021
  */
-struct Ctx;
-struct Big;
-struct Rec94;
-struct Desc;
-struct Obj;
-typedef unsigned short u16;
+#include "unit_021F36C0_types.h"
 
-typedef unsigned int u32;
+struct FieldMap;
+struct GameSystem;
+struct GameData;
+struct FieldSave;
+struct FldExpObj;
+struct FldExpAnime;
+struct FldExpUnitDesc;
+struct GameEvent;
 
-typedef struct {
-    int a;
-    int b;
-    int c;
-} V;
+typedef int (*GameEventFunc)(struct GameEvent *event, int *state);
 
-typedef signed int     s32;
+extern struct FldExpObj *func_02188D2C(struct FieldMap *fieldMap);
+extern struct GameSystem *func_02188C80(struct FieldMap *fieldMap);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct FieldSave *func_02012EC4(struct GameData *gameData);
+extern Gimmick45Save *func_0200B3A4(struct FieldSave *fieldSave, u32 blockId);
+extern u16 func_02188C84(struct FieldMap *fieldMap);
+extern void *func_02189764(struct FieldMap *fieldMap, int workId, int heapId, int size);
+extern void func_021BE760(struct FldExpObj *expObj, struct FldExpUnitDesc *desc, int unitIndex);
+extern Vec3Fx *func_021BE480(struct FldExpObj *expObj, int unitIndex, u16 modelIndex);
+extern void func_021BE4A4(struct FldExpObj *expObj, int unitIndex, int modelIndex, int cullDraw);
+extern struct FldExpAnime *func_021BE674(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex);
+extern void func_021BE6B8(struct FldExpAnime *anime, int loop);
+extern void func_021BE6B0(struct FldExpAnime *anime, int paused);
+extern Gimmick45Work *func_021897BC(struct FieldMap *fieldMap, int workId);
+extern void func_021897A0(struct FieldMap *fieldMap, int workId);
+extern void func_021BE418(struct FldExpObj *expObj, u16 unitIndex);
+extern void func_021BE580(struct FldExpObj *expObj);
+extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc proc, u32 size);
+extern int func_021F3A68(struct GameEvent *event, int *state);
+extern int func_02188CF0(struct FieldMap *fieldMap);
+extern void *func_02188CA4(struct FieldMap *fieldMap);
+extern void func_021A6DC4(void *ctrlWork, struct FieldMap *fieldMap);
+extern void func_021BE700(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex, int enabled);
+extern void func_021BE6CC(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex, int frame);
+extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern int func_021BE6BC(struct FldExpAnime *anime);
 
-typedef unsigned char  u8;
+void func_021F36C0(struct FieldMap *fieldMap);
+void func_021F37F8(struct FieldMap *fieldMap);
+void func_021F381C(struct FieldMap *fieldMap);
+struct GameEvent *func_021F384C(struct GameSystem *gameSystem, int switchIndex);
+struct GameEvent *func_021F3888(struct GameSystem *gameSystem, int switchIndex);
+void func_021F38C4(struct GameSystem *gameSystem, int requirementIndex);
+int func_021F3908(Gimmick45Save *save, int requirementIndex);
+void func_021F3938(struct FldExpObj *expObj, int switchOn, int switchIndex, int usePrimaryModel);
+int func_021F39A8(Gimmick45Save *save, int switchIndex);
+int func_021F39B8(struct GameEvent *event, int *state);
 
-extern int func_02188D2C(int *p);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern unsigned char *func_02012EC4(struct Big *p);
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void  func_021BE760(void *p, void *a, int b);
-extern V    *func_021BE480(void *p, int i, u16 j);
-extern void func_021BE4A4(char *p, int i, int j, int v);
-extern void *func_021BE674(void *p, int i, u16 j, u16 k);
-extern void func_021BE6B8(unsigned char *p, int v);
-extern void func_021BE6B0(unsigned char *p, int v);
-extern int *func_021897BC(char *, int);
-extern void func_021897A0(u8 *, int);
-extern void func_021BE418(u8 *, u16);
-extern void func_021BE580(void *);
-extern void *func_0201210C(const struct Ctx *p);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int func_021F3A68(void *,int *);
-extern int func_02188CF0(u32 a);
-extern u32 func_02188CA4(u8 *p);
-extern void func_021A6DC4(u32 *b, void *a);
-extern void  func_021BE700(void *p, int i, u16 j, u16 k, int flag);
-extern void func_021BE6CC(int a, int b, int c, int d, int e);
-extern void *func_020124E4(struct Obj *p);
-extern int func_021BE6BC(int *p);
-void func_021F36C0(void *a0);
-void func_021F37F8(u8 *p);
-void func_021F381C(u32 a);
-void *func_021F384C(void *a,int b);
-void *func_021F3888(void *a,int b);
-void func_021F38C4(void *a0, int a1);
-int func_021F3908(char *a0, int a1);
-void func_021F3938(void *a0, int a1, int a2, int a3);
-int func_021F39A8(int *p, int i);
-int func_021F39B8(void *a0, int *a1);
-extern int d_021F3B50;
-extern V d_021F3B80[];
-extern V d_021F3BA4[];
-extern unsigned short d_021F3B60[];
-extern unsigned short d_021F3B62[];
+extern struct FldExpUnitDesc d_021F3B50;
+extern Vec3Fx d_021F3B80[];
+extern Vec3Fx d_021F3BA4[];
+/* Requirement table: entry n is (switch index, required state). The ROM
+ * data layout splits the two columns into two objects, so the code reaches
+ * them through two symbols. */
+extern u16 d_021F3B60[];
+extern u16 d_021F3B62[];
 
 
-void func_021F36C0(void *a0)
+void func_021F36C0(struct FieldMap *fieldMap)
 {
-    void *r4;
-    int *q;
-    int i;
-    int j;
-    int k;
-    void *b;
-    V *e;
+    struct FldExpObj *expObj;
+    Gimmick45Save *save;
+    struct FldExpAnime *anime;
+    Vec3Fx *modelPos;
+    int switchIdx;
+    int secondaryIdx;
+    int animIdx;
 
-    r4 = (void *)func_02188D2C(a0);
-    q = func_0200B3A4((struct Rec94 *)func_02012EC4((struct Big *)func_020120F4(func_02188C80(a0))), 9);
-    func_02189764(a0, 1, func_02188C84(a0), 4);
-    func_021BE760(r4, &d_021F3B50, 0);
-    for (i = 0; i < 3; i++) {
-        e = func_021BE480(r4, 0, i);
-        *e = d_021F3B80[i];
-        func_021BE4A4(r4, 0, (u16)i, 1);
-        for (j = 0; j < 2; j++) {
-            b = func_021BE674(r4, 0, i, j);
-            func_021BE6B8(b, 0);
-            func_021BE6B0(b, 1);
+    expObj = func_02188D2C(fieldMap);
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK45_SAVE_BLOCK_ID);
+    func_02189764(fieldMap, 1, func_02188C84(fieldMap), sizeof(Gimmick45Work));
+    func_021BE760(expObj, &d_021F3B50, 0);
+    for (switchIdx = 0; switchIdx < GIMMICK45_SWITCH_COUNT; switchIdx++) {
+        modelPos = func_021BE480(expObj, 0, switchIdx);
+        *modelPos = d_021F3B80[switchIdx];
+        func_021BE4A4(expObj, 0, (u16)switchIdx, 1);
+        for (animIdx = 0; animIdx < 2; animIdx++) {
+            anime = func_021BE674(expObj, 0, switchIdx, animIdx);
+            func_021BE6B8(anime, 0);
+            func_021BE6B0(anime, 1);
         }
-        k = i + 3;
-        e = func_021BE480(r4, 0, k);
-        *e = d_021F3BA4[i];
-        func_021BE4A4(r4, 0, (u16)k, 1);
-        for (j = 0; j < 2; j++) {
-            b = func_021BE674(r4, 0, k, j);
-            func_021BE6B8(b, 0);
-            func_021BE6B0(b, 1);
+        secondaryIdx = switchIdx + GIMMICK45_SECONDARY_MODEL_OFFSET;
+        modelPos = func_021BE480(expObj, 0, secondaryIdx);
+        *modelPos = d_021F3BA4[switchIdx];
+        func_021BE4A4(expObj, 0, (u16)secondaryIdx, 1);
+        for (animIdx = 0; animIdx < 2; animIdx++) {
+            anime = func_021BE674(expObj, 0, secondaryIdx, animIdx);
+            func_021BE6B8(anime, 0);
+            func_021BE6B0(anime, 1);
         }
-        func_021F3938(r4, q[i], i, 1);
-        func_021F3938(r4, q[i], i, 0);
+        func_021F3938(expObj, save->switchOn[switchIdx], switchIdx, 1);
+        func_021F3938(expObj, save->switchOn[switchIdx], switchIdx, 0);
     }
 }
 
-void func_021F37F8(u8 *p)
+void func_021F37F8(struct FieldMap *fieldMap)
 {
-    int x = func_02188D2C((int *)p);
-    func_021897BC((char *)p, 1);
-    func_021897A0(p, 1);
-    func_021BE418((u8 *)x, 0);
+    struct FldExpObj *expObj = func_02188D2C(fieldMap);
+
+    func_021897BC(fieldMap, 1);
+    func_021897A0(fieldMap, 1);
+    func_021BE418(expObj, 0);
 }
 
-void func_021F381C(u32 a) { u32 p; p=func_02188D2C((int *)a); func_021897BC((char *)a,1); func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))),9); func_021BE580((void *)p); }
-
-void *func_021F384C(void *a,int b)
+void func_021F381C(struct FieldMap *fieldMap)
 {
-    u32 p;
-    int *q;
-    p=(u32)func_0201210C(a);
-    func_02012EC4(func_020120F4(func_02188C80((void *)p)));
-    q=func_021897BC((char *)p,1);
-    if(b>=3)return 0;
-    *q=b;
-    return func_020122C0(a,0,func_021F39B8,0);
+    struct FldExpObj *expObj;
+
+    expObj = func_02188D2C(fieldMap);
+    func_021897BC(fieldMap, 1);
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK45_SAVE_BLOCK_ID);
+    func_021BE580(expObj);
 }
 
-void *func_021F3888(void *a,int b)
+struct GameEvent *func_021F384C(struct GameSystem *gameSystem, int switchIndex)
 {
-    u32 p;
-    int *q;
-    p=(u32)func_0201210C(a);
-    func_02012EC4(func_020120F4(func_02188C80((void *)p)));
-    q=func_021897BC((char *)p,1);
-    if(b>=3)return 0;
-    *q=b;
-    return func_020122C0(a,0,func_021F3A68,0);
+    struct FieldMap *fieldMap;
+    Gimmick45Work *work;
+
+    fieldMap = func_0201210C(gameSystem);
+    func_02012EC4(func_020120F4(func_02188C80(fieldMap)));
+    work = func_021897BC(fieldMap, 1);
+    if (switchIndex >= GIMMICK45_SWITCH_COUNT)
+        return 0;
+    work->switchIndex = switchIndex;
+    return func_020122C0(gameSystem, 0, func_021F39B8, 0);
+}
+
+struct GameEvent *func_021F3888(struct GameSystem *gameSystem, int switchIndex)
+{
+    struct FieldMap *fieldMap;
+    Gimmick45Work *work;
+
+    fieldMap = func_0201210C(gameSystem);
+    func_02012EC4(func_020120F4(func_02188C80(fieldMap)));
+    work = func_021897BC(fieldMap, 1);
+    if (switchIndex >= GIMMICK45_SWITCH_COUNT)
+        return 0;
+    work->switchIndex = switchIndex;
+    return func_020122C0(gameSystem, 0, func_021F3A68, 0);
 }
 
 
-void func_021F38C4(void *a0, int a1)
+void func_021F38C4(struct GameSystem *gameSystem, int requirementIndex)
 {
-    void *r6;
-    int r4;
-    void *p;
+    struct FieldMap *fieldMap;
+    int ctrlType;
+    Gimmick45Save *save;
 
-    r6 = func_0201210C(a0);
-    r4 = func_02188CF0((u32)r6);
-    p = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(r6))), 9);
-    if (a1 < 8 && r4 == 2) {
-        if (func_021F3908(p, a1)) {
-            func_021A6DC4((u32 *)func_02188CA4(r6), r6);
+    fieldMap = func_0201210C(gameSystem);
+    ctrlType = func_02188CF0(fieldMap);
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK45_SAVE_BLOCK_ID);
+    if (requirementIndex < GIMMICK45_REQUIREMENT_COUNT && ctrlType == GIMMICK45_CTRL_TYPE_HYBRID) {
+        if (func_021F3908(save, requirementIndex)) {
+            func_021A6DC4(func_02188CA4(fieldMap), fieldMap);
         }
     }
 }
 
 
-int func_021F3908(char *a0, int a1)
+int func_021F3908(Gimmick45Save *save, int requirementIndex)
 {
-    unsigned short v = (unsigned short)(*(unsigned int *)(a0 + d_021F3B60[a1 * 2] * 4) != 0);
+    u16 switchIsOn = (u16)(save->switchOn[d_021F3B60[requirementIndex * 2]] != 0);
 
-    return v == d_021F3B62[a1 * 2];
+    return switchIsOn == d_021F3B62[requirementIndex * 2];
 }
 
 
-void func_021F3938(void *a0, int a1, int a2, int a3)
+void func_021F3938(struct FldExpObj *expObj, int switchOn, int switchIndex, int usePrimaryModel)
 {
-    int r4, r7;
+    int onAnim, offAnim;
 
-    if (a1) {
-        r4 = 1;
-        r7 = 0;
+    if (switchOn) {
+        onAnim = 1;
+        offAnim = 0;
     } else {
-        r4 = 0;
-        r7 = 1;
+        onAnim = 0;
+        offAnim = 1;
     }
-    if (a3 != 1) {
-        a2 += 3;
+    if (usePrimaryModel != 1) {
+        switchIndex += GIMMICK45_SECONDARY_MODEL_OFFSET;
     }
-    func_021BE700(a0, 0, a2, r4, 1);
-    func_021BE700(a0, 0, a2, r7, 0);
-    func_021BE6CC((int)a0, 0, (u16)a2, (u16)r4, 0);
-    func_021BE6B0(func_021BE674(a0, 0, a2, r4), 1);
+    func_021BE700(expObj, 0, switchIndex, onAnim, 1);
+    func_021BE700(expObj, 0, switchIndex, offAnim, 0);
+    func_021BE6CC(expObj, 0, (u16)switchIndex, (u16)onAnim, 0);
+    func_021BE6B0(func_021BE674(expObj, 0, switchIndex, onAnim), 1);
 }
 
-int func_021F39A8(int *p, int i)
+int func_021F39A8(Gimmick45Save *save, int switchIndex)
 {
-    return p[i] != 0;
+    return save->switchOn[switchIndex] != 0;
 }
 
 
-int func_021F39B8(void *a0, int *a1)
+int func_021F39B8(struct GameEvent *event, int *state)
 {
-    void *r7;
-    void *r6;
-    int *s;
-    int *p;
-    int flag;
-    int idx;
-    u8 v;
+    struct FieldMap *fieldMap;
+    struct FldExpObj *expObj;
+    Gimmick45Work *work;
+    Gimmick45Save *save;
+    int newState;
+    int switchIdx;
+    u8 curState;
 
-    r7 = func_0201210C(func_020124E4(a0));
-    r6 = (void *)func_02188D2C(r7);
-    s = func_021897BC(r7, 1);
-    flag = 1;
-    p = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(r7))), 9);
-    switch (*a1) {
+    fieldMap = func_0201210C(func_020124E4(event));
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    newState = 1;
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK45_SAVE_BLOCK_ID);
+    switch (*state) {
     case 0:
-        idx = s[0];
-        v = func_021F39A8(p, idx);
-        func_021BE6B0(func_021BE674(r6, 0, (u8)(idx + 3), v), 0);
-        *a1 = *a1 + 1;
+        switchIdx = work->switchIndex;
+        curState = func_021F39A8(save, switchIdx);
+        func_021BE6B0(func_021BE674(expObj, 0, (u8)(switchIdx + GIMMICK45_SECONDARY_MODEL_OFFSET), curState), 0);
+        *state = *state + 1;
         break;
     case 1:
-        idx = s[0];
-        v = func_021F39A8(p, idx);
-        if (func_021BE6BC(func_021BE674(r6, 0, (u8)(idx + 3), v))) {
-            if (p[s[0]]) {
-                flag = 0;
+        switchIdx = work->switchIndex;
+        curState = func_021F39A8(save, switchIdx);
+        if (func_021BE6BC(func_021BE674(expObj, 0, (u8)(switchIdx + GIMMICK45_SECONDARY_MODEL_OFFSET), curState))) {
+            if (save->switchOn[work->switchIndex]) {
+                newState = 0;
             }
-            func_021F3938(r6, flag, s[0], 0);
+            func_021F3938(expObj, newState, work->switchIndex, 0);
             return 1;
         }
         break;

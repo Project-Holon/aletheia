@@ -33,293 +33,172 @@
  *   func_021DD044 0x021DD044 thumb ov093
  *   func_021D7B74  0x021D7B74  thumb  ov093
  *   func_021D5844  0x021D5844  thumb  ov093
- *   func_020189D0  0x020189D0  thumb
+ *   POKE_TOOL_GetNatureStatMod  0x020189D0  thumb
  *   func_021D7DC0  0x021D7DC0  thumb  ov093
  *   d_021F1C04     0x021F1C04  data   ov093  a4
  *   d_021F1CCC     0x021F1CCC  data   ov093  a4
  */
-#include "../../matched/include/Obj12151.h"
-#include "../../matched/include/Obj07817.h"
+#include "unit_021DD588_types.h"
 
-struct S;
-struct QQ;
-struct Unk021D62A8;
-typedef unsigned char u8;
+extern int func_021D775C(int varId);
+extern struct BtlPokeParam *func_021C7CF4(void *server, int pokeId);
+extern int func_021D59B4(struct BtlPokeParam *pokeParam, int valueId);
+extern int func_021DCFF8(struct BtlEventFactor *factor, int index);
+extern void *func_021C88A4(void *server, int cmdKind, int pokeId);
+extern void func_021C8838(HandExStr *str, int strType, int strId);
+extern void func_021C8860(HandExStr *str, u32 arg);
+extern void func_021C88C8(void *server, void *cmd);
+extern u16 func_021D70A8(struct BtlEventFactor *factor);
+extern int func_0209C2B0(int dividend, int divisor);
+extern int func_021D62C4(struct BtlPokeParam *pokeParam, int sickKind);
+extern void func_021DDE30(struct BtlEventFactor *factor, void *server, int pokeId, int divisor, int checkMoveDamage);
+extern int func_021DDEA4(void *server, int pokeId, unsigned int divisor);
+extern void func_021DD044(struct BtlEventFactor *factor, void *server, int pokeId);
+extern int func_021D7B74(struct BtlPokeParam *pokeParam, u32 divisor);
+extern void *func_021D5844(struct BtlPokeParam *pokeParam);
+extern int POKE_TOOL_GetNatureStatMod(void *mon, int statIndex);
+extern void func_021D7DC0(int sickKind, struct BtlPokeParam *pokeParam, union SickCont *out);
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-int func_021D775C(int a);
-void *func_021C7CF4(int *p, int i);
-extern int func_021D59B4(u8 *p, int k);
-int func_021DCFF8(int a, int b);
-void *func_021C88A4(char *p, int a, int b);
-void func_021C8838(void *p, int a, int b);
-void func_021C8860(struct S *p, unsigned int a);
-void func_021C88C8(void *a, void *b);
-extern u16 func_021D70A8(struct QQ *p);
-int func_0209C2B0(int a, int b);
-extern int func_021D62C4(struct Unk021D62A8 *, int);
-extern void func_021DDE30(int, int, int, int, int);
-extern int func_021DDEA4(void *, int, unsigned int);
-extern void func_021DD044(void *, void *, int);
-extern int func_021D7B74(u8 *p, u32 k);
-extern void *func_021D5844(void *m);
-extern int func_020189D0(void *m, int b);
-extern void func_021D7DC0(int a, void *b, void *out);
-void func_021DD588(void *a, int b, int c);
-int *func_021DD608(int *p);
-void func_021DD614(int a, u8 *b, int c, int *d);
-void func_021DD624(int a, u8 *b, int c, int *d);
-void *func_021DD63C(int *p);
-void func_021DD648(int a, u8 *b, int c, int *d);
-void func_021DD658(int a, u8 *b, int c, int *d);
-void *func_021DD670(int *p);
-void func_021DD67C(int a, u8 *b, int c, int *d);
-void func_021DD68C(int a, u8 *b, int c, int *d);
-void *func_021DD6A4(int *p);
-void func_021DD6B0(int a, u8 *b, int c, int *d);
-void func_021DD6C0(int a, u8 *b, int c, int *d);
-void *func_021DD6D8(int *p);
-void func_021DD6E4(int a, u8 *b, int c, int *d);
-void func_021DD6F4(int a, void *b, int c, int *d);
-void func_021DD70C(int a, void *b, int c, int *d);
-void func_021DD744(int a, void *b, int c, int *d);
-void func_021DD77C(int a, void *b, int c, int *d);
-void func_021DD7B8(int a, u8 *b, int c, int *d, int e);
-int *func_021DD870(int *p);
-extern u8 d_021F1C2C[];
-extern u8 d_021F1C54[];
-extern u8 d_021F1C7C[];
-extern u8 d_021F1CA4[];
 extern int d_021F1C04[];
+extern int d_021F1C2C[];
+extern int d_021F1C54[];
+extern int d_021F1C7C[];
+extern int d_021F1CA4[];
 extern int d_021F1CCC[];
 
+void func_021DD588(struct BtlEventFactor *factor, void *server, int pokeId);
+int *func_021DD608(int *handlerCount);
+void func_021DD614(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021DD624(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+int *func_021DD63C(int *handlerCount);
+void func_021DD648(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021DD658(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+int *func_021DD670(int *handlerCount);
+void func_021DD67C(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021DD68C(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+int *func_021DD6A4(int *handlerCount);
+void func_021DD6B0(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021DD6C0(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+int *func_021DD6D8(int *handlerCount);
+void func_021DD6E4(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021DD6F4(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021DD70C(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021DD744(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021DD77C(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void func_021DD7B8(struct BtlEventFactor *factor, void *server, int pokeId, int *work, int statIndex);
+int *func_021DD870(int *handlerCount);
 
-void func_021DD588(void *a, int b, int c)
+void func_021DD588(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    void *p;
-    int m;
-    u8 v;
+    HandExRecoverHp *cmd;
+    int maxHp;
+    u8 percent;
 
-    if (c != func_021D775C(2))
+    if (pokeId != func_021D775C(BTL_EVAR_POKE_ID))
         return;
-    m = func_021D59B4(func_021C7CF4((int *)b, c), 0xe);
-    v = (u8)func_021DCFF8((int)a, 2);
-    p = func_021C88A4((char *)b, 5, c);
-    ((struct Obj12151 *)p)->f6 = c;
-    ((struct Obj12151 *)p)->f4 = func_0209C2B0(m * v, 0x64);
-    func_021C8838((u8 *)p + 8, 2, 0xe3 << 2);
-    func_021C8860((struct S *)((u8 *)p + 8), c);
-    func_021C8860((struct S *)((u8 *)p + 8), func_021D70A8(a));
-    func_021C88C8((void *)b, p);
+    maxHp = func_021D59B4(func_021C7CF4(server, pokeId), BTL_VALUE_MAX_HP);
+    percent = (u8)func_021DCFF8(factor, 2);
+    cmd = func_021C88A4(server, HANDEX_KIND_RECOVER_HP, pokeId);
+    cmd->pokeId = pokeId;
+    cmd->amount = func_0209C2B0(maxHp * percent, 100);
+    func_021C8838(&cmd->str, HANDEX_STR_SET, 908);
+    func_021C8860(&cmd->str, pokeId);
+    func_021C8860(&cmd->str, func_021D70A8(factor));
+    func_021C88C8(server, cmd);
 }
 
-
-int *func_021DD608(int *p)
+int *func_021DD608(int *handlerCount)
 {
-    *p = 5;
+    *handlerCount = 5;
     return d_021F1C04;
 }
 
+void func_021DD614(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { func_021DD7B8(factor, server, pokeId, work, 0); }
 
-/*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #0; str r4, [sp]; bl func_021DD7B8; add sp, #4; pop {r3, r4, pc}.
- */
-void func_021DD614(int a, u8 *b, int c, int *d) { func_021DD7B8(a, b, c, d, 0); }
-
-
-
-
-
-
-
-
-
-
-void func_021DD624(int a, u8 *b, int c, int *d)
+void func_021DD624(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (d[6] != 0) func_021DD7B8(a, b, c, d, 0);
+    if (work[ITEM_WORK_FORCED_USE] != 0) func_021DD7B8(factor, server, pokeId, work, 0);
 }
 
+int *func_021DD63C(int *handlerCount) { *handlerCount = 5; return d_021F1C2C; }
 
+void func_021DD648(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { func_021DD7B8(factor, server, pokeId, work, 1); }
 
-
-
-
-
-
-
-
-void *func_021DD63C(int *p) { *p = 5; return d_021F1C2C; }
-
-
-
-
-
-
-
-
-
-/*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #1; str r4, [sp]; bl func_021DD7B8; add sp, #4; pop {r3, r4, pc}.
- */
-void func_021DD648(int a, u8 *b, int c, int *d) { func_021DD7B8(a, b, c, d, 1); }
-
-
-
-
-
-
-
-
-void func_021DD658(int a, u8 *b, int c, int *d)
+void func_021DD658(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (d[6] != 0) func_021DD7B8(a, b, c, d, 1);
+    if (work[ITEM_WORK_FORCED_USE] != 0) func_021DD7B8(factor, server, pokeId, work, 1);
 }
 
+int *func_021DD670(int *handlerCount) { *handlerCount = 5; return d_021F1C54; }
 
+void func_021DD67C(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { func_021DD7B8(factor, server, pokeId, work, 2); }
 
-
-
-
-
-
-void *func_021DD670(int *p) { *p = 5; return d_021F1C54; }
-
-
-
-
-
-
-
-/*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #2; str r4, [sp]; bl func_021DD7B8; add sp, #4; pop {r3, r4, pc}.
- */
-void func_021DD67C(int a, u8 *b, int c, int *d) { func_021DD7B8(a, b, c, d, 2); }
-
-
-
-
-
-
-void func_021DD68C(int a, u8 *b, int c, int *d)
+void func_021DD68C(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (d[6] != 0) func_021DD7B8(a, b, c, d, 2);
+    if (work[ITEM_WORK_FORCED_USE] != 0) func_021DD7B8(factor, server, pokeId, work, 2);
 }
 
+int *func_021DD6A4(int *handlerCount) { *handlerCount = 5; return d_021F1C7C; }
 
+void func_021DD6B0(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { func_021DD7B8(factor, server, pokeId, work, 3); }
 
-
-
-
-void *func_021DD6A4(int *p) { *p = 5; return d_021F1C7C; }
-
-
-
-
-
-/*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #3; str r4, [sp]; bl func_021DD7B8; add sp, #4; pop {r3, r4, pc}.
- */
-void func_021DD6B0(int a, u8 *b, int c, int *d) { func_021DD7B8(a, b, c, d, 3); }
-
-
-
-
-void func_021DD6C0(int a, u8 *b, int c, int *d)
+void func_021DD6C0(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (d[6] != 0) func_021DD7B8(a, b, c, d, 3);
+    if (work[ITEM_WORK_FORCED_USE] != 0) func_021DD7B8(factor, server, pokeId, work, 3);
 }
 
+int *func_021DD6D8(int *handlerCount) { *handlerCount = 5; return d_021F1CA4; }
 
+void func_021DD6E4(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { func_021DD7B8(factor, server, pokeId, work, 4); }
 
-
-void *func_021DD6D8(int *p) { *p = 5; return d_021F1CA4; }
-
-
-
-/*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #4; str r4, [sp]; bl func_021DD7B8; add sp, #4; pop {r3, r4, pc}.
- */
-void func_021DD6E4(int a, u8 *b, int c, int *d) { func_021DD7B8(a, b, c, d, 4); }
-
-
-
-
-/*
- * Interface: C7CF4 returns the live r0 payload and receives observed r1.
- */
-void func_021DD6F4(int a, void *b, int c, int *d)
+void func_021DD6F4(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (d[6] != 0) func_021DD7B8(a, b, c, d, 4);
+    if (work[ITEM_WORK_FORCED_USE] != 0) func_021DD7B8(factor, server, pokeId, work, 4);
 }
 
-
-
-
-
-void func_021DD70C(int a, void *b, int c, int *d)
+void func_021DD70C(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (*d == 0 && func_021D62C4(func_021C7CF4(b, c), 15) == 0) func_021DDE30(a, (int)b, c, 2, 1);
+    if (work[ITEM_WORK_USED] == 0 && func_021D62C4(func_021C7CF4(server, pokeId), BTL_SICK_ITEM_BLOCK) == 0) func_021DDE30(factor, server, pokeId, 2, 1);
 }
 
-
-
-
-
-void func_021DD744(int a, void *b, int c, int *d)
+void func_021DD744(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (*d == 0 && func_021D62C4(func_021C7CF4(b, c), 15) == 0) func_021DDE30(a, (int)b, c, 2, 0);
+    if (work[ITEM_WORK_USED] == 0 && func_021D62C4(func_021C7CF4(server, pokeId), BTL_SICK_ITEM_BLOCK) == 0) func_021DDE30(factor, server, pokeId, 2, 0);
 }
 
-
-
-
-
-void func_021DD77C(int a, void *b, int c, int *d)
+void func_021DD77C(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (*d == 0 && func_021D62C4(func_021C7CF4(b, c), 15) == 0 && func_021DDEA4(b, c, 2) != 0) func_021DD044((void *)a, b, c);
+    if (work[ITEM_WORK_USED] == 0 && func_021D62C4(func_021C7CF4(server, pokeId), BTL_SICK_ITEM_BLOCK) == 0 && func_021DDEA4(server, pokeId, 2) != 0) func_021DD044(factor, server, pokeId);
 }
 
-
-
-
-
-void func_021DD7B8(int a, u8 *b, int c, int *d, int e)
+void func_021DD7B8(struct BtlEventFactor *factor, void *server, int pokeId, int *work, int statIndex)
 {
-    void *m;
-    u8 *p;
-    if (*d == 0 && c == func_021D775C(2)) {
-        m = func_021C7CF4((int *)b, c);
-        p = func_021C88A4((char *)b, 5, c);
-        p[6] = c;
-        *(u16 *)&((struct Obj07817 *)p)->f4 = func_021D7B74(m, func_021DCFF8(a, 2));
-        func_021C8838(p + 8, 2, 908);
-        func_021C8860((struct S *)(p + 8), c);
-        func_021C8860((struct S *)(p + 8), func_021D70A8((void *)a));
-        func_021C88C8(b, p);
-        if (func_020189D0(func_021D5844(m), e) == -1) {
-            p = func_021C88A4((char *)b, 0xc, c);
-            p[0xf] = c;
-            ((struct Obj07817 *)p)->f4 = 6;
-            func_021D7DC0(6, m, p + 8);
-            func_021C88C8(b, p);
+    struct BtlPokeParam *pokeParam;
+    HandExRecoverHp *healCmd;
+    HandExAddSick *sickCmd;
+
+    if (work[ITEM_WORK_USED] == 0 && pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        pokeParam = func_021C7CF4(server, pokeId);
+        healCmd = func_021C88A4(server, HANDEX_KIND_RECOVER_HP, pokeId);
+        healCmd->pokeId = pokeId;
+        healCmd->amount = func_021D7B74(pokeParam, func_021DCFF8(factor, 2));
+        func_021C8838(&healCmd->str, HANDEX_STR_SET, 908);
+        func_021C8860(&healCmd->str, pokeId);
+        func_021C8860(&healCmd->str, func_021D70A8(factor));
+        func_021C88C8(server, healCmd);
+        if (POKE_TOOL_GetNatureStatMod(func_021D5844(pokeParam), statIndex) == -1) {
+            sickCmd = func_021C88A4(server, HANDEX_KIND_ADD_SICK, pokeId);
+            sickCmd->pokeId = pokeId;
+            sickCmd->sickKind = BTL_SICK_CONFUSION;
+            func_021D7DC0(BTL_SICK_CONFUSION, pokeParam, &sickCmd->sickCont);
+            func_021C88C8(server, sickCmd);
         }
-        *d = 1;
+        work[ITEM_WORK_USED] = 1;
     }
 }
 
-
-int *func_021DD870(int *p)
+int *func_021DD870(int *handlerCount)
 {
-    *p = 5;
+    *handlerCount = 5;
     return d_021F1CCC;
 }

@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -15,7 +18,7 @@ typedef struct { int w[9]; } Struct36;
 typedef struct { char p0[0xc]; void *fc; char p10[0x78 - 0x10]; int f78; } E;
 typedef struct { char p0[0x14]; char *f14; } O;
 struct Struct36;
-extern void func_0204B7C8(const char *src, struct Struct36 *dst);
+extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 
 void func_0220868C(O *o, E *e, int c)
@@ -38,7 +41,7 @@ void func_0220868C(O *o, E *e, int c)
             break;
         }
     }
-    func_0204B7C8(e->fc, (struct Struct36 *)(&buf));
+    CLACT_GetActorImageProxy(e->fc, (struct Struct36 *)(&buf));
 
     i = 0;
     vram = VRAM_BASE;

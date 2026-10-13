@@ -14,20 +14,20 @@
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_020247A8 0x020247A8 thumb
+ *   PMS_WORD_Create 0x020247A8 thumb
  *   d_021C3B80 0x021C3B80 data a1
- *   func_020247F0 0x020247F0 thumb
+ *   PMS_WORD_Delete 0x020247F0 thumb
  *   func_020307B0 0x020307B0 arm
  *   d_021C1E80 0x021C1E80 data a4
- *   func_02024148 0x02024148 thumb
+ *   PMSI_PARAM_GetSaveWork 0x02024148 thumb
  *   func_0200D064 0x0200D064 thumb
- *   func_02024150 0x02024150 thumb
- *   func_0202414C 0x0202414C thumb
- *   func_02024888 0x02024888 thumb
- *   func_02024994 0x02024994 thumb
- *   func_02024160 0x02024160 thumb
+ *   PMSI_PARAM_GetEventFlag 0x02024150 thumb
+ *   PMSI_PARAM_GetWordSave 0x0202414C thumb
+ *   PMS_WORD_MakeWordId 0x02024888 thumb
+ *   PMS_WORD_CheckFlag 0x02024994 thumb
+ *   PMSI_PARAM_GetOptionFlag 0x02024160 thumb
  *   d_021C1C88 0x021C1C88 data ov110 a4
- *   func_02024810 0x02024810 thumb
+ *   PMS_WORD_GetString 0x02024810 thumb
  *   d_021C3C20 0x021C3C20 data a4
  *   d_020A1448 0x020A1448 data a4
  *   d_021C3714 0x021C3714 data a4
@@ -57,9 +57,9 @@
  *   func_0204A648 0x0204A648 arm
  *   d_021C3B94 0x021C3B94 data a4
  *   func_02030EE8 0x02030EE8 arm
- *   func_0204335C 0x0204335C arm
- *   func_020434CC 0x020434CC arm
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
+ *   BG_SYS_ClearMainPlanes 0x020434CC arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_021BBC5C 0x021BBC5C thumb ov110
  *   func_021BBD60 0x021BBD60 thumb ov110
  *   func_021BB290 0x021BB290 thumb ov110
@@ -184,7 +184,7 @@
  *   func_021BFD94 0x021BFD94 thumb ov110
  *   func_021BFE24  0x021BFE24  thumb  ov110
  *   func_021BFE60  0x021BFE60  thumb  ov110
- *   func_020499D4 0x020499D4 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   d_021C3744 0x021C3744 data ov110 a4
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -204,7 +204,7 @@
  *   func_02045A98 0x02045A98 arm
  *   func_02045924 0x02045924 arm
  *   func_021B6CE0 0x021B6CE0 thumb ov067
- *   func_0204581C 0x0204581C arm
+ *   STRBUF_Clear 0x0204581C arm
  *   func_02045F50 0x02045F50 arm
  *   d_021C375C 0x021C375C data a2
  *   func_02045994 0x02045994 arm
@@ -370,17 +370,17 @@ typedef struct { u32 values[6]; } Table;
 typedef struct { u8 pad[0xad4]; u16 values[13]; } Input;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct PmsWordSys *func_020247A8(u32 heapId);
-extern void func_020247F0(char *);
+extern struct PmsWordSys *PMS_WORD_Create(u32 heapId);
+extern void PMS_WORD_Delete(char *);
 extern u32 func_020307B0(void *p);
-extern void *func_02024148(char *p);
+extern void *PMSI_PARAM_GetSaveWork(char *p);
 extern u32 func_0200D064(struct Blk37 *p, u16 id);
-extern int func_02024150(void *);
-extern void *func_0202414C(char *p);
-extern u16 func_02024888(u32 idx, u16 add);
-extern int func_02024994(const u32 *p, u32 idx);
-extern int func_02024160(void *);
-extern void func_02024810(char *,int,int);
+extern int PMSI_PARAM_GetEventFlag(void *);
+extern void *PMSI_PARAM_GetWordSave(char *p);
+extern u16 PMS_WORD_MakeWordId(u32 idx, u16 add);
+extern int PMS_WORD_CheckFlag(const u32 *p, u32 idx);
+extern int PMSI_PARAM_GetOptionFlag(void *);
+extern void PMS_WORD_GetString(char *,int,int);
 extern u8 *func_021BF6D4(u8 *);
 extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
@@ -407,9 +407,9 @@ extern unsigned int func_0201C4E4(struct PrintSys *);
 extern void func_020419E4(void);
 extern void func_0204A648(void);
 extern u32 func_02030EE8(struct S02030EE8 *p);
-extern void func_0204335C(unsigned);
-extern void func_020434CC(void);
-extern void func_02043588(void);
+extern void BG_SYS_ClearGraphicsMemory(unsigned);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 extern u8 *func_021BBC5C(void *,u8 *,void *);
 extern void func_021BBD60(u8 *p, u32 a);
 extern u8 *func_021BB290(u32 a, u8 *b, u32 c);
@@ -530,7 +530,7 @@ extern void func_0204B954(struct Actor *a, u32 v);
 extern u32 func_021BFD94(u8 *p, struct Vec2 *out);
 extern void func_021BFE24(u8 *p, int y);
 extern unsigned func_021BFE60(u8 *p, unsigned n);
-extern u32 func_020499D4(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -546,7 +546,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_021B6CCC(int *);
 extern u16 func_02045A98(void);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern void func_0204581C(struct U16Vec *vec);
+extern void STRBUF_Clear(struct U16Vec *vec);
 extern u16 func_02045F50(const struct Obj *o);
 extern u32 func_021B6CE0(void *,u32,u32,u32,void *,u32);
 extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
@@ -675,7 +675,7 @@ void *func_021B95A0(u32 heap,void *save)
     int i;
     p=func_02030734((u16)heap,0x1E50,0,d_021C3B80,88);
     ((struct Obj05283 *)p)->f0=save;
-    ((struct Obj05283 *)p)->f4=func_020247A8(heap);
+    ((struct Obj05283 *)p)->f4=PMS_WORD_Create(heap);
     for(i=0;i<226;i++) *(u8 *)(p+0x1D6E + i)=0;
     func_021B9608((Object *)p);
     func_021B98A0((u8 *)p);
@@ -686,7 +686,7 @@ void *func_021B95A0(u32 heap,void *save)
 
 
 
-void func_021B95F4(char *a) { if(a) { func_020247F0(*(char * *)&((struct Obj22311 *)a)->f4); func_020307B0(a); } }
+void func_021B95F4(char *a) { if(a) { PMS_WORD_Delete(*(char * *)&((struct Obj22311 *)a)->f4); func_020307B0(a); } }
 
 
 
@@ -711,14 +711,14 @@ void func_021B9608(Object *p)
 
 /*
  *   Verified EXACT in scratch b24148-r1.log:
- *   void *func_02024148(char *p){return *(void **)(p+8);}
+ *   void *PMSI_PARAM_GetSaveWork(char *p){return *(void **)(p+8);}
  */
 u32 func_021B9654(u8 *p,const u16 *ids,u32 count,u16 *out)
 {
     void *save;
     u32 n;
     u32 i;
-    save=func_02024148(*(void **)p);
+    save=PMSI_PARAM_GetSaveWork(*(void **)p);
     n=0;
     for(i=0;i<count;i++){
         if(func_0200D064(save,ids[i])){
@@ -738,7 +738,7 @@ u32 func_021B9654(u8 *p,const u16 *ids,u32 count,u16 *out)
 u32 func_021B96C0(u8 *p,const u16 *ids,u32 count,u16 *out)
 {
     u32 i;
-    if(func_02024150(*(void **)p)){
+    if(PMSI_PARAM_GetEventFlag(*(void **)p)){
         for(i=0;i<count;i++){
             u32 id= *ids;
             p[0x1D6E + (id>>3)] |= (u8)(1<<(id&7));
@@ -763,14 +763,14 @@ u32 func_021B9720(u8 *p, u16 *src, u32 n, u16 *out)
     u32 count;
     u32 base;
     u32 i;
-    o = func_0202414C((char *)(*(u32 *)p));
-    base = func_02024888(0x97, 0);
+    o = PMSI_PARAM_GetWordSave((char *)(*(u32 *)p));
+    base = PMS_WORD_MakeWordId(0x97, 0);
     count = 0;
     limit = (u16)(base + 7);
     for (i = 0; i < n; i++) {
         u32 v = src[i];
         if (v >= base && v <= limit) {
-            if (func_02024994(o, v - base) == 0)
+            if (PMS_WORD_CheckFlag(o, v - base) == 0)
                 continue;
         }
         v = src[i];
@@ -789,7 +789,7 @@ u32 func_021B97AC(u8 *p,const u16 *ids,u32 count,u16 *out)
 {
     u32 i;
     u32 n;
-    if(!func_02024160(*(void **)p))return 0;
+    if(!PMSI_PARAM_GetOptionFlag(*(void **)p))return 0;
     i=0;
     n=0;
     for(;i<count;i++){
@@ -896,7 +896,7 @@ u32 func_021B999C(u8 *p, int i) { return *(u32 *)(p + i * 4 + 8); }
 /*
  * Two-byte zero alignment padding follows the compiled function.
  */
-void func_021B99A4(unsigned int a,unsigned int b,unsigned int c,int d) { unsigned int value; value=*(unsigned int *)(a+b*4+0x38); func_02024810(*(char * *)&((struct Obj22312 *)a)->f4,*(unsigned short *)(a+(value+c)*2+0x68),d); }
+void func_021B99A4(unsigned int a,unsigned int b,unsigned int c,int d) { unsigned int value; value=*(unsigned int *)(a+b*4+0x38); PMS_WORD_GetString(*(char * *)&((struct Obj22312 *)a)->f4,*(unsigned short *)(a+(value+c)*2+0x68),d); }
 
 
 
@@ -958,7 +958,7 @@ u16 func_021B99F0(int unused, int id, int index) {
 /*
  * lever: explicit if/else increments preserve the branch after the skip call.
  */
-void func_021B9A3C(u8 *p, u16 a1, int a2) { func_02024810(*(char * *)&((struct Obj22314 *)p)->f4, a1, a2); }
+void func_021B9A3C(u8 *p, u16 a1, int a2) { PMS_WORD_GetString(*(char * *)&((struct Obj22314 *)p)->f4, a1, a2); }
 
 
 
@@ -1159,9 +1159,9 @@ void func_021B9CE4(void *unused,u8 *p) {
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04000000 &= ~0xe000;
     *(volatile u32 *)0x04001000 &= ~0xe000;
-    func_0204335C(0);
-    func_020434CC();
-    func_02043588();
+    BG_SYS_ClearGraphicsMemory(0);
+    BG_SYS_ClearMainPlanes();
+    BG_SYS_ClearSubPlanes();
     *(volatile u32 *)0x04000000 &= ~0x1f00;
     *(volatile u32 *)0x04001000 &= ~0x1f00;
     h=func_020490F4(43,42);
@@ -2260,7 +2260,7 @@ unsigned func_021BAD20(u8 *p, unsigned n) { return func_021BFE60(*(u8 * *)&((str
 
 
 
-void func_021BAD2C(u8 *p,int v) { int id,x; if(v) { id=29; x=96; } else { id=28; x=0; } func_020499D4(((struct Obj10273 *)p)->f8C,id,3,0,x,0,0,42); ((struct Obj10273 *)p)->f84=1; ((struct Obj10273 *)p)->f88=v; }
+void func_021BAD2C(u8 *p,int v) { int id,x; if(v) { id=29; x=96; } else { id=28; x=0; } ARC_UTIL_UploadBgPaletteAddFromHandleExt(((struct Obj10273 *)p)->f8C,id,3,0,x,0,0,42); ((struct Obj10273 *)p)->f84=1; ((struct Obj10273 *)p)->f88=v; }
 
 
 
@@ -2427,7 +2427,7 @@ int func_021BB054(u8 *p)
         p[0xaf1]=0;
         return 0;
     }
-    func_0204581C(((struct Obj01391 *)p)->fAD0);
+    STRBUF_Clear(((struct Obj01391 *)p)->fAD0);
     func_021BB00C((Input *)p, ((struct Obj01391 *)p)->fAD0);
     if(id==26) {
         n=func_02045F50(*(void **)(p+0xc+id*4));

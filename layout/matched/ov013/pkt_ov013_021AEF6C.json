@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AEF6C",
+   "name": "VCT_MAIN_Start",
    "address": "0x021AEF6C",
    "kind": "game",
    "region": "ov013",

@@ -1,5 +1,5 @@
 /*
- * function: sub_02034BB0
+ * function: GF_OVERLAY_CheckRangeFree
  * address:  0x02034BB0
  * packet:   pkt_02034978
  * region:   arm9
@@ -18,7 +18,7 @@
  *   s_FileName     0x020A7970  data
  *   s_Expr0        0x020A7980  data
  *
- * The admission test sub_02034AC4 runs before it claims a slot: an overlay
+ * The admission test GF_OVERLAY_Load runs before it claims a slot: an overlay
  * may only be loaded if its RAM footprint is disjoint from every overlay
  * already live in the same table.  An overlay whose header cannot be read
  * is refused outright; an overlap is the GF_ASSERT(0) at gf_overlay.c:330
@@ -33,8 +33,8 @@
  * order, the later declaration taking the lower address.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034BB0.c \
- *       --func sub_02034BB0 --addr 0x02034BB0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_OVERLAY_CheckRangeFree.c \
+ *       --func GF_OVERLAY_CheckRangeFree --addr 0x02034BB0 --cc 1.1p1 --arm
  */
 
 typedef signed int   s32;
@@ -55,7 +55,7 @@ extern void *func_02034CBC(int i);
 extern u8 func_02034D08(int i);
 extern void                 sub_02034714(const char *file, u32 line, const char *expr);
 
-int sub_02034BB0(s32 handle)
+int GF_OVERLAY_CheckRangeFree(s32 handle)
 {
     u32 start;
     u32 end;

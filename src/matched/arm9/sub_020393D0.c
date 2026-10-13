@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *   unk_021469D0   0x021469D0  data
  *
  * Is the link busy?  The +0x1e9 flag on the link state forces a yes, and
  * otherwise the driver's own predicate at +0x88 decides.
  *
  * The two halves of the flag test share one `ne` chain and a single `popne`,
- * so they are one `&&` rather than nested `if`s.  func_0203D788 is called
+ * so they are one `&&` rather than nested `if`s.  GFL_NET_GetSession is called
  * before the flag is even read because its result is needed on the fall
  * through path, and the compiler will not sink a call past a branch.
  *
@@ -43,13 +43,13 @@ struct LinkRoot {
 };
 
 extern struct LinkState *unk_021469D0;
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 
 int sub_020393D0(void)
 {
     struct LinkRoot *root;
 
-    root = func_0203D788();
+    root = GFL_NET_GetSession();
 
     if (unk_021469D0 != 0 && unk_021469D0->unk_1e9 != 0) {
         return 1;

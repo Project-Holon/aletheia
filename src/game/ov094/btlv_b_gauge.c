@@ -22,7 +22,7 @@
  *   func_021D5444 0x021D5444 thumb ov093
  *   func_02018584 0x02018584 thumb
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B898  0x0204B898  arm
+ *   CLACT_GetActorAnimSeq  0x0204B898  arm
  *   func_0220793C  0x0220793C  thumb  ov094
  *   func_0204B454  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
@@ -31,12 +31,12 @@
  *   func_02043678 0x02043678 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_02017E1C 0x02017E1C thumb
- *   func_0201DE00 0x0201DE00 thumb
+ *   GF_FONT_GetTextColor 0x0201DE00 thumb
  *   func_0201DD78 0x0201DD78 thumb
  *   func_0201D304 0x0201D304 thumb
  *   func_0201C7A4 0x0201C7A4 thumb
  *   func_020437D4 0x020437D4 arm
- *   func_0204B7C8 0x0204B7C8 arm
+ *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   func_02082A60 0x02082A60 arm
  *   func_02045808 0x02045808 arm
  *   func_020437AC 0x020437AC arm
@@ -47,19 +47,19 @@
  *   d_0220AAF0     0x0220AAF0  data   ov094  a4
  *   func_0204B878  0x0204B878  arm
  *   d_0220AAB8     0x0220AAB8  data  ov094  a2
- *   func_02005E50 0x02005E50 thumb
- *   func_02005E9C 0x02005E9C thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_PopBgm 0x02005E9C thumb
  *   func_021F882C 0x021F882C thumb ov094
- *   func_02005D90 0x02005D90 thumb
- *   func_02005DF8 0x02005DF8 thumb
- *   func_02005E64 0x02005E64 thumb
- *   func_02005C44 0x02005C44 thumb
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
+ *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
+ *   GFL_USE_PushBgm 0x02005E64 thumb
+ *   GFL_USE_GetBgmNo 0x02005C44 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_02030EAC 0x02030EAC arm
  *   func_021F86E0 0x021F86E0 thumb ov094
  *   func_021F86D4 0x021F86D4 thumb ov094
- *   func_0202173C 0x0202173C thumb
- *   func_02021ED8 0x02021ED8 thumb
+ *   PALANM_RequestFade 0x0202173C thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   d_0220AB4C 0x0220AB4C data a4
  *   func_0209C2B0  0x0209C2B0  arm
  *   func_02030734 0x02030734 arm
@@ -68,7 +68,7 @@
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204AF28 0x0204AF28 arm
  *   func_0204ABF0 0x0204ABF0 arm
- *   func_0204AEF4 0x0204AEF4 arm
+ *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   func_020216D4 0x020216D4 thumb
  *   func_0204B294 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
@@ -86,6 +86,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_0200616C 0x0200616C thumb
  *   func_021F89BC 0x021F89BC thumb ov094
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
  */
 #include "../../matched/include/Obj01911.h"
 #include "../../matched/include/Obj18617.h"
@@ -535,19 +536,19 @@ extern int func_021D59B4(u8 *p, int k);
 extern u16 func_021D5444(struct QF *p);
 extern u32 func_02018584(u16, u16, u16);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern u16 func_0204B898(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void func_0220793C(char *p);
 extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u32 func_02017E1C(void *, u32, u32);
-extern void func_0201DE00(u8 *, u8 *, u8 *);
+extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C7A4(void *, s16_02207EF0, s16_02207EF0, void *, void *);
 extern void *func_020437D4(const struct Bmp *bmp);
-extern void func_0204B7C8(const char *src, struct Struct36 *dst);
+extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_020437AC(struct Obj020437AC *p);
@@ -555,21 +556,21 @@ extern int func_0202D034(u32, u32);
 extern void func_0201F35C(void *, int, u32, u32, u32);
 extern void func_020061E4(u32 a);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern int func_02005E50(void);
-extern int func_02005E9C(void);
+extern int GFL_USE_IsBgmFading(void);
+extern int GFL_USE_PopBgm(void);
 extern int func_021F882C(void);
-extern void func_02005D90(u32, u32);
-extern void func_02005DF8(u32);
-extern int func_02005E64(void);
-extern u16 func_02005C44(void);
-extern void func_02005E30(u32);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
+extern void GFL_USE_FadeInBgmFull(u32);
+extern int GFL_USE_PushBgm(void);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_FadeOutBgm(u32);
 extern void func_02030EAC(struct Node *n);
 extern int func_021F86E0(void);
 extern void *func_021F86D4(void);
-extern int func_0202173C(void *, u16, u16, s16_02207EF0, u8, u8, u16, void *);
-extern u32 func_02021ED8(const char *);
+extern int PALANM_RequestFade(void *, u16, u16, s16_02207EF0, u8, u8, u16, void *);
+extern u32 PALANM_GetFadeRequestBits(const char *);
 extern int func_0200F300(void);
-extern void func_02005DE4(void *p);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int func_0209C2B0(int a, int b);
 extern void *func_02030734(u16, u32, int, const char *, u16);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -577,7 +578,7 @@ extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
-extern int func_0204AEF4(u32 idx, u32 alternate);
+extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern void func_0204B92C(struct Obj *p, u32 v);
@@ -839,7 +840,7 @@ void func_02207D04(O_02207D04 *obj, int a, int idx)
         func_0204B3DC((struct Obj *)obj->e[idx].f10, a);
     }
     if (obj->e[idx].f14 != 0) {
-        if (func_0204B898((struct Obj *)obj->e[idx].f14) != 0) {
+        if (CLACT_GetActorAnimSeq((struct Obj *)obj->e[idx].f14) != 0) {
             func_0204B3DC((struct Obj *)obj->e[idx].f14, a);
         }
     }
@@ -1183,7 +1184,7 @@ void func_022080F4(char *o, E_022080F4 *e, void *data)
     bmp = func_02043678(8, 2, 32, (u16)((((struct Obj01911 *)o)->f448 & 0x7fff) | 0x8000));
     func_02043B5C(bmp, 0);
     func_02017E1C(data, 0x73, (u32)v);
-    func_0201DE00(&c[2], &c[1], &c[0]);
+    GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     func_0201DD78(1, 4, 0);
     if ((int)func_0201D304(v, (u32)(((struct Obj01911 *)o)->f8), (int)0) > 48)
         func_0201C7A4(bmp, 2, 5, v, ((struct Obj01911 *)o)->f8);
@@ -1191,7 +1192,7 @@ void func_022080F4(char *o, E_022080F4 *e, void *data)
         func_0201C7A4(bmp, 8, 5, v, ((struct Obj01911 *)o)->f8);
     func_0201DD78(c[2], c[1], c[0]);
     pixels = func_020437D4(bmp);
-    func_0204B7C8(e->f0, (struct Struct36 *)(&buf));
+    CLACT_GetActorImageProxy(e->f0, (struct Struct36 *)(&buf));
     if (e->f44 != 0) {
         vram = VRAM_BASE;
         func_02082A60(pixels, (void *)(vram + 0x40 + buf.w[1]), 0xc0);
@@ -1230,7 +1231,7 @@ void func_02208268(O_02208268 *o, E_02208268 *e)
         off1 = 0x660;
         off2 = 0x660;
     }
-    func_0204B7C8(e->f0, (struct Struct36 *)(&buf));
+    CLACT_GetActorImageProxy(e->f0, (struct Struct36 *)(&buf));
     if (e->f44 != 0) {
         vram = VRAM_BASE;
         func_02082A60(o->f14 + off1, (void *)(vram + 0x440 + buf.w[1]), 0x20);
@@ -1266,7 +1267,7 @@ void func_022082FC(O_022082FC *o, int idx, int k)
     switch (k) {
     case 0:
         if (o->b4 && !(idx & 1)) break;
-        func_0204B7C8(e->f8, (struct Struct36 *)(&buf));
+        CLACT_GetActorImageProxy(e->f8, (struct Struct36 *)(&buf));
         n = func_02208034(e->f4c, e->f48, e->f68, &e->f50, a, 6);
         val = e->f50;
         if (e->f4c < 48) val >>= 8;
@@ -1284,7 +1285,7 @@ void func_022082FC(O_022082FC *o, int idx, int k)
         break;
     case 1:
         if (e->f10 == 0) break;
-        func_0204B7C8(e->f10, (struct Struct36 *)(&buf));
+        CLACT_GetActorImageProxy(e->f10, (struct Struct36 *)(&buf));
         func_02208034(e->f58, e->f54, e->f60, &e->f64, a, 10);
         if (e->f6c == 100) {
             for (i = 0; i < 10; i++) a[i] = 0;
@@ -1313,7 +1314,7 @@ void func_02208420(const O_02208420 *o, E_02208420 *e, int v)
     int i, n, j;
     enum { VRAM = 0x06400000 } base;
     if (e->f4 != 0) {
-        func_0204B7C8(e->f4, (struct Struct36 *)(&buf));
+        CLACT_GetActorImageProxy(e->f4, (struct Struct36 *)(&buf));
         for (i = 0; i < 3; i++) {
             current[i] = 0x660;
             maximum[i] = 0x660;
@@ -1373,12 +1374,12 @@ void func_02208550(O_02208550 *o, E_02208550 *e)
     bmp = func_02043678(3, 2, 32, (u16)((*(u16 *)((char *)o + off) & 0x7fff) | 0x8000));
     func_02043B5C(bmp, 0);
     func_0201F35C(v, e->f6c, 3, 0, 0);
-    func_0201DE00(&c[2], &c[1], &c[0]);
+    GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     func_0201DD78(1, 4, 0);
     func_0201C7A4(bmp, 0, 5, v, o->f8);
     func_0201DD78(c[2], c[1], c[0]);
     pixels = func_020437D4(bmp);
-    func_0204B7C8(e->f0, (struct Struct36 *)(&buf));
+    CLACT_GetActorImageProxy(e->f0, (struct Struct36 *)(&buf));
     if (e->f44 != 0) {
         base = VRAM;
         off += 0x38;
@@ -1414,7 +1415,7 @@ void func_02208650(O_02208650 *o, E_02208650 *e)
     off = 0x360;
     if (e->f6f == 0)
         off = 0x660;
-    func_0204B7C8(e->f0, (struct Struct36 *)(&buf));
+    CLACT_GetActorImageProxy(e->f0, (struct Struct36 *)(&buf));
     vram = VRAM_BASE;
     func_02082A60(o->f14 + off, (void *)(vram + 0x120 + buf.w[1]), 0x20);
 }
@@ -1446,7 +1447,7 @@ void func_0220868C(O_0220868C *o, E_0220868C *e, int c)
             break;
         }
     }
-    func_0204B7C8(e->fc, (struct Struct36 *)(&buf));
+    CLACT_GetActorImageProxy(e->fc, (struct Struct36 *)(&buf));
 
     i = 0;
     vram = VRAM_BASE;
@@ -1631,7 +1632,7 @@ int func_02208958(W_02207EF0 *w, int i, int *o1, int *o2)
         return 0;
     }
     *o1 = func_0202D034(w->r[i].f48, w->r[i].f4c);
-    *o2 = func_0204B898((struct Obj *)w->r[i].h14);
+    *o2 = CLACT_GetActorAnimSeq((struct Obj *)w->r[i].h14);
     if (*o2 == 0)
         *o2 = 8;
     return 1;
@@ -1665,21 +1666,21 @@ void func_022089D4(O_02208958 *o)
 {
     int busy, found, i;
     if (o->b1) {
-        if (func_02005E50() != 0) return;
+        if (GFL_USE_IsBgmFading() != 0) return;
         o->b1 = 0;
         if (o->b2) {
-            func_02005E9C();
+            GFL_USE_PopBgm();
             if (!o->b3 && func_021F882C() != 0) {
-                func_02005D90(o->f444, 0xffff);
+                GFL_USE_CancelChangeAndPlayBgm(o->f444, 0xffff);
                 o->b3 = 1;
             } else {
                 func_02208D24(0);
             }
-            func_02005DF8(24);
+            GFL_USE_FadeInBgmFull(24);
         } else {
             func_02208D24(1);
-            func_02005E64();
-            func_02005D90(0x47a, 0xffff);
+            GFL_USE_PushBgm();
+            GFL_USE_CancelChangeAndPlayBgm(0x47a, 0xffff);
         }
         o->b2 ^= 1;
         return;
@@ -1693,11 +1694,11 @@ void func_022089D4(O_02208958 *o)
             if (func_0202D034(o->e[i].f48, o->e[i].f4c) == 2) found = 1;
         }
     }
-    if (!o->b2 && o->f444 != func_02005C44()) return;
+    if (!o->b2 && o->f444 != GFL_USE_GetBgmNo()) return;
     if (busy != 0) return;
     if ((o->b2 && found == 0) || (!o->b2 && found == 1)) {
         o->b1 = 1;
-        func_02005E30(8);
+        GFL_USE_FadeOutBgm(8);
     }
 }
 
@@ -1759,19 +1760,19 @@ void func_02208BFC(void *unused, State *s)
         }
         if (s->mask) {
             pal = (void *)func_021F86E0();
-            func_0202173C(pal, 4, s->mask, 0, 0, 8, 16, func_021F86D4());
+            PALANM_RequestFade(pal, 4, s->mask, 0, 0, 8, 16, func_021F86D4());
             s->state = 1;
         }
         break;
     case 1:
-        if (!func_02021ED8((const char *)func_021F86E0())) {
+        if (!PALANM_GetFadeRequestBits((const char *)func_021F86E0())) {
             pal = (void *)func_021F86E0();
-            func_0202173C(pal, 4, s->mask, 0, 8, 0, 16, func_021F86D4());
+            PALANM_RequestFade(pal, 4, s->mask, 0, 8, 0, 16, func_021F86D4());
             s->state = 2;
         }
         break;
     case 2:
-        if (!func_02021ED8((const char *)func_021F86E0())) {
+        if (!PALANM_GetFadeRequestBits((const char *)func_021F86E0())) {
             s->count++;
             if (s->count == 3) {
                 s->count = 0;
@@ -1800,7 +1801,7 @@ void func_02208BFC(void *unused, State *s)
 void func_02208D24(int a)
 {
     if (func_0200F300() != 1)
-        func_02005DE4((void *)a);
+        GFL_USE_SetBgmPlayerParam((void *)a);
 }
 
 
@@ -1861,7 +1862,7 @@ Work_022079C0 *func_02208DAC(const Arg *arg, u32 heapId)
     w->h4 = func_0204A6C8(arc, 0xbd, 0, 0, w->heap);
     w->h8 = func_0204AF28(arc, 0xbf, 0xc0, w->heap);
     w->hc = func_0204ABF0(arc, 0xbe, 0, 0xc0, w->heap);
-    func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(func_0204AEF4(w->hc, 0) >> 1), 0x20);
+    func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(w->hc, 0) >> 1), 0x20);
     {
     Pos pos = {0, 0, 0, 0};
     int side = arg->side;

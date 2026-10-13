@@ -1,5 +1,5 @@
 /*
- * function: func_0200E008
+ * function: BSUBWAY_SAVEDATA_IncStat
  * address:  0x0200E008
  * packet:   pkt_0200E008
  * region:   arm9
@@ -17,7 +17,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-void func_0200E008(u8 *base, int a, int idx)
+void BSUBWAY_SAVEDATA_IncStat(u8 *base, int a, int idx)
 {
     u16 *p = (u16 *)(base + a * 6 + idx * 2);
 

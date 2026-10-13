@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02029F54
+ * function: RINGTONE_SYS_Start
  * address:  0x02029F54
  * packet:   pkt_02029F4C
  * region:   arm9
@@ -17,11 +17,11 @@
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); 0x02029F54 is
  * a seed for layout/function_starts.txt.
  *
- * Kept in its own file rather than folded in with func_02029F60 so that the
+ * Kept in its own file rather than folded in with RINGTONE_SYS_Stop so that the
  * sibling's pool word stays outside this range.
  *
  * symbols:
- *   func_0202A084  0x0202A084  thumb
+ *   RINGTONE_SYS_PostEvent  0x0202A084  thumb
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02029F54.c \
@@ -29,9 +29,9 @@
  */
 
 typedef unsigned int   u32;
-extern void func_0202A084(u32 *p, int event);
+extern void RINGTONE_SYS_PostEvent(u32 *p, int event);
 
-void func_02029F54(void *p)
+void RINGTONE_SYS_Start(void *p)
 {
-    func_0202A084(p, 1);
+    RINGTONE_SYS_PostEvent(p, 1);
 }

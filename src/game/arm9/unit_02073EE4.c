@@ -1,6 +1,6 @@
 /*
  * file:     unit_02073EE4.c
- * function: func_02073EE4
+ * function: NNS_SndStartTimer
  * address:  0x02073EE4
  * packet:   pkt_02073BF0
  * region:   arm9
@@ -22,7 +22,7 @@ extern void func_020894DC(u32, u32, u32, u32);
 extern u32 func_02089D40(void);
 extern void func_02089B38(u32);
 extern void func_02089CD4(u32);
-void func_02073EE4(void) {
+void NNS_SndStartTimer(void) {
     struct SndSystem *sndSystem = &g_0214E9FC;
     u32 alarmMask;
     u32 commandTag;

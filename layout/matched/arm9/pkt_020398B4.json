@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020399A8",
+   "name": "GFL_NET_HANDLE_GetCurrentHandle",
    "address": "0x020399A8",
    "kind": "game",
    "region": "arm9",

@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02175B14  0x02175B14  thumb  ov011
- *   func_02175894  0x02175894  thumb  ov011
- *   func_021758B4  0x021758B4  thumb  ov011
+ *   INTRUDE_COMM_GetSessionElapsed  0x02175894  thumb  ov011
+ *   INTRUDE_COMM_GetSessionWaitRemaining  0x021758B4  thumb  ov011
  */
 #include "../include/Obj00567.h"
 
@@ -27,8 +27,8 @@ typedef struct Flags {
 } Flags;
 
 extern int func_02175B14(u8 *p);
-extern int func_02175894(u8 *p);
-extern int func_021758B4(u8 *p);
+extern int INTRUDE_COMM_GetSessionElapsed(u8 *p);
+extern int INTRUDE_COMM_GetSessionWaitRemaining(u8 *p);
 
 int func_021758C8(u8 *o)
 {
@@ -38,9 +38,9 @@ int func_021758C8(u8 *o)
     if (func_02175B14(o) == 1 && o[0xd8] == 4) {
         h = ((struct Obj00567 *)o)->fA8;
         if (h != 0 || ((Flags *)(o + 0x1a5))->f == 0) {
-            v = h - func_02175894(o);
+            v = h - INTRUDE_COMM_GetSessionElapsed(o);
         } else {
-            v = func_021758B4(o);
+            v = INTRUDE_COMM_GetSessionWaitRemaining(o);
         }
         if (v < 0) {
             return 0;

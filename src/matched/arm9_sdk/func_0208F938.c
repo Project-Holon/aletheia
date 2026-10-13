@@ -1,5 +1,5 @@
 /*
- * function: func_0208F938
+ * function: WM_Disconnect
  * address:  0x0208F938
  * packet:   pkt_0208F938
  * region:   arm9
@@ -71,7 +71,7 @@ extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 
-WMErrCode func_0208F938(WMCallbackFunc callback, u16 aid)
+WMErrCode WM_Disconnect(WMCallbackFunc callback, u16 aid)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();

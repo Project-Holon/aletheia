@@ -39,7 +39,7 @@
  * header+0x16. It is *not* the classic __FILE__/__LINE__ pair: the sites
  * that call this pass addresses above the arm9 static image end
  * (0x020A6800 per layout/layout.json), i.e. BSS globals, not string
- * constants. See src/matched/sub_020457B0.c for a worked caller.
+ * constants. See src/matched/STRBUF_Create.c for a worked caller.
  *
  * Shape notes:
  *

@@ -20,15 +20,15 @@
  *   func_02012944 0x02012944 thumb
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200873C 0x0200873C thumb
- *   func_020083E4 0x020083E4 thumb
+ *   CONFIG_GetAppliedFlag 0x020083E4 thumb
  *   func_02049B90 0x02049B90 arm
  *   func_02045B38 0x02045B38 arm
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_02045334 0x02045334 arm
- *   func_02045780 0x02045780 arm
- *   func_02045788 0x02045788 arm
+ *   BMP_WIN_SetPosX 0x02045780 arm
+ *   BMP_WIN_SetPosY 0x02045788 arm
  *   func_0201EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   func_020457B0 0x020457B0 arm
@@ -71,15 +71,15 @@ struct U16Vec;
 struct WordSet;
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern int func_020083E4(unsigned short *p);
+extern int CONFIG_GetAppliedFlag(unsigned short *p);
 extern void func_02049B90(u32,u32,u32,u32,u32,u32,u16);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
-extern void func_02045780(struct Descriptor *p, u8 v);
-extern void func_02045788(struct Descriptor *p, u8 v);
+extern void BMP_WIN_SetPosX(struct Descriptor *p, u8 v);
+extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
@@ -103,7 +103,7 @@ void func_021B9964(struct Obj *p)
     s16 off;
     u32 ws, x, t;
     msg = func_02012944(*p->info);
-    flag = func_020083E4((short unsigned int *)func_0200873C(func_02012EBC(*p->info)));
+    flag = CONFIG_GetAppliedFlag((short unsigned int *)func_0200873C(func_02012EBC(*p->info)));
     p->bank = 0;
     for (i = 0; i < 5; i++) {
         p->ptr[i] = 0;
@@ -120,8 +120,8 @@ void func_021B9964(struct Obj *p)
     }
     if (flag == 1) {
         for (j = 0; j < 5; j++) {
-            func_02045780(p->ptr[j], d_021BA1E0[j].a);
-            func_02045788(p->ptr[j], d_021BA1E0[j].b);
+            BMP_WIN_SetPosX(p->ptr[j], d_021BA1E0[j].a);
+            BMP_WIN_SetPosY(p->ptr[j], d_021BA1E0[j].b);
         }
     }
     ws = (u32)func_0201EC64(p->heap);

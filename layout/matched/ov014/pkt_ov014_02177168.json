@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02177168",
-    "func_0217717C",
-    "func_02177184",
-    "func_02177190"
+    "GFL_NET_DEVWIRELESS_IsDataSharing",
+    "GFL_NET_DEVWIRELESS_StepDataSharing",
+    "GFL_NET_DEVWIRELESS_GetSharedData",
+    "GFL_NET_DEVWIRELESS_SendData"
+   ],
+   "addresses": [
+    "0x02177168",
+    "0x0217717C",
+    "0x02177184",
+    "0x02177190"
    ]
   }
  ]

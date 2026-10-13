@@ -10,7 +10,7 @@
  * symbols:
  *   func_021B65C4 0x021B65C4 thumb ov172
  *   func_020490A8 0x020490A8 arm
- *   func_0203D7C8 0x0203D7C8 arm
+ *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   func_02048F4C 0x02048F4C arm
  *   func_020862F0 0x020862F0 arm
  *   d_021C71C0 0x021C71C0 data a4
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021B65C4(void *);
 extern u32 func_020490A8(u32 a, u32 b);
-extern void *func_0203D7C8(u32, u32, const char *, u16);
+extern void *GFL_NET_AllocAligned(u32, u32, const char *, u16);
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 extern void func_020862F0(void *, u32);
 extern const char d_021C71C0[];
@@ -34,7 +34,7 @@ void func_021B657C(char *obj, int mode)
     which = (u16)which;
     size = func_020490A8(0xD4, which);
     ((struct Obj01559 *)p)->f4C = size;
-    ((struct Obj01559 *)p)->f48 = func_0203D7C8(((struct Obj01559 *)p)->f0, size, d_021C71C0, 0x13B);
+    ((struct Obj01559 *)p)->f48 = GFL_NET_AllocAligned(((struct Obj01559 *)p)->f0, size, d_021C71C0, 0x13B);
     func_02048F4C(((struct Obj01559 *)p)->f48, 0xD4, which);
     func_020862F0(((struct Obj01559 *)p)->f48, ((struct Obj01559 *)p)->f4C);
 }

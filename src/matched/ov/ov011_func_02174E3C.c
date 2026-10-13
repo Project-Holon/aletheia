@@ -1,5 +1,5 @@
 /*
- * function: func_02174E3C
+ * function: INTRUDE_COMM_RefreshSelfRecord
  * address:  0x02174E3C
  * packet:   pkt_ov011_02174E3C
  * region:   ov011
@@ -15,7 +15,7 @@
  *   func_02008468  0x02008468  thumb
  *   func_02082D44  0x02082D44  arm
  *   func_020127B8  0x020127B8  thumb
- *   func_021752DC  0x021752DC  thumb ov011
+ *   INTRUDE_COMM_UpdateSelfRecord  0x021752DC  thumb ov011
  *   func_02039338  0x02039338  arm
  *   func_02175710  0x02175710  thumb ov011
  */
@@ -39,18 +39,18 @@ int func_02008468(void);
 void func_02082D44(int a, u8 *b, int c);
 void *func_020127B8(void *p);
 typedef unsigned int   u32;
-int func_021752DC(u8 *p);
+int INTRUDE_COMM_UpdateSelfRecord(u8 *p);
 u16 func_02039338(void);
 void func_02175710(u8 *o, u32 v);
 
-void func_02174E3C(u8 *p)
+void INTRUDE_COMM_RefreshSelfRecord(u8 *p)
 {
     int v;
 
     v = func_02026478((void *)(((struct Obj09349 *)p)->f4));
     func_02082D44((int)func_02012944((void *)v), p + 0x160, func_02008468());
     func_02082D44((int)func_020127B8((void *)v), p + 0x180, 0x10);
-    func_021752DC(p);
+    INTRUDE_COMM_UpdateSelfRecord(p);
     if (((F86 *)(p + 0x86))->x == 0x80) {
         func_02175710(p, func_02039338());
     }

@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02016FC8"
+    "MCSS_MulVecMtx44"
+   ],
+   "addresses": [
+    "0x02016FC8"
    ]
   },
   {
@@ -33,9 +36,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02017100",
-    "func_02017114",
-    "func_02017168"
+    "MCSS_TOOL_MakeAddWorkFromPP",
+    "MCSS_TOOL_MakeAddWorkFromPPP",
+    "MCSS_TOOL_MakeAddWorkFromParam"
+   ],
+   "addresses": [
+    "0x02017100",
+    "0x02017114",
+    "0x02017168"
    ]
   },
   {
@@ -50,8 +58,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020173E8",
+    "POKE_TOOL_GetBoxParamSize",
     "func_020173EC"
+   ],
+   "addresses": [
+    "0x020173E8",
+    "0x020173EC"
    ]
   },
   {
@@ -66,8 +78,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02017528",
-    "func_02017550"
+    "POKE_TOOL_ClearPartyParam",
+    "POKE_TOOL_ClearBoxParam"
+   ],
+   "addresses": [
+    "0x02017528",
+    "0x02017550"
    ]
   }
  ]

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0200FBB0",
+   "name": "GFL_NET_ERR_WaitLinkClosed",
    "address": "0x0200FBB0",
    "kind": "game",
    "region": "arm9",

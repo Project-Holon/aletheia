@@ -12,7 +12,7 @@
  * symbols:
  *   func_02013020  0x02013020  thumb
  *   func_02013050  0x02013050  thumb
- *   sub_0201CDF4   0x0201CDF4  thumb
+ *   PRINTSYS_SplitWait   0x0201CDF4  thumb
  *   func_02043B5C  0x02043B5C  arm
  *
  * Applies the 0xF000 control block the text record's cursor is parked on
@@ -20,7 +20,7 @@
  * block's kind (low byte of its second halfword) is a dense 0..9 switch:
  * 0/1 pause for a key (mode 0 or 1) and home the pen, 2 sets the wait,
  * 3/4/9 set the per-glyph delay pair at +0x1a/+0x1b (9 through the
- * speed setting func_02013020 / func_02013050 and sub_0201CDF4), 5/6/7
+ * speed setting func_02013020 / func_02013050 and PRINTSYS_SplitWait), 5/6/7
  * set the callback argument, 8 clears the window.  A pause also skips a
  * 0xFFFE that directly follows the block.
  *
@@ -91,7 +91,7 @@ struct Rec {
 
 extern signed char func_02013020(void);
 extern signed char func_02013050(void);
-extern void sub_0201CDF4(s32 v, u8 *out);
+extern void PRINTSYS_SplitWait(s32 v, u8 *out);
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 
@@ -179,10 +179,10 @@ void sub_0201D110(struct Rec *p)
             buf[1] = p->f19;
             break;
         case 1:
-            sub_0201CDF4(func_02013020(), buf);
+            PRINTSYS_SplitWait(func_02013020(), buf);
             break;
         case 2:
-            sub_0201CDF4(func_02013050(), buf);
+            PRINTSYS_SplitWait(func_02013050(), buf);
             break;
         }
         p->f1a = buf[0];

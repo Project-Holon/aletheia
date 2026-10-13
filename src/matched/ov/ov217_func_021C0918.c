@@ -13,7 +13,7 @@
  *   func_02012138  0x02012138  thumb
  *   func_02026400  0x02026400  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02026498  0x02026498  thumb
+ *   GAME_COMM_SetNotifyFlag  0x02026498  thumb
  *   func_021BF734  0x021BF734  thumb  ov217
  *
  * Opens the +0x10 record (func_02012138 on the result of func_021BF734),
@@ -35,12 +35,12 @@ extern u32 func_02012138(const struct Ctx *);
 struct Comm;
 extern void func_02026400(struct Comm *p);
 extern u32 func_02026454(void *obj);
-extern void func_02026498(void *obj, u32 flag);
+extern void GAME_COMM_SetNotifyFlag(void *obj, u32 flag);
 extern u32 func_021BF734(u8 *);
 void func_021C0918(u8 *a0)
 {
     u32 v1 = func_02012138((const struct Ctx *)func_021BF734(a0));
-    func_02026498((void *)v1, 1);
+    GAME_COMM_SetNotifyFlag((void *)v1, 1);
     if (func_02026454((void *)v1) == 2) {
     func_02026400((struct Comm *)v1);
     }

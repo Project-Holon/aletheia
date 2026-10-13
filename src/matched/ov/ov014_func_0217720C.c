@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov014/unit_021771F8.c and filed here.
  *
  * symbols:
- *   func_02177C3C 0x02177C3C thumb ov014
+ *   NET_WHPIPE_GetConnectBitmap 0x02177C3C thumb ov014
  */
 
-extern unsigned int func_02177C3C(void);
+extern unsigned int NET_WHPIPE_GetConnectBitmap(void);
 unsigned int func_0217720C(void);
 
 unsigned int func_0217720C(void)
 {
-    return func_02177C3C();
+    return NET_WHPIPE_GetConnectBitmap();
 }

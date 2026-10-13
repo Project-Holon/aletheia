@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *
  * Guarded call through a function-pointer table: fetch the singleton via
- * func_0203D788, bail to 0 if it is null, then chase the pointer at +0x340
+ * GFL_NET_GetSession, bail to 0 if it is null, then chase the pointer at +0x340
  * to a table and call its +0x6c entry through a register (no relocation
- * site there, `blx r0`).  func_0203D788 has many outside callers, so its
+ * site there, `blx r0`).  GFL_NET_GetSession has many outside callers, so its
  * own call closes on the `label` class.
  *
  * Verified with:
@@ -36,11 +36,11 @@ struct Singleton {
     struct Table  *unk_340;
 };
 
-extern void *func_0203D788(void);
+extern void *GFL_NET_GetSession(void);
 
 int func_0203CD98(void)
 {
-    struct Singleton *s = func_0203D788();
+    struct Singleton *s = GFL_NET_GetSession();
 
     if (s == 0) {
         return 0;

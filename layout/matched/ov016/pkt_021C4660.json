@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C4660",
+   "name": "DWCi_SceneOptMovWait_procScene",
    "address": "0x021C4660",
    "kind": "game",
    "region": "ov016",
@@ -37,7 +37,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C4FD0",
+   "name": "DWCi_SceneSetAossComplete_procScene",
    "address": "0x021C4FD0",
    "kind": "game",
    "region": "ov016",

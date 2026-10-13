@@ -1,5 +1,5 @@
 /*
- * function: func_02012380
+ * function: GAME_EVENT_Control
  * address:  0x02012380
  * packet:   pkt_02012380
  * region:   arm9
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   sub_02012104   0x02012104  thumb
- *   sub_02012108   0x02012108  thumb
- *   sub_02012304   0x02012304  thumb
- *   sub_02012314   0x02012314  thumb
- *   sub_020124F0   0x020124F0  thumb
+ *   GAMESYSTEM_GetEvent   0x02012104  thumb
+ *   GAMESYSTEM_SetEvent   0x02012108  thumb
+ *   GAME_EVENT_RunFunc   0x02012304  thumb
+ *   GAME_EVENT_Delete   0x02012314  thumb
+ *   GAME_EVENT_GetParent   0x020124F0  thumb
  *
  * game_event.c: run the event queue until it drains, stalls or finishes.
  * The dangling `cmp r0, #0x21` followed by an unconditional branch back to
@@ -23,32 +23,32 @@
  */
 
 struct Ctx;
-extern unsigned int sub_02012104(const struct Ctx *p);
+extern unsigned int GAMESYSTEM_GetEvent(const struct Ctx *p);
 typedef unsigned int   u32;
 struct Ctx;
 struct S02012304;
-extern void sub_02012108(struct Ctx *p, u32 v);
-extern int sub_02012304(struct S02012304 *o);
-extern void sub_02012314(char *p);
+extern void GAMESYSTEM_SetEvent(struct Ctx *p, u32 v);
+extern int GAME_EVENT_RunFunc(struct S02012304 *o);
+extern void GAME_EVENT_Delete(char *p);
 struct Obj;
-extern void *sub_020124F0(struct Obj *p);
+extern void *GAME_EVENT_GetParent(struct Obj *p);
 
-int func_02012380(void *p)
+int GAME_EVENT_Control(void *p)
 {
     void *v;
     int x;
 
     for (;;) {
-        v = (void *)sub_02012104(p);
+        v = (void *)GAMESYSTEM_GetEvent(p);
         if (v == 0)
             return 0;
-        switch (sub_02012304(v)) {
+        switch (GAME_EVENT_RunFunc(v)) {
         case 0:
             return 0;
         case 1:
-            x = (int)sub_020124F0(v);
-            sub_02012314(v);
-            sub_02012108(p, x);
+            x = (int)GAME_EVENT_GetParent(v);
+            GAME_EVENT_Delete(v);
+            GAMESYSTEM_SetEvent(p, x);
             if (x == 0)
                 return 1;
             break;

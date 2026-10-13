@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02027FEC",
+   "name": "APP_TASKMENU_WIN_Create",
    "address": "0x02027FEC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202800C",
+   "name": "APP_TASKMENU_WIN_CreateEx",
    "address": "0x0202800C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202804C",
+   "name": "APP_TASKMENU_WIN_CreateExNoScreen",
    "address": "0x0202804C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02028164",
+   "name": "APP_TASKMENU_WIN_Free",
    "address": "0x02028164",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02028230",
+   "name": "APP_TASKMENU_WIN_IsFinish",
    "address": "0x02028230",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202843C",
+   "name": "APP_TASKMENU_WIN_ClearScreen",
    "address": "0x0202843C",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02028454",
+   "name": "APP_TASKMENU_WIN_TransChar",
    "address": "0x02028454",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202846C",
+   "name": "APP_TASKMENU_WIN_IsUpdateTrans",
    "address": "0x0202846C",
    "kind": "game",
    "region": "arm9",

@@ -13,19 +13,19 @@
  *   _ffix 0x0209C494 arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
- *   func_02006138 0x02006138 thumb
- *   func_02006268 0x02006268 thumb
- *   func_02072F34 0x02072F34 arm
+ *   GFL_USE_GetSeHandle 0x02006138 thumb
+ *   GFL_USE_SetSeSlotParams 0x02006268 thumb
+ *   NNS_SndHandleSetSeqPriority 0x02072F34 arm
  *   func_021F89BC 0x021F89BC thumb ov094
  */
 extern float _fflt(int);
 extern float _fadd(float, float);
 extern float _fsub(float, float);
 extern int _ffix(float);
-extern unsigned int *func_02006138(int i);
+extern unsigned int *GFL_USE_GetSeHandle(int i);
 typedef unsigned int   u32;
-extern void func_02006268(int i, u32 a, u32 b, u32 c);
-extern void func_02072F34(char *, unsigned int);
+extern void GFL_USE_SetSeSlotParams(int i, u32 a, u32 b, u32 c);
+extern void NNS_SndHandleSetSeqPriority(char *, unsigned int);
 extern void func_021F89BC(void *);
 void func_021FE594(void *h, int *s)
 {
@@ -62,9 +62,9 @@ void func_021FE594(void *h, int *s)
         else
             s[6] = _ffix(_fsub(_fflt(v << 12), 0.5f));
         switch (s[3]) {
-        case 0: func_02006268(s[1], -1, v, -1); break;
-        case 1: func_02072F34((char *)func_02006138(s[1]), v); break;
-        case 2: func_02006268(s[1], -1, -1, v); break;
+        case 0: GFL_USE_SetSeSlotParams(s[1], -1, v, -1); break;
+        case 1: NNS_SndHandleSetSeqPriority((char *)GFL_USE_GetSeHandle(s[1]), v); break;
+        case 2: GFL_USE_SetSeSlotParams(s[1], -1, -1, v); break;
         }
         if (s[9] == 0) {
             s[9] = s[10];

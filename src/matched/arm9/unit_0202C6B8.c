@@ -14,7 +14,7 @@
  *
  * Two plain functions, no relocations. sub_0202C6B8 reads the object's
  * first word; sub_0202C6BC sets it and clears the u16 field at offset 4.
- * sub_0202C6BC is the target of func_0202C6A0/func_0202C6AC
+ * sub_0202C6BC is the target of ISS_SWITCH_SetOnState/ISS_SWITCH_SetOffState
  * (src/matched/unit_0202C6A0.c) and of eight direct callers elsewhere in
  * the image.
  *

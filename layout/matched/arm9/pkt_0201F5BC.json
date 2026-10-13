@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201F8B8",
+   "name": "BMP_MENUWORK_FindFreeEntry",
    "address": "0x0201F8B8",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201F9D0",
+   "name": "BMP_MENU_Add",
    "address": "0x0201F9D0",
    "kind": "game",
    "region": "arm9",

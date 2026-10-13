@@ -12,6 +12,11 @@
  * isa:      thumb
  * status:   EXACT
  * function: func_0200CFA0
+ *
+ * symbols:
+ *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
+ *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
+ *   POKE_TOOL_GetGender  0x02017F00  thumb
  */
 
 typedef unsigned char  u8;
@@ -35,10 +40,10 @@ struct Blk37 {
 };
 
 struct Sav;
-extern u32 func_02017D30(struct Sav *p);
-extern u32 func_02017D70(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern u32   func_02017E1C(void *m, u32 field, u32 arg);
-extern u8    func_02017F00(void *m);
+extern u8    POKE_TOOL_GetGender(void *m);
 extern u32   func_02017EAC(void *m);
 extern u32 func_0200C720(u32 v);
 extern u32   func_0200D064(struct Blk37 *p, u16 id);
@@ -55,17 +60,17 @@ void func_0200CFA0(struct Blk37 *p, void *m)
     u32 v6F;
     u16 id;
 
-    saved = func_02017D30(m);
+    saved = POKE_TOOL_DecodePartyParam(m);
     if (func_02017E1C(m, 0x4C, 0) == 1) {
-        func_02017D70(m, saved);
+        POKE_TOOL_EncodePartyParam(m, saved);
         return;
     }
     id = (u16)func_02017E1C(m, 5, 0);
     v0 = func_02017E1C(m, 0, 0);
     v6F = func_02017E1C(m, 0x6F, 0);
-    f = func_02017F00(m);
+    f = POKE_TOOL_GetGender(m);
     g = func_02017EAC(m);
-    func_02017D70(m, saved);
+    POKE_TOOL_EncodePartyParam(m, saved);
     if (func_0200C720(id) != 0) {
         return;
     }

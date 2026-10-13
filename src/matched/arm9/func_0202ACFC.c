@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202ACFC
+ * function: ISS_CITY_SYS_UpdateSteady
  * address:  0x0202ACFC
  * packet:   pkt_0202ACCC
  * region:   arm9
@@ -9,6 +9,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   ISS_CITY_SYS_RefreshVolume  0x0202AE68  thumb
+ *   ISS_CITY_SYS_ApplyVolume  0x0202AEBC  thumb
  */
 
-int func_0202ACFC(int a0){ int t0, t1; t0 = func_0202AE68(a0); if ((unsigned int)(t0) != (unsigned int)(0)) { t1 = func_0202AEBC((int)((a0 + 0) + 0)); } else {  return t0; } }
+int ISS_CITY_SYS_UpdateSteady(int a0){ int t0, t1; t0 = ISS_CITY_SYS_RefreshVolume(a0); if ((unsigned int)(t0) != (unsigned int)(0)) { t1 = ISS_CITY_SYS_ApplyVolume((int)((a0 + 0) + 0)); } else {  return t0; } }

@@ -15,8 +15,8 @@
  *   func_020399A8 0x020399A8 arm
  *   func_0203D1A4 0x0203D1A4 arm
  *   func_0203D1B4 0x0203D1B4 arm
- *   func_0203EA54 0x0203EA54 arm
- *   func_0203E758 0x0203E758 arm
+ *   GFL_NET_LOWER_DATA_IsSendFinished 0x0203EA54 arm
+ *   GFL_NET_LOWER_DATA_SetSendData 0x0203E758 arm
  *   func_02082A90 0x02082A90 arm
  *   func_021C2B74 0x021C2B74 arm ov172
  *   func_021BDFDC 0x021BDFDC thumb ov172
@@ -44,8 +44,8 @@ struct Link;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(struct Link *p);
 extern int func_0203D1B4(void);
-extern int func_0203EA54(void);
-extern void func_0203E758(int, int, int, int);
+extern int GFL_NET_LOWER_DATA_IsSendFinished(void);
+extern void GFL_NET_LOWER_DATA_SetSendData(int, int, int, int);
 extern void func_02082A90(const void *, void *, u32);
 extern unsigned long func_021C2B74(void *src, unsigned char *dst, int limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option);
 extern u32 func_021BDFDC(void *);
@@ -110,7 +110,7 @@ void func_021B8154(void *a, char *b)
     for (i = 0; i < 4; i++) func_021B8628(a, (int)b, (int *)(b + 0x64 + i * 0x40), i);
     if (B(4) > 1) {
         if (W(0x184) == 1) {
-            if (func_0203EA54() == 1) W(0x184) = 0;
+            if (GFL_NET_LOWER_DATA_IsSendFinished() == 1) W(0x184) = 0;
         } else {
             u8 c1 = B(0x182);
             u8 c2 = B(0x183);
@@ -126,7 +126,7 @@ void func_021B8154(void *a, char *b)
                         s24 = func_021B77E8(a, r7);
                         res = func_021C2B74((void *)W(0x18c), (unsigned char *)W(0x190), s1c, (unsigned char *)W(0x188), s20, s24, 0x46, 1, 4);
                         if (res != 0) {
-                            func_0203E758(W(0x190), res, B(0x182), 0);
+                            GFL_NET_LOWER_DATA_SetSendData(W(0x190), res, B(0x182), 0);
                             B(0x183) = 0;
                             W(0x184) = 1;
                         }

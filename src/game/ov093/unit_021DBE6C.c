@@ -23,197 +23,180 @@
  *   func_021D7704 0x021D7704 thumb ov093
  *   func_021D76BC 0x021D76BC thumb ov093
  *   d_021F0D14 0x021F0D14 data a4
- *   func_0201C1BC  0x0201C1BC  thumb
+ *   WAZA_TOOL_GetCategory  0x0201C1BC  thumb
  *   func_0201BD28  0x0201BD28  thumb
- *   func_0201C020  0x0201C020  thumb
- *   func_0201C0BC  0x0201C0BC  thumb
+ *   WAZA_TOOL_GetRankEffectCount  0x0201C020  thumb
+ *   WAZA_TOOL_GetRankEffect  0x0201C0BC  thumb
  *   func_021B9A24  0x021B9A24  thumb  ov093
  *   d_021F07D0     0x021F07D0  data   ov093  a4
  *   d_021F0688     0x021F0688  data   ov093  a4
  */
-#include "../../matched/include/Obj02789.h"
-#include "../../matched/include/Obj05217.h"
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
+#include "unit_021DBAF0_types.h"
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5D14(s8 *p, int i, int sign);
-extern int func_021D5B68(void *m);
-extern void func_021C88B4(void *a, int k, int b);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
-extern void func_021D7704(int,int);
-extern int func_021D76BC(int,unsigned int);
-extern u32 func_0201C1BC(u16 id);
-extern u32 func_0201BD28(u16 id, u32 field);
-extern u8 func_0201C020(u16 id);
-extern u8 func_0201C0BC(u16 id, u32 idx, s32 *out);
-extern int func_021B9A24(u32 a, u32 b);
-void func_021DBE6C(int u, void *a, u32 b);
-int *func_021DBF1C(int *p);
-void func_021DBF28(int a,int b,int c);
-void func_021DBF58(int a,int b,int c);
-void func_021DBF84(int a, int b, int c);
-void func_021DBF9C(int a,int b,int c);
-int *func_021DBFC8(int *p);
-int func_021DBFD4(u16 id);
-void func_021DC054(int u, void *a, u32 b);
-int *func_021DC0B0(int *p);
+extern struct BtlPokeParam *func_021C7CF4(struct BtlServerFlow *flow, int pokeId);
+extern int func_021D5D14(struct BtlPokeParam *bpp, int statId, int direction);
+extern int func_021D5B68(struct BtlPokeParam *bpp);
+extern void func_021C88B4(struct BtlServerFlow *flow, int popupState, int pokeId);
+extern void *func_021C88A4(struct BtlServerFlow *flow, int cmdKind, int pokeId);
+extern void func_021C88C8(struct BtlServerFlow *flow, void *cmd);
+extern void func_021D7704(int key, int ratio);
+extern int func_021D76BC(int key, unsigned int value);
+extern u32 WAZA_TOOL_GetCategory(u16 moveId);
+extern u32 func_0201BD28(u16 moveId, u32 field);
+extern u8 WAZA_TOOL_GetRankEffectCount(u16 moveId);
+extern u8 WAZA_TOOL_GetRankEffect(u16 moveId, u32 index, s32 *out);
+extern int func_021B9A24(u32 pokeIdA, u32 pokeIdB);
+void func_021DBE6C(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u32 ownerId);
+int *func_021DBF1C(int *handlerCount);
+void func_021DBF28(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId);
+void func_021DBF58(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId);
+void func_021DBF84(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId);
+void func_021DBF9C(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId);
+int *func_021DBFC8(int *handlerCount);
+int func_021DBFD4(u16 moveId);
+void func_021DC054(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u32 ownerId);
+int *func_021DC0B0(int *handlerCount);
 extern int d_021F0D14;
 extern int d_021F07D0[];
 extern int d_021F0688[];
 
-
-void func_021DBE6C(int u, void *a, u32 b)
+/* Weak Armor: a physical hit lowers the defense of the owner and raises its speed. */
+void func_021DBE6C(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u32 ownerId)
 {
-    u8 *e;
-    void *m;
-    int ok;
-    if (b != func_021D775C(4)) {
+    BtlRankCmd *cmd;
+    struct BtlPokeParam *owner;
+    int canChange;
+    if (ownerId != func_021D775C(BTL_EVAR_DEFENDER_ID)) {
         return;
     }
-    if (func_021D775C(0x1a) != 1) {
+    if (func_021D775C(BTL_EVAR_DAMAGE_TYPE) != BTL_DAMAGE_TYPE_PHYSICAL) {
         return;
     }
-    if (func_021D775C(0x46) != 0) {
+    if (func_021D775C(BTL_EVAR_SUBSTITUTE_FLAG) != 0) {
         return;
     }
-    m = func_021C7CF4((int *)((int)a), b);
-    ok = 0;
-    if (func_021D5D14(m, 2, -1) != 0 || func_021D5D14(m, 5, 1) != 0) {
-        ok = 1;
+    owner = func_021C7CF4(flow, ownerId);
+    canChange = 0;
+    if (func_021D5D14(owner, BTL_STAT_DEFENSE, -1) != 0 || func_021D5D14(owner, BTL_STAT_SPEED, 1) != 0) {
+        canChange = 1;
     }
-    if (ok == 0) {
+    if (canChange == 0) {
         return;
     }
-    if (func_021D5B68(m) != 0) {
+    if (func_021D5B68(owner) != 0) {
         return;
     }
-    func_021C88B4(a, 2, b);
-    e = func_021C88A4(a, 0xe, b);
-    e[0xf] = 1;
-    e[0x10] = b;
-    e[0xe] = 1;
-    ((struct Obj02789 *)e)->f4 = 2;
-    *(s8 *)&((struct Obj02789 *)e)->fC = -1;
-    func_021C88C8(a, e);
-    e = func_021C88A4(a, 0xe, b);
-    e[0xf] = 1;
-    e[0x10] = b;
-    e[0xe] = 1;
-    ((struct Obj02789 *)e)->f4 = 5;
-    e[0xc] = 1;
-    func_021C88C8(a, e);
-    func_021C88B4(a, 3, b);
+    func_021C88B4(flow, BTL_ABILITY_POPUP_OPEN, ownerId);
+    cmd = func_021C88A4(flow, BTL_CMD_KIND_RANK_EFFECT, ownerId);
+    cmd->targetCount = 1;
+    cmd->targets[0] = ownerId;
+    cmd->showMessage = 1;
+    cmd->statId = BTL_STAT_DEFENSE;
+    cmd->amount = -1;
+    func_021C88C8(flow, cmd);
+    cmd = func_021C88A4(flow, BTL_CMD_KIND_RANK_EFFECT, ownerId);
+    cmd->targetCount = 1;
+    cmd->targets[0] = ownerId;
+    cmd->showMessage = 1;
+    cmd->statId = BTL_STAT_SPEED;
+    cmd->amount = 1;
+    func_021C88C8(flow, cmd);
+    func_021C88B4(flow, BTL_ABILITY_POPUP_CLOSE, ownerId);
 }
 
-
-int *func_021DBF1C(int *p)
+int *func_021DBF1C(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F07D0;
 }
 
-
-void func_021DBF28(int a,int b,int c) { if(c==func_021D775C(3) && func_021DBFD4(func_021D775C(0x12))) func_021D7704(0x31,0x14cd); }
-
-
-
-void func_021DBF58(int a,int b,int c) { if(c==func_021D775C(3) && func_021DBFD4(func_021D775C(0x12))) func_021D76BC(0x41,1); }
-
-
-
-
-/* 021DBF84  shape F1: gate on func_021D775C(3) */
-/*
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #3; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021DBF9A; movs r0, #0x41; movs r1, #1; bl func_021D76BC; pop {r4, pc}.
- */
-void func_021DBF84(int a, int b, int c)
+/* Sheer Force: moves with an added effect hit 1.3 times harder. */
+void func_021DBF28(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId)
 {
-    if (c == func_021D775C(3))
-        func_021D76BC(0x41, 1);
+    if (ownerId == func_021D775C(BTL_EVAR_ATTACKER_ID) && func_021DBFD4(func_021D775C(BTL_EVAR_MOVE_ID)))
+        func_021D7704(BTL_EVAR_POWER_RATIO, BTL_RATIO_1_3);
 }
 
-
-
-void func_021DBF9C(int a,int b,int c) { if(c==func_021D775C(3) && func_021DBFD4(func_021D775C(0x12))) func_021D76BC(0x48,1); }
-
-
-
-int *func_021DBFC8(int *p) { *p=5; return &d_021F0D14; }
-
-
-
-
-int func_021DBFD4(u16 id)
+/* Sheer Force: the added effect of such a move does not happen. */
+void func_021DBF58(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId)
 {
-    u32 t = func_0201C1BC(id);
-    if (func_0201BD28(id, 10) != 0) {
+    if (ownerId == func_021D775C(BTL_EVAR_ATTACKER_ID) && func_021DBFD4(func_021D775C(BTL_EVAR_MOVE_ID)))
+        func_021D76BC(BTL_EVAR_PREVENT_FLAG, 1);
+}
+
+/* Sheer Force: the side effect that would follow the attack of the owner is prevented. */
+void func_021DBF84(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId)
+{
+    if (ownerId == func_021D775C(BTL_EVAR_ATTACKER_ID))
+        func_021D76BC(BTL_EVAR_PREVENT_FLAG, 1);
+}
+
+/* Sheer Force: marks such a move as having no added effect. */
+void func_021DBF9C(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId)
+{
+    if (ownerId == func_021D775C(BTL_EVAR_ATTACKER_ID) && func_021DBFD4(func_021D775C(BTL_EVAR_MOVE_ID)))
+        func_021D76BC(BTL_EVAR_ADDED_EFFECT_OFF_FLAG, 1);
+}
+
+int *func_021DBFC8(int *handlerCount) { *handlerCount = 5; return &d_021F0D14; }
+
+/* True when Sheer Force boosts the move: it has an added effect that is not a self stat loss. */
+int func_021DBFD4(u16 moveId)
+{
+    u32 category = WAZA_TOOL_GetCategory(moveId);
+    if (func_0201BD28(moveId, BTL_WAZA_PARAM_ADDED_EFFECT_RATE) != 0) {
         return 1;
     }
-    switch (t) {
-    case 4:
-        if (func_0201BD28(id, 11) == 8) {
+    switch (category) {
+    case BTL_WAZA_CATEGORY_DAMAGE_PLUS_EFFECT:
+        if (func_0201BD28(moveId, BTL_WAZA_PARAM_ADDED_EFFECT_KIND) == 8) {
             return 0;
         }
-    case 6:
+    case BTL_WAZA_CATEGORY_DAMAGE_PLUS_SICK:
         return 1;
-    case 7: {
-        u32 n;
+    case BTL_WAZA_CATEGORY_DAMAGE_PLUS_RANK: {
+        u32 effectCount;
         u32 i;
-        s32 out;
-        n = func_0201C020(id);
-        for (i = 0; i < n; i++) {
-            func_0201C0BC(id, i, &out);
-            if (out < 0) {
+        s32 amount;
+        effectCount = WAZA_TOOL_GetRankEffectCount(moveId);
+        for (i = 0; i < effectCount; i++) {
+            WAZA_TOOL_GetRankEffect(moveId, i, &amount);
+            if (amount < 0) {
                 return 0;
             }
         }
         return 1;
     }
     default:
-        if (id == 0x122) {
+        if (moveId == BTL_MOVE_SECRET_POWER) {
             return 1;
         }
         return 0;
     }
 }
 
-
-
-
-void func_021DC054(int u, void *a, u32 b)
+/* Defiant: when an enemy lowers a stat of the owner, its attack rises by two stages. */
+void func_021DC054(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u32 ownerId)
 {
-    u8 *e;
-    u8 v;
-    if (b == func_021D775C(2)
-        && (v = func_021D775C(3), func_021B9A24(b, v)) == 0
-        && func_021D775C(0x20) < 0) {
-        e = func_021C88A4(a, 0xe, b);
-        ((struct Obj05217 *)e)->f0 |= 0x20 << 18;
-        ((struct Obj05217 *)e)->f4 = 1;
-        e[0xc] = 2;
-        e[0xe] = 1;
-        e[0xf] = 1;
-        e[0x10] = b;
-        func_021C88C8(a, e);
+    BtlRankCmd *cmd;
+    u8 attackerId;
+    if (ownerId == func_021D775C(BTL_EVAR_POKE_ID)
+        && (attackerId = func_021D775C(BTL_EVAR_ATTACKER_ID), func_021B9A24(ownerId, attackerId)) == 0
+        && func_021D775C(BTL_EVAR_VOLUME) < 0) {
+        cmd = func_021C88A4(flow, BTL_CMD_KIND_RANK_EFFECT, ownerId);
+        cmd->flags |= BTL_CMD_FLAG_FROM_ABILITY;
+        cmd->statId = BTL_STAT_ATTACK;
+        cmd->amount = 2;
+        cmd->showMessage = 1;
+        cmd->targetCount = 1;
+        cmd->targets[0] = ownerId;
+        func_021C88C8(flow, cmd);
     }
 }
 
-
-int *func_021DC0B0(int *p)
+int *func_021DC0B0(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F0688;
 }

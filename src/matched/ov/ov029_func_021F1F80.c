@@ -12,11 +12,11 @@
  *   func_0203F4CC  0x0203F4CC  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   _u32_div_f     0x0209C2B0  arm
- *   func_0204B918  0x0204B918  arm
- *   func_0204B908  0x0204B908  arm
- *   func_02085D3C  0x02085D3C  arm
+ *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
+ *   CLACT_SetActorAnimIndex  0x0204B908  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_021F1F70  0x021F1F70  thumb  ov029
- *   func_0203568C  0x0203568C  arm
+ *   UI_GetPowerState  0x0203568C  arm
  */
 #include "../include/Obj00811.h"
 
@@ -34,16 +34,16 @@ struct RtcTime;
 extern void func_0203F4CC(struct RtcTime *time);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern u16 func_0204B918(struct Obj *p);
-extern void func_0204B908(int a0, int a1);
-extern int func_02085D3C(void);
+extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
+extern int OS_IsRunOnTwl(void);
 extern u8 func_021F1F70(void);
-extern int func_0203568C(void);
+extern int UI_GetPowerState(void);
 
 static inline void SetFrame(int o, int v)
 {
-    if (v != func_0204B918((struct Obj *)o)) {
-        func_0204B908(o, (u16)v);
+    if (v != CLACT_GetActorAnimSeqCount((struct Obj *)o)) {
+        CLACT_SetActorAnimIndex(o, (u16)v);
     }
 }
 
@@ -79,9 +79,9 @@ void func_021F1F80(char *p)
     SetFrame(o, v);
 
     o = ((struct Obj00811 *)p)->f144;
-    if (func_02085D3C()) {
+    if (OS_IsRunOnTwl()) {
         SetFrame(o, func_021F1F70());
     } else {
-        SetFrame(o, func_0203568C() == 5);
+        SetFrame(o, UI_GetPowerState() == 5);
     }
 }

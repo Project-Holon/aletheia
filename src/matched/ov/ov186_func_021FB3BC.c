@@ -18,7 +18,7 @@
  *   func_0201C7D0 0x0201C7D0 thumb
  *   func_020255A0 0x020255A0 thumb
  *   func_020257D0 0x020257D0 thumb
- *   func_0202597C 0x0202597C thumb
+ *   BMP_OAM_SetObjMode 0x0202597C thumb
  *   d_02200D1C 0x02200D1C data a4
  */
 typedef unsigned char u8;
@@ -43,7 +43,7 @@ extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
 extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void func_020257D0(struct Obj *o);
-extern void func_0202597C(u8 *,u32);
+extern void BMP_OAM_SetObjMode(u8 *,u32);
 extern const char d_02200D1C[];
 Obj *func_021FB3BC(const Point *pt,void *data,u16 a,u32 b,u32 c,void *owner,void *font,const Triple *triple,u16 heap)
 {
@@ -66,7 +66,7 @@ Obj *func_021FB3BC(const Point *pt,void *data,u16 a,u32 b,u32 c,void *owner,void
     param.f14=value;param.f11=pt->f7;param.fc=1;
     p->grid=func_020255A0(owner,(const struct Param *)(&param));
     func_020257D0(p->grid);
-    func_0202597C(p->grid,1);
+    BMP_OAM_SetObjMode(p->grid,1);
     return p;
 }
 

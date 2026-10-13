@@ -32,7 +32,7 @@ typedef struct { u32 kind:3, rest:29; } Slot;
 typedef struct { u32 flags; u16 hp; u8 c, bits; u16 msg; u8 id, slot; u8 data[1]; } Rec;
 extern Slot func_021D6314(void *, int);
 extern u16 func_021E8B80(Word);
-extern int func_021C7D44(void *, u8);
+extern int func_021C7D44(char *p, u8 i);
 extern int func_021D7B74(void *, u32);
 extern int func_021D59B4(void *, int);
 extern Rec *func_021C88A4(void *, int, int);

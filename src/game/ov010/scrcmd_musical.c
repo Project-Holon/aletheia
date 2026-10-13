@@ -19,7 +19,7 @@
  *   func_0201210C  0x0201210C  thumb
  *   func_02158F58  0x02158F58  thumb  ov010
  *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02012F80  0x02012F80  thumb
+ *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
@@ -27,7 +27,7 @@
  *   func_0215898C  0x0215898C  thumb  ov010
  *   func_02012A30  0x02012A30  thumb
  *   func_02011290  0x02011290  thumb
- *   func_02012F44  0x02012F44  thumb
+ *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   func_02030734  0x02030734  arm
  *   func_0200A640  0x0200A640  thumb
  *   func_02014808  0x02014808  thumb
@@ -88,7 +88,7 @@
  *   func_021FDA6C  0x021FDA6C  thumb  ov132
  *   d_021BB6A4     0x021BB6A4  data  ov100
  *   ov100_id       0x00000064  data
- *   func_02012F74  0x02012F74  thumb
+ *   GAME_DATA_SetExternalWork  0x02012F74  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   ov132_id       0x00000084  data
  *   func_020307B0  0x020307B0  arm
@@ -101,8 +101,8 @@
  *   func_02026454 0x02026454 thumb
  *   func_0203CDBC 0x0203CDBC arm
  *   func_020121CC 0x020121CC thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   d_02172724     0x02172724  data
  *   func_021FC81C  0x021FC81C  thumb
  *   func_021CD688  0x021CD688  thumb
@@ -120,7 +120,7 @@
  *   func_021B76B4  0x021B76B4  thumb  ov021
  *   func_021B7740  0x021B7740  thumb  ov021
  *   func_0201EF5C  0x0201EF5C  thumb
- *   func_02013EC0  0x02013EC0  thumb
+ *   ZONEDATA_GetEncountId  0x02013EC0  thumb
  *   func_020493D4  0x020493D4  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   func_0204944C  0x0204944C  arm
@@ -147,7 +147,7 @@
  *   func_0200D468 0x0200D468 thumb
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb
- *   func_0201313C  0x0201313C  thumb
+ *   BTL_SETUP_GetParty  0x0201313C  thumb
  *   func_02005728  0x02005728  thumb
  *   func_0200D494  0x0200D494  thumb
  *   func_0200D480  0x0200D480  thumb
@@ -171,14 +171,14 @@
  *   func_0216E5FC  0x0216E5FC  thumb  ov010
  *   func_0216E5B0  0x0216E5B0  thumb  ov010
  *   func_0215F118  0x0215F118  thumb  ov010
- *   func_02013C40  0x02013C40  thumb
+ *   ZONEDATA_IsFlyEnabled  0x02013C40  thumb
  *   func_02013C50  0x02013C50  thumb
  *   func_02012B38  0x02012B38  thumb
  *   func_02014470  0x02014470  thumb
  *   func_021CD440  0x021CD440  thumb
  *   func_02013FFC  0x02013FFC  thumb
- *   func_0201400C  0x0201400C  thumb
- *   func_02014018  0x02014018  thumb
+ *   ZONEDATA_IsRawZoneF6  0x0201400C  thumb
+ *   ZONEDATA_IsRawZoneF7  0x02014018  thumb
  *   func_02013E04  0x02013E04  thumb
  *   func_02012B70  0x02012B70  thumb
  *   d_021711EC     0x021711EC  data
@@ -192,165 +192,148 @@
  *   func_02159058 0x02159058 thumb ov010
  *   func_021C6078 0x021C6078 thumb ov021
  */
-#include "../../matched/include/Obj12042.h"
-#include "../../matched/include/Obj00005.h"
-#include "../../matched/include/Obj09156.h"
-#include "../../matched/include/Obj02658.h"
-#include "../../matched/include/Obj17696.h"
-#include "../../matched/include/Obj17697.h"
-#include "../../matched/include/Obj02057.h"
-#include "../../matched/include/Obj12311.h"
-#include "../../matched/include/Obj17698.h"
-#include "../../matched/include/Obj12312.h"
-#include "../../matched/include/Obj12313.h"
-#include "../../matched/include/Obj12314.h"
-#include "../../matched/include/Obj12315.h"
 
-struct BigObj;
-struct Desc;
-struct Obj;
+/*
+ * This file holds three original source files back to back (cuts proposed in
+ * the lane notes): scrcmd_musical.c (script commands for the musical link,
+ * up to 0x0215E1C0), field_encount_st.c (0x0215E2B8..0x0215E34C, string
+ * "field_encount_st.c" at 0x02172928) and move_pokemon.c (from 0x0215E358,
+ * string "move_pokemon.c" at 0x0217293C): the two roaming legendaries and
+ * the field skill (hidden move) checks and events.
+ */
+
 struct ScriptVm;
-struct Link;
-struct Ctx_0215D468;
-struct Big;
-struct Work;
-struct BigSub4;
-struct MsgBank;
-struct Rec_0215D7D4;
-struct U16Vec;
+struct GameSystem;
+struct GameData;
+struct GameEvent;
+struct GameComm;
+struct FieldMap;
+struct MyStatus;
+struct SaveControl;
+struct ScriptCtl;
+struct ScriptWork;
+struct MusicalEvent;
+struct MusicalSave;
 struct WordSet;
+struct MsgData;
 struct Strbuf;
-struct Ctx;
-struct IcaAnime;
-struct Evt;
-struct Sub02009448Obj;
-struct Sub02009210Obj;
+struct PokeParty;
+struct Pokemon;
 struct ArcFile;
-struct Blk38;
-struct GdsEnt;
-struct Blk37;
-struct Mon;
-struct Sub0200852CObj;
-struct Rec44;
-struct SaveBlock;
-struct Actor;
-struct Sub02014444Obj;
-struct Obj00020;
-struct Pair;
+struct EventWork;
+struct BgmInfo;
+struct FieldPlayer;
+struct MapObject;
+struct ZoneEncounter;
+struct MoveModelSys;
+struct WifiList;
+struct MovePokemonSave;
+struct MovePokemonEntry;
+struct FieldSkillInfo;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct Ctx {
-    u8 pad00[0x14];
-    u8 *pc;             /* 0x14 */
-} Ctx;
-
-typedef struct Starter {
-    void *seq;          /* 0x00 */
-    void *link;         /* 0x04 */
-    u32 mode;           /* 0x08 */
-} Starter;
-
-typedef struct Args {
-    u32 f00;            /* 0x00 */
-    u32 f04;            /* 0x04 */
-    void *f08;          /* 0x08 */
-} Args;
-
-typedef struct Box {
-    Args *args;         /* 0x00 */
-} Box;
-
-typedef u32 (*TaskFn)(void *task, u32 *state, void *work);
-
-typedef struct { u32 f0; u32 f4; u32 f8; } S;
-
-typedef struct { S *p; } Ctx_0215D468;
-
-typedef struct Ctx_0215D504 {
-    u8 pad00[0x14];
-    u8 *pc;             /* 0x14 */
-} Ctx_0215D504;
-
-typedef struct Rec_0215D468 {
-    u8 kind;
-    u8 pad01[5];
-} Rec_0215D468;
-
-typedef struct Flags {
-    u32 pad0 : 16;
-    u32 n : 5;
-    u32 pad1 : 11;
-} Flags;
-
-typedef struct {
-    u8 pad[0x14];
-    u8 *f14;
-} Cur;
-
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u16 h2;
-} Rec_0215D7D4;
-
-typedef struct Link {
-    void *f00;          /* 0x00 */
-    void *sess;         /* 0x04 */
-    u32 f08;            /* 0x08 */
-    void *f0c;          /* 0x0C */
-    u8 pad10[0x28 - 0x10];
-    u32 f28;            /* 0x28 */
-    u32 f2c;            /* 0x2C */
-    u16 *f30;           /* 0x30 */
-    u16 f34;            /* 0x34 */
-} Link;
-
-typedef struct Wait {
-    void *vm;
-    Link *link;
-} Wait;
-
 typedef signed char s8;
 
 typedef short s16;
 
-typedef struct Work {
-    int f00;            /* 0x00 */
-    int f04;            /* 0x04 */
-    u8 pad08[0x8C - 0x08];
-    int f8c;            /* 0x8C */
-} Work;
-
-typedef signed int     s32_0215D34C;
-
-typedef struct { u32 f0; u32 f4; u32 f8; } Ctx_0215DE58;
-
-typedef struct { u32 f0; } Ctx_0215DEF0;
-
-struct W {
-    u8 pad00[4];
-    void *f4;
-    void *f8;
-    u8 pad0c[0x24];
-    u16 *f30;
-};
-
-struct R {
-    u8 pad00[7];
-    u8 f7;
-};
+typedef signed int s32;
 
 typedef unsigned long long u64;
 
-struct Ent { u16 n; u8 v[4]; };
+typedef s32 fx32;
 
-typedef int s32_0215E364;
+typedef enum { FALSE, TRUE } BOOL;
 
-typedef s32_0215E364 fx32;
+/* Script VM (see ica_anime.c): command handlers get the VM and the user work. */
+#include "../arm9/script_vm_types.h"
+
+/* Event task callback: (task, state, work). */
+typedef int (*EventTaskFn)(struct GameEvent *task, u32 *state, void *work);
+
+typedef void (*SubProcCallback)(void *callbackArg);
+
+/* Musical save block 0x2A (0x2A4 bytes), layout from mystery_data.c. */
+typedef struct MusicalOutfit {
+    u8 pokeSlot;                          /* 10: none */
+    u8 props[5];
+} MusicalOutfit;
+
+typedef struct MusicalProgram {
+    u8 state;                             /* 4: initial */
+    u8 data[3];
+} MusicalProgram;
+
+/* The first word of the musical save block (what func_0200A640 points at). */
+typedef struct MusicalHeadBits {
+    u32 showcaseMonsNo : 16;
+    u32 shotState : 5;
+    u32 showcaseFlags : 11;
+} MusicalHeadBits;
+
+/* script command 0x0215D7D4 reads a program slot as {state, rank, score}. */
+typedef struct MusicalProgramView {
+    u8 state;
+    u8 rank;
+    u16 score;
+} MusicalProgramView;
+
+/* Link work hung on the game data external-work slot (0x38 bytes). */
+typedef struct MusicalLinkWork {
+    struct MusicalEvent *musicalEvent;    /* 0x00 */
+    void *session;                        /* 0x04: ov132 comm session */
+    u32 entryMenu;                        /* 0x08: comm entry menu handle */
+    struct GameData *gameData;            /* 0x0C */
+    u8 pad10[0x28 - 0x10];
+    u32 procMode;                         /* 0x28: 9 or 10 for the ov100 proc */
+    u32 procWork;                         /* 0x2C */
+    u16 *resultOut;                       /* 0x30: script variable receiving the result */
+    u16 memberCount;                      /* 0x34 */
+} MusicalLinkWork;
+
+/* Wait context for the ov100 proc callback. */
+typedef struct MusicalLinkWait {
+    struct ScriptWork *scriptWork;
+    MusicalLinkWork *link;
+} MusicalLinkWait;
+
+/* Task work of StartMusical. */
+typedef struct MusicalStartTask {
+    struct GameEvent *musicalSeq;         /* 0x00: musical link sequence event */
+    MusicalLinkWork *link;                /* 0x04 */
+    u32 mode;                             /* 0x08 */
+} MusicalStartTask;
+
+/* Arguments of the ov112 proc started by StartMusical (mode 2 and up). */
+typedef struct MusicalProcArgs {
+    u32 startMode;                        /* 0x00 */
+    u32 isOffline;                        /* 0x04 */
+    MusicalHeadBits *saveBits;            /* 0x08 */
+} MusicalProcArgs;
+
+typedef struct MusicalProcBox {
+    MusicalProcArgs *args;
+} MusicalProcBox;
+
+/* Arguments handed to the musical system proc of ShowPartyMonMusical. */
+typedef struct MusicalSystemArgs {
+    u32 startMode;                        /* 0x00 */
+    u32 musicalSystem;                    /* 0x04: result of MUSICAL_SYSTEM_Create */
+    u32 musicalSave;                      /* 0x08 */
+} MusicalSystemArgs;
+
+typedef struct MusicalSystemTask {
+    MusicalSystemArgs *args;
+} MusicalSystemTask;
+
+/* Reads the 0xE8-byte encounter table row of a zone. */
+typedef struct EncountRow {
+    u8 data0[7];
+    u8 flags;                             /* 0x07: 0x80 set after load */
+} EncountRow;
 
 typedef struct VecFx32 {
     fx32 x;
@@ -365,250 +348,310 @@ typedef struct Area {
     u16 h;
 } Area;
 
-typedef struct Info {
-    u16 id;             /* 0x00 */
-    u16 flags;          /* 0x02 */
-    u32 f04;            /* 0x04 */
-    u32 f08;            /* 0x08 */
-    void *obj;          /* 0x0C */
-    void *field;        /* 0x10 */
-} Info;
+/* Roaming legendary table (save block 0x38): see arm9 unit_0200C7C0.c. */
+typedef struct RoamLocationLinks {
+    u16 count;
+    u8 next[4];
+} RoamLocationLinks;
 
-typedef struct Query {
-    u16 a;              /* 0x00 */
-    u16 b;              /* 0x02 */
-    u32 c;              /* 0x04 */
-} Query;
+/* Work of the move_pokemon battle-result hook (battle setup, fields used here). */
+typedef struct BattleResultWork {
+    int resultKind0;                      /* 0x00 */
+    int resultKind1;                      /* 0x04 */
+    u8 pad08[0x8C - 0x08];
+    int battleResult;                     /* 0x8C */
+} BattleResultWork;
 
-typedef enum { B_FALSE, B_TRUE } Bool;
+/* Field skill (hidden move) context filled by func_0215E840 (0x14 bytes). */
+typedef struct FieldSkillInfo {
+    u16 zoneId;                           /* 0x00 */
+    u16 usableMask;                       /* 0x02: bit per skill */
+    u32 playerState;                      /* 0x04 */
+    struct GameSystem *gameSys;           /* 0x08 */
+    struct MapObject *playerObj;          /* 0x0C */
+    struct FieldMap *fieldMap;            /* 0x10 */
+} FieldSkillInfo;
 
-extern void *func_0215A5F4(void *vm);
-extern void *func_0215A5DC(void *vm);
-extern void *func_0215A5E4(void *vm);
-extern void *func_0201210C(const struct Ctx *);
-extern int func_02158F58(int a0);
-extern u16 func_02159B10(void *, void *);
-extern int func_02012F80(char *base);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Obj *p);
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void *func_02155A98(void *a, void *b, u8 c, u32 d, struct Link *link);
-extern void func_0215898C(void *a, void *task);
-extern u32 func_02012A30(const struct BigObj *p);
-extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
-extern void *func_02012F44(void *sys);
-extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern Flags *func_0200A640(void *sv);
-extern void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
-extern void func_0215897C(void *a, void *task);
-extern void *func_02012934(const struct BigObj *p);
-extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_021F675C(void *, int);
-extern void func_02082BCC(void *, int, int);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u8 func_021568E0(struct Work *w);
-extern u16 func_02156954(struct Work *w);
-extern u16 func_02156978(struct Work *w);
-extern u8 func_02156934(struct Work *w, u8 idx);
-extern int func_021568E8(int a0, u8 a1);
-extern u8 func_02156908(struct Work *w);
-extern u8 func_0215699C(struct Work *w, u8 i);
-extern u8 func_021569A4(struct Work *w, u8 idx);
-extern u8 func_021569EC(struct Work *w, u8 j);
-extern u32 func_0201AA18(void *list);
-extern u8 *func_0200A628(struct Big *p);
-extern u32 func_0200A644(struct Big *p, u8 index);
-extern u16 func_0200A75C(struct Big *p);
-extern u16 func_0200A780(struct Big *p);
-extern u8 func_0200A7A0(struct Big *p, u32 index);
-extern u8 func_0200A7B8(struct Big *p);
-extern u8 func_0200A7C8(struct Big *p);
-extern void func_0200A7D4(struct Big *p, u8 value);
-extern u8 func_0200A7E0(struct Big *p);
-extern int func_021F6744(void *p);
-extern struct BigSub4 *func_0200A750(struct Big *p, u32 index);
-extern void func_0200A6BC(struct Big *p, u32 index);
-extern u16 func_0215A5CC(void *a0);
-extern void *func_02158F74(void *p);
-extern void *func_02156914(int a0, int a1);
-extern void func_02156A3C(struct Work *w, u8 j, void *ws, u32 slot);
-extern void func_02156AD4(struct Work *w, u8 j, void *ws, u32 slot);
-extern u8 *func_0200A7F8(struct Big *p);
-extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+/* Object returned by func_02188CE8 (field map, offset 0x90). */
+typedef struct EffectEncountObj {
+    u8 pad00[0x10];
+    int encountParam;                     /* 0x10 */
+} EffectEncountObj;
+
+/* Field gimmick work (func_02012A38). */
+typedef struct FieldGimmickWork {
+    u8 pad00[0x0C];
+    u32 state;                            /* 0x0C */
+} FieldGimmickWork;
+
+typedef struct SkillTarget {
+    u16 id;                               /* 0x00 */
+    u16 variant;                          /* 0x02 */
+    u32 targetObj;                        /* 0x04 */
+} SkillTarget;
+
+typedef struct SkillEventWork {
+    u32 magic;                            /* 0x19740205 */
+    struct MapObject *playerObj;          /* 0x04 */
+    struct GameSystem *gameSys;           /* 0x08 */
+    SkillTarget target;                   /* 0x0C */
+} SkillEventWork;
+
+/* script work (ov010) */
+extern struct ScriptCtl *func_0215A5F4(struct ScriptWork *scriptWork);
+extern struct GameSystem *func_0215A5DC(struct ScriptWork *scriptWork);
+extern struct GameData *func_0215A5E4(struct ScriptWork *scriptWork);
+extern u16 func_0215A5CC(struct ScriptWork *scriptWork);
+extern int func_02158F58(struct ScriptCtl *scriptCtl);
+extern struct WordSet *func_02158F74(struct ScriptCtl *scriptCtl);
+extern void func_0215897C(struct ScriptCtl *scriptCtl, struct GameEvent *task);
+extern void func_0215898C(struct ScriptCtl *scriptCtl, struct GameEvent *task);
+extern u16 func_02159B10(ScriptVm *vm, struct ScriptWork *scriptWork);
+extern u16 *func_02159AE8(ScriptVm *vm, struct ScriptWork *scriptWork);
+extern struct GameEvent *func_0215A168(struct GameSystem *gameSys, u16 *partyIndexVar, u16 *resultVar);
+extern int func_021587B0(int scriptCtl, int scriptId, int arg1, int arg2);
+extern int func_02159058(int scriptWork, int eventId, int arg1, int arg2, u16 arg3);
+
+/* game system, game event, game data */
+extern struct FieldMap *func_0201210C(struct GameSystem *gameSys);
+extern struct GameData *func_020120F4(struct GameSystem *gameSys);
+extern struct GameComm *func_02012138(struct GameSystem *gameSys);
+extern void func_02012124(struct GameSystem *gameSys, u32 state);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSys, u32 procId, void *procData, void *procArg);
+extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSys);
+extern u32 func_020121CC(struct GameSystem *gameSys);
+extern struct GameEvent *func_020122C0(struct GameSystem *gameSys, void *parent, EventTaskFn taskFn, u32 workSize);
+extern void *func_020124E8(struct GameEvent *task);
+extern struct GameSystem *func_020124E4(struct GameEvent *task);
+extern void func_02012374(struct GameEvent *task, struct GameEvent *callee);
+extern ScriptVm *func_02011290(ScriptVm *vm);
+/* the wait callback receives the user work of the script command */
+typedef int (*ScriptWorkWaitFn)(ScriptVm *vm, struct ScriptWork *scriptWork);
+extern void func_020113D0(ScriptVm *vm, ScriptWorkWaitFn waitFn);
+extern void *GAME_DATA_GetExternalWork(struct GameData *gameData);
+extern void GAME_DATA_SetExternalWork(struct GameData *gameData, void *externalWork);
+extern struct MusicalSave *GAME_DATA_GetSaveBlock2A(struct GameData *gameData);
+extern struct PokeParty *func_02012934(struct GameData *gameData);
+extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern struct BgmInfo *func_02012A30(struct GameData *gameData);
+extern struct FieldGimmickWork *func_02012A38(struct GameData *gameData);
+extern u8 func_02012984(struct GameData *gameData);
+extern u16 func_02012AC8(void *playerWork);
+extern void *func_020127A4(struct GameData *gameData);
+extern struct EventWork *func_0201296C(struct GameData *gameData);
+extern struct MoveModelSys *func_02012B38(struct GameData *gameData);
+extern int func_02012B70(struct GameData *gameData);
+extern u32 func_020113D8(u32 season);
+extern u16 func_02014470(struct MoveModelSys *moveModelSys);
+extern void *func_02014808(struct GameSystem *gameSys, struct FieldMap *fieldMap, u32 overlayId, const void *procData, void *procArg, SubProcCallback callback, void *callbackArg);
+
+/* overlay loading, heap, string helpers */
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern u32 func_020307B0(void *ptr);
+extern int func_02034AC4(s32 overlayId);
+extern void func_02034A5C(s32 overlayId);
+extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+extern void func_02082BCC(void *dst, int value, int size);
+extern u32 func_02005728(u32 range);
+extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045994(struct Strbuf *dest, const u16 *src, u32 size);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec_0215D7D4 *rec);
-extern void *func_0215A168(int a, int b, int c);
-extern int func_02156BAC(void *);
-extern u32 func_02156BCC(void *p);
-extern void func_02012124(struct Ctx *p, u32 v);
-extern u32 func_02012138(const struct Ctx *p);
-extern u8 *func_02012944(void *p);
-extern void func_020113D0(char *p, int val);
+extern void func_02045808(struct Strbuf *strbuf);
+extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 index);
+extern u32 func_02045C04(struct MsgData *msgData);
+extern void func_0201EE0C(struct WordSet *wordSet, u32 slot, const struct Strbuf *str, u32 grammar, u32 form, u32 count);
+extern void func_0201EF5C(struct WordSet *wordSet, u32 slot, u32 value);
+extern u32 func_020493D4(struct ArcFile *arc, u32 member);
+extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dest);
+
+/* musical save block */
+extern struct MusicalOutfit *func_0200A628(struct MusicalSave *musical);
+extern MusicalHeadBits *func_0200A640(struct MusicalSave *musical);
+extern u32 func_0200A644(struct MusicalSave *musical, u8 prop);
+extern void func_0200A6BC(struct MusicalSave *musical, u32 prop);
+extern MusicalProgram *func_0200A750(struct MusicalSave *musical, u32 index);
+extern u16 func_0200A75C(struct MusicalSave *musical);
+extern u16 func_0200A780(struct MusicalSave *musical);
+extern u8 func_0200A7A0(struct MusicalSave *musical, u32 index);
+extern u8 func_0200A7B8(struct MusicalSave *musical);
+extern u8 func_0200A7C8(struct MusicalSave *musical);
+extern void func_0200A7D4(struct MusicalSave *musical, u8 value);
+extern u8 func_0200A7E0(struct MusicalSave *musical);
+extern u8 *func_0200A7F8(struct MusicalSave *musical);
+
+/* musical event (ov010 musical_dressup_sys.c) */
+extern struct GameEvent *func_02155A98(struct GameSystem *gameSys, struct GameData *gameData, u8 arg, u32 mode, MusicalLinkWork *link);
+extern u8 func_021568E0(struct MusicalEvent *event);
+extern u16 func_02156954(struct MusicalEvent *event);
+extern u16 func_02156978(struct MusicalEvent *event);
+extern u8 func_02156934(struct MusicalEvent *event, u8 index);
+extern int func_021568E8(int event, u8 index);
+extern u8 func_02156908(struct MusicalEvent *event);
+extern u8 func_0215699C(struct MusicalEvent *event, u8 index);
+extern u8 func_021569A4(struct MusicalEvent *event, u8 index);
+extern u8 func_021569EC(struct MusicalEvent *event, u8 index);
+extern struct Strbuf *func_02156914(int player, int heapId);
+extern void func_02156A3C(struct MusicalEvent *event, u8 index, struct WordSet *wordSet, u32 slot);
+extern void func_02156AD4(struct MusicalEvent *event, u8 index, struct WordSet *wordSet, u32 slot);
+extern int func_02156BAC(struct MusicalEvent *event);
+extern u32 func_02156BCC(struct MusicalEvent *event);
+
+/* party and musical system */
+extern u32 func_0201AA18(struct PokeParty *party);
+extern struct Pokemon *func_0201AB28(struct PokeParty *party, u32 index);
+extern int func_021F6744(struct Pokemon *mon);
+extern u32 func_021F675C(struct Pokemon *mon, int mode);
+extern u32 func_02008530(struct MyStatus *myStatus);
+
+/* ov132 comm session, ov021 comm entry menu */
 extern u32 func_0200FB24(void);
-extern u32 func_021CD48C(void *a, void *sys, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_021FCDEC(int a, int b);
-extern unsigned char *func_021FDA6C(void *h);
-extern void func_02012F74(void *h, void *w);
-extern int func_02034AC4(s32_0215D34C handle);
-extern u32 func_020307B0(void *p);
-extern void func_02034A5C(s32_0215D34C handle);
-extern void func_021FC644(int a, void *b, void *c, int d);
-extern int func_021FC684(int a0);
-extern void *func_020124E4(struct Obj *p);
-extern void *func_020120F4(const struct Ctx *);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern u32 func_02026454(void *obj);
+extern u32 func_021CD48C(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_021FCDEC(int session, int memberCount);
+extern unsigned char *func_021FDA6C(struct GameData *gameData);
+extern u32 func_020307B0(void *ptr);
+extern void func_021FC644(int mode, void *procArg, void *comm, int arg);
+extern int func_021FC684(void *session);
+extern u32 func_02026454(struct GameComm *comm);
+extern u32 func_02026474(struct GameComm *comm);
 extern int func_0203CDBC(void);
-extern u32 func_020121CC(struct IcaAnime *p);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx_0215DEF0 *p);
 extern int func_021FC81C();
 extern int func_021CD688();
 extern int func_021FC804();
 extern int func_021CD5A4();
 extern int func_021FCE00();
 extern int func_021FD844();
-extern u32 func_02026474(void *obj);
 extern int func_021FD910();
-extern void *func_02012EBC(struct Big *p);
-extern struct Sub02009448Obj *func_02009448(void *sys);
-extern u32 func_02009370(const struct Sub02009210Obj *obj);
-extern int func_021B76F8(void *p, int key, void *q);
-extern void *func_021B7794(void *p);
-extern void func_021B76B4(void *a0, int a1, int a2);
-extern void *func_021B7740(void *p, int key, void *q, int idx);
-extern void func_0201EF5C(struct WordSet *p, u32 i, u32 v);
-extern u32 func_02013EC0(u32 id);
-extern u32 func_020493D4(struct ArcFile *arc, u32 member);
-extern void func_0204944C(struct ArcFile *a, u32 b, u32 c, u32 d, void *e);
-extern int func_02188CE8();
-extern int func_021AA7DC();
-extern u32 func_02012A38(const struct BigObj *p);
-extern void *func_0200D418(void *);
-extern u8 func_02012984(const struct BigObj *p);
-extern u8 func_0200D488(struct Blk38 *p, u32 i);
-extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
-extern u8 func_0200D478(struct Blk38 *p, u32 i);
+
+/* wifilist and ov021 postman service */
+extern struct WifiList *func_02009448(void *saveBlock);
+extern u32 func_02009370(const struct WifiList *wifiList);
+extern int func_021B76F8(struct GameData *gameData, int key, struct WifiList *wifiList);
+extern void *func_021B7794(struct GameSystem *gameSys);
+extern void func_021B76B4(struct GameData *gameData, int key, int wifiList);
+extern void *func_021B7740(struct GameData *gameData, int key, struct WifiList *wifiList, int index);
+
+/* move_pokemon: roaming legendary save (arm9 unit_0200C7C0.c) */
+extern void *func_0200D418(struct SaveControl *save);
+extern u8 func_0200D488(struct MovePokemonSave *block, u32 index);
+extern struct MovePokemonEntry *func_0200D4AC(struct MovePokemonSave *block, u32 index);
+extern u8 func_0200D478(struct MovePokemonSave *block, u32 index);
 extern int func_0200D45C();
-extern void func_0200D50C(struct GdsEnt *e, u32 i, u32 v);
+extern void func_0200D50C(struct MovePokemonEntry *entry, u32 field, u32 value);
 extern u32 func_020173EC(void);
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void *func_0200CA10(void *save);
-extern void func_0200CFA0(struct Blk37 *p, void *m);
-extern void func_0200D470(struct Blk38 *p, u32 i, u32 v);
-extern u8 func_0200D468(struct Blk38 *p, u32 i);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
-extern void *func_0201313C(void *p, int v);
-extern u32 func_02005728(u32 v);
-extern void func_0200D494(struct GdsEnt *e);
-extern void func_0200D480(struct Blk38 *p, u32 i, u8 v);
-extern u32 func_020113D8(u32 b);
-extern u32 func_0200D4B8(const struct GdsEnt *e, u32 i);
-extern u16 func_02188C9C(u8 *p);
-extern void *func_02188C80(void *p);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_02188C7C(u8 *p);
-extern u32 func_021A3098(u8 *p);
-extern void *func_021A3250(void *q);
-extern u16 func_021A3050(u8 *p);
-extern u32 func_021A30C8(void **ctx);
-extern u32 func_021A3128(u32 *a, u32 b);
-extern int func_021A3504(u8 *a, int b, int c);
-extern int func_021A3524(u8 *a, int b, int c);
-extern void func_021A35FC(unsigned char **p, u16 *a, u16 *b, u16 *c);
-extern u16 func_0216D598(void *obj);
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
+extern void func_02017588(struct Pokemon *mon, u16 species, u16 level, unsigned long long personalId, u32 power, unsigned long long rand);
+extern u32 func_02017E1C(struct Pokemon *mon, u32 paramId, u32 buf);
+extern void *func_0200CA10(struct SaveControl *save);
+extern void func_0200CFA0(void *boxData, struct Pokemon *mon);
+extern void func_0200D470(struct MovePokemonSave *block, u32 index, u32 state);
+extern u8 func_0200D468(struct MovePokemonSave *block, u32 index);
+extern void func_0200D494(struct MovePokemonEntry *entry);
+extern void func_0200D480(struct MovePokemonSave *block, u32 index, u8 location);
+extern u32 func_0200D4B8(const struct MovePokemonEntry *entry, u32 field);
+extern void *BTL_SETUP_GetParty(BattleResultWork *work, int index);
+
+/* field encounter and field objects (ov021, ov010) */
+extern int ZONEDATA_GetEncountId(u32 zoneId);
+extern struct EffectEncountObj *func_02188CE8(struct FieldMap *fieldMap);
+extern int func_021AA7DC(struct EffectEncountObj *obj, int param);
+extern u16 func_02188C9C(struct FieldMap *fieldMap);
+extern struct GameSystem *func_02188C80(struct FieldMap *fieldMap);
+extern struct FieldPlayer *func_02188CB4(struct FieldMap *fieldMap);
+extern void *func_02188C7C(struct FieldMap *fieldMap);
+extern u32 func_021A3098(struct FieldPlayer *player);
+extern struct MapObject *func_021A3250(struct FieldPlayer *player);
+extern u16 func_021A3050(struct FieldPlayer *player);
+extern u32 func_021A30C8(struct FieldPlayer *player);
+extern u32 func_021A3128(struct FieldPlayer *player, u32 index);
+extern int func_021A3504(struct FieldPlayer *player, int a, int b);
+extern int func_021A3524(struct FieldPlayer *player, int a, int b);
+extern void func_021A35FC(struct FieldPlayer *player, u16 *x, u16 *y, u16 *z);
+extern u16 func_0216D598(struct MapObject *obj);
+extern void func_0216D88C(const struct MapObject *obj, VecFx32 *out);
 extern int func_0216E5FC(u16 kind);
 extern int func_0216E5B0(void *map, const VecFx32 *pos);
-extern int func_0215F118(const Area *a, u16 x, u16 z, u32 flag, void *field);
-extern u32 func_02013C40(u32 id);
-extern u32 func_02013C50(u32 id);
-extern void *func_02012B38(const struct BigObj *p);
-extern u16 func_02014470(struct Sub02014444Obj *o);
-extern int func_021CD440(void *field, u16 *out);
-extern u32 func_02013FFC(u32 id);
-extern u32 func_0201400C(u32 id);
-extern u32 func_02014018(u32 id);
-extern u32 func_02013E04(u32 id);
-extern int func_02012B70(const struct BigObj *p);
-extern int func_0215F088(u16 *p, int i);
-extern int func_0215F0B8(u16 *p, int i);
-extern int func_0215F104(int a0, int a1);
-extern void func_0215F0E8(u32 *out, const struct Pair *in, u32 *ctx);
-extern u32 func_0201296C(const struct BigObj *p);
-extern int func_021587B0(int a0, int a1, int a2, int a3);
-extern int func_02159058(int a, int b, int c, int d, u16 e);
-extern void *func_021C6078(void *, void *, u8);
-int func_0215D34C(Ctx *c, void *vm);
-int func_0215D468(void *a, void *b);
-int func_0215D504(Ctx_0215D504 *c, void *vm);
-int func_0215D7D4(Cur *a, void *b);
-int func_0215D864(void *a0, void *a1);
-int func_0215D884(Ctx *c, void *vm);
-int func_0215DADC(void *a,void *b);
-int func_0215DB00(void *a,void *b);
-int func_0215DB38(void *c, void *vm);
-void func_0215DDC8(void *unused, void *h);
-void func_0215DE0C(void *w, void *h);
-void func_0215DE38(int a, void *b, void *c, int d);
-void func_0215DE44(int a0);
-int func_0215DE58(void *a, u32 *st, Ctx_0215DE58 *c);
-int func_0215DEF0(void *a, u32 *st, u32 *c);
-void func_0215DF6C(void **p);
-void func_0215DF78(int a0, int a1, int a2);
-int func_0215DFB4(int a0, int a1);
-int func_0215E010(void *a, void *b);
-int func_0215E068(int a0, int a1);
-int func_0215E0B0(int a0, int a1);
-int func_0215E0EC(int a0, int a1);
-int func_0215E130(void *a, void *b);
-int func_0215E184(int a0, int a1);
-int func_0215E1C0(void *c, void *vm);
-int func_0215E2B8(struct R *r, int a, int b, int n);
-void *func_0215E31C(u32 heap);
-void func_0215E334(void *ptr);
-int func_0215E33C(int a0);
-int func_0215E34C(int a0);
-void func_0215E358(void *a, u32 b, u16 c);
-void func_0215E364(void *a);
-void func_0215E3A0(void *a);
-u32 func_0215E3E4(void *p, u32 slot);
-int func_0215E404(int a0);
-void func_0215E428(int a0, int a1);
-void func_0215E440(void *sys, u8 which);
-void func_0215E580(void *a);
-void func_0215E5B0(void *a0, Work *w);
-int func_0215E6A8(void *a, int x);
-int func_0215E6F8(int a0);
+extern int func_0215F118(const Area *area, u16 x, u16 z, u32 eventFlag, struct FieldMap *fieldMap);
+extern u32 ZONEDATA_IsFlyEnabled(u32 zoneId);
+extern u32 func_02013C50(u32 zoneId);
+extern int func_021CD440(struct FieldMap *fieldMap, u16 *out);
+extern u32 func_02013FFC(u32 zoneId);
+extern u32 ZONEDATA_IsRawZoneF6(u32 zoneId);
+extern u32 ZONEDATA_IsRawZoneF7(u32 zoneId);
+extern u32 func_02013E04(u32 zoneId);
+extern void *func_021C6078(struct GameSystem *gameSys, struct FieldMap *fieldMap, u8 skillId);
+
+/* field skill tables (ov010 event_field_proclink.c) */
+typedef int (*SkillCheckFn)(struct FieldSkillInfo *info);
+typedef struct GameEvent *(*SkillEventFn)(SkillTarget *target, FieldSkillInfo *info);
+extern SkillCheckFn func_0215F088(FieldSkillInfo *info, int skillIndex);
+extern SkillEventFn func_0215F0B8(FieldSkillInfo *info, int skillIndex);
+extern int func_0215F104(FieldSkillInfo *info, int skillIndex);
+extern void func_0215F0E8(SkillEventWork *work, const SkillTarget *target, FieldSkillInfo *info);
+
+int func_0215D34C(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215D468(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215D504(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215D7D4(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215D864(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215D884(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215DADC(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215DB00(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215DB38(ScriptVm *vm, struct ScriptWork *scriptWork);
+void func_0215DDC8(struct ScriptCtl *unused, struct GameData *gameData);
+void func_0215DE0C(MusicalLinkWork *link, struct GameData *gameData);
+void func_0215DE38(int link, struct GameSystem *gameSys, struct GameComm *gameComm, int arg);
+void func_0215DE44(MusicalLinkWork *link);
+int func_0215DE58(struct GameEvent *task, u32 *state, void *work);
+int func_0215DEF0(struct GameEvent *task, u32 *state, void *work);
+void func_0215DF6C(void *callbackArg);
+void func_0215DF78(void *callbackArg);
+int func_0215DFB4(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215E010(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215E068(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215E0B0(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215E0EC(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215E130(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215E184(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215E1C0(ScriptVm *vm, struct ScriptWork *scriptWork);
+int func_0215E2B8(EncountRow *row, struct ArcFile *arc, u32 zoneId, int seasonIndex);
+void *func_0215E31C(u32 heapId);
+void func_0215E334(void *encountState);
+int func_0215E33C(struct FieldMap *fieldMap);
+FieldGimmickWork *func_0215E34C(struct GameData *gameData);
+void func_0215E358(struct MovePokemonSave *block, u32 season, u16 slot);
+void func_0215E364(struct GameData *gameData);
+void func_0215E3A0(struct GameData *gameData);
+u32 func_0215E3E4(struct MovePokemonSave *block, u32 slot);
+int func_0215E404(struct MovePokemonSave *block);
+void func_0215E428(struct MovePokemonSave *block, int value);
+void func_0215E440(struct GameData *gameData, u8 slot);
+void func_0215E580(struct GameData *gameData);
+void func_0215E5B0(struct GameData *gameData, BattleResultWork *work);
+int func_0215E6A8(struct GameData *gameData, int zoneId);
+int func_0215E6F8(struct GameData *gameData);
 int func_0215E724(int species);
-void func_0215E740(void *a, u32 b, u16 c, int d);
-void func_0215E7DC(void *p,u32 i,u8 v,u32 n);
-struct GdsEnt *func_0215E804(int a0, int a1);
-void func_0215E840(void *field, Info *out);
-int func_0215EA14(int a0, int a1);
-void func_0215EA30(Query *q, u16 a, u16 b, u32 c);
-int func_0215EA38(int a0, int a1, int a2);
-int func_0215EA58(int a0, int a1);
-void *func_0215EA6C(void *a,void *b);
-int func_0215EA94(void *a,void *b,void *c);
-int func_0215EAC8(int a0, int a1);
-void *func_0215EAF0(void *a, void *b);
-int func_0215EB18(void *a, int *state, void *b);
-int func_0215EB4C(void *p);
-void *func_0215EB60(void *a, void *b);
-int func_0215EB88(void *a, int *state, void *b);
-int func_0215EBBC(void *p);
-void *func_0215EBD0(void *a, void *b);
-int func_0215EBF8(void *a, int *state, void *b);
-int func_0215EC2C(void *p);
-void *func_0215EC40(u16 *a, void *b);
+void func_0215E740(struct MovePokemonSave *block, u32 season, u16 slot, int excludedLocation);
+void func_0215E7DC(struct MovePokemonSave *block, u32 slot, u8 location, u32 zoneId);
+struct MovePokemonEntry *func_0215E804(struct MovePokemonSave *block, int species);
+void func_0215E840(struct FieldMap *fieldMap, FieldSkillInfo *out);
+int func_0215EA14(int skillIndex, FieldSkillInfo *info);
+void func_0215EA30(SkillTarget *target, u16 id, u16 variant, u32 targetObj);
+struct GameEvent *func_0215EA38(int skillIndex, SkillTarget *target, FieldSkillInfo *info);
+int func_0215EA58(FieldSkillInfo *info);
+struct GameEvent *func_0215EA6C(SkillTarget *target, FieldSkillInfo *info);
+int func_0215EA94(struct GameEvent *event, u32 *state, void *work);
+int func_0215EAC8(FieldSkillInfo *info);
+struct GameEvent *func_0215EAF0(SkillTarget *target, FieldSkillInfo *info);
+int func_0215EB18(struct GameEvent *event, u32 *state, void *work);
+int func_0215EB4C(FieldSkillInfo *info);
+struct GameEvent *func_0215EB60(SkillTarget *target, FieldSkillInfo *info);
+int func_0215EB88(struct GameEvent *event, u32 *state, void *work);
+int func_0215EBBC(FieldSkillInfo *info);
+struct GameEvent *func_0215EBD0(SkillTarget *target, FieldSkillInfo *info);
+int func_0215EBF8(struct GameEvent *event, u32 *state, void *work);
+int func_0215EC2C(FieldSkillInfo *info);
+void *func_0215EC40(SkillTarget *target, FieldSkillInfo *info);
+
 extern u8 ov112_id[];
 extern const char d_02172914[];
 extern u8 d_021F8360[];
@@ -619,538 +662,505 @@ extern const char d_02172724[];
 extern const char d_02172928[];
 extern const u16 d_021711C6[];
 extern const char d_0217293C[];
-extern struct Ent d_021711A8[];
+extern const RoamLocationLinks d_021711A8[];
 extern const Area d_021711EC;
 extern const Area d_021711F4;
 
 
 
 /*
- * closed 2026-10-05: the unlabelled leaves it calls are now matched files, so every relocation resolves.
- * checks: 1 own 02159B10 and 0215901C prove full-width fallback return; corrected extern u32 and arg u32 produce27/284, old17 invalid; other own/caller arities reviewed; 2 D468 no closing twin; 3 typed context copy27/284, u16 mode with narrow arg228/288; 4 width/homing idioms read; 5 refreshed idioms/neighbours, no local aggregate.
- * renewed-pass: vm reused as mode and u32 vm both unchanged; no repeated permuter (old seed 9604 already consumed).
+ * Script command: start the ov010 musical link sequence (func_02155A98) for
+ * mode 0/1, or push the ov112 proc through func_02014808 otherwise.
  *
- * Script command: start the ov010 link sequence (func_02155A98) for mode
- * 0/1, or push the ov112 proc through func_02014808 otherwise.
- * Size-exact, 27 bytes out with corrected full-width return: the image keeps vm in r4 and c in r5 (the
- * mode byte, the task work and the box then reuse r4); this C swaps them.
- * Old 17-byte score used an unjustified u16 return extern and is superseded.
- * Cursor idiom applied; historical declaration orders and seed9604 remain spent.
- * ov112_id now resolves as overlay_id at func_02014808; the pooled
- * callback 0x0215DF6C still lacks a witness. No leaf filed while DIFF.
- *
- * wave76: Five compiles: widened arg27/284; u16 mode plus corrected u32 extern228/288; u32 extern/arg with u8 mode27/284; byte context parameter copied to typed local27/284; observed u8 call parameter instead of inline cast27/284. Final authorized retry exhausted; seed9604 permuter remains spent.
- * evidence76: scratchpad/overlay-newpass-20261003-w76/R2/; each log awaited to terminal exit.
- *
- * recoup 2026-10-05 (lane X1, wave P9): MATCH, 284/284 bytes, only the pooled callback
- * 0x0215DF6C lacks a witness (12-byte Thumb tail stub before 0215DF78, looks like a veneer into
- * arm9 020307B0; not filed). Same bytes at --lang c99 and --lang c.
- * Two changes versus the DIFF draft: (1) `d = (mode == 0) ? 0 : 1;` instead of `d = 1; if (mode == 0) d = 0;`
- * removed the vm/c register swap (27 B to 10 B); (2) func_02159B10 declared `u16` and `arg` held in a
- * u16 local moved the outgoing `str r7,[sp]` ahead of the reloads (10 B to 0), per
- * docs/idioms/a-u16-accessor-result-held-in-a-u16-local-moves-the-stack-argument-stores.md.
- * The matched definition of func_02159B10 returns u32 (tail value of func_0215901C); the u16
- * prototype is the one six matched files already use, so the callee is declared as its callers see it.
- * Tried and inert: pragmas (six, all 27 B), `*c->pc++` (31 B), pc pointer local (27 B), reversed
- * declaration order (40 B), `u8 d` (165 B), `u32 link` (10 B).
- * Callee arity: func_02158F58 returns a+0x18 (result ignored); func_02012F44 is void in its matched
- * file but its result (sv) is used here, so the caller treats it as returning a pointer.
- * No void-return problem found on the other callees.
+ * Levers (all needed for the exact bytes): `d = (mode == 0) ? 0 : 1` instead
+ * of an if (removes a register swap); func_02159B10 declared u16 with the
+ * argument held in a u16 local (moves the outgoing stack store, see
+ * docs/idioms/a-u16-accessor-result-held-in-a-u16-local-moves-the-stack-argument-stores.md).
+ * The callback 0x0215DF6C is a 12-byte tail stub in the image.
+ * func_02158F58 returns a+0x18 (result ignored); GAME_DATA_GetSaveBlock2A is void in its
+ * own file, but this caller uses its result as the musical save pointer.
  */
-int func_0215D34C(Ctx *c, void *vm)
+int func_0215D34C(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
-    void *a;
-    void *evt;
-    void *sys;
-    void *proc;
+    struct ScriptCtl *scriptCtl;
+    struct GameSystem *gameSys;
+    struct GameData *gameData;
+    struct FieldMap *fieldMap;
     u16 arg;
     u8 mode;
 
-    a = func_0215A5F4(vm);
-    evt = func_0215A5DC(vm);
-    sys = func_0215A5E4(vm);
-    proc = func_0201210C(evt);
-    func_02158F58((int)a);
-    arg = func_02159B10(c, vm);
-    mode = *c->pc;
-    c->pc++;
+    scriptCtl = func_0215A5F4(scriptWork);
+    gameSys = func_0215A5DC(scriptWork);
+    gameData = func_0215A5E4(scriptWork);
+    fieldMap = func_0201210C(gameSys);
+    func_02158F58(scriptCtl);
+    arg = func_02159B10(vm, scriptWork);
+    mode = *vm->pc;
+    vm->pc++;
     if (mode <= 1) {
-        void *link = (void *)func_02012F80(sys);
-        u32 d;
-        void *task;
-        Starter *s;
+        MusicalLinkWork *link = GAME_DATA_GetExternalWork(gameData);
+        u32 startMode;
+        struct GameEvent *task;
+        MusicalStartTask *startTask;
 
-        d = (mode == 0) ? 0 : 1;
-        task = func_020122C0(evt, 0, func_0215DE58, sizeof(Starter));
-        s = func_020124E8(task);
-        MI_CpuFill8(s, 0, sizeof(Starter));
-        s->seq = func_02155A98(evt, sys, arg, d, link);
-        s->link = link;
-        s->mode = d;
-        func_0215898C(a, task);
-        func_02012A30(sys);
-        func_02011290((struct ScriptVm *)c);
+        startMode = (mode == 0) ? 0 : 1;
+        task = func_020122C0(gameSys, 0, func_0215DE58, sizeof(MusicalStartTask));
+        startTask = func_020124E8(task);
+        MI_CpuFill8(startTask, 0, sizeof(MusicalStartTask));
+        startTask->musicalSeq = func_02155A98(gameSys, gameData, arg, startMode, link);
+        startTask->link = link;
+        startTask->mode = startMode;
+        func_0215898C(scriptCtl, task);
+        func_02012A30(gameData);
+        func_02011290(vm);
         return 1;
     } else {
-        void *sv = func_02012F44(sys);
-        Box *box;
+        struct MusicalSave *musical = GAME_DATA_GetSaveBlock2A(gameData);
+        MusicalProcBox *box;
 
-        box = func_02030734(4, sizeof(Box), 1, d_02172914, 0xA9);
+        box = func_02030734(4, sizeof(MusicalProcBox), 1, d_02172914, 0xA9);
         box->args = func_02030734(4, 0x14, 1, d_02172914, 0xAA);
-        box->args->f00 = 0;
-        box->args->f08 = func_0200A640(sv);
-        box->args->f04 = 1;
-        func_0215897C(a, func_02014808(evt, (int)proc, (u32)ov112_id, (int)d_021F8360, (int)box->args, (int)func_0215DF6C, (int)box));
+        box->args->startMode = 0;
+        box->args->saveBits = func_0200A640(musical);
+        box->args->isOffline = 1;
+        func_0215897C(scriptCtl, func_02014808(gameSys, fieldMap, (u32)ov112_id, d_021F8360, box->args, func_0215DF6C, box));
         return 1;
     }
 }
 
 
-
-
-
-
-
-int func_0215D468(void *a, void *b)
+/*
+ * Script command: show the musical of a party Pokemon. Reads a party index,
+ * creates the musical system for that member and runs the proc d_02172724
+ * on it from a task (func_0215DEF0), which frees the work when done.
+ */
+int func_0215D468(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
-    void *t = func_0215A5F4(b);
-    void *h = func_0215A5DC(b);
-    void *q = func_0215A5E4(b);
-    int f;
-    u32 g, k;
-    void *r;
-    Ctx_0215D468 *c;
-    func_0201210C(h);
-    f = func_02159B10(a, b);
-    g = (u32)func_02012F44(q);
-    k = func_021F675C(func_0201AB28(func_02012934(q), f), 4);
-    r = func_020122C0(h, 0, (void *)func_0215DEF0, 4);
-    c = func_020124E8(r);
-    func_02082BCC(c, 0, 4);
-    c->p = func_02030734(4, 0xc, 1, d_02172914, 0xd7);
-    c->p->f4 = k;
-    c->p->f8 = g;
-    c->p->f0 = 0;
-    func_0215897C(t, r);
+    struct ScriptCtl *scriptCtl = func_0215A5F4(scriptWork);
+    struct GameSystem *gameSys = func_0215A5DC(scriptWork);
+    struct GameData *gameData = func_0215A5E4(scriptWork);
+    int partyIndex;
+    u32 musicalSave, musicalSystem;
+    struct GameEvent *task;
+    MusicalSystemTask *systemTask;
+
+    func_0201210C(gameSys);
+    partyIndex = func_02159B10(vm, scriptWork);
+    musicalSave = (u32)GAME_DATA_GetSaveBlock2A(gameData);
+    musicalSystem = func_021F675C(func_0201AB28(func_02012934(gameData), partyIndex), 4);
+    task = func_020122C0(gameSys, 0, func_0215DEF0, 4);
+    systemTask = func_020124E8(task);
+    func_02082BCC(systemTask, 0, 4);
+    systemTask->args = func_02030734(4, 0xc, 1, d_02172914, 0xd7);
+    systemTask->args->musicalSystem = musicalSystem;
+    systemTask->args->musicalSave = musicalSave;
+    systemTask->args->startMode = 0;
+    func_0215897C(scriptCtl, task);
     return 1;
 }
 
 
-
-
-
-
-
 /*
  * Script command: read a one-byte query id from the script cursor, one
- * argument word and a result slot, and store the answer of the query
- * (save-data counters 0..15, link-result queries 30..39) into the slot.
+ * argument word and a result variable, and store the answer of the query
+ * (musical save counters 0..15, link-result queries 30..39) into the variable.
  *
- * Closed once the tool accepted the sole-ref witnesses of func_021569A4
- * and func_021569EC. Levers: the per-case
- * best/second locals at function scope in declaration order with op
- * declared last (sets the stack slots), max initialised before best,
- * case 10 loops over its own block-local j, case 7 tests == 0 first.
+ * Levers: the per-case best/second locals at function scope in declaration
+ * order with op declared last (sets the stack slots), max initialised before
+ * best, case 10 loops over its own block-local slot, case 7 tests == 0 first.
  */
-int func_0215D504(Ctx_0215D504 *c, void *vm)
+int func_0215D504(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
     u32 arg;
-    u16 *dst;
-    void *h;
-    void *sv;
-    void *w;
+    u16 *resultVar;
+    struct GameData *gameData;
+    struct MusicalSave *musical;
+    struct MusicalEvent *musicalEvent;
     u8 i;
-    u8 max;
-    u8 best3;
-    u8 best8;
-    u8 best9;
-    u8 best10;
-    u8 second;
-    u8 next;
-    void *list;
+    u8 maxCount;
+    u8 uniqueTopSlot;
+    u8 lowestSlot;
+    u8 topSlot;
+    u8 leaderSlot;
+    u8 leaderPrevMax;
+    u8 runnerUpSlot;
+    struct PokeParty *party;
     u8 op;
 
-    func_0215A5F4(vm);
-    op = *c->pc;
-    c->pc++;
-    arg = func_02159B10(c, vm);
-    dst = func_02159AE8(c, vm);
-    h = func_0215A5E4(vm);
-    sv = func_02012F44(h);
-    w = 0;
+    func_0215A5F4(scriptWork);
+    op = *vm->pc;
+    vm->pc++;
+    arg = func_02159B10(vm, scriptWork);
+    resultVar = func_02159AE8(vm, scriptWork);
+    gameData = func_0215A5E4(scriptWork);
+    musical = GAME_DATA_GetSaveBlock2A(gameData);
+    musicalEvent = 0;
     if (op >= 30) {
-        void **pw = (void **)func_02012F80(h);
+        struct MusicalEvent **linkEvent = GAME_DATA_GetExternalWork(gameData);
 
-        if (pw == 0) {
-            *dst = 0;
+        if (linkEvent == 0) {
+            *resultVar = 0;
             return 0;
         }
-        w = *pw;
+        musicalEvent = *linkEvent;
     }
     switch (op) {
     case 0:
-        *dst = func_0200A75C(sv);
+        *resultVar = func_0200A75C(musical);
         break;
     case 1:
-        *dst = func_0200A780(sv);
+        *resultVar = func_0200A780(musical);
         break;
     case 2:
-        *dst = func_0200A7B8(sv);
+        *resultVar = func_0200A7B8(musical);
         break;
     case 3: {
-        max = 0;
-        best3 = 4;
+        /* equipped prop slot with the single highest value, 4 on a tie */
+        maxCount = 0;
+        uniqueTopSlot = 4;
 
         for (i = 0; i < 4; i++) {
-            u8 v = func_0200A7A0(sv, i);
+            u8 value = func_0200A7A0(musical, i);
 
-            if (v > max) {
-                max = v;
-                best3 = i;
-            } else if (v == max) {
-                best3 = 4;
+            if (value > maxCount) {
+                maxCount = value;
+                uniqueTopSlot = i;
+            } else if (value == maxCount) {
+                uniqueTopSlot = 4;
             }
         }
-        *dst = best3;
+        *resultVar = uniqueTopSlot;
         break;
     }
     case 4:
-        *dst = func_0200A7C8(sv);
+        *resultVar = func_0200A7C8(musical);
         break;
     case 5:
-        func_0200A7D4(sv, arg);
+        func_0200A7D4(musical, arg);
         break;
     case 6:
-        *dst = 0;
+        *resultVar = 0;
         for (i = 0; i < 4; i++) {
-            if (func_0200A7A0(sv, i) != 0)
-                *dst = 1;
+            if (func_0200A7A0(musical, i) != 0)
+                *resultVar = 1;
         }
         break;
     case 7:
-        if (func_0200A640(sv)->n == 0)
-            *dst = 0;
+        if (func_0200A640(musical)->shotState == 0)
+            *resultVar = 0;
         else
-            *dst = 1;
+            *resultVar = 1;
         break;
     case 8: {
-        max = 0xFF;
-        best8 = 4;
+        /* slot with the lowest value (last one on a tie) */
+        maxCount = 0xFF;
+        lowestSlot = 4;
 
         for (i = 0; i < 4; i++) {
-            u8 v = func_0200A7A0(sv, i);
+            u8 value = func_0200A7A0(musical, i);
 
-            if (v <= max) {
-                max = v;
-                best8 = i;
+            if (value <= maxCount) {
+                maxCount = value;
+                lowestSlot = i;
             }
         }
-        *dst = best8;
+        *resultVar = lowestSlot;
         break;
     }
     case 9: {
-        max = 0;
-        best9 = 4;
+        /* slot with the highest value (first one on a tie) */
+        maxCount = 0;
+        topSlot = 4;
 
         for (i = 0; i < 4; i++) {
-            u8 v = func_0200A7A0(sv, i);
+            u8 value = func_0200A7A0(musical, i);
 
-            if (v > max) {
-                max = v;
-                best9 = i;
+            if (value > maxCount) {
+                maxCount = value;
+                topSlot = i;
             }
         }
-        *dst = best9;
+        *resultVar = topSlot;
         break;
     }
     case 10: {
-        u8 j;
+        /* runner-up slot, 4 when the runner-up ties */
+        u8 slot;
 
-        best10 = 4;
-        second = 0;
-        max = 0;
-        next = 4;
+        leaderSlot = 4;
+        leaderPrevMax = 0;
+        maxCount = 0;
+        runnerUpSlot = 4;
 
-        for (j = 0; j < 4; j++) {
-            u8 v = func_0200A7A0(sv, j);
+        for (slot = 0; slot < 4; slot++) {
+            u8 value = func_0200A7A0(musical, slot);
 
-            if (v > max) {
-                if (second == max) {
-                    next = 4;
+            if (value > maxCount) {
+                if (leaderPrevMax == maxCount) {
+                    runnerUpSlot = 4;
                 } else {
-                    second = max;
-                    next = best10;
+                    leaderPrevMax = maxCount;
+                    runnerUpSlot = leaderSlot;
                 }
-                max = v;
-                best10 = j;
+                maxCount = value;
+                leaderSlot = slot;
             }
         }
-        *dst = next;
+        *resultVar = runnerUpSlot;
         break;
     }
     case 11: {
+        /* number of party members that can take part in a musical */
         u8 count = 0;
-        u8 n;
+        u8 partyCount;
 
-        list = func_02012934(h);
-        n = func_0201AA18(list);
+        party = func_02012934(gameData);
+        partyCount = func_0201AA18(party);
 
-        for (i = 0; i < n; i++) {
-            if ((u32)func_021F6744(func_0201AB28(list, (int)i)) == 1)
+        for (i = 0; i < partyCount; i++) {
+            if ((u32)func_021F6744(func_0201AB28(party, (int)i)) == 1)
                 count++;
         }
-        *dst = count;
+        *resultVar = count;
         break;
     }
     case 12:
-        if ((u32)func_021F6744(func_0201AB28(func_02012934(h), (int)arg)) == 1)
-            *dst = 1;
+        if ((u32)func_021F6744(func_0201AB28(func_02012934(gameData), (int)arg)) == 1)
+            *resultVar = 1;
         else
-            *dst = 0;
+            *resultVar = 0;
         break;
     case 13: {
-        Rec_0215D468 *r = (Rec_0215D468 *)func_0200A628(sv);
+        /* any outfit slot in use */
+        struct MusicalOutfit *outfits = func_0200A628(musical);
 
-        *dst = 0;
+        *resultVar = 0;
         for (i = 0; i < 8; i++) {
-            if (r[i].kind != 10)
-                *dst = 1;
+            if (outfits[i].pokeSlot != 10)
+                *resultVar = 1;
         }
         break;
     }
     case 14:
-        if (func_0200A7E0(sv) == 1)
-            *dst = 1;
+        if (func_0200A7E0(musical) == 1)
+            *resultVar = 1;
         else
-            *dst = 0;
+            *resultVar = 0;
         break;
     case 15:
-        if (func_0200A644(sv, (u8)arg) == 1)
-            *dst = 1;
+        if (func_0200A644(musical, (u8)arg) == 1)
+            *resultVar = 1;
         else
-            *dst = 0;
+            *resultVar = 0;
         break;
     case 30:
-        *dst = func_021568E0(w);
+        *resultVar = func_021568E0(musicalEvent);
         break;
     case 31:
-        *dst = func_02156954(w);
+        *resultVar = func_02156954(musicalEvent);
         break;
     case 32:
-        *dst = func_02156978(w);
+        *resultVar = func_02156978(musicalEvent);
         break;
     case 33:
-        *dst = func_02156934(w, arg);
+        *resultVar = func_02156934(musicalEvent, arg);
         break;
     case 35:
-        *dst = func_021568E8((int)w, arg);
+        *resultVar = func_021568E8((int)musicalEvent, arg);
         break;
     case 36:
-        *dst = func_02156908(w);
+        *resultVar = func_02156908(musicalEvent);
         break;
     case 37:
-        *dst = func_0215699C(w, arg);
+        *resultVar = func_0215699C(musicalEvent, arg);
         break;
     case 38:
-        *dst = func_021569A4(w, arg);
+        *resultVar = func_021569A4(musicalEvent, arg);
         break;
     case 39:
-        *dst = func_021569EC(w, arg);
+        *resultVar = func_021569EC(musicalEvent, arg);
         break;
     }
     return 0;
 }
-
-
-
-
-
-
-
-int func_0215D7D4(Cur *a, void *b)
-{
-    int f;
-    u32 k;
-    u16 *out;
-    Rec_0215D7D4 *r;
-    f = func_02159B10(a, b);
-    k = *a->f14;
-    a->f14++;
-    out = func_02159AE8(a, b);
-    r = (Rec_0215D7D4 *)func_0200A750(func_02012F44(func_0215A5E4(b)), (u8)f);
-    switch (k) {
-    case 0:
-        switch (r->b0) {
-        case 0: *out = 0x18; break;
-        case 1: *out = 0xf; break;
-        case 2: *out = 0x2d; break;
-        case 3: *out = 0xc; break;
-        case 4: *out = 0; break;
-        }
-        break;
-    case 1:
-        *out = f + 5;
-        break;
-    case 2:
-        f += 0xf;
-        *out = f;
-        break;
-    case 3:
-        *out = r->b1;
-        break;
-    case 4:
-        *out = r->h2;
-        break;
-    }
-    return 0;
-}
-
-
-
-
-
 
 
 /*
- * blocked:   wild=4
- *
- * The slot index is truncated to a byte before the arm9 pair call.
+ * Script command: read a query kind and a program slot, store a derived
+ * value of that musical program into a script variable.
  */
-int func_0215D864(void *a0, void *a1)
+int func_0215D7D4(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
-    int v = func_02159B10(a0, a1);
+    int slot;
+    u32 kind;
+    u16 *resultVar;
+    MusicalProgramView *program;
 
-    func_0200A6BC((struct Big *)func_02012F44(func_0215A5E4(a1)), (u8)v);
-
+    slot = func_02159B10(vm, scriptWork);
+    kind = *vm->pc;
+    vm->pc++;
+    resultVar = func_02159AE8(vm, scriptWork);
+    program = (MusicalProgramView *)func_0200A750(GAME_DATA_GetSaveBlock2A(func_0215A5E4(scriptWork)), (u8)slot);
+    switch (kind) {
+    case 0:
+        switch (program->state) {
+        case 0: *resultVar = 0x18; break;
+        case 1: *resultVar = 0xf; break;
+        case 2: *resultVar = 0x2d; break;
+        case 3: *resultVar = 0xc; break;
+        case 4: *resultVar = 0; break;
+        }
+        break;
+    case 1:
+        *resultVar = slot + 5;
+        break;
+    case 2:
+        slot += 0xf;
+        *resultVar = slot;
+        break;
+    case 3:
+        *resultVar = program->rank;
+        break;
+    case 4:
+        *resultVar = program->score;
+        break;
+    }
     return 0;
 }
 
 
+/* Script command: mark a musical prop as owned. The id is truncated to a byte before the arm9 call. */
+int func_0215D864(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    int prop = func_02159B10(vm, scriptWork);
 
+    func_0200A6BC(GAME_DATA_GetSaveBlock2A(func_0215A5E4(scriptWork)), (u8)prop);
 
-
+    return 0;
+}
 
 
 /*
  * Script command: read a one-byte string kind and a word-set slot from the
- * script cursor, one argument word, and buffer the matching string into
- * the slot (player name, message-bank entries, link member names, or the
- * three placement labels of a four-way ranking).
+ * script cursor, one argument word, and buffer the matching string into the
+ * slot (stage name, message-bank entries, link member names, or the three
+ * placement labels of a four-way ranking).
  */
-int func_0215D884(Ctx *c, void *vm)
+int func_0215D884(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
-    void *wsx = func_0215A5F4(vm);
-    void *h = func_0215A5E4(vm);
-    u32 heap = func_0215A5CC(vm);
-    void *ws = func_02158F74(wsx);
-    u8 op;
+    struct ScriptCtl *scriptCtl = func_0215A5F4(scriptWork);
+    struct GameData *gameData = func_0215A5E4(scriptWork);
+    u32 heapId = func_0215A5CC(scriptWork);
+    struct WordSet *wordSet = func_02158F74(scriptCtl);
+    u8 kind;
     u8 slot;
     u32 arg;
-    void *bank;
-    void *str;
+    struct MsgData *msgData;
+    struct Strbuf *str;
 
-    op = *c->pc;
-    c->pc++;
-    slot = *c->pc;
-    c->pc++;
-    arg = func_02159B10(c, vm);
+    kind = *vm->pc;
+    vm->pc++;
+    slot = *vm->pc;
+    vm->pc++;
+    arg = func_02159B10(vm, scriptWork);
 
-    switch (op) {
+    switch (kind) {
     case 0: {
-        void *sv = func_02012F44(func_0215A5E4(vm));
+        struct MusicalSave *musical = GAME_DATA_GetSaveBlock2A(func_0215A5E4(scriptWork));
 
-        str = func_020457B0(0x26, heap);
-        func_02045994(str, (const u16 *)func_0200A7F8(sv), 0x26);
-        func_0201EE0C(ws, slot, str, 0, 1, 2);
+        str = func_020457B0(0x26, heapId);
+        func_02045994(str, (const u16 *)func_0200A7F8(musical), 0x26);
+        func_0201EE0C(wordSet, slot, str, 0, 1, 2);
         func_02045808(str);
         break;
     }
     case 1:
     case 8:
-        if (op == 1)
-            bank = func_02045B38(0, 2, 0x4F, heap);
+        if (kind == 1)
+            msgData = func_02045B38(0, 2, 0x4F, heapId);
         else
-            bank = func_02045B38(0, 2, 0x11A, heap);
-        str = func_02045EC0(bank, arg + 3);
-        func_0201EE0C(ws, slot, str, 0, 1, 2);
+            msgData = func_02045B38(0, 2, 0x11A, heapId);
+        str = func_02045EC0(msgData, arg + 3);
+        func_0201EE0C(wordSet, slot, str, 0, 1, 2);
         func_02045808(str);
-        func_02045C04(bank);
+        func_02045C04(msgData);
         break;
     case 2:
-        str = func_02156914((int)(*((void **)func_02012F80(h))), heap);
-        func_0201EE0C(ws, slot, str, 0, 1, 2);
+        str = func_02156914((int)(*((void **)GAME_DATA_GetExternalWork(gameData))), heapId);
+        func_0201EE0C(wordSet, slot, str, 0, 1, 2);
         func_02045808(str);
         break;
     case 3:
-        bank = func_02045B38(0, 2, 0x4B, heap);
-        str = func_02045EC0(bank, arg);
-        func_0201EE0C(ws, slot, str, 0, 1, 2);
+        msgData = func_02045B38(0, 2, 0x4B, heapId);
+        str = func_02045EC0(msgData, arg);
+        func_0201EE0C(wordSet, slot, str, 0, 1, 2);
         func_02045808(str);
-        func_02045C04(bank);
+        func_02045C04(msgData);
         break;
     case 4:
-        bank = func_02045B38(0, 2, 0x4B, heap);
-        str = func_02045EC0(bank, arg + 4);
-        func_0201EE0C(ws, slot, str, 0, 1, 2);
+        msgData = func_02045B38(0, 2, 0x4B, heapId);
+        str = func_02045EC0(msgData, arg + 4);
+        func_0201EE0C(wordSet, slot, str, 0, 1, 2);
         func_02045808(str);
-        func_02045C04(bank);
+        func_02045C04(msgData);
         break;
     case 5:
-        func_02156A3C(*((void **)func_02012F80(h)), arg, ws, slot);
+        func_02156A3C(*((void **)GAME_DATA_GetExternalWork(gameData)), arg, wordSet, slot);
         break;
     case 6:
-        func_02156AD4(*((void **)func_02012F80(h)), arg, ws, slot);
+        func_02156AD4(*((void **)GAME_DATA_GetExternalWork(gameData)), arg, wordSet, slot);
         break;
     case 7: {
-        void *sv = func_02012F44(func_0215A5E4(vm));
-        u16 ids[3];
-        u8 idx[4];
-        u8 val[4];
+        struct MusicalSave *musical = GAME_DATA_GetSaveBlock2A(func_0215A5E4(scriptWork));
+        u16 labelIds[3];
+        u8 slotOrder[4];
+        u8 slotValue[4];
         u8 i;
         u8 j;
 
+        /* sort the four slots by value, descending (bubble sort) */
         for (i = 0; i < 4; i++) {
-            idx[i] = i;
-            val[i] = func_0200A7A0(sv, i);
+            slotOrder[i] = i;
+            slotValue[i] = func_0200A7A0(musical, i);
         }
         for (i = 1; i < 4; i++) {
             for (j = 0; j < 4 - i; j++) {
-                u8 n = j + 1;
+                u8 next = j + 1;
 
-                if (val[j] < val[n]) {
-                    u8 t = val[j];
+                if (slotValue[j] < slotValue[next]) {
+                    u8 tmp = slotValue[j];
 
-                    val[j] = val[n];
-                    val[n] = t;
-                    t = idx[j];
-                    idx[j] = idx[n];
-                    idx[n] = t;
+                    slotValue[j] = slotValue[next];
+                    slotValue[next] = tmp;
+                    tmp = slotOrder[j];
+                    slotOrder[j] = slotOrder[next];
+                    slotOrder[next] = tmp;
                 }
             }
         }
-        if (val[0] == val[1] && val[0] == val[2]) {
-            ids[0] = 9;
-            ids[1] = 8;
+        if (slotValue[0] == slotValue[1] && slotValue[0] == slotValue[2]) {
+            labelIds[0] = 9;
+            labelIds[1] = 8;
         } else {
-            ids[0] = idx[0] + 4;
-            if (val[1] == val[2])
-                ids[1] = 8;
+            labelIds[0] = slotOrder[0] + 4;
+            if (slotValue[1] == slotValue[2])
+                labelIds[1] = 8;
             else
-                ids[1] = idx[1] + 4;
+                labelIds[1] = slotOrder[1] + 4;
         }
-        if (val[1] == val[3])
-            ids[2] = idx[1] + 4;
-        else if (val[2] == val[3])
-            ids[2] = idx[2] + 4;
+        if (slotValue[1] == slotValue[3])
+            labelIds[2] = slotOrder[1] + 4;
+        else if (slotValue[2] == slotValue[3])
+            labelIds[2] = slotOrder[2] + 4;
         else
-            ids[2] = idx[3] + 4;
-        bank = func_02045B38(0, 2, 0x4B, heap);
+            labelIds[2] = slotOrder[3] + 4;
+        msgData = func_02045B38(0, 2, 0x4B, heapId);
         for (i = 0; i < 3; i++) {
-            str = func_02045EC0(bank, ids[i]);
-            func_0201EE0C(ws, i, str, 0, 1, 2);
+            str = func_02045EC0(msgData, labelIds[i]);
+            func_0201EE0C(wordSet, i, str, 0, 1, 2);
             func_02045808(str);
         }
-        func_02045C04(bank);
+        func_02045C04(msgData);
         break;
     }
     }
@@ -1158,156 +1168,142 @@ int func_0215D884(Ctx *c, void *vm)
 }
 
 
-
-
-
-
-int func_0215DADC(void *a,void *b)
+/* Script command: clear the rank byte of a musical program slot. */
+int func_0215DADC(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
- int i = func_02159B10(a,b);
- u8 *p = (u8 *)func_0200A750(func_02012F44(func_0215A5E4(b)), (u8)i);
- p[1] = 0;
- return 0;
+    int slot = func_02159B10(vm, scriptWork);
+    MusicalProgramView *program = (MusicalProgramView *)func_0200A750(GAME_DATA_GetSaveBlock2A(func_0215A5E4(scriptWork)), (u8)slot);
+
+    program->rank = 0;
+    return 0;
 }
 
 
-
-
-
-
-int func_0215DB00(void *a,void *b)
+/* Script command: open the party selection screen; the two script variables receive the choice. */
+int func_0215DB00(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
- int x = (int)func_02159AE8(a,b);
- int y = (int)func_02159AE8(a,b);
- void *p = func_0215A5F4(b);
- func_0215897C(p,func_0215A168((int)func_0215A5DC(b),x,y));
- return 1;
+    u16 *partyIndexVar = func_02159AE8(vm, scriptWork);
+    u16 *resultVar = func_02159AE8(vm, scriptWork);
+    struct ScriptCtl *scriptCtl = func_0215A5F4(scriptWork);
+
+    func_0215897C(scriptCtl, func_0215A168(func_0215A5DC(scriptWork), partyIndexVar, resultVar));
+    return 1;
 }
-
-
-
-
-
 
 
 /*
  * Script command: link-session control. Reads a sub-command, an argument
- * and a result slot, then opens or closes the link work (0, 1), starts the
- * ov132 session steps (10..18, most of which install a wait callback and
- * suspend the script) or reports the session state into the slot (19..21).
+ * and a result variable, then opens or closes the link work (0, 1), starts
+ * the ov132 session steps (10..18, most of which install a wait callback and
+ * suspend the script) or reports the session state into the variable (19..21).
  *
- * Byte-correct (first draft plus ov100_id for the pooled 0x64). Evidence
- * gaps, not C: 0x021FDA6C (ov132) has no func_ label; ov100_id is passed to
- * func_02014808 (r2), which is not in the overlay_id consumer list;
- * d_021BB6A4 is another overlay's proc data (same gap as func_02155478).
  * The empty `case 100: break;` is what leaves the lone `cmp r6, #0x64`.
- *
- * 2026-10-05 (wave D9): EXACT. d_021BB6A4 (ov100 process data) resolves with the ov100 token on its symbols line.
+ * ov100_id is the overlay id of the ov100 proc (the symbol value is 0x64).
  */
-int func_0215DB38(void *c, void *vm)
+int func_0215DB38(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
-    void *evt;
-    void *proc;
-    void *h;
-    void *sys;
+    struct ScriptCtl *scriptCtl;
+    struct GameSystem *gameSys;
+    struct GameData *gameData;
+    struct FieldMap *fieldMap;
     u16 cmd;
     u16 arg;
-    u16 *dst;
+    u16 *resultVar;
     int busy;
-    Link *l;
+    MusicalLinkWork *link;
 
-    evt = func_0215A5F4(vm);
-    proc = func_0215A5DC(vm);
-    h = func_0215A5E4(vm);
-    sys = func_0201210C(proc);
-    cmd = func_02159B10(c, vm);
-    arg = func_02159B10(c, vm);
-    func_02159B10(c, vm);
-    dst = func_02159AE8(c, vm);
+    scriptCtl = func_0215A5F4(scriptWork);
+    gameSys = func_0215A5DC(scriptWork);
+    gameData = func_0215A5E4(scriptWork);
+    fieldMap = func_0201210C(gameSys);
+    cmd = func_02159B10(vm, scriptWork);
+    arg = func_02159B10(vm, scriptWork);
+    func_02159B10(vm, scriptWork);
+    resultVar = func_02159AE8(vm, scriptWork);
     busy = 0;
-    l = 0;
+    link = 0;
     if (cmd != 0 && cmd != 0x15) {
-        l = (Link *)func_02012F80(h);
-        if (l->f00 != 0) {
-            func_02156BAC(l->f00);
-            if (func_02156BCC(l->f00) == 1)
+        link = GAME_DATA_GetExternalWork(gameData);
+        if (link->musicalEvent != 0) {
+            func_02156BAC(link->musicalEvent);
+            if (func_02156BCC(link->musicalEvent) == 1)
                 busy = 1;
         }
     }
     switch (cmd) {
     case 0:
-        func_0215DDC8(evt, h);
+        func_0215DDC8(scriptCtl, gameData);
         break;
     case 1:
-        func_0215DE0C(l, h);
+        func_0215DE0C(link, gameData);
         break;
     case 10:
-        func_0215DE38((int)l, proc, (void *)func_02012138(proc), arg);
+        func_0215DE38((int)link, gameSys, func_02012138(gameSys), arg);
         break;
     case 11:
-        func_0215DE44((int)l);
-        func_020113D0(c, (int)func_0215E130);
+        func_0215DE44(link);
+        func_020113D0(vm, func_0215E130);
         return 1;
     case 12:
-        l->f30 = dst;
-        l->f08 = func_021CD48C(func_02012944(h), sys, 2, 4, 4, 0, 1, 0);
-        func_020113D0(c, (int)func_0215DFB4);
+        link->resultOut = resultVar;
+        link->entryMenu = func_021CD48C(func_02012944(gameData), fieldMap, 2, 4, 4, 0, 1, 0);
+        func_020113D0(vm, func_0215DFB4);
         return 1;
     case 13:
-        l->f30 = dst;
-        l->f08 = func_021CD48C(func_02012944(h), sys, 2, 4, 4, 1, 1, 0);
-        func_020113D0(c, (int)func_0215E010);
+        link->resultOut = resultVar;
+        link->entryMenu = func_021CD48C(func_02012944(gameData), fieldMap, 2, 4, 4, 1, 1, 0);
+        func_020113D0(vm, func_0215E010);
         return 1;
     case 14:
-        if (l->sess == 0 || busy != 0)
+        if (link->session == 0 || busy != 0)
             break;
-        l->f34 = arg;
-        func_021FCDEC((int)l->sess, (u8)l->f34);
-        func_020113D0(c, (int)func_0215E068);
+        link->memberCount = arg;
+        func_021FCDEC((int)link->session, (u8)link->memberCount);
+        func_020113D0(vm, func_0215E068);
         return 1;
     case 15:
-        if (l->sess == 0 || busy != 0)
+        if (link->session == 0 || busy != 0)
             break;
-        func_020113D0(c, (int)func_0215E0B0);
+        func_020113D0(vm, func_0215E0B0);
         return 1;
     case 16:
-        func_020113D0(c, (int)func_0215E0EC);
+        func_020113D0(vm, func_0215E0EC);
         return 1;
     case 17:
-        if (l->sess == 0 || busy != 0)
+        if (link->session == 0 || busy != 0)
             break;
-        func_020113D0(c, (int)func_0215E184);
+        func_020113D0(vm, func_0215E184);
         return 1;
     case 18: {
-        Wait *w = func_02030734(0x8004, 8, (u32)1, d_02172914, (u32)0x3C8);
+        MusicalLinkWait *wait = func_02030734(0x8004, 8, (u32)1, d_02172914, (u32)0x3C8);
 
-        w->vm = vm;
-        w->link = l;
-        l->f30 = dst;
-        l->f0c = h;
-        l->f2c = (u32)func_021FDA6C(h);
-        l->f28 = arg == 0 ? 9 : 10;
-        func_0215897C(evt, func_02014808(proc, (int)sys, (u32)ov100_id, (int)d_021BB6A4, (int)(&l->f0c), (int)func_0215DF78, (int)w));
+        wait->scriptWork = scriptWork;
+        wait->link = link;
+        link->resultOut = resultVar;
+        link->gameData = gameData;
+        link->procWork = (u32)func_021FDA6C(gameData);
+        link->procMode = arg == 0 ? 9 : 10;
+        func_0215897C(scriptCtl, func_02014808(gameSys, fieldMap, (u32)ov100_id, d_021BB6A4, &link->gameData, func_0215DF78, wait));
         return 1;
     }
     case 19:
-        if (l->sess != 0 && busy == 1)
-            *dst = 1;
+        if (link->session != 0 && busy == 1)
+            *resultVar = 1;
         else
-            *dst = 0;
+            *resultVar = 0;
         break;
     case 20:
-        if (l->sess != 0)
-            *dst = 1;
+        if (link->session != 0)
+            *resultVar = 1;
         else
-            *dst = 0;
+            *resultVar = 0;
         break;
     case 21:
         if (func_0200FB24() != 0) {
-            func_02012124(proc, 1);
-            *dst = 1;
+            func_02012124(gameSys, 1);
+            *resultVar = 1;
         } else {
-            *dst = 0;
+            *resultVar = 0;
         }
         break;
     case 100:
@@ -1317,53 +1313,30 @@ int func_0215DB38(void *c, void *vm)
 }
 
 
-
-
-
-
-
 /*
- * Allocate the 0x38-byte link work, clear its first two words, attach
- * it to the save handle and load overlays 132 and 112.
- *
- * The call to arm9 0x02012F74 (the +0x6A8 setter beside func_02012F80)
- * resolves since seeds_2 labelled and matched it (src/matched/unit_02012F68.c).
+ * Allocate the 0x38-byte link work, clear its first two words, attach it to
+ * the game data external-work slot and load overlays 132 and 112.
  */
-void func_0215DDC8(void *unused, void *h)
+void func_0215DDC8(struct ScriptCtl *unused, struct GameData *gameData)
 {
-    Work *w = func_02030734(4, 0x38, 1, d_02172914, 0x413);
+    MusicalLinkWork *link = func_02030734(4, 0x38, 1, d_02172914, 0x413);
 
-    w->f00 = 0;
-    w->f04 = 0;
-    func_02012F74(h, w);
+    link->musicalEvent = 0;
+    link->session = 0;
+    GAME_DATA_SetExternalWork(gameData, link);
     func_02034AC4((u32)ov132_id);
     func_02034AC4((u32)ov112_id);
 }
 
 
-
-
-
-
-
-/*
- * Unload overlays 112 and 132, free the link work and detach it.
- *
- * The call to arm9 0x02012F74 (the +0x6A8 setter beside func_02012F80)
- * resolves since seeds_2 labelled and matched it (src/matched/unit_02012F68.c).
- */
-void func_0215DE0C(void *w, void *h)
+/* Unload overlays 112 and 132, free the link work and detach it. */
+void func_0215DE0C(MusicalLinkWork *link, struct GameData *gameData)
 {
     func_02034A5C((u32)ov112_id);
     func_02034A5C((u32)ov132_id);
-    func_020307B0(w);
-    func_02012F74(h, 0);
+    func_020307B0(link);
+    GAME_DATA_SetExternalWork(gameData, 0);
 }
-
-
-
-
-
 
 
 /*
@@ -1371,559 +1344,364 @@ void func_0215DE0C(void *w, void *h)
  * first parameter is the constant 4. The callee takes four arguments, so a
  * tail call is impossible (bx would spend an argument register on the
  * target), which is why the image keeps a frame and emits a direct bl.
- * The listing extent is two bytes long because of the trailing alignment
- * padding.
  */
-void func_0215DE38(int a, void *b, void *c, int d)
+void func_0215DE38(int link, struct GameSystem *gameSys, struct GameComm *gameComm, int arg)
 {
-    func_021FC644(4, (void *)b, (void *)c, d);
+    func_021FC644(4, (void *)gameSys, (void *)gameComm, arg);
 }
 
 
-
-
-
-
-
-void func_0215DE44(int a0)
+/* Close the comm session of the link work, if any. */
+void func_0215DE44(MusicalLinkWork *link)
 {
-    int t4;
-
-t4 = a0 + 0;
-a0 = ((struct Obj12042 *)t4)->f4;
-    if (a0 == 0) goto loc_0215DE56;
-loc_0215DE4E:
-    a0 = func_021FC684(a0);
-loc_0215DE52:
-a0 = 0;
-((struct Obj12042 *)t4)->f4 = a0;
-loc_0215DE56:
-    return;}
-
-
-
-
+    if (link->session != 0) {
+        func_021FC684(link->session);
+        link->session = 0;
+    }
+}
 
 
 /*
- * Padding: two zero alignment bytes after the 150-byte function.
- * Lever: context remains live in r0 across the switch for func_02012A30(p).
+ * Event task of StartMusical (states 0..3): call the link event, close the
+ * session, wait for the comm (when mode 1), then free the link work.
+ * Lever: the game data pointer stays live in r0 across the switch for
+ * func_02012A30. Two zero alignment bytes follow the 150-byte function.
  */
-int func_0215DE58(void *a, u32 *st, Ctx_0215DE58 *c)
+int func_0215DE58(struct GameEvent *task, u32 *state, void *work)
 {
-    void *p;
-    p = func_020120F4(func_020124E4(a));
-    switch (*st) {
+    MusicalStartTask *startTask = work;
+    struct GameData *gameData;
+
+    gameData = func_020120F4(func_020124E4(task));
+    switch (*state) {
     case 0:
-        func_02012374(a, (struct Evt **)c->f0);
-        (*st)++;
+        func_02012374(task, startTask->musicalSeq);
+        (*state)++;
         break;
     case 1:
-        func_02012A30(p);
-        func_0215DE44(c->f4);
-        (*st)++;
+        func_02012A30(gameData);
+        func_0215DE44(startTask->link);
+        (*state)++;
         break;
     case 2:
         {
-            void *q = (void *)func_02012138(func_020124E4(a));
-            if (c->f8 != 0) {
-                if (func_02026454(q) != 0)
+            struct GameComm *gameComm = func_02012138(func_020124E4(task));
+            if (startTask->mode != 0) {
+                if (func_02026454(gameComm) != 0)
                     break;
             }
         }
-        (*st)++;
+        (*state)++;
         break;
     case 3:
         if (func_0203CDBC() != 1) {
-            if (c->f8 != 0)
+            if (startTask->mode != 0)
                 break;
         }
-        if (c->f8 == 1) {
-            func_020121CC(func_020124E4(a));
+        if (startTask->mode == 1) {
+            func_020121CC(func_020124E4(task));
         }
-        func_0215DE0C((void *)c->f4, p);
-        (*st)++;
+        func_0215DE0C(startTask->link, gameData);
+        (*state)++;
         return 1;
     }
     return 0;
 }
 
 
-
-
-
-
-
-int func_0215DEF0(void *a, u32 *st, u32 *c)
+/*
+ * Event task of ShowPartyMonMusical: runs the proc d_02172724 on the musical
+ * system arguments, then frees the system and the argument block.
+ */
+int func_0215DEF0(struct GameEvent *task, u32 *state, void *work)
 {
-    void *h = func_020124E4(a);
-    func_020120F4(h);
-    func_0201210C(h);
-    switch (*st) {
+    MusicalSystemTask *systemTask = work;
+    struct GameSystem *gameSys = func_020124E4(task);
+
+    func_020120F4(gameSys);
+    func_0201210C(gameSys);
+    switch (*state) {
     case 0:
-        (*st)++;
+        (*state)++;
         break;
     case 1:
-        (*st)++;
+        (*state)++;
         break;
     case 2:
-        (*st)++;
+        (*state)++;
         break;
     case 3:
-        func_020120B4(h, -1, (void *)d_02172724, (void *)(*c));
-        (*st)++;
+        GAMESYSTEM_CallProc(gameSys, -1, (void *)d_02172724, systemTask->args);
+        (*state)++;
         break;
     case 4:
-        if (func_020120F0(h) != 0)
+        if (GAMESYSTEM_GetProcStatus(gameSys) != 0)
             break;
-        (*st)++;
+        (*state)++;
         break;
     case 5:
-        (*st)++;
+        (*state)++;
         break;
     case 6:
-        func_020307B0(((void **)*c)[1]);
-        func_020307B0((void *)*c);
+        func_020307B0((void *)systemTask->args->musicalSystem);
+        func_020307B0(systemTask->args);
         return 1;
     }
     return 0;
 }
 
 
-
-
-
-
-
-void func_0215DF6C(void **p) { func_020307B0(*p); }
-
-
-
-
-
-
-
-
-void func_0215DF78(int a0, int a1, int a2)
+/* Proc callback: free the argument block of the ov112 proc. */
+void func_0215DF6C(void *callbackArg)
 {
-    int t4;
-    void *v0;
-    void *v1;
+    MusicalProcBox *box = callbackArg;
 
-t4 = a0 + 0;
-a0 = *(int *)&((struct Obj00005 *)((char *)t4))->f0;
-    v0 = func_0215A5DC((void *)a0);
-loc_0215DF82:
-a0 = *(int *)&((struct Obj00005 *)((char *)t4))->f0;
-    v1 = func_0215A5E4((void *)a0);
-loc_0215DF8A:
-    a0 = func_02012138(v0);
-loc_0215DF90:
-a2 = *(int *)&((struct Obj00005 *)t4)->f4;
-a0 = ((struct Obj09156 *)a2)->f28;
-    if (a0 == 0xc) goto loc_0215DFAC;
-loc_0215DF98:
-    if (a0 == 0xd) goto loc_0215DFAC;
-loc_0215DF9C:
-a0 = ((struct Obj09156 *)a2)->f30;
-a1 = 1;
-*(u16 *)&((struct Obj00005 *)((char *)a0))->f0 = a1;
-a0 = *(int *)&((struct Obj00005 *)t4)->f4;
-a0 = *(int *)&((struct Obj00005 *)a0)->f4;
-    a0 = func_021FC81C(a0, a1);
-loc_0215DFAA:
-    return;
-loc_0215DFAC:
-a0 = ((struct Obj09156 *)a2)->f30;
-a1 = 0;
-*(u16 *)&((struct Obj00005 *)((char *)a0))->f0 = a1;
-    return;}
-
-
-
-
-
-
-
-
-/*
- * blocked:  listing 92 compiled 90
- */
-int func_0215DFB4(int a0, int a1)
-{
-    int t4;
-    int t5;
-    void *v0;
-    void *v1;
-
-t4 = a1 + 0;
-a0 = t4 + 0;
-    v0 = func_0215A5F4((void *)a0);
-loc_0215DFBE:
-a0 = t4 + 0;
-    v1 = func_0215A5E4((void *)a0);
-loc_0215DFC4:
-    a0 = func_02012F80(v1);
-loc_0215DFC8:
-t4 = a0 + 0;
-a0 = ((struct Obj02658 *)t4)->f8;
-    a0 = func_021CD688(a0);
-loc_0215DFD0:
-t5 = 0;
-    if (a0 == 1) goto loc_0215DFE0;
-loc_0215DFD6:
-    if (a0 == 2) goto loc_0215DFEC;
-loc_0215DFDA:
-    if (a0 == 4) goto loc_0215DFF4;
-loc_0215DFDE:
-    goto loc_0215DFFC;
-loc_0215DFE0:
-a0 = ((struct Obj02658 *)t4)->f30;
-((struct Obj02658 *)((char *)a0))->f0 = t5;
-a0 = ((struct Obj02658 *)t4)->f4;
-    a0 = func_021FC804(a0);
-loc_0215DFEA:
-    goto loc_0215DFFA;
-loc_0215DFEC:
-a0 = ((struct Obj02658 *)t4)->f30;
-t5 = 1;
-((struct Obj02658 *)((char *)a0))->f0 = t5;
-    goto loc_0215DFFC;
-loc_0215DFF4:
-a0 = ((struct Obj02658 *)t4)->f30;
-a1 = 2;
-((struct Obj02658 *)((char *)a0))->f0 = a1;
-loc_0215DFFA:
-t5 = 1;
-loc_0215DFFC:
-    if (t5 != 1) goto loc_0215E00A;
-loc_0215E000:
-a0 = ((struct Obj02658 *)t4)->f8;
-    a0 = func_021CD5A4(a0);
-loc_0215E006:
-a0 = 0;
-((struct Obj02658 *)t4)->f8 = a0;
-loc_0215E00A:
-a0 = t5 + 0;
-    return a0;}
-
-
-
-
-
-
-
-
-int func_0215E010(void *a, void *b)
-{
-    struct W *w;
-    int r;
-    int v;
-
-    func_0215A5F4(b);
-    w = (struct W *)func_02012F80(func_0215A5E4(b));
-    r = 0;
-    switch (func_021CD688(w->f8)) {
-    case 1:
-        *w->f30 = 3;
-        func_021FC804(w->f4);
-        r = 1;
-        break;
-    case 2:
-        v = 4;
-        *w->f30 = v;
-        r = 1;
-        break;
-    case 4:
-        v = 2;
-        *w->f30 = v;
-        r = 1;
-        break;
-    }
-    if (r == 1) {
-        func_021CD5A4(w->f8);
-        w->f8 = 0;
-    }
-    return r;
+    func_020307B0(box->args);
 }
 
 
-
-
-
-
-
 /*
- * blocked:  listing 72 compiled 70
+ * Callback of the ov100 proc: set the result variable to 1 (0 when the proc
+ * mode is 12 or 13) and close the comm session otherwise.
  */
-int func_0215E068(int a0, int a1)
+void func_0215DF78(void *callbackArg)
 {
-    int t4;
-    void *v0;
-    void *v1;
+    MusicalLinkWait *wait = callbackArg;
+    struct GameSystem *gameSys;
+    struct GameData *gameData;
+    MusicalLinkWork *link;
 
-t4 = a1 + 0;
-a0 = t4 + 0;
-    v0 = func_0215A5F4((void *)a0);
-loc_0215E072:
-a0 = t4 + 0;
-    v1 = func_0215A5E4((void *)a0);
-loc_0215E078:
-    a0 = func_02012F80(v1);
-loc_0215E07C:
-t4 = a0 + 0;
-a0 = *(int *)&((struct Obj00005 *)((char *)t4))->f0;
-    if (a0 == 0) goto loc_0215E096;
-loc_0215E084:
-    func_02156BAC((void *)a0);
-loc_0215E088:
-a0 = *(int *)&((struct Obj00005 *)((char *)t4))->f0;
-    a0 = func_02156BCC((void *)a0);
-loc_0215E08E:
-    if (a0 != 1) goto loc_0215E096;
-loc_0215E092:
-a0 = 1;
-    return a0;
-loc_0215E096:
-a1 = ((struct Obj00005 *)t4)->f34;
-a0 = *(int *)&((struct Obj00005 *)t4)->f4;
-a1 = a1 << 0x18;
-a1 = (unsigned)a1 >> 0x18;
-    a0 = func_021FCE00(a0, a1);
-loc_0215E0A2:
-    if (a0 != 1) goto loc_0215E0AA;
-loc_0215E0A6:
-a0 = 1;
-    return a0;
-loc_0215E0AA:
-a0 = 0;
-    return a0;}
+    gameSys = func_0215A5DC(wait->scriptWork);
+    gameData = func_0215A5E4(wait->scriptWork);
+    func_02012138(gameSys);
+    link = wait->link;
+    if (link->procMode != 0xc && link->procMode != 0xd) {
+        *link->resultOut = 1;
+        func_021FC81C(wait->link->session);
+    } else {
+        *link->resultOut = 0;
+    }
+}
 
 
-
-
-
-
-
-int func_0215E0B0(int a0, int a1)
+/* Wait: entry menu opened as parent. Result 0 = accepted, 1 = declined, 2 = cancelled. */
+int func_0215DFB4(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
-    int t4;
-    void *v0;
-    void *v1;
+    MusicalLinkWork *link;
+    int done;
+    int status;
 
-t4 = a1 + 0;
-a0 = t4 + 0;
-    v0 = func_0215A5F4((void *)a0);
-loc_0215E0BA:
-a0 = t4 + 0;
-    v1 = func_0215A5E4((void *)a0);
-loc_0215E0C0:
-    a0 = func_02012F80(v1);
-loc_0215E0C4:
-t4 = a0 + 0;
-a0 = *(int *)&((struct Obj00005 *)((char *)t4))->f0;
-    a0 = func_02156BAC((void *)a0);
-loc_0215E0CC:
-a0 = *(int *)&((struct Obj00005 *)((char *)t4))->f0;
-    a0 = func_02156BCC((void *)a0);
-loc_0215E0D2:
-    if (a0 != 1) goto loc_0215E0DA;
-loc_0215E0D6:
-a0 = 1;
-    return a0;
-loc_0215E0DA:
-a0 = *(int *)&((struct Obj00005 *)t4)->f4;
-    a0 = func_021FD844(a0);
-loc_0215E0E0:
-    if (a0 != 1) goto loc_0215E0E8;
-loc_0215E0E4:
-a0 = 1;
-    return a0;
-loc_0215E0E8:
-a0 = 0;
-    return a0;}
+    func_0215A5F4(scriptWork);
+    link = GAME_DATA_GetExternalWork(func_0215A5E4(scriptWork));
+    status = func_021CD688(link->entryMenu);
+    done = 0;
+    switch (status) {
+    case 1:
+        *link->resultOut = 0;
+        func_021FC804(link->session);
+        done = 1;
+        break;
+    case 2:
+        *link->resultOut = 1;
+        done = 1;
+        break;
+    case 4:
+        *link->resultOut = 2;
+        done = 1;
+        break;
+    }
+    if (done == 1) {
+        func_021CD5A4(link->entryMenu);
+        link->entryMenu = 0;
+    }
+    return done;
+}
 
 
-
-
-
-
-
-
-/*
- * blocked:
- */
-int func_0215E0EC(int a0, int a1)
+/* Wait: entry menu opened as child. Result 3 = accepted, 4 = declined, 2 = cancelled. */
+int func_0215E010(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
-    int t4;
-    int t5;
-    void *v0;
-    void *v1;
-    void *v2;
+    MusicalLinkWork *link;
+    int done;
+    int result;
 
-t4 = a1 + 0;
-a0 = t4 + 0;
-    v0 = func_0215A5F4((void *)a0);
-loc_0215E0F6:
-a0 = t4 + 0;
-    v1 = func_0215A5DC((void *)a0);
-loc_0215E0FC:
-a0 = t4 + 0;
-    v2 = func_0215A5E4((void *)a0);
-loc_0215E104:
-    a0 = func_02012138(v1);
-loc_0215E10C:
-t5 = a0 + 0;
-    a0 = func_02012F80(v2);
-loc_0215E114:
-t4 = a0 + 0;
-a0 = t5 + 0;
-    a0 = func_02026454((void *)a0);
-loc_0215E11C:
-    if (a0 != 4) goto loc_0215E12C;
-loc_0215E120:
-a0 = t5 + 0;
-    a0 = func_02026474((void *)a0);
-loc_0215E126:
-*(int *)&((struct Obj00005 *)t4)->f4 = a0;
-a0 = 1;
-    return a0;
-loc_0215E12C:
-a0 = 0;
-    return a0;}
+    func_0215A5F4(scriptWork);
+    link = GAME_DATA_GetExternalWork(func_0215A5E4(scriptWork));
+    done = 0;
+    switch (func_021CD688(link->entryMenu)) {
+    case 1:
+        *link->resultOut = 3;
+        func_021FC804(link->session);
+        done = 1;
+        break;
+    case 2:
+        result = 4;
+        *link->resultOut = result;
+        done = 1;
+        break;
+    case 4:
+        result = 2;
+        *link->resultOut = result;
+        done = 1;
+        break;
+    }
+    if (done == 1) {
+        func_021CD5A4(link->entryMenu);
+        link->entryMenu = 0;
+    }
+    return done;
+}
 
 
-
-
-
-
-
-
-int func_0215E130(void *a, void *b)
+/* Wait: member count set on the session (command 14). */
+int func_0215E068(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
-    void *t;
-    void *s;
-    int *w;
+    MusicalLinkWork *link;
 
-    func_0215A5F4(b);
-    t = func_0215A5DC(b);
-    s = func_0215A5E4(b);
-    t = (void *)func_02012138(t);
-    w = (int *)func_02012F80(s);
-    if (*w != 0) {
-        func_02156BAC((void *)(*w));
-        if (func_02156BCC((void *)(*w)) == 1) {
+    func_0215A5F4(scriptWork);
+    link = GAME_DATA_GetExternalWork(func_0215A5E4(scriptWork));
+    if (link->musicalEvent != 0) {
+        func_02156BAC(link->musicalEvent);
+        if (func_02156BCC(link->musicalEvent) == 1)
+            return 1;
+    }
+    if (func_021FCE00(link->session, (u8)link->memberCount) == 1)
+        return 1;
+    return 0;
+}
+
+
+/* Wait: session ready (command 15). */
+int func_0215E0B0(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    MusicalLinkWork *link;
+
+    func_0215A5F4(scriptWork);
+    link = GAME_DATA_GetExternalWork(func_0215A5E4(scriptWork));
+    func_02156BAC(link->musicalEvent);
+    if (func_02156BCC(link->musicalEvent) == 1)
+        return 1;
+    if (func_021FD844(link->session) == 1)
+        return 1;
+    return 0;
+}
+
+
+/* Wait: attach the link work to the comm session once the comm kind is 4 (command 16). */
+int func_0215E0EC(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    struct GameSystem *gameSys;
+    struct GameData *gameData;
+    struct GameComm *gameComm;
+    MusicalLinkWork *link;
+
+    func_0215A5F4(scriptWork);
+    gameSys = func_0215A5DC(scriptWork);
+    gameData = func_0215A5E4(scriptWork);
+    gameComm = func_02012138(gameSys);
+    link = GAME_DATA_GetExternalWork(gameData);
+    if (func_02026454(gameComm) == 4) {
+        link->session = (void *)func_02026474(gameComm);
+        return 1;
+    }
+    return 0;
+}
+
+
+/* Wait: the comm is gone and the musical event is idle (command 11). */
+int func_0215E130(ScriptVm *vm, struct ScriptWork *scriptWork)
+{
+    struct GameComm *gameComm;
+    struct GameSystem *gameSys;
+    struct GameData *gameData;
+    MusicalLinkWork *link;
+
+    func_0215A5F4(scriptWork);
+    gameSys = func_0215A5DC(scriptWork);
+    gameData = func_0215A5E4(scriptWork);
+    gameComm = func_02012138(gameSys);
+    link = GAME_DATA_GetExternalWork(gameData);
+    if (link->musicalEvent != 0) {
+        func_02156BAC(link->musicalEvent);
+        if (func_02156BCC(link->musicalEvent) == 1) {
             return 1;
         }
     }
-    if (func_02026454(t) == 0) {
+    if (func_02026454(gameComm) == 0) {
         return 1;
     }
     return 0;
 }
 
 
-
-
-
-
-
-int func_0215E184(int a0, int a1)
+/* Wait: session finished (command 17). */
+int func_0215E184(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
-    int t4;
-    void *v0;
-    void *v1;
+    MusicalLinkWork *link;
 
-t4 = a1 + 0;
-a0 = t4 + 0;
-    v0 = func_0215A5F4((void *)a0);
-loc_0215E18E:
-a0 = t4 + 0;
-    v1 = func_0215A5E4((void *)a0);
-loc_0215E194:
-    a0 = func_02012F80(v1);
-loc_0215E198:
-t4 = a0 + 0;
-a0 = *(int *)&((struct Obj00005 *)((char *)t4))->f0;
-    a0 = func_02156BAC((void *)a0);
-loc_0215E1A0:
-a0 = *(int *)&((struct Obj00005 *)((char *)t4))->f0;
-    a0 = func_02156BCC((void *)a0);
-loc_0215E1A6:
-    if (a0 != 1) goto loc_0215E1AE;
-loc_0215E1AA:
-a0 = 1;
-    return a0;
-loc_0215E1AE:
-a0 = *(int *)&((struct Obj00005 *)t4)->f4;
-    a0 = func_021FD910(a0);
-loc_0215E1B4:
-    if (a0 != 1) goto loc_0215E1BC;
-loc_0215E1B8:
-a0 = 1;
-    return a0;
-loc_0215E1BC:
-a0 = 0;
-    return a0;}
-
-
-
-
-
+    func_0215A5F4(scriptWork);
+    link = GAME_DATA_GetExternalWork(func_0215A5E4(scriptWork));
+    func_02156BAC(link->musicalEvent);
+    if (func_02156BCC(link->musicalEvent) == 1)
+        return 1;
+    if (func_021FD910(link->session) == 1)
+        return 1;
+    return 0;
+}
 
 
 /*
  * Script command with a six-way sub-command switch over an ov021 service
- * (0x021B76B4..0x021B7794) on the save-data block func_02009448 returns;
- * sub-commands 0, 1 and 4 write a halfword result through the destination
+ * (0x021B76B4..0x021B7794) on the wifi list func_02009448 returns;
+ * sub-commands 0, 1 and 4 write a halfword result through the result
  * variable, 5 formats a value into the word set.
  */
-int func_0215E1C0(void *c, void *vm)
+int func_0215E1C0(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
     u32 cmd;
-    u16 *dst;
-    u16 v;
-    void *sys;
-    void *x;
-    void *blk;
-    u32 lim;
-    void *t;
-    void *ws;
+    u16 *resultVar;
+    u16 key;
+    struct GameSystem *gameSys;
+    struct GameData *gameData;
+    struct WifiList *wifiList;
+    u32 limit;
+    void *postEvent;
+    struct WordSet *wordSet;
 
-    cmd = func_02159B10(c, vm);
-    dst = func_02159AE8(c, vm);
-    v = func_0215A5CC(vm);
-    sys = func_0215A5DC(vm);
-    x = func_0215A5E4(vm);
-    blk = func_02009448(func_02012EBC(x));
-    lim = (int)func_02009370(blk);
-    if (func_0201210C(sys) == 0 && cmd != 0) {
+    cmd = func_02159B10(vm, scriptWork);
+    resultVar = func_02159AE8(vm, scriptWork);
+    key = func_0215A5CC(scriptWork);
+    gameSys = func_0215A5DC(scriptWork);
+    gameData = func_0215A5E4(scriptWork);
+    wifiList = func_02009448(func_02012EBC(gameData));
+    limit = (int)func_02009370(wifiList);
+    if (func_0201210C(gameSys) == 0 && cmd != 0) {
         return 0;
     }
     switch (cmd) {
     case 0:
-        *dst = (int)func_02009370(blk) > 0 ? 1 : 0;
+        *resultVar = (int)func_02009370(wifiList) > 0 ? 1 : 0;
         break;
     case 1:
-        if (func_021B76F8(x, v, blk) < lim) {
-            *dst = 1;
+        if (func_021B76F8(gameData, key, wifiList) < limit) {
+            *resultVar = 1;
         } else {
-            *dst = 0;
+            *resultVar = 0;
         }
         break;
     case 2:
-        t = func_021B7794(sys);
-        func_0215897C(func_0215A5F4(vm), t);
+        postEvent = func_021B7794(gameSys);
+        func_0215897C(func_0215A5F4(scriptWork), postEvent);
         return 1;
     case 3:
-        func_021B76B4(x, v, (int)blk);
+        func_021B76B4(gameData, key, (int)wifiList);
         break;
     case 5:
-        ws = func_02158F74(func_0215A5F4(vm));
-        func_0201EF5C(ws, 0, (u32)func_021B7740(x, v, blk, *dst));
+        wordSet = func_02158F74(func_0215A5F4(scriptWork));
+        func_0201EF5C(wordSet, 0, (u32)func_021B7740(gameData, key, wifiList, *resultVar));
         break;
     case 4:
-        *dst = func_021B76F8(x, v, blk);
+        *resultVar = func_021B76F8(gameData, key, wifiList);
         break;
     }
     return 0;
@@ -1931,192 +1709,163 @@ int func_0215E1C0(void *c, void *vm)
 
 
 
-
-
-
-
-int func_0215E2B8(struct R *r, int a, int b, int n)
+/*
+ * Read the encounter row of a zone from the encounter archive into `row`
+ * (0xE8 bytes). Zones with one row use it for every season, zones with four
+ * rows use the row of the season index. Returns 0 when the zone has no row
+ * or the member has another size.
+ */
+int func_0215E2B8(EncountRow *row, struct ArcFile *arc, u32 zoneId, int seasonIndex)
 {
-    u32 q;
-    int v;
+    u32 rowCount;
+    int member;
 
-    func_02082BCC(r, 0, 0xe8);
-    v = func_02013EC0(b);
-    if (v == 0xffff) {
+    func_02082BCC(row, 0, 0xe8);
+    member = ZONEDATA_GetEncountId(zoneId);
+    if (member == 0xffff) {
         return 0;
     }
-    q = func_020493D4((struct ArcFile *)a, v) / 0xe8;
-    if (q != 1 && q != 4) {
+    rowCount = func_020493D4(arc, member) / 0xe8;
+    if (rowCount != 1 && rowCount != 4) {
         return 0;
     }
-    if (q == 1) {
-        n = 0;
+    if (rowCount == 1) {
+        seasonIndex = 0;
     }
-    func_0204944C((struct ArcFile *)a, v, n * 0xe8, 0xe8, r);
-    r->f7 |= 0x80;
+    func_0204944C(arc, member, seasonIndex * 0xe8, 0xe8, row);
+    row->flags |= 0x80;
     return 1;
 }
 
 
-void *func_0215E31C(u32 heap)
+/* Allocate the 0x20-byte field encounter state. */
+void *func_0215E31C(u32 heapId)
 {
-    return func_02030734(heap, 32, 1, d_02172928, 45);
+    return func_02030734(heapId, 32, 1, d_02172928, 45);
 }
 
 
-
-
-void func_0215E334(void *ptr)
+void func_0215E334(void *encountState)
 {
-    func_020307B0(ptr);
+    func_020307B0(encountState);
 }
 
 
-
-
-int func_0215E33C(int a0)
+/* Result of the effect-encounter query for the field effect object of `fieldMap`. */
+int func_0215E33C(struct FieldMap *fieldMap)
 {
-    int a1;
+    EffectEncountObj *obj;
 
-    a0 = func_02188CE8(a0);
-loc_0215E342:
-a1 = ((struct Obj17696 *)a0)->f10;
-    a0 = func_021AA7DC(a0, a1);
-loc_0215E348:
-    return a0;}
-
-
-
-
-int func_0215E34C(int a0)
-{
-    int a1;
-
-    a0 = func_02012A38((const struct BigObj *)a0);
-loc_0215E352:
-a1 = 0;
-((struct Obj17697 *)a0)->fC = a1;
-    return a0;}
-
-
-
-
-void func_0215E358(void *a, u32 b, u16 c)
-{
-    func_0215E740(a, b, c, 0xff);
+    obj = func_02188CE8(fieldMap);
+    return func_021AA7DC(obj, obj->encountParam);
 }
 
 
-void func_0215E364(void *a)
+/* Clear the state word (offset 0xC) of the field gimmick work and return the work. */
+FieldGimmickWork *func_0215E34C(struct GameData *gameData)
+{
+    FieldGimmickWork *gimmick;
+
+    gimmick = func_02012A38(gameData);
+    gimmick->state = 0;
+    return gimmick;
+}
+
+
+/* Move entry `slot` to a new location, excluding no location (0xff). */
+void func_0215E358(struct MovePokemonSave *block, u32 season, u16 slot)
+{
+    func_0215E740(block, season, slot, 0xff);
+}
+
+
+/* After a battle: move every active roaming entry. */
+void func_0215E364(struct GameData *gameData)
 {
     u8 i;
-    void *q;
-    void *p;
-    p = func_0200D418(func_02012EBC(a));
-    q = (void *)func_02012984(a);
+    u32 season;
+    struct MovePokemonSave *block;
+
+    block = func_0200D418(func_02012EBC(gameData));
+    season = func_02012984(gameData);
     for (i = 0; i < 2; i++) {
-        if (func_0200D488(p, i) != 0) func_0215E358((void *)p, (u32)q, i);
+        if (func_0200D488(block, i) != 0) func_0215E358(block, season, i);
     }
 }
 
 
-
-void func_0215E3A0(void *a)
+/* Same as func_0215E364, with an unused entry lookup per slot. */
+void func_0215E3A0(struct GameData *gameData)
 {
     u8 i;
-    void *q;
-    void *p;
+    u32 season;
+    struct MovePokemonSave *block;
 
-    p = func_0200D418(func_02012EBC(a));
-    q = (void *)func_02012984(a);
+    block = func_0200D418(func_02012EBC(gameData));
+    season = func_02012984(gameData);
     for (i = 0; i < 2; i++) {
-        func_0200D4AC(p, i);
-        if (func_0200D488(p, i) != 0) {
-            func_0215E358((void *)p, (u32)q, i);
+        func_0200D4AC(block, i);
+        if (func_0200D488(block, i) != 0) {
+            func_0215E358(block, season, i);
         }
     }
 }
 
 
-u32 func_0215E3E4(void *p, u32 slot)
+/* Zone id of the location an entry is in (319 for an invalid location). */
+u32 func_0215E3E4(struct MovePokemonSave *block, u32 slot)
 {
-    u32 i = func_0200D478(p, slot);
-    if (i > 16) return 319;
-    return d_021711C6[i];
+    u32 location = func_0200D478(block, slot);
+    if (location > 16) return 319;
+    return d_021711C6[location];
 }
 
 
-
-int func_0215E404(int a0)
+/* 1 when any of the two entries is active. */
+int func_0215E404(struct MovePokemonSave *block)
 {
-    int a1;
-    int t4;
-    int t5;
+    u8 i = 0;
 
-t4 = a0 + 0;
-t5 = 0;
-loc_0215E40A:
-a0 = t4 + 0;
-a1 = t5 + 0;
-    a0 = func_0200D488((struct Blk38 *)a0, a1);
-loc_0215E412:
-    if (a0 == 0) goto loc_0215E41A;
-loc_0215E416:
-a0 = 1;
-    return a0;
-loc_0215E41A:
-a0 = t5 + 1;
-a0 = a0 << 0x18;
-t5 = (unsigned)a0 >> 0x18;
-    if ((unsigned)t5 < (unsigned)2) goto loc_0215E40A;
-loc_0215E424:
-a0 = 0;
-    return a0;}
+    do {
+        if (func_0200D488(block, i) != 0)
+            return 1;
+        i++;
+    } while (i < 2);
+    return 0;
+}
 
 
-
-void func_0215E428(int a0, int a1)
+/* Store the common area value when an entry is active. */
+void func_0215E428(struct MovePokemonSave *block, int value)
 {
-    int t4;
-    int t5;
-
-t5 = a0 + 0;
-t4 = a1 + 0;
-    a0 = func_0215E404(a0);
-loc_0215E432:
-    if (a0 == 0) goto loc_0215E43E;
-loc_0215E436:
-a0 = t5 + 0;
-a1 = t4 + 0;
-    a0 = func_0200D45C(a0, a1);
-loc_0215E43E:
-    return;}
-
+    if (func_0215E404(block) != 0)
+        func_0200D45C(block, value);
+}
 
 
 /*
- * Hand out the legendary for slot `which` (Thundurus 642 or Tornadus
- * 641 at level 40): fill the event record, create the Pokemon into the
- * box, and mark the slot. Levers: level and the record flag assigned the
- * same value in both switch arms (the tail-merged assignments keep them
- * as variables: level spilled to the frame, the flag in r6), species as
- * u32 truncated at the call, `a` declared before `save`.
+ * Hand out the roaming legendary of entry `slot` (Thundurus 642 or Tornadus
+ * 641 at level 40): fill the entry record, create the Pokemon into the box,
+ * and mark the entry. Levers: level and the entry flag assigned the same
+ * value in both switch arms (the tail-merged assignments keep them as
+ * variables: level spilled to the frame, the flag in r6), species as u32
+ * truncated at the call, `entries` declared before `save`.
  */
-void func_0215E440(void *sys, u8 which)
+void func_0215E440(struct GameData *gameData, u8 slot)
 {
-    void *a;
-    void *save;
-    void *rec;
-    void *party;
-    void *mon;
+    struct MovePokemonSave *block;
+    struct SaveControl *save;
+    struct MovePokemonEntry *entry;
+    struct MyStatus *myStatus;
+    struct Pokemon *mon;
     u32 species;
     u16 level;
     u32 flag;
 
-    save = func_02012EBC(sys);
-    a = func_0200D418(save);
-    rec = func_0200D4AC(a, which);
-    switch (which) {
+    save = func_02012EBC(gameData);
+    block = func_0200D418(save);
+    entry = func_0200D4AC(block, slot);
+    switch (slot) {
     case 0:
         species = 642;
         level = 40;
@@ -2130,147 +1879,124 @@ void func_0215E440(void *sys, u8 which)
     default:
         return;
     }
-    func_0200D50C(rec, 4, species);
-    func_0200D50C(rec, 6, level);
-    func_0200D50C(rec, 9, flag);
-    party = func_02012944(sys);
+    func_0200D50C(entry, 4, species);
+    func_0200D50C(entry, 6, level);
+    func_0200D50C(entry, 9, flag);
+    myStatus = func_02012944(gameData);
     mon = func_02030734(0x8003, func_020173EC(), 1, d_0217293C, 0x12E);
-    func_02017588(mon, species, level, func_02008530(party), 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
-    func_0200D50C(rec, 7, 0);
-    func_0200D50C(rec, 8, 1);
-    func_0200D50C(rec, 2, func_02017E1C(mon, 0xAC, 0));
-    func_0200D50C(rec, 3, func_02017E1C(mon, 0, 0));
-    func_0200D50C(rec, 10, func_02017E1C(mon, 0x70, 0));
-    func_0200D50C(rec, 5, func_02017E1C(mon, 0xA1, 0));
+    func_02017588(mon, species, level, func_02008530(myStatus), 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
+    func_0200D50C(entry, 7, 0);
+    func_0200D50C(entry, 8, 1);
+    func_0200D50C(entry, 2, func_02017E1C(mon, 0xAC, 0));
+    func_0200D50C(entry, 3, func_02017E1C(mon, 0, 0));
+    func_0200D50C(entry, 10, func_02017E1C(mon, 0x70, 0));
+    func_0200D50C(entry, 5, func_02017E1C(mon, 0xA1, 0));
     func_0200CFA0(func_0200CA10(save), mon);
     func_020307B0(mon);
-    func_0215E740(a, (u32)((void *)func_02012984(sys)), which, 5);
-    func_0200D470(a, which, 1);
+    func_0215E740(block, (u32)((void *)func_02012984(gameData)), slot, 5);
+    func_0200D470(block, slot, 1);
 }
 
 
-void func_0215E580(void *a)
+/* Spawn every entry that waits to appear (state 2). */
+void func_0215E580(struct GameData *gameData)
 {
- int i;
- void *p = func_0200D418(func_02012EBC(a));
- for(i=0;i<2;i++) {
-  if(func_0200D468(p,(u8)i)==2) func_0215E440(a,i);
- }
+    int i;
+    struct MovePokemonSave *block = func_0200D418(func_02012EBC(gameData));
+    for (i = 0; i < 2; i++) {
+        if (func_0200D468(block, (u8)i) == 2) func_0215E440(gameData, i);
+    }
 }
-
 
 
 /*
- * Reads species (5), a word at 0xA0 and a byte at 0x9D of the lead party
- * member, looks up a record for the species (func_0215E804) and either
- * rolls a 30% chance of func_0215E364 when there is none, sets one of two
- * states on it for modes 1-2 (with field 0xA0 clear) or 5, or copies the two
- * values into it and calls func_0215E364.
+ * Battle-result hook: reads species (5), hp (0xA0) and status (0x9D) of the
+ * lead party member of the battle setup, looks up the roaming entry for the
+ * species (func_0215E804) and either rolls a 30% chance of moving the
+ * entries (func_0215E364) when there is none, sets one of two states on it
+ * for results 1-2 (with hp 0) or 5 (caught), or copies hp and status into it
+ * and moves the entries.
  *
- * MATCH, bytes exact. Blocker: func_0201313C (arm9, Thumb) is an unlabelled
- * leaf (a .word after func_02013128's pool), so neither label nor
- * sole-ref/code reaches it. It is EXACT from
- *     void *func_0201313C(void *p, int i)
- *     { return ((void **)((char *)p + 0x24))[i]; }
- * as src/matched/arm9/func_0201313C.c (pkt_0201313C), outside this ov lane's
- * write set; once that shard exists this file verifies EXACT.
- * The local declaration order (mon, species, v, idx, tbl, b) is load-bearing.
- *
- * 2026-10-05 (wave D8): The arm9 leaf func_0201313C now has an EXACT witness src/matched/arm9/func_0201313C.c (pkt_0201313C); once its shard exists this file verifies EXACT.
+ * The local declaration order (mon, species, hp, index, block, status) is
+ * load-bearing.
  */
-void func_0215E5B0(void *a0, Work *w)
+void func_0215E5B0(struct GameData *gameData, BattleResultWork *work)
 {
-    void *mon;
+    struct Pokemon *mon;
     u16 species;
-    u16 v;
-    u32 idx;
-    void *tbl;
-    u8 b;
+    u16 hp;
+    u32 entryIndex;
+    struct MovePokemonSave *block;
+    u8 status;
+    struct MovePokemonEntry *entry;
 
-    if (w->f04 != 0 || w->f00 != 0) {
+    if (work->resultKind1 != 0 || work->resultKind0 != 0) {
         return;
     }
-    func_02012AC8(func_020127A4(a0));
-    mon = func_0201AB28(func_0201313C(w, 1), 0);
+    func_02012AC8(func_020127A4(gameData));
+    mon = func_0201AB28(BTL_SETUP_GetParty(work, 1), 0);
     species = func_02017E1C(mon, 5, 0);
-    v = func_02017E1C(mon, 0xA0, 0);
-    b = func_02017E1C(mon, 0x9D, 0);
-    tbl = func_0200D418(func_02012EBC(a0));
-    mon = func_0215E804((int)tbl, species);
-    if (mon == 0) {
+    hp = func_02017E1C(mon, 0xA0, 0);
+    status = func_02017E1C(mon, 0x9D, 0);
+    block = func_0200D418(func_02012EBC(gameData));
+    entry = func_0215E804(block, species);
+    if (entry == 0) {
         if (func_02005728(100) < 30) {
-            func_0215E364(a0);
+            func_0215E364(gameData);
         }
         return;
     }
-    idx = func_0215E724(species);
-    if ((w->f8c == 1 || w->f8c == 2) && v == 0) {
-        func_0200D494(mon);
-        func_0200D480(tbl, idx, 0x10);
-        func_0200D470(tbl, idx, 2);
+    entryIndex = func_0215E724(species);
+    if ((work->battleResult == 1 || work->battleResult == 2) && hp == 0) {
+        func_0200D494(entry);
+        func_0200D480(block, entryIndex, 0x10);
+        func_0200D470(block, entryIndex, 2);
         return;
     }
-    if (w->f8c == 5) {
-        func_0200D494(mon);
-        func_0200D480(tbl, idx, 0x10);
-        func_0200D470(tbl, idx, 3);
+    if (work->battleResult == 5) {
+        func_0200D494(entry);
+        func_0200D480(block, entryIndex, 0x10);
+        func_0200D470(block, entryIndex, 3);
         return;
     }
-    func_0200D50C(mon, 5, v);
-    func_0200D50C(mon, 7, b);
-    func_0215E364(a0);
+    func_0200D50C(entry, 5, hp);
+    func_0200D50C(entry, 7, status);
+    func_0215E364(gameData);
 }
 
 
-
-int func_0215E6A8(void *a, int x)
+/* Entry whose current zone is `zoneId`: returns 6 or 7 (the entry index + 6), 0xffff when none. */
+int func_0215E6A8(struct GameData *gameData, int zoneId)
 {
     u8 i;
-    void *p;
+    struct MovePokemonSave *block;
 
-    p = func_0200D418(func_02012EBC(a));
+    block = func_0200D418(func_02012EBC(gameData));
     i = 0;
-    if (func_0200D488(p, 0) != 0 && x == func_0215E3E4(p, i)) {
+    if (func_0200D488(block, 0) != 0 && zoneId == func_0215E3E4(block, i)) {
         return 6;
     }
     i = 1;
-    if (func_0200D488(p, 1) != 0 && x == func_0215E3E4(p, i)) {
+    if (func_0200D488(block, 1) != 0 && zoneId == func_0215E3E4(block, i)) {
         return 7;
     }
     return 0xffff;
 }
 
 
-
-int func_0215E6F8(int a0)
+/* 1 when any of the two entries is active. */
+int func_0215E6F8(struct GameData *gameData)
 {
-    int a1;
-    int t4;
-    void *p;
-    void *t5;
+    struct MovePokemonSave *block;
 
-    p = func_02012EBC((struct Big *)a0);
-loc_0215E6FE:
-    t5 = func_0200D418(p);
-loc_0215E702:
-a1 = 0;
-t4 = 0;
-    a0 = func_0200D488(t5, a1);
-loc_0215E70C:
-    if (a0 != 0) goto loc_0215E71C;
-loc_0215E710:
-a1 = 1;
-    a0 = func_0200D488(t5, a1);
-loc_0215E718:
-    if (a0 == 0) goto loc_0215E720;
-loc_0215E71C:
-a0 = 1;
-    return a0;
-loc_0215E720:
-a0 = t4 + 0;
-    return a0;}
+    block = func_0200D418(func_02012EBC(gameData));
+    if (func_0200D488(block, 0) != 0 || func_0200D488(block, 1) != 0)
+        return 1;
+    return 0;
+}
 
 
+/* Entry index of a roaming species: Thundurus 0, Tornadus 1, anything else 2. */
 int func_0215E724(int species)
 {
     switch(species) {
@@ -2282,368 +2008,325 @@ int func_0215E724(int species)
 
 
 /*
- * Lever: slot c is u16 in the function and both receiving externs,
- * causing its immediate home reload; the selected byte remains u8.
+ * Move entry `slot` to a neighbouring location. Unless the entry is hidden
+ * (location 0x10), there is a 20% chance to hide it instead. The candidates
+ * are the links of the current area, minus the current location and
+ * `excludedLocation`. Lever: slot is u16 in the function and both receiving
+ * externs, causing its immediate home reload; the selected byte remains u8.
  */
-void func_0215E740(void *a, u32 b, u16 c, int d)
+void func_0215E740(struct MovePokemonSave *block, u32 season, u16 slot, int excludedLocation)
 {
-    struct Ent *e;
-    int s;
-    u8 buf[4];
-    u8 w;
-    int v;
-    int k;
+    const RoamLocationLinks *links;
+    int currentLocation;
+    u8 candidates[4];
+    u8 chosen;
+    int candidate;
+    int candidateCount;
     int i;
-    s = func_0200D478(a, c);
-    e = &d_021711A8[(u16)func_020113D8(b)];
-    if (s != 0x10 && func_02005728(100) < 20) {
-        func_0215E7DC(a, c, 0x10, 0xffff);
+
+    currentLocation = func_0200D478(block, slot);
+    links = &d_021711A8[(u16)func_020113D8(season)];
+    if (currentLocation != 0x10 && func_02005728(100) < 20) {
+        func_0215E7DC(block, slot, 0x10, 0xffff);
         return;
     }
-    k = 0;
-    for (i = 0; i < e->n; i++) {
-        v = e->v[i];
-        if (v != s && v != d) {
-            buf[k++] = v;
+    candidateCount = 0;
+    for (i = 0; i < links->count; i++) {
+        candidate = links->next[i];
+        if (candidate != currentLocation && candidate != excludedLocation) {
+            candidates[candidateCount++] = candidate;
         }
     }
-    w = buf[func_02005728(k)];
-    func_0215E7DC(a, c, w, w > 0x10 ? 0x13f : d_021711C6[w]);
+    chosen = candidates[func_02005728(candidateCount)];
+    func_0215E7DC(block, slot, chosen, chosen > 0x10 ? 0x13f : d_021711C6[chosen]);
 }
 
 
-void func_0215E7DC(void *p,u32 i,u8 v,u32 n)
+/* Set the location of an entry and the zone id that goes with it. */
+void func_0215E7DC(struct MovePokemonSave *block, u32 slot, u8 location, u32 zoneId)
 {
- void *rec = func_0200D4AC(p,i);
- func_0200D480(p,i,v);
- func_0200D50C(rec,1,n);
+    struct MovePokemonEntry *entry = func_0200D4AC(block, slot);
+    func_0200D480(block, slot, location);
+    func_0200D50C(entry, 1, zoneId);
 }
 
 
-
-struct GdsEnt *func_0215E804(int a0, int a1)
+/* Active entry of `species`, or 0. */
+struct MovePokemonEntry *func_0215E804(struct MovePokemonSave *block, int species)
 {
-    int t4;
-    int t5;
-    int t6;
-    struct GdsEnt *t7;
+    u8 i = 0;
+    struct MovePokemonEntry *entry;
 
-t5 = a0 + 0;
-t6 = a1 + 0;
-t4 = 0;
-loc_0215E80C:
-a0 = t5 + 0;
-a1 = t4 + 0;
-    a0 = func_0200D488((struct Blk38 *)a0, a1);
-loc_0215E814:
-    if (a0 == 0) goto loc_0215E830;
-loc_0215E818:
-a0 = t5 + 0;
-a1 = t4 + 0;
-    t7 = func_0200D4AC((struct Blk38 *)a0, a1);
-loc_0215E820:
-a1 = 4;
-    a0 = func_0200D4B8(t7, a1);
-loc_0215E828:
-    if (t6 != a0) goto loc_0215E830;
-loc_0215E82C:
-    return t7;
-loc_0215E830:
-a0 = t4 + 1;
-a0 = a0 << 0x18;
-t4 = (unsigned)a0 >> 0x18;
-    if ((unsigned)t4 < (unsigned)2) goto loc_0215E80C;
-loc_0215E83A:
-    return 0;}
-
+    do {
+        if (func_0200D488(block, i) != 0) {
+            entry = func_0200D4AC(block, i);
+            if (species == func_0200D4B8(entry, 4))
+                return entry;
+        }
+        i++;
+    } while (i < 2);
+    return 0;
+}
 
 
 /*
- * Fill the 0x14-byte Info for the field: id, the ov021 handles, and the
- * flags word from the object kind, the map tests and the save flags.
- * One lever: the u16 for func_021CD440 is declared before x (stack order).
+ * Fill the 0x14-byte skill info for the field: zone id, the ov021 handles,
+ * and the usable-skill mask from the object kind, the map tests and the
+ * save flags. One lever: the u16 for func_021CD440 is declared before x
+ * (stack order).
  */
-void func_0215E840(void *field, Info *out)
+void func_0215E840(struct FieldMap *fieldMap, FieldSkillInfo *out)
 {
     VecFx32 pos;
-    u16 v;
-    u16 x;
-    u16 y;
-    u16 z;
-    void *q;
-    void *obj;
+    u16 swimFlag;
+    u16 tileX;
+    u16 tileY;
+    u16 tileZ;
+    struct FieldPlayer *player;
+    struct MapObject *playerObj;
     void *map;
-    u16 kind;
-    u32 a;
-    u32 b;
-    u32 c;
+    u16 objKind;
+    u32 playerA;
+    u32 playerB;
+    u32 playerC;
 
-    MI_CpuFill8(out, 0, sizeof(Info));
-    out->id = func_02188C9C(field);
-    out->f08 = (u32)func_02188C80(field);
-    out->field = field;
-    q = func_02188CB4(field);
-    out->f04 = func_021A3098(q);
-    obj = func_021A3250(q);
-    out->obj = obj;
-    if (obj != 0) {
-        kind = func_0216D598(obj);
-        map = func_02188C7C(field);
-        func_0216D88C(obj, &pos);
-        if (func_0216E5FC(kind) && func_0216E5B0(map, &pos) == 0)
-            out->flags |= 8;
-        if (kind == 0x6C)
-            out->flags |= 1;
+    MI_CpuFill8(out, 0, sizeof(FieldSkillInfo));
+    out->zoneId = func_02188C9C(fieldMap);
+    out->gameSys = func_02188C80(fieldMap);
+    out->fieldMap = fieldMap;
+    player = func_02188CB4(fieldMap);
+    out->playerState = func_021A3098(player);
+    playerObj = func_021A3250(player);
+    out->playerObj = playerObj;
+    if (playerObj != 0) {
+        objKind = func_0216D598(playerObj);
+        map = func_02188C7C(fieldMap);
+        func_0216D88C(playerObj, &pos);
+        if (func_0216E5FC(objKind) && func_0216E5B0(map, &pos) == 0)
+            out->usableMask |= 8;
+        if (objKind == 0x6C)
+            out->usableMask |= 1;
     }
-    a = func_021A3050(q);
-    b = func_021A30C8(q);
-    c = func_021A3128(q, a);
-    if (func_021A3504((u8 *)q, b, c) == 1)
-        out->flags |= 2;
-    if (func_021A3524((u8 *)q, b, c) == 1)
-        out->flags |= 4;
-    if (func_02013C40(out->id) == 1) {
-        out->flags |= 0x10;
-        out->flags |= 0x40;
+    playerA = func_021A3050(player);
+    playerB = func_021A30C8(player);
+    playerC = func_021A3128(player, playerA);
+    if (func_021A3504(player, playerB, playerC) == 1)
+        out->usableMask |= 2;
+    if (func_021A3524(player, playerB, playerC) == 1)
+        out->usableMask |= 4;
+    if (ZONEDATA_IsFlyEnabled(out->zoneId) == 1) {
+        out->usableMask |= 0x10;
+        out->usableMask |= 0x40;
     }
-    if (func_02013C50(out->id) == 1)
-        out->flags |= 0x80;
-    if (func_02014470(func_02012B38(func_020120F4((const struct Ctx *)out->f08))) & 1)
-        out->flags |= 0x20;
-    if (func_021CD440(field, &v) == 1)
-        out->flags |= 0x400;
-    if (func_02013FFC(out->id)) {
-        func_021A35FC(func_02188CB4(out->field), &x, &y, &z);
-        if (func_0201400C(out->id) && func_0215F118(&d_021711EC, x, z, 0x113, field))
-            out->flags |= 0x20;
-        if (func_02014018(out->id) && func_0215F118(&d_021711F4, x, z, 0x112, field))
-            out->flags |= 8;
+    if (func_02013C50(out->zoneId) == 1)
+        out->usableMask |= 0x80;
+    if (func_02014470(func_02012B38(func_020120F4(out->gameSys))) & 1)
+        out->usableMask |= 0x20;
+    if (func_021CD440(fieldMap, &swimFlag) == 1)
+        out->usableMask |= 0x400;
+    if (func_02013FFC(out->zoneId)) {
+        func_021A35FC(func_02188CB4(out->fieldMap), &tileX, &tileY, &tileZ);
+        if (ZONEDATA_IsRawZoneF6(out->zoneId) && func_0215F118(&d_021711EC, tileX, tileZ, 0x113, fieldMap))
+            out->usableMask |= 0x20;
+        if (ZONEDATA_IsRawZoneF7(out->zoneId) && func_0215F118(&d_021711F4, tileX, tileZ, 0x112, fieldMap))
+            out->usableMask |= 8;
     }
-    if (func_02013E04(out->id) == 0) {
-        out->flags = 0;
+    if (func_02013E04(out->zoneId) == 0) {
+        out->usableMask = 0;
     } else {
-        out->flags |= 0x100;
-        out->flags |= 0x200;
+        out->usableMask |= 0x100;
+        out->usableMask |= 0x200;
     }
-    if (func_02012B70(func_020120F4((const struct Ctx *)out->f08)) == 1)
-        out->flags = 0;
+    if (func_02012B70(func_020120F4(out->gameSys)) == 1)
+        out->usableMask = 0;
 }
 
 
-
-int func_0215EA14(int a0, int a1)
+/* 1 when the skill has no check function (or its check says it is blocked). */
+int func_0215EA14(int skillIndex, FieldSkillInfo *info)
 {
-    int a2;
-    int t4;
+    SkillCheckFn check;
 
-a2 = a0 + 0;
-t4 = a1 + 0;
-a0 = t4 + 0;
-a1 = a2 + 0;
-    a0 = func_0215F088((u16 *)a0, a1);
-loc_0215EA22:
-a1 = a0 + 0;
-    if (a1 != 0) goto loc_0215EA2A;
-loc_0215EA26:
-a0 = 1;
-    return a0;
-loc_0215EA2A:
-a0 = t4 + 0;
-    a0 = ((int (*)())a1)(a0);
-loc_0215EA2E:
-    return a0;}
-
-
-
-/*
- * Unlabelled leaf after func_0215E840's pool (bl from 0x0215FE3C).
- */
-void func_0215EA30(Query *q, u16 a, u16 b, u32 c)
-{
-    q->a = a;
-    q->b = b;
-    q->c = c;
+    check = func_0215F088(info, skillIndex);
+    if (check == 0) {
+        return 1;
+    }
+    return check(info);
 }
 
 
-
-int func_0215EA38(int a0, int a1, int a2)
+/* Fill a skill target (id, variant and object) for the skill events. */
+void func_0215EA30(SkillTarget *target, u16 id, u16 variant, u32 targetObj)
 {
-    int a3;
-    int t4;
-    int t5;
-
-a3 = a0 + 0;
-t4 = a2 + 0;
-t5 = a1 + 0;
-a0 = t4 + 0;
-a1 = a3 + 0;
-    a0 = func_0215F0B8((u16 *)a0, a1);
-loc_0215EA48:
-a2 = a0 + 0;
-    if (a2 != 0) goto loc_0215EA50;
-loc_0215EA4C:
-a0 = 0;
-    return a0;
-loc_0215EA50:
-a0 = t5 + 0;
-a1 = t4 + 0;
-    a0 = ((int (*)())a2)(a0, a1);
-loc_0215EA56:
-    return a0;}
-
-
-
-int func_0215EA58(int a0, int a1)
-{
-    int t4;
-
-a1 = 0;
-t4 = 0;
-    a0 = func_0215F104(a0, a1);
-loc_0215EA62:
-    if (a0 != 0) goto loc_0215EA68;
-loc_0215EA66:
-t4 = 1;
-loc_0215EA68:
-a0 = t4 + 0;
-    return a0;}
-
-
-void *func_0215EA6C(void *a,void *b)
-{
- void *t = func_020122C0(((struct Obj02057 *)b)->f8,0,func_0215EA94,20);
- func_0215F0E8(func_020124E8(t),a,b);
- return t;
+    target->id = id;
+    target->variant = variant;
+    target->targetObj = targetObj;
 }
 
 
-int func_0215EA94(void *a,void *b,void *c)
+/* Start the event of a skill through its table entry; 0 when it has none. */
+struct GameEvent *func_0215EA38(int skillIndex, SkillTarget *target, FieldSkillInfo *info)
 {
- int h;
- int t;
- func_0201296C(func_020120F4(((struct Obj12311 *)c)->f8));
- h = ((struct Obj12311 *)c)->fC;
- t = func_021587B0((int)a,0x2715,0,0);
- func_02159058(t,h,0,0,0);
- return 0;
+    SkillEventFn create;
+
+    create = func_0215F0B8(info, skillIndex);
+    if (create == 0) {
+        return 0;
+    }
+    return create(target, info);
 }
 
 
-
-int func_0215EAC8(int a0, int a1)
+/* 1 when skill 0 is not usable. */
+int func_0215EA58(FieldSkillInfo *info)
 {
-    int t4;
+    int blocked = 0;
 
-a1 = ((struct Obj17698 *)a0)->f4;
-    if (a1 != 2) goto loc_0215EAD4;
-loc_0215EAD0:
-a0 = 4;
-    return a0;
-loc_0215EAD4:
-    if (a1 != 3) goto loc_0215EADC;
-loc_0215EAD8:
-a0 = 1;
-    return a0;
-loc_0215EADC:
-a1 = 1;
-t4 = 1;
-    a0 = func_0215F104(a0, a1);
-loc_0215EAE4:
-    if (a0 == 0) goto loc_0215EAEA;
-loc_0215EAE8:
-t4 = 0;
-loc_0215EAEA:
-a0 = t4 + 0;
-    return a0;}
+    if (func_0215F104(info, 0) == 0) {
+        blocked = 1;
+    }
+    return blocked;
+}
 
 
-void *func_0215EAF0(void *a, void *b)
+struct GameEvent *func_0215EA6C(SkillTarget *target, FieldSkillInfo *info)
 {
-    void *task;
-    task = func_020122C0(((struct Obj02057 *)b)->f8, 0, (void *)func_0215EB18, 20);
-    func_0215F0E8(func_020124E8(task), a, b);
-    return task;
+    struct GameEvent *event = func_020122C0(info->gameSys, 0, func_0215EA94, 20);
+    func_0215F0E8(func_020124E8(event), target, info);
+    return event;
+}
+
+
+/* Event main of skill 0: script event 0x2715 on the event work. */
+int func_0215EA94(struct GameEvent *event, u32 *state, void *work)
+{
+    SkillEventWork *skillWork = work;
+    int targetId;
+    int scriptCtl;
+
+    func_0201296C(func_020120F4(skillWork->gameSys));
+    targetId = skillWork->target.id;
+    scriptCtl = func_021587B0((int)event, 0x2715, 0, 0);
+    func_02159058(scriptCtl, targetId, 0, 0, 0);
+    return 0;
+}
+
+
+/* Skill 1: blocked states 2 and 3 map to 4 and 1, else 1 when not usable. */
+int func_0215EAC8(FieldSkillInfo *info)
+{
+    int blocked;
+
+    if (info->playerState == 2) {
+        return 4;
+    }
+    if (info->playerState == 3) {
+        return 1;
+    }
+    blocked = 1;
+    if (func_0215F104(info, 1) != 0) {
+        blocked = 0;
+    }
+    return blocked;
+}
+
+
+struct GameEvent *func_0215EAF0(SkillTarget *target, FieldSkillInfo *info)
+{
+    struct GameEvent *event;
+    event = func_020122C0(info->gameSys, 0, func_0215EB18, 20);
+    func_0215F0E8(func_020124E8(event), target, info);
+    return event;
 }
 
 
 /*
- * Interface: 021587B0 returns its final ldr r0,[r4] at 021587DC;
- * caller consumes that result despite older callers declaring void.
+ * Event main of skill 1: script event 0x2713 on the event work.
+ * Interface: 021587B0 returns its final ldr r0,[r4] at 021587DC; the caller
+ * consumes that result despite older callers declaring void.
  */
-int func_0215EB18(void *a, int *state, void *b)
+int func_0215EB18(struct GameEvent *event, u32 *state, void *work)
 {
-    int h;
-    int t;
-    func_0201296C(func_020120F4(((struct Obj12312 *)b)->f8));
-    h = ((struct Obj12312 *)b)->fC;
-    t = func_021587B0((int)a, 0x2713, 0, 0);
-    func_02159058(t, h, 0, 0, 0);
+    SkillEventWork *skillWork = work;
+    int targetId;
+    int scriptCtl;
+    func_0201296C(func_020120F4(skillWork->gameSys));
+    targetId = skillWork->target.id;
+    scriptCtl = func_021587B0((int)event, 0x2713, 0, 0);
+    func_02159058(scriptCtl, targetId, 0, 0, 0);
     return 0;
 }
 
 
-int func_0215EB4C(void *p)
+/* 1 when skill 2 is not usable. */
+int func_0215EB4C(FieldSkillInfo *info)
 {
-    return func_0215F104((int)p, 2) != 0 ? B_FALSE : B_TRUE;
+    return func_0215F104(info, 2) != 0 ? FALSE : TRUE;
 }
 
 
-void *func_0215EB60(void *a, void *b)
+struct GameEvent *func_0215EB60(SkillTarget *target, FieldSkillInfo *info)
 {
-    void *task;
-    task = func_020122C0(((struct Obj02057 *)b)->f8, 0, (void *)func_0215EB88, 20);
-    func_0215F0E8(func_020124E8(task), a, b);
-    return task;
+    struct GameEvent *event;
+    event = func_020122C0(info->gameSys, 0, func_0215EB88, 20);
+    func_0215F0E8(func_020124E8(event), target, info);
+    return event;
 }
 
 
-int func_0215EB88(void *a, int *state, void *b)
+/* Event main of skill 2: script event 0x2717 on the event work. */
+int func_0215EB88(struct GameEvent *event, u32 *state, void *work)
 {
-    int h;
-    int t;
-    func_0201296C(func_020120F4(((struct Obj12313 *)b)->f8));
-    h = ((struct Obj12313 *)b)->fC;
-    t = func_021587B0((int)a, 0x2717, 0, 0);
-    func_02159058(t, h, 0, 0, 0);
+    SkillEventWork *skillWork = work;
+    int targetId;
+    int scriptCtl;
+    func_0201296C(func_020120F4(skillWork->gameSys));
+    targetId = skillWork->target.id;
+    scriptCtl = func_021587B0((int)event, 0x2717, 0, 0);
+    func_02159058(scriptCtl, targetId, 0, 0, 0);
     return 0;
 }
 
 
-int func_0215EBBC(void *p)
+/* 1 when skill 3 is not usable. */
+int func_0215EBBC(FieldSkillInfo *info)
 {
-    return func_0215F104((int)p, 3) != 0 ? B_FALSE : B_TRUE;
+    return func_0215F104(info, 3) != 0 ? FALSE : TRUE;
 }
 
 
-void *func_0215EBD0(void *a, void *b)
+struct GameEvent *func_0215EBD0(SkillTarget *target, FieldSkillInfo *info)
 {
-    void *task;
-    task = func_020122C0(((struct Obj02057 *)b)->f8, 0, (void *)func_0215EBF8, 20);
-    func_0215F0E8(func_020124E8(task), a, b);
-    return task;
+    struct GameEvent *event;
+    event = func_020122C0(info->gameSys, 0, func_0215EBF8, 20);
+    func_0215F0E8(func_020124E8(event), target, info);
+    return event;
 }
 
 
-int func_0215EBF8(void *a, int *state, void *b)
+/* Event main of skill 3: script event 0x2711 on the event work. */
+int func_0215EBF8(struct GameEvent *event, u32 *state, void *work)
 {
-    int h;
-    int t;
-    func_0201296C(func_020120F4(((struct Obj12314 *)b)->f8));
-    h = ((struct Obj12314 *)b)->fC;
-    t = func_021587B0((int)a, 0x2711, 0, 0);
-    func_02159058(t, h, 0, 0, 0);
+    SkillEventWork *skillWork = work;
+    int targetId;
+    int scriptCtl;
+    func_0201296C(func_020120F4(skillWork->gameSys));
+    targetId = skillWork->target.id;
+    scriptCtl = func_021587B0((int)event, 0x2711, 0, 0);
+    func_02159058(scriptCtl, targetId, 0, 0, 0);
     return 0;
 }
 
 
-int func_0215EC2C(void *p)
+/* 1 when skill 8 is not usable. */
+int func_0215EC2C(FieldSkillInfo *info)
 {
-    return func_0215F104((int)p, 8) != 0 ? B_FALSE : B_TRUE;
+    return func_0215F104(info, 8) != 0 ? FALSE : TRUE;
 }
 
 
-void *func_0215EC40(u16 *a, void *b)
+/* Create the object of skill 8 from the target id. */
+void *func_0215EC40(SkillTarget *target, FieldSkillInfo *info)
 {
-    return func_021C6078(((struct Obj12315 *)b)->f8, ((struct Obj12315 *)b)->f10, *a);
+    return func_021C6078(info->gameSys, info->fieldMap, target->id);
 }

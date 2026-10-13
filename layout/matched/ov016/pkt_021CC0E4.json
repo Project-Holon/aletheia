@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CC0E4",
+   "name": "DWCi_SceneSetSelectAp_draw",
    "address": "0x021CC0E4",
    "kind": "game",
    "region": "ov016",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CCE00",
+   "name": "DWCi_SceneSetSelectWay_draw",
    "address": "0x021CCE00",
    "kind": "game",
    "region": "ov016",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CD400",
+   "name": "DWCi_SceneSetTest_input",
    "address": "0x021CD400",
    "kind": "game",
    "region": "ov016",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CD404",
+   "name": "DWCi_SceneSetTest_draw",
    "address": "0x021CD404",
    "kind": "game",
    "region": "ov016",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CD408",
+   "name": "DWCi_SceneSetTest_button",
    "address": "0x021CD408",
    "kind": "game",
    "region": "ov016",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CD68C",
+   "name": "DWCi_SceneSetTestCompletet_draw",
    "address": "0x021CD68C",
    "kind": "game",
    "region": "ov016",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CDA10",
+   "name": "DWCi_SceneSetTestConfNopB",
    "address": "0x021CDA10",
    "kind": "game",
    "region": "ov016",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CDBB8",
+   "name": "DWCi_SceneSetUsbCompleteNop",
    "address": "0x021CDBB8",
    "kind": "game",
    "region": "ov016",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CDEBC",
+   "name": "DWCi_SceneSetUsbReadyUpdateNop",
    "address": "0x021CDEBC",
    "kind": "game",
    "region": "ov016",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CE288",
+   "name": "DWCi_SceneSetUsbReady1UpdateNop",
    "address": "0x021CE288",
    "kind": "game",
    "region": "ov016",

@@ -18,35 +18,35 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02012924",
+    "GAME_DATA_GetMapMatrix",
     "func_0201292C",
     "func_02012934",
     "func_0201293C",
     "func_02012944",
     "func_02012950",
-    "func_0201295C",
+    "GAME_DATA_GetBagCursor",
     "func_02012964",
     "func_0201296C",
     "func_02012974",
-    "func_0201297C",
+    "GAME_DATA_GetMusicalWork",
     "func_02012984",
-    "func_0201298C",
+    "GAME_DATA_SetSeason",
     "func_02012994",
-    "func_020129A0",
+    "GAME_DATA_SetSubscreenMode",
     "func_020129AC",
     "func_020129B8",
     "func_020129C4",
     "func_020129D0",
     "func_020129DC",
     "func_020129F0",
-    "func_020129FC",
-    "func_02012A24",
+    "GAME_DATA_IncWalkCount",
+    "GAME_DATA_IsWalkCountEnabled",
     "func_02012A30",
     "func_02012A38",
     "func_02012A44",
-    "func_02012A4C",
+    "GAME_DATA_SetFieldMode",
     "func_02012A54",
-    "func_02012A60",
+    "GAME_DATA_InitPlayerWork",
     "func_02012A90",
     "func_02012AA0",
     "func_02012AA4",
@@ -57,6 +57,47 @@
     "func_02012AC8",
     "func_02012ACC",
     "func_02012AD0"
+   ],
+   "addresses": [
+    "0x02012924",
+    "0x0201292C",
+    "0x02012934",
+    "0x0201293C",
+    "0x02012944",
+    "0x02012950",
+    "0x0201295C",
+    "0x02012964",
+    "0x0201296C",
+    "0x02012974",
+    "0x0201297C",
+    "0x02012984",
+    "0x0201298C",
+    "0x02012994",
+    "0x020129A0",
+    "0x020129AC",
+    "0x020129B8",
+    "0x020129C4",
+    "0x020129D0",
+    "0x020129DC",
+    "0x020129F0",
+    "0x020129FC",
+    "0x02012A24",
+    "0x02012A30",
+    "0x02012A38",
+    "0x02012A44",
+    "0x02012A4C",
+    "0x02012A54",
+    "0x02012A60",
+    "0x02012A90",
+    "0x02012AA0",
+    "0x02012AA4",
+    "0x02012AB8",
+    "0x02012ABC",
+    "0x02012AC0",
+    "0x02012AC4",
+    "0x02012AC8",
+    "0x02012ACC",
+    "0x02012AD0"
    ]
   },
   {
@@ -77,7 +118,7 @@
     "func_02012B30",
     "func_02012B34",
     "func_02012B38",
-    "func_02012B40",
+    "GAME_DATA_GetEnterMode",
     "func_02012B4C",
     "func_02012B58",
     "func_02012B64",
@@ -85,9 +126,28 @@
     "func_02012B78",
     "func_02012B80",
     "func_02012B8C",
-    "func_02012B98",
-    "func_02012BA4",
-    "func_02012BB0"
+    "GAME_DATA_GetSlotFlag",
+    "GAME_DATA_SetSlotFlag",
+    "GAME_DATA_IsConfigFlagSet"
+   ],
+   "addresses": [
+    "0x02012AE4",
+    "0x02012B28",
+    "0x02012B2C",
+    "0x02012B30",
+    "0x02012B34",
+    "0x02012B38",
+    "0x02012B40",
+    "0x02012B4C",
+    "0x02012B58",
+    "0x02012B64",
+    "0x02012B70",
+    "0x02012B78",
+    "0x02012B80",
+    "0x02012B8C",
+    "0x02012B98",
+    "0x02012BA4",
+    "0x02012BB0"
    ]
   },
   {
@@ -102,7 +162,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02012BE0"
+    "GAME_DATA_SetSaveFlag"
+   ],
+   "addresses": [
+    "0x02012BE0"
    ]
   },
   {
@@ -117,7 +180,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02012C0C"
+    "GAME_DATA_GetRtcWork"
+   ],
+   "addresses": [
+    "0x02012C0C"
    ]
   }
  ]

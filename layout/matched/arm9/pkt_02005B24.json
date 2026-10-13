@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02005B24",
+   "name": "GFL_USE_InitSound",
    "address": "0x02005B24",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02005B74",
+   "name": "GFL_USE_ResetSound",
    "address": "0x02005B74",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02005BC0",
+   "name": "GFL_USE_UpdateSound",
    "address": "0x02005BC0",
    "kind": "game",
    "region": "arm9",
@@ -53,7 +53,7 @@
    }
   },
   {
-   "name": "func_02005C28",
+   "name": "GFL_USE_SetStereoOutput",
    "address": "0x02005C28",
    "kind": "game",
    "region": "arm9",

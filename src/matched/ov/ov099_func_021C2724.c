@@ -16,7 +16,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_021BC0C4 0x021BC0C4 thumb ov099
  *   func_021BDF7C 0x021BDF7C thumb ov099
- *   func_02156A3C 0x02156A3C thumb ov009
+ *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   func_021BCBB0 0x021BCBB0 thumb ov099
  *   func_021BB224 0x021BB224 thumb ov099
  *   func_020315D4 0x020315D4 arm
@@ -37,7 +37,7 @@ extern void func_0200AE08(const struct Reg *src, struct Reg *dest);
 extern u32 func_020307B0(void *p);
 extern void func_021BC0C4(char *);
 extern void func_021BDF7C(char *);
-extern int func_02156A3C(void);
+extern int DWC_RAP_GetTargetFriendIndex(void);
 extern void func_021BCBB0(void *);
 extern void func_021BB224(char *);
 extern void func_020315D4(struct S020315D4 *p);
@@ -57,7 +57,7 @@ int func_021C2724(void *task, int unused, char *output, char *p)
     func_021BDF7C(p);
     ((struct Obj06360 *)output)->f47 = ((struct Obj03736 *)p)->f242;
     ((struct Obj06360 *)output)->fC = ((struct Obj03736 *)p)->f1D0;
-    if (func_0203CD98()) ((struct Obj06360 *)output)->f10 = func_02156A3C();
+    if (func_0203CD98()) ((struct Obj06360 *)output)->f10 = DWC_RAP_GetTargetFriendIndex();
     func_021BCBB0(((struct Obj03736 *)p)->fCC);
     func_021BB224(p);
     func_020315D4(task);

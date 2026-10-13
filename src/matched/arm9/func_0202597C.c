@@ -1,5 +1,5 @@
 /*
- * function: func_0202597C
+ * function: BMP_OAM_SetObjMode
  * address:  0x0202597C
  * packet:   pkt_0202590C
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Actor;
 extern void func_0204B688(struct Actor *actor, u32 value);
 
-void func_0202597C(u8 *g, u32 a)
+void BMP_OAM_SetObjMode(u8 *g, u32 a)
 {
     int i;
     int j;

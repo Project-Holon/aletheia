@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0206EA58  0x0206EA58  arm
+ *   NNSi_G3dTexPatAnmGetFrameValue  0x0206EA58  arm
  *   func_0206EA00  0x0206EA00  arm
  *   func_0206EA2C  0x0206EA2C  arm
  *   func_02070A24  0x02070A24  arm
@@ -20,7 +20,7 @@
  *
  * Blocked on evidence class `label`, on ALL FIVE PC24 sites at once: this
  * function is the ONLY branch anywhere in the image (arm9 and every overlay)
- * to each of func_0206EA58, func_0206EA00, func_0206EA2C, func_02070A24 and
+ * to each of NNSi_G3dTexPatAnmGetFrameValue, func_0206EA00, func_0206EA2C, func_02070A24 and
  * func_02070AFC, so every witness for every site lies inside the compared
  * range and `label` refuses all five.  `--suggest-split` cannot help: there is
  * only one function here to cut, and the report would name each site as
@@ -36,7 +36,7 @@
  * layout/function_starts.txt would drop the star.
  *
  * Two spelling notes that cost real time:
- *   - the two narrowings passed to func_0206EA58 are u32 shift pairs, NOT u16
+ *   - the two narrowings passed to NNSi_G3dTexPatAnmGetFrameValue are u32 shift pairs, NOT u16
  *     casts: `(t << 16) >> 16` and `(n->f0 << 4) >> 16` give the image's
  *     `lsl r1,#0x10 / lsl r2,r3,#4 / lsr r1,#0x10 / lsr r2,#0x10`, while
  *     declaring the parameters u16 and casting adds a second `lsl/lsr` pair on
@@ -49,7 +49,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 *func_0206EA58(u16 *p, u32 arg, u32 v);
+extern u16 *NNSi_G3dTexPatAnmGetFrameValue(u16 *p, u32 arg, u32 v);
 struct NNSG3dResName;
 struct NNSG3dResTexPatAnm;
 extern const struct NNSG3dResName *func_0206EA00(const struct NNSG3dResTexPatAnm *pPatAnm, u8 texIdx);
@@ -74,7 +74,7 @@ void func_02070B64(void *ctx, struct N *n, u32 t)
     u8   *r;
 
     h = n->f8;
-    r = (u8 *)func_0206EA58(h, (t << 16) >> 16, (n->f0 << 4) >> 16);
+    r = (u8 *)NNSi_G3dTexPatAnmGetFrameValue(h, (t << 16) >> 16, (n->f0 << 4) >> 16);
     func_02070A24(n->f14, (u32)func_0206EA00(h, r[2]), ctx);
     if (r[3] == 0xff)
         return;

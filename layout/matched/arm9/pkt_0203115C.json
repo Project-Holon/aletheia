@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0203115C",
+   "name": "TCBL_DeleteAllTasks",
    "address": "0x0203115C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02031194",
+   "name": "TCBL_DeleteTask",
    "address": "0x02031194",
    "kind": "game",
    "region": "arm9",

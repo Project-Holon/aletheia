@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * closed 2026-10-05 (recoup integrator): func_02049658 returns u32 (its matched definition tail-returns sub_0204968C); with the void declaration the later register zeros were copied from the pooled zero; with the real return type the
+ * closed 2026-10-05 (recoup integrator): func_02049658 returns u32 (its matched definition tail-returns ARC_UTIL_UploadBgChar); with the void declaration the later register zeros were copied from the pooled zero; with the real return type the
  *   bytes are EXACT in c99 and c.
  * symbols:
  *   func_020490F4 0x020490F4 arm
@@ -32,7 +32,7 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204B604 0x0204B604 arm
+ *   CLACT_SetActorFlip 0x0204B604 arm
  *   func_02040588 0x02040588 arm
  *   data_021DF86E 0x021DF86E data a1
  * note (2026-10-05, lane P10): full body written; size is exact (976 bytes), 110 bytes differ.
@@ -111,7 +111,7 @@ extern void func_02082BCC(void *, int, int);
 extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B3DC(struct Obj *, u32);
 extern void func_0204B92C(struct Obj *, u32);
-extern void func_0204B604(struct Actor *actor, u32 which, u32 set);
+extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 extern void func_02040588(unsigned char which, unsigned char enable);
 #pragma opt_dead_assignments off
 void func_021DB018(u8 *p, u16 heap)
@@ -199,8 +199,8 @@ void func_021DB018(u8 *p, u16 heap)
         *(struct Obj **)(q + 0xAB4 + 0x40) = o;
         func_0204B92C(*(struct Obj **)(q + 0xAB4 + 0x40), 1);
         func_0204B3DC(*(struct Obj **)(q + 0xAB4 + 0x40), k);
-        if (j == 0) func_0204B604((struct Actor *)(*(struct Obj **)(q + 0xAB4 + 0x40)), 1, 1);
-        else func_0204B604((struct Actor *)(*(struct Obj **)(q + 0xAB4 + 0x40)), 1, 0);
+        if (j == 0) CLACT_SetActorFlip((struct Actor *)(*(struct Obj **)(q + 0xAB4 + 0x40)), 1, 1);
+        else CLACT_SetActorFlip((struct Actor *)(*(struct Obj **)(q + 0xAB4 + 0x40)), 1, 0);
     }
     func_02040588(2, 1);
 }

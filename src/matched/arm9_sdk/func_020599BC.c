@@ -1,5 +1,5 @@
 /*
- * function: func_020599BC
+ * function: DWC_CreateExchangeToken
  * address:  0x020599BC
  * packet:   pkt_020599BC
  * region:   arm9
@@ -45,7 +45,7 @@ extern int DWCi_Acc_IsAuthentic(struct DWCstAccUserData *userdata);
 extern void DWCi_Acc_SetGsProfileId(void *data, int gs_profile_id);
 extern void DWCi_Acc_SetFlag_DataType(void *userdata, int type);
 
-void func_020599BC(struct DWCstAccUserData *userdata, void *token)
+void DWC_CreateExchangeToken(struct DWCstAccUserData *userdata, void *token)
 {
     MI_CpuFill8(token, 0, 12);
     if (!DWCi_Acc_IsAuthentic(userdata)) {

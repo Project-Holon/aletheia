@@ -10,11 +10,11 @@
  * status: EXACT
  * symbols:
  *   sub_020311B8 0x020311B8 arm
- *   sub_02031290 0x02031290 arm
+ *   TCBL_GetWork 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021BF0B4 0x021BF0B4 thumb
  *   sub_0207C768 0x0207C768 arm
- *   func_02023F60 0x02023F60 thumb
+ *   BRIGHTNESS_Set 0x02023F60 thumb
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -27,17 +27,17 @@ struct S02030FB4;
 struct Owner { char pad[0x20]; struct Tcbl *manager; };
 struct Work { struct Owner *owner; int state,mask,kind,duration,start,end,current,step; int *counter; };
 extern struct TcblNode *sub_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
-extern void *sub_02031290(struct S02030FB4 *);
+extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void func_02082BCC(void *,u32,u32);
 extern void func_021BF0B4(struct TcblNode *node, int *s);
 extern u32 sub_0207C768(u32,u32);
-extern void func_02023F60(u32,u32,u32);
+extern void BRIGHTNESS_Set(u32,u32,u32);
 void func_021BEFC4(struct Owner *owner,int mask,int kind,int start,int end,int duration,int *counter)
 {
     struct Work *work;
     float a,b,c;
     int final;
-    work=sub_02031290((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BF0B4,0x28,0));
+    work=TCBL_GetWork((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BF0B4,0x28,0));
     func_02082BCC(work,0,0x28);
     work->owner=owner;
     work->mask=mask;
@@ -56,5 +56,5 @@ void func_021BEFC4(struct Owner *owner,int mask,int kind,int start,int end,int d
     final=(int)c;
     work->step=sub_0207C768(final-work->current,(int)b);
     if(counter != 0) (*counter)++;
-    func_02023F60((short)work->start,work->kind,work->mask);
+    BRIGHTNESS_Set((short)work->start,work->kind,work->mask);
 }

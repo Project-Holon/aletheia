@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02177E9C",
+   "name": "NET_WHPIPE_TaskFinishEnd",
    "address": "0x02177E9C",
    "kind": "game",
    "region": "ov014",

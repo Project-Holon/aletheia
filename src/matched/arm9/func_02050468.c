@@ -9,9 +9,9 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0204F5A8  0x0204F5A8  arm
- *   func_020500B8  0x020500B8  arm
- *   func_0203422C  0x0203422C  arm
+ *   BILLBOARD_FreeElem  0x0204F5A8  arm
+ *   BILLBOARD_ACT_InitEntry  0x020500B8  arm
+ *   AREAMAN_Free  0x0203422C  arm
  *
  * billboard_act.c: release `count` entries from `first` and give the index
  * range back to the pool.  The earlier 2-byte floor (add operand order) and
@@ -35,20 +35,20 @@ struct BbActSys {
     void *f20;
 };
 
-extern void func_0204F5A8(void *board, u32 idx);
-extern void func_020500B8(u32 *p);
+extern void BILLBOARD_FreeElem(void *board, u32 idx);
+extern void BILLBOARD_ACT_InitEntry(u32 *p);
 typedef signed int     s32;
 struct AreaMan;
-extern void func_0203422C(struct AreaMan *p, u32 start, s32 len);
+extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
 void func_02050468(struct BbActSys *o, u16 first, u32 count)
 {
     u32 i;
 
     for (i = 0; i < count; i++) {
-        func_0204F5A8(o->f04, o->f18[first + i].f00);
-        func_020500B8((u32 *)(&o->f18[first + i]));
+        BILLBOARD_FreeElem(o->f04, o->f18[first + i].f00);
+        BILLBOARD_ACT_InitEntry((u32 *)(&o->f18[first + i]));
     }
-    func_0203422C(o->f20, first, count);
+    AREAMAN_Free(o->f20, first, count);
 }
 

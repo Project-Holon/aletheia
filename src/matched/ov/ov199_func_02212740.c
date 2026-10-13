@@ -15,8 +15,8 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_02213804 0x02213804 thumb ov199
  *   func_02034714 0x02034714 arm
- *   func_02005C44 0x02005C44 thumb
- *   func_02005D90 0x02005D90 thumb
+ *   GFL_USE_GetBgmNo 0x02005C44 thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   d_02213D00 0x02213D00 data a1 ov199
  *   d_02213D04 0x02213D04 data a1 ov199
  */
@@ -27,8 +27,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern unsigned char func_02213804(char *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u16 func_02005C44(void);
-extern void func_02005D90(unsigned, unsigned);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
 extern const char d_02213D00[], d_02213D04[];
 typedef enum { tag_2740 = 0x24f } Offset2740;
 int *func_02212740(void *obj, unsigned heap, char *ctx)
@@ -53,6 +53,6 @@ int *func_02212740(void *obj, unsigned heap, char *ctx)
         else func_02034714(d_02213D00, 0, d_02213D00);
         break;
     }
-    if (func_02005C44() != 0x487) func_02005D90(0x487, 0xffff);
+    if (GFL_USE_GetBgmNo() != 0x487) GFL_USE_CancelChangeAndPlayBgm(0x487, 0xffff);
     return p;
 }

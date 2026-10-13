@@ -9,36 +9,33 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Fills a small view of entry i: the word at +0x148, the record address at
- * +0x18 (stride 0x2C) and the record byte at +0x40.  Called from ov012 0x0217532C.
+ * Fills the battle member entry of player i: the party pointer, the player
+ * record address and the level limit of that player.  Called from
+ * COLOSSEUM_SetupBattleInfo (0x02175280).
  */
 
 typedef unsigned char u8;
+typedef unsigned short u16;
 typedef unsigned int u32;
+typedef short s16;
+typedef signed int s32;
 
-typedef struct {
-    u8 pad0[0x28];
-    u8 b28;
-    u8 pad29[3];
-} Rec;
+typedef struct { s32 x, y, z; } VecFx32;
+#include "../../ov010/comm_player_types.h"
+#include "../union_comm_types.h"
 
-typedef struct {
-    u8 pad0[0x18];
-    Rec rec[6];
-    u8 pad120[0x148 - 0x120];
-    u32 word[6];
-} Obj;
+/* One player of the battle (16 bytes; same layout as in colosseum.c). */
+typedef struct ColosseumBattleMember {
+    struct Party *party;
+    ColosseumPlayer *player;
+    u8 pad08;
+    u8 levelLimit;      /* 0x09 */
+    u8 pad0a[6];
+} ColosseumBattleMember;
 
-typedef struct {
-    u32 word;
-    Rec *rec;
-    u8 pad8;
-    u8 b9;
-} View;
-
-void func_02175358(Obj *p, View *out, int i)
+void func_02175358(ColosseumWork *colosseum, ColosseumBattleMember *member, int playerIndex)
 {
-    out->word = p->word[i];
-    out->rec = &p->rec[i];
-    out->b9 = p->rec[i].b28;
+    member->party = colosseum->party[playerIndex];
+    member->player = &colosseum->player[playerIndex];
+    member->levelLimit = colosseum->player[playerIndex].levelLimit;
 }

@@ -7,21 +7,21 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 func_0200FB4C 0x0200FB4C, unlabelled code has no outside witness.
+ * blocker: ARM9 GFL_NET_ERR_RaiseFatal 0x0200FB4C, unlabelled code has no outside witness.
  * Verified C: EXACT in scratch blocker-1.log, 32 bytes, Thumb:
- * extern unsigned char g_0214617C[], g_021461BC[];
- * void func_0200FB4C(int a) {
- *   if (*(int *)(g_0214617C+44)!=2) {
- *     *(int *)(g_0214617C+96)=a;
+ * extern unsigned char gNetErrWork[], g_021461BC[];
+ * void GFL_NET_ERR_RaiseFatal(int a) {
+ *   if (*(int *)(gNetErrWork+44)!=2) {
+ *     *(int *)(gNetErrWork+96)=a;
  *     g_021461BC[26]=1; g_021461BC[25]=1;
- *     *(int *)(g_0214617C+44)=2;
+ *     *(int *)(gNetErrWork+44)=2;
  *   }
  * }
- * Blocker symbols: g_0214617C 0x0214617C data; g_021461BC 0x021461BC data.
+ * Blocker symbols: gNetErrWork 0x0214617C data; g_021461BC 0x021461BC data.
  * symbols:
- *   func_0200FB4C 0x0200FB4C thumb
+ *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  */
-extern void func_0200FB4C(unsigned int x);
+extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
 int func_021D7200(int *p) {
     int v;
     if(p[3]==3) {
@@ -31,7 +31,7 @@ int func_021D7200(int *p) {
         case 408: v=68; break;
         default: v=67; break;
         }
-        func_0200FB4C(v);
+        GFL_NET_ERR_RaiseFatal(v);
         return 1;
     }
     return 0;

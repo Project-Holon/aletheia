@@ -1,5 +1,5 @@
 /*
- * function: func_02175D34
+ * function: INTRUDE_COMM_PromoteRequestToResult
  * address:  0x02175D34
  * packet:   pkt_ov011_02175D34
  * region:   ov011
@@ -21,7 +21,7 @@ typedef struct Rec {
     u8  pad2d[7];
 } Rec;
 
-void func_02175D34(void *unused, u8 *b)
+void INTRUDE_COMM_PromoteRequestToResult(void *unused, u8 *b)
 {
     Rec *src;
     Rec *dst;

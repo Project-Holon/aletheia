@@ -1,5 +1,5 @@
 /*
- * function: func_0215437C
+ * function: EVENT_MENUPROC_Create
  * address:  0x0215437C
  * packet:   pkt_0215437C
  * region:   ov003
@@ -35,7 +35,7 @@ void func_02026400(struct Comm *p);
 void *func_020124E8(struct Obj *p);
 u32 func_021542C0(void *obj, u32 *mode, u32 *args);
 
-void *func_0215437C(void *p, int a, int b)
+void *EVENT_MENUPROC_Create(void *p, int a, int b)
 {
     void *r7 = func_020122C0(p, 0, func_021542C0, 0x1C);
     int *obj;

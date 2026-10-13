@@ -15,6 +15,9 @@
  *   func_02045334 0x02045334 arm
  *   func_02045374 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
+ *   PMS_DRAW_PrintOffset  0x0202DC60  thumb  arm9
+ *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb  arm9
+ *   PMS_DRAW_SetPrintColor  0x0202DE64  thumb  arm9
  */
 #include "../include/Obj05353.h"
 typedef struct { int a, b; } Pair;
@@ -30,10 +33,10 @@ struct PmsDraw;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void func_0202DE5C(struct PmsDraw *p, u8 v);
-extern void func_0202DE64(struct PmsDraw *p, u16 v);
+extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
+extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
 struct Obj;
-extern void func_0202DC60(struct Obj *p, u32 a, void *w, u32 i, u32 e);
+extern void PMS_DRAW_PrintOffset(struct Obj *p, u32 a, void *w, u32 i, u32 e);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
@@ -45,9 +48,9 @@ void func_021D8484(struct Obj05353 *p, void *n)
     q = p->f88;
     func_02043B5C(func_02045770(q), 0);
     func_0201DD78(15, 2, 0);
-    func_0202DE5C(p->fCC, 0);
-    func_0202DE64(p->fCC, 0x3c40);
-    func_0202DC60(p->fCC, (u32)q, n, 0, (u32)(&c));
+    PMS_DRAW_SetNullColorPalette(p->fCC, 0);
+    PMS_DRAW_SetPrintColor(p->fCC, 0x3c40);
+    PMS_DRAW_PrintOffset(p->fCC, (u32)q, n, 0, (u32)(&c));
     func_02045334(q);
     func_02045374(q);
     func_02041B6C(1);

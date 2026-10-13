@@ -1,5 +1,5 @@
 /*
- * function: func_021745B0
+ * function: INTRUDE_COMM_RecvProfile
  * address:  0x021745B0
  * packet:   pkt_ov011_021745B0
  * region:   ov011
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 u32 func_02026478(void *obj);
 void func_02082D44(void *d, void *s, int n);
 
-void func_021745B0(int a, int b, void *c, char *d)
+void INTRUDE_COMM_RecvProfile(int a, int b, void *c, char *d)
 {
     func_02026478((void *)(((int *)d)[1]));
     if (((unsigned char)d[0x8fb] & (1 << a)) && ((F *)(d + 0x8f8))->f0 == 0) {

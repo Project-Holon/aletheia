@@ -1,5 +1,5 @@
 /*
- * function: func_0208F380
+ * function: WM_InitializeForListening
  * address:  0x0208F380
  * packet:   pkt_0208F380
  * region:   arm9
@@ -57,7 +57,7 @@ typedef struct WMArm9Buf {
 
 extern WMErrCode WMi_InitializeEx(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags);
 
-WMErrCode func_0208F380(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, BOOL blink)
+WMErrCode WM_InitializeForListening(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, BOOL blink)
 {
     u32 miscFlags = 1;
 

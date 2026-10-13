@@ -14,19 +14,19 @@
  *
  * symbols:
  *   func_022019F4  0x022019F4  thumb  ov094
- *   func_02015E94  0x02015E94  thumb
- *   func_02015EA0  0x02015EA0  thumb
- *   func_02015EB0  0x02015EB0  thumb
- *   func_02015EC4  0x02015EC4  thumb
+ *   MCSS_GetVanishFlag  0x02015E94  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
+ *   MCSS_ResetVanishFlag  0x02015EB0  thumb
+ *   MCSS_FlipVanishFlag  0x02015EC4  thumb
  *
  * Byte-correct; MATCH blocked on two unlabelled ARM9 Thumb leaves (the integrator's;
- * no witness outside the range): func_02015E94 and func_02015EC4. Verified C
+ * no witness outside the range): MCSS_GetVanishFlag and MCSS_FlipVanishFlag. Verified C
  * (match.py one, no --region, --thumb, EXACT), both over
  *   typedef struct { char pad[0x140]; unsigned int lo : 11; unsigned int b : 1;
  *                    unsigned int hi : 20; } R;
- *   int  func_02015E94(R *p) { return p->b; }
- *   void func_02015EC4(R *p) { p->b = p->b ^ 1; }   (`!p->b` is DIFF)
- * (func_02015EA0/EB0 set/clear the same bit, already matched.)
+ *   int  MCSS_GetVanishFlag(R *p) { return p->b; }
+ *   void MCSS_FlipVanishFlag(R *p) { p->b = p->b ^ 1; }   (`!p->b` is DIFF)
+ * (MCSS_SetVanishFlag/EB0 set/clear the same bit, already matched.)
  */
 typedef struct {
     void *h;                /* 0x00 */
@@ -43,10 +43,10 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(char *p, int key);
-extern int func_02015E94(void *h);
-extern void func_02015EA0(void *h);
-extern void func_02015EB0(void *h);
-extern void func_02015EC4(void *h);
+extern int MCSS_GetVanishFlag(void *h);
+extern void MCSS_SetVanishFlag(void *h);
+extern void MCSS_ResetVanishFlag(void *h);
+extern void MCSS_FlipVanishFlag(void *h);
 
 void func_021FF374(Work *w, int key, int kind)
 {
@@ -58,24 +58,24 @@ void func_021FF374(Work *w, int key, int kind)
         return;
     switch (kind) {
     case 2:
-        func_02015EC4(w->e[idx].h);
+        MCSS_FlipVanishFlag(w->e[idx].h);
         break;
     case 1:
-        func_02015EA0(w->e[idx].h);
+        MCSS_SetVanishFlag(w->e[idx].h);
         break;
     case 0:
-        func_02015EB0(w->e[idx].h);
+        MCSS_ResetVanishFlag(w->e[idx].h);
         break;
     case 3:
-        if (func_02015E94(w->e[idx].h))
+        if (MCSS_GetVanishFlag(w->e[idx].h))
             w->e[idx].f5 = 1;
-        func_02015EA0(w->e[idx].h);
+        MCSS_SetVanishFlag(w->e[idx].h);
         break;
     case 4:
         if (w->e[idx].f5)
             w->e[idx].f5 = 0;
         else
-            func_02015EB0(w->e[idx].h);
+            MCSS_ResetVanishFlag(w->e[idx].h);
         break;
     }
 }

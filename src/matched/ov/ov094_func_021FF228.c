@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_022019F4  0x022019F4  thumb  ov094
- *   func_02015C1C  0x02015C1C  thumb
+ *   MCSS_ResetOrthoBillboardFlag  0x02015C1C  thumb
  *   func_022006B4  0x022006B4  thumb  ov094
  */
 
@@ -31,7 +31,7 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(char *p, int key);
-extern void func_02015C1C(void *h);
+extern void MCSS_ResetOrthoBillboardFlag(void *h);
 extern void func_022006B4(Work *w, int key);
 
 void func_021FF228(Work *w, int key)
@@ -41,6 +41,6 @@ void func_021FF228(Work *w, int key)
     if (idx == -1)
         return;
     w->e[idx].flip = 0;
-    func_02015C1C(w->e[idx].h);
+    MCSS_ResetOrthoBillboardFlag(w->e[idx].h);
     func_022006B4(w, key);
 }

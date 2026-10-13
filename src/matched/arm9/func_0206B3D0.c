@@ -1,5 +1,5 @@
 /*
- * function: func_0206B3D0
+ * function: NNSi_G3dAnmBlendVis
  * address:  0x0206B3D0
  * packet:   pkt_0206AFE4
  * region:   arm9
@@ -23,7 +23,7 @@ typedef struct Node0206B3D0 {
     u16 f1a[1];
 } Node0206B3D0;
 
-int func_0206B3D0(u32 *out, Node0206B3D0 *node, unsigned index)
+int NNSi_G3dAnmBlendVis(u32 *out, Node0206B3D0 *node, unsigned index)
 {
     int result = 0;
     u32 v;

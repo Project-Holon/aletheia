@@ -1,5 +1,5 @@
 /*
- * function: func_021767A0
+ * function: INTRUDE_COMM_GetPartnerSlot
  * address:  0x021767A0
  * packet:   pkt_ov011_021767A0
  * region:   ov011
@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
 extern u8 func_02012B80(const struct BigObj *p);
 
-u8 func_021767A0(void *a, void *b)
+u8 INTRUDE_COMM_GetPartnerSlot(void *a, void *b)
 {
     u8 x;
     u8 y;

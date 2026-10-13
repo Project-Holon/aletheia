@@ -1,5 +1,5 @@
 /*
- * function: func_0202DB0C
+ * function: PMS_DRAW_Create
  * address:  0x0202DB0C
  * packet:   pkt_0202DB0C
  * region:   arm9
@@ -16,7 +16,7 @@
  *     same value as the strh operand and stays in r0 across the three
  *     field stores; `p->heap` written at the call re-reads it, the `heap`
  *     parameter makes it a callee-saved copy from the prologue;
- *   - the fifth parameter is u8 after all (`ldrb` at the func_0202DF68
+ *   - the fifth parameter is u8 after all (`ldrb` at the PMS_DRAW_LoadResources
  *     site); it only looked like it cost four bytes while the heap value
  *     was wrong.
  * The allocator result still has to go through a named local before p.
@@ -24,8 +24,8 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_0202DF68  0x0202DF68  thumb
- *   func_0202E09C  0x0202E09C  thumb
+ *   PMS_DRAW_LoadResources  0x0202DF68  thumb
+ *   PMS_DRAW_InitElem  0x0202E09C  thumb
  *   s_pms_draw_c   0x020A77B8  data  a1
  */
 
@@ -52,12 +52,12 @@ struct PmsDraw {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *p, u32 v, u32 n);
-extern void  func_0202DF68(u32 *res, u32 a, u32 heap);
+extern void  PMS_DRAW_LoadResources(u32 *res, u32 a, u32 heap);
 struct Res;
-extern void  func_0202E09C(u8 *e, struct Res *res, u16 heap);
+extern void  PMS_DRAW_InitElem(u8 *e, struct Res *res, u16 heap);
 extern char  s_pms_draw_c[];
 
-struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap)
+struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap)
 {
     struct PmsDraw *p;
     u32 n;
@@ -80,9 +80,9 @@ struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap
     p->res[0] = a;
     p->res[1] = b;
     p->unk24 = 0x11 << 6;
-    func_0202DF68(p->res, e0, p->heap);
+    PMS_DRAW_LoadResources(p->res, e0, p->heap);
     for (i = 0; i < p->count; i++) {
-        func_0202E09C((u8 *)&p->elems[i], (struct Res *)p->res, p->heap);
+        PMS_DRAW_InitElem((u8 *)&p->elems[i], (struct Res *)p->res, p->heap);
     }
     return p;
 }

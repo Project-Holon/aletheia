@@ -1,5 +1,5 @@
 /*
- * function: func_02035544
+ * function: UI_SoftReset
  * address:  0x02035544
  * packet:   pkt_02035544
  * region:   arm9
@@ -13,6 +13,10 @@
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   OS_ResetSystem            0x02087BCC  arm
  *   OS_WaitIrq                0x0208459C  arm
+ *   GFL_NET_Main  0x0203CF5C  arm
+ *   FADE_Update  0x0204E638  arm
+ *   CARD_TryWaitBackupAsync  0x02076B8C  arm
+ *   UI_SetBottomBackLight  0x02035428  arm
  *
  * The soft-reset trap: fade both screens to white, tear the UI down, then spin
  * forever pumping the main loop's per-frame work.  The loop never exits (the
@@ -27,8 +31,8 @@
  * sits before the loop head.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02035544.c \
- *       --func func_02035544 --addr 0x02035544 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/UI_SoftReset.c \
+ *       --func UI_SoftReset --addr 0x02035544 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -40,14 +44,14 @@ extern struct UiCtx *sub_02035224(void);
 extern void GXx_SetMasterBrightness_(u32 reg, int brightness);
 extern int func_0203CEAC(int a0);
 extern u32 func_0203D210(void);
-extern u32 func_02076B8C(void);
-extern void sub_02035428(u32 status);
+extern u32 CARD_TryWaitBackupAsync(void);
+extern void UI_SetBottomBackLight(u32 status);
 extern void OS_ResetSystem(u32 param);
 extern void OS_WaitIrq(u32 clear, u32 irqFlags);
-extern u32 func_0203CF5C(void);
-extern void func_0204E638(void);
+extern u32 GFL_NET_Main(void);
+extern void FADE_Update(void);
 
-void func_02035544(u32 param)
+void UI_SoftReset(u32 param)
 {
     struct UiCtx *ctx;
 
@@ -57,12 +61,12 @@ void func_02035544(u32 param)
     func_0203CEAC(0);
 
     while (1) {
-        if (func_0203D210() != 0 && func_02076B8C() != 0) {
-            sub_02035428(((u8 *)ctx)[0x3b]);
+        if (func_0203D210() != 0 && CARD_TryWaitBackupAsync() != 0) {
+            UI_SetBottomBackLight(((u8 *)ctx)[0x3b]);
             OS_ResetSystem(param);
         }
         OS_WaitIrq(1, 1);
-        func_0203CF5C();
-        func_0204E638();
+        GFL_NET_Main();
+        FADE_Update();
     }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02024160",
+   "name": "PMSI_PARAM_GetOptionFlag",
    "address": "0x02024160",
    "kind": "game",
    "region": "arm9",

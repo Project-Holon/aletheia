@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * Unblocked by matching func_02156DC4 (ov009, EXACT): the +004A call site now
+ * Unblocked by matching DWC_RAP_SetErrorCallback (ov009, EXACT): the +004A call site now
  * attests as `matched`.  Every other relocation resolves (the 0x72 argument is
  * an overlay id, attested as overlay_id).
  * symbols:
@@ -18,7 +18,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_021B9838  0x021B9838  thumb  ov114
  *   func_0203CD98  0x0203CD98  arm
- *   func_02156DC4  0x02156DC4  thumb  ov009
+ *   DWC_RAP_SetErrorCallback  0x02156DC4  thumb  ov009
  *   func_020315D4  0x020315D4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   ov114_id       0x00000072  data
@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void func_021B9838(u8 *p);
 extern int func_0203CD98(void);
-extern void func_02156DC4(int a, int b);
+extern void DWC_RAP_SetErrorCallback(int a, int b);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_02034A5C(int handle);
@@ -55,7 +55,7 @@ int func_021DA5D0(int a, int b, int c, char *obj)
         ((struct Obj02479 *)obj)->f8 = 0;
     }
     if (func_0203CD98())
-        func_02156DC4(0, 0);
+        DWC_RAP_SetErrorCallback(0, 0);
     func_020315D4((struct S020315D4 *)a);
     func_02034A5C((int)ov114_id);
     return 1;

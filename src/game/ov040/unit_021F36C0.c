@@ -38,110 +38,90 @@
  *   func_020122C0 0x020122C0 thumb
  *   func_021F381C 0x021F381C thumb ov040
  */
-struct Big;
-struct Ctx;
-struct Rec94;
-struct Desc;
-typedef unsigned int u32;
+#include "../ov021/fld_exp_obj_types.h"
+#include "unit_021F36C0_types.h"
 
-typedef unsigned char u8;
+void func_021F36C0(struct FieldMap *fieldMap);
+void func_021F377C(struct FieldMap *fieldMap);
+void func_021F3798(struct FieldMap *fieldMap);
+void func_021F37A4(struct FieldMap *fieldMap);
+int func_021F37C8(struct FieldMap *fieldMap);
+struct GameEvent *func_021F37EC(struct GameSystem *gameSystem, u32 modelIndex);
 
-typedef struct {
-    int a;
-    int b;
-    int c;
-} V3;
+extern Gimmick40ModelPos d_021F38D4;
+extern G3dUtilSetup d_021F38EC;
 
-typedef unsigned short u16;
-
-typedef signed int     s32;
-
-extern int func_02188D2C(int *p);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern int *func_021897BC(char *p, int idx);
-extern void func_021BE310(u32 a, void *b, int c);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern V3 *func_021BE480(u32 a, int b, int c);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern void func_021BE6B0(u8 *p, int v);
-extern void func_021BE6B8(u8 *p, int v);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern int func_021BE748(u32 a);
-extern void func_021BE6CC(int a, int b, int c, int d, int e);
-extern void func_021897A0(u8 *p, int i);
-extern void func_021BE418(u8 *p, u16 i);
-extern void func_021BE580(void *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int func_021F381C(void *, int *);
-void func_021F36C0(u32 a);
-void func_021F377C(u8 *p);
-void func_021F3798(int *p);
-void func_021F37A4(u8 *p);
-int func_021F37C8(u8 *p);
-void *func_021F37EC(void *p, u32 i);
-extern V3 d_021F38D4;
-extern char d_021F38EC[];
-
-
-void func_021F36C0(u32 a)
+/* Set up the model and show its animation at the last frame when it was played before. */
+void func_021F36C0(struct FieldMap *fieldMap)
 {
-    u32 s;
-    u8 *q;
-    u8 *e;
-    V3 v;
+    FldExpObjCnt *expObj;
+    Gimmick40Save *save;
+    FldExpObjAnime *anime;
+    VecFx32 pos;
 
-    s = func_02188D2C((int *)a);
-    func_02189764((unsigned char *)a, 1, func_02188C84((u8 *)a), 4);
-    func_021897BC((char *)a, 1);
-    func_021BE310(s, d_021F38EC, 0);
-    q = (u8 *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 3);
-    v.a = d_021F38D4.a;
-    v.b = 0;
-    v.c = d_021F38D4.b;
-    *func_021BE480(s, 0, 0) = v;
-    e = func_021BE674((char *)s, 0, 0, 0);
-    func_021BE6B0(e, 1);
-    func_021BE6B8(e, 0);
-    if (q[4] != 0) {
-        func_021BE700((void *)s, 0, 0, 0, 1);
-        func_021BE6CC(s, 0, 0, 0, func_021BE748((u32)e));
+    expObj = func_02188D2C(fieldMap);
+    func_02189764(fieldMap, 1, func_02188C84(fieldMap), 4);
+    func_021897BC(fieldMap, 1);
+    func_021BE310(expObj, &d_021F38EC, 0);
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), 3);
+    pos.x = d_021F38D4.x;
+    pos.y = 0;
+    pos.z = d_021F38D4.z;
+    func_021BE480(expObj, 0, 0)->trans = pos;
+    anime = func_021BE674(expObj, 0, 0, 0);
+    func_021BE6B0(anime, 1);
+    func_021BE6B8(anime, 0);
+    if (save->animeDone[0] != 0) {
+        func_021BE700(expObj, 0, 0, 0, 1);
+        func_021BE6CC(expObj, 0, 0, 0, func_021BE748(anime));
     }
 }
 
-void func_021F377C(u8 *p) { u8 *q; q = (u8 *)func_02188D2C((int *)p); func_021897A0(p, 1); func_021BE418(q, 0); }
-
-
-void func_021F3798(int *p)
+void func_021F377C(struct FieldMap *fieldMap)
 {
-    func_021BE580((void *)func_02188D2C(p));
+    FldExpObjCnt *expObj;
+
+    expObj = func_02188D2C(fieldMap);
+    func_021897A0(fieldMap, 1);
+    func_021BE418(expObj, 0);
 }
 
-void func_021F37A4(u8 *p)
+void func_021F3798(struct FieldMap *fieldMap)
 {
-    func_021897BC((char *)p, 1);
-    *func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(p))), 3) = 1;
+    func_021BE580(func_02188D2C(fieldMap));
+}
+
+/* Script command: set the gimmick flag. */
+void func_021F37A4(struct FieldMap *fieldMap)
+{
+    Gimmick40Save *save;
+
+    func_021897BC(fieldMap, 1);
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), 3);
+    save->flag = 1;
 }
 
 /*
  * extent: 34 code bytes followed by two zero alignment bytes.
  */
-int func_021F37C8(u8 *p)
+int func_021F37C8(struct FieldMap *fieldMap)
 {
-    func_021897BC((char *)p, 1);
-    return *func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(p))), 3);
+    Gimmick40Save *save;
+
+    func_021897BC(fieldMap, 1);
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), 3);
+    return save->flag;
 }
 
-void *func_021F37EC(void *p, u32 i)
+/* Create the event that plays the animation of one model; null for an unknown model. */
+struct GameEvent *func_021F37EC(struct GameSystem *gameSystem, u32 modelIndex)
 {
-    u16 *q = (u16 *)func_021897BC((char *)func_0201210C(p), 1);
-    void *r;
-    if (i >= 1) return 0;
-    r = func_020122C0(p, 0, func_021F381C, 0);
-    *q = i;
-    return r;
+    Gimmick40Work *work = func_021897BC(func_0201210C(gameSystem), 1);
+    struct GameEvent *event;
+
+    if (modelIndex >= 1)
+        return 0;
+    event = func_020122C0(gameSystem, 0, func_021F381C, 0);
+    work->modelIndex = modelIndex;
+    return event;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216B908
+ * function: DWC_GetAIDBitmap
  * address:  0x0216B908
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -13,26 +13,26 @@
  *
  * symbols:
  *   g_021AA878  0x021AA878  data
- *   func_0216C82C  0x0216C82C  arm  ov009
- *   func_0216B880  0x0216B880  arm  ov009
- *   func_0216BCD0  0x0216BCD0  arm  ov009
+ *   DWCi_IsGetAIDValid  0x0216C82C  arm  ov009
+ *   DWC_GetAIDList  0x0216B880  arm  ov009
+ *   DWCi_GetAIDBitmapFromList  0x0216BCD0  arm  ov009
  */
 
 #include "../include/G_DwcGlobal.h"
 
 extern struct DwcGlobal g_021AA878;
-extern int func_0216C82C(void);
-extern int func_0216B880(unsigned char **out);
-extern int func_0216BCD0(unsigned char *p, int n);
+extern int DWCi_IsGetAIDValid(void);
+extern int DWC_GetAIDList(unsigned char **out);
+extern int DWCi_GetAIDBitmapFromList(unsigned char *p, int n);
 
-int func_0216B908(void)
+int DWC_GetAIDBitmap(void)
 {
     unsigned char *list;
     int n;
 
-    if (*(int *)(((char *)&g_021AA878) + 4) == 0 || func_0216C82C() == 0) {
+    if (*(int *)(((char *)&g_021AA878) + 4) == 0 || DWCi_IsGetAIDValid() == 0) {
         return 0;
     }
-    n = func_0216B880(&list);
-    return func_0216BCD0(list, n);
+    n = DWC_GetAIDList(&list);
+    return DWCi_GetAIDBitmapFromList(list, n);
 }

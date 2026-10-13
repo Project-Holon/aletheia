@@ -21,6 +21,8 @@
  *   func_02087BCC 0x02087BCC arm
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000072 data
+ *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
+ *   GAME_DATA_Delete  0x02012704  thumb  arm9
  */
 #include "../include/Obj02176.h"
 extern void func_021D9228(void *);
@@ -41,12 +43,12 @@ extern void func_021D6C28(u8 *p);
 extern void func_021D6948(void *);
 extern void func_021D96C4(u8 *p);
 extern void func_0200A338(void *);
-extern void func_02012704(u8 *p);
+extern void GAME_DATA_Delete(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
 extern void func_02087BCC(u32 parameter);
 extern void func_02034A5C(int);
-extern void func_02005D28(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern char ov_id[];
 int func_021D67D4(void *a, int b, int c, char *p)
 {
@@ -63,11 +65,11 @@ int func_021D67D4(void *a, int b, int c, char *p)
     func_021D6948(p + 0x390);
     func_021D96C4(((struct Obj02176 *)p)->f394);
     func_0200A338(((struct Obj02176 *)p)->f3BC);
-    func_02012704(((struct Obj02176 *)p)->f3B8);
+    GAME_DATA_Delete(((struct Obj02176 *)p)->f3B8);
     func_020315D4(a);
     func_020306F0(29);
     func_02087BCC(0);
     func_02034A5C((int)ov_id);
-    func_02005D28();
+    GFL_USE_CancelChangeAndStopBgm();
     return 1;
 }

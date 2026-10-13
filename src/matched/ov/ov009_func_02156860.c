@@ -1,5 +1,5 @@
 /*
- * function: func_02156860
+ * function: DWC_RAP_GetFriendStatusData
  * address:  0x02156860
  * packet:   pkt_ov009_02156860
  * region:   ov009
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern int g_021A8264;
 
-int func_02156860(int i)
+int DWC_RAP_GetFriendStatusData(int i)
 {
     return (int)((char *)(int *)g_021A8264 + 0x34C + (i << 5));
 }

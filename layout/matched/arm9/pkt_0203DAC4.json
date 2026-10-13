@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203DAC4",
+   "name": "GFL_NET_IRC_WIRELESS_AddMacAddress",
    "address": "0x0203DAC4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203DBB0",
+   "name": "GFL_NET_IRC_WIRELESS_CopyMacAddress",
    "address": "0x0203DBB0",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    }
   },
   {
-   "name": "func_0203DC04",
+   "name": "GFL_NET_IRC_WIRELESS_OnSyncReady",
    "address": "0x0203DC04",
    "kind": "game",
    "region": "arm9",
@@ -48,7 +48,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203DC4C",
+   "name": "GFL_NET_IRC_WIRELESS_OnConnectEnd",
    "address": "0x0203DC4C",
    "kind": "game",
    "region": "arm9",
@@ -60,7 +60,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203DC68",
+   "name": "GFL_NET_IRC_WIRELESS_SetState",
    "address": "0x0203DC68",
    "kind": "game",
    "region": "arm9",

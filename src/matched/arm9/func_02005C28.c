@@ -1,5 +1,5 @@
 /*
- * function: func_02005C28
+ * function: GFL_USE_SetStereoOutput
  * address:  0x02005C28
  * packet:   pkt_02005B24
  * region:   arm9
@@ -19,15 +19,15 @@
  * makes the compiler allocate a second register and shifts all nine bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02005C28.c \
- *       --func func_02005C28 --addr 0x02005C28 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_USE_SetStereoOutput.c \
+ *       --func GFL_USE_SetStereoOutput --addr 0x02005C28 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
 extern void func_02072794(u32 v);
 
-void func_02005C28(u32 a0)
+void GFL_USE_SetStereoOutput(u32 a0)
 {
     func_02072794(a0 != 1);
 }

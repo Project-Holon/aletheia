@@ -16,8 +16,8 @@
  *   func_021F2D20  0x021F2D20  thumb
  *   func_021F30D4  0x021F30D4  thumb  ov032
  *   func_020490F4  0x020490F4  arm
- *   func_020216B4  0x020216B4  thumb
- *   func_02021640  0x02021640  thumb
+ *   PALANM_LoadHandlePaletteToSlot  0x020216B4  thumb
+ *   PALANM_LoadArcPaletteToSlot  0x02021640  thumb
  *   func_02049250  0x02049250  arm
  *   func_02062A98  0x02062A98  arm
  *   func_02062A00  0x02062A00  arm
@@ -83,8 +83,8 @@ extern const ResSpec3 d_021F35D4;
 extern void func_021F30D4(Work *p, ResList *out, const ResSpec *spec, void *arc);
 extern void *func_020490F4(u32 id, u32 heap);
 struct PalAnmSlot;
-extern void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 typedef signed int     s32;
 struct ArcFile;
 struct NitroFileHeader;
@@ -109,8 +109,8 @@ void func_021F2D20(Work *p, void *h)
     func_021F30D4(p, p->l164, b.s, h);
     c = d_021F35C8;
     func_021F30D4(p, p->l14c, c.s, h2);
-    func_020216B4((struct PalAnmSlot *)p->fac, h, 0, p->heap, 3, 0x1c0, 0);
-    func_02021640((struct PalAnmSlot *)p->fac, 0, 1, p->heap, 3, 0x20, 0xe0);
+    PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)p->fac, h, 0, p->heap, 3, 0x1c0, 0);
+    PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)p->fac, 0, 1, p->heap, 3, 0x20, 0xe0);
     p->r3c4.res = func_02049250(h, 4, p->heap2);
     func_02062A98(p->r3c4.res, (void **)(&p->r3c4.hdr));
     p->r3c4.data = ((struct Obj20461 *)(p->r3c4.hdr))->fC;

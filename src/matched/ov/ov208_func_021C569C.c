@@ -16,8 +16,8 @@
  *   func_0200D288  0x0200D288  thumb
  *   ov208_func_021C5128  0x021C5128  thumb
  *   func_021C80AC  0x021C80AC  thumb
- *   func_02015C48  0x02015C48  thumb
- *   func_02015EA0  0x02015EA0  thumb
+ *   MCSS_SetPosition  0x02015C48  thumb
+ *   MCSS_SetVanishFlag  0x02015EA0  thumb
  */
 
 typedef unsigned char  u8;
@@ -45,8 +45,8 @@ extern u32 func_0200D288(struct Blk37 *p, u32 which);
 extern void ov208_func_021C5128(struct Ov208Mdl *m, u32 heap, u32 sys, u32 species, u32 a4,
                                 u32 a5, u32 a6, u32 a7, u32 a8, u32 a9);
 extern void func_021C80AC(int a, int b, int c);
-extern void func_02015C48(void *p, u32 *src);
-extern void func_02015EA0(void *p);
+extern void MCSS_SetPosition(void *p, u32 *src);
+extern void MCSS_SetVanishFlag(void *p);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define MDL(i) ((struct Ov208Mdl *)(p + 0xc) + (i))
@@ -70,15 +70,15 @@ void ov208_func_021C569C(u16 *heap, u8 *p, int key, int a, int b, int pose, u16 
     if (a != 4) {
         ov208_func_021C5128(MDL(a), *heap, W(8), species, form, f152, f153, 0, 0, extra);
         func_021C80AC((int)MDL(a), pose, (int)(&v));
-        func_02015C48((void *)MDL(a)->obj, (u32 *)(&v));
+        MCSS_SetPosition((void *)MDL(a)->obj, (u32 *)(&v));
         if (W(0x124) == 0)
-            func_02015EA0((void *)MDL(a)->obj);
+            MCSS_SetVanishFlag((void *)MDL(a)->obj);
     }
     if (b != 4) {
         ov208_func_021C5128(MDL(b), *heap, W(8), species, form, f152, f153, 0, 1, extra);
         func_021C80AC((int)MDL(b), pose, (int)(&v));
-        func_02015C48((void *)MDL(b)->obj, (u32 *)(&v));
+        MCSS_SetPosition((void *)MDL(b)->obj, (u32 *)(&v));
         if (W(0x124) != 0)
-            func_02015EA0((void *)MDL(b)->obj);
+            MCSS_SetVanishFlag((void *)MDL(b)->obj);
     }
 }

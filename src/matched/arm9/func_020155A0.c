@@ -1,5 +1,5 @@
 /*
- * function: func_020155A0
+ * function: MCSS_DrawShadow
  * address:  0x020155A0
  * packet:   pkt_02014D90
  * region:   arm9
@@ -125,7 +125,7 @@ struct Pose {
 
 struct Tex { s32 fmt; u32 f04; u32 plttBase; };
 
-void func_020155A0(struct McssSys *sys, struct McssWork *w, fx32 x, fx32 y,
+void MCSS_DrawShadow(struct McssSys *sys, struct McssWork *w, fx32 x, fx32 y,
                    fx32 width, fx32 height, fx32 s, fx32 t,
                    struct Pose *pose, u16 *frame, struct Tex *tex, int id,
                    int proj, u32 *z, u8 flip)

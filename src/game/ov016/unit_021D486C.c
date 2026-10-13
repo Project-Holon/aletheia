@@ -18,7 +18,7 @@
  *   func_02078C18  0x02078C18  arm
  *   func_02088234  0x02088234  arm
  *   func_02084EB8  0x02084EB8  arm
- *   func_0207A7BC  0x0207A7BC  arm
+ *   FS_GetFileImageTop  0x0207A7BC  arm
  *   func_02078B70  0x02078B70  arm
  *   func_02078A80  0x02078A80  arm
  *   func_02078360  0x02078360  arm
@@ -81,7 +81,7 @@ extern void func_020788AC(FSFile *file);
 extern int func_02078C18(FSFile *file, const char *path);
 extern void func_02088234(void);
 extern long func_02084EB8(void);
-extern void *func_0207A7BC(char *p);
+extern void *FS_GetFileImageTop(char *p);
 extern long func_02078B70(FSFile *file, void *buffer, long length);
 extern int func_02078A80(FSFile *file);
 extern void func_02078360(FSArchive *arc);
@@ -139,7 +139,7 @@ void func_021D486C(void)
     if (!func_02078C18(&file, "rom:/dwc/utility.bin"))
         func_02088234();
     g_021DE66C->lockId = func_02084EB8();
-    base = (u32)func_0207A7BC((char *)(&file));
+    base = (u32)FS_GetFileImageTop((char *)(&file));
     func_02078B70(&file, &fnt, sizeof(fnt));
     func_02078B70(&file, &fat, sizeof(fat));
     func_02078A80(&file);

@@ -1,5 +1,5 @@
 /*
- * function: func_020229A4
+ * function: WIPE_SUB_FadeStart
  * address:  0x020229A4
  * packet:   pkt_02022940
  * region:   arm9
@@ -12,16 +12,16 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_02082BCC  0x02082BCC  arm
- *   func_020222CC  0x020222CC  thumb
- *   func_0202290C  0x0202290C  thumb
- *   sub_020056A0   0x020056A0  thumb
+ *   WIPE_SetBrightness  0x020222CC  thumb
+ *   WIPE_SUB_CalcStep  0x0202290C  thumb
+ *   GFL_USE_AddMainTask   0x020056A0  thumb
  *   sub_02022AC4   0x02022AC4  thumb
  *
- * The constructor of the wipe task whose per-frame step is func_02022A44:
+ * The constructor of the wipe task whose per-frame step is WIPE_SUB_FadeMain:
  * it allocates and zeroes the 0x24-byte sub-object, picks the pair of
  * start/end extents from the task's direction flag and the sentinel in
  * +0x24, fills the sub-object's eight words and registers the per-frame
- * callback sub_02022AC4 with sub_020056A0 at priority 0x80.
+ * callback sub_02022AC4 with GFL_USE_AddMainTask at priority 0x80.
  *
  * The 0x7FFF in +0x24 is a "no explicit extent" sentinel: when it is
  * present the moving edge starts at 0x10 (or ends there, depending on the
@@ -33,7 +33,7 @@
  *
  * Both extents reach the sub-object scaled by 128 (`lsls #7`), i.e. as
  * 24.7 fixed point, while the unscaled values stay in r7/r6 for the
- * func_0202290C call and the +0x1c store.
+ * WIPE_SUB_CalcStep call and the +0x1c store.
 
  * The direction test is written `dir == 0` first: the image's `bne` at
  * +0x2e takes the SECOND arm, so the zero case is the fall-through and
@@ -45,8 +45,8 @@
  * signature that says polarity rather than shape.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020229A4.c \
- *       --func func_020229A4 --addr 0x020229A4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_FadeStart.c \
+ *       --func WIPE_SUB_FadeStart --addr 0x020229A4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -81,12 +81,12 @@ struct Task {
 extern void *func_02030734(u32 a0, u32 a1, int a2, const char *a3, u16 a4);
 extern void  func_02082BCC(void *p, u32 v, u32 n);
 typedef unsigned char  u8;
-extern void func_020222CC(u32 which, int brightness);
-extern s32 func_0202290C(s32 a, s32 b, s32 c);
-extern void *sub_020056A0(void *fn, void *arg, u32 prio);
+extern void WIPE_SetBrightness(u32 which, int brightness);
+extern s32 WIPE_SUB_CalcStep(s32 a, s32 b, s32 c);
+extern void *GFL_USE_AddMainTask(void *fn, void *arg, u32 prio);
 extern void sub_02022AC4(void *unused, u8 *o);
 
-void func_020229A4(struct Task *t, u32 dir)
+void WIPE_SUB_FadeStart(struct Task *t, u32 dir)
 {
     struct Obj *o;
     s32         a;
@@ -115,16 +115,16 @@ void func_020229A4(struct Task *t, u32 dir)
         }
     }
 
-    func_020222CC(t->f10, a);
+    WIPE_SetBrightness(t->f10, a);
 
     o->f00 = t->f04;
     o->f04 = t->f08;
     o->f08 = 0;
     o->f0c = a << 7;
     o->f10 = b << 7;
-    o->f14 = func_0202290C(a, b, t->f04);
+    o->f14 = WIPE_SUB_CalcStep(a, b, t->f04);
     o->f18 = t->f10;
     o->f1c = a;
     t->phase = t->phase + 1;
-    o->f20 = sub_020056A0((void *)sub_02022AC4, o, 0x80);
+    o->f20 = GFL_USE_AddMainTask((void *)sub_02022AC4, o, 0x80);
 }

@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_MGR_H
 #define ALETHEIA_G_MGR_H
-/* g_02146A74 (arm9) */
+/* g_ClactSystem (arm9) */
 struct Bank;
 struct RecA;
 struct RecB;

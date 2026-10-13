@@ -14,15 +14,15 @@
  *   func_0201293C   0x0201293C  thumb
  *   func_020130C4   0x020130C4  thumb
  *   func_02013144   0x02013144  thumb
- *   func_0201333C   0x0201333C  thumb
- *   func_02013360   0x02013360  thumb
+ *   BTL_SETUP_SetPlayerParty   0x0201333C  thumb
+ *   BTL_SETUP_InitCommon   0x02013360  thumb
  *   func_0201A920   0x0201A920  thumb
  *   func_0201AA14   0x0201AA14  thumb
  *   func_0201AA18   0x0201AA18  thumb
  *   func_0201AC2C   0x0201AC2C  thumb
  *
  * btl_setup.c.  The link-battle variant of the setup builder: the same
- * three shared writers as func_020135C0, then the object is put in mode 0
+ * three shared writers as BTL_SETUP_SetupDemo, then the object is put in mode 0
  * and a consistency check on the +0x24 slot decides whether flag 0x40 is
  * set.
  *
@@ -37,10 +37,10 @@
  * second argument of the guarded func_0201AC2C call below, so the value has
  * to reach r1 anyway and the store then sources it from there.  The
  * declaration has to be variadic, `void func_0201AC2C(u32 a, ...)`, because
- * the other call site of this family (in func_020135C0, EXACT) passes two
+ * the other call site of this family (in BTL_SETUP_SetupDemo, EXACT) passes two
  * registers while some pass one; a fixed two-parameter declaration emits a
  * spurious `movs r1, #0`.  This is the same finding
- * docs/notes/pkt_02013528.c.txt reached for func_020135C0.
+ * docs/notes/pkt_02013528.c.txt reached for BTL_SETUP_SetupDemo.
  *
  * (2) func_020076D0 takes THREE arguments, and its first is the return
  * value of the func_0201293C call immediately above it.  The original sets
@@ -58,7 +58,7 @@
  *
  * EXACT*: all 118 code bytes reproduce (10 of 10 relocation sites
  * resolved); the inferred extent ran two bytes long only on the
- * `movs r0, r0` alignment pad at 0x020134F2 before func_020134F4.  Never a
+ * `movs r0, r0` alignment pad at 0x020134F2 before BTL_SETUP_SetupTrainerBase.  Never a
  * byte difference.
  *
  * Addresses are Black-image addresses.
@@ -77,8 +77,8 @@ struct BigObj;
 extern void func_020130C4(u8 *p);
 struct Party;
 struct Rec534;
-extern void func_02013360(u8 *o, void *a1, const void *a2);
-extern int func_0201333C(int a0, int a1, int a2);
+extern void BTL_SETUP_InitCommon(u8 *o, void *a1, const void *a2);
+extern int BTL_SETUP_SetPlayerParty(int a0, int a1, int a2);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern u32  func_0201AA18(void *p);
@@ -96,8 +96,8 @@ void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
     u32 u;
 
     func_020130C4(a0);
-    func_02013360(a0, a1, (const void *)a3);
-    func_0201333C((int)a0, (int)a1, a5);
+    BTL_SETUP_InitCommon(a0, a1, (const void *)a3);
+    BTL_SETUP_SetPlayerParty((int)a0, (int)a1, a5);
     r = (u32)func_0201A920(a5);
     ((struct Obj00155 *)a0)->f28 = r;
     if (a2 != 0) {

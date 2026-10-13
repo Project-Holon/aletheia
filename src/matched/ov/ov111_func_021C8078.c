@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012BF8  0x02012BF8  thumb
- *   func_02012BE0  0x02012BE0  thumb
+ *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
+ *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   func_0204B878  0x0204B878  arm
  *   func_020061E4  0x020061E4  thumb
  *
@@ -80,17 +80,17 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern int func_02012BF8(int a0, int a1);
+extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 struct Obj;
-extern void func_02012BE0(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_020061E4(u32 a);
 
 void func_021C8078(Work *p)
 {
-    int v = func_02012BF8((int)p->f108->f4, 0x17) ^ 1;
+    int v = GAME_DATA_CheckSaveFlag((int)p->f108->f4, 0x17) ^ 1;
 
     func_0204B878(p->f58, v + 6);
-    func_02012BE0(p->f108->f4, 0x17, v);
+    GAME_DATA_SetSaveFlag(p->f108->f4, 0x17, v);
     func_020061E4(0x646);
 }

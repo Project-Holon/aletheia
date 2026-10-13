@@ -1,5 +1,5 @@
 /*
- * function: func_0204F10C
+ * function: BILLBOARD_TrimImageResource
  * address:  0x0204F10C
  * packet:   pkt_0204EA64
  * region:   arm9
@@ -45,7 +45,7 @@ extern void *func_02046F48(struct Tagged *p);
 extern struct Record *func_02047250(void *p);
 extern void func_020307E0(void *p, u32 size);
 
-void func_0204F10C(void *table, u32 idx)
+void BILLBOARD_TrimImageResource(void *table, u32 idx)
 {
     struct Entry  *e       = &((struct Entry *)((struct Obj16122 *)table)->f4)[idx];
     void          *payload = e->payload;

@@ -13,13 +13,13 @@
  * src/matched/arm9, which closes the former MATCH.
  *
  * symbols:
- *   func_02015CAC  0x02015CAC  thumb
- *   func_02015D30  0x02015D30  thumb
+ *   MCSS_SetScale  0x02015CAC  thumb
+ *   MCSS_SetOfsScale  0x02015D30  thumb
  *   func_022019F4  0x022019F4  thumb  ov094
  *   func_02201934  0x02201934  thumb  ov094
  *
  * MATCH: bytes identical; blocked on 0x02015D30, an unlabelled ARM9 Thumb
- * leaf (stores a VecFx32 at +0x104, beside the matched func_02015CAC) with no
+ * leaf (stores a VecFx32 at +0x104, beside the matched MCSS_SetScale) with no
  * witness. Filing that ARM9 leaf closes this.
  */
 typedef unsigned int u32;
@@ -51,8 +51,8 @@ typedef struct {
 
 extern int func_022019F4(char *p, int key);
 extern int func_02201934(Work *w, int i, int mode);
-extern void func_02015CAC(void *p, u32 *src);
-extern void func_02015D30(void *p, u32 *src);
+extern void MCSS_SetScale(void *p, u32 *src);
+extern void MCSS_SetOfsScale(void *p, u32 *src);
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
 {
@@ -77,10 +77,10 @@ void func_022006B4(Work *w, int i)
     s.x = v;
     s.y = v;
     s.z = 0x1000;
-    func_02015CAC(w->e[idx].h, (u32 *)(&s));
+    MCSS_SetScale(w->e[idx].h, (u32 *)(&s));
     v = func_02201934(w, i, 0);
     s.x = v;
     s.y = v;
     s.z = 0x1000;
-    func_02015D30(w->e[idx].h, (u32 *)(&s));
+    MCSS_SetOfsScale(w->e[idx].h, (u32 *)(&s));
 }

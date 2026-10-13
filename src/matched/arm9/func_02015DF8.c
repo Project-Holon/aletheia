@@ -1,5 +1,5 @@
 /*
- * function: func_02015DF8
+ * function: MCSS_GetAnmStopFlag
  * address:  0x02015DF8
  * packet:   pkt_02015DF8
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct {
     unsigned int hi : 21;
 } R;
 
-int func_02015DF8(R *p)
+int MCSS_GetAnmStopFlag(R *p)
 {
     return p->b;
 }

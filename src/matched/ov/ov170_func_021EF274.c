@@ -16,15 +16,15 @@
  *   func_021EF31C 0x021EF31C thumb ov170
  *   func_021EB95C 0x021EB95C thumb ov170
  *   func_021EF4C0 0x021EF4C0 thumb ov170
- *   func_0202C9B4 0x0202C9B4 thumb
- *   func_0202CA3C 0x0202CA3C thumb
+ *   BGWINFRM_Create 0x0202C9B4 thumb
+ *   BGWINFRM_AddFrame 0x0202CA3C thumb
  */
 #include "../include/Obj01558.h"
 #include "../include/Obj24042.h"
 typedef unsigned int u32;
 struct WinMgr;
-extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
-extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
+extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void func_021EB744(char *);
 extern void func_021EF630(char *);
 extern void func_021EB79C(unsigned char *p);
@@ -36,18 +36,18 @@ extern void func_021EF4C0(struct WinMgr *mgr);
 void func_021EF274(char *p)
 {
     char *w=*(char * *)&((struct Obj01558 *)p)->f2C;
-    MGR(w)=func_0202C9B4(2,12,0x4c);
+    MGR(w)=BGWINFRM_Create(2,12,0x4c);
     func_021EB744(w);
     func_021EF630(p);
     func_021EB79C((unsigned char *)p);
     func_021EB7C8(p);
-    func_0202CA3C(MGR(w),8,1,11,15);
+    BGWINFRM_AddFrame(MGR(w),8,1,11,15);
     if(((struct Obj24042 *)(*(char * *)&((struct Obj01558 *)p)->f0))->f24==4) func_021EF31C(MGR(w),8,8);
     else func_021EF31C(MGR(w),8,9);
-    func_0202CA3C(MGR(w),7,1,11,15);
+    BGWINFRM_AddFrame(MGR(w),7,1,11,15);
     func_021EF31C(MGR(w),7,10);
     func_021EB95C(p);
-    func_0202CA3C(MGR(w),9,1,11,21);
+    BGWINFRM_AddFrame(MGR(w),9,1,11,21);
     func_021EF31C(MGR(w),9,11);
     func_021EF4C0(MGR(w));
 }

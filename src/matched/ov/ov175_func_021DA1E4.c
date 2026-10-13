@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215580C  0x0215580C  thumb
- *   func_0203C304  0x0203C304  arm
- *   func_02156BC4  0x02156BC4  thumb
- *   func_0203C554  0x0203C554  arm
- *   func_0203C3EC  0x0203C3EC  arm
- *   func_0203CA98  0x0203CA98  arm
- *   func_0203D7B0  0x0203D7B0  arm
+ *   DWC_RAP_StartMatchWithFilter  0x0215580C  thumb
+ *   GFL_NET_STATE_WifiEnterRandomMatch  0x0203C304  arm
+ *   DWC_RAP_SetVchatEnabled  0x02156BC4  thumb
+ *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
+ *   GFL_NET_STATE_GetWifiState  0x0203C3EC  arm
+ *   GFL_NET_STATE_GetError  0x0203CA98  arm
+ *   GFL_NET_SetAutoExit  0x0203D7B0  arm
  *   func_0203D7BC  0x0203D7BC  arm
  *   func_02039338  0x02039338  arm
  *   func_02039ACC  0x02039ACC  arm
  *   func_020399A8  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
- *   func_020399EC  0x020399EC  arm
+ *   GFL_NET_HANDLE_GetNegotiationNum  0x020399EC  arm
  *   func_02039CB4  0x02039CB4  arm
  *   func_021DA384  0x021DA384  thumb
  *   func_021DA390  0x021DA390  thumb
- *   func_0203CA04  0x0203CA04  arm
- *   func_0203C968  0x0203C968  arm
+ *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
+ *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
  *   func_0200FBA0  0x0200FBA0  thumb
  *   func_0203D378  0x0203D378  arm
  *
@@ -37,15 +37,15 @@
 
 typedef unsigned long u32;
 
-extern int func_0215580C(char *filter, int n, void *cb, char *obj);
-extern u32 func_0203C304(void);
-extern void func_02156BC4(int v);
-extern void func_0203C554(u32 a);
-extern int func_0203C3EC(void);
+extern int DWC_RAP_StartMatchWithFilter(char *filter, int n, void *cb, char *obj);
+extern u32 GFL_NET_STATE_WifiEnterRandomMatch(void);
+extern void DWC_RAP_SetVchatEnabled(int v);
+extern void GFL_NET_STATE_WifiDisconnect(u32 a);
+extern int GFL_NET_STATE_GetWifiState(void);
 typedef unsigned short u16;
-extern u32 func_0203CA98(void);
+extern u32 GFL_NET_STATE_GetError(void);
 typedef unsigned char  u8;
-extern void func_0203D7B0(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern void func_0203D7BC(u8 a0);
 extern u16 func_02039338(void);
 extern int func_02039ACC(void);
@@ -53,12 +53,12 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern void func_02039C68(struct Link *h, unsigned int a, unsigned int b);
-extern int func_020399EC(void);
+extern int GFL_NET_HANDLE_GetNegotiationNum(void);
 extern unsigned int func_02039CB4(struct Link *h, unsigned int a, unsigned int b);
 extern void func_021DA384(char *obj);
 extern int func_021DA390(char *obj);
-extern void func_0203CA04(void);
-extern void func_0203C968(void);
+extern void GFL_NET_STATE_SetWifiError(void);
+extern void GFL_NET_STATE_ClearErrorMode(void);
 extern void func_0200FBA0(void);
 extern u32 func_0203D378(void);
 
@@ -66,12 +66,12 @@ int func_021DA1E4(char *obj)
 {
     switch (((struct Obj00839 *)obj)->f40) {
     case 0:
-        if (func_0215580C(obj + 0x44, 2, ((struct Obj00839 *)obj)->f1218, obj)) {
-            func_0203C304();
-            func_02156BC4(0);
+        if (DWC_RAP_StartMatchWithFilter(obj + 0x44, 2, ((struct Obj00839 *)obj)->f1218, obj)) {
+            GFL_NET_STATE_WifiEnterRandomMatch();
+            DWC_RAP_SetVchatEnabled(0);
             ((struct Obj00839 *)obj)->f40 = 1;
         } else {
-            func_0203C554(1);
+            GFL_NET_STATE_WifiDisconnect(1);
             return 2;
         }
         break;
@@ -79,9 +79,9 @@ int func_021DA1E4(char *obj)
         ((struct Obj00839 *)obj)->f40 = 2;
         break;
     case 2:
-        switch (func_0203C3EC()) {
+        switch (GFL_NET_STATE_GetWifiState()) {
         case 0:
-            if ((u32)(*(u32 *)(func_0203CA98() + 0xc) - 0x3f0) > 1)
+            if ((u32)(*(u32 *)(GFL_NET_STATE_GetError() + 0xc) - 0x3f0) > 1)
                 break;
             func_021DA384(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
@@ -89,7 +89,7 @@ int func_021DA1E4(char *obj)
         case 1:
             ((struct Obj00839 *)obj)->f1A4 = 0;
             ((struct Obj00839 *)obj)->f40 = 3;
-            func_0203D7B0(1);
+            GFL_NET_SetAutoExit(1);
             func_0203D7BC(1);
             break;
         default:
@@ -120,7 +120,7 @@ int func_021DA1E4(char *obj)
         if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
             func_021DA384(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
-        } else if (func_020399EC() && func_02039ACC()) {
+        } else if (GFL_NET_HANDLE_GetNegotiationNum() && func_02039ACC()) {
             func_02039C68((struct Link *)func_020399A8(), 0xf, 0x24);
             ((struct Obj00839 *)obj)->f1A4 = 0;
             ((struct Obj00839 *)obj)->f40 = 6;
@@ -136,11 +136,11 @@ int func_021DA1E4(char *obj)
         break;
     case 7:
         if (func_021DA390(obj)) {
-            if ((u32)(*(u32 *)(func_0203CA98() + 0xc) - 0x3f0) <= 1) {
-                func_0203CA04();
-                func_0203C968();
+            if ((u32)(*(u32 *)(GFL_NET_STATE_GetError() + 0xc) - 0x3f0) <= 1) {
+                GFL_NET_STATE_SetWifiError();
+                GFL_NET_STATE_ClearErrorMode();
                 func_0200FBA0();
-                func_0203C554(1);
+                GFL_NET_STATE_WifiDisconnect(1);
             }
             return 2;
         }

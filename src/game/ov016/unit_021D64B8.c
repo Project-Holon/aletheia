@@ -20,7 +20,7 @@
  *   func_0208AC0C  0x0208AC0C  arm
  *   func_0208B220  0x0208B220  arm
  *   func_0208B238  0x0208B238  arm
- *   func_021D656C  0x021D656C  arm
+ *   DWCi_IPTlUpdate  0x021D656C  arm
  *   g_021DE688     0x021DE688  data
  */
 struct TPCalibrateParam;
@@ -31,7 +31,7 @@ extern void func_0208AA2C(const struct TPCalibrateParam *param);
 extern void  func_0208AC0C(int a, int b, void *c, int d);
 extern void func_0208B220(unsigned int command_flgs);
 extern unsigned int func_0208B238(unsigned int command_flgs);
-extern void  func_021D656C(void);
+extern void  DWCi_IPTlUpdate(void);
 extern void func_0208AD14(void);
 extern void func_021D6438(void **mem);
 void func_021D64B8(void);
@@ -51,7 +51,7 @@ void func_021D64B8(void)
     func_0208B220(2);
     if (func_0208B238(2) != 0)
         func_02088234();
-    func_021D656C();
+    DWCi_IPTlUpdate();
 }
 
 

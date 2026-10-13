@@ -23,7 +23,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_020419E4 0x020419E4 arm
  *   func_0204A648 0x0204A648 arm
- *   func_02021D50 0x02021D50 thumb
+ *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_02005624 0x02005624 thumb
  *   func_020433E0 0x020433E0 arm
  *   d_021BE7D4 0x021BE7D4 data a4
@@ -54,7 +54,7 @@ extern void func_020306F0(unsigned int heap);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
 extern void func_02030EAC(struct Node *);
 extern void func_020419E4(void),func_0204A648(void);
-extern void func_02021D50(struct S02021D50 *);
+extern void PALANM_TransferPalettes(struct S02021D50 *);
 extern void *func_02005624(unsigned,unsigned,unsigned);
 extern void func_020433E0(const struct DispVram *);
 int func_021BC240(struct Obj0203159C *p,int unused,unsigned v);
@@ -120,7 +120,7 @@ void func_021BC2B0(char *p){func_02030EAC(*(struct Node * *)&((struct Obj25533 *
  * lever: enum-typed DTCM base preserves the base-first two-pool address; constant addition folds and enum offset reverses pool/register roles.
  * volatile: hardware interrupt check flag at 02FE3FF8 read and written by 021BC2D4/021BC2D8.
  */
-void func_021BC2BC(void *unused,char *p){enum Base { DTCM_BASE=0x02fe0000 } base;func_020419E4();func_0204A648();func_02021D50(*(struct S02021D50 * *)&((struct Obj25534 *)p)->fC);base=DTCM_BASE;*(volatile unsigned *)&((struct Obj25535 *)base)->f3FF8|=1;}
+void func_021BC2BC(void *unused,char *p){enum Base { DTCM_BASE=0x02fe0000 } base;func_020419E4();func_0204A648();PALANM_TransferPalettes(*(struct S02021D50 * *)&((struct Obj25534 *)p)->fC);base=DTCM_BASE;*(volatile unsigned *)&((struct Obj25535 *)base)->f3FF8|=1;}
 
 
 

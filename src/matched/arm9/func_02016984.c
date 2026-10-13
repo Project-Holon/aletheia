@@ -1,5 +1,5 @@
 /*
- * function: func_02016984
+ * function: MCSS_InitAnimCtrl
  * address:  0x02016984
  * packet:   pkt_020163C4
  * region:   arm9
@@ -26,8 +26,8 @@
  * compared range, which is what attests the site through the `literal` class.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02016984.c \
- *       --func func_02016984 --addr 0x02016984 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MCSS_InitAnimCtrl.c \
+ *       --func MCSS_InitAnimCtrl --addr 0x02016984 --cc 1.1p1 --thumb
  */
 #include "../include/Obj02301.h"
 
@@ -38,7 +38,7 @@ extern void func_02064754(char *o, char *buf, void *set, int a3, void *bank, int
 
 extern char data_020A72CC[];
 
-void func_02016984(char *a0, int a1)
+void MCSS_InitAnimCtrl(char *a0, int a1)
 {
     *(int *)&((struct Obj02301 *)a0)->f98 = (int)func_02030734((unsigned short)((struct Obj02301 *)a0)->f14C,
                                         func_020648B4(((struct Obj02301 *)a0)->f18, a1),

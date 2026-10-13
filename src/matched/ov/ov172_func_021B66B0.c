@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02085D3C 0x02085D3C arm
+ *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_021B6724 0x021B6724 arm ov172
  *   func_021B672C 0x021B672C arm ov172
  *   func_021B6734 0x021B6734 arm ov172
@@ -19,7 +19,7 @@
 #include "../include/Obj02879.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_02085D3C(void);
+extern int OS_IsRunOnTwl(void);
 extern void func_021B6724(int);
 extern int func_021B672C(void);
 extern int func_021B6734(int);
@@ -31,7 +31,7 @@ void func_021B66B0(void)
     char *p = g_021C88E0;
     int one;
     func_021B6724(1);
-    if ((func_02085D3C() == 1 ? func_021B672C() : 0) == 1) {
+    if ((OS_IsRunOnTwl() == 1 ? func_021B672C() : 0) == 1) {
         one = 1;
         if (func_021B6734(one) != 0) func_021B673C(one);
         if (((struct Obj02879 *)p)->f24 != 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_0203DC70
+ * function: GFL_NET_IRC_WIRELESS_Main
  * address:  0x0203DC70
  * packet:   pkt_0203DC70
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * net_irc_wireless.c.  The wireless link state machine: a 19-state switch on
- * +0x109 of the context at 0x021469F0 (func_0203DC68 is the setter), run
+ * +0x109 of the context at 0x021469F0 (GFL_NET_IRC_WIRELESS_SetState is the setter), run
  * once per frame.  Every concrete byte reproduces (1968/1968, 78 of 80
  * relocation sites resolved).  The only lever beyond the straight reading
  * was state 11's loop counter: `i = 0;` is assigned BEFORE the
  * func_02087C6C(mac) call (the image's `mov sb, r8` precedes the `bl`).
  *
- * blocker:  the two remaining sites, func_0203CFF0 (+0x484) and
+ * blocker:  the two remaining sites, GFL_NET_ConnectMacAddressParent (+0x484) and
  *           func_0203D000 (+0x4F0), are ARM tail-call wrappers (both now
  *           EXACT in pkt_0203DC70) that layout/symbols_sdk.txt/.json list as
  *           DWC_IsSendableReliable and FATFS_FormatDrive with a THUMB flag, a
@@ -25,31 +25,31 @@
  *           the matched class cannot attest them.  Integrator: drop the two
  *           rows, switch both symbols lines to `arm`, re-verify: EXACT.
  * symbols:
- *   g_021469F0     0x021469F0  data
+ *   gNetIrcWirelessLink     0x021469F0  data
  *   func_020399A8  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
  *   func_02039338  0x02039338  arm
- *   func_020399EC  0x020399EC  arm
+ *   GFL_NET_HANDLE_GetNegotiationNum  0x020399EC  arm
  *   func_02039ACC  0x02039ACC  arm
  *   func_0203CBAC  0x0203CBAC  arm
  *   func_0203CD98  0x0203CD98  arm
  *   func_0203CEAC  0x0203CEAC  arm
  *   func_0203CF10  0x0203CF10  arm
- *   func_0203CF3C  0x0203CF3C  arm
- *   func_0203CFF0  0x0203CFF0  arm
+ *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
+ *   GFL_NET_ConnectMacAddressParent  0x0203CFF0  arm
  *   func_0203D000  0x0203D000  arm
  *   func_0203D010  0x0203D010  arm
  *   func_0203D01C  0x0203D01C  arm
- *   func_0203D0DC  0x0203D0DC  arm
- *   func_0203D17C  0x0203D17C  arm
+ *   GFL_NET_StartChangeoverChild  0x0203D0DC  arm
+ *   GFL_NET_SetLinkTimeout  0x0203D17C  arm
  *   func_0203D210  0x0203D210  arm
  *   func_0203D3A8  0x0203D3A8  arm
- *   func_0203D788  0x0203D788  arm
- *   func_0203DA20  0x0203DA20  arm
- *   func_0203DC04  0x0203DC04  arm
- *   func_0203DC4C  0x0203DC4C  arm
- *   func_0203DC68  0x0203DC68  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_IRC_WIRELESS_DestroyIfIdle  0x0203DA20  arm
+ *   GFL_NET_IRC_WIRELESS_OnSyncReady  0x0203DC04  arm
+ *   GFL_NET_IRC_WIRELESS_OnConnectEnd  0x0203DC4C  arm
+ *   GFL_NET_IRC_WIRELESS_SetState  0x0203DC68  arm
  *   func_0203EFC8  0x0203EFC8  arm
  *   func_02087C6C  0x02087C6C  arm
  */
@@ -70,7 +70,7 @@ struct Sys {
     struct VTbl *f340;
 };
 
-extern struct Ctx *g_021469F0;
+extern struct Ctx *gNetIrcWirelessLink;
 typedef signed int     s32;
 struct Entry;
 struct Link;
@@ -78,33 +78,33 @@ extern struct Entry *func_020399A8(void);
 extern void func_02039C68(struct Link *h, u32 a, u32 b);
 extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
 extern u16 func_02039338(void);
-extern int  func_020399EC(void);
+extern int  GFL_NET_HANDLE_GetNegotiationNum(void);
 extern int  func_02039ACC(void);
 struct Req;
 extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
 extern int  func_0203CD98(void);
 extern int func_0203CEAC(int a0);
 extern u32 func_0203CF10(u32 a);
-extern void *func_0203CF3C(u32 a);
-extern void func_0203CFF0(void *p);
+extern void *GFL_NET_GetScanResultMac(u32 a);
+extern void GFL_NET_ConnectMacAddressParent(void *p);
 extern void func_0203D000(void *p);
 extern void func_0203D010(void);
 extern void func_0203D01C(void);
-extern int func_0203D0DC(int a0);
-extern void func_0203D17C(u32 a);
+extern int GFL_NET_StartChangeoverChild(int a0);
+extern void GFL_NET_SetLinkTimeout(u32 a);
 extern u32 func_0203D210(void);
 extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
-extern struct Sys *func_0203D788(void);
-extern void func_0203DA20(void);
-extern void func_0203DC04(void);
-extern void func_0203DC4C(void);
-extern void func_0203DC68(struct Ctx *p, int state);
+extern struct Sys *GFL_NET_GetSession(void);
+extern void GFL_NET_IRC_WIRELESS_DestroyIfIdle(void);
+extern void GFL_NET_IRC_WIRELESS_OnSyncReady(void);
+extern void GFL_NET_IRC_WIRELESS_OnConnectEnd(void);
+extern void GFL_NET_IRC_WIRELESS_SetState(struct Ctx *p, int state);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_02087C6C(u8 *mac);
 
-void func_0203DC70(void)
+void GFL_NET_IRC_WIRELESS_Main(void)
 {
-    struct Ctx *p = g_021469F0;
+    struct Ctx *p = gNetIrcWirelessLink;
 
     if (p == 0)
         return;
@@ -115,41 +115,41 @@ void func_0203DC70(void)
             return;
         p->f101 = 1;
         func_02039C68((struct Link *)func_020399A8(), 3, 0);
-        func_0203DC68(p, 1);
+        GFL_NET_IRC_WIRELESS_SetState(p, 1);
         break;
     case 1:
         if (func_02039CB4((struct Link *)func_020399A8(), 3, 0) == 0)
             return;
-        func_0203DC68(p, 2);
+        GFL_NET_IRC_WIRELESS_SetState(p, 2);
         break;
     case 2:
         if (func_02039338() == 0) {
             if (func_0203D3A8(func_020399A8(), 1, 0, 0) == 0)
                 return;
-            func_0203DC68(p, 3);
+            GFL_NET_IRC_WIRELESS_SetState(p, 3);
             p->f100 = 0xC8;
         } else {
             if (func_0203D3A8(func_020399A8(), 0x10, 0, 0) == 0)
                 return;
-            func_0203DC68(p, 3);
+            GFL_NET_IRC_WIRELESS_SetState(p, 3);
         }
         break;
     case 3:
         p->f100--;
         if (func_0203D210()) {
-            if (g_021469F0->f8c != 0)
-                g_021469F0->f8c(g_021469F0->arg);
+            if (gNetIrcWirelessLink->f8c != 0)
+                gNetIrcWirelessLink->f8c(gNetIrcWirelessLink->arg);
             if (p->f10a != 0 && p->base_f60 == 4 && p->f105 == 0) {
-                func_0203DC68(p, 0xE);
+                GFL_NET_IRC_WIRELESS_SetState(p, 0xE);
                 p->f108++;
             } else if (p->f105 == 0 && p->base_f60 == 4) {
                 p->f108++;
                 func_0203CEAC(0);
                 p->f88(p->arg, 1);
-                func_0203DC68(p, 4);
+                GFL_NET_IRC_WIRELESS_SetState(p, 4);
             } else {
                 p->f88(p->arg, 0);
-                func_0203DC68(p, 9);
+                GFL_NET_IRC_WIRELESS_SetState(p, 9);
             }
         }
         if (p->f100 == 0)
@@ -159,43 +159,43 @@ void func_0203DC70(void)
         if (func_0203CD98() != 0)
             return;
         p->base_f65 = 3;
-        p->base_fn_2c = (void *)func_0203DC4C;
+        p->base_fn_2c = (void *)GFL_NET_IRC_WIRELESS_OnConnectEnd;
         if (p->f10b != 0)
             p->f67 = p->f10b;
         p->f102 = 0;
         p->f103 = 0;
         func_0203CBAC((struct Req *)p, 0, p->arg);
-        func_0203DC68(p, 5);
+        GFL_NET_IRC_WIRELESS_SetState(p, 5);
         break;
     case 5:
         if (func_0203CD98() != 1)
             return;
-        func_0203D788()->f340->fc8(g_021469F0->f74);
-        func_0203D0DC((int)((void *)func_0203DC04));
-        func_0203DC68(p, 6);
+        GFL_NET_GetSession()->f340->fc8(gNetIrcWirelessLink->f74);
+        GFL_NET_StartChangeoverChild((int)((void *)GFL_NET_IRC_WIRELESS_OnSyncReady));
+        GFL_NET_IRC_WIRELESS_SetState(p, 6);
         break;
     case 6:
         if (p->f102 != 1)
             return;
         p->f101 = 1;
-        if (func_0203D3A8(func_020399A8(), 9, 0x24, (u32)((void *)g_021469F0->f90)) == 0)
+        if (func_0203D3A8(func_020399A8(), 9, 0x24, (u32)((void *)gNetIrcWirelessLink->f90)) == 0)
             return;
-        func_0203DC68(p, 7);
+        GFL_NET_IRC_WIRELESS_SetState(p, 7);
         break;
     case 7:
         if (p->f102 != 1)
             return;
         if (func_0203D3A8(func_020399A8(), 1, 0, 0) == 0)
             return;
-        func_0203D17C(0xC8);
-        func_0203DC68(p, 8);
+        GFL_NET_SetLinkTimeout(0xC8);
+        GFL_NET_IRC_WIRELESS_SetState(p, 8);
         break;
     case 8:
         if (func_0203D210() == 0)
             return;
-        if (g_021469F0->f8c != 0)
-            g_021469F0->f8c(g_021469F0->arg);
-        func_0203DC68(p, 9);
+        if (gNetIrcWirelessLink->f8c != 0)
+            gNetIrcWirelessLink->f8c(gNetIrcWirelessLink->arg);
+        GFL_NET_IRC_WIRELESS_SetState(p, 9);
         break;
     case 9:
         if (func_0203D210() == 0)
@@ -208,21 +208,21 @@ void func_0203DC70(void)
         p->base_fn_2c = p->fn_2c;
         p->base_f64 = p->f104;
         func_0203CBAC((struct Req *)p, 0, p->arg);
-        g_021469F0->f101 = 0;
-        func_0203DC68(p, 0xA);
+        gNetIrcWirelessLink->f101 = 0;
+        GFL_NET_IRC_WIRELESS_SetState(p, 0xA);
         break;
     case 10:
         if (func_0203CD98() != 1)
             return;
         if (p->f105 == 0) {
             func_0203D01C();
-            func_0203DC68(p, 0xC);
+            GFL_NET_IRC_WIRELESS_SetState(p, 0xC);
         } else if (p->base_f60 == 4) {
             func_0203D010();
-            func_0203DC68(p, 0xB);
+            GFL_NET_IRC_WIRELESS_SetState(p, 0xB);
         } else {
-            func_0203CFF0(p->f94);
-            func_0203DC68(p, 0xC);
+            GFL_NET_ConnectMacAddressParent(p->f94);
+            GFL_NET_IRC_WIRELESS_SetState(p, 0xC);
         }
         break;
     case 11: {
@@ -239,8 +239,8 @@ void func_0203DC70(void)
                 return;
             for (j = 0; j < 4; j++) {
                 if (func_0203EFC8(mac, q + 4 + j * 8, 6) == 0) {
-                    func_0203D000(func_0203CF3C((u32)i));
-                    func_0203DC68(p, 0xC);
+                    func_0203D000(GFL_NET_GetScanResultMac((u32)i));
+                    GFL_NET_IRC_WIRELESS_SetState(p, 0xC);
                     break;
                 }
             }
@@ -248,76 +248,76 @@ void func_0203DC70(void)
     }
     case 12:
         if (p->f105 == 0) {
-            if (func_020399EC() == 0)
+            if (GFL_NET_HANDLE_GetNegotiationNum() == 0)
                 return;
             if (func_02039ACC() != 1)
                 return;
-            func_0203DC68(p, 0xD);
+            GFL_NET_IRC_WIRELESS_SetState(p, 0xD);
         } else {
             if (func_02039ACC() != 1)
                 return;
-            func_0203DC68(p, 0xD);
+            GFL_NET_IRC_WIRELESS_SetState(p, 0xD);
         }
         break;
     case 13:
         if (p->f105 != 0) {
             if (p->f84 != 0)
                 p->f84(p->arg);
-            func_0203DA20();
+            GFL_NET_IRC_WIRELESS_DestroyIfIdle();
         } else {
-            if (func_020399EC() < p->f107)
+            if (GFL_NET_HANDLE_GetNegotiationNum() < p->f107)
                 return;
             if (p->f84 != 0)
                 p->f84(p->arg);
-            func_0203DA20();
+            GFL_NET_IRC_WIRELESS_DestroyIfIdle();
         }
         break;
     case 14:
         if (func_0203CD98() != 0)
             return;
         p->base_f65 = 3;
-        p->base_fn_2c = (void *)func_0203DC4C;
+        p->base_fn_2c = (void *)GFL_NET_IRC_WIRELESS_OnConnectEnd;
         p->f102 = 0;
         p->f103 = 0;
         func_0203CBAC((struct Req *)p, 0, p->arg);
-        func_0203DC68(p, 0xF);
+        GFL_NET_IRC_WIRELESS_SetState(p, 0xF);
         break;
     case 15:
         if (func_0203CD98() != 1)
             return;
-        func_0203D788()->f340->fc8(g_021469F0->f74);
-        func_0203D0DC((int)((void *)func_0203DC04));
-        func_0203DC68(p, 0x10);
+        GFL_NET_GetSession()->f340->fc8(gNetIrcWirelessLink->f74);
+        GFL_NET_StartChangeoverChild((int)((void *)GFL_NET_IRC_WIRELESS_OnSyncReady));
+        GFL_NET_IRC_WIRELESS_SetState(p, 0x10);
         break;
     case 16:
         if (p->f102 != 1)
             return;
         func_02039C68((struct Link *)func_020399A8(), 3, 0);
-        g_021469F0->f101 = 1;
-        func_0203DC68(p, 0x11);
+        gNetIrcWirelessLink->f101 = 1;
+        GFL_NET_IRC_WIRELESS_SetState(p, 0x11);
         break;
     case 17:
         if (func_02039CB4((struct Link *)func_020399A8(), 3, 0) == 0)
             return;
         if (func_0203D3A8(func_020399A8(), 1, 0, 0) == 0)
             return;
-        func_0203DC68(p, 0x12);
+        GFL_NET_IRC_WIRELESS_SetState(p, 0x12);
         p->f100 = 0xC8;
         break;
     case 18:
         p->f100--;
         if (func_0203D210() == 0 && p->f100 != 0)
             return;
-        if (g_021469F0->f8c != 0)
-            g_021469F0->f8c(g_021469F0->arg);
+        if (gNetIrcWirelessLink->f8c != 0)
+            gNetIrcWirelessLink->f8c(gNetIrcWirelessLink->arg);
         if (p->f10a != 0 && p->f108 < 3) {
             p->f108++;
             if (p->f108 >= 3)
-                func_0203DC68(p, 9);
+                GFL_NET_IRC_WIRELESS_SetState(p, 9);
             else
-                func_0203DC68(p, 0xE);
+                GFL_NET_IRC_WIRELESS_SetState(p, 0xE);
         } else {
-            func_0203DC68(p, 9);
+            GFL_NET_IRC_WIRELESS_SetState(p, 9);
         }
         break;
     }

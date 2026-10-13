@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   sub_020307B0  0x020307B0  arm
  */
 
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct U16Vec;
-extern void sub_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 sub_020307B0(void *p);
 
 struct Item {
@@ -33,8 +33,8 @@ void func_02026250(void *obj)
     int i;
 
     for (i = 0; i < 6; i++) {
-        sub_02045808(items[i].vec1);
-        sub_02045808(items[i].vec2);
+        STRBUF_Delete(items[i].vec1);
+        STRBUF_Delete(items[i].vec2);
     }
     sub_020307B0(obj);
 }

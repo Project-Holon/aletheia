@@ -1,5 +1,5 @@
 /*
- * function: func_0204C804
+ * function: CLACT_GetFreeTransferEntry
  * address:  0x0204C804
  * packet:   pkt_0204BD64
  * region:   arm9
@@ -21,8 +21,8 @@
  * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204C804.c \
- *       --func func_0204C804 --addr 0x0204C804 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetFreeTransferEntry.c \
+ *       --func CLACT_GetFreeTransferEntry --addr 0x0204C804 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -39,7 +39,7 @@ struct Pool {
     u32           count;   /* 0x08 */
 };
 
-struct Entry *func_0204C804(struct Pool *p)
+struct Entry *CLACT_GetFreeTransferEntry(struct Pool *p)
 {
     u32 i;
 

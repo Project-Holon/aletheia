@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * blocker:  every concrete byte reproduces; the single call to
- *   func_02015E04 (0x02015E04) stays wildcarded because the target is an
+ *   MCSS_SetAnmStopFlag (0x02015E04) stays wildcarded because the target is an
  *   unlabelled leaf emitted inside a .word run -- no traced func_ start,
  *   no branch outside this range, no literal pool word elsewhere, so
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
  *   sole-ref/code (target not a traced function start).
  *
  * symbols:
- *   func_02015E04  0x02015E04  thumb
+ *   MCSS_SetAnmStopFlag  0x02015E04  thumb
  */
 #include "../include/Obj14403.h"
 
-extern void func_02015E04(void *p);
+extern void MCSS_SetAnmStopFlag(void *p);
 
 void func_021B69E8(int *p)
 {
-    func_02015E04((void *)(((struct Obj14403 *)p)->f1C));
+    MCSS_SetAnmStopFlag((void *)(((struct Obj14403 *)p)->f1C));
     ((struct Obj14403 *)p)->f24 = 1;
 }

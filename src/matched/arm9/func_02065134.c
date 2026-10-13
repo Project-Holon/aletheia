@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02065134
+ * function: NNSi_G2dRendererAfterDrawCell
  * address:  0x02065134
  * packet:   pkt_02064B68
  * region:   arm9
@@ -17,8 +17,8 @@
  * docs/families/cluster_02064B68.h as an inline helper, but written
  * ELSE-FIRST with early returns: if (f04 != 0) copy tx/ty and return the
  * scratch matrix, else return &g_02147D18[slot].  The eq-first spelling (the
- * one func_02065020 matches with) is a register-allocation tie here: 2 bytes
- * out (lr/r4) on func_02065134 and 31 out on func_020653A4, where whether
+ * one NNSi_G2dRendererBeforeDrawCell matches with) is a register-allocation tie here: 2 bytes
+ * out (lr/r4) on NNSi_G2dRendererAfterDrawCell and 31 out on func_020653A4, where whether
  * the two arms' slot reads land in the same register decides whether they
  * are merged above the test.  Neither the permuter (hill + anneal 2000, no
  * single mutation moves it) nor any other compiler build closed the
@@ -76,7 +76,7 @@ static inline Mtx *GetMtx(void)
     return &((Mtx *)g_02147D18)[g_02147B88.f0c];
 }
 
-void func_02065134(void *a0, void *a1)
+void NNSi_G2dRendererAfterDrawCell(void *a0, void *a1)
 {
     struct Obj *o = g_02147B88.f08;
     struct Obj74 *v = o->f74;

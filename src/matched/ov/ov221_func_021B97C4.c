@@ -21,6 +21,12 @@
  *   func_020362DC 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   func_02035D20 0x02035D20 arm
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
+ *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
+ *   GFL_USE_IsBgmFading  0x02005E50  thumb  arm9
+ *   GFL_USE_PushBgm  0x02005E64  thumb  arm9
+ *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
  */
 #include "../include/Obj02558.h"
 #include "../include/Obj26065.h"
@@ -32,13 +38,13 @@ extern void func_021B9B18(unsigned char*);
 extern void func_021B9D38(unsigned char*);
 struct PrintSys;
 extern void func_021B9F7C(char *p);
-extern int func_02005E50(void);
-extern void func_02005DE4(void*);
-extern int func_02005E64(void);
-extern void func_02005D90(u32,unsigned short);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_SetBgmPlayerParam(void*);
+extern int GFL_USE_PushBgm(void);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32,unsigned short);
 extern int func_02005F38(void);
-extern int func_02005E9C(void);
-extern void func_02005DF8(u32);
+extern int GFL_USE_PopBgm(void);
+extern void GFL_USE_FadeInBgmFull(u32);
 extern void func_0204E720(u32,int,int,int);
 extern int func_0204E804(void);
 extern u32 func_020362DC(void);
@@ -54,8 +60,8 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
   ready=1;
   if(func_021B9B64(p)==0) ready=0;
   if(ready && ((struct Obj26065 *)(*(char* *)&((struct Obj02558 *)p)->f4))->f4==0) {
-   if(func_02005E50()) ready=0;
-   else {func_02005DE4((void*)1);func_02005E64();func_02005D90(0x524,0xffff);}
+   if(GFL_USE_IsBgmFading()) ready=0;
+   else {GFL_USE_SetBgmPlayerParam((void*)1);GFL_USE_PushBgm();GFL_USE_CancelChangeAndPlayBgm(0x524,0xffff);}
   }
   if(ready) {func_0204E720(3,16,0,0);*state=1;}
   break;
@@ -64,7 +70,7 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
   break;
  case 2: if(func_021B9DAC((char *)p)) *state=3; break;
  case 3:
-  if(!func_02005F38()) {func_02005E9C();func_02005DE4(0);func_02005DF8(6);*state=4;}
+  if(!func_02005F38()) {GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(6);*state=4;}
   break;
  case 4:
   ready=0;

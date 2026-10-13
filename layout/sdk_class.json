@@ -25031,15 +25031,6 @@
     "method": "verified"
    }
   },
-  "ov024": {
-   "021EE860": {
-    "name": "DWC_IsValidFriendData",
-    "size": 18,
-    "lib": "libdwcaccount.TWL.HYB.thumb.a",
-    "member": "dwc_account.o",
-    "method": "verified"
-   }
-  },
   "ov048": {
    "021F3D24": {
     "name": "DWC_IsValidFriendData",

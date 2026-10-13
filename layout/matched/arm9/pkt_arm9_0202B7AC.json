@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202B7AC",
+   "name": "ISS_SYS_Leave3ds",
    "address": "0x0202B7AC",
    "kind": "game",
    "region": "arm9",

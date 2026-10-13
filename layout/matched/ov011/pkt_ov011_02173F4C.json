@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02173F4C",
+   "name": "INTRUDE_CMD_RecvRecordEcho",
    "address": "0x02173F4C",
    "kind": "game",
    "region": "ov011",

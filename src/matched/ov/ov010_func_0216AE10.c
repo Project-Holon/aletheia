@@ -20,7 +20,7 @@
  *   func_02188CB4  0x02188CB4  thumb  ov021
  *   func_02012138  0x02012138  thumb
  *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021767F0  0x021767F0  thumb  ov011
+ *   INTRUDE_COMM_GetMarkerPosForPartner  0x021767F0  thumb  ov011
  *   func_02184D38  0x02184D38  thumb  ov020
  *   func_021665F0  0x021665F0  thumb  ov010
  *   func_0216B3A8  0x0216B3A8  thumb  ov010
@@ -44,7 +44,7 @@ extern void *func_02188CB4(struct Obj00020 *p);
 extern u32 func_02012138(const struct Ctx *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_021767F0();
+extern void INTRUDE_COMM_GetMarkerPosForPartner();
 struct Desc;
 extern void *func_02184D38(void *p, int unused, int a, const int *q, u16 s, int t);
 extern int func_021665F0(int a0, int a1, int a2);
@@ -76,7 +76,7 @@ int func_0216AE10(int a0, int a1)
         y = func_02188CB4((void *)x);
         s = func_02012138(b);
         func_021A3038(y, (struct VecFx32 *)q);
-        func_021767F0(s, c, buf);
+        INTRUDE_COMM_GetMarkerPosForPartner(s, c, buf);
         buf[0] = buf[0] + (q[0] - (0x3E << 14));
         r = func_02184D38(b, (int)x, 0x117, buf, 1, 0);
     } else {

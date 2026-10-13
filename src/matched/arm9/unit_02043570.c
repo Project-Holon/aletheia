@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02043570
+ * function: BG_SYS_ClearSubObjPlane
  * address:  0x02043570
  * packet:   pkt_02043570
  * region:   arm9
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   gVisiblePlane  0x02146A48  data
- *   func_02043558  0x02043558  arm
+ *   BG_SYS_ClearSubBgPlanes  0x02043558  arm
  *
  * Two of the engine-B visible-plane mask writers, 0x02043570-0x02043598.
  *
@@ -41,15 +41,15 @@ typedef unsigned int u32;
 
 extern u32 gVisiblePlane[2];
 
-extern void func_02043558(void);
+extern void BG_SYS_ClearSubBgPlanes(void);
 
-void func_02043570(void)
+void BG_SYS_ClearSubObjPlane(void)
 {
     gVisiblePlane[0] &= 0xF;
 }
 
-void func_02043588(void)
+void BG_SYS_ClearSubPlanes(void)
 {
-    func_02043558();
-    func_02043570();
+    BG_SYS_ClearSubBgPlanes();
+    BG_SYS_ClearSubObjPlane();
 }

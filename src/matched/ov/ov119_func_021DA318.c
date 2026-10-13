@@ -14,14 +14,14 @@
  * return evidence: 02035C38/60 leave 020357A0/C0's u32 result in r0,
  * consumed here despite the legacy void forwarder declarations.
  * symbols:
- *   func_02027A20 0x02027A20 thumb
+ *   APP_TASKMENU_IsDecide 0x02027A20 thumb
  *   func_02035C60 0x02035C60 arm
  *   func_020355D8 0x020355D8 arm
  *   func_021D8C84 0x021D8C84 thumb ov119
  *   func_021B63D0 0x021B63D0 thumb ov067
  *   func_021B6470 0x021B6470 thumb ov067
  *   func_020355C4 0x020355C4 arm
- *   func_02027A08 0x02027A08 thumb
+ *   APP_TASKMENU_SetCursorActive 0x02027A08 thumb
  *   func_021B6448 0x021B6448 thumb ov067
  *   func_02035D20 0x02035D20 arm
  *   func_021D9EBC 0x021D9EBC thumb ov119
@@ -61,13 +61,13 @@ typedef unsigned char u8;
 struct TaskMenu;
 struct S;
 struct Obj;
-extern unsigned func_02027A20(char *p);
+extern unsigned APP_TASKMENU_IsDecide(char *p);
 extern int func_02035C60(void);
 extern int func_02035C38(void);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8),func_021D8C84(void *),func_021B63D0(struct S *);
 extern int func_021B6470(u8 *),func_021B6448(u8 *);
-extern u32 func_02027A08(struct TaskMenu *,u32),func_02035D20(u32 *,u32 *),func_020279E8(struct TaskMenu *);
+extern u32 APP_TASKMENU_SetCursorActive(struct TaskMenu *,u32),func_02035D20(u32 *,u32 *),func_020279E8(struct TaskMenu *);
 extern u8 func_02027A04(const u8 *);
 extern int func_021D9EBC(char *,int *,int *,int *,int *);
 extern void func_020061E4(u32),func_021E2484(char *,int),func_021D8E84(void *,int),func_021D8C0C(void *),func_021D8B54(void *);
@@ -103,19 +103,19 @@ void func_021DA318(char *p)
     int choice=keep-2;
     int active=0;
     int n;
-    if(!func_02027A20(P(0x64c))) {
+    if(!APP_TASKMENU_IsDecide(P(0x64c))) {
         n=func_02035C60();
         if(n) func_020355D8(keep);
         if(n) func_021D8C84(p);
         func_021B63D0(P(0x9c0));
-        if(func_021B6470(P(0x9c0))==9 && func_020355C4()) func_02027A08(P(0x64c),0);
+        if(func_021B6470(P(0x9c0))==9 && func_020355C4()) APP_TASKMENU_SetCursorActive(P(0x64c),0);
         if(func_021B6448(P(0x9c0))==9) {
             changed=1;
             ((struct Obj04475 *)p)->f10A0=1U-((struct Obj04475 *)p)->f10A0;
         }
         if(func_02035D20(&x,&y)==1) {
             func_020355D8(1);
-            func_02027A08(P(0x64c),0);
+            APP_TASKMENU_SetCursorActive(P(0x64c),0);
             if(func_021D9EBC(p,(int *)(p+0xf98),(int *)(p+0xf94),&slot,&column)) {
                 I(0xf78)=column;
                 I(0xf74)=slot;

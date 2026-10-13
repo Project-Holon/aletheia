@@ -25,8 +25,8 @@
  *
  * symbols:
  *   func_02030734   0x02030734  arm
- *   g_02146A88      0x02146A88  data
- *   pkt_02050A70_File 0x020A7FC0  data
+ *   g_pParticleMan      0x02146A88  data
+ *   sParticleFile 0x020A7FC0  data
  */
 
 #include "../include/G_02146A88.h"
@@ -34,8 +34,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern struct G_02146A88 *g_02146A88;
-extern const char pkt_02050A70_File[];
+extern struct G_02146A88 *g_pParticleMan;
+extern const char sParticleFile[];
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -44,12 +44,12 @@ void func_02050B80(u32 heap)
 {
     int i = 0;
 
-    g_02146A88 = func_02030734(heap, 0x48, i, pkt_02050A70_File, 190);
+    g_pParticleMan = func_02030734(heap, 0x48, i, sParticleFile, 190);
 
     for (i = 0; i < 16; i++) {
-        ((u32 *)g_02146A88)[i] = 0;
+        ((u32 *)g_pParticleMan)[i] = 0;
     }
 
-    g_02146A88->f40 = 0;
-    g_02146A88->base = 0;
+    g_pParticleMan->f40 = 0;
+    g_pParticleMan->base = 0;
 }

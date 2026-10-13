@@ -14,11 +14,11 @@
  *   func_021BB3E8  0x021BB3E8  thumb  ov072
  *   func_0204B404  0x0204B404  arm
  *   func_0204B84C  0x0204B84C  arm
- *   func_0204B800  0x0204B800  arm
+ *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B878  0x0204B878  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_0204B974  0x0204B974  arm
+ *   CLACT_StopActorAnim  0x0204B974  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,11 +35,11 @@ extern void func_0204B84C(void *h, u32 a);
 struct Actor;
 struct Node;
 struct Obj;
-extern void func_0204B800(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B974(struct Actor *a);
+extern void CLACT_StopActorAnim(struct Actor *a);
 
 void func_021BB4B4(u32 *p, u32 a, u32 b, u32 c, u32 d, u16 e)
 {
@@ -52,9 +52,9 @@ void func_021BB4B4(u32 *p, u32 a, u32 b, u32 c, u32 d, u16 e)
     pt.y = 0x60;
     func_0204B404((void *)p[4], (const struct Vec2 *)(&pt), 0);
     func_0204B84C((void *)p[4], 1);
-    func_0204B800((void *)p[4], 1);
+    CLACT_SetActorDrawPriority((void *)p[4], 1);
     func_0204B3DC((void *)p[4], 1);
     func_0204B878((void *)p[4], 0);
     func_0204B92C((void *)p[4], 1);
-    func_0204B974((void *)p[4]);
+    CLACT_StopActorAnim((void *)p[4]);
 }

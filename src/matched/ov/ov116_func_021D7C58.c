@@ -11,7 +11,7 @@
  *   func_0201CE48 0x0201CE48 thumb
  *   func_0201ED04 0x0201ED04 thumb
  *   func_0201D83C 0x0201D83C thumb
- *   func_0201FEF4 0x0201FEF4 thumb
+ *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  *   func_0201DD68 0x0201DD68 thumb
  *   func_02031140 0x02031140 arm
  *   func_02045C04 0x02045C04 arm
@@ -39,7 +39,7 @@ extern u32 func_0201D83C(void *ptr);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021D7FC4(u8 *p);
 extern void func_021D81B4(u8 *p);
-extern void func_0201FEF4(u8 *o);
+extern void BMP_MENU_DeleteYesNo(u8 *o);
 extern u32 func_020452E8(struct Descriptor *d);
 extern void func_021D82AC(void *);
 extern void func_0201DD68(void);
@@ -56,7 +56,7 @@ void func_021D7C58(u8 *p) {
         func_021D7FC4(p);
         func_021D81B4(p);
         if(((struct Obj01721 *)p)->f980) {
-            func_0201FEF4(((struct Obj01721 *)p)->f980);
+            BMP_MENU_DeleteYesNo(((struct Obj01721 *)p)->f980);
             ((struct Obj01721 *)p)->f980=0;
         }
         func_020452E8(((struct Obj01721 *)p)->f97C);

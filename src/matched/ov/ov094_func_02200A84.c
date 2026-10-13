@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02015C94  0x02015C94  thumb
- *   func_02015CAC  0x02015CAC  thumb
+ *   MCSS_GetScale  0x02015C94  thumb
+ *   MCSS_SetScale  0x02015CAC  thumb
  *   func_021F89BC  0x021F89BC  thumb  ov094
  *   func_021F9260  0x021F9260  thumb  ov094
  *   func_022019F4  0x022019F4  thumb  ov094
@@ -51,8 +51,8 @@ typedef struct {
 } Ctx;
 
 typedef unsigned int   u32;
-extern void func_02015C94(void *p, u32 *out);
-extern void func_02015CAC(void *p, u32 *src);
+extern void MCSS_GetScale(void *p, u32 *out);
+extern void MCSS_SetScale(void *p, u32 *src);
 extern void func_021F89BC(void *h);
 extern int func_021F9260(Mover *m, VecFx32 *out);
 extern int func_022019F4(char *p, int key);
@@ -76,9 +76,9 @@ void func_02200A84(void *h, Ctx *c)
         func_021F89BC(h);
         return;
     }
-    func_02015C94(w->e[i].h, (u32 *)(&v));
+    MCSS_GetScale(w->e[i].h, (u32 *)(&v));
     r = func_021F9260(&c->mv, &v);
-    func_02015CAC(w->e[i].h, (u32 *)(&v));
+    MCSS_SetScale(w->e[i].h, (u32 *)(&v));
     if (r == 1)
         func_021F89BC(h);
 }

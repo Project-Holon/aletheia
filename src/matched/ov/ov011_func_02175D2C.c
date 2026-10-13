@@ -1,5 +1,5 @@
 /*
- * function: func_02175D2C
+ * function: INTRUDE_COMM_SetJoinStatus
  * address:  0x02175D2C
  * packet:   pkt_02175D2C
  * region:   ov011
@@ -17,7 +17,7 @@
 
 typedef unsigned char  u8;
 
-void func_02175D2C(u8 *p, u8 v)
+void INTRUDE_COMM_SetJoinStatus(u8 *p, u8 v)
 {
     p[0x1a4] = v;
 }

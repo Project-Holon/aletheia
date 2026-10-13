@@ -10,12 +10,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_02013EC0, sub_02013ECC
+ * function: ZONEDATA_GetEncountId, ZONEDATA_GetEventDataId
  *
  * symbols:
- *   sub_02013AD0  0x02013AD0  thumb
+ *   ZONEDATA_GetHeader  0x02013AD0  thumb
  *
- * alias: the last two leaf accessors on the record sub_02013AD0() returns,
+ * alias: the last two leaf accessors on the record ZONEDATA_GetHeader() returns,
  * and the end of pkt_02013BA8.  sub_02013E90, immediately before this
  * file, is a documented near miss; see unit_02013DF0.c.
  *
@@ -28,7 +28,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *sub_02013AD0(u32 id);
+extern void *ZONEDATA_GetHeader(u32 id);
 
 struct Sub02013AD0Rec {
     u8 pad00[0x14];
@@ -36,14 +36,14 @@ struct Sub02013AD0Rec {
     u16 unk16;
 };
 
-u32 sub_02013EC0(u32 id)
+u32 ZONEDATA_GetEncountId(u32 id)
 {
-    struct Sub02013AD0Rec *r = sub_02013AD0(id);
+    struct Sub02013AD0Rec *r = ZONEDATA_GetHeader(id);
     return r->unk14;
 }
 
-u32 sub_02013ECC(u32 id)
+u32 ZONEDATA_GetEventDataId(u32 id)
 {
-    struct Sub02013AD0Rec *r = sub_02013AD0(id);
+    struct Sub02013AD0Rec *r = ZONEDATA_GetHeader(id);
     return r->unk16;
 }

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202CD64 0x0202CD64 thumb
+ *   BGWINFRM_StartMove 0x0202CD64 thumb
  */
 #include "../include/Obj01779.h"
 typedef unsigned char u8;
@@ -17,7 +17,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef unsigned int u32;
 struct WinMgr;
-extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
+extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 void func_021BCE0C(char *p, int delta)
 {
     int magnitude;
@@ -26,5 +26,5 @@ void func_021BCE0C(char *p, int delta)
     ((struct Obj01779 *)p)->f2CA = delta;
     magnitude = delta < 0 ? -delta : delta;
     direction = delta / (delta < 0 ? -delta : delta);
-    func_0202CD64(*(struct WinMgr * *)&((struct Obj01779 *)p)->f20, 0, 0, direction, 48 / magnitude);
+    BGWINFRM_StartMove(*(struct WinMgr * *)&((struct Obj01779 *)p)->f20, 0, 0, direction, 48 / magnitude);
 }

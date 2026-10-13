@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02021ED8 0x02021ED8 thumb
+ *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   func_021BC8B4 0x021BC8B4 thumb ov210
  *   func_021BCA84 0x021BCA84 thumb ov210
  *   func_021BE564 0x021BE564 thumb ov210
@@ -23,7 +23,7 @@
 #include "../include/Obj01779.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_02021ED8(const char *);
+extern u32 PALANM_GetFadeRequestBits(const char *);
 extern void func_021BC8B4(int);
 extern void func_021BCA84(void *a0);
 extern void func_021BE564(u8 *);
@@ -37,7 +37,7 @@ extern void func_021BCE0C(char *, int);
 extern void func_021BC82C(char *p, u8 b, u8 c);
 int func_021BD118(u8 *p)
 {
-    if (func_02021ED8(*(char * *)&((struct Obj01779 *)p)->fC) != 0) return 3;
+    if (PALANM_GetFadeRequestBits(*(char * *)&((struct Obj01779 *)p)->fC) != 0) return 3;
     func_021BC8B4(1);
     func_021BCA84(p);
     func_021BE564(p);

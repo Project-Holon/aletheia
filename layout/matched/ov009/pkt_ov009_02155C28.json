@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02155C28",
+   "name": "DWC_RAP_OnFriendDeleted",
    "address": "0x02155C28",
    "kind": "game",
    "region": "ov009",

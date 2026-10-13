@@ -9,14 +9,14 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0204F5A8  0x0204F5A8  arm
+ *   BILLBOARD_FreeElem  0x0204F5A8  arm
  *   func_0204ED24  0x0204ED24  arm
- *   func_02033C9C  0x02033C9C  arm
+ *   AREAMAN_Delete  0x02033C9C  arm
  *   func_020307B0  0x020307B0  arm
  *
  * billboard_act.c teardown.  The two-byte residue of the earlier notes
  * (the loaded entry word landing in r0 instead of r1) was the callee's
- * arity: func_0204F5A8 takes TWO arguments, and the second is the entry's
+ * arity: BILLBOARD_FreeElem takes TWO arguments, and the second is the entry's
  * first word, which the image loads straight into r1 for the compare and
  * then passes on.  EXACT* because the unlabelled 8-byte getter at
  * 0x02050080 (`ldr r0,[r0,#4]; bx lr`, blx'd from ov021) follows the pool.
@@ -45,9 +45,9 @@ struct BbActSys {
     void *f20;
 };
 
-extern void func_0204F5A8(void *board, u32 idx);
+extern void BILLBOARD_FreeElem(void *board, u32 idx);
 extern void func_0204ED24(void *board);
-extern u32 func_02033C9C(void *a);
+extern u32 AREAMAN_Delete(void *a);
 extern u32 func_020307B0(void *p);
 
 void func_0204FFFC(struct BbActSys *o)
@@ -56,12 +56,12 @@ void func_0204FFFC(struct BbActSys *o)
 
     for (i = 0; i < o->f1C; i++) {
         if (o->f18[i].f00 != 0xFFFF) {
-            func_0204F5A8(o->f04, o->f18[i].f00);
+            BILLBOARD_FreeElem(o->f04, o->f18[i].f00);
         }
     }
-    func_02033C9C(o->f20);
+    AREAMAN_Delete(o->f20);
     func_020307B0(o->f18);
-    func_02033C9C(o->f14);
+    AREAMAN_Delete(o->f14);
     func_020307B0(o->f0C);
     func_0204ED24(o->f04);
     func_020307B0(o);

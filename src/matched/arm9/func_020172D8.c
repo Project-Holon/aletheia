@@ -1,5 +1,5 @@
 /*
- * function: func_020172D8
+ * function: MCSS_TOOL_DrawSpindaSpots
  * address:  0x020172D8
  * packet:   pkt_020172D8
  * region:   arm9
@@ -18,8 +18,8 @@
  * bytes out) that no declaration order, scope, type or permuter run moved.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020172D8.c \
- *       --func func_020172D8 --addr 0x020172D8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MCSS_TOOL_DrawSpindaSpots.c \
+ *       --func MCSS_TOOL_DrawSpindaSpots --addr 0x020172D8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ typedef signed int s32;
 
 extern const u8 *sMcssTable[4];
 
-void func_020172D8(u8 *a0, u32 a1)
+void MCSS_TOOL_DrawSpindaSpots(u8 *a0, u32 a1)
 {
     const u8 *cur;
     s32 i;

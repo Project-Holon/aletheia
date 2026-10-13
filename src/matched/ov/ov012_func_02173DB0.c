@@ -1,5 +1,5 @@
 /*
- * function: func_02173DB0
+ * function: UNION_COMMAND_RecvAppEntryAccepted
  * address:  0x02173DB0
  * packet:   pkt_02173DB0
  * region:   ov012
@@ -17,7 +17,7 @@
 
 typedef unsigned char  u8;
 
-void func_02173DB0(int a, int b, int c, u8 *p)
+void UNION_COMMAND_RecvAppEntryAccepted(int a, int b, int c, u8 *p)
 {
     p[0x282B] = 1;
 }

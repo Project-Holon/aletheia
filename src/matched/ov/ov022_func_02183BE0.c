@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled tail-call thunk (ldr r3 / bx r3 / pool) in ov022; blocker of
- * ov012 func_021743A4.
+ * ov012 UNION_MAIN_StepGroupActivity.
  * symbols:
  *   func_020307B0  0x020307B0  arm
  */

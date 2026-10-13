@@ -1,5 +1,5 @@
 /*
- * function: func_0202F0B0
+ * function: TIME_ICON_Update
  * address:  0x0202F0B0
  * packet:   pkt_0202EF98
  * region:   arm9
@@ -18,8 +18,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202F0B0.c \
- *       --func func_0202F0B0 --addr 0x0202F0B0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/TIME_ICON_Update.c \
+ *       --func TIME_ICON_Update --addr 0x0202F0B0 --cc 1.1p1 --thumb
  */
 #include "../include/Obj01310.h"
 
@@ -34,7 +34,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void func_02045334(struct Descriptor *a);
 
-void func_0202F0B0(u8 *p)
+void TIME_ICON_Update(u8 *p)
 {
     if (((struct Obj01310 *)p)->f18 == 0)
         return;

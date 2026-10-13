@@ -1,5 +1,5 @@
 /*
- * function: func_021658F8
+ * function: WcmInitOption
  * address:  0x021658F8
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021AA7D4[];
 
-void func_021658F8(void)
+void WcmInitOption(void)
 {
     char *p = *(char **)(g_021AA7D4 + 4);
 

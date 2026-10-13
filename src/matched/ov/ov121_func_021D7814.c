@@ -18,8 +18,8 @@
  *   func_021D9FF8 0x021D9FF8 thumb ov121
  *   func_021D8D00 0x021D8D00 thumb ov121
  *   func_021D8D18 0x021D8D18 thumb ov121
- *   func_0200A2B8 0x0200A2B8 thumb
- *   func_0200A2D8 0x0200A2D8 thumb
+ *   MYSTERY_DATA_SaveStart 0x0200A2B8 thumb
+ *   MYSTERY_DATA_SaveMain 0x0200A2D8 thumb
  *   func_021D8CA8 0x021D8CA8 thumb ov121
  *   func_021D9E04 0x021D9E04 thumb ov121
  *   func_021D8380 0x021D8380 thumb ov121
@@ -27,10 +27,10 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021DCFC8 0x021DCFC8 thumb ov121
  *   func_021DD24C 0x021DD24C thumb ov121
- *   func_021DE0AC 0x021DE0AC thumb ov121
- *   func_021DD9CC 0x021DD9CC thumb ov121
- *   func_021DDF5C 0x021DDF5C thumb ov121
- *   func_021DE014 0x021DE014 thumb ov121
+ *   MYSTERY_ALBUM_RequestSetup 0x021DE0AC thumb ov121
+ *   MYSTERY_ALBUM_StepIntro 0x021DD9CC thumb ov121
+ *   MYSTERY_ALBUM_StartIntro 0x021DDF5C thumb ov121
+ *   MYSTERY_ALBUM_IsIntroIdle 0x021DE014 thumb ov121
  *   func_020362DC 0x020362DC arm
  *   func_021D93F4 0x021D93F4 thumb ov121
  *   func_021D94B8 0x021D94B8 thumb ov121
@@ -52,8 +52,8 @@ extern void func_021D9F08(u8 *a, int b, int c, int d);
 extern unsigned func_021D9FF8(u8 *p);
 extern void func_021D8D00(char *p);
 extern int func_021D8D18(char *p);
-extern void func_0200A2B8(void *a0, int a1);
-extern int func_0200A2D8(void *a0, int a1);
+extern void MYSTERY_DATA_SaveStart(void *a0, int a1);
+extern int MYSTERY_DATA_SaveMain(void *a0, int a1);
 extern void func_021D8CA8(u8 *p);
 extern void func_021D9E04(u8 *p);
 extern void func_021D8380(char *p);
@@ -61,10 +61,10 @@ extern void func_021D9790(char *p);
 extern void func_02082BCC(void *,int,int);
 extern void *func_021DCFC8(Desc *,u16);
 extern void *func_021DD24C(void *,void *,void *,u16);
-extern void func_021DE0AC(u8 *p, u32 b);
-extern void func_021DD9CC(char *p);
-extern void func_021DDF5C(u8 *p);
-extern int func_021DE014(char *p);
+extern void MYSTERY_ALBUM_RequestSetup(u8 *p, u32 b);
+extern void MYSTERY_ALBUM_StepIntro(char *p);
+extern void MYSTERY_ALBUM_StartIntro(u8 *p);
+extern int MYSTERY_ALBUM_IsIntroIdle(char *p);
 extern u32 func_020362DC(void);
 extern void func_021D93F4(u8 *p, const void *q, int n, int k, int x, int y, int z, u16 heap);
 extern int func_021D94B8(char *p);
@@ -96,11 +96,11 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         if (func_021D8D18((char *)(p+12))) *state=4;
         break;
     case 4:
-        func_0200A2B8(((struct Obj00297 *)p)->f3BC,(int)(((struct Obj00297 *)p)->f3B8));
+        MYSTERY_DATA_SaveStart(((struct Obj00297 *)p)->f3BC,(int)(((struct Obj00297 *)p)->f3B8));
         *state=5;
         break;
     case 5:
-        if (func_0200A2D8(((struct Obj00297 *)p)->f3BC,(int)(((struct Obj00297 *)p)->f3B8))==2) *state=6;
+        if (MYSTERY_DATA_SaveMain(((struct Obj00297 *)p)->f3BC,(int)(((struct Obj00297 *)p)->f3B8))==2) *state=6;
         break;
     case 6:
         func_021D8C1C(p+12,1);
@@ -149,17 +149,17 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         d.w[11]=((struct Obj00297 *)p)->f3A8;
         ((struct Obj00297 *)p)->f4=func_021DCFC8(&d,29);
         ((struct Obj00297 *)p)->f0=func_021DD24C(p+972,((struct Obj00297 *)p)->f4,((struct Obj00297 *)p)->f3B8,29);
-        func_021DE0AC(((struct Obj00297 *)p)->f0,0);
+        MYSTERY_ALBUM_RequestSetup(((struct Obj00297 *)p)->f0,0);
         *state=13;
         break;
     case 13:
-        func_021DD9CC(((struct Obj00297 *)p)->f0);
-        func_021DDF5C(((struct Obj00297 *)p)->f0);
+        MYSTERY_ALBUM_StepIntro(((struct Obj00297 *)p)->f0);
+        MYSTERY_ALBUM_StartIntro(((struct Obj00297 *)p)->f0);
         *state=14;
         break;
     case 14:
-        func_021DD9CC(((struct Obj00297 *)p)->f0);
-        if (func_021DE014(((struct Obj00297 *)p)->f0)) {
+        MYSTERY_ALBUM_StepIntro(((struct Obj00297 *)p)->f0);
+        if (MYSTERY_ALBUM_IsIntroIdle(((struct Obj00297 *)p)->f0)) {
             ((struct Obj00297 *)p)->f3C4=0;
             *state=15;
         }

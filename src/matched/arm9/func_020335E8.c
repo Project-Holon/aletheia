@@ -1,5 +1,5 @@
 /*
- * function: func_020335E8
+ * function: FLASH_ACCESS_Read
  * address:  0x020335E8
  * packet:   pkt_02033534
  * region:   arm9
@@ -21,18 +21,18 @@
  *   func_02084EB8           0x02084EB8  arm
  *   func_02075E9C           0x02075E9C  arm
  *   CARDi_RequestStreamCommand 0x02076AC0  arm
- *   func_02076B80           0x02076B80  arm
+ *   CARD_WaitBackupAsync           0x02076B80  arm
  *   func_02075EAC           0x02075EAC  arm
  *   func_02084F10           0x02084F10  arm
  *
  * The result of CARDi_RequestStreamCommand lands in r6 only after the
- * intervening call to the void func_02076B80: mwcc keeps r0 live across a
- * void-returning call and defers the move.  Same body as func_02033534 with
+ * intervening call to the void CARD_WaitBackupAsync: mwcc keeps r0 live across a
+ * void-returning call and defers the move.  Same body as FLASH_ACCESS_Identify with
  * a two-function stream instead of CARD_IdentifyBackup.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020335E8.c \
- *       --func func_020335E8 --addr 0x020335E8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/FLASH_ACCESS_Read.c \
+ *       --func FLASH_ACCESS_Read --addr 0x020335E8 --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -47,11 +47,11 @@ extern void func_02075E9C(u16 a);
 extern int  CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void *callback,
                                        void *arg, int is_async, int req_type,
                                        int req_retry, int req_mode);
-extern int  func_02076B80(void);
+extern int  CARD_WaitBackupAsync(void);
 extern void func_02075EAC(u16 a);
 extern void func_02084F10(u16 a);
 
-int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void))
+int FLASH_ACCESS_Read(u32 a0, u32 a1, u32 a2, void (*a3)(void))
 {
     int id = func_02084EB8(a0);
     int r;
@@ -61,7 +61,7 @@ int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void))
     }
     func_02075E9C((u16)id);
     r = CARDi_RequestStreamCommand(a0, a1, a2, 0, 0, 1, 6, 1, 0);
-    r = func_02076B80();
+    r = CARD_WaitBackupAsync();
     func_02075EAC((u16)id);
     func_02084F10((u16)id);
     if (r == 0 && a3 != 0) {

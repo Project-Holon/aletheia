@@ -1,5 +1,5 @@
 /*
- * function: func_021788FC
+ * function: DWCi_MOV_WH_EndScan
  * address:  0x021788FC
  * packet:   pkt_ov014_021788FC
  * region:   ov014
@@ -11,7 +11,7 @@
  * symbols:
  *   g_021797A8     0x021797A8  data  a4
  *   func_02178138  0x02178138  thumb  ov014
- *   func_0217863C  0x0217863C  thumb  ov014
+ *   DWCi_MOV_WH_StateInStartScan  0x0217863C  thumb  ov014
  *   func_02087988  0x02087988  arm
  *   func_0208799C  0x0208799C  arm
  */
@@ -25,11 +25,11 @@ typedef signed short s16;
 
 extern struct S *g_021797A8;
 void func_02178138(int a);
-int func_0217863C(void);
+int DWCi_MOV_WH_StateInStartScan(void);
 int func_02087988(void);
 void func_0208799C(int a);
 
-int func_021788FC(void)
+int DWCi_MOV_WH_EndScan(void)
 {
     int irq;
     int r = 0;
@@ -38,7 +38,7 @@ int func_021788FC(void)
 
     if (*(u32 *)(((u8 *)g_021797A8) + 0x1E70) == 2) {
         if (*(s16 *)(((u8 *)g_021797A8) + 0x1EBE) != 0) {
-            if (func_0217863C() == 0)
+            if (DWCi_MOV_WH_StateInStartScan() == 0)
                 func_02178138(9);
         }
         *(s16 *)(((u8 *)g_021797A8) + 0x1EBE) = -1;

@@ -1,5 +1,5 @@
 /*
- * function: func_0208EF30
+ * function: WM_GetDispersionBeaconPeriod
  * address:  0x0208EF30
  * packet:   pkt_0208EF30
  * region:   arm9
@@ -57,7 +57,7 @@ typedef struct WMArm9Buf {
 
 extern void OS_GetMacAddress(u8 *macAddress);
 
-u16 func_0208EF30(void)
+u16 WM_GetDispersionBeaconPeriod(void)
 {
     u8 mac[6];
     u16 ret;

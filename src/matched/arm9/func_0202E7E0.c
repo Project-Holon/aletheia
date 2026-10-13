@@ -1,5 +1,5 @@
 /*
- * function: func_0202E7E0
+ * function: COMM_PLAYER_SUPPORT_GetMode
  * address:  0x0202E7E0
  * packet:   pkt_0202E7E0
  * region:   arm9
@@ -16,4 +16,4 @@ typedef unsigned int u32;
 typedef struct { u32 a[8]; } Block;
 typedef struct { u32 mode, old, other; Block current, previous; } State;
 
-u32 func_0202E7E0(State *p) { return p->mode; }
+u32 COMM_PLAYER_SUPPORT_GetMode(State *p) { return p->mode; }

@@ -1,5 +1,5 @@
 /*
- * function: func_02035ADC
+ * function: TOUCHPANEL_SearchHitTable
  * address:  0x02035ADC
  * packet:   pkt_02035ADC
  * region:   arm9
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035A70  0x02035A70  arm
- *   func_02035AA4  0x02035AA4  arm
+ *   TOUCHPANEL_HitCircle  0x02035A70  arm
+ *   TOUCHPANEL_HitRect  0x02035AA4  arm
  *
  * The hit-test table walk of the touchpanel.c family.  It scans an array of
  * four-byte records for the first one the point (x, y) falls inside, and
  * returns that record's index, or -1 when the table runs out.  Byte 0 of a
  * record is the shape tag: 0xFF ends the table, 0xFD skips the entry, 0xFE
- * selects the circle test at func_02035A70 and anything else the rectangle
- * test at func_02035AA4.
+ * selects the circle test at TOUCHPANEL_HitCircle and anything else the rectangle
+ * test at TOUCHPANEL_HitRect.
  *
  * THE DECLARATION IS THE WHOLE FUNCTION.  Written with a `u8 *` parameter
  * and the record address spelled `p + i * 4` (any of: a `rec` local at any
@@ -46,8 +46,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02035ADC.c \
- *       --func func_02035ADC --addr 0x02035ADC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TOUCHPANEL_SearchHitTable.c \
+ *       --func TOUCHPANEL_SearchHitTable --addr 0x02035ADC --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -61,21 +61,21 @@ struct R {
 };
 
 typedef signed int     s32;
-extern u32 func_02035A70(u8 *p, s32 x, s32 y);
-extern u32 func_02035AA4(u8 *p, u32 x, u32 y);
+extern u32 TOUCHPANEL_HitCircle(u8 *p, s32 x, s32 y);
+extern u32 TOUCHPANEL_HitRect(u8 *p, u32 x, u32 y);
 
-int func_02035ADC(struct R *p, u32 x, u32 y)
+int TOUCHPANEL_SearchHitTable(struct R *p, u32 x, u32 y)
 {
     int i = 0;
 
     while (p[i].t != 0xff) {
         if (p[i].t != 0xfd) {
             if (p[i].t == 0xfe) {
-                if (func_02035A70((u8 *)&p[i], x, y) != 0) {
+                if (TOUCHPANEL_HitCircle((u8 *)&p[i], x, y) != 0) {
                     return i;
                 }
             } else {
-                if (func_02035AA4((u8 *)&p[i], x, y) != 0) {
+                if (TOUCHPANEL_HitRect((u8 *)&p[i], x, y) != 0) {
                     return i;
                 }
             }

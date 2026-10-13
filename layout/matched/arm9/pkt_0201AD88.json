@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201AD88"
+    "POKE_PERSONAL_OpenHandle"
+   ],
+   "addresses": [
+    "0x0201AD88"
    ]
   }
  ]

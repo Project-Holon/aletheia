@@ -26,259 +26,309 @@
  *   func_0204E804  0x0204E804  arm
  *   func_021F5488  0x021F5488  thumb  ov073
  */
-struct Ctx;
-struct Desc;
-struct Obj;
-struct Evt;
-typedef unsigned int   u32;
+#include "../ov021/fieldmap_types.h"
 
 typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed int s32;
 
-typedef signed int     s32;
-
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02189A08(unsigned char *p);
-extern u32 *func_021CF52C(void *,u32,u32);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E4(struct Obj *p);
-extern u32 func_021CF560(u32 *p);
-extern void *func_02189A00(u8 *p);
-extern int func_021C1DCC(int a, char *b, int c, int d);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern int func_0204E804(void);
-extern int func_021F5488(void *task, int *st);
-void func_021F5260(int a, int b, int c);
-void func_021F526C(int a, int b, int c);
-void func_021F5278(int a, int b, int c);
-void func_021F5284(int a, int b, int c);
-void func_021F5290(int a, int b, int c);
-void func_021F529C(int a, int b, int c);
-void func_021F52A8(int a, int b, int c);
-void func_021F52B4(int a, int b, int c);
-void func_021F52C0(int a, int b, int c);
-void func_021F52CC(int a, int b, int c);
-void func_021F52D8(int a, int b, int c);
-void func_021F52E4(int a, int b, int c);
-void func_021F52F0(int a, int b, int c);
-void func_021F52FC(int a, int b, int c);
-void func_021F5308(int a, int b, int c);
-void func_021F5314(int a, int b, int c);
-void func_021F5320(int a, int b, int c);
-void func_021F532C(int a, int b, int c);
-void func_021F5338(int a, int b, int c);
-void func_021F5344(int a, int b, int c);
-void func_021F5350(int a, int b, int c);
-void func_021F535C(int a, int b, int c);
-void func_021F5368(int a, int b, int c);
-void func_021F5374(int a, int b, int c);
-void func_021F5380(int a, int b, int c);
-void func_021F538C(int a, int b, int c);
-void *func_021F5398(void *a,int unused,u32 b,u32 c);
-int func_021F53C8(void *task, int *st);
-
-
-void func_021F5260(int a, int b, int c)
-{
-    func_021F5398((void *)a, b, 0, c);
-}
-
+struct GameSystem;
+struct GameEvent;
+struct EncEff;
 
 /*
- * 26 thin wrappers over func_021F5398, each passing a distinct index.
+ * Overlay 73 holds 26 encounter effect builders. Each one is the build
+ * function of one row of the effect table in enceff.c (rows 3, 4, 10 to 30,
+ * 32 to 34) and starts the same name cut-in event with its own row of the
+ * cut-in table (overlay 74). The event flashes the screen twice, then runs
+ * the cut-in of fld3d_ci.c.
  */
-void func_021F526C(int a, int b, int c)
+
+/* Memory of the cut-in event, allocated in the ENCEFF effect work. */
+typedef struct EncEffNameCutInWork {
+    int flashCount;     /* 0x00: white flashes done */
+    int tableIndex;     /* 0x04: row of the cut-in table */
+    int fadeVariant;    /* 0x08: build argument of the effect table row */
+} EncEffNameCutInWork;
+
+typedef int (*GameEventMainFunc)(struct GameEvent *event, int *state);
+
+extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern struct EncEff *func_02189A08(struct FieldMap *fieldMap);
+extern struct Fld3dCi *func_02189A00(struct FieldMap *fieldMap);
+extern void *func_021CF52C(struct EncEff *eff, u32 size, u32 heapId);
+extern EncEffNameCutInWork *func_021CF560(struct EncEff *eff);
+extern struct GameEvent *func_020122C0(void *owner, void *arg, GameEventMainFunc main, u32 workSize);
+extern void func_02012374(struct GameEvent *parent, struct GameEvent *child);
+extern struct GameEvent *func_021C1DCC(struct GameSystem *gameSystem, struct Fld3dCi *ci, int tableIndex, int fadeVariant);
+extern void func_0204E720(u32 flags, s32 start, s32 end, s32 step);
+extern int func_0204E804(void);
+extern int func_021F5488(struct GameEvent *event, int *state);
+
+struct GameEvent *func_021F5260(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F526C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F5278(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F5284(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F5290(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F529C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F52A8(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F52B4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F52C0(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F52CC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F52D8(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F52E4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F52F0(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F52FC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F5308(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F5314(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F5320(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F532C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F5338(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F5344(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F5350(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F535C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F5368(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F5374(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F5380(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F538C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
+struct GameEvent *func_021F5398(struct GameSystem *gameSystem, struct FieldMap *unusedFieldMap, int tableIndex, int fadeVariant);
+int func_021F53C8(struct GameEvent *event, int *state);
+
+
+/* Build function of effect table row 10 (cut-in table row 0). */
+struct GameEvent *func_021F5260(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 1, c);
+    return func_021F5398(gameSystem, fieldMap, 0, fadeVariant);
 }
 
 
-void func_021F5278(int a, int b, int c)
+/* Build function of effect table row 11 (cut-in table row 1). */
+struct GameEvent *func_021F526C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 2, c);
+    return func_021F5398(gameSystem, fieldMap, 1, fadeVariant);
 }
 
 
-void func_021F5284(int a, int b, int c)
+/* Build function of effect table row 12 (cut-in table row 2). */
+struct GameEvent *func_021F5278(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 3, c);
+    return func_021F5398(gameSystem, fieldMap, 2, fadeVariant);
 }
 
 
-void func_021F5290(int a, int b, int c)
+/* Build function of effect table row 13 (cut-in table row 3). */
+struct GameEvent *func_021F5284(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 4, c);
+    return func_021F5398(gameSystem, fieldMap, 3, fadeVariant);
 }
 
 
-void func_021F529C(int a, int b, int c)
+/* Build function of effect table row 14 (cut-in table row 4). */
+struct GameEvent *func_021F5290(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 5, c);
+    return func_021F5398(gameSystem, fieldMap, 4, fadeVariant);
 }
 
 
-void func_021F52A8(int a, int b, int c)
+/* Build function of effect table row 15 (cut-in table row 5). */
+struct GameEvent *func_021F529C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 6, c);
+    return func_021F5398(gameSystem, fieldMap, 5, fadeVariant);
 }
 
 
-void func_021F52B4(int a, int b, int c)
+/* Build function of effect table row 16 (cut-in table row 6). */
+struct GameEvent *func_021F52A8(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 7, c);
+    return func_021F5398(gameSystem, fieldMap, 6, fadeVariant);
 }
 
 
-void func_021F52C0(int a, int b, int c)
+/* Build function of effect table row 17 (cut-in table row 7). */
+struct GameEvent *func_021F52B4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 8, c);
+    return func_021F5398(gameSystem, fieldMap, 7, fadeVariant);
 }
 
 
-void func_021F52CC(int a, int b, int c)
+/* Build function of effect table row 18 (cut-in table row 8). */
+struct GameEvent *func_021F52C0(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 9, c);
+    return func_021F5398(gameSystem, fieldMap, 8, fadeVariant);
 }
 
 
-void func_021F52D8(int a, int b, int c)
+/* Build function of effect table row 19 (cut-in table row 9). */
+struct GameEvent *func_021F52CC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 10, c);
+    return func_021F5398(gameSystem, fieldMap, 9, fadeVariant);
 }
 
 
-void func_021F52E4(int a, int b, int c)
+/* Build function of effect table row 20 (cut-in table row 10). */
+struct GameEvent *func_021F52D8(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 11, c);
+    return func_021F5398(gameSystem, fieldMap, 10, fadeVariant);
 }
 
 
-void func_021F52F0(int a, int b, int c)
+/* Build function of effect table row 21 (cut-in table row 11). */
+struct GameEvent *func_021F52E4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 12, c);
+    return func_021F5398(gameSystem, fieldMap, 11, fadeVariant);
 }
 
 
-void func_021F52FC(int a, int b, int c)
+/* Build function of effect table row 22 (cut-in table row 12). */
+struct GameEvent *func_021F52F0(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 13, c);
+    return func_021F5398(gameSystem, fieldMap, 12, fadeVariant);
 }
 
 
-void func_021F5308(int a, int b, int c)
+/* Build function of effect table row 23 (cut-in table row 13). */
+struct GameEvent *func_021F52FC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 14, c);
+    return func_021F5398(gameSystem, fieldMap, 13, fadeVariant);
 }
 
 
-void func_021F5314(int a, int b, int c)
+/* Build function of effect table row 24 (cut-in table row 14). */
+struct GameEvent *func_021F5308(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 15, c);
+    return func_021F5398(gameSystem, fieldMap, 14, fadeVariant);
 }
 
 
-void func_021F5320(int a, int b, int c)
+/* Build function of effect table row 25 (cut-in table row 15). */
+struct GameEvent *func_021F5314(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 16, c);
+    return func_021F5398(gameSystem, fieldMap, 15, fadeVariant);
 }
 
 
-void func_021F532C(int a, int b, int c)
+/* Build function of effect table row 26 (cut-in table row 16). */
+struct GameEvent *func_021F5320(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 17, c);
+    return func_021F5398(gameSystem, fieldMap, 16, fadeVariant);
 }
 
 
-void func_021F5338(int a, int b, int c)
+/* Build function of effect table row 27 (cut-in table row 17). */
+struct GameEvent *func_021F532C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 18, c);
+    return func_021F5398(gameSystem, fieldMap, 17, fadeVariant);
 }
 
 
-void func_021F5344(int a, int b, int c)
+/* Build function of effect table row 28 (cut-in table row 18). */
+struct GameEvent *func_021F5338(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 19, c);
+    return func_021F5398(gameSystem, fieldMap, 18, fadeVariant);
 }
 
 
-void func_021F5350(int a, int b, int c)
+/* Build function of effect table row 29 (cut-in table row 19). */
+struct GameEvent *func_021F5344(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 20, c);
+    return func_021F5398(gameSystem, fieldMap, 19, fadeVariant);
 }
 
 
-void func_021F535C(int a, int b, int c)
+/* Build function of effect table row 30 (cut-in table row 20). */
+struct GameEvent *func_021F5350(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 21, c);
+    return func_021F5398(gameSystem, fieldMap, 20, fadeVariant);
 }
 
 
-void func_021F5368(int a, int b, int c)
+/* Build function of effect table row 32 (cut-in table row 21). */
+struct GameEvent *func_021F535C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 22, c);
+    return func_021F5398(gameSystem, fieldMap, 21, fadeVariant);
 }
 
 
-void func_021F5374(int a, int b, int c)
+/* Build function of effect table row 33 (cut-in table row 22). */
+struct GameEvent *func_021F5368(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 23, c);
+    return func_021F5398(gameSystem, fieldMap, 22, fadeVariant);
 }
 
 
-void func_021F5380(int a, int b, int c)
+/* Build function of effect table row 34 (cut-in table row 23). */
+struct GameEvent *func_021F5374(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 24, c);
+    return func_021F5398(gameSystem, fieldMap, 23, fadeVariant);
 }
 
 
-void func_021F538C(int a, int b, int c)
+/* Build function of effect table row 3 (cut-in table row 24). */
+struct GameEvent *func_021F5380(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    func_021F5398((void *)a, b, 25, c);
-}
-
-void *func_021F5398(void *a,int unused,u32 b,u32 c) {
-    u32 *w;
-    w=func_021CF52C((void *)func_02189A08((unsigned char *)((int)func_0201210C(a))),12,0x50);
-    w[0]=0; w[1]=b; w[2]=c;
-    return func_020122C0(a,0,(void *)func_021F53C8,0);
+    return func_021F5398(gameSystem, fieldMap, 24, fadeVariant);
 }
 
 
-int func_021F53C8(void *task, int *st)
+/* Build function of effect table row 4 (cut-in table row 25). */
+struct GameEvent *func_021F538C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
 {
-    void *t;
-    void *v;
-    int *w;
-    int r;
+    return func_021F5398(gameSystem, fieldMap, 25, fadeVariant);
+}
 
-    t = func_020124E4(task);
-    v = func_0201210C(t);
-    w = (int *)func_021CF560((u32 *)func_02189A08((unsigned char *)((int)v)));
-    switch (*st) {
+/* Starts the name cut-in event for one row of the cut-in table. */
+struct GameEvent *func_021F5398(struct GameSystem *gameSystem, struct FieldMap *unusedFieldMap, int tableIndex, int fadeVariant)
+{
+    EncEffNameCutInWork *work;
+
+    work = func_021CF52C(func_02189A08(func_0201210C(gameSystem)), 12, 0x50);
+    work->flashCount = 0;
+    work->tableIndex = tableIndex;
+    work->fadeVariant = fadeVariant;
+    return func_020122C0(gameSystem, 0, func_021F53C8, 0);
+}
+
+/*
+ * Main step of the name cut-in event. States 0 to 2 flash the screen white
+ * (fade out then in, twice); state 2 then starts the cut-in, or a plain fade
+ * out when the cut-in cannot start; state 3 ends the event.
+ */
+int func_021F53C8(struct GameEvent *event, int *state)
+{
+    struct GameSystem *gameSystem;
+    struct FieldMap *fieldMap;
+    EncEffNameCutInWork *work;
+    struct GameEvent *child;
+
+    gameSystem = func_020124E4(event);
+    fieldMap = func_0201210C(gameSystem);
+    work = func_021CF560(func_02189A08(fieldMap));
+    switch (*state) {
     case 0:
         func_0204E720(4, 0, 0x10, 0);
-        *st = *st + 1;
+        *state = *state + 1;
     case 1:
         if (func_0204E804() == 0) {
             func_0204E720(4, 0x10, 0, 0);
-            *st = *st + 1;
+            *state = *state + 1;
         }
         break;
     case 2:
         if (func_0204E804() == 0) {
-            w[0] = w[0] + 1;
-            if (w[0] < 2) {
+            work->flashCount = work->flashCount + 1;
+            if (work->flashCount < 2) {
                 func_0204E720(4, 0, 0x10, 0);
-                *st = 1;
+                *state = 1;
             } else {
-                r = func_021C1DCC((int)t, func_02189A00((u8 *)v), w[1], w[2]);
-                if (r != 0) {
-                    func_02012374(task, (struct Evt **)r);
+                child = func_021C1DCC(gameSystem, func_02189A00(fieldMap), work->tableIndex, work->fadeVariant);
+                if (child != 0) {
+                    func_02012374(event, child);
                 } else {
-                    r = (int)func_020122C0(t, task, (void *)func_021F5488, 0);
-                    func_02012374(task, (struct Evt **)r);
+                    child = func_020122C0(gameSystem, event, func_021F5488, 0);
+                    func_02012374(event, child);
                 }
-                *st = *st + 1;
+                *state = *state + 1;
             }
         }
         break;

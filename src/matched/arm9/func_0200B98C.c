@@ -1,5 +1,5 @@
 /*
- * function: func_0200B98C
+ * function: BATTLE_REC_GetHeaderParam
  * address:  0x0200B98C
  * packet:   pkt_0200B98C
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   d_0209DDCC 0x0209DDCC data
+ *   BattleRecModeTable 0x0209DDCC data
  *
  * A record field getter: selector picks the field, the result is 64-bit.
  * Callers: ov183 0x021DD228, 0x021DD25C, 0x021DEE7C, 0x021DF838 and others.
@@ -19,9 +19,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long long u64;
 
-extern const u16 d_0209DDCC[];
+extern const u16 BattleRecModeTable[];
 
-u64 func_0200B98C(u8 *p, int selector, int index)
+u64 BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index)
 {
     int i;
     u16 v;
@@ -40,7 +40,7 @@ u64 func_0200B98C(u8 *p, int selector, int index)
         return v;
     case 3:
         for (i = 0; i < 41; i++) {
-            if (*(u16 *)(p + 0x26) == d_0209DDCC[i])
+            if (*(u16 *)(p + 0x26) == BattleRecModeTable[i])
                 return i;
         }
         return 0;

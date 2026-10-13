@@ -9,9 +9,9 @@
  * status: EXACT*
  * symbols:
  *   func_0215A5DC 0x0215A5DC thumb ov010
- *   func_02012158 0x02012158 thumb
+ *   GAMESYSTEM_SetAlwaysNetFlag 0x02012158 thumb
  */
 
 extern void *func_0215A5DC(void *a0);
-extern void func_02012158(char *p, unsigned int v);
-int func_0215F2DC(void *a, void *b) { func_02012158(func_0215A5DC(b), 0); return 0; }
+extern void GAMESYSTEM_SetAlwaysNetFlag(char *p, unsigned int v);
+int func_0215F2DC(void *a, void *b) { GAMESYSTEM_SetAlwaysNetFlag(func_0215A5DC(b), 0); return 0; }

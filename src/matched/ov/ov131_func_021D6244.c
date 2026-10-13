@@ -1,5 +1,5 @@
 /*
- * function: func_021D6244
+ * function: P_STATUS_PrintWordSetMsgRight
  * address: 0x021D6244
  * packet: pkt_ov131_021D6244
  * region: ov131
@@ -25,7 +25,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_02045808(struct U16Vec *vec);
 typedef unsigned short u16;
 extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void func_021D6244(unsigned char *p,int a,void *b,int c,unsigned short d,short e,unsigned short f) {
+void P_STATUS_PrintWordSetMsgRight(unsigned char *p,int a,void *b,int c,unsigned short d,short e,unsigned short f) {
  void *t=func_020457B0(16,((struct Obj06482 *)p)->f0);
  void *s=func_02045EC0(((struct Obj06482 *)p)->f7C,c);
  int w;

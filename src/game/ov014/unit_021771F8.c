@@ -14,13 +14,13 @@
  *
  * symbols:
  *   ghttpCleanupRootCAList  0x02178E4C  thumb  ov014
- *   func_02177C3C  0x02177C3C  thumb  ov014
- *   func_02177C44  0x02177C44  thumb  ov014
+ *   NET_WHPIPE_GetConnectBitmap  0x02177C3C  thumb  ov014
+ *   NET_WHPIPE_GetOwnAid  0x02177C44  thumb  ov014
  */
 
 extern int ghttpCleanupRootCAList(char *url);
-extern unsigned int func_02177C3C(void);
-extern int func_02177C44(void);
+extern unsigned int NET_WHPIPE_GetConnectBitmap(void);
+extern int NET_WHPIPE_GetOwnAid(void);
 unsigned int func_0217720C(void);
 int func_02177214(void);
 
@@ -33,10 +33,10 @@ int DWC_GHTTPCleanupRootCAList(char *url)
 
 unsigned int func_0217720C(void)
 {
-    return func_02177C3C();
+    return NET_WHPIPE_GetConnectBitmap();
 }
 
 int func_02177214(void)
 {
-    return func_02177C44();
+    return NET_WHPIPE_GetOwnAid();
 }

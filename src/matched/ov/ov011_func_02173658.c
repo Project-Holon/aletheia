@@ -1,5 +1,5 @@
 /*
- * function: func_02173658
+ * function: INTRUDE_COMM_AgeFoundList
  * address:  0x02173658
  * packet:   pkt_ov011_02173658
  * region:   ov011
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-void func_02173658(u8 *o)
+void INTRUDE_COMM_AgeFoundList(u8 *o)
 {
     int i;
 

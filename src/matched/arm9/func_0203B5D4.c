@@ -1,5 +1,5 @@
 /*
- * function: func_0203B5D4
+ * function: GFL_NET_STATE_ChangeoverParentMain
  * address:  0x0203B5D4
  * packet:   pkt_0203B5D4
  * region:   arm9
@@ -14,10 +14,10 @@
  * parked version; only the +0x00a4 site's spelling changed.  The earlier
  * header read that word as a module-name STRING (`str_0203B52C`, kind
  * `data`) and concluded no class could attest it.  It is not a string: it is
- * the CODE ADDRESS of func_0203B52C, handed to func_0203AD80 as the
- * reporting call's identifier tag, exactly the way func_0203B038 hands it
- * the no-op at 0x0203B018 and func_0203B52C hands it func_0203B4DC.  Spelt
- * `func_0203B52C 0x0203B52C arm` and passed as `(void *)func_0203B52C`, the
+ * the CODE ADDRESS of GFL_NET_STATE_ChangeoverParentConnectWait, handed to GFL_NET_STATE_ChangeStateDebug as the
+ * reporting call's identifier tag, exactly the way GFL_NET_STATE_ConnectMac hands it
+ * the no-op at 0x0203B018 and GFL_NET_STATE_ChangeoverParentConnectWait hands it GFL_NET_STATE_ChangeoverStopParentRetry.  Spelt
+ * `GFL_NET_STATE_ChangeoverParentConnectWait 0x0203B52C arm` and passed as `(void *)GFL_NET_STATE_ChangeoverParentConnectWait`, the
  * site resolves `sole-ref x1` -- sole-ref/code, since 0x0203B52C is exactly
  * a traced ARM function start, and that sub-kind needs no outside branch.
  *
@@ -25,19 +25,19 @@
  * and is unchanged.
  *
  * symbols:
- *   func_0203D788  0x0203D788  arm
- *   func_020393A8  0x020393A8  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_SYSTEM_GetChildBitmap  0x020393A8  arm
  *   func_0203D798  0x0203D798  arm
- *   func_0203B2A8  0x0203B2A8  arm
- *   func_0203D700  0x0203D700  arm
- *   func_0203AD80  0x0203AD80  arm
- *   g_021469DC     0x021469DC  data
- *   func_0203B52C  0x0203B52C  arm
+ *   GFL_NET_STATE_ChangeParentWait  0x0203B2A8  arm
+ *   GFL_NET_CallDeviceReadyFunc  0x0203D700  arm
+ *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
+ *   _pNetState     0x021469DC  data
+ *   GFL_NET_STATE_ChangeoverParentConnectWait  0x0203B52C  arm
  *   str_0203B48C   0x0203B48C  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B5D4.c \
- *       --func func_0203B5D4 --addr 0x0203B5D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverParentMain.c \
+ *       --func GFL_NET_STATE_ChangeoverParentMain --addr 0x0203B5D4 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Sys.h"
@@ -46,18 +46,18 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern struct Sys *g_021469DC;
+extern struct Sys *_pNetState;
 struct Slot;
-extern void func_0203B52C(struct Slot *p);
+extern void GFL_NET_STATE_ChangeoverParentConnectWait(struct Slot *p);
 extern char str_0203B48C[];
 
-extern void *func_0203D788(void);
-extern int func_020393A8(void);
+extern void *GFL_NET_GetSession(void);
+extern int GFL_NET_SYSTEM_GetChildBitmap(void);
 extern u8   *func_0203D798(void);
-extern void func_0203B2A8(int a0);
-extern void  func_0203D700(void);
+extern void GFL_NET_STATE_ChangeParentWait(int a0);
+extern void  GFL_NET_CallDeviceReadyFunc(void);
 struct NetState;
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
+extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
 
 struct Vt {
     u8  pad_00[0x38];
@@ -76,14 +76,14 @@ struct Slot {
     u8  f56;
 };
 
-void func_0203B5D4(struct Slot *p)
+void GFL_NET_STATE_ChangeoverParentMain(struct Slot *p)
 {
-    struct Obj *q = (struct Obj *)func_0203D788();
+    struct Obj *q = (struct Obj *)GFL_NET_GetSession();
 
-    if (func_020393A8() != 0) {
-        func_0203B2A8(*(u16 *)(func_0203D798() + 0x56));
-        func_0203D700();
-        func_0203AD80((struct NetState *)(*(u32 *)&g_021469DC), (void *)func_0203B52C, 0, 0x2c1);
+    if (GFL_NET_SYSTEM_GetChildBitmap() != 0) {
+        GFL_NET_STATE_ChangeParentWait(*(u16 *)(func_0203D798() + 0x56));
+        GFL_NET_CallDeviceReadyFunc();
+        GFL_NET_STATE_ChangeStateDebug((struct NetState *)(*(u32 *)&_pNetState), (void *)GFL_NET_STATE_ChangeoverParentConnectWait, 0, 0x2c1);
         return;
     }
     if (p->f56 == 1)
@@ -94,5 +94,5 @@ void func_0203B5D4(struct Slot *p)
         p->f46--;
         return;
     }
-    func_0203AD80((struct NetState *)(*(u32 *)&g_021469DC), str_0203B48C, 0, 0x2d3);
+    GFL_NET_STATE_ChangeStateDebug((struct NetState *)(*(u32 *)&_pNetState), str_0203B48C, 0, 0x2d3);
 }

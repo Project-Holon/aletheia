@@ -1,5 +1,5 @@
 /*
- * function: func_021736C0
+ * function: INTRUDE_COMM_GetStatusRecord
  * address: 0x021736C0
  * packet: pkt_ov011_021736C0
  * region: ov011
@@ -14,6 +14,6 @@
 
 typedef unsigned char u8;
 typedef struct { u8 d[0x4c]; } E_021736C0;
-E_021736C0 *func_021736C0(int i, u8 *p);
+E_021736C0 *INTRUDE_COMM_GetStatusRecord(int i, u8 *p);
 
-E_021736C0 *func_021736C0(int i, u8 *p) { return (E_021736C0 *)(p + 0x670) + i; }
+E_021736C0 *INTRUDE_COMM_GetStatusRecord(int i, u8 *p) { return (E_021736C0 *)(p + 0x670) + i; }

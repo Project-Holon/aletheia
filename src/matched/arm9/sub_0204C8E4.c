@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0204C8E4
+ * function: CLACT_GetFreeActor
  * address:  0x0204C8E4
  * packet:   pkt_0204BD64
  * region:   arm9
@@ -39,8 +39,8 @@
  * docs/idioms/an-assert-expression-string-rides-the-file-name-symbol.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0204C8E4.c \
- *       --func sub_0204C8E4 --addr 0x0204C8E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetFreeActor.c \
+ *       --func CLACT_GetFreeActor --addr 0x0204C8E4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -67,7 +67,7 @@ extern const struct AssertStrings s_FileName;
 
 extern void sub_02034714(const char *file, u32 line, const char *expr);
 
-struct Obj *sub_0204C8E4(struct Owner *ow)
+struct Obj *CLACT_GetFreeActor(struct Owner *ow)
 {
     int i;
 

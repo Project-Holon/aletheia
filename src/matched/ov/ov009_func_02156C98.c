@@ -1,5 +1,5 @@
 /*
- * function: func_02156C98
+ * function: DWC_RAP_ClearUserDataChanged
  * address: 0x02156C98
  * packet: pkt_ov009_02156C98
  * region: ov009
@@ -18,4 +18,4 @@
 #include "../include/G__anon_Work.h"
 
 extern struct _anon_Work *g_021A8264;
-void func_02156C98(int unused) { ((unsigned char *)g_021A8264)[0x7A2]=0; }
+void DWC_RAP_ClearUserDataChanged(int unused) { ((unsigned char *)g_021A8264)[0x7A2]=0; }

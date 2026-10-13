@@ -1,5 +1,5 @@
 /*
- * function: sub_0202FF98
+ * function: GFL_HEAP_Delete
  * address:  0x0202FF98
  * packet:   pkt_0202FC48
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0202FBAC   0x0202FBAC  arm
- *   sub_0202FBD0   0x0202FBD0  arm
- *   sub_0202FBF8   0x0202FBF8  arm
+ *   GFL_HEAP_GetHeap   0x0202FBAC  arm
+ *   GFL_HEAP_GetParentHeap   0x0202FBD0  arm
+ *   GFL_HEAP_GetBlock   0x0202FBF8  arm
  *   func_02060C94  0x02060C94  arm
  *   func_02060E30  0x02060E30  arm
  *   g_02146954     0x02146954  data
@@ -48,8 +48,8 @@
  * the two are not contiguous, so no unit could make the site `local`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202FF98.c \
- *       --func sub_0202FF98 --addr 0x0202FF98 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_HEAP_Delete.c \
+ *       --func GFL_HEAP_Delete --addr 0x0202FF98 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -74,14 +74,14 @@ struct G02146954 {
 
 extern struct G02146954 g_02146954;
 
-extern void *sub_0202FBAC(u32 id);
-extern u32 sub_0202FBD0(u32 idx);
-extern u32 sub_0202FBF8(u32 idx);
+extern void *GFL_HEAP_GetHeap(u32 id);
+extern u32 GFL_HEAP_GetParentHeap(u32 idx);
+extern u32 GFL_HEAP_GetBlock(u32 idx);
 extern void  func_02060C94(void *block);
 struct ExpHeap;
 extern void func_02060E30(struct ExpHeap *heap, void *block);
 
-u32 sub_0202FF98(u32 handle)
+u32 GFL_HEAP_Delete(u32 handle)
 {
     u32 slot;
     void *block;
@@ -90,12 +90,12 @@ u32 sub_0202FF98(u32 handle)
 
     handle &= 0x7fff;
 
-    block = sub_0202FBAC(handle);
+    block = GFL_HEAP_GetHeap(handle);
     if (block == 0) {
         g_02146954.error = 1;
     } else {
-        a = (void *)sub_0202FBD0(handle);
-        b = (void *)sub_0202FBF8(handle);
+        a = (void *)GFL_HEAP_GetParentHeap(handle);
+        b = (void *)GFL_HEAP_GetBlock(handle);
         slot = g_02146954.slot[handle];
         func_02060C94(block);
 

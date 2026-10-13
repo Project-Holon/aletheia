@@ -1,5 +1,5 @@
 /*
- * function: func_0202B28C
+ * function: ISS_ROAD_SYS_FadeIn
  * address:  0x0202B28C
  * packet:   pkt_0202B1F4
  * region:   arm9
@@ -13,8 +13,11 @@
  * refreshes it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B28C.c \
- *       --func func_0202B28C --addr 0x0202B28C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_ROAD_SYS_FadeIn.c \
+ *       --func ISS_ROAD_SYS_FadeIn --addr 0x0202B28C --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   ISS_ROAD_SYS_ApplyVolume  0x0202B2BC  thumb
  */
 #include "../include/Obj03001.h"
 
@@ -22,9 +25,9 @@ typedef unsigned char u8;
 typedef signed int    s32;
 typedef unsigned int  u32;
 
-extern void func_0202B2BC(u8 *p);
+extern void ISS_ROAD_SYS_ApplyVolume(u8 *p);
 
-void func_0202B28C(u8 *p)
+void ISS_ROAD_SYS_FadeIn(u8 *p)
 {
     s32 v = (s32)((struct Obj03001 *)p)->f4;
 
@@ -34,6 +37,6 @@ void func_0202B28C(u8 *p)
             v = 0x7f;
         }
         ((struct Obj03001 *)p)->f4 = (u32)v;
-        func_0202B2BC(p);
+        ISS_ROAD_SYS_ApplyVolume(p);
     }
 }

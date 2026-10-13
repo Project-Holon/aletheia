@@ -1,5 +1,5 @@
 /*
- * function: func_020110CC
+ * function: GPOWER_UsePpRestore
  * address:  0x020110CC
  * packet:   pkt_0201104C
  * region:   arm9
@@ -14,21 +14,21 @@
  *   g_02146228     0x02146228  data
  *   func_0201AB08  0x0201AB08  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017D30  0x02017D30  thumb
+ *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   func_02017E1C  0x02017E1C  thumb
- *   func_0201C158  0x0201C158  thumb
+ *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
  *   func_02017E40  0x02017E40  thumb
- *   func_02017D70  0x02017D70  thumb
- *   func_02010F50  0x02010F50  thumb
+ *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
+ *   GPOWER_ClearType  0x02010F50  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020110CC.c  *       --func func_020110CC --addr 0x020110CC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_UsePpRestore.c  *       --func GPOWER_UsePpRestore --addr 0x020110CC --cc 1.1p1 --thumb
  *
  * net_save.c, gated on mode byte +0x1a (slot 6): for each of the record's
  * four slots whose field 0x36+i is set, add the +0xe factor to field
- * 0x3a+i, clamped to func_0201C158(field 0x36+i, field 0x3e+i); inside the
- * func_02017D30 / func_02017D70 access bracket; then clear slot 6.  Same
- * declarations as func_0201104C.c (the callees take the box / record
+ * 0x3a+i, clamped to WAZA_TOOL_GetMaxPP(field 0x36+i, field 0x3e+i); inside the
+ * POKE_TOOL_DecodePartyParam / POKE_TOOL_EncodePartyParam access bracket; then clear slot 6.  Same
+ * declarations as GPOWER_UseHpRestore.c (the callees take the box / record
  * pointer, the record is its own local), which is what closed the
  * entry-order residue of docs/notes/pkt_0201104C.sub_020110CC.c.txt.
  */
@@ -42,14 +42,14 @@ extern u8 g_02146228[];
 extern u32   func_0201AB08(void *box);
 extern void *func_0201AB28(void *box, u32 idx);
 struct Sav;
-extern u32 func_02017D30(struct Sav *p);
+extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u8 func_0201C158(u16 move, u32 ppUp);
+extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
 extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32 func_02017D70(struct Sav *p, u32 f);
-extern void  func_02010F50(int idx);
+extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
+extern void  GPOWER_ClearType(int idx);
 
-u32 func_020110CC(void *box)
+u32 GPOWER_UsePpRestore(void *box)
 {
     void *p;
     u32 idx;
@@ -62,11 +62,11 @@ u32 func_020110CC(void *box)
     if (g_02146208[0x1a] != 0x30) {
         idx = func_0201AB08(box);
         p = func_0201AB28(box, idx);
-        h = func_02017D30(p);
+        h = POKE_TOOL_DecodePartyParam(p);
         for (i = 0; i < 4; i++) {
             move = func_02017E1C(p, (int)(0x36 + i), (int)0);
             if (move != 0) {
-                max = (u32)func_0201C158(move, (u8)func_02017E1C(p, (int)(0x3e + i), (int)0));
+                max = (u32)WAZA_TOOL_GetMaxPP(move, (u8)func_02017E1C(p, (int)(0x3e + i), (int)0));
                 v = func_02017E1C(p, (int)(0x3a + i), (int)0);
                 v += *(u16 *)(g_02146228 + 0xe);
                 if (v > max) {
@@ -75,8 +75,8 @@ u32 func_020110CC(void *box)
                 func_02017E40(p, (int)(0x3a + i), v);
             }
         }
-        func_02017D70(p, h);
-        func_02010F50(6);
+        POKE_TOOL_EncodePartyParam(p, h);
+        GPOWER_ClearType(6);
         return idx;
     }
     return 0xff;

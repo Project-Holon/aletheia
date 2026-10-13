@@ -1,5 +1,5 @@
 /*
- * function: func_0202715C
+ * function: GAME_BEACON_SetPms
  * address:  0x0202715C
  * packet:   pkt_0202715C
  * region:   arm9
@@ -21,7 +21,8 @@
  * offset is added separately at +0x0E.
  *
  * symbols:
- *   g_02146940     0x02146940  data
+ *   GAME_BEACON_Work     0x02146940  data
+ *   GAME_BEACON_SetMyPms  0x020274B4  thumb
  */
 
 typedef unsigned char  u8;
@@ -38,13 +39,13 @@ struct Outer {
     struct Inner in;
 };
 
-extern struct Outer *g_02146940;
-extern void  func_020274B4(u32 a0);
+extern struct Outer *GAME_BEACON_Work;
+extern void  GAME_BEACON_SetMyPms(u32 a0);
 
-void func_0202715C(u32 a0)
+void GAME_BEACON_SetPms(u32 a0)
 {
-    struct Inner *in = &g_02146940->in;
+    struct Inner *in = &GAME_BEACON_Work->in;
 
-    func_020274B4(a0);
+    GAME_BEACON_SetMyPms(a0);
     in->f5e = 1;
 }

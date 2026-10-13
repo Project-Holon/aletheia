@@ -15,8 +15,8 @@
  *   func_02034734      0x02034734  arm
  *   func_02078B44      0x02078B44  arm
  *   func_02078B70      0x02078B70  arm
- *   func_02049250_File 0x020A7EE0  data
- *   func_02049250_Msg  0x020A7F18  data
+ *   arc_tool_file 0x020A7EE0  data
+ *   arc_tool_msg_member_bounds  0x020A7F18  data
  *
  * Read one member out of an open archive into a fresh heap block.  The
  * handle is an FSFile (0x48 bytes) with the archive's own bookkeeping
@@ -39,7 +39,7 @@
  * docs/idioms/a-free-variadic-argument-is-the-value-the-guard-compared.md.
  *
  * 0x020A7EE0 is the arc_tool.c anchor this translation unit already uses in
- * func_02048D54; 0x020A7F18 is the assertion message, attested by the
+ * ARC_TOOL_LoadMemberRangeImpl; 0x020A7F18 is the assertion message, attested by the
  * terminator of the string in front of it.
  *
  * Verified with:
@@ -58,8 +58,8 @@ struct ArcFile {
     u16 count;
 };
 
-extern const char func_02049250_File[];
-extern const char func_02049250_Msg[];
+extern const char arc_tool_file[];
+extern const char arc_tool_msg_member_bounds[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
@@ -74,7 +74,7 @@ void *func_02049250(struct ArcFile *arc, u32 member, u32 heap)
     void *buf;
 
     if (arc->count <= member) {
-        func_02034734(func_02049250_File, 613, func_02049250_Msg,
+        func_02034734(arc_tool_file, 613, arc_tool_msg_member_bounds,
                       arc->count, member);
     }
 
@@ -82,7 +82,7 @@ void *func_02049250(struct ArcFile *arc, u32 member, u32 heap)
     func_02078B70((struct FSFile *)arc, range, 8);
     func_02078B44((struct FSFile *)arc, arc->imageBase + 8 + range[0], 0);
 
-    buf = func_02030734(heap, range[1] - range[0], 0, func_02049250_File, 619);
+    buf = func_02030734(heap, range[1] - range[0], 0, arc_tool_file, 619);
     if (buf != 0) {
         func_02078B70((struct FSFile *)arc, buf, range[1] - range[0]);
     }

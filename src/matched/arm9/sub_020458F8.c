@@ -8,15 +8,15 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020458F8
+ * function: STRBUF_GetLength
  *
  * Reads the used-slot count of a u16-array object (see
- * src/matched/sub_020457B0.c for the layout). A relocation-free leaf; it
- * is the public reader for the field sub_02045900 and sub_02045838 write
+ * src/matched/STRBUF_Create.c for the layout). A relocation-free leaf; it
+ * is the public reader for the field STRBUF_Truncate and STRBUF_Copy write
  * directly.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020458F8.c  *       --func sub_020458F8 --addr 0x020458F8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/STRBUF_GetLength.c  *       --func STRBUF_GetLength --addr 0x020458F8 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -24,10 +24,10 @@ typedef unsigned int u32;
 
 /*
  * The object's tail is one u16 array based at +0x8, not a scalar stamp
- * followed by a separate entry array: sub_02045900 indexes it from zero
- * with `add r3, r0, r1, lsl #1` / `strh r2, [r3, #8]`, and sub_02045838
+ * followed by a separate entry array: STRBUF_Truncate indexes it from zero
+ * with `add r3, r0, r1, lsl #1` / `strh r2, [r3, #8]`, and STRBUF_Copy
  * copies (used + 1) halfwords starting at +0x8. Slot 0 is the stamp
- * sub_020457B0 seeds from g_020A7E7C; slots 1.. are the payload.
+ * STRBUF_Create seeds from g_020A7E7C; slots 1.. are the payload.
  */
 struct U16Vec {
     u16 capacity;
@@ -36,7 +36,7 @@ struct U16Vec {
     u16 slots[1];
 };
 
-u16 sub_020458F8(struct U16Vec *vec)
+u16 STRBUF_GetLength(struct U16Vec *vec)
 {
     return vec->used;
 }

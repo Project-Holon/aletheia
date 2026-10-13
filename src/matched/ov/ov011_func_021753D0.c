@@ -1,5 +1,5 @@
 /*
- * function: func_021753D0
+ * function: INTRUDE_COMM_TryStartRequest
  * address:  0x021753D0
  * packet:   pkt_ov011_021753D0
  * region:   ov011
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020120D8  0x020120D8  thumb
- *   func_0217544C  0x0217544C  thumb ov011
+ *   INTRUDE_COMM_SetRequestOpen  0x0217544C  thumb ov011
  */
 #include "../include/Obj03548.h"
 
@@ -25,9 +25,9 @@ typedef struct F86 {
 } F86;
 
 int func_020120D8(char *a);
-void func_0217544C(u8 *p);
+void INTRUDE_COMM_SetRequestOpen(u8 *p);
 
-int func_021753D0(u8 *p, int i, u8 v)
+int INTRUDE_COMM_TryStartRequest(u8 *p, int i, u8 v)
 {
     if (!(p[0x8FB] & (1 << i))) {
         (p + i)[0x945] = v;
@@ -39,7 +39,7 @@ int func_021753D0(u8 *p, int i, u8 v)
             p[0x156] = 1;
             p[0x158] = v;
             p[0x159] = v;
-            func_0217544C(p);
+            INTRUDE_COMM_SetRequestOpen(p);
             return 1;
         }
         (p + i)[0x945] = v;

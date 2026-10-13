@@ -1,5 +1,5 @@
 /*
- * function: func_021B0614
+ * function: VCT_SESSION_AddMember
  * address: 0x021B0614
  * packet: pkt_ov013_021B0614
  * region: ov013
@@ -12,13 +12,13 @@
  * 2026-10-05: EXACT with opt_lifetimes off (the first loop counter otherwise gets r2 instead of sharing r5 with the second loop). Plain i = 0 in the second loop.
  * symbols:
  *   d_021B3C84     0x021B3C84  data  ov013  a4
- *   d_021B3CB0     0x021B3CB0  data  ov013  a4
+ *   gVctMembers     0x021B3CB0  data  ov013  a4
  *   d_021B3CBC     0x021B3CBC  data  ov013  a4
  *   d_021B42C0     0x021B42C0  data  ov013  a4
  *   func_02087170  0x02087170  arm
- *   func_021B16E4  0x021B16E4  arm  ov013
- *   func_021B19BC  0x021B19BC  arm  ov013
- *   func_021B3018  0x021B3018  arm  ov013
+ *   VCT_AUDIO_ClearReadyQueue  0x021B16E4  arm  ov013
+ *   VCT_AUDIO_InitReceiveSource  0x021B19BC  arm  ov013
+ *   VCT_DSP_ResetVoiceGate  0x021B3018  arm  ov013
  */
 
 #include "../include/G_Ctx42C0.h"
@@ -63,17 +63,17 @@ typedef struct {
 } Req;
 
 extern Ctx3C84 d_021B3C84;
-extern Req *d_021B3CB0[3];
+extern Req *gVctMembers[3];
 extern Slot d_021B3CBC[3];
 extern struct Ctx42C0 d_021B42C0;
 
 extern u16 func_02087170(void);
-extern void func_021B16E4(u32 i);
-extern void func_021B19BC(char *p, int i, int a2);
-extern void func_021B3018(void);
+extern void VCT_AUDIO_ClearReadyQueue(u32 i);
+extern void VCT_AUDIO_InitReceiveSource(char *p, int i, int a2);
+extern void VCT_DSP_ResetVoiceGate(void);
 
 #pragma opt_lifetimes off
-int func_021B0614(Req *p)
+int VCT_SESSION_AddMember(Req *p)
 {
     u32 i;
 
@@ -87,25 +87,25 @@ int func_021B0614(Req *p)
         return 0;
     }
     for (i = 0; (i < 3) ? 1 : 0; i++) {
-        if (d_021B3CB0[i] == p) {
+        if (gVctMembers[i] == p) {
             return 1;
         }
     }
     for (i = 0; (i < 3) ? 1 : 0; i++) {
-        if (d_021B3CB0[i] == 0) {
-            d_021B3CB0[i] = p;
+        if (gVctMembers[i] == 0) {
+            gVctMembers[i] = p;
             break;
         }
     }
     d_021B3C84.f20++;
     d_021B3C84.f4 |= p->f8;
-    func_021B19BC((char *)&d_021B3CBC[i], i, p->f5);
-    func_021B16E4(i);
+    VCT_AUDIO_InitReceiveSource((char *)&d_021B3CBC[i], i, p->f5);
+    VCT_AUDIO_ClearReadyQueue(i);
     if (p->fC != 2) {
         return 1;
     }
     if (d_021B3C84.f20 == 1) {
-        func_021B3018();
+        VCT_DSP_ResetVoiceGate();
         d_021B3C84.f0 = func_02087170();
         d_021B3C84.f10 = 0;
         d_021B3C84.f12 = 0;

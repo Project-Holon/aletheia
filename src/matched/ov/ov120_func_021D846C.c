@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202DC08  0x0202DC08  thumb
+ *   PMS_DRAW_Delete  0x0202DC08  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,12 +22,12 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Obj;
-extern void func_0202DC08(struct Obj *p);
+extern void PMS_DRAW_Delete(struct Obj *p);
 
 void func_021D846C(u8 *p)
 {
     if (((struct Obj00286 *)p)->fCC) {
-        func_0202DC08(((struct Obj00286 *)p)->fCC);
+        PMS_DRAW_Delete(((struct Obj00286 *)p)->fCC);
         *(u32 *)&((struct Obj00286 *)p)->fCC = 0;
     }
 }

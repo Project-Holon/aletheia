@@ -13,11 +13,11 @@
  *   func_02030734  0x02030734  arm
  *   func_020437DC  0x020437DC  arm
  *   func_020437E4  0x020437E4  arm
- *   func_0204A7A0  0x0204A7A0  arm
+ *   CLACT_RegisterEmptyCharacter  0x0204A7A0  arm
  *   func_0204B294  0x0204B294  arm
  *   func_0204B6F4  0x0204B6F4  arm
  *   func_0204BA20  0x0204BA20  arm
- *   func_02025A9C  0x02025A9C  thumb
+ *   BMP_OAM_AcquireModeSlot  0x02025A9C  thumb
  *   gModeTable     0x0209F87C  data
  *   g_020A7494     0x020A7494  data
  *
@@ -92,8 +92,8 @@ struct Bmp;
 struct Obj;
 extern u16 func_020437DC(const struct Bmp *bmp);
 extern u16 func_020437E4(const struct Bmp *bmp);
-extern s32 func_0204A7A0(u32 size, u32 a2, u16 heapId);
-extern u32 func_02025A9C(struct Obj *obj, u32 engine, u32 arg);
+extern s32 CLACT_RegisterEmptyCharacter(u32 size, u32 a2, u16 heapId);
+extern u32 BMP_OAM_AcquireModeSlot(struct Obj *obj, u32 engine, u32 arg);
 extern struct Obj *func_0204B294(void *a, u32 res, u32 c, u32 d, const void *pt,
                            u16 f, u16 g);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
@@ -142,10 +142,10 @@ struct Grid *func_020255A0(struct Sys *sys, const struct Param *param)
         for (j = 0; j < cols; j++) {
             row = (u8 *)g + i * cols * 4;
             yoff = i << 4;
-            mode = func_02025A9C((struct Obj *)sys, param->f14, engine);
+            mode = BMP_OAM_AcquireModeSlot((struct Obj *)sys, param->f14, engine);
             cell = row + j * 4;
             ((struct Obj06909 *)cell)->f68 =
-                (void *)func_0204A7A0(gModeTable[mode].size, param->f14, sys->f4);
+                (void *)CLACT_RegisterEmptyCharacter(gModeTable[mode].size, param->f14, sys->f4);
             pt.x = (s16)(param->x + (j << 5));
             pt.y = (s16)(param->y + yoff);
             f8 = param->f8;

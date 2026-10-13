@@ -8,16 +8,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201C6B4, sub_0201C6C4, sub_0201C6EC
+ * function: PRINTSYS_QUE_IsFinished, PRINTSYS_QUE_IsExistTarget, PRINTSYS_QUE_Clear
  *
  * symbols:
- *   g_0214655C   0x0214655C  data
+ *   _PrintJobWork   0x0214655C  data
+ *   PRINTSYS_SubmitJob  0x0201C758  thumb
+ *   PRINTSYS_SetupJob  0x0201C808  thumb
+ *   PRINTSYS_SetJobColor  0x0201C8A4  thumb
+ *   PRINTSYS_RunJob  0x0201C8BC  thumb
  *
- * Three queries on the printsys.c ring object.  sub_0201C6B4 reports the ring
- * empty, sub_0201C6EC resets it, and sub_0201C6C4 walks it looking for a record
+ * Three queries on the printsys.c ring object.  PRINTSYS_QUE_IsFinished reports the ring
+ * empty, PRINTSYS_QUE_Clear resets it, and PRINTSYS_QUE_IsExistTarget walks it looking for a record
  * whose +0x14 field is the caller's pointer.
  *
- * sub_0201C6C4 is where func_0201D7C4's arity was recovered.  The walk reads `q`
+ * PRINTSYS_QUE_IsExistTarget is where func_0201D7C4's arity was recovered.  The walk reads `q`
  * back out of the call's result and the original keeps `q` in r1 across the
  * loop, spending an `adds r1, r0, #0` to get it there; every source shape that
  * declares func_0201D7C4 with one parameter puts `q` in r0 instead and is eight
@@ -30,9 +34,9 @@
  * the `while`, not a rotation artefact: `if (q != 0) { while (q != 0) ... }`
  * emits both tests and nothing merges them.
  *
- * Left open at 0x0201C6FC: sub_0201C6FC, sub_0201C724 and sub_0201C758 reproduce
+ * Left open at 0x0201C6FC: PRINTSYS_PrintQue, PRINTSYS_PrintQueColor and PRINTSYS_SubmitJob reproduce
  * every concrete byte and cap at MATCH, because func_0201D6D8's only caller in
- * the image is the one inside sub_0201C758; they are parked in
+ * the image is the one inside PRINTSYS_SubmitJob; they are parked in
  * src/pending/unit_0201C6FC.c.
  *
  * Addresses are Black-image addresses.
@@ -82,7 +86,7 @@ struct PrintSys {
     struct PrintCtx *unk14;
 };
 
-extern struct Scratch g_0214655C;
+extern struct Scratch _PrintJobWork;
 
 struct Rec2;
 struct Ring;
@@ -92,13 +96,13 @@ extern u32   func_0201D6B8(void *s);
 extern u32 func_0201D6C4(const struct Ring *p);
 extern void  func_0201D6D8(struct PrintSys *p, void *a, void *b);
 
-extern void sub_0201C808(struct PrintCtx *p, void *w, void *x, u32 y, s16 z);
-extern void sub_0201C8A4(struct Rec2 *p, u16 v);
-extern void sub_0201C8BC(u8 *a0, int a1);
+extern void PRINTSYS_SetupJob(struct PrintCtx *p, void *w, void *x, u32 y, s16 z);
+extern void PRINTSYS_SetJobColor(struct Rec2 *p, u16 v);
+extern void PRINTSYS_RunJob(u8 *a0, int a1);
 
-void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s);
+void PRINTSYS_SubmitJob(struct PrintSys *p, struct PrintCtx *c, void *s);
 
-u32 sub_0201C6B4(const struct PrintSys *p)
+u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p)
 {
     if (p->unk10 == 0) {
         return 1;
@@ -106,7 +110,7 @@ u32 sub_0201C6B4(const struct PrintSys *p)
     return 0;
 }
 
-u32 sub_0201C6C4(struct PrintSys *p, void *v)
+u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v)
 {
     struct PrintCtx *q = p->unk10;
 
@@ -121,7 +125,7 @@ u32 sub_0201C6C4(struct PrintSys *p, void *v)
     return 0;
 }
 
-void sub_0201C6EC(struct PrintSys *p)
+void PRINTSYS_QUE_Clear(struct PrintSys *p)
 {
     p->unk00 = 0;
     p->unk02 = p->unk04;

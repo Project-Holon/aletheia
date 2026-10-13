@@ -36,7 +36,7 @@
    }
   },
   {
-   "name": "func_020111E8",
+   "name": "GPOWER_GetSpecialPowerId",
    "address": "0x020111E8",
    "kind": "game",
    "region": "arm9",
@@ -61,11 +61,20 @@
    "functions": [
     "func_02011330",
     "func_0201134C",
-    "func_0201137C",
-    "func_02011398",
-    "func_020113B0",
-    "func_020113B4",
-    "func_020113C4"
+    "VM_PushStack",
+    "VM_PopStack",
+    "VM_Jump",
+    "VM_Call",
+    "VM_Return"
+   ],
+   "addresses": [
+    "0x02011330",
+    "0x0201134C",
+    "0x0201137C",
+    "0x02011398",
+    "0x020113B0",
+    "0x020113B4",
+    "0x020113C4"
    ]
   },
   {
@@ -92,12 +101,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02011D28",
-    "func_02011D34"
+    "GAMESYSTEM_CallIfSet",
+    "GAMESYSTEM_ReadTimerTwice"
+   ],
+   "addresses": [
+    "0x02011D28",
+    "0x02011D34"
    ]
   },
   {
-   "name": "func_02011D40",
+   "name": "GAMESYSTEM_LeakHeapPenalty",
    "address": "0x02011D40",
    "kind": "game",
    "region": "arm9",
@@ -109,7 +122,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02011D7C",
+   "name": "GAMESYSTEM_LeakHeapPenaltyRepeat",
    "address": "0x02011D7C",
    "kind": "game",
    "region": "arm9",

@@ -1,7 +1,7 @@
 /*
  * file:     net_state.c
  * unit:     yes
- * function: func_0203AD74, func_0203AD80, func_0203AD8C, func_0203AE20, func_0203AEEC, func_0203AF40, func_0203AFCC, func_0203B018, func_0203B01C, func_0203B038, func_0203B084, func_0203B0C4, func_0203B16C, func_0203B170, func_0203B1B0, func_0203B1D8, func_0203B224, func_0203B228, func_0203B22C, func_0203B258, func_0203B2A8, func_0203B2D0, func_0203B2FC, func_0203B344, func_0203B390, func_0203B448, func_0203B48C, func_0203B4DC, func_0203B52C, func_0203B5D4, func_0203B688, func_0203B6B4, func_0203B6EC, func_0203B758, func_0203B794, func_0203B7F8, func_0203B868, func_0203B90C, func_0203B950, func_0203B9D4, func_0203BA98, func_0203BBB0, func_0203BC58, func_0203BCE0, func_0203BD30, func_0203BDEC, func_0203BE5C, func_0203BEAC, func_0203BEC8, func_0203BF4C, func_0203BF9C, func_0203BFF0, func_0203C00C, func_0203C010, func_0203C044, func_0203C05C, func_0203C060, func_0203C064, func_0203C068, func_0203C0B4, func_0203C0DC, func_0203C0F4, func_0203C238, func_0203C2B0, func_0203C304, func_0203C35C, func_0203C3B4, func_0203C3EC, func_0203C464, func_0203C494, func_0203C554, func_0203C5C8, func_0203C5EC, func_0203C600, func_0203C628, func_0203C65C, func_0203C710, func_0203C774, func_0203C7E0, func_0203C864, func_0203C8A8, func_0203C8E8, func_0203C900, func_0203C934, func_0203C938, func_0203C968, func_0203C990, func_0203C9AC, func_0203CA04, func_0203CA98, func_0203CADC, func_0203CB00
+ * function: GFL_NET_STATE_ChangeState, GFL_NET_STATE_ChangeStateDebug, GFL_NET_STATE_InitWork, GFL_NET_STATE_InitRandom, GFL_NET_STATE_FreeWork, GFL_NET_STATE_DeviceInitialized, GFL_NET_STATE_DeviceInitialize, GFL_NET_STATE_ConnectMacDone, GFL_NET_STATE_ExtendConnectTimer, GFL_NET_STATE_ConnectMac, GFL_NET_STATE_StartConnectMac, GFL_NET_STATE_ConnectMacAddress, GFL_NET_STATE_BeaconScanIdle, GFL_NET_STATE_StartBeaconScan, GFL_NET_STATE_BeaconScan, GFL_NET_STATE_Main, GFL_NET_STATE_ParentConnected, GFL_NET_STATE_ParentWait, GFL_NET_STATE_ParentConnectCallback, GFL_NET_STATE_StartParent, GFL_NET_STATE_ChangeParentWait, GFL_NET_STATE_InitParent, GFL_NET_STATE_GetChildWaitTime, GFL_NET_STATE_GetParentWaitTime, GFL_NET_STATE_ChangeoverConnect, GFL_NET_STATE_ChangeoverWaitDevice, GFL_NET_STATE_ChangeoverStopParent, GFL_NET_STATE_ChangeoverStopParentRetry, GFL_NET_STATE_ChangeoverParentConnectWait, GFL_NET_STATE_ChangeoverParentMain, GFL_NET_STATE_ChangeoverParentRestart, GFL_NET_STATE_ChangeoverParentCallback, GFL_NET_STATE_ChangeoverStartParent, GFL_NET_STATE_ChangeoverChildNegotiation, GFL_NET_STATE_ChildNegotiationWait, GFL_NET_STATE_ParentNegotiationWait, GFL_NET_STATE_ChangeoverChildConnected, GFL_NET_STATE_ChangeoverStopChild, GFL_NET_STATE_ChangeoverChildMain, GFL_NET_STATE_ChangeoverChildScan, GFL_NET_STATE_StartChangeover, GFL_NET_STATE_ChangeoverRestart, GFL_NET_STATE_ChangeChangeoverMode, GFL_NET_STATE_ChangeoverStopChildDevice, GFL_NET_STATE_SetChangeoverMode, GFL_NET_STATE_WaitDisconnect, GFL_NET_STATE_RecvExitCommand, GFL_NET_STATE_IsExitReady, GFL_NET_STATE_ExitWait, GFL_NET_STATE_ExitStopDevice, GFL_NET_STATE_Exit, GFL_NET_STATE_ClearExitFlag, GFL_NET_STATE_Idle, GFL_NET_STATE_EndDevice, GFL_NET_STATE_SetMPMode, GFL_NET_STATE_WifiError, GFL_NET_STATE_WifiLoggedOut, GFL_NET_STATE_WifiFatal, GFL_NET_STATE_WifiErrorWait, GFL_NET_STATE_WifiStopError, GFL_NET_STATE_SetWifiErrorCode, GFL_NET_STATE_WifiLoginMain, GFL_NET_STATE_WifiLoginStart, GFL_NET_STATE_WifiEnterLogin, GFL_NET_STATE_WifiEnterRandomMatch, GFL_NET_STATE_WifiEnterFriendMatch, GFL_NET_STATE_WifiEnterLoginDefault, GFL_NET_STATE_GetWifiState, GFL_NET_STATE_WifiConnected, GFL_NET_STATE_WifiMatchDisconnect, GFL_NET_STATE_WifiDisconnect, GFL_NET_STATE_WifiDisconnectFinal, GFL_NET_STATE_IsWifiDisconnectFinal, GFL_NET_STATE_IsWifiLoginState, GFL_NET_STATE_IsWifiLoginOrConnected, GFL_NET_STATE_WifiLogoutWait, GFL_NET_STATE_WifiLogoutStop, GFL_NET_STATE_WifiLogout, GFL_NET_STATE_WifiMatchWait, GFL_NET_STATE_WifiMatchStart, GFL_NET_STATE_WifiStartMatch, GFL_NET_STATE_SetAutoExit, GFL_NET_STATE_SetLoginOption, GFL_NET_STATE_NoProc, GFL_NET_STATE_SetErrorMode, GFL_NET_STATE_ClearErrorMode, GFL_NET_STATE_GetErrorMode, GFL_NET_STATE_SetError, GFL_NET_STATE_SetWifiError, GFL_NET_STATE_GetError, GFL_NET_STATE_FatalError, GFL_NET_STATE_IsFatalError
  * address:  0x0203AD74
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -16,18 +16,18 @@
  * symbols:
  *   func_02030734            0x02030734  arm
  *   MI_CpuFill8              0x02082BCC  arm
- *   func_02039548            0x02039548  arm
+ *   GFL_NET_SYSTEM_SetError            0x02039548  arm
  *   func_02034714            0x02034714  arm
  *   MI_CpuCopy8              0x02082D44  arm
  *   func_020307B0            0x020307B0  arm
  *   func_02039338            0x02039338  arm
- *   func_020393A8            0x020393A8  arm
- *   func_020393D0            0x020393D0  arm
+ *   GFL_NET_SYSTEM_GetChildBitmap            0x020393A8  arm
+ *   GFL_NET_SYSTEM_IsError            0x020393D0  arm
  *   func_020399A8            0x020399A8  arm
- *   func_02039594            0x02039594  arm
+ *   GFL_NET_SYSTEM_IsSendEnable            0x02039594  arm
  *   func_0203996C            0x0203996C  arm
  *   _pNetState               0x021469DC  data
- *   func_020395E0            0x020395E0  arm
+ *   GFL_NET_SYSTEM_ClampNetId            0x020395E0  arm
  *   OS_GetMacAddress         0x02087C6C  arm
  *   _FileName                0x020A7BA8  data
  *   _AssertNetStateNull      0x020A7BB4  data
@@ -37,19 +37,36 @@
  *   _VBlankCount             0x02FFFC3C  data
  *   func_02034F84            0x02034F84  arm
  *   _AssertMacAlign          0x020A7BC8  data
- *   func_02039578            0x02039578  arm
- *   func_02039560            0x02039560  arm
+ *   GFL_NET_SYSTEM_SetNoSend            0x02039578  arm
+ *   GFL_NET_SYSTEM_ResetError            0x02039560  arm
  *   _AssertNetTypeWifi       0x020A7BEC  data
  *   _AssertNetState          0x020A7C70  data
  *   _AssertWifiBattleError   0x020A7C7C  data
- *   func_020370C8            0x020370C8  arm
+ *   GFL_NET_WM_ICON_EasyEnd            0x020370C8  arm
  *   func_0203CEAC            0x0203CEAC  arm
  *   func_0203D3A8            0x0203D3A8  arm
  *   func_0203D650            0x0203D650  arm
- *   func_0203D700            0x0203D700  arm
- *   func_0203D788            0x0203D788  arm
+ *   GFL_NET_CallDeviceReadyFunc            0x0203D700  arm
+ *   GFL_NET_GetSession            0x0203D788  arm
  *   func_0203D798            0x0203D798  arm
- *   func_0203DA4C            0x0203DA4C  arm
+ *   GFL_NET_IRC_WIRELESS_IsActive            0x0203DA4C  arm
+ *   GFL_NET_SYSTEM_InitWork  0x02037288  arm
+ *   GFL_NET_SYSTEM_InitDevice  0x02037700  arm
+ *   GFL_NET_SYSTEM_SetDeviceOption  0x0203778C  arm
+ *   GFL_NET_SYSTEM_ConnectDevice  0x020377B8  arm
+ *   GFL_NET_SYSTEM_StartParent  0x02037894  arm
+ *   GFL_NET_SYSTEM_StartBeaconScan  0x02037928  arm
+ *   GFL_NET_SYSTEM_EndDevice  0x020379C8  arm
+ *   GFL_NET_SYSTEM_ConnectToParent  0x02037A6C  arm
+ *   GFL_NET_SYSTEM_FreeWork  0x02037B08  arm
+ *   GFL_NET_SYSTEM_ResetAll  0x02037D78  arm
+ *   GFL_NET_SYSTEM_IsDeviceReady  0x020392EC  arm
+ *   GFL_NET_SYSTEM_SetNoChildError  0x020394DC  arm
+ *   GFL_NET_HANDLE_InitWork  0x02039834  arm
+ *   GFL_NET_HANDLE_ExitWork  0x020398B4  arm
+ *   GFL_NET_HANDLE_GetNegotiationNum  0x020399EC  arm
+ *   GFL_NET_COMMAND_Init  0x0203A494  arm
+ *   GFL_NET_COMMAND_Exit  0x0203A53C  arm
  */
 
 struct NetStateWork;
@@ -79,7 +96,7 @@ struct NetStateWork {
     u32  pad24;
     void (*exitCallback)(void);
     void (*initCallback)(u32 a);
-    u32  errorInfo[4];
+    NetErrorInfo errorInfo;
     u8   aMacAddress[6];
     u16  timer;
     s8   loginTarget;
@@ -108,7 +125,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 
-extern void func_02039548(void);
+extern void GFL_NET_SYSTEM_SetError(void);
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
@@ -118,17 +135,17 @@ extern u32 func_020307B0(void *p);
 
 extern u16 func_02039338(void);
 
-extern int   func_020393A8(void);
+extern int   GFL_NET_SYSTEM_GetChildBitmap(void);
 
-extern int  func_020393D0(void);
+extern int  GFL_NET_SYSTEM_IsError(void);
 
 extern GFLNetHandle *func_020399A8(void);
 
-extern int    func_02039594(void);
+extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 
 extern GFLNetHandle *func_0203996C(s32 idx);
 
-extern int func_020395E0(int slot);
+extern int GFL_NET_SYSTEM_ClampNetId(int slot);
 
 extern void OS_GetMacAddress(u8 *);
 
@@ -138,65 +155,65 @@ extern void func_0203F034(u32 seed);
 
 extern u32 func_0203F0A8(void);
 
-extern void func_0203C00C(void);
+extern void GFL_NET_STATE_Idle(void);
 
 extern void func_02034F84(u32 a);
 
-extern void func_020394DC(u8 v);
+extern void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 
 extern int func_020351A0(u32 v);
 
 extern void func_0203516C(u32 a);
 
-extern void func_02039578(void);
+extern void GFL_NET_SYSTEM_SetNoSend(void);
 
-extern void func_02039560(void);
+extern void GFL_NET_SYSTEM_ResetError(void);
 
-void func_020370C8(void);
+void GFL_NET_WM_ICON_EasyEnd(void);
 
-int func_02037288(u32 a0, u32 heap, u32 c);
+int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c);
 
-int func_02037700(u32 a0, u32 a1);
+int GFL_NET_SYSTEM_InitDevice(u32 a0, u32 a1);
 
-u32 func_0203778C(u32 p);
+u32 GFL_NET_SYSTEM_SetDeviceOption(u32 p);
 
-u32 func_020377B8(u8 arg0);
+u32 GFL_NET_SYSTEM_ConnectDevice(u8 arg0);
 
-u32 func_02037894(u8 a0, u16 a1, u32 a2, u32 a3);
+u32 GFL_NET_SYSTEM_StartParent(u8 a0, u16 a1, u32 a2, u32 a3);
 
-u32 func_02037928(u32 a0, u16 a1);
+u32 GFL_NET_SYSTEM_StartBeaconScan(u32 a0, u16 a1);
 
-int func_020379C8(u32 p);
+int GFL_NET_SYSTEM_EndDevice(u32 p);
 
-u32 func_02037A6C(u32 a0, u32 a1, u16 a2, u32 a3);
+u32 GFL_NET_SYSTEM_ConnectToParent(u32 a0, u32 a1, u16 a2, u32 a3);
 
-void func_02037B08(void);
+void GFL_NET_SYSTEM_FreeWork(void);
 
-void func_02037D78(void);
+void GFL_NET_SYSTEM_ResetAll(void);
 
-int func_020392EC(void);
+int GFL_NET_SYSTEM_IsDeviceReady(void);
 
 u16 func_02039338(void);
 
-int func_020393A8(void);
+int GFL_NET_SYSTEM_GetChildBitmap(void);
 
-int func_020393D0(void);
+int GFL_NET_SYSTEM_IsError(void);
 
-void func_020394DC(u8 v);
+void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 
-void func_02039548(void);
+void GFL_NET_SYSTEM_SetError(void);
 
-void func_02039560(void);
+void GFL_NET_SYSTEM_ResetError(void);
 
-void func_02039578(void);
+void GFL_NET_SYSTEM_SetNoSend(void);
 
-int func_02039594(void);
+int GFL_NET_SYSTEM_IsSendEnable(void);
 
-int func_020395E0(int slot);
+int GFL_NET_SYSTEM_ClampNetId(int slot);
 
-void func_02039834(GFLNetSession *unused);
+void GFL_NET_HANDLE_InitWork(GFLNetSession *unused);
 
-void func_020398B4(GFLNetSession *unused);
+void GFL_NET_HANDLE_ExitWork(GFLNetSession *unused);
 
 GFLNetHandle *func_0203996C(s32 idx);
 
@@ -204,197 +221,197 @@ GFLNetHandle *func_020399A8(void);
 
 u32 func_020399B8(GFLNetHandle *handle);
 
-int func_020399EC(void);
+int GFL_NET_HANDLE_GetNegotiationNum(void);
 
 int func_02039ACC(void);
 
-void func_0203A494(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+void GFL_NET_COMMAND_Init(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 
-void func_0203A53C(void);
+void GFL_NET_COMMAND_Exit(void);
 
-void func_0203AD74(struct NetStateWork *work, void *state, u32 timer);
+void GFL_NET_STATE_ChangeState(struct NetStateWork *work, void *state, u32 timer);
 
-void func_0203AD80(struct NetStateWork *work, void *state, u32 timer, int line);
+void GFL_NET_STATE_ChangeStateDebug(struct NetStateWork *work, void *state, u32 timer, int line);
 
-void func_0203AD8C(u32 heapId);
+void GFL_NET_STATE_InitWork(u32 heapId);
 
-void func_0203AE20(MATHRandContext64 *context);
+void GFL_NET_STATE_InitRandom(MATHRandContext64 *context);
 
-void func_0203AEEC(struct NetStateWork *work);
+void GFL_NET_STATE_FreeWork(struct NetStateWork *work);
 
-void func_0203AF40(struct NetStateWork *work);
+void GFL_NET_STATE_DeviceInitialized(struct NetStateWork *work);
 
-void func_0203AFCC(void *heapId, u32 initCallback);
+void GFL_NET_STATE_DeviceInitialize(void *heapId, u32 initCallback);
 
-void func_0203B018(void);
+void GFL_NET_STATE_ConnectMacDone(void);
 
-void func_0203B01C(void);
+void GFL_NET_STATE_ExtendConnectTimer(void);
 
-void func_0203B038(struct NetStateWork *work);
+void GFL_NET_STATE_ConnectMac(struct NetStateWork *work);
 
-void func_0203B084(void);
+void GFL_NET_STATE_StartConnectMac(void);
 
-void func_0203B0C4(int mac, int anyParent);
+void GFL_NET_STATE_ConnectMacAddress(int mac, int anyParent);
 
-void func_0203B16C(void);
+void GFL_NET_STATE_BeaconScanIdle(void);
 
-void func_0203B170(void);
+void GFL_NET_STATE_StartBeaconScan(void);
 
-void func_0203B1B0(void);
+void GFL_NET_STATE_BeaconScan(void);
 
-u32 func_0203B1D8(void);
+u32 GFL_NET_STATE_Main(void);
 
-void func_0203B224(void);
+void GFL_NET_STATE_ParentConnected(void);
 
-void func_0203B228(void);
+void GFL_NET_STATE_ParentWait(void);
 
-int func_0203B22C(void);
+int GFL_NET_STATE_ParentConnectCallback(void);
 
-void func_0203B258(void);
+void GFL_NET_STATE_StartParent(void);
 
-void func_0203B2A8(int heapId);
+void GFL_NET_STATE_ChangeParentWait(int heapId);
 
-void func_0203B2D0(u32 unused);
+void GFL_NET_STATE_InitParent(u32 unused);
 
-u32 func_0203B2FC(struct NetStateWork *work);
+u32 GFL_NET_STATE_GetChildWaitTime(struct NetStateWork *work);
 
-u32 func_0203B344(struct NetStateWork *work);
+u32 GFL_NET_STATE_GetParentWaitTime(struct NetStateWork *work);
 
-void func_0203B390(struct NetStateWork *work);
+void GFL_NET_STATE_ChangeoverConnect(struct NetStateWork *work);
 
-void func_0203B448(void);
+void GFL_NET_STATE_ChangeoverWaitDevice(void);
 
-void func_0203B48C(void);
+void GFL_NET_STATE_ChangeoverStopParent(void);
 
-void func_0203B4DC(void);
+void GFL_NET_STATE_ChangeoverStopParentRetry(void);
 
-void func_0203B52C(struct NetStateWork *work);
+void GFL_NET_STATE_ChangeoverParentConnectWait(struct NetStateWork *work);
 
-void func_0203B5D4(struct NetStateWork *work);
+void GFL_NET_STATE_ChangeoverParentMain(struct NetStateWork *work);
 
-void func_0203B688(struct NetStateWork *work);
+void GFL_NET_STATE_ChangeoverParentRestart(struct NetStateWork *work);
 
-int func_0203B6B4(void);
+int GFL_NET_STATE_ChangeoverParentCallback(void);
 
-void func_0203B6EC(struct NetStateWork *work);
+void GFL_NET_STATE_ChangeoverStartParent(struct NetStateWork *work);
 
-void func_0203B758(void);
+void GFL_NET_STATE_ChangeoverChildNegotiation(void);
 
-void func_0203B794(struct NetStateWork *work);
+void GFL_NET_STATE_ChildNegotiationWait(struct NetStateWork *work);
 
-void func_0203B7F8(struct NetStateWork *work);
+void GFL_NET_STATE_ParentNegotiationWait(struct NetStateWork *work);
 
-void func_0203B868(struct NetStateWork *work);
+void GFL_NET_STATE_ChangeoverChildConnected(struct NetStateWork *work);
 
-void func_0203B90C(void);
+void GFL_NET_STATE_ChangeoverStopChild(void);
 
-void func_0203B950(struct NetStateWork *work);
+void GFL_NET_STATE_ChangeoverChildMain(struct NetStateWork *work);
 
-void func_0203B9D4(struct NetStateWork *work);
+void GFL_NET_STATE_ChangeoverChildScan(struct NetStateWork *work);
 
-void func_0203BA98(u16 unusedArg, u32 initCallback, u8 hasMac);
+void GFL_NET_STATE_StartChangeover(u16 unusedArg, u32 initCallback, u8 hasMac);
 
-void func_0203BBB0(struct NetStateWork *work);
+void GFL_NET_STATE_ChangeoverRestart(struct NetStateWork *work);
 
-void func_0203BC58(u8 mode, u8 hasMac, const void *mac);
+void GFL_NET_STATE_ChangeChangeoverMode(u8 mode, u8 hasMac, const void *mac);
 
-void func_0203BCE0(struct NetStateWork *work);
+void GFL_NET_STATE_ChangeoverStopChildDevice(struct NetStateWork *work);
 
-void func_0203BD30(u32 mode, u32 hasMac, u8 *mac);
+void GFL_NET_STATE_SetChangeoverMode(u32 mode, u32 hasMac, u8 *mac);
 
-void func_0203BDEC(void);
+void GFL_NET_STATE_WaitDisconnect(void);
 
-void func_0203BE5C(u32 netID, u32 size, u32 data, u32 work, u32 handle);
+void GFL_NET_STATE_RecvExitCommand(u32 netID, u32 size, u32 data, u32 work, u32 handle);
 
-u32 func_0203BEAC(void);
+u32 GFL_NET_STATE_IsExitReady(void);
 
-void func_0203BEC8(struct NetStateWork *work);
+void GFL_NET_STATE_ExitWait(struct NetStateWork *work);
 
-void func_0203BF4C(void);
+void GFL_NET_STATE_ExitStopDevice(void);
 
-void func_0203BF9C(u32 exitCallback);
+void GFL_NET_STATE_Exit(u32 exitCallback);
 
-void func_0203BFF0(void);
+void GFL_NET_STATE_ClearExitFlag(void);
 
-void func_0203C00C(void);
+void GFL_NET_STATE_Idle(void);
 
-void func_0203C010(void);
+void GFL_NET_STATE_EndDevice(void);
 
-GFLNetSession *func_0203C044(int netID, int size, u8 *data, int work);
+GFLNetSession *GFL_NET_STATE_SetMPMode(int netID, int size, u8 *data, int work);
 
-void func_0203C05C(void);
+void GFL_NET_STATE_WifiError(void);
 
-void func_0203C060(void);
+void GFL_NET_STATE_WifiLoggedOut(void);
 
-void func_0203C064(void);
+void GFL_NET_STATE_WifiFatal(void);
 
-void func_0203C068(void);
+void GFL_NET_STATE_WifiErrorWait(void);
 
-void func_0203C0B4(void);
+void GFL_NET_STATE_WifiStopError(void);
 
-void func_0203C0DC(struct NetStateWork *work, u32 errorCode);
+void GFL_NET_STATE_SetWifiErrorCode(struct NetStateWork *work, u32 errorCode);
 
-void func_0203C0F4(struct NetStateWork *work);
+void GFL_NET_STATE_WifiLoginMain(struct NetStateWork *work);
 
-void func_0203C238(struct NetStateWork *work);
+void GFL_NET_STATE_WifiLoginStart(struct NetStateWork *work);
 
-int func_0203C2B0(int loginTarget);
+int GFL_NET_STATE_WifiEnterLogin(int loginTarget);
 
-u32 func_0203C304(void);
+u32 GFL_NET_STATE_WifiEnterRandomMatch(void);
 
-u32 func_0203C35C(void);
+u32 GFL_NET_STATE_WifiEnterFriendMatch(void);
 
-void func_0203C3B4(void);
+void GFL_NET_STATE_WifiEnterLoginDefault(void);
 
-int func_0203C3EC(void);
+int GFL_NET_STATE_GetWifiState(void);
 
-void func_0203C464(void);
+void GFL_NET_STATE_WifiConnected(void);
 
-void func_0203C494(struct NetStateWork *work);
+void GFL_NET_STATE_WifiMatchDisconnect(struct NetStateWork *work);
 
-void func_0203C554(u32 hasMatch);
+void GFL_NET_STATE_WifiDisconnect(u32 hasMatch);
 
-void func_0203C5C8(void);
+void GFL_NET_STATE_WifiDisconnectFinal(void);
 
-int func_0203C5EC(void);
+int GFL_NET_STATE_IsWifiDisconnectFinal(void);
 
-int func_0203C600(void);
+int GFL_NET_STATE_IsWifiLoginState(void);
 
-int func_0203C628(void);
+int GFL_NET_STATE_IsWifiLoginOrConnected(void);
 
-void func_0203C65C(struct NetStateWork *work);
+void GFL_NET_STATE_WifiLogoutWait(struct NetStateWork *work);
 
-void func_0203C710(void);
+void GFL_NET_STATE_WifiLogoutStop(void);
 
-void func_0203C774(u32 exitCallback);
+void GFL_NET_STATE_WifiLogout(u32 exitCallback);
 
-void func_0203C7E0(struct NetStateWork *work);
+void GFL_NET_STATE_WifiMatchWait(struct NetStateWork *work);
 
-void func_0203C864(void);
+void GFL_NET_STATE_WifiMatchStart(void);
 
-void func_0203C8A8(void);
+void GFL_NET_STATE_WifiStartMatch(void);
 
-void func_0203C8E8(u8 autoExit);
+void GFL_NET_STATE_SetAutoExit(u8 autoExit);
 
-void func_0203C900(u8 option);
+void GFL_NET_STATE_SetLoginOption(u8 option);
 
-void func_0203C934(void);
+void GFL_NET_STATE_NoProc(void);
 
-u32 func_0203C938(u8 mode);
+u32 GFL_NET_STATE_SetErrorMode(u8 mode);
 
-void func_0203C968(void);
+void GFL_NET_STATE_ClearErrorMode(void);
 
-u32 func_0203C990(void);
+u32 GFL_NET_STATE_GetErrorMode(void);
 
-void func_0203C9AC(int errorCode, u32 errorArg1, u32 errorArg2, u32 errorArg3);
+void GFL_NET_STATE_SetError(int errorCode, u32 errorArg1, u32 errorArg2, u32 errorArg3);
 
-void func_0203CA04(void);
+void GFL_NET_STATE_SetWifiError(void);
 
-u32 func_0203CA98(void);
+u32 GFL_NET_STATE_GetError(void);
 
-void func_0203CADC(void);
+void GFL_NET_STATE_FatalError(void);
 
-int func_0203CB00(void);
+int GFL_NET_STATE_IsFatalError(void);
 
 int func_0203CEAC(void (*a0)(u32));
 
@@ -402,13 +419,13 @@ int func_0203D3A8(GFLNetHandle *a, u32 b, u32 c, const void *d);
 
 u32 func_0203D650(void);
 
-void func_0203D700(void);
+void GFL_NET_CallDeviceReadyFunc(void);
 
-GFLNetSession *func_0203D788(void);
+GFLNetSession *GFL_NET_GetSession(void);
 
 GFLNetSession *func_0203D798(void);
 
-int func_0203DA4C(void);
+int GFL_NET_IRC_WIRELESS_IsActive(void);
 
 extern struct NetStateWork *_pNetState;
 
@@ -434,7 +451,7 @@ extern const char _AssertWifiBattleError[];
  *   python tools/match.py tu --src src/matched/unit_0203AD74.c \
  *       --addr 0x0203AD74 --arm --cc 1.1p1
  */
-void func_0203AD74(struct NetStateWork *work, void *state, u32 timer)
+void GFL_NET_STATE_ChangeState(struct NetStateWork *work, void *state, u32 timer)
 {
     work->state = state;
     work->timer = timer;
@@ -468,9 +485,9 @@ void func_0203AD74(struct NetStateWork *work, void *state, u32 timer)
 
 
 
-void func_0203AD80(struct NetStateWork *work, void *state, u32 timer, int line)
+void GFL_NET_STATE_ChangeStateDebug(struct NetStateWork *work, void *state, u32 timer, int line)
 {
-    func_0203AD74(work, state, timer);
+    GFL_NET_STATE_ChangeState(work, state, timer);
 }
 
 
@@ -507,7 +524,7 @@ void func_0203AD80(struct NetStateWork *work, void *state, u32 timer, int line)
  * func_02034714(__FILE__, 0xb8, __FILE__)), 0x64 bytes are allocated with
  * the debug allocator, a halfword 0x32 and a byte 1 are set at +0x46 and
  * +0x4c, the embedded object at +0xc is initialised, and the 5-argument
- * delegate func_0203A494 is called with four zeros.
+ * delegate GFL_NET_COMMAND_Init is called with four zeros.
  *
  * The fields are written through the global every time -- the second and
  * third uses reload `[r1]` (`ldr r0, [r1]` twice after the store) while the
@@ -516,18 +533,18 @@ void func_0203AD80(struct NetStateWork *work, void *state, u32 timer, int line)
  *
  * Parked at MATCH, blocking class: label.  The only unresolved relocation is
  * the call at +0x68
- *   +0068 PC24 func_0203AE20 -> unresolved: 0203AE20 (arm, from header) has
+ *   +0068 PC24 GFL_NET_STATE_InitRandom -> unresolved: 0203AE20 (arm, from header) has
  *                                            no witness outside
  *                                            0203AD8C..0203AE20
  * -- the callee 0x0203AE20 sits at the very end of this function's listing
  * extent and this call is its only branch anywhere in the image, so the
  * `label` class has no outside witness.  It graduates for free, with no
- * change to this C, as soon as src/matched/ holds a func_0203AE20 entry:
- * the `matched` class then witnesses the site.  func_0203AE20 itself is
+ * change to this C, as soon as src/matched/ holds a GFL_NET_STATE_InitRandom entry:
+ * the `matched` class then witnesses the site.  GFL_NET_STATE_InitRandom itself is
  * chain-capped on 0x0203F0A8 (see docs/notes/func_0203F0A8.c.txt), which is
  * why the pair is parked rather than finished here.
  */
-void func_0203AD8C(u32 heapId)
+void GFL_NET_STATE_InitWork(u32 heapId)
 {
     if (_pNetState != 0) {
         func_02034714(_FileName, 0xb8, _AssertNetStateNull);
@@ -535,8 +552,8 @@ void func_0203AD8C(u32 heapId)
     _pNetState = func_02030734(heapId, 0x64, 1, _FileName, 0xb9);
     _pNetState->timer = 0x32;
     _pNetState->parentRetry = 1;
-    func_0203AE20(&_pNetState->random);
-    func_0203A494(0, 0, 0, 0, heapId);
+    GFL_NET_STATE_InitRandom(&_pNetState->random);
+    GFL_NET_COMMAND_Init(0, 0, 0, 0, heapId);
 }
 
 
@@ -606,7 +623,7 @@ static inline void MATH_InitRand64(MATHRandContext64 *context, u64 seed)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203AE20.c  *       --func func_0203AE20 --addr 0x0203AE20 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_InitRandom.c  *       --func GFL_NET_STATE_InitRandom --addr 0x0203AE20 --cc 1.1p1 --arm
  *
  * net_state.c RNG seeder.  Mixes the MAC with the RTC date/time and the
  * system word 0x02FFFC3C, seeds func_0203F034, draws two words into one
@@ -616,7 +633,7 @@ static inline void MATH_InitRand64(MATHRandContext64 *context, u64 seed)
  * docs/notes/pkt_0203AE20.c.txt: +0x08..+0x14 are two u64 members, not
  * four u32 words, so the constants are stored as u64 pairs.
  */
-void func_0203AE20(MATHRandContext64 *context)
+void GFL_NET_STATE_InitRandom(MATHRandContext64 *context)
 {
   struct RTCDate date;
   struct RTCTime time;
@@ -674,18 +691,18 @@ void func_0203AE20(MATHRandContext64 *context)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203AEEC.c \
- *       --func func_0203AEEC --addr 0x0203AEEC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_FreeWork.c \
+ *       --func GFL_NET_STATE_FreeWork --addr 0x0203AEEC --cc 1.1p1 --arm
  */
-void func_0203AEEC(struct NetStateWork *work)
+void GFL_NET_STATE_FreeWork(struct NetStateWork *work)
 {
     void (*exitCallback)(void);
 
-    if (func_0203D788()->ops->getParentChannel() == 0)
+    if (GFL_NET_GetSession()->ops->isOffline() == 0)
         return;
-    func_0203A53C();
-    func_020370C8();
-    func_02037B08();
+    GFL_NET_COMMAND_Exit();
+    GFL_NET_WM_ICON_EasyEnd();
+    GFL_NET_SYSTEM_FreeWork();
     exitCallback = _pNetState->exitCallback;
     func_020307B0(_pNetState);
     _pNetState = 0;
@@ -729,7 +746,7 @@ void func_0203AEEC(struct NetStateWork *work)
  *
  * 1. The r4/r5 swap was an artefact of that attempt's declaration order, not
  *    the real residue.  Declaring the two call results in source order
- *    (`s = func_0203D788()` then `c = func_0203D798()`) puts them in r5/r0
+ *    (`s = GFL_NET_GetSession()` then `c = func_0203D798()`) puts them in r5/r0
  *    exactly as the image does and the swap never appears.  That left a
  *    2-byte residue at +0x54/+0x58, not 10.
  *
@@ -739,7 +756,7 @@ void func_0203AEEC(struct NetStateWork *work)
  *    It is not discarded -- it is the callback's ARGUMENT.  Spelling the
  *    field `void (*f2c)(u32)` and writing `p->f2C(func_0203D650())` pins r0
  *    to the argument, so the function pointer has to land in r1.  EXACT.
- *    This is the same shape src/pending/func_0203B52C.c documents for its
+ *    This is the same shape src/pending/GFL_NET_STATE_ChangeoverParentConnectWait.c documents for its
  *    own callback ("takes func_0203D650's return value in r0, which is why
  *    the function pointer is loaded into r1") -- a family idiom, not a
  *    one-off.
@@ -757,19 +774,19 @@ void func_0203AEEC(struct NetStateWork *work)
  * mutation table -- the same class of miss the permuter.md field reports
  * record for `cnt = *p++` and `int weight`.
  */
-void func_0203AF40(struct NetStateWork *work)
+void GFL_NET_STATE_DeviceInitialized(struct NetStateWork *work)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
     GFLNetSession *pNetIni = func_0203D798();
 
     if (pNetIni->init.bNetType != 1 && pNetIni->init.bNetType != 2)
-        session->ops->connectToParent(pNetIni->init.heapId, session, 0, session->userArg);
-    func_02037D78();
+        session->ops->setup(pNetIni->init.heapId, session, 0, session->userArg);
+    GFL_NET_SYSTEM_ResetAll();
     if (work->initCallback != 0) {
         work->initCallback(func_0203D650());
         work->initCallback = 0;
     }
-    func_0203AD80(_pNetState, (void *)func_0203C00C, 0, 0x12f);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x12f);
 }
 
 
@@ -796,12 +813,12 @@ void func_0203AF40(struct NetStateWork *work)
 
 
 
-void func_0203AFCC(void *heapId, u32 initCallback)
+void GFL_NET_STATE_DeviceInitialize(void *heapId, u32 initCallback)
 {
     func_02034F84(4);
-    func_0203AD8C((u32)heapId);
+    GFL_NET_STATE_InitWork((u32)heapId);
     _pNetState->initCallback = (void (*)(u32))initCallback;
-    func_0203AD80(_pNetState, (void *)func_0203AF40, 0, 0x13F);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_DeviceInitialized, 0, 0x13F);
 }
 
 
@@ -838,17 +855,17 @@ void func_0203AFCC(void *heapId, u32 initCallback)
  *   python tools/match.py tu --src src/matched/unit_0203B018.c \
  *       --addr 0x0203B018 --arm
  *
- * net_state.c.  func_0203B018 is the 4-byte `bx lr` no-op that
- * func_0203B038 hands to func_02037A6C as its completion callback (the
- * pool word at 0x0203B080 is its only referrer).  func_0203B01C is the
+ * net_state.c.  GFL_NET_STATE_ConnectMacDone is the 4-byte `bx lr` no-op that
+ * GFL_NET_STATE_ConnectMac hands to GFL_NET_SYSTEM_ConnectToParent as its completion callback (the
+ * pool word at 0x0203B080 is its only referrer).  GFL_NET_STATE_ExtendConnectTimer is the
  * unlabelled leaf that bumps the state record's +0x46 countdown by 0x3C;
- * func_0203B390 names it through a pool word.  Filing both here gives the
+ * GFL_NET_STATE_ChangeoverConnect names it through a pool word.  Filing both here gives the
  * `matched` class a witness for each (docs/families/net_state.h, THE REPORT
  * TAG RULE, "the two genuine exceptions").
  *
  * Integrator: seed 0x0203B01C arm (member of this unit, no label).
  */
-void func_0203B018(void)
+void GFL_NET_STATE_ConnectMacDone(void)
 {
 }
 
@@ -881,7 +898,7 @@ void func_0203B018(void)
 
 
 
-void func_0203B01C(void)
+void GFL_NET_STATE_ExtendConnectTimer(void)
 {
     _pNetState->timer += 0x3c;
 }
@@ -918,11 +935,11 @@ void func_0203B01C(void)
 /*
  *           resolved.  Adding the symbols: block (it had none) let
  *           0x0203B01C resolve as `literal x8, e.g. 0203B43C`; previously it
- *           reported "no address for '(void *)func_0203B01C'".  The ONE remaining
+ *           reported "no address for '(void *)GFL_NET_STATE_ExtendConnectTimer'".  The ONE remaining
  *           site is 0x0203B018.
  * PARKED AT MATCH.  Every concrete byte is right (76 of 76) and the file is
  * the right size; the one open site is the ABS32 to 0x0203B018, the bare
- * `bx lr` filler word that sits between func_0203AFCC's literal pool and the
+ * `bx lr` filler word that sits between GFL_NET_STATE_DeviceInitialize's literal pool and the
  * unlabelled leaf at 0x0203B01C.  That address has no label (a prologue that
  * saves no `lr` is never auto-labelled) and the word appears in exactly one
  * literal pool image-wide - this function's own - so neither `label` nor
@@ -949,13 +966,13 @@ void func_0203B01C(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0203B038.c \
- *       --func func_0203B038 --addr 0x0203B038 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GFL_NET_STATE_ConnectMac.c \
+ *       --func GFL_NET_STATE_ConnectMac --addr 0x0203B038 --cc 1.1p1 --arm
  */
-void func_0203B038(struct NetStateWork *work)
+void GFL_NET_STATE_ConnectMac(struct NetStateWork *work)
 {
-    if (func_02037A6C(0, (u32)work->aMacAddress, 0x200, (u32)(void *)func_0203B01C) != 0)
-        func_0203AD80(_pNetState, (void *)func_0203B018, 0xA, 0x169);
+    if (GFL_NET_SYSTEM_ConnectToParent(0, (u32)work->aMacAddress, 0x200, (u32)(void *)GFL_NET_STATE_ExtendConnectTimer) != 0)
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ConnectMacDone, 0xA, 0x169);
 }
 
 
@@ -988,20 +1005,20 @@ void func_0203B038(struct NetStateWork *work)
 
 /*
  * Starts a 0x200-byte transfer over channel 1 and reports at line 0x17C
- * (380) when it answers zero.  The report site names func_0203B038, the
+ * (380) when it answers zero.  The report site names GFL_NET_STATE_ConnectMac, the
  * sibling entry that put the read in flight.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B084.c \
- *       --func func_0203B084 --addr 0x0203B084 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_StartConnectMac.c \
+ *       --func GFL_NET_STATE_StartConnectMac --addr 0x0203B084 --cc 1.1p1 --arm
  */
-void func_0203B084(void)
+void GFL_NET_STATE_StartConnectMac(void)
 {
     func_0203D798();
-    if (func_02037928(1, 0x200) != 0)
-        func_0203AD80(_pNetState, (void *)func_0203B038, 0, (int)0x17C);
+    if (GFL_NET_SYSTEM_StartBeaconScan(1, 0x200) != 0)
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ConnectMac, 0, (int)0x17C);
 }
 
 
@@ -1032,7 +1049,7 @@ void func_0203B084(void)
 
 
 
-void func_0203B0C4(int mac, int anyParent)
+void GFL_NET_STATE_ConnectMacAddress(int mac, int anyParent)
 {
     if ((int)_pNetState->aMacAddress & 1) {
         func_02034714(_FileName, 395, _AssertMacAlign);
@@ -1041,9 +1058,9 @@ void func_0203B0C4(int mac, int anyParent)
         MI_CpuCopy8((void *)mac, _pNetState->aMacAddress, 6);
     }
     if (anyParent != 0) {
-        func_0203AD80(_pNetState, (void *)func_0203B084, 0, 400);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_StartConnectMac, 0, 400);
     } else {
-        func_0203AD80(_pNetState, (void *)func_0203B038, 0, 403);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ConnectMac, 0, 403);
     }
 }
 
@@ -1075,7 +1092,7 @@ void func_0203B0C4(int mac, int anyParent)
 
 
 
-void func_0203B16C(void)
+void GFL_NET_STATE_BeaconScanIdle(void)
 {
 }
 
@@ -1109,7 +1126,7 @@ void func_0203B16C(void)
 
 
 /*
- * The same 0x200-byte channel-1 start as func_0203B084 with no context
+ * The same 0x200-byte channel-1 start as GFL_NET_STATE_StartConnectMac with no context
  * refresh, reporting at line 0x1AE (430).  0x1AE is not ARM-encodable, so the
  * constant is materialised off the 0x200 argument register as
  * `sub r3, r4, #0x52`.
@@ -1117,13 +1134,13 @@ void func_0203B16C(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B170.c \
- *       --func func_0203B170 --addr 0x0203B170 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_StartBeaconScan.c \
+ *       --func GFL_NET_STATE_StartBeaconScan --addr 0x0203B170 --cc 1.1p1 --arm
  */
-void func_0203B170(void)
+void GFL_NET_STATE_StartBeaconScan(void)
 {
-    if (func_02037928(1, 0x200) != 0)
-        func_0203AD80(_pNetState, (void *)func_0203B16C, 0, 0x1AE);
+    if (GFL_NET_SYSTEM_StartBeaconScan(1, 0x200) != 0)
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_BeaconScanIdle, 0, 0x1AE);
 }
 
 
@@ -1156,13 +1173,13 @@ void func_0203B170(void)
 
 
 /*
- * Tail-call wrapper over func_0203AD80 (the object at 0x021469DC, the
- * callback func_0203B170, 0, 0x1BC).  An unlabelled ARM leaf, filed as the
- * witness chain for func_0203D010 (state 10 of func_0203DC70).
+ * Tail-call wrapper over GFL_NET_STATE_ChangeStateDebug (the object at 0x021469DC, the
+ * callback GFL_NET_STATE_StartBeaconScan, 0, 0x1BC).  An unlabelled ARM leaf, filed as the
+ * witness chain for func_0203D010 (state 10 of GFL_NET_IRC_WIRELESS_Main).
  */
-void func_0203B1B0(void)
+void GFL_NET_STATE_BeaconScan(void)
 {
-    func_0203AD80(_pNetState, func_0203B170, 0, 0x1BC);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, GFL_NET_STATE_StartBeaconScan, 0, 0x1BC);
 }
 
 
@@ -1192,7 +1209,7 @@ void func_0203B1B0(void)
 
 
 
-u32 func_0203B1D8(void)
+u32 GFL_NET_STATE_Main(void)
 {
     struct NetStateWork *work = _pNetState;
 
@@ -1202,7 +1219,7 @@ u32 func_0203B1D8(void)
         work->state(work);
     if (_pNetState == 0)
         return 1;
-    func_0203C934();
+    GFL_NET_STATE_NoProc();
     return 0;
 }
 
@@ -1233,7 +1250,7 @@ u32 func_0203B1D8(void)
 
 
 
-void func_0203B224(void)
+void GFL_NET_STATE_ParentConnected(void)
 {
 }
 
@@ -1264,7 +1281,7 @@ void func_0203B224(void)
 
 
 
-void func_0203B228(void)
+void GFL_NET_STATE_ParentWait(void)
 {
 }
 
@@ -1294,9 +1311,9 @@ void func_0203B228(void)
 
 
 
-int func_0203B22C(void)
+int GFL_NET_STATE_ParentConnectCallback(void)
 {
-    func_0203AD80(_pNetState, func_0203B224, 0, 0x1f4);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, GFL_NET_STATE_ParentConnected, 0, 0x1f4);
     return 1;
 }
 
@@ -1328,12 +1345,12 @@ int func_0203B22C(void)
 
 /*
  * Starts a 0x200-entry transfer over channel 1 and reports through
- * func_0203AD80 at line 517 when the start call answers zero.  The line comes
+ * GFL_NET_STATE_ChangeStateDebug at line 517 when the start call answers zero.  The line comes
  * out as `add r3, r4, #5` because r4 already holds the 0x200 argument, the
  * same constant-rematerialisation the consecutive-`__LINE__` idiom records.
  *
  * Both callback addresses (0x0203B22C and 0x0203B228, the two `bx lr` filler
- * words in the pool of func_0203B1D8) are declared as symbols: written as
+ * words in the pool of GFL_NET_STATE_Main) are declared as symbols: written as
  * plain integer literals this compiler folds the pair into one pool word plus
  * a `sub r1, r4, #4`, which is four bytes short of the original's two pool
  * words.
@@ -1341,14 +1358,14 @@ int func_0203B22C(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B258.c \
- *       --func func_0203B258 --addr 0x0203B258 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_StartParent.c \
+ *       --func GFL_NET_STATE_StartParent --addr 0x0203B258 --cc 1.1p1 --arm
  */
-void func_0203B258(void)
+void GFL_NET_STATE_StartParent(void)
 {
     func_0203D798();
-    if (func_02037894(1, 0x200, 1, (u32)(void *)func_0203B22C) != 0)
-        func_0203AD80(_pNetState, (void *)func_0203B228, 0, 0x205);
+    if (GFL_NET_SYSTEM_StartParent(1, 0x200, 1, (u32)(void *)GFL_NET_STATE_ParentConnectCallback) != 0)
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ParentWait, 0, 0x205);
 }
 
 
@@ -1376,9 +1393,9 @@ void func_0203B258(void)
 
 
 
-void func_0203B2A8(int heapId)
+void GFL_NET_STATE_ChangeParentWait(int heapId)
 {
-    func_0203AD80(_pNetState, (void *)func_0203B228, 0, 0x214);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ParentWait, 0, 0x214);
 }
 
 
@@ -1407,9 +1424,9 @@ void func_0203B2A8(int heapId)
 
 
 
-void func_0203B2D0(u32 unused)
+void GFL_NET_STATE_InitParent(u32 unused)
 {
-    func_0203AD80(_pNetState, func_0203B258, 0, 0x222);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, GFL_NET_STATE_StartParent, 0, 0x222);
 }
 
 
@@ -1438,7 +1455,7 @@ void func_0203B2D0(u32 unused)
 
 
 
-u32 func_0203B2FC(struct NetStateWork *work)
+u32 GFL_NET_STATE_GetChildWaitTime(struct NetStateWork *work)
 {
     u32 randHigh;
     u64 randNext = work->random.mul * work->random.x + work->random.add;
@@ -1473,7 +1490,7 @@ u32 func_0203B2FC(struct NetStateWork *work)
 
 
 
-u32 func_0203B344(struct NetStateWork *work)
+u32 GFL_NET_STATE_GetParentWaitTime(struct NetStateWork *work)
 {
     u32 randHigh;
     u64 randNext = work->random.mul * work->random.x + work->random.add;
@@ -1515,7 +1532,7 @@ u32 func_0203B344(struct NetStateWork *work)
  * was looking at the wrong constant.  What the original hoists is not the
  * `1`, it is the 0x200 -- `mov r4, #0x200` at +0x24, before the compare
  * chain -- and r4 then serves FOUR uses: the length argument of
- * func_02037A6C, the second argument of func_02037928 on the alt path, and
+ * GFL_NET_SYSTEM_ConnectToParent, the second argument of GFL_NET_SYSTEM_StartBeaconScan on the alt path, and
  * the base of both line numbers (`add r3, r4, #0x45` = 0x245 and
  * `add r3, r4, #0x4a` = 0x24A).  Binding it to ONE local `u32 n = 0x200;`
  * declared before the guards gives it a live range that spans both arms,
@@ -1525,25 +1542,25 @@ u32 func_0203B344(struct NetStateWork *work)
  *
  * EXACT on the first compile with that change; no permuter search needed.
  */
-void func_0203B390(struct NetStateWork *work)
+void GFL_NET_STATE_ChangeoverConnect(struct NetStateWork *work)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
     u32 scanParam = 0x200;
 
-    if (session->ops->getLinkLevel() == 0)
+    if (session->ops->isIdle() == 0)
         return;
     if (work->changeoverHasMac == 0 || work->changeoverMode == 1)
         goto alt;
 
-    if (func_02037A6C(1, (u32)work->changeoverMac, scanParam, (u32)func_0203B01C) == 0)
+    if (GFL_NET_SYSTEM_ConnectToParent(1, (u32)work->changeoverMac, scanParam, (u32)GFL_NET_STATE_ExtendConnectTimer) == 0)
         return;
-    func_0203AD80(_pNetState, (void *)func_0203B950, func_0203B2FC(work), scanParam + 0x45);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverChildMain, GFL_NET_STATE_GetChildWaitTime(work), scanParam + 0x45);
     return;
 
 alt:
-    if (func_02037928(1, scanParam) == 0)
+    if (GFL_NET_SYSTEM_StartBeaconScan(1, scanParam) == 0)
         return;
-    func_0203AD80(_pNetState, (void *)func_0203B950, func_0203B344(work), scanParam + 0x4a);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverChildMain, GFL_NET_STATE_GetParentWaitTime(work), scanParam + 0x4a);
 }
 
 
@@ -1581,13 +1598,13 @@ alt:
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B448.c \
- *       --func func_0203B448 --addr 0x0203B448 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverWaitDevice.c \
+ *       --func GFL_NET_STATE_ChangeoverWaitDevice --addr 0x0203B448 --cc 1.1p1 --arm
  */
-void func_0203B448(void)
+void GFL_NET_STATE_ChangeoverWaitDevice(void)
 {
-    if (func_0203D788()->ops->getLinkLevel() != 0)
-        func_0203AD80(_pNetState, (void *)func_0203B390, 0, (int)0x25D);
+    if (GFL_NET_GetSession()->ops->isIdle() != 0)
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverConnect, 0, (int)0x25D);
 }
 
 
@@ -1618,7 +1635,7 @@ void func_0203B448(void)
 
 
 /*
- * The same +0x10 virtual call as func_0203B4DC, reporting at line 0x265
+ * The same +0x10 virtual call as GFL_NET_STATE_ChangeoverStopParentRetry, reporting at line 0x265
  * (613).  Both the first call argument and the reported line derive from the
  * single 1 that the function materialises, which is what makes the line come
  * out as `add r3, r5, #0x264`.
@@ -1626,13 +1643,13 @@ void func_0203B448(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B48C.c \
- *       --func func_0203B48C --addr 0x0203B48C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverStopParent.c \
+ *       --func GFL_NET_STATE_ChangeoverStopParent --addr 0x0203B48C --cc 1.1p1 --arm
  */
-void func_0203B48C(void)
+void GFL_NET_STATE_ChangeoverStopParent(void)
 {
-    if (func_0203D788()->ops->setBeaconInterval(1, 0) != 0)
-        func_0203AD80(_pNetState, (void *)func_0203B448, 0, 0x265);
+    if (GFL_NET_GetSession()->ops->stepDisconnect(1, 0) != 0)
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverWaitDevice, 0, 0x265);
 }
 
 
@@ -1671,13 +1688,13 @@ void func_0203B48C(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B4DC.c \
- *       --func func_0203B4DC --addr 0x0203B4DC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverStopParentRetry.c \
+ *       --func GFL_NET_STATE_ChangeoverStopParentRetry --addr 0x0203B4DC --cc 1.1p1 --arm
  */
-void func_0203B4DC(void)
+void GFL_NET_STATE_ChangeoverStopParentRetry(void)
 {
-    if (func_0203D788()->ops->setBeaconInterval(1, 0) != 0)
-        func_0203AD80(_pNetState, (void *)func_0203B390, 0, (int)0x282);
+    if (GFL_NET_GetSession()->ops->stepDisconnect(1, 0) != 0)
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverConnect, 0, (int)0x282);
 }
 
 
@@ -1709,26 +1726,26 @@ void func_0203B4DC(void)
 /*
  * Wave 14: the "unresolvable" second tag site was a misread.  The pool word
  * at 0x0203B5CC (+0xA0) is 0x0203C00C (bytes 0c c0 03 02), not 0x0203B40C;
- * 0x0203C00C is the same tag func_0203AF40 passes and resolves `literal`.
- * The first tag, 0x0203B4DC, resolves `matched` (src/matched/func_0203B4DC.c).
+ * 0x0203C00C is the same tag GFL_NET_STATE_DeviceInitialized passes and resolves `literal`.
+ * The first tag, 0x0203B4DC, resolves `matched` (src/matched/GFL_NET_STATE_ChangeoverStopParentRetry.c).
  * The callback takes func_0203D650's result in r0, which is why the
  * function pointer is loaded into r1 (docs/families/net_state.h, THE
  * CALLBACK ARITY RULE).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B52C.c \
- *       --func func_0203B52C --addr 0x0203B52C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverParentConnectWait.c \
+ *       --func GFL_NET_STATE_ChangeoverParentConnectWait --addr 0x0203B52C --cc 1.1p1 --arm
  */
-void func_0203B52C(struct NetStateWork *work)
+void GFL_NET_STATE_ChangeoverParentConnectWait(struct NetStateWork *work)
 {
     func_0203D798();
-    if (func_020393D0() != 0)
+    if (GFL_NET_SYSTEM_IsError() != 0)
         return;
-    if (func_020393A8() == 0) {
-        func_0203AD80(_pNetState, (void *)func_0203B4DC, 0, 0x297);
+    if (GFL_NET_SYSTEM_GetChildBitmap() == 0) {
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverStopParentRetry, 0, 0x297);
         return;
     }
-    if (func_020399EC() == 0)
+    if (GFL_NET_HANDLE_GetNegotiationNum() == 0)
         return;
     if (func_02039ACC() == 0)
         return;
@@ -1736,7 +1753,7 @@ void func_0203B52C(struct NetStateWork *work)
         work->initCallback(func_0203D650());
         work->initCallback = 0;
     }
-    func_0203AD80(_pNetState, (void *)func_0203C00C, 0, 0x2a6);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x2a6);
 }
 
 
@@ -1762,25 +1779,25 @@ void func_0203B52C(struct NetStateWork *work)
 
 
 
-void func_0203B5D4(struct NetStateWork *work)
+void GFL_NET_STATE_ChangeoverParentMain(struct NetStateWork *work)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
 
-    if (func_020393A8() != 0) {
-        func_0203B2A8(func_0203D798()->init.heapId);
-        func_0203D700();
-        func_0203AD80(_pNetState, (void *)func_0203B52C, 0, 0x2c1);
+    if (GFL_NET_SYSTEM_GetChildBitmap() != 0) {
+        GFL_NET_STATE_ChangeParentWait(func_0203D798()->init.heapId);
+        GFL_NET_CallDeviceReadyFunc();
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverParentConnectWait, 0, 0x2c1);
         return;
     }
     if (work->changeoverMode == 1)
         return;
-    if (session->ops->getScanCount(0) == 0)
+    if (session->ops->hasBeaconBeenSent(0) == 0)
         return;
     if (work->timer != 0) {
         work->timer--;
         return;
     }
-    func_0203AD80(_pNetState, (void *)func_0203B48C, 0, 0x2d3);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverStopParent, 0, 0x2d3);
 }
 
 
@@ -1806,9 +1823,9 @@ void func_0203B5D4(struct NetStateWork *work)
 
 
 
-void func_0203B688(struct NetStateWork *work)
+void GFL_NET_STATE_ChangeoverParentRestart(struct NetStateWork *work)
 {
-    func_0203AD80(_pNetState, (void *)func_0203B5D4, func_0203B344(work), 0x2e0);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverParentMain, GFL_NET_STATE_GetParentWaitTime(work), 0x2e0);
 }
 
 
@@ -1834,9 +1851,9 @@ void func_0203B688(struct NetStateWork *work)
 
 
 
-int func_0203B6B4(void)
+int GFL_NET_STATE_ChangeoverParentCallback(void)
 {
-    func_0203AD80(_pNetState, (void *)func_0203B5D4, func_0203B344(_pNetState), 0x2E6);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverParentMain, GFL_NET_STATE_GetParentWaitTime(_pNetState), 0x2E6);
     return 1;
 }
 
@@ -1868,18 +1885,18 @@ int func_0203B6B4(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B6EC.c \
- *       --func func_0203B6EC --addr 0x0203B6EC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverStartParent.c \
+ *       --func GFL_NET_STATE_ChangeoverStartParent --addr 0x0203B6EC --cc 1.1p1 --arm
  */
-void func_0203B6EC(struct NetStateWork *work)
+void GFL_NET_STATE_ChangeoverStartParent(struct NetStateWork *work)
 {
-    if (func_0203D788()->ops->getLinkLevel() == 0)
+    if (GFL_NET_GetSession()->ops->isIdle() == 0)
         return;
-    if (func_02037894(0, 0x200, 0, (u32)func_0203B6B4) == 0)
+    if (GFL_NET_SYSTEM_StartParent(0, 0x200, 0, (u32)GFL_NET_STATE_ChangeoverParentCallback) == 0)
         return;
 
     work->parentRetry = 0;
-    func_0203AD80(_pNetState, (void *)func_0203B688, 0x1E, 0x2FC);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverParentRestart, 0x1E, 0x2FC);
 }
 
 
@@ -1910,16 +1927,16 @@ void func_0203B6EC(struct NetStateWork *work)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B758.c \
- *       --func func_0203B758 --addr 0x0203B758 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverChildNegotiation.c \
+ *       --func GFL_NET_STATE_ChangeoverChildNegotiation --addr 0x0203B758 --cc 1.1p1 --arm
  */
-void func_0203B758(void)
+void GFL_NET_STATE_ChangeoverChildNegotiation(void)
 {
     func_0203D798();
     if (func_02039ACC() == 0)
         return;
 
-    func_0203AD80(_pNetState, (void *)func_0203B794, 0, 0x30E);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChildNegotiationWait, 0, 0x30E);
 }
 
 
@@ -1950,10 +1967,10 @@ void func_0203B758(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B794.c \
- *       --func func_0203B794 --addr 0x0203B794 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChildNegotiationWait.c \
+ *       --func GFL_NET_STATE_ChildNegotiationWait --addr 0x0203B794 --cc 1.1p1 --arm
  */
-void func_0203B794(struct NetStateWork *work)
+void GFL_NET_STATE_ChildNegotiationWait(struct NetStateWork *work)
 {
     GFLNetSession *pNetIni = func_0203D798();
 
@@ -1965,7 +1982,7 @@ void func_0203B794(struct NetStateWork *work)
         work->initCallback = 0;
     }
 
-    func_0203AD80(_pNetState, (void *)func_0203C00C, 0, 0x325);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x325);
 }
 
 
@@ -1995,16 +2012,16 @@ void func_0203B794(struct NetStateWork *work)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B7F8.c \
- *       --func func_0203B7F8 --addr 0x0203B7F8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ParentNegotiationWait.c \
+ *       --func GFL_NET_STATE_ParentNegotiationWait --addr 0x0203B7F8 --cc 1.1p1 --arm
  */
-void func_0203B7F8(struct NetStateWork *work)
+void GFL_NET_STATE_ParentNegotiationWait(struct NetStateWork *work)
 {
     func_0203D798();
 
     func_0203996C(0xFF);
     func_020399A8();
-    if (func_020399EC() < 2)
+    if (GFL_NET_HANDLE_GetNegotiationNum() < 2)
         return;
 
     func_02039338();
@@ -2014,7 +2031,7 @@ void func_0203B7F8(struct NetStateWork *work)
         work->initCallback = 0;
     }
 
-    func_0203AD80(_pNetState, (void *)func_0203C00C, 0, 0x33F);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x33F);
 }
 
 
@@ -2044,20 +2061,20 @@ void func_0203B7F8(struct NetStateWork *work)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B868.c \
- *       --func func_0203B868 --addr 0x0203B868 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverChildConnected.c \
+ *       --func GFL_NET_STATE_ChangeoverChildConnected --addr 0x0203B868 --cc 1.1p1 --arm
  */
-void func_0203B868(struct NetStateWork *work)
+void GFL_NET_STATE_ChangeoverChildConnected(struct NetStateWork *work)
 {
     func_0203D798();
 
-    if (func_0203D788()->ops->getGgid() != 1)
+    if (GFL_NET_GetSession()->ops->getGgid() != 1)
         return;
     if (func_02039ACC() == 0)
         return;
 
-    if (func_0203DA4C() == 1) {
-        func_0203AD80(_pNetState, (void *)func_0203B7F8, 0, 0x354);
+    if (GFL_NET_IRC_WIRELESS_IsActive() == 1) {
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ParentNegotiationWait, 0, 0x354);
         return;
     }
 
@@ -2066,7 +2083,7 @@ void func_0203B868(struct NetStateWork *work)
         work->initCallback = 0;
     }
 
-    func_0203AD80(_pNetState, (void *)func_0203C00C, 0, 0x35B);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x35B);
 }
 
 
@@ -2096,15 +2113,15 @@ void func_0203B868(struct NetStateWork *work)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B90C.c \
- *       --func func_0203B90C --addr 0x0203B90C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverStopChild.c \
+ *       --func GFL_NET_STATE_ChangeoverStopChild --addr 0x0203B90C --cc 1.1p1 --arm
  */
-void func_0203B90C(void)
+void GFL_NET_STATE_ChangeoverStopChild(void)
 {
-    if (func_0203D788()->ops->getLinkLevel() == 0)
+    if (GFL_NET_GetSession()->ops->isIdle() == 0)
         return;
 
-    func_0203AD80(_pNetState, (void *)func_0203B6EC, 0, 0x371);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverStartParent, 0, 0x371);
 }
 
 
@@ -2134,13 +2151,13 @@ void func_0203B90C(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B950.c \
- *       --func func_0203B950 --addr 0x0203B950 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverChildMain.c \
+ *       --func GFL_NET_STATE_ChangeoverChildMain --addr 0x0203B950 --cc 1.1p1 --arm
  */
-void func_0203B950(struct NetStateWork *work)
+void GFL_NET_STATE_ChangeoverChildMain(struct NetStateWork *work)
 {
     if (func_02039338() != 0) {
-        func_0203AD80(_pNetState, (void *)func_0203B758, 0, 0x383);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverChildNegotiation, 0, 0x383);
         return;
     }
 
@@ -2152,8 +2169,8 @@ void func_0203B950(struct NetStateWork *work)
         return;
     }
 
-    func_0203AD80(_pNetState, (void *)func_0203BCE0, 0, 0x390);
-    func_0203BCE0(work);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverStopChildDevice, 0, 0x390);
+    GFL_NET_STATE_ChangeoverStopChildDevice(work);
 }
 
 
@@ -2196,17 +2213,17 @@ void func_0203B950(struct NetStateWork *work)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203B9D4.c \
- *       --func func_0203B9D4 --addr 0x0203B9D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverChildScan.c \
+ *       --func GFL_NET_STATE_ChangeoverChildScan --addr 0x0203B9D4 --cc 1.1p1 --arm
  */
-void func_0203B9D4(struct NetStateWork *work)
+void GFL_NET_STATE_ChangeoverChildScan(struct NetStateWork *work)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
     u64 seedState, multiplier, nextState;
 
     if (session->ops->getTgid() == 1) {
         session->ops->forceReset();
-        func_0203AD80(_pNetState, (void *)func_0203B868, 0, 0x3A5);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverChildConnected, 0, 0x3A5);
         return;
     }
 
@@ -2222,7 +2239,7 @@ void func_0203B9D4(struct NetStateWork *work)
     work->timer = (u16)((u32)(((u64)(u32)(nextState >> 32) * 30) >> 32) + 15);
     work->random.x = nextState;
 
-    session->ops->stop(0);
+    session->ops->begin(0);
 }
 
 
@@ -2248,35 +2265,35 @@ void func_0203B9D4(struct NetStateWork *work)
 
 
 
-void func_0203BA98(u16 unusedArg, u32 initCallback, u8 hasMac)
+void GFL_NET_STATE_StartChangeover(u16 unusedArg, u32 initCallback, u8 hasMac)
 {
     GFLNetSession *pNetIni = func_0203D798();
     struct NetStateWork *work;
     u64 seedState, multiplier, nextState;
     u32 delay = 30;
 
-    func_0203D788();
-    func_0203BC58(0, hasMac, 0);
+    GFL_NET_GetSession();
+    GFL_NET_STATE_ChangeChangeoverMode(0, hasMac, 0);
 
     if (pNetIni->init.bNetType == 3 || pNetIni->init.bNetType == 4) {
-        func_020377B8(0);
+        GFL_NET_SYSTEM_ConnectDevice(0);
         _pNetState->initCallback = (void (*)(u32))initCallback;
         work = _pNetState;
         seedState = work->random.x;
         multiplier = work->random.mul;
         nextState = multiplier * seedState + work->random.add;
         work->random.x = nextState;
-        func_0203AD80(work, (void *)func_0203B9D4, (u32)(((u64)(u32)(nextState >> 32) * delay) >> 32), delay + 0x3A8);
+        GFL_NET_STATE_ChangeStateDebug(work, (void *)GFL_NET_STATE_ChangeoverChildScan, (u32)(((u64)(u32)(nextState >> 32) * delay) >> 32), delay + 0x3A8);
     } else {
         work = _pNetState;
         if (work->changeoverHasMac != 0 && work->changeoverMode != 1) {
-            func_02037A6C(1, (u32)work->changeoverMac, 0x200, (u32)func_0203B01C);
+            GFL_NET_SYSTEM_ConnectToParent(1, (u32)work->changeoverMac, 0x200, (u32)GFL_NET_STATE_ExtendConnectTimer);
         } else {
-            func_02037928(1, 0x200);
+            GFL_NET_SYSTEM_StartBeaconScan(1, 0x200);
         }
         _pNetState->initCallback = (void (*)(u32))initCallback;
         work = _pNetState;
-        func_0203AD80(work, (void *)func_0203B950, delay, delay + 0x3B4);
+        GFL_NET_STATE_ChangeStateDebug(work, (void *)GFL_NET_STATE_ChangeoverChildMain, delay, delay + 0x3B4);
     }
 }
 
@@ -2317,24 +2334,24 @@ void func_0203BA98(u16 unusedArg, u32 initCallback, u8 hasMac)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203BBB0.c \
- *       --func func_0203BBB0 --addr 0x0203BBB0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverRestart.c \
+ *       --func GFL_NET_STATE_ChangeoverRestart --addr 0x0203BBB0 --cc 1.1p1 --arm
  */
-void func_0203BBB0(struct NetStateWork *work)
+void GFL_NET_STATE_ChangeoverRestart(struct NetStateWork *work)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
     struct NetStateWork *netState;
 
     netState = _pNetState;
-    if (netState->changeoverMode == 2 && netState->state == func_0203B950) {
-        if (session->ops->setBeaconInterval(1, 0) != 0) {
-            func_0203AD80(_pNetState, ((void *)func_0203B90C), 0, 0x3E0);
+    if (netState->changeoverMode == 2 && netState->state == GFL_NET_STATE_ChangeoverChildMain) {
+        if (session->ops->stepDisconnect(1, 0) != 0) {
+            GFL_NET_STATE_ChangeStateDebug(_pNetState, ((void *)GFL_NET_STATE_ChangeoverStopChild), 0, 0x3E0);
         }
     }
 
     netState = _pNetState;
-    if (netState->changeoverMode == 1 && netState->state == func_0203B5D4) {
-        func_0203AD80(netState, ((void *)func_0203B48C), 0, 0x3E9);
+    if (netState->changeoverMode == 1 && netState->state == GFL_NET_STATE_ChangeoverParentMain) {
+        GFL_NET_STATE_ChangeStateDebug(netState, ((void *)GFL_NET_STATE_ChangeoverStopParent), 0, 0x3E9);
     }
 }
 
@@ -2367,12 +2384,12 @@ void func_0203BBB0(struct NetStateWork *work)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203BC58.c \
- *       --func func_0203BC58 --addr 0x0203BC58 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeChangeoverMode.c \
+ *       --func GFL_NET_STATE_ChangeChangeoverMode --addr 0x0203BC58 --cc 1.1p1 --arm
  */
-void func_0203BC58(u8 mode, u8 hasMac, const void *mac)
+void GFL_NET_STATE_ChangeChangeoverMode(u8 mode, u8 hasMac, const void *mac)
 {
-    func_0203D788();
+    GFL_NET_GetSession();
     _pNetState->changeoverHasMac = hasMac;
     _pNetState->changeoverMode = mode;
 
@@ -2382,8 +2399,8 @@ void func_0203BC58(u8 mode, u8 hasMac, const void *mac)
         MI_CpuFill8(_pNetState->changeoverMac, 0xFF, 6);
     }
 
-    func_0203AD80(_pNetState, (void *)func_0203BBB0, 0, 0x406);
-    func_0203BBB0(_pNetState);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverRestart, 0, 0x406);
+    GFL_NET_STATE_ChangeoverRestart(_pNetState);
 }
 
 
@@ -2415,17 +2432,17 @@ void func_0203BC58(u8 mode, u8 hasMac, const void *mac)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203BCE0.c \
- *       --func func_0203BCE0 --addr 0x0203BCE0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ChangeoverStopChildDevice.c \
+ *       --func GFL_NET_STATE_ChangeoverStopChildDevice --addr 0x0203BCE0 --cc 1.1p1 --arm
  */
-void func_0203BCE0(struct NetStateWork *work)
+void GFL_NET_STATE_ChangeoverStopChildDevice(struct NetStateWork *work)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
 
-    if (session->ops->setBeaconInterval(1, 0) == 0)
+    if (session->ops->stepDisconnect(1, 0) == 0)
         return;
 
-    func_0203AD80(_pNetState, (void *)func_0203B90C, 0, 0x411);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverStopChild, 0, 0x411);
 }
 
 
@@ -2457,12 +2474,12 @@ void func_0203BCE0(struct NetStateWork *work)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203BD30.c \
- *       --func func_0203BD30 --addr 0x0203BD30 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_SetChangeoverMode.c \
+ *       --func GFL_NET_STATE_SetChangeoverMode --addr 0x0203BD30 --cc 1.1p1 --arm
  */
-void func_0203BD30(u32 mode, u32 hasMac, u8 *mac)
+void GFL_NET_STATE_SetChangeoverMode(u32 mode, u32 hasMac, u8 *mac)
 {
-    func_0203D788();
+    GFL_NET_GetSession();
 
     _pNetState->changeoverHasMac = (u8)hasMac;
     _pNetState->changeoverMode = (u8)mode;
@@ -2473,11 +2490,11 @@ void func_0203BD30(u32 mode, u32 hasMac, u8 *mac)
         MI_CpuFill8(_pNetState->changeoverMac, 0xFF, 6);
 
     if (_pNetState->changeoverMode == 2)
-        func_0203AD80(_pNetState, (void *)func_0203B48C, 0, 0x430);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverStopParent, 0, 0x430);
 
     if (_pNetState->changeoverMode == 1) {
-        func_0203AD80(_pNetState, (void *)func_0203BCE0, 0, 0x438);
-        func_0203BCE0(_pNetState);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverStopChildDevice, 0, 0x438);
+        GFL_NET_STATE_ChangeoverStopChildDevice(_pNetState);
     }
 }
 
@@ -2510,22 +2527,22 @@ void func_0203BD30(u32 mode, u32 hasMac, u8 *mac)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203BDEC.c \
- *       --func func_0203BDEC --addr 0x0203BDEC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WaitDisconnect.c \
+ *       --func GFL_NET_STATE_WaitDisconnect --addr 0x0203BDEC --cc 1.1p1 --arm
  */
-void func_0203BDEC(void)
+void GFL_NET_STATE_WaitDisconnect(void)
 {
     GFLNetSession *pNetIni = func_0203D798();
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
 
     if ((u8)(pNetIni->init.bNetType + 0xFD) <= 1) {
         if (session->ops->getTgid() != 0)
             return;
         func_0203CEAC(0);
     } else {
-        GFLNetSession *rssiSession = func_0203D788();
+        GFLNetSession *rssiSession = GFL_NET_GetSession();
 
-        if ((rssiSession->ops->getRssi() & 0xFFFE) != 0)
+        if ((rssiSession->ops->getAidBitmap() & 0xFFFE) != 0)
             return;
         func_0203CEAC(0);
     }
@@ -2560,17 +2577,17 @@ void func_0203BDEC(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203BE5C.c \
- *       --func func_0203BE5C --addr 0x0203BE5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_RecvExitCommand.c \
+ *       --func GFL_NET_STATE_RecvExitCommand --addr 0x0203BE5C --cc 1.1p1 --arm
  */
-void func_0203BE5C(u32 netID, u32 size, u32 data, u32 work, u32 handle)
+void GFL_NET_STATE_RecvExitCommand(u32 netID, u32 size, u32 data, u32 work, u32 handle)
 {
     func_0203D3A8((void *)handle, 2, 0, 0);
 
     if (func_02039338() != 0)
         return;
 
-    func_0203AD80(_pNetState, (void *)func_0203BDEC, 0, 0x46C);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WaitDisconnect, 0, 0x46C);
 }
 
 
@@ -2611,10 +2628,10 @@ void func_0203BE5C(u32 netID, u32 size, u32 data, u32 work, u32 handle)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203BEAC.c \
- *       --func func_0203BEAC --addr 0x0203BEAC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_IsExitReady.c \
+ *       --func GFL_NET_STATE_IsExitReady --addr 0x0203BEAC --cc 1.1p1 --arm
  */
-u32 func_0203BEAC(void)
+u32 GFL_NET_STATE_IsExitReady(void)
 {
     u32 result;
 
@@ -2653,28 +2670,28 @@ u32 func_0203BEAC(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203BEC8.c \
- *       --func func_0203BEC8 --addr 0x0203BEC8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ExitWait.c \
+ *       --func GFL_NET_STATE_ExitWait --addr 0x0203BEC8 --cc 1.1p1 --arm
  */
-void func_0203BEC8(struct NetStateWork *work)
+void GFL_NET_STATE_ExitWait(struct NetStateWork *work)
 {
     GFLNetSession *session;
 
     func_0203D798();
-    session = func_0203D788();
+    session = GFL_NET_GetSession();
 
-    if (session->ops->getLinkLevel() != 0) {
-        if (session->ops->setParentMask(0) == 0)
+    if (session->ops->isIdle() != 0) {
+        if (session->ops->cleanup(0) == 0)
             return;
-        func_0203AEEC(work);
+        GFL_NET_STATE_FreeWork(work);
         return;
     }
 
-    if (session->ops->getRunState() != 0)
+    if (session->ops->isActive() != 0)
         return;
-    if (session->ops->setParentMask(0) == 0)
+    if (session->ops->cleanup(0) == 0)
         return;
-    func_0203AEEC(work);
+    GFL_NET_STATE_FreeWork(work);
 }
 
 
@@ -2706,17 +2723,17 @@ void func_0203BEC8(struct NetStateWork *work)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203BF4C.c \
- *       --func func_0203BF4C --addr 0x0203BF4C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ExitStopDevice.c \
+ *       --func GFL_NET_STATE_ExitStopDevice --addr 0x0203BF4C --cc 1.1p1 --arm
  */
-void func_0203BF4C(void)
+void GFL_NET_STATE_ExitStopDevice(void)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
 
-    if (session->ops->setBeaconInterval(1, 0) == 0)
+    if (session->ops->stepDisconnect(1, 0) == 0)
         return;
 
-    func_0203AD80(_pNetState, (void *)func_0203BEC8, 0, 0x4A4);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ExitWait, 0, 0x4A4);
 }
 
 
@@ -2747,7 +2764,7 @@ void func_0203BF4C(void)
 /*
  * 116 bytes, three functions: the setter, the 28-byte leaf that clears the
  * same flag, and the four-byte `bx lr` stub the card task is handed as a
- * callback (src/pending/func_0203C010.c passes it at 0x0203C00C).
+ * callback (src/pending/GFL_NET_STATE_EndDevice.c passes it at 0x0203C00C).
  *
  * The two leaves carry no label in the generated listing - neither saves `lr`
  * - so this range used to stop at 0x0203BF9C with an `EXACT*`, the inferred
@@ -2760,7 +2777,7 @@ void func_0203BF4C(void)
  *   python tools/match.py tu --src src/matched/unit_0203BF9C.c \
  *       --addr 0x0203BF9C --arm --cc 1.1p1
  */
-void func_0203BF9C(u32 exitCallback)
+void GFL_NET_STATE_Exit(u32 exitCallback)
 {
     struct NetStateWork *work = _pNetState;
 
@@ -2769,7 +2786,7 @@ void func_0203BF9C(u32 exitCallback)
 
     work->exitCallback = (void (*)(void))exitCallback;
     _pNetState->exitRequested = 1;
-    func_0203AD80(_pNetState, ((void *)func_0203BF4C), 5, 0x4B7);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, ((void *)GFL_NET_STATE_ExitStopDevice), 5, 0x4B7);
 }
 
 
@@ -2797,7 +2814,7 @@ void func_0203BF9C(u32 exitCallback)
 
 
 
-void func_0203BFF0(void)
+void GFL_NET_STATE_ClearExitFlag(void)
 {
     if (_pNetState != 0)
         _pNetState->exitRequested = 0;
@@ -2828,7 +2845,7 @@ void func_0203BFF0(void)
 
 
 
-void func_0203C00C(void)
+void GFL_NET_STATE_Idle(void)
 {
 }
 
@@ -2875,13 +2892,13 @@ void func_0203C00C(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0203C010.c \
- *       --func func_0203C010 --addr 0x0203C010 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GFL_NET_STATE_EndDevice.c \
+ *       --func GFL_NET_STATE_EndDevice --addr 0x0203C010 --cc 1.1p1 --arm
  */
-void func_0203C010(void)
+void GFL_NET_STATE_EndDevice(void)
 {
-    func_020379C8(0x200);
-    func_0203AD80(_pNetState, func_0203C00C, 0, 0x4DA);
+    GFL_NET_SYSTEM_EndDevice(0x200);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, GFL_NET_STATE_Idle, 0, 0x4DA);
 }
 
 
@@ -2906,7 +2923,7 @@ void func_0203C010(void)
 
 
 
-GFLNetSession *func_0203C044(int netID, int size, u8 *data, int work)
+GFLNetSession *GFL_NET_STATE_SetMPMode(int netID, int size, u8 *data, int work)
 {
     GFLNetSession *pNetIni = func_0203D798();
 
@@ -2937,10 +2954,10 @@ GFLNetSession *func_0203C044(int netID, int size, u8 *data, int work)
 
 /*
  * Empty callback (a lone bx lr), one of three adjacent stubs at
- * 0x0203C05C/60/64 whose addresses func_0203C0F4, func_0203C3EC,
- * func_0203C494 and func_0203C7E0 pass or compare as handler pointers.
+ * 0x0203C05C/60/64 whose addresses GFL_NET_STATE_WifiLoginMain, GFL_NET_STATE_GetWifiState,
+ * GFL_NET_STATE_WifiMatchDisconnect and GFL_NET_STATE_WifiMatchWait pass or compare as handler pointers.
  */
-void func_0203C05C(void)
+void GFL_NET_STATE_WifiError(void)
 {
 }
 
@@ -2965,7 +2982,7 @@ void func_0203C05C(void)
 
 
 
-void func_0203C060(void)
+void GFL_NET_STATE_WifiLoggedOut(void)
 {
 }
 
@@ -2990,7 +3007,7 @@ void func_0203C060(void)
 
 
 
-void func_0203C064(void)
+void GFL_NET_STATE_WifiFatal(void)
 {
 }
 
@@ -3018,7 +3035,7 @@ void func_0203C064(void)
 
 /*
  * Calls the virtual at +0xC of the object at *(net context + 0x340) with a
- * zero argument and reports through func_0203AD80 when it answers a negative
+ * zero argument and reports through GFL_NET_STATE_ChangeStateDebug when it answers a negative
  * result.  The `mov r4, #0` local is what feeds both the call's r0 and the
  * report's r2, hence its placement; the `popge` is the `>= 0` half of the
  * signed comparison.
@@ -3026,12 +3043,12 @@ void func_0203C064(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C068.c  *       --func func_0203C068 --addr 0x0203C068 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiErrorWait.c  *       --func GFL_NET_STATE_WifiErrorWait --addr 0x0203C068 --cc 1.1p1 --arm
  */
-void func_0203C068(void)
+void GFL_NET_STATE_WifiErrorWait(void)
 {
-    if (func_0203D788()->ops->requestDisconnect(0) < 0)
-        func_0203AD80(_pNetState, (void *)func_0203C05C, 0, (int)0x52C);
+    if (GFL_NET_GetSession()->ops->update(0) < 0)
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiError, 0, (int)0x52C);
 }
 
 
@@ -3055,11 +3072,11 @@ void func_0203C068(void)
 
 
 
-void func_0203C0B4(void)
+void GFL_NET_STATE_WifiStopError(void)
 {
-    GFLNetSession *session = func_0203D788();
-    func_020394DC(1);
-    session->ops->requestDisconnect(0);
+    GFLNetSession *session = GFL_NET_GetSession();
+    GFL_NET_SYSTEM_SetNoChildError(1);
+    session->ops->update(0);
 }
 
 
@@ -3094,10 +3111,10 @@ void func_0203C0B4(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C0DC.c \
- *       --func func_0203C0DC --addr 0x0203C0DC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_SetWifiErrorCode.c \
+ *       --func GFL_NET_STATE_SetWifiErrorCode --addr 0x0203C0DC --cc 1.1p1 --arm
  */
-void func_0203C0DC(struct NetStateWork *work, u32 errorCode)
+void GFL_NET_STATE_SetWifiErrorCode(struct NetStateWork *work, u32 errorCode)
 {
     if (errorCode - 1005 > 1)
         errorCode = -errorCode;
@@ -3125,20 +3142,20 @@ void func_0203C0DC(struct NetStateWork *work, u32 errorCode)
 
 
 
-void func_0203C0F4(struct NetStateWork *work)
+void GFL_NET_STATE_WifiLoginMain(struct NetStateWork *work)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
     GFLNetModeOps *ops = session->ops;
-    s32 result = ops->requestDisconnect(0);
+    s32 result = ops->update(0);
 
     if (result == 1000) {
-        func_0203AD80(_pNetState, (void *)func_0203C0B4, 0, 1403);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiStopError, 0, 1403);
         return;
     }
 
     ops = session->ops;
     if (ops->getTgid() != 0) {
-        func_0203AD80(_pNetState, (void *)func_0203C0B4, 0, 1407);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiStopError, 0, 1407);
         return;
     }
 
@@ -3147,17 +3164,17 @@ void func_0203C0F4(struct NetStateWork *work)
     }
 
     if (result == 1001) {
-        func_0203AD80(_pNetState, (void *)func_0203C060, 0, 1413);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLoggedOut, 0, 1413);
         return;
     }
 
     if (result == 1002) {
-        func_0203AD80(_pNetState, (void *)func_0203C064, 0, 1416);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiFatal, 0, 1416);
         return;
     }
 
     if (result >= 10) {
-        func_0203AD80(_pNetState, (void *)func_0203C064, 0, 1420);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiFatal, 0, 1420);
         return;
     }
 
@@ -3165,8 +3182,8 @@ void func_0203C0F4(struct NetStateWork *work)
         return;
     }
 
-    func_0203C0DC(work, result);
-    func_0203AD80(_pNetState, (void *)func_0203C05C, 0, 1424);
+    GFL_NET_STATE_SetWifiErrorCode(work, result);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiError, 0, 1424);
 }
 
 
@@ -3196,21 +3213,21 @@ void func_0203C0F4(struct NetStateWork *work)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C238.c \
- *       --func func_0203C238 --addr 0x0203C238 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiLoginStart.c \
+ *       --func GFL_NET_STATE_WifiLoginStart --addr 0x0203C238 --cc 1.1p1 --arm
  */
-void func_0203C238(struct NetStateWork *work)
+void GFL_NET_STATE_WifiLoginStart(struct NetStateWork *work)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
     GFLNetSession *pNetIni = func_0203D798();
 
-    if (session->ops->sendPacket(work->loginTarget, pNetIni->init.maxConnectNum, 0) != 0)
+    if (session->ops->startFriendMatch(work->loginTarget, pNetIni->init.maxConnectNum, 0) != 0)
         return;
 
-    func_02037D78();
-    func_020398B4(session);
-    func_02039834(session);
-    func_0203AD80(_pNetState, (void *)func_0203C0F4, 0, 0x5AC);
+    GFL_NET_SYSTEM_ResetAll();
+    GFL_NET_HANDLE_ExitWork(session);
+    GFL_NET_HANDLE_InitWork(session);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLoginMain, 0, 0x5AC);
 }
 
 
@@ -3240,18 +3257,18 @@ void func_0203C238(struct NetStateWork *work)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C2B0.c \
- *       --func func_0203C2B0 --addr 0x0203C2B0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiEnterLogin.c \
+ *       --func GFL_NET_STATE_WifiEnterLogin --addr 0x0203C2B0 --cc 1.1p1 --arm
  */
-int func_0203C2B0(int loginTarget)
+int GFL_NET_STATE_WifiEnterLogin(int loginTarget)
 {
     if (loginTarget != -1) {
-        if (func_0203778C((u32)loginTarget) == 0)
+        if (GFL_NET_SYSTEM_SetDeviceOption((u32)loginTarget) == 0)
             return 0;
     }
 
     _pNetState->loginTarget = loginTarget;
-    func_0203AD80(_pNetState, (void *)func_0203C238, 0, 0x5C4);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLoginStart, 0, 0x5C4);
     return 1;
 }
 
@@ -3290,17 +3307,17 @@ int func_0203C2B0(int loginTarget)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C304.c  *       --func func_0203C304 --addr 0x0203C304 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiEnterRandomMatch.c  *       --func GFL_NET_STATE_WifiEnterRandomMatch --addr 0x0203C304 --cc 1.1p1 --arm
  */
-u32 func_0203C304(void)
+u32 GFL_NET_STATE_WifiEnterRandomMatch(void)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
 
     _pNetState->loginTarget = -2;
-    func_02037D78();
-    func_020398B4(session);
-    func_02039834(session);
-    func_0203AD80(_pNetState, (void *)func_0203C0F4, 0, (int)0x5D9);
+    GFL_NET_SYSTEM_ResetAll();
+    GFL_NET_HANDLE_ExitWork(session);
+    GFL_NET_HANDLE_InitWork(session);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLoginMain, 0, (int)0x5D9);
     return 1;
 }
 
@@ -3339,17 +3356,17 @@ u32 func_0203C304(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C35C.c  *       --func func_0203C35C --addr 0x0203C35C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiEnterFriendMatch.c  *       --func GFL_NET_STATE_WifiEnterFriendMatch --addr 0x0203C35C --cc 1.1p1 --arm
  */
-u32 func_0203C35C(void)
+u32 GFL_NET_STATE_WifiEnterFriendMatch(void)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
 
     _pNetState->loginTarget = -2;
-    func_02037D78();
-    func_020398B4(session);
-    func_02039834(session);
-    func_0203AD80(_pNetState, (void *)func_0203C0F4, 0, (int)0x5FD);
+    GFL_NET_SYSTEM_ResetAll();
+    GFL_NET_HANDLE_ExitWork(session);
+    GFL_NET_HANDLE_InitWork(session);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLoginMain, 0, (int)0x5FD);
     return 1;
 }
 
@@ -3378,10 +3395,10 @@ u32 func_0203C35C(void)
 
 
 
-void func_0203C3B4(void)
+void GFL_NET_STATE_WifiEnterLoginDefault(void)
 {
     _pNetState->loginTarget = -1;
-    func_0203AD80(_pNetState, (void *)func_0203C238, 0, 0x60d);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLoginStart, 0, 0x60d);
 }
 
 
@@ -3421,23 +3438,23 @@ void func_0203C3B4(void)
  * at those addresses, taken as integers, so each becomes its own relocation
  * and no `sub`/constant-fold is possible.
  */
-int func_0203C3EC(void)
+int GFL_NET_STATE_GetWifiState(void)
 {
     void *curState = _pNetState->state;
 
-    if (curState == func_0203C0F4) {
+    if (curState == GFL_NET_STATE_WifiLoginMain) {
         return 0;
     }
-    if (curState == func_0203C0B4) {
+    if (curState == GFL_NET_STATE_WifiStopError) {
         return 1;
     }
-    if (curState == func_0203C068) {
+    if (curState == GFL_NET_STATE_WifiErrorWait) {
         return 3;
     }
-    if (curState == func_0203C060) {
+    if (curState == GFL_NET_STATE_WifiLoggedOut) {
         return 4;
     }
-    if (curState == func_0203C064) {
+    if (curState == GFL_NET_STATE_WifiFatal) {
         return 5;
     }
     return 2;
@@ -3466,10 +3483,10 @@ int func_0203C3EC(void)
 
 
 
-void func_0203C464(void)
+void GFL_NET_STATE_WifiConnected(void)
 {
-    func_0203D788();
-    func_0203AD80(_pNetState, (void *)func_0203C0F4, 0, 0x637);
+    GFL_NET_GetSession();
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLoginMain, 0, 0x637);
 }
 
 
@@ -3499,7 +3516,7 @@ void func_0203C464(void)
 
 /*
  * The other half of the connect/disconnect pair whose partner is
- * src/matched/func_0203C554.c: it turns the state byte at +0x4B into the
+ * src/matched/GFL_NET_STATE_WifiDisconnect.c: it turns the state byte at +0x4B into the
  * vtable's +0x54 hook, then either starts the link layer or, when the +0x0C
  * hook reports a negative result, files line 0x655.
  *
@@ -3510,26 +3527,26 @@ void func_0203C464(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C494.c \
- *       --func func_0203C494 --addr 0x0203C494 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiMatchDisconnect.c \
+ *       --func GFL_NET_STATE_WifiMatchDisconnect --addr 0x0203C494 --cc 1.1p1 --arm
  */
-void func_0203C494(struct NetStateWork *work)
+void GFL_NET_STATE_WifiMatchDisconnect(struct NetStateWork *work)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
     u32 sendMask = 0;
 
-    func_020394DC(0);
+    GFL_NET_SYSTEM_SetNoChildError(0);
 
     if (work->matchDisconnect == 0)
         sendMask = 1;
 
-    if (session->ops->sendPacketMask(sendMask, 0) != 0) {
-        func_02037D78();
-        func_020398B4(session);
-        func_02039834(session);
-        func_0203AD80(_pNetState, (void *)func_0203C464, 0, 0x64F);
-    } else if (session->ops->requestDisconnect(0) < 0) {
-        func_0203AD80(_pNetState, (void *)func_0203C05C, 0, 0x655);
+    if (session->ops->pollDisconnect(sendMask, 0) != 0) {
+        GFL_NET_SYSTEM_ResetAll();
+        GFL_NET_HANDLE_ExitWork(session);
+        GFL_NET_HANDLE_InitWork(session);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiConnected, 0, 0x64F);
+    } else if (session->ops->update(0) < 0) {
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiError, 0, 0x655);
     }
 }
 
@@ -3562,10 +3579,10 @@ void func_0203C494(struct NetStateWork *work)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C554.c \
- *       --func func_0203C554 --addr 0x0203C554 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiDisconnect.c \
+ *       --func GFL_NET_STATE_WifiDisconnect --addr 0x0203C554 --cc 1.1p1 --arm
  */
-void func_0203C554(u32 hasMatch)
+void GFL_NET_STATE_WifiDisconnect(u32 hasMatch)
 {
     struct NetStateWork *work = _pNetState;
 
@@ -3581,8 +3598,8 @@ void func_0203C554(u32 hasMatch)
         work->matchDisconnect = 0;
     }
 
-    func_0203AD80(_pNetState, (void *)func_0203C494, 0, 0x671);
-    func_0203C494(_pNetState);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiMatchDisconnect, 0, 0x671);
+    GFL_NET_STATE_WifiMatchDisconnect(_pNetState);
 }
 
 
@@ -3618,12 +3635,12 @@ void func_0203C554(u32 hasMatch)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C5C8.c \
- *       --func func_0203C5C8 --addr 0x0203C5C8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiDisconnectFinal.c \
+ *       --func GFL_NET_STATE_WifiDisconnectFinal --addr 0x0203C5C8 --cc 1.1p1 --arm
  */
-void func_0203C5C8(void)
+void GFL_NET_STATE_WifiDisconnectFinal(void)
 {
-    func_0203C554(1);
+    GFL_NET_STATE_WifiDisconnect(1);
     _pNetState->disconnectFinal = 1;
 }
 
@@ -3655,7 +3672,7 @@ void func_0203C5C8(void)
 /*
  * Unlabelled ARM leaf: byte at +0x4a of the card task object.
  */
-int func_0203C5EC(void)
+int GFL_NET_STATE_IsWifiDisconnectFinal(void)
 {
     return _pNetState->disconnectFinal;
 }
@@ -3685,11 +3702,11 @@ int func_0203C5EC(void)
 
 
 /*
- * Unlabelled ARM predicate: the callback at +8 of the card task object is func_0203C0F4.
+ * Unlabelled ARM predicate: the callback at +8 of the card task object is GFL_NET_STATE_WifiLoginMain.
  */
-int func_0203C600(void)
+int GFL_NET_STATE_IsWifiLoginState(void)
 {
-    return _pNetState->state == (void *)func_0203C0F4;
+    return _pNetState->state == (void *)GFL_NET_STATE_WifiLoginMain;
 }
 
 
@@ -3717,12 +3734,12 @@ int func_0203C600(void)
 
 
 /*
- * Unlabelled ARM predicate: the callback at +8 of the card task object is func_0203C0F4 or func_0203C464.
+ * Unlabelled ARM predicate: the callback at +8 of the card task object is GFL_NET_STATE_WifiLoginMain or GFL_NET_STATE_WifiConnected.
  */
-int func_0203C628(void)
+int GFL_NET_STATE_IsWifiLoginOrConnected(void)
 {
     void *curState = _pNetState->state;
-    return curState == (void *)func_0203C0F4 || curState == (void *)func_0203C464;
+    return curState == (void *)GFL_NET_STATE_WifiLoginMain || curState == (void *)GFL_NET_STATE_WifiConnected;
 }
 
 
@@ -3753,35 +3770,35 @@ int func_0203C628(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C65C.c \
- *       --func func_0203C65C --addr 0x0203C65C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiLogoutWait.c \
+ *       --func GFL_NET_STATE_WifiLogoutWait --addr 0x0203C65C --cc 1.1p1 --arm
  */
-void func_0203C65C(struct NetStateWork *work)
+void GFL_NET_STATE_WifiLogoutWait(struct NetStateWork *work)
 {
     GFLNetSession *session;
 
     func_0203D798();
-    session = func_0203D788();
+    session = GFL_NET_GetSession();
 
-    session->ops->requestDisconnect(1);
+    session->ops->update(1);
 
-    if (session->ops->getLinkLevel() != 0) {
-        session->ops->setParentMask(0);
-        func_0203AEEC(work);
+    if (session->ops->isIdle() != 0) {
+        session->ops->cleanup(0);
+        GFL_NET_STATE_FreeWork(work);
         return;
     }
 
-    if (session->ops->getRunState() == 0) {
-        session->ops->setParentMask(0);
-        func_0203AEEC(work);
+    if (session->ops->isActive() == 0) {
+        session->ops->cleanup(0);
+        GFL_NET_STATE_FreeWork(work);
         return;
     }
 
-    if (session->ops->getParentChannel() == 0)
+    if (session->ops->isOffline() == 0)
         return;
 
-    session->ops->setParentMask(0);
-    func_0203AEEC(work);
+    session->ops->cleanup(0);
+    GFL_NET_STATE_FreeWork(work);
 }
 
 
@@ -3812,18 +3829,18 @@ void func_0203C65C(struct NetStateWork *work)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C710.c \
- *       --func func_0203C710 --addr 0x0203C710 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiLogoutStop.c \
+ *       --func GFL_NET_STATE_WifiLogoutStop --addr 0x0203C710 --cc 1.1p1 --arm
  */
-void func_0203C710(void)
+void GFL_NET_STATE_WifiLogoutStop(void)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
 
-    session->ops->requestDisconnect(0);
-    if (session->ops->setBeaconInterval(1, 0) == 0)
+    session->ops->update(0);
+    if (session->ops->stepDisconnect(1, 0) == 0)
         return;
 
-    func_0203AD80(_pNetState, (void *)func_0203C65C, 0, 0x702);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLogoutWait, 0, 0x702);
 }
 
 
@@ -3854,22 +3871,22 @@ void func_0203C710(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C774.c \
- *       --func func_0203C774 --addr 0x0203C774 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiLogout.c \
+ *       --func GFL_NET_STATE_WifiLogout --addr 0x0203C774 --cc 1.1p1 --arm
  */
-void func_0203C774(u32 exitCallback)
+void GFL_NET_STATE_WifiLogout(u32 exitCallback)
 {
     GFLNetSession *session;
 
     if (_pNetState == 0)
         return;
 
-    session = func_0203D788();
+    session = GFL_NET_GetSession();
     func_020351A0(1);
     _pNetState->exitCallback = (void (*)(void))exitCallback;
-    session->ops->sendPacketMask(1, 0);
+    session->ops->pollDisconnect(1, 0);
 
-    func_0203AD80(_pNetState, (void *)func_0203C710, 5, 0x719);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLogoutStop, 5, 0x719);
 }
 
 
@@ -3900,19 +3917,19 @@ void func_0203C774(u32 exitCallback)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C7E0.c \
- *       --func func_0203C7E0 --addr 0x0203C7E0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiMatchWait.c \
+ *       --func GFL_NET_STATE_WifiMatchWait --addr 0x0203C7E0 --cc 1.1p1 --arm
  */
-void func_0203C7E0(struct NetStateWork *work)
+void GFL_NET_STATE_WifiMatchWait(struct NetStateWork *work)
 {
-    GFLNetSession *session = func_0203D788();
-    int result = session->ops->requestDisconnect(0);
+    GFLNetSession *session = GFL_NET_GetSession();
+    int result = session->ops->update(0);
 
     if (result < 0) {
-        func_0203C0DC(work, (u32)result);
-        func_0203AD80(_pNetState, (void *)func_0203C05C, 0, 0x72E);
+        GFL_NET_STATE_SetWifiErrorCode(work, (u32)result);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiError, 0, 0x72E);
     } else if (result > 0) {
-        func_0203AD80(_pNetState, (void *)func_0203C464, 0, 0x737);
+        GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiConnected, 0, 0x737);
     }
 }
 
@@ -3944,23 +3961,23 @@ void func_0203C7E0(struct NetStateWork *work)
  * Promoted from src/pending/ on lane 1.  Every concrete byte is right; the one
  * open site was the `bl` to 0x02037700, whose only branch anywhere in the
  * image is this one, so `label` had no outside witness.  With
- * src/matched/func_02037700.c filed EXACT the site resolves through the
+ * src/matched/GFL_NET_SYSTEM_InitDevice.c filed EXACT the site resolves through the
  * `matched` class and the file prints EXACT with no change to its C.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C864.c \
- *       --func func_0203C864 --addr 0x0203C864 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiMatchStart.c \
+ *       --func GFL_NET_STATE_WifiMatchStart --addr 0x0203C864 --cc 1.1p1 --arm
  */
-void func_0203C864(void)
+void GFL_NET_STATE_WifiMatchStart(void)
 {
     GFLNetSession *pNetIni = func_0203D798();
 
-    if (func_02037700(0x200, pNetIni->init.heapId) == 0)
+    if (GFL_NET_SYSTEM_InitDevice(0x200, pNetIni->init.heapId) == 0)
         return;
 
-    func_0203AD80(_pNetState, (void *)func_0203C7E0, 0, 0x74A);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiMatchWait, 0, 0x74A);
 }
 
 
@@ -3998,14 +4015,14 @@ void func_0203C864(void)
  *   python tools/match.py tu --src src/matched/unit_0203C8A8.c \
  *       --addr 0x0203C8A8 --arm --cc 1.1p1
  */
-void func_0203C8A8(void)
+void GFL_NET_STATE_WifiStartMatch(void)
 {
-    if (func_020392EC() != 0)
+    if (GFL_NET_SYSTEM_IsDeviceReady() != 0)
         return;
 
     func_0203D798();
     func_0203516C(1);
-    func_0203AD80(_pNetState, (void *)func_0203C864, 0, 0x760);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiMatchStart, 0, 0x760);
 }
 
 
@@ -4032,7 +4049,7 @@ void func_0203C8A8(void)
 
 
 
-void func_0203C8E8(u8 autoExit)
+void GFL_NET_STATE_SetAutoExit(u8 autoExit)
 {
     if (_pNetState != 0)
         _pNetState->autoExit = autoExit;
@@ -4062,14 +4079,14 @@ void func_0203C8E8(u8 autoExit)
 
 
 
-void func_0203C900(u8 option)
+void GFL_NET_STATE_SetLoginOption(u8 option)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
 
     if (_pNetState != 0)
         _pNetState->loginOption = option;
 
-    session->ops->setPowerSave(option);
+    session->ops->setWatchDisconnect(option);
 }
 
 
@@ -4095,7 +4112,7 @@ void func_0203C900(u8 option)
 
 
 
-void func_0203C934(void){ }
+void GFL_NET_STATE_NoProc(void){ }
 
 
 
@@ -4124,15 +4141,15 @@ void func_0203C934(void){ }
 /*
  * Opens the state: with no live object the answer is 0, otherwise the mode
  * byte at +0x4D is written, the two setup calls run and the answer is 1.
- * src/matched/func_0203C968.c is the matching close.
+ * src/matched/GFL_NET_STATE_ClearErrorMode.c is the matching close.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C938.c \
- *       --func func_0203C938 --addr 0x0203C938 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_SetErrorMode.c \
+ *       --func GFL_NET_STATE_SetErrorMode --addr 0x0203C938 --cc 1.1p1 --arm
  */
-u32 func_0203C938(u8 mode)
+u32 GFL_NET_STATE_SetErrorMode(u8 mode)
 {
     struct NetStateWork *work;
 
@@ -4140,8 +4157,8 @@ u32 func_0203C938(u8 mode)
     if (work == 0)
         return 0;
     work->errorMode = mode;
-    func_02039548();
-    func_02039578();
+    GFL_NET_SYSTEM_SetError();
+    GFL_NET_SYSTEM_SetNoSend();
     return 1;
 }
 
@@ -4170,16 +4187,16 @@ u32 func_0203C938(u8 mode)
 
 
 /*
- * Closes the state src/matched/func_0203C938.c opens: clears the mode byte and
+ * Closes the state src/matched/GFL_NET_STATE_SetErrorMode.c opens: clears the mode byte and
  * runs the teardown call.  With no live object it is a bare `popeq`.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C968.c \
- *       --func func_0203C968 --addr 0x0203C968 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ClearErrorMode.c \
+ *       --func GFL_NET_STATE_ClearErrorMode --addr 0x0203C968 --cc 1.1p1 --arm
  */
-void func_0203C968(void)
+void GFL_NET_STATE_ClearErrorMode(void)
 {
     struct NetStateWork *work;
 
@@ -4187,7 +4204,7 @@ void func_0203C968(void)
     if (work == 0)
         return;
     work->errorMode = 0;
-    func_02039560();
+    GFL_NET_SYSTEM_ResetError();
 }
 
 
@@ -4215,17 +4232,17 @@ void func_0203C968(void)
 
 
 /*
- * The mode byte src/matched/func_0203C938.c writes, read back - 0 when there
+ * The mode byte src/matched/GFL_NET_STATE_SetErrorMode.c writes, read back - 0 when there
  * is no object.  Both loads are conditional, so the function is two
  * instructions plus the two pool words.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C990.c \
- *       --func func_0203C990 --addr 0x0203C990 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_GetErrorMode.c \
+ *       --func GFL_NET_STATE_GetErrorMode --addr 0x0203C990 --cc 1.1p1 --arm
  */
-u32 func_0203C990(void)
+u32 GFL_NET_STATE_GetErrorMode(void)
 {
     struct NetStateWork *work;
 
@@ -4261,10 +4278,10 @@ u32 func_0203C990(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203C9AC.c \
- *       --func func_0203C9AC --addr 0x0203C9AC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_SetError.c \
+ *       --func GFL_NET_STATE_SetError --addr 0x0203C9AC --cc 1.1p1 --arm
  */
-void func_0203C9AC(int errorCode, u32 errorArg1, u32 errorArg2, u32 errorArg3)
+void GFL_NET_STATE_SetError(int errorCode, u32 errorArg1, u32 errorArg2, u32 errorArg3)
 {
     if (_pNetState == 0)
         return;
@@ -4272,13 +4289,13 @@ void func_0203C9AC(int errorCode, u32 errorArg1, u32 errorArg2, u32 errorArg3)
     if ((u32)(errorCode - 0x3ED) > 1)
         errorCode = -errorCode;
 
-    _pNetState->errorInfo[0] = errorCode;
-    _pNetState->errorInfo[1] = errorArg1;
-    _pNetState->errorInfo[2] = errorArg2;
-    _pNetState->errorInfo[3] = errorArg3;
+    _pNetState->errorInfo.errorCode = errorCode;
+    _pNetState->errorInfo.errorType = errorArg1;
+    _pNetState->errorInfo.dwcError = errorArg2;
+    _pNetState->errorInfo.gameCode = errorArg3;
 
     if (errorArg3 != 0)
-        func_02039548();
+        GFL_NET_SYSTEM_SetError();
 }
 
 
@@ -4309,10 +4326,10 @@ void func_0203C9AC(int errorCode, u32 errorArg1, u32 errorArg2, u32 errorArg3)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203CA04.c \
- *       --func func_0203CA04 --addr 0x0203CA04 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_SetWifiError.c \
+ *       --func GFL_NET_STATE_SetWifiError --addr 0x0203CA04 --cc 1.1p1 --arm
  */
-void func_0203CA04(void)
+void GFL_NET_STATE_SetWifiError(void)
 {
     GFLNetSession *pNetIni;
     u32 isWifiType;
@@ -4331,10 +4348,10 @@ void func_0203CA04(void)
     if (isWifiType == 0)
         func_02034714(_FileName, 0x8B7, _AssertNetTypeWifi);
 
-    _pNetState->errorInfo[0] = 0;
-    _pNetState->errorInfo[1] = 0;
-    _pNetState->errorInfo[2] = 0;
-    _pNetState->errorInfo[3] = 0;
+    _pNetState->errorInfo.errorCode = 0;
+    _pNetState->errorInfo.errorType = 0;
+    _pNetState->errorInfo.dwcError = 0;
+    _pNetState->errorInfo.gameCode = 0;
 }
 
 
@@ -4367,14 +4384,14 @@ void func_0203CA04(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203CA98.c \
- *       --func func_0203CA98 --addr 0x0203CA98 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_GetError.c \
+ *       --func GFL_NET_STATE_GetError --addr 0x0203CA98 --cc 1.1p1 --arm
  */
-u32 func_0203CA98(void)
+u32 GFL_NET_STATE_GetError(void)
 {
     if (_pNetState == 0)
         func_02034714(_FileName, 0x8CA, _AssertNetState);
-    return (u32)_pNetState->errorInfo;
+    return (u32)&_pNetState->errorInfo;
 }
 
 
@@ -4399,9 +4416,9 @@ u32 func_0203CA98(void)
 
 
 /*
- * Unlabelled ARM assert thunk: tail call func_02034714(_FileName, 0x8D8, _AssertWifiBattleError), the fall-through failure path after func_0203CA98.
+ * Unlabelled ARM assert thunk: tail call func_02034714(_FileName, 0x8D8, _AssertWifiBattleError), the fall-through failure path after GFL_NET_STATE_GetError.
  */
-void func_0203CADC(void)
+void GFL_NET_STATE_FatalError(void)
 {
     func_02034714(_FileName, 0x8D8, _AssertWifiBattleError);
 }
@@ -4428,14 +4445,14 @@ void func_0203CADC(void)
 
 
 /*
- * Unlabelled ARM predicate: the card task object exists and its callback at +8 is func_0203CADC.
- * MATCH only because 0x0203CADC (func_0203CADC.c, EXACT) is not yet a labelled
+ * Unlabelled ARM predicate: the card task object exists and its callback at +8 is GFL_NET_STATE_FatalError.
+ * MATCH only because 0x0203CADC (GFL_NET_STATE_FatalError.c, EXACT) is not yet a labelled
  * function start: the pool word has no outside witness until the seed lands.
  */
-int func_0203CB00(void)
+int GFL_NET_STATE_IsFatalError(void)
 {
     struct NetStateWork *work = _pNetState;
-    if (work != 0 && work->state == (void *)func_0203CADC) {
+    if (work != 0 && work->state == (void *)GFL_NET_STATE_FatalError) {
         return 1;
     }
     return 0;

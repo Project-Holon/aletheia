@@ -8,14 +8,16 @@
  * isa: thumb
  * status: EXACT
  * blocker: ARM9 Thumb 0x02024910 lacks an outside witness. Verified EXACT in blocker.log:
- *   void *func_02024910(char *p,int i) { return p+8+i*8; }
+ *   void *PMS_WORD_GetSaveEntry(char *p,int i) { return p+8+i*8; }
  * symbols:
  *   func_021C1718 0x021C1718 thumb ov110
  *   func_021C0C44 0x021C0C44 thumb ov110
  *   func_021C0D34 0x021C0D34 thumb ov110
  *   func_0204B3DC 0x0204B3DC arm
  *   func_020450F0 0x020450F0 arm
- *   func_02024910 0x02024910 thumb
+ *   PMS_WORD_GetSaveEntry 0x02024910 thumb
+ *   PMSI_PARAM_IsComplete  0x02024464  thumb  arm9
+ *   PMS_DRAW_Create  0x0202DB0C  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,9 +26,9 @@ typedef unsigned int   u32;
 struct Obj;
 struct PmsDraw;
 struct T;
-extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
-extern void *func_02024910(char *p, int idx);
-extern int func_02024464(struct T *p, u32 a1);
+extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
+extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
+extern int PMSI_PARAM_IsComplete(struct T *p, u32 a1);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_021C0C44(void *);
@@ -34,10 +36,10 @@ extern void func_021C0D34(char *p, int force);
 void func_021C0B54(char *p) {
     int i;
     unsigned v;
-    *(void **)(p+0x8c)=func_0202DB0C((u32)func_021C1718(*(void **)(p+0x50)),(int)0,(u32)(*(void **)(p+0x5c)),(u32)(*(void **)(p+0x58)),(int)8,(int)4,*(u16 *)(p+4));
+    *(void **)(p+0x8c)=PMS_DRAW_Create((u32)func_021C1718(*(void **)(p+0x50)),(int)0,(u32)(*(void **)(p+0x5c)),(u32)(*(void **)(p+0x58)),(int)8,(int)4,*(u16 *)(p+4));
     *(u8 *)(p+0x97)=0;
     for(i=0;i<20;i++) {
-        if(!func_02024464(func_02024910(*(void **)(p+0x20),i),(u16)(*(u16 *)(p+4)))) break;
+        if(!PMSI_PARAM_IsComplete(PMS_WORD_GetSaveEntry(*(void **)(p+0x20),i),(u16)(*(u16 *)(p+4)))) break;
         (*(u8 *)(p+0x97))++;
     }
     v=*(u8 *)(p+0x97);

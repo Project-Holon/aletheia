@@ -14,7 +14,10 @@
  *   data_021BB0B0 0x021BB0B0 data ov213
  *   data_021F03C4 0x021F03C4 data ov093
  *   data_021EFDAC 0x021EFDAC data ov093
- *   func_02157170 0x02157170 thumb ov009
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
+ *   PROCSYS_Main  0x02031330  arm  arm9
+ *   PROCSYS_Push  0x02031348  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,9 +43,9 @@ extern u8 ov093_id[];
 extern u8 data_021BB0B0[];
 extern u8 data_021F03C4[];
 extern u8 data_021EFDAC[];
-extern u32 func_02031330(void *);
-extern void func_02031348(void *, int, void *, void *);
-extern void func_02005D90(u16, u32);
+extern u32 PROCSYS_Main(void *);
+extern void PROCSYS_Push(void *, int, void *, void *);
+extern void GFL_USE_CancelChangeAndPlayBgm(u16, u32);
 typedef signed int     s32;
 struct Entry;
 extern int func_02034AC4(s32 handle);
@@ -56,17 +59,17 @@ extern int func_0203CD98(void);
 extern void *func_0203D798(void);
 extern u32 func_0200FB24(void);
 extern void func_0200FB38(void);
-extern int func_02157170(int, int);
+extern int DWC_RAPCOMMON_HandleNetError(int, int);
 
 int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
 {
-    u32 st = func_02031330(wk->f0);
+    u32 st = PROCSYS_Main(wk->f0);
 
     switch (*seq) {
     case 0:
-        func_02005D90(*(u16 *)(pw->f4 + 0x18), 0xffff);
+        GFL_USE_CancelChangeAndPlayBgm(*(u16 *)(pw->f4 + 0x18), 0xffff);
         *(u32 *)(pw->f8 + 0x44) = 1;
-        func_02031348(wk->f0, (int)ov213_id, data_021BB0B0, pw->f8);
+        PROCSYS_Push(wk->f0, (int)ov213_id, data_021BB0B0, pw->f8);
         st = 2;
         *seq = 1;
         break;
@@ -85,7 +88,7 @@ int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
         if (func_02039CB4((struct Link *)func_020399A8(), 0xc8, 0x24)) *seq = 4;
         break;
     case 4:
-        func_02031348(wk->f0, -1, data_021EFDAC, pw->f4);
+        PROCSYS_Push(wk->f0, -1, data_021EFDAC, pw->f4);
         st = 2;
         *seq = 5;
         break;
@@ -184,7 +187,7 @@ int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
             }
         }
         if (flag) {
-            func_02031348(wk->f0, (int)ov213_id, data_021BB0B0, pw->f8);
+            PROCSYS_Push(wk->f0, (int)ov213_id, data_021BB0B0, pw->f8);
             st = 2;
             *seq = 12;
         }
@@ -214,7 +217,7 @@ int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
                 return 1;
             }
         } else {
-            switch (func_02157170(1, 1)) {
+            switch (DWC_RAPCOMMON_HandleNetError(1, 1)) {
             case 0:
                 break;
             case 1:

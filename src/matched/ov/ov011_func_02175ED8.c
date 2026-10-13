@@ -1,5 +1,5 @@
 /*
- * function: func_02175ED8
+ * function: INTRUDE_COMM_GetLeaveFlag
  * address:  0x02175ED8
  * packet:   pkt_ov011_02175ED8
  * region:   ov011
@@ -26,7 +26,7 @@ typedef struct Sub {
     u8 bit4 : 1;
 } Sub;
 
-int func_02175ED8(Sub *s)
+int INTRUDE_COMM_GetLeaveFlag(Sub *s)
 {
     return s->bit4;
 }

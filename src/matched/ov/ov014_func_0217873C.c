@@ -1,5 +1,5 @@
 /*
- * function: func_0217873C
+ * function: WIH_IsMatchingParent
  * address:  0x0217873C
  * packet:   pkt_ov014_0217873C
  * region:   ov014
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 
 extern struct S *g_021797A8;
 
-int func_0217873C(u8 *p)
+int WIH_IsMatchingParent(u8 *p)
 {
     u32 v = ((struct Obj05924 *)p)->f3C;
 

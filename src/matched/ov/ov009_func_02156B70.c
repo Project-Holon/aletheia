@@ -1,5 +1,5 @@
 /*
- * function: func_02156B70
+ * function: DWC_RAP_GetVchatEnabled
  * address:  0x02156B70
  * packet:   pkt_02156B70
  * region:   ov009
@@ -24,7 +24,7 @@ typedef signed short s16;
 
 extern struct _anon_Work *g_021A8264;
 
-s16 func_02156B70(void)
+s16 DWC_RAP_GetVchatEnabled(void)
 {
     if (g_021A8264 != 0)
         return g_021A8264->val;

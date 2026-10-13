@@ -17,7 +17,7 @@
  *   d_021F1904 0x021F1904 data a4
  *   func_021D775C 0x021D775C thumb ov093
  *   func_021D7704 0x021D7704 thumb ov093
- *   func_0201C1E8 0x0201C1E8 thumb
+ *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021E89D4  0x021E89D4  thumb  ov093
@@ -33,162 +33,165 @@
  *   func_021DCFD0 0x021DCFD0 thumb ov093
  *   func_021DD044 0x021DD044 thumb ov093
  */
-#include "../../matched/include/Obj07819.h"
-#include "../../matched/include/Obj07820.h"
+#include "unit_021DE7E4_types.h"
 
-struct S;
-struct QQ;
-typedef unsigned char u8;
+struct BtlEventFactor;
 
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-extern int func_021D775C(int);
-extern void func_021D7704(int,int);
-extern int func_0201C1E8(int a);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
-extern int func_021E89D4(u32 a);
-extern void *func_021C7CF4(int *,int);
-extern int func_021D5B48(u8 *p);
-extern int func_021D76BC(int,unsigned int);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 v);
-extern u16 func_021D70A8(struct QQ *p);
-extern int func_021DCFF8(int,int);
-extern int func_021DCFD0(int *,unsigned int);
-extern void func_021DD044(void *,void *,int);
-void func_021DE980(int a,int b,int c);
-int *func_021DE9AC(int *p);
-void func_021DE9B8(int a,int b,int c);
-void func_021DE9D4(int a, void *b, int c);
-void func_021DEA1C(int a,void *b,int c);
-int *func_021DEA4C(int *p);
-void func_021DEA58(int a,int *b,int c,int *p);
-void func_021DEA8C(int a, void *b, int c, int *d);
-int *func_021DEAE8(int *p);
-void func_021DEAF4(int a,int *b,int c,int *p);
-void func_021DEB30(int a,int b,int c,int *p);
-void func_021DEB5C(int a, void *b, int c);
+extern int func_021D775C(int key);
+extern int func_021D76BC(int key, u32 value);
+extern void func_021D7704(int key, int multiplier);
+extern int WAZA_TOOL_GetDamageType(int moveId);
+extern void *func_021C88A4(void *flow, int cmdKind, int pokeId);
+extern void func_021C88C8(void *flow, void *cmd);
+extern int func_021E89D4(u32 moveId);
+extern void *func_021C7CF4(void *flow, int pokeId);
+extern int func_021D5B48(void *pokeParam);
+extern void func_021C8838(HandExStr *str, int strType, int strId);
+extern void func_021C8860(HandExStr *str, u32 arg);
+extern u16 func_021D70A8(struct BtlEventFactor *factor);
+extern int func_021DCFF8(struct BtlEventFactor *factor, int index);
+extern int func_021DCFD0(void *flow, u32 chance);
+extern void func_021DD044(struct BtlEventFactor *factor, void *flow, int pokeId);
 extern int d_021F1904;
 extern int d_021F16BC;
 extern int d_021F191C;
+extern int d_021F150C[];
 
-
-
-void func_021DE980(int a,int b,int c) { if(c==func_021D775C(3)) { if(func_0201C1E8((unsigned short)func_021D775C(18))==2) func_021D7704(53,6144); } }
-
-
-
-/*
- * extent: includes store-return follower 0x021DE9AC.
- */
-int *func_021DE9AC(int *p) { *p=3; return &d_021F1904; }
-
-
-
-/*
- * extent: remaining two bytes are zero alignment padding.
- */
-void func_021DE9B8(int a,int b,int c) { if(c==func_021D775C(2)) func_021D7704(53,6144); }
-
-
-
-
-void func_021DE9D4(int a, void *b, int c)
+/* Choice Specs: 1.5 times power for special moves. */
+void func_021DE980(struct BtlEventFactor *factor, void *flow, int pokeId)
 {
-    u16 v;
-    u8 *r;
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID)) {
+        if (WAZA_TOOL_GetDamageType((u16)func_021D775C(BTL_EVAR_MOVE_ID)) == 2)
+            func_021D7704(BTL_EVAR_POWER_RATIO, 6144);
+    }
+}
 
-    if (c == func_021D775C(3)) {
-        v = func_021D775C(0x12);
-        if (v != 0xa5) {
-            r = (u8 *)func_021C88A4(b, 12, c);
-            r[0xf] = c;
-            ((struct Obj07819 *)r)->f4 = 0x1b;
-            ((struct Obj07819 *)r)->f8 = func_021E89D4(v);
-            r[0x10] = 2;
-            func_021C88C8(b, r);
+int *func_021DE9AC(int *count)
+{
+    *count = 3;
+    return &d_021F1904;
+}
+
+/* Choice Scarf: 1.5 times speed. */
+void func_021DE9B8(struct BtlEventFactor *factor, void *flow, int pokeId)
+{
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID))
+        func_021D7704(BTL_EVAR_POWER_RATIO, 6144);
+}
+
+/* Choice items: lock the holder into the move it just used (anything but Struggle, 0xa5). */
+void func_021DE9D4(struct BtlEventFactor *factor, void *flow, int pokeId)
+{
+    u16 moveId;
+    HandExAddSickFull *cmd;
+
+    if (pokeId == func_021D775C(BTL_EVAR_ATTACKER_ID)) {
+        moveId = func_021D775C(BTL_EVAR_MOVE_ID);
+        if (moveId != 0xa5) {
+            cmd = (HandExAddSickFull *)func_021C88A4(flow, HANDEX_KIND_ADD_SICK, pokeId);
+            cmd->pokeId = pokeId;
+            cmd->sickKind = BTL_SICK_MOVE_LOCK;
+            cmd->sickCont = func_021E89D4(moveId);
+            cmd->mode = 2;
+            func_021C88C8(flow, cmd);
         }
     }
 }
 
-
-
-/*
- * extent: includes store-return follower 0x021DEA4C.
- */
-void func_021DEA1C(int a,void *b,int c) { unsigned char *p; if(c==func_021D775C(2)) { p=func_021C88A4(b,11,c); ((struct Obj07820 *)p)->f4=27; p[8]=c; p[20]=1; p[21]=1; func_021C88C8(b,p); } }
-
-
-
-int *func_021DEA4C(int *p) { *p=2; return &d_021F16BC; }
-
-
-
-/*
- * interface: func_021C7CF4 returns its live r0 here (the matched
- * tail forwarder is declared void); r1 is visibly loaded with c before
- * the call and is retained as an argument, per canonical exceptions.
- */
-void func_021DEA58(int a,int *b,int c,int *p) { if(c==func_021D775C(4)) { if(func_021D5B48(func_021C7CF4(b,c))) *p=func_021D76BC(58,3); else *p=0; } }
-
-
-
-
-void func_021DEA8C(int a, void *b, int c, int *d)
+/* Choice items: release the move lock when the holder leaves the field. */
+void func_021DEA1C(struct BtlEventFactor *factor, void *flow, int pokeId)
 {
-    u8 *r;
+    HandExCureSickSlot *cmd;
 
-    if (c == func_021D775C(2) && *d != 0) {
-        r = (u8 *)func_021C88A4(b, 0x23, c);
-        func_021C8838(r + 8, 2, 0x3ef);
-        func_021C8860((struct S *)(r + 8), c);
-        func_021C8860((struct S *)(r + 8), func_021D70A8((void *)a));
-        func_021C88C8(b, r);
-        *d = 0;
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        cmd = (HandExCureSickSlot *)func_021C88A4(flow, 11, pokeId);
+        cmd->sickIndex = BTL_SICK_MOVE_LOCK;
+        cmd->pokeId = pokeId;
+        cmd->flagA = 1;
+        cmd->flagB = 1;
+        func_021C88C8(flow, cmd);
     }
 }
 
-
-/*
- * lever: int n = (unsigned char)func_021DCFF8(a,2) schedules the
- * narrowing in r0 then r1. An inline call cast costs an extra copy (62 B).
- */
-int *func_021DEAE8(int *p)
+int *func_021DEA4C(int *count)
 {
-    *p = 3;
+    *count = 2;
+    return &d_021F16BC;
+}
+
+/* Focus Sash: a hit at full HP leaves the holder at 1 HP. */
+void func_021DEA58(struct BtlEventFactor *factor, void *flow, int pokeId, int *work)
+{
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID)) {
+        if (func_021D5B48(func_021C7CF4(flow, pokeId)))
+            *work = func_021D76BC(BTL_EVAR_SURVIVE_RESULT, 3);
+        else
+            *work = 0;
+    }
+}
+
+/* Focus Sash: consume the item and show its message after it saved the holder. */
+void func_021DEA8C(struct BtlEventFactor *factor, void *flow, int pokeId, int *work)
+{
+    HandExConsumeItem *cmd;
+
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID) && *work != 0) {
+        cmd = (HandExConsumeItem *)func_021C88A4(flow, 0x23, pokeId);
+        func_021C8838(&cmd->str, HANDEX_STR_SET, 0x3ef);
+        func_021C8860(&cmd->str, pokeId);
+        func_021C8860(&cmd->str, func_021D70A8(factor));
+        func_021C88C8(flow, cmd);
+        *work = 0;
+    }
+}
+
+int *func_021DEAE8(int *count)
+{
+    *count = 3;
     return &d_021F191C;
 }
 
-
-void func_021DEAF4(int a,int *b,int c,int *p) { int n; if(c==func_021D775C(4)) { n=(unsigned char)func_021DCFF8(a,2); if(func_021DCFD0(b,n)) *p=func_021D76BC(58,3); else *p=0; } }
-
-
-void func_021DEB30(int a,int b,int c,int *p) { if(c==func_021D775C(2)) { if(*p) { func_021DD044((void *)a,(void *)b,c); *p=0; } } }
-
-
-
-void func_021DEB5C(int a, void *b, int c)
+/* Focus Band: a random chance (item parameter) to survive a hit with 1 HP. */
+void func_021DEAF4(struct BtlEventFactor *factor, void *flow, int pokeId, int *work)
 {
-    u8 *r;
+    int chance;
 
-    if (c == func_021D775C(2)) {
-        r = (u8 *)func_021C88A4(b, 4, c);
-        func_021C8838(r + 4, 2, 0x3ef);
-        func_021C8860((struct S *)(r + 4), c);
-        func_021C8860((struct S *)(r + 4), func_021D70A8((void *)a));
-        func_021C88C8(b, r);
+    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID)) {
+        chance = (unsigned char)func_021DCFF8(factor, 2);
+        if (func_021DCFD0(flow, chance))
+            *work = func_021D76BC(BTL_EVAR_SURVIVE_RESULT, 3);
+        else
+            *work = 0;
     }
 }
 
-
-extern int d_021F150C[];
-int *func_021DEBA8(int *p);
-
-int *func_021DEBA8(int *p)
+/* Focus Band: use the item when it saved the holder. */
+void func_021DEB30(struct BtlEventFactor *factor, void *flow, int pokeId, int *work)
 {
-    *p = 1;
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        if (*work) {
+            func_021DD044(factor, flow, pokeId);
+            *work = 0;
+        }
+    }
+}
+
+/* Focus Band: show the message that the holder hung on. */
+void func_021DEB5C(struct BtlEventFactor *factor, void *flow, int pokeId)
+{
+    HandExMessage *cmd;
+
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID)) {
+        cmd = (HandExMessage *)func_021C88A4(flow, HANDEX_KIND_MESSAGE, pokeId);
+        func_021C8838(&cmd->str, HANDEX_STR_SET, 0x3ef);
+        func_021C8860(&cmd->str, pokeId);
+        func_021C8860(&cmd->str, func_021D70A8(factor));
+        func_021C88C8(flow, cmd);
+    }
+}
+
+int *func_021DEBA8(int *count)
+{
+    *count = 1;
     return d_021F150C;
 }

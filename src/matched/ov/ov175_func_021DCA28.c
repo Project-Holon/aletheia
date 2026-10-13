@@ -12,7 +12,7 @@
  * symbols:
  *   func_02008510              0x02008510  thumb
  *   MI_CpuFill8                0x02082BCC  arm
- *   func_02045A90              0x02045A90  arm
+ *   STRBUF_GetChars              0x02045A90  arm
  *   func_020458F8              0x020458F8  arm
  *   func_02045A98              0x02045A98  arm
  *   DWC_CheckProfanityExAsync  0x0217BC44  arm  ov009
@@ -29,7 +29,7 @@ typedef unsigned long u32;
 struct U16Vec;
 extern void *func_02008510(void *a, int tag);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 func_020458F8(struct U16Vec *vec);
 extern u16 func_02045A98(void);
 extern int DWC_CheckProfanityExAsync(u16 **words, int wordsnum, char *reserved, int timeout,
@@ -46,7 +46,7 @@ void func_021DCA28(char *obj, u32 win, u16 tag)
     str = (u32)func_02008510((void *)win, ((struct Obj06576 *)obj)->f124);
     MI_CpuFill8(obj + 0x1468, 0, 0x28);
     ((struct Obj06576 *)obj)->f148C = tag;
-    src = func_02045A90((struct U16Vec *)str);
+    src = STRBUF_GetChars((struct U16Vec *)str);
     for (i = 0; i < func_020458F8((struct U16Vec *)str) + 1; i++) {
         u16 c = src[i];
         if (c == func_02045A98())

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021C7F44, func_021C7F5C
+ * function: func_021C7F44, func_021C7F60
  * address:  0x021C7F44
  * packet:   pkt_ov021_021C7F44
  * region:   ov021
@@ -23,7 +23,7 @@ typedef struct { u32 f0; u8 sub[0x18]; u16 f1C; u16 f1E; } M;
 extern u32 func_020307B0(void *p);
 extern void func_021C7EF0(u8 *p, u32 v);
 extern u8 *func_021C7EF8(u8 *p, u8 v);
-void func_021C7F5C(M *m);
+void func_021C7F60(M *m);
 void func_021C7F44(M *m)
 {
     m->f1C = 3;
@@ -31,7 +31,7 @@ void func_021C7F44(M *m)
     func_021C7EF8(m->sub, 0x1f);
 }
 
-void func_021C7F5C(M *m)
+void func_021C7F60(M *m)
 {
     m->f1C = 0;
     func_021C7EF0(m->sub, 0);

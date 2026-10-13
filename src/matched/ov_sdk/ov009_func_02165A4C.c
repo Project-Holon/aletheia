@@ -1,5 +1,5 @@
 /*
- * function: func_02165A4C
+ * function: WCMi_SetPhase
  * address:  0x02165A4C
  * packet:   pkt_ov009_02165A4C
  * region:   ov009
@@ -39,7 +39,7 @@ extern void OS_SetAlarm(void *alarm, unsigned long long tick, void (*handler)(vo
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void func_02165B5C(void *arg);
 
-void func_02165A4C(unsigned char phase)
+void WCMi_SetPhase(unsigned char phase)
 {
     unsigned long e;
 

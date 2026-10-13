@@ -1,5 +1,5 @@
 /*
- * function: sub_0201DC88
+ * function: GF_FONT_GetProportionalWidth
  * address:  0x0201DC88
  * packet:   pkt_0201DC88
  * region:   arm9
@@ -12,12 +12,12 @@
  * gf_font.c streamed-glyph lookup: classify glyph `id` through a
  * 2-bit-per-glyph table, fall back to a 9-bit hash, then walk a run of
  * variable-length records for a matching 2-byte code.  See
- * docs/notes/sub_0201DC88.c.txt for the full structural derivation.
+ * docs/notes/GF_FONT_GetProportionalWidth.c.txt for the full structural derivation.
  *
  * No relocations: every table is reached through offsets stored in the
  * resource header at obj+0x84.
  *
- * EXACT*, not EXACT: func_0201DD58 immediately after this one is an
+ * EXACT*, not EXACT: GF_FONT_GetFixedWidth immediately after this one is an
  * unlabelled leaf, so the inferred extent runs long (240 vs 208).  Report
  * the unlabelled follower at 0x0201DD58 rather than editing
  * layout/function_starts.txt.
@@ -41,7 +41,7 @@ struct Hdr0201DC88 {
     u32 chain;      /* +0xc */
 };
 
-u8 sub_0201DC88(u8 *obj, u32 id)
+u8 GF_FONT_GetProportionalWidth(u8 *obj, u32 id)
 {
     struct Hdr0201DC88 *h = *(struct Hdr0201DC88 * *)&((struct Obj11722 *)obj)->f84;
     u32 i = id * 2;

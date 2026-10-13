@@ -13,7 +13,7 @@
  * field_sound_system.c: the same claim with an owner id supplied by the caller
  *
  * The two slot tables at +0xAC and +0xB0 are two halfwords each; the loop in
- * func_02028B18 is what fixes the count at two.  Both are past the Thumb
+ * FIELD_SOUND_SYSTEM_TransferSlot is what fixes the count at two.  Both are past the Thumb
  * halfword immediate's reach of 62, so each access recomputes
  * `base + index*2` and then adds 0xAC or 0xB0
  * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).
@@ -24,6 +24,7 @@
  *   func_020061F0  0x020061F0  thumb
  *   func_021D21C0  0x021D21C0  thumb ov021
  *   func_021D21E0  0x021D21E0  thumb ov021
+ *   GFL_USE_SetSeSlotVolume  0x020062BC  thumb
  *
  * The overlay callee 0x021D21C0 is attested through the label class
  * with the ov021 region hint on the symbols line.
@@ -49,7 +50,7 @@ extern int func_021D21E0(u32 id);
 extern int func_02006148(u32 a0);
 extern void func_020061E4(u32 id);
 extern void func_020061F0(u32 id, u32 who);
-extern void func_020062BC(int i, u32 level);
+extern void GFL_USE_SetSeSlotVolume(int i, u32 level);
 
 void func_02028ACC(struct SoundSys2 *s, u32 id, u32 who)
 {

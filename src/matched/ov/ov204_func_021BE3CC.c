@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02005E30 0x02005E30 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  */
 
 typedef unsigned int   u32;
-extern void func_02005E30(u32 a);
+extern void GFL_USE_FadeOutBgm(u32 a);
 
 int func_021BE3CC(int a, int b, int *p)
 {
-    func_02005E30((unsigned short)*p);
+    GFL_USE_FadeOutBgm((unsigned short)*p);
     return 1;
 }

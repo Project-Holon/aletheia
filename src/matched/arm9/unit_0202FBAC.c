@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_0202FBAC, sub_0202FBD0, sub_0202FBF8, sub_0202FC20
+ * function: GFL_HEAP_GetHeap, GFL_HEAP_GetParentHeap, GFL_HEAP_GetBlock, GFL_HEAP_GetAllocCount
  *
  * symbols:
  *   g_EnvModule  0x02146954  data
@@ -49,28 +49,28 @@ struct EnvEntry {
 
 extern struct EnvModule g_EnvModule;
 
-void *sub_0202FBAC(u32 idx)
+void *GFL_HEAP_GetHeap(u32 idx)
 {
     u8 id = ((u8 *)g_EnvModule.ids)[idx];
     if (id == 0xff) return 0;
     return g_EnvModule.entries[id].ptr00;
 }
 
-u32 sub_0202FBD0(u32 idx)
+u32 GFL_HEAP_GetParentHeap(u32 idx)
 {
     u8 id = ((u8 *)g_EnvModule.ids)[idx];
     if (id == 0xff) return 0;
     return g_EnvModule.entries[id].field04;
 }
 
-u32 sub_0202FBF8(u32 idx)
+u32 GFL_HEAP_GetBlock(u32 idx)
 {
     u8 id = ((u8 *)g_EnvModule.ids)[idx];
     if (id == 0xff) return 0;
     return g_EnvModule.entries[id].field08;
 }
 
-u16 sub_0202FC20(u32 idx)
+u16 GFL_HEAP_GetAllocCount(u32 idx)
 {
     u8 id = ((u8 *)g_EnvModule.ids)[idx];
     if (id == 0xff) return 0;

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021BBB3C  0x021BBB3C  thumb  ov072
- *   func_0204B5AC  0x0204B5AC  arm
+ *   CLACT_SetActorScale  0x0204B5AC  arm
  */
 
 typedef unsigned short u16;
@@ -29,7 +29,7 @@ typedef struct {
 extern u16 func_021BBB3C(char *p, int a, int b);
 struct Obj;
 struct Pair;
-extern void func_0204B5AC(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 
 void func_021BAD10(W *p, int s, int *r)
 {
@@ -53,6 +53,6 @@ void func_021BAD10(W *p, int s, int *r)
     if (p->obj != 0) {
         t[0] = s;
         t[1] = s;
-        func_0204B5AC((struct Obj *)p->obj, (struct Pair *)t);
+        CLACT_SetActorScale((struct Obj *)p->obj, (struct Pair *)t);
     }
 }

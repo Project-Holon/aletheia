@@ -13,7 +13,7 @@
  *   func_02188D2C  0x02188D2C  thumb  ov021
  *   func_02188C84  0x02188C84  thumb  ov021
  *   func_02189764  0x02189764  thumb  ov021
- *   func_020111E8  0x020111E8  thumb
+ *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   func_021BE760  0x021BE760  thumb  ov021
  *   func_021BE4B4  0x021BE4B4  thumb  ov021
  *   func_021BE674  0x021BE674  thumb  ov021
@@ -34,7 +34,7 @@ extern int func_02188D2C(int *p);
 extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(unsigned char *p, int id, int a, int b);
 typedef unsigned int   u32;
-extern u32 func_020111E8(void);
+extern u32 GPOWER_GetSpecialPowerId(void);
 extern void func_021BE760(int a, void *b, int c);
 extern void func_021BE4B4(char *p, int i, int j, int v);
 extern void *func_021BE674(char *base, int i, unsigned int j, int k);
@@ -52,7 +52,7 @@ void func_021F36C0(int a)
     s = func_02188D2C((int *)a);
     o = func_02189764((unsigned char *)a, 1, func_02188C84((u8 *)a), 0x38);
     o[1] = 0;
-    if (func_020111E8() == 0x14) {
+    if (GPOWER_GetSpecialPowerId() == 0x14) {
         func_021BE760(s, d_021F3C20, 0);
     } else {
         func_021BE760(s, d_021F3C30, 0);

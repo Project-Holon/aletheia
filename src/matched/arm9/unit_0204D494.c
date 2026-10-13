@@ -1,5 +1,5 @@
 /*
- * function: func_0204D494, func_0204D4A4
+ * function: CLACT_SetCellAnimIndex, CLACT_SetMultiCellAnimIndex
  * address:  0x0204D494
  * packet:   pkt_0204D478
  * region:   arm9
@@ -23,12 +23,12 @@ typedef unsigned int   u32;
 struct CellAnim;
 extern void func_02064384(struct CellAnim *anim, u32 i);
 
-void func_0204D494(u8 *a0, u32 i)
+void CLACT_SetCellAnimIndex(u8 *a0, u32 i)
 {
     func_02064384((struct CellAnim *)(a0 + 0xc), i);
 }
 
-void func_0204D4A4(u8 *a0, u32 i)
+void CLACT_SetMultiCellAnimIndex(u8 *a0, u32 i)
 {
     func_02064384((struct CellAnim *)(a0 + 0xc), i);
 }

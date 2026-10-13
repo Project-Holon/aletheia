@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020522E4",
+   "name": "BUTTON_MAN_Ucs2CharToSjis",
    "address": "0x020522E4",
    "kind": "game",
    "region": "arm9",

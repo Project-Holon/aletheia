@@ -19,8 +19,8 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_0201210C  0x0201210C  thumb
  *   func_02188C54  0x02188C54  thumb  ov021
- *   sub_020122C0   0x020122C0  thumb
- *   sub_020124E8   0x020124E8  thumb
+ *   GAME_EVENT_Create   0x020122C0  thumb
+ *   GAME_EVENT_GetWork   0x020124E8  thumb
  *   func_02012964  0x02012964  thumb
  *   func_0216DEE0  0x0216DEE0  thumb  ov010
  *   func_0216DE94  0x0216DE94  thumb  ov010
@@ -32,13 +32,13 @@
  *   func_02012EBC  0x02012EBC  thumb
  *   func_020071CC  0x020071CC  thumb
  *   func_0200DF58  0x0200DF58  thumb
- *   func_0202435C  0x0202435C  thumb
+ *   PMSI_PARAM_ToString  0x0202435C  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_021B09EC  0x021B09EC  thumb  ov021
  *   func_0219129C  0x0219129C  thumb  ov021
  *   func_0216CAF4  0x0216CAF4  thumb  ov010
  *
- * evidence: 0x0202435C is an unlabelled ARM9 thunk ("ldr r3, =func_02024368; movs r2, #2; bx r3") that the
+ * evidence: 0x0202435C is an unlabelled ARM9 thunk ("ldr r3, =PMSI_PARAM_ToStringWords; movs r2, #2; bx r3") that the
  * prologue sweep misses; its start is seeded in layout/function_starts.txt
  * from the raw bl sites elsewhere in the image (ov069 0x021BA21A, ov093 0x021D1894, ov010 0x02168138), so the call
  * attests as `label`.
@@ -76,8 +76,8 @@ struct BigObj;
 struct Ent;
 struct Q;
 extern u32 func_02188C54(u8 *p);
-extern struct Desc *sub_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *sub_020124E8(struct Obj *p);
+extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
+extern void *GAME_EVENT_GetWork(struct Obj *p);
 extern u32 func_02012964(const struct BigObj *p);
 extern void *func_0216DEE0(void *a0);
 extern void *func_0216DE94(void *map, u32 id);
@@ -91,7 +91,7 @@ extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 struct Buf3FC;
 struct RecSlot;
 extern struct Buf3FC *func_0200DF58(struct RecSlot *p, u32 heap);
-extern void *func_0202435C(void *slots, unsigned int heap);
+extern void *PMSI_PARAM_ToString(void *slots, unsigned int heap);
 extern u32 func_020307B0(void *p);
 extern void func_021B09EC(int sel, int *a, int *b);
 extern struct Ent *func_0219129C(u8 *base, int idx, u32 c, u32 d, u32 f, u32 g);
@@ -115,8 +115,8 @@ void *func_0216CB48(void *owner, int idx, u8 arg)
     sys = func_020120F4(owner);
     anm = func_0201210C(owner);
     ctx = (void *)func_02188C54(anm);
-    task = sub_020122C0(owner, 0, func_0216CAF4, sizeof(Work));
-    w = sub_020124E8(task);
+    task = GAME_EVENT_Create(owner, 0, func_0216CAF4, sizeof(Work));
+    w = GAME_EVENT_GetWork(task);
     w->owner = owner;
     mdl = (void *)func_02012964(sys);
     m2 = func_0216DEE0(mdl);
@@ -128,7 +128,7 @@ void *func_0216CB48(void *owner, int idx, u8 arg)
     w->pos.y += ofs.y;
     w->pos.z += ofs.z;
     tbl = (u8 *)func_0200DF58(func_020071CC(func_02012EBC(sys), 0x3b), 4);
-    w->field18 = func_0202435C(tbl + idx * 0x22 + 0x18, 4);
+    w->field18 = PMSI_PARAM_ToString(tbl + idx * 0x22 + 0x18, 4);
     func_020307B0(tbl);
     func_021B09EC((int)mdl, &b, &c);
     w->field14 = (u32)func_0219129C(ctx, b, (u32)(&w->pos), (u32)w->field18, 0, c);

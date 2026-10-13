@@ -11,8 +11,8 @@
  * volatile: 0x04000052
  * symbols:
  *   func_021BF758 0x021BF758 thumb
- *   sub_02031194 0x02031194 arm
- *   sub_02049B68 0x02049B68 arm
+ *   TCBL_DeleteTask 0x02031194 arm
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   func_02049990 0x02049990 arm
  *   sub_0207C768 0x0207C768 arm
  *   func_0204047C 0x0204047C arm
@@ -29,8 +29,8 @@ struct TcblNode;
 struct Config { u16 a0,heap; u32 a4,a8,stop,a10,a14,a18,a1c,a20,a24; void *archive; };
 struct Context { struct Config *cfg; int state,count,wait; u32 first,a14,second; int fadein,fadeout,blend,step; };
 extern void func_021BF758(void *p);
-extern void sub_02031194(struct TcblNode *);
-extern void sub_02049B68(void *,u32,u32,u32,u32,u16);
+extern void TCBL_DeleteTask(struct TcblNode *);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049990(void *,u32,u32,u32,u32,u32,u32,u16);
 extern u32 sub_0207C768(u32,u32);
 extern void func_0204047C(int,u16);
@@ -42,12 +42,12 @@ void func_021BF550(struct TcblNode *task,struct Context *ctx)
     float a;
     if(cfg->stop != 0) {
         func_021BF758(ctx);
-        sub_02031194(task);
+        TCBL_DeleteTask(task);
         return;
     }
     switch(ctx->state) {
     case 0:
-        sub_02049B68(cfg->archive,ctx->first,0,0,0,cfg->heap);
+        ARC_UTIL_UploadPaletteFromHandleWhole(cfg->archive,ctx->first,0,0,0,cfg->heap);
         func_02049990(cfg->archive,ctx->second,1,0,0,0,1,cfg->heap);
         ctx->state++;
         break;
@@ -99,7 +99,7 @@ void func_021BF550(struct TcblNode *task,struct Context *ctx)
         break;
     default:
         func_021BF758(ctx);
-        sub_02031194(task);
+        TCBL_DeleteTask(task);
         break;
     }
 }

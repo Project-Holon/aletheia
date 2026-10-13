@@ -1,7 +1,7 @@
 /*
  * file:     unit_0204EE0C.c
  * unit:     yes
- * function: func_0204EE0C, func_0204EE64, func_0204EEC8, func_0204EF58, func_0204EFC8, func_0204F044, func_0204F10C, func_0204F150, func_0204F1A0, func_0204F214, func_0204F27C, func_0204F2B4, func_0204F2CC, func_0204F2E4
+ * function: BILLBOARD_FindFreeImage, BILLBOARD_BindImageResource, BILLBOARD_SetImageFormat, BILLBOARD_AddImage, BILLBOARD_AddImageFromArchive, func_0204F044, BILLBOARD_TrimImageResource, BILLBOARD_DeleteImage, BILLBOARD_ReleaseImageVramIfUsed, func_0204F214, BILLBOARD_DeleteAllImages, BILLBOARD_GetImageVramAddr, func_0204F2CC, BILLBOARD_GetImageTexKey
  * address:  0x0204EE0C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -54,7 +54,7 @@ struct TexParamEntry {
     u32 pad;
 };
 
-/* Byte-pointer view of the board's image array: func_0204F1A0's guard needs
+/* Byte-pointer view of the board's image array: BILLBOARD_ReleaseImageVramIfUsed's guard needs
  * the base typed u8 * to get its original instruction order. */
 struct BbBoardBytes {
     u16 heapId;
@@ -75,20 +75,20 @@ extern void func_020307E0(void *p, u32 size);
 extern int func_020470D0(struct G3dResource *resource);
 extern void func_02046EFC(struct G3dResource *resource);
 
-int func_0204EE0C(struct BbBoard *board, int *outIndex);
-void func_0204EE64(struct BbImage *image, struct G3dResource *resource);
-void func_0204EEC8(struct BbImage *image, u32 formatIndex, s32 sizeCode, u32 columns, u8 rows);
-u32 func_0204EF58(struct BbBoard *board, struct G3dResource *resource, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows);
-u32 func_0204EFC8(struct BbBoard *board, u32 arcId, u32 dataId, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows);
+int BILLBOARD_FindFreeImage(struct BbBoard *board, int *outIndex);
+void BILLBOARD_BindImageResource(struct BbImage *image, struct G3dResource *resource);
+void BILLBOARD_SetImageFormat(struct BbImage *image, u32 formatIndex, s32 sizeCode, u32 columns, u8 rows);
+u32 BILLBOARD_AddImage(struct BbBoard *board, struct G3dResource *resource, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows);
+u32 BILLBOARD_AddImageFromArchive(struct BbBoard *board, u32 arcId, u32 dataId, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows);
 int func_0204F044(struct BbBoard *board, int texVramKey, int plttVramKey, int formatIndex, u32 sizeCode, u8 columns, u8 rows);
-void func_0204F10C(struct BbBoard *board, u32 index);
-void func_0204F150(struct BbBoard *board, int index);
-void func_0204F1A0(struct BbBoard *board, u32 index);
+void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 index);
+void BILLBOARD_DeleteImage(struct BbBoard *board, int index);
+void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index);
 void func_0204F214(struct BbBoard *board, int index);
-void func_0204F27C(struct BbBoard *board);
-void func_0204F2B4(struct BbBoard *board, int index, int *outTexVramOffset);
+void BILLBOARD_DeleteAllImages(struct BbBoard *board);
+void BILLBOARD_GetImageVramAddr(struct BbBoard *board, int index, int *outTexVramOffset);
 void func_0204F2CC(struct BbBoard *board, int index, int *outPlttVramOffset);
-void func_0204F2E4(struct BbBoard *board, int index, u32 *outTexVramKey);
+void BILLBOARD_GetImageTexKey(struct BbBoard *board, int index, u32 *outTexVramKey);
 
 extern const u32 gTexSizeTbl[];
 extern const struct TexParamEntry gTexParamS[];
@@ -101,10 +101,10 @@ extern FreeVramFn g_020A814C;
  * texFmt 5).  Writes its index (0 when none) and returns 1 when found.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204EE0C.c \
- *       --func func_0204EE0C --addr 0x0204EE0C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_FindFreeImage.c \
+ *       --func BILLBOARD_FindFreeImage --addr 0x0204EE0C --cc 1.1p1 --arm
  */
-int func_0204EE0C(struct BbBoard *board, int *outIndex)
+int BILLBOARD_FindFreeImage(struct BbBoard *board, int *outIndex)
 {
     int i;
     u16 count = board->imageCount;
@@ -126,10 +126,10 @@ int func_0204EE0C(struct BbBoard *board, int *outIndex)
  * both offsets zero.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204EE64.c \
- *       --func func_0204EE64 --addr 0x0204EE64 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_BindImageResource.c \
+ *       --func BILLBOARD_BindImageResource --addr 0x0204EE64 --cc 1.1p1 --arm
  */
-void func_0204EE64(struct BbImage *image, struct G3dResource *resource)
+void BILLBOARD_BindImageResource(struct BbImage *image, struct G3dResource *resource)
 {
     u32 plttKey;
     image->handle = (u32)resource;
@@ -159,7 +159,7 @@ void func_0204EE64(struct BbImage *image, struct G3dResource *resource)
  * st half of the same rotation moves; written as `sizeCode & 7` at both uses
  * it is a CSE temporary and colours as the image.
  */
-void func_0204EEC8(struct BbImage *image, u32 formatIndex, s32 sizeCode, u32 columns, u8 rows)
+void BILLBOARD_SetImageFormat(struct BbImage *image, u32 formatIndex, s32 sizeCode, u32 columns, u8 rows)
 {
     s32 sizeS = (sizeCode & 0x70) >> 4;
     image->texFmt = gTexSizeTbl[formatIndex];
@@ -181,11 +181,11 @@ void func_0204EEC8(struct BbImage *image, u32 formatIndex, s32 sizeCode, u32 col
  * The scan index is an out-parameter on the caller's own frame (`add r1,
  * sp, #4`), which is where the 8-byte frame comes from, and the same word is
  * the return value whether or not the scan succeeded, so the local is
- * deliberately left uninitialised: func_0204EE0C writes it on both paths.
+ * deliberately left uninitialised: BILLBOARD_FindFreeImage writes it on both paths.
  *
  * The two trailing parameters are `u8`: a byte-typed parameter that arrives on
  * the stack is read with `ldrb` where a 32-bit one would be `ldr`, and that is
- * the only thing that distinguishes this prototype from func_0204EFC8's
+ * the only thing that distinguishes this prototype from BILLBOARD_AddImageFromArchive's
  * (a word, a byte, a byte).
  *
  * `&board->images[index]` is spelled as an index, not as byte arithmetic:
@@ -196,31 +196,31 @@ void func_0204EEC8(struct BbImage *image, u32 formatIndex, s32 sizeCode, u32 col
  * The record base is re-read for the second call, because the first one may
  * have changed it.
  */
-u32 func_0204EF58(struct BbBoard *board, struct G3dResource *resource, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows)
+u32 BILLBOARD_AddImage(struct BbBoard *board, struct G3dResource *resource, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows)
 {
     u32 index;
-    if (func_0204EE0C(board, (int *)(&index)) == 1) {
-        func_0204EE64(&board->images[index], resource);
-        func_0204EEC8(&board->images[index], formatIndex, sizeCode, columns, rows);
+    if (BILLBOARD_FindFreeImage(board, (int *)(&index)) == 1) {
+        BILLBOARD_BindImageResource(&board->images[index], resource);
+        BILLBOARD_SetImageFormat(&board->images[index], formatIndex, sizeCode, columns, rows);
     }
     return index;
 }
 
 /*
- * The second wrapper, one call longer than func_0204EF58: the resource it
+ * The second wrapper, one call longer than BILLBOARD_AddImage: the resource it
  * binds is loaded from the archive with func_02046DB8(arcId, dataId) rather
  * than passed in, and the trailing parameters are one word and two bytes
  * rather than two bytes (`ldr` at sp+0x20, `ldrb` at sp+0x24 and sp+0x28).
  *
- * The frame and the scan out-parameter are the same as func_0204EF58's, and
+ * The frame and the scan out-parameter are the same as BILLBOARD_AddImage's, and
  * the record base is again re-read for each call.
  */
-u32 func_0204EFC8(struct BbBoard *board, u32 arcId, u32 dataId, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows)
+u32 BILLBOARD_AddImageFromArchive(struct BbBoard *board, u32 arcId, u32 dataId, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows)
 {
     u32 index;
-    if (func_0204EE0C(board, (int *)(&index)) == 1) {
-        func_0204EE64(&board->images[index], (struct G3dResource *)func_02046DB8(arcId, dataId));
-        func_0204EEC8(&board->images[index], formatIndex, sizeCode, columns, rows);
+    if (BILLBOARD_FindFreeImage(board, (int *)(&index)) == 1) {
+        BILLBOARD_BindImageResource(&board->images[index], (struct G3dResource *)func_02046DB8(arcId, dataId));
+        BILLBOARD_SetImageFormat(&board->images[index], formatIndex, sizeCode, columns, rows);
     }
     return index;
 }
@@ -231,19 +231,19 @@ u32 func_0204EFC8(struct BbBoard *board, u32 arcId, u32 dataId, u32 formatIndex,
  * and cell layout.  The pure register residue of the earlier notes (52
  * bytes, stride constant in ip instead of r0) was the spelling of the two
  * offset fields: `(u32)(u16)key << 3` gives the same instructions but a
- * different allocation; the sibling func_0204EE64's `(u32)(key << 16) >> 13`
+ * different allocation; the sibling BILLBOARD_BindImageResource's `(u32)(key << 16) >> 13`
  * is what the image has.
  */
 int func_0204F044(struct BbBoard *board, int texVramKey, int plttVramKey, int formatIndex, u32 sizeCode, u8 columns, u8 rows)
 {
     u32 index;
-    if (func_0204EE0C(board, (int *)(&index)) == 1) {
+    if (BILLBOARD_FindFreeImage(board, (int *)(&index)) == 1) {
         board->images[index].handle = 0;
         board->images[index].texKey = texVramKey;
         board->images[index].plttKey = plttVramKey;
         board->images[index].vramAddr = (u32)(board->images[index].texKey << 16) >> 13;
         board->images[index].plttAddr = (u32)(board->images[index].plttKey << 16) >> 13;
-        func_0204EEC8(&board->images[index], formatIndex, sizeCode, columns, rows);
+        BILLBOARD_SetImageFormat(&board->images[index], formatIndex, sizeCode, columns, rows);
     }
     return index;
 }
@@ -256,7 +256,7 @@ int func_0204F044(struct BbBoard *board, int texVramKey, int plttVramKey, int fo
  * third callee-saved register across both calls.  Same shape as
  * src/matched/sub_02046FCC.c.
  */
-void func_0204F10C(struct BbBoard *board, u32 index)
+void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 index)
 {
     struct BbImage      *image    = &board->images[index];
     struct G3dResource  *resource = (struct G3dResource *)image->handle;
@@ -268,7 +268,7 @@ void func_0204F10C(struct BbBoard *board, u32 index)
 /*
  * The direct form of the record teardown: free the record's VRAM and delete
  * its resource if it is live, zero the resource, and stamp 5 into texFmt,
- * which is what func_0204EE0C's scan looks for.
+ * which is what BILLBOARD_FindFreeImage's scan looks for.
  *
  * Every access re-reads the board's textures pointer, so the source spells
  * the base out at each use instead of binding it to a pointer local; the two
@@ -276,11 +276,11 @@ void func_0204F10C(struct BbBoard *board, u32 index)
  * call may have changed it.  The value the `cmp` tested is the one the
  * first call receives, which is why there is no reload between them.
  *
- * The sibling entry points are func_0204F1A0 (guarded, through two
+ * The sibling entry points are BILLBOARD_ReleaseImageVramIfUsed (guarded, through two
  * function-pointer globals) and func_0204F214 (unguarded, same two globals);
  * neither is contiguous with this one.
  */
-void func_0204F150(struct BbBoard *board, int index)
+void BILLBOARD_DeleteImage(struct BbBoard *board, int index)
 {
     u32 off = index * 0x28;
     if (*(u32 *)((u8 *)board->images + off) != 0) {
@@ -314,10 +314,10 @@ void func_0204F150(struct BbBoard *board, int index)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204F1A0.c \
- *       --func func_0204F1A0 --addr 0x0204F1A0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ReleaseImageVramIfUsed.c \
+ *       --func BILLBOARD_ReleaseImageVramIfUsed --addr 0x0204F1A0 --cc 1.1p1 --arm
  */
-void func_0204F1A0(struct BbBoard *board, u32 index)
+void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index)
 {
     u32 off = index * 0x28;
     if (*(u32 *)(((struct BbBoardBytes *)board)->images + off) != 0) {
@@ -334,8 +334,8 @@ void func_0204F1A0(struct BbBoard *board, u32 index)
  * the pools are the two ABS32 relocations), then clears the resource and
  * stamps 5 into texFmt.
  *
- * A different file from func_0204F1A0, which is the same body behind the
- * "record is live" guard, and from func_0204F150, which does the same work
+ * A different file from BILLBOARD_ReleaseImageVramIfUsed, which is the same body behind the
+ * "record is live" guard, and from BILLBOARD_DeleteImage, which does the same work
  * through two direct calls.  The three are consecutive in the image and call
  * 0x0204F5A8-free leaf helpers, so each stands alone.
  */
@@ -350,20 +350,20 @@ void func_0204F214(struct BbBoard *board, int index)
 
 /*
  * Walk the board's u16 record count at +0xc and delete every record.  The
- * count is re-read on each iteration because func_0204F150 may change it.
+ * count is re-read on each iteration because BILLBOARD_DeleteImage may change it.
  * The comparison comes out signed (blt, not blo) because the u16 count
  * promotes to int against an s32 counter.
  */
-void func_0204F27C(struct BbBoard *board)
+void BILLBOARD_DeleteAllImages(struct BbBoard *board)
 {
     s32 i;
     for (i = 0; i < board->imageCount; i++) {
-        func_0204F150(board, i);
+        BILLBOARD_DeleteImage(board, i);
     }
 }
 
 /* Texture VRAM byte offset of one record, through an out-parameter. */
-void func_0204F2B4(struct BbBoard *board, int index, int *outTexVramOffset){ *outTexVramOffset = (int)*(int *)(((index * 0x28 + (int)board->images) + 12)); }
+void BILLBOARD_GetImageVramAddr(struct BbBoard *board, int index, int *outTexVramOffset){ *outTexVramOffset = (int)*(int *)(((index * 0x28 + (int)board->images) + 12)); }
 
 /* Palette VRAM byte offset of one record, through an out-parameter. */
 void func_0204F2CC(struct BbBoard *board, int index, int *outPlttVramOffset){ *outPlttVramOffset = (int)*(int *)(((index * 0x28 + (int)board->images) + 16)); }
@@ -372,7 +372,7 @@ void func_0204F2CC(struct BbBoard *board, int index, int *outPlttVramOffset){ *o
  * Texture VRAM key getter through an out-parameter on one 0x28-byte record;
  * the `mla` means the stride is the record type's sizeof, not a byte offset.
  */
-void func_0204F2E4(struct BbBoard *board, int index, u32 *outTexVramKey)
+void BILLBOARD_GetImageTexKey(struct BbBoard *board, int index, u32 *outTexVramKey)
 {
     struct BbImage *images = board->images;
     *outTexVramKey = images[index].texKey;

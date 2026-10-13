@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02047554
+ * function: G3D_SYSTEM_GetRenderTexRes
  * address:  0x02047554
  * packet:   pkt_02047260
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02047554(int *p){ return p[3]; }
+int G3D_SYSTEM_GetRenderTexRes(int *p){ return p[3]; }

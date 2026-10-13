@@ -41,19 +41,19 @@
  *   func_0200B3A4 0x0200B3A4 thumb
  *   func_02012A30 0x02012A30 thumb
  *   func_02011558 0x02011558 thumb
- *   func_02011428 0x02011428 thumb
+ *   ICA_ANIME_CreateWithFullBuffer 0x02011428 thumb
  *   func_021BE674 0x021BE674 thumb ov021
  *   func_021BE6B0 0x021BE6B0 thumb ov021
  *   func_02028A7C 0x02028A7C thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_02006148 0x02006148 thumb
- *   func_02028B18 0x02028B18 thumb
- *   func_02006138 0x02006138 thumb
- *   func_02072F34 0x02072F34 arm
+ *   FIELD_SOUND_SYSTEM_TransferSlot 0x02028B18 thumb
+ *   GFL_USE_GetSeHandle 0x02006138 thumb
+ *   NNS_SndHandleSetSeqPriority 0x02072F34 arm
  *   func_021BE6E8 0x021BE6E8 thumb ov021
  *   func_02028B50 0x02028B50 thumb
- *   func_02006210 0x02006210 thumb
- *   func_02011688 0x02011688 thumb
+ *   GFL_USE_StopAllSe 0x02006210 thumb
+ *   ICA_ANIME_GetTranslateAt 0x02011688 thumb
  *   func_02188CB4 0x02188CB4 thumb ov021
  *   func_021A3044 0x021A3044 thumb ov021
  *   func_021F4A18 0x021F4A18 thumb ov039
@@ -97,499 +97,371 @@
  *   d_021F4BE4 0x021F4BE4 data a2
  *   _ll_mul  0x0209C054  arm
  */
-#include "../../matched/include/G_Vec.h"
+#include "unit_021F36C0_types.h"
 
-struct Big;
-struct Ctx;
-struct IcaAnime;
-struct SoundSys2;
-struct Rec94;
-struct BigObj;
-struct Obj;
-struct Rec;
-struct Rec12;
-struct Obj00020;
-struct Node;
-struct AnmCtl;
-struct Desc;
-struct VecFx32;
-typedef signed char s8;
-
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef struct {
-    int x, y, z;
-} Vec;
-
-typedef struct {
-    void *task;
-    u8 sel;
-    s8 idx;
-    u8 mode;
-    s8 hold;
-    int timer[4];
-    u32 anim;
-    u8 f1c[0x21E4 - 0x1C];
-    int active;
-    u8 req[4];
-    u8 cur[4];
-    s8 slot[4];
-} Work;
-
-typedef struct {
-    int v[4];
-    u8 flag[8];
-} Save;
-
-typedef signed int     s32;
-
-typedef struct {
-    u16 x;
-    u16 z;
-} Cell;
-
-typedef struct {
-    u8 pad0[8];
-    u8 *mdl;
-} Res;
-
-typedef short s16;
-
-typedef long long s64;
-
-extern int func_02188D2C(int *p);
-extern Work *func_021897BC(void *p, int idx);
-extern u32 func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern u32 func_02012A30(const struct BigObj *a);
-extern void func_02011558(struct IcaAnime *p);
-extern u32 func_02011428(u32 heap, u32 a1, u16 a2, void *a3, u32 a4);
-extern void *func_021BE674(char *base, int i, u8 j, int k);
-extern void func_021BE6B0(unsigned char *p, int v);
-extern void func_02028A7C(struct SoundSys2 *s, u32 id);
-extern void func_020061E4(u32 a);
-extern int func_02006148(u32 a);
-extern void func_02028B18(struct SoundSys2 *s, u32 id, u32 who);
-extern u32 *func_02006138(int i);
-extern void func_02072F34(struct Obj *o, u8 v);
-extern int func_021BE6E8(int p, int i, u8 j, u8 k);
-extern void func_02028B50(u8 *p, int a0);
-extern void func_02006210(void);
-extern u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021A3044(u8 *p, void *v);
-extern void func_021F4A18(void *a0, struct Rec *a1);
-extern void func_02030EAC(struct Node *n);
-extern void func_021897A0(int, int);
-extern void func_021BE418(u8 *p, u16 i);
-extern void func_021BE580(int);
-extern u8 func_021F36F0(u8 *p, int i);
-extern void *func_021BE4C4(void *p, u32 i, int delta);
-extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
-extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
-extern void *func_0201210C(const struct Ctx *p);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E4(struct Obj *p);
-extern void func_021BE700(void *p, int i, int j, u8 k, int flag);
-extern void func_021BE6CC(int a, int b, int c, int d, int e);
-extern int func_021BE6BC(int *p);
-extern u16 func_021A3050(u8 *p);
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern u8 func_021F36C0(int x, int z);
-extern int func_021BE748(u32 a);
-extern void func_020061F8(int i);
-extern unsigned int func_0203630C(void);
-extern int func_02047790(int *p, int i);
-extern int func_02047674(int p);
-extern void func_0207CA00(const Vec *a, const Vec *b, Vec *out);
-extern int func_0207CBD0(const Vec *a);
-extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
-extern void *func_021A3074(u8 *p);
-extern void func_0216DAC8(void *o, u32 v);
-extern void func_0216D5E0(void *o, u32 v);
-extern int func_021587B0(int a0, int a1, int a2, int a3);
-extern u8 func_021BE6B4(u8 *p);
-void func_021F3A34(int a0, void *a1);
-void func_021F3CD8(int a);
-void func_021F3D1C(int a);
-void func_021F3D74(u32 a);
-u8 func_021F3D98(u8 *p, int i);
-unsigned char func_021F3DAC(int i);
-int func_021F3DB8(signed char *p, int i);
-int func_021F3DE4(void *p, u16 delta, u16 i);
-void func_021F3E04(void *p, u8 delta, u16 i, int frame);
-int func_021F3E24(void *a, u32 b);
-int func_021F3E70(int a0, int *a1);
-int func_021F404C(void *a0);
-void func_021F4134(void *p, u32 i);
-int func_021F4158(u8 *p, int i);
-void func_021F4184(u8 *p, u8 i);
-int func_021F41A8(void *a0, int *a1);
-int func_021F4610(void *a0, int *a1);
-void func_021F4740(u32 a, void *b);
-void func_021F47D8(void *a, int f, int i);
-int func_021F4864(u32 a, u32 b, u8 *out);
-int func_021F4894(void *p, int i, u8 j);
-void func_021F48C0(u8 *a, int idx, int x, int *out);
-void func_021F4928(int *out, int frame, const u32 *data, const u8 *base);
-extern u32 d_021F4C38[];
-extern s8 d_021F4C28[][2];
-extern Vec d_021F4D54;
-extern struct Vec d_021F4CA0[];
-extern unsigned char d_021F4C0C[];
-extern Cell d_021F4C58[];
-extern Vec d_021F4CF4;
-extern const u32 d_021F4D78[][2];
-extern const u16 d_021F4BE4[];
-extern u16 func_02188C84(void *p);
-extern void *func_02189764(void *p, int id, int a, int b);
-extern void func_021BE760(int h, const void *res, int c);
-extern void *func_021BE480(int h, int i, int j);
-extern void func_021BE6B8(void *p, int i);
-extern void *func_02188D30(void *p);
-extern void *func_02030DA8(void *mgr, void (*fn)(int, void *), void *work, u32 key);
-extern const Vec d_021F4C18, d_021F4D60, d_021F4D0C, d_021F4D6C, d_021F4D18, d_021F4D24, d_021F4D3C, d_021F4D00, d_021F4CD0, d_021F4CDC, d_021F4D30, d_021F4D48, d_021F4CE8;
-
-u8 func_021F36C0(int a, int b) { u8 i; for (i = 0; i < 9; i++) { if (d_021F4C58[i].x == a && d_021F4C58[i].z == b) return i; } return 0xff; }
-
-u8 func_021F36F0(u8 *p, int i)
+/* Index of the dock tile at tile (x, z), GIMMICK39_NO_DOCK if the tile is no dock. */
+u8 func_021F36C0(int x, int z)
 {
-    return *((u8 *)p + i + 0x21EC);
+    u8 dock;
+
+    for (dock = 0; dock < GIMMICK39_DOCK_COUNT; dock++) {
+        if (d_021F4C58[dock].x == x && d_021F4C58[dock].z == z) {
+            return dock;
+        }
+    }
+    return GIMMICK39_NO_DOCK;
 }
 
-void func_021F36FC(void *a)
+/* The cart in use on a lane. */
+u8 func_021F36F0(Gimmick39Work *work, int lane)
 {
-    int h;
-    Work *w;
-    u32 t;
-    Save *q;
-    int snd;
-    u32 i;
-    int n;
-    int f, g;
-    u8 *p;
-    u8 x;
-    u8 j;
-    void *o;
-
-    h = func_02188D2C(a);
-    t = (u32)func_020120F4((const struct Ctx *)func_02188C80(a));
-    q = (Save *)func_0200B3A4((struct Rec94 *)func_02012EC4((struct Big *)t), 2);
-    snd = func_02012A30((const struct BigObj *)t);
-    func_02189764(a, 1, func_02188C84(a), 0x21F4);
-    func_021BE760(h, &d_021F4C18, 0);
-    *(Vec *)func_021BE480(h, 0, 0) = d_021F4D60;
-    *(Vec *)func_021BE480(h, 0, 1) = d_021F4D0C;
-    *(Vec *)func_021BE480(h, 0, 2) = d_021F4D6C;
-    *(Vec *)func_021BE480(h, 0, 3) = d_021F4D18;
-    *(Vec *)func_021BE480(h, 0, 4) = d_021F4D24;
-    *(Vec *)func_021BE480(h, 0, 5) = d_021F4D3C;
-    *(Vec *)func_021BE480(h, 0, 6) = d_021F4D00;
-    *(Vec *)func_021BE480(h, 0, 7) = d_021F4CD0;
-    *(Vec *)func_021BE480(h, 0, 8) = d_021F4CDC;
-    *(Vec *)func_021BE480(h, 0, 9) = d_021F4D30;
-    *(Vec *)func_021BE480(h, 0, 10) = d_021F4D48;
-    *(Vec *)func_021BE480(h, 0, 11) = d_021F4CE8;
-    for (i = 0; i < 4; i = (u8)(i + 1)) {
-        j = i;
-        p = (u8 *)q + i;
-        x = p[0x10] ? i * 2 + 2 : i * 2 + 1;
-        func_021BE700((void *)h, 0, j, x, 1);
-        func_021BE700((void *)h, 0, j, 0, 1);
-        o = func_021BE674((char *)h, 0, j, 0);
-        func_021BE6B0(o, 1);
-        func_021BE6B8(o, 0);
-        func_021BE6CC(h, 0, j, x, q->v[i]);
-        j = i + 4;
-        f = p[0x10];
-        func_021BE700((void *)h, 0, j, f, 1);
-        func_021BE6B8(func_021BE674((char *)h, 0, j, 0), 0);
-        func_021BE6B8(func_021BE674((char *)h, 0, j, 1), 0);
-        func_021BE6CC(h, 0, j, f, func_021BE748((u32)func_021BE674((char *)h, 0, j, f)));
-        g = p[0x10];
-        j = i + 8;
-        func_021BE700((void *)h, 0, j, g, 1);
-        func_021BE6B8(func_021BE674((char *)h, 0, j, 0), 0);
-        func_021BE6B8(func_021BE674((char *)h, 0, j, 1), 0);
-        func_021BE6CC(h, 0, j, g, func_021BE748((u32)func_021BE674((char *)h, 0, j, g)));
-    }
-    w = func_021897BC(a, 1);
-    w->task = func_02030DA8(func_02188D30(a), func_021F3A34, a, 0);
-    for (n = 0; n < 4; n++) {
-        w->req[n] = 0;
-        w->cur[n] = n * 2 + q->flag[n];
-        w->slot[n] = -1;
-    }
-    w->idx = -1;
-    w->hold = -1;
-    w->sel = 0xff;
-    func_02028A7C((struct SoundSys2 *)snd, 0x68A);
-    func_02028B18((struct SoundSys2 *)snd, 0x68A, 0);
+    return work->activeCart[lane];
 }
-
-
-
-
-
-
 
 /*
- * note:     spill slots follow reverse declaration order (last declared, lowest
- *           slot): d, v, qr, j2, sr, b, a gives a 8, b 0xc, sr 0x10, j2 0x14, qr 0x18,
- *           v 0x1c, d 0x20. The row pointers qr (q + j) and sr (s + j) and j2 = 2 * j
- *           are named locals so they take their declared places, and `b = v + 1`
- *           keeps v a real variable (with `b = s->cur[j] + 1` a CSE temporary
- *           takes the first slot instead). d_021F4C28 and d_021F4D54 need the ov039 token.
+ * Gimmick setup: allocates the work, adds the model unit, places the 12
+ * models, shows the cart of each lane that its lever selects and starts the
+ * per-frame task.
  */
-void func_021F3A34(int a0, void *a1)
+void func_021F36FC(struct FieldMap *fieldMap)
+{
+    FldExpObjCnt *expObj;
+    Gimmick39Work *work;
+    struct GameData *gameData;
+    Gimmick39Save *save;
+    struct FieldSoundSystem *soundSys;
+    u32 lane;
+    int n;
+    int leverStateA, leverStateB;
+    u8 *laneStatePtr; /* stand-in: row pointer (save + lane), see GIMMICK39_SAVE_LANE_STATE */
+    u8 animeIndex;
+    u8 model;
+    FldExpObjAnime *anime;
+
+    expObj = func_02188D2C(fieldMap);
+    gameData = func_020120F4(func_02188C80(fieldMap));
+    save = func_0200B3A4(func_02012EC4(gameData), GIMMICK39_SAVE_ID);
+    soundSys = func_02012A30(gameData);
+    func_02189764(fieldMap, 1, func_02188C84(fieldMap), GIMMICK39_WORK_SIZE);
+    func_021BE760(expObj, &d_021F4C18, 0);
+    func_021BE480(expObj, 0, 0)->trans = d_021F4D60;
+    func_021BE480(expObj, 0, 1)->trans = d_021F4D0C;
+    func_021BE480(expObj, 0, 2)->trans = d_021F4D6C;
+    func_021BE480(expObj, 0, 3)->trans = d_021F4D18;
+    func_021BE480(expObj, 0, 4)->trans = d_021F4D24;
+    func_021BE480(expObj, 0, 5)->trans = d_021F4D3C;
+    func_021BE480(expObj, 0, 6)->trans = d_021F4D00;
+    func_021BE480(expObj, 0, 7)->trans = d_021F4CD0;
+    func_021BE480(expObj, 0, 8)->trans = d_021F4CDC;
+    func_021BE480(expObj, 0, 9)->trans = d_021F4D30;
+    func_021BE480(expObj, 0, 10)->trans = d_021F4D48;
+    func_021BE480(expObj, 0, 11)->trans = d_021F4CE8;
+    for (lane = 0; lane < GIMMICK39_LANE_COUNT; lane = (u8)(lane + 1)) {
+        model = lane;
+        laneStatePtr = (u8 *)save + lane;
+        animeIndex = laneStatePtr[GIMMICK39_SAVE_LANE_STATE] ? lane * 2 + 2 : lane * 2 + 1;
+        func_021BE700(expObj, 0, model, animeIndex, 1);
+        func_021BE700(expObj, 0, model, 0, 1);
+        anime = func_021BE674(expObj, 0, model, 0);
+        func_021BE6B0(anime, 1);
+        func_021BE6B8(anime, 0);
+        func_021BE6CC(expObj, 0, model, animeIndex, save->laneFrame[lane]);
+        model = lane + GIMMICK39_LANE_COUNT;
+        leverStateA = laneStatePtr[GIMMICK39_SAVE_LANE_STATE];
+        func_021BE700(expObj, 0, model, leverStateA, 1);
+        func_021BE6B8(func_021BE674(expObj, 0, model, 0), 0);
+        func_021BE6B8(func_021BE674(expObj, 0, model, 1), 0);
+        func_021BE6CC(expObj, 0, model, leverStateA, func_021BE748(func_021BE674(expObj, 0, model, leverStateA)));
+        leverStateB = laneStatePtr[GIMMICK39_SAVE_LANE_STATE];
+        model = lane + GIMMICK39_LANE_COUNT * 2;
+        func_021BE700(expObj, 0, model, leverStateB, 1);
+        func_021BE6B8(func_021BE674(expObj, 0, model, 0), 0);
+        func_021BE6B8(func_021BE674(expObj, 0, model, 1), 0);
+        func_021BE6CC(expObj, 0, model, leverStateB, func_021BE748(func_021BE674(expObj, 0, model, leverStateB)));
+    }
+    work = func_021897BC(fieldMap, 1);
+    work->task = func_02030DA8(func_02188D30(fieldMap), func_021F3A34, fieldMap, 0);
+    for (n = 0; n < GIMMICK39_LANE_COUNT; n++) {
+        work->switchRequest[n] = 0;
+        work->activeCart[n] = n * 2 + save->laneState[n];
+        work->parkedDock[n] = -1;
+    }
+    work->switchLane = -1;
+    work->rideLane = -1;
+    work->selectedCart = GIMMICK39_NO_CART;
+    func_02028A7C(soundSys, GIMMICK39_SLOT_CART_LOOP);
+    FIELD_SOUND_SYSTEM_TransferSlot(soundSys, GIMMICK39_SLOT_CART_LOOP, 0);
+}
+
+/*
+ * Per-frame task. First applies the lever requests that wait for their cart
+ * animation to reach frame 0. Then, for each lane, counts down the dock
+ * timer or watches the cart animation reach one of its two stop frames
+ * (the cart is then parked at that dock). While a ride runs the player
+ * follows the ride animation, otherwise the sound of the nearest cart is
+ * updated.
+ *
+ * Compiler note: spill slots follow reverse declaration order (last declared,
+ * lowest slot): oldState, cart, saveRow, laneTwice, parkedRow, cartAnimeIndex,
+ * laneModel give a 8, b 0xc, sr 0x10, j2 0x14, qr 0x18, v 0x1c, d 0x20. The
+ * row pointers saveRow (save + lane) and parkedRow (work + lane) and
+ * laneTwice = 2 * lane are named locals so they take their declared places,
+ * and `cartAnimeIndex = cart + 1` keeps cart a real variable (with
+ * `cartAnimeIndex = work->activeCart[lane] + 1` a CSE temporary takes the
+ * first slot instead). d_021F4C28 and d_021F4D54 need the ov039 token.
+ */
+void func_021F3A34(struct Tcb *tcb, struct FieldMap *fieldMap)
 {
     u8 i;
-    int j;
-    int h;
-    Work *s;
-    u32 t;
-    Save *q;
-    int w;
-    int d;
-    u8 v;
-    u8 *qr;
-    int j2;
-    s8 *sr;
-    u8 b;
-    u8 a;
-    void *o;
-    int snd;
-    u8 k;
-    Vec pos;
-    u8 buf[4];
-    u32 tmp2;
+    int lane;
+    FldExpObjCnt *expObj;
+    Gimmick39Work *work;
+    struct GameData *gameData;
+    Gimmick39Save *save;
+    struct FieldSoundSystem *soundSys;
+    int oldState;
+    u8 cart;
+    u8 *saveRow; /* stand-in: row pointer (save + lane), see GIMMICK39_SAVE_LANE_STATE */
+    int laneTwice;
+    s8 *parkedRow; /* stand-in: row pointer (work + lane), see GIMMICK39_WORK_PARKED_DOCK */
+    u8 cartAnimeIndex;
+    u8 laneModel;
+    FldExpObjAnime *cartAnime;
+    int seSlot;
+    u8 rideLane;
+    VecFx32 ridePos;
+    u8 stopIndex[4];
+    u32 laneState;
 
-    h = func_02188D2C(a1);
-    s = func_021897BC(a1, 1);
-    t = (u32)func_020120F4((const struct Ctx *)func_02188C80(a1));
-    q = (Save *)func_0200B3A4((struct Rec94 *)func_02012EC4((struct Big *)t), 2);
-    w = func_02012A30((const struct BigObj *)t);
-    for (i = 0; i < 4; i++) {
-        j = i;
-        if (s->req[j] != 0) {
-            qr = (u8 *)q + j;
-            d = (u8)((qr[0x10] + 1) % 2);
-            j2 = j * 2;
-            if (func_021F3DE4((void *)h, (u8)j, (u8)(d + (j2 + 1))) == 0) {
-                func_021F47D8((void *)h, d, j);
-                tmp2 = qr[0x10];
-                s->cur[j] = j2 + tmp2;
-                if (s->sel != 0xff && ((u32)s->sel >> 1) == j && s->sel != s->cur[j]) {
-                    s->sel = s->cur[j];
-                    func_02011558((struct IcaAnime *)s->anim);
-                    s->anim = func_02011428(0x8015, 0x6b, d_021F4C38[s->sel], s->f1c, 0x21C0);
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    gameData = func_020120F4(func_02188C80(fieldMap));
+    save = func_0200B3A4(func_02012EC4(gameData), GIMMICK39_SAVE_ID);
+    soundSys = func_02012A30(gameData);
+    for (i = 0; i < GIMMICK39_LANE_COUNT; i++) {
+        lane = i;
+        if (work->switchRequest[lane] != 0) {
+            saveRow = (u8 *)save + lane;
+            oldState = (u8)((saveRow[GIMMICK39_SAVE_LANE_STATE] + 1) % 2);
+            laneTwice = lane * 2;
+            if (func_021F3DE4(expObj, (u8)lane, (u8)(oldState + (laneTwice + 1))) == 0) {
+                func_021F47D8(expObj, oldState, lane);
+                laneState = saveRow[GIMMICK39_SAVE_LANE_STATE];
+                work->activeCart[lane] = laneTwice + laneState;
+                if (work->selectedCart != GIMMICK39_NO_CART && ((u32)work->selectedCart >> 1) == lane
+                    && work->selectedCart != work->activeCart[lane]) {
+                    work->selectedCart = work->activeCart[lane];
+                    func_02011558(work->rideAnime);
+                    work->rideAnime = ICA_ANIME_CreateWithFullBuffer(GIMMICK39_HEAP_ID, GIMMICK39_RIDE_ANIME_ARC,
+                                                                     d_021F4C38[work->selectedCart], work->rideAnimeBuffer,
+                                                                     GIMMICK39_RIDE_ANIME_BUFFER_SIZE);
                 }
-                s->req[j] = 0;
+                work->switchRequest[lane] = 0;
             }
         }
     }
-    for (i = 0; i < 4; i++) {
-        j = i;
-        sr = (s8 *)s + j;
-        v = s->cur[j];
-        b = v + 1;
-        a = j;
-        o = func_021BE674((char *)h, 0, a, b);
-        if (s->timer[j] != 0) {
-            if (s->hold != j && --s->timer[j] == 0) {
-                func_021BE6B0(o, 0);
-                if (s->sel != 0xff && j == ((u32)s->sel >> 1)) {
-                    func_02028A7C((struct SoundSys2 *)w, 0x68A);
-                    func_020061E4(0x6DB);
-                    snd = func_02006148(0x6DB);
-                    func_02028B18((struct SoundSys2 *)w, 0x68A, 0x7f);
-                    func_02072F34((struct Obj *)func_02006138(snd), 0);
+    for (i = 0; i < GIMMICK39_LANE_COUNT; i++) {
+        lane = i;
+        parkedRow = (s8 *)work + lane;
+        cart = work->activeCart[lane];
+        cartAnimeIndex = cart + 1;
+        laneModel = lane;
+        cartAnime = func_021BE674(expObj, 0, laneModel, cartAnimeIndex);
+        if (work->dockTimer[lane] != 0) {
+            if (work->rideLane != lane && --work->dockTimer[lane] == 0) {
+                func_021BE6B0(cartAnime, 0);
+                if (work->selectedCart != GIMMICK39_NO_CART && lane == ((u32)work->selectedCart >> 1)) {
+                    func_02028A7C(soundSys, GIMMICK39_SLOT_CART_LOOP);
+                    func_020061E4(GIMMICK39_SE_CART_RUN);
+                    seSlot = func_02006148(GIMMICK39_SE_CART_RUN);
+                    FIELD_SOUND_SYSTEM_TransferSlot(soundSys, GIMMICK39_SLOT_CART_LOOP, 0x7f);
+                    NNS_SndHandleSetSeqPriority(GFL_USE_GetSeHandle(seSlot), 0);
                 }
-                sr[0x21F0] = -1;
+                parkedRow[GIMMICK39_WORK_PARKED_DOCK] = -1;
             }
-        } else if (func_021F4864(v, func_021BE6E8(h, 0, a, b), buf)) {
-            func_021BE6B0(o, 1);
-            if (s->sel != 0xff && j == ((u32)s->sel >> 1)) {
-                func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
+        } else if (func_021F4864(cart, func_021BE6E8(expObj, 0, laneModel, cartAnimeIndex), stopIndex)) {
+            func_021BE6B0(cartAnime, 1);
+            if (work->selectedCart != GIMMICK39_NO_CART && lane == ((u32)work->selectedCart >> 1)) {
+                func_02028B50(soundSys, GIMMICK39_SLOT_CART_LOOP);
+                GFL_USE_StopAllSe();
             }
-            s->timer[j] = 0x5a;
-            sr[0x21F0] = d_021F4C28[v][buf[0]];
+            work->dockTimer[lane] = GIMMICK39_DOCK_TIMER;
+            parkedRow[GIMMICK39_WORK_PARKED_DOCK] = d_021F4C28[cart][stopIndex[0]];
         }
     }
-    if (s->active != 0) {
-        pos = d_021F4D54;
-        k = s->sel >> 1;
-        if (func_02011688((struct IcaAnime *)s->anim, (struct Rec12 *)(&pos), func_021BE6E8(h, 0, k, s->sel + 1) / 4096)) {
-            pos.x += d_021F4CA0[k].x;
-            pos.y += d_021F4CA0[k].y;
-            pos.z += d_021F4CA0[k].z;
-            func_021A3044(func_02188CB4((void *)a1), &pos);
+    if (work->rideActive != 0) {
+        ridePos = d_021F4D54;
+        rideLane = work->selectedCart >> 1;
+        if (ICA_ANIME_GetTranslateAt(work->rideAnime, &ridePos,
+                                     func_021BE6E8(expObj, 0, rideLane, work->selectedCart + 1) / 4096)) {
+            ridePos.x += d_021F4CA0[rideLane].x;
+            ridePos.y += d_021F4CA0[rideLane].y;
+            ridePos.z += d_021F4CA0[rideLane].z;
+            func_021A3044(func_02188CB4(fieldMap), &ridePos);
         }
     } else {
-        func_021F4A18(a1, (struct Rec *)s);
+        func_021F4A18(fieldMap, work);
     }
 }
 
-
-
-
-
-
-void func_021F3CD8(int a)
+/* Gimmick end: stops the cart sound, ends the task, frees the work and the models. */
+void func_021F3CD8(struct FieldMap *fieldMap)
 {
-    int r6 = func_02188D2C((int *)a);
-    int *r4 = (int *)func_021897BC((void *)a, 1);
+    FldExpObjCnt *expObj = func_02188D2C(fieldMap);
+    Gimmick39Work *work = func_021897BC(fieldMap, 1);
 
-    func_02028B50((u8 *)func_02012A30((const struct BigObj *)func_020120F4((const struct Ctx *)func_02188C80((void *)a))), 0x68A);
-    func_02030EAC((struct Node *)(*r4));
-    func_021897A0(a, 1);
-    func_021BE418((u8 *)r6, 0);
+    func_02028B50(func_02012A30(func_020120F4(func_02188C80(fieldMap))), GIMMICK39_SLOT_CART_LOOP);
+    func_02030EAC(work->task);
+    func_021897A0(fieldMap, 1);
+    func_021BE418(expObj, 0);
 }
 
-
-
-
-
-
-void func_021F3D1C(int a)
+/* Gimmick save step: keeps the frame of the active cart animation of each lane. */
+void func_021F3D1C(struct FieldMap *fieldMap)
 {
-    int *r7;
-    int r6;
+    Gimmick39Save *save;
+    FldExpObjCnt *expObj;
     int i;
-    unsigned char *r5;
+    Gimmick39Work *work;
 
-    r6 = func_02188D2C((int *)a);
-    r5 = (unsigned char *)func_021897BC((void *)a, 1);
-    r7 = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80((void *)a))), 2);
-    func_021BE580(r6);
-    for (i = 0; i < 4; i++)
-        r7[i] = func_021F3DE4((void *)r6, (unsigned char)i, (unsigned char)(r5[i + 0x21EC] + 1));
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK39_SAVE_ID);
+    func_021BE580(expObj);
+    for (i = 0; i < GIMMICK39_LANE_COUNT; i++)
+        save->laneFrame[i] = func_021F3DE4(expObj, (unsigned char)i, (unsigned char)(work->activeCart[i] + 1));
 }
 
-
-
-
-
-void func_021F3D74(u32 a) { struct SoundSys2 *p; p = (struct SoundSys2 *)func_02012A30((const struct BigObj *)func_020120F4((const struct Ctx *)a)); func_02028A7C(p, 0x68a); func_02028B18(p, 0x68a, 0); }
-
-
-
-
-u8 func_021F3D98(u8 *p, int i) { return func_021F36F0(p, func_021F3DAC(i)); }
-
-
-
-
-
-unsigned char func_021F3DAC(int i)
+/* Script entry: starts the cart sound slot and transfers it. */
+void func_021F3D74(struct GameSystem *gameSystem)
 {
-    return d_021F4C0C[i];
+    struct FieldSoundSystem *soundSys;
+
+    soundSys = func_02012A30(func_020120F4(gameSystem));
+    func_02028A7C(soundSys, GIMMICK39_SLOT_CART_LOOP);
+    FIELD_SOUND_SYSTEM_TransferSlot(soundSys, GIMMICK39_SLOT_CART_LOOP, 0);
 }
 
-
-
-
-int func_021F3DB8(signed char *p, int i) { int v; v = *(p + func_021F3DAC(i) + 0x21f0); if (v == -1) return 0; return v == i; }
-
-
-
-
-int func_021F3DE4(void *p, u16 delta, u16 i) { int v = 0; func_02047828((struct AnmCtl *)func_021BE4C4(p, 0, delta), i, &v); return v; }
-
-
-
-
-void func_021F3E04(void *p, u8 delta, u16 i, int frame) { func_0204784C((struct AnmCtl *)func_021BE4C4(p, 0, delta), i, &frame); }
-
-
-
-
-
-int func_021F3E24(void *a, u32 b)
+/* The cart in use on the lane of a dock. */
+u8 func_021F3D98(Gimmick39Work *work, int dock)
 {
-    void *s;
-    u8 *p;
-    int r;
-
-    s = func_0201210C((void *)a);
-    func_02188D2C(s);
-    p = (u8 *)(int *)func_021897BC(s, 1);
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(s))), 2);
-    if (b >= 4) {
-        return 0;
-    }
-    r = (int)func_020122C0(a, 0, func_021F3E70, 0);
-    p[5] = b;
-    return r;
+    return func_021F36F0(work, func_021F3DAC(dock));
 }
 
+/* The lane a dock belongs to. */
+unsigned char func_021F3DAC(int dock)
+{
+    return d_021F4C0C[dock];
+}
 
+/* 1 if the cart of the dock's lane waits at that dock. */
+int func_021F3DB8(Gimmick39Work *work, int dock)
+{
+    int parkedDock;
 
+    parkedDock = work->parkedDock[func_021F3DAC(dock)];
+    if (parkedDock == -1) return 0;
+    return parkedDock == dock;
+}
 
+/* Frame of a cart animation of a lane model. */
+int func_021F3DE4(FldExpObjCnt *expObj, u16 lane, u16 animeIndex)
+{
+    int frame = 0;
+
+    func_02047828(func_021BE4C4(expObj, 0, lane), animeIndex, &frame);
+    return frame;
+}
+
+/* Sets the frame of an animation of a lane model. */
+void func_021F3E04(FldExpObjCnt *expObj, u8 lane, u16 animeIndex, int frame)
+{
+    func_0204784C(func_021BE4C4(expObj, 0, lane), animeIndex, &frame);
+}
 
 /*
- * note:     case 1 reads s->idx once into a local (int or s8; u8 differs);
- *           re-reading the field per call reloads it and shifts sys to r6.
+ * Script entry: creates the event that throws the lever of a lane (0 to 3).
+ * Returns no event for other values.
  */
-int func_021F3E70(int a0, int *a1)
+struct GameEvent *func_021F3E24(struct GameSystem *gameSystem, u32 lane)
 {
-    void *sys;
-    int h;
-    Work *s;
-    Save *q;
-    u8 a;
-    u8 b;
-    void *o;
-    void *o2;
-    int i;
+    struct FieldMap *fieldMap;
+    Gimmick39Work *work;
+    struct GameEvent *event;
 
-    sys = func_0201210C(func_020124E4((void *)a0));
-    h = func_02188D2C(sys);
-    s = func_021897BC(sys, 1);
-    q = (Save *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
-    switch (*a1) {
+    fieldMap = func_0201210C(gameSystem);
+    func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK39_SAVE_ID);
+    if (lane >= GIMMICK39_LANE_COUNT) {
+        return 0;
+    }
+    event = func_020122C0(gameSystem, 0, func_021F3E70, 0);
+    work->switchLane = lane;
+    return event;
+}
+
+/*
+ * Event: throws the lever of work->switchLane. Step 0 hides the lever pose
+ * that is left and shows the other one, and plays the lever sound; step 1
+ * waits for both lever animations, then updates the carts and ends.
+ *
+ * Compiler note: case 1 reads work->switchLane once into a local (int or s8;
+ * u8 differs); re-reading the field per call reloads it and shifts the
+ * field map to r6.
+ */
+int func_021F3E70(struct GameEvent *event, int *seq, void *eventWork)
+{
+    struct FieldMap *fieldMap;
+    FldExpObjCnt *expObj;
+    Gimmick39Work *work;
+    Gimmick39Save *save;
+    u8 leverModelA;
+    u8 leverModelB;
+    FldExpObjAnime *leverAnimeA;
+    FldExpObjAnime *leverAnimeB;
+    int lane;
+
+    fieldMap = func_0201210C(func_020124E4(event));
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK39_SAVE_ID);
+    switch (*seq) {
     case 0:
-        s->mode = q->flag[s->idx];
-        a = s->idx + 4;
-        b = s->idx + 8;
-        if (s->mode == 0) {
-            func_021BE700((void *)h, 0, a, 0, 0);
-            func_021BE700((void *)h, 0, b, 0, 0);
-            func_021BE700((void *)h, 0, a, 1, 1);
-            func_021BE700((void *)h, 0, b, 1, 1);
-            func_021BE6B0(func_021BE674((char *)h, 0, a, 1), 0);
-            func_021BE6B0(func_021BE674((char *)h, 0, b, 1), 0);
-            func_021BE6CC((int)((void *)h), 0, a, 1, 0);
-            func_021BE6CC((int)((void *)h), 0, b, 1, 0);
-            s->mode = 1;
+        work->switchState = save->laneState[work->switchLane];
+        leverModelA = work->switchLane + 4;
+        leverModelB = work->switchLane + 8;
+        if (work->switchState == 0) {
+            func_021BE700(expObj, 0, leverModelA, 0, 0);
+            func_021BE700(expObj, 0, leverModelB, 0, 0);
+            func_021BE700(expObj, 0, leverModelA, 1, 1);
+            func_021BE700(expObj, 0, leverModelB, 1, 1);
+            func_021BE6B0(func_021BE674(expObj, 0, leverModelA, 1), 0);
+            func_021BE6B0(func_021BE674(expObj, 0, leverModelB, 1), 0);
+            func_021BE6CC(expObj, 0, leverModelA, 1, 0);
+            func_021BE6CC(expObj, 0, leverModelB, 1, 0);
+            work->switchState = 1;
         } else {
-            func_021BE700((void *)h, 0, a, 1, 0);
-            func_021BE700((void *)h, 0, b, 1, 0);
-            func_021BE700((void *)h, 0, a, 0, 1);
-            func_021BE700((void *)h, 0, b, 0, 1);
-            func_021BE6B0(func_021BE674((char *)h, 0, a, 0), 0);
-            func_021BE6B0(func_021BE674((char *)h, 0, b, 0), 0);
-            func_021BE6CC((int)((void *)h), 0, a, 0, 0);
-            func_021BE6CC((int)((void *)h), 0, b, 0, 0);
-            s->mode = 0;
+            func_021BE700(expObj, 0, leverModelA, 1, 0);
+            func_021BE700(expObj, 0, leverModelB, 1, 0);
+            func_021BE700(expObj, 0, leverModelA, 0, 1);
+            func_021BE700(expObj, 0, leverModelB, 0, 1);
+            func_021BE6B0(func_021BE674(expObj, 0, leverModelA, 0), 0);
+            func_021BE6B0(func_021BE674(expObj, 0, leverModelB, 0), 0);
+            func_021BE6CC(expObj, 0, leverModelA, 0, 0);
+            func_021BE6CC(expObj, 0, leverModelB, 0, 0);
+            work->switchState = 0;
         }
-        func_020061E4(0x689);
-        *a1 = *a1 + 1;
+        func_020061E4(GIMMICK39_SE_SWITCH);
+        *seq = *seq + 1;
         break;
     case 1:
-        i = s->idx;
-        o = func_021BE674((char *)h, 0, i + 4, s->mode);
-        o2 = func_021BE674((char *)h, 0, i + 8, s->mode);
-        if (func_021BE6BC(o) && func_021BE6BC(o2)) {
-            func_021F4740((u32)sys, (void *)h);
-            s->idx = -1;
+        lane = work->switchLane;
+        leverAnimeA = func_021BE674(expObj, 0, (u8)(lane + 4), work->switchState);
+        leverAnimeB = func_021BE674(expObj, 0, (u8)(lane + 8), work->switchState);
+        if (func_021BE6BC(leverAnimeA) && func_021BE6BC(leverAnimeB)) {
+            func_021F4740(fieldMap, expObj);
+            work->switchLane = -1;
             return 1;
         }
         break;
@@ -597,332 +469,372 @@ int func_021F3E70(int a0, int *a1)
     return 0;
 }
 
-
-
-
-
 /*
- * note:     func_021BE674's third parameter is u8 here (the caller truncates
- *           the int local before the bl); the 0x02188D2C result bound to a
- *           named local keeps `k` computed before that call.
+ * Interaction check (the player faces nothing else): when the player stands
+ * on a dock where the cart of the lane waits, creates the ride event, or
+ * the refusal event for a lane that a script has not unlocked.
+ *
+ * Compiler note: func_021BE674's third parameter is u8 here (the caller
+ * truncates the int local before the bl); the func_02188D2C result bound to
+ * a named local keeps `cartAnimeIndex` computed before that call.
  */
-int func_021F404C(void *a0)
+struct GameEvent *func_021F404C(struct GameSystem *gameSystem)
 {
-    void *sys;
-    void *p;
-    u8 *s;
-    void *x;
-    Vec v;
-    u8 n;
-    int c;
-    u8 k;
-    int h;
+    struct FieldMap *fieldMap;
+    Gimmick39Save *save;
+    Gimmick39Work *work;
+    struct FieldPlayer *player;
+    VecFx32 playerPos;
+    u8 dock;
+    int lane;
+    u8 cartAnimeIndex;
+    FldExpObjCnt *expObj;
 
-    sys = func_0201210C(a0);
-    p = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
-    s = (u8 *)func_021897BC(sys, 1);
-    x = func_02188CB4(sys);
-    if (func_021A3050(x)) {
+    fieldMap = func_0201210C(gameSystem);
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK39_SAVE_ID);
+    work = func_021897BC(fieldMap, 1);
+    player = func_02188CB4(fieldMap);
+    if (func_021A3050(player)) {
         return 0;
     }
-    func_021A3038(x, (struct VecFx32 *)&v);
-    n = func_021F36C0(v.x / 0x10000, v.z / 0x10000);
-    if (n == 0xff) {
+    func_021A3038(player, &playerPos);
+    dock = func_021F36C0(playerPos.x / GIMMICK39_TILE_SIZE, playerPos.z / GIMMICK39_TILE_SIZE);
+    if (dock == GIMMICK39_NO_DOCK) {
         return 0;
     }
-    if (func_021F3DB8((signed char *)s, n)) {
-        c = func_021F3DAC(n);
-        s[4] = func_021F3D98(s, n);
-        k = s[4] + 1;
-        h = func_02188D2C(sys);
-        func_021BE6B0(func_021BE674((char *)h, 0, c, k), 1);
-        s[7] = c;
-        if (func_021F4158(p, c)) {
-            return (int)func_020122C0(a0, 0, func_021F4610, 0);
+    if (func_021F3DB8(work, dock)) {
+        lane = func_021F3DAC(dock);
+        work->selectedCart = func_021F3D98(work, dock);
+        cartAnimeIndex = work->selectedCart + 1;
+        expObj = func_02188D2C(fieldMap);
+        func_021BE6B0(func_021BE674(expObj, 0, (u8)lane, cartAnimeIndex), 1);
+        work->rideLane = lane;
+        if (func_021F4158(save, lane)) {
+            return func_020122C0(gameSystem, 0, func_021F4610, 0);
         }
-        return (int)func_020122C0(a0, 0, func_021F41A8, 0);
+        return func_020122C0(gameSystem, 0, func_021F41A8, 0);
     }
     return 0;
 }
 
-
-
-void func_021F4134(void *p, u32 i) { func_021F4184((u8 *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80((void *)((u32)func_0201210C(p))))), 2), i); }
-
-
-
-int func_021F4158(u8 *p, int i) { int zero = 0; int valid = 0; if (i == 1) { valid = 1; i = zero; } else if (i == 2) { valid = 1; i = 1; } if (valid && *(u16 *)(p + i * 2 + 0x14) == 0) return 1; return 0; }
-
-
-
-void func_021F4184(u8 *p, u8 i) { int zero = 0; int valid = 0; if (i == 1) { valid = 1; i = zero; } else if (i == 2) { valid = 1; i = 1; } if (valid) *(u16 *)(p + i * 2 + 0x14) = 1; }
-
-
-
+/* Script entry: unlocks lane 1 or 2 (value 1 or 2). */
+void func_021F4134(struct GameSystem *gameSystem, u32 lane)
+{
+    func_021F4184(func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(func_0201210C(gameSystem)))),
+                                GIMMICK39_SAVE_ID),
+                  lane);
+}
 
 /*
- * note:     2026-10-05 final push G2L1: closed. Case 5 stored s->hold before movs r1,#1 only when
- *           func_021BE674 takes (char *, int, u8 j, u8 k), as the matched caller ov039 021F404C declares
- *           it (earlier drafts used unsigned int j, int k; with u8 parameters the call site is
- *           the same but the pair order in case 5 follows the original). The func_021F3DE4 call keeps
- *           (u8)(s->sel + 1) for its u16 parameter.
+ * 1 if the lane (1 or 2) still has to be unlocked by a script. The lane is
+ * turned into the index of laneUnlocked (1 -> 0, 2 -> 1); other lanes are
+ * always unlocked.
  */
-int func_021F41A8(void *a0, int *a1)
+int func_021F4158(Gimmick39Save *save, int lane)
 {
-    void *sys;
-    int h;
-    Work *s;
-    u32 w;
-    int snd;
-    int c;
-    void *q;
-    u8 j;
-    void *o;
-    void *p;
-    void *m;
-    Res *r;
-    int f2;
-    u8 k;
-    int f;
-    int n;
-    int d;
-    u8 vol;
-    Vec t;
-    Vec a;
-    Vec b;
-    Vec e;
+    int zero = 0;
+    int isGated = 0;
 
-    sys = func_0201210C(func_020124E4(a0));
-    h = func_02188D2C(sys);
-    s = func_021897BC(sys, 1);
-    w = func_02012A30((const struct BigObj *)func_020120F4((const struct Ctx *)func_02188C80(sys)));
-    snd = func_02006148(0x6DB);
-    c = (u8)(s->sel >> 1);
-    j = c;
-    o = func_021BE674((char *)h, 0, j, 0);
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
-    switch (*a1) {
+    if (lane == 1) {
+        isGated = 1;
+        lane = zero;
+    } else if (lane == 2) {
+        isGated = 1;
+        lane = 1;
+    }
+    if (isGated && save->laneUnlocked[lane] == 0) return 1;
+    return 0;
+}
+
+/* Unlocks lane 1 or 2 (see func_021F4158). */
+void func_021F4184(Gimmick39Save *save, u8 lane)
+{
+    int zero = 0;
+    int isGated = 0;
+
+    if (lane == 1) {
+        isGated = 1;
+        lane = zero;
+    } else if (lane == 2) {
+        isGated = 1;
+        lane = 1;
+    }
+    if (isGated) save->laneUnlocked[lane] = 1;
+}
+
+/*
+ * Ride event. Opens the gate of the lane, shows the board script, closes the
+ * gate and starts the ride animation of the cart; the player then follows
+ * the animation (work->rideActive) until the cart is parked at a dock and
+ * the player presses Down; the player is put on the dock, the arrive script
+ * runs and the gate closes.
+ *
+ * 2026-10-05 final push G2L1: closed. Case 5 stored work->rideLane before
+ * movs r1,#1 only when func_021BE674 takes (expObj, int, u8 model, u8 anime), as the
+ * matched caller func_021F404C declares it (earlier drafts used unsigned int
+ * model, int anime; with u8 parameters the call site is the same but the pair
+ * order in case 5 follows the original). The func_021F3DE4 call keeps
+ * (u8)(work->selectedCart + 1) for its u16 parameter.
+ */
+int func_021F41A8(struct GameEvent *event, int *seq, void *eventWork)
+{
+    struct FieldMap *fieldMap;
+    FldExpObjCnt *expObj;
+    Gimmick39Work *work;
+    struct FieldSoundSystem *soundSys;
+    int seSlot;
+    int lane;
+    struct G3dObject *cartObj;
+    u8 model;
+    FldExpObjAnime *gateAnime;
+    FldExpObjAnime *cartAnime;
+    struct Mmdl *playerMmdl;
+    struct FieldPlayer *player;
+    NNSG3dAnmObj *animObj;
+    int nextFrame;
+    u8 animeIndex;
+    int frame;
+    int frameCount;
+    int distance;
+    u8 priority;
+    VecFx32 exitPos;
+    VecFx32 samplePos;
+    VecFx32 sampleNextPos;
+    VecFx32 step;
+
+    fieldMap = func_0201210C(func_020124E4(event));
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    soundSys = func_02012A30(func_020120F4(func_02188C80(fieldMap)));
+    seSlot = func_02006148(GIMMICK39_SE_CART_RUN);
+    lane = (u8)(work->selectedCart >> 1);
+    model = lane;
+    gateAnime = func_021BE674(expObj, 0, model, 0);
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK39_SAVE_ID);
+    switch (*seq) {
     case 0:
-        s->anim = func_02011428(0x8015, 0x6b, d_021F4C38[s->sel], s->f1c, 0x21C0);
-        func_021F3E04((void *)h, j, 0, 0);
-        func_021BE6B0(o, 0);
-        func_020061E4(0x687);
-        *a1 = *a1 + 1;
+        work->rideAnime = ICA_ANIME_CreateWithFullBuffer(GIMMICK39_HEAP_ID, GIMMICK39_RIDE_ANIME_ARC,
+                                                         d_021F4C38[work->selectedCart], work->rideAnimeBuffer,
+                                                         GIMMICK39_RIDE_ANIME_BUFFER_SIZE);
+        func_021F3E04(expObj, model, 0, 0);
+        func_021BE6B0(gateAnime, 0);
+        func_020061E4(GIMMICK39_SE_GATE);
+        *seq = *seq + 1;
         break;
     case 1:
-        if (func_021F3DE4((void *)h, j, 0) < 0xF000) {
+        if (func_021F3DE4(expObj, model, 0) < GIMMICK39_GATE_OPEN_FRAME) {
             break;
         }
-        func_021BE6B0(o, 1);
-        func_02158780(a0, 0xD, 0, 0, 0x8015);
-        *a1 = *a1 + 1;
+        func_021BE6B0(gateAnime, 1);
+        func_02158780(event, GIMMICK39_SCRIPT_BOARD, 0, 0, GIMMICK39_HEAP_ID);
+        *seq = *seq + 1;
         break;
     case 2:
-        func_021BE6B0(o, 0);
-        func_020061E4(0x687);
-        *a1 = *a1 + 1;
+        func_021BE6B0(gateAnime, 0);
+        func_020061E4(GIMMICK39_SE_GATE);
+        *seq = *seq + 1;
         break;
     case 3:
-        if (func_021BE6BC(o) == 0) {
+        if (func_021BE6BC(gateAnime) == 0) {
             break;
         }
-        func_0216DAC8(func_021A3074(func_02188CB4(sys)), 1);
-        func_021BE6B0(o, 1);
-        func_021BE6B0(func_021BE674((char *)h, 0, j, (u8)(s->sel + 1)), 0);
-        s->timer[c] = 0;
-        s->slot[c] = -1;
-        s->hold = -1;
-        func_02028A7C((struct SoundSys2 *)w, 0x68A);
-        func_020061E4(0x6DB);
-        func_02072F34((struct Obj *)func_02006138(snd), 0);
-        func_02028B18((struct SoundSys2 *)w, 0x68A, 0x7f);
-        s->active = 1;
-        *a1 = *a1 + 1;
+        func_0216DAC8(func_021A3074(func_02188CB4(fieldMap)), 1);
+        func_021BE6B0(gateAnime, 1);
+        func_021BE6B0(func_021BE674(expObj, 0, model, (u8)(work->selectedCart + 1)), 0);
+        work->dockTimer[lane] = 0;
+        work->parkedDock[lane] = -1;
+        work->rideLane = -1;
+        func_02028A7C(soundSys, GIMMICK39_SLOT_CART_LOOP);
+        func_020061E4(GIMMICK39_SE_CART_RUN);
+        NNS_SndHandleSetSeqPriority(GFL_USE_GetSeHandle(seSlot), 0);
+        FIELD_SOUND_SYSTEM_TransferSlot(soundSys, GIMMICK39_SLOT_CART_LOOP, 0x7f);
+        work->rideActive = 1;
+        *seq = *seq + 1;
         break;
     case 4:
-        if (s->slot[c] == -1) {
+        if (work->parkedDock[lane] == -1) {
             break;
         }
-        if (func_0203630C() & 0x80) {
-            *a1 = *a1 + 1;
+        if (func_0203630C() & GIMMICK39_KEY_DOWN) {
+            *seq = *seq + 1;
         }
         break;
     case 5:
-        p = func_021BE674((char *)h, 0, j, (u8)(s->sel + 1));
-        s->hold = c;
-        func_021BE6B0(p, 1);
-        func_021F3E04((void *)h, j, 0, 0);
-        func_021BE6B0(o, 0);
-        func_020061E4(0x687);
-        p = func_021A3074(func_02188CB4(sys));
-        func_0216D5E0(p, 1);
-        func_0216DAC8(p, 0);
-        *a1 = *a1 + 1;
+        cartAnime = func_021BE674(expObj, 0, model, (u8)(work->selectedCart + 1));
+        work->rideLane = lane;
+        func_021BE6B0(cartAnime, 1);
+        func_021F3E04(expObj, model, 0, 0);
+        func_021BE6B0(gateAnime, 0);
+        func_020061E4(GIMMICK39_SE_GATE);
+        playerMmdl = func_021A3074(func_02188CB4(fieldMap));
+        func_0216D5E0(playerMmdl, 1);
+        func_0216DAC8(playerMmdl, 0);
+        *seq = *seq + 1;
         break;
     case 6:
-        if (func_021F3DE4((void *)h, j, 0) < 0xF000) {
+        if (func_021F3DE4(expObj, model, 0) < GIMMICK39_GATE_OPEN_FRAME) {
             break;
         }
-        func_021BE6B0(o, 1);
-        m = func_02188CB4(sys);
-        t = d_021F4CF4;
-        k = s->slot[c];
-        t.x = (d_021F4C58[k].x << 16) + 0x8000;
-        t.z = ((d_021F4C58[k].z - 2) << 16) + 0x8000;
-        func_021A3044(m, &t);
-        s->active = 0;
-        *a1 = *a1 + 1;
+        func_021BE6B0(gateAnime, 1);
+        player = func_02188CB4(fieldMap);
+        exitPos = d_021F4CF4;
+        animeIndex = work->parkedDock[lane];
+        exitPos.x = (d_021F4C58[animeIndex].x << 16) + 0x8000;
+        exitPos.z = ((d_021F4C58[animeIndex].z - 2) << 16) + 0x8000;
+        func_021A3044(player, &exitPos);
+        work->rideActive = 0;
+        *seq = *seq + 1;
         break;
     case 7:
-        func_02158780(a0, 0xE, 0, 0, 0x8015);
-        *a1 = *a1 + 1;
+        func_02158780(event, GIMMICK39_SCRIPT_ARRIVE, 0, 0, GIMMICK39_HEAP_ID);
+        *seq = *seq + 1;
         break;
     case 8:
-        func_021BE6B0(o, 0);
-        func_020061E4(0x687);
-        *a1 = *a1 + 1;
+        func_021BE6B0(gateAnime, 0);
+        func_020061E4(GIMMICK39_SE_GATE);
+        *seq = *seq + 1;
         break;
     case 9:
-        if (func_021BE6BC(o) == 0) {
+        if (func_021BE6BC(gateAnime) == 0) {
             break;
         }
-        func_021BE6B0(o, 1);
-        func_021BE6B0(func_021BE674((char *)h, 0, j, (u8)(s->sel + 1)), 0);
-        s->timer[c] = 0;
-        s->slot[c] = -1;
-        func_02011558((struct IcaAnime *)s->anim);
-        s->hold = -1;
-        s->sel = 0xff;
-        func_02028A7C((struct SoundSys2 *)w, 0x68A);
-        func_02028B18((struct SoundSys2 *)w, 0x68A, 0);
-        func_020061F8(snd);
+        func_021BE6B0(gateAnime, 1);
+        func_021BE6B0(func_021BE674(expObj, 0, model, (u8)(work->selectedCart + 1)), 0);
+        work->dockTimer[lane] = 0;
+        work->parkedDock[lane] = -1;
+        func_02011558(work->rideAnime);
+        work->rideLane = -1;
+        work->selectedCart = GIMMICK39_NO_CART;
+        func_02028A7C(soundSys, GIMMICK39_SLOT_CART_LOOP);
+        FIELD_SOUND_SYSTEM_TransferSlot(soundSys, GIMMICK39_SLOT_CART_LOOP, 0);
+        func_020061F8(seSlot);
         return 1;
     }
-    if ((u8)(s->sel + 0xFE) <= 3) {
-        f = func_021F3DE4((void *)h, j, (u8)(s->sel + 1));
-        switch (s->sel) {
+    if ((u8)(work->selectedCart + 0xFE) <= 3) {
+        frame = func_021F3DE4(expObj, model, (u8)(work->selectedCart + 1));
+        switch (work->selectedCart) {
         case 2:
-            if (f == 0xBF000) {
-                func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
-                func_020061E4(0x68B);
-            } else if (f == 0xEB000) {
-                func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
-            } else if (f == 0xFF000) {
-                func_020061E4(0x68C);
+            if (frame == 0xBF000) {
+                func_02028B50(soundSys, GIMMICK39_SLOT_CART_LOOP);
+                GFL_USE_StopAllSe();
+                func_020061E4(GIMMICK39_SE_RIDE_START);
+            } else if (frame == 0xEB000) {
+                func_02028B50(soundSys, GIMMICK39_SLOT_CART_LOOP);
+                GFL_USE_StopAllSe();
+            } else if (frame == 0xFF000) {
+                func_020061E4(GIMMICK39_SE_RIDE_END);
             }
             break;
         case 3:
-            if (f == 0x108000) {
-                func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
-                func_020061E4(0x68B);
-            } else if (f == 0x131000) {
-                func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
-            } else if (f == 0x148000) {
-                func_020061E4(0x68C);
+            if (frame == 0x108000) {
+                func_02028B50(soundSys, GIMMICK39_SLOT_CART_LOOP);
+                GFL_USE_StopAllSe();
+                func_020061E4(GIMMICK39_SE_RIDE_START);
+            } else if (frame == 0x131000) {
+                func_02028B50(soundSys, GIMMICK39_SLOT_CART_LOOP);
+                GFL_USE_StopAllSe();
+            } else if (frame == 0x148000) {
+                func_020061E4(GIMMICK39_SE_RIDE_END);
             }
             break;
         case 4:
-            if (f == 0xB1000) {
-                func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
-                func_020061E4(0x6D2);
+            if (frame == 0xB1000) {
+                func_02028B50(soundSys, GIMMICK39_SLOT_CART_LOOP);
+                GFL_USE_StopAllSe();
+                func_020061E4(GIMMICK39_SE_RIDE_BUMP);
             }
             break;
         case 5:
-            if (f == 0xB6000) {
-                func_02028B50((u8 *)w, 0x68A);
-                func_02006210();
-                func_020061E4(0x6D2);
+            if (frame == 0xB6000) {
+                func_02028B50(soundSys, GIMMICK39_SLOT_CART_LOOP);
+                GFL_USE_StopAllSe();
+                func_020061E4(GIMMICK39_SE_RIDE_BUMP);
             }
             break;
         }
     }
-    q = func_021BE4C4((void *)h, 0, j);
-    k = s->sel + 1;
-    n = func_021BE748((u32)func_021BE674((char *)h, 0, j, k));
-    f = func_021F3DE4((void *)h, j, k);
-    f2 = f + 0x1000;
-    if (f2 >= n) {
-        f2 = 0;
+    cartObj = func_021BE4C4(expObj, 0, model);
+    animeIndex = work->selectedCart + 1;
+    frameCount = func_021BE748(func_021BE674(expObj, 0, model, animeIndex));
+    frame = func_021F3DE4(expObj, model, animeIndex);
+    nextFrame = frame + 0x1000;
+    if (nextFrame >= frameCount) {
+        nextFrame = 0;
     }
-    r = (Res *)func_02047674(func_02047790(q, (u16)k));
-    vol = 0;
-    func_021F48C0(r->mdl, 0, f, (int *)(&a));
-    func_021F48C0(r->mdl, 0, f2, (int *)(&b));
-    func_0207CA00(&a, &b, &e);
-    d = func_0207CBD0(&e);
-    if (d >= 0x20000) {
-        vol = 0x7f;
-    } else if (d >= 0x18000) {
-        vol = 0x5a;
-    } else if (d >= 0x10000) {
-        vol = 0x3c;
-    } else if (d >= 0x8000) {
-        vol = 0x1e;
+    animObj = func_02047674(func_02047790(cartObj, (u16)animeIndex));
+    priority = 0;
+    func_021F48C0((const u8 *)animObj->resAnm, 0, frame, &samplePos);
+    func_021F48C0((const u8 *)animObj->resAnm, 0, nextFrame, &sampleNextPos);
+    func_0207CA00(&samplePos, &sampleNextPos, &step);
+    distance = func_0207CBD0(&step);
+    if (distance >= 0x20000) {
+        priority = 0x7f;
+    } else if (distance >= 0x18000) {
+        priority = 0x5a;
+    } else if (distance >= 0x10000) {
+        priority = 0x3c;
+    } else if (distance >= 0x8000) {
+        priority = 0x1e;
     }
-    func_02072F34((struct Obj *)func_02006138(snd), vol);
+    NNS_SndHandleSetSeqPriority(GFL_USE_GetSeHandle(seSlot), priority);
     return 0;
 }
 
-
-
-
-
-int func_021F4610(void *a0, int *a1)
+/*
+ * Event for a lane that is not unlocked yet: runs the refusal scripts with
+ * the gate animation between them, then drops the cart selection.
+ */
+int func_021F4610(struct GameEvent *event, int *seq, void *eventWork)
 {
-    void *sys;
-    int h;
-    Work *s;
-    int c;
-    u8 j;
-    void *o;
+    struct FieldMap *fieldMap;
+    FldExpObjCnt *expObj;
+    Gimmick39Work *work;
+    int lane;
+    u8 model;
+    FldExpObjAnime *gateAnime;
 
-    sys = func_0201210C(func_020124E4(a0));
-    h = func_02188D2C(sys);
-    s = func_021897BC(sys, 1);
-    c = (u8)(s->sel >> 1);
-    j = c;
-    o = func_021BE674((char *)h, 0, j, 0);
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys))), 2);
-    switch (*a1) {
+    fieldMap = func_0201210C(func_020124E4(event));
+    expObj = func_02188D2C(fieldMap);
+    work = func_021897BC(fieldMap, 1);
+    lane = (u8)(work->selectedCart >> 1);
+    model = lane;
+    gateAnime = func_021BE674(expObj, 0, model, 0);
+    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK39_SAVE_ID);
+    switch (*seq) {
     case 0:
-        func_02158780(a0, 0xF, 0, 0, 0x8015);
-        *a1 = *a1 + 1;
+        func_02158780(event, GIMMICK39_SCRIPT_LOCKED_A, 0, 0, GIMMICK39_HEAP_ID);
+        *seq = *seq + 1;
         break;
     case 1:
-        func_021F3E04((void *)h, j, 0, 0);
-        func_021BE6B0(o, 0);
-        func_020061E4(0x687);
-        *a1 = *a1 + 1;
+        func_021F3E04(expObj, model, 0, 0);
+        func_021BE6B0(gateAnime, 0);
+        func_020061E4(GIMMICK39_SE_GATE);
+        *seq = *seq + 1;
         break;
     case 2:
-        if (func_021F3DE4((void *)h, j, 0) < 0xF000) {
+        if (func_021F3DE4(expObj, model, 0) < GIMMICK39_GATE_OPEN_FRAME) {
             break;
         }
-        func_021BE6B0(o, 1);
-        func_02158780(a0, 7, 0, 0, 0x8015);
-        *a1 = *a1 + 1;
+        func_021BE6B0(gateAnime, 1);
+        func_02158780(event, GIMMICK39_SCRIPT_LOCKED_B, 0, 0, GIMMICK39_HEAP_ID);
+        *seq = *seq + 1;
         break;
     case 3:
-        func_021BE6B0(o, 0);
-        func_020061E4(0x687);
-        *a1 = *a1 + 1;
+        func_021BE6B0(gateAnime, 0);
+        func_020061E4(GIMMICK39_SE_GATE);
+        *seq = *seq + 1;
         break;
     case 4:
-        if (func_021BE6BC(o) == 0) {
+        if (func_021BE6BC(gateAnime) == 0) {
             break;
         }
-        func_021BE6B0(o, 1);
-        func_021BE6B0(func_021BE674((char *)h, 0, j, (u8)(s->sel + 1)), 0);
-        s->timer[c] = 0;
-        s->slot[c] = -1;
-        s->sel = 0xff;
-        func_021587B0((int)a0, 8, 0, 0x8015);
-        *a1 = *a1 + 1;
+        func_021BE6B0(gateAnime, 1);
+        func_021BE6B0(func_021BE674(expObj, 0, model, (u8)(work->selectedCart + 1)), 0);
+        work->dockTimer[lane] = 0;
+        work->parkedDock[lane] = -1;
+        work->selectedCart = GIMMICK39_NO_CART;
+        func_021587B0(event, GIMMICK39_SCRIPT_LOCKED_END, 0, GIMMICK39_HEAP_ID);
+        *seq = *seq + 1;
         break;
     case 5:
         return 1;
@@ -930,142 +842,149 @@ int func_021F4610(void *a0, int *a1)
     return 0;
 }
 
-
-
-
-
-
-void func_021F4740(u32 a, void *b)
+/*
+ * Applies the lever of work->switchLane to the cart: flips the saved lever
+ * state; if the cart animation of the lane is still near its start the carts
+ * are swapped at once, otherwise the swap is requested for the per-frame
+ * task (a second throw before the swap cancels the request).
+ */
+void func_021F4740(struct FieldMap *fieldMap, FldExpObjCnt *expObj)
 {
-    s8 *p;
-    u8 *q;
-    u8 *arr;
-    u8 v;
-    s8 i;
+    Gimmick39Work *work;
+    Gimmick39Save *save;
+    u8 *laneState;
+    u8 oldState;
+    s8 lane;
 
-    p = (s8 *)(int *)func_021897BC((char *)a, 1);
-    q = (u8 *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80((void *)a))), 2);
-    i = p[5];
-    if (i == -1) {
+    work = func_021897BC(fieldMap, 1);
+    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK39_SAVE_ID);
+    lane = work->switchLane;
+    if (lane == -1) {
         return;
     }
-    arr = q + 0x10;
-    v = arr[i];
-    arr[i] = (v + 1) % 2;
-    if (func_021F4894(b, (u8)i, *((u8 *)p + p[5] + 0x21EC)) != 0) {
-        func_021F47D8(b, v, (u8)p[5]);
-        i = p[5];
-        *((u8 *)p + i + 0x21EC) = i * 2 + *(u8 *)(q + i + 0x10);
+    laneState = save->laneState;
+    oldState = laneState[lane];
+    laneState[lane] = (oldState + 1) % 2;
+    if (func_021F4894(expObj, (u8)lane, work->activeCart[work->switchLane]) != 0) {
+        func_021F47D8(expObj, oldState, (u8)work->switchLane);
+        lane = work->switchLane;
+        work->activeCart[lane] = lane * 2 + save->laneState[lane];
     } else {
-        u8 *r = (u8 *)p + 0x21E8;
+        u8 *request = work->switchRequest;
 
-        i = p[5];
-        if (r[i] != 0) {
-            r[i] = 0;
+        lane = work->switchLane;
+        if (request[lane] != 0) {
+            request[lane] = 0;
         } else {
-            r[i] = 1;
+            request[lane] = 1;
         }
     }
 }
 
-
-
-
-
-
-void func_021F47D8(void *a, int f, int i)
+/*
+ * Swaps the carts of a lane: the cart animation of the old lever state is
+ * hidden and the other one is shown at the same frame and pause state.
+ */
+void func_021F47D8(FldExpObjCnt *expObj, int oldState, int lane)
 {
-    u8 r7;
-    u8 r6;
-    u8 r4;
-    u8 v;
-    int d;
+    u8 oldAnime;
+    u8 newAnime;
+    u8 model;
+    u8 paused;
+    int frame;
 
-    if (f == 0) {
-        r7 = i * 2 + 1;
-        r6 = r7 + 1;
+    if (oldState == 0) {
+        oldAnime = lane * 2 + 1;
+        newAnime = oldAnime + 1;
     } else {
-        r6 = i * 2 + 1;
-        r7 = r6 + 1;
+        newAnime = lane * 2 + 1;
+        oldAnime = newAnime + 1;
     }
-    r4 = i;
-    d = func_021F3DE4(a, r4, r7);
-    func_021BE700(a, 0, r4, r7, 0);
-    func_021BE700(a, 0, r4, r6, 1);
-    func_021F3E04(a, r4, r6, d);
-    v = func_021BE6B4(func_021BE674(a, 0, r4, r7));
-    func_021BE6B0(func_021BE674(a, 0, r4, r6), v);
+    model = lane;
+    frame = func_021F3DE4(expObj, model, oldAnime);
+    func_021BE700(expObj, 0, model, oldAnime, 0);
+    func_021BE700(expObj, 0, model, newAnime, 1);
+    func_021F3E04(expObj, model, newAnime, frame);
+    paused = func_021BE6B4(func_021BE674(expObj, 0, model, oldAnime));
+    func_021BE6B0(func_021BE674(expObj, 0, model, newAnime), paused);
 }
 
-
-
-
-int func_021F4864(u32 a, u32 b, u8 *out) { u8 i; for (i = 0; i < 2; i++) { if (d_021F4D78[a][i] == b) { *out = i; return 1; } } return 0; }
-
-
-
-
-int func_021F4894(void *p, int i, u8 j) { if (func_021F3DE4(p, (u8)i, j + 1) <= (int)(d_021F4BE4[i] << 12)) return 1; return 0; }
-
-
-
-
-
-void func_021F48C0(u8 *a, int idx, int x, int *out)
+/* 1 and the stop index when the animation frame is one of the two stop frames of the cart. */
+int func_021F4864(u32 cart, u32 frame, u8 *stopIndex)
 {
-    u16 off;
-    u32 flags;
-    u8 *p;
-    int c;
-    int b;
-    int d;
+    u8 i;
 
-    off = *(u16 *)(a + idx * 2 + 0x14);
-    flags = *(u32 *)(a + off);
-    p = a + off + 4;
-    if (flags & 6) {
-        return;
+    for (i = 0; i < 2; i++) {
+        if (d_021F4D78[cart][i] == frame) {
+            *stopIndex = i;
+            return 1;
+        }
     }
-    if (!(flags & 8)) {
-        func_021F4928(&c, x, (const u32 *)p, a);
-        p += 8;
-        out[0] = c;
-    }
-    if (!(flags & 0x10)) {
-        func_021F4928(&b, x, (const u32 *)p, a);
-        p += 8;
-        out[1] = b;
-    }
-    if (flags & 0x20) {
-        return;
-    }
-    func_021F4928(&d, x, (const u32 *)p, a);
-    out[2] = d;
+    return 0;
 }
 
-
-
-
+/* 1 while the cart animation of the lane is not past its lever limit frame. */
+int func_021F4894(FldExpObjCnt *expObj, int lane, u8 cart)
+{
+    if (func_021F3DE4(expObj, (u8)lane, cart + 1) <= (int)(d_021F4BE4[lane] << 12)) return 1;
+    return 0;
+}
 
 /*
- * An animation-curve sampler (step-1/2/4 keys, fx16 or fx32 array).  The
+ * Samples the translation of a joint (joint 0 is the cart) of a joint
+ * animation at a frame. Only the axes that are not constant are written.
+ */
+void func_021F48C0(const u8 *resAnm, int jointIndex, int frame, VecFx32 *out)
+{
+    u16 tagOffset;
+    u32 flags;
+    const Gimmick39JointTrack *track;
+    int x;
+    int y;
+    int z;
+
+    tagOffset = ((const Gimmick39JointAnim *)resAnm)->tagOffset[jointIndex];
+    flags = ((const Gimmick39JointTag *)(resAnm + tagOffset))->flags;
+    track = ((const Gimmick39JointTag *)(resAnm + tagOffset))->track;
+    if (flags & GIMMICK39_JOINT_NO_TRANSLATE) {
+        return;
+    }
+    if (!(flags & GIMMICK39_JOINT_X_CONSTANT)) {
+        func_021F4928(&x, frame, track, resAnm);
+        track++;
+        out->x = x;
+    }
+    if (!(flags & GIMMICK39_JOINT_Y_CONSTANT)) {
+        func_021F4928(&y, frame, track, resAnm);
+        track++;
+        out->y = y;
+    }
+    if (flags & GIMMICK39_JOINT_Z_CONSTANT) {
+        return;
+    }
+    func_021F4928(&z, frame, track, resAnm);
+    out->z = z;
+}
+
+/*
+ * An animation-curve sampler (step-1/2/4 keys, fx16 or fx32 array). The
  * 1:3 weight's own idx_sub variable puts idx in r2 on every path; the fx16
  * 1:3 sum needs v = v + (v << 1) as its own statement or the second load
  * is hoisted; the interpolation reads spelled *(p + idx) / *(p + idx + 1)
  * share p + idx after the first load, where p[idx] / p[idx + 1] recomputes
  * (idx + 1) * 2 and a pointer local p + idx hoists the add above the load.
  */
-void func_021F4928(int *out, int frame, const u32 *data, const u8 *base)
+void func_021F4928(int *out, int frame, const Gimmick39JointTrack *track, const u8 *base)
 {
-    const u8 *arr;
+    const u8 *keys;
     u32 f;
     u32 info;
     u32 last;
     u32 idx;
 
     f = frame >> 12;
-    arr = base + data[1];
-    info = data[0];
+    keys = base + track->dataOffset;
+    info = track->info;
     if (!(info & 0xC0000000)) {
         idx = f;
         goto plain;
@@ -1092,23 +1011,23 @@ void func_021F4928(int *out, int frame, const u32 *data, const u8 *base)
             }
             if (f & 1) {
                 int v;
-                u32 idx_sub;
+                u32 idxSub;
                 if (f & 2) {
-                    idx_sub = f >> 2;
-                    idx = idx_sub + 1;
+                    idxSub = f >> 2;
+                    idx = idxSub + 1;
                 } else {
                     idx = f >> 2;
-                    idx_sub = idx + 1;
+                    idxSub = idx + 1;
                 }
                 if (info & 0x20000000) {
-                    const s16 *p16 = (const s16 *)arr;
-                    v = p16[idx];
+                    const s16 *keys16 = (const s16 *)keys;
+                    v = keys16[idx];
                     v = v + (v << 1);
-                    *out = (v + p16[idx_sub]) >> 2;
+                    *out = (v + keys16[idxSub]) >> 2;
                 } else {
-                    const int *p32 = (const int *)arr;
-                    v = p32[idx];
-                    *out = (int)(((s64)v * 3 + (s64)p32[idx_sub]) >> 2);
+                    const int *keys32 = (const int *)keys;
+                    v = keys32[idx];
+                    *out = (int)(((s64)v * 3 + (s64)keys32[idxSub]) >> 2);
                 }
                 return;
             } else {
@@ -1122,17 +1041,17 @@ void func_021F4928(int *out, int frame, const u32 *data, const u8 *base)
     }
 interp2:
     if (info & 0x20000000) {
-        const s16 *p16 = (const s16 *)arr;
-        *out = (*(p16 + idx) + *(p16 + idx + 1)) >> 1;
+        const s16 *keys16 = (const s16 *)keys;
+        *out = (*(keys16 + idx) + *(keys16 + idx + 1)) >> 1;
     } else {
-        const int *p32 = (const int *)arr;
-        *out = (*(p32 + idx) >> 1) + (*(p32 + idx + 1) >> 1);
+        const int *keys32 = (const int *)keys;
+        *out = (*(keys32 + idx) >> 1) + (*(keys32 + idx + 1) >> 1);
     }
     return;
 plain:
     if (info & 0x20000000) {
-        *out = ((const s16 *)arr)[idx];
+        *out = ((const s16 *)keys)[idx];
     } else {
-        *out = ((const int *)arr)[idx];
+        *out = ((const int *)keys)[idx];
     }
 }

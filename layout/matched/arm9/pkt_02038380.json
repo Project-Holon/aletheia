@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02038380",
+   "name": "GFL_NET_SYSTEM_SendMPParent",
    "address": "0x02038380",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02038524",
+   "name": "GFL_NET_SYSTEM_CheckAllChildRecv",
    "address": "0x02038524",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02038570",
+   "name": "GFL_NET_SYSTEM_ClearChildRecv",
    "address": "0x02038570",
    "kind": "game",
    "region": "arm9",

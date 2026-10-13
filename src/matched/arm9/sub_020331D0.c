@@ -3,7 +3,7 @@
  * `bl` to 0x0203386C, which has exactly one caller image-wide, this one, so
  * `label` has nothing outside the range to point at.
  *
- * function: sub_020331D0
+ * function: BACKUP_SYSTEM_CancelSaveSeq
  * address:  0x020331D0
  * packet:   pkt_020328E0
  * region:   arm9
@@ -14,11 +14,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203386C  0x0203386C  arm
+ *   FLASH_ACCESS_CancelWrite  0x0203386C  arm
  *   func_02034FB8  0x02034FB8  arm
  *   unk_02146994   0x02146994  data
  *
- * savedata.c.  The same completion path as sub_020331A4 but for the
+ * savedata.c.  The same completion path as BACKUP_SYSTEM_EndSave but for the
  * unconditional case: roll the generation back, hand the halfword at
  * +0x20C of the object the global at 0x02146994 points at to 0x0203386C,
  * and drop the busy flag.
@@ -28,7 +28,7 @@
  * docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_020331D0.c  *       --func sub_020331D0 --addr 0x020331D0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/BACKUP_SYSTEM_CancelSaveSeq.c  *       --func BACKUP_SYSTEM_CancelSaveSeq --addr 0x020331D0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -60,12 +60,12 @@ struct SaveMain {
 
 extern struct SaveMain *unk_02146994;
 
-extern void func_0203386C(u32 x);
+extern void FLASH_ACCESS_CancelWrite(u32 x);
 extern void func_02034FB8(u32 bit);
 
-void sub_020331D0(struct SaveBackup *p)
+void BACKUP_SYSTEM_CancelSaveSeq(struct SaveBackup *p)
 {
     p->unk28 = p->unk10;
-    func_0203386C(unk_02146994->unk20C);
+    FLASH_ACCESS_CancelWrite(unk_02146994->unk20C);
     func_02034FB8(1);
 }

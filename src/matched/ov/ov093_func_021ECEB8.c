@@ -14,7 +14,7 @@
  *   func_0201DD78  0x0201DD78  thumb
  *   func_021B85DC  0x021B85DC  thumb  ov093
  *   func_0201CD10  0x0201CD10  thumb
- *   func_0201CE0C  0x0201CE0C  thumb
+ *   PRINTSYS_PrintStreamStop  0x0201CE0C  thumb
  */
 #include "../include/Obj00027.h"
 
@@ -30,7 +30,7 @@ struct Rec;
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern int func_021B85DC(unsigned char *p);
 extern struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
-extern void func_0201CE0C(void *p);
+extern void PRINTSYS_PrintStreamStop(void *p);
 
 void func_021ECEB8(u8 *a, u32 b, u16 s, u32 c)
 {
@@ -43,7 +43,7 @@ void func_021ECEB8(u8 *a, u32 b, u16 s, u32 c)
                       ((struct Obj00027 *)a)->f2C, 0,
                       ((struct Obj00027 *)a)->f13C, 0xc, c);
     ((struct Obj00027 *)a)->f30 = o;
-    func_0201CE0C(o);
+    PRINTSYS_PrintStreamStop(o);
     a[0x13f] = 0;
     a[0x13e] = 0;
     if (s == 0xff) {

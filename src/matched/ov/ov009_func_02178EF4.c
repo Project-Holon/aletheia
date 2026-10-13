@@ -1,5 +1,5 @@
 /*
- * function: func_02178EF4
+ * function: DWCi_Auth_ShutdownAuthentication
  * address:  0x02178EF4
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern void func_02178144(void);
 
-void func_02178EF4(void)
+void DWCi_Auth_ShutdownAuthentication(void)
 {
     func_02178144();
 }

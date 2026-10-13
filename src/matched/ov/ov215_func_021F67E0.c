@@ -32,7 +32,7 @@
  *   func_02006984 0x02006984 thumb
  *   func_02006650 0x02006650 thumb
  *   func_021F6D1C 0x021F6D1C thumb ov215
- *   func_02014C08 0x02014C08 thumb
+ *   MCSS_Main 0x02014C08 thumb
  *   func_021F6E5C 0x021F6E5C thumb ov215
  *   func_021F7048 0x021F7048 thumb ov215
  */
@@ -58,7 +58,7 @@ extern u32 func_02017E1C(void *,u32,u32);
 extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
 extern int func_02006650(void);
 extern void func_021F6D1C(char *);
-extern void func_02014C08(char *);
+extern void MCSS_Main(char *);
 extern void func_021F6E5C(char *);
 extern void func_021F7048(char *);
 #define W(o) (*(u32 *)(p+(o)))
@@ -130,7 +130,7 @@ void func_021F67E0(char *p)
     case 9:break;
     }
     func_021F6D1C(p);
-    func_02014C08(*(char * *)&((struct Obj01083 *)p)->f30);
+    MCSS_Main(*(char * *)&((struct Obj01083 *)p)->f30);
     func_021F6E5C(*(char * *)&((struct Obj01083 *)p)->f44);
     func_021F7048(p);
 }

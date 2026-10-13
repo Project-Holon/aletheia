@@ -1,5 +1,5 @@
 /*
- * function: func_020366FC
+ * function: GFL_NET_QUEUE_PopList
  * address:  0x020366FC
  * packet:   pkt_020366C0
  * region:   arm9
@@ -20,14 +20,14 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020366FC.c \
- *       --func func_020366FC --addr 0x020366FC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_QUEUE_PopList.c \
+ *       --func GFL_NET_QUEUE_PopList --addr 0x020366FC --cc 1.1p1 --arm
  */
 #include "../include/Obj11348.h"
 
 typedef unsigned int u32;
 
-u32 func_020366FC(u32 *p)
+u32 GFL_NET_QUEUE_PopList(u32 *p)
 {
     u32 v;
 

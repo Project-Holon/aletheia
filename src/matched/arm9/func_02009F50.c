@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02009F50
+ * function: MYSTERY_DATA_CheckCardExist
  * address:  0x02009F50
  * packet:   pkt_02009F1C
  * region:   arm9
@@ -9,19 +9,24 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   MYSTERY_DATA_IsValidGiftType  0x02009F0C  thumb
+ *   MYSTERY_DATA_GetCardMax  0x0200A400  thumb
+ *   MYSTERY_DATA_GetCardSlot  0x0200A43C  thumb
  */
 #include "../include/Obj15577.h"
 
 struct Obj;
-extern unsigned int func_0200A400(struct Obj *obj);
-extern void *func_0200A43C(struct Obj *obj, unsigned int index);
+extern unsigned int MYSTERY_DATA_GetCardMax(struct Obj *obj);
+extern void *MYSTERY_DATA_GetCardSlot(struct Obj *obj, unsigned int index);
 typedef unsigned int   u32;
-extern u32 func_02009F0C(u32 a);
-int func_02009F50(char *p, unsigned int idx)
+extern u32 MYSTERY_DATA_IsValidGiftType(u32 a);
+int MYSTERY_DATA_CheckCardExist(char *p, unsigned int idx)
 {
-    unsigned char *e = (unsigned char *)func_0200A43C((struct Obj *)p, idx);
-    func_0200A400((struct Obj *)p);
-    if (idx < 0xc && func_02009F0C(((struct Obj15577 *)e)->fB3) != 0)
+    unsigned char *e = (unsigned char *)MYSTERY_DATA_GetCardSlot((struct Obj *)p, idx);
+    MYSTERY_DATA_GetCardMax((struct Obj *)p);
+    if (idx < 0xc && MYSTERY_DATA_IsValidGiftType(((struct Obj15577 *)e)->fB3) != 0)
         return 1;
     return 0;
 }

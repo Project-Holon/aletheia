@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020113F0, func_02011400
+ * function: TIMEZONE_GetTimeZoneOfHour, func_02011400
  * address:  0x020113F0
  * packet:   pkt_020113F0
  * region:   arm9
@@ -10,8 +10,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   tbl_0209DF24  0x0209DF24  data  a1
- *   tbl_0209DF10  0x0209DF10  data  a1
+ *   _TimeZoneTable  0x0209DF24  data  a1
+ *   _TimeZoneLightTable  0x0209DF10  data  a1
  *
  * vm.c, 0x020113F0..0x02011410: two byte lookups in constant 2D tables,
  * rows of 0x18 and 5 bytes.  Plain subscripts `tbl[row][col]` give the
@@ -22,15 +22,15 @@
 
 typedef unsigned char u8;
 
-extern const u8 tbl_0209DF24[][0x18];
-extern const u8 tbl_0209DF10[][5];
+extern const u8 _TimeZoneTable[][0x18];
+extern const u8 _TimeZoneLightTable[][5];
 
-int func_020113F0(int row, int col)
+int TIMEZONE_GetTimeZoneOfHour(int row, int col)
 {
-    return tbl_0209DF24[row][col];
+    return _TimeZoneTable[row][col];
 }
 
 u8 func_02011400(int row, int col)
 {
-    return tbl_0209DF10[row][col];
+    return _TimeZoneLightTable[row][col];
 }

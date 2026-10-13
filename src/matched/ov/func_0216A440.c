@@ -14,7 +14,7 @@
  *   func_0215A5F4  0x0215A5F4  thumb  ov010
  *   func_0215A5DC  0x0215A5DC  thumb  ov010
  *   func_020120F4  0x020120F4  thumb
- *   func_02012F50  0x02012F50  thumb
+ *   GAME_DATA_GetListCursor  0x02012F50  thumb
  *   func_02159B10  0x02159B10  thumb  ov010
  *   func_021D0A74  0x021D0A74  thumb
  */
@@ -29,7 +29,7 @@ struct Ctx;
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012F50(void *base);
+extern void *GAME_DATA_GetListCursor(void *base);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern int func_021D0A74();
 
@@ -51,7 +51,7 @@ a0 = t6 + 0;
 loc_0216A452:
     p = func_020120F4((const struct Ctx *)v1);
 loc_0216A456:
-    v2 = func_02012F50(p);
+    v2 = GAME_DATA_GetListCursor(p);
 loc_0216A45A:
 a0 = t5 + 0;
 a1 = t6 + 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0201A59C
+ * function: POKE_REGULATION_FindValidOrder
  * address:  0x0201A59C
  * packet:   pkt_0201A59C
  * region:   arm9
@@ -11,40 +11,40 @@
  * blocker:  0201A858 (label), 0209E424 (literal) - every concrete byte is right (0 differing bytes, 96 of 96)
  *
  * symbols:
- *   g_0209E424      0x0209E424  data
- *   func_0201A858   0x0201A858  thumb
- *   func_0201A5FC   0x0201A5FC  thumb
+ *   POKE_REGULATION_InitialOrder      0x0209E424  data
+ *   POKE_REGULATION_NextOrder   0x0201A858  thumb
+ *   POKE_REGULATION_CheckOrder   0x0201A5FC  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0201A59C.c \
- *       --func func_0201A59C --addr 0x0201A59C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/POKE_REGULATION_FindValidOrder.c \
+ *       --func POKE_REGULATION_FindValidOrder --addr 0x0201A59C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern const u8 g_0209E424[6];
-extern int func_0201A858(u8 *a);
-extern int func_0201A5FC(void *a0, void *a1, u8 *a2, char *a3, u32 *a4);
+extern const u8 POKE_REGULATION_InitialOrder[6];
+extern int POKE_REGULATION_NextOrder(u8 *a);
+extern int POKE_REGULATION_CheckOrder(void *a0, void *a1, u8 *a2, char *a3, u32 *a4);
 
-int func_0201A59C(void *a0, void *a1, void *a2)
+int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2)
 {
     char buf[6];
 
-    buf[0] = g_0209E424[0];
-    buf[1] = g_0209E424[1];
-    buf[2] = g_0209E424[2];
-    buf[3] = g_0209E424[3];
-    buf[4] = g_0209E424[4];
-    buf[5] = g_0209E424[5];
+    buf[0] = POKE_REGULATION_InitialOrder[0];
+    buf[1] = POKE_REGULATION_InitialOrder[1];
+    buf[2] = POKE_REGULATION_InitialOrder[2];
+    buf[3] = POKE_REGULATION_InitialOrder[3];
+    buf[4] = POKE_REGULATION_InitialOrder[4];
+    buf[5] = POKE_REGULATION_InitialOrder[5];
 
-    if (func_0201A858((u8 *)buf) != 0) {
+    if (POKE_REGULATION_NextOrder((u8 *)buf) != 0) {
         do {
-            if (func_0201A5FC(a0, a1, (u8 *)buf, a2, 0) == 1) {
+            if (POKE_REGULATION_CheckOrder(a0, a1, (u8 *)buf, a2, 0) == 1) {
                 return 1;
             }
-        } while (func_0201A858((u8 *)buf) != 0);
+        } while (POKE_REGULATION_NextOrder((u8 *)buf) != 0);
     }
 
     return 0;

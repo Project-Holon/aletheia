@@ -13,7 +13,7 @@
  * record fields, then jump to the shared submitter.
  *
  * symbols:
- *   func_0202744C   0x0202744C  thumb
+ *   GAME_BEACON_ResetDetails   0x0202744C  thumb
  */
 #include "../include/Obj00121.h"
 
@@ -21,12 +21,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0202744C(void *dst);
+extern void GAME_BEACON_ResetDetails(void *dst);
 
 void func_0216565C(void *a0, unsigned a1)
 {
     ((struct Obj00121 *)a0)->f30 = 0x29;
     *(u32 *)((char *)a0 + 0x34) = (u32)a1;
-    func_0202744C(a0);
+    GAME_BEACON_ResetDetails(a0);
 }
 

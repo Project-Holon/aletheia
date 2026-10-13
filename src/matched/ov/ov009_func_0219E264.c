@@ -1,5 +1,5 @@
 /*
- * function: func_0219E264
+ * function: SBServerSetNext
  * address:  0x0219E264
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Stores a word at +0x24.
  */
 
-void func_0219E264(int *p, int v)
+void SBServerSetNext(int *p, int v)
 {
     p[9] = v;
 }

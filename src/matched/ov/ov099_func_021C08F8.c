@@ -14,7 +14,7 @@
  *   BDD48 retains the visibly loaded unused first input.
  * symbols:
  *   func_021B97F4 0x021B97F4 thumb ov099
- *   func_0201AC80 0x0201AC80 thumb
+ *   POKEPARTY_GetAliveNonEggCount 0x0201AC80 thumb
  *   func_021C23B8 0x021C23B8 thumb ov099
  *   func_021BDD48 0x021BDD48 thumb ov099
  *   func_021C27E0 0x021C27E0 thumb ov099
@@ -36,7 +36,7 @@ struct W;
 struct S;
 struct Work;
 extern u8 func_021B97F4(struct W *);
-extern u32 func_0201AC80(void *);
+extern u32 POKEPARTY_GetAliveNonEggCount(void *);
 extern int func_021C23B8(int i);
 extern u8 func_021BDD48(int, struct S *);
 extern int func_021C27E0(struct S *);
@@ -58,7 +58,7 @@ int func_021C08F8(char *p)
     n = func_021B97F4((struct W *)(p + off));
     *(u16 *)(p + (off - 0x32)) = n;
     if (n != 0) {
-        func_0201AC80(((struct Obj06358 *)p)->fC8);
+        POKEPARTY_GetAliveNonEggCount(((struct Obj06358 *)p)->fC8);
         index = n - 1;
         state = (struct S *)func_021C23B8(index);
         kind = func_021BDD48((int)p, state);

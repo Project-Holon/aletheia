@@ -12,8 +12,8 @@
  * symbols:
  *   func_02045874  0x02045874  arm
  *   func_02082D44  0x02082D44  arm
- *   func_02024570  0x02024570  thumb
- *   func_0202428C  0x0202428C  thumb
+ *   PMSI_PARAM_Copy  0x02024570  thumb
+ *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  */
 
 typedef unsigned short u16;
@@ -48,8 +48,8 @@ struct U16Vec;
 extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
 extern void func_02082D44(void *, void *, int);
 struct Rec8;
-extern void func_02024570(struct Rec8 *dst, const struct Rec8 *src);
-extern void func_0202428C(void *obj);
+extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
+extern void PMSI_PARAM_ClearSentence(void *obj);
 
 void func_021B9E7C(struct A *p, struct B *src)
 {
@@ -62,8 +62,8 @@ void func_021B9E7C(struct A *p, struct B *src)
         p->q = (int)func_02045874((struct U16Vec *)src->f14, 0x12);
         p->c = src->f8;
         func_02082D44(src->b, p->h, 8);
-        func_02024570((struct Rec8 *)(&p->s18), (const struct Rec8 *)(&src->s18));
-        func_02024570((struct Rec8 *)(&p->s20), (const struct Rec8 *)(&src->s20));
+        PMSI_PARAM_Copy((struct Rec8 *)(&p->s18), (const struct Rec8 *)(&src->s18));
+        PMSI_PARAM_Copy((struct Rec8 *)(&p->s20), (const struct Rec8 *)(&src->s20));
     } else {
         p->ha = 0;
         p->h8 = 0;
@@ -71,7 +71,7 @@ void func_021B9E7C(struct A *p, struct B *src)
         for (i = 0; i < 4; i++) {
             p->h[i] = 0;
         }
-        func_0202428C(&p->s18);
-        func_0202428C(&p->s20);
+        PMSI_PARAM_ClearSentence(&p->s18);
+        PMSI_PARAM_ClearSentence(&p->s20);
     }
 }

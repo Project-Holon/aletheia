@@ -1,5 +1,5 @@
 /*
- * function: func_02067F78
+ * function: NNS_G2dFontInitUTF16
  * address:  0x02067F78
  * packet:   pkt_02067BA4
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020698F8    0x020698F8  arm
- *   func_02069C00    0x02069C00  arm
+ *   NNSi_G2dReadCharUTF16    0x02069C00  arm
 
  * Blocking class: label.  Every concrete byte is right; both relocation sites are
  * unresolved and both for the same reason: the `bl func_020698F8` at 0x02067F88 is
@@ -25,10 +25,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_020698F8(u32 a, void *b);
-extern u8 func_02069C00[];
+extern u8 NNSi_G2dReadCharUTF16[];
 
-void func_02067F78(void *a, u32 b)
+void NNS_G2dFontInitUTF16(void *a, u32 b)
 {
     func_020698F8(b, a);
-    ((u32 *)a)[1] = (u32)func_02069C00;
+    ((u32 *)a)[1] = (u32)NNSi_G2dReadCharUTF16;
 }

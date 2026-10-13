@@ -17,7 +17,7 @@
  * arena selection by slot index (0..3 at +0x168, 4..7 at +0x16c, anything
  * else a no-op), same bias by the per-slot base at +0x190 and the same
  * round-up of the byte length to 32-byte units, but handed to
- * func_020341F0 instead of func_0203422C.
+ * func_020341F0 instead of AREAMAN_Free.
  *
  * Codegen note: the round-up flag must be spelled as the ternary
  * `(size & 0x1f) ? 1 : 0`; see sub_02043094.c for why the relational form

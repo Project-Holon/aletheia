@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02021548
+ * function: PALANM_SetSlotBuffers
  * address:  0x02021548
  * packet:   pkt_02021444
  * region:   arm9
@@ -17,8 +17,8 @@
  * frame it reads back at [sp, #8].
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02021548.c \
- *       --func func_02021548 --addr 0x02021548 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_SetSlotBuffers.c \
+ *       --func PALANM_SetSlotBuffers --addr 0x02021548 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -31,7 +31,7 @@ struct PalAnmSlot {
     u32   unk_10;
 };
 
-void func_02021548(struct PalAnmSlot *slots, u32 idx, void *a, void *b,
+void PALANM_SetSlotBuffers(struct PalAnmSlot *slots, u32 idx, void *a, void *b,
                    u32 size)
 {
     slots[idx].unk_00 = a;

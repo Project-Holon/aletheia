@@ -12,9 +12,9 @@
  * residual: zero concrete differences in 424/424 bytes; 35/36 relocations resolved. Required tu --suggest-split MATCH424, no viable partition.
  * dependency: sole unresolved ARM9 02043588 omitted from src/matched/arm9/unit_02043570.c's function header.
  *   Blocker C reverified EXACT16 at fixed flags and --arm this retry (scratch only):
- *   symbols for blocker: func_02043558 0x02043558 arm; func_02043570 0x02043570 arm.
- *   extern void func_02043558(void),func_02043570(void);
- *   void func_02043588(void) {func_02043558();func_02043570();}
+ *   symbols for blocker: BG_SYS_ClearSubBgPlanes 0x02043558 arm; BG_SYS_ClearSubObjPlane 0x02043570 arm.
+ *   extern void BG_SYS_ClearSubBgPlanes(void),BG_SYS_ClearSubObjPlane(void);
+ *   void BG_SYS_ClearSubPlanes(void) {BG_SYS_ClearSubBgPlanes();BG_SYS_ClearSubObjPlane();}
  * volatile: 021B9638..021B9648 BLDCNT store and two DISPCNT reads/writes.
  * prototype: 3159C leaves allocation result in r0; original consumes it despite legacy void declaration. Resource calls retain observed u8 argument truncations despite wide owner declarations.
  * retry: FINAL; owner-blocked MATCH, no overlay leaves filed while ARM9 also blocks.
@@ -34,9 +34,9 @@
  *   func_021B9B84 0x021B9B84 thumb ov221
  *   func_021B9C4C 0x021B9C4C thumb ov221
  *   func_02012944 0x02012944 thumb
- *   func_02043588 0x02043588 arm
+ *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0207D518 0x0207D518 arm
- *   func_02043558 0x02043558 arm
+ *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
  *   func_02040588 0x02040588 arm
@@ -51,6 +51,7 @@
  *   func_0203D34C 0x0203D34C arm
  *   tbl_021BA148 0x021BA148 data a4
  *   tbl_021BA2C0 0x021BA2C0 data a4
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -78,7 +79,7 @@ extern void func_021B9B84(char*);
 extern void func_021B9C4C(u8*);
 extern char *func_02012944(void*);
 typedef enum { BG_MODE0=0, BG_MODE1=1 } BGMode;
-extern void func_02043588(void),func_02043558(void),func_0207D518(BGMode);
+extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D518(BGMode);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
@@ -89,7 +90,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void*,u32,u32,u32,u32,u32,u16);
 extern void func_02049238(void*);
 extern void func_021B9CEC(char *p);
-extern void func_0204E720(u32,int,int,int),func_020409B4(u32),func_0203D34C(u32,u32),func_02005E30(u32);
+extern void func_0204E720(u32,int,int,int),func_020409B4(u32),func_0203D34C(u32,u32),GFL_USE_FadeOutBgm(u32);
 int func_021B95A0(void *owner,void *unused,void *input)
 {
  char *p,*settings;
@@ -115,7 +116,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  *(volatile u16*)0x04001050=i;
  *(volatile u32*)0x04001000 &= ~0xe000u;
  *(volatile u32*)0x04001000 |= 0x10000;
- func_02043588();func_0207D518(i);func_02043558();
+ BG_SYS_ClearSubPlanes();func_0207D518(i);BG_SYS_ClearSubBgPlanes();
  do {
   row=&tbl_021BA148[i];id=row->id;
   func_0203FCA0((u8)id,(const struct BgTemplate *)row->cfg,(u8)row->type);func_020414AC(id);func_02040588(id,row->enable);
@@ -131,6 +132,6 @@ int func_021B95A0(void *owner,void *unused,void *input)
  func_020498F4(h,tbl_021BA2C0[selected].c,4,zero,zero,zero,heap);
  func_02049238(h);func_020409B4(4);func_021B9CEC((char *)p);
  func_0204E720(3,16,16,0);func_0203D34C(0,*(u16*)p);
- if(*(int*)(*(char**)(p+4)+4)==0) func_02005E30(6);
+ if(*(int*)(*(char**)(p+4)+4)==0) GFL_USE_FadeOutBgm(6);
  return 1;
 }

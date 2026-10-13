@@ -12,11 +12,11 @@
  * sdk:      WCMi_WmifTerminateAsync (libwcm.TWL.HYB.a wmif.o)
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  *   WMi_GetStatusAddress  0x0208E9C8  arm
  *   DC_InvalidateRange  0x020862B8  arm
  *   WM_Finish  0x0208E2B8  arm
- *   func_02165A4C  0x02165A4C  arm  ov009
+ *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   func_0208F2A0  0x0208F2A0  arm
  *   func_0208F328  0x0208F328  arm
  *   func_0208F400  0x0208F400  arm
@@ -37,11 +37,11 @@ typedef struct WMStatus {
     unsigned short state;
 } WMStatus;
 
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 extern WMStatus *WMi_GetStatusAddress(void);
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern long WM_Finish(void);
-extern void func_02165A4C(unsigned char phase);
+extern void WCMi_SetPhase(unsigned char phase);
 extern long func_0208F2A0(void (*callback)(void *));
 extern long func_0208F328(void (*callback)(void *));
 extern long func_0208F400(void (*callback)(void *));
@@ -54,14 +54,14 @@ long func_02166C44(void)
     long wmResult;
     WMStatus *ws;
 
-    wcmw = (WCMWork *)func_021657C8();
+    wcmw = (WCMWork *)WCMi_GetSystemWork();
     ws = WMi_GetStatusAddress();
     DC_InvalidateRange(ws, 2);
     switch (ws->state) {
     case 0:
         wmResult = WM_Finish();
         if (wmResult == 0) {
-            func_02165A4C(1);
+            WCMi_SetPhase(1);
             wcmw->notify = 0;
             return 0;
         }
@@ -79,14 +79,14 @@ long func_02166C44(void)
     }
     switch (wmResult) {
     case 2:
-        func_02165A4C(13);
+        WCMi_SetPhase(13);
         wcmw->notify = 9;
         break;
     case 8:
         return 4;
     case 3:
     default:
-        func_02165A4C(11);
+        WCMi_SetPhase(11);
         return 7;
     }
     return 3;

@@ -17,8 +17,8 @@
  * symbols:
  *   func_021BAC44 0x021BAC44 thumb ov110
  *   func_021BC564 0x021BC564 thumb ov110
- *   func_02024508 0x02024508 thumb
- *   func_02024520 0x02024520 thumb
+ *   PMSI_PARAM_IsDecoWord 0x02024508 thumb
+ *   PMSI_PARAM_GetDecoId 0x02024520 thumb
  *   func_02045730 0x02045730 arm
  *   func_021BC6D0 0x021BC6D0 thumb ov110
  *   func_02045758 0x02045758 arm
@@ -28,7 +28,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_020416D4 0x020416D4 arm
  *   func_0204B84C 0x0204B84C arm
- *   func_02024838 0x02024838 thumb
+ *   PMS_WORD_LoadString 0x02024838 thumb
  *   func_0201DD78 0x0201DD78 thumb
  *   func_02045770 0x02045770 arm
  *   func_0201C7A4 0x0201C7A4 thumb
@@ -43,8 +43,8 @@ struct Descriptor;
 struct Obj;
 extern u32 func_021BAC44(u8 *);
 extern void func_021BC564(s16 *p, s16 *out);
-extern u32 func_02024508(u32);
-extern u32 func_02024520(u32);
+extern u32 PMSI_PARAM_IsDecoWord(u32);
+extern u32 PMSI_PARAM_GetDecoId(u32);
 extern u8 func_02045730(struct Descriptor *);
 extern u32 func_021BC6D0(u32);
 extern u8 func_02045758(struct Descriptor *);
@@ -54,7 +54,7 @@ extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *,u32);
 extern u8 func_020416D4(u32);
 extern void func_0204B84C(struct Obj *,u32);
-extern void func_02024838(u32,void *,u32);
+extern void PMS_WORD_LoadString(u32,void *,u32);
 extern void func_0201DD78(u32,u32,u32);
 extern void *func_02045770(struct Descriptor *);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
@@ -68,8 +68,8 @@ void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2 *input,u32 id,stru
     font=func_021BAC44(*(u8 * *)&((struct Obj10277 *)p)->f0);
     if(id==0xffff) return;
     func_021BC564((s16 *)input,(s16 *)(&base));
-    if(func_02024508(id)!=0) {
-        index=func_02024520(id)-1;
+    if(PMSI_PARAM_IsDecoWord(id)!=0) {
+        index=PMSI_PARAM_GetDecoId(id)-1;
         layer=func_021BC6D0(func_02045730(window));
         pos.x=base.x+func_02045758(window)*8;
         pos.y=base.y+func_02045760(window)*8;
@@ -79,7 +79,7 @@ void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2 *input,u32 id,stru
         func_0204B3DC(sprite,1);
         func_0204B84C(sprite,func_020416D4(func_02045730(window)));
     } else {
-        func_02024838(id,((struct Obj10277 *)p)->f30,42);
+        PMS_WORD_LoadString(id,((struct Obj10277 *)p)->f30,42);
         func_0201DD78(3,4,14);
         func_0201C7A4(func_02045770(window),base.x,base.y,((struct Obj10277 *)p)->f30,(void *)font);
     }

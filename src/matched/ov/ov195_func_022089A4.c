@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020515B4 0x020515B4 arm
- *   func_02051620 0x02051620 arm
+ *   PARTICLE_StartEffect 0x020515B4 arm
+ *   PARTICLE_KillAllEffects 0x02051620 arm
  */
 
 typedef unsigned char u8;
@@ -49,8 +49,8 @@ typedef struct Ptc {
     s32 timer;
 } Ptc;
 
-extern int func_020515B4(void *p, int b, int c);
-extern void func_02051620(void *spl);
+extern int PARTICLE_StartEffect(void *p, int b, int c);
+extern void PARTICLE_KillAllEffects(void *spl);
 
 void func_022089A4(Ptc *p)
 {
@@ -62,13 +62,13 @@ void func_022089A4(Ptc *p)
             if (p->frame != p->cues[(int)p->cue].frame)
                 break;
             c = &p->cues[p->cue];
-            func_020515B4(p->emit[c->emit].spl, c->id, (int)(&v));
+            PARTICLE_StartEffect(p->emit[c->emit].spl, c->id, (int)(&v));
         }
         p->frame++;
     }
     if (p->timer >= 0) {
         if (p->timer == 0)
-            func_02051620(p->emit[0].spl);
+            PARTICLE_KillAllEffects(p->emit[0].spl);
         p->timer--;
     }
 }

@@ -21,7 +21,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_0204B92C 0x0204B92C arm
- *   func_0204B8C4 0x0204B8C4 arm
+ *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  */
 
 typedef unsigned char  u8;
@@ -39,7 +39,7 @@ extern void ov208_func_021BDC48(void *scene, u32 on);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_020061E4(u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 
 #define F32(b, o) (*(u32 *)((b) + (o)))
 
@@ -113,7 +113,7 @@ int ov208_func_021C6760(void *unused, u8 *p, int key)
             if (partner != 5) {
                 q = p + 0x618;
                 func_0204B92C((void *)F32(q, partner * 0x28), 0);
-                func_0204B8C4((void *)F32(q, partner * 0x28), 0);
+                CLACT_SetActorAnimFrame((void *)F32(q, partner * 0x28), 0);
             }
             F32(p, 0x694) = hit;
         }

@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02067CB0",
+   "name": "NNSi_G2dOamSoftEmuEnd",
    "address": "0x02067CB0",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02067D14",
+   "name": "NNSi_G2dOamSoftEmuRender",
    "address": "0x02067D14",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02067EB0",
+   "name": "NNSi_G2dFontGetGlyphIndexFromCMap",
    "address": "0x02067EB0",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02067F78",
+   "name": "NNS_G2dFontInitUTF16",
    "address": "0x02067F78",
    "kind": "game",
    "region": "arm9",

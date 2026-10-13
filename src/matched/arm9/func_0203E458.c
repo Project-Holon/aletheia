@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203E458
+ * function: GFL_NET_IRC_WIRELESS_GetBeaconCompare
  * address:  0x0203E458
  * packet:   pkt_0203DA7C
  * region:   arm9
@@ -10,17 +10,17 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_021469F0      0x021469F0  data
+ *   gNetIrcWirelessLink      0x021469F0  data
  */
 
 #include "../include/G_Ctx.h"
 
-extern struct Ctx *g_021469F0;
-void *func_0203E458(void *arg)
+extern struct Ctx *gNetIrcWirelessLink;
+void *GFL_NET_IRC_WIRELESS_GetBeaconCompare(void *arg)
 {
     void *r;
-    if (g_021469F0 == 0)
+    if (gNetIrcWirelessLink == 0)
         return 0;
-    r = g_021469F0->fn(arg);
+    r = gNetIrcWirelessLink->fn(arg);
     return (char *)r + 0x24;
 }

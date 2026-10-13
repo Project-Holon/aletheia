@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02156A3C 0x02156A3C thumb ov009
+ *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   func_021C23C0 0x021C23C0 thumb ov099
  *   func_021C23B8 0x021C23B8 thumb ov099
  *   func_021BA874 0x021BA874 thumb ov099
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern int func_02006224(u32 a0);
-extern int func_02156A3C(void);
+extern int DWC_RAP_GetTargetFriendIndex(void);
 extern unsigned char func_021C23C0(void *a);
 extern int func_021C23B8(int i);
 extern void func_021BA874(char *, int);
@@ -35,19 +35,19 @@ int func_021C10A8(char *p, int ret)
     int zero = 0;
     void *s;
     if (func_02006224(0) != 0) return ret;
-    if (func_021C23C0((void *)func_02156A3C()) == 0) {
+    if (func_021C23C0((void *)DWC_RAP_GetTargetFriendIndex()) == 0) {
         func_021BA874(p, ((struct Obj03735 *)p)->f1F0);
         func_021BAAB8(p, 15, zero);
         ((struct Obj03735 *)p)->f1CC = 19;
         return ret;
     }
-    s = (void *)func_021C23B8(func_02156A3C());
+    s = (void *)func_021C23B8(DWC_RAP_GetTargetFriendIndex());
     func_021BDD48(p, ((struct Obj03735 *)p)->f8);
     func_021BDD48(p, s);
     func_021C27E0(((struct Obj03735 *)p)->f8);
-    ((struct Obj03735 *)p)->f242 = func_02156A3C() + 1;
+    ((struct Obj03735 *)p)->f242 = DWC_RAP_GetTargetFriendIndex() + 1;
     if (((struct Obj03735 *)p)->f1351 == 0) {
-        func_021BA874(p, func_02156A3C());
+        func_021BA874(p, DWC_RAP_GetTargetFriendIndex());
         func_021BAAB8(p, 8, zero);
     }
     func_021BA7D8(p);

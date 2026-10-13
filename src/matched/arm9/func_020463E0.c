@@ -1,5 +1,5 @@
 /*
- * function: func_020463E0
+ * function: SYSTEMFONT_SetColors
  * address:  0x020463E0
  * packet:   pkt_020463E0
  * region:   arm9
@@ -20,8 +20,8 @@
  * shift amounts run 24, 28, 20, 16, 12, 8, 4 and then a plain register.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020463E0.c \
- *       --func func_020463E0 --addr 0x020463E0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/SYSTEMFONT_SetColors.c \
+ *       --func SYSTEMFONT_SetColors --addr 0x020463E0 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Rec02046300.h"
@@ -31,7 +31,7 @@ typedef unsigned int  u32;
 
 extern struct Rec02046300 *g_02146A58;
 
-void func_020463E0(u32 x, u32 y)
+void SYSTEMFONT_SetColors(u32 x, u32 y)
 {
     g_02146A58->unk04 = (x << 28) | (x << 24) | (x << 20) | (x << 16) |
                          (x << 12) | (x << 8) | (x << 4) | x;

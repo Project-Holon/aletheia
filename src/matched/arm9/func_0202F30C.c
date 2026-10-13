@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0203F4E4   0x0203F4E4  arm
- *   func_02014034   0x02014034  thumb
+ *   ZONEDATA_IsRawZoneGroup4CTo69   0x02014034  thumb
  *   func_0202F358   0x0202F358  thumb
  *
  * Addresses are Black-image addresses.
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 
 struct RtcDate;
 extern void func_0203F4E4(struct RtcDate *date);
-extern u32 func_02014034(u32 id);
+extern u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id);
 extern void func_0202F358(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
 
 void func_0202F30C(void *a0, u32 a1, u32 a2)
@@ -36,7 +36,7 @@ void func_0202F30C(void *a0, u32 a1, u32 a2)
 
     func_0203F4E4((struct RtcDate *)buf);
 
-    if (func_02014034((u16)a1) == 1)
+    if (ZONEDATA_IsRawZoneGroup4CTo69((u16)a1) == 1)
         func_0202F358(a0, 0x753E, buf[0], buf[1], buf[2], a2);
     else
         func_0202F358(a0, a1, buf[0], buf[1], buf[2], a2);

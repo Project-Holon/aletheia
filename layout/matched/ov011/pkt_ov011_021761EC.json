@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021761EC",
+   "name": "INTRUDE_COMM_TakeJoinReply",
    "address": "0x021761EC",
    "kind": "game",
    "region": "ov011",

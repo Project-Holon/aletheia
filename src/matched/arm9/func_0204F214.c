@@ -18,8 +18,8 @@
  * pools are the two ABS32 relocations), then clears the entry and stamps 5
  * into +0x14.
  *
- * A different file from func_0204F1A0, which is the same body behind the
- * "entry is live" guard, and from func_0204F150, which does the same work
+ * A different file from BILLBOARD_ReleaseImageVramIfUsed, which is the same body behind the
+ * "entry is live" guard, and from BILLBOARD_DeleteImage, which does the same work
  * through two direct calls.  The three are consecutive in the image and call
  * 0x0204F5A8-free leaf helpers, so each stands alone.
  */

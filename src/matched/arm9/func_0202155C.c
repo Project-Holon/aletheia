@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02021548      0x02021548  thumb
+ *   PALANM_SetSlotBuffers      0x02021548  thumb
  *   func_02030734      0x02030734  arm
- *   func_0202155C_File 0x020A73BC  data
+ *   sPalAnmFileName 0x020A73BC  data
  *
  * Allocate the double buffer for one palette-animation slot: two blocks of
  * the same size out of the same heap, tags 142 and 143, then hand both plus
@@ -39,15 +39,15 @@ struct PalAnmSlot {
     u32   unk_10;
 };
 
-extern const char func_0202155C_File[];
+extern const char sPalAnmFileName[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02021548(struct PalAnmSlot *slots, u32 idx, void *a, void *b,
+extern void PALANM_SetSlotBuffers(struct PalAnmSlot *slots, u32 idx, void *a, void *b,
                           u32 size);
 
 void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap)
 {
-    void *a = func_02030734(heap, size, 0, func_0202155C_File, 142);
-    void *b = func_02030734(heap, size, 0, func_0202155C_File, 143);
-    func_02021548(slots, idx, a, b, size);
+    void *a = func_02030734(heap, size, 0, sPalAnmFileName, 142);
+    void *b = func_02030734(heap, size, 0, sPalAnmFileName, 143);
+    PALANM_SetSlotBuffers(slots, idx, a, b, size);
 }

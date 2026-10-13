@@ -12,9 +12,9 @@
  * sdk:      gsiCoreCancelTask (gscore.o)
  *
  * symbols:
- *   func_0217CA20                  0x0217CA20  arm ov009
- *   func_0217F108                  0x0217F108  arm ov009
- *   func_0217F114                  0x0217F114  arm ov009
+ *   gsiCoreGetManager                  0x0217CA20  arm ov009
+ *   gsiEnterCriticalSection                  0x0217F108  arm ov009
+ *   gsiLeaveCriticalSection                  0x0217F114  arm ov009
  */
 
 typedef struct GSCoreMgr {
@@ -31,18 +31,18 @@ typedef struct GSTask {
     void (*cb2c)(void *);
 } GSTask;
 
-extern void *func_0217CA20(void);
-extern void func_0217F108(void *cs);
-extern void func_0217F114(void *cs);
+extern void *gsiCoreGetManager(void);
+extern void gsiEnterCriticalSection(void *cs);
+extern void gsiLeaveCriticalSection(void *cs);
 
 void func_0217CECC(GSTask *theTask)
 {
-    GSCoreMgr *aCore = func_0217CA20();
-    func_0217F108(&aCore->cs);
+    GSCoreMgr *aCore = gsiCoreGetManager();
+    gsiEnterCriticalSection(&aCore->cs);
     if (theTask->f14 != 0 && theTask->f18 == 0) {
         theTask->f18 = 1;
         if (theTask->cb2c != 0)
             theTask->cb2c(theTask->obj20);
     }
-    func_0217F114(&aCore->cs);
+    gsiLeaveCriticalSection(&aCore->cs);
 }

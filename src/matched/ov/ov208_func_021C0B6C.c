@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_0201BABC  0x0201BABC  thumb
+ *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   func_0204A6C8  0x0204A6C8  arm
  *   func_0204B294  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
@@ -34,7 +34,7 @@ typedef struct {
 } ObjPos;
 
 extern void *func_020490F4(u32 id, u32 heap);
-extern u32  func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
+extern u32  POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 typedef signed int     s32;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
@@ -59,7 +59,7 @@ u32 func_021C0B6C(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 f
     pos.z = 1;
     pos.pri = 1;
     pos.f7 = 0;
-    *slot = func_0204A6C8(h, func_0201BABC(species, form, gender, isEgg), 0, 1, heap);
+    *slot = func_0204A6C8(h, POKE_TOOL_CalcGraphicIndex(species, form, gender, isEgg), 0, 1, heap);
     obj = (u32)func_0204B294((void *)res, *slot, a, b, &pos, 1, heap);
     func_0204B92C((struct Obj *)obj, 0);
     func_0204B6F4((struct Obj *)obj, func_0201BB5C(species, form, gender, isEgg), 0);

@@ -1,7 +1,7 @@
 /*
  * file:     unit_0217F25C.c
  * unit:     yes
- * function: func_0217F25C, func_0217F260
+ * function: SocketStartUp, SocketShutDown
  * address:  0x0217F25C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -12,16 +12,16 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-void func_0217F25C(void);
-void func_0217F260(void);
+void SocketStartUp(void);
+void SocketShutDown(void);
 
 /*
  * Empty stub; nothing but a return.
  */
-void func_0217F25C(void)
+void SocketStartUp(void)
 {
 }
 
-void func_0217F260(void)
+void SocketShutDown(void)
 {
 }

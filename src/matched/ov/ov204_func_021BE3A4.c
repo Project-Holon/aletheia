@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -18,11 +19,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_02005D90(u32, u32);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 
 u32 func_021BE3A4(u32 a, u32 b, u32 *c)
 {
-    func_02005D90(*c, 0xffff);
+    GFL_USE_CancelChangeAndPlayBgm(*c, 0xffff);
     return 1;
 }
 

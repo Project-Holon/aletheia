@@ -12,6 +12,7 @@
  * symbols:
  *   func_021BEFCC  0x021BEFCC  arm  ov114
  *   func_021BEFD8  0x021BEFD8  arm  ov114
+ *   SOC_Shutdown  0x0215F638  arm  ov009
  *
  *
  * Releases a resource id (>= 0) then tears the +0x3b4 object down.
@@ -21,12 +22,12 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021BEFCC(void);
 extern void func_021BEFD8(int);
-extern void func_0215F638(int, int);
+extern void SOC_Shutdown(int, int);
 
 void func_021BA068(int a, int b, int c)
 {
     func_021BEFCC();
     if (c >= 0)
-        func_0215F638(c, 2);
+        SOC_Shutdown(c, 2);
     func_021BEFD8(a);
 }

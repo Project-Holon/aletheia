@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202AFAC",
+   "name": "ISS_CITY_UNIT_CalcVolumeX",
    "address": "0x0202AFAC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202AFFC",
+   "name": "ISS_CITY_UNIT_CalcVolumeY",
    "address": "0x0202AFFC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202B04C",
+   "name": "ISS_CITY_UNIT_CalcVolumeZ",
    "address": "0x0202B04C",
    "kind": "game",
    "region": "arm9",

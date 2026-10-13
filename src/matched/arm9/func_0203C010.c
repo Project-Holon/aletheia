@@ -8,7 +8,7 @@
  * The callback stub this file passes, 0x0203C00C, is matched as well now, as
  * the last function of src/matched/unit_0203BF9C.c.
  *
- * function: func_0203C010
+ * function: GFL_NET_STATE_EndDevice
  * address:  0x0203C010
  * packet:   pkt_0203BEC8
  * region:   arm9
@@ -19,9 +19,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020379C8  0x020379C8  arm
- *   func_0203AD80  0x0203AD80  arm
- *   func_0203C00C  0x0203C00C  arm
+ *   GFL_NET_SYSTEM_EndDevice  0x020379C8  arm
+ *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
+ *   GFL_NET_STATE_Idle  0x0203C00C  arm
  *   unk_021469DC   0x021469DC  data
  *
  * Allocates 0x200 bytes, then starts the card task on the object at
@@ -35,21 +35,21 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0203C010.c \
- *       --func func_0203C010 --addr 0x0203C010 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GFL_NET_STATE_EndDevice.c \
+ *       --func GFL_NET_STATE_EndDevice --addr 0x0203C010 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
-extern int func_020379C8(u32 p);
+extern int GFL_NET_SYSTEM_EndDevice(u32 p);
 typedef unsigned short u16;
 struct NetState;
-extern void func_0203AD80(struct NetState *s, void *p, u16 v, int line);
-extern void func_0203C00C(void);
+extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
+extern void GFL_NET_STATE_Idle(void);
 extern u32  unk_021469DC;
 
-void func_0203C010(void)
+void GFL_NET_STATE_EndDevice(void)
 {
-    func_020379C8(0x200);
-    func_0203AD80((struct NetState *)unk_021469DC, func_0203C00C, 0, 0x4DA);
+    GFL_NET_SYSTEM_EndDevice(0x200);
+    GFL_NET_STATE_ChangeStateDebug((struct NetState *)unk_021469DC, GFL_NET_STATE_Idle, 0, 0x4DA);
 }

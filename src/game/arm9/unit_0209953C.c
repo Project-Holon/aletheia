@@ -1,7 +1,7 @@
 /*
  * file:     unit_0209953C.c
  * unit:     yes
- * function: func_0209953C, func_0209A0F0, func_0209A368, func_0209A394, func_0209A504, func_0209A524, func_0209A6E8, func_0209A7A8, func_0209AA0C, func_0209AB80, func_0209AB8C, func_0209ABEC, func_0209ABF8
+ * function: func_0209953C, func_0209A0EC, func_0209A368, func_0209A390, func_0209A504, func_0209A524, func_0209A6E8, func_0209A7A8, func_0209AA08, func_0209AB80, func_0209AB8C, func_0209ABEC, func_0209ABF8
  * address:  0x0209953C
  * region:   arm9
  * compiler: dsi/1.2
@@ -35,9 +35,9 @@
 #define HI(x) (((i32 *)&(x))[1])
 #define LO(x) (((i32 *)&(x))[0])
 /* Matched units compiled in this file, entered 4 bytes before their function:
- * unit_0209A0EC (0x0209A0EC) holds func_0209A0F0
- * unit_0209A390 (0x0209A390) holds func_0209A394
- * unit_0209AA08 (0x0209AA08) holds func_0209AA0C
+ * unit_0209A0EC (0x0209A0EC) holds func_0209A0EC
+ * unit_0209A390 (0x0209A390) holds func_0209A390
+ * unit_0209AA08 (0x0209AA08) holds func_0209AA08
  */
 
 typedef int i32;
@@ -58,14 +58,14 @@ extern int func_020921F4(double x);
 extern double func_020979BC(double x, double y);
 extern int func_02091C40(const u8 *s1, const u8 *s2, int n);
 int func_0209953C(double *x, double *y, int e0, int nx, int prec, const int *ipio2);
-double func_0209A0F0(double x, double y, int iy);
+double func_0209A0EC(double x, double y, int iy);
 double func_0209A368(double x, double y);
-double func_0209A394(double x);
+double func_0209A390(double x);
 double func_0209A504(double x);
 double func_0209A524(double x);
 double func_0209A6E8(double x, int *eptr);
 double func_0209A7A8(double x, int n);
-double func_0209AA0C(double x);
+double func_0209AA08(double x);
 double func_0209AB80(double x, double y);
 int func_0209AB8C(const u8 *s1, const u8 *s2);
 int func_0209ABEC(const u8 *s1, const u8 *s2, int n);
@@ -229,7 +229,7 @@ recompute:
 
 /*
  * fdlibm __kernel_sin().  The machine entry is 0x0209A0EC, four bytes before
- * the disasm body label func_0209A0F0: 0x0209A0EC is the compiler's
+ * the disasm body label func_0209A0EC: 0x0209A0EC is the compiler's
  * `push {r0-r3}` spilling the double arguments x (r0:r1) and y (r2:r3), so
  * the body reads them from the stack and pops 16 bytes on every return.
  * Both the stub address and the body label are worklist entries, so the unit
@@ -241,7 +241,7 @@ recompute:
  *   func_0209AF34  __dsub(double, double)
  *   func_0209C508  __d2s (double -> int)
  */
-double func_0209A0F0(double x, double y, int iy)
+double func_0209A0EC(double x, double y, int iy)
 {
     static const double half = 5.00000000000000000000e-01;
     static const double S1 = -1.66666666666666324348e-01;
@@ -289,7 +289,7 @@ double func_0209A368(double x, double y)
 
 /*
  * fdlibm cos().  The machine entry is 0x0209A390, four bytes before the
- * disasm label func_0209A394: the disassembler never saw the real entry
+ * disasm label func_0209A390: the disassembler never saw the real entry
  * because nothing calls cos by name, so it labelled the body and left the
  * prologue stub as an unlabelled word.  That stub is the compiler's
  * `push {r0-r3}` for the register-passed double argument, which is why the
@@ -309,7 +309,7 @@ double func_0209A368(double x, double y)
  *   func_0209A0EC  __kernel_sin(double, double, int)
  *   func_02098B44  __ieee754_rem_pio2(double, double *)
  */
-double func_0209A394(double x)
+double func_0209A390(double x)
 {
     double y[2];
     double z = 0.0;
@@ -555,7 +555,7 @@ double func_0209A7A8(double x, int n)
 
 /*
  * fdlibm sin().  The machine entry is 0x0209AA08, four bytes before the
- * disasm body label func_0209AA0C: the stub is the compiler's `push {r0-r3}`
+ * disasm body label func_0209AA08: the stub is the compiler's `push {r0-r3}`
  * spilling the register-passed double argument, so the body reads x from the
  * stack and pops 16 bytes on every return.  The unit is anchored at the stub
  * and the function list records the body label the worklist names.
@@ -570,7 +570,7 @@ double func_0209A7A8(double x, int n)
  *   func_02098B44  __ieee754_rem_pio2(double, double *)
  *   func_0209AF34  __dsub(double, double)
  */
-double func_0209AA0C(double x)
+double func_0209AA08(double x)
 {
     double y[2];
     double z = 0.0;

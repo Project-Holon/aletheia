@@ -1,5 +1,5 @@
 /*
- * function: func_02039834
+ * function: GFL_NET_HANDLE_InitWork
  * address:  0x02039834
  * packet:   pkt_02039764
  * region:   arm9
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469D4     0x021469D4  data
+ *   _pBaseWork     0x021469D4  data
  *   file_020A7A68  0x020A7A68  data
  *   msg_020A7A7C   0x020A7A7C  data
- *   func_02039764  0x02039764  arm
+ *   GFL_NET_HANDLE_CreateHandle  0x02039764  arm
  *   func_0203D798  0x0203D798  arm
  *   func_02030734  0x02030734  arm
  *   func_02034714  0x02034714  arm
  *
- * Module bring-up, the twin of func_020398B4's teardown: reset all eight
- * peer slots through func_02039764, reset the own slot (0xFF) too, assert
- * that the module handle g_021469D4 is NOT already live, then allocate the
+ * Module bring-up, the twin of GFL_NET_HANDLE_ExitWork's teardown: reset all eight
+ * peer slots through GFL_NET_HANDLE_CreateHandle, reset the own slot (0xFF) too, assert
+ * that the module handle _pBaseWork is NOT already live, then allocate the
  * 0x20-byte handle for it out of the heap named by the record's +0x56
  * halfword (line 0xE5; the assert is line 0xE3).
  *
@@ -35,14 +35,14 @@
  * The note tried this "and it does not move it" only because the remaining
  * residue below masked the result.
  *
- * ASSERT POLARITY: the guard is `g_021469D4 != 0`, not `== 0`.  The image
+ * ASSERT POLARITY: the guard is `_pBaseWork != 0`, not `== 0`.  The image
  * skips the report with `beq`, so the report runs on the NON-null handle:
- * bringing a module up twice is the error, where func_020398B4's matching
+ * bringing a module up twice is the error, where GFL_NET_HANDLE_ExitWork's matching
  * assert at line 0x100 fires on the null handle because tearing down a dead
  * module is the error there.  Getting it backwards is a one-byte diff
  * (the condition field of a single branch) and nothing else.
  *
- * The note's second finding is now stale: func_02039764's only branch sites
+ * The note's second finding is now stale: GFL_NET_HANDLE_CreateHandle's only branch sites
  * image-wide are this function's own two calls, so `label` still refuses it,
  * but `sole-ref/code` carries it (0x02039764 is a traced function start), and
  * msg_020A7A7C resolves through `sole-ref` the same way.  This file is EXACT,
@@ -51,8 +51,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02039834.c \
- *       --func func_02039834 --addr 0x02039834 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_InitWork.c \
+ *       --func GFL_NET_HANDLE_InitWork --addr 0x02039834 --cc 1.1p1 --arm
  */
 #include "../include/Obj15945.h"
 #include "../include/G_Votes.h"
@@ -61,29 +61,29 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern struct Votes *g_021469D4;
+extern struct Votes *_pBaseWork;
 extern const char file_020A7A68[];
 extern const char msg_020A7A7C[];
 
 struct Entry;
-extern struct Entry *func_02039764(u32 idx);
+extern struct Entry *GFL_NET_HANDLE_CreateHandle(u32 idx);
 extern void *func_0203D798(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02034714(const char *file, u32 line, const char *msg);
 
-void func_02039834(void)
+void GFL_NET_HANDLE_InitWork(void)
 {
     int i;
     u8 *p;
 
     p = func_0203D798();
     for (i = 0; i < 8; i++) {
-        func_02039764(i);
+        GFL_NET_HANDLE_CreateHandle(i);
     }
-    func_02039764(0xff);
+    GFL_NET_HANDLE_CreateHandle(0xff);
 
-    if (g_021469D4 != 0) {
+    if (_pBaseWork != 0) {
         func_02034714(file_020A7A68, 0xe3, msg_020A7A7C);
     }
-    g_021469D4 = func_02030734(((struct Obj15945 *)p)->f56, 0x20, 1, file_020A7A68, 0xe5);
+    _pBaseWork = func_02030734(((struct Obj15945 *)p)->f56, 0x20, 1, file_020A7A68, 0xe5);
 }

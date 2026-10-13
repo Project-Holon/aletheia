@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_021D775C  0x021D775C  thumb  ov093
- *   func_0201BEB8  0x0201BEB8  thumb
+ *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
@@ -32,174 +32,119 @@
  *   d_021F14CC     0x021F14CC  data   ov093  a4
  *   d_021F14BC     0x021F14BC  data   ov093  a4
  */
-#include "../../matched/include/Obj13501.h"
-#include "../../matched/include/Obj07822.h"
+#include "unit_021DF974_types.h"
 
-struct S;
-typedef unsigned int u32;
+extern BtlEventHandler d_021F1934[];
+extern BtlEventHandler d_021F14CC[];
+extern BtlEventHandler d_021F14BC[];
 
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-typedef struct Rec {
-    int pad00;
-    u16 f04;
-    u8 f06;
-    u8 pad07[5];
-    u8 f0c[1];
-} Rec;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
-typedef signed int s32;
-
-extern int func_021D775C(int key);
-extern u32 func_0201BEB8(u16 id, u32 bit);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
-extern void *func_021C7CF4(int *p, int i);
-extern int func_021DCFF8(int a, int b);
-extern int func_021D7B74(u8 *p, u32 k);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 v);
-extern int func_021EF948(int k);
-extern int func_021E85F8(int id);
-extern int func_021C7D00(u8 *p, int b);
-extern int func_021C7F24(u8 *p, int i);
-extern int func_021C83D4(u8 *p);
-void func_021DFABC(int a, int q, int id);
-int *func_021DFB40(int *p);
-void func_021DFB4C(void *self, void *q, int id);
-void func_021DFB94(int a, int b, int c);
-void func_021DFBAC(void *self, void *q, int id);
-int *func_021DFBF4(int *p);
-void func_021DFC00(int self, void *q, int id);
-int *func_021DFCAC(int *p);
-extern int d_021F1934[];
-extern int d_021F14CC[];
-extern int d_021F14BC[];
-
-
-
-void func_021DFABC(int a, int q, int id)
+/* Rocky Helmet: a contact move that hit the holder costs the attacker 1/6 of its max HP. */
+void func_021DFABC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    Rec *r;
-    void *m;
-    int n;
+    BtlLoseHpCmd *cmd;
+    struct BtlPokeParam *attacker;
+    int divisor;
 
-    if (id != func_021D775C(4))
+    if (pokeId != func_021D775C(BTL_EVAR_DEFENDER_ID))
         return;
-    if (func_021D775C(70) != 0)
+    if (func_021D775C(BTL_EVAR_HIT_SUBSTITUTE_FLAG) != 0)
         return;
-    if (!func_0201BEB8(func_021D775C(18), 0))
+    if (!WAZA_TOOL_GetFlag(func_021D775C(BTL_EVAR_MOVE_ID), 0))
         return;
-    r = (Rec *)func_021C88A4((void *)q, 7, id);
-    r->f06 = func_021D775C(3);
-    m = func_021C7CF4((int *)q, r->f06);
-    n = (u8)func_021DCFF8(a, 2);
-    r->f04 = func_021D7B74(m, n);
-    func_021C8838(r->f0c, 2, 424);
-    func_021C8860((struct S *)r->f0c, r->f06);
-    func_021C88C8((void *)q, r);
+    cmd = (BtlLoseHpCmd *)func_021C88A4(flow, BTL_CMD_KIND_LOSE_HP, pokeId);
+    cmd->pokeId = func_021D775C(BTL_EVAR_ATTACKER_ID);
+    attacker = func_021C7CF4(flow, cmd->pokeId);
+    divisor = (u8)func_021DCFF8(factor, BTL_ITEM_PARAM_DAMAGE_DIVISOR);
+    cmd->amount = func_021D7B74(attacker, divisor);
+    func_021C8838(&cmd->strParam, BTL_STR_TYPE_STANDARD, 424);
+    func_021C8860(&cmd->strParam, cmd->pokeId);
+    func_021C88C8(flow, cmd);
 }
 
-
-
-int *func_021DFB40(int *p)
+/* Air Balloon handler table: enter field, ground check, damage reaction. */
+BtlEventHandler *func_021DFB40(int *handlerCount)
 {
-    *p = 3;
+    *handlerCount = 3;
     return d_021F1934;
 }
 
-
-
-void func_021DFB4C(void *self, void *q, int id)
+/* Air Balloon: announces the balloon when the holder enters the field, unless a field effect forbids it. */
+void func_021DFB4C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 *r;
+    BtlMessageCmd *cmd;
 
-    if (id != func_021D775C(2))
+    if (pokeId != func_021D775C(BTL_EVAR_POKE_ID))
         return;
-    if (func_021EF948(2) != 0)
+    if (func_021EF948(BTL_FIELD_EFFECT_GRAVITY_QUERY) != 0)
         return;
-    r = (u8 *)func_021C88A4(q, 4, id);
-    func_021C8838(r + 4, 2, 0x198);
-    func_021C8860((struct S *)(r + 4), id);
-    func_021C88C8(q, r);
+    cmd = (BtlMessageCmd *)func_021C88A4(flow, BTL_CMD_KIND_MESSAGE, pokeId);
+    func_021C8838(&cmd->strParam, BTL_STR_TYPE_STANDARD, 0x198);
+    func_021C8860(&cmd->strParam, pokeId);
+    func_021C88C8(flow, cmd);
 }
 
-
-
-
-
-/* 021DFB94  shape F1: gate on func_021D775C(2) */
-/*
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #2; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021DFBAA; movs r0, #0x51; movs r1, #1; bl func_021D76BC; pop {r4, pc}.
- */
-void func_021DFB94(int a, int b, int c)
+/* Air Balloon: the holder counts as floating. */
+void func_021DFB94(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    if (c == func_021D775C(2))
-        func_021D76BC(0x51, 1);
+    if (pokeId == func_021D775C(BTL_EVAR_POKE_ID))
+        func_021D76BC(BTL_EVAR_FORCE_FLOATING_FLAG, 1);
 }
 
-
-
-
-void func_021DFBAC(void *self, void *q, int id)
+/* Air Balloon: when the holder is hit it loses the item and a message is shown. */
+void func_021DFBAC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 *r;
+    BtlSetItemCmd *cmd;
 
-    if (id != func_021D775C(4))
+    if (pokeId != func_021D775C(BTL_EVAR_DEFENDER_ID))
         return;
-    r = (u8 *)func_021C88A4(q, 0x20, id);
-    r[6] = id;
-    ((struct Obj13501 *)r)->f4 = 0;
-    func_021C8838(r + 0xc, 2, 0x19b);
-    func_021C8860((struct S *)(r + 0xc), id);
-    func_021C88C8(q, r);
+    cmd = (BtlSetItemCmd *)func_021C88A4(flow, BTL_CMD_KIND_SET_ITEM, pokeId);
+    cmd->pokeId = pokeId;
+    cmd->itemId = 0;
+    func_021C8838(&cmd->strParam, BTL_STR_TYPE_STANDARD, 0x19b);
+    func_021C8860(&cmd->strParam, pokeId);
+    func_021C88C8(flow, cmd);
 }
 
-
-int *func_021DFBF4(int *p)
+/* Red Card handler table: damage reaction at the end of the move. */
+BtlEventHandler *func_021DFBF4(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F14CC;
 }
 
-
-void func_021DFC00(int self, void *q, int id)
+/* Red Card: after the holder is hit, the attacker is forced out of the field. */
+void func_021DFC00(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    u8 t;
-    u8 *r;
+    BtlItemMessageCmd *messageCmd;
+    BtlForceSwitchCmd *switchCmd;
+    u8 attackerId;
 
-    if (func_021E85F8(id) == 0)
+    if (func_021E85F8(pokeId) == 0)
         return;
-    t = func_021D775C(3);
-    if (func_021C7D00(q, t) == 6)
+    attackerId = func_021D775C(BTL_EVAR_ATTACKER_ID);
+    if (func_021C7D00(flow, attackerId) == 6)
         return;
-    if (func_021D775C(0x4d) != 0)
+    if (func_021D775C(BTL_EVAR_SHEER_FORCE_FLAG) != 0)
         return;
-    if (func_021C7F24(q, t) == 0)
+    if (func_021C7F24(flow, attackerId) == 0)
         return;
-    if (func_021C83D4(q) != 0)
+    if (func_021C83D4(flow) != 0)
         return;
-    r = (u8 *)func_021C88A4(q, 0x23, id);
-    func_021C8838(r + 8, 2, 0x1a1);
-    func_021C8860((struct S *)(r + 8), id);
-    func_021C8860((struct S *)(r + 8), t);
-    func_021C88C8(q, r);
-    r = (u8 *)func_021C88A4(q, 0x2e, id);
-    r[6] = func_021D775C(3);
-    r[7] = (r[7] & ~0xf0) | 0x10;
-    ((struct Obj07822 *)r)->f4 = 0x28c;
-    func_021C88C8(q, r);
+    messageCmd = (BtlItemMessageCmd *)func_021C88A4(flow, BTL_CMD_KIND_ITEM_MESSAGE, pokeId);
+    func_021C8838(&messageCmd->strParam, BTL_STR_TYPE_STANDARD, 0x1a1);
+    func_021C8860(&messageCmd->strParam, pokeId);
+    func_021C8860(&messageCmd->strParam, attackerId);
+    func_021C88C8(flow, messageCmd);
+    switchCmd = (BtlForceSwitchCmd *)func_021C88A4(flow, BTL_CMD_KIND_FORCE_SWITCH, pokeId);
+    switchCmd->pokeId = func_021D775C(BTL_EVAR_ATTACKER_ID);
+    switchCmd->mode = BTL_FORCE_SWITCH_MODE_ITEM;
+    switchCmd->strId = BTL_FORCE_SWITCH_STR_ID;
+    func_021C88C8(flow, switchCmd);
 }
 
-
-int *func_021DFCAC(int *p)
+/* Ring Target handler table: type immunity check. */
+BtlEventHandler *func_021DFCAC(int *handlerCount)
 {
-    *p = 1;
+    *handlerCount = 1;
     return d_021F14BC;
 }

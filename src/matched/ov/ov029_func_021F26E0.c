@@ -26,7 +26,7 @@
  *   func_021F2E5C  0x021F2E5C  thumb  ov029
  *   func_02035010  0x02035010  arm
  *   func_02035040  0x02035040  arm
- *   func_0203D8AC  0x0203D8AC  arm
+ *   GFL_NET_RestartNoTimeout  0x0203D8AC  arm
  *   func_0203D34C  0x0203D34C  arm
  *   func_020215A0  0x020215A0  thumb
  *   func_02021540  0x02021540  thumb
@@ -53,7 +53,7 @@ extern void func_02158614(int a);
 extern void func_021F2E5C(char *a);
 extern void func_02035010(u32 a, u32 b);
 extern void func_02035040(u32 a, u32 b);
-extern void func_0203D8AC(void);
+extern void GFL_NET_RestartNoTimeout(void);
 extern void func_0203D34C(u32 a, u32 b);
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern u32 func_02021540(void *a0);
@@ -78,7 +78,7 @@ void func_021F26E0(char *p)
     func_021F2E5C(p + 0x21c);
     func_02035010(0, 0);
     func_02035040(0, 0);
-    func_0203D8AC();
+    GFL_NET_RestartNoTimeout();
     func_0203D34C(0, *(unsigned short *)(p + 0xc));
     func_020215A0((struct PalAnmSlot *)(*(int *)(p + 0x210)), 3);
     func_020215A0((struct PalAnmSlot *)(*(int *)(p + 0x210)), 1);

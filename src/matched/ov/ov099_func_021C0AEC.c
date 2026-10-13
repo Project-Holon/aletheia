@@ -11,14 +11,14 @@
  *   021C0B16 is the only open site, every other relocation resolves.
  * blocker: 0x0203CB00 ARM verified MATCH, 52 bytes, wave 82 R9 leaf run.
  *   extern char *d_021469DC;
- *   extern void func_0203CADC(void);
- *   int func_0203CB00(void) {
+ *   extern void GFL_NET_STATE_FatalError(void);
+ *   int GFL_NET_STATE_IsFatalError(void) {
  *       if (d_021469DC != 0) {
- *           if (*(void **)(d_021469DC + 8) == (void *)func_0203CADC) return 1;
+ *           if (*(void **)(d_021469DC + 8) == (void *)GFL_NET_STATE_FatalError) return 1;
  *       }
  *       return 0;
  *   }
- *   symbols: d_021469DC 0x021469DC data; func_0203CADC 0x0203CADC arm.
+ *   symbols: d_021469DC 0x021469DC data; GFL_NET_STATE_FatalError 0x0203CADC arm.
  *   Leaf's only unresolved site is ARM9 0x0203CADC.
  * note: the earlier DIFF338 came from a guard-then-return spelling of the
  *   record compare; the image places the mismatch arm (021C0BDE) before the
@@ -29,7 +29,7 @@
  *   func_020200CC 0x020200CC thumb
  *   func_021B97F4 0x021B97F4 thumb ov099
  *   func_021BE2A8 0x021BE2A8 thumb ov099
- *   func_0203CB00 0x0203CB00 arm
+ *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
  *   func_021BA8BC 0x021BA8BC thumb ov099
  *   func_0202020C 0x0202020C thumb
  *   func_0201F868 0x0201F868 thumb
@@ -53,7 +53,7 @@ struct Obj;
 extern s32 func_020200CC(struct Obj *);
 extern u8 func_021B97F4(char *);
 extern void *func_021BE2A8(char *, int);
-extern int func_0203CB00(void);
+extern int GFL_NET_STATE_IsFatalError(void);
 extern int func_021BA8BC(void *);
 extern void func_0202020C(struct Obj *, u16 *, u16 *);
 extern u32 func_0201F868(void *p);
@@ -80,7 +80,7 @@ int func_021C0AEC(char *p, int ret)
     choice = func_020200CC(*(struct Obj **)(p + 0xbc));
     n = func_021B97F4(p + 0x274);
     q = func_021BE2A8(p, n);
-    if (func_0203CB00()) {
+    if (GFL_NET_STATE_IsFatalError()) {
         *(int *)(p + 0x1a4) = func_021BA8BC(*(void **)(p + 0x1a4));
         func_0202020C(*(struct Obj **)(p + 0xbc), 0, 0);
         func_0201F868(*(void **)(p + 0xb8));

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_0204B5F4
+ * function: CLACT_SetActorRotation
  * address:  0x0204B5F4
  * packet:   pkt_0204B5D4
  * region:   arm9
@@ -17,7 +17,7 @@
  *
  * The unit deliberately stops here rather than running on to the end of the
  * listing extent at 0x0204B658.  The next leaf, 0x0204B604, is a closed near
- * miss recorded in docs/notes/sub_0204B604.c.txt, and folding it in would put
+ * miss recorded in docs/notes/CLACT_SetActorFlip.c.txt, and folding it in would put
  * this range back to DIFF.
  *
  * Verified with:
@@ -33,12 +33,12 @@ struct Actor {
     u16 unk_58;
 };
 
-void sub_0204B5F4(struct Actor *actor, u16 value)
+void CLACT_SetActorRotation(struct Actor *actor, u16 value)
 {
     actor->unk_58 = value;
 }
 
-u16 sub_0204B5FC(const struct Actor *actor)
+u16 CLACT_GetActorRotation(const struct Actor *actor)
 {
     return actor->unk_58;
 }

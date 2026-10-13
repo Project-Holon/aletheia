@@ -14,8 +14,8 @@
  *   func_02186444 0x02186444 thumb ov023
  *   func_02185354 0x02185354 thumb ov023
  *   func_020399A8 0x020399A8 arm
- *   func_0203A424 0x0203A424 arm
- * Original narrows r3 to u16 before func_0203A424, retained in the call prototype.
+ *   GFL_NET_HANDLE_SetUserInfo 0x0203A424 arm
+ * Original narrows r3 to u16 before GFL_NET_HANDLE_SetUserInfo, retained in the call prototype.
  */
 #include "../include/Obj20354.h"
 typedef unsigned short u16;
@@ -24,12 +24,12 @@ extern void func_02186444(char *, unsigned int);
 extern void func_02185354(char *);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern void func_0203A424(char *p, int a, int b, int c);
+extern void GFL_NET_HANDLE_SetUserInfo(char *p, int a, int b, int c);
 int func_02185880(char *p, int a)
 {
     if (func_021862B0(p)) {
         func_02186444(p, 0x14);
-        func_0203A424((char *)func_020399A8(), 0xc8, 0x29, (u16)((struct Obj20354 *)p)->f1B0);
+        GFL_NET_HANDLE_SetUserInfo((char *)func_020399A8(), 0xc8, 0x29, (u16)((struct Obj20354 *)p)->f1B0);
     }
     func_02185354(p);
     return a;

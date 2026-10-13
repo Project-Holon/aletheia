@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02051360",
+   "name": "PARTICLE_SetupSystemBorrowed",
    "address": "0x02051360",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020513F8",
+   "name": "PARTICLE_ApplyLoadHandlersTask",
    "address": "0x020513F8",
    "kind": "game",
    "region": "arm9",

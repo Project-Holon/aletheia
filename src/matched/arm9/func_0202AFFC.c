@@ -1,5 +1,5 @@
 /*
- * function: func_0202AFFC
+ * function: ISS_CITY_UNIT_CalcVolumeY
  * address:  0x0202AFFC
  * packet:   pkt_0202AFAC
  * region:   arm9
@@ -9,32 +9,32 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0202B0D4  0x0202B0D4  thumb
- *   func_0202B154  0x0202B154  thumb
- *   func_0202B194  0x0202B194  thumb
+ *   ISS_CITY_UNIT_FindStepY  0x0202B0D4  thumb
+ *   ISS_CITY_UNIT_GetCenterY  0x0202B154  thumb
+ *   ISS_CITY_UNIT_Interpolate  0x0202B194  thumb
  *
  * iss_city_unit.c (docs/families/iss_city_unit.h): the second axis: pos[1], radius table at +0x1c.
  * EXACT* (the listing extent includes the 2-byte pad).
  *
- * The residue every earlier pass left (docs/notes/func_0202AFFC.c.txt: the
+ * The residue every earlier pass left (docs/notes/ISS_CITY_UNIT_CalcVolumeY.c.txt: the
  * stacked fifth argument stored to [sp] before the pp/pc address
  * computations instead of after them) was the const-qualification of the
  * pointers: `const u8 *obj`, `const s32 *pos`, const-pointee callees and
  * const pp/pc.  The three axis twins close with the same change.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202AFFC.c  *       --func func_0202AFFC --addr 0x0202AFFC --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_CITY_UNIT_CalcVolumeY.c  *       --func ISS_CITY_UNIT_CalcVolumeY --addr 0x0202AFFC --thumb --cc 1.1p1
  */
 
 typedef int            s32;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 
-extern u32 func_0202B0D4(u8 *a0, s32 *a1);
-extern s32 func_0202B154(u32 *a0);
-extern s32 func_0202B194(s32 a, s32 b, s32 c, s32 d, s32 e);
+extern u32 ISS_CITY_UNIT_FindStepY(u8 *a0, s32 *a1);
+extern s32 ISS_CITY_UNIT_GetCenterY(u32 *a0);
+extern s32 ISS_CITY_UNIT_Interpolate(s32 a, s32 b, s32 c, s32 d, s32 e);
 
-u8 func_0202AFFC(const u8 *obj, const s32 *pos)
+u8 ISS_CITY_UNIT_CalcVolumeY(const u8 *obj, const s32 *pos)
 {
     u32 cur;
     u32 prev;
@@ -43,7 +43,7 @@ u8 func_0202AFFC(const u8 *obj, const s32 *pos)
     const u8 *pp;
     const u8 *pc;
 
-    cur = func_0202B0D4((u8 *)obj, (s32 *)pos);
+    cur = ISS_CITY_UNIT_FindStepY((u8 *)obj, (s32 *)pos);
     if (cur == 0)
         prev = 0;
     else
@@ -53,13 +53,13 @@ u8 func_0202AFFC(const u8 *obj, const s32 *pos)
         return (obj + cur)[0x10];
 
     v = pos[1] >> 12;
-    d = v - func_0202B154((u32 *)obj);
+    d = v - ISS_CITY_UNIT_GetCenterY((u32 *)obj);
     if (d < 0)
         d = -d;
 
     pp = obj + prev;
     pc = obj + cur;
 
-    return (u8)func_0202B194(pc[0x1c] << 4, pc[0x10],
+    return (u8)ISS_CITY_UNIT_Interpolate(pc[0x1c] << 4, pc[0x10],
                              pp[0x1c] << 4, pp[0x10], d);
 }

@@ -1,0 +1,1085 @@
+/*
+ * file:     event_shortcut_menu.c
+ * unit:     yes
+ * function: func_0215FF34, func_0215FF54, func_02160018, func_0216025C, func_0216040C, func_02160564, func_021605C0, func_0216060C, func_02160668, func_021606D0, func_021606DC, func_0216070C, func_0216075C, func_021607E0, func_02160A28, func_02160A4C, func_02160A64, func_02160A7C
+ * address:  0x0215FF34
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * symbols:
+ *   func_020122C0 0x020122C0 thumb
+ *   func_020124E8 0x020124E8 thumb
+ *   func_020120F4  0x020120F4  thumb
+ *   func_0201210C  0x0201210C  thumb
+ *   func_02159058  0x02159058  thumb  ov010
+ *   func_020307B0  0x020307B0  arm
+ *   func_02030734  0x02030734  arm
+ *   func_02012374  0x02012374  thumb
+ *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
+ *   func_021BE8D4  0x021BE8D4  thumb
+ *   func_02012934   0x02012934  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
+ *   func_021BE92C  0x021BE92C  thumb
+ *   func_020355D8  0x020355D8  arm
+ *   func_02188C7C  0x02188C7C  thumb  ov021
+ *   func_0216D9A0  0x0216D9A0  thumb  ov010
+ *   func_0216D9E4  0x0216D9E4  thumb  ov010
+ *   func_0215E840  0x0215E840  thumb  ov010
+ *   func_021644F4  0x021644F4  thumb  ov010
+ *   func_0200C404   0x0200C404  thumb
+ *   func_0200C468   0x0200C468  thumb
+ *   d_02172960     0x02172960  data  a4
+ *   func_02164480  0x02164480  thumb  ov010
+ *   func_021C5224  0x021C5224  thumb  ov021
+ *   func_021C5348  0x021C5348  thumb  ov021
+ *   func_021C536C  0x021C536C  thumb  ov021
+ *   func_021C5380  0x021C5380  thumb  ov021
+ *   func_021C5394  0x021C5394  thumb  ov021
+ *   func_020127A4  0x020127A4  thumb
+ *   func_02012B28  0x02012B28  thumb
+ *   func_02012B70  0x02012B70  thumb
+ *   func_02028754  0x02028754  thumb
+ *   func_0200C464  0x0200C464  thumb
+ *   func_02040588  0x02040588  arm
+ *   func_02188C54  0x02188C54  thumb
+ *   func_02190344  0x02190344  thumb
+ *   GAME_DATA_GetRtcWork  0x02012C0C  thumb
+ *   func_021C4F7C  0x021C4F7C  thumb
+ *   func_021C51A0  0x021C51A0  thumb  ov021
+ *   func_02190398  0x02190398  thumb
+ *   func_021C5334  0x021C5334  thumb  ov021
+ *   func_02158768  0x02158768  thumb  ov010
+ *   func_021589D0  0x021589D0  thumb  ov010
+ *   func_0201AA18  0x0201AA18  thumb
+ *   func_0201AB28  0x0201AB28  thumb
+ *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_HasRibbonData  0x0201897C  thumb
+ *   MI_CpuFill8    0x02082BCC  arm
+ *   d_021712CC     0x021712CC  data
+ *   func_02188DA0  0x02188DA0  thumb  ov021
+ *   func_02188DB0  0x02188DB0  thumb  ov021
+ */
+
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct GameSystem;
+struct GameEvent;
+struct GameData;
+struct FieldMap;
+struct SaveControl;
+struct ShortcutLink;
+struct ShortcutMenuWork;
+struct ShortcutProcTask;
+
+/*
+ * Shortcut save block (save block 0x36, 26 bytes): the shortcut ids the
+ * player registered, in order, in the first 25 slots. SHORTCUT_NONE marks an
+ * empty slot; the last byte is never used. The accessors live in the arm9
+ * file that owns the block.
+ */
+#define SHORTCUT_SLOT_COUNT 25
+#define SHORTCUT_NONE       25
+
+typedef struct ShortcutList {
+    u8 id[SHORTCUT_SLOT_COUNT + 1];
+} ShortcutList;
+
+/* One bit per menu entry that is currently usable (filled by func_02164480). */
+typedef struct ShortcutAvailMask {
+    u32 bits[6];
+} ShortcutAvailMask;
+
+/* Field state snapshot taken when a shortcut proc task starts (func_0215E840). */
+typedef struct ShortcutFieldInfo {
+    u16 zoneId;         /* 0x00 */
+    u16 stateFlags;     /* 0x02 */
+    u32 playerPosX;     /* 0x04 */
+    u32 playerPosZ;     /* 0x08 */
+    void *mapObj;       /* 0x0C */
+    void *fieldMap;     /* 0x10 */
+} ShortcutFieldInfo;
+
+/*
+ * Hook table of a proc task. Every hook gets the link (as ctx) and hookArg
+ * and returns non-zero when it is done; a missing hook counts as done.
+ * onResume reopens the link session, onSuspend closes it, onExit is unused
+ * by the code in this file (always empty).
+ */
+typedef int (*ShortcutHook)(struct ShortcutLink *link, struct ShortcutMenuWork *arg);
+
+typedef struct ShortcutHooks {
+    ShortcutHook onResume;      /* 0x00 */
+    ShortcutHook onSuspend;     /* 0x04 */
+    ShortcutHook onExit;        /* 0x08 */
+    struct ShortcutMenuWork *arg; /* 0x0C */
+    struct ShortcutLink *link;  /* 0x10 */
+} ShortcutHooks;
+
+/*
+ * The 0x40-byte block hung off the work. The caller fills procIndex and
+ * procArg through func_0216040C; the proc task reads the hooks from
+ * +0x14..+0x20 and writes result and nextEvent back.
+ */
+typedef struct ShortcutLink {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    struct FieldMap *fieldMap;      /* 0x04 */
+    struct GameEvent *event;        /* 0x08 */
+    u32 procIndex;                  /* 0x0C: first entry of the proc table to run */
+    u32 procArg;                    /* 0x10: passed to the proc's init and start */
+    ShortcutHook onResume;          /* 0x14 */
+    ShortcutHook onSuspend;         /* 0x18 */
+    ShortcutHook onExit;            /* 0x1C */
+    struct ShortcutMenuWork *hookArg; /* 0x20 */
+    u32 result;                     /* 0x24: 0 done, 1 cancelled, 2 and 3 other ends */
+    u32 nextEvent;                  /* 0x28: index handed to func_021644F4 */
+    u8 pad2C[0x40 - 0x2C];
+} ShortcutLink;
+
+/* Work of the two shortcut menu events (0x20 bytes). */
+typedef struct ShortcutMenuWork {
+    struct GameEvent *event;        /* 0x00 */
+    struct GameSystem *gameSystem;  /* 0x04 */
+    struct FieldMap *fieldMap;      /* 0x08 */
+    void *commObj;                  /* 0x0C: link session object, 0 when closed */
+    ShortcutLink *link;             /* 0x10 */
+    u16 id;                         /* 0x14 */
+    u8 pad16[2];
+    u32 commClosed;                 /* 0x18: set when no shortcut is registered */
+    u32 commCloseState;             /* 0x1C: step of the close sequence */
+} ShortcutMenuWork;
+
+/* One record of the proc table at 0x021712CC (24 bytes). */
+typedef struct ShortcutProc {
+    u32 overlayId;                                  /* 0x00 */
+    void *procTemplate;                             /* 0x04 */
+    void *(*init)(struct ShortcutProcTask *task, u32 procArg, u32 prevProc, void *prevWork); /* 0x08 */
+    u32 (*finish)(struct ShortcutProcTask *task, void *work);  /* 0x0C */
+    void (*start)(struct ShortcutProcTask *task, u32 procArg); /* 0x10 */
+    void (*exit)(void *work);                       /* 0x14 */
+} ShortcutProc;
+
+/* Work of the proc task (0x74 bytes). */
+typedef struct ShortcutProcTask {
+    u16 id;                         /* 0x00 */
+    u8 pad02[2];
+    u32 proc;                       /* 0x04: index of the running proc */
+    u32 prevProc;                   /* 0x08 */
+    u32 nextProc;                   /* 0x0C */
+    u32 procResult;                 /* 0x10: 0 done, 1 cancelled, 2, 3, 4 = run nextProc */
+    struct GameEvent *event;        /* 0x14 */
+    ShortcutLink *link;             /* 0x18 */
+    void *procWork;                 /* 0x1C */
+    ShortcutHooks hooks;            /* 0x20 */
+    ShortcutAvailMask avail;        /* 0x34 */
+    ShortcutFieldInfo fieldInfo;    /* 0x4C */
+    u8 cursorIndex;                 /* 0x60 */
+    u8 pad61;
+    u16 scrollOffset;               /* 0x62 */
+    u8 pad64[4];
+    u32 selectedItem;               /* 0x68 */
+    u8 pad6C[8];
+} ShortcutProcTask;
+
+
+extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, void *func, u32 size);
+extern void *func_020124E8(struct GameEvent *event);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern void func_02159058(void *msgWindow, int messageIndex, int a, int b, u16 c);
+extern int func_020307B0();
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern void func_02012374(struct GameEvent *parent, struct GameEvent *child);
+extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procTemplate, void *work);
+extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
+extern struct GameEvent *func_021BE8D4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b);
+extern void *func_02012934(const struct GameData *gameData);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
+extern struct GameEvent *func_021BE92C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void func_020355D8(u8 v);
+extern void *func_02188C7C(struct FieldMap *fieldMap);
+extern void func_0216D9A0(void *map);
+extern u32 *func_0216D9E4(void *map);
+extern void func_0215E840(struct FieldMap *fieldMap, ShortcutFieldInfo *out);
+extern struct GameEvent *func_021644F4(u32 index, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern ShortcutList *func_0200C404(struct SaveControl *save);
+extern u16 func_0200C468(const ShortcutList *list);
+extern void func_02164480(ShortcutAvailMask *mask, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern void func_021C5224(void *commObj);
+extern void func_021C5348(void *commObj);
+extern void func_021C536C(void *commObj);
+extern int func_021C5380(void *commObj);
+extern u32 func_021C5394(void *commObj, u32 *result);
+extern void *func_020127A4(const struct GameData *gameData);
+extern u32 func_02012B28(const void *eventWork);
+extern int func_02012B70(const struct GameData *gameData);
+extern u32 func_02028754(const ShortcutAvailMask *mask, u32 bit);
+extern u8 func_0200C464(const ShortcutList *list, u32 slot);
+extern int func_02040588();
+extern void *func_02188C54(struct FieldMap *fieldMap);
+extern int func_02190344();
+extern const u16 *GAME_DATA_GetRtcWork(struct GameData *gameData);
+extern void *func_021C4F7C(struct GameData *gameData, int mode, const u16 *playerName, u16 bufferSize, u16 heapId);
+extern int func_021C51A0();
+extern int func_02190398();
+extern int func_021C5334(void *commObj);
+extern void *func_02158768(struct GameSystem *gameSystem, int messageId, int a, int heapId);
+extern void *func_021589D0(void *msgWindow);
+extern u32 func_0201AA18(void *party);
+extern void *func_0201AB28(void *party, u32 index);
+extern u32 func_02017E1C(void *mon, u32 param, u32 value);
+extern u32 POKE_TOOL_HasRibbonData(void *mon);
+extern void MI_CpuFill8(void *dst, u8 val, u32 size);
+extern void func_02188DA0(void);
+extern void func_02188DB0(void *map);
+
+
+int func_0215FF34(struct GameSystem *gameSystem);
+struct GameEvent *func_0215FF54(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id);
+int func_02160018(struct GameEvent *event, u32 *seq, ShortcutMenuWork *work);
+int func_0216025C(struct GameEvent *event, u32 *seq, ShortcutMenuWork *work);
+int func_0216040C(ShortcutLink *link, u32 shortcutId);
+int func_02160564(u32 shortcutId, u32 *availBit, u32 *isUnknownId);
+void func_021605C0(int mode, ShortcutMenuWork *work);
+int func_0216060C(ShortcutMenuWork *work, u32 *seq);
+int func_02160668(ShortcutLink *link, ShortcutMenuWork *work);
+int func_021606D0(ShortcutLink *link, ShortcutMenuWork *work);
+void *func_021606DC(struct GameSystem *gameSystem, u32 messageIndex);
+int func_0216070C(ShortcutMenuWork *work);
+struct GameEvent *func_0216075C(ShortcutLink *link, u16 id);
+int func_021607E0(struct GameEvent *event, u32 *seq, ShortcutProcTask *task);
+void func_02160A28(ShortcutHooks *hooks, ShortcutLink *link, ShortcutHook onResume, ShortcutHook onSuspend, ShortcutHook onExit, struct ShortcutMenuWork *arg);
+int func_02160A4C(ShortcutHooks *hooks);
+int func_02160A64(ShortcutHooks *hooks);
+int func_02160A7C(ShortcutHooks *hooks);
+
+
+extern const char d_02172960[];
+extern ShortcutProc d_021712CC[];
+
+
+/*
+ * TRUE when at least one shortcut is registered in the save block.
+ */
+int func_0215FF34(struct GameSystem *gameSystem)
+{
+    if (func_0200C468(func_0200C404(func_02012EBC(func_020120F4(gameSystem)))) != 0)
+        return 1;
+
+    return 0;
+}
+
+
+/*
+ * Creates the shortcut menu event. With exactly one shortcut registered the
+ * event (func_0216025C) runs it directly; otherwise the event shows the menu
+ * and the link exchange (func_02160018).
+ */
+struct GameEvent *func_0215FF54(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id)
+{
+    ShortcutList *shortcuts;
+    struct GameEvent *event;
+    ShortcutMenuWork *work;
+
+    shortcuts = func_0200C404(func_02012EBC(func_020120F4(gameSystem)));
+    if (func_0200C468(shortcuts) == 1) {
+        event = func_020122C0(gameSystem, 0, (void *)func_0216025C, sizeof(ShortcutMenuWork));
+    } else {
+        event = func_020122C0(gameSystem, 0, (void *)func_02160018, sizeof(ShortcutMenuWork));
+    }
+    work = func_020124E8(event);
+    MI_CpuFill8(work, 0, sizeof(ShortcutMenuWork));
+    work->gameSystem = gameSystem;
+    work->event = event;
+    work->fieldMap = fieldMap;
+    work->id = id;
+    work->commClosed = 0;
+    work->link = func_02030734(4, sizeof(ShortcutLink), 0, d_02172960, 0xc2);
+    MI_CpuFill8(work->link, 0, sizeof(ShortcutLink));
+    work->link->gameSystem = work->gameSystem;
+    work->link->fieldMap = work->fieldMap;
+    work->link->event = event;
+    if (func_0200C468(shortcuts) != 1) {
+        work->link->onResume = func_02160668;
+        work->link->onSuspend = func_021606D0;
+        work->link->hookArg = work;
+    }
+    func_0216D9A0(func_02188C7C(work->fieldMap));
+    func_020355D8(0);
+    return event;
+}
+
+
+/*
+ * Proc main of the ov010 link exchange: a 16-state machine that drives
+ * the ov021 connection object at +0xC, classifies the received result
+ * code, and hands off to the result screens before tearing down.
+ *
+ * The ov021 calls to 0x021C536C, 0x021C5380 and 0x021C5394 (once folded
+ * into func_021C5348) resolve since seeds_2 labelled them. Levers: in state 4 `noEligibleMon` declared first and `blocked`
+ * last (noEligibleMon spills to sp+4, hasAvailBit to sp+0, launchEvent stays in r7), the result
+ * code dispatched as a switch and the case-10 value as an if chain with
+ * the commClosed != 0 arm first; in state 12 the tail call in a local written
+ * as a nested if (nextEvent == 0, then the save test) with the call in all
+ * three arms, which is what makes both work->gameSystem loads hoist above their
+ * branches and lets state 11 cross-jump into the shared tail.
+ */
+int func_02160018(struct GameEvent *event, u32 *seq, ShortcutMenuWork *work)
+{
+    switch (*seq) {
+    case 0:
+        *seq = 1;
+        break;
+    case 1:
+        func_021605C0(0, work);
+        *seq = 2;
+        break;
+    case 2:
+        func_021C5348(work->commObj);
+        *seq = 3;
+        break;
+    case 3:
+        func_021C5224(work->commObj);
+        if (func_021C5380(work->commObj) == 0)
+            *seq = 4;
+        break;
+    case 4: {
+        u32 code;
+        int r;
+
+        func_021C5224(work->commObj);
+        r = func_021C5394(work->commObj, &code);
+        if (r == 1) {
+            ShortcutAvailMask avail;
+            u32 availBit;
+            u32 isUnknownId;
+            int noEligibleMon = 0;
+            int hasAvailBit;
+            int launchEvent;
+            int blocked = 0;
+
+            hasAvailBit = func_02160564(code, &availBit, &isUnknownId);
+            launchEvent = func_0216040C(work->link, code);
+            if (isUnknownId == 0 && func_02012B70(func_020120F4(work->gameSystem)) == 1) {
+                blocked = 1;
+            } else if (hasAvailBit == 1) {
+                func_02164480(&avail, work->gameSystem, work->fieldMap);
+                if (func_02028754(&avail, availBit) == 0)
+                    blocked = 1;
+            }
+            if (code == 9 && func_0216070C(work) == 0)
+                noEligibleMon = 1;
+            if (blocked == 1) {
+                *seq = 12;
+            } else if (noEligibleMon == 1) {
+                *seq = 14;
+            } else {
+                switch (launchEvent) {
+                case 0:
+                    *seq = 9;
+                    break;
+                case 1:
+                    *seq = 11;
+                    break;
+                }
+            }
+        } else if (r == 2) {
+            *seq = 5;
+        }
+        break;
+    }
+    case 5:
+        func_021C536C(work->commObj);
+        *seq = 6;
+        break;
+    case 6:
+        func_021C5224(work->commObj);
+        if (func_021C5380(work->commObj) == 0)
+            *seq = 7;
+        break;
+    case 7:
+        if (func_0216060C(work, seq) != 0) {
+            func_020307B0(work->link);
+            func_0216D9E4(func_02188C7C(work->fieldMap));
+            return 1;
+        }
+        break;
+    case 8:
+        func_021605C0(1, work);
+        *seq = 4;
+        break;
+    case 9:
+        func_02012374(event, func_0216075C(work->link, work->id));
+        *seq = 10;
+        break;
+    case 10:
+    {
+        u32 result = work->link->result;
+
+        if (result == 0) {
+            if (work->commClosed != 0)
+                *seq = 7;
+            else
+                *seq = 8;
+        } else if (result == 1) {
+            *seq = 7;
+        } else if (result == 3) {
+            *seq = 11;
+        }
+        break;
+    }
+    case 11:
+        if (func_0216060C(work, seq) != 0) {
+            u32 nextEvent = work->link->nextEvent;
+
+            func_020307B0(work->link);
+            work->link = 0;
+            func_02012374(event, func_021644F4(nextEvent, work->gameSystem, work->fieldMap));
+            *seq = 13;
+        }
+        break;
+    case 12:
+        if (func_0216060C(work, seq) != 0) {
+            u32 nextEvent = work->link->nextEvent;
+
+            func_020307B0(work->link);
+            work->link = 0;
+            {
+                void *message;
+
+                if (nextEvent == 0) {
+                    if (func_02012B28(func_020127A4(func_020120F4(work->gameSystem))) == 1)
+                        message = func_021606DC(work->gameSystem, 1);
+                    else
+                        message = func_021606DC(work->gameSystem, 0);
+                } else {
+                    message = func_021606DC(work->gameSystem, 0);
+                }
+                func_02012374(event, message);
+            }
+            *seq = 13;
+        }
+        break;
+    case 13:
+        func_0216D9E4(func_02188C7C(work->fieldMap));
+        return 1;
+    case 14:
+        if (func_0216060C(work, seq) != 0) {
+            func_020307B0(work->link);
+            work->link = 0;
+            func_02012374(event, func_021606DC(work->gameSystem, 2));
+            *seq = 15;
+        }
+        break;
+    case 15:
+        func_0216D9E4(func_02188C7C(work->fieldMap));
+        return 1;
+    }
+    return 0;
+}
+
+
+/*
+ * Nine-state connection sequence; returns 1 when the sequence has ended.
+ * EXACT* because the listing extent runs over the unlabelled followers
+ * 0x0216040C, 0x02160564 and 0x021605C0. Levers: the case-3 test is an
+ * else-if chain with the `*seq = 1` arm written twice (the first copy is
+ * cross-jumped into `b`), and cases 4 and 5 hand one local `child` to
+ * func_02012374, which is what lets case 4 cross-jump into case 5's call.
+ */
+int func_0216025C(struct GameEvent *event, u32 *seq, ShortcutMenuWork *work)
+{
+    ShortcutAvailMask avail;
+    u32 availBit;
+    u32 isUnknownId;
+    u32 shortcutId;
+    int result;
+    int hasAvailBit;
+    int blocked;
+    int noEligibleMon;
+    u32 nextIndex;
+    struct GameEvent *child;
+
+    switch (*seq) {
+    case 0:
+        shortcutId = func_0200C464(func_0200C404(func_02012EBC(func_020120F4(work->gameSystem))), 0);
+        blocked = 0;
+        result = func_0216040C(work->link, shortcutId);
+        noEligibleMon = 0;
+        hasAvailBit = func_02160564(shortcutId, &availBit, &isUnknownId);
+        if (isUnknownId == 0 && func_02012B70(func_020120F4(work->gameSystem)) == 1) {
+            blocked = 1;
+        } else if (hasAvailBit == 1) {
+            func_02164480(&avail, work->gameSystem, work->fieldMap);
+            if (func_02028754(&avail, availBit) == 0)
+                blocked = 1;
+        }
+        if (shortcutId == 9 && func_0216070C(work) == 0)
+            noEligibleMon = 1;
+        if (blocked == 1) {
+            *seq = 5;
+        } else if (noEligibleMon == 1) {
+            *seq = 7;
+        } else {
+            switch (result) {
+            case 0:
+                *seq = 2;
+                break;
+            case 1:
+                *seq = 4;
+                break;
+            }
+        }
+        break;
+    case 1:
+        func_020307B0(work->link);
+        func_0216D9E4(func_02188C7C(work->fieldMap));
+        return 1;
+    case 2:
+        if (func_0216060C(work, seq) != 0) {
+            func_02012374(event, func_0216075C(work->link, work->id));
+            *seq = 3;
+        }
+        break;
+    case 3:
+        result = work->link->result;
+        if (result == 0) {
+            *seq = 1;
+        } else if (result == 1) {
+            *seq = 1;
+        } else if (result == 3) {
+            *seq = 4;
+        }
+        break;
+    case 4:
+        nextIndex = work->link->nextEvent;
+        func_020307B0(work->link);
+        work->link = 0;
+        child = func_021644F4(nextIndex, work->gameSystem, work->fieldMap);
+        func_02012374(event, child);
+        *seq = 6;
+        break;
+    case 5:
+        nextIndex = work->link->nextEvent;
+        func_020307B0(work->link);
+        work->link = 0;
+        if (nextIndex == 0) {
+            if (func_02012B28(func_020127A4(func_020120F4(work->gameSystem))) == 1)
+                child = func_021606DC(work->gameSystem, 1);
+            else
+                child = func_021606DC(work->gameSystem, 0);
+        } else {
+            child = func_021606DC(work->gameSystem, 0);
+        }
+        func_02012374(event, child);
+        *seq = 6;
+        break;
+    case 6:
+        func_0216D9E4(func_02188C7C(work->fieldMap));
+        return 1;
+    case 7:
+        func_020307B0(work->link);
+        work->link = 0;
+        func_02012374(event, func_021606DC(work->gameSystem, 2));
+        *seq = 8;
+        break;
+    case 8:
+        func_0216D9E4(func_02188C7C(work->fieldMap));
+        return 1;
+    }
+    return 0;
+}
+
+
+/*
+ * Unlabelled (inside func_0216025C's listing extent): maps a registered
+ * shortcut id (0..24) to the proc table entry and argument the link should
+ * run (procIndex/procArg), or to an event index in nextEvent (returning 1
+ * for those, which launch a separate event instead of a proc).
+ */
+int func_0216040C(ShortcutLink *link, u32 shortcutId)
+{
+    switch (shortcutId) {
+    case 0:
+        link->nextEvent = 0;
+        return 1;
+    case 1:
+        link->procIndex = 7;
+        return 0;
+    case 2:
+        link->procIndex = 11;
+        return 0;
+    case 3:
+        link->procIndex = 8;
+        return 0;
+    case 4:
+        link->nextEvent = 4;
+        return 1;
+    case 5:
+        link->nextEvent = 5;
+        return 1;
+    case 6:
+        link->procIndex = 0;
+        link->procArg = 5;
+        return 0;
+    case 7:
+        link->procIndex = 6;
+        link->procArg = 0;
+        return 0;
+    case 8:
+        link->procIndex = 6;
+        link->procArg = 1;
+        return 0;
+    case 9:
+        link->procIndex = 6;
+        link->procArg = 2;
+        return 0;
+    case 10:
+        link->procIndex = 2;
+        link->procArg = 0;
+        return 0;
+    case 11:
+        link->procIndex = 2;
+        link->procArg = 1;
+        return 0;
+    case 12:
+        link->procIndex = 2;
+        link->procArg = 2;
+        return 0;
+    case 13:
+        link->procIndex = 2;
+        link->procArg = 3;
+        return 0;
+    case 14:
+        link->procIndex = 2;
+        link->procArg = 4;
+        return 0;
+    case 15:
+        link->procIndex = 1;
+        link->procArg = 1;
+        return 0;
+    case 16:
+        link->procIndex = 1;
+        link->procArg = 6;
+        return 0;
+    case 17:
+        link->procIndex = 1;
+        link->procArg = 2;
+        return 0;
+    case 18:
+        link->procIndex = 1;
+        link->procArg = 3;
+        return 0;
+    case 19:
+        link->procIndex = 1;
+        link->procArg = 4;
+        return 0;
+    case 20:
+        link->procIndex = 1;
+        link->procArg = 5;
+        return 0;
+    case 21:
+        link->procIndex = 3;
+        link->procArg = 1;
+        return 0;
+    case 22:
+        link->procIndex = 3;
+        link->procArg = 2;
+        return 0;
+    case 23:
+        link->procIndex = 3;
+        link->procArg = 3;
+        return 0;
+    case 24:
+        link->procIndex = 5;
+        return 0;
+    }
+    link->procIndex = 1;
+    return 0;
+}
+
+
+/*
+ * Unlabelled (inside func_0216025C's listing extent): translates a
+ * shortcut id into the index of its bit in the availability mask; *isUnknownId
+ * is set for ids above 6. Returns 0 when the id has no bit to test.
+ */
+int func_02160564(u32 shortcutId, u32 *availBit, u32 *isUnknownId)
+{
+    *isUnknownId = 0;
+    switch (shortcutId) {
+    case 0:
+        *availBit = 0;
+        return 1;
+    case 1:
+        *availBit = 1;
+        return 1;
+    case 2:
+        *availBit = 6;
+        return 1;
+    case 3:
+        *availBit = 2;
+        return 1;
+    case 4:
+        *availBit = 5;
+        return 1;
+    case 5:
+        *availBit = 9;
+        return 1;
+    case 6:
+        return 0;
+    }
+    *isUnknownId = 1;
+    return 0;
+}
+
+
+/*
+ * Opens the link session object (once) in the given mode: leaves the
+ * current comm state, then creates the session from the player's name.
+ */
+void func_021605C0(int mode, ShortcutMenuWork *work)
+{
+    struct GameData *gameData;
+    void *fieldComm;
+
+    if (work->commObj == 0 && work->commClosed == 0) {
+        func_02040588(1, 0);
+        fieldComm = func_02188C54(work->fieldMap);
+        if (fieldComm != 0)
+            func_02190344(fieldComm);
+        gameData = func_020120F4(work->gameSystem);
+        work->commObj = func_021C4F7C(gameData, mode, GAME_DATA_GetRtcWork(gameData), 0x50, 0x15);
+    }
+}
+
+
+/*
+ * unblocked: func_021C51A0 is ov021's label across the co-resident
+ *   ov010/ov021 pair; the `ov021` token resolves the site as `label`.
+ *   Extent runs 92 bytes against 90 compiled: the unlabelled follower.
+ *
+ * Close sequence of the link session, one step per call (steps in
+ * commCloseState); returns 1 when the session is closed.
+ */
+int func_0216060C(ShortcutMenuWork *work, u32 *seq)
+{
+    if (work->commClosed == 0) {
+        switch (work->commCloseState) {
+        case 0:
+            if (work->commObj != 0) {
+                func_02040588(1, 0);
+                func_021C51A0(work->commObj);
+                work->commObj = 0;
+                work->commCloseState = 1;
+                break;
+            }
+            work->commCloseState = 2;
+            break;
+        case 1:
+            func_02190398(func_02188C54(work->fieldMap));
+            work->commCloseState = 2;
+            break;
+        case 2:
+            work->commCloseState = 0;
+            return 1;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+
+/*
+ * Resume hook: reopens the link session when shortcuts remain, and
+ * returns 1 once the session is ready again (0 while it is opening).
+ */
+int func_02160668(ShortcutLink *link, ShortcutMenuWork *work)
+{
+    ShortcutList *shortcuts;
+
+    shortcuts = func_0200C404(func_02012EBC(func_020120F4(work->gameSystem)));
+    switch (work->commCloseState) {
+    case 0:
+        if (func_0200C468(shortcuts) == 0) {
+            work->commClosed = 1;
+            work->commCloseState = 2;
+        } else if (link->result - 1 <= 2) {
+            work->commCloseState = 2;
+        } else {
+            func_021605C0(1, work);
+            work->commCloseState = 1;
+        }
+        break;
+    case 1:
+        if (func_021C5334(work->commObj) != 0) {
+            work->commCloseState = 2;
+        }
+        break;
+    case 2:
+        work->commCloseState = 0;
+        return 1;
+    }
+    return 0;
+}
+
+
+/*
+ * Suspend hook: closes the link session. Unlabelled thunk that
+ * tail-calls func_0216060C with the work as both arguments.
+ */
+int func_021606D0(ShortcutLink *link, ShortcutMenuWork *work)
+{
+    return func_0216060C(work, (u32 *)work);
+}
+
+
+/*
+ * Opens a message window (message 0x7D6) and selects the variant given
+ * by messageIndex.
+ */
+void *func_021606DC(struct GameSystem *gameSystem, u32 messageIndex)
+{
+    void *msgWindow;
+
+    msgWindow = func_02158768(gameSystem, 0x7D6, 0, 0x15);
+    func_02159058(func_021589D0(msgWindow), messageIndex, 0, 0, 0);
+    return msgWindow;
+}
+
+
+/*
+ * TRUE when some party member has field 0xA9 set and passes POKE_TOOL_HasRibbonData.
+ */
+int func_0216070C(ShortcutMenuWork *work)
+{
+    void *party;
+    void *mon;
+    int i;
+
+    party = func_02012934(func_020120F4(work->gameSystem));
+    for (i = 0; i < (int)func_0201AA18(party); i++) {
+        mon = func_0201AB28(party, i);
+        if (func_02017E1C(mon, 0xA9, 0) != 0 && POKE_TOOL_HasRibbonData(mon) != 0)
+            return 1;
+    }
+    return 0;
+}
+
+
+/*
+ * Creates the 0x74-byte task that runs func_021607E0 and initialises it
+ * from the link.
+ */
+struct GameEvent *func_0216075C(ShortcutLink *link, u16 id)
+{
+    struct GameEvent *event;
+    ShortcutProcTask *task;
+
+    event = func_020122C0(link->gameSystem, link->event, func_021607E0, sizeof(ShortcutProcTask));
+    task = func_020124E8(event);
+    MI_CpuFill8(task, 0, sizeof(ShortcutProcTask));
+    task->id = id;
+    task->link = link;
+    task->procResult = 4;
+    task->event = event;
+    task->proc = link->procIndex;
+    task->prevProc = link->procIndex;
+    task->nextProc = link->procIndex;
+    task->cursorIndex = 0;
+    task->scrollOffset = 0;
+    task->selectedItem = 0;
+    func_02160A28(&task->hooks, task->link, task->link->onResume, task->link->onSuspend, task->link->onExit, task->link->hookArg);
+    func_02164480(&task->avail, task->link->gameSystem, task->link->fieldMap);
+    func_0215E840(task->link->fieldMap, &task->fieldInfo);
+    return event;
+}
+
+
+/*
+ * The fourteen-state task func_0216075C creates. The procedure table at
+ * 0x021712CC has 24-byte records; each pool word is the table plus the
+ * field offset.
+ */
+int func_021607E0(struct GameEvent *event, u32 *seq, ShortcutProcTask *task)
+{
+    u32 result;
+    void *procWork;
+
+    switch (*seq) {
+    case 0:
+        *seq = 1;
+        break;
+    case 1:
+        result = task->procResult;
+        if (result <= 1) {
+            *seq = 2;
+        } else if (result == 4) {
+            if (d_021712CC[task->proc].start == 0)
+                *seq = 6;
+            else
+                *seq = 3;
+        } else if (result == 3) {
+            task->link->result = 3;
+            *seq = 2;
+        } else if (result == 2) {
+            task->link->result = 2;
+            *seq = 2;
+        }
+        break;
+    case 2:
+        result = task->procResult;
+        if (result == 0)
+            task->link->result = 0;
+        else if (result == 1)
+            task->link->result = 1;
+        return 1;
+    case 3:
+        if (func_02160A64(&task->hooks) == 0)
+            break;
+        d_021712CC[task->proc].start(task, task->link->procArg);
+        *seq = 4;
+        break;
+    case 4:
+        *seq = 5;
+        break;
+    case 5:
+        if (task->procResult == 0) {
+            if (func_02160A4C(&task->hooks) == 0)
+                break;
+            *seq = 1;
+        } else {
+            *seq = 1;
+        }
+        break;
+    case 6:
+        func_02012374(event, func_021BE8D4(task->link->gameSystem, task->link->fieldMap, 0, 0));
+        *seq = 7;
+        break;
+    case 7:
+        if (func_02160A64(&task->hooks) == 0)
+            break;
+        func_02012374(event, FIELD_STATUS_CreateFieldCloseEvent(task->link->gameSystem, task->link->fieldMap));
+        *seq = 11;
+        break;
+    case 8:
+        func_02160A7C(&task->hooks);
+        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(task->link->gameSystem));
+        *seq = 9;
+        break;
+    case 9:
+        task->link->fieldMap = func_0201210C(task->link->gameSystem);
+        func_02188DA0();
+        func_02188DB0(task->link->fieldMap);
+        *seq = 10;
+        break;
+    case 10:
+        if (func_02160A4C(&task->hooks) == 0)
+            break;
+        func_02012374(event, func_021BE92C(task->link->gameSystem, task->link->fieldMap, 0, 0, 0, 0, 0));
+        *seq = 1;
+        break;
+    case 11:
+        procWork = d_021712CC[task->proc].init(task, task->link->procArg, task->prevProc, task->procWork);
+        if (task->procWork != 0) {
+            d_021712CC[task->prevProc].exit(task->procWork);
+            task->procWork = 0;
+        }
+        task->procWork = procWork;
+        if (d_021712CC[task->proc].procTemplate == 0)
+            break;
+        GAMESYSTEM_CallProc(task->link->gameSystem, d_021712CC[task->proc].overlayId, d_021712CC[task->proc].procTemplate, procWork);
+        *seq = 12;
+        break;
+    case 12:
+        if (GAMESYSTEM_GetProcStatus(task->link->gameSystem) != 0)
+            break;
+        *seq = 13;
+        break;
+    case 13:
+        task->procResult = d_021712CC[task->proc].finish(task, task->procWork);
+        result = task->procResult;
+        if (result == 0)
+            task->link->result = 0;
+        else if (result == 1)
+            task->link->result = 1;
+        else if (result == 3)
+            task->link->result = 3;
+        else if (result == 2)
+            task->link->result = 2;
+        if (task->procResult == 4) {
+            task->prevProc = task->proc;
+            task->proc = task->nextProc;
+            *seq = 11;
+        } else {
+            if (task->procWork != 0) {
+                func_020307B0(task->procWork);
+                task->procWork = 0;
+            }
+            *seq = 8;
+        }
+        break;
+    }
+    return 0;
+}
+
+
+/*
+ * Clears a hook table and fills it from the five arguments (the stores
+ * run in this order in the original).
+ */
+void func_02160A28(ShortcutHooks *hooks, ShortcutLink *link, ShortcutHook onResume, ShortcutHook onSuspend, ShortcutHook onExit, struct ShortcutMenuWork *arg)
+{
+    MI_CpuFill8(hooks, 0, sizeof(ShortcutHooks));
+    hooks->onResume = onResume;
+    hooks->onExit = onExit;
+    hooks->onSuspend = onSuspend;
+    hooks->arg = arg;
+    hooks->link = link;
+}
+
+
+/*
+ * Runs the onResume hook, or returns 1 when the hook is empty.
+ */
+int func_02160A4C(ShortcutHooks *hooks)
+{
+    if (hooks->onResume != 0)
+        return hooks->onResume(hooks->link, hooks->arg);
+    return 1;
+}
+
+
+/*
+ * Runs the onSuspend hook, or returns 1 when the hook is empty.
+ */
+int func_02160A64(ShortcutHooks *hooks)
+{
+    if (hooks->onSuspend != 0)
+        return hooks->onSuspend(hooks->link, hooks->arg);
+    return 1;
+}
+
+
+/*
+ * Runs the onExit hook, or returns 1 when the hook is empty.
+ */
+int func_02160A7C(ShortcutHooks *hooks)
+{
+    if (hooks->onExit != 0)
+        return hooks->onExit(hooks->link, hooks->arg);
+    return 1;
+}

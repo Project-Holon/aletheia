@@ -1,5 +1,5 @@
 /*
- * function: func_0204D564
+ * function: CLACT_GetCellUserAttr
  * address: 0x0204D564
  * packet: pkt_arm9_0204D564
  * region: arm9
@@ -43,9 +43,9 @@ typedef struct {
     ClactInner *f74;
 } ClactObj;
 
-void *func_0204D564(ClactObj *o, u32 idx);
+void *CLACT_GetCellUserAttr(ClactObj *o, u32 idx);
 
-void *func_0204D564(ClactObj *o, u32 idx)
+void *CLACT_GetCellUserAttr(ClactObj *o, u32 idx)
 {
     ClactBlk *b = o->f08->blk14;
     ClactTbl *t;

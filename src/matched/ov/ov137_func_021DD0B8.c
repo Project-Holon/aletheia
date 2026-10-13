@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: 021DD10A reads and 021DD110 writes hardware register 0x04000304
  * symbols:
- * func_0203115C 0x0203115C arm
+ * TCBL_DeleteAllTasks 0x0203115C arm
  * func_02031140 0x02031140 arm
  * func_021DD570 0x021DD570 thumb ov137
  * func_021DD760 0x021DD760 thumb ov137
@@ -35,7 +35,7 @@ struct Rec;
 struct S02031140;
 struct Tcbl;
 struct WordSet;
-extern void func_0203115C(struct Tcbl *p);
+extern void TCBL_DeleteAllTasks(struct Tcbl *p);
 extern void func_02031140(struct S02031140 *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
@@ -54,7 +54,7 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
 int func_021DD0B8(void *a,int b,void *c,u8 *p)
 {
-    func_0203115C((struct Tcbl *)(((struct Obj02207 *)p)->fF4)); func_02031140((struct S02031140 *)(((struct Obj02207 *)p)->fF4));
+    TCBL_DeleteAllTasks((struct Tcbl *)(((struct Obj02207 *)p)->fF4)); func_02031140((struct S02031140 *)(((struct Obj02207 *)p)->fF4));
     func_0201C6EC((struct PrintSys *)(((struct Obj02207 *)p)->fEC)); func_0201C4C0((struct PrintSys *)(((struct Obj02207 *)p)->fEC));
     func_021DD570(p); func_021DD3B0(func_021DD760(p));
     func_02045C04((struct Rec *)(((struct Obj02207 *)p)->f40)); func_0201ED04((struct WordSet *)(((struct Obj02207 *)p)->f3C)); func_0201D83C((void *)(((struct Obj02207 *)p)->f38));

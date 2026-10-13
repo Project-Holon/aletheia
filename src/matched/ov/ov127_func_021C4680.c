@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B8A0 0x0204B8A0 arm
- *   func_0204B8D4 0x0204B8D4 arm
+ *   CLACT_ChangeActorAnimSeq 0x0204B8A0 arm
+ *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  */
 #include "../include/Obj10468.h"
 #include "../include/Obj14024.h"
@@ -24,37 +24,37 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B8A0(struct Obj *p, u16 v);
-extern void func_0204B8D4(struct Obj *p, u32 arg);
+extern void CLACT_ChangeActorAnimSeq(struct Obj *p, u16 v);
+extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 void func_021C4680(u8 *p, u32 i)
 {
-    func_0204B8A0(((struct Obj10468 *)p)->f4, ((struct Obj10468 *)p)->f10 + 5);
+    CLACT_ChangeActorAnimSeq(((struct Obj10468 *)p)->f4, ((struct Obj10468 *)p)->f10 + 5);
     ((struct Obj10468 *)p)->f10 = i;
 }
 void func_021C4698(u8 *p, u32 i)
 {
     ((struct Obj14024 *)p)->f10 = i;
-    func_0204B8A0(((struct Obj14024 *)p)->f4, i + 9);
+    CLACT_ChangeActorAnimSeq(((struct Obj14024 *)p)->f4, i + 9);
 }
 void func_021C46AC(u8 *p, u32 i)
 {
     ((struct Obj14025 *)p)->f10 = i;
-    func_0204B8A0(((struct Obj14025 *)p)->f4, i + 5);
+    CLACT_ChangeActorAnimSeq(((struct Obj14025 *)p)->f4, i + 5);
 }
 void func_021C46C0(u8 *p, u32 i)
 {
     ((struct Obj14026 *)p)->f10 = i;
-    func_0204B8A0(((struct Obj14026 *)p)->f4, i + 5);
+    CLACT_ChangeActorAnimSeq(((struct Obj14026 *)p)->f4, i + 5);
 }
 void func_021C46D4(u8 *p, u32 i)
 {
     ((struct Obj14027 *)p)->f10 = i;
-    func_0204B8A0(((struct Obj14027 *)p)->f4, i + 5);
+    CLACT_ChangeActorAnimSeq(((struct Obj14027 *)p)->f4, i + 5);
 }
 void func_021C46E8(u8 *p, u32 i)
 {
     ((struct Obj14028 *)p)->f10 = i;
-    func_0204B8A0(((struct Obj14028 *)p)->f4, i + 5);
+    CLACT_ChangeActorAnimSeq(((struct Obj14028 *)p)->f4, i + 5);
 }
-void func_021C46FC(u8 *p) { func_0204B8D4(((struct Obj23025 *)p)->f4, 8192); }
-void func_021C470C(u8 *p) { func_0204B8D4(((struct Obj23026 *)p)->f4, 8192); }
+void func_021C46FC(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23025 *)p)->f4, 8192); }
+void func_021C470C(u8 *p) { CLACT_AddActorAnimFrame(((struct Obj23026 *)p)->f4, 8192); }

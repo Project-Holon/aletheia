@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0200DF10 0x0200DF10 thumb
+ *   BSUBWAY_SAVEDATA_SetHistory 0x0200DF10 thumb
  */
 #include "../include/Obj13861.h"
 typedef unsigned char  u8;
 struct RecSlot;
-extern void func_0200DF10(struct RecSlot *p, const void *src, u8 a, u8 b);
-void func_021D6B30(unsigned char *a,void *b) { func_0200DF10(b,a+0x69e,((struct Obj13861 *)a)->f8,((struct Obj13861 *)a)->fA); }
+extern void BSUBWAY_SAVEDATA_SetHistory(struct RecSlot *p, const void *src, u8 a, u8 b);
+void func_021D6B30(unsigned char *a,void *b) { BSUBWAY_SAVEDATA_SetHistory(b,a+0x69e,((struct Obj13861 *)a)->f8,((struct Obj13861 *)a)->fA); }

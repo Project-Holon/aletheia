@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0204B100  0x0204B100  arm
- *   func_0204B270  0x0204B270  arm
+ *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
  *   func_0204B294  0x0204B294  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B92C  0x0204B92C  arm
@@ -32,7 +32,7 @@ typedef struct {
 
 struct Bank;
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
@@ -48,7 +48,7 @@ void func_021B709C(u8 *p)
 
     bank = (u32)func_0204B100(10, 8, ((struct Obj00047 *)p)->f0);
     *(u32 *)&((struct Obj00047 *)p)->f1D4 = bank;
-    func_0204B270((struct Bank *)bank);
+    CLACT_SetUnitDefaultRenderer((struct Bank *)bank);
     b.a = 0;
     b.b = 0;
     b.c = 0;

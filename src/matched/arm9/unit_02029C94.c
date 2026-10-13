@@ -8,10 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02029C94, func_02029CC0
+ * function: FIELD_SOUND_SYSTEM_WaitAcceptRequestTask, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask
  *
  * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The body waits until src/matched/func_020289D4.c says the system will take
+ * field_sound_system.c.  The body waits until src/matched/FIELD_SOUND_SYSTEM_CanAcceptRequest.c says the system will take
  * another request, then reports done.
  *
  * The pair is one file on purpose.  The spawner's only reference to the body
@@ -22,6 +22,9 @@
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02029C94.c  *       --addr 0x02029C94 --thumb
+ *
+ * symbols:
+ *   FIELD_SOUND_SYSTEM_CanAcceptRequest  0x020289D4  thumb
  */
 
 typedef unsigned short u16;
@@ -41,15 +44,15 @@ struct Ctx;
 struct Desc;
 struct Obj;
 struct Sys;
-extern u32 func_020289D4(struct Sys *s);
+extern u32 FIELD_SOUND_SYSTEM_CanAcceptRequest(struct Sys *s);
 
-u32 func_02029C94(void *task, u32 *state, struct Work *work)
+u32 FIELD_SOUND_SYSTEM_WaitAcceptRequestTask(void *task, u32 *state, struct Work *work)
 {
     void *sys = work->unk04;
 
     switch (*state) {
     case 0:
-        if (func_020289D4(sys) == 1) {
+        if (FIELD_SOUND_SYSTEM_CanAcceptRequest(sys) == 1) {
             (*state)++;
         }
         break;
@@ -65,10 +68,10 @@ extern void *func_020124E8(struct Obj *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
 
-void *func_02029CC0(void *a)
+void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *a)
 {
     void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029C94, 0x10);
+    void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_WaitAcceptRequestTask, 0x10);
     struct Work *work = func_020124E8(task);
 
     work->unk04 = (void *)func_02012A30(x);

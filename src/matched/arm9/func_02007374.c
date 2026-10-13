@@ -1,5 +1,5 @@
 /*
- * function: func_02007374
+ * function: SAVE_CONTROL_BeginExtraSaveWrite
  * address:  0x02007374
  * packet:   pkt_02007374
  * region:   arm9
@@ -14,7 +14,7 @@
  *   func_02034714  0x02034714  arm
  *   func_020087A8  0x020087A8  thumb
  *   func_020087D4  0x020087D4  thumb
- *   func_02031C10  0x02031C10  arm
+ *   BACKUP_SYSTEM_InitLinkedSave  0x02031C10  arm
  *
  * Release slot `a1` of the 0x14-stride handle table: the zero test on the
  * slot is a debug/guard call that passes the same pointer as argument 1 and
@@ -24,8 +24,8 @@
  * is the raw pointer func_020087D4 returns, not its target.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02007374.c \
- *       --func func_02007374 --addr 0x02007374 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SAVE_CONTROL_BeginExtraSaveWrite.c \
+ *       --func SAVE_CONTROL_BeginExtraSaveWrite --addr 0x02007374 --cc 1.1p1 --thumb
  */
 #include "../include/Obj15568.h"
 
@@ -36,9 +36,9 @@ extern char  g_020A7064[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_020087A8(void *sys, u32 index);
 extern u32 *func_020087D4(void *sys, u32 index);
-extern void  func_02031C10(u8 *a, u8 *b, u32 c);
+extern void  BACKUP_SYSTEM_InitLinkedSave(u8 *a, u8 *b, u32 c);
 
-void func_02007374(char *a0, u32 a1)
+void SAVE_CONTROL_BeginExtraSaveWrite(char *a0, u32 a1)
 {
     u32 *slot = (u32 *)(a0 + 0x14);
 
@@ -46,5 +46,5 @@ void func_02007374(char *a0, u32 a1)
         func_02034714(g_020A7064, 0, g_020A7064);
     }
     func_020087A8(a0, a1);
-    func_02031C10((u8 *)((struct Obj15568 *)a0)->f10, (u8 *)slot[a1], (u32)func_020087D4(a0, a1));
+    BACKUP_SYSTEM_InitLinkedSave((u8 *)((struct Obj15568 *)a0)->f10, (u8 *)slot[a1], (u32)func_020087D4(a0, a1));
 }

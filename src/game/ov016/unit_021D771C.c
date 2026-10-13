@@ -1,6 +1,6 @@
 /*
  * file:     unit_021D771C.c
- * function: func_021D771C
+ * function: DWCi_TSKlSetParam
  * address:  0x021D771C
  * packet:   pkt_021D7474
  * region:   ov016
@@ -11,18 +11,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D771C   0x021D771C  arm
+ *   DWCi_TSKlSetParam   0x021D771C  arm
  *
  * Store a word at +0x08 of the argument.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D771C.c \
- *       --func func_021D771C --addr 0x021D771C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_TSKlSetParam.c \
+ *       --func DWCi_TSKlSetParam --addr 0x021D771C --region ov016 --cc dsi/1.1p1 --arm
  */
-#include "../../matched/include/Obj18428.h"
 
-void func_021D771C(char *p, unsigned int v)
+/* Task object of the DWC GUI task list (task.o); only the parameter word is written here. */
+typedef struct TaskObj {
+    unsigned char pad00[0x08];
+    unsigned int param;
+} TaskObj;
+
+void DWCi_TSKlSetParam(TaskObj *task, unsigned int param)
 {
-    ((struct Obj18428 *)p)->f8 = v;
+    task->param = param;
 }

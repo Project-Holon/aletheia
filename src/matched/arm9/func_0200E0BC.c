@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   g_0209DE90  0x0209DE90  data
+ *   sSymbolBandRanges  0x0209DE90  data
  *
  * Band lookup: the index of the first of four records whose .b bound is
  * above value, or 3. func_0200E124 indexes the same table with the result.
  *
  * THE LEVER (wave 18, lane ties_b; it was DIFF 44/44, 9 out, the "pool load
  * in the preheader" wall of docs/notes/pkt_0200E0BC.c.txt): the counter AND
- * the result are enum-typed, as in src/matched/func_02010DCC.c. An enum
+ * the result are enum-typed, as in src/matched/GPOWER_CountDownTimers.c. An enum
  * induction variable keeps the unfolded `cmp #4; bhs` entry guard with the
  * table load after it, and no redundant `if (i >= 4) break;` is needed. The
  * bound is compared unsigned (`(u32)IDX_MAX`) for the image's bhs/blo; with
@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 typedef enum { IDX_0 = 0, IDX_MAX = 4 } Idx;
 
 struct Rec { u16 a; u16 b; };
-extern const struct Rec g_0209DE90[];
+extern const struct Rec sSymbolBandRanges[];
 
 u32 func_0200E0BC(u32 value)
 {
@@ -37,7 +37,7 @@ u32 func_0200E0BC(u32 value)
     Idx r = 3;
 
     for (i = 0; i < (u32)IDX_MAX; i++) {
-        if (value < g_0209DE90[i].b) {
+        if (value < sSymbolBandRanges[i].b) {
             r = i;
             break;
         }

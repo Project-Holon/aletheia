@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02064140  0x02064140  arm
- *   func_02066ABC  0x02066ABC  arm
+ *   NNSi_G2dSrtcInitControl  0x02064140  arm
+ *   NNSi_G2dRequestCellTransferState  0x02066ABC  arm
  *   func_02062F38  0x02062F38  arm
  *   func_0206434C  0x0206434C  arm
  *   func_02066890  0x02066890  arm
@@ -64,13 +64,13 @@ struct MultiCellAnim {
     u32 unk14;
 };
 
-extern void func_02064140(struct O02064140 *o, u32 a);
+extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 extern void *func_02062D40(struct CellAnim *anim);
 extern void *func_0206285C(struct CellDataBank *bank, u32 idx);
 extern void func_020640DC(char *p, int a, int b);
 extern void func_02064120(char *p, int a, int b);
 extern void func_02064100(struct Obj02064100 *obj, u16 val);
-extern int func_02066ABC(int a0, int a1, int a2);
+extern int NNSi_G2dRequestCellTransferState(int a0, int a1, int a2);
 extern int func_02062F38(int a0);
 extern void func_0206434C(char *self, int v);
 extern void func_02066890(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
@@ -94,7 +94,7 @@ void func_020643C4(struct MultiCellAnim *mca, u32 value);
 /*
  * Opens one 0x28-byte group header of the two-level cell-array shape: clears
  * the header's first word, stores the cell pointer at +0x04, sets the "in use"
- * word at +0x08 and tail-calls func_02064140 on the SRT block at +0x0c.
+ * word at +0x08 and tail-calls NNSi_G2dSrtcInitControl on the SRT block at +0x0c.
  * func_02064754 drives it once per group.
  *
  * PIN ../2.0/sp2: the tail-call scheduling form of the "kept constants" tell.
@@ -115,7 +115,7 @@ void func_02064178(struct CellAnim *o, u32 a)
     o->f00 = 0;
     o->hdr = (struct CellAnimHdr *)a;
     o->f08 = 1;
-    func_02064140((struct O02064140 *)&o->active, 1);
+    NNSi_G2dSrtcInitControl((struct O02064140 *)&o->active, 1);
 }
 
 
@@ -141,7 +141,7 @@ void func_0206419C(struct CellAnim *self)
 
     kind = self->bank->unk04 & 0xff;
 
-    func_02064140((struct O02064140 *)self->sub3c, 1);
+    NNSi_G2dSrtcInitControl((struct O02064140 *)self->sub3c, 1);
 
     switch (kind) {
     case 0:
@@ -165,7 +165,7 @@ void func_0206419C(struct CellAnim *self)
 
     {
         int *t = (int *)(q->f4 + p->f0 * 8);
-        func_02066ABC(self->f38, t[0], t[1]);
+        NNSi_G2dRequestCellTransferState(self->f38, t[0], t[1]);
     }
 }
 
@@ -174,7 +174,7 @@ void func_0206419C(struct CellAnim *self)
 /*
  * Binds one cell-bank row to an animation object: stores the row pointer at
  * +0x34, writes the "no cell bound" sentinel -1 at +0x38, opens the SRT block
- * at +0x3c through func_02064140 and finishes with the object's own two-call
+ * at +0x3c through NNSi_G2dSrtcInitControl and finishes with the object's own two-call
  * tail.  The sibling of func_020642C8, which does the same fixups after an
  * eight-argument forward.
  *
@@ -194,7 +194,7 @@ void func_0206428C(struct CellAnim *self, int a1, struct CellDataBank *c)
 {
     self->dataBank = c;
     self->f38 = -1;
-    func_02064140((struct O02064140 *)self->sub3c, 1);
+    NNSi_G2dSrtcInitControl((struct O02064140 *)self->sub3c, 1);
     func_02062F38((int)self);
     func_0206434C((char *)self, a1);
 }
@@ -213,7 +213,7 @@ void func_0206428C(struct CellAnim *self, int a1, struct CellDataBank *c)
  *      against 132, 64 concrete out.  Marking that field `volatile` is what
  *      keeps both stores.
  *   2. With only (1), the self+0x34 store sinks below the `add r0, r7, #0x3c`
- *      / `mov r1, #1` argument setup for func_02064140 (11 concrete bytes at
+ *      / `mov r1, #1` argument setup for NNSi_G2dSrtcInitControl (11 concrete bytes at
  *      the right size).  Marking that field `volatile` too pins it above
  *      them, matching 0x0206431C.
  * Both are plain field stores in the real source; `volatile` here is standing
@@ -236,7 +236,7 @@ void func_020642C8(struct CellAnim *self, int a1, struct CellDataBank *c, int d,
     *(volatile int *)&self->f38 = d;
     *(struct CellDataBank *volatile *)&self->dataBank = c;
     *(volatile int *)&self->f38 = d;
-    func_02064140((struct O02064140 *)self->sub3c, 1);
+    NNSi_G2dSrtcInitControl((struct O02064140 *)self->sub3c, 1);
     func_02062F38((int)self);
     func_0206434C((char *)self, a1);
 }

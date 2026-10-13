@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CA768",
+   "name": "DWCi_SceneSetListSave_input",
    "address": "0x021CA768",
    "kind": "game",
    "region": "ov016",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CA76C",
+   "name": "DWCi_SceneSetListSave_draw",
    "address": "0x021CA76C",
    "kind": "game",
    "region": "ov016",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CA9D8",
+   "name": "DWCi_SceneSetListSave_button",
    "address": "0x021CA9D8",
    "kind": "game",
    "region": "ov016",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CAE04",
+   "name": "DWCi_SceneSetRakuButton_draw",
    "address": "0x021CAE04",
    "kind": "game",
    "region": "ov016",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CB1D4",
+   "name": "DWCi_SceneSetRakuComplete_draw",
    "address": "0x021CB1D4",
    "kind": "game",
    "region": "ov016",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CB514",
+   "name": "DWCi_SceneSetRakuReady_draw",
    "address": "0x021CB514",
    "kind": "game",
    "region": "ov016",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CBAC4",
+   "name": "DWCi_SceneSetSearch_draw",
    "address": "0x021CBAC4",
    "kind": "game",
    "region": "ov016",

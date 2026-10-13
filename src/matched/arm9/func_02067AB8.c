@@ -15,7 +15,7 @@
  * src/matched/unit_02067B40.c.
  *
  * Decompiled so that it becomes a `matched` witness for the call at
- * 0x0204CBB0+0x1c (src/matched/func_0204CBB0.c).
+ * 0x0204CBB0+0x1c (src/matched/CLACT_SetupActorDraw.c).
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02067AB8.c \

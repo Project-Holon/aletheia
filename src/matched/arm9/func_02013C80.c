@@ -9,6 +9,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   ZONEDATA_GetChangedZoneId  0x02013A94  thumb
  */
 
-int func_02013C80(int a0){ int t0, t1; t0 = func_02013A94(a0); t1 = func_02013C9C((int)t0); if ((unsigned int)(t1) != (unsigned int)(~0)) {  return 1; } else {  return 0; } }
+int func_02013C80(int a0){ int t0, t1; t0 = ZONEDATA_GetChangedZoneId(a0); t1 = func_02013C9C((int)t0); if ((unsigned int)(t1) != (unsigned int)(~0)) {  return 1; } else {  return 0; } }

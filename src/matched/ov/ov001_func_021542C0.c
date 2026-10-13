@@ -11,38 +11,38 @@
  *
  * Stage machine on *mode (17 states), same family as ov003 func_021542C0.
  * Pooled small words 0x73/0x78/0x77/0xC3 are linker overlay ids
- * (ov115/ov120/ov119/ov195) handed to func_020120B4 with a table in that
+ * (ov115/ov120/ov119/ov195) handed to GAMESYSTEM_CallProc with a table in that
  * overlay's window.
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_0201210C  0x0201210C  thumb
- *   func_02005C44  0x02005C44  thumb
- *   func_02005E30  0x02005E30  thumb
+ *   GFL_USE_GetBgmNo  0x02005C44  thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   func_02012138  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
- *   func_020144DC  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02012374  0x02012374  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   func_0203CD98  0x0203CD98  arm
  *   func_020399A8  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
- *   func_0203D7B0  0x0203D7B0  arm
+ *   GFL_NET_SetAutoExit  0x0203D7B0  arm
  *   func_0203D7BC  0x0203D7BC  arm
- *   func_0203C554  0x0203C554  arm
+ *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02005D90  0x02005D90  thumb
- *   func_02005DF8  0x02005DF8  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   ov115_id       0x00000073  data   a1
  *   ov120_id       0x00000078  data   a1
  *   ov119_id       0x00000077  data   a1
  *   ov195_id       0x000000C3  data   a1
- *   d_021D6338     0x021D6338  data   ov115  a4
- *   d_021D654C     0x021D654C  data   ov115  a4
+ *   gNetSaveMainProc     0x021D6338  data   ov115  a4
+ *   gNetSaveRetryProc     0x021D654C  data   ov115  a4
  *   d_021D890C     0x021D890C  data   ov120  a4
  *   d_021E759C     0x021E759C  data   ov119  a4
  *   d_02208C40     0x02208C40  data   ov195  a4
@@ -59,35 +59,35 @@ extern void *func_020120F4(const struct Ctx *p);
 struct Ctx;
 struct Evt;
 extern void *func_0201210C(const struct Ctx *p);
-extern u16 func_02005C44(void);
-extern void func_02005E30(u32 a);
+extern u16 GFL_USE_GetBgmNo(void);
+extern void GFL_USE_FadeOutBgm(u32 a);
 extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_02026454(void *obj);
-extern int func_020144DC(int a0, int a1);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern int   func_0203CD98(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern void  func_02039C68(struct Link *a0, u32 a1, u32 a2);
 extern u32   func_02039CB4(struct Link *a0, u32 a1, u32 a2);
-extern void func_0203D7B0(u8 a0);
+extern void GFL_NET_SetAutoExit(u8 a0);
 extern void func_0203D7BC(u8 a0);
-extern void func_0203C554(u32 a);
+extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void  func_02005D90(u32 a0, u32 a1);
-extern void func_02005DF8(u32 a);
-extern void *func_020145CC(void *a0);
+extern void  GFL_USE_CancelChangeAndPlayBgm(u32 a0, u32 a1);
+extern void GFL_USE_FadeInBgmFull(u32 a);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 
 extern char ov115_id[];
 extern char ov120_id[];
 extern char ov119_id[];
 extern char ov195_id[];
-extern char d_021D6338[];
-extern char d_021D654C[];
+extern char gNetSaveMainProc[];
+extern char gNetSaveRetryProc[];
 extern char d_021D890C[];
 extern char d_021E759C[];
 extern char d_02208C40[];
@@ -114,24 +114,24 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
 
     switch (*mode) {
     case 0:
-        F(0x0) = func_02005C44();
-        func_02005E30(6);
+        F(0x0) = GFL_USE_GetBgmNo();
+        GFL_USE_FadeOutBgm(6);
         (*mode)++;
         break;
     case 1:
         if (func_02026454((void *)func_02012138((const struct Ctx *)h)) == 0) {
-            func_02012374(obj, (struct Evt **)func_020144DC(h, (int)v0c));
+            func_02012374(obj, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(h, (int)v0c));
             (*mode)++;
         }
         break;
     case 2:
         F(0x378) = (u32)(args + 8);
         F(0x374) = 0x33;
-        func_020120B4((struct IcaAnime *)h, (u32)ov115_id, d_021D6338, args + 0x368);
+        GAMESYSTEM_CallProc((struct IcaAnime *)h, (u32)ov115_id, gNetSaveMainProc, args + 0x368);
         (*mode)++;
         break;
     case 3:
-        if (func_020120F0((const struct Ctx *)h) == 0) {
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)h) == 0) {
             if (F(0x384) == 0)
                 (*mode)++;
             else
@@ -140,11 +140,11 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         break;
     case 4:
         F(0x334) = 0;
-        func_020120B4((struct IcaAnime *)h, (u32)ov120_id, d_021D890C, args + 0x184);
+        GAMESYSTEM_CallProc((struct IcaAnime *)h, (u32)ov120_id, d_021D890C, args + 0x184);
         (*mode)++;
         break;
     case 5:
-        if (func_020120F0((const struct Ctx *)h) == 0) {
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)h) == 0) {
             if (F(0x334) == 1) {
                 *mode = 12;
             } else if (F(0x334) == 0) {
@@ -160,11 +160,11 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         F(0x34c) = v08;
         F(0x350) = (u32)(args + 0x184);
         F(0x35c) = (u32)(args + 8);
-        func_020120B4((struct IcaAnime *)h, (u32)ov119_id, d_021E759C, args + 0x338);
+        GAMESYSTEM_CallProc((struct IcaAnime *)h, (u32)ov119_id, d_021E759C, args + 0x338);
         (*mode)++;
         break;
     case 7:
-        if (func_020120F0((const struct Ctx *)h) == 0) {
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)h) == 0) {
             if (func_0203CD98() == 0) {
                 F(0x37c) = 1;
                 *mode = 2;
@@ -174,7 +174,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
                 *mode = 10;
             } else {
                 func_02039C68((struct Link *)func_020399A8(), 1, 0xc);
-                func_0203D7B0(0);
+                GFL_NET_SetAutoExit(0);
                 func_0203D7BC(0);
                 F(0x4) = 100;
                 *mode = 8;
@@ -189,7 +189,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
             *mode = 9;
         break;
     case 9:
-        func_0203C554(1);
+        GFL_NET_STATE_WifiDisconnect(1);
         *mode = 4;
         break;
     case 10:
@@ -202,11 +202,11 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         p->f0c = 1;
         p->f10 = 0;
         F(0x358) = (u32)p;
-        func_020120B4((struct IcaAnime *)h, (u32)ov195_id, d_02208C40, p);
+        GAMESYSTEM_CallProc((struct IcaAnime *)h, (u32)ov195_id, d_02208C40, p);
         (*mode)++;
         break;
     case 11:
-        if (func_020120F0((const struct Ctx *)h) == 0) {
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)h) == 0) {
             func_020307B0((void *)F(0x358));
             if (func_0203CD98() == 0) {
                 F(0x37c) = 1;
@@ -218,20 +218,20 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         }
         break;
     case 12:
-        func_020120B4((struct IcaAnime *)h, (u32)ov115_id, d_021D654C, args + 0x390);
+        GAMESYSTEM_CallProc((struct IcaAnime *)h, (u32)ov115_id, gNetSaveRetryProc, args + 0x390);
         (*mode)++;
         break;
     case 13:
-        if (func_020120F0((const struct Ctx *)h) == 0)
+        if (GAMESYSTEM_GetProcStatus((const struct Ctx *)h) == 0)
             (*mode)++;
         break;
     case 14:
         func_020307B0((void *)F(0x198));
         func_020307B0((void *)F(0x19c));
         func_020307B0((void *)F(0x3ac));
-        func_02005D90(F(0x0), 0xFFFF);
-        func_02005DF8(0x3C);
-        func_02012374(obj, func_020145CC((void *)h));
+        GFL_USE_CancelChangeAndPlayBgm(F(0x0), 0xFFFF);
+        GFL_USE_FadeInBgmFull(0x3C);
+        func_02012374(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)h));
         (*mode)++;
         break;
     case 15:

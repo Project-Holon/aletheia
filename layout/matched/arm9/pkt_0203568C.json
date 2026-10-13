@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0203568C",
+   "name": "UI_GetPowerState",
    "address": "0x0203568C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02035750",
+   "name": "TOUCHPANEL_GetWork",
    "address": "0x02035750",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_02037700
+ * function: GFL_NET_SYSTEM_InitDevice
  * address:  0x02037700
  * packet:   pkt_02037700
  * region:   arm9
@@ -11,18 +11,18 @@
  *
  * symbols:
  *   func_0203D798  0x0203D798  arm
- *   func_0203D788  0x0203D788  arm
- *   func_02037288  0x02037288  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_SYSTEM_InitWork  0x02037288  arm
  *   g_020387A0     0x020387A0  data
  *
- * Filed on lane 1 as the single-caller callee of src/pending/func_0203C864.c.
+ * Filed on lane 1 as the single-caller callee of src/pending/GFL_NET_STATE_WifiMatchStart.c.
  * The 0x340 field is a table of function pointers reached through two
  * indirect calls; the third reaches a slot at +0x68 past two unread words at
  * +0x44 and +0x48, which is why the struct keeps them as padding.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02037700.c \
- *       --func func_02037700 --addr 0x02037700 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_InitDevice.c \
+ *       --func GFL_NET_SYSTEM_InitDevice --addr 0x02037700 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -46,19 +46,19 @@ struct Oth {
 };
 
 extern void *func_0203D798(void);
-extern void *func_0203D788(void);
-extern int func_02037288(u32 a0, u32 heap, u32 c);
+extern void *GFL_NET_GetSession(void);
+extern int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c);
 extern u8   g_020387A0[];
 
-int func_02037700(u32 a0, u32 a1)
+int GFL_NET_SYSTEM_InitDevice(u32 a0, u32 a1)
 {
     struct Oth *o = (struct Oth *)func_0203D798();
-    struct Ctx *c = func_0203D788();
+    struct Ctx *c = GFL_NET_GetSession();
     u32 flag = 0;
 
     if (c->f64 != 0 && c->f6c != 0)
         flag = 1;
-    func_02037288(a0, a1, flag);
+    GFL_NET_SYSTEM_InitWork(a0, a1, flag);
     ((void (*)(u16, struct Ctx *, u32, u32))c->f340[1])(o->f56, c, 0, c->f34c);
     ((void (*)(u32))c->f340[2])(0);
     ((void (*)(u8 *))c->f340[0x68 / 4])(g_020387A0);

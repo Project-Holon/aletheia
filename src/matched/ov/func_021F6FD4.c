@@ -25,7 +25,7 @@
  *   func_0201A98C  0x0201A98C  thumb
  *   func_02034A5C  0x02034A5C  arm
  *   func_02034AC4  0x02034AC4  arm
- *   func_02031348  0x02031348  arm
+ *   PROCSYS_Push  0x02031348  arm
  *   func_0200AD9C  0x0200AD9C  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02019CE0  0x02019CE0  thumb
@@ -108,7 +108,7 @@ extern struct Party *func_0201A920(u32 heap);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_02034A5C(s32 handle);
 extern int func_02034AC4(s32 handle);
-extern void func_02031348(void *h, u32 id, void *a, void *b);
+extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
 extern void func_0200AD9C(void *save, void *mon);
 extern void *func_0201AB28(void *list, u32 i);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
@@ -148,7 +148,7 @@ int func_021F6FD4(Obj *p)
                 w->fC = 1;
                 w->f10 = 0;
                 func_02034A5C((u32)ov067_id);
-                func_02031348(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
+                PROCSYS_Push(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
                 p->state = 1;
             } else {
                 func_021F4EC0((u8 *)p, 1, 0);
@@ -188,7 +188,7 @@ int func_021F6FD4(Obj *p)
                     w->fC = 1;
                     w->f10 = 0;
                     func_02034A5C((u32)ov067_id);
-                    func_02031348(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
+                    PROCSYS_Push(p->f12F0, (u32)ov195_id, d_02208C40, p->req);
                     p->state = 1;
                 } else {
                     func_021F4EC0((u8 *)p, 1, 0);

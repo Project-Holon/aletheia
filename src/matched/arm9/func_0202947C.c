@@ -1,5 +1,5 @@
 /*
- * function: func_0202947C
+ * function: FIELD_SOUND_SYSTEM_IsSaving
  * address:  0x0202947C
  * packet:   pkt_02029354
  * region:   arm9
@@ -17,8 +17,8 @@
  *   func_02012E40  0x02012E40  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202947C.c \\
- *       --func func_0202947C --addr 0x0202947C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/FIELD_SOUND_SYSTEM_IsSaving.c \\
+ *       --func FIELD_SOUND_SYSTEM_IsSaving --addr 0x0202947C --thumb --cc 1.1p1
  */
 #include "../include/Obj15804.h"
 
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 
 extern u8 func_02012E40(const u8 *o);
 
-u32 func_0202947C(u8 *p)
+u32 FIELD_SOUND_SYSTEM_IsSaving(u8 *p)
 {
     return func_02012E40((const u8 *)(((struct Obj15804 *)p)->f0));
 }

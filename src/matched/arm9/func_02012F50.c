@@ -1,5 +1,5 @@
 /*
- * function: func_02012F50
+ * function: GAME_DATA_GetListCursor
  * address:  0x02012F50
  * packet:   pkt_02012F50
  * region:   arm9
@@ -14,10 +14,10 @@
  * call sites a `matched` witness.
  *
  * symbols:
- *   func_02012F50  0x02012F50  thumb
+ *   GAME_DATA_GetListCursor  0x02012F50  thumb
  */
 
-void *func_02012F50(void *base)
+void *GAME_DATA_GetListCursor(void *base)
 {
     return (char *)base + 0x6A4;
 }

@@ -1,5 +1,5 @@
 /*
- * function: sub_02045374
+ * function: BMP_WIN_MakeScreen
  * address:  0x02045374
  * packet:   pkt_02045374
  * region:   arm9
@@ -64,7 +64,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern u32 func_020307B0(void *p);
 
-void sub_02045374(struct Cfg *cfg)
+void BMP_WIN_MakeScreen(struct Cfg *cfg)
 {
     u16 count = cfg->unk_05 * cfg->unk_06;
     u32 palette = (cfg->unk_09 & 0xf) << 12;

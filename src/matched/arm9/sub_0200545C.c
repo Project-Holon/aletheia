@@ -1,5 +1,5 @@
 /*
- * function: sub_0200545C
+ * function: GFL_USE_InitSystem
  * address:  0x0200545C
  * packet:   pkt_02005454
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020AA194      0x020AA194  data
+ *   _GflUse      0x020AA194  data
  *   s_gfl_use_c     0x020A7004  data
- *   d_0209D8A0      0x0209D8A0  data
- *   d_0209D8B0      0x0209D8B0  data
- *   d_020A6C58      0x020A6C58  data
- *   sub_02005768    0x02005768  thumb
+ *   _ArenaTableTwl      0x0209D8A0  data
+ *   _ArenaTableDs      0x0209D8B0  data
+ *   _ArcPathTable      0x020A6C58  data
+ *   GFL_USE_WaitInputReady    0x02005768  thumb
  *   func_0202F768   0x0202F768  thumb
  *   func_0202F774   0x0202F774  thumb
  *   OS_IsRunOnTwl       0x02085D3C  arm
@@ -26,9 +26,16 @@
  *   OS_CreateExtraHeap  0x02086B98  arm
  *   OS_AllocFromHeap    0x020868E0  arm
  *   OS_GetConsoleType   0x02085CBC  arm
- *   sub_020056D0    0x020056D0  thumb
- *   sub_0200566C    0x0200566C  thumb
- *   func_020057AC   0x020057AC  thumb
+ *   GFL_USE_InitRandom    0x020056D0  thumb
+ *   GFL_USE_ClearVBlankHook    0x0200566C  thumb
+ *   GFL_USE_SetSleepVolumeHooks   0x020057AC  thumb
+ *   GFL_HEAP_Init  0x02030608  arm
+ *   PROCSYS_CreateGlobal  0x0203129C  arm
+ *   BACKUP_SYSTEM_Init  0x020316C8  arm
+ *   ARC_TOOL_SetTable  0x02048CEC  arm
+ *   TEXTPRINT_Init  0x0204E130  arm
+ *   FADE_Create  0x0204E5E8  arm
+ *   FADE_SetSpeed  0x0204E6F4  arm
  *
  * gfl_use.c, the file's __FILE__ anchor function: system boot set-up.  On a
  * non-TWL console, carve the main arena into the OS heap (Hi read before Lo,
@@ -39,17 +46,17 @@
  * and the task/callback installs.
  *
  * Closed in wave 14.  The pool was misread by one word in the older note
- * (docs/notes/sub_0200545C.c.txt): 0x020A6C58 is func_02048CEC's argument
- * and 0x02005769 (sub_02005768, src/matched/unit_0200575C.c) is
+ * (docs/notes/GFL_USE_InitSystem.c.txt): 0x020A6C58 is ARC_TOOL_SetTable's argument
+ * and 0x02005769 (GFL_USE_WaitInputReady, src/matched/unit_0200575C.c) is
  * func_020346EC's third, and the two words 0x0202F769 / 0x0202F775 are
  * Thumb pointers to two unlabelled callback leaves of time_icon.c, filed
  * EXACT this wave as src/matched/func_0202F768.c and func_0202F774.c, which
- * is what attests them (`matched`).  d_0209D8A0 / d_0209D8B0 now resolve on
+ * is what attests them (`matched`).  _ArenaTableTwl / _ArenaTableDs now resolve on
  * sole-ref.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200545C.c \
- *       --func sub_0200545C --addr 0x0200545C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_USE_InitSystem.c \
+ *       --func GFL_USE_InitSystem --addr 0x0200545C --cc 1.1p1 --thumb
  */
 
 #include "../include/G_GflSys.h"
@@ -68,11 +75,11 @@ struct GflHeaps {
     void *unk24;
 };
 
-extern struct GflSys g_020AA194;
+extern struct GflSys _GflUse;
 extern u8 s_gfl_use_c[];
-extern u8 d_0209D8A0[];
-extern u8 d_0209D8B0[];
-extern u8 d_020A6C58[];
+extern u8 _ArenaTableTwl[];
+extern u8 _ArenaTableDs[];
+extern u8 _ArcPathTable[];
 
 extern u32   OS_IsRunOnTwl(void);
 extern void *OS_GetArenaHi(u32 id);
@@ -83,84 +90,84 @@ extern u32   OS_CreateExtraHeap(u32 id);
 extern void *OS_AllocFromHeap(u32 id, u32 heap, u32 size);
 extern u32   OS_GetConsoleType(void);
 
-extern void func_02030608(u32 a, u32 b, u32 c, u32 d);
+extern void GFL_HEAP_Init(u32 a, u32 b, u32 c, u32 d);
 extern void  func_02030BA4(u32 a);
 extern void  func_0203064C(u32 a, u32 b, u32 c);
 extern void  func_02030678(void *a, u32 b, u32 c);
 extern void  func_0203EF5C(u32 a);
-extern void func_02048CEC(u32 a, u32 b);
+extern void ARC_TOOL_SetTable(u32 a, u32 b);
 typedef signed int     s32;
 struct Ctx;
 extern void func_02034E24(u32 heap, u8 mode);
 extern void  func_02034978(void);
 extern void func_020346EC(u32 a, u32 b, u32 c);
 extern void func_0203499C(u32 heap, int n0, int n1, int n2);
-extern void  func_0203129C(u32 a);
+extern void  PROCSYS_CreateGlobal(u32 a);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, unsigned short tag);
 extern u32   func_02030CB0(u32 n);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void  sub_020056D0(void);
-extern void  func_0204E5E8(u32 a);
-extern void func_020316C8(u32 a0, u32 a1, u32 a2);
-extern void  func_0204E130(u32 a);
+extern void  GFL_USE_InitRandom(void);
+extern void  FADE_Create(u32 a);
+extern void BACKUP_SYSTEM_Init(u32 a0, u32 a1, u32 a2);
+extern void  TEXTPRINT_Init(u32 a);
 extern void  func_0203F3B4(void);
-extern void  sub_0200566C(void);
-extern void  func_020057AC(void);
-extern void func_0204E6F4(s32 a);
-extern void  sub_02005768(void);
+extern void  GFL_USE_ClearVBlankHook(void);
+extern void  GFL_USE_SetSleepVolumeHooks(void);
+extern void FADE_SetSpeed(s32 a);
+extern void  GFL_USE_WaitInputReady(void);
 extern void  func_0202F768(void);
 extern void func_0202F774(u32 on);
 
-void sub_0200545C(void)
+void GFL_USE_InitSystem(void)
 {
     if (OS_IsRunOnTwl() == 0) {
         void *hi = OS_GetArenaHi(0);
         OS_SetArenaLo(0, OS_InitAlloc(0, OS_GetArenaLo(0), hi, 1));
-        g_020AA194.unk04 = OS_CreateExtraHeap(0);
-        g_020AA194.unk14 = OS_AllocFromHeap(0, g_020AA194.unk04, 0x3F00);
+        _GflUse.unk04 = OS_CreateExtraHeap(0);
+        _GflUse.unk14 = OS_AllocFromHeap(0, _GflUse.unk04, 0x3F00);
     }
 
     if (OS_IsRunOnTwl() != 0) {
-        func_02030608((u32)d_0209D8A0, 2, 0xAD, 0);
+        GFL_HEAP_Init((u32)_ArenaTableTwl, 2, 0xAD, 0);
     } else {
-        func_02030608((u32)d_0209D8B0, 2, 0xAD, 0);
+        GFL_HEAP_Init((u32)_ArenaTableDs, 2, 0xAD, 0);
     }
 
     func_02030BA4(0x2000);
     func_0203064C(1, 7, 0x25000);
 
     if (OS_IsRunOnTwl() == 0) {
-        func_02030678(g_020AA194.unk14, 0x3F00, 9);
+        func_02030678(_GflUse.unk14, 0x3F00, 9);
     } else {
         func_0203064C(1, 9, 0x3F00);
     }
 
     func_0203EF5C(0);
-    func_02048CEC((u32)d_020A6C58, 0xEB);
+    ARC_TOOL_SetTable((u32)_ArcPathTable, 0xEB);
     func_02034E24(0, 0);
 
     if (OS_GetConsoleType() & 0x81000000) {
         func_02034978();
     } else {
-        func_020346EC(0, 0, (u32)sub_02005768);
+        func_020346EC(0, 0, (u32)GFL_USE_WaitInputReady);
     }
 
     func_0203499C(0, 0x10, 4, 4);
-    func_0203129C(0);
+    PROCSYS_CreateGlobal(0);
 
-    g_020AA194.heaps = func_02030734(0, 0x28, 0, (const char *)s_gfl_use_c, 0x117);
-    g_020AA194.heaps->unk1C = func_02030734(0, func_02030CB0(4), 0, (const char *)s_gfl_use_c, 0x119);
-    g_020AA194.heaps->unk18 = func_02030CBC(4, g_020AA194.heaps->unk1C);
-    g_020AA194.heaps->unk24 = func_02030734(0, func_02030CB0(0x10), 0, (const char *)s_gfl_use_c, 0x11C);
-    g_020AA194.heaps->unk20 = func_02030CBC(0x10, g_020AA194.heaps->unk24);
+    _GflUse.heaps = func_02030734(0, 0x28, 0, (const char *)s_gfl_use_c, 0x117);
+    _GflUse.heaps->unk1C = func_02030734(0, func_02030CB0(4), 0, (const char *)s_gfl_use_c, 0x119);
+    _GflUse.heaps->unk18 = func_02030CBC(4, _GflUse.heaps->unk1C);
+    _GflUse.heaps->unk24 = func_02030734(0, func_02030CB0(0x10), 0, (const char *)s_gfl_use_c, 0x11C);
+    _GflUse.heaps->unk20 = func_02030CBC(0x10, _GflUse.heaps->unk24);
 
-    sub_020056D0();
-    func_0204E5E8(0);
-    func_020316C8(7, (u32)func_0202F768, (u32)func_0202F774);
-    func_0204E130(0);
+    GFL_USE_InitRandom();
+    FADE_Create(0);
+    BACKUP_SYSTEM_Init(7, (u32)func_0202F768, (u32)func_0202F774);
+    TEXTPRINT_Init(0);
     func_0203F3B4();
-    g_020AA194.unk0C = 0;
-    sub_0200566C();
-    func_020057AC();
-    func_0204E6F4(2);
+    _GflUse.unk0C = 0;
+    GFL_USE_ClearVBlankHook();
+    GFL_USE_SetSleepVolumeHooks();
+    FADE_SetSpeed(2);
 }

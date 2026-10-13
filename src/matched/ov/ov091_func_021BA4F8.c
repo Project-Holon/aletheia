@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021B90F8  0x021B90F8  thumb  ov091
- *   func_0201A59C  0x0201A59C  thumb
+ *   POKE_REGULATION_FindValidOrder  0x0201A59C  thumb
  */
 #include "../include/Obj00009.h"
 #include "../include/Obj20864.h"
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_021B90F8(u8 *a);
-extern int func_0201A59C(void *a0, void *a1, void *a2);
+extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
 
 void func_021BA4F8(u8 *a)
 {
@@ -57,7 +57,7 @@ void func_021BA4F8(u8 *a)
     for (i = 0; i < 6; i++)
         (*(u8 **)(a + 0x280))[0x49 + i] = 0;
     rules = *(u8 * *)&((struct Obj20866 *)(*(u8 * *)&((struct Obj00009 *)a)->f280))->f14;
-    if (func_0201A59C(rules, (void *)(**(int * *)&((struct Obj00009 *)a)->f280), *(u8 * *)&((struct Obj00009 *)a)->f280 + 0x49) != 0)
+    if (POKE_REGULATION_FindValidOrder(rules, (void *)(**(int * *)&((struct Obj00009 *)a)->f280), *(u8 * *)&((struct Obj00009 *)a)->f280 + 0x49) != 0)
         return;
     for (i = 0; i < 6; i++)
         (*(u8 **)(a + 0x280))[0x49 + i] = 0;

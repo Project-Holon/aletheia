@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * function: sub_020314B8
+ * function: PROCSYS_DeleteInternal
  *
  * symbols:
  *   ENV_SetResourceSet  0x020307B0  arm
@@ -16,12 +16,12 @@
  *
  * Frees an owned sub-object at +8 if present, then re-registers the object
  * itself with ENV_SetResourceSet. The same shutdown/re-init shape as
- * sub_02031140 and sub_020315D4 in the neighbouring packets, all working
+ * TCBL_Destroy and PROCSYS_FreeProcWork in the neighbouring packets, all working
  * the TwlSDK ENV resource-set table.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020314B8.c \
- *       --func sub_020314B8 --addr 0x020314B8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/PROCSYS_DeleteInternal.c \
+ *       --func PROCSYS_DeleteInternal --addr 0x020314B8 --cc 1.1p1
  */
 
 struct S020314B8 {
@@ -32,7 +32,7 @@ struct S020314B8 {
 extern void func_020882D0(void *p);
 extern void ENV_SetResourceSet(void *p);
 
-void sub_020314B8(struct S020314B8 *p)
+void PROCSYS_DeleteInternal(struct S020314B8 *p)
 {
     if (p->field8 != 0) {
         func_020882D0(p->field8);

@@ -97,7 +97,7 @@
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_0204B100 0x0204B100 arm
  *   func_0201AB28 0x0201AB28 thumb
- *   func_020185F4 0x020185F4 thumb
+ *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_0201BA68 0x0201BA68 thumb
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0201BC3C 0x0201BC3C thumb
@@ -107,7 +107,7 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_0204AC18 0x0204AC18 arm
  *   func_0204B294 0x0204B294 arm
- *   func_0201BBE8 0x0201BBE8 thumb
+ *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_02043598 0x02043598 arm
  *   d_021F0A60    0x021F0A60 data a2
@@ -117,184 +117,180 @@
  *   func_0204AFD8 0x0204AFD8 arm
  *   func_0204B1CC 0x0204B1CC arm
  */
-#include "../../matched/include/Obj00166.h"
-#include "../../matched/include/Obj20477.h"
-#include "../../matched/include/Obj07644.h"
-#include "../../matched/include/Obj04314.h"
-#include "../../matched/include/Obj13074.h"
-#include "../../matched/include/Obj13075.h"
-#include "../../matched/include/Obj09806.h"
-#include "../../matched/include/Obj13076.h"
-#include "../../matched/include/Obj13077.h"
+#include "report_types.h"
 
-struct Node;
-struct Ctx;
-struct PrintSys;
-struct BigObj;
-struct Obj;
-struct Cfg;
-struct Descriptor;
-struct Big;
-struct Blk34;
-struct CharBuf;
-struct GfFont;
-struct MsgBank;
+struct Task;
+struct GameData;
+struct PrintQue;
+struct PartyHolder;
+struct ClactActor;
+struct ClactUnit;
+struct SaveControl;
 struct PlayTime;
-struct RTCDate;
-struct RTCTime;
-struct Rec;
-struct Rec44;
-struct Sub020071E4Ctrl;
-struct U16Vec;
 struct WordSet;
-struct Blk37;
-struct Bank;
-typedef unsigned short u16;
+struct Strbuf;
+struct MsgBank;
+struct GfFont;
+struct CharBuf;
+struct CharRes;
+struct PalRes;
+struct CellRes;
+struct ArcHandle;
+struct PartyMon;
 
-typedef unsigned int   u32;
-
-typedef unsigned char  u8;
+typedef signed short s16;
+typedef signed int s32;
 
 struct BgTemplate {
-    u32 unk_00;
-    u32 unk_04;
+    u32 scrollX;
+    u32 scrollY;
     u32 bufSize;
-    u32 unk_0c;
-    u8  unk_10;
-    u8  unk_11;
-    u8  unk_12;
-    u8  unk_13;
-    u32 unk_14;
-    u8  unk_18;
-    u8  unk_19;
-    u8  unk_1a;
-    u8  unk_1b;
-    u32 unk_1c;
+    u32 baseTile;
+    u8 screenSize;
+    u8 colorMode;
+    u8 screenBase;
+    u8 charBase;
+    u32 extPaletteSlot;
+    u8 priority;
+    u8 areaOver;
+    u8 dummy;
+    u8 mosaicFlag;
+    u32 mosaic;
 };
 
-typedef signed short   s16;
+struct RTCDate {
+    u32 year;
+    u32 month;
+    u32 day;
+    u32 week;
+};
+
+struct RTCTime {
+    u32 hour;
+    u32 minute;
+    u32 second;
+};
 
 typedef struct {
     s16 x;
     s16 y;
-    u16 c;
-    u16 d;
+    u16 width;
+    u16 height;
 } Rect;
-
-typedef signed int     s32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_0203D34C(u32 a, u32 b);
-extern int func_020056A0(void *, void *, int);
-extern void func_021F09BC(void *task, char *p);
-extern void func_02030EAC(struct Node *n);
+extern struct Task *func_020056A0(void (*proc)(struct Task *, ReportWork *), ReportWork *work, int priority);
+extern void func_021F09BC(struct Task *task, ReportWork *work);
+extern void func_02030EAC(struct Task *task);
 extern u32 func_020307B0(void *p);
-extern u32 func_0201C6B4(const struct PrintSys *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012934(const struct BigObj *p);
-extern unsigned int func_0201AA18(void *);
-extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02045374(struct Cfg *cfg);
+extern u32 func_0201C6B4(const struct PrintQue *printQue);
+extern struct GameData *func_020120F4(const void *gameSystem);
+extern struct PartyHolder *func_02012934(const struct GameData *gameData);
+extern unsigned int func_0201AA18(struct PartyHolder *party);
+extern void func_0204B3DC(struct ClactActor *actor, unsigned int visible);
+extern void func_02040588(unsigned char layer, unsigned char enable);
+extern void func_02045374(struct BmpWin *bmpWin);
 extern void func_02041B6C(u32 bit);
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void *func_02045770(struct Descriptor *);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *);
-extern void *func_02012EBC(struct Big *p);
-extern void func_0200723C(int, void *, void *);
-extern void func_020456F8(struct Descriptor *d);
-extern u8 func_02045730(struct Descriptor *p);
+extern u32 func_0201C4E4(struct PrintQue *printQue);
+extern void *func_02045770(struct BmpWin *bmpWin);
+extern u32 func_0201C6C4(struct PrintQue *printQue, void *bitmap);
+extern void func_02045334(struct BmpWin *bmpWin);
+extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern void func_0200723C(struct SaveControl *saveControl, u32 *current, u32 *max);
+extern void func_020456F8(struct BmpWin *bmpWin);
+extern u8 func_02045730(struct BmpWin *bmpWin);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32 i);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_020409B4(u32 layer);
 extern void func_020403F4(u32 i);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_02049B68(void *, int, int, int, int, int);
+extern struct ArcHandle *func_020490F4(unsigned int id, unsigned int heap);
+extern void func_02049B68(struct ArcHandle *, int, int, int, int, int);
 extern void func_02040EBC(u32 a0, u32 a1);
-extern void func_02049658(void *, int, int, int, int, int, int);
-extern void func_020498F4(void *, int, int, int, int, int, int);
-extern void func_02049238(void *);
-extern u32 func_0201C440(void *p);
-extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern void func_02049658(struct ArcHandle *, int, int, int, int, int, int);
+extern void func_020498F4(struct ArcHandle *, int, int, int, int, int, int);
+extern void func_02049238(struct ArcHandle *);
+extern struct PrintQue *func_0201C440(u32 heapId);
+extern struct BmpWin *func_020450F0(u32, u32, u32, u32, u8, u8, u8);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u8 *func_02012944(void *p);
-extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
+extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
+extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *func_02012944(struct GameData *gameData);
+extern void func_0201F02C(struct WordSet *wordSet, u32 i, void *playerName);
+extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
+extern void func_0201C724(struct PrintQue *printQue, void *bitmap, u32 x, u32 y, struct Strbuf *text, struct GfFont *font, u16 color);
+extern void func_02045808(struct Strbuf *text);
 extern int func_02088864(struct RTCDate *date);
 extern int func_0208890C(struct RTCTime *time);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u8 *func_020120F8(const struct Ctx *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
-extern u32 func_02013E4C(u32);
-extern void func_0201F158(struct WordSet *p, u32 i, u32 v);
-extern void *func_02012F08(int *p);
-extern u32 func_0200C258(struct Blk34 *p);
-extern u32 func_0201296C(const struct BigObj *p);
-extern u32 func_020142E8(void *,int);
-extern void *func_0200CA1C(void *);
-extern u32 func_0200D0AC(struct Blk37 *p, u32 heap);
-extern int func_02012FCC(int p0);
-extern u16 func_0200864C(const struct PlayTime *p);
-extern u8 func_02008650(const struct PlayTime *p);
-extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
-extern u8 func_020071EC(const struct Sub020071E4Ctrl *);
-extern struct PlayTime *func_02008748(void *sys);
-extern u32 func_020086C8(const struct PlayTime *p);
-extern u32 func_020086D0(const struct PlayTime *p);
-extern u32 func_020086D8(const struct PlayTime *p);
-extern u32 func_020086E0(const struct PlayTime *p);
-extern u32 func_020086E8(const struct PlayTime *p);
-extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_02045C04(struct Rec *rec);
-extern u32 func_0201D83C(void *ptr);
-extern u32 func_020452E8(struct Descriptor *d);
-extern void func_0201C4C0(struct PrintSys *p);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void *func_0201AB28(void *list, u32 i);
-extern void *func_020185F4(void *a);
-extern u32 func_0201BA68(void *mon);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern void func_0201EFA4(struct WordSet *wordSet, u32 i, u32 value, u32 digits, u32 padding, u32 numberType);
+extern u8 *func_020120F8(const void *gameSystem);
+extern u16 func_02012AC8(const u8 *playerState);
+extern u32 func_02013E4C(u32 zoneId);
+extern void func_0201F158(struct WordSet *wordSet, u32 i, u32 msgId);
+extern void *func_02012F08(struct GameData *gameData);
+extern u32 func_0200C258(void *badgeData);
+extern void *func_0201296C(const struct GameData *gameData);
+extern u32 func_020142E8(void *eventWork, int flagId);
+extern void *func_0200CA1C(struct GameData *gameData);
+extern u32 func_0200D0AC(void *pokedex, u32 heap);
+extern struct PlayTime *func_02012FCC(struct GameData *gameData);
+extern u16 func_0200864C(const struct PlayTime *playTime);
+extern u8 func_02008650(const struct PlayTime *playTime);
+extern int func_020071F0(struct SaveControl *saveControl);
+extern u8 func_020071EC(const struct SaveControl *saveControl);
+extern struct PlayTime *func_02008748(struct SaveControl *saveControl);
+extern u32 func_020086C8(const struct PlayTime *playTime);
+extern u32 func_020086D0(const struct PlayTime *playTime);
+extern u32 func_020086D8(const struct PlayTime *playTime);
+extern u32 func_020086E0(const struct PlayTime *playTime);
+extern u32 func_020086E8(const struct PlayTime *playTime);
+extern u32 func_0201ED04(struct WordSet *wordSet);
+extern u32 func_02045C04(struct MsgBank *bank);
+extern u32 func_0201D83C(struct GfFont *font);
+extern u32 func_020452E8(struct BmpWin *bmpWin);
+extern void func_0201C4C0(struct PrintQue *printQue);
+extern struct ClactUnit *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct PartyMon *func_0201AB28(struct PartyHolder *party, u32 i);
+extern void *POKE_TOOL_GetBoxParam(struct PartyMon *mon);
+extern u32 func_0201BA68(void *boxParam);
+extern struct CharRes *func_0204A6C8(struct ArcHandle *arc, u32 fileId, u32 compressed, u32 vramType, u16 heapId);
 extern int func_0201BC3C(void);
-extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern struct PalRes *func_0204ACEC(struct ArcHandle *arc, u32 fileId, u32 vramType, u32 palOffset, u16 heapId);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern int func_0201BBE8(void *a0);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern struct CellRes *func_0204AF28(struct ArcHandle *arc, u32 cellFileId, u32 animFileId, u32 heapId);
+extern struct PalRes *func_0204AC18(struct ArcHandle *arc, u32 fileId, u32 vramType, u32 count, u16 palOffset, u16 pad, u16 heapId);
+extern struct ClactActor *func_0204B294(struct ClactUnit *unit, struct CharRes *charRes, struct PalRes *palRes, struct CellRes *cellRes, const Rect *position, unsigned short space, unsigned short heapId);
+extern int POKE_TOOL_GetIconPalette(void *boxParam);
+extern void func_0204B6F4(struct ClactActor *actor, u32 paletteIndex, u32 flag);
 extern void func_02043598(u32 mask, u32 enable);
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_0204AFD8(u32 i);
-extern u32 func_0204B1CC(struct Bank *bank);
-void *func_021EFEC0(int a0, int a1);
-void func_021EFF34(char *p);
-void func_021EFF5C(int *p);
-void func_021EFFB4(int *p);
-int func_021F0044(int *p);
-void func_021F0058(char *p);
-unsigned func_021F009C(char *p);
-void func_021F00BC(int *p);
-int func_021F00F0(char *p);
-void func_021F0108(int *p);
+extern void func_0204B3B4(struct ClactActor *actor);
+extern void func_0204A8D4(struct CharRes *charRes);
+extern void func_0204ADA4(struct PalRes *palRes);
+extern void func_0204AFD8(struct CellRes *cellRes);
+extern u32 func_0204B1CC(struct ClactUnit *unit);
+
+ReportWork *func_021EFEC0(void *gameSystem, int heapId);
+void func_021EFF34(ReportWork *work);
+void func_021EFF5C(ReportWork *work);
+void func_021EFFB4(ReportWork *work);
+int func_021F0044(ReportWork *work);
+void func_021F0058(ReportWork *work);
+unsigned func_021F009C(ReportWork *work);
+void func_021F00BC(ReportWork *work);
+int func_021F00F0(ReportWork *work);
+void func_021F0108(ReportWork *work);
 void func_021F0114(u32 heapId);
 void func_021F01F8(void);
-void func_021F0228(int a);
-void func_021F0284(u8 *p);
-void func_021F0700(char *p);
-void func_021F0724(int *p);
-void func_021F0930(int *p);
+void func_021F0228(int heapId);
+void func_021F0284(ReportWork *work);
+void func_021F0700(ReportWork *work);
+void func_021F0724(ReportWork *work);
+void func_021F0930(ReportWork *work);
 extern char d_021F0B20[];
 extern struct BgTemplate d_021F0AA0;
 extern struct BgTemplate d_021F0AC0;
@@ -303,74 +299,81 @@ extern const u8 d_021F0A70[];
 extern const Rect d_021F0A60[2];
 
 
-void *func_021EFEC0(int a0, int a1)
+ReportWork *func_021EFEC0(void *gameSystem, int heapId)
 {
-    char *p = (char *)func_02030734(a1, 0x130, 0, d_021F0B20, 0x114);
-    *(int *)&((struct Obj00166 *)p)->f0 = a0;
-    ((struct Obj00166 *)p)->f12C = a1;
-    ((struct Obj00166 *)p)->f110 = 0;
-    ((struct Obj00166 *)p)->f128 = 0;
-    func_021F0114(((struct Obj00166 *)p)->f12C);
-    func_021F0228(((struct Obj00166 *)p)->f12C);
-    func_021F0724((int *)p);
-    func_021F0284((u8 *)p);
-    func_0203D34C(0, a1);
-    ((struct Obj00166 *)p)->f10C = func_020056A0(func_021F09BC, p, 0);
-    return p;
+    ReportWork *work = func_02030734(heapId, 0x130, 0, d_021F0B20, 0x114);
+    work->gameSystem = gameSystem;
+    work->heapId = heapId;
+    work->saveAnimRunning = 0;
+    work->shownFlags = 0;
+    func_021F0114(work->heapId);
+    func_021F0228(work->heapId);
+    func_021F0724(work);
+    func_021F0284(work);
+    func_0203D34C(0, heapId);
+    work->tcb = func_020056A0(func_021F09BC, work, 0);
+    return work;
 }
 
-void func_021EFF34(char *p) { func_02030EAC((struct Node *)(((struct Obj20477 *)p)->f10C)); func_021F0700(p); func_021F0930((int *)p); func_021F01F8(); func_020307B0(p); }
+void func_021EFF34(ReportWork *work)
+{
+    func_02030EAC(work->tcb);
+    func_021F0700(work);
+    func_021F0930(work);
+    func_021F01F8();
+    func_020307B0(work);
+}
 
 
-void func_021EFF5C(int *p)
+void func_021EFF5C(ReportWork *work)
 {
     unsigned int i;
-    void *n;
+    struct PartyHolder *party;
 
-    if (!(p[0x4A] & 1) && func_0201C6B4((const struct PrintSys *)p[2]) == 1) {
-        n = func_02012934(func_020120F4((const struct Ctx *)p[0]));
-        for (i = 0; i < func_0201AA18(n); i++)
-            func_0204B3DC((struct Obj *)p[0x15 + i], 1);
-        p[0x4A] |= 1;
+    if (!(work->shownFlags & REPORT_SHOWN_ICONS) && func_0201C6B4(work->printQue) == 1) {
+        party = func_02012934(func_020120F4(work->gameSystem));
+        for (i = 0; i < func_0201AA18(party); i++)
+            func_0204B3DC(work->actors[i], 1);
+        work->shownFlags |= REPORT_SHOWN_ICONS;
     }
 }
 
 
 /*
- * note:     `h = p[2]` must be assigned before `s` in the second loop; the
- *           other order swaps p and the second counter between r5 and r6.
+ * note:     `printQue = work->printQue` must be assigned before the window is
+ *           read in the second loop; the other order swaps work and the
+ *           second counter between r5 and r6.
  *           EXACT* for the unlabelled follower at 0x021F0044.
  */
-void func_021EFFB4(int *p)
+void func_021EFFB4(ReportWork *work)
 {
     unsigned int i;
-    char *s;
-    int h;
+    struct PrintQue *printQue;
 
-    if (!(p[0x4A] & 2) && func_0201C6B4((const struct PrintSys *)p[2]) == 1) {
+    if (!(work->shownFlags & REPORT_SHOWN_WINDOWS) && func_0201C6B4(work->printQue) == 1) {
         func_02040588(4, 1);
         func_02040588(5, 1);
         func_02040588(6, 1);
-        for (i = 0; i < 8; i++)
-            func_02045374((struct Cfg *)p[3 + i * 2]);
+        for (i = 0; i < REPORT_WINDOW_COUNT; i++)
+            func_02045374(work->windows[i].bmpWin);
         func_02041B6C(5);
-        p[0x4A] |= 2;
+        work->shownFlags |= REPORT_SHOWN_WINDOWS;
     }
-    func_0201C4E4((struct PrintSys *)p[2]);
-    for (i = 0; i < 8; i++) {
-        h = p[2];
-        s = (char *)p + i * 8;
-        if (((struct Obj07644 *)s)->f10) {
-            if (func_0201C6C4((struct PrintSys *)h, (void *)func_02045770((struct Descriptor *)((struct Obj07644 *)s)->fC)) == 0) {
-                func_02045334((struct Descriptor *)((struct Obj07644 *)s)->fC);
-                ((struct Obj07644 *)s)->f10 = 0;
+    func_0201C4E4(work->printQue);
+    for (i = 0; i < REPORT_WINDOW_COUNT; i++) {
+        printQue = work->printQue;
+        if (work->windows[i].printPending) {
+            if (func_0201C6C4(printQue, func_02045770(work->windows[i].bmpWin)) == 0) {
+                func_02045334(work->windows[i].bmpWin);
+                work->windows[i].printPending = 0;
             }
         }
     }
 }
 
 /*
- * True when the state word at +0x128 is 3.
+ * True when both shown bits (icons and windows) are set, which is the state
+ * word at +0x128 being 3.
  * Region ov034: of the ten overlays mapped here, ov034 holds a Thumb leaf at
  * this address inside the same work struct as its matched neighbours
  * func_021F0058 / func_021F00BC, and the ov021 wrapper family at
@@ -378,43 +381,43 @@ void func_021EFFB4(int *p)
  * (wave A1 witness).
  * Addresses are Black-image addresses.
  */
-int func_021F0044(int *p)
+int func_021F0044(ReportWork *work)
 {
-    if (p[0x4A] == 3) {
+    if (work->shownFlags == REPORT_SHOWN_ALL) {
         return 1;
     }
     return 0;
 }
 
 
-void func_021F0058(char *p)
+void func_021F0058(ReportWork *work)
 {
-    int v;
-    int r;
+    int step;
+    struct SaveControl *saveControl;
 
-    r = (int)func_02012EBC(func_020120F4((const struct Ctx *)(((struct Obj04314 *)p)->f0)));
-    ((struct Obj04314 *)p)->f4 = r;
-    func_0200723C(r, p + 0x114, p + 0x118);
-    v = (((struct Obj04314 *)p)->f114 << 9) / 10;
-    ((struct Obj04314 *)p)->f120 = v;
-    ((struct Obj04314 *)p)->f11C = v;
-    ((struct Obj04314 *)p)->f124 = 0;
-    ((struct Obj04314 *)p)->f126 = 0;
+    saveControl = func_02012EBC(func_020120F4(work->gameSystem));
+    work->saveControl = saveControl;
+    func_0200723C(saveControl, &work->saveCountCurrent, &work->saveCountMax);
+    step = (work->saveCountCurrent << 9) / 10;
+    work->progressStep = step;
+    work->progressTarget = step;
+    work->barPiecesLit = 0;
+    work->pieceFrameDelay = 0;
 }
 
-unsigned func_021F009C(char *p) { return ((struct Obj13074 *)p)->f114 >= ((struct Obj13074 *)p)->f118/3; }
+unsigned func_021F009C(ReportWork *work) { return work->saveCountCurrent >= work->saveCountMax / 3; }
 
 
-void func_021F00BC(int *p)
+void func_021F00BC(ReportWork *work)
 {
-    int h = p[0x11];
+    struct BmpWin *saveWindow = work->windows[7].bmpWin;
     unsigned int i;
 
-    func_020456F8((struct Descriptor *)h);
-    func_02041B6C(func_02045730((struct Descriptor *)h));
+    func_020456F8(saveWindow);
+    func_02041B6C(func_02045730(saveWindow));
     for (i = 6; i <= 15; i++)
-        func_0204B3DC((struct Obj *)p[0x15 + i], 1);
-    p[0x44] = 1;
+        func_0204B3DC(work->actors[i], 1);
+    work->saveAnimRunning = 1;
 }
 
 
@@ -428,10 +431,10 @@ void func_021F00BC(int *p)
  * (wave A1 witness).
  * Addresses are Black-image addresses.
  */
-int func_021F00F0(char *p)
+int func_021F00F0(ReportWork *work)
 {
-    if (((struct Obj13075 *)p)->f124 == 10) {
-        ((struct Obj13075 *)p)->f110 = 0;
+    if (work->barPiecesLit == REPORT_BAR_PIECE_COUNT) {
+        work->saveAnimRunning = 0;
         return 1;
     }
     return 0;
@@ -446,9 +449,9 @@ int func_021F00F0(char *p)
  * (wave A1 witness).
  * Addresses are Black-image addresses.
  */
-void func_021F0108(int *p)
+void func_021F0108(ReportWork *work)
 {
-    p[0x44] = 0;
+    work->saveAnimRunning = 0;
 }
 
 
@@ -459,25 +462,25 @@ void func_021F0114(u32 heapId)
     func_02040588(6, 0);
     func_02040588(7, 0);
     {
-        struct BgTemplate t = d_021F0AE0;
+        struct BgTemplate bgTemplate = d_021F0AE0;
 
-        func_0203FCA0(4, &t, 0);
+        func_0203FCA0(4, &bgTemplate, 0);
     }
     func_020414EC(4);
     func_02040B94(4, 0x20, 0, heapId);
     func_020409B4(4);
     {
-        struct BgTemplate t = d_021F0AC0;
+        struct BgTemplate bgTemplate = d_021F0AC0;
 
-        func_0203FCA0(5, &t, 0);
+        func_0203FCA0(5, &bgTemplate, 0);
     }
     func_020414EC(5);
     func_02040B94(5, 0x20, 0, heapId);
     func_020409B4(5);
     {
-        struct BgTemplate t = d_021F0AA0;
+        struct BgTemplate bgTemplate = d_021F0AA0;
 
-        func_0203FCA0(6, &t, 0);
+        func_0203FCA0(6, &bgTemplate, 0);
     }
     func_020414EC(6);
     func_02040B94(6, 0x20, 0, heapId);
@@ -487,166 +490,180 @@ void func_021F0114(u32 heapId)
 void func_021F01F8(void) { func_02040588(6,0); func_02040588(5,0); func_02040588(4,0); func_020403F4(6); func_020403F4(5); func_020403F4(4); }
 
 
-void func_021F0228(int a)
+void func_021F0228(int heapId)
 {
-    void *h = func_020490F4(0xC4, a);
+    struct ArcHandle *arc = func_020490F4(0xC4, heapId);
 
-    func_02049B68(h, 2, 4, 0, 0x60, a);
+    func_02049B68(arc, 2, 4, 0, 0x60, heapId);
     func_02040EBC(4, 0);
-    func_02049658(h, 1, 4, 0, 0, 1, a);
-    func_020498F4(h, 0, 4, 0, 0, 1, a);
-    func_02049238(h);
+    func_02049658(arc, 1, 4, 0, 0, 1, heapId);
+    func_020498F4(arc, 0, 4, 0, 0, 1, heapId);
+    func_02049238(arc);
 }
 
-static inline void print_record(u8 *p,u32 index,void *dst,void *s,u32 y,u16 color,u32 one)
+static inline void printRecordLine(ReportWork *work, u32 index, struct Strbuf *buf, struct Strbuf *msg, u32 y, u16 color, u32 pending)
 {
-    u32 owner=((struct Obj09806 *)p)->f8;
-    func_0201C724((void *)owner,(u32)func_02045770((struct Descriptor *)*(u32 *)(p+12+index*8)),0,y,(u32)dst,(u32)(((struct Obj09806 *)p)->f4C),color);
-    p[16+index*8]=one;
-    func_02045808(s);
+    struct PrintQue *printQue = work->printQue;
+    func_0201C724(printQue, func_02045770(work->windows[index].bmpWin), 0, y, buf, work->font, color);
+    work->windows[index].printPending = pending;
+    func_02045808(msg);
 }
 
 /*
- * lever: inline print_record binds owner before the bitmap getter; named one
+ * lever: inline printRecordLine binds printQue before the bitmap getter; named one
  * remains live across the repeated blocks and pins their distinct spill slots.
  */
-void func_021F0284(u8 *p)
+void func_021F0284(ReportWork *work)
 {
-    u32 i,one=1;
-    void *bank,*ws,*dst,*ctx,*ctrl,*s0,*s1,*s2,*s3,*s4,*s5,*s6,*s7,*time,*t;
-    u32 date[4],clock[3];
-    ((struct Obj00166 *)p)->f8=func_0201C440((void *)(((struct Obj00166 *)p)->f12C));
-    for(i=0;i<8;i++) {
-        const u8 *r=d_021F0A70+i*6;
-        u8 *entry=p+i*8;
-        ((struct Obj13076 *)entry)->fC=func_020450F0(r[0],r[1],r[2],r[3],r[4],r[5],one);
-        func_02043B5C(func_02045770((struct Descriptor *)((struct Obj13076 *)entry)->fC),0);
+    u32 i, one = 1;
+    struct MsgBank *msgBank;
+    struct WordSet *wordSet;
+    struct Strbuf *buf;
+    struct GameData *gameData;
+    struct SaveControl *saveControl;
+    struct Strbuf *msgPlayer, *msgDate, *msgTime, *msgLocation, *msgBadges, *msgPokedex, *msgPlayTime, *msgLastSave;
+    struct PlayTime *playTime;
+    struct PlayTime *currentPlayTime;
+    struct RTCDate date;
+    struct RTCTime clock;
+    work->printQue = func_0201C440(work->heapId);
+    for (i = 0; i < REPORT_WINDOW_COUNT; i++) {
+        const u8 *layout = d_021F0A70 + i * 6;
+        work->windows[i].bmpWin = func_020450F0(layout[0], layout[1], layout[2], layout[3], layout[4], layout[5], one);
+        func_02043B5C(func_02045770(work->windows[i].bmpWin), 0);
     }
-    ((struct Obj00166 *)p)->f4C=func_0201D7EC(23,0,0,0,((struct Obj00166 *)p)->f12C);
-    bank=func_02045B38(0,2,168,((struct Obj00166 *)p)->f12C);
-    ws=func_0201EC64(((struct Obj00166 *)p)->f12C);
-    dst=func_020457B0(256,((struct Obj00166 *)p)->f12C);
-    ctx=func_020120F4(((struct Obj00166 *)p)->f0);
-    ctrl=func_02012EBC(ctx);
-    s0=func_02045EC0(bank,0);
-    func_0201F02C(ws,0,func_02012944(ctx));
-    func_0201F250(ws,dst,s0);
-    print_record(p,0,dst,s0,4,0x3580,one);
-    s1=func_02045EC0(bank,1);
-    func_02088864((struct RTCDate *)date);
-    func_0201EFA4(ws,0,date[0],2,2,one);
-    func_0201EFA4(ws,one,date[1],2,0,one);
-    func_0201EFA4(ws,2,date[2],2,0,one);
-    func_0201F250(ws,dst,s1);
-    print_record(p,1,dst,s1,0,0x3DC0,one);
-    s2=func_02045EC0(bank,2);
-    func_0208890C((struct RTCTime *)clock);
-    func_0201EFA4(ws,0,clock[0],2,0,one);
-    func_0201EFA4(ws,one,clock[1],2,2,one);
-    func_0201F250(ws,dst,s2);
-    print_record(p,2,dst,s2,0,0x3DC0,one);
-    s3=func_02045EC0(bank,3);
-    func_0201F158(ws,0,func_02013E4C(func_02012AC8((const struct Rec44 *)func_020120F8(((struct Obj00166 *)p)->f0))));
-    func_0201F250(ws,dst,s3);
-    print_record(p,3,dst,s3,0,0x3DC0,one);
-    s4=func_02045EC0(bank,4);
-    func_0201EFA4(ws,0,func_0200C258(func_02012F08(ctx)),2,0,1);
-    func_0201F250(ws,dst,s4);
-    print_record(p,4,dst,s4,0,0x3DC0,one);
-    if(func_020142E8((void *)func_0201296C(func_020120F4(((struct Obj00166 *)p)->f0)),0x962)==1) {
-        s5=func_02045EC0(bank,5);
-        func_0201EFA4(ws,0,func_0200D0AC(func_0200CA1C(ctx),((struct Obj00166 *)p)->f12C),3,0,1);
-        func_0201F250(ws,dst,s5);
-        print_record(p,5,dst,s5,0,0x3DC0,one);
+    work->font = func_0201D7EC(23, 0, 0, 0, work->heapId);
+    msgBank = func_02045B38(0, 2, 168, work->heapId);
+    wordSet = func_0201EC64(work->heapId);
+    buf = func_020457B0(256, work->heapId);
+    gameData = func_020120F4(work->gameSystem);
+    saveControl = func_02012EBC(gameData);
+    msgPlayer = func_02045EC0(msgBank, 0);
+    func_0201F02C(wordSet, 0, func_02012944(gameData));
+    func_0201F250(wordSet, buf, msgPlayer);
+    printRecordLine(work, 0, buf, msgPlayer, 4, 0x3580, one);
+    msgDate = func_02045EC0(msgBank, 1);
+    func_02088864(&date);
+    func_0201EFA4(wordSet, 0, date.year, 2, 2, one);
+    func_0201EFA4(wordSet, one, date.month, 2, 0, one);
+    func_0201EFA4(wordSet, 2, date.day, 2, 0, one);
+    func_0201F250(wordSet, buf, msgDate);
+    printRecordLine(work, 1, buf, msgDate, 0, 0x3DC0, one);
+    msgTime = func_02045EC0(msgBank, 2);
+    func_0208890C(&clock);
+    func_0201EFA4(wordSet, 0, clock.hour, 2, 0, one);
+    func_0201EFA4(wordSet, one, clock.minute, 2, 2, one);
+    func_0201F250(wordSet, buf, msgTime);
+    printRecordLine(work, 2, buf, msgTime, 0, 0x3DC0, one);
+    msgLocation = func_02045EC0(msgBank, 3);
+    func_0201F158(wordSet, 0, func_02013E4C(func_02012AC8(func_020120F8(work->gameSystem))));
+    func_0201F250(wordSet, buf, msgLocation);
+    printRecordLine(work, 3, buf, msgLocation, 0, 0x3DC0, one);
+    msgBadges = func_02045EC0(msgBank, 4);
+    func_0201EFA4(wordSet, 0, func_0200C258(func_02012F08(gameData)), 2, 0, 1);
+    func_0201F250(wordSet, buf, msgBadges);
+    printRecordLine(work, 4, buf, msgBadges, 0, 0x3DC0, one);
+    if (func_020142E8(func_0201296C(func_020120F4(work->gameSystem)), 0x962) == 1) {
+        msgPokedex = func_02045EC0(msgBank, 5);
+        func_0201EFA4(wordSet, 0, func_0200D0AC(func_0200CA1C(gameData), work->heapId), 3, 0, 1);
+        func_0201F250(wordSet, buf, msgPokedex);
+        printRecordLine(work, 5, buf, msgPokedex, 0, 0x3DC0, one);
     }
-    s6=func_02045EC0(bank,6);
-    time=(void *)func_02012FCC((u32)ctx);
-    func_0201EFA4(ws,0,func_0200864C(time),3,0,1);
-    func_0201EFA4(ws,1,func_02008650(time),2,2,1);
-    func_0201F250(ws,dst,s6);
-    print_record(p,6,dst,s6,0,0x3DC0,one);
-    if(func_020071F0(ctrl)==0 && func_020071EC(ctrl)==1) {
-        t=func_02008748(ctrl);
-        s7=func_02045EC0(bank,7);
-        func_0201EFA4(ws,0,func_020086C8(t),2,2,1);
-        func_0201EFA4(ws,1,func_020086D0(t),2,0,1);
-        func_0201EFA4(ws,2,func_020086D8(t),2,0,1);
-        func_0201EFA4(ws,3,func_020086E0(t),2,0,1);
-        func_0201EFA4(ws,4,func_020086E8(t),2,2,1);
-        func_0201F250(ws,dst,s7);
-        print_record(p,7,dst,s7,4,0x3580,one);
-    } else func_02045334((struct Descriptor *)((struct Obj00166 *)p)->f44);
-    func_02045808(dst);
-    func_0201ED04(ws);
-    func_02045C04(bank);
+    msgPlayTime = func_02045EC0(msgBank, 6);
+    currentPlayTime = func_02012FCC(gameData);
+    func_0201EFA4(wordSet, 0, func_0200864C(currentPlayTime), 3, 0, 1);
+    func_0201EFA4(wordSet, 1, func_02008650(currentPlayTime), 2, 2, 1);
+    func_0201F250(wordSet, buf, msgPlayTime);
+    printRecordLine(work, 6, buf, msgPlayTime, 0, 0x3DC0, one);
+    if (func_020071F0(saveControl) == 0 && func_020071EC(saveControl) == 1) {
+        playTime = func_02008748(saveControl);
+        msgLastSave = func_02045EC0(msgBank, 7);
+        func_0201EFA4(wordSet, 0, func_020086C8(playTime), 2, 2, 1);
+        func_0201EFA4(wordSet, 1, func_020086D0(playTime), 2, 0, 1);
+        func_0201EFA4(wordSet, 2, func_020086D8(playTime), 2, 0, 1);
+        func_0201EFA4(wordSet, 3, func_020086E0(playTime), 2, 0, 1);
+        func_0201EFA4(wordSet, 4, func_020086E8(playTime), 2, 2, 1);
+        func_0201F250(wordSet, buf, msgLastSave);
+        printRecordLine(work, 7, buf, msgLastSave, 4, 0x3580, one);
+    } else func_02045334(work->windows[7].bmpWin);
+    func_02045808(buf);
+    func_0201ED04(wordSet);
+    func_02045C04(msgBank);
 }
 
-void func_021F0700(char *p) { unsigned i; func_0201D83C(((struct Obj13077 *)p)->f4C); for(i=0;i<8;i++) func_020452E8(*(void **)(p+i*8+0xc)); func_0201C4C0(((struct Obj13077 *)p)->f8); }
-
-
-void func_021F0724(int *p)
+void func_021F0700(ReportWork *work)
 {
-    void *list;
-    unsigned int n;
-    unsigned int i;
-    void *h;
-    u32 t;
-    void *e;
-    Rect r;
+    unsigned i;
+    func_0201D83C(work->font);
+    for (i = 0; i < REPORT_WINDOW_COUNT; i++)
+        func_020452E8(work->windows[i].bmpWin);
+    func_0201C4C0(work->printQue);
+}
 
-    list = func_02012934(func_020120F4((const struct Ctx *)p[0]));
-    n = func_0201AA18(list);
-    p[0x14] = (int)func_0204B100(0x10, 0, ((struct Obj00166 *)p)->f12C);
-    h = func_020490F4(7, ((struct Obj00166 *)p)->f12C);
-    for (i = 0; i < n; i++)
-        p[0x25 + i] = func_0204A6C8(h, func_0201BA68(func_020185F4(func_0201AB28(list, i))), 0, 1,
-                                    ((struct Obj00166 *)p)->f12C);
-    p[0x34] = func_0204ACEC(h, func_0201BC3C(), 1, 0, ((struct Obj00166 *)p)->f12C);
-    t = func_0201BC40();
-    p[0x41] = func_0204AF28(h, t, func_0201BCB4(), ((struct Obj00166 *)p)->f12C);
-    func_02049238(h);
-    h = func_020490F4(0xC4, ((struct Obj00166 *)p)->f12C);
-    p[0x2B] = func_0204A6C8(h, 3, 1, 1, ((struct Obj00166 *)p)->f12C);
-    p[0x35] = func_0204AC18(h, 4, 1, 0x60, 0, 1, ((struct Obj00166 *)p)->f12C);
-    p[0x42] = func_0204AF28(h, 5, 6, ((struct Obj00166 *)p)->f12C);
-    func_02049238(h);
-    r = d_021F0A60[0];
-    for (i = 0; i < n; i++) {
-        e = func_0201AB28(list, i);
-        p[0x15 + i] = (int)func_0204B294((void *)p[0x14], p[0x25 + i], p[0x34], p[0x41], &r, 1,
-                                    ((struct Obj00166 *)p)->f12C);
-        func_0204B3DC((struct Obj *)p[0x15 + i], 0);
-        r.x += 0x20;
-        func_0204B6F4((struct Obj *)p[0x15 + i], func_0201BBE8(func_020185F4(e)), 1);
+
+void func_021F0724(ReportWork *work)
+{
+    struct PartyHolder *party;
+    unsigned int partyCount;
+    unsigned int i;
+    struct ArcHandle *arc;
+    u32 cellFileId;
+    struct PartyMon *mon;
+    Rect position;
+
+    party = func_02012934(func_020120F4(work->gameSystem));
+    partyCount = func_0201AA18(party);
+    work->unit = func_0204B100(0x10, 0, work->heapId);
+    arc = func_020490F4(7, work->heapId);
+    for (i = 0; i < partyCount; i++)
+        work->partyCharRes[i] = func_0204A6C8(arc, func_0201BA68(POKE_TOOL_GetBoxParam(func_0201AB28(party, i))), 0, 1,
+                                    work->heapId);
+    work->partyPalRes = func_0204ACEC(arc, func_0201BC3C(), 1, 0, work->heapId);
+    cellFileId = func_0201BC40();
+    work->partyCellRes = func_0204AF28(arc, cellFileId, func_0201BCB4(), work->heapId);
+    func_02049238(arc);
+    arc = func_020490F4(0xC4, work->heapId);
+    work->barCharRes = func_0204A6C8(arc, 3, 1, 1, work->heapId);
+    work->barPalRes = func_0204AC18(arc, 4, 1, 0x60, 0, 1, work->heapId);
+    work->barCellRes = func_0204AF28(arc, 5, 6, work->heapId);
+    func_02049238(arc);
+    position = d_021F0A60[0];
+    for (i = 0; i < partyCount; i++) {
+        mon = func_0201AB28(party, i);
+        work->actors[i] = func_0204B294(work->unit, work->partyCharRes[i], work->partyPalRes, work->partyCellRes, &position, 1,
+                                    work->heapId);
+        func_0204B3DC(work->actors[i], 0);
+        position.x += 0x20;
+        func_0204B6F4(work->actors[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(mon)), 1);
     }
-    r = d_021F0A60[1];
+    position = d_021F0A60[1];
     for (i = 6; i <= 15; i++) {
-        p[0x15 + i] = (int)func_0204B294((void *)p[0x14], p[0x2B], p[0x35], p[0x42], &r, 1,
-                                    ((struct Obj00166 *)p)->f12C);
-        func_0204B3DC((struct Obj *)p[0x15 + i], 0);
-        r.x += 0xC;
+        work->actors[i] = func_0204B294(work->unit, work->barCharRes, work->barPalRes, work->barCellRes, &position, 1,
+                                    work->heapId);
+        func_0204B3DC(work->actors[i], 0);
+        position.x += 0xC;
     }
     func_02043598(0x10, 1);
 }
 
 
-void func_021F0930(int *p)
+void func_021F0930(ReportWork *work)
 {
     unsigned int i;
-    void *n;
+    struct PartyHolder *party;
 
-    n = func_02012934(func_020120F4((const struct Ctx *)p[0]));
-    for (i = 0; i < func_0201AA18(n); i++) {
-        func_0204B3B4((struct Obj *)p[0x15 + i]);
-        func_0204A8D4(p[0x25 + i]);
+    party = func_02012934(func_020120F4(work->gameSystem));
+    for (i = 0; i < func_0201AA18(party); i++) {
+        func_0204B3B4(work->actors[i]);
+        func_0204A8D4(work->partyCharRes[i]);
     }
     for (i = 6; i <= 15; i++)
-        func_0204B3B4((struct Obj *)p[0x15 + i]);
-    func_0204A8D4(p[0x2B]);
-    func_0204ADA4(p[0x34]);
-    func_0204ADA4(p[0x35]);
-    func_0204AFD8(p[0x41]);
-    func_0204AFD8(p[0x42]);
-    func_0204B1CC((struct Bank *)p[0x14]);
+        func_0204B3B4(work->actors[i]);
+    func_0204A8D4(work->barCharRes);
+    func_0204ADA4(work->partyPalRes);
+    func_0204ADA4(work->barPalRes);
+    func_0204AFD8(work->partyCellRes);
+    func_0204AFD8(work->barCellRes);
+    func_0204B1CC(work->unit);
     func_02043598(0x10, 0);
 }

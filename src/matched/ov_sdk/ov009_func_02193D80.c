@@ -12,7 +12,7 @@
  * sdk:      PersistThink (libdwcgsgstats.TWL.HYB.a gstats.o)
  *
  * symbols:
- *   func_02193FE8  0x02193fe8  arm   ov009
+ *   PersistCanReceiveOnSocket  0x02193fe8  arm   ov009
  *   func_0217EAC8  0x0217eac8  arm   ov009
  *   func_0217EC4C  0x0217ec4c  arm   ov009
  *   func_02193D00  0x02193d00  arm   ov009
@@ -39,7 +39,7 @@ typedef struct {
     int state;
 } StatsConn;
 
-extern int func_02193FE8(int s);
+extern int PersistCanReceiveOnSocket(int s);
 extern void *func_0217EAC8(void *ptr, unsigned long size);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern void func_02193D00(void);
@@ -57,7 +57,7 @@ int func_02193D80(void)
         return 0;
     if (g_021ADFE0.state != 5)
         return 0;
-    while (func_02193FE8(g_021A57C8.sock)) {
+    while (PersistCanReceiveOnSocket(g_021A57C8.sock)) {
         if (g_021ADFE0.inSize - g_021ADFE0.inLen < 0x80) {
             len = g_021ADFE0.inSize;
             if (len < 0x100) {

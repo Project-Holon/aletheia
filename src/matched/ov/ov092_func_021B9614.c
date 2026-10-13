@@ -14,15 +14,15 @@
  *   the guarded arm and again after it (cross-jumped copy leaves the b stub); species and slot as u16 locals,
  *   box/bslot declared first; the source record pointer s is not const. Case 4 mask and slot use a two-field view.
  * symbols:
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   func_02012934 0x02012934 thumb
  *   func_02012944 0x02012944 thumb
  *   func_0200CA1C 0x0200CA1C thumb
  *   func_0201293C 0x0201293C thumb
  *   func_021B9A14 0x021B9A14 thumb ov092
  *   func_0201AC2C 0x0201AC2C thumb
- *   func_0201B038 0x0201B038 thumb
- *   func_0201B170 0x0201B170 thumb
+ *   POKERUS_TryInfectParty 0x0201B038 thumb
+ *   POKERUS_SpreadParty 0x0201B170 thumb
  *   func_021B9AA0 0x021B9AA0 thumb ov092
  *   func_021B9C80 0x021B9C80 thumb ov092
  *   func_021B9C34 0x021B9C34 thumb ov092
@@ -52,7 +52,7 @@
  *   func_0200CED4 0x0200CED4 thumb
  *   func_0200CFA0 0x0200CFA0 thumb
  *   func_0200CDE0 0x0200CDE0 thumb
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200C0F0 0x0200C0F0 thumb
  *   func_0216C0A4 0x0216C0A4 thumb ov010
@@ -65,9 +65,9 @@
  *   func_0201A98C 0x0201A98C thumb
  *   func_020185F0 0x020185F0 thumb
  *   func_020074D8 0x020074D8 thumb
- *   func_02005E30 0x02005E30 thumb
- *   func_02005E50 0x02005E50 thumb
- *   func_02005D28 0x02005D28 thumb
+ *   GFL_USE_FadeOutBgm 0x02005E30 thumb
+ *   GFL_USE_IsBgmFading 0x02005E50 thumb
+ *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_02012984 0x02012984 thumb
  *   func_0201B2B0 0x0201B2B0 thumb
  *   func_02030734 0x02030734 arm
@@ -87,7 +87,7 @@ typedef struct { u8 pad[0x38]; u16 idx, mask; } Rec;
 typedef struct { void *save, *party; u16 species; u8 slot, method; u32 x, flag; } Extra;
 extern const u8 data_0220BAB0[], data_021F5580[], data_02208C40[], data_021B9DC0[];
 extern const u8 ov207_id[], ov194_id[], ov195_id[];
-extern u32 func_02031330(void *);
+extern u32 PROCSYS_Main(void *);
 typedef signed int     s32;
 struct Big;
 struct BigObj;
@@ -109,8 +109,8 @@ extern void *func_0200CA1C(void *);
 extern u32 func_0201293C(const struct BigObj *p);
 extern void func_021B9A14(u8 *a0, struct S *s);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
-extern void func_0201B038(void *);
-extern void func_0201B170(void *);
+extern void POKERUS_TryInfectParty(void *);
+extern void POKERUS_SpreadParty(void *);
 extern void func_021B9AA0(void *);
 extern u32 func_021B9C80(u32, u32);
 extern void func_021B9C34(struct S *s, void *party, int c);
@@ -140,7 +140,7 @@ extern u32 func_02017E1C(void *, u32, u32);
 extern u32 func_0200CED4(struct Blk37 *p, u16 id);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern void func_0200CDE0(struct Blk37 *p, void *m);
-extern void func_02031348(void *, u32, const u8 *, void *);
+extern void PROCSYS_Push(void *, u32, const u8 *, void *);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *);
 extern int *func_0216C0A4(unsigned short a, int b, int c, int d, int e, int f, int g, int h);
@@ -153,9 +153,9 @@ extern void func_021B9D04(void *);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void *func_020185F0(void *);
 extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
-extern void func_02005E30(u32);
-extern int func_02005E50(void);
-extern void func_02005D28(void);
+extern void GFL_USE_FadeOutBgm(u32);
+extern int GFL_USE_IsBgmFading(void);
+extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern u8 func_02012984(const struct BigObj *p);
 extern u16 func_0201B2B0(void *, void *, u32, u32, u8, u32 *, u16);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -175,7 +175,7 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
     u16 species;
     u16 slot;
     Extra *e;
-    busy = func_02031330((*(void **)((u8 *)(r)+( 64))));
+    busy = PROCSYS_Main((*(void **)((u8 *)(r)+( 64))));
     if (busy == 1) return 0;
     switch (*step) {
     case 0:
@@ -188,8 +188,8 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
         if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 0))) <= 1) {
             func_021B9A14(r, (struct S *)s);
             func_0201AC2C((*(void **)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 36))), party);
-            func_0201B038(party);
-            func_0201B170(party);
+            POKERUS_TryInfectParty(party);
+            POKERUS_SpreadParty(party);
             if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 140))) == 1) func_021B9AA0(party);
             func_021B9C34((struct S *)s, party, func_021B9C80((u32)(*(void **)((u8 *)(s)+( 4))) + 8, (*(u16 *)((u8 *)(r)+( 60)))));
             func_021B9CA4((struct S *)s, party);
@@ -225,7 +225,7 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
             (*(u32 *)((u8 *)(r)+( 32))) = (*(u32 *)((u8 *)(r)+( 48)));
             (*(void **)((u8 *)(r)+( 36))) = (*(void **)((u8 *)(s)+( 0)));
             if (flag) (*(u32 *)((u8 *)(r)+( 12))) = 0; else (*(u32 *)((u8 *)(r)+( 12))) = 1;
-            func_02031348((*(void **)((u8 *)(r)+( 64))), (u32)ov207_id, data_0220BAB0, r + 12);
+            PROCSYS_Push((*(void **)((u8 *)(r)+( 64))), (u32)ov207_id, data_0220BAB0, r + 12);
             ++*step;
         } else *step = 4;
         break;
@@ -237,7 +237,7 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
         if (flag) {
             bank = func_0200C0F0(func_02012EBC((*(void **)((u8 *)(s)+( 0)))));
             (*(void **)((u8 *)(r)+( 0))) = func_0216C0A4((*(u16 *)((u8 *)(r)+( 60))), (int)(*(void **)((u8 *)(r)+( 8))), 10, 0, (int)(*(void **)((u8 *)(r)+( 44))), (int)save, (*(u32 *)((u8 *)(r)+( 48))), (int)bank);
-            func_02031348((*(void **)((u8 *)(r)+( 64))), (u32)ov194_id, data_021F5580, (*(void **)((u8 *)(r)+( 0))));
+            PROCSYS_Push((*(void **)((u8 *)(r)+( 64))), (u32)ov194_id, data_021F5580, (*(void **)((u8 *)(r)+( 0))));
             ++*step;
         } else *step = 3;
         break;
@@ -270,9 +270,9 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
         void *party;
         if (!(*(u32 *)((u8 *)(r)+( 68)))) {
             if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 140))) == 5 && (((Rec *)r)->mask)) {
-                if (!(*(u32 *)((u8 *)(r)+( 72)))) { func_02005E30(30); (*(u32 *)((u8 *)(r)+( 72))) = 1; break; }
-                if (func_02005E50()) break;
-                func_02005D28();
+                if (!(*(u32 *)((u8 *)(r)+( 72)))) { GFL_USE_FadeOutBgm(30); (*(u32 *)((u8 *)(r)+( 72))) = 1; break; }
+                if (GFL_USE_IsBgmFading()) break;
+                GFL_USE_CancelChangeAndStopBgm();
                 (*(u32 *)((u8 *)(r)+( 68))) = 1;
                 break;
             }
@@ -295,7 +295,7 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
                     e = func_02030734((*(u16 *)((u8 *)(r)+( 60))), 20, 0, (const char *)data_021B9DC0, 0x1ca);
                     e->save = (*(void **)((u8 *)(s)+( 0))); e->party = party; e->species = species; e->slot = slot; e->method = method; e->x = 0; e->flag = 1;
                     (*(void **)((u8 *)(r)+( 52))) = e;
-                    func_02031348((*(void **)((u8 *)(r)+( 64))), (u32)ov195_id, data_02208C40, e);
+                    PROCSYS_Push((*(void **)((u8 *)(r)+( 64))), (u32)ov195_id, data_02208C40, e);
                     *step = 5;
                     break;
                 }

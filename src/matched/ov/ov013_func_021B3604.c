@@ -1,5 +1,5 @@
 /*
- * function: func_021B3604
+ * function: VCT_DSP_SuppressEchoWithReference
  * address: 0x021B3604
  * packet: pkt_ov013_021B3604
  * region: ov013
@@ -9,12 +9,12 @@
  * isa: arm
  * status: EXACT
  * symbols:
- *   d_021B4C8C 0x021B4C8C data a4
- *   func_021B33F8 0x021B33F8 arm ov013
+ *   gEchoReferenceFrame 0x021B4C8C data a4
+ *   VCT_DSP_SuppressEcho 0x021B33F8 arm ov013
  */
-extern short d_021B4C8C[];
-extern void func_021B33F8(short *,short *,unsigned int,unsigned int);
-void func_021B3604(short *a,unsigned int b,unsigned int c)
+extern short gEchoReferenceFrame[];
+extern void VCT_DSP_SuppressEcho(short *,short *,unsigned int,unsigned int);
+void VCT_DSP_SuppressEchoWithReference(short *a,unsigned int b,unsigned int c)
 {
-    func_021B33F8(a,d_021B4C8C,b,c);
+    VCT_DSP_SuppressEcho(a,gEchoReferenceFrame,b,c);
 }

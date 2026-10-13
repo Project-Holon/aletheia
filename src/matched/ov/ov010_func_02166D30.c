@@ -11,7 +11,7 @@
  *
  * Script command: reads a kind and three variable pointers, starts the
  * func_02166E50 task over a 0x1C-byte work, and for kinds 0..5 opens the
- * matching window (func_02024044), optionally filled with a message.
+ * matching window (PMSI_PARAM_Create), optionally filled with a message.
  *
  * MATCH, first draft (2026-09-28 tree_ov010_4): byte-correct; the one
  * wildcard is the bl to arm9 0x02024108, a Thumb function (`ldrh r2, [r1]`
@@ -28,11 +28,11 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_0215897C  0x0215897C  thumb  ov010
  *   func_02012EBC  0x02012EBC  thumb
- *   func_02024044  0x02024044  thumb
+ *   PMSI_PARAM_Create  0x02024044  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_0200E6F0  0x0200E6F0  thumb
  *   func_0200E6FC  0x0200E6FC  thumb
- *   func_02024108  0x02024108  thumb
+ *   PMSI_PARAM_SetSentence  0x02024108  thumb
  *   func_02166E50  0x02166E50  thumb  ov010
  */
 
@@ -64,12 +64,12 @@ extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void func_0215897C(void *vm, void *task);
 extern void *func_02012EBC(struct Big *p);
-extern struct Obj *func_02024044(u32 kind, u32 a1, void *src, u32 flag, void *sys, u32 hh);
+extern struct Obj *PMSI_PARAM_Create(u32 kind, u32 a1, void *src, u32 flag, void *sys, u32 hh);
 extern void *func_020120F4(const struct Ctx *p);
 struct Rec0200E6FC;
 extern void *func_0200E6F0(u32 a);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-extern void func_02024108(u16 *dst, const u16 *src);
+extern void PMSI_PARAM_SetSentence(u16 *dst, const u16 *src);
 extern u32 func_02166E50(void *obj, u32 *mode);
 
 int func_02166D30(void *c, void *vm)
@@ -135,10 +135,10 @@ int func_02166D30(void *c, void *vm)
         func_0215897C(owner, task);
         return 1;
     }
-    w->win = func_02024044(mode, 0, 0, 0, func_02012EBC(heap), 1);
+    w->win = PMSI_PARAM_Create(mode, 0, 0, 0, func_02012EBC(heap), 1);
     if (w->hasMsg) {
         func_0200E6FC(func_0200E6F0((u32)func_02012EBC(func_020120F4(sys))), w->msg, (struct Rec0200E6FC *)buf);
-        func_02024108(w->win, (const u16 *)buf);
+        PMSI_PARAM_SetSentence(w->win, (const u16 *)buf);
     }
     func_0215897C(owner, task);
     return 1;

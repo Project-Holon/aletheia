@@ -20,7 +20,7 @@
  *   func_02008494  0x02008494  thumb
  *   func_02087C6C  0x02087C6C  arm
  *   func_0216F40C  0x0216F40C  thumb
- *   str_02175630   0x02175630  data  ov012
+ *   gColosseumAllocFile   0x02175630  data  ov012
  */
 
 typedef unsigned char u8;
@@ -48,7 +48,7 @@ struct Entry;
 struct Link;
 struct Obj;
 struct Party;
-extern char str_02175630[];
+extern char gColosseumAllocFile[];
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(struct Link *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -71,10 +71,10 @@ Work *func_02174F4C(const struct Obj *obj, u32 a1, u32 a2, u32 a3)
     u32 v;
 
     idx = func_0203D1A4((struct Link *)func_020399A8());
-    w = func_02030734(0x41, 0x170, 1, str_02175630, 0x35);
+    w = func_02030734(0x41, 0x170, 1, gColosseumAllocFile, 0x35);
     w->f000 = func_02167518(4, a1, 0x41, 0);
     for (i = 0; i < 4; i++) {
-        w->f134[i] = func_02030734(0x41, 0x678, 1, str_02175630, 0x38);
+        w->f134[i] = func_02030734(0x41, 0x678, 1, gColosseumAllocFile, 0x38);
         w->f148[i] = func_0201A920(0x41);
     }
     for (i = 0; i < 4; i++) {

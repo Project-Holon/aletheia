@@ -1,6 +1,6 @@
 /*
  * file:     unit_021C8188.c
- * function: func_021C8188
+ * function: DWCi_SceneSetError_draw
  * address:  0x021C8188
  * packet:   pkt_021C6A0C
  * region:   ov016
@@ -11,16 +11,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C8188   0x021C8188  arm
+ *   DWCi_SceneSetError_draw   0x021C8188  arm
  *
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C8188.c \
- *       --func func_021C8188 --addr 0x021C8188 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneSetError_draw.c \
+ *       --func DWCi_SceneSetError_draw --addr 0x021C8188 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void func_021C8188(void)
+void DWCi_SceneSetError_draw(void)
 {
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02051A2C
+ * function: BUTTON_MAN_SetUserData
  * address:  0x02051A2C
  * packet:   pkt_02051A2C
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * Unlabelled ARM leaf in the ARM9 module: an 8-byte store helper,
- * `p[0x94/4] = v`. The +0x94 twin of func_02051A24.
+ * `p[0x94/4] = v`. The +0x94 twin of BUTTON_MAN_SetCallback.
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj16192.h"
 
-void func_02051A2C(void *p, int v)
+void BUTTON_MAN_SetUserData(void *p, int v)
 {
     ((struct Obj16192 *)p)->f94 = v;
 }

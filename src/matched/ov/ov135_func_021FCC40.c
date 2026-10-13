@@ -17,7 +17,7 @@
  *   func_021FCFD8  0x021FCFD8  thumb
  *   func_021FD104  0x021FD104  thumb
  *   func_021FD08C  0x021FD08C  thumb
- *   func_020185F4  0x020185F4  thumb
+ *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_021FC8CC  0x021FC8CC  thumb
  *   func_021FCA8C  0x021FCA8C  thumb
  *   func_021FCB54  0x021FCB54  thumb
@@ -85,7 +85,7 @@ extern void func_021FFFE8(u8 *p, u32 a, u32 b);
 extern void func_021FCFD8(u8 *p);
 extern void func_021FD104(Work *p);
 extern void func_021FD08C(Work *p);
-extern void *func_020185F4(void *mon);
+extern void *POKE_TOOL_GetBoxParam(void *mon);
 extern void func_021FC8CC(void *bank, void *names, void *words, void **win, void *mon, void *rec, void *g);
 extern void func_021FCA8C(void *bank, void *pane, void *name, void *mon, void *pane2, void *g);
 extern void func_021FCB54(void *mon);
@@ -109,7 +109,7 @@ int func_021FCC40(Work *p)
     func_021FCFD8((u8 *)p);
     func_021FD104(p);
     func_021FD08C(p);
-    func_021FC8CC(p->bank, p->names, p->words, p->win, func_020185F4(&p->arr[p->cur]), p->arr[p->cur].rec, p->fFA0);
+    func_021FC8CC(p->bank, p->names, p->words, p->win, POKE_TOOL_GetBoxParam(&p->arr[p->cur]), p->arr[p->cur].rec, p->fFA0);
     func_021FCA8C(p->bank, &p->win[7], p->arr[p->cur].name, &p->arr[p->cur], p->pane3, p->fFA0);
     func_021FCB54(&p->arr[p->cur]);
     func_021FD760(p->bank, &p->pane3[2], 0x53, p->fFA0, 0x440);

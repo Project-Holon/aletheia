@@ -19,7 +19,7 @@
  *   func_0204A6C8  0x0204A6C8  arm
  *   func_0204AF28  0x0204AF28  arm
  *   func_0204AC18  0x0204AC18  arm
- *   func_0204AEF4  0x0204AEF4  arm
+ *   CLACT_GetPaletteVramAddress  0x0204AEF4  arm
  *   func_020216D4  0x020216D4  thumb
  *   func_0204B100  0x0204B100  arm
  *   func_02049238  0x02049238  arm
@@ -29,7 +29,7 @@
  *   d_0220AC10     0x0220AC10  data   ov094  a4
  *   func_0204B324  0x0204B324  arm
  *   func_0204B878  0x0204B878  arm
- *   func_0204B8C4  0x0204B8C4  arm
+ *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204BA00  0x0204BA00  arm
@@ -123,7 +123,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern int func_0204AEF4(u32 idx, u32 alternate);
+extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_02049238(void * h);
@@ -138,7 +138,7 @@ extern u32 func_0204B1CC(struct Bank *bank);
 extern u32 func_020307B0(void *p);
 extern struct Obj *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
@@ -164,7 +164,7 @@ W *func_02209A7C(void *a0, u32 b, u16 heap)
     w->h0c = func_0204A6C8(a, 0xd9, 0, 1, heap);
     w->h14 = func_0204AF28(a, 0xdb, 0xdc, heap);
     w->h10 = func_0204AC18(a, 0xda, 1, (u16)(b << 5), 0, 1, heap);
-    func_020216D4(a0, 3, (u16)(func_0204AEF4(w->h10, 1) >> 1), 0x20);
+    func_020216D4(a0, 3, (u16)(CLACT_GetPaletteVramAddress(w->h10, 1) >> 1), 0x20);
     w->h0 = (int)func_0204B100(1, 0, heap);
     func_02049238(a);
     w->task = func_02030DA8(func_021F86D4(), func_02209CC4, w, 0);
@@ -203,7 +203,7 @@ int func_02209B60(P_02209B60 *p, u16 a, u16 b, u32 c, u32 e, u32 f)
     cfg.y = b;
     p->h = func_0204B324(p->f0, p->fc, p->f10, p->f14, (u32)(&cfg), 1, p->f2c);
     func_0204B878(p->h, 0);
-    func_0204B8C4(p->h, 0);
+    CLACT_SetActorAnimFrame(p->h, 0);
     func_0204B92C(p->h, 1);
     func_0204B3DC(p->h, 1);
     if (c != 0)

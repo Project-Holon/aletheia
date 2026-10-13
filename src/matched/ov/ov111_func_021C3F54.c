@@ -21,7 +21,7 @@
  *   func_021C4B9C  0x021C4B9C  thumb
  *   func_021C4E0C  0x021C4E0C  thumb
  *   func_0204A600  0x0204A600  arm
- *   func_0202DBC4  0x0202DBC4  thumb
+ *   PMS_DRAW_Main  0x0202DBC4  thumb
  *   func_0201C4E4  0x0201C4E4  thumb
  *   func_020310C4  0x020310C4  arm
  *
@@ -97,7 +97,7 @@ extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 
 extern int func_021C4B9C(Work *p);
 extern int func_021C4E0C(char *p);
 extern void func_0204A600(void);
-extern void func_0202DBC4(u8 *p);
+extern void PMS_DRAW_Main(u8 *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_020310C4(struct Tcbl *p);
 
@@ -163,7 +163,7 @@ int func_021C3F54(void *proc, int *seq, int c, Work *p)
         p->b32D6 = 0;
     }
     func_0204A600();
-    func_0202DBC4(p->f32B0);
+    PMS_DRAW_Main(p->f32B0);
     func_0201C4E4(p->f32CC);
     if (p->f31F8) {
         func_020310C4(p->f31F8);

@@ -1,5 +1,5 @@
 /*
- * function: func_0202142C
+ * function: PALANM_GetPairedCodeForFirst
  * address:  0x0202142C
  * packet:   pkt_020213F8
  * region:   arm9
@@ -8,12 +8,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * blocker:  +0008 ABS32 func_020213F8          : 020213F8 (thumb, from name) has no witness outside 0202142C..02021438
+ * blocker:  +0008 ABS32 PALANM_LookupPairedCode          : 020213F8 (thumb, from name) has no witness outside 0202142C..02021438
+ *
+ * symbols:
+ *   PALANM_LookupPairedCode  0x020213F8  thumb
  */
 
-extern unsigned short func_020213F8(int a0, int a1);
+extern unsigned short PALANM_LookupPairedCode(int a0, int a1);
 
-unsigned short func_0202142C(int a0)
+unsigned short PALANM_GetPairedCodeForFirst(int a0)
 {
-    return func_020213F8(a0, 0);
+    return PALANM_LookupPairedCode(a0, 0);
 }

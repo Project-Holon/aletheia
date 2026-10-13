@@ -10,16 +10,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201CDF4, sub_0201CE0C, sub_0201CE20, sub_0201CE30,
- *           sub_0201CE34, sub_0201CE38, sub_0201CE48
+ * function: PRINTSYS_SplitWait, PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun, PRINTSYS_PrintStreamGetState,
+ *           PRINTSYS_PrintStreamGetWaitKind, PRINTSYS_PrintStreamReleasePause, PRINTSYS_PrintStreamDelete
  *
- * sub_0201CDF4 splits a signed delta into a sign-magnitude pair of output
+ * PRINTSYS_SplitWait splits a signed delta into a sign-magnitude pair of output
  * bytes: byte[1]=1 and byte[0]=the value when it is non-negative, byte[1]=
  * the absolute value and byte[0]=0 when it is negative.  The two branches
  * store to the two bytes in opposite order from each other, which is what
  * the original does and is not an artefact of how it is written.
  *
- * sub_0201CE0C, sub_0201CE20 and sub_0201CE38 are three single-bit
+ * PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun and PRINTSYS_PrintStreamReleasePause are three single-bit
  * operations on a byte at offset 0x22 of an object: set bit 0 (written
  * through a redundant clear-then-set, `(x & ~1) | 1`, rather than a plain
  * `x |= 1`, which is what the bytes show), clear bit 0, and set bit 2 with
@@ -28,20 +28,23 @@
  * what keeps the load address and the store address computed independently
  * the way the original does it.
  *
- * sub_0201CE30 and sub_0201CE34 are the two four-byte word getters this
+ * PRINTSYS_PrintStreamGetState and PRINTSYS_PrintStreamGetWaitKind are the two four-byte word getters this
  * neighbourhood keeps reusing (the same shape as
  * src/matched/unit_0201AA14.c's pair); disasm.py's prologue sweep does not
  * label either of them, since a two-instruction leaf saves nothing
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md), so both were
  * read directly out of the `.word` run the listing prints between
- * sub_0201CE20 and sub_0201CE38.
+ * PRINTSYS_PrintStreamRun and PRINTSYS_PrintStreamReleasePause.
  *
- * sub_0201CE48 frees and clears an owned pointer at offset 0x10 if it is
+ * PRINTSYS_PrintStreamDelete frees and clears an owned pointer at offset 0x10 if it is
  * non-null.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201CDF4.c \
  *       --addr 0x0201CDF4 --thumb
+ *
+ * symbols:
+ *   TCBL_DeleteTask  0x02031194  arm
  */
 #include "../include/Obj17219.h"
 #include "../include/Obj17220.h"
@@ -49,7 +52,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void sub_0201CDF4(int v, u8 *out)
+void PRINTSYS_SplitWait(int v, u8 *out)
 {
     if (v >= 0) {
         out[1] = 1;
@@ -60,43 +63,43 @@ void sub_0201CDF4(int v, u8 *out)
     }
 }
 
-void sub_0201CE0C(void *p)
+void PRINTSYS_PrintStreamStop(void *p)
 {
     ((u8 *)p)[0x22] = (((u8 *)p)[0x22] & ~1u) | 1u;
 }
 
-void sub_0201CE20(void *p)
+void PRINTSYS_PrintStreamRun(void *p)
 {
     ((u8 *)p)[0x22] = ((u8 *)p)[0x22] & ~1u;
 }
 
-u32 sub_0201CE30(void *p)
+u32 PRINTSYS_PrintStreamGetState(void *p)
 {
     return ((struct Obj17219 *)p)->f0;
 }
 
-u32 sub_0201CE34(void *p)
+u32 PRINTSYS_PrintStreamGetWaitKind(void *p)
 {
     return ((struct Obj17220 *)p)->f4;
 }
 
-void sub_0201CE38(void *p)
+void PRINTSYS_PrintStreamReleasePause(void *p)
 {
     ((u8 *)p)[0x22] = ((u8 *)p)[0x22] | 4u;
 }
 
 struct TcblNode;
-extern void func_02031194(struct TcblNode *n);
+extern void TCBL_DeleteTask(struct TcblNode *n);
 
 struct Rec3 {
     u32 pad[4];
     void *unk10;
 };
 
-void sub_0201CE48(struct Rec3 *p)
+void PRINTSYS_PrintStreamDelete(struct Rec3 *p)
 {
     if (p->unk10 != 0) {
-        func_02031194(p->unk10);
+        TCBL_DeleteTask(p->unk10);
         p->unk10 = 0;
     }
 }

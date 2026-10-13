@@ -26,7 +26,7 @@
  *   func_02012DAC 0x02012DAC thumb
  *   func_02012DD0 0x02012DD0 thumb
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_02006254 0x02006254 thumb
+ *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   func_021F9C50 0x021F9C50 thumb ov186
  *   func_021FD744 0x021FD744 thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
@@ -61,7 +61,7 @@ extern int func_021DD2FC(char *,int,int),func_021DD33C(char *,int,int);
 extern void func_021FD170(char *p, char *q, void *text);
 extern int func_02012DAC(int),func_02012DD0(u8 *);
 extern void func_021FD860(int,int,int *);
-extern int func_02006254(u32 a);
+extern int GFL_USE_IsSeqPlaying(u32 a);
 extern void func_021F9C50(S *);
 extern int func_021FD744(int *a);
 extern int *func_021FD73C(int *p, int v);
@@ -104,7 +104,7 @@ void func_021DC638(int *a,int *state,char *p)
     case 19: func_021FE784((int)(*(int * *)&((struct Obj24568 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC),2,3,1);*state=20;break;
     case 20: if(func_021FE7B0(*(int * *)&((struct Obj24569 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC)) *state=21;break;
     case 21:
-        if(!func_02006254(0x701)) {
+        if(!GFL_USE_IsSeqPlaying(0x701)) {
             func_021DD0F4(p,*(char * *)&((struct Obj00050 *)p)->fD0);
             **(int * *)&((struct Obj00050 *)p)->fD0=1;
             func_021F9C50(*(S * *)&((struct Obj24571 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->f14);

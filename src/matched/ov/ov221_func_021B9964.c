@@ -15,15 +15,15 @@
  *   func_02012944 0x02012944 thumb
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200873C 0x0200873C thumb
- *   func_020083E4 0x020083E4 thumb
+ *   CONFIG_GetAppliedFlag 0x020083E4 thumb
  *   func_02049B90 0x02049B90 arm
  *   func_02045B38 0x02045B38 arm
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
  *   func_02045334 0x02045334 arm
- *   func_02045780 0x02045780 arm
- *   func_02045788 0x02045788 arm
+ *   BMP_WIN_SetPosX 0x02045780 arm
+ *   BMP_WIN_SetPosY 0x02045788 arm
  *   func_0201EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   func_020457B0 0x020457B0 arm

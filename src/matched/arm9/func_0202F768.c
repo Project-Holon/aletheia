@@ -14,8 +14,8 @@
  *
  * time_icon.c.  An unlabelled tail-call leaf (it saves nothing, so
  * disasm.py prints it as .word data): func_0202F788(0).  With
- * func_0202F774 it is the callback pair sub_0200545C (gfl_use.c boot)
- * hands to func_020316C8(7, ...).  Filed apart from func_0202F774 on
+ * func_0202F774 it is the callback pair GFL_USE_InitSystem (gfl_use.c boot)
+ * hands to BACKUP_SYSTEM_Init(7, ...).  Filed apart from func_0202F774 on
  * purpose: the only pool words naming 0x0202F789 that are outside a
  * two-function range are each other's, so as one unit neither site has a
  * witness (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).

@@ -1,7 +1,7 @@
 /*
  * file:     unit_0206B780.c
  * unit:     yes
- * function: func_0206B780, func_0206B7A8
+ * function: G3D_SBC_RunCountedCallback, G3D_SBC_RunCallbackSetDone
  * address:  0x0206B780
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -37,8 +37,8 @@ struct FlaggedCallback {
 
 #define CALLBACK_STATUS_DONE 0x20
 
-void func_0206B780(CountedCallback *pRecord);
-void func_0206B7A8(FlaggedCallback *pRecord);
+void G3D_SBC_RunCountedCallback(CountedCallback *pRecord);
+void G3D_SBC_RunCallbackSetDone(FlaggedCallback *pRecord);
 
 
 /*
@@ -47,10 +47,10 @@ void func_0206B7A8(FlaggedCallback *pRecord);
  * counter at +0x00.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206B780.c \
- *       --func func_0206B780 --addr 0x0206B780 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SBC_RunCountedCallback.c \
+ *       --func G3D_SBC_RunCountedCallback --addr 0x0206B780 --cc 1.1p1 --arm
  */
-void func_0206B780(CountedCallback *pRecord)
+void G3D_SBC_RunCountedCallback(CountedCallback *pRecord)
 {
     if (pRecord->callback != 0) {
         pRecord->callback(pRecord);
@@ -60,14 +60,14 @@ void func_0206B780(CountedCallback *pRecord)
 
 
 /*
- * Same shape as func_0206B780 one slot over: the callback at +0x10 is handed
+ * Same shape as G3D_SBC_RunCountedCallback one slot over: the callback at +0x10 is handed
  * the object itself, then bit 5 of the status word at +0x08 is set.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206B7A8.c \
- *       --func func_0206B7A8 --addr 0x0206B7A8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SBC_RunCallbackSetDone.c \
+ *       --func G3D_SBC_RunCallbackSetDone --addr 0x0206B7A8 --cc 1.1p1 --arm
  */
-void func_0206B7A8(FlaggedCallback *pRecord)
+void G3D_SBC_RunCallbackSetDone(FlaggedCallback *pRecord)
 {
     if (pRecord->callback != 0) {
         pRecord->callback(pRecord);

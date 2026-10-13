@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201FC5C",
-    "func_0201FD18",
-    "func_0201FD54"
+    "BMP_MENU_DrawItems",
+    "BMP_MENU_DrawCursor",
+    "BMP_MENU_GetItemPixelPos"
+   ],
+   "addresses": [
+    "0x0201FC5C",
+    "0x0201FD18",
+    "0x0201FD54"
    ]
   },
   {

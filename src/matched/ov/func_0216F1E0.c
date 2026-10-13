@@ -13,7 +13,7 @@
  * symbols:
  *   func_02012944  0x02012944  thumb
  *   func_02008554  0x02008554  thumb
- *   func_02027174  0x02027174  thumb
+ *   GAME_BEACON_SetTrainerView  0x02027174  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 extern u8 *func_02012944(void *p);
 struct Sub0200852CObj;
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern int func_02027174();
+extern int GAME_BEACON_SetTrainerView();
 extern int func_020307B0();
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
@@ -56,7 +56,7 @@ loc_0216F1F8:
 a1 = ((struct Obj07207 *)t4)->f1C;
     if (a1 == a0) goto loc_0216F202;
 loc_0216F1FE:
-    a0 = func_02027174(a0);
+    a0 = GAME_BEACON_SetTrainerView(a0);
 loc_0216F202:
 a0 = ((struct Obj07207 *)t4)->f18;
 a0 = ((struct Obj07206 *)a0)->f10;

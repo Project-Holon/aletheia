@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C1D8  0x0201C1D8  thumb
+ *   WAZA_TOOL_GetPower  0x0201C1D8  thumb
  *   func_021D74F8  0x021D74F8  thumb  ov093
  *   func_021D5440  0x021D5440  thumb  ov093
  *   func_021D75EC  0x021D75EC  thumb  ov093
@@ -25,7 +25,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u16 func_0201C1D8(void *p);
+extern u16 WAZA_TOOL_GetPower(void *p);
 extern void func_021D74F8(int line);
 extern u8 func_021D5440(u8 *p);
 extern void func_021D75EC(int key, u32 val);
@@ -38,7 +38,7 @@ extern u32 func_021D7B10(u32 a, u32 b);
 
 u16 func_021C728C(u8 *p, u8 *a, u8 *b, u8 *s)
 {
-    u32 t = func_0201C1D8((void *)(((struct Obj07759 *)s)->f0));
+    u32 t = WAZA_TOOL_GetPower((void *)(((struct Obj07759 *)s)->f0));
     u16 x;
     u32 y;
 

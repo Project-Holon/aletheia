@@ -161,7 +161,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020619BC",
+   "name": "NNSi_GfdLoadMainObjExtPltt",
    "address": "0x020619BC",
    "kind": "game",
    "region": "arm9",
@@ -173,7 +173,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020619E8",
+   "name": "NNSi_GfdLoadMainBgExtPltt",
    "address": "0x020619E8",
    "kind": "game",
    "region": "arm9",
@@ -185,7 +185,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061ABC",
+   "name": "NNSi_GfdLoadSubObjExtPltt",
    "address": "0x02061ABC",
    "kind": "game",
    "region": "arm9",
@@ -197,7 +197,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061AE8",
+   "name": "NNSi_GfdLoadSubBgExtPltt",
    "address": "0x02061AE8",
    "kind": "game",
    "region": "arm9",

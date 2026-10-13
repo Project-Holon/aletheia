@@ -1,5 +1,5 @@
 /*
- * function: func_02021984
+ * function: PALANM_MaskColorBits
  * address:  0x02021984
  * packet:   pkt_02021984
  * region:   arm9
@@ -37,7 +37,7 @@ struct Chan02021984 {
     u32 f8;
 };
 
-void func_02021984(s32 idx, struct Chan02021984 *c, u16 *pv)
+void PALANM_MaskColorBits(s32 idx, struct Chan02021984 *c, u16 *pv)
 {
     u32 t;
     u16 m;

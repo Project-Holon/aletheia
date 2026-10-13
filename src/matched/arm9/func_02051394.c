@@ -1,5 +1,5 @@
 /*
- * function: func_02051394
+ * function: PARTICLE_ApplyLoadHandlers
  * address:  0x02051394
  * packet:   pkt_02051394
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02146A88     0x02146A88  data
+ *   g_pParticleMan     0x02146A88  data
  *   func_020528A8  0x020528A8  arm
  *   func_020528BC  0x020528BC  arm
  *   func_020528D0  0x020528D0  arm
@@ -40,26 +40,26 @@
  * Assignment statements after the store reproduce all 25 instructions.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051394.c \
- *       --func func_02051394 --addr 0x02051394 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_ApplyLoadHandlers.c \
+ *       --func PARTICLE_ApplyLoadHandlers --addr 0x02051394 --cc 1.1p1 --arm
  */
 
 #include "../include/G_02146A88.h"
 
 typedef unsigned int u32;
 
-extern struct G_02146A88 *g_02146A88;
+extern struct G_02146A88 *g_pParticleMan;
 extern void func_020528A8(u32 a);
 extern void func_020528BC(u32 a);
 extern int  func_020528D0(u32 o, u32 alloc);
 extern int  func_02052984(u32 o, u32 alloc);
 
-void func_02051394(u32 *p)
+void PARTICLE_ApplyLoadHandlers(u32 *p)
 {
     u32 a;
     u32 v;
 
-    ((u32 *)g_02146A88)[0x11] = (u32)p;
+    ((u32 *)g_pParticleMan)[0x11] = (u32)p;
 
     a = p[6];
     v = p[0];
@@ -75,5 +75,5 @@ void func_02051394(u32 *p)
     else
         func_020528D0(v, a);
 
-    ((u32 *)g_02146A88)[0x11] = 0;
+    ((u32 *)g_pParticleMan)[0x11] = 0;
 }

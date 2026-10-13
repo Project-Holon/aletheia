@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_020362BC",
-    "sub_020362DC"
+    "KEY_GetTrgSys",
+    "KEY_GetTrg"
+   ],
+   "addresses": [
+    "0x020362BC",
+    "0x020362DC"
    ]
   }
  ]

@@ -1,5 +1,5 @@
 /*
- * function: func_02165F88
+ * function: WcmAppendApList
  * address:  0x02165F88
  * packet:   pkt_ov009_02165F88
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      WcmAppendApList (aplist.o)
  *
  * symbols:
- *   func_021657C8  0x021657C8  arm  ov009
+ *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  */
 
 struct WCMApList {
@@ -38,11 +38,11 @@ struct WCMWork {
         unsigned long nbdmode;
     } config;
 };
-extern int func_021657C8(void);
+extern int WCMi_GetSystemWork(void);
 
-void func_02165F88(struct WCMApList *aplist)
+void WcmAppendApList(struct WCMApList *aplist)
 {
-    struct WCMWork *w = (struct WCMWork *)func_021657C8();
+    struct WCMWork *w = (struct WCMWork *)WCMi_GetSystemWork();
     struct WCMApListHeader *pHeader = (struct WCMApListHeader *)w->config.pbdbuffer;
     struct WCMApList *p;
 

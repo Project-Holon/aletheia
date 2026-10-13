@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * Stage machine on *mode, same family as ov002 func_021542C0.  The second
- * argument to func_020120B4 is pooled 0xD7 (215), a linker overlay id for
+ * argument to GAMESYSTEM_CallProc is pooled 0xD7 (215), a linker overlay id for
  * ov215; the third, 0x021F7118, lies in its window.
  *
  * symbols:
  *   func_02017E1C  0x02017E1C  thumb
- *   func_020144DC  0x020144DC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02012374  0x02012374  thumb
- *   func_020120B4  0x020120B4  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb  ov021
  *   func_0216559C  0x0216559C  thumb  ov010
@@ -32,11 +32,11 @@ typedef unsigned int u32;
 extern u32   func_02017E1C(void *obj, u32 key, u32 off);
 typedef unsigned char  u8;
 struct IcaAnime;
-extern int func_020144DC(int a0, int a1);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern void *func_020145CC(void *a0);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 extern int func_021BE8D4(void *a, int b, int sel, int d);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void  func_0216559C(u16 x);
@@ -68,15 +68,15 @@ u32 func_02166B58(void *obj, u32 *mode, u32 *args)
         *mode = 3;
         break;
     case 3:
-        func_02012374(obj, (struct Evt **)func_020144DC(a0, a2));
+        func_02012374(obj, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(a0, a2));
         *mode = 4;
         break;
     case 4:
-        func_020120B4((struct IcaAnime *)a0, (u32)ov215_id, d_021F7118, &args[4]);
+        GAMESYSTEM_CallProc((struct IcaAnime *)a0, (u32)ov215_id, d_021F7118, &args[4]);
         *mode = 5;
         break;
     case 5:
-        func_02012374(obj, func_020145CC((void *)a0));
+        func_02012374(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)a0));
         *mode = 6;
         break;
     case 6:

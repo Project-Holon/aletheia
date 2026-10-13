@@ -13,7 +13,7 @@
  *   func_02012EBC  0x02012EBC  thumb
  *   func_02008B14  0x02008B14  thumb
  *   func_02012984  0x02012984  thumb
- *   func_020113F0  0x020113F0  thumb
+ *   TIMEZONE_GetTimeZoneOfHour  0x020113F0  thumb
  */
 #include "../include/Obj17735.h"
 
@@ -28,7 +28,7 @@ extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008AECSession *func_02008B14(void *sys);
 struct BigObj;
 extern u8 func_02012984(const struct BigObj *p);
-extern int func_020113F0(int row, int col);
+extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
 
 int func_021690B4(int a0)
 {
@@ -46,6 +46,6 @@ a0 = t5 + 0;
     a0 = func_02012984((const struct BigObj *)a0);
 loc_021690C8:
 a1 = ((struct Obj17735 *)t4)->f14;
-    a0 = func_020113F0(a0, a1);
+    a0 = TIMEZONE_GetTimeZoneOfHour(a0, a1);
 loc_021690CE:
     return a0;}

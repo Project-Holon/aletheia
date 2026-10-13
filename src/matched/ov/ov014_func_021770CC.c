@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A0 0x021797A0 data a4
+ *   sDevWirelessWork 0x021797A0 data a4
  *   func_021770A8 0x021770A8 thumb ov014
- *   func_02177EB0 0x02177EB0 thumb ov014
+ *   NET_WHPIPE_RequestEnd 0x02177EB0 thumb ov014
  */
 typedef unsigned char u8;
-extern u8 *g_021797A0;
+extern u8 *sDevWirelessWork;
 extern int func_021770A8(void *);
-extern int func_02177EB0(int a);
+extern int NET_WHPIPE_RequestEnd(int a);
 int func_021770CC(void (*cb)(void *))
 {
-    if(g_021797A0 != 0) {
-        *(void (**)(void *))(g_021797A0+4)=cb;
-        return func_02177EB0((int)func_021770A8);
+    if(sDevWirelessWork != 0) {
+        *(void (**)(void *))(sDevWirelessWork+4)=cb;
+        return NET_WHPIPE_RequestEnd((int)func_021770A8);
     }
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_020252A8
+ * function: INFOWIN_UpdateClock
  * address:  0x020252A8
  * packet:   pkt_020251FC
  * region:   arm9
@@ -44,7 +44,7 @@ extern struct Sys *gSysState;
 struct RtcTime;
 extern void func_0203F4CC(struct RtcTime *time);
 
-void func_020252A8(void)
+void INFOWIN_UpdateClock(void)
 {
     struct Cfg cfg;
     u32 v;

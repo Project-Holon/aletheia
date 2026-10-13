@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  */
-#include "../../../matched/include/Obj06201.h"
+#include "../fld_faceup_types.h"
 
-void func_021F58C0(char *p)
+void func_021F58C0(FaceupAnim *anim)
 {
-    ((struct Obj06201 *)p)->f0 = 1;
-    ((struct Obj06201 *)p)->f4 = 0;
-    ((struct Obj06201 *)p)->f8 = 0;
-    ((struct Obj06201 *)p)->f9 = 0;
-    ((struct Obj06201 *)p)->fA = 0;
+    anim->idle = 1;
+    anim->uploadPending = 0;
+    anim->delay = 0;
+    anim->delayReload = 0;
+    anim->frame = 0;
 }

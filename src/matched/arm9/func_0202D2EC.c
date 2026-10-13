@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202D2EC
+ * function: POKEGRA_ConvertCharTo1D
  * address:  0x0202D2EC
  * packet:   pkt_0202D2EC
  * region:   arm9
@@ -27,7 +27,7 @@ extern u32 func_020307B0(void *p);
 extern void  MIi_CpuCopyFast(const void *src, void *dst, u32 len);
 extern char  sFile_020A77AC[];
 
-void func_0202D2EC(u32 *obj, u32 heap)
+void POKEGRA_ConvertCharTo1D(u32 *obj, u32 heap)
 {
     u8 *dst;
     u8 *buf;

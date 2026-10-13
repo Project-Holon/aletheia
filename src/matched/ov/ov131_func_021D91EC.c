@@ -1,5 +1,5 @@
 /*
- * function: func_021D91EC
+ * function: P_STA_RIBBON_Noop
  * address: 0x021D91EC
  * packet: pkt_ov131_021D91EC
  * region: ov131
@@ -8,6 +8,6 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021D91EC(void *a0, void *a1)
+void P_STA_RIBBON_Noop(void *a0, void *a1)
 {
 }

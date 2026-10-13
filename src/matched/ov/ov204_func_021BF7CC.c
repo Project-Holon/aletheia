@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02015DB0 0x02015DB0 thumb
- *   func_02015DC0 0x02015DC0 thumb
+ *   MCSS_SetMepachiFlag 0x02015DB0 thumb
+ *   MCSS_ResetMepachiFlag 0x02015DC0 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02015DB0(void *);
-extern void func_02015DC0(void *);
+extern void MCSS_SetMepachiFlag(void *);
+extern void MCSS_ResetMepachiFlag(void *);
 void func_021BF7CC(u8 *p, u8 index, int flag)
 {
-    if(flag!=0)func_02015DB0(*(void **)((u32)p+(u32)index*12+8));
-    else func_02015DC0(*(void **)((u32)p+(u32)index*12+8));
+    if(flag!=0)MCSS_SetMepachiFlag(*(void **)((u32)p+(u32)index*12+8));
+    else MCSS_ResetMepachiFlag(*(void **)((u32)p+(u32)index*12+8));
 }

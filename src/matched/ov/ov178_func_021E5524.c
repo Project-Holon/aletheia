@@ -12,17 +12,17 @@
  *   d_02FFFC3C 0x02FFFC3C data a4
  *   ov091_id 0x0000005B data a1
  *   ov131_id 0x00000083 data a1
- *   d_021BED00 0x021BED00 data a4 ov091
- *   d_021DC800 0x021DC800 data a4 ov131
+ *   gPartyListProcData 0x021BED00 data a4 ov091
+ *   gPokeStatusProcData 0x021DC800 data a4 ov131
  *   func_0203CD98 0x0203CD98 arm
  *   func_0203D798 0x0203D798 arm
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0200FB38 0x0200FB38 thumb
- *   func_02157170 0x02157170 thumb
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_02031348 0x02031348 arm
- *   func_02031330 0x02031330 arm
+ *   PROCSYS_Push 0x02031348 arm
+ *   PROCSYS_Main 0x02031330 arm
  *   func_021B6114 0x021B6114 thumb ov090
  * callee: 02031348 tail-forwards to 020314F4 whose own matched body reads all four arguments; retain caller register payloads.
  */
@@ -32,16 +32,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
 extern u32 d_02FFFC3C;
-extern u8 ov091_id[],ov131_id[],d_021BED00[],d_021DC800[];
+extern u8 ov091_id[],ov131_id[],gPartyListProcData[],gPokeStatusProcData[];
 extern int func_0203CD98(void);
 extern void *func_0203D798(void);
 extern u32 func_0200FB24(void);
 extern void func_0200FB38(void);
-extern int func_02157170(void *,void *);
+extern int DWC_RAPCOMMON_HandleNetError(void *,void *);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
-extern void func_02031348(void *,u32,void *,void *);
-extern u32 func_02031330(void *);
+extern void PROCSYS_Push(void *,u32,void *,void *);
+extern u32 PROCSYS_Main(void *);
 extern void func_021B6114(u8 *);
 int func_021E5524(void *unused,int unused2,char *q,char *p)
 {
@@ -65,7 +65,7 @@ int func_021E5524(void *unused,int unused2,char *q,char *p)
         } else {
             int one;
             one=1;
-            switch(func_02157170((void *)1,(void *)1)) {
+            switch(DWC_RAPCOMMON_HandleNetError((void *)1,(void *)1)) {
             case 0:case 3:break;
             case 4:((struct Obj10715 *)q)->f20=3;((struct Obj00349 *)p)->f6B=one;((struct Obj00349 *)p)->fC4=one;break;
             case 1:case 2:default:((struct Obj10715 *)q)->f20=1;((struct Obj00349 *)p)->f6B=1;((struct Obj00349 *)p)->fC4=1;break;
@@ -74,17 +74,17 @@ int func_021E5524(void *unused,int unused2,char *q,char *p)
     }
     switch(((struct Obj00349 *)p)->f0) {
     case 0:func_02034AC4((int)ov091_id);
-        func_02031348(((struct Obj00349 *)p)->fD0,-1,d_021BED00,p+8);((struct Obj00349 *)p)->f0=1;break;
-    case 1:if(func_02031330(((struct Obj00349 *)p)->fD0)==0)((struct Obj00349 *)p)->f0=2;break;
+        PROCSYS_Push(((struct Obj00349 *)p)->fD0,-1,gPartyListProcData,p+8);((struct Obj00349 *)p)->f0=1;break;
+    case 1:if(PROCSYS_Main(((struct Obj00349 *)p)->fD0)==0)((struct Obj00349 *)p)->f0=2;break;
     case 2:func_02034A5C((int)ov091_id);
         if(((struct Obj00349 *)p)->f48==1) {((struct Obj00349 *)p)->fAF=((struct Obj00349 *)p)->f44;((struct Obj00349 *)p)->f0=3;}
         else return 1;
         break;
     case 3:func_02034AC4((int)ov131_id);
-        func_02031348(((struct Obj00349 *)p)->fD0,-1,d_021DC800,p+0xa0);((struct Obj00349 *)p)->f0=4;break;
+        PROCSYS_Push(((struct Obj00349 *)p)->fD0,-1,gPokeStatusProcData,p+0xa0);((struct Obj00349 *)p)->f0=4;break;
     case 4:
         if(((struct Obj00349 *)p)->f98==1 && ((struct Obj00349 *)p)->f68==0)((struct Obj00349 *)p)->fC4=1;
-        if(func_02031330(((struct Obj00349 *)p)->fD0)==0)((struct Obj00349 *)p)->f0=5;break;
+        if(PROCSYS_Main(((struct Obj00349 *)p)->fD0)==0)((struct Obj00349 *)p)->f0=5;break;
     case 5:func_02034A5C((int)ov131_id);
         if(((struct Obj00349 *)p)->f6B==0) {((struct Obj00349 *)p)->f44=((struct Obj00349 *)p)->fAF;((struct Obj00349 *)p)->f0=0;}
         else return 1;

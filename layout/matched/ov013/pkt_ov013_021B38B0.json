@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B38B0",
+   "name": "VCT_ReceiveFrame",
    "address": "0x021B38B0",
    "kind": "game",
    "region": "ov013",

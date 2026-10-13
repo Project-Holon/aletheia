@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206E364",
+   "name": "NNS_G3dAllocAnmObj",
    "address": "0x0206E364",
    "kind": "game",
    "region": "arm9",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020882C0",
+   "name": "OSi_DisableInterruptsAndHalt",
    "address": "0x020882C0",
    "kind": "game",
    "region": "arm9",

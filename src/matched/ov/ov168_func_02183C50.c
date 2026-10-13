@@ -22,8 +22,8 @@
  *   func_020307B0  0x020307B0  arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
- *   func_02005DF8  0x02005DF8  thumb
- *   func_020312F8  0x020312F8  arm
+ *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
+ *   PROCSYS_ReplaceGlobal  0x020312F8  arm
  *   ov088_id       0x00000058  data  a1
  *   d_021BD574     0x021BD574  data  a4
  */
@@ -42,8 +42,8 @@ extern void func_02030DA4(int);
 extern u32 func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
-extern void func_02005DF8(u32 a);
-extern void func_020312F8(u32 a1, u32 a2, u32 a3);
+extern void GFL_USE_FadeInBgmFull(u32 a);
+extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern char ov088_id[];
 extern char d_021BD574[];
 
@@ -63,7 +63,7 @@ int func_02183C50(int a, int b, int c, void *p)
     v = (unsigned short)*(int *)((char *)p + 0x14c);
     func_020315D4((struct S020315D4 *)a);
     func_020306F0(v);
-    func_02005DF8(0xa);
-    func_020312F8((u32)ov088_id, (u32)d_021BD574, 0);
+    GFL_USE_FadeInBgmFull(0xa);
+    PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)d_021BD574, 0);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02016394
+ * function: MCSS_SetWorkFlag
  * address:  0x02016394
  * packet:   pkt_02016394
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct {
     unsigned int hi : 1;
 } S;
 
-void func_02016394(S *s, int f)
+void MCSS_SetWorkFlag(S *s, int f)
 {
     s->f = f;
 }

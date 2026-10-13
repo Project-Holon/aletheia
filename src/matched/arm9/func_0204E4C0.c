@@ -1,5 +1,5 @@
 /*
- * function: func_0204E4C0
+ * function: TEXTPRINT_SjisToGlyphCode
  * address:  0x0204E4C0
  * packet:   pkt_0204E4C0
  * region:   arm9
@@ -27,13 +27,13 @@
  * single-code tests must be written against 0x8189, not as literals.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204E4C0.c \
- *       --func func_0204E4C0 --addr 0x0204E4C0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TEXTPRINT_SjisToGlyphCode.c \
+ *       --func TEXTPRINT_SjisToGlyphCode --addr 0x0204E4C0 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
 
-u16 func_0204E4C0(u16 c)
+u16 TEXTPRINT_SjisToGlyphCode(u16 c)
 {
     if (c >= 0x829F && c <= 0x829F + 0x52)
         return c + (4 - 0x829F);

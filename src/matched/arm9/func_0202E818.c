@@ -1,5 +1,5 @@
 /*
- * function: func_0202E818
+ * function: COMM_PLAYER_SUPPORT_HasSavedMode
  * address:  0x0202E818
  * packet:   pkt_0202E818
  * region:   arm9
@@ -12,7 +12,7 @@
  * Unlabelled Thumb leaf: nonzero if either of two words at +4 or +8 is set.
  */
 
-int func_0202E818(int *p)
+int COMM_PLAYER_SUPPORT_HasSavedMode(int *p)
 {
     if (p[1] != 0 || p[2] != 0)
         return 1;

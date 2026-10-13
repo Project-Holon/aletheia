@@ -1,5 +1,5 @@
 /*
- * function: func_0204D9D4
+ * function: CLACT_LoadArchiveData
  * address:  0x0204D9D4
  * packet:   pkt_0204D768
  * region:   arm9
@@ -44,8 +44,8 @@
  * recomputed.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204D9D4.c \
- *       --func func_0204D9D4 --addr 0x0204D9D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_LoadArchiveData.c \
+ *       --func CLACT_LoadArchiveData --addr 0x0204D9D4 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -64,7 +64,7 @@ extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
 extern u32 sub_020307B0(void *p);
 extern void func_020834C0(const void *src, void *dest);
 
-void *func_0204D9D4(void *owner, u32 which, u32 compressed, u32 heapId)
+void *CLACT_LoadArchiveData(void *owner, u32 which, u32 compressed, u32 heapId)
 {
     void *out;
     struct CompHeader *raw;

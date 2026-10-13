@@ -17,7 +17,7 @@
  *   func_021803BC  0x021803BC  arm  ov009
  *   func_02084F40  0x02084F40  arm
  *   func_0217ED38  0x0217ED38  arm  ov009
- *   func_0215F650  0x0215F650  arm  ov009
+ *   SOC_GetHostByName  0x0215F650  arm  ov009
  *   func_0217EB18  0x0217EB18  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
  *   func_0217EB2C  0x0217EB2C  arm  ov009
@@ -41,13 +41,13 @@
  *   func_0219DFC0  0x0219DFC0  arm  ov009
  *   func_0219D2F0  0x0219D2F0  arm  ov009
  *   func_0219F978  0x0219F978  arm  ov009
- *   func_0219E9AC  0x0219E9AC  arm  ov009
+ *   SBServerSetFlags  0x0219E9AC  arm  ov009
  *   func_0219E9B4  0x0219E9B4  arm  ov009
- *   func_0219E9C0  0x0219E9C0  arm  ov009
+ *   SBServerSetICMPIP  0x0219E9C0  arm  ov009
  *   func_0219E084  0x0219E084  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
- *   func_0219E9D0  0x0219E9D0  arm  ov009
- *   func_0219E9C8  0x0219E9C8  arm  ov009
+ *   SBServerGetState  0x0219E9D0  arm  ov009
+ *   SBServerSetState  0x0219E9C8  arm  ov009
  *   memcmp  0x020923F0  arm
  *   func_0219E900  0x0219E900  arm  ov009
  *   func_0219E9D8  0x0219E9D8  arm  ov009
@@ -211,7 +211,7 @@ extern int func_0219FB64(char *s, int numbuckets);
 extern u32 func_021803BC(char *dst, char *src, u32 size);
 extern int func_02084F40(char *dst, char *fmt, ...);
 extern u32 func_0217ED38(char *name);
-extern SOCHostEnt *func_0215F650(char *name);
+extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int func_0217EB2C(int sock);
@@ -231,13 +231,13 @@ extern void func_0219F830(SBServerList *slist);
 extern void func_0219DFC0(SBServerList *slist);
 extern void func_0219D2F0(struct GOACryptState *state, unsigned char *key, unsigned char keysize);
 extern int func_0219F978(const char *buf, int len);
-extern void func_0219E9AC(SBServer *server, unsigned char flags);
+extern void SBServerSetFlags(SBServer *server, unsigned char flags);
 extern void func_0219E9B4(SBServer *server, unsigned int ip, unsigned short port);
-extern void func_0219E9C0(SBServer *server, unsigned int ip);
+extern void SBServerSetICMPIP(SBServer *server, unsigned int ip);
 extern void func_0219E084(SBServer *server, char *keyname, int value);
 extern void func_0219E01C(SBServer *server, char *keyname, char *value);
-extern unsigned char func_0219E9D0(SBServer *server);
-extern void func_0219E9C8(SBServer *server, unsigned char state);
+extern unsigned char SBServerGetState(SBServer *server);
+extern void SBServerSetState(SBServer *server, unsigned char state);
 extern int memcmp(const void *a, const void *b, unsigned long n);
 extern SBServer *func_0219E900(int unused, unsigned int publicip, unsigned short publicport);
 extern int func_0219E9D8(int v);
@@ -290,7 +290,7 @@ int func_0219FBB8(SBServerList *slist)
     saddr.port = 0xEE70;
     saddr.addr = func_0217ED38(masterHostname);
     if (saddr.addr == (u32)-1) {
-        hent = func_0215F650(masterHostname);
+        hent = SOC_GetHostByName(masterHostname);
         if (!hent)
             return 2;
         memcpy(&saddr.addr, hent->addrList[0], 4);
@@ -765,7 +765,7 @@ int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int
 
     holdlen = len;
     flags = *buf++;
-    func_0219E9AC(server, flags);
+    SBServerSetFlags(server, flags);
     buf += 4;
     len -= 5;
     if (flags & 0x10) {
@@ -789,7 +789,7 @@ int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int
         memcpy(&ip, buf, 4);
         buf += 4;
         len -= 4;
-        func_0219E9C0(server, ip);
+        SBServerSetICMPIP(server, ip);
     }
     if (flags & 0x40) {
         numkeys = func_02184200(slist->keylist);
@@ -820,7 +820,7 @@ int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int
                 break;
             }
         }
-        func_0219E9C8(server, func_0219E9D0(server) | 1);
+        SBServerSetState(server, SBServerGetState(server) | 1);
     }
     if (flags & 0x80) {
         while (*buf && len > 0) {
@@ -830,11 +830,11 @@ int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int
             ADVANCE(buf, len);
         }
         len--;
-        func_0219E9C8(server, func_0219E9D0(server) | 2);
+        SBServerSetState(server, SBServerGetState(server) | 2);
     }
-    state = func_0219E9D0(server);
+    state = SBServerGetState(server);
     if (!(flags & 0xc0) && ((state & 1) || (state & 2)))
-        func_0219E9C8(server, state & 0xfc);
+        SBServerSetState(server, state & 0xfc);
     return holdlen - len;
 }
 

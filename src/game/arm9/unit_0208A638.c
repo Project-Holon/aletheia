@@ -1,6 +1,6 @@
 /*
  * file:     unit_0208A638.c
- * function: func_0208A638
+ * function: SNDi_GetBankWaveArcTable
  * address:  0x0208A638
  * packet:   pkt_0208A638
  * region:   arm9
@@ -12,7 +12,7 @@
  */
 #include "../../matched/include/Obj16693.h"
 
-void *func_0208A638(char *bank)
+void *SNDi_GetBankWaveArcTable(char *bank)
 {
     return ((struct Obj16693 *)bank)->f38;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_020124F4
+ * function: GAME_DATA_Create
  * address:  0x020124F4
  * packet:   pkt_020124F4
  * region:   arm9
@@ -19,13 +19,13 @@
  *           overlay-resident function start is outside its index.
  *           `tu --suggest-split` confirms no cut helps ("best partition:
  *           0 piece(s), 1 function(s) left out") -- the only witnesses are
- *           the calls that need them.  Same wall as src/pending/func_02012704.c
+ *           the calls that need them.  Same wall as src/pending/GAME_DATA_Delete.c
  *           (the matching destructor), which is blocked on five siblings of
  *           these same overlay addresses.
  *           Every one of the 528 concrete bytes is correct; only the four
  *           relocation FIELDS stay wildcarded.
  * symbols:
- *   g_020A728C     0x020A728C  data
+ *   _GameDataFileName     0x020A728C  data
  *   func_02030734  0x02030734  arm
  *   func_020070A4  0x020070A4  thumb
  *   func_0202E888  0x0202E888  thumb
@@ -34,35 +34,35 @@
  *   func_02008848  0x02008848  thumb
  *   func_0200884C  0x0200884C  thumb
  *   func_02006E40  0x02006E40  thumb
- *   func_02012A60  0x02012A60  thumb
+ *   GAME_DATA_InitPlayerWork  0x02012A60  thumb
  *   func_02008468  0x02008468  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008730  0x02008730  thumb
  *   memcpy         0x02082D44  arm
  *   func_0216237C  0x0216237C  thumb  ov010
  *   func_021623DC  0x021623DC  thumb  ov010
- *   func_02012FE4  0x02012FE4  thumb
+ *   GAME_DATA_GetEventWorkFromSave  0x02012FE4  thumb
  *   func_02159B48  0x02159B48  thumb  ov010
  *   func_020071CC  0x020071CC  thumb
  *   func_0216CC58  0x0216CC58  thumb  ov010
- *   func_02028844  0x02028844  thumb
- *   func_02014428  0x02014428  thumb
+ *   FIELD_SOUND_SYSTEM_Create  0x02028844  thumb
+ *   FIELD_STATUS_Create  0x02014428  thumb
  *   func_02008254  0x02008254  thumb
  *   func_0200873C  0x0200873C  thumb
  *   func_02007AA4  0x02007AA4  thumb
- *   func_020097C4  0x020097C4  thumb
+ *   WIFILIST_Create  0x020097C4  thumb
  *   func_0200BDE4  0x0200BDE4  thumb
  *   func_02161D98  0x02161D98  thumb  ov010
  *   func_0200857C  0x0200857C  thumb
  *   func_020071E4  0x020071E4  thumb
  *   func_0215E31C  0x0215E31C  thumb  ov010
  *   func_0202E43C  0x0202E43C  thumb
- *   func_02012C18  0x02012C18  thumb
- *   func_0202E770  0x0202E770  thumb
- *   func_0202751C  0x0202751C  thumb
+ *   GAME_DATA_LoadFromSave  0x02012C18  thumb
+ *   COMM_PLAYER_SUPPORT_Create  0x0202E770  thumb
+ *   BEACON_STATUS_Create  0x0202751C  thumb
  *   func_021647A0  0x021647A0  thumb  ov010
  *
- * The constructor of the big game_data object destroyed by func_02012704.
+ * The constructor of the big game_data object destroyed by GAME_DATA_Delete.
  * 0x6B0 bytes from func_02030734(heap, 0x6B0, 1, "game_data.c", 0xAD); the
  * field offsets are the destructor's, read through a u8 * so the compiler
  * derives them all from the two pooled/scaled bases 0x1C4 (= 0x71 << 2),
@@ -82,7 +82,7 @@
  *    0x6B0 into a named `size`, and 300 single mutations of the permuter in
  *    --mode hill ("no single mutation improves") all leave the same seven.
  *    The permuter's --mode anneal found it as `type:p(a0:int->u16)` in 286
- *    compiles; the sibling caller src/matched/func_020082EC.c independently
+ *    compiles; the sibling caller src/matched/CONFIG_Create.c independently
  *    corroborates it, passing `(unsigned short)a0` to the same allocator.
  *
  * 2. THE memcpy ARGUMENTS ARE EVALUATED THROUGH TWO NAMED LOCALS, in the
@@ -94,8 +94,8 @@
  *    a-local-is-not.md)
  *
  * Verified with:
- *   python3 tools/match.py one --src src/pending/func_020124F4.c \
- *       --func func_020124F4 --addr 0x020124F4 --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/pending/GAME_DATA_Create.c \
+ *       --func GAME_DATA_Create --addr 0x020124F4 --cc 1.1p1 --thumb
  */
 #include "../include/Obj00054.h"
 
@@ -103,7 +103,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern char  g_020A728C[];
+extern char  _GameDataFileName[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Sub02006E40Obj;
 struct Sub02007084Ctrl;
@@ -121,7 +121,7 @@ extern void *func_0200884C(struct Sub02008828Obj *obj);
 extern struct Sub02006E40Obj *func_02006E40(u32 heap);
 struct Rec1B0;
 struct Rec44;
-extern void func_02012A60(struct Rec44 *p);
+extern void GAME_DATA_InitPlayerWork(struct Rec44 *p);
 extern int func_02008468(void);
 extern u8 *func_02012944(void *p);
 extern struct Sub0200852CObj *func_02008730(void *sys);
@@ -129,29 +129,29 @@ extern void *memcpy(void *dst, const void *src, u32 n);
 extern int func_0216237C(int a);
 extern void func_021623DC(char *p);
 struct Sub020071CCCtrl;
-extern void *func_02012FE4(struct Sub020071CCCtrl *a0);
+extern void *GAME_DATA_GetEventWorkFromSave(struct Sub020071CCCtrl *a0);
 extern u16 *func_02159B48(int a);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern char *func_0216CC58(int a, int b, int c);
-extern struct Sys *func_02028844(void *desc, u32 heap);
-extern u32   func_02014428(int heap);
+extern struct Sys *FIELD_SOUND_SYSTEM_Create(void *desc, u32 heap);
+extern u32   FIELD_STATUS_Create(int heap);
 extern void *func_02008254(u32 heap);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u32 *func_02007AA4(u32 heap, u32 value);
-extern void *func_020097C4(int a0);
+extern void *WIFILIST_Create(int a0);
 extern void func_0200BDE4(struct Rec1B0 *p);
 extern void  func_02161D98(char *p);
 extern void *func_0200857C(u32 heap);
 extern u8 func_020071E4(const struct Sub020071E4Ctrl *ctrl);
 extern void *func_0215E31C(u32 heap);
 extern void  func_0202E43C(void *p);
-extern void func_02012C18(u8 *p);
-extern void *func_0202E770(void *heap);
-extern u32   func_0202751C(int heap, u32 n);
+extern void GAME_DATA_LoadFromSave(u8 *p);
+extern void *COMM_PLAYER_SUPPORT_Create(void *heap);
+extern u32   BEACON_STATUS_Create(int heap, u32 n);
 extern u8 *func_021647A0(void *a, u32 b);
 
-void *func_020124F4(u16 heap)
+void *GAME_DATA_Create(u16 heap)
 {
     u8 *p;
     int i;
@@ -159,7 +159,7 @@ void *func_020124F4(u16 heap)
     void *src;
     void *obj;
 
-    p = func_02030734(heap, 0x6B0, 1, g_020A728C, 0xAD);
+    p = func_02030734(heap, 0x6B0, 1, _GameDataFileName, 0xAD);
     *(u32 *)&((struct Obj00054 *)p)->f0 = (u32)func_020070A4();
     ((struct Obj00054 *)p)->f1C4 = func_0202E888();
     ((struct Obj00054 *)p)->f1C6 = 0;
@@ -173,7 +173,7 @@ void *func_020124F4(u16 heap)
     ((struct Obj00054 *)p)->f1A4 = (u32)func_02006E40(heap);
 
     for (i = 0; i < 5; i++) {
-        func_02012A60((struct Rec44 *)(p + 4 + i * 0x44));
+        GAME_DATA_InitPlayerWork((struct Rec44 *)(p + 4 + i * 0x44));
     }
 
     n = func_02008468();
@@ -182,17 +182,17 @@ void *func_020124F4(u16 heap)
 
     ((struct Obj00054 *)p)->f158 = obj = (void *)func_0216237C(heap);
     func_021623DC(obj);
-    ((struct Obj00054 *)p)->f1AC = (unsigned int)func_02012FE4((struct Sub020071CCCtrl *)(*(u32 *)&((struct Obj00054 *)p)->f0));
+    ((struct Obj00054 *)p)->f1AC = (unsigned int)GAME_DATA_GetEventWorkFromSave((struct Sub020071CCCtrl *)(*(u32 *)&((struct Obj00054 *)p)->f0));
     ((struct Obj00054 *)p)->f1B0 = (u32)func_02159B48(heap);
     ((struct Obj00054 *)p)->f1A8 = (u32)func_0216CC58(heap, 0x40, (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x33));
-    ((struct Obj00054 *)p)->f1B4 = (u32)func_02028844(p, heap);
-    *(u32 *)&((struct Obj00054 *)p)->f1B8 = func_02014428(heap);
+    ((struct Obj00054 *)p)->f1B4 = (u32)FIELD_SOUND_SYSTEM_Create(p, heap);
+    *(u32 *)&((struct Obj00054 *)p)->f1B8 = FIELD_STATUS_Create(heap);
     ((struct Obj00054 *)p)->f18C = (u32)func_02008254(heap);
     *(u32 *)&((struct Obj00054 *)p)->f190 = (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x19);
     *(u32 *)&((struct Obj00054 *)p)->f194 = (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x1A);
     ((struct Obj00054 *)p)->f198 = (u32)func_0200873C((void *)(*(u32 *)&((struct Obj00054 *)p)->f0));
     ((struct Obj00054 *)p)->f19C = (u32)func_02007AA4(heap, *(u32 *)&((struct Obj00054 *)p)->f0);
-    ((struct Obj00054 *)p)->f1A0 = (u32)func_020097C4(heap);
+    ((struct Obj00054 *)p)->f1A0 = (u32)WIFILIST_Create(heap);
 
     for (i = 0; i < 4; i++) {
         func_0200BDE4((struct Rec1B0 *)(p + 0x1D4 + i * 0x10));
@@ -208,11 +208,11 @@ void *func_020124F4(u16 heap)
 
     ((struct Obj00054 *)p)->f5E4 = (u32)func_0215E31C(heap);
     func_0202E43C(p + 0x5E8);
-    func_02012C18(p);
+    GAME_DATA_LoadFromSave(p);
     ((struct Obj00054 *)p)->f680 = 0;
     *(u32 *)&((struct Obj00054 *)p)->f688 = 0;
-    ((struct Obj00054 *)p)->f684 = (u32)func_0202E770((void *)heap);
-    ((struct Obj00054 *)p)->f68C = func_0202751C(heap, 0x8001);
+    ((struct Obj00054 *)p)->f684 = (u32)COMM_PLAYER_SUPPORT_Create((void *)heap);
+    ((struct Obj00054 *)p)->f68C = BEACON_STATUS_Create(heap, 0x8001);
     ((struct Obj00054 *)p)->f690 = (u32)func_021647A0(p, heap);
     ((struct Obj00054 *)p)->f6A4 = 0;
     ((struct Obj00054 *)p)->f6A8 = 0;

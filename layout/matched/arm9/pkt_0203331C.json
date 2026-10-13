@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0203331C",
+   "name": "BACKUP_SYSTEM_SetBlockArea",
    "address": "0x0203331C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020333F8",
+   "name": "BACKUP_SYSTEM_ClearBlockAreas",
    "address": "0x020333F8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02033478",
+   "name": "BACKUP_SYSTEM_WriteFlash",
    "address": "0x02033478",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020338F8",
+   "name": "FLASH_ACCESS_GetBusyFlag",
    "address": "0x020338F8",
    "kind": "sdk",
    "region": "arm9",

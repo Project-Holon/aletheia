@@ -19,7 +19,7 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
- *   func_02008374  0x02008374  thumb
+ *   CONFIG_GetTextSpeed  0x02008374  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_02188D30  0x02188D30  thumb  ov021
  *   func_02030DA8  0x02030DA8  arm
@@ -49,7 +49,7 @@ extern void func_021F58C0(char *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern unsigned int func_02008374(int a0);
+extern unsigned int CONFIG_GetTextSpeed(int a0);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern u32 func_02188D30(u8 *p);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
@@ -75,7 +75,7 @@ void *func_021F5260(int a0, int a1, int a2, void *a3, int a4)
     ((struct Obj02424 *)w)->f70 = a2;
     func_021F58C0((char *)(w + 0x28));
     func_021F58C0((char *)(w + 0x4c));
-    mode = func_02008374((int)func_0200873C(func_02012EBC(func_020120F4(a3))));
+    mode = CONFIG_GetTextSpeed((int)func_0200873C(func_02012EBC(func_020120F4(a3))));
     if (mode == 0)
         w[0x55] = 3;
     else if (mode == 1)

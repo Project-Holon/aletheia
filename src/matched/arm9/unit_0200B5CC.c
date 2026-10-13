@@ -16,12 +16,19 @@
  * 176 bytes, 0x0200B5CC..0x0200B67C, one function, which carries a label in
  * the generated listing.
  *
- * alias: inside "battle_rec.c".  The same classification func_0200B4E0 does,
+ * alias: inside "battle_rec.c".  The same classification BATTLE_REC_LoadToWork does,
  * over a record the save system already holds rather than one just read, and
  * with a `func_020072A4` release on every path instead of only on entry.  See
  * src/matched/unit_0200B4E0.c for why the two are separate files. *
  * symbols:
- *   gObj_0214616C  0x0214616C  data
+ *   pBattleRec  0x0214616C  data
+ *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
+ *   BATTLE_REC_Create  0x0200B3DC  thumb
+ *   BATTLE_REC_AllocWork  0x0200B400  thumb
+ *   BATTLE_REC_Clear  0x0200B448  thumb
+ *   BATTLE_REC_IsMagicBroken  0x0200B888  thumb
+ *   BATTLE_REC_IsValid  0x0200B8AC  thumb
+ *   BATTLE_REC_Decode  0x0200B900  thumb
  */
 
 typedef unsigned char  u8;
@@ -45,15 +52,15 @@ struct Sub020072A4Ctrl;
 struct Sub020073D8Ctrl;
 extern u32 func_020072CC(struct Ctrl *ctrl, u32 id, u8 heap, void *buf, u32 size);
 extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
-extern void func_0200B900(void *a, u32 b, u32 c);
-extern u32  func_0200725C(void *save, u32 id, u32 heap);
+extern void BATTLE_REC_Decode(void *a, u32 b, u32 c);
+extern u32  SAVE_CONTROL_LoadExtraSave(void *save, u32 id, u32 heap);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
-extern u32 func_0200B888(void *a, struct BattleRec *b);
-extern u32 func_0200B8AC(void *a, struct BattleRec *b);
-extern void func_0200B448(struct BattleRec *p);
-extern void func_0200B400(u32 heap);
-extern void *func_0200B3DC(u32 heap);
-extern struct BattleRec *gObj_0214616C;
+extern u32 BATTLE_REC_IsMagicBroken(void *a, struct BattleRec *b);
+extern u32 BATTLE_REC_IsValid(void *a, struct BattleRec *b);
+extern void BATTLE_REC_Clear(struct BattleRec *p);
+extern void BATTLE_REC_AllocWork(u32 heap);
+extern void *BATTLE_REC_Create(u32 heap);
+extern struct BattleRec *pBattleRec;
 
 u32 func_0200B5CC(void *a, u32 heap, u32 *dp, u32 id)
 {
@@ -61,7 +68,7 @@ u32 func_0200B5CC(void *a, u32 heap, u32 *dp, u32 id)
     struct RecC4 *r;
     u16 v;
 
-    *dp = func_0200725C(a, id, heap);
+    *dp = SAVE_CONTROL_LoadExtraSave(a, id, heap);
     p = func_020073D8(a, id, 0);
     if (*dp == 0) {
         *dp = 0;
@@ -75,13 +82,13 @@ u32 func_0200B5CC(void *a, u32 heap, u32 *dp, u32 id)
     }
     r = &p->unkC4;
     v = r->unk17DC;
-    func_0200B900(r, 0x17DC, v + ((v ^ 0xFFFF) << 16));
-    if (func_0200B888(a, p) == 1) {
+    BATTLE_REC_Decode(r, 0x17DC, v + ((v ^ 0xFFFF) << 16));
+    if (BATTLE_REC_IsMagicBroken(a, p) == 1) {
         *dp = 0;
         func_020072A4(a, id);
         return 0;
     }
-    if (func_0200B8AC(a, p) == 0) {
+    if (BATTLE_REC_IsValid(a, p) == 0) {
         *dp = 2;
         func_020072A4(a, id);
         return 0;

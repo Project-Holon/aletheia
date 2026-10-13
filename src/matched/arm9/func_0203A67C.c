@@ -1,5 +1,5 @@
 /*
- * function: func_0203A67C
+ * function: GFL_NET_COMMAND_GetCommandTable
  * address:  0x0203A67C
  * packet:   pkt_0203A574
  * region:   arm9
@@ -14,7 +14,7 @@
  *   g_020A7AE8_arr 0x020A7AE8  data
  *   g_020A7AF8     0x020A7AF8  data
  *   g_020A7B08     0x020A7B08  data
- *   g_021469D8     0x021469D8  data
+ *   _pCommandWork     0x021469D8  data
  *   func_02034714  0x02034714  arm
  *
  * net_command.c's command-record lookup.  The 16-bit command is split into
@@ -28,7 +28,7 @@
  * guard is `bgt`, not `bhi`.
  *
  * Any other group scans the four 0x10-byte records behind the pointer at
- * 0x021469D8, the _pCommandWork context src/matched/func_0203A494.c
+ * 0x021469D8, the _pCommandWork context src/matched/GFL_NET_COMMAND_Init.c
  * allocates; the second assert string at 0x020A7B20 names those records
  * "_pCommandWork->aNetHugeRecv[index].used".
  *
@@ -46,8 +46,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A67C.c \
- *       --func func_0203A67C --addr 0x0203A67C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_COMMAND_GetCommandTable.c \
+ *       --func GFL_NET_COMMAND_GetCommandTable --addr 0x0203A67C --cc 1.1p1 --arm
  */
 
 #include "../include/G_Entry.h"
@@ -66,10 +66,10 @@ extern struct BaseTable g_020A7AE8;
 extern struct BaseTable g_020A7AE8_arr;
 extern char   g_020A7AF8[];
 extern char   g_020A7B08[];
-extern struct Entry *g_021469D8;
+extern struct Entry *_pCommandWork;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-struct BaseTable *func_0203A67C(u32 cmd)
+struct BaseTable *GFL_NET_COMMAND_GetCommandTable(u32 cmd)
 {
     int i;
     u32 hi = cmd & 0xff00;
@@ -81,7 +81,7 @@ struct BaseTable *func_0203A67C(u32 cmd)
         return (struct BaseTable *)((void *)&g_020A7AE8_arr);
     }
     for (i = 0; i < 4; i++) {
-        struct HugeRecv *r = ((struct HugeRecv *)g_021469D8) + i;
+        struct HugeRecv *r = ((struct HugeRecv *)_pCommandWork) + i;
         if (hi == r->key) {
             if (r->count <= lo)
                 return 0;

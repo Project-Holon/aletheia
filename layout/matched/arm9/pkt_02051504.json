@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020514F4",
+   "name": "PARTICLE_UpdateSystem",
    "address": "0x020514F4",
    "kind": "sdk",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02051504",
+   "name": "PARTICLE_CountSystems",
    "address": "0x02051504",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02051534",
+   "name": "PARTICLE_DrawAllSystems",
    "address": "0x02051534",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02051574",
+   "name": "PARTICLE_UpdateAllSystems",
    "address": "0x02051574",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020515B4",
+   "name": "PARTICLE_StartEffect",
    "address": "0x020515B4",
    "kind": "game",
    "region": "arm9",

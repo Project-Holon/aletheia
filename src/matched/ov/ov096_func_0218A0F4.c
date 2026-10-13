@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020113B0  0x020113B0  thumb
+ *   VM_Jump  0x020113B0  thumb
  */
 #include "../include/Obj00005.h"
 
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct Cur;
-extern void func_020113B0(struct Cur *c, u32 v);
+extern void VM_Jump(struct Cur *c, u32 v);
 
 int func_0218A0F4(u8 *a, int op, int x, int y, int z)
 {
@@ -62,6 +62,6 @@ int func_0218A0F4(u8 *a, int op, int x, int y, int z)
         break;
     }
     if (r == 1)
-        func_020113B0((struct Cur *)a, (u32)(*(u8 * *)&((struct Obj00005 *)a)->f14 + z));
+        VM_Jump((struct Cur *)a, (u32)(*(u8 * *)&((struct Obj00005 *)a)->f14 + z));
     return r;
 }

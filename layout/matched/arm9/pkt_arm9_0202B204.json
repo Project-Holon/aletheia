@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202B204",
+   "name": "ISS_ROAD_SYS_Stop",
    "address": "0x0202B204",
    "kind": "game",
    "region": "arm9",

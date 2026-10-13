@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0203C3EC  0x0203C3EC  arm
+ *   GFL_NET_STATE_GetWifiState  0x0203C3EC  arm
  *
- * Channel-id predicate: true when func_0203C3EC() answers 3, 4 or 5.
+ * Channel-id predicate: true when GFL_NET_STATE_GetWifiState() answers 3, 4 or 5.
  * `push {r3, lr}; blx; cmp r0, #3; beq; cmp r0, #4; beq; cmp r0, #5; bne;
  * movs r0, #1; pop; movs r0, #0; pop`.
  *
  * Now EXACT*.  The old blocker (0x0203C3EC had no witness) is gone: it was
- * matched in arm9 (src/matched/func_0203C3EC.c, shard pkt_0203C3EC), so
+ * matched in arm9 (src/matched/GFL_NET_STATE_GetWifiState.c, shard pkt_0203C3EC), so
  * `attest_matched` resolves the BLX field.  The remaining residue was codegen:
  * the old `v == 3 || v == 4 || v == 5` source folded to a range test, and a
  * chain of separate `if`s oriented the true arm last.  A bare `switch (v)`
@@ -28,11 +28,11 @@
 
 typedef int BOOL;
 
-extern int func_0203C3EC(void);
+extern int GFL_NET_STATE_GetWifiState(void);
 
 BOOL func_021BF068(char *a0)
 {
-    int v = func_0203C3EC();
+    int v = GFL_NET_STATE_GetWifiState();
 
     switch (v) {
     case 3:

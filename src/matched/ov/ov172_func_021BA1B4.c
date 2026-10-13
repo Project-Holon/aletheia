@@ -12,7 +12,7 @@
  * Allocates the +0x20 handle; on failure runs the error path and clears +0xc.
  *
  * symbols:
- *   func_02072A44  0x02072A44  arm
+ *   NNS_SndWaveOutAllocChannel  0x02072A44  arm
  *   func_02034714  0x02034714  arm
  *
  * Addresses are Black-image addresses.
@@ -24,12 +24,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int  func_02072A44(int size);
+extern int  NNS_SndWaveOutAllocChannel(int size);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void func_021BA1B4(char *p, u32 a1)
 {
-    u32 v = func_02072A44(7);
+    u32 v = NNS_SndWaveOutAllocChannel(7);
 
     ((struct Obj05447 *)p)->f20 = v;
     if (v == 0) {

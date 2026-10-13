@@ -1,5 +1,5 @@
 /*
- * function: func_02175648
+ * function: INTRUDE_COMM_BuildLocalProfile
  * address:  0x02175648
  * packet:   pkt_ov011_02175648
  * region:   ov011
@@ -46,7 +46,7 @@ extern unsigned long long func_0200BFA4(u8 *p, void *q, u32 mode);
 extern unsigned long long func_0200BF94(struct Rec1B0 *p);
 extern void func_0200BF54(struct Rec1B0 *p, u8 *dest, u32 n);
 
-void func_02175648(void *sv, Out *o)
+void INTRUDE_COMM_BuildLocalProfile(void *sv, Out *o)
 {
     void *q;
 

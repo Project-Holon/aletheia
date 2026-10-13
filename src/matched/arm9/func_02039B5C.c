@@ -1,5 +1,5 @@
 /*
- * function: func_02039B5C
+ * function: GFL_NET_HANDLE_RecvTimingSync
  * address:  0x02039B5C
  * packet:   pkt_02039B5C
  * region:   arm9
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021469D4     0x021469D4  data
- *   func_020395EC  0x020395EC  arm
+ *   _pBaseWork     0x021469D4  data
+ *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
  *   sub_0203996C   0x0203996C  arm
  *   func_020399B8  0x020399B8  arm
- *   func_02039160  0x02039160  arm
+ *   GFL_NET_SYSTEM_IsConnectMember  0x02039160  arm
  *
  * Record one peer's vote and raise the "everyone agreed" flag when the last
  * one lands.  The 3-byte message at `msg` is a u16 tag plus a u8 mask; the
- * sender's slot is `slot`, and the vote is only taken when func_020395EC says
+ * sender's slot is `slot`, and the vote is only taken when GFL_NET_HANDLE_GetNetHandleID says
  * the link is still the own link (0xff) and the slot is a real one.
  *
- * Both halves of the vote table hang off the one module global g_021469D4:
+ * Both halves of the vote table hang off the one module global _pBaseWork:
  * the u16 tags are the array at +0, the masks the bytes at +0x10 and the
  * ready flags the bytes at +0x18.  The global is re-read after each store and
  * inside the scan because every callee here is an ordinary extern.
@@ -29,7 +29,7 @@
  * The scan then walks all eight slots: an ACTIVE slot must have voted the same
  * mask and the same tag, and must NOT carry that slot's own bit in its mask,
  * or the function returns without raising the flag; an INACTIVE slot is only allowed
- * through when func_02039160 says it is not merely late.  `1 << i` is kept
+ * through when GFL_NET_SYSTEM_IsConnectMember says it is not merely late.  `1 << i` is kept
  * live in sb across the whole loop, which is what puts `mov sb, #1` above the
  * loop head rather than a rematerialised constant in the arm
  * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md).
@@ -41,8 +41,8 @@
  * seeding into layout/function_starts.txt.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02039B5C.c \
- *       --func func_02039B5C --addr 0x02039B5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_RecvTimingSync.c \
+ *       --func GFL_NET_HANDLE_RecvTimingSync --addr 0x02039B5C --cc 1.1p1 --arm
  */
 
 #include "../include/G_Votes.h"
@@ -58,47 +58,47 @@ struct Msg {
 
 struct Entry;
 
-extern struct Votes *g_021469D4;
+extern struct Votes *_pBaseWork;
 
 typedef signed int     s32;
-extern int func_020395EC(struct Entry *a);
+extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
 extern struct Entry *sub_0203996C(s32 idx);
 extern u32 func_020399B8(u8 *p);
-extern u32 func_02039160(u16 mode);
+extern u32 GFL_NET_SYSTEM_IsConnectMember(u16 mode);
 
-void func_02039B5C(u32 slot, u32 a1, struct Msg *msg, u32 a3, u32 link)
+void GFL_NET_HANDLE_RecvTimingSync(u32 slot, u32 a1, struct Msg *msg, u32 a3, u32 link)
 {
     u16 tag = msg->tag;
     u8  mask = msg->mask;
     int i;
     u32 one;
 
-    if (func_020395EC((void *)link) != 0xff) {
+    if (GFL_NET_HANDLE_GetNetHandleID((void *)link) != 0xff) {
         return;
     }
     if (slot == 0xff) {
         return;
     }
 
-    g_021469D4->tag[slot] = tag;
-    g_021469D4->mask[slot] = mask;
+    _pBaseWork->tag[slot] = tag;
+    _pBaseWork->mask[slot] = mask;
 
     i = 0;
     one = 1;
 
     for (; i < 8; i++) {
         if (func_020399B8((u8 *)sub_0203996C(i)) != 0) {
-            if (mask == g_021469D4->mask[i]) {
-                if (tag != g_021469D4->tag[i]) {
+            if (mask == _pBaseWork->mask[i]) {
+                if (tag != _pBaseWork->tag[i]) {
                     return;
                 }
             } else if ((mask & (one << i)) != 0) {
                 return;
             }
-        } else if (func_02039160((u16)i) == 1) {
+        } else if (GFL_NET_SYSTEM_IsConnectMember((u16)i) == 1) {
             return;
         }
     }
 
-    g_021469D4->ready[slot] = 1;
+    _pBaseWork->ready[slot] = 1;
 }

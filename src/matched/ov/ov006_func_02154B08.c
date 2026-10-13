@@ -1,5 +1,5 @@
 /*
- * function: func_02154B08
+ * function: EVENT_WIFICLUB_InitWork
  * address:  0x02154B08
  * packet:   pkt_ov006_02154B08
  * region:   ov006
@@ -19,7 +19,7 @@
  *   func_02030734   0x02030734  arm
  *   func_02012EBC   0x02012EBC  thumb
  *   func_0201283C   0x0201283C  thumb
- *   func_02005C44   0x02005C44  thumb
+ *   GFL_USE_GetBgmNo   0x02005C44  thumb
  *   func_0200ADF0   0x0200ADF0  thumb
  *   d_02154C80      0x02154C80  data  ov006  a4
  */
@@ -46,7 +46,7 @@ struct Party *func_0201A920(u32 heap);
 void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 void *func_02012EBC(struct Big *p);
 u32 func_0201283C(const struct BigObj *p);
-u16 func_02005C44(void);
+u16 GFL_USE_GetBgmNo(void);
 struct Reg *func_0200ADF0(u32 heap);
 
 extern char d_02154C80[];
@@ -67,7 +67,7 @@ typedef struct Sub {
     u8  f49;
 } Sub;
 
-void func_02154B08(void *obj_in, void *p, int a, int b)
+void EVENT_WIFICLUB_InitWork(void *obj_in, void *p, int a, int b)
 {
     char *obj;
     Sub *s;
@@ -90,7 +90,7 @@ void func_02154B08(void *obj_in, void *p, int a, int b)
     (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f0c = 0;
     ((struct Obj00652 *)obj)->f7C = ((struct Obj00652 *)obj)->f168 = (int)func_0201A920(0x8004);
     *(char * *)&((struct Obj00652 *)obj)->fC = obj;
-    ((struct Obj00652 *)obj)->f170 = func_02005C44();
+    ((struct Obj00652 *)obj)->f170 = GFL_USE_GetBgmNo();
     (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f14 = (int)func_0201A920(0x8001);
     (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f18 = (int)func_0201A920(0x8001);
     (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f1c = (int)func_0200ADF0(0x8001);

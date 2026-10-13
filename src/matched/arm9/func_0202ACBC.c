@@ -1,5 +1,5 @@
 /*
- * function: func_0202ACBC
+ * function: ISS_CITY_SYS_GetPlayerZoneId
  * address:  0x0202ACBC
  * packet:   pkt_0202AC60
  * region:   arm9
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct Rec44;
 extern unsigned short func_02012AC8(const struct Rec44 *p);
 
-u32 func_0202ACBC(u32 *p)
+u32 ISS_CITY_SYS_GetPlayerZoneId(u32 *p)
 {
     return func_02012AC8((const struct Rec44 *)*p);
 }

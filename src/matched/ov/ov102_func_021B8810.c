@@ -21,7 +21,7 @@
  *   func_0204B404  0x0204B404  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_02005728  0x02005728  thumb
- *   func_0204B8C4  0x0204B8C4  arm
+ *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj04424.h"
@@ -38,7 +38,7 @@ extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int a);
 extern u32 func_02005728(u32 range);
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 
 void func_021B8810(int a0, int b, int c, int a3)
 {
@@ -52,5 +52,5 @@ void func_021B8810(int a0, int b, int c, int a3)
     tmp[1] = (u16)((struct Obj04424 *)a0)->fC;
     func_0204B404((struct Obj *)(((struct Obj04424 *)a0)->f18), (const struct Vec2 *)tmp, 1);
     func_0204B3DC((struct Obj *)((struct Obj04424 *)a0)->f18, 1);
-    func_0204B8C4((struct Obj *)(((struct Obj04424 *)a0)->f18), func_02005728(0x2000));
+    CLACT_SetActorAnimFrame((struct Obj *)(((struct Obj04424 *)a0)->f18), func_02005728(0x2000));
 }

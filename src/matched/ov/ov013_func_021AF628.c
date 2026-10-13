@@ -1,5 +1,5 @@
 /*
- * function: func_021AF628
+ * function: VCT_ADPCM_Decode3Bit
  * address: 0x021AF628
  * packet: pkt_ov013_021AF628
  * region: ov013
@@ -12,8 +12,8 @@
  * temporaries; fixed dst indexes and explicit pointer steps reproduce the tail.
  * 3-bit ADPCM decoder, eight samples per three input bytes, high bits first.
  * symbols:
- *   d_021B3A04 0x021B3A04 data ov013 a1
- *   d_021B3A1C 0x021B3A1C data ov013 a2
+ *   gAdpcmIndexTable3 0x021B3A04 data ov013 a1
+ *   gAdpcmStepTable 0x021B3A1C data ov013 a2
  */
 typedef unsigned char u8;
 typedef signed char s8;
@@ -23,8 +23,8 @@ typedef struct AdpcmState {
     s16 pred;
     u8 index;
 } AdpcmState;
-extern const s8 d_021B3A04[8];
-extern const s16 d_021B3A1C[89];
+extern const s8 gAdpcmIndexTable3[8];
+extern const s16 gAdpcmStepTable[89];
 static inline s16 Adpcm3DecodeCode(AdpcmState *st, int code)
 {
     int pred;
@@ -33,7 +33,7 @@ static inline s16 Adpcm3DecodeCode(AdpcmState *st, int code)
     int diff;
     idx = st->index;
     pred = st->pred;
-    step = d_021B3A1C[idx];
+    step = gAdpcmStepTable[idx];
     diff = step >> 2;
     if (code & 2) diff += step;
     if (code & 1) diff += step >> 1;
@@ -44,14 +44,14 @@ static inline s16 Adpcm3DecodeCode(AdpcmState *st, int code)
         pred += diff;
         if (pred > 32767) pred = 32767;
     }
-    idx += d_021B3A04[code];
+    idx += gAdpcmIndexTable3[code];
     if (idx < 0) idx = 0;
     else if (idx > 88) idx = 88;
     st->index = idx;
     st->pred = (s16)pred;
     return (s16)pred;
 }
-void func_021AF628(const u8 *src, s16 *dst, u32 n, AdpcmState *st)
+void VCT_ADPCM_Decode3Bit(const u8 *src, s16 *dst, u32 n, AdpcmState *st)
 {
     u32 i;
     u8 a;

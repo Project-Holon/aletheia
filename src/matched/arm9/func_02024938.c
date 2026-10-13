@@ -1,5 +1,5 @@
 /*
- * function: func_02024938
+ * function: PMS_WORD_InitSave
  * address:  0x02024938
  * packet:   pkt_02024938
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   tbl_0209F784   0x0209F784  data  a1
+ *   g_pmsWordDefaultFlagTable   0x0209F784  data  a1
  *   func_020249A0  0x020249A0  thumb
  *
  * pms_word.c: clear the flag words, seed all forty word slots to 0xFFFF,
@@ -36,10 +36,10 @@ struct PmsWord {
     struct PmsWordEntry e[20];
 };
 
-extern const u8 tbl_0209F784[][2];
+extern const u8 g_pmsWordDefaultFlagTable[][2];
 extern void func_020249A0(int *p, int bit);
 
-void func_02024938(struct PmsWord *p)
+void PMS_WORD_InitSave(struct PmsWord *p)
 {
     int i, j;
     u32 k;
@@ -51,8 +51,8 @@ void func_02024938(struct PmsWord *p)
             p->e[i].word[j] = 0xffff;
     }
     for (k = 0; k < 7; k++) {
-        if (tbl_0209F784[k][0] == 2) {
-            func_020249A0((int *)p, tbl_0209F784[k][1]);
+        if (g_pmsWordDefaultFlagTable[k][0] == 2) {
+            func_020249A0((int *)p, g_pmsWordDefaultFlagTable[k][1]);
             return;
         }
     }

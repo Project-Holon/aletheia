@@ -1,7 +1,7 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * function: sub_020107FC
+ * function: WIH_DWC_FindSlotByKey
  * address:  0x020107FC
  * packet:   pkt_020107FC
  * region:   arm9
@@ -30,7 +30,7 @@
  *   sub_0202E8D8      0x0202E8D8  thumb
  *
  * wih_dwc.c: find the first of 16 slots whose ov014 state is 0x20 and whose
- * func_0203CF10 record func_0202E8D8 accepts against (key, own MAC address);
+ * func_0203CF10 record COMM_PLAYER_SUPPORT_FindPeerRecord accepts against (key, own MAC address);
  * -1 when none, or when func_0203CD98 reports the layer inactive.  The
  * closing lever over docs/notes/pkt_020107CC.c.txt was the wrapping `if`
  * instead of an early return (the original's guard branches forward over
@@ -39,8 +39,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_020107FC.c \
- *       --func sub_020107FC --addr 0x020107FC --thumb
+ *   python tools/match.py one --src src/pending/WIH_DWC_FindSlotByKey.c \
+ *       --func WIH_DWC_FindSlotByKey --addr 0x020107FC --thumb
  */
 
 typedef unsigned char u8;
@@ -53,7 +53,7 @@ extern u32 func_0203CF10(u32 a);
 extern u8 func_02177B80(int i);
 extern int sub_0202E8D8(char *a0, int a1, char *a2);
 
-int sub_020107FC(void *key)
+int WIH_DWC_FindSlotByKey(void *key)
 {
     u8 mac[8];
     int i;

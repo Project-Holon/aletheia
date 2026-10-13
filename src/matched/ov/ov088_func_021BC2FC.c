@@ -16,7 +16,7 @@
  *   func_02008730  0x02008730  thumb
  *   func_02008494  0x02008494  thumb
  *   func_0200873C  0x0200873C  thumb
- *   func_02008314  0x02008314  thumb
+ *   CONFIG_Copy  0x02008314  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_0203133C  0x0203133C  arm
  *   func_02007210  0x02007210  thumb
@@ -26,10 +26,10 @@
  *   func_021DFE90  0x021DFE90  thumb  ov228
  *   func_021DFEB0  0x021DFEB0  thumb  ov228
  *   func_021DFDB8  0x021DFDB8  thumb  ov228
- *   func_02011EEC  0x02011EEC  thumb
+ *   GAMESYSTEM_SetupInitWork  0x02011EEC  thumb
  *   func_0216C0C0  0x0216C0C0  thumb  ov010
  *   func_020315D4  0x020315D4  arm
- *   func_020312F8  0x020312F8  arm
+ *   PROCSYS_ReplaceGlobal  0x020312F8  arm
  *   ov228_id       0x000000E4  data
  *   d_0209DF9C     0x0209DF9C  data  a4
  */
@@ -53,7 +53,7 @@ extern void func_021BD29C(void *p);
 extern struct Sub0200852CObj *func_02008730(void *sys);
 extern void func_02008494(void *, void *);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern void func_02008314(void *, void *);
+extern void CONFIG_Copy(void *, void *);
 extern u32 func_020307B0(void *p);
 struct S020314B8;
 extern void func_0203133C(struct S020314B8 *p);
@@ -64,11 +64,11 @@ extern void *func_021DFC20(u32 heap);
 extern u8 func_021DFE90(u8 *p);
 extern void func_021DFEB0(char *p, void *ctrl);
 extern void func_021DFDB8(void *);
-extern void *func_02011EEC(u32 a0, u16 a1, struct Rec12 *a2, int a3);
+extern void *GAMESYSTEM_SetupInitWork(u32 a0, u16 a1, struct Rec12 *a2, int a3);
 extern int func_0216C0C0(int);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020312F8(u32 a1, u32 a2, u32 a3);
+extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern u8 ov228_id[];
 extern char d_0209DF9C[];
 
@@ -80,7 +80,7 @@ int func_021BC2FC(int a, int b, int c, char *t)
     func_02005B04((const u32 *)(((struct Obj03676 *)t)->f34));
     func_021BD29C((void *)(((struct Obj03676 *)t)->f2C));
     func_02008494(((struct Obj03676 *)t)->f54, func_02008730(r4));
-    func_02008314(((struct Obj03676 *)t)->f58, func_0200873C(r4));
+    CONFIG_Copy(((struct Obj03676 *)t)->f58, func_0200873C(r4));
     func_020307B0(((struct Obj03676 *)t)->f54);
     func_020307B0(((struct Obj03676 *)t)->f58);
     func_0203133C((struct S020314B8 *)((struct Obj03676 *)t)->f30);
@@ -92,9 +92,9 @@ int func_021BC2FC(int a, int b, int c, char *t)
         func_021DFDB8(r6);
         func_02034A5C((int)ov228_id);
     }
-    r4 = func_02011EEC(0, 0, &z, 0);
+    r4 = GAMESYSTEM_SetupInitWork(0, 0, &z, 0);
     func_0216C0C0(((struct Obj03676 *)t)->f28);
     func_020315D4((struct S020315D4 *)a);
-    func_020312F8(-1, (u32)d_0209DF9C, (u32)r4);
+    PROCSYS_ReplaceGlobal(-1, (u32)d_0209DF9C, (u32)r4);
     return 1;
 }

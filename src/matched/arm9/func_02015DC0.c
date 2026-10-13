@@ -1,5 +1,5 @@
 /*
- * function: func_02015DC0
+ * function: MCSS_ResetMepachiFlag
  * address:  0x02015DC0
  * packet:   pkt_02015DC0
  * region:   arm9
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj15662.h"
 
-void func_02015DC0(void *p)
+void MCSS_ResetMepachiFlag(void *p)
 {
     ((struct Obj15662 *)p)->f140 &= ~0x100u;
 }

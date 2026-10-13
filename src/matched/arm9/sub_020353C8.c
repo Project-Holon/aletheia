@@ -1,5 +1,5 @@
 /*
- * function: sub_020353C8
+ * function: UI_RunWakePoweredHook
  * address:  0x020353C8
  * packet:   pkt_020353B0
  * region:   arm9
@@ -12,17 +12,17 @@
  * symbols:
  *   func_020353B0  0x020353B0  arm
  *
- * Run the +0x20 hook, but only when one is installed and sub_020353B0 says
+ * Run the +0x20 hook, but only when one is installed and UI_IsPowerConnected says
  * the state allows it.  The two guards each carry their own `popeq`: a call
  * sits between them, so they cannot share an exit block and are two `if`s
  * rather than one `&&`.
  *
- * The hook pointer is re-read after the sub_020353B0 call, and the argument
+ * The hook pointer is re-read after the UI_IsPowerConnected call, and the argument
  * at +0x30 is loaded before it, because nothing proves the call left the
  * context alone.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020353C8.c \n *       --func sub_020353C8 --addr 0x020353C8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/UI_RunWakePoweredHook.c \n *       --func UI_RunWakePoweredHook --addr 0x020353C8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -48,7 +48,7 @@ struct UiCtx {
 
 extern int func_020353B0(void);
 
-void sub_020353C8(struct UiCtx *p)
+void UI_RunWakePoweredHook(struct UiCtx *p)
 {
     if (p->on_20 == 0) {
         return;

@@ -1,7 +1,7 @@
 /*
  * file:     net_handle.c
  * unit:     yes
- * function: func_020395EC, func_02039658, func_0203971C, func_02039764, func_02039834, func_020398B4, func_0203996C, func_020399A8, func_020399B8, func_020399DC, func_020399EC, func_02039A2C, func_02039A5C, func_02039ACC, func_02039B5C, func_02039C2C, func_02039C3C, func_02039C68, func_02039CA0, func_02039CB4, func_02039CD8, func_02039D94, func_0203A020, func_0203A118, func_0203A150, func_0203A27C, func_0203A28C, func_0203A2F0, func_0203A338, func_0203A388, func_0203A424, func_0203A458
+ * function: GFL_NET_HANDLE_GetNetHandleID, GFL_NET_HANDLE_ResetHandle, GFL_NET_HANDLE_ClearTimingMask, GFL_NET_HANDLE_CreateHandle, GFL_NET_HANDLE_InitWork, GFL_NET_HANDLE_ExitWork, func_0203996C, func_020399A8, func_020399B8, GFL_NET_HANDLE_GetNegotiationState, GFL_NET_HANDLE_GetNegotiationNum, GFL_NET_HANDLE_RequestNegotiation, GFL_NET_HANDLE_SendNegotiation, func_02039ACC, GFL_NET_HANDLE_RecvTimingSync, GFL_NET_HANDLE_RecvTimingTag, GFL_NET_HANDLE_StartTimingSync, func_02039C68, GFL_NET_HANDLE_IsTimingSync, func_02039CB4, GFL_NET_HANDLE_CheckTimingSyncAll, GFL_NET_HANDLE_Main, GFL_NET_HANDLE_RecvNegotiation, GFL_NET_HANDLE_SetNegotiationEnd, GFL_NET_HANDLE_RecvNegotiationReturn, GFL_NET_HANDLE_RecvRemoveHandle, GFL_NET_HANDLE_SetBitMask, GFL_NET_HANDLE_IsBitSet, GFL_NET_HANDLE_RemoveHandle, GFL_NET_HANDLE_RecvInfoData, GFL_NET_HANDLE_SetUserInfo, GFL_NET_HANDLE_SetAllTimingValue
  * address:  0x020395EC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -16,15 +16,15 @@
  * symbols:
  *   func_02030734            0x02030734  arm
  *   func_02082BCC            0x02082BCC  arm
- *   func_02039548            0x02039548  arm
+ *   GFL_NET_SYSTEM_SetError            0x02039548  arm
  *   func_02034714            0x02034714  arm
  *   MI_CpuCopy8              0x02082D44  arm
  *   func_020307B0            0x020307B0  arm
  *   func_02039338            0x02039338  arm
- *   func_020393A8            0x020393A8  arm
- *   func_020393D0            0x020393D0  arm
+ *   GFL_NET_SYSTEM_GetChildBitmap            0x020393A8  arm
+ *   GFL_NET_SYSTEM_IsError            0x020393D0  arm
  *   func_020399A8            0x020399A8  arm
- *   func_02039594            0x02039594  arm
+ *   GFL_NET_SYSTEM_IsSendEnable            0x02039594  arm
  *   func_0203996C            0x0203996C  arm
  *   _FileName                0x020A7A68  data
  *   _AssertZero              0x020A7A78  data
@@ -33,21 +33,26 @@
  *   _AssertBaseWork          0x020A7A88  data
  *   OS_GetMacAddress         0x02087C6C  arm
  *   _AssertTimingSend        0x020A7A94  data
- *   func_020395E0            0x020395E0  arm
+ *   GFL_NET_SYSTEM_ClampNetId            0x020395E0  arm
  *   func_0203EFC8            0x0203EFC8  arm
  *   _AssertNetIDNotServer    0x020A7AB0  data
  *   _AssertNetIDInRange      0x020A7ACC  data
- *   func_02039578            0x02039578  arm
- *   func_02039560            0x02039560  arm
+ *   GFL_NET_SYSTEM_SetNoSend            0x02039578  arm
+ *   GFL_NET_SYSTEM_ResetError            0x02039560  arm
  *   func_0203D378            0x0203D378  arm
- *   func_0203D394            0x0203D394  arm
+ *   GFL_NET_IsHandleReady            0x0203D394  arm
  *   func_0203D3A8            0x0203D3A8  arm
  *   func_0203D3F8            0x0203D3F8  arm
  *   func_0203D4D0            0x0203D4D0  arm
  *   func_0203D650            0x0203D650  arm
- *   func_0203D788            0x0203D788  arm
+ *   GFL_NET_GetSession            0x0203D788  arm
  *   func_0203D798            0x0203D798  arm
- *   func_0203DAC4            0x0203DAC4  arm
+ *   GFL_NET_IRC_WIRELESS_AddMacAddress            0x0203DAC4  arm
+ *   GFL_NET_SYSTEM_InitWork  0x02037288  arm
+ *   GFL_NET_SYSTEM_ResetMachineBuffer  0x02037BE8  arm
+ *   GFL_NET_SYSTEM_IsConnectMember  0x02039160  arm
+ *   GFL_NET_SYSTEM_SetNoChildError  0x020394DC  arm
+ *   GFL_NET_STATE_Idle  0x0203C00C  arm
  */
 
 typedef unsigned char u8;
@@ -59,7 +64,7 @@ typedef unsigned short u16;
 #include "net_types.h"
 typedef signed int     s32;
 
-/* Typed timing-sync state hung off _pBaseWork (0x20 bytes, allocated by func_02039834). */
+/* Typed timing-sync state hung off _pBaseWork (0x20 bytes, allocated by GFL_NET_HANDLE_InitWork). */
 struct NetBaseWork {
     u16 timingNo[8];         /* timing number each member asked for */
     u8  timingSend[8];       /* mask of members that voted for it */
@@ -90,7 +95,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 
 extern void *func_02082BCC(void *dst, int val, u32 size);
 
-extern void func_02039548(void);
+extern void GFL_NET_SYSTEM_SetError(void);
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
@@ -100,65 +105,65 @@ extern u32 func_020307B0(void *p);
 
 extern u16 func_02039338(void);
 
-extern int   func_020393A8(void);
+extern int   GFL_NET_SYSTEM_GetChildBitmap(void);
 
-extern int  func_020393D0(void);
+extern int  GFL_NET_SYSTEM_IsError(void);
 
 extern GFLNetHandle *func_020399A8(void);
 
-extern int    func_02039594(void);
+extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 
 extern GFLNetHandle *func_0203996C(s32 idx);
 
 extern void OS_GetMacAddress(void *p);
 
-extern int func_020395E0(int slot);
+extern int GFL_NET_SYSTEM_ClampNetId(int slot);
 
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
-extern void func_0203C00C(void);
+extern void GFL_NET_STATE_Idle(void);
 
-extern void func_020394DC(u8 v);
+extern void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 
-extern void func_02039578(void);
+extern void GFL_NET_SYSTEM_SetNoSend(void);
 
-extern void func_02039560(void);
+extern void GFL_NET_SYSTEM_ResetError(void);
 
-int func_02037288(u32 a0, u32 heap, u32 c);
+int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c);
 
-void func_02037BE8(u32 a);
+void GFL_NET_SYSTEM_ResetMachineBuffer(u32 a);
 
-int func_02039160(u32 mode);
+int GFL_NET_SYSTEM_IsConnectMember(u32 mode);
 
 u16 func_02039338(void);
 
-int func_020393A8(void);
+int GFL_NET_SYSTEM_GetChildBitmap(void);
 
-int func_020393D0(void);
+int GFL_NET_SYSTEM_IsError(void);
 
-void func_020394DC(u8 v);
+void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 
-void func_02039548(void);
+void GFL_NET_SYSTEM_SetError(void);
 
-void func_02039560(void);
+void GFL_NET_SYSTEM_ResetError(void);
 
-void func_02039578(void);
+void GFL_NET_SYSTEM_SetNoSend(void);
 
-int func_02039594(void);
+int GFL_NET_SYSTEM_IsSendEnable(void);
 
-int func_020395E0(int slot);
+int GFL_NET_SYSTEM_ClampNetId(int slot);
 
-int func_020395EC(GFLNetHandle *a);
+int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *a);
 
-void func_02039658(GFLNetHandle *e, u32 idx);
+void GFL_NET_HANDLE_ResetHandle(GFLNetHandle *e, u32 idx);
 
-void func_0203971C(GFLNetHandle *handle, u32 netID);
+void GFL_NET_HANDLE_ClearTimingMask(GFLNetHandle *handle, u32 netID);
 
-GFLNetHandle *func_02039764(u32 idx);
+GFLNetHandle *GFL_NET_HANDLE_CreateHandle(u32 idx);
 
-void func_02039834(GFLNetSession *unused);
+void GFL_NET_HANDLE_InitWork(GFLNetSession *unused);
 
-void func_020398B4(GFLNetSession *unused);
+void GFL_NET_HANDLE_ExitWork(GFLNetSession *unused);
 
 GFLNetHandle *func_0203996C(s32 idx);
 
@@ -166,57 +171,57 @@ GFLNetHandle *func_020399A8(void);
 
 u32 func_020399B8(GFLNetHandle *handle);
 
-int func_020399DC(GFLNetHandle *p);
+int GFL_NET_HANDLE_GetNegotiationState(GFLNetHandle *p);
 
-int func_020399EC(void);
+int GFL_NET_HANDLE_GetNegotiationNum(void);
 
-void func_02039A2C(int a);
+void GFL_NET_HANDLE_RequestNegotiation(int a);
 
-void func_02039A5C(void);
+void GFL_NET_HANDLE_SendNegotiation(void);
 
 int func_02039ACC(void);
 
-void func_02039B5C(u32 netID, u32 size, struct NetTimingVoteMsg *msg, u32 work, GFLNetHandle *handle);
+void GFL_NET_HANDLE_RecvTimingSync(u32 netID, u32 size, struct NetTimingVoteMsg *msg, u32 work, GFLNetHandle *handle);
 
-void func_02039C2C(u32 netID, u32 size, struct NetTimingNoMsg *msg, u32 work, GFLNetHandle *handle);
+void GFL_NET_HANDLE_RecvTimingTag(u32 netID, u32 size, struct NetTimingNoMsg *msg, u32 work, GFLNetHandle *handle);
 
-void func_02039C3C(GFLNetHandle *p, u16 tag);
+void GFL_NET_HANDLE_StartTimingSync(GFLNetHandle *p, u16 tag);
 
 void func_02039C68(GFLNetHandle *p, u32 lo, u32 hi);
 
-u32 func_02039CA0(GFLNetHandle *p, u32 key);
+u32 GFL_NET_HANDLE_IsTimingSync(GFLNetHandle *p, u32 key);
 
 u32 func_02039CB4(GFLNetHandle *p, u32 lo, u32 hi);
 
-int func_02039CD8(GFLNetHandle *p);
+int GFL_NET_HANDLE_CheckTimingSyncAll(GFLNetHandle *p);
 
-void func_02039D94(void);
+void GFL_NET_HANDLE_Main(void);
 
-void func_0203A020(u32 netID, u32 size, const struct NetNegotiationMsg *msg, u32 work, GFLNetHandle *handle);
+void GFL_NET_HANDLE_RecvNegotiation(u32 netID, u32 size, const struct NetNegotiationMsg *msg, u32 work, GFLNetHandle *handle);
 
-void func_0203A118(GFLNetHandle *handle);
+void GFL_NET_HANDLE_SetNegotiationEnd(GFLNetHandle *handle);
 
-void func_0203A150(int senderID, int size, NetMemberRec *msg, int localNetID, GFLNetHandle *peer);
+void GFL_NET_HANDLE_RecvNegotiationReturn(int senderID, int size, NetMemberRec *msg, int localNetID, GFLNetHandle *peer);
 
-void func_0203A27C(u32 netID, u32 size, u8 *data, u32 work, u32 handle);
+void GFL_NET_HANDLE_RecvRemoveHandle(u32 netID, u32 size, u8 *data, u32 work, u32 handle);
 
-u16 func_0203A28C(u16 bitMask, u32 netID, u32 enable);
+u16 GFL_NET_HANDLE_SetBitMask(u16 bitMask, u32 netID, u32 enable);
 
-u32 func_0203A2F0(u32 bitMask, u32 netID);
+u32 GFL_NET_HANDLE_IsBitSet(u32 bitMask, u32 netID);
 
-void func_0203A338(u32 netID);
+void GFL_NET_HANDLE_RemoveHandle(u32 netID);
 
-void func_0203A388(int netID, u32 size, const void *data, u32 work, GFLNetHandle *handle);
+void GFL_NET_HANDLE_RecvInfoData(int netID, u32 size, const void *data, u32 work, GFLNetHandle *handle);
 
-void func_0203A424(GFLNetHandle *handle, int timingLow, int timingHigh, int netID);
+void GFL_NET_HANDLE_SetUserInfo(GFLNetHandle *handle, int timingLow, int timingHigh, int netID);
 
-void func_0203A458(GFLNetHandle *handle, u32 timing);
+void GFL_NET_HANDLE_SetAllTimingValue(GFLNetHandle *handle, u32 timing);
 
-void func_0203C00C(void);
+void GFL_NET_STATE_Idle(void);
 
 u32 func_0203D378(void);
 
-u32 func_0203D394(GFLNetHandle *e);
+u32 GFL_NET_IsHandleReady(GFLNetHandle *e);
 
 int func_0203D3A8(GFLNetHandle *a, u32 b, u32 c, const void *d);
 
@@ -226,11 +231,11 @@ u32 func_0203D4D0(void *entry, u32 mask, u32 c, u32 d, const void *e, u32 f, u32
 
 u32 func_0203D650(void);
 
-GFLNetSession *func_0203D788(void);
+GFLNetSession *GFL_NET_GetSession(void);
 
 GFLNetSession *func_0203D798(void);
 
-void func_0203DAC4(const u8 *mac);
+void GFL_NET_IRC_WIRELESS_AddMacAddress(const u8 *mac);
 
 
 
@@ -259,12 +264,12 @@ extern const char _AssertNetIDInRange[];
  *           class, so 0x020A7A78 has no witness outside 020395EC..02039658.
  *           Every concrete byte of the body reproduces.
  */
-int func_020395EC(GFLNetHandle *handle)
+int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *handle)
 {
     GFLNetHandle *cur;
     int netID;
 
-    func_0203D788();
+    GFL_NET_GetSession();
     cur = func_0203996C(0xff);
     if (cur == handle) {
         return 0xff;
@@ -315,8 +320,8 @@ int func_020395EC(GFLNetHandle *handle)
  * 0x50-byte entry is wiped, and the eight pointers are written straight back
  * -- so the resource objects survive the reset and only the entry's state
  * does not.  A real slot index (anything but the 0xFF own-slot spelling)
- * first has its bit cleared out of the +0x40 mask through func_0203A28C and
- * its +0x3E companion zeroed.  func_02039834 and func_020398B4 both drive
+ * first has its bit cleared out of the +0x40 mask through GFL_NET_HANDLE_SetBitMask and
+ * its +0x3E companion zeroed.  GFL_NET_HANDLE_InitWork and GFL_NET_HANDLE_ExitWork both drive
  * this in a loop over the nine slots.
  *
  * THE STACK BUFFER HOLDS NINE POINTERS, NOT EIGHT, AND ONLY EIGHT ARE USED.
@@ -335,17 +340,17 @@ int func_020395EC(GFLNetHandle *handle)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02039658.c \
- *       --func func_02039658 --addr 0x02039658 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_ResetHandle.c \
+ *       --func GFL_NET_HANDLE_ResetHandle --addr 0x02039658 --cc 1.1p1 --arm
  */
-void func_02039658(GFLNetHandle *handle, u32 netID)
+void GFL_NET_HANDLE_ResetHandle(GFLNetHandle *handle, u32 netID)
 {
     void *savedRec[9];
     int i;
     if (netID != 0xff) {
         u16 mask = handle->memberMask;
         handle->notifiedMask = 0;
-        handle->memberMask = func_0203A28C(mask, netID, 0);
+        handle->memberMask = GFL_NET_HANDLE_SetBitMask(mask, netID, 0);
     }
     for (i = 0; i < 8; i++) {
         if (handle->memberRec[i] != 0)
@@ -359,7 +364,7 @@ void func_02039658(GFLNetHandle *handle, u32 netID)
     func_02082BCC(handle, 0, 0x50);
     for (i = 0; i < 8; i++)
         handle->memberRec[i] = savedRec[i];
-    func_02037BE8(netID);
+    GFL_NET_SYSTEM_ResetMachineBuffer(netID);
 }
 
 
@@ -396,12 +401,12 @@ void func_02039658(GFLNetHandle *handle, u32 netID)
  * selector, then clears the 0x10-byte record its indexed pointer names.
  * The early `popeq` is the null test written as an early return.
  */
-void func_0203971C(GFLNetHandle *handle, u32 netID)
+void GFL_NET_HANDLE_ClearTimingMask(GFLNetHandle *handle, u32 netID)
 {
     if (netID != 0xFF) {
         u16 mask = handle->memberMask;
         handle->notifiedMask = 0;
-        handle->memberMask = (u16)func_0203A28C(mask, netID, 0);
+        handle->memberMask = (u16)GFL_NET_HANDLE_SetBitMask(mask, netID, 0);
     }
     {
         NetMemberRec *rec = handle->memberRec[netID];
@@ -449,15 +454,15 @@ void func_0203971C(GFLNetHandle *handle, u32 netID)
  * after it out of the heap named by the record's +0x56 halfword (line 0xC7);
  * a peer slot keeps a null array on both sides of the wipe.
  *
- * This is func_02039834's per-slot worker and the constructive twin of
- * func_02039658 (which keeps the resource pointers rather than
+ * This is GFL_NET_HANDLE_InitWork's per-slot worker and the constructive twin of
+ * GFL_NET_HANDLE_ResetHandle (which keeps the resource pointers rather than
  * reallocating them).
  *
  * TWO LEVERS, and only one of them is an allocation tie.
  *
  * IT RETURNS THE ENTRY.  The image's `mov r0, r8` at +0xBC, between the
  * +0x46 store and the +0x49 store, is the return value: both callers
- * (func_02039834, func_020398B4) discard it, so nothing downstream forces
+ * (GFL_NET_HANDLE_InitWork, GFL_NET_HANDLE_ExitWork) discard it, so nothing downstream forces
  * it, but written `void` the function is four bytes short and that `mov` is
  * simply missing.  A dead-looking `mov r0, <callee-saved>` just before the
  * epilogue of a function whose callers ignore the result is the tell.
@@ -478,16 +483,16 @@ void func_0203971C(GFLNetHandle *handle, u32 netID)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02039764.c \
- *       --func func_02039764 --addr 0x02039764 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_CreateHandle.c \
+ *       --func GFL_NET_HANDLE_CreateHandle --addr 0x02039764 --cc 1.1p1 --arm
  */
-GFLNetHandle *func_02039764(u32 netID)
+GFLNetHandle *GFL_NET_HANDLE_CreateHandle(u32 netID)
 {
     GFLNetHandle *handle;
     GFLNetSession *session;
     int i;
     session = func_0203D798();
-    func_0203D788();
+    GFL_NET_GetSession();
     handle = (GFLNetHandle *)func_0203996C(netID);
     if (netID == 0xff) {
         for (i = 0; i < 8; i++) {
@@ -538,8 +543,8 @@ GFLNetHandle *func_02039764(u32 netID)
 
 
 /*
- * Module bring-up, the twin of func_020398B4's teardown: reset all eight
- * peer slots through func_02039764, reset the own slot (0xFF) too, assert
+ * Module bring-up, the twin of GFL_NET_HANDLE_ExitWork's teardown: reset all eight
+ * peer slots through GFL_NET_HANDLE_CreateHandle, reset the own slot (0xFF) too, assert
  * that the module handle _pBaseWork is NOT already live, then allocate the
  * 0x20-byte handle for it out of the heap named by the record's +0x56
  * halfword (line 0xE5; the assert is line 0xE3).
@@ -557,12 +562,12 @@ GFLNetHandle *func_02039764(u32 netID)
  *
  * ASSERT POLARITY: the guard is `_pBaseWork != 0`, not `== 0`.  The image
  * skips the report with `beq`, so the report runs on the NON-null handle:
- * bringing a module up twice is the error, where func_020398B4's matching
+ * bringing a module up twice is the error, where GFL_NET_HANDLE_ExitWork's matching
  * assert at line 0x100 fires on the null handle because tearing down a dead
  * module is the error there.  Getting it backwards is a one-byte diff
  * (the condition field of a single branch) and nothing else.
  *
- * The note's second finding is now stale: func_02039764's only branch sites
+ * The note's second finding is now stale: GFL_NET_HANDLE_CreateHandle's only branch sites
  * image-wide are this function's own two calls, so `label` still refuses it,
  * but `sole-ref/code` carries it (0x02039764 is a traced function start), and
  * _AssertNotBaseWork resolves through `sole-ref` the same way.  This file is EXACT,
@@ -571,18 +576,18 @@ GFLNetHandle *func_02039764(u32 netID)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02039834.c \
- *       --func func_02039834 --addr 0x02039834 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_InitWork.c \
+ *       --func GFL_NET_HANDLE_InitWork --addr 0x02039834 --cc 1.1p1 --arm
  */
-void func_02039834(GFLNetSession *unused)
+void GFL_NET_HANDLE_InitWork(GFLNetSession *unused)
 {
     int i;
     GFLNetSession *session;
     session = func_0203D798();
     for (i = 0; i < 8; i++) {
-        func_02039764(i);
+        GFL_NET_HANDLE_CreateHandle(i);
     }
-    func_02039764(0xff);
+    GFL_NET_HANDLE_CreateHandle(0xff);
     if (_pBaseWork != 0) {
         func_02034714(_FileName, 0xe3, _AssertNotBaseWork);
     }
@@ -618,8 +623,8 @@ void func_02039834(GFLNetSession *unused)
 
 
 /*
- * The teardown twin of func_02039834: clear every one of the eight peer slots
- * (func_02039658 on each slot's entry), release the eight resource handles the
+ * The teardown twin of GFL_NET_HANDLE_InitWork: clear every one of the eight peer slots
+ * (GFL_NET_HANDLE_ResetHandle on each slot's entry), release the eight resource handles the
  * own-slot entry parks at +8..+0x24, clear the own slot too, then assert the
  * module handle _pBaseWork is live and free it.
  *
@@ -634,16 +639,16 @@ void func_02039834(GFLNetSession *unused)
  * The __FILE__ argument is "net_handle.c" at 0x020A7A68, line 0x100.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020398B4.c \
- *       --func func_020398B4 --addr 0x020398B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_ExitWork.c \
+ *       --func GFL_NET_HANDLE_ExitWork --addr 0x020398B4 --cc 1.1p1 --arm
  */
-void func_020398B4(GFLNetSession *unused)
+void GFL_NET_HANDLE_ExitWork(GFLNetSession *unused)
 {
     GFLNetHandle *ownHandle;
     int i;
     u32 ownID;
     for (i = 0; i < 8; i++) {
-        func_02039658((GFLNetHandle *)(func_0203996C(i)), i);
+        GFL_NET_HANDLE_ResetHandle((GFLNetHandle *)(func_0203996C(i)), i);
     }
     ownHandle = func_0203996C(0xff);
     for (i = 0; i < 8; i++) {
@@ -653,7 +658,7 @@ void func_020398B4(GFLNetSession *unused)
         }
     }
     ownID = 0xff;
-    func_02039658((GFLNetHandle *)(func_0203996C(ownID)), ownID);
+    GFL_NET_HANDLE_ResetHandle((GFLNetHandle *)(func_0203996C(ownID)), ownID);
     if (_pBaseWork == 0) {
         func_02034714(_FileName, 0x100, _AssertBaseWork);
     }
@@ -693,7 +698,7 @@ void func_020398B4(GFLNetSession *unused)
 
 /*
  * Resolves a slot index to one of the nine 0x50-byte entries at +0x70 of
- * func_0203D788()'s record.  0xff is the "own slot" spelling and names entry
+ * GFL_NET_GetSession()'s record.  0xff is the "own slot" spelling and names entry
  * 8, which is why it is a separate constant add and not a folded index; every
  * other index is bounds-checked against nine and scaled with an `mla`,
  * 0x50 being too awkward for a shift pair.
@@ -707,7 +712,7 @@ void func_020398B4(GFLNetSession *unused)
  */
 GFLNetHandle *func_0203996C(s32 netID)
 {
-    GFLNetSession *session = func_0203D788();
+    GFLNetSession *session = GFL_NET_GetSession();
     if (session != 0) {
         if (netID == 0xff) {
             return &session->handle[8];
@@ -844,7 +849,7 @@ u32 func_020399B8(GFLNetHandle *handle)
 /*
  * Entry accessor: returns byte 0x4A of a 0x50-byte entry, or 8 for null.
  */
-int func_020399DC(GFLNetHandle *handle)
+int GFL_NET_HANDLE_GetNegotiationState(GFLNetHandle *handle)
 {
     if (handle) return handle->state;
     return 8;
@@ -881,7 +886,7 @@ int func_020399DC(GFLNetHandle *handle)
 
 /*
  * Count how many of the eight slots answer non-zero to the probe: when
- * func_0203D788() is null the count is zero, otherwise every slot is asked
+ * GFL_NET_GetSession() is null the count is zero, otherwise every slot is asked
  * through func_0203996C(i) and func_020399B8(), and each non-zero answer bumps
  * the counter (the `addne r5, r5, #1` after the loop's `add r4, r4, #1`).
  *
@@ -896,14 +901,14 @@ int func_020399DC(GFLNetHandle *handle)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020399EC.c \
- *       --func func_020399EC --addr 0x020399EC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_GetNegotiationNum.c \
+ *       --func GFL_NET_HANDLE_GetNegotiationNum --addr 0x020399EC --cc 1.1p1 --arm
  */
-int func_020399EC(void)
+int GFL_NET_HANDLE_GetNegotiationNum(void)
 {
     int i;
     int count;
-    if (func_0203D788() != 0) {
+    if (GFL_NET_GetSession() != 0) {
         count = 0;
         for (i = 0; i < 8; i++) {
             if (func_020399B8(func_0203996C(i)) != 0)
@@ -943,7 +948,7 @@ int func_020399EC(void)
 
 
 
-void func_02039A2C(int timingNo)
+void GFL_NET_HANDLE_RequestNegotiation(int timingNo)
 {
     GFLNetHandle *handle;
     if (func_02039338())
@@ -1009,10 +1014,10 @@ void func_02039A2C(int timingNo)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02039A5C.c \
- *       --func func_02039A5C --addr 0x02039A5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_SendNegotiation.c \
+ *       --func GFL_NET_HANDLE_SendNegotiation --addr 0x02039A5C --cc 1.1p1 --arm
  */
-void func_02039A5C(void)
+void GFL_NET_HANDLE_SendNegotiation(void)
 {
     GFLNetHandle *ownHandle;
     int i;
@@ -1064,7 +1069,7 @@ void func_02039A5C(void)
  * Seeds the current record's +0x4a state byte: state 2 re-arms the eight-slot
  * table through func_0203D3A8 with a 3-byte payload built in a 12-byte stack
  * buffer, any state below 2 is stepped up by one, anything else is left alone.
- * The early `beq` on func_02039160() is the R4 shared-tail lever: the first
+ * The early `beq` on GFL_NET_SYSTEM_IsConnectMember() is the R4 shared-tail lever: the first
  * exit branches to the function's last `return 0` instead of predicating
  * `moveq r0, #0` / `popeq` (which cost 12 bytes).
  *
@@ -1080,10 +1085,10 @@ int func_02039ACC(void)
     GFLNetSession *session;
     u32 state;
     handle = func_020399A8();
-    selfID = (u8)func_020395EC(handle);
-    func_0203D788();
+    selfID = (u8)GFL_NET_HANDLE_GetNetHandleID(handle);
+    GFL_NET_GetSession();
     session = func_0203D798();
-    if (func_02039160(func_02039338()) != 0) {
+    if (GFL_NET_SYSTEM_IsConnectMember(func_02039338()) != 0) {
         state = handle->state;
         if (state == 2) {
             OS_GetMacAddress(&msg);
@@ -1130,7 +1135,7 @@ int func_02039ACC(void)
 /*
  * Record one peer's vote and raise the "everyone agreed" flag when the last
  * one lands.  The 3-byte message at `msg` is a u16 tag plus a u8 mask; the
- * sender's slot is `slot`, and the vote is only taken when func_020395EC says
+ * sender's slot is `slot`, and the vote is only taken when GFL_NET_HANDLE_GetNetHandleID says
  * the link is still the own link (0xff) and the slot is a real one.
  *
  * Both halves of the vote table hang off the one module global _pBaseWork:
@@ -1141,7 +1146,7 @@ int func_02039ACC(void)
  * The scan then walks all eight slots: an ACTIVE slot must have voted the same
  * mask and the same tag, and must NOT carry that slot's own bit in its mask,
  * or the function returns without raising the flag; an INACTIVE slot is only allowed
- * through when func_02039160 says it is not merely late.  `1 << i` is kept
+ * through when GFL_NET_SYSTEM_IsConnectMember says it is not merely late.  `1 << i` is kept
  * live in sb across the whole loop, which is what puts `mov sb, #1` above the
  * loop head rather than a rematerialised constant in the arm
  * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md).
@@ -1153,16 +1158,16 @@ int func_02039ACC(void)
  * seeding into layout/function_starts.txt.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02039B5C.c \
- *       --func func_02039B5C --addr 0x02039B5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_RecvTimingSync.c \
+ *       --func GFL_NET_HANDLE_RecvTimingSync --addr 0x02039B5C --cc 1.1p1 --arm
  */
-void func_02039B5C(u32 netID, u32 size, struct NetTimingVoteMsg *msg, u32 work, GFLNetHandle *handle)
+void GFL_NET_HANDLE_RecvTimingSync(u32 netID, u32 size, struct NetTimingVoteMsg *msg, u32 work, GFLNetHandle *handle)
 {
     u16 timingNo = msg->timingNo;
     u8  mask = msg->mask;
     int i;
     u32 one;
-    if (func_020395EC(handle) != 0xff) {
+    if (GFL_NET_HANDLE_GetNetHandleID(handle) != 0xff) {
         return;
     }
     if (netID == 0xff) {
@@ -1181,7 +1186,7 @@ void func_02039B5C(u32 netID, u32 size, struct NetTimingVoteMsg *msg, u32 work, 
             } else if ((mask & (one << i)) != 0) {
                 return;
             }
-        } else if (func_02039160((u16)i) == 1) {
+        } else if (GFL_NET_SYSTEM_IsConnectMember((u16)i) == 1) {
             return;
         }
     }
@@ -1219,12 +1224,12 @@ void func_02039B5C(u32 netID, u32 size, struct NetTimingVoteMsg *msg, u32 work, 
 
 /*
  * A message handler from the dispatch table at 0x020A0870, sharing the
- * five-argument shape of its table neighbour func_02039B5C: the first four
+ * five-argument shape of its table neighbour GFL_NET_HANDLE_RecvTimingSync: the first four
  * arguments arrive in r0-r3 and the fifth, the receiver object, on the
  * stack.  This one copies the message's 16-bit tag into the receiver's
  * 0x44 field and ignores everything else.
  */
-void func_02039C2C(u32 netID, u32 size, struct NetTimingNoMsg *msg, u32 work, GFLNetHandle *handle)
+void GFL_NET_HANDLE_RecvTimingTag(u32 netID, u32 size, struct NetTimingNoMsg *msg, u32 work, GFLNetHandle *handle)
 {
     handle->connectFlags = msg->timingNo;
 }
@@ -1261,7 +1266,7 @@ void func_02039C2C(u32 netID, u32 size, struct NetTimingNoMsg *msg, u32 work, GF
 /*
  * Arm one pending vote on the record at `p`: park the tag at +0x46, mark the
  * slot unresolved with 0xff at +0x48, and record at +0x49 whether the record
- * is NOT the own link -- func_020395EC returning 0xff is the own link, which
+ * is NOT the own link -- GFL_NET_HANDLE_GetNetHandleID returning 0xff is the own link, which
  * is the one case that stores zero.
  *
  * The record pointer is copied to r4 before the two stores because the call
@@ -1274,14 +1279,14 @@ void func_02039C2C(u32 netID, u32 size, struct NetTimingNoMsg *msg, u32 work, GF
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02039C3C.c \
- *       --func func_02039C3C --addr 0x02039C3C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_StartTimingSync.c \
+ *       --func GFL_NET_HANDLE_StartTimingSync --addr 0x02039C3C --cc 1.1p1 --arm
  */
-void func_02039C3C(GFLNetHandle *handle, u16 timingNo)
+void GFL_NET_HANDLE_StartTimingSync(GFLNetHandle *handle, u16 timingNo)
 {
     handle->tag = timingNo;
     handle->netID = 0xff;
-    if (func_020395EC(handle) == 0xff) {
+    if (GFL_NET_HANDLE_GetNetHandleID(handle) == 0xff) {
         handle->isRemote = 0;
     } else {
         handle->isRemote = 1;
@@ -1324,7 +1329,7 @@ void func_02039C3C(GFLNetHandle *handle, u16 timingNo)
  * of the link record: the key is always assembled as `lo + (hi << 8)` from a
  * pair of separate arguments rather than passed whole.
  *
- * func_02039CA0 has no label in the listing: it is a leaf that saves nothing,
+ * GFL_NET_HANDLE_IsTimingSync has no label in the listing: it is a leaf that saves nothing,
  * so disasm.py prints it inside func_02039C68's extent (see
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Keeping the
  * three in one unit is what reproduces its bytes at all.
@@ -1340,7 +1345,7 @@ void func_02039C68(GFLNetHandle *handle, u32 timingLow, u32 timingHigh)
     }
     handle->tag = timingLow + (timingHigh << 8);
     handle->netID = 0xff;
-    if (func_020395EC(handle) == 0xff) {
+    if (GFL_NET_HANDLE_GetNetHandleID(handle) == 0xff) {
         handle->isRemote = 0;
     } else {
         handle->isRemote = 1;
@@ -1374,7 +1379,7 @@ void func_02039C68(GFLNetHandle *handle, u32 timingLow, u32 timingHigh)
 
 
 
-u32 func_02039CA0(GFLNetHandle *handle, u32 timingNo)
+u32 GFL_NET_HANDLE_IsTimingSync(GFLNetHandle *handle, u32 timingNo)
 {
     return handle->connectFlags == timingNo;
 }
@@ -1454,19 +1459,19 @@ u32 func_02039CB4(GFLNetHandle *handle, u32 timingLow, u32 timingHigh)
  * 0x10 are the register arguments).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02039CD8.c \
- *       --func func_02039CD8 --addr 0x02039CD8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_CheckTimingSyncAll.c \
+ *       --func GFL_NET_HANDLE_CheckTimingSyncAll --addr 0x02039CD8 --cc 1.1p1 --arm
  */
-int func_02039CD8(GFLNetHandle *handle)
+int GFL_NET_HANDLE_CheckTimingSyncAll(GFLNetHandle *handle)
 {
     int i;
     for (i = 0; i < 8; i++) {
         if (handle->memberRec[i]->active == 0)
             continue;
-        if (func_0203A2F0(handle->notifiedMask, i) != 0)
+        if (GFL_NET_HANDLE_IsBitSet(handle->notifiedMask, i) != 0)
             continue;
         if (func_0203D3F8(handle, 0xff, 4, 0x10, handle->memberRec[i], 1, 0, 1) != 0)
-            func_0203A28C(handle->notifiedMask, i, 1);
+            GFL_NET_HANDLE_SetBitMask(handle->notifiedMask, i, 1);
         else
             return 0;
     }
@@ -1516,18 +1521,18 @@ int func_02039CD8(GFLNetHandle *handle)
  *      separate local the own pointer and the loop index swap sb/sl in
  *      phase 2 (or r6/r7 in phase 4).
  */
-void func_02039D94(void)
+void GFL_NET_HANDLE_Main(void)
 {
     GFLNetHandle *ownHandle;
     GFLNetSession *session;
     int i;
     for (i = 0; i < 8; i++) {
-        u32 slot = func_020395E0(i);
+        u32 slot = GFL_NET_SYSTEM_ClampNetId(i);
         ownHandle = func_0203996C(slot);
-        if (func_02039160((u16)slot) == 0)
+        if (GFL_NET_SYSTEM_IsConnectMember((u16)slot) == 0)
             func_020399B8(ownHandle);
     }
-    func_02039A5C();
+    GFL_NET_HANDLE_SendNegotiation();
     if (func_0203D378() != 0) {
         ownHandle = func_0203996C(0xff);
         for (i = 0; i < 9; i++) {
@@ -1543,12 +1548,12 @@ void func_02039D94(void)
     }
     for (i = 0; i < 9; i++) {
         GFLNetHandle *handle;
-        handle = func_0203996C(func_020395E0(i));
-        if (func_0203D394(handle) == 0)
+        handle = func_0203996C(GFL_NET_SYSTEM_ClampNetId(i));
+        if (GFL_NET_IsHandleReady(handle) == 0)
             continue;
         if (handle->isRemote == 0)
             continue;
-        if (func_020395EC(handle) == 0xff)
+        if (GFL_NET_HANDLE_GetNetHandleID(handle) == 0xff)
             continue;
         if (func_0203D3A8(handle, (u16)7, (u16)4, &handle->tag) != 0)
             handle->isRemote = 0;
@@ -1560,11 +1565,11 @@ void func_02039D94(void)
                 NetMemberRec *rec = ownHandle->memberRec[i];
                 if (rec == 0 || rec->active == 0)
                     continue;
-                if (func_0203A2F0(ownHandle->memberMask, i) != 0)
+                if (GFL_NET_HANDLE_IsBitSet(ownHandle->memberMask, i) != 0)
                     continue;
-                if (func_02039CD8(ownHandle) != 0)
+                if (GFL_NET_HANDLE_CheckTimingSyncAll(ownHandle) != 0)
                     ownHandle->memberMask =
-                        func_0203A28C(ownHandle->memberMask, i, 1);
+                        GFL_NET_HANDLE_SetBitMask(ownHandle->memberMask, i, 1);
             }
         }
     }
@@ -1574,10 +1579,10 @@ void func_02039D94(void)
     ownHandle = func_020399A8();
     if (ownHandle->joinPhase != 1)
         return;
-    if (session->init.negotiationFunc != 0 && session->init.beaconSizeFunc != 0) {
+    if (session->init.negotiationFunc != 0 && session->init.negotiationSizeFunc != 0) {
         u32 negotiationSize;
         u32 negotiationData;
-        negotiationSize = (session->init.beaconSizeFunc)(func_0203D650());
+        negotiationSize = (session->init.negotiationSizeFunc)(func_0203D650());
         negotiationData = (session->init.negotiationFunc)(func_0203D650());
         if (func_0203D3A8(ownHandle, (u16)0xa, (u16)negotiationSize, ((void *)negotiationData)) != 0)
             ownHandle->joinPhase = 0;
@@ -1627,9 +1632,9 @@ void func_02039D94(void)
  * record stays load-bearing (the zero arm's load order).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A020.c  *       --func func_0203A020 --addr 0x0203A020 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_RecvNegotiation.c  *       --func GFL_NET_HANDLE_RecvNegotiation --addr 0x0203A020 --arm --cc 1.1p1
  */
-void func_0203A020(u32 netID, u32 size, const struct NetNegotiationMsg *msg, u32 work, GFLNetHandle *handle)
+void GFL_NET_HANDLE_RecvNegotiation(u32 netID, u32 size, const struct NetNegotiationMsg *msg, u32 work, GFLNetHandle *handle)
 {
   GFLNetSession *session = func_0203D798();
   NetMemberRec *rec;
@@ -1719,12 +1724,12 @@ void func_0203A020(u32 netID, u32 size, const struct NetNegotiationMsg *msg, u32
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A118.c \
- *       --func func_0203A118 --addr 0x0203A118 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_SetNegotiationEnd.c \
+ *       --func GFL_NET_HANDLE_SetNegotiationEnd --addr 0x0203A118 --cc 1.1p1 --arm
  */
-void func_0203A118(GFLNetHandle *handle)
+void GFL_NET_HANDLE_SetNegotiationEnd(GFLNetHandle *handle)
 {
-    if (func_0203D788()->errorCheckEnabled == 0) {
+    if (GFL_NET_GetSession()->errorCheckEnabled == 0) {
         if (handle->state != 5)
             handle->state = 7;
     } else {
@@ -1763,13 +1768,13 @@ void func_0203A118(GFLNetHandle *handle)
 
 
 
-void func_0203A150(int senderID, int size, NetMemberRec *msg, int localNetID, GFLNetHandle *peer)
+void GFL_NET_HANDLE_RecvNegotiationReturn(int senderID, int size, NetMemberRec *msg, int localNetID, GFLNetHandle *peer)
 {
     GFLNetSession *session;
     u8 ownMac[8];
     u32 peerID;
     session = func_0203D798();
-    peerID = func_020395EC(peer);
+    peerID = GFL_NET_HANDLE_GetNetHandleID(peer);
     if (peerID == 0xff)
     {
         peer->state = 5;
@@ -1778,30 +1783,30 @@ void func_0203A150(int senderID, int size, NetMemberRec *msg, int localNetID, GF
     if (session->init.linkExtraFlags != 0)
     {
         if (session->init.linkExtraFlags != msg->ownKey)
-            func_0203A118(peer);
+            GFL_NET_HANDLE_SetNegotiationEnd(peer);
         if (session->init.linkExtraFlags != msg->peerKey)
-            func_0203A118(peer);
+            GFL_NET_HANDLE_SetNegotiationEnd(peer);
     }
     else
     {
         if (session->init.gameKind != msg->ownKey)
-            func_0203A118(peer);
+            GFL_NET_HANDLE_SetNegotiationEnd(peer);
         if (session->init.gameKind != msg->peerKey)
-            func_0203A118(peer);
+            GFL_NET_HANDLE_SetNegotiationEnd(peer);
     }
     OS_GetMacAddress(ownMac);
     if (func_0203EFC8(msg->peerMac, ownMac, 6) == 0)
     {
-        if (msg->netID != func_020395EC(peer))
-            func_0203A118(peer);
+        if (msg->netID != GFL_NET_HANDLE_GetNetHandleID(peer))
+            GFL_NET_HANDLE_SetNegotiationEnd(peer);
     }
     if (peer->state == 7)
         return;
     func_0203996C(msg->netID)->state = 5;
     if (session->init.disconnectFunc != 0)
         session->init.disconnectFunc(localNetID, msg->netID);
-    func_0203DAC4(msg->peerMac);
-    func_0203DAC4(msg->ownMac);
+    GFL_NET_IRC_WIRELESS_AddMacAddress(msg->peerMac);
+    GFL_NET_IRC_WIRELESS_AddMacAddress(msg->ownMac);
 }
 
 
@@ -1837,7 +1842,7 @@ void func_0203A150(int senderID, int size, NetMemberRec *msg, int localNetID, GF
 
 
 /*
- * A message-table handler that forwards to func_0203A338 with the message's
+ * A message-table handler that forwards to GFL_NET_HANDLE_RemoveHandle with the message's
  * first byte as its only argument.  The five-argument table shape puts the
  * message pointer in r2, so the whole body is `ldrb r0,[r2]` followed by the
  * tail call, which one section per function forces to be a pool word and a
@@ -1849,12 +1854,12 @@ void func_0203A150(int senderID, int size, NetMemberRec *msg, int localNetID, GF
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A27C.c \
- *       --func func_0203A27C --addr 0x0203A27C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_RecvRemoveHandle.c \
+ *       --func GFL_NET_HANDLE_RecvRemoveHandle --addr 0x0203A27C --cc 1.1p1 --arm
  */
-void func_0203A27C(u32 netID, u32 size, u8 *data, u32 work, u32 handle)
+void GFL_NET_HANDLE_RecvRemoveHandle(u32 netID, u32 size, u8 *data, u32 work, u32 handle)
 {
-    func_0203A338(*data);
+    GFL_NET_HANDLE_RemoveHandle(*data);
 }
 
 
@@ -1892,7 +1897,7 @@ void func_0203A27C(u32 netID, u32 size, u8 *data, u32 work, u32 handle)
 /*
  * Set or clear one bit of the 16-bit slot mask, reporting at line 0x391 (913)
  * when the bit index is the 0xFF sentinel.  This is the write half of
- * func_0203A2F0's read (line 0x3AB), sharing its file/message pair.
+ * GFL_NET_HANDLE_IsBitSet's read (line 0x3AB), sharing its file/message pair.
  *
  * The mask is a u16 throughout, which is what the `lsl #0x10` / `lsr #16`
  * pairs around every store of it are: `1 << idx` is built in a word, narrowed
@@ -1908,10 +1913,10 @@ void func_0203A27C(u32 netID, u32 size, u8 *data, u32 work, u32 handle)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A28C.c \
- *       --func func_0203A28C --addr 0x0203A28C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_SetBitMask.c \
+ *       --func GFL_NET_HANDLE_SetBitMask --addr 0x0203A28C --cc 1.1p1 --arm
  */
-u16 func_0203A28C(u16 bitMask, u32 netID, u32 enable)
+u16 GFL_NET_HANDLE_SetBitMask(u16 bitMask, u32 netID, u32 enable)
 {
     if (netID == 0xFF)
         func_02034714(_FileName, 0x391, _AssertNetIDNotServer);
@@ -1963,10 +1968,10 @@ u16 func_0203A28C(u16 bitMask, u32 netID, u32 enable)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A2F0.c \
- *       --func func_0203A2F0 --addr 0x0203A2F0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_IsBitSet.c \
+ *       --func GFL_NET_HANDLE_IsBitSet --addr 0x0203A2F0 --cc 1.1p1 --arm
  */
-u32 func_0203A2F0(u32 bitMask, u32 netID)
+u32 GFL_NET_HANDLE_IsBitSet(u32 bitMask, u32 netID)
 {
     if (netID == 0xFF)
         func_02034714(_FileName, 0x3AB, _AssertNetIDNotServer);
@@ -2009,7 +2014,7 @@ u32 func_0203A2F0(u32 bitMask, u32 netID)
  * Promoted from src/pending/ on lane 1: every concrete byte is right (80 of
  * 80).  The one open site was the `bl` to 0x0203971C, whose only branch site
  * image-wide is this one, so `label` had no outside witness.  With
- * src/matched/func_0203971C.c filed EXACT the site resolves through the
+ * src/matched/GFL_NET_HANDLE_ClearTimingMask.c filed EXACT the site resolves through the
  * `matched` class and the file prints EXACT with no change to its C.
  *
  * Pushes a slot's identity into both halves of the table, reporting at line
@@ -2021,15 +2026,15 @@ u32 func_0203A2F0(u32 bitMask, u32 netID)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A338.c \
- *       --func func_0203A338 --addr 0x0203A338 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_RemoveHandle.c \
+ *       --func GFL_NET_HANDLE_RemoveHandle --addr 0x0203A338 --cc 1.1p1 --arm
  */
-void func_0203A338(u32 netID)
+void GFL_NET_HANDLE_RemoveHandle(u32 netID)
 {
     if (netID == 0xFF)
         func_02034714(_FileName, 0x3BE, _AssertNetIDNotServer);
-    func_02039658((GFLNetHandle *)func_0203996C(netID), netID);
-    func_0203971C((GFLNetHandle *)func_0203996C(0xFF), netID);
+    GFL_NET_HANDLE_ResetHandle((GFLNetHandle *)func_0203996C(netID), netID);
+    GFL_NET_HANDLE_ClearTimingMask((GFLNetHandle *)func_0203996C(0xFF), netID);
 }
 
 
@@ -2066,7 +2071,7 @@ void func_0203A338(u32 netID)
 
 /*
  * Install a payload into slot `id`: bail out when the receiver is the own
- * link (func_020395EC returning 0xFF), report at line 0x3D1 (977) when the
+ * link (GFL_NET_HANDLE_GetNetHandleID returning 0xFF), report at line 0x3D1 (977) when the
  * slot index is out of range, free whatever the slot already holds, allocate
  * `len` bytes out of the heap named by the record's +0x56 halfword (line
  * 0x3D8), publish the buffer and its length together, and copy the payload
@@ -2078,7 +2083,7 @@ void func_0203A338(u32 netID)
  * bytes of frame, which makes the `ldr r0, [sp, #0x18]` at +0x18 a read
  * ABOVE the frame -- the caller's fifth argument -- and not the r3 home slot
  * the note read it as.  r3 is a dead fourth argument, the table-handler shape
- * this family uses throughout (func_0203A150, func_02039B5C, func_0203A27C).
+ * this family uses throughout (GFL_NET_HANDLE_RecvNegotiationReturn, GFL_NET_HANDLE_RecvTimingSync, GFL_NET_HANDLE_RecvRemoveHandle).
  * Written with four parameters the compiler has to keep the receiver in a
  * register across func_0203D798, which costs r8, an extra callee-saved and a
  * spill slot: 172 bytes against 156.  With the fifth parameter the body is
@@ -2094,15 +2099,15 @@ void func_0203A338(u32 netID)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A388.c \
- *       --func func_0203A388 --addr 0x0203A388 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_RecvInfoData.c \
+ *       --func GFL_NET_HANDLE_RecvInfoData --addr 0x0203A388 --cc 1.1p1 --arm
  */
-void func_0203A388(int netID, u32 size, const void *data, u32 work, GFLNetHandle *handle)
+void GFL_NET_HANDLE_RecvInfoData(int netID, u32 size, const void *data, u32 work, GFLNetHandle *handle)
 {
     GFLNetSession *session;
     GFLNetHandle *target;
     session = func_0203D798();
-    if (func_020395EC(handle) == 0xff)
+    if (GFL_NET_HANDLE_GetNetHandleID(handle) == 0xff)
         return;
     if (netID >= 9)
         func_02034714(_FileName, 0x3D1, _AssertNetIDInRange);
@@ -2145,13 +2150,13 @@ void func_0203A388(int netID, u32 size, const void *data, u32 work, GFLNetHandle
 
 
 
-void func_0203A424(GFLNetHandle *handle, int timingLow, int timingHigh, int netID)
+void GFL_NET_HANDLE_SetUserInfo(GFLNetHandle *handle, int timingLow, int timingHigh, int netID)
 {
     if (handle == 0)
         return;
     handle->tag = (unsigned short)(timingLow + (timingHigh << 8));
     handle->netID = (char)netID;
-    if (func_020395EC(handle) == 0xff)
+    if (GFL_NET_HANDLE_GetNetHandleID(handle) == 0xff)
         handle->isRemote = 0;
     else
         handle->isRemote = 1;
@@ -2199,10 +2204,10 @@ void func_0203A424(GFLNetHandle *handle, int timingLow, int timingHigh, int netI
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203A458.c \
- *       --func func_0203A458 --addr 0x0203A458 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_SetAllTimingValue.c \
+ *       --func GFL_NET_HANDLE_SetAllTimingValue --addr 0x0203A458 --cc 1.1p1 --arm
  */
-void func_0203A458(GFLNetHandle *handle, u32 timing)
+void GFL_NET_HANDLE_SetAllTimingValue(GFLNetHandle *handle, u32 timing)
 {
     int i;
     if (handle == 0)

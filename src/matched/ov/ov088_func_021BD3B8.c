@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020071A8  0x020071A8  thumb
+ *   SAVE_CONTROL_CancelSave  0x020071A8  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -25,12 +25,12 @@ typedef struct {
     u8 f7;
 } Req;
 
-extern int func_020071A8(int a0);
+extern int SAVE_CONTROL_CancelSave(int a0);
 
 void func_021BD3B8(Req *r)
 {
     if (r->f7 == 0 && r->_4 != 3) {
-        func_020071A8((int)r->p0);
+        SAVE_CONTROL_CancelSave((int)r->p0);
         r->f7 = 1;
     }
 }

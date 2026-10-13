@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf (prints as a .word run in asm/overlays/ov022.s); the
- * sole blocker of ov012 func_0217325C's MATCH. Of the five overlays whose
+ * sole blocker of ov012 UNION_COMM_BuildBeacon's MATCH. Of the five overlays whose
  * window holds 0x021840C8 only ov022 has a function start there.
  */
 

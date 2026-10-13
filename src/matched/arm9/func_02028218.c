@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02028218
+ * function: APP_TASKMENU_WIN_SetActive
  * address:  0x02028218
  * packet:   pkt_02028178
  * region:   arm9
@@ -14,7 +14,7 @@
  * object's own fields plus the caller's argument.
  *
  * symbols:
- *   func_02027B30  0x02027B30  thumb
+ *   APP_TASKMENU_SetWinActive  0x02027B30  thumb
  */
 
 typedef unsigned short u16;
@@ -29,10 +29,10 @@ struct Obj {
 };
 
 struct S;
-extern void func_02027B30(u32 a0, struct S *s, int mode);
+extern void APP_TASKMENU_SetWinActive(u32 a0, struct S *s, int mode);
 
-void func_02028218(struct Obj *obj, u32 a)
+void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a)
 {
     obj->field_14 = 0;
-    func_02027B30(obj->field_00, (struct S *)obj->field_18, a);
+    APP_TASKMENU_SetWinActive(obj->field_00, (struct S *)obj->field_18, a);
 }

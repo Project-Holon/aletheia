@@ -17,7 +17,7 @@
  *   OS_GetMacAddress      0x02087C6C  arm
  *   OS_GetOwnerInfo       0x02087C88  arm
  *   OS_GetOwnerRtcOffset  0x02087D08  arm
- *   sub_020071CC          0x020071CC  thumb
+ *   SAVE_CONTROL_GetBlock          0x020071CC  thumb
  *
  * The two lookups of the id 0x25 save block and the function that stamps it
  * with the console's identity.  For the block layout and for why the original
@@ -70,7 +70,7 @@ extern void OS_GetMacAddress(u8 *mac);
 extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 extern s64  OS_GetOwnerRtcOffset(void);
 struct Sub020071CCCtrl;
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
 
 #define BLOCK_ID 0x25
 
@@ -96,12 +96,12 @@ struct Sub02008AECObj {
 
 struct Sub02008AECObj *sub_02008B08(void *sys)
 {
-    return sub_020071CC(sys, BLOCK_ID);
+    return SAVE_CONTROL_GetBlock(sys, BLOCK_ID);
 }
 
 struct Sub02008AECSession *sub_02008B14(void *sys)
 {
-    struct Sub02008AECObj *obj = sub_020071CC(sys, BLOCK_ID);
+    struct Sub02008AECObj *obj = SAVE_CONTROL_GetBlock(sys, BLOCK_ID);
 
     return &obj->unk10;
 }

@@ -13,7 +13,7 @@
  *   func_020490F4  0x020490F4  arm
  *   func_0204A48C  0x0204A48C  arm
  *   func_0204B100  0x0204B100  arm
- *   func_0204B270  0x0204B270  arm
+ *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
  *   func_0204A6C8  0x0204A6C8  arm
  *   func_0204ABF0  0x0204ABF0  arm
  *   func_0204AF28  0x0204AF28  arm
@@ -45,7 +45,7 @@ extern struct Bank *func_0204B100(int count, u8 flag, unsigned int heapId);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Bank;
-extern void func_0204B270(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern int func_0204A6C8(void *, int, int, int, int);
 extern int func_0204ABF0(void *, int, int, int, int);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
@@ -62,7 +62,7 @@ void func_021B9EC4(int *p, int heap)
     h = func_020490F4(0x1a, heap);
     func_0204A48C((const struct Cfg *)d_020A1448, (unsigned int)d_021BD508, heap);
     p[0] = (int)func_0204B100(0x40, 0, heap);
-    func_0204B270((void *)p[0]);
+    CLACT_SetUnitDefaultRenderer((void *)p[0]);
     p[12] = func_0204A6C8(h, 5, 1, 1, heap);
     p[11] = func_0204ABF0(h, 4, 1, 0, heap);
     p[13] = func_0204AF28(h, 6, 7, heap);

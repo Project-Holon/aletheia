@@ -1,5 +1,5 @@
 /*
- * function: func_0206B7A8
+ * function: G3D_SBC_RunCallbackSetDone
  * address:  0x0206B7A8
  * packet:   pkt_0206AF08
  * region:   arm9
@@ -11,12 +11,12 @@
  *
  * symbols:
  *
- * Same shape as func_0206B780 one slot over: the callback at +0x10 is handed
+ * Same shape as G3D_SBC_RunCountedCallback one slot over: the callback at +0x10 is handed
  * the object itself, then bit 5 of the status word at +0x08 is set.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206B7A8.c \
- *       --func func_0206B7A8 --addr 0x0206B7A8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SBC_RunCallbackSetDone.c \
+ *       --func G3D_SBC_RunCallbackSetDone --addr 0x0206B7A8 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -30,7 +30,7 @@ struct Obj0206B7A8 {
     void (*unk10)(void *);
 };
 
-void func_0206B7A8(Obj0206B7A8 *p)
+void G3D_SBC_RunCallbackSetDone(Obj0206B7A8 *p)
 {
     if (p->unk10 != 0) {
         p->unk10(p);

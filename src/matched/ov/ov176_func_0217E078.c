@@ -12,7 +12,7 @@
  *   func_0200FB24 0x0200FB24 thumb
  *   func_02157E8C 0x02157E8C thumb ov010
  *   func_0200FBB0 0x0200FBB0 thumb
- *   func_0200F83C 0x0200F83C thumb
+ *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
  */
 #include "../include/Obj10705.h"
 typedef unsigned char u8;
@@ -21,5 +21,5 @@ typedef unsigned int u32;
 extern u32 func_0200FB24(void);
 extern int func_02157E8C(void *a0);
 extern u32 func_0200FBB0(void);
-extern void func_0200F83C(void);
-int func_0217E078(u8 *p) {if(func_0200FB24()!=0) {if(((struct Obj10705 *)p)->f1018!=0) {func_02157E8C((void *)(((struct Obj10705 *)p)->f1018));((struct Obj10705 *)p)->f1018=0;}func_0200FBB0();func_0200F83C();return 1;}return 0;}
+extern void GFL_NET_ERR_ShowSimpleScreen(void);
+int func_0217E078(u8 *p) {if(func_0200FB24()!=0) {if(((struct Obj10705 *)p)->f1018!=0) {func_02157E8C((void *)(((struct Obj10705 *)p)->f1018));((struct Obj10705 *)p)->f1018=0;}func_0200FBB0();GFL_NET_ERR_ShowSimpleScreen();return 1;}return 0;}

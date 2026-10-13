@@ -1,5 +1,5 @@
 /*
- * function: func_02061E48
+ * function: NNSi_GfdAddBlock
  * address:  0x02061E48
  * packet:   pkt_02061DFC
  * region:   arm9
@@ -31,7 +31,7 @@ struct List02061E48 {
     struct Node02061E48 *head;
 };
 
-u32 func_02061E48(struct List02061E48 *list, struct Pool02061E48 *pool, u32 d0, u32 d1)
+u32 NNSi_GfdAddBlock(struct List02061E48 *list, struct Pool02061E48 *pool, u32 d0, u32 d1)
 {
     struct Node02061E48 *node = pool->free_list;
 

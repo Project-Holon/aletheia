@@ -1,5 +1,5 @@
 /*
- * function: func_0202473C
+ * function: PMSI_PARAM_ValidateDecoValue
  * address:  0x0202473C
  * packet:   pkt_02024344
  * region:   arm9
@@ -33,13 +33,13 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0202473C.c \
- *       --func func_0202473C --addr 0x0202473C --cc 1.1p1 --thumb
+ *       --func PMSI_PARAM_ValidateDecoValue --addr 0x0202473C --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 typedef int           s32;
 
-u32 func_0202473C(u32 *p, u32 a)
+u32 PMSI_PARAM_ValidateDecoValue(u32 *p, u32 a)
 {
     u32 result = 1;
     s32 v;

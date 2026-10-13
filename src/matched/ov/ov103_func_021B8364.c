@@ -16,7 +16,7 @@
  * func_021B824C 0x021B824C thumb ov103
  * func_021B7954 0x021B7954 thumb ov103
  * func_021B8CA0 0x021B8CA0 thumb ov103
- * func_02006210 0x02006210 thumb
+ * GFL_USE_StopAllSe 0x02006210 thumb
  * func_021B9060 0x021B9060 thumb ov103
  * func_021B8D54 0x021B8D54 thumb ov103
  * func_021B8CB0 0x021B8CB0 thumb ov103
@@ -46,7 +46,7 @@ extern void func_021B8138(u8 *,void *,int,int,s16);
 extern void func_021B824C(u8 *,void *,int,u8 *,s16,s16,int);
 extern u8 *func_021B7954(u8 *);
 extern void func_021B8CA0(u8 **p, int i, int v);
-extern void func_02006210(void);
+extern void GFL_USE_StopAllSe(void);
 extern void func_021B9060(int,u16);
 extern int func_021B8D54(u32 *,u32 *);
 extern void func_021B8CB0(u8 *,int,int,int);
@@ -76,7 +76,7 @@ void func_021B8364(u8 *p,u16 *state)
             else func_021B8138(p+0x184,p+0x174,0,0,0);
             q=func_021B7954(p);
             for(i=0;i<2;i++) func_021B8CA0((u8 **)q,i,0);
-            func_02006210();
+            GFL_USE_StopAllSe();
             func_021B9060(1,55);
             ((struct Obj01388 *)p)->f740=0;
             *state=1;

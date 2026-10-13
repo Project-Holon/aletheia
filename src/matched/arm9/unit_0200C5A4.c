@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200C5A4, func_0200C5C8
+ * function: MUSICAL_DIST_SAVE_Delete, MUSICAL_DIST_SAVE_CreateFromData
  *
  * 84 bytes, 0x0200C5A4..0x0200C5F8, 2 functions, both of which carry a label
  * in the generated listing.
@@ -22,17 +22,17 @@
  * +0x08, a 0x10-byte header at +0x0C, the working buffer at +0x1C, the
  * buffer's base again at +0x20, the payload at base + 0x10 in +0x24, and the
  * system pointer at +0x28.  Every field is pinned by the constructor at
- * 0x0200C52C and by func_0200C5F8, neither of which is in this range; see the
+ * 0x0200C52C and by MUSICAL_DIST_SAVE_ProcessApply, neither of which is in this range; see the
  * two near misses below.
  *
- * func_0200C5A4 is the destructor.  The guard around the buffer free is
+ * MUSICAL_DIST_SAVE_Delete is the destructor.  The guard around the buffer free is
  * written as a plain `if`, and the fall-through arm is the free, so the test
  * in the source is `p->unk1C != 0` and not the inverse; see
  * docs/idioms/the-fall-through-arm-is-the-source-order.md.
  *
  * Two near misses bracket this range, and they are of different kinds.
  *
- *  - func_0200C52C, 118 bytes, the constructor.  It is a codegen miss and not
+ *  - MUSICAL_DIST_SAVE_Create, 118 bytes, the constructor.  It is a codegen miss and not
  *    an evidence one: 0x0200C52C is attested by one branch from an overlay,
  *    so it resolves here as `label`.  The original spends one instruction
  *    this source cannot buy, `movs r7, #6` at 0x0200C56C, which parks the
@@ -53,7 +53,7 @@
  *    agree, at every optimisation level.  Same class as the near misses at
  *    0x0200B2A4 and 0x0200B37C: a register the original spends and the source
  *    does not.
- *  - func_0200C5F8, 224 bytes, the state machine.  Every concrete byte of it
+ *  - MUSICAL_DIST_SAVE_ProcessApply, 224 bytes, the state machine.  Every concrete byte of it
  *    reproduces; it is capped at MATCH because 0x0200A7F8 is branched to from
  *    exactly one instruction in the whole image, its own call at 0x0200C680,
  *    so the `label` class has no witness left once that call is inside the
@@ -63,6 +63,7 @@
  * symbols:
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
+ *   MUSICAL_DIST_SAVE_Create  0x0200C52C  thumb
  */
 
 typedef unsigned char  u8;
@@ -94,9 +95,9 @@ struct MusicalDist {
     void *unk28;
 };
 
-extern struct MusicalDist *func_0200C52C(void *sys, u32 heap);
+extern struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *sys, u32 heap);
 
-void func_0200C5A4(struct MusicalDist *p)
+void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *p)
 {
     func_020072A4(func_02012EBC(p->unk28), 6);
     if (p->unk1C != 0) {
@@ -105,10 +106,10 @@ void func_0200C5A4(struct MusicalDist *p)
     func_020307B0(p);
 }
 
-struct MusicalDist *func_0200C5C8(void *sys, const void *src, u32 size,
+struct MusicalDist *MUSICAL_DIST_SAVE_CreateFromData(void *sys, const void *src, u32 size,
                                   u32 heap)
 {
-    struct MusicalDist *p = func_0200C52C(sys, heap);
+    struct MusicalDist *p = MUSICAL_DIST_SAVE_Create(sys, heap);
 
     if (p->unk1C != 0) {
         p->unk0C.unk00 = size;

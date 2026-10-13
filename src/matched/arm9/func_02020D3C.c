@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02020D3C
+ * function: BMP_CURSOR_Delete
  *
  * symbols:
  *   func_02045808  0x02045808  arm
@@ -19,8 +19,8 @@
  * hands the object itself to a common finalizer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02020D3C.c \
- *       --func func_02020D3C --addr 0x02020D3C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_CURSOR_Delete.c \
+ *       --func BMP_CURSOR_Delete --addr 0x02020D3C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -38,7 +38,7 @@ extern void func_020437AC(struct Obj020437AC *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02020D3C(struct D *p)
+void BMP_CURSOR_Delete(struct D *p)
 {
     if (p->f4 != 0) {
         func_02045808(p->f4);

@@ -1,5 +1,5 @@
 /*
- * function: func_02010F50
+ * function: GPOWER_ClearType
  * address:  0x02010F50
  * packet:   pkt_02010EEC
  * region:   arm9
@@ -20,8 +20,8 @@
  * index is an int.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010F50.c \
- *       --func func_02010F50 --addr 0x02010F50 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_ClearType.c \
+ *       --func GPOWER_ClearType --addr 0x02010F50 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -31,7 +31,7 @@ extern u8 g_0214621C[];
 extern u8 g_02146228[];
 extern u32 g_021461E8[];
 
-void func_02010F50(int idx)
+void GPOWER_ClearType(int idx)
 {
     if (idx >= 0xd) {
         return;

@@ -1,5 +1,5 @@
 /*
- * function: func_0217546C
+ * function: INTRUDE_COMM_UpdateRequest
  * address:  0x0217546C
  * packet:   pkt_ov011_0217546C
  * region:   ov011
@@ -24,7 +24,7 @@ int func_020120D8(char *p);
 void func_0217538C(u8 *p, int a);
 void func_0217545C(u8 *p);
 
-void func_0217546C(u8 *p)
+void INTRUDE_COMM_UpdateRequest(u8 *p)
 {
     u8 buf[4];
     u8 *q;

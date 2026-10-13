@@ -1,5 +1,5 @@
 /*
- * function: func_021DBF2C
+ * function: P_STA_RIBBON_GetRibbonInfo
  * address: 0x021DBF2C
  * packet: pkt_ov131_021DBF2C
  * region: ov131
@@ -8,22 +8,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021DC2F8 0x021DC2F8 data a4
+ *   P_STA_RIBBON_InfoTable 0x021DC2F8 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Entry { u32 a; u16 b, c, d, e; u8 f; u8 pad[3]; };
-extern const struct Entry d_021DC2F8[];
-u32 func_021DBF2C(u32 i, u32 field)
+extern const struct Entry P_STA_RIBBON_InfoTable[];
+u32 P_STA_RIBBON_GetRibbonInfo(u32 i, u32 field)
 {
     switch (field) {
-    case 0: return d_021DC2F8[i].a;
-    case 1: return d_021DC2F8[i].b;
-    case 2: return d_021DC2F8[i].c;
-    case 3: return d_021DC2F8[i].d;
-    case 4: return d_021DC2F8[i].e;
-    case 5: return d_021DC2F8[i].f;
+    case 0: return P_STA_RIBBON_InfoTable[i].a;
+    case 1: return P_STA_RIBBON_InfoTable[i].b;
+    case 2: return P_STA_RIBBON_InfoTable[i].c;
+    case 3: return P_STA_RIBBON_InfoTable[i].d;
+    case 4: return P_STA_RIBBON_InfoTable[i].e;
+    case 5: return P_STA_RIBBON_InfoTable[i].f;
     default: return 0;
     }
 }

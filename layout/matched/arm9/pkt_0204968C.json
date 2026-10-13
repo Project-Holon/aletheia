@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0204968C",
+   "name": "ARC_UTIL_UploadBgChar",
    "address": "0x0204968C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020496E4",
+   "name": "ARC_UTIL_RegisterObjCharFromArchive",
    "address": "0x020496E4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02049740",
+   "name": "ARC_UTIL_RegisterObjCharFromHandle",
    "address": "0x02049740",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204979C",
+   "name": "ARC_UTIL_RegisterObjChar",
    "address": "0x0204979C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02049800",
+   "name": "ARC_UTIL_UploadScreenFromHandle",
    "address": "0x02049800",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204982C",
+   "name": "ARC_UTIL_UploadScreen",
    "address": "0x0204982C",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0204989C",
+   "name": "ARC_UTIL_UploadBgPaletteFromArchive",
    "address": "0x0204989C",
    "kind": "game",
    "region": "arm9",

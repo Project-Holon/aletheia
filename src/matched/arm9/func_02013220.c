@@ -1,5 +1,5 @@
 /*
- * function: func_02013220
+ * function: BTL_SETUP_InitFieldSituation
  * address:  0x02013220
  * packet:   pkt_02013220
  * region:   arm9
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj04041.h"
 
-void func_02013220(char *p)
+void BTL_SETUP_InitFieldSituation(char *p)
 {
     ((struct Obj04041 *)p)->f0 = 0;
     ((struct Obj04041 *)p)->f4 = 0;

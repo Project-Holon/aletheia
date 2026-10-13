@@ -1,5 +1,5 @@
 /*
- * function: func_02021464
+ * function: PALANM_UpdateTimer
  * address:  0x02021464
  * packet:   pkt_02021464
  * region:   arm9
@@ -20,13 +20,14 @@
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02021464.c \
- *       --func func_02021464 --addr 0x02021464 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_UpdateTimer.c \
+ *       --func PALANM_UpdateTimer --addr 0x02021464 --cc 1.1p1 --thumb
  *
  * symbols:
  *   g_02146788  0x02146788  data
  *   OS_GetTick  0x020870D0  arm
  *   _ll_udiv    0x0209C00C  arm
+ *   GAME_DATA_CheckPlayTime  0x02012FBC  thumb
  */
 
 typedef unsigned char      u8;
@@ -42,9 +43,9 @@ struct PalAnmState {
 
 extern struct PalAnmState g_02146788;
 extern u64 OS_GetTick(void);
-extern u32 func_02012FBC(u8 *p, u32 x);
+extern u32 GAME_DATA_CheckPlayTime(u8 *p, u32 x);
 
-void func_02021464(u8 *p)
+void PALANM_UpdateTimer(u8 *p)
 {
     u64 t;
     u64 v;
@@ -62,7 +63,7 @@ void func_02021464(u8 *p)
     if (g_02146788.unk_0c >= v) {
         return;
     }
-    func_02012FBC(p, (u32)(v - g_02146788.unk_0c));
+    GAME_DATA_CheckPlayTime(p, (u32)(v - g_02146788.unk_0c));
     if (g_02146788.unk_04 == t) {
         g_02146788.unk_0c = v;
     } else {

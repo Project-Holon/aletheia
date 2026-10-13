@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02085D3C  0x02085D3C  arm
+ *   OS_IsRunOnTwl  0x02085D3C  arm
  *
  * A pool-word-and-bx tail call into an ARM SDK entry point
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), eight bytes with no
@@ -25,9 +25,9 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02085D3C(void);
+extern u32 OS_IsRunOnTwl(void);
 
 u32 sub_0202EB0C(void)
 {
-    return func_02085D3C();
+    return OS_IsRunOnTwl();
 }

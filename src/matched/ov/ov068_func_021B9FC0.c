@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B908  0x0204B908  arm
+ *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   func_0204A600  0x0204A600  arm
  */
 #include "../include/Obj09869.h"
@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0204B908(int a0, int a1);
+extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern void func_0204A600(void);
 
 void func_021B9FC0(u8 *p)
@@ -32,7 +32,7 @@ void func_021B9FC0(u8 *p)
         ((struct Obj09869 *)p)->f50 = 0;
     }
     for (i = 2; i < 13; i++) {
-        func_0204B908(*(u32 *)(p + i * 4 + 0x18), (u16)(((struct Obj09869 *)p)->f50 / 12));
+        CLACT_SetActorAnimIndex(*(u32 *)(p + i * 4 + 0x18), (u16)(((struct Obj09869 *)p)->f50 / 12));
     }
     func_0204A600();
 }

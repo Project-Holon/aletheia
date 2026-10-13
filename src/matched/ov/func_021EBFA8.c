@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_SetActorAnimFrame  0x0204B8C4  arm  arm9
  *
  * Stop and re-issue slot i of the 0x9E74 array; the word is
  *   re-read for the second call.  Writing the array offset before the index
@@ -20,10 +21,10 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void func_0204B878(struct Obj *p, u16 value);
 void func_021EBFA8(char *p, int i, int v)
 {
-    func_0204B8C4((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), 0);
+    CLACT_SetActorAnimFrame((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), 0);
     func_0204B878((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), (unsigned short)v);
 }

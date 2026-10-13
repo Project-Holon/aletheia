@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02084E2C",
+   "name": "OS_UnLockCard",
    "address": "0x02084E2C",
    "kind": "sdk",
    "region": "arm9",

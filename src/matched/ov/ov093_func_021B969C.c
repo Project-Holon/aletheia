@@ -11,7 +11,7 @@
  *   func_021B985C 0x021B985C thumb ov093
  *   func_021B9AEC 0x021B9AEC thumb ov093
  *   func_0201AA18 0x0201AA18 thumb
- *   func_0201A948 0x0201A948 thumb
+ *   POKEPARTY_Init 0x0201A948 thumb
  *   func_021B9BF0 0x021B9BF0 thumb ov093
  *   func_021D6B84 0x021D6B84 thumb ov093
  *   func_021D5844 0x021D5844 thumb ov093
@@ -35,7 +35,7 @@ struct R4;
 struct Rec534;
 struct Work;
 extern u32 func_0201AA18(void *p);
-extern void func_0201A948(struct Party *p);
+extern void POKEPARTY_Init(struct Party *p);
 struct S2;
 extern u32 func_021B9BF0(struct S2 *p, u32 i);
 extern void func_021D6B84(void *, int);
@@ -58,7 +58,7 @@ void func_021B969C(char *a, char *b, int k, int flag)
     list = (void *)func_021B985C(a, k);
     g = func_021B9AEC(a, k);
     n = func_0201AA18(list);
-    func_0201A948(((struct Obj09940 *)b)->f2B8);
+    POKEPARTY_Init(((struct Obj09940 *)b)->f2B8);
     for (i = 0; i < 6; i++) links[i] = 6;
     for (i = 0; i < n; i++) {
         m = (void *)func_021B9BF0((struct S2 *)g, (u8)i);

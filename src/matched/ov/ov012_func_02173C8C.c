@@ -1,5 +1,5 @@
 /*
- * function: func_02173C8C
+ * function: UNION_COMMAND_RecvColosseumCancel
  * address:  0x02173C8C
  * packet:   pkt_ov012_02173C8C
  * region:   ov012
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-void func_02173C8C(int a, int b, int c, u8 *p)
+void UNION_COMMAND_RecvColosseumCancel(int a, int b, int c, u8 *p)
 {
     u8 *q;
     q = *(u8 * *)&((struct Obj19260 *)p)->f355C;

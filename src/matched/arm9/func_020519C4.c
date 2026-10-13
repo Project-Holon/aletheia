@@ -1,5 +1,5 @@
 /*
- * function: func_020519C4
+ * function: BUTTON_MAN_SetRow2
  * address:  0x020519C4
  * packet:   pkt_02051838
  * region:   arm9
@@ -9,10 +9,13 @@
  * isa:      arm
  * status:   EXACT
  *
- * Copies a 12-byte record into the slot func_020518AC hands back for class 2.
+ * Copies a 12-byte record into the slot BUTTON_MAN_FindRowData hands back for class 2.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020519C4.c \
- *       --func func_020519C4 --addr 0x020519C4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_SetRow2.c \
+ *       --func BUTTON_MAN_SetRow2 --addr 0x020519C4 --cc 1.1p1 --arm
+ *
+ * symbols:
+ *   BUTTON_MAN_FindRowData  0x020518AC  arm
  */
 
 typedef unsigned int u32;
@@ -23,11 +26,11 @@ struct S12 {
     u32 c;
 };
 
-extern void *func_020518AC(void *obj, int kind);
+extern void *BUTTON_MAN_FindRowData(void *obj, int kind);
 
-void func_020519C4(void *p, struct S12 *q)
+void BUTTON_MAN_SetRow2(void *p, struct S12 *q)
 {
-    struct S12 *r = func_020518AC(p, 2);
+    struct S12 *r = BUTTON_MAN_FindRowData(p, 2);
 
     if (r != 0)
         *r = *q;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B0508
+ * function: VCT_SESSION_Init
  * address: 0x021B0508
  * packet: pkt_ov013_021B0508
  * region: ov013
@@ -17,17 +17,17 @@
  * symbols:
  *   d_021B3C84     0x021B3C84  data  ov013  a4
  *   d_021B3C24     0x021B3C24  data  ov013  a4
- *   d_021B60D8     0x021B60D8  data  ov013  a4
+ *   gVctSession     0x021B60D8  data  ov013  a4
  *   d_021B3AD0     0x021B3AD0  data  ov013  a1
  *   d_021B42C0     0x021B42C0  data  ov013  a4
- *   d_021B3CB0     0x021B3CB0  data  ov013  a4
+ *   gVctMembers     0x021B3CB0  data  ov013  a4
  *   d_021B3CBC     0x021B3CBC  data  ov013  a4
  *   func_02087170  0x02087170  arm
- *   func_021B3250  0x021B3250  arm  ov013
- *   func_021B16E4  0x021B16E4  arm  ov013
- *   func_021B19BC  0x021B19BC  arm  ov013
- *   func_021B12FC  0x021B12FC  arm  ov013
- *   func_021B3364  0x021B3364  arm  ov013
+ *   VCT_DSP_InitVoiceGateDefaults  0x021B3250  arm  ov013
+ *   VCT_AUDIO_ClearReadyQueue  0x021B16E4  arm  ov013
+ *   VCT_AUDIO_InitReceiveSource  0x021B19BC  arm  ov013
+ *   VCT_AUDIO_ResetPendingList  0x021B12FC  arm  ov013
+ *   VCT_DSP_InitEchoState  0x021B3364  arm  ov013
  */
 
 #include "../include/G_Ctx42C0.h"
@@ -69,7 +69,7 @@ typedef struct {
 
 extern Ctx3C84 d_021B3C84;
 extern int d_021B3C24;
-extern Ctx60D8 d_021B60D8;
+extern Ctx60D8 gVctSession;
 typedef struct {
     u8 a;
     u8 b;
@@ -77,15 +77,15 @@ typedef struct {
 
 extern const Pair d_021B3AD0[];
 extern struct Ctx42C0 d_021B42C0;
-extern void *d_021B3CB0[3];
+extern void *gVctMembers[3];
 extern Slot d_021B3CBC[3];
 
 extern u16 func_02087170(void);
-extern void func_021B3250(void);
-extern void func_021B16E4(u32 i);
-extern void func_021B19BC(char *p, int i, int a2);
-extern void func_021B12FC(void);
-extern void func_021B3364(void);
+extern void VCT_DSP_InitVoiceGateDefaults(void);
+extern void VCT_AUDIO_ClearReadyQueue(u32 i);
+extern void VCT_AUDIO_InitReceiveSource(char *p, int i, int a2);
+extern void VCT_AUDIO_ResetPendingList(void);
+extern void VCT_DSP_InitEchoState(void);
 
 static inline u32 pairValue(u32 k)
 {
@@ -95,7 +95,7 @@ static inline u32 pairValue(u32 k)
     p = &d_021B3AD0[k];
     return a * 0x44 + p->b + 0xC;
 }
-int func_021B0508(void)
+int VCT_SESSION_Init(void)
 {
     u32 i;
     u32 k;
@@ -105,7 +105,7 @@ int func_021B0508(void)
     d_021B3C84.f20 = 0;
     d_021B3C84.f4 = 0;
     k = 0;
-    if (d_021B60D8.f10 != 1) {
+    if (gVctSession.f10 != 1) {
         k = 4;
         d_021B3C84.f1C = k;
     } else {
@@ -119,13 +119,13 @@ int func_021B0508(void)
     d_021B42C0.f8C8 = 0;
     d_021B42C0.f8D0 = 0;
     d_021B42C0.f8D4 = 0;
-    func_021B3250();
+    VCT_DSP_InitVoiceGateDefaults();
     for (i = 0; (i < 3) ? 1 : 0; i++) {
-        d_021B3CB0[i] = 0;
-        func_021B16E4(i);
-        func_021B19BC((char *)&d_021B3CBC[i], i, -1);
+        gVctMembers[i] = 0;
+        VCT_AUDIO_ClearReadyQueue(i);
+        VCT_AUDIO_InitReceiveSource((char *)&d_021B3CBC[i], i, -1);
     }
-    func_021B12FC();
-    func_021B3364();
+    VCT_AUDIO_ResetPendingList();
+    VCT_DSP_InitEchoState();
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02179158
+ * function: WIH_FreeWork
  * address: 0x02179158
  * packet: pkt_ov014_02179158
  * region: ov014
@@ -10,19 +10,19 @@
  * status: EXACT
  * symbols:
  *   g_021797A8 0x021797A8 data a4
- *   func_0203D7FC 0x0203D7FC arm
+ *   GFL_NET_FreeAligned 0x0203D7FC arm
  */
 
 #include "../include/G_S.h"
 
 typedef unsigned char u8;
 extern struct S *g_021797A8;
-extern void func_0203D7FC(void *);
-void func_02179158(void) {
+extern void GFL_NET_FreeAligned(void *);
+void WIH_FreeWork(void) {
  if (((u8 *)g_021797A8) != 0) {
- func_0203D7FC(*(void **)(((u8 *)g_021797A8) + 0x1E6C));
- func_0203D7FC(*(void **)(((u8 *)g_021797A8) + 0x1E68));
- func_0203D7FC(((u8 *)g_021797A8));
+ GFL_NET_FreeAligned(*(void **)(((u8 *)g_021797A8) + 0x1E6C));
+ GFL_NET_FreeAligned(*(void **)(((u8 *)g_021797A8) + 0x1E68));
+ GFL_NET_FreeAligned(((u8 *)g_021797A8));
  g_021797A8 = 0;
  }
 }

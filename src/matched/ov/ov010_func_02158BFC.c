@@ -12,12 +12,12 @@
  * symbols:
  *   func_02158DB0  0x02158DB0  thumb  ov010
  *   func_0215A55C  0x0215A55C  thumb  ov010
- *   func_0201121C  0x0201121C  thumb
- *   func_0201126C  0x0201126C  thumb
+ *   VM_Create  0x0201121C  thumb
+ *   VM_Init  0x0201126C  thumb
  *   func_02158CD0  0x02158CD0  thumb  ov010
  *   func_02158D78  0x02158D78  thumb  ov010
  *   func_0215A760  0x0215A760  thumb  ov010
- *   func_0201127C  0x0201127C  thumb
+ *   VM_Start  0x0201127C  thumb
  *   func_0201134C  0x0201134C  thumb
  *   func_02158E38  0x02158E38  thumb  ov010
  *   d_0217062C     0x0217062C  data  ov010
@@ -34,14 +34,14 @@ extern int func_0215A55C(const struct V *, int);
 typedef unsigned int   u32;
 struct ScriptVm;
 struct ScriptVmParams;
-extern struct ScriptVm *func_0201121C(u32 heapId, const struct ScriptVmParams *params);
+extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
 typedef unsigned char  u8;
 struct ScriptVm;
-extern void func_0201126C(struct ScriptVm *vm, void *user);
+extern void VM_Init(struct ScriptVm *vm, void *user);
 extern u16 func_02158CD0(unsigned k, unsigned v, u16 *o1, u16 *o2, u16 *o3);
 extern void *func_02158D78(int a, int b);
 extern void func_0215A760(u8 *a, unsigned b, unsigned c);
-extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
+extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 struct Cursor;
 extern u32 func_0201134C(struct Cursor *p);
 extern void func_02158E38(void *a);
@@ -67,15 +67,15 @@ int *func_02158BFC(u16 a0, int a1, u16 a2, u16 a3, int a4)
     w.h = 0x40;
     w.p = (int)&d_0217062C;
     w.q = d_021705D8;
-    o = (int *)func_0201121C(a0, (const struct ScriptVmParams *)(&w));
-    func_0201126C((struct ScriptVm *)o, (void *)t);
+    o = (int *)VM_Create(a0, (const struct ScriptVmParams *)(&w));
+    VM_Init((struct ScriptVm *)o, (void *)t);
     n = func_02158CD0(a2, a3, &s[2], &s[1], &s[0]);
     o[0x2C / 4] = (int)func_02158D78(s[2], a0);
     if (r6 == 0) {
         if (s[0] != -1)
             func_0215A760((u8 *)t, s[1], s[0]);
     }
-    func_0201127C((struct ScriptVm *)o, (u8 *)o[0x2C / 4]);
+    VM_Start((struct ScriptVm *)o, (u8 *)o[0x2C / 4]);
     o[0x14 / 4] += n << 2;
     o[0x14 / 4] += func_0201134C((struct Cursor *)o);
     func_02158E38(o);

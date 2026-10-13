@@ -12,7 +12,7 @@
  * symbols:
  *   func_02207960  0x02207960  thumb  ov094
  *   func_0220778C  0x0220778C  thumb  ov094
- *   func_02005E9C  0x02005E9C  thumb
+ *   GFL_USE_PopBgm  0x02005E9C  thumb
  *   func_02208D24  0x02208D24  thumb  ov094
  *   func_0204ADA4  0x0204ADA4  arm
  *   func_0204A8D4  0x0204A8D4  arm
@@ -35,7 +35,7 @@ typedef struct {
 
 extern void func_02207960(char *p, int i);
 extern void func_0220778C(char *p, int i);
-extern int func_02005E9C(void);
+extern int GFL_USE_PopBgm(void);
 extern void func_02208D24(int a);
 struct Node;
 extern void func_0204ADA4(u32 i);
@@ -59,7 +59,7 @@ void func_02206E28(char *p)
         func_0220778C(p, i);
     }
     if (((Bf *)(p + 0x440))->b2) {
-        func_02005E9C();
+        GFL_USE_PopBgm();
         func_02208D24(0);
     }
     for (j = 0; j < 6; j++)

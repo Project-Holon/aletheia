@@ -11,7 +11,7 @@
  *
  * Sub-process sequence of the ov010 program: eight steps, each starting
  * one child process (two from ov021, the ov216 one through
- * func_020120B4 with a 12-byte hand-off), then done. Step 2 falls
+ * GAMESYSTEM_CallProc with a 12-byte hand-off), then done. Step 2 falls
  * through into step 3.
  *
  * MATCH, first draft (2026-09-28 tree_ov010_4): the one wildcard is the
@@ -24,17 +24,17 @@
  *   func_0201210C  0x0201210C  thumb
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
  *   func_02012374  0x02012374  thumb
- *   func_020144DC  0x020144DC  thumb
- *   func_020297AC  0x020297AC  thumb
+ *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
+ *   FIELD_SOUND_SYSTEM_StartPushAndChangeTask  0x020297AC  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_020120B4  0x020120B4  thumb
- *   func_020120F0  0x020120F0  thumb
- *   func_02029690  0x02029690  thumb
- *   func_020145CC  0x020145CC  thumb
+ *   GAMESYSTEM_CallProc  0x020120B4  thumb
+ *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
+ *   FIELD_SOUND_SYSTEM_StartPopTask  0x02029690  thumb
+ *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   func_02188CCC  0x02188CCC  thumb  ov021
  *   func_021A0F40  0x021A0F40  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_02029CC0  0x02029CC0  thumb
+ *   FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask  0x02029CC0  thumb
  *   ov216_id       0x000000D8  data
  *   d_021BDB40     0x021BDB40  data  a1 ov216
  
@@ -68,17 +68,17 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_021BE8D4(void *a, int b, int sel, int d);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_020144DC(int a0, int a1);
-extern void *func_020297AC(void *sys, u32 a, u32 b, u32 c);
+extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
+extern void *FIELD_SOUND_SYSTEM_StartPushAndChangeTask(void *sys, u32 a, u32 b, u32 c);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
-extern void *func_02029690(void *sys, u32 a, u32 b);
-extern void *func_020145CC(void *sys);
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
+extern void *FIELD_SOUND_SYSTEM_StartPopTask(void *sys, u32 a, u32 b);
+extern void *FIELD_STATUS_CreateFieldOpenEvent(void *sys);
 extern u32 func_02188CCC(u8 *p);
 extern void func_021A0F40(u32 *p, u32 v);
 extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern void *func_02029CC0(void *sys);
+extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *sys);
 extern u8 ov216_id[];
 extern const u8 d_021BDB40[];
 
@@ -96,28 +96,28 @@ int func_02164A2C(void *evt, u32 *seq, SeqWork2 *w)
         (*seq)++;
         break;
     case 1:
-        func_02012374(evt, (struct Evt **)func_020144DC((int)sys, (int)p));
+        func_02012374(evt, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)sys, (int)p));
         (*seq)++;
         break;
     case 2:
-        func_02012374(evt, func_020297AC(sys, 0x483, 6, 0));
+        func_02012374(evt, FIELD_SOUND_SYSTEM_StartPushAndChangeTask(sys, 0x483, 6, 0));
         (*seq)++;
     case 3:
         MI_CpuFill8(&w->sub, 0, sizeof(SubArgs));
         w->sub.sys = w->sys;
         w->sub.f04 = w->f04;
         w->sub.f08 = w->f18;
-        func_020120B4(sys, (u32)ov216_id, (void *)d_021BDB40, &w->sub);
+        GAMESYSTEM_CallProc(sys, (u32)ov216_id, (void *)d_021BDB40, &w->sub);
         (*seq)++;
         break;
     case 4:
-        if (func_020120F0(sys) == 0) {
-            func_02012374(evt, func_02029690(sys, 6, 0x3C));
+        if (GAMESYSTEM_GetProcStatus(sys) == 0) {
+            func_02012374(evt, FIELD_SOUND_SYSTEM_StartPopTask(sys, 6, 0x3C));
             (*seq)++;
         }
         break;
     case 5:
-        func_02012374(evt, func_020145CC(sys));
+        func_02012374(evt, FIELD_STATUS_CreateFieldOpenEvent(sys));
         (*seq)++;
         break;
     case 6:
@@ -127,7 +127,7 @@ int func_02164A2C(void *evt, u32 *seq, SeqWork2 *w)
         (*seq)++;
         break;
     case 7:
-        func_02012374(evt, func_02029CC0(sys));
+        func_02012374(evt, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(sys));
         (*seq)++;
         break;
     case 8:

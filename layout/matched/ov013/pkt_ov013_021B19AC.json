@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B19AC",
+   "name": "VCT_AUDIO_GetReadyCount",
    "address": "0x021B19AC",
    "kind": "game",
    "region": "ov013",

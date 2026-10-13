@@ -12,7 +12,7 @@
  * symbols:
  *   none (no external calls, no data references)
  *
- * Same record and field as func_0204F5A8, but the low 14 bits are copied
+ * Same record and field as BILLBOARD_FreeElem, but the low 14 bits are copied
  * in from the caller's u16.  The compiler reuses the inverted mask it
  * already needed as `lsr #18` rather than materialising 0x3fff twice.
  */

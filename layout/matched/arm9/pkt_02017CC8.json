@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02017CC8",
+   "name": "POKE_TOOL_UpdateGenderForSpecies",
    "address": "0x02017CC8",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: sub_02014CF0
+ * function: MCSS_SetLoadHook
  * address:  0x02014CF0
  * packet:   pkt_0201394C
  * region:   arm9
@@ -17,8 +17,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02014CF0.c \
- *       --func sub_02014CF0 --addr 0x02014CF0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MCSS_SetLoadHook.c \
+ *       --func MCSS_SetLoadHook --addr 0x02014CF0 --cc 1.1p1 --thumb
  */
 #include "../include/Obj11718.h"
 
@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 
 struct Obj02014CF0;
 
-void sub_02014CF0(struct Obj02014CF0 *o, int v1, int v2)
+void MCSS_SetLoadHook(struct Obj02014CF0 *o, int v1, int v2)
 {
     ((struct Obj11718 *)o)->f38 = v1;
     ((struct Obj11718 *)o)->f3C = v2;

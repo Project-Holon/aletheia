@@ -1,5 +1,5 @@
 /*
- * function: func_020338B8
+ * function: FLASH_ACCESS_EndAccess
  * address:  0x020338B8
  * packet:   pkt_020334E8
  * region:   arm9
@@ -21,7 +21,7 @@ extern u32 g_02146998;
 extern void func_02075EAC(u16 lock_id);
 extern void func_02084F10(u32 a);
 
-void func_020338B8(u16 a, u32 b, void (*cb)(u32))
+void FLASH_ACCESS_EndAccess(u16 a, u32 b, void (*cb)(u32))
 {
     func_02075EAC(a);
     func_02084F10(a);

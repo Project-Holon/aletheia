@@ -10,35 +10,35 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021736D8  0x021736D8  thumb ov011
- *   func_02175D20  0x02175D20  thumb ov011
+ *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
+ *   INTRUDE_COMM_ClearJoinStatus  0x02175D20  thumb ov011
  *   func_020399A8  0x020399A8  arm
  *   func_0203D3A8  0x0203D3A8  arm
- *   func_02175BAC  0x02175BAC  thumb ov011
+ *   INTRUDE_COMM_SetSessionFinished  0x02175BAC  thumb ov011
  */
 
 typedef unsigned short u16;
 
-int func_021736D8(void);
+int INTRUDE_COMM_IsLinked(void);
 typedef unsigned char  u8;
-void func_02175D20(u8 *p);
+void INTRUDE_COMM_ClearJoinStatus(u8 *p);
 struct Entry;
 struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
 int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
-void func_02175BAC(u8 *p);
+void INTRUDE_COMM_SetSessionFinished(u8 *p);
 
 int func_0217405C(char *a, char *b)
 {
     int r;
 
-    if (func_021736D8() == 0) {
+    if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }
-    func_02175D20((u8 *)(a + 0x1AC));
+    INTRUDE_COMM_ClearJoinStatus((u8 *)(a + 0x1AC));
     r = func_0203D3A8(func_020399A8(), 0x216, 0x34, (u32)(b + 0x78));
     if (r == 1) {
-        func_02175BAC((u8 *)(a + 0x1AC));
+        INTRUDE_COMM_SetSessionFinished((u8 *)(a + 0x1AC));
     }
     return r;
 }

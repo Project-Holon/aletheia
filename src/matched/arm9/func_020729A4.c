@@ -1,5 +1,5 @@
 /*
- * function: func_020729A4
+ * function: SND_CHANNEL_ClearClaimedMask
  * address:  0x020729A4
  * packet:   pkt_020729C0
  * region:   arm9
@@ -13,12 +13,12 @@
  *   g_0214DEC0  0x0214DEC0  data
  *
  * Clears a mask out of the FIRST word of the channel-allocator global
- * (g_0214DEC0+0), a different word from func_02072974's +0x08 and from
- * func_02072A08's +0x04.
+ * (g_0214DEC0+0), a different word from SND_CHANNEL_UnlockChannels's +0x08 and from
+ * NNS_SndWaveOutFreeChannel's +0x04.
  *
  * The parameter is already a MASK, not an index: the image complements the
  * PARAMETER itself (`mvn r0, r0` at 0x020729A8) before the load, whereas
- * func_02072A08's free-by-index complements a shifted 1 (`mvn r0, r2, lsl r0`).
+ * NNS_SndWaveOutFreeChannel's free-by-index complements a shifted 1 (`mvn r0, r2, lsl r0`).
  * That one instruction is the whole distinction between the two functions.
  *
  * NO PIN NEEDED: EXACT under both dsi/1.1p1 and ../2.0/sp2 (the base pool word
@@ -34,15 +34,15 @@
  * range) and the verdict is EXACT.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020729A4.c \
- *       --func func_020729A4 --addr 0x020729A4 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/SND_CHANNEL_ClearClaimedMask.c \
+ *       --func SND_CHANNEL_ClearClaimedMask --addr 0x020729A4 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
 extern u32 g_0214DEC0;
 
-void func_020729A4(u32 mask)
+void SND_CHANNEL_ClearClaimedMask(u32 mask)
 {
     g_0214DEC0 &= ~mask;
 }

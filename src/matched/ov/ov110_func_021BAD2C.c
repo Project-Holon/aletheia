@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020499D4 0x020499D4 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  */
 #include "../include/Obj10273.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_020499D4(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-void func_021BAD2C(u8 *p,int v) { int id,x; if(v) { id=29; x=96; } else { id=28; x=0; } func_020499D4(((struct Obj10273 *)p)->f8C,id,3,0,x,0,0,42); ((struct Obj10273 *)p)->f84=1; ((struct Obj10273 *)p)->f88=v; }
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+void func_021BAD2C(u8 *p,int v) { int id,x; if(v) { id=29; x=96; } else { id=28; x=0; } ARC_UTIL_UploadBgPaletteAddFromHandleExt(((struct Obj10273 *)p)->f8C,id,3,0,x,0,0,42); ((struct Obj10273 *)p)->f84=1; ((struct Obj10273 *)p)->f88=v; }

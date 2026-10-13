@@ -14,7 +14,7 @@
  *   func_021B616C  0x021B616C  thumb  ov070
  *   func_0202E448  0x0202E448  thumb
  *   func_021B83A0  0x021B83A0  thumb  ov070
- *   func_02012BE0  0x02012BE0  thumb
+ *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   func_020061E4  0x020061E4  thumb
  */
 
@@ -35,7 +35,7 @@ extern void *func_021B616C(u8 *p, int i);
 typedef unsigned int   u32;
 extern u32 func_0202E448(u32 id);
 extern int func_021B83A0(char *p, int value);
-extern void func_02012BE0(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern void func_020061E4(unsigned int id);
 
 int func_021B8134(Obj *o, int k)
@@ -52,9 +52,9 @@ int func_021B8134(Obj *o, int k)
         if (v == 0x19)
             return 0;
         if (func_021B83A0((char *)o, *p) == 1)
-            func_02012BE0(o->f000, v, 0);
+            GAME_DATA_SetSaveFlag(o->f000, v, 0);
         else
-            func_02012BE0(o->f000, v, 1);
+            GAME_DATA_SetSaveFlag(o->f000, v, 1);
         func_020061E4(0x646);
         o->f818 = 0xFFFF;
         return 1;

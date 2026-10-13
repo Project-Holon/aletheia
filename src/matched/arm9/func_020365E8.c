@@ -1,5 +1,5 @@
 /*
- * function: func_020365E8
+ * function: GFL_NET_RING_BUFF_GetDataSize
  * address:  0x020365E8
  * packet:   pkt_02036568
  * region:   arm9
@@ -21,14 +21,14 @@
  * two arm reads `volatile` keeps all three loads, which is the original's shape.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020365E8.c \
- *       --func func_020365E8 --addr 0x020365E8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_RING_BUFF_GetDataSize.c \
+ *       --func GFL_NET_RING_BUFF_GetDataSize --addr 0x020365E8 --cc 1.1p1 --arm
  */
 #include "../include/Obj01465.h"
 
 typedef unsigned int u32;
 
-int func_020365E8(char *p)
+int GFL_NET_RING_BUFF_GetDataSize(char *p)
 {
     int a = ((struct Obj01465 *)p)->fC;
 

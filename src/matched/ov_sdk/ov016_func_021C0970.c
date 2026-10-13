@@ -20,7 +20,7 @@
  *   func_021C0B7C  0x021C0B7C  arm  ov016
  *   func_021CFEBC  0x021CFEBC  arm  ov016
  *   func_021C0E40  0x021C0E40  arm  ov016
- *   func_021D656C  0x021D656C  arm  ov016
+ *   DWCi_IPTlUpdate  0x021D656C  arm  ov016
  *   func_021D75D0  0x021D75D0  arm  ov016
  *   func_021D6BC8  0x021D6BC8  arm  ov016
  *   func_021D7448  0x021D7448  arm  ov016
@@ -43,7 +43,7 @@ extern void func_021C0AA8(void);
 extern void func_021C0B7C(void);
 extern void func_021CFEBC(void);
 extern void func_021C0E40(unsigned int v);
-extern void func_021D656C();
+extern void DWCi_IPTlUpdate();
 extern void func_021D75D0(int kind);
 extern void func_021D6BC8(void);
 extern void func_021D7448(void);
@@ -71,7 +71,7 @@ int func_021C0970(void *work, int language, int param)
     func_021C0E40((unsigned int)func_021C16F4);
     result = 0;
     do {
-        func_021D656C();
+        DWCi_IPTlUpdate();
         g_021DE56C.scene();
         func_021D75D0(result);
         func_021D6BC8();

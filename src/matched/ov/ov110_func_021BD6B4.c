@@ -7,21 +7,25 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   PMSI_PARAM_GetSentenceCount  0x02024584  thumb  arm9
+ *   PMSI_PARAM_SetSentenceId  0x02024598  thumb  arm9
  */
 typedef signed char s8;
 typedef short s16;
 typedef unsigned char u8;
 typedef struct { s16 a; s8 b; s8 c; } State;
 typedef unsigned int   u32;
-extern u8 func_02024584(u32 i);
-extern void func_02024598(void *, int, int);
+extern u8 PMSI_PARAM_GetSentenceCount(u32 i);
+extern void PMSI_PARAM_SetSentenceId(void *, int, int);
 void func_021BD6B4(State *p, void *out) {
     p->b++;
     if (p->b >= p->c) {
         p->b = 0;
         p->a++;
         if (p->a >= 5) p->a = 0;
-        p->c = func_02024584(p->a);
+        p->c = PMSI_PARAM_GetSentenceCount(p->a);
     }
-    func_02024598(out, p->a, p->b);
+    PMSI_PARAM_SetSentenceId(out, p->a, p->b);
 }

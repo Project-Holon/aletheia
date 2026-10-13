@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200B67C, func_0200B6E0
+ * function: BATTLE_REC_SaveSeq, func_0200B6E0
  *
  * 264 bytes, 0x0200B67C..0x0200B784, 2 functions, both labelled.  Every
  * concrete byte reproduces.
@@ -16,7 +16,7 @@
  * What held it open, and what closed it.  Two call targets have exactly one
  * caller in the whole image and that caller is here:
  *
- *   0x02007324  reached only from 0x0200B6A6, inside func_0200B67C
+ *   0x02007324  reached only from 0x0200B6A6, inside BATTLE_REC_SaveSeq
  *   0x0200B7D8  reached only from 0x0200B71A, inside func_0200B6E0
  *
  * Shrinking the range to one function keeps the call that needs the witness in
@@ -29,7 +29,7 @@
  * wrong anyway: the two belong to different original files.
  *
  * alias: inside "battle_rec.c"; the two steps of the record-save state machine
- * that func_0200B4E0 and func_0200B5CC read back.
+ * that BATTLE_REC_LoadToWork and func_0200B5CC read back.
  *
  * Three things cost time here.
  *
@@ -52,7 +52,10 @@
  *
  * symbols:
  *   func_0203F1FC  0x0203F1FC  arm
- *   gObj_0214616C  0x0214616C  data
+ *   pBattleRec  0x0214616C  data
+ *   BATTLE_REC_MakeHeader  0x0200B7D8  thumb
+ *   BATTLE_REC_Encode  0x0200B908  thumb
+ *   BATTLE_REC_SetBodyCrc  0x0200BA44  thumb
  */
 
 typedef unsigned char  u8;
@@ -89,7 +92,7 @@ struct BattleRec {
     struct RecC4 unkC4;
 };
 
-extern struct BattleRec *gObj_0214616C;
+extern struct BattleRec *pBattleRec;
 
 struct Big;
 struct Sub02007324Ctrl;
@@ -98,19 +101,19 @@ extern void func_02007324(struct Sub02007324Ctrl *ctrl, u32 id, u32 heap, u32 a,
 extern void  func_02012E4C(u8 *a, u32 c);
 extern int func_02012E7C(char *p, int a1);
 extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
-extern void  func_0200BA44(struct RecC4 *p);
-extern void  func_0200B908(void *a, u32 b, u32 c);
-extern void  func_0200B7D8(void *h, struct QRec *q, const struct RecC4 *src,
+extern void  BATTLE_REC_SetBodyCrc(struct RecC4 *p);
+extern void  BATTLE_REC_Encode(void *a, u32 b, u32 c);
+extern void  BATTLE_REC_MakeHeader(void *h, struct QRec *q, const struct RecC4 *src,
                            u32 mode, u32 e);
 
-u32 func_0200B67C(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e)
+u32 BATTLE_REC_SaveSeq(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e)
 {
     void *h = func_02012EBC(a);
     u32 r;
 
     switch (*state) {
     case 0:
-        func_02007324(h, c, e, (u32)gObj_0214616C, 0x2000);
+        func_02007324(h, c, e, (u32)pBattleRec, 0x2000);
         func_02012E4C(a, c);
         (*state)++;
         break;
@@ -137,24 +140,24 @@ u32 func_0200B6E0(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub)
 
     switch (*state) {
     case 0:
-        p = gObj_0214616C;
+        p = pBattleRec;
         if (p == 0) {
             return 3;
         }
         q = &p->unk80;
         r = &p->unkC4;
-        func_0200B7D8(h, q, r, c, d);
+        BATTLE_REC_MakeHeader(h, q, r, c, d);
         q->unk28 = 0xE281;
         q->unk40 = func_0203F1FC((const u8 *)q, 0x38);
         r->unk17D8 = 0xE281;
-        func_0200BA44(r);
+        BATTLE_REC_SetBodyCrc(r);
         v = r->unk17DC;
-        func_0200B908(r, 0x17DC, v + ((v ^ 0xFFFF) << 16));
+        BATTLE_REC_Encode(r, 0x17DC, v + ((v ^ 0xFFFF) << 16));
         *sub = 0;
         (*state)++;
         break;
     case 1:
-        return func_0200B67C(a, gObj_0214616C, e, sub, b);
+        return BATTLE_REC_SaveSeq(a, pBattleRec, e, sub, b);
     }
     return 0;
 }

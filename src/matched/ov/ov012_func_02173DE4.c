@@ -1,5 +1,5 @@
 /*
- * function: func_02173DE4
+ * function: UNION_COMMAND_RecvAppQuitRequest
  * address:  0x02173DE4
  * packet:   pkt_ov012_02173DE4
  * region:   ov012
@@ -23,7 +23,7 @@ extern u32 func_0203D378(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02183F6C(u8 *p, u8 a);
 
-void func_02173DE4(int a, int b, int c, u8 *p)
+void UNION_COMMAND_RecvAppQuitRequest(int a, int b, int c, u8 *p)
 {
     u8 *q;
     if (func_0203D378() != 0) {

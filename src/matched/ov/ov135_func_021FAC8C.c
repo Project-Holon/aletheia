@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: explicit if/else calls preserve the flag argument's scheduling.
  * symbols:
- *   func_0202CE40 0x0202CE40 thumb
+ *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   func_020355C4 0x020355C4 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B92C 0x0204B92C arm
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct WinMgr;
-extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
+extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
 extern u8 func_020355C4(void);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -31,7 +31,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32, u32, u32);
 int func_021FAC8C(u8 *p)
 {
-    if (!func_0202CE40(*(struct WinMgr * *)&((struct Obj01745 *)p)->f18, 0)) {
+    if (!BGWINFRM_IsMoving(*(struct WinMgr * *)&((struct Obj01745 *)p)->f18, 0)) {
         if (func_020355C4() == 1)
             func_0204B3DC(((struct Obj01745 *)p)->f8, 0);
         else

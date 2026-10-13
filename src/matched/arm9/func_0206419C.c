@@ -10,7 +10,8 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02066ABC  0x02066ABC  arm
+ *   NNSi_G2dRequestCellTransferState  0x02066ABC  arm
+ *   NNSi_G2dSrtcInitControl  0x02064140  arm
  */
 #include "../include/Obj00260.h"
 #include "../include/Obj03025.h"
@@ -22,13 +23,13 @@ typedef unsigned int   u32;
 struct CellDataBank;
 extern void *func_0206285C(struct CellDataBank *bank, u32 idx);
 struct O02064140;
-extern void func_02064140(struct O02064140 *o, u32 a);
+extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 extern void func_020640DC(char *p, int a, int b);
 extern void func_02064120(char *p, int a, int b);
 typedef unsigned short u16;
 struct Obj02064100;
 extern void func_02064100(struct Obj02064100 *obj, u16 val);
-extern int func_02066ABC(int a0, int a1, int a2);
+extern int NNSi_G2dRequestCellTransferState(int a0, int a1, int a2);
 
 void func_0206419C(char *self)
 {
@@ -45,7 +46,7 @@ void func_0206419C(char *self)
     o = *(char * *)&((struct Obj00260 *)self)->f34;
     ((struct Obj00260 *)self)->f30 = (int)func_0206285C((struct CellDataBank *)o, ((struct Obj03025 *)p)->f0);
     kind = *(int *)(*(int *)&((struct Obj00260 *)self)->f1C + 4) & 0xff;
-    func_02064140((struct O02064140 *)(self + 0x3c), 1);
+    NNSi_G2dSrtcInitControl((struct O02064140 *)(self + 0x3c), 1);
     switch (kind) {
     case 0:
         break;
@@ -65,6 +66,6 @@ void func_0206419C(char *self)
     if (r2 == 0) return;
     {
         int *t = (int *)(((struct Obj16428 *)q)->f4 + ((struct Obj03025 *)p)->f0 * 8);
-        func_02066ABC(((struct Obj00260 *)self)->f38, t[0], t[1]);
+        NNSi_G2dRequestCellTransferState(((struct Obj00260 *)self)->f38, t[0], t[1]);
     }
 }

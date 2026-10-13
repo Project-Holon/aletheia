@@ -1,13 +1,13 @@
 /*
- * function: func_02039160
+ * function: GFL_NET_SYSTEM_IsConnectMember
  * address:  0x02039160
  * packet:   pkt_02039160
  * status:   EXACT
  * symbols:
  *   lbl_021469D0   0x021469D0  data
- *   func_0203D788  0x0203D788  arm
+ *   GFL_NET_GetSession  0x0203D788  arm
  *   func_0203D798  0x0203D798  arm
- *   func_020392EC  0x020392EC  arm
+ *   GFL_NET_SYSTEM_IsDeviceReady  0x020392EC  arm
  *   func_02039338  0x02039338  arm
  */
 
@@ -16,12 +16,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u8 *lbl_021469D0;
-extern int func_0203D788(void);
+extern int GFL_NET_GetSession(void);
 extern int func_0203D798(void);
-extern int func_020392EC(void);
+extern int GFL_NET_SYSTEM_IsDeviceReady(void);
 extern int func_02039338(void);
 
-int func_02039160(u32 mode)
+int GFL_NET_SYSTEM_IsConnectMember(u32 mode)
 {
     u8 *p5;
     u8 *p4;
@@ -29,7 +29,7 @@ int func_02039160(u32 mode)
     u32 v;
     u16 m;
 
-    p5 = (u8 *)func_0203D788();
+    p5 = (u8 *)GFL_NET_GetSession();
     p4 = (u8 *)func_0203D798();
     g = lbl_021469D0;
     if (g == 0)
@@ -54,7 +54,7 @@ int func_02039160(u32 mode)
         }
         return 0;
     }
-    if (func_020392EC() == 0)
+    if (GFL_NET_SYSTEM_IsDeviceReady() == 0)
         return 0;
     if (((int (*)(void))(*(u32 *)(*(u32 *)(p5 + 0x340) + 0x70)))() == 0)
         return 0;

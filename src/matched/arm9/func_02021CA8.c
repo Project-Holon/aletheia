@@ -1,5 +1,5 @@
 /*
- * function: func_02021CA8
+ * function: PALANM_StepFadeValue
  * address:  0x02021CA8
  * packet:   pkt_02021B6C
  * region:   arm9
@@ -18,7 +18,7 @@
  * amount: cur moves up and is clamped down to max, or down and clamped up to
  * max, and is written back through pool word 0xFFFFF83F.
  *
- * Three things the earlier note (docs/notes/func_02021CA8.c.txt) left open,
+ * Three things the earlier note (docs/notes/PALANM_StepFadeValue.c.txt) left open,
  * all settled here:
  *   - the write target in blocks 2a/2b really is `cur` (bits[6:11)), which
  *     is what 0xFFFFF83F clears; the note's own "re-check before trusting
@@ -32,7 +32,7 @@
  *     raw halfword keeps it live in a fifth register across the whole
  *     function and was the last 105 bytes of the diff; using the field
  *     lets the compiler re-derive it and closes the function outright.
- * The p[0x118] flag field is the same bits[2:16) register func_02021B6C
+ * The p[0x118] flag field is the same bits[2:16) register PALANM_StepFadeWait
  * uses, as the note suspected.
  */
 #include "../include/Obj06878.h"
@@ -53,7 +53,7 @@ struct S {
     u16 step : 5;
 };
 
-void func_02021CA8(u8 *p, u32 idx, struct S *s)
+void PALANM_StepFadeValue(u8 *p, u32 idx, struct S *s)
 {
     u32 bit;
     u32 flags;

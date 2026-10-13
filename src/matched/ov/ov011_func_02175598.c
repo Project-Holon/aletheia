@@ -12,7 +12,7 @@
  * symbols:
  *   func_02008550  0x02008550  thumb
  *   func_02175548  0x02175548  thumb  ov011
- *   func_021756B0  0x021756B0  thumb  ov011
+ *   INTRUDE_COMM_IsValidObjCode  0x021756B0  thumb  ov011
  */
 #include "../include/Obj07332.h"
 
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02175548(u32 a, u16 *p1, u8 *p2, u8 *p3);
-extern int func_021756B0(int value);
+extern int INTRUDE_COMM_IsValidObjCode(int value);
 
 u16 func_02175598(u8 *o, u32 id)
 {
@@ -41,7 +41,7 @@ u16 func_02175598(u8 *o, u32 id)
         func_02175548(id, &s.c, &s.y, &s.x);
     } else {
         s.c = h;
-        if (func_021756B0(s.c) == 0) {
+        if (INTRUDE_COMM_IsValidObjCode(s.c) == 0) {
             s.c = (func_02008550((const struct Sub0200852CObj *)id) == 0) ? 10 : 14;
         }
     }

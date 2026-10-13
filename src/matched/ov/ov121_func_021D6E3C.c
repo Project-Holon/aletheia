@@ -43,6 +43,12 @@
  *   func_021D7814 0x021D7814 thumb ov121
  *   func_020362DC 0x020362DC arm
  *   func_0203F4E4 0x0203F4E4 arm
+ *   MYSTERY_DATA_AddCard  0x0200A034  thumb  arm9
+ *   MYSTERY_DATA_HasCardSpace  0x0200A0C8  thumb  arm9
+ *   MYSTERY_DATA_IsEventFlag  0x0200A1A8  thumb  arm9
+ *   MYSTERY_DATA_SetEventFlag  0x0200A1E4  thumb  arm9
+ *   MYSTERY_DATA_GetCardSlotNum  0x0200A348  thumb  arm9
+ *   MYSTERY_DATA_IsMainSave  0x0200A350  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -72,17 +78,17 @@ extern unsigned func_021D9FF8(u8 *p);
 extern void func_021D7814(void *task, u32 *state, u8 *p);
 extern u32 func_020362DC(void);
 extern void func_0203F4E4(struct RtcDate *date);
-extern int func_0200A1A8(char *p, unsigned int bit);
-extern int func_0200A034(void *p, void *arg);
-extern void func_0200A1E4(void *p, unsigned int idx);
+extern int MYSTERY_DATA_IsEventFlag(char *p, unsigned int bit);
+extern int MYSTERY_DATA_AddCard(void *p, void *arg);
+extern void MYSTERY_DATA_SetEventFlag(void *p, unsigned int idx);
 #define P(k) (*(void **)(p+(k)))
 #define W(k) (*(u32 *)(p+(k)))
 
-extern u32 func_0200A0C8(u8 *p);
+extern u32 MYSTERY_DATA_HasCardSpace(u8 *p);
 struct Obj;
-extern u32 func_0200A348(struct Obj *);
+extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern int func_0200A104(char *p, unsigned int idx);
-extern int func_0200A350(struct Obj *a0);
+extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
 extern int func_0202EB44(void);
 extern void *func_021DE4D8(char *p);
 extern void func_021DA84C(u8 *p, u32 i, u32 value);
@@ -109,15 +115,15 @@ void func_021D6E3C(void *task,u32 *state,u8 *p)
         if(v==0) {
             all=1;
             func_021D8380((char *)p);
-            flag=(func_0200A0C8(P(956))==0);
+            flag=(MYSTERY_DATA_HasCardSpace(P(956))==0);
             if(flag) {
-                for(i=0;i<func_0200A348(P(956));i++) {
+                for(i=0;i<MYSTERY_DATA_GetCardSlotNum(P(956));i++) {
                     if(func_0200A104(P(956),i)) all=0;
                 }
             }
             if(flag) {
                 if(all) {
-                    if(func_0200A350(P(956))==0) id=146;
+                    if(MYSTERY_DATA_IsMainSave(P(956))==0) id=146;
                     else id=137;
                     func_021D9F08(P(644),W(932),id,1);
                     func_021DA8C0(task,0);*state=19;

@@ -1,5 +1,5 @@
 /*
- * function: sub_020332A4
+ * function: BACKUP_SYSTEM_UpdateRecordCrc
  * address:  0x020332A4
  * packet:   pkt_020328E0
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02033B68        0x02033B68  arm
- *   func_02033BAC        0x02033BAC  arm
+ *   SAVEDATA_GetBlockOffset        0x02033B68  arm
+ *   SAVEDATA_GetBlockSize        0x02033BAC  arm
  *   MATH_CalcCRC16CCITT  0x02081B8C  arm
  *   unk_02146994         0x02146994  data
  *
@@ -19,11 +19,11 @@
  * buffer and stores it in the halfword that follows the record.  The table
  * argument is the global at 0x02146994 plus four, i.e. a MATHCRC16Table
  * that lives inline at +4 of that object rather than a pointer kept there.
- * As in sub_02033264 the answer is read back out of the halfword it was
+ * As in BACKUP_SYSTEM_IncRecordCount the answer is read back out of the halfword it was
  * just stored into.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020332A4.c \n *       --func sub_020332A4 --addr 0x020332A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BACKUP_SYSTEM_UpdateRecordCrc.c \n *       --func BACKUP_SYSTEM_UpdateRecordCrc --addr 0x020332A4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -41,19 +41,19 @@ struct SaveBackup {
 
 extern struct { u8 pad000[4]; u8 crcTable[1]; } *unk_02146994;
 
-extern u32 func_02033B68(u8 *p, u32 i);
-extern u32 func_02033BAC(u8 *p, u32 i);
+extern u32 SAVEDATA_GetBlockOffset(u8 *p, u32 i);
+extern u32 SAVEDATA_GetBlockSize(u8 *p, u32 i);
 extern u16 MATH_CalcCRC16CCITT(const void *table, const void *data, u32 len);
 
-u16 sub_020332A4(struct SaveBackup *p, u32 id)
+u16 BACKUP_SYSTEM_UpdateRecordCrc(struct SaveBackup *p, u32 id)
 {
     u32 base;
     u32 len;
     u16 *q;
     u32 buf;
 
-    base = func_02033B68((u8 *)p->unk2C, id);
-    len = func_02033BAC((u8 *)p->unk2C, id);
+    base = SAVEDATA_GetBlockOffset((u8 *)p->unk2C, id);
+    len = SAVEDATA_GetBlockSize((u8 *)p->unk2C, id);
     buf = p->unk34;
     q = (u16 *)(buf + (base + len));
     q[1] = MATH_CalcCRC16CCITT(unk_02146994->crcTable, (void *)(buf + base), len);

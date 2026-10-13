@@ -8,11 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02017528, func_02017550
+ * function: POKE_TOOL_ClearPartyParam, POKE_TOOL_ClearBoxParam
  *
  * The two clears of the 0xDC byte record src/matched/unit_02017D30.c and
- * src/matched/unit_02018D10.c work on: func_02017528 wipes the whole of it and
- * re-masks both areas, func_02017550 wipes only the first 0x88 bytes and
+ * src/matched/unit_02018D10.c work on: POKE_TOOL_ClearPartyParam wipes the whole of it and
+ * re-masks both areas, POKE_TOOL_ClearBoxParam wipes only the first 0x88 bytes and
  * re-masks the 0x80 byte one.  The masking calls are what say the record's
  * seed word and checksum halfword survive a clear in the caller's copy: the
  * value handed to func_02019A50 is read back out of the object *after*
@@ -47,14 +47,14 @@ struct Sav {
     u8  unk88[0x54];
 };
 
-void func_02017528(struct Sav *p)
+void POKE_TOOL_ClearPartyParam(struct Sav *p)
 {
     MIi_CpuClearFast(0, p, sizeof(struct Sav));
     func_02019A50((u16 *)p->unk08, 0x80, p->unk06);
     func_02019A50((u16 *)p->unk88, 0x54, p->unk00);
 }
 
-void func_02017550(struct Sav *p)
+void POKE_TOOL_ClearBoxParam(struct Sav *p)
 {
     MIi_CpuClearFast(0, p, 0x88);
     func_02019A50((u16 *)p->unk08, 0x80, p->unk06);

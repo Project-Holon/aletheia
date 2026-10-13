@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02012EBC  0x02012EBC  thumb
- *   func_0200725C  0x0200725C  thumb
+ *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   func_020073D8  0x020073D8  thumb
  *   func_0200ECB4  0x0200ECB4  thumb
  *   func_0200ECD0  0x0200ECD0  thumb
@@ -36,7 +36,7 @@ typedef struct St {
 
 struct Big;
 extern void *func_02012EBC(struct Big *p);
-extern u32 func_0200725C(void *s, u32 id, u32 heap);
+extern u32 SAVE_CONTROL_LoadExtraSave(void *s, u32 id, u32 heap);
 struct Sub020072A4Ctrl;
 struct Sub020073D8Ctrl;
 struct U16Vec;
@@ -58,7 +58,7 @@ void func_021F3AD4(const u16 *p, u32 *out, int *cnt)
     i = 0;
     *cnt = 0;
     s = func_02012EBC((struct Big *)(((int *)p)[2]));
-    if (func_0200725C(s, 8, p[0]) - 1 <= 1) {
+    if (SAVE_CONTROL_LoadExtraSave(s, 8, p[0]) - 1 <= 1) {
         t = func_020073D8(s, 8, i);
         if (func_0200ECB4(t) != 0) {
             *cnt = func_0200ECD0(t, i);

@@ -1,5 +1,5 @@
 /*
- * function: func_02070C24
+ * function: NNSi_G3dAnmCalcNsBva
  * address:  0x02070C24
  * packet:   pkt_0207010C
  * region:   arm9
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Bmp { u8 pad00[6]; u16 h6; };
 struct S { int f0; u32 f4; struct Bmp *p8; };
 
-void func_02070C24(u32 *out, struct S *s, int idx)
+void NNSi_G3dAnmCalcNsBva(u32 *out, struct S *s, int idx)
 {
     struct Bmp *b = s->p8;
     u32 n = (s->f0 >> 12) * b->h6 + idx;

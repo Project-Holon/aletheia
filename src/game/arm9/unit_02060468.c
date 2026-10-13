@@ -1410,7 +1410,7 @@ int func_02060F90(char *p){ return *(int *)(p - 0xc); }
  * same header, p - 0xc): "ldrh r0, [r0, #-0xe]; and r0, r0, #0xff; bx lr".
  * It saves nothing, so the prologue sweep prints it as .word data.  The
  * only call site in the image is the blx at ov009 0x02156FE4
- * (func_02156FDC), which needs this entry as its matched witness.
+ * (DWC_RAPCOMMON_Free), which needs this entry as its matched witness.
  */
 u8 func_02060F98(char *p)
 {

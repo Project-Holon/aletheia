@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005E64 0x02005E64 thumb
+ *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_PushBgm 0x02005E64 thumb
  */
 #include "../include/Obj08346.h"
 
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
+extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern int GFL_USE_PushBgm(void);
 
 void func_02204F24(int a, int *b)
 {
     if (((struct Obj08346 *)b)->f30 == 4) {
-        func_02005DE4((void *)1);
-        func_02005E64();
+        GFL_USE_SetBgmPlayerParam((void *)1);
+        GFL_USE_PushBgm();
         ((struct Obj08346 *)b)->f30 = 5;
     }
 }

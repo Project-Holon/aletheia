@@ -11,7 +11,7 @@
  * whose matched body reads all four; this caller sets all four.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02031348 0x02031348 arm
+ *   PROCSYS_Push 0x02031348 arm
  *   func_021C9348 0x021C9348 thumb ov212
  *   func_021C8F90 0x021C8F90 thumb ov212
  *   d_021C99A0 0x021C99A0 data a1
@@ -25,7 +25,7 @@
 typedef unsigned short u16;
 struct Obj020314F4;struct Blk37;
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern void func_02031348(struct Obj020314F4 *,unsigned,unsigned,unsigned);
+extern void PROCSYS_Push(struct Obj020314F4 *,unsigned,unsigned,unsigned);
 extern int func_021C9348(struct Blk37 *);
 extern int func_021C8F90(char *,int);
 extern const char d_021C99A0[];
@@ -45,6 +45,6 @@ void func_021C9024(char *p)
         ((struct Obj04626 *)q)->fC=((struct Obj02259 *)p)->fC;
         ((struct Obj04626 *)q)->fA=((struct Obj02259 *)p)->f10;
     }
-    func_02031348(*(struct Obj020314F4 * *)&((struct Obj02259 *)p)->f4,(unsigned)ov209_id,(unsigned)d_021BE794,*(unsigned *)&((struct Obj02259 *)p)->f28);
+    PROCSYS_Push(*(struct Obj020314F4 * *)&((struct Obj02259 *)p)->f4,(unsigned)ov209_id,(unsigned)d_021BE794,*(unsigned *)&((struct Obj02259 *)p)->f28);
     func_021C8F90(p,4);
 }

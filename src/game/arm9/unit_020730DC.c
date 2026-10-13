@@ -1,7 +1,7 @@
 /*
  * file:     unit_020730DC.c
  * unit:     yes
- * function: func_020730DC, func_02073108
+ * function: NNS_SndHandleSetSweep, NNS_SndHandleReadTrackInfo
  * address:  0x020730DC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -42,7 +42,7 @@ extern int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackIn
  *  * func_020730B8, byte for byte otherwise, is if-converted instead (see
  *  * docs/notes/pkt_02072EA8.c.txt).
  */
-void func_020730DC(SndHandle *handle, u32 pitch, u32 frames)
+void NNS_SndHandleSetSweep(SndHandle *handle, u32 pitch, u32 frames)
 {
     if (handle->player == 0) return;
     handle->player->sweepMode = 2;
@@ -56,7 +56,7 @@ void func_020730DC(SndHandle *handle, u32 pitch, u32 frames)
  *  * own v and w to the callee (they are already in r1/r2, so the call sets only
  *  * r0).
  */
-int func_02073108(SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo)
+int NNS_SndHandleReadTrackInfo(SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo)
 {
     if (handle->player == 0) return 0;
     return func_02072894(handle->player->playerNo, trackNo, trackInfo);

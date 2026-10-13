@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02048D54  0x02048D54  arm
+ *   ARC_TOOL_LoadMemberRangeImpl  0x02048D54  arm
  *
  * "Load one archive sub-file into a fresh heap block", the defaulting wrapper
- * around func_02048D54.  Same shape as func_02048F4C one entry above: the
+ * around ARC_TOOL_LoadMemberRangeImpl.  Same shape as func_02048F4C one entry above: the
  * callee takes (archive id, member, heap, mode, size_out) and this entry
  * point supplies zero for the last two, so one `mov r3, #0` feeds both r3 and
  * the single outgoing stack word, and `push {r3, lr}` is that word's home
@@ -25,7 +25,7 @@
  * matrix id taken straight from the zone record's +0x04 lane.  See the
  * "Zone to map model" section of docs/ASSETS.md.
  *
- * Kept in its own file so the branch to func_02048D54 is witnessed from
+ * Kept in its own file so the branch to ARC_TOOL_LoadMemberRangeImpl is witnessed from
  * outside this range by src/matched/func_02048F88.c
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
  *
@@ -38,10 +38,10 @@
 
 typedef unsigned int u32;
 
-extern void *func_02048D54(u32 archive_id, u32 member, u32 heap, u32 mode,
+extern void *ARC_TOOL_LoadMemberRangeImpl(u32 archive_id, u32 member, u32 heap, u32 mode,
                            u32 *size_out);
 
 void *func_02048F60(u32 archive_id, u32 member, u32 heap)
 {
-    return func_02048D54(archive_id, member, heap, 0, 0);
+    return ARC_TOOL_LoadMemberRangeImpl(archive_id, member, heap, 0, 0);
 }

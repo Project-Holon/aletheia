@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02024044
+ * function: PMSI_PARAM_Create
  * address:  0x02024044
  * packet:   pkt_02024044
  * region:   arm9
@@ -34,7 +34,7 @@
  * (bics/orrs then bics), not a folded mask.
  *
  * EXACT*: the inferred extent runs to 344 bytes because the follower at
- * 0x020240F4 is the unlabelled 8-byte thunk func_020240FC and the run of
+ * 0x020240F4 is the unlabelled 8-byte thunk PMSI_PARAM_Delete and the run of
  * unlabelled leaf accessors after it (they save no lr, so disasm.py never
  * labels them).  The compiled 184 bytes are byte-identical.  Unlabelled
  * follower to seed into layout/function_starts.txt: 0x020240F4.
@@ -43,15 +43,15 @@
  *   func_02030734  0x02030734  arm
  *   func_020071CC  0x020071CC  thumb
  *   func_02024988  0x02024988  thumb
- *   func_02012FE4  0x02012FE4  thumb
+ *   GAME_DATA_GetEventWorkFromSave  0x02012FE4  thumb
  *   func_020142E8  0x020142E8  thumb
- *   func_020242A4  0x020242A4  thumb
+ *   PMSI_PARAM_InitSentence  0x020242A4  thumb
  *   MI_CpuCopy8    0x02082D44  arm
  *   file_020A745C  0x020A745C  data
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02024044.c \
- *       --func func_02024044 --addr 0x02024044 --thumb --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/PMSI_PARAM_Create.c \
+ *       --func PMSI_PARAM_Create --addr 0x02024044 --thumb --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -79,14 +79,14 @@ extern void *func_02030734(u32 heap, u32 sz, int c, const char *file, u16 line);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void *func_02024988(int a0);
-extern void *func_02012FE4(struct Sub020071CCCtrl *a0);
+extern void *GAME_DATA_GetEventWorkFromSave(struct Sub020071CCCtrl *a0);
 extern u32 func_020142E8(void *bitmap, s32 id);
-extern void  func_020242A4(void *obj, u32 id);
+extern void  PMSI_PARAM_InitSentence(void *obj, u32 id);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 
 extern u8 file_020A745C[];
 
-struct Obj *func_02024044(u32 kind, u32 a1, void *src, u32 flag,
+struct Obj *PMSI_PARAM_Create(u32 kind, u32 a1, void *src, u32 flag,
                           void *sys, u32 hh)
 {
     struct Obj *o;
@@ -96,14 +96,14 @@ struct Obj *func_02024044(u32 kind, u32 a1, void *src, u32 flag,
     o->kind = (u8)kind;
     o->f08 = func_020071CC(sys, 0x37);
     o->f0c = func_02024988((int)sys);
-    o->b0 = (u8)func_020142E8((void *)func_02012FE4(sys), 0x960);
+    o->b0 = (u8)func_020142E8((void *)GAME_DATA_GetEventWorkFromSave(sys), 0x960);
     o->b1 = 0;
     o->f01 = 1;
     o->f02 = 0;
     o->b3 = (u8)flag;
     if (kind == 2) {
         if (src == 0) {
-            func_020242A4(o->slot, 0);
+            PMSI_PARAM_InitSentence(o->slot, 0);
         } else {
             MI_CpuCopy8(src, o->slot, 8);
             o->b2 = 1;

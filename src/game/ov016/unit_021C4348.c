@@ -1,7 +1,7 @@
 /*
  * file:     unit_021C4348.c
  * unit:     yes
- * function: func_021C4348, func_021C434C
+ * function: DWCi_SceneOptMovUser_input, DWCi_SceneOptMovUser_draw
  * address:  0x021C4348
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -12,18 +12,18 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-void func_021C4348(void);
-void func_021C434C(void);
+void DWCi_SceneOptMovUser_input(void);
+void DWCi_SceneOptMovUser_draw(void);
 
 /*
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C4348.c \
- *       --func func_021C4348 --addr 0x021C4348 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneOptMovUser_input.c \
+ *       --func DWCi_SceneOptMovUser_input --addr 0x021C4348 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021C4348(void)
+void DWCi_SceneOptMovUser_input(void)
 {
 }
 
@@ -32,9 +32,9 @@ void func_021C4348(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C434C.c \
- *       --func func_021C434C --addr 0x021C434C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SceneOptMovUser_draw.c \
+ *       --func DWCi_SceneOptMovUser_draw --addr 0x021C434C --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021C434C(void)
+void DWCi_SceneOptMovUser_draw(void)
 {
 }

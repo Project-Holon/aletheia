@@ -12,7 +12,7 @@
  * Two arm9 calls in sequence.
  *
  * symbols:
- *   sub_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_0203D1A4  0x0203D1A4  arm
  *
  * Addresses are Black-image addresses.
@@ -24,11 +24,11 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Entry;
-extern struct Entry *sub_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 func_0203D1A4(struct Link *p);
 
 void func_021B8B5C(void)
 {
-    func_0203D1A4((struct Link *)((u32)sub_020399A8()));
+    func_0203D1A4((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()));
 }

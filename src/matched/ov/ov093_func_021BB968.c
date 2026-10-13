@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_0201B70C 0x0201B70C thumb
+ *   SHINKA_CHECK_OpenHandle 0x0201B70C thumb
  *   func_021BB9D8 0x021BB9D8 thumb ov093
  *   d_021F3A70 0x021F3A70 data a4
  */
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 d_021F3A70[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void *func_0201B70C(u16 heap);
+extern void *SHINKA_CHECK_OpenHandle(u16 heap);
 extern void func_021BB9D8(u8 *p);
 
 u8 *func_021BB968(void *a, void *b, void *c, void *d, int e, u16 heap)
@@ -35,7 +35,7 @@ u8 *func_021BB968(void *a, void *b, void *c, void *d, int e, u16 heap)
     *(void **)(p + 0xc) = d;
     *(u16 *)(p + 0x780) = heap;
     *(int *)(p + 0x18) = e;
-    *(void **)(p + 0x4a4) = func_0201B70C(heap);
+    *(void **)(p + 0x4a4) = SHINKA_CHECK_OpenHandle(heap);
     func_021BB9D8(p);
     return p;
 }

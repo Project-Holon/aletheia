@@ -11,7 +11,7 @@
  * prototype: 256C retains fifth heap input visibly stored by caller; heap forwards use full words without caller-side truncation.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
- *   func_02049EB4 0x02049EB4 arm
+ *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
  *   func_02040AE0 0x02040AE0 arm
  *   func_02040588 0x02040588 arm
  *   func_020409B4 0x020409B4 arm
@@ -34,7 +34,7 @@ typedef unsigned u32;
 typedef struct {int x,y,z,w;} Box;
 typedef struct {int x,y;} Pair;
 extern void func_02082BCC(void *,int,int);
-extern void *func_02049EB4(u32,u32,u32,u32,u32);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32,u32,u32,u32,u32);
 extern void func_02040AE0(u32,const void *,u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020409B4(u32);
@@ -61,8 +61,8 @@ void func_021F3008(u8 *p,int mode,void *font,void *window,void *data,void *palet
  ((struct Obj00733 *)p)->fD8=0;((struct Obj00733 *)p)->fDC=0;
  ((struct Obj00733 *)p)->fF4=font;((struct Obj00733 *)p)->fF8=window;((struct Obj00733 *)p)->fFE=heap;
  ((struct Obj00733 *)p)->f100=mode;((struct Obj00733 *)p)->f114=mode;((struct Obj00733 *)p)->f12C=data;
- ((struct Obj00733 *)p)->f11C=func_02049EB4(118,10,0,(u32)(p+0x124),heap);
- ((struct Obj00733 *)p)->f120=func_02049EB4(118,5,0,(u32)(p+0x128),heap);
+ ((struct Obj00733 *)p)->f11C=ARC_UTIL_LoadPaletteDataFromArchive(118,10,0,(u32)(p+0x124),heap);
+ ((struct Obj00733 *)p)->f120=ARC_UTIL_LoadPaletteDataFromArchive(118,5,0,(u32)(p+0x128),heap);
  if(mode==3){func_02040AE0(1,*(char * *)&((struct Obj00733 *)p)->f124+12,2048);func_02040588(2,0);}
  else {func_02040AE0(1,*(char * *)&((struct Obj00733 *)p)->f128+12,2048);func_02040588(2,1);}
  func_020409B4(1);

@@ -26,7 +26,7 @@
  *   func_0217EB18  0x0217EB18  arm   ov009
  *   func_0217EE50  0x0217EE50  arm   ov009
  *   func_0217ED38  0x0217ED38  arm   ov009
- *   func_0215F650  0x0215F650  arm   ov009
+ *   SOC_GetHostByName  0x0215F650  arm   ov009
  *   func_0217EC08  0x0217EC08  arm   ov009
  *   func_0217ED54  0x0217ED54  arm   ov009
  *   func_0218F5F4  0x0218F5F4  arm   ov009
@@ -422,7 +422,7 @@ extern int func_021815C8(char *theInitMsg, char *theHeader, void (*theMsgHandler
 extern int func_0217EB18(int pf, int type, int protocol);
 extern int func_0217EE50(int sock, int isblocking);
 extern int func_0217ED38(int a);
-extern SOCHostEnt *func_0215F650(char *name);
+extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int func_0217ED54(int sock);
 extern void func_0218F5F4(void);
@@ -636,7 +636,7 @@ int func_0218A238(void **connection, GPIOperation *operation)
     }
     address.family = 2;
     if (func_0217ED38((int)g_021A45D8) == 0xFFFFFFFF) {
-        host = func_0215F650(g_021A45D8);
+        host = SOC_GetHostByName(g_021A45D8);
         if (host == 0) {
             func_02193710((int *)connection, 5, (int)g_021A47BC);
             func_02189D78((int *)connection, 3, 1);

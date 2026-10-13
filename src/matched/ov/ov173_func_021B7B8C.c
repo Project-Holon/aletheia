@@ -12,8 +12,8 @@
  *   func_021B6460 0x021B6460 thumb ov173
  *   func_021B7438 0x021B7438 thumb ov173
  *   func_020120F4 0x020120F4 thumb
- *   func_020120B4 0x020120B4 thumb
- *   d_021DC800 0x021DC800 data a4 ov131
+ *   GAMESYSTEM_CallProc 0x020120B4 thumb
+ *   gPokeStatusProcData 0x021DC800 data a4 ov131
  */
 #include "../include/Obj02217.h"
 #include "../include/Obj10670.h"
@@ -26,8 +26,8 @@ extern u16 func_021B7438(char **);
 struct Ctx;
 struct IcaAnime;
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern char d_021DC800[];
+extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern char gPokeStatusProcData[];
 extern char k_83[];
 int func_021B7B8C(char *p)
 {
@@ -46,6 +46,6 @@ int func_021B7B8C(char *p)
     ((struct Obj02217 *)p)->f18D = 2;
     ((struct Obj02217 *)p)->f190 = zero;
     ((struct Obj02217 *)p)->f198 = zero;
-    func_020120B4(((struct Obj24187 *)(*(char * *)&((struct Obj02217 *)p)->f0))->fC, (u32)k_83, d_021DC800, p + 0x180);
+    GAMESYSTEM_CallProc(((struct Obj24187 *)(*(char * *)&((struct Obj02217 *)p)->f0))->fC, (u32)k_83, gPokeStatusProcData, p + 0x180);
     return 12;
 }

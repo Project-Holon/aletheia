@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02035CB8 0x02035CB8 arm
+ *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  */
 typedef unsigned int u32;
-extern u32 func_02035CB8(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 int func_021B8D9C(u32 *p,u32 *out) {
  u32 x,y;
- if(func_02035CB8(&x,&y)) {
+ if(TOUCHPANEL_GetPointCont(&x,&y)) {
   if(x-p[0]<p[2]-p[0] && y-p[1]<p[3]-p[1]) {
    if(out) {out[0]=x;out[1]=y;}
    return 1;
